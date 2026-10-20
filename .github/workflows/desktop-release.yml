@@ -113,6 +113,7 @@ jobs:
                       [DllImport("user32.dll", CharSet=CharSet.Unicode)] static extern int GetClassNameW(IntPtr hWnd, StringBuilder s, int n);
                       [DllImport("user32.dll")] static extern IntPtr GetDlgItem(IntPtr hDlg, int id);
                       [DllImport("user32.dll")] static extern IntPtr SendMessage(IntPtr h, uint msg, IntPtr w, IntPtr l);
+                      [DllImport("user32.dll", CharSet=CharSet.Unicode)] static extern IntPtr SendMessageText(IntPtr h, uint msg, IntPtr w, StringBuilder l);
                       [DllImport("user32.dll")] static extern int GetDlgCtrlID(IntPtr h);
                       static string Text(IntPtr h) {
                           var sb = new StringBuilder(1024);
@@ -145,6 +146,15 @@ jobs:
                           }, IntPtr.Zero);
                           return list;
                       }
+                      // GetWindowText does not reach controls owned by another process,
+                      // WM_GETTEXT does, so the path in the edit box has to be asked for.
+                      public static string ControlText(IntPtr parent, int id) {
+                          var control = GetDlgItem(parent, id);
+                          if (control == IntPtr.Zero) return "";
+                          var sb = new StringBuilder(1024);
+                          SendMessageText(control, 0x000D /* WM_GETTEXT */, (IntPtr)sb.Capacity, sb);
+                          return sb.ToString();
+                      }
                       public static bool ClickButton(IntPtr parent, int id) {
                           var button = GetDlgItem(parent, id);
                           if (button == IntPtr.Zero) return false;
@@ -165,28 +175,29 @@ jobs:
                   }
                   if ($wizard -eq [IntPtr]::Zero) { throw "installer window never appeared" }
 
-                  # The directory page is the one holding a path edit box such as
-                  # C:\Users\...\Programs\Infinite Canvas. Advance with the Next button (ID 1).
+                  # NSIS page headings carry ids 1037 (title) and 1038 (subtitle). The
+                  # directory page is the one headed "Choose Install Location".
                   $dirValue = $null
-                  for ($page = 0; $page -lt 6 -and -not $dirValue; $page++) {
-                      $children = [NsisWizard]::Children($wizard)
-                      Write-Host "page $page controls:"
-                      $children | ForEach-Object { Write-Host "  $_" }
-                      foreach ($child in $children) {
-                          $parts = $child.Split("|", 3)
-                          if ($parts[1] -match 'Edit' -and $parts[2] -match '^[A-Za-z]:\\' -and $parts[2] -match 'Infinite') { $dirValue = $parts[2] }
+                  $title = ""
+                  for ($page = 0; $page -lt 5 -and -not $dirValue; $page++) {
+                      $title = [NsisWizard]::ControlText($wizard, 1037)
+                      $subtitle = [NsisWizard]::ControlText($wizard, 1038)
+                      Write-Host "page $page : $title / $subtitle"
+                      if ($title -match 'Installing|正在安装') { throw "the wizard installed without offering an install directory" }
+                      if ($title -match 'Install Location|安装位置' -or $subtitle -match 'in which to install|安装到') {
+                          $dirValue = [NsisWizard]::ControlText($wizard, 1019)
+                          break
                       }
-                      if ($dirValue) { break }
-                      if ($children | Where-Object { $_ -match '^(Install|安装)\|' }) { break }
                       [void][NsisWizard]::ClickButton($wizard, 1)
                       Start-Sleep -Seconds 2
                   }
                   [NsisWizard]::Close($wizard) | Out-Null
-                  if (-not $dirValue) { throw "installer never showed an editable installation directory" }
-                  Write-Host "installation directory page found: $dirValue"
-                  Start-Sleep -Seconds 2
+                  Start-Sleep -Seconds 3
                   Get-Process | Where-Object { $_.ProcessName -like 'Infinite-Canvas-Setup*' } | Stop-Process -Force
-                  Write-Host "installer closed without modifying the system"
+                  if (-not $dirValue) { throw "installer never showed an install location page" }
+                  if ($dirValue -notmatch 'Infinite Canvas') { throw "install location page showed an unexpected path: $dirValue" }
+                  Write-Host "install location page found, default path: $dirValue"
+                  Write-Host "installer closed before copying any file"
 
             - name: Verify Windows installer
               if: matrix.artifact == 'win'
