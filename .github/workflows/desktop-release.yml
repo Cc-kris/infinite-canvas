@@ -96,45 +96,97 @@ jobs:
                   $ErrorActionPreference = "Stop"
                   $setup = (Get-ChildItem release/*.exe | Select-Object -First 1).FullName
                   Write-Host "launching $setup"
+
+                  # NSIS draws a classic Win32 wizard, which the UIAutomation bridge barely
+                  # exposes, so walk it with plain user32 calls and read control texts.
+                  Add-Type @"
+                  using System;
+                  using System.Collections.Generic;
+                  using System.Runtime.InteropServices;
+                  using System.Text;
+                  public class NsisWizard {
+                      public delegate bool EnumProc(IntPtr hWnd, IntPtr lParam);
+                      [DllImport("user32.dll")] static extern bool EnumWindows(EnumProc cb, IntPtr l);
+                      [DllImport("user32.dll")] static extern bool EnumChildWindows(IntPtr parent, EnumProc cb, IntPtr l);
+                      [DllImport("user32.dll")] static extern uint GetWindowThreadProcessId(IntPtr hWnd, out uint pid);
+                      [DllImport("user32.dll", CharSet=CharSet.Unicode)] static extern int GetWindowTextW(IntPtr hWnd, StringBuilder s, int n);
+                      [DllImport("user32.dll", CharSet=CharSet.Unicode)] static extern int GetClassNameW(IntPtr hWnd, StringBuilder s, int n);
+                      [DllImport("user32.dll")] static extern IntPtr GetDlgItem(IntPtr hDlg, int id);
+                      [DllImport("user32.dll")] static extern IntPtr SendMessage(IntPtr h, uint msg, IntPtr w, IntPtr l);
+                      [DllImport("user32.dll")] static extern int GetDlgCtrlID(IntPtr h);
+                      static string Text(IntPtr h) {
+                          var sb = new StringBuilder(1024);
+                          GetWindowTextW(h, sb, sb.Capacity);
+                          return sb.ToString();
+                      }
+                      static string Cls(IntPtr h) {
+                          var sb = new StringBuilder(256);
+                          GetClassNameW(h, sb, sb.Capacity);
+                          return sb.ToString();
+                      }
+                      public static IntPtr FindMain(uint pid) {
+                          IntPtr found = IntPtr.Zero;
+                          EnumWindows((h, l) => {
+                              uint owner;
+                              GetWindowThreadProcessId(h, out owner);
+                              if (owner == pid && Cls(h) == "#32770" && Text(h).Length > 0) {
+                                  found = h;
+                                  return false;
+                              }
+                              return true;
+                          }, IntPtr.Zero);
+                          return found;
+                      }
+                      public static List<string> Children(IntPtr parent) {
+                          var list = new List<string>();
+                          EnumChildWindows(parent, (h, l) => {
+                              list.Add(GetDlgCtrlID(h) + "|" + Cls(h) + "|" + Text(h));
+                              return true;
+                          }, IntPtr.Zero);
+                          return list;
+                      }
+                      public static bool ClickButton(IntPtr parent, int id) {
+                          var button = GetDlgItem(parent, id);
+                          if (button == IntPtr.Zero) return false;
+                          SendMessage(button, 0x00F5 /* BM_CLICK */, IntPtr.Zero, IntPtr.Zero);
+                          return true;
+                      }
+                      public static void Close(IntPtr parent) {
+                          SendMessage(parent, 0x0010 /* WM_CLOSE */, IntPtr.Zero, IntPtr.Zero);
+                      }
+                  }
+                  "@
+
                   $proc = Start-Process -FilePath $setup -PassThru
-                  Add-Type -AssemblyName UIAutomationClient
-                  Add-Type -AssemblyName UIAutomationTypes
-                  $root = [System.Windows.Automation.AutomationElement]::RootElement
-                  $window = $null
-                  for ($i = 0; $i -lt 30 -and -not $window; $i++) {
+                  $wizard = [IntPtr]::Zero
+                  for ($i = 0; $i -lt 40 -and $wizard -eq [IntPtr]::Zero; $i++) {
                       Start-Sleep -Seconds 1
-                      $cond = New-Object System.Windows.Automation.PropertyCondition([System.Windows.Automation.AutomationElement]::ProcessIdProperty, $proc.Id)
-                      $window = $root.FindFirst([System.Windows.Automation.TreeScope]::Children, $cond)
+                      $wizard = [NsisWizard]::FindMain([uint32]$proc.Id)
                   }
-                  if (-not $window) { throw "installer window never appeared (installer may be one-click)" }
-                  Write-Host "installer window: $($window.Current.Name)"
-                  # Walk forward until a control holds an install path we can edit.
+                  if ($wizard -eq [IntPtr]::Zero) { throw "installer window never appeared" }
+
+                  # The directory page is the one holding a path edit box such as
+                  # C:\Users\...\Programs\Infinite Canvas. Advance with the Next button (ID 1).
                   $dirValue = $null
-                  for ($page = 0; $page -lt 3 -and -not $dirValue; $page++) {
-                      foreach ($type in @([System.Windows.Automation.ControlType]::ComboBox, [System.Windows.Automation.ControlType]::Edit)) {
-                          $cond = New-Object System.Windows.Automation.PropertyCondition([System.Windows.Automation.AutomationElement]::ControlTypeProperty, $type)
-                          foreach ($element in $window.FindAll([System.Windows.Automation.TreeScope]::Descendants, $cond)) {
-                              try {
-                                  $value = $element.GetCurrentPattern([System.Windows.Automation.ValuePattern]::Pattern).Current.Value
-                              } catch { continue }
-                              Write-Host "candidate [$($type.ProgrammaticName)]: $value"
-                              if ($value -match '^[A-Za-z]:\\' -and $value -match 'Infinite') { $dirValue = $value }
-                          }
+                  for ($page = 0; $page -lt 6 -and -not $dirValue; $page++) {
+                      $children = [NsisWizard]::Children($wizard)
+                      Write-Host "page $page controls:"
+                      $children | ForEach-Object { Write-Host "  $_" }
+                      foreach ($child in $children) {
+                          $parts = $child.Split("|", 3)
+                          if ($parts[1] -match 'Edit' -and $parts[2] -match '^[A-Za-z]:\\' -and $parts[2] -match 'Infinite') { $dirValue = $parts[2] }
                       }
-                      if (-not $dirValue) {
-                          $nextCond = New-Object System.Windows.Automation.PropertyCondition([System.Windows.Automation.AutomationElement]::ControlTypeProperty, [System.Windows.Automation.ControlType]::Button)
-                          $advanced = $false
-                          foreach ($button in $window.FindAll([System.Windows.Automation.TreeScope]::Descendants, $nextCond)) {
-                              if ($button.Current.Name -match '^(Next|下一步|Install|安装)') { $button.GetCurrentPattern([System.Windows.Automation.InvokePattern]::Pattern).Invoke(); $advanced = $true; break }
-                          }
-                          if (-not $advanced) { break }
-                          Start-Sleep -Seconds 2
-                      }
+                      if ($dirValue) { break }
+                      if ($children | Where-Object { $_ -match '^(Install|安装)\|' }) { break }
+                      [void][NsisWizard]::ClickButton($wizard, 1)
+                      Start-Sleep -Seconds 2
                   }
-                  if (-not $dirValue) { throw "no editable install directory control found in the installer" }
-                  Write-Host "install directory control found: $dirValue"
-                  Stop-Process -Id $proc.Id -Force
-                  Write-Host "installer closed without touching the system"
+                  [NsisWizard]::Close($wizard) | Out-Null
+                  if (-not $dirValue) { throw "installer never showed an editable installation directory" }
+                  Write-Host "installation directory page found: $dirValue"
+                  Start-Sleep -Seconds 2
+                  Get-Process | Where-Object { $_.ProcessName -like 'Infinite-Canvas-Setup*' } | Stop-Process -Force
+                  Write-Host "installer closed without modifying the system"
 
             - name: Verify Windows installer
               if: matrix.artifact == 'win'
