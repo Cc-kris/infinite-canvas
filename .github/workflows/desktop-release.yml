@@ -56,6 +56,38 @@ jobs:
               working-directory: desktop
               run: pnpm exec electron-builder --win nsis --x64 --publish never
 
+            - name: Verify macOS installer
+              if: matrix.artifact == 'mac'
+              working-directory: desktop
+              run: |
+                  set -e
+                  dmg="$(ls release/*arm64.dmg | head -1)"
+                  echo "checking $dmg"
+                  hdiutil attach "$dmg" -mountpoint /tmp/icmnt -nobrowse -quiet
+                  test -f "/tmp/icmnt/Infinite Canvas.app/Contents/Resources/renderer/index.html"
+                  test -f "/tmp/icmnt/Infinite Canvas.app/Contents/Resources/proxy/server.js"
+                  test -f "/tmp/icmnt/Infinite Canvas.app/Contents/Resources/app.asar"
+                  du -sh "/tmp/icmnt/Infinite Canvas.app"
+                  hdiutil detach /tmp/icmnt -quiet
+
+            - name: Verify Windows installer
+              if: matrix.artifact == 'win'
+              working-directory: desktop
+              shell: pwsh
+              run: |
+                  $ErrorActionPreference = "Stop"
+                  $setup = Get-ChildItem release/*.exe | Select-Object -First 1
+                  Write-Host "installing $($setup.FullName)"
+                  Start-Process -FilePath $setup.FullName -ArgumentList "/S" -Wait
+                  $appDir = Get-ChildItem "$env:LOCALAPPDATA\Programs" -Directory -Recurse -Depth 2 -ErrorAction SilentlyContinue |
+                      Where-Object { Test-Path (Join-Path $_.FullName "resources\app.asar") } | Select-Object -First 1
+                  if (-not $appDir) { throw "installed app directory not found" }
+                  Write-Host "installed at $($appDir.FullName)"
+                  foreach ($p in @("resources\renderer\index.html", "resources\proxy\server.js", "resources\app.asar")) {
+                      if (-not (Test-Path (Join-Path $appDir.FullName $p))) { throw "missing $p" }
+                  }
+                  Get-ChildItem $appDir.FullName | Select-Object Name
+
             - uses: actions/upload-artifact@v4
               with:
                   name: installers-${{ matrix.artifact }}
