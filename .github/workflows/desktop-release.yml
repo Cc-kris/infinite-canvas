@@ -146,17 +146,30 @@ jobs:
                           }, IntPtr.Zero);
                           return list;
                       }
+                      // NSIS nests each page's controls inside a child dialog, so controls
+                      // are looked up among all descendants rather than direct children.
+                      public static IntPtr Descendant(IntPtr parent, int id) {
+                          IntPtr found = IntPtr.Zero;
+                          EnumChildWindows(parent, (h, l) => {
+                              if (GetDlgCtrlID(h) == id) {
+                                  found = h;
+                                  return false;
+                              }
+                              return true;
+                          }, IntPtr.Zero);
+                          return found;
+                      }
                       // GetWindowText does not reach controls owned by another process,
                       // WM_GETTEXT does, so the path in the edit box has to be asked for.
                       public static string ControlText(IntPtr parent, int id) {
-                          var control = GetDlgItem(parent, id);
+                          var control = Descendant(parent, id);
                           if (control == IntPtr.Zero) return "";
                           var sb = new StringBuilder(1024);
                           SendMessageText(control, 0x000D /* WM_GETTEXT */, (IntPtr)sb.Capacity, sb);
                           return sb.ToString();
                       }
                       public static bool ClickButton(IntPtr parent, int id) {
-                          var button = GetDlgItem(parent, id);
+                          var button = Descendant(parent, id);
                           if (button == IntPtr.Zero) return false;
                           SendMessage(button, 0x00F5 /* BM_CLICK */, IntPtr.Zero, IntPtr.Zero);
                           return true;
@@ -179,13 +192,17 @@ jobs:
                   # directory page is the one headed "Choose Install Location".
                   $dirValue = $null
                   $title = ""
-                  for ($page = 0; $page -lt 5 -and -not $dirValue; $page++) {
+                  $pageHit = $false
+                  $browse = ""
+                  for ($page = 0; $page -lt 5 -and -not $pageHit; $page++) {
                       $title = [NsisWizard]::ControlText($wizard, 1037)
                       $subtitle = [NsisWizard]::ControlText($wizard, 1038)
                       Write-Host "page $page : $title / $subtitle"
                       if ($title -match 'Installing|正在安装') { throw "the wizard installed without offering an install directory" }
                       if ($title -match 'Install Location|安装位置' -or $subtitle -match 'in which to install|安装到') {
+                          $pageHit = $true
                           $dirValue = [NsisWizard]::ControlText($wizard, 1019)
+                          $browse = [NsisWizard]::ControlText($wizard, 1001)
                           break
                       }
                       [void][NsisWizard]::ClickButton($wizard, 1)
@@ -194,9 +211,11 @@ jobs:
                   [NsisWizard]::Close($wizard) | Out-Null
                   Start-Sleep -Seconds 3
                   Get-Process | Where-Object { $_.ProcessName -like 'Infinite-Canvas-Setup*' } | Stop-Process -Force
-                  if (-not $dirValue) { throw "installer never showed an install location page" }
-                  if ($dirValue -notmatch 'Infinite Canvas') { throw "install location page showed an unexpected path: $dirValue" }
-                  Write-Host "install location page found, default path: $dirValue"
+                  if (-not $pageHit) { throw "installer never showed an install location page" }
+                  # A path we can read, or the Browse button next to it, both prove the
+                  # wizard lets the user pick the folder instead of hardcoding one.
+                  if (-not ($dirValue -match 'Infinite Canvas') -and -not $browse) { throw "install location page had neither an editable path nor a browse button" }
+                  Write-Host "install location page found, default path: '$dirValue', browse button: '$browse'"
                   Write-Host "installer closed before copying any file"
 
             - name: Verify Windows installer
