@@ -18,7 +18,7 @@ const host = readArg(args, "host", process.env.HOST || "127.0.0.1");
 
 startProxyServer({ port, host })
     .then(() => {
-        console.log(`Fill this address into Infinite Canvas → 配置 → 本地代理: http://${host}:${port}`);
+        console.log(`Desktop app auto-starts this proxy; manual address (browser build only): http://${host}:${port}`);
     })
     .catch((error) => {
         console.error(`Failed to start proxy: ${error instanceof Error ? error.message : String(error)}`);
