@@ -4,6 +4,7 @@ import { persist } from "zustand/middleware";
 import { nanoid } from "nanoid";
 
 import i18n from "@/i18n";
+import { desktopProxyUrl, isDesktopApp } from "@/lib/desktop";
 
 export type ApiCallFormat = "openai" | "gemini";
 export type ModelCapability = "image" | "video" | "text" | "audio";
@@ -65,7 +66,7 @@ export type WebdavSyncConfig = {
     directory: string;
     lastSyncedAt: string;
 };
-export type ConfigTabKey = "channels" | "local-proxy" | "preferences" | "prompt-sources" | "webdav" | "local-storage";
+export type ConfigTabKey = "channels" | "preferences" | "prompt-sources" | "webdav" | "local-storage";
 
 export type ChannelCredentialsImportResult = {
     status: "created" | "updated" | "missing-base-url" | "invalid-base-url";
@@ -121,8 +122,9 @@ export const defaultConfig: AiConfig = {
     background: "",
     count: "1",
     canvasImageCount: "3",
-    proxyEnabled: false,
-    proxyUrl: DEFAULT_LOCAL_PROXY_URL,
+    // The desktop app always routes through the proxy it starts on launch.
+    proxyEnabled: isDesktopApp(),
+    proxyUrl: desktopProxyUrl() || DEFAULT_LOCAL_PROXY_URL,
     nodeRegenerateBehavior: "new-node",
     autoFocusOnSelect: false,
 };
@@ -280,8 +282,9 @@ export const useConfigStore = create<ConfigStore>()(
                         videoWatermark: config.videoWatermark || "false",
                         videoMode: config.videoMode === "reference" ? "reference" : "frames",
                         canvasImageCount: config.canvasImageCount || "3",
-                        proxyEnabled: Boolean(config.proxyEnabled),
-                        proxyUrl: config.proxyUrl || DEFAULT_LOCAL_PROXY_URL,
+                        // Desktop builds own the proxy lifecycle, so the stored toggle is ignored there.
+                        proxyEnabled: isDesktopApp() ? true : Boolean(config.proxyEnabled),
+                        proxyUrl: isDesktopApp() ? desktopProxyUrl() || config.proxyUrl || DEFAULT_LOCAL_PROXY_URL : config.proxyUrl || DEFAULT_LOCAL_PROXY_URL,
                         nodeRegenerateBehavior: config.nodeRegenerateBehavior === "overwrite" ? "overwrite" : "new-node",
                         autoFocusOnSelect: Boolean(config.autoFocusOnSelect),
                     },
@@ -499,9 +502,13 @@ export function normalizeLocalProxyUrl(value: string) {
 
 /** Prefix an outgoing request with the local forwarding proxy so the browser is not blocked by CORS. */
 export function withLocalProxy(url: string) {
+    const desktopUrl = desktopProxyUrl();
     const { proxyEnabled, proxyUrl } = useConfigStore.getState().config;
-    if (!proxyEnabled || !/^https?:\/\//i.test(url)) return url;
-    const base = normalizeLocalProxyUrl(proxyUrl);
+    // In the desktop app the proxy is built in and always on.
+    const enabled = desktopUrl ? true : proxyEnabled;
+    const effectiveUrl = desktopUrl || proxyUrl;
+    if (!enabled || !/^https?:\/\//i.test(url)) return url;
+    const base = normalizeLocalProxyUrl(effectiveUrl);
     if (!base || url.startsWith(`${base}/`)) return url;
     return `${base}/${url}`;
 }

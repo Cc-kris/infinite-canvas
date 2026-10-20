@@ -15,3 +15,9 @@ web/public/plugins
 plugins/canvas/*/dist
 plugins/canvas/*/node_modules
 web/public/plugins
+# desktop shell build output
+desktop/node_modules
+desktop/release
+desktop/.notes
+
+desktop/build/icon.iconset

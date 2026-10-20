@@ -1,0 +1,93 @@
+{
+  "name": "infinite-canvas-desktop",
+  "productName": "Infinite Canvas",
+  "version": "0.21.0",
+  "description": "无限画布桌面版：内置本地代理，开箱即用",
+  "author": {
+    "name": "basketikun",
+    "email": "basketikun@users.noreply.github.com"
+  },
+  "license": "MIT",
+  "type": "module",
+  "main": "main.js",
+  "private": true,
+  "scripts": {
+    "start": "electron .",
+    "build:web": "pnpm --dir ../web build",
+    "pack": "pnpm build:web && electron-builder --dir",
+    "dist": "pnpm build:web && electron-builder",
+    "dist:mac": "pnpm build:web && electron-builder --mac",
+    "dist:win": "pnpm build:web && electron-builder --win"
+  },
+  "devDependencies": {
+    "electron": "^38.2.0",
+    "electron-builder": "^26.0.12"
+  },
+  "build": {
+    "appId": "com.infinitecanvas.desktop",
+    "productName": "Infinite Canvas",
+    "copyright": "Copyright © 2025 basketikun",
+    "directories": {
+      "output": "release",
+      "buildResources": "build"
+    },
+    "files": [
+      "main.js",
+      "preload.cjs",
+      "package.json"
+    ],
+    "extraResources": [
+      {
+        "from": "../web/dist",
+        "to": "renderer"
+      },
+      {
+        "from": "../canvas-proxy/server.js",
+        "to": "proxy/server.js"
+      },
+      {
+        "from": "../canvas-proxy/package.json",
+        "to": "proxy/package.json"
+      }
+    ],
+    "mac": {
+      "category": "public.app-category.graphics-design",
+      "icon": "build/icon.icns",
+      "target": [
+        {
+          "target": "dmg",
+          "arch": ["x64", "arm64"]
+        }
+      ],
+      "identity": null,
+      "gatekeeperAssess": false
+    },
+    "dmg": {
+      "title": "Infinite Canvas ${version}",
+      "contents": [
+        { "x": 140, "y": 220 },
+        { "x": 400, "y": 220, "type": "link", "path": "/Applications" }
+      ]
+    },
+    "win": {
+      "icon": "build/icon.ico",
+      "target": [
+        {
+          "target": "nsis",
+          "arch": ["x64"]
+        }
+      ],
+      "signAndEditExecutable": false
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "Infinite Canvas",
+      "artifactName": "Infinite-Canvas-Setup-${version}-${arch}.${ext}"
+    },
+    "artifactName": "Infinite-Canvas-${version}-${os}-${arch}.${ext}"
+  }
+}

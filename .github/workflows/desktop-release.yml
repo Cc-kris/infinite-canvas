@@ -1,0 +1,85 @@
+name: Desktop installers
+
+on:
+    push:
+        tags: ["desktop-v*"]
+    workflow_dispatch:
+        inputs:
+            version:
+                description: Release tag to create/update (e.g. desktop-v0.21.0)
+                required: false
+
+permissions:
+    contents: write
+
+jobs:
+    build:
+        strategy:
+            fail-fast: false
+            matrix:
+                include:
+                    - os: macos-14
+                      artifact: mac
+                    - os: windows-latest
+                      artifact: win
+        runs-on: ${{ matrix.os }}
+        steps:
+            - uses: actions/checkout@v4
+
+            - uses: pnpm/action-setup@v4
+              with:
+                  version: 10
+
+            - uses: actions/setup-node@v4
+              with:
+                  node-version: 22
+
+            - name: Install web deps
+              working-directory: web
+              run: pnpm install --no-frozen-lockfile
+
+            - name: Build renderer
+              working-directory: web
+              run: pnpm build
+
+            - name: Install desktop deps
+              working-directory: desktop
+              run: pnpm install --no-frozen-lockfile
+
+            - name: Build macOS installers
+              if: matrix.artifact == 'mac'
+              working-directory: desktop
+              run: pnpm exec electron-builder --mac dmg --arm64 --x64 --publish never
+
+            - name: Build Windows installer
+              if: matrix.artifact == 'win'
+              working-directory: desktop
+              run: pnpm exec electron-builder --win nsis --x64 --publish never
+
+            - uses: actions/upload-artifact@v4
+              with:
+                  name: installers-${{ matrix.artifact }}
+                  path: |
+                      desktop/release/*.dmg
+                      desktop/release/*.exe
+                  if-no-files-found: error
+
+    release:
+        needs: build
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/download-artifact@v4
+              with:
+                  path: dist
+                  merge-multiple: true
+
+            - name: List installers
+              run: ls -lh dist
+
+            - uses: softprops/action-gh-release@v2
+              with:
+                  tag_name: ${{ github.event_name == 'workflow_dispatch' && inputs.version || github.ref_name }}
+                  name: Infinite Canvas ${{ github.event_name == 'workflow_dispatch' && inputs.version || github.ref_name }}
+                  body_path: desktop/RELEASE_NOTES.md
+                  files: dist/*
+                  fail_on_unmatched_files: true
