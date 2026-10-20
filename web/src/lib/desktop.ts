@@ -5,11 +5,39 @@
  * renderer never has to be configured for it: the proxy URL and the "enabled"
  * flag come from the shell instead of the settings panel.
  */
+
+export type DesktopUpdateStatus = {
+    available: boolean;
+    currentVersion: string;
+    latestVersion: string;
+    releaseUrl: string;
+    installerName?: string;
+    downloadSupported?: boolean;
+    error?: string;
+};
+
+export type DesktopUpdateProgress = {
+    percent: number;
+    received: number;
+    total: number;
+};
+
+export type DesktopUpdateResult = {
+    path: string;
+    bytes: number;
+    version: string;
+    name: string;
+};
+
 export type InfiniteCanvasDesktopBridge = {
     isDesktop: true;
     proxyUrl: string;
     appVersion?: string;
     platform?: string;
+    checkUpdate?: () => Promise<DesktopUpdateStatus>;
+    downloadUpdate?: () => Promise<DesktopUpdateResult>;
+    onUpdateProgress?: (callback: (progress: DesktopUpdateProgress) => void) => () => void;
+    openExternal?: (url: string) => Promise<boolean>;
 };
 
 declare global {
@@ -32,4 +60,9 @@ export function isDesktopApp() {
 /** Proxy address served by the desktop shell, empty string in the browser build. */
 export function desktopProxyUrl() {
     return getDesktopBridge()?.proxyUrl || "";
+}
+
+/** Version of the installed desktop app; empty string in the browser build. */
+export function desktopAppVersion() {
+    return getDesktopBridge()?.appVersion || "";
 }

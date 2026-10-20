@@ -2,10 +2,26 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { App } from "antd";
 import { useTranslation } from "react-i18next";
 import { APP_VERSION } from "@/constant/env";
+import { desktopAppVersion, getDesktopBridge, type DesktopUpdateProgress } from "@/lib/desktop";
 import { parseChangelog, type ReleaseInfo } from "@/lib/release";
 
-const latestVersionUrl = "https://raw.githubusercontent.com/basketikun/infinite-canvas/main/VERSION";
-const latestChangelogUrl = "https://raw.githubusercontent.com/basketikun/infinite-canvas/main/CHANGELOG.md";
+/** Releases and changelog live in this project's own repository. */
+const RELEASE_REPO = "Cc-kris/infinite-canvas";
+const RELEASES_API = `https://api.github.com/repos/${RELEASE_REPO}/releases?per_page=30`;
+const latestVersionUrl = `https://raw.githubusercontent.com/${RELEASE_REPO}/main/VERSION`;
+const latestChangelogUrl = `https://raw.githubusercontent.com/${RELEASE_REPO}/main/CHANGELOG.md`;
+const releasesPageUrl = `https://github.com/${RELEASE_REPO}/releases`;
+
+export type VersionUpdateInfo = {
+    /** A newer desktop release exists in the repository. */
+    available: boolean;
+    latestVersion: string;
+    releaseUrl: string;
+    /** False when the release has no installer for this platform. */
+    downloadSupported: boolean;
+    /** True inside the desktop app: the button can download and launch the installer. */
+    canInstall: boolean;
+};
 
 function readLocalReleases(): ReleaseInfo[] {
     return __APP_RELEASES__ || [];
@@ -23,39 +39,94 @@ function isNewerVersion(latestVersion: string, currentVersion: string) {
     return latest.some((value, index) => value > current[index] && latest.slice(0, index).every((part, prevIndex) => part === current[prevIndex]));
 }
 
+type ReleaseLookup = { version: string; pageUrl: string; installerName: string };
+
+/** Newest desktop-v* release, read from the repository's GitHub releases API. */
+async function fetchLatestDesktopRelease(): Promise<ReleaseLookup | null> {
+    const response = await fetch(RELEASES_API, { headers: { accept: "application/vnd.github+json" } });
+    if (!response.ok) return null;
+    const releases = await response.json();
+    if (!Array.isArray(releases)) return null;
+    for (const release of releases) {
+        if (release?.draft || release?.prerelease) continue;
+        const match = /^desktop-v?(\d+\.\d+\.\d+)/.exec(String(release.tag_name || ""));
+        if (!match) continue;
+        const assets: { name: string }[] = Array.isArray(release.assets) ? release.assets : [];
+        const installer = assets.find((asset) => /\.(dmg|exe)$/i.test(asset.name))?.name || "";
+        return { version: match[1], pageUrl: String(release.html_url || releasesPageUrl), installerName: installer };
+    }
+    return null;
+}
+
 export function useVersionCheck() {
     const { t } = useTranslation();
-    const currentVersion = APP_VERSION;
+    const bridge = useMemo(getDesktopBridge, []);
+    const currentVersion = (bridge && desktopAppVersion()) || APP_VERSION;
     const { message } = App.useApp();
     const localReleases = useMemo(readLocalReleases, []);
     const [latestVersion, setLatestVersion] = useState(currentVersion);
     const [releases, setReleases] = useState<ReleaseInfo[]>(localReleases);
     const [checking, setChecking] = useState(false);
+    const [downloading, setDownloading] = useState(false);
+    const [progress, setProgress] = useState<DesktopUpdateProgress | null>(null);
+    const [releaseUrl, setReleaseUrl] = useState(releasesPageUrl);
+    const [downloadSupported, setDownloadSupported] = useState<boolean>(!bridge);
     const [open, setOpen] = useState(false);
-    const hasNewVersion = isNewerVersion(latestVersion, currentVersion);
+
+    const available = isNewerVersion(latestVersion, currentVersion);
+    const hasNewVersion = available;
+    const updateInfo: VersionUpdateInfo = {
+        available,
+        latestVersion,
+        releaseUrl,
+        downloadSupported,
+        canInstall: Boolean(bridge?.downloadUpdate) && downloadSupported,
+    };
 
     const checkLatestVersion = useCallback(async () => {
+        // Inside the shell the main process knows the exact installed version and can
+        // report which installer this platform needs.
+        if (bridge?.checkUpdate) {
+            try {
+                const status = await bridge.checkUpdate();
+                const nextVersion = status?.latestVersion || status?.currentVersion || currentVersion;
+                if (status?.releaseUrl) setReleaseUrl(status.releaseUrl);
+                setDownloadSupported(Boolean(status?.downloadSupported));
+                setLatestVersion(nextVersion);
+                return true;
+            } catch {
+                return false;
+            }
+        }
         try {
+            const release = await fetchLatestDesktopRelease();
+            if (release) {
+                setLatestVersion(release.version);
+                setReleaseUrl(release.pageUrl);
+                setDownloadSupported(Boolean(release.installerName));
+                return true;
+            }
+            // Fall back to the version file when the API is rate limited.
             const response = await fetch(latestVersionUrl);
             if (!response.ok) return false;
-            const version = await response.text();
-            setLatestVersion(version.trim() || currentVersion);
-            return true;
+            const version = (await response.text()).trim();
+            setLatestVersion(version || currentVersion);
+            return Boolean(version);
         } catch {
             return false;
         }
-    }, [currentVersion]);
+    }, [bridge, currentVersion]);
 
     const checkLatestRelease = useCallback(
         async (showMessage = false) => {
             setChecking(true);
             try {
-                const [versionResponse, changelogResponse] = await Promise.all([fetch(latestVersionUrl), fetch(latestChangelogUrl)]);
-                if (!versionResponse.ok) throw new Error(t("version.readFailed"));
-                if (!changelogResponse.ok) throw new Error(t("version.changelogFailed"));
-                const [version, changelog] = await Promise.all([versionResponse.text(), changelogResponse.text()]);
-                setLatestVersion(version.trim() || currentVersion);
-                if (changelog.trim()) setReleases(parseChangelog(changelog));
+                const [ok, changelogResponse] = await Promise.all([checkLatestVersion(), fetch(latestChangelogUrl).catch(() => null)]);
+                if (changelogResponse?.ok) {
+                    const changelog = await changelogResponse.text();
+                    if (changelog.trim()) setReleases(parseChangelog(changelog));
+                }
+                if (!ok) throw new Error(t("version.readFailed"));
                 if (showMessage) message.success(t("version.updated"));
                 return true;
             } catch {
@@ -67,8 +138,35 @@ export function useVersionCheck() {
                 setChecking(false);
             }
         },
-        [currentVersion, localReleases, message, t],
+        [checkLatestVersion, currentVersion, localReleases, message, t],
     );
+
+    /** Desktop: download this platform's installer and hand it to the OS. Browser: open the release page. */
+    const installUpdate = useCallback(async () => {
+        if (!available) return false;
+        if (bridge?.downloadUpdate) {
+            setDownloading(true);
+            setProgress({ percent: 0, received: 0, total: 0 });
+            const dispose = bridge.onUpdateProgress?.((next) => setProgress(next));
+            try {
+                await bridge.downloadUpdate();
+                message.success(t("version.updateReady"));
+                return true;
+            } catch (error) {
+                message.error(t("version.updateDownloadFailed", { reason: String((error as Error)?.message || error) }));
+                return false;
+            } finally {
+                dispose?.();
+                setDownloading(false);
+            }
+        }
+        if (bridge?.openExternal) {
+            await bridge.openExternal(releaseUrl);
+            return true;
+        }
+        window.open(releaseUrl, "_blank", "noopener,noreferrer");
+        return true;
+    }, [available, bridge, message, releaseUrl, t]);
 
     useEffect(() => {
         void checkLatestVersion();
@@ -84,9 +182,14 @@ export function useVersionCheck() {
         setOpen,
         openReleaseModal,
         latestVersion,
+        currentVersion,
         releases,
         checking,
         hasNewVersion,
+        updateInfo,
+        downloading,
+        downloadProgress: progress,
+        installUpdate,
         checkLatestRelease,
     };
 }

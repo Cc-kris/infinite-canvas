@@ -9,7 +9,7 @@
 macOS / Linux：
 
 ```bash
-git clone https://github.com/basketikun/infinite-canvas.git
+git clone https://github.com/Cc-kris/infinite-canvas.git
 cd infinite-canvas
 codex plugin marketplace add "$(pwd)"
 codex plugin add infinite-canvas@infinite-canvas-local
@@ -18,7 +18,7 @@ codex plugin add infinite-canvas@infinite-canvas-local
 Windows PowerShell：
 
 ```powershell
-git clone https://github.com/basketikun/infinite-canvas.git
+git clone https://github.com/Cc-kris/infinite-canvas.git
 cd infinite-canvas
 codex plugin marketplace add "$PWD"
 codex plugin add infinite-canvas@infinite-canvas-local

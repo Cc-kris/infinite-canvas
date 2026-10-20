@@ -367,6 +367,13 @@ export default {
         changelogFailed: "Failed to read changelog",
         updated: "Latest version information loaded",
         updateFailed: "Failed to load the latest version information",
+        updateAvailable: "Version {{version}} is available",
+        upToDate: "You are on the latest version",
+        installUpdate: "Update now",
+        downloading: "Downloading update {{percent}}%",
+        updateReady: "Installer downloaded and launched, follow the prompts to finish",
+        updateDownloadFailed: "Update download failed: {{reason}}",
+        downloadFromRelease: "Download from release",
         types: { added: "Added", fixed: "Fixed", changed: "Changed", optimized: "Optimized", docs: "Docs" },
     },
     config: {

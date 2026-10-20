@@ -26,6 +26,24 @@ jobs:
         steps:
             - uses: actions/checkout@v4
 
+            - name: Resolve version from tag
+              id: version
+              shell: bash
+              run: |
+                  raw="${{ github.event_name == 'workflow_dispatch' && inputs.version || github.ref_name }}"
+                  case "$raw" in
+                    desktop-v[0-9]*) ;;
+                    *) echo "tag must look like desktop-vX.Y.Z (got '$raw')"; exit 1 ;;
+                  esac
+                  version="${raw#desktop-v}"
+                  echo "version=$version" >> "$GITHUB_OUTPUT"
+                  # The renderer reads VERSION at build time and the Electron shell reads
+                  # package.json, so both must carry the tag's version for update checks.
+                  printf 'v%s\n' "$version" > VERSION
+                  node -e "const fs=require('fs');const p='desktop/package.json';const j=JSON.parse(fs.readFileSync(p,'utf8'));j.version=process.argv[1];fs.writeFileSync(p,JSON.stringify(j,null,2)+'\n')" "$version"
+                  cat VERSION
+                  node -p "require('./desktop/package.json').version"
+
             - uses: pnpm/action-setup@v4
               with:
                   version: 10
@@ -69,6 +87,54 @@ jobs:
                   test -f "/tmp/icmnt/Infinite Canvas.app/Contents/Resources/app.asar"
                   du -sh "/tmp/icmnt/Infinite Canvas.app"
                   hdiutil detach /tmp/icmnt -quiet
+
+            - name: Verify Windows installer offers a directory page
+              if: matrix.artifact == 'win'
+              working-directory: desktop
+              shell: pwsh
+              run: |
+                  $ErrorActionPreference = "Stop"
+                  $setup = (Get-ChildItem release/*.exe | Select-Object -First 1).FullName
+                  Write-Host "launching $setup"
+                  $proc = Start-Process -FilePath $setup -PassThru
+                  Add-Type -AssemblyName UIAutomationClient
+                  Add-Type -AssemblyName UIAutomationTypes
+                  $root = [System.Windows.Automation.AutomationElement]::RootElement
+                  $window = $null
+                  for ($i = 0; $i -lt 30 -and -not $window; $i++) {
+                      Start-Sleep -Seconds 1
+                      $cond = New-Object System.Windows.Automation.PropertyCondition([System.Windows.Automation.AutomationElement]::ProcessIdProperty, $proc.Id)
+                      $window = $root.FindFirst([System.Windows.Automation.TreeScope]::Children, $cond)
+                  }
+                  if (-not $window) { throw "installer window never appeared (installer may be one-click)" }
+                  Write-Host "installer window: $($window.Current.Name)"
+                  # Walk forward until a control holds an install path we can edit.
+                  $dirValue = $null
+                  for ($page = 0; $page -lt 3 -and -not $dirValue; $page++) {
+                      foreach ($type in @([System.Windows.Automation.ControlType]::ComboBox, [System.Windows.Automation.ControlType]::Edit)) {
+                          $cond = New-Object System.Windows.Automation.PropertyCondition([System.Windows.Automation.AutomationElement]::ControlTypeProperty, $type)
+                          foreach ($element in $window.FindAll([System.Windows.Automation.TreeScope]::Descendants, $cond)) {
+                              try {
+                                  $value = $element.GetCurrentPattern([System.Windows.Automation.ValuePattern]::Pattern).Current.Value
+                              } catch { continue }
+                              Write-Host "candidate [$($type.ProgrammaticName)]: $value"
+                              if ($value -match '^[A-Za-z]:\\' -and $value -match 'Infinite') { $dirValue = $value }
+                          }
+                      }
+                      if (-not $dirValue) {
+                          $nextCond = New-Object System.Windows.Automation.PropertyCondition([System.Windows.Automation.AutomationElement]::ControlTypeProperty, [System.Windows.Automation.ControlType]::Button)
+                          $advanced = $false
+                          foreach ($button in $window.FindAll([System.Windows.Automation.TreeScope]::Descendants, $nextCond)) {
+                              if ($button.Current.Name -match '^(Next|下一步|Install|安装)') { $button.GetCurrentPattern([System.Windows.Automation.InvokePattern]::Pattern).Invoke(); $advanced = $true; break }
+                          }
+                          if (-not $advanced) { break }
+                          Start-Sleep -Seconds 2
+                      }
+                  }
+                  if (-not $dirValue) { throw "no editable install directory control found in the installer" }
+                  Write-Host "install directory control found: $dirValue"
+                  Stop-Process -Id $proc.Id -Force
+                  Write-Host "installer closed without touching the system"
 
             - name: Verify Windows installer
               if: matrix.artifact == 'win'

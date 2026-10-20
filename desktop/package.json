@@ -1,11 +1,11 @@
 {
   "name": "infinite-canvas-desktop",
   "productName": "Infinite Canvas",
-  "version": "0.21.0",
-  "description": "无限画布桌面版：内置本地代理，开箱即用",
+  "version": "0.22.0",
+  "description": "\u65e0\u9650\u753b\u5e03\u684c\u9762\u7248\uff1a\u5185\u7f6e\u672c\u5730\u4ee3\u7406\uff0c\u5f00\u7bb1\u5373\u7528",
   "author": {
-    "name": "basketikun",
-    "email": "basketikun@users.noreply.github.com"
+    "name": "Cc-kris",
+    "email": "Cc-kris@users.noreply.github.com"
   },
   "license": "MIT",
   "type": "module",
@@ -26,7 +26,7 @@
   "build": {
     "appId": "com.infinitecanvas.desktop",
     "productName": "Infinite Canvas",
-    "copyright": "Copyright © 2025 basketikun",
+    "copyright": "Copyright \u00a9 2025 basketikun",
     "directories": {
       "output": "release",
       "buildResources": "build"
@@ -56,7 +56,10 @@
       "target": [
         {
           "target": "dmg",
-          "arch": ["x64", "arm64"]
+          "arch": [
+            "x64",
+            "arm64"
+          ]
         }
       ],
       "identity": null,
@@ -65,8 +68,16 @@
     "dmg": {
       "title": "Infinite Canvas ${version}",
       "contents": [
-        { "x": 140, "y": 220 },
-        { "x": 400, "y": 220, "type": "link", "path": "/Applications" }
+        {
+          "x": 140,
+          "y": 220
+        },
+        {
+          "x": 400,
+          "y": 220,
+          "type": "link",
+          "path": "/Applications"
+        }
       ]
     },
     "win": {
@@ -74,7 +85,9 @@
       "target": [
         {
           "target": "nsis",
-          "arch": ["x64"]
+          "arch": [
+            "x64"
+          ]
         }
       ],
       "signAndEditExecutable": false
@@ -82,10 +95,12 @@
     "nsis": {
       "oneClick": false,
       "perMachine": false,
+      "allowElevation": true,
       "allowToChangeInstallationDirectory": true,
       "createDesktopShortcut": true,
       "createStartMenuShortcut": true,
       "shortcutName": "Infinite Canvas",
+      "uninstallDisplayName": "Infinite Canvas",
       "artifactName": "Infinite-Canvas-Setup-${version}-${arch}.${ext}"
     },
     "artifactName": "Infinite-Canvas-${version}-${os}-${arch}.${ext}"

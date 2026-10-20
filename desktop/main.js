@@ -1,6 +1,10 @@
-import { app, BrowserWindow, Menu, shell } from "electron";
-import { createReadStream, existsSync, statSync } from "node:fs";
+import { app, BrowserWindow, ipcMain, Menu, shell } from "electron";
+import { spawn } from "node:child_process";
+import { createReadStream, createWriteStream, existsSync, statSync } from "node:fs";
+import { mkdtemp } from "node:fs/promises";
 import { createServer } from "node:http";
+import { Readable } from "node:stream";
+import os from "node:os";
 import path from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 
@@ -128,6 +132,146 @@ function serveRenderer() {
     });
 }
 
+/** Updates are published as desktop-v* releases in the user's own repository. */
+const RELEASE_REPO = "Cc-kris/infinite-canvas";
+const RELEASES_API = `https://api.github.com/repos/${RELEASE_REPO}/releases?per_page=30`;
+const USER_AGENT = "infinite-canvas-desktop";
+
+function versionParts(version) {
+    const match = String(version || "").trim().match(/^v?(\d+)\.(\d+)\.(\d+)/);
+    return match ? match.slice(1).map(Number) : null;
+}
+
+/** Returns >0 when `a` is newer than `b`. */
+function compareVersions(a, b) {
+    const left = versionParts(a);
+    const right = versionParts(b);
+    if (!left || !right) return 0;
+    for (let index = 0; index < 3; index += 1) {
+        if (left[index] !== right[index]) return left[index] - right[index];
+    }
+    return 0;
+}
+
+/** Latest published desktop release (tag desktop-vX.Y.Z) with its installers. */
+async function fetchLatestRelease() {
+    const response = await fetch(RELEASES_API, {
+        headers: { accept: "application/vnd.github+json", "user-agent": USER_AGENT },
+        signal: AbortSignal.timeout(20000),
+    });
+    if (!response.ok) throw new Error(`GitHub API responded ${response.status}`);
+    const releases = await response.json();
+    if (!Array.isArray(releases)) throw new Error("unexpected GitHub API payload");
+    for (const release of releases) {
+        if (release.draft || release.prerelease) continue;
+        const match = /^desktop-v?(\d+\.\d+\.\d+)/.exec(release.tag_name || "");
+        if (!match) continue;
+        return {
+            version: match[1],
+            tag: release.tag_name,
+            pageUrl: release.html_url,
+            assets: (release.assets || []).map((asset) => ({ name: asset.name, url: asset.browser_download_url, size: asset.size })),
+        };
+    }
+    return null;
+}
+
+/** Installer that matches this platform, mirroring the electron-builder artifact names. */
+function pickInstaller(assets) {
+    if (process.platform === "darwin") {
+        const arch = process.arch === "arm64" ? "arm64" : "x64";
+        return assets.find((asset) => asset.name.endsWith(".dmg") && asset.name.includes(`-mac-${arch}`)) || assets.find((asset) => asset.name.endsWith(".dmg")) || null;
+    }
+    if (process.platform === "win32") {
+        const arch = process.arch === "arm64" ? "arm64" : "x64";
+        return (
+            assets.find((asset) => asset.name.endsWith(".exe") && /setup/i.test(asset.name) && asset.name.includes(arch)) ||
+            assets.find((asset) => asset.name.endsWith(".exe")) ||
+            null
+        );
+    }
+    return null;
+}
+
+async function downloadInstaller(url, targetPath, onProgress) {
+    const response = await fetch(url, { headers: { "user-agent": USER_AGENT }, redirect: "follow", signal: AbortSignal.timeout(30 * 60 * 1000) });
+    if (!response.ok || !response.body) throw new Error(`download failed with ${response.status}`);
+    const total = Number(response.headers.get("content-length") || 0);
+    const file = createWriteStream(targetPath);
+    let received = 0;
+    let lastPercent = -1;
+    try {
+        for await (const chunk of Readable.fromWeb(response.body)) {
+            received += chunk.length;
+            if (!file.write(chunk)) await new Promise((resolve) => file.once("drain", resolve));
+            const percent = total > 0 ? Math.min(100, Math.round((received / total) * 100)) : 0;
+            if (percent !== lastPercent) {
+                lastPercent = percent;
+                onProgress(percent, received, total);
+            }
+        }
+    } finally {
+        await new Promise((resolve) => file.end(resolve));
+    }
+    return received;
+}
+
+/** Launch the downloaded installer, then let it replace the running app. */
+async function launchInstaller(filePath) {
+    if (process.platform === "darwin") {
+        const error = await shell.openPath(filePath);
+        if (error) throw new Error(error);
+        return;
+    }
+    spawn(filePath, [], { detached: true, stdio: "ignore" }).unref();
+    setTimeout(() => app.quit(), 800);
+}
+
+function registerUpdateIpc() {
+    ipcMain.handle("app:info", () => ({ version: app.getVersion(), platform: process.platform, arch: process.arch }));
+
+    ipcMain.handle("shell:open-external", async (_event, url) => {
+        if (typeof url !== "string" || !/^https?:\/\//i.test(url)) throw new Error("unsupported url");
+        await shell.openExternal(url);
+        return true;
+    });
+
+    ipcMain.handle("update:check", async () => {
+        const currentVersion = app.getVersion();
+        try {
+            const release = await fetchLatestRelease();
+            if (!release) return { available: false, currentVersion, latestVersion: currentVersion, releaseUrl: `https://github.com/${RELEASE_REPO}/releases` };
+            const installer = pickInstaller(release.assets);
+            return {
+                available: compareVersions(release.version, currentVersion) > 0,
+                currentVersion,
+                latestVersion: release.version,
+                releaseUrl: release.pageUrl,
+                installerName: installer ? installer.name : "",
+                downloadSupported: Boolean(installer),
+            };
+        } catch (error) {
+            log("update check failed:", error?.message || error);
+            return { available: false, currentVersion, latestVersion: currentVersion, releaseUrl: `https://github.com/${RELEASE_REPO}/releases`, error: String(error?.message || error) };
+        }
+    });
+
+    ipcMain.handle("update:download", async (event) => {
+        const release = await fetchLatestRelease();
+        if (!release) throw new Error("no release published yet");
+        const installer = pickInstaller(release.assets);
+        if (!installer) throw new Error(`no installer for ${process.platform}-${process.arch}`);
+        const directory = await mkdtemp(path.join(os.tmpdir(), "infinite-canvas-update-"));
+        const targetPath = path.join(directory, installer.name);
+        event.sender.send("update:progress", { percent: 0, received: 0, total: installer.size || 0 });
+        const bytes = await downloadInstaller(installer.url, targetPath, (percent, received, total) => {
+            if (!event.sender.isDestroyed()) event.sender.send("update:progress", { percent, received, total });
+        });
+        await launchInstaller(targetPath);
+        return { path: targetPath, bytes, version: release.version, name: installer.name };
+    });
+}
+
 function buildMenu() {
     const template = [
         ...(process.platform === "darwin" ? [{ role: "appMenu", label: app.name }] : []),
@@ -165,7 +309,7 @@ async function createWindow(proxyUrl) {
             contextIsolation: true,
             nodeIntegration: false,
             spellcheck: false,
-            additionalArguments: [`--infinite-canvas-proxy=${proxyUrl}`],
+            additionalArguments: [`--infinite-canvas-proxy=${proxyUrl}`, `--infinite-canvas-version=${app.getVersion()}`],
         },
     });
 
@@ -193,6 +337,7 @@ if (!gotLock) {
     void app.whenReady().then(async () => {
         app.setName("无限画布");
         buildMenu();
+        registerUpdateIpc();
         let proxyUrl = "";
         try {
             proxyUrl = await startProxy();

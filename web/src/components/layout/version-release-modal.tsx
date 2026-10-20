@@ -1,5 +1,5 @@
 import type { CSSProperties } from "react";
-import { Modal, Tag, Timeline } from "antd";
+import { Button, Modal, Tag, Timeline } from "antd";
 import type { TFunction } from "i18next";
 import { useTranslation } from "react-i18next";
 import { useVersionCheck } from "@/hooks/use-version-check";
@@ -25,7 +25,8 @@ type VersionReleaseModalProps = {
 
 export function VersionReleaseModal({ className, style }: VersionReleaseModalProps) {
     const { t } = useTranslation();
-    const { open, setOpen, openReleaseModal, latestVersion, releases, checking, hasNewVersion, checkLatestRelease } = useVersionCheck();
+    const { open, setOpen, openReleaseModal, latestVersion, currentVersion, releases, checking, hasNewVersion, updateInfo, downloading, downloadProgress, installUpdate, checkLatestRelease } = useVersionCheck();
+    const percent = downloadProgress?.percent ?? 0;
 
     return (
         <>
@@ -37,7 +38,7 @@ export function VersionReleaseModal({ className, style }: VersionReleaseModalPro
                 title={t("version.viewUpdates")}
             >
                 <span className="relative inline-flex">
-                    {APP_VERSION}
+                    {currentVersion}
                     {hasNewVersion ? <span className="absolute -right-1.5 -top-1 size-1.5 rounded-full bg-green-500" /> : null}
                 </span>
             </button>
@@ -45,7 +46,7 @@ export function VersionReleaseModal({ className, style }: VersionReleaseModalPro
                 <div className="mb-5 grid grid-cols-2 gap-3">
                     <div className="rounded-lg border border-stone-200 p-3 dark:border-stone-800">
                         <div className="text-xs text-stone-500 dark:text-stone-400">{t("version.currentVersion")}</div>
-                        <div className="mt-1 text-base font-semibold text-stone-950 dark:text-stone-100">{APP_VERSION}</div>
+                        <div className="mt-1 text-base font-semibold text-stone-950 dark:text-stone-100">{currentVersion}</div>
                     </div>
                     <div className="rounded-lg border border-stone-200 p-3 dark:border-stone-800">
                         <div className="flex items-center justify-between gap-3">
@@ -60,6 +61,25 @@ export function VersionReleaseModal({ className, style }: VersionReleaseModalPro
                         </div>
                         <div className="mt-1 text-base font-semibold text-stone-950 dark:text-stone-100">{latestVersion}</div>
                     </div>
+                </div>
+                <div className="mb-5 flex flex-wrap items-center justify-between gap-3 rounded-lg border border-stone-200 bg-stone-50 px-3 py-2.5 dark:border-stone-800 dark:bg-stone-900">
+                    <div className="min-w-0 text-sm text-stone-600 dark:text-stone-300">
+                        {hasNewVersion ? t("version.updateAvailable", { version: latestVersion }) : t("version.upToDate")}
+                        {downloading ? (
+                            <div className="mt-1 text-xs text-stone-500 dark:text-stone-400">{t("version.downloading", { percent })}</div>
+                        ) : null}
+                    </div>
+                    {hasNewVersion ? (
+                        updateInfo.canInstall ? (
+                            <Button type="primary" loading={downloading} onClick={() => void installUpdate()}>
+                                {downloading ? t("version.downloading", { percent }) : t("version.installUpdate")}
+                            </Button>
+                        ) : (
+                            <Button type="primary" onClick={() => void installUpdate()}>
+                                {t("version.downloadFromRelease")}
+                            </Button>
+                        )
+                    ) : null}
                 </div>
                 <div className="max-h-[56vh] overflow-y-auto pr-2">
                     <Timeline

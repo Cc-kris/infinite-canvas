@@ -367,6 +367,13 @@ export default {
         changelogFailed: "更新日志读取失败",
         updated: "已获取最新版本信息",
         updateFailed: "获取最新版本信息失败",
+        updateAvailable: "有新版本 {{version}} 可更新",
+        upToDate: "已是最新版本",
+        installUpdate: "立即更新",
+        downloading: "正在下载更新 {{percent}}%",
+        updateReady: "安装包已下载并启动，请按提示完成安装",
+        updateDownloadFailed: "更新下载失败：{{reason}}",
+        downloadFromRelease: "前往 Release 下载",
         types: { added: "新增", fixed: "修复", changed: "调整", optimized: "优化", docs: "文档" },
     },
     config: {
