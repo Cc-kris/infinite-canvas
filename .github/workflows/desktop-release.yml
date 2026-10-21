@@ -64,6 +64,16 @@ jobs:
               working-directory: desktop
               run: pnpm install --no-frozen-lockfile
 
+            # desktop/agent/canvas-agent.mjs 是构建产物，但仍留在仓库里当兜底。
+            # 这里重新打一次，保证发布出去的是当前源码，而不是某次提交里留下的旧 bundle。
+            - name: Install canvas-agent deps
+              working-directory: canvas-agent
+              run: npm ci
+
+            - name: Bundle canvas agent
+              working-directory: desktop
+              run: node scripts/build-agent.mjs
+
             - name: Build macOS installers
               if: matrix.artifact == 'mac'
               working-directory: desktop

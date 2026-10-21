@@ -42,3 +42,17 @@
   `CSC_IDENTITY_AUTO_DISCOVERY=false npx electron-builder --mac dmg --arm64 -c.electronDist=/tmp/electron-dist`
 - 产出 `desktop/release/Infinite-Canvas-0.23.0-mac-arm64.dmg`（未签名，首次打开需放行）
 
+### 为什么"卡死"而不是"慢"（2026-10-21 实测）
+- 实测 `curl` 限时 10s：GitHub release asset **61 KB/s**，npm registry 对照 **274 KB/s**（约 4.5 倍差距）
+- GitHub 下载会 302 到 `release-assets.githubusercontent.com`，带**有效期仅 10 分钟的 SAS 签名 token**（URL 里 `se=` 参数）
+- 111MB ÷ 61KB/s ≈ 30 分钟 ≫ 10 分钟 token 有效期 → 必然中途失效，连接进入 ESTABLISHED 但零数据；electron-builder 的下载器没有超时/续传，于是表现成"永远卡住"
+- 结论：**换浏览器没用**。Chrome 走同一条 TCP/TLS 与同一系统代理，签名过期它同样会失败（最多是显示进度条/让你手动重试）；缓存里已有 zip 时正确做法是 `-c.electronDist` 离线打包，不是重下
+
+## 应用图标（2026-10-21）
+- 源图：`/Users/mac/Documents/GAdocs/generated_images/infinite-canvas-logo-v2.png`（1254²，满版圆角，半径≈16.9%）
+- 生成脚本逻辑（PIL + iconutil）：内容缩到 824 → 叠加 `rounded_rectangle(radius=824*0.2237)` 的 squircle 遮罩（乘原图 alpha 防硬边）→ 贴到 1024 透明画布居中 → 导出 10 档 iconset → `iconutil -c icns`
+- `build/icon.ico` 用原图满版方形重出（Windows 无圆角网格约定），多尺寸 16–256
+- 校验：`iconutil -c iconset` 反解包得 10 个文件；包内 `Contents/Resources/icon.icns` 与 `desktop/build/icon.icns` sha256 一致
+- 预览图：`/Users/mac/Documents/GAdocs/generated_images/infinite-canvas-icon-preview.png`
+
+
