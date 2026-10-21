@@ -551,6 +551,19 @@ export async function listRuntimes() {
 export async function connectRuntime(runtime) {
     const spec = RUNTIMES.find((item) => item.id === runtime);
     if (!spec) return { ok: false, error: "unknown runtime" };
+    // 一次只允许一个连接流程：装插件 + 联通测试要好幾秒，界面此时已经把其它卡片置灰，
+    // 主进程再兜一层，避免连点或事件回调把两条连接同时推进去互相踩。
+    if (connectInFlight) return connectInFlight;
+    connectInFlight = runConnect(spec, runtime).finally(() => {
+        connectInFlight = null;
+    });
+    return connectInFlight;
+}
+
+/** 正在进行的连接流程；并发调用直接复用，不重复拉起服务与插件安装。 */
+let connectInFlight = null;
+
+async function runConnect(spec, runtime) {
     const cli = resolveCommand(spec.bin);
     const desktop = detectDesktopApp(spec.id);
     if (!cli && !desktop.installed) {

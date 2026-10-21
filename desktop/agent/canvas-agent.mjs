@@ -58320,10 +58320,11 @@ function canvasAgentMcpCommand() {
   const current = process.env.CANVAS_AGENT_ENTRY || process.argv.find((arg) => /index\.(t|j)s$/.test(arg)) || "";
   const entry = path5.resolve(current || fileURLToPath2(new URL("../index.js", import.meta.url)));
   const tsx = path5.join(path5.dirname(entry), "..", "node_modules", "tsx", "dist", "cli.mjs");
-  return entry.endsWith(".ts") ? { command: process.execPath, args: [tsx, entry, "mcp"] } : { command: process.execPath, args: [entry, "mcp"] };
+  const env = { ELECTRON_RUN_AS_NODE: "1", CANVAS_AGENT_ENTRY: entry };
+  return entry.endsWith(".ts") ? { command: process.execPath, args: [tsx, entry, "mcp"], env } : { command: process.execPath, args: [entry, "mcp"], env };
 }
 function codexConfig(permissionMode2) {
-  return { model_reasoning_summary: "auto", ...permissionMode2 === "automatic" ? { approvals_reviewer: "auto_review" } : {}, mcp_servers: { "infinite-canvas": { command: canvasAgentMcp.command, args: canvasAgentMcp.args, default_tools_approval_mode: "approve", startup_timeout_sec: 20, tool_timeout_sec: 90 } } };
+  return { model_reasoning_summary: "auto", ...permissionMode2 === "automatic" ? { approvals_reviewer: "auto_review" } : {}, mcp_servers: { "infinite-canvas": { command: canvasAgentMcp.command, args: canvasAgentMcp.args, env: canvasAgentMcp.env, default_tools_approval_mode: "approve", startup_timeout_sec: 20, tool_timeout_sec: 90 } } };
 }
 function threadSettings(permissionMode2) {
   return { approvalPolicy: permissionMode2 === "full" ? "never" : "on-request", sandbox: permissionMode2 === "full" ? "danger-full-access" : "workspace-write", config: codexConfig(permissionMode2) };

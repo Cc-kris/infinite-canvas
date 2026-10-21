@@ -2,6 +2,17 @@
 
 安装包未做代码签名，首次打开会被系统拦截，按下面的方式放行即可。
 
+## 0.25.2 修复
+
+- **Windows 升级不再问「给谁安装 / 装哪里」**：更新时按当前正在运行的安装目录原位覆盖，
+  原来装在 `D:\Program Files\Infinite Canvas`（所有用户）就还装回那里，需要管理员时只弹一次 UAC，
+  不再出现安装向导，也不会另装一份到 `%LOCALAPPDATA%` 导致「升级了还是旧版本」。
+- **Codex 连接后能真正调用画布**：修掉 Codex 拉起画布 MCP 服务时缺少 `ELECTRON_RUN_AS_NODE` 的问题。
+  之前表现为「Codex 连接正常」但一用就报 `initialize response: connection closed`。
+- **Windows 应用图标写入 exe**：打开 `signAndEditExecutable`，任务栏、开始菜单、标题栏左上角显示的都是新 logo，
+  不再是 Electron 默认图标。
+- **Agent 连接串行化**：一张卡在连接中时其它卡自动置灰，主进程也只接受一个连接流程，避免并发互踩。
+
 ## macOS
 
 - 下载 `Infinite-Canvas-<版本>-mac-arm64.dmg`（Apple 芯片）或 `-mac-x64.dmg`（Intel）。

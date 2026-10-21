@@ -1,7 +1,7 @@
 import { app, BrowserWindow, ipcMain, Menu, shell } from "electron";
 
 import { registerAgentHub, revalidateConnection, stopAgentServerOnQuit } from "./agent-hub.js";
-import { spawn } from "node:child_process";
+import { spawn, spawnSync } from "node:child_process";
 import { createReadStream, createWriteStream, existsSync, statSync } from "node:fs";
 import { mkdtemp } from "node:fs/promises";
 import { createServer } from "node:http";
@@ -218,6 +218,42 @@ async function downloadInstaller(url, targetPath, onProgress) {
     return received;
 }
 
+/**
+ * Windows 升级：静默覆盖安装到「当前正在运行的这个目录」，全程不弹向导。
+ *
+ * 0.26 之前只传了 /S --force-run，靠 NSIS 自己去注册表猜安装位置和权限。原来装在
+ * D:\Program Files（所有用户）时，猜测失败会退化成「当前用户」安装，装到
+ * %LOCALAPPDATA%\Programs\Infinite Canvas 去——结果只是多了一份新程序，用户点开
+ * 的仍是旧目录里的旧版本，表现就是「升级成功但图标/版本没变」。
+ * 这里把安装目录钉死成当前 exe 所在目录，并在需要管理员时先提权再静默安装。
+ */
+async function installOnWindows(filePath) {
+    const installDir = path.dirname(app.getPath("exe"));
+    const args = ["/S"];
+    // 装在 Program Files 这类需要管理员的目录时，显式声明「所有用户安装」，
+    // 否则 NSIS 会按当前用户模式写到 %LOCALAPPDATA%，等于装出一份平行的新程序。
+    const localAppData = (process.env.LOCALAPPDATA || "").toLowerCase();
+    if (!localAppData || !installDir.toLowerCase().startsWith(localAppData)) args.push("--allusers");
+    args.push("--force-run");
+    // NSIS 的 /D 必须是最后一个参数，且不能加引号（路径含空格也照样整段解析）。
+    args.push(`/D=${installDir}`);
+
+    if (isElevated()) {
+        spawn(filePath, args, { detached: true, stdio: "ignore", windowsHide: true }).unref();
+        return;
+    }
+    // 普通权限：走 Start-Process -Verb RunAs 弹一次 UAC，安装器本身仍然是 /S 静默。
+    const quoted = args.map((arg) => `'${arg.replace(/'/g, "''")}'`).join(",");
+    const file = filePath.replace(/'/g, "''");
+    spawn("powershell.exe", ["-NoProfile", "-NonInteractive", "-Command", `Start-Process -FilePath '${file}' -ArgumentList ${quoted} -Verb RunAs`], { detached: true, stdio: "ignore", windowsHide: true }).unref();
+}
+
+/** `net session` 只有管理员能跑通，用它判断当前进程是否已提权。 */
+function isElevated() {
+    const result = spawnSync("net", ["session"], { windowsHide: true, stdio: "ignore" });
+    return result.status === 0;
+}
+
 /** Launch the downloaded installer, then let it replace the running app. */
 async function launchInstaller(filePath) {
     if (process.platform === "darwin") {
@@ -225,11 +261,8 @@ async function launchInstaller(filePath) {
         if (error) throw new Error(error);
         return;
     }
-    // Windows: 用 /S 静默覆盖安装。NSIS 初始化时会读取注册表里上次的 InstallLocation,
-    // 自动沿用原有盘符、目录和「所有用户 / 当前用户」权限，不再弹出选择向导。
-    // --force-run 让它在安装结束后自动重新启动应用。
-    spawn(filePath, ["/S", "--force-run"], { detached: true, stdio: "ignore" }).unref();
-    setTimeout(() => app.quit(), 800);
+    await installOnWindows(filePath);
+    setTimeout(() => app.quit(), 1200);
 }
 
 function registerUpdateIpc() {
@@ -300,6 +333,8 @@ async function createWindow(proxyUrl) {
         minHeight: 640,
         backgroundColor: "#0b0b0c",
         title: "无限画布",
+        // Windows 的标题栏/任务栏图标取应用图标；显式指定一次，避免落到 Electron 默认图标。
+        ...(process.platform === "win32" ? { icon: path.join(process.resourcesPath, "icon.ico") } : {}),
         webPreferences: {
             preload: path.join(here, "preload.cjs"),
             contextIsolation: true,
