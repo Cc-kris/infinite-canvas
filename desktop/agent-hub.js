@@ -213,10 +213,22 @@ function detectDesktopApp(id) {
 function readAgentConfig() {
     try {
         const config = JSON.parse(fs.readFileSync(CONFIG_FILE, "utf8"));
-        return { url: String(config.url || ""), token: String(config.token || ""), runtime: String(config.runtime || "") };
+        return { ...config, url: String(config.url || ""), token: String(config.token || ""), runtime: String(config.runtime || ""), mode: config.mode === "plugin" ? "plugin" : config.mode === "runtime" ? "runtime" : "" };
     } catch {
-        return { url: "", token: "", runtime: "" };
+        return { url: "", token: "", runtime: "", mode: "" };
     }
+}
+
+/** 合并写回配置：只覆盖传入字段，其余保持原样（服务别的进程可能在读）。 */
+function writeAgentConfig(patch) {
+    const next = { ...readAgentConfig(), ...patch };
+    try {
+        fs.mkdirSync(CONFIG_DIR, { recursive: true, mode: 0o700 });
+        fs.writeFileSync(CONFIG_FILE, JSON.stringify(next, null, 2), { mode: 0o600 });
+    } catch {
+        /* 配置写失败不影响本次连接 */
+    }
+    return next;
 }
 
 async function probeServer(url) {
@@ -274,8 +286,43 @@ function killTree(pid) {
     }
 }
 
-/** 拉起内置服务：Electron 自带 Node 运行单文件产物，用户无需安装任何依赖。 */
+/**
+ * 杀掉占用指定端口的监听进程。
+ * 异常退出（崩溃/强杀）会留下仍持旧 token 的服务，新实例抢不到端口却会改写配置，
+ * 结果配置里的 token 永远对不上，界面上就是「点连接报 invalid token」。
+ */
+function killListenerOnPort(url) {
+    const port = Number(new URL(url || "").port || 0);
+    if (!port) return;
+    if (IS_WIN) {
+        const out = spawnSync("netstat", ["-ano", "-p", "TCP"], { encoding: "utf8", windowsHide: true });
+        for (const line of (out.stdout || "").split(/\r?\n/)) {
+            if (!/LISTENING/i.test(line) || !line.includes(`:${port}`)) continue;
+            const pid = Number(line.trim().split(/\s+/).pop());
+            if (pid) killTree(pid);
+        }
+        return;
+    }
+    const out = spawnSync("lsof", ["-ti", `tcp:${port}`, "-sTCP:LISTEN"], { encoding: "utf8" });
+    for (const pid of (out.stdout || "").split(/\s+/).filter(Boolean)) killTree(Number(pid));
+}
+
+/**
+ * 拉起内置服务：Electron 自带 Node 运行单文件产物，用户无需安装任何依赖。
+ * 并发调用共用同一次启动，避免两个实例抢端口、互相覆盖 token。
+ */
 async function ensureServer() {
+    if (!ensureServerTask) {
+        ensureServerTask = ensureServerOnce().finally(() => {
+            ensureServerTask = null;
+        });
+    }
+    return ensureServerTask;
+}
+
+let ensureServerTask = null;
+
+async function ensureServerOnce() {
     const config = readAgentConfig();
     if ((await probeServer(config.url)).running) return { ...config, started: false };
     if (!fs.existsSync(AGENT_ENTRY)) throw new Error("内置 Agent 服务缺失，请重新安装应用");
@@ -370,6 +417,103 @@ function ensureMcp(runtime) {
     return runArgs(bin, args);
 }
 
+/**
+ * 插件联通测试：真的把 MCP 服务拉起来走一遍 initialize → tools/list → tools/call。
+ * 只有进程能启动、协议能握手、工具能调用，才算「插件方式可用」；
+ * 任何一步失败都返回 ok:false，调用方据此无声降级到运行时方式。
+ */
+function probeMcpServer(timeout = 9000) {
+    return new Promise((resolve) => {
+        if (!fs.existsSync(AGENT_ENTRY)) return resolve({ ok: false, output: "内置 Agent 入口缺失" });
+        const child = spawn(process.execPath, [AGENT_ENTRY, "mcp"], {
+            cwd: AGENT_DIR,
+            stdio: ["pipe", "pipe", "pipe"],
+            windowsHide: true,
+            env: childEnv({ ELECTRON_RUN_AS_NODE: "1", CANVAS_AGENT_ENTRY: AGENT_ENTRY }),
+        });
+        let buffer = "";
+        let noise = "";
+        let finished = false;
+        const done = (result) => {
+            if (finished) return;
+            finished = true;
+            clearTimeout(timer);
+            try {
+                child.stdin.end();
+                child.kill();
+            } catch {
+                /* 进程已退出 */
+            }
+            resolve(result);
+        };
+        const send = (message) => {
+            try {
+                child.stdin.write(`${JSON.stringify(message)}\n`);
+            } catch {
+                /* stdin 已关闭，等超时兜底 */
+            }
+        };
+        const timer = setTimeout(() => done({ ok: false, output: `握手超时：${noise.slice(-200)}` }), timeout);
+
+        child.stdout.on("data", (chunk) => {
+            buffer += chunk.toString("utf8");
+            for (;;) {
+                const index = buffer.indexOf("\n");
+                if (index < 0) break;
+                const line = buffer.slice(0, index).trim();
+                buffer = buffer.slice(index + 1);
+                if (!line) continue;
+                let message;
+                try {
+                    message = JSON.parse(line);
+                } catch {
+                    noise += line;
+                    continue;
+                }
+                if (message.id === 1 && message.result) {
+                    // 握手成功，取一次工具清单，再真实调用一个只读工具。
+                    send({ jsonrpc: "2.0", method: "notifications/initialized", params: {} });
+                    send({ jsonrpc: "2.0", id: 2, method: "tools/list", params: {} });
+                } else if (message.id === 2) {
+                    const tools = Array.isArray(message.result?.tools) ? message.result.tools.length : 0;
+                    if (!tools) return done({ ok: false, output: "MCP 服务未返回任何工具" });
+                    send({ jsonrpc: "2.0", id: 3, method: "tools/call", params: { name: "canvas_get_state", arguments: {} } });
+                } else if (message.id === 3) {
+                    if (message.error) {
+                        // 服务在跑、工具能调用，只是此刻没有画布页面在线——插件本身是通的。
+                        const text = String(message.error.message || "");
+                        if (/没有已连接画布|not connected/i.test(text)) return done({ ok: true, degraded: true, output: "MCP 就绪（画布页面未就绪）" });
+                        return done({ ok: false, output: `工具调用失败：${text.slice(0, 200)}` });
+                    }
+                    return done({ ok: true, degraded: false, output: "MCP 就绪，工具调用成功" });
+                } else if (message.id === 1 && message.error) {
+                    return done({ ok: false, output: `握手被拒：${JSON.stringify(message.error).slice(0, 200)}` });
+                }
+            }
+        });
+        child.stderr.on("data", (chunk) => {
+            noise += chunk.toString("utf8").slice(-500);
+        });
+        child.on("error", (error) => done({ ok: false, output: `无法启动 MCP 服务：${error instanceof Error ? error.message : String(error)}` }));
+        child.on("exit", (code) => done({ ok: false, output: `MCP 进程退出（${code}）：${noise.slice(-200)}` }));
+
+        // MCP stdio 传输用换行分隔的 JSON-RPC，不需要 Content-Length 头。
+        send({ jsonrpc: "2.0", id: 1, method: "initialize", params: { protocolVersion: "2024-11-05", capabilities: {}, clientInfo: { name: "canvas-desktop", version: "0.25.0" } } });
+    });
+}
+
+/** 判断某个运行时是否真的能用插件方式：注册在案 + 握手通过。 */
+async function verifyPlugin(runtime) {
+    const spec = RUNTIMES.find((item) => item.id === runtime);
+    if (!spec) return { ok: false, output: "未知运行时" };
+    if (spec.mode !== "mcp") return { ok: false, output: `${spec.label} 通过运行时方式连接` };
+    const bin = resolveCommand(spec.bin);
+    if (!bin) return { ok: false, output: `${spec.label} 命令行未安装` };
+    const listed = runArgs(bin, ["mcp", "list"], 20_000);
+    if (!/infinite-canvas/.test(listed.output)) return { ok: false, output: `插件未注册到 ${spec.label}` };
+    return probeMcpServer();
+}
+
 export async function listRuntimes() {
     const config = readAgentConfig();
     const server = await probeServer(config.url);
@@ -394,11 +538,16 @@ export async function listRuntimes() {
     return {
         server: { running: server.running, url: server.running ? config.url : "", token: server.running ? config.token : "", error: server.running ? "" : "" },
         runtime: server.running ? config.runtime : "",
+        mode: config.mode || "",
         runtimes,
     };
 }
 
-/** 一键连接：拉起服务 → 写运行时 → 装插件（失败自动降级为直接运行）。 */
+/**
+ * 一键连接。四种运行时里 Claude Code / Codex 有插件（MCP）方式，Galley 是运行时方式。
+ * 流程固定为：探测 → 拉起服务 → 写运行时 → 装插件 → 插件联通测试。
+ * 测试不通过就无声切到运行时方式（url + token），用户不需要做任何选择。
+ */
 export async function connectRuntime(runtime) {
     const spec = RUNTIMES.find((item) => item.id === runtime);
     if (!spec) return { ok: false, error: "unknown runtime" };
@@ -415,24 +564,90 @@ export async function connectRuntime(runtime) {
         return { ok: false, error: error instanceof Error ? error.message : String(error), runtime };
     }
 
-    // 先让服务记住运行时，网页即可立刻连上；插件只是增强路径。
-    await setRuntime(config, spec.id);
+    try {
+        await setRuntime(config, spec.id);
+    } catch (error) {
+        const message = String(error instanceof Error ? error.message : error);
+        // 端口上可能还挂着上次异常退出留下的服务（token 与配置不一致），清掉重来一次，用户只看到「连接中」。
+        if (!/invalid token|unauthorized|401/i.test(message)) {
+            return { ok: false, error: message, runtime: spec.id };
+        }
+        killListenerOnPort(config.url);
+        try {
+            fs.unlinkSync(CONFIG_FILE);
+        } catch {
+            /* 配置可能已不存在 */
+        }
+        await new Promise((resolve) => setTimeout(resolve, 800));
+        try {
+            config = await ensureServer();
+            await setRuntime(config, spec.id);
+        } catch (retryError) {
+            return { ok: false, error: String(retryError instanceof Error ? retryError.message : retryError), runtime: spec.id };
+        }
+    }
 
-    const mcp = ensureMcp(spec.id);
-    const fallback = !mcp.ok;
-    writePluginState(spec.id, mcp.ok, mcp.output);
-    if (fallback) fs.writeFileSync(path.join(CONFIG_DIR, "agent-fallback.log"), `${new Date().toISOString()}\n${mcp.output}\n`, { mode: 0o600 });
+    let mode = "runtime";
+    let detail = "";
+    if (spec.mode === "mcp") {
+        const mcp = ensureMcp(spec.id);
+        const verified = mcp.ok ? await verifyPlugin(spec.id) : { ok: false, output: mcp.output };
+        detail = verified.output || mcp.output || "";
+        if (verified.ok) mode = "plugin";
+        writePluginState(spec.id, verified.ok, detail);
+        if (!verified.ok) logFallback(spec.id, detail);
+    }
+    writeAgentConfig({ mode });
+
     return {
         ok: true,
         url: config.url,
         token: config.token,
         runtime: spec.id,
-        mode: fallback ? "cli" : spec.mode,
+        mode,
         started: config.started,
         cli: Boolean(cli),
         desktop: desktop.installed,
-        warning: !cli && desktop.installed ? `只检测到 ${spec.label} 桌面版，未找到命令行，插件未安装（已直接连通）` : fallback ? `${spec.label} 插件安装失败，已改用直接运行方式` : "",
+        warning: "",
+        detail,
     };
+}
+
+/** 降级只写本地日志，界面上不做打扰式提示。 */
+function logFallback(runtime, detail) {
+    try {
+        fs.mkdirSync(CONFIG_DIR, { recursive: true, mode: 0o700 });
+        fs.appendFileSync(path.join(CONFIG_DIR, "agent-fallback.log"), `${new Date().toISOString()} ${runtime} → runtime：${String(detail).replace(/\s+/g, " ").slice(0, 400)}\n`, { mode: 0o600 });
+    } catch {
+        /* 日志失败不影响连接 */
+    }
+}
+
+/**
+ * 软件启动时的静默校验。
+ * 上次用插件方式的，重新跑一次联通测试；不过就自动切运行时，用户完全无感。
+ */
+export async function revalidateConnection() {
+    const config = readAgentConfig();
+    const spec = RUNTIMES.find((item) => item.id === config.runtime);
+    if (!spec) return { ok: true, skipped: true, mode: "" };
+    let server;
+    try {
+        server = await ensureServer();
+    } catch (error) {
+        return { ok: false, error: error instanceof Error ? error.message : String(error), runtime: spec.id };
+    }
+    await setRuntime(server, spec.id).catch(() => {});
+    if (config.mode !== "plugin") {
+        writeAgentConfig({ mode: "runtime" });
+        return { ok: true, runtime: spec.id, mode: "runtime", switched: false };
+    }
+    const verified = await verifyPlugin(spec.id);
+    if (verified.ok) return { ok: true, runtime: spec.id, mode: "plugin", switched: false, detail: verified.output };
+    writePluginState(spec.id, false, verified.output);
+    logFallback(spec.id, verified.output);
+    writeAgentConfig({ mode: "runtime" });
+    return { ok: true, runtime: spec.id, mode: "runtime", switched: true, detail: verified.output };
 }
 
 /** 断开连接：退出 canvas-agent 以及它拉起的 Agent 子进程。 */
@@ -460,6 +675,7 @@ export function registerAgentHub(ipcMain) {
     ipcMain.handle("agent-hub:list", () => listRuntimes());
     ipcMain.handle("agent-hub:connect", (_event, runtime) => connectRuntime(String(runtime || "")));
     ipcMain.handle("agent-hub:disconnect", () => disconnectRuntime());
+    ipcMain.handle("agent-hub:revalidate", () => revalidateConnection().catch(() => ({ ok: false })));
 }
 
 /** 应用退出时一并收掉后台 Agent 服务，避免残留进程。 */

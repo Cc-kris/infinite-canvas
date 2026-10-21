@@ -30,5 +30,11 @@ contextBridge.exposeInMainWorld("infiniteCanvasDesktop", {
         list: () => ipcRenderer.invoke("agent-hub:list"),
         connect: (runtime) => ipcRenderer.invoke("agent-hub:connect", runtime),
         disconnect: () => ipcRenderer.invoke("agent-hub:disconnect"),
+        /** 0.25 主进程静默升级连接方式后通知界面刷新；返回取消订阅函数。 */
+        onChanged: (callback) => {
+            const listener = () => callback();
+            ipcRenderer.on("agent-hub:changed", listener);
+            return () => ipcRenderer.removeListener("agent-hub:changed", listener);
+        },
     },
 });

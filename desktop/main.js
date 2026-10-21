@@ -1,6 +1,6 @@
 import { app, BrowserWindow, ipcMain, Menu, shell } from "electron";
 
-import { registerAgentHub, stopAgentServerOnQuit } from "./agent-hub.js";
+import { registerAgentHub, revalidateConnection, stopAgentServerOnQuit } from "./agent-hub.js";
 import { spawn } from "node:child_process";
 import { createReadStream, createWriteStream, existsSync, statSync } from "node:fs";
 import { mkdtemp } from "node:fs/promises";
@@ -341,6 +341,18 @@ if (!gotLock) {
             log("continuing without the local proxy:", error);
         }
         await createWindow(proxyUrl);
+
+        // 上次选了插件方式的，开机静默验一次：不通就自动切运行时，不打扰用户。
+        setTimeout(() => {
+            void revalidateConnection()
+                .then(() => {
+                    // 界面可能已经打开，通知它重读一次，避免停留在旧的连接方式上。
+                    for (const win of BrowserWindow.getAllWindows()) {
+                        if (!win.isDestroyed()) win.webContents.send("agent-hub:changed");
+                    }
+                })
+                .catch((error) => log("agent revalidate failed:", error));
+        }, 1500);
 
         app.on("activate", () => {
             if (BrowserWindow.getAllWindows().length === 0) void createWindow(proxyUrl);

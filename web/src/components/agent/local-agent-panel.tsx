@@ -1372,9 +1372,6 @@ export function LocalAgentPanel({ embedded, headless, autoConnect }: { embedded?
                     connected={connected}
                     activity={activity}
                     connectError={connectError}
-                    onUrlChange={(url) => setAgentState({ url, connectError: "" })}
-                    onTokenChange={(token) => setAgentState({ token, connectError: "" })}
-                    onToggleEnabled={toggleAgentConnection}
                     onConnectWith={connectWithConfig}
                     onDisconnect={() => toggleAgentConnection({ silent: true })}
                 />

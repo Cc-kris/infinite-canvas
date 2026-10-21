@@ -18,14 +18,27 @@ type RuntimeCard = {
     mode: "mcp" | "bridge";
     plugin?: PluginState;
 };
-type HubState = { server: { running: boolean; url: string; token: string; error?: string }; runtime: string; runtimes: RuntimeCard[] };
+type ConnectionMode = "plugin" | "runtime" | "";
+type HubState = { server: { running: boolean; url: string; token: string; error?: string }; runtime: string; mode: ConnectionMode; runtimes: RuntimeCard[] };
+type ConnectResult = { ok: boolean; url?: string; token?: string; runtime?: string; mode?: ConnectionMode; error?: string };
 
-type DesktopBridge = { agentHub?: { list: () => Promise<HubState>; connect: (id: string) => Promise<{ ok: boolean; url?: string; token?: string; runtime?: string; error?: string; warning?: string }>; disconnect: () => Promise<{ ok: boolean }> } };
+type DesktopBridge = {
+    agentHub?: {
+        list: () => Promise<HubState>;
+        connect: (id: string) => Promise<ConnectResult>;
+        disconnect: () => Promise<{ ok: boolean }>;
+        onChanged?: (callback: () => void) => () => void;
+    };
+};
 const bridge = () => (window as unknown as { infiniteCanvasDesktop?: DesktopBridge }).infiniteCanvasDesktop?.agentHub;
 
 const ICONS: Record<RuntimeId, string> = { claude: "Claude Code", codex: "Codex", galley: "Galley" };
 
-/** 0.23：一键连接本地 Agent —— 三张卡片替代原来的手填地址流程。 */
+/**
+ * 0.25：本地 Agent 卡片。
+ * 连接只有两种真实形态：插件方式（Claude Code / Codex 装 MCP）与运行时方式（返回 url + token）。
+ * 桌面端点连接会先试插件，不通就自己切运行时——这里只负责展示结果，不提供任何手动兜底。
+ */
 export function AgentRuntimeCards({
     theme,
     url,
@@ -45,54 +58,44 @@ export function AgentRuntimeCards({
     const [state, setState] = useState<HubState | null>(null);
     const [busy, setBusy] = useState<string>("");
     const [error, setError] = useState("");
-    const [notice, setNotice] = useState("");
     const hub = bridge();
 
     const load = async () => {
+        if (!hub) {
+            setError(t("agent.connect.desktopOnly"));
+            return;
+        }
         try {
-            if (hub) {
-                setState(await hub.list());
-                setError("");
-                return;
-            }
-            const base = (url || "http://127.0.0.1:17371").replace(/\/$/, "");
-            const res = await fetch(`${base}/api/agent/runtimes`, { headers: token ? { "x-canvas-agent-token": token } : {} });
-            const body = await res.json();
-            if (!body?.ok) throw new Error(body?.error || "unavailable");
-            setState({ server: { running: true, url: base, token }, runtime: body.runtime || "", runtimes: body.runtimes || [] });
+            const next = await hub.list();
+            setState(next);
             setError("");
+            // 后台静默拉起服务后界面还拿着空的地址，这里补上，用户不需要点任何按钮。
+            if (next.server.running && next.server.url && next.server.token && (next.server.url !== url || next.server.token !== token)) {
+                onConnectWith(next.server.url, next.server.token);
+            }
         } catch (err) {
             setError(err instanceof Error ? err.message : String(err));
         }
     };
 
     // 地址或 token 就绪后重新探测：首帧可能还没拿到连接信息，不能只跑一次。
+    // 主进程静默切换连接方式后也会发事件，收到即重新读一次，界面跟着变。
     useEffect(() => {
         void load();
+        const off = bridge()?.onChanged?.(() => void load());
+        return () => off?.();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [url, token]);
 
+    /** 点连接：桌面端内部决定走插件还是运行时，成功后直接把可用连接交给面板。 */
     const connect = async (runtime: RuntimeCard) => {
         setBusy(runtime.id);
         setError("");
-        setNotice("");
         try {
-            if (hub) {
-                const result = await hub.connect(runtime.id);
-                if (!result.ok || !result.url || !result.token) throw new Error(result.error || t("agent.connect.connectFailed"));
-                if (result.warning) setNotice(result.warning);
-                onConnectWith(result.url, result.token);
-            } else {
-                const base = (url || "http://127.0.0.1:17371").replace(/\/$/, "");
-                const res = await fetch(`${base}/api/agent/runtime`, {
-                    method: "POST",
-                    headers: { "content-type": "application/json", ...(token ? { "x-canvas-agent-token": token } : {}) },
-                    body: JSON.stringify({ runtime: runtime.id }),
-                });
-                const body = await res.json();
-                if (!body?.ok) throw new Error(body?.error || t("agent.connect.connectFailed"));
-                onConnectWith(base, token);
-            }
+            if (!hub) throw new Error(t("agent.connect.desktopOnly"));
+            const result = await hub.connect(runtime.id);
+            if (!result.ok || !result.url || !result.token) throw new Error(result.error || t("agent.connect.connectFailed"));
+            onConnectWith(result.url, result.token);
             await load();
         } catch (err) {
             setError(err instanceof Error ? err.message : String(err));
@@ -101,23 +104,14 @@ export function AgentRuntimeCards({
         }
     };
 
-    /** 断开：桌面端会退出 Agent 进程；网页端同时清掉已建立的会话。 */
-    const disconnect = async (runtime: RuntimeCard) => {
-        setBusy(runtime.id);
+    /** 断开：桌面端会退出 Agent 进程。 */
+    const disconnect = async () => {
+        setBusy("disconnect");
         setError("");
-        setNotice("");
         try {
-            if (hub) {
-                const result = await hub.disconnect();
-                if (!result.ok) throw new Error(t("agent.connect.disconnectFailed"));
-            } else {
-                const base = (url || "http://127.0.0.1:17371").replace(/\/$/, "");
-                await fetch(`${base}/api/agent/runtime`, {
-                    method: "POST",
-                    headers: { "content-type": "application/json", ...(token ? { "x-canvas-agent-token": token } : {}) },
-                    body: JSON.stringify({ runtime: "" }),
-                });
-            }
+            if (!hub) throw new Error(t("agent.connect.desktopOnly"));
+            const result = await hub.disconnect();
+            if (!result.ok) throw new Error(t("agent.connect.disconnectFailed"));
             onDisconnect();
             await load();
         } catch (err) {
@@ -127,6 +121,8 @@ export function AgentRuntimeCards({
         }
     };
 
+    const modeLabel = (mode: ConnectionMode) => (mode === "plugin" ? t("agent.connect.modePlugin") : mode === "runtime" ? t("agent.connect.modeRuntime") : "");
+
     return (
         <div className="space-y-2">
             {state?.runtimes?.map((runtime) => {
@@ -134,7 +130,7 @@ export function AgentRuntimeCards({
                 // 识别来源：命令行与桌面版各自独立探测，两者都显示出来，避免「装了却说没装」。
                 const sources = [runtime.cliInstalled ? t("agent.connect.cliLabel") : "", runtime.desktop ? t("agent.connect.desktopLabel") : ""].filter(Boolean);
                 const detected = sources.length ? `${sources.join(" + ")}${runtime.version ? ` · ${runtime.version}` : ""}` : t("agent.connect.notInstalled");
-                const pluginText = runtime.plugin ? (runtime.plugin.ok ? t("agent.connect.pluginInstalled") : t("agent.connect.pluginFallback")) : "";
+                const pluginText = runtime.mode === "mcp" && runtime.plugin ? (runtime.plugin.ok ? t("agent.connect.pluginInstalled") : t("agent.connect.pluginFallback")) : "";
                 return (
                     <div key={runtime.id} className="flex items-center gap-3 rounded-lg border px-3 py-2.5" style={{ borderColor: active ? "#f97316" : theme.node.stroke, background: active ? "rgba(249,115,22,.08)" : "transparent" }}>
                         <div className="min-w-0 flex-1">
@@ -144,6 +140,14 @@ export function AgentRuntimeCards({
                             </div>
                             <div className="mt-0.5 flex items-center gap-1.5 truncate text-[11px] leading-4" style={{ color: theme.node.muted }}>
                                 <span style={{ color: active ? "#f97316" : undefined, fontWeight: active ? 600 : 400 }}>{active ? t("agent.connect.statusConnected") : t("agent.connect.statusDisconnected")}</span>
+                                {active && modeLabel(state.mode) ? (
+                                    <>
+                                        <span>·</span>
+                                        <span className="shrink-0" style={{ color: "#16a34a" }}>
+                                            {modeLabel(state.mode)}
+                                        </span>
+                                    </>
+                                ) : null}
                                 <span>·</span>
                                 <span className="truncate">{detected}</span>
                                 {pluginText ? (
@@ -156,7 +160,7 @@ export function AgentRuntimeCards({
                         </div>
                         <Tooltip title={!runtime.installed ? t("agent.connect.notInstalledHint") : ""}>
                             {active ? (
-                                <Button size="small" danger disabled={Boolean(busy)} loading={busy === runtime.id} icon={busy === runtime.id ? <Loader2 className="size-3.5" /> : <Power className="size-3.5" />} onClick={() => disconnect(runtime)}>
+                                <Button size="small" danger disabled={Boolean(busy)} loading={busy === "disconnect"} icon={busy === "disconnect" ? <Loader2 className="size-3.5" /> : <Power className="size-3.5" />} onClick={() => disconnect()}>
                                     {t("agent.connect.disconnect")}
                                 </Button>
                             ) : (
@@ -169,11 +173,6 @@ export function AgentRuntimeCards({
                 );
             })}
             {!state && !error ? <div className="text-xs" style={{ color: theme.node.muted }}>{t("agent.connect.detecting")}</div> : null}
-            {notice ? (
-                <div className="rounded-md border px-2.5 py-2 text-xs leading-5" style={{ borderColor: "rgba(249,115,22,.35)", color: "#b45309" }}>
-                    {notice}
-                </div>
-            ) : null}
             {error ? (
                 <div className="rounded-md border px-2.5 py-2 text-xs leading-5" style={{ borderColor: "rgba(220,38,38,.35)", color: "#dc2626" }}>
                     {error}

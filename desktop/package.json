@@ -1,114 +1,114 @@
 {
-  "name": "infinite-canvas-desktop",
-  "productName": "Infinite Canvas",
-  "version": "0.24.0",
-  "description": "无限画布桌面版：内置本地代理，开箱即用",
-  "author": {
-    "name": "Cc-kris",
-    "email": "Cc-kris@users.noreply.github.com"
-  },
-  "license": "MIT",
-  "type": "module",
-  "main": "main.js",
-  "private": true,
-  "scripts": {
-    "start": "electron .",
-    "build:agent": "node scripts/build-agent.mjs",
-    "build:web": "pnpm --dir ../web build",
-    "pack": "pnpm build:agent && pnpm build:web && electron-builder --dir",
-    "dist": "pnpm build:agent && pnpm build:web && electron-builder",
-    "dist:mac": "pnpm build:agent && pnpm build:web && electron-builder --mac",
-    "dist:win": "pnpm build:agent && pnpm build:web && electron-builder --win"
-  },
-  "devDependencies": {
-    "electron": "^38.2.0",
-    "electron-builder": "^26.0.12"
-  },
-  "build": {
-    "appId": "com.infinitecanvas.desktop",
+    "name": "infinite-canvas-desktop",
     "productName": "Infinite Canvas",
-    "copyright": "Copyright © 2025 basketikun",
-    "directories": {
-      "output": "release",
-      "buildResources": "build"
+    "version": "0.25.0",
+    "description": "无限画布桌面版：内置本地代理，开箱即用",
+    "author": {
+        "name": "Cc-kris",
+        "email": "Cc-kris@users.noreply.github.com"
     },
-    "files": [
-      "main.js",
-      "agent-hub.js",
-      "preload.cjs",
-      "package.json"
-    ],
-    "extraResources": [
-      {
-        "from": "../web/dist",
-        "to": "renderer"
-      },
-      {
-        "from": "../canvas-proxy/server.js",
-        "to": "proxy/server.js"
-      },
-      {
-        "from": "../canvas-proxy/package.json",
-        "to": "proxy/package.json"
-      },
-      {
-        "from": "agent",
-        "to": "agent"
-      }
-    ],
-    "mac": {
-      "category": "public.app-category.graphics-design",
-      "icon": "build/icon.icns",
-      "target": [
-        {
-          "target": "dmg",
-          "arch": [
-            "x64",
-            "arm64"
-          ]
-        }
-      ],
-      "identity": null,
-      "gatekeeperAssess": false
+    "license": "MIT",
+    "type": "module",
+    "main": "main.js",
+    "private": true,
+    "scripts": {
+        "start": "electron .",
+        "build:agent": "node scripts/build-agent.mjs",
+        "build:web": "pnpm --dir ../web build",
+        "pack": "pnpm build:agent && pnpm build:web && electron-builder --dir",
+        "dist": "pnpm build:agent && pnpm build:web && electron-builder",
+        "dist:mac": "pnpm build:agent && pnpm build:web && electron-builder --mac",
+        "dist:win": "pnpm build:agent && pnpm build:web && electron-builder --win"
     },
-    "dmg": {
-      "title": "Infinite Canvas ${version}",
-      "contents": [
-        {
-          "x": 140,
-          "y": 220
+    "devDependencies": {
+        "electron": "^38.2.0",
+        "electron-builder": "^26.0.12"
+    },
+    "build": {
+        "appId": "com.infinitecanvas.desktop",
+        "productName": "Infinite Canvas",
+        "copyright": "Copyright © 2025 basketikun",
+        "directories": {
+            "output": "release",
+            "buildResources": "build"
         },
-        {
-          "x": 400,
-          "y": 220,
-          "type": "link",
-          "path": "/Applications"
-        }
-      ]
-    },
-    "win": {
-      "icon": "build/icon.ico",
-      "target": [
-        {
-          "target": "nsis",
-          "arch": [
-            "x64"
-          ]
-        }
-      ],
-      "signAndEditExecutable": false
-    },
-    "nsis": {
-      "oneClick": false,
-      "perMachine": false,
-      "allowElevation": true,
-      "allowToChangeInstallationDirectory": true,
-      "createDesktopShortcut": true,
-      "createStartMenuShortcut": true,
-      "shortcutName": "Infinite Canvas",
-      "uninstallDisplayName": "Infinite Canvas",
-      "artifactName": "Infinite-Canvas-Setup-${version}-${arch}.${ext}"
-    },
-    "artifactName": "Infinite-Canvas-${version}-${os}-${arch}.${ext}"
-  }
+        "files": [
+            "main.js",
+            "agent-hub.js",
+            "preload.cjs",
+            "package.json"
+        ],
+        "extraResources": [
+            {
+                "from": "../web/dist",
+                "to": "renderer"
+            },
+            {
+                "from": "../canvas-proxy/server.js",
+                "to": "proxy/server.js"
+            },
+            {
+                "from": "../canvas-proxy/package.json",
+                "to": "proxy/package.json"
+            },
+            {
+                "from": "agent",
+                "to": "agent"
+            }
+        ],
+        "mac": {
+            "category": "public.app-category.graphics-design",
+            "icon": "build/icon.icns",
+            "target": [
+                {
+                    "target": "dmg",
+                    "arch": [
+                        "x64",
+                        "arm64"
+                    ]
+                }
+            ],
+            "identity": null,
+            "gatekeeperAssess": false
+        },
+        "dmg": {
+            "title": "Infinite Canvas ${version}",
+            "contents": [
+                {
+                    "x": 140,
+                    "y": 220
+                },
+                {
+                    "x": 400,
+                    "y": 220,
+                    "type": "link",
+                    "path": "/Applications"
+                }
+            ]
+        },
+        "win": {
+            "icon": "build/icon.ico",
+            "target": [
+                {
+                    "target": "nsis",
+                    "arch": [
+                        "x64"
+                    ]
+                }
+            ],
+            "signAndEditExecutable": false
+        },
+        "nsis": {
+            "oneClick": false,
+            "perMachine": false,
+            "allowElevation": true,
+            "allowToChangeInstallationDirectory": true,
+            "createDesktopShortcut": true,
+            "createStartMenuShortcut": true,
+            "shortcutName": "Infinite Canvas",
+            "uninstallDisplayName": "Infinite Canvas",
+            "artifactName": "Infinite-Canvas-Setup-${version}-${arch}.${ext}"
+        },
+        "artifactName": "Infinite-Canvas-${version}-${os}-${arch}.${ext}"
+    }
 }
