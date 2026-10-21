@@ -112,3 +112,11 @@
 ...[Truncated]...
 体所在，取 `window.infiniteCanvasDesktop.agentHub.list()/connect(runtime)`；app 自带 agent 监听 **17371**，token 从 `agentHub.connect()` 返回里拿。
 - 切换运行时后要 `location.reload()` 让 renderer 重新 bootstrap 才会更新文案；直接调 agentHub 不刷新 React 状态。首页默认不打开 Agent 面板，需先点 `[aria-label="收起 Agent"]/打开 Agent`，再点 `[role=tab][aria-label="对话"]`。
+
+## 发版：推 tag 就会自动出三件包，正文来自 desktop/RELEASE_NOTES.md
+- `git push origin desktop-vX.Y.Z` 即触发 `.github/workflows/desktop-release.yml`（"Desktop installers"，macos-14 + windows-latest 矩阵），
+  自动构建 **mac-arm64.dmg / mac-x64.dmg / Setup-x64.exe** 三件并上传到同名 Release（会覆盖本地手动上传的同名资产）。所以本机只需 `git tag` + push，不必自己传包。
+- **Release 正文由 `body_path: desktop/RELEASE_NOTES.md` 决定**：先手写 `gh release create --notes-file` 会被 CI 用该模板覆盖成上一版旧文案。
+  正确顺序：先改 `desktop/RELEASE_NOTES.md` 并提交 → 打 tag 推送；事后补救用 `gh release edit <tag> --notes-file desktop/RELEASE_NOTES.md`。
+- gh 在 /opt/homebrew/bin/gh，且所有命令要带 `-R Cc-kris/infinite-canvas`。GitHub 下载速度只有 ~37KB/s，109MB 的包别想着拉回来复验；
+  改用 `gh run view <id> --json headSha` 确认 CI 用的就是 tag 的 commit，再从日志 grep `[build-agent] canvas-agent` 证明 bundle 重新打过。
