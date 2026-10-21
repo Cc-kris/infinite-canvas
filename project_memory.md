@@ -106,3 +106,9 @@
 - 前端文案不要再硬编码 "Codex"：i18n key `agent.composer.selectModel/selectPermission`、`agent.panel.placeholder/initFailed`、`agent.composer.permission.automaticDescription` 已改为 `{{agent}}` 插值，调用点传 `agentRuntimeLabel()`（`web/src/lib/agent/agent-runtime-mode.ts`）。
 - 对话页 MCP 汇总行 `conversationBootstrapView`：services 为空时不渲染（否则会出现「0 个 MCP 服务已完成初始化」）。Galley 无模型选择（turn 不接收 model，`/agent/models` 返回 []，面板自动隐藏模型按钮）。
 - 本地 UI 验收套路：`vite build` 后用带 SPA fallback 的静态服务器（`python -m http.server` 会让 /canvas 404），页面 hash 传 `#agentUrl=...&agentToken=...` 自动连通；面板文本要取「对话框容器」innerText —— `aria-label="Agent 内容"` 其实是**标签栏**，聊天/技能内容在它的兄弟节点。
+
+## 打包 mac dmg + 对已打包 app 做 UI 验收（2026-10-21 实测）
+- 版本号只在 `desktop/package.json`（0.25.3）。打包：`cd desktop && CSC_IDENTITY_AUTO_DISCOVERY=false npx pnpm@10 exec electron-builder --mac dmg --arm64 --publish never -c.electronDist=/tmp/electron-dist`（`/tmp/electron-dist` 已有 Electron 38.8.6 解包目录；不给它就会去 GitHub 以 60KB/s 重下）。
+...[Truncated]...
+体所在，取 `window.infiniteCanvasDesktop.agentHub.list()/connect(runtime)`；app 自带 agent 监听 **17371**，token 从 `agentHub.connect()` 返回里拿。
+- 切换运行时后要 `location.reload()` 让 renderer 重新 bootstrap 才会更新文案；直接调 agentHub 不刷新 React 状态。首页默认不打开 Agent 面板，需先点 `[aria-label="收起 Agent"]/打开 Agent`，再点 `[role=tab][aria-label="对话"]`。
