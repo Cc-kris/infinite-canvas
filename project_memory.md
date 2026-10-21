@@ -76,3 +76,26 @@
 - canvas-agent 用 npm（`package-lock.json`），esbuild 0.28.1 在锁里，`build-agent.mjs` 靠它 `requireFromAgent.resolve("esbuild")`
 - 核对发布：`gh release view desktop-v0.23.0 -R Cc-kris/infinite-canvas --json assets --jq '.assets[]|.name'`；CI 内已自动验证 dmg 三件套（renderer/index.html、proxy/server.js、app.asar）与 Windows 安装向导的"选择安装位置"页
 - 0.23 资产：`Infinite-Canvas-0.23.0-mac-arm64.dmg` 108.1MB / `-mac-x64.dmg` 112.9MB / `Infinite-Canvas-Setup-0.23.0-x64.exe` 90.9MB
+
+## 0.25.1 图标修正（2026-10-21，用户反馈「界面 icon 换了但 app logo 还是旧版」）
+- 实测（像素比对，非猜测）：0.23–0.25 的 `desktop/build/icon.icns` **内容确实是 v2**，但排版是「图案缩到 824px + 1024 画布居中留 100px 透明边 + 自带 squircle」；macOS 26 会把这种带留白的图标**再套一层遮罩**，视觉上比界面 logo 小一圈，用户当成「没换」。
+- 正确做法：`icon.png` 直接由 v2 母图（1254²，本身满幅带圆角）缩到 1024 **铺满**，不内缩、不额外留白；iconset 10 档 → `iconutil -c icns`；`icon.ico` 同源出 16–256。
+- 校验手法：`iconutil -c iconset` 反解包 icns，与母图算灰度 MAE（满幅应 ≤1；内缩版是 4~5 且 alpha bbox 从 (100,100) 开始）；包内 `Contents/Resources/icon.icns` 与 `desktop/build/icon.icns` md5 必须一致（新图标 md5 `459fd932…`，1.87MB）。
+- 发布：0.25.1（commit `bfb0728`，tag `desktop-v0.25.1`），CI 两个 build job + release 全绿，资产 3 个（mac arm64 114MB / mac x64 119MB / win 95MB）。
+- 对比图（旧内缩 vs 新满幅）：`/Users/mac/Documents/GAdocs/infinite-canvas/icon-check/app-icon-before-after.png`；核查记录 `desktop/build/ICON_AUDIT.md`。
+
+## 0.25.2 Windows 三项 + 连接串行化（2026-10-21）
+
+- **升级仍弹「给谁安装/装哪里」**：`/S --force-run` 让 NSIS 自己从注册表猜位置与权限；旧装是 perMachine（`D:\Program Files\Infinite Canvas`）时静默分支不回退到既有路径，于是弹向导或另装一份到 `%LOCALAPPDATA%\Programs\Infinite Canvas`，用户点开的还是旧目录旧版本（这正是「升级了但图标/版本没变」的真因）。改法：`installOnWindows()` 用 `path.dirname(app.getPath("exe"))` 钉死原位覆盖，非 `%LOCALAPPDATA%` 加 `--allusers`，`net session` 判管理员，否则 `powershell Start-Process -Verb RunAs`；NSIS 硬约束 `/S` 大写、`/D=` 必须最后且不加引号。
+- **Codex 连上但用不了**（`initialize response: connection closed`）：`canvas-agent/src/agent/codex-client.ts` 生成 Codex 的 `mcp_servers."infinite-canvas"` 时没带 `env`。打包版 command 是 Electron 可执行文件本身，缺 `ELECTRON_RUN_AS_NODE=1` 会被当 GUI 拉起。实测带 env 手动跑 `canvas-agent.mjs mcp` → initialize/tools/list 全通，不带则被关。修完必须 `node scripts/build-agent.mjs` 重出 `desktop/agent/canvas-agent.mjs`（CI 也会重打，仓库里的 bundle 只是兜底）。
+- **Windows exe 图标不更新**：`win.signAndEditExecutable=false` 会整个跳过改写 exe 资源。改 true 后 CI 日志出现 `updating asar integrity executable resource executablePath=release\win-unpacked\Infinite Canvas.exe` 即为生效证据；另加 `extraResources: build/icon.ico → icon.ico`，BrowserWindow 在 win32 下设 `icon`。
+- **连接中其它卡片仍可点**：前端 `agent-runtime-cards.tsx` 已有 `disabled={Boolean(busy)}`；补主进程单飞：`connectRuntime` 内 `connectInFlight` 复用同一 Promise，实际流程移到 `runConnect(spec, runtime)`。
+- 发布：0.25.2（commit `0dad3a8`，tag `desktop-v0.25.2`，run 39567957971），三 job 全绿，资产 3 个（109MB / 114MB / 91MB）。
+- 校验心得：本机下 GitHub 资产只有 ~15KB/s（91MB 要 1.7 小时），**不要靠下载 exe 验证**；改用 CI 日志的 rcedit 行 + 本地像素比对（`build/icon.ico` 最大帧 vs `web/public/logo.png` MAE=0.43、alpha 覆盖 96.8%）。
+
+## 本机跑 electron-builder 的正确姿势（重要，别踩）
+- **坑1**：本机到 GitHub CDN 只有 ~60KB/s，electron-builder 若判定缓存未命中会重新下 111MB 运行时，日志停在 `packaging … downloading` 几十分钟看着像卡死（`lsof -p <pid>` 能看到 `->cdn-*.github.com:https` 才写得进几 MB）。
+- **坑2**：`code_run` 调用结束会连带杀掉它启动的子进程，所以本地打包必须 `nohup … > /tmp/x.log 2>&1 &` 后台跑，再轮询日志。
+- **正解（实测 15 秒出包）**：`unzip -q ~/Library/Caches/electron/c6eaac…/electron-v38.8.6-darwin-arm64.zip -d /tmp/electron-dist` 然后
+  `cd desktop && pnpm exec electron-builder --mac dir --arm64 --publish never -c.electronDist=/tmp/electron-dist`
+  产物在 `desktop/release/mac-arm64/Infinite Canvas.app`，用于校验包内资源，不必出 dmg。
