@@ -52957,7 +52957,7 @@ import os from "node:os";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 var DEFAULT_PORT = 17371;
-var CONFIG_DIR = path.join(os.homedir(), ".infinite-canvas");
+var CONFIG_DIR = process.env.CANVAS_AGENT_CONFIG_DIR || path.join(os.homedir(), ".infinite-canvas");
 var CONFIG_FILE = path.join(CONFIG_DIR, "canvas-agent.json");
 var VERSION = readPackageVersion();
 function readAgentPrompt() {
@@ -53105,55 +53105,6 @@ function errorMessage(error2) {
   return error2 instanceof Error ? error2.message : String(error2);
 }
 
-// ../canvas-agent/src/agent/claude.ts
-function runClaudeTurn(prompt, emit) {
-  const fullPrompt = withAgentPrompt(prompt);
-  if (!fullPrompt) return;
-  const child = spawnAgent("claude", ["-p", "--output-format", "stream-json", "--verbose", "--include-partial-messages", "--allowedTools", "mcp__infinite-canvas__*", fullPrompt], emit);
-  if (child) pipeJsonLines(child, emit, "claude");
-}
-function withAgentPrompt(prompt) {
-  return prompt.trim() ? `${AGENT_PROMPT}
-
-\u7528\u6237\u8BF7\u6C42\uFF1A${prompt}` : "";
-}
-function pipeJsonLines(child, emit, agent) {
-  let out = "";
-  const stderr = createAgentLogWriter((text2) => emit("agent_log", { text: text2 }));
-  child.stdout?.on("data", (chunk) => {
-    out += chunk.toString();
-    const lines = out.split(/\r?\n/);
-    out = lines.pop() || "";
-    lines.filter(Boolean).forEach((line) => {
-      try {
-        emit("agent_event", { agent, ...JSON.parse(line) });
-      } catch {
-        emit("agent_event", { agent, type: "raw", text: line });
-      }
-    });
-  });
-  child.stderr?.on("data", (chunk) => stderr.write(chunk.toString()));
-  child.on("error", (error2) => {
-    stderr.flush();
-    emit("agent_error", { message: error2.message });
-  });
-  child.on("close", (code) => {
-    stderr.flush();
-    emit("agent_done", { agent, code });
-  });
-}
-function spawnAgent(name, args, emit) {
-  try {
-    return spawn(name, args, { stdio: ["ignore", "pipe", "pipe"], shell: process.platform === "win32", windowsHide: true });
-  } catch (error2) {
-    emit("agent_error", { message: errorMessage(error2) });
-    return null;
-  }
-}
-
-// ../canvas-agent/src/agent/galley.ts
-import { spawn as spawn2 } from "node:child_process";
-
 // ../canvas-agent/src/agent/runtimes.ts
 import { spawnSync } from "node:child_process";
 import fs2 from "node:fs";
@@ -53237,7 +53188,248 @@ function isAgentRuntimeId(value) {
   return value === "claude" || value === "codex" || value === "galley";
 }
 
+// ../canvas-agent/src/agent/claude.ts
+var CLAUDE_THREAD_ID = "claude";
+var CLAUDE_BIN = process.env.CLAUDE_BIN || resolveCommand("claude") || "claude";
+var currentChild = null;
+var currentSessionId = "";
+function resetClaudeSession() {
+  currentSessionId = "";
+}
+function interruptClaudeTurn() {
+  const child = currentChild;
+  currentChild = null;
+  if (!child || child.killed) return false;
+  child.kill("SIGTERM");
+  return true;
+}
+function runClaudeTurn({ prompt, emit, model }) {
+  const fullPrompt = withAgentPrompt(prompt);
+  if (!fullPrompt) return;
+  const threadId = CLAUDE_THREAD_ID;
+  const turnId = `claude-${Date.now()}`;
+  emit("agent_event", { agent: "claude", threadId, turnId, type: "turn.started" });
+  const args = buildArgs(fullPrompt, model);
+  startChild(args, { emit, threadId, turnId }, 0);
+}
+function buildArgs(prompt, model) {
+  const args = ["-p", "--output-format", "stream-json", "--verbose", "--include-partial-messages", "--allowedTools", "mcp__infinite-canvas__*"];
+  if (model && model !== "default") args.push("--model", model);
+  if (currentSessionId) args.push("--resume", currentSessionId);
+  args.push(prompt);
+  return args;
+}
+function startChild(args, context, attempt) {
+  const state = createState(context);
+  const usedResume = args.includes("--resume");
+  let child;
+  try {
+    child = spawn(CLAUDE_BIN, args, { stdio: ["ignore", "pipe", "pipe"], windowsHide: true });
+  } catch (error2) {
+    context.emit("agent_error", { message: errorMessage(error2) });
+    context.emit("agent_event", { agent: "claude", threadId: context.threadId, turnId: context.turnId, type: "turn.completed", status: "failed", error: { message: errorMessage(error2) } });
+    return;
+  }
+  currentChild = child;
+  pipeJsonLines(child, state);
+  child.on("close", (code) => {
+    if (currentChild === child) currentChild = null;
+    state.flushLogs();
+    if (usedResume && attempt === 0 && !state.sawResult && !state.sawText) {
+      resetClaudeSession();
+      const retryArgs = args.filter((value, index) => value !== "--resume" && args[index - 1] !== "--resume");
+      startChild(retryArgs, context, attempt + 1);
+      return;
+    }
+    finishTurn(state, code);
+  });
+}
+function createState(context) {
+  const log = createAgentLogWriter((text2) => context.emit("agent_log", { text: text2 }));
+  return {
+    ...context,
+    textBlocks: /* @__PURE__ */ new Map(),
+    toolNames: /* @__PURE__ */ new Map(),
+    startedTools: /* @__PURE__ */ new Set(),
+    sawResult: false,
+    sawText: false,
+    resultText: "",
+    flushLogs: () => log.flush(),
+    writeLog: (text2) => log.write(text2)
+  };
+}
+function pipeJsonLines(child, state) {
+  let buffer = "";
+  child.stdout?.on("data", (chunk) => {
+    buffer += chunk.toString();
+    const lines = buffer.split(/\r?\n/);
+    buffer = lines.pop() || "";
+    lines.filter(Boolean).forEach((line) => {
+      try {
+        handleClaudeMessage(JSON.parse(line), state);
+      } catch {
+        state.emit("agent_log", { text: line });
+      }
+    });
+  });
+  child.stderr?.on("data", (chunk) => state.writeLog(chunk.toString()));
+  child.on("error", (error2) => {
+    state.flushLogs();
+    state.emit("agent_error", { message: `\u65E0\u6CD5\u542F\u52A8 claude\uFF1A${error2.message}` });
+  });
+}
+function handleClaudeMessage(payload, state) {
+  const type = String(payload.type || "");
+  if (type === "system" && payload.subtype === "init") {
+    onInit(payload, state);
+    return;
+  }
+  if (type === "stream_event") {
+    onStreamEvent(payload.event, state);
+    return;
+  }
+  if (type === "assistant") {
+    const message = payload.message;
+    (message?.content || []).forEach((block, index) => onAssistantBlock(block, index, message?.id || "", state));
+    return;
+  }
+  if (type === "user") {
+    const message = payload.message;
+    (message?.content || []).forEach((block) => onToolResult(block, state));
+    return;
+  }
+  if (type === "result") onResult(payload, state);
+}
+function onInit(payload, state) {
+  const sessionId = String(payload.session_id || "");
+  if (sessionId) currentSessionId = sessionId;
+  const servers = Array.isArray(payload.mcp_servers) ? payload.mcp_servers : [];
+  servers.forEach((server) => {
+    const name = String(server.name || "");
+    if (!name) return;
+    const status = String(server.status || "");
+    state.emit("agent_bootstrap", {
+      type: "mcp.startup",
+      phase: "preheat",
+      threadId: state.threadId,
+      name,
+      status: status === "connected" ? "ready" : status === "failed" ? "failed" : "starting",
+      error: status === "failed" ? "MCP \u670D\u52A1\u672A\u8FDE\u63A5" : null
+    });
+  });
+  state.emit("agent_log", { text: `Claude session ${sessionId || "-"} \xB7 ${servers.length} MCP` });
+}
+function onStreamEvent(event, state) {
+  if (!event) return;
+  const index = Number(event.index) || 0;
+  if (event.type === "content_block_start") {
+    const block = event.content_block;
+    if (block?.type === "tool_use" && block.id) startTool(block.id, String(block.name || ""), state);
+    return;
+  }
+  if (event.type !== "content_block_delta") return;
+  const delta = event.delta;
+  if (delta?.type !== "text_delta" || !delta.text) return;
+  const id = textBlockId(index, state);
+  state.textBlocks.get(index).chars += delta.text.length;
+  state.sawText = true;
+  state.emit("agent_event", { agent: "claude", threadId: state.threadId, turnId: state.turnId, type: "item.updated", item: { id, type: "agent_message", delta: delta.text } });
+}
+function onAssistantBlock(block, index, messageId, state) {
+  if (block.type === "text") {
+    const text2 = String(block.text || "");
+    const streamed = state.textBlocks.get(index);
+    if (!text2.trim() && !streamed?.chars) return;
+    const id = streamed && streamed.chars ? streamed.id : `claude-msg-${messageId || state.turnId}-${index}`;
+    state.sawText = true;
+    state.emit("agent_event", { agent: "claude", threadId: state.threadId, turnId: state.turnId, type: "item.completed", item: { id, type: "agent_message", text: text2 } });
+    return;
+  }
+  if (block.type === "tool_use" && block.id) startTool(block.id, String(block.name || ""), state);
+}
+function startTool(id, name, state) {
+  state.toolNames.set(id, name);
+  if (state.startedTools.has(id)) return;
+  state.startedTools.add(id);
+  state.emit("agent_event", {
+    agent: "claude",
+    threadId: state.threadId,
+    turnId: state.turnId,
+    type: "item.started",
+    item: { id, type: "mcp_tool_call", tool: name, arguments: {}, status: "inProgress" }
+  });
+}
+function onToolResult(block, state) {
+  if (block.type !== "tool_result" || !block.tool_use_id) return;
+  const id = block.tool_use_id;
+  const name = state.toolNames.get(id) || "";
+  const result = toolResultText(block.content);
+  const failed = Boolean(block.is_error);
+  state.emit("agent_event", {
+    agent: "claude",
+    threadId: state.threadId,
+    turnId: state.turnId,
+    type: "item.completed",
+    item: { id, type: "mcp_tool_call", tool: name, status: failed ? "failed" : "completed", result, ...failed ? { error: { message: result || "\u5DE5\u5177\u6267\u884C\u5931\u8D25" } } : {} }
+  });
+}
+function onResult(payload, state) {
+  state.sawResult = true;
+  state.resultText = String(payload.result || "");
+  const usage = payload.usage;
+  if (usage) {
+    state.emit("agent_event", {
+      agent: "claude",
+      threadId: state.threadId,
+      turnId: state.turnId,
+      type: "usage.updated",
+      usage: { input_tokens: usage.input_tokens || 0, cached_input_tokens: usage.cache_read_input_tokens || 0, output_tokens: usage.output_tokens || 0 }
+    });
+  }
+  const failed = String(payload.subtype || "") !== "success" && String(payload.subtype || "") !== "" ? String(payload.subtype || "") : "";
+  if (failed) {
+    state.emit("agent_event", { agent: "claude", threadId: state.threadId, turnId: state.turnId, type: "turn.completed", status: "failed", error: { message: state.resultText || failed } });
+    return;
+  }
+  if (!state.sawText && state.resultText.trim()) {
+    state.emit("agent_event", { agent: "claude", threadId: state.threadId, turnId: state.turnId, type: "item.completed", item: { id: `claude-${state.turnId}-final`, type: "agent_message", text: state.resultText } });
+  }
+  state.emit("agent_event", { agent: "claude", threadId: state.threadId, turnId: state.turnId, type: "turn.completed", status: "completed" });
+}
+function finishTurn(state, code) {
+  if (!state.sawResult) {
+    const failed = code !== 0;
+    if (failed && !state.sawText) {
+      state.emit("agent_error", { message: `Claude \u9000\u51FA\u7801 ${code ?? -1}\uFF0C\u8BF7\u68C0\u67E5 claude CLI \u662F\u5426\u53EF\u7528` });
+    }
+    state.emit("agent_event", { agent: "claude", threadId: state.threadId, turnId: state.turnId, type: "turn.completed", status: failed ? "failed" : "completed", ...failed ? { error: { message: `Claude \u9000\u51FA\u7801 ${code ?? -1}` } } : {} });
+  }
+  state.emit("agent_done", { agent: "claude", code });
+}
+function textBlockId(index, state) {
+  const existing = state.textBlocks.get(index);
+  if (existing) return existing.id;
+  const id = `claude-${state.turnId}-text-${index}`;
+  state.textBlocks.set(index, { id, chars: 0 });
+  return id;
+}
+function toolResultText(content) {
+  if (typeof content === "string") return content;
+  if (!Array.isArray(content)) return content ? JSON.stringify(content) : "";
+  return content.map((item) => {
+    const block = item;
+    if (block?.type === "text") return String(block.text || "");
+    return "";
+  }).filter(Boolean).join("\n");
+}
+function withAgentPrompt(prompt) {
+  return prompt.trim() ? `${AGENT_PROMPT}
+
+\u7528\u6237\u8BF7\u6C42\uFF1A${prompt}` : "";
+}
+
 // ../canvas-agent/src/agent/galley.ts
+import { spawn as spawn2 } from "node:child_process";
 var GALLEY_BIN = process.env.GALLEY_BIN || resolveCommand("galley") || "galley";
 var POLL_INTERVAL_MS = 1500;
 var TIMEOUT_MS = Number(process.env.GALLEY_TURN_TIMEOUT_MS) || 15 * 60 * 1e3;
@@ -53278,9 +53470,11 @@ ${OPS_PROTOCOL}
       type: "item.completed",
       item: { id: `galley-${Date.now()}`, type: "agent_message", text: clean }
     });
+    emit("agent_event", { agent: "galley", threadId, turnId, type: "turn.completed", status: "completed" });
     emit("agent_done", { agent: "galley", code: 0 });
   } catch (error2) {
     emit("agent_error", { message: errorMessage(error2) });
+    emit("agent_event", { agent: "galley", threadId, turnId, type: "turn.completed", status: "failed", error: { message: errorMessage(error2) } });
     emit("agent_done", { agent: "galley", code: 1 });
   }
 }
@@ -53332,6 +53526,40 @@ function extractOps(text2) {
     return "";
   });
   return { clean: clean.trim(), ops };
+}
+
+// ../canvas-agent/src/agent/runtime-mcp.ts
+import { execFile } from "node:child_process";
+var CLAUDE_BIN2 = process.env.CLAUDE_BIN || resolveCommand("claude") || "claude";
+var ANSI = /\u001b\[[0-9;]*m/g;
+function runClaude(argv, timeoutMs = 3e4) {
+  return new Promise((resolve, reject) => {
+    execFile(CLAUDE_BIN2, argv, { timeout: timeoutMs, maxBuffer: 8 * 1024 * 1024, env: process.env }, (error2, stdout, stderr) => {
+      const text2 = `${stdout || ""}${stderr || ""}`.trim();
+      if (text2) return resolve(text2);
+      if (error2) return reject(error2);
+      resolve(text2);
+    });
+  });
+}
+function parseClaudeMcpList(text2) {
+  const servers = [];
+  for (const raw of text2.split(/\r?\n/)) {
+    const line = raw.replace(ANSI, "").trim();
+    const head = line.match(/^([^:]+):\s+(.+)$/);
+    if (!head) continue;
+    const name = head[1].trim();
+    const rest = head[2];
+    const mark = rest.match(/(✔|✓|✘|✗)\s*(.*)$/);
+    const ready = mark ? /^[✔✓]$/.test(mark[1]) : false;
+    const detail = (mark ? mark[2] : rest).replace(/^[—-]\s*/, "").trim();
+    servers.push({ name, status: ready ? "ready" : "failed", detail: detail || (ready ? "\u5DF2\u8FDE\u63A5" : "\u8FDE\u63A5\u5931\u8D25") });
+  }
+  return servers;
+}
+async function listClaudeMcpServers() {
+  const output = await runClaude(["mcp", "list"]);
+  return parseClaudeMcpList(output);
 }
 
 // ../canvas-agent/src/agent/codex.ts
@@ -60587,11 +60815,11 @@ function positiveNumber(value, fallback) {
 }
 
 // ../canvas-agent/src/version-check.ts
-import { execFile, execFileSync } from "node:child_process";
+import { execFile as execFile2, execFileSync } from "node:child_process";
 import { createRequire as createRequire2 } from "node:module";
 import { promisify } from "node:util";
 var require3 = createRequire2(import.meta.url);
-var execFileAsync = promisify(execFile);
+var execFileAsync = promisify(execFile2);
 function bundledCodexVersion() {
   try {
     return String(require3("@openai/codex/package.json").version);
@@ -61057,6 +61285,20 @@ function startHttpServer() {
   };
   let draftThreadStart = null;
   let skillDraftRunning = false;
+  const startBridgeTurn = (runtime, prompt, model, clientId) => {
+    const threadId = runtime;
+    session.bindClient(clientId);
+    session.activateConversation(threadId, clientId || void 0);
+    session.markConversationRunning(threadId);
+    const bridgeEmit = (type, payload) => {
+      emit(type, payload);
+      const value = payload && typeof payload === "object" && !Array.isArray(payload) ? payload : {};
+      if (type === "agent_done" || type === "agent_event" && value.type === "turn.completed") session.finishConversationRun(threadId);
+    };
+    if (runtime === "claude") runClaudeTurn({ prompt, emit: bridgeEmit, model });
+    else void runGalleyTurn({ prompt, emit: bridgeEmit, callTool: (name, input) => session.callTool(name, input) });
+    return threadId;
+  };
   const prepareDraftThread = (clientId, permission) => {
     if (draftThreadStart) return draftThreadStart;
     const workspace = ensureSiteWorkspace(config2);
@@ -61119,7 +61361,10 @@ function startHttpServer() {
     next();
   });
   app.get("/health", (_req, res) => res.json(session.health()));
-  app.get("/config", (_req, res) => res.json({ ok: true, protocolVersion: AGENT_PROTOCOL_VERSION, url: config2.url, hasToken: true }));
+  app.get("/config", (_req, res) => {
+    const runtime = config2.runtime || "";
+    res.json({ ok: true, protocolVersion: AGENT_PROTOCOL_VERSION, url: config2.url, hasToken: true, runtime, mode: bridgeRuntime(runtime) ? "bridge" : "mcp", runtimeLabel: runtimeLabel(runtime) });
+  });
   app.use((req, res, next) => {
     if (validToken(req, requestUrl(req, config2), config2.token)) return next();
     res.status(401).json({ ok: false, error: "invalid token" });
@@ -61173,6 +61418,65 @@ function startHttpServer() {
     res.json({ ok: true, workspace, conversation: session.conversationStateSnapshot });
   });
   app.get("/agent/codex/models", route(async (_req, res) => res.json({ ok: true, ...await listCodexModels(emit) })));
+  app.get("/agent/session", (req, res) => {
+    const runtime = config2.runtime || "";
+    if (!bridgeRuntime(runtime)) return res.status(409).json({ ok: false, error: "\u5F53\u524D\u8FD0\u884C\u65F6\u4F7F\u7528 Codex \u539F\u751F\u4F1A\u8BDD" });
+    const clientId = String(req.query.clientId || "");
+    const threadId = session.conversationStateSnapshot.threadId || runtime;
+    res.json({ ok: true, runtime, conversation: session.conversationStateSnapshot, workspace: { ...ensureSiteWorkspace(config2), activeThreadId: threadId }, clientId });
+  });
+  app.post("/agent/session/reset", (req, res) => {
+    const runtime = config2.runtime || "";
+    if (!bridgeRuntime(runtime)) return res.status(409).json({ ok: false, error: "\u5F53\u524D\u8FD0\u884C\u65F6\u4F7F\u7528 Codex \u539F\u751F\u4F1A\u8BDD" });
+    const clientId = String(req.body?.clientId || "");
+    if (runtime === "claude") resetClaudeSession();
+    const threadId = runtime;
+    const conversation = session.activateConversation(threadId, clientId || void 0);
+    const workspace = { ...ensureSiteWorkspace(config2), activeThreadId: threadId };
+    res.json({ ok: true, runtime, threadId, conversation, workspace });
+  });
+  app.get("/agent/models", route(async (_req, res) => {
+    const runtime = config2.runtime || "";
+    if (runtime === "codex" || !runtime) return res.json({ ok: true, runtime: "codex", ...await listCodexModels(emit) });
+    res.json({ ok: true, runtime, data: runtime === "claude" ? CLAUDE_MODELS : [] });
+  }));
+  app.get("/agent/skills", route(async (req, res) => {
+    const runtime = config2.runtime || "";
+    if (runtime === "codex" || !runtime) {
+      const workspace = ensureSiteWorkspace(config2);
+      const result = await listCodexSkills(emit, workspace.workspacePath, String(req.query.forceReload || "") === "1");
+      return res.json({ ok: true, runtime: "codex", supported: true, data: result.skills.map((skill) => ({ ...skill, managed: skillStore.isManagedPath(skill.path) })), errors: result.errors });
+    }
+    res.json({ ok: true, runtime, supported: false, data: [], reason: `${runtimeLabel(runtime)} \u4F7F\u7528\u81EA\u5DF1\u7684\u6280\u80FD\u76EE\u5F55\uFF0C\u6682\u4E0D\u652F\u6301\u5728\u753B\u5E03\u4FA7\u7BA1\u7406` });
+  }));
+  app.get("/agent/mcp", route(async (_req, res) => {
+    const runtime = config2.runtime || "codex";
+    if (runtime === "claude") {
+      try {
+        const servers = await listClaudeMcpServers();
+        return res.json({ ok: true, runtime, supported: true, servers });
+      } catch (error2) {
+        return res.json({ ok: true, runtime, supported: false, servers: [], reason: `\u8BFB\u53D6 ${runtimeLabel(runtime)} MCP \u6E05\u5355\u5931\u8D25\uFF1A${error2 instanceof Error ? error2.message : String(error2)}` });
+      }
+    }
+    res.json({
+      ok: true,
+      runtime,
+      supported: false,
+      servers: [],
+      reason: runtime === "galley" ? "Galley \u8FD0\u884C\u65F6\u7684 MCP \u670D\u52A1\u7531\u684C\u9762\u7248\u7BA1\u7406\uFF0C\u753B\u5E03\u4FA7\u6682\u4E0D\u53EF\u8BFB" : "Codex \u8FD0\u884C\u65F6\u7684 MCP \u6E05\u5355\u7531 Codex \u4F1A\u8BDD\u81EA\u884C\u4E0A\u62A5"
+    });
+  }));
+  app.post("/agent/interrupt", route(async (req, res) => {
+    const runtime = config2.runtime || "";
+    if (runtime === "codex" || !runtime) {
+      const ok2 = await interruptCodexTurn(skillDraftRunning ? void 0 : String(req.body?.threadId || ""));
+      return res.status(ok2 ? 200 : 409).json({ ok: ok2, ...ok2 ? {} : { error: "\u5F53\u524D\u6CA1\u6709\u53EF\u505C\u6B62\u7684\u4EFB\u52A1" } });
+    }
+    const ok = runtime === "claude" ? interruptClaudeTurn() : false;
+    if (ok) session.finishConversationRun(session.conversationStateSnapshot.threadId);
+    res.status(ok ? 200 : 409).json({ ok, ...ok ? {} : { error: "\u5F53\u524D\u6CA1\u6709\u53EF\u505C\u6B62\u7684\u4EFB\u52A1" } });
+  }));
   app.get("/agent/codex/skills", route(async (req, res) => {
     const workspace = ensureSiteWorkspace(config2);
     const result = await listCodexSkills(emit, workspace.workspacePath, String(req.query.forceReload || "") === "1");
@@ -61298,10 +61602,7 @@ function startHttpServer() {
     if (runtime === "claude" || runtime === "galley") {
       const messageId2 = String(req.body?.messageId || Date.now());
       await messageMetadataStore.recordPending(messageId2, req.body?.messageMetadata);
-      session.bindClient(clientId);
-      const threadId2 = workspace.activeThreadId || "";
-      if (runtime === "claude") runClaudeTurn(prompt, emit);
-      else void runGalleyTurn({ prompt, emit, callTool: (name, input) => session.callTool(name, input) });
+      const threadId2 = startBridgeTurn(runtime, prompt, String(req.body?.model || "") || void 0, clientId);
       return res.json({ ok: true, threadId: threadId2, runtime });
     }
     const requestedThreadId = String(req.body?.threadId || "");
@@ -61426,7 +61727,7 @@ function startHttpServer() {
     res.status(ok ? 200 : 409).json({ ok, ...ok ? {} : { error: "\u5F53\u524D\u6CA1\u6709\u53EF\u505C\u6B62\u7684\u4EFB\u52A1" } });
   }));
   app.post("/agent/claude/turn", (req, res) => {
-    runClaudeTurn(String(req.body?.prompt || ""), emit);
+    runClaudeTurn({ prompt: String(req.body?.prompt || ""), emit, model: String(req.body?.model || "") || void 0 });
     res.json({ ok: true });
   });
   app.get("/api/agent/runtimes", (_req, res) => res.json({ ok: true, runtime: config2.runtime || "", runtimes: detectRuntimes() }));
@@ -61529,6 +61830,20 @@ function setCors(req, res, url, config2) {
   }
   res.setHeader("Vary", "Origin");
   return config2.origins.includes(origin);
+}
+var CLAUDE_MODELS = [
+  { id: "default", model: "default", displayName: "\u9ED8\u8BA4\u6A21\u578B", defaultReasoningEffort: "medium", supportedReasoningEfforts: [{ reasoningEffort: "low" }, { reasoningEffort: "medium" }, { reasoningEffort: "high" }], isDefault: true },
+  { id: "sonnet", model: "sonnet", displayName: "Claude Sonnet", defaultReasoningEffort: "medium", supportedReasoningEfforts: [{ reasoningEffort: "low" }, { reasoningEffort: "medium" }, { reasoningEffort: "high" }], isDefault: false },
+  { id: "opus", model: "opus", displayName: "Claude Opus", defaultReasoningEffort: "high", supportedReasoningEfforts: [{ reasoningEffort: "medium" }, { reasoningEffort: "high" }], isDefault: false },
+  { id: "haiku", model: "haiku", displayName: "Claude Haiku", defaultReasoningEffort: "low", supportedReasoningEfforts: [{ reasoningEffort: "low" }, { reasoningEffort: "medium" }], isDefault: false }
+];
+function bridgeRuntime(runtime) {
+  return runtime === "claude" || runtime === "galley";
+}
+function runtimeLabel(runtime) {
+  if (runtime === "claude") return "Claude Code";
+  if (runtime === "galley") return "Galley";
+  return "Codex";
 }
 function validToken(req, url, token) {
   const header = req.headers["x-canvas-agent-token"];

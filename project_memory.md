@@ -99,3 +99,10 @@
 - **正解（实测 15 秒出包）**：`unzip -q ~/Library/Caches/electron/c6eaac…/electron-v38.8.6-darwin-arm64.zip -d /tmp/electron-dist` 然后
   `cd desktop && pnpm exec electron-builder --mac dir --arm64 --publish never -c.electronDist=/tmp/electron-dist`
   产物在 `desktop/release/mac-arm64/Infinite Canvas.app`，用于校验包内资源，不必出 dmg。
+
+## Agent 运行时（Claude Code / Galley）相关事实（2026-10-21）
+- 运行时切换：`POST /api/agent/runtime?token=<t>` body `{"runtime":"claude|galley|codex"}`；**token 只能放 query**（放 header 会报 invalid token）。查询用 `GET /api/agent/runtimes`、`GET /config`（含 runtime/runtimeLabel）。
+- MCP 清单：`GET /agent/mcp?token=` 返回 `{runtime,supported,servers[{name,status,detail}],reason}`。Claude 走 `claude mcp list`（输出形如 `name: cmd - ✔ Connected`，失败时也是非零退出但正文有效）；Galley 明确 supported:false（MCP 由桌面版管理）。真实清单示例：ast-bro 失败(ENOENT)、infinite-canvas ready。
+- 前端文案不要再硬编码 "Codex"：i18n key `agent.composer.selectModel/selectPermission`、`agent.panel.placeholder/initFailed`、`agent.composer.permission.automaticDescription` 已改为 `{{agent}}` 插值，调用点传 `agentRuntimeLabel()`（`web/src/lib/agent/agent-runtime-mode.ts`）。
+- 对话页 MCP 汇总行 `conversationBootstrapView`：services 为空时不渲染（否则会出现「0 个 MCP 服务已完成初始化」）。Galley 无模型选择（turn 不接收 model，`/agent/models` 返回 []，面板自动隐藏模型按钮）。
+- 本地 UI 验收套路：`vite build` 后用带 SPA fallback 的静态服务器（`python -m http.server` 会让 /canvas 404），页面 hash 传 `#agentUrl=...&agentToken=...` 自动连通；面板文本要取「对话框容器」innerText —— `aria-label="Agent 内容"` 其实是**标签栏**，聊天/技能内容在它的兄弟节点。
