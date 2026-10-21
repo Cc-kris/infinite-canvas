@@ -25,6 +25,18 @@
 ## 当前发布
 - `desktop-v0.21.0`：mac arm64 dmg 110MB / mac x64 dmg 115MB / win x64 setup 94.7MB，三平台 job + 两项安装验证全绿
 
+## 0.24 修复合集（2026-10-21，release desktop-v0.24.0）
+- **更新不再二次询问安装位置**：`desktop/main.js` 的 `launchInstaller` 在 win32 走 `spawn(filePath, ["/S", "--force-run"])`，静默覆盖安装并自动重启，复用注册表里的原有安装范围与目录（NSIS 模板自带 assisted/silent 分支，`/S` 即命中静默分支）
+- **退出崩溃**：`app.on("will-quit")` 里 `stopAgentServerOnQuit()` 与 `proxyServer/shellServer.close()` 全部包 try/catch，窗口/托盘已销毁时不再抛未捕获异常（用户报的 main.js:344 at App.emit）
+- **去掉 Windows 原生菜单**：`buildMenu` 非 darwin 直接 `Menu.setApplicationMenu(null)`，同时消掉「文件」空菜单和顶部空白行
+- **Agent 探测重写**：`desktop/agent-hub.js` 与 `canvas-agent/src/agent/runtimes.ts` 都不再依赖 `sh -lc command -v`，改为扫 PATH + 常见安装目录（win 拼 `.exe/.cmd`）；新增 `detectDesktopApp` 识别 `/Applications/*.app` 与 `Program Files`；`listRuntimes` 返回 `cliInstalled/desktop/desktopPath/version/plugin`
+- **一键连接**：`connectRuntime` = 探活/拉起内置 agent → 写 runtime → `ensureMcp` 装插件 → 返回 url+token；只有桌面版时降级为直接连通并给 warning。实测 codex 返回 `Added global MCP server 'infinite-canvas'.`
+- **连接面板**：删掉「方式一 / 方式二」整段，只留三张运行时卡片 + 网页连接兜底；卡片显示「CLI / 桌面版 + 版本 + 插件已装」
+- **首帧 403 坑**：canvas-agent `setCors` 只有 token 校验通过才把新 origin 写进白名单，面板首次 fetch 可能 403 导致卡片整块不渲染 → `agent-runtime-cards.tsx` 的 `load()` 依赖改为 `[url, token]`，连接信息就绪后自动重探
+- **logo**：`web/public/logo.png`（256px，由 GAdocs/generated_images/infinite-canvas-logo-v2.png 生成）+ 顶栏用 `<img>`、`index.html` favicon 指向 png；app 图标仍用 v2 生成的 icns
+- 版本号来源：根目录 `VERSION`（vite `__APP_VERSION__`）+ `desktop/package.json`，两处必须一起改，CI 也会按 tag 覆写
+- 实测手段：用 `node --import` 钩子把 `electron` 换成桩，直接跑 `agent-hub.js` 的 `listRuntimes/connectRuntime`，绕开 GUI 验证真实探测链路
+
 ## 0.23 本地 Agent 三选一（2026-10-21）
 - 连接面板 `web/src/components/agent/agent-runtime-cards.tsx` 三卡：Claude Code / Codex / Galley；`GET /api/agent/runtimes` 返回 installed+version，`POST /api/agent/runtime` 选中运行时（写 `~/.infinite-canvas/canvas-agent.json` 的 `runtime`）
 - `canvas-agent/src/agent/runtimes.ts`：探测 claude / codex / galley；Galley CLI 不在 PATH，需读 `~/.config/galley/cli-path`
