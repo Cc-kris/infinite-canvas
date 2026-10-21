@@ -13,11 +13,12 @@
   "private": true,
   "scripts": {
     "start": "electron .",
+    "build:agent": "node scripts/build-agent.mjs",
     "build:web": "pnpm --dir ../web build",
-    "pack": "pnpm build:web && electron-builder --dir",
-    "dist": "pnpm build:web && electron-builder",
-    "dist:mac": "pnpm build:web && electron-builder --mac",
-    "dist:win": "pnpm build:web && electron-builder --win"
+    "pack": "pnpm build:agent && pnpm build:web && electron-builder --dir",
+    "dist": "pnpm build:agent && pnpm build:web && electron-builder",
+    "dist:mac": "pnpm build:agent && pnpm build:web && electron-builder --mac",
+    "dist:win": "pnpm build:agent && pnpm build:web && electron-builder --win"
   },
   "devDependencies": {
     "electron": "^38.2.0",

@@ -67,8 +67,13 @@ export class CodexAppClient {
 
     /** 启动并初始化 Codex app-server。 */
     static async start(emit: AgentEmit, onExit: () => void) {
-        logger.info("Starting Codex app-server", { executable: process.execPath, codex: codexBin() });
-        const child = spawn(process.execPath, [codexBin(), "app-server", "--stdio"], { stdio: ["pipe", "pipe", "pipe"], windowsHide: true });
+        const bin = codexBin();
+        logger.info("Starting Codex app-server", { executable: bin.endsWith(".js") || bin.endsWith(".mjs") || bin.endsWith(".cjs") ? process.execPath : bin, codex: bin });
+        // 打包分发时拿不到内置 codex 的入口，codexBin() 退化成命令名，直接执行命令本身。
+        const isScript = /\.(c|m)?js$/.test(bin);
+        const child = isScript
+            ? spawn(process.execPath, [bin, "app-server", "--stdio"], { stdio: ["pipe", "pipe", "pipe"], windowsHide: true })
+            : spawn(bin, ["app-server", "--stdio"], { stdio: ["pipe", "pipe", "pipe"], windowsHide: true, shell: process.platform === "win32" });
         const client = new CodexAppClient(child, emit);
         let stopped = false;
         const stop = () => {

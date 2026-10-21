@@ -2,6 +2,7 @@ import crypto from "node:crypto";
 import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
+import { fileURLToPath } from "node:url";
 
 export const DEFAULT_PORT = 17371;
 export const CONFIG_DIR = path.join(os.homedir(), ".infinite-canvas");
@@ -101,12 +102,26 @@ function resolveWorkspacePath(value: string) {
     return path.resolve(value);
 }
 
-/** 从当前包信息中读取 Canvas Agent 版本号。 */
+/**
+ * 从当前包信息中读取 Canvas Agent 版本号。
+ * 0.23：桌面端以单文件分发，构建时会把 package.json 写到产物同目录，
+ * 因此这里先看同目录再回退到上一级（源码运行）。
+ * 注意：分发路径可能含空格（Infinite Canvas.app），必须用 fileURLToPath 解码。
+ */
 function readPackageVersion() {
-    try {
-        const pkg = JSON.parse(fs.readFileSync(new URL("../package.json", import.meta.url), "utf8")) as { version?: string };
-        return pkg.version || "0.0.0";
-    } catch {
-        return "0.0.0";
+    const candidates = [
+        process.env.CANVAS_AGENT_VERSION || "",
+        fileURLToPath(new URL("./package.json", import.meta.url)),
+        fileURLToPath(new URL("../package.json", import.meta.url)),
+    ].filter(Boolean);
+    for (const candidate of candidates) {
+        if (/^\d+\.\d+\.\d+/.test(candidate)) return candidate;
+        try {
+            const pkg = JSON.parse(fs.readFileSync(candidate, "utf8")) as { version?: string };
+            if (pkg.version) return pkg.version;
+        } catch {
+            continue;
+        }
     }
+    return "0.0.0";
 }
