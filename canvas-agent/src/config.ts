@@ -5,7 +5,8 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 
 export const DEFAULT_PORT = 17371;
-export const CONFIG_DIR = path.join(os.homedir(), ".infinite-canvas");
+/** 0.25.3: 允许用环境变量切换配置目录，便于自动化测试时不碰用户真实配置。 */
+export const CONFIG_DIR = process.env.CANVAS_AGENT_CONFIG_DIR || path.join(os.homedir(), ".infinite-canvas");
 export const CONFIG_FILE = path.join(CONFIG_DIR, "canvas-agent.json");
 export const VERSION = readPackageVersion();
 /**

@@ -54,9 +54,11 @@ export async function runGalleyTurn({ prompt, emit, callTool }: GalleyTurnOption
             type: "item.completed",
             item: { id: `galley-${Date.now()}`, type: "agent_message", text: clean },
         });
+        emit("agent_event", { agent: "galley", threadId, turnId, type: "turn.completed", status: "completed" });
         emit("agent_done", { agent: "galley", code: 0 });
     } catch (error) {
         emit("agent_error", { message: errorMessage(error) });
+        emit("agent_event", { agent: "galley", threadId, turnId, type: "turn.completed", status: "failed", error: { message: errorMessage(error) } });
         emit("agent_done", { agent: "galley", code: 1 });
     }
 }

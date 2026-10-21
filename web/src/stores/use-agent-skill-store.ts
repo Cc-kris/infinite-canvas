@@ -17,6 +17,8 @@ type AgentSkillStore = {
     loading: boolean;
     loaded: boolean;
     errors: string[];
+    /** 当前运行时是否暴露可管理的技能；为空表示支持。 */
+    notice: string;
     loadSkills: (endpoint: string, token: string, forceReload?: boolean) => Promise<void>;
     selectSkill: (skill: AgentSkillSummary | null, prompt?: string) => void;
     clearSelection: (expectedRevision?: number) => void;
@@ -36,6 +38,7 @@ export const useAgentSkillStore = create<AgentSkillStore>((set, get) => ({
     loading: false,
     loaded: false,
     errors: [],
+    notice: "",
     loadSkills: async (endpoint, token, forceReload = false) => {
         const sequence = ++loadSequence;
         set({ loading: true });
@@ -51,10 +54,10 @@ export const useAgentSkillStore = create<AgentSkillStore>((set, get) => ({
             const autoPrompt = selectedSkill
                 ? replaceAutoPrompt(current.autoPrompt, selectedSkill.interface?.defaultPrompt?.trim() || `$${selectedSkill.name}`, false)
                 : "";
-            set({ skills, selectedSkill, autoPrompt, selectionRevision: current.selectionRevision + (selectionChanged ? 1 : 0), loading: false, loaded: true, errors: (response.errors || []).map(skillErrorText) });
+            set({ notice: response.supported === false ? String(response.reason || "") : "", skills, selectedSkill, autoPrompt, selectionRevision: current.selectionRevision + (selectionChanged ? 1 : 0), loading: false, loaded: true, errors: (response.errors || []).map(skillErrorText) });
         } catch (error) {
             if (sequence !== loadSequence) return;
-            set({ loading: false, loaded: true, errors: [error instanceof Error ? error.message : i18n.t("agent.state.skillReadFailed")] });
+            set({ loading: false, loaded: true, notice: "", errors: [error instanceof Error ? error.message : i18n.t("agent.state.skillReadFailed")] });
         }
     },
     selectSkill: (selectedSkill, prompt) => {

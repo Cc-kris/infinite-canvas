@@ -35,6 +35,7 @@ export function AgentSkillsView({ clientId }: { clientId: string }) {
     const loading = useAgentSkillStore((state) => state.loading);
     const loaded = useAgentSkillStore((state) => state.loaded);
     const errors = useAgentSkillStore((state) => state.errors);
+    const runtimeNotice = useAgentSkillStore((state) => state.notice);
     const draft = useAgentSkillStore((state) => state.draft);
     const generatingSource = useAgentSkillStore((state) => state.generatingSource);
     const loadSkills = useAgentSkillStore((state) => state.loadSkills);
@@ -350,7 +351,7 @@ export function AgentSkillsView({ clientId }: { clientId: string }) {
                     <div className="flex h-48 flex-col items-center justify-center text-center">
                         <Sparkles className="size-5" style={{ color: theme.node.faint }} />
                         <div className="mt-3 text-sm font-medium">{t(!connected ? "agent.skillManager.connectToView" : skills.length ? "agent.skillManager.noMatch" : "agent.skillManager.none")}</div>
-                        <div className="mt-1 text-xs" style={{ color: theme.node.muted }}>{t(!connected ? "agent.skillManager.connectDescription" : skills.length ? "agent.skillManager.tryAnotherFilter" : "agent.skillManager.createOrInstall")}</div>
+                        <div className="mt-1 text-xs" style={{ color: theme.node.muted }}>{!connected ? t("agent.skillManager.connectDescription") : skills.length ? t("agent.skillManager.tryAnotherFilter") : runtimeNotice || t("agent.skillManager.createOrInstall")}</div>
                     </div>
                 )}
             </div>

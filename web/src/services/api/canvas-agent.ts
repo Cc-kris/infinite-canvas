@@ -37,7 +37,7 @@ export type AgentSkillDetail = {
 export type AgentSkillInput = { name?: string; description: string; instructions: string; interface?: AgentSkillInterface | null; expectedRevision?: string };
 export type AgentSkillDraft = { name: string; displayName: string; description: string; instructions: string; shortDescription: string; defaultPrompt: string };
 export type AgentSkillDraftInput = { source: "conversation" | "canvas"; threadId: string; clientId: string; model?: string; effort?: AgentReasoningEffort };
-export type AgentSkillsResponse = { ok?: boolean; data?: AgentSkillSummary[]; errors?: unknown[] };
+export type AgentSkillsResponse = { ok?: boolean; data?: AgentSkillSummary[]; errors?: unknown[]; supported?: boolean; reason?: string };
 export type AgentSkillResponse = { ok?: boolean; data?: AgentSkillDetail };
 export type AgentSkillDraftResponse = { ok?: boolean; data?: AgentSkillDraft };
 
@@ -88,7 +88,31 @@ export function resolveAgentMessageAssetUrl(endpoint: string, token: string, val
 }
 
 export function fetchCodexSkills(endpoint: string, token: string, forceReload = false) {
-    return fetchAgentJson<AgentSkillsResponse>(endpoint, token, `/agent/codex/skills${forceReload ? "?forceReload=1" : ""}`);
+    return fetchAgentJson<AgentSkillsResponse>(endpoint, token, `/agent/skills${forceReload ? "?forceReload=1" : ""}`);
+}
+
+/** 运行时 MCP 服务状态：Claude 由 `claude mcp list` 提供，其余运行时可能不支持。 */
+export type AgentMcpResponse = { ok?: boolean; runtime?: string; supported?: boolean; servers?: Array<{ name: string; status: "ready" | "failed"; detail?: string }>; reason?: string };
+
+export function fetchAgentMcp(endpoint: string, token: string) {
+    return fetchAgentJson<AgentMcpResponse>(endpoint, token, "/agent/mcp");
+}
+
+export type AgentRuntimeConfigResponse = { ok?: boolean; runtime?: string; mode?: "bridge" | "mcp"; runtimeLabel?: string };
+
+/** 读取当前连接的运行时，用于决定会话、模型与技能走哪套接口。 */
+export function fetchAgentRuntimeConfig(endpoint: string, token: string) {
+    return fetchAgentJson<AgentRuntimeConfigResponse>(endpoint, token, "/config");
+}
+
+/** 非 Codex 运行时的「新对话」：只重置本地 CLI 会话上下文。 */
+export function resetAgentSession(endpoint: string, token: string, clientId: string) {
+    return fetchAgentJson<{ ok?: boolean; threadId?: string; conversation?: unknown; workspace?: unknown }>(endpoint, token, "/agent/session/reset", jsonPost({ clientId }));
+}
+
+/** 中断当前运行时任务，codex 与 CLI 运行时共用入口。 */
+export function interruptAgentTurn(endpoint: string, token: string, threadId?: string) {
+    return fetchAgentJson<{ ok?: boolean }>(endpoint, token, "/agent/interrupt", jsonPost({ threadId }));
 }
 
 export function fetchCodexSkill(endpoint: string, token: string, name: string) {
