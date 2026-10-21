@@ -61,3 +61,8 @@ export const canvasThemes = {
 } as const;
 
 export type CanvasTheme = (typeof canvasThemes)[CanvasColorTheme];
+
+/** 生图 / 视频工作台里「选中参数」的强调色（0.23 起统一为橙色）。 */
+export const SELECTED_ACCENT = "#f97316";
+/** 选中参数的浅色底，避免只有描边显得单薄。 */
+export const SELECTED_ACCENT_FILL = "rgba(249, 115, 22, 0.12)";

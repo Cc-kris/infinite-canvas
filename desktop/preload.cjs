@@ -25,4 +25,10 @@ contextBridge.exposeInMainWorld("infiniteCanvasDesktop", {
         return () => ipcRenderer.removeListener("update:progress", listener);
     },
     openExternal: (url) => ipcRenderer.invoke("shell:open-external", url),
+    /** 0.23 本地 Agent：列出 / 一键连接 / 断开。 */
+    agentHub: {
+        list: () => ipcRenderer.invoke("agent-hub:list"),
+        connect: (runtime) => ipcRenderer.invoke("agent-hub:connect", runtime),
+        disconnect: () => ipcRenderer.invoke("agent-hub:disconnect"),
+    },
 });

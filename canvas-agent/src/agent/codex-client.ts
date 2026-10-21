@@ -776,7 +776,9 @@ function turnCacheKey(threadId: string, turnId: string) {
 
 /** 生成 Codex 调用 Canvas Agent MCP 的启动命令。 */
 function canvasAgentMcpCommand() {
-    const current = process.argv.find((arg) => /index\.(t|j)s$/.test(arg)) || "";
+    // 桌面端把整个 canvas-agent 打成单文件分发，入口名不再是 index.js，
+    // 由主进程通过 CANVAS_AGENT_ENTRY 明确告知，子进程才能正确以 mcp 模式启动。
+    const current = process.env.CANVAS_AGENT_ENTRY || process.argv.find((arg) => /index\.(t|j)s$/.test(arg)) || "";
     const entry = path.resolve(current || fileURLToPath(new URL("../index.js", import.meta.url)));
     const tsx = path.join(path.dirname(entry), "..", "node_modules", "tsx", "dist", "cli.mjs");
     return entry.endsWith(".ts") ? { command: process.execPath, args: [tsx, entry, "mcp"] } : { command: process.execPath, args: [entry, "mcp"] };
@@ -894,7 +896,17 @@ function parseMaybeJson(value: unknown) {
     }
 }
 
-/** 定位当前依赖中 Codex CLI 的执行文件。 */
+/**
+ * 定位 Codex CLI 执行文件。
+ * 0.23：桌面端以单文件形式分发 canvas-agent，没有 node_modules，
+ * 因此按「显式环境变量 → 依赖解析 → PATH 上的全局 codex」依次回退。
+ */
 function codexBin() {
-    return path.join(path.dirname(require.resolve("@openai/codex/package.json")), "bin", "codex.js");
+    const override = process.env.CANVAS_AGENT_CODEX_BIN || "";
+    if (override) return override;
+    try {
+        return path.join(path.dirname(require.resolve("@openai/codex/package.json")), "bin", "codex.js");
+    } catch {
+        return "codex";
+    }
 }

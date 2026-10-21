@@ -7,7 +7,19 @@ import { logger } from "./utils/logger.js";
 
 const require = createRequire(import.meta.url);
 const execFileAsync = promisify(execFile);
-const CODEX_VERSION = String((require("@openai/codex/package.json") as { version: string }).version);
+/**
+ * 0.23：桌面端以单文件形式分发 canvas-agent，运行时并不存在 node_modules，
+ * 这里读不到内置 codex 版本时退化为空字符串，仅影响启动日志提示。
+ */
+function bundledCodexVersion(): string {
+    try {
+        return String((require("@openai/codex/package.json") as { version: string }).version);
+    } catch {
+        return "";
+    }
+}
+
+const CODEX_VERSION = bundledCodexVersion();
 
 /** 输出当前版本，并在后台检查 npm 最新版本。 */
 export function checkVersions() {

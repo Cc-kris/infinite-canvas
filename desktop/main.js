@@ -1,4 +1,6 @@
 import { app, BrowserWindow, ipcMain, Menu, shell } from "electron";
+
+import { registerAgentHub, stopAgentServerOnQuit } from "./agent-hub.js";
 import { spawn } from "node:child_process";
 import { createReadStream, createWriteStream, existsSync, statSync } from "node:fs";
 import { mkdtemp } from "node:fs/promises";
@@ -228,6 +230,9 @@ async function launchInstaller(filePath) {
 }
 
 function registerUpdateIpc() {
+    // 0.23: 本地 Agent 连接卡片（探测 CLI / 拉起服务 / 写入运行时）
+    registerAgentHub(ipcMain);
+
     ipcMain.handle("app:info", () => ({ version: app.getVersion(), platform: process.platform, arch: process.arch }));
 
     ipcMain.handle("shell:open-external", async (_event, url) => {
@@ -272,26 +277,10 @@ function registerUpdateIpc() {
     });
 }
 
+// 0.23: 应用菜单只保留系统级入口（macOS 应用菜单 / Windows 退出），
+// 不再出现「编辑 / 视图 / 窗口」，界面更干净，快捷键仍由页面自身处理。
 function buildMenu() {
-    const template = [
-        ...(process.platform === "darwin" ? [{ role: "appMenu", label: app.name }] : []),
-        {
-            label: "视图",
-            submenu: [
-                { role: "reload", label: "重新加载" },
-                { role: "forceReload", label: "强制重新加载" },
-                { role: "toggleDevTools", label: "开发者工具" },
-                { type: "separator" },
-                { role: "resetZoom", label: "实际大小" },
-                { role: "zoomIn", label: "放大" },
-                { role: "zoomOut", label: "缩小" },
-                { type: "separator" },
-                { role: "togglefullscreen", label: "全屏" },
-            ],
-        },
-        { role: "editMenu", label: "编辑" },
-        { role: "windowMenu", label: "窗口" },
-    ];
+    const template = process.platform === "darwin" ? [{ role: "appMenu", label: app.name }] : [{ label: "文件", submenu: [{ role: "quit", label: "退出" }] }];
     Menu.setApplicationMenu(Menu.buildFromTemplate(template));
 }
 
@@ -356,6 +345,8 @@ if (!gotLock) {
     });
 
     app.on("will-quit", () => {
+        // 0.23: 退出应用时一并结束由本应用拉起的 Agent 服务，桌面不留后台进程。
+        stopAgentServerOnQuit();
         proxyServer?.close();
         shellServer?.close();
     });

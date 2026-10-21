@@ -1,8 +1,8 @@
 {
   "name": "infinite-canvas-desktop",
   "productName": "Infinite Canvas",
-  "version": "0.22.0",
-  "description": "\u65e0\u9650\u753b\u5e03\u684c\u9762\u7248\uff1a\u5185\u7f6e\u672c\u5730\u4ee3\u7406\uff0c\u5f00\u7bb1\u5373\u7528",
+  "version": "0.23.0",
+  "description": "无限画布桌面版：内置本地代理，开箱即用",
   "author": {
     "name": "Cc-kris",
     "email": "Cc-kris@users.noreply.github.com"
@@ -26,13 +26,14 @@
   "build": {
     "appId": "com.infinitecanvas.desktop",
     "productName": "Infinite Canvas",
-    "copyright": "Copyright \u00a9 2025 basketikun",
+    "copyright": "Copyright © 2025 basketikun",
     "directories": {
       "output": "release",
       "buildResources": "build"
     },
     "files": [
       "main.js",
+      "agent-hub.js",
       "preload.cjs",
       "package.json"
     ],
@@ -48,6 +49,10 @@
       {
         "from": "../canvas-proxy/package.json",
         "to": "proxy/package.json"
+      },
+      {
+        "from": "agent",
+        "to": "agent"
       }
     ],
     "mac": {

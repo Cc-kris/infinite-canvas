@@ -945,6 +945,12 @@ export function LocalAgentPanel({ embedded, headless, autoConnect }: { embedded?
         setAgentState({ url: nextEndpoint, token: nextToken, enabled: true, connected: false, silentConnect: silent, fragmentBootstrap: false, activity: rt("connecting"), connectError: "", activeTab: "setup" });
     };
 
+    // 0.23 一键连接：卡片已经拿到可用的地址与令牌，直接进入连接流程。
+    const connectWithConfig = (nextUrl: string, nextToken: string) => {
+        errorLoggedRef.current = false;
+        setAgentState({ url: nextUrl.replace(/\/$/, ""), token: nextToken, enabled: true, connected: false, silentConnect: false, fragmentBootstrap: false, activity: rt("connecting"), connectError: "", activeTab: "setup" });
+    };
+
     useLayoutEffect(() => {
         const bootstrap = readAgentUrlBootstrap(hash);
         if (!bootstrap) return;
@@ -1369,6 +1375,8 @@ export function LocalAgentPanel({ embedded, headless, autoConnect }: { embedded?
                     onUrlChange={(url) => setAgentState({ url, connectError: "" })}
                     onTokenChange={(token) => setAgentState({ token, connectError: "" })}
                     onToggleEnabled={toggleAgentConnection}
+                    onConnectWith={connectWithConfig}
+                    onDisconnect={() => toggleAgentConnection({ silent: true })}
                 />
             ) : activeTab === "skills" ? (
                 <AgentSkillsView clientId={clientIdRef.current} />

@@ -4,6 +4,8 @@ import path from "node:path";
 import express, { type NextFunction, type Request, type Response } from "express";
 
 import { runClaudeTurn } from "../agent/claude.js";
+import { runGalleyTurn } from "../agent/galley.js";
+import { detectRuntimes, isAgentRuntimeId } from "../agent/runtimes.js";
 import { archiveCodexThread, CodexSkillLookupError, configureCodexSkill, generateCodexSkillDraft, interruptCodexTurn, isRecoverableThreadError, listCodexModels, listCodexSkills, listCodexThreads, readCodexThread, resolveCodexApproval, resolveCodexSkill, resumeCodexThread, runCodexTurn, startCodexThread, summarizeCodexThread } from "../agent/codex.js";
 import type { CodexReasoningEffort, CodexSkillSelector } from "../agent/codex-protocol.js";
 import { messageMetadataStore } from "../agent/message-metadata.js";
@@ -296,6 +298,18 @@ export function startHttpServer() {
         if (!prompt.trim()) return res.status(400).json({ ok: false, error: "请输入任务内容" });
         const clientId = String(req.body?.clientId || "");
         if (!clientId || !session.hasClient(clientId)) return res.status(409).json({ ok: false, error: "发起任务的网页已断开，请重新连接后再试" });
+        // 0.23: 用户在连接面板选了 Claude Code / Galley 时，同一入口按运行时分派，
+        // 网页端不需要区分后端，断线重连后行为也一致。
+        const runtime = config.runtime;
+        if (runtime === "claude" || runtime === "galley") {
+            const messageId = String(req.body?.messageId || Date.now());
+            await messageMetadataStore.recordPending(messageId, req.body?.messageMetadata);
+            session.bindClient(clientId);
+            const threadId = workspace.activeThreadId || "";
+            if (runtime === "claude") runClaudeTurn(prompt, emit);
+            else void runGalleyTurn({ prompt, emit, callTool: (name, input) => session.callTool(name, input) });
+            return res.json({ ok: true, threadId, runtime });
+        }
         const requestedThreadId = String(req.body?.threadId || "");
         const activeThreadId = workspace.activeThreadId || "";
         const conversation = session.conversationStateSnapshot;
@@ -424,6 +438,25 @@ export function startHttpServer() {
         runClaudeTurn(String(req.body?.prompt || ""), emit);
         res.json({ ok: true });
     });
+
+    /** 0.23: 列出本机可用的本地 Agent，供连接面板渲染卡片。 */
+    app.get("/api/agent/runtimes", (_req, res) => res.json({ ok: true, runtime: config.runtime || "", runtimes: detectRuntimes() }));
+
+    /** 0.23: 记录用户选中的运行时，刷新页面后仍能还原卡片状态。 */
+    app.post("/api/agent/runtime", (req, res) => {
+        const runtime = req.body?.runtime;
+        if (runtime && !isAgentRuntimeId(runtime)) return res.status(400).json({ ok: false, error: "unknown runtime" });
+        config.runtime = runtime || undefined;
+        saveConfig(config);
+        res.json({ ok: true, runtime: config.runtime || "" });
+    });
+
+    /** 0.23: Galley 运行时没有 MCP，由 canvas-agent 驱动会话并回传画布操作。 */
+    app.post("/agent/galley/turn", route(async (req, res) => {
+        if (session.codexBusy) return res.status(409).json({ ok: false, error: "Agent 正在运行，请稍后重试" });
+        await runGalleyTurn({ prompt: String(req.body?.prompt || ""), emit, callTool: (name, input) => session.callTool(name, input) });
+        res.json({ ok: true });
+    }));
     app.use((_req, res) => res.status(404).json({ ok: false, error: "not found" }));
     app.use((error: Error, req: Request, res: Response, _next: NextFunction) => {
         logger.error("HTTP request failed", { method: req.method, path: req.path, error });

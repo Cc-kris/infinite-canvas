@@ -7,11 +7,32 @@ export const DEFAULT_PORT = 17371;
 export const CONFIG_DIR = path.join(os.homedir(), ".infinite-canvas");
 export const CONFIG_FILE = path.join(CONFIG_DIR, "canvas-agent.json");
 export const VERSION = readPackageVersion();
-export const AGENT_PROMPT = fs.readFileSync(new URL("../agent-instructions.md", import.meta.url), "utf8");
+/**
+ * 0.23：桌面端把 canvas-agent 打成单文件分发，`import.meta.url` 指向打包产物，
+ * 说明文件可能位于同目录或上一级，这里按候选路径依次探测，源码运行与打包运行都能读到。
+ */
+function readAgentPrompt(): string {
+    const base = new URL(".", import.meta.url);
+    const candidates = [
+        process.env.CANVAS_AGENT_INSTRUCTIONS || "",
+        new URL("./agent-instructions.md", base).pathname,
+        new URL("../agent-instructions.md", base).pathname,
+    ].filter(Boolean);
+    for (const candidate of candidates) {
+        try {
+            return fs.readFileSync(candidate, "utf8");
+        } catch {
+            continue;
+        }
+    }
+    return "";
+}
+
+export const AGENT_PROMPT = readAgentPrompt();
 const initializedWorkspaces = new Set<string>();
 
 export type SiteWorkspaceConfig = { workspacePath: string; activeThreadId?: string; pinnedThreadIds?: string[] };
-export type CanvasAgentConfig = { url: string; token: string; origins?: string[]; workspace?: SiteWorkspaceConfig };
+export type CanvasAgentConfig = { url: string; token: string; origins?: string[]; workspace?: SiteWorkspaceConfig; /** 0.23: 用户在连接面板选中的本地 Agent 运行时。 */ runtime?: "claude" | "codex" | "galley" };
 
 /** 读取本地 Canvas Agent 配置，不存在时生成默认配置。 */
 export function loadConfig(create = false): CanvasAgentConfig {
