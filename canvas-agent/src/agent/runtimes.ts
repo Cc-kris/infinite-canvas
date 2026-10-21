@@ -15,6 +15,9 @@ export type AgentRuntimeInfo = {
     mode: "mcp" | "bridge";
     installed: boolean;
     version: string;
+    cliInstalled?: boolean;
+    desktop?: boolean;
+    desktopPath?: string;
 };
 
 const RUNTIMES: Array<Omit<AgentRuntimeInfo, "installed" | "version">> = [
@@ -23,12 +26,23 @@ const RUNTIMES: Array<Omit<AgentRuntimeInfo, "installed" | "version">> = [
     { id: "galley", label: "Galley", bin: "galley", mode: "bridge" },
 ];
 
-/** 通过登录 shell 查找命令，保证拿到 Homebrew / npm 全局安装的 CLI。 */
-export function resolveCommand(bin: string) {
-    if (process.platform === "win32") {
-        const result = spawnSync("where", [bin], { encoding: "utf8", windowsHide: true });
-        return result.status === 0 ? (result.stdout || "").split(/\r?\n/).filter(Boolean)[0] || "" : "";
+const IS_WIN = process.platform === "win32";
+
+/** PATH 里额外补充常见安装目录，覆盖从 GUI 启动时 PATH 过短的情况。 */
+function searchDirs() {
+    const home = os.homedir();
+    const dirs = (process.env.PATH || "").split(path.delimiter).filter(Boolean);
+    if (IS_WIN) {
+        const local = process.env.LOCALAPPDATA || path.join(home, "AppData", "Local");
+        dirs.push(path.join(local, "Programs"), path.join(local, "pnpm"), path.join(home, "AppData", "Roaming", "npm"));
+    } else {
+        dirs.push("/opt/homebrew/bin", "/usr/local/bin", path.join(home, ".local", "bin"), path.join(home, ".bun", "bin"), path.join(home, ".npm-global", "bin"));
     }
+    return [...new Set(dirs)];
+}
+
+/** 不依赖 shell 直接扫 PATH，避免 Windows / 无登录 shell 环境下探测失败。 */
+export function resolveCommand(bin: string) {
     // Galley 桌面版不会把自己写进 PATH，而是把 CLI 绝对路径记在 ~/.config/galley/cli-path。
     if (bin === "galley") {
         const record = path.join(process.env.XDG_CONFIG_HOME || path.join(os.homedir(), ".config"), "galley", "cli-path");
@@ -39,9 +53,37 @@ export function resolveCommand(bin: string) {
             /* 没有桌面版时继续按 PATH 查找 */
         }
     }
-    const shell = process.env.SHELL || "/bin/zsh";
-    const result = spawnSync(shell, ["-lc", `command -v ${bin}`], { encoding: "utf8", timeout: 8000 });
-    return result.status === 0 ? (result.stdout || "").trim().split(/\r?\n/).pop() || "" : "";
+    const names = IS_WIN ? [`${bin}.exe`, `${bin}.cmd`, `${bin}.bat`, bin] : [bin];
+    for (const dir of searchDirs()) {
+        for (const name of names) {
+            const candidate = path.join(dir, name);
+            try {
+                if (fs.statSync(candidate).isFile()) return candidate;
+            } catch {
+                /* 该目录没有这个命令，继续找 */
+            }
+        }
+    }
+    return "";
+}
+
+/** 探测桌面版是否安装（Claude / Codex / Galley 的 GUI 版）。 */
+export function detectDesktopApp(id: AgentRuntimeId) {
+    const home = os.homedir();
+    const candidates = IS_WIN
+        ? {
+              claude: [`${process.env.LOCALAPPDATA || ""}\\AnthropicClaude\\Claude.exe`, `${process.env.PROGRAMFILES || ""}\\Claude\\Claude.exe`],
+              codex: [`${process.env.LOCALAPPDATA || ""}\\Programs\\Codex\\Codex.exe`],
+              galley: [`${process.env.LOCALAPPDATA || ""}\\Programs\\Galley\\Galley.exe`],
+          }
+        : {
+              claude: ["/Applications/Claude.app"],
+              codex: ["/Applications/Codex.app"],
+              galley: ["/Applications/Galley.app"],
+          };
+    const list = (candidates[id] || []).filter(Boolean);
+    const found = list.find((candidate) => candidate && fs.existsSync(candidate));
+    return { installed: Boolean(found), path: found || "" };
 }
 
 /** 读取 CLI 版本号首行，失败时返回空串。 */
@@ -56,8 +98,16 @@ export function readVersion(bin: string) {
 /** 探测本机三个 Agent 的安装状态，供连接面板渲染卡片。 */
 export function detectRuntimes(): AgentRuntimeInfo[] {
     return RUNTIMES.map((runtime) => {
-        const path = resolveCommand(runtime.bin);
-        return { ...runtime, installed: Boolean(path), version: path ? readVersion(runtime.bin) : "" };
+        const cliPath = resolveCommand(runtime.bin);
+        const desktop = detectDesktopApp(runtime.id);
+        return {
+            ...runtime,
+            installed: Boolean(cliPath) || desktop.installed,
+            cliInstalled: Boolean(cliPath),
+            desktop: desktop.installed,
+            desktopPath: desktop.path,
+            version: cliPath ? readVersion(runtime.bin) : "",
+        };
     });
 }
 

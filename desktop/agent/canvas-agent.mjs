@@ -53164,11 +53164,19 @@ var RUNTIMES = [
   { id: "codex", label: "Codex", bin: "codex", mode: "mcp" },
   { id: "galley", label: "Galley", bin: "galley", mode: "bridge" }
 ];
-function resolveCommand(bin) {
-  if (process.platform === "win32") {
-    const result2 = spawnSync("where", [bin], { encoding: "utf8", windowsHide: true });
-    return result2.status === 0 ? (result2.stdout || "").split(/\r?\n/).filter(Boolean)[0] || "" : "";
+var IS_WIN = process.platform === "win32";
+function searchDirs() {
+  const home = os2.homedir();
+  const dirs = (process.env.PATH || "").split(path2.delimiter).filter(Boolean);
+  if (IS_WIN) {
+    const local = process.env.LOCALAPPDATA || path2.join(home, "AppData", "Local");
+    dirs.push(path2.join(local, "Programs"), path2.join(local, "pnpm"), path2.join(home, "AppData", "Roaming", "npm"));
+  } else {
+    dirs.push("/opt/homebrew/bin", "/usr/local/bin", path2.join(home, ".local", "bin"), path2.join(home, ".bun", "bin"), path2.join(home, ".npm-global", "bin"));
   }
+  return [...new Set(dirs)];
+}
+function resolveCommand(bin) {
   if (bin === "galley") {
     const record2 = path2.join(process.env.XDG_CONFIG_HOME || path2.join(os2.homedir(), ".config"), "galley", "cli-path");
     try {
@@ -53177,9 +53185,32 @@ function resolveCommand(bin) {
     } catch {
     }
   }
-  const shell = process.env.SHELL || "/bin/zsh";
-  const result = spawnSync(shell, ["-lc", `command -v ${bin}`], { encoding: "utf8", timeout: 8e3 });
-  return result.status === 0 ? (result.stdout || "").trim().split(/\r?\n/).pop() || "" : "";
+  const names = IS_WIN ? [`${bin}.exe`, `${bin}.cmd`, `${bin}.bat`, bin] : [bin];
+  for (const dir of searchDirs()) {
+    for (const name of names) {
+      const candidate = path2.join(dir, name);
+      try {
+        if (fs2.statSync(candidate).isFile()) return candidate;
+      } catch {
+      }
+    }
+  }
+  return "";
+}
+function detectDesktopApp(id) {
+  const home = os2.homedir();
+  const candidates = IS_WIN ? {
+    claude: [`${process.env.LOCALAPPDATA || ""}\\AnthropicClaude\\Claude.exe`, `${process.env.PROGRAMFILES || ""}\\Claude\\Claude.exe`],
+    codex: [`${process.env.LOCALAPPDATA || ""}\\Programs\\Codex\\Codex.exe`],
+    galley: [`${process.env.LOCALAPPDATA || ""}\\Programs\\Galley\\Galley.exe`]
+  } : {
+    claude: ["/Applications/Claude.app"],
+    codex: ["/Applications/Codex.app"],
+    galley: ["/Applications/Galley.app"]
+  };
+  const list = (candidates[id] || []).filter(Boolean);
+  const found = list.find((candidate) => candidate && fs2.existsSync(candidate));
+  return { installed: Boolean(found), path: found || "" };
 }
 function readVersion(bin) {
   const path10 = resolveCommand(bin);
@@ -53190,8 +53221,16 @@ function readVersion(bin) {
 }
 function detectRuntimes() {
   return RUNTIMES.map((runtime) => {
-    const path10 = resolveCommand(runtime.bin);
-    return { ...runtime, installed: Boolean(path10), version: path10 ? readVersion(runtime.bin) : "" };
+    const cliPath = resolveCommand(runtime.bin);
+    const desktop = detectDesktopApp(runtime.id);
+    return {
+      ...runtime,
+      installed: Boolean(cliPath) || desktop.installed,
+      cliInstalled: Boolean(cliPath),
+      desktop: desktop.installed,
+      desktopPath: desktop.path,
+      version: cliPath ? readVersion(runtime.bin) : ""
+    };
   });
 }
 function isAgentRuntimeId(value) {

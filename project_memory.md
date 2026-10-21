@@ -56,3 +56,11 @@
 - 预览图：`/Users/mac/Documents/GAdocs/generated_images/infinite-canvas-icon-preview.png`
 
 
+
+## 发布流程（desktop-v* tag 触发 CI）
+- `git push origin main` → `git tag -a desktop-v0.23.0 -m ...` → `git push origin desktop-v0.23.0`，push tag 会触发 `.github/workflows/desktop-release.yml`，两个 build job（macos-14 出 arm64+x64 dmg、windows-latest 出 nsis）+ release job 自动建 Release（非草稿，assets 直接可下）
+- 0.23 实测：tag 推送后约 12 秒 run 就出现，整个流程约 6 分钟；不需要 workflow_dispatch
+- **坑（已修）**：工作流原先只 `pnpm install`(desktop) 再跑 electron-builder，用的是仓库里提交的 `desktop/agent/canvas-agent.mjs`。源码改了但忘了本地重打，发布出去的还是旧 bundle 且无人察觉。已在 "Install desktop deps" 后补 `npm ci`(canvas-agent) + `node scripts/build-agent.mjs`
+- canvas-agent 用 npm（`package-lock.json`），esbuild 0.28.1 在锁里，`build-agent.mjs` 靠它 `requireFromAgent.resolve("esbuild")`
+- 核对发布：`gh release view desktop-v0.23.0 -R Cc-kris/infinite-canvas --json assets --jq '.assets[]|.name'`；CI 内已自动验证 dmg 三件套（renderer/index.html、proxy/server.js、app.asar）与 Windows 安装向导的"选择安装位置"页
+- 0.23 资产：`Infinite-Canvas-0.23.0-mac-arm64.dmg` 108.1MB / `-mac-x64.dmg` 112.9MB / `Infinite-Canvas-Setup-0.23.0-x64.exe` 90.9MB

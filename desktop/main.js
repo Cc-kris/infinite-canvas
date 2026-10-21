@@ -225,7 +225,10 @@ async function launchInstaller(filePath) {
         if (error) throw new Error(error);
         return;
     }
-    spawn(filePath, [], { detached: true, stdio: "ignore" }).unref();
+    // Windows: 用 /S 静默覆盖安装。NSIS 初始化时会读取注册表里上次的 InstallLocation,
+    // 自动沿用原有盘符、目录和「所有用户 / 当前用户」权限，不再弹出选择向导。
+    // --force-run 让它在安装结束后自动重新启动应用。
+    spawn(filePath, ["/S", "--force-run"], { detached: true, stdio: "ignore" }).unref();
     setTimeout(() => app.quit(), 800);
 }
 
@@ -277,11 +280,15 @@ function registerUpdateIpc() {
     });
 }
 
-// 0.23: 应用菜单只保留系统级入口（macOS 应用菜单 / Windows 退出），
-// 不再出现「编辑 / 视图 / 窗口」，界面更干净，快捷键仍由页面自身处理。
+// 0.23: 应用菜单只保留系统级入口。
+// 0.24: Windows 不再保留「文件」菜单——它会占掉窗口顶部一行、留一条空白，
+//       关窗即退出，无需菜单项；macOS 仍保留应用菜单以支持 ⌘Q / ⌘H。
 function buildMenu() {
-    const template = process.platform === "darwin" ? [{ role: "appMenu", label: app.name }] : [{ label: "文件", submenu: [{ role: "quit", label: "退出" }] }];
-    Menu.setApplicationMenu(Menu.buildFromTemplate(template));
+    if (process.platform !== "darwin") {
+        Menu.setApplicationMenu(null);
+        return;
+    }
+    Menu.setApplicationMenu(Menu.buildFromTemplate([{ role: "appMenu", label: app.name }]));
 }
 
 async function createWindow(proxyUrl) {
@@ -346,8 +353,17 @@ if (!gotLock) {
 
     app.on("will-quit", () => {
         // 0.23: 退出应用时一并结束由本应用拉起的 Agent 服务，桌面不留后台进程。
-        stopAgentServerOnQuit();
-        proxyServer?.close();
-        shellServer?.close();
+        // 0.24: 清理属于「尽力而为」，任何异常都不能升级成退出时的崩溃弹窗。
+        try {
+            stopAgentServerOnQuit();
+        } catch (error) {
+            console.warn("[agent-hub] cleanup failed:", error);
+        }
+        try {
+            proxyServer?.close();
+            shellServer?.close();
+        } catch {
+            /* 端口已释放 */
+        }
     });
 }

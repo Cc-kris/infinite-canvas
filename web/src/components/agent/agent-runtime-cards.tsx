@@ -6,7 +6,18 @@ import { useTranslation } from "react-i18next";
 import { canvasThemes } from "@/lib/canvas-theme";
 
 type RuntimeId = "claude" | "codex" | "galley";
-type RuntimeCard = { id: RuntimeId; label: string; installed: boolean; version: string; mode: "mcp" | "bridge" };
+type PluginState = { ok: boolean; at?: string } | null;
+type RuntimeCard = {
+    id: RuntimeId;
+    label: string;
+    installed: boolean;
+    cliInstalled?: boolean;
+    desktop?: boolean;
+    desktopLabel?: string;
+    version: string;
+    mode: "mcp" | "bridge";
+    plugin?: PluginState;
+};
 type HubState = { server: { running: boolean; url: string; token: string; error?: string }; runtime: string; runtimes: RuntimeCard[] };
 
 type DesktopBridge = { agentHub?: { list: () => Promise<HubState>; connect: (id: string) => Promise<{ ok: boolean; url?: string; token?: string; runtime?: string; error?: string; warning?: string }>; disconnect: () => Promise<{ ok: boolean }> } };
@@ -41,6 +52,7 @@ export function AgentRuntimeCards({
         try {
             if (hub) {
                 setState(await hub.list());
+                setError("");
                 return;
             }
             const base = (url || "http://127.0.0.1:17371").replace(/\/$/, "");
@@ -48,15 +60,17 @@ export function AgentRuntimeCards({
             const body = await res.json();
             if (!body?.ok) throw new Error(body?.error || "unavailable");
             setState({ server: { running: true, url: base, token }, runtime: body.runtime || "", runtimes: body.runtimes || [] });
+            setError("");
         } catch (err) {
             setError(err instanceof Error ? err.message : String(err));
         }
     };
 
+    // 地址或 token 就绪后重新探测：首帧可能还没拿到连接信息，不能只跑一次。
     useEffect(() => {
         void load();
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [url, token]);
 
     const connect = async (runtime: RuntimeCard) => {
         setBusy(runtime.id);
@@ -117,6 +131,10 @@ export function AgentRuntimeCards({
         <div className="space-y-2">
             {state?.runtimes?.map((runtime) => {
                 const active = connected && state.runtime === runtime.id;
+                // 识别来源：命令行与桌面版各自独立探测，两者都显示出来，避免「装了却说没装」。
+                const sources = [runtime.cliInstalled ? t("agent.connect.cliLabel") : "", runtime.desktop ? t("agent.connect.desktopLabel") : ""].filter(Boolean);
+                const detected = sources.length ? `${sources.join(" + ")}${runtime.version ? ` · ${runtime.version}` : ""}` : t("agent.connect.notInstalled");
+                const pluginText = runtime.plugin ? (runtime.plugin.ok ? t("agent.connect.pluginInstalled") : t("agent.connect.pluginFallback")) : "";
                 return (
                     <div key={runtime.id} className="flex items-center gap-3 rounded-lg border px-3 py-2.5" style={{ borderColor: active ? "#f97316" : theme.node.stroke, background: active ? "rgba(249,115,22,.08)" : "transparent" }}>
                         <div className="min-w-0 flex-1">
@@ -127,7 +145,13 @@ export function AgentRuntimeCards({
                             <div className="mt-0.5 flex items-center gap-1.5 truncate text-[11px] leading-4" style={{ color: theme.node.muted }}>
                                 <span style={{ color: active ? "#f97316" : undefined, fontWeight: active ? 600 : 400 }}>{active ? t("agent.connect.statusConnected") : t("agent.connect.statusDisconnected")}</span>
                                 <span>·</span>
-                                <span className="truncate">{runtime.installed ? runtime.version || t("agent.connect.installed") : t("agent.connect.notInstalled")}</span>
+                                <span className="truncate">{detected}</span>
+                                {pluginText ? (
+                                    <>
+                                        <span>·</span>
+                                        <span className="truncate" style={{ color: runtime.plugin?.ok ? "#16a34a" : theme.node.muted }}>{pluginText}</span>
+                                    </>
+                                ) : null}
                             </div>
                         </div>
                         <Tooltip title={!runtime.installed ? t("agent.connect.notInstalledHint") : ""}>
