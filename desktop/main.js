@@ -1,8 +1,8 @@
-import { app, BrowserWindow, ipcMain, Menu, shell } from "electron";
+import { app, BrowserWindow, dialog, ipcMain, Menu, shell } from "electron";
 
 import { registerAgentHub, revalidateConnection, stopAgentServerOnQuit } from "./agent-hub.js";
 import { spawn, spawnSync } from "node:child_process";
-import { createReadStream, createWriteStream, existsSync, statSync } from "node:fs";
+import { appendFileSync, createReadStream, createWriteStream, existsSync, readFileSync, rmSync, statSync, writeFileSync } from "node:fs";
 import { mkdtemp } from "node:fs/promises";
 import { createServer } from "node:http";
 import { Readable } from "node:stream";
@@ -218,51 +218,139 @@ async function downloadInstaller(url, targetPath, onProgress) {
     return received;
 }
 
+/** 升级过程的诊断日志：写到 userData/update.log，下次「什么都没发生」时有据可查。 */
+function updateLog(...args) {
+    const line = `${new Date().toISOString()} ${args.map((item) => (typeof item === "string" ? item : JSON.stringify(item))).join(" ")}\n`;
+    console.log("[infinite-canvas:update]", line.trim());
+    try {
+        appendFileSync(path.join(app.getPath("userData"), "update.log"), line);
+    } catch {
+        /* 日志写不进去不影响升级本身 */
+    }
+}
+
+/** 升级进行中的标记文件：装完重启后用它判断「上次更新到底成没成」。 */
+function updateMarkerPath() {
+    return path.join(app.getPath("userData"), "update-pending.json");
+}
+
+function writeUpdateMarker(info) {
+    try {
+        writeFileSync(updateMarkerPath(), JSON.stringify(info));
+    } catch (error) {
+        updateLog("write marker failed:", String(error?.message || error));
+    }
+}
+
+/** 取出并清掉标记；返回 null 表示没有待确认的升级。 */
+function takeUpdateMarker() {
+    try {
+        const file = updateMarkerPath();
+        if (!existsSync(file)) return null;
+        const parsed = JSON.parse(readFileSync(file, "utf8"));
+        rmSync(file, { force: true });
+        return parsed;
+    } catch {
+        return null;
+    }
+}
+
+/**
+ * 组装 NSIS 静默安装参数。抽成纯函数便于在 mac 上直接跑断言。
+ *
+ * 两条硬约束（electron-builder 26.15.3 的 assisted 安装器模板）：
+ * - 安装范围只认单斜杠 `/allusers` / `/currentuser`（assistedInstaller.nsh 里
+ *   `${GetOptions} $R0 "/allusers"`）。写成 `--allusers` 会被整条忽略，安装范围
+ *   退回注册表推断，于是「所有用户安装」的机器会被当成当前用户安装。
+ * - `/D=` 必须是最后一个参数，且不能加引号：NSIS 取该前缀后的整段原文当路径。
+ */
+function buildInstallerArgs(installDir, localAppData) {
+    const target = String(installDir || "");
+    const local = String(localAppData || "").toLowerCase();
+    const perUser = Boolean(local) && target.toLowerCase().startsWith(local);
+    return ["/S", perUser ? "/currentuser" : "/allusers", "--force-run", `/D=${target}`];
+}
+
 /**
  * Windows 升级：静默覆盖安装到「当前正在运行的这个目录」，全程不弹向导。
  *
- * 0.26 之前只传了 /S --force-run，靠 NSIS 自己去注册表猜安装位置和权限。原来装在
- * D:\Program Files（所有用户）时，猜测失败会退化成「当前用户」安装，装到
- * %LOCALAPPDATA%\Programs\Infinite Canvas 去——结果只是多了一份新程序，用户点开
- * 的仍是旧目录里的旧版本，表现就是「升级成功但图标/版本没变」。
- * 这里把安装目录钉死成当前 exe 所在目录，并在需要管理员时先提权再静默安装。
+ * 0.24 只传 /S --force-run，靠 NSIS 自己猜安装位置和权限：装在 D:\Program Files
+ * 时会退化成当前用户安装，装出一份平行的新程序，用户点开的还是旧版本。
+ * 0.25 起把安装目录钉死成当前 exe 所在目录。
+ *
+ * 0.25.4：不再用 `powershell Start-Process -Verb RunAs` 预提权。两个原因——
+ * 1) 那层 PowerShell 会重新拼引号，含空格的 `/D=C:\Program Files\...` 会被拆坏；
+ * 2) UAC 被拒时 PowerShell 直接退出，而调用方 1.2 秒后照旧 app.quit()，
+ *    用户看到的就是「点了更新、应用退出了、没有任何后续」。
+ * assisted 安装器在静默升级「所有用户安装」时本来就会自己 UAC_RunElevated 再重启
+ * 自身，所以这里直接把安装器拉起来，让 NSIS 管权限。
  */
 async function installOnWindows(filePath) {
     const installDir = path.dirname(app.getPath("exe"));
-    const args = ["/S"];
-    // 装在 Program Files 这类需要管理员的目录时，显式声明「所有用户安装」，
-    // 否则 NSIS 会按当前用户模式写到 %LOCALAPPDATA%，等于装出一份平行的新程序。
-    const localAppData = (process.env.LOCALAPPDATA || "").toLowerCase();
-    if (!localAppData || !installDir.toLowerCase().startsWith(localAppData)) args.push("--allusers");
-    args.push("--force-run");
-    // NSIS 的 /D 必须是最后一个参数，且不能加引号（路径含空格也照样整段解析）。
-    args.push(`/D=${installDir}`);
-
-    if (isElevated()) {
-        spawn(filePath, args, { detached: true, stdio: "ignore", windowsHide: true }).unref();
-        return;
-    }
-    // 普通权限：走 Start-Process -Verb RunAs 弹一次 UAC，安装器本身仍然是 /S 静默。
-    const quoted = args.map((arg) => `'${arg.replace(/'/g, "''")}'`).join(",");
-    const file = filePath.replace(/'/g, "''");
-    spawn("powershell.exe", ["-NoProfile", "-NonInteractive", "-Command", `Start-Process -FilePath '${file}' -ArgumentList ${quoted} -Verb RunAs`], { detached: true, stdio: "ignore", windowsHide: true }).unref();
+    const args = buildInstallerArgs(installDir, process.env.LOCALAPPDATA);
+    updateLog(`launch installer=${filePath} args=${JSON.stringify(args)} elevated=${isElevated()}`);
+    await new Promise((resolve, reject) => {
+        const child = spawn(filePath, args, { detached: true, stdio: "ignore", windowsHide: true });
+        child.once("error", (error) => reject(error));
+        child.once("spawn", () => {
+            updateLog(`installer started pid=${child.pid}`);
+            child.unref();
+            resolve();
+        });
+    });
 }
 
-/** `net session` 只有管理员能跑通，用它判断当前进程是否已提权。 */
+/** `net session` 只有管理员能跑通，用它判断当前进程是否已提权（仅用于日志）。 */
 function isElevated() {
     const result = spawnSync("net", ["session"], { windowsHide: true, stdio: "ignore" });
     return result.status === 0;
 }
 
 /** Launch the downloaded installer, then let it replace the running app. */
-async function launchInstaller(filePath) {
+async function launchInstaller(filePath, meta = {}) {
     if (process.platform === "darwin") {
         const error = await shell.openPath(filePath);
         if (error) throw new Error(error);
         return;
     }
+    // 先落标记再拉安装器：装完重启时用它判断版本有没有真的变。
+    writeUpdateMarker({ from: app.getVersion(), to: meta.version || "", at: Date.now() });
+    // 安装器都拉不起来就把错误抛回渲染层，别让用户对着一个已经退出的窗口发愣。
     await installOnWindows(filePath);
     setTimeout(() => app.quit(), 1200);
+}
+
+/**
+ * 上次点了更新、应用退出了，但重启后版本号没变 —— 说明安装器没真正装上。
+ * 把「点了更新什么都没发生」变成一次明确告知，并给出手动下载入口。
+ */
+function reportAbortedUpdate() {
+    const marker = takeUpdateMarker();
+    if (!marker) return;
+    const current = app.getVersion();
+    // 版本变了 = 更新成功，静默收尾；版本没变 = 上次没装成。
+    if (!marker.from || marker.from !== current) {
+        updateLog(`update finished: ${marker.from} -> ${current}`);
+        return;
+    }
+    updateLog(`aborted update detected: from=${marker.from} to=${marker.to}`);
+    void (async () => {
+        try {
+            const { response } = await dialog.showMessageBox({
+                type: "warning",
+                title: "更新没有装上",
+                message: marker.to ? `上次更新到 ${marker.to} 没有完成` : "上次更新没有完成",
+                detail: `当前仍是 ${current} 版本：已经下载的安装包没能替换掉现有程序（常见原因是安装时的权限确认被取消）。\n\n可以在这里重新下载安装包，手动运行一次即可完成升级。`,
+                buttons: ["打开下载页", "稍后再说"],
+                defaultId: 0,
+                cancelId: 1,
+                noLink: true,
+            });
+            if (response === 0) await shell.openExternal(`https://github.com/${RELEASE_REPO}/releases/latest`);
+        } catch (error) {
+            updateLog("aborted update dialog failed:", String(error?.message || error));
+        }
+    })();
 }
 
 function registerUpdateIpc() {
@@ -308,7 +396,14 @@ function registerUpdateIpc() {
         const bytes = await downloadInstaller(installer.url, targetPath, (percent, received, total) => {
             if (!event.sender.isDestroyed()) event.sender.send("update:progress", { percent, received, total });
         });
-        await launchInstaller(targetPath);
+        // 断流/代理截断时文件是残缺的，NSIS 会直接失败而界面上什么都看不到，
+        // 所以在交给系统之前先对一遍字节数。
+        if (installer.size && bytes !== installer.size) {
+            updateLog(`installer size mismatch: got=${bytes} expected=${installer.size} file=${targetPath}`);
+            throw new Error(`installer incomplete: ${bytes}/${installer.size} bytes`);
+        }
+        updateLog(`downloaded installer=${targetPath} bytes=${bytes} version=${release.version}`);
+        await launchInstaller(targetPath, { version: release.version });
         return { path: targetPath, bytes, version: release.version, name: installer.name };
     });
 }
@@ -376,6 +471,9 @@ if (!gotLock) {
             log("continuing without the local proxy:", error);
         }
         await createWindow(proxyUrl);
+
+        // 上次「点更新 → 退出 → 什么都没发生」的话，这里补一次明确告知。
+        reportAbortedUpdate();
 
         // 上次选了插件方式的，开机静默验一次：不通就自动切运行时，不打扰用户。
         setTimeout(() => {
