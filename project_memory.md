@@ -157,3 +157,10 @@
 - `gh release delete <tag> -R Cc-kris/infinite-canvas --yes` **只删 release 对象与资产，保留 git tag**；要连 tag 一起删才加 `--cleanup-tag`。清完 `gh release list` 只剩想留的那条，`gh api repos/.../tags` 里 desktop-v* 仍在。
 - 旧 release 可以放心清：应用内更新读的是 `/releases/latest`（只认一条），历史安装包对更新链路没用；删完后 `releases/latest` 仍指向新版、资产数不变即健康。
 - 清理后必查三样：`gh release list`（应只剩 1 条）、`gh api .../releases/latest -q .tag_name`、`gh release view <tag> --json assets`（确认 3 个包还在）。
+
+## Agent 连接互斥 / 卡「连接中」（2026-10-22 修复 c68112b）
+- 现象：Win 上连着 Claude Code 再点 Codex，一直「连接中」且其他 Agent 按钮还能点。根因两条：①`connectRuntime` 里全局 `connectInFlight` 不区分 runtime，点另一个 Agent 会拿到上一条 promise（结果串味、界面无从判断）；②前端 `busy` 只是组件内 useState，面板重挂载/事件丢失就解锁；③`readCliVersion` 在 `listRuntimes()` 里用 **spawnSync** 跑 `--version`（4 个 CLI × 15s 上限），每次广播 changed 都同步阻塞主进程。
+- 现机制：`connectState{runtime,startedAt,stage,promise}` 全局唯一；点别的 runtime 立即返回 `{ok:false,busy:true,runtime,error}`；同 runtime 复用同一流程；`withDeadline` 120s 兜底；阶段 detect→server→runtime→plugin→verify 通过 `listRuntimes().connecting.stage` 给界面；开始/结束都 `notifyAgentHubChanged()`。前端 `serverBusy` 锁全部按钮 + 1.5s 轮询兜底。
+- 版本号缓存 `CLI_VERSION_TTL_MS=10min`、单次 5s：`listRuntimes` 连续调用已从百毫秒级降到 1ms。
+- 测 agent-hub 的办法（无需启动 Electron）：把 `desktop/agent-hub.js` + `desktop/agent/canvas-agent.mjs` 拷到 `/tmp/agenthub-test`，配 `{"type":"module"}` 的 package.json，写 `node_modules/electron` **ESM** 桩（导出 app/BrowserWindow；CJS stub 会报 "does not provide an export named BrowserWindow"），`HOME=/tmp/xxx` 隔离 `~/.infinite-canvas` 与 CLI 配置，然后直接 `node test.mjs`。跑完必须 `stopAgentServerOnQuit()` 收掉 17371 上的服务。
+- 【重要坑】项目私域目录 `temp/projects/infinite-canvas-701e72df` 是 `/Users/mac/Documents/Dev/infinite-canvas` 的**软链接**：往里写任何临时文件都等于写进 git 工作区，测试目录一律放 `/tmp`。
