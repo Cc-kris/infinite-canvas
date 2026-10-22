@@ -6,7 +6,7 @@ import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { app } from "electron";
+import { app, BrowserWindow } from "electron";
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 const CONFIG_DIR = path.join(os.homedir(), ".infinite-canvas");
@@ -168,11 +168,23 @@ function resolveCommand(bin) {
     return "";
 }
 
-/** 读 CLI 版本号，失败返回空串（只用于展示，不参与判断）。 */
+/**
+ * 读 CLI 版本号，失败返回空串（只用于展示，不参与判断）。
+ * 必须缓存：runArgs 是同步的（spawnSync），而 listRuntimes 每次刷新都会调用它。
+ * Windows 上一个 `claude --version` 走 cmd.exe 要几百毫秒到几秒，四个运行时轮流跑会把
+ * 主进程整个堵住——界面看起来就是「一直连接中」，其实主进程根本回不了 IPC。
+ */
+const CLI_VERSION_TTL_MS = 10 * 60_000;
+const cliVersionCache = new Map();
+
 function readCliVersion(file) {
     if (!file) return "";
-    const result = runArgs(file, ["--version"], 15_000);
-    return result.output.split(/\r?\n/)[0].slice(0, 80);
+    const hit = cliVersionCache.get(file);
+    if (hit && Date.now() - hit.at < CLI_VERSION_TTL_MS) return hit.version;
+    const result = runArgs(file, ["--version"], 5_000);
+    const version = result.output.split(/\r?\n/)[0].slice(0, 80);
+    cliVersionCache.set(file, { version, at: Date.now() });
+    return version;
 }
 
 /**
@@ -539,8 +551,56 @@ export async function listRuntimes() {
         server: { running: server.running, url: server.running ? config.url : "", token: server.running ? config.token : "", error: server.running ? "" : "" },
         runtime: server.running ? config.runtime : "",
         mode: config.mode || "",
+        connecting: connectState.runtime ? { runtime: connectState.runtime, startedAt: connectState.startedAt, stage: connectState.stage } : null,
         runtimes,
     };
+}
+
+/** 整个连接流程的上限。插件安装 + 握手在慢机器上可以到一分钟，但绝不允许无限等。 */
+const CONNECT_TIMEOUT_MS = 120_000;
+
+/** 正在进行的连接：哪个运行时、什么时候开始。界面靠它把其余卡片锁住（跨组件重挂载也不会丢）。 */
+let connectState = { runtime: "", startedAt: 0, stage: "", promise: null };
+
+/** 通知所有窗口重读连接状态。 */
+function notifyAgentHubChanged() {
+    try {
+        for (const win of BrowserWindow.getAllWindows()) {
+            if (!win.isDestroyed()) win.webContents.send("agent-hub:changed");
+        }
+    } catch {
+        /* 窗口还没建好，忽略 */
+    }
+}
+
+/** 给一个可能永远不 resolve 的流程加截止时间，超时返回可读原因而不是让界面干等。 */
+function withDeadline(task, ms, label) {
+    return new Promise((resolve) => {
+        let settled = false;
+        const timer = setTimeout(() => {
+            if (settled) return;
+            settled = true;
+            resolve({
+                ok: false,
+                runtime: "",
+                error: `连接 ${label} 超时（${Math.round(ms / 1000)} 秒）。通常是它的命令行第一次启动时在等交互式确认，或在拉取插件；请重试一次，仍不行就重装 ${label}。`,
+            });
+        }, ms);
+        task.then(
+            (value) => {
+                if (settled) return;
+                settled = true;
+                clearTimeout(timer);
+                resolve(value);
+            },
+            (error) => {
+                if (settled) return;
+                settled = true;
+                clearTimeout(timer);
+                resolve({ ok: false, error: error instanceof Error ? error.message : String(error) });
+            },
+        );
+    });
 }
 
 /**
@@ -551,25 +611,42 @@ export async function listRuntimes() {
 export async function connectRuntime(runtime) {
     const spec = RUNTIMES.find((item) => item.id === runtime);
     if (!spec) return { ok: false, error: "unknown runtime" };
-    // 一次只允许一个连接流程：装插件 + 联通测试要好幾秒，界面此时已经把其它卡片置灰，
-    // 主进程再兜一层，避免连点或事件回调把两条连接同时推进去互相踩。
-    if (connectInFlight) return connectInFlight;
-    connectInFlight = runConnect(spec, runtime).finally(() => {
-        connectInFlight = null;
+    // 一次只允许一个连接流程。点同一个运行时复用这次流程；点别的运行时立刻拒绝并说明
+    // 现状——绝不复用另一个运行时的 promise（那会把 A 的连接结果当成 B 的，界面显示更乱）。
+    if (connectState.promise) {
+        if (connectState.runtime === runtime) return connectState.promise;
+        const pending = RUNTIMES.find((item) => item.id === connectState.runtime);
+        return {
+            ok: false,
+            busy: true,
+            runtime: connectState.runtime,
+            error: `正在连接 ${pending ? pending.label : connectState.runtime}，请等它结束再切换。`,
+        };
+    }
+    connectState = { runtime, startedAt: Date.now(), stage: "detect", promise: null };
+    notifyAgentHubChanged();
+    // 每推进一步就广播一次：界面能显示「正在装插件」而不是干等一个「连接中」。
+    const report = (stage) => {
+        if (connectState.runtime !== runtime) return;
+        connectState.stage = stage;
+        notifyAgentHubChanged();
+    };
+    const task = withDeadline(runConnect(spec, runtime, report), CONNECT_TIMEOUT_MS, spec.label).finally(() => {
+        connectState = { runtime: "", startedAt: 0, stage: "", promise: null };
+        notifyAgentHubChanged();
     });
-    return connectInFlight;
+    connectState.promise = task;
+    return task;
 }
 
-/** 正在进行的连接流程；并发调用直接复用，不重复拉起服务与插件安装。 */
-let connectInFlight = null;
-
-async function runConnect(spec, runtime) {
+async function runConnect(spec, runtime, report = () => {}) {
     const cli = resolveCommand(spec.bin);
     const desktop = detectDesktopApp(spec.id);
     if (!cli && !desktop.installed) {
         return { ok: false, error: `未检测到 ${spec.label}，请先安装它的命令行或桌面版`, runtime };
     }
 
+    report("server");
     let config;
     try {
         config = await ensureServer();
@@ -577,6 +654,7 @@ async function runConnect(spec, runtime) {
         return { ok: false, error: error instanceof Error ? error.message : String(error), runtime };
     }
 
+    report("runtime");
     try {
         await setRuntime(config, spec.id);
     } catch (error) {
@@ -603,7 +681,9 @@ async function runConnect(spec, runtime) {
     let mode = "runtime";
     let detail = "";
     if (spec.mode === "mcp") {
+        report("plugin");
         const mcp = ensureMcp(spec.id);
+        report("verify");
         const verified = mcp.ok ? await verifyPlugin(spec.id) : { ok: false, output: mcp.output };
         detail = verified.output || mcp.output || "";
         if (verified.ok) mode = "plugin";
@@ -665,6 +745,10 @@ export async function revalidateConnection() {
 
 /** 断开连接：退出 canvas-agent 以及它拉起的 Agent 子进程。 */
 export async function disconnectRuntime() {
+    if (connectState.promise) {
+        const pending = RUNTIMES.find((item) => item.id === connectState.runtime);
+        return { ok: false, busy: true, error: `正在连接 ${pending ? pending.label : connectState.runtime}，等它结束再断开。` };
+    }
     const config = readAgentConfig();
     const pid = readPid();
     if (isOurAgent(pid)) {

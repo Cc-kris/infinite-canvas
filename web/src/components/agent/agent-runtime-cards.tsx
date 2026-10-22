@@ -19,8 +19,8 @@ type RuntimeCard = {
     plugin?: PluginState;
 };
 type ConnectionMode = "plugin" | "runtime" | "";
-type HubState = { server: { running: boolean; url: string; token: string; error?: string }; runtime: string; mode: ConnectionMode; runtimes: RuntimeCard[] };
-type ConnectResult = { ok: boolean; url?: string; token?: string; runtime?: string; mode?: ConnectionMode; error?: string };
+type HubState = { server: { running: boolean; url: string; token: string; error?: string }; runtime: string; mode: ConnectionMode; connecting?: { runtime: string; startedAt: number; stage?: string } | null; runtimes: RuntimeCard[] };
+type ConnectResult = { ok: boolean; url?: string; token?: string; runtime?: string; mode?: ConnectionMode; error?: string; busy?: boolean };
 
 type DesktopBridge = {
     agentHub?: {
@@ -59,6 +59,11 @@ export function AgentRuntimeCards({
     const [busy, setBusy] = useState<string>("");
     const [error, setError] = useState("");
     const hub = bridge();
+    // 「谁在连接中」以主进程为准：面板被关掉重开、组件重挂载都不会丢锁，
+    // 本地 busy 只负责自己点下去那一下的即时反馈。
+    const serverBusy = state?.connecting?.runtime || "";
+    const serverStage = state?.connecting?.stage || "";
+    const locked = Boolean(busy) || Boolean(serverBusy);
 
     const load = async () => {
         if (!hub) {
@@ -86,6 +91,14 @@ export function AgentRuntimeCards({
         return () => off?.();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [url, token]);
+
+    // 主进程还在连接时定时重读：事件可能因窗口重建而错过，轮询保证锁最终会解。
+    useEffect(() => {
+        if (!serverBusy) return;
+        const timer = window.setInterval(() => void load(), 1500);
+        return () => window.clearInterval(timer);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [serverBusy]);
 
     /** 点连接：桌面端内部决定走插件还是运行时，成功后直接把可用连接交给面板。 */
     const connect = async (runtime: RuntimeCard) => {
@@ -160,11 +173,11 @@ export function AgentRuntimeCards({
                         </div>
                         <Tooltip title={!runtime.installed ? t("agent.connect.notInstalledHint") : ""}>
                             {active ? (
-                                <Button size="small" danger disabled={Boolean(busy)} loading={busy === "disconnect"} icon={busy === "disconnect" ? <Loader2 className="size-3.5" /> : <Power className="size-3.5" />} onClick={() => disconnect()}>
+                                <Button size="small" danger disabled={locked} loading={busy === "disconnect"} icon={busy === "disconnect" ? <Loader2 className="size-3.5" /> : <Power className="size-3.5" />} onClick={() => disconnect()}>
                                     {t("agent.connect.disconnect")}
                                 </Button>
                             ) : (
-                                <Button size="small" type="primary" ghost disabled={!runtime.installed || Boolean(busy)} loading={busy === runtime.id} icon={busy === runtime.id ? <Loader2 className="size-3.5" /> : <PlugZap className="size-3.5" />} onClick={() => connect(runtime)}>
+                                <Button size="small" type="primary" ghost disabled={!runtime.installed || locked} loading={busy === runtime.id || serverBusy === runtime.id} icon={busy === runtime.id || serverBusy === runtime.id ? <Loader2 className="size-3.5" /> : <PlugZap className="size-3.5" />} onClick={() => connect(runtime)}>
                                     {t("agent.connect.connect")}
                                 </Button>
                             )}
@@ -172,6 +185,12 @@ export function AgentRuntimeCards({
                     </div>
                 );
             })}
+            {serverBusy && !error ? (
+                <div className="text-xs" style={{ color: theme.node.muted }}>
+                    {t("agent.connect.connectingLock", { name: state?.runtimes?.find((item) => item.id === serverBusy)?.label || serverBusy })}
+                    {serverStage ? ` · ${t(`agent.connect.stage.${serverStage}`)}` : ""}
+                </div>
+            ) : null}
             {!state && !error ? <div className="text-xs" style={{ color: theme.node.muted }}>{t("agent.connect.detecting")}</div> : null}
             {error ? (
                 <div className="rounded-md border px-2.5 py-2 text-xs leading-5" style={{ borderColor: "rgba(220,38,38,.35)", color: "#dc2626" }}>
