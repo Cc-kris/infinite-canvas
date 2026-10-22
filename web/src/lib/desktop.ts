@@ -13,6 +13,8 @@ export type DesktopUpdateStatus = {
     releaseUrl: string;
     installerName?: string;
     downloadSupported?: boolean;
+    /** Release 正文（GitHub release body）。CHANGELOG 漏写当前版本时用它兜底。 */
+    notes?: string;
     error?: string;
 };
 

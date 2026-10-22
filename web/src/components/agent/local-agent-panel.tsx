@@ -88,7 +88,7 @@ type AgentCodexState = { busy?: boolean; threadId?: string; turnId?: string };
 type AgentHelloEvent = { ok?: boolean; protocolVersion?: number; clientId?: string; workspace?: { activeThreadId?: string }; conversation?: AgentConversationState; codex?: AgentCodexState; pendingApprovals?: AgentPendingApproval[] };
 type AgentWorkspaceEvent = { activeThreadId?: string; threadId?: string; sourceClientId?: string; emptyThread?: boolean; draftThread?: boolean; conversation?: AgentConversationState };
 type AgentChatEvent = { threadId?: string; turnId?: string; sourceClientId?: string; replayed?: boolean; message?: AgentChatItem };
-type AgentBootstrapEvent = { type?: "codex.preparing" | "codex.prepare_failed" | "mcp.startup" | "mcp.complete"; phase?: "preheat" | "runtime"; threadId?: string; name?: string; status?: "starting" | "ready" | "failed" | "cancelled"; error?: string | null; failureReason?: string | null };
+type AgentBootstrapEvent = { type?: "codex.preparing" | "codex.prepare_failed" | "mcp.startup" | "mcp.complete" | "runtime.changed"; phase?: "preheat" | "runtime"; threadId?: string; name?: string; status?: "starting" | "ready" | "failed" | "cancelled"; error?: string | null; failureReason?: string | null; runtime?: string; previous?: string };
 type AgentClientGlobal = typeof globalThis & { __infiniteCanvasAgentClientIdPromise?: Promise<string> };
 
 function authoritativeHistoryTurnKeys(threadId: string, settledTurnIds: string[]) {
@@ -513,6 +513,12 @@ export function LocalAgentPanel({ embedded, headless, autoConnect }: { embedded?
                 addEventLog(rt("conversationInitFailed"), data.error, data);
                 return;
             }
+            if (data.type === "runtime.changed") {
+                // 0.25.7: 运行时切换后清缓存并重取模型，避免继续显示上一套运行时的模型。
+                resetAgentRuntimeCache();
+                setRuntimeRevision((value) => value + 1);
+                return;
+            }
             if (data.type === "mcp.complete") {
                 addEventLog(rt("mcpStatusComplete"), rt("mcpListRead"), data);
                 return;
@@ -627,21 +633,32 @@ export function LocalAgentPanel({ embedded, headless, autoConnect }: { embedded?
         if (connected) void loadSkills(endpoint, token);
     }, [connected, endpoint, loadSkills, token]);
 
+    // 0.25.7: 运行时切换（桌面端换连另一套运行时）要与模型列表同步刷新，
+    // 否则界面会继续沿用切换前的模型清单。
+    const [runtimeRevision, setRuntimeRevision] = useState(0);
     useEffect(() => {
         if (!connected) return;
         void resolveAgentRuntime(endpoint, token)
-            .then((runtime) => fetchAgentJson<AgentModelsResponse>(endpoint, token, runtime === "codex" ? "/agent/codex/models" : "/agent/models"))
-            .then(({ data = [] }) => {
+            .then(async (runtime) => ({ runtime, result: await fetchAgentJson<AgentModelsResponse>(endpoint, token, runtime === "codex" ? "/agent/codex/models" : "/agent/models") }))
+            .then(({ runtime, result }) => {
+            const data = result.data || [];
             const names = new Set<string>();
             const models = data.flatMap((item) => {
                 const name = item.displayName || item.model;
                 const efforts = item.supportedReasoningEfforts.filter(({ reasoningEffort }) => AGENT_REASONING_EFFORTS.has(reasoningEffort));
-                if (item.model === "codex-auto-review" || names.has(name) || !efforts.length) return [];
+                if (item.model === "codex-auto-review" || names.has(name)) return [];
                 names.add(name);
-                const defaultReasoningEffort = efforts.some((effort) => effort.reasoningEffort === item.defaultReasoningEffort) ? item.defaultReasoningEffort : efforts[0].reasoningEffort;
-                return [{ ...item, supportedReasoningEfforts: efforts, defaultReasoningEffort }];
+                // 0.25.7: Galley 这类运行时没有推理档位，给一个占位档；
+                // 以前 efforts 为空会把整条模型丢掉，界面上就继续显示上一套 Codex 模型。
+                const usableEfforts = efforts.length ? efforts : [{ reasoningEffort: (item.defaultReasoningEffort || "medium") as AgentReasoningEffort }];
+                const defaultReasoningEffort = usableEfforts.some((effort) => effort.reasoningEffort === item.defaultReasoningEffort) ? item.defaultReasoningEffort : usableEfforts[0].reasoningEffort;
+                return [{ ...item, supportedReasoningEfforts: usableEfforts, defaultReasoningEffort }];
             });
-            if (!models.length) return;
+            // 0.25.7: 非 Codex 运行时拿不到模型时清空列表，绝不沿用上一套 Codex 模型。
+            if (!models.length) {
+                if (runtime !== "codex") setAgentState({ models: [], model: "", reasoningEffort: "medium" });
+                return;
+            }
             const savedModel = useAgentStore.getState().model;
             const current = models.find((item) => item.model === savedModel) || models.find((item) => item.isDefault) || models[0];
             const savedEffort = useAgentStore.getState().reasoningEffort;
@@ -651,7 +668,7 @@ export function LocalAgentPanel({ embedded, headless, autoConnect }: { embedded?
             localStorage.setItem("canvas-agent-reasoning-effort", nextEffort);
             setAgentState({ models, model: current.model, reasoningEffort: nextEffort });
         }).catch((error) => addEventLog(rt("modelListFailed"), error));
-    }, [connected, endpoint, setAgentState, token]);
+    }, [connected, endpoint, runtimeRevision, setAgentState, token]);
 
     useEffect(() => {
         if (!connected) return;

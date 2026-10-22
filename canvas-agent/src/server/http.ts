@@ -4,7 +4,7 @@ import path from "node:path";
 import express, { type NextFunction, type Request, type Response } from "express";
 
 import { CLAUDE_THREAD_ID, claudeSessionId, interruptClaudeTurn, resetClaudeSession, runClaudeTurn } from "../agent/claude.js";
-import { runGalleyTurn } from "../agent/galley.js";
+import { interruptGalleyTurn, listGalleyModels, resetGalleySession, runGalleyTurn } from "../agent/galley.js";
 import { listClaudeMcpServers } from "../agent/runtime-mcp.js";
 import { detectRuntimes, isAgentRuntimeId } from "../agent/runtimes.js";
 import { archiveCodexThread, CodexSkillLookupError, configureCodexSkill, generateCodexSkillDraft, interruptCodexTurn, isRecoverableThreadError, listCodexModels, listCodexSkills, listCodexThreads, readCodexThread, resolveCodexApproval, resolveCodexSkill, resumeCodexThread, runCodexTurn, startCodexThread, summarizeCodexThread } from "../agent/codex.js";
@@ -14,6 +14,7 @@ import type { AgentAttachment, AgentPermissionMode } from "../agent/types.js";
 import { AGENT_PROTOCOL_VERSION, CanvasSession } from "../canvas/session.js";
 import { DEFAULT_PORT, ensureSiteWorkspace, loadConfig, saveConfig, updateSiteWorkspace, type CanvasAgentConfig } from "../config.js";
 import { logger } from "../utils/logger.js";
+import { errorMessage } from "../utils/value.js";
 import { checkVersions } from "../version-check.js";
 import { SkillStore, SkillStoreError } from "../skills/store.js";
 
@@ -62,8 +63,10 @@ export function startHttpServer() {
     let draftThreadStart: ReturnType<typeof startCodexThread> | null = null;
     let skillDraftRunning = false;
     /** 0.25.3: 非 Codex 运行时直接驱动 CLI，会话状态由这里维护，不再启动 codex app-server。 */
-    const startBridgeTurn = (runtime: "claude" | "galley", prompt: string, model: string | undefined, clientId: string) => {
+    const startBridgeTurn = (runtime: "claude" | "galley", prompt: string, model: string | undefined, clientId: string, attachments: AgentAttachment[] = []) => {
         const threadId = runtime;
+        // 0.25.7: 与 Codex 对齐，图片附件也要把附件清单交给 Agent，否则选了图等于没选。
+        const turnPrompt = withAttachmentContext(prompt, attachments.flatMap((item) => (item.id ? [{ id: String(item.id), name: String(item.name || "image") }] : [])));
         session.bindClient(clientId);
         session.activateConversation(threadId, clientId || undefined);
         session.markConversationRunning(threadId);
@@ -72,8 +75,8 @@ export function startHttpServer() {
             const value = payload && typeof payload === "object" && !Array.isArray(payload) ? payload as Record<string, unknown> : {};
             if (type === "agent_done" || (type === "agent_event" && value.type === "turn.completed")) session.finishConversationRun(threadId);
         };
-        if (runtime === "claude") runClaudeTurn({ prompt, emit: bridgeEmit, model });
-        else void runGalleyTurn({ prompt, emit: bridgeEmit, callTool: (name, input) => session.callTool(name, input) });
+        if (runtime === "claude") runClaudeTurn({ prompt: turnPrompt, emit: bridgeEmit, model });
+        else void runGalleyTurn({ prompt: turnPrompt, emit: bridgeEmit, model, callTool: (name, input) => session.callTool(name, input) });
         return threadId;
     };
     const prepareDraftThread = (clientId: string, permission: AgentPermissionMode) => {
@@ -212,6 +215,8 @@ export function startHttpServer() {
         if (!bridgeRuntime(runtime)) return res.status(409).json({ ok: false, error: "当前运行时使用 Codex 原生会话" });
         const clientId = String(req.body?.clientId || "");
         if (runtime === "claude") resetClaudeSession();
+        // 0.25.7: Galley 也要断开旧会话，「新对话」才真的换一个 Galley session。
+        if (runtime === "galley") resetGalleySession();
         const threadId = runtime;
         const conversation = session.activateConversation(threadId, clientId || undefined);
         const workspace = { ...ensureSiteWorkspace(config), activeThreadId: threadId };
@@ -222,6 +227,15 @@ export function startHttpServer() {
     app.get("/agent/models", route(async (_req, res) => {
         const runtime = config.runtime || "";
         if (runtime === "codex" || !runtime) return res.json({ ok: true, runtime: "codex", ...(await listCodexModels(emit)) });
+        // 0.25.7: Galley 的模型来自 `galley llm list`，以前返回空数组会让画布继续显示上一套 Codex 模型。
+        if (runtime === "galley") {
+            try {
+                return res.json({ ok: true, runtime, ...(await listGalleyModels()) });
+            } catch (error) {
+                logger.warn("Failed to list Galley models", { error });
+                return res.json({ ok: true, runtime, data: [{ id: "default", model: "default", displayName: "跟随 Galley 当前模型", defaultReasoningEffort: "medium", supportedReasoningEfforts: [], isDefault: true }], error: errorMessage(error) });
+            }
+        }
         res.json({ ok: true, runtime, data: runtime === "claude" ? CLAUDE_MODELS : [] });
     }));
 
@@ -263,7 +277,7 @@ export function startHttpServer() {
             const ok = await interruptCodexTurn(skillDraftRunning ? undefined : String(req.body?.threadId || ""));
             return res.status(ok ? 200 : 409).json({ ok, ...(ok ? {} : { error: "当前没有可停止的任务" }) });
         }
-        const ok = runtime === "claude" ? interruptClaudeTurn() : false;
+        const ok = runtime === "claude" ? interruptClaudeTurn() : runtime === "galley" ? await interruptGalleyTurn() : false;
         if (ok) session.finishConversationRun(session.conversationStateSnapshot.threadId);
         res.status(ok ? 200 : 409).json({ ok, ...(ok ? {} : { error: "当前没有可停止的任务" }) });
     }));
@@ -348,6 +362,10 @@ export function startHttpServer() {
         const clientId = String(req.body?.clientId || "");
         session.beginConversation({ sourceClientId: clientId });
         setActiveThread("", { emptyThread: true, draftThread: true, sourceClientId: clientId }, true);
+        // 0.25.7: Claude Code / Galley 不需要 Codex 草稿线程，避免新建会话时又拉起 codex 与它的 MCP 插件。
+        if (bridgeRuntime(config.runtime || "")) {
+            return res.json({ ok: true, runtime: config.runtime, workspace: ensureSiteWorkspace(config), conversation: session.conversationStateSnapshot });
+        }
         await prepareDraftThread(clientId, permissionMode(req.body?.permissionMode));
         res.json({ ok: true, workspace: ensureSiteWorkspace(config), conversation: session.conversationStateSnapshot });
     }));
@@ -365,6 +383,12 @@ export function startHttpServer() {
     app.post("/agent/codex/threads/:threadId/resume", codexMutation(async (req, res) => {
         const threadId = routeParam(req.params.threadId);
         const clientId = String(req.body?.clientId || "");
+        // 0.25.7: Claude Code / Galley 运行时不需要 Codex 线程，直接切会话即可，
+        // 否则这里会把 codex app-server 再拉起来（用户看到的就是「还是 Codex 的插件」）。
+        if (bridgeRuntime(config.runtime || "")) {
+            const nextWorkspace = setActiveThread(threadId, { sourceClientId: clientId }, true);
+            return res.json({ ok: true, runtime: config.runtime, workspace: nextWorkspace, conversation: session.conversationStateSnapshot });
+        }
         try {
             const result = await prepareExistingThread(threadId, clientId, permissionMode(req.body?.permissionMode));
             const nextWorkspace = setActiveThread(threadId, { sourceClientId: clientId }, true);
@@ -394,7 +418,7 @@ export function startHttpServer() {
         if (runtime === "claude" || runtime === "galley") {
             const messageId = String(req.body?.messageId || Date.now());
             await messageMetadataStore.recordPending(messageId, req.body?.messageMetadata);
-            const threadId = startBridgeTurn(runtime, prompt, String(req.body?.model || "") || undefined, clientId);
+            const threadId = startBridgeTurn(runtime, prompt, String(req.body?.model || "") || undefined, clientId, attachments);
             return res.json({ ok: true, threadId, runtime });
         }
         const requestedThreadId = String(req.body?.threadId || "");
@@ -533,9 +557,20 @@ export function startHttpServer() {
     app.post("/api/agent/runtime", (req, res) => {
         const runtime = req.body?.runtime;
         if (runtime && !isAgentRuntimeId(runtime)) return res.status(400).json({ ok: false, error: "unknown runtime" });
+        const previous = config.runtime || "";
         config.runtime = runtime || undefined;
         saveConfig(config);
-        res.json({ ok: true, runtime: config.runtime || "" });
+        const next = config.runtime || "";
+        // 0.25.7: 换运行时就把画布侧会话切到新运行时，
+        // 否则网页端仍拿着上一套 Codex 线程，连接面板会继续等 Codex 的 MCP 初始化。
+        if (next !== previous && bridgeRuntime(next)) {
+            resetClaudeSession();
+            resetGalleySession();
+            session.beginConversation();
+            setActiveThread(next, { runtimeSwitched: true }, true);
+        }
+        if (next !== previous) emit("agent_bootstrap", { type: "runtime.changed", runtime: next, previous });
+        res.json({ ok: true, runtime: next });
     });
 
     /** 0.23: Galley 运行时没有 MCP，由 canvas-agent 驱动会话并回传画布操作。 */
@@ -562,6 +597,13 @@ export function startHttpServer() {
         if (logger.enabled) console.log(`Debug log: ${logger.filePath}`);
         logger.info("Canvas Agent started", { url: config.url, workspace: ensureSiteWorkspace(config).workspacePath, debugLog: logger.filePath });
         const activeThreadId = initialWorkspace.activeThreadId || "";
+        // 0.25.7: 选了 Claude / Galley 时不再预热 Codex 线程，
+        // 否则新建窗口仍会拉起 codex app-server 并加载一套 MCP 插件。
+        if (bridgeRuntime(config.runtime || "")) {
+            session.activateConversation(config.runtime || "", "");
+            logger.info("Bridge runtime active, skip Codex prepare", { runtime: config.runtime });
+            return;
+        }
         if (activeThreadId && session.beginCodexMutation()) {
             void prepareExistingThread(activeThreadId).catch(async (error) => {
                 if (!isRecoverableThreadError(error)) return failPreparedConversation(error, activeThreadId);

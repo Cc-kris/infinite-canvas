@@ -207,6 +207,7 @@ async function fetchLatestRelease() {
             version: match[1],
             tag: release.tag_name,
             pageUrl: release.html_url,
+            notes: typeof release.body === "string" ? release.body : "",
             assets: (release.assets || []).map((asset) => ({ name: asset.name, url: asset.browser_download_url, size: asset.size })),
         };
     }
@@ -413,6 +414,8 @@ function registerUpdateIpc() {
                 releaseUrl: release.pageUrl,
                 installerName: installer ? installer.name : "",
                 downloadSupported: Boolean(installer),
+                // 0.25.7: 把 Release 正文一并交给渲染进程；CHANGELOG 漏写版本时用它兜底显示更新内容。
+                notes: release.notes || "",
             };
         } catch (error) {
             log("update check failed:", error?.message || error);

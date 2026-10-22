@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { App } from "antd";
 import { useTranslation } from "react-i18next";
 import { APP_VERSION } from "@/constant/env";
@@ -39,7 +39,27 @@ function isNewerVersion(latestVersion: string, currentVersion: string) {
     return latest.some((value, index) => value > current[index] && latest.slice(0, index).every((part, prevIndex) => part === current[prevIndex]));
 }
 
-type ReleaseLookup = { version: string; pageUrl: string; installerName: string };
+type ReleaseLookup = { version: string; pageUrl: string; installerName: string; notes: string };
+
+/** 从 Release 正文里提取可读条目：优先列表项，其次正文段落。 */
+function notesToItems(notes: string): ReleaseInfo["items"] {
+    const lines = notes.split("\n").map((line) => line.trim()).filter(Boolean);
+    const bullets = lines
+        .filter((line) => /^[-*]\s+/.test(line))
+        .map((line) => line.replace(/^[-*]\s+/, "").replace(/\*\*/g, "").trim())
+        .filter(Boolean);
+    const source = bullets.length ? bullets : lines.filter((line) => !line.startsWith("#") && !line.startsWith(">") && line.length > 6);
+    return source.slice(0, 12).map((line) => ({ type: "更新", content: line }));
+}
+
+/** CHANGELOG 里没有该版本时，用 Release 正文补一条，避免弹窗空白。 */
+function withReleaseNotes(list: ReleaseInfo[], remote: { version: string; notes: string }): ReleaseInfo[] {
+    if (!remote.notes.trim() || !remote.version) return list;
+    if (list.some((item) => item.version === remote.version || item.version === `v${remote.version}`)) return list;
+    const items = notesToItems(remote.notes);
+    if (!items.length) return list;
+    return [{ version: remote.version, date: "", items }, ...list];
+}
 
 /** Newest desktop-v* release, read from the repository's GitHub releases API. */
 async function fetchLatestDesktopRelease(): Promise<ReleaseLookup | null> {
@@ -53,7 +73,7 @@ async function fetchLatestDesktopRelease(): Promise<ReleaseLookup | null> {
         if (!match) continue;
         const assets: { name: string }[] = Array.isArray(release.assets) ? release.assets : [];
         const installer = assets.find((asset) => /\.(dmg|exe)$/i.test(asset.name))?.name || "";
-        return { version: match[1], pageUrl: String(release.html_url || releasesPageUrl), installerName: installer };
+        return { version: match[1], pageUrl: String(release.html_url || releasesPageUrl), installerName: installer, notes: typeof release.body === "string" ? release.body : "" };
     }
     return null;
 }
@@ -64,6 +84,8 @@ export function useVersionCheck() {
     const currentVersion = (bridge && desktopAppVersion()) || APP_VERSION;
     const { message } = App.useApp();
     const localReleases = useMemo(readLocalReleases, []);
+    /** 最近一次 Release 的正文，供 CHANGELOG 漏写版本时兜底。 */
+    const remoteReleaseRef = useRef<{ version: string; notes: string }>({ version: "", notes: "" });
     const [latestVersion, setLatestVersion] = useState(currentVersion);
     const [releases, setReleases] = useState<ReleaseInfo[]>(localReleases);
     const [checking, setChecking] = useState(false);
@@ -93,6 +115,7 @@ export function useVersionCheck() {
                 if (status?.releaseUrl) setReleaseUrl(status.releaseUrl);
                 setDownloadSupported(Boolean(status?.downloadSupported));
                 setLatestVersion(nextVersion);
+                remoteReleaseRef.current = { version: nextVersion, notes: String(status?.notes || "") };
                 return true;
             } catch {
                 return false;
@@ -104,6 +127,7 @@ export function useVersionCheck() {
                 setLatestVersion(release.version);
                 setReleaseUrl(release.pageUrl);
                 setDownloadSupported(Boolean(release.installerName));
+                remoteReleaseRef.current = { version: release.version, notes: release.notes };
                 return true;
             }
             // Fall back to the version file when the API is rate limited.
@@ -122,16 +146,19 @@ export function useVersionCheck() {
             setChecking(true);
             try {
                 const [ok, changelogResponse] = await Promise.all([checkLatestVersion(), fetch(latestChangelogUrl).catch(() => null)]);
+                let nextReleases = localReleases;
                 if (changelogResponse?.ok) {
                     const changelog = await changelogResponse.text();
-                    if (changelog.trim()) setReleases(parseChangelog(changelog));
+                    if (changelog.trim()) nextReleases = parseChangelog(changelog);
                 }
+                // 0.25.7: CHANGELOG 常漏写已发布版本，用 Release 正文补一条，弹窗不再空白。
+                setReleases(withReleaseNotes(nextReleases, remoteReleaseRef.current));
                 if (!ok) throw new Error(t("version.readFailed"));
                 if (showMessage) message.success(t("version.updated"));
                 return true;
             } catch {
                 setLatestVersion(currentVersion);
-                setReleases(localReleases);
+                setReleases(withReleaseNotes(localReleases, remoteReleaseRef.current));
                 if (showMessage) message.error(t("version.updateFailed"));
                 return false;
             } finally {

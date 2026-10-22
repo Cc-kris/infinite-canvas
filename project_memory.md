@@ -164,3 +164,13 @@
 - 版本号缓存 `CLI_VERSION_TTL_MS=10min`、单次 5s：`listRuntimes` 连续调用已从百毫秒级降到 1ms。
 - 测 agent-hub 的办法（无需启动 Electron）：把 `desktop/agent-hub.js` + `desktop/agent/canvas-agent.mjs` 拷到 `/tmp/agenthub-test`，配 `{"type":"module"}` 的 package.json，写 `node_modules/electron` **ESM** 桩（导出 app/BrowserWindow；CJS stub 会报 "does not provide an export named BrowserWindow"），`HOME=/tmp/xxx` 隔离 `~/.infinite-canvas` 与 CLI 配置，然后直接 `node test.mjs`。跑完必须 `stopAgentServerOnQuit()` 收掉 17371 上的服务。
 - 【重要坑】项目私域目录 `temp/projects/infinite-canvas-701e72df` 是 `/Users/mac/Documents/Dev/infinite-canvas` 的**软链接**：往里写任何临时文件都等于写进 git 工作区，测试目录一律放 `/tmp`。
+## 发版动作清单（0.25.6 实操，2026-10-22）
+- 版本号两处必须同时改：`VERSION`（格式带 v：`v0.25.6`，vite.config.ts 构建期注入 `__APP_VERSION__`）+ `desktop/package.json`；**改 package.json 用逐行 patch，别用 json.dump 整体重写**（会重排 224 行，diff 全糊）。
+- `desktop/RELEASE_NOTES.md` 新版本节放**最前面**（release 正文整篇取这个文件，CI 不裁剪）。
+- 改完版本号必须**重新 `pnpm build`**，否则界面/包内还是旧版本号（dist 是提交前产物，CI 会自己重建，但本地自检要对得上）。
+- 流程：commit → push main → `git tag -a desktop-vX -m "..."` → push tag → 工作流 `Desktop installers`（仅 tag `desktop-v*` 或 workflow_dispatch 触发）出 3 件包：mac-arm64.dmg / mac-x64.dmg / Setup-x64.exe → 校验 `releases/latest` 的 tag_name + 资产数 3 → 按用户偏好删旧 release（**保留 tag，只删 release**）。
+- **坑：macos-14 job 会被 GitHub 直接 cancel**，注解 `The job was not acquired by Runner of type hosted even after multiple attempts` + 提示 arm64 runner 容量受限；排队约 15 分钟就会取消，连带 release job skip，整个 run 变 failure。**处置：不要改代码、不要重打 tag，直接 `gh run rerun <runid> --failed`**，重跑通常几十秒就拿到机器并成功（0.25.6 实测：18:05 排队→18:20 取消→rerun→18:30 mac/win+release 全绿）。
+- 查这类失败别用 `gh run view --log-failed`（返回空），用 `gh api repos/<repo>/actions/runs/<id>/jobs` 逐个 job 拉 `/annotations` 才看得到原因。
+- 用户明确表示：**本地 electron-builder 打包是多余的**，推 tag 让 CI 出包即可；本机只在需要排查「包内文件对不对」时挂 dmg 抽查（`hdiutil attach` → 看 Resources/renderer/index.html 指向的 hash、Resources/proxy/server.js、app.asar）。
+- 应用内更新（回答「能不能不重装」必查）：不是只跳网页——`update:check` → `update:download`（主进程下载 + `update:progress` 进度）→ `launchInstaller` 静默覆盖安装到当前 exe 目录（Win 参数 `/S /currentuser|/allusers --force-run /D=<dir>`，`/D=` 必须最后且不加引号）→ 应用退出后 `--force-run` 拉起新版；`update-pending.json` 记录 from/to，版本没变会弹「升级未生效」。入口：顶部导航右侧的**版本号文字**（`user-status-actions.tsx` → `version-release-modal.tsx`），有新版本时旁边一个绿点，点开按钮是「更新到 x.y.z」。0.21 起就有（commit 2d6214b）。
+- 更新通道网络细节：桌面端 `checkLatestVersion` 优先走 `bridge.checkUpdate()`（主进程，0.25.5 起用能跟随系统代理的 net.fetch）；renderer 里 `fetch(raw.githubusercontent.com CHANGELOG)` 失败只是历史列表退回本地，不影响安装。真正风险是 **91MB 安装包下载速度**（本机到 GitHub 资产仅 13–50KB/s），慢到用户以为卡住；下载后有字节数校验，截断会报 `installer incomplete`。

@@ -20982,7 +20982,7 @@ var require_route = __commonJS({
       }
       return methods2;
     };
-    Route.prototype.dispatch = function dispatch(req, res, done) {
+    Route.prototype.dispatch = function dispatch2(req, res, done) {
       let idx = 0;
       const stack = this.stack;
       let sync = 0;
@@ -53433,6 +53433,13 @@ import { spawn as spawn2 } from "node:child_process";
 var GALLEY_BIN = process.env.GALLEY_BIN || resolveCommand("galley") || "galley";
 var POLL_INTERVAL_MS = 1500;
 var TIMEOUT_MS = Number(process.env.GALLEY_TURN_TIMEOUT_MS) || 15 * 60 * 1e3;
+var currentSessionId2 = "";
+var currentSessionModel = "";
+var interrupted = false;
+function resetGalleySession() {
+  currentSessionId2 = "";
+  currentSessionModel = "";
+}
 var OPS_PROTOCOL = [
   "",
   "## \u753B\u5E03\u64CD\u4F5C\u8F93\u51FA\u534F\u8BAE\uFF08\u91CD\u8981\uFF09",
@@ -53443,18 +53450,19 @@ var OPS_PROTOCOL = [
   "\u53EF\u7528 type \u4E0E MCP \u5DE5\u5177\u540C\u540D\u8BED\u4E49\uFF1Aadd_node / add_text_nodes / update_node / delete_nodes / create_image_prompt_flow / create_generation_flow\u3002",
   "\u4E0D\u9700\u8981\u6539\u753B\u5E03\u65F6\u4E0D\u8981\u8F93\u51FA\u8BE5\u4EE3\u7801\u5757\u3002"
 ].join("\n");
-async function runGalleyTurn({ prompt, emit, callTool }) {
+async function runGalleyTurn({ prompt, emit, callTool, model }) {
   if (!prompt.trim()) return;
   const threadId = "galley";
   const turnId = `galley-${Date.now()}`;
+  interrupted = false;
   emit("agent_event", { agent: "galley", threadId, turnId, type: "turn.started" });
   try {
-    const sessionId = await createSession(`${AGENT_PROMPT}
+    const task = `${AGENT_PROMPT}
 ${OPS_PROTOCOL}
 
-\u7528\u6237\u8BF7\u6C42\uFF1A${prompt}`);
-    emit("agent_log", { text: `Galley session: ${sessionId}` });
-    const text2 = await waitForAnswer(sessionId);
+\u7528\u6237\u8BF7\u6C42\uFF1A${prompt}`;
+    const { sessionId, baseline } = await dispatch(task, model, emit);
+    const text2 = await waitForAnswer(sessionId, baseline);
     const { clean, ops } = extractOps(text2);
     if (ops.length) {
       try {
@@ -53473,35 +53481,108 @@ ${OPS_PROTOCOL}
     emit("agent_event", { agent: "galley", threadId, turnId, type: "turn.completed", status: "completed" });
     emit("agent_done", { agent: "galley", code: 0 });
   } catch (error2) {
-    emit("agent_error", { message: errorMessage(error2) });
-    emit("agent_event", { agent: "galley", threadId, turnId, type: "turn.completed", status: "failed", error: { message: errorMessage(error2) } });
+    const message = errorMessage(error2);
+    emit("agent_error", { message });
+    emit("agent_event", { agent: "galley", threadId, turnId, type: "turn.completed", status: "failed", error: { message } });
     emit("agent_done", { agent: "galley", code: 1 });
   }
 }
-async function createSession(task) {
-  const output = await runCli(["session", "new", "--supervisor", "canvas-agent", task]);
+async function dispatch(task, model, emit) {
+  const wanted = model && model !== "default" ? model : "";
+  if (currentSessionId2 && currentSessionModel !== wanted) {
+    emit("agent_log", { text: `\u6A21\u578B\u5DF2\u5207\u6362\u4E3A ${wanted || "\u8DDF\u968F Galley"}\uFF0C\u65B0\u5EFA Galley \u4F1A\u8BDD` });
+    resetGalleySession();
+  }
+  if (currentSessionId2) {
+    const baseline = await lastTurnIndex(currentSessionId2);
+    try {
+      await runCli(["session", "send", currentSessionId2, task]);
+      emit("agent_log", { text: `Galley session: ${currentSessionId2}\uFF08\u7EED\u63A5\uFF09` });
+      return { sessionId: currentSessionId2, baseline };
+    } catch (error2) {
+      emit("agent_log", { text: `Galley \u7EED\u63A5\u5931\u8D25\uFF0C\u6539\u4E3A\u65B0\u4F1A\u8BDD\uFF1A${errorMessage(error2)}` });
+      currentSessionId2 = "";
+    }
+  }
+  const sessionId = await createSession(task, model);
+  currentSessionId2 = sessionId;
+  currentSessionModel = model && model !== "default" ? model : "";
+  emit("agent_log", { text: `Galley session: ${sessionId}` });
+  return { sessionId, baseline: -1 };
+}
+async function interruptGalleyTurn() {
+  if (!currentSessionId2) return false;
+  interrupted = true;
+  try {
+    await runCli(["session", "stop", currentSessionId2]);
+    return true;
+  } catch {
+    return false;
+  }
+}
+async function listGalleyModels() {
+  const output = await runCli(["llm", "list"]);
+  const rows = output.split(/\r?\n/).map((line) => line.trim()).filter(Boolean).flatMap((line) => {
+    try {
+      return [JSON.parse(line)];
+    } catch {
+      return [];
+    }
+  });
+  const data = rows.map((row) => {
+    const name = String(row.displayName || row.name || "").trim();
+    if (!name) return null;
+    return {
+      id: String(row.key || name),
+      model: name,
+      displayName: name,
+      defaultReasoningEffort: "medium",
+      supportedReasoningEfforts: [],
+      isDefault: Boolean(row.isCurrent)
+    };
+  }).filter(Boolean);
+  return {
+    data: [
+      { id: "default", model: "default", displayName: "\u8DDF\u968F Galley \u5F53\u524D\u6A21\u578B", defaultReasoningEffort: "medium", supportedReasoningEfforts: [], isDefault: !rows.some((row) => row.isCurrent) },
+      ...data
+    ]
+  };
+}
+async function createSession(task, model) {
+  const args = ["session", "new", "--supervisor", "canvas-agent"];
+  if (model && model !== "default") args.push("--llm", model);
+  args.push(task);
+  const output = await runCli(args);
   const line = output.split(/\r?\n/).filter(Boolean).pop() || "{}";
   const payload = JSON.parse(line);
   const id = payload.session?.id;
   if (!id) throw new Error(payload.message || payload.error || "Galley \u4F1A\u8BDD\u521B\u5EFA\u5931\u8D25");
   return id;
 }
-async function waitForAnswer(sessionId) {
+async function lastTurnIndex(sessionId) {
+  const messages = await showMessages(sessionId, 4);
+  return messages.reduce((max, item) => Math.max(max, Number(item.turnIndex) || 0), 0);
+}
+async function waitForAnswer(sessionId, baseline) {
   const deadline = Date.now() + TIMEOUT_MS;
   while (Date.now() < deadline) {
-    const output = await runCli(["session", "show", sessionId, "--tail=10"]);
-    const messages = output.split(/\r?\n/).filter(Boolean).map((line) => {
-      try {
-        return JSON.parse(line);
-      } catch {
-        return null;
-      }
-    }).filter(Boolean);
-    const answer = messages.filter((item) => item.role === "agent" && String(item.content || "").trim()).pop();
+    if (interrupted) throw new Error("\u5DF2\u505C\u6B62\u672C\u8F6E Galley \u4EFB\u52A1");
+    const messages = await showMessages(sessionId, 8);
+    const answer = messages.filter((item) => item.role === "agent" && String(item.content || "").trim() && (Number(item.turnIndex) || 0) > baseline).pop();
     if (answer?.content) return answer.content;
     await new Promise((resolve) => setTimeout(resolve, POLL_INTERVAL_MS));
   }
   throw new Error("Galley \u4F1A\u8BDD\u8D85\u65F6\u672A\u8FD4\u56DE\u7ED3\u679C");
+}
+async function showMessages(sessionId, tail) {
+  const output = await runCli(["session", "show", sessionId, "--tail", String(tail)]);
+  return output.split(/\r?\n/).filter(Boolean).flatMap((line) => {
+    try {
+      return [JSON.parse(line)];
+    } catch {
+      return [];
+    }
+  });
 }
 function runCli(args) {
   return new Promise((resolve, reject) => {
@@ -53525,7 +53606,8 @@ function extractOps(text2) {
     }
     return "";
   });
-  return { clean: clean.trim(), ops };
+  const withoutSuggestion = clean.replace(/<next-suggestion>[\s\S]*?<\/next-suggestion>/gi, "").trim();
+  return { clean: withoutSuggestion, ops };
 }
 
 // ../canvas-agent/src/agent/runtime-mcp.ts
@@ -61285,8 +61367,9 @@ function startHttpServer() {
   };
   let draftThreadStart = null;
   let skillDraftRunning = false;
-  const startBridgeTurn = (runtime, prompt, model, clientId) => {
+  const startBridgeTurn = (runtime, prompt, model, clientId, attachments = []) => {
     const threadId = runtime;
+    const turnPrompt = withAttachmentContext(prompt, attachments.flatMap((item) => item.id ? [{ id: String(item.id), name: String(item.name || "image") }] : []));
     session.bindClient(clientId);
     session.activateConversation(threadId, clientId || void 0);
     session.markConversationRunning(threadId);
@@ -61295,8 +61378,8 @@ function startHttpServer() {
       const value = payload && typeof payload === "object" && !Array.isArray(payload) ? payload : {};
       if (type === "agent_done" || type === "agent_event" && value.type === "turn.completed") session.finishConversationRun(threadId);
     };
-    if (runtime === "claude") runClaudeTurn({ prompt, emit: bridgeEmit, model });
-    else void runGalleyTurn({ prompt, emit: bridgeEmit, callTool: (name, input) => session.callTool(name, input) });
+    if (runtime === "claude") runClaudeTurn({ prompt: turnPrompt, emit: bridgeEmit, model });
+    else void runGalleyTurn({ prompt: turnPrompt, emit: bridgeEmit, model, callTool: (name, input) => session.callTool(name, input) });
     return threadId;
   };
   const prepareDraftThread = (clientId, permission) => {
@@ -61430,6 +61513,7 @@ function startHttpServer() {
     if (!bridgeRuntime(runtime)) return res.status(409).json({ ok: false, error: "\u5F53\u524D\u8FD0\u884C\u65F6\u4F7F\u7528 Codex \u539F\u751F\u4F1A\u8BDD" });
     const clientId = String(req.body?.clientId || "");
     if (runtime === "claude") resetClaudeSession();
+    if (runtime === "galley") resetGalleySession();
     const threadId = runtime;
     const conversation = session.activateConversation(threadId, clientId || void 0);
     const workspace = { ...ensureSiteWorkspace(config2), activeThreadId: threadId };
@@ -61438,6 +61522,14 @@ function startHttpServer() {
   app.get("/agent/models", route(async (_req, res) => {
     const runtime = config2.runtime || "";
     if (runtime === "codex" || !runtime) return res.json({ ok: true, runtime: "codex", ...await listCodexModels(emit) });
+    if (runtime === "galley") {
+      try {
+        return res.json({ ok: true, runtime, ...await listGalleyModels() });
+      } catch (error2) {
+        logger.warn("Failed to list Galley models", { error: error2 });
+        return res.json({ ok: true, runtime, data: [{ id: "default", model: "default", displayName: "\u8DDF\u968F Galley \u5F53\u524D\u6A21\u578B", defaultReasoningEffort: "medium", supportedReasoningEfforts: [], isDefault: true }], error: errorMessage(error2) });
+      }
+    }
     res.json({ ok: true, runtime, data: runtime === "claude" ? CLAUDE_MODELS : [] });
   }));
   app.get("/agent/skills", route(async (req, res) => {
@@ -61473,7 +61565,7 @@ function startHttpServer() {
       const ok2 = await interruptCodexTurn(skillDraftRunning ? void 0 : String(req.body?.threadId || ""));
       return res.status(ok2 ? 200 : 409).json({ ok: ok2, ...ok2 ? {} : { error: "\u5F53\u524D\u6CA1\u6709\u53EF\u505C\u6B62\u7684\u4EFB\u52A1" } });
     }
-    const ok = runtime === "claude" ? interruptClaudeTurn() : false;
+    const ok = runtime === "claude" ? interruptClaudeTurn() : runtime === "galley" ? await interruptGalleyTurn() : false;
     if (ok) session.finishConversationRun(session.conversationStateSnapshot.threadId);
     res.status(ok ? 200 : 409).json({ ok, ...ok ? {} : { error: "\u5F53\u524D\u6CA1\u6709\u53EF\u505C\u6B62\u7684\u4EFB\u52A1" } });
   }));
@@ -61558,6 +61650,9 @@ function startHttpServer() {
     const clientId = String(req.body?.clientId || "");
     session.beginConversation({ sourceClientId: clientId });
     setActiveThread("", { emptyThread: true, draftThread: true, sourceClientId: clientId }, true);
+    if (bridgeRuntime(config2.runtime || "")) {
+      return res.json({ ok: true, runtime: config2.runtime, workspace: ensureSiteWorkspace(config2), conversation: session.conversationStateSnapshot });
+    }
     await prepareDraftThread(clientId, permissionMode(req.body?.permissionMode));
     res.json({ ok: true, workspace: ensureSiteWorkspace(config2), conversation: session.conversationStateSnapshot });
   }));
@@ -61575,6 +61670,10 @@ function startHttpServer() {
   app.post("/agent/codex/threads/:threadId/resume", codexMutation(async (req, res) => {
     const threadId = routeParam(req.params.threadId);
     const clientId = String(req.body?.clientId || "");
+    if (bridgeRuntime(config2.runtime || "")) {
+      const nextWorkspace = setActiveThread(threadId, { sourceClientId: clientId }, true);
+      return res.json({ ok: true, runtime: config2.runtime, workspace: nextWorkspace, conversation: session.conversationStateSnapshot });
+    }
     try {
       const result = await prepareExistingThread(threadId, clientId, permissionMode(req.body?.permissionMode));
       const nextWorkspace = setActiveThread(threadId, { sourceClientId: clientId }, true);
@@ -61602,7 +61701,7 @@ function startHttpServer() {
     if (runtime === "claude" || runtime === "galley") {
       const messageId2 = String(req.body?.messageId || Date.now());
       await messageMetadataStore.recordPending(messageId2, req.body?.messageMetadata);
-      const threadId2 = startBridgeTurn(runtime, prompt, String(req.body?.model || "") || void 0, clientId);
+      const threadId2 = startBridgeTurn(runtime, prompt, String(req.body?.model || "") || void 0, clientId, attachments);
       return res.json({ ok: true, threadId: threadId2, runtime });
     }
     const requestedThreadId = String(req.body?.threadId || "");
@@ -61734,9 +61833,18 @@ function startHttpServer() {
   app.post("/api/agent/runtime", (req, res) => {
     const runtime = req.body?.runtime;
     if (runtime && !isAgentRuntimeId(runtime)) return res.status(400).json({ ok: false, error: "unknown runtime" });
+    const previous = config2.runtime || "";
     config2.runtime = runtime || void 0;
     saveConfig(config2);
-    res.json({ ok: true, runtime: config2.runtime || "" });
+    const next = config2.runtime || "";
+    if (next !== previous && bridgeRuntime(next)) {
+      resetClaudeSession();
+      resetGalleySession();
+      session.beginConversation();
+      setActiveThread(next, { runtimeSwitched: true }, true);
+    }
+    if (next !== previous) emit("agent_bootstrap", { type: "runtime.changed", runtime: next, previous });
+    res.json({ ok: true, runtime: next });
   });
   app.post("/agent/galley/turn", route(async (req, res) => {
     if (session.codexBusy) return res.status(409).json({ ok: false, error: "Agent \u6B63\u5728\u8FD0\u884C\uFF0C\u8BF7\u7A0D\u540E\u91CD\u8BD5" });
@@ -61760,6 +61868,11 @@ function startHttpServer() {
     if (logger.enabled) console.log(`Debug log: ${logger.filePath}`);
     logger.info("Canvas Agent started", { url: config2.url, workspace: ensureSiteWorkspace(config2).workspacePath, debugLog: logger.filePath });
     const activeThreadId = initialWorkspace.activeThreadId || "";
+    if (bridgeRuntime(config2.runtime || "")) {
+      session.activateConversation(config2.runtime || "", "");
+      logger.info("Bridge runtime active, skip Codex prepare", { runtime: config2.runtime });
+      return;
+    }
     if (activeThreadId && session.beginCodexMutation()) {
       void prepareExistingThread(activeThreadId).catch(async (error2) => {
         if (!isRecoverableThreadError(error2)) return failPreparedConversation(error2, activeThreadId);
