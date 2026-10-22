@@ -145,3 +145,10 @@
 - 独立版 `npx @basketikun/canvas-proxy` 只有 node 通道；**Node 的 fetch 默认不读 HTTPS_PROXY**，要 `NODE_USE_ENV_PROXY=1`（Node 24 实测有效：设死代理 + 该变量 → 立刻 ECONNREFUSED），index.js 已加启动告警。
 - 自动更新（`desktop/main.js` 的 RELEASES_API / 安装包下载）同样从裸 fetch 换成 `outboundFetch`，否则 GitHub 打不开的网络环境下更新检查静默失败。
 - cc-ai.xyz 实测：站点根 `/` 返回 **403**（Cloudflare 拦非浏览器/境外线路），`/v1/models` 返回 401 → **站点和 API 是不同链路**；应用只走 API（`buildApiUrl` 拼 `/v1`，gemini 拼 `/v1beta`，无任何请求首页的路径）。
+
+## 2026-10-22 发布 0.25.5（含本次 proxy 修复）
+- 发版就是 `git push origin main` + `git tag -a desktop-v0.25.5 -m "..."` + `git push origin desktop-v0.25.5`；CI 自动跑 mac dmg(arm64/x64) + win nsis + 校验 + 建 release，约 3 分钟出全部产物。`VERSION` 与 `desktop/package.json` 里的版本由流水线按 tag 覆写，本地不必手改到完全一致（但本地改一下便于自测）。
+- 发布说明顺序很重要：`desktop/RELEASE_NOTES.md` 的第一节就是 release 正文开头，新版本内容要放最前，历史升级提醒放后面；已发布的正文可用 `gh release edit <tag> -R Cc-kris/infinite-canvas --notes-file desktop/RELEASE_NOTES.md` 事后修正（不用重新打包）。
+- 校验发布：`gh release view desktop-v0.25.5 -R Cc-kris/infinite-canvas --json assets`、`gh api repos/Cc-kris/infinite-canvas/releases/latest -q .tag_name`（应用内更新读的是 `/releases/latest`，必须是 non-prerelease 才会被看到）。资产名要和 `desktop/main.js` 的匹配规则对齐：win `*-Setup-*x64.exe`、mac `*-mac-{arm64,x64}.dmg`。
+- 新 tag 后 main 若再提交（如改说明），不会重跑 release（只监听 tag），tag 指向的仍是旧 commit——正文与仓库文件短暂不一致，靠 gh release edit 补齐。
+- 仍待办：`canvas-proxy` 已升到 0.1.1 但**未 `npm publish`**，所以 `npx @basketikun/canvas-proxy@latest` 拿到的还是 0.1.0（桌面版不受影响，proxy 是随包内置的 server.js）。
