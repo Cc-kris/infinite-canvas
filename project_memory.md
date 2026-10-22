@@ -152,3 +152,8 @@
 - 校验发布：`gh release view desktop-v0.25.5 -R Cc-kris/infinite-canvas --json assets`、`gh api repos/Cc-kris/infinite-canvas/releases/latest -q .tag_name`（应用内更新读的是 `/releases/latest`，必须是 non-prerelease 才会被看到）。资产名要和 `desktop/main.js` 的匹配规则对齐：win `*-Setup-*x64.exe`、mac `*-mac-{arm64,x64}.dmg`。
 - 新 tag 后 main 若再提交（如改说明），不会重跑 release（只监听 tag），tag 指向的仍是旧 commit——正文与仓库文件短暂不一致，靠 gh release edit 补齐。
 - 仍待办：`canvas-proxy` 已升到 0.1.1 但**未 `npm publish`**，所以 `npx @basketikun/canvas-proxy@latest` 拿到的还是 0.1.0（桌面版不受影响，proxy 是随包内置的 server.js）。
+
+## Release 清理（2026-10-22 实操）
+- `gh release delete <tag> -R Cc-kris/infinite-canvas --yes` **只删 release 对象与资产，保留 git tag**；要连 tag 一起删才加 `--cleanup-tag`。清完 `gh release list` 只剩想留的那条，`gh api repos/.../tags` 里 desktop-v* 仍在。
+- 旧 release 可以放心清：应用内更新读的是 `/releases/latest`（只认一条），历史安装包对更新链路没用；删完后 `releases/latest` 仍指向新版、资产数不变即健康。
+- 清理后必查三样：`gh release list`（应只剩 1 条）、`gh api .../releases/latest -q .tag_name`、`gh release view <tag> --json assets`（确认 3 个包还在）。
