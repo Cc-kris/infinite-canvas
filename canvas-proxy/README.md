@@ -35,6 +35,47 @@ http://127.0.0.1:23210/https://api.openai.com/v1/models
 
 访问根路径 `/` 会返回代理版本信息，可用于连通性检测，不会记入转发日志。
 
+## 出站连接与系统代理
+
+桌面版会把两条出站通道交给代理，按顺序尝试：
+
+1. **系统代理通道**：直接使用 Electron 的 `net.fetch`（Chromium 网络栈），会读取系统代理设置（Windows 的 WinINET / Internet 选项、macOS 的系统代理、PAC 脚本），因此 Clash / V2Ray 之类的「系统代理」模式对它有效。
+2. **直连通道**：Node 自带的 `fetch`（undici），纯直连，不经过任何代理。
+
+第一条失败（DNS 解析失败、连接被拒/被重置、系统代理没启动、握手超时）时自动换第二条，两条都失败才向前端返回 502。
+如果上游对代理线路明确翻脸——返回 `403` / `407` / `451`（常见于国内中转站封境外 IP）——也会改试直连，
+因为此时请求还没被受理，换一条路不产生任何费用；而 `401` / `429` / `500` 这类是接口自己的回答，不会再试第二次。之所以这样设计，是因为 Node 的 `fetch` 完全无视系统代理：如果只走它，用户开着「系统代理」模式时请求其实是直连出网的，接口在墙外就会表现为 `fetch failed`。
+
+单独的 `npx @basketikun/canvas-proxy` 只有直连通道（`transports: ["node"]`）。需要走代理时注意：**Node 的 `fetch` 默认不读 `HTTPS_PROXY`/`HTTP_PROXY`**，必须带上 `NODE_USE_ENV_PROXY=1` 才会生效：
+
+```bash
+NODE_USE_ENV_PROXY=1 HTTPS_PROXY=http://127.0.0.1:7890 npx @basketikun/canvas-proxy@latest
+```
+
+启动时若检测到 `HTTPS_PROXY`/`HTTP_PROXY` 却没有 `NODE_USE_ENV_PROXY=1`，会在日志里提示这一点（否则你以为在走代理，其实是直连）。桌面版不需要这些环境变量，它直接用 Chromium 的网络栈。
+
+### 失败时返回什么
+
+两条通道都失败时返回 `502`，响应体里带可读原因，前端会原样显示：
+
+```json
+{
+  "error": "无法连接 api.example.com：域名解析失败（ENOTFOUND）。建议：接口域名解析不出来，通常是网络不通或代理没走对；请确认代理已启动，必要时切换为全局/TUN 模式；已尝试 系统代理:ERR_PROXY_CONNECTION_FAILED / 直连:ENOTFOUND",
+  "host": "api.example.com",
+  "code": "ENOTFOUND",
+  "attempts": [
+    { "channel": "system", "code": "ERR_PROXY_CONNECTION_FAILED", "message": "net::ERR_PROXY_CONNECTION_FAILED" },
+    { "channel": "direct", "code": "ENOTFOUND", "message": "getaddrinfo ENOTFOUND api.example.com" }
+  ]
+}
+```
+
+`code` 取直连通道的结果——代理自身的问题（比如代理没启动）不该掩盖「这个域名根本解析不出来」这个事实。
+
+### 超时
+
+启用系统代理通道时，等待上游响应头的上限是 180 秒（`CANVAS_PROXY_HEADER_TIMEOUT_MS` 可覆盖），两条通道共享 1.5 倍总预算，所以一个黑洞地址最多卡 270 秒而不是各卡一次。响应头到手后不再计时，生图这类长耗时请求照常等待，SSE 也照常按块转发。
+
 ## 转发日志
 
 每转发一条请求就在终端打印一行，包含时间、方法、完整目标地址、上游状态码和耗时：

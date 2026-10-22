@@ -1,4 +1,4 @@
-import { app, BrowserWindow, dialog, ipcMain, Menu, shell } from "electron";
+import { app, BrowserWindow, dialog, ipcMain, Menu, net, shell } from "electron";
 
 import { registerAgentHub, revalidateConnection, stopAgentServerOnQuit } from "./agent-hub.js";
 import { spawn, spawnSync } from "node:child_process";
@@ -54,6 +54,33 @@ function log(...args) {
     console.log("[infinite-canvas]", ...args);
 }
 
+/**
+ * Electron's net.fetch goes through Chromium, so it honours the OS proxy / PAC / VPN setup.
+ * Plain Node fetch (undici) ignores all of that, which is why a Windows install behind a
+ * Clash-style "system proxy" used to fail with `fetch failed` while the browser worked.
+ */
+function systemFetch(input, init) {
+    return net.fetch(input, init);
+}
+
+/** Direct connection, used when the configured system proxy is unreachable. */
+function directFetch(input, init) {
+    return fetch(input, init);
+}
+
+/**
+ * Outbound fetch for main-process HTTP (update checks, installer download): system proxy first,
+ * then a direct attempt. Both failures are reported with the underlying network error intact.
+ */
+async function outboundFetch(input, init) {
+    try {
+        return await systemFetch(input, init);
+    } catch (error) {
+        log("request via system proxy failed, retrying directly:", error?.message || error);
+        return directFetch(input, init);
+    }
+}
+
 /** Probe an already running canvas-proxy so a second copy never fights for the port. */
 async function detectRunningProxy(port) {
     const url = `http://127.0.0.1:${port}`;
@@ -78,7 +105,15 @@ async function startProxy() {
         }
         try {
             const mod = await import(pathToFileURL(proxyEntry).href);
-            proxyServer = await mod.startProxyServer({ port, host: "127.0.0.1" });
+            proxyServer = await mod.startProxyServer({
+                port,
+                host: "127.0.0.1",
+                // Order matters: Chromium's stack follows the system proxy, undici is the direct fallback.
+                transports: [
+                    { name: "system", proxyAware: true, fetch: systemFetch },
+                    { name: "direct", proxyAware: false, fetch: directFetch },
+                ],
+            });
             const url = `http://127.0.0.1:${port}`;
             log(`local proxy started at ${url}`);
             return url;
@@ -157,7 +192,7 @@ function compareVersions(a, b) {
 
 /** Latest published desktop release (tag desktop-vX.Y.Z) with its installers. */
 async function fetchLatestRelease() {
-    const response = await fetch(RELEASES_API, {
+    const response = await outboundFetch(RELEASES_API, {
         headers: { accept: "application/vnd.github+json", "user-agent": USER_AGENT },
         signal: AbortSignal.timeout(20000),
     });
@@ -196,7 +231,7 @@ function pickInstaller(assets) {
 }
 
 async function downloadInstaller(url, targetPath, onProgress) {
-    const response = await fetch(url, { headers: { "user-agent": USER_AGENT }, redirect: "follow", signal: AbortSignal.timeout(30 * 60 * 1000) });
+    const response = await outboundFetch(url, { headers: { "user-agent": USER_AGENT }, redirect: "follow", signal: AbortSignal.timeout(30 * 60 * 1000) });
     if (!response.ok || !response.body) throw new Error(`download failed with ${response.status}`);
     const total = Number(response.headers.get("content-length") || 0);
     const file = createWriteStream(targetPath);

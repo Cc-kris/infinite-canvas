@@ -120,3 +120,28 @@
   正确顺序：先改 `desktop/RELEASE_NOTES.md` 并提交 → 打 tag 推送；事后补救用 `gh release edit <tag> --notes-file desktop/RELEASE_NOTES.md`。
 - gh 在 /opt/homebrew/bin/gh，且所有命令要带 `-R Cc-kris/infinite-canvas`。GitHub 下载速度只有 ~37KB/s，109MB 的包别想着拉回来复验；
   改用 `gh run view <id> --json headSha` 确认 CI 用的就是 tag 的 commit，再从日志 grep `[build-agent] canvas-agent` 证明 bundle 重新打过。
+
+## Windows 自更新「下载完就退出、无安装窗口」= 0.25.4 已修（2026-10-22）
+- 三个并列原因，缺一个都还是坏：① 非管理员时先套 `powershell Start-Process -Verb RunAs` 是**有害**的（UAC 被拒=用户看到「退出、没下文」；`-ArgumentList` 重拼引号会破坏含空格的 `/D=`）——assisted+Silent+注册表有 perMachine 时 NSIS 自己 `UAC_RunElevated`，原生就能提权，**不要自己预提权**；② 安装范围只认**单斜杠** `/allusers` `/currentuser`（源码依据 electron-builder `nsisScriptGenerator.js` 的 `flags()` → `assistedInstaller.nsh` → `StdUtils.TestParameter`），旧代码传 `--allusers` 被整条忽略；③ 失败必须抛出并提示，别 log 完照样 `app.quit()`。
+- 现行实现：`desktop/main.js` 的 `buildInstallerArgs()` 返回 `["/S", perUser?"/currentuser":"/allusers", "--force-run", "/D=<exe dir>"]`（`/D=` 必须最后且不加引号）；`installOnWindows()` 等 `spawn` 事件确认 pid 再 `unref`，`error` 直接 reject；下载后比对 `asset.size` 与实收字节数。
+- 可观测性：升级日志写 `%APPDATA%\Infinite Canvas\update.log`（= `app.getPath("userData")`，productName 是 `Infinite Canvas` 不是中文）；升级前落 `pending-update.json`，重启后版本号没变就弹「上次更新到 x.y.z 没有完成」+「打开下载页」。
+- **跨版本自更新的第一次永远跑旧代码**：老用户必须先手动装一次新版，发布说明里必须写明，否则他们会以为没修。
+- 无 Windows 机时的验证套路：`node --check` + 从 main.js 用 `indexOf` 切出真实函数喂 `new Function`，桩掉 electron/node:path/child_process 并 `Object.defineProperty(process,"platform",{value:"win32"})`，断言参数形态与失败分支（`node:path` 在 macOS 上对 Windows 路径 `dirname` 得 `.`，是脚手架现象）。
+
+## 2026-10-22 排障：Win 用户生图「fetch failed / 生图请求超时」
+- **根因（实测，非猜测）**：`canvas-proxy/server.js` 的出站 `fetch()` 是 Node/undici，**完全不读 Windows「系统代理」注册表设置，也不读 HTTPS_PROXY**。Electron 38 实测：`session.setProxy` 指向死端口时 Node fetch 仍 200，只有 `electron.net.fetch` 报 `ERR_PROXY_CONNECTION_FAILED`。→ 用 Clash「系统代理」模式（未开 TUN）的用户，应用出站全是直连，墙外 API 必然失败；上游 basketikun 的 canvas-proxy 同逻辑未修。
+- `fetch failed` 是 undici 的 DNS/连接失败原话，proxy 以 502 `{error}` 原样回传，前端 `readAxiosError` **优先取 body.error** → UI 直显，可据此断定是**主进程出站**失败而非渲染层网络。生图超时 = `web/src/services/api/image.ts` 的 `IMAGE_REQUEST_TIMEOUT_MS = 10 * 60_000`（ECONNABORTED → imageTimeout）。
+- 修复已验证可行：出站改用 `electron.net.fetch`（跟随系统代理/PAC），实测 SSE 分块时序与 undici 一致（424/814/1217ms）、200KB POST body 完整。落地需 server.js 加 `setFetchImpl` + desktop/main.js 注入 net.fetch，并留 undici 兜底给 npx/浏览器版。
+- 复现/验证脚手架在 `/tmp/e-proxy-test2`（易失，重搭要点：Electron 入口必须是「目录 + package.json main」，直接把 .mjs 当 app 参数不执行；`startProxyServer` 返回 server 本体而非 `{server}`；代理 URL 格式是 `http://127.0.0.1:23210/<完整上游URL>`）。
+
+## 2026-10-22 落地：canvas-proxy 出站双通道（0.25.5）
+- 设计：`startProxyServer({ transports })`，desktop 传 `[{name:"system",proxyAware:true,fetch:net.fetch},{name:"direct",...,fetch:undici}]`；有头响应即停止重试，body 只在选定通道后才流式，所以重试不会给客户端半截数据（POST 重试安全，因为 body 已先 buffer 完）。
+- 上游 `403/407/451`（国内中转封境外 IP）时从代理通道改试直连，此时请求未被受理不产生费用；`401/429/500` 不重试。
+- **loopback 目标强制直连优先**（`isLoopbackTarget` 按 `Number(proxyAware)` 排序）：用户 VPN 挂了也不要让 127.0.0.1 的请求去绕代理。
+- 超时：只卡「等响应头」，默认 180s（`CANVAS_PROXY_HEADER_TIMEOUT_MS`），两通道共享 1.5x 总预算，黑洞地址最坏 270s；头到手后不计时 → 生图/SSE 不受影响。
+- 失败文案取 **direct 通道** 的 code 作主因，否则代理没启动的 `ERR_PROXY_CONNECTION_FAILED` 会掩盖真正的 `ENOTFOUND`；502 body `{error,host,code,attempts}`，前端 `readAxiosError` 直接显示 `error`。
+- **坑（自己踩的）**：`req.on("close")` 在 POST **请求体读完**后就会触发，不能当「客户端断开」用——会误判成已取消，一次都不发请求，最终 502「Cannot read properties of undefined (reading 'code')」（attempts 为空）。正确做法是监听 `req.socket` 的 `close`。
+- 验证：`/tmp/e-proxy-test3`（Electron 里 setProxy 指死端口）证明 T1 自动回退直连成功、真实 API 401 透传、坏域名 502 中文、SSE 36/14/12B@12/308/706ms、200KB POST 完整、6MB 二进制 sha256 一致。
+- 独立版 `npx @basketikun/canvas-proxy` 只有 node 通道；**Node 的 fetch 默认不读 HTTPS_PROXY**，要 `NODE_USE_ENV_PROXY=1`（Node 24 实测有效：设死代理 + 该变量 → 立刻 ECONNREFUSED），index.js 已加启动告警。
+- 自动更新（`desktop/main.js` 的 RELEASES_API / 安装包下载）同样从裸 fetch 换成 `outboundFetch`，否则 GitHub 打不开的网络环境下更新检查静默失败。
+- cc-ai.xyz 实测：站点根 `/` 返回 **403**（Cloudflare 拦非浏览器/境外线路），`/v1/models` 返回 401 → **站点和 API 是不同链路**；应用只走 API（`buildApiUrl` 拼 `/v1`，gemini 拼 `/v1beta`，无任何请求首页的路径）。
