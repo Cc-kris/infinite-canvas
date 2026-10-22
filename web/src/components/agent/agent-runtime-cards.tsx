@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Button, Tooltip } from "antd";
 import { CheckCircle2, CircleSlash, Loader2, PlugZap, Power } from "lucide-react";
 import { useTranslation } from "react-i18next";
@@ -45,13 +45,17 @@ export function AgentRuntimeCards({
     token,
     connected,
     onConnectWith,
+    onAdoptConfig,
     onDisconnect,
 }: {
     theme: (typeof canvasThemes)[keyof typeof canvasThemes];
     url: string;
     token: string;
     connected: boolean;
+    /** 用户主动点连接：重新走一遍连接流程。 */
     onConnectWith: (url: string, token: string) => void;
+    /** 桌面端换发凭据时只同步地址与令牌，不能动已建立的连接状态。 */
+    onAdoptConfig: (url: string, token: string) => void;
     onDisconnect: () => void;
 }) {
     const { t } = useTranslation();
@@ -59,6 +63,10 @@ export function AgentRuntimeCards({
     const [busy, setBusy] = useState<string>("");
     const [error, setError] = useState("");
     const hub = bridge();
+    // 轮询回调里读到的必须是当前凭据：闭包里的 url/token 可能是上一次渲染的，
+    // 那会让「地址已同步」判断永远为真，每 1.5 秒重置一次连接状态。
+    const credRef = useRef({ url, token, connected });
+    credRef.current = { url, token, connected };
     // 「谁在连接中」以主进程为准：面板被关掉重开、组件重挂载都不会丢锁，
     // 本地 busy 只负责自己点下去那一下的即时反馈。
     const serverBusy = state?.connecting?.runtime || "";
@@ -75,8 +83,11 @@ export function AgentRuntimeCards({
             setState(next);
             setError("");
             // 后台静默拉起服务后界面还拿着空的地址，这里补上，用户不需要点任何按钮。
-            if (next.server.running && next.server.url && next.server.token && (next.server.url !== url || next.server.token !== token)) {
-                onConnectWith(next.server.url, next.server.token);
+            // 注意用 adopt 而不是 onConnectWith：切运行时服务会换新令牌，
+            // 用后者会把刚连上的会话打回「连接中」，界面就永远转圈。
+            const current = credRef.current;
+            if (next.server.running && next.server.url && next.server.token && (next.server.url !== current.url || next.server.token !== current.token)) {
+                onAdoptConfig(next.server.url, next.server.token);
             }
         } catch (err) {
             setError(err instanceof Error ? err.message : String(err));

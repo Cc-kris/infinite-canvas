@@ -17,6 +17,7 @@ export function AgentConnectView({
     activity,
     connectError,
     onConnectWith,
+    onAdoptConfig,
     onDisconnect,
 }: {
     theme: (typeof canvasThemes)[keyof typeof canvasThemes];
@@ -28,6 +29,8 @@ export function AgentConnectView({
     connectError: string;
     /** 一键连接：卡片直接给出可用的地址与令牌。 */
     onConnectWith: (url: string, token: string) => void;
+    /** 桌面端换发凭据（切运行时重启服务）时只同步地址与令牌，不动已建立的连接。 */
+    onAdoptConfig: (url: string, token: string) => void;
     /** 断开连接：清掉网页会话，桌面端同时退出 Agent 进程。 */
     onDisconnect: () => void;
 }) {
@@ -53,7 +56,7 @@ export function AgentConnectView({
                     </div>
                 </div>
 
-                <AgentRuntimeCards theme={theme} url={url} token={token} connected={connected} onConnectWith={onConnectWith} onDisconnect={onDisconnect} />
+                <AgentRuntimeCards theme={theme} url={url} token={token} connected={connected} onConnectWith={onConnectWith} onAdoptConfig={onAdoptConfig} onDisconnect={onDisconnect} />
 
                 {connectError ? (
                     <div className="rounded-md border px-2.5 py-2 text-xs leading-5" style={{ borderColor: "rgba(220,38,38,.35)", color: "#dc2626" }}>

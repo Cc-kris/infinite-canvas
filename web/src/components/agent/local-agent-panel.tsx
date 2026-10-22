@@ -988,8 +988,23 @@ export function LocalAgentPanel({ embedded, headless, autoConnect }: { embedded?
 
     // 0.23 一键连接：卡片已经拿到可用的地址与令牌，直接进入连接流程。
     const connectWithConfig = (nextUrl: string, nextToken: string) => {
+        const next = nextUrl.replace(/\/$/, "");
+        const current = useAgentStore.getState();
+        // 0.25.6：桌面端 connect() 返回时，事件流往往已经用同一套凭据连上了。
+        // 这时再重置成 connecting/未连接，凭据又没变、事件流不会重建，界面就永久停在「连接中」。
+        if (current.connected && next === current.url && nextToken === current.token) return;
         errorLoggedRef.current = false;
-        setAgentState({ url: nextUrl.replace(/\/$/, ""), token: nextToken, enabled: true, connected: false, silentConnect: false, fragmentBootstrap: false, activity: rt("connecting"), connectError: "", activeTab: "setup" });
+        setAgentState({ url: next, token: nextToken, enabled: true, connected: false, silentConnect: false, fragmentBootstrap: false, activity: rt("connecting"), connectError: "", activeTab: "setup" });
+    };
+
+    // 0.25.6：切换 Agent 时桌面端会重启服务并换发新令牌，这里只同步地址与令牌。
+    // 之前复用 connectWithConfig，会把刚连上的会话重置成「连接中 / 未连接」，
+    // 结果是点另一个 Agent 后界面永远转圈——用户报的正是这个现象。
+    const adoptAgentConfig = (nextUrl: string, nextToken: string) => {
+        const next = nextUrl.replace(/\/$/, "");
+        const current = useAgentStore.getState();
+        if (next === current.url && nextToken === current.token) return;
+        setAgentState({ url: next, token: nextToken, enabled: true, connectError: "" });
     };
 
     useLayoutEffect(() => {
@@ -1418,6 +1433,7 @@ export function LocalAgentPanel({ embedded, headless, autoConnect }: { embedded?
                     activity={activity}
                     connectError={connectError}
                     onConnectWith={connectWithConfig}
+                    onAdoptConfig={adoptAgentConfig}
                     onDisconnect={() => toggleAgentConnection({ silent: true })}
                 />
             ) : activeTab === "skills" ? (
