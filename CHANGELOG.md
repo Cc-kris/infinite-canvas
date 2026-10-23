@@ -6,6 +6,7 @@
 
 + [修复] macOS 桌面版所有输入框都能用 ⌘C / ⌘V / ⌘X / ⌘A / ⌘Z：应用菜单补上「编辑」（撤销/重做/剪切/复制/粘贴/粘贴并匹配样式/删除/全选）与「窗口」菜单。macOS 的剪贴板快捷键由菜单项派发，0.23 起只注册了 appMenu，导致配置里「编辑渠道」填 Base URL、API Key 时完全无法粘贴。
 + [新增] macOS 输入框右键菜单（撤销/剪切/复制/粘贴/全选），选中文字时可右键复制。
++ [修复] Windows 桌面版选 Galley 后连不上、报「'galley' 不是内部或外部命令」（中文还是乱码）：Galley CLI 的登记文件在 Windows 上写在 `%APPDATA%\galley\cli-path`，此前只在 `~/.config` 找，找不到就退回裸命令名交给 cmd，于是必然报错。现在按平台找登记文件、并下探 `%LOCALAPPDATA%\Programs\Galley\`、`%ProgramFiles%\Galley\` 等安装目录；命令行输出按 UTF-8/GBK 自适应解码，找不到 CLI 时给的是可照做的中文提示。
 
 ## v0.25.7 - 2026-10-22
 

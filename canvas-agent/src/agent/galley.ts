@@ -5,8 +5,13 @@ import { errorMessage } from "../utils/value.js";
 import { resolveCommand } from "./runtimes.js";
 import type { AgentEmit } from "./types.js";
 
-/** Galley 是编排型 Agent：canvas-agent 通过 CLI 建会话并轮询结果。 */
-const GALLEY_BIN = process.env.GALLEY_BIN || resolveCommand("galley") || "galley";
+/**
+ * Galley 是编排型 Agent：canvas-agent 通过 CLI 建会话并轮询结果。
+ * 路径每次调用时现算：CLI 可能在画布启动之后才装好，模块加载时缓存会一直失败。
+ */
+function galleyBin() {
+    return process.env.GALLEY_BIN || resolveCommand("galley");
+}
 const POLL_INTERVAL_MS = 1500;
 const TIMEOUT_MS = Number(process.env.GALLEY_TURN_TIMEOUT_MS) || 15 * 60 * 1000;
 
@@ -214,16 +219,51 @@ async function showMessages(sessionId: string, tail: number): Promise<GalleyMess
         });
 }
 
+/** Windows 的 cmd 用系统代码页（中文环境是 GBK）输出，直接按 UTF-8 解会变成乱码。 */
+function decodeOutput(buffer: Buffer) {
+    if (!buffer.length) return "";
+    try {
+        return new TextDecoder("utf-8", { fatal: true }).decode(buffer);
+    } catch {
+        try {
+            return new TextDecoder("gbk").decode(buffer);
+        } catch {
+            return buffer.toString("latin1");
+        }
+    }
+}
+
+/** 把 cmd 的本地化报错换成用户能照做的建议。 */
+function friendlyCliError(detail: string) {
+    if (/不是内部或外部命令|is not recognized as an internal or external command/i.test(detail)) {
+        return "未找到 Galley 命令行工具（galley.exe）。请先打开一次 Galley 桌面版（首次启动会登记 CLI 位置），或在设置里重新连接 Agent。";
+    }
+    return detail;
+}
+
 /** 执行一条 galley CLI 命令并收集 stdout。 */
 function runCli(args: string[]) {
     return new Promise<string>((resolve, reject) => {
-        const child = spawn(GALLEY_BIN, args, { stdio: ["ignore", "pipe", "pipe"], shell: process.platform === "win32", windowsHide: true });
-        let out = "";
-        let err = "";
-        child.stdout?.on("data", (chunk) => (out += chunk.toString()));
-        child.stderr?.on("data", (chunk) => (err += chunk.toString()));
-        child.on("error", (error) => reject(new Error(`无法启动 galley：${error.message}`)));
-        child.on("close", (code) => (code === 0 ? resolve(out) : reject(new Error(err.trim() || `galley 退出码 ${code}`))));
+        const bin = galleyBin();
+        if (!bin) {
+            reject(new Error("未找到 Galley 命令行工具（galley.exe）。请先打开一次 Galley 桌面版（首次启动会登记 CLI 位置），或设置环境变量 GALLEY_BIN 指向 galley.exe。"));
+            return;
+        }
+        // Windows 上只有 .cmd / .bat 需要经过 shell；.exe 直接 spawn，避免路径含空格时被 cmd 拆开。
+        const useShell = process.platform === "win32" && /\.(cmd|bat)$/i.test(bin);
+        const child = spawn(bin, args, { stdio: ["ignore", "pipe", "pipe"], shell: useShell, windowsHide: true });
+        const out: Buffer[] = [];
+        const errOut: Buffer[] = [];
+        child.stdout?.on("data", (chunk: Buffer) => out.push(chunk));
+        child.stderr?.on("data", (chunk: Buffer) => errOut.push(chunk));
+        child.on("error", (error) => reject(new Error(`无法启动 Galley：${error.message}`)));
+        child.on("close", (code) => {
+            if (code === 0) {
+                resolve(decodeOutput(Buffer.concat(out)));
+                return;
+            }
+            reject(new Error(friendlyCliError(decodeOutput(Buffer.concat(errOut)).trim()) || `galley 退出码 ${code}`));
+        });
     });
 }
 

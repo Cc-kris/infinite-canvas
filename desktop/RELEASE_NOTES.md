@@ -16,6 +16,20 @@ macOS 的 ⌘C / ⌘V / ⌘X / ⌘A / ⌘Z 不是网页自己处理的快捷键�
 
 Windows / Linux 不受影响（那边仍然没有菜单栏，Ctrl+V 由渲染层自己处理）。
 
+## 0.25.8 修复：Windows 上选 Galley 报「不是内部或外部命令」
+
+Windows 版 Galley 桌面版会把命令行工具的路径登记在 `%APPDATA%\galley\cli-path`，
+而画布这边一直在 macOS 的位置（`~/.config/galley/cli-path`）找。找不到就退回裸命令名 `galley` 交给 cmd，
+于是连接后每一次调用都报 `'galley' 不是内部或外部命令`，而且这条报错是 cmd 用 GBK 输出的，界面上还是乱码。
+
+这次补三处：
+
+1. **按平台找登记文件**：Windows 读 `%APPDATA%\galley\cli-path`（以及 `%LOCALAPPDATA%` 下的同名文件），macOS / Linux 维持原路径。
+2. **登记文件缺失时按安装目录找**：`%LOCALAPPDATA%\Programs\Galley\`、`%LOCALAPPDATA%\Galley\`、`%ProgramFiles%\Galley\`、`%ProgramFiles(x86)%\Galley\`，子目录名不区分大小写。
+3. **失败给可照做的提示**：命令行输出先按 UTF-8 解，失败再按 GBK 解；确实找不到 CLI 时提示「请先打开一次 Galley 桌面版，或用 GALLEY_BIN 指定 galley.exe」，不再显示 cmd 的乱码原文。
+
+顺带修了「Galley 装了却显示未安装」：Windows 上只认 `%LOCALAPPDATA%\Programs\Galley\Galley.exe` 一个位置，装到 `C:\Program Files\Galley` 就会误判。
+
 ## 0.25.7 修复：更新内容空白、Agent 模型列表串台、选了 Claude/Galley 仍加载 Codex
 
 这次一起处理四个反馈，本质是同一条线：Claude Code 与 Galley 两个运行时是后接的，只做通了「能跑一轮」，周边状态没跟 Codex 对齐。

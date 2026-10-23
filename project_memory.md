@@ -184,3 +184,27 @@
 - 验证 bundle 里的 galley 逻辑别搜「llm list」这种带空格串——源码是数组参数 `["llm","list"]`，bundle 里搜 `"llm"` / `"session"` / `"supervisor"` 才有命中。
 - 本机从 GitHub 资产下载 dmg 只有 ~1MB/min（115MB 要一小时），**别用下载再挂载的方式做发布验收**，用 tag 源码 + CI 日志 + raw VERSION/CHANGELOG 三个证据即可。
 - 0.25.7 结果：run 39794987310 全绿（mac 排队被 cancel 后 `gh run rerun --failed` 重跑即过），三件包 114.6MB/119.6MB/95.5MB。
+
+## macOS 剪贴板快捷键全失效（2026-10-23，0.25.8）
+- 现象：配置→「编辑渠道」里所有输入框（Base URL / API Key / 模型名）都不能 ⌘V 粘贴，⌘C/⌘X/⌘A 同样失效。根因不在 web 层（grep 过，无 paste/keydown 拦截；渠道抽屉是普通 antd `ant-input`），而是 `desktop/main.js` 的 `buildMenu()`：darwin 分支只 `Menu.buildFromTemplate([{ role: "appMenu" }])`。**macOS 的 ⌘C/⌘V/⌘X/⌘A/⌘Z 是菜单项 key equivalent 派发的，没有「编辑」菜单就永远发不到渲染层**——以后改这个函数别再精简掉编辑菜单。Windows/Linux 走 `Menu.setApplicationMenu(null)`，Ctrl+V 由渲染层自己处理，不受影响。
+- 修法：编辑菜单 role 版（undo/redo/cut/copy/paste/pasteAndMatchStyle/delete/selectAll）+ 窗口菜单 + `attachContextMenu(window)`（`webContents.on("context-menu")` 自己 popup，macOS 无默认右键菜单）。渲染层已对 input/textarea 早退（`project.tsx` keydown guard），所以画布的 ⌘Z 撤销不会被菜单抢走。
+- 本机验证不受 AX 权限限制的招（osascript `UI elements enabled=false`、python `AXIsProcessTrusted()=False`，合成不了真按键）：① 装「探针 asar」在 `whenReady` 里 dump `Menu.getApplicationMenu()` 结构；② 用 `wc.paste()` / `Menu.sendActionToFirstResponder("paste:")` 走原生响应链，再 `executeJavaScript` 读真实输入框 value——这能覆盖「菜单 role → 编辑命令 → 真输入框 → React state」整条链，只有「⌘V 键 → 菜单项」这一跳靠平台保证。注意 `pasteItem.click(...)` 无效（role 项的 click 不是原生动作），别拿它当证据。
+- 热补已装 app（用户跑的是 `desktop/release/mac-arm64/Infinite Canvas.app`，`/Applications` 里没有副本）：`node_modules/.pnpm/@electron+asar@3.4.1/.../bin/asar.js` extract → 换 `main.js` → pack → 覆盖 `Contents/Resources/app.asar`（备份 `/tmp/app.asar.backup-0.25.6`）。`app.asar` 里的 `package.json` 版本也要一起改，否则界面版本号与仓库不一致、还会弹更新提示。
+- 该 app 的 CDP：`--remote-debugging-port=9333` 可开，但 websocket 必须 `suppress_origin=True`（否则 403）；`curl --noproxy '*'`。用它点「配置」→「编辑」可核对真实抽屉的 DOM。
+
+## 「Mac 版点击反应很慢，没有 win 快」的定位（2026-10-23）
+- 先分清是哪台机器：用户 2026-10-23 澄清慢的是**另一台被 UU远程 控制的 Mac**，不是本机。以后遇到「某平台慢」先问清机器，别在本机白测。
+- 本机（M4/1080p@60Hz/arm64 原生、非 Rosetta）实测**代码层没有任何性能问题**，可直接引用的数字：冷启动到画布可交互 1.07s（load 174ms）；路由切换 1.2–17ms（无路由懒加载，单包 3.58MB）；wheel 每事件约 2ms；rAF 帧滞后 0.1–2.4ms；96 次点击输入延迟 0.2–1.2ms、无 longtask。**所以「3s 才响应」不是 React/zustand 渲染慢**。
+- 真正的可疑机制（已在本机复现）：Electron 窗口被判为遮挡时，Chromium 把绘制压到 ~1fps。用 `open -a Galley` 把画布窗口压到后面：`document.hidden=true`，**1.5s 内 rAF 0 帧**（画面冻结），而 React 路由 commit 仍 6ms → 状态早变了、画面几秒后才变，正是用户的症状。远程桌面/宿主屏幕息屏时最容易触发。
+- 修法（已改 `desktop/main.js` 并推到 origin/main，commit 083761f）：顶部 `app.commandLine.appendSwitch` 三个开关 `disable-renderer-backgrounding` / `disable-background-timer-throttling` / `disable-backgrounding-occluded-windows`，webPreferences 加 `backgroundThrottling: false`。同条件复测：`hidden=false`、rAF 30/30 帧、点击照常提交。
+- 验证手法（无 AX 权限也能做）：dev 模式 `cd desktop && zsh -lc './node_modules/.bin/electron . --remote-debugging-port=9334'`（必须 login shell，否则 `node: not found`；`cdp.py` 的 `Session(port=9334)`，默认 9333）。遮挡 = `open -a Galley`，还原 = `Page.bringToFront`。注意窗口在后台时 rAF 会整体停摆，测时序前必须先 `bringToFront` + `activate`，否则得到一堆 TIMEOUT/0 帧的假数据。
+- 未验证的备选原因（若关掉节流后仍慢就该查这条）：那台机器 IDB 里的 `canvas_store` JSON 过大（节点图/视频日志 base64）→ 启动 `JSON.parse` + 切到视频工作台加载生成记录要好几秒，与 Windows 机器数据量不同也会造成「win 快 mac 慢」。
+- 现场收尾：本机用户跑的是 `desktop/release/mac-arm64/Infinite Canvas.app`（不在 /Applications）；dev 测试完要 `pkill -f "remote-debugging-port=9334"` 再 `open -a` 拉回正式版，别把 dev 实例留在 23210/23211 端口上。
+
+## Windows 上 Galley 运行时必然连不上（2026-10-23，0.25.8）
+- 现象：Windows 用户装 0.25.7 后选 Galley，界面红字 `'galley' 不是内部或外部命令`（且是 GBK 乱码）。mac 上我实测全绿，因为**平台差异这块本地单测从没覆盖过**。
+- 权威事实（Galley 源码 `~/Documents/Dev/galley/core/src/discovery.rs`）：登记文件 Windows 写 `%APPDATA%\galley\cli-path`（mac/linux 才是 `$XDG_CONFIG_HOME` 或 `~/.config`）；CLI 名 `galley.exe`，与 `Galley.exe` 同目录（`C:\Program Files\Galley\` 或 `%LOCALAPPDATA%\Programs\Galley\`）。IC 旧代码在 win32 也读 `~/.config` → 找不到 → 回退裸 `galley` + `shell:true` → cmd 必然报错，且 stderr 是系统代码页（GBK）。
+- 修法：`runtimes.ts` 加 `galleyDiscoveryFiles()` 按平台列登记文件；`searchDirs()` 下探 `<dir>/<bin>/` 子目录，**目录名按小写比对**（别写死 `Galley` 大小写，mac 上大小写敏感）；`galley.ts` 的 CLI 路径改为每次调用现算（模块级常量会把一次失败永久缓存）、win 下 `.exe` 用 `shell:false`、stdout/stderr 先 UTF-8（fatal）再 GBK 解码，找不到 CLI 时给可照做的中文提示。
+- 无 Windows 真机的验证手法：单测里 `Object.defineProperty(process, "platform", { value: "win32" })` **之后**再动态 `import()` 模块（`IS_WIN` 是加载期求值）；GBK 乱码用 `/bin/sh` stub 把 GBK 字节 `> &2` 即可复现整条链路。见 `canvas-agent/src/agent/galley-win32.test.ts`。
+- 环境坑：非登录 shell 里没有 `node`/`npx`，跑测试用 `PATH=/usr/local/bin:/usr/bin:/bin ./node_modules/.bin/tsx --test ...`（node 在 `/usr/local/bin`，不在 homebrew）。
+- 打包后核验 bundle 别搜中文：esbuild 会把非 ASCII 转成**大写** `\uXXXX`，搜「未找到 Galley」永远 0 命中，要搜 `\u672A\u627E\u5230` 或直接看 `friendlyCliError` 附近。
