@@ -13,6 +13,16 @@ import { fileURLToPath, pathToFileURL } from "node:url";
 const here = path.dirname(fileURLToPath(import.meta.url));
 const isDev = !app.isPackaged;
 
+/**
+ * Remote-desktop / headless use: when the physical display sleeps or another window covers the app,
+ * macOS reports the window as occluded and Chromium throttles painting/timers to roughly one frame
+ * per second. Everything still *works*, but the picture lags seconds behind the click. A desktop app
+ * must keep painting, so backgrounding throttling is disabled before the app becomes ready.
+ */
+app.commandLine.appendSwitch("disable-renderer-backgrounding");
+app.commandLine.appendSwitch("disable-background-timer-throttling");
+app.commandLine.appendSwitch("disable-backgrounding-occluded-windows");
+
 /** Renderer bundle: built by `pnpm --dir web build`, shipped as an extra resource. */
 const rendererDir = isDev ? path.resolve(here, "../web/dist") : path.join(process.resourcesPath, "renderer");
 /** Proxy module: shared with the npm package, shipped as an extra resource. */
@@ -526,6 +536,9 @@ async function createWindow(proxyUrl) {
             contextIsolation: true,
             nodeIntegration: false,
             spellcheck: false,
+            // Keep the renderer at full speed when the window is hidden/occluded (remote desktop,
+            // display asleep). Without this the canvas repaints at ~1fps and clicks look "slow".
+            backgroundThrottling: false,
             additionalArguments: [`--infinite-canvas-proxy=${proxyUrl}`, `--infinite-canvas-version=${app.getVersion()}`],
         },
     });
