@@ -40,9 +40,9 @@ var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__ge
   mod
 ));
 
-// canvas-agent/node_modules/ms/index.js
+// ../canvas-agent/node_modules/ms/index.js
 var require_ms = __commonJS({
-  "canvas-agent/node_modules/ms/index.js"(exports2, module2) {
+  "../canvas-agent/node_modules/ms/index.js"(exports2, module2) {
     var s = 1e3;
     var m = s * 60;
     var h = m * 60;
@@ -156,9 +156,9 @@ var require_ms = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/debug/src/common.js
+// ../canvas-agent/node_modules/debug/src/common.js
 var require_common = __commonJS({
-  "canvas-agent/node_modules/debug/src/common.js"(exports2, module2) {
+  "../canvas-agent/node_modules/debug/src/common.js"(exports2, module2) {
     function setup(env) {
       createDebug.debug = createDebug;
       createDebug.default = createDebug;
@@ -333,9 +333,9 @@ var require_common = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/debug/src/browser.js
+// ../canvas-agent/node_modules/debug/src/browser.js
 var require_browser = __commonJS({
-  "canvas-agent/node_modules/debug/src/browser.js"(exports2, module2) {
+  "../canvas-agent/node_modules/debug/src/browser.js"(exports2, module2) {
     exports2.formatArgs = formatArgs;
     exports2.save = save;
     exports2.load = load;
@@ -503,9 +503,9 @@ var require_browser = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/debug/src/node.js
+// ../canvas-agent/node_modules/debug/src/node.js
 var require_node = __commonJS({
-  "canvas-agent/node_modules/debug/src/node.js"(exports2, module2) {
+  "../canvas-agent/node_modules/debug/src/node.js"(exports2, module2) {
     var tty = __require("tty");
     var util2 = __require("util");
     exports2.init = init;
@@ -677,9 +677,9 @@ var require_node = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/debug/src/index.js
+// ../canvas-agent/node_modules/debug/src/index.js
 var require_src = __commonJS({
-  "canvas-agent/node_modules/debug/src/index.js"(exports2, module2) {
+  "../canvas-agent/node_modules/debug/src/index.js"(exports2, module2) {
     if (typeof process === "undefined" || process.type === "renderer" || process.browser === true || process.__nwjs) {
       module2.exports = require_browser();
     } else {
@@ -688,9 +688,9 @@ var require_src = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/depd/index.js
+// ../canvas-agent/node_modules/depd/index.js
 var require_depd = __commonJS({
-  "canvas-agent/node_modules/depd/index.js"(exports2, module2) {
+  "../canvas-agent/node_modules/depd/index.js"(exports2, module2) {
     var relative = __require("path").relative;
     module2.exports = depd;
     var basePath = process.cwd();
@@ -994,9 +994,9 @@ var require_depd = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/setprototypeof/index.js
+// ../canvas-agent/node_modules/setprototypeof/index.js
 var require_setprototypeof = __commonJS({
-  "canvas-agent/node_modules/setprototypeof/index.js"(exports2, module2) {
+  "../canvas-agent/node_modules/setprototypeof/index.js"(exports2, module2) {
     "use strict";
     module2.exports = Object.setPrototypeOf || ({ __proto__: [] } instanceof Array ? setProtoOf : mixinProperties);
     function setProtoOf(obj, proto) {
@@ -1014,9 +1014,9 @@ var require_setprototypeof = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/statuses/codes.json
+// ../canvas-agent/node_modules/statuses/codes.json
 var require_codes = __commonJS({
-  "canvas-agent/node_modules/statuses/codes.json"(exports2, module2) {
+  "../canvas-agent/node_modules/statuses/codes.json"(exports2, module2) {
     module2.exports = {
       "100": "Continue",
       "101": "Switching Protocols",
@@ -1085,9 +1085,9 @@ var require_codes = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/statuses/index.js
+// ../canvas-agent/node_modules/statuses/index.js
 var require_statuses = __commonJS({
-  "canvas-agent/node_modules/statuses/index.js"(exports2, module2) {
+  "../canvas-agent/node_modules/statuses/index.js"(exports2, module2) {
     "use strict";
     var codes = require_codes();
     module2.exports = status;
@@ -1156,9 +1156,9 @@ var require_statuses = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/inherits/inherits_browser.js
+// ../canvas-agent/node_modules/inherits/inherits_browser.js
 var require_inherits_browser = __commonJS({
-  "canvas-agent/node_modules/inherits/inherits_browser.js"(exports2, module2) {
+  "../canvas-agent/node_modules/inherits/inherits_browser.js"(exports2, module2) {
     if (typeof Object.create === "function") {
       module2.exports = function inherits(ctor, superCtor) {
         if (superCtor) {
@@ -1188,9 +1188,9 @@ var require_inherits_browser = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/inherits/inherits.js
+// ../canvas-agent/node_modules/inherits/inherits.js
 var require_inherits = __commonJS({
-  "canvas-agent/node_modules/inherits/inherits.js"(exports2, module2) {
+  "../canvas-agent/node_modules/inherits/inherits.js"(exports2, module2) {
     try {
       util2 = __require("util");
       if (typeof util2.inherits !== "function") throw "";
@@ -1202,9 +1202,9 @@ var require_inherits = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/toidentifier/index.js
+// ../canvas-agent/node_modules/toidentifier/index.js
 var require_toidentifier = __commonJS({
-  "canvas-agent/node_modules/toidentifier/index.js"(exports2, module2) {
+  "../canvas-agent/node_modules/toidentifier/index.js"(exports2, module2) {
     "use strict";
     module2.exports = toIdentifier;
     function toIdentifier(str2) {
@@ -1215,9 +1215,9 @@ var require_toidentifier = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/http-errors/index.js
+// ../canvas-agent/node_modules/http-errors/index.js
 var require_http_errors = __commonJS({
-  "canvas-agent/node_modules/http-errors/index.js"(exports2, module2) {
+  "../canvas-agent/node_modules/http-errors/index.js"(exports2, module2) {
     "use strict";
     var deprecate = require_depd()("http-errors");
     var setPrototypeOf = require_setprototypeof();
@@ -1379,9 +1379,9 @@ var require_http_errors = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/bytes/index.js
+// ../canvas-agent/node_modules/bytes/index.js
 var require_bytes = __commonJS({
-  "canvas-agent/node_modules/bytes/index.js"(exports2, module2) {
+  "../canvas-agent/node_modules/bytes/index.js"(exports2, module2) {
     "use strict";
     module2.exports = bytes;
     module2.exports.format = format2;
@@ -1468,9 +1468,9 @@ var require_bytes = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/safer-buffer/safer.js
+// ../canvas-agent/node_modules/safer-buffer/safer.js
 var require_safer = __commonJS({
-  "canvas-agent/node_modules/safer-buffer/safer.js"(exports2, module2) {
+  "../canvas-agent/node_modules/safer-buffer/safer.js"(exports2, module2) {
     "use strict";
     var buffer = __require("buffer");
     var Buffer2 = buffer.Buffer;
@@ -1536,9 +1536,9 @@ var require_safer = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/iconv-lite/lib/bom-handling.js
+// ../canvas-agent/node_modules/iconv-lite/lib/bom-handling.js
 var require_bom_handling = __commonJS({
-  "canvas-agent/node_modules/iconv-lite/lib/bom-handling.js"(exports2) {
+  "../canvas-agent/node_modules/iconv-lite/lib/bom-handling.js"(exports2) {
     "use strict";
     var BOMChar = "\uFEFF";
     exports2.PrependBOM = PrependBOMWrapper;
@@ -1582,9 +1582,9 @@ var require_bom_handling = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/iconv-lite/lib/helpers/merge-exports.js
+// ../canvas-agent/node_modules/iconv-lite/lib/helpers/merge-exports.js
 var require_merge_exports = __commonJS({
-  "canvas-agent/node_modules/iconv-lite/lib/helpers/merge-exports.js"(exports2, module2) {
+  "../canvas-agent/node_modules/iconv-lite/lib/helpers/merge-exports.js"(exports2, module2) {
     "use strict";
     var hasOwn = typeof Object.hasOwn === "undefined" ? Function.call.bind(Object.prototype.hasOwnProperty) : Object.hasOwn;
     function mergeModules(target, module3) {
@@ -1598,9 +1598,9 @@ var require_merge_exports = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/iconv-lite/encodings/internal.js
+// ../canvas-agent/node_modules/iconv-lite/encodings/internal.js
 var require_internal = __commonJS({
-  "canvas-agent/node_modules/iconv-lite/encodings/internal.js"(exports2, module2) {
+  "../canvas-agent/node_modules/iconv-lite/encodings/internal.js"(exports2, module2) {
     "use strict";
     var Buffer2 = require_safer().Buffer;
     module2.exports = {
@@ -1779,9 +1779,9 @@ var require_internal = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/iconv-lite/encodings/utf32.js
+// ../canvas-agent/node_modules/iconv-lite/encodings/utf32.js
 var require_utf32 = __commonJS({
-  "canvas-agent/node_modules/iconv-lite/encodings/utf32.js"(exports2) {
+  "../canvas-agent/node_modules/iconv-lite/encodings/utf32.js"(exports2) {
     "use strict";
     var Buffer2 = require_safer().Buffer;
     exports2._utf32 = Utf32Codec;
@@ -2014,9 +2014,9 @@ var require_utf32 = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/iconv-lite/encodings/utf16.js
+// ../canvas-agent/node_modules/iconv-lite/encodings/utf16.js
 var require_utf16 = __commonJS({
-  "canvas-agent/node_modules/iconv-lite/encodings/utf16.js"(exports2) {
+  "../canvas-agent/node_modules/iconv-lite/encodings/utf16.js"(exports2) {
     "use strict";
     var Buffer2 = require_safer().Buffer;
     exports2.utf16be = Utf16BECodec;
@@ -2157,9 +2157,9 @@ var require_utf16 = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/iconv-lite/encodings/utf7.js
+// ../canvas-agent/node_modules/iconv-lite/encodings/utf7.js
 var require_utf7 = __commonJS({
-  "canvas-agent/node_modules/iconv-lite/encodings/utf7.js"(exports2) {
+  "../canvas-agent/node_modules/iconv-lite/encodings/utf7.js"(exports2) {
     "use strict";
     var Buffer2 = require_safer().Buffer;
     exports2.utf7 = Utf7Codec;
@@ -2375,9 +2375,9 @@ var require_utf7 = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/iconv-lite/encodings/sbcs-codec.js
+// ../canvas-agent/node_modules/iconv-lite/encodings/sbcs-codec.js
 var require_sbcs_codec = __commonJS({
-  "canvas-agent/node_modules/iconv-lite/encodings/sbcs-codec.js"(exports2) {
+  "../canvas-agent/node_modules/iconv-lite/encodings/sbcs-codec.js"(exports2) {
     "use strict";
     var Buffer2 = require_safer().Buffer;
     exports2._sbcs = SBCSCodec;
@@ -2437,9 +2437,9 @@ var require_sbcs_codec = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/iconv-lite/encodings/sbcs-data.js
+// ../canvas-agent/node_modules/iconv-lite/encodings/sbcs-data.js
 var require_sbcs_data = __commonJS({
-  "canvas-agent/node_modules/iconv-lite/encodings/sbcs-data.js"(exports2, module2) {
+  "../canvas-agent/node_modules/iconv-lite/encodings/sbcs-data.js"(exports2, module2) {
     "use strict";
     module2.exports = {
       // Not supported by iconv, not sure why.
@@ -2592,9 +2592,9 @@ var require_sbcs_data = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/iconv-lite/encodings/sbcs-data-generated.js
+// ../canvas-agent/node_modules/iconv-lite/encodings/sbcs-data-generated.js
 var require_sbcs_data_generated = __commonJS({
-  "canvas-agent/node_modules/iconv-lite/encodings/sbcs-data-generated.js"(exports2, module2) {
+  "../canvas-agent/node_modules/iconv-lite/encodings/sbcs-data-generated.js"(exports2, module2) {
     "use strict";
     module2.exports = {
       "437": "cp437",
@@ -3047,9 +3047,9 @@ var require_sbcs_data_generated = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/iconv-lite/encodings/dbcs-codec.js
+// ../canvas-agent/node_modules/iconv-lite/encodings/dbcs-codec.js
 var require_dbcs_codec = __commonJS({
-  "canvas-agent/node_modules/iconv-lite/encodings/dbcs-codec.js"(exports2) {
+  "../canvas-agent/node_modules/iconv-lite/encodings/dbcs-codec.js"(exports2) {
     "use strict";
     var Buffer2 = require_safer().Buffer;
     exports2._dbcs = DBCSCodec;
@@ -3507,9 +3507,9 @@ var require_dbcs_codec = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/iconv-lite/encodings/tables/shiftjis.json
+// ../canvas-agent/node_modules/iconv-lite/encodings/tables/shiftjis.json
 var require_shiftjis = __commonJS({
-  "canvas-agent/node_modules/iconv-lite/encodings/tables/shiftjis.json"(exports2, module2) {
+  "../canvas-agent/node_modules/iconv-lite/encodings/tables/shiftjis.json"(exports2, module2) {
     module2.exports = [
       ["0", "\0", 128],
       ["a1", "\uFF61", 62],
@@ -3638,9 +3638,9 @@ var require_shiftjis = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/iconv-lite/encodings/tables/eucjp.json
+// ../canvas-agent/node_modules/iconv-lite/encodings/tables/eucjp.json
 var require_eucjp = __commonJS({
-  "canvas-agent/node_modules/iconv-lite/encodings/tables/eucjp.json"(exports2, module2) {
+  "../canvas-agent/node_modules/iconv-lite/encodings/tables/eucjp.json"(exports2, module2) {
     module2.exports = [
       ["0", "\0", 127],
       ["8ea1", "\uFF61", 62],
@@ -3826,9 +3826,9 @@ var require_eucjp = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/iconv-lite/encodings/tables/cp936.json
+// ../canvas-agent/node_modules/iconv-lite/encodings/tables/cp936.json
 var require_cp936 = __commonJS({
-  "canvas-agent/node_modules/iconv-lite/encodings/tables/cp936.json"(exports2, module2) {
+  "../canvas-agent/node_modules/iconv-lite/encodings/tables/cp936.json"(exports2, module2) {
     module2.exports = [
       ["0", "\0", 127, "\u20AC"],
       ["8140", "\u4E02\u4E04\u4E05\u4E06\u4E0F\u4E12\u4E17\u4E1F\u4E20\u4E21\u4E23\u4E26\u4E29\u4E2E\u4E2F\u4E31\u4E33\u4E35\u4E37\u4E3C\u4E40\u4E41\u4E42\u4E44\u4E46\u4E4A\u4E51\u4E55\u4E57\u4E5A\u4E5B\u4E62\u4E63\u4E64\u4E65\u4E67\u4E68\u4E6A", 5, "\u4E72\u4E74", 9, "\u4E7F", 6, "\u4E87\u4E8A"],
@@ -4096,9 +4096,9 @@ var require_cp936 = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/iconv-lite/encodings/tables/gbk-added.json
+// ../canvas-agent/node_modules/iconv-lite/encodings/tables/gbk-added.json
 var require_gbk_added = __commonJS({
-  "canvas-agent/node_modules/iconv-lite/encodings/tables/gbk-added.json"(exports2, module2) {
+  "../canvas-agent/node_modules/iconv-lite/encodings/tables/gbk-added.json"(exports2, module2) {
     module2.exports = [
       ["a140", "\uE4C6", 62],
       ["a180", "\uE505", 32],
@@ -4158,16 +4158,16 @@ var require_gbk_added = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/iconv-lite/encodings/tables/gb18030-ranges.json
+// ../canvas-agent/node_modules/iconv-lite/encodings/tables/gb18030-ranges.json
 var require_gb18030_ranges = __commonJS({
-  "canvas-agent/node_modules/iconv-lite/encodings/tables/gb18030-ranges.json"(exports2, module2) {
+  "../canvas-agent/node_modules/iconv-lite/encodings/tables/gb18030-ranges.json"(exports2, module2) {
     module2.exports = { uChars: [128, 165, 169, 178, 184, 216, 226, 235, 238, 244, 248, 251, 253, 258, 276, 284, 300, 325, 329, 334, 364, 463, 465, 467, 469, 471, 473, 475, 477, 506, 594, 610, 712, 716, 730, 930, 938, 962, 970, 1026, 1104, 1106, 8209, 8215, 8218, 8222, 8231, 8241, 8244, 8246, 8252, 8365, 8452, 8454, 8458, 8471, 8482, 8556, 8570, 8596, 8602, 8713, 8720, 8722, 8726, 8731, 8737, 8740, 8742, 8748, 8751, 8760, 8766, 8777, 8781, 8787, 8802, 8808, 8816, 8854, 8858, 8870, 8896, 8979, 9322, 9372, 9548, 9588, 9616, 9622, 9634, 9652, 9662, 9672, 9676, 9680, 9702, 9735, 9738, 9793, 9795, 11906, 11909, 11913, 11917, 11928, 11944, 11947, 11951, 11956, 11960, 11964, 11979, 12284, 12292, 12312, 12319, 12330, 12351, 12436, 12447, 12535, 12543, 12586, 12842, 12850, 12964, 13200, 13215, 13218, 13253, 13263, 13267, 13270, 13384, 13428, 13727, 13839, 13851, 14617, 14703, 14801, 14816, 14964, 15183, 15471, 15585, 16471, 16736, 17208, 17325, 17330, 17374, 17623, 17997, 18018, 18212, 18218, 18301, 18318, 18760, 18811, 18814, 18820, 18823, 18844, 18848, 18872, 19576, 19620, 19738, 19887, 40870, 59244, 59336, 59367, 59413, 59417, 59423, 59431, 59437, 59443, 59452, 59460, 59478, 59493, 63789, 63866, 63894, 63976, 63986, 64016, 64018, 64021, 64025, 64034, 64037, 64042, 65074, 65093, 65107, 65112, 65127, 65132, 65375, 65510, 65536], gbChars: [0, 36, 38, 45, 50, 81, 89, 95, 96, 100, 103, 104, 105, 109, 126, 133, 148, 172, 175, 179, 208, 306, 307, 308, 309, 310, 311, 312, 313, 341, 428, 443, 544, 545, 558, 741, 742, 749, 750, 805, 819, 820, 7922, 7924, 7925, 7927, 7934, 7943, 7944, 7945, 7950, 8062, 8148, 8149, 8152, 8164, 8174, 8236, 8240, 8262, 8264, 8374, 8380, 8381, 8384, 8388, 8390, 8392, 8393, 8394, 8396, 8401, 8406, 8416, 8419, 8424, 8437, 8439, 8445, 8482, 8485, 8496, 8521, 8603, 8936, 8946, 9046, 9050, 9063, 9066, 9076, 9092, 9100, 9108, 9111, 9113, 9131, 9162, 9164, 9218, 9219, 11329, 11331, 11334, 11336, 11346, 11361, 11363, 11366, 11370, 11372, 11375, 11389, 11682, 11686, 11687, 11692, 11694, 11714, 11716, 11723, 11725, 11730, 11736, 11982, 11989, 12102, 12336, 12348, 12350, 12384, 12393, 12395, 12397, 12510, 12553, 12851, 12962, 12973, 13738, 13823, 13919, 13933, 14080, 14298, 14585, 14698, 15583, 15847, 16318, 16434, 16438, 16481, 16729, 17102, 17122, 17315, 17320, 17402, 17418, 17859, 17909, 17911, 17915, 17916, 17936, 17939, 17961, 18664, 18703, 18814, 18962, 19043, 33469, 33470, 33471, 33484, 33485, 33490, 33497, 33501, 33505, 33513, 33520, 33536, 33550, 37845, 37921, 37948, 38029, 38038, 38064, 38065, 38066, 38069, 38075, 38076, 38078, 39108, 39109, 39113, 39114, 39115, 39116, 39265, 39394, 189e3] };
   }
 });
 
-// canvas-agent/node_modules/iconv-lite/encodings/tables/cp949.json
+// ../canvas-agent/node_modules/iconv-lite/encodings/tables/cp949.json
 var require_cp949 = __commonJS({
-  "canvas-agent/node_modules/iconv-lite/encodings/tables/cp949.json"(exports2, module2) {
+  "../canvas-agent/node_modules/iconv-lite/encodings/tables/cp949.json"(exports2, module2) {
     module2.exports = [
       ["0", "\0", 127],
       ["8141", "\uAC02\uAC03\uAC05\uAC06\uAC0B", 4, "\uAC18\uAC1E\uAC1F\uAC21\uAC22\uAC23\uAC25", 6, "\uAC2E\uAC32\uAC33\uAC34"],
@@ -4444,9 +4444,9 @@ var require_cp949 = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/iconv-lite/encodings/tables/cp950.json
+// ../canvas-agent/node_modules/iconv-lite/encodings/tables/cp950.json
 var require_cp950 = __commonJS({
-  "canvas-agent/node_modules/iconv-lite/encodings/tables/cp950.json"(exports2, module2) {
+  "../canvas-agent/node_modules/iconv-lite/encodings/tables/cp950.json"(exports2, module2) {
     module2.exports = [
       ["0", "\0", 127],
       ["a140", "\u3000\uFF0C\u3001\u3002\uFF0E\u2027\uFF1B\uFF1A\uFF1F\uFF01\uFE30\u2026\u2025\uFE50\uFE51\uFE52\xB7\uFE54\uFE55\uFE56\uFE57\uFF5C\u2013\uFE31\u2014\uFE33\u2574\uFE34\uFE4F\uFF08\uFF09\uFE35\uFE36\uFF5B\uFF5D\uFE37\uFE38\u3014\u3015\uFE39\uFE3A\u3010\u3011\uFE3B\uFE3C\u300A\u300B\uFE3D\uFE3E\u3008\u3009\uFE3F\uFE40\u300C\u300D\uFE41\uFE42\u300E\u300F\uFE43\uFE44\uFE59\uFE5A"],
@@ -4627,9 +4627,9 @@ var require_cp950 = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/iconv-lite/encodings/tables/big5-added.json
+// ../canvas-agent/node_modules/iconv-lite/encodings/tables/big5-added.json
 var require_big5_added = __commonJS({
-  "canvas-agent/node_modules/iconv-lite/encodings/tables/big5-added.json"(exports2, module2) {
+  "../canvas-agent/node_modules/iconv-lite/encodings/tables/big5-added.json"(exports2, module2) {
     module2.exports = [
       ["8740", "\u43F0\u4C32\u4603\u45A6\u4578\u{27267}\u4D77\u45B3\u{27CB1}\u4CE2\u{27CC5}\u3B95\u4736\u4744\u4C47\u4C40\u{242BF}\u{23617}\u{27352}\u{26E8B}\u{270D2}\u4C57\u{2A351}\u474F\u45DA\u4C85\u{27C6C}\u4D07\u4AA4\u46A1\u{26B23}\u7225\u{25A54}\u{21A63}\u{23E06}\u{23F61}\u664D\u56FB"],
       ["8767", "\u7D95\u591D\u{28BB9}\u3DF4\u9734\u{27BEF}\u5BDB\u{21D5E}\u5AA4\u3625\u{29EB0}\u5AD1\u5BB7\u5CFC\u676E\u8593\u{29945}\u7461\u749D\u3875\u{21D53}\u{2369E}\u{26021}\u3EEC"],
@@ -4755,9 +4755,9 @@ var require_big5_added = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/iconv-lite/encodings/dbcs-data.js
+// ../canvas-agent/node_modules/iconv-lite/encodings/dbcs-data.js
 var require_dbcs_data = __commonJS({
-  "canvas-agent/node_modules/iconv-lite/encodings/dbcs-data.js"(exports2, module2) {
+  "../canvas-agent/node_modules/iconv-lite/encodings/dbcs-data.js"(exports2, module2) {
     "use strict";
     module2.exports = {
       // == Japanese/ShiftJIS ====================================================
@@ -5002,9 +5002,9 @@ var require_dbcs_data = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/iconv-lite/encodings/index.js
+// ../canvas-agent/node_modules/iconv-lite/encodings/index.js
 var require_encodings = __commonJS({
-  "canvas-agent/node_modules/iconv-lite/encodings/index.js"(exports2, module2) {
+  "../canvas-agent/node_modules/iconv-lite/encodings/index.js"(exports2, module2) {
     "use strict";
     var mergeModules = require_merge_exports();
     var modules = [
@@ -5027,9 +5027,9 @@ var require_encodings = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/iconv-lite/lib/streams.js
+// ../canvas-agent/node_modules/iconv-lite/lib/streams.js
 var require_streams = __commonJS({
-  "canvas-agent/node_modules/iconv-lite/lib/streams.js"(exports2, module2) {
+  "../canvas-agent/node_modules/iconv-lite/lib/streams.js"(exports2, module2) {
     "use strict";
     var Buffer2 = require_safer().Buffer;
     module2.exports = function(streamModule) {
@@ -5124,9 +5124,9 @@ var require_streams = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/iconv-lite/lib/index.js
+// ../canvas-agent/node_modules/iconv-lite/lib/index.js
 var require_lib = __commonJS({
-  "canvas-agent/node_modules/iconv-lite/lib/index.js"(exports2, module2) {
+  "../canvas-agent/node_modules/iconv-lite/lib/index.js"(exports2, module2) {
     "use strict";
     var Buffer2 = require_safer().Buffer;
     var bomHandling = require_bom_handling();
@@ -5256,9 +5256,9 @@ var require_lib = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/unpipe/index.js
+// ../canvas-agent/node_modules/unpipe/index.js
 var require_unpipe = __commonJS({
-  "canvas-agent/node_modules/unpipe/index.js"(exports2, module2) {
+  "../canvas-agent/node_modules/unpipe/index.js"(exports2, module2) {
     "use strict";
     module2.exports = unpipe;
     function hasPipeDataListeners(stream) {
@@ -5294,9 +5294,9 @@ var require_unpipe = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/raw-body/index.js
+// ../canvas-agent/node_modules/raw-body/index.js
 var require_raw_body = __commonJS({
-  "canvas-agent/node_modules/raw-body/index.js"(exports2, module2) {
+  "../canvas-agent/node_modules/raw-body/index.js"(exports2, module2) {
     "use strict";
     var asyncHooks = tryRequireAsyncHooks();
     var bytes = require_bytes();
@@ -5483,9 +5483,9 @@ var require_raw_body = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/ee-first/index.js
+// ../canvas-agent/node_modules/ee-first/index.js
 var require_ee_first = __commonJS({
-  "canvas-agent/node_modules/ee-first/index.js"(exports2, module2) {
+  "../canvas-agent/node_modules/ee-first/index.js"(exports2, module2) {
     "use strict";
     module2.exports = first;
     function first(stuff, done) {
@@ -5539,9 +5539,9 @@ var require_ee_first = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/on-finished/index.js
+// ../canvas-agent/node_modules/on-finished/index.js
 var require_on_finished = __commonJS({
-  "canvas-agent/node_modules/on-finished/index.js"(exports2, module2) {
+  "../canvas-agent/node_modules/on-finished/index.js"(exports2, module2) {
     "use strict";
     module2.exports = onFinished;
     module2.exports.isFinished = isFinished;
@@ -5643,9 +5643,9 @@ var require_on_finished = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/type-is/node_modules/content-type/dist/index.js
+// ../canvas-agent/node_modules/type-is/node_modules/content-type/dist/index.js
 var require_dist = __commonJS({
-  "canvas-agent/node_modules/type-is/node_modules/content-type/dist/index.js"(exports2) {
+  "../canvas-agent/node_modules/type-is/node_modules/content-type/dist/index.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.format = format2;
@@ -5782,9 +5782,9 @@ var require_dist = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/mime-db/db.json
+// ../canvas-agent/node_modules/mime-db/db.json
 var require_db = __commonJS({
-  "canvas-agent/node_modules/mime-db/db.json"(exports2, module2) {
+  "../canvas-agent/node_modules/mime-db/db.json"(exports2, module2) {
     module2.exports = {
       "application/1d-interleaved-parityfec": {
         source: "iana"
@@ -15130,16 +15130,16 @@ var require_db = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/mime-db/index.js
+// ../canvas-agent/node_modules/mime-db/index.js
 var require_mime_db = __commonJS({
-  "canvas-agent/node_modules/mime-db/index.js"(exports2, module2) {
+  "../canvas-agent/node_modules/mime-db/index.js"(exports2, module2) {
     module2.exports = require_db();
   }
 });
 
-// canvas-agent/node_modules/mime-types/mimeScore.js
+// ../canvas-agent/node_modules/mime-types/mimeScore.js
 var require_mimeScore = __commonJS({
-  "canvas-agent/node_modules/mime-types/mimeScore.js"(exports2, module2) {
+  "../canvas-agent/node_modules/mime-types/mimeScore.js"(exports2, module2) {
     var FACET_SCORES = {
       "prs.": 100,
       "x-": 200,
@@ -15181,9 +15181,9 @@ var require_mimeScore = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/mime-types/index.js
+// ../canvas-agent/node_modules/mime-types/index.js
 var require_mime_types = __commonJS({
-  "canvas-agent/node_modules/mime-types/index.js"(exports2) {
+  "../canvas-agent/node_modules/mime-types/index.js"(exports2) {
     "use strict";
     var db = require_mime_db();
     var extname = __require("path").extname;
@@ -15287,9 +15287,9 @@ var require_mime_types = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/media-typer/index.js
+// ../canvas-agent/node_modules/media-typer/index.js
 var require_media_typer = __commonJS({
-  "canvas-agent/node_modules/media-typer/index.js"(exports2) {
+  "../canvas-agent/node_modules/media-typer/index.js"(exports2) {
     "use strict";
     var SUBTYPE_NAME_REGEXP = /^[A-Za-z0-9][A-Za-z0-9!#$&^_.-]{0,126}$/;
     var TYPE_NAME_REGEXP = /^[A-Za-z0-9][A-Za-z0-9!#$&^_-]{0,126}$/;
@@ -15351,9 +15351,9 @@ var require_media_typer = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/type-is/index.js
+// ../canvas-agent/node_modules/type-is/index.js
 var require_type_is = __commonJS({
-  "canvas-agent/node_modules/type-is/index.js"(exports2, module2) {
+  "../canvas-agent/node_modules/type-is/index.js"(exports2, module2) {
     "use strict";
     var contentType = require_dist();
     var mime = require_mime_types();
@@ -15442,9 +15442,9 @@ var require_type_is = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/body-parser/node_modules/content-type/dist/index.js
+// ../canvas-agent/node_modules/body-parser/node_modules/content-type/dist/index.js
 var require_dist2 = __commonJS({
-  "canvas-agent/node_modules/body-parser/node_modules/content-type/dist/index.js"(exports2) {
+  "../canvas-agent/node_modules/body-parser/node_modules/content-type/dist/index.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.format = format2;
@@ -15581,9 +15581,9 @@ var require_dist2 = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/body-parser/lib/utils.js
+// ../canvas-agent/node_modules/body-parser/lib/utils.js
 var require_utils = __commonJS({
-  "canvas-agent/node_modules/body-parser/lib/utils.js"(exports2, module2) {
+  "../canvas-agent/node_modules/body-parser/lib/utils.js"(exports2, module2) {
     "use strict";
     var bytes = require_bytes();
     var contentType = require_dist2();
@@ -15633,9 +15633,9 @@ var require_utils = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/body-parser/lib/read.js
+// ../canvas-agent/node_modules/body-parser/lib/read.js
 var require_read = __commonJS({
-  "canvas-agent/node_modules/body-parser/lib/read.js"(exports2, module2) {
+  "../canvas-agent/node_modules/body-parser/lib/read.js"(exports2, module2) {
     "use strict";
     var createError = require_http_errors();
     var getBody = require_raw_body();
@@ -15791,9 +15791,9 @@ var require_read = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/body-parser/lib/types/json.js
+// ../canvas-agent/node_modules/body-parser/lib/types/json.js
 var require_json = __commonJS({
-  "canvas-agent/node_modules/body-parser/lib/types/json.js"(exports2, module2) {
+  "../canvas-agent/node_modules/body-parser/lib/types/json.js"(exports2, module2) {
     "use strict";
     var debug = require_src()("body-parser:json");
     var read = require_read();
@@ -15890,9 +15890,9 @@ var require_json = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/body-parser/lib/types/raw.js
+// ../canvas-agent/node_modules/body-parser/lib/types/raw.js
 var require_raw = __commonJS({
-  "canvas-agent/node_modules/body-parser/lib/types/raw.js"(exports2, module2) {
+  "../canvas-agent/node_modules/body-parser/lib/types/raw.js"(exports2, module2) {
     "use strict";
     var debug = require_src()("body-parser:raw");
     var read = require_read();
@@ -15912,9 +15912,9 @@ var require_raw = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/body-parser/lib/types/text.js
+// ../canvas-agent/node_modules/body-parser/lib/types/text.js
 var require_text = __commonJS({
-  "canvas-agent/node_modules/body-parser/lib/types/text.js"(exports2, module2) {
+  "../canvas-agent/node_modules/body-parser/lib/types/text.js"(exports2, module2) {
     "use strict";
     var debug = require_src()("body-parser:text");
     var read = require_read();
@@ -15929,24 +15929,24 @@ var require_text = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/es-errors/type.js
+// ../canvas-agent/node_modules/es-errors/type.js
 var require_type = __commonJS({
-  "canvas-agent/node_modules/es-errors/type.js"(exports2, module2) {
+  "../canvas-agent/node_modules/es-errors/type.js"(exports2, module2) {
     "use strict";
     module2.exports = TypeError;
   }
 });
 
-// canvas-agent/node_modules/object-inspect/util.inspect.js
+// ../canvas-agent/node_modules/object-inspect/util.inspect.js
 var require_util_inspect = __commonJS({
-  "canvas-agent/node_modules/object-inspect/util.inspect.js"(exports2, module2) {
+  "../canvas-agent/node_modules/object-inspect/util.inspect.js"(exports2, module2) {
     module2.exports = __require("util").inspect;
   }
 });
 
-// canvas-agent/node_modules/object-inspect/index.js
+// ../canvas-agent/node_modules/object-inspect/index.js
 var require_object_inspect = __commonJS({
-  "canvas-agent/node_modules/object-inspect/index.js"(exports2, module2) {
+  "../canvas-agent/node_modules/object-inspect/index.js"(exports2, module2) {
     var hasMap = typeof Map === "function" && Map.prototype;
     var mapSizeDescriptor = Object.getOwnPropertyDescriptor && hasMap ? Object.getOwnPropertyDescriptor(Map.prototype, "size") : null;
     var mapSize = hasMap && mapSizeDescriptor && typeof mapSizeDescriptor.get === "function" ? mapSizeDescriptor.get : null;
@@ -16475,9 +16475,9 @@ var require_object_inspect = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/side-channel-list/index.js
+// ../canvas-agent/node_modules/side-channel-list/index.js
 var require_side_channel_list = __commonJS({
-  "canvas-agent/node_modules/side-channel-list/index.js"(exports2, module2) {
+  "../canvas-agent/node_modules/side-channel-list/index.js"(exports2, module2) {
     "use strict";
     var inspect2 = require_object_inspect();
     var $TypeError = require_type();
@@ -16568,113 +16568,113 @@ var require_side_channel_list = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/es-object-atoms/index.js
+// ../canvas-agent/node_modules/es-object-atoms/index.js
 var require_es_object_atoms = __commonJS({
-  "canvas-agent/node_modules/es-object-atoms/index.js"(exports2, module2) {
+  "../canvas-agent/node_modules/es-object-atoms/index.js"(exports2, module2) {
     "use strict";
     module2.exports = Object;
   }
 });
 
-// canvas-agent/node_modules/es-errors/index.js
+// ../canvas-agent/node_modules/es-errors/index.js
 var require_es_errors = __commonJS({
-  "canvas-agent/node_modules/es-errors/index.js"(exports2, module2) {
+  "../canvas-agent/node_modules/es-errors/index.js"(exports2, module2) {
     "use strict";
     module2.exports = Error;
   }
 });
 
-// canvas-agent/node_modules/es-errors/eval.js
+// ../canvas-agent/node_modules/es-errors/eval.js
 var require_eval = __commonJS({
-  "canvas-agent/node_modules/es-errors/eval.js"(exports2, module2) {
+  "../canvas-agent/node_modules/es-errors/eval.js"(exports2, module2) {
     "use strict";
     module2.exports = EvalError;
   }
 });
 
-// canvas-agent/node_modules/es-errors/range.js
+// ../canvas-agent/node_modules/es-errors/range.js
 var require_range = __commonJS({
-  "canvas-agent/node_modules/es-errors/range.js"(exports2, module2) {
+  "../canvas-agent/node_modules/es-errors/range.js"(exports2, module2) {
     "use strict";
     module2.exports = RangeError;
   }
 });
 
-// canvas-agent/node_modules/es-errors/ref.js
+// ../canvas-agent/node_modules/es-errors/ref.js
 var require_ref = __commonJS({
-  "canvas-agent/node_modules/es-errors/ref.js"(exports2, module2) {
+  "../canvas-agent/node_modules/es-errors/ref.js"(exports2, module2) {
     "use strict";
     module2.exports = ReferenceError;
   }
 });
 
-// canvas-agent/node_modules/es-errors/syntax.js
+// ../canvas-agent/node_modules/es-errors/syntax.js
 var require_syntax = __commonJS({
-  "canvas-agent/node_modules/es-errors/syntax.js"(exports2, module2) {
+  "../canvas-agent/node_modules/es-errors/syntax.js"(exports2, module2) {
     "use strict";
     module2.exports = SyntaxError;
   }
 });
 
-// canvas-agent/node_modules/es-errors/uri.js
+// ../canvas-agent/node_modules/es-errors/uri.js
 var require_uri = __commonJS({
-  "canvas-agent/node_modules/es-errors/uri.js"(exports2, module2) {
+  "../canvas-agent/node_modules/es-errors/uri.js"(exports2, module2) {
     "use strict";
     module2.exports = URIError;
   }
 });
 
-// canvas-agent/node_modules/math-intrinsics/abs.js
+// ../canvas-agent/node_modules/math-intrinsics/abs.js
 var require_abs = __commonJS({
-  "canvas-agent/node_modules/math-intrinsics/abs.js"(exports2, module2) {
+  "../canvas-agent/node_modules/math-intrinsics/abs.js"(exports2, module2) {
     "use strict";
     module2.exports = Math.abs;
   }
 });
 
-// canvas-agent/node_modules/math-intrinsics/floor.js
+// ../canvas-agent/node_modules/math-intrinsics/floor.js
 var require_floor = __commonJS({
-  "canvas-agent/node_modules/math-intrinsics/floor.js"(exports2, module2) {
+  "../canvas-agent/node_modules/math-intrinsics/floor.js"(exports2, module2) {
     "use strict";
     module2.exports = Math.floor;
   }
 });
 
-// canvas-agent/node_modules/math-intrinsics/max.js
+// ../canvas-agent/node_modules/math-intrinsics/max.js
 var require_max = __commonJS({
-  "canvas-agent/node_modules/math-intrinsics/max.js"(exports2, module2) {
+  "../canvas-agent/node_modules/math-intrinsics/max.js"(exports2, module2) {
     "use strict";
     module2.exports = Math.max;
   }
 });
 
-// canvas-agent/node_modules/math-intrinsics/min.js
+// ../canvas-agent/node_modules/math-intrinsics/min.js
 var require_min = __commonJS({
-  "canvas-agent/node_modules/math-intrinsics/min.js"(exports2, module2) {
+  "../canvas-agent/node_modules/math-intrinsics/min.js"(exports2, module2) {
     "use strict";
     module2.exports = Math.min;
   }
 });
 
-// canvas-agent/node_modules/math-intrinsics/pow.js
+// ../canvas-agent/node_modules/math-intrinsics/pow.js
 var require_pow = __commonJS({
-  "canvas-agent/node_modules/math-intrinsics/pow.js"(exports2, module2) {
+  "../canvas-agent/node_modules/math-intrinsics/pow.js"(exports2, module2) {
     "use strict";
     module2.exports = Math.pow;
   }
 });
 
-// canvas-agent/node_modules/math-intrinsics/round.js
+// ../canvas-agent/node_modules/math-intrinsics/round.js
 var require_round = __commonJS({
-  "canvas-agent/node_modules/math-intrinsics/round.js"(exports2, module2) {
+  "../canvas-agent/node_modules/math-intrinsics/round.js"(exports2, module2) {
     "use strict";
     module2.exports = Math.round;
   }
 });
 
-// canvas-agent/node_modules/math-intrinsics/isNaN.js
+// ../canvas-agent/node_modules/math-intrinsics/isNaN.js
 var require_isNaN = __commonJS({
-  "canvas-agent/node_modules/math-intrinsics/isNaN.js"(exports2, module2) {
+  "../canvas-agent/node_modules/math-intrinsics/isNaN.js"(exports2, module2) {
     "use strict";
     module2.exports = Number.isNaN || function isNaN2(a) {
       return a !== a;
@@ -16682,9 +16682,9 @@ var require_isNaN = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/math-intrinsics/sign.js
+// ../canvas-agent/node_modules/math-intrinsics/sign.js
 var require_sign = __commonJS({
-  "canvas-agent/node_modules/math-intrinsics/sign.js"(exports2, module2) {
+  "../canvas-agent/node_modules/math-intrinsics/sign.js"(exports2, module2) {
     "use strict";
     var $isNaN = require_isNaN();
     module2.exports = function sign(number3) {
@@ -16696,17 +16696,17 @@ var require_sign = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/gopd/gOPD.js
+// ../canvas-agent/node_modules/gopd/gOPD.js
 var require_gOPD = __commonJS({
-  "canvas-agent/node_modules/gopd/gOPD.js"(exports2, module2) {
+  "../canvas-agent/node_modules/gopd/gOPD.js"(exports2, module2) {
     "use strict";
     module2.exports = Object.getOwnPropertyDescriptor;
   }
 });
 
-// canvas-agent/node_modules/gopd/index.js
+// ../canvas-agent/node_modules/gopd/index.js
 var require_gopd = __commonJS({
-  "canvas-agent/node_modules/gopd/index.js"(exports2, module2) {
+  "../canvas-agent/node_modules/gopd/index.js"(exports2, module2) {
     "use strict";
     var $gOPD = require_gOPD();
     if ($gOPD) {
@@ -16720,9 +16720,9 @@ var require_gopd = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/es-define-property/index.js
+// ../canvas-agent/node_modules/es-define-property/index.js
 var require_es_define_property = __commonJS({
-  "canvas-agent/node_modules/es-define-property/index.js"(exports2, module2) {
+  "../canvas-agent/node_modules/es-define-property/index.js"(exports2, module2) {
     "use strict";
     var $defineProperty = Object.defineProperty || false;
     if ($defineProperty) {
@@ -16736,9 +16736,9 @@ var require_es_define_property = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/has-symbols/shams.js
+// ../canvas-agent/node_modules/has-symbols/shams.js
 var require_shams = __commonJS({
-  "canvas-agent/node_modules/has-symbols/shams.js"(exports2, module2) {
+  "../canvas-agent/node_modules/has-symbols/shams.js"(exports2, module2) {
     "use strict";
     module2.exports = function hasSymbols() {
       if (typeof Symbol !== "function" || typeof Object.getOwnPropertySymbols !== "function") {
@@ -16791,9 +16791,9 @@ var require_shams = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/has-symbols/index.js
+// ../canvas-agent/node_modules/has-symbols/index.js
 var require_has_symbols = __commonJS({
-  "canvas-agent/node_modules/has-symbols/index.js"(exports2, module2) {
+  "../canvas-agent/node_modules/has-symbols/index.js"(exports2, module2) {
     "use strict";
     var origSymbol = typeof Symbol !== "undefined" && Symbol;
     var hasSymbolSham = require_shams();
@@ -16815,26 +16815,26 @@ var require_has_symbols = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/get-proto/Reflect.getPrototypeOf.js
+// ../canvas-agent/node_modules/get-proto/Reflect.getPrototypeOf.js
 var require_Reflect_getPrototypeOf = __commonJS({
-  "canvas-agent/node_modules/get-proto/Reflect.getPrototypeOf.js"(exports2, module2) {
+  "../canvas-agent/node_modules/get-proto/Reflect.getPrototypeOf.js"(exports2, module2) {
     "use strict";
     module2.exports = typeof Reflect !== "undefined" && Reflect.getPrototypeOf || null;
   }
 });
 
-// canvas-agent/node_modules/get-proto/Object.getPrototypeOf.js
+// ../canvas-agent/node_modules/get-proto/Object.getPrototypeOf.js
 var require_Object_getPrototypeOf = __commonJS({
-  "canvas-agent/node_modules/get-proto/Object.getPrototypeOf.js"(exports2, module2) {
+  "../canvas-agent/node_modules/get-proto/Object.getPrototypeOf.js"(exports2, module2) {
     "use strict";
     var $Object = require_es_object_atoms();
     module2.exports = $Object.getPrototypeOf || null;
   }
 });
 
-// canvas-agent/node_modules/function-bind/implementation.js
+// ../canvas-agent/node_modules/function-bind/implementation.js
 var require_implementation = __commonJS({
-  "canvas-agent/node_modules/function-bind/implementation.js"(exports2, module2) {
+  "../canvas-agent/node_modules/function-bind/implementation.js"(exports2, module2) {
     "use strict";
     var ERROR_MESSAGE = "Function.prototype.bind called on incompatible ";
     var toStr = Object.prototype.toString;
@@ -16908,42 +16908,42 @@ var require_implementation = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/function-bind/index.js
+// ../canvas-agent/node_modules/function-bind/index.js
 var require_function_bind = __commonJS({
-  "canvas-agent/node_modules/function-bind/index.js"(exports2, module2) {
+  "../canvas-agent/node_modules/function-bind/index.js"(exports2, module2) {
     "use strict";
     var implementation = require_implementation();
     module2.exports = Function.prototype.bind || implementation;
   }
 });
 
-// canvas-agent/node_modules/call-bind-apply-helpers/functionCall.js
+// ../canvas-agent/node_modules/call-bind-apply-helpers/functionCall.js
 var require_functionCall = __commonJS({
-  "canvas-agent/node_modules/call-bind-apply-helpers/functionCall.js"(exports2, module2) {
+  "../canvas-agent/node_modules/call-bind-apply-helpers/functionCall.js"(exports2, module2) {
     "use strict";
     module2.exports = Function.prototype.call;
   }
 });
 
-// canvas-agent/node_modules/call-bind-apply-helpers/functionApply.js
+// ../canvas-agent/node_modules/call-bind-apply-helpers/functionApply.js
 var require_functionApply = __commonJS({
-  "canvas-agent/node_modules/call-bind-apply-helpers/functionApply.js"(exports2, module2) {
+  "../canvas-agent/node_modules/call-bind-apply-helpers/functionApply.js"(exports2, module2) {
     "use strict";
     module2.exports = Function.prototype.apply;
   }
 });
 
-// canvas-agent/node_modules/call-bind-apply-helpers/reflectApply.js
+// ../canvas-agent/node_modules/call-bind-apply-helpers/reflectApply.js
 var require_reflectApply = __commonJS({
-  "canvas-agent/node_modules/call-bind-apply-helpers/reflectApply.js"(exports2, module2) {
+  "../canvas-agent/node_modules/call-bind-apply-helpers/reflectApply.js"(exports2, module2) {
     "use strict";
     module2.exports = typeof Reflect !== "undefined" && Reflect && Reflect.apply;
   }
 });
 
-// canvas-agent/node_modules/call-bind-apply-helpers/actualApply.js
+// ../canvas-agent/node_modules/call-bind-apply-helpers/actualApply.js
 var require_actualApply = __commonJS({
-  "canvas-agent/node_modules/call-bind-apply-helpers/actualApply.js"(exports2, module2) {
+  "../canvas-agent/node_modules/call-bind-apply-helpers/actualApply.js"(exports2, module2) {
     "use strict";
     var bind = require_function_bind();
     var $apply = require_functionApply();
@@ -16953,9 +16953,9 @@ var require_actualApply = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/call-bind-apply-helpers/index.js
+// ../canvas-agent/node_modules/call-bind-apply-helpers/index.js
 var require_call_bind_apply_helpers = __commonJS({
-  "canvas-agent/node_modules/call-bind-apply-helpers/index.js"(exports2, module2) {
+  "../canvas-agent/node_modules/call-bind-apply-helpers/index.js"(exports2, module2) {
     "use strict";
     var bind = require_function_bind();
     var $TypeError = require_type();
@@ -16970,9 +16970,9 @@ var require_call_bind_apply_helpers = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/dunder-proto/get.js
+// ../canvas-agent/node_modules/dunder-proto/get.js
 var require_get = __commonJS({
-  "canvas-agent/node_modules/dunder-proto/get.js"(exports2, module2) {
+  "../canvas-agent/node_modules/dunder-proto/get.js"(exports2, module2) {
     "use strict";
     var callBind = require_call_bind_apply_helpers();
     var gOPD = require_gopd();
@@ -17001,9 +17001,9 @@ var require_get = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/get-proto/index.js
+// ../canvas-agent/node_modules/get-proto/index.js
 var require_get_proto = __commonJS({
-  "canvas-agent/node_modules/get-proto/index.js"(exports2, module2) {
+  "../canvas-agent/node_modules/get-proto/index.js"(exports2, module2) {
     "use strict";
     var reflectGetProto = require_Reflect_getPrototypeOf();
     var originalGetProto = require_Object_getPrototypeOf();
@@ -17021,9 +17021,9 @@ var require_get_proto = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/hasown/index.js
+// ../canvas-agent/node_modules/hasown/index.js
 var require_hasown = __commonJS({
-  "canvas-agent/node_modules/hasown/index.js"(exports2, module2) {
+  "../canvas-agent/node_modules/hasown/index.js"(exports2, module2) {
     "use strict";
     var call = Function.prototype.call;
     var $hasOwn = Object.prototype.hasOwnProperty;
@@ -17032,9 +17032,9 @@ var require_hasown = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/get-intrinsic/index.js
+// ../canvas-agent/node_modules/get-intrinsic/index.js
 var require_get_intrinsic = __commonJS({
-  "canvas-agent/node_modules/get-intrinsic/index.js"(exports2, module2) {
+  "../canvas-agent/node_modules/get-intrinsic/index.js"(exports2, module2) {
     "use strict";
     var undefined2;
     var $Object = require_es_object_atoms();
@@ -17363,9 +17363,9 @@ var require_get_intrinsic = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/call-bound/index.js
+// ../canvas-agent/node_modules/call-bound/index.js
 var require_call_bound = __commonJS({
-  "canvas-agent/node_modules/call-bound/index.js"(exports2, module2) {
+  "../canvas-agent/node_modules/call-bound/index.js"(exports2, module2) {
     "use strict";
     var GetIntrinsic = require_get_intrinsic();
     var callBindBasic = require_call_bind_apply_helpers();
@@ -17386,9 +17386,9 @@ var require_call_bound = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/side-channel-map/index.js
+// ../canvas-agent/node_modules/side-channel-map/index.js
 var require_side_channel_map = __commonJS({
-  "canvas-agent/node_modules/side-channel-map/index.js"(exports2, module2) {
+  "../canvas-agent/node_modules/side-channel-map/index.js"(exports2, module2) {
     "use strict";
     var GetIntrinsic = require_get_intrinsic();
     var callBound = require_call_bound();
@@ -17442,9 +17442,9 @@ var require_side_channel_map = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/side-channel-weakmap/index.js
+// ../canvas-agent/node_modules/side-channel-weakmap/index.js
 var require_side_channel_weakmap = __commonJS({
-  "canvas-agent/node_modules/side-channel-weakmap/index.js"(exports2, module2) {
+  "../canvas-agent/node_modules/side-channel-weakmap/index.js"(exports2, module2) {
     "use strict";
     var GetIntrinsic = require_get_intrinsic();
     var callBound = require_call_bound();
@@ -17515,9 +17515,9 @@ var require_side_channel_weakmap = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/side-channel/index.js
+// ../canvas-agent/node_modules/side-channel/index.js
 var require_side_channel = __commonJS({
-  "canvas-agent/node_modules/side-channel/index.js"(exports2, module2) {
+  "../canvas-agent/node_modules/side-channel/index.js"(exports2, module2) {
     "use strict";
     var $TypeError = require_type();
     var inspect2 = require_object_inspect();
@@ -17555,9 +17555,9 @@ var require_side_channel = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/qs/lib/formats.js
+// ../canvas-agent/node_modules/qs/lib/formats.js
 var require_formats = __commonJS({
-  "canvas-agent/node_modules/qs/lib/formats.js"(exports2, module2) {
+  "../canvas-agent/node_modules/qs/lib/formats.js"(exports2, module2) {
     "use strict";
     var replace = String.prototype.replace;
     var percentTwenties = /%20/g;
@@ -17581,9 +17581,9 @@ var require_formats = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/qs/lib/utils.js
+// ../canvas-agent/node_modules/qs/lib/utils.js
 var require_utils2 = __commonJS({
-  "canvas-agent/node_modules/qs/lib/utils.js"(exports2, module2) {
+  "../canvas-agent/node_modules/qs/lib/utils.js"(exports2, module2) {
     "use strict";
     var formats = require_formats();
     var getSideChannel = require_side_channel();
@@ -17986,9 +17986,9 @@ var require_utils2 = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/qs/lib/stringify.js
+// ../canvas-agent/node_modules/qs/lib/stringify.js
 var require_stringify = __commonJS({
-  "canvas-agent/node_modules/qs/lib/stringify.js"(exports2, module2) {
+  "../canvas-agent/node_modules/qs/lib/stringify.js"(exports2, module2) {
     "use strict";
     var getSideChannel = require_side_channel();
     var utils = require_utils2();
@@ -18283,9 +18283,9 @@ var require_stringify = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/qs/lib/parse.js
+// ../canvas-agent/node_modules/qs/lib/parse.js
 var require_parse = __commonJS({
-  "canvas-agent/node_modules/qs/lib/parse.js"(exports2, module2) {
+  "../canvas-agent/node_modules/qs/lib/parse.js"(exports2, module2) {
     "use strict";
     var getSideChannel = require_side_channel();
     var utils = require_utils2();
@@ -18683,9 +18683,9 @@ var require_parse = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/qs/lib/index.js
+// ../canvas-agent/node_modules/qs/lib/index.js
 var require_lib2 = __commonJS({
-  "canvas-agent/node_modules/qs/lib/index.js"(exports2, module2) {
+  "../canvas-agent/node_modules/qs/lib/index.js"(exports2, module2) {
     "use strict";
     var stringify = require_stringify();
     var parse4 = require_parse();
@@ -18698,9 +18698,9 @@ var require_lib2 = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/body-parser/lib/types/urlencoded.js
+// ../canvas-agent/node_modules/body-parser/lib/types/urlencoded.js
 var require_urlencoded = __commonJS({
-  "canvas-agent/node_modules/body-parser/lib/types/urlencoded.js"(exports2, module2) {
+  "../canvas-agent/node_modules/body-parser/lib/types/urlencoded.js"(exports2, module2) {
     "use strict";
     var createError = require_http_errors();
     var debug = require_src()("body-parser:urlencoded");
@@ -18784,9 +18784,9 @@ var require_urlencoded = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/body-parser/index.js
+// ../canvas-agent/node_modules/body-parser/index.js
 var require_body_parser = __commonJS({
-  "canvas-agent/node_modules/body-parser/index.js"(exports2, module2) {
+  "../canvas-agent/node_modules/body-parser/index.js"(exports2, module2) {
     "use strict";
     exports2 = module2.exports = bodyParser;
     exports2.json = require_json();
@@ -18799,9 +18799,9 @@ var require_body_parser = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/merge-descriptors/index.js
+// ../canvas-agent/node_modules/merge-descriptors/index.js
 var require_merge_descriptors = __commonJS({
-  "canvas-agent/node_modules/merge-descriptors/index.js"(exports2, module2) {
+  "../canvas-agent/node_modules/merge-descriptors/index.js"(exports2, module2) {
     "use strict";
     function mergeDescriptors(destination, source, overwrite = true) {
       if (!destination) {
@@ -18823,9 +18823,9 @@ var require_merge_descriptors = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/encodeurl/index.js
+// ../canvas-agent/node_modules/encodeurl/index.js
 var require_encodeurl = __commonJS({
-  "canvas-agent/node_modules/encodeurl/index.js"(exports2, module2) {
+  "../canvas-agent/node_modules/encodeurl/index.js"(exports2, module2) {
     "use strict";
     module2.exports = encodeUrl;
     var ENCODE_CHARS_REGEXP = /(?:[^\x21\x23-\x3B\x3D\x3F-\x5F\x61-\x7A\x7C\x7E]|%(?:[^0-9A-Fa-f]|[0-9A-Fa-f][^0-9A-Fa-f]|$))+/g;
@@ -18837,9 +18837,9 @@ var require_encodeurl = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/escape-html/index.js
+// ../canvas-agent/node_modules/escape-html/index.js
 var require_escape_html = __commonJS({
-  "canvas-agent/node_modules/escape-html/index.js"(exports2, module2) {
+  "../canvas-agent/node_modules/escape-html/index.js"(exports2, module2) {
     "use strict";
     var matchHtmlRegExp = /["'&<>]/;
     module2.exports = escapeHtml;
@@ -18884,9 +18884,9 @@ var require_escape_html = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/parseurl/index.js
+// ../canvas-agent/node_modules/parseurl/index.js
 var require_parseurl = __commonJS({
-  "canvas-agent/node_modules/parseurl/index.js"(exports2, module2) {
+  "../canvas-agent/node_modules/parseurl/index.js"(exports2, module2) {
     "use strict";
     var url = __require("url");
     var parse4 = url.parse;
@@ -18968,9 +18968,9 @@ var require_parseurl = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/finalhandler/index.js
+// ../canvas-agent/node_modules/finalhandler/index.js
 var require_finalhandler = __commonJS({
-  "canvas-agent/node_modules/finalhandler/index.js"(exports2, module2) {
+  "../canvas-agent/node_modules/finalhandler/index.js"(exports2, module2) {
     "use strict";
     var debug = require_src()("finalhandler");
     var encodeUrl = require_encodeurl();
@@ -19095,9 +19095,9 @@ var require_finalhandler = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/express/lib/view.js
+// ../canvas-agent/node_modules/express/lib/view.js
 var require_view = __commonJS({
-  "canvas-agent/node_modules/express/lib/view.js"(exports2, module2) {
+  "../canvas-agent/node_modules/express/lib/view.js"(exports2, module2) {
     "use strict";
     var debug = require_src()("express:view");
     var path10 = __require("node:path");
@@ -19189,9 +19189,9 @@ var require_view = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/express/node_modules/content-type/dist/index.js
+// ../canvas-agent/node_modules/express/node_modules/content-type/dist/index.js
 var require_dist3 = __commonJS({
-  "canvas-agent/node_modules/express/node_modules/content-type/dist/index.js"(exports2) {
+  "../canvas-agent/node_modules/express/node_modules/content-type/dist/index.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.format = format2;
@@ -19328,9 +19328,9 @@ var require_dist3 = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/etag/index.js
+// ../canvas-agent/node_modules/etag/index.js
 var require_etag = __commonJS({
-  "canvas-agent/node_modules/etag/index.js"(exports2, module2) {
+  "../canvas-agent/node_modules/etag/index.js"(exports2, module2) {
     "use strict";
     module2.exports = etag;
     var crypto6 = __require("crypto");
@@ -19370,9 +19370,9 @@ var require_etag = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/forwarded/index.js
+// ../canvas-agent/node_modules/forwarded/index.js
 var require_forwarded = __commonJS({
-  "canvas-agent/node_modules/forwarded/index.js"(exports2, module2) {
+  "../canvas-agent/node_modules/forwarded/index.js"(exports2, module2) {
     "use strict";
     module2.exports = forwarded;
     function forwarded(req) {
@@ -19417,9 +19417,9 @@ var require_forwarded = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/ipaddr.js/lib/ipaddr.js
+// ../canvas-agent/node_modules/ipaddr.js/lib/ipaddr.js
 var require_ipaddr = __commonJS({
-  "canvas-agent/node_modules/ipaddr.js/lib/ipaddr.js"(exports2, module2) {
+  "../canvas-agent/node_modules/ipaddr.js/lib/ipaddr.js"(exports2, module2) {
     (function() {
       var expandIPv6, ipaddr, ipv4Part, ipv4Regexes, ipv6Part, ipv6Regexes, matchCIDR, root, zoneIndex;
       ipaddr = {};
@@ -20039,9 +20039,9 @@ var require_ipaddr = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/proxy-addr/index.js
+// ../canvas-agent/node_modules/proxy-addr/index.js
 var require_proxy_addr = __commonJS({
-  "canvas-agent/node_modules/proxy-addr/index.js"(exports2, module2) {
+  "../canvas-agent/node_modules/proxy-addr/index.js"(exports2, module2) {
     "use strict";
     module2.exports = proxyaddr;
     module2.exports.all = alladdrs;
@@ -20214,9 +20214,9 @@ var require_proxy_addr = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/express/lib/utils.js
+// ../canvas-agent/node_modules/express/lib/utils.js
 var require_utils3 = __commonJS({
-  "canvas-agent/node_modules/express/lib/utils.js"(exports2) {
+  "../canvas-agent/node_modules/express/lib/utils.js"(exports2) {
     "use strict";
     var { METHODS } = __require("node:http");
     var contentType = require_dist3();
@@ -20341,9 +20341,9 @@ var require_utils3 = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/wrappy/wrappy.js
+// ../canvas-agent/node_modules/wrappy/wrappy.js
 var require_wrappy = __commonJS({
-  "canvas-agent/node_modules/wrappy/wrappy.js"(exports2, module2) {
+  "../canvas-agent/node_modules/wrappy/wrappy.js"(exports2, module2) {
     module2.exports = wrappy;
     function wrappy(fn, cb) {
       if (fn && cb) return wrappy(fn)(cb);
@@ -20371,9 +20371,9 @@ var require_wrappy = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/once/once.js
+// ../canvas-agent/node_modules/once/once.js
 var require_once = __commonJS({
-  "canvas-agent/node_modules/once/once.js"(exports2, module2) {
+  "../canvas-agent/node_modules/once/once.js"(exports2, module2) {
     var wrappy = require_wrappy();
     module2.exports = wrappy(once);
     module2.exports.strict = wrappy(onceStrict);
@@ -20415,9 +20415,9 @@ var require_once = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/is-promise/index.js
+// ../canvas-agent/node_modules/is-promise/index.js
 var require_is_promise = __commonJS({
-  "canvas-agent/node_modules/is-promise/index.js"(exports2, module2) {
+  "../canvas-agent/node_modules/is-promise/index.js"(exports2, module2) {
     module2.exports = isPromise;
     module2.exports.default = isPromise;
     function isPromise(obj) {
@@ -20426,9 +20426,9 @@ var require_is_promise = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/path-to-regexp/dist/index.js
+// ../canvas-agent/node_modules/path-to-regexp/dist/index.js
 var require_dist4 = __commonJS({
-  "canvas-agent/node_modules/path-to-regexp/dist/index.js"(exports2) {
+  "../canvas-agent/node_modules/path-to-regexp/dist/index.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.PathError = exports2.TokenData = void 0;
@@ -20795,9 +20795,9 @@ var require_dist4 = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/router/lib/layer.js
+// ../canvas-agent/node_modules/router/lib/layer.js
 var require_layer = __commonJS({
-  "canvas-agent/node_modules/router/lib/layer.js"(exports2, module2) {
+  "../canvas-agent/node_modules/router/lib/layer.js"(exports2, module2) {
     "use strict";
     var isPromise = require_is_promise();
     var pathRegexp = require_dist4();
@@ -20945,9 +20945,9 @@ var require_layer = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/router/lib/route.js
+// ../canvas-agent/node_modules/router/lib/route.js
 var require_route = __commonJS({
-  "canvas-agent/node_modules/router/lib/route.js"(exports2, module2) {
+  "../canvas-agent/node_modules/router/lib/route.js"(exports2, module2) {
     "use strict";
     var debug = require_src()("router:route");
     var Layer = require_layer();
@@ -21065,9 +21065,9 @@ var require_route = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/router/index.js
+// ../canvas-agent/node_modules/router/index.js
 var require_router = __commonJS({
-  "canvas-agent/node_modules/router/index.js"(exports2, module2) {
+  "../canvas-agent/node_modules/router/index.js"(exports2, module2) {
     "use strict";
     var isPromise = require_is_promise();
     var Layer = require_layer();
@@ -21463,9 +21463,9 @@ var require_router = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/express/lib/application.js
+// ../canvas-agent/node_modules/express/lib/application.js
 var require_application = __commonJS({
-  "canvas-agent/node_modules/express/lib/application.js"(exports2, module2) {
+  "../canvas-agent/node_modules/express/lib/application.js"(exports2, module2) {
     "use strict";
     var finalhandler = require_finalhandler();
     var debug = require_src()("express:application");
@@ -21724,9 +21724,9 @@ var require_application = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/negotiator/node_modules/content-type/dist/index.js
+// ../canvas-agent/node_modules/negotiator/node_modules/content-type/dist/index.js
 var require_dist5 = __commonJS({
-  "canvas-agent/node_modules/negotiator/node_modules/content-type/dist/index.js"(exports2) {
+  "../canvas-agent/node_modules/negotiator/node_modules/content-type/dist/index.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.format = format2;
@@ -21863,9 +21863,9 @@ var require_dist5 = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/negotiator/lib/accept.js
+// ../canvas-agent/node_modules/negotiator/lib/accept.js
 var require_accept = __commonJS({
-  "canvas-agent/node_modules/negotiator/lib/accept.js"(exports2, module2) {
+  "../canvas-agent/node_modules/negotiator/lib/accept.js"(exports2, module2) {
     "use strict";
     var contentType = require_dist5();
     module2.exports = parseAccept;
@@ -21891,9 +21891,9 @@ var require_accept = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/negotiator/lib/charset.js
+// ../canvas-agent/node_modules/negotiator/lib/charset.js
 var require_charset = __commonJS({
-  "canvas-agent/node_modules/negotiator/lib/charset.js"(exports2, module2) {
+  "../canvas-agent/node_modules/negotiator/lib/charset.js"(exports2, module2) {
     "use strict";
     var parseAccept = require_accept();
     module2.exports = preferredCharsets;
@@ -21963,9 +21963,9 @@ var require_charset = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/negotiator/lib/encoding.js
+// ../canvas-agent/node_modules/negotiator/lib/encoding.js
 var require_encoding = __commonJS({
-  "canvas-agent/node_modules/negotiator/lib/encoding.js"(exports2, module2) {
+  "../canvas-agent/node_modules/negotiator/lib/encoding.js"(exports2, module2) {
     "use strict";
     var parseAccept = require_accept();
     module2.exports = preferredEncodings;
@@ -22063,9 +22063,9 @@ var require_encoding = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/negotiator/lib/language.js
+// ../canvas-agent/node_modules/negotiator/lib/language.js
 var require_language = __commonJS({
-  "canvas-agent/node_modules/negotiator/lib/language.js"(exports2, module2) {
+  "../canvas-agent/node_modules/negotiator/lib/language.js"(exports2, module2) {
     "use strict";
     var contentType = require_dist5();
     var parseAccept = require_accept();
@@ -22147,9 +22147,9 @@ var require_language = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/negotiator/lib/mediaType.js
+// ../canvas-agent/node_modules/negotiator/lib/mediaType.js
 var require_mediaType = __commonJS({
-  "canvas-agent/node_modules/negotiator/lib/mediaType.js"(exports2, module2) {
+  "../canvas-agent/node_modules/negotiator/lib/mediaType.js"(exports2, module2) {
     "use strict";
     var contentType = require_dist5();
     var parseAcceptHeader = require_accept();
@@ -22244,9 +22244,9 @@ var require_mediaType = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/negotiator/index.js
+// ../canvas-agent/node_modules/negotiator/index.js
 var require_negotiator = __commonJS({
-  "canvas-agent/node_modules/negotiator/index.js"(exports2, module2) {
+  "../canvas-agent/node_modules/negotiator/index.js"(exports2, module2) {
     "use strict";
     var preferredCharsets = require_charset();
     var preferredEncodings = require_encoding();
@@ -22300,9 +22300,9 @@ var require_negotiator = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/accepts/index.js
+// ../canvas-agent/node_modules/accepts/index.js
 var require_accepts = __commonJS({
-  "canvas-agent/node_modules/accepts/index.js"(exports2, module2) {
+  "../canvas-agent/node_modules/accepts/index.js"(exports2, module2) {
     "use strict";
     var Negotiator = require_negotiator();
     var mime = require_mime_types();
@@ -22381,9 +22381,9 @@ var require_accepts = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/fresh/index.js
+// ../canvas-agent/node_modules/fresh/index.js
 var require_fresh = __commonJS({
-  "canvas-agent/node_modules/fresh/index.js"(exports2, module2) {
+  "../canvas-agent/node_modules/fresh/index.js"(exports2, module2) {
     "use strict";
     var CACHE_CONTROL_NO_CACHE_REGEXP = /(?:^|,)\s*?no-cache\s*?(?:,|$)/;
     module2.exports = fresh;
@@ -22453,9 +22453,9 @@ var require_fresh = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/range-parser/index.js
+// ../canvas-agent/node_modules/range-parser/index.js
 var require_range_parser = __commonJS({
-  "canvas-agent/node_modules/range-parser/index.js"(exports2, module2) {
+  "../canvas-agent/node_modules/range-parser/index.js"(exports2, module2) {
     "use strict";
     module2.exports = rangeParser;
     function rangeParser(size, str2, options2) {
@@ -22546,9 +22546,9 @@ var require_range_parser = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/express/lib/request.js
+// ../canvas-agent/node_modules/express/lib/request.js
 var require_request = __commonJS({
-  "canvas-agent/node_modules/express/lib/request.js"(exports2, module2) {
+  "../canvas-agent/node_modules/express/lib/request.js"(exports2, module2) {
     "use strict";
     var accepts = require_accepts();
     var isIP = __require("node:net").isIP;
@@ -22694,9 +22694,9 @@ var require_request = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/content-disposition/dist/index.js
+// ../canvas-agent/node_modules/content-disposition/dist/index.js
 var require_dist6 = __commonJS({
-  "canvas-agent/node_modules/content-disposition/dist/index.js"(exports2) {
+  "../canvas-agent/node_modules/content-disposition/dist/index.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.create = create;
@@ -22983,9 +22983,9 @@ var require_dist6 = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/cookie-signature/index.js
+// ../canvas-agent/node_modules/cookie-signature/index.js
 var require_cookie_signature = __commonJS({
-  "canvas-agent/node_modules/cookie-signature/index.js"(exports2) {
+  "../canvas-agent/node_modules/cookie-signature/index.js"(exports2) {
     var crypto6 = __require("crypto");
     exports2.sign = function(val, secret) {
       if ("string" != typeof val) throw new TypeError("Cookie value must be provided as a string.");
@@ -23001,9 +23001,9 @@ var require_cookie_signature = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/cookie/index.js
+// ../canvas-agent/node_modules/cookie/index.js
 var require_cookie = __commonJS({
-  "canvas-agent/node_modules/cookie/index.js"(exports2) {
+  "../canvas-agent/node_modules/cookie/index.js"(exports2) {
     "use strict";
     exports2.parse = parse4;
     exports2.serialize = serialize;
@@ -23167,9 +23167,9 @@ var require_cookie = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/send/index.js
+// ../canvas-agent/node_modules/send/index.js
 var require_send = __commonJS({
-  "canvas-agent/node_modules/send/index.js"(exports2, module2) {
+  "../canvas-agent/node_modules/send/index.js"(exports2, module2) {
     "use strict";
     var createError = require_http_errors();
     var debug = require_src()("send");
@@ -23650,9 +23650,9 @@ var require_send = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/vary/index.js
+// ../canvas-agent/node_modules/vary/index.js
 var require_vary = __commonJS({
-  "canvas-agent/node_modules/vary/index.js"(exports2, module2) {
+  "../canvas-agent/node_modules/vary/index.js"(exports2, module2) {
     "use strict";
     module2.exports = vary;
     module2.exports.append = append;
@@ -23723,9 +23723,9 @@ var require_vary = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/express/lib/response.js
+// ../canvas-agent/node_modules/express/lib/response.js
 var require_response = __commonJS({
-  "canvas-agent/node_modules/express/lib/response.js"(exports2, module2) {
+  "../canvas-agent/node_modules/express/lib/response.js"(exports2, module2) {
     "use strict";
     var contentDisposition = require_dist6();
     var createError = require_http_errors();
@@ -24193,9 +24193,9 @@ var require_response = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/serve-static/index.js
+// ../canvas-agent/node_modules/serve-static/index.js
 var require_serve_static = __commonJS({
-  "canvas-agent/node_modules/serve-static/index.js"(exports2, module2) {
+  "../canvas-agent/node_modules/serve-static/index.js"(exports2, module2) {
     "use strict";
     var encodeUrl = require_encodeurl();
     var escapeHtml = require_escape_html();
@@ -24297,9 +24297,9 @@ var require_serve_static = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/express/lib/express.js
+// ../canvas-agent/node_modules/express/lib/express.js
 var require_express = __commonJS({
-  "canvas-agent/node_modules/express/lib/express.js"(exports2, module2) {
+  "../canvas-agent/node_modules/express/lib/express.js"(exports2, module2) {
     "use strict";
     var bodyParser = require_body_parser();
     var EventEmitter = __require("node:events").EventEmitter;
@@ -24337,17 +24337,17 @@ var require_express = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/express/index.js
+// ../canvas-agent/node_modules/express/index.js
 var require_express2 = __commonJS({
-  "canvas-agent/node_modules/express/index.js"(exports2, module2) {
+  "../canvas-agent/node_modules/express/index.js"(exports2, module2) {
     "use strict";
     module2.exports = require_express();
   }
 });
 
-// canvas-agent/node_modules/logform/format.js
+// ../canvas-agent/node_modules/logform/format.js
 var require_format = __commonJS({
-  "canvas-agent/node_modules/logform/format.js"(exports2, module2) {
+  "../canvas-agent/node_modules/logform/format.js"(exports2, module2) {
     "use strict";
     var InvalidFormatError = class _InvalidFormatError extends Error {
       constructor(formatFn) {
@@ -24374,9 +24374,9 @@ Found: ${formatFn.toString().split("\n")[0]}
   }
 });
 
-// canvas-agent/node_modules/logform/node_modules/@colors/colors/lib/styles.js
+// ../canvas-agent/node_modules/logform/node_modules/@colors/colors/lib/styles.js
 var require_styles = __commonJS({
-  "canvas-agent/node_modules/logform/node_modules/@colors/colors/lib/styles.js"(exports2, module2) {
+  "../canvas-agent/node_modules/logform/node_modules/@colors/colors/lib/styles.js"(exports2, module2) {
     var styles = {};
     module2["exports"] = styles;
     var codes = {
@@ -24441,9 +24441,9 @@ var require_styles = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/logform/node_modules/@colors/colors/lib/system/has-flag.js
+// ../canvas-agent/node_modules/logform/node_modules/@colors/colors/lib/system/has-flag.js
 var require_has_flag = __commonJS({
-  "canvas-agent/node_modules/logform/node_modules/@colors/colors/lib/system/has-flag.js"(exports2, module2) {
+  "../canvas-agent/node_modules/logform/node_modules/@colors/colors/lib/system/has-flag.js"(exports2, module2) {
     "use strict";
     module2.exports = function(flag, argv) {
       argv = argv || process.argv || [];
@@ -24455,9 +24455,9 @@ var require_has_flag = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/logform/node_modules/@colors/colors/lib/system/supports-colors.js
+// ../canvas-agent/node_modules/logform/node_modules/@colors/colors/lib/system/supports-colors.js
 var require_supports_colors = __commonJS({
-  "canvas-agent/node_modules/logform/node_modules/@colors/colors/lib/system/supports-colors.js"(exports2, module2) {
+  "../canvas-agent/node_modules/logform/node_modules/@colors/colors/lib/system/supports-colors.js"(exports2, module2) {
     "use strict";
     var os5 = __require("os");
     var hasFlag = require_has_flag();
@@ -24551,9 +24551,9 @@ var require_supports_colors = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/logform/node_modules/@colors/colors/lib/custom/trap.js
+// ../canvas-agent/node_modules/logform/node_modules/@colors/colors/lib/custom/trap.js
 var require_trap = __commonJS({
-  "canvas-agent/node_modules/logform/node_modules/@colors/colors/lib/custom/trap.js"(exports2, module2) {
+  "../canvas-agent/node_modules/logform/node_modules/@colors/colors/lib/custom/trap.js"(exports2, module2) {
     module2["exports"] = function runTheTrap(text2, options2) {
       var result = "";
       text2 = text2 || "Run the trap, drop the bass";
@@ -24620,9 +24620,9 @@ var require_trap = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/logform/node_modules/@colors/colors/lib/custom/zalgo.js
+// ../canvas-agent/node_modules/logform/node_modules/@colors/colors/lib/custom/zalgo.js
 var require_zalgo = __commonJS({
-  "canvas-agent/node_modules/logform/node_modules/@colors/colors/lib/custom/zalgo.js"(exports2, module2) {
+  "../canvas-agent/node_modules/logform/node_modules/@colors/colors/lib/custom/zalgo.js"(exports2, module2) {
     module2["exports"] = function zalgo(text2, options2) {
       text2 = text2 || "   he is here   ";
       var soul = {
@@ -24807,9 +24807,9 @@ var require_zalgo = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/logform/node_modules/@colors/colors/lib/maps/america.js
+// ../canvas-agent/node_modules/logform/node_modules/@colors/colors/lib/maps/america.js
 var require_america = __commonJS({
-  "canvas-agent/node_modules/logform/node_modules/@colors/colors/lib/maps/america.js"(exports2, module2) {
+  "../canvas-agent/node_modules/logform/node_modules/@colors/colors/lib/maps/america.js"(exports2, module2) {
     module2["exports"] = function(colors) {
       return function(letter, i, exploded) {
         if (letter === " ") return letter;
@@ -24826,9 +24826,9 @@ var require_america = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/logform/node_modules/@colors/colors/lib/maps/zebra.js
+// ../canvas-agent/node_modules/logform/node_modules/@colors/colors/lib/maps/zebra.js
 var require_zebra = __commonJS({
-  "canvas-agent/node_modules/logform/node_modules/@colors/colors/lib/maps/zebra.js"(exports2, module2) {
+  "../canvas-agent/node_modules/logform/node_modules/@colors/colors/lib/maps/zebra.js"(exports2, module2) {
     module2["exports"] = function(colors) {
       return function(letter, i, exploded) {
         return i % 2 === 0 ? letter : colors.inverse(letter);
@@ -24837,9 +24837,9 @@ var require_zebra = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/logform/node_modules/@colors/colors/lib/maps/rainbow.js
+// ../canvas-agent/node_modules/logform/node_modules/@colors/colors/lib/maps/rainbow.js
 var require_rainbow = __commonJS({
-  "canvas-agent/node_modules/logform/node_modules/@colors/colors/lib/maps/rainbow.js"(exports2, module2) {
+  "../canvas-agent/node_modules/logform/node_modules/@colors/colors/lib/maps/rainbow.js"(exports2, module2) {
     module2["exports"] = function(colors) {
       var rainbowColors = ["red", "yellow", "green", "blue", "magenta"];
       return function(letter, i, exploded) {
@@ -24853,9 +24853,9 @@ var require_rainbow = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/logform/node_modules/@colors/colors/lib/maps/random.js
+// ../canvas-agent/node_modules/logform/node_modules/@colors/colors/lib/maps/random.js
 var require_random = __commonJS({
-  "canvas-agent/node_modules/logform/node_modules/@colors/colors/lib/maps/random.js"(exports2, module2) {
+  "../canvas-agent/node_modules/logform/node_modules/@colors/colors/lib/maps/random.js"(exports2, module2) {
     module2["exports"] = function(colors) {
       var available = [
         "underline",
@@ -24883,9 +24883,9 @@ var require_random = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/logform/node_modules/@colors/colors/lib/colors.js
+// ../canvas-agent/node_modules/logform/node_modules/@colors/colors/lib/colors.js
 var require_colors = __commonJS({
-  "canvas-agent/node_modules/logform/node_modules/@colors/colors/lib/colors.js"(exports2, module2) {
+  "../canvas-agent/node_modules/logform/node_modules/@colors/colors/lib/colors.js"(exports2, module2) {
     var colors = {};
     module2["exports"] = colors;
     colors.themes = {};
@@ -25027,17 +25027,17 @@ var require_colors = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/logform/node_modules/@colors/colors/safe.js
+// ../canvas-agent/node_modules/logform/node_modules/@colors/colors/safe.js
 var require_safe = __commonJS({
-  "canvas-agent/node_modules/logform/node_modules/@colors/colors/safe.js"(exports2, module2) {
+  "../canvas-agent/node_modules/logform/node_modules/@colors/colors/safe.js"(exports2, module2) {
     var colors = require_colors();
     module2["exports"] = colors;
   }
 });
 
-// canvas-agent/node_modules/triple-beam/config/cli.js
+// ../canvas-agent/node_modules/triple-beam/config/cli.js
 var require_cli = __commonJS({
-  "canvas-agent/node_modules/triple-beam/config/cli.js"(exports2) {
+  "../canvas-agent/node_modules/triple-beam/config/cli.js"(exports2) {
     "use strict";
     exports2.levels = {
       error: 0,
@@ -25066,9 +25066,9 @@ var require_cli = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/triple-beam/config/npm.js
+// ../canvas-agent/node_modules/triple-beam/config/npm.js
 var require_npm = __commonJS({
-  "canvas-agent/node_modules/triple-beam/config/npm.js"(exports2) {
+  "../canvas-agent/node_modules/triple-beam/config/npm.js"(exports2) {
     "use strict";
     exports2.levels = {
       error: 0,
@@ -25091,9 +25091,9 @@ var require_npm = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/triple-beam/config/syslog.js
+// ../canvas-agent/node_modules/triple-beam/config/syslog.js
 var require_syslog = __commonJS({
-  "canvas-agent/node_modules/triple-beam/config/syslog.js"(exports2) {
+  "../canvas-agent/node_modules/triple-beam/config/syslog.js"(exports2) {
     "use strict";
     exports2.levels = {
       emerg: 0,
@@ -25118,9 +25118,9 @@ var require_syslog = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/triple-beam/config/index.js
+// ../canvas-agent/node_modules/triple-beam/config/index.js
 var require_config = __commonJS({
-  "canvas-agent/node_modules/triple-beam/config/index.js"(exports2) {
+  "../canvas-agent/node_modules/triple-beam/config/index.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "cli", {
       value: require_cli()
@@ -25134,9 +25134,9 @@ var require_config = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/triple-beam/index.js
+// ../canvas-agent/node_modules/triple-beam/index.js
 var require_triple_beam = __commonJS({
-  "canvas-agent/node_modules/triple-beam/index.js"(exports2) {
+  "../canvas-agent/node_modules/triple-beam/index.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "LEVEL", {
       value: /* @__PURE__ */ Symbol.for("level")
@@ -25153,9 +25153,9 @@ var require_triple_beam = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/logform/colorize.js
+// ../canvas-agent/node_modules/logform/colorize.js
 var require_colorize = __commonJS({
-  "canvas-agent/node_modules/logform/colorize.js"(exports2, module2) {
+  "../canvas-agent/node_modules/logform/colorize.js"(exports2, module2) {
     "use strict";
     var colors = require_safe();
     var { LEVEL, MESSAGE } = require_triple_beam();
@@ -25230,9 +25230,9 @@ var require_colorize = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/logform/levels.js
+// ../canvas-agent/node_modules/logform/levels.js
 var require_levels = __commonJS({
-  "canvas-agent/node_modules/logform/levels.js"(exports2, module2) {
+  "../canvas-agent/node_modules/logform/levels.js"(exports2, module2) {
     "use strict";
     var { Colorizer } = require_colorize();
     module2.exports = (config2) => {
@@ -25242,9 +25242,9 @@ var require_levels = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/logform/align.js
+// ../canvas-agent/node_modules/logform/align.js
 var require_align = __commonJS({
-  "canvas-agent/node_modules/logform/align.js"(exports2, module2) {
+  "../canvas-agent/node_modules/logform/align.js"(exports2, module2) {
     "use strict";
     var format2 = require_format();
     module2.exports = format2((info) => {
@@ -25254,9 +25254,9 @@ var require_align = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/logform/errors.js
+// ../canvas-agent/node_modules/logform/errors.js
 var require_errors = __commonJS({
-  "canvas-agent/node_modules/logform/errors.js"(exports2, module2) {
+  "../canvas-agent/node_modules/logform/errors.js"(exports2, module2) {
     "use strict";
     var format2 = require_format();
     var { LEVEL, MESSAGE } = require_triple_beam();
@@ -25284,9 +25284,9 @@ var require_errors = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/logform/pad-levels.js
+// ../canvas-agent/node_modules/logform/pad-levels.js
 var require_pad_levels = __commonJS({
-  "canvas-agent/node_modules/logform/pad-levels.js"(exports2, module2) {
+  "../canvas-agent/node_modules/logform/pad-levels.js"(exports2, module2) {
     "use strict";
     var { configs, LEVEL, MESSAGE } = require_triple_beam();
     var Padder = class _Padder {
@@ -25355,9 +25355,9 @@ var require_pad_levels = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/logform/cli.js
+// ../canvas-agent/node_modules/logform/cli.js
 var require_cli2 = __commonJS({
-  "canvas-agent/node_modules/logform/cli.js"(exports2, module2) {
+  "../canvas-agent/node_modules/logform/cli.js"(exports2, module2) {
     "use strict";
     var { Colorizer } = require_colorize();
     var { Padder } = require_pad_levels();
@@ -25392,9 +25392,9 @@ var require_cli2 = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/logform/combine.js
+// ../canvas-agent/node_modules/logform/combine.js
 var require_combine = __commonJS({
-  "canvas-agent/node_modules/logform/combine.js"(exports2, module2) {
+  "../canvas-agent/node_modules/logform/combine.js"(exports2, module2) {
     "use strict";
     var format2 = require_format();
     function cascade(formats) {
@@ -25432,9 +25432,9 @@ var require_combine = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/safe-stable-stringify/index.js
+// ../canvas-agent/node_modules/safe-stable-stringify/index.js
 var require_safe_stable_stringify = __commonJS({
-  "canvas-agent/node_modules/safe-stable-stringify/index.js"(exports2, module2) {
+  "../canvas-agent/node_modules/safe-stable-stringify/index.js"(exports2, module2) {
     "use strict";
     var { hasOwnProperty } = Object.prototype;
     var stringify = configure();
@@ -26028,9 +26028,9 @@ ${originalIndentation}`;
   }
 });
 
-// canvas-agent/node_modules/logform/json.js
+// ../canvas-agent/node_modules/logform/json.js
 var require_json2 = __commonJS({
-  "canvas-agent/node_modules/logform/json.js"(exports2, module2) {
+  "../canvas-agent/node_modules/logform/json.js"(exports2, module2) {
     "use strict";
     var format2 = require_format();
     var { MESSAGE } = require_triple_beam();
@@ -26048,9 +26048,9 @@ var require_json2 = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/logform/label.js
+// ../canvas-agent/node_modules/logform/label.js
 var require_label = __commonJS({
-  "canvas-agent/node_modules/logform/label.js"(exports2, module2) {
+  "../canvas-agent/node_modules/logform/label.js"(exports2, module2) {
     "use strict";
     var format2 = require_format();
     module2.exports = format2((info, opts) => {
@@ -26064,9 +26064,9 @@ var require_label = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/logform/logstash.js
+// ../canvas-agent/node_modules/logform/logstash.js
 var require_logstash = __commonJS({
-  "canvas-agent/node_modules/logform/logstash.js"(exports2, module2) {
+  "../canvas-agent/node_modules/logform/logstash.js"(exports2, module2) {
     "use strict";
     var format2 = require_format();
     var { MESSAGE } = require_triple_beam();
@@ -26088,9 +26088,9 @@ var require_logstash = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/logform/metadata.js
+// ../canvas-agent/node_modules/logform/metadata.js
 var require_metadata = __commonJS({
-  "canvas-agent/node_modules/logform/metadata.js"(exports2, module2) {
+  "../canvas-agent/node_modules/logform/metadata.js"(exports2, module2) {
     "use strict";
     var format2 = require_format();
     function fillExcept(info, fillExceptKeys, metadataKey) {
@@ -26141,9 +26141,9 @@ var require_metadata = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/logform/ms.js
+// ../canvas-agent/node_modules/logform/ms.js
 var require_ms2 = __commonJS({
-  "canvas-agent/node_modules/logform/ms.js"(exports2, module2) {
+  "../canvas-agent/node_modules/logform/ms.js"(exports2, module2) {
     "use strict";
     var format2 = require_format();
     var ms = require_ms();
@@ -26157,9 +26157,9 @@ var require_ms2 = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/logform/pretty-print.js
+// ../canvas-agent/node_modules/logform/pretty-print.js
 var require_pretty_print = __commonJS({
-  "canvas-agent/node_modules/logform/pretty-print.js"(exports2, module2) {
+  "../canvas-agent/node_modules/logform/pretty-print.js"(exports2, module2) {
     "use strict";
     var inspect2 = __require("util").inspect;
     var format2 = require_format();
@@ -26175,9 +26175,9 @@ var require_pretty_print = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/logform/printf.js
+// ../canvas-agent/node_modules/logform/printf.js
 var require_printf = __commonJS({
-  "canvas-agent/node_modules/logform/printf.js"(exports2, module2) {
+  "../canvas-agent/node_modules/logform/printf.js"(exports2, module2) {
     "use strict";
     var { MESSAGE } = require_triple_beam();
     var Printf = class {
@@ -26194,9 +26194,9 @@ var require_printf = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/logform/simple.js
+// ../canvas-agent/node_modules/logform/simple.js
 var require_simple = __commonJS({
-  "canvas-agent/node_modules/logform/simple.js"(exports2, module2) {
+  "../canvas-agent/node_modules/logform/simple.js"(exports2, module2) {
     "use strict";
     var format2 = require_format();
     var { MESSAGE } = require_triple_beam();
@@ -26218,9 +26218,9 @@ var require_simple = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/logform/splat.js
+// ../canvas-agent/node_modules/logform/splat.js
 var require_splat = __commonJS({
-  "canvas-agent/node_modules/logform/splat.js"(exports2, module2) {
+  "../canvas-agent/node_modules/logform/splat.js"(exports2, module2) {
     "use strict";
     var util2 = __require("util");
     var { SPLAT } = require_triple_beam();
@@ -26292,9 +26292,9 @@ var require_splat = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/fecha/lib/fecha.umd.js
+// ../canvas-agent/node_modules/fecha/lib/fecha.umd.js
 var require_fecha_umd = __commonJS({
-  "canvas-agent/node_modules/fecha/lib/fecha.umd.js"(exports2, module2) {
+  "../canvas-agent/node_modules/fecha/lib/fecha.umd.js"(exports2, module2) {
     (function(global2, factory) {
       typeof exports2 === "object" && typeof module2 !== "undefined" ? factory(exports2) : typeof define === "function" && define.amd ? define(["exports"], factory) : factory(global2.fecha = {});
     })(exports2, (function(exports3) {
@@ -26706,9 +26706,9 @@ var require_fecha_umd = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/logform/timestamp.js
+// ../canvas-agent/node_modules/logform/timestamp.js
 var require_timestamp = __commonJS({
-  "canvas-agent/node_modules/logform/timestamp.js"(exports2, module2) {
+  "../canvas-agent/node_modules/logform/timestamp.js"(exports2, module2) {
     "use strict";
     var fecha = require_fecha_umd();
     var format2 = require_format();
@@ -26727,9 +26727,9 @@ var require_timestamp = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/logform/uncolorize.js
+// ../canvas-agent/node_modules/logform/uncolorize.js
 var require_uncolorize = __commonJS({
-  "canvas-agent/node_modules/logform/uncolorize.js"(exports2, module2) {
+  "../canvas-agent/node_modules/logform/uncolorize.js"(exports2, module2) {
     "use strict";
     var colors = require_safe();
     var format2 = require_format();
@@ -26749,9 +26749,9 @@ var require_uncolorize = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/logform/index.js
+// ../canvas-agent/node_modules/logform/index.js
 var require_logform = __commonJS({
-  "canvas-agent/node_modules/logform/index.js"(exports2) {
+  "../canvas-agent/node_modules/logform/index.js"(exports2) {
     "use strict";
     var format2 = exports2.format = require_format();
     exports2.levels = require_levels();
@@ -26817,9 +26817,9 @@ var require_logform = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/winston/lib/winston/common.js
+// ../canvas-agent/node_modules/winston/lib/winston/common.js
 var require_common2 = __commonJS({
-  "canvas-agent/node_modules/winston/lib/winston/common.js"(exports2) {
+  "../canvas-agent/node_modules/winston/lib/winston/common.js"(exports2) {
     "use strict";
     var { format: format2 } = __require("util");
     exports2.warn = {
@@ -26854,9 +26854,9 @@ var require_common2 = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/winston/package.json
+// ../canvas-agent/node_modules/winston/package.json
 var require_package = __commonJS({
-  "canvas-agent/node_modules/winston/package.json"(exports2, module2) {
+  "../canvas-agent/node_modules/winston/package.json"(exports2, module2) {
     module2.exports = {
       name: "winston",
       description: "A logger for just about everything.",
@@ -26934,23 +26934,23 @@ var require_package = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/util-deprecate/node.js
+// ../canvas-agent/node_modules/util-deprecate/node.js
 var require_node2 = __commonJS({
-  "canvas-agent/node_modules/util-deprecate/node.js"(exports2, module2) {
+  "../canvas-agent/node_modules/util-deprecate/node.js"(exports2, module2) {
     module2.exports = __require("util").deprecate;
   }
 });
 
-// canvas-agent/node_modules/readable-stream/lib/internal/streams/stream.js
+// ../canvas-agent/node_modules/readable-stream/lib/internal/streams/stream.js
 var require_stream = __commonJS({
-  "canvas-agent/node_modules/readable-stream/lib/internal/streams/stream.js"(exports2, module2) {
+  "../canvas-agent/node_modules/readable-stream/lib/internal/streams/stream.js"(exports2, module2) {
     module2.exports = __require("stream");
   }
 });
 
-// canvas-agent/node_modules/readable-stream/lib/internal/streams/destroy.js
+// ../canvas-agent/node_modules/readable-stream/lib/internal/streams/destroy.js
 var require_destroy = __commonJS({
-  "canvas-agent/node_modules/readable-stream/lib/internal/streams/destroy.js"(exports2, module2) {
+  "../canvas-agent/node_modules/readable-stream/lib/internal/streams/destroy.js"(exports2, module2) {
     "use strict";
     function destroy(err, cb) {
       var _this = this;
@@ -27037,9 +27037,9 @@ var require_destroy = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/readable-stream/errors.js
+// ../canvas-agent/node_modules/readable-stream/errors.js
 var require_errors2 = __commonJS({
-  "canvas-agent/node_modules/readable-stream/errors.js"(exports2, module2) {
+  "../canvas-agent/node_modules/readable-stream/errors.js"(exports2, module2) {
     "use strict";
     var codes = {};
     function createErrorType(code, message, Base) {
@@ -27137,9 +27137,9 @@ var require_errors2 = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/readable-stream/lib/internal/streams/state.js
+// ../canvas-agent/node_modules/readable-stream/lib/internal/streams/state.js
 var require_state = __commonJS({
-  "canvas-agent/node_modules/readable-stream/lib/internal/streams/state.js"(exports2, module2) {
+  "../canvas-agent/node_modules/readable-stream/lib/internal/streams/state.js"(exports2, module2) {
     "use strict";
     var ERR_INVALID_OPT_VALUE = require_errors2().codes.ERR_INVALID_OPT_VALUE;
     function highWaterMarkFrom(options2, isDuplex, duplexKey) {
@@ -27162,9 +27162,9 @@ var require_state = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/readable-stream/lib/internal/streams/buffer_list.js
+// ../canvas-agent/node_modules/readable-stream/lib/internal/streams/buffer_list.js
 var require_buffer_list = __commonJS({
-  "canvas-agent/node_modules/readable-stream/lib/internal/streams/buffer_list.js"(exports2, module2) {
+  "../canvas-agent/node_modules/readable-stream/lib/internal/streams/buffer_list.js"(exports2, module2) {
     "use strict";
     function ownKeys(object3, enumerableOnly) {
       var keys = Object.keys(object3);
@@ -27404,9 +27404,9 @@ var require_buffer_list = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/safe-buffer/index.js
+// ../canvas-agent/node_modules/safe-buffer/index.js
 var require_safe_buffer = __commonJS({
-  "canvas-agent/node_modules/safe-buffer/index.js"(exports2, module2) {
+  "../canvas-agent/node_modules/safe-buffer/index.js"(exports2, module2) {
     var buffer = __require("buffer");
     var Buffer2 = buffer.Buffer;
     function copyProps(src, dst) {
@@ -27462,9 +27462,9 @@ var require_safe_buffer = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/string_decoder/lib/string_decoder.js
+// ../canvas-agent/node_modules/string_decoder/lib/string_decoder.js
 var require_string_decoder = __commonJS({
-  "canvas-agent/node_modules/string_decoder/lib/string_decoder.js"(exports2) {
+  "../canvas-agent/node_modules/string_decoder/lib/string_decoder.js"(exports2) {
     "use strict";
     var Buffer2 = require_safe_buffer().Buffer;
     var isEncoding = Buffer2.isEncoding || function(encoding) {
@@ -27700,9 +27700,9 @@ var require_string_decoder = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/readable-stream/lib/internal/streams/end-of-stream.js
+// ../canvas-agent/node_modules/readable-stream/lib/internal/streams/end-of-stream.js
 var require_end_of_stream = __commonJS({
-  "canvas-agent/node_modules/readable-stream/lib/internal/streams/end-of-stream.js"(exports2, module2) {
+  "../canvas-agent/node_modules/readable-stream/lib/internal/streams/end-of-stream.js"(exports2, module2) {
     "use strict";
     var ERR_STREAM_PREMATURE_CLOSE = require_errors2().codes.ERR_STREAM_PREMATURE_CLOSE;
     function once(callback) {
@@ -27789,9 +27789,9 @@ var require_end_of_stream = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/readable-stream/lib/internal/streams/async_iterator.js
+// ../canvas-agent/node_modules/readable-stream/lib/internal/streams/async_iterator.js
 var require_async_iterator = __commonJS({
-  "canvas-agent/node_modules/readable-stream/lib/internal/streams/async_iterator.js"(exports2, module2) {
+  "../canvas-agent/node_modules/readable-stream/lib/internal/streams/async_iterator.js"(exports2, module2) {
     "use strict";
     var _Object$setPrototypeO;
     function _defineProperty(obj, key, value) {
@@ -27972,9 +27972,9 @@ var require_async_iterator = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/readable-stream/lib/internal/streams/from.js
+// ../canvas-agent/node_modules/readable-stream/lib/internal/streams/from.js
 var require_from = __commonJS({
-  "canvas-agent/node_modules/readable-stream/lib/internal/streams/from.js"(exports2, module2) {
+  "../canvas-agent/node_modules/readable-stream/lib/internal/streams/from.js"(exports2, module2) {
     "use strict";
     function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {
       try {
@@ -28093,9 +28093,9 @@ var require_from = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/readable-stream/lib/_stream_readable.js
+// ../canvas-agent/node_modules/readable-stream/lib/_stream_readable.js
 var require_stream_readable = __commonJS({
-  "canvas-agent/node_modules/readable-stream/lib/_stream_readable.js"(exports2, module2) {
+  "../canvas-agent/node_modules/readable-stream/lib/_stream_readable.js"(exports2, module2) {
     "use strict";
     module2.exports = Readable;
     var Duplex;
@@ -28826,9 +28826,9 @@ var require_stream_readable = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/readable-stream/lib/_stream_duplex.js
+// ../canvas-agent/node_modules/readable-stream/lib/_stream_duplex.js
 var require_stream_duplex = __commonJS({
-  "canvas-agent/node_modules/readable-stream/lib/_stream_duplex.js"(exports2, module2) {
+  "../canvas-agent/node_modules/readable-stream/lib/_stream_duplex.js"(exports2, module2) {
     "use strict";
     var objectKeys = Object.keys || function(obj) {
       var keys2 = [];
@@ -28919,9 +28919,9 @@ var require_stream_duplex = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/readable-stream/lib/_stream_writable.js
+// ../canvas-agent/node_modules/readable-stream/lib/_stream_writable.js
 var require_stream_writable = __commonJS({
-  "canvas-agent/node_modules/readable-stream/lib/_stream_writable.js"(exports2, module2) {
+  "../canvas-agent/node_modules/readable-stream/lib/_stream_writable.js"(exports2, module2) {
     "use strict";
     module2.exports = Writable;
     function CorkedRequest(state) {
@@ -29390,9 +29390,9 @@ var require_stream_writable = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/winston-transport/modern.js
+// ../canvas-agent/node_modules/winston-transport/modern.js
 var require_modern = __commonJS({
-  "canvas-agent/node_modules/winston-transport/modern.js"(exports2, module2) {
+  "../canvas-agent/node_modules/winston-transport/modern.js"(exports2, module2) {
     "use strict";
     var util2 = __require("util");
     var Writable = require_stream_writable();
@@ -29502,9 +29502,9 @@ var require_modern = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/winston-transport/legacy.js
+// ../canvas-agent/node_modules/winston-transport/legacy.js
 var require_legacy = __commonJS({
-  "canvas-agent/node_modules/winston-transport/legacy.js"(exports2, module2) {
+  "../canvas-agent/node_modules/winston-transport/legacy.js"(exports2, module2) {
     "use strict";
     var util2 = __require("util");
     var { LEVEL } = require_triple_beam();
@@ -29568,18 +29568,18 @@ var require_legacy = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/winston-transport/index.js
+// ../canvas-agent/node_modules/winston-transport/index.js
 var require_winston_transport = __commonJS({
-  "canvas-agent/node_modules/winston-transport/index.js"(exports2, module2) {
+  "../canvas-agent/node_modules/winston-transport/index.js"(exports2, module2) {
     "use strict";
     module2.exports = require_modern();
     module2.exports.LegacyTransportStream = require_legacy();
   }
 });
 
-// canvas-agent/node_modules/winston/lib/winston/transports/console.js
+// ../canvas-agent/node_modules/winston/lib/winston/transports/console.js
 var require_console = __commonJS({
-  "canvas-agent/node_modules/winston/lib/winston/transports/console.js"(exports2, module2) {
+  "../canvas-agent/node_modules/winston/lib/winston/transports/console.js"(exports2, module2) {
     "use strict";
     var os5 = __require("os");
     var { LEVEL, MESSAGE } = require_triple_beam();
@@ -29666,9 +29666,9 @@ var require_console = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/async/internal/isArrayLike.js
+// ../canvas-agent/node_modules/async/internal/isArrayLike.js
 var require_isArrayLike = __commonJS({
-  "canvas-agent/node_modules/async/internal/isArrayLike.js"(exports2, module2) {
+  "../canvas-agent/node_modules/async/internal/isArrayLike.js"(exports2, module2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", {
       value: true
@@ -29681,9 +29681,9 @@ var require_isArrayLike = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/async/internal/initialParams.js
+// ../canvas-agent/node_modules/async/internal/initialParams.js
 var require_initialParams = __commonJS({
-  "canvas-agent/node_modules/async/internal/initialParams.js"(exports2, module2) {
+  "../canvas-agent/node_modules/async/internal/initialParams.js"(exports2, module2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", {
       value: true
@@ -29698,9 +29698,9 @@ var require_initialParams = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/async/internal/setImmediate.js
+// ../canvas-agent/node_modules/async/internal/setImmediate.js
 var require_setImmediate = __commonJS({
-  "canvas-agent/node_modules/async/internal/setImmediate.js"(exports2) {
+  "../canvas-agent/node_modules/async/internal/setImmediate.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", {
       value: true
@@ -29730,9 +29730,9 @@ var require_setImmediate = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/async/asyncify.js
+// ../canvas-agent/node_modules/async/asyncify.js
 var require_asyncify = __commonJS({
-  "canvas-agent/node_modules/async/asyncify.js"(exports2, module2) {
+  "../canvas-agent/node_modules/async/asyncify.js"(exports2, module2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", {
       value: true
@@ -29788,9 +29788,9 @@ var require_asyncify = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/async/internal/wrapAsync.js
+// ../canvas-agent/node_modules/async/internal/wrapAsync.js
 var require_wrapAsync = __commonJS({
-  "canvas-agent/node_modules/async/internal/wrapAsync.js"(exports2) {
+  "../canvas-agent/node_modules/async/internal/wrapAsync.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", {
       value: true
@@ -29821,9 +29821,9 @@ var require_wrapAsync = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/async/internal/awaitify.js
+// ../canvas-agent/node_modules/async/internal/awaitify.js
 var require_awaitify = __commonJS({
-  "canvas-agent/node_modules/async/internal/awaitify.js"(exports2, module2) {
+  "../canvas-agent/node_modules/async/internal/awaitify.js"(exports2, module2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", {
       value: true
@@ -29850,9 +29850,9 @@ var require_awaitify = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/async/internal/parallel.js
+// ../canvas-agent/node_modules/async/internal/parallel.js
 var require_parallel = __commonJS({
-  "canvas-agent/node_modules/async/internal/parallel.js"(exports2, module2) {
+  "../canvas-agent/node_modules/async/internal/parallel.js"(exports2, module2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", {
       value: true
@@ -29882,9 +29882,9 @@ var require_parallel = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/async/internal/once.js
+// ../canvas-agent/node_modules/async/internal/once.js
 var require_once2 = __commonJS({
-  "canvas-agent/node_modules/async/internal/once.js"(exports2, module2) {
+  "../canvas-agent/node_modules/async/internal/once.js"(exports2, module2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", {
       value: true
@@ -29904,9 +29904,9 @@ var require_once2 = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/async/internal/getIterator.js
+// ../canvas-agent/node_modules/async/internal/getIterator.js
 var require_getIterator = __commonJS({
-  "canvas-agent/node_modules/async/internal/getIterator.js"(exports2, module2) {
+  "../canvas-agent/node_modules/async/internal/getIterator.js"(exports2, module2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", {
       value: true
@@ -29918,9 +29918,9 @@ var require_getIterator = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/async/internal/iterator.js
+// ../canvas-agent/node_modules/async/internal/iterator.js
 var require_iterator = __commonJS({
-  "canvas-agent/node_modules/async/internal/iterator.js"(exports2, module2) {
+  "../canvas-agent/node_modules/async/internal/iterator.js"(exports2, module2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", {
       value: true
@@ -29972,9 +29972,9 @@ var require_iterator = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/async/internal/onlyOnce.js
+// ../canvas-agent/node_modules/async/internal/onlyOnce.js
 var require_onlyOnce = __commonJS({
-  "canvas-agent/node_modules/async/internal/onlyOnce.js"(exports2, module2) {
+  "../canvas-agent/node_modules/async/internal/onlyOnce.js"(exports2, module2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", {
       value: true
@@ -29992,9 +29992,9 @@ var require_onlyOnce = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/async/internal/breakLoop.js
+// ../canvas-agent/node_modules/async/internal/breakLoop.js
 var require_breakLoop = __commonJS({
-  "canvas-agent/node_modules/async/internal/breakLoop.js"(exports2, module2) {
+  "../canvas-agent/node_modules/async/internal/breakLoop.js"(exports2, module2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", {
       value: true
@@ -30005,9 +30005,9 @@ var require_breakLoop = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/async/internal/asyncEachOfLimit.js
+// ../canvas-agent/node_modules/async/internal/asyncEachOfLimit.js
 var require_asyncEachOfLimit = __commonJS({
-  "canvas-agent/node_modules/async/internal/asyncEachOfLimit.js"(exports2, module2) {
+  "../canvas-agent/node_modules/async/internal/asyncEachOfLimit.js"(exports2, module2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", {
       value: true
@@ -30070,9 +30070,9 @@ var require_asyncEachOfLimit = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/async/internal/eachOfLimit.js
+// ../canvas-agent/node_modules/async/internal/eachOfLimit.js
 var require_eachOfLimit = __commonJS({
-  "canvas-agent/node_modules/async/internal/eachOfLimit.js"(exports2, module2) {
+  "../canvas-agent/node_modules/async/internal/eachOfLimit.js"(exports2, module2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", {
       value: true
@@ -30150,9 +30150,9 @@ var require_eachOfLimit = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/async/eachOfLimit.js
+// ../canvas-agent/node_modules/async/eachOfLimit.js
 var require_eachOfLimit2 = __commonJS({
-  "canvas-agent/node_modules/async/eachOfLimit.js"(exports2, module2) {
+  "../canvas-agent/node_modules/async/eachOfLimit.js"(exports2, module2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", {
       value: true
@@ -30174,9 +30174,9 @@ var require_eachOfLimit2 = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/async/eachOfSeries.js
+// ../canvas-agent/node_modules/async/eachOfSeries.js
 var require_eachOfSeries = __commonJS({
-  "canvas-agent/node_modules/async/eachOfSeries.js"(exports2, module2) {
+  "../canvas-agent/node_modules/async/eachOfSeries.js"(exports2, module2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", {
       value: true
@@ -30196,9 +30196,9 @@ var require_eachOfSeries = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/async/series.js
+// ../canvas-agent/node_modules/async/series.js
 var require_series = __commonJS({
-  "canvas-agent/node_modules/async/series.js"(exports2, module2) {
+  "../canvas-agent/node_modules/async/series.js"(exports2, module2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", {
       value: true
@@ -30218,9 +30218,9 @@ var require_series = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/readable-stream/lib/_stream_transform.js
+// ../canvas-agent/node_modules/readable-stream/lib/_stream_transform.js
 var require_stream_transform = __commonJS({
-  "canvas-agent/node_modules/readable-stream/lib/_stream_transform.js"(exports2, module2) {
+  "../canvas-agent/node_modules/readable-stream/lib/_stream_transform.js"(exports2, module2) {
     "use strict";
     module2.exports = Transform;
     var _require$codes = require_errors2().codes;
@@ -30319,9 +30319,9 @@ var require_stream_transform = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/readable-stream/lib/_stream_passthrough.js
+// ../canvas-agent/node_modules/readable-stream/lib/_stream_passthrough.js
 var require_stream_passthrough = __commonJS({
-  "canvas-agent/node_modules/readable-stream/lib/_stream_passthrough.js"(exports2, module2) {
+  "../canvas-agent/node_modules/readable-stream/lib/_stream_passthrough.js"(exports2, module2) {
     "use strict";
     module2.exports = PassThrough;
     var Transform = require_stream_transform();
@@ -30336,9 +30336,9 @@ var require_stream_passthrough = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/readable-stream/lib/internal/streams/pipeline.js
+// ../canvas-agent/node_modules/readable-stream/lib/internal/streams/pipeline.js
 var require_pipeline = __commonJS({
-  "canvas-agent/node_modules/readable-stream/lib/internal/streams/pipeline.js"(exports2, module2) {
+  "../canvas-agent/node_modules/readable-stream/lib/internal/streams/pipeline.js"(exports2, module2) {
     "use strict";
     var eos;
     function once(callback) {
@@ -30421,9 +30421,9 @@ var require_pipeline = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/readable-stream/readable.js
+// ../canvas-agent/node_modules/readable-stream/readable.js
 var require_readable = __commonJS({
-  "canvas-agent/node_modules/readable-stream/readable.js"(exports2, module2) {
+  "../canvas-agent/node_modules/readable-stream/readable.js"(exports2, module2) {
     var Stream = __require("stream");
     if (process.env.READABLE_STREAM === "disable" && Stream) {
       module2.exports = Stream.Readable;
@@ -30443,9 +30443,9 @@ var require_readable = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/@dabh/diagnostics/diagnostics.js
+// ../canvas-agent/node_modules/@dabh/diagnostics/diagnostics.js
 var require_diagnostics = __commonJS({
-  "canvas-agent/node_modules/@dabh/diagnostics/diagnostics.js"(exports2, module2) {
+  "../canvas-agent/node_modules/@dabh/diagnostics/diagnostics.js"(exports2, module2) {
     var adapters = [];
     var modifiers = [];
     var logger2 = function devnull() {
@@ -30537,9 +30537,9 @@ var require_diagnostics = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/@dabh/diagnostics/node/production.js
+// ../canvas-agent/node_modules/@dabh/diagnostics/node/production.js
 var require_production = __commonJS({
-  "canvas-agent/node_modules/@dabh/diagnostics/node/production.js"(exports2, module2) {
+  "../canvas-agent/node_modules/@dabh/diagnostics/node/production.js"(exports2, module2) {
     var create = require_diagnostics();
     var diagnostics = create(function prod(namespace, options2) {
       options2 = options2 || {};
@@ -30553,9 +30553,9 @@ var require_production = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/@so-ric/colorspace/dist/index.cjs.js
+// ../canvas-agent/node_modules/@so-ric/colorspace/dist/index.cjs.js
 var require_index_cjs = __commonJS({
-  "canvas-agent/node_modules/@so-ric/colorspace/dist/index.cjs.js"(exports2, module2) {
+  "../canvas-agent/node_modules/@so-ric/colorspace/dist/index.cjs.js"(exports2, module2) {
     "use strict";
     var cssKeywords = {
       aliceblue: [240, 248, 255],
@@ -32136,9 +32136,9 @@ var require_index_cjs = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/kuler/index.js
+// ../canvas-agent/node_modules/kuler/index.js
 var require_kuler = __commonJS({
-  "canvas-agent/node_modules/kuler/index.js"(exports2, module2) {
+  "../canvas-agent/node_modules/kuler/index.js"(exports2, module2) {
     "use strict";
     function Kuler(text2, color) {
       if (color) return new Kuler(text2).style(color);
@@ -32179,9 +32179,9 @@ var require_kuler = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/@dabh/diagnostics/modifiers/namespace-ansi.js
+// ../canvas-agent/node_modules/@dabh/diagnostics/modifiers/namespace-ansi.js
 var require_namespace_ansi = __commonJS({
-  "canvas-agent/node_modules/@dabh/diagnostics/modifiers/namespace-ansi.js"(exports2, module2) {
+  "../canvas-agent/node_modules/@dabh/diagnostics/modifiers/namespace-ansi.js"(exports2, module2) {
     var colorspace = require_index_cjs();
     var kuler = require_kuler();
     module2.exports = function ansiModifier(args, options2) {
@@ -32193,9 +32193,9 @@ var require_namespace_ansi = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/enabled/index.js
+// ../canvas-agent/node_modules/enabled/index.js
 var require_enabled = __commonJS({
-  "canvas-agent/node_modules/enabled/index.js"(exports2, module2) {
+  "../canvas-agent/node_modules/enabled/index.js"(exports2, module2) {
     "use strict";
     module2.exports = function enabled(name, variable) {
       if (!variable) return false;
@@ -32217,9 +32217,9 @@ var require_enabled = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/@dabh/diagnostics/adapters/index.js
+// ../canvas-agent/node_modules/@dabh/diagnostics/adapters/index.js
 var require_adapters = __commonJS({
-  "canvas-agent/node_modules/@dabh/diagnostics/adapters/index.js"(exports2, module2) {
+  "../canvas-agent/node_modules/@dabh/diagnostics/adapters/index.js"(exports2, module2) {
     var enabled = require_enabled();
     module2.exports = function create(fn) {
       return function adapter(namespace) {
@@ -32233,9 +32233,9 @@ var require_adapters = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/@dabh/diagnostics/adapters/process.env.js
+// ../canvas-agent/node_modules/@dabh/diagnostics/adapters/process.env.js
 var require_process_env = __commonJS({
-  "canvas-agent/node_modules/@dabh/diagnostics/adapters/process.env.js"(exports2, module2) {
+  "../canvas-agent/node_modules/@dabh/diagnostics/adapters/process.env.js"(exports2, module2) {
     var adapter = require_adapters();
     module2.exports = adapter(function processenv() {
       return process.env.DEBUG || process.env.DIAGNOSTICS;
@@ -32243,9 +32243,9 @@ var require_process_env = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/@dabh/diagnostics/logger/console.js
+// ../canvas-agent/node_modules/@dabh/diagnostics/logger/console.js
 var require_console2 = __commonJS({
-  "canvas-agent/node_modules/@dabh/diagnostics/logger/console.js"(exports2, module2) {
+  "../canvas-agent/node_modules/@dabh/diagnostics/logger/console.js"(exports2, module2) {
     module2.exports = function(meta, messages) {
       try {
         Function.prototype.apply.call(console.log, console, messages);
@@ -32255,9 +32255,9 @@ var require_console2 = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/@dabh/diagnostics/node/development.js
+// ../canvas-agent/node_modules/@dabh/diagnostics/node/development.js
 var require_development = __commonJS({
-  "canvas-agent/node_modules/@dabh/diagnostics/node/development.js"(exports2, module2) {
+  "../canvas-agent/node_modules/@dabh/diagnostics/node/development.js"(exports2, module2) {
     var create = require_diagnostics();
     var tty = __require("tty").isatty(1);
     var diagnostics = create(function dev(namespace, options2) {
@@ -32278,9 +32278,9 @@ var require_development = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/@dabh/diagnostics/node/index.js
+// ../canvas-agent/node_modules/@dabh/diagnostics/node/index.js
 var require_node3 = __commonJS({
-  "canvas-agent/node_modules/@dabh/diagnostics/node/index.js"(exports2, module2) {
+  "../canvas-agent/node_modules/@dabh/diagnostics/node/index.js"(exports2, module2) {
     if (process.env.NODE_ENV === "production") {
       module2.exports = require_production();
     } else {
@@ -32289,9 +32289,9 @@ var require_node3 = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/winston/lib/winston/tail-file.js
+// ../canvas-agent/node_modules/winston/lib/winston/tail-file.js
 var require_tail_file = __commonJS({
-  "canvas-agent/node_modules/winston/lib/winston/tail-file.js"(exports2, module2) {
+  "../canvas-agent/node_modules/winston/lib/winston/tail-file.js"(exports2, module2) {
     "use strict";
     var fs8 = __require("fs");
     var { StringDecoder } = __require("string_decoder");
@@ -32384,9 +32384,9 @@ var require_tail_file = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/winston/lib/winston/transports/file.js
+// ../canvas-agent/node_modules/winston/lib/winston/transports/file.js
 var require_file = __commonJS({
-  "canvas-agent/node_modules/winston/lib/winston/transports/file.js"(exports2, module2) {
+  "../canvas-agent/node_modules/winston/lib/winston/transports/file.js"(exports2, module2) {
     "use strict";
     var fs8 = __require("fs");
     var path10 = __require("path");
@@ -33000,9 +33000,9 @@ var require_file = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/winston/lib/winston/transports/http.js
+// ../canvas-agent/node_modules/winston/lib/winston/transports/http.js
 var require_http = __commonJS({
-  "canvas-agent/node_modules/winston/lib/winston/transports/http.js"(exports2, module2) {
+  "../canvas-agent/node_modules/winston/lib/winston/transports/http.js"(exports2, module2) {
     "use strict";
     var http = __require("http");
     var https = __require("https");
@@ -33218,9 +33218,9 @@ var require_http = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/is-stream/index.js
+// ../canvas-agent/node_modules/is-stream/index.js
 var require_is_stream = __commonJS({
-  "canvas-agent/node_modules/is-stream/index.js"(exports2, module2) {
+  "../canvas-agent/node_modules/is-stream/index.js"(exports2, module2) {
     "use strict";
     var isStream = (stream) => stream !== null && typeof stream === "object" && typeof stream.pipe === "function";
     isStream.writable = (stream) => isStream(stream) && stream.writable !== false && typeof stream._write === "function" && typeof stream._writableState === "object";
@@ -33231,9 +33231,9 @@ var require_is_stream = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/winston/lib/winston/transports/stream.js
+// ../canvas-agent/node_modules/winston/lib/winston/transports/stream.js
 var require_stream2 = __commonJS({
-  "canvas-agent/node_modules/winston/lib/winston/transports/stream.js"(exports2, module2) {
+  "../canvas-agent/node_modules/winston/lib/winston/transports/stream.js"(exports2, module2) {
     "use strict";
     var isStream = require_is_stream();
     var { MESSAGE } = require_triple_beam();
@@ -33280,9 +33280,9 @@ var require_stream2 = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/winston/lib/winston/transports/index.js
+// ../canvas-agent/node_modules/winston/lib/winston/transports/index.js
 var require_transports = __commonJS({
-  "canvas-agent/node_modules/winston/lib/winston/transports/index.js"(exports2) {
+  "../canvas-agent/node_modules/winston/lib/winston/transports/index.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "Console", {
       configurable: true,
@@ -33315,9 +33315,9 @@ var require_transports = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/winston/lib/winston/config/index.js
+// ../canvas-agent/node_modules/winston/lib/winston/config/index.js
 var require_config2 = __commonJS({
-  "canvas-agent/node_modules/winston/lib/winston/config/index.js"(exports2) {
+  "../canvas-agent/node_modules/winston/lib/winston/config/index.js"(exports2) {
     "use strict";
     var logform = require_logform();
     var { configs } = require_triple_beam();
@@ -33328,9 +33328,9 @@ var require_config2 = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/async/eachOf.js
+// ../canvas-agent/node_modules/async/eachOf.js
 var require_eachOf = __commonJS({
-  "canvas-agent/node_modules/async/eachOf.js"(exports2, module2) {
+  "../canvas-agent/node_modules/async/eachOf.js"(exports2, module2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", {
       value: true
@@ -33385,9 +33385,9 @@ var require_eachOf = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/async/internal/withoutIndex.js
+// ../canvas-agent/node_modules/async/internal/withoutIndex.js
 var require_withoutIndex = __commonJS({
-  "canvas-agent/node_modules/async/internal/withoutIndex.js"(exports2, module2) {
+  "../canvas-agent/node_modules/async/internal/withoutIndex.js"(exports2, module2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", {
       value: true
@@ -33400,9 +33400,9 @@ var require_withoutIndex = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/async/forEach.js
+// ../canvas-agent/node_modules/async/forEach.js
 var require_forEach = __commonJS({
-  "canvas-agent/node_modules/async/forEach.js"(exports2, module2) {
+  "../canvas-agent/node_modules/async/forEach.js"(exports2, module2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", {
       value: true
@@ -33426,9 +33426,9 @@ var require_forEach = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/fn.name/index.js
+// ../canvas-agent/node_modules/fn.name/index.js
 var require_fn = __commonJS({
-  "canvas-agent/node_modules/fn.name/index.js"(exports2, module2) {
+  "../canvas-agent/node_modules/fn.name/index.js"(exports2, module2) {
     "use strict";
     var toString = Object.prototype.toString;
     module2.exports = function name(fn) {
@@ -33449,9 +33449,9 @@ var require_fn = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/one-time/index.js
+// ../canvas-agent/node_modules/one-time/index.js
 var require_one_time = __commonJS({
-  "canvas-agent/node_modules/one-time/index.js"(exports2, module2) {
+  "../canvas-agent/node_modules/one-time/index.js"(exports2, module2) {
     "use strict";
     var name = require_fn();
     module2.exports = function one(fn) {
@@ -33469,9 +33469,9 @@ var require_one_time = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/stack-trace/lib/stack-trace.js
+// ../canvas-agent/node_modules/stack-trace/lib/stack-trace.js
 var require_stack_trace = __commonJS({
-  "canvas-agent/node_modules/stack-trace/lib/stack-trace.js"(exports2) {
+  "../canvas-agent/node_modules/stack-trace/lib/stack-trace.js"(exports2) {
     exports2.get = function(belowFn) {
       var oldLimit = Error.stackTraceLimit;
       Error.stackTraceLimit = Infinity;
@@ -33592,9 +33592,9 @@ var require_stack_trace = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/winston/lib/winston/exception-stream.js
+// ../canvas-agent/node_modules/winston/lib/winston/exception-stream.js
 var require_exception_stream = __commonJS({
-  "canvas-agent/node_modules/winston/lib/winston/exception-stream.js"(exports2, module2) {
+  "../canvas-agent/node_modules/winston/lib/winston/exception-stream.js"(exports2, module2) {
     "use strict";
     var { Writable } = require_readable();
     module2.exports = class ExceptionStream extends Writable {
@@ -33632,9 +33632,9 @@ var require_exception_stream = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/winston/lib/winston/exception-handler.js
+// ../canvas-agent/node_modules/winston/lib/winston/exception-handler.js
 var require_exception_handler = __commonJS({
-  "canvas-agent/node_modules/winston/lib/winston/exception-handler.js"(exports2, module2) {
+  "../canvas-agent/node_modules/winston/lib/winston/exception-handler.js"(exports2, module2) {
     "use strict";
     var os5 = __require("os");
     var asyncForEach = require_forEach();
@@ -33830,9 +33830,9 @@ var require_exception_handler = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/winston/lib/winston/rejection-stream.js
+// ../canvas-agent/node_modules/winston/lib/winston/rejection-stream.js
 var require_rejection_stream = __commonJS({
-  "canvas-agent/node_modules/winston/lib/winston/rejection-stream.js"(exports2, module2) {
+  "../canvas-agent/node_modules/winston/lib/winston/rejection-stream.js"(exports2, module2) {
     "use strict";
     var { Writable } = require_readable();
     module2.exports = class RejectionStream extends Writable {
@@ -33870,9 +33870,9 @@ var require_rejection_stream = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/winston/lib/winston/rejection-handler.js
+// ../canvas-agent/node_modules/winston/lib/winston/rejection-handler.js
 var require_rejection_handler = __commonJS({
-  "canvas-agent/node_modules/winston/lib/winston/rejection-handler.js"(exports2, module2) {
+  "../canvas-agent/node_modules/winston/lib/winston/rejection-handler.js"(exports2, module2) {
     "use strict";
     var os5 = __require("os");
     var asyncForEach = require_forEach();
@@ -34074,9 +34074,9 @@ var require_rejection_handler = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/winston/lib/winston/profiler.js
+// ../canvas-agent/node_modules/winston/lib/winston/profiler.js
 var require_profiler = __commonJS({
-  "canvas-agent/node_modules/winston/lib/winston/profiler.js"(exports2, module2) {
+  "../canvas-agent/node_modules/winston/lib/winston/profiler.js"(exports2, module2) {
     "use strict";
     var Profiler = class {
       /**
@@ -34116,9 +34116,9 @@ var require_profiler = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/winston/lib/winston/logger.js
+// ../canvas-agent/node_modules/winston/lib/winston/logger.js
 var require_logger = __commonJS({
-  "canvas-agent/node_modules/winston/lib/winston/logger.js"(exports2, module2) {
+  "../canvas-agent/node_modules/winston/lib/winston/logger.js"(exports2, module2) {
     "use strict";
     var { Stream, Transform } = require_readable();
     var asyncForEach = require_forEach();
@@ -34654,9 +34654,9 @@ var require_logger = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/winston/lib/winston/create-logger.js
+// ../canvas-agent/node_modules/winston/lib/winston/create-logger.js
 var require_create_logger = __commonJS({
-  "canvas-agent/node_modules/winston/lib/winston/create-logger.js"(exports2, module2) {
+  "../canvas-agent/node_modules/winston/lib/winston/create-logger.js"(exports2, module2) {
     "use strict";
     var { LEVEL } = require_triple_beam();
     var config2 = require_config2();
@@ -34710,9 +34710,9 @@ var require_create_logger = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/winston/lib/winston/container.js
+// ../canvas-agent/node_modules/winston/lib/winston/container.js
 var require_container = __commonJS({
-  "canvas-agent/node_modules/winston/lib/winston/container.js"(exports2, module2) {
+  "../canvas-agent/node_modules/winston/lib/winston/container.js"(exports2, module2) {
     "use strict";
     var createLogger = require_create_logger();
     module2.exports = class Container {
@@ -34806,9 +34806,9 @@ var require_container = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/winston/lib/winston.js
+// ../canvas-agent/node_modules/winston/lib/winston.js
 var require_winston = __commonJS({
-  "canvas-agent/node_modules/winston/lib/winston.js"(exports2) {
+  "../canvas-agent/node_modules/winston/lib/winston.js"(exports2) {
     "use strict";
     var logform = require_logform();
     var { warn } = require_common2();
@@ -34893,9 +34893,9 @@ var require_winston = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/kind-of/index.js
+// ../canvas-agent/node_modules/kind-of/index.js
 var require_kind_of = __commonJS({
-  "canvas-agent/node_modules/kind-of/index.js"(exports2, module2) {
+  "../canvas-agent/node_modules/kind-of/index.js"(exports2, module2) {
     var toString = Object.prototype.toString;
     module2.exports = function kindOf(val) {
       if (val === void 0) return "undefined";
@@ -35014,9 +35014,9 @@ var require_kind_of = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/is-extendable/index.js
+// ../canvas-agent/node_modules/is-extendable/index.js
 var require_is_extendable = __commonJS({
-  "canvas-agent/node_modules/is-extendable/index.js"(exports2, module2) {
+  "../canvas-agent/node_modules/is-extendable/index.js"(exports2, module2) {
     "use strict";
     module2.exports = function isExtendable(val) {
       return typeof val !== "undefined" && val !== null && (typeof val === "object" || typeof val === "function");
@@ -35024,9 +35024,9 @@ var require_is_extendable = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/extend-shallow/index.js
+// ../canvas-agent/node_modules/extend-shallow/index.js
 var require_extend_shallow = __commonJS({
-  "canvas-agent/node_modules/extend-shallow/index.js"(exports2, module2) {
+  "../canvas-agent/node_modules/extend-shallow/index.js"(exports2, module2) {
     "use strict";
     var isObject2 = require_is_extendable();
     module2.exports = function extend2(o) {
@@ -35055,9 +35055,9 @@ var require_extend_shallow = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/section-matter/index.js
+// ../canvas-agent/node_modules/section-matter/index.js
 var require_section_matter = __commonJS({
-  "canvas-agent/node_modules/section-matter/index.js"(exports2, module2) {
+  "../canvas-agent/node_modules/section-matter/index.js"(exports2, module2) {
     "use strict";
     var typeOf = require_kind_of();
     var extend2 = require_extend_shallow();
@@ -35162,9 +35162,9 @@ var require_section_matter = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/js-yaml/lib/js-yaml/common.js
+// ../canvas-agent/node_modules/js-yaml/lib/js-yaml/common.js
 var require_common3 = __commonJS({
-  "canvas-agent/node_modules/js-yaml/lib/js-yaml/common.js"(exports2, module2) {
+  "../canvas-agent/node_modules/js-yaml/lib/js-yaml/common.js"(exports2, module2) {
     "use strict";
     function isNothing(subject) {
       return typeof subject === "undefined" || subject === null;
@@ -35207,9 +35207,9 @@ var require_common3 = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/js-yaml/lib/js-yaml/exception.js
+// ../canvas-agent/node_modules/js-yaml/lib/js-yaml/exception.js
 var require_exception = __commonJS({
-  "canvas-agent/node_modules/js-yaml/lib/js-yaml/exception.js"(exports2, module2) {
+  "../canvas-agent/node_modules/js-yaml/lib/js-yaml/exception.js"(exports2, module2) {
     "use strict";
     function YAMLException(reason, mark) {
       Error.call(this);
@@ -35237,9 +35237,9 @@ var require_exception = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/js-yaml/lib/js-yaml/mark.js
+// ../canvas-agent/node_modules/js-yaml/lib/js-yaml/mark.js
 var require_mark = __commonJS({
-  "canvas-agent/node_modules/js-yaml/lib/js-yaml/mark.js"(exports2, module2) {
+  "../canvas-agent/node_modules/js-yaml/lib/js-yaml/mark.js"(exports2, module2) {
     "use strict";
     var common = require_common3();
     function Mark(name, buffer, position, line, column) {
@@ -35295,9 +35295,9 @@ var require_mark = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/js-yaml/lib/js-yaml/type.js
+// ../canvas-agent/node_modules/js-yaml/lib/js-yaml/type.js
 var require_type2 = __commonJS({
-  "canvas-agent/node_modules/js-yaml/lib/js-yaml/type.js"(exports2, module2) {
+  "../canvas-agent/node_modules/js-yaml/lib/js-yaml/type.js"(exports2, module2) {
     "use strict";
     var YAMLException = require_exception();
     var TYPE_CONSTRUCTOR_OPTIONS = [
@@ -35354,9 +35354,9 @@ var require_type2 = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/js-yaml/lib/js-yaml/schema.js
+// ../canvas-agent/node_modules/js-yaml/lib/js-yaml/schema.js
 var require_schema = __commonJS({
-  "canvas-agent/node_modules/js-yaml/lib/js-yaml/schema.js"(exports2, module2) {
+  "../canvas-agent/node_modules/js-yaml/lib/js-yaml/schema.js"(exports2, module2) {
     "use strict";
     var common = require_common3();
     var YAMLException = require_exception();
@@ -35442,9 +35442,9 @@ var require_schema = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/js-yaml/lib/js-yaml/type/str.js
+// ../canvas-agent/node_modules/js-yaml/lib/js-yaml/type/str.js
 var require_str = __commonJS({
-  "canvas-agent/node_modules/js-yaml/lib/js-yaml/type/str.js"(exports2, module2) {
+  "../canvas-agent/node_modules/js-yaml/lib/js-yaml/type/str.js"(exports2, module2) {
     "use strict";
     var Type = require_type2();
     module2.exports = new Type("tag:yaml.org,2002:str", {
@@ -35456,9 +35456,9 @@ var require_str = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/js-yaml/lib/js-yaml/type/seq.js
+// ../canvas-agent/node_modules/js-yaml/lib/js-yaml/type/seq.js
 var require_seq = __commonJS({
-  "canvas-agent/node_modules/js-yaml/lib/js-yaml/type/seq.js"(exports2, module2) {
+  "../canvas-agent/node_modules/js-yaml/lib/js-yaml/type/seq.js"(exports2, module2) {
     "use strict";
     var Type = require_type2();
     module2.exports = new Type("tag:yaml.org,2002:seq", {
@@ -35470,9 +35470,9 @@ var require_seq = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/js-yaml/lib/js-yaml/type/map.js
+// ../canvas-agent/node_modules/js-yaml/lib/js-yaml/type/map.js
 var require_map = __commonJS({
-  "canvas-agent/node_modules/js-yaml/lib/js-yaml/type/map.js"(exports2, module2) {
+  "../canvas-agent/node_modules/js-yaml/lib/js-yaml/type/map.js"(exports2, module2) {
     "use strict";
     var Type = require_type2();
     module2.exports = new Type("tag:yaml.org,2002:map", {
@@ -35484,9 +35484,9 @@ var require_map = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/js-yaml/lib/js-yaml/schema/failsafe.js
+// ../canvas-agent/node_modules/js-yaml/lib/js-yaml/schema/failsafe.js
 var require_failsafe = __commonJS({
-  "canvas-agent/node_modules/js-yaml/lib/js-yaml/schema/failsafe.js"(exports2, module2) {
+  "../canvas-agent/node_modules/js-yaml/lib/js-yaml/schema/failsafe.js"(exports2, module2) {
     "use strict";
     var Schema = require_schema();
     module2.exports = new Schema({
@@ -35499,9 +35499,9 @@ var require_failsafe = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/js-yaml/lib/js-yaml/type/null.js
+// ../canvas-agent/node_modules/js-yaml/lib/js-yaml/type/null.js
 var require_null = __commonJS({
-  "canvas-agent/node_modules/js-yaml/lib/js-yaml/type/null.js"(exports2, module2) {
+  "../canvas-agent/node_modules/js-yaml/lib/js-yaml/type/null.js"(exports2, module2) {
     "use strict";
     var Type = require_type2();
     function resolveYamlNull(data) {
@@ -35539,9 +35539,9 @@ var require_null = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/js-yaml/lib/js-yaml/type/bool.js
+// ../canvas-agent/node_modules/js-yaml/lib/js-yaml/type/bool.js
 var require_bool = __commonJS({
-  "canvas-agent/node_modules/js-yaml/lib/js-yaml/type/bool.js"(exports2, module2) {
+  "../canvas-agent/node_modules/js-yaml/lib/js-yaml/type/bool.js"(exports2, module2) {
     "use strict";
     var Type = require_type2();
     function resolveYamlBoolean(data) {
@@ -35576,9 +35576,9 @@ var require_bool = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/js-yaml/lib/js-yaml/type/int.js
+// ../canvas-agent/node_modules/js-yaml/lib/js-yaml/type/int.js
 var require_int = __commonJS({
-  "canvas-agent/node_modules/js-yaml/lib/js-yaml/type/int.js"(exports2, module2) {
+  "../canvas-agent/node_modules/js-yaml/lib/js-yaml/type/int.js"(exports2, module2) {
     "use strict";
     var common = require_common3();
     var Type = require_type2();
@@ -35709,9 +35709,9 @@ var require_int = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/js-yaml/lib/js-yaml/type/float.js
+// ../canvas-agent/node_modules/js-yaml/lib/js-yaml/type/float.js
 var require_float = __commonJS({
-  "canvas-agent/node_modules/js-yaml/lib/js-yaml/type/float.js"(exports2, module2) {
+  "../canvas-agent/node_modules/js-yaml/lib/js-yaml/type/float.js"(exports2, module2) {
     "use strict";
     var common = require_common3();
     var Type = require_type2();
@@ -35804,9 +35804,9 @@ var require_float = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/js-yaml/lib/js-yaml/schema/json.js
+// ../canvas-agent/node_modules/js-yaml/lib/js-yaml/schema/json.js
 var require_json3 = __commonJS({
-  "canvas-agent/node_modules/js-yaml/lib/js-yaml/schema/json.js"(exports2, module2) {
+  "../canvas-agent/node_modules/js-yaml/lib/js-yaml/schema/json.js"(exports2, module2) {
     "use strict";
     var Schema = require_schema();
     module2.exports = new Schema({
@@ -35823,9 +35823,9 @@ var require_json3 = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/js-yaml/lib/js-yaml/schema/core.js
+// ../canvas-agent/node_modules/js-yaml/lib/js-yaml/schema/core.js
 var require_core = __commonJS({
-  "canvas-agent/node_modules/js-yaml/lib/js-yaml/schema/core.js"(exports2, module2) {
+  "../canvas-agent/node_modules/js-yaml/lib/js-yaml/schema/core.js"(exports2, module2) {
     "use strict";
     var Schema = require_schema();
     module2.exports = new Schema({
@@ -35836,9 +35836,9 @@ var require_core = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/js-yaml/lib/js-yaml/type/timestamp.js
+// ../canvas-agent/node_modules/js-yaml/lib/js-yaml/type/timestamp.js
 var require_timestamp2 = __commonJS({
-  "canvas-agent/node_modules/js-yaml/lib/js-yaml/type/timestamp.js"(exports2, module2) {
+  "../canvas-agent/node_modules/js-yaml/lib/js-yaml/type/timestamp.js"(exports2, module2) {
     "use strict";
     var Type = require_type2();
     var YAML_DATE_REGEXP = new RegExp(
@@ -35897,9 +35897,9 @@ var require_timestamp2 = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/js-yaml/lib/js-yaml/type/merge.js
+// ../canvas-agent/node_modules/js-yaml/lib/js-yaml/type/merge.js
 var require_merge = __commonJS({
-  "canvas-agent/node_modules/js-yaml/lib/js-yaml/type/merge.js"(exports2, module2) {
+  "../canvas-agent/node_modules/js-yaml/lib/js-yaml/type/merge.js"(exports2, module2) {
     "use strict";
     var Type = require_type2();
     function resolveYamlMerge(data) {
@@ -35912,9 +35912,9 @@ var require_merge = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/js-yaml/lib/js-yaml/type/binary.js
+// ../canvas-agent/node_modules/js-yaml/lib/js-yaml/type/binary.js
 var require_binary = __commonJS({
-  "canvas-agent/node_modules/js-yaml/lib/js-yaml/type/binary.js"(exports2, module2) {
+  "../canvas-agent/node_modules/js-yaml/lib/js-yaml/type/binary.js"(exports2, module2) {
     "use strict";
     var NodeBuffer;
     try {
@@ -36005,9 +36005,9 @@ var require_binary = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/js-yaml/lib/js-yaml/type/omap.js
+// ../canvas-agent/node_modules/js-yaml/lib/js-yaml/type/omap.js
 var require_omap = __commonJS({
-  "canvas-agent/node_modules/js-yaml/lib/js-yaml/type/omap.js"(exports2, module2) {
+  "../canvas-agent/node_modules/js-yaml/lib/js-yaml/type/omap.js"(exports2, module2) {
     "use strict";
     var Type = require_type2();
     var _hasOwnProperty = Object.prototype.hasOwnProperty;
@@ -36042,9 +36042,9 @@ var require_omap = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/js-yaml/lib/js-yaml/type/pairs.js
+// ../canvas-agent/node_modules/js-yaml/lib/js-yaml/type/pairs.js
 var require_pairs = __commonJS({
-  "canvas-agent/node_modules/js-yaml/lib/js-yaml/type/pairs.js"(exports2, module2) {
+  "../canvas-agent/node_modules/js-yaml/lib/js-yaml/type/pairs.js"(exports2, module2) {
     "use strict";
     var Type = require_type2();
     var _toString = Object.prototype.toString;
@@ -36080,9 +36080,9 @@ var require_pairs = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/js-yaml/lib/js-yaml/type/set.js
+// ../canvas-agent/node_modules/js-yaml/lib/js-yaml/type/set.js
 var require_set = __commonJS({
-  "canvas-agent/node_modules/js-yaml/lib/js-yaml/type/set.js"(exports2, module2) {
+  "../canvas-agent/node_modules/js-yaml/lib/js-yaml/type/set.js"(exports2, module2) {
     "use strict";
     var Type = require_type2();
     var _hasOwnProperty = Object.prototype.hasOwnProperty;
@@ -36107,9 +36107,9 @@ var require_set = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/js-yaml/lib/js-yaml/schema/default_safe.js
+// ../canvas-agent/node_modules/js-yaml/lib/js-yaml/schema/default_safe.js
 var require_default_safe = __commonJS({
-  "canvas-agent/node_modules/js-yaml/lib/js-yaml/schema/default_safe.js"(exports2, module2) {
+  "../canvas-agent/node_modules/js-yaml/lib/js-yaml/schema/default_safe.js"(exports2, module2) {
     "use strict";
     var Schema = require_schema();
     module2.exports = new Schema({
@@ -36130,9 +36130,9 @@ var require_default_safe = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/js-yaml/lib/js-yaml/type/js/undefined.js
+// ../canvas-agent/node_modules/js-yaml/lib/js-yaml/type/js/undefined.js
 var require_undefined = __commonJS({
-  "canvas-agent/node_modules/js-yaml/lib/js-yaml/type/js/undefined.js"(exports2, module2) {
+  "../canvas-agent/node_modules/js-yaml/lib/js-yaml/type/js/undefined.js"(exports2, module2) {
     "use strict";
     var Type = require_type2();
     function resolveJavascriptUndefined() {
@@ -36157,9 +36157,9 @@ var require_undefined = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/js-yaml/lib/js-yaml/type/js/regexp.js
+// ../canvas-agent/node_modules/js-yaml/lib/js-yaml/type/js/regexp.js
 var require_regexp = __commonJS({
-  "canvas-agent/node_modules/js-yaml/lib/js-yaml/type/js/regexp.js"(exports2, module2) {
+  "../canvas-agent/node_modules/js-yaml/lib/js-yaml/type/js/regexp.js"(exports2, module2) {
     "use strict";
     var Type = require_type2();
     function resolveJavascriptRegExp(data) {
@@ -36201,9 +36201,9 @@ var require_regexp = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/js-yaml/lib/js-yaml/type/js/function.js
+// ../canvas-agent/node_modules/js-yaml/lib/js-yaml/type/js/function.js
 var require_function = __commonJS({
-  "canvas-agent/node_modules/js-yaml/lib/js-yaml/type/js/function.js"(exports2, module2) {
+  "../canvas-agent/node_modules/js-yaml/lib/js-yaml/type/js/function.js"(exports2, module2) {
     "use strict";
     var esprima;
     try {
@@ -36256,9 +36256,9 @@ var require_function = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/js-yaml/lib/js-yaml/schema/default_full.js
+// ../canvas-agent/node_modules/js-yaml/lib/js-yaml/schema/default_full.js
 var require_default_full = __commonJS({
-  "canvas-agent/node_modules/js-yaml/lib/js-yaml/schema/default_full.js"(exports2, module2) {
+  "../canvas-agent/node_modules/js-yaml/lib/js-yaml/schema/default_full.js"(exports2, module2) {
     "use strict";
     var Schema = require_schema();
     module2.exports = Schema.DEFAULT = new Schema({
@@ -36274,9 +36274,9 @@ var require_default_full = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/js-yaml/lib/js-yaml/loader.js
+// ../canvas-agent/node_modules/js-yaml/lib/js-yaml/loader.js
 var require_loader = __commonJS({
-  "canvas-agent/node_modules/js-yaml/lib/js-yaml/loader.js"(exports2, module2) {
+  "../canvas-agent/node_modules/js-yaml/lib/js-yaml/loader.js"(exports2, module2) {
     "use strict";
     var common = require_common3();
     var YAMLException = require_exception();
@@ -37406,9 +37406,9 @@ var require_loader = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/js-yaml/lib/js-yaml/dumper.js
+// ../canvas-agent/node_modules/js-yaml/lib/js-yaml/dumper.js
 var require_dumper = __commonJS({
-  "canvas-agent/node_modules/js-yaml/lib/js-yaml/dumper.js"(exports2, module2) {
+  "../canvas-agent/node_modules/js-yaml/lib/js-yaml/dumper.js"(exports2, module2) {
     "use strict";
     var common = require_common3();
     var YAMLException = require_exception();
@@ -37954,9 +37954,9 @@ var require_dumper = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/js-yaml/lib/js-yaml.js
+// ../canvas-agent/node_modules/js-yaml/lib/js-yaml.js
 var require_js_yaml = __commonJS({
-  "canvas-agent/node_modules/js-yaml/lib/js-yaml.js"(exports2, module2) {
+  "../canvas-agent/node_modules/js-yaml/lib/js-yaml.js"(exports2, module2) {
     "use strict";
     var loader = require_loader();
     var dumper = require_dumper();
@@ -37989,18 +37989,18 @@ var require_js_yaml = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/js-yaml/index.js
+// ../canvas-agent/node_modules/js-yaml/index.js
 var require_js_yaml2 = __commonJS({
-  "canvas-agent/node_modules/js-yaml/index.js"(exports2, module2) {
+  "../canvas-agent/node_modules/js-yaml/index.js"(exports2, module2) {
     "use strict";
     var yaml2 = require_js_yaml();
     module2.exports = yaml2;
   }
 });
 
-// canvas-agent/node_modules/gray-matter/lib/engines.js
+// ../canvas-agent/node_modules/gray-matter/lib/engines.js
 var require_engines = __commonJS({
-  "canvas-agent/node_modules/gray-matter/lib/engines.js"(exports, module) {
+  "../canvas-agent/node_modules/gray-matter/lib/engines.js"(exports, module) {
     "use strict";
     var yaml = require_js_yaml2();
     var engines = exports = module.exports;
@@ -38036,9 +38036,9 @@ var require_engines = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/strip-bom-string/index.js
+// ../canvas-agent/node_modules/strip-bom-string/index.js
 var require_strip_bom_string = __commonJS({
-  "canvas-agent/node_modules/strip-bom-string/index.js"(exports2, module2) {
+  "../canvas-agent/node_modules/strip-bom-string/index.js"(exports2, module2) {
     "use strict";
     module2.exports = function(str2) {
       if (typeof str2 === "string" && str2.charAt(0) === "\uFEFF") {
@@ -38049,9 +38049,9 @@ var require_strip_bom_string = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/gray-matter/lib/utils.js
+// ../canvas-agent/node_modules/gray-matter/lib/utils.js
 var require_utils4 = __commonJS({
-  "canvas-agent/node_modules/gray-matter/lib/utils.js"(exports2) {
+  "../canvas-agent/node_modules/gray-matter/lib/utils.js"(exports2) {
     "use strict";
     var stripBom = require_strip_bom_string();
     var typeOf = require_kind_of();
@@ -38089,9 +38089,9 @@ var require_utils4 = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/gray-matter/lib/defaults.js
+// ../canvas-agent/node_modules/gray-matter/lib/defaults.js
 var require_defaults = __commonJS({
-  "canvas-agent/node_modules/gray-matter/lib/defaults.js"(exports2, module2) {
+  "../canvas-agent/node_modules/gray-matter/lib/defaults.js"(exports2, module2) {
     "use strict";
     var engines2 = require_engines();
     var utils = require_utils4();
@@ -38108,9 +38108,9 @@ var require_defaults = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/gray-matter/lib/engine.js
+// ../canvas-agent/node_modules/gray-matter/lib/engine.js
 var require_engine = __commonJS({
-  "canvas-agent/node_modules/gray-matter/lib/engine.js"(exports2, module2) {
+  "../canvas-agent/node_modules/gray-matter/lib/engine.js"(exports2, module2) {
     "use strict";
     module2.exports = function(name, options2) {
       let engine = options2.engines[name] || options2.engines[aliase(name)];
@@ -38142,9 +38142,9 @@ var require_engine = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/gray-matter/lib/stringify.js
+// ../canvas-agent/node_modules/gray-matter/lib/stringify.js
 var require_stringify2 = __commonJS({
-  "canvas-agent/node_modules/gray-matter/lib/stringify.js"(exports2, module2) {
+  "../canvas-agent/node_modules/gray-matter/lib/stringify.js"(exports2, module2) {
     "use strict";
     var typeOf = require_kind_of();
     var getEngine = require_engine();
@@ -38195,9 +38195,9 @@ var require_stringify2 = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/gray-matter/lib/excerpt.js
+// ../canvas-agent/node_modules/gray-matter/lib/excerpt.js
 var require_excerpt = __commonJS({
-  "canvas-agent/node_modules/gray-matter/lib/excerpt.js"(exports2, module2) {
+  "../canvas-agent/node_modules/gray-matter/lib/excerpt.js"(exports2, module2) {
     "use strict";
     var defaults = require_defaults();
     module2.exports = function(file, options2) {
@@ -38222,9 +38222,9 @@ var require_excerpt = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/gray-matter/lib/to-file.js
+// ../canvas-agent/node_modules/gray-matter/lib/to-file.js
 var require_to_file = __commonJS({
-  "canvas-agent/node_modules/gray-matter/lib/to-file.js"(exports2, module2) {
+  "../canvas-agent/node_modules/gray-matter/lib/to-file.js"(exports2, module2) {
     "use strict";
     var typeOf = require_kind_of();
     var stringify = require_stringify2();
@@ -38256,9 +38256,9 @@ var require_to_file = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/gray-matter/lib/parse.js
+// ../canvas-agent/node_modules/gray-matter/lib/parse.js
 var require_parse2 = __commonJS({
-  "canvas-agent/node_modules/gray-matter/lib/parse.js"(exports2, module2) {
+  "../canvas-agent/node_modules/gray-matter/lib/parse.js"(exports2, module2) {
     "use strict";
     var getEngine = require_engine();
     var defaults = require_defaults();
@@ -38273,9 +38273,9 @@ var require_parse2 = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/gray-matter/index.js
+// ../canvas-agent/node_modules/gray-matter/index.js
 var require_gray_matter = __commonJS({
-  "canvas-agent/node_modules/gray-matter/index.js"(exports2, module2) {
+  "../canvas-agent/node_modules/gray-matter/index.js"(exports2, module2) {
     "use strict";
     var fs8 = __require("fs");
     var sections = require_section_matter();
@@ -38389,9 +38389,9 @@ var require_gray_matter = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/yaml/dist/nodes/identity.js
+// ../canvas-agent/node_modules/yaml/dist/nodes/identity.js
 var require_identity = __commonJS({
-  "canvas-agent/node_modules/yaml/dist/nodes/identity.js"(exports2) {
+  "../canvas-agent/node_modules/yaml/dist/nodes/identity.js"(exports2) {
     "use strict";
     var ALIAS = /* @__PURE__ */ Symbol.for("yaml.alias");
     var DOC = /* @__PURE__ */ Symbol.for("yaml.document");
@@ -38446,9 +38446,9 @@ var require_identity = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/yaml/dist/visit.js
+// ../canvas-agent/node_modules/yaml/dist/visit.js
 var require_visit = __commonJS({
-  "canvas-agent/node_modules/yaml/dist/visit.js"(exports2) {
+  "../canvas-agent/node_modules/yaml/dist/visit.js"(exports2) {
     "use strict";
     var identity = require_identity();
     var BREAK = /* @__PURE__ */ Symbol("break visit");
@@ -38604,9 +38604,9 @@ var require_visit = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/yaml/dist/doc/directives.js
+// ../canvas-agent/node_modules/yaml/dist/doc/directives.js
 var require_directives = __commonJS({
-  "canvas-agent/node_modules/yaml/dist/doc/directives.js"(exports2) {
+  "../canvas-agent/node_modules/yaml/dist/doc/directives.js"(exports2) {
     "use strict";
     var identity = require_identity();
     var visit = require_visit();
@@ -38775,9 +38775,9 @@ var require_directives = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/yaml/dist/doc/anchors.js
+// ../canvas-agent/node_modules/yaml/dist/doc/anchors.js
 var require_anchors = __commonJS({
-  "canvas-agent/node_modules/yaml/dist/doc/anchors.js"(exports2) {
+  "../canvas-agent/node_modules/yaml/dist/doc/anchors.js"(exports2) {
     "use strict";
     var identity = require_identity();
     var visit = require_visit();
@@ -38845,9 +38845,9 @@ var require_anchors = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/yaml/dist/doc/applyReviver.js
+// ../canvas-agent/node_modules/yaml/dist/doc/applyReviver.js
 var require_applyReviver = __commonJS({
-  "canvas-agent/node_modules/yaml/dist/doc/applyReviver.js"(exports2) {
+  "../canvas-agent/node_modules/yaml/dist/doc/applyReviver.js"(exports2) {
     "use strict";
     function applyReviver(reviver, obj, key, val) {
       if (val && typeof val === "object") {
@@ -38895,9 +38895,9 @@ var require_applyReviver = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/yaml/dist/nodes/toJS.js
+// ../canvas-agent/node_modules/yaml/dist/nodes/toJS.js
 var require_toJS = __commonJS({
-  "canvas-agent/node_modules/yaml/dist/nodes/toJS.js"(exports2) {
+  "../canvas-agent/node_modules/yaml/dist/nodes/toJS.js"(exports2) {
     "use strict";
     var identity = require_identity();
     function toJS(value, arg, ctx) {
@@ -38925,9 +38925,9 @@ var require_toJS = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/yaml/dist/nodes/Node.js
+// ../canvas-agent/node_modules/yaml/dist/nodes/Node.js
 var require_Node = __commonJS({
-  "canvas-agent/node_modules/yaml/dist/nodes/Node.js"(exports2) {
+  "../canvas-agent/node_modules/yaml/dist/nodes/Node.js"(exports2) {
     "use strict";
     var applyReviver = require_applyReviver();
     var identity = require_identity();
@@ -38966,9 +38966,9 @@ var require_Node = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/yaml/dist/nodes/Alias.js
+// ../canvas-agent/node_modules/yaml/dist/nodes/Alias.js
 var require_Alias = __commonJS({
-  "canvas-agent/node_modules/yaml/dist/nodes/Alias.js"(exports2) {
+  "../canvas-agent/node_modules/yaml/dist/nodes/Alias.js"(exports2) {
     "use strict";
     var anchors = require_anchors();
     var visit = require_visit();
@@ -39084,9 +39084,9 @@ var require_Alias = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/yaml/dist/nodes/Scalar.js
+// ../canvas-agent/node_modules/yaml/dist/nodes/Scalar.js
 var require_Scalar = __commonJS({
-  "canvas-agent/node_modules/yaml/dist/nodes/Scalar.js"(exports2) {
+  "../canvas-agent/node_modules/yaml/dist/nodes/Scalar.js"(exports2) {
     "use strict";
     var identity = require_identity();
     var Node = require_Node();
@@ -39114,9 +39114,9 @@ var require_Scalar = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/yaml/dist/doc/createNode.js
+// ../canvas-agent/node_modules/yaml/dist/doc/createNode.js
 var require_createNode = __commonJS({
-  "canvas-agent/node_modules/yaml/dist/doc/createNode.js"(exports2) {
+  "../canvas-agent/node_modules/yaml/dist/doc/createNode.js"(exports2) {
     "use strict";
     var Alias = require_Alias();
     var identity = require_identity();
@@ -39189,9 +39189,9 @@ var require_createNode = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/yaml/dist/nodes/Collection.js
+// ../canvas-agent/node_modules/yaml/dist/nodes/Collection.js
 var require_Collection = __commonJS({
-  "canvas-agent/node_modules/yaml/dist/nodes/Collection.js"(exports2) {
+  "../canvas-agent/node_modules/yaml/dist/nodes/Collection.js"(exports2) {
     "use strict";
     var createNode = require_createNode();
     var identity = require_identity();
@@ -39332,9 +39332,9 @@ var require_Collection = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/yaml/dist/stringify/stringifyComment.js
+// ../canvas-agent/node_modules/yaml/dist/stringify/stringifyComment.js
 var require_stringifyComment = __commonJS({
-  "canvas-agent/node_modules/yaml/dist/stringify/stringifyComment.js"(exports2) {
+  "../canvas-agent/node_modules/yaml/dist/stringify/stringifyComment.js"(exports2) {
     "use strict";
     var stringifyComment = (str2) => str2.replace(/^(?!$)(?: $)?/gm, "#");
     function indentComment(comment, indent) {
@@ -39349,9 +39349,9 @@ var require_stringifyComment = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/yaml/dist/stringify/foldFlowLines.js
+// ../canvas-agent/node_modules/yaml/dist/stringify/foldFlowLines.js
 var require_foldFlowLines = __commonJS({
-  "canvas-agent/node_modules/yaml/dist/stringify/foldFlowLines.js"(exports2) {
+  "../canvas-agent/node_modules/yaml/dist/stringify/foldFlowLines.js"(exports2) {
     "use strict";
     var FOLD_FLOW = "flow";
     var FOLD_BLOCK = "block";
@@ -39485,9 +39485,9 @@ ${indent}${text2.slice(fold + 1, end2)}`;
   }
 });
 
-// canvas-agent/node_modules/yaml/dist/stringify/stringifyString.js
+// ../canvas-agent/node_modules/yaml/dist/stringify/stringifyString.js
 var require_stringifyString = __commonJS({
-  "canvas-agent/node_modules/yaml/dist/stringify/stringifyString.js"(exports2) {
+  "../canvas-agent/node_modules/yaml/dist/stringify/stringifyString.js"(exports2) {
     "use strict";
     var Scalar = require_Scalar();
     var foldFlowLines = require_foldFlowLines();
@@ -39768,9 +39768,9 @@ ${indent}`);
   }
 });
 
-// canvas-agent/node_modules/yaml/dist/stringify/stringify.js
+// ../canvas-agent/node_modules/yaml/dist/stringify/stringify.js
 var require_stringify3 = __commonJS({
-  "canvas-agent/node_modules/yaml/dist/stringify/stringify.js"(exports2) {
+  "../canvas-agent/node_modules/yaml/dist/stringify/stringify.js"(exports2) {
     "use strict";
     var anchors = require_anchors();
     var identity = require_identity();
@@ -39892,9 +39892,9 @@ ${ctx.indent}${str2}`;
   }
 });
 
-// canvas-agent/node_modules/yaml/dist/stringify/stringifyPair.js
+// ../canvas-agent/node_modules/yaml/dist/stringify/stringifyPair.js
 var require_stringifyPair = __commonJS({
-  "canvas-agent/node_modules/yaml/dist/stringify/stringifyPair.js"(exports2) {
+  "../canvas-agent/node_modules/yaml/dist/stringify/stringifyPair.js"(exports2) {
     "use strict";
     var identity = require_identity();
     var Scalar = require_Scalar();
@@ -40025,9 +40025,9 @@ ${ctx.indent}`;
   }
 });
 
-// canvas-agent/node_modules/yaml/dist/log.js
+// ../canvas-agent/node_modules/yaml/dist/log.js
 var require_log = __commonJS({
-  "canvas-agent/node_modules/yaml/dist/log.js"(exports2) {
+  "../canvas-agent/node_modules/yaml/dist/log.js"(exports2) {
     "use strict";
     var node_process = __require("process");
     function debug(logLevel, ...messages) {
@@ -40047,9 +40047,9 @@ var require_log = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/yaml/dist/schema/yaml-1.1/merge.js
+// ../canvas-agent/node_modules/yaml/dist/schema/yaml-1.1/merge.js
 var require_merge2 = __commonJS({
-  "canvas-agent/node_modules/yaml/dist/schema/yaml-1.1/merge.js"(exports2) {
+  "../canvas-agent/node_modules/yaml/dist/schema/yaml-1.1/merge.js"(exports2) {
     "use strict";
     var identity = require_identity();
     var Scalar = require_Scalar();
@@ -40107,9 +40107,9 @@ var require_merge2 = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/yaml/dist/nodes/addPairToJSMap.js
+// ../canvas-agent/node_modules/yaml/dist/nodes/addPairToJSMap.js
 var require_addPairToJSMap = __commonJS({
-  "canvas-agent/node_modules/yaml/dist/nodes/addPairToJSMap.js"(exports2) {
+  "../canvas-agent/node_modules/yaml/dist/nodes/addPairToJSMap.js"(exports2) {
     "use strict";
     var log = require_log();
     var merge2 = require_merge2();
@@ -40171,9 +40171,9 @@ var require_addPairToJSMap = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/yaml/dist/nodes/Pair.js
+// ../canvas-agent/node_modules/yaml/dist/nodes/Pair.js
 var require_Pair = __commonJS({
-  "canvas-agent/node_modules/yaml/dist/nodes/Pair.js"(exports2) {
+  "../canvas-agent/node_modules/yaml/dist/nodes/Pair.js"(exports2) {
     "use strict";
     var createNode = require_createNode();
     var stringifyPair = require_stringifyPair();
@@ -40211,9 +40211,9 @@ var require_Pair = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/yaml/dist/stringify/stringifyCollection.js
+// ../canvas-agent/node_modules/yaml/dist/stringify/stringifyCollection.js
 var require_stringifyCollection = __commonJS({
-  "canvas-agent/node_modules/yaml/dist/stringify/stringifyCollection.js"(exports2) {
+  "../canvas-agent/node_modules/yaml/dist/stringify/stringifyCollection.js"(exports2) {
     "use strict";
     var identity = require_identity();
     var stringify = require_stringify3();
@@ -40362,9 +40362,9 @@ ${indent}${end}`;
   }
 });
 
-// canvas-agent/node_modules/yaml/dist/nodes/YAMLMap.js
+// ../canvas-agent/node_modules/yaml/dist/nodes/YAMLMap.js
 var require_YAMLMap = __commonJS({
-  "canvas-agent/node_modules/yaml/dist/nodes/YAMLMap.js"(exports2) {
+  "../canvas-agent/node_modules/yaml/dist/nodes/YAMLMap.js"(exports2) {
     "use strict";
     var stringifyCollection = require_stringifyCollection();
     var addPairToJSMap = require_addPairToJSMap();
@@ -40506,9 +40506,9 @@ var require_YAMLMap = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/yaml/dist/schema/common/map.js
+// ../canvas-agent/node_modules/yaml/dist/schema/common/map.js
 var require_map2 = __commonJS({
-  "canvas-agent/node_modules/yaml/dist/schema/common/map.js"(exports2) {
+  "../canvas-agent/node_modules/yaml/dist/schema/common/map.js"(exports2) {
     "use strict";
     var identity = require_identity();
     var YAMLMap = require_YAMLMap();
@@ -40528,9 +40528,9 @@ var require_map2 = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/yaml/dist/nodes/YAMLSeq.js
+// ../canvas-agent/node_modules/yaml/dist/nodes/YAMLSeq.js
 var require_YAMLSeq = __commonJS({
-  "canvas-agent/node_modules/yaml/dist/nodes/YAMLSeq.js"(exports2) {
+  "../canvas-agent/node_modules/yaml/dist/nodes/YAMLSeq.js"(exports2) {
     "use strict";
     var createNode = require_createNode();
     var stringifyCollection = require_stringifyCollection();
@@ -40644,9 +40644,9 @@ var require_YAMLSeq = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/yaml/dist/schema/common/seq.js
+// ../canvas-agent/node_modules/yaml/dist/schema/common/seq.js
 var require_seq2 = __commonJS({
-  "canvas-agent/node_modules/yaml/dist/schema/common/seq.js"(exports2) {
+  "../canvas-agent/node_modules/yaml/dist/schema/common/seq.js"(exports2) {
     "use strict";
     var identity = require_identity();
     var YAMLSeq = require_YAMLSeq();
@@ -40666,9 +40666,9 @@ var require_seq2 = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/yaml/dist/schema/common/string.js
+// ../canvas-agent/node_modules/yaml/dist/schema/common/string.js
 var require_string = __commonJS({
-  "canvas-agent/node_modules/yaml/dist/schema/common/string.js"(exports2) {
+  "../canvas-agent/node_modules/yaml/dist/schema/common/string.js"(exports2) {
     "use strict";
     var stringifyString = require_stringifyString();
     var string3 = {
@@ -40685,9 +40685,9 @@ var require_string = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/yaml/dist/schema/common/null.js
+// ../canvas-agent/node_modules/yaml/dist/schema/common/null.js
 var require_null2 = __commonJS({
-  "canvas-agent/node_modules/yaml/dist/schema/common/null.js"(exports2) {
+  "../canvas-agent/node_modules/yaml/dist/schema/common/null.js"(exports2) {
     "use strict";
     var Scalar = require_Scalar();
     var nullTag = {
@@ -40703,9 +40703,9 @@ var require_null2 = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/yaml/dist/schema/core/bool.js
+// ../canvas-agent/node_modules/yaml/dist/schema/core/bool.js
 var require_bool2 = __commonJS({
-  "canvas-agent/node_modules/yaml/dist/schema/core/bool.js"(exports2) {
+  "../canvas-agent/node_modules/yaml/dist/schema/core/bool.js"(exports2) {
     "use strict";
     var Scalar = require_Scalar();
     var boolTag = {
@@ -40727,9 +40727,9 @@ var require_bool2 = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/yaml/dist/stringify/stringifyNumber.js
+// ../canvas-agent/node_modules/yaml/dist/stringify/stringifyNumber.js
 var require_stringifyNumber = __commonJS({
-  "canvas-agent/node_modules/yaml/dist/stringify/stringifyNumber.js"(exports2) {
+  "../canvas-agent/node_modules/yaml/dist/stringify/stringifyNumber.js"(exports2) {
     "use strict";
     function stringifyNumber({ format: format2, minFractionDigits, tag, value }) {
       if (typeof value === "bigint")
@@ -40754,9 +40754,9 @@ var require_stringifyNumber = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/yaml/dist/schema/core/float.js
+// ../canvas-agent/node_modules/yaml/dist/schema/core/float.js
 var require_float2 = __commonJS({
-  "canvas-agent/node_modules/yaml/dist/schema/core/float.js"(exports2) {
+  "../canvas-agent/node_modules/yaml/dist/schema/core/float.js"(exports2) {
     "use strict";
     var Scalar = require_Scalar();
     var stringifyNumber = require_stringifyNumber();
@@ -40800,9 +40800,9 @@ var require_float2 = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/yaml/dist/schema/core/int.js
+// ../canvas-agent/node_modules/yaml/dist/schema/core/int.js
 var require_int2 = __commonJS({
-  "canvas-agent/node_modules/yaml/dist/schema/core/int.js"(exports2) {
+  "../canvas-agent/node_modules/yaml/dist/schema/core/int.js"(exports2) {
     "use strict";
     var stringifyNumber = require_stringifyNumber();
     var intIdentify = (value) => typeof value === "bigint" || Number.isInteger(value);
@@ -40845,9 +40845,9 @@ var require_int2 = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/yaml/dist/schema/core/schema.js
+// ../canvas-agent/node_modules/yaml/dist/schema/core/schema.js
 var require_schema2 = __commonJS({
-  "canvas-agent/node_modules/yaml/dist/schema/core/schema.js"(exports2) {
+  "../canvas-agent/node_modules/yaml/dist/schema/core/schema.js"(exports2) {
     "use strict";
     var map = require_map2();
     var _null4 = require_null2();
@@ -40873,9 +40873,9 @@ var require_schema2 = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/yaml/dist/schema/json/schema.js
+// ../canvas-agent/node_modules/yaml/dist/schema/json/schema.js
 var require_schema3 = __commonJS({
-  "canvas-agent/node_modules/yaml/dist/schema/json/schema.js"(exports2) {
+  "../canvas-agent/node_modules/yaml/dist/schema/json/schema.js"(exports2) {
     "use strict";
     var Scalar = require_Scalar();
     var map = require_map2();
@@ -40940,9 +40940,9 @@ var require_schema3 = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/yaml/dist/schema/yaml-1.1/binary.js
+// ../canvas-agent/node_modules/yaml/dist/schema/yaml-1.1/binary.js
 var require_binary2 = __commonJS({
-  "canvas-agent/node_modules/yaml/dist/schema/yaml-1.1/binary.js"(exports2) {
+  "../canvas-agent/node_modules/yaml/dist/schema/yaml-1.1/binary.js"(exports2) {
     "use strict";
     var node_buffer = __require("buffer");
     var Scalar = require_Scalar();
@@ -41006,9 +41006,9 @@ var require_binary2 = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/yaml/dist/schema/yaml-1.1/pairs.js
+// ../canvas-agent/node_modules/yaml/dist/schema/yaml-1.1/pairs.js
 var require_pairs2 = __commonJS({
-  "canvas-agent/node_modules/yaml/dist/schema/yaml-1.1/pairs.js"(exports2) {
+  "../canvas-agent/node_modules/yaml/dist/schema/yaml-1.1/pairs.js"(exports2) {
     "use strict";
     var identity = require_identity();
     var Pair = require_Pair();
@@ -41084,9 +41084,9 @@ ${cn.comment}` : item.comment;
   }
 });
 
-// canvas-agent/node_modules/yaml/dist/schema/yaml-1.1/omap.js
+// ../canvas-agent/node_modules/yaml/dist/schema/yaml-1.1/omap.js
 var require_omap2 = __commonJS({
-  "canvas-agent/node_modules/yaml/dist/schema/yaml-1.1/omap.js"(exports2) {
+  "../canvas-agent/node_modules/yaml/dist/schema/yaml-1.1/omap.js"(exports2) {
     "use strict";
     var identity = require_identity();
     var toJS = require_toJS();
@@ -41162,9 +41162,9 @@ var require_omap2 = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/yaml/dist/schema/yaml-1.1/bool.js
+// ../canvas-agent/node_modules/yaml/dist/schema/yaml-1.1/bool.js
 var require_bool3 = __commonJS({
-  "canvas-agent/node_modules/yaml/dist/schema/yaml-1.1/bool.js"(exports2) {
+  "../canvas-agent/node_modules/yaml/dist/schema/yaml-1.1/bool.js"(exports2) {
     "use strict";
     var Scalar = require_Scalar();
     function boolStringify({ value, source }, ctx) {
@@ -41194,9 +41194,9 @@ var require_bool3 = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/yaml/dist/schema/yaml-1.1/float.js
+// ../canvas-agent/node_modules/yaml/dist/schema/yaml-1.1/float.js
 var require_float3 = __commonJS({
-  "canvas-agent/node_modules/yaml/dist/schema/yaml-1.1/float.js"(exports2) {
+  "../canvas-agent/node_modules/yaml/dist/schema/yaml-1.1/float.js"(exports2) {
     "use strict";
     var Scalar = require_Scalar();
     var stringifyNumber = require_stringifyNumber();
@@ -41243,9 +41243,9 @@ var require_float3 = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/yaml/dist/schema/yaml-1.1/int.js
+// ../canvas-agent/node_modules/yaml/dist/schema/yaml-1.1/int.js
 var require_int3 = __commonJS({
-  "canvas-agent/node_modules/yaml/dist/schema/yaml-1.1/int.js"(exports2) {
+  "../canvas-agent/node_modules/yaml/dist/schema/yaml-1.1/int.js"(exports2) {
     "use strict";
     var stringifyNumber = require_stringifyNumber();
     var intIdentify = (value) => typeof value === "bigint" || Number.isInteger(value);
@@ -41322,9 +41322,9 @@ var require_int3 = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/yaml/dist/schema/yaml-1.1/set.js
+// ../canvas-agent/node_modules/yaml/dist/schema/yaml-1.1/set.js
 var require_set2 = __commonJS({
-  "canvas-agent/node_modules/yaml/dist/schema/yaml-1.1/set.js"(exports2) {
+  "../canvas-agent/node_modules/yaml/dist/schema/yaml-1.1/set.js"(exports2) {
     "use strict";
     var identity = require_identity();
     var Pair = require_Pair();
@@ -41411,9 +41411,9 @@ var require_set2 = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/yaml/dist/schema/yaml-1.1/timestamp.js
+// ../canvas-agent/node_modules/yaml/dist/schema/yaml-1.1/timestamp.js
 var require_timestamp3 = __commonJS({
-  "canvas-agent/node_modules/yaml/dist/schema/yaml-1.1/timestamp.js"(exports2) {
+  "../canvas-agent/node_modules/yaml/dist/schema/yaml-1.1/timestamp.js"(exports2) {
     "use strict";
     var stringifyNumber = require_stringifyNumber();
     function parseSexagesimal(str2, asBigInt) {
@@ -41499,9 +41499,9 @@ var require_timestamp3 = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/yaml/dist/schema/yaml-1.1/schema.js
+// ../canvas-agent/node_modules/yaml/dist/schema/yaml-1.1/schema.js
 var require_schema4 = __commonJS({
-  "canvas-agent/node_modules/yaml/dist/schema/yaml-1.1/schema.js"(exports2) {
+  "../canvas-agent/node_modules/yaml/dist/schema/yaml-1.1/schema.js"(exports2) {
     "use strict";
     var map = require_map2();
     var _null4 = require_null2();
@@ -41543,9 +41543,9 @@ var require_schema4 = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/yaml/dist/schema/tags.js
+// ../canvas-agent/node_modules/yaml/dist/schema/tags.js
 var require_tags = __commonJS({
-  "canvas-agent/node_modules/yaml/dist/schema/tags.js"(exports2) {
+  "../canvas-agent/node_modules/yaml/dist/schema/tags.js"(exports2) {
     "use strict";
     var map = require_map2();
     var _null4 = require_null2();
@@ -41637,9 +41637,9 @@ var require_tags = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/yaml/dist/schema/Schema.js
+// ../canvas-agent/node_modules/yaml/dist/schema/Schema.js
 var require_Schema = __commonJS({
-  "canvas-agent/node_modules/yaml/dist/schema/Schema.js"(exports2) {
+  "../canvas-agent/node_modules/yaml/dist/schema/Schema.js"(exports2) {
     "use strict";
     var identity = require_identity();
     var map = require_map2();
@@ -41669,9 +41669,9 @@ var require_Schema = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/yaml/dist/stringify/stringifyDocument.js
+// ../canvas-agent/node_modules/yaml/dist/stringify/stringifyDocument.js
 var require_stringifyDocument = __commonJS({
-  "canvas-agent/node_modules/yaml/dist/stringify/stringifyDocument.js"(exports2) {
+  "../canvas-agent/node_modules/yaml/dist/stringify/stringifyDocument.js"(exports2) {
     "use strict";
     var identity = require_identity();
     var stringify = require_stringify3();
@@ -41749,9 +41749,9 @@ var require_stringifyDocument = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/yaml/dist/doc/Document.js
+// ../canvas-agent/node_modules/yaml/dist/doc/Document.js
 var require_Document = __commonJS({
-  "canvas-agent/node_modules/yaml/dist/doc/Document.js"(exports2) {
+  "../canvas-agent/node_modules/yaml/dist/doc/Document.js"(exports2) {
     "use strict";
     var Alias = require_Alias();
     var Collection = require_Collection();
@@ -42058,9 +42058,9 @@ var require_Document = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/yaml/dist/errors.js
+// ../canvas-agent/node_modules/yaml/dist/errors.js
 var require_errors3 = __commonJS({
-  "canvas-agent/node_modules/yaml/dist/errors.js"(exports2) {
+  "../canvas-agent/node_modules/yaml/dist/errors.js"(exports2) {
     "use strict";
     var YAMLError = class extends Error {
       constructor(name, pos, code, message) {
@@ -42123,9 +42123,9 @@ ${pointer}
   }
 });
 
-// canvas-agent/node_modules/yaml/dist/compose/resolve-props.js
+// ../canvas-agent/node_modules/yaml/dist/compose/resolve-props.js
 var require_resolve_props = __commonJS({
-  "canvas-agent/node_modules/yaml/dist/compose/resolve-props.js"(exports2) {
+  "../canvas-agent/node_modules/yaml/dist/compose/resolve-props.js"(exports2) {
     "use strict";
     function resolveProps(tokens, { flow, indicator, next, offset, onError, parentIndent, startOnNewline }) {
       let spaceBefore = false;
@@ -42257,9 +42257,9 @@ var require_resolve_props = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/yaml/dist/compose/util-contains-newline.js
+// ../canvas-agent/node_modules/yaml/dist/compose/util-contains-newline.js
 var require_util_contains_newline = __commonJS({
-  "canvas-agent/node_modules/yaml/dist/compose/util-contains-newline.js"(exports2) {
+  "../canvas-agent/node_modules/yaml/dist/compose/util-contains-newline.js"(exports2) {
     "use strict";
     function containsNewline(key) {
       if (!key)
@@ -42299,9 +42299,9 @@ var require_util_contains_newline = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/yaml/dist/compose/util-flow-indent-check.js
+// ../canvas-agent/node_modules/yaml/dist/compose/util-flow-indent-check.js
 var require_util_flow_indent_check = __commonJS({
-  "canvas-agent/node_modules/yaml/dist/compose/util-flow-indent-check.js"(exports2) {
+  "../canvas-agent/node_modules/yaml/dist/compose/util-flow-indent-check.js"(exports2) {
     "use strict";
     var utilContainsNewline = require_util_contains_newline();
     function flowIndentCheck(indent, fc, onError) {
@@ -42317,9 +42317,9 @@ var require_util_flow_indent_check = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/yaml/dist/compose/util-map-includes.js
+// ../canvas-agent/node_modules/yaml/dist/compose/util-map-includes.js
 var require_util_map_includes = __commonJS({
-  "canvas-agent/node_modules/yaml/dist/compose/util-map-includes.js"(exports2) {
+  "../canvas-agent/node_modules/yaml/dist/compose/util-map-includes.js"(exports2) {
     "use strict";
     var identity = require_identity();
     function mapIncludes(ctx, items, search) {
@@ -42333,9 +42333,9 @@ var require_util_map_includes = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/yaml/dist/compose/resolve-block-map.js
+// ../canvas-agent/node_modules/yaml/dist/compose/resolve-block-map.js
 var require_resolve_block_map = __commonJS({
-  "canvas-agent/node_modules/yaml/dist/compose/resolve-block-map.js"(exports2) {
+  "../canvas-agent/node_modules/yaml/dist/compose/resolve-block-map.js"(exports2) {
     "use strict";
     var Pair = require_Pair();
     var YAMLMap = require_YAMLMap();
@@ -42441,9 +42441,9 @@ var require_resolve_block_map = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/yaml/dist/compose/resolve-block-seq.js
+// ../canvas-agent/node_modules/yaml/dist/compose/resolve-block-seq.js
 var require_resolve_block_seq = __commonJS({
-  "canvas-agent/node_modules/yaml/dist/compose/resolve-block-seq.js"(exports2) {
+  "../canvas-agent/node_modules/yaml/dist/compose/resolve-block-seq.js"(exports2) {
     "use strict";
     var YAMLSeq = require_YAMLSeq();
     var resolveProps = require_resolve_props();
@@ -42492,9 +42492,9 @@ var require_resolve_block_seq = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/yaml/dist/compose/resolve-end.js
+// ../canvas-agent/node_modules/yaml/dist/compose/resolve-end.js
 var require_resolve_end = __commonJS({
-  "canvas-agent/node_modules/yaml/dist/compose/resolve-end.js"(exports2) {
+  "../canvas-agent/node_modules/yaml/dist/compose/resolve-end.js"(exports2) {
     "use strict";
     function resolveEnd(end, offset, reqSpace, onError) {
       let comment = "";
@@ -42535,9 +42535,9 @@ var require_resolve_end = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/yaml/dist/compose/resolve-flow-collection.js
+// ../canvas-agent/node_modules/yaml/dist/compose/resolve-flow-collection.js
 var require_resolve_flow_collection = __commonJS({
-  "canvas-agent/node_modules/yaml/dist/compose/resolve-flow-collection.js"(exports2) {
+  "../canvas-agent/node_modules/yaml/dist/compose/resolve-flow-collection.js"(exports2) {
     "use strict";
     var identity = require_identity();
     var Pair = require_Pair();
@@ -42729,9 +42729,9 @@ var require_resolve_flow_collection = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/yaml/dist/compose/compose-collection.js
+// ../canvas-agent/node_modules/yaml/dist/compose/compose-collection.js
 var require_compose_collection = __commonJS({
-  "canvas-agent/node_modules/yaml/dist/compose/compose-collection.js"(exports2) {
+  "../canvas-agent/node_modules/yaml/dist/compose/compose-collection.js"(exports2) {
     "use strict";
     var identity = require_identity();
     var Scalar = require_Scalar();
@@ -42794,9 +42794,9 @@ var require_compose_collection = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/yaml/dist/compose/resolve-block-scalar.js
+// ../canvas-agent/node_modules/yaml/dist/compose/resolve-block-scalar.js
 var require_resolve_block_scalar = __commonJS({
-  "canvas-agent/node_modules/yaml/dist/compose/resolve-block-scalar.js"(exports2) {
+  "../canvas-agent/node_modules/yaml/dist/compose/resolve-block-scalar.js"(exports2) {
     "use strict";
     var Scalar = require_Scalar();
     function resolveBlockScalar(ctx, scalar, onError) {
@@ -42977,9 +42977,9 @@ var require_resolve_block_scalar = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/yaml/dist/compose/resolve-flow-scalar.js
+// ../canvas-agent/node_modules/yaml/dist/compose/resolve-flow-scalar.js
 var require_resolve_flow_scalar = __commonJS({
-  "canvas-agent/node_modules/yaml/dist/compose/resolve-flow-scalar.js"(exports2) {
+  "../canvas-agent/node_modules/yaml/dist/compose/resolve-flow-scalar.js"(exports2) {
     "use strict";
     var Scalar = require_Scalar();
     var resolveEnd = require_resolve_end();
@@ -43198,9 +43198,9 @@ var require_resolve_flow_scalar = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/yaml/dist/compose/compose-scalar.js
+// ../canvas-agent/node_modules/yaml/dist/compose/compose-scalar.js
 var require_compose_scalar = __commonJS({
-  "canvas-agent/node_modules/yaml/dist/compose/compose-scalar.js"(exports2) {
+  "../canvas-agent/node_modules/yaml/dist/compose/compose-scalar.js"(exports2) {
     "use strict";
     var identity = require_identity();
     var Scalar = require_Scalar();
@@ -43279,9 +43279,9 @@ var require_compose_scalar = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/yaml/dist/compose/util-empty-scalar-position.js
+// ../canvas-agent/node_modules/yaml/dist/compose/util-empty-scalar-position.js
 var require_util_empty_scalar_position = __commonJS({
-  "canvas-agent/node_modules/yaml/dist/compose/util-empty-scalar-position.js"(exports2) {
+  "../canvas-agent/node_modules/yaml/dist/compose/util-empty-scalar-position.js"(exports2) {
     "use strict";
     function emptyScalarPosition(offset, before, pos) {
       if (before) {
@@ -43309,9 +43309,9 @@ var require_util_empty_scalar_position = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/yaml/dist/compose/compose-node.js
+// ../canvas-agent/node_modules/yaml/dist/compose/compose-node.js
 var require_compose_node = __commonJS({
-  "canvas-agent/node_modules/yaml/dist/compose/compose-node.js"(exports2) {
+  "../canvas-agent/node_modules/yaml/dist/compose/compose-node.js"(exports2) {
     "use strict";
     var Alias = require_Alias();
     var identity = require_identity();
@@ -43415,9 +43415,9 @@ var require_compose_node = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/yaml/dist/compose/compose-doc.js
+// ../canvas-agent/node_modules/yaml/dist/compose/compose-doc.js
 var require_compose_doc = __commonJS({
-  "canvas-agent/node_modules/yaml/dist/compose/compose-doc.js"(exports2) {
+  "../canvas-agent/node_modules/yaml/dist/compose/compose-doc.js"(exports2) {
     "use strict";
     var Document = require_Document();
     var composeNode = require_compose_node();
@@ -43458,9 +43458,9 @@ var require_compose_doc = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/yaml/dist/compose/composer.js
+// ../canvas-agent/node_modules/yaml/dist/compose/composer.js
 var require_composer = __commonJS({
-  "canvas-agent/node_modules/yaml/dist/compose/composer.js"(exports2) {
+  "../canvas-agent/node_modules/yaml/dist/compose/composer.js"(exports2) {
     "use strict";
     var node_process = __require("process");
     var directives = require_directives();
@@ -43666,9 +43666,9 @@ ${end.comment}` : end.comment;
   }
 });
 
-// canvas-agent/node_modules/yaml/dist/parse/cst-scalar.js
+// ../canvas-agent/node_modules/yaml/dist/parse/cst-scalar.js
 var require_cst_scalar = __commonJS({
-  "canvas-agent/node_modules/yaml/dist/parse/cst-scalar.js"(exports2) {
+  "../canvas-agent/node_modules/yaml/dist/parse/cst-scalar.js"(exports2) {
     "use strict";
     var resolveBlockScalar = require_resolve_block_scalar();
     var resolveFlowScalar = require_resolve_flow_scalar();
@@ -43851,9 +43851,9 @@ var require_cst_scalar = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/yaml/dist/parse/cst-stringify.js
+// ../canvas-agent/node_modules/yaml/dist/parse/cst-stringify.js
 var require_cst_stringify = __commonJS({
-  "canvas-agent/node_modules/yaml/dist/parse/cst-stringify.js"(exports2) {
+  "../canvas-agent/node_modules/yaml/dist/parse/cst-stringify.js"(exports2) {
     "use strict";
     var stringify = (cst) => "type" in cst ? stringifyToken(cst) : stringifyItem(cst);
     function stringifyToken(token) {
@@ -43912,9 +43912,9 @@ var require_cst_stringify = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/yaml/dist/parse/cst-visit.js
+// ../canvas-agent/node_modules/yaml/dist/parse/cst-visit.js
 var require_cst_visit = __commonJS({
-  "canvas-agent/node_modules/yaml/dist/parse/cst-visit.js"(exports2) {
+  "../canvas-agent/node_modules/yaml/dist/parse/cst-visit.js"(exports2) {
     "use strict";
     var BREAK = /* @__PURE__ */ Symbol("break visit");
     var SKIP = /* @__PURE__ */ Symbol("skip children");
@@ -43974,9 +43974,9 @@ var require_cst_visit = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/yaml/dist/parse/cst.js
+// ../canvas-agent/node_modules/yaml/dist/parse/cst.js
 var require_cst = __commonJS({
-  "canvas-agent/node_modules/yaml/dist/parse/cst.js"(exports2) {
+  "../canvas-agent/node_modules/yaml/dist/parse/cst.js"(exports2) {
     "use strict";
     var cstScalar = require_cst_scalar();
     var cstStringify = require_cst_stringify();
@@ -44076,9 +44076,9 @@ var require_cst = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/yaml/dist/parse/lexer.js
+// ../canvas-agent/node_modules/yaml/dist/parse/lexer.js
 var require_lexer = __commonJS({
-  "canvas-agent/node_modules/yaml/dist/parse/lexer.js"(exports2) {
+  "../canvas-agent/node_modules/yaml/dist/parse/lexer.js"(exports2) {
     "use strict";
     var cst = require_cst();
     function isEmpty(ch) {
@@ -44665,9 +44665,9 @@ var require_lexer = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/yaml/dist/parse/line-counter.js
+// ../canvas-agent/node_modules/yaml/dist/parse/line-counter.js
 var require_line_counter = __commonJS({
-  "canvas-agent/node_modules/yaml/dist/parse/line-counter.js"(exports2) {
+  "../canvas-agent/node_modules/yaml/dist/parse/line-counter.js"(exports2) {
     "use strict";
     var LineCounter = class {
       constructor() {
@@ -44696,9 +44696,9 @@ var require_line_counter = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/yaml/dist/parse/parser.js
+// ../canvas-agent/node_modules/yaml/dist/parse/parser.js
 var require_parser = __commonJS({
-  "canvas-agent/node_modules/yaml/dist/parse/parser.js"(exports2) {
+  "../canvas-agent/node_modules/yaml/dist/parse/parser.js"(exports2) {
     "use strict";
     var node_process = __require("process");
     var cst = require_cst();
@@ -45570,9 +45570,9 @@ var require_parser = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/yaml/dist/public-api.js
+// ../canvas-agent/node_modules/yaml/dist/public-api.js
 var require_public_api = __commonJS({
-  "canvas-agent/node_modules/yaml/dist/public-api.js"(exports2) {
+  "../canvas-agent/node_modules/yaml/dist/public-api.js"(exports2) {
     "use strict";
     var composer = require_composer();
     var Document = require_Document();
@@ -45667,9 +45667,9 @@ var require_public_api = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/yaml/dist/index.js
+// ../canvas-agent/node_modules/yaml/dist/index.js
 var require_dist7 = __commonJS({
-  "canvas-agent/node_modules/yaml/dist/index.js"(exports2) {
+  "../canvas-agent/node_modules/yaml/dist/index.js"(exports2) {
     "use strict";
     var composer = require_composer();
     var Document = require_Document();
@@ -45719,9 +45719,9 @@ var require_dist7 = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/ajv/dist/compile/codegen/code.js
+// ../canvas-agent/node_modules/ajv/dist/compile/codegen/code.js
 var require_code = __commonJS({
-  "canvas-agent/node_modules/ajv/dist/compile/codegen/code.js"(exports2) {
+  "../canvas-agent/node_modules/ajv/dist/compile/codegen/code.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.regexpCode = exports2.getEsmExportName = exports2.getProperty = exports2.safeStringify = exports2.stringify = exports2.strConcat = exports2.addCodeArg = exports2.str = exports2._ = exports2.nil = exports2._Code = exports2.Name = exports2.IDENTIFIER = exports2._CodeOrName = void 0;
@@ -45873,9 +45873,9 @@ var require_code = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/ajv/dist/compile/codegen/scope.js
+// ../canvas-agent/node_modules/ajv/dist/compile/codegen/scope.js
 var require_scope = __commonJS({
-  "canvas-agent/node_modules/ajv/dist/compile/codegen/scope.js"(exports2) {
+  "../canvas-agent/node_modules/ajv/dist/compile/codegen/scope.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.ValueScope = exports2.ValueScopeName = exports2.Scope = exports2.varKinds = exports2.UsedValueState = void 0;
@@ -46018,9 +46018,9 @@ var require_scope = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/ajv/dist/compile/codegen/index.js
+// ../canvas-agent/node_modules/ajv/dist/compile/codegen/index.js
 var require_codegen = __commonJS({
-  "canvas-agent/node_modules/ajv/dist/compile/codegen/index.js"(exports2) {
+  "../canvas-agent/node_modules/ajv/dist/compile/codegen/index.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.or = exports2.and = exports2.not = exports2.CodeGen = exports2.operators = exports2.varKinds = exports2.ValueScopeName = exports2.ValueScope = exports2.Scope = exports2.Name = exports2.regexpCode = exports2.stringify = exports2.getProperty = exports2.nil = exports2.strConcat = exports2.str = exports2._ = void 0;
@@ -46738,9 +46738,9 @@ var require_codegen = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/ajv/dist/compile/util.js
+// ../canvas-agent/node_modules/ajv/dist/compile/util.js
 var require_util = __commonJS({
-  "canvas-agent/node_modules/ajv/dist/compile/util.js"(exports2) {
+  "../canvas-agent/node_modules/ajv/dist/compile/util.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.checkStrictMode = exports2.getErrorPath = exports2.Type = exports2.useFunc = exports2.setEvaluated = exports2.evaluatedPropsToName = exports2.mergeEvaluated = exports2.eachItem = exports2.unescapeJsonPointer = exports2.escapeJsonPointer = exports2.escapeFragment = exports2.unescapeFragment = exports2.schemaRefOrVal = exports2.schemaHasRulesButRef = exports2.schemaHasRules = exports2.checkUnknownRules = exports2.alwaysValidSchema = exports2.toHash = void 0;
@@ -46905,9 +46905,9 @@ var require_util = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/ajv/dist/compile/names.js
+// ../canvas-agent/node_modules/ajv/dist/compile/names.js
 var require_names = __commonJS({
-  "canvas-agent/node_modules/ajv/dist/compile/names.js"(exports2) {
+  "../canvas-agent/node_modules/ajv/dist/compile/names.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     var codegen_1 = require_codegen();
@@ -46944,9 +46944,9 @@ var require_names = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/ajv/dist/compile/errors.js
+// ../canvas-agent/node_modules/ajv/dist/compile/errors.js
 var require_errors4 = __commonJS({
-  "canvas-agent/node_modules/ajv/dist/compile/errors.js"(exports2) {
+  "../canvas-agent/node_modules/ajv/dist/compile/errors.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.extendErrors = exports2.resetErrorsCount = exports2.reportExtraError = exports2.reportError = exports2.keyword$DataError = exports2.keywordError = void 0;
@@ -47066,9 +47066,9 @@ var require_errors4 = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/ajv/dist/compile/validate/boolSchema.js
+// ../canvas-agent/node_modules/ajv/dist/compile/validate/boolSchema.js
 var require_boolSchema = __commonJS({
-  "canvas-agent/node_modules/ajv/dist/compile/validate/boolSchema.js"(exports2) {
+  "../canvas-agent/node_modules/ajv/dist/compile/validate/boolSchema.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.boolOrEmptySchema = exports2.topBoolOrEmptySchema = void 0;
@@ -47117,9 +47117,9 @@ var require_boolSchema = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/ajv/dist/compile/rules.js
+// ../canvas-agent/node_modules/ajv/dist/compile/rules.js
 var require_rules = __commonJS({
-  "canvas-agent/node_modules/ajv/dist/compile/rules.js"(exports2) {
+  "../canvas-agent/node_modules/ajv/dist/compile/rules.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.getRules = exports2.isJSONType = void 0;
@@ -47148,9 +47148,9 @@ var require_rules = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/ajv/dist/compile/validate/applicability.js
+// ../canvas-agent/node_modules/ajv/dist/compile/validate/applicability.js
 var require_applicability = __commonJS({
-  "canvas-agent/node_modules/ajv/dist/compile/validate/applicability.js"(exports2) {
+  "../canvas-agent/node_modules/ajv/dist/compile/validate/applicability.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.shouldUseRule = exports2.shouldUseGroup = exports2.schemaHasRulesForType = void 0;
@@ -47171,9 +47171,9 @@ var require_applicability = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/ajv/dist/compile/validate/dataType.js
+// ../canvas-agent/node_modules/ajv/dist/compile/validate/dataType.js
 var require_dataType = __commonJS({
-  "canvas-agent/node_modules/ajv/dist/compile/validate/dataType.js"(exports2) {
+  "../canvas-agent/node_modules/ajv/dist/compile/validate/dataType.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.reportTypeError = exports2.checkDataTypes = exports2.checkDataType = exports2.coerceAndCheckDataType = exports2.getJSONTypes = exports2.getSchemaTypes = exports2.DataType = void 0;
@@ -47355,9 +47355,9 @@ var require_dataType = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/ajv/dist/compile/validate/defaults.js
+// ../canvas-agent/node_modules/ajv/dist/compile/validate/defaults.js
 var require_defaults2 = __commonJS({
-  "canvas-agent/node_modules/ajv/dist/compile/validate/defaults.js"(exports2) {
+  "../canvas-agent/node_modules/ajv/dist/compile/validate/defaults.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.assignDefaults = void 0;
@@ -47392,9 +47392,9 @@ var require_defaults2 = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/ajv/dist/vocabularies/code.js
+// ../canvas-agent/node_modules/ajv/dist/vocabularies/code.js
 var require_code2 = __commonJS({
-  "canvas-agent/node_modules/ajv/dist/vocabularies/code.js"(exports2) {
+  "../canvas-agent/node_modules/ajv/dist/vocabularies/code.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.validateUnion = exports2.validateArray = exports2.usePattern = exports2.callValidateCode = exports2.schemaProperties = exports2.allSchemaProperties = exports2.noPropertyInData = exports2.propertyInData = exports2.isOwnProperty = exports2.hasPropFunc = exports2.reportMissingProp = exports2.checkMissingProp = exports2.checkReportMissingProp = void 0;
@@ -47525,9 +47525,9 @@ var require_code2 = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/ajv/dist/compile/validate/keyword.js
+// ../canvas-agent/node_modules/ajv/dist/compile/validate/keyword.js
 var require_keyword = __commonJS({
-  "canvas-agent/node_modules/ajv/dist/compile/validate/keyword.js"(exports2) {
+  "../canvas-agent/node_modules/ajv/dist/compile/validate/keyword.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.validateKeywordUsage = exports2.validSchemaType = exports2.funcKeywordCode = exports2.macroKeywordCode = void 0;
@@ -47643,9 +47643,9 @@ var require_keyword = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/ajv/dist/compile/validate/subschema.js
+// ../canvas-agent/node_modules/ajv/dist/compile/validate/subschema.js
 var require_subschema = __commonJS({
-  "canvas-agent/node_modules/ajv/dist/compile/validate/subschema.js"(exports2) {
+  "../canvas-agent/node_modules/ajv/dist/compile/validate/subschema.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.extendSubschemaMode = exports2.extendSubschemaData = exports2.getSubschema = void 0;
@@ -47726,9 +47726,9 @@ var require_subschema = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/fast-deep-equal/index.js
+// ../canvas-agent/node_modules/fast-deep-equal/index.js
 var require_fast_deep_equal = __commonJS({
-  "canvas-agent/node_modules/fast-deep-equal/index.js"(exports2, module2) {
+  "../canvas-agent/node_modules/fast-deep-equal/index.js"(exports2, module2) {
     "use strict";
     module2.exports = function equal(a, b) {
       if (a === b) return true;
@@ -47761,9 +47761,9 @@ var require_fast_deep_equal = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/json-schema-traverse/index.js
+// ../canvas-agent/node_modules/json-schema-traverse/index.js
 var require_json_schema_traverse = __commonJS({
-  "canvas-agent/node_modules/json-schema-traverse/index.js"(exports2, module2) {
+  "../canvas-agent/node_modules/json-schema-traverse/index.js"(exports2, module2) {
     "use strict";
     var traverse = module2.exports = function(schema, opts, cb) {
       if (typeof opts == "function") {
@@ -47849,9 +47849,9 @@ var require_json_schema_traverse = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/ajv/dist/compile/resolve.js
+// ../canvas-agent/node_modules/ajv/dist/compile/resolve.js
 var require_resolve = __commonJS({
-  "canvas-agent/node_modules/ajv/dist/compile/resolve.js"(exports2) {
+  "../canvas-agent/node_modules/ajv/dist/compile/resolve.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.getSchemaRefs = exports2.resolveUrl = exports2.normalizeId = exports2._getFullPath = exports2.getFullPath = exports2.inlineRef = void 0;
@@ -48005,9 +48005,9 @@ var require_resolve = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/ajv/dist/compile/validate/index.js
+// ../canvas-agent/node_modules/ajv/dist/compile/validate/index.js
 var require_validate = __commonJS({
-  "canvas-agent/node_modules/ajv/dist/compile/validate/index.js"(exports2) {
+  "../canvas-agent/node_modules/ajv/dist/compile/validate/index.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.getData = exports2.KeywordCxt = exports2.validateFunctionCode = void 0;
@@ -48513,9 +48513,9 @@ var require_validate = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/ajv/dist/runtime/validation_error.js
+// ../canvas-agent/node_modules/ajv/dist/runtime/validation_error.js
 var require_validation_error = __commonJS({
-  "canvas-agent/node_modules/ajv/dist/runtime/validation_error.js"(exports2) {
+  "../canvas-agent/node_modules/ajv/dist/runtime/validation_error.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     var ValidationError = class extends Error {
@@ -48529,9 +48529,9 @@ var require_validation_error = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/ajv/dist/compile/ref_error.js
+// ../canvas-agent/node_modules/ajv/dist/compile/ref_error.js
 var require_ref_error = __commonJS({
-  "canvas-agent/node_modules/ajv/dist/compile/ref_error.js"(exports2) {
+  "../canvas-agent/node_modules/ajv/dist/compile/ref_error.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     var resolve_1 = require_resolve();
@@ -48546,9 +48546,9 @@ var require_ref_error = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/ajv/dist/compile/index.js
+// ../canvas-agent/node_modules/ajv/dist/compile/index.js
 var require_compile = __commonJS({
-  "canvas-agent/node_modules/ajv/dist/compile/index.js"(exports2) {
+  "../canvas-agent/node_modules/ajv/dist/compile/index.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.resolveSchema = exports2.getCompilingSchema = exports2.resolveRef = exports2.compileSchema = exports2.SchemaEnv = void 0;
@@ -48770,9 +48770,9 @@ var require_compile = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/ajv/dist/refs/data.json
+// ../canvas-agent/node_modules/ajv/dist/refs/data.json
 var require_data = __commonJS({
-  "canvas-agent/node_modules/ajv/dist/refs/data.json"(exports2, module2) {
+  "../canvas-agent/node_modules/ajv/dist/refs/data.json"(exports2, module2) {
     module2.exports = {
       $id: "https://raw.githubusercontent.com/ajv-validator/ajv/master/lib/refs/data.json#",
       description: "Meta-schema for $data reference (JSON AnySchema extension proposal)",
@@ -48789,9 +48789,9 @@ var require_data = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/fast-uri/lib/utils.js
+// ../canvas-agent/node_modules/fast-uri/lib/utils.js
 var require_utils5 = __commonJS({
-  "canvas-agent/node_modules/fast-uri/lib/utils.js"(exports2, module2) {
+  "../canvas-agent/node_modules/fast-uri/lib/utils.js"(exports2, module2) {
     "use strict";
     var isUUID = RegExp.prototype.test.bind(/^[\da-f]{8}-[\da-f]{4}-[\da-f]{4}-[\da-f]{4}-[\da-f]{12}$/iu);
     var isIPv4 = RegExp.prototype.test.bind(/^(?:(?:25[0-5]|2[0-4]\d|1\d{2}|[1-9]\d|\d)\.){3}(?:25[0-5]|2[0-4]\d|1\d{2}|[1-9]\d|\d)$/u);
@@ -49323,9 +49323,9 @@ var require_utils5 = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/fast-uri/lib/schemes.js
+// ../canvas-agent/node_modules/fast-uri/lib/schemes.js
 var require_schemes = __commonJS({
-  "canvas-agent/node_modules/fast-uri/lib/schemes.js"(exports2, module2) {
+  "../canvas-agent/node_modules/fast-uri/lib/schemes.js"(exports2, module2) {
     "use strict";
     var { isUUID } = require_utils5();
     var URN_REG = /^([\da-z][\d\-a-z]{0,31}):((?:[\w!$'()*+,\-./:;=@]|%[\da-f]{2})+)$/iu;
@@ -49534,9 +49534,9 @@ var require_schemes = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/fast-uri/index.js
+// ../canvas-agent/node_modules/fast-uri/index.js
 var require_fast_uri = __commonJS({
-  "canvas-agent/node_modules/fast-uri/index.js"(exports2, module2) {
+  "../canvas-agent/node_modules/fast-uri/index.js"(exports2, module2) {
     "use strict";
     var { normalizeIPv6, removeDotSegments, removeDotSegmentsRelative, recomposeAuthority, normalizePercentEncoding, normalizePathEncoding, serializePathEncoding, normalizeQueryFragmentEncoding, encodeQuery, encodeFragment, reescapeHostDelimiters, isIPv4, nonSimpleDomain } = require_utils5();
     var { SCHEMES, getSchemeHandler } = require_schemes();
@@ -49964,9 +49964,9 @@ var require_fast_uri = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/ajv/dist/runtime/uri.js
+// ../canvas-agent/node_modules/ajv/dist/runtime/uri.js
 var require_uri2 = __commonJS({
-  "canvas-agent/node_modules/ajv/dist/runtime/uri.js"(exports2) {
+  "../canvas-agent/node_modules/ajv/dist/runtime/uri.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     var uri = require_fast_uri();
@@ -49975,9 +49975,9 @@ var require_uri2 = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/ajv/dist/core.js
+// ../canvas-agent/node_modules/ajv/dist/core.js
 var require_core2 = __commonJS({
-  "canvas-agent/node_modules/ajv/dist/core.js"(exports2) {
+  "../canvas-agent/node_modules/ajv/dist/core.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.CodeGen = exports2.Name = exports2.nil = exports2.stringify = exports2.str = exports2._ = exports2.KeywordCxt = void 0;
@@ -50586,9 +50586,9 @@ var require_core2 = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/ajv/dist/vocabularies/core/id.js
+// ../canvas-agent/node_modules/ajv/dist/vocabularies/core/id.js
 var require_id = __commonJS({
-  "canvas-agent/node_modules/ajv/dist/vocabularies/core/id.js"(exports2) {
+  "../canvas-agent/node_modules/ajv/dist/vocabularies/core/id.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     var def = {
@@ -50601,9 +50601,9 @@ var require_id = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/ajv/dist/vocabularies/core/ref.js
+// ../canvas-agent/node_modules/ajv/dist/vocabularies/core/ref.js
 var require_ref2 = __commonJS({
-  "canvas-agent/node_modules/ajv/dist/vocabularies/core/ref.js"(exports2) {
+  "../canvas-agent/node_modules/ajv/dist/vocabularies/core/ref.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.callRef = exports2.getValidate = void 0;
@@ -50723,9 +50723,9 @@ var require_ref2 = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/ajv/dist/vocabularies/core/index.js
+// ../canvas-agent/node_modules/ajv/dist/vocabularies/core/index.js
 var require_core3 = __commonJS({
-  "canvas-agent/node_modules/ajv/dist/vocabularies/core/index.js"(exports2) {
+  "../canvas-agent/node_modules/ajv/dist/vocabularies/core/index.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     var id_1 = require_id();
@@ -50744,9 +50744,9 @@ var require_core3 = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/ajv/dist/vocabularies/validation/limitNumber.js
+// ../canvas-agent/node_modules/ajv/dist/vocabularies/validation/limitNumber.js
 var require_limitNumber = __commonJS({
-  "canvas-agent/node_modules/ajv/dist/vocabularies/validation/limitNumber.js"(exports2) {
+  "../canvas-agent/node_modules/ajv/dist/vocabularies/validation/limitNumber.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     var codegen_1 = require_codegen();
@@ -50776,9 +50776,9 @@ var require_limitNumber = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/ajv/dist/vocabularies/validation/multipleOf.js
+// ../canvas-agent/node_modules/ajv/dist/vocabularies/validation/multipleOf.js
 var require_multipleOf = __commonJS({
-  "canvas-agent/node_modules/ajv/dist/vocabularies/validation/multipleOf.js"(exports2) {
+  "../canvas-agent/node_modules/ajv/dist/vocabularies/validation/multipleOf.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     var codegen_1 = require_codegen();
@@ -50804,9 +50804,9 @@ var require_multipleOf = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/ajv/dist/runtime/ucs2length.js
+// ../canvas-agent/node_modules/ajv/dist/runtime/ucs2length.js
 var require_ucs2length = __commonJS({
-  "canvas-agent/node_modules/ajv/dist/runtime/ucs2length.js"(exports2) {
+  "../canvas-agent/node_modules/ajv/dist/runtime/ucs2length.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     function ucs2length(str2) {
@@ -50830,9 +50830,9 @@ var require_ucs2length = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/ajv/dist/vocabularies/validation/limitLength.js
+// ../canvas-agent/node_modules/ajv/dist/vocabularies/validation/limitLength.js
 var require_limitLength = __commonJS({
-  "canvas-agent/node_modules/ajv/dist/vocabularies/validation/limitLength.js"(exports2) {
+  "../canvas-agent/node_modules/ajv/dist/vocabularies/validation/limitLength.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     var codegen_1 = require_codegen();
@@ -50862,9 +50862,9 @@ var require_limitLength = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/ajv/dist/vocabularies/validation/pattern.js
+// ../canvas-agent/node_modules/ajv/dist/vocabularies/validation/pattern.js
 var require_pattern = __commonJS({
-  "canvas-agent/node_modules/ajv/dist/vocabularies/validation/pattern.js"(exports2) {
+  "../canvas-agent/node_modules/ajv/dist/vocabularies/validation/pattern.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     var code_1 = require_code2();
@@ -50899,9 +50899,9 @@ var require_pattern = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/ajv/dist/vocabularies/validation/limitProperties.js
+// ../canvas-agent/node_modules/ajv/dist/vocabularies/validation/limitProperties.js
 var require_limitProperties = __commonJS({
-  "canvas-agent/node_modules/ajv/dist/vocabularies/validation/limitProperties.js"(exports2) {
+  "../canvas-agent/node_modules/ajv/dist/vocabularies/validation/limitProperties.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     var codegen_1 = require_codegen();
@@ -50928,9 +50928,9 @@ var require_limitProperties = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/ajv/dist/vocabularies/validation/required.js
+// ../canvas-agent/node_modules/ajv/dist/vocabularies/validation/required.js
 var require_required = __commonJS({
-  "canvas-agent/node_modules/ajv/dist/vocabularies/validation/required.js"(exports2) {
+  "../canvas-agent/node_modules/ajv/dist/vocabularies/validation/required.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     var code_1 = require_code2();
@@ -51010,9 +51010,9 @@ var require_required = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/ajv/dist/vocabularies/validation/limitItems.js
+// ../canvas-agent/node_modules/ajv/dist/vocabularies/validation/limitItems.js
 var require_limitItems = __commonJS({
-  "canvas-agent/node_modules/ajv/dist/vocabularies/validation/limitItems.js"(exports2) {
+  "../canvas-agent/node_modules/ajv/dist/vocabularies/validation/limitItems.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     var codegen_1 = require_codegen();
@@ -51039,9 +51039,9 @@ var require_limitItems = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/ajv/dist/runtime/equal.js
+// ../canvas-agent/node_modules/ajv/dist/runtime/equal.js
 var require_equal = __commonJS({
-  "canvas-agent/node_modules/ajv/dist/runtime/equal.js"(exports2) {
+  "../canvas-agent/node_modules/ajv/dist/runtime/equal.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     var equal = require_fast_deep_equal();
@@ -51050,9 +51050,9 @@ var require_equal = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/ajv/dist/vocabularies/validation/uniqueItems.js
+// ../canvas-agent/node_modules/ajv/dist/vocabularies/validation/uniqueItems.js
 var require_uniqueItems = __commonJS({
-  "canvas-agent/node_modules/ajv/dist/vocabularies/validation/uniqueItems.js"(exports2) {
+  "../canvas-agent/node_modules/ajv/dist/vocabularies/validation/uniqueItems.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     var dataType_1 = require_dataType();
@@ -51117,9 +51117,9 @@ var require_uniqueItems = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/ajv/dist/vocabularies/validation/const.js
+// ../canvas-agent/node_modules/ajv/dist/vocabularies/validation/const.js
 var require_const = __commonJS({
-  "canvas-agent/node_modules/ajv/dist/vocabularies/validation/const.js"(exports2) {
+  "../canvas-agent/node_modules/ajv/dist/vocabularies/validation/const.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     var codegen_1 = require_codegen();
@@ -51146,9 +51146,9 @@ var require_const = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/ajv/dist/vocabularies/validation/enum.js
+// ../canvas-agent/node_modules/ajv/dist/vocabularies/validation/enum.js
 var require_enum = __commonJS({
-  "canvas-agent/node_modules/ajv/dist/vocabularies/validation/enum.js"(exports2) {
+  "../canvas-agent/node_modules/ajv/dist/vocabularies/validation/enum.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     var codegen_1 = require_codegen();
@@ -51195,9 +51195,9 @@ var require_enum = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/ajv/dist/vocabularies/validation/index.js
+// ../canvas-agent/node_modules/ajv/dist/vocabularies/validation/index.js
 var require_validation = __commonJS({
-  "canvas-agent/node_modules/ajv/dist/vocabularies/validation/index.js"(exports2) {
+  "../canvas-agent/node_modules/ajv/dist/vocabularies/validation/index.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     var limitNumber_1 = require_limitNumber();
@@ -51233,9 +51233,9 @@ var require_validation = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/ajv/dist/vocabularies/applicator/additionalItems.js
+// ../canvas-agent/node_modules/ajv/dist/vocabularies/applicator/additionalItems.js
 var require_additionalItems = __commonJS({
-  "canvas-agent/node_modules/ajv/dist/vocabularies/applicator/additionalItems.js"(exports2) {
+  "../canvas-agent/node_modules/ajv/dist/vocabularies/applicator/additionalItems.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.validateAdditionalItems = void 0;
@@ -51286,9 +51286,9 @@ var require_additionalItems = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/ajv/dist/vocabularies/applicator/items.js
+// ../canvas-agent/node_modules/ajv/dist/vocabularies/applicator/items.js
 var require_items = __commonJS({
-  "canvas-agent/node_modules/ajv/dist/vocabularies/applicator/items.js"(exports2) {
+  "../canvas-agent/node_modules/ajv/dist/vocabularies/applicator/items.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.validateTuple = void 0;
@@ -51343,9 +51343,9 @@ var require_items = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/ajv/dist/vocabularies/applicator/prefixItems.js
+// ../canvas-agent/node_modules/ajv/dist/vocabularies/applicator/prefixItems.js
 var require_prefixItems = __commonJS({
-  "canvas-agent/node_modules/ajv/dist/vocabularies/applicator/prefixItems.js"(exports2) {
+  "../canvas-agent/node_modules/ajv/dist/vocabularies/applicator/prefixItems.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     var items_1 = require_items();
@@ -51360,9 +51360,9 @@ var require_prefixItems = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/ajv/dist/vocabularies/applicator/items2020.js
+// ../canvas-agent/node_modules/ajv/dist/vocabularies/applicator/items2020.js
 var require_items2020 = __commonJS({
-  "canvas-agent/node_modules/ajv/dist/vocabularies/applicator/items2020.js"(exports2) {
+  "../canvas-agent/node_modules/ajv/dist/vocabularies/applicator/items2020.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     var codegen_1 = require_codegen();
@@ -51395,9 +51395,9 @@ var require_items2020 = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/ajv/dist/vocabularies/applicator/contains.js
+// ../canvas-agent/node_modules/ajv/dist/vocabularies/applicator/contains.js
 var require_contains = __commonJS({
-  "canvas-agent/node_modules/ajv/dist/vocabularies/applicator/contains.js"(exports2) {
+  "../canvas-agent/node_modules/ajv/dist/vocabularies/applicator/contains.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     var codegen_1 = require_codegen();
@@ -51489,9 +51489,9 @@ var require_contains = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/ajv/dist/vocabularies/applicator/dependencies.js
+// ../canvas-agent/node_modules/ajv/dist/vocabularies/applicator/dependencies.js
 var require_dependencies = __commonJS({
-  "canvas-agent/node_modules/ajv/dist/vocabularies/applicator/dependencies.js"(exports2) {
+  "../canvas-agent/node_modules/ajv/dist/vocabularies/applicator/dependencies.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.validateSchemaDeps = exports2.validatePropertyDeps = exports2.error = void 0;
@@ -51583,9 +51583,9 @@ var require_dependencies = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/ajv/dist/vocabularies/applicator/propertyNames.js
+// ../canvas-agent/node_modules/ajv/dist/vocabularies/applicator/propertyNames.js
 var require_propertyNames = __commonJS({
-  "canvas-agent/node_modules/ajv/dist/vocabularies/applicator/propertyNames.js"(exports2) {
+  "../canvas-agent/node_modules/ajv/dist/vocabularies/applicator/propertyNames.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     var codegen_1 = require_codegen();
@@ -51626,9 +51626,9 @@ var require_propertyNames = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/ajv/dist/vocabularies/applicator/additionalProperties.js
+// ../canvas-agent/node_modules/ajv/dist/vocabularies/applicator/additionalProperties.js
 var require_additionalProperties = __commonJS({
-  "canvas-agent/node_modules/ajv/dist/vocabularies/applicator/additionalProperties.js"(exports2) {
+  "../canvas-agent/node_modules/ajv/dist/vocabularies/applicator/additionalProperties.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     var code_1 = require_code2();
@@ -51732,9 +51732,9 @@ var require_additionalProperties = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/ajv/dist/vocabularies/applicator/properties.js
+// ../canvas-agent/node_modules/ajv/dist/vocabularies/applicator/properties.js
 var require_properties = __commonJS({
-  "canvas-agent/node_modules/ajv/dist/vocabularies/applicator/properties.js"(exports2) {
+  "../canvas-agent/node_modules/ajv/dist/vocabularies/applicator/properties.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     var validate_1 = require_validate();
@@ -51790,9 +51790,9 @@ var require_properties = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/ajv/dist/vocabularies/applicator/patternProperties.js
+// ../canvas-agent/node_modules/ajv/dist/vocabularies/applicator/patternProperties.js
 var require_patternProperties = __commonJS({
-  "canvas-agent/node_modules/ajv/dist/vocabularies/applicator/patternProperties.js"(exports2) {
+  "../canvas-agent/node_modules/ajv/dist/vocabularies/applicator/patternProperties.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     var code_1 = require_code2();
@@ -51864,9 +51864,9 @@ var require_patternProperties = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/ajv/dist/vocabularies/applicator/not.js
+// ../canvas-agent/node_modules/ajv/dist/vocabularies/applicator/not.js
 var require_not = __commonJS({
-  "canvas-agent/node_modules/ajv/dist/vocabularies/applicator/not.js"(exports2) {
+  "../canvas-agent/node_modules/ajv/dist/vocabularies/applicator/not.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     var util_1 = require_util();
@@ -51895,9 +51895,9 @@ var require_not = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/ajv/dist/vocabularies/applicator/anyOf.js
+// ../canvas-agent/node_modules/ajv/dist/vocabularies/applicator/anyOf.js
 var require_anyOf = __commonJS({
-  "canvas-agent/node_modules/ajv/dist/vocabularies/applicator/anyOf.js"(exports2) {
+  "../canvas-agent/node_modules/ajv/dist/vocabularies/applicator/anyOf.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     var code_1 = require_code2();
@@ -51912,9 +51912,9 @@ var require_anyOf = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/ajv/dist/vocabularies/applicator/oneOf.js
+// ../canvas-agent/node_modules/ajv/dist/vocabularies/applicator/oneOf.js
 var require_oneOf = __commonJS({
-  "canvas-agent/node_modules/ajv/dist/vocabularies/applicator/oneOf.js"(exports2) {
+  "../canvas-agent/node_modules/ajv/dist/vocabularies/applicator/oneOf.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     var codegen_1 = require_codegen();
@@ -51970,9 +51970,9 @@ var require_oneOf = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/ajv/dist/vocabularies/applicator/allOf.js
+// ../canvas-agent/node_modules/ajv/dist/vocabularies/applicator/allOf.js
 var require_allOf = __commonJS({
-  "canvas-agent/node_modules/ajv/dist/vocabularies/applicator/allOf.js"(exports2) {
+  "../canvas-agent/node_modules/ajv/dist/vocabularies/applicator/allOf.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     var util_1 = require_util();
@@ -51997,9 +51997,9 @@ var require_allOf = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/ajv/dist/vocabularies/applicator/if.js
+// ../canvas-agent/node_modules/ajv/dist/vocabularies/applicator/if.js
 var require_if = __commonJS({
-  "canvas-agent/node_modules/ajv/dist/vocabularies/applicator/if.js"(exports2) {
+  "../canvas-agent/node_modules/ajv/dist/vocabularies/applicator/if.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     var codegen_1 = require_codegen();
@@ -52066,9 +52066,9 @@ var require_if = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/ajv/dist/vocabularies/applicator/thenElse.js
+// ../canvas-agent/node_modules/ajv/dist/vocabularies/applicator/thenElse.js
 var require_thenElse = __commonJS({
-  "canvas-agent/node_modules/ajv/dist/vocabularies/applicator/thenElse.js"(exports2) {
+  "../canvas-agent/node_modules/ajv/dist/vocabularies/applicator/thenElse.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     var util_1 = require_util();
@@ -52084,9 +52084,9 @@ var require_thenElse = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/ajv/dist/vocabularies/applicator/index.js
+// ../canvas-agent/node_modules/ajv/dist/vocabularies/applicator/index.js
 var require_applicator = __commonJS({
-  "canvas-agent/node_modules/ajv/dist/vocabularies/applicator/index.js"(exports2) {
+  "../canvas-agent/node_modules/ajv/dist/vocabularies/applicator/index.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     var additionalItems_1 = require_additionalItems();
@@ -52132,9 +52132,9 @@ var require_applicator = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/ajv/dist/vocabularies/format/format.js
+// ../canvas-agent/node_modules/ajv/dist/vocabularies/format/format.js
 var require_format2 = __commonJS({
-  "canvas-agent/node_modules/ajv/dist/vocabularies/format/format.js"(exports2) {
+  "../canvas-agent/node_modules/ajv/dist/vocabularies/format/format.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     var codegen_1 = require_codegen();
@@ -52222,9 +52222,9 @@ var require_format2 = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/ajv/dist/vocabularies/format/index.js
+// ../canvas-agent/node_modules/ajv/dist/vocabularies/format/index.js
 var require_format3 = __commonJS({
-  "canvas-agent/node_modules/ajv/dist/vocabularies/format/index.js"(exports2) {
+  "../canvas-agent/node_modules/ajv/dist/vocabularies/format/index.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     var format_1 = require_format2();
@@ -52233,9 +52233,9 @@ var require_format3 = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/ajv/dist/vocabularies/metadata.js
+// ../canvas-agent/node_modules/ajv/dist/vocabularies/metadata.js
 var require_metadata2 = __commonJS({
-  "canvas-agent/node_modules/ajv/dist/vocabularies/metadata.js"(exports2) {
+  "../canvas-agent/node_modules/ajv/dist/vocabularies/metadata.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.contentVocabulary = exports2.metadataVocabulary = void 0;
@@ -52256,9 +52256,9 @@ var require_metadata2 = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/ajv/dist/vocabularies/draft7.js
+// ../canvas-agent/node_modules/ajv/dist/vocabularies/draft7.js
 var require_draft7 = __commonJS({
-  "canvas-agent/node_modules/ajv/dist/vocabularies/draft7.js"(exports2) {
+  "../canvas-agent/node_modules/ajv/dist/vocabularies/draft7.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     var core_1 = require_core3();
@@ -52278,9 +52278,9 @@ var require_draft7 = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/ajv/dist/vocabularies/discriminator/types.js
+// ../canvas-agent/node_modules/ajv/dist/vocabularies/discriminator/types.js
 var require_types = __commonJS({
-  "canvas-agent/node_modules/ajv/dist/vocabularies/discriminator/types.js"(exports2) {
+  "../canvas-agent/node_modules/ajv/dist/vocabularies/discriminator/types.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.DiscrError = void 0;
@@ -52292,9 +52292,9 @@ var require_types = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/ajv/dist/vocabularies/discriminator/index.js
+// ../canvas-agent/node_modules/ajv/dist/vocabularies/discriminator/index.js
 var require_discriminator = __commonJS({
-  "canvas-agent/node_modules/ajv/dist/vocabularies/discriminator/index.js"(exports2) {
+  "../canvas-agent/node_modules/ajv/dist/vocabularies/discriminator/index.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     var codegen_1 = require_codegen();
@@ -52397,9 +52397,9 @@ var require_discriminator = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/ajv/dist/refs/json-schema-draft-07.json
+// ../canvas-agent/node_modules/ajv/dist/refs/json-schema-draft-07.json
 var require_json_schema_draft_07 = __commonJS({
-  "canvas-agent/node_modules/ajv/dist/refs/json-schema-draft-07.json"(exports2, module2) {
+  "../canvas-agent/node_modules/ajv/dist/refs/json-schema-draft-07.json"(exports2, module2) {
     module2.exports = {
       $schema: "http://json-schema.org/draft-07/schema#",
       $id: "http://json-schema.org/draft-07/schema#",
@@ -52554,9 +52554,9 @@ var require_json_schema_draft_07 = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/ajv/dist/ajv.js
+// ../canvas-agent/node_modules/ajv/dist/ajv.js
 var require_ajv = __commonJS({
-  "canvas-agent/node_modules/ajv/dist/ajv.js"(exports2, module2) {
+  "../canvas-agent/node_modules/ajv/dist/ajv.js"(exports2, module2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.MissingRefError = exports2.ValidationError = exports2.CodeGen = exports2.Name = exports2.nil = exports2.stringify = exports2.str = exports2._ = exports2.KeywordCxt = exports2.Ajv = void 0;
@@ -52624,9 +52624,9 @@ var require_ajv = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/ajv-formats/dist/formats.js
+// ../canvas-agent/node_modules/ajv-formats/dist/formats.js
 var require_formats2 = __commonJS({
-  "canvas-agent/node_modules/ajv-formats/dist/formats.js"(exports2) {
+  "../canvas-agent/node_modules/ajv-formats/dist/formats.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.formatNames = exports2.fastFormats = exports2.fullFormats = void 0;
@@ -52827,9 +52827,9 @@ var require_formats2 = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/ajv-formats/dist/limit.js
+// ../canvas-agent/node_modules/ajv-formats/dist/limit.js
 var require_limit = __commonJS({
-  "canvas-agent/node_modules/ajv-formats/dist/limit.js"(exports2) {
+  "../canvas-agent/node_modules/ajv-formats/dist/limit.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.formatLimitDefinition = void 0;
@@ -52899,9 +52899,9 @@ var require_limit = __commonJS({
   }
 });
 
-// canvas-agent/node_modules/ajv-formats/dist/index.js
+// ../canvas-agent/node_modules/ajv-formats/dist/index.js
 var require_dist8 = __commonJS({
-  "canvas-agent/node_modules/ajv-formats/dist/index.js"(exports2, module2) {
+  "../canvas-agent/node_modules/ajv-formats/dist/index.js"(exports2, module2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     var formats_1 = require_formats2();
@@ -52941,16 +52941,16 @@ var require_dist8 = __commonJS({
   }
 });
 
-// canvas-agent/src/server/http.ts
+// ../canvas-agent/src/server/http.ts
 var import_express = __toESM(require_express2(), 1);
 import { spawn as spawn4 } from "node:child_process";
 import { readFile, stat } from "node:fs/promises";
 import path9 from "node:path";
 
-// canvas-agent/src/agent/claude.ts
+// ../canvas-agent/src/agent/claude.ts
 import { spawn } from "node:child_process";
 
-// canvas-agent/src/config.ts
+// ../canvas-agent/src/config.ts
 import crypto from "node:crypto";
 import fs from "node:fs";
 import os from "node:os";
@@ -52988,6 +52988,13 @@ function loadConfig(create = false) {
   }
 }
 function saveConfig(config2) {
+  if (!config2.agentPaths) {
+    try {
+      const existing = JSON.parse(fs.readFileSync(CONFIG_FILE, "utf8"));
+      if (existing?.agentPaths) config2.agentPaths = existing.agentPaths;
+    } catch {
+    }
+  }
   writeConfigFile(CONFIG_DIR, CONFIG_FILE, config2);
 }
 function writeConfigFile(dir, file, config2) {
@@ -53049,7 +53056,7 @@ function readPackageVersion() {
   return "0.0.0";
 }
 
-// canvas-agent/node_modules/ansi-regex/index.js
+// ../canvas-agent/node_modules/ansi-regex/index.js
 function ansiRegex({ onlyFirst = false } = {}) {
   const ST = "(?:\\u0007|\\u001B\\u005C|\\u009C)";
   const osc = `(?:(?:\\u001B\\]|\\u009D)[^\\u0007\\u001B\\u009C\\u009D]*${ST})`;
@@ -53058,7 +53065,7 @@ function ansiRegex({ onlyFirst = false } = {}) {
   return new RegExp(pattern, onlyFirst ? void 0 : "g");
 }
 
-// canvas-agent/node_modules/strip-ansi/index.js
+// ../canvas-agent/node_modules/strip-ansi/index.js
 var regex = ansiRegex();
 function stripAnsi(string3) {
   if (typeof string3 !== "string") {
@@ -53070,7 +53077,7 @@ function stripAnsi(string3) {
   return string3.replace(regex, "");
 }
 
-// canvas-agent/src/utils/agent-runtime.ts
+// ../canvas-agent/src/utils/agent-runtime.ts
 function redactAgentLog(text2) {
   return text2.replace(/(authorization\s*[:=]\s*)(?:"[^"]*"|'[^']*'|[^\r\n,;]+)/gi, "$1[REDACTED]").replace(/(Bearer\s+)[A-Za-z0-9._~+\/-]+=*/gi, "$1[REDACTED]").replace(/\bsk-[A-Za-z0-9_-]{8,}\b/g, "[REDACTED]").replace(/((?:api[ _-]*key|token)\s*[:=]\s*)(?:"[^"]*"|'[^']*'|[^\s,;]+)/gi, "$1[REDACTED]");
 }
@@ -53097,7 +53104,7 @@ function createAgentLogWriter(emit, normalize = (text2) => text2) {
   };
 }
 
-// canvas-agent/src/utils/value.ts
+// ../canvas-agent/src/utils/value.ts
 function field(value, key) {
   return value && typeof value === "object" ? value[key] : void 0;
 }
@@ -53105,7 +53112,7 @@ function errorMessage(error2) {
   return error2 instanceof Error ? error2.message : String(error2);
 }
 
-// canvas-agent/src/agent/runtimes.ts
+// ../canvas-agent/src/agent/runtimes.ts
 import { spawnSync } from "node:child_process";
 import fs2 from "node:fs";
 import os2 from "node:os";
@@ -53157,7 +53164,110 @@ function readGalleyRecord() {
   }
   return "";
 }
+var SCAN_MAX_DEPTH = 5;
+var SCAN_MAX_ENTRIES = 2e4;
+var SCAN_SKIP_DIRS = /* @__PURE__ */ new Set([
+  "node_modules",
+  ".git",
+  ".cache",
+  "$recycle.bin",
+  "system volume information",
+  "winsxs",
+  "windowspowershell"
+]);
+function executableNames(bin) {
+  return IS_WIN ? [`${bin}.exe`, `${bin}.cmd`, `${bin}.bat`, `${bin}.ps1`, bin] : [bin];
+}
+var agentPathsCache = { at: 0, value: {} };
+function readAgentPaths() {
+  if (Date.now() - agentPathsCache.at < 1e3) return agentPathsCache.value;
+  let value = {};
+  try {
+    const raw = JSON.parse(fs2.readFileSync(CONFIG_FILE, "utf8"));
+    for (const id of ["claude", "codex", "galley"]) {
+      const dir = raw?.agentPaths?.[id];
+      if (typeof dir === "string" && dir) value[id] = dir;
+    }
+  } catch {
+  }
+  agentPathsCache = { at: Date.now(), value };
+  return value;
+}
+function writeAgentPath(id, dir) {
+  let config2 = {};
+  try {
+    config2 = JSON.parse(fs2.readFileSync(CONFIG_FILE, "utf8"));
+  } catch {
+    config2 = {};
+  }
+  const current = config2.agentPaths;
+  const agentPaths = { ...current && typeof current === "object" ? current : {} };
+  if (dir) agentPaths[id] = dir;
+  else delete agentPaths[id];
+  config2.agentPaths = agentPaths;
+  fs2.mkdirSync(path2.dirname(CONFIG_FILE), { recursive: true, mode: 448 });
+  fs2.writeFileSync(CONFIG_FILE, JSON.stringify(config2, null, 2), { mode: 384 });
+  agentPathsCache = { at: 0, value: {} };
+  return agentPaths;
+}
+function scanDirForBin(dir, bin) {
+  const start = path2.resolve(String(dir || "").trim().replace(/^"|"$/g, ""));
+  if (!start) return "";
+  let stats;
+  try {
+    stats = fs2.statSync(start);
+  } catch {
+    return "";
+  }
+  const wanted = executableNames(bin).map((name) => name.toLowerCase());
+  const target = bin.toLowerCase();
+  if (stats.isFile()) {
+    const name = path2.basename(start).toLowerCase();
+    const stem = name.replace(/\.(exe|cmd|bat|ps1)$/, "");
+    return stem === target ? start : "";
+  }
+  if (!stats.isDirectory()) return "";
+  const queue = [[start, 0]];
+  let visited = 0;
+  while (queue.length && visited < SCAN_MAX_ENTRIES) {
+    const [current, depth] = queue.shift();
+    let entries;
+    try {
+      entries = fs2.readdirSync(current, { withFileTypes: true });
+    } catch {
+      continue;
+    }
+    visited += entries.length;
+    for (const entry of entries) {
+      if (entry.isFile() && wanted.includes(entry.name.toLowerCase())) return path2.join(current, entry.name);
+    }
+    if (depth >= SCAN_MAX_DEPTH) continue;
+    for (const entry of entries) {
+      if (entry.isDirectory() && !SCAN_SKIP_DIRS.has(entry.name.toLowerCase())) queue.push([path2.join(current, entry.name), depth + 1]);
+    }
+  }
+  return "";
+}
+function applyRuntimeDir(id, dir) {
+  const raw = String(dir || "").trim().replace(/^"|"$/g, "");
+  if (!raw) return { ok: false, runtime: id, path: "", version: "", error: "\u8BF7\u9009\u62E9\u5B89\u88C5\u76EE\u5F55" };
+  let stats;
+  try {
+    stats = fs2.statSync(raw);
+  } catch {
+    return { ok: false, runtime: id, path: "", version: "", error: `\u76EE\u5F55\u4E0D\u5B58\u5728\uFF1A${raw}` };
+  }
+  const hit = scanDirForBin(raw, id);
+  if (!hit) return { ok: false, runtime: id, path: "", version: "", error: `\u5728 ${raw} \u91CC\u6CA1\u6709\u627E\u5230 ${id} \u7684\u53EF\u6267\u884C\u6587\u4EF6` };
+  writeAgentPath(id, stats.isFile() ? path2.dirname(hit) : path2.resolve(raw));
+  return { ok: true, runtime: id, path: hit, version: readVersion(id) };
+}
 function resolveCommand(bin) {
+  const custom3 = readAgentPaths()[bin];
+  if (custom3) {
+    const hit = scanDirForBin(custom3, bin);
+    if (hit) return hit;
+  }
   if (bin === "galley") {
     const recorded = readGalleyRecord();
     if (recorded) return recorded;
@@ -53212,6 +53322,7 @@ function readVersion(bin) {
   return text2.slice(0, 80);
 }
 function detectRuntimes() {
+  const customPaths = readAgentPaths();
   return RUNTIMES.map((runtime) => {
     const cliPath = resolveCommand(runtime.bin);
     const desktop = detectDesktopApp(runtime.id);
@@ -53222,6 +53333,8 @@ function detectRuntimes() {
       cliInstalled: Boolean(cliPath),
       desktop: desktopInstalled,
       desktopPath: desktop.path || (desktopInstalled && cliPath ? path2.dirname(cliPath) : ""),
+      path: cliPath,
+      customPath: customPaths[runtime.id] || "",
       version: cliPath ? readVersion(runtime.bin) : ""
     };
   });
@@ -53230,7 +53343,7 @@ function isAgentRuntimeId(value) {
   return value === "claude" || value === "codex" || value === "galley";
 }
 
-// canvas-agent/src/agent/claude.ts
+// ../canvas-agent/src/agent/claude.ts
 var CLAUDE_THREAD_ID = "claude";
 var CLAUDE_BIN = process.env.CLAUDE_BIN || resolveCommand("claude") || "claude";
 var currentChild = null;
@@ -53470,7 +53583,7 @@ function withAgentPrompt(prompt) {
 \u7528\u6237\u8BF7\u6C42\uFF1A${prompt}` : "";
 }
 
-// canvas-agent/src/agent/galley.ts
+// ../canvas-agent/src/agent/galley.ts
 import { spawn as spawn2 } from "node:child_process";
 function galleyBin() {
   return process.env.GALLEY_BIN || resolveCommand("galley");
@@ -53684,7 +53797,7 @@ function extractOps(text2) {
   return { clean: withoutSuggestion, ops };
 }
 
-// canvas-agent/src/agent/runtime-mcp.ts
+// ../canvas-agent/src/agent/runtime-mcp.ts
 import { execFile } from "node:child_process";
 var CLAUDE_BIN2 = process.env.CLAUDE_BIN || resolveCommand("claude") || "claude";
 var ANSI = /\u001b\[[0-9;]*m/g;
@@ -53718,12 +53831,12 @@ async function listClaudeMcpServers() {
   return parseClaudeMcpList(output);
 }
 
-// canvas-agent/src/agent/codex.ts
+// ../canvas-agent/src/agent/codex.ts
 import fs6 from "node:fs/promises";
 import os4 from "node:os";
 import path7 from "node:path";
 
-// canvas-agent/node_modules/zod/v3/external.js
+// ../canvas-agent/node_modules/zod/v3/external.js
 var external_exports = {};
 __export(external_exports, {
   BRAND: () => BRAND,
@@ -53835,7 +53948,7 @@ __export(external_exports, {
   void: () => voidType
 });
 
-// canvas-agent/node_modules/zod/v3/helpers/util.js
+// ../canvas-agent/node_modules/zod/v3/helpers/util.js
 var util;
 (function(util2) {
   util2.assertEqual = (_) => {
@@ -53969,7 +54082,7 @@ var getParsedType = (data) => {
   }
 };
 
-// canvas-agent/node_modules/zod/v3/ZodError.js
+// ../canvas-agent/node_modules/zod/v3/ZodError.js
 var ZodIssueCode = util.arrayToEnum([
   "invalid_type",
   "invalid_literal",
@@ -54087,7 +54200,7 @@ ZodError.create = (issues) => {
   return error2;
 };
 
-// canvas-agent/node_modules/zod/v3/locales/en.js
+// ../canvas-agent/node_modules/zod/v3/locales/en.js
 var errorMap = (issue2, _ctx) => {
   let message;
   switch (issue2.code) {
@@ -54190,7 +54303,7 @@ var errorMap = (issue2, _ctx) => {
 };
 var en_default = errorMap;
 
-// canvas-agent/node_modules/zod/v3/errors.js
+// ../canvas-agent/node_modules/zod/v3/errors.js
 var overrideErrorMap = en_default;
 function setErrorMap(map) {
   overrideErrorMap = map;
@@ -54199,7 +54312,7 @@ function getErrorMap() {
   return overrideErrorMap;
 }
 
-// canvas-agent/node_modules/zod/v3/helpers/parseUtil.js
+// ../canvas-agent/node_modules/zod/v3/helpers/parseUtil.js
 var makeIssue = (params) => {
   const { data, path: path10, errorMaps, issueData } = params;
   const fullPath = [...path10, ...issueData.path || []];
@@ -54309,14 +54422,14 @@ var isDirty = (x) => x.status === "dirty";
 var isValid = (x) => x.status === "valid";
 var isAsync = (x) => typeof Promise !== "undefined" && x instanceof Promise;
 
-// canvas-agent/node_modules/zod/v3/helpers/errorUtil.js
+// ../canvas-agent/node_modules/zod/v3/helpers/errorUtil.js
 var errorUtil;
 (function(errorUtil2) {
   errorUtil2.errToObj = (message) => typeof message === "string" ? { message } : message || {};
   errorUtil2.toString = (message) => typeof message === "string" ? message : message?.message;
 })(errorUtil || (errorUtil = {}));
 
-// canvas-agent/node_modules/zod/v3/types.js
+// ../canvas-agent/node_modules/zod/v3/types.js
 var ParseInputLazyPath = class {
   constructor(parent, value, path10, key) {
     this._cachedPath = [];
@@ -57764,14 +57877,14 @@ var coerce = {
 };
 var NEVER = INVALID;
 
-// canvas-agent/src/utils/logger.ts
+// ../canvas-agent/src/utils/logger.ts
 var import_winston = __toESM(require_winston(), 1);
 import fs3 from "node:fs";
 import os3 from "node:os";
 import path3 from "node:path";
 import { inspect } from "node:util";
 
-// canvas-agent/src/utils/date.ts
+// ../canvas-agent/src/utils/date.ts
 function formatDateForFilename(date3 = /* @__PURE__ */ new Date()) {
   const year = date3.getFullYear();
   const month = String(date3.getMonth() + 1).padStart(2, "0");
@@ -57779,7 +57892,7 @@ function formatDateForFilename(date3 = /* @__PURE__ */ new Date()) {
   return `${year}-${month}-${day}`;
 }
 
-// canvas-agent/src/utils/logger.ts
+// ../canvas-agent/src/utils/logger.ts
 var Logger = class {
   enabled = process.argv.includes("--debug");
   filePath = this.enabled ? path3.join(os3.homedir(), ".infinite-canvas", "logs", `canvas-agent-${formatDateForFilename()}.log`) : "";
@@ -57836,13 +57949,13 @@ function sanitize(value, key = "", seen = /* @__PURE__ */ new WeakSet()) {
 }
 var logger = new Logger();
 
-// canvas-agent/src/agent/codex-client.ts
+// ../canvas-agent/src/agent/codex-client.ts
 import { spawn as spawn3 } from "node:child_process";
 import { createRequire } from "node:module";
 import path5 from "node:path";
 import { fileURLToPath as fileURLToPath2 } from "node:url";
 
-// canvas-agent/src/agent/codex-event-history.ts
+// ../canvas-agent/src/agent/codex-event-history.ts
 import fs4 from "node:fs/promises";
 import path4 from "node:path";
 var MAX_ITEMS = 5e3;
@@ -57989,7 +58102,7 @@ function truncateValue(value) {
   return value;
 }
 
-// canvas-agent/src/agent/codex-client.ts
+// ../canvas-agent/src/agent/codex-client.ts
 var canvasAgentMcp = canvasAgentMcpCommand();
 var require2 = createRequire(import.meta.url);
 var STREAM_UPDATE_INTERVAL_MS = 40;
@@ -58809,7 +58922,7 @@ function codexBin() {
   }
 }
 
-// canvas-agent/src/agent/codex-history.ts
+// ../canvas-agent/src/agent/codex-history.ts
 var emptySupplementalHistory = { items: [], turns: [] };
 function summarizeCodexThread(thread) {
   const status = field(thread, "status");
@@ -59445,7 +59558,7 @@ function toolName(name) {
   return name ? `\u8C03\u7528\u5DE5\u5177\uFF1A${name}` : "\u5DE5\u5177\u64CD\u4F5C";
 }
 
-// canvas-agent/src/agent/message-metadata.ts
+// ../canvas-agent/src/agent/message-metadata.ts
 import crypto2 from "node:crypto";
 import fs5 from "node:fs/promises";
 import path6 from "node:path";
@@ -59769,7 +59882,7 @@ function isMissing(error2) {
   return error2?.code === "ENOENT";
 }
 
-// canvas-agent/src/agent/codex.ts
+// ../canvas-agent/src/agent/codex.ts
 var skillNamePattern = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 var skillDraftSchema = external_exports.object({
   name: external_exports.string().trim().min(1).max(64).regex(skillNamePattern),
@@ -60179,13 +60292,13 @@ function imageExt(type = "") {
   return "jpg";
 }
 
-// canvas-agent/src/canvas/session.ts
+// ../canvas-agent/src/canvas/session.ts
 import crypto4 from "node:crypto";
 
-// canvas-agent/src/canvas/operations.ts
+// ../canvas-agent/src/canvas/operations.ts
 import crypto3 from "node:crypto";
 
-// canvas-agent/src/canvas/schemas.ts
+// ../canvas-agent/src/canvas/schemas.ts
 var recordSchema = external_exports.record(external_exports.unknown());
 var positionSchema = external_exports.object({ x: external_exports.number(), y: external_exports.number() });
 var viewportSchema = external_exports.object({ x: external_exports.number(), y: external_exports.number(), k: external_exports.number() });
@@ -60340,7 +60453,7 @@ var toolDescriptions = {
   assets_add: "\u5411\u300C\u6211\u7684\u7D20\u6750\u300D\u65B0\u589E\u7D20\u6750\u3002kind=text \u65F6\u7528 content \u4F20\u6587\u672C\u5185\u5BB9\uFF1Bkind=image \u65F6\u7528 imageUrl \u4F20\u56FE\u7247\u5730\u5740\u6216 dataURL\u3002\u53EF\u9644\u5E26 title\u3001tags\u3001source\u3001note\u3002"
 };
 
-// canvas-agent/src/canvas/tools.ts
+// ../canvas-agent/src/canvas/tools.ts
 function isToolName(name) {
   return typeof name === "string" && toolNames.includes(name);
 }
@@ -60361,7 +60474,7 @@ function nextCanvasX(state) {
   return nodes.length ? Math.max(...nodes.map((node) => node.position.x + node.width)) + 80 : 0;
 }
 
-// canvas-agent/src/canvas/operations.ts
+// ../canvas-agent/src/canvas/operations.ts
 function buildCanvasToolRequest(name, input, state) {
   if (name === "canvas_apply_ops") return { name, input };
   if (name === "canvas_create_node") {
@@ -60505,7 +60618,7 @@ function cleanRecord(value) {
   return Object.fromEntries(Object.entries(value).filter(([, item]) => item !== void 0 && item !== ""));
 }
 
-// canvas-agent/src/canvas/session.ts
+// ../canvas-agent/src/canvas/session.ts
 var AGENT_PROTOCOL_VERSION = 6;
 var SITE_TOOLS = /* @__PURE__ */ new Set([
   "site_navigate",
@@ -60970,7 +61083,7 @@ function positiveNumber(value, fallback) {
   return Number.isFinite(number3) && number3 > 0 ? number3 : fallback;
 }
 
-// canvas-agent/src/version-check.ts
+// ../canvas-agent/src/version-check.ts
 import { execFile as execFile2, execFileSync } from "node:child_process";
 import { createRequire as createRequire2 } from "node:module";
 import { promisify } from "node:util";
@@ -61031,7 +61144,7 @@ function isOlder(current, latest) {
   return false;
 }
 
-// canvas-agent/src/skills/store.ts
+// ../canvas-agent/src/skills/store.ts
 var import_gray_matter = __toESM(require_gray_matter(), 1);
 var import_yaml = __toESM(require_dist7(), 1);
 import crypto5 from "node:crypto";
@@ -61400,7 +61513,7 @@ function storeError(error2, fallback) {
   return new SkillStoreError(fallback, 500);
 }
 
-// canvas-agent/src/server/http.ts
+// ../canvas-agent/src/server/http.ts
 function startHttpServer() {
   const config2 = loadConfig(true);
   const port = Number(process.env.PORT) || Number(new URL(config2.url).port) || DEFAULT_PORT;
@@ -61904,6 +62017,18 @@ function startHttpServer() {
     res.json({ ok: true });
   });
   app.get("/api/agent/runtimes", (_req, res) => res.json({ ok: true, runtime: config2.runtime || "", runtimes: detectRuntimes() }));
+  app.post("/api/agent/runtime-path", (req, res) => {
+    const runtime = req.body?.runtime;
+    if (!isAgentRuntimeId(runtime)) return res.status(400).json({ ok: false, error: "unknown runtime" });
+    const result = applyRuntimeDir(runtime, String(req.body?.dir || ""));
+    res.json({ ...result, runtimes: detectRuntimes() });
+  });
+  app.delete("/api/agent/runtime-path", (req, res) => {
+    const runtime = String(req.query?.runtime || req.body?.runtime || "");
+    if (!isAgentRuntimeId(runtime)) return res.status(400).json({ ok: false, error: "unknown runtime" });
+    writeAgentPath(runtime, null);
+    res.json({ ok: true, runtime, runtimes: detectRuntimes() });
+  });
   app.post("/api/agent/runtime", (req, res) => {
     const runtime = req.body?.runtime;
     if (runtime && !isAgentRuntimeId(runtime)) return res.status(400).json({ ok: false, error: "unknown runtime" });
@@ -62046,7 +62171,7 @@ ${list}
 \u9700\u8981\u628A\u9644\u4EF6\u653E\u5165\u753B\u5E03\u6216\u4F5C\u4E3A\u751F\u6210\u53C2\u8003\u56FE\u65F6\uFF0C\u5148\u8C03\u7528 canvas_create_attachment_nodes\uFF0C\u518D\u4F7F\u7528\u8FD4\u56DE\u7684\u753B\u5E03\u8282\u70B9 ID \u521B\u5EFA\u751F\u6210\u6D41\u7A0B\u3002`;
 }
 
-// canvas-agent/node_modules/zod/v4/core/core.js
+// ../canvas-agent/node_modules/zod/v4/core/core.js
 var NEVER2 = Object.freeze({
   status: "aborted"
 });
@@ -62105,7 +62230,7 @@ function config(newConfig) {
   return globalConfig;
 }
 
-// canvas-agent/node_modules/zod/v4/core/util.js
+// ../canvas-agent/node_modules/zod/v4/core/util.js
 var util_exports = {};
 __export(util_exports, {
   BIGINT_FORMAT_RANGES: () => BIGINT_FORMAT_RANGES,
@@ -62626,7 +62751,7 @@ var Class = class {
   }
 };
 
-// canvas-agent/node_modules/zod/v4/core/errors.js
+// ../canvas-agent/node_modules/zod/v4/core/errors.js
 var initializer = (inst, def) => {
   inst.name = "$ZodError";
   Object.defineProperty(inst, "_zod", {
@@ -62701,7 +62826,7 @@ function formatError(error2, _mapper) {
   return fieldErrors;
 }
 
-// canvas-agent/node_modules/zod/v4/core/parse.js
+// ../canvas-agent/node_modules/zod/v4/core/parse.js
 var _parse = (_Err) => (schema, value, _ctx, _params) => {
   const ctx = _ctx ? Object.assign(_ctx, { async: false }) : { async: false };
   const result = schema._zod.run({ value, issues: [] }, ctx);
@@ -62753,7 +62878,7 @@ var _safeParseAsync = (_Err) => async (schema, value, _ctx) => {
 };
 var safeParseAsync = /* @__PURE__ */ _safeParseAsync($ZodRealError);
 
-// canvas-agent/node_modules/zod/v4/core/regexes.js
+// ../canvas-agent/node_modules/zod/v4/core/regexes.js
 var cuid = /^[cC][^\s-]{8,}$/;
 var cuid2 = /^[0-9a-z]+$/;
 var ulid = /^[0-9A-HJKMNP-TV-Za-hjkmnp-tv-z]{26}$/;
@@ -62811,7 +62936,7 @@ var _null = /null/i;
 var lowercase = /^[^A-Z]*$/;
 var uppercase = /^[^a-z]*$/;
 
-// canvas-agent/node_modules/zod/v4/core/checks.js
+// ../canvas-agent/node_modules/zod/v4/core/checks.js
 var $ZodCheck = /* @__PURE__ */ $constructor("$ZodCheck", (inst, def) => {
   var _a;
   inst._zod ?? (inst._zod = {});
@@ -63196,7 +63321,7 @@ var $ZodCheckOverwrite = /* @__PURE__ */ $constructor("$ZodCheckOverwrite", (ins
   };
 });
 
-// canvas-agent/node_modules/zod/v4/core/doc.js
+// ../canvas-agent/node_modules/zod/v4/core/doc.js
 var Doc = class {
   constructor(args = []) {
     this.content = [];
@@ -63232,14 +63357,14 @@ var Doc = class {
   }
 };
 
-// canvas-agent/node_modules/zod/v4/core/versions.js
+// ../canvas-agent/node_modules/zod/v4/core/versions.js
 var version = {
   major: 4,
   minor: 0,
   patch: 0
 };
 
-// canvas-agent/node_modules/zod/v4/core/schemas.js
+// ../canvas-agent/node_modules/zod/v4/core/schemas.js
 var $ZodType = /* @__PURE__ */ $constructor("$ZodType", (inst, def) => {
   var _a;
   inst ?? (inst = {});
@@ -64477,7 +64602,7 @@ function handleRefineResult(result, payload, input, inst) {
   }
 }
 
-// canvas-agent/node_modules/zod/v4/locales/en.js
+// ../canvas-agent/node_modules/zod/v4/locales/en.js
 var parsedType = (data) => {
   const t = typeof data;
   switch (t) {
@@ -64595,7 +64720,7 @@ function en_default2() {
   };
 }
 
-// canvas-agent/node_modules/zod/v4/core/registries.js
+// ../canvas-agent/node_modules/zod/v4/core/registries.js
 var $ZodRegistry = class {
   constructor() {
     this._map = /* @__PURE__ */ new Map();
@@ -64643,7 +64768,7 @@ function registry() {
 }
 var globalRegistry = /* @__PURE__ */ registry();
 
-// canvas-agent/node_modules/zod/v4/core/api.js
+// ../canvas-agent/node_modules/zod/v4/core/api.js
 function _string(Class2, params) {
   return new Class2({
     type: "string",
@@ -65082,7 +65207,7 @@ function _refine(Class2, fn, _params) {
   return schema;
 }
 
-// canvas-agent/node_modules/zod/v4/core/to-json-schema.js
+// ../canvas-agent/node_modules/zod/v4/core/to-json-schema.js
 var JSONSchemaGenerator = class {
   constructor(params) {
     this.counter = 0;
@@ -65849,7 +65974,7 @@ function isTransforming(_schema, _ctx) {
   throw new Error(`Unknown schema type: ${def.type}`);
 }
 
-// canvas-agent/node_modules/zod/v4/mini/schemas.js
+// ../canvas-agent/node_modules/zod/v4/mini/schemas.js
 var ZodMiniType = /* @__PURE__ */ $constructor("ZodMiniType", (inst, def) => {
   if (!inst._zod)
     throw new Error("Uninitialized schema in ZodMiniType.");
@@ -65895,7 +66020,7 @@ function object(shape, params) {
   return new ZodMiniObject(def);
 }
 
-// canvas-agent/node_modules/@modelcontextprotocol/sdk/dist/esm/server/zod-compat.js
+// ../canvas-agent/node_modules/@modelcontextprotocol/sdk/dist/esm/server/zod-compat.js
 function isZ4Schema(s) {
   const schema = s;
   return !!schema._zod;
@@ -66055,7 +66180,7 @@ function getLiteralValue(schema) {
   return void 0;
 }
 
-// canvas-agent/node_modules/zod/v4/classic/iso.js
+// ../canvas-agent/node_modules/zod/v4/classic/iso.js
 var iso_exports2 = {};
 __export(iso_exports2, {
   ZodISODate: () => ZodISODate,
@@ -66096,7 +66221,7 @@ function duration2(params) {
   return _isoDuration(ZodISODuration, params);
 }
 
-// canvas-agent/node_modules/zod/v4/classic/errors.js
+// ../canvas-agent/node_modules/zod/v4/classic/errors.js
 var initializer2 = (inst, issues) => {
   $ZodError.init(inst, issues);
   inst.name = "ZodError";
@@ -66130,13 +66255,13 @@ var ZodRealError = $constructor("ZodError", initializer2, {
   Parent: Error
 });
 
-// canvas-agent/node_modules/zod/v4/classic/parse.js
+// ../canvas-agent/node_modules/zod/v4/classic/parse.js
 var parse3 = /* @__PURE__ */ _parse(ZodRealError);
 var parseAsync2 = /* @__PURE__ */ _parseAsync(ZodRealError);
 var safeParse3 = /* @__PURE__ */ _safeParse(ZodRealError);
 var safeParseAsync3 = /* @__PURE__ */ _safeParseAsync(ZodRealError);
 
-// canvas-agent/node_modules/zod/v4/classic/schemas.js
+// ../canvas-agent/node_modules/zod/v4/classic/schemas.js
 var ZodType2 = /* @__PURE__ */ $constructor("ZodType", (inst, def) => {
   $ZodType.init(inst, def);
   inst.def = def;
@@ -66747,10 +66872,10 @@ function preprocess(fn, schema) {
   return pipe(transform(fn), schema);
 }
 
-// canvas-agent/node_modules/zod/v4/classic/external.js
+// ../canvas-agent/node_modules/zod/v4/classic/external.js
 config(en_default2());
 
-// canvas-agent/node_modules/@modelcontextprotocol/sdk/dist/esm/types.js
+// ../canvas-agent/node_modules/@modelcontextprotocol/sdk/dist/esm/types.js
 var LATEST_PROTOCOL_VERSION = "2025-11-25";
 var SUPPORTED_PROTOCOL_VERSIONS = [LATEST_PROTOCOL_VERSION, "2025-06-18", "2025-03-26", "2024-11-05", "2024-10-07"];
 var RELATED_TASK_META_KEY = "io.modelcontextprotocol/related-task";
@@ -68281,12 +68406,12 @@ var UrlElicitationRequiredError = class extends McpError {
   }
 };
 
-// canvas-agent/node_modules/@modelcontextprotocol/sdk/dist/esm/experimental/tasks/interfaces.js
+// ../canvas-agent/node_modules/@modelcontextprotocol/sdk/dist/esm/experimental/tasks/interfaces.js
 function isTerminal(status) {
   return status === "completed" || status === "failed" || status === "cancelled";
 }
 
-// canvas-agent/node_modules/zod-to-json-schema/dist/esm/Options.js
+// ../canvas-agent/node_modules/zod-to-json-schema/dist/esm/Options.js
 var ignoreOverride = /* @__PURE__ */ Symbol("Let zodToJsonSchema decide on which parser to use");
 var defaultOptions = {
   name: void 0,
@@ -68320,7 +68445,7 @@ var getDefaultOptions = (options2) => typeof options2 === "string" ? {
   ...options2
 };
 
-// canvas-agent/node_modules/zod-to-json-schema/dist/esm/Refs.js
+// ../canvas-agent/node_modules/zod-to-json-schema/dist/esm/Refs.js
 var getRefs = (options2) => {
   const _options = getDefaultOptions(options2);
   const currentPath = _options.name !== void 0 ? [..._options.basePath, _options.definitionPath, _options.name] : _options.basePath;
@@ -68341,7 +68466,7 @@ var getRefs = (options2) => {
   };
 };
 
-// canvas-agent/node_modules/zod-to-json-schema/dist/esm/errorMessages.js
+// ../canvas-agent/node_modules/zod-to-json-schema/dist/esm/errorMessages.js
 function addErrorMessage(res, key, errorMessage2, refs) {
   if (!refs?.errorMessages)
     return;
@@ -68357,7 +68482,7 @@ function setResponseValueAndErrors(res, key, value, errorMessage2, refs) {
   addErrorMessage(res, key, errorMessage2, refs);
 }
 
-// canvas-agent/node_modules/zod-to-json-schema/dist/esm/getRelativePath.js
+// ../canvas-agent/node_modules/zod-to-json-schema/dist/esm/getRelativePath.js
 var getRelativePath = (pathA, pathB) => {
   let i = 0;
   for (; i < pathA.length && i < pathB.length; i++) {
@@ -68367,7 +68492,7 @@ var getRelativePath = (pathA, pathB) => {
   return [(pathA.length - i).toString(), ...pathB.slice(i)].join("/");
 };
 
-// canvas-agent/node_modules/zod-to-json-schema/dist/esm/parsers/any.js
+// ../canvas-agent/node_modules/zod-to-json-schema/dist/esm/parsers/any.js
 function parseAnyDef(refs) {
   if (refs.target !== "openAi") {
     return {};
@@ -68383,7 +68508,7 @@ function parseAnyDef(refs) {
   };
 }
 
-// canvas-agent/node_modules/zod-to-json-schema/dist/esm/parsers/array.js
+// ../canvas-agent/node_modules/zod-to-json-schema/dist/esm/parsers/array.js
 function parseArrayDef(def, refs) {
   const res = {
     type: "array"
@@ -68407,7 +68532,7 @@ function parseArrayDef(def, refs) {
   return res;
 }
 
-// canvas-agent/node_modules/zod-to-json-schema/dist/esm/parsers/bigint.js
+// ../canvas-agent/node_modules/zod-to-json-schema/dist/esm/parsers/bigint.js
 function parseBigintDef(def, refs) {
   const res = {
     type: "integer",
@@ -68453,24 +68578,24 @@ function parseBigintDef(def, refs) {
   return res;
 }
 
-// canvas-agent/node_modules/zod-to-json-schema/dist/esm/parsers/boolean.js
+// ../canvas-agent/node_modules/zod-to-json-schema/dist/esm/parsers/boolean.js
 function parseBooleanDef() {
   return {
     type: "boolean"
   };
 }
 
-// canvas-agent/node_modules/zod-to-json-schema/dist/esm/parsers/branded.js
+// ../canvas-agent/node_modules/zod-to-json-schema/dist/esm/parsers/branded.js
 function parseBrandedDef(_def, refs) {
   return parseDef(_def.type._def, refs);
 }
 
-// canvas-agent/node_modules/zod-to-json-schema/dist/esm/parsers/catch.js
+// ../canvas-agent/node_modules/zod-to-json-schema/dist/esm/parsers/catch.js
 var parseCatchDef = (def, refs) => {
   return parseDef(def.innerType._def, refs);
 };
 
-// canvas-agent/node_modules/zod-to-json-schema/dist/esm/parsers/date.js
+// ../canvas-agent/node_modules/zod-to-json-schema/dist/esm/parsers/date.js
 function parseDateDef(def, refs, overrideDateStrategy) {
   const strategy = overrideDateStrategy ?? refs.dateStrategy;
   if (Array.isArray(strategy)) {
@@ -68529,7 +68654,7 @@ var integerDateParser = (def, refs) => {
   return res;
 };
 
-// canvas-agent/node_modules/zod-to-json-schema/dist/esm/parsers/default.js
+// ../canvas-agent/node_modules/zod-to-json-schema/dist/esm/parsers/default.js
 function parseDefaultDef(_def, refs) {
   return {
     ...parseDef(_def.innerType._def, refs),
@@ -68537,12 +68662,12 @@ function parseDefaultDef(_def, refs) {
   };
 }
 
-// canvas-agent/node_modules/zod-to-json-schema/dist/esm/parsers/effects.js
+// ../canvas-agent/node_modules/zod-to-json-schema/dist/esm/parsers/effects.js
 function parseEffectsDef(_def, refs) {
   return refs.effectStrategy === "input" ? parseDef(_def.schema._def, refs) : parseAnyDef(refs);
 }
 
-// canvas-agent/node_modules/zod-to-json-schema/dist/esm/parsers/enum.js
+// ../canvas-agent/node_modules/zod-to-json-schema/dist/esm/parsers/enum.js
 function parseEnumDef(def) {
   return {
     type: "string",
@@ -68550,7 +68675,7 @@ function parseEnumDef(def) {
   };
 }
 
-// canvas-agent/node_modules/zod-to-json-schema/dist/esm/parsers/intersection.js
+// ../canvas-agent/node_modules/zod-to-json-schema/dist/esm/parsers/intersection.js
 var isJsonSchema7AllOfType = (type) => {
   if ("type" in type && type.type === "string")
     return false;
@@ -68592,7 +68717,7 @@ function parseIntersectionDef(def, refs) {
   } : void 0;
 }
 
-// canvas-agent/node_modules/zod-to-json-schema/dist/esm/parsers/literal.js
+// ../canvas-agent/node_modules/zod-to-json-schema/dist/esm/parsers/literal.js
 function parseLiteralDef(def, refs) {
   const parsedType2 = typeof def.value;
   if (parsedType2 !== "bigint" && parsedType2 !== "number" && parsedType2 !== "boolean" && parsedType2 !== "string") {
@@ -68612,7 +68737,7 @@ function parseLiteralDef(def, refs) {
   };
 }
 
-// canvas-agent/node_modules/zod-to-json-schema/dist/esm/parsers/string.js
+// ../canvas-agent/node_modules/zod-to-json-schema/dist/esm/parsers/string.js
 var emojiRegex2 = void 0;
 var zodPatterns = {
   /**
@@ -68937,7 +69062,7 @@ function stringifyRegExpWithFlags(regex2, refs) {
   return pattern;
 }
 
-// canvas-agent/node_modules/zod-to-json-schema/dist/esm/parsers/record.js
+// ../canvas-agent/node_modules/zod-to-json-schema/dist/esm/parsers/record.js
 function parseRecordDef(def, refs) {
   if (refs.target === "openAi") {
     console.warn("Warning: OpenAI may not support records in schemas! Try an array of key-value pairs instead.");
@@ -68989,7 +69114,7 @@ function parseRecordDef(def, refs) {
   return schema;
 }
 
-// canvas-agent/node_modules/zod-to-json-schema/dist/esm/parsers/map.js
+// ../canvas-agent/node_modules/zod-to-json-schema/dist/esm/parsers/map.js
 function parseMapDef(def, refs) {
   if (refs.mapStrategy === "record") {
     return parseRecordDef(def, refs);
@@ -69014,7 +69139,7 @@ function parseMapDef(def, refs) {
   };
 }
 
-// canvas-agent/node_modules/zod-to-json-schema/dist/esm/parsers/nativeEnum.js
+// ../canvas-agent/node_modules/zod-to-json-schema/dist/esm/parsers/nativeEnum.js
 function parseNativeEnumDef(def) {
   const object3 = def.values;
   const actualKeys = Object.keys(def.values).filter((key) => {
@@ -69028,7 +69153,7 @@ function parseNativeEnumDef(def) {
   };
 }
 
-// canvas-agent/node_modules/zod-to-json-schema/dist/esm/parsers/never.js
+// ../canvas-agent/node_modules/zod-to-json-schema/dist/esm/parsers/never.js
 function parseNeverDef(refs) {
   return refs.target === "openAi" ? void 0 : {
     not: parseAnyDef({
@@ -69038,7 +69163,7 @@ function parseNeverDef(refs) {
   };
 }
 
-// canvas-agent/node_modules/zod-to-json-schema/dist/esm/parsers/null.js
+// ../canvas-agent/node_modules/zod-to-json-schema/dist/esm/parsers/null.js
 function parseNullDef(refs) {
   return refs.target === "openApi3" ? {
     enum: ["null"],
@@ -69048,7 +69173,7 @@ function parseNullDef(refs) {
   };
 }
 
-// canvas-agent/node_modules/zod-to-json-schema/dist/esm/parsers/union.js
+// ../canvas-agent/node_modules/zod-to-json-schema/dist/esm/parsers/union.js
 var primitiveMappings = {
   ZodString: "string",
   ZodNumber: "number",
@@ -69116,7 +69241,7 @@ var asAnyOf = (def, refs) => {
   return anyOf.length ? { anyOf } : void 0;
 };
 
-// canvas-agent/node_modules/zod-to-json-schema/dist/esm/parsers/nullable.js
+// ../canvas-agent/node_modules/zod-to-json-schema/dist/esm/parsers/nullable.js
 function parseNullableDef(def, refs) {
   if (["ZodString", "ZodNumber", "ZodBigInt", "ZodBoolean", "ZodNull"].includes(def.innerType._def.typeName) && (!def.innerType._def.checks || !def.innerType._def.checks.length)) {
     if (refs.target === "openApi3") {
@@ -69148,7 +69273,7 @@ function parseNullableDef(def, refs) {
   return base && { anyOf: [base, { type: "null" }] };
 }
 
-// canvas-agent/node_modules/zod-to-json-schema/dist/esm/parsers/number.js
+// ../canvas-agent/node_modules/zod-to-json-schema/dist/esm/parsers/number.js
 function parseNumberDef(def, refs) {
   const res = {
     type: "number"
@@ -69197,7 +69322,7 @@ function parseNumberDef(def, refs) {
   return res;
 }
 
-// canvas-agent/node_modules/zod-to-json-schema/dist/esm/parsers/object.js
+// ../canvas-agent/node_modules/zod-to-json-schema/dist/esm/parsers/object.js
 function parseObjectDef(def, refs) {
   const forceOptionalIntoNullable = refs.target === "openAi";
   const result = {
@@ -69267,7 +69392,7 @@ function safeIsOptional(schema) {
   }
 }
 
-// canvas-agent/node_modules/zod-to-json-schema/dist/esm/parsers/optional.js
+// ../canvas-agent/node_modules/zod-to-json-schema/dist/esm/parsers/optional.js
 var parseOptionalDef = (def, refs) => {
   if (refs.currentPath.toString() === refs.propertyPath?.toString()) {
     return parseDef(def.innerType._def, refs);
@@ -69286,7 +69411,7 @@ var parseOptionalDef = (def, refs) => {
   } : parseAnyDef(refs);
 };
 
-// canvas-agent/node_modules/zod-to-json-schema/dist/esm/parsers/pipeline.js
+// ../canvas-agent/node_modules/zod-to-json-schema/dist/esm/parsers/pipeline.js
 var parsePipelineDef = (def, refs) => {
   if (refs.pipeStrategy === "input") {
     return parseDef(def.in._def, refs);
@@ -69306,12 +69431,12 @@ var parsePipelineDef = (def, refs) => {
   };
 };
 
-// canvas-agent/node_modules/zod-to-json-schema/dist/esm/parsers/promise.js
+// ../canvas-agent/node_modules/zod-to-json-schema/dist/esm/parsers/promise.js
 function parsePromiseDef(def, refs) {
   return parseDef(def.type._def, refs);
 }
 
-// canvas-agent/node_modules/zod-to-json-schema/dist/esm/parsers/set.js
+// ../canvas-agent/node_modules/zod-to-json-schema/dist/esm/parsers/set.js
 function parseSetDef(def, refs) {
   const items = parseDef(def.valueType._def, {
     ...refs,
@@ -69331,7 +69456,7 @@ function parseSetDef(def, refs) {
   return schema;
 }
 
-// canvas-agent/node_modules/zod-to-json-schema/dist/esm/parsers/tuple.js
+// ../canvas-agent/node_modules/zod-to-json-schema/dist/esm/parsers/tuple.js
 function parseTupleDef(def, refs) {
   if (def.rest) {
     return {
@@ -69359,24 +69484,24 @@ function parseTupleDef(def, refs) {
   }
 }
 
-// canvas-agent/node_modules/zod-to-json-schema/dist/esm/parsers/undefined.js
+// ../canvas-agent/node_modules/zod-to-json-schema/dist/esm/parsers/undefined.js
 function parseUndefinedDef(refs) {
   return {
     not: parseAnyDef(refs)
   };
 }
 
-// canvas-agent/node_modules/zod-to-json-schema/dist/esm/parsers/unknown.js
+// ../canvas-agent/node_modules/zod-to-json-schema/dist/esm/parsers/unknown.js
 function parseUnknownDef(refs) {
   return parseAnyDef(refs);
 }
 
-// canvas-agent/node_modules/zod-to-json-schema/dist/esm/parsers/readonly.js
+// ../canvas-agent/node_modules/zod-to-json-schema/dist/esm/parsers/readonly.js
 var parseReadonlyDef = (def, refs) => {
   return parseDef(def.innerType._def, refs);
 };
 
-// canvas-agent/node_modules/zod-to-json-schema/dist/esm/selectParser.js
+// ../canvas-agent/node_modules/zod-to-json-schema/dist/esm/selectParser.js
 var selectParser = (def, typeName, refs) => {
   switch (typeName) {
     case ZodFirstPartyTypeKind.ZodString:
@@ -69452,7 +69577,7 @@ var selectParser = (def, typeName, refs) => {
   }
 };
 
-// canvas-agent/node_modules/zod-to-json-schema/dist/esm/parseDef.js
+// ../canvas-agent/node_modules/zod-to-json-schema/dist/esm/parseDef.js
 function parseDef(def, refs, forceResolution = false) {
   const seenItem = refs.seen.get(def);
   if (refs.override) {
@@ -69508,7 +69633,7 @@ var addMeta = (def, refs, jsonSchema) => {
   return jsonSchema;
 };
 
-// canvas-agent/node_modules/zod-to-json-schema/dist/esm/zodToJsonSchema.js
+// ../canvas-agent/node_modules/zod-to-json-schema/dist/esm/zodToJsonSchema.js
 var zodToJsonSchema = (schema, options2) => {
   const refs = getRefs(options2);
   let definitions = typeof options2 === "object" && options2.definitions ? Object.entries(options2.definitions).reduce((acc, [name2, schema2]) => ({
@@ -69570,7 +69695,7 @@ var zodToJsonSchema = (schema, options2) => {
   return combined;
 };
 
-// canvas-agent/node_modules/@modelcontextprotocol/sdk/dist/esm/server/zod-json-schema-compat.js
+// ../canvas-agent/node_modules/@modelcontextprotocol/sdk/dist/esm/server/zod-json-schema-compat.js
 function mapMiniTarget(t) {
   if (!t)
     return "draft-7";
@@ -69612,7 +69737,7 @@ function parseWithCompat(schema, data) {
   return result.data;
 }
 
-// canvas-agent/node_modules/@modelcontextprotocol/sdk/dist/esm/shared/protocol.js
+// ../canvas-agent/node_modules/@modelcontextprotocol/sdk/dist/esm/shared/protocol.js
 var DEFAULT_REQUEST_TIMEOUT_MSEC = 6e4;
 var Protocol = class {
   constructor(_options) {
@@ -70589,7 +70714,7 @@ function mergeCapabilities(base, additional) {
   return result;
 }
 
-// canvas-agent/node_modules/@modelcontextprotocol/sdk/dist/esm/validation/ajv-provider.js
+// ../canvas-agent/node_modules/@modelcontextprotocol/sdk/dist/esm/validation/ajv-provider.js
 var import_ajv = __toESM(require_ajv(), 1);
 var import_ajv_formats = __toESM(require_dist8(), 1);
 function createDefaultAjvInstance() {
@@ -70657,7 +70782,7 @@ var AjvJsonSchemaValidator = class {
   }
 };
 
-// canvas-agent/node_modules/@modelcontextprotocol/sdk/dist/esm/experimental/tasks/server.js
+// ../canvas-agent/node_modules/@modelcontextprotocol/sdk/dist/esm/experimental/tasks/server.js
 var ExperimentalServerTasks = class {
   constructor(_server) {
     this._server = _server;
@@ -70870,7 +70995,7 @@ var ExperimentalServerTasks = class {
   }
 };
 
-// canvas-agent/node_modules/@modelcontextprotocol/sdk/dist/esm/experimental/tasks/helpers.js
+// ../canvas-agent/node_modules/@modelcontextprotocol/sdk/dist/esm/experimental/tasks/helpers.js
 function assertToolsCallTaskCapability(requests, method, entityName) {
   if (!requests) {
     throw new Error(`${entityName} does not support task creation (required for ${method})`);
@@ -70905,7 +71030,7 @@ function assertClientRequestTaskCapability(requests, method, entityName) {
   }
 }
 
-// canvas-agent/node_modules/@modelcontextprotocol/sdk/dist/esm/server/index.js
+// ../canvas-agent/node_modules/@modelcontextprotocol/sdk/dist/esm/server/index.js
 var Server = class extends Protocol {
   /**
    * Initializes this server with the given name and version information.
@@ -71276,7 +71401,7 @@ var Server = class extends Protocol {
   }
 };
 
-// canvas-agent/node_modules/@modelcontextprotocol/sdk/dist/esm/server/completable.js
+// ../canvas-agent/node_modules/@modelcontextprotocol/sdk/dist/esm/server/completable.js
 var COMPLETABLE_SYMBOL = /* @__PURE__ */ Symbol.for("mcp.completable");
 function isCompletable(schema) {
   return !!schema && typeof schema === "object" && COMPLETABLE_SYMBOL in schema;
@@ -71290,7 +71415,7 @@ var McpZodTypeKind;
   McpZodTypeKind2["Completable"] = "McpCompletable";
 })(McpZodTypeKind || (McpZodTypeKind = {}));
 
-// canvas-agent/node_modules/@modelcontextprotocol/sdk/dist/esm/shared/toolNameValidation.js
+// ../canvas-agent/node_modules/@modelcontextprotocol/sdk/dist/esm/shared/toolNameValidation.js
 var TOOL_NAME_REGEX = /^[A-Za-z0-9._-]{1,128}$/;
 function validateToolName(name) {
   const warnings = [];
@@ -71348,7 +71473,7 @@ function validateAndWarnToolName(name) {
   return result.isValid;
 }
 
-// canvas-agent/node_modules/@modelcontextprotocol/sdk/dist/esm/experimental/tasks/mcp-server.js
+// ../canvas-agent/node_modules/@modelcontextprotocol/sdk/dist/esm/experimental/tasks/mcp-server.js
 var ExperimentalMcpServerTasks = class {
   constructor(_mcpServer) {
     this._mcpServer = _mcpServer;
@@ -71363,7 +71488,7 @@ var ExperimentalMcpServerTasks = class {
   }
 };
 
-// canvas-agent/node_modules/@modelcontextprotocol/sdk/dist/esm/server/mcp.js
+// ../canvas-agent/node_modules/@modelcontextprotocol/sdk/dist/esm/server/mcp.js
 function toolInputElementCount(value, max) {
   let count = 0;
   const stack = [value];
@@ -72195,10 +72320,10 @@ var EMPTY_COMPLETION_RESULT = {
   }
 };
 
-// canvas-agent/node_modules/@modelcontextprotocol/sdk/dist/esm/server/stdio.js
+// ../canvas-agent/node_modules/@modelcontextprotocol/sdk/dist/esm/server/stdio.js
 import process2 from "node:process";
 
-// canvas-agent/node_modules/@modelcontextprotocol/sdk/dist/esm/shared/stdio.js
+// ../canvas-agent/node_modules/@modelcontextprotocol/sdk/dist/esm/shared/stdio.js
 var STDIO_DEFAULT_MAX_BUFFER_SIZE = 10 * 1024 * 1024;
 var ReadBuffer = class {
   constructor(options2) {
@@ -72235,7 +72360,7 @@ function serializeMessage(message) {
   return JSON.stringify(message) + "\n";
 }
 
-// canvas-agent/node_modules/@modelcontextprotocol/sdk/dist/esm/server/stdio.js
+// ../canvas-agent/node_modules/@modelcontextprotocol/sdk/dist/esm/server/stdio.js
 var StdioServerTransport = class {
   constructor(_stdin = process2.stdin, _stdout = process2.stdout, options2) {
     this._stdin = _stdin;
@@ -72302,7 +72427,7 @@ var StdioServerTransport = class {
   }
 };
 
-// canvas-agent/src/server/mcp.ts
+// ../canvas-agent/src/server/mcp.ts
 async function startMcpServer() {
   const config2 = loadConfig(true);
   const server = new McpServer({ name: "canvas-agent", version: VERSION }, { instructions: AGENT_PROMPT });
@@ -72323,6 +72448,6 @@ async function postCanvasAgentTool(config2, name, input) {
   return body.result;
 }
 
-// canvas-agent/src/index.ts
+// ../canvas-agent/src/index.ts
 if (process.argv[2] === "mcp") await startMcpServer();
 else startHttpServer();
