@@ -449,12 +449,65 @@ function registerUpdateIpc() {
 // 0.23: 应用菜单只保留系统级入口。
 // 0.24: Windows 不再保留「文件」菜单——它会占掉窗口顶部一行、留一条空白，
 //       关窗即退出，无需菜单项；macOS 仍保留应用菜单以支持 ⌘Q / ⌘H。
+// 0.25.8: macOS 的 ⌘C/⌘V/⌘X/⌘A/⌘Z 是「菜单快捷键」而不是渲染层自己处理的——
+//         之前只注册了 appMenu，编辑菜单不存在，导致所有输入框都无法粘贴（配置→编辑渠道全空）。
+//         必须显式提供 Edit 菜单（role 版），系统才会把剪贴板命令派发给渲染层。
 function buildMenu() {
     if (process.platform !== "darwin") {
         Menu.setApplicationMenu(null);
         return;
     }
-    Menu.setApplicationMenu(Menu.buildFromTemplate([{ role: "appMenu", label: app.name }]));
+    Menu.setApplicationMenu(
+        Menu.buildFromTemplate([
+            { role: "appMenu", label: app.name },
+            {
+                label: "编辑",
+                submenu: [
+                    { role: "undo", label: "撤销" },
+                    { role: "redo", label: "重做" },
+                    { type: "separator" },
+                    { role: "cut", label: "剪切" },
+                    { role: "copy", label: "复制" },
+                    { role: "paste", label: "粘贴" },
+                    { role: "pasteAndMatchStyle", label: "粘贴并匹配样式" },
+                    { role: "delete", label: "删除" },
+                    { role: "selectAll", label: "全选" },
+                ],
+            },
+            {
+                label: "窗口",
+                submenu: [
+                    { role: "minimize", label: "最小化" },
+                    { role: "zoom", label: "缩放" },
+                    { type: "separator" },
+                    { role: "close", label: "关闭" },
+                ],
+            },
+        ]),
+    );
+}
+
+/** macOS 下右键也没有系统默认菜单，输入框要能「右键粘贴」得自己给一份。 */
+function attachContextMenu(window) {
+    if (process.platform !== "darwin") return;
+    window.webContents.on("context-menu", (_event, params) => {
+        const template = [];
+        if (params.isEditable) {
+            template.push(
+                { role: "undo", label: "撤销", enabled: params.editFlags.canUndo },
+                { role: "redo", label: "重做", enabled: params.editFlags.canRedo },
+                { type: "separator" },
+                { role: "cut", label: "剪切", enabled: params.editFlags.canCut },
+                { role: "copy", label: "复制", enabled: params.editFlags.canCopy },
+                { role: "paste", label: "粘贴", enabled: params.editFlags.canPaste },
+                { role: "selectAll", label: "全选", enabled: params.editFlags.canSelectAll },
+            );
+        } else if (params.selectionText?.trim()) {
+            template.push({ role: "copy", label: "复制" });
+        }
+        if (!template.length) return;
+        Menu.buildFromTemplate(template).popup({ window });
+    });
 }
 
 async function createWindow(proxyUrl) {
@@ -482,6 +535,8 @@ async function createWindow(proxyUrl) {
         if (/^https?:/i.test(url)) void shell.openExternal(url);
         return { action: "deny" };
     });
+
+    attachContextMenu(window);
 
     await window.loadURL(appUrl);
 }

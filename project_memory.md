@@ -174,3 +174,13 @@
 - 用户明确表示：**本地 electron-builder 打包是多余的**，推 tag 让 CI 出包即可；本机只在需要排查「包内文件对不对」时挂 dmg 抽查（`hdiutil attach` → 看 Resources/renderer/index.html 指向的 hash、Resources/proxy/server.js、app.asar）。
 - 应用内更新（回答「能不能不重装」必查）：不是只跳网页——`update:check` → `update:download`（主进程下载 + `update:progress` 进度）→ `launchInstaller` 静默覆盖安装到当前 exe 目录（Win 参数 `/S /currentuser|/allusers --force-run /D=<dir>`，`/D=` 必须最后且不加引号）→ 应用退出后 `--force-run` 拉起新版；`update-pending.json` 记录 from/to，版本没变会弹「升级未生效」。入口：顶部导航右侧的**版本号文字**（`user-status-actions.tsx` → `version-release-modal.tsx`），有新版本时旁边一个绿点，点开按钮是「更新到 x.y.z」。0.21 起就有（commit 2d6214b）。
 - 更新通道网络细节：桌面端 `checkLatestVersion` 优先走 `bridge.checkUpdate()`（主进程，0.25.5 起用能跟随系统代理的 net.fetch）；renderer 里 `fetch(raw.githubusercontent.com CHANGELOG)` 失败只是历史列表退回本地，不影响安装。真正风险是 **91MB 安装包下载速度**（本机到 GitHub 资产仅 13–50KB/s），慢到用户以为卡住；下载后有字节数校验，截断会报 `installer incomplete`。
+
+## 发版 0.25.7（2026-10-22，多运行时对齐 + 更新弹窗兜底）
+- 本轮修的四件事同时进 0.25.7：更新弹窗空白（CHANGELOG 补 0.25.x + Release 正文兜底 `notesToItems/withReleaseNotes` + `update:check` 返回 `notes`）、切运行时模型列表不刷新（`runtime.changed` 广播 + 模型 effect 加 runtime 依赖 + galley 走 `galley llm list` + 无档位模型给占位档而不是丢弃）、选 Claude/Galley 仍拉 Codex（`app.listen`/`reset`/`resume` 三处加 `isBridgeRuntime` 守卫）、功能对等（附件、`session stop` 中断、换模型自动 `session new`、同模型 `session send` 续接）。
+- `runtime.changed` 是**新增**事件名，前端 `local-agent-panel.tsx` 监听后 `runtimeRevision++` 触发重取模型；后端切运行时/连接完成都要广播。
+- 更新弹窗数据链路（排查任何「没有更新内容」先看这里）：`use-version-check.ts` 用 `RELEASE_REPO="Cc-kris/infinite-canvas"` 的 `raw/main/VERSION` + `raw/main/CHANGELOG.md` + `releases?per_page=30`；desktop 侧 `main.js` 用同一 REPO 的 releases API。**fork 与上游 basketikun 必须分清**：`gh` 不加 `-R Cc-kris/infinite-canvas` 会默认解析到上游，查不到 tag/run。
+- 校验「已装旧版能不能看到更新」不用装新包：`curl -s -w "%{http_code}" raw.githubusercontent.com/Cc-kris/infinite-canvas/main/VERSION`（应 200 + `v0.25.7`）与 `CHANGELOG.md` 首屏含 `## v0.25.7` 即可，旧版点更新就能出内容（兜底代码只在新包里有，旧版靠 CHANGELOG 正常记录）。
+- CI 会 `[build-agent] canvas-agent -> agent/canvas-agent.mjs` 从 tag 源码重建 agent bundle，**不用担心仓库里 `desktop/agent/canvas-agent.mjs` 是旧产物**；想确认可 `gh run view <id> --log | grep build-agent`。
+- 验证 bundle 里的 galley 逻辑别搜「llm list」这种带空格串——源码是数组参数 `["llm","list"]`，bundle 里搜 `"llm"` / `"session"` / `"supervisor"` 才有命中。
+- 本机从 GitHub 资产下载 dmg 只有 ~1MB/min（115MB 要一小时），**别用下载再挂载的方式做发布验收**，用 tag 源码 + CI 日志 + raw VERSION/CHANGELOG 三个证据即可。
+- 0.25.7 结果：run 39794987310 全绿（mac 排队被 cancel 后 `gh run rerun --failed` 重跑即过），三件包 114.6MB/119.6MB/95.5MB。
