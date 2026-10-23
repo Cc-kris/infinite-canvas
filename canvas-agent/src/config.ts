@@ -34,7 +34,7 @@ export const AGENT_PROMPT = readAgentPrompt();
 const initializedWorkspaces = new Set<string>();
 
 export type SiteWorkspaceConfig = { workspacePath: string; activeThreadId?: string; pinnedThreadIds?: string[] };
-export type CanvasAgentConfig = { url: string; token: string; origins?: string[]; workspace?: SiteWorkspaceConfig; /** 0.23: 用户在连接面板选中的本地 Agent 运行时。 */ runtime?: "claude" | "codex" | "galley" };
+export type CanvasAgentConfig = { url: string; token: string; origins?: string[]; workspace?: SiteWorkspaceConfig; /** 0.23: 用户在连接面板选中的本地 Agent 运行时。 */ runtime?: "claude" | "codex" | "galley"; /** 0.26: 用户手选的 Agent 安装目录（扫不到默认位置时用）。 */ agentPaths?: Partial<Record<"claude" | "codex" | "galley", string>> };
 
 /** 读取本地 Canvas Agent 配置，不存在时生成默认配置。 */
 export function loadConfig(create = false): CanvasAgentConfig {
@@ -49,6 +49,16 @@ export function loadConfig(create = false): CanvasAgentConfig {
 
 /** 将 Canvas Agent 配置写入用户配置目录。 */
 export function saveConfig(config: CanvasAgentConfig) {
+    // 0.26: agentPaths（用户手选的 Agent 安装目录）只由 runtimes.ts 维护，
+    // 这里回填一次，避免工作空间等字段的保存把用户手选的路径冲掉。
+    if (!config.agentPaths) {
+        try {
+            const existing = JSON.parse(fs.readFileSync(CONFIG_FILE, "utf8")) as CanvasAgentConfig;
+            if (existing?.agentPaths) config.agentPaths = existing.agentPaths;
+        } catch {
+            /* 首次写入，没有旧配置 */
+        }
+    }
     writeConfigFile(CONFIG_DIR, CONFIG_FILE, config);
 }
 

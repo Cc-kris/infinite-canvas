@@ -30,6 +30,10 @@ contextBridge.exposeInMainWorld("infiniteCanvasDesktop", {
         list: () => ipcRenderer.invoke("agent-hub:list"),
         connect: (runtime) => ipcRenderer.invoke("agent-hub:connect", runtime),
         disconnect: () => ipcRenderer.invoke("agent-hub:disconnect"),
+        /** 0.26 默认位置扫不到时，弹系统目录选择框。 */
+        pickDirectory: (runtime) => ipcRenderer.invoke("agent-hub:pick-dir", runtime),
+        /** 0.26 在用户手选的目录里扫描并持久化；dir 传空清除。 */
+        setRuntimePath: (runtime, dir) => ipcRenderer.invoke("agent-hub:set-path", runtime, dir),
         /** 0.25 主进程静默升级连接方式后通知界面刷新；返回取消订阅函数。 */
         onChanged: (callback) => {
             const listener = () => callback();

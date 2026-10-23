@@ -638,10 +638,16 @@ export function LocalAgentPanel({ embedded, headless, autoConnect }: { embedded?
     const [runtimeRevision, setRuntimeRevision] = useState(0);
     useEffect(() => {
         if (!connected) return;
-        void resolveAgentRuntime(endpoint, token)
-            .then(async (runtime) => ({ runtime, result: await fetchAgentJson<AgentModelsResponse>(endpoint, token, runtime === "codex" ? "/agent/codex/models" : "/agent/models") }))
-            .then(({ runtime, result }) => {
+        // 0.26: 模型清单只认后端自报的运行时。以前先问前端缓存的运行时再决定打哪个接口，
+        // 缓存一旦先落在 codex（首帧 /config 还没写运行时、或解析失败被兜底成 codex），
+        // 就会去请求 /agent/codex/models；Claude / Galley 下这个请求必然失败，
+        // 界面上模型列表就一直是空的。现在统一走 /agent/models，它按 canvas-agent.json 里的
+        // runtime 返回对应清单，运行时也从响应体里取，标签跟着一起刷新。
+        void fetchAgentJson<AgentModelsResponse & { runtime?: string }>(endpoint, token, "/agent/models")
+            .then((result) => {
             const data = result.data || [];
+            // 后端自报的运行时才是权威值（/agent/models 的响应体里带 runtime），拿不到就退回缓存值。
+            const runtime = result.runtime || currentAgentRuntime();
             const names = new Set<string>();
             const models = data.flatMap((item) => {
                 const name = item.displayName || item.model;

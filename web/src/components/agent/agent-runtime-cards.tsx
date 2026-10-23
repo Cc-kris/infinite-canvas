@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
-import { Button, Tooltip } from "antd";
-import { CheckCircle2, CircleSlash, Loader2, PlugZap, Power } from "lucide-react";
+import { Button, Input, Tooltip } from "antd";
+import { CheckCircle2, CircleSlash, FolderSearch, Loader2, PlugZap, Power } from "lucide-react";
 import { useTranslation } from "react-i18next";
 
 import { canvasThemes } from "@/lib/canvas-theme";
@@ -17,6 +17,10 @@ type RuntimeCard = {
     version: string;
     mode: "mcp" | "bridge";
     plugin?: PluginState;
+    /** 0.26: 实际解析到的可执行文件路径。 */
+    path?: string;
+    /** 0.26: 用户手选的安装目录（空表示仍按默认位置扫描）。 */
+    customPath?: string;
 };
 type ConnectionMode = "plugin" | "runtime" | "";
 type HubState = { server: { running: boolean; url: string; token: string; error?: string }; runtime: string; mode: ConnectionMode; connecting?: { runtime: string; startedAt: number; stage?: string } | null; runtimes: RuntimeCard[] };
@@ -27,6 +31,10 @@ type DesktopBridge = {
         list: () => Promise<HubState>;
         connect: (id: string) => Promise<ConnectResult>;
         disconnect: () => Promise<{ ok: boolean }>;
+        /** 0.26: 弹系统目录选择框。 */
+        pickDirectory?: (id: string) => Promise<{ ok: boolean; dir?: string; canceled?: boolean; error?: string }>;
+        /** 0.26: 在手选目录里扫描 Agent 并持久化；dir 传空清除。 */
+        setRuntimePath?: (id: string, dir: string) => Promise<{ ok: boolean; path?: string; version?: string; error?: string; cleared?: boolean }>;
         onChanged?: (callback: () => void) => () => void;
     };
 };
@@ -62,6 +70,10 @@ export function AgentRuntimeCards({
     const [state, setState] = useState<HubState | null>(null);
     const [busy, setBusy] = useState<string>("");
     const [error, setError] = useState("");
+    // 0.26: 手选安装目录——按运行时分别记录输入框内容与扫描中的状态。
+    const [pathDraft, setPathDraft] = useState<Record<string, string>>({});
+    const [pathBusy, setPathBusy] = useState<string>("");
+    const [pathNotice, setPathNotice] = useState<{ runtime: string; text: string; ok: boolean } | null>(null);
     const hub = bridge();
     // 轮询回调里读到的必须是当前凭据：闭包里的 url/token 可能是上一次渲染的，
     // 那会让「地址已同步」判断永远为真，每 1.5 秒重置一次连接状态。
@@ -145,6 +157,49 @@ export function AgentRuntimeCards({
         }
     };
 
+    /**
+     * 0.26: 默认位置扫不到 Agent 时，让用户指一个安装目录。
+     * 选完立刻扫描并把命中结果写进配置，成功就刷新卡片（可以直接连）。
+     */
+    const applyRuntimeDir = async (runtime: RuntimeCard, dir: string) => {
+        if (!hub?.setRuntimePath) throw new Error(t("agent.connect.desktopOnly"));
+        setPathBusy(runtime.id);
+        setPathNotice(null);
+        try {
+            const result = await hub.setRuntimePath(runtime.id, dir);
+            if (!result.ok) throw new Error(result.error || t("agent.connect.pathScanFailed"));
+            setPathNotice({
+                runtime: runtime.id,
+                ok: true,
+                text: result.cleared ? t("agent.connect.pathCleared") : t("agent.connect.pathScanned", { path: result.path || dir }),
+            });
+            setPathDraft((prev) => ({ ...prev, [runtime.id]: result.cleared ? "" : dir }));
+            await load();
+        } catch (err) {
+            setPathNotice({ runtime: runtime.id, ok: false, text: err instanceof Error ? err.message : String(err) });
+        } finally {
+            setPathBusy("");
+        }
+    };
+
+    /** 点「选择目录」：系统对话框选文件夹 → 立即扫描。 */
+    const chooseRuntimeDir = async (runtime: RuntimeCard) => {
+        if (!hub?.pickDirectory) {
+            setPathNotice({ runtime: runtime.id, ok: false, text: t("agent.connect.desktopOnly") });
+            return;
+        }
+        try {
+            const picked = await hub.pickDirectory(runtime.id);
+            if (!picked.ok) {
+                if (!picked.canceled) setPathNotice({ runtime: runtime.id, ok: false, text: picked.error || t("agent.connect.pathScanFailed") });
+                return;
+            }
+            if (picked.dir) await applyRuntimeDir(runtime, picked.dir);
+        } catch (err) {
+            setPathNotice({ runtime: runtime.id, ok: false, text: err instanceof Error ? err.message : String(err) });
+        }
+    };
+
     const modeLabel = (mode: ConnectionMode) => (mode === "plugin" ? t("agent.connect.modePlugin") : mode === "runtime" ? t("agent.connect.modeRuntime") : "");
 
     return (
@@ -155,8 +210,12 @@ export function AgentRuntimeCards({
                 const sources = [runtime.cliInstalled ? t("agent.connect.cliLabel") : "", runtime.desktop ? t("agent.connect.desktopLabel") : ""].filter(Boolean);
                 const detected = sources.length ? `${sources.join(" + ")}${runtime.version ? ` · ${runtime.version}` : ""}` : t("agent.connect.notInstalled");
                 const pluginText = runtime.mode === "mcp" && runtime.plugin ? (runtime.plugin.ok ? t("agent.connect.pluginInstalled") : t("agent.connect.pluginFallback")) : "";
+                const notice = pathNotice?.runtime === runtime.id ? pathNotice : null;
+                // 0.26: 没扫到就摆出手选入口；已经手选过的也留着，方便换目录或清除。
+                const showPathRow = !runtime.installed || Boolean(runtime.customPath);
                 return (
-                    <div key={runtime.id} className="flex items-center gap-3 rounded-lg border px-3 py-2.5" style={{ borderColor: active ? "#f97316" : theme.node.stroke, background: active ? "rgba(249,115,22,.08)" : "transparent" }}>
+                    <div key={runtime.id} className="space-y-1.5">
+                    <div className="flex items-center gap-3 rounded-lg border px-3 py-2.5" style={{ borderColor: active ? "#f97316" : theme.node.stroke, background: active ? "rgba(249,115,22,.08)" : "transparent" }}>
                         <div className="min-w-0 flex-1">
                             <div className="flex items-center gap-2 text-sm font-medium leading-5" style={{ color: theme.node.text }}>
                                 {ICONS[runtime.id]}
@@ -193,6 +252,48 @@ export function AgentRuntimeCards({
                                 </Button>
                             )}
                         </Tooltip>
+                    </div>
+                        {showPathRow ? (
+                            <div className="rounded-lg border border-dashed px-3 py-2" style={{ borderColor: theme.node.stroke }}>
+                                <div className="text-[11px] leading-4" style={{ color: theme.node.muted }}>{t("agent.connect.pathHint")}</div>
+                                <div className="mt-1.5 flex items-center gap-1.5">
+                                    <Input
+                                        size="small"
+                                        value={pathDraft[runtime.id] ?? runtime.customPath ?? ""}
+                                        placeholder={t("agent.connect.pathPlaceholder")}
+                                        disabled={pathBusy === runtime.id}
+                                        onChange={(event) => setPathDraft((prev) => ({ ...prev, [runtime.id]: event.target.value }))}
+                                        onPressEnter={() => {
+                                            const dir = (pathDraft[runtime.id] ?? runtime.customPath ?? "").trim();
+                                            if (dir) void applyRuntimeDir(runtime, dir);
+                                        }}
+                                    />
+                                    <Tooltip title={t("agent.connect.chooseDirHint")}>
+                                        <Button size="small" icon={<FolderSearch className="size-3.5" />} disabled={pathBusy === runtime.id} onClick={() => void chooseRuntimeDir(runtime)}>
+                                            {t("agent.connect.chooseDir")}
+                                        </Button>
+                                    </Tooltip>
+                                    <Button
+                                        size="small"
+                                        type="primary"
+                                        ghost
+                                        loading={pathBusy === runtime.id}
+                                        disabled={!(pathDraft[runtime.id] ?? runtime.customPath ?? "").trim()}
+                                        onClick={() => void applyRuntimeDir(runtime, (pathDraft[runtime.id] ?? runtime.customPath ?? "").trim())}
+                                    >
+                                        {t("agent.connect.scanDir")}
+                                    </Button>
+                                    {runtime.customPath ? (
+                                        <Button size="small" type="text" disabled={pathBusy === runtime.id} onClick={() => void applyRuntimeDir(runtime, "")}>
+                                            {t("agent.connect.clearDir")}
+                                        </Button>
+                                    ) : null}
+                                </div>
+                                {notice ? (
+                                    <div className="mt-1 text-[11px] leading-4" style={{ color: notice.ok ? "#16a34a" : "#dc2626" }}>{notice.text}</div>
+                                ) : null}
+                            </div>
+                        ) : null}
                     </div>
                 );
             })}

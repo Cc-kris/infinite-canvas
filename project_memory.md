@@ -208,3 +208,27 @@
 - 无 Windows 真机的验证手法：单测里 `Object.defineProperty(process, "platform", { value: "win32" })` **之后**再动态 `import()` 模块（`IS_WIN` 是加载期求值）；GBK 乱码用 `/bin/sh` stub 把 GBK 字节 `> &2` 即可复现整条链路。见 `canvas-agent/src/agent/galley-win32.test.ts`。
 - 环境坑：非登录 shell 里没有 `node`/`npx`，跑测试用 `PATH=/usr/local/bin:/usr/bin:/bin ./node_modules/.bin/tsx --test ...`（node 在 `/usr/local/bin`，不在 homebrew）。
 - 打包后核验 bundle 别搜中文：esbuild 会把非 ASCII 转成**大写** `\uXXXX`，搜「未找到 Galley」永远 0 命中，要搜 `\u672A\u627E\u5230` 或直接看 `friendlyCliError` 附近。
+
+## 白虎远程取证的正确姿势（2026-10-23 实测）
+- SSH 私钥在 `~/.ssh/hive_workers_ed25519`（global_mem 里写的 `temp/ssh_keys/` 已失效），主机 `administrator@100.119.66.94`，GA 根 `C:\Users\Administrator.PC-20260127QTCJ\GenericAgent`。
+- **但 2026-10-23 实测白虎不可达**：ping 100% 丢包、22 端口 timeout；`Tailscale status --json` 显示 `PC-20260127QTCJ windows offline, last seen 2026-09-15`。它是这个 tailnet 里唯一的 Windows 节点。
+- 结论：想在 Windows 实机上验证 IC/Galley 问题，先去 `tailscale status` 看 `Online`，别直接 ssh 浪费时间；离线就只能请用户开机联网，或让用户贴 PowerShell 输出。
+
+## 0.25.9 打包实录：别再用 electron-builder 在本机等（2026-10-23）
+- 本机 `electron-builder --mac dmg --arm64` 会**重新下载 Electron 38.8.6（110MB）**，实测只有 ~140KB/s，卡在 `packaging` 阶段十几分钟（日志最后一行停在 `downloaded label=electron progress=100%` 是假象；用 `lsof -p <pid>` 能看到它还在往 `/private/var/folders/.../electron-download-*/electron-v38.8.6-darwin-arm64.zip` 里写）。`~/Library/Caches/electron/c6ea…/` 里有完整 zip 也不会被复用。
+- **更快的等价做法（本次采用，1 分钟出包）**：`desktop/node_modules` 里**没有 asar 工具**（只有 electron / electron-builder 两个包），但 `main.js` 的路径解析是 `process.resourcesPath` + `here`（`here` = main.js 所在目录），所以可以直接把 `Contents/Resources/app.asar` 删掉，换成 `Contents/Resources/app/` 目录（放 `main.js`、`agent-hub.js`、`preload.cjs`、精简版 `package.json`，version 改成目标版本）——Electron 原生支持这种布局，`app.isPackaged` 仍为 true。`Resources/` 下的 `renderer/`、`proxy/`、`agent/` 是 extraResources，不用动。
+- 改完必须 `/usr/libexec/PlistBuddy -c "Set :CFBundleShortVersionString X.Y.Z"` 和 `CFBundleVersion`，再 `xattr -cr` + `codesign --force --deep --sign -`（arm64 必须 adhoc 重签，否则被改过的包打不开），`codesign -v` 应输出 `satisfies its Designated Requirement`。
+- dmg 不用 electron-builder：`hdiutil create -volname "Infinite Canvas" -srcfolder <staging> -ov -format UDZO -fs HFS+ xxx.dmg`（staging 里放 app + `/Applications` 软链），261MB 的 app 压出 118MB。
+- 验证 0.25.9 的判据（可复用）：启动时带 `--remote-debugging-port=9335`，CDP 里 `document.hidden` 应为 `false`、遮挡状态下 rAF 60 帧跑满。
+- 注意 `release/mac-arm64/Infinite Canvas.app` 是**用户本机正在用**的包（Info.plist 版本还写着 0.25.6、asar 是手工打补丁的 0.25.8），不要直接覆盖它；新包放在 `release/mac-arm64-0.25.9/`。
+
+## 遮挡节流修复：真机确认（2026-10-23）
+- 用户把那台慢 Mac 换成 0.25.9 后反馈「比原来的那个不卡」→ `backgroundThrottling: false` + 三个 `disable-*backgrounding` 开关这一组，就是「远程桌面下点击数秒才响应」的根因修法。以后再遇到「Electron 桌面版响应慢、但代码测不出问题」，先查这项，别急着怀疑 React 渲染。
+- 提醒用户做对照时要注意：`caffeinate -d` 是**静默阻塞**命令（不打印任何东西，Ctrl+C 才退出），它本身就能阻止息屏→阻止遮挡判定，所以「跑了 caffeinate 就不卡了」只能说明方向对，**不能证明补丁生效**；真正的判据是把 caffeinate 停掉后依旧不卡。用户当时也可能以为命令没生效就关掉了终端，所以结论要落在「停掉 caffeinate 复测」上。
+- 官方发版通道：`.github/workflows/desktop-release.yml` 监听 `desktop-v*` tag（matrix: macos-14 + windows-latest，会自动发布安装包）。所以打 `desktop-v0.25.9` 就能出正式的 mac/win 包，不必再用本机手工组包的 dmg。
+
+## 0.25.9 已正式发版（2026-10-23）
+- tag `desktop-v0.25.9` 指向 `232b2d2`，推 tag 即触发 `.github/workflows/desktop-release.yml`（macos-14 + windows-latest + release job），本次实测 **270 秒全绿**，产出三个包：`Infinite-Canvas-0.25.9-mac-arm64.dmg`(109MB)、`Infinite-Canvas-0.25.9-mac-x64.dmg`(114MB)、`Infinite-Canvas-Setup-0.25.9-x64.exe`(91MB)。所以**不需要再在本机手工组 dmg**，除非急着用（CI 慢时可临时组一个，方法见上节）。
+- 发版前必须改两份文案：`desktop/RELEASE_NOTES.md`（= GitHub Release 正文，CI 用 `body_path` 读取）和 `CHANGELOG.md`（= 应用内更新弹窗读取）。只改一个会造成「更新弹窗没内容」。
+- **用户明确要求（长期有效）**：Release 说明里不要再写「无需签名 / 未做代码签名 / 首次打开被拦截 / 右键打开放行」这类提示。我此前把这段写在 RELEASE_NOTES 顶部，被要求删掉，本次已删成干净标题「# 无限画布 桌面版」。以后写发版文案直接跳过签名话题。
+- `gh` 在这个仓库默认解析到**上游** `basketikun/infinite-canvas`（会 404），所有 gh 命令必须带 `-R Cc-kris/infinite-canvas`。

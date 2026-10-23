@@ -143,7 +143,73 @@ function galleyRecords() {
  * 解析某个 CLI 的绝对路径，未安装时返回空串。
  * 这里刻意不依赖 shell：Windows 上根本没有 `command -v`，用 shell 探测会让所有 CLI 误判为未安装。
  */
+/**
+ * 0.26: 用户在卡片上手选安装目录后，不再只认 PATH。
+ * 手选结果存在 canvas-agent.json 的 agentPaths，桌面端和 agent 服务共用同一份。
+ */
+const SCAN_MAX_DEPTH = 5;
+const SCAN_MAX_ENTRIES = 20000;
+const SCAN_SKIP_DIRS = new Set(["node_modules", ".git", ".cache", "$recycle.bin", "system volume information", "winsxs", "windowspowershell"]);
+
+function readAgentPaths() {
+    try {
+        const config = JSON.parse(fs.readFileSync(CONFIG_FILE, "utf8"));
+        const raw = config && typeof config.agentPaths === "object" && config.agentPaths ? config.agentPaths : {};
+        const result = {};
+        for (const id of ["claude", "codex", "galley"]) {
+            if (typeof raw[id] === "string" && raw[id]) result[id] = raw[id];
+        }
+        return result;
+    } catch {
+        return {};
+    }
+}
+
+/** 在指定目录里递归找目标可执行文件（限深度与条目数，忽略大小写与扩展名）。 */
+function scanDirForBin(dir, bin) {
+    const start = path.resolve(String(dir || "").trim().replace(/^"|"$/g, ""));
+    if (!start) return "";
+    let stats;
+    try {
+        stats = fs.statSync(start);
+    } catch {
+        return "";
+    }
+    const wanted = executableExtensions().map((ext) => `${bin}${ext}`.toLowerCase());
+    if (stats.isFile()) {
+        const name = path.basename(start).toLowerCase();
+        return name.replace(/\.(exe|cmd|bat|ps1)$/, "") === bin.toLowerCase() ? start : "";
+    }
+    if (!stats.isDirectory()) return "";
+    const queue = [[start, 0]];
+    let visited = 0;
+    while (queue.length && visited < SCAN_MAX_ENTRIES) {
+        const [current, depth] = queue.shift();
+        let entries;
+        try {
+            entries = fs.readdirSync(current, { withFileTypes: true });
+        } catch {
+            continue;
+        }
+        visited += entries.length;
+        for (const entry of entries) {
+            if (entry.isFile() && wanted.includes(entry.name.toLowerCase())) return path.join(current, entry.name);
+        }
+        if (depth >= SCAN_MAX_DEPTH) continue;
+        for (const entry of entries) {
+            if (entry.isDirectory() && !SCAN_SKIP_DIRS.has(entry.name.toLowerCase())) queue.push([path.join(current, entry.name), depth + 1]);
+        }
+    }
+    return "";
+}
+
 function resolveCommand(bin) {
+    // 手选目录优先：用户已经指定了安装位置，就不再猜。
+    const custom = readAgentPaths()[bin];
+    if (custom) {
+        const hit = scanDirForBin(custom, bin);
+        if (hit) return hit;
+    }
     if (bin === "galley") {
         for (const record of galleyRecords()) {
             try {
@@ -530,6 +596,7 @@ export async function listRuntimes() {
     const config = readAgentConfig();
     const server = await probeServer(config.url);
     const pluginState = readPluginState();
+    const customPaths = readAgentPaths();
     const runtimes = RUNTIMES.map((runtime) => {
         const resolved = resolveCommand(runtime.bin);
         const desktop = detectDesktopApp(runtime.id);
@@ -539,6 +606,8 @@ export async function listRuntimes() {
             installed: Boolean(resolved) || desktop.installed,
             cliInstalled: Boolean(resolved),
             cliPath: resolved,
+            path: resolved,
+            customPath: customPaths[runtime.id] || "",
             desktop: desktop.installed,
             desktopPath: desktop.path,
             desktopLabel: desktop.label,
@@ -768,11 +837,53 @@ export async function disconnectRuntime() {
     return { ok: !running, running, runtime: "" };
 }
 
-export function registerAgentHub(ipcMain) {
+export function registerAgentHub(ipcMain, dialog) {
     ipcMain.handle("agent-hub:list", () => listRuntimes());
     ipcMain.handle("agent-hub:connect", (_event, runtime) => connectRuntime(String(runtime || "")));
     ipcMain.handle("agent-hub:disconnect", () => disconnectRuntime());
     ipcMain.handle("agent-hub:revalidate", () => revalidateConnection().catch(() => ({ ok: false })));
+    /** 0.26: 系统目录选择框。web 端传 runtime，仅用于选择框标题。 */
+    ipcMain.handle("agent-hub:pick-dir", async (_event, runtime) => {
+        const spec = RUNTIMES.find((item) => item.id === String(runtime || ""));
+        if (!dialog) return { ok: false, error: "dialog unavailable" };
+        const result = await dialog.showOpenDialog({
+            title: spec ? `选择 ${spec.label} 的安装目录` : "选择 Agent 安装目录",
+            properties: ["openDirectory"],
+            buttonLabel: "选择目录",
+        });
+        if (result.canceled || !result.filePaths?.length) return { ok: false, canceled: true };
+        return { ok: true, dir: result.filePaths[0] };
+    });
+    /** 0.26: 手选目录去扫描并持久化；dir 传空表示清除，回到默认位置扫描。 */
+    ipcMain.handle("agent-hub:set-path", async (_event, runtime, dir) => setRuntimePath(String(runtime || ""), String(dir || "")));
+}
+
+/** 校验手选目录里确实有目标 Agent，命中才写入 agentPaths 并返回最新卡片状态。 */
+export function setRuntimePath(runtime, dir) {
+    const spec = RUNTIMES.find((item) => item.id === runtime);
+    if (!spec) return { ok: false, error: "unknown runtime" };
+    const raw = String(dir || "").trim().replace(/^"|"$/g, "");
+    if (!raw) {
+        // 清除：把 agentPaths 里的这条删掉，回到默认位置扫描。
+        const config = readAgentConfig();
+        const agentPaths = { ...(config.agentPaths || {}) };
+        delete agentPaths[spec.id];
+        writeAgentConfig({ agentPaths });
+        return { ok: true, runtime: spec.id, cleared: true };
+    }
+    let stats;
+    try {
+        stats = fs.statSync(raw);
+    } catch {
+        return { ok: false, error: `目录不存在：${raw}` };
+    }
+    const hit = scanDirForBin(raw, spec.bin);
+    if (!hit) return { ok: false, error: `在 ${raw} 里没有找到 ${spec.label} 的可执行文件` };
+    const config = readAgentConfig();
+    const agentPaths = { ...(config.agentPaths || {}), [spec.id]: stats.isFile() ? path.dirname(hit) : path.resolve(raw) };
+    writeAgentConfig({ agentPaths });
+    cliVersionCache.delete(hit);
+    return { ok: true, runtime: spec.id, path: hit, version: readCliVersion(hit) };
 }
 
 /** 应用退出时一并收掉后台 Agent 服务，避免残留进程。 */

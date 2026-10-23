@@ -401,7 +401,7 @@ function reportAbortedUpdate() {
 
 function registerUpdateIpc() {
     // 0.23: 本地 Agent 连接卡片（探测 CLI / 拉起服务 / 写入运行时）
-    registerAgentHub(ipcMain);
+    registerAgentHub(ipcMain, dialog);
 
     ipcMain.handle("app:info", () => ({ version: app.getVersion(), platform: process.platform, arch: process.arch }));
 

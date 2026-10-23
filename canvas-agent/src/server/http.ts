@@ -6,7 +6,7 @@ import express, { type NextFunction, type Request, type Response } from "express
 import { CLAUDE_THREAD_ID, claudeSessionId, interruptClaudeTurn, resetClaudeSession, runClaudeTurn } from "../agent/claude.js";
 import { interruptGalleyTurn, listGalleyModels, resetGalleySession, runGalleyTurn } from "../agent/galley.js";
 import { listClaudeMcpServers } from "../agent/runtime-mcp.js";
-import { detectRuntimes, isAgentRuntimeId } from "../agent/runtimes.js";
+import { detectRuntimes, isAgentRuntimeId, applyRuntimeDir, writeAgentPath } from "../agent/runtimes.js";
 import { archiveCodexThread, CodexSkillLookupError, configureCodexSkill, generateCodexSkillDraft, interruptCodexTurn, isRecoverableThreadError, listCodexModels, listCodexSkills, listCodexThreads, readCodexThread, resolveCodexApproval, resolveCodexSkill, resumeCodexThread, runCodexTurn, startCodexThread, summarizeCodexThread } from "../agent/codex.js";
 import type { CodexReasoningEffort, CodexSkillSelector } from "../agent/codex-protocol.js";
 import { messageMetadataStore } from "../agent/message-metadata.js";
@@ -552,6 +552,25 @@ export function startHttpServer() {
 
     /** 0.23: 列出本机可用的本地 Agent，供连接面板渲染卡片。 */
     app.get("/api/agent/runtimes", (_req, res) => res.json({ ok: true, runtime: config.runtime || "", runtimes: detectRuntimes() }));
+
+    /**
+     * 0.26: 默认位置扫不到 Agent 时，用户手选一个安装目录，这里递归扫目标可执行文件，
+     * 命中就持久化到 canvas-agent.json 的 agentPaths，之后探测/连接都按它走。
+     */
+    app.post("/api/agent/runtime-path", (req, res) => {
+        const runtime = req.body?.runtime;
+        if (!isAgentRuntimeId(runtime)) return res.status(400).json({ ok: false, error: "unknown runtime" });
+        const result = applyRuntimeDir(runtime, String(req.body?.dir || ""));
+        res.json({ ...result, runtimes: detectRuntimes() });
+    });
+
+    /** 清除手选目录，回到默认位置扫描。 */
+    app.delete("/api/agent/runtime-path", (req, res) => {
+        const runtime = String(req.query?.runtime || req.body?.runtime || "");
+        if (!isAgentRuntimeId(runtime)) return res.status(400).json({ ok: false, error: "unknown runtime" });
+        writeAgentPath(runtime, null);
+        res.json({ ok: true, runtime, runtimes: detectRuntimes() });
+    });
 
     /** 0.23: 记录用户选中的运行时，刷新页面后仍能还原卡片状态。 */
     app.post("/api/agent/runtime", (req, res) => {
