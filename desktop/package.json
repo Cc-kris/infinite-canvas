@@ -1,7 +1,7 @@
 {
     "name": "infinite-canvas-desktop",
     "productName": "Infinite Canvas",
-    "version": "0.25.8",
+    "version": "0.25.9",
     "description": "无限画布桌面版：内置本地代理，开箱即用",
     "author": {
         "name": "Cc-kris",
