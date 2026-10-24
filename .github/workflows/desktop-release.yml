@@ -268,10 +268,33 @@ jobs:
             - name: List installers
               run: ls -lh dist
 
+            # 一版一文件：只取本版本自己的说明，不要再把往期版本堆进 Release 正文。
+            - name: Compose release notes
+              id: notes
+              shell: bash
+              run: |
+                  raw="${{ github.event_name == 'workflow_dispatch' && inputs.version || github.ref_name }}"
+                  version="${raw#desktop-v}"
+                  notes="desktop/release-notes/${version}.md"
+                  if [ ! -f "$notes" ]; then
+                      echo "::error::missing $notes — 每个版本一个说明文件（见 desktop/release-notes/README.md），先补上再发版"
+                      exit 1
+                  fi
+                  body="$RUNNER_TEMP/release-body.md"
+                  printf '# 无限画布桌面版 %s\n\n' "$version" > "$body"
+                  cat "$notes" >> "$body"
+                  if [ -f desktop/release-notes/_install.md ]; then
+                      printf '\n---\n\n' >> "$body"
+                      cat desktop/release-notes/_install.md >> "$body"
+                  fi
+                  echo "body_path=$body" >> "$GITHUB_OUTPUT"
+                  echo "--- composed from $notes"
+                  head -5 "$body"
+
             - uses: softprops/action-gh-release@v2
               with:
                   tag_name: ${{ github.event_name == 'workflow_dispatch' && inputs.version || github.ref_name }}
                   name: Infinite Canvas ${{ github.event_name == 'workflow_dispatch' && inputs.version || github.ref_name }}
-                  body_path: desktop/RELEASE_NOTES.md
+                  body_path: ${{ steps.notes.outputs.body_path }}
                   files: dist/*
                   fail_on_unmatched_files: true
