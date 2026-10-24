@@ -43,7 +43,10 @@ type ReleaseLookup = { version: string; pageUrl: string; installerName: string; 
 
 /** 从 Release 正文里提取可读条目：优先列表项，其次正文段落。 */
 function notesToItems(notes: string): ReleaseInfo["items"] {
-    const lines = notes.split("\n").map((line) => line.trim()).filter(Boolean);
+    // 正文末尾会拼上共用的安装步骤（以 --- 分隔），那部分不是更新内容。
+    const cut = notes.search(/^-{3,}\s*$/m);
+    const body = cut > 0 ? notes.slice(0, cut) : notes;
+    const lines = body.split("\n").map((line) => line.trim()).filter(Boolean);
     const bullets = lines
         .filter((line) => /^[-*]\s+/.test(line))
         .map((line) => line.replace(/^[-*]\s+/, "").replace(/\*\*/g, "").trim())
