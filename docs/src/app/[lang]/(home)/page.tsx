@@ -146,31 +146,6 @@ export default async function HomePage({ params }: PageProps<'/[lang]'>) {
         </div>
       </section>
 
-      <section className="mx-auto mt-16 w-full max-w-4xl text-center">
-        <h2 className="text-2xl font-semibold text-zinc-950 dark:text-zinc-50 md:text-3xl">
-          {text.contributors}
-        </h2>
-        <p className="mt-2 text-sm text-zinc-500 dark:text-zinc-400">
-          {text.contributorsDescription}
-        </p>
-        <div className="mt-7 flex justify-center">
-          <a
-            href={`${githubUrl}/graphs/contributors`}
-            target="_blank"
-            rel="noreferrer noopener"
-            className="inline-flex max-w-full"
-          >
-            <img
-              src={`https://contrib.rocks/image?repo=${gitConfig.user}/${gitConfig.repo}`}
-              alt={text.contributorsAlt}
-              loading="lazy"
-              decoding="async"
-              className="max-w-full"
-            />
-          </a>
-        </div>
-      </section>
-
       <section className="mx-auto mt-16 w-full max-w-5xl text-center">
         <h2 className="text-2xl font-semibold text-zinc-950 dark:text-zinc-50 md:text-3xl">
           Star History

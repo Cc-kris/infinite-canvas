@@ -15,10 +15,8 @@ Preferred reporting channels:
 
 1. Use GitHub private vulnerability reporting or a GitHub Security Advisory for
    this repository, if available.
-2. If a private GitHub report is not available, email `1844025705@qq.com` with
-   the subject `[infinite-canvas security]`.
-3. If neither private channel is available, open a public issue that asks for a
-   private contact channel and does not include technical exploit details.
+2. If a private GitHub report is not available, open a public issue that asks
+   for a private contact channel and does not include technical exploit details.
 
 Please include:
 
