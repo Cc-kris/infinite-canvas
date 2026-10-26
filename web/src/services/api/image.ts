@@ -5,6 +5,7 @@ import { buildApiUrl, resolveModelRequestConfig, resolveModelScript, withLocalPr
 import { normalizePluginImages, runModelPlugin } from "./model-plugin";
 import { nanoid } from "nanoid";
 import { dataUrlToFile } from "@/lib/image-utils";
+import { shrinkInlineImages } from "@/lib/inline-image";
 import { buildImageReferencePromptText } from "@/lib/image-reference-prompt";
 import { imageToDataUrl } from "@/services/image-storage";
 import { imageSizePresets, inferMediaScale } from "@/lib/media-size";
@@ -662,8 +663,9 @@ async function requestGeminiImages(config: AiConfig, prompt: string, references:
 
 async function requestGeminiImagesOnce(config: AiConfig, prompt: string, references: ReferenceImage[], options?: RequestOptions) {
     const parts: GeminiPart[] = [{ text: prompt }];
-    for (const image of references) {
-        parts.push(toGeminiImagePart(await imageToDataUrl(image)));
+    // 内联图先瘦身（画布与工作台共用），原图 2MB+ 内联会让上游把请求拖到超时
+    for (const dataUrl of await shrinkInlineImages(await Promise.all(references.map((image) => imageToDataUrl(image))))) {
+        parts.push(toGeminiImagePart(dataUrl));
     }
     const response = await axios.post<GeminiPayload>(
         geminiApiUrl(config, "generateContent"),
@@ -761,7 +763,7 @@ export async function requestEdit(config: AiConfig, prompt: string, references: 
         const quality = normalizeQuality(config.quality);
         const requestSize = resolveRequestSize(config.size);
         const background = normalizeBackground(config.background);
-        const refs = await Promise.all(references.map((image) => imageToDataUrl(image)));
+        const refs = await shrinkInlineImages(await Promise.all(references.map((image) => imageToDataUrl(image))));
         try {
             const result = await runModelPlugin({
                 capability: "image",

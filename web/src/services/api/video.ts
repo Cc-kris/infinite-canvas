@@ -3,6 +3,7 @@ import { nanoid } from "nanoid";
 
 import i18n from "@/i18n";
 import { dataUrlToFile, readFileAsDataUrl } from "@/lib/image-utils";
+import { shrinkInlineImages } from "@/lib/inline-image";
 import { clampVideoSeconds, computeVideoSize, inferVideoRatio } from "@/lib/media-size";
 import { getMediaBlob, resolveMediaUrl, uploadMediaFile, type UploadedFile } from "@/services/file-storage";
 import { imageToDataUrl } from "@/services/image-storage";
@@ -117,7 +118,7 @@ export async function pollVideoGenerationTask(config: AiConfig, task: VideoGener
 async function createPluginVideoTask(config: AiConfig, model: string, script: string, prompt: string, references: ReferenceImage[], options?: VideoMediaOptions): Promise<VideoGenerationTask> {
     if (!config.baseUrl.trim()) throw new Error(apiText("baseUrlRequired"));
     if (!config.apiKey.trim()) throw new Error(apiText("apiKeyRequired"));
-    const refs = await Promise.all(references.map((image) => imageToDataUrl(image)));
+    const refs = await shrinkInlineImages(await Promise.all(references.map((image) => imageToDataUrl(image))));
     const videos = await Promise.all((options?.videos || []).map((video) => referenceMediaToFile(video, "ref.mp4", "invalidReferenceVideo", options)));
     const audios = await Promise.all((options?.audios || []).map((audio) => referenceMediaToFile(audio, "ref.mp3", "invalidReferenceAudio", options)));
     const result = videoPluginResult(
@@ -158,44 +159,8 @@ function videoPluginResult(result: unknown): VideoGenerationResult {
     throw new Error(apiText("scriptNoVideo"));
 }
 
-// 上游（sub2api/Cloudflare）处理内联图片的成本随 base64 体积线性上升：
-// 实测 1.5MB 请求体要 70s，2.8MB 要 90~128s（Cloudflare 524），4MB 直接 524/502。
-// 因此内联前统一降采样为最长边 1280 的 JPEG，把请求体压到几百 KB，创建任务才有秒级响应。
-const INLINE_IMAGE_MAX_EDGE = 1280;
-const INLINE_IMAGE_MAX_CHARS = 500_000;
-
-function loadImageElement(src: string) {
-    return new Promise<HTMLImageElement>((resolve, reject) => {
-        const image = new Image();
-        image.onload = () => resolve(image);
-        image.onerror = () => reject(new Error("image decode failed"));
-        image.src = src;
-    });
-}
-
-async function shrinkInlineImage(dataUrl: string): Promise<string> {
-    if (!dataUrl.startsWith("data:image/")) return dataUrl;
-    try {
-        const image = await loadImageElement(dataUrl);
-        const scale = Math.min(1, INLINE_IMAGE_MAX_EDGE / Math.max(image.naturalWidth || image.width, image.naturalHeight || image.height));
-        const width = Math.max(1, Math.round((image.naturalWidth || image.width) * scale));
-        const height = Math.max(1, Math.round((image.naturalHeight || image.height) * scale));
-        if (scale === 1 && dataUrl.length <= INLINE_IMAGE_MAX_CHARS) return dataUrl;
-        const canvas = document.createElement("canvas");
-        canvas.width = width;
-        canvas.height = height;
-        const context = canvas.getContext("2d");
-        if (!context) return dataUrl;
-        context.fillStyle = "#fff";
-        context.fillRect(0, 0, width, height);
-        context.drawImage(image, 0, 0, width, height);
-        let output = canvas.toDataURL("image/jpeg", 0.86);
-        if (output.length > INLINE_IMAGE_MAX_CHARS) output = canvas.toDataURL("image/jpeg", 0.7);
-        return output;
-    } catch {
-        return dataUrl;
-    }
-}
+// 上游（sub2api/Cloudflare）处理内联图片的成本随 base64 体积线性上升，
+// 内联前统一走公共的 shrinkInlineImage（web/src/lib/inline-image.ts），把请求体压到几百 KB。
 
 export async function storeGeneratedVideo(result: VideoGenerationResult): Promise<UploadedFile> {
     if (result.blob) return uploadMediaFile(result.blob, "video");
@@ -263,7 +228,7 @@ async function createOpenAIVideoTask(config: AiConfig, model: string, prompt: st
         mode,
     };
     if (ratio && ratio !== "auto") jsonFields.ratio = ratio;
-    if (inlineImages) jsonFields.images = await Promise.all(imageDataUrls.map(shrinkInlineImage));
+    if (inlineImages) jsonFields.images = await shrinkInlineImages(imageDataUrls);
     const post = (payload: FormData | Record<string, unknown>) => axios.post<ApiVideoResponse>(aiApiUrl(config, "/videos"), payload, {
         headers: payload instanceof FormData ? aiHeaders(config) : { ...aiHeaders(config), "Content-Type": "application/json" },
         signal: options?.signal,
@@ -337,7 +302,8 @@ async function videoResultFromUrl(url: string, options?: RequestOptions, headers
 }
 
 async function createGeminiVideoTask(config: AiConfig, model: string, prompt: string, references: ReferenceImage[], options?: VideoMediaOptions): Promise<VideoGenerationTask> {
-    const images = await Promise.all(references.map((image) => imageToDataUrl(image)));
+    // 内联图先瘦身，否则 2MB+ 的原图会让上游等到 Cloudflare 524
+    const images = await shrinkInlineImages(await Promise.all(references.map((image) => imageToDataUrl(image))));
     const videos = await Promise.all((options?.videos || []).map((video) => referenceMediaToFile(video, "ref.mp4", "invalidReferenceVideo", options)));
     const audios = await Promise.all((options?.audios || []).map((audio) => referenceMediaToFile(audio, "ref.mp3", "invalidReferenceAudio", options)));
     const mode = resolveVideoMode(config.videoMode, images.length);
@@ -426,7 +392,7 @@ async function createHttpVideoTask(config: AiConfig, model: string, prompt: stri
     const baseUrl = (config.baseUrl || "").trim();
     const submitUrl = withLocalProxy(renderHttpUrlTemplate(protocol.submitUrl, { baseUrl, apiKey: config.apiKey, taskId: "" }));
     if (!submitUrl) throw new Error(apiText("httpSubmitUrlRequired"));
-    const images = await Promise.all(references.map((image) => imageToDataUrl(image)));
+    const images = await shrinkInlineImages(await Promise.all(references.map((image) => imageToDataUrl(image))));
     const values: Record<string, unknown> = {
         baseUrl,
         apiKey: config.apiKey,
