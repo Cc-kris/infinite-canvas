@@ -1455,6 +1455,8 @@ export function LocalAgentPanel({ embedded, headless, autoConnect }: { embedded?
                     connected={connected}
                     activity={activity}
                     connectError={connectError}
+                    onUrlChange={(nextUrl) => setAgentState({ url: nextUrl })}
+                    onTokenChange={(nextToken) => setAgentState({ token: nextToken })}
                     onConnectWith={connectWithConfig}
                     onAdoptConfig={adoptAgentConfig}
                     onDisconnect={() => toggleAgentConnection({ silent: true })}

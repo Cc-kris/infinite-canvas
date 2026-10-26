@@ -6,7 +6,7 @@ import { dataUrlToFile, readFileAsDataUrl } from "@/lib/image-utils";
 import { clampVideoSeconds, computeVideoSize, inferVideoRatio } from "@/lib/media-size";
 import { getMediaBlob, resolveMediaUrl, uploadMediaFile, type UploadedFile } from "@/services/file-storage";
 import { imageToDataUrl } from "@/services/image-storage";
-import { boolConfig, buildApiUrl, modelOptionName, resolveModelRequestConfig, resolveModelScript, withLocalProxy, type AiConfig } from "@/stores/use-config-store";
+import { boolConfig, buildApiUrl, modelOptionName, resolveModelRequestConfig, resolveModelScript, resolveVideoHttpConfig, withLocalProxy, type AiConfig, type VideoHttpConfig } from "@/stores/use-config-store";
 import { runModelPlugin } from "./model-plugin";
 import type { ReferenceImage } from "@/types/image";
 import type { ReferenceAudio, ReferenceVideo } from "@/types/media";
@@ -19,7 +19,7 @@ type VideoMediaOptions = RequestOptions & { videos?: ReferenceVideo[]; audios?: 
 const apiText = (key: string, options?: Record<string, unknown>) => i18n.t(`apiErrors.${key}`, options);
 
 export type VideoGenerationResult = { blob?: Blob; url?: string; mimeType?: string };
-export type VideoGenerationTask = { id: string; provider: "openai" | "gemini" | "plugin"; model: string };
+export type VideoGenerationTask = { id: string; provider: "openai" | "gemini" | "plugin" | "http"; model: string };
 type GeminiInlineData = { bytesBase64Encoded: string; mimeType: string };
 type GeminiVideoOperation = {
     name?: string;
@@ -31,6 +31,7 @@ export type VideoGenerationTaskState = { status: "pending" } | { status: "comple
 
 /** Results for scripted (plugin) video models, which run their own create+poll in one shot at task creation. */
 const pluginVideoResults = new Map<string, VideoGenerationResult>();
+const httpVideoResults = new Map<string, VideoGenerationResult>();
 
 function aiApiUrl(config: AiConfig, path: string) {
     return buildApiUrl(config.baseUrl, path);
@@ -74,6 +75,7 @@ export async function createVideoGenerationTask(config: AiConfig, prompt: string
     const requestConfig = resolveModelRequestConfig(config, selectedModel);
     const script = resolveModelScript(config, selectedModel);
     if (script) return createPluginVideoTask(requestConfig, selectedModel, script, prompt, references, options);
+    if (requestConfig.apiFormat === "http") return createHttpVideoTask(requestConfig, selectedModel, prompt, references, options);
     assertVideoConfig(requestConfig, requestConfig.model);
     if (requestConfig.apiFormat === "gemini") return createGeminiVideoTask(requestConfig, selectedModel, prompt, references, options);
     return createOpenAIVideoTask(requestConfig, selectedModel, prompt, references, options);
@@ -85,6 +87,7 @@ export async function pollVideoGenerationTask(config: AiConfig, task: VideoGener
         return result ? { status: "completed", result } : { status: "failed", error: apiText("pluginVideoExpired") };
     }
     const requestConfig = resolveModelRequestConfig(config, task.model);
+    if (task.provider === "http" || requestConfig.apiFormat === "http") return pollHttpVideoTask(requestConfig, task, options);
     assertVideoConfig(requestConfig, requestConfig.model);
     if (task.provider === "gemini") return pollGeminiVideoTask(requestConfig, task, options);
     return pollOpenAIVideoTask(requestConfig, task, options);
@@ -300,6 +303,148 @@ function parseDataUrlInline(dataUrl: string, fallbackType = "image/png"): Gemini
 
 async function fileToGeminiInline(file: File): Promise<GeminiInlineData> {
     return parseDataUrlInline(await readFileAsDataUrl(file), file.type || "application/octet-stream");
+}
+
+/** 0.27：通用 HTTP 视频协议——提交一次拿任务 ID，再按轮询地址取状态与结果。 */
+async function createHttpVideoTask(config: AiConfig, model: string, prompt: string, references: ReferenceImage[], options?: VideoMediaOptions): Promise<VideoGenerationTask> {
+    const protocol = resolveVideoHttpConfig(config, model);
+    const baseUrl = (config.baseUrl || "").trim();
+    const submitUrl = renderHttpTemplate(protocol.submitUrl, { baseUrl, apiKey: config.apiKey, taskId: "" });
+    if (!submitUrl) throw new Error(apiText("httpSubmitUrlRequired"));
+    const images = await Promise.all(references.map((image) => imageToDataUrl(image)));
+    const values: Record<string, unknown> = {
+        baseUrl,
+        apiKey: config.apiKey,
+        model: modelOptionName(model),
+        prompt,
+        seconds: Number(normalizeVideoSeconds(config.videoSeconds)) || 6,
+        size: normalizeVideoSize(config.size, config.vquality),
+        ratio: inferVideoRatio(config.size || "16:9"),
+        resolution: normalizeVideoResolution(config.vquality),
+        mode: resolveVideoMode(config.videoMode, images.length),
+        generateAudio: boolConfig(config.videoGenerateAudio, true),
+        watermark: boolConfig(config.videoWatermark, false),
+        images,
+    };
+    const bodyText = renderHttpTemplate(protocol.bodyTemplate, values);
+    const parsedBody = parseHttpJson(bodyText);
+    if (!parsedBody) throw new Error(apiText("httpBodyInvalidJson"));
+    try {
+        const response = await axios.post(submitUrl, parsedBody, { headers: httpHeaders(protocol, values), signal: options?.signal });
+        if (!protocol.pollUrl.trim()) {
+            const direct = httpResultFromValue(httpPathValue(response.data, protocol.resultPath));
+            if (!direct) throw new Error(apiText("noPlayableVideo"));
+            const id = nanoid();
+            httpVideoResults.set(id, direct);
+            return { id, provider: "http", model };
+        }
+        const taskId = String(httpPathValue(response.data, protocol.taskIdPath) ?? "").trim();
+        if (!taskId) throw new Error(apiText("noVideoTaskId"));
+        return { id: taskId, provider: "http", model };
+    } catch (error) {
+        throw new Error(readAxiosError(error, apiText("videoTaskCreateFailed")));
+    }
+}
+
+async function pollHttpVideoTask(config: AiConfig, task: VideoGenerationTask, options?: RequestOptions): Promise<VideoGenerationTaskState> {
+    const cached = httpVideoResults.get(task.id);
+    if (cached) return { status: "completed", result: cached };
+    const protocol = resolveVideoHttpConfig(config, task.model);
+    const baseUrl = (config.baseUrl || "").trim();
+    const values: Record<string, unknown> = { baseUrl, apiKey: config.apiKey, taskId: task.id, model: modelOptionName(task.model) };
+    const pollUrl = renderHttpTemplate(protocol.pollUrl, values);
+    if (!pollUrl) return { status: "failed", error: apiText("httpPollUrlRequired") };
+    try {
+        const response = await axios.get(pollUrl, { headers: httpHeaders(protocol, values), signal: options?.signal });
+        const data = response.data;
+        const status = String(httpPathValue(data, protocol.statusPath) ?? "").trim().toLowerCase();
+        const success = splitValues(protocol.successValues);
+        const failure = splitValues(protocol.failureValues);
+        const result = httpResultFromValue(httpPathValue(data, protocol.resultPath));
+        if (result && (!status || !failure.length || !failure.includes(status))) {
+            return { status: "completed", result: await videoResultFromUrl(result.url as string, options) };
+        }
+        if (status && failure.includes(status)) {
+            const message = String(httpPathValue(data, protocol.errorPath) ?? "").trim() || apiText("videoTaskFailedGeneric");
+            return { status: "failed", error: message };
+        }
+        if (status && success.length && success.includes(status)) {
+            return result ? { status: "completed", result: await videoResultFromUrl(result.url as string, options) } : { status: "failed", error: apiText("noPlayableVideo") };
+        }
+        return { status: "pending" };
+    } catch (error) {
+        return { status: "failed", error: readAxiosError(error, apiText("videoTaskCreateFailed")) };
+    }
+}
+
+function httpHeaders(protocol: VideoHttpConfig, values: Record<string, unknown>) {
+    const headers: Record<string, string> = { "Content-Type": "application/json" };
+    const configured = protocol.headers.trim() ? parseHttpJson(renderHttpTemplate(protocol.headers, values)) : null;
+    if (configured && typeof configured === "object") {
+        Object.entries(configured as Record<string, unknown>).forEach(([key, value]) => {
+            if (value === undefined || value === null || value === "") return;
+            if (key.toLowerCase() === "content-type") return;
+            headers[key] = String(value);
+        });
+        return headers;
+    }
+    if (values.apiKey) headers.Authorization = `Bearer ${String(values.apiKey)}`;
+    return headers;
+}
+
+/** 模板占位符 {{key}}：引号内替换为转义后的字符串，引号外替换为 JSON 值。 */
+function renderHttpTemplate(template: string, values: Record<string, unknown>) {
+    return (template || "").replace(/\{\{\s*(\w+)\s*\}\}/g, (match: string, key: string, offset: number, input: string) => {
+        if (!(key in values)) return match;
+        const value = values[key];
+        const before = input[offset - 1];
+        const after = input[offset + match.length];
+        if (before === '"' && after === '"') {
+            if (typeof value === "string") return value.replace(/\\/g, "\\\\").replace(/"/g, '\\"').replace(/\n/g, "\\n");
+            return String(value ?? "");
+        }
+        return JSON.stringify(value ?? null);
+    });
+}
+
+function parseHttpJson(text: string): unknown {
+    try {
+        return JSON.parse(text);
+    } catch {
+        return null;
+    }
+}
+
+function httpPathValue(source: unknown, path: string): unknown {
+    const trimmed = (path || "").trim();
+    if (!trimmed) return undefined;
+    return trimmed.split(".").reduce<unknown>((current, key) => {
+        if (current === null || current === undefined) return undefined;
+        if (Array.isArray(current)) {
+            const index = Number(key);
+            return Number.isInteger(index) ? current[index] : undefined;
+        }
+        if (typeof current !== "object") return undefined;
+        return (current as Record<string, unknown>)[key];
+    }, source);
+}
+
+function splitValues(value: string) {
+    return (value || "")
+        .split(",")
+        .map((item) => item.trim().toLowerCase())
+        .filter(Boolean);
+}
+
+/** 结果字段可能是 URL 字符串，也可能是 { url } / { video_url } 这类对象。 */
+function httpResultFromValue(value: unknown): VideoGenerationResult | null {
+    if (typeof value === "string" && value.trim()) return { url: value.trim(), mimeType: "video/mp4" };
+    if (value && typeof value === "object") {
+        const record = value as Record<string, unknown>;
+        const url = [record.url, record.video_url, record.result_url, record.videoUrl].find((item) => typeof item === "string" && item) as string | undefined;
+        if (url) return { url, mimeType: "video/mp4" };
+    }
+    return null;
 }
 
 async function referenceMediaToFile(item: { name: string; type?: string; url?: string; storageKey?: string }, fallbackName: string, errorKey: "invalidReferenceVideo" | "invalidReferenceAudio", options?: RequestOptions) {

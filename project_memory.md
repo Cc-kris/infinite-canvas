@@ -232,3 +232,43 @@
 - 发版前必须改两份文案：`desktop/RELEASE_NOTES.md`（= GitHub Release 正文，CI 用 `body_path` 读取）和 `CHANGELOG.md`（= 应用内更新弹窗读取）。只改一个会造成「更新弹窗没内容」。
 - **用户明确要求（长期有效）**：Release 说明里不要再写「无需签名 / 未做代码签名 / 首次打开被拦截 / 右键打开放行」这类提示。我此前把这段写在 RELEASE_NOTES 顶部，被要求删掉，本次已删成干净标题「# 无限画布 桌面版」。以后写发版文案直接跳过签名话题。
 - `gh` 在这个仓库默认解析到**上游** `basketikun/infinite-canvas`（会 404），所有 gh 命令必须带 `-R Cc-kris/infinite-canvas`。
+
+## 0.26.0 已发版：Agent 手选安装目录 + 修 Claude 模型列表（2026-10-23）
+- tag `desktop-v0.26.0` 指向 `8fe5bf9`，run `39927848834` **约 4 分钟全绿**，三个包：`Infinite-Canvas-0.26.0-mac-arm64.dmg`(109MB)、`-mac-x64.dmg`(114MB)、`Infinite-Canvas-Setup-0.26.0-x64.exe`(91MB)；release 已自动标 Latest、prerelease=false（应用内更新读 `/releases/latest`，所以这一步必须核）。
+- **仓库里的 `VERSION` 文件长期停在旧值**（0.25.9 发版时还是 v0.25.8，本次发 0.26.0 时也是 v0.25.8）。CI 在「Resolve version from tag」步骤里 `printf 'v%s' "$version" > VERSION` 覆盖它，所以**安装包内的版本是对的**；核对版本请看 run 日志里该步骤打印的 `v0.26.0`，不要拿 raw.githubusercontent 的 VERSION 当判据（否则会误判发版失败）。顺手已把仓库 VERSION 补到 v0.26.0（commit `29e175e`，晚于 tag，不影响安装包）。
+- 本轮功能实现要点：手选目录存在 `~/.infinite-canvas/canvas-agent.json` 的 `agentPaths.<runtime>`，agent 端 `POST/DELETE /api/agent/runtime-path` 在该目录递归找可执行文件；桌面端对应 `agent-hub:pick-dir` / `agent-hub:set-path`；卡片仅在 `!installed || customPath` 时露出输入区。
+- 修「Claude 拉不出模型列表」的真因是**前端运行时缓存把失败兜底成 codex 并缓存**，于是去请求 `/agent/codex/models` 必失败；现统一走 `/agent/models`（该路由按 `config.runtime` 分流并在响应体回传 `runtime`），解析失败不再落缓存。
+
+## 0.26.0 本机「切页很卡」排查结论（2026-10-23，详细数据见 diag-0.26.0-lag.md）
+- 应用侧实测没问题：切页 click→paint 中位 59–120ms、空闲主线程 0%、45s 无 longtask、堆稳定 23MB、IDB 仅 8.6MB、资源全缓存。**别再重复怀疑 React 渲染或数据量**。
+- 真凶是整机级：`ps -p $(pgrep -x WindowServer) -o pcpu=` 稳定 **42–46%**、`UURemoteServer`（UU 远程被控组件）**16% 持续 6 小时**、swap 用掉 **8.8GB/10GB**、已连续开机 49 天、mds_stores 正在索引。以后再听到「本机装新版就卡」，先跑这两条命令排掉系统级/远程捕获占用，再看前端。
+- 排查坑（会重复踩）：① `cdp.py` 的类名是 `CDP`（`.call/.ev/close`），不是 `Session`；② `ps -Ao pcpu | grep 'X (Y)'` 的括号被当正则 → 用 `grep -F` 或精确 PID；③ `Performance.getMetrics` 必须导航后静置 ≥4s 再取 `TaskDuration`，否则把挂载算成空闲；④ 自己注册的 rAF 会自驱动出帧，"N 秒 N 帧"不能证明应用在持续重绘；⑤ 运行时注入的 `<style>` 会在当前 SPA 会话里残留，污染后续测量，必须 `Page.navigate` 重载才干净。
+
+## 更新说明约定（2026-10-24 重构）
+- GitHub Release 正文改为**一版一文件**：`desktop/release-notes/<版本>.md`（只写本版改动），`_install.md` 是共用安装步骤；`.github/workflows/desktop-release.yml` 的 release job 按 tag（`desktop-vX.Y.Z`）取同名文件拼装 body，**缺文件直接失败**，不会再退回「发全量说明」。
+- 旧的累积式 `desktop/RELEASE_NOTES.md` 已删除——它被 `body_path` 整篇当成每个 Release 的正文，这正是「每版都写所有版本」的根因。发版另需在 `CHANGELOG.md` 写本版小节（应用内更新弹窗读它，`__APP_RELEASES__` 打包时生成）。
+- 历史 4 个 Release（0.26.0 / 0.25.9 / 0.25.7 / 0.25.6）正文已用 `gh release edit --notes-file` 逐个改写为单版本；gh 必须 `zsh -lc` 且 `-R Cc-kris/infinite-canvas`。
+
+## 2026-10-24 README/docs 去上游化（a807bbe）
+- 需求口径：README 只说「基于 basketikun/infinite-canvas 的二开」，赞助只留 CCAI（cc-ai.xyz，API base `https://cc-ai.xyz/v1`，素材取 `sub2apis/frontend/public/logo.png` → `assets/ccai.png`），上游 7 家赞助 logo（88api/apimart/atlascloud/infistar/metaso/packycode/heyroute）已 `git rm`。
+- 上游联系方式散布 6 处，grep 复扫命令：`rg -n "1844025705|qm\.qq\.com|linux\.do|contrib\.rocks" --glob '!node_modules' --glob '!*.map' .`；本轮已清：README、SECURITY.md、docs/content/docs/support/{security,sponsor}{,.zh-CN}.mdx、business/{business}{,.zh-CN}.mdx、docs/src/lib/layout.shared.tsx(qqUrl+QQ 图标)、docs 首页 contrib.rocks 贡献者区块。
+- `canvas.best` / `docs.canvas.best` 是本仓库自己（HouYunFei 提交）的演示站与文档域名，**不是**上游，别当上游痕迹删。
+- docs 目录**没有 node_modules**，别直接 `pnpm build` 验证；语法校验用 `web/node_modules/.bin/tsc --noEmit --jsx react-jsx --noResolve --skipLibCheck` 再 grep `TS1xxx`/`TS6133`。
+
+## 重启本机 3000 端口的网页版（2026-10-24 实测）
+- 3000 = `/Users/mac/Documents/Dev/infinite-canvas/web` 的 **vite dev**（不是 dist 静态站，改源码即热更）。重启命令：
+  `cd web && PATH=/usr/local/bin:/opt/homebrew/bin:$PATH nohup ./node_modules/.bin/vite --host 127.0.0.1 --port 3000 > /tmp/infinite-canvas-3000.log 2>&1 &`
+  **必须显式带 PATH**（code_run 的非登录 shell 里没有 node，直接跑会 `exec: node: not found`），必须 nohup 后台（否则调用结束被回收）。
+- 旧进程是 `npm exec vite` 拉起的（node PID 的父是 npm），kill 时两个 PID 一起收，再 `lsof -iTCP:3000 -sTCP:LISTEN` 确认释放。
+- 「更新版本」= `git pull --ff-only`，页面版本徽标读仓库 `VERSION`（dev 下显示 v0.26.0）。验收：curl 200 + `#root` 有内容（6102 字）+ 徽标版本。
+
+## 参考图不生效的头号原因：@[node:...] token 悬空（2026-10-24 实测，必读）
+- config 节点只要 `metadata.composerContent` 非空，`buildComposerGenerationContext`（`web/src/components/canvas/canvas-node-generation.ts:66`）就**只认 token 指向的节点，连线本身被忽略**；token 指向已删除节点时不报错：标签变空串、该输入不进 selectedInputs → `referenceImages=[]` → 走 requestGeneration（纯文生图）而不是 requestEdit（/images/edits）。
+- 现场特征：成品节点 `metadata.generationType === "generation"` + `references.length === 0`，而 prompt 里出现「先看 。」这种空标签。真正的图生图节点是 `generationType:"edit"` 且 `references` 有值。
+- 已修项目 `Z1EEWcwo...`（亚马逊出图sop）：7 个流程 config 的 token 由已删的 `image-1790664623792-0f3b0` 改成实际抠图结果 `hLnIpnlfYbVE_G6_KIY2t`（16 个 config → 悬空 0）。备份：`canvas_store_backup_20261024.json`。
+- 零成本验证手法（不烧额度）：页面里 `await import('/src/components/canvas/canvas-node-generation.ts')`，取 IDB 里的 nodes/connections 直接调 `buildNodeGenerationContext(id, nodes, conns, composerContent)`，看 `referenceImages.length`。改成 1 且有 dataUrl 即通。
+- 画布数据：IDB `infinite-canvas` / store `app_state` / key `infinite-canvas:canvas_store`（JSON 字符串，结构 {state:{projects,deletedProjects},version}）。改完必须 `location.reload()`，否则被内存态覆盖。
+- 节点参考图元数据字段名是 **references**（不是 referenceImages）。
+
+## 网页版 Agent 面板（2026-10-24）
+- 网页版**有** Agent 面板：`layouts/user-layout.tsx` 挂 `<AgentPanel />`，无 Electron 门控；连接方式是填本地 Canvas Agent 地址+token（`services/api/canvas-agent.ts`，需本机跑 canvas-agent）。本机当时没跑 canvas-agent，页面显示「未连接」。

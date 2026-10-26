@@ -6,9 +6,37 @@ import { nanoid } from "nanoid";
 import i18n from "@/i18n";
 import { desktopProxyUrl, isDesktopApp } from "@/lib/desktop";
 
-export type ApiCallFormat = "openai" | "gemini";
+export type ApiCallFormat = "openai" | "gemini" | "http";
 export type ModelCapability = "image" | "video" | "text" | "audio";
 export type ReasoningEffort = "auto" | "low" | "medium" | "high" | "xhigh";
+
+/**
+ * 0.27：通用 HTTP 视频协议。
+ * 提交一次拿任务 ID，再按轮询地址取状态与结果，字段位置用点路径描述，
+ * 模板里的 {{prompt}} / {{images}} 等占位符按 JSON 值替换。
+ */
+export type VideoHttpConfig = {
+    /** 提交地址，支持 {{baseUrl}} 前缀。留空则用渠道 baseUrl。 */
+    submitUrl: string;
+    /** 轮询地址，支持 {{baseUrl}}、{{taskId}}。留空表示提交即出结果。 */
+    pollUrl: string;
+    /** 请求头，JSON 对象字符串，如 {"Authorization":"Bearer sk-xxx"}。留空自动带渠道 API Key。 */
+    headers: string;
+    /** 提交体模板，JSON 字符串，支持 {{prompt}}、{{model}}、{{seconds}}、{{size}}、{{ratio}}、{{resolution}}、{{mode}}、{{images}} 等占位符。 */
+    bodyTemplate: string;
+    /** 任务 ID 在提交响应里的点路径。 */
+    taskIdPath: string;
+    /** 轮询响应里状态字段的点路径，例如 data.status。 */
+    statusPath: string;
+    /** 视为成功的状态值，逗号分隔，例如 succeeded,completed,SUCCESS。 */
+    successValues: string;
+    /** 失败状态值，逗号分隔。 */
+    failureValues: string;
+    /** 视频地址在轮询响应里的点路径，例如 data.output.video_url。 */
+    resultPath: string;
+    /** 错误信息在响应里的点路径。 */
+    errorPath: string;
+};
 
 export type ChannelModel = {
     name: string;
@@ -23,6 +51,8 @@ export type ModelChannel = {
     apiKey: string;
     apiFormat: ApiCallFormat;
     models: ChannelModel[];
+    /** 0.27：仅 apiFormat === "http" 时生效的视频协议配置。 */
+    videoHttp?: VideoHttpConfig;
 };
 
 export type AiConfig = {
@@ -323,6 +353,7 @@ export function createModelChannel(channel?: Partial<ModelChannel>): ModelChanne
         apiKey: channel?.apiKey || "",
         apiFormat,
         models: normalizeChannelModels(channel?.models),
+        ...(apiFormat === "http" ? { videoHttp: normalizeVideoHttpConfig(channel?.videoHttp) } : {}),
     };
 }
 
@@ -476,11 +507,49 @@ function normalizeChannels(config: AiConfig) {
 
 export function defaultBaseUrlForApiFormat(apiFormat: ApiCallFormat) {
     if (apiFormat === "gemini") return GEMINI_BASE_URL;
+    if (apiFormat === "http") return "";
     return OPENAI_BASE_URL;
 }
 
 function normalizeApiFormat(apiFormat: unknown): ApiCallFormat {
-    return apiFormat === "gemini" ? apiFormat : "openai";
+    if (apiFormat === "gemini") return "gemini";
+    if (apiFormat === "http") return "http";
+    return "openai";
+}
+
+/** 0.27：HTTP 协议渠道的默认模板，用户可在此基础上改。 */
+export const DEFAULT_VIDEO_HTTP_CONFIG: VideoHttpConfig = {
+    submitUrl: "{{baseUrl}}/videos",
+    pollUrl: "{{baseUrl}}/videos/{{taskId}}",
+    headers: "",
+    bodyTemplate: '{"model":"{{model}}","prompt":"{{prompt}}","seconds":{{seconds}},"size":"{{size}}","images":{{images}}}',
+    taskIdPath: "id",
+    statusPath: "status",
+    successValues: "completed,succeeded,SUCCESS,SUCCEEDED",
+    failureValues: "failed,error,FAILED,FAILURE",
+    resultPath: "url",
+    errorPath: "error.message",
+};
+
+export function normalizeVideoHttpConfig(value?: Partial<VideoHttpConfig> | null): VideoHttpConfig {
+    const merged = { ...DEFAULT_VIDEO_HTTP_CONFIG, ...(value || {}) } as VideoHttpConfig;
+    return {
+        submitUrl: merged.submitUrl?.trim() ?? DEFAULT_VIDEO_HTTP_CONFIG.submitUrl,
+        pollUrl: merged.pollUrl?.trim() ?? "",
+        headers: merged.headers ?? "",
+        bodyTemplate: merged.bodyTemplate ?? DEFAULT_VIDEO_HTTP_CONFIG.bodyTemplate,
+        taskIdPath: merged.taskIdPath?.trim() ?? "",
+        statusPath: merged.statusPath?.trim() ?? "",
+        successValues: merged.successValues?.trim() ?? "",
+        failureValues: merged.failureValues?.trim() ?? "",
+        resultPath: merged.resultPath?.trim() ?? "",
+        errorPath: merged.errorPath?.trim() ?? "",
+    };
+}
+
+/** 0.27：取指定模型所属渠道的 HTTP 视频协议配置。 */
+export function resolveVideoHttpConfig(config: AiConfig, value: string): VideoHttpConfig {
+    return normalizeVideoHttpConfig(resolveModelChannel(config, value).videoHttp);
 }
 
 function uniqueModelOptions(models: string[]) {

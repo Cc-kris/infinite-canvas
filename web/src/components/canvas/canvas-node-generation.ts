@@ -40,9 +40,11 @@ export type NodeGenerationInput = NodeGenerationResourceInput | NodeGenerationGr
 export function buildNodeGenerationContext(nodeId: string, nodes: CanvasNodeData[], connections: CanvasConnection[], prompt: string): NodeGenerationContext {
     const inputs = buildNodeGenerationInputs(nodeId, nodes, connections);
     const sourceNode = nodes.find((node) => node.id === nodeId);
-    if (sourceNode?.type === CanvasNodeType.Config && Boolean(sourceNode.metadata?.composerContent?.trim())) {
+    // Connections outrank @ mentions: once the node has linked inputs, the composer's @ selection no longer picks resources.
+    if (!inputs.length && sourceNode?.type === CanvasNodeType.Config && Boolean(sourceNode.metadata?.composerContent?.trim())) {
         return buildComposerGenerationContext(inputs, prompt);
     }
+    const linkedPrompt = inputs.length ? resolveLinkedPrompt(prompt, inputs) : prompt;
 
     const resourceInputs = flattenGenerationInputs(inputs);
     let textIndex = 0;
@@ -52,7 +54,7 @@ export function buildNodeGenerationContext(nodeId: string, nodes: CanvasNodeData
     const referenceAudios = resourceInputs.map((input) => input.audio).filter((audio): audio is ReferenceAudio => Boolean(audio));
 
     return {
-        prompt: upstreamText ? `${prompt}\n\n${upstreamText}` : prompt,
+        prompt: upstreamText ? `${linkedPrompt}\n\n${upstreamText}` : linkedPrompt,
         referenceImages,
         referenceVideos,
         referenceAudios,
@@ -61,6 +63,24 @@ export function buildNodeGenerationContext(nodeId: string, nodes: CanvasNodeData
         videoCount: referenceVideos.length,
         audioCount: referenceAudios.length,
     };
+}
+
+/**
+ * 0.27：连线优先时提示词里的 `@[node:id]` 已经不代表"选素材"，就地换成资源标签，
+ * 未出现在连线输入里的 token 直接丢弃，避免把内部标记发给模型。
+ */
+function resolveLinkedPrompt(prompt: string, inputs: NodeGenerationInput[]) {
+    if (!prompt.includes("@[node:")) return prompt;
+    const labelByNodeId = new Map<string, string>();
+    const counts = { image: 0, video: 0, audio: 0, text: 0 };
+    for (const input of flattenGenerationInputs(inputs)) {
+        if (labelByNodeId.has(input.nodeId)) continue;
+        labelByNodeId.set(input.nodeId, generationLabel(input.type, counts[input.type]++));
+    }
+    return prompt
+        .replace(/@\[node:([^\]]+)\]/g, (_match, id: string) => labelByNodeId.get(id) || "")
+        .replace(/[ \t]{2,}/g, " ")
+        .trim();
 }
 
 function buildComposerGenerationContext(inputs: NodeGenerationInput[], prompt: string): NodeGenerationContext {
@@ -191,7 +211,7 @@ function generationLabel(type: NodeGenerationResourceInput["type"], index: numbe
 }
 
 function readReferenceImage(node: CanvasNodeData): ReferenceImage | null {
-    if (node.type !== CanvasNodeType.Image || !node.metadata?.content) return null;
+    if ((node.type !== CanvasNodeType.Image && node.type !== CanvasNodeType.FixedImage) || !node.metadata?.content) return null;
     return {
         id: node.id,
         name: `${node.title || node.id}.png`,

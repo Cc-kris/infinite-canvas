@@ -40,6 +40,11 @@ type DesktopBridge = {
 };
 const bridge = () => (window as unknown as { infiniteCanvasDesktop?: DesktopBridge }).infiniteCanvasDesktop?.agentHub;
 
+/** 0.27：网页版没有桌面桥接，连接页据此显示手填地址的兜底入口。 */
+export function hasDesktopAgentHub() {
+    return Boolean(bridge());
+}
+
 const ICONS: Record<RuntimeId, string> = { claude: "Claude Code", codex: "Codex", galley: "Galley" };
 
 /**
@@ -87,7 +92,18 @@ export function AgentRuntimeCards({
 
     const load = async () => {
         if (!hub) {
-            setError(t("agent.connect.desktopOnly"));
+            // 0.27：网页版没有桌面桥接时，直接问本地 Agent 服务要运行时清单。
+            try {
+                const base = (credRef.current.url || "http://127.0.0.1:17371").replace(/\/$/, "");
+                const currentToken = credRef.current.token;
+                const res = await fetch(`${base}/api/agent/runtimes`, { headers: currentToken ? { "x-canvas-agent-token": currentToken } : {} });
+                const body = await res.json();
+                if (!body?.ok) throw new Error(body?.error || "unavailable");
+                setState({ server: { running: true, url: base, token: currentToken }, runtime: body.runtime || "", mode: "runtime", runtimes: body.runtimes || [] });
+                setError("");
+            } catch (err) {
+                setError(err instanceof Error ? err.message : String(err));
+            }
             return;
         }
         try {
@@ -123,12 +139,25 @@ export function AgentRuntimeCards({
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [serverBusy]);
 
-    /** 点连接：桌面端内部决定走插件还是运行时，成功后直接把可用连接交给面板。 */
+    /** 点连接：桌面端内部决定走插件还是运行时；网页端直连本地服务，成功后把地址交给面板。 */
     const connect = async (runtime: RuntimeCard) => {
         setBusy(runtime.id);
         setError("");
         try {
-            if (!hub) throw new Error(t("agent.connect.desktopOnly"));
+            if (!hub) {
+                const base = (credRef.current.url || "http://127.0.0.1:17371").replace(/\/$/, "");
+                const currentToken = credRef.current.token;
+                const res = await fetch(`${base}/api/agent/runtime`, {
+                    method: "POST",
+                    headers: { "content-type": "application/json", ...(currentToken ? { "x-canvas-agent-token": currentToken } : {}) },
+                    body: JSON.stringify({ runtime: runtime.id }),
+                });
+                const body = await res.json();
+                if (!body?.ok) throw new Error(body?.error || t("agent.connect.connectFailed"));
+                onConnectWith(base, currentToken);
+                await load();
+                return;
+            }
             const result = await hub.connect(runtime.id);
             if (!result.ok || !result.url || !result.token) throw new Error(result.error || t("agent.connect.connectFailed"));
             onConnectWith(result.url, result.token);
@@ -140,12 +169,23 @@ export function AgentRuntimeCards({
         }
     };
 
-    /** 断开：桌面端会退出 Agent 进程。 */
+    /** 断开：桌面端会退出 Agent 进程；网页端让本地服务停掉当前运行时。 */
     const disconnect = async () => {
         setBusy("disconnect");
         setError("");
         try {
-            if (!hub) throw new Error(t("agent.connect.desktopOnly"));
+            if (!hub) {
+                const base = (credRef.current.url || "http://127.0.0.1:17371").replace(/\/$/, "");
+                const currentToken = credRef.current.token;
+                await fetch(`${base}/api/agent/runtime`, {
+                    method: "POST",
+                    headers: { "content-type": "application/json", ...(currentToken ? { "x-canvas-agent-token": currentToken } : {}) },
+                    body: JSON.stringify({ runtime: "" }),
+                });
+                onDisconnect();
+                await load();
+                return;
+            }
             const result = await hub.disconnect();
             if (!result.ok) throw new Error(t("agent.connect.disconnectFailed"));
             onDisconnect();

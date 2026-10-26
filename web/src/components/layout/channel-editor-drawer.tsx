@@ -3,7 +3,7 @@ import { ListPlus, Trash2 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 
-import { defaultBaseUrlForApiFormat, guessCapability, normalizeChannelModels, type ApiCallFormat, type ChannelModel, type ModelCapability, type ModelChannel } from "@/stores/use-config-store";
+import { defaultBaseUrlForApiFormat, guessCapability, normalizeChannelModels, normalizeVideoHttpConfig, type ApiCallFormat, type ChannelModel, type ModelCapability, type ModelChannel, type VideoHttpConfig } from "@/stores/use-config-store";
 import { ModelScriptEditor } from "./model-script-editor";
 import { ModelSelectModal } from "./model-select-modal";
 
@@ -17,6 +17,7 @@ export function ChannelEditorDrawer({ open, channel, onSave, onClose }: { open: 
     const apiFormatOptions: Array<{ label: string; value: ApiCallFormat }> = [
         { label: "OpenAI", value: "openai" },
         { label: "Gemini", value: "gemini" },
+        { label: t("config.channelEditor.httpTitle"), value: "http" },
     ];
     const capabilityOptions: Array<{ label: string; value: ModelCapability }> = ["image", "video", "text", "audio"].map((value) => ({ label: t(`config.channelEditor.capabilities.${value}`), value: value as ModelCapability }));
 
@@ -27,11 +28,13 @@ export function ChannelEditorDrawer({ open, channel, onSave, onClose }: { open: 
     if (!draft) return null;
 
     const patch = (value: Partial<ModelChannel>) => setDraft((current) => (current ? { ...current, ...value } : current));
+    const httpConfig = normalizeVideoHttpConfig(draft?.videoHttp);
+    const patchHttp = (value: Partial<VideoHttpConfig>) => patch({ videoHttp: normalizeVideoHttpConfig({ ...httpConfig, ...value }) });
     const setModels = (models: ChannelModel[]) => patch({ models });
 
     const changeApiFormat = (apiFormat: ApiCallFormat) => {
         const baseUrl = !draft.baseUrl.trim() || draft.baseUrl.trim() === defaultBaseUrlForApiFormat(draft.apiFormat) ? defaultBaseUrlForApiFormat(apiFormat) : draft.baseUrl;
-        patch({ apiFormat, baseUrl });
+        patch({ apiFormat, baseUrl, ...(apiFormat === "http" ? { videoHttp: normalizeVideoHttpConfig(draft.videoHttp) } : {}) });
     };
 
     const applySelection = (names: string[]) => {
@@ -82,6 +85,58 @@ export function ChannelEditorDrawer({ open, channel, onSave, onClose }: { open: 
                     <Input.Password value={draft.apiKey} onChange={(event) => patch({ apiKey: event.target.value })} placeholder="sk-..." />
                 </label>
             </div>
+
+            {draft.apiFormat === "http" ? (
+                <div className="mt-4 rounded-lg border border-stone-200 p-3 dark:border-stone-800">
+                    <div className="text-sm font-semibold">{t("config.channelEditor.httpTitle")}</div>
+                    <div className="mt-1 text-xs leading-5 text-stone-500">{t("config.channelEditor.httpHint")}</div>
+                    <div className="mt-3 grid gap-3 md:grid-cols-2">
+                        <label className="block md:col-span-2">
+                            <span className="mb-1 block text-xs font-medium">{t("config.channelEditor.httpSubmitUrl")}</span>
+                            <Input value={httpConfig.submitUrl} onChange={(event) => patchHttp({ submitUrl: event.target.value })} placeholder="{{baseUrl}}/videos" />
+                        </label>
+                        <label className="block md:col-span-2">
+                            <span className="mb-1 block text-xs font-medium">{t("config.channelEditor.httpPollUrl")}</span>
+                            <Input value={httpConfig.pollUrl} onChange={(event) => patchHttp({ pollUrl: event.target.value })} placeholder="{{baseUrl}}/videos/{{taskId}}" />
+                        </label>
+                        <label className="block md:col-span-2">
+                            <span className="mb-1 block text-xs font-medium">{t("config.channelEditor.httpHeaders")}</span>
+                            <Input.TextArea value={httpConfig.headers} onChange={(event) => patchHttp({ headers: event.target.value })} autoSize={{ minRows: 2, maxRows: 5 }} placeholder='{"Authorization":"Bearer {{apiKey}}"}' />
+                        </label>
+                        <label className="block md:col-span-2">
+                            <span className="mb-1 block text-xs font-medium">{t("config.channelEditor.httpBody")}</span>
+                            <Input.TextArea value={httpConfig.bodyTemplate} onChange={(event) => patchHttp({ bodyTemplate: event.target.value })} autoSize={{ minRows: 4, maxRows: 10 }} spellCheck={false} />
+                        </label>
+                    </div>
+                    <div className="mt-3 text-xs font-medium text-stone-500">{t("config.channelEditor.httpAdvanced")}</div>
+                    <div className="mt-2 grid gap-3 md:grid-cols-2">
+                        <label className="block">
+                            <span className="mb-1 block text-xs font-medium">{t("config.channelEditor.httpTaskIdPath")}</span>
+                            <Input value={httpConfig.taskIdPath} onChange={(event) => patchHttp({ taskIdPath: event.target.value })} placeholder="id" />
+                        </label>
+                        <label className="block">
+                            <span className="mb-1 block text-xs font-medium">{t("config.channelEditor.httpStatusPath")}</span>
+                            <Input value={httpConfig.statusPath} onChange={(event) => patchHttp({ statusPath: event.target.value })} placeholder="status" />
+                        </label>
+                        <label className="block">
+                            <span className="mb-1 block text-xs font-medium">{t("config.channelEditor.httpResultPath")}</span>
+                            <Input value={httpConfig.resultPath} onChange={(event) => patchHttp({ resultPath: event.target.value })} placeholder="url" />
+                        </label>
+                        <label className="block">
+                            <span className="mb-1 block text-xs font-medium">{t("config.channelEditor.httpErrorPath")}</span>
+                            <Input value={httpConfig.errorPath} onChange={(event) => patchHttp({ errorPath: event.target.value })} placeholder="error.message" />
+                        </label>
+                        <label className="block">
+                            <span className="mb-1 block text-xs font-medium">{t("config.channelEditor.httpSuccessValues")}</span>
+                            <Input value={httpConfig.successValues} onChange={(event) => patchHttp({ successValues: event.target.value })} placeholder="completed,succeeded" />
+                        </label>
+                        <label className="block">
+                            <span className="mb-1 block text-xs font-medium">{t("config.channelEditor.httpFailureValues")}</span>
+                            <Input value={httpConfig.failureValues} onChange={(event) => patchHttp({ failureValues: event.target.value })} placeholder="failed,error" />
+                        </label>
+                    </div>
+                </div>
+            ) : null}
 
             <div className="mt-6 mb-3 flex flex-wrap items-center justify-between gap-2">
                 <div>
