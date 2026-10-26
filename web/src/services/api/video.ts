@@ -309,7 +309,7 @@ async function fileToGeminiInline(file: File): Promise<GeminiInlineData> {
 async function createHttpVideoTask(config: AiConfig, model: string, prompt: string, references: ReferenceImage[], options?: VideoMediaOptions): Promise<VideoGenerationTask> {
     const protocol = resolveVideoHttpConfig(config, model);
     const baseUrl = (config.baseUrl || "").trim();
-    const submitUrl = renderHttpTemplate(protocol.submitUrl, { baseUrl, apiKey: config.apiKey, taskId: "" });
+    const submitUrl = renderHttpUrlTemplate(protocol.submitUrl, { baseUrl, apiKey: config.apiKey, taskId: "" });
     if (!submitUrl) throw new Error(apiText("httpSubmitUrlRequired"));
     const images = await Promise.all(references.map((image) => imageToDataUrl(image)));
     const values: Record<string, unknown> = {
@@ -352,7 +352,7 @@ async function pollHttpVideoTask(config: AiConfig, task: VideoGenerationTask, op
     const protocol = resolveVideoHttpConfig(config, task.model);
     const baseUrl = (config.baseUrl || "").trim();
     const values: Record<string, unknown> = { baseUrl, apiKey: config.apiKey, taskId: task.id, model: modelOptionName(task.model) };
-    const pollUrl = renderHttpTemplate(protocol.pollUrl, values);
+    const pollUrl = renderHttpUrlTemplate(protocol.pollUrl, values);
     if (!pollUrl) return { status: "failed", error: apiText("httpPollUrlRequired") };
     try {
         const response = await axios.get(pollUrl, { headers: httpHeaders(protocol, values), signal: options?.signal });
@@ -392,7 +392,18 @@ function httpHeaders(protocol: VideoHttpConfig, values: Record<string, unknown>)
     return headers;
 }
 
-/** 模板占位符 {{key}}：引号内替换为转义后的字符串，引号外替换为 JSON 值。 */
+/**
+ * URL 模板占位符 {{key}}：原样替换为字符串，绝不加引号——`{{baseUrl}}/videos` 必须渲染成
+ * `http://host/videos`，而不是 `"http://host"/videos`。URL 里需要编码的值自己写成整段占位符。
+ */
+function renderHttpUrlTemplate(template: string, values: Record<string, unknown>) {
+    return (template || "").replace(/\{\{\s*(\w+)\s*\}\}/g, (match: string, key: string) => {
+        if (!(key in values)) return match;
+        return String(values[key] ?? "");
+    });
+}
+
+/** 模板占位符 {{key}}：引号内替换为转义后的字符串，引号外替换为 JSON 值（用于 JSON 请求体与请求头）。 */
 function renderHttpTemplate(template: string, values: Record<string, unknown>) {
     return (template || "").replace(/\{\{\s*(\w+)\s*\}\}/g, (match: string, key: string, offset: number, input: string) => {
         if (!(key in values)) return match;
