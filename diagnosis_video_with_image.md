@@ -71,3 +71,39 @@
 - 页面 `video_generation_logs`：`status=success`，`video/mp4` 2.47MB。
 - `<video>`：`readyState=4`、`duration=6.58s`、`768×1344`、blob 地址，可播放。
 - 生成记录列表显示：`以参考图1中的主体和场景 | 480x854 | 480p | 6s | 成功 | 4分24秒`。
+
+## 六、同步修复：画布 + 工作台 + 全协议共用（2026-10-26 第二轮）
+
+用户提问「画布是否也修了参考图过大」，检查后发现压缩只写在了 `createOpenAIVideoTask` 里，覆盖面不够：
+
+| 位置 | 是否压缩 | 说明 |
+| --- | --- | --- |
+| 视频 openai 协议（工作台/画布当前配置） | ✅ 原本已修 | 画布与工作台共用同一份配置，天然共享 |
+| 视频 gemini / http / plugin 协议 | ❌ → ✅ | 之前仍内联原图 |
+| 生图 gemini parts / plugin refs（JSON 内联） | ❌ → ✅ | 同一类坑 |
+| 生图 `images/edits`（multipart 上传） | ❌ → ✅ | 之前直接上传 2MB+ 原图 |
+
+### 做法
+
+压缩逻辑抽到 `web/src/lib/inline-image.ts`，`shrinkInlineImages()` 一处实现，六条路径共用（不再各自复制），这样以后改阈值只改一处。
+
+### 画布真机证据（走真实画布模块，不是模拟）
+
+- 参考图：资产库 `image:3VXWKsdouKJ_G2i23EiWD`（2.28MB PNG，dataURL 2970KB）
+- 画布模块 `hydrateNodeGenerationContext` 取图 → `createVideoGenerationTask`
+- 网络探针：`POST http://127.0.0.1:23210/https://sub2api.1006000.xyz/v1/videos`，**请求体 336,685 字节**
+- 创建耗时 **5.87s**（修复前同尺寸 92~128s 后 CF 524）
+- 任务 `task_Q7tnjGDciQwdZ6T06Yc7hs4l4ibqFl8y` → `completed`
+- 产物：blob **5.04MB**，`video/mp4`，`duration=6.58s`，`768×1344`，可解码
+- 生图 `images/edits`：FormData 总计 **252,417 字节**，其中参考图约 246KB（原 2.28MB）
+
+### 踩到的坑（供下次复用）
+
+- 画布的 `cfg` 必须先用 `resolveModelRequestConfig(raw, raw.videoModel)` 解析：`raw.baseUrl` 是 `api.cc-ai.xyz`（会 404），解析后才是 `sub2api.1006000.xyz`。
+- 画布节点 id 在 `data-node-id` 上，不在 `id` 上；`config-*` 节点的「开始生成」在无提示词时是 disabled。
+- 资产库 `image_files` 是键值库：key 形如 `image:xxx`，value 直接是 Blob，`getAll()` 拿不到 key，必须用游标。
+- 生图尺寸必须 16 的倍数，否则本地就抛错（根本不发请求）。
+
+### 后续约定
+
+工作台（`pages/video`、`pages/image`）与画布（`pages/canvas`、`components/canvas`）共用 `services/api/*`：任何「请求体/协议/轮询」类修复必须落在共享层，并在两边各跑一次真实链路，不能只验一侧。
