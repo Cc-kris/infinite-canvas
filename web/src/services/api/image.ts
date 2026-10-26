@@ -105,8 +105,9 @@ const IMAGE_MAX_PIXELS = 8294400;
 const IMAGE_MAX_EDGE = 3840;
 const IMAGE_MAX_RATIO = 3;
 const IMAGE_OUTPUT_FORMAT = "png";
-// 与 image-storage 的下载超时保持一致，避免接口挂起时节点一直停在生成中。
-const IMAGE_REQUEST_TIMEOUT_MS = 10 * 60_000;
+// 上游图生模型（如 gpt-image-2.5 系列）单张实测 3~4 分钟，一次多张时中转会排队累加，
+// 10 分钟很容易在上游已扣费出图后仍判定超时；放宽到 20 分钟，避免「上游成功、本地失败」。
+const IMAGE_REQUEST_TIMEOUT_MS = 20 * 60_000;
 
 const GEMINI_SUPPORTED_RATIOS = ["1:1", "1:4", "1:8", "2:3", "3:2", "3:4", "4:1", "4:3", "4:5", "5:4", "8:1", "9:16", "16:9", "21:9"];
 

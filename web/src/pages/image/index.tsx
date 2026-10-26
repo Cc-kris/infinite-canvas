@@ -1,4 +1,4 @@
-import { ArrowLeft, ArrowRight, BookOpen, CheckSquare, ClipboardPaste, Download, FolderPlus, History, ImagePlus, LoaderCircle, PenLine, Plus, SlidersHorizontal, Sparkles, Trash2, Upload } from "lucide-react";
+import { ArrowLeft, ArrowRight, BookOpen, CheckSquare, ClipboardPaste, Download, FolderPlus, History, ImagePlus, LoaderCircle, PenLine, Plus, SlidersHorizontal, Sparkles, Trash2, Upload, X } from "lucide-react";
 import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { App, Button, Checkbox, Drawer, Empty, Image, Input, Modal, Tag, Tooltip, Typography } from "antd";
 import localforage from "localforage";
@@ -11,7 +11,7 @@ import { PromptSelectDialog } from "@/components/prompts/prompt-select-dialog";
 import { AssetPickerModal, type InsertAssetPayload } from "@/components/canvas/asset-picker-modal";
 import { canvasThemes } from "@/lib/canvas-theme";
 import { imageReferenceLabel } from "@/lib/image-reference-prompt";
-import { modelOptionLabel, useConfigStore, useEffectiveConfig, type AiConfig } from "@/stores/use-config-store";
+import { resolveModelForCapability, modelOptionLabel, useConfigStore, useEffectiveConfig, type AiConfig } from "@/stores/use-config-store";
 import { useThemeStore } from "@/stores/use-theme-store";
 import { nanoid } from "nanoid";
 import { formatBytes, formatDuration } from "@/lib/image-utils";
@@ -57,6 +57,8 @@ type GenerationLog = {
     quality: string;
     status: "success" | "failed";
     images: GeneratedImage[];
+    // 失败原因（超时 / 鉴权 / 上游报错原文），用于事后排查
+    error?: string;
 };
 
 type GenerationLogConfig = Pick<AiConfig, "model" | "imageModel" | "quality" | "size" | "count">;
@@ -95,13 +97,16 @@ export default function ImagePage() {
     const [deleteConfirmOpen, setDeleteConfirmOpen] = useState(false);
     const [isReferenceDragActive, setIsReferenceDragActive] = useState(false);
     const [autoRunToken, setAutoRunToken] = useState(0);
+    // 生图是单条长连接（实测上游可达 6 分钟），没有取消入口就只能干等，还可能白扣一次费用。
+    const abortRef = useRef<AbortController | null>(null);
     const imageCommand = useWorkbenchAgentStore((state) => state.imageCommand);
     const clearImageCommand = useWorkbenchAgentStore((state) => state.clearImageCommand);
     const updateAgentTask = useWorkbenchAgentStore((state) => state.updateTask);
     const processedCommandRef = useRef(0);
     const agentTaskIdRef = useRef<string | undefined>(undefined);
 
-    const model = effectiveConfig.imageModel || effectiveConfig.model;
+    // 同视频台：imageModel 为空时不要退化到 model（可能是文本/视频模型），按能力解析。
+    const model = resolveModelForCapability(effectiveConfig, effectiveConfig.imageModel, "image");
     const canGenerate = Boolean(prompt.trim());
     const generationCount = Math.max(1, Math.min(10, Number(config.count) || 1));
 
@@ -147,6 +152,13 @@ export default function ImagePage() {
         }
     };
 
+    /** 中断当前这批生成：上游可达数分钟，用户不该只能干等。 */
+    const cancelGeneration = () => {
+        if (!abortRef.current) return;
+        abortRef.current.abort();
+        message.info(t("workbench.canceled"));
+    };
+
     const generate = async () => {
         const agentTaskId = agentTaskIdRef.current;
         agentTaskIdRef.current = undefined;
@@ -177,6 +189,8 @@ export default function ImagePage() {
         const batchStartedAt = performance.now();
         setStartedAt(batchStartedAt);
 
+        const controller = new AbortController();
+        abortRef.current = controller;
         const tasks = Array.from({ length: generationCount }, (_, index) => runGenerationSlot(index, snapshot));
 
         const result = await Promise.allSettled(tasks);
@@ -199,10 +213,12 @@ export default function ImagePage() {
                     failCount,
                     status: successCount ? "success" : "failed",
                     images: successImages,
+                    error: successCount ? undefined : error,
                 }),
             );
             successCount ? message.success(t("imageWorkbench.generated")) : message.error(failed?.reason instanceof Error ? failed.reason.message : t("workbench.generationFailed"));
         } finally {
+            abortRef.current = null;
             setRunning(false);
         }
     };
@@ -321,7 +337,8 @@ export default function ImagePage() {
     const runGenerationSlot = async (index: number, snapshot: { text: string; config: AiConfig; references: ReferenceImage[] }) => {
         const itemStartedAt = performance.now();
         try {
-            const result = snapshot.references.length ? await requestEdit(snapshot.config, snapshot.text, snapshot.references) : await requestGeneration(snapshot.config, snapshot.text);
+            const signal = abortRef.current?.signal;
+            const result = snapshot.references.length ? await requestEdit(snapshot.config, snapshot.text, snapshot.references, signal ? { signal } : undefined) : await requestGeneration(snapshot.config, snapshot.text, signal ? { signal } : undefined);
             const image = result[0];
             if (!image) throw new Error(t("imageWorkbench.missingResult"));
             const stored = await uploadImage(image.dataUrl);
@@ -484,9 +501,16 @@ export default function ImagePage() {
                         </div>
 
                         <div className="mt-auto pt-6">
-                            <Button type="primary" size="large" block icon={<Sparkles className="size-4" />} loading={running} disabled={!canGenerate || running} onClick={() => void generate()}>
-                                {t("workbench.generate")}
-                            </Button>
+                            <div className="flex items-center gap-2">
+                                <Button type="primary" size="large" block icon={<Sparkles className="size-4" />} loading={running} disabled={!canGenerate || running} onClick={() => void generate()}>
+                                    {t("workbench.generate")}
+                                </Button>
+                                {running ? (
+                                    <Button size="large" danger icon={<X className="size-4" />} onClick={cancelGeneration}>
+                                        {t("workbench.cancel")}
+                                    </Button>
+                                ) : null}
+                            </div>
                         </div>
                     </div>
 
@@ -863,6 +887,7 @@ function buildLog({
     failCount,
     status,
     images,
+    error,
 }: {
     prompt: string;
     model: string;
@@ -873,6 +898,8 @@ function buildLog({
     failCount: number;
     status: GenerationLog["status"];
     images: GeneratedImage[];
+    // 失败原因必须落盘：没有它，事后只有「失败了」三个字，谁都查不出是超时、鉴权还是上游报错。
+    error?: string;
 }): GenerationLog {
     const logConfig = {
         model: config.model,
@@ -898,5 +925,6 @@ function buildLog({
         quality: logConfig.quality,
         status,
         images,
+        ...(error ? { error } : {}),
     };
 }

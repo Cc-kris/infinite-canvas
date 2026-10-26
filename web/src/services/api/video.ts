@@ -11,7 +11,17 @@ import { runModelPlugin } from "./model-plugin";
 import type { ReferenceImage } from "@/types/image";
 import type { ReferenceAudio, ReferenceVideo } from "@/types/media";
 
-type VideoResponse = { id: string; status?: string; error?: { message?: string }; url?: string; result_url?: string; video_url?: string; content?: { video_url?: string; url?: string } | null };
+type VideoResponse = {
+    id: string;
+    status?: string;
+    progress?: number;
+    error?: { message?: string };
+    url?: string;
+    result_url?: string;
+    video_url?: string;
+    video?: { url?: string; duration?: number } | null;
+    content?: { video_url?: string; url?: string } | null;
+};
 type ApiVideoResponse = VideoResponse | { code?: number | string; data?: VideoResponse | null; msg?: string; message?: string; error?: { message?: string } };
 type ApiEnvelope<T> = T | { code?: number | string; data?: T | null; msg?: string; message?: string; error?: { message?: string } };
 type RequestOptions = { signal?: AbortSignal };
@@ -184,8 +194,35 @@ async function createOpenAIVideoTask(config: AiConfig, model: string, prompt: st
     }
     videos.forEach((file) => body.append("video[]", file));
     audios.forEach((file) => body.append("audio[]", file));
+    const media: File[] = [...images, ...videos, ...audios];
+    // 部分中转（sub2api 等）的 /videos 只解析 JSON，收到 multipart 会直接 400「Expecting value: line 1 column 1」。
+    // 官方 OpenAI 只认 multipart，因此保持 multipart 优先；纯文本任务被 400/415 拒绝时再用 JSON 重发一次，
+    // 带参考素材的任务仍走 multipart（JSON 无法内联文件）。
+    const jsonFields: Record<string, unknown> = {
+        model: modelOptionName(model),
+        prompt,
+        seconds: normalizeVideoSeconds(config.videoSeconds),
+        size: normalizeVideoSize(config.size, config.vquality) || "1280x720",
+        resolution_name: normalizeVideoResolution(config.vquality),
+        generate_audio: boolConfig(config.videoGenerateAudio, true),
+        watermark: boolConfig(config.videoWatermark, false),
+        mode,
+    };
+    if (ratio && ratio !== "auto") jsonFields.ratio = ratio;
+    const post = (payload: FormData | Record<string, unknown>) => axios.post<ApiVideoResponse>(aiApiUrl(config, "/videos"), payload, {
+        headers: payload instanceof FormData ? aiHeaders(config) : { ...aiHeaders(config), "Content-Type": "application/json" },
+        signal: options?.signal,
+    });
     try {
-        const created = unwrapVideoResponse((await axios.post<ApiVideoResponse>(aiApiUrl(config, "/videos"), body, { headers: aiHeaders(config), signal: options?.signal })).data);
+        let created: ReturnType<typeof unwrapVideoResponse>;
+        try {
+            created = unwrapVideoResponse((await post(body)).data);
+        } catch (error) {
+            const status = (error as { response?: { status?: number } })?.response?.status;
+            const jsonOnly = status === 415 || (status === 400 && !media.length);
+            if (!jsonOnly) throw error;
+            created = unwrapVideoResponse((await post(jsonFields)).data);
+        }
         if (!created.id) throw new Error(apiText("noVideoTaskId"));
         return { id: created.id, provider: "openai", model };
     } catch (error) {
@@ -196,23 +233,23 @@ async function createOpenAIVideoTask(config: AiConfig, model: string, prompt: st
 async function pollOpenAIVideoTask(config: AiConfig, task: VideoGenerationTask, options?: RequestOptions): Promise<VideoGenerationTaskState> {
     try {
         const video = unwrapVideoResponse((await axios.get<ApiVideoResponse>(aiApiUrl(config, `/videos/${task.id}`), { headers: aiHeaders(config), signal: options?.signal })).data);
-        const url = videoResultUrl(video);
-        if (url) return { status: "completed", result: await videoResultFromUrl(url, options) };
-        if (video.status === "completed") {
+        const url = videoResultUrl(video, config);
+        if (url) return { status: "completed", result: await videoResultFromUrl(url, options, aiHeaders(config)) };
+        if (isVideoDoneStatus(video.status)) {
             const content = await axios.get<Blob>(aiApiUrl(config, `/videos/${task.id}/content`), { headers: aiHeaders(config), responseType: "blob", signal: options?.signal });
             await assertVideoBlob(content.data);
             return { status: "completed", result: { blob: content.data } };
         }
-        if (video.status === "failed" || video.status === "cancelled") return { status: "failed", error: readApiErrorMessage(video.error?.message) || apiText("videoGenerationFailed") };
+        if (isVideoFailedStatus(video.status)) return { status: "failed", error: readApiErrorMessage(video.error?.message) || apiText("videoGenerationFailed") };
         return { status: "pending" };
     } catch (error) {
         throw new Error(readAxiosError(error, apiText("videoTaskQueryFailed")));
     }
 }
 
-async function videoResultFromUrl(url: string, options?: RequestOptions): Promise<VideoGenerationResult> {
+async function videoResultFromUrl(url: string, options?: RequestOptions, headers?: Record<string, string>): Promise<VideoGenerationResult> {
     try {
-        const response = await axios.get<Blob>(withLocalProxy(url), { responseType: "blob", signal: options?.signal });
+        const response = await axios.get<Blob>(withLocalProxy(url), { responseType: "blob", headers, signal: options?.signal });
         await assertVideoBlob(response.data);
         return { blob: response.data };
     } catch (error) {
@@ -309,7 +346,7 @@ async function fileToGeminiInline(file: File): Promise<GeminiInlineData> {
 async function createHttpVideoTask(config: AiConfig, model: string, prompt: string, references: ReferenceImage[], options?: VideoMediaOptions): Promise<VideoGenerationTask> {
     const protocol = resolveVideoHttpConfig(config, model);
     const baseUrl = (config.baseUrl || "").trim();
-    const submitUrl = renderHttpUrlTemplate(protocol.submitUrl, { baseUrl, apiKey: config.apiKey, taskId: "" });
+    const submitUrl = withLocalProxy(renderHttpUrlTemplate(protocol.submitUrl, { baseUrl, apiKey: config.apiKey, taskId: "" }));
     if (!submitUrl) throw new Error(apiText("httpSubmitUrlRequired"));
     const images = await Promise.all(references.map((image) => imageToDataUrl(image)));
     const values: Record<string, unknown> = {
@@ -352,7 +389,7 @@ async function pollHttpVideoTask(config: AiConfig, task: VideoGenerationTask, op
     const protocol = resolveVideoHttpConfig(config, task.model);
     const baseUrl = (config.baseUrl || "").trim();
     const values: Record<string, unknown> = { baseUrl, apiKey: config.apiKey, taskId: task.id, model: modelOptionName(task.model) };
-    const pollUrl = renderHttpUrlTemplate(protocol.pollUrl, values);
+    const pollUrl = withLocalProxy(renderHttpUrlTemplate(protocol.pollUrl, values));
     if (!pollUrl) return { status: "failed", error: apiText("httpPollUrlRequired") };
     try {
         const response = await axios.get(pollUrl, { headers: httpHeaders(protocol, values), signal: options?.signal });
@@ -360,16 +397,18 @@ async function pollHttpVideoTask(config: AiConfig, task: VideoGenerationTask, op
         const status = String(httpPathValue(data, protocol.statusPath) ?? "").trim().toLowerCase();
         const success = splitValues(protocol.successValues);
         const failure = splitValues(protocol.failureValues);
-        const result = httpResultFromValue(httpPathValue(data, protocol.resultPath));
+        const result = httpResultFromPaths(data, protocol.resultPath);
+        const resultUrl = result ? resolveHttpResultUrl(result.url as string, baseUrl) : "";
+        const resultHeaders = httpHeaders(protocol, values);
         if (result && (!status || !failure.length || !failure.includes(status))) {
-            return { status: "completed", result: await videoResultFromUrl(result.url as string, options) };
+            return { status: "completed", result: await videoResultFromUrl(resultUrl, options, resultHeaders) };
         }
         if (status && failure.includes(status)) {
             const message = String(httpPathValue(data, protocol.errorPath) ?? "").trim() || apiText("videoTaskFailedGeneric");
             return { status: "failed", error: message };
         }
         if (status && success.length && success.includes(status)) {
-            return result ? { status: "completed", result: await videoResultFromUrl(result.url as string, options) } : { status: "failed", error: apiText("noPlayableVideo") };
+            return result ? { status: "completed", result: await videoResultFromUrl(resultUrl, options, resultHeaders) } : { status: "failed", error: apiText("noPlayableVideo") };
         }
         return { status: "pending" };
     } catch (error) {
@@ -401,6 +440,19 @@ function renderHttpUrlTemplate(template: string, values: Record<string, unknown>
         if (!(key in values)) return match;
         return String(values[key] ?? "");
     });
+}
+
+/**
+ * 结果里的视频地址可能是相对路径（OpenAI 风格的 `/v1/videos/<id>/content`），
+ * 按渠道 baseUrl 补全成绝对地址后再下载；已是绝对地址则原样返回。
+ */
+function resolveHttpResultUrl(url: string, baseUrl: string) {
+    const trimmed = (url || "").trim();
+    if (!trimmed) return "";
+    if (/^(https?:|blob:|data:)/i.test(trimmed)) return trimmed;
+    const base = (baseUrl || "").trim().replace(/\/+$/, "");
+    if (!base) return trimmed;
+    return trimmed.startsWith("/") ? `${base}${trimmed}` : `${base}/${trimmed}`;
 }
 
 /** 模板占位符 {{key}}：引号内替换为转义后的字符串，引号外替换为 JSON 值（用于 JSON 请求体与请求头）。 */
@@ -454,6 +506,32 @@ function httpResultFromValue(value: unknown): VideoGenerationResult | null {
         const record = value as Record<string, unknown>;
         const url = [record.url, record.video_url, record.result_url, record.videoUrl].find((item) => typeof item === "string" && item) as string | undefined;
         if (url) return { url, mimeType: "video/mp4" };
+    }
+    return null;
+}
+
+/** 配置的 resultPath 没命中时，再试这些常见位置——真实厂商的返回结构五花八门（如 video.url）。 */
+const HTTP_RESULT_FALLBACK_PATHS = [
+    "video.url",
+    "video.video_url",
+    "video_url",
+    "videoUrl",
+    "data.video.url",
+    "data.video_url",
+    "data.output.video_url",
+    "output.video_url",
+    "result.video_url",
+    "url",
+];
+
+function httpResultFromPaths(source: unknown, path: string) {
+    const primary = httpResultFromValue(httpPathValue(source, path));
+    if (primary) return primary;
+    const configured = (path || "").trim();
+    for (const candidate of HTTP_RESULT_FALLBACK_PATHS) {
+        if (candidate === configured) continue;
+        const found = httpResultFromValue(httpPathValue(source, candidate));
+        if (found) return found;
     }
     return null;
 }
@@ -512,8 +590,37 @@ function unwrapEnvelope<T>(payload: ApiEnvelope<T>, emptyMessage: string): T {
     return payload as T;
 }
 
-function videoResultUrl(payload: VideoResponse) {
-    return [payload.video_url, payload.result_url, payload.url, payload.content?.video_url, payload.content?.url].find((url) => typeof url === "string" && (isPublicMediaUrl(url) || /\.mp4(\?|#|$)/i.test(url)));
+function videoResultUrl(payload: VideoResponse, config?: Pick<AiConfig, "baseUrl">) {
+    const candidates = [payload.video_url, payload.result_url, payload.url, payload.video?.url, payload.content?.video_url, payload.content?.url];
+    for (const candidate of candidates) {
+        if (typeof candidate !== "string" || !candidate.trim()) continue;
+        const url = resolveVideoMediaUrl(candidate, config);
+        if (url) return url;
+    }
+    return undefined;
+}
+
+/** Some relays（如 sub2api）返回的是相对路径 /v1/videos/<id>/content，需要拼回 baseUrl。 */
+function resolveVideoMediaUrl(raw: string, config?: Pick<AiConfig, "baseUrl">) {
+    const url = raw.trim();
+    if (/^https?:\/\//i.test(url) || url.startsWith("blob:") || url.startsWith("data:")) {
+        return isPublicMediaUrl(url) || /\.mp4(\?|#|$)/i.test(url) || url.startsWith("blob:") || url.startsWith("data:") ? url : undefined;
+    }
+    if (!url.startsWith("/") || !config) return undefined;
+    const baseUrl = config.baseUrl.trim().replace(/\/+$/, "").replace(/\/v1$/i, "");
+    return baseUrl ? `${baseUrl}${url}` : undefined;
+}
+
+const VIDEO_DONE_STATUS = new Set(["completed", "complete", "done", "succeeded", "success", "finished"]);
+const VIDEO_FAILED_STATUS = new Set(["failed", "failure", "error", "cancelled", "canceled"]);
+
+/** 各家中转的完成态命名不一致：OpenAI 用 completed，sub2api 用 done。 */
+function isVideoDoneStatus(status?: string) {
+    return !!status && VIDEO_DONE_STATUS.has(status.trim().toLowerCase());
+}
+
+function isVideoFailedStatus(status?: string) {
+    return !!status && VIDEO_FAILED_STATUS.has(status.trim().toLowerCase());
 }
 
 function readApiErrorMessage(value: unknown): string {

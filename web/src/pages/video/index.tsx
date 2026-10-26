@@ -18,7 +18,7 @@ import { resolveImageUrl, ensureImagePreview, getImagePreviewRevision, previewUr
 import { createVideoGenerationTask, pollVideoGenerationTask, storeGeneratedVideo, type VideoGenerationTask } from "@/services/api/video";
 import { useAssetStore } from "@/stores/use-asset-store";
 import { useWorkbenchAgentStore } from "@/stores/use-workbench-agent-store";
-import { boolConfig, modelOptionLabel, useConfigStore, useEffectiveConfig, type AiConfig } from "@/stores/use-config-store";
+import { boolConfig, modelOptionLabel, resolveModelForCapability, useConfigStore, useEffectiveConfig, type AiConfig } from "@/stores/use-config-store";
 import { useThemeStore } from "@/stores/use-theme-store";
 import type { ReferenceImage } from "@/types/image";
 import i18n from "@/i18n";
@@ -65,6 +65,8 @@ type GenerationLogConfig = Pick<AiConfig, "model" | "videoModel" | "size" | "vqu
 type UpdateAiConfig = <K extends keyof AiConfig>(key: K, value: AiConfig[K]) => void;
 
 const LOG_STORE_KEY = "infinite-canvas:video_generation_logs";
+/** 页面刷新后，超过该时长仍未完成的残留任务直接判定中断，避免永远卡在「生成中」并禁用生成按钮。 */
+const STALE_PENDING_LOG_MS = 60 * 60 * 1000;
 const logStore = localforage.createInstance({ name: "infinite-canvas", storeName: "video_generation_logs" });
 
 export default function VideoPage() {
@@ -102,7 +104,9 @@ export default function VideoPage() {
     const processedCommandRef = useRef(0);
     const agentTaskIdRef = useRef<string | undefined>(undefined);
 
-    const model = effectiveConfig.videoModel || effectiveConfig.model;
+    // 视频台曾经用 videoModel || model 兜底：一旦 videoModel 为空就把生图模型（gpt-image-2）当成视频模型发出去。
+    // 交给能力感知的解析器，只在能力确实不匹配时才切换，且保留失效选择以便配置校验拦住请求。
+    const model = resolveModelForCapability(effectiveConfig, effectiveConfig.videoModel, "video");
     const canGenerate = Boolean(prompt.trim());
 
     useEffect(() => {
@@ -302,8 +306,15 @@ export default function VideoPage() {
     };
 
     const resumePendingLogs = (items: GenerationLog[]) => {
+        const now = Date.now();
         for (const log of items) {
-            if (log.status === "pending" && log.task) void pollGenerationLog(log);
+            if (log.status !== "pending" || !log.task) continue;
+            // 页面刷新/重开后，超时的残留任务标记为中断，避免永远卡在「生成中」并禁用生成按钮
+            if (now - (log.createdAt || 0) > STALE_PENDING_LOG_MS) {
+                void saveLog({ ...log, status: "failed", error: t("videoWorkbench.interrupted") }, false);
+                continue;
+            }
+            void pollGenerationLog(log);
         }
     };
 
