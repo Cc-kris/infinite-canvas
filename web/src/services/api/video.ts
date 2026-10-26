@@ -59,9 +59,20 @@ export async function requestVideoGeneration(config: AiConfig, prompt: string, r
 }
 
 export async function waitForVideoGenerationTask(config: AiConfig, task: VideoGenerationTask, options?: RequestOptions): Promise<VideoGenerationResult> {
+    let transientFailures = 0;
     for (let attempt = 0; attempt < 480; attempt += 1) {
         if (options?.signal?.aborted) throw new DOMException("Aborted", "AbortError");
-        const state = await pollVideoGenerationTask(config, task, options);
+        let state: VideoGenerationTaskState;
+        try {
+            state = await pollVideoGenerationTask(config, task, options);
+            transientFailures = 0;
+        } catch (error) {
+            // 任务已在上游生成（已扣费）时，轮询的瞬时网络故障不能判整条失败
+            if (!isRetryableVideoError(error) || transientFailures >= 40) throw error;
+            transientFailures += 1;
+            await delay(3000, options?.signal);
+            continue;
+        }
         if (state.status === "completed") return state.result;
         if (state.status === "failed") throw videoTaskFailed(state.error);
         if (attempt === 479) throw new Error(apiText("videoTimeout", { provider: "" }));
@@ -147,6 +158,45 @@ function videoPluginResult(result: unknown): VideoGenerationResult {
     throw new Error(apiText("scriptNoVideo"));
 }
 
+// 上游（sub2api/Cloudflare）处理内联图片的成本随 base64 体积线性上升：
+// 实测 1.5MB 请求体要 70s，2.8MB 要 90~128s（Cloudflare 524），4MB 直接 524/502。
+// 因此内联前统一降采样为最长边 1280 的 JPEG，把请求体压到几百 KB，创建任务才有秒级响应。
+const INLINE_IMAGE_MAX_EDGE = 1280;
+const INLINE_IMAGE_MAX_CHARS = 500_000;
+
+function loadImageElement(src: string) {
+    return new Promise<HTMLImageElement>((resolve, reject) => {
+        const image = new Image();
+        image.onload = () => resolve(image);
+        image.onerror = () => reject(new Error("image decode failed"));
+        image.src = src;
+    });
+}
+
+async function shrinkInlineImage(dataUrl: string): Promise<string> {
+    if (!dataUrl.startsWith("data:image/")) return dataUrl;
+    try {
+        const image = await loadImageElement(dataUrl);
+        const scale = Math.min(1, INLINE_IMAGE_MAX_EDGE / Math.max(image.naturalWidth || image.width, image.naturalHeight || image.height));
+        const width = Math.max(1, Math.round((image.naturalWidth || image.width) * scale));
+        const height = Math.max(1, Math.round((image.naturalHeight || image.height) * scale));
+        if (scale === 1 && dataUrl.length <= INLINE_IMAGE_MAX_CHARS) return dataUrl;
+        const canvas = document.createElement("canvas");
+        canvas.width = width;
+        canvas.height = height;
+        const context = canvas.getContext("2d");
+        if (!context) return dataUrl;
+        context.fillStyle = "#fff";
+        context.fillRect(0, 0, width, height);
+        context.drawImage(image, 0, 0, width, height);
+        let output = canvas.toDataURL("image/jpeg", 0.86);
+        if (output.length > INLINE_IMAGE_MAX_CHARS) output = canvas.toDataURL("image/jpeg", 0.7);
+        return output;
+    } catch {
+        return dataUrl;
+    }
+}
+
 export async function storeGeneratedVideo(result: VideoGenerationResult): Promise<UploadedFile> {
     if (result.blob) return uploadMediaFile(result.blob, "video");
     if (result.url) {
@@ -160,7 +210,8 @@ export async function storeGeneratedVideo(result: VideoGenerationResult): Promis
 }
 
 async function createOpenAIVideoTask(config: AiConfig, model: string, prompt: string, references: ReferenceImage[], options?: VideoMediaOptions): Promise<VideoGenerationTask> {
-    const images = await Promise.all(references.map(async (image) => dataUrlToFile({ ...image, dataUrl: await imageToDataUrl(image) })));
+    const imageDataUrls = await Promise.all(references.map((image) => imageToDataUrl(image)));
+    const images = imageDataUrls.map((dataUrl, index) => dataUrlToFile({ ...references[index], dataUrl }));
     const videos = await Promise.all((options?.videos || []).map((video) => referenceMediaToFile(video, "ref.mp4", "invalidReferenceVideo", options)));
     const audios = await Promise.all((options?.audios || []).map((audio) => referenceMediaToFile(audio, "ref.mp3", "invalidReferenceAudio", options)));
     const mode = resolveVideoMode(config.videoMode, images.length);
@@ -195,9 +246,12 @@ async function createOpenAIVideoTask(config: AiConfig, model: string, prompt: st
     videos.forEach((file) => body.append("video[]", file));
     audios.forEach((file) => body.append("audio[]", file));
     const media: File[] = [...images, ...videos, ...audios];
-    // 部分中转（sub2api 等）的 /videos 只解析 JSON，收到 multipart 会直接 400「Expecting value: line 1 column 1」。
-    // 官方 OpenAI 只认 multipart，因此保持 multipart 优先；纯文本任务被 400/415 拒绝时再用 JSON 重发一次，
-    // 带参考素材的任务仍走 multipart（JSON 无法内联文件）。
+    // 部分中转（sub2api 等）的 /videos 只解析 JSON，收到 multipart 会直接 400「Expecting value」/
+    // 「'utf-8' codec can't decode byte 0x89」（后者即 multipart 的 PNG 二进制被当文本解码）。
+    // 官方 OpenAI 只认 multipart，因此保持 multipart 优先；被 400/415 拒绝时再用 JSON 重发一次。
+    // 图片可用 data URL 内联进 JSON（实测 sub2api 的 images[] 字段会被采用，usage.input_image_count=1），
+    // 视频/音频无法内联，只有纯文本或纯图片任务才具备 JSON 回退能力。
+    const inlineImages = !videos.length && !audios.length && imageDataUrls.length > 0;
     const jsonFields: Record<string, unknown> = {
         model: modelOptionName(model),
         prompt,
@@ -209,20 +263,29 @@ async function createOpenAIVideoTask(config: AiConfig, model: string, prompt: st
         mode,
     };
     if (ratio && ratio !== "auto") jsonFields.ratio = ratio;
+    if (inlineImages) jsonFields.images = await Promise.all(imageDataUrls.map(shrinkInlineImage));
     const post = (payload: FormData | Record<string, unknown>) => axios.post<ApiVideoResponse>(aiApiUrl(config, "/videos"), payload, {
         headers: payload instanceof FormData ? aiHeaders(config) : { ...aiHeaders(config), "Content-Type": "application/json" },
         signal: options?.signal,
     });
     try {
-        let created: ReturnType<typeof unwrapVideoResponse>;
-        try {
-            created = unwrapVideoResponse((await post(body)).data);
-        } catch (error) {
-            const status = (error as { response?: { status?: number } })?.response?.status;
-            const jsonOnly = status === 415 || (status === 400 && !media.length);
-            if (!jsonOnly) throw error;
-            created = unwrapVideoResponse((await post(jsonFields)).data);
+        let created: ReturnType<typeof unwrapVideoResponse> | undefined;
+        // 带内联图片时优先 JSON（sub2api 等中转只解析 JSON，multipart 必然 400 且要等十几秒）；
+        // 其余情况仍以官方 OpenAI 的 multipart 为主，JSON 作为中转兼容回退。
+        const payloads: Array<FormData | Record<string, unknown>> = inlineImages ? [jsonFields, body] : [body, jsonFields];
+        let lastError: unknown;
+        for (const payload of payloads) {
+            try {
+                created = unwrapVideoResponse((await post(payload)).data);
+                lastError = undefined;
+                break;
+            } catch (error) {
+                lastError = error;
+                const status = (error as { response?: { status?: number } })?.response?.status;
+                if (!(status === 400 || status === 415 || status === 422)) throw error;
+            }
         }
+        if (!created) throw lastError;
         if (!created.id) throw new Error(apiText("noVideoTaskId"));
         return { id: created.id, provider: "openai", model };
     } catch (error) {
@@ -243,8 +306,23 @@ async function pollOpenAIVideoTask(config: AiConfig, task: VideoGenerationTask, 
         if (isVideoFailedStatus(video.status)) return { status: "failed", error: readApiErrorMessage(video.error?.message) || apiText("videoGenerationFailed") };
         return { status: "pending" };
     } catch (error) {
-        throw new Error(readAxiosError(error, apiText("videoTaskQueryFailed")));
+        const wrapped = new Error(readAxiosError(error, apiText("videoTaskQueryFailed"))) as Error & { retryable?: boolean };
+        wrapped.retryable = isTransientPollFailure(error);
+        throw wrapped;
     }
+}
+
+// 轮询/下载期间的瞬时网络故障：Cloudflare 5xx、边缘节点断连、限流。
+// 上游任务往往已经生成成功（已扣费），这类错误不能让整条任务直接判失败。
+function isTransientPollFailure(error: unknown) {
+    if (axios.isCancel(error)) return false;
+    const status = (error as { response?: { status?: number } } | null)?.response?.status;
+    if (status) return status >= 500 || status === 408 || status === 429;
+    return axios.isAxiosError(error) || error instanceof TypeError;
+}
+
+export function isRetryableVideoError(error: unknown) {
+    return Boolean((error as { retryable?: boolean } | null)?.retryable);
 }
 
 async function videoResultFromUrl(url: string, options?: RequestOptions, headers?: Record<string, string>): Promise<VideoGenerationResult> {

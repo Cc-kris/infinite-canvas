@@ -15,7 +15,7 @@ import { clampVideoSeconds } from "@/lib/media-size";
 import { formatBytes, formatDuration } from "@/lib/image-utils";
 import { deleteStoredMedia, resolveMediaUrl } from "@/services/file-storage";
 import { resolveImageUrl, ensureImagePreview, getImagePreviewRevision, previewUrlFor, subscribeImagePreviews, uploadImage } from "@/services/image-storage";
-import { createVideoGenerationTask, pollVideoGenerationTask, storeGeneratedVideo, type VideoGenerationTask } from "@/services/api/video";
+import { createVideoGenerationTask, isRetryableVideoError, pollVideoGenerationTask, storeGeneratedVideo, type VideoGenerationTask } from "@/services/api/video";
 import { useAssetStore } from "@/stores/use-asset-store";
 import { useWorkbenchAgentStore } from "@/stores/use-workbench-agent-store";
 import { boolConfig, modelOptionLabel, resolveModelForCapability, useConfigStore, useEffectiveConfig, type AiConfig } from "@/stores/use-config-store";
@@ -191,7 +191,7 @@ export default function VideoPage() {
             const task = await createVideoGenerationTask(snapshot.config, snapshot.text, snapshot.references);
             const log = buildLog({ prompt: snapshot.text, model, config: snapshot.config, references: snapshot.references, durationMs: 0, status: "pending", task });
             await saveLog(log, false);
-            void pollGenerationLog(log, snapshot.config, agentTaskId);
+            void pollGenerationLog(log, snapshot.config, agentTaskId, { text: snapshot.text, references: snapshot.references });
         } catch (error) {
             const errorMessage = error instanceof Error ? error.message : t("workbench.generationFailed");
             setResults([{ id: nanoid(), status: "failed", error: errorMessage }]);
@@ -318,16 +318,29 @@ export default function VideoPage() {
         }
     };
 
-    const pollGenerationLog = async (log: GenerationLog, configOverride?: AiConfig, agentTaskId?: string) => {
+    const pollGenerationLog = async (log: GenerationLog, configOverride?: AiConfig, agentTaskId?: string, retryContext?: { text: string; references: ReferenceImage[] }) => {
         if (!log.task || activeLogIdsRef.current.has(log.id)) return;
         activeLogIdsRef.current.add(log.id);
         setRunning(true);
         setStartedAt((value) => value || performance.now());
         setResults((value) => (value.length ? value : [{ id: log.id, status: "pending" }]));
         const taskConfig = buildVideoConfig({ ...effectiveConfig, ...log.config }, log.task.model || log.model);
+        // 上游「内联图写 S3 → 异步读回」的偶发竞态（NoSuchKey），只值得重建一次任务
+        const INLINE_IMAGE_RACE = /open inline image|NoSuchKey/i;
+        let inlineImageRaceRetries = 0;
         try {
-            for (let attempt = 0; attempt < 480; attempt += 1) {
-                const state = await pollVideoGenerationTask(configOverride || taskConfig, log.task);
+            for (let attempt = 0, transientFailures = 0; attempt < 480; attempt += 1) {
+                let state: Awaited<ReturnType<typeof pollVideoGenerationTask>>;
+                try {
+                    state = await pollVideoGenerationTask(configOverride || taskConfig, log.task);
+                    transientFailures = 0;
+                } catch (error) {
+                    // 轮询/下载遇到 Cloudflare 5xx、边缘断连等瞬时故障时继续等，别把已扣费的任务判失败
+                    if (!isRetryableVideoError(error) || transientFailures >= 40) throw error;
+                    transientFailures += 1;
+                    await delay(3000);
+                    continue;
+                }
                 if (state.status === "completed") {
                     const stored = await storeGeneratedVideo(state.result);
                     const nextVideo: GeneratedVideo = {
@@ -346,7 +359,19 @@ export default function VideoPage() {
                     message.success(t("videoWorkbench.generated"));
                     return;
                 }
-                if (state.status === "failed") throw new Error(state.error);
+                if (state.status === "failed") {
+                    // 上游把内联参考图先写 S3、再异步 GET 回来，偶尔竞态报 NoSuchKey；这种失败没扣到有效产物，
+                    // 用同样的参数重建一次任务，避免用户白等一场却只看到失败。
+                    if (retryContext && inlineImageRaceRetries < 1 && INLINE_IMAGE_RACE.test(state.error)) {
+                        inlineImageRaceRetries += 1;
+                        const retryTask = await createVideoGenerationTask(configOverride || taskConfig, retryContext.text, retryContext.references);
+                        log.task = retryTask;
+                        await saveLog({ ...log, task: retryTask, error: undefined }, false);
+                        await delay(2000);
+                        continue;
+                    }
+                    throw new Error(state.error);
+                }
                 if (attempt === 479) throw new Error(t("videoWorkbench.timeout"));
                 await delay(2500);
             }
