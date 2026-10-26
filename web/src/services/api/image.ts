@@ -179,6 +179,30 @@ function resolveRequestSize(size: string) {
     throw new Error(apiText("invalidImageSizeFormat"));
 }
 
+/** 历史记录/外部写入的尺寸可能早于当前规则（例如 480x854），恢复前先判断，避免下一次生成直接在本地报错。 */
+export function isSupportedImageSize(size: string) {
+    const value = String(size || "").trim();
+    if (!value || value.toLowerCase() === "auto") return true;
+    const dimensions = parseImageDimensions(value);
+    if (dimensions) {
+        try {
+            validateImageSize(dimensions.width, dimensions.height);
+            return true;
+        } catch {
+            return false;
+        }
+    }
+    if (value.includes(":")) {
+        try {
+            resolveSize(value);
+            return true;
+        } catch {
+            return false;
+        }
+    }
+    return false;
+}
+
 function resolveGeminiImageConfig(config: AiConfig) {
     const value = config.size.trim();
     const dimensions = parseImageDimensions(value);

@@ -290,3 +290,27 @@
 
 **验证**：页面内连发两轮（"第一轮：只回 OK"→OK、"第二轮：只回 DONE"→DONE），每轮 `sending` 均复位为 false，activity=完成，无重复消息；连接设置卡片与客户端一致（已连接/运行时/CLI 版本/断开连接，无 URL+token 手填）。
 **注意**：canvas-agent 改动需 `npm run build` 后用 `~/.infinite-canvas/agent-server.pid` 精确重启（hub 拉的是 dist/index.js）。
+
+## 2026-10-26 参考图过大：工作台 + 画布 + 全协议统一（提交 768bf41 / 4da7c60）
+
+- **根因不是协议，是体积**：sub2api/Cloudflare 处理内联图的成本随 base64 线性上升（1.5MB≈70s、2.8MB≈90~128s 后 524、5MB≈502）。画布节点/资产库原图是 1.8~2.3MB PNG，内联后请求体必然 2.8MB+。
+- **压缩只在共享层做一次**：`web/src/lib/inline-image.ts`（`shrinkInlineImages`，最长边 1280 JPEG q0.86，>500k 字符降 0.7）。视频 plugin/gemini/http/openai 四条路径 + 生图 gemini parts/plugin refs（JSON 内联）+ `requestEdit`（multipart 上传）全部调用它。**以后调阈值只改这一个文件，别在页面里复制。**
+- **同步验证约定（用户明确要求）**：工作台（`pages/video`、`pages/image`）与画布（`pages/canvas`、`components/canvas`、`canvas-node-generation.ts`）共用 `services/api/*`。任何「请求体 / 协议 / 轮询 / 存储」类修复必须落在共享层，并**两边各跑一次真实链路**才算完成；只验一侧等于没验。
+- 实测数字：画布侧 2.28MB 原图 → `POST /v1/videos` 请求体 336KB，创建 5.87s（修复前同尺寸 92~128s 后 524），任务 completed，blob 5.04MB / 6.58s / 768×1344；生图 `images/edits` FormData 252KB（图片约 246KB），真实改图 27.9s 返回 URL。
+- 踩坑（省下一次摸索）：
+  - 画布/生图配置必须 `resolveModelRequestConfig(raw, raw.videoModel|imageModel)` 解析后再调 API，`raw.baseUrl` 是 `api.cc-ai.xyz`（调 `aiApiUrl` 会 404），解析后才是 `sub2api.1006000.xyz`。
+  - 生图 `size` 必须是 16 的倍数，否则本地直接抛错、根本不发请求。
+  - `image_files` IDB 是键值库（key=`image:xxx` → value=Blob），`getAll()` 丢 key，必须 `openCursor` 拿 key 当 `storageKey`。
+  - `web_execute_js` 长任务只回 ACK：把结果写进 `window.__xxx` 再分次轮询读取。
+
+## 2026-10-26 补：遗漏项的 UI 级复验（真正跑页面，不是只读码）
+
+- **又抓到一个真 bug**：工作台点「开始生成」3 秒即失败、连请求都没发出去，报「图像尺寸的宽高必须是 16 的倍数」。根因是 `pages/image/index.tsx` 的 `previewGenerationLog` 把历史记录里的 `config.size`（`480x854`，既非 16 倍数又低于最小像素）原样恢复，下次点生成直接被本地校验拦住。历史遗留值会「传染」到当前配置。
+- **修法（三处，均为共享层/共用组件）**：
+  1. `services/api/image.ts` 导出 `isSupportedImageSize(size)`，把 `validateImageSize`/`resolveSize` 的校验包成布尔判断。
+  2. `pages/image/index.tsx` 恢复日志配置前先判断，非法值不覆盖当前配置。
+  3. `components/image-settings-panel.tsx`（工作台与画布配置节点共用）加 `useEffect` 自愈：尺寸非法时静默改成 `computeMediaSize("1k", 当前比例)`，用户不会再点了才炸。
+- **UI 实测证据**：`/image` 与 `/canvas/<id>` 两个页面 reload 后 store 里的 `size` 都自动从 `480x854` 变 `864x1536`（DOM + zustand store 双证）。
+- **工作台带大图端到端（真花额度）**：浏览器内造 2.66MB 噪声 PNG 走真实 `input[type=file]`+DataTransfer 上传 → 点「开始生成」→ 请求体 **0.411MB**（压缩 ~84%）→ **4分29秒**返回 → 结果区 `生成结果 864x1536 3.4 MB 4分29秒 加入我的资产 加入参考图 下载`。耗时大头仍在上游排队，不是本地压缩。
+- **验收方法论（下次照做）**：验证必须是「点真实按钮 + 看真实 DOM/网络」，`web_execute_js` 长任务只回 ACK，把结果写 `window.__gen` 再分次轮询；页面 reload 会让 CDP 报 `Inspected target navigated`，直接重发即可。
+- 提醒：`/api/assets/<key>` 这类路径不能直接 fetch（返回空），要造测试大图就在浏览器里用 canvas 生成噪声 PNG 再包成 File。

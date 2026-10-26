@@ -1,10 +1,11 @@
-import { type ReactNode, useState } from "react";
+import { type ReactNode, useEffect, useState } from "react";
 import { ConfigProvider, Switch } from "antd";
 import { useTranslation } from "react-i18next";
 
 import i18n from "@/i18n";
 import { type CanvasTheme, SELECTED_ACCENT, SELECTED_ACCENT_FILL } from "@/lib/canvas-theme";
 import { computeMediaSize, inferMediaRatio, inferMediaScale, mediaRatioOptions, mediaScaleOptions, readMediaDimensions } from "@/lib/media-size";
+import { isSupportedImageSize } from "@/services/api/image";
 import type { AiConfig } from "@/stores/use-config-store";
 
 const qualityOptions = [
@@ -50,6 +51,13 @@ export function ImageSettingsPanel({ config, onConfigChange, theme, showTitle = 
         const height = key === "height" ? next : dimensions.height;
         onConfigChange("size", `${alignDimension(width, snapDimensionToStep)}x${alignDimension(height, snapDimensionToStep)}`);
     };
+    // 旧版本/历史记录可能留下当前规则不接受的尺寸（如 480x854），直接用会在点生成时才报错，这里静默纠正。
+    useEffect(() => {
+        if (activeSize === "auto" || isSupportedImageSize(activeSize)) return;
+        const ratio = selectedRatio === "auto" ? "1:1" : selectedRatio;
+        onConfigChange("size", computeMediaSize("1k", ratio));
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [activeSize]);
 
     return (
         <ImageSettingsTheme theme={theme}>
