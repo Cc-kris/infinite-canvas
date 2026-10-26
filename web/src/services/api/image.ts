@@ -808,7 +808,9 @@ export async function requestEdit(config: AiConfig, prompt: string, references: 
     if (background) {
         formData.set("background", background);
     }
-    const files = await Promise.all(references.map(async (image) => dataUrlToFile({ ...image, dataUrl: await imageToDataUrl(image) })));
+    // multipart 上传同样先瘦身：上游对 2MB+ 原图的处理成本很高，与 JSON 内联是同一个坑
+    const editDataUrls = await shrinkInlineImages(await Promise.all(references.map((image) => imageToDataUrl(image))));
+    const files = await Promise.all(editDataUrls.map((dataUrl, index) => dataUrlToFile({ ...references[index], dataUrl })));
     const imageField = files.length > 1 ? "image[]" : "image";
     files.forEach((file) => formData.append(imageField, file));
 
