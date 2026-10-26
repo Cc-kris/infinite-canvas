@@ -525,7 +525,7 @@ export const DEFAULT_VIDEO_HTTP_CONFIG: VideoHttpConfig = {
     bodyTemplate: '{"model":"{{model}}","prompt":"{{prompt}}","seconds":{{seconds}},"size":"{{size}}","images":{{images}}}',
     taskIdPath: "id",
     statusPath: "status",
-    successValues: "completed,succeeded,SUCCESS,SUCCEEDED",
+    successValues: "completed,succeeded,success,done,SUCCESS,SUCCEEDED,DONE",
     failureValues: "failed,error,FAILED,FAILURE",
     resultPath: "url",
     errorPath: "error.message",
@@ -567,6 +567,42 @@ export function normalizeLocalProxyUrl(value: string) {
     const trimmed = value.trim().replace(/\/+$/, "");
     if (!trimmed) return "";
     return /^https?:\/\//i.test(trimmed) ? trimmed : `http://${trimmed}`;
+}
+
+/** 用户显式关闭代理后记在这里，启动时的自动探测不再覆盖他的选择。 */
+export const LOCAL_PROXY_MANUAL_OFF_KEY = "infinite-canvas:local-proxy-manual-off";
+
+export function rememberLocalProxyChoice(enabled: boolean) {
+    try {
+        if (enabled) localStorage.removeItem(LOCAL_PROXY_MANUAL_OFF_KEY);
+        else localStorage.setItem(LOCAL_PROXY_MANUAL_OFF_KEY, "1");
+    } catch {
+        // 隐私模式下 localStorage 不可用，忽略即可
+    }
+}
+
+export function localProxyDisabledByUser() {
+    try {
+        return localStorage.getItem(LOCAL_PROXY_MANUAL_OFF_KEY) === "1";
+    } catch {
+        return false;
+    }
+}
+
+/**
+ * 探测本机 canvas-proxy 是否在跑。
+ * 桌面端由外壳强制开启代理，浏览器端没有这条链路，跨域中转会被 CORS 挡住；
+ * 因此浏览器端启动时探测一次，探到了就自动走代理，行为和客户端一致。
+ */
+export async function detectLocalProxy(url: string = DEFAULT_LOCAL_PROXY_URL, signal?: AbortSignal) {
+    try {
+        const response = await fetch(`${normalizeLocalProxyUrl(url)}/`, { signal });
+        if (!response.ok) return false;
+        const data = (await response.json()) as { app?: string };
+        return data?.app === "infinite-canvas";
+    } catch {
+        return false;
+    }
 }
 
 /** Prefix an outgoing request with the local forwarding proxy so the browser is not blocked by CORS. */

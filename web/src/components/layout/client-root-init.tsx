@@ -3,7 +3,8 @@ import { useEffect, useRef } from "react";
 import { App } from "antd";
 import { useTranslation } from "react-i18next";
 
-import { useConfigStore } from "@/stores/use-config-store";
+import { isDesktopApp } from "@/lib/desktop";
+import { DEFAULT_LOCAL_PROXY_URL, detectLocalProxy, localProxyDisabledByUser, useConfigStore } from "@/stores/use-config-store";
 import { usePromptSourceScheduler } from "@/hooks/use-prompt-source-scheduler";
 
 export function ClientRootInit({ children }: { children: ReactNode }) {
@@ -14,6 +15,22 @@ export function ClientRootInit({ children }: { children: ReactNode }) {
     const openConfigDialog = useConfigStore((state) => state.openConfigDialog);
 
     usePromptSourceScheduler();
+
+    // 浏览器端：探测本机 canvas-proxy，探到就自动开启代理——和桌面端外壳的行为保持一致，
+    // 否则浏览器直连跨域中转会被 CORS 挡掉（表现为"请求失败"或一直转圈）。
+    useEffect(() => {
+        if (localProxyDisabledByUser()) return; // 用户显式关过，别擅自打开
+        if (isDesktopApp()) return; // 桌面端由外壳负责
+        const controller = new AbortController();
+        void detectLocalProxy(DEFAULT_LOCAL_PROXY_URL, controller.signal).then((ok) => {
+            if (!ok) return;
+            const config = useConfigStore.getState().config;
+            if (config.proxyEnabled) return;
+            useConfigStore.getState().updateConfig("proxyUrl", config.proxyUrl || DEFAULT_LOCAL_PROXY_URL);
+            useConfigStore.getState().updateConfig("proxyEnabled", true);
+        });
+        return () => controller.abort();
+    }, []);
 
     useEffect(() => {
         if (handledConfigParams.current) return;

@@ -15,7 +15,7 @@ import { syncAppDataToWebdav, type AppSyncDomainKey, type AppSyncProgressEvent }
 import { testWebdavConnection, WEBDAV_MANIFEST_FILE_NAME } from "@/services/webdav-sync";
 import { audioFormatOptions, audioVoiceOptions, normalizeAudioSpeedValue } from "@/lib/audio-generation";
 import { computeMediaSize, inferMediaRatio, inferMediaScale, mediaScaleOptions, parseVideoResolution } from "@/lib/media-size";
-import { createModelChannel, modelOptionsFromChannels, normalizeModelOptionValue, selectableModelsByCapability, useConfigStore, type AiConfig, type ApiCallFormat, type ConfigTabKey, type ModelCapability, type ModelChannel } from "@/stores/use-config-store";
+import { createModelChannel, rememberLocalProxyChoice, modelOptionsFromChannels, normalizeModelOptionValue, selectableModelsByCapability, useConfigStore, type AiConfig, type ApiCallFormat, type ConfigTabKey, type ModelCapability, type ModelChannel } from "@/stores/use-config-store";
 
 type ModelGroup = {
     capability: ModelCapability;
@@ -280,6 +280,22 @@ export function AppConfigPanel({ showDoneButton = false, initialTab = "channels"
                                         <span className="text-sm">{t("config.preferences.autoFocusOnSelect")}</span>
                                         <Switch checked={config.autoFocusOnSelect} onChange={(checked) => updateConfig("autoFocusOnSelect", checked)} />
                                     </div>
+                                </Form.Item>
+                                <div className="mb-2 text-sm font-semibold">{t("config.preferences.network")}</div>
+                                <Form.Item className="mb-4" extra={t("config.preferences.proxyEnabledDescription")}>
+                                    <div className="flex items-center justify-between gap-3">
+                                        <span className="text-sm">{t("config.preferences.proxyEnabled")}</span>
+                                        <Switch
+                                            checked={config.proxyEnabled}
+                                            onChange={(checked) => {
+                                                updateConfig("proxyEnabled", checked);
+                                                rememberLocalProxyChoice(checked);
+                                            }}
+                                        />
+                                    </div>
+                                </Form.Item>
+                                <Form.Item label={t("config.preferences.proxyUrl")} className="mb-6">
+                                    <Input value={config.proxyUrl} placeholder={t("config.preferences.proxyUrlPlaceholder")} onChange={(event) => updateConfig("proxyUrl", event.target.value)} />
                                 </Form.Item>
                                 <Form.Item label={t("config.preferences.audioInstructions")} className="mb-4">
                                     <Input.TextArea rows={2} value={config.audioInstructions} placeholder={t("config.preferences.audioInstructionsPlaceholder")} onChange={(event) => updateConfig("audioInstructions", event.target.value)} />
