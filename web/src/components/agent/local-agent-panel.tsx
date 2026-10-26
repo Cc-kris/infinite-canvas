@@ -322,6 +322,9 @@ export function LocalAgentPanel({ embedded, headless, autoConnect }: { embedded?
                 const data = await fetchAgentJson<{ conversation?: AgentConversationState }>(endpoint, token, "/agent/session");
                 if (sequence !== loadThreadsSequenceRef.current) return;
                 if (data.conversation && data.conversation.status !== "idle") applyConversationState(data.conversation);
+                // applyConversationState 可能因线程切换推进 loadThreadsSequenceRef（见 applyWorkspaceChange），
+                // 不同步序列会让 finally 判定被取代而永远不复位 loadingThreads（表现为输入框一直禁用）。
+                sequence = loadThreadsSequenceRef.current;
                 setAgentState({ threads: [], workspacePath: "" });
                 void applyRuntimeMcp(endpoint, token);
                 return;
@@ -1378,7 +1381,17 @@ export function LocalAgentPanel({ embedded, headless, autoConnect }: { embedded?
                 liveTurnKeysRef.current.add(`${scope.threadId}\0${scope.turnId}`);
             }
             const current = useAgentStore.getState();
+            // Claude / Galley 桥只发 agent_event(turn.completed)，不会像 Codex 那样再发 codex_state，
+            // 因此必须在这里收尾 sending/waiting，否则首轮之后发送按钮永远卡在“发送中”。
+            const isCurrentThread = !scope.threadId || scope.threadId === current.activeThreadId;
             setAgentState({
+                ...(isCurrentThread && (current.sending || current.waiting)
+                    ? {
+                        sending: false,
+                        waiting: false,
+                        activity: event.status === "failed" ? rt("processingFailed") : rt("completed"),
+                    }
+                    : {}),
                 activeTurnId: current.activeTurnId === scope.turnId ? "" : current.activeTurnId,
                 messages: current.messages.map((message) => message.threadId === scope.threadId && message.turnId === scope.turnId && message.streamId ? { ...message, streamId: undefined } : message),
             });

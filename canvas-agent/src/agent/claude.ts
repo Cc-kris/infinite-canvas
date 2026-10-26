@@ -51,10 +51,12 @@ export function runClaudeTurn({ prompt, emit, model }: ClaudeTurnOptions) {
 
 /** 组装 Claude CLI 参数：带模型、续接会话与画布 MCP 工具白名单。 */
 function buildArgs(prompt: string, model?: string) {
-    const args = ["-p", "--output-format", "stream-json", "--verbose", "--include-partial-messages", "--allowedTools", "mcp__infinite-canvas__*"];
+    // --allowedTools 是可变参数选项，会把它后面的位置参数当成工具名吞掉；
+    // prompt 必须排在它之前，否则 CLI 报 "Input must be provided"（退出码 1）。
+    const args = ["-p", "--output-format", "stream-json", "--verbose", "--include-partial-messages"];
     if (model && model !== "default") args.push("--model", model);
     if (currentSessionId) args.push("--resume", currentSessionId);
-    args.push(prompt);
+    args.push(prompt, "--allowedTools", "mcp__infinite-canvas__*");
     return args;
 }
 

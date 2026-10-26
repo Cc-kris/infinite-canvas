@@ -8,16 +8,20 @@ import { RouterProvider } from "react-router-dom";
 import { AppProviders } from "@/components/layout/app-providers";
 import "@/i18n";
 import { initAnalytics } from "@/lib/analytics";
+import { installLocalAgentHub } from "@/lib/local-agent-hub";
 import { router } from "@/router";
 
 initAnalytics();
 
 document.body.style.fontFamily = '"SF Pro Display","SF Pro Text","PingFang SC","Microsoft YaHei","Helvetica Neue",sans-serif';
 
-createRoot(document.getElementById("root")!).render(
-    <React.StrictMode>
-        <AppProviders>
-            <RouterProvider router={router} />
-        </AppProviders>
-    </React.StrictMode>,
-);
+// 本机 dev 环境先接上 Agent 桥接垫片：连接页据此直接出示卡片，不再要求手填地址。
+void installLocalAgentHub().finally(() => {
+    createRoot(document.getElementById("root")!).render(
+        <React.StrictMode>
+            <AppProviders>
+                <RouterProvider router={router} />
+            </AppProviders>
+        </React.StrictMode>,
+    );
+});
