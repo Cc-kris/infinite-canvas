@@ -272,3 +272,21 @@
 
 ## 网页版 Agent 面板（2026-10-24）
 - 网页版**有** Agent 面板：`layouts/user-layout.tsx` 挂 `<AgentPanel />`，无 Electron 门控；连接方式是填本地 Canvas Agent 地址+token（`services/api/canvas-agent.ts`，需本机跑 canvas-agent）。本机当时没跑 canvas-agent，页面显示「未连接」。
+
+## v0.27 真实数据/页面验证手法与踩坑（2026-10-26）
+- **别只做 UI 点检**：页面里 `await import('/src/...ts')`（Vite dev 直接编译 TS）就能跑真模块，零成本验逻辑，比读代码可信。跑 `canvas-node-generation` / `canvas-resource-references` 这类依赖节点注册表的模块，**必须先 `await import('/src/components/canvas/nodes/builtin-nodes.tsx')` 调 `registerBuiltinNodes()`**，否则 `getNodeDefinition` 全空、`referenceImages` 假性为 0——我在这上面误判过一次「fixedImage 不被识别」，其实代码是对的。
+- 真实数据查法：IDB `infinite-canvas` / `app_state` / `infinite-canvas:canvas_store`（`db.transaction('app_state')` + `store.get(key)`，值是 JSON 字符串）。遍历 `state.projects` 得到每个画布 `{id,name,nodes.length,connections.length}`；实测本机两个画布：`0v-MdkxjdtaebYLLGspor`「无限画布 2」1 节点（fixedImage 落库证据）、`Z1EEWcwokfUMHKW19egIY`「亚马逊出图sop」40 节点/47 连线（回归基线）。
+- 页面回归判据：`document.querySelectorAll('[data-node-id]').length` 只数**顶层可见框**（分组折叠时远小于节点数，40 节点只渲染 6 个是正常的），真正的完整性看左栏计数（与库里 nodes.length 对齐）+「错误节点数 = 0」。
+- **HTTP 视频协议 URL 模板坑（已修 750c44b）**：`renderHttpTemplate` 在引号外走 `JSON.stringify`，给 URL 占位符加上引号 → XHR 实际请求变成 `"http://host"/submit?k="key"`，提交 404、轮询失败。修法：URL 用新增的 `renderHttpUrlTemplate`（原样 `String()` 替换），只有请求体/请求头继续用 JSON 版。以后凡是「模板里塞 URL」的地方都要用 URL 版。
+- 真请求联调夹具：临时起 `python3` 假视频服务（POST /submit→`{"code":0,"data":{"task_id":...}}`、GET /poll/<id>→`SUCCESS`+`video_url`、GET /v.mp4 返字节），把渠道 `baseUrl` 指过去即可跑通「提交→轮询→下载」全链路；用 `XMLHttpRequest.prototype.open` 打点能直接看到真实 URL（本次靠它才发现引号 bug）。
+
+## 2026-10-26 网页版 Agent 与客户端对齐（已完成）
+
+三处根因（均已修复并实测，提交 6d8f19d）：
+
+1. **输入框永久禁用** — `local-agent-panel.tsx loadThreads` 非 Codex 分支调用 `applyConversationState` 会因线程切换推进 `loadThreadsSequenceRef`，`finally` 里序列号不匹配就永不复位 `loadingThreads`（composer disabled 条件之一）。修法：apply 之后同步 `sequence = loadThreadsSequenceRef.current`（Codex 分支本来就有这一行）。
+2. **发送后报 "Claude 退出码 1"** — `canvas-agent/src/agent/claude.ts buildArgs` 把 prompt 放在 `--allowedTools` 之后；该选项是可变参数，吞掉位置参数，CLI 报 `Input must be provided`。修法：prompt 排在 `--allowedTools` 之前。
+3. **首轮回复后发送按钮卡“发送中”** — Claude/Galley 桥只发 `agent_event/turn.completed`，不发 `codex_state`，而前端只在 `codex_state(busy=false)` 里清 `sending`。修法：`turn.completed` 分支对当前线程收尾 `sending/waiting`。
+
+**验证**：页面内连发两轮（"第一轮：只回 OK"→OK、"第二轮：只回 DONE"→DONE），每轮 `sending` 均复位为 false，activity=完成，无重复消息；连接设置卡片与客户端一致（已连接/运行时/CLI 版本/断开连接，无 URL+token 手填）。
+**注意**：canvas-agent 改动需 `npm run build` 后用 `~/.infinite-canvas/agent-server.pid` 精确重启（hub 拉的是 dist/index.js）。
