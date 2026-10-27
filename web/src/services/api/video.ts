@@ -174,6 +174,56 @@ export async function storeGeneratedVideo(result: VideoGenerationResult): Promis
     throw new Error(apiText("noPlayableVideo"));
 }
 
+/** 边缘/网关层瞬时故障：Cloudflare 520/522/524、源站过载 502/503、限流 429。上游多半没受理请求。 */
+const TRANSIENT_GATEWAY_STATUSES = new Set([408, 425, 429, 500, 502, 503, 504, 520, 521, 522, 523, 524, 525]);
+
+function requestStatus(error: unknown) {
+    return (error as { response?: { status?: number } } | null)?.response?.status;
+}
+
+/**
+ * 官方 OpenAI 只吃 multipart；其余（sub2api 等中转）只解析 JSON。
+ * 先发 JSON 可以省掉一次注定 400、还要等十几秒的 multipart 往返，也少一次上游压力。
+ */
+function prefersJsonFirst(baseUrl: string) {
+    try {
+        const host = new URL(baseUrl).host.toLowerCase();
+        return !(host === "openai.com" || host.endsWith(".openai.com"));
+    } catch {
+        return false;
+    }
+}
+
+/** 网关 5xx / 连接被掐：退避重试，避免"点一下生成就报 Cloudflare 错误"。 */
+async function withGatewayRetry<T>(run: () => Promise<T>, attempts = 3): Promise<T> {
+    let lastError: unknown;
+    for (let attempt = 1; attempt <= attempts; attempt += 1) {
+        try {
+            return await run();
+        } catch (error) {
+            lastError = error;
+            if (axios.isCancel(error)) throw error;
+            const status = requestStatus(error);
+            const transient = status ? TRANSIENT_GATEWAY_STATUSES.has(status) : axios.isAxiosError(error);
+            if (!transient || attempt === attempts) throw error;
+            await new Promise((resolve) => setTimeout(resolve, attempt === 1 ? 800 : 2000));
+        }
+    }
+    throw lastError;
+}
+
+/** 失败信息带上状态码与目标地址，用户截图就能定位是哪一步、哪个域。 */
+function withRequestDiagnosis(message: string, status: number | undefined, baseUrl: string, path: string) {
+    let endpoint = baseUrl.trim();
+    try {
+        endpoint = new URL(baseUrl.trim()).host;
+    } catch {
+        // baseUrl 不规范时保留原文
+    }
+    const trimmed = message.length > 180 ? `${message.slice(0, 180)}…` : message;
+    return `${trimmed} · ${endpoint}${path}${status ? ` · HTTP ${status}` : ""}`;
+}
+
 async function createOpenAIVideoTask(config: AiConfig, model: string, prompt: string, references: ReferenceImage[], options?: VideoMediaOptions): Promise<VideoGenerationTask> {
     const imageDataUrls = await Promise.all(references.map((image) => imageToDataUrl(image)));
     const images = imageDataUrls.map((dataUrl, index) => dataUrlToFile({ ...references[index], dataUrl }));
@@ -236,17 +286,18 @@ async function createOpenAIVideoTask(config: AiConfig, model: string, prompt: st
     try {
         let created: ReturnType<typeof unwrapVideoResponse> | undefined;
         // 带内联图片时优先 JSON（sub2api 等中转只解析 JSON，multipart 必然 400 且要等十几秒）；
-        // 其余情况仍以官方 OpenAI 的 multipart 为主，JSON 作为中转兼容回退。
-        const payloads: Array<FormData | Record<string, unknown>> = inlineImages ? [jsonFields, body] : [body, jsonFields];
+        // 官方 OpenAI 之外的中转同样先发 JSON，只对 api.openai.com 保留 multipart 优先。
+        const jsonFirst = inlineImages || prefersJsonFirst(config.baseUrl);
+        const payloads: Array<FormData | Record<string, unknown>> = jsonFirst ? [jsonFields, body] : [body, jsonFields];
         let lastError: unknown;
         for (const payload of payloads) {
             try {
-                created = unwrapVideoResponse((await post(payload)).data);
+                created = unwrapVideoResponse((await withGatewayRetry(() => post(payload), 3)).data);
                 lastError = undefined;
                 break;
             } catch (error) {
                 lastError = error;
-                const status = (error as { response?: { status?: number } })?.response?.status;
+                const status = requestStatus(error);
                 if (!(status === 400 || status === 415 || status === 422)) throw error;
             }
         }
@@ -254,7 +305,7 @@ async function createOpenAIVideoTask(config: AiConfig, model: string, prompt: st
         if (!created.id) throw new Error(apiText("noVideoTaskId"));
         return { id: created.id, provider: "openai", model };
     } catch (error) {
-        throw new Error(readAxiosError(error, apiText("videoTaskCreateFailed")));
+        throw new Error(withRequestDiagnosis(readAxiosError(error, apiText("videoTaskCreateFailed")), requestStatus(error), config.baseUrl, "/videos"));
     }
 }
 
@@ -264,9 +315,12 @@ async function pollOpenAIVideoTask(config: AiConfig, task: VideoGenerationTask, 
         const url = videoResultUrl(video, config);
         if (url) return { status: "completed", result: await videoResultFromUrl(url, options, aiHeaders(config)) };
         if (isVideoDoneStatus(video.status)) {
-            const content = await axios.get<Blob>(aiApiUrl(config, `/videos/${task.id}/content`), { headers: aiHeaders(config), responseType: "blob", signal: options?.signal });
-            await assertVideoBlob(content.data);
-            return { status: "completed", result: { blob: content.data } };
+            const blob = await withGatewayRetry(async () => {
+                const content = await axios.get<Blob>(aiApiUrl(config, `/videos/${task.id}/content`), { headers: aiHeaders(config), responseType: "blob", signal: options?.signal });
+                await assertVideoBlob(content.data);
+                return content.data;
+            }, 3);
+            return { status: "completed", result: { blob } };
         }
         if (isVideoFailedStatus(video.status)) return { status: "failed", error: readApiErrorMessage(video.error?.message) || apiText("videoGenerationFailed") };
         return { status: "pending" };
@@ -292,9 +346,12 @@ export function isRetryableVideoError(error: unknown) {
 
 async function videoResultFromUrl(url: string, options?: RequestOptions, headers?: Record<string, string>): Promise<VideoGenerationResult> {
     try {
-        const response = await axios.get<Blob>(withLocalProxy(url), { responseType: "blob", headers, signal: options?.signal });
-        await assertVideoBlob(response.data);
-        return { blob: response.data };
+        const blob = await withGatewayRetry(async () => {
+            const response = await axios.get<Blob>(withLocalProxy(url), { responseType: "blob", headers, signal: options?.signal });
+            await assertVideoBlob(response.data);
+            return response.data;
+        }, 2);
+        return { blob };
     } catch (error) {
         if (axios.isCancel(error) || options?.signal?.aborted) throw error;
         return { url, mimeType: "video/mp4" };
@@ -411,19 +468,19 @@ async function createHttpVideoTask(config: AiConfig, model: string, prompt: stri
     const parsedBody = parseHttpJson(bodyText);
     if (!parsedBody) throw new Error(apiText("httpBodyInvalidJson"));
     try {
-        const response = await axios.post(submitUrl, parsedBody, { headers: httpHeaders(protocol, values), signal: options?.signal });
+        const data = (await withGatewayRetry(() => axios.post(submitUrl, parsedBody, { headers: httpHeaders(protocol, values), signal: options?.signal }), 3)).data;
         if (!protocol.pollUrl.trim()) {
-            const direct = httpResultFromValue(httpPathValue(response.data, protocol.resultPath));
+            const direct = httpResultFromValue(httpPathValue(data, protocol.resultPath));
             if (!direct) throw new Error(apiText("noPlayableVideo"));
             const id = nanoid();
             httpVideoResults.set(id, direct);
             return { id, provider: "http", model };
         }
-        const taskId = String(httpPathValue(response.data, protocol.taskIdPath) ?? "").trim();
+        const taskId = String(httpPathValue(data, protocol.taskIdPath) ?? "").trim();
         if (!taskId) throw new Error(apiText("noVideoTaskId"));
         return { id: taskId, provider: "http", model };
     } catch (error) {
-        throw new Error(readAxiosError(error, apiText("videoTaskCreateFailed")));
+        throw new Error(withRequestDiagnosis(readAxiosError(error, apiText("videoTaskCreateFailed")), requestStatus(error), baseUrl, " · 提交"));
     }
 }
 
@@ -456,7 +513,10 @@ async function pollHttpVideoTask(config: AiConfig, task: VideoGenerationTask, op
         }
         return { status: "pending" };
     } catch (error) {
-        return { status: "failed", error: readAxiosError(error, apiText("videoTaskCreateFailed")) };
+        // 轮询遇到网关瞬时故障（520/524/断连）不能判任务失败——上游很可能还在生成，
+        // 判失败会让画布节点红灯、用户重试后重复扣费。
+        if (axios.isCancel(error) || options?.signal?.aborted) return { status: "failed", error: readAxiosError(error, apiText("videoTaskCreateFailed")) };
+        return { status: "pending" };
     }
 }
 
