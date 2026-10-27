@@ -35,6 +35,8 @@
         "files": [
             "main.js",
             "agent-hub.js",
+            "agent-plugin.js",
+            "agent-detect.js",
             "preload.cjs",
             "package.json"
         ],

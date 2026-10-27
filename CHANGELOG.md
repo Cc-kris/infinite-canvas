@@ -2,6 +2,9 @@
 
 ## Unreleased
 
++ [修复] 打包版客户端一启动就白窗、不连代理、也连不上 Agent：`build.files` 白名单漏了 `agent-plugin.js` 与它依赖的 `agent-detect.js`，`agent-hub.js` 一 import 就 `ERR_MODULE_NOT_FOUND`。已把两个文件加进打包清单，`electron-builder --dir` 产物实跑通过（窗口正常、代理自起、真实生图 200 / 27.8 秒 / 2.02 MB）。
++ [新增] 主进程致命错误落地：打包版没有终端，出错时只剩一个信息为空的弹窗。现在 `uncaughtException` / `unhandledRejection` 先写入 `~/Library/Application Support/<userData>/main-errors.log`（含堆栈），再照旧弹窗，装到用户机器上也能拿到可排查的证据。
+
 + [修复] 「要不要走系统代理」现在只有一份判定（`canvas-proxy/system-proxy.js`），网页版与桌面客户端共用：桌面端启动代理前先探测系统代理，没有就只挂直连通道，不再宣称一条机器上并不存在的跳转；`GET /` 新增 `route` 字段，报告最近一次请求实际走过的通道（`system` / `direct`），排查时两端都能自证。实测：系统代理开 → `route: system`；用 `CANVAS_PROXY_DISABLE_SYSTEM_PROXY=1` 关掉 → `transports: ["direct"]`。
 + [新增] 网页版 dev server 自动拉起本地转发代理：`vite` 启动时若 `127.0.0.1:23210` 无人监听就自己起一个（已有人在跑则直接复用），不必再手动开命令或填代理地址；关掉 dev server 时代理一起收尾。第一跳与第二跳因此都是默认生效的。
 + [修复] 同一个代理包在「没有系统代理」时把自己上报成 `node` 通道，与「有系统代理」时的 `direct` 兜底名字不一致；现统一为 `direct`。

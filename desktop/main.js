@@ -14,6 +14,30 @@ const here = path.dirname(fileURLToPath(import.meta.url));
 const isDev = !app.isPackaged;
 
 /**
+ * Packaged builds have no terminal attached, so a throw during startup used to end in a bare dialog
+ * with nothing to act on. Mirror every fatal error into a file next to the app's user data first, then
+ * hand it to the same dialog Electron would have shown — the user keeps the message, we keep the stack.
+ */
+const fatalLogPath = path.join(app.getPath("userData"), "main-errors.log");
+function recordFatal(kind, error) {
+    const detail = error instanceof Error ? error.stack || error.message : String(error);
+    try {
+        appendFileSync(fatalLogPath, `[${new Date().toISOString()}] ${kind}\n${detail}\n\n`);
+    } catch {
+        // Logging must never be the thing that turns a startup problem into a crash.
+    }
+    return detail;
+}
+process.on("uncaughtException", (error) => {
+    const detail = recordFatal("uncaughtException", error);
+    if (app.isReady()) dialog.showErrorBox("启动失败", detail);
+    else process.stderr.write(`${detail}\n`);
+});
+process.on("unhandledRejection", (error) => {
+    recordFatal("unhandledRejection", error);
+});
+
+/**
  * Remote-desktop / headless use: when the physical display sleeps or another window covers the app,
  * macOS reports the window as occluded and Chromium throttles painting/timers to roughly one frame
  * per second. Everything still *works*, but the picture lags seconds behind the click. A desktop app
