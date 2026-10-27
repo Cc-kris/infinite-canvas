@@ -368,3 +368,62 @@
 | `CANVAS_PROXY_DISABLE_SYSTEM_PROXY=1` | null（transports `["direct"]`） | — | — |
 
 **踩坑**：`pkill -f '/electron '` 匹配不到桌面端（真实命令行是 `.../.bin/electron/cli.js .` 和 `Electron.app/Contents/MacOS/Electron`），会留下还占着 23210/23211 的实例，导致下次启动「复用」了本该关掉的代理；收尾要用 `lsof -nP -iTCP:23210 -sTCP:LISTEN -t` 拿真实 PID 再 kill。
+
+## 2026-10-27 LinkFox 复刻可行性（结论已定，别再重做一次调研）
+
+- 报告：`docs/analysis/linkfox-replica-feasibility.md`（仓库内），原始证据 `routes.txt/endpoints.txt/*_text.txt` 在项目目录 `analysis-linkfox-20261027/`。
+- 硬结论：**不能 1:1**。LinkFox = 97 路由 / 328 接口 / 57 个 `/draw/*` 工具，但真正卡死的是数据层与商业层（选品数据要卖家精灵/Sif/Sorftime 授权、合规专利库、SP-API 报表、算力计费/团队席位/微信登录），与无限画布「本地优先 + 无账号 + 用户自备 Key」架构冲突；视觉/模板工具反而好抄（13 个商品图工具本质是同一套 image-edit + 不同 prompt/尺寸）。
+- 建议路线（3 阶段）：套图模板 + 批量任务队列（3–4 周）→ 抠图/换色/扩图/高清等确定性修图（6–8 周）→ 视频管线（8–12 周）；数据类用 `skill.linkfox.com` 的 MCP 外挂，不自研。
+- 工具坑：REA 的 `accessibility.text_capture` 对本站返回 `not_approved`，节点 `name` 全 null、`network.requests` 为空（attach 晚于加载）；页面文案只能用 CDP `Runtime.evaluate(document.body.innerText)` 取，接口地图只能靠 `analyze-web-bundle` 的 `observations.routes/endpoints`。
+
+## 发版（2026-10-27 · v0.28.0 教训）
+- **发版只认 CI**：`.github/workflows/desktop-release.yml` 由 tag `desktop-v*` 或 `gh workflow run desktop-release.yml --ref main -f version=desktop-vX.Y.Z` 触发，自动出 mac arm64+x64 dmg + win exe 并发布。缺 `desktop/release-notes/<版本>.md` 会让 build 全 success 但 release job 失败（报 missing ... 一版一文件）。本地 `electron-builder` 手工打包是兜底路径，会漏 Win 包。
+
+## 桌面端版本与「固定图片」入口（2026-10-27）
+- **用户机器上 app 可能根本没换版本**：`/Applications/Infinite Canvas.app` 从 10-23 起一直是 0.26.0（mtime 未变、renderer 里 grep 不到该版本新功能），用户口头说"更新了新版本"不等于真装上。判断版本只信两条硬证据：`PlistBuddy -c 'Print :CFBundleShortVersionString'` + 在 `Contents/Resources/renderer/assets/index-*.js` 里 grep 功能关键字（0 命中 = 旧包）。本次已代装 0.28.0，旧版备份在 `~/Applications/Infinite Canvas 0.26.0.bak`。
+- **「固定图片」是独立节点类型，不是图片节点的配置项**：入口是画布空白处双击弹出的创建菜单（`NodeCreateMenu`，文案「选择节点」列表里第 3 项，副标题「生成结果写回本节点，位置与数量不变」），或从节点手柄拖线弹出的 `ConnectionCreateMenu`。左侧「画布元素」面板不列它。用户问"为什么图片节点里没有"，先答入口位置，别改代码。
+- **桌面端 UI 验收的可复用手法**：起独立实例
+  `'/Applications/Infinite Canvas.app/Contents/MacOS/Infinite Canvas' --remote-debugging-port=9444 --user-data-dir=/tmp/ic-verify &`
+  （换个 user-data-dir 就绕开单实例锁，不动用户正在用的窗口）→ `curl 127.0.0.1:9444/json` 拿 ws → **python websocket-client 必须 `suppress_origin=True`**，否则 403 `Rejected an incoming WebSocket connection`。接口页是 `http://127.0.0.1:2321x/`，画布路由 `/canvas/<id>`；空画布要先点「新建画布」。触发创建菜单用 `Input.dispatchMouseEvent` 发两次 clickCount=2 的双击（JS dispatchEvent 不可靠）；读菜单文本用 `getComputedStyle(el).width===240 && zIndex==='120'` 定位，`[data-canvas-no-zoom]` 会误中整个外壳。
+
+## 画布底部工具条加节点按钮（2026-10-27，commit 35e5652）
+- 底部工具条是 `web/src/components/canvas/canvas-toolbar.tsx`，**逐个硬编码** `ToolbarButton`（onAddText/onAddImage/onAddVideo/onAddAudio/onAddConfig/onAddGroup），没有按 `listNodeDefinitions()` 遍历 —— 所以新增节点类型（如 FixedImage）必须在三处同时改：`canvas-toolbar.tsx`（import 图标 + 解构 + 类型 + 按钮）、`pages/canvas/project.tsx`（传 `onAddXxx={() => createNode(CanvasNodeType.Xxx)}`）、`i18n/locales/{zh-CN,en-US}.ts` 的 `toolbar` 段。漏任一处则按钮不显示或 label 为空。
+- `ToolbarButton` 的 `id` prop **不落到 DOM**（<div id> 查不到），UI 验收要按 `[aria-label]` 抓，顺序即按钮顺序。
+- 桌面端 UI 验收免重打包技巧：`isDev = !app.isPackaged`，所以 `cd desktop && ./node_modules/.bin/electron . --remote-debugging-port=9445 --user-data-dir=/tmp/ic-verify2` 直接加载仓库里的 `web/dist`（先 `pnpm --dir web build`），用独立 user-data-dir 绕开单实例锁；画布节点 DOM 用 `[data-node-id]`（值形如 `fixedImage-<ts>-<rand>`），**不是** `.react-flow__node`。
+- `web/dist` 在 .gitignore 里，构建产物不进仓库；源码改动提交即可，CI 会自己 build。
+- 链路细节：新增「固定图片」按钮后实测点击建出 `fixedImage-*` 节点，左侧计数变 1，节点体显示「空图片节点 / 描述要生成的图片内容 / gpt-image-2（默认渠道）」。
+
+## 2026-10-27 LinkFox 深度复刻调研（登录态，结论已修正 · 别再重做）
+
+- **结论修正**：上一版「不能 1:1」是基于静态 bundle 的粗判。登录态打通内部 API 后：图片/视频**功能面 ~90% 可 1:1，效果面 80–90%**；LinkFox **没有任何自研模型**，全是公开模型（BANANA_2_1/GEMINI_NANO_BANANA_2_1、GPT_2_5_IMAGE、SEEDREAM5_PRO、WAN2_7、minimax-h3、wan3、doubao-seedance-2-5、kling-v3-omni、viduq4）。
+- **报告**：`docs/analysis/linkfox-deep-replica-report.md`（仓库内）；证据包：项目目录 `linkfox-deep-20261027/`（models_catalog/prompt_atoms/example_prompts/tool_ui_labels/endpoints_526/prompt_library_179）。
+- **接口取数配方（复用给同类逆向）**：基址是 `https://ai-api.linkfox.com`（**不是** api.linkfox.com）；头 `{'Site-Flag':'site', authorization:<cookie 里非 HttpOnly 的 accessToken>}`；**fetch 绝不能带 `credentials:'include'`** —— 服务端 `ACAO:*` 与凭据冲突会让全站报 `TypeError: Failed to fetch`（这个坑排查了 6 轮）。
+- **prompt 真相**：图片侧 system prompt 全在服务端，客户端搜遍 571 个 chunk 只有 9 处「你是/请严格」。可拿到的是：①11 条 SD 权重语法原子（`sideways`、`(smirking:1.2)`、`(back:1.5)`）②视频运镜 11 词 ③**视频脚本 prompt 拼接模板全文**（`[目标语言][情节][模特][产品描述][环境][音乐][分镜 镜头N：meta,camera,visual,prompt,talk][严格遵守][负向提示词]` + 三分型 推荐款/场景种草/促销转化，在 SaleVideo chunk）④图片 prompt 公式（`模特外貌+#服装#+场景+光线+相机+景别+动作`，AIDressingV2 chunk 有 3 条完整示例）⑤179 条精选 prompt 库（`/prompt/list`）。
+- **模型注册表 schema 可直接照搬**：`apiCode / refImageCount / supportedRatios / supportedResolutions / pricing{eco|stable}{分辨率:点数}` + 视频的 `promptOptimizeKey / supportModes / supportedDurations`。
+- **复刻优先级**：套图矩阵节点 + 批量队列（2–3 周，吃掉它最卖钱的商品套图）→ 抠图/换色/试衣专用链路 → 视频分镜 → 设计器只做导入。
+- 未拿到：`/image/make/create` 的完整请求体（需真实生成一次抓包，会烧 25–50 点用户算力，须先问用户）。
+
+## 发版/查 CI 的踩坑（2026-10-27，发 0.28.1 时）
+- **`gh` CLI 的默认 repo 是 `basketikun/infinite-canvas`（另一个同名仓库），不是本项目的 `Cc-kris/infinite-canvas`**。直接 `gh run list` / `gh release view` 会看到 2026-10 的旧记录或 404；所有 gh 命令都要显式带 `--repo Cc-kris/infinite-canvas`。
+- 桌面发版流程：改 `desktop/package.json` version → 新建 `desktop/release-notes/<版本>.md`（缺文件 CI 直接失败）→ 在 `CHANGELOG.md` 顶部插 `## v<版本> - 日期` 分节（应用内更新弹窗读它）→ commit → `git tag -a desktop-v<版本>` → push main + push tag。CI ≈ 3.5 分钟出 release，资产为 arm64 dmg / x64 dmg / win exe 三个。
+- `gh release download` 下载 dmg 很慢（~100 KB/s），前台跑会撞 `code_run` 的 600 秒上限，要 nohup 后台跑再轮询文件大小。
+
+## 2026-10-27 LinkFox create 载荷实测（已解密，别再抓一次）
+
+- **ai-api 请求加密**：`body = {"data": AES.encrypt(JSON.stringify(payload), Utf8('AR7x7zfje4nkim4t'), {mode:ECB, padding:ZeroPadding}).toString()}`（base64）；响应 `data` 字段同 key 解。解密脚本 `linkfox-deep-20261027/decrypt_linkfox.py`（`python3 decrypt_linkfox.py '{"data":"..."}'`）。utils chunk 里另有 `Mr='GR7x7zfje4nkim4t'`（Fr/Lr 用），api.linkfox.com 那套才用它，别混。
+- **商品套图载荷原文**：`linkfox-deep-20261027/create_payload_product_suite.json`。结构 `{type, extendFields:{imageList[], sellerPoint, resolution, provider, quality, brandName, brandKey{salesRegion,language,platform}, APlusProNum, sellerTypeNum, aspectRatio, configData{aPlusConfig.sceneType, mainConfig.sceneType, complianceLibs}, imageUrl, outputNum}}`。
+- **载荷里没有 prompt 字段**（实证）：prompt 100% 在服务端，复刻必须自建 prompt 层。`type` 就是 bizType（`/draw/history?type=71` ↔ 模型目录 `image[71]` 9 个模型对得上）。
+- **免费抓包技巧**：余额不足时客户端弹窗但请求**照样发出**，服务端拒绝 → `/image/make/list` total 不增，**零扣点**。这就是抓任意工具载荷的窗口。
+- **点不动的坑**：合成 `.click()` 对 antd/React 无效（`__all` 请求数为 0），必须 CDP `Input.dispatchMouseEvent` 发 mousePressed + mouseReleased，且 **tabId 传整数**，字符串报 `debugger.attach ... expected integer`。本地校验要先补（例：商品信息文本框用 native setter + input 事件）。
+- 钩子：npm axios 走 XHR adapter，**只 hook fetch 会漏**，必须同时 hook `XMLHttpRequest.prototype.open/send`。`window.superEncoder` 只在 workbench 页注册，工具页上不存在。
+
+## 视频「点一下就红字失败」= 上游中转抖动（2026-10-27，v0.28.2）
+
+- 用户报的原文：`The origin web server returned an invalid or incomplete response to Cloudflare`（CF 520/502），发生在**点「开始生成」2~3 秒内**。
+- 实测根因：sub2api 中转偶发 502。同 key、同 payload 并发 5 条 → 1 条当场回 `error code: 502`，其余 200。**单发永远复现不了**，必须并发。
+- 旧代码：`createOpenAICompatVideoTask` 等创建路径零重试，上游抖一次就把 CF 英文原文当错误文案甩给用户，用户以为是自己的配置错。
+- 修法（`web/src/services/api/video.ts`）：`prefersJsonFirst()` / `withGatewayRetry()`（408/425/429/500/502/503/504/520-525 + 断连，0.8s、2s 退避共 3 次）/ `withRequestDiagnosis()` 追加 `· host+path · HTTP 5xx` / `pollHttpVideoTask` 遇瞬时故障继续 pending 而不是判失败（判失败后用户重点会**重复扣费**）。
+- **生图故意不加重试**：同步接口，5xx 时上游可能已出图，重试有重复扣费风险。
+- 错误文案现为：「上游网关抖动（自动重试 3 次仍失败），通常是中转/Cloudflare 瞬时故障，稍后重试即可：error code: 502 · host/videos · HTTP 502」（i18n key `apiErrors.videoGatewayRetryHint`）。
+- 验证手法：本地 mock 上游（前 2 次 502 / 恒定 502 两种模式）→ 桌面 dev 实例点生成 → 数 mock 收到几次 POST → 看页面文案。诊断记录 `docs/diagnostics/diag-video-cf520.md`。
+- 发版：`desktop-v0.28.2` 由 CI 自动出 3 个资产（mac arm64/x64 dmg + win exe 95.5MB）；**`v*` 代码 release 没有 workflow 管，要手动 `gh release create`**。注意建完 `v0.28.2` 后 GitHub 会把 Latest 标给它（无安装包），但客户端 `fetchLatestRelease()` 是拉 `releases?per_page=30` 再用 `/^desktop-v?(\d+\.\d+\.\d+)/` 过滤，所以更新检测不受影响（已实测选中的就是 desktop-v0.28.2 + exe）。
