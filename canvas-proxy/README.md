@@ -46,13 +46,25 @@ http://127.0.0.1:23210/https://api.openai.com/v1/models
 如果上游对代理线路明确翻脸——返回 `403` / `407` / `451`（常见于国内中转站封境外 IP）——也会改试直连，
 因为此时请求还没被受理，换一条路不产生任何费用；而 `401` / `429` / `500` 这类是接口自己的回答，不会再试第二次。之所以这样设计，是因为 Node 的 `fetch` 完全无视系统代理：如果只走它，用户开着「系统代理」模式时请求其实是直连出网的，接口在墙外就会表现为 `fetch failed`。
 
-单独的 `npx @basketikun/canvas-proxy` 只有直连通道（`transports: ["node"]`）。需要走代理时注意：**Node 的 `fetch` 默认不读 `HTTPS_PROXY`/`HTTP_PROXY`**，必须带上 `NODE_USE_ENV_PROXY=1` 才会生效：
+单独的 `npx @basketikun/canvas-proxy` 启动时会自己找系统代理（环境变量 → macOS 的 `scutil --proxy` → Windows 的
+Internet 选项），找到就以 `NODE_USE_ENV_PROXY=1` 重启自己走代理，并把「直连」作为第二条通道自动兜底。
+因此 `transports: ["system", "direct"]` 是默认形态。原因不只是「能不能连上」：同一条上游线路，直连下行只有
+约 30 KB/s，一张 2 MB 的 base64 图片要白等 60~90 秒，走代理 1~2 秒就收完——生成耗时才因此从 90 秒掉到 23 秒。
+
+想强制直连（或代理客户端本身有问题）时用：
+
+```bash
+CANVAS_PROXY_DISABLE_SYSTEM_PROXY=1 npx @basketikun/canvas-proxy@latest
+```
+
+Node 的 `fetch` 只认**进程启动时**的 `NODE_USE_ENV_PROXY`，运行中再赋值无效，所以上面是「重启自己」而不是改环境变量。
+也可以自己指定代理：
 
 ```bash
 NODE_USE_ENV_PROXY=1 HTTPS_PROXY=http://127.0.0.1:7890 npx @basketikun/canvas-proxy@latest
 ```
 
-启动时若检测到 `HTTPS_PROXY`/`HTTP_PROXY` 却没有 `NODE_USE_ENV_PROXY=1`，会在日志里提示这一点（否则你以为在走代理，其实是直连）。桌面版不需要这些环境变量，它直接用 Chromium 的网络栈。
+桌面版不需要这些环境变量，它直接用 Chromium 的网络栈。
 
 ### 失败时返回什么
 
