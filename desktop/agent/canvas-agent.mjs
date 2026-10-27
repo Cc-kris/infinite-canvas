@@ -53368,10 +53368,10 @@ function runClaudeTurn({ prompt, emit, model }) {
   startChild(args, { emit, threadId, turnId }, 0);
 }
 function buildArgs(prompt, model) {
-  const args = ["-p", "--output-format", "stream-json", "--verbose", "--include-partial-messages", "--allowedTools", "mcp__infinite-canvas__*"];
+  const args = ["-p", "--output-format", "stream-json", "--verbose", "--include-partial-messages"];
   if (model && model !== "default") args.push("--model", model);
   if (currentSessionId) args.push("--resume", currentSessionId);
-  args.push(prompt);
+  args.push(prompt, "--allowedTools", "mcp__infinite-canvas__*");
   return args;
 }
 function startChild(args, context, attempt) {
