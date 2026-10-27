@@ -221,7 +221,9 @@ function withRequestDiagnosis(message: string, status: number | undefined, baseU
         // baseUrl 不规范时保留原文
     }
     const trimmed = message.length > 180 ? `${message.slice(0, 180)}…` : message;
-    return `${trimmed} · ${endpoint}${path}${status ? ` · HTTP ${status}` : ""}`;
+    // 重试用尽的网关故障：前缀一句人话，否则用户只看到 Cloudflare 的英文原文，误以为是自己配置错。
+    const hint = status && TRANSIENT_GATEWAY_STATUSES.has(status) ? `${apiText("videoGatewayRetryHint")}：` : "";
+    return `${hint}${trimmed} · ${endpoint}${path}${status ? ` · HTTP ${status}` : ""}`;
 }
 
 async function createOpenAIVideoTask(config: AiConfig, model: string, prompt: string, references: ReferenceImage[], options?: VideoMediaOptions): Promise<VideoGenerationTask> {
