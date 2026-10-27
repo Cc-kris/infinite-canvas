@@ -1,0 +1,336 @@
+[
+ {
+  "tool": "PRODUCT_SCENE",
+  "cn": "商品场景图",
+  "type": 13,
+  "cases": 34,
+  "prompt": 33,
+  "keys": [
+   "promptTranslation",
+   "prompt"
+  ]
+ },
+ {
+  "tool": "PRODUCT_IMAGE_SUITE",
+  "cn": "商品套图",
+  "type": 71,
+  "cases": 42,
+  "prompt": 15,
+  "keys": [
+   "prompt"
+  ]
+ },
+ {
+  "tool": "DRESS_WEAR_SET",
+  "cn": "穿搭套装",
+  "type": 69,
+  "cases": 51,
+  "prompt": 12,
+  "keys": [
+   "prompt"
+  ]
+ },
+ {
+  "tool": "SALE_VIDEO",
+  "cn": "带货视频",
+  "type": 73,
+  "cases": 10,
+  "prompt": 10,
+  "keys": [
+   "prompt",
+   "visiblePrompt"
+  ]
+ },
+ {
+  "tool": "IMAGE_TO_VIDEO",
+  "cn": "图生视频",
+  "type": 30,
+  "cases": 10,
+  "prompt": 9,
+  "keys": [
+   "prompt"
+  ]
+ },
+ {
+  "tool": "VIDEO_REPLICATION",
+  "cn": "视频复刻",
+  "type": 89,
+  "cases": 8,
+  "prompt": 8,
+  "keys": [
+   "promptTranslation",
+   "finalPrompt",
+   "prompt",
+   "promptCN"
+  ]
+ },
+ {
+  "tool": "AI_VIDEO_EDITING",
+  "cn": "AI视频剪辑",
+  "type": 95,
+  "cases": 8,
+  "prompt": 5,
+  "keys": [
+   "promptTranslation",
+   "prompt"
+  ]
+ },
+ {
+  "tool": "AI_POSTURE",
+  "cn": "AI摆姿",
+  "type": 58,
+  "cases": 1,
+  "prompt": 1,
+  "keys": [
+   "promptTranslation"
+  ]
+ },
+ {
+  "tool": "SCALE_UP",
+  "cn": "高清放大",
+  "type": 7,
+  "cases": 0,
+  "prompt": 0,
+  "keys": []
+ },
+ {
+  "tool": "CHANGE_COLOR",
+  "cn": "套图换色",
+  "type": 19,
+  "cases": 35,
+  "prompt": 0,
+  "keys": []
+ },
+ {
+  "tool": "AI_WEARABLE",
+  "cn": "AI穿戴",
+  "type": 34,
+  "cases": 22,
+  "prompt": 0,
+  "keys": []
+ },
+ {
+  "tool": "MATERIAL_UPPER_BODY",
+  "cn": "上装换料",
+  "type": 16,
+  "cases": 0,
+  "prompt": 0,
+  "keys": []
+ },
+ {
+  "tool": "REPLACE_GOODS",
+  "cn": "换商品",
+  "type": 12,
+  "cases": 33,
+  "prompt": 0,
+  "keys": []
+ },
+ {
+  "tool": "AI_TEXT",
+  "cn": "AI文字",
+  "type": 14,
+  "cases": 0,
+  "prompt": 0,
+  "keys": []
+ },
+ {
+  "tool": "ORNAMENT_TEXT",
+  "cn": "装饰文字",
+  "type": 17,
+  "cases": 0,
+  "prompt": 0,
+  "keys": []
+ },
+ {
+  "tool": "SDS_DESIGN",
+  "cn": "SDS设计",
+  "type": 22,
+  "cases": 18,
+  "prompt": 0,
+  "keys": []
+ },
+ {
+  "tool": "REMOVE_PEN",
+  "cn": "消除笔",
+  "type": 23,
+  "cases": 0,
+  "prompt": 0,
+  "keys": []
+ },
+ {
+  "tool": "AI_OUTPAINTING",
+  "cn": "智能扩图",
+  "type": 25,
+  "cases": 24,
+  "prompt": 0,
+  "keys": []
+ },
+ {
+  "tool": "AI_DRESSING_V2",
+  "cn": "AI试衣V2",
+  "type": 24,
+  "cases": 18,
+  "prompt": 0,
+  "keys": []
+ },
+ {
+  "tool": "FIX_COLOR",
+  "cn": "修复色差",
+  "type": 26,
+  "cases": 0,
+  "prompt": 0,
+  "keys": []
+ },
+ {
+  "tool": "HAND_REPAIR",
+  "cn": "手部修复",
+  "type": 31,
+  "cases": 0,
+  "prompt": 0,
+  "keys": []
+ },
+ {
+  "tool": "AREA_REPAIR",
+  "cn": "局部重绘",
+  "type": 32,
+  "cases": 0,
+  "prompt": 0,
+  "keys": []
+ },
+ {
+  "tool": "NEW_REPLACE_BG_V2",
+  "cn": "换背景V2",
+  "type": 28,
+  "cases": 0,
+  "prompt": 0,
+  "keys": []
+ },
+ {
+  "tool": "PRINTING_REPAIR",
+  "cn": "印花修复",
+  "type": 29,
+  "cases": 0,
+  "prompt": 0,
+  "keys": []
+ },
+ {
+  "tool": "AI_DRESSING_XSY",
+  "cn": "AI试衣XSY",
+  "type": 39,
+  "cases": 0,
+  "prompt": 0,
+  "keys": []
+ },
+ {
+  "tool": "IMAGE_TRANSLATION",
+  "cn": "图片翻译",
+  "type": 45,
+  "cases": 0,
+  "prompt": 0,
+  "keys": []
+ },
+ {
+  "tool": "HANDHELD_GOODS",
+  "cn": "手持商品",
+  "type": 49,
+  "cases": 1,
+  "prompt": 0,
+  "keys": []
+ },
+ {
+  "tool": "VIDEO_CONCAT",
+  "cn": "视频拼接",
+  "type": 52,
+  "cases": 0,
+  "prompt": 0,
+  "keys": []
+ },
+ {
+  "tool": "PRODUCT_REFINE",
+  "cn": "商品精修",
+  "type": 56,
+  "cases": 0,
+  "prompt": 0,
+  "keys": []
+ },
+ {
+  "tool": "AI_POSE_GENERATOR",
+  "cn": "AI姿势生成",
+  "type": 57,
+  "cases": 0,
+  "prompt": 0,
+  "keys": []
+ },
+ {
+  "tool": "PRINT_EXTRACT",
+  "cn": "印花提取",
+  "type": 60,
+  "cases": 0,
+  "prompt": 0,
+  "keys": []
+ },
+ {
+  "tool": "SCENE_TRANSFER",
+  "cn": "场景迁移",
+  "type": 63,
+  "cases": 0,
+  "prompt": 0,
+  "keys": []
+ },
+ {
+  "tool": "PRODUCT_MARKET_MATERIAL",
+  "cn": "爆款图复刻",
+  "type": 64,
+  "cases": 0,
+  "prompt": 0,
+  "keys": []
+ },
+ {
+  "tool": "IMAGE_CROP",
+  "cn": "图片裁剪",
+  "type": 67,
+  "cases": 0,
+  "prompt": 0,
+  "keys": []
+ },
+ {
+  "tool": "IMAGE_TEXT_EDIT",
+  "cn": "图片文字编辑",
+  "type": 78,
+  "cases": 0,
+  "prompt": 0,
+  "keys": []
+ },
+ {
+  "tool": "FISSION_LINK",
+  "cn": "场景裂变",
+  "type": 83,
+  "cases": 0,
+  "prompt": 0,
+  "keys": []
+ },
+ {
+  "tool": "NEW_DESIGNER",
+  "cn": "商品图设计",
+  "type": 99,
+  "cases": 0,
+  "prompt": 0,
+  "keys": []
+ },
+ {
+  "tool": "CHANGE_COLOR_V2",
+  "cn": "套图换色V2",
+  "type": 93,
+  "cases": 13,
+  "prompt": 0,
+  "keys": []
+ },
+ {
+  "tool": "VIDEO_TRANSLATION",
+  "cn": "视频翻译",
+  "type": 96,
+  "cases": 8,
+  "prompt": 0,
+  "keys": []
+ }
+]
