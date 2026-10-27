@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## Unreleased
+## v0.28.0 - 2026-10-27
 
 + [修复] 打包版客户端一启动就白窗、不连代理、也连不上 Agent：`build.files` 白名单漏了 `agent-plugin.js` 与它依赖的 `agent-detect.js`，`agent-hub.js` 一 import 就 `ERR_MODULE_NOT_FOUND`。已把两个文件加进打包清单，`electron-builder --dir` 产物实跑通过（窗口正常、代理自起、真实生图 200 / 27.8 秒 / 2.02 MB）。
 + [新增] 主进程致命错误落地：打包版没有终端，出错时只剩一个信息为空的弹窗。现在 `uncaughtException` / `unhandledRejection` 先写入 `~/Library/Application Support/<userData>/main-errors.log`（含堆栈），再照旧弹窗，装到用户机器上也能拿到可排查的证据。
