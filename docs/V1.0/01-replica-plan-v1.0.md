@@ -1,7 +1,27 @@
-# LinkFox AI 图片 / 视频功能全量复刻方案
+# LinkFox AI 图片 / 视频功能复刻方案 V1.0
 
-> 版本 **v3.0** ｜ 2026-10-27 ｜ 覆盖 **39 个图片/视频工具**（79 个 makeType 全部解出）
-> 证据资产：`docs/analysis/assets/linkfox/`（案例库 / 样式库 / 场景提示词池 / type 对照表）
+> **文档状态**：正式实施基线  
+> **版本日期**：2026-10-27  
+> **复刻范围**：39 个图片/视频工具；独立功能页；不进入画布节点  
+> **目标架构**：纯前端业务编排 + 现有模型代理 + 本地任务/资产存储  
+> **配套蓝图**：[02-architecture-blueprint.md](./02-architecture-blueprint.md)  
+> **资产索引**：[assets/README.md](./assets/README.md)  
+> **原始证据**：`../analysis/assets/linkfox/`
+
+## 文档控制
+
+| 项 | 基线 |
+|---|---|
+| 功能基线 | 39 个工具逐项可进入、可配置、可执行、可保存、可追踪 |
+| 数据基线 | 79 个 makeType；584 案例；2029 样式；1153 场景 prompt；77 A+/套图模板 |
+| 资产基线 | 878 个唯一蒙版 URL（728 个样式条目）；535 个首帧模特图；24 个去重模型 |
+| 架构基线 | `/tools` 独立工具域；复用现有上传、模型 API、媒体存储与资产库 |
+| 验收基线 | 契约、模板、批量、恢复、黄金 A/B、Web/Desktop 端到端六类验证 |
+| 运行边界 | 不依赖 LinkFox 鉴权/接口/积分；不实现选品与计费 |
+
+**阅读顺序**：先读 §0–§1 结论与数据 → §2–§6 协议、工具、prompt 和模型 → §7 排除范围 → [架构蓝图](./02-architecture-blueprint.md) → §8–§11 落地、排期、验收和风险 → 附录取证边界。
+
+**术语约定**：“复刻”指功能、输入契约、模板资产、参数和任务体验等价；不同模型供应商的输出不承诺逐像素一致，必须经黄金案例 A/B 验收。
 
 ---
 
@@ -11,7 +31,7 @@
 |---|---|
 | 能否 1:1 复刻图片/视频功能 | **能，且比 v2.0 判断的成本低一个数量级**。39 个工具的提交契约全部解析；**584 条官方成品案例**、**2029 条样式条目**、**1153 条服务端场景提示词**、**77 条套图场景模板**已全部落盘 |
 | 服务端场景编排能否识别 | **能，且不是黑盒**。服务端没有隐藏的"魔法 prompt"，它由三样可枚举的东西组成：**样式库（style + 参考图 + 蒙版 + prompt）** × **参数矩阵（configData.sceneType × num）** × **固定收尾约束**。三样都已抓到 |
-| 还需要买算力/花积分验证吗 | **不需要**。v2.0 曾按"约 27 个工具 × 0.5–1.5 人天"估 prompt 打磨成本，v3.0 后降为 **约 5–8 人天**，因为模板资产已到手 |
+| 还需要买算力/花积分验证吗 | **不需要**。v2.0 曾按"约 27 个工具 × 0.5–1.5 人天"估 prompt 打磨成本，V1.0 降为 **约 5–8 人天**，因为模板资产已到手 |
 | 前端能否直接抄码 | **能抄结构与交互，不能整包复用**。同为 React + antd + axios，组件命名、表单 schema、校验规则可直接借鉴；但对方是 Vite 私有 chunk、无类型、依赖其登录态，须在无限画布内重写 |
 | 独立功能还是画布节点 | **独立工具页**（`/tools/[tool]`），产物落 `image_files`/`video_files` 资产库，提供"发送到画布"作为可选出口，不做节点内联 |
 | 前后端一体怎么落 | **纯前端 + canvas-proxy + IndexedDB**。无限画布本来就是这个形态：39 个工具全部在前端完成编排，模型调用走已有 `canvas-proxy`（23210），任务与产物存 IndexedDB。没有自建后端要写 |
@@ -30,10 +50,10 @@
 | 案例中的 prompt | **189 条** | 同上（`prompt` / `promptTranslation` / `refScenePrompt`…） | 同上 |
 | 样式库条目 | **2029 条 / 21 个 type** | `/image/make/style?type=N&showType=0` | `style_library.json.gz` |
 | 服务端场景提示词 | **1153 条（去重）** | 样式库 `extendField.modelPrompts / randomModelPrompt` | `scene_prompts_pool.json` |
-| 穿戴蒙版模板 | **434 条** | 样式库 `maskImage / maskUpImage / maskDownImage` | 同上 |
+| 蒙版资产 | **878 个唯一 URL / 728 个样式条目** | 样式库 `maskImage / maskUpImage / maskDownImage / maskDressImage` | [资产 06](./assets/06-mask-assets.md) |
 | 首帧模特参考图 | **535 条** | 样式库 `firstModelUrl` | 同上 |
 | 套图/穿搭场景模板 | **77 条（带槽位）** | 案例 `pointStyles / aPlusStyles` | `aplus_style_templates.json` |
-| 前端明文 prompt 构造 | **11 个工具** | bundle 源码 | `prompt_library_179.json` 等 |
+| 载荷 prompt 构造 | **11 个工具** | 最终契约 + bundle 源码 + 实抓载荷 | `schema_final.json`、`create_plain.txt` |
 | 端到端实抓校准 | 3 个（type 7 / 71 / 73） | 真实创建 + 解密 | `create_plain.txt` |
 
 
@@ -120,7 +140,7 @@ def dec(data_b64: str) -> dict:
 
 | 工具 (toolId) | 中文名 | type | 类 | 案例数 | 案例含prompt | 样式条目 / 样式prompt | 载荷字段数 |
 |---|---|---|---|---|---|---|---|
-| `AI_OUTPAINTING` | 智能扩图 | 25 | A | 24 | 0 | 38 / 251 | 19 |
+| `AI_OUTPAINTING` | 智能扩图 | 25 | B | 24 | 0 | 38 / 251 | 19 |
 | `AI_POSE_GENERATOR` | AI姿势生成 | 57 | A | 0 | 0 | 0 / 0 | 2 |
 | `AI_POSTURE` | AI摆姿 | 58 | A | 1 | 1 | 0 / 0 | 4 |
 | `AI_TEXT` | AI文字 | 14 | A | 0 | 0 | 1 / 0 | 14 |
@@ -179,11 +199,11 @@ def dec(data_b64: str) -> dict:
 
 ---
 
-## 5. Prompt 体系（v3.0 重大修正）
+## 5. Prompt 体系（V1.0 实测基线）
 
 ### 5.1 先纠正一个错误认知
 
-v2.0 认为"27 个工具的 prompt 在服务端，必须自建模板"，因此估了 **15–30 人天**。v3.0 实测推翻了它：
+v2.0 认为"27 个工具的 prompt 在服务端，必须自建模板"，因此估了 **15–30 人天**。本次实测推翻了它：
 
 - 服务端的"场景编排"**不是一段隐藏 prompt**，而是 **样式库数据 + 参数矩阵 + 固定收尾句** 三件套；
 - 样式库通过 `/image/make/style` **公开返回**，每条带 `style` 编码、参考图、蒙版、以及 `modelPrompts[]`；
@@ -254,7 +274,7 @@ v2.0 认为"27 个工具的 prompt 在服务端，必须自建模板"，因此�
      "firstModelUrl": "..." } }
 ```
 
-`maskImage` 是**可直接复用的蒙版资产**（434 条），`firstModelUrl` 是**穿戴首帧模特图**（535 条）——这两类以前被当作"要自己生成"的成本，现在直接可用。
+`maskImage / maskUpImage / maskDownImage / maskDressImage` 共 **878 个唯一蒙版 URL，分布在 728 个样式条目**；`firstModelUrl` 是**首帧模特图**（535 个）——这两类以前被当作"要自己生成"的成本，现在直接可用。
 
 ### 5.4 为什么"19 个工具字面 prompt 不可见"不是缺口
 
@@ -387,7 +407,7 @@ LinkFox 是「前端编排 + 服务端渲染队列」，它需要服务端是因
 
 | LinkFox 做的事 | 无限画布等价物 |
 |---|---|
-| 服务端保存 API key | 用户自己的模型 provider 配置（已存在，`Settings → Models`） |
+| 服务端保存 API key | 用户自己的模型 provider 配置（已存在，`useConfigStore` / `AiConfig`） |
 | `/image/make/create` 入队 | 前端直接发起，`zustand` 任务表 + IndexedDB 持久化 |
 | 服务端轮询上游、落 OSS | `canvas-proxy` 直连上游 + 轮询；结果转 dataURL/Blob 存 `image_files` |
 | 服务端积分扣减 | 无（可选本地用量统计） |
@@ -414,12 +434,12 @@ LinkFox 是「前端编排 + 服务端渲染队列」，它需要服务端是因
 
 | 层 | 新增 | 说明 |
 |---|---|---|
-| `src/tools/registry.ts` | `ToolDef[]` | 39 个工具定义：id / 名称 / 族 / 表单 schema / 模板 id |
-| `src/tools/schema/*.ts` | 每族一个 | 由 `schema_final.json` 转成 zod schema |
-| `src/tools/prompt/*.ts` | 模板引擎 | 载入 `scene_prompts_pool.json` / `aplus_style_templates.json`，做槽位填充 |
-| `src/tools/runtime/task.ts` | 任务状态机 | `queued → running → done/failed`，存 IndexedDB，支持刷新续跑 |
-| `src/services/api/image.ts` | 已有 | 复用 `requestGeneration` / `requestEdit`，仅加 `provider` 选择 |
-| `src/pages/tools/*` | 页面 | 表单（antd Form + 动态 schema）、结果网格、历史 |
+| `web/src/services/tools/registry.ts` | 新增 | 39 个 `ToolSpec`：id / 名称 / 族 / 表单 / 模板 / 模型能力 |
+| `web/src/services/tools/schemas/*` | 每族一个 | 由 `schema_final.json` 转成运行时校验 |
+| `web/src/services/tools/templates/*` | 新增 | 模板组装、固定约束与槽位填充 |
+| `web/src/services/tools/task-runner.ts` + `task-store.ts` | 新增 | 任务状态机、localforage 持久化、刷新恢复 |
+| `web/src/services/api/image.ts` / `video.ts` | 已有 | 复用 `requestGeneration` / `requestEdit` 与视频任务接口 |
+| `web/src/pages/tools/*` | 页面 | 表单（antd Form + 动态 schema）、结果网格、历史 |
 | `canvas-proxy` | 不改 | 仅把上游 baseUrl 走它 |
 
 ### 8.4 任务状态机（前端版）
@@ -451,12 +471,12 @@ create → persist(task) → dispatch(provider)
 
 | LinkFox 服务端 | 本地替代 | 拟落点（现有仓库结构） |
 |---|---|---|
-| `POST /image/make/create`（AES 信封） | 纯函数 `buildRequest(toolId, form)` | `web/src/services/tools/build.ts` |
-| `GET /image/make/list` / `info`（任务队列） | IndexedDB 查询 + 内存状态机 | `web/src/services/tools/task.ts` |
-| `GET /image/make-case/list`（案例库） | 静态 JSON（584 条，已归档） | `web/src/assets/linkfox/make_cases.json` |
-| `GET /image/make/style`（样式/场景库） | 静态 JSON（2029 条 + 1153 prompt） | `web/src/assets/linkfox/styles.json` |
-| `GET /image/make/getModelPromptProperties` | 静态 JSON（24 模型能力矩阵） | `web/src/assets/linkfox/models.json` |
-| 服务端 prompt 拼接 | 本地模板引擎（槽位 + 收尾常量） | `web/src/services/tools/prompt.ts` |
+| `POST /image/make/create`（AES 信封） | 39 个 `ToolAdapter.submit()` | `web/src/services/tools/adapters/*` |
+| `GET /image/make/list` / `info`（任务队列） | localforage 查询 + 状态机 | `web/src/services/tools/task-store.ts` / `task-runner.ts` |
+| `GET /image/make-case/list`（案例库） | 静态 JSON（584 条，已归档） | `web/src/assets/linkfox/manifest.ts` + 案例数据 |
+| `GET /image/make/style`（样式/场景库） | 静态 JSON（2029 条 + 1153 prompt） | `web/src/assets/linkfox/manifest.ts` + 样式数据 |
+| `GET /image/make/getModelPromptProperties` | 静态 JSON（24 模型能力矩阵） | `web/src/assets/linkfox/manifest.ts` + 模型数据 |
+| 服务端 prompt 拼接 | 本地模板引擎（槽位 + 收尾常量） | `web/src/services/tools/templates/*` |
 | 服务端 GPU 队列 | 直调上游模型 API（经 `canvas-proxy`） | `web/src/services/api/*` |
 | 服务端 OSS 存储 | IndexedDB `image_files`（现有） | 复用 |
 | 积分扣减 | 不实现，仅前端并发/配额提示 | — |
@@ -473,6 +493,8 @@ create → persist(task) → dispatch(provider)
 | **长视频耗时长** | 4–6 分钟，页面关闭即丢进度 | 同上传 `upstreamJobId`，重开页面自动接续 |
 
 这三条是**有意设计**（与 §10 验收第 5 条一致），不是缺陷。
+
+**能力准入约束**：图片生成接口已支持多参考图，视频接口支持参考图任务与轮询；但参考视频、精细蒙版、特定口型/配音参数是否可执行取决于所选 provider。适配器必须声明 `image / multiRef / mask / sourceVideo / duration / lipSync` 等能力；不支持时禁用并解释，或明确走本地处理/模型插件，**禁止悄悄丢参数后仍显示“复刻成功”**。
 
 ---
 
@@ -501,7 +523,7 @@ create → persist(task) → dispatch(provider)
 | 风险 | 说明 | 对策 |
 |---|---|---|
 | 模型能力差异 | 同 prompt 不同模型，质感可能不及原站 | 每个工具配 2 个候选模型，A/B 选优 |
-| 蒙版/分割依赖 | 换色、换商品、穿戴类需精准蒙版 | 复用已抓的 434 条蒙版模板；本地分割用现成模型 |
+| 蒙版/分割依赖 | 换色、换商品、穿戴类需精准蒙版 | 复用 878 个蒙版 URL 作样式参考；新用户图必须重新分割或人工修蒙版 |
 | 视频耗时与成本 | 单条 1–6 分钟、费用高 | 明确并发上限、进度可见、失败不自动重试 |
 | 模板过拟合 | 场景模板用久会趋同 | 保留 `num` 分配 + 随机采样 + 用户可自定义 |
 | 版权/合规 | 抓取的案例图不可商用 | 仅作内部 A/B 基准，不进入产品资产库 |
@@ -567,7 +589,7 @@ for t in enum_maketype.values():
 | `make_cases.json.gz` | 584 条官方成品案例全量，含 189 条 prompt | 341 KB |
 | `models_catalog.json` | 模型目录：image 91 条 + video 78 条映射，24 个去重模型 | 166 KB |
 | `prompt_atoms.json` | 提示词原子库（风格/光影/构图片段） | 1 KB |
-| `prompt_library_179.json` | 179 条前端明文 prompt 片段（A 类工具模板骨架） | 121 KB |
+| `prompt_library_179.json` | 提示词市场分类与标题/描述元数据；**不是 39 工具内部 prompt** | 121 KB |
 | `relay.py` | 本地转发脚本（早期版） | 2 KB |
 | `relay2.py` | 本地转发脚本（当前版，支持 GET/POST） | 2 KB |
 | `sale_video_plain.json` | 视频工具明文载荷 | 1 KB |
@@ -578,7 +600,7 @@ for t in enum_maketype.values():
 | `tool_types_and_coverage.json` | 39 工具 type / 案例数 / prompt 覆盖统计 | 4 KB |
 | `tool_ui_labels.json` | 39 工具 UI 文案（中英标签） | 12 KB |
 
-> `prompt_library_179.json` 是**前端明文**部分（A 类 11 个工具的模板骨架）；`scene_prompts_pool.json` 是**服务端样式库**部分；`models_catalog.json` 是**模型能力矩阵**。三者互补，构成完整复刻资产。
+> 资产口径修正：`prompt_library_179.json` 是提示词市场元数据，不用于证明工具内部 prompt 覆盖；A 类依据为最终契约、chunk 与实抓载荷。`scene_prompts_pool.json` 是样式库 prompt；`models_catalog.json` 是模型能力矩阵。
 
 ---
 
@@ -629,7 +651,7 @@ appearance, color, or material. Preserve existing shadows and reflections.
 | 官方成品案例 | 584 | `/image/make-case/list` 全 type 遍历，无分页截断 |
 | 样式/场景条目 | 2029 | `/image/make/style` 全 type 遍历 |
 | 场景提示词（去重） | 1153 | 从 2029 条 `extendField.modelPrompts` 归一化 |
-| 蒙版模板 | 434 | `maskImage` / `maskUpImage` / `maskDressImage` |
+| 蒙版资产 | 878 个唯一 URL / 728 个样式条目 | `maskImage` / `maskUpImage` / `maskDownImage` / `maskDressImage` |
 | 模特首帧图 | 535 | `firstModelUrl` |
 | 套图/穿搭场景模板正文 | 77 | `configData.aPlusStyles` / `pointStyles` |
 | 加密算法与 key | 1 | 解密结果与页面明文逐字节一致 |
