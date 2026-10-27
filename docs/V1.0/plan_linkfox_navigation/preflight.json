@@ -1,0 +1,12 @@
+{
+  "interpreter": "/Applications/Galley.app/Contents/Resources/python/bin/python3",
+  "python_exists": true,
+  "agentmain": "/Applications/Galley.app/Contents/Resources/managed-ga/code/agentmain.py",
+  "agentmain_help_exit": 0,
+  "agentmain_help": "usage: agentmain.py [-h] [--task IODIR] [--func PROMPT_FILE]\n                    [--reflect SCRIPT] [--input INPUT] [--history HISTORY]\n                    [--llm_no LLM_NO] [--verbose] [--nobg] [--nolog]\n                    [--no-user-tools]\n\noptions:\n  -h, --help          show this help message and exit\n  --task IODIR        一次性任务模式，先看subagent.md\n  --func PROMPT_FILE  纯函数模式：读prompt文件→结果写prompt.out.txt→退出\n  --reflect SCRIPT    反射模式：加载监控脚本，check()触发时发任务\n  --input INPUT       prompt\n  --history HISTORY   history json file\n  --llm_no LLM_NO\n  --verbose\n  --nobg\n  --nolog\n  --no-user-tools\n",
+  "output_dir": "/Users/mac/Documents/Dev/infinite-canvas/docs/V1.0/plan_linkfox_navigation",
+  "output_writable": true,
+  "es": null,
+  "search_replacement": "/opt/homebrew/bin/rg",
+  "cwd": "/Users/mac/Library/Application Support/app.galley/managed-ga-state/temp"
+}
