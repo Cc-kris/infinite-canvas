@@ -48,12 +48,9 @@
                 "to": "renderer"
             },
             {
-                "from": "../canvas-proxy/server.js",
-                "to": "proxy/server.js"
-            },
-            {
-                "from": "../canvas-proxy/package.json",
-                "to": "proxy/package.json"
+                "from": "../canvas-proxy",
+                "to": "proxy",
+                "filter": ["*.js", "package.json"]
             },
             {
                 "from": "agent",

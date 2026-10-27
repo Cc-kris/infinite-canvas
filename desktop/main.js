@@ -25,8 +25,10 @@ app.commandLine.appendSwitch("disable-backgrounding-occluded-windows");
 
 /** Renderer bundle: built by `pnpm --dir web build`, shipped as an extra resource. */
 const rendererDir = isDev ? path.resolve(here, "../web/dist") : path.join(process.resourcesPath, "renderer");
-/** Proxy module: shared with the npm package, shipped as an extra resource. */
-const proxyEntry = isDev ? path.resolve(here, "../canvas-proxy/server.js") : path.join(process.resourcesPath, "proxy", "server.js");
+/** Proxy module: shared with the npm package, shipped as an extra resource (whole folder — the shell
+ *  also asks `system-proxy.js` whether a second hop is needed, exactly like the standalone proxy does). */
+const proxyDir = isDev ? path.resolve(here, "../canvas-proxy") : path.join(process.resourcesPath, "proxy");
+const proxyEntry = path.join(proxyDir, "server.js");
 
 /** Fixed ports keep the renderer origin (and therefore IndexedDB) stable across launches. */
 const SHELL_PORT = 23211;
@@ -106,6 +108,13 @@ async function detectRunningProxy(port) {
 
 /** Reuse a proxy that is already listening, otherwise start the bundled one. */
 async function startProxy() {
+    // Same decision the standalone proxy makes for itself (environment → macOS → Windows), so the
+    // shell never claims a hop the machine does not have and never skips one it does.
+    const { detectSystemProxy } = await import(pathToFileURL(path.join(proxyDir, "system-proxy.js")).href);
+    const systemProxy = detectSystemProxy();
+    if (systemProxy) log(`system proxy: ${systemProxy.url} (${systemProxy.source}) — outbound goes through it`);
+    else log("no system proxy configured — outbound goes direct");
+
     for (let offset = 0; offset < PORT_SCAN; offset += 1) {
         const port = PROXY_PORT + offset;
         const existing = await detectRunningProxy(port);
@@ -115,15 +124,15 @@ async function startProxy() {
         }
         try {
             const mod = await import(pathToFileURL(proxyEntry).href);
-            proxyServer = await mod.startProxyServer({
-                port,
-                host: "127.0.0.1",
-                // Order matters: Chromium's stack follows the system proxy, undici is the direct fallback.
-                transports: [
-                    { name: "system", proxyAware: true, fetch: systemFetch },
-                    { name: "direct", proxyAware: false, fetch: directFetch },
-                ],
-            });
+            // Chromium's net.fetch already follows the OS proxy, so "system" is only a second hop when
+            // one exists; each request still falls back to a plain direct attempt if that hop fails.
+            const transports = systemProxy
+                ? [
+                      { name: "system", proxyAware: true, fetch: systemFetch },
+                      { name: "direct", proxyAware: false, fetch: directFetch },
+                  ]
+                : [{ name: "direct", proxyAware: true, fetch: systemFetch }];
+            proxyServer = await mod.startProxyServer({ port, host: "127.0.0.1", transports });
             const url = `http://127.0.0.1:${port}`;
             log(`local proxy started at ${url}`);
             return url;

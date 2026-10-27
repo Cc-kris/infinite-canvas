@@ -2,7 +2,10 @@
 
 ## Unreleased
 
-+ [修复] 生图慢的真正原因是**出口线路**，不是模型也不是上游排队：独立运行的 `canvas-proxy` 用 Node 的 `fetch` 直连，完全不看系统代理，而这条线路下载大响应被限速到约 30 KB/s——一张 1K 图约 2 MB，生成本身 20 秒、结果却要多等 60~75 秒。实测同一请求：直连 92.5 秒 / 走系统代理 22.5 秒。现在代理启动时自动识别系统代理（环境变量 → macOS `scutil --proxy` → Windows Internet 选项），带 `NODE_USE_ENV_PROXY=1` 重启自己走代理，并把直连作为第二通道兜底（`CANVAS_PROXY_DISABLE_SYSTEM_PROXY=1` 可强制直连）。已用真实生图验证：23.1 秒拿到 1.86 MB 图片。
++ [修复] 「要不要走系统代理」现在只有一份判定（`canvas-proxy/system-proxy.js`），网页版与桌面客户端共用：桌面端启动代理前先探测系统代理，没有就只挂直连通道，不再宣称一条机器上并不存在的跳转；`GET /` 新增 `route` 字段，报告最近一次请求实际走过的通道（`system` / `direct`），排查时两端都能自证。实测：系统代理开 → `route: system`；用 `CANVAS_PROXY_DISABLE_SYSTEM_PROXY=1` 关掉 → `transports: ["direct"]`。
++ [新增] 网页版 dev server 自动拉起本地转发代理：`vite` 启动时若 `127.0.0.1:23210` 无人监听就自己起一个（已有人在跑则直接复用），不必再手动开命令或填代理地址；关掉 dev server 时代理一起收尾。第一跳与第二跳因此都是默认生效的。
++ [修复] 同一个代理包在「没有系统代理」时把自己上报成 `node` 通道，与「有系统代理」时的 `direct` 兜底名字不一致；现统一为 `direct`。
++ [修复] 生图慢的真正原因是**出口线路**，不是模型也不是上游排队：独立运行的 `canvas-proxy` 用 Node 的 `fetch` 直连，完全不看系统代理，而这条线路下载大响应被限速到约 30 KB/s——一张 1K 图约 2 MB，生成本身 20 秒、结果却要多等 60~75 秒。实测同一请求：直连 92.5 秒 / 走系统代理 22.5 秒。现在代理启动时自动识别系统代理（环境变量 → macOS `scutil --proxy` → Windows Internet 选项），带 `NODE_USE_ENV_PROXY=1` 重启自己走代理，并把直连作为第二通道兜底（`CANVAS_PROXY_DISABLE_SYSTEM_PROXY=1` 可强制直连）。已用真实生图验证：23.1 秒拿到 1.86 MB 图片；客户端走 Chromium 线路实测 27.4 秒、1.30 MB 图片。
 
 ## v0.27.0 - 2026-10-26
 

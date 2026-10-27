@@ -319,3 +319,52 @@
 - 工作台 `/image`：2.66MB 参考图 → 请求体 0.411MB，4分29秒返回 `864x1536 / 3.4MB`，结果区有「下载」。
 - 画布图片节点：同一张图 → 请求体 0.411MB（同一条共享压缩路径），约 8 分钟返回，画布自动新建结果节点回填 `864x1536`。
 - 另修：历史记录把 `480x854` 这类非法 size 写回配置，导致点生成 3 秒本地报错（提交 d84c555）。
+
+## 2026-10-27 生图慢的真根因：出口线路（推翻「上游排队」结论）
+
+**用户对照数据**：同一上游、另一台电脑的生图只要 24~32 秒，本机 92~309 秒 → 说明不是上游排队，是本地链路。
+
+**根因**：浏览器版（`:3000`）经 `canvas-proxy`（独立 node 进程，PID 如 `node index.js --port 23210`）转发，它用 Node `fetch`(undici) **直连**，完全不看系统代理。这条线路 downlink 被限速到 ~30KB/s：1K 图的 base64 响应约 2MB，**生成本身只要 20 秒，结果要多等 60~75 秒**。
+
+**实测（同一 key、同一 `gpt-image-2 / 1024x1024 / low` 请求）**：
+
+| 路径 | 首字节 | 总耗时 | 体积 |
+|---|---|---|---|
+| curl 直连上游 | 16.9~21.6s | 60.3~97.2s | 2.0~2.15MB |
+| 走应用代理 23210（旧代码） | 36.8s | 165.3s | 2.06MB |
+| curl 走系统代理 7890 | 18.0s | **24.6s** | 1.55MB |
+| 修复后的 canvas-proxy（23299/23210） | 22.4s | **22.5~24.2s** | 1.86~3.07MB |
+
+**修复（提交 619dca7）**：`canvas-proxy/system-proxy.js` 新增系统代理探测（env → macOS `scutil --proxy` → Windows Internet 设置，只收 HTTP(S)，undici 不支持 socks）；`index.js` 探到代理就带 `NODE_USE_ENV_PROXY=1` **重启自己**（已实测：该变量只在进程启动时生效，运行时 `process.env` 赋值无效），并注册 `system`(proxyAware) + `direct`(node:https) 双通道，代理被 403 时回落直连；`CANVAS_PROXY_DISABLE_SYSTEM_PROXY=1` 强制直连。
+
+**下次排查生图慢，先做这三步（别再把结论下成「上游排队/模型慢」）**：
+1. 看 `curl -w 'starttransfer=%{time_starttransfer} total=%{time_total} speed=%{speed_download}'` —— 若 `total - starttransfer` 远大于 2MB ÷ 正常带宽，就是**响应体传输被限速**，不是生成慢。
+2. 同一请求换 `--proxy 127.0.0.1:7890` 复测，total 掉到 ~25s 即证明是线路。
+3. 起代理必须用**新进程**（`node index.js --port 23210`），改 `NODE_USE_ENV_PROXY` 只能靠重启；验证时看代理首行日志是否打印 `system proxy detected ... (transports: system, direct)`。
+
+**旁证**：桌面端 `desktop/main.js` 已把 `net.fetch`（Chromium 网络栈，proxyAware）设为第一传输，所以桌面端本来不受这个 bug 影响；受影响的是浏览器版/单独 npx 启动的代理。
+
+### 补记：「配置里的代理」是两跳中的第一跳，别和出口线路混为一谈
+- 配置面板只有 `proxyEnabled` + `proxyUrl`（`web/src/components/layout/app-config-modal.tsx:285-298`）。所谓「自动」= `ClientRootInit` 里 `detectLocalProxy()` 探到 23210 在跑就把 `proxyEnabled` 置 true（`client-root-init.tsx:19-33`），**它只管「浏览器 → 本机 canvas-proxy」这一跳**，和「canvas-proxy 出网走哪条线路」完全无关——后者才是 619dca7 修的（见上一条）。
+- 证据链：`proxyEnabled:true / proxyUrl:http://127.0.0.1:23210`，且代理日志能收到页面请求 → 第一跳一直是好的；慢在第二跳。
+- 谁负责启 23210：桌面端 `desktop/main.js` 会 `detectRunningProxy` 后 spawn 自己的代理；**网页版自 2026-10-27 起由 `web/vite-plugins/local-proxy.ts` 在 vite 启动时自动拉起**（`:23210` 已有代理则直接复用，dev server 关闭时代理一起收尾），不用再手动敲命令。仅「把 `web/dist` 静态托管出去、根本没有 vite 进程」的场景仍需自己起代理。
+
+## 2026-10-27 「需要就跳、不需要就不跳」收敛到共享层（网页版 + 客户端同一份判定）
+
+**用户要求**：第一跳之后自动判断要不要走第二跳（系统代理），网页版和客户端必须是同一套源码、同一个行为。
+
+**改法（三处，判定只有一份实现 = `canvas-proxy/system-proxy.js`）**：
+- `canvas-proxy/index.js`：无系统代理时 `transports` 原来是 `undefined`（被包默认成 `node` 通道），现显式给 `[{name:"direct"}]`，与有代理时的兜底通道同名字，日志不再骗人。
+- `web/vite-plugins/local-proxy.ts`（新，仅 `apply: "serve"`）：vite 启动时若 `127.0.0.1:23210` 无人监听就 spawn `canvas-proxy/index.js` 子进程（已有则 `[proxy] reusing ...`）；**第二跳探测在插件里做**，把 `NODE_USE_ENV_PROXY=1` + `HTTPS_PROXY/HTTP_PROXY/ALL_PROXY` 塞进子进程 env。不选「子进程自己 reexec」是因为 reexec 是「父退子继」，vite 手上只剩死 pid，dev server 关掉时收不了尾；这样 `httpServer.on("close")` 能干净收尾。
+- `desktop/main.js`：`proxyDir` 取代 `proxyEntry` 单文件路径，启动代理前 `await import(proxyDir/system-proxy.js).detectSystemProxy()`，有 → `[system(Chromium net.fetch), direct(node fetch)]`，无 → 单通道 `[{direct, proxyAware:true, fetch: systemFetch}]`。`desktop/package.json` 的 `extraResources` 相应从「单个 server.js + package.json」改成整个 `canvas-proxy` 目录（`filter: ["*.js","package.json"]`），否则打包后缺 `system-proxy.js`。
+
+**自证通道**：代理根路径 `GET /` 新增 `route` 字段（最近一次真实请求走的通道，`null` = 还没发过请求），实际请求日志多一行 `[proxy] outbound route: system`。
+
+**真实生图证据（同 key 同模型）**：
+| 场景 | route | 耗时 | 体积 |
+|---|---|---|---|
+| 网页版 :3000（vite 插件自起的代理） | system | 19.1s | 1.70MB |
+| 客户端自起代理（Chromium 网络栈） | system | 27.4s | 1.30MB |
+| `CANVAS_PROXY_DISABLE_SYSTEM_PROXY=1` | null（transports `["direct"]`） | — | — |
+
+**踩坑**：`pkill -f '/electron '` 匹配不到桌面端（真实命令行是 `.../.bin/electron/cli.js .` 和 `Electron.app/Contents/MacOS/Electron`），会留下还占着 23210/23211 的实例，导致下次启动「复用」了本该关掉的代理；收尾要用 `lsof -nP -iTCP:23210 -sTCP:LISTEN -t` 拿真实 PID 再 kill。

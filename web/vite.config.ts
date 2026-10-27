@@ -6,6 +6,7 @@ import { defineConfig, type Plugin } from "vite";
 
 import { parseChangelog } from "./src/lib/release";
 import { localAgentHub } from "./vite-plugins/local-agent-hub";
+import { localProxy } from "./vite-plugins/local-proxy";
 
 const webDir = dirname(fileURLToPath(import.meta.url));
 const localVersion = readFileSync(resolve(webDir, "../VERSION"), "utf8").trim() || "dev";
@@ -41,7 +42,7 @@ function localPluginsManifest(): Plugin {
 
 export default defineConfig({
     base: process.env.VITE_BASE || "/",
-    plugins: [react(), localPluginsManifest(), localAgentHub()],
+    plugins: [react(), localPluginsManifest(), localAgentHub(), localProxy()],
     resolve: {
         alias: {
             "@": resolve(webDir, "src"),

@@ -49,13 +49,14 @@ if (systemProxy && !envProxyActive && process.env.CANVAS_PROXY_SYSTEM_PROXY_REEX
     });
 } else {
     // System proxy first (Chromium/undici via env), plain Node HTTPS direct as the fallback: a proxy
-    // that is up but blocks the API (403) must not take the app down with it.
+    // that is up but blocks the API (403) must not take the app down with it. Without a system proxy
+    // the list is just the direct route, so the logs never claim a hop that was not taken.
     const transports = envProxyActive
         ? [
               { name: "system", proxyAware: true, fetch: (input, init) => globalThis.fetch(input, init) },
               { name: "direct", proxyAware: false, fetch: createDirectFetch() },
           ]
-        : undefined;
+        : [{ name: "direct", proxyAware: false, fetch: createDirectFetch() }];
 
     startProxyServer({ port, host, transports })
         .then(() => {

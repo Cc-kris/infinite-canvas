@@ -93,6 +93,7 @@ export function setFetchCandidates(candidates) {
     const usable = (candidates || []).filter((item) => typeof item?.fetch === "function");
     if (!usable.length) return;
     fetchCandidates = usable.map((item) => ({ name: item.name || "fetch", proxyAware: Boolean(item.proxyAware), fetch: item.fetch }));
+    activeRoute = null;
 }
 
 /** Backwards-compatible single-transport hook. */
@@ -197,6 +198,24 @@ function isLoopbackTarget(target) {
 /** Statuses that usually mean "this exit node is not allowed", not "your request is wrong". */
 const PROXY_REJECTED_STATUSES = new Set([403, 407, 451]);
 
+/**
+ * Which transport served the most recent successful request. Surfaced by the identity payload so
+ * both hosts (standalone proxy and the desktop shell) report the same thing, and so you can tell
+ * "second hop actually in use" from "second hop configured but never taken".
+ */
+let activeRoute = null;
+
+function noteRoute(name) {
+    if (activeRoute === name) return;
+    const previous = activeRoute;
+    activeRoute = name;
+    console.log(previous ? `  outbound route switched: ${previous} -> ${name}` : `  outbound route: ${name}`);
+}
+
+export function getActiveRoute() {
+    return activeRoute;
+}
+
 async function fetchUpstream(target, init, isAborted) {
     const ordered = isLoopbackTarget(target)
         ? [...fetchCandidates].sort((a, b) => Number(a.proxyAware) - Number(b.proxyAware))
@@ -229,6 +248,7 @@ async function fetchUpstream(target, init, isAborted) {
                 }
                 continue;
             }
+            noteRoute(candidate.name);
             return { response, candidate, controller, attempts };
         } catch (error) {
             attempts.push(describeFailure(candidate.name, error));
@@ -298,6 +318,7 @@ export function createProxyServer() {
                 proxy: pkg.name,
                 version: pkg.version,
                 transports: fetchCandidates.map((item) => item.name),
+                route: activeRoute,
                 usage: "/<full-target-url>",
             });
             return;
