@@ -1,0 +1,58 @@
+{
+  "toolId": "FIX_COLOR",
+  "route": "/tools/smart-edit/fix-color",
+  "fixture": "product-watch.jpg",
+  "startedAt": "2026-10-28T13:54:29.236Z",
+  "before": {
+    "images": [],
+    "issues": []
+  },
+  "submitBefore": {
+    "id": "fix-color-submit",
+    "text": "开始修复",
+    "disabled": true
+  },
+  "finishedAt": "2026-10-28T13:54:41.834Z",
+  "after": {
+    "submitButtons": [
+      {
+        "id": "fix-color-submit",
+        "text": "开始修复",
+        "disabled": false
+      }
+    ],
+    "issues": [
+      "fix-color-notice=任务状态未知，只能查询或人工确认",
+      "tool-task-error=任务失败\n\n无法连接 api.openai.com：连接超时（UND_ERR_CONNECT_TIMEOUT）。建议：网络握手超时，通常是代理不通或线路被限制；请检查代理状态与节点\n\n诊断码：timeout-or-network · 可按原",
+      "tool-task-notice=需要人工确认\n\n请求可能已被上游受理，为避免重复扣费不会自动重发。请用上游任务编号核对后再决定。"
+    ],
+    "images": [
+      {
+        "src": "blob:http://127.0.0.1:3000/8cb0ab34-5ac9-4f4e-b410-a4df42124",
+        "w": 1024,
+        "h": 744
+      },
+      {
+        "src": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAgEASABIAAD/4gxYSUNDX",
+        "w": 1024,
+        "h": 744
+      }
+    ],
+    "bodyText": "无限画布\n电商套图\n智能修图\n批量生图\n商品图设计\nAI视频\n中\n切换到浅色主题\nv0.27.0\n电商套图\n6\n智能修图\n8\n局部重绘\n局部消除\n一键换色\n图片裁剪\n商品精修\n色差修复\n印花修复\n手部修复\n批量生图\n0\n商品图设计\n19\nAI 视频\n6\n智能修图 / 色差修复\n色差修复\n/tools/smart-edit/fix-color\n色差修复\n智能修图 · 单图输出\n涂抹偏色区域，指定目标色，按真实图像模型完成校正\n色差源图\n更换图片\n上传色差图\n1 / 1 个 · PNG / JPG / WebP · ≤ 20 MB\n已达数量上限，先移除一个再上传\n校验格式 / 大小 / 像素，入库后可刷新恢复\nproduct-watch.jpg\n31 KB · 1024×744 · image/jpeg\n移除\nproduct-watch.jpg · 1024×744\n画笔\n橡皮\n笔刷\n35px\n15\n35\n60\n100\n羽化\n已涂 1 笔\n已涂抹 1.5% 区域 · 覆盖率 1%\n颜色\n区域色 = 图上被判定偏色的颜色（fixColorSegUrl）；目标色 = 校正后应达到的颜色（fixColorUrl）。\n区域颜色\n色差 ΔE 6.5 · 明显差异\n交换\n目标颜色\n点色块设为目标色\n修复版本\n参考匹配\n只把涂抹区域的颜色对齐到目标色，保留原明暗与材质\n色偏中和\n按区域平均偏色做整体中和，适合整片偏黄/偏蓝的拍摄色差\n局部补色\n只修补局部色彩异常（反光、污点引起的异色），边界自然过渡\n开始修复\n任务状态未知，只能查询或人工确认\n提交会真实调用当前图像模型；未返回图片即判失败，不会用占位图代替。\n色差修复结果\n结果未知\n结果未知\n无法确认上游是否受理，只能查询或人工确认\n0s\n任务失败\n无法连接 api.openai.com：连接超时（UND_ERR_CONNECT_TIMEOUT）。建议：网络握手超时，通常是代理不通或线路被限制；请检查代理状态与节点\n诊断码：timeout-or-network · 可按原参数重试\n需要人工确认\n请求可能已被上游受理，为避免重复扣费不会自"
+  },
+  "resultSrcPrefix": "data:image/jpeg;base64,/9j/4AAQSkZJRgABA",
+  "resultSaved": false,
+  "network": [
+    {
+      "method": "POST",
+      "url": "http://127.0.0.1:23210/https://api.openai.com/v1/images/edits",
+      "status": 502,
+      "ms": 505,
+      "at": "2026-10-28T13:54:35.800Z"
+    }
+  ],
+  "fixtureSha256": "43ede96e7ce88509",
+  "resultSha256": "43ede96e7ce88509",
+  "bogusSourceEcho": true,
+  "ok": false
+}

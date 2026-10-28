@@ -1,0 +1,19 @@
+{
+  "toolId": "CHANGE_COLOR",
+  "what": "上传一张真实 JPG 后，生成按钮的可用性（同一配方 scripts/real-acceptance/probe-color.mjs，同一 dev server :3000）",
+  "before": {
+    "capturedAt": "2026-10-28T13:45:05Z",
+    "fix": "未应用（isChangeColorSourceUsable 只认 data:/http(s)）",
+    "sourceMeta": "apparel-print.jpg · 1024×1024 · JPEG",
+    "submitDisabled": true,
+    "issues": "请先上传需要换色的图片。"
+  },
+  "after": {
+    "capturedAt": "2026-10-28T13:50:49Z",
+    "fix": "isChangeColorSourceUsable 接受 blob:（上传后本地资产的真实形态）",
+    "sourceMeta": "apparel-print.jpg · 1024×1024 · JPEG",
+    "submitDisabled": false,
+    "issues": null
+  },
+  "conclusion": "上传成功但按钮永久禁用是产品缺陷（P0，工具不可用）；修复后按钮解禁，提交能真实发出（见 run.json 的 POST 记录）。"
+}

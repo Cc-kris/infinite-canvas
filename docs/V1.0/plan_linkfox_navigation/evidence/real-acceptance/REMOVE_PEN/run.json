@@ -1,0 +1,61 @@
+{
+  "toolId": "REMOVE_PEN",
+  "route": "/tools/smart-edit/remove-pen",
+  "fixture": "product-watch.jpg",
+  "startedAt": "2026-10-28T13:54:43.092Z",
+  "before": {
+    "images": [],
+    "issues": [
+      "remove-pen-issues=· 请先上传需要消除的图片\n· 请先在图片上涂抹要消除的区域"
+    ]
+  },
+  "submitBefore": {
+    "id": "remove-pen-submit",
+    "text": "开始消除",
+    "disabled": true
+  },
+  "finishedAt": "2026-10-28T13:54:55.794Z",
+  "after": {
+    "submitButtons": [
+      {
+        "id": "remove-pen-submit",
+        "text": "开始消除",
+        "disabled": false
+      }
+    ],
+    "issues": [
+      "remove-pen-notice=任务状态未知，只能查询或人工确认",
+      "remove-pen-error=任务状态未知，只能查询或人工确认（诊断码：task-unknown）",
+      "tool-task-error=任务失败\n\n无法连接 api.openai.com：连接超时（UND_ERR_CONNECT_TIMEOUT）。建议：网络握手超时，通常是代理不通或线路被限制；请检查代理状态与节点\n\n诊断码：timeout-or-network · 可按原",
+      "tool-task-notice=需要人工确认\n\n请求可能已被上游受理，为避免重复扣费不会自动重发。请用上游任务编号核对后再决定。"
+    ],
+    "images": [
+      {
+        "src": "blob:http://127.0.0.1:3000/26948763-bd14-4644-9f6e-b5bb0da0a",
+        "w": 1024,
+        "h": 744
+      },
+      {
+        "src": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAgEASABIAAD/4gxYSUNDX",
+        "w": 1024,
+        "h": 744
+      }
+    ],
+    "bodyText": "无限画布\n电商套图\n智能修图\n批量生图\n商品图设计\nAI视频\n中\n切换到浅色主题\nv0.27.0\n电商套图\n6\n智能修图\n8\n局部重绘\n局部消除\n一键换色\n图片裁剪\n商品精修\n色差修复\n印花修复\n手部修复\n批量生图\n0\n商品图设计\n19\nAI 视频\n6\n智能修图 / 局部消除\n局部消除\n/tools/smart-edit/remove-pen\n局部消除\nmakeType 23\n上传需要消除的图片，使用画笔涂抹即可一键消除；结果与原图可前后对比\n开始消除\n任务状态未知，只能查询或人工确认\n涂抹或图片已变更：下面是上一次提交的结果，不代表当前涂抹区域。\n需要消除的图片\n重新上传\n1 / 1 个 · PNG / JPG / WebP · ≤ 20 MB\n已达数量上限，先移除一个再上传\n校验格式 / 大小 / 像素，入库后可刷新恢复\nproduct-watch.jpg\n31 KB · 1024×744 · image/jpeg\n移除\nproduct-watch.jpg · 1024×744\n重新上传（清空涂抹）\n画笔\n大小\n像素\n15\n35\n60\n100\n撤销\n重做\n重置\n已涂抹 3 笔 · 已涂抹 15.1% 区域\n涂抹消除区域\n白色蒙版 = 要消除的区域；红色覆盖只是预览\n前后对比\n并排对比\n滑动对比\n只看结果\n任务状态未知，只能查询或人工确认（诊断码：task-unknown）\n结果未知\n无法确认上游是否受理，只能查询或人工确认\n0s\n任务失败\n无法连接 api.openai.com：连接超时（UND_ERR_CONNECT_TIMEOUT）。建议：网络握手超时，通常是代理不通或线路被限制；请检查代理状态与节点\n诊断码：timeout-or-network · 可按原参数重试\n需要人工确认\n请求可能已被上游受理，为避免重复扣费不会自动重发。请用上游任务编号核对后再决定。\n还没有结果。涂抹要消除的区域后点「开始消除」。\n99+\n连接本地 Agent\n已连接\n点连接会自动启动本地服务、装好插件并接通，无需手动配置。\nClaude Code\n未连接\n·\nCLI · 2.1.28"
+  },
+  "resultSrcPrefix": "data:image/jpeg;base64,/9j/4AAQSkZJRgABA",
+  "resultSaved": false,
+  "network": [
+    {
+      "method": "POST",
+      "url": "http://127.0.0.1:23210/https://api.openai.com/v1/images/edits",
+      "status": 502,
+      "ms": 506,
+      "at": "2026-10-28T13:54:49.752Z"
+    }
+  ],
+  "fixtureSha256": "43ede96e7ce88509",
+  "resultSha256": "43ede96e7ce88509",
+  "bogusSourceEcho": true,
+  "ok": false
+}

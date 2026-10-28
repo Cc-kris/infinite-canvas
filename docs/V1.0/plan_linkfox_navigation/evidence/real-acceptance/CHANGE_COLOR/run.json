@@ -1,0 +1,59 @@
+{
+  "toolId": "CHANGE_COLOR",
+  "route": "/tools/smart-edit/change-color",
+  "fixture": "apparel-print.jpg",
+  "startedAt": "2026-10-28T13:53:39.864Z",
+  "before": {
+    "images": [],
+    "issues": [
+      "change-color-issues=请先上传需要换色的图片。\n请选择颜色或上传颜色参考图提色。"
+    ]
+  },
+  "submitBefore": {
+    "id": "change-color-generate",
+    "text": "立即生成（10 算力）",
+    "disabled": true
+  },
+  "finishedAt": "2026-10-28T13:53:51.238Z",
+  "after": {
+    "submitButtons": [
+      {
+        "id": "change-color-generate",
+        "text": "立即生成（10 算力）",
+        "disabled": false
+      }
+    ],
+    "issues": [
+      "tool-task-error=任务失败\n\n无法连接 api.openai.com：连接超时（UND_ERR_CONNECT_TIMEOUT）。建议：网络握手超时，通常是代理不通或线路被限制；请检查代理状态与节点\n\n诊断码：timeout-or-network · 可按原",
+      "tool-task-notice=需要人工确认\n\n请求可能已被上游受理，为避免重复扣费不会自动重发。请用上游任务编号核对后再决定。"
+    ],
+    "images": [
+      {
+        "src": "blob:http://127.0.0.1:3000/2007588a-98af-41dd-9e2c-963b97b42",
+        "w": 1024,
+        "h": 1024
+      },
+      {
+        "src": "blob:http://127.0.0.1:3000/2007588a-98af-41dd-9e2c-963b97b42",
+        "w": 1024,
+        "h": 1024
+      }
+    ],
+    "bodyText": "无限画布\n电商套图\n智能修图\n批量生图\n商品图设计\nAI视频\n中\n切换到浅色主题\nv0.27.0\n电商套图\n6\n智能修图\n8\n局部重绘\n局部消除\n一键换色\n图片裁剪\n商品精修\n色差修复\n印花修复\n手部修复\n批量生图\n0\n商品图设计\n19\nAI 视频\n6\n智能修图 / 一键换色\n一键换色\n/tools/smart-edit/change-color\n图片\nJPG / PNG / WEBP，≤10M\n上传素材\n1 / 1 个 · JPG / PNG / WebP · ≤ 10 MB\n已达数量上限，先移除一个再上传\n校验格式 / 大小 / 像素，入库后可刷新恢复\napparel-print.jpg\n86 KB · 1024×1024 · image/jpeg\n移除\napparel-print.jpg · 1024×1024 · JPEG\n任务名称\n颜色 / 参考图\n选择颜色后全图或选区按此色调改写\n收藏色卡\n目标色 #2E6BE6\n收藏色卡\n颜色参考图（可选）\n上传素材\n0 / 1 个 · JPG / PNG / WebP · ≤ 10 MB\n点击选择本地文件，或拖拽到这里\n校验格式 / 大小 / 像素，入库后可刷新恢复\n还没有素材\n区域\n涂选要换色的对象；不涂=整图\n整图主体\n衣服\n上装\n下装\n鞋\n包\n配饰\n假发\n自定义\n当前区域：人物身上的衣服（衣身与袖子）\n笔刷\n28\n未涂选区：按整图换色\n撤销\n清空选区\n去杂色\n去掉换色后残留的原色噪点\n开启\n关闭\n颜色细调\n空值=不调整\n色调\n0\n饱和度\n0\n亮度\n0\n对比度\n0\n默认（无微调）\n重置\n光影与边缘\n光影 / 边缘 / 颜色边缘修复 / 色彩平衡 / 曲线\n光影优化\n强度 50\n边缘优化\n颜色边缘修复\n色彩平衡\n曲线\n线性\n柔光\nS 曲线\n强对比\n光影优化 50 · 边缘优化 开 · 颜色边缘修复 关\n重置\n生成\n模型：default::gpt-image-2 · 1 张\n立即生成（10 算力）\n原图或参数已变更，下面的结果来自上一版配置，请重新生成。\n生成结果\n结果未知\n结果未知\n无法确认上游是否受理，只能查询或人工"
+  },
+  "resultSrcPrefix": "blob:http://127.0.0.1:3000/2007588a-98af",
+  "resultSaved": false,
+  "network": [
+    {
+      "method": "POST",
+      "url": "http://127.0.0.1:23210/https://api.openai.com/v1/images/edits",
+      "status": 502,
+      "ms": 525,
+      "at": "2026-10-28T13:53:45.231Z"
+    }
+  ],
+  "fixtureSha256": "5c80a61e9271298d",
+  "resultSha256": "5c80a61e9271298d",
+  "bogusSourceEcho": true,
+  "ok": false
+}

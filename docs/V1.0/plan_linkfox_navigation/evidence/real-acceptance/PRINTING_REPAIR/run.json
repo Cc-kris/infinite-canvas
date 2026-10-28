@@ -1,0 +1,70 @@
+{
+  "toolId": "PRINTING_REPAIR",
+  "route": "/tools/smart-edit/printing-repair",
+  "fixture": "apparel-print.jpg",
+  "startedAt": "2026-10-28T13:55:09.297Z",
+  "before": {
+    "images": [],
+    "issues": [
+      "printing-repair-issues=请先上传印花有误的图片（Step 1）\n请先上传正确的印花参考（Step 2）\n印花分割图尚未生成，请重新上传印花参考"
+    ]
+  },
+  "submitBefore": {
+    "id": "printing-repair-submit",
+    "text": "开始修复",
+    "disabled": true
+  },
+  "finishedAt": "2026-10-28T13:55:26.007Z",
+  "after": {
+    "submitButtons": [
+      {
+        "id": "printing-repair-submit",
+        "text": "开始修复",
+        "disabled": false
+      }
+    ],
+    "issues": [
+      "printing-repair-issues=任务状态未知，只能查询或人工确认",
+      "tool-task-error=任务失败\n\n无法连接 api.openai.com：连接超时（UND_ERR_CONNECT_TIMEOUT）。建议：网络握手超时，通常是代理不通或线路被限制；请检查代理状态与节点\n\n诊断码：timeout-or-network · 可按原",
+      "tool-task-notice=需要人工确认\n\n请求可能已被上游受理，为避免重复扣费不会自动重发。请用上游任务编号核对后再决定。"
+    ],
+    "images": [
+      {
+        "src": "blob:http://127.0.0.1:3000/68a94f76-2410-4957-896f-60219c80d",
+        "w": 1024,
+        "h": 1024
+      },
+      {
+        "src": "blob:http://127.0.0.1:3000/9bf8bc7d-e009-407e-b7ca-61c3b8663",
+        "w": 1024,
+        "h": 1024
+      },
+      {
+        "src": "blob:http://127.0.0.1:3000/68a94f76-2410-4957-896f-60219c80d",
+        "w": 1024,
+        "h": 1024
+      },
+      {
+        "src": "blob:http://127.0.0.1:3000/9bf8bc7d-e009-407e-b7ca-61c3b8663",
+        "w": 1024,
+        "h": 1024
+      }
+    ],
+    "bodyText": "无限画布\n电商套图\n智能修图\n批量生图\n商品图设计\nAI视频\n中\n切换到浅色主题\nv0.27.0\n电商套图\n6\n智能修图\n8\n局部重绘\n局部消除\n一键换色\n图片裁剪\n商品精修\n色差修复\n印花修复\n手部修复\n批量生图\n0\n商品图设计\n19\nAI 视频\n6\n智能修图 / 印花修复\n印花修复\n/tools/smart-edit/printing-repair\n印花修复\nmakeType 29\n三步完成：商品图 → 正确印花 → 定位，一次真实图像编辑\n1\n上传印花有误的商品图\n这张图是修复底图：商品形状、褶皱、光影都会保留，只替换印花。\n已完成\nStep 1 · 商品图\n1 / 1 个 · PNG / JPG / WebP · ≤ 20 MB\n已达数量上限，先移除一个再上传\n校验格式 / 大小 / 像素，入库后可刷新恢复\napparel-print.jpg\n86 KB · 1024×1024 · image/jpeg\n移除\n2\n上传正确的印花\n作为替换来源，本机会先做像素分割（白=印花本体）。\n已完成\nStep 2 · 印花参考\n1 / 1 个 · PNG / JPG / WebP · ≤ 20 MB\n已达数量上限，先移除一个再上传\n校验格式 / 大小 / 像素，入库后可刷新恢复\napparel-print.jpg\n86 KB · 1024×1024 · image/jpeg\n移除\n分割图已生成 · 印花占比 94.9% · 1024×1024\n3\n定位印花\n拖动印花层移动；方向键微调（Shift 加速）；滚轮缩放；只有印花层可动。\n撤销\n重做\n重置\n撤销 0 / 重做 0\n缩放\n100%\n25%\n50%\n75%\n100%\n旋转\n0°\n-90°\n-15°\n15°\n90°\n-90\n+90\n位置 50.0% / 50.0% · 缩放 100% · 旋转 0° · 画面覆盖 100.0%\n消除错误印花\n导入正确印花\n调整印花位置\n修复参数\n修复强度\n70\n强度越高，越贴近新的印花纹理；越低越保留原图褶皱。\n版本\n标准（结构优先）\n精细（纹理优先）\n对比方式\n局部对比\n并排对比\n滑动"
+  },
+  "resultSrcPrefix": "blob:http://127.0.0.1:3000/9bf8bc7d-e009",
+  "resultSaved": false,
+  "network": [
+    {
+      "method": "POST",
+      "url": "http://127.0.0.1:23210/https://api.openai.com/v1/images/edits",
+      "status": 502,
+      "ms": 504,
+      "at": "2026-10-28T13:55:19.993Z"
+    }
+  ],
+  "fixtureSha256": "5c80a61e9271298d",
+  "resultSha256": "5c80a61e9271298d",
+  "bogusSourceEcho": true,
+  "ok": false
+}
