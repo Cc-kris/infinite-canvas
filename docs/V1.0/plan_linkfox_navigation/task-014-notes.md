@@ -49,6 +49,11 @@ $ npx bun test <两个测试文件>
 - **未接路由**：`AREA_REPAIR_ROUTE = "/tools/smart-edit/area-repair"`、`AREA_REPAIR_LAYOUT = "mask"` 已在 registry 定义，但 `tool-page.tsx` 的 layout→workspace 映射属于页面装配任务（与 color-v2 / outpaint 同批），本次未改动，避免与并行 worker 冲突。
 - **无真实上游调用**：`createAreaRepairRunPort` 走的是任务机 `runTool`；端到端出图需配好模型与额度后在真实页面点一次（本地无凭据，未跑）。
 - **画布交互靠逻辑测试兜底**：`mask-canvas` 的指针涂抹无法在 SSR 环境跑，覆盖方式是「笔画状态机 + 栅格化纯函数」的单元测试（覆盖率、反选互补、自动扩边变大、撤销重做），交互层未做 DOM 事件仿真。
+- **与并行 worker 的文件碰撞（局部消除 REMOVE_PEN）**：`mask.tsx` 被另一路 worker 继续追加 remove-pen 代码（当前工作区 `+32` 行未提交，非我改动，我未提交它）。因此**工作区当前 `tsc` 会报 2 个错误，均不在我的代码上**：
+  - `mask.tsx(46,29)` —— 那行是对方新增的 `import { exportRemovePenMaskPng } from "@/features/tools/adapters/remove-pen"`，其 adapter 尚未导出该成员；
+  - `features/tools/adapters/change-color.ts(332,5)` —— 另一路 change-color 的类型不匹配。
+
+  我这 4 个交付文件在提交时 `tsc --noEmit` = 0 错误（见第 3 节证据），提交后我的两个测试文件仍 36/36 通过。
 
 ## 5. 使用入口
 
