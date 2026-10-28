@@ -1,0 +1,314 @@
+[
+  {
+    "id": "PRODUCT_IMAGE_SUITE",
+    "label": "商品套图",
+    "status": "workspace_dom",
+    "url": "https://www.linkfox.com/draw/product-image-suite",
+    "title": "LinkFox官网 - 跨境电商AI运营助手 - AI选品AI作图AI视频AI Agent OS",
+    "evidence": "/Users/mac/Documents/Dev/infinite-canvas/docs/V1.0/plan_linkfox_navigation/evidence/page-dom-20261028/PRODUCT_IMAGE_SUITE.json"
+  },
+  {
+    "id": "DRESS_WEAR_SET",
+    "label": "服装套图",
+    "status": "workspace_dom",
+    "url": "https://www.linkfox.com/draw/clothing-image-suite",
+    "title": "服装套图 - LinkFox",
+    "evidence": "/Users/mac/Documents/Dev/infinite-canvas/docs/V1.0/plan_linkfox_navigation/evidence/page-dom-20261028/DRESS_WEAR_SET.json"
+  },
+  {
+    "id": "CHANGE_COLOR_V2",
+    "label": "套图换色",
+    "status": "workspace_dom",
+    "url": "https://www.linkfox.com/draw/change-color-v2",
+    "title": "套图换色 - LinkFox",
+    "evidence": "/Users/mac/Documents/Dev/infinite-canvas/docs/V1.0/plan_linkfox_navigation/evidence/page-dom-20261028/CHANGE_COLOR_V2.json"
+  },
+  {
+    "id": "IMAGE_TRANSLATION",
+    "label": "批量翻译",
+    "status": "workspace_dom",
+    "url": "https://www.linkfox.com/draw/image-translation",
+    "title": "图片翻译 - LinkFox",
+    "evidence": "/Users/mac/Documents/Dev/infinite-canvas/docs/V1.0/plan_linkfox_navigation/evidence/page-dom-20261028/IMAGE_TRANSLATION.json"
+  },
+  {
+    "id": "SCALE_UP",
+    "label": "高清放大",
+    "status": "workspace_dom",
+    "url": "https://www.linkfox.com/draw/quality-increase",
+    "title": "LinkFox官网 - 跨境电商AI运营助手 - AI选品AI作图AI视频AI Agent OS",
+    "evidence": "/Users/mac/Documents/Dev/infinite-canvas/docs/V1.0/plan_linkfox_navigation/evidence/page-dom-20261028/SCALE_UP.json"
+  },
+  {
+    "id": "AI_OUTPAINTING",
+    "label": "智能扩图",
+    "status": "workspace_dom",
+    "url": "https://www.linkfox.com/draw/ai-outpainting",
+    "title": "LinkFox官网 - 跨境电商AI运营助手 - AI选品AI作图AI视频AI Agent OS",
+    "evidence": "/Users/mac/Documents/Dev/infinite-canvas/docs/V1.0/plan_linkfox_navigation/evidence/page-dom-20261028/AI_OUTPAINTING.json"
+  },
+  {
+    "id": "AREA_REPAIR",
+    "label": "局部重绘",
+    "status": "workspace_dom",
+    "url": "https://www.linkfox.com/draw/area-repair",
+    "title": "LinkFox官网 - 跨境电商AI运营助手 - AI选品AI作图AI视频AI Agent OS",
+    "evidence": "/Users/mac/Documents/Dev/infinite-canvas/docs/V1.0/plan_linkfox_navigation/evidence/page-dom-20261028/AREA_REPAIR.json"
+  },
+  {
+    "id": "REMOVE_PEN",
+    "label": "局部消除",
+    "status": "workspace_dom",
+    "url": "https://www.linkfox.com/draw/remove-pen",
+    "title": "LinkFox官网 - 跨境电商AI运营助手 - AI选品AI作图AI视频AI Agent OS",
+    "evidence": "/Users/mac/Documents/Dev/infinite-canvas/docs/V1.0/plan_linkfox_navigation/evidence/page-dom-20261028/REMOVE_PEN.json"
+  },
+  {
+    "id": "CHANGE_COLOR",
+    "label": "一键换色",
+    "status": "workspace_dom",
+    "url": "https://www.linkfox.com/draw/change-color",
+    "title": "LinkFox官网 - 跨境电商AI运营助手 - AI选品AI作图AI视频AI Agent OS",
+    "evidence": "/Users/mac/Documents/Dev/infinite-canvas/docs/V1.0/plan_linkfox_navigation/evidence/page-dom-20261028/CHANGE_COLOR.json"
+  },
+  {
+    "id": "IMAGE_CROP",
+    "label": "图片裁剪",
+    "status": "workspace_dom",
+    "url": "https://www.linkfox.com/draw/image-crop",
+    "title": "LinkFox官网 - 跨境电商AI运营助手 - AI选品AI作图AI视频AI Agent OS",
+    "evidence": "/Users/mac/Documents/Dev/infinite-canvas/docs/V1.0/plan_linkfox_navigation/evidence/page-dom-20261028/IMAGE_CROP.json"
+  },
+  {
+    "id": "PRODUCT_REFINE",
+    "label": "商品精修",
+    "status": "workspace_dom",
+    "url": "https://www.linkfox.com/draw/product-refine",
+    "title": "LinkFox官网 - 跨境电商AI运营助手 - AI选品AI作图AI视频AI Agent OS",
+    "evidence": "/Users/mac/Documents/Dev/infinite-canvas/docs/V1.0/plan_linkfox_navigation/evidence/page-dom-20261028/PRODUCT_REFINE.json"
+  },
+  {
+    "id": "FIX_COLOR",
+    "label": "色差修复",
+    "status": "workspace_dom_corrected_route",
+    "url": "https://www.linkfox.com/draw/color-diff-repair",
+    "title": "色差修复实际工作区",
+    "evidence": "COLOR_DIFF_REPAIR.json"
+  },
+  {
+    "id": "PRINTING_REPAIR",
+    "label": "印花修复",
+    "status": "workspace_dom",
+    "url": "https://www.linkfox.com/draw/printing-repair",
+    "title": "LinkFox官网 - 跨境电商AI运营助手 - AI选品AI作图AI视频AI Agent OS",
+    "evidence": "/Users/mac/Documents/Dev/infinite-canvas/docs/V1.0/plan_linkfox_navigation/evidence/page-dom-20261028/PRINTING_REPAIR.json"
+  },
+  {
+    "id": "HAND_REPAIR",
+    "label": "手部修复",
+    "status": "workspace_dom",
+    "url": "https://www.linkfox.com/draw/hand-repair",
+    "title": "LinkFox官网 - 跨境电商AI运营助手 - AI选品AI作图AI视频AI Agent OS",
+    "evidence": "/Users/mac/Documents/Dev/infinite-canvas/docs/V1.0/plan_linkfox_navigation/evidence/page-dom-20261028/HAND_REPAIR.json"
+  },
+  {
+    "id": "NEW_REPLACE_BG_V2",
+    "label": "商品图",
+    "status": "supplemental_chunk_design",
+    "url": "",
+    "title": "",
+    "evidence": "workbench chunk + tool_specs.json"
+  },
+  {
+    "id": "REPLACE_GOODS",
+    "label": "商品替换",
+    "status": "workspace_dom",
+    "url": "https://www.linkfox.com/draw/product-replacement",
+    "title": "LinkFox官网 - 跨境电商AI运营助手 - AI选品AI作图AI视频AI Agent OS",
+    "evidence": "/Users/mac/Documents/Dev/infinite-canvas/docs/V1.0/plan_linkfox_navigation/evidence/page-dom-20261028/REPLACE_GOODS.json"
+  },
+  {
+    "id": "PRODUCT_SCENE",
+    "label": "场景裂变",
+    "status": "workspace_dom",
+    "url": "https://www.linkfox.com/draw/product-scene?type=2",
+    "title": "LinkFox官网 - 跨境电商AI运营助手 - AI选品AI作图AI视频AI Agent OS",
+    "evidence": "/Users/mac/Documents/Dev/infinite-canvas/docs/V1.0/plan_linkfox_navigation/evidence/page-dom-20261028/PRODUCT_SCENE.json"
+  },
+  {
+    "id": "HANDHELD_GOODS",
+    "label": "手持商品",
+    "status": "workspace_dom",
+    "url": "https://www.linkfox.com/draw/handheld-goods",
+    "title": "LinkFox官网 - 跨境电商AI运营助手 - AI选品AI作图AI视频AI Agent OS",
+    "evidence": "/Users/mac/Documents/Dev/infinite-canvas/docs/V1.0/plan_linkfox_navigation/evidence/page-dom-20261028/HANDHELD_GOODS.json"
+  },
+  {
+    "id": "AI_DRESSING_V2",
+    "label": "AI穿衣",
+    "status": "workspace_dom",
+    "url": "https://www.linkfox.com/draw/ai-dressing",
+    "title": "LinkFox官网 - 跨境电商AI运营助手 - AI选品AI作图AI视频AI Agent OS",
+    "evidence": "/Users/mac/Documents/Dev/infinite-canvas/docs/V1.0/plan_linkfox_navigation/evidence/page-dom-20261028/AI_DRESSING_V2.json"
+  },
+  {
+    "id": "AI_POSTURE",
+    "label": "姿势裂变",
+    "status": "workspace_dom",
+    "url": "https://www.linkfox.com/draw/ai-posture",
+    "title": "LinkFox官网 - 跨境电商AI运营助手 - AI选品AI作图AI视频AI Agent OS",
+    "evidence": "/Users/mac/Documents/Dev/infinite-canvas/docs/V1.0/plan_linkfox_navigation/evidence/page-dom-20261028/AI_POSTURE.json"
+  },
+  {
+    "id": "AI_WEARABLE",
+    "label": "AI穿戴",
+    "status": "workspace_dom",
+    "url": "https://www.linkfox.com/draw/ai-wearable",
+    "title": "LinkFox官网 - 跨境电商AI运营助手 - AI选品AI作图AI视频AI Agent OS",
+    "evidence": "/Users/mac/Documents/Dev/infinite-canvas/docs/V1.0/plan_linkfox_navigation/evidence/page-dom-20261028/AI_WEARABLE.json"
+  },
+  {
+    "id": "AI_TEXT",
+    "label": "POD素材",
+    "status": "permission_redirect_home",
+    "url": "https://www.linkfox.com/home",
+    "title": "LinkFox官网 - 跨境电商AI运营助手 - AI选品AI作图AI视频AI Agent OS",
+    "evidence": "/Users/mac/Documents/Dev/infinite-canvas/docs/V1.0/plan_linkfox_navigation/evidence/page-dom-20261028/AI_TEXT.json"
+  },
+  {
+    "id": "ORNAMENT_TEXT",
+    "label": "饰品文字",
+    "status": "permission_redirect_home",
+    "url": "https://www.linkfox.com/home",
+    "title": "LinkFox官网 - 跨境电商AI运营助手 - AI选品AI作图AI视频AI Agent OS",
+    "evidence": "/Users/mac/Documents/Dev/infinite-canvas/docs/V1.0/plan_linkfox_navigation/evidence/page-dom-20261028/ORNAMENT_TEXT.json"
+  },
+  {
+    "id": "SDS_DESIGN",
+    "label": "素材贴合",
+    "status": "workspace_dom",
+    "url": "https://www.linkfox.com/draw/sds-design",
+    "title": "LinkFox官网 - 跨境电商AI运营助手 - AI选品AI作图AI视频AI Agent OS",
+    "evidence": "/Users/mac/Documents/Dev/infinite-canvas/docs/V1.0/plan_linkfox_navigation/evidence/page-dom-20261028/SDS_DESIGN.json"
+  },
+  {
+    "id": "PRINT_EXTRACT",
+    "label": "印花提取",
+    "status": "workspace_dom",
+    "url": "https://www.linkfox.com/draw/print-extract",
+    "title": "LinkFox官网 - 跨境电商AI运营助手 - AI选品AI作图AI视频AI Agent OS",
+    "evidence": "/Users/mac/Documents/Dev/infinite-canvas/docs/V1.0/plan_linkfox_navigation/evidence/page-dom-20261028/PRINT_EXTRACT.json"
+  },
+  {
+    "id": "AI_POSE_GENERATOR",
+    "label": "AI姿势生成",
+    "status": "supplemental_chunk_design",
+    "url": "",
+    "title": "",
+    "evidence": "workbench chunk + tool_specs.json"
+  },
+  {
+    "id": "AI_DRESSING_XSY",
+    "label": "AI试衣XSY",
+    "status": "supplemental_chunk_design",
+    "url": "",
+    "title": "",
+    "evidence": "workbench chunk + tool_specs.json"
+  },
+  {
+    "id": "FISSION_LINK",
+    "label": "场景裂变链接",
+    "status": "supplemental_chunk_design",
+    "url": "",
+    "title": "",
+    "evidence": "workbench chunk + tool_specs.json"
+  },
+  {
+    "id": "IMAGE_TEXT_EDIT",
+    "label": "图片文字编辑",
+    "status": "supplemental_chunk_design",
+    "url": "",
+    "title": "",
+    "evidence": "workbench chunk + tool_specs.json"
+  },
+  {
+    "id": "MATERIAL_UPPER_BODY",
+    "label": "上装换料",
+    "status": "supplemental_chunk_design",
+    "url": "",
+    "title": "",
+    "evidence": "workbench chunk + tool_specs.json"
+  },
+  {
+    "id": "NEW_DESIGNER",
+    "label": "商品图设计器",
+    "status": "supplemental_chunk_design",
+    "url": "",
+    "title": "",
+    "evidence": "workbench chunk + tool_specs.json"
+  },
+  {
+    "id": "PRODUCT_MARKET_MATERIAL",
+    "label": "商品营销素材",
+    "status": "supplemental_chunk_design",
+    "url": "",
+    "title": "",
+    "evidence": "workbench chunk + tool_specs.json"
+  },
+  {
+    "id": "SCENE_TRANSFER",
+    "label": "场景迁移",
+    "status": "supplemental_chunk_design",
+    "url": "",
+    "title": "",
+    "evidence": "workbench chunk + tool_specs.json"
+  },
+  {
+    "id": "IMAGE_TO_VIDEO",
+    "label": "图转视频",
+    "status": "workspace_dom",
+    "url": "https://www.linkfox.com/draw/video",
+    "title": "LinkFox官网 - 跨境电商AI运营助手 - AI选品AI作图AI视频AI Agent OS",
+    "evidence": "/Users/mac/Documents/Dev/infinite-canvas/docs/V1.0/plan_linkfox_navigation/evidence/page-dom-20261028/IMAGE_TO_VIDEO.json"
+  },
+  {
+    "id": "SALE_VIDEO",
+    "label": "带货口播",
+    "status": "workspace_dom",
+    "url": "https://www.linkfox.com/draw/sale-video",
+    "title": "LinkFox官网 - 跨境电商AI运营助手 - AI选品AI作图AI视频AI Agent OS",
+    "evidence": "/Users/mac/Documents/Dev/infinite-canvas/docs/V1.0/plan_linkfox_navigation/evidence/page-dom-20261028/SALE_VIDEO.json"
+  },
+  {
+    "id": "VIDEO_REPLICATION",
+    "label": "视频复刻",
+    "status": "workspace_dom",
+    "url": "https://www.linkfox.com/draw/video-replication",
+    "title": "LinkFox官网 - 跨境电商AI运营助手 - AI选品AI作图AI视频AI Agent OS",
+    "evidence": "/Users/mac/Documents/Dev/infinite-canvas/docs/V1.0/plan_linkfox_navigation/evidence/page-dom-20261028/VIDEO_REPLICATION.json"
+  },
+  {
+    "id": "AI_VIDEO_EDITING",
+    "label": "视频编辑",
+    "status": "workspace_dom",
+    "url": "https://www.linkfox.com/draw/ai-video-edit",
+    "title": "LinkFox官网 - 跨境电商AI运营助手 - AI选品AI作图AI视频AI Agent OS",
+    "evidence": "/Users/mac/Documents/Dev/infinite-canvas/docs/V1.0/plan_linkfox_navigation/evidence/page-dom-20261028/AI_VIDEO_EDITING.json"
+  },
+  {
+    "id": "VIDEO_TRANSLATION",
+    "label": "视频翻译",
+    "status": "workspace_dom",
+    "url": "https://www.linkfox.com/draw/video-translation",
+    "title": "LinkFox官网 - 跨境电商AI运营助手 - AI选品AI作图AI视频AI Agent OS",
+    "evidence": "/Users/mac/Documents/Dev/infinite-canvas/docs/V1.0/plan_linkfox_navigation/evidence/page-dom-20261028/VIDEO_TRANSLATION.json"
+  },
+  {
+    "id": "VIDEO_CONCAT",
+    "label": "视频拼接",
+    "status": "supplemental_chunk_design",
+    "url": "",
+    "title": "",
+    "evidence": "workbench chunk + tool_specs.json"
+  }
+]

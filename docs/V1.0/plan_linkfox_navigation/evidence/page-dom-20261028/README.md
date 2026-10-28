@@ -1,0 +1,43 @@
+# 2026-10-28 逐页 DOM 证据
+
+通过已登录 Chrome 的真实页面采集。`page-dom` 文件包含 URL、标题、可见正文、控件与区域矩形。权限重定向与 404 不冒充工具页面。
+
+- PRODUCT_IMAGE_SUITE｜商品套图：workspace_dom；https://www.linkfox.com/draw/product-image-suite
+- DRESS_WEAR_SET｜服装套图：workspace_dom；https://www.linkfox.com/draw/clothing-image-suite
+- CHANGE_COLOR_V2｜套图换色：workspace_dom；https://www.linkfox.com/draw/change-color-v2
+- IMAGE_TRANSLATION｜批量翻译：workspace_dom；https://www.linkfox.com/draw/image-translation
+- SCALE_UP｜高清放大：workspace_dom；https://www.linkfox.com/draw/quality-increase
+- AI_OUTPAINTING｜智能扩图：workspace_dom；https://www.linkfox.com/draw/ai-outpainting
+- AREA_REPAIR｜局部重绘：workspace_dom；https://www.linkfox.com/draw/area-repair
+- REMOVE_PEN｜局部消除：workspace_dom；https://www.linkfox.com/draw/remove-pen
+- CHANGE_COLOR｜一键换色：workspace_dom；https://www.linkfox.com/draw/change-color
+- IMAGE_CROP｜图片裁剪：workspace_dom；https://www.linkfox.com/draw/image-crop
+- PRODUCT_REFINE｜商品精修：workspace_dom；https://www.linkfox.com/draw/product-refine
+- FIX_COLOR｜色差修复：workspace_dom_corrected_route；https://www.linkfox.com/draw/color-diff-repair
+- PRINTING_REPAIR｜印花修复：workspace_dom；https://www.linkfox.com/draw/printing-repair
+- HAND_REPAIR｜手部修复：workspace_dom；https://www.linkfox.com/draw/hand-repair
+- NEW_REPLACE_BG_V2｜商品图：supplemental_chunk_design；chunk 补充
+- REPLACE_GOODS｜商品替换：workspace_dom；https://www.linkfox.com/draw/product-replacement
+- PRODUCT_SCENE｜场景裂变：workspace_dom；https://www.linkfox.com/draw/product-scene?type=2
+- HANDHELD_GOODS｜手持商品：workspace_dom；https://www.linkfox.com/draw/handheld-goods
+- AI_DRESSING_V2｜AI穿衣：workspace_dom；https://www.linkfox.com/draw/ai-dressing
+- AI_POSTURE｜姿势裂变：workspace_dom；https://www.linkfox.com/draw/ai-posture
+- AI_WEARABLE｜AI穿戴：workspace_dom；https://www.linkfox.com/draw/ai-wearable
+- AI_TEXT｜POD素材：permission_redirect_home；https://www.linkfox.com/home
+- ORNAMENT_TEXT｜饰品文字：permission_redirect_home；https://www.linkfox.com/home
+- SDS_DESIGN｜素材贴合：workspace_dom；https://www.linkfox.com/draw/sds-design
+- PRINT_EXTRACT｜印花提取：workspace_dom；https://www.linkfox.com/draw/print-extract
+- AI_POSE_GENERATOR｜AI姿势生成：supplemental_chunk_design；chunk 补充
+- AI_DRESSING_XSY｜AI试衣XSY：supplemental_chunk_design；chunk 补充
+- FISSION_LINK｜场景裂变链接：supplemental_chunk_design；chunk 补充
+- IMAGE_TEXT_EDIT｜图片文字编辑：supplemental_chunk_design；chunk 补充
+- MATERIAL_UPPER_BODY｜上装换料：supplemental_chunk_design；chunk 补充
+- NEW_DESIGNER｜商品图设计器：supplemental_chunk_design；chunk 补充
+- PRODUCT_MARKET_MATERIAL｜商品营销素材：supplemental_chunk_design；chunk 补充
+- SCENE_TRANSFER｜场景迁移：supplemental_chunk_design；chunk 补充
+- IMAGE_TO_VIDEO｜图转视频：workspace_dom；https://www.linkfox.com/draw/video
+- SALE_VIDEO｜带货口播：workspace_dom；https://www.linkfox.com/draw/sale-video
+- VIDEO_REPLICATION｜视频复刻：workspace_dom；https://www.linkfox.com/draw/video-replication
+- AI_VIDEO_EDITING｜视频编辑：workspace_dom；https://www.linkfox.com/draw/ai-video-edit
+- VIDEO_TRANSLATION｜视频翻译：workspace_dom；https://www.linkfox.com/draw/video-translation
+- VIDEO_CONCAT｜视频拼接：supplemental_chunk_design；chunk 补充

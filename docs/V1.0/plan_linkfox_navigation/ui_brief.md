@@ -1,5 +1,5 @@
 > 状态：文档基线，**本轮未修改代码**。日期：2026-10-27。  
-> 事实来源：`schema_final.json`、真实 `workbench-0vHvVyx6.js`、五类页面 DOM；推断与补充关系均单独标注。
+> 事实来源：`schema_final.json`、真实 `workbench-0vHvVyx6.js`、39 工具逐页 DOM/chunk 证据；逐页事实源为 `page-specs/`。日期更新：2026-10-28。
 
 # UI Brief｜LinkFox 布局复刻 × 无限画布视觉
 
@@ -41,396 +41,394 @@
 
 ## 8. 39 个工具逐页 UI 规格
 
-### UI-T01｜商品套图
-
-- **类型/路由**：`PRODUCT_IMAGE_SUITE`；`/tools/ecommerce-suite/product-image-suite`；原站关系。
-- **布局**：多结果套图工作区：左配置、右侧 2×2 结果网格与整组状态条；分类侧栏选中“商品套图”，内容头显示类型与草稿状态。
-- **组件**：ToolPageHeader、AssetUploader、CapabilityNotice、TaskStatusPanel、ImageResultGrid。字段控件必须覆盖 `imageUrl`、`outputNum`。
-- **交互/状态**：上传后选择套图组合；结果按视角分组，可单张重做或整组入库；上传、校验、运行、空结果、失败、恢复均有对应视觉态。
-- **配色/风格**：沿用第 5 节无限画布令牌；只有画布、蒙版、播放器等使用中性深色工作面；结果选中环用 primary，失败用 destructive，不用 LinkFox 品牌紫。
-- **响应式**：≤1199px 成果槽横向滚动且配置在上；≤767px 分步 Tab 为“上传/分镜/结果”，保留当前步骤草稿。
-- **证据边界**：五类 draw 菜单数组存在相同 drawType；canonical 归属按该菜单。
-
-### UI-T02｜服装套图
-
-- **类型/路由**：`DRESS_WEAR_SET`；`/tools/ecommerce-suite/dress-wear-set`；原站关系。
-- **布局**：多结果套图工作区：左配置、右侧 2×2 结果网格与整组状态条；分类侧栏选中“服装套图”，内容头显示类型与草稿状态。
-- **组件**：ToolPageHeader、AssetUploader、CapabilityNotice、TaskStatusPanel、SizeRatioControl、ModelCapabilitySelect、ImageResultGrid。字段控件必须覆盖 `aspectRatio`、`brandDNA`、`brandKey`、`brandName`、`coverList`、`imageUrl`、`images`、`language`、`name`、`needIntelligent`、`outputNum`、`platform`、`provider`、`quality`、`resolution`、`salesRegion`。
-- **交互/状态**：服装上传→平台/地区/语言→品牌信息→场景与比例→整组生成；上传、校验、运行、空结果、失败、恢复均有对应视觉态。
-- **配色/风格**：沿用第 5 节无限画布令牌；只有画布、蒙版、播放器等使用中性深色工作面；结果选中环用 primary，失败用 destructive，不用 LinkFox 品牌紫。
-- **响应式**：≤1199px 成果槽横向滚动且配置在上；≤767px 分步 Tab 为“上传/分镜/结果”，保留当前步骤草稿。
-- **证据边界**：五类 draw 菜单数组存在相同 drawType；canonical 归属按该菜单。
-
-### UI-T03｜套图换色
-
-- **类型/路由**：`CHANGE_COLOR_V2`；`/tools/ecommerce-suite/change-color-v2`；原站关系。
-- **布局**：色彩工作区：左配置、中央原图/结果对比、底部套图缩略图；分类侧栏选中“套图换色”，内容头显示类型与草稿状态。
-- **组件**：ToolPageHeader、AssetUploader、CapabilityNotice、TaskStatusPanel、InteractiveCanvas / PropertyInspector。字段控件必须覆盖 `imageName`、`imageUrl`。
-- **交互/状态**：先选套图，再在对比区统一预览；逐张微调不能破坏整组一致性；上传、校验、运行、空结果、失败、恢复均有对应视觉态。
-- **配色/风格**：沿用第 5 节无限画布令牌；只有画布、蒙版、播放器等使用中性深色工作面；结果选中环用 primary，失败用 destructive，不用 LinkFox 品牌紫。
-- **响应式**：≤1199px 预览在上；≤767px 换色/场景/文案按手风琴分组，底部固定提交。
-- **证据边界**：五类 draw 菜单数组存在相同 drawType；canonical 归属按该菜单。
-
-### UI-T04｜批量翻译
-
-- **类型/路由**：`IMAGE_TRANSLATION`；`/tools/ecommerce-suite/image-translation`；原站关系。
-- **布局**：翻译工作区：左语言与批任务、中央文本框画布、右校对列表；分类侧栏选中“批量翻译”，内容头显示类型与草稿状态。
-- **组件**：ToolPageHeader、AssetUploader、CapabilityNotice、TaskStatusPanel、InteractiveCanvas / PropertyInspector。字段控件必须覆盖 `imageName`、`imageSegUrl`、`imageUrl`、`sourceLanguage`、`targetLanguage`。
-- **交互/状态**：源/目标语言联动；逐文本框校对；确认后批量应用；上传、校验、运行、空结果、失败、恢复均有对应视觉态。
-- **配色/风格**：沿用第 5 节无限画布令牌；只有画布、蒙版、播放器等使用中性深色工作面；结果选中环用 primary，失败用 destructive，不用 LinkFox 品牌紫。
-- **响应式**：≤1199px 参数摘要在上；≤767px 行表格转卡片，批量操作进入底部动作栏。
-- **证据边界**：五类 draw 菜单数组存在相同 drawType；canonical 归属按该菜单。
-
-### UI-T05｜高清放大
-
-- **类型/路由**：`SCALE_UP`；`/tools/ecommerce-suite/scale-up`；原站关系。
-- **布局**：增强工作区：左参数、中央放大对比、右下输出信息卡；分类侧栏选中“高清放大”，内容头显示类型与草稿状态。
-- **组件**：ToolPageHeader、AssetUploader、CapabilityNotice、TaskStatusPanel、SizeRatioControl。字段控件必须覆盖 `enhanceFace`、`enhanceQuality`、`imageName`、`imageOutputHeight`、`imageOutputWidth`、`imageUrl`、`magnification`。
-- **交互/状态**：倍率、面部增强、质量增强即时反映输出尺寸与限制；上传、校验、运行、空结果、失败、恢复均有对应视觉态。
-- **配色/风格**：沿用第 5 节无限画布令牌；只有画布、蒙版、播放器等使用中性深色工作面；结果选中环用 primary，失败用 destructive，不用 LinkFox 品牌紫。
-- **响应式**：≤1199px 表单在上、结果在下；≤767px 结果双列或单列，下载操作不溢出。
-- **证据边界**：五类 draw 菜单数组存在相同 drawType；canonical 归属按该菜单。
-
-### UI-T06｜智能扩图
-
-- **类型/路由**：`AI_OUTPAINTING`；`/tools/ecommerce-suite/ai-outpainting`；原站关系。
-- **布局**：扩图画布：左比例/尺寸、中央可拖拽边界画布、底部结果；分类侧栏选中“智能扩图”，内容头显示类型与草稿状态。
-- **组件**：ToolPageHeader、AssetUploader、CapabilityNotice、TaskStatusPanel、PromptComposer、MaskEditor、SizeRatioControl。字段控件必须覆盖 `config`、`editFlag`、`height`、`imageConfig`、`imageExpandUrl`、`imageName`、`imageUrl`、`maskUrl`、`originImageUrl`、`outputNum`、`prompt`、`ratio`、`sizeSetHeight`、`sizeSetName`、`sizeSetType`、`sizeSetValue`、`sizeSetWidth`、`stageConfig`、`width`。
-- **交互/状态**：拖拽扩图边界；原图锁定；比例、尺寸与蒙版同步；上传、校验、运行、空结果、失败、恢复均有对应视觉态。
-- **配色/风格**：沿用第 5 节无限画布令牌；只有画布、蒙版、播放器等使用中性深色工作面；结果选中环用 primary，失败用 destructive，不用 LinkFox 品牌紫。
-- **响应式**：≤1199px 坐标编辑器全宽；≤767px 画布/属性分 Tab，保留撤销与精确数值输入。
-- **证据边界**：五类 draw 菜单数组存在相同 drawType；canonical 归属按该菜单。
-
-### UI-T07｜局部重绘
-
-- **类型/路由**：`AREA_REPAIR`；`/tools/smart-edit/area-repair`；原站关系。
-- **布局**：蒙版工作区：左任务参数、中央画笔画布、右前后对比；分类侧栏选中“局部重绘”，内容头显示类型与草稿状态。
-- **组件**：ToolPageHeader、AssetUploader、CapabilityNotice、TaskStatusPanel、PromptComposer、MaskEditor。字段控件必须覆盖 `autoExpand`、`imageName`、`imageUrl`、`maskUrl`、`outputNum`、`prompt`。
-- **交互/状态**：画笔/橡皮/羽化；原图与结果并排；可撤销蒙版笔画；上传、校验、运行、空结果、失败、恢复均有对应视觉态。
-- **配色/风格**：沿用第 5 节无限画布令牌；只有画布、蒙版、播放器等使用中性深色工作面；结果选中环用 primary，失败用 destructive，不用 LinkFox 品牌紫。
-- **响应式**：≤1199px 编辑器置上、参数在下；≤767px 画布适配屏宽，工具条横滑，涂抹需触控笔/手指。
-- **证据边界**：五类 draw 菜单数组存在相同 drawType；canonical 归属按该菜单。
-
-### UI-T08｜局部消除
-
-- **类型/路由**：`REMOVE_PEN`；`/tools/smart-edit/remove-pen`；原站关系。
-- **布局**：蒙版工作区：左任务参数、中央画笔画布、右前后对比；分类侧栏选中“局部消除”，内容头显示类型与草稿状态。
-- **组件**：ToolPageHeader、AssetUploader、CapabilityNotice、TaskStatusPanel、MaskEditor。字段控件必须覆盖 `eraseImageUrl`、`imageName`、`imageUrl`、`maskImageUrl`。
-- **交互/状态**：仅显示消除所需控件；涂抹预览与前后对比；上传、校验、运行、空结果、失败、恢复均有对应视觉态。
-- **配色/风格**：沿用第 5 节无限画布令牌；只有画布、蒙版、播放器等使用中性深色工作面；结果选中环用 primary，失败用 destructive，不用 LinkFox 品牌紫。
-- **响应式**：≤1199px 编辑器置上、参数在下；≤767px 画布适配屏宽，工具条横滑，涂抹需触控笔/手指。
-- **证据边界**：五类 draw 菜单数组存在相同 drawType；canonical 归属按该菜单。
-
-### UI-T09｜一键换色
-
-- **类型/路由**：`CHANGE_COLOR`；`/tools/smart-edit/change-color`；原站关系。
-- **布局**：色彩工作区：左配置、中央原图/结果对比、底部套图缩略图；分类侧栏选中“一键换色”，内容头显示类型与草稿状态。
-- **组件**：ToolPageHeader、AssetUploader、CapabilityNotice、TaskStatusPanel、MaskEditor、InteractiveCanvas / PropertyInspector。字段控件必须覆盖 `adjustLight`、`colorParams`、`coverList`、`doInpaint`、`imageFormat`、`imageHeight`、`imageMaskUrl`、`imageName`、`imageSegUrl`、`imageSize`、`imageTagData`、`imageUrl`、`imageWidth`、`images`、`name`、`sourceImageUrl`。
-- **交互/状态**：区域选择→目标色→光照/重绘选项→对比；上传、校验、运行、空结果、失败、恢复均有对应视觉态。
-- **配色/风格**：沿用第 5 节无限画布令牌；只有画布、蒙版、播放器等使用中性深色工作面；结果选中环用 primary，失败用 destructive，不用 LinkFox 品牌紫。
-- **响应式**：≤1199px 预览在上；≤767px 换色/场景/文案按手风琴分组，底部固定提交。
-- **证据边界**：五类 draw 菜单数组存在相同 drawType；canonical 归属按该菜单。
-
-### UI-T10｜图片裁剪
-
-- **类型/路由**：`IMAGE_CROP`；`/tools/smart-edit/image-crop`；原站关系。
-- **布局**：裁剪工作区：左平台/比例、中央裁剪框、右输出预览；分类侧栏选中“图片裁剪”，内容头显示类型与草稿状态。
-- **组件**：ToolPageHeader、AssetUploader、CapabilityNotice、TaskStatusPanel、SizeRatioControl。字段控件必须覆盖 `activeTab`、`contentUrl`、`imageCropUrl`、`imageFormat`、`imageHeight`、`imageSize`、`imageUrl`、`imageWidth`、`platform`、`platformTitle`、`ratio`、`selectedMode`。
-- **交互/状态**：裁剪框、平台预设、自由比例和输出尺寸同步；上传、校验、运行、空结果、失败、恢复均有对应视觉态。
-- **配色/风格**：沿用第 5 节无限画布令牌；只有画布、蒙版、播放器等使用中性深色工作面；结果选中环用 primary，失败用 destructive，不用 LinkFox 品牌紫。
-- **响应式**：≤1199px 坐标编辑器全宽；≤767px 画布/属性分 Tab，保留撤销与精确数值输入。
-- **证据边界**：五类 draw 菜单数组存在相同 drawType；canonical 归属按该菜单。
-
-### UI-T11｜商品精修
-
-- **类型/路由**：`PRODUCT_REFINE`；`/tools/smart-edit/product-refine`；原站关系。
-- **布局**：增强工作区：左参数、中央放大对比、右下输出信息卡；分类侧栏选中“商品精修”，内容头显示类型与草稿状态。
-- **组件**：ToolPageHeader、AssetUploader、CapabilityNotice、TaskStatusPanel、SizeRatioControl。字段控件必须覆盖 `color`、`imageOutputLength`、`imageSegUrl`、`imageUrl`、`imgTransform`、`isRmBg`、`ratio`、`realImageUrl`。
-- **交互/状态**：精修强度、去背景、比例与色彩配置集中显示；上传、校验、运行、空结果、失败、恢复均有对应视觉态。
-- **配色/风格**：沿用第 5 节无限画布令牌；只有画布、蒙版、播放器等使用中性深色工作面；结果选中环用 primary，失败用 destructive，不用 LinkFox 品牌紫。
-- **响应式**：≤1199px 表单在上、结果在下；≤767px 结果双列或单列，下载操作不溢出。
-- **证据边界**：五类 draw 菜单数组存在相同 drawType；canonical 归属按该菜单。
-
-### UI-T12｜色差修复
-
-- **类型/路由**：`FIX_COLOR`；`/tools/smart-edit/fix-color`；原站关系。
-- **布局**：修复工作区：左区域与版本参数、中央局部编辑器、右对比；分类侧栏选中“色差修复”，内容头显示类型与草稿状态。
-- **组件**：ToolPageHeader、AssetUploader、CapabilityNotice、TaskStatusPanel、MaskEditor。字段控件必须覆盖 `fixColorSegUrl`、`fixColorUrl`、`imageName`、`imageResultUrl`、`imageSegUrl`、`imageUrl`、`version`。
-- **交互/状态**：选择修复区域，版本与分割结果可追溯；上传、校验、运行、空结果、失败、恢复均有对应视觉态。
-- **配色/风格**：沿用第 5 节无限画布令牌；只有画布、蒙版、播放器等使用中性深色工作面；结果选中环用 primary，失败用 destructive，不用 LinkFox 品牌紫。
-- **响应式**：≤1199px 编辑器置上、参数在下；≤767px 画布适配屏宽，工具条横滑，涂抹需触控笔/手指。
-- **证据边界**：五类 draw 菜单数组存在相同 drawType；canonical 归属按该菜单。
-
-### UI-T13｜印花修复
-
-- **类型/路由**：`PRINTING_REPAIR`；`/tools/smart-edit/printing-repair`；原站关系。
-- **布局**：修复工作区：左区域与版本参数、中央局部编辑器、右对比；分类侧栏选中“印花修复”，内容头显示类型与草稿状态。
-- **组件**：ToolPageHeader、AssetUploader、CapabilityNotice、TaskStatusPanel、MaskEditor、SizeRatioControl。字段控件必须覆盖 `config`、`height`、`imageResultUrl`、`imageUrl`、`point`、`rotate`、`scale`、`stampingFlowerSegUrl`、`stampingFlowerUrl`、`targetConfig`、`url`、`version`、`width`。
-- **交互/状态**：定位印花→修复强度/旋转缩放→局部对比；上传、校验、运行、空结果、失败、恢复均有对应视觉态。
-- **配色/风格**：沿用第 5 节无限画布令牌；只有画布、蒙版、播放器等使用中性深色工作面；结果选中环用 primary，失败用 destructive，不用 LinkFox 品牌紫。
-- **响应式**：≤1199px 编辑器置上、参数在下；≤767px 画布适配屏宽，工具条横滑，涂抹需触控笔/手指。
-- **证据边界**：五类 draw 菜单数组存在相同 drawType；canonical 归属按该菜单。
-
-### UI-T14｜手部修复
-
-- **类型/路由**：`HAND_REPAIR`；`/tools/smart-edit/hand-repair`；原站关系。
-- **布局**：修复工作区：左区域与版本参数、中央局部编辑器、右对比；分类侧栏选中“手部修复”，内容头显示类型与草稿状态。
-- **组件**：ToolPageHeader、AssetUploader、CapabilityNotice、TaskStatusPanel、MaskEditor。字段控件必须覆盖 `imageName`、`imageUrl`、`maskUrl`、`outputNum`、`personType`。
-- **交互/状态**：人物类型、手部蒙版、输出数量；标注原站即将下架；上传、校验、运行、空结果、失败、恢复均有对应视觉态。
-- **配色/风格**：沿用第 5 节无限画布令牌；只有画布、蒙版、播放器等使用中性深色工作面；结果选中环用 primary，失败用 destructive，不用 LinkFox 品牌紫。
-- **响应式**：≤1199px 编辑器置上、参数在下；≤767px 画布适配屏宽，工具条横滑，涂抹需触控笔/手指。
-- **证据边界**：五类 draw 菜单数组存在相同 drawType；canonical 归属按该菜单。
-
-### UI-T15｜商品图
-
-- **类型/路由**：`NEW_REPLACE_BG_V2`；`/tools/product-design/new-replace-bg-v2`；原站关系。
-- **布局**：场景工作区：左商品/场景配置、中央场景模板、右结果网格；分类侧栏选中“商品图”，内容头显示类型与草稿状态。
-- **组件**：ToolPageHeader、AssetUploader、CapabilityNotice、TaskStatusPanel、ImageResultGrid。字段控件必须覆盖 `fields_clean=[]`：不得解释为无参数；实施前回查原 chunk 与动态配置。
-- **交互/状态**：商品上传→抠图确认→场景模板或自定义→结果网格；上传、校验、运行、空结果、失败、恢复均有对应视觉态。
-- **配色/风格**：沿用第 5 节无限画布令牌；只有画布、蒙版、播放器等使用中性深色工作面；结果选中环用 primary，失败用 destructive，不用 LinkFox 品牌紫。
-- **响应式**：≤1199px 场景在上、参数在下；≤767px 场景横滑、结果单列。
-- **证据边界**：五类 draw 菜单数组存在相同 drawType；canonical 归属按该菜单。
-
-### UI-T16｜商品替换
-
-- **类型/路由**：`REPLACE_GOODS`；`/tools/product-design/replace-goods`；原站关系。
-- **布局**：双对象合成：左双输入、中央位置/蒙版编辑、右合成结果；分类侧栏选中“商品替换”，内容头显示类型与草稿状态。
-- **组件**：ToolPageHeader、AssetUploader、CapabilityNotice、TaskStatusPanel、MaskEditor、SizeRatioControl。字段控件必须覆盖 `config`、`cutoutProvider`、`denoiseStrength`、`height`、`imageName`、`imageOutputHeight`、`imageOutputWidth`、`imageUrl`、`lockImageUrl`、`maskUrl`、`outputNum`、`point`、`ratio`、`rotate`、`scale`、`sourceImageUrl`、`sourceOriginUrl`、`targetConfig`、`targetImageUrl`、`targetOriginUrl`、`url`、`width`。
-- **交互/状态**：目标商品与新商品双输入；位置、缩放、旋转和蒙版可视化；上传、校验、运行、空结果、失败、恢复均有对应视觉态。
-- **配色/风格**：沿用第 5 节无限画布令牌；只有画布、蒙版、播放器等使用中性深色工作面；结果选中环用 primary，失败用 destructive，不用 LinkFox 品牌紫。
-- **响应式**：≤1199px 双图上传上下排列；≤767px 参考/模特分 Tab 并持续显示两张缩略图。
-- **证据边界**：五类 draw 菜单数组存在相同 drawType；canonical 归属按该菜单。
-
-### UI-T17｜场景裂变
-
-- **类型/路由**：`PRODUCT_SCENE`；`/tools/product-design/product-scene`；原站关系。
-- **布局**：场景工作区：左商品/场景配置、中央场景模板、右结果网格；分类侧栏选中“场景裂变”，内容头显示类型与草稿状态。
-- **组件**：ToolPageHeader、AssetUploader、CapabilityNotice、TaskStatusPanel、PromptComposer、SizeRatioControl、ModelCapabilitySelect、ImageResultGrid。字段控件必须覆盖 `cutoutProvider`、`imageName`、`imageOutputHeight`、`imageOutputWidth`、`imageUrl`、`mode`、`originImageUrl`、`outputNum`、`prompt`、`provider`、`ratio`、`sceneKeyword`、`segImageUrl`、`sizeType`、`strength`。
-- **交互/状态**：模式、场景词、强度、尺寸、Provider 能力与输出数量联动；上传、校验、运行、空结果、失败、恢复均有对应视觉态。
-- **配色/风格**：沿用第 5 节无限画布令牌；只有画布、蒙版、播放器等使用中性深色工作面；结果选中环用 primary，失败用 destructive，不用 LinkFox 品牌紫。
-- **响应式**：≤1199px 场景在上、参数在下；≤767px 场景横滑、结果单列。
-- **证据边界**：五类 draw 菜单数组存在相同 drawType；canonical 归属按该菜单。
-
-### UI-T18｜手持商品
-
-- **类型/路由**：`HANDHELD_GOODS`；`/tools/product-design/handheld-goods`；原站关系。
-- **布局**：模特工作区：左人物与场景、中央模特/姿势选择、右结果；分类侧栏选中“手持商品”，内容头显示类型与草稿状态。
-- **组件**：ToolPageHeader、AssetUploader、CapabilityNotice、TaskStatusPanel、MaskEditor、ImageResultGrid。字段控件必须覆盖 `checkType`、`imageMaskUrl`、`imageResultUrl`、`imageUrl`、`modelId`、`modelTabType`、`outputNum`、`sceneTabType`、`targetMaskUrl`、`targetOriginUrl`、`targetResultUrl`。
-- **交互/状态**：模特/场景/商品类别选择，商品与目标区域双预览；上传、校验、运行、空结果、失败、恢复均有对应视觉态。
-- **配色/风格**：沿用第 5 节无限画布令牌；只有画布、蒙版、播放器等使用中性深色工作面；结果选中环用 primary，失败用 destructive，不用 LinkFox 品牌紫。
-- **响应式**：≤1199px 姿态矩阵置上、右侧参数下移；≤767px 单图三姿态横滑，结果逐张排列。
-- **证据边界**：五类 draw 菜单数组存在相同 drawType；canonical 归属按该菜单。
-
-### UI-T19｜AI穿衣
-
-- **类型/路由**：`AI_DRESSING_V2`；`/tools/product-design/ai-dressing-v2`；原站关系。
-- **布局**：试衣工作区：顶部分步条、左服装/模特输入、右试穿结果；分类侧栏选中“AI穿衣”，内容头显示类型与草稿状态。
-- **组件**：ToolPageHeader、AssetUploader、CapabilityNotice、TaskStatusPanel、MaskEditor、ModelCapabilitySelect、ImageResultGrid。字段控件必须覆盖 `coverList`、`downImageUrl`、`downMaskUrl`、`downOriginUrl`、`genOriRes`、`images`、`isSecondOperate`、`modelPose`、`modelPoseList`、`modelType`、`name`、`outputNum`、`provider`、`suitImageUrl`、`suitMaskUrl`、`suitOriginUrl`、`upperImageUrl`、`upperMaskUrl`、`upperOriginUrl`、`version`。
-- **交互/状态**：分步选择服装部位；原图/蒙版/结果状态可回溯；上传、校验、运行、空结果、失败、恢复均有对应视觉态。
-- **配色/风格**：沿用第 5 节无限画布令牌；只有画布、蒙版、播放器等使用中性深色工作面；结果选中环用 primary，失败用 destructive，不用 LinkFox 品牌紫。
-- **响应式**：≤1199px 服装画廊置上；≤767px 双列服装卡，单品配置逐项展开。
-- **证据边界**：五类 draw 菜单数组存在相同 drawType；canonical 归属按该菜单。
-
-### UI-T20｜姿势裂变
-
-- **类型/路由**：`AI_POSTURE`；`/tools/product-design/ai-posture`；原站关系。
-- **布局**：模特工作区：左人物与场景、中央模特/姿势选择、右结果；分类侧栏选中“姿势裂变”，内容头显示类型与草稿状态。
-- **组件**：ToolPageHeader、AssetUploader、CapabilityNotice、TaskStatusPanel、PromptComposer、ImageResultGrid。字段控件必须覆盖 `imageTags`、`imageUrl`、`outputNum`、`prompt`。
-- **交互/状态**：人物上传→姿势/标签→Prompt→多结果选择；上传、校验、运行、空结果、失败、恢复均有对应视觉态。
-- **配色/风格**：沿用第 5 节无限画布令牌；只有画布、蒙版、播放器等使用中性深色工作面；结果选中环用 primary，失败用 destructive，不用 LinkFox 品牌紫。
-- **响应式**：≤1199px 姿态矩阵置上、右侧参数下移；≤767px 单图三姿态横滑，结果逐张排列。
-- **证据边界**：五类 draw 菜单数组存在相同 drawType；canonical 归属按该菜单。
-
-### UI-T21｜AI穿戴
-
-- **类型/路由**：`AI_WEARABLE`；`/tools/product-design/ai-wearable`；原站关系。
-- **布局**：试衣工作区：顶部分步条、左服装/模特输入、右试穿结果；分类侧栏选中“AI穿戴”，内容头显示类型与草稿状态。
-- **组件**：ToolPageHeader、AssetUploader、CapabilityNotice、TaskStatusPanel、MaskEditor、ImageResultGrid。字段控件必须覆盖 `checkType`、`imageMaskUrl`、`imageResultUrl`、`imageUrl`、`isSecondOperate`、`modelId`、`modelTabType`、`outputNum`、`productCategory`、`sceneTabType`、`targetMaskUrl`、`targetOriginUrl`、`targetResultUrl`。
-- **交互/状态**：穿戴部位、品类、模特与目标蒙版联动；上传、校验、运行、空结果、失败、恢复均有对应视觉态。
-- **配色/风格**：沿用第 5 节无限画布令牌；只有画布、蒙版、播放器等使用中性深色工作面；结果选中环用 primary，失败用 destructive，不用 LinkFox 品牌紫。
-- **响应式**：≤1199px 服装画廊置上；≤767px 双列服装卡，单品配置逐项展开。
-- **证据边界**：五类 draw 菜单数组存在相同 drawType；canonical 归属按该菜单。
-
-### UI-T22｜POD素材
-
-- **类型/路由**：`AI_TEXT`；`/tools/product-design/ai-text`；原站关系。
-- **布局**：POD 工作区：左风格与素材、中央模板/平铺预览、右结果；分类侧栏选中“POD素材”，内容头显示类型与草稿状态。
-- **组件**：ToolPageHeader、AssetUploader、CapabilityNotice、TaskStatusPanel、PromptComposer、SizeRatioControl、ImageResultGrid。字段控件必须覆盖 `aiSimpleTextPrompt`、`imageUrl`、`isCase`、`mode`、`outputNum`、`prompt`、`ratio`、`requestId`、`responseId`、`styles`、`stylesCn`、`tilingPreset`、`useAutopromptOption`、`variationStrength`。
-- **交互/状态**：模式/风格/平铺/自动Prompt/变化强度分组配置；上传、校验、运行、空结果、失败、恢复均有对应视觉态。
-- **配色/风格**：沿用第 5 节无限画布令牌；只有画布、蒙版、播放器等使用中性深色工作面；结果选中环用 primary，失败用 destructive，不用 LinkFox 品牌紫。
-- **响应式**：≤1199px 图层移到底部；≤767px 图层/属性/预览三 Tab，选中态保持同步。
-- **证据边界**：五类 draw 菜单数组存在相同 drawType；canonical 归属按该菜单。
-
-### UI-T23｜饰品文字
-
-- **类型/路由**：`ORNAMENT_TEXT`；`/tools/product-design/ornament-text`；原站关系。
-- **布局**：文字工作区：左文字/字体参数、中央画布文本框、右预览；分类侧栏选中“饰品文字”，内容头显示类型与草稿状态。
-- **组件**：ToolPageHeader、PromptEditor、CapabilityNotice、TaskStatusPanel、PromptComposer、InteractiveCanvas / PropertyInspector。字段控件必须覆盖 `fontSize`、`fontname`、`left`、`prompt`、`right`。
-- **交互/状态**：文字内容、字体、字号和左右区域参数实时预览；上传、校验、运行、空结果、失败、恢复均有对应视觉态。
-- **配色/风格**：沿用第 5 节无限画布令牌；只有画布、蒙版、播放器等使用中性深色工作面；结果选中环用 primary，失败用 destructive，不用 LinkFox 品牌紫。
-- **响应式**：≤1199px SVG 预览与参数上下排列；≤767px 代码编辑与预览分 Tab。
-- **证据边界**：五类 draw 菜单数组存在相同 drawType；canonical 归属按该菜单。
-
-### UI-T24｜素材贴合
-
-- **类型/路由**：`SDS_DESIGN`；`/tools/product-design/sds-design`；原站关系。
-- **布局**：POD 工作区：左风格与素材、中央模板/平铺预览、右结果；分类侧栏选中“素材贴合”，内容头显示类型与草稿状态。
-- **组件**：ToolPageHeader、AssetUploader、CapabilityNotice、TaskStatusPanel、ImageResultGrid。字段控件必须覆盖 `imageList`、`imageName`、`imageUrl`、`materialList`、`productId`。
-- **交互/状态**：商品与素材多选；贴合对象和输出预览一一对应；上传、校验、运行、空结果、失败、恢复均有对应视觉态。
-- **配色/风格**：沿用第 5 节无限画布令牌；只有画布、蒙版、播放器等使用中性深色工作面；结果选中环用 primary，失败用 destructive，不用 LinkFox 品牌紫。
-- **响应式**：≤1199px 图层移到底部；≤767px 图层/属性/预览三 Tab，选中态保持同步。
-- **证据边界**：五类 draw 菜单数组存在相同 drawType；canonical 归属按该菜单。
-
-### UI-T25｜印花提取
-
-- **类型/路由**：`PRINT_EXTRACT`；`/tools/product-design/print-extract`；原站关系。
-- **布局**：提取工作区：左透明背景选项、中央原图、右提取结果；分类侧栏选中“印花提取”，内容头显示类型与草稿状态。
-- **组件**：ToolPageHeader、AssetUploader、CapabilityNotice、TaskStatusPanel。字段控件必须覆盖 `imageUrl`、`isTransparent`。
-- **交互/状态**：透明背景开关与原图/提取结果对比；上传、校验、运行、空结果、失败、恢复均有对应视觉态。
-- **配色/风格**：沿用第 5 节无限画布令牌；只有画布、蒙版、播放器等使用中性深色工作面；结果选中环用 primary，失败用 destructive，不用 LinkFox 品牌紫。
-- **响应式**：≤1199px 表单在上、结果在下；≤767px 结果双列或单列，下载操作不溢出。
-- **证据边界**：五类 draw 菜单数组存在相同 drawType；canonical 归属按该菜单。
-
-### UI-T26｜AI姿势生成
-
-- **类型/路由**：`AI_POSE_GENERATOR`；`/tools/product-design/ai-pose-generator`；补充关系（原站五类未直接给出）。
-- **布局**：模特工作区：左人物与场景、中央模特/姿势选择、右结果；分类侧栏选中“AI姿势生成”，内容头显示类型与草稿状态。
-- **组件**：ToolPageHeader、AssetUploader、CapabilityNotice、TaskStatusPanel、PromptComposer、ImageResultGrid。字段控件必须覆盖 `prompt`、`scenePrompts`。
-- **交互/状态**：场景 Prompt 列表与主 Prompt 分层编辑；补充工具标识；上传、校验、运行、空结果、失败、恢复均有对应视觉态。
-- **配色/风格**：沿用第 5 节无限画布令牌；只有画布、蒙版、播放器等使用中性深色工作面；结果选中环用 primary，失败用 destructive，不用 LinkFox 品牌紫。
-- **响应式**：≤1199px 姿态矩阵置上、右侧参数下移；≤767px 单图三姿态横滑，结果逐张排列。
-- **证据边界**：五类 draw 菜单无此 drawType；JS 仅出现在工具类型集合，不是菜单证据。
-
-### UI-T27｜AI试衣XSY
-
-- **类型/路由**：`AI_DRESSING_XSY`；`/tools/product-design/ai-dressing-xsy`；补充关系（原站五类未直接给出）。
-- **布局**：试衣工作区：顶部分步条、左服装/模特输入、右试穿结果；分类侧栏选中“AI试衣XSY”，内容头显示类型与草稿状态。
-- **组件**：ToolPageHeader、AssetUploader、CapabilityNotice、TaskStatusPanel、MaskEditor、ModelCapabilitySelect、ImageResultGrid。字段控件必须覆盖 `downImageUrl`、`downMaskUrl`、`downOriginUrl`、`modelImageUrl`、`modelPose`、`modelStyle`、`modelType`、`outputNum`、`provider`、`step`、`suitImageUrl`、`suitMaskUrl`、`suitOriginUrl`、`upperImageUrl`、`upperMaskUrl`、`upperOriginUrl`、`version`。
-- **交互/状态**：步骤条、服装/模特输入、Provider 与版本能力检查；补充工具；上传、校验、运行、空结果、失败、恢复均有对应视觉态。
-- **配色/风格**：沿用第 5 节无限画布令牌；只有画布、蒙版、播放器等使用中性深色工作面；结果选中环用 primary，失败用 destructive，不用 LinkFox 品牌紫。
-- **响应式**：≤1199px 服装画廊置上；≤767px 双列服装卡，单品配置逐项展开。
-- **证据边界**：五类 draw 菜单无该 drawType，本项目按最近业务域补充。
-
-### UI-T28｜场景裂变链接
-
-- **类型/路由**：`FISSION_LINK`；`/tools/product-design/fission-link`；补充关系（原站五类未直接给出）。
-- **布局**：场景工作区：左商品/场景配置、中央场景模板、右结果网格；分类侧栏选中“场景裂变链接”，内容头显示类型与草稿状态。
-- **组件**：ToolPageHeader、AssetUploader、CapabilityNotice、TaskStatusPanel、ImageResultGrid。字段控件必须覆盖 `imageUrl`、`outputNum`。
-- **交互/状态**：单图输入和数量控制；与 PRODUCT_SCENE 区分，不混用契约；上传、校验、运行、空结果、失败、恢复均有对应视觉态。
-- **配色/风格**：沿用第 5 节无限画布令牌；只有画布、蒙版、播放器等使用中性深色工作面；结果选中环用 primary，失败用 destructive，不用 LinkFox 品牌紫。
-- **响应式**：≤1199px 场景在上、参数在下；≤767px 场景横滑、结果单列。
-- **证据边界**：五类 draw 菜单无此 drawType；JS 仅出现在分享/工具类型相关集合，不是菜单证据。
-
-### UI-T29｜图片文字编辑
-
-- **类型/路由**：`IMAGE_TEXT_EDIT`；`/tools/product-design/image-text-edit`；补充关系（原站五类未直接给出）。
-- **布局**：文字工作区：左文字/字体参数、中央画布文本框、右预览；分类侧栏选中“图片文字编辑”，内容头显示类型与草稿状态。
-- **组件**：ToolPageHeader、AssetUploader、CapabilityNotice、TaskStatusPanel、InteractiveCanvas / PropertyInspector。字段控件必须覆盖 `boxes`、`imageFormat`、`imageHeight`、`imageName`、`imageSize`、`imageUrl`、`imageWidth`、`resultImageUrl`。
-- **交互/状态**：画布文本框选择、内容编辑、尺寸保持和结果回写；补充工具；上传、校验、运行、空结果、失败、恢复均有对应视觉态。
-- **配色/风格**：沿用第 5 节无限画布令牌；只有画布、蒙版、播放器等使用中性深色工作面；结果选中环用 primary，失败用 destructive，不用 LinkFox 品牌紫。
-- **响应式**：≤1199px SVG 预览与参数上下排列；≤767px 代码编辑与预览分 Tab。
-- **证据边界**：五类 draw 菜单无该 drawType，本项目按最近业务域补充。
-
-### UI-T30｜上装换料
-
-- **类型/路由**：`MATERIAL_UPPER_BODY`；`/tools/product-design/material-upper-body`；补充关系（原站五类未直接给出）。
-- **布局**：试衣工作区：顶部分步条、左服装/模特输入、右试穿结果；分类侧栏选中“上装换料”，内容头显示类型与草稿状态。
-- **组件**：ToolPageHeader、AssetUploader、CapabilityNotice、TaskStatusPanel、ImageResultGrid。字段控件必须覆盖 `categoryIds`、`categoryName`、`imageName`、`imageUrl`、`isMatting`、`outputNum`、`subType`。
-- **交互/状态**：上装与材质分类联动；抠图开关和数量配置；补充工具；上传、校验、运行、空结果、失败、恢复均有对应视觉态。
-- **配色/风格**：沿用第 5 节无限画布令牌；只有画布、蒙版、播放器等使用中性深色工作面；结果选中环用 primary，失败用 destructive，不用 LinkFox 品牌紫。
-- **响应式**：≤1199px 服装画廊置上；≤767px 双列服装卡，单品配置逐项展开。
-- **证据边界**：五类 draw 菜单无该 drawType，本项目按最近业务域补充。
-
-### UI-T31｜商品图设计器
-
-- **类型/路由**：`NEW_DESIGNER`；`/tools/product-design/new-designer`；补充关系（原站五类未直接给出）。
-- **布局**：设计器宿主：顶部文档操作条、左素材/模板、中央画布、右属性；分类侧栏选中“商品图设计器”，内容头显示类型与草稿状态。
-- **组件**：ToolPageHeader、AssetUploader、CapabilityNotice、TaskStatusPanel、DesignerHost / DraftRecovery。字段控件必须覆盖 `designerId`、`imageUrl`、`isDesignerUse`、`onClose`、`onDone`、`open`。
-- **交互/状态**：设计器宿主、返回/完成回调、草稿恢复；不是普通生成表单；上传、校验、运行、空结果、失败、恢复均有对应视觉态。
-- **配色/风格**：沿用第 5 节无限画布令牌；只有画布、蒙版、播放器等使用中性深色工作面；结果选中环用 primary，失败用 destructive，不用 LinkFox 品牌紫。
-- **响应式**：≤1199px 设计器占满内容区；≤767px 图层/属性进 Drawer，画布手势不劫持页面返回。
-- **证据边界**：五类 draw 菜单无此 drawType；创建设计侧栏 path 无 drawType，不把宿主页面等同该类型。
-
-### UI-T32｜商品营销素材
-
-- **类型/路由**：`PRODUCT_MARKET_MATERIAL`；`/tools/product-design/product-market-material`；补充关系（原站五类未直接给出）。
-- **布局**：多结果套图工作区：左配置、右侧 2×2 结果网格与整组状态条；分类侧栏选中“商品营销素材”，内容头显示类型与草稿状态。
-- **组件**：ToolPageHeader、AssetUploader、CapabilityNotice、TaskStatusPanel、SizeRatioControl、ModelCapabilitySelect、ImageResultGrid。字段控件必须覆盖 `APlusAspectRatio`、`aspectRatio`、`brandDNA`、`brandKey`、`brandName`、`coverList`、`images`、`isCustomAspectRatio`、`language`、`name`、`platform`、`provider`、`quality`、`resolution`、`salesRegion`。
-- **交互/状态**：平台、销售地区、品牌、A+比例与模板组合；补充工具；上传、校验、运行、空结果、失败、恢复均有对应视觉态。
-- **配色/风格**：沿用第 5 节无限画布令牌；只有画布、蒙版、播放器等使用中性深色工作面；结果选中环用 primary，失败用 destructive，不用 LinkFox 品牌紫。
-- **响应式**：≤1199px 成果槽横向滚动且配置在上；≤767px 分步 Tab 为“上传/分镜/结果”，保留当前步骤草稿。
-- **证据边界**：五类 draw 菜单无此 drawType；JS 仅出现在推荐/工具类型相关配置，不是菜单证据。
-
-### UI-T33｜场景迁移
-
-- **类型/路由**：`SCENE_TRANSFER`；`/tools/product-design/scene-transfer`；补充关系（原站五类未直接给出）。
-- **布局**：场景工作区：左商品/场景配置、中央场景模板、右结果网格；分类侧栏选中“场景迁移”，内容头显示类型与草稿状态。
-- **组件**：ToolPageHeader、AssetUploader、CapabilityNotice、TaskStatusPanel、ImageResultGrid。字段控件必须覆盖 `imageStyleUrl`、`imageUrl`、`segImageUrl`、`similarity`。
-- **交互/状态**：商品图+风格参考图双输入，相似度连续调节；补充工具；上传、校验、运行、空结果、失败、恢复均有对应视觉态。
-- **配色/风格**：沿用第 5 节无限画布令牌；只有画布、蒙版、播放器等使用中性深色工作面；结果选中环用 primary，失败用 destructive，不用 LinkFox 品牌紫。
-- **响应式**：≤1199px 场景在上、参数在下；≤767px 场景横滑、结果单列。
-- **证据边界**：五类 draw 菜单无该 drawType，本项目按最近业务域补充。
-
-### UI-T34｜图转视频
-
-- **类型/路由**：`IMAGE_TO_VIDEO`；`/tools/ai-video/image-to-video`；原站关系。
-- **布局**：视频工作区：左分步配置、中央分镜/时间线、右播放器与任务状态；分类侧栏选中“图转视频”，内容头显示类型与草稿状态。
-- **组件**：ToolPageHeader、AssetUploader、CapabilityNotice、TaskStatusPanel、PromptComposer、SizeRatioControl、ModelCapabilitySelect、VideoTimeline / VideoResultPlayer。字段控件必须覆盖 `aspectRatio`、`duration`、`extension`、`fileKey`、`fileName`、`imageInputMode`、`imageList`、`imageUrl`、`isPro`、`language`、`lastFrameImageUrl`、`productInfo`、`productUrl`、`prompt`、`promptOptimizer`、`referenceAudios`、`referenceDocument`、`referenceVideo`、`saleCountry`、`size`、`sourceImageUrl`、`templateKey`、`templateName`、`thumbUrl`、`url`、`videoTime`、`videoType`。
-- **交互/状态**：首帧/首尾帧、参考素材、时长/比例/清晰度/音频分步配置；上传、校验、运行、空结果、失败、恢复均有对应视觉态。
-- **配色/风格**：沿用第 5 节无限画布令牌；只有画布、蒙版、播放器等使用中性深色工作面；结果选中环用 primary，失败用 destructive，不用 LinkFox 品牌紫。
-- **响应式**：≤1199px 播放器置上、时间线全宽；≤767px 上传/分镜/播放分步，禁止把多轨压成不可点小图标。
-- **证据边界**：五类 draw 菜单数组存在相同 drawType；canonical 归属按该菜单。
-
-### UI-T35｜带货口播
-
-- **类型/路由**：`SALE_VIDEO`；`/tools/ai-video/sale-video`；原站关系。
-- **布局**：视频工作区：左分步配置、中央分镜/时间线、右播放器与任务状态；分类侧栏选中“带货口播”，内容头显示类型与草稿状态。
-- **组件**：ToolPageHeader、AssetUploader、CapabilityNotice、TaskStatusPanel、PromptComposer、SizeRatioControl、ModelCapabilitySelect、VideoTimeline / VideoResultPlayer。字段控件必须覆盖 `aspectRatio`、`hiddenPrompt`、`imageList`、`imageUrl`、`isPro`、`language`、`prompt`、`resolution`、`saleCountry`、`videoTime`、`videoType`、`visiblePrompt`。
-- **交互/状态**：商品信息、可见Prompt、隐藏Prompt、语言/地区与视频参数；上传、校验、运行、空结果、失败、恢复均有对应视觉态。
-- **配色/风格**：沿用第 5 节无限画布令牌；只有画布、蒙版、播放器等使用中性深色工作面；结果选中环用 primary，失败用 destructive，不用 LinkFox 品牌紫。
-- **响应式**：≤1199px 播放器置上、时间线全宽；≤767px 上传/分镜/播放分步，禁止把多轨压成不可点小图标。
-- **证据边界**：五类 draw 菜单数组存在相同 drawType；canonical 归属按该菜单。
-
-### UI-T36｜视频复刻
-
-- **类型/路由**：`VIDEO_REPLICATION`；`/tools/ai-video/video-replication`；原站关系。
-- **布局**：视频工作区：左分步配置、中央分镜/时间线、右播放器与任务状态；分类侧栏选中“视频复刻”，内容头显示类型与草稿状态。
-- **组件**：ToolPageHeader、AssetUploader、CapabilityNotice、TaskStatusPanel、PromptComposer、SizeRatioControl、ModelCapabilitySelect、VideoTimeline / VideoResultPlayer。字段控件必须覆盖 `analyzeRedisKey`、`aspectRatio`、`clipEnd`、`clipMode`、`clipStart`、`coverUrl`、`duration`、`imageSegUrl`、`imageUrl`、`isPro`、`originalVideoId`、`originalVideoUrl`、`prompt`、`promptOptimizer`、`ratio`、`refImageList`、`refVideoName`、`refVideoUrl`、`resolution`、`saleCountry`、`sourceVideoDuration`、`sourceVideoUrl`、`targetLanguage`、`videoCoverType`、`videoSource`、`videoTime`、`videoType`。
-- **交互/状态**：视频上传→片段裁剪→分析→替换素材→目标语言与输出；上传、校验、运行、空结果、失败、恢复均有对应视觉态。
-- **配色/风格**：沿用第 5 节无限画布令牌；只有画布、蒙版、播放器等使用中性深色工作面；结果选中环用 primary，失败用 destructive，不用 LinkFox 品牌紫。
-- **响应式**：≤1199px 播放器置上、时间线全宽；≤767px 上传/分镜/播放分步，禁止把多轨压成不可点小图标。
-- **证据边界**：五类 draw 菜单数组存在相同 drawType；canonical 归属按该菜单。
-
-### UI-T37｜视频编辑
-
-- **类型/路由**：`AI_VIDEO_EDITING`；`/tools/ai-video/ai-video-editing`；原站关系。
-- **布局**：视频工作区：左分步配置、中央分镜/时间线、右播放器与任务状态；分类侧栏选中“视频编辑”，内容头显示类型与草稿状态。
-- **组件**：ToolPageHeader、AssetUploader、CapabilityNotice、TaskStatusPanel、PromptComposer、VideoTimeline / VideoResultPlayer。字段控件必须覆盖 `duration`、`outputNum`、`prompt`、`refImageUrls`、`sourceVideoDuration`、`sourceVideoUrl`、`videoType`。
-- **交互/状态**：源视频、参考图、编辑Prompt、时长和视频类型联动；上传、校验、运行、空结果、失败、恢复均有对应视觉态。
-- **配色/风格**：沿用第 5 节无限画布令牌；只有画布、蒙版、播放器等使用中性深色工作面；结果选中环用 primary，失败用 destructive，不用 LinkFox 品牌紫。
-- **响应式**：≤1199px 播放器置上、时间线全宽；≤767px 上传/分镜/播放分步，禁止把多轨压成不可点小图标。
-- **证据边界**：五类 draw 菜单数组存在相同 drawType；canonical 归属按该菜单。
-
-### UI-T38｜视频翻译
-
-- **类型/路由**：`VIDEO_TRANSLATION`；`/tools/ai-video/video-translation`；原站关系。
-- **布局**：视频工作区：左分步配置、中央分镜/时间线、右播放器与任务状态；分类侧栏选中“视频翻译”，内容头显示类型与草稿状态。
-- **组件**：ToolPageHeader、AssetUploader、CapabilityNotice、TaskStatusPanel、VideoTimeline / VideoResultPlayer。字段控件必须覆盖 `lipSync`、`outputNum`、`sourceLanguage`、`sourceVideoName`、`sourceVideoUrl`、`targetLanguage`、`videoType`。
-- **交互/状态**：源/目标语言、口型同步能力检查、输出数量和播放器对比；上传、校验、运行、空结果、失败、恢复均有对应视觉态。
-- **配色/风格**：沿用第 5 节无限画布令牌；只有画布、蒙版、播放器等使用中性深色工作面；结果选中环用 primary，失败用 destructive，不用 LinkFox 品牌紫。
-- **响应式**：≤1199px 播放器置上、时间线全宽；≤767px 上传/分镜/播放分步，禁止把多轨压成不可点小图标。
-- **证据边界**：五类 draw 菜单数组存在相同 drawType；canonical 归属按该菜单。
-
-### UI-T39｜视频拼接
-
-- **类型/路由**：`VIDEO_CONCAT`；`/tools/ai-video/video-concat`；补充关系（原站五类未直接给出）。
-- **布局**：视频工作区：左分步配置、中央分镜/时间线、右播放器与任务状态；分类侧栏选中“视频拼接”，内容头显示类型与草稿状态。
-- **组件**：ToolPageHeader、AssetUploader、CapabilityNotice、TaskStatusPanel、VideoTimeline / VideoResultPlayer。字段控件必须覆盖 `editType`、`imageFormat`、`imageHeight`、`imageSize`、`imageUrl`、`imageWidth`、`videoCoverUrl`、`videoList`、`videoRatio`、`videoTime`。
-- **交互/状态**：时间线排序、片段裁剪、封面、比例与总时长；补充工具；上传、校验、运行、空结果、失败、恢复均有对应视觉态。
-- **配色/风格**：沿用第 5 节无限画布令牌；只有画布、蒙版、播放器等使用中性深色工作面；结果选中环用 primary，失败用 destructive，不用 LinkFox 品牌紫。
-- **响应式**：≤1199px 播放器置上、时间线全宽；≤767px 上传/分镜/播放分步，禁止把多轨压成不可点小图标。
-- **证据边界**：五类 draw 菜单无此 drawType；视频编辑入口实际 drawType=MOLI_VIDEO_EDIT，拼接仅见推荐/类型引用。
-
-## 9. 可访问性与视觉验收
-
-键盘完成菜单、上传、表单、结果操作；焦点可见；错误与状态不只靠颜色；文本对比≥4.5:1；200% 缩放不丢功能；减少动态效果遵循 `prefers-reduced-motion`。最终需桌面/移动真实页面证据；本轮无截图权限，故只交付文档与线框，不声明 UI 已实现。
+### UI-T01｜商品套图 `PRODUCT_IMAGE_SUITE`
+
+- 路由：`/tools/ecommerce-suite/product-image-suite`；[完整 UI/交互规格](page-specs/01-product-image-suite.md)。
+- **布局**/区域：商品图上传与 AI 分析｜品牌与合规｜模型/品质｜A+ 图设置｜主副图设置｜整组结果。桌面采用工具侧栏 + 页面内容；内容内按上述实际工作区组织，不得替换成统一“上传 + 提示词 + 结果”空壳。配置区保持 320–420px 或按画布工具需要扩展；主要编辑/预览区 `minmax(0,1fr)`；结果区有明确空、生成、成功、失败状态。移动端按“输入/编辑/结果”分步，不压缩画布到不可操作。
+- **配色/风格**与**组件**：组件：`SuiteComposer + ModuleCountEditor + LayoutModeRadio + AssetResultGroups`。面板用 `bg-card`，主区用 `bg-background`，边框 `border-border`，选中 `bg-accent`，主操作 `bg-primary`；正文 14px/22px，控件 36px，主按钮 40px，圆角 8–10px。颜色、字体和焦点环全部取无限画布令牌；不使用 LinkFox 紫色品牌。画布工具必须提供 40×40px 最小点击区、键盘焦点和撤销/重做。
+- 真实控件：商品图支持本地上传、作品库、商品库；商品信息 0/2500，AI 分析/向导；品牌基因控制主色和字体风格，合规区选择敏感词库和替换词库；模型 LF G-2.5 Sunburst，1K/2K/4K，低至最大品质；A+ 单选高级/手机/普通/自定比例并设张数和排版；主副图多选卖点/白底/场景/特写/特写白底并分别设张数；比例 1:1、3:4、4:3、2:3、3:2。
+- **交互/状态**联动：切换 A+ 类型只改变 A+ 模块，不清空主副图多选；排版“每种排版生成一张/无文字模式”互斥；数量和排版共同重算预计产物；主副图与 A+ 可独立展开；修改品牌基因后新草稿标记 dirty，不能覆盖已生成结果。
+
+通用状态必须落到具体字段：`draft/dirty → validating → submitting → running → succeeded|failed|cancelled`；切换配置不删除已完成任务；重新上传源文件时使旧结果标记为“来自旧版本”，不能冒充当前配置结果。
+- 响应式：桌面保留专用工作区；窄屏按输入/编辑/结果分步；画布、蒙版、播放器和片段列表不得缩成不可点击图标。
+### UI-T02｜服装套图 `DRESS_WEAR_SET`
+
+- 路由：`/tools/ecommerce-suite/dress-wear-set`；[完整 UI/交互规格](page-specs/02-dress-wear-set.md)。
+- **布局**/区域：最多 5 张服装/配饰/细节图｜商品信息｜主副图｜A+ 图｜套图结果。桌面采用工具侧栏 + 页面内容；内容内按上述实际工作区组织，不得替换成统一“上传 + 提示词 + 结果”空壳。配置区保持 320–420px 或按画布工具需要扩展；主要编辑/预览区 `minmax(0,1fr)`；结果区有明确空、生成、成功、失败状态。移动端按“输入/编辑/结果”分步，不压缩画布到不可操作。
+- **配色/风格**与**组件**：组件：`SuiteComposer + ModuleCountEditor + LayoutModeRadio + AssetResultGroups`。面板用 `bg-card`，主区用 `bg-background`，边框 `border-border`，选中 `bg-accent`，主操作 `bg-primary`；正文 14px/22px，控件 36px，主按钮 40px，圆角 8–10px。颜色、字体和焦点环全部取无限画布令牌；不使用 LinkFox 紫色品牌。画布工具必须提供 40×40px 最小点击区、键盘焦点和撤销/重做。
+- 真实控件：主副图多选模特图、种草图、卖点图、尺码图、白底图，各自数量和排版独立；A+ 与商品套图相同；商品信息 0/2500；首步引导“上传服装配饰及细节图”。
+- **交互/状态**联动：上传 1–5 张后形成有序参考列表，可删除/调序；主副图与 A+ 分别计数；模特图/种草图使用人物与场景约束，尺码图保留尺码文字；清除全部图片即禁用提交但保留其余配置。
+
+通用状态必须落到具体字段：`draft/dirty → validating → submitting → running → succeeded|failed|cancelled`；切换配置不删除已完成任务；重新上传源文件时使旧结果标记为“来自旧版本”，不能冒充当前配置结果。
+- 响应式：桌面保留专用工作区；窄屏按输入/编辑/结果分步；画布、蒙版、播放器和片段列表不得缩成不可点击图标。
+### UI-T03｜套图换色 `CHANGE_COLOR_V2`
+
+- 路由：`/tools/ecommerce-suite/change-color-v2`；[完整 UI/交互规格](page-specs/03-change-color-v2.md)。
+- **布局**/区域：批量图片上传｜颜色选择｜换色部位｜品质｜整套结果。桌面采用工具侧栏 + 页面内容；内容内按上述实际工作区组织，不得替换成统一“上传 + 提示词 + 结果”空壳。配置区保持 320–420px 或按画布工具需要扩展；主要编辑/预览区 `minmax(0,1fr)`；结果区有明确空、生成、成功、失败状态。移动端按“输入/编辑/结果”分步，不压缩画布到不可操作。
+- **配色/风格**与**组件**：组件：`ColorReferencePicker + RegionPresetInput + AdjustmentSliderGroup + VariantGrid`。面板用 `bg-card`，主区用 `bg-background`，边框 `border-border`，选中 `bg-accent`，主操作 `bg-primary`；正文 14px/22px，控件 36px，主按钮 40px，圆角 8–10px。颜色、字体和焦点环全部取无限画布令牌；不使用 LinkFox 紫色品牌。画布工具必须提供 40×40px 最小点击区、键盘焦点和撤销/重做。
+- 真实控件：颜色来源含商品图提色、历史使用颜色、参考图批量上传（最多25张）；本次方案显示参考图数；换色部位文本 0/50；常用部位全身/上装/下装/鞋面/鞋底/包身/包带/外壳/瓶身/表带；品质低/中/高。
+- **交互/状态**联动：参考图加入即生成独立颜色方案，删除参考图同步移除方案；点击常用部位写入部位字段但可继续编辑；整套图共享方案，单图可重跑；没有有效图片或颜色方案时禁用生成。
+
+通用状态必须落到具体字段：`draft/dirty → validating → submitting → running → succeeded|failed|cancelled`；切换配置不删除已完成任务；重新上传源文件时使旧结果标记为“来自旧版本”，不能冒充当前配置结果。
+- 响应式：桌面保留专用工作区；窄屏按输入/编辑/结果分步；画布、蒙版、播放器和片段列表不得缩成不可点击图标。
+### UI-T04｜批量翻译 `IMAGE_TRANSLATION`
+
+- 路由：`/tools/ecommerce-suite/image-translation`；[完整 UI/交互规格](page-specs/04-image-translation.md)。
+- **布局**/区域：批量图片上传｜原文语言｜目标语言分组多选｜翻译结果。桌面采用工具侧栏 + 页面内容；内容内按上述实际工作区组织，不得替换成统一“上传 + 提示词 + 结果”空壳。配置区保持 320–420px 或按画布工具需要扩展；主要编辑/预览区 `minmax(0,1fr)`；结果区有明确空、生成、成功、失败状态。移动端按“输入/编辑/结果”分步，不压缩画布到不可操作。
+- **配色/风格**与**组件**：组件：`BatchAssetUploader + LanguageTreeSelect + TranslationMatrix`。面板用 `bg-card`，主区用 `bg-background`，边框 `border-border`，选中 `bg-accent`，主操作 `bg-primary`；正文 14px/22px，控件 36px，主按钮 40px，圆角 8–10px。颜色、字体和焦点环全部取无限画布令牌；不使用 LinkFox 紫色品牌。画布工具必须提供 40×40px 最小点击区、键盘焦点和撤销/重做。
+- 真实控件：单图20M、384–4096px，单图文字500字以内；原文含中英等；目标按欧美/亚洲/南亚/中东/非洲分组，多选并显示已选数。
+- **交互/状态**联动：目标语言每增一个即增加一路输出，原图×语言矩阵展示进度；源语言与目标相同须提示；OCR/版式失败只失败对应单元，可编辑文本后重试；切换语言不清空已上传图片。
+
+通用状态必须落到具体字段：`draft/dirty → validating → submitting → running → succeeded|failed|cancelled`；切换配置不删除已完成任务；重新上传源文件时使旧结果标记为“来自旧版本”，不能冒充当前配置结果。
+- 响应式：桌面保留专用工作区；窄屏按输入/编辑/结果分步；画布、蒙版、播放器和片段列表不得缩成不可点击图标。
+### UI-T05｜高清放大 `SCALE_UP`
+
+- 路由：`/tools/ecommerce-suite/scale-up`；[完整 UI/交互规格](page-specs/05-scale-up.md)。
+- **布局**/区域：原图上传｜变高清模式｜面部美化｜前后对比｜历史。桌面采用工具侧栏 + 页面内容；内容内按上述实际工作区组织，不得替换成统一“上传 + 提示词 + 结果”空壳。配置区保持 320–420px 或按画布工具需要扩展；主要编辑/预览区 `minmax(0,1fr)`；结果区有明确空、生成、成功、失败状态。移动端按“输入/编辑/结果”分步，不压缩画布到不可操作。
+- **配色/风格**与**组件**：组件：`EnhanceModeRadio + OutputSizeCalculator + BeforeAfterCompare`。面板用 `bg-card`，主区用 `bg-background`，边框 `border-border`，选中 `bg-accent`，主操作 `bg-primary`；正文 14px/22px，控件 36px，主按钮 40px，圆角 8–10px。颜色、字体和焦点环全部取无限画布令牌；不使用 LinkFox 紫色品牌。画布工具必须提供 40×40px 最小点击区、键盘焦点和撤销/重做。
+- 真实控件：模式：变高清、高清+2倍、高清+4倍、自定义；自定义时输出宽高可编辑；面部美化独立开关；上传区支持 jpg/jpeg/png/webp，最大4096×4096；中央原图/结果对比。
+- **交互/状态**联动：倍率切换实时重算输出尺寸与格式限制；自定义尺寸需保持合法比例；面部美化只影响人脸细节，不改变倍率；重上传保留模式但清除旧结果；生成中禁止替换源图。
+
+通用状态必须落到具体字段：`draft/dirty → validating → submitting → running → succeeded|failed|cancelled`；切换配置不删除已完成任务；重新上传源文件时使旧结果标记为“来自旧版本”，不能冒充当前配置结果。
+- 响应式：桌面保留专用工作区；窄屏按输入/编辑/结果分步；画布、蒙版、播放器和片段列表不得缩成不可点击图标。
+### UI-T06｜智能扩图 `AI_OUTPAINTING`
+
+- 路由：`/tools/ecommerce-suite/ai-outpainting`；[完整 UI/交互规格](page-specs/06-ai-outpainting.md)。
+- **布局**/区域：图片上传｜画布/比例扩展｜扩展预览｜生成数量｜结果网格。桌面采用工具侧栏 + 页面内容；内容内按上述实际工作区组织，不得替换成统一“上传 + 提示词 + 结果”空壳。配置区保持 320–420px 或按画布工具需要扩展；主要编辑/预览区 `minmax(0,1fr)`；结果区有明确空、生成、成功、失败状态。移动端按“输入/编辑/结果”分步，不压缩画布到不可操作。
+- **配色/风格**与**组件**：组件：`OutpaintCanvas + AspectRatioControl + TransformHistory`。面板用 `bg-card`，主区用 `bg-background`，边框 `border-border`，选中 `bg-accent`，主操作 `bg-primary`；正文 14px/22px，控件 36px，主按钮 40px，圆角 8–10px。颜色、字体和焦点环全部取无限画布令牌；不使用 LinkFox 紫色品牌。画布工具必须提供 40×40px 最小点击区、键盘焦点和撤销/重做。
+- 真实控件：默认尺寸与自定义比例/宽高；支持基于原图、扩展图、蒙版与 stageConfig 的画布编辑；输出1–4张；提示词用于扩展区域内容。
+- **交互/状态**联动：改比例只调整外扩画布，不拉伸原图；拖动原图改变保留区域并更新 mask；恢复默认尺寸需清掉扩展变换；生成前必须确认扩展方向和最终尺寸。
+
+通用状态必须落到具体字段：`draft/dirty → validating → submitting → running → succeeded|failed|cancelled`；切换配置不删除已完成任务；重新上传源文件时使旧结果标记为“来自旧版本”，不能冒充当前配置结果。
+- 响应式：桌面保留专用工作区；窄屏按输入/编辑/结果分步；画布、蒙版、播放器和片段列表不得缩成不可点击图标。
+### UI-T07｜局部重绘 `AREA_REPAIR`
+
+- 路由：`/tools/smart-edit/area-repair`；[完整 UI/交互规格](page-specs/07-area-repair.md)。
+- **布局**/区域：蒙版画布工具栏｜图片上传｜重绘描述｜数量｜结果。桌面采用工具侧栏 + 页面内容；内容内按上述实际工作区组织，不得替换成统一“上传 + 提示词 + 结果”空壳。配置区保持 320–420px 或按画布工具需要扩展；主要编辑/预览区 `minmax(0,1fr)`；结果区有明确空、生成、成功、失败状态。移动端按“输入/编辑/结果”分步，不压缩画布到不可操作。
+- **配色/风格**与**组件**：组件：`MaskCanvas + BrushToolbar + UndoRedoController`。面板用 `bg-card`，主区用 `bg-background`，边框 `border-border`，选中 `bg-accent`，主操作 `bg-primary`；正文 14px/22px，控件 36px，主按钮 40px，圆角 8–10px。颜色、字体和焦点环全部取无限画布令牌；不使用 LinkFox 紫色品牌。画布工具必须提供 40×40px 最小点击区、键盘焦点和撤销/重做。
+- 真实控件：画笔大小（像素）、自动扩大选择区域、反选、撤销、重做、重置；重绘描述必填0/600；输出1–4。
+- **交互/状态**联动：涂抹生成 maskUrl，反选只反转蒙版；自动扩边改变最终 mask 范围；撤销/重做只影响笔画；图片替换清空蒙版；描述为空或蒙版为空禁用提交。
+
+通用状态必须落到具体字段：`draft/dirty → validating → submitting → running → succeeded|failed|cancelled`；切换配置不删除已完成任务；重新上传源文件时使旧结果标记为“来自旧版本”，不能冒充当前配置结果。
+- 响应式：桌面保留专用工作区；窄屏按输入/编辑/结果分步；画布、蒙版、播放器和片段列表不得缩成不可点击图标。
+### UI-T08｜局部消除 `REMOVE_PEN`
+
+- 路由：`/tools/smart-edit/remove-pen`；[完整 UI/交互规格](page-specs/08-remove-pen.md)。
+- **布局**/区域：消除蒙版画布｜画笔与历史｜上传｜消除结果。桌面采用工具侧栏 + 页面内容；内容内按上述实际工作区组织，不得替换成统一“上传 + 提示词 + 结果”空壳。配置区保持 320–420px 或按画布工具需要扩展；主要编辑/预览区 `minmax(0,1fr)`；结果区有明确空、生成、成功、失败状态。移动端按“输入/编辑/结果”分步，不压缩画布到不可操作。
+- **配色/风格**与**组件**：组件：`MaskCanvas + BrushToolbar + UndoRedoController`。面板用 `bg-card`，主区用 `bg-background`，边框 `border-border`，选中 `bg-accent`，主操作 `bg-primary`；正文 14px/22px，控件 36px，主按钮 40px，圆角 8–10px。颜色、字体和焦点环全部取无限画布令牌；不使用 LinkFox 紫色品牌。画布工具必须提供 40×40px 最小点击区、键盘焦点和撤销/重做。
+- 真实控件：画笔大小、重置、撤销、重做、重新上传；无需提示词；结果可下载、高清放大或继续商品图/手部修复。
+- **交互/状态**联动：涂抹与擦除更新 maskImageUrl；重上传清空笔画；结果页“高清放大”把当前结果作为新工具输入；消除失败保留原图和蒙版供重试。
+
+通用状态必须落到具体字段：`draft/dirty → validating → submitting → running → succeeded|failed|cancelled`；切换配置不删除已完成任务；重新上传源文件时使旧结果标记为“来自旧版本”，不能冒充当前配置结果。
+- 响应式：桌面保留专用工作区；窄屏按输入/编辑/结果分步；画布、蒙版、播放器和片段列表不得缩成不可点击图标。
+### UI-T09｜一键换色 `CHANGE_COLOR`
+
+- 路由：`/tools/smart-edit/change-color`；[完整 UI/交互规格](page-specs/09-change-color.md)。
+- **布局**/区域：图片上传｜颜色/参考图｜去杂色｜颜色细调｜光影与边缘｜结果。桌面采用工具侧栏 + 页面内容；内容内按上述实际工作区组织，不得替换成统一“上传 + 提示词 + 结果”空壳。配置区保持 320–420px 或按画布工具需要扩展；主要编辑/预览区 `minmax(0,1fr)`；结果区有明确空、生成、成功、失败状态。移动端按“输入/编辑/结果”分步，不压缩画布到不可操作。
+- **配色/风格**与**组件**：组件：`ColorReferencePicker + RegionPresetInput + AdjustmentSliderGroup + VariantGrid`。面板用 `bg-card`，主区用 `bg-background`，边框 `border-border`，选中 `bg-accent`，主操作 `bg-primary`；正文 14px/22px，控件 36px，主按钮 40px，圆角 8–10px。颜色、字体和焦点环全部取无限画布令牌；不使用 LinkFox 紫色品牌。画布工具必须提供 40×40px 最小点击区、键盘焦点和撤销/重做。
+- 真实控件：收藏色卡、选择颜色或上传颜色参考图；去杂色开关；色调/饱和度/亮度/对比度滑杆与重置；光影优化、边缘优化、颜色边缘修复、色彩平衡、曲线。
+- **交互/状态**联动：颜色参考图提取色卡；细调参数实时更新预览，不直接修改原图；重置仅重置当前组；换色与高级调色合并为一次提交快照；生成期间锁定参数防错配。
+
+通用状态必须落到具体字段：`draft/dirty → validating → submitting → running → succeeded|failed|cancelled`；切换配置不删除已完成任务；重新上传源文件时使旧结果标记为“来自旧版本”，不能冒充当前配置结果。
+- 响应式：桌面保留专用工作区；窄屏按输入/编辑/结果分步；画布、蒙版、播放器和片段列表不得缩成不可点击图标。
+### UI-T10｜图片裁剪 `IMAGE_CROP`
+
+- 路由：`/tools/smart-edit/image-crop`；[完整 UI/交互规格](page-specs/10-image-crop.md)。
+- **布局**/区域：裁剪画布与历史｜尺寸调整｜比例调整｜平台预设｜自定义尺寸。桌面采用工具侧栏 + 页面内容；内容内按上述实际工作区组织，不得替换成统一“上传 + 提示词 + 结果”空壳。配置区保持 320–420px 或按画布工具需要扩展；主要编辑/预览区 `minmax(0,1fr)`；结果区有明确空、生成、成功、失败状态。移动端按“输入/编辑/结果”分步，不压缩画布到不可操作。
+- **配色/风格**与**组件**：组件：`CropCanvas + PlatformPresetGrid + PixelSizeForm`。面板用 `bg-card`，主区用 `bg-background`，边框 `border-border`，选中 `bg-accent`，主操作 `bg-primary`；正文 14px/22px，控件 36px，主按钮 40px，圆角 8–10px。颜色、字体和焦点环全部取无限画布令牌；不使用 LinkFox 紫色品牌。画布工具必须提供 40×40px 最小点击区、键盘焦点和撤销/重做。
+- 真实控件：自由裁剪；Amazon 1600²、Walmart 2000²、Etsy 2000²、Temu 1200²、Shopify 方/横/竖、SHEIN 1340×1785 等平台；目标宽/高和保存自定义尺寸；撤销/重做/重置/重新上传/下载。
+- **交互/状态**联动：选择平台同时写入平台、比例和像素尺寸；手动拖框切为自由裁剪但不删除预设；锁定比例时拖角保持比例；换图重置画布变换；下载使用当前裁剪结果。
+
+通用状态必须落到具体字段：`draft/dirty → validating → submitting → running → succeeded|failed|cancelled`；切换配置不删除已完成任务；重新上传源文件时使旧结果标记为“来自旧版本”，不能冒充当前配置结果。
+- 响应式：桌面保留专用工作区；窄屏按输入/编辑/结果分步；画布、蒙版、播放器和片段列表不得缩成不可点击图标。
+### UI-T11｜商品精修 `PRODUCT_REFINE`
+
+- 路由：`/tools/smart-edit/product-refine`；[完整 UI/交互规格](page-specs/11-product-refine.md)。
+- **布局**/区域：精修案例对比｜商品上传｜精修模式｜自动尺寸规则｜结果。桌面采用工具侧栏 + 页面内容；内容内按上述实际工作区组织，不得替换成统一“上传 + 提示词 + 结果”空壳。配置区保持 320–420px 或按画布工具需要扩展；主要编辑/预览区 `minmax(0,1fr)`；结果区有明确空、生成、成功、失败状态。移动端按“输入/编辑/结果”分步，不压缩画布到不可操作。
+- **配色/风格**与**组件**：组件：`EnhanceModeRadio + OutputSizeCalculator + BeforeAfterCompare`。面板用 `bg-card`，主区用 `bg-background`，边框 `border-border`，选中 `bg-accent`，主操作 `bg-primary`；正文 14px/22px，控件 36px，主按钮 40px，圆角 8–10px。颜色、字体和焦点环全部取无限画布令牌；不使用 LinkFox 紫色品牌。画布工具必须提供 40×40px 最小点击区、键盘焦点和撤销/重做。
+- 真实控件：整图精修/去背景精修；20M内；原图≤512放大4倍、513–1024放大2倍、>1024保持原尺寸；目标是轮廓、光泽、材质与颜色。
+- **交互/状态**联动：切去背景精修额外产生透明/分段结果并改变输出规则；上传后显示预计输出尺寸；替换图片清掉旧精修结果；失败可保留模式重试。
+
+通用状态必须落到具体字段：`draft/dirty → validating → submitting → running → succeeded|failed|cancelled`；切换配置不删除已完成任务；重新上传源文件时使旧结果标记为“来自旧版本”，不能冒充当前配置结果。
+- 响应式：桌面保留专用工作区；窄屏按输入/编辑/结果分步；画布、蒙版、播放器和片段列表不得缩成不可点击图标。
+### UI-T12｜色差修复 `FIX_COLOR`
+
+- 路由：`/tools/smart-edit/fix-color`；[完整 UI/交互规格](page-specs/12-fix-color.md)。
+- **布局**/区域：色差源图与商品参考｜色彩区域/版本｜校正结果。桌面采用工具侧栏 + 页面内容；内容内按上述实际工作区组织，不得替换成统一“上传 + 提示词 + 结果”空壳。配置区保持 320–420px 或按画布工具需要扩展；主要编辑/预览区 `minmax(0,1fr)`；结果区有明确空、生成、成功、失败状态。移动端按“输入/编辑/结果”分步，不压缩画布到不可操作。
+- **配色/风格**与**组件**：组件：`RepairStepper + LayerTransformCanvas + MaskCanvas`。面板用 `bg-card`，主区用 `bg-background`，边框 `border-border`，选中 `bg-accent`，主操作 `bg-primary`；正文 14px/22px，控件 36px，主按钮 40px，圆角 8–10px。颜色、字体和焦点环全部取无限画布令牌；不使用 LinkFox 紫色品牌。画布工具必须提供 40×40px 最小点击区、键盘焦点和撤销/重做。
+- 真实控件：原站真实菜单“色差修复”对应 `/draw/color-diff-repair`，不是 `/draw/fix-color`；载荷含 fixColorSegUrl、fixColorUrl、imageSegUrl、version。页面按上传原图、校正参考/区域、版本选择、结果对比组织。
+- **交互/状态**联动：区域分段变化只更新待修复 mask；版本切换重算预览并保留上一版；原图与校正参考缺一不可；失败保留原图、分段与版本。
+
+通用状态必须落到具体字段：`draft/dirty → validating → submitting → running → succeeded|failed|cancelled`；切换配置不删除已完成任务；重新上传源文件时使旧结果标记为“来自旧版本”，不能冒充当前配置结果。
+- 响应式：桌面保留专用工作区；窄屏按输入/编辑/结果分步；画布、蒙版、播放器和片段列表不得缩成不可点击图标。
+### UI-T13｜印花修复 `PRINTING_REPAIR`
+
+- 路由：`/tools/smart-edit/printing-repair`；[完整 UI/交互规格](page-specs/13-printing-repair.md)。
+- **布局**/区域：Step1 消除错误印花｜Step2 导入正确印花｜Step3 位置调整画布｜结果。桌面采用工具侧栏 + 页面内容；内容内按上述实际工作区组织，不得替换成统一“上传 + 提示词 + 结果”空壳。配置区保持 320–420px 或按画布工具需要扩展；主要编辑/预览区 `minmax(0,1fr)`；结果区有明确空、生成、成功、失败状态。移动端按“输入/编辑/结果”分步，不压缩画布到不可操作。
+- **配色/风格**与**组件**：组件：`RepairStepper + LayerTransformCanvas + MaskCanvas`。面板用 `bg-card`，主区用 `bg-background`，边框 `border-border`，选中 `bg-accent`，主操作 `bg-primary`；正文 14px/22px，控件 36px，主按钮 40px，圆角 8–10px。颜色、字体和焦点环全部取无限画布令牌；不使用 LinkFox 紫色品牌。画布工具必须提供 40×40px 最小点击区、键盘焦点和撤销/重做。
+- 真实控件：两个上传分别20M内；第三步在画布调整印花位置、大小、旋转；载荷 point/rotate/scale/config/targetConfig。
+- **交互/状态**联动：只有完成前两步才开放位置画布；移动/缩放/旋转只改正确印花层；重新上传错误图清空全部步骤；重新上传正确印花保留原图但重置变换。
+
+通用状态必须落到具体字段：`draft/dirty → validating → submitting → running → succeeded|failed|cancelled`；切换配置不删除已完成任务；重新上传源文件时使旧结果标记为“来自旧版本”，不能冒充当前配置结果。
+- 响应式：桌面保留专用工作区；窄屏按输入/编辑/结果分步；画布、蒙版、播放器和片段列表不得缩成不可点击图标。
+### UI-T14｜手部修复 `HAND_REPAIR`
+
+- 路由：`/tools/smart-edit/hand-repair`；[完整 UI/交互规格](page-specs/14-hand-repair.md)。
+- **布局**/区域：手部蒙版画布｜人物类型｜生成数量｜结果。桌面采用工具侧栏 + 页面内容；内容内按上述实际工作区组织，不得替换成统一“上传 + 提示词 + 结果”空壳。配置区保持 320–420px 或按画布工具需要扩展；主要编辑/预览区 `minmax(0,1fr)`；结果区有明确空、生成、成功、失败状态。移动端按“输入/编辑/结果”分步，不压缩画布到不可操作。
+- **配色/风格**与**组件**：组件：`RepairStepper + LayerTransformCanvas + MaskCanvas`。面板用 `bg-card`，主区用 `bg-background`，边框 `border-border`，选中 `bg-accent`，主操作 `bg-primary`；正文 14px/22px，控件 36px，主按钮 40px，圆角 8–10px。颜色、字体和焦点环全部取无限画布令牌；不使用 LinkFox 紫色品牌。画布工具必须提供 40×40px 最小点击区、键盘焦点和撤销/重做。
+- 真实控件：画笔大小、重置、撤销、重做；成年男性/成年女性/男孩/女孩；1–4张；原站菜单标下架但路由仍显示工作区。
+- **交互/状态**联动：人物类型作为结构约束随任务快照保存；换图清蒙版；无蒙版不能生成；页面展示“原站已下架”证据标签，但本项目仍按独立工具实现。
+
+通用状态必须落到具体字段：`draft/dirty → validating → submitting → running → succeeded|failed|cancelled`；切换配置不删除已完成任务；重新上传源文件时使旧结果标记为“来自旧版本”，不能冒充当前配置结果。
+- 响应式：桌面保留专用工作区；窄屏按输入/编辑/结果分步；画布、蒙版、播放器和片段列表不得缩成不可点击图标。
+### UI-T15｜商品图 `NEW_REPLACE_BG_V2`
+
+- 路由：`/tools/product-design/new-replace-bg-v2`；[完整 UI/交互规格](page-specs/15-new-replace-bg-v2.md)。
+- **布局**/区域：场景推荐/自定义背景｜商品层｜材质/锁定层｜合成画布｜结果。桌面采用工具侧栏 + 页面内容；内容内按上述实际工作区组织，不得替换成统一“上传 + 提示词 + 结果”空壳。配置区保持 320–420px 或按画布工具需要扩展；主要编辑/预览区 `minmax(0,1fr)`；结果区有明确空、生成、成功、失败状态。移动端按“输入/编辑/结果”分步，不压缩画布到不可操作。
+- **配色/风格**与**组件**：组件：`SceneLayerComposer + SimilarityControl + SceneVariantGrid`。面板用 `bg-card`，主区用 `bg-background`，边框 `border-border`，选中 `bg-accent`，主操作 `bg-primary`；正文 14px/22px，控件 36px，主按钮 40px，圆角 8–10px。颜色、字体和焦点环全部取无限画布令牌；不使用 LinkFox 紫色品牌。画布工具必须提供 40×40px 最小点击区、键盘焦点和撤销/重做。
+- 真实控件：chunk 状态含 canvasData、sizeData、imageRecords、bgLayerRef、goodsLayerRef、bgMaskLayerRef、bgEraseLayerRef、bgExtractLayerRef、lockCutoutModal、weight=.7、sceneType=Recommend。页面是图层合成工作台而非简单两上传表单。
+- **交互/状态**联动：背景/商品/材质/锁定层独立选择和抠图；拖动商品只更新 goods 层 point/scale/rotate；背景强度 weight 与场景类型进入任务快照；锁定层保护不应重绘区域；重置可分层撤销。
+
+通用状态必须落到具体字段：`draft/dirty → validating → submitting → running → succeeded|failed|cancelled`；切换配置不删除已完成任务；重新上传源文件时使旧结果标记为“来自旧版本”，不能冒充当前配置结果。
+- 响应式：桌面保留专用工作区；窄屏按输入/编辑/结果分步；画布、蒙版、播放器和片段列表不得缩成不可点击图标。
+### UI-T16｜商品替换 `REPLACE_GOODS`
+
+- 路由：`/tools/product-design/replace-goods`；[完整 UI/交互规格](page-specs/16-replace-goods.md)。
+- **布局**/区域：参考场景画布｜透视/扭曲工具｜商品与锁定区域｜场景变化程度｜结果。桌面采用工具侧栏 + 页面内容；内容内按上述实际工作区组织，不得替换成统一“上传 + 提示词 + 结果”空壳。配置区保持 320–420px 或按画布工具需要扩展；主要编辑/预览区 `minmax(0,1fr)`；结果区有明确空、生成、成功、失败状态。移动端按“输入/编辑/结果”分步，不压缩画布到不可操作。
+- **配色/风格**与**组件**：组件：`PerspectiveWarpCanvas + LayerLockPanel + SkuWorkspaceSwitcher`。面板用 `bg-card`，主区用 `bg-background`，边框 `border-border`，选中 `bg-accent`，主操作 `bg-primary`；正文 14px/22px，控件 36px，主按钮 40px，圆角 8–10px。颜色、字体和焦点环全部取无限画布令牌；不使用 LinkFox 紫色品牌。画布工具必须提供 40×40px 最小点击区、键盘焦点和撤销/重做。
+- 真实控件：工具快捷键透视T、扭曲N，Ctrl+拖动扭曲，左右键切画布；生成尺寸1024×1024；场景变化程度不变/高；4张；多商品批量替换。
+- **交互/状态**联动：透视/扭曲改变 targetConfig 而非简单缩放；锁定图/蒙版保护原场景；变化程度控制背景重绘；切画布保留各SKU独立配置；未完成商品定位禁用提交。
+
+通用状态必须落到具体字段：`draft/dirty → validating → submitting → running → succeeded|failed|cancelled`；切换配置不删除已完成任务；重新上传源文件时使旧结果标记为“来自旧版本”，不能冒充当前配置结果。
+- 响应式：桌面保留专用工作区；窄屏按输入/编辑/结果分步；画布、蒙版、播放器和片段列表不得缩成不可点击图标。
+### UI-T17｜场景裂变 `PRODUCT_SCENE`
+
+- 路由：`/tools/product-design/product-scene`；[完整 UI/交互规格](page-specs/17-product-scene.md)。
+- **布局**/区域：商品/场景参考上传｜背景相似度｜场景描述｜模型｜尺寸/数量｜结果。桌面采用工具侧栏 + 页面内容；内容内按上述实际工作区组织，不得替换成统一“上传 + 提示词 + 结果”空壳。配置区保持 320–420px 或按画布工具需要扩展；主要编辑/预览区 `minmax(0,1fr)`；结果区有明确空、生成、成功、失败状态。移动端按“输入/编辑/结果”分步，不压缩画布到不可操作。
+- **配色/风格**与**组件**：组件：`SceneLayerComposer + SimilarityControl + SceneVariantGrid`。面板用 `bg-card`，主区用 `bg-background`，边框 `border-border`，选中 `bg-accent`，主操作 `bg-primary`；正文 14px/22px，控件 36px，主按钮 40px，圆角 8–10px。颜色、字体和焦点环全部取无限画布令牌；不使用 LinkFox 紫色品牌。画布工具必须提供 40×40px 最小点击区、键盘焦点和撤销/重做。
+- 真实控件：背景相似度；智能模式自动场景；场景描述可选0/100；写实/简约/智能；默认/自定义尺寸；1–4张。
+- **交互/状态**联动：智能模式隐藏或弱化相似度手调并显示解释；描述与模型共同进入草稿；自定义尺寸展开宽高；改变参考图清结果但保留描述；批量多图可转套图流程。
+
+通用状态必须落到具体字段：`draft/dirty → validating → submitting → running → succeeded|failed|cancelled`；切换配置不删除已完成任务；重新上传源文件时使旧结果标记为“来自旧版本”，不能冒充当前配置结果。
+- 响应式：桌面保留专用工作区；窄屏按输入/编辑/结果分步；画布、蒙版、播放器和片段列表不得缩成不可点击图标。
+### UI-T18｜手持商品 `HANDHELD_GOODS`
+
+- 路由：`/tools/product-design/handheld-goods`；[完整 UI/交互规格](page-specs/18-handheld-goods.md)。
+- **布局**/区域：商品图上传｜手持姿势库｜数量｜结果。桌面采用工具侧栏 + 页面内容；内容内按上述实际工作区组织，不得替换成统一“上传 + 提示词 + 结果”空壳。配置区保持 320–420px 或按画布工具需要扩展；主要编辑/预览区 `minmax(0,1fr)`；结果区有明确空、生成、成功、失败状态。移动端按“输入/编辑/结果”分步，不压缩画布到不可操作。
+- **配色/风格**与**组件**：组件：`ReferenceModelPicker + PoseOrCategorySelect + OutputCountControl`。面板用 `bg-card`，主区用 `bg-background`，边框 `border-border`，选中 `bg-accent`，主操作 `bg-primary`；正文 14px/22px，控件 36px，主按钮 40px，圆角 8–10px。颜色、字体和焦点环全部取无限画布令牌；不使用 LinkFox 紫色品牌。画布工具必须提供 40×40px 最小点击区、键盘焦点和撤销/重做。
+- 真实控件：商品图10M、384–4096；姿势参考展示手持部位与姿势；1–4张；示例流程上传手持物品→选择参考图→结果。
+- **交互/状态**联动：姿势卡选择更新 modelId/modelTabType/sceneTabType；换姿势不重新上传商品；商品与姿势缺一不可；批量商品各自保留姿势快照。
+
+通用状态必须落到具体字段：`draft/dirty → validating → submitting → running → succeeded|failed|cancelled`；切换配置不删除已完成任务；重新上传源文件时使旧结果标记为“来自旧版本”，不能冒充当前配置结果。
+- 响应式：桌面保留专用工作区；窄屏按输入/编辑/结果分步；画布、蒙版、播放器和片段列表不得缩成不可点击图标。
+### UI-T19｜AI穿衣 `AI_DRESSING_V2`
+
+- 路由：`/tools/product-design/ai-dressing-v2`；[完整 UI/交互规格](page-specs/19-ai-dressing-v2.md)。
+- **布局**/区域：上下装/连体衣 Tab｜服装上传｜模特选择｜数量｜试穿结果。桌面采用工具侧栏 + 页面内容；内容内按上述实际工作区组织，不得替换成统一“上传 + 提示词 + 结果”空壳。配置区保持 320–420px 或按画布工具需要扩展；主要编辑/预览区 `minmax(0,1fr)`；结果区有明确空、生成、成功、失败状态。移动端按“输入/编辑/结果”分步，不压缩画布到不可操作。
+- **配色/风格**与**组件**：组件：`GarmentTabs + GarmentMaskUploader + ModelPosePicker`。面板用 `bg-card`，主区用 `bg-background`，边框 `border-border`，选中 `bg-accent`，主操作 `bg-primary`；正文 14px/22px，控件 36px，主按钮 40px，圆角 8–10px。颜色、字体和焦点环全部取无限画布令牌；不使用 LinkFox 紫色品牌。画布工具必须提供 40×40px 最小点击区、键盘焦点和撤销/重做。
+- 真实控件：上下装分别上传上装正面和下装正面；连体衣只上传套装；支持仅上/下装；10M；模特参考展示穿衣部位；批量穿衣入口。
+- **交互/状态**联动：Tab 切换清理不适用服装字段但保留另一 Tab 草稿；模特与服装独立选择；生成任务固化 modelPose/modelType 和 garment masks；缺失当前 Tab 必填服装时禁用。
+
+通用状态必须落到具体字段：`draft/dirty → validating → submitting → running → succeeded|failed|cancelled`；切换配置不删除已完成任务；重新上传源文件时使旧结果标记为“来自旧版本”，不能冒充当前配置结果。
+- 响应式：桌面保留专用工作区；窄屏按输入/编辑/结果分步；画布、蒙版、播放器和片段列表不得缩成不可点击图标。
+### UI-T20｜姿势裂变 `AI_POSTURE`
+
+- 路由：`/tools/product-design/ai-posture`；[完整 UI/交互规格](page-specs/20-ai-posture.md)。
+- **布局**/区域：模特姿势图上传｜姿势库/自定义｜姿势选择｜数量｜结果。桌面采用工具侧栏 + 页面内容；内容内按上述实际工作区组织，不得替换成统一“上传 + 提示词 + 结果”空壳。配置区保持 320–420px 或按画布工具需要扩展；主要编辑/预览区 `minmax(0,1fr)`；结果区有明确空、生成、成功、失败状态。移动端按“输入/编辑/结果”分步，不压缩画布到不可操作。
+- **配色/风格**与**组件**：组件：`ReferenceModelPicker + PoseOrCategorySelect + OutputCountControl`。面板用 `bg-card`，主区用 `bg-background`，边框 `border-border`，选中 `bg-accent`，主操作 `bg-primary`；正文 14px/22px，控件 36px，主按钮 40px，圆角 8–10px。颜色、字体和焦点环全部取无限画布令牌；不使用 LinkFox 紫色品牌。画布工具必须提供 40×40px 最小点击区、键盘焦点和撤销/重做。
+- 真实控件：上传单张模特图；姿势库或自定义文本；姿势选择可选；1–4张；一张模特图生成N种姿势。
+- **交互/状态**联动：选择姿势库卡片写入结构化姿势，自定义切为文本 prompt；二者切换不互相覆盖草稿；未选姿势可自动裂变；结果按来源姿势分组。
+
+通用状态必须落到具体字段：`draft/dirty → validating → submitting → running → succeeded|failed|cancelled`；切换配置不删除已完成任务；重新上传源文件时使旧结果标记为“来自旧版本”，不能冒充当前配置结果。
+- 响应式：桌面保留专用工作区；窄屏按输入/编辑/结果分步；画布、蒙版、播放器和片段列表不得缩成不可点击图标。
+### UI-T21｜AI穿戴 `AI_WEARABLE`
+
+- 路由：`/tools/product-design/ai-wearable`；[完整 UI/交互规格](page-specs/21-ai-wearable.md)。
+- **布局**/区域：穿戴商品上传｜商品品类｜穿戴模特｜数量｜结果。桌面采用工具侧栏 + 页面内容；内容内按上述实际工作区组织，不得替换成统一“上传 + 提示词 + 结果”空壳。配置区保持 320–420px 或按画布工具需要扩展；主要编辑/预览区 `minmax(0,1fr)`；结果区有明确空、生成、成功、失败状态。移动端按“输入/编辑/结果”分步，不压缩画布到不可操作。
+- **配色/风格**与**组件**：组件：`GarmentTabs + GarmentMaskUploader + ModelPosePicker`。面板用 `bg-card`，主区用 `bg-background`，边框 `border-border`，选中 `bg-accent`，主操作 `bg-primary`；正文 14px/22px，控件 36px，主按钮 40px，圆角 8–10px。颜色、字体和焦点环全部取无限画布令牌；不使用 LinkFox 紫色品牌。画布工具必须提供 40×40px 最小点击区、键盘焦点和撤销/重做。
+- 真实控件：上传穿戴商品，建议用模特穿戴效果图；选择商品品类和穿戴模特；部位、角度与画面占比尽量相近；1–4张。
+- **交互/状态**联动：品类改变可选穿戴部位和模特过滤；换模特不重新上传商品；商品/品类/模特全部必需；结果可回到原选择做单件重试。
+
+通用状态必须落到具体字段：`draft/dirty → validating → submitting → running → succeeded|failed|cancelled`；切换配置不删除已完成任务；重新上传源文件时使旧结果标记为“来自旧版本”，不能冒充当前配置结果。
+- 响应式：桌面保留专用工作区；窄屏按输入/编辑/结果分步；画布、蒙版、播放器和片段列表不得缩成不可点击图标。
+### UI-T22｜POD素材 `AI_TEXT`
+
+- 路由：`/tools/product-design/ai-text`；[完整 UI/交互规格](page-specs/22-ai-text.md)。
+- **布局**/区域：POD 素材输入｜风格/平铺｜提示词与变体｜结果。桌面采用工具侧栏 + 页面内容；内容内按上述实际工作区组织，不得替换成统一“上传 + 提示词 + 结果”空壳。配置区保持 320–420px 或按画布工具需要扩展；主要编辑/预览区 `minmax(0,1fr)`；结果区有明确空、生成、成功、失败状态。移动端按“输入/编辑/结果”分步，不压缩画布到不可操作。
+- **配色/风格**与**组件**：组件：`PodMaterialForm + TilingPresetSelect + ProductPlacementCanvas`。面板用 `bg-card`，主区用 `bg-background`，边框 `border-border`，选中 `bg-accent`，主操作 `bg-primary`；正文 14px/22px，控件 36px，主按钮 40px，圆角 8–10px。颜色、字体和焦点环全部取无限画布令牌；不使用 LinkFox 紫色品牌。画布工具必须提供 40×40px 最小点击区、键盘焦点和撤销/重做。
+- 真实控件：当前账号访问 `/draw/ai-text` 重定向首页；依据字段组织 aiSimpleTextPrompt/prompt、styles/stylesCn、tilingPreset、mode、ratio、outputNum、variationStrength、useAutopromptOption；支持参考图与案例变体。
+- **交互/状态**联动：简易文字与完整提示词模式互斥编辑；自动提示词开启时显示生成预览且可解锁手改；平铺预设改变图案重复规则；案例变体继承样式但新建任务。
+
+通用状态必须落到具体字段：`draft/dirty → validating → submitting → running → succeeded|failed|cancelled`；切换配置不删除已完成任务；重新上传源文件时使旧结果标记为“来自旧版本”，不能冒充当前配置结果。
+- 响应式：桌面保留专用工作区；窄屏按输入/编辑/结果分步；画布、蒙版、播放器和片段列表不得缩成不可点击图标。
+### UI-T23｜饰品文字 `ORNAMENT_TEXT`
+
+- 路由：`/tools/product-design/ornament-text`；[完整 UI/交互规格](page-specs/23-ornament-text.md)。
+- **布局**/区域：饰品文字内容｜字体与字号｜左右定位｜效果预览｜结果。桌面采用工具侧栏 + 页面内容；内容内按上述实际工作区组织，不得替换成统一“上传 + 提示词 + 结果”空壳。配置区保持 320–420px 或按画布工具需要扩展；主要编辑/预览区 `minmax(0,1fr)`；结果区有明确空、生成、成功、失败状态。移动端按“输入/编辑/结果”分步，不压缩画布到不可操作。
+- **配色/风格**与**组件**：组件：`TextLayerCanvas + FontPropertyPanel + TextBoxList`。面板用 `bg-card`，主区用 `bg-background`，边框 `border-border`，选中 `bg-accent`，主操作 `bg-primary`；正文 14px/22px，控件 36px，主按钮 40px，圆角 8–10px。颜色、字体和焦点环全部取无限画布令牌；不使用 LinkFox 紫色品牌。画布工具必须提供 40×40px 最小点击区、键盘焦点和撤销/重做。
+- 真实控件：当前账号 `/draw/ornament-text` 重定向首页；字段明确为 prompt、fontname、fontSize、left、right。界面以文字样式编辑和预览为主，不虚构材质库。
+- **交互/状态**联动：字体/字号变化实时更新文字层；left/right 控制文字在饰品上的相对位置；修改文字只更新预览，生成后保存参数快照。
+
+通用状态必须落到具体字段：`draft/dirty → validating → submitting → running → succeeded|failed|cancelled`；切换配置不删除已完成任务；重新上传源文件时使旧结果标记为“来自旧版本”，不能冒充当前配置结果。
+- 响应式：桌面保留专用工作区；窄屏按输入/编辑/结果分步；画布、蒙版、播放器和片段列表不得缩成不可点击图标。
+### UI-T24｜素材贴合 `SDS_DESIGN`
+
+- 路由：`/tools/product-design/sds-design`；[完整 UI/交互规格](page-specs/24-sds-design.md)。
+- **布局**/区域：素材上传｜产品选择｜颜色选择｜素材操作画布｜贴合结果。桌面采用工具侧栏 + 页面内容；内容内按上述实际工作区组织，不得替换成统一“上传 + 提示词 + 结果”空壳。配置区保持 320–420px 或按画布工具需要扩展；主要编辑/预览区 `minmax(0,1fr)`；结果区有明确空、生成、成功、失败状态。移动端按“输入/编辑/结果”分步，不压缩画布到不可操作。
+- **配色/风格**与**组件**：组件：`PodMaterialForm + TilingPresetSelect + ProductPlacementCanvas`。面板用 `bg-card`，主区用 `bg-background`，边框 `border-border`，选中 `bg-accent`，主操作 `bg-primary`；正文 14px/22px，控件 36px，主按钮 40px，圆角 8–10px。颜色、字体和焦点环全部取无限画布令牌；不使用 LinkFox 紫色品牌。画布工具必须提供 40×40px 最小点击区、键盘焦点和撤销/重做。
+- 真实控件：上传素材；选择产品；选择颜色；素材操作用于位置/缩放/旋转；载荷 imageList/materialList/productId；20算力仅作证据不复制计费。
+- **交互/状态**联动：产品改变替换承载模型/产品图层并重新计算可贴区域；颜色只改产品颜色；素材变换不影响产品层；缺素材或产品时禁用生成。
+
+通用状态必须落到具体字段：`draft/dirty → validating → submitting → running → succeeded|failed|cancelled`；切换配置不删除已完成任务；重新上传源文件时使旧结果标记为“来自旧版本”，不能冒充当前配置结果。
+- 响应式：桌面保留专用工作区；窄屏按输入/编辑/结果分步；画布、蒙版、播放器和片段列表不得缩成不可点击图标。
+### UI-T25｜印花提取 `PRINT_EXTRACT`
+
+- 路由：`/tools/product-design/print-extract`；[完整 UI/交互规格](page-specs/25-print-extract.md)。
+- **布局**/区域：商品图上传｜透明图开关｜提取结果。桌面采用工具侧栏 + 页面内容；内容内按上述实际工作区组织，不得替换成统一“上传 + 提示词 + 结果”空壳。配置区保持 320–420px 或按画布工具需要扩展；主要编辑/预览区 `minmax(0,1fr)`；结果区有明确空、生成、成功、失败状态。移动端按“输入/编辑/结果”分步，不压缩画布到不可操作。
+- **配色/风格**与**组件**：组件：`ExtractUploader + TransparencySwitch + AssetResultGrid`。面板用 `bg-card`，主区用 `bg-background`，边框 `border-border`，选中 `bg-accent`，主操作 `bg-primary`；正文 14px/22px，控件 36px，主按钮 40px，圆角 8–10px。颜色、字体和焦点环全部取无限画布令牌；不使用 LinkFox 紫色品牌。画布工具必须提供 40×40px 最小点击区、键盘焦点和撤销/重做。
+- 真实控件：20M、384–4096、宽高比<5；支持批量；生成透明图开/关；目标是从商品中提取印花。
+- **交互/状态**联动：透明开关决定背景移除和输出格式；批量时每张独立状态；换图清结果；提取不完整可回到原图重试，不自动生成假蒙版。
+
+通用状态必须落到具体字段：`draft/dirty → validating → submitting → running → succeeded|failed|cancelled`；切换配置不删除已完成任务；重新上传源文件时使旧结果标记为“来自旧版本”，不能冒充当前配置结果。
+- 响应式：桌面保留专用工作区；窄屏按输入/编辑/结果分步；画布、蒙版、播放器和片段列表不得缩成不可点击图标。
+### UI-T26｜AI姿势生成 `AI_POSE_GENERATOR`
+
+- 路由：`/tools/product-design/ai-pose-generator`；[完整 UI/交互规格](page-specs/26-ai-pose-generator.md)。
+- **布局**/区域：姿势提示词｜场景提示词｜参考预览｜生成结果。桌面采用工具侧栏 + 页面内容；内容内按上述实际工作区组织，不得替换成统一“上传 + 提示词 + 结果”空壳。配置区保持 320–420px 或按画布工具需要扩展；主要编辑/预览区 `minmax(0,1fr)`；结果区有明确空、生成、成功、失败状态。移动端按“输入/编辑/结果”分步，不压缩画布到不可操作。
+- **配色/风格**与**组件**：组件：`ReferenceModelPicker + PoseOrCategorySelect + OutputCountControl`。面板用 `bg-card`，主区用 `bg-background`，边框 `border-border`，选中 `bg-accent`，主操作 `bg-primary`；正文 14px/22px，控件 36px，主按钮 40px，圆角 8–10px。颜色、字体和焦点环全部取无限画布令牌；不使用 LinkFox 紫色品牌。画布工具必须提供 40×40px 最小点击区、键盘焦点和撤销/重做。
+- 真实控件：补充工具，依据字段 prompt 与 scenePrompts；与 AI_POSTURE 的“已有模特图姿势裂变”不同，本页从文字生成姿势参考。
+- **交互/状态**联动：姿势描述与场景描述分栏，场景不能覆盖姿势约束；可保存姿势预设；修改任一描述只更新草稿；无姿势描述禁用生成。
+
+通用状态必须落到具体字段：`draft/dirty → validating → submitting → running → succeeded|failed|cancelled`；切换配置不删除已完成任务；重新上传源文件时使旧结果标记为“来自旧版本”，不能冒充当前配置结果。
+- 响应式：桌面保留专用工作区；窄屏按输入/编辑/结果分步；画布、蒙版、播放器和片段列表不得缩成不可点击图标。
+### UI-T27｜AI试衣XSY `AI_DRESSING_XSY`
+
+- 路由：`/tools/product-design/ai-dressing-xsy`；[完整 UI/交互规格](page-specs/27-ai-dressing-xsy.md)。
+- **布局**/区域：模特图｜分步服装上传｜模特风格/姿势｜步骤状态｜结果。桌面采用工具侧栏 + 页面内容；内容内按上述实际工作区组织，不得替换成统一“上传 + 提示词 + 结果”空壳。配置区保持 320–420px 或按画布工具需要扩展；主要编辑/预览区 `minmax(0,1fr)`；结果区有明确空、生成、成功、失败状态。移动端按“输入/编辑/结果”分步，不压缩画布到不可操作。
+- **配色/风格**与**组件**：组件：`GarmentTabs + GarmentMaskUploader + ModelPosePicker`。面板用 `bg-card`，主区用 `bg-background`，边框 `border-border`，选中 `bg-accent`，主操作 `bg-primary`；正文 14px/22px，控件 36px，主按钮 40px，圆角 8–10px。颜色、字体和焦点环全部取无限画布令牌；不使用 LinkFox 紫色品牌。画布工具必须提供 40×40px 最小点击区、键盘焦点和撤销/重做。
+- 真实控件：字段含 modelImageUrl、step、modelStyle/modelPose/modelType、upper/down/suit 三组图片和 mask；是分步试衣流程，区别于 AI 穿衣的参考模特选择。
+- **交互/状态**联动：step 驱动“模特→服装→蒙版/姿势→生成”；回退上一步保留下游草稿但标为需重确认；切换上下装/套装清理冲突字段；每步显示完成状态。
+
+通用状态必须落到具体字段：`draft/dirty → validating → submitting → running → succeeded|failed|cancelled`；切换配置不删除已完成任务；重新上传源文件时使旧结果标记为“来自旧版本”，不能冒充当前配置结果。
+- 响应式：桌面保留专用工作区；窄屏按输入/编辑/结果分步；画布、蒙版、播放器和片段列表不得缩成不可点击图标。
+### UI-T28｜场景裂变链接 `FISSION_LINK`
+
+- 路由：`/tools/product-design/fission-link`；[完整 UI/交互规格](page-specs/28-fission-link.md)。
+- **布局**/区域：参考图片/链接输入｜裂变数量｜场景变体结果。桌面采用工具侧栏 + 页面内容；内容内按上述实际工作区组织，不得替换成统一“上传 + 提示词 + 结果”空壳。配置区保持 320–420px 或按画布工具需要扩展；主要编辑/预览区 `minmax(0,1fr)`；结果区有明确空、生成、成功、失败状态。移动端按“输入/编辑/结果”分步，不压缩画布到不可操作。
+- **配色/风格**与**组件**：组件：`SceneLayerComposer + SimilarityControl + SceneVariantGrid`。面板用 `bg-card`，主区用 `bg-background`，边框 `border-border`，选中 `bg-accent`，主操作 `bg-primary`；正文 14px/22px，控件 36px，主按钮 40px，圆角 8–10px。颜色、字体和焦点环全部取无限画布令牌；不使用 LinkFox 紫色品牌。画布工具必须提供 40×40px 最小点击区、键盘焦点和撤销/重做。
+- 真实控件：补充工具，字段 imageUrl/outputNum；与 PRODUCT_SCENE 的场景描述/模型/相似度不同，本页只做基于单图链接的快速裂变。
+- **交互/状态**联动：合法图片 URL 加载预览后才可提交；数量决定变体组；链接变化作废旧预览和结果；失败保留链接便于修正。
+
+通用状态必须落到具体字段：`draft/dirty → validating → submitting → running → succeeded|failed|cancelled`；切换配置不删除已完成任务；重新上传源文件时使旧结果标记为“来自旧版本”，不能冒充当前配置结果。
+- 响应式：桌面保留专用工作区；窄屏按输入/编辑/结果分步；画布、蒙版、播放器和片段列表不得缩成不可点击图标。
+### UI-T29｜图片文字编辑 `IMAGE_TEXT_EDIT`
+
+- 路由：`/tools/product-design/image-text-edit`；[完整 UI/交互规格](page-specs/29-image-text-edit.md)。
+- **布局**/区域：图片文字画布｜文本框列表｜属性编辑｜导出。桌面采用工具侧栏 + 页面内容；内容内按上述实际工作区组织，不得替换成统一“上传 + 提示词 + 结果”空壳。配置区保持 320–420px 或按画布工具需要扩展；主要编辑/预览区 `minmax(0,1fr)`；结果区有明确空、生成、成功、失败状态。移动端按“输入/编辑/结果”分步，不压缩画布到不可操作。
+- **配色/风格**与**组件**：组件：`TextLayerCanvas + FontPropertyPanel + TextBoxList`。面板用 `bg-card`，主区用 `bg-background`，边框 `border-border`，选中 `bg-accent`，主操作 `bg-primary`；正文 14px/22px，控件 36px，主按钮 40px，圆角 8–10px。颜色、字体和焦点环全部取无限画布令牌；不使用 LinkFox 紫色品牌。画布工具必须提供 40×40px 最小点击区、键盘焦点和撤销/重做。
+- 真实控件：字段 boxes、图片尺寸/格式、resultImageUrl；每个 box 有位置、尺寸、文本和样式，中央画布与右侧属性联动。
+- **交互/状态**联动：选画布文字框同步选右侧条目；编辑内容/字体/位置实时改 boxes；删除可撤销；导出前检查溢出和缺字；原图永不被覆盖。
+
+通用状态必须落到具体字段：`draft/dirty → validating → submitting → running → succeeded|failed|cancelled`；切换配置不删除已完成任务；重新上传源文件时使旧结果标记为“来自旧版本”，不能冒充当前配置结果。
+- 响应式：桌面保留专用工作区；窄屏按输入/编辑/结果分步；画布、蒙版、播放器和片段列表不得缩成不可点击图标。
+### UI-T30｜上装换料 `MATERIAL_UPPER_BODY`
+
+- 路由：`/tools/product-design/material-upper-body`；[完整 UI/交互规格](page-specs/30-material-upper-body.md)。
+- **布局**/区域：上装图片｜材质类目｜抠图开关｜数量｜换料结果。桌面采用工具侧栏 + 页面内容；内容内按上述实际工作区组织，不得替换成统一“上传 + 提示词 + 结果”空壳。配置区保持 320–420px 或按画布工具需要扩展；主要编辑/预览区 `minmax(0,1fr)`；结果区有明确空、生成、成功、失败状态。移动端按“输入/编辑/结果”分步，不压缩画布到不可操作。
+- **配色/风格**与**组件**：组件：`GarmentTabs + GarmentMaskUploader + ModelPosePicker`。面板用 `bg-card`，主区用 `bg-background`，边框 `border-border`，选中 `bg-accent`，主操作 `bg-primary`；正文 14px/22px，控件 36px，主按钮 40px，圆角 8–10px。颜色、字体和焦点环全部取无限画布令牌；不使用 LinkFox 紫色品牌。画布工具必须提供 40×40px 最小点击区、键盘焦点和撤销/重做。
+- 真实控件：字段 categoryIds/categoryName/subType/isMatting/outputNum；只处理上装材质，保留版型。
+- **交互/状态**联动：类目选择联动子类；isMatting 开启时先预览上装蒙版；换图清类目相关结果但可保留材质；缺材质类目禁用生成。
+
+通用状态必须落到具体字段：`draft/dirty → validating → submitting → running → succeeded|failed|cancelled`；切换配置不删除已完成任务；重新上传源文件时使旧结果标记为“来自旧版本”，不能冒充当前配置结果。
+- 响应式：桌面保留专用工作区；窄屏按输入/编辑/结果分步；画布、蒙版、播放器和片段列表不得缩成不可点击图标。
+### UI-T31｜商品图设计器 `NEW_DESIGNER`
+
+- 路由：`/tools/product-design/new-designer`；[完整 UI/交互规格](page-specs/31-new-designer.md)。
+- **布局**/区域：设计器宿主页｜素材/画布/图层｜属性面板｜完成回传。桌面采用工具侧栏 + 页面内容；内容内按上述实际工作区组织，不得替换成统一“上传 + 提示词 + 结果”空壳。配置区保持 320–420px 或按画布工具需要扩展；主要编辑/预览区 `minmax(0,1fr)`；结果区有明确空、生成、成功、失败状态。移动端按“输入/编辑/结果”分步，不压缩画布到不可操作。
+- **配色/风格**与**组件**：组件：`DesignerHost + LayerPanel + CanvasPropertyPanel + DoneBridge`。面板用 `bg-card`，主区用 `bg-background`，边框 `border-border`，选中 `bg-accent`，主操作 `bg-primary`；正文 14px/22px，控件 36px，主按钮 40px，圆角 8–10px。颜色、字体和焦点环全部取无限画布令牌；不使用 LinkFox 紫色品牌。画布工具必须提供 40×40px 最小点击区、键盘焦点和撤销/重做。
+- 真实控件：字段 designerId/imageUrl/isDesignerUse/open/onClose/onDone；是完整设计器宿主而非生成表单。三栏：素材与图层、中央画布、右侧属性，顶部撤销/重做/预览/完成。
+- **交互/状态**联动：open 控制宿主；onDone 将设计结果保存为资产并返回来源工具；onClose 有未保存确认；designerId 恢复草稿；从图片进入时作为可编辑底图。
+
+通用状态必须落到具体字段：`draft/dirty → validating → submitting → running → succeeded|failed|cancelled`；切换配置不删除已完成任务；重新上传源文件时使旧结果标记为“来自旧版本”，不能冒充当前配置结果。
+- 响应式：桌面保留专用工作区；窄屏按输入/编辑/结果分步；画布、蒙版、播放器和片段列表不得缩成不可点击图标。
+### UI-T32｜商品营销素材 `PRODUCT_MARKET_MATERIAL`
+
+- 路由：`/tools/product-design/product-market-material`；[完整 UI/交互规格](page-specs/32-product-market-material.md)。
+- **布局**/区域：商品多图与信息｜品牌/平台/语言｜A+与营销画幅｜营销素材结果。桌面采用工具侧栏 + 页面内容；内容内按上述实际工作区组织，不得替换成统一“上传 + 提示词 + 结果”空壳。配置区保持 320–420px 或按画布工具需要扩展；主要编辑/预览区 `minmax(0,1fr)`；结果区有明确空、生成、成功、失败状态。移动端按“输入/编辑/结果”分步，不压缩画布到不可操作。
+- **配色/风格**与**组件**：组件：`SuiteComposer + ModuleCountEditor + LayoutModeRadio + AssetResultGroups`。面板用 `bg-card`，主区用 `bg-background`，边框 `border-border`，选中 `bg-accent`，主操作 `bg-primary`；正文 14px/22px，控件 36px，主按钮 40px，圆角 8–10px。颜色、字体和焦点环全部取无限画布令牌；不使用 LinkFox 紫色品牌。画布工具必须提供 40×40px 最小点击区、键盘焦点和撤销/重做。
+- 真实控件：字段 APlusAspectRatio、aspectRatio、isCustomAspectRatio、platform、salesRegion、language、brandDNA、quality/resolution；与商品套图相比聚焦营销/A+，不设普通主副图组合。
+- **交互/状态**联动：平台切换过滤合法 A+ 比例；自定义比例展开尺寸；品牌DNA控制字体主色；语言与销售地区随任务快照；输出按营销模块分组。
+
+通用状态必须落到具体字段：`draft/dirty → validating → submitting → running → succeeded|failed|cancelled`；切换配置不删除已完成任务；重新上传源文件时使旧结果标记为“来自旧版本”，不能冒充当前配置结果。
+- 响应式：桌面保留专用工作区；窄屏按输入/编辑/结果分步；画布、蒙版、播放器和片段列表不得缩成不可点击图标。
+### UI-T33｜场景迁移 `SCENE_TRANSFER`
+
+- 路由：`/tools/product-design/scene-transfer`；[完整 UI/交互规格](page-specs/33-scene-transfer.md)。
+- **布局**/区域：商品图｜场景风格参考图｜相似度｜迁移结果。桌面采用工具侧栏 + 页面内容；内容内按上述实际工作区组织，不得替换成统一“上传 + 提示词 + 结果”空壳。配置区保持 320–420px 或按画布工具需要扩展；主要编辑/预览区 `minmax(0,1fr)`；结果区有明确空、生成、成功、失败状态。移动端按“输入/编辑/结果”分步，不压缩画布到不可操作。
+- **配色/风格**与**组件**：组件：`SceneLayerComposer + SimilarityControl + SceneVariantGrid`。面板用 `bg-card`，主区用 `bg-background`，边框 `border-border`，选中 `bg-accent`，主操作 `bg-primary`；正文 14px/22px，控件 36px，主按钮 40px，圆角 8–10px。颜色、字体和焦点环全部取无限画布令牌；不使用 LinkFox 紫色品牌。画布工具必须提供 40×40px 最小点击区、键盘焦点和撤销/重做。
+- 真实控件：字段 imageStyleUrl、imageUrl、segImageUrl、similarity；核心是商品与风格双输入，区别于 PRODUCT_SCENE 的文字场景裂变。
+- **交互/状态**联动：风格参考加载后显示预览；相似度只影响场景风格保留程度；商品分段可预览重算；任一图缺失禁用生成。
+
+通用状态必须落到具体字段：`draft/dirty → validating → submitting → running → succeeded|failed|cancelled`；切换配置不删除已完成任务；重新上传源文件时使旧结果标记为“来自旧版本”，不能冒充当前配置结果。
+- 响应式：桌面保留专用工作区；窄屏按输入/编辑/结果分步；画布、蒙版、播放器和片段列表不得缩成不可点击图标。
+### UI-T34｜图转视频 `IMAGE_TO_VIDEO`
+
+- 路由：`/tools/ai-video/image-to-video`；[完整 UI/交互规格](page-specs/34-image-to-video.md)。
+- **布局**/区域：参考素材/首尾帧/商品链接｜商品信息｜视频类型｜模型品质｜时长比例地区语言｜结果。桌面采用工具侧栏 + 页面内容；内容内按上述实际工作区组织，不得替换成统一“上传 + 提示词 + 结果”空壳。配置区保持 320–420px 或按画布工具需要扩展；主要编辑/预览区 `minmax(0,1fr)`；结果区有明确空、生成、成功、失败状态。移动端按“输入/编辑/结果”分步，不压缩画布到不可操作。
+- **配色/风格**与**组件**：组件：`VideoSourceUploader + VideoPromptPanel + VideoParameterForm + VideoResultCompare`。面板用 `bg-card`，主区用 `bg-background`，边框 `border-border`，选中 `bg-accent`，主操作 `bg-primary`；正文 14px/22px，控件 36px，主按钮 40px，圆角 8–10px。颜色、字体和焦点环全部取无限画布令牌；不使用 LinkFox 紫色品牌。画布工具必须提供 40×40px 最小点击区、键盘焦点和撤销/重做。
+- 真实控件：参考图最多9张；商品信息AI分析0/1600；视频类型必填，模板/自定义描述；产品展示、UGC种草、痛点解决、家居场景；MiniMax H3；768P/1080P；5/10/15秒；7种比例；销售国家与语言。
+- **交互/状态**联动：素材模式切换保留各模式草稿但只提交当前模式；首尾帧开放首帧/尾帧上传；视频类型改变模板和提示词；国家联动默认语言；时长/分辨率/比例进入同一任务快照；生成中不可改源配置。
+
+通用状态必须落到具体字段：`draft/dirty → validating → submitting → running → succeeded|failed|cancelled`；切换配置不删除已完成任务；重新上传源文件时使旧结果标记为“来自旧版本”，不能冒充当前配置结果。
+- 响应式：桌面保留专用工作区；窄屏按输入/编辑/结果分步；画布、蒙版、播放器和片段列表不得缩成不可点击图标。
+### UI-T35｜带货口播 `SALE_VIDEO`
+
+- 路由：`/tools/ai-video/sale-video`；[完整 UI/交互规格](page-specs/35-sale-video.md)。
+- **布局**/区域：商品多图｜口播提示词｜国家语言/AI帮写｜模型分辨率｜时长比例｜结果。桌面采用工具侧栏 + 页面内容；内容内按上述实际工作区组织，不得替换成统一“上传 + 提示词 + 结果”空壳。配置区保持 320–420px 或按画布工具需要扩展；主要编辑/预览区 `minmax(0,1fr)`；结果区有明确空、生成、成功、失败状态。移动端按“输入/编辑/结果”分步，不压缩画布到不可操作。
+- **配色/风格**与**组件**：组件：`VideoSourceUploader + VideoPromptPanel + VideoParameterForm + VideoResultCompare`。面板用 `bg-card`，主区用 `bg-background`，边框 `border-border`，选中 `bg-accent`，主操作 `bg-primary`；正文 14px/22px，控件 36px，主按钮 40px，圆角 8–10px。颜色、字体和焦点环全部取无限画布令牌；不使用 LinkFox 紫色品牌。画布工具必须提供 40×40px 最小点击区、键盘焦点和撤销/重做。
+- 真实控件：最多9张商品图；提示词0/4000；美国/英语默认，AI帮写；Seedance 2.0 fast；480P/720P；5/10/15秒；7种比例。
+- **交互/状态**联动：AI帮写只替换提示词草稿并可撤销；国家切换联动语言；图片/提示词/模型变化标记结果过期；口播不是数字人时间线，不虚构额外编辑器。
+
+通用状态必须落到具体字段：`draft/dirty → validating → submitting → running → succeeded|failed|cancelled`；切换配置不删除已完成任务；重新上传源文件时使旧结果标记为“来自旧版本”，不能冒充当前配置结果。
+- 响应式：桌面保留专用工作区；窄屏按输入/编辑/结果分步；画布、蒙版、播放器和片段列表不得缩成不可点击图标。
+### UI-T36｜视频复刻 `VIDEO_REPLICATION`
+
+- 路由：`/tools/ai-video/video-replication`；[完整 UI/交互规格](page-specs/36-video-replication.md)。
+- **布局**/区域：TikTok链接/参考视频｜5–30秒截取｜商品参考图｜AI脚本分析｜视频设置｜结果。桌面采用工具侧栏 + 页面内容；内容内按上述实际工作区组织，不得替换成统一“上传 + 提示词 + 结果”空壳。配置区保持 320–420px 或按画布工具需要扩展；主要编辑/预览区 `minmax(0,1fr)`；结果区有明确空、生成、成功、失败状态。移动端按“输入/编辑/结果”分步，不压缩画布到不可操作。
+- **配色/风格**与**组件**：组件：`VideoSourceUploader + VideoPromptPanel + VideoParameterForm + VideoResultCompare`。面板用 `bg-card`，主区用 `bg-background`，边框 `border-border`，选中 `bg-accent`，主操作 `bg-primary`；正文 14px/22px，控件 36px，主按钮 40px，圆角 8–10px。颜色、字体和焦点环全部取无限画布令牌；不使用 LinkFox 紫色品牌。画布工具必须提供 40×40px 最小点击区、键盘焦点和撤销/重做。
+- 真实控件：链接解析或MP4/MOV上传100M内；上传后截取5–30秒；商品参考最多6张；AI脚本分析选填默认自动；Seedance 2.0 fast；480/720P；Auto/5/10/15秒；比例/国家/语言。
+- **交互/状态**联动：链接与上传互斥；视频解析成功才开放截取和脚本分析；截取更新 clipStart/clipEnd/duration；Auto时长跟随参考片段；替换参考视频清脚本和截取，但保留商品图。
+
+通用状态必须落到具体字段：`draft/dirty → validating → submitting → running → succeeded|failed|cancelled`；切换配置不删除已完成任务；重新上传源文件时使旧结果标记为“来自旧版本”，不能冒充当前配置结果。
+- 响应式：桌面保留专用工作区；窄屏按输入/编辑/结果分步；画布、蒙版、播放器和片段列表不得缩成不可点击图标。
+### UI-T37｜视频编辑 `AI_VIDEO_EDITING`
+
+- 路由：`/tools/ai-video/ai-video-editing`；[完整 UI/交互规格](page-specs/37-ai-video-editing.md)。
+- **布局**/区域：原视频与片段截取｜参考图｜编辑需求｜模型｜结果。桌面采用工具侧栏 + 页面内容；内容内按上述实际工作区组织，不得替换成统一“上传 + 提示词 + 结果”空壳。配置区保持 320–420px 或按画布工具需要扩展；主要编辑/预览区 `minmax(0,1fr)`；结果区有明确空、生成、成功、失败状态。移动端按“输入/编辑/结果”分步，不压缩画布到不可操作。
+- **配色/风格**与**组件**：组件：`VideoSourceUploader + VideoPromptPanel + VideoParameterForm + VideoResultCompare`。面板用 `bg-card`，主区用 `bg-background`，边框 `border-border`，选中 `bg-accent`，主操作 `bg-primary`；正文 14px/22px，控件 36px，主按钮 40px，圆角 8–10px。颜色、字体和焦点环全部取无限画布令牌；不使用 LinkFox 紫色品牌。画布工具必须提供 40×40px 最小点击区、键盘焦点和撤销/重做。
+- 真实控件：MP4/MOV100M，至少4秒，超长截取30秒内；参考图最多30张；编辑需求0/2500并可提示词优化；Seedance 2.5；是提示词视频编辑，不是多轨时间线。
+- **交互/状态**联动：视频上传后开放片段截取；参考图可排序删除；提示词优化可撤销；换源视频清截取和结果；编辑失败保留源视频/参考图/描述。
+
+通用状态必须落到具体字段：`draft/dirty → validating → submitting → running → succeeded|failed|cancelled`；切换配置不删除已完成任务；重新上传源文件时使旧结果标记为“来自旧版本”，不能冒充当前配置结果。
+- 响应式：桌面保留专用工作区；窄屏按输入/编辑/结果分步；画布、蒙版、播放器和片段列表不得缩成不可点击图标。
+### UI-T38｜视频翻译 `VIDEO_TRANSLATION`
+
+- 路由：`/tools/ai-video/video-translation`；[完整 UI/交互规格](page-specs/38-video-translation.md)。
+- **布局**/区域：原视频｜高级模式｜目标语言｜口型同步｜翻译结果。桌面采用工具侧栏 + 页面内容；内容内按上述实际工作区组织，不得替换成统一“上传 + 提示词 + 结果”空壳。配置区保持 320–420px 或按画布工具需要扩展；主要编辑/预览区 `minmax(0,1fr)`；结果区有明确空、生成、成功、失败状态。移动端按“输入/编辑/结果”分步，不压缩画布到不可操作。
+- **配色/风格**与**组件**：组件：`VideoSourceUploader + VideoPromptPanel + VideoParameterForm + VideoResultCompare`。面板用 `bg-card`，主区用 `bg-background`，边框 `border-border`，选中 `bg-accent`，主操作 `bg-primary`；正文 14px/22px，控件 36px，主按钮 40px，圆角 8–10px。颜色、字体和焦点环全部取无限画布令牌；不使用 LinkFox 紫色品牌。画布工具必须提供 40×40px 最小点击区、键盘焦点和撤销/重做。
+- 真实控件：MP4/MOV100M，建议2–30秒且音频完整；智能识别源语言；高级模式；目标语言；口型同步默认开启；原视频/翻译结果对比。
+- **交互/状态**联动：目标语言改变只更新翻译配置；口型同步关闭时保留配音翻译但不做嘴形重绘；视频无效/无音轨给具体错误；失败保留语言配置可重试。
+
+通用状态必须落到具体字段：`draft/dirty → validating → submitting → running → succeeded|failed|cancelled`；切换配置不删除已完成任务；重新上传源文件时使旧结果标记为“来自旧版本”，不能冒充当前配置结果。
+- 响应式：桌面保留专用工作区；窄屏按输入/编辑/结果分步；画布、蒙版、播放器和片段列表不得缩成不可点击图标。
+### UI-T39｜视频拼接 `VIDEO_CONCAT`
+
+- 路由：`/tools/ai-video/video-concat`；[完整 UI/交互规格](page-specs/39-video-concat.md)。
+- **布局**/区域：片段列表｜预览播放器｜排序/裁剪｜封面与比例｜导出。桌面采用工具侧栏 + 页面内容；内容内按上述实际工作区组织，不得替换成统一“上传 + 提示词 + 结果”空壳。配置区保持 320–420px 或按画布工具需要扩展；主要编辑/预览区 `minmax(0,1fr)`；结果区有明确空、生成、成功、失败状态。移动端按“输入/编辑/结果”分步，不压缩画布到不可操作。
+- **配色/风格**与**组件**：组件：`VideoSourceUploader + VideoPromptPanel + VideoParameterForm + VideoResultCompare`。面板用 `bg-card`，主区用 `bg-background`，边框 `border-border`，选中 `bg-accent`，主操作 `bg-primary`；正文 14px/22px，控件 36px，主按钮 40px，圆角 8–10px。颜色、字体和焦点环全部取无限画布令牌；不使用 LinkFox 紫色品牌。画布工具必须提供 40×40px 最小点击区、键盘焦点和撤销/重做。
+- 真实控件：字段 videoList/videoTime/videoRatio/videoCoverUrl/editType；与 AI_VIDEO_EDITING 明确区分：本页是片段编排和拼接。左侧片段列表，中央预览，下方顺序/时长，右侧封面比例导出。
+- **交互/状态**联动：拖拽排序即时更新总时长和预览顺序；单片裁剪改变 videoTime；封面可来自帧或上传图片；比例只改输出画布；任一片段失败可单独替换，不重传全部。
+
+通用状态必须落到具体字段：`draft/dirty → validating → submitting → running → succeeded|failed|cancelled`；切换配置不删除已完成任务；重新上传源文件时使旧结果标记为“来自旧版本”，不能冒充当前配置结果。
+- 响应式：桌面保留专用工作区；窄屏按输入/编辑/结果分步；画布、蒙版、播放器和片段列表不得缩成不可点击图标。
+
