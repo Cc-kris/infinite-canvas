@@ -1,0 +1,13 @@
+{
+  "tool": "CHANGE_COLOR_V2",
+  "name": "套图换色",
+  "route": "/tools/ecommerce-suite/change-color-v2",
+  "status": "BLOCKED",
+  "result": "not_verified",
+  "runAt": "2026-10-28T20:20:00+08:00",
+  "worker": "sds",
+  "attempts": [],
+  "blocker": "环境阻塞：CDP/TMWebDriver 评估通道在所有 :3000 标签页上不可用。实测 load average 100~162 持续 60 分钟以上，6 个 Chrome Renderer 各占 ~100% CPU、累计 CPU 时间 57~82 分钟；:3000 上 48 条已建立连接（多为开发模式标签）；单次 Runtime.evaluate 在 180s 内不返回（cap.py/bg.py 均超时），而 driver HTTP 端口本身仍可达（GET / 快速返回 426）。",
+  "observed": "未开始执行：等待 CDP 通道恢复期间环境持续饱和，未能提交任务。",
+  "evidence": []
+}

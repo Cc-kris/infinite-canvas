@@ -1,0 +1,4 @@
+块点：智能品牌基因需要先选择平台 / 销售地区 / 语言
+控件类型：<input list="dress-platform"> / dress-region / dress-language（datalist，不是 select 也不是 combobox）
+实测：填 亚马逊/美国/英语 后提示消失、开始生成可用；预计产出 2 张 / 2 组（模特图1+其余各组1，每组单独一次真实请求）
+随后 CDP 通道失效（load 100+，渲染进程 100% CPU），结果未取回。

@@ -1,0 +1,15 @@
+{
+  "tool": "DRESS_WEAR_SET",
+  "name": "服装套图",
+  "route": "/tools/ecommerce-suite/dress-wear-set",
+  "status": "BLOCKED",
+  "result": "not_verified",
+  "runAt": "2026-10-28T20:20:00+08:00",
+  "worker": "sds",
+  "attempts": [],
+  "blocker": "环境阻塞：CDP/TMWebDriver 评估通道在所有 :3000 标签页上不可用。实测 load average 100~162 持续 60 分钟以上，6 个 Chrome Renderer 各占 ~100% CPU、累计 CPU 时间 57~82 分钟；:3000 上 48 条已建立连接（多为开发模式标签）；单次 Runtime.evaluate 在 180s 内不返回（cap.py/bg.py 均超时），而 driver HTTP 端口本身仍可达（GET / 快速返回 426）。",
+  "observed": "表单实测可用：上传商品图成功（product_watch.jpg 1024×744）、场景计数可调（模特图1/种草图1/… 预计产出 2 张/2 组）。发现一个真实卡点并已定位：平台/销售地区/语言是 <input list=dress-platform|dress-region|dress-language>（datalist 输入框），未填时「开始生成」禁用且提示「智能品牌基因需要先选择平台 / 销售地区 / 语言」；填写 亚马逊/美国/英语 后提示消失、按钮可用。点击生成后 CDP 通道失效，未能取回结果，故不入 PASS。",
+  "evidence": [
+    "01-form-blocker.txt"
+  ]
+}
