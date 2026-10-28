@@ -1,0 +1,86 @@
+{
+  "toolId": "AI_POSE_GENERATOR",
+  "route": "/tools/product-design/ai-pose-generator",
+  "source": "own",
+  "steps": {
+    "dockMounted": true,
+    "dockItemCount": 1,
+    "detailVisible": 1,
+    "before": {
+      "assetCount": 0,
+      "lastAsset": null,
+      "projectCount": 0,
+      "lastProject": null
+    },
+    "download": {
+      "download": {
+        "suggestedFilename": "ai-pose-generator-result-1.png",
+        "bytes": 1550004,
+        "path": "/tmp/b4-AI_POSE_GENERATOR-1793209115712-ai-pose-generator-result-1.png"
+      },
+      "busy": {
+        "busySeen": true,
+        "spinnerSeen": true,
+        "disabledNow": 0
+      }
+    },
+    "save": {
+      "feedback": "已存入资产库（image · 87o0FNK_-6vaDMGdeqEFx）",
+      "assetCountBefore": 0,
+      "assetCountAfter": 1,
+      "lastAsset": {
+        "id": "87o0FNK_-6vaDMGdeqEFx",
+        "title": "AI_POSE_GENERATOR 结果 1",
+        "kind": "image",
+        "storageKey": "image:voHrg3amhkwaTnzMqoWUQ",
+        "bytes": 1550004,
+        "toolId": "AI_POSE_GENERATOR",
+        "count": 1
+      },
+      "busy": {
+        "busySeen": true,
+        "spinnerSeen": true,
+        "disabledNow": 0
+      }
+    },
+    "canvas": {
+      "feedback": "已发送到画布（nsG1M97_8J1jPqxkp1usk / image-1793209117558-u29yv）",
+      "projectCountBefore": 0,
+      "projectCountAfter": 1,
+      "lastProject": {
+        "id": "nsG1M97_8J1jPqxkp1usk",
+        "title": "AI_POSE_GENERATOR 历史结果",
+        "nodeCount": 1,
+        "lastNode": {
+          "id": "image-1793209117558-u29yv",
+          "type": "image",
+          "metadata": {
+            "content": "blob:http://127.0.0.1:3000/ed234f78-413f-4a16-95bd-1cca92451a71",
+            "status": "success",
+            "storageKey": "image:-tFA9Aukkmnl_zWOq5v4a",
+            "naturalWidth": 1024,
+            "naturalHeight": 1024,
+            "bytes": 1550004,
+            "mimeType": "image/png"
+          }
+        }
+      },
+      "busy": {
+        "busySeen": true,
+        "spinnerSeen": true,
+        "disabledNow": 0
+      }
+    },
+    "title": "无限画布",
+    "consoleErrors": [],
+    "bytesMatch": {
+      "download": 1550004,
+      "asset": 1550004,
+      "node": 1550004,
+      "same": true
+    }
+  },
+  "ok": true,
+  "errors": [],
+  "recordedAt": "2026-10-28T17:38:37.768Z"
+}

@@ -1,0 +1,86 @@
+{
+  "toolId": "CHANGE_COLOR_V2",
+  "route": "/tools/ecommerce-suite/change-color-v2",
+  "source": "own",
+  "steps": {
+    "dockMounted": true,
+    "dockItemCount": 1,
+    "detailVisible": 1,
+    "before": {
+      "assetCount": 0,
+      "lastAsset": null,
+      "projectCount": 0,
+      "lastProject": null
+    },
+    "download": {
+      "download": {
+        "suggestedFilename": "change-color-v2-result-1.png",
+        "bytes": 1115668,
+        "path": "/tmp/b4-CHANGE_COLOR_V2-1793209183739-change-color-v2-result-1.png"
+      },
+      "busy": {
+        "busySeen": true,
+        "spinnerSeen": true,
+        "disabledNow": 0
+      }
+    },
+    "save": {
+      "feedback": "已存入资产库（image · SBkP9jbSJpvWBk4Kf0InH）",
+      "assetCountBefore": 0,
+      "assetCountAfter": 1,
+      "lastAsset": {
+        "id": "SBkP9jbSJpvWBk4Kf0InH",
+        "title": "CHANGE_COLOR_V2 结果 1",
+        "kind": "image",
+        "storageKey": "image:-igWqM6QM-xnMh_LZj9Nt",
+        "bytes": 1115668,
+        "toolId": "CHANGE_COLOR_V2",
+        "count": 1
+      },
+      "busy": {
+        "busySeen": true,
+        "spinnerSeen": true,
+        "disabledNow": 0
+      }
+    },
+    "canvas": {
+      "feedback": "已发送到画布（Mu3MPmIDbhxEjns8fv1SR / image-1793209185561-cjfzq）",
+      "projectCountBefore": 0,
+      "projectCountAfter": 1,
+      "lastProject": {
+        "id": "Mu3MPmIDbhxEjns8fv1SR",
+        "title": "CHANGE_COLOR_V2 历史结果",
+        "nodeCount": 1,
+        "lastNode": {
+          "id": "image-1793209185561-cjfzq",
+          "type": "image",
+          "metadata": {
+            "content": "blob:http://127.0.0.1:3000/0baf5a59-f0d3-4cd3-a807-9378cd6e2c36",
+            "status": "success",
+            "storageKey": "image:6RghzAYKhD4TGaXpaykMC",
+            "naturalWidth": 1024,
+            "naturalHeight": 1024,
+            "bytes": 1115668,
+            "mimeType": "image/png"
+          }
+        }
+      },
+      "busy": {
+        "busySeen": true,
+        "spinnerSeen": true,
+        "disabledNow": 0
+      }
+    },
+    "title": "无限画布",
+    "consoleErrors": [],
+    "bytesMatch": {
+      "download": 1115668,
+      "asset": 1115668,
+      "node": 1115668,
+      "same": true
+    }
+  },
+  "ok": true,
+  "errors": [],
+  "recordedAt": "2026-10-28T17:39:45.754Z"
+}

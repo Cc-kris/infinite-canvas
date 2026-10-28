@@ -1,0 +1,84 @@
+{
+  "toolId": "AI_OUTPAINTING",
+  "route": "/tools/ecommerce-suite/ai-outpainting",
+  "source": "own",
+  "steps": {
+    "resultVisible": true,
+    "before": {
+      "assetCount": 0,
+      "lastAsset": null,
+      "projectCount": 0,
+      "lastProject": null
+    },
+    "download": {
+      "download": {
+        "suggestedFilename": "ai-outpainting-result-1.png",
+        "bytes": 929476,
+        "path": "/tmp/b4-AI_OUTPAINTING-1793209158385-ai-outpainting-result-1.png"
+      },
+      "busy": {
+        "busySeen": true,
+        "spinnerSeen": false,
+        "disabledNow": 0
+      }
+    },
+    "save": {
+      "feedback": "已保存到资产库（ih9wBp3hIpAIV-_Lk6uWX）",
+      "assetCountBefore": 0,
+      "assetCountAfter": 1,
+      "lastAsset": {
+        "id": "ih9wBp3hIpAIV-_Lk6uWX",
+        "title": "AI_OUTPAINTING 结果 1",
+        "kind": "image",
+        "storageKey": "image:q_7Su7BVuidP-9Lvv8wqV",
+        "bytes": 929476,
+        "toolId": "AI_OUTPAINTING",
+        "count": 1
+      },
+      "busy": {
+        "busySeen": true,
+        "spinnerSeen": false,
+        "disabledNow": 0
+      }
+    },
+    "canvas": {
+      "feedback": "已发送到画布（vLPj1rlp_VvE4oaSV1DWR）",
+      "projectCountBefore": 0,
+      "projectCountAfter": 1,
+      "lastProject": {
+        "id": "vLPj1rlp_VvE4oaSV1DWR",
+        "title": "AI_OUTPAINTING 结果",
+        "nodeCount": 1,
+        "lastNode": {
+          "id": "image-1793209160215-rxghu",
+          "type": "image",
+          "metadata": {
+            "content": "blob:http://127.0.0.1:3000/232ac39a-0220-4c48-a2f4-9f046cd43b3b",
+            "status": "success",
+            "storageKey": "image:C0uNHOJxg7btF8eqVE8Pr",
+            "naturalWidth": 1024,
+            "naturalHeight": 1024,
+            "bytes": 929476,
+            "mimeType": "image/png"
+          }
+        }
+      },
+      "busy": {
+        "busySeen": true,
+        "spinnerSeen": false,
+        "disabledNow": 0
+      }
+    },
+    "title": "无限画布",
+    "consoleErrors": [],
+    "bytesMatch": {
+      "download": 929476,
+      "asset": 929476,
+      "node": 929476,
+      "same": true
+    }
+  },
+  "ok": true,
+  "errors": [],
+  "recordedAt": "2026-10-28T17:39:20.420Z"
+}

@@ -1,0 +1,86 @@
+{
+  "toolId": "FISSION_LINK",
+  "route": "/tools/product-design/fission-link",
+  "source": "own",
+  "steps": {
+    "dockMounted": true,
+    "dockItemCount": 1,
+    "detailVisible": 1,
+    "before": {
+      "assetCount": 0,
+      "lastAsset": null,
+      "projectCount": 0,
+      "lastProject": null
+    },
+    "download": {
+      "download": {
+        "suggestedFilename": "fission-link-result-1.png",
+        "bytes": 138756,
+        "path": "/tmp/b4-FISSION_LINK-1793209141159-fission-link-result-1.png"
+      },
+      "busy": {
+        "busySeen": true,
+        "spinnerSeen": true,
+        "disabledNow": 0
+      }
+    },
+    "save": {
+      "feedback": "已存入资产库（image · QlAJdJLDywd383OrG-74N）",
+      "assetCountBefore": 0,
+      "assetCountAfter": 1,
+      "lastAsset": {
+        "id": "QlAJdJLDywd383OrG-74N",
+        "title": "FISSION_LINK 结果 1",
+        "kind": "image",
+        "storageKey": "image:_IIOhaBX63WVzsef0PJtb",
+        "bytes": 138756,
+        "toolId": "FISSION_LINK",
+        "count": 1
+      },
+      "busy": {
+        "busySeen": true,
+        "spinnerSeen": true,
+        "disabledNow": 0
+      }
+    },
+    "canvas": {
+      "feedback": "已发送到画布（8h62plBSsySYj9TZ3KBml / image-1793209142978-0k2zs）",
+      "projectCountBefore": 0,
+      "projectCountAfter": 1,
+      "lastProject": {
+        "id": "8h62plBSsySYj9TZ3KBml",
+        "title": "FISSION_LINK 历史结果",
+        "nodeCount": 1,
+        "lastNode": {
+          "id": "image-1793209142978-0k2zs",
+          "type": "image",
+          "metadata": {
+            "content": "blob:http://127.0.0.1:3000/bbe13163-cfc5-4555-b4ad-17c34e6c0d98",
+            "status": "success",
+            "storageKey": "image:TFO57kaBJJWOCT7KXJXqO",
+            "naturalWidth": 1908,
+            "naturalHeight": 837,
+            "bytes": 138756,
+            "mimeType": "image/png"
+          }
+        }
+      },
+      "busy": {
+        "busySeen": true,
+        "spinnerSeen": true,
+        "disabledNow": 0
+      }
+    },
+    "title": "无限画布",
+    "consoleErrors": [],
+    "bytesMatch": {
+      "download": 138756,
+      "asset": 138756,
+      "node": 138756,
+      "same": true
+    }
+  },
+  "ok": true,
+  "errors": [],
+  "recordedAt": "2026-10-28T17:39:03.196Z"
+}

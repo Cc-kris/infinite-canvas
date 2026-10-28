@@ -1,0 +1,87 @@
+{
+  "toolId": "SALE_VIDEO",
+  "route": "/tools/ai-video/sale-video",
+  "source": "borrowed",
+  "steps": {
+    "dockMounted": true,
+    "dockItemCount": 1,
+    "detailVisible": 1,
+    "before": {
+      "assetCount": 0,
+      "lastAsset": null,
+      "projectCount": 0,
+      "lastProject": null
+    },
+    "download": {
+      "download": {
+        "suggestedFilename": "sale-video-result-1.mp4",
+        "bytes": 1297168,
+        "path": "/tmp/b4-SALE_VIDEO-1793209217630-sale-video-result-1.mp4"
+      },
+      "busy": {
+        "busySeen": false,
+        "spinnerSeen": false,
+        "disabledNow": 0
+      }
+    },
+    "save": {
+      "feedback": "已存入资产库（video · NmG9hi4Ydi87N5uejKaHM）",
+      "assetCountBefore": 0,
+      "assetCountAfter": 1,
+      "lastAsset": {
+        "id": "NmG9hi4Ydi87N5uejKaHM",
+        "title": "SALE_VIDEO 结果 1",
+        "kind": "video",
+        "storageKey": "video:0ZK62NLGjSyMMzKKE5Ik_",
+        "bytes": 1297168,
+        "toolId": "SALE_VIDEO",
+        "count": 1
+      },
+      "busy": {
+        "busySeen": false,
+        "spinnerSeen": false,
+        "disabledNow": 0
+      }
+    },
+    "canvas": {
+      "feedback": "已发送到画布（LDk-hKFE4OwTZlKcIQtxz / video-1793209219441-yrsnl）",
+      "projectCountBefore": 0,
+      "projectCountAfter": 1,
+      "lastProject": {
+        "id": "LDk-hKFE4OwTZlKcIQtxz",
+        "title": "SALE_VIDEO 历史结果",
+        "nodeCount": 1,
+        "lastNode": {
+          "id": "video-1793209219441-yrsnl",
+          "type": "video",
+          "metadata": {
+            "content": "blob:http://127.0.0.1:3000/a5447cae-abea-480b-b61d-ea9ea6e0fa90",
+            "status": "success",
+            "storageKey": "video:EWiGtJHKRe5YInavb28_V",
+            "naturalWidth": 1344,
+            "naturalHeight": 768,
+            "bytes": 1297168,
+            "mimeType": "video/mp4",
+            "durationMs": 5167
+          }
+        }
+      },
+      "busy": {
+        "busySeen": false,
+        "spinnerSeen": false,
+        "disabledNow": 0
+      }
+    },
+    "title": "无限画布",
+    "consoleErrors": [],
+    "bytesMatch": {
+      "download": 1297168,
+      "asset": 1297168,
+      "node": 1297168,
+      "same": true
+    }
+  },
+  "ok": true,
+  "errors": [],
+  "recordedAt": "2026-10-28T17:40:19.676Z"
+}

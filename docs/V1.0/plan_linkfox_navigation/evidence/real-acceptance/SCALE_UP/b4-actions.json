@@ -1,0 +1,86 @@
+{
+  "toolId": "SCALE_UP",
+  "route": "/tools/ecommerce-suite/scale-up",
+  "source": "own",
+  "steps": {
+    "dockMounted": true,
+    "dockItemCount": 1,
+    "detailVisible": 1,
+    "before": {
+      "assetCount": 0,
+      "lastAsset": null,
+      "projectCount": 0,
+      "lastProject": null
+    },
+    "download": {
+      "download": {
+        "suggestedFilename": "scale-up-result-1.png",
+        "bytes": 755743,
+        "path": "/tmp/b4-SCALE_UP-1793209192184-scale-up-result-1.png"
+      },
+      "busy": {
+        "busySeen": false,
+        "spinnerSeen": false,
+        "disabledNow": 0
+      }
+    },
+    "save": {
+      "feedback": "已存入资产库（image · Bq1zYQAbJjlXqFzuUiEK3）",
+      "assetCountBefore": 0,
+      "assetCountAfter": 1,
+      "lastAsset": {
+        "id": "Bq1zYQAbJjlXqFzuUiEK3",
+        "title": "SCALE_UP 结果 1",
+        "kind": "image",
+        "storageKey": "image:Z79cjdfmzuEz4-zxeqaGS",
+        "bytes": 755743,
+        "toolId": "SCALE_UP",
+        "count": 1
+      },
+      "busy": {
+        "busySeen": false,
+        "spinnerSeen": false,
+        "disabledNow": 0
+      }
+    },
+    "canvas": {
+      "feedback": "已发送到画布（1tdZpFd4eQMd9C9UfapuW / image-1793209193989-1ccew）",
+      "projectCountBefore": 0,
+      "projectCountAfter": 1,
+      "lastProject": {
+        "id": "1tdZpFd4eQMd9C9UfapuW",
+        "title": "SCALE_UP 历史结果",
+        "nodeCount": 1,
+        "lastNode": {
+          "id": "image-1793209193989-1ccew",
+          "type": "image",
+          "metadata": {
+            "content": "blob:http://127.0.0.1:3000/3aa15c2a-3c03-499a-b5ad-cac23a4953b2",
+            "status": "success",
+            "storageKey": "image:1Hu0ETQoLPhGQx8BEtiRr",
+            "naturalWidth": 1024,
+            "naturalHeight": 752,
+            "bytes": 755743,
+            "mimeType": "image/png"
+          }
+        }
+      },
+      "busy": {
+        "busySeen": false,
+        "spinnerSeen": false,
+        "disabledNow": 0
+      }
+    },
+    "title": "无限画布",
+    "consoleErrors": [],
+    "bytesMatch": {
+      "download": 755743,
+      "asset": 755743,
+      "node": 755743,
+      "same": true
+    }
+  },
+  "ok": true,
+  "errors": [],
+  "recordedAt": "2026-10-28T17:39:54.201Z"
+}

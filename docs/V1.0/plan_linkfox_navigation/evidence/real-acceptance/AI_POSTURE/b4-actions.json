@@ -1,0 +1,86 @@
+{
+  "toolId": "AI_POSTURE",
+  "route": "/tools/product-design/ai-posture",
+  "source": "own",
+  "steps": {
+    "dockMounted": true,
+    "dockItemCount": 1,
+    "detailVisible": 1,
+    "before": {
+      "assetCount": 0,
+      "lastAsset": null,
+      "projectCount": 0,
+      "lastProject": null
+    },
+    "download": {
+      "download": {
+        "suggestedFilename": "ai-posture-result-1.png",
+        "bytes": 972271,
+        "path": "/tmp/b4-AI_POSTURE-1793209124195-ai-posture-result-1.png"
+      },
+      "busy": {
+        "busySeen": true,
+        "spinnerSeen": true,
+        "disabledNow": 0
+      }
+    },
+    "save": {
+      "feedback": "已存入资产库（image · 37iBholJAlO40BRVv-O24）",
+      "assetCountBefore": 0,
+      "assetCountAfter": 1,
+      "lastAsset": {
+        "id": "37iBholJAlO40BRVv-O24",
+        "title": "AI_POSTURE 结果 1",
+        "kind": "image",
+        "storageKey": "image:NDgrgJ93UOAQGaRwlinU0",
+        "bytes": 972271,
+        "toolId": "AI_POSTURE",
+        "count": 1
+      },
+      "busy": {
+        "busySeen": true,
+        "spinnerSeen": true,
+        "disabledNow": 0
+      }
+    },
+    "canvas": {
+      "feedback": "已发送到画布（kgqoaaBY7-TNhF_IvCPY1 / image-1793209126029-8qh9t）",
+      "projectCountBefore": 0,
+      "projectCountAfter": 1,
+      "lastProject": {
+        "id": "kgqoaaBY7-TNhF_IvCPY1",
+        "title": "AI_POSTURE 历史结果",
+        "nodeCount": 1,
+        "lastNode": {
+          "id": "image-1793209126029-8qh9t",
+          "type": "image",
+          "metadata": {
+            "content": "blob:http://127.0.0.1:3000/ffdb71e1-5857-44a9-b1a0-cfd4a9696c5e",
+            "status": "success",
+            "storageKey": "image:MVGJ5_8xc_qyOUvvUma8Z",
+            "naturalWidth": 720,
+            "naturalHeight": 960,
+            "bytes": 972271,
+            "mimeType": "image/png"
+          }
+        }
+      },
+      "busy": {
+        "busySeen": true,
+        "spinnerSeen": true,
+        "disabledNow": 0
+      }
+    },
+    "title": "无限画布",
+    "consoleErrors": [],
+    "bytesMatch": {
+      "download": 972271,
+      "asset": 972271,
+      "node": 972271,
+      "same": true
+    }
+  },
+  "ok": true,
+  "errors": [],
+  "recordedAt": "2026-10-28T17:38:46.258Z"
+}

@@ -1,0 +1,86 @@
+{
+  "toolId": "HANDHELD_GOODS",
+  "route": "/tools/product-design/handheld-goods",
+  "source": "own",
+  "steps": {
+    "dockMounted": true,
+    "dockItemCount": 1,
+    "detailVisible": 1,
+    "before": {
+      "assetCount": 0,
+      "lastAsset": null,
+      "projectCount": 0,
+      "lastProject": null
+    },
+    "download": {
+      "download": {
+        "suggestedFilename": "handheld-goods-result-1.png",
+        "bytes": 1060068,
+        "path": "/tmp/b4-HANDHELD_GOODS-1793209166842-handheld-goods-result-1.png"
+      },
+      "busy": {
+        "busySeen": true,
+        "spinnerSeen": true,
+        "disabledNow": 0
+      }
+    },
+    "save": {
+      "feedback": "已存入资产库（image · KZgy-xw_ySIshJW3_h9q9）",
+      "assetCountBefore": 0,
+      "assetCountAfter": 1,
+      "lastAsset": {
+        "id": "KZgy-xw_ySIshJW3_h9q9",
+        "title": "HANDHELD_GOODS 结果 1",
+        "kind": "image",
+        "storageKey": "image:l-A5_9_LmABhJf3M1M282",
+        "bytes": 1060068,
+        "toolId": "HANDHELD_GOODS",
+        "count": 1
+      },
+      "busy": {
+        "busySeen": true,
+        "spinnerSeen": true,
+        "disabledNow": 0
+      }
+    },
+    "canvas": {
+      "feedback": "已发送到画布（f13JWJ-cRpB0hL_4SMoXN / image-1793209168643-s2hlu）",
+      "projectCountBefore": 0,
+      "projectCountAfter": 1,
+      "lastProject": {
+        "id": "f13JWJ-cRpB0hL_4SMoXN",
+        "title": "HANDHELD_GOODS 历史结果",
+        "nodeCount": 1,
+        "lastNode": {
+          "id": "image-1793209168643-s2hlu",
+          "type": "image",
+          "metadata": {
+            "content": "blob:http://127.0.0.1:3000/3ccdcb5e-f898-4d49-95d4-5a728485d8f9",
+            "status": "success",
+            "storageKey": "image:Ml5H-qndVKYJohx8mWGEF",
+            "naturalWidth": 720,
+            "naturalHeight": 960,
+            "bytes": 1060068,
+            "mimeType": "image/png"
+          }
+        }
+      },
+      "busy": {
+        "busySeen": true,
+        "spinnerSeen": true,
+        "disabledNow": 0
+      }
+    },
+    "title": "无限画布",
+    "consoleErrors": [],
+    "bytesMatch": {
+      "download": 1060068,
+      "asset": 1060068,
+      "node": 1060068,
+      "same": true
+    }
+  },
+  "ok": true,
+  "errors": [],
+  "recordedAt": "2026-10-28T17:39:28.862Z"
+}

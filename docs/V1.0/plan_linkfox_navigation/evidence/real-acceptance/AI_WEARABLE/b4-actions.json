@@ -1,0 +1,86 @@
+{
+  "toolId": "AI_WEARABLE",
+  "route": "/tools/product-design/ai-wearable",
+  "source": "own",
+  "steps": {
+    "dockMounted": true,
+    "dockItemCount": 1,
+    "detailVisible": 1,
+    "before": {
+      "assetCount": 0,
+      "lastAsset": null,
+      "projectCount": 0,
+      "lastProject": null
+    },
+    "download": {
+      "download": {
+        "suggestedFilename": "ai-wearable-result-1.png",
+        "bytes": 1641506,
+        "path": "/tmp/b4-AI_WEARABLE-1793209132688-ai-wearable-result-1.png"
+      },
+      "busy": {
+        "busySeen": false,
+        "spinnerSeen": false,
+        "disabledNow": 0
+      }
+    },
+    "save": {
+      "feedback": "已存入资产库（image · GbFI4g24ctA0Q49tgPPv6）",
+      "assetCountBefore": 0,
+      "assetCountAfter": 1,
+      "lastAsset": {
+        "id": "GbFI4g24ctA0Q49tgPPv6",
+        "title": "AI_WEARABLE 结果 1",
+        "kind": "image",
+        "storageKey": "image:xgTGWS-Ss4ETrp_369ARn",
+        "bytes": 1641506,
+        "toolId": "AI_WEARABLE",
+        "count": 1
+      },
+      "busy": {
+        "busySeen": false,
+        "spinnerSeen": false,
+        "disabledNow": 0
+      }
+    },
+    "canvas": {
+      "feedback": "已发送到画布（u024imbCKbN6PjCf6bDd3 / image-1793209134517-2kb7z）",
+      "projectCountBefore": 0,
+      "projectCountAfter": 1,
+      "lastProject": {
+        "id": "u024imbCKbN6PjCf6bDd3",
+        "title": "AI_WEARABLE 历史结果",
+        "nodeCount": 1,
+        "lastNode": {
+          "id": "image-1793209134517-2kb7z",
+          "type": "image",
+          "metadata": {
+            "content": "blob:http://127.0.0.1:3000/32a7a3fb-870b-4c06-907a-10cddd0eae9b",
+            "status": "success",
+            "storageKey": "image:C9qJOTZjJZAu-viyX2RA2",
+            "naturalWidth": 720,
+            "naturalHeight": 960,
+            "bytes": 1641506,
+            "mimeType": "image/png"
+          }
+        }
+      },
+      "busy": {
+        "busySeen": false,
+        "spinnerSeen": false,
+        "disabledNow": 0
+      }
+    },
+    "title": "无限画布",
+    "consoleErrors": [],
+    "bytesMatch": {
+      "download": 1641506,
+      "asset": 1641506,
+      "node": 1641506,
+      "same": true
+    }
+  },
+  "ok": true,
+  "errors": [],
+  "recordedAt": "2026-10-28T17:38:54.734Z"
+}

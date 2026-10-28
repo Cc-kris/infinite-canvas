@@ -41,7 +41,8 @@ const TONE_CLASS: Record<TaskStatusTone, string> = {
 };
 
 export function taskStatusMeta(status: ToolTaskStatus): TaskStatusMeta {
-    return TASK_STATUS_META[status];
+    // 历史快照/外部注入可能带来非法状态值，兜底到 unknown 而不是抛错（否则整页被 ErrorBoundary 干掉）
+    return TASK_STATUS_META[status] ?? TASK_STATUS_META.unknown;
 }
 
 /** 秒级可读时长，避免把毫秒原样丢给用户。 */
@@ -133,7 +134,8 @@ const STATUS_ICON: Record<ToolTaskStatus, typeof CircleDashed> = {
 
 export function TaskStatusBadge({ status, className }: { status: ToolTaskStatus; className?: string }) {
     const meta = taskStatusMeta(status);
-    const Icon = STATUS_ICON[status];
+    // 与 meta 同样兜底：历史快照可能带非法状态值，缺图标会渲染 undefined 组件直接白屏
+    const Icon = (STATUS_ICON as Record<string, typeof AlertTriangle>)[status] ?? AlertTriangle;
     const spinning = status === "validating" || status === "submitting" || status === "running";
     return (
         <span

@@ -1,0 +1,86 @@
+{
+  "toolId": "AI_DRESSING_V2",
+  "route": "/tools/product-design/ai-dressing-v2",
+  "source": "own",
+  "steps": {
+    "dockMounted": true,
+    "dockItemCount": 1,
+    "detailVisible": 1,
+    "before": {
+      "assetCount": 0,
+      "lastAsset": null,
+      "projectCount": 0,
+      "lastProject": null
+    },
+    "download": {
+      "download": {
+        "suggestedFilename": "ai-dressing-v2-result-1.png",
+        "bytes": 819224,
+        "path": "/tmp/b4-AI_DRESSING_V2-1793209107212-ai-dressing-v2-result-1.png"
+      },
+      "busy": {
+        "busySeen": true,
+        "spinnerSeen": true,
+        "disabledNow": 0
+      }
+    },
+    "save": {
+      "feedback": "已存入资产库（image · sZdac-DNlWeZiue2KMGAV）",
+      "assetCountBefore": 0,
+      "assetCountAfter": 1,
+      "lastAsset": {
+        "id": "sZdac-DNlWeZiue2KMGAV",
+        "title": "AI_DRESSING_V2 结果 1",
+        "kind": "image",
+        "storageKey": "image:mg_YLeScmjvTr6zz_B-VI",
+        "bytes": 819224,
+        "toolId": "AI_DRESSING_V2",
+        "count": 1
+      },
+      "busy": {
+        "busySeen": true,
+        "spinnerSeen": true,
+        "disabledNow": 0
+      }
+    },
+    "canvas": {
+      "feedback": "已发送到画布（UFsasxULnFZsPThZmqOS3 / image-1793209109073-4gxkr）",
+      "projectCountBefore": 0,
+      "projectCountAfter": 1,
+      "lastProject": {
+        "id": "UFsasxULnFZsPThZmqOS3",
+        "title": "AI_DRESSING_V2 历史结果",
+        "nodeCount": 1,
+        "lastNode": {
+          "id": "image-1793209109073-4gxkr",
+          "type": "image",
+          "metadata": {
+            "content": "blob:http://127.0.0.1:3000/57e668c9-ce6b-4a9c-b0fe-4eb464cf3426",
+            "status": "success",
+            "storageKey": "image:S3gnfrSYF07MGETd_QIJq",
+            "naturalWidth": 720,
+            "naturalHeight": 960,
+            "bytes": 819224,
+            "mimeType": "image/png"
+          }
+        }
+      },
+      "busy": {
+        "busySeen": true,
+        "spinnerSeen": true,
+        "disabledNow": 0
+      }
+    },
+    "title": "无限画布",
+    "consoleErrors": [],
+    "bytesMatch": {
+      "download": 819224,
+      "asset": 819224,
+      "node": 819224,
+      "same": true
+    }
+  },
+  "ok": true,
+  "errors": [],
+  "recordedAt": "2026-10-28T17:38:29.283Z"
+}

@@ -1,0 +1,16 @@
+{
+  "route": "/tools/product-design/ai-dressing-v2",
+  "taskId": "legacy-status-regression-1",
+  "steps": {
+    "result": {
+      "errorBoundary": false,
+      "dockVisible": true,
+      "dockText": "历史任务\n1 条\n2026-10-29 01:36\n结果未知\n（无提示词）\n未记录模型 · · 0 个结果",
+      "toolbarVisible": true
+    },
+    "pageErrors": []
+  },
+  "ok": true,
+  "errors": [],
+  "recordedAt": "2026-10-28T17:37:35.782Z"
+}

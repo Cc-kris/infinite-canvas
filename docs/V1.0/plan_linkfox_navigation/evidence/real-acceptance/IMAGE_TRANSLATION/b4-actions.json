@@ -1,0 +1,86 @@
+{
+  "toolId": "IMAGE_TRANSLATION",
+  "route": "/tools/ecommerce-suite/image-translation",
+  "source": "own",
+  "steps": {
+    "dockMounted": true,
+    "dockItemCount": 1,
+    "detailVisible": 1,
+    "before": {
+      "assetCount": 0,
+      "lastAsset": null,
+      "projectCount": 0,
+      "lastProject": null
+    },
+    "download": {
+      "download": {
+        "suggestedFilename": "image-translation-result-1.png",
+        "bytes": 747105,
+        "path": "/tmp/b4-IMAGE_TRANSLATION-1793209200624-image-translation-result-1.png"
+      },
+      "busy": {
+        "busySeen": true,
+        "spinnerSeen": true,
+        "disabledNow": 0
+      }
+    },
+    "save": {
+      "feedback": "已存入资产库（image · eZjelAGB-OncpmJ_kP0ii）",
+      "assetCountBefore": 0,
+      "assetCountAfter": 1,
+      "lastAsset": {
+        "id": "eZjelAGB-OncpmJ_kP0ii",
+        "title": "IMAGE_TRANSLATION 结果 1",
+        "kind": "image",
+        "storageKey": "image:_bZFzM2VMGBzfPW2eHJlT",
+        "bytes": 747105,
+        "toolId": "IMAGE_TRANSLATION",
+        "count": 1
+      },
+      "busy": {
+        "busySeen": true,
+        "spinnerSeen": true,
+        "disabledNow": 0
+      }
+    },
+    "canvas": {
+      "feedback": "已发送到画布（w_25sFQ_gFoCDb4ygx5-m / image-1793209202454-dkf6e）",
+      "projectCountBefore": 0,
+      "projectCountAfter": 1,
+      "lastProject": {
+        "id": "w_25sFQ_gFoCDb4ygx5-m",
+        "title": "IMAGE_TRANSLATION 历史结果",
+        "nodeCount": 1,
+        "lastNode": {
+          "id": "image-1793209202454-dkf6e",
+          "type": "image",
+          "metadata": {
+            "content": "blob:http://127.0.0.1:3000/59494802-e01b-41c5-9971-2034de17ad5a",
+            "status": "success",
+            "storageKey": "image:DK5l-Wd6iMHx952O6a-TB",
+            "naturalWidth": 1024,
+            "naturalHeight": 1024,
+            "bytes": 747105,
+            "mimeType": "image/png"
+          }
+        }
+      },
+      "busy": {
+        "busySeen": true,
+        "spinnerSeen": true,
+        "disabledNow": 0
+      }
+    },
+    "title": "无限画布",
+    "consoleErrors": [],
+    "bytesMatch": {
+      "download": 747105,
+      "asset": 747105,
+      "node": 747105,
+      "same": true
+    }
+  },
+  "ok": true,
+  "errors": [],
+  "recordedAt": "2026-10-28T17:40:02.659Z"
+}
