@@ -501,7 +501,14 @@ export function ScaleUpWorkspace({ className }: { className?: string }) {
                 </p>
             ) : null}
 
-            <ToolResult task={task} toolId={toolId} title="放大结果" onCancel={onCancel} onRetry={onRetry} />
+            <ToolResult
+                task={task}
+                toolId={toolId}
+                title="放大结果"
+                emptyTitle="暂无生成结果图"
+                onCancel={onCancel}
+                onRetry={onRetry}
+            />
 
             {resultImage && (source?.dataUrl || source?.url) ? (
                 <Section title="前后对比" hint="拖动滑块查看细节">
@@ -938,7 +945,14 @@ export function ProductRefineWorkspace({ className }: { className?: string }) {
             </div>
 
             {resultTab === "result" ? (
-                <ToolResult task={task} toolId={toolId} title="生成结果" onCancel={onCancel} onRetry={onRetry} />
+                <ToolResult
+                    task={task}
+                    toolId={toolId}
+                    title="生成结果"
+                    emptyTitle="暂无生成结果图"
+                    onCancel={onCancel}
+                    onRetry={onRetry}
+                />
             ) : (
                 <ToolTaskHistory
                     toolId={toolId}

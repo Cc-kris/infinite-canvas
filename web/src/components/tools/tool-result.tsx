@@ -58,9 +58,12 @@ export type ToolResultProps = {
     onRetry?: () => void;
     now?: number;
     className?: string;
+    /** 空态标题/说明（默认通用文案；工具页可传原站同款文案）。 */
+    emptyTitle?: string;
+    emptyHint?: string;
 };
 
-export function ToolResult({ task, toolId = "tool", title = "生成结果", projectId, projectTitle, actions, onCancel, onRetry, now, className }: ToolResultProps) {
+export function ToolResult({ task, toolId = "tool", title = "生成结果", projectId, projectTitle, actions, onCancel, onRetry, now, className, emptyTitle = "还没有生成结果", emptyHint = "填好参数并提交后，结果会出现在这里，可预览、下载、存入资产库或发送到画布。" }: ToolResultProps) {
     const view = resolveToolResultView(task);
     const items = resultItems(task);
     const summary = summarizeResultItems(items);
@@ -99,8 +102,8 @@ export function ToolResult({ task, toolId = "tool", title = "生成结果", proj
             {view === "empty" ? (
                 <div data-testid="tool-result-empty" className="rounded-xl border border-dashed border-border px-4 py-8 text-center text-sm text-muted-foreground">
                     <Images aria-hidden="true" className="mx-auto mb-2 size-6 opacity-60" />
-                    <p>还没有生成结果</p>
-                    <p className="mt-1 text-xs">填好参数并提交后，结果会出现在这里，可预览、下载、存入资产库或发送到画布。</p>
+                    <p>{emptyTitle}</p>
+                    <p className="mt-1 text-xs">{emptyHint}</p>
                 </div>
             ) : null}
 

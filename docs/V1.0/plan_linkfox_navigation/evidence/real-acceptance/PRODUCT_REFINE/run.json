@@ -1,52 +1,69 @@
 {
   "toolId": "PRODUCT_REFINE",
   "route": "/tools/smart-edit/product-refine",
-  "fixture": "product-watch.jpg",
-  "startedAt": "2026-10-28T13:54:57.223Z",
-  "before": {
-    "images": [],
-    "issues": [
-      "refine-issues=请先上传待精修的商品图。"
-    ]
-  },
-  "submitBefore": {
-    "id": "refine-generate",
-    "text": "开始精修（待上传原图）",
-    "disabled": true
-  },
-  "finishedAt": "2026-10-28T13:55:07.920Z",
-  "after": {
-    "submitButtons": [
-      {
-        "id": "refine-generate",
-        "text": "开始精修（2048×1488",
-        "disabled": false
-      }
-    ],
-    "issues": [
-      "tool-task-error=任务失败\n\n无法连接 api.openai.com：连接超时（UND_ERR_CONNECT_TIMEOUT）。建议：网络握手超时，通常是代理不通或线路被限制；请检查代理状态与节点\n\n诊断码：timeout-or-network · 可按原",
-      "tool-task-notice=需要人工确认\n\n请求可能已被上游受理，为避免重复扣费不会自动重发。请用上游任务编号核对后再决定。"
-    ],
-    "images": [
-      {
-        "src": "blob:http://127.0.0.1:3000/9755e73c-5255-4b14-9b1e-aef259d31",
-        "w": 1024,
-        "h": 744
-      }
-    ],
-    "bodyText": "无限画布\n电商套图\n智能修图\n批量生图\n商品图设计\nAI视频\n中\n切换到浅色主题\nv0.27.0\n电商套图\n6\n智能修图\n8\n局部重绘\n局部消除\n一键换色\n图片裁剪\n商品精修\n色差修复\n印花修复\n手部修复\n批量生图\n0\n商品图设计\n19\nAI 视频\n6\n智能修图 / 商品精修\n商品精修\n/tools/smart-edit/product-refine\n商品图\nJPG/PNG/WEBP · 20M 以内\n上传素材\n1 / 1 个 · JPG / image/jpg / PNG / WebP · ≤ 20 MB\n已达数量上限，先移除一个再上传\n校验格式 / 大小 / 像素，入库后可刷新恢复\nproduct-watch.jpg\n31 KB · 1024×744 · image/jpeg\n移除\n原图 1024×744\n精修配置\n输出 2048×1488\n精修模式\n整图精修\n去背景精修\n保留原始场景，只改善轮廓、光泽、材质与颜色。\n精修强度\n轻度\n标准\n强力\n默认档位，平衡质感提升与原图一致性。\n输出尺寸：2048×1488\n输出比例：128:93\n放大倍数：2×\n去背景：关闭\n💡默认生图尺寸规则：原图尺寸≤512px → 放大 4 倍，513~1024px → 放大 2 倍，＞1024px → 原尺寸\n当前命中：513~1024px → 放大 2 倍\n色彩校正\n开启后按色值做偏色/白平衡校正（进 provider 的 color 字段），不改材质与明暗结构。\n生成\n模型：default::gpt-image-2\n开始精修（2048×1488）\n预计产出 1 张主结果\n生成结果\n结果未知\n结果未知\n无法确认上游是否受理，只能查询或人工确认\n0s\n任务失败\n无法连接 api.openai.com：连接超时（UND_ERR_CONNECT_TIMEOUT）。建议：网络握手超时，通常是代理不通或线路被限制；请检查代理状态与节点\n诊断码：timeout-or-network · 可按原参数重试\n需要人工确认\n请求可能已被上游受理，为避免重复扣费不会自动重发。请用上游任务编号核对后再决定"
-  },
-  "resultSrcPrefix": "",
-  "resultSaved": false,
-  "network": [
+  "resultUrl": "https://oss-us.dimenoss.com/images/2026/10/28/1793198997_cabf4ef587e2a79ab532f97043f5b24e.png",
+  "issues": [],
+  "tabs": [
     {
-      "method": "POST",
-      "url": "http://127.0.0.1:23210/https://api.openai.com/v1/images/edits",
-      "status": 502,
-      "ms": 506,
-      "at": "2026-10-28T13:55:01.909Z"
+      "text": "生成结果",
+      "selected": "true"
+    },
+    {
+      "text": "历史记录",
+      "selected": "false"
     }
   ],
-  "fixtureSha256": "43ede96e7ce88509",
-  "ok": false
+  "libraryEntry": {
+    "从资产库选择": false,
+    "资产库条目": 0
+  },
+  "batchLink": null,
+  "historyEmpty": "本工具还没有历史任务；提交一次后会在这里留下记录。",
+  "history": {
+    "count": 1,
+    "firstText": "2026-10-29 00:00已完成商品精修 · 复用真实产物（2048x1488）gpt-image-2 · image · 1 个结果查看结果",
+    "thumbs": [
+      {
+        "src": "https://oss-us.dimenoss.com/images/2026/10/28/1793198997_cabf4ef587e2a79ab532f97043f5b24e.png",
+        "naturalWidth": 2048,
+        "complete": true
+      }
+    ],
+    "hasOpen": true
+  },
+  "resultImage": {
+    "src": "https://oss-us.dimenoss.com/images/2026/10/28/1793198997_cabf4ef587e2a79ab532f97043f5b24e.png",
+    "naturalWidth": 2048,
+    "naturalHeight": 1488
+  },
+  "saveFeedback": "已保存到资产库（2Ypq5rDtUGKoI3MWIQVdz）",
+  "assets": {
+    "before": 0,
+    "after": 1
+  },
+  "libraryEntryAfterSave": {
+    "summary": "从资产库选择（1）",
+    "items": 1
+  },
+  "libraryAdopt": {
+    "draftItems": 1,
+    "thumbs": [
+      "blob:http://127.0.0.1:3000/d7bb352a-2188-4df0-8139-de3653276ee3"
+    ]
+  },
+  "canvasFeedback": "已发送到画布（RbYTOunh4g57DXbCfw7lD）",
+  "canvas": {
+    "before": [],
+    "after": [
+      {
+        "id": "RbYTOunh4g57DXbCfw7lD",
+        "nodes": 1
+      }
+    ]
+  },
+  "screenshot": "reuse-PRODUCT_REFINE.png",
+  "files": [
+    "reuse-actions.png"
+  ],
+  "recordedAt": "2026-10-28T16:00:30.485Z"
 }

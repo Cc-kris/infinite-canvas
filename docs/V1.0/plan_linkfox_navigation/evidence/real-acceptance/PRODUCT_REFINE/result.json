@@ -1,0 +1,107 @@
+{
+  "tool": "PRODUCT_REFINE",
+  "route": "/tools/smart-edit/product-refine",
+  "verdict": "PASS",
+  "source": {
+    "kind": "reused_real_upstream_output",
+    "url": "https://oss-us.dimenoss.com/images/2026/10/28/1793198997_cabf4ef587e2a79ab532f97043f5b24e.png"
+  },
+  "checks": [
+    {
+      "item": "结果区 tab：生成结果 / 历史记录",
+      "expected": "两 tab 存在",
+      "actual": [
+        "生成结果",
+        "历史记录"
+      ],
+      "ok": true
+    },
+    {
+      "item": "历史记录空态",
+      "expected": "如实提示，无编造条目",
+      "actual": "本工具还没有历史任务；提交一次后会在这里留下记录。",
+      "ok": true
+    },
+    {
+      "item": "刷新后历史命中已落盘任务",
+      "expected": "count=1 且可查看结果",
+      "actual": {
+        "count": 1,
+        "thumbs": [
+          {
+            "src": "https://oss-us.dimenoss.com/images/2026/10/28/1793198997_cabf4ef587e2a79ab532f97043f5b24e.png",
+            "naturalWidth": 2048,
+            "complete": true
+          }
+        ],
+        "hasOpen": true
+      },
+      "ok": true
+    },
+    {
+      "item": "查看结果 → 真实产物图",
+      "expected": "naturalWidth>0",
+      "actual": {
+        "src": "https://oss-us.dimenoss.com/images/2026/10/28/1793198997_cabf4ef587e2a79ab532f97043f5b24e.png",
+        "naturalWidth": 2048,
+        "naturalHeight": 1488
+      },
+      "ok": true
+    },
+    {
+      "item": "存入资产",
+      "expected": "资产库 +1，回执含资产 id",
+      "actual": {
+        "feedback": "已保存到资产库（2Ypq5rDtUGKoI3MWIQVdz）",
+        "assets": {
+          "before": 0,
+          "after": 1
+        }
+      },
+      "ok": true
+    },
+    {
+      "item": "发送画布",
+      "expected": "画布新增节点",
+      "actual": {
+        "feedback": "已发送到画布（RbYTOunh4g57DXbCfw7lD）",
+        "canvas": {
+          "before": [],
+          "after": [
+            {
+              "id": "RbYTOunh4g57DXbCfw7lD",
+              "nodes": 1
+            }
+          ]
+        }
+      },
+      "ok": true
+    },
+    {
+      "item": "从资产库选择（对齐原站「从作品库选择」）",
+      "expected": "入口出现且点「使用」进草稿",
+      "actual": {
+        "summary": "从资产库选择（1）",
+        "draftItems": 1
+      },
+      "ok": true
+    },
+    {
+      "item": "空态文案对齐原站",
+      "expected": "含「暂无生成结果图」",
+      "actual": "暂无生成结果图 / 填好参数并提交后，结果会出现在这里，可预览、下载、存入资产库或发送到画布。",
+      "ok": true
+    }
+  ],
+  "issues": [],
+  "deviations": [
+    "优秀案例（原站展示位）：无授权样例图，未做占位画廊。"
+  ],
+  "evidence": {
+    "run": "run.json",
+    "empty": "empty-state.json",
+    "screenshots": [
+      "reuse-actions.png"
+    ]
+  }
+}

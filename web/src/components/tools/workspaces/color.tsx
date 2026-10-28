@@ -1006,7 +1006,15 @@ export function ChangeColorWorkspace({ className }: { className?: string }) {
                     </div>
 
                     {resultTab === "result" ? (
-                        <ToolResult task={task} toolId={toolId} title="生成结果" onCancel={onCancel} onRetry={() => void onRetry()} />
+                        <ToolResult
+                            task={task}
+                            toolId={toolId}
+                            title="生成结果"
+                            emptyTitle="暂无生成结果图"
+                            emptyHint="快在左侧操作物品换色吧~"
+                            onCancel={onCancel}
+                            onRetry={() => void onRetry()}
+                        />
                     ) : (
                         <ToolTaskHistory
                             toolId={toolId}
