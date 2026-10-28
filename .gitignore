@@ -21,3 +21,8 @@ desktop/release
 desktop/.notes
 
 desktop/build/icon.iconset
+
+# playwright artifacts
+web/test-results/
+web/playwright-report/
+web/.playwright/
