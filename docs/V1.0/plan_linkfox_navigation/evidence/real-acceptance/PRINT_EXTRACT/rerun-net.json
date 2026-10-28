@@ -1,0 +1,14 @@
+[
+ {
+  "method": "POST",
+  "url": "http://127.0.0.1:23210/https://api.openai.com/v1/images/edits",
+  "headers": {
+   "Accept": "application/json, text/plain, */*",
+   "Authorization": "Bearer ***"
+  },
+  "t": 1793193937172,
+  "reqBody": "FormData{model=gpt-image-2; prompt=参考图片编号：图片1。请按这些编号理解提示词中的图片引用。\n\nExtract the printed artwork (the print/graphic) from the provided product photo. Output a single flat image of the print at 1024x1024 pixels, straightened, with the original colors and no product texture, folds or shadows. Keep the printed artwork on its original neutr; n=1; output_format=png; size=1024x1024; image=[file 36492b]}",
+  "status": 502,
+  "resp": "{\"error\":\"无法连接 api.openai.com：连接超时（UND_ERR_CONNECT_TIMEOUT）。建议：网络握手超时，通常是代理不通或线路被限制；请检查代理状态与节点\",\"host\":\"api.openai.com\",\"code\":\"UND_ERR_CONNECT_TIMEOUT\",\"attempts\":[{\"channel\":\"node\",\"code\":\"UND_ERR_CONNECT_TIMEOUT\",\"message\":\"Connect Timeout Error (attempted addresses: 103.252.114.101:443, 2a03:2880:f131:83:face:b00c:0:25de:443, timeout: 10000ms)\"}]}"
+ }
+]

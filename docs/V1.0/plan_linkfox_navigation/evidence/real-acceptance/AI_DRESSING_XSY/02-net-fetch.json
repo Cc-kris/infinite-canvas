@@ -1,0 +1,14 @@
+[
+ {
+  "method": "POST",
+  "url": "http://127.0.0.1:23210/https://api.cc-ai.xyz/v1/images/edits",
+  "headers": {
+   "Accept": "application/json, text/plain, */*",
+   "Authorization": "Bearer ***"
+  },
+  "t": 1793193350114,
+  "reqBody": "FormData{model=gpt-image-2; prompt=参考图片编号：图片1、图片2、图片3。请按这些编号理解提示词中的图片引用。\n\n按分步试衣流程生成试穿效果：模特图 已提供；模特类型 棚拍模特；风格 干净通勤；姿势 正面站立。服装：套装（1024×744，蒙版 100.0%）。每个服装槽位附一张同尺寸蒙版（白=该部位穿戴区域），只在蒙版区域替换为上传服装，保持模特身份、姿态、光照与画面构图不变；服装纹理、褶皱与版型需与上传图一致，不要新增图案或改变颜色。算法版本 标准试衣 v1；输出 1 张。[AI_DRESSING_XSY/tab:suit/step:4]; n=1; output_format=png; size=720x960; image[]=[file 47620b]; image[]=[file 31860b]; image[]=[file 17978b]}",
+  "status": 200,
+  "resp": "{\"created\":1793193360,\"data\":[{\"revised_prompt\":\"参考图片编号：图片1、图片2、图片3。请按这些编号理解提示词中的图片引用。\\r\\n\\r\\n按分步试衣流程生成试穿效果：模特图 已提供；模特类型 棚拍模特；风格 干净通勤；姿势 正面站立。服装：套装（1024×744，蒙版 100.0%）。每个服装槽位附一张同尺寸蒙版（白=该部位穿戴区域），只在蒙版区域替换为上传服装，保持模特身份、姿态、光照与画面构图不变；服装纹理、褶皱与版型需与上传图一致，不要新增图案或改变颜色。算法版本 标准试衣 v1；输出 1 张。[AI_DRESSING_XSY/tab:suit/step:4]\",\"b64_json\":\"iVBORw0KGgoAAAANSUhEUgAAAtAAAAPACAIAAACTlNnkAAHnO2NhQlgAAec7anVtYgAAAB5qdW1kYzJwYQARABCAAACqADibcQNjMnBhAAAAVVNqdW1iAAAAR2p1bWRjMm1hABEAEIAAAKoAOJtxA3VybjpjMnBhOmNlNWNjNDJmLTFiNzEtNGRhYy04ODRiLTcxYzU3YTlmNDBmNQAAAAx8anVtYgAAAClqdW1kYzJhcwARABCAAACqADibcQNjMnBhLmFzc2VydGlvbnMAAAAJ0Wp1bWIAAAA7anVtZEDLDDK7ikidpwsq1vR/Q2kTYzJwYS5pY29uAAAAABhjMnNo9+SEMoSYgzOon05Km1Pz9gAAABdiZmRiAGltYWdlL3N2Zyt4bWwAAAAJd2JpZGI8c3ZnIHdpZHRoPSI3MTYiIGhlaWdodD0iNzE2IiB2aWV3Qm94PSIwIDAgNzE2IDcxNiI"
+ }
+]

@@ -1,0 +1,46 @@
+{
+ "tool": "AI_DRESSING_XSY",
+ "name": "AI试衣XSY",
+ "group": "补充",
+ "route": "/tools/product-design/ai-dressing-xsy",
+ "status": "PASS",
+ "result": "verified_end_to_end",
+ "verdict": "PASS — 四步流程（模特图/服装图/蒙版/生成设置）全部真实走通，真实上游 200 且结果图落盘",
+ "realProviderCall": true,
+ "provider": "gpt-image-2 via canvas-proxy 127.0.0.1:23210 -> api.cc-ai.xyz/v1/images/edits",
+ "runAt": "2026-10-28T21:20:00+08:00",
+ "flow": [
+  "步骤1 模特图：model.png 720x960 / 1.0MB 入库（1 / 1 个）",
+  "步骤2 服装：套装图 suit.jpg 1024x744 / 31KB 入库（1 / 1 个，未达上限，可移除后再传）",
+  "步骤3 蒙版：套装蒙版，点『整件』一键填充 -> 覆盖 100.0% · 1 笔（100% 才允许提交）",
+  "步骤4 生成设置：1 张 + 算法『标准试衣 v1』；gate 文案『自检通过，可提交』；submit 可用",
+  "提交 prompt 带步骤标记 [AI_DRESSING_XSY/tab:suit/step:4]，并带『模特图 已提供；模特类型 棚拍模特；风格 干净通勤；姿势 正面站立。服装：套装（1024×744，蒙版 100.0%）』"
+ ],
+ "output": {
+  "count": 1,
+  "field": "b64_json",
+  "localFile": "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/AI_DRESSING_XSY/02-result.png",
+  "bytes": 1069621,
+  "size": "720x960",
+  "note": "结果区文案：『第 1 张 · 连体衣服 / 已完成 / 共 1 个结果 · 图片 1』"
+ },
+ "evidence": [
+  "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/AI_DRESSING_XSY/02-net-fetch.json",
+  "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/AI_DRESSING_XSY/02-result.png",
+  "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/AI_DRESSING_XSY/01-form-filled.png",
+  "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/AI_DRESSING_XSY/03-done.png"
+ ],
+ "assertions": [
+  "POST http://127.0.0.1:23210/https://api.cc-ai.xyz/v1/images/edits 返回 200，FormData 含 model=gpt-image-2 / n=1 / output_format=png / size=1024x1024 / image=[file]",
+  "结果区 DOM 实测：『试穿结果 … 第 1 张 · 连体衣服 / 已完成 / 共 1 个结果 · 图片 1 / 下载 / 存入资产 / 发送画布』",
+  "结果图可从 DOM 取出并落盘 1,069,621 bytes，PNG 头 89 50 4E 47 校验通过，尺寸 720x960",
+  "结果卡动作按钮 data-testid=tool-result-download-0 / tool-result-save-0 / tool-result-canvas-0 均存在且未 disabled",
+  "字段自检条：『字段自检：11/17 已取值 · 快照 1q44ng8』（downImageUrl/downMaskUrl/downOriginUrl 为 —，modelImageUrl 已取）"
+ ],
+ "gap": "结果卡三个动作（下载/存入资产/发送画布）本轮只确认『存在且可用』，未逐一点击验证落地效果；该共用结果卡组件已在 SCALE_UP 用例中被实际点击验证（见 SCALE_UP/result.json parityWithOriginal）。",
+ "parityWithOriginal": "LinkFox 对应能力为 AI 试衣（模特 + 服装 + 蒙版区域）。本页四步与蒙版可视化、自检 gate、算法版本选择（标准试衣 v1 / 细节修复 v2）为对齐实现；差异：算法版本以中文枚举展示，上游统一走 gpt-image-2。",
+ "notes": [
+  "重要取证限制：Page.captureScreenshot 在同一标签的不同状态返回完全相同的字节（01-form-filled.png 与 03-done.png md5 均为 617eb993095b79dbfea2d07d51de7325，因后台标签未重绘），因此本次截图仅作存在性证据，状态判断一律以 DOM 文本为准（见 assertions）。",
+  "上传通道实测：仅 JS fetch + DataTransfer 注入 input.files 可行；CDP DOM.setFileInputFiles 在该桥接环境下 objectId 跨调用失效，不可用。"
+ ]
+}

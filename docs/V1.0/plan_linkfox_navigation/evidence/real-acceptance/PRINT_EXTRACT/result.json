@@ -25,9 +25,18 @@
   ],
   "assertions": [
     "POST https://api.cc-ai.xyz/v1/images/edits 18:44:57 返回 200，data[0].url 为 oss-us.dimenoss.com 真实图；本次已下载校验：720x960 PNG，686174 字节 —— 上游确实出图",
-    "但 18:46:35（200 后 98s）的页面 OCR 仍为『待提取1张』『提取结果 共1张·成功0·失败0』：结果未在 UI 落地，口径与 provider 成功不一致"
+    "但 18:46:35（200 后 98s）的页面 OCR 仍为『待提取1张』『提取结果 共1张·成功0·失败0』：结果未在 UI 落地，口径与 provider 成功不一致",
+    "21:2x 复跑（通道 0）：POST http://127.0.0.1:23210/https://api.openai.com/v1/images/edits 返回 502，错误体『无法连接 api.openai.com：连接超时（UND_ERR_CONNECT_TIMEOUT）… 诊断码 timeout-or-network』——说明 23210 代理按通道分流，本轮命中的通道 0 线路不通（18:44 那轮走的是 api.cc-ai.xyz 通道 1，正常 200）",
+    "复跑 5m19s 后失败态在任务面板正确落地：『结果未知 / 无法确认上游是否受理，只能查询或人工确认 / 5m 19s / 任务失败 / 无法连接 api.openai.com … / 诊断码：timeout-or-network · 可按原参数重试 / 需要人工确认 / 结果未知时不会自动重试，避免上游已受理导致的重复扣费』——防重复扣费口径正确",
+    "同刻页面卡片仍是 data-status=running（『提取中…』），批量汇总仍显示『提取中 1/1』『共 1 张 · 成功 0 · 失败 0』：页面自身的逐张状态机未与任务库终态（failed）同步",
+    "刷新页面后卡片回到 idle『待提取 1 张』、任务面板消失：失败记录无法在页面上复现，用户无从重试或核对"
   ],
-  "codeHypothesis": "web/src/services/api/image.ts parseImagePayload→resolveImageSource 对 url 是放行的，故不是『只认 b64』的解析问题；更可能是逐张任务状态机未把 url 结果写回（待下一轮实测定位）。",
+  "codeHypothesis": "已核对链路：web/src/features/tools/adapters/print-extract.ts 的 runPrintExtract 经 useToolTaskStore.runTool → gateway.waitForResult；task-machine.ts 中 TERMINAL_STATUSES 含 failed，故失败本应结算并回写 applyItem(failed)。实测任务库已 failed 而页面卡片仍 running，说明『任务库终态 → 页面逐张状态』这条回写在实际运行中丢失（并非 url 解析问题）。下一步应在此断点加日志复现。",
+  "defects": [
+    "页面逐张状态未随任务库终态更新：任务面板 failed 时卡片仍 running，汇总计数停留成功0·失败0、批次进度停留『提取中 1/1』",
+    "失败后刷新即丢失：卡片回落 idle、任务面板消失，无法重试/核对上游任务号",
+    "上游通道 0（api.openai.com 直连）连接超时导致整体 502；同模型另一通道（api.cc-ai.xyz）正常，建议在代理侧做通道健康探测或失败切换"
+  ],
   "notExercised": [
     "下载",
     "存入资产",
@@ -35,6 +44,8 @@
   ],
   "parityWithOriginal": "LinkFox https://www.linkfox.com/draw/print-extract 原始 DOM：『从本地上传/从作品库选择』『20M以内，384*384~4096*4096，宽高比小于5』『上传多张图片，开始批量提取』『立即生成(10算力)』。本页对齐上传/批量提示/规格文案；差异：不显示算力。",
   "notes": [
-    "状态不一致需在空闲窗口复跑一次确认（本轮先如实记录为 PARTIAL）。"
+    "此前把『200 后 98s 仍待提取』直接当成结果不落地；复跑证明同一页面的失败态也会只落在任务面板而卡片停在 running，因此 98s 的现象更可能是页面状态机的同步缺陷，而非单纯检查过早（成功场景的落地时机仍未取到直接证据）。",
+    "复跑证据：rerun-net.json（502 全文）、rerun-05-fail-dom.txt（失败态 DOM 全文，含 5m 19s、诊断码、防重复扣费文案）。",
+    "复跑使用夹具 pod_pattern_1024.png（1024×1024，36KB）经 CORS 静态服务上传，页面回显『1 / 1 个 · PNG / JPG / WebP · ≤ 20 MB』『待提取 1 张』『预计输出 1 张 PNG · 宽高跟随源图』。"
   ]
 }

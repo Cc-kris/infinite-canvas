@@ -1,0 +1,15 @@
+[
+ {
+  "method": "POST",
+  "url": "http://127.0.0.1:23210/https://api.cc-ai.xyz/v1/images/generations",
+  "headers": {
+   "Accept": "application/json, text/plain, */*",
+   "Content-Type": "application/json",
+   "Authorization": "Bearer ***"
+  },
+  "t": 1793192171863,
+  "reqBody": "{\"model\":\"gpt-image-2\",\"prompt\":\"Create a full-body pose reference photo of a single fashion model. Pose: 女性模特正面站姿，全身入镜，双手自然下垂，中性背景，均匀布光 Framing: head to toe, 50mm lens, eye level, single subject, no crop. Scene directives: plain studio backdrop, soft even lighting, neutral floor. Hard rule: scene directives must never change the body pose, limb positions, head angle or the direction the model faces. Keep wardrobe and body proportions consistent; photorealistic, sharp focus, no text, no watermark, no collage.\",\"n\":1,\"size\":\"720x960\",\"output_format\":\"png\"}",
+  "status": 200,
+  "resp": "{\"created\":1793192177,\"data\":[{\"revised_prompt\":\"Create a full-body pose reference photo of a single fashion model. Pose: 女性模特正面站姿，全身入镜，双手自然下垂，中性背景，均匀布光 Framing: head to toe, 50mm lens, eye level, single subject, no crop. Scene directives: plain studio backdrop, soft even lighting, neutral floor. Hard rule: scene directives must never change the body pose, limb positions, head angle or the direction the model faces. Keep wardrobe and body proportions consistent; photorealistic, sharp focus, no text, no watermark, no collage.\",\"b64_json\":\"iVBORw0KGgoAAAANSUhEUgAAAtAAAAPACAIAAACTlNnkAAHpnmNhQlgAAemeanVtYgAAAB5qdW1kYzJwYQARABCAAACqADibcQNjMnBhAAAAXEBqdW1iAAAAR2p1bWRjMm1hABEAEIAAAKoAOJtxA3VybjpjMnBhOjcxMWQ5NjI0LTM3ZjUtNDFmMy1iMWNlLWVhMTMzZmM4ODNiOQAAAAx8anVtYgAAAClqdW1kYzJhcwARABCAAACqADibcQNj"
+ }
+]

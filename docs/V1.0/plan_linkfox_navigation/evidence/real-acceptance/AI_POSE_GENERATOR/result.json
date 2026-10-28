@@ -1,30 +1,39 @@
 {
-  "tool": "AI_POSE_GENERATOR",
-  "name": "AI姿势生成",
-  "group": "POD",
-  "route": "/tools/product-design/ai-pose-generator",
-  "status": "PARTIAL",
-  "result": "provider_ok_ui_unverified",
-  "verdict": "PARTIAL",
-  "realProviderCall": true,
-  "provider": "ccai-tmp (CCAI 临时) / gpt-image-2 via canvas-proxy 127.0.0.1:23210 -> api.cc-ai.xyz",
-  "runAt": "2026-10-28T18:57:31+08:00",
-  "output": {
-    "count": 1,
-    "field": "b64_json",
-    "localFile": null,
-    "note": "provider 200 已记录，但 200 之后未补拍结果截图；现有 01-result.png 是提交前状态"
-  },
-  "evidence": [
-    "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/AI_POSE_GENERATOR/02-net.json",
-    "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/AI_POSE_GENERATOR/01-result.png",
-    "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/AI_POSE_GENERATOR/dom/ocr-01-result.txt"
-  ],
-  "assertions": [
-    "POST https://api.cc-ai.xyz/v1/images/generations 18:57:31 返回 200（真实上游出图）",
-    "提交前表单实测：姿势提示词/每场景张数/场景数/请求数/姿势预设保存 均存在；空提示词时正确拦截『请先填写姿势描述』"
-  ],
-  "gap": "缺少 200 之后的结果区 DOM/截图证据（结果面板是否出现、能否下载/存入资产/发送画布 未验证）",
-  "parityWithOriginal": "LinkFox AI_POSTURE 有独立 DOM 抓取，但本组未逐项比对（后续补）；本页可见：姿势提示词(4000字)、每场景张数(1-4)、场景数、总产出=场景数×张数(上限24)、预设保存(最多12条)。",
-  "notes": []
+ "tool": "AI_POSE_GENERATOR",
+ "name": "AI姿势生成",
+ "group": "POD",
+ "route": "/tools/product-design/ai-pose-generator",
+ "status": "PARTIAL",
+ "result": "provider_ok_ui_lacks_actions",
+ "verdict": "PARTIAL — 真实出图 200 且结果已落盘，但结果区没有『下载/存入资产/发送画布』动作，结果只能在页面内查看",
+ "realProviderCall": true,
+ "provider": "gpt-image-2 via canvas-proxy 127.0.0.1:23210 -> api.cc-ai.xyz/v1/images/generations",
+ "runAt": "2026-10-28T21:05:00+08:00",
+ "output": {
+  "count": 1,
+  "field": "b64_json",
+  "localFile": "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/AI_POSE_GENERATOR/04-result-transparent.png",
+  "bytes": 1067539,
+  "size": "720x960",
+  "note": "03-net-fetch.json 记录 200 返回 b64_json；结果图按 DOM img.src 取出后落盘"
+ },
+ "evidence": [
+  "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/AI_POSE_GENERATOR/03-net-fetch.json",
+  "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/AI_POSE_GENERATOR/04-result-transparent.png",
+  "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/AI_POSE_GENERATOR/04-done.png",
+  "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/AI_POSE_GENERATOR/03-post-result.png",
+  "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/AI_POSE_GENERATOR/02-net.json",
+  "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/AI_POSE_GENERATOR/dom/ocr-01-result.txt"
+ ],
+ "assertions": [
+  "POST http://127.0.0.1:23210/https://api.cc-ai.xyz/v1/images/generations 返回 200，请求体含 model=gpt-image-2 + 完整姿势 prompt",
+  "结果区实测出现『默认场景 1 张』，结果图为 720x960 PNG（1,067,539 bytes，PNG 头校验通过）",
+  "提交前表单实测：姿势提示词 / 每场景张数 / 场景数 / 请求数 / 姿势预设保存 均存在；空提示词时正确拦截『请先填写姿势描述』",
+  "全页 [data-testid^=tool-result] 计数为 0：结果区没有『下载 / 存入资产 / 发送画布』按钮，无法从结果卡带走产物"
+ ],
+ "gap": "结果无法下载/存入资产/发送画布（无结果动作按钮）。产物只能停留在页面内，用户要在资产库另找，属与其它工具的一致性缺口。",
+ "parityWithOriginal": "LinkFox AI_POSTURE 对齐项：姿势提示词(4000 字上限)、每场景张数(1-4)、场景数、总产出=场景数×张数(上限 24)、预设保存(最多 12 条)。本页均已实现；差异：不显示算力消耗。",
+ "notes": [
+  "截图有效性说明：04-done.png / 03-post-result.png 为 1920x783 页面级截图，与 01-result.png（148KB）不同，说明本轮页面确有重绘；但同类工具实测存在『不同状态返回同一帧』的陈旧截图风险，故状态判断以 DOM 文本与网络记录为准。"
+ ]
 }
