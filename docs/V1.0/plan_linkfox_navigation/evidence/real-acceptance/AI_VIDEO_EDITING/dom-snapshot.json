@@ -1,0 +1,143 @@
+{
+ "url": "http://127.0.0.1:3000/tools/ai-video/ai-video-editing",
+ "title": "无限画布",
+ "h1": "视频编辑",
+ "testids": [
+  "ai-video-editing-clip-duration",
+  "ai-video-editing-clip-label",
+  "ai-video-editing-clip-notice",
+  "ai-video-editing-clip-start",
+  "ai-video-editing-counter",
+  "ai-video-editing-hidden-prompt",
+  "ai-video-editing-optimize",
+  "ai-video-editing-output",
+  "ai-video-editing-prompt",
+  "ai-video-editing-reference-rule",
+  "ai-video-editing-submit",
+  "ai-video-editing-type",
+  "tool-asset-dropzone",
+  "tool-asset-file-input",
+  "tool-asset-list",
+  "tool-result",
+  "tool-result-failed",
+  "tool-shell-nav-trigger",
+  "tool-sidebar",
+  "tool-task-error",
+  "tool-task-panel",
+  "tool-task-retry",
+  "tool-task-status",
+  "tool-task-timing",
+  "tool-workspace",
+  "tool-workspace-chrome",
+  "tools-nav-mobile-trigger",
+  "tools-nav-primary",
+  "tools-nav-trigger-ai-video",
+  "tools-nav-trigger-batch-generate",
+  "tools-nav-trigger-ecommerce-suite",
+  "tools-nav-trigger-product-design",
+  "tools-nav-trigger-smart-edit",
+  "workspace-link-assets",
+  "workspace-link-canvas",
+  "workspace-link-config",
+  "workspace-link-image",
+  "workspace-link-prompts",
+  "workspace-link-video"
+ ],
+ "selects": [],
+ "radios": [
+  {
+   "txt": "商品人物精准编辑",
+   "checked": "true"
+  }
+ ],
+ "radios2": [],
+ "buttons": [
+  {
+   "txt": "中",
+   "tid": "",
+   "disabled": false
+  },
+  {
+   "txt": "切换到浅色主题",
+   "tid": "",
+   "disabled": false
+  },
+  {
+   "txt": "v0.27.0",
+   "tid": "",
+   "disabled": false
+  },
+  {
+   "txt": "移除",
+   "tid": "",
+   "disabled": false
+  },
+  {
+   "txt": "移除",
+   "tid": "",
+   "disabled": false
+  },
+  {
+   "txt": "模板优化",
+   "tid": "ai-video-editing-optimize",
+   "disabled": false
+  },
+  {
+   "txt": "撤销",
+   "tid": "",
+   "disabled": true
+  },
+  {
+   "txt": "grok-imagine-video（ccai-tmp）",
+   "tid": "",
+   "disabled": false
+  },
+  {
+   "txt": "商品人物精准编辑",
+   "tid": "ai-video-editing-type",
+   "disabled": false
+  },
+  {
+   "txt": "立即生成",
+   "tid": "ai-video-editing-submit",
+   "disabled": false
+  },
+  {
+   "txt": "重试",
+   "tid": "tool-task-retry",
+   "disabled": false
+  },
+  {
+   "txt": "1",
+   "tid": "",
+   "disabled": false
+  },
+  {
+   "txt": "连接",
+   "tid": "",
+   "disabled": false
+  },
+  {
+   "txt": "连接",
+   "tid": "",
+   "disabled": false
+  },
+  {
+   "txt": "连接",
+   "tid": "",
+   "disabled": false
+  }
+ ],
+ "assetLists": [
+  [
+   "06-result-video.mp4 1.2 MB · 1344×768 · video/mp4 移除"
+  ],
+  [
+   "product.png 141 KB · 1024×744 · image/png 移除"
+  ]
+ ],
+ "resultText": "视频编辑结果 失败 失败 上游返回失败 1s 任务失败 404 page not found · api.cc-ai.xyz/videos · HTTP 404 诊断码：provider-rejected · 该错误不建议直接重试 重试 失败不会产生可用结果；诊断码可用于排查 Provider 侧问题。",
+ "taskError": "任务失败 404 page not found · api.cc-ai.xyz/videos · HTTP 404 诊断码：provider-rejected · 该错误不建议直接重试",
+ "taskStatus": "失败",
+ "visibleText": "无限画布\n电商套图\n智能修图\n批量生图\n商品图设计\nAI视频\n中\n切换到浅色主题\nv0.27.0\n电商套图\n6\n智能修图\n8\n批量生图\n0\n商品图设计\n19\nAI 视频\n6\n图转视频\n带货口播\n视频复刻\n视频编辑\n视频翻译\n视频拼接\n补充\nAI 视频 / 视频编辑\n视频编辑\n/tools/ai-video/ai-video-editing\n视频编辑\n截取 ≤30 秒\n参考图 30 张内\n需求 0/2500\n上传原视频与参考图，输入编辑需求，AI 智能编辑视频\n原视频\n06-result-video.mp4 · 5.2 秒\n上传需要编辑的视频\n1 / 1 个 · MP4 / MOV · ≤ 100 MB\n已达数量上限，先移除一个再上传\n校验格式 / 大小 / 像素，入库后可刷新恢复\n06-result-video.mp4\n1.2 MB · 1344×768 · video/mp4\n移除\n截取区间\n0–5.2 秒（共 5.2 秒）\n起点（秒）\n时长（秒，≤30）\n已截到源视频结尾（源片 5.2 秒）\n参考图 （选填）\n1/30\n上传参考图\n1 / 30 个 · PNG / JPG / WebP · ≤ 10 MB\n点击选择本地文件，或拖拽到这里\n校验格式 / 大小 / 像素，入库后可刷新恢复\nproduct.png\n141 KB · 1024×744 · image/png\n移除\n支持上传 30 张图，10M 以内，384*384 ~ 4096*4096，宽高比（宽÷高）0.4～2.5（含边界）\n原站标注「选填」，但本地网关对本工具要求 ≥1 张参考图（requiresReferences），因此提交前必须至少 1 张。\n编辑需求描述\n38 / 2500\n模板优化\n撤销\n本地模板生成，不调用模型\n生成设置\n视频模型\ngrok-imagine-video（ccai-tmp）\n视频类型\n商品人物精准编辑\n锁定商品/人物身份，只改动作、场景与风格；最长可截 30 秒\n查看模板段（只读，随请求发送）\n立即生成\n1 条 · 5.2 秒\n编辑结果\n视频编辑结果\n失败\n失败\n上游返回失败\n1s\n任务失败\n404 page not found · api.cc-ai.xyz/videos · HTTP 404\n诊断码：provider-rejected · 该错误不建议直接重试\n重试\n失败不会产生可用结果；诊断码可用于排查 Provider 侧问题。\n1\n连接本地 Agent\n未连接\n点连接会自动启动本地服务、装好插件并接通，无需手动配置。\nClaude Code\n未连接\n·\nCLI · 2.1.285 (Claude Code)\n·\n直接运行\n连接\nCodex\n未连接\n·\nCLI · codex-cli 0.163.0\n·\n插件已装\n连接\nGalley\n未连接\n·\nCLI + 桌面版 · galley 0.6.4\n连接"
+}

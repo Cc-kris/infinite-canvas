@@ -1,0 +1,112 @@
+{
+  "tool_id": "SALE_VIDEO",
+  "tool_name_cn": "带货口播",
+  "route": "/tools/ai-video/sale-video",
+  "group": "video",
+  "run_at": "2026-10-29T00:20:00+08:00",
+  "app_base": "http://127.0.0.1:3000",
+  "branch": "feat/linkfox-v1-real",
+  "mode": "real_ui_real_provider",
+  "inputs": {
+    "product_image": "product.png（1024×744 · 141KB · image/png），资产 id Av-jVHErVHd5JrI1RTwi6，经页面 file input 真实入库",
+    "prompt_text": "White sport smartwatch ... 口播：Meet the watch that tracks your day and night ...",
+    "prompt_len": 365,
+    "country": "US（美国）",
+    "language": "英语（English）",
+    "resolution_ui": "720P（页面 aria-checked=true）",
+    "duration_ui": "5秒（页面 aria-checked=true）",
+    "ratio_ui": "9:16（页面 aria-checked=true）",
+    "model_selected_in_ui": "grok-imagine-video（ccai-tmp）"
+  },
+  "provider": {
+    "endpoint": "POST http://127.0.0.1:23210/https://api.cc-ai.xyz/v1/videos",
+    "content_type": "application/json",
+    "payload_fields": ["model", "prompt", "seconds", "size", "ratio", "resolution_name", "generate_audio", "watermark", "mode", "images"],
+    "payload_actual": {
+      "model": "grok-imagine-video",
+      "seconds": "6",
+      "size": "720x720",
+      "ratio": "1:1",
+      "resolution_name": "720p",
+      "mode": "frames",
+      "images_count": 1
+    },
+    "create_status": 404,
+    "response_body": "404 page not found",
+    "error_class": "provider-rejected",
+    "root_cause": "api.cc-ai.xyz（ccai-tmp 通道）未挂视频 API：未鉴权直连 POST /v1/videos 即 404；/v1/video/generations 未鉴权 401（路由存在），带应用鉴权后回 'Video API is not supported for this platform'。同分支 sub2api.1006000.xyz 的 /v1/videos 可正常建任务（见 IMAGE_TO_VIDEO/result.json），故为通道能力问题。",
+    "probe_commands": [
+      "curl -s -o /dev/null -w '%{http_code}' -X POST https://api.cc-ai.xyz/v1/videos  -> 404",
+      "curl -s -o /dev/null -w '%{http_code}' -X POST https://api.cc-ai.xyz/v1/images/generations -> 401",
+      "curl -s -o /dev/null -w '%{http_code}' -X POST https://api.cc-ai.xyz/v1/video/generations -> 401"
+    ]
+  },
+  "result": {
+    "ui_state": "任务失败 · 404 page not found · api.cc-ai.xyz/videos · HTTP 404 · 诊断码 provider-rejected · 该错误不建议直接重试",
+    "task_duration_s": 8,
+    "video_produced": false,
+    "task_id": null,
+    "screenshots": [
+      "01-loaded.png（素材+提示词就绪，配置区完整）",
+      "02-submitted-failed.png（真实提交后的失败态与诊断码）"
+    ]
+  },
+  "asset_saved": { "action": "未执行（上游未产出结果）", "store": "n/a" },
+  "canvas_insert": { "action": "未执行（上游未产出结果）", "reason": "n/a" },
+  "download": { "action": "未执行（上游未产出结果）", "reason": "失败态不渲染下载入口（已核对 DOM）" },
+  "defects": [
+    {
+      "id": "D1",
+      "severity": "P1",
+      "status": "open",
+      "title": "页面「视频时长/视频比例/分辨率」未绑定到 provider 请求，恒用全局 config 的 seconds/size",
+      "detail": "页面实测选中 720P/5秒/9:16，页面徽标写「1 条 · 5 秒 · 720P」，同一次请求体内 prompt 模板文字亦写「成片：5 秒 / 720P / 画幅 9:16」；但请求参数为 seconds=6、size=720x720、ratio=1:1（= 全局 AI 配置 videoSeconds=6、size=720x720）。代码路径：sale-video.ts buildSaleVideoBrowserInput 只回传 prompt/references/model/fields，size 与时长不进执行链路；gateway.ts ProviderInvocation 仅携带 config；video.ts createOpenAIVideoTask 的 seconds/size 取自 config。",
+      "impact": "即便通道可用，成片时长/画幅也会与用户选择及页面声明不符（且与 prompt 模板自述冲突）。",
+      "suggested_fix": "ToolAdapterInput 增加 videoSeconds?/videoSize?；buildToolConfig 允许覆盖 config.videoSeconds/config.size；sale-video adapter 由 resolution+aspectRatio 计算 size（720P+9:16 → 720×1280），并把 videoTime→videoSeconds。补齐单测：断言请求体 seconds/size/ratio 等于页面选择。"
+    },
+    {
+      "id": "D2",
+      "severity": "P3",
+      "status": "open",
+      "title": "国家/语言无独立参数，仅拼进 prompt 文本",
+      "detail": "请求体无 locale/language 字段；若模型支持原生 locale，无法精确表达。当前对 Seedance/Grok 类模型影响有限。"
+    },
+    {
+      "id": "D3",
+      "severity": "P2",
+      "status": "blocked",
+      "title": "端到端无法产出：ccai-tmp 无 /v1/videos",
+      "detail": "外部通道能力约束，非本工具实现缺陷。真实失败已保留，未使用任何 mock 冒充成功。"
+    }
+  ],
+  "linkfox_1to1": {
+    "doc": "LINKFOX_1TO1.md",
+    "verdict": "IA 1:1 通过（允许差异：不复制算力区、模型取本地通道、无作品/商品库选择入口）",
+    "areas_compared": ["商品多图", "口播提示词", "国家语言/AI帮写", "模型分辨率", "时长比例", "结果区"]
+  },
+  "io_diff": {
+    "doc": "IO_DIFF.md",
+    "summary": "输入侧 7 项中 5 项一致、1 项部分一致（分辨率→size 画幅不符）、2 项不一致（时长/比例）；输出侧无产物（404）"
+  },
+  "result_actions": {
+    "doc": "RESULT_ACTIONS.md",
+    "download": "已实现（tool-result-download-{i}），失败态不渲染",
+    "save_to_assets": "已实现（tool-result-save-{i}），失败态不渲染",
+    "send_to_canvas": "已实现（tool-result-canvas-{i}），失败态不渲染",
+    "end_to_end_verified": false,
+    "why_not": "无产物可下载/入库/上图，需先配置支持 /v1/videos 的视频通道"
+  },
+  "verdict": "blocked_by_provider",
+  "verdict_detail": "工具链路（上传→入库→校验→组装→提交→失败呈现→快照保留）在真实 UI 下完整跑通；端到端未产出视频的唯一原因是所选通道 ccai-tmp 不提供视频 API。按验收约束（真实输出+ID+资产+画布+1:1 对照全齐才 PASS），本工具判定 blocked_by_provider，且保留真实失败、未做任何 mock。另发现 P1 参数绑定缺陷 D1（页面时长/比例未下发），通道恢复后需先修 D1 再判 PASS。",
+  "next_steps": [
+    "为视频链路配置支持 /v1/videos 的通道（如 sub2api.1006000.xyz），重跑本页面取真实 mp4 + task id。",
+    "修 D1：让页面 videoTime/aspectRatio/resolution 进入 provider 请求，并补单测断言请求体。",
+    "通道恢复后补测结果三动作：下载文件可播放、资产库存入 video/mp4（记录 assetId）、发送画布生成视频节点（记录 nodeId）。"
+  ],
+  "evidence_files": [
+    "01-loaded.png",
+    "02-submitted-failed.png",
+    "dom-snapshot.json",
+    "net.json"
+  ]
+}

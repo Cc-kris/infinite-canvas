@@ -7,6 +7,11 @@
   "app_base": "http://127.0.0.1:3000",
   "branch": "feat/linkfox-v1-real",
   "mode": "real_ui_real_provider",
+  "docs": {
+    "linkfox_1to1": "LINKFOX_1TO1.md",
+    "io_diff": "IO_DIFF.md",
+    "result_actions": "RESULT_ACTIONS.md"
+  },
   "inputs": {
     "source_video": "06-result-video.mp4（1344×768 · 5.2s · 1.2MB · h264/aac，来自 IMAGE_TO_VIDEO 真实产物），经 UI file input 入库",
     "reference_asset": "product.png（1024×744 · 141KB），经 UI file input 入库",
@@ -64,6 +69,15 @@
       "title": "素材本地数据失效时提交按钮仍为可点，点击只更新提示条、不发请求",
       "detail": "参考图记录被清理后（页面提示「product.png 本地数据已失效，请重新上传」），ai-video-editing-submit 的 disabled 仍为 false；连续点击无任何网络请求，用户可能误以为程序卡住。",
       "suggested_fix": "提交前对 sourceRecords/referenceRecords 做一次 blob 可用性校验，不可用时禁用按钮并把原因内联到按钮旁。"
+    },
+    {
+      "id": "D4",
+      "severity": "P1",
+      "status": "open",
+      "title": "截取时长/输出画幅未绑定到请求：seconds/size/ratio 恒取全局配置（视频编辑场景应跟随源视频）",
+      "detail": "2026-10-29 干净重跑抓包（net.json）：multipart 字段为 seconds=6; size=720x720; ratio=1:1; resolution_name=720p，而同一请求的 prompt 内写「源视频取自 0–5.2 秒（共 5.2 秒）」「输出：1 条视频，时长约 5.2 秒」，源片为 1344×768 横屏。页面按钮旁亦标「1 条 · 5.2 秒」。即声明 5.2 秒/横屏 → 实际下发 6 秒/方形。代码路径：ai-video-editing adapter 的 browserInput 不含时长/画幅（仅 prompt 文本 + fields），gateway ProviderInvocation 只带 config，createOpenAIVideoTask 的 seconds/size 取自 config.videoSeconds/config.size。",
+      "impact": "通道可用时，编辑结果会是 6 秒、1:1 方形，与截取区间和源视频画幅不符（裁切/拉伸风险）。",
+      "suggested_fix": "adapter 计算 videoSeconds=ceil(clipEnd-clipStart) 与 videoSize（由源视频宽高比 + 目标分辨率推导），由 buildToolConfig 覆盖 config.videoSeconds/config.size；补单测断言请求体 seconds/size 等于截取区间与源画幅。"
     }
   ],
   "test_methodology_notes": [
@@ -71,13 +85,35 @@
     "同一素材记录可被两个区域同时引用时，在任一区域点「移除」会连带删除共享记录，另一区变「本地数据已失效」。正常流程下两区 id 不同不会触发，仅记录为边界行为。",
     "UI 验收取证据用 CDP 截图 + DOM 文本（本机无屏幕录制权限，screencapture 不可用）。"
   ],
+  "runs": [
+    {
+      "run": 1,
+      "at": "2026-10-28T22:34:00+08:00",
+      "note": "首次真实提交（旧草稿态），413? 否：404 provider-rejected，latency 12711ms",
+      "screenshots": ["03-filled-ready.png", "04-result-after-submit.png", "05-final-ready.png", "06-final-result.png"]
+    },
+    {
+      "run": 2,
+      "at": "2026-10-29T00:25:00+08:00",
+      "note": "清空工具草稿后干净重跑：页面内 DataTransfer 真实入库（规避 CDP 绕过 accept 导致的串位），原视频 06-result-video.mp4(1344×768·5.2s) + 参考图 product.png(1024×744) 分区正确；需求 38/2500；真实提交 → 1s 内 404 provider-rejected；点击「重试」再次发出同一请求（复现）。",
+      "screenshots": ["07-clean-ready.png", "08-clean-result.png"],
+      "captures": ["net.json", "dom-snapshot.json"]
+    }
+  ],
   "evidence_files": [
     "01-filled-form.png",
     "02-filled-before-submit.png",
     "03-filled-ready.png",
     "04-result-after-submit.png",
     "05-final-ready.png",
-    "06-final-result.png"
+    "06-final-result.png",
+    "07-clean-ready.png",
+    "08-clean-result.png",
+    "dom-snapshot.json",
+    "net.json",
+    "LINKFOX_1TO1.md",
+    "IO_DIFF.md",
+    "RESULT_ACTIONS.md"
   ],
   "verdict": "blocked_by_provider",
   "verdict_detail": "工具自身链路（上传→入库→校验→组装→提交→错误呈现）在最终代码下已跑通并可用真实 UI 复现；端到端生成失败的唯一原因是所选通道 ccai-tmp 不提供视频 API（上游明确回 'Video API is not supported for this platform'；同通道 /v1/images/generations 未鉴权返回 401，说明路由存在、仅缺视频能力）。改用支持视频的通道（如 sub2api，视频路由已由 IMAGE_TO_VIDEO 验证可建任务）后可复测出结果。",

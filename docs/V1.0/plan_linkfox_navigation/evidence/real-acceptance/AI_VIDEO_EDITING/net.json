@@ -1,0 +1,10 @@
+[
+ {
+  "method": "POST",
+  "url": "http://127.0.0.1:23210/https://api.cc-ai.xyz/v1/videos",
+  "t": 1793204438473,
+  "reqBody": "FormData{model=grok-imagine-video; prompt=【视频编辑 · 模板 v1】 编辑类型：商品人物精准编辑；编辑意图：保持参考图中商品与人物的一致性，只按需求改写镜头内容、动作、场景与光线 源视频取自 0–5.2 秒（共 5.2 秒，源片 5.2 秒） 参考素材：1 张参考图按上传顺序参与主体一致性约束；商品外观、颜色、logo 与人物身份必须与参考图一致 输出：1 条视频，时长约 5.2 秒；模型：default::grok-imagine-v; seconds=6; size=720x720; ratio=1:1; resolution_name=720p; generate_audio=true; watermark=false; mode=frames; first_frame=[file 144874b]; images=[file 144874b]; video[]=[file 1297168b]}",
+  "status": 404,
+  "resp": "404 page not found"
+ }
+]

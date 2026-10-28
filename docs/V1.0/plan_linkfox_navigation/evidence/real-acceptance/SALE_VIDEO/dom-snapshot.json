@@ -1,0 +1,277 @@
+{
+ "url": "http://127.0.0.1:3000/tools/ai-video/sale-video",
+ "title": "无限画布",
+ "h1": "带货口播",
+ "testids": [
+  "sale-video-ai-write",
+  "sale-video-config",
+  "sale-video-counter",
+  "sale-video-country",
+  "sale-video-language",
+  "sale-video-prompt",
+  "sale-video-submit",
+  "tool-asset-dropzone",
+  "tool-asset-file-input",
+  "tool-asset-list",
+  "tool-result",
+  "tool-result-failed",
+  "tool-shell-nav-trigger",
+  "tool-sidebar",
+  "tool-task-error",
+  "tool-task-panel",
+  "tool-task-retry",
+  "tool-task-status",
+  "tool-task-timing",
+  "tool-workspace",
+  "tool-workspace-chrome",
+  "tools-nav-mobile-trigger",
+  "tools-nav-primary",
+  "tools-nav-trigger-ai-video",
+  "tools-nav-trigger-batch-generate",
+  "tools-nav-trigger-ecommerce-suite",
+  "tools-nav-trigger-product-design",
+  "tools-nav-trigger-smart-edit",
+  "workspace-link-assets",
+  "workspace-link-canvas",
+  "workspace-link-config",
+  "workspace-link-image",
+  "workspace-link-prompts",
+  "workspace-link-video"
+ ],
+ "selects": [
+  {
+   "label": "",
+   "value": "US",
+   "options": [
+    "US（美国）",
+    "GB（英国）",
+    "DE（德国）",
+    "FR（法国）",
+    "ES（西班牙）",
+    "IT（意大利）",
+    "BR（巴西）",
+    "MX（墨西哥）",
+    "JP（日本）",
+    "KR（韩国）",
+    "NL（荷兰）",
+    "PL（波兰）",
+    "TR（土耳其）",
+    "SA（沙特阿拉伯）",
+    "AE（阿联酋）",
+    "TH（泰国）",
+    "VN（越南）",
+    "ID（印尼）",
+    "MY（马来西亚）",
+    "IN（印度）",
+    "CN（中国大陆）"
+   ]
+  },
+  {
+   "label": "",
+   "value": "en-US",
+   "options": [
+    "英语（English）",
+    "英语 · 英国（English UK）",
+    "德语（Deutsch）",
+    "法语（Français）",
+    "西班牙语（Español）",
+    "意大利语（Italiano）",
+    "葡萄牙语（Português）",
+    "日语（日本語）",
+    "韩语（한국어）",
+    "荷兰语（Nederlands）",
+    "波兰语（Polski）",
+    "土耳其语（Türkçe）",
+    "阿拉伯语（العربية）",
+    "泰语（ไทย）",
+    "越南语（Tiếng Việt）",
+    "印尼语（Bahasa Indonesia）",
+    "马来语（Bahasa Melayu）",
+    "印地语（हिन्दी）",
+    "中文（简体）"
+   ]
+  }
+ ],
+ "radios": [
+  {
+   "txt": "480P",
+   "checked": "false"
+  },
+  {
+   "txt": "720P",
+   "checked": "true"
+  },
+  {
+   "txt": "5秒",
+   "checked": "true"
+  },
+  {
+   "txt": "10秒",
+   "checked": "false"
+  },
+  {
+   "txt": "15秒",
+   "checked": "false"
+  },
+  {
+   "txt": "自适应",
+   "checked": "false"
+  },
+  {
+   "txt": "9:16",
+   "checked": "true"
+  },
+  {
+   "txt": "16:9",
+   "checked": "false"
+  },
+  {
+   "txt": "1:1",
+   "checked": "false"
+  },
+  {
+   "txt": "4:3",
+   "checked": "false"
+  },
+  {
+   "txt": "3:4",
+   "checked": "false"
+  },
+  {
+   "txt": "21:9",
+   "checked": "false"
+  }
+ ],
+ "radios2": [],
+ "buttons": [
+  {
+   "txt": "中",
+   "tid": "",
+   "disabled": false
+  },
+  {
+   "txt": "切换到浅色主题",
+   "tid": "",
+   "disabled": false
+  },
+  {
+   "txt": "v0.27.0",
+   "tid": "",
+   "disabled": false
+  },
+  {
+   "txt": "移除",
+   "tid": "",
+   "disabled": false
+  },
+  {
+   "txt": "AI帮写",
+   "tid": "sale-video-ai-write",
+   "disabled": false
+  },
+  {
+   "txt": "grok-imagine-video（ccai-tmp）",
+   "tid": "",
+   "disabled": false
+  },
+  {
+   "txt": "480P",
+   "tid": "",
+   "disabled": false
+  },
+  {
+   "txt": "720P",
+   "tid": "",
+   "disabled": false
+  },
+  {
+   "txt": "5秒",
+   "tid": "",
+   "disabled": false
+  },
+  {
+   "txt": "10秒",
+   "tid": "",
+   "disabled": false
+  },
+  {
+   "txt": "15秒",
+   "tid": "",
+   "disabled": false
+  },
+  {
+   "txt": "自适应",
+   "tid": "",
+   "disabled": false
+  },
+  {
+   "txt": "9:16",
+   "tid": "",
+   "disabled": false
+  },
+  {
+   "txt": "16:9",
+   "tid": "",
+   "disabled": false
+  },
+  {
+   "txt": "1:1",
+   "tid": "",
+   "disabled": false
+  },
+  {
+   "txt": "4:3",
+   "tid": "",
+   "disabled": false
+  },
+  {
+   "txt": "3:4",
+   "tid": "",
+   "disabled": false
+  },
+  {
+   "txt": "21:9",
+   "tid": "",
+   "disabled": false
+  },
+  {
+   "txt": "立即生成",
+   "tid": "sale-video-submit",
+   "disabled": false
+  },
+  {
+   "txt": "重试",
+   "tid": "tool-task-retry",
+   "disabled": false
+  },
+  {
+   "txt": "1",
+   "tid": "",
+   "disabled": false
+  },
+  {
+   "txt": "连接",
+   "tid": "",
+   "disabled": false
+  },
+  {
+   "txt": "连接",
+   "tid": "",
+   "disabled": false
+  },
+  {
+   "txt": "连接",
+   "tid": "",
+   "disabled": false
+  }
+ ],
+ "assetLists": [
+  [
+   "product.png 141 KB · 1024×744 · image/png 移除"
+  ]
+ ],
+ "resultText": "带货口播视频 失败 失败 上游返回失败 8s 任务失败 404 page not found · api.cc-ai.xyz/videos · HTTP 404 诊断码：provider-rejected · 该错误不建议直接重试 重试 失败不会产生可用结果；诊断码可用于排查 Provider 侧问题。",
+ "taskError": "任务失败 404 page not found · api.cc-ai.xyz/videos · HTTP 404 诊断码：provider-rejected · 该错误不建议直接重试",
+ "taskStatus": "失败",
+ "visibleText": "无限画布\n电商套图\n智能修图\n批量生图\n商品图设计\nAI视频\n中\n切换到浅色主题\nv0.27.0\n电商套图\n6\n智能修图\n8\n批量生图\n0\n商品图设计\n19\nAI 视频\n6\n图转视频\n带货口播\n视频复刻\n视频编辑\n视频翻译\n视频拼接\n补充\nAI 视频 / 带货口播\n带货口播\n/tools/ai-video/sale-video\n带货口播\n商品图 10M · 384²–4096²\n1 条 · 5 秒 · 720P\n上传商品图 · 写口播脚本 · 生成带货视频\n商品多图\n1 / 9 张\n上传商品图片\n1 / 9 个 · PNG / JPG / WebP · ≤ 10 MB\n点击选择本地文件，或拖拽到这里\n校验格式 / 大小 / 像素，入库后可刷新恢复\nproduct.png\n141 KB · 1024×744 · image/png\n移除\n支持上传 9 张图，10M 以内，384×384 ~ 4096×4096，宽高比（宽÷高）0.4～2.5（含边界）\n已选 1 张：product.png\n提示词描述\nAI帮写\nAI帮写按国家/语言/商品生成口播草稿（本地模板，可改）\n365 / 4000\n目标市场\n国家/地区\nUS（美国）\nGB（英国）\nDE（德国）\nFR（法国）\nES（西班牙）\nIT（意大利）\nBR（巴西）\nMX（墨西哥）\nJP（日本）\nKR（韩国）\nNL（荷兰）\nPL（波兰）\nTR（土耳其）\nSA（沙特阿拉伯）\nAE（阿联酋）\nTH（泰国）\nVN（越南）\nID（印尼）\nMY（马来西亚）\nIN（印度）\nCN（中国大陆）\n口播语言\n英语（English）\n英语 · 英国（English UK）\n德语（Deutsch）\n法语（Français）\n西班牙语（Español）\n意大利语（Italiano）\n葡萄牙语（Português）\n日语（日本語）\n韩语（한국어）\n荷兰语（Nederlands）\n波兰语（Polski）\n土耳其语（Türkçe）\n阿拉伯语（العربية）\n泰语（ไทย）\n越南语（Tiếng Việt）\n印尼语（Bahasa Indonesia）\n马来语（Bahasa Melayu）\n印地语（हिन्दी）\n中文（简体）\n共 19 种可选语言，切换国家会自动带推荐语言\n生成设置\n视频模型\ngrok-imagine-video（ccai-tmp）\n适合日常稳妥出片\n视频分辨率\n480P\n720P\n视频时长\n5秒\n10秒\n15秒\n视频比例\n自适应\n9:16\n16:9\n1:1\n4:3\n3:4\n21:9\n立即生成\n1 条 · 5 秒 · 720P\n生成结果\n带货口播视频\n失败\n失败\n上游返回失败\n8s\n任务失败\n404 page not found · api.cc-ai.xyz/videos · HTTP 404\n诊断码：provider-rejected · 该错误不建议直接重试\n重试\n失败不会产生可用结果；诊断码可用于排查 Provider 侧问题。\n本次输入快照\n1\n连接本地 Agent\n未连接\n点连接会自动启动本地服务、装好插件并接通，无需手动配置。\nClaude Code\n未连接\n·\nCLI · 2.1.285 (Claude Code)\n·\n直接运行\n连接\nCodex\n未连接\n·\nCLI · codex-cli 0.163.0\n·\n插件已装\n连接\nGalley\n未连接\n·\nCLI + 桌面版 · galley 0.6.4\n连接"
+}
