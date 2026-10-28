@@ -1,0 +1,391 @@
+{
+  "toolId": "CHANGE_COLOR",
+  "name": "一键换色",
+  "route": "/tools/smart-edit/change-color",
+  "fixture": "apparel-print.jpg",
+  "startedAt": "2026-10-28T14:41:15.211Z",
+  "provider": {
+    "baseUrl": "https://api.cc-ai.xyz",
+    "imageModel": "ccai-accept::gpt-image-2",
+    "channelCount": 1,
+    "keyLen": 67
+  },
+  "beforeIssues": [
+    "change-color-issues=请先上传需要换色的图片。 请选择颜色或上传颜色参考图提色。"
+  ],
+  "finishedAt": "2026-10-28T14:41:54.186Z",
+  "resultSrcPrefix": "https://oss-us.dimenoss.com/images/2026/",
+  "resultSaved": true,
+  "resultActions": [
+    {
+      "id": "tool-result-download-0",
+      "text": "下载",
+      "disabled": false
+    },
+    {
+      "id": "tool-result-save-0",
+      "text": "存入资产",
+      "disabled": false
+    },
+    {
+      "id": "tool-result-canvas-0",
+      "text": "发送画布",
+      "disabled": false
+    },
+    {
+      "id": "tool-result-download-0",
+      "text": "下载",
+      "disabled": false
+    },
+    {
+      "id": "tool-result-save-0",
+      "text": "存入资产",
+      "disabled": false
+    },
+    {
+      "id": "tool-result-canvas-0",
+      "text": "发送画布",
+      "disabled": false
+    }
+  ],
+  "issues": [],
+  "submitAfter": {
+    "id": "change-color-generate",
+    "text": "立即生成（10 算力）",
+    "disabled": false
+  },
+  "network": [
+    {
+      "method": "POST",
+      "url": "http://127.0.0.1:17371/canvas/state?token=6076e31f4497025ea74106480193e2f29e34&clientId=wkWXZsI7p5i--4gbZJEzn",
+      "status": 200,
+      "ms": 2,
+      "at": "2026-10-28T14:41:16.810Z"
+    },
+    {
+      "method": "POST",
+      "url": "http://127.0.0.1:17371/canvas/activate?token=6076e31f4497025ea74106480193e2f29e34&clientId=wkWXZsI7p5i--4gbZJEzn",
+      "status": 200,
+      "ms": 2,
+      "at": "2026-10-28T14:41:16.810Z"
+    },
+    {
+      "method": "POST",
+      "url": "http://127.0.0.1:17371/canvas/state?token=6076e31f4497025ea74106480193e2f29e34&clientId=wkWXZsI7p5i--4gbZJEzn",
+      "status": 200,
+      "ms": 1,
+      "at": "2026-10-28T14:41:17.384Z"
+    },
+    {
+      "method": "POST",
+      "url": "http://127.0.0.1:17371/canvas/activate?token=6076e31f4497025ea74106480193e2f29e34&clientId=wkWXZsI7p5i--4gbZJEzn",
+      "status": 200,
+      "ms": 1,
+      "at": "2026-10-28T14:41:17.387Z"
+    },
+    {
+      "method": "POST",
+      "url": "http://127.0.0.1:23210/https://api.cc-ai.xyz/v1/images/edits",
+      "status": 200,
+      "ms": 29791,
+      "at": "2026-10-28T14:41:51.859Z"
+    }
+  ],
+  "pageFetchLog": [
+    {
+      "url": "https://api.github.com/repos/Cc-kris/infinite-canvas/releases?per_page=30",
+      "start": 1793198477201,
+      "end": 1793198477780,
+      "status": 200,
+      "err": null
+    },
+    {
+      "url": "/__canvas-hub/state",
+      "start": 1793198477201,
+      "end": 1793198477281,
+      "status": 200,
+      "err": null
+    },
+    {
+      "url": "/__canvas-hub/state",
+      "start": 1793198477201,
+      "end": 1793198477281,
+      "status": 200,
+      "err": null
+    },
+    {
+      "url": "http://127.0.0.1:23210/",
+      "start": 1793198477202,
+      "end": 1793198477281,
+      "status": 200,
+      "err": null
+    },
+    {
+      "url": "https://raw.githubusercontent.com/yukkcat/image-prompts/main/dist/sources/banana-prompt-quicker.json",
+      "start": 1793198477289,
+      "end": 1793198477606,
+      "status": 200,
+      "err": null
+    },
+    {
+      "url": "https://raw.githubusercontent.com/yukkcat/image-prompts/main/dist/sources/davidwu-gpt-image2-prompts.json",
+      "start": 1793198477289,
+      "end": 1793198477447,
+      "status": 200,
+      "err": null
+    },
+    {
+      "url": "https://raw.githubusercontent.com/yukkcat/image-prompts/main/dist/sources/freestylefly-gpt-image-2.json",
+      "start": 1793198477289,
+      "end": 1793198477422,
+      "status": 200,
+      "err": null
+    },
+    {
+      "url": "https://raw.githubusercontent.com/yukkcat/image-prompts/main/dist/sources/awesome-gpt-image.json",
+      "start": 1793198477289,
+      "end": 1793198477447,
+      "status": 200,
+      "err": null
+    },
+    {
+      "url": "https://raw.githubusercontent.com/yukkcat/image-prompts/main/dist/sources/awesome-gpt4o-image-prompts.json",
+      "start": 1793198477289,
+      "end": 1793198477447,
+      "status": 200,
+      "err": null
+    },
+    {
+      "url": "https://raw.githubusercontent.com/yukkcat/image-prompts/main/dist/sources/youmind-gpt-image-2.json",
+      "start": 1793198477289,
+      "end": 1793198477606,
+      "status": 200,
+      "err": null
+    },
+    {
+      "url": "https://raw.githubusercontent.com/yukkcat/image-prompts/main/dist/sources/youmind-nano-banana-pro.json",
+      "start": 1793198477289,
+      "end": 1793198477606,
+      "status": 200,
+      "err": null
+    },
+    {
+      "url": "http://127.0.0.1:17371/canvas/state?token=6076e31f4497025ea74106480193e2f29e34&clientId=wkWXZsI7p5i--4gbZJEzn",
+      "start": 1793198477310,
+      "end": 1793198477330,
+      "status": 200,
+      "err": null
+    },
+    {
+      "url": "http://127.0.0.1:17371/canvas/activate?token=6076e31f4497025ea74106480193e2f29e34&clientId=wkWXZsI7p5i--4gbZJEzn",
+      "start": 1793198477310,
+      "end": 1793198477336,
+      "status": 200,
+      "err": null
+    },
+    {
+      "url": "http://127.0.0.1:17371/config?token=6076e31f4497025ea74106480193e2f29e34",
+      "start": 1793198477310,
+      "end": 1793198477330,
+      "status": 200,
+      "err": null
+    },
+    {
+      "url": "http://127.0.0.1:17371/agent/skills?token=6076e31f4497025ea74106480193e2f29e34",
+      "start": 1793198477326,
+      "end": 1793198477341,
+      "status": 200,
+      "err": null
+    },
+    {
+      "url": "http://127.0.0.1:17371/agent/models?token=6076e31f4497025ea74106480193e2f29e34",
+      "start": 1793198477327,
+      "end": 1793198477336,
+      "status": 200,
+      "err": null
+    },
+    {
+      "url": "http://127.0.0.1:17371/agent/codex/threads?token=6076e31f4497025ea74106480193e2f29e34",
+      "start": 1793198477341,
+      "end": 1793198478475,
+      "status": 200,
+      "err": null
+    },
+    {
+      "url": "http://127.0.0.1:17371/agent/codex/threads/01a17b8e-2bd3-73c0-a8d9-8151288bbd5b?token=6076e31f4497025ea74106480193e2f29e",
+      "start": 1793198478475,
+      "end": 1793198478486,
+      "status": 200,
+      "err": null
+    },
+    {
+      "url": "/__canvas-hub/state",
+      "start": 1793198479290,
+      "end": 1793198479293,
+      "status": 200,
+      "err": null
+    },
+    {
+      "url": "/__canvas-hub/state",
+      "start": 1793198481295,
+      "end": 1793198481297,
+      "status": 200,
+      "err": null
+    },
+    {
+      "url": "blob:http://127.0.0.1:3000/2ac42619-bad7-4ca9-8370-4e79cfff1197",
+      "start": 1793198482055,
+      "end": 1793198482059,
+      "status": 200,
+      "err": null
+    },
+    {
+      "url": "/__canvas-hub/state",
+      "start": 1793198483300,
+      "end": 1793198483302,
+      "status": 200,
+      "err": null
+    },
+    {
+      "url": "/__canvas-hub/state",
+      "start": 1793198485304,
+      "end": 1793198485306,
+      "status": 200,
+      "err": null
+    },
+    {
+      "url": "/__canvas-hub/state",
+      "start": 1793198487309,
+      "end": 1793198487311,
+      "status": 200,
+      "err": null
+    },
+    {
+      "url": "/__canvas-hub/state",
+      "start": 1793198489313,
+      "end": 1793198489315,
+      "status": 200,
+      "err": null
+    },
+    {
+      "url": "/__canvas-hub/state",
+      "start": 1793198491318,
+      "end": 1793198491320,
+      "status": 200,
+      "err": null
+    },
+    {
+      "url": "/__canvas-hub/state",
+      "start": 1793198493323,
+      "end": 1793198493325,
+      "status": 200,
+      "err": null
+    },
+    {
+      "url": "/__canvas-hub/state",
+      "start": 1793198495327,
+      "end": 1793198495329,
+      "status": 200,
+      "err": null
+    },
+    {
+      "url": "/__canvas-hub/state",
+      "start": 1793198497332,
+      "end": 1793198497334,
+      "status": 200,
+      "err": null
+    },
+    {
+      "url": "/__canvas-hub/state",
+      "start": 1793198499336,
+      "end": 1793198499338,
+      "status": 200,
+      "err": null
+    },
+    {
+      "url": "/__canvas-hub/state",
+      "start": 1793198501341,
+      "end": 1793198501342,
+      "status": 200,
+      "err": null
+    },
+    {
+      "url": "/__canvas-hub/state",
+      "start": 1793198503345,
+      "end": 1793198503347,
+      "status": 200,
+      "err": null
+    },
+    {
+      "url": "/__canvas-hub/state",
+      "start": 1793198505349,
+      "end": 1793198505352,
+      "status": 200,
+      "err": null
+    },
+    {
+      "url": "/__canvas-hub/state",
+      "start": 1793198507353,
+      "end": 1793198507355,
+      "status": 200,
+      "err": null
+    },
+    {
+      "url": "/__canvas-hub/state",
+      "start": 1793198509358,
+      "end": 1793198509361,
+      "status": 200,
+      "err": null
+    },
+    {
+      "url": "/__canvas-hub/state",
+      "start": 1793198511364,
+      "end": 1793198511366,
+      "status": 200,
+      "err": null
+    },
+    {
+      "url": "/__canvas-hub/state",
+      "start": 1793198513367,
+      "end": 1793198513370,
+      "status": 200,
+      "err": null
+    },
+    {
+      "url": "https://oss-us.dimenoss.com/images/2026/10/28/1793198511_1866e047e66deded12275a151827a7d3.png",
+      "start": 1793198514187,
+      "end": 1793198514188,
+      "status": 200,
+      "err": null
+    },
+    {
+      "url": "/__canvas-hub/state",
+      "start": 1793198515371,
+      "end": 1793198515374,
+      "status": 200,
+      "err": null
+    },
+    {
+      "url": "/__canvas-hub/state",
+      "start": 1793198517377,
+      "end": 1793198517380,
+      "status": 200,
+      "err": null
+    }
+  ],
+  "bodyText": "无限画布\n电商套图\n智能修图\n批量生图\n商品图设计\nAI视频\n中\n切换到浅色主题\nv0.27.0\n电商套图\n6\n智能修图\n8\n局部重绘\n局部消除\n一键换色\n图片裁剪\n商品精修\n色差修复\n印花修复\n手部修复\n批量生图\n0\n商品图设计\n19\nAI 视频\n6\n智能修图 / 一键换色\n一键换色\n\n/tools/smart-edit/change-color\n\n图片\nJPG / PNG / WEBP，≤10M\n上传素材\n1 / 1 个 · JPG / PNG / WebP · ≤ 10 MB\n已达数量上限，先移除一个再上传\n校验格式 / 大小 / 像素，入库后可刷新恢复\n\napparel-print.jpg\n\n86 KB · 1024×1024 · image/jpeg\n\n移除\n\napparel-print.jpg · 1024×1024 · JPEG\n\n任务名称\n颜色 / 参考图\n选择颜色后全图或选区按此色调改写\n收藏色卡\n\n目标色 #2E6BE6\n\n收藏色卡\n\n颜色参考图（可选）\n\n上传素材\n0 / 1 个 · JPG / PNG / WebP · ≤ 10 MB\n点击选择本地文件，或拖拽到这里\n校验格式 / 大小 / 像素，入库后可刷新恢复\n\n还没有素材\n\n区域\n涂选要换色的对象；不涂=整图\n整图主体\n衣服\n上装\n下装\n鞋\n包\n配饰\n假发\n自定义\n\n当前区域：人物身上的衣服（衣身与袖子）\n\n笔刷\n28\n未涂选区：按整图换色\n撤销\n清空选区\n去杂色\n去掉换色后残留的原色噪点\n开启\n关闭\n颜色细调\n空值=不调整\n色调\n0\n饱和度\n0\n亮度\n0\n对比度\n0\n默认（无微调）\n重置\n光影与边缘\n光影 / 边缘 / 颜色边缘修复 / 色彩平衡 / 曲线\n光影优化\n强度 50\n边缘优化\n颜色边缘修复\n色彩平衡\n曲线\n线性\n柔光\nS 曲线\n强对比\n光影优化 50 · 边缘优化 开 · 颜色边缘修复 关\n重置\n生成\n模型：ccai-accept::gpt-image-2 · 1 张\n立即生成（10 算力）\n\n原图或参数已变更，下面的结果来自上一版配置，请重新生成。\n\n生成结果\n已完成\n共 1 个结果 · 图片 1\n下载\n存入资产\n发送画布\n前后对比\n拖动滑块查看细节\n本次提交\n上游 16 个字段的快照\n#2E6BE6FF · 1024×1024 · 蒙版无\n查看参数\n99+\n连接本地 Agent\n已连接\n点连接会自动启动本地服务、装好插件并接通，无需手动配置。\nClaude Code\n未连接\n·\nCLI · 2.1.285 (Claude Code)\n·\n直接运行\n连接\nCodex\n已连接\n·\n运行时\n·\nCLI · codex-cli 0.163.0\n·\n插件已装\n断开连接\nGalley\n未连接\n·\nCLI + 桌面版 · galley 0.6.4\n连接",
+  "resultDom": "<section data-testid=\"tool-result\" data-view=\"succeeded\" class=\"space-y-3 rounded-2xl border border-border bg-card p-4\"><header class=\"flex flex-wrap items-center gap-2\"><h2 class=\"text-sm font-semibold\">生成结果</h2><span data-testid=\"tool-task-status\" data-status=\"succeeded\" data-tone=\"success\" title=\"结果已返回\" class=\"inline-flex items-center gap-1.5 rounded-full border px-2 py-0.5 text-xs font-medium border-emerald-300 bg-emerald-50 text-emerald-700 dark:border-emerald-800 dark:bg-emerald-950 dark:text-emerald-200\"><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-circle-check lucide-check-circle-2 size-3.5\" aria-hidden=\"true\"><circle cx=\"12\" cy=\"12\" r=\"10\"></circle><path d=\"m16 9-5.5 5.5L8 12\"></path></svg>已完成</span><span class=\"ml-auto text-xs text-muted-foreground\" data-testid=\"tool-result-summary\">共 1 个结果 · 图片 1</span></header><ul class=\"grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-3\"><li data-testid=\"tool-result-item-0\" data-kind=\"image\" class=\"overflow-hidden rounded-xl border border-border bg-background\"><div class=\"flex aspect-video items-center justify-center bg-stone-100 dark:bg-stone-900\"><img data-testid=\"tool-result-image\" alt=\"结果 1\" loading=\"lazy\" class=\"h-full w-full object-contain\" src=\"https://oss-us.dimenoss.com/images/2026/10/28/1793198511_1866e047e66deded12275a151827a7d3.png\"></div><div class=\"flex flex-w\n---\n<span class=\"ml-auto text-xs text-muted-foreground\" data-testid=\"tool-result-summary\">共 1 个结果 · 图片 1</span>\n---\n<li data-testid=\"tool-result-item-0\" data-kind=\"image\" class=\"overflow-hidden rounded-xl border border-border bg-background\"><div class=\"flex aspect-video items-center justify-center bg-stone-100 dark:bg-stone-900\"><img data-testid=\"tool-result-image\" alt=\"结果 1\" loading=\"lazy\" class=\"h-full w-full object-contain\" src=\"https://oss-us.dimenoss.com/images/2026/10/28/1793198511_1866e047e66deded12275a151827a7d3.png\"></div><div class=\"flex flex-wrap gap-1.5 p-2\"><button type=\"button\" data-testid=\"tool-result-download-0\" class=\"inline-flex items-center gap-1 rounded-md border border-border px-2 py-1 text-[11px] transition hover:bg-accent disabled:cursor-not-allowed disabled:opacity-50\"><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-download size-3.5\" aria-hidden=\"true\"><path d=\"M12 15V3\"></path><path d=\"M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4\"></path><path d=\"m7 10 5 5 5-5\"></path></svg>下载</button><button type=\"button\" data-testid=\"tool-result-save-0\" class=\"inline-flex items-center gap-1 rounded-md border border-border px-2 py-1 text-[11px] transition hover:bg-accent disabled:cursor-not-allowed disabled:opacity-50\"><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stro",
+  "fixtureSha": "5c80a61e9271298d",
+  "resultSha": "6f3937c29849f8f7",
+  "afterReload": {
+    "images": 3,
+    "hasResult": true,
+    "actions": []
+  },
+  "ok": true,
+  "console": [
+    "error: Cannot update a component (`%s`) while rendering a different component (`%s`). To locate the bad setState() call inside `%s`, follow the stack trace as described in https://react.dev/link/setstate-in-",
+    "error: Cannot update a component (`%s`) while rendering a different component (`%s`). To locate the bad setState() call inside `%s`, follow the stack trace as described in https://react.dev/link/setstate-in-",
+    "error: Cannot update a component (`%s`) while rendering a different component (`%s`). To locate the bad setState() call inside `%s`, follow the stack trace as described in https://react.dev/link/setstate-in-"
+  ]
+}

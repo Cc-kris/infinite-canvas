@@ -2129,15 +2129,23 @@ export function VideoReplicationWorkspace({ className }: VideoReplicationWorkspa
             return;
         }
         setError("");
-        setValues((previous) => ({
-            ...previous,
-            sourceMode: "upload",
-            refVideoAssetId: record.id,
-            refVideoName: record.name,
-            sourceVideoDuration: previous.sourceVideoDuration,
-            clipStart: 0,
-            clipEnd: Math.min(VIDEO_REPLICATION_VIDEO_LIMITS.autoSeconds, Math.max(VIDEO_REPLICATION_VIDEO_LIMITS.clipMinSeconds, previous.clipEnd || VIDEO_REPLICATION_VIDEO_LIMITS.autoSeconds)),
-        }));
+        setValues((previous) => {
+            // 真实源视频时长（秒，一位小数）：留给片段校验/滑杆上限/提示词用；读不到时退回 0（表示未知）。
+            const durationSeconds = record.durationMs && record.durationMs > 0 ? Math.round(record.durationMs / 10) / 100 : 0;
+            const fallbackEnd = Math.min(
+                VIDEO_REPLICATION_VIDEO_LIMITS.autoSeconds,
+                Math.max(VIDEO_REPLICATION_VIDEO_LIMITS.clipMinSeconds, previous.clipEnd || VIDEO_REPLICATION_VIDEO_LIMITS.autoSeconds),
+            );
+            return {
+                ...previous,
+                sourceMode: "upload",
+                refVideoAssetId: record.id,
+                refVideoName: record.name,
+                sourceVideoDuration: durationSeconds,
+                clipStart: 0,
+                clipEnd: durationSeconds > 0 ? Math.min(VIDEO_REPLICATION_VIDEO_LIMITS.autoSeconds, durationSeconds) : fallbackEnd,
+            };
+        });
     }, [update]);
 
     const handleReferenceChange = useCallback((ids: string[], records: ToolAssetRecord[]) => {
@@ -2160,12 +2168,13 @@ export function VideoReplicationWorkspace({ className }: VideoReplicationWorkspa
                     className="rounded bg-primary px-3 py-1.5 text-sm font-medium text-primary-foreground disabled:opacity-50"
                     disabled={running || blocking}
                     onClick={() => void handleSubmit()}
+                    data-testid="video-replication-submit-top"
                 >
                     {running ? "生成中…" : "开始生成"}
                 </button>
             }
         >
-            <div className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_360px]">
+            <div className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_360px]" data-testid="video-replication-workspace">
                 <div className="space-y-4">
                     <section className="rounded-lg border border-border bg-card p-4">
                         <div className="flex items-center justify-between gap-2">
@@ -2189,6 +2198,7 @@ export function VideoReplicationWorkspace({ className }: VideoReplicationWorkspa
                             <div className="mt-3">
                                 <ToolAssetInput
                                     toolId={VIDEO_REPLICATION_TOOL_ID}
+                                    draftSlot="source-video"
                                     maxCount={1}
                                     constraints={{
                                         kind: "video",
@@ -2222,7 +2232,7 @@ export function VideoReplicationWorkspace({ className }: VideoReplicationWorkspa
                     <section className="rounded-lg border border-border bg-card p-4">
                         <div className="flex items-center justify-between gap-2">
                             <h2 className="text-sm font-medium">2. 复刻片段</h2>
-                            <span className="text-[11px] text-muted-foreground">
+                            <span className="text-[11px] text-muted-foreground" data-testid="video-replication-clip">
                                 {clip.start}–{clip.end}s（共 {clip.seconds}s）
                             </span>
                         </div>
@@ -2292,6 +2302,7 @@ export function VideoReplicationWorkspace({ className }: VideoReplicationWorkspa
                         <div className="mt-3">
                             <ToolAssetInput
                                 toolId={VIDEO_REPLICATION_TOOL_ID}
+                                draftSlot="reference-images"
                                 maxCount={VIDEO_REPLICATION_REFERENCE_LIMITS.maxCount}
                                 constraints={{
                                     kind: "image",
@@ -2321,6 +2332,7 @@ export function VideoReplicationWorkspace({ className }: VideoReplicationWorkspa
                                 type="button"
                                 className="rounded border border-border px-2 py-1 text-[11px] hover:bg-muted"
                                 onClick={handleScriptDraft}
+                                data-testid="video-replication-script-draft"
                             >
                                 生成脚本草稿
                             </button>
@@ -2331,6 +2343,7 @@ export function VideoReplicationWorkspace({ className }: VideoReplicationWorkspa
                             maxLength={VIDEO_REPLICATION_PROMPT_LIMIT}
                             value={values.prompt}
                             onChange={(event) => update("prompt", event.target.value)}
+                            data-testid="video-replication-script"
                         />
                         <div className="mt-1 flex items-center justify-between text-[11px]">
                             <span className={counter.over ? "text-red-600" : "text-muted-foreground"}>
@@ -2423,6 +2436,7 @@ export function VideoReplicationWorkspace({ className }: VideoReplicationWorkspa
                                 className="w-full rounded border border-border bg-transparent px-2 py-1.5 text-xs outline-none focus:border-primary"
                                 value={values.saleCountry}
                                 onChange={(event) => handleCountry(event.target.value)}
+                                data-testid="video-replication-country"
                             >
                                 {VIDEO_REPLICATION_COUNTRIES.map((item) => (
                                     <option key={item.id} value={item.id}>
@@ -2470,6 +2484,7 @@ export function VideoReplicationWorkspace({ className }: VideoReplicationWorkspa
                             className="w-full rounded bg-primary px-3 py-2 text-sm font-medium text-primary-foreground disabled:opacity-50"
                             disabled={running || !canSubmit}
                             onClick={() => void handleSubmit()}
+                            data-testid="video-replication-submit"
                         >
                             {running ? "生成中…" : `生成视频（${outputLabel}）`}
                         </button>
@@ -2498,7 +2513,7 @@ export function VideoReplicationWorkspace({ className }: VideoReplicationWorkspa
             </div>
 
             {result.status !== "idle" || task ? (
-                <div className="mt-4">
+                <div className="mt-4" data-testid="video-replication-result">
                     <ToolResult
                         task={task}
                         toolId={VIDEO_REPLICATION_TOOL_ID}

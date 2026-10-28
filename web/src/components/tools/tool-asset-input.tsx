@@ -21,6 +21,12 @@ import { flushToolDrafts, useToolDraftStore } from "@/stores/use-tool-draft-stor
 
 export type ToolAssetInputProps = {
     toolId: string;
+    /**
+     * 同一工具里出现多个上传区时的草稿槽位（如 "video" / "ref-images"）。
+     * 不传则用草稿顶层 `assetIds`（单上传区工具的旧行为）；
+     * 传了则读写 `draft.values["assetSlot:<slot>"]`，避免两个上传区互相覆盖已选素材。
+     */
+    draftSlot?: string;
     /** 单工具覆盖默认限制（格式/大小/像素/时长） */
     constraints?: Partial<ToolAssetConstraints>;
     maxCount?: number;
@@ -57,7 +63,7 @@ function phaseLabel(progress: ToolAssetUploadProgress) {
  * 资产输入：真实 `<input type=file>` / 拖拽 → `uploadToolAsset`（真实落库、真实字节进度、可取消）
  * → 资产 id 写入草稿（刷新后由草稿 + 资产索引恢复）。
  */
-export function ToolAssetInput({ toolId, constraints, maxCount, library, disabled, title = "上传素材", className, onChange }: ToolAssetInputProps) {
+export function ToolAssetInput({ toolId, draftSlot, constraints, maxCount, library, disabled, title = "上传素材", className, onChange }: ToolAssetInputProps) {
     const effectiveConstraints = useMemo(() => resolveToolAssetConstraints(constraints), [constraints]);
     const [items, setItems] = useState<AssetItem[]>([]);
     const [notice, setNotice] = useState("");
@@ -72,6 +78,27 @@ export function ToolAssetInput({ toolId, constraints, maxCount, library, disable
     const conflict = useToolDraftStore((state) => state.conflicts[toolId]);
     const quarantined = useToolDraftStore((state) => state.quarantined[toolId]);
     const resolveConflict = useToolDraftStore((state) => state.resolveConflict);
+
+    /** 槽位键：`draftSlot` 存在时把已选资产 id 放进 `draft.values["assetSlot:<slot>"]`，
+     *  避免同工具多个上传区共用顶层 `assetIds` 互相覆盖（刷新后把视频槽恢复成图片这类问题）。 */
+    const slotKey = draftSlot ? `assetSlot:${draftSlot}` : null;
+    const patchSlotIds = useCallback(
+        (ids: string[]) => {
+            if (slotKey) patchDraft(toolId, { values: { [slotKey]: ids } });
+            else patchDraft(toolId, { assetIds: ids });
+        },
+        [patchDraft, slotKey, toolId],
+    );
+    const readSlotIds = useCallback(
+        (draft: { values?: Record<string, unknown>; assetIds?: string[] } | null | undefined): string[] => {
+            if (slotKey) {
+                const raw = draft?.values?.[slotKey];
+                return Array.isArray(raw) ? raw.filter((id): id is string => typeof id === "string") : [];
+            }
+            return draft?.assetIds ?? [];
+        },
+        [slotKey],
+    );
 
     /** 最新 onChange 放 ref：父组件常用内联箭头，若进依赖会让下方的恢复 effect 每次渲染都重跑，
      *  形成「effect → emit → 父组件 setState → 重渲染 → effect」自激循环（会清空蒙版笔画）。 */
@@ -95,13 +122,13 @@ export function ToolAssetInput({ toolId, constraints, maxCount, library, disable
                 itemsRef.current = next;
                 if (options.syncDraft !== false) {
                     const ids = next.filter((item) => item.status === "ready" && item.record).map((item) => item.record!.id);
-                    patchDraft(toolId, { assetIds: ids });
+                    patchSlotIds(ids);
                     emit(next);
                 }
                 return next;
             });
         },
-        [emit, patchDraft, toolId],
+        [emit, patchSlotIds],
     );
 
     // 刷新恢复：草稿 assetIds → 资产索引 → 真实 Blob URL；丢失的 id 从草稿剪掉。
@@ -111,7 +138,7 @@ export function ToolAssetInput({ toolId, constraints, maxCount, library, disable
             const draft = await hydrateDraft(toolId);
             if (!alive) return;
             setHydratedDraft(true);
-            const ids = draft?.assetIds ?? [];
+            const ids = readSlotIds(draft);
             if (!ids.length) return;
             const { records, lostIds } = await loadToolAssetRecords(ids);
             if (!alive) return;
@@ -129,13 +156,13 @@ export function ToolAssetInput({ toolId, constraints, maxCount, library, disable
             emit(restored);
             if (lostIds.length) {
                 setNotice(`已清理 ${lostIds.length} 个本地已不存在的素材`);
-                patchDraft(toolId, { assetIds: restored.map((item) => item.record!.id) });
+                patchSlotIds(restored.map((item) => item.record!.id));
             }
         })();
         return () => {
             alive = false;
         };
-    }, [emit, hydrateDraft, patchDraft, toolId]);
+    }, [emit, hydrateDraft, patchSlotIds, readSlotIds, toolId]);
 
     // 卸载：取消进行中的上传并立刻落盘草稿（不等 500ms 防抖）。
     useEffect(() => {
@@ -220,13 +247,13 @@ export function ToolAssetInput({ toolId, constraints, maxCount, library, disable
 
     const useOtherTabDraft = useCallback(async () => {
         await resolveConflict(toolId, "remote");
-        const ids = useToolDraftStore.getState().drafts[toolId]?.assetIds ?? [];
+        const ids = readSlotIds(useToolDraftStore.getState().drafts[toolId]);
         const { records } = await loadToolAssetRecords(ids);
         const restored: AssetItem[] = records.map((record) => ({ key: record.id, name: record.name, bytes: record.bytes, mimeType: record.mimeType, status: "ready", progress: { phase: "done", loaded: record.bytes, total: record.bytes, ratio: 1 }, record }));
         itemsRef.current = restored;
         setItems(restored);
         emit(restored);
-    }, [emit, resolveConflict, toolId]);
+    }, [emit, readSlotIds, resolveConflict, toolId]);
 
     const readyCount = items.filter((item) => item.status === "ready").length;
     const atLimit = Boolean(maxCount && readyCount >= maxCount);

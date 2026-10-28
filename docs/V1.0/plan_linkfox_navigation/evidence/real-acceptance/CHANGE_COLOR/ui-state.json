@@ -1,0 +1,23 @@
+{
+ "url": "http://127.0.0.1:3000/tools/smart-edit/change-color",
+ "at": "2026-10-28T15:29:19.164Z",
+ "sourceMeta": "product-watch.jpg · 1024×744 · JPEG",
+ "targetColor": "目标色 #D9D9D9",
+ "hex": "#D9D9D9",
+ "view": "succeeded",
+ "imgs": [
+  {
+   "w": 1024,
+   "h": 1024,
+   "src": "https://oss-us.dimenoss.com/images/2026/10/28/1793201243_a98f4d7594f17eb48ade22f52e2295cb.png"
+  }
+ ],
+ "actions": [
+  "下载",
+  "存入资产",
+  "发送画布"
+ ],
+ "toast": [
+  "已发送到画布（goqoqj-ofr8lSgBrNtlZC）"
+ ]
+}

@@ -1,0 +1,60 @@
+{
+  "tool": "VIDEO_REPLICATION",
+  "name": "视频复刻",
+  "group": "ai-video",
+  "task": "TASK-043",
+  "route": "/tools/ai-video/video-replication",
+  "sourceUrl": "https://www.linkfox.com/draw/video-replication",
+  "status": "PARTIAL",
+  "result": "frontend-verified",
+  "verdict": "PARTIAL",
+  "runAt": "2026-10-28T15:2x:00Z",
+  "realProviderCall": true,
+  "provider": "default 通道 → api.cc-ai.xyz（model default::grok-imagine-video, apiFormat=openai）",
+  "blockingReason": "上游 api.cc-ai.xyz/videos 返回 HTTP 404 page not found（provider-rejected, retryable=false）。cc-ai 中转整站未提供视频生成端点，属 provider/环境侧限制，非本工具前端缺陷；按约束未改动全局 provider 配置。",
+  "evidence": {
+    "taskSnapshot": "task_snapshot.json（task-mvs9mpoz-e8u2ry）",
+    "uiEvidence": "web_execute_js 读取 DOM（data-testid 全覆盖）",
+    "unitTests": {
+      "cmd": "cd web && bun test src/features/tools/adapters/video-replication.test.ts",
+      "result": "26 pass / 0 fail / 92 expect"
+    },
+    "typecheck": "tsc --noEmit（web）通过"
+  },
+  "flowVerified": [
+    "1 参考视频：本地上传（MP4/MOV ≤100MB，校验格式/大小/像素，入库后可刷新恢复），上传后显示 `clip.mp4 1.2 MB · 1344×768 · video/mp4`",
+    "2 复刻片段：上传后正确显示 `0–5.2s（共 5.2s）`（修复前恒为 0–15s）",
+    "3 商品参考图：`1/6 张`，`ref.png 1.0 MB · 720×960 · image/png`，与视频槽位互不覆盖（修复前视频区会被 ref.png 覆盖）",
+    "4 口播脚本：生成脚本草稿 → 160 字模板（本地模板，未调用模型），0/4000 计数联动",
+    "5 生成参数：比例 9:16 / 分辨率 720P / 模型 default::grok-imagine-video",
+    "6 时长与市场：视频时长 Auto（15秒）/ 目标国家 US(美国) / 口播语言 英语 / 视频类型 带货口播；提交按钮文案联动为「生成视频（9:16 · 720P · 约 5 秒 · 英语 · US(美国)）」",
+    "提交：按钮可用 → 状态 submitting → running → failed，耗时 26s，结果面板给出「上游返回失败 26s / 404 page not found · api.cc-ai.xyz/videos · HTTP 404 / 诊断码 provider-rejected / 该错误不建议直接重试」+ 重试入口",
+    "入参快照：sourceAssetIds=['TBO1_P4CZ32M2UR2Gr2K_','TN8pClbH-6w2jne-QmFT0']（视频+参考图），configSnapshot={capability:video, model:default::grok-imagine-video, apiFormat:openai, size:9:16, quality:auto, count:1, channelId:default}",
+    "提交前校验：缺参考视频/缺商品图/脚本为空 三类阻断提示均在结果条逐条列出并禁用提交"
+  ],
+  "fixedThisRun": [
+    {
+      "id": "BUG-1",
+      "file": "web/src/components/tools/workspaces/video.tsx",
+      "title": "上传源视频后时长恒为 0，复刻片段退化为 0–15s",
+      "cause": "handleVideoChange 回填时沿用 previous.sourceVideoDuration（初始 0），未取新素材真实时长",
+      "fix": "按 record.durationMs 计算 seconds（四舍五入到 0.01），clipStart=0、clipEnd=min(15, 时长)"
+    },
+    {
+      "id": "BUG-2",
+      "file": "web/src/components/tools/tool-asset-input.tsx (+ video.tsx 调用点)",
+      "title": "同一工具内两个上传区共用顶层 assetIds 草稿键，互相覆盖",
+      "cause": "草稿键只按 toolId 区分，槽位无隔离；刷新后视频区恢复成参考图并被判为非法格式",
+      "fix": "ToolAssetInput 增加 draftSlot 参数，读写 draft.values[`assetSlot:<slot>`]；video.tsx 视频槽 slot=video、参考图槽 slot=reference-image"
+    }
+  ],
+  "notExercised": [
+    "成功出片（产物 mp4 落库、结果卡片预览、加入画布）：受 provider 404 阻断，未取得真实视频结果",
+    "TikTok 链接模式：原站为贴链接解析，本地未接入解析服务（页面已暴露入口与校验文案）",
+    "手动截取（clipStart/clipEnd 拖动）：Auto 模式已验证，手动滑杆未逐值回归"
+  ],
+  "risks": [
+    "「生成脚本草稿」为本地模板（页面已明示未调用模型），LinkFox 侧为 AI 分析；如需对齐需接入文本模型（本次未改）",
+    "视频成功链路需可用的视频 provider；当前 default 通道（cc-ai 中转）无 /videos 端点"
+  ]
+}
