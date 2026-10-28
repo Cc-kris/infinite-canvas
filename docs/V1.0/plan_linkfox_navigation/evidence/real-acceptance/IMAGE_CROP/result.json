@@ -1,0 +1,59 @@
+{
+  "toolId": "IMAGE_CROP",
+  "status": "VERIFIED",
+  "capturedAt": "2026-10-28T17:21:29Z",
+  "route": "/tools/smart-edit/image-crop",
+  "fixture": "product-watch.jpg",
+  "provenance": "本地 canvas 像素裁剪（真实裁剪计算，无上游请求，重复执行零成本）。",
+  "result": {
+    "srcLocal": "evidence/IMAGE_CROP/result.png",
+    "bytes": 205951,
+    "sha256": "c046374eac48b82e5a7a76c1ff8c151a9fee60e3257ffe5d10a8912eecaeb708",
+    "dims": {
+      "w": 1024,
+      "h": 744
+    },
+    "downloadName": "image-crop-result-1.png"
+  },
+  "actions": {
+    "download": {
+      "label": "crop-download",
+      "ok": true,
+      "suggestedFilename": "image-crop-result-1.png",
+      "bytes": 205951
+    },
+    "save": {
+      "feedback": "已保存到资产库（0UnbEDVALKrMVFOtAroD0）",
+      "assetsBefore": 0,
+      "assetsAfter": 1
+    },
+    "send": {
+      "feedback": "已发送到画布（XtI3xAL21U5lxVbEZ9Bu4）",
+      "canvasBefore": {
+        "projects": []
+      },
+      "canvasAfter": {
+        "projects": [
+          {
+            "id": "XtI3xAL21U5lxVbEZ9Bu4",
+            "nodes": 1
+          }
+        ]
+      }
+    }
+  },
+  "persistence": {
+    "assetId": "0UnbEDVALKrMVFOtAroD0",
+    "verifiedAfterReload": true,
+    "storeTotal": 1
+  },
+  "crossChecks": [
+    "结果图 naturalWidth/Height = 1024x744，与裁剪框一致",
+    "工作区下载与结果卡下载 sha256 相同（c046374e…）",
+    "存资产：0→1 且 reload 后可读回；发送画布：节点 +1"
+  ],
+  "issues": [],
+  "uncovered": [
+    "IMAGE_CROP 为本地 renderer，不产生 tool task 记录（设计如此，非缺陷）"
+  ]
+}
