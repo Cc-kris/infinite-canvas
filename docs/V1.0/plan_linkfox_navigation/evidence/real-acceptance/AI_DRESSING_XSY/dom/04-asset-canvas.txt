@@ -1,0 +1,26 @@
+# 复用真实结果补齐 存入资产 / 发送画布（2026-10-28 21:5x，DOM 实测）
+
+## 结果来源（复用，未重新付费生成）
+- 上游：POST http://127.0.0.1:23210/https://api.cc-ai.xyz/v1/images/edits → 200
+- 结果项：xsy-real-item-1（bytes=1069621, mime=image/png, dataUrlLen=1426186, head=data:image/png;base64,iVBORw）
+- 任务卡：taskId=xsy-real-1793193360, toolId=AI_DRESSING_XSY, status=succeeded, capability=image-edit
+- 上游任务 ID：无（响应仅 created=1793193360 + b64_json），故用「本地任务号+上游 created」做可追溯 ID
+
+## 存入资产（真实点击）
+- 点击结果卡「存入资产」→ 反馈成功；资产库新增记录
+- assetId = WBaAYDKP5CU031kS2kDJQ
+
+## 发送画布（真实点击）
+- 点击结果卡「发送画布」→ toast 返回 ahxLQ_-zX8AbuVL_lY0Ij
+- 实测该值为 projectId（自动建工程「AI_DRESSING_XSY 结果」），非节点 ID
+
+## 画布页 UI 复核（/canvas 与 /canvas/<pid>）
+- 画布库：工程「AI_DRESSING_XSY 结果」1 个节点 · 0 条连线 · 更新于 10/28 21:58
+- store 实测：projects[0] = {id: ahxLQ_-zX8AbuVL_lY0Ij, title: AI_DRESSING_XSY 结果, nodes: 1}
+- 节点：id=image-1793195886841-a2et3, type=image, title=图片, w=340 h=240,
+  metadata={status: success, bytes: 1069621, mimeType: image/png, naturalWidth: 720, naturalHeight: 960, storageKey: image:RLNyqxO946qFAaz6jFWb…}
+- 工程页渲染：存在 1 个 [data-node-id] 节点，img 元素两处（40x53、336x236 区域）渲染成功
+- 节点展示层为 576x768 webp 预览（14,844 bytes, sha256 c5071055b15cbd98b3c37da9eddca2961ad7b588cd60cbf56d1ed7c5c45cbdc6）→ 属本地缩略预览，原图 720x960 PNG 仍按 storageKey 存放（不影响导出）
+
+## 结论
+asset_saved = true, canvas_inserted = true

@@ -5,7 +5,7 @@
  "route": "/tools/product-design/ai-dressing-xsy",
  "status": "PASS",
  "result": "verified_end_to_end",
- "verdict": "PASS — 四步流程（模特图/服装图/蒙版/生成设置）全部真实走通，真实上游 200 且结果图落盘",
+ "verdict": "PASS（真实上游输出 → 结果卡渲染 → 存入资产 → 发送画布 全部落地并在画布页 UI 复核）",
  "realProviderCall": true,
  "provider": "gpt-image-2 via canvas-proxy 127.0.0.1:23210 -> api.cc-ai.xyz/v1/images/edits",
  "runAt": "2026-10-28T21:20:00+08:00",
@@ -28,19 +28,106 @@
   "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/AI_DRESSING_XSY/02-net-fetch.json",
   "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/AI_DRESSING_XSY/02-result.png",
   "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/AI_DRESSING_XSY/01-form-filled.png",
-  "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/AI_DRESSING_XSY/03-done.png"
+  "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/AI_DRESSING_XSY/03-done.png",
+  "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/AI_DRESSING_XSY/dom/04-asset-canvas.txt"
  ],
  "assertions": [
   "POST http://127.0.0.1:23210/https://api.cc-ai.xyz/v1/images/edits 返回 200，FormData 含 model=gpt-image-2 / n=1 / output_format=png / size=1024x1024 / image=[file]",
   "结果区 DOM 实测：『试穿结果 … 第 1 张 · 连体衣服 / 已完成 / 共 1 个结果 · 图片 1 / 下载 / 存入资产 / 发送画布』",
   "结果图可从 DOM 取出并落盘 1,069,621 bytes，PNG 头 89 50 4E 47 校验通过，尺寸 720x960",
   "结果卡动作按钮 data-testid=tool-result-download-0 / tool-result-save-0 / tool-result-canvas-0 均存在且未 disabled",
-  "字段自检条：『字段自检：11/17 已取值 · 快照 1q44ng8』（downImageUrl/downMaskUrl/downOriginUrl 为 —，modelImageUrl 已取）"
+  "字段自检条：『字段自检：11/17 已取值 · 快照 1q44ng8』（downImageUrl/downMaskUrl/downOriginUrl 为 —，modelImageUrl 已取）",
+  "复用真实结果（未重跑）：结果卡渲染后真实点击『存入资产』『发送画布』，得到 assetId=WBaAYDKP5CU031kS2kDJQ、projectId=ahxLQ_-zX8AbuVL_lY0Ij、nodeId=image-1793195886841-a2et3",
+  "画布页 /canvas/ahxLQ_-zX8AbuVL_lY0Ij 实测：1 个 [data-node-id] 节点渲染成功，节点 metadata bytes=1069621/720x960 与结果图一致"
  ],
- "gap": "结果卡三个动作（下载/存入资产/发送画布）本轮只确认『存在且可用』，未逐一点击验证落地效果；该共用结果卡组件已在 SCALE_UP 用例中被实际点击验证（见 SCALE_UP/result.json parityWithOriginal）。",
- "parityWithOriginal": "LinkFox 对应能力为 AI 试衣（模特 + 服装 + 蒙版区域）。本页四步与蒙版可视化、自检 gate、算法版本选择（标准试衣 v1 / 细节修复 v2）为对齐实现；差异：算法版本以中文枚举展示，上游统一走 gpt-image-2。",
+ "gap": "已关闭：三个动作（下载/存入资产/发送画布）中，存入资产与发送画布本轮已真实点击并落地（含 assetId / projectId / nodeId / 画布页 UI 复核）；『下载』仍只验证按钮可用（浏览器下载落盘受沙箱限制），不影响门禁。",
+ "parityWithOriginal": "同族弱对照（本页 vs LinkFox『AI穿衣』/draw/ai-dressing 实测 DOM，来源 evidence/page-dom-20261028/AI_DRESSING_V2.json，URL=https://www.linkfox.com/draw/ai-dressing）。注意：AI_DRESSING_XSY 在 LinkFox 侧无直达 URL（page-specs/27 标注『补充工具无本轮直达 URL』），故对照对象为同族 AI 穿衣页，非同一工具。逐项见 parityTable。",
  "notes": [
   "重要取证限制：Page.captureScreenshot 在同一标签的不同状态返回完全相同的字节（01-form-filled.png 与 03-done.png md5 均为 617eb993095b79dbfea2d07d51de7325，因后台标签未重绘），因此本次截图仅作存在性证据，状态判断一律以 DOM 文本为准（见 assertions）。",
-  "上传通道实测：仅 JS fetch + DataTransfer 注入 input.files 可行；CDP DOM.setFileInputFiles 在该桥接环境下 objectId 跨调用失效，不可用。"
+  "上传通道实测：仅 JS fetch + DataTransfer 注入 input.files 可行；CDP DOM.setFileInputFiles 在该桥接环境下 objectId 跨调用失效，不可用。",
+  "parity 与门禁口径：acceptance.md 要求『真实输出 + ID + asset_saved + canvas_inserted + parity』；本次 parity 因原站无该工具页只能做同族对照，已在 parityWithOriginal 与 parityTable 逐项标注差异，未按 PASS 伪装为『完全一致』。"
+ ],
+ "traceIds": {
+  "toolId": "AI_DRESSING_XSY",
+  "localTaskId": "xsy-real-1793193360",
+  "resultItemId": "xsy-real-item-1",
+  "upstreamCreatedAt": "1793193360 (2026-10-28T21:16:00+08:00)",
+  "upstreamTaskId": null,
+  "upstreamTaskIdNote": "上游 /v1/images/edits 未回填任务 ID（响应仅 created + b64_json），故用『本地任务号 = xsy-real-<上游created>』做可追溯 ID，不伪造上游 ID",
+  "assetId": "WBaAYDKP5CU031kS2kDJQ",
+  "canvasProjectId": "ahxLQ_-zX8AbuVL_lY0Ij",
+  "canvasNodeId": "image-1793195886841-a2et3"
+ },
+ "assetSaved": {
+  "clicked": true,
+  "button": "结果卡『存入资产』按钮（真实点击，非模拟）",
+  "assetId": "WBaAYDKP5CU031kS2kDJQ",
+  "evidence": "点击后反馈『已存入资产』，资产库新增该图记录（含 assetId）"
+ },
+ "canvasInserted": {
+  "clicked": true,
+  "projectId": "ahxLQ_-zX8AbuVL_lY0Ij",
+  "projectTitle": "AI_DRESSING_XSY 结果",
+  "nodeId": "image-1793195886841-a2et3",
+  "nodeType": "image",
+  "nodeBytes": 1069621,
+  "nodeNaturalSize": "720x960",
+  "uiVerified": "打开 /canvas/ahxLQ_-zX8AbuVL_lY0Ij 实测：页面存在 1 个画布节点 [data-node-id]，图片节点渲染成功（img 元素 clientHeight=236/336px 两处缩略显示），工程卡文案『AI_DRESSING_XSY 结果 · 1 个节点 · 0 条连线』",
+  "previewNote": "画布节点展示层为 576x768 webp 预览缩略图（14,844 bytes, sha256 c5071055…），节点 metadata 记录原图 1,069,621 bytes / 720×960 / image/png；原图仍按 storageKey『image:RLNyqxO946qFAaz6jFWb…』存放，预览仅为本地缩略显示，不影响导出"
+ },
+ "gate": {
+  "real_output": true,
+  "traceable_ids": true,
+  "asset_saved": true,
+  "canvas_inserted": true,
+  "parity": "weak_same_family",
+  "verdict": "PASS"
+ },
+ "parityTable": [
+  {
+   "item": "四步流程（模特图/分步服装/蒙版/生成）",
+   "ours": "1.模特图 2.分步服装上传 3.蒙版与姿势 4.生成设置",
+   "original": "同族对齐（原站为 7 步向导，本页 4 步 + 结果区）"
+  },
+  {
+   "item": "上下装衣服 / 连体衣服 分桶上传",
+   "ours": "上下装衣服 / 连体衣服 两个 tab",
+   "original": "一致"
+  },
+  {
+   "item": "模特图上传",
+   "ours": "『选择模特图』+ 棚拍/街拍/自定义模特 + 干净通勤/杂志大片/日常休闲/运动机能 风格",
+   "original": "本页多出模特类型与风格预设（原站抓取页未见）"
+  },
+  {
+   "item": "服装上传入口",
+   "ours": "仅本地文件上传（选择上装图/选择下装图）",
+   "original": "差异：原站有『从本地上传 / 从作品库选择 / 从商品库选择』三入口，本页仅本地上传"
+  },
+  {
+   "item": "蒙版/涂抹区域",
+   "ours": "涂抹/橡皮/整件/清空 + 笔刷粗细 35px",
+   "original": "本页有（原站抓取为『图片规则』文案，未见蒙版控件）"
+  },
+  {
+   "item": "姿势",
+   "ours": "正面站立/侧身 3/4/行走动势/坐姿",
+   "original": "本页有；原站为独立『姿势裂变』工具"
+  },
+  {
+   "item": "生成设置",
+   "ours": "1/2/3/4 张 + 标准试衣 v1/细节修复 v2 + 『生成 N 张试穿图』",
+   "original": "差异：原站为『立即生成（40算力）』并显式展示算力，本页不展示算力"
+  },
+  {
+   "item": "批量",
+   "ours": "单件/组合逐次生成",
+   "original": "差异：原站有『上传多件衣服，开始批量穿衣』，本页无批量入口"
+  },
+  {
+   "item": "结果动作",
+   "ours": "下载 / 存入资产 / 发送画布",
+   "original": "本页有；原站有『一键做同款』，本页无"
+  }
  ]
 }
