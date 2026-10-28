@@ -1,0 +1,302 @@
+import { describe, expect, test } from "bun:test";
+
+import type { ToolTask } from "@/services/api/tools/task-machine";
+
+import {
+    buildDressPrompt,
+    buildDressWearSetInput,
+    createDressWearSetValues,
+    dressSceneSelection,
+    dressWearSetUnits,
+    estimateDressOutputs,
+    groupDressTasks,
+    isStaleDressTask,
+    normalizeDressWearSetValues,
+    parseDressSceneTag,
+    resolveDressProviderProfile,
+    summarizeDressTasks,
+    toDressReferences,
+    untaggedDressTasks,
+    validateDressWearSet,
+} from "./dress-wear-set";
+
+function makeTask(partial: Partial<ToolTask> & { id: string; prompt: string }): ToolTask {
+    return {
+        toolId: "DRESS_WEAR_SET",
+        status: "succeeded",
+        clientOperationId: `op-${partial.id}`,
+        fingerprint: `fp-${partial.id}`,
+        capability: "image",
+        configSnapshot: { capability: "image", model: "m", apiFormat: "openai", count: 1 },
+        sourceAssetIds: ["asset-1"],
+        createdAt: 1,
+        updatedAt: 2,
+        attempts: 1,
+        pollCount: 0,
+        transientFailures: 0,
+        ...partial,
+    } as ToolTask;
+}
+
+const reference = {
+    id: "asset-1",
+    name: "front.png",
+    url: "blob:front",
+    storageKey: "tool-asset:v1:asset-1",
+    mimeType: "image/png",
+};
+
+describe("DRESS_WEAR_SET defaults", () => {
+    test("默认勾选模特图 + 白底图，每项 4 张，A+ 默认不选", () => {
+        const values = createDressWearSetValues();
+        expect(values.mainScenes.modelLook).toEqual({ checked: true, count: 4 });
+        expect(values.mainScenes.whiteBg).toEqual({ checked: true, count: 4 });
+        expect(values.mainScenes.sizeChart.checked).toBe(false);
+        expect(values.aplusScenes.aplusPro.checked).toBe(false);
+        expect(values.aspectRatio).toBe("1:1");
+        expect(values.resolution).toBe("2K");
+        expect(values.brandMode).toBe("smart");
+    });
+});
+
+describe("normalizeDressWearSetValues", () => {
+    test("非对象输入回落默认值", () => {
+        expect(normalizeDressWearSetValues(null)).toEqual(createDressWearSetValues());
+    });
+
+    test("数量被夹到 1–15，未知 brandMode 归到 smart，长文案被截断", () => {
+        const values = normalizeDressWearSetValues({
+            productInfo: "x".repeat(3000),
+            brandMode: "nonsense",
+            mainScenes: { modelLook: { checked: true, count: 99 }, sellPoint: { checked: true, count: 0 } },
+        });
+        expect(values.mainScenes.modelLook.count).toBe(15);
+        expect(values.mainScenes.sellPoint.count).toBe(4);
+        expect(values.brandMode).toBe("smart");
+        expect(values.productInfo.length).toBe(2500);
+    });
+
+    test("缺失的场景项用默认值补齐，读回结构完整", () => {
+        const values = normalizeDressWearSetValues({ mainScenes: {} });
+        expect(Object.keys(values.mainScenes).sort()).toEqual(["lifestyle", "modelLook", "sellPoint", "sizeChart", "whiteBg"].sort());
+        expect(Object.keys(values.aplusScenes).sort()).toEqual(["aplusCustom", "aplusPhone", "aplusPlain", "aplusPro"].sort());
+    });
+});
+
+describe("resolveDressProviderProfile", () => {
+    test("从 channel::model 形态里取出目录档位", () => {
+        expect(resolveDressProviderProfile("default::gpt_2_5_image")?.code).toBe("GPT_2_5_IMAGE");
+        expect(resolveDressProviderProfile("GPT_2_5_IMAGE")?.code).toBe("GPT_2_5_IMAGE");
+    });
+
+    test("目录外的模型不硬套枚举", () => {
+        expect(resolveDressProviderProfile("default::gpt-image-2")).toBeUndefined();
+    });
+});
+
+describe("validateDressWearSet", () => {
+    test("没有参考图 → 阻断，并定位到 images 字段", () => {
+        const issues = validateDressWearSet(createDressWearSetValues(), { referenceCount: 0 });
+        expect(issues.some((issue) => issue.level === "error" && issue.field === "images")).toBe(true);
+    });
+
+    test("超过 5 张 → 阻断", () => {
+        const issues = validateDressWearSet(createDressWearSetValues(), { referenceCount: 6 });
+        expect(issues.some((issue) => issue.field === "images" && issue.level === "error")).toBe(true);
+    });
+
+    test("一个场景都没选 → 阻断", () => {
+        const values = createDressWearSetValues();
+        values.mainScenes.modelLook.checked = false;
+        values.mainScenes.whiteBg.checked = false;
+        const issues = validateDressWearSet(values, { referenceCount: 1 });
+        expect(issues.some((issue) => issue.field === "mainScenes" && issue.level === "error")).toBe(true);
+    });
+
+    test("A+ 选了两种 → 违背单选约束", () => {
+        const values = createDressWearSetValues();
+        values.aplusScenes.aplusPro.checked = true;
+        values.aplusScenes.aplusPhone.checked = true;
+        const issues = validateDressWearSet(values, { referenceCount: 1 });
+        expect(issues.some((issue) => issue.field === "aplusScenes" && issue.message.includes("单选"))).toBe(true);
+    });
+
+    test("智能品牌基因缺平台/地区/语言 → 阻断并说明缺什么", () => {
+        const issues = validateDressWearSet(createDressWearSetValues(), { referenceCount: 1 });
+        const issue = issues.find((item) => item.field === "platform");
+        expect(issue?.level).toBe("error");
+        expect(issue?.message).toContain("平台");
+    });
+
+    test("自定义品牌缺品牌名 → 阻断；填好平台后可通过", () => {
+        const values = createDressWearSetValues();
+        values.brandMode = "custom";
+        const missingBrand = validateDressWearSet(values, { referenceCount: 1 });
+        expect(missingBrand.some((issue) => issue.field === "brandName")).toBe(true);
+
+        values.brandName = "ACME";
+        expect(validateDressWearSet(values, { referenceCount: 1 })).toEqual([]);
+    });
+
+    test("目录内的模型会校验比例/分辨率/品质", () => {
+        const values = createDressWearSetValues();
+        values.brandMode = "custom";
+        values.brandName = "ACME";
+        values.provider = "GPT_2_5_IMAGE";
+        values.aspectRatio = "7:3";
+        const issues = validateDressWearSet(values, { referenceCount: 1 });
+        expect(issues.some((issue) => issue.field === "aspectRatio" && issue.level === "error")).toBe(true);
+    });
+
+    test("目录外的模型只给提示，不阻断", () => {
+        const values = createDressWearSetValues();
+        values.brandMode = "custom";
+        values.brandName = "ACME";
+        values.provider = "default::gpt-image-2";
+        const issues = validateDressWearSet(values, { referenceCount: 1 });
+        expect(issues.every((issue) => issue.level === "warning")).toBe(true);
+        expect(issues.some((issue) => issue.field === "provider")).toBe(true);
+    });
+});
+
+describe("dressWearSetUnits / prompt", () => {
+    test("选中分组各成一个请求，主副图排在 A+ 之前，prompt 带可归组标签", () => {
+        const values = createDressWearSetValues();
+        values.productInfo = "真丝长裙";
+        values.language = "英语";
+        values.mainScenes.modelLook.count = 3;
+        values.aplusScenes.aplusPro.checked = true;
+        values.aplusScenes.aplusPro.count = 2;
+
+        const units = dressWearSetUnits(values);
+        expect(units.map((unit) => unit.scene)).toEqual(["modelLook", "whiteBg", "aplusPro"]);
+        expect(units[0].count).toBe(3);
+        expect(units[0].prompt.split("\n")[0]).toBe("[DRESS_SCENE main/modelLook]");
+        expect(units[2].prompt.split("\n")[0]).toBe("[DRESS_SCENE aplus/aplusPro]");
+        expect(units[0].prompt).toContain("真丝长裙");
+        expect(units[0].prompt).toContain("本次输出 3 张");
+        expect(units[0].fields).toEqual({ group: "main", scene: "modelLook", outputNum: 3 });
+    });
+
+    test("无文字模式写进 prompt；带货语言跟随设置", () => {
+        const values = createDressWearSetValues();
+        values.noText = true;
+        values.language = "德语";
+        const prompt = buildDressPrompt(values, "sellPoint");
+        expect(prompt).toContain("画面不出现任何文字");
+        expect(prompt).not.toContain("文字使用德语");
+    });
+
+    test("预计产物 = 选中分组数量之和", () => {
+        const values = createDressWearSetValues();
+        expect(estimateDressOutputs(values)).toEqual({ groups: 2, images: 8 });
+    });
+});
+
+describe("buildDressWearSetInput", () => {
+    test("fields 与真实提交体对齐，count/比例/品质取自表单", () => {
+        const values = createDressWearSetValues();
+        values.brandMode = "custom";
+        values.brandName = "ACME";
+        values.provider = "GPT_2_5_IMAGE";
+        const unit = dressWearSetUnits(values)[0];
+        const input = buildDressWearSetInput(unit, values, toDressReferences([reference]), { model: "default::gpt-image-2" });
+
+        expect(input.toolId).toBe("DRESS_WEAR_SET");
+        expect(input.count).toBe(4);
+        expect(input.size).toBe("1:1");
+        expect(input.quality).toBe("medium");
+        expect(input.model).toBe("default::gpt-image-2");
+        expect(input.fields?.imageUrl).toBe("blob:front");
+        expect(input.fields?.images).toEqual(["blob:front"]);
+        expect(input.fields?.brandName).toBe("ACME");
+        expect(input.fields?.needIntelligent).toBe(false);
+        expect(input.fields?.platform).toBe("");
+    });
+
+    test("目录声明无品质档位的模型不下发 quality", () => {
+        const values = createDressWearSetValues();
+        values.provider = "GEMINI_NANO_BANANA_2_1";
+        const unit = dressWearSetUnits(values)[0];
+        expect(buildDressWearSetInput(unit, values, []).quality).toBeUndefined();
+    });
+});
+
+describe("toDressReferences", () => {
+    test("保留 storageKey 与 url，最多 5 张", () => {
+        const many = Array.from({ length: 7 }, (_, index) => ({ ...reference, id: `a${index}` }));
+        const references = toDressReferences(many);
+        expect(references).toHaveLength(5);
+        expect(references[0]).toMatchObject({ id: "a0", dataUrl: "blob:front", storageKey: "tool-asset:v1:asset-1" });
+    });
+});
+
+describe("parseDressSceneTag / groupDressTasks", () => {
+    test("标签可解析，非法标签返回 null", () => {
+        expect(parseDressSceneTag("[DRESS_SCENE aplus/aplusPro]\n投放目标：美国")).toEqual({
+            group: "aplus",
+            scene: "aplusPro",
+        });
+        expect(parseDressSceneTag("[DRESS_SCENE foo/bar]")).toBeNull();
+        expect(parseDressSceneTag("没有标签")).toBeNull();
+    });
+
+    test("按标签分组，保留顺序，并统计部分失败", () => {
+        const tasks = [
+            makeTask({ id: "t1", prompt: "[DRESS_SCENE main/modelLook]\nx" }),
+            makeTask({
+                id: "t2",
+                prompt: "[DRESS_SCENE main/modelLook]\nx",
+                status: "failed",
+            }),
+            makeTask({
+                id: "t3",
+                prompt: "[DRESS_SCENE main/whiteBg]\nx",
+                result: { items: [{ id: "i1", kind: "image", dataUrl: "data:image/png;base64,AAA" }], receivedAt: 1 },
+            }),
+        ];
+
+        const groups = groupDressTasks(tasks);
+        expect(groups.map((group) => group.scene)).toEqual(["modelLook", "whiteBg"]);
+        expect(groups[0].status).toBe("partial");
+        expect(groups[1].status).toBe("succeeded");
+        expect(groups[1].images).toEqual([{ id: "i1", dataUrl: "data:image/png;base64,AAA", taskId: "t3" }]);
+    });
+
+    test("无标签任务单独取出，不丢结果", () => {
+        const tasks = [makeTask({ id: "old", prompt: "旧版本没有标签" })];
+        expect(groupDressTasks(tasks)).toHaveLength(0);
+        expect(untaggedDressTasks(tasks).map((task) => task.id)).toEqual(["old"]);
+    });
+});
+
+describe("summarizeDressTasks / stale", () => {
+    test("汇总运行中/成功/失败/未知与产物数", () => {
+        const tasks = [
+            makeTask({ id: "a", prompt: "p", status: "running" }),
+            makeTask({
+                id: "b",
+                prompt: "p",
+                status: "succeeded",
+                result: { items: [{ id: "i", kind: "image", dataUrl: "data:image/png;base64,AAA" }], receivedAt: 1 },
+            }),
+            makeTask({ id: "c", prompt: "p", status: "unknown" }),
+            makeTask({ id: "d", prompt: "p", status: "failed" }),
+        ];
+        expect(summarizeDressTasks(tasks)).toEqual({ total: 4, running: 1, succeeded: 1, failed: 1, unknown: 1, images: 1 });
+    });
+
+    test("旧 revision 的任务判为过期", () => {
+        const task = makeTask({ id: "a", prompt: "p", draftRevision: 1 });
+        expect(isStaleDressTask(task, 2)).toBe(true);
+        expect(isStaleDressTask(task, 1)).toBe(false);
+        expect(isStaleDressTask(makeTask({ id: "b", prompt: "p" }), 5)).toBe(false);
+    });
+});
+
+describe("场景选择读取", () => {
+    test("未定义的场景回落到未勾选", () => {
+        const values = createDressWearSetValues();
+        expect(dressSceneSelection(values, "sizeChart")).toEqual({ checked: false, count: 4 });
+    });
+});
