@@ -25,6 +25,44 @@ import {
     type WearableSourceAsset,
 } from "@/features/tools/adapters/ai-wearable";
 import {
+    MaterialUpperBodyAdapterError,
+    isMaterialSourceReady,
+    materialMaskSizeFor,
+    materialResultCells,
+    materialSourceFromRecord,
+    mergeMaterialVariant,
+    renderMaterialMaskBlob,
+    runMaterialUpperBody,
+    validateMaterialSourceSize,
+    type MaterialSourceAsset,
+} from "@/features/tools/adapters/material-upper-body";
+import {
+    MATERIAL_CATALOG_NOTICE,
+    MATERIAL_CATEGORIES,
+    MATERIAL_DEFAULT_REGION,
+    MATERIAL_OUTPUT_OPTIONS,
+    MATERIAL_UPLOAD,
+    MATERIAL_UPPER_BODY_DRAFT_SLOT,
+    MATERIAL_UPPER_BODY_MAKE_TYPE,
+    MATERIAL_UPPER_BODY_TOOL_ID,
+    buildMaterialPrompt,
+    computeMaterialOutput,
+    createMaterialSnapshot,
+    describeMaterialDrift,
+    isMaterialRegionUsable,
+    linkMaterialValues,
+    materialCategoryNameOf,
+    materialCategoryOf,
+    materialLeavesOf,
+    materialSubTypeOf,
+    readMaterialValues,
+    resolveMaterialCapability,
+    validateMaterialState,
+    type MaterialRegion,
+    type MaterialSnapshot,
+    type MaterialValues,
+} from "@/features/tools/registry/material-upper-body";
+import {
     AI_WEARABLE_DRAFT_SLOT,
     AI_WEARABLE_TOOL_ID,
     buildWearablePrompt,
@@ -304,7 +342,7 @@ function VariantGrid({
 
 /* -------------------------------- 工作区 -------------------------------- */
 
-export function DressWorkspace({ className, toolId = AI_WEARABLE_TOOL_ID }: { className?: string; toolId?: string }) {
+export function AiWearableWorkspace({ className, toolId = AI_WEARABLE_TOOL_ID }: { className?: string; toolId?: string }) {
     const hydrate = useToolDraftStore((state) => state.hydrate);
     const patchDraft = useToolDraftStore((state) => state.patch);
     const flushDraft = useToolDraftStore((state) => state.flush);
@@ -868,3 +906,595 @@ const fmt = (region: WearableRegion) =>
     `x ${Math.round(region.cx * 100)}% · y ${Math.round(region.cy * 100)}% · r ${Math.round(region.rx * 100)}/${Math.round(region.ry * 100)}%`;
 
 export default DressWorkspace;
+
+/* ======================================================================= */
+/* MATERIAL_UPPER_BODY（上装换料，makeType 16）                             */
+/* 页面规格：docs/V1.0/plan_linkfox_navigation/page-specs/30-material-upper-body.md */
+/* ======================================================================= */
+
+const MATERIAL_DRAFT_SLOT = MATERIAL_UPPER_BODY_DRAFT_SLOT;
+
+function MaterialStepBar({ step }: { step: number }) {
+    const steps = ["上传上装", "材质类目", "抠图与蒙版", "生成张数", "结果"];
+    return (
+        <ol data-testid="material-steps" data-step={step} className="flex flex-wrap items-center gap-1 text-[11px]">
+            {steps.map((label, index) => {
+                const index1 = index + 1;
+                const active = index1 === step;
+                const done = index1 < step;
+                return (
+                    <li key={label} className="flex items-center gap-1">
+                        <span
+                            data-step-index={index1}
+                            data-active={active ? "true" : undefined}
+                            className={cn(
+                                "rounded-md border px-2 py-1",
+                                active ? "border-primary bg-primary text-primary-foreground" : done ? "border-primary/40 text-foreground" : "border-border text-muted-foreground",
+                            )}
+                        >
+                            {index1}. {label}
+                        </span>
+                        {index1 < steps.length ? <span className="text-muted-foreground">›</span> : null}
+                    </li>
+                );
+            })}
+        </ol>
+    );
+}
+
+/** 蒙版椭圆的真实可调参数：拖动等价物（range），改动即写草稿并重算 prompt。 */
+function MaterialRegionSlider({
+    label,
+    value,
+    min = 0,
+    max = 100,
+    onChange,
+    disabled,
+    testId,
+}: {
+    label: string;
+    value: number;
+    min?: number;
+    max?: number;
+    onChange: (next: number) => void;
+    disabled?: boolean;
+    testId: string;
+}) {
+    return (
+        <label className="flex items-center gap-2 text-[11px] text-muted-foreground">
+            <span className="w-16 shrink-0">{label}</span>
+            <input
+                data-testid={testId}
+                type="range"
+                min={min}
+                max={max}
+                step={1}
+                value={Math.round(value * 100)}
+                disabled={disabled}
+                onChange={(event) => onChange(Number(event.target.value) / 100)}
+                className="h-4 min-w-0 flex-1 accent-primary"
+            />
+            <span data-testid={`${testId}-value`} className="w-9 shrink-0 text-right tabular-nums">
+                {Math.round(value * 100)}%
+            </span>
+        </label>
+    );
+}
+
+export function MaterialUpperBodyWorkspace({ className, toolId = MATERIAL_UPPER_BODY_TOOL_ID }: { className?: string; toolId?: string }) {
+    const hydrate = useToolDraftStore((state) => state.hydrate);
+    const patchDraft = useToolDraftStore((state) => state.patch);
+    const flushDraft = useToolDraftStore((state) => state.flush);
+    const draft = useToolDraftStore((state) => state.drafts[toolId]);
+    const config = useConfigStore((state) => state.config);
+    const imageModel = useConfigStore((state) => state.config.imageModel);
+
+    const [values, setValues] = useState<MaterialValues>(() => readMaterialValues());
+    const [source, setSource] = useState<MaterialSourceAsset | undefined>();
+    const [restoring, setRestoring] = useState(false);
+    const [lostAssets, setLostAssets] = useState<string[]>([]);
+    const [task, setTask] = useState<ToolTask | undefined>();
+    const [snapshot, setSnapshot] = useState<MaterialSnapshot | undefined>();
+    const [running, setRunning] = useState(false);
+    const [runError, setRunError] = useState<string | undefined>();
+    const [linkNotice, setLinkNotice] = useState<string | undefined>();
+    const abortRef = useRef<AbortController | null>(null);
+
+    useEffect(() => {
+        let cancelled = false;
+        void (async () => {
+            const restored = await hydrate(toolId);
+            if (cancelled) return;
+            const parsed = readMaterialValues(restored?.values?.[MATERIAL_DRAFT_SLOT] as Record<string, unknown> | undefined);
+            setValues(parsed);
+            if (!parsed.imageAssetId) return;
+            setRestoring(true);
+            try {
+                const { records, lostIds } = await loadToolAssetRecords([parsed.imageAssetId]);
+                if (cancelled) return;
+                const record = records.find((item) => item.id === parsed.imageAssetId);
+                if (record) setSource(materialSourceFromRecord(record));
+                const lost = [...lostIds];
+                if (!record) lost.push(parsed.imageAssetId);
+                setLostAssets(Array.from(new Set(lost)));
+            } finally {
+                if (!cancelled) setRestoring(false);
+            }
+        })();
+        return () => {
+            cancelled = true;
+            void flushDraft(toolId);
+        };
+    }, [toolId, hydrate, flushDraft]);
+
+    const update = useCallback(
+        (next: Partial<MaterialValues>) => {
+            setValues((previous) => {
+                const linked = linkMaterialValues({ ...previous, ...next });
+                patchDraft(toolId, { values: { [MATERIAL_DRAFT_SLOT]: linked.values }, assetIds: [linked.values.imageAssetId].filter(Boolean) });
+                if (linked.changes.length) setLinkNotice(linked.changes.join("；"));
+                return linked.values;
+            });
+        },
+        [patchDraft, toolId],
+    );
+
+    const descriptor = useMemo(() => describeToolExecution(MATERIAL_UPPER_BODY_TOOL_ID), []);
+    const provider = useMemo(() => {
+        const effective = values.modelId || imageModel;
+        if (!effective?.trim()) return "";
+        try {
+            return resolveModelChannel(config, effective).apiFormat;
+        } catch {
+            return "";
+        }
+    }, [config, imageModel, values.modelId]);
+
+    const modelOptions = useMemo(() => {
+        const names = new Set<string>();
+        for (const channel of config.channels) {
+            for (const item of channel.models) {
+                if (!item.capability || item.capability === "image") names.add(item.name);
+            }
+        }
+        if (imageModel) names.add(imageModel);
+        return Array.from(names);
+    }, [config.channels, imageModel]);
+
+    const capability = useMemo(
+        () =>
+            resolveMaterialCapability({
+                modelId: values.modelId || imageModel,
+                modelReady: Boolean((values.modelId || imageModel)?.trim()),
+                provider,
+                descriptor,
+            }),
+        [values.modelId, imageModel, provider, descriptor],
+    );
+
+    const issues = useMemo(
+        () => validateMaterialState({ values, capability, sourceReady: isMaterialSourceReady(source), sourceSize: source }),
+        [values, capability, source],
+    );
+    const blocked = running || issues.length > 0;
+    const output = computeMaterialOutput(values, capability);
+    const prompt = useMemo(() => buildMaterialPrompt(values, capability), [values, capability]);
+    const currentSnapshot = useMemo(() => createMaterialSnapshot(values, capability, draft?.revision ?? null), [values, capability, draft?.revision]);
+    const drift = useMemo(() => describeMaterialDrift(snapshot, currentSnapshot), [snapshot, currentSnapshot]);
+    const cells = useMemo(() => materialResultCells(task, values.outputNum), [task, values.outputNum]);
+    const driftText = useMemo(() => (task ? drift : undefined), [task, drift]);
+
+    const onUpload = useCallback(
+        async (ids: string[], records: ToolAssetRecord[]) => {
+            const record = records.find((item) => item.id === ids[0]);
+            if (!record) {
+                setSource(undefined);
+                update({ imageAssetId: "", imageName: "" });
+                return;
+            }
+            const next = materialSourceFromRecord(record);
+            const sizeCheck = validateMaterialSourceSize(next);
+            if (!sizeCheck.ok) {
+                setRunError(sizeCheck.message);
+                setSource(undefined);
+                update({ imageAssetId: "", imageName: "" });
+                return;
+            }
+            setRunError(undefined);
+            setSource(next);
+            update({ imageAssetId: next.assetId, imageName: values.imageName.trim() || next.name });
+        },
+        [update, values.imageName],
+    );
+
+    const uploadMaskBlob = useCallback(async (region: MaterialRegion, size: { width: number; height: number }) => {
+        const blob = await renderMaterialMaskBlob(region, size);
+        const record = await uploadToolAsset(blob, { name: `material-upper-body-mask-${Date.now()}.png` });
+        return { assetId: record.id, name: record.name, mimeType: record.mimeType, url: record.url, dataUrl: record.url, width: record.width, height: record.height };
+    }, []);
+
+    const submit = useCallback(
+        async (variantIndex?: number) => {
+            if (!source) return;
+            setRunning(true);
+            setRunError(undefined);
+            const controller = new AbortController();
+            abortRef.current = controller;
+            try {
+                await flushDraft(toolId);
+                const maskRef = values.isMatting ? await uploadMaskBlob(values.mattingRegion, materialMaskSizeFor(source)) : null;
+                const runValues: MaterialValues = variantIndex === undefined ? values : { ...values, outputNum: 1 };
+                const run = await runMaterialUpperBody({
+                    gateway: getToolGateway(),
+                    values: runValues,
+                    capability,
+                    source,
+                    mask: maskRef,
+                    modelOverride: values.modelId || imageModel,
+                    revision: draft?.revision ?? null,
+                    signal: controller.signal,
+                    onUpdate: (next) => setTask((previous) => (variantIndex === undefined || !previous ? next : previous)),
+                });
+                setSnapshot(run.snapshot);
+                if (variantIndex === undefined) setTask(run.task);
+                else setTask((previous) => (previous ? mergeMaterialVariant(previous, run.task, variantIndex) : run.task));
+                if (run.changes.length) setLinkNotice(`已自动联动：${run.changes.join("；")}`);
+            } catch (error) {
+                const message = error instanceof MaterialUpperBodyAdapterError || error instanceof Error ? error.message : "生成失败。";
+                setRunError(message);
+            } finally {
+                setRunning(false);
+                abortRef.current = null;
+            }
+        },
+        [source, flushDraft, toolId, values, capability, uploadMaskBlob, imageModel, draft?.revision],
+    );
+
+    const cancel = useCallback(() => {
+        abortRef.current?.abort();
+        abortRef.current = null;
+    }, []);
+
+    const category = materialCategoryOf(values.categoryKey);
+    const leaves = materialLeavesOf(values.categoryKey);
+    const step = !source ? 1 : !category ? 2 : values.isMatting && !isMaterialRegionUsable(values.mattingRegion) ? 3 : !task ? 4 : 5;
+
+    const disabledField = running || restoring;
+
+    return (
+        <div data-testid="material-workspace" className={cn("flex flex-col gap-3", className)}>
+            <div className="flex flex-wrap items-center justify-between gap-2">
+                <div>
+                    <h2 className="text-base font-semibold text-foreground">上装换料</h2>
+                    <p className="text-[11px] text-muted-foreground">
+                        上传一件上装 → 选择材质类目与子类 → 可选抠图蒙版 → 生成换料成片（makeType {MATERIAL_UPPER_BODY_MAKE_TYPE}，7 字段真实提交）
+                    </p>
+                </div>
+                <MaterialStepBar step={step} />
+            </div>
+
+            {lostAssets.length ? (
+                <p data-testid="material-lost" className="rounded-md bg-amber-50 px-3 py-2 text-[11px] text-amber-700 dark:bg-amber-950/40 dark:text-amber-300">
+                    有 {lostAssets.length} 个上次的图片资产已失效（{lostAssets.join("、")}），请重新上传。
+                </p>
+            ) : null}
+
+            <div className="grid min-w-0 gap-3 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)]">
+                {/* 左：输入与配置 */}
+                <div className="flex min-w-0 flex-col gap-3">
+                    <Section title="1. 上传上装图片" hint={MATERIAL_UPLOAD.hint} testId="material-upload">
+                        <ToolAssetInput
+                            toolId={toolId}
+                            title="上传上装图"
+                            maxCount={1}
+                            disabled={disabledField}
+                            constraints={{ kind: "image", mimeTypes: [...MATERIAL_UPLOAD.mimeTypes], maxBytes: MATERIAL_UPLOAD.maxBytes }}
+                            onChange={onUpload}
+                        />
+                        <label className="mt-3 flex flex-col gap-1 text-[11px] text-muted-foreground">
+                            <span>图片名称（imageName，可编辑）</span>
+                            <input
+                                data-testid="material-image-name"
+                                value={values.imageName}
+                                disabled={disabledField}
+                                onChange={(event) => update({ imageName: event.target.value })}
+                                placeholder={source?.name ?? "上传后自动填入"}
+                                className="h-9 w-full rounded-md border border-border bg-background px-2 text-xs"
+                            />
+                        </label>
+                        {source ? (
+                            <p data-testid="material-source-meta" className="mt-2 text-[11px] text-muted-foreground">
+                                已就绪：{source.name} · {source.width ?? "?"}×{source.height ?? "?"} · {source.mimeType ?? "image"}
+                            </p>
+                        ) : null}
+                    </Section>
+
+                    <Section title="2. 材质类目" hint={`categoryIds / categoryName / subType · ${MATERIAL_CATALOG_NOTICE}`} testId="material-categories">
+                        <div data-testid="material-category-tree" className="flex flex-wrap gap-1">
+                            {MATERIAL_CATEGORIES.map((item) => {
+                                const active = values.categoryKey === item.key;
+                                return (
+                                    <button
+                                        key={item.key}
+                                        type="button"
+                                        data-category={item.key}
+                                        data-active={active ? "true" : undefined}
+                                        disabled={disabledField}
+                                        aria-pressed={active}
+                                        title={item.hint}
+                                        onClick={() => update({ categoryKey: item.key, leafKeys: [] })}
+                                        className={cn(
+                                            "min-h-9 rounded-md border px-2 text-xs",
+                                            active ? "border-primary bg-primary text-primary-foreground" : "border-border text-foreground",
+                                        )}
+                                    >
+                                        {item.label}
+                                    </button>
+                                );
+                            })}
+                        </div>
+
+                        {category ? (
+                            <div data-testid="material-leaves" className="mt-2 flex flex-wrap gap-1">
+                                {leaves.map((leaf) => {
+                                    const active = values.leafKeys.includes(leaf.key);
+                                    return (
+                                        <button
+                                            key={leaf.key}
+                                            type="button"
+                                            data-leaf={`${category.key}.${leaf.key}`}
+                                            data-active={active ? "true" : undefined}
+                                            disabled={disabledField}
+                                            aria-pressed={active}
+                                            title={leaf.texture}
+                                            onClick={() =>
+                                                update({
+                                                    leafKeys: active ? values.leafKeys.filter((key) => key !== leaf.key) : [...values.leafKeys, leaf.key],
+                                                })
+                                            }
+                                            className={cn(
+                                                "min-h-9 rounded-md border px-2 text-xs",
+                                                active ? "border-primary/60 bg-primary/10 text-foreground" : "border-border text-muted-foreground",
+                                            )}
+                                        >
+                                            {leaf.label}
+                                        </button>
+                                    );
+                                })}
+                            </div>
+                        ) : (
+                            <p data-testid="material-leaves-empty" className="mt-2 text-[11px] text-muted-foreground">
+                                先选择材质大类，子类会自动联动出现。
+                            </p>
+                        )}
+
+                        <dl className="mt-3 grid grid-cols-2 gap-x-3 gap-y-1 text-[11px] text-muted-foreground">
+                            <div className="flex justify-between gap-2">
+                                <dt>categoryName</dt>
+                                <dd data-testid="material-category-name">{materialCategoryNameOf(values) || "未选择"}</dd>
+                            </div>
+                            <div className="flex justify-between gap-2">
+                                <dt>subType</dt>
+                                <dd data-testid="material-sub-type">{materialSubTypeOf(values) || "未选择"}</dd>
+                            </div>
+                        </dl>
+                    </Section>
+
+                    <Section title="3. 抠图与上装蒙版" hint="isMatting（boolean，默认关闭）；开启后导出与原图同尺寸的椭圆蒙版并作为第 2 张参考图真实提交" testId="material-matting">
+                        <label className="flex items-center gap-2 text-xs text-foreground">
+                            <input
+                                data-testid="material-is-matting"
+                                type="checkbox"
+                                checked={values.isMatting}
+                                disabled={disabledField}
+                                onChange={(event) => update({ isMatting: event.target.checked })}
+                                className="h-4 w-4 accent-primary"
+                            />
+                            抠图上装（仅保留上装区域参与换料）
+                        </label>
+
+                        {values.isMatting ? (
+                            <div className="mt-3 flex flex-col gap-2">
+                                <div data-testid="material-mask-preview" className="relative overflow-hidden rounded-lg border border-border bg-muted">
+                                    {source?.url ? (
+                                        <img src={source.url} alt="上装预览" className="h-56 w-full object-contain" />
+                                    ) : (
+                                        <div className="flex h-56 items-center justify-center text-[11px] text-muted-foreground">上传后可预览蒙版位置</div>
+                                    )}
+                                    <div
+                                        data-mask-overlay="true"
+                                        className="pointer-events-none absolute rounded-[50%] border-2 border-primary bg-primary/20"
+                                        style={{
+                                            left: `${(values.mattingRegion.cx - values.mattingRegion.rx) * 100}%`,
+                                            top: `${(values.mattingRegion.cy - values.mattingRegion.ry) * 100}%`,
+                                            width: `${values.mattingRegion.rx * 200}%`,
+                                            height: `${values.mattingRegion.ry * 200}%`,
+                                        }}
+                                    />
+                                </div>
+                                <div className="flex flex-col gap-1">
+                                    <MaterialRegionSlider label="水平" value={values.mattingRegion.cx} onChange={(cx) => update({ mattingRegion: { ...values.mattingRegion, cx } })} disabled={disabledField} testId="material-region-cx" />
+                                    <MaterialRegionSlider label="垂直" value={values.mattingRegion.cy} onChange={(cy) => update({ mattingRegion: { ...values.mattingRegion, cy } })} disabled={disabledField} testId="material-region-cy" />
+                                    <MaterialRegionSlider label="半宽" value={values.mattingRegion.rx} onChange={(rx) => update({ mattingRegion: { ...values.mattingRegion, rx } })} disabled={disabledField} testId="material-region-rx" />
+                                    <MaterialRegionSlider label="半高" value={values.mattingRegion.ry} onChange={(ry) => update({ mattingRegion: { ...values.mattingRegion, ry } })} disabled={disabledField} testId="material-region-ry" />
+                                </div>
+                                <div className="flex items-center justify-between text-[11px] text-muted-foreground">
+                                    <span data-testid="material-region-state" data-usable={isMaterialRegionUsable(values.mattingRegion) ? "true" : "false"}>
+                                        {isMaterialRegionUsable(values.mattingRegion) ? "蒙版区域可用" : "蒙版区域太小，请放大"}
+                                    </span>
+                                    <button
+                                        type="button"
+                                        data-testid="material-region-reset"
+                                        disabled={disabledField}
+                                        onClick={() => update({ mattingRegion: { ...MATERIAL_DEFAULT_REGION } })}
+                                        className="min-h-8 rounded-md border border-border px-2 text-[11px]"
+                                    >
+                                        重置蒙版
+                                    </button>
+                                </div>
+                            </div>
+                        ) : null}
+                    </Section>
+
+                    <Section title="4. 生成张数与模型" hint={`outputNum · 默认 ${1}，范围 1-${capability.maxOutput}`} testId="material-output">
+                        <div data-testid="material-output-options" role="radiogroup" aria-label="生成张数" className="flex flex-wrap gap-1">
+                            {MATERIAL_OUTPUT_OPTIONS.filter((option) => option <= capability.maxOutput).map((option) => {
+                                const active = values.outputNum === option;
+                                return (
+                                    <button
+                                        key={option}
+                                        type="button"
+                                        role="radio"
+                                        aria-checked={active}
+                                        data-output={option}
+                                        data-active={active ? "true" : undefined}
+                                        disabled={disabledField}
+                                        onClick={() => update({ outputNum: option })}
+                                        className={cn(
+                                            "min-h-9 min-w-12 rounded-md border px-2 text-xs",
+                                            active ? "border-primary bg-primary text-primary-foreground" : "border-border text-foreground",
+                                        )}
+                                    >
+                                        {option} 张
+                                    </button>
+                                );
+                            })}
+                        </div>
+
+                        <label className="mt-3 flex flex-col gap-1 text-[11px] text-muted-foreground">
+                            <span>生图模型</span>
+                            <select
+                                data-testid="material-model-select"
+                                value={values.modelId || imageModel}
+                                disabled={disabledField}
+                                onChange={(event) => update({ modelId: event.target.value })}
+                                className="h-9 w-full rounded-md border border-border bg-background px-2 text-xs"
+                            >
+                                <option value="">跟随默认模型</option>
+                                {modelOptions.map((name) => (
+                                    <option key={name} value={name}>
+                                        {name}
+                                    </option>
+                                ))}
+                            </select>
+                        </label>
+
+                        <button
+                            type="button"
+                            data-testid="material-submit"
+                            disabled={blocked}
+                            onClick={() => void submit()}
+                            className="mt-3 min-h-11 w-full rounded-lg bg-primary px-3 text-sm font-medium text-primary-foreground disabled:opacity-50"
+                        >
+                            {running ? "生成中…" : `立即生成（${output.label}）`}
+                        </button>
+                        {running ? (
+                            <button type="button" onClick={cancel} data-testid="material-cancel" className="mt-2 min-h-10 w-full rounded-lg border border-border text-xs">
+                                取消本次生成
+                            </button>
+                        ) : null}
+                        {issues.length ? (
+                            <ul className="mt-2 list-disc pl-4 text-[11px] text-amber-600" data-testid="material-issues">
+                                {issues.map((issue) => (
+                                    <li key={`${issue.field}-${issue.message}`} data-issue={issue.field}>
+                                        {issue.message}
+                                    </li>
+                                ))}
+                            </ul>
+                        ) : null}
+                        {capability.notices.length ? (
+                            <ul className="mt-2 list-disc pl-4 text-[11px] text-muted-foreground" data-testid="material-notices">
+                                {capability.notices.map((notice) => (
+                                    <li key={notice}>{notice}</li>
+                                ))}
+                            </ul>
+                        ) : null}
+                        {linkNotice ? (
+                            <p className="mt-2 text-[11px] text-muted-foreground" data-testid="material-link-notice">
+                                {linkNotice}
+                            </p>
+                        ) : null}
+                        {runError ? (
+                            <p className="mt-2 text-[11px] text-red-600" data-testid="material-run-error">
+                                {runError}
+                            </p>
+                        ) : null}
+                    </Section>
+                </div>
+
+                {/* 右：快照与结果 */}
+                <div className="flex min-w-0 flex-col gap-3">
+                    <Section title="本次提交快照" hint={`${materialCategoryNameOf(values) || "未选材"} · ${values.outputNum} 张`} testId="material-snapshot">
+                        <p data-testid="material-prompt" className="whitespace-pre-wrap text-[11px] leading-5 text-muted-foreground">
+                            {prompt}
+                        </p>
+                        <dl className="mt-2 grid grid-cols-2 gap-x-3 gap-y-1 text-[11px] text-muted-foreground">
+                            <div className="flex justify-between gap-2">
+                                <dt>张数</dt>
+                                <dd data-testid="material-summary">{output.label}</dd>
+                            </div>
+                            <div className="flex justify-between gap-2">
+                                <dt>抠图</dt>
+                                <dd>{values.isMatting ? "开启（附蒙版图）" : "关闭"}</dd>
+                            </div>
+                            <div className="flex justify-between gap-2">
+                                <dt>参考图</dt>
+                                <dd>{values.isMatting ? "2 张" : "1 张"}</dd>
+                            </div>
+                            <div className="flex justify-between gap-2">
+                                <dt>模型</dt>
+                                <dd>{capability.modelReady ? "已配置" : "未配置"}</dd>
+                            </div>
+                        </dl>
+                    </Section>
+
+                    <Section title="生成结果" hint={`本次 ${values.outputNum} 张 · 已返回 ${cells.filter((cell) => cell.status === "filled").length} 张`} testId="material-results-section">
+                        {driftText ? (
+                            <p data-testid="material-stale" className="mb-2 rounded-md bg-amber-50 px-2 py-1 text-[11px] text-amber-700 dark:bg-amber-950/40 dark:text-amber-300">
+                                配置已变更（{driftText}），下面的结果来自上一版配置，请重新生成。
+                            </p>
+                        ) : null}
+                        <div data-testid="material-result-grid" className="grid grid-cols-2 gap-2">
+                            {cells.map((cell) => {
+                                const src = cell.item?.url ?? cell.item?.dataUrl ?? "";
+                                return (
+                                    <div key={cell.index} data-cell={cell.index} data-status={cell.status} className="rounded-xl border border-border bg-background p-2">
+                                        <div className="mb-1 flex items-center justify-between text-[11px] text-muted-foreground">
+                                            <span>第 {cell.index + 1} 张</span>
+                                            <span>{cell.status === "filled" ? "已完成" : cell.status === "failed" ? "失败" : running ? "生成中…" : "待生成"}</span>
+                                        </div>
+                                        <div className="flex aspect-[3/4] items-center justify-center overflow-hidden rounded-lg bg-muted">
+                                            {src ? <img src={src} alt={`上装换料结果 ${cell.index + 1}`} className="h-full w-full object-contain" /> : <span className="text-[11px] text-muted-foreground">空</span>}
+                                        </div>
+                                        {cell.status === "failed" && values.outputNum > 1 ? (
+                                            <button
+                                                type="button"
+                                                data-retry-cell={cell.index}
+                                                disabled={running}
+                                                onClick={() => void submit(cell.index)}
+                                                className="mt-2 min-h-10 w-full rounded-md border border-border text-xs"
+                                            >
+                                                只重试这张
+                                            </button>
+                                        ) : null}
+                                    </div>
+                                );
+                            })}
+                        </div>
+                    </Section>
+
+                    <ToolResult task={task} toolId={toolId} title="结果资产" onCancel={running ? cancel : undefined} />
+                </div>
+            </div>
+        </div>
+    );
+}
+
+/**
+ * layout=dress 的入口：AI 穿戴与上装换料共用同一工作区外壳，按 toolId 分发。
+ * 两个工具的字段、蒙版语义、参考图数量都不同，因此各自独立实现，不共用表单状态。
+ */
+export function DressWorkspace({ className, toolId = AI_WEARABLE_TOOL_ID }: { className?: string; toolId?: string }) {
+    if (toolId === MATERIAL_UPPER_BODY_TOOL_ID) return <MaterialUpperBodyWorkspace className={className} toolId={toolId} />;
+    return <AiWearableWorkspace className={className} toolId={toolId} />;
+}
