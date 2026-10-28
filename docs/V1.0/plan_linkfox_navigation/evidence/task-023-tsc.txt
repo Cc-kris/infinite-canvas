@@ -1,0 +1,14 @@
+# TASK-023 REPLACE_GOODS · 类型检查与全量单测证据 (2026-10-28 16:40:14)
+
+## cd web && bunx tsc --noEmit
+(无任何输出 = 全库 0 报错，含 registry/adapters/workspaces/replace.tsx)
+
+## cd web && bun test src/features/tools
+(pass) lookup helpers > parseToolRoute understands canonical, trailing-slash and legacy paths [0.04ms]
+(pass) feature flag and rollout switch > defaults to enabled and honours an explicit kill switch [0.03ms]
+(pass) feature flag and rollout switch > getEnabledTools drops disabled specs without deleting them [0.03ms]
+
+ 462 pass
+ 0 fail
+ 3544 expect() calls
+Ran 462 tests across 18 files. [163.00ms]
