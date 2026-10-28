@@ -72,6 +72,39 @@ type ResponseApiPayload = {
 };
 type ResponseStreamState = { buffer: string; text: string; payload?: ResponseApiPayload; error?: string };
 
+type ChatCompletionContentPart = { type: "text"; text: string } | { type: "image_url"; image_url: { url: string } };
+type ChatCompletionMessage = { role: "system" | "user" | "assistant"; content: string | ChatCompletionContentPart[] };
+type ChatCompletionPayload = {
+    choices?: Array<{
+        message?: { content?: string | Array<{ type?: string; text?: string }> };
+        delta?: { content?: string | Array<{ type?: string; text?: string }> };
+    }>;
+    error?: { message?: string };
+};
+
+/** 上游不支持 `/responses`（404/405）时抛此错误，用于触发 `/chat/completions` 回落。 */
+class ResponsesEndpointUnsupportedError extends Error {
+    readonly code = "responses-endpoint-unsupported";
+}
+
+/** 已判定不支持 `/responses` 的上游（按 baseUrl+apiFormat 记），避免每次都多打一次 404。 */
+const responsesUnsupportedUpstreams = new Set<string>();
+
+function responsesUpstreamKey(config: Pick<AiConfig, "baseUrl" | "apiFormat">) {
+    return `${config.baseUrl.trim().replace(/\/+$/, "")}|${config.apiFormat}`;
+}
+
+/**
+ * 网关（负载均衡/边缘节点）用 HTML 页面直接回 400/5xx 的情况：请求体多半没被业务层处理，
+ * 属于传输层抖动，重发一次是安全的；业务 4xx 是 JSON，不会命中这里。
+ */
+function isGatewayHtmlError(response: Response) {
+    if (response.ok) return false;
+    const contentType = (response.headers.get("content-type") || "").toLowerCase();
+    if (!contentType.includes("text/html")) return false;
+    return response.status === 400 || response.status === 408 || response.status === 429 || response.status >= 500;
+}
+
 type ImageApiResponse = {
     data?: Array<Record<string, unknown>>;
     error?: { message?: string };
@@ -520,7 +553,12 @@ async function requestStreamingResponse(config: AiConfig, body: Record<string, u
         body: JSON.stringify({ ...body, stream: true }),
         signal: options?.signal,
     });
-    if (!response.ok) throw new Error(await readFetchError(response, apiText("requestFailed")));
+    if (!response.ok) {
+        const message = await readFetchError(response, apiText("requestFailed"));
+        // 上游没有 `/responses` 端点时（OpenAI 兼容实现常见），交给 chat/completions 回落。
+        if (response.status === 404 || response.status === 405) throw new ResponsesEndpointUnsupportedError(message);
+        throw new Error(message);
+    }
     if (!response.body) {
         const payload = (await response.json()) as ResponseApiPayload;
         validateResponsePayload(payload);
@@ -542,6 +580,119 @@ async function requestStreamingResponse(config: AiConfig, body: Record<string, u
     validateResponsePayload(state.payload);
     const result = parseToolResponse(state.payload);
     return { ...result, content: state.text || result.content };
+}
+
+/**
+ * 把 Responses 风格的消息转成 chat/completions 风格（含视觉 image_url 内容块）。
+ * 仅用于 `/responses` 不被上游支持时的回落，语义保持一一对应，不补写任何内容。
+ */
+function toChatCompletionMessages(messages: ResponseInputMessage[]): ChatCompletionMessage[] {
+    const result: ChatCompletionMessage[] = [];
+    for (const message of messages) {
+        if ("type" in message) {
+            if (message.type === "function_call") result.push({ role: "assistant", content: message.arguments || "" });
+            continue;
+        }
+        if (message.role === "tool") {
+            result.push({ role: "user", content: message.content || "" });
+            continue;
+        }
+        const content = message.content || "";
+        if (typeof content === "string") {
+            result.push({ role: message.role, content });
+            continue;
+        }
+        result.push({
+            role: message.role,
+            content: content.map((item): ChatCompletionContentPart => (item.type === "text" ? { type: "text", text: item.text } : { type: "image_url", image_url: { url: item.image_url.url } })),
+        });
+    }
+    return result;
+}
+
+function chatCompletionText(value: unknown): string {
+    if (typeof value === "string") return value;
+    if (!Array.isArray(value)) return "";
+    return value.map((item) => (isRecord(item) && typeof item.text === "string" ? item.text : "")).join("");
+}
+
+/** 上游只支持 `/chat/completions` 时的真实调用（SSE 流式 + 视觉内容块）。 */
+async function requestChatCompletions(config: AiConfig, messages: ResponseInputMessage[], onDelta?: (text: string) => void, options?: RequestOptions): Promise<ToolResponseResult> {
+    const url = aiApiUrl(config, "/chat/completions");
+    const body = JSON.stringify({ model: config.model, messages: toChatCompletionMessages(messages), stream: true });
+    const send = () =>
+        fetch(url, {
+            method: "POST",
+            headers: { ...aiHeaders(config, "application/json"), Accept: "text/event-stream" },
+            body,
+            signal: options?.signal,
+        });
+    let response = await send();
+    // 网关（边缘节点/负载均衡）偶发用 HTML 400/5xx 直接拒掉大请求体，重发一次通常即成功；与业务 4xx 区分开。
+    if (!response.ok && isGatewayHtmlError(response)) {
+        await response.text().catch(() => "");
+        await new Promise((resolve) => setTimeout(resolve, 300));
+        response = await send();
+    }
+    if (!response.ok) throw new Error(await readFetchError(response, apiText("requestFailed")));
+    if (!response.body) {
+        const payload = (await response.json()) as ChatCompletionPayload;
+        if (payload.error?.message) throw new Error(payload.error.message);
+        const content = chatCompletionText(payload.choices?.[0]?.message?.content);
+        if (content) onDelta?.(content);
+        return { content, toolCalls: [] };
+    }
+
+    let text = "";
+    let errorMessage = "";
+    let buffer = "";
+    const consumeBlock = (block: string) => {
+        const data = block
+            .split(/\r?\n/)
+            .filter((line) => line.startsWith("data:"))
+            .map((line) => line.slice(5).replace(/^ /, ""))
+            .join("\n")
+            .trim();
+        if (!data || data === "[DONE]") return;
+        let event: ChatCompletionPayload;
+        try {
+            event = JSON.parse(data) as ChatCompletionPayload;
+        } catch {
+            return;
+        }
+        const message = responseErrorMessage(event);
+        if (message) errorMessage = message;
+        const delta = chatCompletionText(event.choices?.[0]?.delta?.content);
+        if (delta) {
+            text += delta;
+            onDelta?.(text);
+        }
+        const fallbackContent = chatCompletionText(event.choices?.[0]?.message?.content);
+        if (!delta && fallbackContent) {
+            text += fallbackContent;
+            onDelta?.(text);
+        }
+    };
+    const reader = response.body.getReader();
+    const decoder = new TextDecoder();
+    for (;;) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        buffer += decoder.decode(value, { stream: true });
+        for (;;) {
+            const match = buffer.match(/\r?\n\r?\n/);
+            if (!match) break;
+            const index = match.index ?? 0;
+            consumeBlock(buffer.slice(0, index));
+            buffer = buffer.slice(index + match[0].length);
+        }
+        if (errorMessage) throw new Error(errorMessage);
+    }
+    buffer += decoder.decode();
+    if (buffer.trim()) consumeBlock(buffer);
+    if (errorMessage) throw new Error(errorMessage);
+    if (!text) throw new Error(apiText("noContent"));
+    return { content: text, toolCalls: [] };
 }
 
 function toGeminiBody(config: AiConfig, messages: ResponseInputMessage[], extra?: Record<string, unknown>) {
@@ -891,13 +1042,30 @@ export async function requestImageQuestion(config: AiConfig, messages: AiTextMes
             if (answer === apiText("noContent")) onDelta(answer);
             return answer;
         }
-        const answer = (await requestStreamingResponse(requestConfig, {
+        const upstream = responsesUpstreamKey(requestConfig);
+        const messagesWithSystem = withSystemMessage(requestConfig, messages);
+        const body = {
             model: requestConfig.model,
-            input: toResponseInput(withSystemMessage(requestConfig, messages)),
+            input: toResponseInput(messagesWithSystem),
             ...(requestConfig.reasoningEffort === "auto" ? {} : { reasoning: { effort: requestConfig.reasoningEffort } }),
-        }, onDelta, options)).content || apiText("noContent");
-        if (answer === apiText("noContent")) onDelta(answer);
-        return answer;
+        };
+        let answer = "";
+        if (!responsesUnsupportedUpstreams.has(upstream)) {
+            try {
+                answer = (await requestStreamingResponse(requestConfig, body, onDelta, options)).content;
+            } catch (error) {
+                if (!(error instanceof ResponsesEndpointUnsupportedError)) throw error;
+                // 该上游没有 `/responses`：记住判定并改用 chat/completions（视觉内容块同样支持）。
+                responsesUnsupportedUpstreams.add(upstream);
+                answer = "";
+            }
+        }
+        if (!answer && responsesUnsupportedUpstreams.has(upstream)) {
+            answer = (await requestChatCompletions(requestConfig, messagesWithSystem, onDelta, options)).content;
+        }
+        const text = answer || apiText("noContent");
+        if (text === apiText("noContent")) onDelta(text);
+        return text;
     } catch (error) {
         throw new Error(readAxiosError(error, apiText("requestFailed")));
     }

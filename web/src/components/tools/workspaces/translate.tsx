@@ -6,6 +6,7 @@ import { ToolShell } from "@/components/tools/tool-shell";
 import { saveResultItemToAssets, sendResultItemToCanvas } from "@/components/tools/tool-result-actions";
 import {
     auditConfirmed,
+    auditTranslations,
     buildTranslationUnits,
     createModelTextPort,
     createTaskStoreRunPort,
@@ -303,7 +304,8 @@ export function TranslateWorkspace({ className }: TranslateWorkspaceProps = {}) 
         const assetId = valuesRef.current.activeAssetId;
         if (!assetId) return;
         const state = imageStateOf(valuesRef.current, assetId);
-        const audit = auditConfirmed(state, valuesRef.current.targetLanguages);
+        // 这里只校验「每个目标语言都有译文」，不能用 auditConfirmed（它要求已经 confirmed，会把确认动作锁死）。
+        const audit = auditTranslations(state, valuesRef.current.targetLanguages);
         if (!audit.ok) {
             setNotice(audit.reason ?? "还不能确认");
             return;

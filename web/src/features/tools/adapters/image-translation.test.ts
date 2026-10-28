@@ -51,6 +51,7 @@ import {
     transcribeImage,
     translateBoxes,
     auditConfirmed,
+    auditTranslations,
     type TranslationRunPort,
     type TranslationTextPort,
     type TranslationUnit,
@@ -279,6 +280,17 @@ describe("registry · 校验", () => {
         const missing = auditConfirmed(confirmed.images[0], ["en", "ja"]);
         expect(missing.ok).toBe(false);
         expect(missing.reason).toContain("日语");
+    });
+
+    test("auditTranslations 只看译文完整性，不要求已确认（确认按钮的前置校验）", () => {
+        const values = valuesWithBoxes({ targets: ["en"], translations: { en: "tee" } });
+        const state = values.images[0];
+        expect(state.confirmed).toBe(false);
+        // 译文齐了就能点“确认译文”，不会被“还没有确认译文”卡死
+        expect(auditTranslations(state, ["en"]).ok).toBe(true);
+        // 但未确认前仍不允许批量应用
+        expect(auditConfirmed(state, ["en"]).ok).toBe(false);
+        expect(auditTranslations(state, ["en", "ja"]).reason).toContain("日语");
     });
 });
 

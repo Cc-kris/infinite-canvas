@@ -539,15 +539,22 @@ export function prepareTranslationRun(input: {
     return { snapshot, units, outputCount: estimatedOutputCount(input.assetIds.length, input.values.targetLanguages.length) };
 }
 
-/** 确认状态审计：有图片未确认/译文缺失就不允许批量应用（对应 §4「逐语言检查文字与排版」）。 */
-export function auditConfirmed(state: TranslationImageState | undefined, languages: readonly string[]): { ok: boolean; reason?: string } {
+/** 译文完整性审计（只看每个目标语言是否有译文，不要求“已确认”）——“确认译文”动作的前置校验。 */
+export function auditTranslations(state: TranslationImageState | undefined, languages: readonly string[]): { ok: boolean; reason?: string } {
     if (!state) return { ok: false, reason: "这张图片还没有文字框" };
     if (state.boxes.length === 0) return { ok: false, reason: "这张图片还没有文字框" };
-    if (!state.confirmed) return { ok: false, reason: "还没有确认译文" };
     for (const box of state.boxes) {
         for (const language of languages) {
             if (!(box.targets[language] ?? "").trim()) return { ok: false, reason: `${languageLabel(language)} 还缺译文` };
         }
     }
     return { ok: true };
+}
+
+/** 确认状态审计：有图片未确认/译文缺失就不允许批量应用（对应 §4「逐语言检查文字与排版」）。 */
+export function auditConfirmed(state: TranslationImageState | undefined, languages: readonly string[]): { ok: boolean; reason?: string } {
+    if (!state) return { ok: false, reason: "这张图片还没有文字框" };
+    if (state.boxes.length === 0) return { ok: false, reason: "这张图片还没有文字框" };
+    if (!state.confirmed) return { ok: false, reason: "还没有确认译文" };
+    return auditTranslations(state, languages);
 }

@@ -1,0 +1,65 @@
+[
+  {
+    "method": "GET",
+    "url": "http://127.0.0.1:23210/",
+    "status": 200,
+    "ms": 1,
+    "at": "2026-10-28T17:04:16.271Z"
+  },
+  {
+    "method": "GET",
+    "url": "http://127.0.0.1:23210/",
+    "status": 200,
+    "ms": 1,
+    "at": "2026-10-28T17:04:16.567Z"
+  },
+  {
+    "method": "POST",
+    "url": "http://127.0.0.1:23210/https://api.siliconflow.cn/v1/responses",
+    "status": 404,
+    "ms": 254,
+    "at": "2026-10-28T17:04:21.584Z"
+  },
+  {
+    "method": "POST",
+    "url": "http://127.0.0.1:23210/https://api.siliconflow.cn/v1/chat/completions",
+    "status": 200,
+    "ms": 8050,
+    "at": "2026-10-28T17:04:29.644Z"
+  },
+  {
+    "method": "POST",
+    "url": "http://127.0.0.1:23210/https://api.siliconflow.cn/v1/chat/completions",
+    "status": 200,
+    "ms": 2950,
+    "at": "2026-10-28T17:04:32.662Z"
+  },
+  {
+    "method": "POST",
+    "url": "http://127.0.0.1:23210/https://api.cc-ai.xyz/v1/images/edits",
+    "status": 200,
+    "ms": 25770,
+    "at": "2026-10-28T17:04:58.604Z"
+  },
+  {
+    "method": "GET",
+    "url": "http://127.0.0.1:23210/https://oss-us.dimenoss.com/images/2026/10/29/1793207097_b27e41c34152746ef6e62f2642a48c1a.png",
+    "status": 200,
+    "ms": 6851,
+    "at": "2026-10-28T17:05:05.457Z"
+  },
+  {
+    "method": "GET",
+    "url": "http://127.0.0.1:23210/https://oss-us.dimenoss.com/images/2026/10/29/1793207097_b27e41c34152746ef6e62f2642a48c1a.png",
+    "status": 200,
+    "ms": 4486,
+    "at": "2026-10-28T17:05:05.457Z"
+  },
+  {
+    "method": "GET",
+    "url": "http://127.0.0.1:23210/https://oss-us.dimenoss.com/images/2026/10/29/1793207097_b27e41c34152746ef6e62f2642a48c1a.png",
+    "status": 200,
+    "ms": 0,
+    "at": "2026-10-28T17:05:05.602Z"
+  }
+]
