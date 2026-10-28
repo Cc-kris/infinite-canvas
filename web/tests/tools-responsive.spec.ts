@@ -12,12 +12,15 @@ import { expect, test, type Page } from "@playwright/test";
 const WORKSPACE = "[data-testid=tool-workspace]";
 const MOBILE_TRIGGER = "[data-testid=tools-nav-mobile-trigger]";
 const MOBILE_DRAWER = "[data-testid=mobile-nav-drawer]:visible";
-/**
- * 注意：图片裁剪页会渲染出两个**都可见**的 `tool-sidebar`（外壳 + 工作台内复用同一 testid），
- * 属于重复挂载缺陷，测试里用 .first() 规避歧义，缺陷本身记在 report.md。
- */
 const SIDEBAR = "[data-testid=tool-sidebar]";
-/** 侧边栏与抽屉入口的实测分界：lg(1024) 起常驻，sm(640) 以下是抽屉。 */
+/** ToolShell 自己的工具列表入口（lg 以下常驻在顶栏，打开的抽屉里是工具侧栏内容）。 */
+const SHELL_TRIGGER = "[data-testid=tool-shell-nav-trigger]";
+const SHELL_DRAWER = "[role=dialog][aria-modal=true]";
+/**
+ * 侧栏与抽屉入口的实测分界：lg(1024) 起常驻侧栏。
+ * 1024 以下走 ToolShell 顶栏的「打开工具列表」入口（768–1023 这一档就靠它），
+ * 640 以下另有应用级导航抽屉。
+ */
 const SIDEBAR_MIN_WIDTH = 1024;
 const DRAWER_MAX_WIDTH = 640;
 
@@ -50,10 +53,14 @@ test.describe("工具台响应式", () => {
                 const overflow = await horizontalOverflow(page);
                 expect(overflow, `${route.label} 在 ${viewport.width}px 横向溢出 ${overflow}px`).toBeLessThanOrEqual(1);
 
-                // 导航可达：lg 起常驻侧边栏，sm 以下是抽屉入口（断点来自实测，不是猜的）
+                // 导航可达：lg 起常驻侧栏（且只允许一个，防止工作台内再挂一层外壳）
                 if (viewport.width >= SIDEBAR_MIN_WIDTH) {
-                    await expect(page.locator(SIDEBAR).first(), "宽屏缺少常驻侧边栏").toBeVisible();
-                } else if (viewport.width < DRAWER_MAX_WIDTH) {
+                    await expect(page.locator(`${SIDEBAR}:visible`), "宽屏缺少常驻侧边栏").toHaveCount(1);
+                } else {
+                    await expect(page.locator(SHELL_TRIGGER), `${viewport.width}px 缺少工具列表入口`).toBeVisible();
+                    await expect(page.locator(`${SIDEBAR}:visible`), "窄屏不应常驻侧边栏").toHaveCount(0);
+                }
+                if (viewport.width < DRAWER_MAX_WIDTH) {
                     await expect(page.locator(MOBILE_TRIGGER), "窄屏缺少导航入口").toBeVisible();
                 }
             }
@@ -79,18 +86,38 @@ test.describe("工具台响应式", () => {
         expect(await horizontalOverflow(page)).toBeLessThanOrEqual(1);
     });
 
-    // 已知缺口：768–1023px（md 档）既没有常驻侧边栏、也没有抽屉入口，用户在这个宽度里进不了工具列表。
-    // 用 test.fail() 记录成"预期的失败"，哪天补了入口这条会自动变成 red，提醒把标记去掉。
-    test("tablet/laptop 中间档（768–1023px）能进入工具列表", async ({ page }) => {
-        test.fail(true, "md 档缺少导航入口：sidebar 只在 lg 显示，抽屉只在 sm 以下显示");
+    // 768–1023px（md 档）以前只有顶栏图标、没有可定位的入口：这里断言真实可点可达。
+    // 修复后 ToolShell 顶栏的「打开工具列表」在 lg 以下常驻，点开就是工具侧栏抽屉。
+    test("tablet/laptop 中间档（768–1023px）能进入工具列表并跳转", async ({ page }) => {
         await page.setViewportSize({ width: 900, height: 900 });
         await page.goto("/tools/smart-edit/product-refine");
         await expect(page.locator(WORKSPACE)).toBeVisible();
 
         // 必须用"可见"而不是"存在"：DOM 里挂着但被 hidden 挡住的侧栏不算可达入口
-        const hasSidebar = (await page.locator(`${SIDEBAR}:visible`).count()) > 0;
-        const hasDrawer = await page.locator(MOBILE_TRIGGER).isVisible();
-        expect(hasSidebar || hasDrawer, "900px 下既没有侧边栏也没有导航抽屉").toBe(true);
+        await expect(page.locator(`${SIDEBAR}:visible`), "900px 下不应常驻侧边栏").toHaveCount(0);
+        const trigger = page.locator(SHELL_TRIGGER);
+        await expect(trigger, "900px 下缺少工具列表入口").toBeVisible();
+
+        await trigger.click();
+        const drawer = page.locator(SHELL_DRAWER);
+        await expect(drawer, "工具列表抽屉未打开").toBeVisible();
+        // 抽屉里能直接跳到同分类的其它工具
+        await drawer.getByRole("link", { name: "图片裁剪" }).first().click();
+        await expect(page).toHaveURL(/image-crop$/);
+        await expect(page.locator(WORKSPACE)).toBeVisible();
+        await expect(page.locator(SHELL_DRAWER), "跳转后抽屉应关闭").toBeHidden();
+    });
+
+    // 回归：工作台内部再包一层 ToolShell 时不能重复挂载侧栏/入口（曾出现两个可见侧栏）
+    test("工具页只挂载一份侧栏与一个工具列表入口", async ({ page }) => {
+        await page.setViewportSize({ width: 1440, height: 960 });
+        await page.goto("/tools/smart-edit/image-crop");
+        await expect(page.locator(WORKSPACE)).toBeVisible();
+        await expect(page.locator(`${SIDEBAR}:visible`), "裁剪页挂载了重复侧栏").toHaveCount(1);
+        await expect(page.locator(`${SHELL_TRIGGER}:visible`), "宽屏不应出现窄屏工具列表入口").toHaveCount(0);
+
+        await page.setViewportSize({ width: 900, height: 900 });
+        await expect(page.locator(`${SHELL_TRIGGER}:visible`), "窄屏工具列表入口重复").toHaveCount(1);
     });
 });
 

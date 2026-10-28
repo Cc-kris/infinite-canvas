@@ -1,5 +1,5 @@
 import { PanelLeft } from "lucide-react";
-import { useState, type ReactNode } from "react";
+import { createContext, useContext, useState, type ReactNode } from "react";
 
 import { cn } from "@/lib/utils";
 
@@ -17,19 +17,48 @@ export interface ToolShellProps {
     className?: string;
 }
 
+/** 标记"当前已在 ToolShell 内"，用于识别工作台内再包一层外壳的写法。 */
+const NestedToolShellContext = createContext(false);
+
 /**
  * Shared frame for every canonical tool route: 180px tool sidebar on the left,
  * tool workspace on the right. Below lg the sidebar collapses into a drawer and the
  * workspace keeps the full width so mobile users never get an unusable sliver.
+ *
+ * 工作台内部若再渲染一次 ToolShell，只保留紧凑标题栏（标题/徽标/操作按钮），
+ * 不再挂第二个侧栏与第二个抽屉入口——否则每个工具页都会出现两份
+ * `[data-testid=tool-sidebar]`、两个"打开工具列表"按钮。
  */
 export function ToolShell({ title, subtitle, badges, breadcrumb, actions, notices, sidebar, children, sidebarLabel = "工具", className }: ToolShellProps) {
     const [navigationOpen, setNavigationOpen] = useState(false);
+    const nested = useContext(NestedToolShellContext);
+
+    if (nested) {
+        return (
+            <div data-testid="tool-workspace-chrome" className={cn("flex min-h-0 min-w-0 flex-1 flex-col gap-3", className)}>
+                <div className="flex min-w-0 flex-wrap items-center gap-x-3 gap-y-1">
+                    <div className="min-w-0 flex-1">
+                        <div className="flex min-w-0 items-center gap-2">
+                            <h2 className="truncate text-sm font-semibold leading-6">{title}</h2>
+                            {badges}
+                        </div>
+                        {subtitle ? <p className="truncate text-xs leading-5 text-muted-foreground">{subtitle}</p> : null}
+                    </div>
+                    {actions ? <div className="flex shrink-0 flex-wrap items-center gap-2">{actions}</div> : null}
+                </div>
+                {notices}
+                {children}
+            </div>
+        );
+    }
 
     return (
+        <NestedToolShellContext.Provider value={true}>
         <div className={cn("flex h-full min-h-0 flex-col bg-background text-foreground", className)}>
             <div className="flex h-11 shrink-0 items-center gap-2 border-b border-border px-3 lg:hidden">
                 <button
                     type="button"
+                    data-testid="tool-shell-nav-trigger"
                     onClick={() => setNavigationOpen(true)}
                     aria-label={`打开${sidebarLabel}列表`}
                     aria-expanded={navigationOpen}
@@ -86,5 +115,6 @@ export function ToolShell({ title, subtitle, badges, breadcrumb, actions, notice
                 </div>
             ) : null}
         </div>
+        </NestedToolShellContext.Provider>
     );
 }
