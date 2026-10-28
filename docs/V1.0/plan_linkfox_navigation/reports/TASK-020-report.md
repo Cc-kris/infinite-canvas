@@ -39,8 +39,8 @@
 
 | 项 | 命令 | 结果 | 证据文件 |
 | --- | --- | --- | --- |
-| 单测 | `bun test src/features/tools/adapters/printing-repair.test.ts` | **28 pass / 0 fail / 153 expect()** | `evidence/TASK-020/test.log` |
-| 类型 | `bunx tsc --noEmit` | 我的 4 文件 **0 error**；仓库其余 11 行报错全在 `adapters/hand-repair.test.ts`（他人进行中文件，与本次无关） | `evidence/TASK-020/tsc.log` |
+| 单测 | `bun test src/features/tools/adapters/printing-repair.test.ts` | **28 pass / 0 fail / 153 expect()** | `evidence/TASK-020/test-output.txt` |
+| 类型 | `bunx tsc --noEmit` | 我的 4 文件 **0 error**；仓库其余 11 行报错全在 `adapters/hand-repair.test.ts`（他人进行中文件，与本次无关） | `evidence/TASK-020/tsc-output.txt` |
 | 渲染 | `renderToStaticMarkup(<PrintingRepairWorkspace/>)` | 空状态 HTML 12668 字节，三步分区/强度/版本/三种对比均在 | `evidence/TASK-020/render-empty.html` |
 
 ### 测试覆盖点（28 例）
@@ -73,4 +73,4 @@
 
 - 代码入口：`PrintingRepairWorkspace`（`web/src/components/tools/workspaces/printing-repair.tsx`），工具 ID `PRINTING_REPAIR`，路由常量 `PRINTING_REPAIR_ROUTE = /tools/smart-edit/printing-repair`。
 - 验证入口：`cd web && bun test src/features/tools/adapters/printing-repair.test.ts`
-- 证据：`docs/V1.0/plan_linkfox_navigation/evidence/TASK-020/{test.log, tsc.log, render-empty.html}`
+- 证据：`docs/V1.0/plan_linkfox_navigation/evidence/TASK-020/{test-output.txt, tsc-output.txt, render-empty.html}`

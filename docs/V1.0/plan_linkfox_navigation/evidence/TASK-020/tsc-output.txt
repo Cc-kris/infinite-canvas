@@ -1,0 +1,11 @@
+src/features/tools/adapters/hand-repair.test.ts(56,37): error TS2345: Argument of type '{ id: string; name: string; dataUrl: string; width: number; height: number; }' is not assignable to parameter of type 'HandRepairSourceAsset'.
+  Property 'type' is missing in type '{ id: string; name: string; dataUrl: string; width: number; height: number; }' but required in type 'HandRepairSourceAsset'.
+src/features/tools/adapters/hand-repair.test.ts(63,36): error TS2345: Argument of type '{ id: string; name: string; dataUrl: string; width: number; height: number; }' is not assignable to parameter of type 'HandRepairSourceAsset'.
+  Property 'type' is missing in type '{ id: string; name: string; dataUrl: string; width: number; height: number; }' but required in type 'HandRepairSourceAsset'.
+src/features/tools/adapters/hand-repair.test.ts(91,43): error TS2322: Type 'never[]' is not assignable to type 'never'.
+src/features/tools/adapters/hand-repair.test.ts(312,75): error TS2345: Argument of type 'never[]' is not assignable to parameter of type 'undefined'.
+src/features/tools/adapters/hand-repair.test.ts(316,79): error TS2345: Argument of type '{ kind: string; dataUrl: string; }[]' is not assignable to parameter of type 'undefined'.
+src/features/tools/adapters/hand-repair.test.ts(320,73): error TS2345: Argument of type 'never[]' is not assignable to parameter of type 'undefined'.
+src/features/tools/adapters/hand-repair.test.ts(324,79): error TS2345: Argument of type 'never[]' is not assignable to parameter of type 'undefined'.
+src/features/tools/adapters/hand-repair.test.ts(335,55): error TS2345: Argument of type 'never[]' is not assignable to parameter of type 'undefined'.
+src/features/tools/adapters/hand-repair.test.ts(336,42): error TS2345: Argument of type '{ kind: string; dataUrl: string; }[]' is not assignable to parameter of type 'undefined'.
