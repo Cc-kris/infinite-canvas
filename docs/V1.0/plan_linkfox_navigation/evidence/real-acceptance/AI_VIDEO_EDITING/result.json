@@ -1,0 +1,88 @@
+{
+  "tool_id": "AI_VIDEO_EDITING",
+  "tool_name_cn": "AI 视频编辑",
+  "route": "/tools/ai-video/ai-video-editing",
+  "group": "video-edit",
+  "run_at": "2026-10-28T22:52:00+08:00",
+  "app_base": "http://127.0.0.1:3000",
+  "branch": "feat/linkfox-v1-real",
+  "mode": "real_ui_real_provider",
+  "inputs": {
+    "source_video": "06-result-video.mp4（1344×768 · 5.2s · 1.2MB · h264/aac，来自 IMAGE_TO_VIDEO 真实产物），经 UI file input 入库",
+    "reference_asset": "product.png（1024×744 · 141KB），经 UI file input 入库",
+    "prompt_text": "把视频里的产品替换为参考图中的白色降噪耳机，保持人物动作、镜头运动和背景不变",
+    "prompt_len": 38,
+    "trim": "0–5.2s（整段）",
+    "model_selected_in_ui": "grok-imagine-video（ccai-tmp）",
+    "video_type": "商品人物精准编辑"
+  },
+  "provider": {
+    "endpoint": "POST http://127.0.0.1:23210/https://api.cc-ai.xyz/v1/videos",
+    "content_type": "multipart/form-data",
+    "multipart_keys": ["model", "prompt", "seconds", "size", "ratio", "resolution_name", "generate_audio", "watermark", "mode", "first_frame", "images", "video[]"],
+    "create_status": 404,
+    "response_body": "404 page not found",
+    "latency_ms": 12711,
+    "error_class": "provider-rejected",
+    "root_cause": "api.cc-ai.xyz（ccai-tmp 通道）整站未挂视频 API：直连探测 /v1/videos 未鉴权即 404；/v1/video/generations 返回 {\"error\":{\"message\":\"Video API is not supported for this platform\",\"type\":\"not_found_error\"}}（路由存在但该平台不支持视频）。同分支下 sub2api.1006000.xyz 的 /v1/videos 可正常建任务（见 IMAGE_TO_VIDEO/result.json task_ee59WDyd…），故为通道能力问题，非工具实现问题。",
+    "probe_commands": [
+      "POST https://api.cc-ai.xyz/v1/videos -> 404",
+      "POST https://api.cc-ai.xyz/v1/images/generations -> 401",
+      "POST https://api.cc-ai.xyz/v1/video/generations -> 401（无鉴权的路由存在性探测）；带应用鉴权后 404 + 'Video API is not supported for this platform'"
+    ]
+  },
+  "result": {
+    "ui_state": "任务失败 · 404 page not found · api.cc-ai.xyz/videos · HTTP 404 · 诊断码 provider-rejected · 该错误不建议直接重试",
+    "task_duration_s": 1,
+    "video_produced": false,
+    "screenshots": ["03-filled-ready.png（旧代码：素材就绪）", "05-final-ready.png（最终代码：素材就绪）", "06-final-result.png（最终代码：失败态与诊断码）"]
+  },
+  "asset_saved": { "action": "未执行（上游未产出结果）", "store": "n/a" },
+  "canvas_insert": { "action": "未执行（上游未产出结果）", "reason": "n/a" },
+  "defects": [
+    {
+      "id": "D1",
+      "severity": "P1",
+      "status": "fixed_in_this_run",
+      "title": "带源视频/参考图的视频请求会先发纯文本 JSON，失败后不降级 multipart → 素材全丢、视频编辑静默降级成文生视频",
+      "detail": "旧逻辑 jsonFirst = inlineImages || prefersJsonFirst(baseUrl)，中转域恒为 true。API_VIDEO_EDITING 带源视频时 JSON 体根本承载不了 video[]/images/first_frame/mode，上游 404；重发条件只认 400/415/422，404 直接抛出。修复前未直接抓包（本轮首次提交时修复已合入），结论由代码路径推得：payloads[0] = jsonFields，其字段集只有 model/prompt/seconds/size/ratio/resolution_name/generate_audio/watermark/mode(+images)，不含 video[]/first_frame。",
+      "fix": "web/src/services/api/video.ts 新增导出函数 planVideoSubmitPayloads：只要本次带 videos/audios 就只发 multipart（[multipart]），否则保留原 JSON/multipart 双发顺序；createOpenAIVideoTask 按 plan.order 组装 payloads，仅对 400/415/422 继续下一个 payload。",
+      "verification": "复测抓包：首个（也是唯一）请求 POST /v1/videos 为 multipart，键含 model/prompt/seconds/size/ratio/resolution_name/generate_audio/watermark/mode/first_frame/images/video[]；单测 web/tests/video-submit-payload.test.ts 3 条全绿；web 相关 75 条全绿；tsc --noEmit 通过。"
+    },
+    {
+      "id": "D2",
+      "severity": "P2",
+      "status": "open",
+      "title": "file-storage.ts 的 readVideoMeta/readAudioMeta 无超时，媒体元数据不触发时上传永久卡在「写入本地库存…」",
+      "detail": "web/src/services/file-storage.ts:170 的 readVideoMeta 只挂 onloadedmetadata/onerror，无 timeout；同仓 web/src/services/assets.ts 的同类实现有 15s 超时。实测：页面处于后台标签时 Chrome 挂起媒体加载，loadedmetadata 永不触发（同一 Blob 在标签置前后 1–13ms 内正常），上传进度条永久停留、无报错、按钮不可用。用户切走标签即可能触发。",
+      "suggested_fix": "给 readVideoMeta/readAudioMeta 加 5–15s 定时器，超时用 videoWidth/Height 兜底值 resolve（与 assets.ts 一致），避免无限挂起。"
+    },
+    {
+      "id": "D3",
+      "severity": "P3",
+      "status": "open",
+      "title": "素材本地数据失效时提交按钮仍为可点，点击只更新提示条、不发请求",
+      "detail": "参考图记录被清理后（页面提示「product.png 本地数据已失效，请重新上传」），ai-video-editing-submit 的 disabled 仍为 false；连续点击无任何网络请求，用户可能误以为程序卡住。",
+      "suggested_fix": "提交前对 sourceRecords/referenceRecords 做一次 blob 可用性校验，不可用时禁用按钮并把原因内联到按钮旁。"
+    }
+  ],
+  "test_methodology_notes": [
+    "CDP 的 DOM.setFileInputFiles 会绕过 input[accept]：把 png 塞进视频输入框也能入库，导致两区串位。真实用户拖拽/选择不受影响，本次验收先前的「刷新后两区串位」结论已按此更正（video.tsx:1446 的草稿恢复按 sourceAssetId / referenceAssetIds 正确分流）。",
+    "同一素材记录可被两个区域同时引用时，在任一区域点「移除」会连带删除共享记录，另一区变「本地数据已失效」。正常流程下两区 id 不同不会触发，仅记录为边界行为。",
+    "UI 验收取证据用 CDP 截图 + DOM 文本（本机无屏幕录制权限，screencapture 不可用）。"
+  ],
+  "evidence_files": [
+    "01-filled-form.png",
+    "02-filled-before-submit.png",
+    "03-filled-ready.png",
+    "04-result-after-submit.png",
+    "05-final-ready.png",
+    "06-final-result.png"
+  ],
+  "verdict": "blocked_by_provider",
+  "verdict_detail": "工具自身链路（上传→入库→校验→组装→提交→错误呈现）在最终代码下已跑通并可用真实 UI 复现；端到端生成失败的唯一原因是所选通道 ccai-tmp 不提供视频 API（上游明确回 'Video API is not supported for this platform'；同通道 /v1/images/generations 未鉴权返回 401，说明路由存在、仅缺视频能力）。改用支持视频的通道（如 sub2api，视频路由已由 IMAGE_TO_VIDEO 验证可建任务）后可复测出结果。",
+  "next_steps": [
+    "为 AI_VIDEO_EDITING 配置支持 /v1/videos 的视频通道（sub2api.1006000.xyz）或为该工具提供 model 选择，然后重跑本脚本取真实结果。",
+    "按 D2 给 readVideoMeta/readAudioMeta 补超时；按 D3 在提交前做 blob 可用性校验并禁用按钮。"
+  ]
+}

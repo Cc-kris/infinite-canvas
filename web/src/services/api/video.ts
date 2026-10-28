@@ -228,6 +228,29 @@ function withRequestDiagnosis(message: string, status: number | undefined, baseU
     return `${hint}${trimmed} · ${endpoint}${path}${status ? ` · HTTP ${status}` : ""}`;
 }
 
+/**
+ * 提交顺序（回归守卫）：源视频/音频只能进 multipart，JSON 体根本带不了。
+ * 实测 2026-10-28：API_VIDEO_EDITING 带源视频 + 参考图提交 api.cc-ai.xyz（中转域）时，
+ * 旧的 `jsonFirst = inlineImages || prefersJsonFirst(baseUrl)` 判定为 true → 先发纯文本 JSON，
+ * 上游返回 404 → 非 400/415/422 不重试 multipart → 源视频与参考图全部丢参，
+ * 「视频编辑」静默降级成「文生视频」（界面仍显示视频编辑成功）。
+ * 因此：只要本次请求带 videos/audios，就只发 multipart，不再尝试 JSON。
+ */
+export type VideoSubmitSlot = "json" | "multipart";
+
+export function planVideoSubmitPayloads(input: {
+    /** 参考图能否内联进 JSON（有 videos/audios 时为 false）。 */
+    inlineImages: boolean;
+    /** 本次请求是否带只存在于 multipart 的素材（源视频/音频）。 */
+    mediaOnlyInMultipart: boolean;
+    /** 是否中转域（非 openai.com），中转多半只解析 JSON。 */
+    relayHost: boolean;
+}): { order: VideoSubmitSlot[] } {
+    if (input.mediaOnlyInMultipart) return { order: ["multipart"] };
+    const multipartFirst = !input.inlineImages && !input.relayHost;
+    return { order: multipartFirst ? ["multipart", "json"] : ["json", "multipart"] };
+}
+
 async function createOpenAIVideoTask(config: AiConfig, model: string, prompt: string, references: ReferenceImage[], options?: VideoMediaOptions): Promise<VideoGenerationTask> {
     const imageDataUrls = await Promise.all(references.map((image) => imageToDataUrl(image)));
     const images = imageDataUrls.map((dataUrl, index) => dataUrlToFile({ ...references[index], dataUrl }));
@@ -269,7 +292,7 @@ async function createOpenAIVideoTask(config: AiConfig, model: string, prompt: st
     // 「'utf-8' codec can't decode byte 0x89」（后者即 multipart 的 PNG 二进制被当文本解码）。
     // 官方 OpenAI 只认 multipart，因此保持 multipart 优先；被 400/415 拒绝时再用 JSON 重发一次。
     // 图片可用 data URL 内联进 JSON（实测 sub2api 的 images[] 字段会被采用，usage.input_image_count=1），
-    // 视频/音频无法内联，只有纯文本或纯图片任务才具备 JSON 回退能力。
+    // 视频/音频无法内联 —— 顺序由 planVideoSubmitPayloads 统一裁决，带源视频时只发 multipart。
     const inlineImages = !videos.length && !audios.length && imageDataUrls.length > 0;
     const jsonFields: Record<string, unknown> = {
         model: modelOptionName(model),
@@ -283,26 +306,31 @@ async function createOpenAIVideoTask(config: AiConfig, model: string, prompt: st
     };
     if (ratio && ratio !== "auto") jsonFields.ratio = ratio;
     if (inlineImages) jsonFields.images = await shrinkInlineImages(imageDataUrls);
+    // 路由保持 OpenAI 标准 /videos：实测 sub2api 中转支持；ccai 中转整站不支持视频 API
+    // （/videos 与 /video/generations 均失败，后者明确回 "Video API is not supported for this platform"），
+    // 所以不做跨路由猜测，失败按上游原文报错。
     const post = (payload: FormData | Record<string, unknown>) => axios.post<ApiVideoResponse>(aiApiUrl(config, "/videos"), payload, {
         headers: payload instanceof FormData ? aiHeaders(config) : { ...aiHeaders(config), "Content-Type": "application/json" },
         signal: options?.signal,
     });
+    const plan = planVideoSubmitPayloads({
+        inlineImages: Boolean(inlineImages),
+        mediaOnlyInMultipart: videos.length > 0 || audios.length > 0,
+        relayHost: prefersJsonFirst(config.baseUrl),
+    });
     try {
         let created: ReturnType<typeof unwrapVideoResponse> | undefined;
-        // 带内联图片时优先 JSON（sub2api 等中转只解析 JSON，multipart 必然 400 且要等十几秒）；
-        // 官方 OpenAI 之外的中转同样先发 JSON，只对 api.openai.com 保留 multipart 优先。
-        const jsonFirst = inlineImages || prefersJsonFirst(config.baseUrl);
-        const payloads: Array<FormData | Record<string, unknown>> = jsonFirst ? [jsonFields, body] : [body, jsonFields];
+        const payloads: Array<FormData | Record<string, unknown>> = plan.order.map((slot) => (slot === "json" ? jsonFields : body));
         let lastError: unknown;
         for (const payload of payloads) {
             try {
                 created = unwrapVideoResponse((await withGatewayRetry(() => post(payload), 3)).data);
-                lastError = undefined;
                 break;
             } catch (error) {
                 lastError = error;
                 const status = requestStatus(error);
-                if (!(status === 400 || status === 415 || status === 422)) throw error;
+                if (status === 400 || status === 415 || status === 422) continue;
+                throw error;
             }
         }
         if (!created) throw lastError;
