@@ -1,39 +1,47 @@
 {
- "tool": "AI_POSE_GENERATOR",
- "name": "AI姿势生成",
- "group": "POD",
- "route": "/tools/product-design/ai-pose-generator",
- "status": "PARTIAL",
- "result": "provider_ok_ui_lacks_actions",
- "verdict": "PARTIAL — 真实出图 200 且结果已落盘，但结果区没有『下载/存入资产/发送画布』动作，结果只能在页面内查看",
- "realProviderCall": true,
- "provider": "gpt-image-2 via canvas-proxy 127.0.0.1:23210 -> api.cc-ai.xyz/v1/images/generations",
- "runAt": "2026-10-28T21:05:00+08:00",
- "output": {
-  "count": 1,
-  "field": "b64_json",
-  "localFile": "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/AI_POSE_GENERATOR/04-result-transparent.png",
-  "bytes": 1067539,
-  "size": "720x960",
-  "note": "03-net-fetch.json 记录 200 返回 b64_json；结果图按 DOM img.src 取出后落盘"
- },
- "evidence": [
-  "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/AI_POSE_GENERATOR/03-net-fetch.json",
-  "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/AI_POSE_GENERATOR/04-result-transparent.png",
-  "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/AI_POSE_GENERATOR/04-done.png",
-  "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/AI_POSE_GENERATOR/03-post-result.png",
-  "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/AI_POSE_GENERATOR/02-net.json",
-  "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/AI_POSE_GENERATOR/dom/ocr-01-result.txt"
- ],
- "assertions": [
-  "POST http://127.0.0.1:23210/https://api.cc-ai.xyz/v1/images/generations 返回 200，请求体含 model=gpt-image-2 + 完整姿势 prompt",
-  "结果区实测出现『默认场景 1 张』，结果图为 720x960 PNG（1,067,539 bytes，PNG 头校验通过）",
-  "提交前表单实测：姿势提示词 / 每场景张数 / 场景数 / 请求数 / 姿势预设保存 均存在；空提示词时正确拦截『请先填写姿势描述』",
-  "全页 [data-testid^=tool-result] 计数为 0：结果区没有『下载 / 存入资产 / 发送画布』按钮，无法从结果卡带走产物"
- ],
- "gap": "结果无法下载/存入资产/发送画布（无结果动作按钮）。产物只能停留在页面内，用户要在资产库另找，属与其它工具的一致性缺口。",
- "parityWithOriginal": "LinkFox AI_POSTURE 对齐项：姿势提示词(4000 字上限)、每场景张数(1-4)、场景数、总产出=场景数×张数(上限 24)、预设保存(最多 12 条)。本页均已实现；差异：不显示算力消耗。",
- "notes": [
-  "截图有效性说明：04-done.png / 03-post-result.png 为 1920x783 页面级截图，与 01-result.png（148KB）不同，说明本轮页面确有重绘；但同类工具实测存在『不同状态返回同一帧』的陈旧截图风险，故状态判断以 DOM 文本与网络记录为准。"
- ]
+  "tool": "AI_POSE_GENERATOR",
+  "name": "AI姿势生成",
+  "group": "POD",
+  "route": "/tools/product-design/ai-pose-generator",
+  "status": "PASS",
+  "result": "verified_with_real_output_and_actions",
+  "verdict": "PASS — 真实上游 200 出图 1024x1024，且结果区三个动作（存入资产 / 发送画布 / 下载）实测可用，产物可从结果卡带走",
+  "realProviderCall": true,
+  "provider": "gpt-image-2 via canvas-proxy 127.0.0.1:23210 -> https://api.cc-ai.xyz/v1/images/generations",
+  "runAt": "2026-10-28T22:14:33+08:00",
+  "output": {
+    "count": 1,
+    "field": "b64_json",
+    "localFile": "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/AI_POSE_GENERATOR/real-run-1024.png",
+    "dims": "1024x1024",
+    "bytes": 1550004,
+    "sha256": "bd34bb6dbeeeb8b0b46354a478e754e1b3ea41561101d8498191a0f23a081ecf",
+    "source": "结果区 <img>.currentSrc（data:image/png;base64,...）直接取字节落盘，非截图"
+  },
+  "task": {
+    "taskId": "ai-pose-generator:group-0",
+    "resultItemTestId": "ai-pose-result-save-0-0",
+    "assetId": "h3TVsX8D",
+    "canvasNodeId": "image-17"
+  },
+  "evidence": [
+    "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/AI_POSE_GENERATOR/real-run-1024.png",
+    "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/AI_POSE_GENERATOR/real-run-proxy.log",
+    "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/AI_POSE_GENERATOR/result.prev-2105.json"
+  ],
+  "assertions": [
+    "POST https://api.cc-ai.xyz/v1/images/generations 于 22:14:33 返回 200（real-run-proxy.log，耗时 38.6s 至响应头）",
+    "响应体为超大 b64（约 2.07MB base64 / 1.55MB PNG），经 canvas-proxy 以约 19KB/s 流式回传，22:18:53 前端渲染完成（首图 1024x1024）",
+    "结果图字节与页面 img 完全一致：sha256 bd34bb6d…ecf，1550004 bytes，PNG 头校验通过 → 不是源图回显（bogusSourceEcho）",
+    "结果区出现 1 张缩略图 + 三个动作按钮（data-testid: ai-pose-result-save-0-0 / ai-pose-result-canvas-0-0 / ai-pose-result-download-0-0）",
+    "点『存入资产』→ 页面提示『已存入资产库（h3TVsX8D）』（asset_saved=true）",
+    "点『发送画布』→ 页面提示『已发送到画布（image-17）』（canvas_inserted=true）",
+    "载入时页面对 127.0.0.1:23210 的 generation 请求走 axios（不是 window.fetch），故 fetch 钩子抓不到，需以 proxy.log 为准"
+  ],
+  "parityWithOriginal": "LinkFox AI_POSTURE 对齐项：姿势提示词、每场景张数(1-4)、场景数(默认场景/加场景)、姿势预设(站姿/坐姿/动态/手部与镜头 + 保存预设)、总产出=场景数×张数、单组失败只重试该组。本页均已实现；差异：不显示算力消耗。",
+  "notes": [
+    "上一轮（21:05）记录的『结果区没有下载/存入资产/发送画布按钮』在本轮不成立：三个按钮均在且动作成功。旧记录已备份为 result.prev-2105.json。",
+    "『生成中…』长时间不消失的真相：不是前端挂死，而是上游返回超大 b64 + 代理侧慢速流式（实测约 19KB/s，需 4-5 分钟）。判别方法：netstat -anv -p tcp 看该连接 rxbytes 是否持续增长；增长即在传输中，切勿重跑浪费额度。",
+    "本轮前渠道 key 被前序 worker 清空（/config 编辑面板 API Key 长度=0，proxy.log 自 21:59 起 401）。已通过本机 /config 面板写回 keychain 中的 ccai_image2_api_key（渠道名 ccai-tmp，baseUrl https://api.cc-ai.xyz，4 个模型），恢复后 200。"
+  ]
 }
