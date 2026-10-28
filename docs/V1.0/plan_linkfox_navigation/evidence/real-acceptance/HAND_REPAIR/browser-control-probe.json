@@ -1,0 +1,11 @@
+{
+ "probedAt": "2026-10-28T16:32:24.948Z",
+ "via": "Browser Control real Chrome (web_execute_js, origin http://127.0.0.1:3000)",
+ "purpose": "HAND_REPAIR 收尾：确认是否存在可复用的已完成任务或已入库资产，避免重复生成",
+ "persistedTaskTotal": 31,
+ "persistedHandOrAreaTasks": [],
+ "toolAssetTotal": 35,
+ "handRepairAssets": [],
+ "anyRepairAssets": [],
+ "conclusion": "真实 Chrome 配置档内不存在 HAND_REPAIR/AREA_REPAIR 的持久化任务，也不存在 hand-repair 来源的入库资产；因此 HAND_REPAIR 的 存库/发画布 无法在不重新生成的前提下取得真实点击证据。"
+}

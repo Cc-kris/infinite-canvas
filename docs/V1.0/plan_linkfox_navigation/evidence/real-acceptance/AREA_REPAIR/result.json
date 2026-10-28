@@ -1,0 +1,52 @@
+{
+  "toolId": "AREA_REPAIR",
+  "capturedAt": "2026-10-28T16:08:54.166Z",
+  "prompt": "把涂抹区域的表盘替换成米色针织纹理，保留原有光影、镜头与背景不变",
+  "outputNum": 2,
+  "task": null,
+  "results": [
+    {
+      "src": "https://oss-us.dimenoss.com/images/2026/10/29/1793203656_4b34cef275f70cc626026ee",
+      "bytes": 943932,
+      "sha": "3cf14369ab4539a9",
+      "dims": {
+        "w": 1024,
+        "h": 1024
+      }
+    },
+    {
+      "src": "https://oss-us.dimenoss.com/images/2026/10/29/1793203693_e54d6998291907bdff4b65d",
+      "bytes": 907235,
+      "sha": "c1731841bb091051",
+      "dims": {
+        "w": 1024,
+        "h": 1024
+      }
+    }
+  ],
+  "download": {
+    "href": "https://oss-us.dimenoss.com/images/2026/10/29/1793203656_4b34cef275f70cc626026ee",
+    "download": "product-watch-repainted.png"
+  },
+  "asset": {
+    "assetId": "U_TaBRV2fBhWCEm-hu6Ug",
+    "title": "product-watch.jpg 第 1 张",
+    "coverUrl": "blob:http://127.0.0.1:3000/d56cb9fc-a7c7-4d97-8007-e9715a49be63",
+    "source": "area-repair"
+  },
+  "projectId": "bzQ2ePN7UDxTFI1nbkfWy",
+  "upstream": [
+    {
+      "method": "POST",
+      "url": "http://127.0.0.1:23210/https://api.cc-ai.xyz/v1/images/edits",
+      "status": 200,
+      "ms": 36270
+    },
+    {
+      "method": "POST",
+      "url": "http://127.0.0.1:23210/https://api.cc-ai.xyz/v1/images/edits",
+      "status": 200,
+      "ms": 36342
+    }
+  ]
+}

@@ -1,0 +1,59 @@
+{
+  "toolId": "AREA_REPAIR",
+  "route": "/tools/smart-edit/area-repair",
+  "startedAt": "2026-10-28T16:11:22.715Z",
+  "baseUrl": "http://127.0.0.1:3000",
+  "fixture": "product-watch.jpg",
+  "prompt": "把涂抹区域的表盘替换成米色针织纹理，保留原有光影、镜头与背景不变",
+  "outputNum": 2,
+  "steps": [
+    "uploaded",
+    "mask-drawn",
+    "toolbar",
+    "submitted"
+  ],
+  "ok": false,
+  "provider": {
+    "baseUrl": "https://api.cc-ai.xyz",
+    "model": "sf-accept::Qwen/Qwen3-VL-8B-Instruct",
+    "imageModel": "ccai-accept::gpt-image-2",
+    "channelCount": 2,
+    "keyLen": 67,
+    "textKeyLen": 51
+  },
+  "urlOnLoad": "http://127.0.0.1:3000/tools/smart-edit/area-repair",
+  "inputCount": 1,
+  "coverageBefore": "0 笔 · 覆盖 尚未涂抹",
+  "maskBox": {
+    "w": 902,
+    "h": 655
+  },
+  "coverageAfter": "1 笔 · 覆盖 已涂抹 12.5% 区域",
+  "brushBefore": "35",
+  "brushAfter": "40",
+  "autoExpandAfter": true,
+  "coverageAfterUndo": "0 笔 · 覆盖 尚未涂抹",
+  "coverageAfterRedo": "1 笔 · 覆盖 已涂抹 16.7% 区域",
+  "promptChars": 32,
+  "outputPressed": "2",
+  "issuesBeforeSubmit": "",
+  "submitDisabled": false,
+  "cards": [
+    {
+      "testid": "area-repair-result-1",
+      "src": "",
+      "w": 0,
+      "h": 0,
+      "label": "任务状态未知，只能查询或人工确认 #1 · unknown"
+    },
+    {
+      "testid": "area-repair-result-2",
+      "src": "",
+      "w": 0,
+      "h": 0,
+      "label": "任务状态未知，只能查询或人工确认 #2 · unknown"
+    }
+  ],
+  "error": "存在无图结果卡：[\"任务状态未知，只能查询或人工确认 #1 · unknown\",\"任务状态未知，只能查询或人工确认 #2 · unknown\"]",
+  "finishedAt": "2026-10-28T16:18:28.988Z"
+}

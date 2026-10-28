@@ -1,0 +1,80 @@
+{
+  "toolId": "HAND_REPAIR",
+  "verdict": "PARTIAL",
+  "capturedAt": "2026-10-28T14:58:15.148Z",
+  "route": "/tools/smart-edit/hand-repair",
+  "fixture": "hand-product.jpg",
+  "fixtureSha": "6fa693cbc2a1bf08",
+  "provider": {
+    "baseUrl": "https://api.cc-ai.xyz",
+    "imageModel": "ccai-accept::gpt-image-2",
+    "proxy": "http://127.0.0.1:23210"
+  },
+  "generation": {
+    "status": "PASS",
+    "upstream": [
+      {
+        "method": "POST",
+        "url": "http://127.0.0.1:23210/https://api.cc-ai.xyz/v1/images/edits",
+        "status": 200,
+        "ms": 30093
+      }
+    ],
+    "resultSrc": "https://oss-us.dimenoss.com/images/2026/10/28/1793199487_1ae76b65bdf7c0c415e9fed0e8025f06.png",
+    "resultSha": "3e53cf331d5dae4b",
+    "resultPng": "result.png",
+    "resultPngDims": { "w": 1024, "h": 1024 },
+    "resultPngBytes": 1353583,
+    "resultDiffersFromSource": true,
+    "evidence": "run-edit6.json",
+    "screenshot": "ui.png"
+  },
+  "resultActions": {
+    "存储库": {
+      "rendered": true,
+      "testId": "hand-repair-save-1",
+      "disabled": false,
+      "clicked": false,
+      "assetId": null,
+      "reason": "未取得真实点击证据：run-actions.json 于 2026-10-28T16:19:23Z 提交后 300s 内未拿到结果即超时（ui-error.png），运行方未走完 存库 门禁。"
+    },
+    "发画布": {
+      "rendered": true,
+      "testId": "hand-repair-send-1",
+      "disabled": false,
+      "clicked": false,
+      "projectId": null,
+      "reason": "同上，未取得真实点击证据。"
+    },
+    "下载": {
+      "rendered": true,
+      "text": "下载",
+      "disabled": false,
+      "clicked": false,
+      "href": null,
+      "reason": "结果 DOM 中按钮存在且可点，但本次验收未落盘真实 download 事件（AREA_REPAIR 侧已同类动作取证，HAND_REPAIR 侧未取证）。"
+    }
+  },
+  "noRegenerationDecision": {
+    "persistedTask": null,
+    "persistedHandRepairAsset": null,
+    "probe": "browser-control-probe.json",
+    "why": "真实 Chrome 配置档内无 HAND_REPAIR 持久化任务、也无 hand-repair 来源入库资产；要补齐 存库/发画布 只能重新生成一次。主会话明确『禁止重复生成』，故如实记 PARTIAL，不造证据。"
+  },
+  "crossCheck": {
+    "uiReload": { "images": 2, "hasResult": true },
+    "issues": [],
+    "consoleErrors": 0
+  },
+  "files": [
+    "run-edit6.json",
+    "run-actions.json",
+    "result.png",
+    "ui.png",
+    "step-1-loaded.png",
+    "step-2-submitted.png",
+    "ui-error.png",
+    "browser-control-probe.json",
+    "LINKFOX_COMPARE.md"
+  ]
+}

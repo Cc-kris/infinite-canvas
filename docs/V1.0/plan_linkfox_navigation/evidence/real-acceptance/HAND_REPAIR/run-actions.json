@@ -1,0 +1,30 @@
+{
+  "toolId": "HAND_REPAIR",
+  "name": "手部修复",
+  "route": "/tools/smart-edit/hand-repair",
+  "startedAt": "2026-10-28T16:19:23.623Z",
+  "steps": [
+    "submitted"
+  ],
+  "provider": {
+    "baseUrl": "https://api.cc-ai.xyz",
+    "model": "sf-accept::Qwen/Qwen3-VL-8B-Instruct",
+    "imageModel": "ccai-accept::gpt-image-2",
+    "channelCount": 2,
+    "keyLen": 67,
+    "textKeyLen": 51
+  },
+  "urlOnLoad": "http://127.0.0.1:3000/tools/smart-edit/hand-repair",
+  "inputCount": 1,
+  "coverageBefore": "尚未涂抹｜红色覆盖只是预览，导出为白色蒙版",
+  "personTypeOptions": [],
+  "coverageAfter": "已涂抹 11.6% 区域｜红色覆盖只是预览，导出为白色蒙版",
+  "issuesBeforeSubmit": "",
+  "submitBefore": {
+    "disabled": false,
+    "text": "开始生成"
+  },
+  "resultSrcPrefix": "",
+  "error": "未拿到结果图：超时",
+  "finishedAt": "2026-10-28T16:24:32.485Z"
+}

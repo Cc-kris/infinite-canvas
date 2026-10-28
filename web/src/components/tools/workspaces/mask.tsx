@@ -466,7 +466,20 @@ export function MaskWorkspace({ className }: MaskWorkspaceProps = {}) {
                     return task;
                 },
             };
-            const results = await runAreaRepairUnits(units, { port, concurrency: 2, signal: controller.signal });
+            // 同一通道并发提交会互相拖住（实测并发 2 时两个单元都停在 submitting），逐张串行提交；
+            // 每张完成就回流到结果区，用户不必等到全部结束才看到图。
+            const results = await runAreaRepairUnits(units, {
+                port,
+                concurrency: 1,
+                signal: controller.signal,
+                onOutcome: (outcome) => {
+                    setOutcomes((prev) => {
+                        const next = prev.slice();
+                        next[outcome.index - 1] = outcome;
+                        return next.filter((item): item is AreaRepairUnitOutcome => Boolean(item));
+                    });
+                },
+            });
             setOutcomes(results);
             const ok = results.filter((item) => item.status === "succeeded").length;
             const failed = results.filter((item) => item.status === "failed").length;
