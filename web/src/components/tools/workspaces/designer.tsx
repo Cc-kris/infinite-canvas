@@ -20,6 +20,8 @@ import {
     designerCanvasPreset,
     designerDocumentFingerprint,
     DESIGNER_CANVAS_PRESETS,
+    DESIGNER_FONT_FAMILIES,
+    designerFontFamily,
     DESIGNER_LAYER_LIMITS,
     DESIGNER_TEXT_LIMIT,
     hasBlockingDesignerIssue,
@@ -34,6 +36,7 @@ import {
     NEW_DESIGNER_TOOL_ID,
     selectedDesignerLayer,
     serializeDesignerDraft,
+    setDesignerCanvasBackground,
     setDesignerCanvasSize,
     setDesignerLayerVisibility,
     toggleDesignerLayerLock,
@@ -450,7 +453,7 @@ export function DesignerWorkspace({
                                 layer.kind === "image" && layer.src ? (
                                     <img src={layer.src} alt={layer.name} className="h-full w-full object-contain" draggable={false} />
                                 ) : (
-                                    <span className="flex h-full w-full items-center justify-center break-all text-center leading-tight" style={{ color: layer.color, fontSize: `${Math.max(10, (layer.fontSize ?? 64) * (640 / document.width))}px` }}>
+                                    <span className="flex h-full w-full items-center justify-center break-all text-center leading-tight" style={{ color: layer.color, fontFamily: designerFontFamily(layer.fontFamily).stack, fontSize: `${Math.max(10, (layer.fontSize ?? 64) * (640 / document.width))}px` }}>
                                         {layer.text}
                                     </span>
                                 );
@@ -524,11 +527,30 @@ export function DesignerWorkspace({
                                                 字号
                                                 <input type="number" min={8} max={400} value={selected.fontSize ?? 64} onChange={(event) => apply(updateDesignerLayer(document, selected.id, { fontSize: Number(event.target.value) || 8 }))} className="h-9 rounded-md border border-border bg-background px-2 tabular-nums" />
                                             </label>
+                                            <div className="flex flex-col gap-1">
+                                                字体
+                                                <div className="flex flex-wrap gap-1" role="group" aria-label="字体族">
+                                                    {DESIGNER_FONT_FAMILIES.map((family) => (
+                                                        <button
+                                                            key={family.id}
+                                                            type="button"
+                                                            data-testid={`designer-font-${family.id}`}
+                                                            aria-pressed={designerFontFamily(selected.fontFamily).id === family.id}
+                                                            onClick={() => apply(updateDesignerLayer(document, selected.id, { fontFamily: family.id }))}
+                                                            className={`h-8 rounded-md border px-2 ${designerFontFamily(selected.fontFamily).id === family.id ? "border-primary bg-primary/10 text-primary" : "border-border bg-background text-muted-foreground"}`}
+                                                            style={{ fontFamily: family.stack }}
+                                                        >
+                                                            {family.label}
+                                                        </button>
+                                                    ))}
+                                                </div>
+                                            </div>
                                             <label className="flex flex-col gap-1">
                                                 颜色
                                                 <input type="color" value={selected.color ?? "#ffffff"} onChange={(event) => apply(updateDesignerLayer(document, selected.id, { color: event.target.value }))} className="h-9 w-14 rounded-md border border-border bg-background" />
                                             </label>
                                         </div>
+                                        <p className="text-[11px] text-muted-foreground">字体只提供系统可渲染字族（LinkFox 侧由 /image/designer/font/list 下发上传字体，本站未接远端字体库）。</p>
                                     </>
                                 ) : null}
                                 <div className="grid grid-cols-2 gap-2">
@@ -560,6 +582,20 @@ export function DesignerWorkspace({
                         ) : (
                             <p className="text-xs text-muted-foreground">未选中图层：在左侧列表或画布上点选。</p>
                         )}
+                        <div className="mt-auto flex flex-col gap-1 border-t border-border pt-2 text-xs">
+                            <label className="flex items-center justify-between gap-2">
+                                画布背景
+                                <input
+                                    type="color"
+                                    value={document.background}
+                                    onChange={(event) => apply(setDesignerCanvasBackground(document, event.target.value))}
+                                    className="h-9 w-14 rounded-md border border-border bg-background"
+                                    data-testid="designer-background"
+                                    aria-label="画布背景色"
+                                />
+                            </label>
+                            <span className="text-[11px] text-muted-foreground">{document.background} · 导出合成与预览使用同一底色（对应 LinkFox 设计器「背景」面板）。</span>
+                        </div>
                         {issues.length ? (
                             <ul className="mt-auto flex flex-col gap-1 border-t border-border pt-2 text-[11px] text-destructive">
                                 {issues.slice(0, 4).map((issue) => (

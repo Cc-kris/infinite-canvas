@@ -38,6 +38,31 @@ export const DESIGNER_CANVAS_PRESETS = [
     { id: "4:3", label: "4:3 横版", width: 1440, height: 1080 },
 ] as const;
 
+/**
+ * 文字字体族。LinkFox 设计器通过 `/image/designer/font/list` 下发字体（含用户上传字体），
+ * 本站不接远端字体库，只暴露系统可渲染的中英文字体栈：预览与导出合成共用同一栈，
+ * 保证「看到的」与「导出的」一致，不冒充上游字体枚举。
+ */
+export const DESIGNER_FONT_FAMILIES = [
+    { id: "system", label: "系统默认", stack: '"PingFang SC", "Microsoft YaHei", system-ui, sans-serif' },
+    { id: "sans", label: "黑体", stack: '"PingFang SC", "Helvetica Neue", Arial, "Microsoft YaHei", sans-serif' },
+    { id: "serif", label: "宋体", stack: '"Songti SC", "SimSun", Georgia, serif' },
+    { id: "kai", label: "楷体", stack: '"Kaiti SC", "KaiTi", "STKaiti", serif' },
+    { id: "mono", label: "等宽", stack: '"SF Mono", Menlo, Consolas, "Courier New", monospace' },
+] as const;
+
+export type DesignerFontFamilyId = (typeof DESIGNER_FONT_FAMILIES)[number]["id"];
+export const DEFAULT_DESIGNER_FONT_FAMILY: DesignerFontFamilyId = "system";
+
+/** 未知/缺失的字体族一律回落到系统默认，避免导出时拿到非法 CSS 字体串。 */
+export function designerFontFamily(id: string | undefined): (typeof DESIGNER_FONT_FAMILIES)[number] {
+    return DESIGNER_FONT_FAMILIES.find((family) => family.id === id) ?? DESIGNER_FONT_FAMILIES[0];
+}
+
+export function designerFontStack(id: string | undefined): string {
+    return designerFontFamily(id).stack;
+}
+
 export type DesignerCanvasPresetId = (typeof DESIGNER_CANVAS_PRESETS)[number]["id"];
 export const DEFAULT_DESIGNER_CANVAS_PRESET: DesignerCanvasPresetId = "1:1";
 export const DESIGNER_CANVAS_LIMITS = { minSide: 256, maxSide: 4096 } as const;
@@ -72,6 +97,8 @@ export type DesignerLayer = {
     text?: string;
     fontSize?: number;
     color?: string;
+    /** 文本图层字体族 id（见 DESIGNER_FONT_FAMILIES）；缺省视为系统默认。 */
+    fontFamily?: string;
     x: number;
     y: number;
     width: number;
@@ -125,6 +152,7 @@ const layerSchema = z.object({
     text: z.string().optional(),
     fontSize: z.number().finite().positive().optional(),
     color: z.string().min(1).optional(),
+    fontFamily: z.string().min(1).optional(),
     x: z.number().finite(),
     y: z.number().finite(),
     width: z.number().finite(),
@@ -202,6 +230,7 @@ export function createTextLayer(index: number, patch: Partial<DesignerLayer> = {
         text: patch.text ?? "商品卖点文案",
         fontSize: patch.fontSize ?? 64,
         color: patch.color ?? "#ffffff",
+        fontFamily: patch.fontFamily ?? DEFAULT_DESIGNER_FONT_FAMILY,
         x: patch.x ?? 80,
         y: patch.y ?? 80,
         width: patch.width ?? 640,
@@ -332,6 +361,21 @@ export function setDesignerCanvasSize(document: DesignerDocument, width: number,
     return { ...bump(document, document.layers), width: nextWidth, height: nextHeight };
 }
 
+/** 画布背景色：LinkFox 设计器有独立「背景」面板（/image/designer/background/list）。
+ * 本站只做纯色背景，取值只接受 #RGB / #RRGGBB，非法值保持原样不入库。 */
+export const DESIGNER_BACKGROUND_PATTERN = /^#(?:[0-9a-fA-F]{3}|[0-9a-fA-F]{6})$/;
+
+export function isDesignerBackground(value: string): boolean {
+    return DESIGNER_BACKGROUND_PATTERN.test(value.trim());
+}
+
+export function setDesignerCanvasBackground(document: DesignerDocument, background: string): DesignerDocument {
+    const next = background.trim();
+    if (!isDesignerBackground(next)) return document;
+    if (next.toLowerCase() === document.background.toLowerCase()) return document;
+    return { ...bump(document, document.layers), background: next };
+}
+
 /* ============================== 历史（撤销/重做） ============================== */
 
 export type DesignerHistory = { past: DesignerDocument[]; present: DesignerDocument; future: DesignerDocument[] };
@@ -345,7 +389,7 @@ export function designerDocumentKey(document: DesignerDocument): string {
         width: document.width,
         height: document.height,
         background: document.background,
-        layers: document.layers.map((layer) => [layer.id, layer.kind, layer.name, layer.src ?? "", layer.text ?? "", layer.x, layer.y, layer.width, layer.height, layer.rotation, layer.opacity, layer.visible, layer.locked]),
+        layers: document.layers.map((layer) => [layer.id, layer.kind, layer.name, layer.src ?? "", layer.text ?? "", layer.x, layer.y, layer.width, layer.height, layer.rotation, layer.opacity, layer.visible, layer.locked, layer.fontSize ?? null, layer.fontFamily ?? "", layer.color ?? ""]),
     });
 }
 

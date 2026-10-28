@@ -3,6 +3,7 @@ import { describe, expect, test } from "bun:test";
 import {
     DESIGNER_CANVAS_LIMITS,
     DESIGNER_CANVAS_PRESETS,
+    DESIGNER_FONT_FAMILIES,
     DESIGNER_LAYER_LIMITS,
     DESIGNER_TEXT_LIMIT,
     NEW_DESIGNER_ADAPTER,
@@ -28,6 +29,8 @@ import {
     createTextLayer,
     decideDesignerClose,
     designerDocumentFingerprint,
+    designerFontFamily,
+    designerFontStack,
     designerSpecDrift,
     hasBlockingDesignerIssue,
     isDesignerStale,
@@ -37,10 +40,11 @@ import {
     renameDesignerLayer,
     redoDesignerDocument,
     reorderDesignerLayers,
+    serializeDesignerDraft,
     resizeDesignerLayer,
     restoreDesignerDraft,
     rotateDesignerLayer,
-    serializeDesignerDraft,
+    setDesignerCanvasBackground,
     setDesignerCanvasSize,
     setDesignerLayerVisibility,
     toggleDesignerLayerLock,
@@ -457,6 +461,97 @@ describe("适配器执行链路（可注入端口，失败即失败）", () => {
 
         const noCanvas = createCanvasDesignerCompositor(() => null);
         await expect(noCanvas.compose(document)).rejects.toMatchObject({ code: "canvas-unavailable" });
+    });
+});
+
+/* ============================== 字体族与画布背景 ============================== */
+
+describe("字体族与画布背景（对齐 LinkFox 设计器 font/list 与背景面板）", () => {
+    test("字体族只暴露系统可渲染字族，未知 id 回落到系统默认", () => {
+        expect(DESIGNER_FONT_FAMILIES.length).toBeGreaterThanOrEqual(4);
+        expect(new Set(DESIGNER_FONT_FAMILIES.map((family) => family.id)).size).toBe(DESIGNER_FONT_FAMILIES.length);
+        expect(designerFontFamily(undefined).id).toBe("system");
+        expect(designerFontFamily("not-a-font").id).toBe("system");
+        expect(designerFontStack("sans")).toContain("PingFang SC");
+        expect(designerFontStack("serif")).toContain("Songti SC");
+        expect(designerFontStack("kai")).toContain("Kaiti SC");
+    });
+
+    test("字体/字号/颜色变化都会进入历史栈（不被 key 折叠）", () => {
+        const doc = addDesignerLayer(createDesignerDocument({ designerId: "dz-commit" }), createTextLayer(1, { text: "新品" }));
+        const id = doc.layers[0].id;
+        let history = createDesignerHistory(doc);
+        for (const patch of [{ fontFamily: "serif" }, { fontSize: 72 }, { color: "#ff0000" }]) {
+            const before = history;
+            history = commitDesignerDocument(history, updateDesignerLayer(history.present, id, patch));
+            expect(history).not.toBe(before);
+            expect(history.past.length).toBe(before.past.length + 1);
+        }
+    });
+
+    test("文字图层带字体族，切换字体递增 revision 且不影响几何", () => {
+        const doc = addDesignerLayer(createDesignerDocument({ designerId: "dz-font" }), createTextLayer(1, { text: "新品", fontFamily: "serif" }));
+        const layer = doc.layers[0];
+        expect(layer.fontFamily).toBe("serif");
+        const next = updateDesignerLayer(doc, layer.id, { fontFamily: "kai" });
+        expect(next.layers[0].fontFamily).toBe("kai");
+        expect(next.layers[0].x).toBe(layer.x);
+        expect(next.revision).toBeGreaterThan(doc.revision);
+        // 图层 schema 接受该字段，草稿序列化往返不丢
+        const restored = restoreDesignerDraft(serializeDesignerDraft(next, { imageUrl: "https://cdn.example.com/p.png" }));
+        expect(restored.status).toBe("ok");
+        if (restored.status === "ok") expect(restored.values.document.layers[0].fontFamily).toBe("kai");
+    });
+
+    test("画布背景只接受 #RGB/#RRGGBB，非法值不改文档", () => {
+        const doc = createDesignerDocument({ designerId: "dz-bg", background: "#ffffff" });
+        expect(setDesignerCanvasBackground(doc, "#123456").background).toBe("#123456");
+        expect(setDesignerCanvasBackground(doc, " #ABC ").background).toBe("#ABC");
+        expect(setDesignerCanvasBackground(doc, "red")).toBe(doc);
+        expect(setDesignerCanvasBackground(doc, "#12")).toBe(doc);
+        const same = setDesignerCanvasBackground(doc, "#FFFFFF");
+        expect(same).toBe(doc);
+    });
+
+    test("合成器把字体族写进 ctx.font，并把背景色画在最底层", async () => {
+        const fonts: string[] = [];
+        const filled: string[] = [];
+        const context = {
+            fillStyle: "",
+            globalAlpha: 1,
+            textAlign: "",
+            textBaseline: "",
+            get font() {
+                return "";
+            },
+            set font(value: string) {
+                fonts.push(value);
+            },
+            fillRect: () => filled.push("fillRect"),
+            save: () => undefined,
+            restore: () => undefined,
+            translate: () => undefined,
+            rotate: () => undefined,
+            drawImage: () => undefined,
+            measureText: () => ({ width: 10 }),
+            fillText: () => filled.push("fillText"),
+        };
+        const canvas = {
+            width: 0,
+            height: 0,
+            getContext: () => context,
+            toBlob: (callback: (blob: Blob | null) => void) => callback(fakeBlob(16)),
+        };
+        const compositor = createCanvasDesignerCompositor(() => canvas as never);
+        const doc = addDesignerLayer(
+            createDesignerDocument({ designerId: "dz-font-canvas", background: "#101010" }),
+            createTextLayer(1, { text: "夏季上新", fontFamily: "serif" }),
+        );
+
+        await compositor.compose(doc);
+
+        expect(filled[0]).toBe("fillRect");
+        expect(fonts.some((value) => value.includes("Songti SC"))).toBe(true);
     });
 });
 

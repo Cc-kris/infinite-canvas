@@ -17,6 +17,7 @@ import {
     buildDesignerFields,
     buildDesignerPrompt,
     designerDocumentFingerprint,
+    designerFontStack,
     hasBlockingDesignerIssue,
     validateDesignerState,
     type DesignerDocument,
@@ -256,7 +257,7 @@ function drawLayer(context: CanvasRenderingContext2D, layer: DesignerDocument["l
         context.fillStyle = layer.color ?? "#ffffff";
         context.textAlign = "center";
         context.textBaseline = "middle";
-        context.font = `600 ${fontSize}px "PingFang SC", "Microsoft YaHei", system-ui, sans-serif`;
+        context.font = `600 ${fontSize}px ${designerFontStack(layer.fontFamily)}`;
         const text = layer.text ?? "";
         const ratio = Math.min(1, layer.width / Math.max(1, context.measureText(text).width));
         context.fillText(text, 0, 0, layer.width * ratio);

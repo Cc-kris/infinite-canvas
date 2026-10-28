@@ -53,5 +53,65 @@
   "verification": {
     "typecheck": "web: ./node_modules/.bin/tsc --noEmit → exit 0（node v26.11.0）",
     "tests": "web: bun test src/components/tools → 76 pass / 0 fail / 390 expects（10 files，含 suite/designer 结果卡）"
-  }
+  },
+  "supplements": [
+    {
+      "kind": "ui_dom_probe",
+      "runAt": "2026-10-29T20:05+08:00",
+      "route": "http://127.0.0.1:3000/tools/product-design/new-designer",
+      "flow": [
+        "点击「添加文字」→ 图层列表出现「文字 0」",
+        "选中图层 → 属性面板出现字体按钮组（系统默认/黑体/宋体/楷体/等宽）",
+        "点击「宋体」→ aria-pressed 由「系统默认」切到「宋体」",
+        "改画布背景色 #102030 → 画布计算样式变化",
+        "点击「撤销」→ 背景回退 #ffffff，字体保留宋体"
+      ],
+      "observed": {
+        "fontPressed": "宋体",
+        "canvasTextFontFamily": "\"Songti SC\", SimSun, Georgia, serif",
+        "canvasBackground": "rgb(16, 32, 48)",
+        "backgroundAfterUndo": "#ffffff",
+        "fontAfterUndo": "宋体",
+        "documentedTestId": [
+          "designer-font-system",
+          "designer-font-sans",
+          "designer-font-serif",
+          "designer-font-kai",
+          "designer-font-mono",
+          "designer-background"
+        ]
+      },
+      "checks": [
+        {
+          "item": "字体切换生效",
+          "expected": "画布文字 font-family 随字族变化",
+          "actual": "点「宋体」→ \"Songti SC\", SimSun, Georgia, serif",
+          "ok": true
+        },
+        {
+          "item": "画布背景色生效",
+          "expected": "修改背景色立即反映到画布",
+          "actual": "#102030 → rgb(16,32,48)",
+          "ok": true
+        },
+        {
+          "item": "撤销栈可用",
+          "expected": "背景改动可撤销且不连带其他属性",
+          "actual": "撤销后背景 #ffffff，字体仍为宋体",
+          "ok": true
+        }
+      ],
+      "rootCause": "designerDocumentKey() 未包含 fontSize/fontFamily/color，commitDesignerDocument() 判定文档未变而丢弃改动",
+      "fix": "指纹补齐 fontSize/fontFamily/color；createTextLayer 透传 fontFamily；字体选择改分段按钮；新增画布背景色控件",
+      "verification": {
+        "tests": "web: bun test src/features/tools/adapters/new-designer.test.ts → 33 pass / 0 fail / 172 expects",
+        "typecheck": "web: ./node_modules/.bin/tsc --noEmit → 无错误",
+        "fullSuite": "web: bun test → 1291 pass / 3 fail（3 个失败均为 tests/*.spec.ts 的 Playwright 用例被 bun 误跑，与本次改动无关）"
+      },
+      "deviations": [
+        "原站 font/list、fontStyle/list、background/list、element/list、official/list 的真实条目未取得（无登录态），本对照只做能力级标注"
+      ],
+      "comparison": "comparison_1to1.md"
+    }
+  ]
 }
