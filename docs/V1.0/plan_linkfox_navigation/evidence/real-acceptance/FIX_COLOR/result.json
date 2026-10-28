@@ -1,0 +1,26 @@
+{
+  "toolId": "FIX_COLOR",
+  "status": "PARTIAL",
+  "capturedAt": "2026-10-28T17:21:48Z",
+  "route": "/tools/smart-edit/fix-color",
+  "fixture": "product-watch.jpg（1024x744）",
+  "provenance": "多轮真实提交，均未取得可用上游结果。",
+  "result": null,
+  "attempts": [
+    {
+      "at": "2026-10-28T13:54:41.834Z",
+      "outcome": "上游连接超时",
+      "error": "UND_ERR_CONNECT_TIMEOUT（api.openai.com），诊断码 timeout-or-network"
+    },
+    {
+      "at": "2026-10-28T17:21:48Z",
+      "outcome": "另有 502 / execution-context 失败（见 run-edit6.json）"
+    }
+  ],
+  "actions": null,
+  "blockedReason": "上游线路对 fix-color 通道持续超时/502，未产生任何真实结果图；按规则不伪造产物，保持 PARTIAL。",
+  "uncovered": [
+    "无真实结果 → 下载 / 存资产 / 发送画布三项动作无法验收",
+    "需在代理可用时重跑一次真实提交（会产生算力消耗）"
+  ]
+}
