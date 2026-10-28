@@ -1,0 +1,42 @@
+{
+  "tool": "SCENE_TRANSFER",
+  "name": "场景迁移",
+  "group": "product-design",
+  "task": "TASK-040",
+  "route": "/tools/product-design/scene-transfer",
+  "sourceUrl": "https://www.linkfox.com/draw/scene-transfer",
+  "status": "PASS",
+  "result": "verified",
+  "verdict": "PASS",
+  "runAt": "2026-10-28T15:30:40Z",
+  "realProviderCall": true,
+  "provider": "gpt-image-2 via canvas-proxy（结果直出 OSS：https://oss-us.dimenoss.com/images/2026/10/28/1793201468_9270e246095bfc569d43a8d447b31b25.png）",
+  "route_verified": "http://127.0.0.1:3000/tools/product-design/scene-transfer（data-tool-id=SCENE_TRANSFER，data-workspace=ready）",
+  "inputs": {
+    "productImage": "product_s.png · 640×465 · image/png（本地上传入库）",
+    "styleImage": "scene_xs.png · 336×448 · image/png（本地上传入库）",
+    "segImage": "未上传（页面明确不拿商品原图冒充 segImageUrl）",
+    "similarity": 70
+  },
+  "assertions": [
+    "双图 + 相似度三输入真实渲染，上传后显示尺寸与类型，可达数量上限并给出「先移除一个再上传」",
+    "相似度滑杆 70% → 提交快照 similarity=70，提示词内同步出现「similarity = 70%」",
+    "无分割图时提示词明确整图迁移，不假设已分割",
+    "点击「开始迁移」→ 按钮置为「生成中…」并禁用 → 约 60s 内返回结果图（1024×1024）",
+    "结果区渲染下载 / 存入资产 / 发送画布三个动作",
+    "存入资产返回 toast「已保存到资产库（BRk2AiUZCTCTlJI5FTep-）」",
+    "发送画布返回 toast「已发送到画布（lgo49vQA16ieaPARvSvAb）」",
+    "提交快照锁定四字段 imageUrl/imageStyleUrl/segImageUrl/similarity，capturedAt 可见"
+  ],
+  "evidence": [
+    "result_dom.json（结果图 URL、尺寸、提交快照 JSON 全文）",
+    "reports/TASK-033-report.md（契约与实现说明）"
+  ],
+  "notExercised": [
+    "带 segImageUrl 的分割图分支：本地无分割服务，未构造该输入跑通",
+    "相似度 30% / 80% 等其它档位的输出差异未逐档对比"
+  ],
+  "risks": [
+    "依赖 canvas-proxy 图像通道；proxy 老化会导致 5xx（已在其它工具记录）"
+  ]
+}

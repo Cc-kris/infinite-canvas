@@ -1,0 +1,14 @@
+{
+  "url": "http://127.0.0.1:3000/tools/product-design/scene-transfer",
+  "imgs": [
+    {
+      "src": "https://oss-us.dimenoss.com/images/2026/10/28/1793201468_9270e246095bfc569d43a8d447b31b25.png",
+      "w": 1024,
+      "h": 1024
+    }
+  ],
+  "snapshot": [
+    "{\n  \"toolId\": \"SCENE_TRANSFER\",\n  \"revision\": 19,\n  \"productAssetId\": \"96Iy4Nb3oVyu2PXQQr7a0\",\n  \"styleAssetId\": \"pKJp39Acf4HaiKXPvlYbv\",\n  \"segAssetId\": \"\",\n  \"imageUrl\": \"96Iy4Nb3oVyu2PXQQr7a0\",\n  \"imageStyleUrl\": \"pKJp39Acf4HaiKXPvlYbv\",\n  \"segImageUrl\": \"\",\n  \"similarity\": 70,\n  \"segmentationProvided\": false,\n  \"prompt\": \"把商品迁移到参考场景风格中，输出一张可直接商用的商品场景图。\\n第 1 张参考图 = 商品图：保留商品本体的形态、材质、logo、纹理与颜色，不得改写商品\\n第 2 张参考图 = 场景风格参考图：只迁移它的场景氛围、光影、背景与配色风格\\n场景风格保留强度 similarity = 70%（0% 只借一点氛围，100% 几乎完全贴合参考场景）。\\n没有分割图时不要假设已经分割，只做整图级迁移，并保持商品边界自然。\\n不要添加参考图里不存在的文字、水印或道具；商品保持可识别的真实外观。\",\n  \"fieldKeys\": [\n    \"imageStyleUrl\",\n    \"imageUrl\",\n    \"segImageUrl\",\n    \"similarity\"\n  ],\n  \"capturedAt\": \"2026-10-28T15:30:40.250Z\"\n}"
+  ],
+  "tail": "景的光影与背景风格 产物 1 张 · 相似度 70% · 整图迁移（未提供分割图） 开始迁移 场景迁移结果 已完成 共 1 个结果 · 图片 1 下载 存入资产 发送画布 本次提交没有 segImageUrl（本地无分割服务），结果为整图级迁移 本次提交快照 { \"toolId\": \"SCENE_TRANSFER\", \"revision\": 19, \"productAssetId\": \"96Iy4Nb3oVyu2PXQQr7a0\", \"styleAssetId\": \"pKJp39Acf4HaiKXPvlYbv\", \"segAssetId\": \"\", \"imageUrl\": \"96Iy4Nb3oVyu2PXQQr7a0\", \"imageStyleUrl\": \"pKJp39Acf4HaiKXPvlYbv\", \"segImageUrl\": \"\", \"similarity\": 70, \"segmentationProvided\": false, \"prompt\": \"把商品迁移到参考场景风格中，输出一张可直接商用的商品场景图。\\n第 1 张参考图 = 商品图：保留商品本体的形态、材质、logo、纹理与颜色，不得改写商品\\n第 2 张参考图 = 场景风格参考图：只迁移它的场景氛围、光影、背景与配色风格\\n场景风格保留强度 similarity = 70%（0% 只借一点氛围，100% 几乎完全贴合参考场景）。\\n没有分割图时不要假设已经分割，只做整图级迁移，并保持商品边界自然。\\n不要添加参考图里不存在的文字、水印或道具；商品保持可识别的真实外观。\", \"fieldKeys\": [ \"imageStyleUrl\", \"imageUrl\", \"segImageUrl\", \"similarity\" ], \"capturedAt\": \"2026-10-28T15:30:40.250Z\" }"
+}
