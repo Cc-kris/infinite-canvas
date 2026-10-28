@@ -27,6 +27,8 @@ import {
     type ChangeColorValues,
 } from "../registry/change-color";
 
+import { isInlineImageUrl, isUploadedImageReady, sourceReferenceUrls } from "../source-asset";
+
 /**
  * TASK-024：CHANGE_COLOR（一键换色）的真实 provider 适配层。
  *
@@ -54,27 +56,19 @@ export class ChangeColorAdapterError extends Error {
 export function isChangeColorSourceUsable(source?: ChangeColorSourceAsset | null): boolean {
     if (!source || !source.assetId.trim()) return false;
     if (!isChangeColorSourceReady(source)) return false;
-    const src = source.dataUrl || source.url || "";
-    // blob: 是 ToolAssetInput 上传后本地资产记录的真实形态（IndexedDB 里的对象 URL），
-    // 请求阶段 imageToDataUrl 会把它抓成 data: 再发给 provider；这里若只认 data:/http(s)，
-    // 用户上传成功但「立即生成」永远禁用以至于无法使用本工具（真实面包屑：上传后仍提示
-    // 「请先上传需要换色的图片」）。
-    return (
-        src.startsWith("data:image/") ||
-        src.startsWith("https://") ||
-        src.startsWith("http://") ||
-        src.startsWith("blob:")
-    );
+    // 判定口径统一在 features/tools/source-asset.ts：data: / blob:（上传后当次会话的对象 URL）/
+    // http(s) 都算可用。历史上这里自己维护一份前缀列表，漏掉 blob: 时表现为「上传成功但立即生成永久禁用」。
+    return isUploadedImageReady(source);
 }
 
 export function toChangeColorReference(source: ChangeColorSourceAsset): ReferenceImage {
-    if (!isChangeColorSourceUsable(source)) throw new ChangeColorAdapterError("source-missing", "请先上传可用的图片。");
+    const urls = sourceReferenceUrls(source);
+    if (!urls || !source.assetId.trim()) throw new ChangeColorAdapterError("source-missing", "请先上传可用的图片。");
     return {
         id: source.assetId,
         name: source.name ?? `${source.assetId}.png`,
         type: source.mimeType ?? "image/png",
-        dataUrl: source.dataUrl ?? source.url ?? "",
-        ...(source.url && !source.url.startsWith("data:") ? { url: source.url } : {}),
+        ...urls,
     };
 }
 
@@ -82,13 +76,13 @@ export function toChangeColorReference(source: ChangeColorSourceAsset): Referenc
 export function toMaskReference(maskUrl: string | undefined): ReferenceImage | undefined {
     const value = (maskUrl ?? "").trim();
     if (!value) return undefined;
-    if (!value.startsWith("data:image/") && !value.startsWith("https://") && !value.startsWith("http://")) return undefined;
+    const urls = sourceReferenceUrls({ url: value });
+    if (!urls) return undefined;
     return {
         id: "change-color-mask",
         name: "region-mask.png",
-        type: value.startsWith("data:") ? value.slice(5, value.indexOf(";")) || "image/png" : "image/png",
-        dataUrl: value,
-        ...(value.startsWith("http") ? { url: value } : {}),
+        type: isInlineImageUrl(value) ? value.slice(5, value.indexOf(";")) || "image/png" : "image/png",
+        ...urls,
     };
 }
 
@@ -104,9 +98,7 @@ export function buildChangeColorPrompt(values: ChangeColorValues, source: Change
     const region = regionDescriptor(values);
     const lines: string[] = [];
 
-    lines.push(
-        `只对图中的「${region}」做换色：把该区域的颜色改为 ${hex}${rgb ? `（${rgb}）` : ""}，保持原有明暗过渡、褶皱、纹理与材质反光。`,
-    );
+    lines.push(`只对图中的「${region}」做换色：把该区域的颜色改为 ${hex}${rgb ? `（${rgb}）` : ""}，保持原有明暗过渡、褶皱、纹理与材质反光。`);
     if (values.doInpaint) {
         lines.push("局部重绘已开启：只重绘蒙版覆盖的像素，蒙版外的一切保持不变。");
     } else {
@@ -334,11 +326,7 @@ export function firstChangeColorResult(task: ToolTask | undefined): string | und
 }
 
 /** 结果是否属于当前配置：换源图/改色/改区域后旧结果必须自报“来自旧版本”。 */
-export function changeColorResultFromTask(
-    task: ToolTask | undefined,
-    snapshot: ChangeColorSnapshot | undefined,
-    current: ChangeColorSnapshot | undefined,
-): ChangeColorResultView {
+export function changeColorResultFromTask(task: ToolTask | undefined, snapshot: ChangeColorSnapshot | undefined, current: ChangeColorSnapshot | undefined): ChangeColorResultView {
     if (!task) return { stale: false, status: "idle" };
     return {
         image: firstChangeColorResult(task),

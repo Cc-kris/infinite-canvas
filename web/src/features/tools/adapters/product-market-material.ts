@@ -3,6 +3,8 @@ import type { ReferenceImage } from "@/types/image";
 import type { BrowserToolInput, SubmitOptions, WaitOptions } from "@/services/api/tools/gateway";
 import type { ToolTask, ToolTaskResultItem } from "@/services/api/tools/task-machine";
 
+import { isUploadedImageReady, sourceReferenceUrls } from "../source-asset";
+
 import {
     PRODUCT_MARKET_MATERIAL_TOOL_ID,
     buildMarketToolFields,
@@ -54,17 +56,16 @@ export class MarketAdapterError extends Error {
     }
 }
 
-/** 源图就绪：必须有可访问地址（data URL / http(s)），否则不能进 provider 参考图。 */
+/** 源图就绪：必须有可访问地址（data URL / blob 当次会话 / http(s)），否则不能进 provider 参考图。 */
 export function isMarketSourceReady(source: MarketSourceAsset | undefined): boolean {
     if (!source || !source.assetId.trim()) return false;
-    const src = source.dataUrl || source.url || "";
-    return src.startsWith("data:image/") || src.startsWith("https://") || src.startsWith("http://");
+    // 判定口径统一在 features/tools/source-asset.ts。此处此前漏掉 blob:，
+    // 导致「上传成功但源图仍判未就绪」——与本轮 P0 的其余 6 个工具同源。
+    return isUploadedImageReady(source);
 }
 
 /** 与页面约束一致：10M、384–4096px、宽高比 ≤ 5:1。 */
-export function validateMarketSourceLimits(source: MarketSourceAsset):
-    | { ok: true }
-    | { ok: false; code: "size" | "pixels" | "aspect"; message: string } {
+export function validateMarketSourceLimits(source: MarketSourceAsset): { ok: true } | { ok: false; code: "size" | "pixels" | "aspect"; message: string } {
     const { width, height, bytes } = source;
     if (bytes !== undefined && bytes > MARKET_UPLOAD_LIMITS.maxBytes) {
         return { ok: false, code: "size", message: "商品图不能超过 10M。" };
@@ -85,15 +86,15 @@ export function validateMarketSourceLimits(source: MarketSourceAsset):
 }
 
 export function toMarketReference(source: MarketSourceAsset): ReferenceImage {
-    if (!isMarketSourceReady(source)) {
+    const urls = sourceReferenceUrls(source);
+    if (!urls || !source.assetId.trim()) {
         throw new MarketAdapterError("source-missing", "请先上传可用的商品图。");
     }
     return {
         id: source.assetId,
         name: source.name ?? `${source.assetId}.png`,
         type: source.mimeType ?? "image/png",
-        dataUrl: source.dataUrl ?? source.url ?? "",
-        ...(source.url && !source.url.startsWith("data:") ? { url: source.url } : {}),
+        ...urls,
     };
 }
 
@@ -281,9 +282,7 @@ export async function runMarketMaterial(options: RunMarketOptions): Promise<Mark
         const input = buildMarketUnitInput({ config, unit, sources: resolved, provider, draftRevision: revision });
         try {
             const submittedTask = await gateway.submit(input, { signal, draftRevision: revision });
-            const task = gateway.waitForResult && submittedTask.status !== "succeeded" && submittedTask.status !== "failed"
-                ? await gateway.waitForResult(submittedTask.id, { ...wait, signal, draftRevision: revision })
-                : submittedTask;
+            const task = gateway.waitForResult && submittedTask.status !== "succeeded" && submittedTask.status !== "failed" ? await gateway.waitForResult(submittedTask.id, { ...wait, signal, draftRevision: revision }) : submittedTask;
             const result = marketUnitResultFromTask(unit, task);
             results.push(result);
             onUnit?.(result);
@@ -348,11 +347,7 @@ export async function retryMarketUnit(options: RetryMarketUnitOptions): Promise<
 }
 
 /** 结果是否来自旧配置（换图/改平台/改品牌基因后应为 true）。 */
-export function marketResultsStale(
-    run: Pick<MarketRunResult, "snapshot">,
-    config: MarketConfig,
-    input: { images: string[]; provider: string },
-): boolean {
+export function marketResultsStale(run: Pick<MarketRunResult, "snapshot">, config: MarketConfig, input: { images: string[]; provider: string }): boolean {
     return isMarketSnapshotStale(run.snapshot, config, input);
 }
 
@@ -382,19 +377,17 @@ export type MarketSaveDeps = {
 };
 
 /** 保存单张结果到素材存储；没有 dataUrl/url 就报错，绝不生成空占位。 */
-export async function saveMarketResultItem(
-    item: ToolTaskResultItem,
-    result: MarketUnitResult,
-    deps: MarketSaveDeps = {},
-): Promise<MarketSavedItem> {
+export async function saveMarketResultItem(item: ToolTaskResultItem, result: MarketUnitResult, deps: MarketSaveDeps = {}): Promise<MarketSavedItem> {
     const payload = item.dataUrl ?? item.url;
     if (!payload) {
         throw new MarketAdapterError("empty-result", "该结果没有可保存的内容（可能已被持久化策略剥离），请重新生成。");
     }
-    const upload = deps.upload ?? (async (input: string | Blob, prefix?: string) => {
-        const module = await import("@/services/file-storage");
-        return module.uploadMediaFile(input, prefix);
-    });
+    const upload =
+        deps.upload ??
+        (async (input: string | Blob, prefix?: string) => {
+            const module = await import("@/services/file-storage");
+            return module.uploadMediaFile(input, prefix);
+        });
     const uploaded = await upload(payload, `market-${result.moduleId}`);
     return {
         storageKey: uploaded.storageKey,

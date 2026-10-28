@@ -12,6 +12,7 @@
  */
 
 import { REMOVE_PEN_INSTRUCTION, REMOVE_PEN_TOOL_ID, composeRemovePenFields, removePenSnapshotHash, type RemovePenSnapshot, type RemovePenState } from "../registry/remove-pen";
+import { sourceReferenceUrls } from "../source-asset";
 import { renderMaskPng } from "./area-repair";
 import type { BrowserToolInput, WaitOptions } from "@/services/api/tools/gateway";
 import type { ToolTask } from "@/services/api/tools/task-machine";
@@ -42,8 +43,11 @@ export type RemovePenSourceAsset = {
 };
 
 export function toRemovePenReference(asset: RemovePenSourceAsset): ReferenceImage {
-    if (!asset.dataUrl && !asset.url) throw new RemovePenAdapterError("asset-unreadable", "这张图片的本地数据已不可用，请重新上传");
-    return { id: asset.id, name: asset.name, type: asset.type, dataUrl: asset.dataUrl, ...(asset.url ? { url: asset.url } : {}), ...(asset.storageKey ? { storageKey: asset.storageKey } : {}) };
+    // 归一化口径统一在 ../source-asset：blob:（上传后当次会话）不能冒充 dataUrl，
+    // 它落到 url，由 imageToDataUrl 在发送前抓成 data URL。
+    const urls = sourceReferenceUrls(asset);
+    if (!urls) throw new RemovePenAdapterError("asset-unreadable", "这张图片的本地数据已不可用，请重新上传");
+    return { id: asset.id, name: asset.name, type: asset.type, ...urls, ...(asset.storageKey ? { storageKey: asset.storageKey } : {}) };
 }
 
 export type RemovePenUnit = {
@@ -193,12 +197,7 @@ export type RemovePenResultView = {
     error?: { code: string; message: string };
 };
 
-export function removePenResultView(input: {
-    run?: RemovePenRun | null;
-    running?: boolean;
-    sourceUrl?: string;
-    stale?: boolean;
-}): RemovePenResultView {
+export function removePenResultView(input: { run?: RemovePenRun | null; running?: boolean; sourceUrl?: string; stale?: boolean }): RemovePenResultView {
     if (!input.run) {
         return { status: input.running ? "running" : "idle", sourceUrl: input.sourceUrl, stale: false };
     }
@@ -234,13 +233,7 @@ export function removePenDownloadHref(imageUrl?: string): string | null {
  * 但本页语义固定为「消除」：不做羽化、不反选、不自动扩边。
  * 空蒙版直接抛错（AreaRepairMaskError mask-empty），由工作区转成用户提示。
  */
-export async function exportRemovePenMaskPng(
-    state: RemovePenState,
-    size: { width: number; height: number },
-): Promise<{ dataUrl: string; width: number; height: number }> {
-    const rendered = await renderMaskPng(
-        { strokes: state.strokes, feather: 0, inverted: false, autoExpand: false },
-        size,
-    );
+export async function exportRemovePenMaskPng(state: RemovePenState, size: { width: number; height: number }): Promise<{ dataUrl: string; width: number; height: number }> {
+    const rendered = await renderMaskPng({ strokes: state.strokes, feather: 0, inverted: false, autoExpand: false }, size);
     return { dataUrl: rendered.dataUrl, width: rendered.width, height: rendered.height };
 }

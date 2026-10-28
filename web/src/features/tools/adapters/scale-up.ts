@@ -3,6 +3,8 @@ import type { ReferenceImage } from "@/types/image";
 import type { BrowserToolInput, SubmitOptions, ToolTaskGateway, WaitOptions } from "@/services/api/tools/gateway";
 import type { ToolTask, ToolTaskResultItem } from "@/services/api/tools/task-machine";
 
+import { isUploadedImageReady, sourceReferenceUrls } from "../source-asset";
+
 import {
     SCALE_UP_TOOL_ID,
     buildScaleUpPrompt,
@@ -52,27 +54,23 @@ export class ScaleUpAdapterError extends Error {
 
 export function isScaleUpSourceReady(source?: ScaleUpSourceAsset | null): boolean {
     if (!source || !source.assetId.trim()) return false;
-    const src = source.dataUrl || source.url || "";
-    // blob: 是工具素材库当次会话的对象 URL（见 ToolAssetRecord.url 注释），
-    // 发送前由 imageToDataUrl 转成 data URL，因此同样是可用来源。
-    return src.startsWith("data:image/") || src.startsWith("https://") || src.startsWith("http://") || src.startsWith("blob:");
+    // 判定口径统一在 features/tools/source-asset.ts（data: / blob: 当次会话 / http(s)）。
+    return isUploadedImageReady(source);
 }
 
 export function toScaleUpReference(source: ScaleUpSourceAsset): ReferenceImage {
-    if (!isScaleUpSourceReady(source)) throw new ScaleUpAdapterError("source-missing", "请先上传可用的原图。");
+    const urls = sourceReferenceUrls(source);
+    if (!urls || !source.assetId.trim()) throw new ScaleUpAdapterError("source-missing", "请先上传可用的原图。");
     return {
         id: source.assetId,
         name: source.name ?? `${source.assetId}.png`,
         type: source.mimeType ?? "image/png",
-        dataUrl: source.dataUrl ?? source.url ?? "",
-        ...(source.url && !source.url.startsWith("data:") ? { url: source.url } : {}),
+        ...urls,
     };
 }
 
 /** 源图硬约束：页面规格 jpg/jpeg/png/webp、最大 4096×4096。 */
-export function validateScaleUpSource(source: ScaleUpSourceAsset):
-    | { ok: true }
-    | { ok: false; code: "mime" | "size" | "dimension"; message: string } {
+export function validateScaleUpSource(source: ScaleUpSourceAsset): { ok: true } | { ok: false; code: "mime" | "size" | "dimension"; message: string } {
     const mime = (source.mimeType ?? "").toLowerCase();
     if (mime && !["image/jpeg", "image/jpg", "image/png", "image/webp"].includes(mime)) {
         return { ok: false, code: "mime", message: `不支持 ${mime}，仅支持 jpg、jpeg、png、webp。` };
@@ -116,12 +114,7 @@ export function buildScaleUpInput({ values, output, source, model, draftRevision
     };
 }
 
-export function buildScaleUpFields(
-    values: ScaleUpValues,
-    output: ScaleUpOutput,
-    source: Pick<ScaleUpSourceAsset, "assetId" | "width" | "height" | "name">,
-    _draftRevision: number | string | null = null,
-): Record<string, unknown> {
+export function buildScaleUpFields(values: ScaleUpValues, output: ScaleUpOutput, source: Pick<ScaleUpSourceAsset, "assetId" | "width" | "height" | "name">, _draftRevision: number | string | null = null): Record<string, unknown> {
     // 只写 gateway TOOL_ADAPTER_TABLE.SCALE_UP 允许的字段，避免出现“声明了却不参与指纹/展示”的死字段。
     return {
         imageUrl: source.assetId,

@@ -14,15 +14,8 @@
  * 缺一个直接抛错（assertPrintingRepairInput），不静默丢参。
  */
 
-import {
-    PRINTING_REPAIR_TOOL_ID,
-    composePrintingRepairFields,
-    printingRepairInstruction,
-    printingRepairSnapshotHash,
-    printCoverage,
-    validatePrintingRepairInput,
-    type PrintingRepairSnapshot,
-} from "../registry/printing-repair";
+import { PRINTING_REPAIR_TOOL_ID, composePrintingRepairFields, printingRepairInstruction, printingRepairSnapshotHash, printCoverage, validatePrintingRepairInput, type PrintingRepairSnapshot } from "../registry/printing-repair";
+import { sourceReferenceUrls } from "../source-asset";
 import type { BrowserToolInput, WaitOptions } from "@/services/api/tools/gateway";
 import type { ToolTask } from "@/services/api/tools/task-machine";
 import type { ReferenceImage } from "@/types/image";
@@ -52,13 +45,13 @@ export type PrintingRepairSourceAsset = {
 };
 
 export function toPrintingRepairReference(asset: PrintingRepairSourceAsset): ReferenceImage {
-    if (!asset.dataUrl && !asset.url) throw new PrintingRepairAdapterError("asset-unreadable", "这张图片的本地数据已不可用，请重新上传");
+    const urls = sourceReferenceUrls(asset);
+    if (!urls) throw new PrintingRepairAdapterError("asset-unreadable", "这张图片的本地数据已不可用，请重新上传");
     return {
         id: asset.id,
         name: asset.name,
         type: asset.type,
-        dataUrl: asset.dataUrl,
-        ...(asset.url ? { url: asset.url } : {}),
+        ...urls,
         ...(asset.storageKey ? { storageKey: asset.storageKey } : {}),
     };
 }
@@ -110,12 +103,7 @@ function cornerColor(pixels: Uint8ClampedArray, width: number, height: number, o
  *  - 与背景色距离 > 容差的像素算作印花本体；
  *  - 结果白=印花、黑=背景，尺寸与分析尺寸一致。
  */
-export function analyzePrintPixels(
-    pixels: Uint8ClampedArray,
-    width: number,
-    height: number,
-    options: { tolerance?: number } = {},
-): PrintSegAnalysis {
+export function analyzePrintPixels(pixels: Uint8ClampedArray, width: number, height: number, options: { tolerance?: number } = {}): PrintSegAnalysis {
     if (!width || !height || pixels.length !== width * height * 4) {
         throw new PrintingRepairAdapterError("seg-invalid-pixels", "印花参考的像素数据不完整，无法生成分割图");
     }
@@ -437,12 +425,7 @@ export type PrintingRepairResultView = {
     error?: { code: string; message: string };
 };
 
-export function printingRepairResultView(input: {
-    run?: PrintingRepairRun | null;
-    running?: boolean;
-    sourceUrl?: string;
-    stale?: boolean;
-}): PrintingRepairResultView {
+export function printingRepairResultView(input: { run?: PrintingRepairRun | null; running?: boolean; sourceUrl?: string; stale?: boolean }): PrintingRepairResultView {
     if (!input.run) {
         return { status: input.running ? "running" : "idle", sourceUrl: input.sourceUrl, stale: Boolean(input.stale) };
     }

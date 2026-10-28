@@ -20,6 +20,8 @@ import {
     type ProductRefineValues,
 } from "../registry/product-refine";
 
+import { isUploadedImageReady, pickRemoteImageUrl, sourceReferenceUrls } from "../source-asset";
+
 /**
  * TASK-018：PRODUCT_REFINE 的真实 provider 适配层。
  *
@@ -60,27 +62,25 @@ export class ProductRefineAdapterError extends Error {
 
 export function isProductRefineSourceReady(source?: ProductRefineSourceAsset | null): boolean {
     if (!source || !source.assetId.trim()) return false;
-    const src = source.dataUrl || source.url || "";
-    return src.startsWith("data:image/") || src.startsWith("https://") || src.startsWith("http://") || src.startsWith("blob:");
+    // 判定口径统一在 features/tools/source-asset.ts（data: / blob: / http(s)）。
+    return isUploadedImageReady(source);
 }
 
 export function toProductRefineReference(source: ProductRefineSourceAsset): ReferenceImage {
-    if (!isProductRefineSourceReady(source)) {
+    const urls = sourceReferenceUrls(source);
+    if (!urls || !source.assetId.trim()) {
         throw new ProductRefineAdapterError("source-missing", "请先上传待精修的商品图。");
     }
     return {
         id: source.assetId,
         name: source.name ?? `${source.assetId}.png`,
         type: source.mimeType ?? "image/png",
-        dataUrl: source.dataUrl ?? source.url ?? "",
-        ...(source.url && !source.url.startsWith("data:") ? { url: source.url } : {}),
+        ...urls,
     };
 }
 
 /** 源图硬约束：页面明示 20M 以内、jpg/jpeg/png/webp。 */
-export function validateProductRefineSource(source: ProductRefineSourceAsset):
-    | { ok: true }
-    | { ok: false; code: "mime" | "size" | "dimension"; message: string } {
+export function validateProductRefineSource(source: ProductRefineSourceAsset): { ok: true } | { ok: false; code: "mime" | "size" | "dimension"; message: string } {
     const mime = (source.mimeType ?? "").toLowerCase();
     if (mime && !["image/jpeg", "image/jpg", "image/png", "image/webp"].includes(mime)) {
         return { ok: false, code: "mime", message: `不支持 ${mime}，仅支持 jpg、jpeg、png、webp。` };
@@ -106,14 +106,7 @@ export type BuildProductRefineInputOptions = {
     draftRevision?: number | string | null;
 };
 
-export function buildProductRefineInput({
-    values,
-    output,
-    source,
-    model,
-    segmentationUrl,
-    draftRevision = null,
-}: BuildProductRefineInputOptions): BrowserToolInput {
+export function buildProductRefineInput({ values, output, source, model, segmentationUrl, draftRevision = null }: BuildProductRefineInputOptions): BrowserToolInput {
     if (!isProductRefineSourceReady(source)) {
         throw new ProductRefineAdapterError("source-missing", "请先上传待精修的商品图。");
     }
@@ -141,7 +134,8 @@ export function buildProductRefineFields(
 ): Record<string, unknown> {
     // 只写 gateway TOOL_ADAPTER_TABLE.PRODUCT_REFINE 允许的字段，避免声明了却不参与指纹的死字段。
     const mode = productRefineMode(values.mode);
-    const remote = source.url && !source.url.startsWith("data:") && !source.url.startsWith("blob:") ? source.url : "";
+    // 服务端只能按 URL 取图：data:/blob: 一律不写成 realImageUrl（见 features/tools/source-asset.ts）。
+    const remote = pickRemoteImageUrl(source);
     const fields: Record<string, unknown> = {
         imageUrl: source.assetId,
         realImageUrl: remote || source.assetId,
@@ -163,11 +157,7 @@ export function buildProductRefineFields(
  * 防丢参守卫：提交前逐个断言“页面上的配置已进入真实请求”。
  * 对不上就抛错，绝不带着降级配置发请求。
  */
-export function assertProductRefineInput(
-    input: BrowserToolInput,
-    values: ProductRefineValues,
-    output: ProductRefineOutput,
-): void {
+export function assertProductRefineInput(input: BrowserToolInput, values: ProductRefineValues, output: ProductRefineOutput): void {
     const problems: string[] = [];
     const mode = productRefineMode(values.mode);
     const strength = productRefineStrength(values.strength);
@@ -278,12 +268,7 @@ export function firstProductRefineImage(task?: ToolTask | null): string | undefi
     return image?.dataUrl || image?.url;
 }
 
-export function productRefineResultFromTask(
-    task: ToolTask | undefined,
-    snapshot: ProductRefineSnapshot | undefined,
-    current: ProductRefineSnapshot | undefined,
-    drift = "",
-): ProductRefineResult {
+export function productRefineResultFromTask(task: ToolTask | undefined, snapshot: ProductRefineSnapshot | undefined, current: ProductRefineSnapshot | undefined, drift = ""): ProductRefineResult {
     const items = (task?.result?.items ?? []).filter((item) => item.kind === "image" && (item.dataUrl || item.url));
     const stale = Boolean(snapshot) && Boolean(current) && snapshot?.fingerprint !== current?.fingerprint;
     return {

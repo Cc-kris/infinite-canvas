@@ -3,6 +3,8 @@ import type { ReferenceImage } from "@/types/image";
 import type { BrowserToolInput, SubmitOptions, WaitOptions } from "@/services/api/tools/gateway";
 import type { ToolTask, ToolTaskResultItem } from "@/services/api/tools/task-machine";
 
+import { isUploadedImageReady, sourceReferenceUrls } from "../source-asset";
+
 import {
     PRODUCT_IMAGE_SUITE_TOOL_ID,
     buildSuiteToolFields,
@@ -53,18 +55,16 @@ export class SuiteAdapterError extends Error {
     }
 }
 
-/** 源图就绪判定：必须有可访问地址（data URL / http(s)），且能进 provider 的参考图。 */
+/** 源图就绪判定：必须有可访问地址（data URL / blob 当次会话 / http(s)），且能进 provider 的参考图。 */
 export function isSuiteSourceReady(source: SuiteSourceAsset | undefined): boolean {
     if (!source || !source.assetId.trim()) return false;
-    const src = source.dataUrl || source.url || "";
-    // 工具素材库的当次会话 URL 是 blob:（见 ToolAssetRecord.url），发送前转 data URL，故同样视为已上传。
-    return src.startsWith("data:image/") || src.startsWith("https://") || src.startsWith("http://") || src.startsWith("blob:");
+    // 判定口径统一在 features/tools/source-asset.ts：工具素材库当次会话的 URL 是 blob:，
+    // 发送前由 imageToDataUrl 转 data URL，因此同样是可用来源。
+    return isUploadedImageReady(source);
 }
 
 /** 尺寸/比例/体积的硬约束（页面规格：10M、384×384 ~ 4096×4096、宽高比 ≤ 5）。 */
-export function validateSuiteSourceLimits(source: SuiteSourceAsset):
-    | { ok: true }
-    | { ok: false; code: "size" | "pixels" | "aspect"; message: string } {
+export function validateSuiteSourceLimits(source: SuiteSourceAsset): { ok: true } | { ok: false; code: "size" | "pixels" | "aspect"; message: string } {
     const { width, height, bytes } = source;
     if (bytes !== undefined && bytes > 10 * 1024 * 1024) return { ok: false, code: "size", message: "商品图不能超过 10M。" };
     if (width !== undefined && height !== undefined && width > 0 && height > 0) {
@@ -77,15 +77,15 @@ export function validateSuiteSourceLimits(source: SuiteSourceAsset):
 }
 
 export function toSuiteReference(source: SuiteSourceAsset): ReferenceImage {
-    if (!isSuiteSourceReady(source)) {
+    const urls = sourceReferenceUrls(source);
+    if (!urls || !source.assetId.trim()) {
         throw new SuiteAdapterError("source-missing", "请先上传可用的商品图。");
     }
     return {
         id: source.assetId,
         name: source.name ?? `${source.assetId}.png`,
         type: source.mimeType ?? "image/png",
-        dataUrl: source.dataUrl ?? source.url ?? "",
-        ...(source.url && !source.url.startsWith("data:") ? { url: source.url } : {}),
+        ...urls,
     };
 }
 
@@ -211,7 +211,10 @@ export function groupSuiteUnits(units: SuiteUnitResult[]): SuiteGroupResult[] {
         buckets.get(unit.moduleId)!.push(unit);
     }
     return order.map((moduleId) => {
-        const groupUnits = buckets.get(moduleId)!.slice().sort((a, b) => a.index - b.index);
+        const groupUnits = buckets
+            .get(moduleId)!
+            .slice()
+            .sort((a, b) => a.index - b.index);
         return {
             moduleId,
             label: groupUnits[0]?.moduleLabel ?? moduleId,
@@ -384,10 +387,12 @@ export async function saveSuiteResultItem(item: ToolTaskResultItem, result: Suit
     if (!payload) {
         throw new SuiteAdapterError("empty-result", "该结果没有可保存的内容（可能已被持久化策略剥离），请重新生成。");
     }
-    const upload = deps.upload ?? (async (input: string | Blob, prefix?: string) => {
-        const module = await import("@/services/file-storage");
-        return module.uploadMediaFile(input, prefix);
-    });
+    const upload =
+        deps.upload ??
+        (async (input: string | Blob, prefix?: string) => {
+            const module = await import("@/services/file-storage");
+            return module.uploadMediaFile(input, prefix);
+        });
     const uploaded = await upload(payload, `suite-${result.moduleId}`);
     return {
         storageKey: uploaded.storageKey,

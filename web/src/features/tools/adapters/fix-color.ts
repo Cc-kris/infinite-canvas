@@ -13,21 +13,12 @@
  * imageResultUrl 是结果字段，成功后由结果资产回填，不参与提交。
  */
 
+import { sourceReferenceUrls } from "../source-asset";
 import { renderMaskPng } from "./area-repair";
 import type { BrowserToolInput, WaitOptions } from "@/services/api/tools/gateway";
 import type { ToolTask } from "@/services/api/tools/task-machine";
 import type { ReferenceImage } from "@/types/image";
-import {
-    FIX_COLOR_TOOL_ID,
-    describeColorDelta,
-    colorDeltaE,
-    composeFixColorFields,
-    fixColorSnapshotHash,
-    getFixColorVersion,
-    normalizeColorHex,
-    type FixColorSnapshot,
-    type FixColorState,
-} from "../registry/fix-color";
+import { FIX_COLOR_TOOL_ID, describeColorDelta, colorDeltaE, composeFixColorFields, fixColorSnapshotHash, getFixColorVersion, normalizeColorHex, type FixColorSnapshot, type FixColorState } from "../registry/fix-color";
 
 export class FixColorAdapterError extends Error {
     readonly code: string;
@@ -54,13 +45,13 @@ export type FixColorSourceAsset = {
 };
 
 export function toFixColorReference(asset: FixColorSourceAsset): ReferenceImage {
-    if (!asset.dataUrl && !asset.url) throw new FixColorAdapterError("asset-unreadable", "这张图片的本地数据已不可用，请重新上传");
+    const urls = sourceReferenceUrls(asset);
+    if (!urls) throw new FixColorAdapterError("asset-unreadable", "这张图片的本地数据已不可用，请重新上传");
     return {
         id: asset.id,
         name: asset.name,
         type: asset.type,
-        dataUrl: asset.dataUrl,
-        ...(asset.url ? { url: asset.url } : {}),
+        ...urls,
         ...(asset.storageKey ? { storageKey: asset.storageKey } : {}),
     };
 }
@@ -220,14 +211,8 @@ export function fixColorRunFromTask(unit: FixColorUnit, task: ToolTask): FixColo
  * ------------------------------------------------------------------ */
 
 /** 区域蒙版导出：复用共享同尺寸 PNG 渲染（白 = 待校正，黑 = 保留），羽化与反选按页面状态生效。 */
-export async function exportFixColorMaskPng(
-    state: Pick<FixColorState, "strokes" | "feather" | "inverted" | "autoExpand">,
-    size: { width: number; height: number },
-): Promise<{ dataUrl: string; width: number; height: number }> {
-    const rendered = await renderMaskPng(
-        { strokes: state.strokes, feather: state.feather, inverted: state.inverted, autoExpand: state.autoExpand },
-        size,
-    );
+export async function exportFixColorMaskPng(state: Pick<FixColorState, "strokes" | "feather" | "inverted" | "autoExpand">, size: { width: number; height: number }): Promise<{ dataUrl: string; width: number; height: number }> {
+    const rendered = await renderMaskPng({ strokes: state.strokes, feather: state.feather, inverted: state.inverted, autoExpand: state.autoExpand }, size);
     return { dataUrl: rendered.dataUrl, width: rendered.width, height: rendered.height };
 }
 
@@ -248,12 +233,7 @@ export type FixColorResultView = {
     error?: { code: string; message: string };
 };
 
-export function fixColorResultView(input: {
-    run?: FixColorRun | null;
-    running?: boolean;
-    sourceUrl?: string;
-    stale?: boolean;
-}): FixColorResultView {
+export function fixColorResultView(input: { run?: FixColorRun | null; running?: boolean; sourceUrl?: string; stale?: boolean }): FixColorResultView {
     if (!input.run) {
         return { status: input.running ? "running" : "idle", sourceUrl: input.sourceUrl, stale: false };
     }
@@ -269,7 +249,10 @@ export function fixColorResultView(input: {
 
 /** 结果文件名：带上原图名，避免一串 hash。 */
 export function fixColorDownloadName(imageName: string, index = 1): string {
-    const base = (imageName || "fix-color").replace(/\.[^.]+$/, "").replace(/[\\/:*?"<>|]+/g, "-").slice(0, 60);
+    const base = (imageName || "fix-color")
+        .replace(/\.[^.]+$/, "")
+        .replace(/[\\/:*?"<>|]+/g, "-")
+        .slice(0, 60);
     const suffix = index > 1 ? `-${index}` : "";
     return `${base || "fix-color"}-color-fixed${suffix}.png`;
 }

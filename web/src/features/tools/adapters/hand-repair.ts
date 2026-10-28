@@ -12,14 +12,8 @@
  * 全部进入任务 fields 参与指纹；缺一个直接抛错（assertHandRepairInput），不静默丢参。
  */
 
-import {
-    HAND_REPAIR_TOOL_ID,
-    composeHandRepairFields,
-    composeHandRepairInstruction,
-    handRepairSnapshotHash,
-    type HandRepairSnapshot,
-    type HandRepairState,
-} from "../registry/hand-repair";
+import { HAND_REPAIR_TOOL_ID, composeHandRepairFields, composeHandRepairInstruction, handRepairSnapshotHash, type HandRepairSnapshot, type HandRepairState } from "../registry/hand-repair";
+import { sourceReferenceUrls } from "../source-asset";
 import { renderMaskPng } from "./area-repair";
 import type { BrowserToolInput, WaitOptions } from "@/services/api/tools/gateway";
 import type { ToolTask } from "@/services/api/tools/task-machine";
@@ -50,15 +44,15 @@ export type HandRepairSourceAsset = {
 };
 
 export function toHandRepairReference(asset: HandRepairSourceAsset): ReferenceImage {
-    if (!asset.dataUrl && !asset.url) {
+    const urls = sourceReferenceUrls(asset);
+    if (!urls) {
         throw new HandRepairAdapterError("asset-unreadable", "这张图片的本地数据已不可用，请重新上传");
     }
     return {
         id: asset.id,
         name: asset.name,
         type: asset.type,
-        dataUrl: asset.dataUrl,
-        ...(asset.url ? { url: asset.url } : {}),
+        ...urls,
         ...(asset.storageKey ? { storageKey: asset.storageKey } : {}),
     };
 }
@@ -210,9 +204,7 @@ export function mapHandRepairTaskToOutcome(unit: HandRepairUnit, task: ToolTask)
         return {
             ...base,
             status: "failed",
-            error: task.error
-                ? { code: task.error.code, message: task.error.message, retryable: task.error.retryable }
-                : { code: "task-failed", message: "任务失败（上游未给出原因）", retryable: true },
+            error: task.error ? { code: task.error.code, message: task.error.message, retryable: task.error.retryable } : { code: "task-failed", message: "任务失败（上游未给出原因）", retryable: true },
         };
     }
     if (task.status === "cancelled") {
@@ -319,13 +311,7 @@ export type HandRepairResultView = {
  * 只用真实结果构造视图：成功张数 = 真拿到图的结果数；失败原因逐条保留（含“第 2 张”），
  * 不把部分成功伪装成全成功，也不为空结果补占位图。
  */
-export function handRepairResultView(input: {
-    outcomes?: HandRepairUnitOutcome[];
-    running?: boolean;
-    sourceUrl?: string;
-    stale?: boolean;
-    snapshotHash?: string;
-}): HandRepairResultView {
+export function handRepairResultView(input: { outcomes?: HandRepairUnitOutcome[]; running?: boolean; sourceUrl?: string; stale?: boolean; snapshotHash?: string }): HandRepairResultView {
     const outcomes = input.outcomes ?? [];
     const images = outcomes
         .filter((outcome) => outcome.status === "succeeded" && (outcome.image?.dataUrl || outcome.image?.url))
@@ -373,10 +359,7 @@ export function handRepairDownloadHref(imageUrl?: string): string | null {
  * 蒙版导出：复用 AREA_REPAIR 已验证的同尺寸 PNG 导出（白=要修复，黑=保留）。
  * 本页语义固定：不羽化、不反选、不自动扩边。空蒙版直接抛回 mask-empty 由工作区转提示。
  */
-export async function exportHandRepairMaskPng(
-    state: Pick<HandRepairState, "strokes">,
-    size: { width: number; height: number },
-): Promise<{ dataUrl: string; width: number; height: number }> {
+export async function exportHandRepairMaskPng(state: Pick<HandRepairState, "strokes">, size: { width: number; height: number }): Promise<{ dataUrl: string; width: number; height: number }> {
     const rendered = await renderMaskPng({ strokes: state.strokes, feather: 0, inverted: false, autoExpand: false }, size);
     return { dataUrl: rendered.dataUrl, width: rendered.width, height: rendered.height };
 }
