@@ -16,6 +16,7 @@ import { ModelPicker } from "@/components/model-picker";
 import { ToolAssetInput } from "@/components/tools/tool-asset-input";
 import { ToolResult } from "@/components/tools/tool-result";
 import { ToolShell } from "@/components/tools/tool-shell";
+import { ToolTaskHistory } from "@/components/tools/tool-task-history";
 import {
     buildVideoTranslationBrowserInput,
     checkVideoTranslationCapability,
@@ -30,6 +31,7 @@ import {
 import {
     VIDEO_TRANSLATION_OUTPUT_OPTIONS,
     VIDEO_TRANSLATION_SOURCE_RULE,
+    VIDEO_TRANSLATION_SUPPORTED_OUTPUT,
     VIDEO_TRANSLATION_TOOL_ID,
     applyVideoTranslationSource,
     createVideoTranslationSnapshot,
@@ -48,9 +50,10 @@ import {
     type VideoTranslationValues,
 } from "@/features/tools/registry/video-translation";
 import { cn } from "@/lib/utils";
+import { assertToolProvider, providerDescriptorFromChannel } from "@/features/tools/capabilities";
 import type { ToolAssetRecord } from "@/services/api/tools/assets";
 import type { ToolTask } from "@/services/api/tools/task-machine";
-import { useConfigStore } from "@/stores/use-config-store";
+import { useConfigStore, resolveModelChannel } from "@/stores/use-config-store";
 import { useToolDraftStore } from "@/stores/use-tool-draft-store";
 
 /* ============================ TASK-045 视频翻译工作区 ============================ */
@@ -131,6 +134,12 @@ export function VideoTranslationWorkspace({ className }: VideoTranslationWorkspa
 
     const capability = useMemo(() => checkVideoTranslationCapability(values), [values]);
 
+    /**
+     * 当前通道描述：跨工具共用的能力闸门要按「这次实际会走的传输通道」判定。
+     * 静态只看 registry 会把 lipSync 当永久必需能力（所有通道都没有该参数）→ 永久禁用。
+     */
+    const provider = useMemo(() => providerDescriptorFromChannel("video", resolveModelChannel(config, model)), [config, model]);
+
     const currentSnapshot = useMemo(() => createVideoTranslationSnapshot(values, catalog), [catalog, values]);
     const stale = isVideoTranslationSnapshotStale(snapshot, currentSnapshot);
     const view = videoTranslationResultView({ task, snapshot, current: values, catalog });
@@ -189,6 +198,11 @@ export function VideoTranslationWorkspace({ className }: VideoTranslationWorkspa
             setNotice("");
             setRunning(true);
             try {
+                // 跨工具共享闸门：按「本次表单值 + 当前通道」判定，口型同步关闭后可正常路由
+                assertToolProvider(VIDEO_TRANSLATION_TOOL_ID, provider, [], {
+                    values: values as unknown as Record<string, unknown>,
+                    nativeOutputCount: VIDEO_TRANSLATION_SUPPORTED_OUTPUT,
+                });
                 const browserInput = buildVideoTranslationBrowserInput({ values, source, model, catalog });
                 const port = await createVideoTranslationRunPort();
                 const submitted = createVideoTranslationSnapshot(values, catalog);
@@ -206,7 +220,7 @@ export function VideoTranslationWorkspace({ className }: VideoTranslationWorkspa
                 if (aliveRef.current) setRunning(false);
             }
         },
-        [catalog, model, running, source, task, values],
+        [catalog, model, provider, running, source, task, values],
     );
 
     const sidebar = (
@@ -474,6 +488,20 @@ export function VideoTranslationWorkspace({ className }: VideoTranslationWorkspa
                             </dl>
                         </details>
                     ) : null}
+                    <section className="space-y-2 rounded-lg border border-border p-3" data-testid="video-translation-history">
+                        <div className="flex items-center justify-between">
+                            <h2 className="text-sm font-medium">历史任务</h2>
+                            <span className="text-[11px] text-muted-foreground">点击「查看结果」把历史任务放回上方结果区</span>
+                        </div>
+                        <ToolTaskHistory
+                            toolId={VIDEO_TRANSLATION_TOOL_ID}
+                            emptyHint="还没有视频翻译任务：提交后这里会出现真实任务记录"
+                            onSelectTask={(historyTask) => {
+                                setTask(historyTask);
+                                setNotice("已载入历史任务结果；配置未改动，不会重新提交");
+                            }}
+                        />
+                    </section>
                 </div>
             </div>
         </ToolShell>

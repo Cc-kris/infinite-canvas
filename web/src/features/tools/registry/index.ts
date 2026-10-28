@@ -599,7 +599,7 @@ export const toolSpecs: readonly ToolSpec[] = [
         adapter: "video",
         batchCapable: false,
         enabled: true,
-        fields: [f("lipSync", "boolean", REQUIRED, { defaultValue: false, providerRule: "boolean" }), f("outputNum", "number", REQUIRED, { defaultValue: 1, providerRule: "integer" }), f("sourceLanguage", "select", REQUIRED, { enumSource: "model-catalog", providerRule: "string enum" }), f("sourceVideoName", "upload"), f("sourceVideoUrl", "upload", REQUIRED, { providerRule: "string(URL)" }), f("targetLanguage", "select", REQUIRED, { enumSource: "model-catalog", providerRule: "string enum" }), f("videoType", "select", REQUIRED, { enumSource: "model-catalog", providerRule: "string enum" })],
+        fields: [f("lipSync", "boolean", REQUIRED, { defaultValue: true, providerRule: "boolean" }), f("outputNum", "number", REQUIRED, { defaultValue: 1, providerRule: "integer" }), f("sourceLanguage", "select", REQUIRED, { enumSource: "model-catalog", providerRule: "string enum" }), f("sourceVideoName", "upload"), f("sourceVideoUrl", "upload", REQUIRED, { providerRule: "string(URL)" }), f("targetLanguage", "select", REQUIRED, { enumSource: "model-catalog", providerRule: "string enum" }), f("videoType", "select", REQUIRED, { enumSource: "model-catalog", providerRule: "string enum" })],
     },
     {
         id: "VIDEO_CONCAT",

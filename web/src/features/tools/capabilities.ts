@@ -96,15 +96,56 @@ function mergeRequirement(list: ToolCapabilityRequirement[], next: ToolCapabilit
 }
 
 /**
+ * 当前表单值上下文。
+ *
+ * 为什么需要它：能力需求不是常量。`lipSync` 在 registry 里是 required=是（页面事实：
+ * 口型同步默认开启），但用户把它关掉之后这次提交并不需要口型同步参数。若只看 registry
+ * 静态推导，本仓库所有通道都没有 lipSync 参数 → 该工具会**永久**判为 blocked，开关怎么
+ * 拨都无法解禁，也无法路由到“配音 + 字幕”路径。
+ *
+ * 语义：
+ * - 不传 context：按 registry 静态判定（矩阵总览 / 静态检查），偏保守；
+ * - 传 `values`：可选能力按本次实际取值折叠——明确关闭的能力不再计入需求，也不计入降级。
+ */
+export type CapabilityValueContext = {
+    /** 当前表单值（字段名与 registry 一致）。 */
+    values?: Record<string, unknown>;
+    /** 通道一次能返回几条结果；缺省 1（openai/http/gemini 视频通道都没有 n 参数）。 */
+    nativeOutputCount?: number;
+};
+
+function readBooleanValue(values: Record<string, unknown> | undefined, key: string): boolean | undefined {
+    if (!values || !(key in values)) return undefined;
+    const raw = values[key];
+    if (typeof raw === "boolean") return raw;
+    if (typeof raw === "number") return Number.isFinite(raw) ? raw !== 0 : undefined;
+    if (typeof raw === "string") {
+        const normalized = raw.trim().toLowerCase();
+        if (["true", "1", "on", "yes"].includes(normalized)) return true;
+        if (["false", "0", "off", "no", ""].includes(normalized)) return false;
+    }
+    return undefined;
+}
+
+function readNumberValue(values: Record<string, unknown> | undefined, key: string): number | undefined {
+    if (!values || !(key in values)) return undefined;
+    const raw = values[key];
+    const parsed = typeof raw === "number" ? raw : typeof raw === "string" ? Number(raw.trim()) : Number.NaN;
+    return Number.isFinite(parsed) ? parsed : undefined;
+}
+
+/**
  * 从 registry 字段推导工具能力需求。
  * 规则：
  * - mask 一律 required:false —— 现有所有 Provider 通道都没有蒙版参数，代码是把蒙版当成
  *   第二张参考图塞进去（adapters/*.ts 的 `references: [image, mask]`），效果会变，
  *   属于必须用户确认的降级，而不是“支持蒙版”。
  * - multiReference 一律 required:false —— 只有一张参考图也能出结果，多图是增强。
+ * - lipSync：有值时按本次开关判定（关闭即不需要该能力，路由到配音+字幕）；无值时按页面默认开启判定。
+ * - outputNum：有值时只有超过通道原生条数才需要“多输出”能力；无值时跟随字段 required。
  * - 其余能力跟随字段的 required。
  */
-export function capabilityRequirementsForSpec(spec: ToolSpec): ToolCapabilityRequirement[] {
+export function capabilityRequirementsForSpec(spec: ToolSpec, context?: CapabilityValueContext): ToolCapabilityRequirement[] {
     const requirements: ToolCapabilityRequirement[] = [];
     let hasImageInput = false;
     let multiImageFields = 0;
@@ -131,6 +172,27 @@ export function capabilityRequirementsForSpec(spec: ToolSpec): ToolCapabilityReq
             });
             continue;
         }
+        if (key === "lipSync") {
+            const enabled = context?.values ? readBooleanValue(context.values, field.key) === true : true;
+            if (!enabled) continue; // 明确关闭：本次不要求口型同步能力，也不产生降级项
+            mergeRequirement(requirements, {
+                key,
+                required: true,
+                note: "本仓库所有通道都没有口型同步参数：关闭「口型同步」即可按配音 + 字幕路由；需要唇形重绘必须先接入口型同步通道。",
+            });
+            continue;
+        }
+        if (key === "outputNum") {
+            const native = context?.nativeOutputCount ?? 1;
+            const requested = context?.values ? readNumberValue(context.values, field.key) : undefined;
+            if (requested !== undefined && requested <= native) continue; // 通道原生就能满足
+            mergeRequirement(requirements, {
+                key,
+                required: true,
+                note: `当前通道一次返回 ${native} 条：把输出数量改成 ${native} 即按原生能力执行；要更多条必须换支持多输出的通道。`,
+            });
+            continue;
+        }
         mergeRequirement(requirements, { key, required: Boolean(field.required) });
     }
 
@@ -145,10 +207,10 @@ export function capabilityRequirementsForSpec(spec: ToolSpec): ToolCapabilityReq
     return requirements;
 }
 
-export function toolCapabilityRequirements(toolId: string): ToolCapabilityRequirement[] {
+export function toolCapabilityRequirements(toolId: string, context?: CapabilityValueContext): ToolCapabilityRequirement[] {
     const spec = toolSpecs.find((item) => item.id === toolId);
     if (!spec) throw new Error(`unknown tool: ${toolId}`);
-    return capabilityRequirementsForSpec(spec);
+    return capabilityRequirementsForSpec(spec, context);
 }
 
 /* ============================ 2. Provider 证据 ============================ */
@@ -283,8 +345,12 @@ export type ToolCapabilityVerdict = {
 };
 
 /** 纯判定，不做副作用：UI 用它渲染提示，提交前用它做闸门。 */
-export function evaluateToolProvider(toolId: string, provider: ProviderDescriptor): ToolCapabilityVerdict {
-    const requirements = toolCapabilityRequirements(toolId);
+export function evaluateToolProvider(
+    toolId: string,
+    provider: ProviderDescriptor,
+    context?: CapabilityValueContext,
+): ToolCapabilityVerdict {
+    const requirements = toolCapabilityRequirements(toolId, context);
     const providerEvidence = providerCapabilities(provider);
     return {
         toolId,
@@ -340,8 +406,13 @@ export function evaluateCapabilityRequirements(
 }
 
 /** 提交闸门：没有 blocker/unverified，且降级项都被用户显式接受。 */
-export function canSubmitTool(toolId: string, provider: ProviderDescriptor, accepted: readonly ToolCapabilityKey[] = []): boolean {
-    const { evaluation } = evaluateToolProvider(toolId, provider);
+export function canSubmitTool(
+    toolId: string,
+    provider: ProviderDescriptor,
+    accepted: readonly ToolCapabilityKey[] = [],
+    context?: CapabilityValueContext,
+): boolean {
+    const { evaluation } = evaluateToolProvider(toolId, provider, context);
     if (evaluation.blocked) return false;
     return evaluation.degradations.every((key) => accepted.includes(key));
 }
@@ -362,8 +433,13 @@ export class ToolCapabilityError extends Error {
     }
 }
 
-export function assertToolProvider(toolId: string, provider: ProviderDescriptor, accepted: readonly ToolCapabilityKey[] = []): void {
-    const { evaluation } = evaluateToolProvider(toolId, provider);
+export function assertToolProvider(
+    toolId: string,
+    provider: ProviderDescriptor,
+    accepted: readonly ToolCapabilityKey[] = [],
+    context?: CapabilityValueContext,
+): void {
+    const { evaluation } = evaluateToolProvider(toolId, provider, context);
     const blocking = evaluation.issues.filter((issue) => issue.severity !== "degradation");
     const unaccepted = evaluation.issues.filter((issue) => issue.severity === "degradation" && !accepted.includes(issue.key));
     if (!blocking.length && !unaccepted.length) return;
@@ -373,6 +449,25 @@ export function assertToolProvider(toolId: string, provider: ProviderDescriptor,
         list.map((issue) => issue.key),
         `${toolId} 当前模型缺少能力：${list.map((issue) => `${issue.label}(${issue.state})`).join("、")}。请改选模型或移除相关输入，不要静默忽略。`,
     );
+}
+
+/**
+ * 从配置渠道（`use-config-store` 的 ModelChannel）构造通道描述。
+ *
+ * 为什么需要：能力闸门必须拿到「这次真正会走的传输通道」，否则只能按工具静态判定——
+ * 那正是「视频翻译口型同步被永久禁用」的根因（静态看所有通道都没有 lipSync 参数）。
+ */
+export function providerDescriptorFromChannel(
+    kind: "image" | "video",
+    channel: { apiFormat?: string; videoHttp?: { bodyTemplate?: string } } | null | undefined,
+): ProviderDescriptor {
+    const raw = channel?.apiFormat;
+    const apiFormat = raw === "openai" || raw === "gemini" || raw === "http" ? raw : "unknown";
+    return {
+        kind,
+        apiFormat,
+        ...(apiFormat === "http" ? { httpBodyTemplate: channel?.videoHttp?.bodyTemplate ?? "" } : {}),
+    };
 }
 
 /** 供测试与调试：全量工具的覆盖情况。 */

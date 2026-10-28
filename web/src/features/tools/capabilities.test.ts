@@ -169,6 +169,39 @@ describe("提交闸门 A/B：同一工具换通道，判定必须不同", () => 
         expect(canSubmitTool("VIDEO_TRANSLATION", PLUGIN_VIDEO)).toBe(false);
     });
 
+    test("口型同步按本次开关判定：关闭即放行（配音 + 字幕路由），不会永久禁用", () => {
+        const values = { lipSync: false, outputNum: 1 };
+        // 静态（不传值）仍按页面默认「开启」保守判定
+        expect(toolCapabilityRequirements("VIDEO_TRANSLATION").some((item) => item.key === "lipSync" && item.required)).toBe(true);
+
+        const closed = evaluateToolProvider("VIDEO_TRANSLATION", OPENAI_VIDEO, { values });
+        expect(closed.requirements.some((item) => item.key === "lipSync")).toBe(false);
+        expect(closed.evaluation.blocked).toBe(false);
+        expect(canSubmitTool("VIDEO_TRANSLATION", OPENAI_VIDEO, [], { values })).toBe(true);
+        expect(() => assertToolProvider("VIDEO_TRANSLATION", OPENAI_VIDEO, [], { values })).not.toThrow();
+
+        // 口径一致：用户重新打开口型同步 → 立刻回到「缺通道参数」的阻断，并给出可执行说明
+        const opened = evaluateToolProvider("VIDEO_TRANSLATION", OPENAI_VIDEO, { values: { ...values, lipSync: true } });
+        expect(opened.evaluation.blocked).toBe(true);
+        expect(opened.evaluation.blockedKeys).toContain("lipSync");
+        const note = opened.evaluation.issues.find((issue) => issue.key === "lipSync")?.detail ?? "";
+        expect(note).toContain("关闭");
+    });
+
+    test("输出数量按通道原生条数判定：1 条放行，超过才要「多输出」能力", () => {
+        expect(canSubmitTool("VIDEO_TRANSLATION", OPENAI_VIDEO, [], { values: { lipSync: false, outputNum: 1 }, nativeOutputCount: 1 })).toBe(true);
+
+        const more = evaluateToolProvider("VIDEO_TRANSLATION", OPENAI_VIDEO, {
+            values: { lipSync: false, outputNum: 2 },
+            nativeOutputCount: 1,
+        });
+        expect(more.evaluation.blocked).toBe(true);
+        expect(more.evaluation.blockedKeys).toContain("outputNum");
+
+        // 通道本身能出 2 条时不再算缺口
+        expect(canSubmitTool("VIDEO_TRANSLATION", OPENAI_VIDEO, [], { values: { lipSync: false, outputNum: 2 }, nativeOutputCount: 2 })).toBe(true);
+    });
+
     test("http 模板没有 {{images}} 时，吃图工具被拦住而不是静默丢图", () => {
         const provider = { kind: "video", apiFormat: "http", httpBodyTemplate: "{\"prompt\":\"{{prompt}}\"}" } as const;
         const verdict = evaluateToolProvider("VIDEO_REPLICATION", provider);

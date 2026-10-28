@@ -1,0 +1,70 @@
+{
+  "blocked": null,
+  "capturedAt": "2026-10-28T16:05:26.781Z",
+  "channel": "通道 openai · 多段视频 已验证发送",
+  "clips": [
+    "1. acc-clip-a.mp4↑↓×原始 5.2s· 有效 5.2s还原起止秒",
+    "2. acc-clip-b.mp4↑↓×原始 5.2s· 有效 5.2s还原起止秒"
+  ],
+  "cropInputs": [
+    "0",
+    "5.2",
+    "0",
+    "5.2"
+  ],
+  "durationLine": "素材 10.3s 2 段 → 10s · 9:16 按顺序拼接多段视频 · 逐段裁剪",
+  "history": "历史任务点击「查看结果」把历史任务放回上方结果区历史记录0 条还没有视频拼接任务：提交后这里会出现真实任务记录",
+  "issues": null,
+  "observations": [
+    "上传 2 段真实 mp4（同一 5.2s 样本各一份）：片段计数 2/10，素材总时长 10s，比例 9:16 自动摘要",
+    "每段渲染 原始/有效 时长 + 上移/下移(首末段互斥禁用)/删除/还原 + 起止秒输入",
+    "未上传封面时提交被拦：缺少封面：还没有封面：请上传封面图或从片段抓取一帧",
+    "点击「从当前帧抓取」成功生成封面，blocker 消失、开始拼接 变为可点",
+    "把第 2 段止时间手动改成 99 秒后被夹回 5.2s（不静默使用越界值），且无残留 issue"
+  ],
+  "resultEmpty": "尚未提交",
+  "sections": [
+    "视频拼接",
+    "视频片段",
+    "上传视频片段",
+    "视频封面",
+    "上传封面图",
+    "播放与裁剪预览",
+    "生成设置",
+    "通道能力",
+    "拼接结果",
+    "拼接视频",
+    "历史任务"
+  ],
+  "submit": [
+    {
+      "disabled": false,
+      "text": "开始拼接"
+    }
+  ],
+  "testids": [
+    "tool-shell-nav-trigger",
+    "tool-sidebar",
+    "tool-workspace",
+    "tool-workspace-chrome",
+    "video-concat-config",
+    "tool-asset-dropzone",
+    "tool-asset-file-input",
+    "tool-asset-list",
+    "video-concat-clips",
+    "video-concat-grab-cover",
+    "video-concat-cover-name",
+    "video-concat-preview",
+    "video-concat-channel",
+    "video-concat-submit",
+    "video-concat-summary",
+    "tool-result",
+    "tool-result-empty",
+    "video-concat-empty",
+    "video-concat-history",
+    "tool-task-history",
+    "tool-task-history-count",
+    "tool-task-history-empty"
+  ],
+  "url": "http://127.0.0.1:3000/tools/ai-video/video-concat"
+}

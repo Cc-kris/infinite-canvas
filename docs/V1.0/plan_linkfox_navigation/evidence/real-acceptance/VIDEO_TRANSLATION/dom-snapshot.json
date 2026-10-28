@@ -1,0 +1,87 @@
+{
+  "capturedAt": "2026-10-28T16:05:40.702Z",
+  "observations": [
+    "口型同步默认开启时：显示「当前视频模型没有口型同步能力声明，无法保证唇形对齐：请关闭「口型同步」后重试」+ 一键「关闭口型同步后继续」",
+    "点击一键关闭后：开关 false，阻断文案消失，状态行变为「本次只替换音轨与字幕，不改动唇形」，提交仅因未上传视频而禁用",
+    "历史任务区块存在（0 条空态文案：提交后这里会出现真实任务记录）"
+  ],
+  "sections": [
+    "视频翻译",
+    "原视频",
+    "上传需要翻译的视频",
+    "源语言 → 需要翻译的语言",
+    "口型同步",
+    "模式与输出",
+    "视频模型",
+    "生成结果",
+    "视频翻译结果",
+    "历史任务"
+  ],
+  "states": [
+    {
+      "blockerVisible": false,
+      "channel": null,
+      "history": "历史任务点击「查看结果」把历史任务放回上方结果区历史记录0 条还没有视频翻译任务：提交后这里会出现真实任务记录",
+      "label": "initial",
+      "lipSyncLine": "口型同步：本次只替换音轨与字幕，不改动唇形 原视频 未上传 上传需要翻译的视频 0 / 1 个 · MP4 / MOV · ≤ 100 MB 点击选",
+      "quickFixLink": false,
+      "resultEmpty": null,
+      "submit": [
+        {
+          "disabled": true,
+          "text": "立即生成"
+        }
+      ],
+      "switchChecked": "false"
+    },
+    {
+      "blockerVisible": true,
+      "channel": null,
+      "history": "历史任务点击「查看结果」把历史任务放回上方结果区历史记录0 条还没有视频翻译任务：提交后这里会出现真实任务记录",
+      "label": "lipSync-on",
+      "lipSyncLine": "口型同步：本次只替换音轨与字幕，不改动唇形 原视频 未上传 上传需要翻译的视频 0 / 1 个 · MP4 / MOV · ≤ 100 MB 点击选",
+      "quickFixLink": true,
+      "resultEmpty": null,
+      "submit": [
+        {
+          "disabled": true,
+          "text": "立即生成"
+        }
+      ],
+      "switchChecked": "true"
+    },
+    {
+      "blockerVisible": false,
+      "channel": null,
+      "history": "历史任务点击「查看结果」把历史任务放回上方结果区历史记录0 条还没有视频翻译任务：提交后这里会出现真实任务记录",
+      "label": "after-quick-disable",
+      "lipSyncLine": "口型同步：本次只替换音轨与字幕，不改动唇形 原视频 未上传 上传需要翻译的视频 0 / 1 个 · MP4 / MOV · ≤ 100 MB 点击选",
+      "quickFixLink": false,
+      "resultEmpty": null,
+      "submit": [
+        {
+          "disabled": true,
+          "text": "立即生成"
+        }
+      ],
+      "switchChecked": "false"
+    }
+  ],
+  "testids": [
+    "tool-shell-nav-trigger",
+    "tool-sidebar",
+    "tool-workspace",
+    "tool-workspace-chrome",
+    "video-translation-config",
+    "tool-asset-dropzone",
+    "tool-asset-file-input",
+    "tool-result",
+    "tool-result-empty",
+    "video-translation-history",
+    "tool-task-history",
+    "tool-task-history-count",
+    "tool-task-history-empty"
+  ],
+  "uploadHint": "原视频 未上传 上传需要翻译的视频 0 / 1 个 · MP4 / MOV · ≤ 100 MB 点击选择本地文件，或拖拽到这里 校验格式 / 大小 / 像素，入库后可刷新恢复 还没有素",
+  "url": "http://127.0.0.1:3000/tools/ai-video/video-translation"
+}

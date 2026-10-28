@@ -1,0 +1,32 @@
+{
+  "tool": "VIDEO_TRANSLATION",
+  "name": "视频翻译",
+  "group": "ai-video",
+  "route": "/tools/ai-video/video-translation",
+  "status": "PARTIAL",
+  "result": "verified_with_gap",
+  "verdict": "PARTIAL — 页面结构/口型同步门禁/历史复用已实测通过；未发起真实翻译调用（明确禁止声称真实出片），出片与配音未验证",
+  "realProviderCall": false,
+  "provider": "未调用（通道行显示当前视频模型渠道；openai 类视频通道无 lipSync 参数）",
+  "runAt": "2026-10-28T16:05:40Z",
+  "output": null,
+  "evidence": [
+    "/Users/mac/Documents/Dev/infinite-canvas/docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/VIDEO_TRANSLATION/dom-snapshot.json"
+  ],
+  "assertions": [
+    "工作台分区齐全：原视频/上传、源语言→目标语言、口型同步、模式与输出、视频模型、生成结果、视频翻译结果、历史任务",
+    "口型同步首次加载默认开启（registry 默认值与页面规格对齐）",
+    "开启口型同步且当前通道无该能力时，结果区上方给出阻断说明「当前视频模型没有口型同步能力声明，无法保证唇形对齐：请关闭「口型同步」后重试」并提供一键「关闭口型同步后继续」",
+    "一键关闭后：开关变 false、阻断文案消失、状态行改为「本次只替换音轨与字幕，不改动唇形」，提交只剩「未上传原视频」这一真实输入约束（不再被能力项永久锁死）",
+    "历史任务区块存在（0 条空态：提交后这里会出现真实任务记录），支持「查看结果」回填结果区"
+  ],
+  "notExercised": [
+    "真实翻译调用与配音产出",
+    "上传后口型开/关两条路由的实际参数差异",
+    "下载/存入资产/发送画布（无结果可点）"
+  ],
+  "notes": [
+    "能力闸门改为按本次表单值判定：lipSync 仅在开关为 true 时要求通道能力，outputNum 仅在请求条数超过通道原生条数时才要求；静态调用仍按规格校验，adapter 侧继续硬拦避免静默丢参数。",
+    "草稿会持久化用户上一次选择，因此再次进入可能保持关闭状态，属预期行为而非默认值回退。"
+  ]
+}

@@ -17,6 +17,7 @@ import { ModelPicker } from "@/components/model-picker";
 import { ToolAssetInput } from "@/components/tools/tool-asset-input";
 import { ToolResult } from "@/components/tools/tool-result";
 import { ToolShell } from "@/components/tools/tool-shell";
+import { ToolTaskHistory } from "@/components/tools/tool-task-history";
 import {
     SALE_VIDEO_COUNTRIES,
     SALE_VIDEO_DURATIONS,
@@ -1336,6 +1337,20 @@ export function VideoConcatWorkspace({ className }: VideoConcatWorkspaceProps = 
                                 </dl>
                             </details>
                         ) : null}
+                        <section className="space-y-2 rounded-lg border border-border p-3" data-testid="video-concat-history">
+                            <div className="flex items-center justify-between">
+                                <h2 className="text-sm font-medium">历史任务</h2>
+                                <span className="text-[11px] text-muted-foreground">点击「查看结果」把历史任务放回上方结果区</span>
+                            </div>
+                            <ToolTaskHistory
+                                toolId={VIDEO_CONCAT_TOOL_ID}
+                                emptyHint="还没有视频拼接任务：提交后这里会出现真实任务记录"
+                                onSelectTask={(historyTask) => {
+                                    setTask(historyTask);
+                                    setNotice("已载入历史任务结果；片段与配置未改动，不会重新提交");
+                                }}
+                            />
+                        </section>
                     </div>
                 </div>
             </div>
