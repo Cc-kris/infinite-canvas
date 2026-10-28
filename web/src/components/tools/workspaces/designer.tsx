@@ -1,0 +1,538 @@
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { ArrowDown, ArrowUp, Check, ChevronsDown, ChevronsUp, Eye, EyeOff, ImagePlus, Loader2, Lock, Maximize2, Play, Redo2, Trash2, Type, Undo2, Unlock, X } from "lucide-react";
+
+import { uploadToolAsset, resolveToolAssetConstraints } from "@/services/api/tools/assets";
+import { cn } from "@/lib/utils";
+
+import {
+    addDesignerLayer,
+    buildDesignerDonePayload,
+    canRedoDesigner,
+    canUndoDesigner,
+    commitDesignerDocument,
+    createDesignerDocument,
+    createDesignerHistory,
+    createDesignerId,
+    createTextLayer,
+    decideDesignerClose,
+    designerCanvasPreset,
+    designerDocumentFingerprint,
+    DESIGNER_CANVAS_PRESETS,
+    DESIGNER_LAYER_LIMITS,
+    DESIGNER_TEXT_LIMIT,
+    hasBlockingDesignerIssue,
+    moveDesignerLayer,
+    nudgeDesignerLayer,
+    removeDesignerLayer,
+    renameDesignerLayer,
+    reorderDesignerLayers,
+    resizeDesignerLayer,
+    restoreDesignerDraft,
+    rotateDesignerLayer,
+    NEW_DESIGNER_TOOL_ID,
+    selectedDesignerLayer,
+    serializeDesignerDraft,
+    setDesignerCanvasSize,
+    setDesignerLayerVisibility,
+    toggleDesignerLayerLock,
+    undoDesignerDocument,
+    redoDesignerDocument,
+    updateDesignerLayer,
+    validateDesignerState,
+    type DesignerDocument,
+    type DesignerHistory,
+    type DesignerHostState,
+} from "@/features/tools/registry/new-designer";
+import {
+    createCanvasDesignerCompositor,
+    createDesignerSnapshot,
+    designerResultNotice,
+    DesignerAdapterError,
+    runDesigner,
+    type DesignerAssetPort,
+    type DesignerAssetRef,
+    type DesignerCompositorPort,
+    type DesignerStageState,
+} from "@/features/tools/adapters/new-designer";
+
+/* ============================== 草稿存储 ============================== */
+
+export type DesignerDraftStorage = {
+    getItem: (key: string) => string | null;
+    setItem: (key: string, value: string) => void;
+    removeItem?: (key: string) => void;
+};
+
+const DRAFT_STORAGE_KEY = "tool-draft:v1:NEW_DESIGNER";
+
+function defaultDraftStorage(): DesignerDraftStorage | null {
+    try {
+        const storage = (globalThis as { localStorage?: DesignerDraftStorage }).localStorage;
+        return storage ?? null;
+    } catch {
+        return null;
+    }
+}
+
+/** 真实入库端口：Canvas PNG → uploadToolAsset（真实落库），不伪造 assetId。 */
+const uploadAssetPort: DesignerAssetPort = {
+    async save(blob, meta) {
+        const record = await uploadToolAsset(blob, { name: meta.name, constraints: resolveToolAssetConstraints({ kind: "image", mimeTypes: ["image/png"] }) });
+        return { assetId: record.id, url: record.url, bytes: record.bytes };
+    },
+};
+
+export type DesignerWorkspaceProps = {
+    open?: boolean;
+    designerId?: string;
+    imageUrl?: string;
+    sourceName?: string;
+    /** 恢复草稿用；默认 localStorage。 */
+    draftStorage?: DesignerDraftStorage | null;
+    compositor?: DesignerCompositorPort;
+    assets?: DesignerAssetPort;
+    onClose?: (payload: { designerId: string; saved: boolean }) => void;
+    onDone?: (payload: ReturnType<typeof buildDesignerDonePayload>, document: DesignerDocument) => void;
+};
+
+export function DesignerWorkspace({
+    open = true,
+    designerId,
+    imageUrl = "",
+    sourceName = "商品图",
+    draftStorage,
+    compositor,
+    assets = uploadAssetPort,
+    onClose,
+    onDone,
+}: DesignerWorkspaceProps) {
+    const storage = useMemo(() => (draftStorage === undefined ? defaultDraftStorage() : draftStorage), [draftStorage]);
+    const activeCompositor = useMemo(() => compositor ?? createCanvasDesignerCompositor(), [compositor]);
+
+    const [history, setHistory] = useState<DesignerHistory>(() => createDesignerHistory(createDesignerDocument({ designerId: designerId ?? createDesignerId(), imageUrl })));
+    const [selectedId, setSelectedId] = useState<string | undefined>(() => (imageUrl ? "layer-base" : undefined));
+    const [preview, setPreview] = useState(false);
+    const [stage, setStage] = useState<DesignerStageState>("idle");
+    const [error, setError] = useState<DesignerAdapterError | undefined>();
+    const [result, setResult] = useState<DesignerAssetRef | undefined>();
+    const [resultFingerprint, setResultFingerprint] = useState<string | undefined>();
+    const [baselineFingerprint, setBaselineFingerprint] = useState<string>(() => designerDocumentFingerprint(history.present));
+    const [restoreNotice, setRestoreNotice] = useState("");
+    const [closePrompt, setClosePrompt] = useState("");
+    const [uploadNote, setUploadNote] = useState("");
+    const [uploading, setUploading] = useState(false);
+    const fileRef = useRef<HTMLInputElement | null>(null);
+
+    const document = history.present;
+    const selected = selectedDesignerLayer(document, selectedId);
+    const host: DesignerHostState = { open, isDesignerUse: true, imageUrl, hasOnClose: typeof onClose === "function", hasOnDone: typeof onDone === "function" };
+    const issues = useMemo(() => validateDesignerState({ document, host }), [document, host.isDesignerUse, host.imageUrl, open, host.hasOnClose, host.hasOnDone]);
+    const blocked = hasBlockingDesignerIssue(issues);
+    const dirty = document.revision > 1 ? designerDocumentFingerprint(document) !== baselineFingerprint : false;
+    const stale = Boolean(resultFingerprint) && resultFingerprint !== designerDocumentFingerprint(document);
+    const busy = stage === "validating" || stage === "composing" || stage === "saving";
+
+    const apply = useCallback((next: DesignerDocument) => {
+        setHistory((current) => commitDesignerDocument(current, next));
+        setStage("idle");
+        setError(undefined);
+    }, []);
+
+    /* ---------------- 草稿恢复 ---------------- */
+    useEffect(() => {
+        if (!storage) return;
+        let raw: string | null = null;
+        try {
+            raw = storage.getItem(DRAFT_STORAGE_KEY);
+        } catch {
+            return;
+        }
+        if (!raw) return;
+        let parsed: unknown;
+        try {
+            parsed = JSON.parse(raw);
+        } catch {
+            setRestoreNotice("草稿无法解析，已忽略（未覆盖任何编辑）。");
+            return;
+        }
+        const restored = restoreDesignerDraft(parsed);
+        if (restored.status !== "ok") {
+            setRestoreNotice(restored.status === "empty" ? "" : `草稿结构已变化，未恢复：${restored.reason}`);
+            return;
+        }
+        if (designerId && restored.values.designerId !== designerId) {
+            setRestoreNotice("草稿属于其他设计项目，未恢复。");
+            return;
+        }
+        setHistory(createDesignerHistory(restored.values.document));
+        setSelectedId(restored.values.document.layers[0]?.id);
+        setBaselineFingerprint(designerDocumentFingerprint(restored.values.document));
+        setRestoreNotice(`已恢复草稿：${restored.values.savedAt || "上次会话"}（${restored.values.document.layers.length} 个图层）`);
+    }, [storage, designerId]);
+
+    /* ---------------- 草稿保存（真实写盘，不静默） ---------------- */
+    useEffect(() => {
+        if (!storage) return;
+        try {
+            storage.setItem(DRAFT_STORAGE_KEY, JSON.stringify(serializeDesignerDraft(document, { imageUrl, isDesignerUse: true })));
+        } catch {
+            setUploadNote("草稿写入失败（存储不可用），关闭页面前请先导出设计稿。");
+        }
+    }, [document, storage, imageUrl]);
+
+    const setCanvasPreset = useCallback(
+        (presetId: string) => {
+            const preset = designerCanvasPreset(presetId);
+            apply(setDesignerCanvasSize(document, preset.width, preset.height));
+        },
+        [apply, document],
+    );
+
+    const handleAddText = useCallback(() => {
+        apply(addDesignerLayer(document, createTextLayer(document.layers.length)));
+    }, [apply, document]);
+
+    const handleUploadLayer = useCallback(
+        async (file: File | undefined) => {
+            if (!file) return;
+            setUploading(true);
+            setUploadNote("");
+            try {
+                const record = await uploadToolAsset(file, { name: file.name });
+                apply(
+                    addDesignerLayer(document, {
+                        id: `layer-image-${record.id.slice(0, 6)}`,
+                        kind: "image",
+                        name: record.name || "图片图层",
+                        src: record.url,
+                        x: Math.round(document.width * 0.1),
+                        y: Math.round(document.height * 0.1),
+                        width: Math.round(document.width * 0.4),
+                        height: Math.round(document.height * 0.4),
+                        rotation: 0,
+                        opacity: 1,
+                        visible: true,
+                        locked: false,
+                    }),
+                );
+            } catch (uploadError) {
+                setUploadNote(uploadError instanceof Error ? `上传失败：${uploadError.message}` : "上传失败：未知原因");
+            } finally {
+                setUploading(false);
+            }
+        },
+        [apply, document],
+    );
+
+    const handleKeyDown = useCallback(
+        (event: React.KeyboardEvent<HTMLDivElement>) => {
+            if (!selected) return;
+            if (event.key.startsWith("Arrow")) {
+                event.preventDefault();
+                apply(nudgeDesignerLayer(document, selected.id, event.key as "ArrowLeft" | "ArrowRight" | "ArrowUp" | "ArrowDown", event.shiftKey));
+                return;
+            }
+            if (event.key === "[") {
+                event.preventDefault();
+                apply(rotateDesignerLayer(document, selected.id, selected.rotation - 1));
+            }
+            if (event.key === "]") {
+                event.preventDefault();
+                apply(rotateDesignerLayer(document, selected.id, selected.rotation + 1));
+            }
+        },
+        [apply, document, selected],
+    );
+
+    /* ---------------- 导出（真实合成 + 真实入库） ---------------- */
+    const handleExport = useCallback(async () => {
+        setError(undefined);
+        setResult(undefined);
+        try {
+            const snapshot = createDesignerSnapshot(document, host);
+            const run = await runDesigner({ document, host, compositor: activeCompositor, assets, requestId: snapshot.requestId, onStage: setStage });
+            setResult(run.asset);
+            setResultFingerprint(run.snapshot.fingerprint);
+            setBaselineFingerprint(run.snapshot.fingerprint);
+            setStage("succeeded");
+        } catch (runError) {
+            const adapterError = runError instanceof DesignerAdapterError ? runError : new DesignerAdapterError("compose-failed", runError instanceof Error ? runError.message : "导出失败");
+            setError(adapterError);
+            setStage("failed");
+        }
+    }, [activeCompositor, assets, document, host.isDesignerUse, host.imageUrl, host.open, host.hasOnClose, host.hasOnDone]);
+
+    const handleDone = useCallback(() => {
+        if (!result) return;
+        try {
+            const payload = buildDesignerDonePayload(document, result);
+            onDone?.(payload, document);
+            setBaselineFingerprint(designerDocumentFingerprint(document));
+        } catch (doneError) {
+            setError(new DesignerAdapterError("asset-save-failed", doneError instanceof Error ? doneError.message : "无可回传的结果"));
+            setStage("failed");
+        }
+    }, [document, onDone, result]);
+
+    const requestClose = useCallback(() => {
+        const decision = decideDesignerClose({ dirty });
+        if (decision.action === "confirm") {
+            setClosePrompt(decision.message);
+            return;
+        }
+        onClose?.({ designerId: document.designerId, saved: true });
+    }, [dirty, document.designerId, onClose]);
+
+    const confirmClose = useCallback(() => {
+        setClosePrompt("");
+        onClose?.({ designerId: document.designerId, saved: false });
+    }, [document.designerId, onClose]);
+
+    const notice = designerResultNotice(stage, error, { stale });
+
+    return (
+        <section aria-label="商品图设计器" className="flex min-h-[640px] flex-col overflow-hidden rounded-lg border border-border bg-background text-sm text-foreground">
+            {/* 顶部：撤销 / 重做 / 预览 / 完成 */}
+            <header className="flex flex-wrap items-center justify-between gap-2 border-b border-border bg-card px-3 py-2">
+                <div className="flex min-w-0 items-center gap-2">
+                    <span className="truncate font-medium">商品图设计器</span>
+                    <span className="truncate text-xs text-muted-foreground">{sourceName} · {document.width}×{document.height}</span>
+                    <span className="rounded border border-border px-1.5 text-[11px] leading-5 text-muted-foreground">设计器宿主</span>
+                </div>
+                <div className="flex items-center gap-1.5">
+                    <button type="button" aria-label="撤销" title="撤销" disabled={!canUndoDesigner(history)} onClick={() => setHistory((current) => undoDesignerDocument(current))} className="flex h-10 w-10 items-center justify-center rounded-lg border border-border text-muted-foreground hover:bg-accent disabled:opacity-40">
+                        <Undo2 className="h-4 w-4" />
+                    </button>
+                    <button type="button" aria-label="重做" title="重做" disabled={!canRedoDesigner(history)} onClick={() => setHistory((current) => redoDesignerDocument(current))} className="flex h-10 w-10 items-center justify-center rounded-lg border border-border text-muted-foreground hover:bg-accent disabled:opacity-40">
+                        <Redo2 className="h-4 w-4" />
+                    </button>
+                    <button type="button" aria-pressed={preview} onClick={() => setPreview((value) => !value)} className={cn("flex h-10 items-center gap-1.5 rounded-lg border px-3", preview ? "border-primary bg-primary/10 text-primary" : "border-border text-muted-foreground hover:bg-accent")}>
+                        <Play className="h-4 w-4" />
+                        预览
+                    </button>
+                    <button type="button" onClick={requestClose} className="flex h-10 items-center gap-1.5 rounded-lg border border-border px-3 text-muted-foreground hover:bg-accent">
+                        <X className="h-4 w-4" />
+                        关闭
+                    </button>
+                    <button type="button" disabled={!result || busy} onClick={handleDone} className="h-10 rounded-lg bg-primary px-4 font-medium text-primary-foreground disabled:opacity-50" title={result ? "回传设计稿给来源工具" : "先导出设计稿"} data-testid="designer-done">
+                        完成回传
+                    </button>
+                </div>
+            </header>
+
+            {restoreNotice ? <p className="border-b border-border bg-card px-3 py-1.5 text-xs text-muted-foreground">{restoreNotice}</p> : null}
+            {closePrompt ? (
+                <div className="flex flex-wrap items-center justify-between gap-2 border-b border-border bg-accent px-3 py-2 text-xs">
+                    <span>{closePrompt}</span>
+                    <span className="flex gap-2">
+                        <button type="button" onClick={confirmClose} className="h-8 rounded-md border border-border bg-card px-3">确认关闭</button>
+                        <button type="button" onClick={() => setClosePrompt("")} className="h-8 rounded-md border border-border px-3">继续编辑</button>
+                    </span>
+                </div>
+            ) : null}
+
+            <div className={cn("grid min-h-0 flex-1 gap-3 p-3", preview ? "grid-cols-1" : "grid-cols-1 lg:grid-cols-[280px_minmax(0,1fr)_320px]")}>
+                {/* 左：素材与图层 */}
+                {preview ? null : (
+                    <aside aria-label="素材与图层" className="flex min-h-0 flex-col gap-2 rounded-lg border border-border bg-card p-3">
+                        <div className="flex items-center justify-between">
+                            <h2 className="font-medium">素材与图层</h2>
+                            <span className="text-xs tabular-nums text-muted-foreground">{document.layers.length} 层</span>
+                        </div>
+                        <div className="flex flex-wrap gap-1.5">
+                            <button type="button" onClick={handleAddText} disabled={document.layers.length >= DESIGNER_LAYER_LIMITS.maxLayers} className="flex h-9 flex-1 items-center justify-center gap-1.5 rounded-lg border border-border px-2 text-xs hover:bg-accent disabled:opacity-40">
+                                <Type className="h-4 w-4" />
+                                添加文字
+                            </button>
+                            <button type="button" onClick={() => fileRef.current?.click()} disabled={uploading || document.layers.length >= DESIGNER_LAYER_LIMITS.maxLayers} className="flex h-9 flex-1 items-center justify-center gap-1.5 rounded-lg border border-border px-2 text-xs hover:bg-accent disabled:opacity-40">
+                                {uploading ? <Loader2 className="h-4 w-4 animate-spin" /> : <ImagePlus className="h-4 w-4" />}
+                                添加图片
+                            </button>
+                            <input ref={fileRef} type="file" accept="image/png,image/jpeg,image/webp" className="hidden" onChange={(event) => void handleUploadLayer(event.target.files?.[0])} />
+                        </div>
+                        {uploadNote ? <p className="text-xs text-destructive">{uploadNote}</p> : null}
+                        <ul aria-label="图层列表" className="flex min-h-0 flex-1 flex-col gap-1 overflow-y-auto">
+                            {[...document.layers].reverse().map((layer, reverseIndex) => {
+                                const index = document.layers.length - 1 - reverseIndex;
+                                const active = layer.id === selectedId;
+                                return (
+                                    <li key={layer.id}>
+                                        <div className={cn("flex items-center gap-1 rounded-lg border px-1.5 py-1", active ? "border-primary bg-accent" : "border-transparent hover:bg-accent/60")}>
+                                            <button type="button" onClick={() => setSelectedId(layer.id)} className="flex min-h-8 min-w-0 flex-1 items-center gap-1.5 text-left">
+                                                <span className="w-5 text-center text-[11px] tabular-nums text-muted-foreground">{index + 1}</span>
+                                                <span className="truncate">{layer.name}</span>
+                                                <span className="shrink-0 text-[10px] text-muted-foreground">{layer.kind === "image" ? "图片" : "文字"}</span>
+                                            </button>
+                                            <button type="button" aria-label={layer.visible ? `隐藏 ${layer.name}` : `显示 ${layer.name}`} onClick={() => apply(setDesignerLayerVisibility(document, layer.id, !layer.visible))} className="flex h-8 w-8 items-center justify-center rounded-md text-muted-foreground hover:bg-background">
+                                                {layer.visible ? <Eye className="h-3.5 w-3.5" /> : <EyeOff className="h-3.5 w-3.5" />}
+                                            </button>
+                                            <button type="button" aria-label={layer.locked ? `解锁 ${layer.name}` : `锁定 ${layer.name}`} onClick={() => apply(toggleDesignerLayerLock(document, layer.id))} className="flex h-8 w-8 items-center justify-center rounded-md text-muted-foreground hover:bg-background">
+                                                {layer.locked ? <Lock className="h-3.5 w-3.5" /> : <Unlock className="h-3.5 w-3.5" />}
+                                            </button>
+                                            <button type="button" aria-label={`删除 ${layer.name}`} onClick={() => apply(removeDesignerLayer(document, layer.id))} className="flex h-8 w-8 items-center justify-center rounded-md text-muted-foreground hover:bg-background">
+                                                <Trash2 className="h-3.5 w-3.5" />
+                                            </button>
+                                        </div>
+                                        {active ? (
+                                            <div className="mt-1 flex items-center gap-1 pl-6">
+                                                <button type="button" aria-label="上移一层" onClick={() => apply(reorderDesignerLayers(document, layer.id, "up"))} className="flex h-7 w-7 items-center justify-center rounded border border-border text-muted-foreground hover:bg-background"><ArrowUp className="h-3 w-3" /></button>
+                                                <button type="button" aria-label="下移一层" onClick={() => apply(reorderDesignerLayers(document, layer.id, "down"))} className="flex h-7 w-7 items-center justify-center rounded border border-border text-muted-foreground hover:bg-background"><ArrowDown className="h-3 w-3" /></button>
+                                                <button type="button" aria-label="置顶" onClick={() => apply(reorderDesignerLayers(document, layer.id, "front"))} className="flex h-7 w-7 items-center justify-center rounded border border-border text-muted-foreground hover:bg-background"><ChevronsUp className="h-3 w-3" /></button>
+                                                <button type="button" aria-label="置底" onClick={() => apply(reorderDesignerLayers(document, layer.id, "back"))} className="flex h-7 w-7 items-center justify-center rounded border border-border text-muted-foreground hover:bg-background"><ChevronsDown className="h-3 w-3" /></button>
+                                            </div>
+                                        ) : null}
+                                    </li>
+                                );
+                            })}
+                        </ul>
+                        <div className="flex items-center gap-1.5">
+                            {DESIGNER_CANVAS_PRESETS.map((preset) => (
+                                <button key={preset.id} type="button" onClick={() => setCanvasPreset(preset.id)} className={cn("h-8 flex-1 rounded-md border text-[11px]", document.width === preset.width && document.height === preset.height ? "border-primary bg-primary/10 text-primary" : "border-border text-muted-foreground hover:bg-accent")}>
+                                    {preset.label}
+                                </button>
+                            ))}
+                        </div>
+                    </aside>
+                )}
+
+                {/* 中：画布 */}
+                <div className="flex min-h-0 flex-col gap-2">
+                    <div
+                        role="application"
+                        aria-label="设计画布"
+                        tabIndex={0}
+                        onKeyDown={handleKeyDown}
+                        className="relative mx-auto w-full max-w-[720px] overflow-hidden rounded-lg border border-border bg-card shadow-sm outline-none focus-visible:ring-2 focus-visible:ring-primary"
+                        style={{ aspectRatio: `${document.width} / ${document.height}`, background: document.background }}
+                    >
+                        {document.layers.map((layer) => {
+                            const style = {
+                                left: `${(layer.x / document.width) * 100}%`,
+                                top: `${(layer.y / document.height) * 100}%`,
+                                width: `${(layer.width / document.width) * 100}%`,
+                                height: `${(layer.height / document.height) * 100}%`,
+                                transform: `rotate(${layer.rotation}deg)`,
+                                opacity: layer.opacity,
+                                display: layer.visible ? "block" : "none",
+                            };
+                            const content =
+                                layer.kind === "image" && layer.src ? (
+                                    <img src={layer.src} alt={layer.name} className="h-full w-full object-contain" draggable={false} />
+                                ) : (
+                                    <span className="flex h-full w-full items-center justify-center break-all text-center leading-tight" style={{ color: layer.color, fontSize: `${Math.max(10, (layer.fontSize ?? 64) * (640 / document.width))}px` }}>
+                                        {layer.text}
+                                    </span>
+                                );
+                            return (
+                                <button
+                                    key={layer.id}
+                                    type="button"
+                                    aria-label={`图层 ${layer.name}`}
+                                    onClick={() => setSelectedId(layer.id)}
+                                    className={cn("absolute overflow-hidden", selectedId === layer.id ? "outline outline-2 outline-offset-1 outline-primary" : "outline-none hover:outline hover:outline-1 hover:outline-border")}
+                                    style={style}
+                                >
+                                    {content}
+                                </button>
+                            );
+                        })}
+                        {!document.layers.length ? (
+                            <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 text-xs text-muted-foreground">
+                                <Maximize2 className="h-6 w-6" />
+                                <span>画布为空：上传商品图或添加文字图层开始设计</span>
+                            </div>
+                        ) : null}
+                    </div>
+                    <p className="text-center text-[11px] text-muted-foreground">方向键微调 8px（Shift 32px），[ / ] 旋转 1°，撤销 Ctrl/Cmd+Z 之外请用顶部按钮</p>
+
+                    <div className="rounded-lg border border-border bg-card p-3">
+                        <div className="flex flex-wrap items-center justify-between gap-2">
+                            <span className="text-xs text-muted-foreground">{notice}</span>
+                            <div className="flex items-center gap-2">
+                                <span className="text-[11px] text-muted-foreground">{dirty ? "草稿有未保存修改" : "草稿已保存"}</span>
+                                <button type="button" data-testid="designer-export" onClick={() => void handleExport()} disabled={blocked || busy} className="flex h-10 items-center gap-1.5 rounded-lg bg-primary px-4 font-medium text-primary-foreground disabled:opacity-50" title={blocked ? issues[0]?.message : "真实合成并入库"}>
+                                    {busy ? <Loader2 className="h-4 w-4 animate-spin" /> : <Check className="h-4 w-4" />}
+                                    导出设计稿
+                                </button>
+                            </div>
+                        </div>
+                        {error ? <p className="mt-1 text-xs text-destructive">{error.code}：{error.message}</p> : null}
+                        {result ? (
+                            <p className="mt-1 text-[11px] text-muted-foreground">已入库资产 #{result.assetId.slice(0, 8)} · {result.bytes ? `${Math.round(result.bytes / 1024)} KB` : "大小未知"} · 响应 id {resultFingerprint ?? "——"}</p>
+                        ) : null}
+                    </div>
+                </div>
+
+                {/* 右：属性 */}
+                {preview ? null : (
+                    <aside aria-label="属性面板" className="flex min-h-0 flex-col gap-2 rounded-lg border border-border bg-card p-3">
+                        <h2 className="font-medium">属性</h2>
+                        {selected ? (
+                            <div className="flex flex-col gap-2 text-xs">
+                                <label className="flex flex-col gap-1">
+                                    图层名称
+                                    <input value={selected.name} onChange={(event) => apply(renameDesignerLayer(document, selected.id, event.target.value))} className="h-9 rounded-md border border-border bg-background px-2" />
+                                </label>
+                                {selected.kind === "text" ? (
+                                    <>
+                                        <label className="flex flex-col gap-1">
+                                            文案
+                                            <textarea value={selected.text ?? ""} maxLength={DESIGNER_TEXT_LIMIT} onChange={(event) => apply(updateDesignerLayer(document, selected.id, { text: event.target.value }))} className="min-h-20 rounded-md border border-border bg-background px-2 py-1" />
+                                        </label>
+                                        <div className="flex gap-2">
+                                            <label className="flex flex-1 flex-col gap-1">
+                                                字号
+                                                <input type="number" min={8} max={400} value={selected.fontSize ?? 64} onChange={(event) => apply(updateDesignerLayer(document, selected.id, { fontSize: Number(event.target.value) || 8 }))} className="h-9 rounded-md border border-border bg-background px-2 tabular-nums" />
+                                            </label>
+                                            <label className="flex flex-col gap-1">
+                                                颜色
+                                                <input type="color" value={selected.color ?? "#ffffff"} onChange={(event) => apply(updateDesignerLayer(document, selected.id, { color: event.target.value }))} className="h-9 w-14 rounded-md border border-border bg-background" />
+                                            </label>
+                                        </div>
+                                    </>
+                                ) : null}
+                                <div className="grid grid-cols-2 gap-2">
+                                    {(["x", "y", "width", "height"] as const).map((key) => (
+                                        <label key={key} className="flex flex-col gap-1">
+                                            {{ x: "X", y: "Y", width: "宽", height: "高" }[key]}
+                                            <input
+                                                type="number"
+                                                value={Math.round(selected[key])}
+                                                onChange={(event) => {
+                                                    const value = Number(event.target.value);
+                                                    if (!Number.isFinite(value)) return;
+                                                    apply(key === "width" || key === "height" ? resizeDesignerLayer(document, selected.id, key === "width" ? value : selected.width, key === "height" ? value : selected.height) : moveDesignerLayer(document, selected.id, key === "x" ? value - selected.x : 0, key === "y" ? value - selected.y : 0));
+                                                }}
+                                                className="h-9 rounded-md border border-border bg-background px-2 tabular-nums"
+                                            />
+                                        </label>
+                                    ))}
+                                </div>
+                                <label className="flex flex-col gap-1">
+                                    旋转 {Math.round(selected.rotation)}°
+                                    <input type="range" min={DESIGNER_LAYER_LIMITS.rotationMin} max={DESIGNER_LAYER_LIMITS.rotationMax} value={selected.rotation} onChange={(event) => apply(rotateDesignerLayer(document, selected.id, Number(event.target.value)))} />
+                                </label>
+                                <label className="flex flex-col gap-1">
+                                    不透明度 {Math.round(selected.opacity * 100)}%
+                                    <input type="range" min={Math.round(DESIGNER_LAYER_LIMITS.opacityMin * 100)} max={100} value={Math.round(selected.opacity * 100)} onChange={(event) => apply(updateDesignerLayer(document, selected.id, { opacity: Number(event.target.value) / 100 }))} />
+                                </label>
+                            </div>
+                        ) : (
+                            <p className="text-xs text-muted-foreground">未选中图层：在左侧列表或画布上点选。</p>
+                        )}
+                        {issues.length ? (
+                            <ul className="mt-auto flex flex-col gap-1 border-t border-border pt-2 text-[11px] text-destructive">
+                                {issues.slice(0, 4).map((issue) => (
+                                    <li key={`${issue.code}-${issue.layerId ?? "doc"}`}>{issue.message}</li>
+                                ))}
+                            </ul>
+                        ) : null}
+                        <p className="mt-auto text-[11px] text-muted-foreground">工具 {NEW_DESIGNER_TOOL_ID} · 草稿键 tool-draft:v1:{NEW_DESIGNER_TOOL_ID}</p>
+                    </aside>
+                )}
+            </div>
+        </section>
+    );
+}
+
+export default DesignerWorkspace;
