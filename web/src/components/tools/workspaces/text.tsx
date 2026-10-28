@@ -506,3 +506,10 @@ export function OrnamentTextWorkspace() {
 }
 
 export default OrnamentTextWorkspace;
+
+/**
+ * TASK-036：图片文字编辑（IMAGE_TEXT_EDIT）工作区。
+ * 实现单独放在 image-text-edit.tsx（画布/框选/属性面板体量大），本文件作为 text 家族的统一入口再导出。
+ */
+export { ImageTextEditWorkspace } from "./image-text-edit";
+export { default as ImageTextEditWorkspaceEntry } from "./image-text-edit";
