@@ -865,6 +865,8 @@ export function RemovePenWorkspace({ className }: RemovePenWorkspaceProps = {}) 
     const [busy, setBusy] = useState(false);
     const [run, setRun] = useState<RemovePenRun | null>(null);
     const [runSnapshot, setRunSnapshot] = useState<RemovePenSnapshot | null>(null);
+    const [resultPending, setResultPending] = useState(false);
+    const [resultNotice, setResultNotice] = useState("");
 
     const canvasRef = useRef<HTMLCanvasElement | null>(null);
     const imageRef = useRef<UploadedImage | null>(null);
@@ -1105,6 +1107,58 @@ export function RemovePenWorkspace({ className }: RemovePenWorkspaceProps = {}) 
     );
     const stale = runSnapshot ? isRemovePenSnapshotStale(runSnapshot, currentSnapshot) : false;
     const view = useMemo(() => removePenResultView({ run, running: busy, sourceUrl: image?.dataUrl, stale }), [run, busy, image, stale]);
+
+    /* ---------------- 结果动作：存入资产库 / 发送画布 ---------------- */
+
+    /** 只把本次真实返回的结果包装成结果项；没有 url 就是没有结果，动作直接拒绝，不造占位图。 */
+    const resultItem = useCallback((): ToolTaskResultItem | null => {
+        const url = view.imageUrl;
+        if (!url) return null;
+        return {
+            id: `${REMOVE_PEN_ID}-${run?.snapshotHash ?? "result"}`,
+            kind: "image",
+            ...(url.startsWith("data:") ? { dataUrl: url } : { url }),
+            mimeType: "image/png",
+        };
+    }, [run?.snapshotHash, view.imageUrl]);
+
+    const saveResult = useCallback(async () => {
+        const item = resultItem();
+        if (!item) {
+            setResultNotice("没有可保存的真实结果，请先完成一次消除。");
+            return;
+        }
+        setResultPending(true);
+        try {
+            const saved = await saveResultItemToAssets(item, 0, {
+                toolId: REMOVE_PEN_ID,
+                title: `${image?.name ?? "remove-pen"} 消除结果`,
+                source: "局部消除",
+            });
+            setResultNotice(`已存入资产库（${saved.assetId.slice(0, 8)}）`);
+        } catch (error) {
+            setResultNotice(error instanceof Error ? error.message : "存入资产库失败");
+        } finally {
+            setResultPending(false);
+        }
+    }, [image?.name, resultItem]);
+
+    const sendResult = useCallback(async () => {
+        const item = resultItem();
+        if (!item) {
+            setResultNotice("没有可发送的真实结果，请先完成一次消除。");
+            return;
+        }
+        setResultPending(true);
+        try {
+            const sent = await sendResultItemToCanvas(item, { toolId: REMOVE_PEN_ID });
+            setResultNotice(`已发送画布（项目 ${sent.projectId.slice(0, 8)} · 节点 ${sent.nodeId.slice(0, 8)}）`);
+        } catch (error) {
+            setResultNotice(error instanceof Error ? error.message : "发送画布失败");
+        } finally {
+            setResultPending(false);
+        }
+    }, [resultItem]);
     const resultUrl = view.imageUrl;
 
     /** 提交：导出同尺寸蒙版 → 校验字段 → 一次真实图像编辑请求。 */
@@ -1453,6 +1507,30 @@ export function RemovePenWorkspace({ className }: RemovePenWorkspaceProps = {}) 
                                     ))}
                                 </div>
                                 <p className="mt-1 text-[10px] text-muted-foreground">接力会把当前结果作为目标工具的输入（通过路由 handoff state 传递）。</p>
+
+                                <div className="mt-3 flex flex-wrap items-center gap-2 border-t border-border pt-3">
+                                    <button
+                                        type="button"
+                                        data-testid="remove-pen-save"
+                                        disabled={resultPending}
+                                        onClick={() => void saveResult()}
+                                        className="rounded border border-border px-2 py-1 text-[11px] text-muted-foreground hover:bg-accent disabled:cursor-not-allowed disabled:opacity-50"
+                                    >
+                                        {resultPending ? "处理中…" : "存入资产"}
+                                    </button>
+                                    <button
+                                        type="button"
+                                        data-testid="remove-pen-send"
+                                        disabled={resultPending}
+                                        onClick={() => void sendResult()}
+                                        className="rounded border border-border px-2 py-1 text-[11px] text-muted-foreground hover:bg-accent disabled:cursor-not-allowed disabled:opacity-50"
+                                    >
+                                        {resultPending ? "处理中…" : "发送画布"}
+                                    </button>
+                                    {resultNotice ? (
+                                        <p data-testid="remove-pen-result-feedback" className="text-[11px] text-muted-foreground">{resultNotice}</p>
+                                    ) : null}
+                                </div>
                             </div>
                         ) : view.status !== "running" ? (
                             <p className="mt-3 text-[11px] text-muted-foreground">还没有结果。涂抹要消除的区域后点「开始消除」。</p>

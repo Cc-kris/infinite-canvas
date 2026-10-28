@@ -1,0 +1,47 @@
+{
+  "toolId": "REMOVE_PEN",
+  "name": "局部消除",
+  "route": "/tools/smart-edit/remove-pen",
+  "fixture": "product-watch.jpg 1024x744",
+  "runs": [
+    {
+      "at": "2026-10-28T15:55:35.703Z",
+      "mask": "2 笔 · 16.0% 区域",
+      "outcome": "页面被整页刷新（HMR）导致 run 状态丢失，面板回到空态"
+    },
+    {
+      "at": "2026-10-28T15:59:07.712Z",
+      "mask": "1 笔 · 10.4% 区域",
+      "outcome": "succeeded",
+      "elapsed": "20s",
+      "resultUrl": "https://oss-us.dimenoss.com/images/2026/10/28/1793203168_558343828fc0b.png"
+    },
+    {
+      "at": "2026-10-28T16:02:32.720Z",
+      "mask": "1 笔 · 9.2% 区域",
+      "outcome": "上游长时间未返回（HMR 后状态陈旧，>8min running），reload 后重跑即恢复"
+    },
+    {
+      "at": "2026-10-28T16:11:08.710Z",
+      "mask": "1 笔 · 7.6% 区域",
+      "outcome": "succeeded",
+      "elapsed": "34s",
+      "note": "整页 reload 后（清掉 HMR 陈旧状态）一次通过",
+      "resultUrl": "https://oss-us.dimenoss.com/images/2026/10/29/1793203892_6c7955f59b8ec82c2cc396916a3dffef.png",
+      "save": {
+        "feedback": "已存入资产库（K-a7Ae-u）",
+        "assetId": "K-a7Ae-u"
+      },
+      "send": {
+        "feedback": "已发送画布（项目 9PtWcnwK · 节点 image-17）",
+        "projectId": "9PtWcnwK",
+        "nodeId": "image-17"
+      }
+    }
+  ],
+  "gapBeforeFix": "结果卡只有 下载图片 / 高清放大 / 接力（商品图、手部修复），没有「存入资产库」「发送画布」",
+  "fix": "mask.tsx 的 REMOVE_PEN 组件在结果卡底部新增动作条：存入资产库 / 发送画布 / 下载，复用 tool-result-actions 的真实副作用（saveResultItemToAssets / sendResultItemToCanvas），data-testid=remove-pen-save / remove-pen-send / remove-pen-result-feedback",
+  "notes": "不加任何占位图：view.imageUrl 为空时动作直接拒绝",
+  "canvasCrossCheck": "打开 /canvas/9PtWcnwK → 画布库「REMOVE_PEN 结果 · 1 个节点」→ 进入项目确认 1 张真实图片节点",
+  "gate": "真实输出 + 资产 ID + 画布项目/节点 ID 三项齐备"
+}
