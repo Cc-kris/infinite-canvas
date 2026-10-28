@@ -1,0 +1,109 @@
+{
+ "tool": "SDS_DESIGN",
+ "route": "/tools/product-design/sds-design",
+ "startedAt": "2026-10-28T17:15:58.175Z",
+ "upstream": [
+  {
+   "file": "/Users/mac/Documents/Dev/infinite-canvas/docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/B2G1/SDS_DESIGN/raw-upstream-0.json",
+   "bytes": 2776554,
+   "url": "http://127.0.0.1:23210/https://api.cc-ai.xyz/v1/images/edits",
+   "status": 200,
+   "requestContentType": "multipart/form-data; boundary=----WebKitFormBoundaryy6fSrkPQgT7AOCOK"
+  }
+ ],
+ "steps": [
+  {
+   "step": "file-inputs",
+   "count": 2
+  },
+  {
+   "step": "uploads",
+   "files": [
+    "product-watch.jpg",
+    "apparel-print.jpg"
+   ]
+  },
+  {
+   "step": "submitted",
+   "at": "2026-10-28T17:16:05.149Z"
+  }
+ ],
+ "g1": {
+  "persisted": {
+   "taskId": "task-mvsdlqxd-ttx3pl",
+   "storageKey": "tool-result:LOADB6TqqrfGBPU2BYCfF",
+   "bytes": 2081539,
+   "hasDataUrlInSnapshot": false,
+   "payloadDropped": false,
+   "snapshotChars": 1189
+  },
+  "afterReload": {
+   "storageKey": "tool-result:LOADB6TqqrfGBPU2BYCfF",
+   "bytes": 2081539,
+   "mimeType": "image/png",
+   "sha256": "a119eb6cf4889e2dd5dff69d182c99c6f6283e640cb3d9c3968029bb8b095e23",
+   "matchesUpstream": true
+  },
+  "restoredPanel": {
+   "view": "succeeded",
+   "text": "SDS 素材贴合结果 已完成 共 1 个结果 · 图片 1 下载 存入资产 发送画布"
+  },
+  "restoredButtons": {
+   "download": {
+    "exists": true,
+    "disabled": false
+   },
+   "save": {
+    "exists": true,
+    "disabled": false
+   },
+   "canvas": {
+    "exists": true,
+    "disabled": false
+   }
+  }
+ },
+ "linkfox": {
+  "note": "LinkFox SDS 素材贴合：输入=商品图+素材图，输出=贴合图；本地按同参数真实生成一张。"
+ },
+ "provider": {
+  "baseUrl": "https://api.cc-ai.xyz",
+  "model": "sf-accept::Qwen/Qwen3-VL-8B-Instruct",
+  "imageModel": "ccai-accept::gpt-image-2",
+  "channelCount": 2,
+  "keyLen": 67,
+  "textKeyLen": 51
+ },
+ "resultView": "succeeded",
+ "upstreamForm": "b64_json",
+ "result": {
+  "file": "result-0.png",
+  "bytes": 2081539,
+  "sha256": "a119eb6cf4889e2dd5dff69d182c99c6f6283e640cb3d9c3968029bb8b095e23",
+  "format": "png",
+  "width": 1024,
+  "height": 1024
+ },
+ "upstreamJson": {
+  "keys": [
+   "created",
+   "data",
+   "usage"
+  ],
+  "dataLen": 1,
+  "revisedPrompt": "参考图片编号：图片1、图片2。请按这些编号理解提示词中的图片引用。\r\n\r\n素材贴合任务（SDS_DESIGN） 商品：参考图第 1 张为商品底图，商品 ID：r9qFXdCA5BdvxAz7ZT2HL 颜色：原色（保持商品原始颜色） 素材数量：1（输出 1 张，与素材一一对应，不合并、不遗漏） 素材 1「apparel-print.jpg」，中心位置 (50.0%, 50.0%)，缩放 60.0%"
+ },
+ "actions": {
+  "download": {
+   "suggestedFilename": "sds-design-result-1.png",
+   "bytes": 2081539,
+   "sha256": "a119eb6cf4889e2dd5dff69d182c99c6f6283e640cb3d9c3968029bb8b095e23",
+   "matchesUpstream": true
+  },
+  "saveAsset": "已保存到资产库（tr2qRM39e-G66t6X1l3dr）",
+  "sendCanvas": "已发送到画布（S0iOeaR__wU4YSctOdBUR）"
+ },
+ "assetsPage": null,
+ "finishedAt": "2026-10-28T17:18:16.927Z",
+ "verdict": "PASS"
+}

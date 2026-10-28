@@ -14,7 +14,7 @@ import crypto from "node:crypto";
 import fs from "node:fs/promises";
 import path from "node:path";
 
-import { BASE_URL, EVIDENCE_ROOT, launchBrowser } from "./lib.mjs";
+import { BASE_URL, EVIDENCE_ROOT, PROXY_URL, launchBrowser } from "./lib.mjs";
 import { applyProviderConfig } from "./provider.mjs";
 
 const FIXTURES = path.resolve(process.cwd(), "scripts/real-acceptance/fixtures");
@@ -222,9 +222,21 @@ async function main() {
 
         // 解码真实字节
         const rawJson = JSON.parse(await fs.readFile(captured[0].file, "utf8"));
+        // 上游有两种形态：gpt-image 系返回 b64_json，部分渠道返回 oss url（需二次下载）。
         const b64 = rawJson?.data?.[0]?.b64_json;
-        if (!b64) throw new Error(`上游响应无 b64_json：${Object.keys(rawJson)}`);
-        const imageBuf = Buffer.from(b64, "base64");
+        let imageBuf;
+        if (b64) {
+            receipt.upstreamForm = "b64_json";
+            imageBuf = Buffer.from(b64, "base64");
+        } else if (rawJson?.data?.[0]?.url) {
+            receipt.upstreamForm = "url";
+            receipt.upstreamUrl = rawJson.data[0].url;
+            const res = await fetch(`${PROXY_URL}/${rawJson.data[0].url}`);
+            if (!res.ok) throw new Error(`上游 url 取字节失败：${res.status}`);
+            imageBuf = Buffer.from(await res.arrayBuffer());
+        } else {
+            throw new Error(`上游响应既无 b64_json 也无 url：${Object.keys(rawJson)}`);
+        }
         const png = path.join(OUT, "result-0.png");
         await fs.writeFile(png, imageBuf);
         const size = imageSize(imageBuf);
