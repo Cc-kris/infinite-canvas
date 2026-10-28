@@ -1,0 +1,26 @@
+# TASK-013 AI_OUTPAINTING verification (2026-10-28 16:15:08)
+
+## bun test (outpaint adapter + workspace)
+(pass) 智能扩图工作台渲染 > 画布尺寸与蒙版状态同步展示（未生成蒙版时不冒充已同步） [0.71ms]
+
+ 56 pass
+ 0 fail
+ 240 expect() calls
+Ran 56 tests across 2 files. [58.00ms]
+
+## bun test (features/tools + components/tools regression)
+ 1 fail
+ 1 error
+ 2762 expect() calls
+Ran 311 tests across 15 files. [157.00ms]
+
+## tsc --noEmit (project)
+src/features/tools/adapters/remove-pen.test.ts(25,5): error TS2724: '"../registry/remove-pen"' has no exported member named 'removePenDraftValues'. Did you mean 'RemovePenDraftValues'?
+src/features/tools/adapters/remove-pen.test.ts(98,54): error TS2339: Property 'name' does not exist on type 'FieldSpec'.
+src/features/tools/adapters/remove-pen.test.ts(168,42): error TS2353: Object literal may only specify known properties, and 'type' does not exist in type 'RemovePenSourceInfo'.
+src/features/tools/adapters/remove-pen.test.ts(169,42): error TS2353: Object literal may only specify known properties, and 'type' does not exist in type 'RemovePenSourceInfo'.
+src/features/tools/adapters/remove-pen.test.ts(170,42): error TS2353: Object literal may only specify known properties, and 'type' does not exist in type 'RemovePenSourceInfo'.
+src/features/tools/adapters/remove-pen.test.ts(234,32): error TS2352: Conversion of type '{ items: never[]; }' to type 'ToolTaskResult' may be a mistake because neither type sufficiently overlaps with the other. If this was intentional, convert the expression to 'unknown' first.
+  Property 'receivedAt' is missing in type '{ items: never[]; }' but required in type 'ToolTaskResult'.
+src/features/tools/adapters/remove-pen.test.ts(260,74): error TS2769: No overload matches this call.
+[tsc exit: 0]
