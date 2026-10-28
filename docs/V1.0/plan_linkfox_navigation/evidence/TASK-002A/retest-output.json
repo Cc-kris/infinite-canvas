@@ -1,0 +1,46 @@
+{
+ "enTriggers": [
+  "E-commerce Sets",
+  "Smart Retouch",
+  "Batch Generation",
+  "Product Design",
+  "AI Video"
+ ],
+ "enBatchMenu": [
+  "Product Image Suite Batch",
+  "Apparel Image Suite Batch",
+  "Batch Translation Batch",
+  "Upscale Batch",
+  "AI Outpainting Batch",
+  "Local Redraw Batch",
+  "One-click Recolor Batch",
+  "Image Crop Batch",
+  "Product Retouch Batch",
+  "Scene Fission Batch",
+  "POD Material Batch",
+  "Image to Video Batch"
+ ],
+ "enBatchCount": 12,
+ "enEntryLink": "Batch generation workspace",
+ "kb1": {
+  "active": "tools-nav-item-AREA_REPAIR",
+  "role": "menuitem",
+  "label": "Local Redraw",
+  "expanded": "true"
+ },
+ "kb2": {
+  "active": "tools-nav-item-REMOVE_PEN",
+  "label": "Local Eraser"
+ },
+ "kbEnd": {
+  "active": "tools-nav-category-entry-smart-edit",
+  "label": "Go to Smart Retouch"
+ },
+ "kbEsc": {
+  "expanded": "false",
+  "focus": "tools-nav-trigger-smart-edit"
+ },
+ "enterNav": {
+  "url": "http://127.0.0.1:3000/tools/smart-edit/area-repair"
+ }
+}

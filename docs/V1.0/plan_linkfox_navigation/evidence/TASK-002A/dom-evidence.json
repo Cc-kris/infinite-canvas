@@ -1,0 +1,705 @@
+{
+ "startedAt": "2026-10-28T07:27:53.536Z",
+ "desktop": {
+  "triggers": [
+   {
+    "slug": "ecommerce-suite",
+    "label": "电商套图",
+    "expanded": "false",
+    "haspopup": "menu",
+    "href": "/tools/ecommerce-suite"
+   },
+   {
+    "slug": "smart-edit",
+    "label": "智能修图",
+    "expanded": "false",
+    "haspopup": "menu",
+    "href": "/tools/smart-edit"
+   },
+   {
+    "slug": "batch-generate",
+    "label": "批量生图",
+    "expanded": "false",
+    "haspopup": "menu",
+    "href": "/tools/batch-generate"
+   },
+   {
+    "slug": "product-design",
+    "label": "商品图设计",
+    "expanded": "false",
+    "haspopup": "menu",
+    "href": "/tools/product-design"
+   },
+   {
+    "slug": "ai-video",
+    "label": "AI视频",
+    "expanded": "false",
+    "haspopup": "menu",
+    "href": "/tools/ai-video"
+   }
+  ],
+  "triggerLabels": [
+   "电商套图",
+   "智能修图",
+   "批量生图",
+   "商品图设计",
+   "AI视频"
+  ],
+  "menus": {
+   "ecommerce-suite": [
+    {
+     "label": "商品套图",
+     "href": "/tools/ecommerce-suite/product-image-suite",
+     "testid": "tools-nav-item-PRODUCT_IMAGE_SUITE",
+     "origin": "original"
+    },
+    {
+     "label": "服装套图",
+     "href": "/tools/ecommerce-suite/dress-wear-set",
+     "testid": "tools-nav-item-DRESS_WEAR_SET",
+     "origin": "original"
+    },
+    {
+     "label": "套图换色",
+     "href": "/tools/ecommerce-suite/change-color-v2",
+     "testid": "tools-nav-item-CHANGE_COLOR_V2",
+     "origin": "original"
+    },
+    {
+     "label": "批量翻译",
+     "href": "/tools/ecommerce-suite/image-translation",
+     "testid": "tools-nav-item-IMAGE_TRANSLATION",
+     "origin": "original"
+    },
+    {
+     "label": "高清放大",
+     "href": "/tools/ecommerce-suite/scale-up",
+     "testid": "tools-nav-item-SCALE_UP",
+     "origin": "original"
+    },
+    {
+     "label": "智能扩图",
+     "href": "/tools/ecommerce-suite/ai-outpainting",
+     "testid": "tools-nav-item-AI_OUTPAINTING",
+     "origin": "original"
+    },
+    {
+     "label": "进入电商套图",
+     "href": "/tools/ecommerce-suite",
+     "testid": "tools-nav-category-entry-ecommerce-suite",
+     "origin": null
+    }
+   ],
+   "smart-edit": [
+    {
+     "label": "局部重绘",
+     "href": "/tools/smart-edit/area-repair",
+     "testid": "tools-nav-item-AREA_REPAIR",
+     "origin": "original"
+    },
+    {
+     "label": "局部消除",
+     "href": "/tools/smart-edit/remove-pen",
+     "testid": "tools-nav-item-REMOVE_PEN",
+     "origin": "original"
+    },
+    {
+     "label": "一键换色",
+     "href": "/tools/smart-edit/change-color",
+     "testid": "tools-nav-item-CHANGE_COLOR",
+     "origin": "original"
+    },
+    {
+     "label": "图片裁剪",
+     "href": "/tools/smart-edit/image-crop",
+     "testid": "tools-nav-item-IMAGE_CROP",
+     "origin": "original"
+    },
+    {
+     "label": "商品精修",
+     "href": "/tools/smart-edit/product-refine",
+     "testid": "tools-nav-item-PRODUCT_REFINE",
+     "origin": "original"
+    },
+    {
+     "label": "色差修复",
+     "href": "/tools/smart-edit/fix-color",
+     "testid": "tools-nav-item-FIX_COLOR",
+     "origin": "original"
+    },
+    {
+     "label": "印花修复",
+     "href": "/tools/smart-edit/printing-repair",
+     "testid": "tools-nav-item-PRINTING_REPAIR",
+     "origin": "original"
+    },
+    {
+     "label": "手部修复",
+     "href": "/tools/smart-edit/hand-repair",
+     "testid": "tools-nav-item-HAND_REPAIR",
+     "origin": "original"
+    },
+    {
+     "label": "进入智能修图",
+     "href": "/tools/smart-edit",
+     "testid": "tools-nav-category-entry-smart-edit",
+     "origin": null
+    }
+   ],
+   "batch-generate": [
+    {
+     "label": "商品套图\n可批量",
+     "href": "/tools/ecommerce-suite/product-image-suite?mode=batch",
+     "testid": "tools-nav-item-PRODUCT_IMAGE_SUITE",
+     "origin": "original"
+    },
+    {
+     "label": "服装套图\n可批量",
+     "href": "/tools/ecommerce-suite/dress-wear-set?mode=batch",
+     "testid": "tools-nav-item-DRESS_WEAR_SET",
+     "origin": "original"
+    },
+    {
+     "label": "批量翻译\n可批量",
+     "href": "/tools/ecommerce-suite/image-translation?mode=batch",
+     "testid": "tools-nav-item-IMAGE_TRANSLATION",
+     "origin": "original"
+    },
+    {
+     "label": "高清放大\n可批量",
+     "href": "/tools/ecommerce-suite/scale-up?mode=batch",
+     "testid": "tools-nav-item-SCALE_UP",
+     "origin": "original"
+    },
+    {
+     "label": "智能扩图\n可批量",
+     "href": "/tools/ecommerce-suite/ai-outpainting?mode=batch",
+     "testid": "tools-nav-item-AI_OUTPAINTING",
+     "origin": "original"
+    },
+    {
+     "label": "局部重绘\n可批量",
+     "href": "/tools/smart-edit/area-repair?mode=batch",
+     "testid": "tools-nav-item-AREA_REPAIR",
+     "origin": "original"
+    },
+    {
+     "label": "一键换色\n可批量",
+     "href": "/tools/smart-edit/change-color?mode=batch",
+     "testid": "tools-nav-item-CHANGE_COLOR",
+     "origin": "original"
+    },
+    {
+     "label": "图片裁剪\n可批量",
+     "href": "/tools/smart-edit/image-crop?mode=batch",
+     "testid": "tools-nav-item-IMAGE_CROP",
+     "origin": "original"
+    },
+    {
+     "label": "商品精修\n可批量",
+     "href": "/tools/smart-edit/product-refine?mode=batch",
+     "testid": "tools-nav-item-PRODUCT_REFINE",
+     "origin": "original"
+    },
+    {
+     "label": "场景裂变\n可批量",
+     "href": "/tools/product-design/product-scene?mode=batch",
+     "testid": "tools-nav-item-PRODUCT_SCENE",
+     "origin": "original"
+    },
+    {
+     "label": "POD素材\n可批量",
+     "href": "/tools/product-design/ai-text?mode=batch",
+     "testid": "tools-nav-item-AI_TEXT",
+     "origin": "original"
+    },
+    {
+     "label": "图转视频\n可批量",
+     "href": "/tools/ai-video/image-to-video?mode=batch",
+     "testid": "tools-nav-item-IMAGE_TO_VIDEO",
+     "origin": "original"
+    },
+    {
+     "label": "批量生图工作台",
+     "href": "/tools/batch-generate",
+     "testid": "tools-nav-category-entry-batch-generate",
+     "origin": null
+    }
+   ],
+   "product-design": [
+    {
+     "label": "商品图",
+     "href": "/tools/product-design/new-replace-bg-v2",
+     "testid": "tools-nav-item-NEW_REPLACE_BG_V2",
+     "origin": "original"
+    },
+    {
+     "label": "商品替换",
+     "href": "/tools/product-design/replace-goods",
+     "testid": "tools-nav-item-REPLACE_GOODS",
+     "origin": "original"
+    },
+    {
+     "label": "场景裂变",
+     "href": "/tools/product-design/product-scene",
+     "testid": "tools-nav-item-PRODUCT_SCENE",
+     "origin": "original"
+    },
+    {
+     "label": "手持商品",
+     "href": "/tools/product-design/handheld-goods",
+     "testid": "tools-nav-item-HANDHELD_GOODS",
+     "origin": "original"
+    },
+    {
+     "label": "AI穿衣",
+     "href": "/tools/product-design/ai-dressing-v2",
+     "testid": "tools-nav-item-AI_DRESSING_V2",
+     "origin": "original"
+    },
+    {
+     "label": "姿势裂变",
+     "href": "/tools/product-design/ai-posture",
+     "testid": "tools-nav-item-AI_POSTURE",
+     "origin": "original"
+    },
+    {
+     "label": "AI穿戴",
+     "href": "/tools/product-design/ai-wearable",
+     "testid": "tools-nav-item-AI_WEARABLE",
+     "origin": "original"
+    },
+    {
+     "label": "POD素材",
+     "href": "/tools/product-design/ai-text",
+     "testid": "tools-nav-item-AI_TEXT",
+     "origin": "original"
+    },
+    {
+     "label": "饰品文字",
+     "href": "/tools/product-design/ornament-text",
+     "testid": "tools-nav-item-ORNAMENT_TEXT",
+     "origin": "original"
+    },
+    {
+     "label": "素材贴合",
+     "href": "/tools/product-design/sds-design",
+     "testid": "tools-nav-item-SDS_DESIGN",
+     "origin": "original"
+    },
+    {
+     "label": "印花提取",
+     "href": "/tools/product-design/print-extract",
+     "testid": "tools-nav-item-PRINT_EXTRACT",
+     "origin": "original"
+    },
+    {
+     "label": "AI姿势生成\n补充",
+     "href": "/tools/product-design/ai-pose-generator",
+     "testid": "tools-nav-item-AI_POSE_GENERATOR",
+     "origin": "supplemental"
+    },
+    {
+     "label": "AI试衣XSY\n补充",
+     "href": "/tools/product-design/ai-dressing-xsy",
+     "testid": "tools-nav-item-AI_DRESSING_XSY",
+     "origin": "supplemental"
+    },
+    {
+     "label": "场景裂变链接\n补充",
+     "href": "/tools/product-design/fission-link",
+     "testid": "tools-nav-item-FISSION_LINK",
+     "origin": "supplemental"
+    },
+    {
+     "label": "图片文字编辑\n补充",
+     "href": "/tools/product-design/image-text-edit",
+     "testid": "tools-nav-item-IMAGE_TEXT_EDIT",
+     "origin": "supplemental"
+    },
+    {
+     "label": "上装换料\n补充",
+     "href": "/tools/product-design/material-upper-body",
+     "testid": "tools-nav-item-MATERIAL_UPPER_BODY",
+     "origin": "supplemental"
+    },
+    {
+     "label": "商品图设计器\n补充",
+     "href": "/tools/product-design/new-designer",
+     "testid": "tools-nav-item-NEW_DESIGNER",
+     "origin": "supplemental"
+    },
+    {
+     "label": "商品营销素材\n补充",
+     "href": "/tools/product-design/product-market-material",
+     "testid": "tools-nav-item-PRODUCT_MARKET_MATERIAL",
+     "origin": "supplemental"
+    },
+    {
+     "label": "场景迁移\n补充",
+     "href": "/tools/product-design/scene-transfer",
+     "testid": "tools-nav-item-SCENE_TRANSFER",
+     "origin": "supplemental"
+    },
+    {
+     "label": "进入商品图设计",
+     "href": "/tools/product-design",
+     "testid": "tools-nav-category-entry-product-design",
+     "origin": null
+    }
+   ],
+   "ai-video": [
+    {
+     "label": "图转视频",
+     "href": "/tools/ai-video/image-to-video",
+     "testid": "tools-nav-item-IMAGE_TO_VIDEO",
+     "origin": "original"
+    },
+    {
+     "label": "带货口播",
+     "href": "/tools/ai-video/sale-video",
+     "testid": "tools-nav-item-SALE_VIDEO",
+     "origin": "original"
+    },
+    {
+     "label": "视频复刻",
+     "href": "/tools/ai-video/video-replication",
+     "testid": "tools-nav-item-VIDEO_REPLICATION",
+     "origin": "original"
+    },
+    {
+     "label": "视频编辑",
+     "href": "/tools/ai-video/ai-video-editing",
+     "testid": "tools-nav-item-AI_VIDEO_EDITING",
+     "origin": "original"
+    },
+    {
+     "label": "视频翻译",
+     "href": "/tools/ai-video/video-translation",
+     "testid": "tools-nav-item-VIDEO_TRANSLATION",
+     "origin": "original"
+    },
+    {
+     "label": "视频拼接\n补充",
+     "href": "/tools/ai-video/video-concat",
+     "testid": "tools-nav-item-VIDEO_CONCAT",
+     "origin": "supplemental"
+    },
+    {
+     "label": "进入AI视频",
+     "href": "/tools/ai-video",
+     "testid": "tools-nav-category-entry-ai-video",
+     "origin": null
+    }
+   ]
+  },
+  "ariaExpandedWhileOpen_ecommerce-suite": "true",
+  "ariaExpandedWhileOpen_smart-edit": "true",
+  "ariaExpandedWhileOpen_batch-generate": "true",
+  "ariaExpandedWhileOpen_product-design": "true",
+  "ariaExpandedWhileOpen_ai-video": "true",
+  "menuCounts": {
+   "ecommerce-suite": 7,
+   "smart-edit": 9,
+   "batch-generate": 13,
+   "product-design": 20,
+   "ai-video": 7
+  },
+  "keyboardOpen": {
+   "expanded": "true",
+   "activeText": "商品图",
+   "activeRole": "menuitem"
+  },
+  "keyboardSecondEntry": "商品替换",
+  "keyboardLastEntry": "进入商品图设计",
+  "keyboardClosed": {
+   "expanded": "false",
+   "menuStillOpen": false,
+   "focusReturnedToTrigger": "tools-nav-trigger-product-design"
+  },
+  "activeOnToolRoute": {
+   "activeTrigger": "tools-nav-trigger-product-design",
+   "ariaCurrent": "tools-nav-trigger-product-design"
+  },
+  "activeEntry": "tools-nav-item-NEW_DESIGNER",
+  "noHorizontalOverflow": true,
+  "consoleErrors": []
+ },
+ "english": {
+  "triggers": [
+   "E-commerce Sets",
+   "Smart Retouch",
+   "Batch Generation",
+   "Product Design",
+   "AI Video"
+  ],
+  "aiVideoMenu": [
+   "Image to Video",
+   "Sales Talk Video",
+   "Video Replication",
+   "Video Editing",
+   "Video Translation",
+   "Video Concat\nSupplemental",
+   "Go to AI Video"
+  ]
+ },
+ "mobile": {
+  "desktopNavHidden": true,
+  "hamburgerVisible": true,
+  "drawerOpen": true,
+  "categories": [
+   {
+    "slug": "ecommerce-suite",
+    "label": "电商套图 6 个工具"
+   },
+   {
+    "slug": "smart-edit",
+    "label": "智能修图 8 个工具"
+   },
+   {
+    "slug": "batch-generate",
+    "label": "批量生图 12 个工具"
+   },
+   {
+    "slug": "product-design",
+    "label": "商品图设计 19 个工具"
+   },
+   {
+    "slug": "ai-video",
+    "label": "AI视频 6 个工具"
+   }
+  ],
+  "itemCounts": {
+   "ecommerce-suite": [
+    {
+     "label": "商品套图",
+     "href": "/tools/ecommerce-suite/product-image-suite"
+    },
+    {
+     "label": "服装套图",
+     "href": "/tools/ecommerce-suite/dress-wear-set"
+    },
+    {
+     "label": "套图换色",
+     "href": "/tools/ecommerce-suite/change-color-v2"
+    },
+    {
+     "label": "批量翻译",
+     "href": "/tools/ecommerce-suite/image-translation"
+    },
+    {
+     "label": "高清放大",
+     "href": "/tools/ecommerce-suite/scale-up"
+    },
+    {
+     "label": "智能扩图",
+     "href": "/tools/ecommerce-suite/ai-outpainting"
+    }
+   ],
+   "smart-edit": [
+    {
+     "label": "局部重绘",
+     "href": "/tools/smart-edit/area-repair"
+    },
+    {
+     "label": "局部消除",
+     "href": "/tools/smart-edit/remove-pen"
+    },
+    {
+     "label": "一键换色",
+     "href": "/tools/smart-edit/change-color"
+    },
+    {
+     "label": "图片裁剪",
+     "href": "/tools/smart-edit/image-crop"
+    },
+    {
+     "label": "商品精修",
+     "href": "/tools/smart-edit/product-refine"
+    },
+    {
+     "label": "色差修复",
+     "href": "/tools/smart-edit/fix-color"
+    },
+    {
+     "label": "印花修复",
+     "href": "/tools/smart-edit/printing-repair"
+    },
+    {
+     "label": "手部修复",
+     "href": "/tools/smart-edit/hand-repair"
+    }
+   ],
+   "batch-generate": [
+    {
+     "label": "商品套图 可批量",
+     "href": "/tools/ecommerce-suite/product-image-suite?mode=batch"
+    },
+    {
+     "label": "服装套图 可批量",
+     "href": "/tools/ecommerce-suite/dress-wear-set?mode=batch"
+    },
+    {
+     "label": "批量翻译 可批量",
+     "href": "/tools/ecommerce-suite/image-translation?mode=batch"
+    },
+    {
+     "label": "高清放大 可批量",
+     "href": "/tools/ecommerce-suite/scale-up?mode=batch"
+    },
+    {
+     "label": "智能扩图 可批量",
+     "href": "/tools/ecommerce-suite/ai-outpainting?mode=batch"
+    },
+    {
+     "label": "局部重绘 可批量",
+     "href": "/tools/smart-edit/area-repair?mode=batch"
+    },
+    {
+     "label": "一键换色 可批量",
+     "href": "/tools/smart-edit/change-color?mode=batch"
+    },
+    {
+     "label": "图片裁剪 可批量",
+     "href": "/tools/smart-edit/image-crop?mode=batch"
+    },
+    {
+     "label": "商品精修 可批量",
+     "href": "/tools/smart-edit/product-refine?mode=batch"
+    },
+    {
+     "label": "场景裂变 可批量",
+     "href": "/tools/product-design/product-scene?mode=batch"
+    },
+    {
+     "label": "POD素材 可批量",
+     "href": "/tools/product-design/ai-text?mode=batch"
+    },
+    {
+     "label": "图转视频 可批量",
+     "href": "/tools/ai-video/image-to-video?mode=batch"
+    }
+   ],
+   "product-design": [
+    {
+     "label": "商品图",
+     "href": "/tools/product-design/new-replace-bg-v2"
+    },
+    {
+     "label": "商品替换",
+     "href": "/tools/product-design/replace-goods"
+    },
+    {
+     "label": "场景裂变",
+     "href": "/tools/product-design/product-scene"
+    },
+    {
+     "label": "手持商品",
+     "href": "/tools/product-design/handheld-goods"
+    },
+    {
+     "label": "AI穿衣",
+     "href": "/tools/product-design/ai-dressing-v2"
+    },
+    {
+     "label": "姿势裂变",
+     "href": "/tools/product-design/ai-posture"
+    },
+    {
+     "label": "AI穿戴",
+     "href": "/tools/product-design/ai-wearable"
+    },
+    {
+     "label": "POD素材",
+     "href": "/tools/product-design/ai-text"
+    },
+    {
+     "label": "饰品文字",
+     "href": "/tools/product-design/ornament-text"
+    },
+    {
+     "label": "素材贴合",
+     "href": "/tools/product-design/sds-design"
+    },
+    {
+     "label": "印花提取",
+     "href": "/tools/product-design/print-extract"
+    },
+    {
+     "label": "AI姿势生成 补充",
+     "href": "/tools/product-design/ai-pose-generator"
+    },
+    {
+     "label": "AI试衣XSY 补充",
+     "href": "/tools/product-design/ai-dressing-xsy"
+    },
+    {
+     "label": "场景裂变链接 补充",
+     "href": "/tools/product-design/fission-link"
+    },
+    {
+     "label": "图片文字编辑 补充",
+     "href": "/tools/product-design/image-text-edit"
+    },
+    {
+     "label": "上装换料 补充",
+     "href": "/tools/product-design/material-upper-body"
+    },
+    {
+     "label": "商品图设计器 补充",
+     "href": "/tools/product-design/new-designer"
+    },
+    {
+     "label": "商品营销素材 补充",
+     "href": "/tools/product-design/product-market-material"
+    },
+    {
+     "label": "场景迁移 补充",
+     "href": "/tools/product-design/scene-transfer"
+    }
+   ],
+   "ai-video": [
+    {
+     "label": "图转视频",
+     "href": "/tools/ai-video/image-to-video"
+    },
+    {
+     "label": "带货口播",
+     "href": "/tools/ai-video/sale-video"
+    },
+    {
+     "label": "视频复刻",
+     "href": "/tools/ai-video/video-replication"
+    },
+    {
+     "label": "视频编辑",
+     "href": "/tools/ai-video/ai-video-editing"
+    },
+    {
+     "label": "视频翻译",
+     "href": "/tools/ai-video/video-translation"
+    },
+    {
+     "label": "视频拼接 补充",
+     "href": "/tools/ai-video/video-concat"
+    }
+   ]
+  },
+  "counts": {
+   "ecommerce-suite": 6,
+   "smart-edit": 8,
+   "batch-generate": 12,
+   "product-design": 19,
+   "ai-video": 6
+  },
+  "workspaceLinks": [
+   "我的画布",
+   "生图工作台",
+   "视频创作台",
+   "提示词库",
+   "我的资产",
+   "配置"
+  ],
+  "noHorizontalOverflow": true
+ }
+}
