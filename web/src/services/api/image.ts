@@ -241,9 +241,27 @@ function resolveImageSource(item: Record<string, unknown>) {
         return `data:image/png;base64,${item.b64_json}`;
     }
     if (typeof item.url === "string" && item.url) {
-        return item.url;
+        return isUsableImageSource(item.url) ? item.url : null;
     }
     return null;
+}
+
+const HTML_SOURCE_PATTERN = /^\s*<(?:!doctype|html|head|body|script|div|p|pre)/i;
+const DATA_IMAGE_PATTERN = /^data:image\/[a-z0-9.+-]+(?:;[^,]*)?,/i;
+
+/**
+ * TASK-047：图片来源可用性判定。
+ *
+ * 中转/网关异常时 `url` 常见会变成 HTML 错误页或 JSON 片段；直接当成图片写进历史记录，
+ * 后续画布渲染才失败，等于假成功。这里只放行真正能被浏览器加载的来源。
+ */
+export function isUsableImageSource(value: unknown): value is string {
+    if (typeof value !== "string") return false;
+    const trimmed = value.trim();
+    if (!trimmed) return false;
+    if (HTML_SOURCE_PATTERN.test(trimmed)) return false;
+    if (/^[{[]/.test(trimmed)) return false;
+    return DATA_IMAGE_PATTERN.test(trimmed) || /^https?:\/\//i.test(trimmed) || /^blob:/i.test(trimmed) || /^gs:\/\//i.test(trimmed);
 }
 
 function parseImagePayload(payload: ImageApiResponse) {
@@ -257,7 +275,7 @@ function parseImagePayload(payload: ImageApiResponse) {
         || [];
     const images = imageList
         .map(resolveImageSource)
-        .filter((value): value is string => Boolean(value))
+        .filter((value): value is string => isUsableImageSource(value))
         .map((dataUrl) => ({ id: nanoid(), dataUrl }));
 
     if (images.length === 0) {
@@ -712,7 +730,7 @@ function parseGeminiImagePayload(payload: GeminiPayload) {
                 if (inlineData?.data) return `data:${inlineData.mimeType || "image/png"};base64,${inlineData.data}`;
                 return part.fileData?.fileUri || null;
             })
-            .filter((value): value is string => Boolean(value))
+            .filter((value): value is string => isUsableImageSource(value))
             .map((dataUrl) => ({ id: nanoid(), dataUrl })) || [];
     if (!images.length) throw new Error(apiText("geminiNoImage"));
     return images;

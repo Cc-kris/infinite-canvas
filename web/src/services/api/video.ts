@@ -74,7 +74,7 @@ export async function waitForVideoGenerationTask(config: AiConfig, task: VideoGe
             await delay(3000, options?.signal);
             continue;
         }
-        if (state.status === "completed") return state.result;
+        if (state.status === "completed") return ensurePlayableVideoResult(state.result);
         if (state.status === "failed") throw videoTaskFailed(state.error);
         if (attempt === 479) throw new Error(apiText("videoTimeout", { provider: "" }));
         await delay(2500, options?.signal);
@@ -163,12 +163,14 @@ function videoPluginResult(result: unknown): VideoGenerationResult {
 // 内联前统一走公共的 shrinkInlineImage（web/src/lib/inline-image.ts），把请求体压到几百 KB。
 
 export async function storeGeneratedVideo(result: VideoGenerationResult): Promise<UploadedFile> {
-    if (result.blob) return uploadMediaFile(result.blob, "video");
-    if (result.url) {
+    // 与 waitForVideoGenerationTask 同一道闸门：空 blob / 非 http(s) URL 一律判失败，不落“假成果”。
+    const verified = ensurePlayableVideoResult(result);
+    if (verified.blob) return uploadMediaFile(verified.blob, "video");
+    if (verified.url) {
         try {
-            return await uploadMediaFile(result.url, "video");
+            return await uploadMediaFile(verified.url, "video");
         } catch {
-            return { url: result.url, storageKey: "", bytes: 0, mimeType: result.mimeType || "video/mp4" };
+            return { url: verified.url, storageKey: "", bytes: 0, mimeType: verified.mimeType || "video/mp4" };
         }
     }
     throw new Error(apiText("noPlayableVideo"));
@@ -317,16 +319,24 @@ async function pollOpenAIVideoTask(config: AiConfig, task: VideoGenerationTask, 
         const url = videoResultUrl(video, config);
         if (url) return { status: "completed", result: await videoResultFromUrl(url, options, aiHeaders(config)) };
         if (isVideoDoneStatus(video.status)) {
-            const blob = await withGatewayRetry(async () => {
-                const content = await axios.get<Blob>(aiApiUrl(config, `/videos/${task.id}/content`), { headers: aiHeaders(config), responseType: "blob", signal: options?.signal });
-                await assertVideoBlob(content.data);
-                return content.data;
-            }, 3);
-            return { status: "completed", result: { blob } };
+            // 已完成却没有 URL：只能靠 /content。这里必须真校验容器，空体/HTML/JSON 一律判失败，
+            // 否则会把 Cloudflare 错误页当成“生成成功”写进历史记录。
+            try {
+                const blob = await withGatewayRetry(async () => {
+                    const content = await axios.get<Blob>(aiApiUrl(config, `/videos/${task.id}/content`), { headers: aiHeaders(config), responseType: "blob", signal: options?.signal });
+                    return assertPlayableVideoBlob(content.data);
+                }, 3);
+                return { status: "completed", result: { blob } };
+            } catch (error) {
+                if (axios.isCancel(error) || options?.signal?.aborted) throw error;
+                if (isVideoPayloadError(error)) return { status: "failed", error: error.message };
+                throw error;
+            }
         }
         if (isVideoFailedStatus(video.status)) return { status: "failed", error: readApiErrorMessage(video.error?.message) || apiText("videoGenerationFailed") };
         return { status: "pending" };
     } catch (error) {
+        if (isVideoPayloadError(error)) return { status: "failed", error: error.message };
         const wrapped = new Error(readAxiosError(error, apiText("videoTaskQueryFailed"))) as Error & { retryable?: boolean };
         wrapped.retryable = isTransientPollFailure(error);
         throw wrapped;
@@ -350,12 +360,14 @@ async function videoResultFromUrl(url: string, options?: RequestOptions, headers
     try {
         const blob = await withGatewayRetry(async () => {
             const response = await axios.get<Blob>(withLocalProxy(url), { responseType: "blob", headers, signal: options?.signal });
-            await assertVideoBlob(response.data);
-            return response.data;
+            return assertPlayableVideoBlob(response.data);
         }, 2);
         return { blob };
     } catch (error) {
         if (axios.isCancel(error) || options?.signal?.aborted) throw error;
+        // 下载回来的是 HTML/JSON/空体 = 上游给的地址本身不是视频，必须判失败。
+        if (isVideoPayloadError(error)) throw error;
+        // 其余多为 CORS/网络限制：URL 可能仍可播放，保留 URL 交给 <video> 直接拉取。
         return { url, mimeType: "video/mp4" };
     }
 }
@@ -775,16 +787,112 @@ function statusMessage(status: number | undefined, fallback: string) {
     return status ? `${fallback}（${status}）` : fallback;
 }
 
-async function assertVideoBlob(blob: Blob) {
-    if (!blob.type.includes("json")) return;
-    let payload: { code?: number; msg?: string; error?: { message?: string } };
-    try {
-        payload = JSON.parse(await blob.text()) as { code?: number; msg?: string; error?: { message?: string } };
-    } catch {
-        return;
+/* ========================= 真实视频载荷校验（TASK-047） ========================= */
+
+/**
+ * 上游“已完成”不等于“有视频”。真实踩过的坑：
+ * - `/videos/{id}/content` 在 Cloudflare/中转异常时返回 HTML 错误页、JSON 错误体，甚至 200 空体；
+ * - 旧的 assertVideoBlob 只在 `type` 含 json 时才校验，HTML/空 blob 会被当成成果 → 假成功。
+ * 这里按容器魔数判定“可播放”，判定不了就判失败，绝不返回一个打不开的文件。
+ */
+export class VideoPayloadError extends Error {
+    readonly code: "empty-video-payload" | "html-video-payload" | "json-video-payload" | "unknown-video-container";
+
+    constructor(code: VideoPayloadError["code"], message: string) {
+        super(message);
+        this.name = "VideoPayloadError";
+        this.code = code;
     }
-    if (typeof payload.code === "number" && payload.code !== 0) throw new Error(readApiErrorMessage(payload) || apiText("videoDownloadFailed"));
-    if (payload.error?.message) throw new Error(readApiErrorMessage(payload.error.message) || payload.error.message);
+}
+
+export function isVideoPayloadError(error: unknown): error is VideoPayloadError {
+    return Boolean(error) && (error as Error).name === "VideoPayloadError";
+}
+
+/** 已知视频容器魔数。只判前 12 字节，够用且不依赖完整下载。 */
+export function isPlayableVideoPayload(bytes: Uint8Array, mimeType = ""): boolean {
+    const type = (mimeType || "").toLowerCase();
+    if (type.startsWith("text/") || type.includes("json") || type.includes("html") || type.includes("xml")) return false;
+    if (bytes.byteLength < 12) return false;
+    const ascii = (start: number, end: number) => String.fromCharCode(...bytes.subarray(start, end));
+    if (ascii(4, 8) === "ftyp") return true; // mp4 / mov / m4v
+    if (bytes[0] === 0x1a && bytes[1] === 0x45 && bytes[2] === 0xdf && bytes[3] === 0xa3) return true; // webm / mkv
+    if (ascii(0, 4) === "OggS") return true;
+    if (ascii(0, 4) === "RIFF" && ascii(8, 12) === "AVI ") return true;
+    if (ascii(0, 3) === "FLV") return true;
+    if (bytes[0] === 0x47) return true; // mpeg-ts
+    if (bytes[0] === 0x00 && bytes[1] === 0x00 && bytes[2] === 0x01 && bytes[3] === 0xba) return true; // mpeg-ps
+    return false;
+}
+
+/** 校验下载结果：JSON/HTML/空体一律判失败；容器认不出来也判失败（宁可报错，不给假成果）。 */
+export async function assertPlayableVideoBlob(blob: Blob): Promise<Blob> {
+    const bytes = await readPayloadBytes(blob);
+    if (!bytes || bytes.byteLength === 0) {
+        throw new VideoPayloadError("empty-video-payload", apiText("noPlayableVideo"));
+    }
+    const mimeType = (typeof blob === "object" && blob && "type" in blob ? blob.type : "") || "";
+    const head = bytes.subarray(0, 64);
+    const text = new TextDecoder().decode(head).trimStart();
+    if (text.startsWith("<")) {
+        throw new VideoPayloadError("html-video-payload", apiText("htmlError", { preview: `${text.slice(0, 80)}...` }));
+    }
+    if (head[0] === 0x7b || head[0] === 0x5b || mimeType.toLowerCase().includes("json")) {
+        // JSON 错误体：尽量取出上游的人话，取不到再退回通用文案。
+        let payload: { code?: number; msg?: string; message?: string; error?: { message?: string } } | undefined;
+        try {
+            payload = JSON.parse(new TextDecoder().decode(bytes)) as typeof payload;
+        } catch {
+            payload = undefined;
+        }
+        const detail = readApiErrorMessage(payload) || readApiErrorMessage(payload?.error?.message) || readApiErrorMessage(payload?.message);
+        if (detail) throw new VideoPayloadError("json-video-payload", detail);
+        throw new VideoPayloadError("json-video-payload", apiText("videoDownloadFailed"));
+    }
+    if (!isPlayableVideoPayload(head, mimeType)) {
+        throw new VideoPayloadError("unknown-video-container", apiText("noPlayableVideo"));
+    }
+    // 兜住“不是真 Blob”的适配器（Node/Bun 的 axios 会忽略 responseType:"blob" 返回字符串），
+    // 统一交回 Blob，避免下游 createObjectURL 收到字符串。
+    if (typeof Blob !== "undefined" && !(blob instanceof Blob)) {
+        const copy = new Uint8Array(bytes.byteLength);
+        copy.set(bytes);
+        return new Blob([copy.buffer as ArrayBuffer], { type: mimeType || "video/mp4" });
+    }
+    return blob;
+}
+
+/**
+ * 把下载到的载荷统一读成字节。浏览器给 Blob；Node/Bun 的 axios 忽略 `responseType: "blob"`，
+ * 会把二进制按 latin1 变成字符串——这里逐字符映射回字节，不静默丢弃内容。
+ */
+async function readPayloadBytes(payload: Blob | Uint8Array | ArrayBuffer | string): Promise<Uint8Array> {
+    if (typeof payload === "string") {
+        const bytes = new Uint8Array(payload.length);
+        for (let index = 0; index < payload.length; index += 1) bytes[index] = payload.charCodeAt(index) & 0xff;
+        return bytes;
+    }
+    if (payload instanceof Uint8Array) return payload;
+    if (payload instanceof ArrayBuffer) return new Uint8Array(payload);
+    if (payload && typeof (payload as Blob).arrayBuffer === "function") {
+        return new Uint8Array(await (payload as Blob).arrayBuffer());
+    }
+    return new Uint8Array(0);
+}
+
+/**
+ * 任务“完成”后的最后一道闸门：必须真的拿到 blob 或可下载 URL。
+ * 上游返回 completed + 空 result 时抛 videoTaskFailed，不写假成功。
+ */
+export function ensurePlayableVideoResult(result: VideoGenerationResult | undefined | null): VideoGenerationResult {
+    if (!result) throw videoTaskFailed(apiText("noPlayableVideo"));
+    if (result.blob) {
+        if (result.blob.size === 0) throw videoTaskFailed(apiText("noPlayableVideo"));
+        return result;
+    }
+    const url = (result.url || "").trim();
+    if (isPublicMediaUrl(url) || url.startsWith("blob:") || url.startsWith("data:video/")) return result;
+    throw videoTaskFailed(apiText("noPlayableVideo"));
 }
 
 function isPublicMediaUrl(value: string) {

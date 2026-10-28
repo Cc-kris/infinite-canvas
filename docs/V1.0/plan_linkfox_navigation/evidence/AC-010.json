@@ -1,0 +1,88 @@
+{
+  "ac": "AC-010",
+  "req": "REQ-010 / TC-010",
+  "statement": "Provider 不支持参考视频/蒙版/口型等时明确禁用或替代确认",
+  "task": "TASK-047",
+  "generatedAt": "2026-10-28",
+  "verdict": "KERNEL_VERIFIED_UI_ENTRY_BLOCKED",
+  "summary": "能力判定与提交闸门已在真实 HTTP 链路上验证（真请求、真字节、真失败）；但工作区 UI 尚未接线（无 workspace 消费 capabilities.ts），因此 AC-010 的“从实际入口验证”一项仍为 BLOCKED，不得据此判 AC-010 PASS。",
+  "kernelChecks": {
+    "harness": "docs/V1.0/plan_linkfox_navigation/evidence/task047-ab-harness.ts",
+    "how": "bun run 本地真实上游（Bun.serve + axios 真实往返），驱动 services/api/video.ts 的 create→poll→/content 全链路与 capabilities.ts 的提交闸门",
+    "cases": [
+      {
+        "id": "A_supportedTransport",
+        "verdict": "PASS",
+        "meaning": "通道支持该能力时，真实发出 3 个 HTTP 请求并拿回可播放 mp4",
+        "requests": [
+          "POST /v1/videos",
+          "GET /v1/videos/vid-1",
+          "GET /v1/videos/vid-1/content"
+        ],
+        "realBytes": 32,
+        "first12Hex": "000000186674797069736f6d",
+        "sha256": "224dc1959674edd3ff151639649f3faa0a2da48805ada1992c4b1f7ffd10390a"
+      },
+      {
+        "id": "B_lyingUpstream",
+        "verdict": "PASS",
+        "meaning": "上游谎报 completed 但 /content 返回 HTML 错误页时判失败，不产出假成果",
+        "requests": [
+          "POST /v1/videos",
+          "GET /v1/videos/vid-1",
+          "GET /v1/videos/vid-1/content"
+        ],
+        "error": "VideoTaskFailed: 服务返回了 HTML 错误页面（<!doctype html><html><body>502 Bad Gateway</body></html>...）",
+        "fakeSuccessPrevented": true
+      },
+      {
+        "id": "C_gateBlocks",
+        "verdict": "PASS",
+        "meaning": "同一工具换到不支持该能力的通道时，提交前被拦住，上游 0 请求",
+        "toolId": "IMAGE_TO_VIDEO",
+        "requiredKeys": [
+          "aspectRatio",
+          "duration",
+          "multiReference",
+          "imageEdit",
+          "referenceVideo"
+        ],
+        "blockedKeys": [
+          "aspectRatio",
+          "imageEdit"
+        ],
+        "requestsAfterGate": 0
+      },
+      {
+        "id": "C2_gateAllows",
+        "verdict": "PASS",
+        "meaning": "A/B 的对照面：同一工具在支持通道上无阻断（证明拦截来自能力判定，不是无差别拦截）",
+        "toolId": "IMAGE_TO_VIDEO",
+        "blockedKeys": [],
+        "supportedKeys": [
+          "aspectRatio",
+          "duration",
+          "multiReference",
+          "imageEdit",
+          "referenceVideo"
+        ]
+      }
+    ],
+    "unitTests": {
+      "file": "web/src/features/tools/capabilities.test.ts",
+      "result": "20 pass / 0 fail / 288 expect()",
+      "covers": "39 工具全覆盖、能力键合法性、蒙版降级 vs 阻断、口型缺证据、http 模板占位符、通道证据矩阵、提交闸门 A/B、HTML/JSON/空体假成功拦截"
+    },
+    "regression": {
+      "trackedSuite": "1079 pass / 0 fail（48 files）",
+      "fullSuite": "1173 pass / 4 fail，4 个失败全部来自其他 worker 未跟踪的测试文件（ai-video-editing.test.ts / video-replication.test.ts），与本任务 4 个文件无关"
+    }
+  },
+  "blocked": [
+    {
+      "item": "从实际入口（工作区 UI）验证禁用/替代确认",
+      "reason": "39 个 workspace 尚无一处 import web/src/features/tools/capabilities.ts（grep 结果为 0 消费方）；能力闸门目前是可复用的 kernel 层，UI 绑定由各工作区任务接线后本项才能解除 BLOCKED",
+      "unblock": "任一 workspace 在提交按钮上消费 evaluateToolProvider/canSubmitTool 并做 UI 证据，即可复验 AC-010"
+    }
+  ]
+}
