@@ -1,0 +1,13 @@
+{
+ "url": "http://127.0.0.1:3000/tools/product-design/scene-transfer",
+ "headings": [
+  "场景迁移",
+  "场景迁移",
+  "商品图 imageUrl",
+  "上传商品图",
+  "场景风格参考图 imageStyleUrl",
+  "上传场景风格参考图",
+  "商品分割图 segImageUrl（可选）",
+  "上传商品分割图"
+ ]
+}

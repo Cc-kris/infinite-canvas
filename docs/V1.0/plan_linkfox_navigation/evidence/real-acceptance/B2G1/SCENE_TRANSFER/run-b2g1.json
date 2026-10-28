@@ -1,0 +1,84 @@
+{
+ "tool": "SCENE_TRANSFER",
+ "route": "/tools/product-design/scene-transfer",
+ "startedAt": "2026-10-28T17:24:36.549Z",
+ "upstream": [
+  {
+   "file": "/Users/mac/Documents/Dev/infinite-canvas/docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/B2G1/SCENE_TRANSFER/raw-upstream-0.json",
+   "bytes": 2333492,
+   "url": "http://127.0.0.1:23210/https://api.cc-ai.xyz/v1/images/edits",
+   "status": 200,
+   "requestContentType": "multipart/form-data; boundary=----WebKitFormBoundaryOQB9zSpGWaCnDVTp"
+  }
+ ],
+ "steps": [
+  {
+   "step": "file-inputs",
+   "count": 3
+  },
+  {
+   "step": "uploads",
+   "files": [
+    "product-watch.jpg",
+    "color-ref-navy.png"
+   ]
+  },
+  {
+   "step": "submitted",
+   "at": "2026-10-28T17:24:43.866Z"
+  }
+ ],
+ "g1": {
+  "supported": false,
+  "gap": "SCENE_TRANSFER 的 task 只存在组件 useState（runSceneTransfer onUpdate → setTask），未进 useToolTaskStore，localStorage 无 tool-task:v1:* 快照，刷新即丢结果",
+  "snapshotKeys": [],
+  "afterReloadPanel": {
+   "view": "empty",
+   "text": "场景迁移结果 还没有生成结果 填好参数并提交后，结果会出现在这里，可预览、下载、存入资产库或发送到画布。"
+  },
+  "gapConfirmed": true
+ },
+ "linkfox": {
+  "note": "LinkFox 场景迁移：输入=商品图 imageUrl + 场景风格 imageStyleUrl + 可选 segImageUrl + similarity；输出=迁移图。"
+ },
+ "provider": {
+  "baseUrl": "https://api.cc-ai.xyz",
+  "model": "sf-accept::Qwen/Qwen3-VL-8B-Instruct",
+  "imageModel": "ccai-accept::gpt-image-2",
+  "channelCount": 2,
+  "keyLen": 67,
+  "textKeyLen": 51
+ },
+ "resultView": "succeeded",
+ "upstreamForm": "b64_json",
+ "result": {
+  "file": "result-0.png",
+  "bytes": 1749328,
+  "sha256": "8cbd69fa9e888d9961e34d1569ee1540af4738a5d6c5d0ce2635c7cbf5cecdb5",
+  "format": "png",
+  "width": 1024,
+  "height": 1024
+ },
+ "upstreamJson": {
+  "keys": [
+   "created",
+   "data",
+   "usage"
+  ],
+  "dataLen": 1,
+  "revisedPrompt": "参考图片编号：图片1、图片2。请按这些编号理解提示词中的图片引用。\r\n\r\n把商品迁移到参考场景风格中，输出一张可直接商用的商品场景图。 第 1 张参考图 = 商品图：保留商品本体的形态、材质、logo、纹理与颜色，不得改写商品 第 2 张参考图 = 场景风格参考图：只迁移它的场景氛围、光影、背景与配色风格 场景风格保留强度 similarity = 70%（0% 只借一点氛围，100% 几乎完全贴"
+ },
+ "actions": {
+  "download": {
+   "suggestedFilename": "scene-transfer-result-1.png",
+   "bytes": 1749328,
+   "sha256": "8cbd69fa9e888d9961e34d1569ee1540af4738a5d6c5d0ce2635c7cbf5cecdb5",
+   "matchesUpstream": true
+  },
+  "saveAsset": "已保存到资产库（uyr51AXkHKOlrW1yYyKn1）",
+  "sendCanvas": "已发送到画布（HKaKyYMgARtvy7PT38Ef8）"
+ },
+ "assetsPage": null,
+ "finishedAt": "2026-10-28T17:25:59.936Z",
+ "verdict": "PARTIAL"
+}

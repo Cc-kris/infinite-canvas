@@ -45,6 +45,9 @@ const TOOLS = {
         route: "/tools/product-design/scene-transfer",
         submitText: "开始迁移",
         files: [path.join(FIXTURES, "product-watch.jpg"), path.join(FIXTURES, "color-ref-navy.png")],
+        // scene.tsx 用组件内 useState 持有 task，不进 useToolTaskStore → 结果不落盘（G1 缺口，见 final-gap-audit）
+        persisted: false,
+        gap: "SCENE_TRANSFER 的 task 只存在组件 useState（runSceneTransfer onUpdate → setTask），未进 useToolTaskStore，localStorage 无 tool-task:v1:* 快照，刷新即丢结果",
         linkfoxNote: "LinkFox 场景迁移：输入=商品图 imageUrl + 场景风格 imageStyleUrl + 可选 segImageUrl + similarity；输出=迁移图。",
     },
 };
@@ -255,6 +258,7 @@ async function main() {
             return out;
         });
         await fs.writeFile(path.join(OUT, "task-snapshot.json"), JSON.stringify(snapshot, null, 1));
+        const g1Supported = spec.persisted !== false;
         let snapItem = null;
         for (const entry of snapshot) {
             if (entry.key === "tool-task:v1:index") continue;
@@ -264,17 +268,23 @@ async function main() {
                 break;
             }
         }
-        if (!snapItem) throw new Error("localStorage 里没有带 bytes 的成功任务快照");
-        receipt.g1.persisted = {
-            taskId: snapItem.taskId,
-            storageKey: snapItem.item.storageKey,
-            bytes: snapItem.item.bytes,
-            hasDataUrlInSnapshot: Boolean(snapItem.item.dataUrl),
-            payloadDropped: snapItem.item.payloadDropped,
-            snapshotChars: snapItem.length,
-        };
-        if (!snapItem.item.storageKey) throw new Error("G1 失败：落盘快照没有 storageKey");
-        if (snapItem.item.dataUrl) throw new Error("G1 失败：dataUrl 仍在落盘快照里（应已剥离）");
+        if (!snapItem && g1Supported) throw new Error("localStorage 里没有带 bytes 的成功任务快照");
+        if (!snapItem) {
+            // 该工作区不走 tool-task store：如实记录缺口，不假装 G1 通过
+            receipt.g1 = { supported: false, gap: spec.gap, snapshotKeys: snapshot.map((e) => e.key) };
+        }
+        if (snapItem) {
+            receipt.g1.persisted = {
+                taskId: snapItem.taskId,
+                storageKey: snapItem.item.storageKey,
+                bytes: snapItem.item.bytes,
+                hasDataUrlInSnapshot: Boolean(snapItem.item.dataUrl),
+                payloadDropped: snapItem.item.payloadDropped,
+                snapshotChars: snapItem.length,
+            };
+            if (!snapItem.item.storageKey) throw new Error("G1 失败：落盘快照没有 storageKey");
+            if (snapItem.item.dataUrl) throw new Error("G1 失败：dataUrl 仍在落盘快照里（应已剥离）");
+        }
 
         // 共享结果动作 1：下载（真实文件落到磁盘并与上游字节比对）
         const downloadPromise = page.waitForEvent("download", { timeout: 60_000 });
@@ -307,7 +317,7 @@ async function main() {
         // G1 关键断言：刷新后从 IndexedDB 取回字节，sha256 必须一致
         await page.reload({ waitUntil: "networkidle" });
         await page.waitForTimeout(3000);
-        const idb = await page.evaluate(async (storageKey) => {
+        const idb = snapItem ? await page.evaluate(async (storageKey) => {
             const open = () => new Promise((resolve, reject) => {
                 const req = indexedDB.open("infinite-canvas");
                 req.onsuccess = () => resolve(req.result);
@@ -329,17 +339,19 @@ async function main() {
             const CHUNK = 0x8000;
             for (let i = 0; i < bytes.length; i += CHUNK) binary += String.fromCharCode(...bytes.subarray(i, i + CHUNK));
             return { found: true, size: bytes.length, mimeType: blob.type, base64: btoa(binary), stores: [...db.objectStoreNames] };
-        }, snapItem.item.storageKey);
-        if (!idb.found) throw new Error(`G1 失败：刷新后 IndexedDB 取不到 ${snapItem.item.storageKey}`);
-        const idbBuf = Buffer.from(idb.base64, "base64");
-        await fs.writeFile(path.join(OUT, "restored-after-reload.png"), idbBuf);
-        receipt.g1.afterReload = {
-            storageKey: snapItem.item.storageKey,
-            bytes: idb.size,
-            mimeType: idb.mimeType,
-            sha256: sha256(idbBuf),
-            matchesUpstream: sha256(idbBuf) === resultMeta.sha256,
-        };
+        }, snapItem.item.storageKey) : null;
+        if (snapItem) {
+            if (!idb.found) throw new Error(`G1 失败：刷新后 IndexedDB 取不到 ${snapItem.item.storageKey}`);
+            const idbBuf = Buffer.from(idb.base64, "base64");
+            await fs.writeFile(path.join(OUT, "restored-after-reload.png"), idbBuf);
+            receipt.g1.afterReload = {
+                storageKey: snapItem.item.storageKey,
+                bytes: idb.size,
+                mimeType: idb.mimeType,
+                sha256: sha256(idbBuf),
+                matchesUpstream: sha256(idbBuf) === resultMeta.sha256,
+            };
+        }
 
         const restoredPanel = await page.evaluate(() => {
             const el = document.querySelector('[data-testid="tool-result"]');
@@ -352,8 +364,13 @@ async function main() {
             };
             return { download: pick("tool-result-download-0"), save: pick("tool-result-save-0"), canvas: pick("tool-result-canvas-0") };
         });
-        receipt.g1.restoredPanel = restoredPanel;
-        receipt.g1.restoredButtons = buttonsEnabled;
+        if (snapItem) {
+            receipt.g1.restoredPanel = restoredPanel;
+            receipt.g1.restoredButtons = buttonsEnabled;
+        } else {
+            receipt.g1.afterReloadPanel = restoredPanel;
+            receipt.g1.gapConfirmed = !restoredPanel || restoredPanel.view === "empty" || !buttonsEnabled.download.exists;
+        }
         await page.screenshot({ path: path.join(OUT, "step-5-after-reload.png") });
 
         // 资产库 / 画布的真实落点
@@ -368,7 +385,9 @@ async function main() {
         await fs.writeFile(path.join(OUT, "result_dom.json"), JSON.stringify(dom, null, 1));
 
         receipt.finishedAt = new Date().toISOString();
-        receipt.verdict = receipt.actions.download.matchesUpstream && receipt.g1.afterReload.matchesUpstream ? "PASS" : "FAIL";
+        const b2Ok = receipt.actions.download.matchesUpstream;
+        const g1Ok = snapItem ? Boolean(receipt.g1.afterReload?.matchesUpstream && receipt.g1.restoredButtons?.download?.exists) : Boolean(receipt.g1.gapConfirmed);
+        receipt.verdict = b2Ok && g1Ok ? (snapItem ? "PASS" : "PARTIAL") : "FAIL";
         await fs.writeFile(path.join(OUT, "run-b2g1.json"), JSON.stringify(receipt, null, 1));
         console.log(JSON.stringify(receipt, null, 1));
     } catch (error) {
