@@ -149,8 +149,13 @@ function resultIngestKey(task: ToolTask) {
     return `${task.id}:${task.result?.receivedAt ?? 0}`;
 }
 
+/** 只有远程地址可抓（http(s)）。blob:/data: 由 uploadMediaFile 直接处理；asset: 等本地键跳过。 */
+function isFetchableResultUrl(url?: string) {
+    return Boolean(url && /^https?:\/\//i.test(url));
+}
+
 function needsIngest(item: ToolTaskResultItem) {
-    return !item.storageKey && Boolean(item.dataUrl || item.blob);
+    return !item.storageKey && Boolean(item.dataUrl || item.blob || isFetchableResultUrl(item.url));
 }
 
 export function hasPendingResultMedia(task: ToolTask): boolean {
@@ -163,7 +168,7 @@ export async function ingestResultMedia(task: ToolTask): Promise<ToolTask> {
     const items = await Promise.all(
         task.result.items.map(async (item) => {
             if (!needsIngest(item)) return item;
-            const source = item.blob ?? item.dataUrl;
+            const source = item.blob ?? item.dataUrl ?? (isFetchableResultUrl(item.url) ? item.url! : undefined);
             if (!source) return item;
             try {
                 const stored = await uploadMediaFile(source, RESULT_MEDIA_PREFIX, { mimeType: item.mimeType });

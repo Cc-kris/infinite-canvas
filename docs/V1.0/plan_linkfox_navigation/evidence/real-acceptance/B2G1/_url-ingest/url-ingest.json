@@ -1,0 +1,22 @@
+{
+  "remoteUrl": "https://oss-us.dimenoss.com/images/2026/10/29/1793207728_051a143cc5478fa5f9449d1caad694d1.png",
+  "needsIngestBefore": true,
+  "storageKey": "tool-result:XrjlUtSLOZ5tSFTyjjhEI",
+  "itemBytes": 1232851,
+  "payloadDropped": false,
+  "idb": {
+    "exists": true,
+    "bytes": 1232851,
+    "mimeType": "image/png"
+  },
+  "network": [
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:23210/https://oss-us.dimenoss.com/images/2026/10/29/1793207728_051a143cc5478fa5f9449d1caad694d1.png",
+      "status": 200,
+      "ms": 2152,
+      "at": "2026-10-28T17:28:08.649Z"
+    }
+  ],
+  "verdict": "PASS"
+}
