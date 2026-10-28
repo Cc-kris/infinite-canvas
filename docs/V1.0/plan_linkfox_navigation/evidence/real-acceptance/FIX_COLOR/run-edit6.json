@@ -1,0 +1,10 @@
+{
+  "toolId": "FIX_COLOR",
+  "name": "修复偏色",
+  "route": "/tools/smart-edit/fix-color",
+  "fixture": "product-watch.jpg",
+  "startedAt": "2026-10-28T15:03:36.005Z",
+  "error": "page.evaluate: Execution context was destroyed, most likely because of a navigation.",
+  "ok": false,
+  "console": []
+}

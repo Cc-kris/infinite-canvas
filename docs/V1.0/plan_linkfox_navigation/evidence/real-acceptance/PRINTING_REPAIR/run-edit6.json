@@ -1,0 +1,23 @@
+{
+  "toolId": "PRINTING_REPAIR",
+  "name": "印花修复",
+  "route": "/tools/smart-edit/printing-repair",
+  "fixture": "apparel-print.jpg",
+  "startedAt": "2026-10-28T15:03:38.065Z",
+  "provider": {
+    "baseUrl": "https://api.cc-ai.xyz",
+    "model": "sf-accept::Qwen/Qwen3-VL-8B-Instruct",
+    "imageModel": "ccai-accept::gpt-image-2",
+    "channelCount": 2,
+    "keyLen": 67,
+    "textKeyLen": 51
+  },
+  "beforeIssues": [
+    "printing-repair-issues=请先上传印花有误的图片（Step 1） 请先上传正确的印花参考（Step 2） 印花分割图尚未生成，请重新上传印花参考"
+  ],
+  "error": "page.click: Timeout 30000ms exceeded.\nCall log:\n  - waiting for locator('[data-testid=printing-repair-submit]')\n    - locator resolved to <button disabled type=\"button\" data-testid=\"printing-repair-submit\" class=\"inline-flex w-full items-center justify-center gap-1.5 rounded-xl bg-primary px-3 py-2 text-sm font-medium text-primary-foreground disabled:opacity-50\">…</button>\n  - attempting click action\n    2 × waiting for element to be visible, enabled and stable\n      - element is not enabled\n    - retrying click action\n    - waiting 20ms\n    2 × waiting for element to be visible, enabled and stable\n      - element is not enabled\n    - retrying click action\n      - waiting 100ms\n    58 × waiting for element to be visible, enabled and stable\n       - element is not enabled\n     - retrying click action\n       - waiting 500ms\n",
+  "ok": false,
+  "console": [
+    "error: Cannot update a component (`%s`) while rendering a different component (`%s`). To locate the bad setState() call inside `%s`, follow the stack trace as described in https://react.dev/link/setstate-in-"
+  ]
+}

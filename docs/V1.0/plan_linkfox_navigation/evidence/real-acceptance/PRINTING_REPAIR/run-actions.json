@@ -1,0 +1,39 @@
+{
+  "toolId": "PRINTING_REPAIR",
+  "name": "印花修复",
+  "route": "/tools/smart-edit/printing-repair",
+  "startedAt": "2026-10-28T15:30:26.781Z",
+  "steps": [
+    "submitted"
+  ],
+  "provider": {
+    "baseUrl": "https://api.cc-ai.xyz",
+    "model": "sf-accept::Qwen/Qwen3-VL-8B-Instruct",
+    "imageModel": "ccai-accept::gpt-image-2",
+    "channelCount": 2,
+    "keyLen": 67,
+    "textKeyLen": 51
+  },
+  "urlOnLoad": "http://127.0.0.1:3000/tools/smart-edit/printing-repair",
+  "inputCount": 2,
+  "step2EnabledAfterBase": true,
+  "segText": "分割图已生成 · 印花占比 96.5% · 768×768",
+  "scaleBefore": "1",
+  "layerBox": {
+    "w": 475,
+    "h": 475
+  },
+  "undoEnabled": true,
+  "scaleAfter": "1.05",
+  "transformLabel": "撤销 4 / 重做 0",
+  "scaleAfterUndo": "1.05",
+  "scaleAfterRedo": "1.05",
+  "issuesBeforeSubmit": "已更换 Step 1 商品图，请重新上传印花并重新定位",
+  "submitBefore": {
+    "disabled": false,
+    "text": "开始修复"
+  },
+  "resultSrcPrefix": "",
+  "error": "未拿到结果图：超时",
+  "finishedAt": "2026-10-28T15:37:32.612Z"
+}

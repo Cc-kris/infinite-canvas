@@ -3,7 +3,7 @@
   "name": "商品精修",
   "route": "/tools/smart-edit/product-refine",
   "fixture": "product-watch.jpg",
-  "startedAt": "2026-10-28T15:27:37.046Z",
+  "startedAt": "2026-10-28T15:38:11.808Z",
   "urls": {
     "workspace": "/tools/smart-edit/product-refine",
     "submitted": "/tools/smart-edit/product-refine"
@@ -23,10 +23,10 @@
     ]
   },
   "sourceAfterUpload": {
-    "blobSrc": "blob:http://127.0.0.1:3000/69b51590-df62-4b02-871e-e1bcb58f82b2",
+    "blobSrc": "blob:http://127.0.0.1:3000/c1807aed-a990-488d-8363-6dc9aab1d37e",
     "all": [
       "http://127.0.0.1:3000/logo.png",
-      "blob:http://127.0.0.1:3000/69b51590-df62-4b02-871e-e1bcb58f82b2"
+      "blob:http://127.0.0.1:3000/c1807aed-a990-488d-8363-6dc9aab1d37e"
     ]
   },
   "p0BlobAccepted": true,
@@ -38,8 +38,9 @@
     "errors": [],
     "imgs": [
       "http://127.0.0.1:3000/logo.png",
-      "blob:http://127.0.0.1:3000/69b"
+      "blob:http://127.0.0.1:3000/c18"
     ],
+    "clickAttempts": "ok",
     "after": {
       "tasks": [],
       "toasts": [],
@@ -64,21 +65,84 @@
   "ok": false,
   "network": [
     {
-      "method": "GET",
-      "url": "http://127.0.0.1:23210/",
-      "status": 200,
-      "at": "2026-10-28T15:27:38.314Z"
+      "req": "GET",
+      "url": "http://127.0.0.1:3000/__canvas-hub/state",
+      "at": "2026-10-28T15:39:53.244Z"
     },
     {
-      "method": "GET",
-      "url": "http://127.0.0.1:23210/",
-      "status": 200,
-      "at": "2026-10-28T15:27:38.590Z"
+      "req": "GET",
+      "url": "http://127.0.0.1:3000/__canvas-hub/state",
+      "at": "2026-10-28T15:39:55.250Z"
+    },
+    {
+      "req": "GET",
+      "url": "http://127.0.0.1:3000/__canvas-hub/state",
+      "at": "2026-10-28T15:39:57.255Z"
+    },
+    {
+      "req": "GET",
+      "url": "http://127.0.0.1:3000/__canvas-hub/state",
+      "at": "2026-10-28T15:39:59.259Z"
+    },
+    {
+      "req": "GET",
+      "url": "http://127.0.0.1:3000/__canvas-hub/state",
+      "at": "2026-10-28T15:40:01.262Z"
+    },
+    {
+      "req": "GET",
+      "url": "http://127.0.0.1:3000/__canvas-hub/state",
+      "at": "2026-10-28T15:40:03.266Z"
+    },
+    {
+      "req": "GET",
+      "url": "http://127.0.0.1:3000/__canvas-hub/state",
+      "at": "2026-10-28T15:40:05.270Z"
+    },
+    {
+      "req": "GET",
+      "url": "http://127.0.0.1:3000/__canvas-hub/state",
+      "at": "2026-10-28T15:40:07.275Z"
+    },
+    {
+      "req": "GET",
+      "url": "http://127.0.0.1:3000/__canvas-hub/state",
+      "at": "2026-10-28T15:40:09.280Z"
+    },
+    {
+      "req": "GET",
+      "url": "http://127.0.0.1:3000/__canvas-hub/state",
+      "at": "2026-10-28T15:40:11.288Z"
+    },
+    {
+      "req": "GET",
+      "url": "http://127.0.0.1:3000/__canvas-hub/state",
+      "at": "2026-10-28T15:40:13.292Z"
+    },
+    {
+      "req": "GET",
+      "url": "http://127.0.0.1:3000/__canvas-hub/state",
+      "at": "2026-10-28T15:40:15.297Z"
+    },
+    {
+      "req": "GET",
+      "url": "http://127.0.0.1:3000/__canvas-hub/state",
+      "at": "2026-10-28T15:40:17.302Z"
+    },
+    {
+      "req": "GET",
+      "url": "http://127.0.0.1:3000/__canvas-hub/state",
+      "at": "2026-10-28T15:40:19.307Z"
+    },
+    {
+      "req": "GET",
+      "url": "http://127.0.0.1:3000/__canvas-hub/state",
+      "at": "2026-10-28T15:40:21.311Z"
     }
   ],
   "console": [
     "error: Cannot update a component (`%s`) while rendering a different component (`%s`). To locate the bad setState() call inside `%s`, follow the stack trace as described in https://react.dev/link/setstate-in-",
     "error: Cannot update a component (`%s`) while rendering a different component (`%s`). To locate the bad setState() call inside `%s`, follow the stack trace as described in https://react.dev/link/setstate-in-"
   ],
-  "finishedAt": "2026-10-28T15:27:51.136Z"
+  "finishedAt": "2026-10-28T15:40:22.309Z"
 }
