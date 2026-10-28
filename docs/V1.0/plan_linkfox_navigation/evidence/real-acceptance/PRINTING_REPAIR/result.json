@@ -1,0 +1,35 @@
+{
+  "toolId": "PRINTING_REPAIR",
+  "status": "VERIFIED",
+  "capturedAt": "2026-10-28T17:21:48Z",
+  "route": "/tools/smart-edit/printing-repair",
+  "fixture": "apparel-print.jpg + apparel-print-ref.jpg",
+  "provenance": "真实上游任务（2026-10-28T15:52Z succeeded），分割图印花占比 96.5%，产物从 OSS 下载后本地校验。",
+  "result": {
+    "src": "https://oss-us.dimenoss.com/images/2026/10/28/1793202782_9bc88d2ecc63458197b17383e39c7138.png",
+    "bytes": 1153165,
+    "sha256": "6ce8e2aa312bfb7e879ecab915eac77c058f02d7f138ee3c6eee63bef3bab5c3",
+    "dims": {
+      "w": 1024,
+      "h": 1024
+    },
+    "downloadName": "apparel-print-print-fixed.png"
+  },
+  "actions": {
+    "save": {
+      "feedback": "已存入资产库（zCnoGDyr）",
+      "assetId": "zCnoGDyr",
+      "bytesMatchOss": true
+    },
+    "send": {
+      "feedback": "已发送画布（项目 60gWQnVc · 节点 image-17）",
+      "projectId": "60gWQnVc",
+      "nodeId": "image-17"
+    }
+  },
+  "crossChecks": [
+    "打开 /canvas/60gWQnVc → 画布库显示「PRINTING_REPAIR 结果 · 1 个节点」→ 进入项目确认真实图片节点存在",
+    "DOM 断言 data-testid=printing-repair-save/send/download 均渲染并可用；结果图为上游 OSS 真实 URL，naturalWidth=1024"
+  ],
+  "uncovered": []
+}
