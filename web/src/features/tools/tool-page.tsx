@@ -176,7 +176,9 @@ function readRegistryModules(): Record<string, unknown> {
     try {
         // Kept as a literal call so Vite can statically expand it; other runtimes (e.g. bun test)
         // throw here and simply fall back to an empty catalog instead of crashing routing.
-        return import.meta.glob("./registry/*.ts", { eager: true }) as Record<string, unknown>;
+        // Test files live next to the specs and import `bun:test`/`node:fs`; they must never enter
+        // the browser bundle, hence the negative pattern.
+        return import.meta.glob(["./registry/*.ts", "!./registry/*.test.ts"], { eager: true }) as Record<string, unknown>;
     } catch {
         return {};
     }

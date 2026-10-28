@@ -2,7 +2,7 @@
 
 - 分支：`feat/linkfox-v1-real`
 - 对应验收：TC-002 / AC-002（分类、工具、404、批量路由可用；180px 侧栏 + `<lg` 抽屉；不伪造结果）
-- 依赖：TASK-001（工具注册表）——**尚未合入**，本任务用可容错 seam 先落地路由，见 §3。
+- 依赖：TASK-001（工具注册表）——本轮已合入 `web/src/features/tools/registry/`，本任务的 seam **已实测吃到真实 39 条 spec**，见 §3.1。
 
 ## 1. 改动内容（5 个文件，均为本任务 scope）
 
@@ -43,12 +43,27 @@ canonical slug 规则：`id.toLowerCase().replace(/_/g, "-")`，即 `PRODUCT_IMA
 
 `import.meta.glob` 被 `try/catch` 包裹：在非 Vite 运行时（bun test）返回空表，因此本模块可被测试直接 import。
 
+### 3.1 与 TASK-001 实际注册表的对接结果（已实测）
+
+TASK-001 交付 `registry/index.ts` 导出 `toolSpecs: readonly ToolSpec[]`，字段为 `id/title/category/slug/route/makeType/origin/layout/adapter/enabled/index/fields[{key,control,required,...}]`，**与上述归一化契约完全兼容，未改一行对接代码**。真实构建 + 浏览器实测：
+
+- 侧栏工具数：电商套图 6、智能修图 8、批量生图 0、商品图设计 19、AI 视频 6 = **39**（与 `tool_list` 的 39 个工具一致）。
+- `/tools/ecommerce-suite/product-image-suite`：`h1 = 商品套图`、`data-spec-pending="false"`、渲染 `TOOL ID PRODUCT_IMAGE_SUITE` 与字段契约。
+
+**必须排除测试文件**：`registry/` 里同时存在 `registry.test.ts`（`import "bun:test"` / `node:fs`），最初的 `glob("./registry/*.ts")` 会把它打进浏览器包，导致 `vite build` 直接失败（`__vite-browser-external` 无 `resolve` 导出）。已改为数组负模式：
+
+```ts
+import.meta.glob(["./registry/*.ts", "!./registry/*.test.ts"], { eager: true })
+```
+
+后续任务若在同目录加测试或 mock 文件，必须沿用该排除规则。
+
 ## 4. 验证证据（真实执行）
 
 1. `cd web && bun test src/components/tools/tool-shell.test.tsx` → **18 pass / 0 fail**（58 expect）
 2. `cd web && bun test`（全仓 5 个测试文件）→ **59 pass / 0 fail**
 3. `cd web && bun run typecheck` → **本任务 5 个文件 0 错误**（剩余 `vite.config.ts` 1 条为既有基线；`src/services/api/tools/assets.test.ts` 的 `bun:test` 类型缺失属 TASK-004 文件）。本任务测试文件改用带类型的动态 `import("bun:test" as string)`，避免给 `tsc --noEmit` 增加 TS2307。
-4. `cd web && bun run build` → **✓ 10850 modules transformed，8.36s**（证明 glob seam 在真实 Vite 构建中静态展开）
+4. `cd web && bun run build` → 首次（注册表未合入时）**✓ 10850 modules / 8.36s**；注册表合入后修复 glob 再跑 **✓ 10947 modules / 7.65s**（两次均证明 seam 在真实 Vite 构建中静态展开；失败态见 §3.1）
 5. 真实浏览器 DOM 验收（`vite preview --port 4173` + Chrome；验收后已关闭自开标签并停止 preview）：
    - `/tools/ecommerce-suite/scale-up`：侧栏 `getBoundingClientRect().width === 180`、`display: block`；占位区 `data-spec-pending="true"`；动作按钮 `disabled: true`；页面文本**不含**「生成成功 / 100%」
    - `/tools`：分类首页 + 5 个分类链接 + 「尚无已注册工具」
@@ -58,7 +73,7 @@ canonical slug 规则：`id.toLowerCase().replace(/_/g, "-")`，即 `PRODUCT_IMA
 
 ## 5. 已知限制 / 交接
 
-- 注册表为空时所有工具页均为占位：**刻意**，符合「不伪造结果」口径；TASK-001 合入后自动显示真实工具名与字段，无需改本任务代码。
+- 注册表未合入时所有工具页均为占位：**刻意**，符合「不伪造结果」口径。合入后已实测自动显示真实工具名与字段（见 §3.1），无需改本任务代码。
 - `/tools/batch-generate/:batchId` 与 `/tools/:category/:toolId` 在 3 段 URL 上重叠：`batch-generate` 优先按批量语义解析，故 `/tools/batch-generate/scale-up` 会被当作 batchId。当前 5 分类下无合法工具路径受此影响。
 - `<lg` 抽屉的展开/收起交互仅在 SSR 快照验证初始渲染（`aria-expanded="false"` + `lg:hidden` 触发器），未做真实移动端 E2E —— 属 TASK-049。
 - 报告路径写为 `reports/TASK-003-report.md`，避免与并行任务的 `report.md` 互相覆盖。
