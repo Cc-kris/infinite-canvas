@@ -35,5 +35,19 @@
   "notes": [
     "本轮运行结束后页面被外部重载（Chrome 窗口在 21:04 前后被其他 worker 关闭/恢复导致整页 reload），React 状态清零，故 下载/存入资产/发送画布 三个动作未能点击验证。",
     "同一标签页 21:07 复查：结果区已回到『还没有结果：上传商品图 → 选一个姿势 → 开始生成』，属于外部 reload 造成，不是工具缺陷。"
-  ]
+  ],
+  "actionChain": {
+    "doc": "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/ACTIONS_verification.md",
+    "buttonsRenderedInRealUi": [
+      "下载",
+      "存入资产",
+      "发送画布"
+    ],
+    "unitTestsExecuted": {
+      "cmd": "bun test src/components/tools/tool-result-actions.deps.test.ts src/components/tools/tool-result.test.tsx",
+      "result": "25 pass / 0 fail / 121 expect"
+    },
+    "endToEndClick": "not executed（验收标签被外部重载/关闭，扩展只上报其它窗口 5 个旧标签）",
+    "correction": "旧结论“发送画布在 /tools 不可用(D3)”不成立：无 projectId 时 createProject() 后写节点，测试覆盖"
+  }
 }
