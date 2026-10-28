@@ -1,0 +1,61 @@
+{
+  "tool": "MATERIAL_UPPER_BODY",
+  "name": "上装换料",
+  "group": "商品图设计",
+  "route": "/tools/product-design/material-upper-body",
+  "pageType": "dress",
+  "status": "PASS",
+  "result": "verified_with_real_output_and_actions",
+  "verdict": "PASS — 真实上游 200 出图 1024x1024，材质大类→子类自动联动，结果区下载/存入资产/发送画布三个动作实测可用，产物已确认落进资产库",
+  "realProviderCall": true,
+  "provider": "canvas-proxy 127.0.0.1:23210 -> https://api.cc-ai.xyz/v1/images/edits (multipart, 参考图 1 张)",
+  "runAt": "2026-10-28T14:22:18Z",
+  "flow": [
+    "1. 上传上装图：隐藏 input[data-testid=tool-asset-file-input]，accept=image/png,image/jpeg,image/webp；用 DataTransfer 注入 product.jpg(1024x744)，页面显示 1/1 个，步骤条自动跳到 2.材质类目",
+    "2. 材质类目：点「棉质」后子类自动联动并自动选中「平纹棉」（toast：已自动选中子类「平纹棉」），步骤条自动跳到 4.生成张数",
+    "3. 抠图与蒙版：默认关闭，参考图 1 张，模型 default::gpt-image-2（渠道已配置）",
+    "4. 生成张数：1 张；提交按钮文案「立即生成（本次将生成 1 张换料结果）」，提交时 enabled=false 校验通过",
+    "5. 结果：22:30:44 出现 1 张结果，文案『本次 1 张 · 已返回 1 张 | 第 1 张 | 已完成 | 共 1 个结果 · 图片 1』"
+  ],
+  "output": {
+    "count": 1,
+    "dims": "1024x1024",
+    "bytes": 1699450,
+    "sha256": "dede7ba9a5822e9bfa71730bbf848b4354f8cff0a54d0a8e8aee6fde03fc2160",
+    "file": "real-run-1024.png",
+    "isSourceEcho": false,
+    "evidence": "字节由页面 img.currentSrc(data:image/png;base64) 直接取出解码，sha256 与页面字节一致；非源图回显（源图 1024x744/31860B）"
+  },
+  "actions": {
+    "download": { "testid": "tool-result-download-0", "enabled": true },
+    "saveToAssets": {
+      "testid": "tool-result-save-0",
+      "enabled": true,
+      "clickedAt": "2026-10-28T14:31:28Z",
+      "feedback": "已保存到资产库（xJiPzZnvaRSy5-PRrcoig）",
+      "crossVerified": "打开 /assets 独立核对：列表中新增『MATERIAL_UPPER_BODY 结果 1 · 工具结果 · 图片 · 1024x1024 · 1.6 MB · image/png』"
+    },
+    "sendToCanvas": {
+      "testid": "tool-result-canvas-0",
+      "enabled": true,
+      "clickedAt": "2026-10-28T14:31:36Z",
+      "feedback": "已发送到画布（kCkxO-QxE3_DogWC69Dt0）"
+    }
+  },
+  "network": {
+    "line": "10:23:02 PM POST https://api.cc-ai.xyz/v1/images/edits -> 200 43.7s",
+    "fullLog": "real-run-proxy.log",
+    "note": "响应头 200 后 body 以约 2.7KB/s 慢速流式回传，1.7MB 约 8 分钟才落到前端；期间页面持续显示『生成中…』，用 netstat -anv 观察 127.0.0.1.23210 连接 rxbytes 持续增长可判定仍在传输，不应重复提交"
+  },
+  "specChecks": {
+    "uniqueWorkspace": "首屏为 5 步流程条 + 上装图片/材质类目(7 大类+子类)/抠图开关/数量/结果，不是通用『上传+提示词+结果』空壳",
+    "categoryLinkage": "大类点击后子类自动出现并自动选中，未污染张数与参考图状态",
+    "mattingToggle": "material-is-matting 复选框默认关闭，本页未启用蒙版分支",
+    "disabledGate": "未上传时提交按钮禁用；上传后 enabled，点前校验通过"
+  },
+  "notes": [
+    "本轮为真实上游调用，非 mock；渠道 key 由 key_drop.py 写回 /config（渠道 ccai-tmp · api.cc-ai.xyz），此前 401 已消失。",
+    "同页期间其它 worker 的并发请求在 proxy.log 里可见（多笔 images/edits 200 及 1 笔 ETIMEDOUT 180s），本工具判定只采用与本次提交时刻对应且产出 1024x1024 结果的那一笔。",
+    "页面规格 30-material-upper-body.md 第 9 节标注原站无工作区文案摘录，因此文案比对以 chunk 字段/状态设计为准，未伪称原站实测。"
+  ]
+}
