@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { ChevronDown, Copy, Download, FolderPlus, History, Loader2, Send, TriangleAlert } from "lucide-react";
+import { ChevronDown, Copy, Download, Film, FolderPlus, History, Loader2, Send, TriangleAlert } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import type { ToolTask, ToolTaskResultItem } from "@/services/api/tools/task-machine";
@@ -151,6 +151,7 @@ export function ToolHistoryDock({ toolId, className, limit = 12, tasks: injected
                         const items = task.result?.items ?? [];
                         const thumbs = items.filter((item) => item.kind !== "video" && Boolean(item.url ?? item.dataUrl)).slice(0, 3);
                         const dropped = items.some((item) => item.payloadDropped);
+                        const videoCount = items.filter((item) => item.kind === "video").length;
                         const expanded = expandedId === task.id;
                         const config = configEntries(task.configSnapshot);
                         return (
@@ -199,6 +200,13 @@ export function ToolHistoryDock({ toolId, className, limit = 12, tasks: injected
                                             />
                                         ))}
                                     </div>
+                                ) : null}
+
+                                {videoCount > 0 ? (
+                                    <p className="mt-1 inline-flex items-center gap-1 rounded border border-border px-1.5 py-0.5 text-[11px] text-muted-foreground" data-testid="tool-history-dock-video-badge">
+                                        <Film aria-hidden="true" className="size-3" />
+                                        视频结果 {videoCount} 个
+                                    </p>
                                 ) : null}
 
                                 {dropped && thumbs.length === 0 ? (

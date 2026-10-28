@@ -1,0 +1,1649 @@
+{
+  "generatedAt": "2026-10-28T17:22:25.317Z",
+  "baseUrl": "http://127.0.0.1:3000",
+  "artifactSource": "既有真实产物字节（evidence/real-acceptance/<TOOL>/，经 127.0.0.1:23298 只读暴露）；任务快照经应用自身 persistTask 落盘",
+  "totalTools": 17,
+  "passed": 17,
+  "failed": [],
+  "results": [
+    {
+      "toolId": "AI_TEXT",
+      "route": "/tools/product-design/ai-text",
+      "artifacts": [
+        "AI_TEXT/03-after-provider.png"
+      ],
+      "issues": [],
+      "steps": {
+        "initial": {
+          "countText": "0 条",
+          "empty": "本工具还没有历史任务；提交一次后会在这里留下任务、配置与结果，刷新后仍在。",
+          "items": [],
+          "thumbs": [],
+          "video": []
+        },
+        "afterReload": {
+          "countText": "3 条",
+          "empty": null,
+          "items": [
+            {
+              "taskId": "b5-AI_TEXT-failed-0-1793208121083",
+              "status": "failed",
+              "time": "2026-10-29 01:22",
+              "summary": "gpt-image-2 · image · 0 个结果",
+              "badge": ""
+            },
+            {
+              "taskId": "b5-AI_TEXT-succeeded-1-1793208121083",
+              "status": "succeeded",
+              "time": "2026-10-29 01:21",
+              "summary": "gpt-image-2 · image · 1 个结果",
+              "badge": ""
+            },
+            {
+              "taskId": "b5-AI_TEXT-succeeded-2-1793208121083",
+              "status": "succeeded",
+              "time": "2026-10-29 01:20",
+              "summary": "gpt-image-2 · image · 1 个结果",
+              "badge": ""
+            }
+          ],
+          "thumbs": [
+            {
+              "src": "http://127.0.0.1:23298/AI_TEXT/03-after-provider.png",
+              "decoded": true,
+              "naturalWidth": 1920
+            },
+            {
+              "src": "http://127.0.0.1:23298/AI_TEXT/03-after-provider.png",
+              "decoded": true,
+              "naturalWidth": 1920
+            }
+          ],
+          "video": []
+        },
+        "detail": {
+          "config": "模型：gpt-image-2比例：1:1数量：1reusedFrom：AI_TEXT/03-after-provider.png输入素材：src-ai_text-1",
+          "sources": "src-ai_text-1",
+          "results": 1,
+          "videos": 0,
+          "actions": {
+            "download": 1,
+            "save": 1,
+            "canvas": 1
+          }
+        },
+        "copyFeedback": {
+          "text": "配置 JSON 已复制到剪贴板",
+          "tone": "success"
+        },
+        "clipboard": "{\n  \"toolId\": \"AI_TEXT\",\n  \"prompt\": \"AI_TEXT · 复用真实产物（AI_TEXT/03-after-provider.png）\",\n  \"configSnapshot\": {\n    \"model\": \"gpt-image-2\",\n    \"aspectRatio\": \"1:1\",\n    \"count\": 1,\n    \"reusedFrom\": \"AI_TEXT/03-after-provider.png\"\n  },\n  \"sourceAssetIds\": [\n    \"src-ai_text-1\"\n  ]\n}",
+        "clipboardTask": {
+          "toolId": "AI_TEXT",
+          "hasConfig": true,
+          "hasPrompt": true
+        },
+        "download": {
+          "fileName": "AI_TEXT-ai-text-result-1.png",
+          "bytes": 280095
+        },
+        "saveFeedback": {
+          "text": "已存入资产库（image · P6xdlw1955LuX_1xxkAT9）",
+          "tone": "success"
+        },
+        "canvasFeedback": {
+          "text": "已发送到画布（lM8naQELz5ej2CWxxQ6Ws / image-1793208121788-kba5r）",
+          "tone": "success"
+        },
+        "errorText": "上游 502 Bad Gateway（历史面板需展示真实错误）"
+      },
+      "seededTaskIds": [
+        "b5-AI_TEXT-succeeded-1-1793208121083",
+        "b5-AI_TEXT-succeeded-2-1793208121083",
+        "b5-AI_TEXT-failed-0-1793208121083"
+      ],
+      "consoleErrors": []
+    },
+    {
+      "toolId": "ORNAMENT_TEXT",
+      "route": "/tools/product-design/ornament-text",
+      "artifacts": [
+        "ORNAMENT_TEXT/02-result.png"
+      ],
+      "issues": [],
+      "steps": {
+        "initial": {
+          "countText": "0 条",
+          "empty": "本工具还没有历史任务；提交一次后会在这里留下任务、配置与结果，刷新后仍在。",
+          "items": [],
+          "thumbs": [],
+          "video": []
+        },
+        "afterReload": {
+          "countText": "3 条",
+          "empty": null,
+          "items": [
+            {
+              "taskId": "b5-ORNAMENT_TEXT-failed-0-1793208122568",
+              "status": "failed",
+              "time": "2026-10-29 01:22",
+              "summary": "gpt-image-2 · image · 0 个结果",
+              "badge": ""
+            },
+            {
+              "taskId": "b5-ORNAMENT_TEXT-succeeded-1-1793208122568",
+              "status": "succeeded",
+              "time": "2026-10-29 01:21",
+              "summary": "gpt-image-2 · image · 1 个结果",
+              "badge": ""
+            },
+            {
+              "taskId": "b5-ORNAMENT_TEXT-succeeded-2-1793208122568",
+              "status": "succeeded",
+              "time": "2026-10-29 01:20",
+              "summary": "gpt-image-2 · image · 1 个结果",
+              "badge": ""
+            }
+          ],
+          "thumbs": [
+            {
+              "src": "http://127.0.0.1:23298/ORNAMENT_TEXT/02-result.png",
+              "decoded": true,
+              "naturalWidth": 1920
+            },
+            {
+              "src": "http://127.0.0.1:23298/ORNAMENT_TEXT/02-result.png",
+              "decoded": true,
+              "naturalWidth": 1920
+            }
+          ],
+          "video": []
+        },
+        "detail": {
+          "config": "模型：gpt-image-2比例：1:1数量：1reusedFrom：ORNAMENT_TEXT/02-result.png输入素材：src-ornament_text-1",
+          "sources": "src-ornament_text-1",
+          "results": 1,
+          "videos": 0,
+          "actions": {
+            "download": 1,
+            "save": 1,
+            "canvas": 1
+          }
+        },
+        "copyFeedback": {
+          "text": "配置 JSON 已复制到剪贴板",
+          "tone": "success"
+        },
+        "clipboard": "{\n  \"toolId\": \"ORNAMENT_TEXT\",\n  \"prompt\": \"ORNAMENT_TEXT · 复用真实产物（ORNAMENT_TEXT/02-result.png）\",\n  \"configSnapshot\": {\n    \"model\": \"gpt-image-2\",\n    \"aspectRatio\": \"1:1\",\n    \"count\": 1,\n    \"reusedFrom\": \"ORNAMENT_TEXT/02-result.png\"\n  },\n  \"sourceAssetIds\": [\n    \"src-ornament_text-1\"\n  ]\n}",
+        "clipboardTask": {
+          "toolId": "ORNAMENT_TEXT",
+          "hasConfig": true,
+          "hasPrompt": true
+        },
+        "download": {
+          "fileName": "ORNAMENT_TEXT-ornament-text-result-1.png",
+          "bytes": 188583
+        },
+        "saveFeedback": {
+          "text": "已存入资产库（image · SzMhjfq8CuKvK6Z-yiP4m）",
+          "tone": "success"
+        },
+        "canvasFeedback": {
+          "text": "已发送到画布（BL3WMC1GqIVnQI12iDO7t / image-1793208123189-00ie8）",
+          "tone": "success"
+        },
+        "errorText": "上游 502 Bad Gateway（历史面板需展示真实错误）"
+      },
+      "seededTaskIds": [
+        "b5-ORNAMENT_TEXT-succeeded-1-1793208122568",
+        "b5-ORNAMENT_TEXT-succeeded-2-1793208122568",
+        "b5-ORNAMENT_TEXT-failed-0-1793208122568"
+      ],
+      "consoleErrors": []
+    },
+    {
+      "toolId": "SDS_DESIGN",
+      "route": "/tools/product-design/sds-design",
+      "artifacts": [
+        "SDS_DESIGN/02-result.png"
+      ],
+      "issues": [],
+      "steps": {
+        "initial": {
+          "countText": "0 条",
+          "empty": "本工具还没有历史任务；提交一次后会在这里留下任务、配置与结果，刷新后仍在。",
+          "items": [],
+          "thumbs": [],
+          "video": []
+        },
+        "afterReload": {
+          "countText": "3 条",
+          "empty": null,
+          "items": [
+            {
+              "taskId": "b5-SDS_DESIGN-failed-0-1793208123977",
+              "status": "failed",
+              "time": "2026-10-29 01:22",
+              "summary": "gpt-image-2 · image · 0 个结果",
+              "badge": ""
+            },
+            {
+              "taskId": "b5-SDS_DESIGN-succeeded-1-1793208123977",
+              "status": "succeeded",
+              "time": "2026-10-29 01:21",
+              "summary": "gpt-image-2 · image · 1 个结果",
+              "badge": ""
+            },
+            {
+              "taskId": "b5-SDS_DESIGN-succeeded-2-1793208123977",
+              "status": "succeeded",
+              "time": "2026-10-29 01:20",
+              "summary": "gpt-image-2 · image · 1 个结果",
+              "badge": ""
+            }
+          ],
+          "thumbs": [
+            {
+              "src": "http://127.0.0.1:23298/SDS_DESIGN/02-result.png",
+              "decoded": true,
+              "naturalWidth": 1920
+            },
+            {
+              "src": "http://127.0.0.1:23298/SDS_DESIGN/02-result.png",
+              "decoded": true,
+              "naturalWidth": 1920
+            }
+          ],
+          "video": []
+        },
+        "detail": {
+          "config": "模型：gpt-image-2比例：1:1数量：1reusedFrom：SDS_DESIGN/02-result.png输入素材：src-sds_design-1",
+          "sources": "src-sds_design-1",
+          "results": 1,
+          "videos": 0,
+          "actions": {
+            "download": 1,
+            "save": 1,
+            "canvas": 1
+          }
+        },
+        "copyFeedback": {
+          "text": "配置 JSON 已复制到剪贴板",
+          "tone": "success"
+        },
+        "clipboard": "{\n  \"toolId\": \"SDS_DESIGN\",\n  \"prompt\": \"SDS_DESIGN · 复用真实产物（SDS_DESIGN/02-result.png）\",\n  \"configSnapshot\": {\n    \"model\": \"gpt-image-2\",\n    \"aspectRatio\": \"1:1\",\n    \"count\": 1,\n    \"reusedFrom\": \"SDS_DESIGN/02-result.png\"\n  },\n  \"sourceAssetIds\": [\n    \"src-sds_design-1\"\n  ]\n}",
+        "clipboardTask": {
+          "toolId": "SDS_DESIGN",
+          "hasConfig": true,
+          "hasPrompt": true
+        },
+        "download": {
+          "fileName": "SDS_DESIGN-sds-design-result-1.png",
+          "bytes": 302602
+        },
+        "saveFeedback": {
+          "text": "已存入资产库（image · bkVqmv7ZPi8sQdF1zPgs2）",
+          "tone": "success"
+        },
+        "canvasFeedback": {
+          "text": "已发送到画布（Zexv1CTHFbC3bcHxajvFI / image-1793208124635-u8gtc）",
+          "tone": "success"
+        },
+        "errorText": "上游 502 Bad Gateway（历史面板需展示真实错误）"
+      },
+      "seededTaskIds": [
+        "b5-SDS_DESIGN-succeeded-1-1793208123977",
+        "b5-SDS_DESIGN-succeeded-2-1793208123977",
+        "b5-SDS_DESIGN-failed-0-1793208123977"
+      ],
+      "consoleErrors": []
+    },
+    {
+      "toolId": "SCENE_TRANSFER",
+      "route": "/tools/product-design/scene-transfer",
+      "artifacts": [
+        "FISSION_LINK/03-upstream-result.png"
+      ],
+      "issues": [],
+      "steps": {
+        "initial": {
+          "countText": "0 条",
+          "empty": "本工具还没有历史任务；提交一次后会在这里留下任务、配置与结果，刷新后仍在。",
+          "items": [],
+          "thumbs": [],
+          "video": []
+        },
+        "afterReload": {
+          "countText": "3 条",
+          "empty": null,
+          "items": [
+            {
+              "taskId": "b5-SCENE_TRANSFER-failed-0-1793208125400",
+              "status": "failed",
+              "time": "2026-10-29 01:22",
+              "summary": "gpt-image-2 · image · 0 个结果",
+              "badge": ""
+            },
+            {
+              "taskId": "b5-SCENE_TRANSFER-succeeded-1-1793208125400",
+              "status": "succeeded",
+              "time": "2026-10-29 01:21",
+              "summary": "gpt-image-2 · image · 1 个结果",
+              "badge": ""
+            },
+            {
+              "taskId": "b5-SCENE_TRANSFER-succeeded-2-1793208125400",
+              "status": "succeeded",
+              "time": "2026-10-29 01:20",
+              "summary": "gpt-image-2 · image · 1 个结果",
+              "badge": ""
+            }
+          ],
+          "thumbs": [
+            {
+              "src": "http://127.0.0.1:23298/FISSION_LINK/03-upstream-result.png",
+              "decoded": true,
+              "naturalWidth": 1024
+            },
+            {
+              "src": "http://127.0.0.1:23298/FISSION_LINK/03-upstream-result.png",
+              "decoded": true,
+              "naturalWidth": 1024
+            }
+          ],
+          "video": []
+        },
+        "detail": {
+          "config": "模型：gpt-image-2比例：1:1数量：1reusedFrom：FISSION_LINK/03-upstream-result.png输入素材：src-scene_transfer-1",
+          "sources": "src-scene_transfer-1",
+          "results": 1,
+          "videos": 0,
+          "actions": {
+            "download": 1,
+            "save": 1,
+            "canvas": 1
+          }
+        },
+        "copyFeedback": {
+          "text": "配置 JSON 已复制到剪贴板",
+          "tone": "success"
+        },
+        "clipboard": "{\n  \"toolId\": \"SCENE_TRANSFER\",\n  \"prompt\": \"SCENE_TRANSFER · 复用真实产物（FISSION_LINK/03-upstream-result.png）\",\n  \"configSnapshot\": {\n    \"model\": \"gpt-image-2\",\n    \"aspectRatio\": \"1:1\",\n    \"count\": 1,\n    \"reusedFrom\": \"FISSION_LINK/03-upstream-result.png\"\n  },\n  \"sourceAssetIds\": [\n    \"src-scene_transfer-1\"\n  ]\n}",
+        "clipboardTask": {
+          "toolId": "SCENE_TRANSFER",
+          "hasConfig": true,
+          "hasPrompt": true
+        },
+        "download": {
+          "fileName": "SCENE_TRANSFER-scene-transfer-result-1.png",
+          "bytes": 1672875
+        },
+        "saveFeedback": {
+          "text": "已存入资产库（image · glyA7IgN_zvQo7jPl6joB）",
+          "tone": "success"
+        },
+        "canvasFeedback": {
+          "text": "已发送到画布（UJuvns36pskPmiNv_XqZL / image-1793208126086-vwugn）",
+          "tone": "success"
+        },
+        "errorText": "上游 502 Bad Gateway（历史面板需展示真实错误）"
+      },
+      "seededTaskIds": [
+        "b5-SCENE_TRANSFER-succeeded-1-1793208125400",
+        "b5-SCENE_TRANSFER-succeeded-2-1793208125400",
+        "b5-SCENE_TRANSFER-failed-0-1793208125400"
+      ],
+      "consoleErrors": []
+    },
+    {
+      "toolId": "AI_DRESSING_V2",
+      "route": "/tools/product-design/ai-dressing-v2",
+      "artifacts": [
+        "AI_DRESSING_V2/result1.png"
+      ],
+      "issues": [],
+      "steps": {
+        "initial": {
+          "countText": "0 条",
+          "empty": "本工具还没有历史任务；提交一次后会在这里留下任务、配置与结果，刷新后仍在。",
+          "items": [],
+          "thumbs": [],
+          "video": []
+        },
+        "afterReload": {
+          "countText": "3 条",
+          "empty": null,
+          "items": [
+            {
+              "taskId": "b5-AI_DRESSING_V2-failed-0-1793208126859",
+              "status": "failed",
+              "time": "2026-10-29 01:22",
+              "summary": "gpt-image-2 · image · 0 个结果",
+              "badge": ""
+            },
+            {
+              "taskId": "b5-AI_DRESSING_V2-succeeded-1-1793208126859",
+              "status": "succeeded",
+              "time": "2026-10-29 01:21",
+              "summary": "gpt-image-2 · image · 1 个结果",
+              "badge": ""
+            },
+            {
+              "taskId": "b5-AI_DRESSING_V2-succeeded-2-1793208126859",
+              "status": "succeeded",
+              "time": "2026-10-29 01:20",
+              "summary": "gpt-image-2 · image · 1 个结果",
+              "badge": ""
+            }
+          ],
+          "thumbs": [
+            {
+              "src": "http://127.0.0.1:23298/AI_DRESSING_V2/result1.png",
+              "decoded": true,
+              "naturalWidth": 720
+            },
+            {
+              "src": "http://127.0.0.1:23298/AI_DRESSING_V2/result1.png",
+              "decoded": true,
+              "naturalWidth": 720
+            }
+          ],
+          "video": []
+        },
+        "detail": {
+          "config": "模型：gpt-image-2比例：1:1数量：1reusedFrom：AI_DRESSING_V2/result1.png输入素材：src-ai_dressing_v2-1",
+          "sources": "src-ai_dressing_v2-1",
+          "results": 1,
+          "videos": 0,
+          "actions": {
+            "download": 1,
+            "save": 1,
+            "canvas": 1
+          }
+        },
+        "copyFeedback": {
+          "text": "配置 JSON 已复制到剪贴板",
+          "tone": "success"
+        },
+        "clipboard": "{\n  \"toolId\": \"AI_DRESSING_V2\",\n  \"prompt\": \"AI_DRESSING_V2 · 复用真实产物（AI_DRESSING_V2/result1.png）\",\n  \"configSnapshot\": {\n    \"model\": \"gpt-image-2\",\n    \"aspectRatio\": \"1:1\",\n    \"count\": 1,\n    \"reusedFrom\": \"AI_DRESSING_V2/result1.png\"\n  },\n  \"sourceAssetIds\": [\n    \"src-ai_dressing_v2-1\"\n  ]\n}",
+        "clipboardTask": {
+          "toolId": "AI_DRESSING_V2",
+          "hasConfig": true,
+          "hasPrompt": true
+        },
+        "download": {
+          "fileName": "AI_DRESSING_V2-ai-dressing-v2-result-1.png",
+          "bytes": 819224
+        },
+        "saveFeedback": {
+          "text": "已存入资产库（image · Ibvi7Z6HMgv2tzBJeC8DH）",
+          "tone": "success"
+        },
+        "canvasFeedback": {
+          "text": "已发送到画布（WBAuyX96StmF6n0Ce8U8s / image-1793208127482-0w9ia）",
+          "tone": "success"
+        },
+        "errorText": "上游 502 Bad Gateway（历史面板需展示真实错误）"
+      },
+      "seededTaskIds": [
+        "b5-AI_DRESSING_V2-succeeded-1-1793208126859",
+        "b5-AI_DRESSING_V2-succeeded-2-1793208126859",
+        "b5-AI_DRESSING_V2-failed-0-1793208126859"
+      ],
+      "consoleErrors": []
+    },
+    {
+      "toolId": "AI_DRESSING_XSY",
+      "route": "/tools/product-design/ai-dressing-xsy",
+      "artifacts": [
+        "AI_DRESSING_XSY/02-result.png"
+      ],
+      "issues": [],
+      "steps": {
+        "initial": {
+          "countText": "0 条",
+          "empty": "本工具还没有历史任务；提交一次后会在这里留下任务、配置与结果，刷新后仍在。",
+          "items": [],
+          "thumbs": [],
+          "video": []
+        },
+        "afterReload": {
+          "countText": "3 条",
+          "empty": null,
+          "items": [
+            {
+              "taskId": "b5-AI_DRESSING_XSY-failed-0-1793208128266",
+              "status": "failed",
+              "time": "2026-10-29 01:22",
+              "summary": "gpt-image-2 · image · 0 个结果",
+              "badge": ""
+            },
+            {
+              "taskId": "b5-AI_DRESSING_XSY-succeeded-1-1793208128266",
+              "status": "succeeded",
+              "time": "2026-10-29 01:21",
+              "summary": "gpt-image-2 · image · 1 个结果",
+              "badge": ""
+            },
+            {
+              "taskId": "b5-AI_DRESSING_XSY-succeeded-2-1793208128266",
+              "status": "succeeded",
+              "time": "2026-10-29 01:20",
+              "summary": "gpt-image-2 · image · 1 个结果",
+              "badge": ""
+            }
+          ],
+          "thumbs": [
+            {
+              "src": "http://127.0.0.1:23298/AI_DRESSING_XSY/02-result.png",
+              "decoded": true,
+              "naturalWidth": 720
+            },
+            {
+              "src": "http://127.0.0.1:23298/AI_DRESSING_XSY/02-result.png",
+              "decoded": true,
+              "naturalWidth": 720
+            }
+          ],
+          "video": []
+        },
+        "detail": {
+          "config": "模型：gpt-image-2比例：1:1数量：1reusedFrom：AI_DRESSING_XSY/02-result.png输入素材：src-ai_dressing_xsy-1",
+          "sources": "src-ai_dressing_xsy-1",
+          "results": 1,
+          "videos": 0,
+          "actions": {
+            "download": 1,
+            "save": 1,
+            "canvas": 1
+          }
+        },
+        "copyFeedback": {
+          "text": "配置 JSON 已复制到剪贴板",
+          "tone": "success"
+        },
+        "clipboard": "{\n  \"toolId\": \"AI_DRESSING_XSY\",\n  \"prompt\": \"AI_DRESSING_XSY · 复用真实产物（AI_DRESSING_XSY/02-result.png）\",\n  \"configSnapshot\": {\n    \"model\": \"gpt-image-2\",\n    \"aspectRatio\": \"1:1\",\n    \"count\": 1,\n    \"reusedFrom\": \"AI_DRESSING_XSY/02-result.png\"\n  },\n  \"sourceAssetIds\": [\n    \"src-ai_dressing_xsy-1\"\n  ]\n}",
+        "clipboardTask": {
+          "toolId": "AI_DRESSING_XSY",
+          "hasConfig": true,
+          "hasPrompt": true
+        },
+        "download": {
+          "fileName": "AI_DRESSING_XSY-ai-dressing-xsy-result-1.png",
+          "bytes": 1069621
+        },
+        "saveFeedback": {
+          "text": "已存入资产库（image · TdNJc-51WmeltDryU300f）",
+          "tone": "success"
+        },
+        "canvasFeedback": {
+          "text": "已发送到画布（PbgHSjVLbbr9KZRdW7h87 / image-1793208128890-m8iwn）",
+          "tone": "success"
+        },
+        "errorText": "上游 502 Bad Gateway（历史面板需展示真实错误）"
+      },
+      "seededTaskIds": [
+        "b5-AI_DRESSING_XSY-succeeded-1-1793208128266",
+        "b5-AI_DRESSING_XSY-succeeded-2-1793208128266",
+        "b5-AI_DRESSING_XSY-failed-0-1793208128266"
+      ],
+      "consoleErrors": []
+    },
+    {
+      "toolId": "AI_POSE_GENERATOR",
+      "route": "/tools/product-design/ai-pose-generator",
+      "artifacts": [
+        "AI_POSE_GENERATOR/real-run-1024.png"
+      ],
+      "issues": [],
+      "steps": {
+        "initial": {
+          "countText": "0 条",
+          "empty": "本工具还没有历史任务；提交一次后会在这里留下任务、配置与结果，刷新后仍在。",
+          "items": [],
+          "thumbs": [],
+          "video": []
+        },
+        "afterReload": {
+          "countText": "3 条",
+          "empty": null,
+          "items": [
+            {
+              "taskId": "b5-AI_POSE_GENERATOR-failed-0-1793208129600",
+              "status": "failed",
+              "time": "2026-10-29 01:22",
+              "summary": "gpt-image-2 · image · 0 个结果",
+              "badge": ""
+            },
+            {
+              "taskId": "b5-AI_POSE_GENERATOR-succeeded-1-1793208129600",
+              "status": "succeeded",
+              "time": "2026-10-29 01:21",
+              "summary": "gpt-image-2 · image · 1 个结果",
+              "badge": ""
+            },
+            {
+              "taskId": "b5-AI_POSE_GENERATOR-succeeded-2-1793208129600",
+              "status": "succeeded",
+              "time": "2026-10-29 01:20",
+              "summary": "gpt-image-2 · image · 1 个结果",
+              "badge": ""
+            }
+          ],
+          "thumbs": [
+            {
+              "src": "http://127.0.0.1:23298/AI_POSE_GENERATOR/real-run-1024.png",
+              "decoded": true,
+              "naturalWidth": 1024
+            },
+            {
+              "src": "http://127.0.0.1:23298/AI_POSE_GENERATOR/real-run-1024.png",
+              "decoded": true,
+              "naturalWidth": 1024
+            }
+          ],
+          "video": []
+        },
+        "detail": {
+          "config": "模型：gpt-image-2比例：1:1数量：1reusedFrom：AI_POSE_GENERATOR/real-run-1024.png输入素材：src-ai_pose_generator-1",
+          "sources": "src-ai_pose_generator-1",
+          "results": 1,
+          "videos": 0,
+          "actions": {
+            "download": 1,
+            "save": 1,
+            "canvas": 1
+          }
+        },
+        "copyFeedback": {
+          "text": "配置 JSON 已复制到剪贴板",
+          "tone": "success"
+        },
+        "clipboard": "{\n  \"toolId\": \"AI_POSE_GENERATOR\",\n  \"prompt\": \"AI_POSE_GENERATOR · 复用真实产物（AI_POSE_GENERATOR/real-run-1024.png）\",\n  \"configSnapshot\": {\n    \"model\": \"gpt-image-2\",\n    \"aspectRatio\": \"1:1\",\n    \"count\": 1,\n    \"reusedFrom\": \"AI_POSE_GENERATOR/real-run-1024.png\"\n  },\n  \"sourceAssetIds\": [\n    \"src-ai_pose_generator-1\"\n  ]\n}",
+        "clipboardTask": {
+          "toolId": "AI_POSE_GENERATOR",
+          "hasConfig": true,
+          "hasPrompt": true
+        },
+        "download": {
+          "fileName": "AI_POSE_GENERATOR-ai-pose-generator-result-1.png",
+          "bytes": 1550004
+        },
+        "saveFeedback": {
+          "text": "已存入资产库（image · HC1-gWJPcekxYOhxicLG_）",
+          "tone": "success"
+        },
+        "canvasFeedback": {
+          "text": "已发送到画布（nMJ8j5bWFqmHtEWpSo0i_ / image-1793208130257-ip7mk）",
+          "tone": "success"
+        },
+        "errorText": "上游 502 Bad Gateway（历史面板需展示真实错误）"
+      },
+      "seededTaskIds": [
+        "b5-AI_POSE_GENERATOR-succeeded-1-1793208129600",
+        "b5-AI_POSE_GENERATOR-succeeded-2-1793208129600",
+        "b5-AI_POSE_GENERATOR-failed-0-1793208129600"
+      ],
+      "consoleErrors": []
+    },
+    {
+      "toolId": "AI_POSTURE",
+      "route": "/tools/product-design/ai-posture",
+      "artifacts": [
+        "AI_POSTURE/result1.png"
+      ],
+      "issues": [],
+      "steps": {
+        "initial": {
+          "countText": "0 条",
+          "empty": "本工具还没有历史任务；提交一次后会在这里留下任务、配置与结果，刷新后仍在。",
+          "items": [],
+          "thumbs": [],
+          "video": []
+        },
+        "afterReload": {
+          "countText": "3 条",
+          "empty": null,
+          "items": [
+            {
+              "taskId": "b5-AI_POSTURE-failed-0-1793208131051",
+              "status": "failed",
+              "time": "2026-10-29 01:22",
+              "summary": "gpt-image-2 · image · 0 个结果",
+              "badge": ""
+            },
+            {
+              "taskId": "b5-AI_POSTURE-succeeded-1-1793208131051",
+              "status": "succeeded",
+              "time": "2026-10-29 01:21",
+              "summary": "gpt-image-2 · image · 1 个结果",
+              "badge": ""
+            },
+            {
+              "taskId": "b5-AI_POSTURE-succeeded-2-1793208131051",
+              "status": "succeeded",
+              "time": "2026-10-29 01:20",
+              "summary": "gpt-image-2 · image · 1 个结果",
+              "badge": ""
+            }
+          ],
+          "thumbs": [
+            {
+              "src": "http://127.0.0.1:23298/AI_POSTURE/result1.png",
+              "decoded": true,
+              "naturalWidth": 720
+            },
+            {
+              "src": "http://127.0.0.1:23298/AI_POSTURE/result1.png",
+              "decoded": true,
+              "naturalWidth": 720
+            }
+          ],
+          "video": []
+        },
+        "detail": {
+          "config": "模型：gpt-image-2比例：1:1数量：1reusedFrom：AI_POSTURE/result1.png输入素材：src-ai_posture-1",
+          "sources": "src-ai_posture-1",
+          "results": 1,
+          "videos": 0,
+          "actions": {
+            "download": 1,
+            "save": 1,
+            "canvas": 1
+          }
+        },
+        "copyFeedback": {
+          "text": "配置 JSON 已复制到剪贴板",
+          "tone": "success"
+        },
+        "clipboard": "{\n  \"toolId\": \"AI_POSTURE\",\n  \"prompt\": \"AI_POSTURE · 复用真实产物（AI_POSTURE/result1.png）\",\n  \"configSnapshot\": {\n    \"model\": \"gpt-image-2\",\n    \"aspectRatio\": \"1:1\",\n    \"count\": 1,\n    \"reusedFrom\": \"AI_POSTURE/result1.png\"\n  },\n  \"sourceAssetIds\": [\n    \"src-ai_posture-1\"\n  ]\n}",
+        "clipboardTask": {
+          "toolId": "AI_POSTURE",
+          "hasConfig": true,
+          "hasPrompt": true
+        },
+        "download": {
+          "fileName": "AI_POSTURE-ai-posture-result-1.png",
+          "bytes": 972271
+        },
+        "saveFeedback": {
+          "text": "已存入资产库（image · C61bLm-VTHLLS_DysvZ7-）",
+          "tone": "success"
+        },
+        "canvasFeedback": {
+          "text": "已发送到画布（1KoXew0nsNEcee3nCF8Nd / image-1793208131668-a2nb6）",
+          "tone": "success"
+        },
+        "errorText": "上游 502 Bad Gateway（历史面板需展示真实错误）"
+      },
+      "seededTaskIds": [
+        "b5-AI_POSTURE-succeeded-1-1793208131051",
+        "b5-AI_POSTURE-succeeded-2-1793208131051",
+        "b5-AI_POSTURE-failed-0-1793208131051"
+      ],
+      "consoleErrors": []
+    },
+    {
+      "toolId": "AI_WEARABLE",
+      "route": "/tools/product-design/ai-wearable",
+      "artifacts": [
+        "AI_WEARABLE/result1.png"
+      ],
+      "issues": [],
+      "steps": {
+        "initial": {
+          "countText": "0 条",
+          "empty": "本工具还没有历史任务；提交一次后会在这里留下任务、配置与结果，刷新后仍在。",
+          "items": [],
+          "thumbs": [],
+          "video": []
+        },
+        "afterReload": {
+          "countText": "3 条",
+          "empty": null,
+          "items": [
+            {
+              "taskId": "b5-AI_WEARABLE-failed-0-1793208132406",
+              "status": "failed",
+              "time": "2026-10-29 01:22",
+              "summary": "gpt-image-2 · image · 0 个结果",
+              "badge": ""
+            },
+            {
+              "taskId": "b5-AI_WEARABLE-succeeded-1-1793208132406",
+              "status": "succeeded",
+              "time": "2026-10-29 01:21",
+              "summary": "gpt-image-2 · image · 1 个结果",
+              "badge": ""
+            },
+            {
+              "taskId": "b5-AI_WEARABLE-succeeded-2-1793208132406",
+              "status": "succeeded",
+              "time": "2026-10-29 01:20",
+              "summary": "gpt-image-2 · image · 1 个结果",
+              "badge": ""
+            }
+          ],
+          "thumbs": [
+            {
+              "src": "http://127.0.0.1:23298/AI_WEARABLE/result1.png",
+              "decoded": true,
+              "naturalWidth": 720
+            },
+            {
+              "src": "http://127.0.0.1:23298/AI_WEARABLE/result1.png",
+              "decoded": true,
+              "naturalWidth": 720
+            }
+          ],
+          "video": []
+        },
+        "detail": {
+          "config": "模型：gpt-image-2比例：1:1数量：1reusedFrom：AI_WEARABLE/result1.png输入素材：src-ai_wearable-1",
+          "sources": "src-ai_wearable-1",
+          "results": 1,
+          "videos": 0,
+          "actions": {
+            "download": 1,
+            "save": 1,
+            "canvas": 1
+          }
+        },
+        "copyFeedback": {
+          "text": "配置 JSON 已复制到剪贴板",
+          "tone": "success"
+        },
+        "clipboard": "{\n  \"toolId\": \"AI_WEARABLE\",\n  \"prompt\": \"AI_WEARABLE · 复用真实产物（AI_WEARABLE/result1.png）\",\n  \"configSnapshot\": {\n    \"model\": \"gpt-image-2\",\n    \"aspectRatio\": \"1:1\",\n    \"count\": 1,\n    \"reusedFrom\": \"AI_WEARABLE/result1.png\"\n  },\n  \"sourceAssetIds\": [\n    \"src-ai_wearable-1\"\n  ]\n}",
+        "clipboardTask": {
+          "toolId": "AI_WEARABLE",
+          "hasConfig": true,
+          "hasPrompt": true
+        },
+        "download": {
+          "fileName": "AI_WEARABLE-ai-wearable-result-1.png",
+          "bytes": 1641506
+        },
+        "saveFeedback": {
+          "text": "已存入资产库（image · T7RAkQz9lz1xR_AR5muWI）",
+          "tone": "success"
+        },
+        "canvasFeedback": {
+          "text": "已发送到画布（xYUHdj0FMNhO46SzKzYd4 / image-1793208133026-q2gd7）",
+          "tone": "success"
+        },
+        "errorText": "上游 502 Bad Gateway（历史面板需展示真实错误）"
+      },
+      "seededTaskIds": [
+        "b5-AI_WEARABLE-succeeded-1-1793208132406",
+        "b5-AI_WEARABLE-succeeded-2-1793208132406",
+        "b5-AI_WEARABLE-failed-0-1793208132406"
+      ],
+      "consoleErrors": []
+    },
+    {
+      "toolId": "FISSION_LINK",
+      "route": "/tools/product-design/fission-link",
+      "artifacts": [
+        "FISSION_LINK/03-upstream-result.png"
+      ],
+      "issues": [],
+      "steps": {
+        "initial": {
+          "countText": "0 条",
+          "empty": "本工具还没有历史任务；提交一次后会在这里留下任务、配置与结果，刷新后仍在。",
+          "items": [],
+          "thumbs": [],
+          "video": []
+        },
+        "afterReload": {
+          "countText": "3 条",
+          "empty": null,
+          "items": [
+            {
+              "taskId": "b5-FISSION_LINK-failed-0-1793208133775",
+              "status": "failed",
+              "time": "2026-10-29 01:22",
+              "summary": "gpt-image-2 · image · 0 个结果",
+              "badge": ""
+            },
+            {
+              "taskId": "b5-FISSION_LINK-succeeded-1-1793208133775",
+              "status": "succeeded",
+              "time": "2026-10-29 01:21",
+              "summary": "gpt-image-2 · image · 1 个结果",
+              "badge": ""
+            },
+            {
+              "taskId": "b5-FISSION_LINK-succeeded-2-1793208133775",
+              "status": "succeeded",
+              "time": "2026-10-29 01:20",
+              "summary": "gpt-image-2 · image · 1 个结果",
+              "badge": ""
+            }
+          ],
+          "thumbs": [
+            {
+              "src": "http://127.0.0.1:23298/FISSION_LINK/03-upstream-result.png",
+              "decoded": true,
+              "naturalWidth": 1024
+            },
+            {
+              "src": "http://127.0.0.1:23298/FISSION_LINK/03-upstream-result.png",
+              "decoded": true,
+              "naturalWidth": 1024
+            }
+          ],
+          "video": []
+        },
+        "detail": {
+          "config": "模型：gpt-image-2比例：1:1数量：1reusedFrom：FISSION_LINK/03-upstream-result.png输入素材：src-fission_link-1",
+          "sources": "src-fission_link-1",
+          "results": 1,
+          "videos": 0,
+          "actions": {
+            "download": 1,
+            "save": 1,
+            "canvas": 1
+          }
+        },
+        "copyFeedback": {
+          "text": "配置 JSON 已复制到剪贴板",
+          "tone": "success"
+        },
+        "clipboard": "{\n  \"toolId\": \"FISSION_LINK\",\n  \"prompt\": \"FISSION_LINK · 复用真实产物（FISSION_LINK/03-upstream-result.png）\",\n  \"configSnapshot\": {\n    \"model\": \"gpt-image-2\",\n    \"aspectRatio\": \"1:1\",\n    \"count\": 1,\n    \"reusedFrom\": \"FISSION_LINK/03-upstream-result.png\"\n  },\n  \"sourceAssetIds\": [\n    \"src-fission_link-1\"\n  ]\n}",
+        "clipboardTask": {
+          "toolId": "FISSION_LINK",
+          "hasConfig": true,
+          "hasPrompt": true
+        },
+        "download": {
+          "fileName": "FISSION_LINK-fission-link-result-1.png",
+          "bytes": 1672875
+        },
+        "saveFeedback": {
+          "text": "已存入资产库（image · ZwgQ0w7F1xHDP_KEx0ZLB）",
+          "tone": "success"
+        },
+        "canvasFeedback": {
+          "text": "已发送到画布（fC3JaJk-9BZk4JCkpEKqV / image-1793208134419-i4uqe）",
+          "tone": "success"
+        },
+        "errorText": "上游 502 Bad Gateway（历史面板需展示真实错误）"
+      },
+      "seededTaskIds": [
+        "b5-FISSION_LINK-succeeded-1-1793208133775",
+        "b5-FISSION_LINK-succeeded-2-1793208133775",
+        "b5-FISSION_LINK-failed-0-1793208133775"
+      ],
+      "consoleErrors": []
+    },
+    {
+      "toolId": "NEW_REPLACE_BG_V2",
+      "route": "/tools/product-design/new-replace-bg-v2",
+      "artifacts": [
+        "NEW_REPLACE_BG_V2/result1.png"
+      ],
+      "issues": [],
+      "steps": {
+        "initial": {
+          "countText": "0 条",
+          "empty": "本工具还没有历史任务；提交一次后会在这里留下任务、配置与结果，刷新后仍在。",
+          "items": [],
+          "thumbs": [],
+          "video": []
+        },
+        "afterReload": {
+          "countText": "3 条",
+          "empty": null,
+          "items": [
+            {
+              "taskId": "b5-NEW_REPLACE_BG_V2-failed-0-1793208135220",
+              "status": "failed",
+              "time": "2026-10-29 01:22",
+              "summary": "gpt-image-2 · image · 0 个结果",
+              "badge": ""
+            },
+            {
+              "taskId": "b5-NEW_REPLACE_BG_V2-succeeded-1-1793208135220",
+              "status": "succeeded",
+              "time": "2026-10-29 01:21",
+              "summary": "gpt-image-2 · image · 1 个结果",
+              "badge": ""
+            },
+            {
+              "taskId": "b5-NEW_REPLACE_BG_V2-succeeded-2-1793208135220",
+              "status": "succeeded",
+              "time": "2026-10-29 01:20",
+              "summary": "gpt-image-2 · image · 1 个结果",
+              "badge": ""
+            }
+          ],
+          "thumbs": [
+            {
+              "src": "http://127.0.0.1:23298/NEW_REPLACE_BG_V2/result1.png",
+              "decoded": true,
+              "naturalWidth": 1024
+            },
+            {
+              "src": "http://127.0.0.1:23298/NEW_REPLACE_BG_V2/result1.png",
+              "decoded": true,
+              "naturalWidth": 1024
+            }
+          ],
+          "video": []
+        },
+        "detail": {
+          "config": "模型：gpt-image-2比例：1:1数量：1reusedFrom：NEW_REPLACE_BG_V2/result1.png输入素材：src-new_replace_bg_v2-1",
+          "sources": "src-new_replace_bg_v2-1",
+          "results": 1,
+          "videos": 0,
+          "actions": {
+            "download": 1,
+            "save": 1,
+            "canvas": 1
+          }
+        },
+        "copyFeedback": {
+          "text": "配置 JSON 已复制到剪贴板",
+          "tone": "success"
+        },
+        "clipboard": "{\n  \"toolId\": \"NEW_REPLACE_BG_V2\",\n  \"prompt\": \"NEW_REPLACE_BG_V2 · 复用真实产物（NEW_REPLACE_BG_V2/result1.png）\",\n  \"configSnapshot\": {\n    \"model\": \"gpt-image-2\",\n    \"aspectRatio\": \"1:1\",\n    \"count\": 1,\n    \"reusedFrom\": \"NEW_REPLACE_BG_V2/result1.png\"\n  },\n  \"sourceAssetIds\": [\n    \"src-new_replace_bg_v2-1\"\n  ]\n}",
+        "clipboardTask": {
+          "toolId": "NEW_REPLACE_BG_V2",
+          "hasConfig": true,
+          "hasPrompt": true
+        },
+        "download": {
+          "fileName": "NEW_REPLACE_BG_V2-new-replace-bg-v2-result-1.png",
+          "bytes": 1109268
+        },
+        "saveFeedback": {
+          "text": "已存入资产库（image · xjZn_Z4dYjT_2ivm2RMp2）",
+          "tone": "success"
+        },
+        "canvasFeedback": {
+          "text": "已发送到画布（UAK3WtCzqhZMYaFbOaqJB / image-1793208135831-m1itw）",
+          "tone": "success"
+        },
+        "errorText": "上游 502 Bad Gateway（历史面板需展示真实错误）"
+      },
+      "seededTaskIds": [
+        "b5-NEW_REPLACE_BG_V2-succeeded-1-1793208135220",
+        "b5-NEW_REPLACE_BG_V2-succeeded-2-1793208135220",
+        "b5-NEW_REPLACE_BG_V2-failed-0-1793208135220"
+      ],
+      "consoleErrors": []
+    },
+    {
+      "toolId": "HANDHELD_GOODS",
+      "route": "/tools/product-design/handheld-goods",
+      "artifacts": [
+        "HANDHELD_GOODS/result.png"
+      ],
+      "issues": [],
+      "steps": {
+        "initial": {
+          "countText": "0 条",
+          "empty": "本工具还没有历史任务；提交一次后会在这里留下任务、配置与结果，刷新后仍在。",
+          "items": [],
+          "thumbs": [],
+          "video": []
+        },
+        "afterReload": {
+          "countText": "3 条",
+          "empty": null,
+          "items": [
+            {
+              "taskId": "b5-HANDHELD_GOODS-failed-0-1793208136589",
+              "status": "failed",
+              "time": "2026-10-29 01:22",
+              "summary": "gpt-image-2 · image · 0 个结果",
+              "badge": ""
+            },
+            {
+              "taskId": "b5-HANDHELD_GOODS-succeeded-1-1793208136589",
+              "status": "succeeded",
+              "time": "2026-10-29 01:21",
+              "summary": "gpt-image-2 · image · 1 个结果",
+              "badge": ""
+            },
+            {
+              "taskId": "b5-HANDHELD_GOODS-succeeded-2-1793208136589",
+              "status": "succeeded",
+              "time": "2026-10-29 01:20",
+              "summary": "gpt-image-2 · image · 1 个结果",
+              "badge": ""
+            }
+          ],
+          "thumbs": [
+            {
+              "src": "http://127.0.0.1:23298/HANDHELD_GOODS/result.png",
+              "decoded": true,
+              "naturalWidth": 720
+            },
+            {
+              "src": "http://127.0.0.1:23298/HANDHELD_GOODS/result.png",
+              "decoded": true,
+              "naturalWidth": 720
+            }
+          ],
+          "video": []
+        },
+        "detail": {
+          "config": "模型：gpt-image-2比例：1:1数量：1reusedFrom：HANDHELD_GOODS/result.png输入素材：src-handheld_goods-1",
+          "sources": "src-handheld_goods-1",
+          "results": 1,
+          "videos": 0,
+          "actions": {
+            "download": 1,
+            "save": 1,
+            "canvas": 1
+          }
+        },
+        "copyFeedback": {
+          "text": "配置 JSON 已复制到剪贴板",
+          "tone": "success"
+        },
+        "clipboard": "{\n  \"toolId\": \"HANDHELD_GOODS\",\n  \"prompt\": \"HANDHELD_GOODS · 复用真实产物（HANDHELD_GOODS/result.png）\",\n  \"configSnapshot\": {\n    \"model\": \"gpt-image-2\",\n    \"aspectRatio\": \"1:1\",\n    \"count\": 1,\n    \"reusedFrom\": \"HANDHELD_GOODS/result.png\"\n  },\n  \"sourceAssetIds\": [\n    \"src-handheld_goods-1\"\n  ]\n}",
+        "clipboardTask": {
+          "toolId": "HANDHELD_GOODS",
+          "hasConfig": true,
+          "hasPrompt": true
+        },
+        "download": {
+          "fileName": "HANDHELD_GOODS-handheld-goods-result-1.png",
+          "bytes": 1060068
+        },
+        "saveFeedback": {
+          "text": "已存入资产库（image · k4jyPjDLystDxzBu7miu0）",
+          "tone": "success"
+        },
+        "canvasFeedback": {
+          "text": "已发送到画布（mhbdL_BT_LoBXQoVhV3-h / image-1793208137273-fs9ha）",
+          "tone": "success"
+        },
+        "errorText": "上游 502 Bad Gateway（历史面板需展示真实错误）"
+      },
+      "seededTaskIds": [
+        "b5-HANDHELD_GOODS-succeeded-1-1793208136589",
+        "b5-HANDHELD_GOODS-succeeded-2-1793208136589",
+        "b5-HANDHELD_GOODS-failed-0-1793208136589"
+      ],
+      "consoleErrors": []
+    },
+    {
+      "toolId": "MATERIAL_UPPER_BODY",
+      "route": "/tools/product-design/material-upper-body",
+      "artifacts": [
+        "MATERIAL_UPPER_BODY/real-run-1024.png"
+      ],
+      "issues": [],
+      "steps": {
+        "initial": {
+          "countText": "0 条",
+          "empty": "本工具还没有历史任务；提交一次后会在这里留下任务、配置与结果，刷新后仍在。",
+          "items": [],
+          "thumbs": [],
+          "video": []
+        },
+        "afterReload": {
+          "countText": "3 条",
+          "empty": null,
+          "items": [
+            {
+              "taskId": "b5-MATERIAL_UPPER_BODY-failed-0-1793208138242",
+              "status": "failed",
+              "time": "2026-10-29 01:22",
+              "summary": "gpt-image-2 · image · 0 个结果",
+              "badge": ""
+            },
+            {
+              "taskId": "b5-MATERIAL_UPPER_BODY-succeeded-1-1793208138242",
+              "status": "succeeded",
+              "time": "2026-10-29 01:21",
+              "summary": "gpt-image-2 · image · 1 个结果",
+              "badge": ""
+            },
+            {
+              "taskId": "b5-MATERIAL_UPPER_BODY-succeeded-2-1793208138242",
+              "status": "succeeded",
+              "time": "2026-10-29 01:20",
+              "summary": "gpt-image-2 · image · 1 个结果",
+              "badge": ""
+            }
+          ],
+          "thumbs": [
+            {
+              "src": "http://127.0.0.1:23298/MATERIAL_UPPER_BODY/real-run-1024.png",
+              "decoded": true,
+              "naturalWidth": 1024
+            },
+            {
+              "src": "http://127.0.0.1:23298/MATERIAL_UPPER_BODY/real-run-1024.png",
+              "decoded": true,
+              "naturalWidth": 1024
+            }
+          ],
+          "video": []
+        },
+        "detail": {
+          "config": "模型：gpt-image-2比例：1:1数量：1reusedFrom：MATERIAL_UPPER_BODY/real-run-1024.png输入素材：src-material_upper_body-1",
+          "sources": "src-material_upper_body-1",
+          "results": 1,
+          "videos": 0,
+          "actions": {
+            "download": 1,
+            "save": 1,
+            "canvas": 1
+          }
+        },
+        "copyFeedback": {
+          "text": "配置 JSON 已复制到剪贴板",
+          "tone": "success"
+        },
+        "clipboard": "{\n  \"toolId\": \"MATERIAL_UPPER_BODY\",\n  \"prompt\": \"MATERIAL_UPPER_BODY · 复用真实产物（MATERIAL_UPPER_BODY/real-run-1024.png）\",\n  \"configSnapshot\": {\n    \"model\": \"gpt-image-2\",\n    \"aspectRatio\": \"1:1\",\n    \"count\": 1,\n    \"reusedFrom\": \"MATERIAL_UPPER_BODY/real-run-1024.png\"\n  },\n  \"sourceAssetIds\": [\n    \"src-material_upper_body-1\"\n  ]\n}",
+        "clipboardTask": {
+          "toolId": "MATERIAL_UPPER_BODY",
+          "hasConfig": true,
+          "hasPrompt": true
+        },
+        "download": {
+          "fileName": "MATERIAL_UPPER_BODY-material-upper-body-result-1.png",
+          "bytes": 1699450
+        },
+        "saveFeedback": {
+          "text": "已存入资产库（image · dksai57fQkkHq2AuFvUvK）",
+          "tone": "success"
+        },
+        "canvasFeedback": {
+          "text": "已发送到画布（-xIiJPoT-Dp34Mou9DDBd / image-1793208138932-2a94m）",
+          "tone": "success"
+        },
+        "errorText": "上游 502 Bad Gateway（历史面板需展示真实错误）"
+      },
+      "seededTaskIds": [
+        "b5-MATERIAL_UPPER_BODY-succeeded-1-1793208138242",
+        "b5-MATERIAL_UPPER_BODY-succeeded-2-1793208138242",
+        "b5-MATERIAL_UPPER_BODY-failed-0-1793208138242"
+      ],
+      "consoleErrors": []
+    },
+    {
+      "toolId": "CHANGE_COLOR_V2",
+      "route": "/tools/ecommerce-suite/change-color-v2",
+      "artifacts": [
+        "CHANGE_COLOR_V2/05-unit1-result.png"
+      ],
+      "issues": [],
+      "steps": {
+        "initial": {
+          "countText": "0 条",
+          "empty": "本工具还没有历史任务；提交一次后会在这里留下任务、配置与结果，刷新后仍在。",
+          "items": [],
+          "thumbs": [],
+          "video": []
+        },
+        "afterReload": {
+          "countText": "3 条",
+          "empty": null,
+          "items": [
+            {
+              "taskId": "b5-CHANGE_COLOR_V2-failed-0-1793208139794",
+              "status": "failed",
+              "time": "2026-10-29 01:22",
+              "summary": "gpt-image-2 · image · 0 个结果",
+              "badge": ""
+            },
+            {
+              "taskId": "b5-CHANGE_COLOR_V2-succeeded-1-1793208139794",
+              "status": "succeeded",
+              "time": "2026-10-29 01:21",
+              "summary": "gpt-image-2 · image · 1 个结果",
+              "badge": ""
+            },
+            {
+              "taskId": "b5-CHANGE_COLOR_V2-succeeded-2-1793208139794",
+              "status": "succeeded",
+              "time": "2026-10-29 01:20",
+              "summary": "gpt-image-2 · image · 1 个结果",
+              "badge": ""
+            }
+          ],
+          "thumbs": [
+            {
+              "src": "http://127.0.0.1:23298/CHANGE_COLOR_V2/05-unit1-result.png",
+              "decoded": true,
+              "naturalWidth": 1024
+            },
+            {
+              "src": "http://127.0.0.1:23298/CHANGE_COLOR_V2/05-unit1-result.png",
+              "decoded": true,
+              "naturalWidth": 1024
+            }
+          ],
+          "video": []
+        },
+        "detail": {
+          "config": "模型：gpt-image-2比例：1:1数量：1reusedFrom：CHANGE_COLOR_V2/05-unit1-result.png输入素材：src-change_color_v2-1",
+          "sources": "src-change_color_v2-1",
+          "results": 1,
+          "videos": 0,
+          "actions": {
+            "download": 1,
+            "save": 1,
+            "canvas": 1
+          }
+        },
+        "copyFeedback": {
+          "text": "配置 JSON 已复制到剪贴板",
+          "tone": "success"
+        },
+        "clipboard": "{\n  \"toolId\": \"CHANGE_COLOR_V2\",\n  \"prompt\": \"CHANGE_COLOR_V2 · 复用真实产物（CHANGE_COLOR_V2/05-unit1-result.png）\",\n  \"configSnapshot\": {\n    \"model\": \"gpt-image-2\",\n    \"aspectRatio\": \"1:1\",\n    \"count\": 1,\n    \"reusedFrom\": \"CHANGE_COLOR_V2/05-unit1-result.png\"\n  },\n  \"sourceAssetIds\": [\n    \"src-change_color_v2-1\"\n  ]\n}",
+        "clipboardTask": {
+          "toolId": "CHANGE_COLOR_V2",
+          "hasConfig": true,
+          "hasPrompt": true
+        },
+        "download": {
+          "fileName": "CHANGE_COLOR_V2-change-color-v2-result-1.png",
+          "bytes": 1115668
+        },
+        "saveFeedback": {
+          "text": "已存入资产库（image · Zdn82zZ7kHB1YFsb8KUC5）",
+          "tone": "success"
+        },
+        "canvasFeedback": {
+          "text": "已发送到画布（8JByKkauPNoO9C0qTHlFO / image-1793208140475-exmvq）",
+          "tone": "success"
+        },
+        "errorText": "上游 502 Bad Gateway（历史面板需展示真实错误）"
+      },
+      "seededTaskIds": [
+        "b5-CHANGE_COLOR_V2-succeeded-1-1793208139794",
+        "b5-CHANGE_COLOR_V2-succeeded-2-1793208139794",
+        "b5-CHANGE_COLOR_V2-failed-0-1793208139794"
+      ],
+      "consoleErrors": []
+    },
+    {
+      "toolId": "SCALE_UP",
+      "route": "/tools/ecommerce-suite/scale-up",
+      "artifacts": [
+        "SCALE_UP/05-downloaded.png"
+      ],
+      "issues": [],
+      "steps": {
+        "initial": {
+          "countText": "0 条",
+          "empty": "本工具还没有历史任务；提交一次后会在这里留下任务、配置与结果，刷新后仍在。",
+          "items": [],
+          "thumbs": [],
+          "video": []
+        },
+        "afterReload": {
+          "countText": "3 条",
+          "empty": null,
+          "items": [
+            {
+              "taskId": "b5-SCALE_UP-failed-0-1793208141227",
+              "status": "failed",
+              "time": "2026-10-29 01:22",
+              "summary": "gpt-image-2 · image · 0 个结果",
+              "badge": ""
+            },
+            {
+              "taskId": "b5-SCALE_UP-succeeded-1-1793208141227",
+              "status": "succeeded",
+              "time": "2026-10-29 01:21",
+              "summary": "gpt-image-2 · image · 1 个结果",
+              "badge": ""
+            },
+            {
+              "taskId": "b5-SCALE_UP-succeeded-2-1793208141227",
+              "status": "succeeded",
+              "time": "2026-10-29 01:20",
+              "summary": "gpt-image-2 · image · 1 个结果",
+              "badge": ""
+            }
+          ],
+          "thumbs": [
+            {
+              "src": "http://127.0.0.1:23298/SCALE_UP/05-downloaded.png",
+              "decoded": true,
+              "naturalWidth": 1024
+            },
+            {
+              "src": "http://127.0.0.1:23298/SCALE_UP/05-downloaded.png",
+              "decoded": true,
+              "naturalWidth": 1024
+            }
+          ],
+          "video": []
+        },
+        "detail": {
+          "config": "模型：gpt-image-2比例：1:1数量：1reusedFrom：SCALE_UP/05-downloaded.png输入素材：src-scale_up-1",
+          "sources": "src-scale_up-1",
+          "results": 1,
+          "videos": 0,
+          "actions": {
+            "download": 1,
+            "save": 1,
+            "canvas": 1
+          }
+        },
+        "copyFeedback": {
+          "text": "配置 JSON 已复制到剪贴板",
+          "tone": "success"
+        },
+        "clipboard": "{\n  \"toolId\": \"SCALE_UP\",\n  \"prompt\": \"SCALE_UP · 复用真实产物（SCALE_UP/05-downloaded.png）\",\n  \"configSnapshot\": {\n    \"model\": \"gpt-image-2\",\n    \"aspectRatio\": \"1:1\",\n    \"count\": 1,\n    \"reusedFrom\": \"SCALE_UP/05-downloaded.png\"\n  },\n  \"sourceAssetIds\": [\n    \"src-scale_up-1\"\n  ]\n}",
+        "clipboardTask": {
+          "toolId": "SCALE_UP",
+          "hasConfig": true,
+          "hasPrompt": true
+        },
+        "download": {
+          "fileName": "SCALE_UP-scale-up-result-1.png",
+          "bytes": 1152074
+        },
+        "saveFeedback": {
+          "text": "已存入资产库（image · MedZkcUcWJEnlI602cK6A）",
+          "tone": "success"
+        },
+        "canvasFeedback": {
+          "text": "已发送到画布（Cj5qRmazfPEfZPlksM9qW / image-1793208141826-5ltsr）",
+          "tone": "success"
+        },
+        "errorText": "上游 502 Bad Gateway（历史面板需展示真实错误）"
+      },
+      "seededTaskIds": [
+        "b5-SCALE_UP-succeeded-1-1793208141227",
+        "b5-SCALE_UP-succeeded-2-1793208141227",
+        "b5-SCALE_UP-failed-0-1793208141227"
+      ],
+      "consoleErrors": []
+    },
+    {
+      "toolId": "AI_VIDEO_EDITING",
+      "route": "/tools/ai-video/ai-video-editing",
+      "artifacts": [
+        "IMAGE_TO_VIDEO/06-result-video.mp4"
+      ],
+      "issues": [],
+      "steps": {
+        "initial": {
+          "countText": "0 条",
+          "empty": "本工具还没有历史任务；提交一次后会在这里留下任务、配置与结果，刷新后仍在。",
+          "items": [],
+          "thumbs": [],
+          "video": []
+        },
+        "afterReload": {
+          "countText": "3 条",
+          "empty": null,
+          "items": [
+            {
+              "taskId": "b5-AI_VIDEO_EDITING-failed-0-1793208142583",
+              "status": "failed",
+              "time": "2026-10-29 01:22",
+              "summary": "gpt-image-2 · video · 0 个结果",
+              "badge": ""
+            },
+            {
+              "taskId": "b5-AI_VIDEO_EDITING-succeeded-1-1793208142583",
+              "status": "succeeded",
+              "time": "2026-10-29 01:21",
+              "summary": "gpt-image-2 · video · 1 个结果",
+              "badge": "视频结果 1 个"
+            },
+            {
+              "taskId": "b5-AI_VIDEO_EDITING-succeeded-2-1793208142583",
+              "status": "succeeded",
+              "time": "2026-10-29 01:20",
+              "summary": "gpt-image-2 · video · 1 个结果",
+              "badge": "视频结果 1 个"
+            }
+          ],
+          "thumbs": [],
+          "video": []
+        },
+        "detail": {
+          "config": "模型：gpt-image-2比例：16:9数量：1reusedFrom：IMAGE_TO_VIDEO/06-result-video.mp4输入素材：src-ai_video_editing-1",
+          "sources": "src-ai_video_editing-1",
+          "results": 1,
+          "videos": 1,
+          "actions": {
+            "download": 1,
+            "save": 1,
+            "canvas": 1
+          }
+        },
+        "copyFeedback": {
+          "text": "配置 JSON 已复制到剪贴板",
+          "tone": "success"
+        },
+        "clipboard": "{\n  \"toolId\": \"AI_VIDEO_EDITING\",\n  \"prompt\": \"AI_VIDEO_EDITING · 复用真实产物（IMAGE_TO_VIDEO/06-result-video.mp4）\",\n  \"configSnapshot\": {\n    \"model\": \"gpt-image-2\",\n    \"aspectRatio\": \"16:9\",\n    \"count\": 1,\n    \"reusedFrom\": \"IMAGE_TO_VIDEO/06-result-video.mp4\"\n  },\n  \"sourceAssetIds\": [\n    \"src-ai_video_editing-1\"\n  ]\n}",
+        "clipboardTask": {
+          "toolId": "AI_VIDEO_EDITING",
+          "hasConfig": true,
+          "hasPrompt": true
+        },
+        "download": {
+          "fileName": "AI_VIDEO_EDITING-ai-video-editing-result-1.mp4",
+          "bytes": 1297168
+        },
+        "saveFeedback": {
+          "text": "已存入资产库（video · PBMVvyyLUxkq3Zp1FpquV）",
+          "tone": "success"
+        },
+        "canvasFeedback": {
+          "text": "已发送到画布（hJt9-J7eE-AVVrOFDjzo2 / video-1793208143185-z5x82）",
+          "tone": "success"
+        },
+        "errorText": "上游 502 Bad Gateway（历史面板需展示真实错误）"
+      },
+      "seededTaskIds": [
+        "b5-AI_VIDEO_EDITING-succeeded-1-1793208142583",
+        "b5-AI_VIDEO_EDITING-succeeded-2-1793208142583",
+        "b5-AI_VIDEO_EDITING-failed-0-1793208142583"
+      ],
+      "consoleErrors": []
+    },
+    {
+      "toolId": "SALE_VIDEO",
+      "route": "/tools/ai-video/sale-video",
+      "artifacts": [
+        "IMAGE_TO_VIDEO/06-result-video.mp4"
+      ],
+      "issues": [],
+      "steps": {
+        "initial": {
+          "countText": "0 条",
+          "empty": "本工具还没有历史任务；提交一次后会在这里留下任务、配置与结果，刷新后仍在。",
+          "items": [],
+          "thumbs": [],
+          "video": []
+        },
+        "afterReload": {
+          "countText": "3 条",
+          "empty": null,
+          "items": [
+            {
+              "taskId": "b5-SALE_VIDEO-failed-0-1793208143946",
+              "status": "failed",
+              "time": "2026-10-29 01:22",
+              "summary": "gpt-image-2 · video · 0 个结果",
+              "badge": ""
+            },
+            {
+              "taskId": "b5-SALE_VIDEO-succeeded-1-1793208143946",
+              "status": "succeeded",
+              "time": "2026-10-29 01:21",
+              "summary": "gpt-image-2 · video · 1 个结果",
+              "badge": "视频结果 1 个"
+            },
+            {
+              "taskId": "b5-SALE_VIDEO-succeeded-2-1793208143946",
+              "status": "succeeded",
+              "time": "2026-10-29 01:20",
+              "summary": "gpt-image-2 · video · 1 个结果",
+              "badge": "视频结果 1 个"
+            }
+          ],
+          "thumbs": [],
+          "video": []
+        },
+        "detail": {
+          "config": "模型：gpt-image-2比例：16:9数量：1reusedFrom：IMAGE_TO_VIDEO/06-result-video.mp4输入素材：src-sale_video-1",
+          "sources": "src-sale_video-1",
+          "results": 1,
+          "videos": 1,
+          "actions": {
+            "download": 1,
+            "save": 1,
+            "canvas": 1
+          }
+        },
+        "copyFeedback": {
+          "text": "配置 JSON 已复制到剪贴板",
+          "tone": "success"
+        },
+        "clipboard": "{\n  \"toolId\": \"SALE_VIDEO\",\n  \"prompt\": \"SALE_VIDEO · 复用真实产物（IMAGE_TO_VIDEO/06-result-video.mp4）\",\n  \"configSnapshot\": {\n    \"model\": \"gpt-image-2\",\n    \"aspectRatio\": \"16:9\",\n    \"count\": 1,\n    \"reusedFrom\": \"IMAGE_TO_VIDEO/06-result-video.mp4\"\n  },\n  \"sourceAssetIds\": [\n    \"src-sale_video-1\"\n  ]\n}",
+        "clipboardTask": {
+          "toolId": "SALE_VIDEO",
+          "hasConfig": true,
+          "hasPrompt": true
+        },
+        "download": {
+          "fileName": "SALE_VIDEO-sale-video-result-1.mp4",
+          "bytes": 1297168
+        },
+        "saveFeedback": {
+          "text": "已存入资产库（video · n_U_KLbRYq4tAHlilIg3A）",
+          "tone": "success"
+        },
+        "canvasFeedback": {
+          "text": "已发送到画布（JxFzUD-6sIBeKABKHdgkJ / video-1793208144572-kwkpn）",
+          "tone": "success"
+        },
+        "errorText": "上游 502 Bad Gateway（历史面板需展示真实错误）"
+      },
+      "seededTaskIds": [
+        "b5-SALE_VIDEO-succeeded-1-1793208143946",
+        "b5-SALE_VIDEO-succeeded-2-1793208143946",
+        "b5-SALE_VIDEO-failed-0-1793208143946"
+      ],
+      "consoleErrors": []
+    }
+  ],
+  "ownHistoryTools": [
+    {
+      "toolId": "PRODUCT_REFINE",
+      "route": "/tools/smart-edit/product-refine",
+      "issues": [],
+      "dockCount": 0,
+      "ownHistoryTab": [
+        "生成结果",
+        "历史记录"
+      ]
+    }
+  ]
+}

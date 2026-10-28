@@ -157,4 +157,20 @@ describe("ToolHistoryDock（B5 共享历史面板）", () => {
         expect(html).toContain('data-task-status="failed"');
         expect(html).toContain("（无提示词）");
     });
+
+    test("视频结果在折叠行给出徽标，而不是留白", async () => {
+        const tasks = snapshotOf([
+            {
+                id: "t-video",
+                toolId: "SALE_VIDEO",
+                status: "succeeded",
+                createdAt: 1000,
+                prompt: "带货视频",
+                items: [{ id: "v-1", kind: "video", url: "https://example.com/a.mp4" }],
+            },
+        ]);
+        const html = await renderDock({ toolId: "SALE_VIDEO", tasks });
+        expect(html).toContain('data-testid="tool-history-dock-video-badge"');
+        expect(html).toContain("视频结果 1 个");
+    });
 });
