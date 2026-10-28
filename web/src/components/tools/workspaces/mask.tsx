@@ -1,0 +1,697 @@
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { Link } from "react-router-dom";
+import { Eraser, Paintbrush, Redo2, RotateCcw, Sparkles, Undo2 } from "lucide-react";
+
+import { ToolAssetInput } from "@/components/tools/tool-asset-input";
+import { ToolShell } from "@/components/tools/tool-shell";
+import { TaskStatusPanel } from "@/components/tools/task-status";
+import { buildAreaRepairUnits, createAreaRepairRunPort, renderMaskPng, runAreaRepairUnits, type AreaRepairUnitOutcome } from "@/features/tools/adapters/area-repair";
+import { getToolById, toolSpecs } from "@/features/tools/registry";
+import {
+    AREA_REPAIR_DEFAULT_OUTPUT,
+    AREA_REPAIR_OUTPUT_OPTIONS,
+    AREA_REPAIR_PROMPT_MAX,
+    AREA_REPAIR_SLUG,
+    AREA_REPAIR_TOOL_ID,
+    MASK_BRUSH_MAX,
+    MASK_BRUSH_MIN,
+    MASK_FEATHER_MAX,
+    MASK_FEATHER_MIN,
+    appendStrokePoint,
+    buildAreaRepairSnapshot,
+    clampBrushSize,
+    clampFeather,
+    createMaskHistory,
+    createMaskState,
+    createStroke,
+    describeCoverage,
+    isSnapshotStale,
+    maskCoverage,
+    maskHistoryLabel,
+    maskIsEmpty,
+    normalizeOutputNum,
+    normalizePoint,
+    parseMaskDraftValues,
+    pushMaskStroke,
+    redoMaskStroke,
+    resetMaskHistory,
+    serializeMaskDraftValues,
+    undoMaskStroke,
+    validateAreaRepairInput,
+    type AreaRepairSnapshot,
+    type MaskHistory,
+    type MaskState,
+    type MaskStroke,
+} from "@/features/tools/registry/area-repair";
+import { cn, randomId } from "@/lib/utils";
+import { loadToolAssetRecords, type ToolAssetRecord } from "@/services/api/tools/assets";
+import type { ToolTask } from "@/services/api/tools/task-machine";
+import { imageToDataUrl } from "@/services/image-storage";
+import { flushToolDrafts, useToolDraftStore } from "@/stores/use-tool-draft-store";
+
+export type MaskWorkspaceProps = { className?: string };
+
+type UploadedImage = { id: string; name: string; dataUrl: string; width: number; height: number };
+
+const TOOL_ID = AREA_REPAIR_TOOL_ID;
+
+/**
+ * AREA_REPAIR 局部重绘工作区。
+ *
+ * 真实边界：蒙版是画布上真实绘制的笔画（画笔/橡皮/羽化/反选/自动扩边），提交时导出成同尺寸 PNG，
+ * 与原图一起作为两张参考图发给真实图像编辑接口；结果只来自上游返回，不补造。
+ */
+export function MaskWorkspace({ className }: MaskWorkspaceProps = {}) {
+    const spec = useMemo(() => getToolById(TOOL_ID), []);
+    const siblings = useMemo(() => toolSpecs.filter((tool) => tool.layout === "mask" && tool.id !== TOOL_ID), []);
+    const patchDraft = useToolDraftStore((state) => state.patch);
+    const hydrateDraft = useToolDraftStore((state) => state.hydrate);
+    const conflict = useToolDraftStore((state) => state.conflicts[TOOL_ID]);
+
+    const [state, setState] = useState<MaskState>(() => createMaskState());
+    const [history, setHistory] = useState<MaskHistory>(() => createMaskHistory());
+    const [prompt, setPrompt] = useState("");
+    const [outputNum, setOutputNum] = useState<number>(AREA_REPAIR_DEFAULT_OUTPUT);
+    const [image, setImage] = useState<UploadedImage | null>(null);
+    const [hydrated, setHydrated] = useState(false);
+    const [notice, setNotice] = useState("");
+    const [busy, setBusy] = useState(false);
+    const [outcomes, setOutcomes] = useState<AreaRepairUnitOutcome[]>([]);
+    const [tasks, setTasks] = useState<ToolTask[]>([]);
+    const [runSnapshot, setRunSnapshot] = useState<AreaRepairSnapshot | null>(null);
+
+    const canvasRef = useRef<HTMLCanvasElement | null>(null);
+    const stateRef = useRef(state);
+    const historyRef = useRef(history);
+    const imageRef = useRef<UploadedImage | null>(null);
+    const promptRef = useRef(prompt);
+    const outputRef = useRef(outputNum);
+    const drawingRef = useRef<MaskStroke | null>(null);
+    const abortRef = useRef<AbortController | null>(null);
+
+    const persist = useCallback(
+        (next: MaskState) => {
+            patchDraft(TOOL_ID, {
+                values: serializeMaskDraftValues({
+                    state: next,
+                    prompt: promptRef.current,
+                    outputNum: outputRef.current,
+                }),
+                assetIds: imageRef.current ? [imageRef.current.id] : [],
+            });
+        },
+        [patchDraft],
+    );
+
+    /** 笔画历史是唯一真源：撤销/重做/重置都走这里，并同步草稿。 */
+    const applyHistory = useCallback(
+        (next: MaskHistory) => {
+            historyRef.current = next;
+            setHistory(next);
+            const merged: MaskState = { ...stateRef.current, strokes: next.present };
+            stateRef.current = merged;
+            setState(merged);
+            persist(merged);
+        },
+        [persist],
+    );
+
+    /** 控件改动（笔刷/羽化/反选/自动扩边）：只动控件，不动已画笔画。 */
+    const commit = useCallback(
+        (patch: Partial<MaskState>) => {
+            const merged: MaskState = { ...stateRef.current, ...patch };
+            stateRef.current = merged;
+            setState(merged);
+            persist(merged);
+        },
+        [persist],
+    );
+
+    const adoptImage = useCallback(
+        async (record: ToolAssetRecord) => {
+            const dataUrl = await imageToDataUrl({ storageKey: record.storageKey, url: record.url });
+            if (!dataUrl) {
+                setNotice("这张图片的本地数据已不可用，请重新上传");
+                return;
+            }
+            const size = await new Promise<{ width: number; height: number }>((resolve) => {
+                const probe = new window.Image();
+                probe.onload = () => resolve({ width: probe.naturalWidth, height: probe.naturalHeight });
+                probe.onerror = () => resolve({ width: 0, height: 0 });
+                probe.src = dataUrl;
+            });
+            if (!size.width || !size.height) {
+                setNotice("无法读取图片尺寸，请换一张图片");
+                return;
+            }
+            const next: UploadedImage = {
+                id: record.id,
+                name: record.name,
+                dataUrl,
+                width: record.width || size.width,
+                height: record.height || size.height,
+            };
+            imageRef.current = next;
+            setImage(next);
+            // 换图 = 原蒙版坐标失效，必须清空（规格 §3）。
+            const cleared = createMaskHistory();
+            historyRef.current = cleared;
+            setHistory(cleared);
+            const merged: MaskState = { ...stateRef.current, strokes: [] };
+            stateRef.current = merged;
+            setState(merged);
+            setOutcomes([]);
+            setRunSnapshot(null);
+            setNotice("");
+            persist(merged);
+        },
+        [persist],
+    );
+
+    // 草稿恢复：笔画/控件/描述/张数来自 draft.values，图片由 draft.assetIds 取回真实字节。
+    useEffect(() => {
+        let alive = true;
+        void (async () => {
+            const draft = await hydrateDraft(TOOL_ID);
+            if (!alive) return;
+            const parsed = parseMaskDraftValues(draft?.values);
+            stateRef.current = parsed.state;
+            historyRef.current = createMaskHistory(parsed.state.strokes);
+            promptRef.current = parsed.prompt;
+            outputRef.current = parsed.outputNum;
+            setState(parsed.state);
+            setHistory(historyRef.current);
+            setPrompt(parsed.prompt);
+            setOutputNum(parsed.outputNum);
+            setHydrated(true);
+            const ids = draft?.assetIds ?? [];
+            if (ids.length > 0) {
+                const { records } = await loadToolAssetRecords(ids);
+                if (alive && records[0]) await adoptImage(records[0]);
+            }
+        })();
+        return () => {
+            alive = false;
+        };
+    }, [hydrateDraft, adoptImage]);
+
+    useEffect(() => () => abortRef.current?.abort(), []);
+    useEffect(() => {
+        if (hydrated) void flushToolDrafts([TOOL_ID]);
+    }, [hydrated, state, prompt, outputNum]);
+
+    /** 蒙版预览：真实 canvas 绘制，反选时整图铺色、笔画挖空。 */
+    const draw = useCallback(() => {
+        const canvas = canvasRef.current;
+        if (!canvas || !imageRef.current) return;
+        const ctx = canvas.getContext("2d");
+        if (!ctx) return;
+        const width = canvas.width;
+        const height = canvas.height;
+        ctx.clearRect(0, 0, width, height);
+        const inverted = stateRef.current.inverted;
+        const sourceWidth = imageRef.current.width || width;
+        const ratio = width / sourceWidth;
+        if (inverted) {
+            ctx.globalCompositeOperation = "source-over";
+            ctx.fillStyle = "rgba(255,255,255,0.34)";
+            ctx.fillRect(0, 0, width, height);
+        }
+        const strokes = drawingRef.current ? [...historyRef.current.present, drawingRef.current] : historyRef.current.present;
+        ctx.lineCap = "round";
+        ctx.lineJoin = "round";
+        for (const stroke of strokes) {
+            const erases = inverted ? stroke.tool === "brush" : stroke.tool === "eraser";
+            ctx.globalCompositeOperation = erases ? "destination-out" : "source-over";
+            ctx.strokeStyle = "rgba(255,255,255,0.55)";
+            ctx.lineWidth = Math.max(1, stroke.size * ratio);
+            const points = stroke.points;
+            ctx.beginPath();
+            ctx.moveTo(points[0].x * width, points[0].y * height);
+            if (points.length === 1) ctx.lineTo(points[0].x * width + 0.01, points[0].y * height);
+            for (let i = 1; i < points.length; i += 1) ctx.lineTo(points[i].x * width, points[i].y * height);
+            ctx.stroke();
+        }
+        ctx.globalCompositeOperation = "source-over";
+    }, []);
+
+    useEffect(() => {
+        const canvas = canvasRef.current;
+        if (!canvas || !image) return;
+        const longest = Math.max(image.width, image.height);
+        const ratio = longest > 1400 ? 1400 / longest : 1;
+        canvas.width = Math.max(1, Math.round(image.width * ratio));
+        canvas.height = Math.max(1, Math.round(image.height * ratio));
+        draw();
+    }, [image, history, state.inverted, draw]);
+
+    const pointFromEvent = (event: React.PointerEvent<HTMLCanvasElement>) => {
+        const rect = event.currentTarget.getBoundingClientRect();
+        return normalizePoint({
+            x: (event.clientX - rect.left) / Math.max(1, rect.width),
+            y: (event.clientY - rect.top) / Math.max(1, rect.height),
+        });
+    };
+
+    const onPointerDown = (event: React.PointerEvent<HTMLCanvasElement>) => {
+        if (!imageRef.current || busy) return;
+        event.preventDefault();
+        event.currentTarget.setPointerCapture(event.pointerId);
+        drawingRef.current = createStroke(stateRef.current.tool, stateRef.current.brushSize, pointFromEvent(event), randomId());
+        draw();
+    };
+
+    const onPointerMove = (event: React.PointerEvent<HTMLCanvasElement>) => {
+        if (!drawingRef.current) return;
+        const next = appendStrokePoint(drawingRef.current, pointFromEvent(event));
+        if (next === drawingRef.current) return;
+        drawingRef.current = next;
+        draw();
+    };
+
+    const endStroke = () => {
+        const stroke = drawingRef.current;
+        drawingRef.current = null;
+        if (!stroke) return;
+        applyHistory(pushMaskStroke(historyRef.current, stroke));
+    };
+
+    const maskRatio = useMemo(() => maskCoverage(state), [state]);
+    const historyLabel = useMemo(() => maskHistoryLabel(history), [history]);
+    const issues = useMemo(
+        () =>
+            validateAreaRepairInput({
+                imageUrl: image?.dataUrl ?? "",
+                maskUrl: maskIsEmpty(state) ? "" : "drawn",
+                prompt,
+                outputNum,
+            }),
+        [image, state, prompt, outputNum],
+    );
+    const currentSnapshot = useMemo(
+        () =>
+            buildAreaRepairSnapshot({
+                imageAssetId: image?.id ?? "",
+                imageName: image?.name ?? "",
+                imageWidth: image?.width ?? 0,
+                imageHeight: image?.height ?? 0,
+                state,
+                prompt,
+                outputNum,
+            }),
+        [image, state, prompt, outputNum],
+    );
+    const stale = runSnapshot ? isSnapshotStale(runSnapshot, currentSnapshot) : false;
+    const latestTask = tasks.length > 0 ? tasks[tasks.length - 1] : null;
+
+    /** 提交：导出同尺寸蒙版 → 校验 → 逐单元真实请求。 */
+    const submit = useCallback(async () => {
+        if (busy) return;
+        const current = imageRef.current;
+        if (!current) {
+            setNotice("请先上传要重绘的图片");
+            return;
+        }
+        if (maskIsEmpty(stateRef.current)) {
+            setNotice("蒙版为空：请先在图片上涂抹需要重绘的区域");
+            return;
+        }
+        setBusy(true);
+        setNotice("");
+        setOutcomes([]);
+        const controller = new AbortController();
+        abortRef.current = controller;
+        try {
+            const mask = await renderMaskPng(stateRef.current, { width: current.width, height: current.height });
+            const problems = validateAreaRepairInput({
+                imageUrl: current.dataUrl,
+                maskUrl: mask.dataUrl,
+                prompt: promptRef.current,
+                outputNum: outputRef.current,
+                imageWidth: current.width,
+                imageHeight: current.height,
+                maskWidth: mask.width,
+                maskHeight: mask.height,
+            });
+            if (problems.length > 0) {
+                setNotice(problems.map((issue) => issue.message).join("；"));
+                return;
+            }
+            const snapshot = buildAreaRepairSnapshot({
+                imageAssetId: current.id,
+                imageName: current.name,
+                imageWidth: current.width,
+                imageHeight: current.height,
+                state: stateRef.current,
+                prompt: promptRef.current,
+                outputNum: outputRef.current,
+            });
+            const units = buildAreaRepairUnits({
+                snapshot,
+                image: { id: current.id, name: current.name, type: "image/png", dataUrl: current.dataUrl },
+                mask: { id: `mask-${snapshot.maskHash}`, name: "mask.png", type: "image/png", dataUrl: mask.dataUrl },
+            });
+            const audit = auditFields(units);
+            if (audit.length > 0) {
+                setNotice(audit.join("；"));
+                return;
+            }
+            setRunSnapshot(snapshot);
+            const real = createAreaRepairRunPort();
+            const port = {
+                async run(input: Parameters<typeof real.run>[0], options?: Parameters<typeof real.run>[1]) {
+                    const task = await real.run(input, options);
+                    setTasks((prev) => [...prev, task]);
+                    return task;
+                },
+            };
+            const results = await runAreaRepairUnits(units, { port, concurrency: 2, signal: controller.signal });
+            setOutcomes(results);
+            const ok = results.filter((item) => item.status === "succeeded").length;
+            const failed = results.filter((item) => item.status === "failed").length;
+            setNotice(failed === 0 ? `完成：${ok} 张结果已返回` : `完成 ${ok} 张，失败 ${failed} 张；失败单元可按原参数重试`);
+        } catch (error) {
+            setNotice(error instanceof Error ? error.message : "提交失败，请重试");
+        } finally {
+            setBusy(false);
+            abortRef.current = null;
+        }
+    }, [busy]);
+
+    function auditFields(units: ReturnType<typeof buildAreaRepairUnits>) {
+        const specKeys = spec?.fields.map((field) => field.key) ?? [];
+        const missing = specKeys.filter((key) => !(key in units[0].fields) && key !== "imageUrl" && key !== "maskUrl" && key !== "prompt");
+        const issuesOut: string[] = [];
+        if (missing.length > 0) issuesOut.push(`提交字段缺失：${missing.join("、")}`);
+        if (units[0].references.length !== 2) issuesOut.push("蒙版没有作为第二张参考图提交");
+        return issuesOut;
+    }
+
+    const retryUnit = useCallback(async () => {
+        setNotice("重试会以当前参数重新提交全部张数，避免同一批结果混用不同输入。");
+        await submit();
+    }, [submit]);
+
+    const coverageLabel = describeCoverage(maskRatio);
+
+    return (
+        <ToolShell
+            className={className}
+            title={spec?.title ?? "局部重绘"}
+            subtitle="涂抹需要改变的区域并填写重绘描述，只重绘蒙版内内容；原图与结果并排可对照"
+            badges={<span className="rounded border border-border px-1.5 py-0.5 text-[11px] text-muted-foreground">{spec ? `makeType ${spec.makeType}` : AREA_REPAIR_TOOL_ID}</span>}
+            actions={
+                <button
+                    type="button"
+                    data-testid="area-repair-submit"
+                    disabled={busy || issues.length > 0}
+                    onClick={() => void submit()}
+                    className="inline-flex items-center gap-1 rounded-md bg-primary px-3 py-1.5 text-xs font-medium text-primary-foreground disabled:cursor-not-allowed disabled:opacity-50"
+                >
+                    <Sparkles className="size-3.5" aria-hidden />
+                    {busy ? "生成中…" : "立即生成"}
+                </button>
+            }
+            notices={
+                <>
+                    {conflict ? <p className="rounded border border-amber-500/40 bg-amber-500/10 px-3 py-2 text-xs text-amber-700 dark:text-amber-300">草稿在其他标签页被修改，本页未覆盖；刷新可载入最新草稿。</p> : null}
+                    {notice ? (
+                        <p data-testid="area-repair-notice" className="rounded border border-border bg-card px-3 py-2 text-xs text-muted-foreground">
+                            {notice}
+                        </p>
+                    ) : null}
+                    {stale ? <p className="rounded border border-amber-500/40 bg-amber-500/10 px-3 py-2 text-xs text-amber-700 dark:text-amber-300">输入已变更：当前展示的是上一次提交的结果，不代表当前参数。</p> : null}
+                </>
+            }
+            sidebar={
+                <nav className="flex flex-col gap-1 p-2 text-xs">
+                    <span className="px-2 py-1 font-medium text-foreground">局部重绘</span>
+                    {siblings.map((tool) => (
+                        <Link key={tool.id} to={tool.route} className="rounded px-2 py-1 text-muted-foreground transition hover:bg-accent hover:text-foreground">
+                            {tool.title}
+                        </Link>
+                    ))}
+                    <Link to={`/tools/smart-edit/${AREA_REPAIR_SLUG}`} className="mt-2 px-2 py-1 text-[11px] text-muted-foreground underline-offset-2 hover:underline">
+                        本页路由
+                    </Link>
+                </nav>
+            }
+        >
+            <div data-testid="area-repair-workspace" className="grid min-h-0 flex-1 grid-cols-1 gap-4 overflow-y-auto p-4 xl:grid-cols-[minmax(0,1fr)_340px]">
+                {/* 左：蒙版画布 */}
+                <section className="flex min-w-0 flex-col gap-3">
+                    <div data-testid="mask-toolbar" className="flex flex-wrap items-center gap-2 rounded-lg border border-border bg-card p-2">
+                        <div className="flex items-center gap-1 rounded-md border border-border p-0.5">
+                            <button
+                                type="button"
+                                data-testid="mask-tool-brush"
+                                aria-pressed={state.tool === "brush"}
+                                onClick={() => commit({ tool: "brush" })}
+                                className={cn("inline-flex items-center gap-1 rounded px-2 py-1 text-[11px]", state.tool === "brush" ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:bg-accent")}
+                            >
+                                <Paintbrush className="size-3.5" aria-hidden />
+                                画笔
+                            </button>
+                            <button
+                                type="button"
+                                data-testid="mask-tool-eraser"
+                                aria-pressed={state.tool === "eraser"}
+                                onClick={() => commit({ tool: "eraser" })}
+                                className={cn("inline-flex items-center gap-1 rounded px-2 py-1 text-[11px]", state.tool === "eraser" ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:bg-accent")}
+                            >
+                                <Eraser className="size-3.5" aria-hidden />
+                                橡皮
+                            </button>
+                        </div>
+
+                        <label className="flex items-center gap-2 text-[11px] text-muted-foreground">
+                            大小
+                            <input
+                                type="range"
+                                data-testid="mask-brush-size"
+                                min={MASK_BRUSH_MIN}
+                                max={MASK_BRUSH_MAX}
+                                value={state.brushSize}
+                                onChange={(event) => commit({ brushSize: clampBrushSize(event.target.value) })}
+                                className="w-24 accent-primary"
+                                aria-label="画笔大小"
+                            />
+                            <input
+                                type="number"
+                                min={MASK_BRUSH_MIN}
+                                max={MASK_BRUSH_MAX}
+                                value={state.brushSize}
+                                onChange={(event) => commit({ brushSize: clampBrushSize(event.target.value) })}
+                                className="w-14 rounded border border-border bg-background px-1.5 py-0.5 text-[11px] text-foreground"
+                                aria-label="画笔大小像素"
+                            />
+                            像素
+                        </label>
+
+                        <label className="flex items-center gap-2 text-[11px] text-muted-foreground">
+                            羽化
+                            <input
+                                type="range"
+                                data-testid="mask-feather"
+                                min={MASK_FEATHER_MIN}
+                                max={MASK_FEATHER_MAX}
+                                value={state.feather}
+                                onChange={(event) => commit({ feather: clampFeather(event.target.value) })}
+                                className="w-20 accent-primary"
+                                aria-label="羽化"
+                            />
+                            <span className="tabular-nums text-foreground">{state.feather}</span>
+                        </label>
+
+                        <label className="flex items-center gap-1.5 text-[11px] text-muted-foreground">
+                            <input type="checkbox" data-testid="mask-auto-expand" checked={state.autoExpand} onChange={(event) => commit({ autoExpand: event.target.checked })} className="size-3.5 accent-primary" />
+                            自动扩大选择区域
+                        </label>
+
+                        <button
+                            type="button"
+                            data-testid="mask-invert"
+                            aria-pressed={state.inverted}
+                            disabled={historyLabel.strokeCount === 0}
+                            onClick={() => commit({ inverted: !state.inverted })}
+                            className={cn("rounded border border-border px-2 py-1 text-[11px] disabled:opacity-40", state.inverted ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:bg-accent")}
+                        >
+                            反选
+                        </button>
+                        <button
+                            type="button"
+                            data-testid="mask-undo"
+                            disabled={!historyLabel.canUndo}
+                            onClick={() => applyHistory(undoMaskStroke(historyRef.current))}
+                            className="inline-flex items-center gap-1 rounded border border-border px-2 py-1 text-[11px] text-muted-foreground transition hover:bg-accent disabled:opacity-40"
+                        >
+                            <Undo2 className="size-3.5" aria-hidden />
+                            撤销
+                        </button>
+                        <button
+                            type="button"
+                            data-testid="mask-redo"
+                            disabled={!historyLabel.canRedo}
+                            onClick={() => applyHistory(redoMaskStroke(historyRef.current))}
+                            className="inline-flex items-center gap-1 rounded border border-border px-2 py-1 text-[11px] text-muted-foreground transition hover:bg-accent disabled:opacity-40"
+                        >
+                            <Redo2 className="size-3.5" aria-hidden />
+                            重做
+                        </button>
+                        <button
+                            type="button"
+                            data-testid="mask-reset"
+                            disabled={historyLabel.strokeCount === 0}
+                            onClick={() => applyHistory(resetMaskHistory(historyRef.current))}
+                            className="inline-flex items-center gap-1 rounded border border-border px-2 py-1 text-[11px] text-muted-foreground transition hover:bg-accent disabled:opacity-40"
+                        >
+                            <RotateCcw className="size-3.5" aria-hidden />
+                            重置
+                        </button>
+
+                        <span data-testid="mask-coverage" className="ml-auto text-[11px] text-muted-foreground">
+                            {historyLabel.strokeCount} 笔 · 覆盖 {coverageLabel}
+                        </span>
+                    </div>
+
+                    <div className="relative overflow-hidden rounded-lg border border-border bg-[repeating-conic-gradient(#00000008_0%_25%,transparent_0%_50%)] bg-[length:16px_16px]">
+                        {image ? (
+                            <div className="relative">
+                                <img src={image.dataUrl} alt={`待重绘原图 ${image.name}`} className="block h-auto w-full select-none" draggable={false} />
+                                <canvas
+                                    ref={canvasRef}
+                                    data-testid="mask-canvas"
+                                    onPointerDown={onPointerDown}
+                                    onPointerMove={onPointerMove}
+                                    onPointerUp={endStroke}
+                                    onPointerCancel={endStroke}
+                                    onPointerLeave={(event) => {
+                                        if (event.buttons === 0) endStroke();
+                                    }}
+                                    className={cn("absolute inset-0 size-full touch-none", busy ? "cursor-wait" : "cursor-crosshair")}
+                                    aria-label="蒙版涂抹画布"
+                                />
+                            </div>
+                        ) : (
+                            <div className="flex min-h-[320px] flex-col items-center justify-center gap-2 p-6 text-center text-xs text-muted-foreground">
+                                <p>上传图片后即可在图上涂抹需要重绘的区域</p>
+                                <p>涂抹范围会作为蒙版随原图一起发给模型</p>
+                            </div>
+                        )}
+                    </div>
+                </section>
+
+                {/* 右：上传 / 描述 / 结果 */}
+                <aside className="flex min-w-0 flex-col gap-3">
+                    <div className="rounded-lg border border-border bg-card p-3">
+                        <ToolAssetInput
+                            toolId={TOOL_ID}
+                            title="上传图片"
+                            maxCount={1}
+                            disabled={busy}
+                            onChange={(_ids, records) => {
+                                const record = records[records.length - 1];
+                                if (record) void adoptImage(record);
+                            }}
+                        />
+                        {image ? (
+                            <p className="mt-2 truncate text-[11px] text-muted-foreground">
+                                {image.name} · {image.width}×{image.height}
+                            </p>
+                        ) : null}
+                    </div>
+
+                    <div className="rounded-lg border border-border bg-card p-3">
+                        <label htmlFor="area-repair-prompt" className="flex items-center justify-between text-xs font-medium text-foreground">
+                            <span>
+                                重绘描述 <span className="text-destructive">*</span>
+                            </span>
+                            <span className="text-[11px] font-normal text-muted-foreground tabular-nums">
+                                {prompt.length} / {AREA_REPAIR_PROMPT_MAX}
+                            </span>
+                        </label>
+                        <textarea
+                            id="area-repair-prompt"
+                            data-testid="area-repair-prompt"
+                            value={prompt}
+                            maxLength={AREA_REPAIR_PROMPT_MAX}
+                            disabled={busy}
+                            onChange={(event) => {
+                                const next = event.target.value.slice(0, AREA_REPAIR_PROMPT_MAX);
+                                promptRef.current = next;
+                                setPrompt(next);
+                                persist(stateRef.current);
+                            }}
+                            placeholder="例如：把涂抹区域换成米色针织沙发，保留原有光影和地面阴影"
+                            className="mt-2 h-24 w-full resize-y rounded border border-border bg-background px-2 py-1.5 text-xs text-foreground outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                        />
+
+                        <p className="mt-3 text-xs font-medium text-foreground">生成张数</p>
+                        <div className="mt-1.5 flex items-center gap-1" data-testid="area-repair-output-num">
+                            {AREA_REPAIR_OUTPUT_OPTIONS.map((option) => (
+                                <button
+                                    key={option}
+                                    type="button"
+                                    disabled={busy}
+                                    aria-pressed={outputNum === option}
+                                    onClick={() => {
+                                        const next = normalizeOutputNum(option);
+                                        outputRef.current = next;
+                                        setOutputNum(next);
+                                        persist(stateRef.current);
+                                    }}
+                                    className={cn("min-w-8 rounded border border-border px-2 py-1 text-[11px] transition", outputNum === option ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:bg-accent")}
+                                >
+                                    {option}
+                                </button>
+                            ))}
+                        </div>
+
+                        {issues.length > 0 ? (
+                            <ul data-testid="area-repair-issues" className="mt-2 space-y-0.5 text-[11px] text-amber-600 dark:text-amber-400">
+                                {issues.map((issue) => (
+                                    <li key={issue.field}>{issue.message}</li>
+                                ))}
+                            </ul>
+                        ) : null}
+                    </div>
+
+                    {latestTask ? (
+                        <div className="rounded-lg border border-border bg-card p-2">
+                            <TaskStatusPanel task={latestTask} onRetry={() => void retryUnit()} />
+                        </div>
+                    ) : null}
+
+                    <div className="rounded-lg border border-border bg-card p-3">
+                        <div className="flex items-center justify-between">
+                            <p className="text-xs font-medium text-foreground">结果</p>
+                            <span className="text-[11px] text-muted-foreground">{outcomes.length} 张</span>
+                        </div>
+                        {outcomes.length === 0 ? (
+                            <p className="mt-2 text-[11px] text-muted-foreground">还没有结果。完成涂抹 + 描述后点「立即生成」。</p>
+                        ) : (
+                            <ul data-testid="area-repair-results" className="mt-2 grid grid-cols-2 gap-2">
+                                {outcomes.map((outcome) => (
+                                    <li key={outcome.unitId} className="overflow-hidden rounded border border-border">
+                                        {outcome.status === "succeeded" && (outcome.image?.dataUrl || outcome.image?.url) ? (
+                                            <a href={outcome.image.dataUrl || outcome.image.url} target="_blank" rel="noreferrer" className="block">
+                                                <img src={outcome.image.dataUrl || outcome.image.url} alt={`结果 ${outcome.index}`} className="block h-auto w-full" />
+                                            </a>
+                                        ) : (
+                                            <div className="flex h-20 items-center justify-center px-2 text-center text-[10px] text-muted-foreground">{outcome.status === "cancelled" ? "已取消" : (outcome.error?.message ?? "未返回图片")}</div>
+                                        )}
+                                        <p className="border-t border-border px-1.5 py-1 text-[10px] text-muted-foreground">
+                                            #{outcome.index} · {outcome.status}
+                                        </p>
+                                    </li>
+                                ))}
+                            </ul>
+                        )}
+                    </div>
+                </aside>
+            </div>
+        </ToolShell>
+    );
+}
+
+export default MaskWorkspace;
