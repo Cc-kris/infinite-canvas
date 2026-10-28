@@ -1,4 +1,4 @@
-import { useMemo, type ReactNode } from "react";
+import { useCallback, useMemo, type ReactNode } from "react";
 import { useTranslation } from "react-i18next";
 import { Navigate, useParams } from "react-router-dom";
 
@@ -7,12 +7,46 @@ import { BatchPage } from "@/features/tools/batch-page";
 import { ToolSidebar, type ToolSidebarCategory } from "@/components/tools/tool-sidebar";
 import NotFound from "@/pages/not-found";
 
+// Registered tool workspaces (TASK-004..TASK-048). Static imports on purpose: the integration map
+// must be exhaustive and type-checked, and a broken export has to fail the build instead of
+// silently degrading a tool page back to the specification placeholder.
+import { ProductImageSuiteWorkspace, ProductMarketMaterialWorkspace } from "@/components/tools/workspaces/suite";
+import { DressSuiteWorkspace } from "@/components/tools/workspaces/dress-suite";
+import { ColorV2Workspace } from "@/components/tools/workspaces/color-v2";
+import { TranslateWorkspace } from "@/components/tools/workspaces/translate";
+import { ScaleUpWorkspace, ProductRefineWorkspace } from "@/components/tools/workspaces/enhance";
+import { OutpaintWorkspace } from "@/components/tools/workspaces/outpaint";
+import { MaskWorkspace, RemovePenWorkspace } from "@/components/tools/workspaces/mask";
+import { ChangeColorWorkspace } from "@/components/tools/workspaces/color";
+import { CropWorkspace } from "@/components/tools/workspaces/crop";
+import { FixColorWorkspace, HandRepairWorkspace } from "@/components/tools/workspaces/repair";
+import { PrintingRepairWorkspace } from "@/components/tools/workspaces/printing-repair";
+import { SceneWorkspace, FissionLinkWorkspace, SceneTransferWorkspace } from "@/components/tools/workspaces/scene";
+import { ProductSceneWorkspace } from "@/components/tools/workspaces/scene-fission";
+import { ReplaceGoodsWorkspace } from "@/components/tools/workspaces/replace";
+import { HandheldGoodsWorkspace } from "@/components/tools/workspaces/handheld-goods";
+import { DressingWorkspace } from "@/components/tools/workspaces/dressing";
+import { AiPostureWorkspace, AiPoseGeneratorWorkspace } from "@/components/tools/workspaces/model";
+import { AiWearableWorkspace, MaterialUpperBodyWorkspace } from "@/components/tools/workspaces/dress";
+import { PodMaterialWorkspace, SdsDesignWorkspace } from "@/components/tools/workspaces/pod";
+import { OrnamentTextWorkspace } from "@/components/tools/workspaces/text";
+import { PrintExtractWorkspace } from "@/components/tools/workspaces/extract";
+import { AiDressingXsyWorkspace } from "@/components/tools/workspaces/dressing-xsy";
+import { ImageTextEditWorkspace } from "@/components/tools/workspaces/image-text-edit";
+import { DesignerWorkspace } from "@/components/tools/workspaces/designer";
+import { ImageToVideoWorkspace } from "@/components/tools/workspaces/image-to-video";
+import { SaleVideoWorkspace, VideoConcatWorkspace, AiVideoEditingWorkspace, VideoReplicationWorkspace } from "@/components/tools/workspaces/video";
+import { VideoTranslationWorkspace } from "@/components/tools/workspaces/video-translation";
+
+import { toolSpecs } from "./registry";
+
 /**
  * Route layer for the LinkFox-style tool workspace.
  *
  * Scope of TASK-003: canonical routes, ToolShell, sidebar, responsive + legacy compatibility.
- * Tool execution (upload/draft/task/result) belongs to TASK-004..TASK-048. Until an adapter is
- * wired the workspace renders a specification-driven placeholder that never claims a result.
+ * Tool execution (upload/draft/task/result) belongs to TASK-004..TASK-048; TASK-INTEGRATE binds
+ * every registry id to its real workspace through `TOOL_WORKSPACES`. A tool without a real
+ * exported workspace keeps the specification-driven placeholder, which never claims a result.
  */
 
 export const TOOL_CATEGORIES = ["ecommerce-suite", "smart-edit", "batch-generate", "product-design", "ai-video"] as const;
@@ -263,6 +297,139 @@ function SpecRow({ label, value }: { label: string; value: string }) {
     );
 }
 
+/* ============================== workspace integration ============================== */
+
+/**
+ * Every tool id that ships a real exported workspace. Kept as a literal union so the map below is
+ * exhaustive: removing an entry is a type error, and `tool-page.integration.test.tsx` asserts this
+ * list equals the registry ids one-for-one (no tool silently loses its workspace).
+ */
+export const TOOL_WORKSPACE_IDS = [
+    "PRODUCT_IMAGE_SUITE",
+    "DRESS_WEAR_SET",
+    "CHANGE_COLOR_V2",
+    "IMAGE_TRANSLATION",
+    "SCALE_UP",
+    "AI_OUTPAINTING",
+    "AREA_REPAIR",
+    "REMOVE_PEN",
+    "CHANGE_COLOR",
+    "IMAGE_CROP",
+    "PRODUCT_REFINE",
+    "FIX_COLOR",
+    "PRINTING_REPAIR",
+    "HAND_REPAIR",
+    "NEW_REPLACE_BG_V2",
+    "REPLACE_GOODS",
+    "PRODUCT_SCENE",
+    "HANDHELD_GOODS",
+    "AI_DRESSING_V2",
+    "AI_POSTURE",
+    "AI_WEARABLE",
+    "AI_TEXT",
+    "ORNAMENT_TEXT",
+    "SDS_DESIGN",
+    "PRINT_EXTRACT",
+    "AI_POSE_GENERATOR",
+    "AI_DRESSING_XSY",
+    "FISSION_LINK",
+    "IMAGE_TEXT_EDIT",
+    "MATERIAL_UPPER_BODY",
+    "NEW_DESIGNER",
+    "PRODUCT_MARKET_MATERIAL",
+    "SCENE_TRANSFER",
+    "IMAGE_TO_VIDEO",
+    "SALE_VIDEO",
+    "VIDEO_REPLICATION",
+    "AI_VIDEO_EDITING",
+    "VIDEO_TRANSLATION",
+    "VIDEO_CONCAT",
+] as const;
+
+export type ToolWorkspaceId = (typeof TOOL_WORKSPACE_IDS)[number];
+
+/**
+ * Renders the workspace body. Implemented as a plain factory (not a component) so the route layer
+ * can pick it at runtime; factories must only return elements, never call hooks themselves.
+ */
+export type ToolWorkspaceRenderer = (context: { toolId: ToolWorkspaceId }) => ReactNode;
+
+/**
+ * NEW_DESIGNER is a host: the designer validates `open` plus both callbacks before it may compose.
+ * The tool page owns no persistence of its own, so the callbacks stay inert here — the designer
+ * workspace still performs the real canvas composition, upload and draft restore on its own.
+ */
+function NewDesignerHostWorkspace() {
+    const handleClose = useCallback(() => undefined, []);
+    const handleDone = useCallback(() => undefined, []);
+    return <DesignerWorkspace open onClose={handleClose} onDone={handleDone} />;
+}
+
+/** Tool id → real workspace. Static and exhaustive; TASK-INTEGRATE. */
+export const TOOL_WORKSPACES: Record<ToolWorkspaceId, ToolWorkspaceRenderer> = {
+    PRODUCT_IMAGE_SUITE: () => <ProductImageSuiteWorkspace />,
+    DRESS_WEAR_SET: ({ toolId }) => <DressSuiteWorkspace toolId={toolId} />,
+    CHANGE_COLOR_V2: () => <ColorV2Workspace />,
+    IMAGE_TRANSLATION: () => <TranslateWorkspace />,
+    SCALE_UP: () => <ScaleUpWorkspace />,
+    AI_OUTPAINTING: () => <OutpaintWorkspace />,
+    AREA_REPAIR: () => <MaskWorkspace />,
+    REMOVE_PEN: () => <RemovePenWorkspace />,
+    CHANGE_COLOR: () => <ChangeColorWorkspace />,
+    IMAGE_CROP: () => <CropWorkspace />,
+    PRODUCT_REFINE: () => <ProductRefineWorkspace />,
+    FIX_COLOR: () => <FixColorWorkspace />,
+    PRINTING_REPAIR: () => <PrintingRepairWorkspace />,
+    HAND_REPAIR: () => <HandRepairWorkspace />,
+    NEW_REPLACE_BG_V2: () => <SceneWorkspace />,
+    REPLACE_GOODS: () => <ReplaceGoodsWorkspace />,
+    PRODUCT_SCENE: ({ toolId }) => <ProductSceneWorkspace toolId={toolId} />,
+    HANDHELD_GOODS: () => <HandheldGoodsWorkspace />,
+    AI_DRESSING_V2: () => <DressingWorkspace />,
+    AI_POSTURE: () => <AiPostureWorkspace />,
+    AI_WEARABLE: ({ toolId }) => <AiWearableWorkspace toolId={toolId} />,
+    AI_TEXT: () => <PodMaterialWorkspace />,
+    ORNAMENT_TEXT: () => <OrnamentTextWorkspace />,
+    SDS_DESIGN: () => <SdsDesignWorkspace />,
+    PRINT_EXTRACT: () => <PrintExtractWorkspace />,
+    AI_POSE_GENERATOR: () => <AiPoseGeneratorWorkspace />,
+    AI_DRESSING_XSY: ({ toolId }) => <AiDressingXsyWorkspace toolId={toolId} />,
+    FISSION_LINK: () => <FissionLinkWorkspace />,
+    IMAGE_TEXT_EDIT: () => <ImageTextEditWorkspace />,
+    MATERIAL_UPPER_BODY: ({ toolId }) => <MaterialUpperBodyWorkspace toolId={toolId} />,
+    NEW_DESIGNER: () => <NewDesignerHostWorkspace />,
+    PRODUCT_MARKET_MATERIAL: () => <ProductMarketMaterialWorkspace />,
+    SCENE_TRANSFER: ({ toolId }) => <SceneTransferWorkspace toolId={toolId} />,
+    IMAGE_TO_VIDEO: ({ toolId }) => <ImageToVideoWorkspace toolId={toolId} />,
+    SALE_VIDEO: () => <SaleVideoWorkspace />,
+    VIDEO_REPLICATION: () => <VideoReplicationWorkspace />,
+    AI_VIDEO_EDITING: () => <AiVideoEditingWorkspace />,
+    VIDEO_TRANSLATION: () => <VideoTranslationWorkspace />,
+    VIDEO_CONCAT: () => <VideoConcatWorkspace />,
+};
+
+const REGISTRY_SPECS = new Map(toolSpecs.map((spec) => [spec.id, spec]));
+
+/**
+ * A workspace is bound to the registry's canonical ToolSpec, not to a bare id from URL params.
+ * The entry must agree with the registry on id, slug, category and makeType; an entry that only
+ * looks similar (an injected/partial catalog) keeps the spec placeholder instead of mounting a
+ * workspace whose adapter would then disagree with the route it was rendered on.
+ */
+export function isRegistryBackedEntry(entry?: ToolCatalogEntry): entry is ToolCatalogEntry {
+    if (!entry) return false;
+    const spec = REGISTRY_SPECS.get(entry.id);
+    if (!spec) return false;
+    return spec.slug === entry.slug && spec.category === entry.category && String(spec.makeType) === String(entry.makeType);
+}
+
+/** Real workspace for an entry, or undefined when the tool still needs the placeholder. */
+export function resolveToolWorkspace(entry?: ToolCatalogEntry): ToolWorkspaceRenderer | undefined {
+    if (!isRegistryBackedEntry(entry)) return undefined;
+    const id = entry.id as ToolWorkspaceId;
+    return Object.prototype.hasOwnProperty.call(TOOL_WORKSPACES, id) ? TOOL_WORKSPACES[id] : undefined;
+}
+
 function WorkspacePlaceholder({ entry, requestedSlug, specPending, category }: { entry?: ToolCatalogEntry; requestedSlug: string; specPending: boolean; category: ToolCategorySlug }) {
     return (
         <div className="flex flex-col gap-4" data-testid="tool-workspace-placeholder" data-spec-pending={specPending ? "true" : "false"}>
@@ -378,6 +545,7 @@ export function ToolRouteView({ catalog, category, toolId }: ToolRouteViewProps)
             return <NotFound />;
         case "tool": {
             const title = match.entry?.title ?? match.requestedSlug;
+            const workspace = resolveToolWorkspace(match.entry);
             return (
                 <ToolShell
                     title={title}
@@ -392,7 +560,13 @@ export function ToolRouteView({ catalog, category, toolId }: ToolRouteViewProps)
                     }
                     sidebar={sidebar}
                 >
-                    <WorkspacePlaceholder entry={match.entry} requestedSlug={match.requestedSlug} specPending={match.specPending} category={match.category} />
+                    {workspace && match.entry ? (
+                        <div data-testid="tool-workspace" data-workspace="ready" data-tool-id={match.entry.id} className="min-w-0">
+                            {workspace({ toolId: match.entry.id as ToolWorkspaceId })}
+                        </div>
+                    ) : (
+                        <WorkspacePlaceholder entry={match.entry} requestedSlug={match.requestedSlug} specPending={match.specPending} category={match.category} />
+                    )}
                 </ToolShell>
             );
         }
