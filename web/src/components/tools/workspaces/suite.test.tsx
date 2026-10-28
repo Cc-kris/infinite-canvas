@@ -21,6 +21,9 @@ const { describe, expect, test } = (await import("bun:test" as string)) as {
 const values = new Map<string, string>();
 Object.defineProperty(globalThis, "localStorage", {
     configurable: true,
+    // writable 必须为 true：其它测试文件会直接给自己装 localStorage 桩，
+    // 只读属性会让它们抛 "Attempted to assign to readonly property"。
+    writable: true,
     value: {
         getItem: (key: string) => values.get(key) ?? null,
         setItem: (key: string, value: string) => void values.set(key, value),
