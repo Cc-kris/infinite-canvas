@@ -51,7 +51,7 @@ nohup /opt/homebrew/bin/node scripts/real-acceptance/run-b2g1.mjs AI_TEXT > /tmp
 # 产物：../docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/B2G1/<TOOL>/
 ```
 
-每个工具目录包含：`raw-upstream-0.json`（上游全量响应）、`result-0.png`（解码字节）、`downloaded-*`（下载动作的真实文件）、`restored-after-reload.png`（刷新后面板）、`task-snapshot.json`（localStorage 快照）、`run-b2g1.json`（结构化回执：字节/sha256/尺寸/assetId/canvasId/storageKey/verdict）。
+每个工具目录包含：`raw-upstream-0.json`（上游全量响应）、`result-0.png`（解码字节）、`downloaded-*`（下载动作的真实文件）、`restored-after-reload.png` + `step-5-after-reload.png`（刷新后面板）、`task-snapshot.json`（localStorage 快照）、`result_dom.json`（结果卡 DOM 结构）、`step-1..4*.png`（提交/结果/存资产/发画布截图）、`run-b2g1.json`（结构化回执：字节/sha256/尺寸/assetId/canvasId/storageKey/verdict）。
 
 断言口径（三条同时成立才算 PASS）：
 1. `sha256(解码字节) === sha256(下载文件)`；
