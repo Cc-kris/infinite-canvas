@@ -152,3 +152,35 @@ describe("局部重绘结果动作", () => {
         expect(areaRepairDownloadName("x.jpg", 2)).toBe("x-repainted-2.png");
     });
 });
+
+/** 有 DOM 才渲染结果区，所以静态渲染只能验证「没有结果时不出现动作、不编造进行中」。 */
+async function renderRemovePenWorkspace(): Promise<string> {
+    const React = await import("react");
+    const { MemoryRouter } = await import("react-router");
+    const { RemovePenWorkspace } = await import("./mask");
+    return renderToStaticMarkup(
+        React.createElement(MemoryRouter, null, React.createElement(RemovePenWorkspace as never)) as ReactElement,
+    );
+}
+
+describe("局部消除结果动作", () => {
+    test("没有真实结果时不给 存库 / 发画布 / 下载，也不伪造进行中", async () => {
+        const html = await renderRemovePenWorkspace();
+        for (const testId of ["remove-pen-save", "remove-pen-send", "remove-pen-download"]) {
+            expect(html).not.toContain(`data-testid="${testId}"`);
+        }
+        expect(html).not.toContain("已存入资产库");
+        expect(html).not.toContain("已发送画布");
+        expect(html).toContain("还没有结果");
+    });
+
+    test("未上传原图时提交阻塞并给出原因", async () => {
+        const html = await renderRemovePenWorkspace();
+        const submitDisabled =
+            /data-testid="remove-pen-submit"[^>]*disabled=""/.test(html) ||
+            /disabled=""[^>]*data-testid="remove-pen-submit"/.test(html);
+        expect(submitDisabled).toBe(true);
+        expect(html).toContain("请先上传需要消除的图片");
+        expect(html).not.toContain("消除中");
+    });
+});
