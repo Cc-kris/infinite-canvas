@@ -1,0 +1,38 @@
+{
+  "toolId": "REMOVE_PEN",
+  "status": "VERIFIED",
+  "capturedAt": "2026-10-28T17:21:48Z",
+  "route": "/tools/smart-edit/remove-pen",
+  "fixture": "product-watch.jpg（1024x744）",
+  "provenance": "真实上游任务（2026-10-28T16:11Z 提交，34s succeeded，mask=1 笔 7.6% 区域），产物从 OSS 下载后本地校验。",
+  "result": {
+    "src": "https://oss-us.dimenoss.com/images/2026/10/29/1793203892_6c7955f59b8ec82c2cc396916a3dffef.png",
+    "bytes": 850799,
+    "sha256": "67d5d6a637518af3e0aa9147bfc0f855b350a244b3345b93ab05d3faa223f392",
+    "dims": {
+      "w": 1024,
+      "h": 1024
+    },
+    "downloadName": "product-watch-removed.png"
+  },
+  "actions": {
+    "save": {
+      "feedback": "已存入资产库（K-a7Ae-u）",
+      "assetId": "K-a7Ae-u"
+    },
+    "send": {
+      "feedback": "已发送画布（项目 9PtWcnwK · 节点 image-17）",
+      "projectId": "9PtWcnwK",
+      "nodeId": "image-17"
+    }
+  },
+  "fix": "mask.tsx 的 REMOVE_PEN 结果卡新增动作条（存入资产库 / 发送画布 / 下载），复用 tool-result-actions 的真实副作用",
+  "crossChecks": [
+    "打开 /canvas/9PtWcnwK → 画布库「REMOVE_PEN 结果 · 1 个节点」→ 进入项目确认 1 张真实图片节点",
+    "DOM 断言 remove-pen-save/send/result-feedback 均渲染可用"
+  ],
+  "knownLimits": [
+    "资产 K-a7Ae-u 已被 image cleanup 任务清理（本轮复查时不在资产库），资产 ID 回执为当时真实值"
+  ],
+  "uncovered": []
+}
