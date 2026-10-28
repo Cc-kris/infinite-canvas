@@ -384,7 +384,7 @@ describe("FIX_COLOR 工作区渲染", () => {
         const { RepairWorkspace } = await import("@/components/tools/workspaces/repair");
         const Repair = RepairWorkspace as unknown as (props: { toolId?: string }) => React.ReactElement;
         const html = renderToStaticMarkup(
-            React.createElement(MemoryRouter, null, React.createElement(Repair, { toolId: "HAND_REPAIR" })),
+            React.createElement(MemoryRouter, null, React.createElement(Repair, { toolId: "PRINTING_REPAIR" })),
         );
         expect(html).toContain("尚未接入");
         expect(html).not.toContain("fix-color-submit");
