@@ -13,6 +13,29 @@ import type { CanvasNodeMetadata } from "@/types/canvas";
 
 export type ToolResultView = "empty" | "running" | "succeeded" | "failed" | "cancelled" | "unknown";
 
+/**
+ * 结果卡单卡动作的 pending key 形如 `download-3` / `save-0` / `canvas-12` / `retry-10`。
+ *
+ * 曾经用 `pending.endsWith("-" + index)` 判定某张卡是否 busy，`retry-10` 会同时命中第 0 张
+ * （`"retry-10".endsWith("-0") === true`），导致一张卡在忙、另一张被误锁死。这里按最后一段
+ * 精确解析索引，busy 只落真正被点击的那张。
+ */
+export type ResultActionPending = { action: string; index: number };
+
+export function parseResultActionKey(pending: string | null | undefined): ResultActionPending | null {
+    if (!pending) return null;
+    const at = pending.lastIndexOf("-");
+    if (at <= 0 || at === pending.length - 1) return null;
+    const index = Number(pending.slice(at + 1));
+    if (!Number.isInteger(index) || index < 0) return null;
+    return { action: pending.slice(0, at), index };
+}
+
+export function isItemPending(pending: string | null | undefined, index: number): boolean {
+    const parsed = parseResultActionKey(pending);
+    return Boolean(parsed && parsed.index === index);
+}
+
 export function resolveToolResultView(task?: Pick<ToolTask, "status"> | null): ToolResultView {
     if (!task) return "empty";
     switch (task.status) {
@@ -115,6 +138,81 @@ export async function downloadResultItem(
     if (!source) throw new ToolResultActionError("payload-missing", "上游没有返回可下载的结果文件。");
     saveAs(source, fileName);
     return fileName;
+}
+
+/**
+ * 批量下载：多张结果必须「一次手势一次下载」，否则浏览器会拦截第 2 个及之后的自动下载
+ * （实测：连续三次 saveAs 只落地第一个文件，界面却以为都成功了 —— 这就是假成功）。
+ *
+ * 做法：先把每张结果真正取成字节（blob / dataUrl / url 都归一为 Blob），
+ * 再多张打包成一个 ZIP 下载；只有一张时保持单文件下载。
+ * 单张失败不静默：返回 skipped 明细，由调用方展示真实原因；绝不生成占位文件。
+ */
+export type DownloadBatchResult = {
+    mode: "single" | "zip";
+    /** 真正取到字节并写入下载物的文件名。 */
+    downloaded: string[];
+    /** 取字节失败的条目（含原因），不隐瞒。 */
+    skipped: Array<{ index: number; reason: string }>;
+    /** mode=zip 时的压缩包文件名。 */
+    fileName?: string;
+};
+
+async function resolveResultBlob(item: ToolTaskResultItem): Promise<Blob> {
+    const source = item.blob ?? item.dataUrl ?? item.url;
+    if (!source) throw new ToolResultActionError("payload-missing", "上游没有返回可下载的结果文件。");
+    if (typeof source !== "string") return source;
+    if (source.startsWith("data:")) {
+        const [head, body] = source.split(",", 2);
+        const mime = head.slice(5).split(";")[0] || item.mimeType || "application/octet-stream";
+        if (head.includes(";base64")) {
+            const binary = atob(body);
+            const bytes = new Uint8Array(binary.length);
+            for (let i = 0; i < binary.length; i += 1) bytes[i] = binary.charCodeAt(i);
+            return new Blob([bytes], { type: mime });
+        }
+        return new Blob([decodeURIComponent(body)], { type: mime });
+    }
+    const response = await fetch(source);
+    if (!response.ok) throw new ToolResultActionError("payload-missing", `结果文件读取失败（HTTP ${response.status}）`);
+    return response.blob();
+}
+
+export async function downloadResultItems(
+    items: readonly ToolTaskResultItem[],
+    options: { toolId: string; indexes?: readonly number[]; deps?: DownloadDeps } = { toolId: "tool" },
+): Promise<DownloadBatchResult> {
+    const indexes = options.indexes ?? items.map((_, index) => index);
+    const saveAs = options.deps?.saveAs ?? (await import("file-saver")).saveAs;
+    const batch: DownloadBatchResult = { mode: "single", downloaded: [], skipped: [] };
+    const files: Array<{ name: string; data: Blob }> = [];
+    for (const index of indexes) {
+        const item = items[index];
+        if (!item) {
+            batch.skipped.push({ index, reason: "结果项不存在" });
+            continue;
+        }
+        try {
+            assertResultPayload(item);
+            const data = await resolveResultBlob(item);
+            files.push({ name: buildResultFileName(options.toolId, item, index), data });
+            batch.downloaded.push(files[files.length - 1].name);
+        } catch (error) {
+            batch.skipped.push({ index, reason: error instanceof Error ? error.message : "下载失败" });
+        }
+    }
+    if (files.length === 0) return batch;
+    if (files.length === 1) {
+        saveAs(files[0].data, files[0].name);
+        return batch;
+    }
+    const { createZip } = await import("@/lib/zip");
+    const zip = await createZip(files.map((file) => ({ name: file.name, data: file.data })));
+    const fileName = `${options.toolId.toLowerCase().replace(/_/g, "-")}-results-${files.length}.zip`;
+    saveAs(zip, fileName);
+    batch.mode = "zip";
+    batch.fileName = fileName;
+    return batch;
 }
 
 /* ---------------- 保存到资产库 ---------------- */

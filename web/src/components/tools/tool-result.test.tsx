@@ -2,6 +2,7 @@ import type { ReactElement } from "react";
 import { renderToStaticMarkup } from "react-dom/server";
 
 import type { ToolTask, ToolTaskStatus } from "@/services/api/tools/task-machine";
+import { readZip } from "@/lib/zip";
 
 type Expectation = {
     toBe: (expected: unknown) => void;
@@ -39,7 +40,7 @@ afterAll(() => {
     else Reflect.deleteProperty(globalThis, "localStorage");
 });
 
-const { ToolResult, resolveToolResultView, resultItems, summarizeResultItems, buildResultFileName, nextCanvasNodePosition, assertResultPayload, saveResultItemToAssets, downloadResultItem, sendResultItemToCanvas, ToolResultActionError } = await import("./tool-result");
+const { ToolResult, resolveToolResultView, resultItems, summarizeResultItems, buildResultFileName, nextCanvasNodePosition, assertResultPayload, saveResultItemToAssets, downloadResultItem, downloadResultItems, sendResultItemToCanvas, ToolResultActionError, parseResultActionKey, isItemPending } = await import("./tool-result");
 const { TaskStatusPanel, taskStatusMeta, formatElapsed, describeTaskTiming, describeTaskNotice, TASK_STATUS_META } = await import("./task-status");
 const { CapabilityNotice, evaluateToolCapabilities, canSubmitWithCapabilities, TOOL_CAPABILITY_KEYS } = await import("./capability-notice");
 
@@ -247,6 +248,44 @@ describe("ToolResult states", () => {
         expect(html).toContain('data-testid="tool-task-retry"');
         expect(html).not.toContain('data-testid="tool-result-image"');
     });
+
+    test("多结果时给出「全部下载」，单结果/全丢图时不给", () => {
+        const multi = render(<ToolResult task={makeTask({ status: "succeeded", result: { items: [imageItem, imageItem, videoItem], receivedAt: 1 } })} toolId="AI_OUTPAINTING" />);
+        expect(multi).toContain('data-testid="tool-result-download-all"');
+        expect(multi).toContain("全部下载（3）");
+
+        const single = render(<ToolResult task={makeTask({ status: "succeeded", result: { items: [imageItem], receivedAt: 1 } })} toolId="AI_OUTPAINTING" />);
+        expect(single).not.toContain('data-testid="tool-result-download-all"');
+
+        const droppedAll = render(
+            <ToolResult
+                task={makeTask({
+                    status: "succeeded",
+                    result: { items: [{ id: "a", kind: "image", payloadDropped: true }, { id: "b", kind: "image", payloadDropped: true }], receivedAt: 1 },
+                })}
+                toolId="AI_OUTPAINTING"
+            />,
+        );
+        expect(droppedAll).not.toContain('data-testid="tool-result-download-all"');
+    });
+
+    test("只有传入 onRetryItem 才渲染单张重试，且按钮文案说明只重试这一张", () => {
+        const without = render(<ToolResult task={makeTask({ status: "succeeded", result: { items: [imageItem, videoItem], receivedAt: 1 } })} toolId="AI_OUTPAINTING" />);
+        expect(without).not.toContain('data-testid="tool-result-retry-0"');
+
+        const withRetry = render(
+            <ToolResult
+                task={makeTask({ status: "succeeded", result: { items: [imageItem, videoItem], receivedAt: 1 } })}
+                toolId="AI_OUTPAINTING"
+                onRetryItem={() => undefined}
+                retryItemHint="只重试这一张：会再向上游发起 1 次生成"
+            />,
+        );
+        expect(withRetry).toContain('data-testid="tool-result-retry-0"');
+        expect(withRetry).toContain('data-testid="tool-result-retry-1"');
+        expect(withRetry).toContain("重试这张");
+        expect(withRetry).toContain("只重试这一张");
+    });
 });
 
 async function expectRejects(fn: () => Promise<unknown>, reason: string) {
@@ -267,6 +306,43 @@ describe("real result actions", () => {
         expect(name).toBe("scale-up-result-1.png");
         expect(saved[0].name).toBe("scale-up-result-1.png");
         expect(saved[0].data).toBe(imageItem.dataUrl);
+    });
+
+    test("多张结果打成一次 ZIP 下载（避免浏览器拦截第 2 个下载），按原下标命名，坏项只跳过不伪造文件", async () => {
+        const saved: Array<{ name: string; data: unknown }> = [];
+        const batch = await downloadResultItems(
+            [imageItem, { id: "bad", kind: "image", payloadDropped: true }, { ...imageItem, id: "item-3" }],
+            {
+                toolId: "AI_OUTPAINTING",
+                deps: {
+                    saveAs: (data, fileName) => saved.push({ name: fileName, data }),
+                },
+            },
+        );
+        // 只发出一次下载动作 —— 这正是修复点：三次 saveAs 会被浏览器拦掉后两个
+        expect(saved.length).toBe(1);
+        expect(batch.mode).toBe("zip");
+        expect(batch.fileName).toBe(saved[0].name);
+        expect(saved[0].name).toBe("ai-outpainting-results-2.zip");
+        expect(batch.downloaded).toEqual(["ai-outpainting-result-1.png", "ai-outpainting-result-3.png"]);
+        expect(batch.skipped.length).toBe(1);
+        expect(batch.skipped[0].index).toBe(1);
+
+        // ZIP 里是真的两个文件，不是空壳
+        const entries = await readZip(saved[0].data as Blob);
+        expect(entries.size).toBe(2);
+        expect(entries.has("ai-outpainting-result-1.png")).toBe(true);
+        expect(entries.has("ai-outpainting-result-3.png")).toBe(true);
+    });
+
+    test("只有一张结果时不打包，直接单文件下载", async () => {
+        const saved: Array<{ name: string }> = [];
+        const batch = await downloadResultItems([imageItem], {
+            toolId: "AI_OUTPAINTING",
+            deps: { saveAs: (_data, fileName) => saved.push({ name: fileName }) },
+        });
+        expect(batch.mode).toBe("single");
+        expect(saved.map((entry) => entry.name)).toEqual(["ai-outpainting-result-1.png"]);
     });
 
     test("saves an image into the asset library with real storage keys", async () => {
@@ -370,5 +446,18 @@ describe("real result actions", () => {
                 }),
             "project-not-found",
         );
+    });
+});
+
+describe("单卡 busy 解析", () => {
+    test("按下标精确命中，retry-10 不再串到第 0 张", () => {
+        expect(parseResultActionKey("retry-10")).toEqual({ action: "retry", index: 10 });
+        expect(isItemPending("retry-10", 10)).toBe(true);
+        expect(isItemPending("retry-10", 0)).toBe(false);
+        expect(isItemPending("retry-10", 1)).toBe(false);
+        expect(isItemPending("download-all", 0)).toBe(false);
+        expect(isItemPending(null, 0)).toBe(false);
+        expect(parseResultActionKey("download-all")).toBe(null);
+        expect(parseResultActionKey("save-")).toBe(null);
     });
 });

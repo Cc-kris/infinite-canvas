@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react";
-import { Download, FolderPlus, ImageOff, Images, Loader2, Send, TriangleAlert } from "lucide-react";
+import { Download, DownloadCloud, FolderPlus, ImageOff, Images, Loader2, RotateCcw, Send, TriangleAlert } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import type { ToolTask, ToolTaskResultItem } from "@/services/api/tools/task-machine";
 
 import {
     downloadResultItem,
+    downloadResultItems,
+    isItemPending,
     resolveToolResultView,
     resultItems,
     saveResultItemToAssets,
@@ -56,6 +58,13 @@ export type ToolResultProps = {
     actions?: ToolResultActionOverrides;
     onCancel?: () => void;
     onRetry?: () => void;
+    /**
+     * 单张重试：真实再发一次上游请求，成功后只替换这一格（其余结果不动）。
+     * 未传时不渲染「重试」——不做点了没反应的假按钮。
+     */
+    onRetryItem?: (item: ToolTaskResultItem, index: number) => void | Promise<void>;
+    /** 单张重试的副作用提示（例如「重试会再消耗一次生成」）。 */
+    retryItemHint?: string;
     now?: number;
     className?: string;
     /** 空态标题/说明（默认通用文案；工具页可传原站同款文案）。 */
@@ -63,7 +72,7 @@ export type ToolResultProps = {
     emptyHint?: string;
 };
 
-export function ToolResult({ task, toolId = "tool", title = "生成结果", projectId, projectTitle, actions, onCancel, onRetry, now, className, emptyTitle = "还没有生成结果", emptyHint = "填好参数并提交后，结果会出现在这里，可预览、下载、存入资产库或发送到画布。" }: ToolResultProps) {
+export function ToolResult({ task, toolId = "tool", title = "生成结果", projectId, projectTitle, actions, onCancel, onRetry, onRetryItem, retryItemHint, now, className, emptyTitle = "还没有生成结果", emptyHint = "填好参数并提交后，结果会出现在这里，可预览、下载、存入资产库或发送到画布。" }: ToolResultProps) {
     const view = resolveToolResultView(task);
     const items = resultItems(task);
     const summary = summarizeResultItems(items);
@@ -73,6 +82,8 @@ export function ToolResult({ task, toolId = "tool", title = "生成结果", proj
     const download = actions?.download ?? downloadResultItem;
     const saveToAssets = actions?.saveToAssets ?? saveResultItemToAssets;
     const sendToCanvas = actions?.sendToCanvas ?? sendResultItemToCanvas;
+    const downloadableIndexes = items.map((item, index) => ({ item, index })).filter(({ item }) => !item.payloadDropped && Boolean(item.blob ?? item.dataUrl ?? item.url)).map(({ index }) => index);
+    const canDownloadAll = view === "succeeded" && summary.total > 1 && downloadableIndexes.length > 1;
 
     const run = async (key: string, action: () => Promise<string>) => {
         setPending(key);
@@ -96,6 +107,27 @@ export function ToolResult({ task, toolId = "tool", title = "生成结果", proj
                         共 {summary.total} 个结果{summary.videos > 0 ? ` · 视频 ${summary.videos}` : ""}
                         {summary.images > 0 ? ` · 图片 ${summary.images}` : ""}
                     </span>
+                ) : null}
+                {canDownloadAll ? (
+                    <button
+                        type="button"
+                        disabled={pending !== null}
+                        data-testid="tool-result-download-all"
+                        onClick={() =>
+                            run("download-all", async () => {
+                                const batch = await downloadResultItems(items, { toolId, indexes: downloadableIndexes });
+                                if (!batch.downloaded.length) throw new Error(`全部下载失败：${batch.skipped[0]?.reason ?? "没有可下载的结果"}`);
+                                const failed = batch.skipped.length ? `，${batch.skipped.length} 张失败（${batch.skipped[0].reason}）` : "";
+                                return batch.mode === "zip"
+                                    ? `已打包下载 ${batch.downloaded.length} 张结果（${batch.fileName}）${failed}`
+                                    : `已下载 ${batch.downloaded.length} 张结果${failed}`;
+                            })
+                        }
+                        className="inline-flex items-center gap-1 rounded-md border border-border px-2 py-1 text-[11px] transition hover:bg-accent disabled:cursor-not-allowed disabled:opacity-50"
+                    >
+                        <DownloadCloud aria-hidden="true" className="size-3.5" />
+                        全部下载（{downloadableIndexes.length}）
+                    </button>
                 ) : null}
             </header>
 
@@ -159,6 +191,8 @@ export function ToolResult({ task, toolId = "tool", title = "生成结果", proj
                                 download={download}
                                 saveToAssets={saveToAssets}
                                 sendToCanvas={sendToCanvas}
+                                onRetryItem={onRetryItem}
+                                retryItemHint={retryItemHint}
                                 run={run}
                             />
                         ))}
@@ -191,14 +225,16 @@ type ResultTileProps = {
     download: typeof downloadResultItem;
     saveToAssets: typeof saveResultItemToAssets;
     sendToCanvas: typeof sendResultItemToCanvas;
+    onRetryItem?: (item: ToolTaskResultItem, index: number) => void | Promise<void>;
+    retryItemHint?: string;
     run: (key: string, action: () => Promise<string>) => Promise<void>;
 };
 
-function ResultTile({ item, index, toolId, taskId, projectId, projectTitle, pending, download, saveToAssets, sendToCanvas, run }: ResultTileProps) {
+function ResultTile({ item, index, toolId, taskId, projectId, projectTitle, pending, download, saveToAssets, sendToCanvas, onRetryItem, retryItemHint, run }: ResultTileProps) {
     const blobUrl = useBlobUrl(item.blob);
     const src = item.dataUrl ?? item.url ?? blobUrl;
     const dropped = !src || item.payloadDropped;
-    const busy = pending?.endsWith(`-${index}`) ?? false;
+    const busy = isItemPending(pending, index);
 
     return (
         <li data-testid={`tool-result-item-${index}`} data-kind={item.kind} data-dropped={dropped} className="overflow-hidden rounded-xl border border-border bg-background">
@@ -245,6 +281,24 @@ function ResultTile({ item, index, toolId, taskId, projectId, projectTitle, pend
                     <Send aria-hidden="true" className="size-3.5" />
                     发送画布
                 </button>
+                {onRetryItem ? (
+                    <button
+                        type="button"
+                        disabled={busy}
+                        title={retryItemHint}
+                        onClick={() =>
+                            run(`retry-${index}`, async () => {
+                                await onRetryItem(item, index);
+                                return `第 ${index + 1} 张已重新生成并替换`;
+                            })
+                        }
+                        data-testid={`tool-result-retry-${index}`}
+                        className="inline-flex items-center gap-1 rounded-md border border-border px-2 py-1 text-[11px] transition hover:bg-accent disabled:cursor-not-allowed disabled:opacity-50"
+                    >
+                        <RotateCcw aria-hidden="true" className="size-3.5" />
+                        {busy ? "重试中…" : "重试这张"}
+                    </button>
+                ) : null}
             </div>
         </li>
     );
