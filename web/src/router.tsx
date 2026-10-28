@@ -1,6 +1,7 @@
 import { createBrowserRouter, Outlet } from "react-router-dom";
 
 import { AnalyticsTracker } from "@/components/layout/analytics-tracker";
+import ToolPage from "@/features/tools/tool-page";
 import UserLayout from "@/layouts/user-layout";
 import AssetsPage from "@/pages/assets";
 import CanvasPage from "@/pages/canvas";
@@ -29,6 +30,12 @@ export const router = createBrowserRouter([
             { path: "/canvas", element: <CanvasPage /> },
             { path: "/canvas/:id", element: <CanvasProjectPage /> },
             { path: "/config", element: <ConfigPage /> },
+            // Canonical tool workspace. ToolPage resolves category/tool/batch/legacy/404 itself,
+            // so /tools/:category (default tool), /tools/:category/:toolId and
+            // /tools/batch-generate(+/:batchId) all share one route layer.
+            { path: "/tools", element: <ToolPage /> },
+            { path: "/tools/:category", element: <ToolPage /> },
+            { path: "/tools/:category/:toolId", element: <ToolPage /> },
         ],
     },
     { path: "*", element: <NotFound /> },
