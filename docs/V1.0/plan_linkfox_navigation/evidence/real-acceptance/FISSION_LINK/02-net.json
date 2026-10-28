@@ -1,0 +1,695 @@
+[
+ {
+  "t": 1793196727623,
+  "method": "GET",
+  "url": "/__canvas-hub/state",
+  "status": 200,
+  "resp": "{\"ok\":true,\"localHub\":true,\"server\":{\"running\":true,\"url\":\"http://127.0.0.1:17371\",\"token\":\"6076e31f4497025ea74106480193e2f29e34\",\"error\":\"\"},\"runtime\":\"codex\",\"mode\":\"runtime\",\"connecting\":null,\"runtimes\":[{\"id\":\"claude\",\"label\":\"Claude Code\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/claude\",\"path\":\"/opt/homebrew/bin/claude\",\"customPath\":\"\",\"desktop\":false,\"desktopPath\":\"\",\"desktopLabel\":\"Claude 桌面版\",\"version\":\"2.1.285 (Claude Code)\",\"mode\":\"mcp\",\"plugin\":{\"ok\":false,\"at\":\"2026-10-23T10:47:29.778Z\",\"output\":\"插件未注册到 Claude Code\"}},{\"id\":\"codex\",\"label\":\"Codex\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/codex\",\"path\":\"/opt/homebrew/bin/codex\",\"customPath\":\"\",\"desktop\":false,\"desktopPath\":\"\",\"desktopLabel\":\"Codex 桌面版\",\"version\":\"codex-cli 0.163."
+ },
+ {
+  "t": 1793196729718,
+  "method": "GET",
+  "url": "/__canvas-hub/state",
+  "status": 200,
+  "resp": "{\"ok\":true,\"localHub\":true,\"server\":{\"running\":true,\"url\":\"http://127.0.0.1:17371\",\"token\":\"6076e31f4497025ea74106480193e2f29e34\",\"error\":\"\"},\"runtime\":\"codex\",\"mode\":\"runtime\",\"connecting\":null,\"runtimes\":[{\"id\":\"claude\",\"label\":\"Claude Code\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/claude\",\"path\":\"/opt/homebrew/bin/claude\",\"customPath\":\"\",\"desktop\":false,\"desktopPath\":\"\",\"desktopLabel\":\"Claude 桌面版\",\"version\":\"2.1.285 (Claude Code)\",\"mode\":\"mcp\",\"plugin\":{\"ok\":false,\"at\":\"2026-10-23T10:47:29.778Z\",\"output\":\"插件未注册到 Claude Code\"}},{\"id\":\"codex\",\"label\":\"Codex\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/codex\",\"path\":\"/opt/homebrew/bin/codex\",\"customPath\":\"\",\"desktop\":false,\"desktopPath\":\"\",\"desktopLabel\":\"Codex 桌面版\",\"version\":\"codex-cli 0.163."
+ },
+ {
+  "t": 1793196732718,
+  "method": "GET",
+  "url": "/__canvas-hub/state",
+  "status": 200,
+  "resp": "{\"ok\":true,\"localHub\":true,\"server\":{\"running\":true,\"url\":\"http://127.0.0.1:17371\",\"token\":\"6076e31f4497025ea74106480193e2f29e34\",\"error\":\"\"},\"runtime\":\"codex\",\"mode\":\"runtime\",\"connecting\":null,\"runtimes\":[{\"id\":\"claude\",\"label\":\"Claude Code\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/claude\",\"path\":\"/opt/homebrew/bin/claude\",\"customPath\":\"\",\"desktop\":false,\"desktopPath\":\"\",\"desktopLabel\":\"Claude 桌面版\",\"version\":\"2.1.285 (Claude Code)\",\"mode\":\"mcp\",\"plugin\":{\"ok\":false,\"at\":\"2026-10-23T10:47:29.778Z\",\"output\":\"插件未注册到 Claude Code\"}},{\"id\":\"codex\",\"label\":\"Codex\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/codex\",\"path\":\"/opt/homebrew/bin/codex\",\"customPath\":\"\",\"desktop\":false,\"desktopPath\":\"\",\"desktopLabel\":\"Codex 桌面版\",\"version\":\"codex-cli 0.163."
+ },
+ {
+  "t": 1793196735717,
+  "method": "GET",
+  "url": "/__canvas-hub/state",
+  "status": 200,
+  "resp": "{\"ok\":true,\"localHub\":true,\"server\":{\"running\":true,\"url\":\"http://127.0.0.1:17371\",\"token\":\"6076e31f4497025ea74106480193e2f29e34\",\"error\":\"\"},\"runtime\":\"codex\",\"mode\":\"runtime\",\"connecting\":null,\"runtimes\":[{\"id\":\"claude\",\"label\":\"Claude Code\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/claude\",\"path\":\"/opt/homebrew/bin/claude\",\"customPath\":\"\",\"desktop\":false,\"desktopPath\":\"\",\"desktopLabel\":\"Claude 桌面版\",\"version\":\"2.1.285 (Claude Code)\",\"mode\":\"mcp\",\"plugin\":{\"ok\":false,\"at\":\"2026-10-23T10:47:29.778Z\",\"output\":\"插件未注册到 Claude Code\"}},{\"id\":\"codex\",\"label\":\"Codex\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/codex\",\"path\":\"/opt/homebrew/bin/codex\",\"customPath\":\"\",\"desktop\":false,\"desktopPath\":\"\",\"desktopLabel\":\"Codex 桌面版\",\"version\":\"codex-cli 0.163."
+ },
+ {
+  "t": 1793196738718,
+  "method": "GET",
+  "url": "/__canvas-hub/state",
+  "status": 200,
+  "resp": "{\"ok\":true,\"localHub\":true,\"server\":{\"running\":true,\"url\":\"http://127.0.0.1:17371\",\"token\":\"6076e31f4497025ea74106480193e2f29e34\",\"error\":\"\"},\"runtime\":\"codex\",\"mode\":\"runtime\",\"connecting\":null,\"runtimes\":[{\"id\":\"claude\",\"label\":\"Claude Code\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/claude\",\"path\":\"/opt/homebrew/bin/claude\",\"customPath\":\"\",\"desktop\":false,\"desktopPath\":\"\",\"desktopLabel\":\"Claude 桌面版\",\"version\":\"2.1.285 (Claude Code)\",\"mode\":\"mcp\",\"plugin\":{\"ok\":false,\"at\":\"2026-10-23T10:47:29.778Z\",\"output\":\"插件未注册到 Claude Code\"}},{\"id\":\"codex\",\"label\":\"Codex\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/codex\",\"path\":\"/opt/homebrew/bin/codex\",\"customPath\":\"\",\"desktop\":false,\"desktopPath\":\"\",\"desktopLabel\":\"Codex 桌面版\",\"version\":\"codex-cli 0.163."
+ },
+ {
+  "t": 1793196741718,
+  "method": "GET",
+  "url": "/__canvas-hub/state",
+  "status": 200,
+  "resp": "{\"ok\":true,\"localHub\":true,\"server\":{\"running\":true,\"url\":\"http://127.0.0.1:17371\",\"token\":\"6076e31f4497025ea74106480193e2f29e34\",\"error\":\"\"},\"runtime\":\"codex\",\"mode\":\"runtime\",\"connecting\":null,\"runtimes\":[{\"id\":\"claude\",\"label\":\"Claude Code\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/claude\",\"path\":\"/opt/homebrew/bin/claude\",\"customPath\":\"\",\"desktop\":false,\"desktopPath\":\"\",\"desktopLabel\":\"Claude 桌面版\",\"version\":\"2.1.285 (Claude Code)\",\"mode\":\"mcp\",\"plugin\":{\"ok\":false,\"at\":\"2026-10-23T10:47:29.778Z\",\"output\":\"插件未注册到 Claude Code\"}},{\"id\":\"codex\",\"label\":\"Codex\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/codex\",\"path\":\"/opt/homebrew/bin/codex\",\"customPath\":\"\",\"desktop\":false,\"desktopPath\":\"\",\"desktopLabel\":\"Codex 桌面版\",\"version\":\"codex-cli 0.163."
+ },
+ {
+  "t": 1793196744716,
+  "method": "GET",
+  "url": "/__canvas-hub/state",
+  "status": 200,
+  "resp": "{\"ok\":true,\"localHub\":true,\"server\":{\"running\":true,\"url\":\"http://127.0.0.1:17371\",\"token\":\"6076e31f4497025ea74106480193e2f29e34\",\"error\":\"\"},\"runtime\":\"codex\",\"mode\":\"runtime\",\"connecting\":null,\"runtimes\":[{\"id\":\"claude\",\"label\":\"Claude Code\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/claude\",\"path\":\"/opt/homebrew/bin/claude\",\"customPath\":\"\",\"desktop\":false,\"desktopPath\":\"\",\"desktopLabel\":\"Claude 桌面版\",\"version\":\"2.1.285 (Claude Code)\",\"mode\":\"mcp\",\"plugin\":{\"ok\":false,\"at\":\"2026-10-23T10:47:29.778Z\",\"output\":\"插件未注册到 Claude Code\"}},{\"id\":\"codex\",\"label\":\"Codex\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/codex\",\"path\":\"/opt/homebrew/bin/codex\",\"customPath\":\"\",\"desktop\":false,\"desktopPath\":\"\",\"desktopLabel\":\"Codex 桌面版\",\"version\":\"codex-cli 0.163."
+ },
+ {
+  "t": 1793196747717,
+  "method": "GET",
+  "url": "/__canvas-hub/state",
+  "status": 200,
+  "resp": "{\"ok\":true,\"localHub\":true,\"server\":{\"running\":true,\"url\":\"http://127.0.0.1:17371\",\"token\":\"6076e31f4497025ea74106480193e2f29e34\",\"error\":\"\"},\"runtime\":\"codex\",\"mode\":\"runtime\",\"connecting\":null,\"runtimes\":[{\"id\":\"claude\",\"label\":\"Claude Code\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/claude\",\"path\":\"/opt/homebrew/bin/claude\",\"customPath\":\"\",\"desktop\":false,\"desktopPath\":\"\",\"desktopLabel\":\"Claude 桌面版\",\"version\":\"2.1.285 (Claude Code)\",\"mode\":\"mcp\",\"plugin\":{\"ok\":false,\"at\":\"2026-10-23T10:47:29.778Z\",\"output\":\"插件未注册到 Claude Code\"}},{\"id\":\"codex\",\"label\":\"Codex\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/codex\",\"path\":\"/opt/homebrew/bin/codex\",\"customPath\":\"\",\"desktop\":false,\"desktopPath\":\"\",\"desktopLabel\":\"Codex 桌面版\",\"version\":\"codex-cli 0.163."
+ },
+ {
+  "t": 1793196750718,
+  "method": "GET",
+  "url": "/__canvas-hub/state",
+  "status": 200,
+  "resp": "{\"ok\":true,\"localHub\":true,\"server\":{\"running\":true,\"url\":\"http://127.0.0.1:17371\",\"token\":\"6076e31f4497025ea74106480193e2f29e34\",\"error\":\"\"},\"runtime\":\"codex\",\"mode\":\"runtime\",\"connecting\":null,\"runtimes\":[{\"id\":\"claude\",\"label\":\"Claude Code\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/claude\",\"path\":\"/opt/homebrew/bin/claude\",\"customPath\":\"\",\"desktop\":false,\"desktopPath\":\"\",\"desktopLabel\":\"Claude 桌面版\",\"version\":\"2.1.285 (Claude Code)\",\"mode\":\"mcp\",\"plugin\":{\"ok\":false,\"at\":\"2026-10-23T10:47:29.778Z\",\"output\":\"插件未注册到 Claude Code\"}},{\"id\":\"codex\",\"label\":\"Codex\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/codex\",\"path\":\"/opt/homebrew/bin/codex\",\"customPath\":\"\",\"desktop\":false,\"desktopPath\":\"\",\"desktopLabel\":\"Codex 桌面版\",\"version\":\"codex-cli 0.163."
+ },
+ {
+  "t": 1793196753716,
+  "method": "GET",
+  "url": "/__canvas-hub/state",
+  "status": 200,
+  "resp": "{\"ok\":true,\"localHub\":true,\"server\":{\"running\":true,\"url\":\"http://127.0.0.1:17371\",\"token\":\"6076e31f4497025ea74106480193e2f29e34\",\"error\":\"\"},\"runtime\":\"codex\",\"mode\":\"runtime\",\"connecting\":null,\"runtimes\":[{\"id\":\"claude\",\"label\":\"Claude Code\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/claude\",\"path\":\"/opt/homebrew/bin/claude\",\"customPath\":\"\",\"desktop\":false,\"desktopPath\":\"\",\"desktopLabel\":\"Claude 桌面版\",\"version\":\"2.1.285 (Claude Code)\",\"mode\":\"mcp\",\"plugin\":{\"ok\":false,\"at\":\"2026-10-23T10:47:29.778Z\",\"output\":\"插件未注册到 Claude Code\"}},{\"id\":\"codex\",\"label\":\"Codex\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/codex\",\"path\":\"/opt/homebrew/bin/codex\",\"customPath\":\"\",\"desktop\":false,\"desktopPath\":\"\",\"desktopLabel\":\"Codex 桌面版\",\"version\":\"codex-cli 0.163."
+ },
+ {
+  "t": 1793196756718,
+  "method": "GET",
+  "url": "/__canvas-hub/state",
+  "status": 200,
+  "resp": "{\"ok\":true,\"localHub\":true,\"server\":{\"running\":true,\"url\":\"http://127.0.0.1:17371\",\"token\":\"6076e31f4497025ea74106480193e2f29e34\",\"error\":\"\"},\"runtime\":\"codex\",\"mode\":\"runtime\",\"connecting\":null,\"runtimes\":[{\"id\":\"claude\",\"label\":\"Claude Code\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/claude\",\"path\":\"/opt/homebrew/bin/claude\",\"customPath\":\"\",\"desktop\":false,\"desktopPath\":\"\",\"desktopLabel\":\"Claude 桌面版\",\"version\":\"2.1.285 (Claude Code)\",\"mode\":\"mcp\",\"plugin\":{\"ok\":false,\"at\":\"2026-10-23T10:47:29.778Z\",\"output\":\"插件未注册到 Claude Code\"}},{\"id\":\"codex\",\"label\":\"Codex\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/codex\",\"path\":\"/opt/homebrew/bin/codex\",\"customPath\":\"\",\"desktop\":false,\"desktopPath\":\"\",\"desktopLabel\":\"Codex 桌面版\",\"version\":\"codex-cli 0.163."
+ },
+ {
+  "t": 1793196758082,
+  "method": "GET",
+  "url": "http://127.0.0.1:8977/product_watch.jpg",
+  "status": 200,
+  "resp": "����\u0000\u0010JFIF\u0000\u0001\u0002\u0001\u0000H\u0000H\u0000\u0000��\fXICC_PROFILE\u0000\u0001\u0001\u0000\u0000\fHLino\u0002\u0010\u0000\u0000mntrRGB XYZ \u0007�\u0000\u0002\u0000\t\u0000\u0006\u00001\u0000\u0000acspMSFT\u0000\u0000\u0000\u0000IEC sRGB\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000��\u0000\u0001\u0000\u0000\u0000\u0000�-HP  \u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0011cprt\u0000\u0000\u0001P\u0000\u0000\u00003desc\u0000\u0000\u0001�\u0000\u0000\u0000lwtpt\u0000\u0000\u0001�\u0000\u0000\u0000\u0014bkpt\u0000\u0000\u0002\u0004\u0000\u0000\u0000\u0014rXYZ\u0000\u0000\u0002\u0018\u0000\u0000\u0000\u0014gXYZ\u0000\u0000\u0002,\u0000\u0000\u0000\u0014bXYZ\u0000\u0000\u0002@\u0000\u0000\u0000\u0014dmnd\u0000\u0000\u0002T\u0000\u0000\u0000pdmdd\u0000\u0000\u0002�\u0000\u0000\u0000�vued\u0000\u0000\u0003L\u0000\u0000\u0000�view\u0000\u0000\u0003�\u0000\u0000\u0000$lumi\u0000\u0000\u0003�\u0000\u0000\u0000\u0014meas\u0000\u0000\u0004\f\u0000\u0000\u0000$tech\u0000\u0000\u00040\u0000\u0000\u0000\frTRC\u0000\u0000\u0004<\u0000\u0000\b\fgTRC\u0000\u0000\u0004<\u0000\u0000\b\fbTRC\u0000\u0000\u0004<\u0000\u0000\b\ftext\u0000\u0000\u0000\u0000Copyright (c) 1998 Hewlett-Packard Company\u0000\u0000desc\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0012sRGB IEC61966-2.1\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0012sRGB IEC61966-2.1\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000XYZ \u0000\u0000\u0000\u0000\u0000\u0000�Q\u0000\u0001\u0000\u0000\u0000\u0001\u0016�XYZ \u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000XYZ \u0000\u0000\u0000\u0000\u0000\u0000o�\u0000\u00008�\u0000\u0000\u0003�XYZ \u0000\u0000\u0000\u0000\u0000\u0000b�\u0000\u0000��\u0000\u0000\u0018�XYZ \u0000\u0000\u0000\u0000\u0000\u0000$�\u0000\u0000\u000f�\u0000\u0000��desc\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0016IEC http://www.iec.ch\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0016IEC http://www.iec.ch\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000desc\u0000\u0000\u0000\u0000\u0000\u0000\u0000.IEC 61966-2.1 Default RGB colour space - s"
+ },
+ {
+  "t": 1793196759718,
+  "method": "GET",
+  "url": "/__canvas-hub/state",
+  "status": 200,
+  "resp": "{\"ok\":true,\"localHub\":true,\"server\":{\"running\":true,\"url\":\"http://127.0.0.1:17371\",\"token\":\"6076e31f4497025ea74106480193e2f29e34\",\"error\":\"\"},\"runtime\":\"codex\",\"mode\":\"runtime\",\"connecting\":null,\"runtimes\":[{\"id\":\"claude\",\"label\":\"Claude Code\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/claude\",\"path\":\"/opt/homebrew/bin/claude\",\"customPath\":\"\",\"desktop\":false,\"desktopPath\":\"\",\"desktopLabel\":\"Claude 桌面版\",\"version\":\"2.1.285 (Claude Code)\",\"mode\":\"mcp\",\"plugin\":{\"ok\":false,\"at\":\"2026-10-23T10:47:29.778Z\",\"output\":\"插件未注册到 Claude Code\"}},{\"id\":\"codex\",\"label\":\"Codex\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/codex\",\"path\":\"/opt/homebrew/bin/codex\",\"customPath\":\"\",\"desktop\":false,\"desktopPath\":\"\",\"desktopLabel\":\"Codex 桌面版\",\"version\":\"codex-cli 0.163."
+ },
+ {
+  "t": 1793196762718,
+  "method": "GET",
+  "url": "/__canvas-hub/state",
+  "status": 200,
+  "resp": "{\"ok\":true,\"localHub\":true,\"server\":{\"running\":true,\"url\":\"http://127.0.0.1:17371\",\"token\":\"6076e31f4497025ea74106480193e2f29e34\",\"error\":\"\"},\"runtime\":\"codex\",\"mode\":\"runtime\",\"connecting\":null,\"runtimes\":[{\"id\":\"claude\",\"label\":\"Claude Code\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/claude\",\"path\":\"/opt/homebrew/bin/claude\",\"customPath\":\"\",\"desktop\":false,\"desktopPath\":\"\",\"desktopLabel\":\"Claude 桌面版\",\"version\":\"2.1.285 (Claude Code)\",\"mode\":\"mcp\",\"plugin\":{\"ok\":false,\"at\":\"2026-10-23T10:47:29.778Z\",\"output\":\"插件未注册到 Claude Code\"}},{\"id\":\"codex\",\"label\":\"Codex\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/codex\",\"path\":\"/opt/homebrew/bin/codex\",\"customPath\":\"\",\"desktop\":false,\"desktopPath\":\"\",\"desktopLabel\":\"Codex 桌面版\",\"version\":\"codex-cli 0.163."
+ },
+ {
+  "t": 1793196765718,
+  "method": "GET",
+  "url": "/__canvas-hub/state",
+  "status": 200,
+  "resp": "{\"ok\":true,\"localHub\":true,\"server\":{\"running\":true,\"url\":\"http://127.0.0.1:17371\",\"token\":\"6076e31f4497025ea74106480193e2f29e34\",\"error\":\"\"},\"runtime\":\"codex\",\"mode\":\"runtime\",\"connecting\":null,\"runtimes\":[{\"id\":\"claude\",\"label\":\"Claude Code\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/claude\",\"path\":\"/opt/homebrew/bin/claude\",\"customPath\":\"\",\"desktop\":false,\"desktopPath\":\"\",\"desktopLabel\":\"Claude 桌面版\",\"version\":\"2.1.285 (Claude Code)\",\"mode\":\"mcp\",\"plugin\":{\"ok\":false,\"at\":\"2026-10-23T10:47:29.778Z\",\"output\":\"插件未注册到 Claude Code\"}},{\"id\":\"codex\",\"label\":\"Codex\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/codex\",\"path\":\"/opt/homebrew/bin/codex\",\"customPath\":\"\",\"desktop\":false,\"desktopPath\":\"\",\"desktopLabel\":\"Codex 桌面版\",\"version\":\"codex-cli 0.163."
+ },
+ {
+  "t": 1793196768718,
+  "method": "GET",
+  "url": "/__canvas-hub/state",
+  "status": 200,
+  "resp": "{\"ok\":true,\"localHub\":true,\"server\":{\"running\":true,\"url\":\"http://127.0.0.1:17371\",\"token\":\"6076e31f4497025ea74106480193e2f29e34\",\"error\":\"\"},\"runtime\":\"codex\",\"mode\":\"runtime\",\"connecting\":null,\"runtimes\":[{\"id\":\"claude\",\"label\":\"Claude Code\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/claude\",\"path\":\"/opt/homebrew/bin/claude\",\"customPath\":\"\",\"desktop\":false,\"desktopPath\":\"\",\"desktopLabel\":\"Claude 桌面版\",\"version\":\"2.1.285 (Claude Code)\",\"mode\":\"mcp\",\"plugin\":{\"ok\":false,\"at\":\"2026-10-23T10:47:29.778Z\",\"output\":\"插件未注册到 Claude Code\"}},{\"id\":\"codex\",\"label\":\"Codex\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/codex\",\"path\":\"/opt/homebrew/bin/codex\",\"customPath\":\"\",\"desktop\":false,\"desktopPath\":\"\",\"desktopLabel\":\"Codex 桌面版\",\"version\":\"codex-cli 0.163."
+ },
+ {
+  "t": 1793196771717,
+  "method": "GET",
+  "url": "/__canvas-hub/state",
+  "status": 200,
+  "resp": "{\"ok\":true,\"localHub\":true,\"server\":{\"running\":true,\"url\":\"http://127.0.0.1:17371\",\"token\":\"6076e31f4497025ea74106480193e2f29e34\",\"error\":\"\"},\"runtime\":\"codex\",\"mode\":\"runtime\",\"connecting\":null,\"runtimes\":[{\"id\":\"claude\",\"label\":\"Claude Code\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/claude\",\"path\":\"/opt/homebrew/bin/claude\",\"customPath\":\"\",\"desktop\":false,\"desktopPath\":\"\",\"desktopLabel\":\"Claude 桌面版\",\"version\":\"2.1.285 (Claude Code)\",\"mode\":\"mcp\",\"plugin\":{\"ok\":false,\"at\":\"2026-10-23T10:47:29.778Z\",\"output\":\"插件未注册到 Claude Code\"}},{\"id\":\"codex\",\"label\":\"Codex\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/codex\",\"path\":\"/opt/homebrew/bin/codex\",\"customPath\":\"\",\"desktop\":false,\"desktopPath\":\"\",\"desktopLabel\":\"Codex 桌面版\",\"version\":\"codex-cli 0.163."
+ },
+ {
+  "t": 1793196774717,
+  "method": "GET",
+  "url": "/__canvas-hub/state",
+  "status": 200,
+  "resp": "{\"ok\":true,\"localHub\":true,\"server\":{\"running\":true,\"url\":\"http://127.0.0.1:17371\",\"token\":\"6076e31f4497025ea74106480193e2f29e34\",\"error\":\"\"},\"runtime\":\"codex\",\"mode\":\"runtime\",\"connecting\":null,\"runtimes\":[{\"id\":\"claude\",\"label\":\"Claude Code\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/claude\",\"path\":\"/opt/homebrew/bin/claude\",\"customPath\":\"\",\"desktop\":false,\"desktopPath\":\"\",\"desktopLabel\":\"Claude 桌面版\",\"version\":\"2.1.285 (Claude Code)\",\"mode\":\"mcp\",\"plugin\":{\"ok\":false,\"at\":\"2026-10-23T10:47:29.778Z\",\"output\":\"插件未注册到 Claude Code\"}},{\"id\":\"codex\",\"label\":\"Codex\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/codex\",\"path\":\"/opt/homebrew/bin/codex\",\"customPath\":\"\",\"desktop\":false,\"desktopPath\":\"\",\"desktopLabel\":\"Codex 桌面版\",\"version\":\"codex-cli 0.163."
+ },
+ {
+  "t": 1793196777716,
+  "method": "GET",
+  "url": "/__canvas-hub/state",
+  "status": 200,
+  "resp": "{\"ok\":true,\"localHub\":true,\"server\":{\"running\":true,\"url\":\"http://127.0.0.1:17371\",\"token\":\"6076e31f4497025ea74106480193e2f29e34\",\"error\":\"\"},\"runtime\":\"codex\",\"mode\":\"runtime\",\"connecting\":null,\"runtimes\":[{\"id\":\"claude\",\"label\":\"Claude Code\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/claude\",\"path\":\"/opt/homebrew/bin/claude\",\"customPath\":\"\",\"desktop\":false,\"desktopPath\":\"\",\"desktopLabel\":\"Claude 桌面版\",\"version\":\"2.1.285 (Claude Code)\",\"mode\":\"mcp\",\"plugin\":{\"ok\":false,\"at\":\"2026-10-23T10:47:29.778Z\",\"output\":\"插件未注册到 Claude Code\"}},{\"id\":\"codex\",\"label\":\"Codex\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/codex\",\"path\":\"/opt/homebrew/bin/codex\",\"customPath\":\"\",\"desktop\":false,\"desktopPath\":\"\",\"desktopLabel\":\"Codex 桌面版\",\"version\":\"codex-cli 0.163."
+ },
+ {
+  "t": 1793196780716,
+  "method": "GET",
+  "url": "/__canvas-hub/state",
+  "status": 200,
+  "resp": "{\"ok\":true,\"localHub\":true,\"server\":{\"running\":true,\"url\":\"http://127.0.0.1:17371\",\"token\":\"6076e31f4497025ea74106480193e2f29e34\",\"error\":\"\"},\"runtime\":\"codex\",\"mode\":\"runtime\",\"connecting\":null,\"runtimes\":[{\"id\":\"claude\",\"label\":\"Claude Code\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/claude\",\"path\":\"/opt/homebrew/bin/claude\",\"customPath\":\"\",\"desktop\":false,\"desktopPath\":\"\",\"desktopLabel\":\"Claude 桌面版\",\"version\":\"2.1.285 (Claude Code)\",\"mode\":\"mcp\",\"plugin\":{\"ok\":false,\"at\":\"2026-10-23T10:47:29.778Z\",\"output\":\"插件未注册到 Claude Code\"}},{\"id\":\"codex\",\"label\":\"Codex\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/codex\",\"path\":\"/opt/homebrew/bin/codex\",\"customPath\":\"\",\"desktop\":false,\"desktopPath\":\"\",\"desktopLabel\":\"Codex 桌面版\",\"version\":\"codex-cli 0.163."
+ },
+ {
+  "t": 1793196783717,
+  "method": "GET",
+  "url": "/__canvas-hub/state",
+  "status": 200,
+  "resp": "{\"ok\":true,\"localHub\":true,\"server\":{\"running\":true,\"url\":\"http://127.0.0.1:17371\",\"token\":\"6076e31f4497025ea74106480193e2f29e34\",\"error\":\"\"},\"runtime\":\"codex\",\"mode\":\"runtime\",\"connecting\":null,\"runtimes\":[{\"id\":\"claude\",\"label\":\"Claude Code\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/claude\",\"path\":\"/opt/homebrew/bin/claude\",\"customPath\":\"\",\"desktop\":false,\"desktopPath\":\"\",\"desktopLabel\":\"Claude 桌面版\",\"version\":\"2.1.285 (Claude Code)\",\"mode\":\"mcp\",\"plugin\":{\"ok\":false,\"at\":\"2026-10-23T10:47:29.778Z\",\"output\":\"插件未注册到 Claude Code\"}},{\"id\":\"codex\",\"label\":\"Codex\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/codex\",\"path\":\"/opt/homebrew/bin/codex\",\"customPath\":\"\",\"desktop\":false,\"desktopPath\":\"\",\"desktopLabel\":\"Codex 桌面版\",\"version\":\"codex-cli 0.163."
+ },
+ {
+  "t": 1793196786718,
+  "method": "GET",
+  "url": "/__canvas-hub/state",
+  "status": 200,
+  "resp": "{\"ok\":true,\"localHub\":true,\"server\":{\"running\":true,\"url\":\"http://127.0.0.1:17371\",\"token\":\"6076e31f4497025ea74106480193e2f29e34\",\"error\":\"\"},\"runtime\":\"codex\",\"mode\":\"runtime\",\"connecting\":null,\"runtimes\":[{\"id\":\"claude\",\"label\":\"Claude Code\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/claude\",\"path\":\"/opt/homebrew/bin/claude\",\"customPath\":\"\",\"desktop\":false,\"desktopPath\":\"\",\"desktopLabel\":\"Claude 桌面版\",\"version\":\"2.1.285 (Claude Code)\",\"mode\":\"mcp\",\"plugin\":{\"ok\":false,\"at\":\"2026-10-23T10:47:29.778Z\",\"output\":\"插件未注册到 Claude Code\"}},{\"id\":\"codex\",\"label\":\"Codex\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/codex\",\"path\":\"/opt/homebrew/bin/codex\",\"customPath\":\"\",\"desktop\":false,\"desktopPath\":\"\",\"desktopLabel\":\"Codex 桌面版\",\"version\":\"codex-cli 0.163."
+ },
+ {
+  "t": 1793196789717,
+  "method": "GET",
+  "url": "/__canvas-hub/state",
+  "status": 200,
+  "resp": "{\"ok\":true,\"localHub\":true,\"server\":{\"running\":true,\"url\":\"http://127.0.0.1:17371\",\"token\":\"6076e31f4497025ea74106480193e2f29e34\",\"error\":\"\"},\"runtime\":\"codex\",\"mode\":\"runtime\",\"connecting\":null,\"runtimes\":[{\"id\":\"claude\",\"label\":\"Claude Code\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/claude\",\"path\":\"/opt/homebrew/bin/claude\",\"customPath\":\"\",\"desktop\":false,\"desktopPath\":\"\",\"desktopLabel\":\"Claude 桌面版\",\"version\":\"2.1.285 (Claude Code)\",\"mode\":\"mcp\",\"plugin\":{\"ok\":false,\"at\":\"2026-10-23T10:47:29.778Z\",\"output\":\"插件未注册到 Claude Code\"}},{\"id\":\"codex\",\"label\":\"Codex\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/codex\",\"path\":\"/opt/homebrew/bin/codex\",\"customPath\":\"\",\"desktop\":false,\"desktopPath\":\"\",\"desktopLabel\":\"Codex 桌面版\",\"version\":\"codex-cli 0.163."
+ },
+ {
+  "t": 1793196792717,
+  "method": "GET",
+  "url": "/__canvas-hub/state",
+  "status": 200,
+  "resp": "{\"ok\":true,\"localHub\":true,\"server\":{\"running\":true,\"url\":\"http://127.0.0.1:17371\",\"token\":\"6076e31f4497025ea74106480193e2f29e34\",\"error\":\"\"},\"runtime\":\"codex\",\"mode\":\"runtime\",\"connecting\":null,\"runtimes\":[{\"id\":\"claude\",\"label\":\"Claude Code\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/claude\",\"path\":\"/opt/homebrew/bin/claude\",\"customPath\":\"\",\"desktop\":false,\"desktopPath\":\"\",\"desktopLabel\":\"Claude 桌面版\",\"version\":\"2.1.285 (Claude Code)\",\"mode\":\"mcp\",\"plugin\":{\"ok\":false,\"at\":\"2026-10-23T10:47:29.778Z\",\"output\":\"插件未注册到 Claude Code\"}},{\"id\":\"codex\",\"label\":\"Codex\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/codex\",\"path\":\"/opt/homebrew/bin/codex\",\"customPath\":\"\",\"desktop\":false,\"desktopPath\":\"\",\"desktopLabel\":\"Codex 桌面版\",\"version\":\"codex-cli 0.163."
+ },
+ {
+  "t": 1793196795717,
+  "method": "GET",
+  "url": "/__canvas-hub/state",
+  "status": 200,
+  "resp": "{\"ok\":true,\"localHub\":true,\"server\":{\"running\":true,\"url\":\"http://127.0.0.1:17371\",\"token\":\"6076e31f4497025ea74106480193e2f29e34\",\"error\":\"\"},\"runtime\":\"codex\",\"mode\":\"runtime\",\"connecting\":null,\"runtimes\":[{\"id\":\"claude\",\"label\":\"Claude Code\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/claude\",\"path\":\"/opt/homebrew/bin/claude\",\"customPath\":\"\",\"desktop\":false,\"desktopPath\":\"\",\"desktopLabel\":\"Claude 桌面版\",\"version\":\"2.1.285 (Claude Code)\",\"mode\":\"mcp\",\"plugin\":{\"ok\":false,\"at\":\"2026-10-23T10:47:29.778Z\",\"output\":\"插件未注册到 Claude Code\"}},{\"id\":\"codex\",\"label\":\"Codex\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/codex\",\"path\":\"/opt/homebrew/bin/codex\",\"customPath\":\"\",\"desktop\":false,\"desktopPath\":\"\",\"desktopLabel\":\"Codex 桌面版\",\"version\":\"codex-cli 0.163."
+ },
+ {
+  "t": 1793196798717,
+  "method": "GET",
+  "url": "/__canvas-hub/state",
+  "status": 200,
+  "resp": "{\"ok\":true,\"localHub\":true,\"server\":{\"running\":true,\"url\":\"http://127.0.0.1:17371\",\"token\":\"6076e31f4497025ea74106480193e2f29e34\",\"error\":\"\"},\"runtime\":\"codex\",\"mode\":\"runtime\",\"connecting\":null,\"runtimes\":[{\"id\":\"claude\",\"label\":\"Claude Code\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/claude\",\"path\":\"/opt/homebrew/bin/claude\",\"customPath\":\"\",\"desktop\":false,\"desktopPath\":\"\",\"desktopLabel\":\"Claude 桌面版\",\"version\":\"2.1.285 (Claude Code)\",\"mode\":\"mcp\",\"plugin\":{\"ok\":false,\"at\":\"2026-10-23T10:47:29.778Z\",\"output\":\"插件未注册到 Claude Code\"}},{\"id\":\"codex\",\"label\":\"Codex\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/codex\",\"path\":\"/opt/homebrew/bin/codex\",\"customPath\":\"\",\"desktop\":false,\"desktopPath\":\"\",\"desktopLabel\":\"Codex 桌面版\",\"version\":\"codex-cli 0.163."
+ },
+ {
+  "t": 1793196801717,
+  "method": "GET",
+  "url": "/__canvas-hub/state",
+  "status": 200,
+  "resp": "{\"ok\":true,\"localHub\":true,\"server\":{\"running\":true,\"url\":\"http://127.0.0.1:17371\",\"token\":\"6076e31f4497025ea74106480193e2f29e34\",\"error\":\"\"},\"runtime\":\"codex\",\"mode\":\"runtime\",\"connecting\":null,\"runtimes\":[{\"id\":\"claude\",\"label\":\"Claude Code\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/claude\",\"path\":\"/opt/homebrew/bin/claude\",\"customPath\":\"\",\"desktop\":false,\"desktopPath\":\"\",\"desktopLabel\":\"Claude 桌面版\",\"version\":\"2.1.285 (Claude Code)\",\"mode\":\"mcp\",\"plugin\":{\"ok\":false,\"at\":\"2026-10-23T10:47:29.778Z\",\"output\":\"插件未注册到 Claude Code\"}},{\"id\":\"codex\",\"label\":\"Codex\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/codex\",\"path\":\"/opt/homebrew/bin/codex\",\"customPath\":\"\",\"desktop\":false,\"desktopPath\":\"\",\"desktopLabel\":\"Codex 桌面版\",\"version\":\"codex-cli 0.163."
+ },
+ {
+  "t": 1793196804717,
+  "method": "GET",
+  "url": "/__canvas-hub/state",
+  "status": 200,
+  "resp": "{\"ok\":true,\"localHub\":true,\"server\":{\"running\":true,\"url\":\"http://127.0.0.1:17371\",\"token\":\"6076e31f4497025ea74106480193e2f29e34\",\"error\":\"\"},\"runtime\":\"codex\",\"mode\":\"runtime\",\"connecting\":null,\"runtimes\":[{\"id\":\"claude\",\"label\":\"Claude Code\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/claude\",\"path\":\"/opt/homebrew/bin/claude\",\"customPath\":\"\",\"desktop\":false,\"desktopPath\":\"\",\"desktopLabel\":\"Claude 桌面版\",\"version\":\"2.1.285 (Claude Code)\",\"mode\":\"mcp\",\"plugin\":{\"ok\":false,\"at\":\"2026-10-23T10:47:29.778Z\",\"output\":\"插件未注册到 Claude Code\"}},{\"id\":\"codex\",\"label\":\"Codex\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/codex\",\"path\":\"/opt/homebrew/bin/codex\",\"customPath\":\"\",\"desktop\":false,\"desktopPath\":\"\",\"desktopLabel\":\"Codex 桌面版\",\"version\":\"codex-cli 0.163."
+ },
+ {
+  "t": 1793196807717,
+  "method": "GET",
+  "url": "/__canvas-hub/state",
+  "status": 200,
+  "resp": "{\"ok\":true,\"localHub\":true,\"server\":{\"running\":true,\"url\":\"http://127.0.0.1:17371\",\"token\":\"6076e31f4497025ea74106480193e2f29e34\",\"error\":\"\"},\"runtime\":\"codex\",\"mode\":\"runtime\",\"connecting\":null,\"runtimes\":[{\"id\":\"claude\",\"label\":\"Claude Code\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/claude\",\"path\":\"/opt/homebrew/bin/claude\",\"customPath\":\"\",\"desktop\":false,\"desktopPath\":\"\",\"desktopLabel\":\"Claude 桌面版\",\"version\":\"2.1.285 (Claude Code)\",\"mode\":\"mcp\",\"plugin\":{\"ok\":false,\"at\":\"2026-10-23T10:47:29.778Z\",\"output\":\"插件未注册到 Claude Code\"}},{\"id\":\"codex\",\"label\":\"Codex\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/codex\",\"path\":\"/opt/homebrew/bin/codex\",\"customPath\":\"\",\"desktop\":false,\"desktopPath\":\"\",\"desktopLabel\":\"Codex 桌面版\",\"version\":\"codex-cli 0.163."
+ },
+ {
+  "t": 1793196810717,
+  "method": "GET",
+  "url": "/__canvas-hub/state",
+  "status": 200,
+  "resp": "{\"ok\":true,\"localHub\":true,\"server\":{\"running\":true,\"url\":\"http://127.0.0.1:17371\",\"token\":\"6076e31f4497025ea74106480193e2f29e34\",\"error\":\"\"},\"runtime\":\"codex\",\"mode\":\"runtime\",\"connecting\":null,\"runtimes\":[{\"id\":\"claude\",\"label\":\"Claude Code\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/claude\",\"path\":\"/opt/homebrew/bin/claude\",\"customPath\":\"\",\"desktop\":false,\"desktopPath\":\"\",\"desktopLabel\":\"Claude 桌面版\",\"version\":\"2.1.285 (Claude Code)\",\"mode\":\"mcp\",\"plugin\":{\"ok\":false,\"at\":\"2026-10-23T10:47:29.778Z\",\"output\":\"插件未注册到 Claude Code\"}},{\"id\":\"codex\",\"label\":\"Codex\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/codex\",\"path\":\"/opt/homebrew/bin/codex\",\"customPath\":\"\",\"desktop\":false,\"desktopPath\":\"\",\"desktopLabel\":\"Codex 桌面版\",\"version\":\"codex-cli 0.163."
+ },
+ {
+  "t": 1793196813716,
+  "method": "GET",
+  "url": "/__canvas-hub/state",
+  "status": 200,
+  "resp": "{\"ok\":true,\"localHub\":true,\"server\":{\"running\":true,\"url\":\"http://127.0.0.1:17371\",\"token\":\"6076e31f4497025ea74106480193e2f29e34\",\"error\":\"\"},\"runtime\":\"codex\",\"mode\":\"runtime\",\"connecting\":null,\"runtimes\":[{\"id\":\"claude\",\"label\":\"Claude Code\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/claude\",\"path\":\"/opt/homebrew/bin/claude\",\"customPath\":\"\",\"desktop\":false,\"desktopPath\":\"\",\"desktopLabel\":\"Claude 桌面版\",\"version\":\"2.1.285 (Claude Code)\",\"mode\":\"mcp\",\"plugin\":{\"ok\":false,\"at\":\"2026-10-23T10:47:29.778Z\",\"output\":\"插件未注册到 Claude Code\"}},{\"id\":\"codex\",\"label\":\"Codex\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/codex\",\"path\":\"/opt/homebrew/bin/codex\",\"customPath\":\"\",\"desktop\":false,\"desktopPath\":\"\",\"desktopLabel\":\"Codex 桌面版\",\"version\":\"codex-cli 0.163."
+ },
+ {
+  "t": 1793196816716,
+  "method": "GET",
+  "url": "/__canvas-hub/state",
+  "status": 200,
+  "resp": "{\"ok\":true,\"localHub\":true,\"server\":{\"running\":true,\"url\":\"http://127.0.0.1:17371\",\"token\":\"6076e31f4497025ea74106480193e2f29e34\",\"error\":\"\"},\"runtime\":\"codex\",\"mode\":\"runtime\",\"connecting\":null,\"runtimes\":[{\"id\":\"claude\",\"label\":\"Claude Code\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/claude\",\"path\":\"/opt/homebrew/bin/claude\",\"customPath\":\"\",\"desktop\":false,\"desktopPath\":\"\",\"desktopLabel\":\"Claude 桌面版\",\"version\":\"2.1.285 (Claude Code)\",\"mode\":\"mcp\",\"plugin\":{\"ok\":false,\"at\":\"2026-10-23T10:47:29.778Z\",\"output\":\"插件未注册到 Claude Code\"}},{\"id\":\"codex\",\"label\":\"Codex\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/codex\",\"path\":\"/opt/homebrew/bin/codex\",\"customPath\":\"\",\"desktop\":false,\"desktopPath\":\"\",\"desktopLabel\":\"Codex 桌面版\",\"version\":\"codex-cli 0.163."
+ },
+ {
+  "t": 1793196819717,
+  "method": "GET",
+  "url": "/__canvas-hub/state",
+  "status": 200,
+  "resp": "{\"ok\":true,\"localHub\":true,\"server\":{\"running\":true,\"url\":\"http://127.0.0.1:17371\",\"token\":\"6076e31f4497025ea74106480193e2f29e34\",\"error\":\"\"},\"runtime\":\"codex\",\"mode\":\"runtime\",\"connecting\":null,\"runtimes\":[{\"id\":\"claude\",\"label\":\"Claude Code\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/claude\",\"path\":\"/opt/homebrew/bin/claude\",\"customPath\":\"\",\"desktop\":false,\"desktopPath\":\"\",\"desktopLabel\":\"Claude 桌面版\",\"version\":\"2.1.285 (Claude Code)\",\"mode\":\"mcp\",\"plugin\":{\"ok\":false,\"at\":\"2026-10-23T10:47:29.778Z\",\"output\":\"插件未注册到 Claude Code\"}},{\"id\":\"codex\",\"label\":\"Codex\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/codex\",\"path\":\"/opt/homebrew/bin/codex\",\"customPath\":\"\",\"desktop\":false,\"desktopPath\":\"\",\"desktopLabel\":\"Codex 桌面版\",\"version\":\"codex-cli 0.163."
+ },
+ {
+  "t": 1793196822717,
+  "method": "GET",
+  "url": "/__canvas-hub/state",
+  "status": 200,
+  "resp": "{\"ok\":true,\"localHub\":true,\"server\":{\"running\":true,\"url\":\"http://127.0.0.1:17371\",\"token\":\"6076e31f4497025ea74106480193e2f29e34\",\"error\":\"\"},\"runtime\":\"codex\",\"mode\":\"runtime\",\"connecting\":null,\"runtimes\":[{\"id\":\"claude\",\"label\":\"Claude Code\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/claude\",\"path\":\"/opt/homebrew/bin/claude\",\"customPath\":\"\",\"desktop\":false,\"desktopPath\":\"\",\"desktopLabel\":\"Claude 桌面版\",\"version\":\"2.1.285 (Claude Code)\",\"mode\":\"mcp\",\"plugin\":{\"ok\":false,\"at\":\"2026-10-23T10:47:29.778Z\",\"output\":\"插件未注册到 Claude Code\"}},{\"id\":\"codex\",\"label\":\"Codex\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/codex\",\"path\":\"/opt/homebrew/bin/codex\",\"customPath\":\"\",\"desktop\":false,\"desktopPath\":\"\",\"desktopLabel\":\"Codex 桌面版\",\"version\":\"codex-cli 0.163."
+ },
+ {
+  "t": 1793196825717,
+  "method": "GET",
+  "url": "/__canvas-hub/state",
+  "status": 200,
+  "resp": "{\"ok\":true,\"localHub\":true,\"server\":{\"running\":true,\"url\":\"http://127.0.0.1:17371\",\"token\":\"6076e31f4497025ea74106480193e2f29e34\",\"error\":\"\"},\"runtime\":\"codex\",\"mode\":\"runtime\",\"connecting\":null,\"runtimes\":[{\"id\":\"claude\",\"label\":\"Claude Code\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/claude\",\"path\":\"/opt/homebrew/bin/claude\",\"customPath\":\"\",\"desktop\":false,\"desktopPath\":\"\",\"desktopLabel\":\"Claude 桌面版\",\"version\":\"2.1.285 (Claude Code)\",\"mode\":\"mcp\",\"plugin\":{\"ok\":false,\"at\":\"2026-10-23T10:47:29.778Z\",\"output\":\"插件未注册到 Claude Code\"}},{\"id\":\"codex\",\"label\":\"Codex\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/codex\",\"path\":\"/opt/homebrew/bin/codex\",\"customPath\":\"\",\"desktop\":false,\"desktopPath\":\"\",\"desktopLabel\":\"Codex 桌面版\",\"version\":\"codex-cli 0.163."
+ },
+ {
+  "t": 1793196828717,
+  "method": "GET",
+  "url": "/__canvas-hub/state",
+  "status": 200,
+  "resp": "{\"ok\":true,\"localHub\":true,\"server\":{\"running\":true,\"url\":\"http://127.0.0.1:17371\",\"token\":\"6076e31f4497025ea74106480193e2f29e34\",\"error\":\"\"},\"runtime\":\"codex\",\"mode\":\"runtime\",\"connecting\":null,\"runtimes\":[{\"id\":\"claude\",\"label\":\"Claude Code\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/claude\",\"path\":\"/opt/homebrew/bin/claude\",\"customPath\":\"\",\"desktop\":false,\"desktopPath\":\"\",\"desktopLabel\":\"Claude 桌面版\",\"version\":\"2.1.285 (Claude Code)\",\"mode\":\"mcp\",\"plugin\":{\"ok\":false,\"at\":\"2026-10-23T10:47:29.778Z\",\"output\":\"插件未注册到 Claude Code\"}},{\"id\":\"codex\",\"label\":\"Codex\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/codex\",\"path\":\"/opt/homebrew/bin/codex\",\"customPath\":\"\",\"desktop\":false,\"desktopPath\":\"\",\"desktopLabel\":\"Codex 桌面版\",\"version\":\"codex-cli 0.163."
+ },
+ {
+  "t": 1793196831717,
+  "method": "GET",
+  "url": "/__canvas-hub/state",
+  "status": 200,
+  "resp": "{\"ok\":true,\"localHub\":true,\"server\":{\"running\":true,\"url\":\"http://127.0.0.1:17371\",\"token\":\"6076e31f4497025ea74106480193e2f29e34\",\"error\":\"\"},\"runtime\":\"codex\",\"mode\":\"runtime\",\"connecting\":null,\"runtimes\":[{\"id\":\"claude\",\"label\":\"Claude Code\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/claude\",\"path\":\"/opt/homebrew/bin/claude\",\"customPath\":\"\",\"desktop\":false,\"desktopPath\":\"\",\"desktopLabel\":\"Claude 桌面版\",\"version\":\"2.1.285 (Claude Code)\",\"mode\":\"mcp\",\"plugin\":{\"ok\":false,\"at\":\"2026-10-23T10:47:29.778Z\",\"output\":\"插件未注册到 Claude Code\"}},{\"id\":\"codex\",\"label\":\"Codex\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/codex\",\"path\":\"/opt/homebrew/bin/codex\",\"customPath\":\"\",\"desktop\":false,\"desktopPath\":\"\",\"desktopLabel\":\"Codex 桌面版\",\"version\":\"codex-cli 0.163."
+ },
+ {
+  "t": 1793196834716,
+  "method": "GET",
+  "url": "/__canvas-hub/state",
+  "status": 200,
+  "resp": "{\"ok\":true,\"localHub\":true,\"server\":{\"running\":true,\"url\":\"http://127.0.0.1:17371\",\"token\":\"6076e31f4497025ea74106480193e2f29e34\",\"error\":\"\"},\"runtime\":\"codex\",\"mode\":\"runtime\",\"connecting\":null,\"runtimes\":[{\"id\":\"claude\",\"label\":\"Claude Code\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/claude\",\"path\":\"/opt/homebrew/bin/claude\",\"customPath\":\"\",\"desktop\":false,\"desktopPath\":\"\",\"desktopLabel\":\"Claude 桌面版\",\"version\":\"2.1.285 (Claude Code)\",\"mode\":\"mcp\",\"plugin\":{\"ok\":false,\"at\":\"2026-10-23T10:47:29.778Z\",\"output\":\"插件未注册到 Claude Code\"}},{\"id\":\"codex\",\"label\":\"Codex\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/codex\",\"path\":\"/opt/homebrew/bin/codex\",\"customPath\":\"\",\"desktop\":false,\"desktopPath\":\"\",\"desktopLabel\":\"Codex 桌面版\",\"version\":\"codex-cli 0.163."
+ },
+ {
+  "t": 1793196837717,
+  "method": "GET",
+  "url": "/__canvas-hub/state",
+  "status": 200,
+  "resp": "{\"ok\":true,\"localHub\":true,\"server\":{\"running\":true,\"url\":\"http://127.0.0.1:17371\",\"token\":\"6076e31f4497025ea74106480193e2f29e34\",\"error\":\"\"},\"runtime\":\"codex\",\"mode\":\"runtime\",\"connecting\":null,\"runtimes\":[{\"id\":\"claude\",\"label\":\"Claude Code\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/claude\",\"path\":\"/opt/homebrew/bin/claude\",\"customPath\":\"\",\"desktop\":false,\"desktopPath\":\"\",\"desktopLabel\":\"Claude 桌面版\",\"version\":\"2.1.285 (Claude Code)\",\"mode\":\"mcp\",\"plugin\":{\"ok\":false,\"at\":\"2026-10-23T10:47:29.778Z\",\"output\":\"插件未注册到 Claude Code\"}},{\"id\":\"codex\",\"label\":\"Codex\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/codex\",\"path\":\"/opt/homebrew/bin/codex\",\"customPath\":\"\",\"desktop\":false,\"desktopPath\":\"\",\"desktopLabel\":\"Codex 桌面版\",\"version\":\"codex-cli 0.163."
+ },
+ {
+  "t": 1793196840717,
+  "method": "GET",
+  "url": "/__canvas-hub/state",
+  "status": 200,
+  "resp": "{\"ok\":true,\"localHub\":true,\"server\":{\"running\":true,\"url\":\"http://127.0.0.1:17371\",\"token\":\"6076e31f4497025ea74106480193e2f29e34\",\"error\":\"\"},\"runtime\":\"codex\",\"mode\":\"runtime\",\"connecting\":null,\"runtimes\":[{\"id\":\"claude\",\"label\":\"Claude Code\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/claude\",\"path\":\"/opt/homebrew/bin/claude\",\"customPath\":\"\",\"desktop\":false,\"desktopPath\":\"\",\"desktopLabel\":\"Claude 桌面版\",\"version\":\"2.1.285 (Claude Code)\",\"mode\":\"mcp\",\"plugin\":{\"ok\":false,\"at\":\"2026-10-23T10:47:29.778Z\",\"output\":\"插件未注册到 Claude Code\"}},{\"id\":\"codex\",\"label\":\"Codex\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/codex\",\"path\":\"/opt/homebrew/bin/codex\",\"customPath\":\"\",\"desktop\":false,\"desktopPath\":\"\",\"desktopLabel\":\"Codex 桌面版\",\"version\":\"codex-cli 0.163."
+ },
+ {
+  "t": 1793196843718,
+  "method": "GET",
+  "url": "/__canvas-hub/state",
+  "status": 200,
+  "resp": "{\"ok\":true,\"localHub\":true,\"server\":{\"running\":true,\"url\":\"http://127.0.0.1:17371\",\"token\":\"6076e31f4497025ea74106480193e2f29e34\",\"error\":\"\"},\"runtime\":\"codex\",\"mode\":\"runtime\",\"connecting\":null,\"runtimes\":[{\"id\":\"claude\",\"label\":\"Claude Code\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/claude\",\"path\":\"/opt/homebrew/bin/claude\",\"customPath\":\"\",\"desktop\":false,\"desktopPath\":\"\",\"desktopLabel\":\"Claude 桌面版\",\"version\":\"2.1.285 (Claude Code)\",\"mode\":\"mcp\",\"plugin\":{\"ok\":false,\"at\":\"2026-10-23T10:47:29.778Z\",\"output\":\"插件未注册到 Claude Code\"}},{\"id\":\"codex\",\"label\":\"Codex\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/codex\",\"path\":\"/opt/homebrew/bin/codex\",\"customPath\":\"\",\"desktop\":false,\"desktopPath\":\"\",\"desktopLabel\":\"Codex 桌面版\",\"version\":\"codex-cli 0.163."
+ },
+ {
+  "t": 1793196846716,
+  "method": "GET",
+  "url": "/__canvas-hub/state",
+  "status": 200,
+  "resp": "{\"ok\":true,\"localHub\":true,\"server\":{\"running\":true,\"url\":\"http://127.0.0.1:17371\",\"token\":\"6076e31f4497025ea74106480193e2f29e34\",\"error\":\"\"},\"runtime\":\"codex\",\"mode\":\"runtime\",\"connecting\":null,\"runtimes\":[{\"id\":\"claude\",\"label\":\"Claude Code\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/claude\",\"path\":\"/opt/homebrew/bin/claude\",\"customPath\":\"\",\"desktop\":false,\"desktopPath\":\"\",\"desktopLabel\":\"Claude 桌面版\",\"version\":\"2.1.285 (Claude Code)\",\"mode\":\"mcp\",\"plugin\":{\"ok\":false,\"at\":\"2026-10-23T10:47:29.778Z\",\"output\":\"插件未注册到 Claude Code\"}},{\"id\":\"codex\",\"label\":\"Codex\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/codex\",\"path\":\"/opt/homebrew/bin/codex\",\"customPath\":\"\",\"desktop\":false,\"desktopPath\":\"\",\"desktopLabel\":\"Codex 桌面版\",\"version\":\"codex-cli 0.163."
+ },
+ {
+  "t": 1793196849717,
+  "method": "GET",
+  "url": "/__canvas-hub/state",
+  "status": 200,
+  "resp": "{\"ok\":true,\"localHub\":true,\"server\":{\"running\":true,\"url\":\"http://127.0.0.1:17371\",\"token\":\"6076e31f4497025ea74106480193e2f29e34\",\"error\":\"\"},\"runtime\":\"codex\",\"mode\":\"runtime\",\"connecting\":null,\"runtimes\":[{\"id\":\"claude\",\"label\":\"Claude Code\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/claude\",\"path\":\"/opt/homebrew/bin/claude\",\"customPath\":\"\",\"desktop\":false,\"desktopPath\":\"\",\"desktopLabel\":\"Claude 桌面版\",\"version\":\"2.1.285 (Claude Code)\",\"mode\":\"mcp\",\"plugin\":{\"ok\":false,\"at\":\"2026-10-23T10:47:29.778Z\",\"output\":\"插件未注册到 Claude Code\"}},{\"id\":\"codex\",\"label\":\"Codex\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/codex\",\"path\":\"/opt/homebrew/bin/codex\",\"customPath\":\"\",\"desktop\":false,\"desktopPath\":\"\",\"desktopLabel\":\"Codex 桌面版\",\"version\":\"codex-cli 0.163."
+ },
+ {
+  "t": 1793196852717,
+  "method": "GET",
+  "url": "/__canvas-hub/state",
+  "status": 200,
+  "resp": "{\"ok\":true,\"localHub\":true,\"server\":{\"running\":true,\"url\":\"http://127.0.0.1:17371\",\"token\":\"6076e31f4497025ea74106480193e2f29e34\",\"error\":\"\"},\"runtime\":\"codex\",\"mode\":\"runtime\",\"connecting\":null,\"runtimes\":[{\"id\":\"claude\",\"label\":\"Claude Code\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/claude\",\"path\":\"/opt/homebrew/bin/claude\",\"customPath\":\"\",\"desktop\":false,\"desktopPath\":\"\",\"desktopLabel\":\"Claude 桌面版\",\"version\":\"2.1.285 (Claude Code)\",\"mode\":\"mcp\",\"plugin\":{\"ok\":false,\"at\":\"2026-10-23T10:47:29.778Z\",\"output\":\"插件未注册到 Claude Code\"}},{\"id\":\"codex\",\"label\":\"Codex\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/codex\",\"path\":\"/opt/homebrew/bin/codex\",\"customPath\":\"\",\"desktop\":false,\"desktopPath\":\"\",\"desktopLabel\":\"Codex 桌面版\",\"version\":\"codex-cli 0.163."
+ },
+ {
+  "t": 1793196855717,
+  "method": "GET",
+  "url": "/__canvas-hub/state",
+  "status": 200,
+  "resp": "{\"ok\":true,\"localHub\":true,\"server\":{\"running\":true,\"url\":\"http://127.0.0.1:17371\",\"token\":\"6076e31f4497025ea74106480193e2f29e34\",\"error\":\"\"},\"runtime\":\"codex\",\"mode\":\"runtime\",\"connecting\":null,\"runtimes\":[{\"id\":\"claude\",\"label\":\"Claude Code\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/claude\",\"path\":\"/opt/homebrew/bin/claude\",\"customPath\":\"\",\"desktop\":false,\"desktopPath\":\"\",\"desktopLabel\":\"Claude 桌面版\",\"version\":\"2.1.285 (Claude Code)\",\"mode\":\"mcp\",\"plugin\":{\"ok\":false,\"at\":\"2026-10-23T10:47:29.778Z\",\"output\":\"插件未注册到 Claude Code\"}},{\"id\":\"codex\",\"label\":\"Codex\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/codex\",\"path\":\"/opt/homebrew/bin/codex\",\"customPath\":\"\",\"desktop\":false,\"desktopPath\":\"\",\"desktopLabel\":\"Codex 桌面版\",\"version\":\"codex-cli 0.163."
+ },
+ {
+  "t": 1793196858717,
+  "method": "GET",
+  "url": "/__canvas-hub/state",
+  "status": 200,
+  "resp": "{\"ok\":true,\"localHub\":true,\"server\":{\"running\":true,\"url\":\"http://127.0.0.1:17371\",\"token\":\"6076e31f4497025ea74106480193e2f29e34\",\"error\":\"\"},\"runtime\":\"codex\",\"mode\":\"runtime\",\"connecting\":null,\"runtimes\":[{\"id\":\"claude\",\"label\":\"Claude Code\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/claude\",\"path\":\"/opt/homebrew/bin/claude\",\"customPath\":\"\",\"desktop\":false,\"desktopPath\":\"\",\"desktopLabel\":\"Claude 桌面版\",\"version\":\"2.1.285 (Claude Code)\",\"mode\":\"mcp\",\"plugin\":{\"ok\":false,\"at\":\"2026-10-23T10:47:29.778Z\",\"output\":\"插件未注册到 Claude Code\"}},{\"id\":\"codex\",\"label\":\"Codex\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/codex\",\"path\":\"/opt/homebrew/bin/codex\",\"customPath\":\"\",\"desktop\":false,\"desktopPath\":\"\",\"desktopLabel\":\"Codex 桌面版\",\"version\":\"codex-cli 0.163."
+ },
+ {
+  "t": 1793196861717,
+  "method": "GET",
+  "url": "/__canvas-hub/state",
+  "status": 200,
+  "resp": "{\"ok\":true,\"localHub\":true,\"server\":{\"running\":true,\"url\":\"http://127.0.0.1:17371\",\"token\":\"6076e31f4497025ea74106480193e2f29e34\",\"error\":\"\"},\"runtime\":\"codex\",\"mode\":\"runtime\",\"connecting\":null,\"runtimes\":[{\"id\":\"claude\",\"label\":\"Claude Code\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/claude\",\"path\":\"/opt/homebrew/bin/claude\",\"customPath\":\"\",\"desktop\":false,\"desktopPath\":\"\",\"desktopLabel\":\"Claude 桌面版\",\"version\":\"2.1.285 (Claude Code)\",\"mode\":\"mcp\",\"plugin\":{\"ok\":false,\"at\":\"2026-10-23T10:47:29.778Z\",\"output\":\"插件未注册到 Claude Code\"}},{\"id\":\"codex\",\"label\":\"Codex\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/codex\",\"path\":\"/opt/homebrew/bin/codex\",\"customPath\":\"\",\"desktop\":false,\"desktopPath\":\"\",\"desktopLabel\":\"Codex 桌面版\",\"version\":\"codex-cli 0.163."
+ },
+ {
+  "t": 1793196864715,
+  "method": "GET",
+  "url": "/__canvas-hub/state",
+  "status": 200,
+  "resp": "{\"ok\":true,\"localHub\":true,\"server\":{\"running\":true,\"url\":\"http://127.0.0.1:17371\",\"token\":\"6076e31f4497025ea74106480193e2f29e34\",\"error\":\"\"},\"runtime\":\"codex\",\"mode\":\"runtime\",\"connecting\":null,\"runtimes\":[{\"id\":\"claude\",\"label\":\"Claude Code\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/claude\",\"path\":\"/opt/homebrew/bin/claude\",\"customPath\":\"\",\"desktop\":false,\"desktopPath\":\"\",\"desktopLabel\":\"Claude 桌面版\",\"version\":\"2.1.285 (Claude Code)\",\"mode\":\"mcp\",\"plugin\":{\"ok\":false,\"at\":\"2026-10-23T10:47:29.778Z\",\"output\":\"插件未注册到 Claude Code\"}},{\"id\":\"codex\",\"label\":\"Codex\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/codex\",\"path\":\"/opt/homebrew/bin/codex\",\"customPath\":\"\",\"desktop\":false,\"desktopPath\":\"\",\"desktopLabel\":\"Codex 桌面版\",\"version\":\"codex-cli 0.163."
+ },
+ {
+  "t": 1793196867717,
+  "method": "GET",
+  "url": "/__canvas-hub/state",
+  "status": 200,
+  "resp": "{\"ok\":true,\"localHub\":true,\"server\":{\"running\":true,\"url\":\"http://127.0.0.1:17371\",\"token\":\"6076e31f4497025ea74106480193e2f29e34\",\"error\":\"\"},\"runtime\":\"codex\",\"mode\":\"runtime\",\"connecting\":null,\"runtimes\":[{\"id\":\"claude\",\"label\":\"Claude Code\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/claude\",\"path\":\"/opt/homebrew/bin/claude\",\"customPath\":\"\",\"desktop\":false,\"desktopPath\":\"\",\"desktopLabel\":\"Claude 桌面版\",\"version\":\"2.1.285 (Claude Code)\",\"mode\":\"mcp\",\"plugin\":{\"ok\":false,\"at\":\"2026-10-23T10:47:29.778Z\",\"output\":\"插件未注册到 Claude Code\"}},{\"id\":\"codex\",\"label\":\"Codex\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/codex\",\"path\":\"/opt/homebrew/bin/codex\",\"customPath\":\"\",\"desktop\":false,\"desktopPath\":\"\",\"desktopLabel\":\"Codex 桌面版\",\"version\":\"codex-cli 0.163."
+ },
+ {
+  "t": 1793196870717,
+  "method": "GET",
+  "url": "/__canvas-hub/state",
+  "status": 200,
+  "resp": "{\"ok\":true,\"localHub\":true,\"server\":{\"running\":true,\"url\":\"http://127.0.0.1:17371\",\"token\":\"6076e31f4497025ea74106480193e2f29e34\",\"error\":\"\"},\"runtime\":\"codex\",\"mode\":\"runtime\",\"connecting\":null,\"runtimes\":[{\"id\":\"claude\",\"label\":\"Claude Code\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/claude\",\"path\":\"/opt/homebrew/bin/claude\",\"customPath\":\"\",\"desktop\":false,\"desktopPath\":\"\",\"desktopLabel\":\"Claude 桌面版\",\"version\":\"2.1.285 (Claude Code)\",\"mode\":\"mcp\",\"plugin\":{\"ok\":false,\"at\":\"2026-10-23T10:47:29.778Z\",\"output\":\"插件未注册到 Claude Code\"}},{\"id\":\"codex\",\"label\":\"Codex\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/codex\",\"path\":\"/opt/homebrew/bin/codex\",\"customPath\":\"\",\"desktop\":false,\"desktopPath\":\"\",\"desktopLabel\":\"Codex 桌面版\",\"version\":\"codex-cli 0.163."
+ },
+ {
+  "t": 1793196873717,
+  "method": "GET",
+  "url": "/__canvas-hub/state",
+  "status": 200,
+  "resp": "{\"ok\":true,\"localHub\":true,\"server\":{\"running\":true,\"url\":\"http://127.0.0.1:17371\",\"token\":\"6076e31f4497025ea74106480193e2f29e34\",\"error\":\"\"},\"runtime\":\"codex\",\"mode\":\"runtime\",\"connecting\":null,\"runtimes\":[{\"id\":\"claude\",\"label\":\"Claude Code\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/claude\",\"path\":\"/opt/homebrew/bin/claude\",\"customPath\":\"\",\"desktop\":false,\"desktopPath\":\"\",\"desktopLabel\":\"Claude 桌面版\",\"version\":\"2.1.285 (Claude Code)\",\"mode\":\"mcp\",\"plugin\":{\"ok\":false,\"at\":\"2026-10-23T10:47:29.778Z\",\"output\":\"插件未注册到 Claude Code\"}},{\"id\":\"codex\",\"label\":\"Codex\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/codex\",\"path\":\"/opt/homebrew/bin/codex\",\"customPath\":\"\",\"desktop\":false,\"desktopPath\":\"\",\"desktopLabel\":\"Codex 桌面版\",\"version\":\"codex-cli 0.163."
+ },
+ {
+  "t": 1793196876718,
+  "method": "GET",
+  "url": "/__canvas-hub/state",
+  "status": 200,
+  "resp": "{\"ok\":true,\"localHub\":true,\"server\":{\"running\":true,\"url\":\"http://127.0.0.1:17371\",\"token\":\"6076e31f4497025ea74106480193e2f29e34\",\"error\":\"\"},\"runtime\":\"codex\",\"mode\":\"runtime\",\"connecting\":null,\"runtimes\":[{\"id\":\"claude\",\"label\":\"Claude Code\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/claude\",\"path\":\"/opt/homebrew/bin/claude\",\"customPath\":\"\",\"desktop\":false,\"desktopPath\":\"\",\"desktopLabel\":\"Claude 桌面版\",\"version\":\"2.1.285 (Claude Code)\",\"mode\":\"mcp\",\"plugin\":{\"ok\":false,\"at\":\"2026-10-23T10:47:29.778Z\",\"output\":\"插件未注册到 Claude Code\"}},{\"id\":\"codex\",\"label\":\"Codex\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/codex\",\"path\":\"/opt/homebrew/bin/codex\",\"customPath\":\"\",\"desktop\":false,\"desktopPath\":\"\",\"desktopLabel\":\"Codex 桌面版\",\"version\":\"codex-cli 0.163."
+ },
+ {
+  "t": 1793196879716,
+  "method": "GET",
+  "url": "/__canvas-hub/state",
+  "status": 200,
+  "resp": "{\"ok\":true,\"localHub\":true,\"server\":{\"running\":true,\"url\":\"http://127.0.0.1:17371\",\"token\":\"6076e31f4497025ea74106480193e2f29e34\",\"error\":\"\"},\"runtime\":\"codex\",\"mode\":\"runtime\",\"connecting\":null,\"runtimes\":[{\"id\":\"claude\",\"label\":\"Claude Code\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/claude\",\"path\":\"/opt/homebrew/bin/claude\",\"customPath\":\"\",\"desktop\":false,\"desktopPath\":\"\",\"desktopLabel\":\"Claude 桌面版\",\"version\":\"2.1.285 (Claude Code)\",\"mode\":\"mcp\",\"plugin\":{\"ok\":false,\"at\":\"2026-10-23T10:47:29.778Z\",\"output\":\"插件未注册到 Claude Code\"}},{\"id\":\"codex\",\"label\":\"Codex\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/codex\",\"path\":\"/opt/homebrew/bin/codex\",\"customPath\":\"\",\"desktop\":false,\"desktopPath\":\"\",\"desktopLabel\":\"Codex 桌面版\",\"version\":\"codex-cli 0.163."
+ },
+ {
+  "t": 1793196882716,
+  "method": "GET",
+  "url": "/__canvas-hub/state",
+  "status": 200,
+  "resp": "{\"ok\":true,\"localHub\":true,\"server\":{\"running\":true,\"url\":\"http://127.0.0.1:17371\",\"token\":\"6076e31f4497025ea74106480193e2f29e34\",\"error\":\"\"},\"runtime\":\"codex\",\"mode\":\"runtime\",\"connecting\":null,\"runtimes\":[{\"id\":\"claude\",\"label\":\"Claude Code\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/claude\",\"path\":\"/opt/homebrew/bin/claude\",\"customPath\":\"\",\"desktop\":false,\"desktopPath\":\"\",\"desktopLabel\":\"Claude 桌面版\",\"version\":\"2.1.285 (Claude Code)\",\"mode\":\"mcp\",\"plugin\":{\"ok\":false,\"at\":\"2026-10-23T10:47:29.778Z\",\"output\":\"插件未注册到 Claude Code\"}},{\"id\":\"codex\",\"label\":\"Codex\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/codex\",\"path\":\"/opt/homebrew/bin/codex\",\"customPath\":\"\",\"desktop\":false,\"desktopPath\":\"\",\"desktopLabel\":\"Codex 桌面版\",\"version\":\"codex-cli 0.163."
+ },
+ {
+  "t": 1793196885718,
+  "method": "GET",
+  "url": "/__canvas-hub/state",
+  "status": 200,
+  "resp": "{\"ok\":true,\"localHub\":true,\"server\":{\"running\":true,\"url\":\"http://127.0.0.1:17371\",\"token\":\"6076e31f4497025ea74106480193e2f29e34\",\"error\":\"\"},\"runtime\":\"codex\",\"mode\":\"runtime\",\"connecting\":null,\"runtimes\":[{\"id\":\"claude\",\"label\":\"Claude Code\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/claude\",\"path\":\"/opt/homebrew/bin/claude\",\"customPath\":\"\",\"desktop\":false,\"desktopPath\":\"\",\"desktopLabel\":\"Claude 桌面版\",\"version\":\"2.1.285 (Claude Code)\",\"mode\":\"mcp\",\"plugin\":{\"ok\":false,\"at\":\"2026-10-23T10:47:29.778Z\",\"output\":\"插件未注册到 Claude Code\"}},{\"id\":\"codex\",\"label\":\"Codex\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/codex\",\"path\":\"/opt/homebrew/bin/codex\",\"customPath\":\"\",\"desktop\":false,\"desktopPath\":\"\",\"desktopLabel\":\"Codex 桌面版\",\"version\":\"codex-cli 0.163."
+ },
+ {
+  "t": 1793196888716,
+  "method": "GET",
+  "url": "/__canvas-hub/state",
+  "status": 200,
+  "resp": "{\"ok\":true,\"localHub\":true,\"server\":{\"running\":true,\"url\":\"http://127.0.0.1:17371\",\"token\":\"6076e31f4497025ea74106480193e2f29e34\",\"error\":\"\"},\"runtime\":\"codex\",\"mode\":\"runtime\",\"connecting\":null,\"runtimes\":[{\"id\":\"claude\",\"label\":\"Claude Code\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/claude\",\"path\":\"/opt/homebrew/bin/claude\",\"customPath\":\"\",\"desktop\":false,\"desktopPath\":\"\",\"desktopLabel\":\"Claude 桌面版\",\"version\":\"2.1.285 (Claude Code)\",\"mode\":\"mcp\",\"plugin\":{\"ok\":false,\"at\":\"2026-10-23T10:47:29.778Z\",\"output\":\"插件未注册到 Claude Code\"}},{\"id\":\"codex\",\"label\":\"Codex\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/codex\",\"path\":\"/opt/homebrew/bin/codex\",\"customPath\":\"\",\"desktop\":false,\"desktopPath\":\"\",\"desktopLabel\":\"Codex 桌面版\",\"version\":\"codex-cli 0.163."
+ },
+ {
+  "t": 1793196891717,
+  "method": "GET",
+  "url": "/__canvas-hub/state",
+  "status": 200,
+  "resp": "{\"ok\":true,\"localHub\":true,\"server\":{\"running\":true,\"url\":\"http://127.0.0.1:17371\",\"token\":\"6076e31f4497025ea74106480193e2f29e34\",\"error\":\"\"},\"runtime\":\"codex\",\"mode\":\"runtime\",\"connecting\":null,\"runtimes\":[{\"id\":\"claude\",\"label\":\"Claude Code\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/claude\",\"path\":\"/opt/homebrew/bin/claude\",\"customPath\":\"\",\"desktop\":false,\"desktopPath\":\"\",\"desktopLabel\":\"Claude 桌面版\",\"version\":\"2.1.285 (Claude Code)\",\"mode\":\"mcp\",\"plugin\":{\"ok\":false,\"at\":\"2026-10-23T10:47:29.778Z\",\"output\":\"插件未注册到 Claude Code\"}},{\"id\":\"codex\",\"label\":\"Codex\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/codex\",\"path\":\"/opt/homebrew/bin/codex\",\"customPath\":\"\",\"desktop\":false,\"desktopPath\":\"\",\"desktopLabel\":\"Codex 桌面版\",\"version\":\"codex-cli 0.163."
+ },
+ {
+  "t": 1793196894717,
+  "method": "GET",
+  "url": "/__canvas-hub/state",
+  "status": 200,
+  "resp": "{\"ok\":true,\"localHub\":true,\"server\":{\"running\":true,\"url\":\"http://127.0.0.1:17371\",\"token\":\"6076e31f4497025ea74106480193e2f29e34\",\"error\":\"\"},\"runtime\":\"codex\",\"mode\":\"runtime\",\"connecting\":null,\"runtimes\":[{\"id\":\"claude\",\"label\":\"Claude Code\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/claude\",\"path\":\"/opt/homebrew/bin/claude\",\"customPath\":\"\",\"desktop\":false,\"desktopPath\":\"\",\"desktopLabel\":\"Claude 桌面版\",\"version\":\"2.1.285 (Claude Code)\",\"mode\":\"mcp\",\"plugin\":{\"ok\":false,\"at\":\"2026-10-23T10:47:29.778Z\",\"output\":\"插件未注册到 Claude Code\"}},{\"id\":\"codex\",\"label\":\"Codex\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/codex\",\"path\":\"/opt/homebrew/bin/codex\",\"customPath\":\"\",\"desktop\":false,\"desktopPath\":\"\",\"desktopLabel\":\"Codex 桌面版\",\"version\":\"codex-cli 0.163."
+ },
+ {
+  "t": 1793196897715,
+  "method": "GET",
+  "url": "/__canvas-hub/state",
+  "status": 200,
+  "resp": "{\"ok\":true,\"localHub\":true,\"server\":{\"running\":true,\"url\":\"http://127.0.0.1:17371\",\"token\":\"6076e31f4497025ea74106480193e2f29e34\",\"error\":\"\"},\"runtime\":\"codex\",\"mode\":\"runtime\",\"connecting\":null,\"runtimes\":[{\"id\":\"claude\",\"label\":\"Claude Code\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/claude\",\"path\":\"/opt/homebrew/bin/claude\",\"customPath\":\"\",\"desktop\":false,\"desktopPath\":\"\",\"desktopLabel\":\"Claude 桌面版\",\"version\":\"2.1.285 (Claude Code)\",\"mode\":\"mcp\",\"plugin\":{\"ok\":false,\"at\":\"2026-10-23T10:47:29.778Z\",\"output\":\"插件未注册到 Claude Code\"}},{\"id\":\"codex\",\"label\":\"Codex\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/codex\",\"path\":\"/opt/homebrew/bin/codex\",\"customPath\":\"\",\"desktop\":false,\"desktopPath\":\"\",\"desktopLabel\":\"Codex 桌面版\",\"version\":\"codex-cli 0.163."
+ },
+ {
+  "t": 1793196900717,
+  "method": "GET",
+  "url": "/__canvas-hub/state",
+  "status": 200,
+  "resp": "{\"ok\":true,\"localHub\":true,\"server\":{\"running\":true,\"url\":\"http://127.0.0.1:17371\",\"token\":\"6076e31f4497025ea74106480193e2f29e34\",\"error\":\"\"},\"runtime\":\"codex\",\"mode\":\"runtime\",\"connecting\":null,\"runtimes\":[{\"id\":\"claude\",\"label\":\"Claude Code\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/claude\",\"path\":\"/opt/homebrew/bin/claude\",\"customPath\":\"\",\"desktop\":false,\"desktopPath\":\"\",\"desktopLabel\":\"Claude 桌面版\",\"version\":\"2.1.285 (Claude Code)\",\"mode\":\"mcp\",\"plugin\":{\"ok\":false,\"at\":\"2026-10-23T10:47:29.778Z\",\"output\":\"插件未注册到 Claude Code\"}},{\"id\":\"codex\",\"label\":\"Codex\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/codex\",\"path\":\"/opt/homebrew/bin/codex\",\"customPath\":\"\",\"desktop\":false,\"desktopPath\":\"\",\"desktopLabel\":\"Codex 桌面版\",\"version\":\"codex-cli 0.163."
+ },
+ {
+  "t": 1793196903715,
+  "method": "GET",
+  "url": "/__canvas-hub/state",
+  "status": 200,
+  "resp": "{\"ok\":true,\"localHub\":true,\"server\":{\"running\":true,\"url\":\"http://127.0.0.1:17371\",\"token\":\"6076e31f4497025ea74106480193e2f29e34\",\"error\":\"\"},\"runtime\":\"codex\",\"mode\":\"runtime\",\"connecting\":null,\"runtimes\":[{\"id\":\"claude\",\"label\":\"Claude Code\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/claude\",\"path\":\"/opt/homebrew/bin/claude\",\"customPath\":\"\",\"desktop\":false,\"desktopPath\":\"\",\"desktopLabel\":\"Claude 桌面版\",\"version\":\"2.1.285 (Claude Code)\",\"mode\":\"mcp\",\"plugin\":{\"ok\":false,\"at\":\"2026-10-23T10:47:29.778Z\",\"output\":\"插件未注册到 Claude Code\"}},{\"id\":\"codex\",\"label\":\"Codex\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/codex\",\"path\":\"/opt/homebrew/bin/codex\",\"customPath\":\"\",\"desktop\":false,\"desktopPath\":\"\",\"desktopLabel\":\"Codex 桌面版\",\"version\":\"codex-cli 0.163."
+ },
+ {
+  "t": 1793196906716,
+  "method": "GET",
+  "url": "/__canvas-hub/state",
+  "status": 200,
+  "resp": "{\"ok\":true,\"localHub\":true,\"server\":{\"running\":true,\"url\":\"http://127.0.0.1:17371\",\"token\":\"6076e31f4497025ea74106480193e2f29e34\",\"error\":\"\"},\"runtime\":\"codex\",\"mode\":\"runtime\",\"connecting\":null,\"runtimes\":[{\"id\":\"claude\",\"label\":\"Claude Code\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/claude\",\"path\":\"/opt/homebrew/bin/claude\",\"customPath\":\"\",\"desktop\":false,\"desktopPath\":\"\",\"desktopLabel\":\"Claude 桌面版\",\"version\":\"2.1.285 (Claude Code)\",\"mode\":\"mcp\",\"plugin\":{\"ok\":false,\"at\":\"2026-10-23T10:47:29.778Z\",\"output\":\"插件未注册到 Claude Code\"}},{\"id\":\"codex\",\"label\":\"Codex\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/codex\",\"path\":\"/opt/homebrew/bin/codex\",\"customPath\":\"\",\"desktop\":false,\"desktopPath\":\"\",\"desktopLabel\":\"Codex 桌面版\",\"version\":\"codex-cli 0.163."
+ },
+ {
+  "t": 1793196909716,
+  "method": "GET",
+  "url": "/__canvas-hub/state",
+  "status": 200,
+  "resp": "{\"ok\":true,\"localHub\":true,\"server\":{\"running\":true,\"url\":\"http://127.0.0.1:17371\",\"token\":\"6076e31f4497025ea74106480193e2f29e34\",\"error\":\"\"},\"runtime\":\"codex\",\"mode\":\"runtime\",\"connecting\":null,\"runtimes\":[{\"id\":\"claude\",\"label\":\"Claude Code\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/claude\",\"path\":\"/opt/homebrew/bin/claude\",\"customPath\":\"\",\"desktop\":false,\"desktopPath\":\"\",\"desktopLabel\":\"Claude 桌面版\",\"version\":\"2.1.285 (Claude Code)\",\"mode\":\"mcp\",\"plugin\":{\"ok\":false,\"at\":\"2026-10-23T10:47:29.778Z\",\"output\":\"插件未注册到 Claude Code\"}},{\"id\":\"codex\",\"label\":\"Codex\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/codex\",\"path\":\"/opt/homebrew/bin/codex\",\"customPath\":\"\",\"desktop\":false,\"desktopPath\":\"\",\"desktopLabel\":\"Codex 桌面版\",\"version\":\"codex-cli 0.163."
+ },
+ {
+  "t": 1793196912717,
+  "method": "GET",
+  "url": "/__canvas-hub/state",
+  "status": 200,
+  "resp": "{\"ok\":true,\"localHub\":true,\"server\":{\"running\":true,\"url\":\"http://127.0.0.1:17371\",\"token\":\"6076e31f4497025ea74106480193e2f29e34\",\"error\":\"\"},\"runtime\":\"codex\",\"mode\":\"runtime\",\"connecting\":null,\"runtimes\":[{\"id\":\"claude\",\"label\":\"Claude Code\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/claude\",\"path\":\"/opt/homebrew/bin/claude\",\"customPath\":\"\",\"desktop\":false,\"desktopPath\":\"\",\"desktopLabel\":\"Claude 桌面版\",\"version\":\"2.1.285 (Claude Code)\",\"mode\":\"mcp\",\"plugin\":{\"ok\":false,\"at\":\"2026-10-23T10:47:29.778Z\",\"output\":\"插件未注册到 Claude Code\"}},{\"id\":\"codex\",\"label\":\"Codex\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/codex\",\"path\":\"/opt/homebrew/bin/codex\",\"customPath\":\"\",\"desktop\":false,\"desktopPath\":\"\",\"desktopLabel\":\"Codex 桌面版\",\"version\":\"codex-cli 0.163."
+ },
+ {
+  "t": 1793196915715,
+  "method": "GET",
+  "url": "/__canvas-hub/state",
+  "status": 200,
+  "resp": "{\"ok\":true,\"localHub\":true,\"server\":{\"running\":true,\"url\":\"http://127.0.0.1:17371\",\"token\":\"6076e31f4497025ea74106480193e2f29e34\",\"error\":\"\"},\"runtime\":\"codex\",\"mode\":\"runtime\",\"connecting\":null,\"runtimes\":[{\"id\":\"claude\",\"label\":\"Claude Code\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/claude\",\"path\":\"/opt/homebrew/bin/claude\",\"customPath\":\"\",\"desktop\":false,\"desktopPath\":\"\",\"desktopLabel\":\"Claude 桌面版\",\"version\":\"2.1.285 (Claude Code)\",\"mode\":\"mcp\",\"plugin\":{\"ok\":false,\"at\":\"2026-10-23T10:47:29.778Z\",\"output\":\"插件未注册到 Claude Code\"}},{\"id\":\"codex\",\"label\":\"Codex\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/codex\",\"path\":\"/opt/homebrew/bin/codex\",\"customPath\":\"\",\"desktop\":false,\"desktopPath\":\"\",\"desktopLabel\":\"Codex 桌面版\",\"version\":\"codex-cli 0.163."
+ },
+ {
+  "t": 1793196918716,
+  "method": "GET",
+  "url": "/__canvas-hub/state",
+  "status": 200,
+  "resp": "{\"ok\":true,\"localHub\":true,\"server\":{\"running\":true,\"url\":\"http://127.0.0.1:17371\",\"token\":\"6076e31f4497025ea74106480193e2f29e34\",\"error\":\"\"},\"runtime\":\"codex\",\"mode\":\"runtime\",\"connecting\":null,\"runtimes\":[{\"id\":\"claude\",\"label\":\"Claude Code\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/claude\",\"path\":\"/opt/homebrew/bin/claude\",\"customPath\":\"\",\"desktop\":false,\"desktopPath\":\"\",\"desktopLabel\":\"Claude 桌面版\",\"version\":\"2.1.285 (Claude Code)\",\"mode\":\"mcp\",\"plugin\":{\"ok\":false,\"at\":\"2026-10-23T10:47:29.778Z\",\"output\":\"插件未注册到 Claude Code\"}},{\"id\":\"codex\",\"label\":\"Codex\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/codex\",\"path\":\"/opt/homebrew/bin/codex\",\"customPath\":\"\",\"desktop\":false,\"desktopPath\":\"\",\"desktopLabel\":\"Codex 桌面版\",\"version\":\"codex-cli 0.163."
+ },
+ {
+  "t": 1793196921717,
+  "method": "GET",
+  "url": "/__canvas-hub/state",
+  "status": 200,
+  "resp": "{\"ok\":true,\"localHub\":true,\"server\":{\"running\":true,\"url\":\"http://127.0.0.1:17371\",\"token\":\"6076e31f4497025ea74106480193e2f29e34\",\"error\":\"\"},\"runtime\":\"codex\",\"mode\":\"runtime\",\"connecting\":null,\"runtimes\":[{\"id\":\"claude\",\"label\":\"Claude Code\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/claude\",\"path\":\"/opt/homebrew/bin/claude\",\"customPath\":\"\",\"desktop\":false,\"desktopPath\":\"\",\"desktopLabel\":\"Claude 桌面版\",\"version\":\"2.1.285 (Claude Code)\",\"mode\":\"mcp\",\"plugin\":{\"ok\":false,\"at\":\"2026-10-23T10:47:29.778Z\",\"output\":\"插件未注册到 Claude Code\"}},{\"id\":\"codex\",\"label\":\"Codex\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/codex\",\"path\":\"/opt/homebrew/bin/codex\",\"customPath\":\"\",\"desktop\":false,\"desktopPath\":\"\",\"desktopLabel\":\"Codex 桌面版\",\"version\":\"codex-cli 0.163."
+ },
+ {
+  "t": 1793196924717,
+  "method": "GET",
+  "url": "/__canvas-hub/state",
+  "status": 200,
+  "resp": "{\"ok\":true,\"localHub\":true,\"server\":{\"running\":true,\"url\":\"http://127.0.0.1:17371\",\"token\":\"6076e31f4497025ea74106480193e2f29e34\",\"error\":\"\"},\"runtime\":\"codex\",\"mode\":\"runtime\",\"connecting\":null,\"runtimes\":[{\"id\":\"claude\",\"label\":\"Claude Code\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/claude\",\"path\":\"/opt/homebrew/bin/claude\",\"customPath\":\"\",\"desktop\":false,\"desktopPath\":\"\",\"desktopLabel\":\"Claude 桌面版\",\"version\":\"2.1.285 (Claude Code)\",\"mode\":\"mcp\",\"plugin\":{\"ok\":false,\"at\":\"2026-10-23T10:47:29.778Z\",\"output\":\"插件未注册到 Claude Code\"}},{\"id\":\"codex\",\"label\":\"Codex\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/codex\",\"path\":\"/opt/homebrew/bin/codex\",\"customPath\":\"\",\"desktop\":false,\"desktopPath\":\"\",\"desktopLabel\":\"Codex 桌面版\",\"version\":\"codex-cli 0.163."
+ },
+ {
+  "t": 1793196927717,
+  "method": "GET",
+  "url": "/__canvas-hub/state",
+  "status": 200,
+  "resp": "{\"ok\":true,\"localHub\":true,\"server\":{\"running\":true,\"url\":\"http://127.0.0.1:17371\",\"token\":\"6076e31f4497025ea74106480193e2f29e34\",\"error\":\"\"},\"runtime\":\"codex\",\"mode\":\"runtime\",\"connecting\":null,\"runtimes\":[{\"id\":\"claude\",\"label\":\"Claude Code\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/claude\",\"path\":\"/opt/homebrew/bin/claude\",\"customPath\":\"\",\"desktop\":false,\"desktopPath\":\"\",\"desktopLabel\":\"Claude 桌面版\",\"version\":\"2.1.285 (Claude Code)\",\"mode\":\"mcp\",\"plugin\":{\"ok\":false,\"at\":\"2026-10-23T10:47:29.778Z\",\"output\":\"插件未注册到 Claude Code\"}},{\"id\":\"codex\",\"label\":\"Codex\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/codex\",\"path\":\"/opt/homebrew/bin/codex\",\"customPath\":\"\",\"desktop\":false,\"desktopPath\":\"\",\"desktopLabel\":\"Codex 桌面版\",\"version\":\"codex-cli 0.163."
+ },
+ {
+  "t": 1793196930717,
+  "method": "GET",
+  "url": "/__canvas-hub/state",
+  "status": 200,
+  "resp": "{\"ok\":true,\"localHub\":true,\"server\":{\"running\":true,\"url\":\"http://127.0.0.1:17371\",\"token\":\"6076e31f4497025ea74106480193e2f29e34\",\"error\":\"\"},\"runtime\":\"codex\",\"mode\":\"runtime\",\"connecting\":null,\"runtimes\":[{\"id\":\"claude\",\"label\":\"Claude Code\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/claude\",\"path\":\"/opt/homebrew/bin/claude\",\"customPath\":\"\",\"desktop\":false,\"desktopPath\":\"\",\"desktopLabel\":\"Claude 桌面版\",\"version\":\"2.1.285 (Claude Code)\",\"mode\":\"mcp\",\"plugin\":{\"ok\":false,\"at\":\"2026-10-23T10:47:29.778Z\",\"output\":\"插件未注册到 Claude Code\"}},{\"id\":\"codex\",\"label\":\"Codex\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/codex\",\"path\":\"/opt/homebrew/bin/codex\",\"customPath\":\"\",\"desktop\":false,\"desktopPath\":\"\",\"desktopLabel\":\"Codex 桌面版\",\"version\":\"codex-cli 0.163."
+ },
+ {
+  "t": 1793196933716,
+  "method": "GET",
+  "url": "/__canvas-hub/state",
+  "status": 200,
+  "resp": "{\"ok\":true,\"localHub\":true,\"server\":{\"running\":true,\"url\":\"http://127.0.0.1:17371\",\"token\":\"6076e31f4497025ea74106480193e2f29e34\",\"error\":\"\"},\"runtime\":\"codex\",\"mode\":\"runtime\",\"connecting\":null,\"runtimes\":[{\"id\":\"claude\",\"label\":\"Claude Code\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/claude\",\"path\":\"/opt/homebrew/bin/claude\",\"customPath\":\"\",\"desktop\":false,\"desktopPath\":\"\",\"desktopLabel\":\"Claude 桌面版\",\"version\":\"2.1.285 (Claude Code)\",\"mode\":\"mcp\",\"plugin\":{\"ok\":false,\"at\":\"2026-10-23T10:47:29.778Z\",\"output\":\"插件未注册到 Claude Code\"}},{\"id\":\"codex\",\"label\":\"Codex\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/codex\",\"path\":\"/opt/homebrew/bin/codex\",\"customPath\":\"\",\"desktop\":false,\"desktopPath\":\"\",\"desktopLabel\":\"Codex 桌面版\",\"version\":\"codex-cli 0.163."
+ },
+ {
+  "t": 1793196936715,
+  "method": "GET",
+  "url": "/__canvas-hub/state",
+  "status": 200,
+  "resp": "{\"ok\":true,\"localHub\":true,\"server\":{\"running\":true,\"url\":\"http://127.0.0.1:17371\",\"token\":\"6076e31f4497025ea74106480193e2f29e34\",\"error\":\"\"},\"runtime\":\"codex\",\"mode\":\"runtime\",\"connecting\":null,\"runtimes\":[{\"id\":\"claude\",\"label\":\"Claude Code\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/claude\",\"path\":\"/opt/homebrew/bin/claude\",\"customPath\":\"\",\"desktop\":false,\"desktopPath\":\"\",\"desktopLabel\":\"Claude 桌面版\",\"version\":\"2.1.285 (Claude Code)\",\"mode\":\"mcp\",\"plugin\":{\"ok\":false,\"at\":\"2026-10-23T10:47:29.778Z\",\"output\":\"插件未注册到 Claude Code\"}},{\"id\":\"codex\",\"label\":\"Codex\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/codex\",\"path\":\"/opt/homebrew/bin/codex\",\"customPath\":\"\",\"desktop\":false,\"desktopPath\":\"\",\"desktopLabel\":\"Codex 桌面版\",\"version\":\"codex-cli 0.163."
+ },
+ {
+  "t": 1793196939716,
+  "method": "GET",
+  "url": "/__canvas-hub/state",
+  "status": 200,
+  "resp": "{\"ok\":true,\"localHub\":true,\"server\":{\"running\":true,\"url\":\"http://127.0.0.1:17371\",\"token\":\"6076e31f4497025ea74106480193e2f29e34\",\"error\":\"\"},\"runtime\":\"codex\",\"mode\":\"runtime\",\"connecting\":null,\"runtimes\":[{\"id\":\"claude\",\"label\":\"Claude Code\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/claude\",\"path\":\"/opt/homebrew/bin/claude\",\"customPath\":\"\",\"desktop\":false,\"desktopPath\":\"\",\"desktopLabel\":\"Claude 桌面版\",\"version\":\"2.1.285 (Claude Code)\",\"mode\":\"mcp\",\"plugin\":{\"ok\":false,\"at\":\"2026-10-23T10:47:29.778Z\",\"output\":\"插件未注册到 Claude Code\"}},{\"id\":\"codex\",\"label\":\"Codex\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/codex\",\"path\":\"/opt/homebrew/bin/codex\",\"customPath\":\"\",\"desktop\":false,\"desktopPath\":\"\",\"desktopLabel\":\"Codex 桌面版\",\"version\":\"codex-cli 0.163."
+ },
+ {
+  "t": 1793196942716,
+  "method": "GET",
+  "url": "/__canvas-hub/state",
+  "status": 200,
+  "resp": "{\"ok\":true,\"localHub\":true,\"server\":{\"running\":true,\"url\":\"http://127.0.0.1:17371\",\"token\":\"6076e31f4497025ea74106480193e2f29e34\",\"error\":\"\"},\"runtime\":\"codex\",\"mode\":\"runtime\",\"connecting\":null,\"runtimes\":[{\"id\":\"claude\",\"label\":\"Claude Code\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/claude\",\"path\":\"/opt/homebrew/bin/claude\",\"customPath\":\"\",\"desktop\":false,\"desktopPath\":\"\",\"desktopLabel\":\"Claude 桌面版\",\"version\":\"2.1.285 (Claude Code)\",\"mode\":\"mcp\",\"plugin\":{\"ok\":false,\"at\":\"2026-10-23T10:47:29.778Z\",\"output\":\"插件未注册到 Claude Code\"}},{\"id\":\"codex\",\"label\":\"Codex\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/codex\",\"path\":\"/opt/homebrew/bin/codex\",\"customPath\":\"\",\"desktop\":false,\"desktopPath\":\"\",\"desktopLabel\":\"Codex 桌面版\",\"version\":\"codex-cli 0.163."
+ },
+ {
+  "t": 1793196945717,
+  "method": "GET",
+  "url": "/__canvas-hub/state",
+  "status": 200,
+  "resp": "{\"ok\":true,\"localHub\":true,\"server\":{\"running\":true,\"url\":\"http://127.0.0.1:17371\",\"token\":\"6076e31f4497025ea74106480193e2f29e34\",\"error\":\"\"},\"runtime\":\"codex\",\"mode\":\"runtime\",\"connecting\":null,\"runtimes\":[{\"id\":\"claude\",\"label\":\"Claude Code\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/claude\",\"path\":\"/opt/homebrew/bin/claude\",\"customPath\":\"\",\"desktop\":false,\"desktopPath\":\"\",\"desktopLabel\":\"Claude 桌面版\",\"version\":\"2.1.285 (Claude Code)\",\"mode\":\"mcp\",\"plugin\":{\"ok\":false,\"at\":\"2026-10-23T10:47:29.778Z\",\"output\":\"插件未注册到 Claude Code\"}},{\"id\":\"codex\",\"label\":\"Codex\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/codex\",\"path\":\"/opt/homebrew/bin/codex\",\"customPath\":\"\",\"desktop\":false,\"desktopPath\":\"\",\"desktopLabel\":\"Codex 桌面版\",\"version\":\"codex-cli 0.163."
+ },
+ {
+  "t": 1793196948716,
+  "method": "GET",
+  "url": "/__canvas-hub/state",
+  "status": 200,
+  "resp": "{\"ok\":true,\"localHub\":true,\"server\":{\"running\":true,\"url\":\"http://127.0.0.1:17371\",\"token\":\"6076e31f4497025ea74106480193e2f29e34\",\"error\":\"\"},\"runtime\":\"codex\",\"mode\":\"runtime\",\"connecting\":null,\"runtimes\":[{\"id\":\"claude\",\"label\":\"Claude Code\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/claude\",\"path\":\"/opt/homebrew/bin/claude\",\"customPath\":\"\",\"desktop\":false,\"desktopPath\":\"\",\"desktopLabel\":\"Claude 桌面版\",\"version\":\"2.1.285 (Claude Code)\",\"mode\":\"mcp\",\"plugin\":{\"ok\":false,\"at\":\"2026-10-23T10:47:29.778Z\",\"output\":\"插件未注册到 Claude Code\"}},{\"id\":\"codex\",\"label\":\"Codex\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/codex\",\"path\":\"/opt/homebrew/bin/codex\",\"customPath\":\"\",\"desktop\":false,\"desktopPath\":\"\",\"desktopLabel\":\"Codex 桌面版\",\"version\":\"codex-cli 0.163."
+ },
+ {
+  "t": 1793196951716,
+  "method": "GET",
+  "url": "/__canvas-hub/state",
+  "status": 200,
+  "resp": "{\"ok\":true,\"localHub\":true,\"server\":{\"running\":true,\"url\":\"http://127.0.0.1:17371\",\"token\":\"6076e31f4497025ea74106480193e2f29e34\",\"error\":\"\"},\"runtime\":\"codex\",\"mode\":\"runtime\",\"connecting\":null,\"runtimes\":[{\"id\":\"claude\",\"label\":\"Claude Code\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/claude\",\"path\":\"/opt/homebrew/bin/claude\",\"customPath\":\"\",\"desktop\":false,\"desktopPath\":\"\",\"desktopLabel\":\"Claude 桌面版\",\"version\":\"2.1.285 (Claude Code)\",\"mode\":\"mcp\",\"plugin\":{\"ok\":false,\"at\":\"2026-10-23T10:47:29.778Z\",\"output\":\"插件未注册到 Claude Code\"}},{\"id\":\"codex\",\"label\":\"Codex\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/codex\",\"path\":\"/opt/homebrew/bin/codex\",\"customPath\":\"\",\"desktop\":false,\"desktopPath\":\"\",\"desktopLabel\":\"Codex 桌面版\",\"version\":\"codex-cli 0.163."
+ },
+ {
+  "t": 1793196954716,
+  "method": "GET",
+  "url": "/__canvas-hub/state",
+  "status": 200,
+  "resp": "{\"ok\":true,\"localHub\":true,\"server\":{\"running\":true,\"url\":\"http://127.0.0.1:17371\",\"token\":\"6076e31f4497025ea74106480193e2f29e34\",\"error\":\"\"},\"runtime\":\"codex\",\"mode\":\"runtime\",\"connecting\":null,\"runtimes\":[{\"id\":\"claude\",\"label\":\"Claude Code\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/claude\",\"path\":\"/opt/homebrew/bin/claude\",\"customPath\":\"\",\"desktop\":false,\"desktopPath\":\"\",\"desktopLabel\":\"Claude 桌面版\",\"version\":\"2.1.285 (Claude Code)\",\"mode\":\"mcp\",\"plugin\":{\"ok\":false,\"at\":\"2026-10-23T10:47:29.778Z\",\"output\":\"插件未注册到 Claude Code\"}},{\"id\":\"codex\",\"label\":\"Codex\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/codex\",\"path\":\"/opt/homebrew/bin/codex\",\"customPath\":\"\",\"desktop\":false,\"desktopPath\":\"\",\"desktopLabel\":\"Codex 桌面版\",\"version\":\"codex-cli 0.163."
+ },
+ {
+  "t": 1793196957716,
+  "method": "GET",
+  "url": "/__canvas-hub/state",
+  "status": 200,
+  "resp": "{\"ok\":true,\"localHub\":true,\"server\":{\"running\":true,\"url\":\"http://127.0.0.1:17371\",\"token\":\"6076e31f4497025ea74106480193e2f29e34\",\"error\":\"\"},\"runtime\":\"codex\",\"mode\":\"runtime\",\"connecting\":null,\"runtimes\":[{\"id\":\"claude\",\"label\":\"Claude Code\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/claude\",\"path\":\"/opt/homebrew/bin/claude\",\"customPath\":\"\",\"desktop\":false,\"desktopPath\":\"\",\"desktopLabel\":\"Claude 桌面版\",\"version\":\"2.1.285 (Claude Code)\",\"mode\":\"mcp\",\"plugin\":{\"ok\":false,\"at\":\"2026-10-23T10:47:29.778Z\",\"output\":\"插件未注册到 Claude Code\"}},{\"id\":\"codex\",\"label\":\"Codex\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/codex\",\"path\":\"/opt/homebrew/bin/codex\",\"customPath\":\"\",\"desktop\":false,\"desktopPath\":\"\",\"desktopLabel\":\"Codex 桌面版\",\"version\":\"codex-cli 0.163."
+ },
+ {
+  "t": 1793196960717,
+  "method": "GET",
+  "url": "/__canvas-hub/state",
+  "status": 200,
+  "resp": "{\"ok\":true,\"localHub\":true,\"server\":{\"running\":true,\"url\":\"http://127.0.0.1:17371\",\"token\":\"6076e31f4497025ea74106480193e2f29e34\",\"error\":\"\"},\"runtime\":\"codex\",\"mode\":\"runtime\",\"connecting\":null,\"runtimes\":[{\"id\":\"claude\",\"label\":\"Claude Code\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/claude\",\"path\":\"/opt/homebrew/bin/claude\",\"customPath\":\"\",\"desktop\":false,\"desktopPath\":\"\",\"desktopLabel\":\"Claude 桌面版\",\"version\":\"2.1.285 (Claude Code)\",\"mode\":\"mcp\",\"plugin\":{\"ok\":false,\"at\":\"2026-10-23T10:47:29.778Z\",\"output\":\"插件未注册到 Claude Code\"}},{\"id\":\"codex\",\"label\":\"Codex\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/codex\",\"path\":\"/opt/homebrew/bin/codex\",\"customPath\":\"\",\"desktop\":false,\"desktopPath\":\"\",\"desktopLabel\":\"Codex 桌面版\",\"version\":\"codex-cli 0.163."
+ },
+ {
+  "t": 1793196963714,
+  "method": "GET",
+  "url": "/__canvas-hub/state",
+  "status": 200,
+  "resp": "{\"ok\":true,\"localHub\":true,\"server\":{\"running\":true,\"url\":\"http://127.0.0.1:17371\",\"token\":\"6076e31f4497025ea74106480193e2f29e34\",\"error\":\"\"},\"runtime\":\"codex\",\"mode\":\"runtime\",\"connecting\":null,\"runtimes\":[{\"id\":\"claude\",\"label\":\"Claude Code\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/claude\",\"path\":\"/opt/homebrew/bin/claude\",\"customPath\":\"\",\"desktop\":false,\"desktopPath\":\"\",\"desktopLabel\":\"Claude 桌面版\",\"version\":\"2.1.285 (Claude Code)\",\"mode\":\"mcp\",\"plugin\":{\"ok\":false,\"at\":\"2026-10-23T10:47:29.778Z\",\"output\":\"插件未注册到 Claude Code\"}},{\"id\":\"codex\",\"label\":\"Codex\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/codex\",\"path\":\"/opt/homebrew/bin/codex\",\"customPath\":\"\",\"desktop\":false,\"desktopPath\":\"\",\"desktopLabel\":\"Codex 桌面版\",\"version\":\"codex-cli 0.163."
+ },
+ {
+  "t": 1793196966716,
+  "method": "GET",
+  "url": "/__canvas-hub/state",
+  "status": 200,
+  "resp": "{\"ok\":true,\"localHub\":true,\"server\":{\"running\":true,\"url\":\"http://127.0.0.1:17371\",\"token\":\"6076e31f4497025ea74106480193e2f29e34\",\"error\":\"\"},\"runtime\":\"codex\",\"mode\":\"runtime\",\"connecting\":null,\"runtimes\":[{\"id\":\"claude\",\"label\":\"Claude Code\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/claude\",\"path\":\"/opt/homebrew/bin/claude\",\"customPath\":\"\",\"desktop\":false,\"desktopPath\":\"\",\"desktopLabel\":\"Claude 桌面版\",\"version\":\"2.1.285 (Claude Code)\",\"mode\":\"mcp\",\"plugin\":{\"ok\":false,\"at\":\"2026-10-23T10:47:29.778Z\",\"output\":\"插件未注册到 Claude Code\"}},{\"id\":\"codex\",\"label\":\"Codex\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/codex\",\"path\":\"/opt/homebrew/bin/codex\",\"customPath\":\"\",\"desktop\":false,\"desktopPath\":\"\",\"desktopLabel\":\"Codex 桌面版\",\"version\":\"codex-cli 0.163."
+ },
+ {
+  "t": 1793196969716,
+  "method": "GET",
+  "url": "/__canvas-hub/state",
+  "status": 200,
+  "resp": "{\"ok\":true,\"localHub\":true,\"server\":{\"running\":true,\"url\":\"http://127.0.0.1:17371\",\"token\":\"6076e31f4497025ea74106480193e2f29e34\",\"error\":\"\"},\"runtime\":\"codex\",\"mode\":\"runtime\",\"connecting\":null,\"runtimes\":[{\"id\":\"claude\",\"label\":\"Claude Code\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/claude\",\"path\":\"/opt/homebrew/bin/claude\",\"customPath\":\"\",\"desktop\":false,\"desktopPath\":\"\",\"desktopLabel\":\"Claude 桌面版\",\"version\":\"2.1.285 (Claude Code)\",\"mode\":\"mcp\",\"plugin\":{\"ok\":false,\"at\":\"2026-10-23T10:47:29.778Z\",\"output\":\"插件未注册到 Claude Code\"}},{\"id\":\"codex\",\"label\":\"Codex\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/codex\",\"path\":\"/opt/homebrew/bin/codex\",\"customPath\":\"\",\"desktop\":false,\"desktopPath\":\"\",\"desktopLabel\":\"Codex 桌面版\",\"version\":\"codex-cli 0.163."
+ },
+ {
+  "t": 1793196972716,
+  "method": "GET",
+  "url": "/__canvas-hub/state",
+  "status": 200,
+  "resp": "{\"ok\":true,\"localHub\":true,\"server\":{\"running\":true,\"url\":\"http://127.0.0.1:17371\",\"token\":\"6076e31f4497025ea74106480193e2f29e34\",\"error\":\"\"},\"runtime\":\"codex\",\"mode\":\"runtime\",\"connecting\":null,\"runtimes\":[{\"id\":\"claude\",\"label\":\"Claude Code\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/claude\",\"path\":\"/opt/homebrew/bin/claude\",\"customPath\":\"\",\"desktop\":false,\"desktopPath\":\"\",\"desktopLabel\":\"Claude 桌面版\",\"version\":\"2.1.285 (Claude Code)\",\"mode\":\"mcp\",\"plugin\":{\"ok\":false,\"at\":\"2026-10-23T10:47:29.778Z\",\"output\":\"插件未注册到 Claude Code\"}},{\"id\":\"codex\",\"label\":\"Codex\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/codex\",\"path\":\"/opt/homebrew/bin/codex\",\"customPath\":\"\",\"desktop\":false,\"desktopPath\":\"\",\"desktopLabel\":\"Codex 桌面版\",\"version\":\"codex-cli 0.163."
+ },
+ {
+  "t": 1793196975715,
+  "method": "GET",
+  "url": "/__canvas-hub/state",
+  "status": 200,
+  "resp": "{\"ok\":true,\"localHub\":true,\"server\":{\"running\":true,\"url\":\"http://127.0.0.1:17371\",\"token\":\"6076e31f4497025ea74106480193e2f29e34\",\"error\":\"\"},\"runtime\":\"codex\",\"mode\":\"runtime\",\"connecting\":null,\"runtimes\":[{\"id\":\"claude\",\"label\":\"Claude Code\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/claude\",\"path\":\"/opt/homebrew/bin/claude\",\"customPath\":\"\",\"desktop\":false,\"desktopPath\":\"\",\"desktopLabel\":\"Claude 桌面版\",\"version\":\"2.1.285 (Claude Code)\",\"mode\":\"mcp\",\"plugin\":{\"ok\":false,\"at\":\"2026-10-23T10:47:29.778Z\",\"output\":\"插件未注册到 Claude Code\"}},{\"id\":\"codex\",\"label\":\"Codex\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/codex\",\"path\":\"/opt/homebrew/bin/codex\",\"customPath\":\"\",\"desktop\":false,\"desktopPath\":\"\",\"desktopLabel\":\"Codex 桌面版\",\"version\":\"codex-cli 0.163."
+ },
+ {
+  "t": 1793196978714,
+  "method": "GET",
+  "url": "/__canvas-hub/state",
+  "status": 200,
+  "resp": "{\"ok\":true,\"localHub\":true,\"server\":{\"running\":true,\"url\":\"http://127.0.0.1:17371\",\"token\":\"6076e31f4497025ea74106480193e2f29e34\",\"error\":\"\"},\"runtime\":\"codex\",\"mode\":\"runtime\",\"connecting\":null,\"runtimes\":[{\"id\":\"claude\",\"label\":\"Claude Code\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/claude\",\"path\":\"/opt/homebrew/bin/claude\",\"customPath\":\"\",\"desktop\":false,\"desktopPath\":\"\",\"desktopLabel\":\"Claude 桌面版\",\"version\":\"2.1.285 (Claude Code)\",\"mode\":\"mcp\",\"plugin\":{\"ok\":false,\"at\":\"2026-10-23T10:47:29.778Z\",\"output\":\"插件未注册到 Claude Code\"}},{\"id\":\"codex\",\"label\":\"Codex\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/codex\",\"path\":\"/opt/homebrew/bin/codex\",\"customPath\":\"\",\"desktop\":false,\"desktopPath\":\"\",\"desktopLabel\":\"Codex 桌面版\",\"version\":\"codex-cli 0.163."
+ },
+ {
+  "t": 1793196981716,
+  "method": "GET",
+  "url": "/__canvas-hub/state",
+  "status": 200,
+  "resp": "{\"ok\":true,\"localHub\":true,\"server\":{\"running\":true,\"url\":\"http://127.0.0.1:17371\",\"token\":\"6076e31f4497025ea74106480193e2f29e34\",\"error\":\"\"},\"runtime\":\"codex\",\"mode\":\"runtime\",\"connecting\":null,\"runtimes\":[{\"id\":\"claude\",\"label\":\"Claude Code\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/claude\",\"path\":\"/opt/homebrew/bin/claude\",\"customPath\":\"\",\"desktop\":false,\"desktopPath\":\"\",\"desktopLabel\":\"Claude 桌面版\",\"version\":\"2.1.285 (Claude Code)\",\"mode\":\"mcp\",\"plugin\":{\"ok\":false,\"at\":\"2026-10-23T10:47:29.778Z\",\"output\":\"插件未注册到 Claude Code\"}},{\"id\":\"codex\",\"label\":\"Codex\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/codex\",\"path\":\"/opt/homebrew/bin/codex\",\"customPath\":\"\",\"desktop\":false,\"desktopPath\":\"\",\"desktopLabel\":\"Codex 桌面版\",\"version\":\"codex-cli 0.163."
+ },
+ {
+  "t": 1793196984716,
+  "method": "GET",
+  "url": "/__canvas-hub/state",
+  "status": 200,
+  "resp": "{\"ok\":true,\"localHub\":true,\"server\":{\"running\":true,\"url\":\"http://127.0.0.1:17371\",\"token\":\"6076e31f4497025ea74106480193e2f29e34\",\"error\":\"\"},\"runtime\":\"codex\",\"mode\":\"runtime\",\"connecting\":null,\"runtimes\":[{\"id\":\"claude\",\"label\":\"Claude Code\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/claude\",\"path\":\"/opt/homebrew/bin/claude\",\"customPath\":\"\",\"desktop\":false,\"desktopPath\":\"\",\"desktopLabel\":\"Claude 桌面版\",\"version\":\"2.1.285 (Claude Code)\",\"mode\":\"mcp\",\"plugin\":{\"ok\":false,\"at\":\"2026-10-23T10:47:29.778Z\",\"output\":\"插件未注册到 Claude Code\"}},{\"id\":\"codex\",\"label\":\"Codex\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/codex\",\"path\":\"/opt/homebrew/bin/codex\",\"customPath\":\"\",\"desktop\":false,\"desktopPath\":\"\",\"desktopLabel\":\"Codex 桌面版\",\"version\":\"codex-cli 0.163."
+ },
+ {
+  "t": 1793196987716,
+  "method": "GET",
+  "url": "/__canvas-hub/state",
+  "status": 200,
+  "resp": "{\"ok\":true,\"localHub\":true,\"server\":{\"running\":true,\"url\":\"http://127.0.0.1:17371\",\"token\":\"6076e31f4497025ea74106480193e2f29e34\",\"error\":\"\"},\"runtime\":\"codex\",\"mode\":\"runtime\",\"connecting\":null,\"runtimes\":[{\"id\":\"claude\",\"label\":\"Claude Code\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/claude\",\"path\":\"/opt/homebrew/bin/claude\",\"customPath\":\"\",\"desktop\":false,\"desktopPath\":\"\",\"desktopLabel\":\"Claude 桌面版\",\"version\":\"2.1.285 (Claude Code)\",\"mode\":\"mcp\",\"plugin\":{\"ok\":false,\"at\":\"2026-10-23T10:47:29.778Z\",\"output\":\"插件未注册到 Claude Code\"}},{\"id\":\"codex\",\"label\":\"Codex\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/codex\",\"path\":\"/opt/homebrew/bin/codex\",\"customPath\":\"\",\"desktop\":false,\"desktopPath\":\"\",\"desktopLabel\":\"Codex 桌面版\",\"version\":\"codex-cli 0.163."
+ },
+ {
+  "t": 1793196990716,
+  "method": "GET",
+  "url": "/__canvas-hub/state",
+  "status": 200,
+  "resp": "{\"ok\":true,\"localHub\":true,\"server\":{\"running\":true,\"url\":\"http://127.0.0.1:17371\",\"token\":\"6076e31f4497025ea74106480193e2f29e34\",\"error\":\"\"},\"runtime\":\"codex\",\"mode\":\"runtime\",\"connecting\":null,\"runtimes\":[{\"id\":\"claude\",\"label\":\"Claude Code\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/claude\",\"path\":\"/opt/homebrew/bin/claude\",\"customPath\":\"\",\"desktop\":false,\"desktopPath\":\"\",\"desktopLabel\":\"Claude 桌面版\",\"version\":\"2.1.285 (Claude Code)\",\"mode\":\"mcp\",\"plugin\":{\"ok\":false,\"at\":\"2026-10-23T10:47:29.778Z\",\"output\":\"插件未注册到 Claude Code\"}},{\"id\":\"codex\",\"label\":\"Codex\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/codex\",\"path\":\"/opt/homebrew/bin/codex\",\"customPath\":\"\",\"desktop\":false,\"desktopPath\":\"\",\"desktopLabel\":\"Codex 桌面版\",\"version\":\"codex-cli 0.163."
+ },
+ {
+  "t": 1793196993716,
+  "method": "GET",
+  "url": "/__canvas-hub/state",
+  "status": 200,
+  "resp": "{\"ok\":true,\"localHub\":true,\"server\":{\"running\":true,\"url\":\"http://127.0.0.1:17371\",\"token\":\"6076e31f4497025ea74106480193e2f29e34\",\"error\":\"\"},\"runtime\":\"codex\",\"mode\":\"runtime\",\"connecting\":null,\"runtimes\":[{\"id\":\"claude\",\"label\":\"Claude Code\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/claude\",\"path\":\"/opt/homebrew/bin/claude\",\"customPath\":\"\",\"desktop\":false,\"desktopPath\":\"\",\"desktopLabel\":\"Claude 桌面版\",\"version\":\"2.1.285 (Claude Code)\",\"mode\":\"mcp\",\"plugin\":{\"ok\":false,\"at\":\"2026-10-23T10:47:29.778Z\",\"output\":\"插件未注册到 Claude Code\"}},{\"id\":\"codex\",\"label\":\"Codex\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/codex\",\"path\":\"/opt/homebrew/bin/codex\",\"customPath\":\"\",\"desktop\":false,\"desktopPath\":\"\",\"desktopLabel\":\"Codex 桌面版\",\"version\":\"codex-cli 0.163."
+ },
+ {
+  "t": 1793196996716,
+  "method": "GET",
+  "url": "/__canvas-hub/state",
+  "status": 200,
+  "resp": "{\"ok\":true,\"localHub\":true,\"server\":{\"running\":true,\"url\":\"http://127.0.0.1:17371\",\"token\":\"6076e31f4497025ea74106480193e2f29e34\",\"error\":\"\"},\"runtime\":\"codex\",\"mode\":\"runtime\",\"connecting\":null,\"runtimes\":[{\"id\":\"claude\",\"label\":\"Claude Code\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/claude\",\"path\":\"/opt/homebrew/bin/claude\",\"customPath\":\"\",\"desktop\":false,\"desktopPath\":\"\",\"desktopLabel\":\"Claude 桌面版\",\"version\":\"2.1.285 (Claude Code)\",\"mode\":\"mcp\",\"plugin\":{\"ok\":false,\"at\":\"2026-10-23T10:47:29.778Z\",\"output\":\"插件未注册到 Claude Code\"}},{\"id\":\"codex\",\"label\":\"Codex\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/codex\",\"path\":\"/opt/homebrew/bin/codex\",\"customPath\":\"\",\"desktop\":false,\"desktopPath\":\"\",\"desktopLabel\":\"Codex 桌面版\",\"version\":\"codex-cli 0.163."
+ },
+ {
+  "t": 1793196999716,
+  "method": "GET",
+  "url": "/__canvas-hub/state",
+  "status": 200,
+  "resp": "{\"ok\":true,\"localHub\":true,\"server\":{\"running\":true,\"url\":\"http://127.0.0.1:17371\",\"token\":\"6076e31f4497025ea74106480193e2f29e34\",\"error\":\"\"},\"runtime\":\"codex\",\"mode\":\"runtime\",\"connecting\":null,\"runtimes\":[{\"id\":\"claude\",\"label\":\"Claude Code\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/claude\",\"path\":\"/opt/homebrew/bin/claude\",\"customPath\":\"\",\"desktop\":false,\"desktopPath\":\"\",\"desktopLabel\":\"Claude 桌面版\",\"version\":\"2.1.285 (Claude Code)\",\"mode\":\"mcp\",\"plugin\":{\"ok\":false,\"at\":\"2026-10-23T10:47:29.778Z\",\"output\":\"插件未注册到 Claude Code\"}},{\"id\":\"codex\",\"label\":\"Codex\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/codex\",\"path\":\"/opt/homebrew/bin/codex\",\"customPath\":\"\",\"desktop\":false,\"desktopPath\":\"\",\"desktopLabel\":\"Codex 桌面版\",\"version\":\"codex-cli 0.163."
+ },
+ {
+  "t": 1793197002716,
+  "method": "GET",
+  "url": "/__canvas-hub/state",
+  "status": 200,
+  "resp": "{\"ok\":true,\"localHub\":true,\"server\":{\"running\":true,\"url\":\"http://127.0.0.1:17371\",\"token\":\"6076e31f4497025ea74106480193e2f29e34\",\"error\":\"\"},\"runtime\":\"codex\",\"mode\":\"runtime\",\"connecting\":null,\"runtimes\":[{\"id\":\"claude\",\"label\":\"Claude Code\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/claude\",\"path\":\"/opt/homebrew/bin/claude\",\"customPath\":\"\",\"desktop\":false,\"desktopPath\":\"\",\"desktopLabel\":\"Claude 桌面版\",\"version\":\"2.1.285 (Claude Code)\",\"mode\":\"mcp\",\"plugin\":{\"ok\":false,\"at\":\"2026-10-23T10:47:29.778Z\",\"output\":\"插件未注册到 Claude Code\"}},{\"id\":\"codex\",\"label\":\"Codex\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/codex\",\"path\":\"/opt/homebrew/bin/codex\",\"customPath\":\"\",\"desktop\":false,\"desktopPath\":\"\",\"desktopLabel\":\"Codex 桌面版\",\"version\":\"codex-cli 0.163."
+ },
+ {
+  "t": 1793197005714,
+  "method": "GET",
+  "url": "/__canvas-hub/state",
+  "status": 200,
+  "resp": "{\"ok\":true,\"localHub\":true,\"server\":{\"running\":true,\"url\":\"http://127.0.0.1:17371\",\"token\":\"6076e31f4497025ea74106480193e2f29e34\",\"error\":\"\"},\"runtime\":\"codex\",\"mode\":\"runtime\",\"connecting\":null,\"runtimes\":[{\"id\":\"claude\",\"label\":\"Claude Code\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/claude\",\"path\":\"/opt/homebrew/bin/claude\",\"customPath\":\"\",\"desktop\":false,\"desktopPath\":\"\",\"desktopLabel\":\"Claude 桌面版\",\"version\":\"2.1.285 (Claude Code)\",\"mode\":\"mcp\",\"plugin\":{\"ok\":false,\"at\":\"2026-10-23T10:47:29.778Z\",\"output\":\"插件未注册到 Claude Code\"}},{\"id\":\"codex\",\"label\":\"Codex\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/codex\",\"path\":\"/opt/homebrew/bin/codex\",\"customPath\":\"\",\"desktop\":false,\"desktopPath\":\"\",\"desktopLabel\":\"Codex 桌面版\",\"version\":\"codex-cli 0.163."
+ },
+ {
+  "t": 1793197008716,
+  "method": "GET",
+  "url": "/__canvas-hub/state",
+  "status": 200,
+  "resp": "{\"ok\":true,\"localHub\":true,\"server\":{\"running\":true,\"url\":\"http://127.0.0.1:17371\",\"token\":\"6076e31f4497025ea74106480193e2f29e34\",\"error\":\"\"},\"runtime\":\"codex\",\"mode\":\"runtime\",\"connecting\":null,\"runtimes\":[{\"id\":\"claude\",\"label\":\"Claude Code\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/claude\",\"path\":\"/opt/homebrew/bin/claude\",\"customPath\":\"\",\"desktop\":false,\"desktopPath\":\"\",\"desktopLabel\":\"Claude 桌面版\",\"version\":\"2.1.285 (Claude Code)\",\"mode\":\"mcp\",\"plugin\":{\"ok\":false,\"at\":\"2026-10-23T10:47:29.778Z\",\"output\":\"插件未注册到 Claude Code\"}},{\"id\":\"codex\",\"label\":\"Codex\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/codex\",\"path\":\"/opt/homebrew/bin/codex\",\"customPath\":\"\",\"desktop\":false,\"desktopPath\":\"\",\"desktopLabel\":\"Codex 桌面版\",\"version\":\"codex-cli 0.163."
+ },
+ {
+  "t": 1793197011715,
+  "method": "GET",
+  "url": "/__canvas-hub/state",
+  "status": 200,
+  "resp": "{\"ok\":true,\"localHub\":true,\"server\":{\"running\":true,\"url\":\"http://127.0.0.1:17371\",\"token\":\"6076e31f4497025ea74106480193e2f29e34\",\"error\":\"\"},\"runtime\":\"codex\",\"mode\":\"runtime\",\"connecting\":null,\"runtimes\":[{\"id\":\"claude\",\"label\":\"Claude Code\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/claude\",\"path\":\"/opt/homebrew/bin/claude\",\"customPath\":\"\",\"desktop\":false,\"desktopPath\":\"\",\"desktopLabel\":\"Claude 桌面版\",\"version\":\"2.1.285 (Claude Code)\",\"mode\":\"mcp\",\"plugin\":{\"ok\":false,\"at\":\"2026-10-23T10:47:29.778Z\",\"output\":\"插件未注册到 Claude Code\"}},{\"id\":\"codex\",\"label\":\"Codex\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/codex\",\"path\":\"/opt/homebrew/bin/codex\",\"customPath\":\"\",\"desktop\":false,\"desktopPath\":\"\",\"desktopLabel\":\"Codex 桌面版\",\"version\":\"codex-cli 0.163."
+ },
+ {
+  "t": 1793197014716,
+  "method": "GET",
+  "url": "/__canvas-hub/state",
+  "status": 200,
+  "resp": "{\"ok\":true,\"localHub\":true,\"server\":{\"running\":true,\"url\":\"http://127.0.0.1:17371\",\"token\":\"6076e31f4497025ea74106480193e2f29e34\",\"error\":\"\"},\"runtime\":\"codex\",\"mode\":\"runtime\",\"connecting\":null,\"runtimes\":[{\"id\":\"claude\",\"label\":\"Claude Code\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/claude\",\"path\":\"/opt/homebrew/bin/claude\",\"customPath\":\"\",\"desktop\":false,\"desktopPath\":\"\",\"desktopLabel\":\"Claude 桌面版\",\"version\":\"2.1.285 (Claude Code)\",\"mode\":\"mcp\",\"plugin\":{\"ok\":false,\"at\":\"2026-10-23T10:47:29.778Z\",\"output\":\"插件未注册到 Claude Code\"}},{\"id\":\"codex\",\"label\":\"Codex\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/codex\",\"path\":\"/opt/homebrew/bin/codex\",\"customPath\":\"\",\"desktop\":false,\"desktopPath\":\"\",\"desktopLabel\":\"Codex 桌面版\",\"version\":\"codex-cli 0.163."
+ },
+ {
+  "t": 1793197017716,
+  "method": "GET",
+  "url": "/__canvas-hub/state",
+  "status": 200,
+  "resp": "{\"ok\":true,\"localHub\":true,\"server\":{\"running\":true,\"url\":\"http://127.0.0.1:17371\",\"token\":\"6076e31f4497025ea74106480193e2f29e34\",\"error\":\"\"},\"runtime\":\"codex\",\"mode\":\"runtime\",\"connecting\":null,\"runtimes\":[{\"id\":\"claude\",\"label\":\"Claude Code\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/claude\",\"path\":\"/opt/homebrew/bin/claude\",\"customPath\":\"\",\"desktop\":false,\"desktopPath\":\"\",\"desktopLabel\":\"Claude 桌面版\",\"version\":\"2.1.285 (Claude Code)\",\"mode\":\"mcp\",\"plugin\":{\"ok\":false,\"at\":\"2026-10-23T10:47:29.778Z\",\"output\":\"插件未注册到 Claude Code\"}},{\"id\":\"codex\",\"label\":\"Codex\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/codex\",\"path\":\"/opt/homebrew/bin/codex\",\"customPath\":\"\",\"desktop\":false,\"desktopPath\":\"\",\"desktopLabel\":\"Codex 桌面版\",\"version\":\"codex-cli 0.163."
+ }
+]

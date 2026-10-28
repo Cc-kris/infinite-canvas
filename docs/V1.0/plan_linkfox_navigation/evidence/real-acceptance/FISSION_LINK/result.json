@@ -1,0 +1,84 @@
+{
+  "tool_id": "FISSION_LINK",
+  "tool_name_cn": "场景裂变链接",
+  "route": "/tools/product-design/fission-link",
+  "group": "image",
+  "branch": "feat/linkfox-v1-real",
+  "app_base": "http://127.0.0.1:3000",
+  "mode": "real_ui_real_provider",
+  "status": "PASS",
+  "result": "verified",
+  "real_provider_call": true,
+  "provider": "ccai-tmp / gpt-image-2 via canvas-proxy 127.0.0.1:23210 -> https://api.cc-ai.xyz/v1/images/edits",
+  "run_at": "2026-10-28T22:31:08+08:00",
+  "inputs": {
+    "reference_asset": "product_watch.jpg (31860 bytes, uploaded through [data-testid=tool-asset-file-input])",
+    "fission_count": 1
+  },
+  "output": {
+    "count": 1,
+    "width": 1024,
+    "height": 1024,
+    "local_file": "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/FISSION_LINK/03-upstream-result.png",
+    "bytes": 1672875,
+    "upstream_url": "https://oss-us.dimenoss.com/images/2026/10/28/1793197893_b38fabf1e9a55f0751ed0b1d87791d2b.png",
+    "source": "上游响应 url 直接下载（结果格 <img> 的 src 与之一致）"
+  },
+  "steps": [
+    {
+      "step": "upload",
+      "result": "DataTransfer 注入 product_watch.jpg -> 资产列表出现该文件，预览 data-state=ready，提交按钮由 disabled 变可用",
+      "ok": true
+    },
+    {
+      "step": "submit",
+      "result": "点击 [data-testid=fission-link-submit] -> 结果区 '正在生成：已返回 0/1 张'",
+      "ok": true
+    },
+    {
+      "step": "network",
+      "result": "XHR POST http://127.0.0.1:23210/https://api.cc-ai.xyz/v1/images/edits -> HTTP 200；请求头 Authorization 存在（值长度 74 = 'Bearer '+67 位 key，未记录明文）",
+      "ok": true
+    },
+    {
+      "step": "poll",
+      "result": "约 50s 内结果区文案变为 '已生成 1 张'，[data-testid=fission-link-cell-1] 显示 '已完成'",
+      "ok": true
+    },
+    {
+      "step": "result-render",
+      "result": "结果格渲染 <img alt='裂变结果 1'>，naturalWidth/naturalHeight = 1024x1024，src 为 OSS png",
+      "ok": true
+    },
+    {
+      "step": "download",
+      "result": "按 <img> src 下载得到 1672875 字节、1024x1024 8-bit RGB PNG（03-upstream-result.png）",
+      "ok": true
+    }
+  ],
+  "evidence": [
+    "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/FISSION_LINK/03-upstream-result.png"
+  ],
+  "assertions": [
+    "真实上游出图：POST images/edits 返回 200，结果格 <img> 为 1024x1024 且可下载为合法 PNG（1672875 字节）",
+    "鉴权链路正常：XHR 请求头 Authorization 值长度 74（'Bearer '+67 位 key），非空",
+    "UI 状态机正确：等待提交 -> 正在生成 0/1 -> 已生成 1 张 / 已完成",
+    "模型链路：默认生图模型 gpt-image-2（渠道 ccai-tmp，OpenAI 协议，https://api.cc-ai.xyz）"
+  ],
+  "not_exercised": [
+    "下载按钮",
+    "存入资产",
+    "发送画布",
+    "多张裂变（本次只提交 1 张）"
+  ],
+  "environment_findings": [
+    {
+      "id": "ENV-1",
+      "kind": "本地代理进程老化（非产品缺陷）",
+      "detail": "canvas-proxy(127.0.0.1:23210, PID 87704，由 .worker-scratch-w6/proxy_launch.mjs 直接调用 startProxyServer 启动) 出网到 api.cc-ai.xyz 全部超时：curl 经该代理返回 000/25s，产品侧表现为 502 + '无法连接 api.cc-ai.xyz：连接超时（ETIMEDOUT）'。同一时刻同机 curl 直连、node 直连到 api.cc-ai.xyz 均 401/1.5s 正常，故非网络/密钥问题。",
+      "fix": "kill 87704 后以同一 launcher 重启 23210（startProxyServer 直起，不经 index.js 的系统代理 reexec），curl 复测 401/3.1s，产品侧随即 200 出图。",
+      "note": "此前一次提交报 'API key is required in Authorization header...' 亦为该代理异常态下的上游/转发错误，不是渠道 Key 缺失——渠道 ccai-tmp 的 API Key 已配置（长度 67，未落盘明文）。"
+    }
+  ],
+  "repro": "打开 /tools/product-design/fission-link -> 上传参考图 -> 点击『生成裂变结果』 -> 结果区第 1 张变为『已完成』并渲染 1024x1024 图"
+}
