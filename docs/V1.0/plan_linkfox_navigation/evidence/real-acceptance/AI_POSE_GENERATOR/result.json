@@ -1,0 +1,30 @@
+{
+  "tool": "AI_POSE_GENERATOR",
+  "name": "AI姿势生成",
+  "group": "POD",
+  "route": "/tools/product-design/ai-pose-generator",
+  "status": "PARTIAL",
+  "result": "provider_ok_ui_unverified",
+  "verdict": "PARTIAL",
+  "realProviderCall": true,
+  "provider": "ccai-tmp (CCAI 临时) / gpt-image-2 via canvas-proxy 127.0.0.1:23210 -> api.cc-ai.xyz",
+  "runAt": "2026-10-28T18:57:31+08:00",
+  "output": {
+    "count": 1,
+    "field": "b64_json",
+    "localFile": null,
+    "note": "provider 200 已记录，但 200 之后未补拍结果截图；现有 01-result.png 是提交前状态"
+  },
+  "evidence": [
+    "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/AI_POSE_GENERATOR/02-net.json",
+    "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/AI_POSE_GENERATOR/01-result.png",
+    "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/AI_POSE_GENERATOR/dom/ocr-01-result.txt"
+  ],
+  "assertions": [
+    "POST https://api.cc-ai.xyz/v1/images/generations 18:57:31 返回 200（真实上游出图）",
+    "提交前表单实测：姿势提示词/每场景张数/场景数/请求数/姿势预设保存 均存在；空提示词时正确拦截『请先填写姿势描述』"
+  ],
+  "gap": "缺少 200 之后的结果区 DOM/截图证据（结果面板是否出现、能否下载/存入资产/发送画布 未验证）",
+  "parityWithOriginal": "LinkFox AI_POSTURE 有独立 DOM 抓取，但本组未逐项比对（后续补）；本页可见：姿势提示词(4000字)、每场景张数(1-4)、场景数、总产出=场景数×张数(上限24)、预设保存(最多12条)。",
+  "notes": []
+}

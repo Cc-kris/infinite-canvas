@@ -1,0 +1,40 @@
+{
+  "tool": "PRINT_EXTRACT",
+  "name": "印花提取",
+  "group": "POD",
+  "route": "/tools/product-design/print-extract",
+  "status": "PARTIAL",
+  "result": "verified_with_gap",
+  "verdict": "PARTIAL",
+  "realProviderCall": true,
+  "provider": "ccai-tmp (CCAI 临时) / gpt-image-2 via canvas-proxy 127.0.0.1:23210 -> api.cc-ai.xyz",
+  "runAt": "2026-10-28T18:46:35+08:00",
+  "output": {
+    "count": 1,
+    "field": "url",
+    "url": "https://oss-us.dimenoss.com/images/2026/10/28/1793184385_8598b3c84acfecec45f215c9f3d7f894.png",
+    "dims": "720x960",
+    "localFile": "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/PRINT_EXTRACT/result_url_download.png",
+    "sha256_16": "804be5318a8c0b13"
+  },
+  "evidence": [
+    "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/PRINT_EXTRACT/0X-net.json",
+    "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/PRINT_EXTRACT/0X-result.png",
+    "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/PRINT_EXTRACT/dom/ocr-0X-result.txt",
+    "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/PRINT_EXTRACT/result_url_download.png"
+  ],
+  "assertions": [
+    "POST https://api.cc-ai.xyz/v1/images/edits 18:44:57 返回 200，data[0].url 为 oss-us.dimenoss.com 真实图；本次已下载校验：720x960 PNG，686174 字节 —— 上游确实出图",
+    "但 18:46:35（200 后 98s）的页面 OCR 仍为『待提取1张』『提取结果 共1张·成功0·失败0』：结果未在 UI 落地，口径与 provider 成功不一致"
+  ],
+  "codeHypothesis": "web/src/services/api/image.ts parseImagePayload→resolveImageSource 对 url 是放行的，故不是『只认 b64』的解析问题；更可能是逐张任务状态机未把 url 结果写回（待下一轮实测定位）。",
+  "notExercised": [
+    "下载",
+    "存入资产",
+    "发送画布"
+  ],
+  "parityWithOriginal": "LinkFox https://www.linkfox.com/draw/print-extract 原始 DOM：『从本地上传/从作品库选择』『20M以内，384*384~4096*4096，宽高比小于5』『上传多张图片，开始批量提取』『立即生成(10算力)』。本页对齐上传/批量提示/规格文案；差异：不显示算力。",
+  "notes": [
+    "状态不一致需在空闲窗口复跑一次确认（本轮先如实记录为 PARTIAL）。"
+  ]
+}

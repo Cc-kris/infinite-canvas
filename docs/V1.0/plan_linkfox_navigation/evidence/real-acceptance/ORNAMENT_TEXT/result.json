@@ -1,0 +1,36 @@
+{
+  "tool": "ORNAMENT_TEXT",
+  "name": "饰品文字素材",
+  "group": "POD",
+  "route": "/tools/product-design/ornament-text",
+  "status": "PASS",
+  "result": "verified",
+  "verdict": "PASS",
+  "realProviderCall": true,
+  "provider": "ccai-tmp (CCAI 临时) / gpt-image-2 via canvas-proxy 127.0.0.1:23210 -> api.cc-ai.xyz",
+  "runAt": "2026-10-28T18:40:06+08:00",
+  "output": {
+    "count": 1,
+    "field": "b64_json",
+    "localFile": "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/ORNAMENT_TEXT/02-result.png",
+    "note": "结果面板截图"
+  },
+  "evidence": [
+    "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/ORNAMENT_TEXT/02-result.png",
+    "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/ORNAMENT_TEXT/dom/ocr-02-result.txt",
+    "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/ORNAMENT_TEXT/01-net.json"
+  ],
+  "assertions": [
+    "POST https://api.cc-ai.xyz/v1/images/generations 18:39:07 返回 200（真实上游）",
+    "18:40:06 OCR：『饰品文字结果已完成 共1个结果·图片1』，含 下载/存入资产/发送画布"
+  ],
+  "notExercised": [
+    "下载",
+    "存入资产",
+    "发送画布"
+  ],
+  "parityWithOriginal": "LinkFox ORNAMENT_TEXT 原始抓取同样落到首页（重定向），仅弱对照；本页可见目录式模式/比例/风格选择与中文风格选项，控件可用。",
+  "notes": [
+    "与 AI_TEXT 共用同一壳；本工具走 /images/generations（无参考图路径）。"
+  ]
+}

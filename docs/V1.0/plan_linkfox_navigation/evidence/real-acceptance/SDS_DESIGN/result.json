@@ -1,0 +1,37 @@
+{
+  "tool": "SDS_DESIGN",
+  "name": "素材贴合",
+  "group": "POD",
+  "route": "/tools/product-design/sds-design",
+  "status": "PASS",
+  "result": "verified",
+  "verdict": "PASS",
+  "realProviderCall": true,
+  "provider": "ccai-tmp (CCAI 临时) / gpt-image-2 via canvas-proxy 127.0.0.1:23210 -> api.cc-ai.xyz",
+  "runAt": "2026-10-28T18:50:08+08:00",
+  "output": {
+    "count": 1,
+    "field": "b64_json",
+    "localFile": "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/SDS_DESIGN/02-result.png",
+    "note": "结果面板截图"
+  },
+  "evidence": [
+    "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/SDS_DESIGN/02-result.png",
+    "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/SDS_DESIGN/0X-result.png",
+    "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/SDS_DESIGN/dom/ocr-02-result.txt",
+    "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/SDS_DESIGN/02-net.json"
+  ],
+  "assertions": [
+    "POST https://api.cc-ai.xyz/v1/images/edits 18:49:29 返回 200，size=720x960",
+    "18:50:08 OCR：结果『已完成』『共1个结果·图片1』"
+  ],
+  "notExercised": [
+    "下载",
+    "存入资产",
+    "发送画布"
+  ],
+  "parityWithOriginal": "LinkFox https://www.linkfox.com/draw/sds-design 原始 DOM 有：上传素材、产品选择、颜色选择、素材操作、立即生成(20算力)、结果水印分组。本页对齐：素材上传槽位 + 产品/颜色/素材操作区 + 立即生成；差异：LinkFox 显示算力消耗(20算力)，本地不显示算力。",
+  "notes": [
+    "0X-result.png 抓取时刻页面存在旧提示条残留（OCR 混杂多面板文本），以 02-result.png（200 后 39s）为准。"
+  ]
+}

@@ -1,0 +1,41 @@
+{
+  "tool": "AI_TEXT",
+  "name": "AI文字素材",
+  "group": "POD",
+  "route": "/tools/product-design/ai-text",
+  "status": "PASS",
+  "result": "verified",
+  "verdict": "PASS",
+  "realProviderCall": true,
+  "provider": "ccai-tmp (CCAI 临时) / gpt-image-2 via canvas-proxy 127.0.0.1:23210 -> api.cc-ai.xyz",
+  "runAt": "2026-10-28T18:41:57+08:00",
+  "output": {
+    "count": 1,
+    "field": "b64_json",
+    "localFile": "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/AI_TEXT/0X-result.png",
+    "note": "结果面板截图（非结果图本体）；provider 返回 b64_json，响应体在 net 记录中被采样器截断到 800 字符"
+  },
+  "evidence": [
+    "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/AI_TEXT/01-before-submit.png",
+    "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/AI_TEXT/03-after-provider.png",
+    "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/AI_TEXT/0X-result.png",
+    "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/AI_TEXT/dom/ocr-0X-result.txt",
+    "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/AI_TEXT/0X-net.json",
+    "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/AI_TEXT/04-net-real.json"
+  ],
+  "assertions": [
+    "POST http://127.0.0.1:23210/https://api.cc-ai.xyz/v1/images/edits 18:41:24 返回 200（真实上游出图，model=gpt-image-2，size=720x960，output_format=png）",
+    "18:41:57 结果面板 OCR：『结果已完成 共1个结果·图片1』，并出现『下载 / 存入资产 / 发送画布』三个动作",
+    "模型芯片显示『ccai-tmp:gpt-image-2』，与配置一致；提交前文案『配置完整，可提交真实生成』"
+  ],
+  "notExercised": [
+    "下载",
+    "存入资产",
+    "发送画布"
+  ],
+  "parityWithOriginal": "LinkFox AI_TEXT 原始 DOM 抓取（page-dom-20261028/AI_TEXT.json）实际落在首页 https://www.linkfox.com/home（重定向），只能做弱对照：原页顶部导航/购买按钮已对齐，工具级控件无法逐项比对。本工具页自身控件（模式/比例/风格/中文风格目录、平铺规则、底图槽位、目录式取值校验）在本页可见且自洽。",
+  "notes": [
+    "更早两次提交（18:37:05 / 18:40:34）打到 api.openai.com/v1/images/edits 返回 401 —— 那是默认渠道（无内置 key）下的预期失败，非缺陷；切到 ccai-tmp 后即 200。见 04-net-real.json。",
+    "actionButtonsPresent=true，但未点击验证落库/画布注入链路。"
+  ]
+}
