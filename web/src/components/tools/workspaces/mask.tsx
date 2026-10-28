@@ -161,6 +161,8 @@ export function MaskWorkspace({ className }: MaskWorkspaceProps = {}) {
 
     const adoptImage = useCallback(
         async (record: ToolAssetRecord) => {
+            // 幂等：同一资产重复回调（草稿恢复 effect 再次触发）不清空已画笔画。
+            if (imageRef.current?.id === record.id) return;
             const dataUrl = await imageToDataUrl({ storageKey: record.storageKey, url: record.url });
             if (!dataUrl) {
                 setNotice("这张图片的本地数据已不可用，请重新上传");
@@ -936,6 +938,8 @@ export function RemovePenWorkspace({ className }: RemovePenWorkspaceProps = {}) 
 
     const adoptImage = useCallback(
         async (record: ToolAssetRecord) => {
+            // 幂等：同一资产重复回调不清空已画笔画。
+            if (assetRef.current?.id === record.id && imageRef.current) return;
             assetRef.current = record;
             const dataUrl = await imageToDataUrl({ storageKey: record.storageKey, url: record.url });
             if (!dataUrl) {

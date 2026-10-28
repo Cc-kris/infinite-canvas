@@ -29,7 +29,8 @@ export async function prepareContext(browser, { viewport = { width: 1440, height
     const network = [];
     page.on("requestfinished", async (req) => {
         const url = req.url();
-        if (!url.includes("127.0.0.1:23210") && !url.includes("/v1/")) return;
+        const proxyHost = PROXY_URL.replace(/^https?:\/\//, "");
+        if (!url.includes(proxyHost) && !url.includes("/v1/")) return;
         const res = await req.response().catch(() => null);
         network.push({
             method: req.method(),

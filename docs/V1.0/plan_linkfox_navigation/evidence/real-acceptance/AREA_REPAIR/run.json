@@ -2,7 +2,7 @@
   "toolId": "AREA_REPAIR",
   "route": "/tools/smart-edit/area-repair",
   "fixture": "product-watch.jpg",
-  "startedAt": "2026-10-28T10:46:34.874Z",
+  "startedAt": "2026-10-28T13:10:40.320Z",
   "before": {
     "images": [],
     "issues": [
@@ -14,6 +14,43 @@
     "text": "立即生成",
     "disabled": true
   },
-  "error": "page.click: Timeout 30000ms exceeded.\nCall log:\n  - waiting for locator('[data-testid=area-repair-submit]')\n    - locator resolved to <button disabled type=\"button\" data-testid=\"area-repair-submit\" class=\"inline-flex items-center gap-1 rounded-md bg-primary px-3 py-1.5 text-xs font-medium text-primary-foreground disabled:cursor-not-allowed disabled:opacity-50\">…</button>\n  - attempting click action\n    2 × waiting for element to be visible, enabled and stable\n      - element is not enabled\n    - retrying click action\n    - waiting 20ms\n    2 × waiting for element to be visible, enabled and stable\n      - element is not enabled\n    - retrying click action\n      - waiting 100ms\n    55 × waiting for element to be visible, enabled and stable\n       - element is not enabled\n     - retrying click action\n       - waiting 500ms\n",
-  "ok": false
+  "finishedAt": "2026-10-28T13:10:53.412Z",
+  "after": {
+    "submitButtons": [
+      {
+        "id": "area-repair-submit",
+        "text": "立即生成",
+        "disabled": false
+      }
+    ],
+    "issues": [
+      "area-repair-notice=完成 0 张，失败 1 张；失败单元可按原参数重试",
+      "tool-task-error=任务失败\n\nIncorrect API key provided: ''. You can find your API key at https://platform.openai.com/account/api-keys.\n\n诊断码：pr"
+    ],
+    "images": [
+      {
+        "src": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAgEASABIAAD/4gxYSUNDX",
+        "w": 1024,
+        "h": 744
+      },
+      {
+        "src": "blob:http://127.0.0.1:3000/a6b02d73-6328-4b0e-8778-486aace5f",
+        "w": 1024,
+        "h": 744
+      }
+    ],
+    "bodyText": "无限画布\n电商套图\n智能修图\n批量生图\n商品图设计\nAI视频\n中\n切换到浅色主题\nv0.27.0\n电商套图\n6\n智能修图\n8\n局部重绘\n局部消除\n一键换色\n图片裁剪\n商品精修\n色差修复\n印花修复\n手部修复\n批量生图\n0\n商品图设计\n19\nAI 视频\n6\n智能修图 / 局部重绘\n局部重绘\n/tools/smart-edit/area-repair\n局部重绘\nmakeType 32\n涂抹需要改变的区域并填写重绘描述，只重绘蒙版内内容；原图与结果并排可对照\n立即生成\n完成 0 张，失败 1 张；失败单元可按原参数重试\n画笔\n橡皮\n大小\n像素\n羽化\n0\n自动扩大选择区域\n反选\n撤销\n重做\n重置\n3 笔 · 覆盖 已涂抹 13.7% 区域\n上传图片\n1 / 1 个 · PNG / JPG / WebP · ≤ 20 MB\n已达数量上限，先移除一个再上传\n校验格式 / 大小 / 像素，入库后可刷新恢复\nproduct-watch.jpg\n31 KB · 1024×744 · image/jpeg\n移除\nproduct-watch.jpg · 1024×744\n重绘描述 *\n25 / 600\n生成张数\n1\n2\n3\n4\n失败\n上游返回失败\n0s\n任务失败\nIncorrect API key provided: ''. You can find your API key at https://platform.openai.com/account/api-keys.\n诊断码：provider-rejected · 该错误不建议直接重试\n重试\n结果\n1 张\nIncorrect API key provided: ''. You can find your API key at https://platform.openai.com/account/api-keys.\n#1 · failed\n99+\n连接本地 Agent\n已连接\n点连接会自动启动本地服务、装好插件并接通，无需手动配置。\nClaude Code\n未连接\n·\nCLI · 2.1.285 (Claude Code)\n·\n直接运行\n"
+  },
+  "resultSrcPrefix": "data:image/jpeg;base64,/9j/4AAQSkZJRgABA",
+  "resultSaved": true,
+  "network": [
+    {
+      "method": "POST",
+      "url": "http://127.0.0.1:23299/https://api.openai.com/v1/images/edits",
+      "status": 401,
+      "ms": 983,
+      "at": "2026-10-28T13:10:47.763Z"
+    }
+  ],
+  "ok": true
 }

@@ -73,16 +73,20 @@ export function ToolAssetInput({ toolId, constraints, maxCount, library, disable
     const quarantined = useToolDraftStore((state) => state.quarantined[toolId]);
     const resolveConflict = useToolDraftStore((state) => state.resolveConflict);
 
-    const emit = useCallback(
-        (next: AssetItem[]) => {
-            const records = next.flatMap((item) => (item.record ? [item.record] : []));
-            onChange?.(
-                records.map((record) => record.id),
-                records,
-            );
-        },
-        [onChange],
-    );
+    /** 最新 onChange 放 ref：父组件常用内联箭头，若进依赖会让下方的恢复 effect 每次渲染都重跑，
+     *  形成「effect → emit → 父组件 setState → 重渲染 → effect」自激循环（会清空蒙版笔画）。 */
+    const onChangeRef = useRef(onChange);
+    useEffect(() => {
+        onChangeRef.current = onChange;
+    }, [onChange]);
+
+    const emit = useCallback((next: AssetItem[]) => {
+        const records = next.flatMap((item) => (item.record ? [item.record] : []));
+        onChangeRef.current?.(
+            records.map((record) => record.id),
+            records,
+        );
+    }, []);
 
     const updateItems = useCallback(
         (updater: (list: AssetItem[]) => AssetItem[], options: { syncDraft?: boolean } = {}) => {
