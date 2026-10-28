@@ -1,0 +1,10 @@
+[
+ {
+  "key": "tool-task:v1:index",
+  "value": "[\"task-mvsdhatp-kdyvt6\"]"
+ },
+ {
+  "key": "tool-task:v1:task-mvsdhatp-kdyvt6",
+  "value": "{\"id\":\"task-mvsdhatp-kdyvt6\",\"toolId\":\"AI_TEXT\",\"status\":\"succeeded\",\"clientOperationId\":\"4bfc4748-63c8-483e-8a6d-fa049f200f13\",\"fingerprint\":\"e2807598b9a67438\",\"capability\":\"image\",\"prompt\":\"生成可直接用于 POD（按需印刷）的素材，比例 1:1，输出 1 张，模式 text。 平铺规则：不平铺（单图）（1 列 × 1 行无缝重复）。 视觉风格：按模式默认风格，保持干净的印刷质感。 变化强度：默认——各张共享同一构图语言，只做轻微变化，保证系列一致性。 质量要求：透明或纯色底、边缘干净无白边、画面无外部留白、无裁切文字；不得出现第三方商标、版权角色与真实人物肖像。 输出为单张独立素材，不需要拼接出血位。 素材内容与文字：FOREVER YOUNG 夏日限定 文案处理：围绕上述文字生成图案化排版，文字可读、行距均匀、不拉伸不变形。\",\"configSnapshot\":{\"capability\":\"image\",\"model\":\"ccai-accept::gpt-image-2\",\"apiFormat\":\"openai\",\"size\":\"1:1\",\"quality\":\"auto\",\"count\":\"1\",\"channelId\":\"ccai-accept\"},\"sourceAssetIds\":[\"xmUS_Jup0qyj-ccZBvibi\"],\"draftRevision\":13,\"createdAt\":1793207557645,\"updatedAt\":1793207596867,\"attempts\":1,\"pollCount\":0,\"transientFailures\":0,\"submittedAt\":1793207557645,\"result\":{\"items\":[{\"id\":\"task-mvsdhatp-kdyvt6-0\",\"kind\":\"image\",\"storageKey\":\"tool-result:IHXDX5ekYGw5A5g9zPYm3\",\"url\":\"blob:http://127.0.0.1:3000/f59c224f-4c21-4808-9a04-6cf4c7f8d11e\",\"bytes\":1825663,\"mimeType\":\"image/png\",\"payloadDropped\":false}],\"receivedAt\":1793207596867},\"finishedAt\":1793207596867}"
+ }
+]

@@ -1,0 +1,107 @@
+{
+ "tool": "AI_TEXT",
+ "route": "/tools/product-design/ai-text",
+ "startedAt": "2026-10-28T17:12:31.724Z",
+ "upstream": [
+  {
+   "file": "/Users/mac/Documents/Dev/infinite-canvas/docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/B2G1/AI_TEXT/raw-upstream-0.json",
+   "bytes": 2435369,
+   "url": "http://127.0.0.1:23210/https://api.cc-ai.xyz/v1/images/edits",
+   "status": 200,
+   "requestContentType": "multipart/form-data; boundary=----WebKitFormBoundary8eTy39nAwcrAgX36"
+  }
+ ],
+ "steps": [
+  {
+   "step": "file-inputs",
+   "count": 1
+  },
+  {
+   "step": "uploads",
+   "files": [
+    "apparel-print.jpg"
+   ]
+  },
+  {
+   "step": "submitted",
+   "at": "2026-10-28T17:12:37.656Z"
+  }
+ ],
+ "g1": {
+  "persisted": {
+   "taskId": "task-mvsdhatp-kdyvt6",
+   "storageKey": "tool-result:IHXDX5ekYGw5A5g9zPYm3",
+   "bytes": 1825663,
+   "hasDataUrlInSnapshot": false,
+   "payloadDropped": false,
+   "snapshotChars": 1127
+  },
+  "afterReload": {
+   "storageKey": "tool-result:IHXDX5ekYGw5A5g9zPYm3",
+   "bytes": 1825663,
+   "mimeType": "image/png",
+   "sha256": "9019ffaf22487707039383e7bf75c082eafee7b9161b7f8e5b313330c582a01f",
+   "matchesUpstream": true
+  },
+  "restoredPanel": {
+   "view": "succeeded",
+   "text": "POD 素材结果 已完成 共 1 个结果 · 图片 1 下载 存入资产 发送画布"
+  },
+  "restoredButtons": {
+   "download": {
+    "exists": true,
+    "disabled": false
+   },
+   "save": {
+    "exists": true,
+    "disabled": false
+   },
+   "canvas": {
+    "exists": true,
+    "disabled": false
+   }
+  }
+ },
+ "linkfox": {
+  "note": "LinkFox 原站 /tools/product-design/ai-text 抓取时重定向首页（见 final-gap-audit §LinkFox 对照），参数基准取 page-specs + acceptance 契约。"
+ },
+ "provider": {
+  "baseUrl": "https://api.cc-ai.xyz",
+  "model": "sf-accept::Qwen/Qwen3-VL-8B-Instruct",
+  "imageModel": "ccai-accept::gpt-image-2",
+  "channelCount": 2,
+  "keyLen": 67,
+  "textKeyLen": 51
+ },
+ "resultView": "succeeded",
+ "result": {
+  "file": "result-0.png",
+  "bytes": 1825663,
+  "sha256": "9019ffaf22487707039383e7bf75c082eafee7b9161b7f8e5b313330c582a01f",
+  "format": "png",
+  "width": 1024,
+  "height": 1024
+ },
+ "upstreamJson": {
+  "keys": [
+   "created",
+   "data",
+   "usage"
+  ],
+  "dataLen": 1,
+  "revisedPrompt": "参考图片编号：图片1。请按这些编号理解提示词中的图片引用。\r\n\r\n生成可直接用于 POD（按需印刷）的素材，比例 1:1，输出 1 张，模式 text。 平铺规则：不平铺（单图）（1 列 × 1 行无缝重复）。 视觉风格：按模式默认风格，保持干净的印刷质感。 变化强度：默认——各张共享同一构图语言，只做轻微变化，保证系列一致性。 质量要求：透明或纯色底、边缘干净无白边、画面无外部留白、无裁切文字；"
+ },
+ "actions": {
+  "download": {
+   "suggestedFilename": "ai-text-result-1.png",
+   "bytes": 1825663,
+   "sha256": "9019ffaf22487707039383e7bf75c082eafee7b9161b7f8e5b313330c582a01f",
+   "matchesUpstream": true
+  },
+  "saveAsset": "已保存到资产库（uStjodx0Uad4IPDsTVqoG）",
+  "sendCanvas": "已发送到画布（sNQeliaC-Z_BkqoJVdTaw）"
+ },
+ "assetsPage": null,
+ "finishedAt": "2026-10-28T17:13:28.784Z",
+ "verdict": "PASS"
+}

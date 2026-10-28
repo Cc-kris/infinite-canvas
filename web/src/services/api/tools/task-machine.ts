@@ -53,13 +53,19 @@ export type ToolTaskResultItem = {
     kind: ToolTaskCapability;
     /** 图片结果（data URL）。仅在内存中保留，持久化时会被剥离，避免撑爆 localStorage。 */
     dataUrl?: string;
-    /** 视频结果（或已入库图片）的可播放地址。 */
+    /** 视频结果（或已入库图片）的可播放地址。持久化的对象 URL 在刷新后失效，靠 storageKey 还原。 */
     url?: string;
     mimeType?: string;
     bytes?: number;
+    /**
+     * 结果字节落库后的媒体键（file-storage 的 media_files 仓）。
+     * G1：结果字节先入 IndexedDB 再落盘快照，刷新/重进页面后仍能取回真实字节，
+     * 不再出现「自报成功但字节已丢」。
+     */
+    storageKey?: string;
     /** 视频 blob 结果，仅内存可见，持久化时剥离。 */
     blob?: Blob;
-    /** 持久化时被剥离了二进制内容。 */
+    /** 持久化时被剥离了二进制内容（没有 storageKey 兜底时才会置位）。 */
     payloadDropped?: boolean;
 };
 
@@ -365,14 +371,19 @@ export function canAutoResubmit(task: ToolTask): boolean {
     return task.status === "draft" || task.status === "validating";
 }
 
-/** 持久化前剥离二进制内容：localStorage 放不下 dataUrl/Blob，二进制入库属于 TASK-048。 */
+/**
+ * 持久化前剥离二进制内容：localStorage 放不下 dataUrl/Blob。
+ *
+ * G1：字节已落 IDB（item.storageKey 存在）时**不算丢**——保留 storageKey/bytes/mimeType/url，
+ * 不置 payloadDropped，刷新后仍可下载/存资产/发画布；只有既没 storageKey 也没字节时才是真缺失。
+ */
 export function sanitizeTaskForPersist(task: ToolTask): ToolTask {
     if (!task.result) return task;
     const items = task.result.items.map((item) => {
         const { blob: _blob, ...rest } = item;
         if (!item.dataUrl && !item.blob) return rest;
         const { dataUrl: _dataUrl, ...withoutPayload } = rest;
-        return { ...withoutPayload, payloadDropped: true };
+        return item.storageKey ? { ...withoutPayload, payloadDropped: false } : { ...withoutPayload, payloadDropped: true };
     });
     return { ...task, result: { ...task.result, items } };
 }
