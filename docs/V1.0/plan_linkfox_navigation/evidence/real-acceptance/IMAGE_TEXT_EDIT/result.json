@@ -1,0 +1,59 @@
+{
+  "toolId": "IMAGE_TEXT_EDIT",
+  "status": "VERIFIED",
+  "capturedAt": "2026-10-28T17:21:29Z",
+  "route": "/tools/product-design/image-text-edit",
+  "fixture": "product-watch.jpg",
+  "provenance": "沿用 2026-10-28 真实上游成功任务 task-mvs8bhu1-hhue24 的 OSS 产物 URL 回填任务快照（不重复付费），刷新后由工具页真实渲染结果卡，再点真实按钮。",
+  "result": {
+    "src": "https://oss-us.dimenoss.com/images/2026/10/28/1793198918_efe68b3d380801d28b26a09588374ae9.png",
+    "bytes": 844613,
+    "sha256": "e7b260e7b0642dd1acd0e41e41eedf9bfe635a3a28e8175029d3248aabf5be4c",
+    "dims": {
+      "w": 1024,
+      "h": 1024
+    },
+    "downloadName": "image-text-edit-result-1.png"
+  },
+  "actions": {
+    "download": {
+      "label": "text-edit-download",
+      "ok": true,
+      "suggestedFilename": "image-text-edit-result-1.png",
+      "bytes": 844613
+    },
+    "save": {
+      "feedback": "已保存到资产库（zwXD2FKpnJ1YPZ9usPZYc）",
+      "assetsBefore": 0,
+      "assetsAfter": 1
+    },
+    "send": {
+      "feedback": "已发送到画布（MqJ9VDxSZInAcb1r7QDlz）",
+      "canvasBefore": {
+        "projects": []
+      },
+      "canvasAfter": {
+        "projects": [
+          {
+            "id": "MqJ9VDxSZInAcb1r7QDlz",
+            "nodes": 1
+          }
+        ]
+      }
+    }
+  },
+  "persistence": {
+    "assetId": "zwXD2FKpnJ1YPZ9usPZYc",
+    "verifiedAfterReload": true,
+    "storeTotal": 1
+  },
+  "crossChecks": [
+    "下载字节/sha256 与 evidence/IMAGE_TEXT_EDIT/03-result-image.png 逐字节一致",
+    "存资产：资产库 store 0→1，reload 后仍可读回该 assetId",
+    "发送画布：projects 0→1，项目节点数 0→1"
+  ],
+  "issues": [],
+  "uncovered": [
+    "未在本轮重新提交生成请求（零成本复用真实产物）"
+  ]
+}

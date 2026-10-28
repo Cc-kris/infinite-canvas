@@ -1,0 +1,99 @@
+{
+  "toolId": "IMAGE_TEXT_EDIT",
+  "route": "/tools/product-design/image-text-edit",
+  "reusedArtifact": "https://oss-us.dimenoss.com/images/2026/10/28/1793198918_efe68b3d380801d28b26a09588374ae9.png",
+  "issues": [],
+  "injectAttempts": 1,
+  "persistedKeys": {
+    "index": [
+      "task-b7-text-edit-1793208027835"
+    ],
+    "hasTaskBody": true
+  },
+  "actions": {
+    "resultImage": {
+      "src": "https://oss-us.dimenoss.com/images/2026/10/28/1793198918_efe68b3d380801d28b26a09588374ae9.png",
+      "naturalWidth": 1024,
+      "naturalHeight": 1024
+    },
+    "download": {
+      "label": "text-edit-download",
+      "ok": true,
+      "suggestedFilename": "image-text-edit-result-1.png",
+      "bytes": 844613,
+      "sha256": "e7b260e7b0642dd1acd0e41e41eedf9bfe635a3a28e8175029d3248aabf5be4c"
+    },
+    "downloadMatchesRendered": true,
+    "renderedSrc": "https://oss-us.dimenoss.com/images/2026/10/28/1793198918_efe68b3d380801d28b26a09588374ae9.png",
+    "save": {
+      "feedback": "已保存到资产库（zwXD2FKpnJ1YPZ9usPZYc）",
+      "assetsBefore": 0,
+      "assetsAfter": 1
+    },
+    "send": {
+      "feedback": "已发送到画布（MqJ9VDxSZInAcb1r7QDlz）",
+      "canvasBefore": {
+        "projects": []
+      },
+      "canvasAfter": {
+        "projects": [
+          {
+            "id": "MqJ9VDxSZInAcb1r7QDlz",
+            "nodes": 1
+          }
+        ]
+      }
+    }
+  },
+  "domSnapshot": "<section data-testid=\"tool-result\" data-view=\"succeeded\" class=\"space-y-3 rounded-2xl border border-border bg-card p-4\"><header class=\"flex flex-wrap items-center gap-2\"><h2 class=\"text-sm font-semibold\">图片文字结果</h2><span data-testid=\"tool-task-status\" data-status=\"succeeded\" data-tone=\"success\" title=\"结果已返回\" class=\"inline-flex items-center gap-1.5 rounded-full border px-2 py-0.5 text-xs font-medium border-emerald-300 bg-emerald-50 text-emerald-700 dark:border-emerald-800 dark:bg-emerald-950 dark:text-emerald-200\"><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-circle-check lucide-check-circle-2 size-3.5\" aria-hidden=\"true\"><circle cx=\"12\" cy=\"12\" r=\"10\"></circle><path d=\"m16 9-5.5 5.5L8 12\"></path></svg>已完成</span><span class=\"ml-auto text-xs text-muted-foreground\" data-testid=\"tool-result-summary\">共 1 个结果 · 图片 1</span></header><ul class=\"grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-3\"><li data-testid=\"tool-result-item-0\" data-kind=\"image\" class=\"overflow-hidden rounded-xl border border-border bg-background\"><div class=\"flex ",
+  "assetPersisted": {
+    "id": "zwXD2FKpnJ1YPZ9usPZYc",
+    "found": true,
+    "hydrated": true,
+    "total": 1
+  },
+  "network": [
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:23210/",
+      "status": 200,
+      "ms": 3,
+      "at": "2026-10-28T17:20:27.241Z"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:23210/",
+      "status": 200,
+      "ms": 1,
+      "at": "2026-10-28T17:20:27.784Z"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:23210/https://oss-us.dimenoss.com/images/2026/10/28/1793198918_efe68b3d380801d28b26a09588374ae9.png",
+      "status": 200,
+      "ms": 2980,
+      "at": "2026-10-28T17:20:31.525Z"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:23210/https://oss-us.dimenoss.com/images/2026/10/28/1793198918_efe68b3d380801d28b26a09588374ae9.png",
+      "status": 200,
+      "ms": 1,
+      "at": "2026-10-28T17:20:32.256Z"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:23210/",
+      "status": 200,
+      "ms": 1,
+      "at": "2026-10-28T17:20:34.252Z"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:23210/",
+      "status": 200,
+      "ms": 1,
+      "at": "2026-10-28T17:20:35.319Z"
+    }
+  ]
+}
