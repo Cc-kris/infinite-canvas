@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 import { ToolAssetInput } from "@/components/tools/tool-asset-input";
-import { sendResultItemToCanvas } from "@/components/tools/tool-result-actions";
+import { saveResultItemToAssets, sendResultItemToCanvas } from "@/components/tools/tool-result-actions";
 import { loadToolAssetRecords, type ToolAssetConstraints, type ToolAssetRecord } from "@/services/api/tools/assets";
 import { getToolGateway } from "@/services/api/tools/gateway";
 import type { ToolTaskResultItem } from "@/services/api/tools/task-machine";
@@ -78,7 +78,6 @@ import {
     marketResultsStale,
     retryMarketUnit,
     runMarketMaterial,
-    saveMarketResultItem,
     summarizeMarketRun,
     validateMarketSourceLimits,
     type MarketSourceAsset,
@@ -730,18 +729,29 @@ export function ProductMarketMaterialWorkspace({ className }: { className?: stri
         [config, sources, provider, draft?.revision],
     );
 
-    const onSaveItem = useCallback(async (unit: MarketUnitResult, item: ToolTaskResultItem) => {
-        const key = `${unit.unitId}:${item.id}`;
-        setBusyUnit(unit.unitId);
-        try {
-            const saved = await saveMarketResultItem(item, unit);
-            setSavedKeys((current) => ({ ...current, [key]: saved.storageKey }));
-        } catch (error) {
-            setRunError(error instanceof Error ? error.message : "保存失败。");
-        } finally {
-            setBusyUnit(null);
-        }
-    }, []);
+    /**
+     * 结果 → 真实资产库：与其它工具一致走 saveResultItemToAssets（落 image-storage + 资产库索引），
+     * 回执直接回显资产 id，便于与原站「存入作品库」1:1 对账。
+     */
+    const onSaveItem = useCallback(
+        async (unit: MarketUnitResult, item: ToolTaskResultItem) => {
+            const key = `${unit.unitId}:${item.id}`;
+            setBusyUnit(unit.unitId);
+            try {
+                const saved = await saveResultItemToAssets(item, 0, {
+                    toolId,
+                    title: `${unit.label} · ${unit.width > 0 ? `${unit.width}×${unit.height}` : config.aspectRatio}`,
+                    source: "product-market-material",
+                });
+                setSavedKeys((current) => ({ ...current, [key]: saved.assetId }));
+            } catch (error) {
+                setRunError(error instanceof Error ? error.message : "存入资产库失败。");
+            } finally {
+                setBusyUnit(null);
+            }
+        },
+        [config.aspectRatio, toolId],
+    );
 
     /** 结果 → 真实画布：复用通用发送依赖（项目/节点/上传），失败如实报错，不静默。 */
     const onSendItemToCanvas = useCallback(
@@ -1110,7 +1120,7 @@ export function ProductMarketMaterialWorkspace({ className }: { className?: stri
                                                                     data-testid={`market-save-${key}`}
                                                                     className="rounded border border-stone-300 px-2 py-0.5 text-[11px] text-stone-700 disabled:opacity-40 dark:border-stone-700 dark:text-stone-200"
                                                                 >
-                                                                    {savedKeys[key] ? "已存作品库" : "保存"}
+                                                                    {savedKeys[key] ? `已存资产库 ${savedKeys[key].slice(0, 8)}` : "存入资产库"}
                                                                 </button>
                                                                 <button
                                                                     type="button"

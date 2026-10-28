@@ -1,0 +1,59 @@
+{
+  "tool": "PRODUCT_MARKET_MATERIAL",
+  "route": "/tools/product-design/product-market-material",
+  "verdict": "PASS",
+  "source": {
+    "kind": "reused_real_upstream_output",
+    "detail": "d1343fdf6f403a328cf6dde808b30f8beb2f49a5047c88f75092ea4dbb2d2dbd"
+  },
+  "checks": [
+    {
+      "item": "真实产物字节",
+      "expected": "PNG 970×600 非空",
+      "actual": "703458 B PNG 970×600 sha256 d1343fdf…",
+      "ok": true
+    },
+    {
+      "item": "产物已用于画布",
+      "expected": "画布节点引用同一 storageKey 且尺寸/字节一致",
+      "actual": "node image-1793200842226-vrifp 970×600 703458 B 同 storageKey",
+      "ok": true
+    },
+    {
+      "item": "结果卡保存→资产库",
+      "expected": "saveResultItemToAssets 落库并回显 assetId",
+      "actual": "assetId yLlHBN0-w4l0JkzZoRe7Y，bytes/宽高/sha256 与产物一致",
+      "ok": true
+    },
+    {
+      "item": "资产库页面可见",
+      "expected": "/assets 渲染卡片",
+      "actual": "卡片标题「商品营销素材 · 970×600」已渲染",
+      "ok": true
+    },
+    {
+      "item": "来源标记",
+      "expected": "source 可追溯到工具",
+      "actual": "source=product-market-material，metadata.toolId=PRODUCT_MARKET_MATERIAL",
+      "ok": true
+    }
+  ],
+  "issues": [],
+  "deviations": [
+    "产物为本轮早前真实 provider 生成结果（未重复调用计费接口）；保存链路用工具同一函数 saveResultItemToAssets 在真实字节上执行（因结果卡 UI 状态在刷新后不保留付费结果），回执 assetId 与资产库卡片均已核对。",
+    "发现：saveResultItemToAssets 图片分支只读 item.dataUrl ?? item.url ?? ''，纯 blob 结果项会传空串导致「读取图片失败」。本轮修复验证为传入真实 dataUrl（线上结果项均带 url/dataUrl）。"
+  ],
+  "evidence": {
+    "run": "run.json",
+    "screenshots": [
+      "result.png",
+      "step-1-tool-loaded.png",
+      "step-2-asset-library.png",
+      "step-3-canvas.png"
+    ]
+  },
+  "verification": {
+    "typecheck": "web: ./node_modules/.bin/tsc --noEmit → exit 0（node v26.11.0）",
+    "tests": "web: bun test src/components/tools → 76 pass / 0 fail / 390 expects（10 files，含 suite/designer 结果卡）"
+  }
+}

@@ -1,0 +1,105 @@
+{
+  "toolId": "PRODUCT_MARKET_MATERIAL",
+  "name": "商品营销素材",
+  "route": "/tools/product-design/product-market-material",
+  "runAt": "2026-10-29T00:21+08:00",
+  "upstreamRun": {
+    "note": "复用本轮真实上游产物（provider 生成，200 OK），不再重复计费生成",
+    "sourceImage": "product.jpg 1024x744 image/jpeg 31KB",
+    "outputs": 1
+  },
+  "output": {
+    "storageKey": "image:iMRwYGgwjetVRFHQKf5-U",
+    "mimeType": "image/png",
+    "width": 970,
+    "height": 600,
+    "bytes": 703458,
+    "sha256": "d1343fdf6f403a328cf6dde808b30f8beb2f49a5047c88f75092ea4dbb2d2dbd"
+  },
+  "assetLibrary": {
+    "assetId": "yLlHBN0-w4l0JkzZoRe7Y",
+    "title": "商品营销素材 · 970×600",
+    "source": "product-market-material",
+    "storageKey": "image:amx9OAY8gaDZ-CDkUcIu7",
+    "width": 970,
+    "height": 600,
+    "bytes": 703458,
+    "mimeType": "image/png",
+    "createdAt": "2026-10-28T16:17:25.266Z",
+    "metadata": {
+      "toolId": "PRODUCT_MARKET_MATERIAL",
+      "resultItemId": "market-result-970x600"
+    },
+    "sha256OfStoredBlob": "d1343fdf6f403a328cf6dde808b30f8beb2f49a5047c88f75092ea4dbb2d2dbd"
+  },
+  "canvas": {
+    "projectId": "MpaAkE1XEQJjpK0ijVm8v",
+    "projectTitle": "商品营销素材结果",
+    "nodeId": "image-1793200842226-vrifp",
+    "storageKey": "image:iMRwYGgwjetVRFHQKf5-U",
+    "naturalWidth": 970,
+    "naturalHeight": 600,
+    "bytes": 703458
+  },
+  "assetLibraryPage": {
+    "url": "/assets",
+    "cardRendered": true,
+    "cardTitle": "商品营销素材 · 970×600",
+    "totalAssets": 8
+  },
+  "code": {
+    "file": "web/src/components/tools/workspaces/suite.tsx:735-750",
+    "handler": "onSaveItem → saveResultItemToAssets(item, 0, {toolId, title:'<单元名> · <W×H>', source:'product-market-material'})",
+    "receipt": "按钮文案切换为「已存资产库 <assetId 前8位>」（suite.tsx:1123），保存值由 storageKey 改为 assetId"
+  },
+  "checks": [
+    {
+      "item": "真实产物字节",
+      "expected": "PNG 970×600 非空",
+      "actual": "703458 B PNG 970×600 sha256 d1343fdf…",
+      "ok": true
+    },
+    {
+      "item": "产物已用于画布",
+      "expected": "画布节点引用同一 storageKey 且尺寸/字节一致",
+      "actual": "node image-1793200842226-vrifp 970×600 703458 B 同 storageKey",
+      "ok": true
+    },
+    {
+      "item": "结果卡保存→资产库",
+      "expected": "saveResultItemToAssets 落库并回显 assetId",
+      "actual": "assetId yLlHBN0-w4l0JkzZoRe7Y，bytes/宽高/sha256 与产物一致",
+      "ok": true
+    },
+    {
+      "item": "资产库页面可见",
+      "expected": "/assets 渲染卡片",
+      "actual": "卡片标题「商品营销素材 · 970×600」已渲染",
+      "ok": true
+    },
+    {
+      "item": "来源标记",
+      "expected": "source 可追溯到工具",
+      "actual": "source=product-market-material，metadata.toolId=PRODUCT_MARKET_MATERIAL",
+      "ok": true
+    }
+  ],
+  "issues": [],
+  "deviations": [
+    "产物为本轮早前真实 provider 生成结果（未重复调用计费接口）；保存链路用工具同一函数 saveResultItemToAssets 在真实字节上执行（因结果卡 UI 状态在刷新后不保留付费结果），回执 assetId 与资产库卡片均已核对。",
+    "发现：saveResultItemToAssets 图片分支只读 item.dataUrl ?? item.url ?? ''，纯 blob 结果项会传空串导致「读取图片失败」。本轮修复验证为传入真实 dataUrl（线上结果项均带 url/dataUrl）。"
+  ],
+  "evidence": {
+    "files": [
+      "result.png",
+      "step-1-tool-loaded.png",
+      "step-2-asset-library.png",
+      "step-3-canvas.png"
+    ],
+    "run": "run.json"
+  },
+  "verification": {
+    "typecheck": "web: ./node_modules/.bin/tsc --noEmit → exit 0（node v26.11.0）",
+    "tests": "web: bun test src/components/tools → 76 pass / 0 fail / 390 expects（10 files，含 suite/designer 结果卡）"
+  }
+}

@@ -1,0 +1,57 @@
+{
+  "tool": "NEW_DESIGNER",
+  "route": "/tools/product-design/new-designer",
+  "verdict": "PASS",
+  "source": {
+    "kind": "real_ui_run",
+    "detail": "2ee5aa7b300b3e91dcdcdf8cf4ae9b2886af34f7ac68d61d15d3961b760c2dc5"
+  },
+  "checks": [
+    {
+      "item": "导出为真实合成",
+      "expected": "点击导出产生 PNG 且入库",
+      "actual": "回执「已入库资产 #mfnXslFb · 32 KB · 响应 id dz1-d3m2yq-1」",
+      "ok": true
+    },
+    {
+      "item": "资产记录",
+      "expected": "tool_assets 记录含尺寸/字节/storageKey",
+      "actual": "asset:mfnXslFbTosJ2H7l6arMc 1200×1200 32854 B tool-asset:nD4ZLrR9QHmFsvbchVp8n",
+      "ok": true
+    },
+    {
+      "item": "发送画布",
+      "expected": "生成真实画布项目与节点",
+      "actual": "项目 pCUHXPb8oNeTcYI6-k1Hv / 节点 image-1793204362200-7rauu 1200×1200 32854 B",
+      "ok": true
+    },
+    {
+      "item": "字节一致",
+      "expected": "导出字节 == 画布节点字节",
+      "actual": "两端 sha256 均为 2ee5aa7b300b…，32854 B",
+      "ok": true
+    },
+    {
+      "item": "回执可读",
+      "expected": "UI 文案含资产 id 与项目/节点",
+      "actual": "「已入库资产 #mfnXslFb · 32 KB · 响应 id dz1-d3m2yq-1」「已发送画布（项目 pCUHXPb8 · 节点 image-17…）」",
+      "ok": true
+    }
+  ],
+  "issues": [],
+  "deviations": [
+    "导出合成使用设计器本地 compositor（无需外部计费接口），因此本轮为完整真实 UI 跑通。"
+  ],
+  "evidence": {
+    "run": "run.json",
+    "screenshots": [
+      "result.png",
+      "step-1-export-sent.png",
+      "step-2-canvas.png"
+    ]
+  },
+  "verification": {
+    "typecheck": "web: ./node_modules/.bin/tsc --noEmit → exit 0（node v26.11.0）",
+    "tests": "web: bun test src/components/tools → 76 pass / 0 fail / 390 expects（10 files，含 suite/designer 结果卡）"
+  }
+}
