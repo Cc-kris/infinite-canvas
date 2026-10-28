@@ -185,6 +185,7 @@
 - 范围：`AI_TEXT`、`ORNAMENT_TEXT`、`SDS_DESIGN`、`SCENE_TRANSFER`
 - 动作：持久化层保留原始字节（或落对象存储并保存稳定 key），让结果卡在刷新/重进后仍能提交资产/画布
 - 验收：刷新页面后点『存入资产』得到真实 assetId；画布节点引用同一 storageKey 且字节一致
+- **执行结果（已落地，见 `reports/b2-g1-real-acceptance.md`）**：3/4 通过——`AI_TEXT`、`ORNAMENT_TEXT`、`SDS_DESIGN` 刷新后按 `storageKey` 从 IndexedDB 复原字节，sha256 与上游解码字节一致，三动作真实返回 assetId/canvasId；`SCENE_TRANSFER` 仅 **PARTIAL**：该 workspace 用组件 `useState`、未接持久化层，刷新即丢结果（缺口保留，需主会话排期改 `scene.tsx`）。
 
 ### B3｜P0 图片翻译上游修复（G3）
 - 范围：`IMAGE_TRANSLATION`
