@@ -1244,3 +1244,413 @@ export function FissionLinkWorkspace({ className, port }: FissionLinkWorkspacePr
         </div>
     );
 }
+
+/* ================================================================== *
+ * 场景迁移 SCENE_TRANSFER（TASK-033）
+ * 规格 §2：输入 = 商品图 + 场景风格参考图 + 商品分割图 + 相似度；
+ * 规格 §3：相似度滑杆实时更新约束强度，任一必填图缺失禁用生成；
+ * 规格 §5：提交失败/部分失败/刷新恢复都如实展示，不伪造成功。
+ * 与 NEW_REPLACE_BG_V2 / PRODUCT_SCENE / FISSION_LINK 无共享状态，只共享 scene 布局。
+ * ================================================================== */
+
+import { cn } from "@/lib/utils";
+import {
+    SCENE_TRANSFER_SIMILARITY,
+    SCENE_TRANSFER_SIMILARITY_PRESETS,
+    SCENE_TRANSFER_SOURCE_LIMITS,
+    SCENE_TRANSFER_TOOL_ID,
+    SCENE_TRANSFER_TITLE,
+    SCENE_TRANSFER_VALUES_SLOT,
+    DEFAULT_SCENE_TRANSFER_VALUES,
+    clampSimilarity,
+    createSceneTransferSnapshot,
+    describeTransferPlan,
+    describeTransferSource,
+    readSceneTransferValues,
+    resolveTransferSegmentation,
+    serializeSceneTransferValues,
+    similarityLabel,
+    validateSceneTransferState,
+    type SceneTransferSnapshot,
+    type SceneTransferValues,
+} from "@/features/tools/registry/scene-transfer";
+import {
+    runSceneTransfer,
+    sceneTransferResultFromTask,
+    summarizeTransferExecution,
+    transferImageRef,
+    type SceneTransferAsset,
+    type SceneTransferGateway,
+} from "@/features/tools/adapters/scene-transfer";
+
+export type SceneTransferWorkspaceProps = {
+    className?: string;
+    toolId?: string;
+    /** 测试注入的执行端口；默认走共享任务网关（真实 provider 请求）。 */
+    port?: SceneTransferGateway;
+};
+
+function transferAssetFromRecord(record: {
+    id: string;
+    name: string;
+    mimeType: string;
+    url: string;
+    storageKey?: string;
+    width?: number;
+    height?: number;
+    bytes?: number;
+}): SceneTransferAsset {
+    return {
+        assetId: record.id,
+        id: record.id,
+        name: record.name,
+        type: record.mimeType,
+        mimeType: record.mimeType,
+        url: record.url,
+        storageKey: record.storageKey,
+        width: record.width,
+        height: record.height,
+        bytes: record.bytes,
+    };
+}
+
+export function SceneTransferWorkspace({ className, toolId = SCENE_TRANSFER_TOOL_ID, port }: SceneTransferWorkspaceProps) {
+    const hydrate = useToolDraftStore((store) => store.hydrate);
+    const patchDraft = useToolDraftStore((store) => store.patch);
+    const draft = useToolDraftStore((store) => store.drafts[toolId]);
+    const imageModel = useConfigStore((state) => state.config.imageModel);
+
+    const [values, setValues] = useState<SceneTransferValues>(() => ({ ...DEFAULT_SCENE_TRANSFER_VALUES }));
+    const [product, setProduct] = useState<SceneTransferAsset | null>(null);
+    const [style, setStyle] = useState<SceneTransferAsset | null>(null);
+    const [seg, setSeg] = useState<SceneTransferAsset | null>(null);
+    const [restoring, setRestoring] = useState(false);
+    const [lostAssets, setLostAssets] = useState<string[]>([]);
+    const [task, setTask] = useState<ToolTask | undefined>();
+    const [snapshot, setSnapshot] = useState<SceneTransferSnapshot | undefined>();
+    const [running, setRunning] = useState(false);
+    const [error, setError] = useState("");
+    const hydratedRef = useRef(false);
+    const abortRef = useRef<AbortController | null>(null);
+
+    /** 草稿只恢复输入与资产引用；资产解析不到就明确标“丢失”，不假装已恢复。 */
+    useEffect(() => {
+        if (hydratedRef.current) return;
+        hydratedRef.current = true;
+        void hydrate(toolId);
+        const restored = readSceneTransferValues(draft?.values?.[SCENE_TRANSFER_VALUES_SLOT] as Record<string, unknown> | undefined);
+        setValues(restored);
+        const ids = [restored.imageUrl, restored.imageStyleUrl, restored.segImageUrl].filter((id) => id && !/^(https?:|data:|blob:)/.test(id));
+        if (!ids.length) return;
+        setRestoring(true);
+        void (async () => {
+            try {
+                const { records } = await loadToolAssetRecords(ids);
+                const byId = new Map(records.map((record) => [record.id, record]));
+                const missing: string[] = [];
+                const pick = (id: string) => (id ? byId.get(id) : undefined);
+                const productRecord = pick(restored.imageUrl);
+                const styleRecord = pick(restored.imageStyleUrl);
+                const segRecord = pick(restored.segImageUrl);
+                if (productRecord) setProduct(transferAssetFromRecord(productRecord));
+                else if (restored.imageUrl && !/^(https?:|data:|blob:)/.test(restored.imageUrl)) missing.push("商品图");
+                if (styleRecord) setStyle(transferAssetFromRecord(styleRecord));
+                else if (restored.imageStyleUrl && !/^(https?:|data:|blob:)/.test(restored.imageStyleUrl)) missing.push("场景风格参考图");
+                if (segRecord) setSeg(transferAssetFromRecord(segRecord));
+                else if (restored.segImageUrl && !/^(https?:|data:|blob:)/.test(restored.segImageUrl)) missing.push("商品分割图");
+                setLostAssets(missing);
+            } finally {
+                setRestoring(false);
+            }
+        })();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [hydrate, toolId]);
+
+    const update = useCallback(
+        (next: Partial<SceneTransferValues>) => {
+            setValues((current) => {
+                const merged = serializeSceneTransferValues({ ...current, ...next });
+                patchDraft(toolId, {
+                    values: { [SCENE_TRANSFER_VALUES_SLOT]: merged },
+                    assetIds: [merged.imageUrl, merged.imageStyleUrl, merged.segImageUrl].filter((id) => id && !/^(https?:|data:|blob:)/.test(id)),
+                });
+                return merged;
+            });
+        },
+        [patchDraft, toolId],
+    );
+
+    const segmentation = useMemo(
+        () => resolveTransferSegmentation({ segImageUrl: seg ? (seg.dataUrl ?? "").trim() || (seg.url ?? "").trim() : "" }),
+        [seg],
+    );
+
+    const descriptor = useMemo(() => describeToolExecution(SCENE_TRANSFER_TOOL_ID), []);
+    const execution = useMemo(() => summarizeTransferExecution(descriptor), [descriptor]);
+
+    const issues = useMemo(
+        () =>
+            validateSceneTransferState({
+                values,
+                productReady: Boolean(product),
+                styleReady: Boolean(style),
+                imageModelReady: Boolean(imageModel?.trim()),
+                executable: descriptor.executable,
+                segmentation,
+            }),
+        [values, product, style, imageModel, descriptor.executable, segmentation],
+    );
+
+    const blocked = running || issues.length > 0;
+    const plan = useMemo(() => describeTransferPlan(values, segmentation), [values, segmentation]);
+
+    const currentSnapshot = useMemo<SceneTransferSnapshot | null>(() => {
+        if (!product || !style) return null;
+        return createSceneTransferSnapshot({
+            values,
+            product,
+            style,
+            segmentation,
+            revision: draft?.revision ?? null,
+        });
+    }, [values, product, style, segmentation, draft?.revision]);
+
+    const view = useMemo(
+        () => sceneTransferResultFromTask(task, snapshot, currentSnapshot),
+        [task, snapshot, currentSnapshot],
+    );
+
+    const submit = useCallback(async () => {
+        if (!product || !style || issues.length) return;
+        setRunning(true);
+        setError("");
+        const controller = new AbortController();
+        abortRef.current = controller;
+        try {
+            const run = await runSceneTransfer({
+                gateway: port ?? getToolGateway(),
+                values,
+                product,
+                style,
+                segAsset: seg,
+                imageModelReady: Boolean(imageModel?.trim()),
+                descriptor,
+                revision: draft?.revision ?? null,
+                signal: controller.signal,
+                onUpdate: (next) => setTask(next),
+            });
+            setTask(run.task);
+            setSnapshot(run.snapshot);
+        } catch (cause) {
+            setError(cause instanceof Error ? cause.message : "提交失败");
+        } finally {
+            setRunning(false);
+            abortRef.current = null;
+        }
+    }, [product, style, seg, values, issues, port, imageModel, descriptor, draft?.revision]);
+
+    const cancel = useCallback(() => {
+        abortRef.current?.abort();
+        if (task && task.status === "running") {
+            setTask(getToolGateway().cancel(task.id));
+        }
+    }, [task]);
+
+    return (
+        <div className={cn("flex flex-col gap-4 lg:flex-row", className)} data-testid="scene-transfer-workspace">
+            <section className="flex-1 space-y-4" data-testid="scene-transfer-config">
+                <header>
+                    <h2 className="text-sm font-medium" data-testid="scene-transfer-title">{SCENE_TRANSFER_TITLE}</h2>
+                    <p className="mt-1 text-[11px] text-stone-500 dark:text-stone-400">
+                        商品图 + 场景风格参考图，按相似度把商品迁移进参考场景；提交即一次真实图像请求。
+                    </p>
+                </header>
+
+                {lostAssets.length ? (
+                    <p className="rounded border border-amber-300 bg-amber-50 px-3 py-2 text-[11px] text-amber-800 dark:border-amber-700 dark:bg-amber-950 dark:text-amber-200" data-testid="scene-transfer-lost-assets">
+                        草稿里的这些图在本地已找不到，请重新选择：{lostAssets.join("、")}
+                    </p>
+                ) : null}
+
+                <div className="rounded-lg border border-stone-200 p-3 dark:border-stone-700" data-testid="scene-transfer-product">
+                    <h3 className="mb-2 text-xs font-medium">商品图 <span className="text-stone-400">imageUrl</span></h3>
+                    <ToolAssetInput
+                        toolId={`${toolId}-product`}
+                        title="上传商品图"
+                        maxCount={1}
+                        constraints={SCENE_TRANSFER_SOURCE_LIMITS}
+                        disabled={running || restoring}
+                        onChange={(_ids, records) => {
+                            const record = records[0];
+                            setProduct(record ? transferAssetFromRecord(record) : null);
+                            update({ imageUrl: record ? transferImageRef(transferAssetFromRecord(record)) || record.id : "" });
+                        }}
+                    />
+                    <p className="mt-2 text-[11px] text-stone-500 dark:text-stone-400" data-testid="scene-transfer-product-state">
+                        {describeTransferSource(product)}
+                    </p>
+                </div>
+
+                <div className="rounded-lg border border-stone-200 p-3 dark:border-stone-700" data-testid="scene-transfer-style">
+                    <h3 className="mb-2 text-xs font-medium">场景风格参考图 <span className="text-stone-400">imageStyleUrl</span></h3>
+                    <ToolAssetInput
+                        toolId={`${toolId}-style`}
+                        title="上传场景风格参考图"
+                        maxCount={1}
+                        constraints={SCENE_TRANSFER_SOURCE_LIMITS}
+                        disabled={running || restoring}
+                        onChange={(_ids, records) => {
+                            const record = records[0];
+                            setStyle(record ? transferAssetFromRecord(record) : null);
+                            update({ imageStyleUrl: record ? transferImageRef(transferAssetFromRecord(record)) || record.id : "" });
+                        }}
+                    />
+                    <p className="mt-2 text-[11px] text-stone-500 dark:text-stone-400" data-testid="scene-transfer-style-state">
+                        {describeTransferSource(style)}
+                    </p>
+                </div>
+
+                <div className="rounded-lg border border-stone-200 p-3 dark:border-stone-700" data-testid="scene-transfer-seg">
+                    <h3 className="mb-2 text-xs font-medium">商品分割图 <span className="text-stone-400">segImageUrl（可选）</span></h3>
+                    <ToolAssetInput
+                        toolId={`${toolId}-seg`}
+                        title="上传商品分割图"
+                        maxCount={1}
+                        constraints={SCENE_TRANSFER_SOURCE_LIMITS}
+                        disabled={running || restoring}
+                        onChange={(_ids, records) => {
+                            const record = records[0];
+                            setSeg(record ? transferAssetFromRecord(record) : null);
+                            update({ segImageUrl: record ? transferImageRef(transferAssetFromRecord(record)) || record.id : "" });
+                        }}
+                    />
+                    <p className="mt-2 text-[11px] text-stone-500 dark:text-stone-400" data-testid="scene-transfer-seg-notice">
+                        {segmentation.message}
+                    </p>
+                </div>
+
+                <div className="rounded-lg border border-stone-200 p-3 dark:border-stone-700" data-testid="scene-transfer-similarity">
+                    <div className="mb-2 flex items-center justify-between">
+                        <h3 className="text-xs font-medium">相似度 <span className="text-stone-400">similarity</span></h3>
+                        <span className="text-[11px] font-medium" data-testid="scene-transfer-similarity-value">{clampSimilarity(values.similarity)}%</span>
+                    </div>
+                    <input
+                        type="range"
+                        min={SCENE_TRANSFER_SIMILARITY.min}
+                        max={SCENE_TRANSFER_SIMILARITY.max}
+                        step={SCENE_TRANSFER_SIMILARITY.step}
+                        value={clampSimilarity(values.similarity)}
+                        disabled={running}
+                        aria-label="相似度"
+                        data-testid="scene-transfer-similarity-slider"
+                        className="w-full accent-stone-900 dark:accent-stone-100"
+                        onChange={(event) => update({ similarity: clampSimilarity(event.target.value) })}
+                    />
+                    <div className="mt-2 flex flex-wrap gap-2">
+                        {SCENE_TRANSFER_SIMILARITY_PRESETS.map((preset) => (
+                            <button
+                                key={preset.value}
+                                type="button"
+                                disabled={running}
+                                data-testid={`scene-transfer-preset-${preset.value}`}
+                                className={cn(
+                                    "rounded border px-2 py-1 text-[11px]",
+                                    clampSimilarity(values.similarity) === preset.value
+                                        ? "border-stone-900 bg-stone-900 text-white dark:border-stone-100 dark:bg-stone-100 dark:text-stone-900"
+                                        : "border-stone-300 text-stone-600 dark:border-stone-600 dark:text-stone-300",
+                                )}
+                                onClick={() => update({ similarity: preset.value })}
+                            >
+                                {preset.label} {preset.value}%
+                            </button>
+                        ))}
+                    </div>
+                    <p className="mt-2 text-[11px] text-stone-500 dark:text-stone-400" data-testid="scene-transfer-similarity-label">
+                        {similarityLabel(values.similarity)}
+                    </p>
+                </div>
+
+                <div className="space-y-2">
+                    <p className="text-[11px] text-stone-500 dark:text-stone-400" data-testid="scene-transfer-plan">{plan}</p>
+                    {execution.notes.map((note) => (
+                        <p key={note} className="text-[11px] text-amber-700 dark:text-amber-300" data-testid="scene-transfer-capability-note">{note}</p>
+                    ))}
+                    {issues.map((issue) => (
+                        <p key={`${issue.code}-${issue.field}`} className="text-[11px] text-red-600 dark:text-red-400" data-testid="scene-transfer-issue">
+                            {issue.message}
+                        </p>
+                    ))}
+                    {error ? (
+                        <p className="text-[11px] text-red-600 dark:text-red-400" data-testid="scene-transfer-error">{error}</p>
+                    ) : null}
+                    <div className="flex items-center gap-2">
+                        <button
+                            type="button"
+                            disabled={blocked}
+                            data-testid="scene-transfer-submit"
+                            className="rounded bg-stone-900 px-3 py-1.5 text-xs font-medium text-white disabled:opacity-50 dark:bg-stone-100 dark:text-stone-900"
+                            onClick={() => void submit()}
+                        >
+                            {running ? "生成中…" : "开始迁移"}
+                        </button>
+                        {running ? (
+                            <button
+                                type="button"
+                                data-testid="scene-transfer-cancel"
+                                className="rounded border border-stone-300 px-3 py-1.5 text-xs text-stone-600 dark:border-stone-600 dark:text-stone-300"
+                                onClick={cancel}
+                            >
+                                取消
+                            </button>
+                        ) : null}
+                    </div>
+                </div>
+            </section>
+
+            <section className="flex-1 space-y-3" data-testid="scene-transfer-result">
+                <ToolResult task={task} toolId={toolId} title={`${SCENE_TRANSFER_TITLE}结果`} onCancel={running ? cancel : undefined} onRetry={undefined} />
+
+                {view.cells.length ? (
+                    <div className="grid grid-cols-1 gap-2 sm:grid-cols-2" data-testid="scene-transfer-cells">
+                        {view.cells.map((cell) => (
+                            <figure key={cell.index} className="overflow-hidden rounded border border-stone-200 dark:border-stone-700" data-testid={`scene-transfer-cell-${cell.index}`}>
+                                {cell.url ? (
+                                    <img src={cell.url} alt={`场景迁移结果 ${cell.index + 1}`} className="aspect-square w-full object-cover" />
+                                ) : (
+                                    <div className="flex aspect-square w-full items-center justify-center bg-stone-100 px-2 text-center text-[11px] text-stone-500 dark:bg-stone-800 dark:text-stone-400">
+                                        {cell.message ?? "暂无结果"}
+                                    </div>
+                                )}
+                            </figure>
+                        ))}
+                    </div>
+                ) : null}
+
+                {view.stale ? (
+                    <p className="rounded border border-amber-300 bg-amber-50 px-3 py-2 text-[11px] text-amber-800 dark:border-amber-700 dark:bg-amber-950 dark:text-amber-200" data-testid="scene-transfer-stale">
+                        {view.stale}
+                    </p>
+                ) : null}
+
+                {view.segmentationNotice ? (
+                    <p className="text-[11px] text-stone-500 dark:text-stone-400" data-testid="scene-transfer-result-seg-notice">
+                        {view.segmentationNotice}
+                    </p>
+                ) : null}
+
+                <div>
+                    <h3 className="mb-1 text-xs font-medium">本次提交快照</h3>
+                    {snapshot ? (
+                        <pre data-testid="scene-transfer-snapshot" className="max-h-56 overflow-auto whitespace-pre-wrap break-words rounded bg-stone-100 p-2 text-[10px] leading-4 text-stone-700 dark:bg-stone-800 dark:text-stone-200">
+                            {JSON.stringify(snapshot, null, 2)}
+                        </pre>
+                    ) : (
+                        <p className="text-[11px] text-stone-500 dark:text-stone-400" data-testid="scene-transfer-snapshot-empty">
+                            还没有提交过任务；提交后这里会显示锁定的商品图 / 风格图 / 分割图 / 相似度。
+                        </p>
+                    )}
+                </div>
+            </section>
+        </div>
+    );
+}
