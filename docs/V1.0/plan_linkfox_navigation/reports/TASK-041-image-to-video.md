@@ -12,7 +12,7 @@
 | `web/src/features/tools/registry/image-to-video.ts` | 692 | 页面契约：27 字段、3 种素材模式、4 种视频类型、7 比例、2 分辨率、3 档时长、7 国→6 语言联动、4000 字提示词 / 1600 字商品信息上限、确定性提示词骨架、提交快照与漂移判定、能力/结果口径 |
 | `web/src/features/tools/adapters/image-to-video.ts` | 404 | 运行适配：素材角色解析（reference / first-frame / last-frame）、尺寸校验、27 字段落齐、AiConfig 合并、真实 `runTool` 调用、结果单元与文案 |
 | `web/src/components/tools/workspaces/image-to-video.tsx` | 660 | 工作区 UI：素材区（三模式 + ToolAssetInput）、视频类型区、参数区（比例/分辨率/时长/国家/语言）、提示词区、结果区，23 个稳定 `data-testid` |
-| `web/src/features/tools/adapters/image-to-video.test.ts` | 279 | 19 个 bun 用例（契约 4 / 页面配置 3 / 校验联动 7 / 提交链路 4 / SSR 渲染 1） |
+| `web/src/features/tools/adapters/image-to-video.test.ts` | 279 | 19 个 bun 用例（字段契约 3 / 页面配置 3 / 校验联动 7 / 提交链路 5 / SSR 渲染 1） |
 
 注册表接线（`features/tools/registry/index.ts` 的 `IMAGE_TO_VIDEO` 条目、路由 `/tools/ai-video/image-to-video`）已在 HEAD 中，本任务未改动任何共享文件。
 
@@ -50,7 +50,10 @@ cd web && bun test src/features/tools/adapters/image-to-video.test.ts
 # 19 pass / 0 fail / 61 expect()
 
 cd web && bun test
-# 1024 pass / 0 fail / 6288 expect()（49 文件）
+# 本任务提交时：1024 pass / 0 fail / 6288 expect()（49 文件）
+# 收尾复跑：1023 pass / 1 fail —— 失败项是并行任务 TASK-042 未提交的
+#   src/components/tools/workspaces/video.tsx:955 Syntax Error（SALE_VIDEO 渲染），
+#   与本任务无关（本任务提交 95e6f97 未触碰该文件）
 
 cd web && npx tsc --noEmit -p tsconfig.json
 # 本任务 4 文件 0 error；仅剩并行任务的 src/features/tools/adapters/video-replication.ts(564,48) 'video-unavailable' 报错
