@@ -1,0 +1,33 @@
+== TASK-019 FIX_COLOR 验证 2026-10-28 16:28:01 ==
+--- bun test ---
+bun test v1.4.2 (744846f84)
+
+src/features/tools/adapters/fix-color.test.ts:
+(pass) FIX_COLOR 注册表契约 > 路由/slug/layout 与 ToolSpec 一致，且提交字段全部在 ToolSpec 里有落点 [0.05ms]
+(pass) FIX_COLOR 注册表契约 > 默认值落在合法区间，草稿 key 与工具 id 对齐 [0.04ms]
+(pass) FIX_COLOR 颜色 > 归一化：#RGB 展开、小写转大写、非法值拒绝 [0.12ms]
+(pass) FIX_COLOR 颜色 > 色差：同色为 0，差异越大越大，且给出可读描述 [0.10ms]
+(pass) FIX_COLOR 颜色 > formatColorInput 统一成 6 位大写 hex [0.01ms]
+(pass) FIX_COLOR 提交校验 > 空蒙版/同色/未知版本都要被拒，而不是发一次缺参请求 [0.08ms]
+(pass) FIX_COLOR 提交校验 > 源图限制：过小/非位图要报错，正常商品图通过 [0.04ms]
+(pass) FIX_COLOR 提交校验 > assertFixColorInput 缺字段即拒，且抛 FixColorAdapterError [0.64ms]
+(pass) FIX_COLOR 快照与草稿 > 同一输入 hash 稳定；改颜色/换版本即判定旧版本 [0.30ms]
+(pass) FIX_COLOR 快照与草稿 > composeFixColorFields 六字段齐全，颜色统一大写 hex [0.05ms]
+(pass) FIX_COLOR 快照与草稿 > 草稿可往返：颜色/版本/笔画都保住，坏值回落到默认 [0.07ms]
+(pass) FIX_COLOR 快照与草稿 > 涂抹覆盖率为 0 时判定空蒙版，涂抹后可提交 [0.12ms]
+(pass) FIX_COLOR 适配器 > unit 的指令含真实颜色与版本语义，参考图两张，字段带幂等键 [0.08ms]
+(pass) FIX_COLOR 适配器 > 成功后取上游图片；成功但无图判失败，绝不补造占位图 [0.06ms]
+(pass) FIX_COLOR 适配器 > runFixColor 走注入端口跑真实请求，透传任务与结果 [0.16ms]
+(pass) FIX_COLOR 适配器 > 结果视图：运行中/过期/失败提示都不冒充成功 [0.03ms]
+(pass) FIX_COLOR 适配器 > 对比分割线/文件名是纯函数且可预测 [0.05ms]
+(pass) FIX_COLOR 工作区渲染 > 首屏是本页独有区域：色差源图/涂抹/区域色/目标色/版本，未上传不能提交 [49.71ms]
+(pass) FIX_COLOR 工作区渲染 > 不冒充其他修复工具：未接线的 repair 工具给出明确提示而不是通用占位卡 [0.28ms]
+
+ 19 pass
+ 0 fail
+ 102 expect() calls
+Ran 19 tests across 1 file. [65.00ms]
+--- tsc (full repo) ---
+src/components/tools/workspaces/printing-repair.tsx(325,54): error TS2304: Cannot find name 'clampCompareSplit'.
+src/components/tools/workspaces/printing-repair.tsx(364,50): error TS2304: Cannot find name 'clampCompareSplit'.
+tsc exit=2
