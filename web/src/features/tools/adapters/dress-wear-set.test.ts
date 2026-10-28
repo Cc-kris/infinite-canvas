@@ -7,6 +7,7 @@ import {
     buildDressWearSetInput,
     createDressWearSetValues,
     dressSceneSelection,
+    dressResultItemOf,
     dressWearSetUnits,
     estimateDressOutputs,
     groupDressTasks,
@@ -298,5 +299,23 @@ describe("场景选择读取", () => {
     test("未定义的场景回落到未勾选", () => {
         const values = createDressWearSetValues();
         expect(dressSceneSelection(values, "sizeChart")).toEqual({ checked: false, count: 4 });
+    });
+});
+
+describe("dressResultItemOf（结果卡三动作的载荷）", () => {
+    test("默认按 image/png 组装，字段与 ToolTaskResultItem 对齐", () => {
+        const item = dressResultItemOf({ id: "task-abc12345", dataUrl: "data:image/png;base64,AAA" });
+        expect(item).toEqual({
+            id: "task-abc12345",
+            kind: "image",
+            dataUrl: "data:image/png;base64,AAA",
+            mimeType: "image/png",
+        });
+    });
+
+    test("保留上游给出的 mimeType，不透传任务 id 之外的字段", () => {
+        const item = dressResultItemOf({ id: "task-x", dataUrl: "data:image/webp;base64,BBB", mimeType: "image/webp", taskId: "task-x" } as never);
+        expect(item.mimeType).toBe("image/webp");
+        expect(Object.keys(item).sort()).toEqual(["dataUrl", "id", "kind", "mimeType"]);
     });
 });

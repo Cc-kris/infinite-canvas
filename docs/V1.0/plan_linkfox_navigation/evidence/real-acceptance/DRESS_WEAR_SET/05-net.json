@@ -1,0 +1,37 @@
+[
+  {
+    "method": "GET",
+    "url": "http://127.0.0.1:23210/",
+    "status": 200,
+    "ms": 0,
+    "at": "2026-10-28T14:24:46.506Z"
+  },
+  {
+    "method": "GET",
+    "url": "http://127.0.0.1:23210/",
+    "status": 200,
+    "ms": 1,
+    "at": "2026-10-28T14:24:46.868Z"
+  },
+  {
+    "method": "POST",
+    "url": "http://127.0.0.1:23210/https://api.cc-ai.xyz/v1/images/edits",
+    "status": 200,
+    "ms": 37621,
+    "at": "2026-10-28T14:25:28.506Z"
+  },
+  {
+    "method": "GET",
+    "url": "http://127.0.0.1:23210/https://oss-us.dimenoss.com/images/2026/10/28/1793197515_2318875127187ba3e160fd80ed11fbf3.png",
+    "status": 200,
+    "ms": 6621,
+    "at": "2026-10-28T14:25:39.802Z"
+  },
+  {
+    "method": "GET",
+    "url": "http://127.0.0.1:23210/https://oss-us.dimenoss.com/images/2026/10/28/1793197515_2318875127187ba3e160fd80ed11fbf3.png",
+    "status": 200,
+    "ms": 1,
+    "at": "2026-10-28T14:25:39.997Z"
+  }
+]

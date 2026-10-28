@@ -1,9 +1,11 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 import { ToolAssetInput } from "@/components/tools/tool-asset-input";
+import { saveResultItemToAssets, sendResultItemToCanvas } from "@/components/tools/tool-result-actions";
 import {
     createDressWearSetValues,
     dressSnapshotMatches,
+    dressResultItemOf,
     dressWearSetUnits,
     estimateDressOutputs,
     groupDressTasks,
@@ -341,6 +343,37 @@ export function DressSuiteWorkspace({ toolId = DRESS_WEAR_SET_TOOL_ID }: DressSu
         [units, values, references, model, port],
     );
 
+    const handleSaveImageToAssets = useCallback(
+        async (image: { id: string; dataUrl: string; taskId: string }, label: string) => {
+            try {
+                await saveResultItemToAssets(dressResultItemOf(image), 0, {
+                    toolId,
+                    ...(image.taskId ? { taskId: image.taskId } : {}),
+                    title: `${label}-${image.id.slice(0, 8)}`,
+                });
+                setNotice(`已存入资产库：${label}-${image.id.slice(0, 8)}`);
+            } catch (error) {
+                setNotice(error instanceof Error ? error.message : "存入资产库失败");
+            }
+        },
+        [toolId],
+    );
+
+    const handleSendImageToCanvas = useCallback(
+        async (image: { id: string; dataUrl: string }, label: string) => {
+            try {
+                const created = await sendResultItemToCanvas(dressResultItemOf(image), {
+                    toolId,
+                    projectTitle: "服装套图结果",
+                });
+                setNotice(`已发送到画布（${label} · 项目 ${created.projectId.slice(0, 8)}）`);
+            } catch (error) {
+                setNotice(error instanceof Error ? error.message : "发送到画布失败");
+            }
+        },
+        [toolId],
+    );
+
     const provider = DRESS_PROVIDERS.find((item) => item.code === values.provider);
     const resolutionOptions = dressResolutionOptionsFor(values.provider);
     const qualityOptions = dressQualityOptionsFor(values.provider);
@@ -564,9 +597,25 @@ export function DressSuiteWorkspace({ toolId = DRESS_WEAR_SET_TOOL_ID }: DressSu
                                                         <img src={image.dataUrl} alt={`${group.label} 产物`} className="aspect-[3/4] w-full object-cover" />
                                                         <figcaption className="flex items-center justify-between gap-1 px-2 py-1">
                                                             <span className="truncate text-[11px] text-muted-foreground">{image.id.slice(0, 8)}</span>
-                                                            <a className="text-[11px] text-primary underline-offset-2 hover:underline" href={image.dataUrl} download={`${group.scene}-${image.id}.png`}>
-                                                                下载
-                                                            </a>
+                                                            <div className="flex items-center gap-2">
+                                                                <button
+                                                                    type="button"
+                                                                    className="text-[11px] text-primary underline-offset-2 hover:underline"
+                                                                    onClick={() => void handleSaveImageToAssets(image, group.label)}
+                                                                >
+                                                                    存入资产
+                                                                </button>
+                                                                <button
+                                                                    type="button"
+                                                                    className="text-[11px] text-primary underline-offset-2 hover:underline"
+                                                                    onClick={() => void handleSendImageToCanvas(image, group.label)}
+                                                                >
+                                                                    发送画布
+                                                                </button>
+                                                                <a className="text-[11px] text-primary underline-offset-2 hover:underline" href={image.dataUrl} download={`${group.scene}-${image.id}.png`}>
+                                                                    下载
+                                                                </a>
+                                                            </div>
                                                         </figcaption>
                                                     </figure>
                                                 ))}

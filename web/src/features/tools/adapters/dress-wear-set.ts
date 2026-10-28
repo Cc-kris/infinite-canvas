@@ -70,6 +70,24 @@ export type DressResultGroup = {
 
 export type DressGroupStatus = "idle" | "running" | "succeeded" | "partial" | "failed" | "unknown";
 
+/**
+ * 结果图 → 工具结果项：供结果卡上的「存入资产 / 发送画布」复用，
+ * 保证与任务结果项（ToolTaskResultItem）同形状，避免两处手写字段不一致。
+ */
+export function dressResultItemOf(image: { id: string; dataUrl: string; mimeType?: string }): {
+    id: string;
+    kind: "image";
+    dataUrl: string;
+    mimeType: string;
+} {
+    return {
+        id: image.id,
+        kind: "image",
+        dataUrl: image.dataUrl,
+        mimeType: image.mimeType || "image/png",
+    };
+}
+
 export type DressTaskSummary = {
     total: number;
     running: number;
