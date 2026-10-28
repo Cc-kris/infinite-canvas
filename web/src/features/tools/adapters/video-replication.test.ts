@@ -127,8 +127,8 @@ describe("adapter：资产校验", () => {
             url: "",
             bytes: MB,
             mimeType: "video/mp4",
-            createdAt: 1,
-            origin: "upload" as const,
+            createdAt: new Date(1).toISOString(),
+            origin: "local" as const,
         };
         expect(() => toVideoReplicationVideoRef(record)).toThrow(VideoReplicationAdapterError);
     });
