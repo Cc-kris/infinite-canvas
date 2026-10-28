@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 import { Navigate, useParams } from "react-router-dom";
 
 import { ToolShell } from "@/components/tools/tool-shell";
+import { ToolHistoryDock } from "@/components/tools/tool-history-dock";
 import { BatchPage } from "@/features/tools/batch-page";
 import { ToolSidebar, type ToolSidebarCategory } from "@/components/tools/tool-sidebar";
 import NotFound from "@/pages/not-found";
@@ -411,6 +412,18 @@ export const TOOL_WORKSPACES: Record<ToolWorkspaceId, ToolWorkspaceRenderer> = {
 const REGISTRY_SPECS = new Map(toolSpecs.map((spec) => [spec.id, spec]));
 
 /**
+ * B5：这些工具的结果区里已经自带「历史记录」tab（`ToolTaskHistory`），
+ * 页面级共享面板不再重复挂载，避免同一页出现两块历史。
+ */
+export const WORKSPACE_OWN_HISTORY: ReadonlySet<string> = new Set([
+    "CHANGE_COLOR",
+    "PRODUCT_REFINE",
+    "AI_OUTPAINTING",
+    "VIDEO_CONCAT",
+    "VIDEO_TRANSLATION",
+]);
+
+/**
  * A workspace is bound to the registry's canonical ToolSpec, not to a bare id from URL params.
  * The entry must agree with the registry on id, slug, category and makeType; an entry that only
  * looks similar (an injected/partial catalog) keeps the spec placeholder instead of mounting a
@@ -563,6 +576,9 @@ export function ToolRouteView({ catalog, category, toolId }: ToolRouteViewProps)
                     {workspace && match.entry ? (
                         <div data-testid="tool-workspace" data-workspace="ready" data-tool-id={match.entry.id} className="min-w-0">
                             {workspace({ toolId: match.entry.id as ToolWorkspaceId })}
+                            {WORKSPACE_OWN_HISTORY.has(match.entry.id) ? null : (
+                                <ToolHistoryDock toolId={match.entry.id} className="mt-4" />
+                            )}
                         </div>
                     ) : (
                         <WorkspacePlaceholder entry={match.entry} requestedSlug={match.requestedSlug} specPending={match.specPending} category={match.category} />
