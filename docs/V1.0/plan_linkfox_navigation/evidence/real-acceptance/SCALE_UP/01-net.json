@@ -1,0 +1,53 @@
+{
+  "tool": "SCALE_UP",
+  "route": "/tools/ecommerce-suite/scale-up",
+  "capturedAt": "2026-10-28T18:37:09+08:00",
+  "channel": {
+    "id": "ccai-tmp",
+    "baseUrl": "https://api.cc-ai.xyz",
+    "hasKey": true
+  },
+  "model": "ccai-tmp::gpt-image-2",
+  "proxy": {
+    "enabled": true,
+    "url": "http://127.0.0.1:23210"
+  },
+  "request": {
+    "mode": "变高清 (1x)",
+    "source": "product_watch.jpg 1024x744 JPEG",
+    "outputSize": "1024x752",
+    "quality": "high"
+  },
+  "response": {
+    "status": "succeeded",
+    "resultCount": 1,
+    "resultUrl": "https://oss-us.dimenoss.com/images/2026/10/28/1793184229_b7f4112d02f1cb872fd2404e127200b7.png",
+    "resultDims": "1024x752",
+    "resultBytes": 755743
+  },
+  "observedTimeline": {
+    "submitClicked": "2026-10-28T18:36:5x",
+    "buttonTextDuringRun": "生成中…",
+    "resultFileNameEpoch": 1793184229,
+    "wallClockSeconds": "约 50-70s"
+  },
+  "uiAssertions": {
+    "resultPanelTestId": "tool-result",
+    "statusText": "已完成",
+    "summaryText": "共 1 个结果 · 图片 1",
+    "actions": [
+      "下载",
+      "存入资产",
+      "发送画布",
+      "前后对比"
+    ],
+    "modelLabelInUI": "模型：ccai-tmp::gpt-image-2"
+  },
+  "defectFoundAndFixed": {
+    "symptom": "上传原图后仍显示「请先上传原图。」，scale-up-generate 按钮 disabled",
+    "rootCause": "isScaleUpSourceReady 只接受 data:image/ | http(s):// ，而 ToolAssetRecord.url 按设计是当次会话 blob: object URL",
+    "file": "web/src/features/tools/adapters/scale-up.ts",
+    "fix": "放行 blob: 前缀（发送前由 imageToDataUrl 转 data URL）",
+    "verifiedBy": "刷新页面后按钮变为「开始放大（1024×752）」并真实生成成功"
+  }
+}

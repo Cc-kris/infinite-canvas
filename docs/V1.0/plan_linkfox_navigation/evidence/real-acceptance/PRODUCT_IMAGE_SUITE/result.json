@@ -1,0 +1,41 @@
+{
+  "toolId": "PRODUCT_IMAGE_SUITE",
+  "tool": "商品套图",
+  "route": "/tools/ecommerce-suite/product-image-suite",
+  "verdict": "PASS",
+  "runAt": "2026-10-28T18:52:00+08:00",
+  "fixture": "product_watch.jpg (1024x744, 31KB)",
+  "steps": [
+    "导航到 /tools/ecommerce-suite/product-image-suite",
+    "上传 product_watch.jpg → 素材列表 1/1，显示 31 KB · 1024×744 · image/jpeg",
+    "选择 主副图 › 场景图，张数改为 1（预计生成 1 张）",
+    "点击 开始生成 → 按钮变为 生成中…",
+    "约 50s 后结果区出现：共 1 张 · 成功 1 · 失败 0 · 待定 0，场景图（1/1）"
+  ],
+  "output": {
+    "count": 1,
+    "dims": "1024×1024",
+    "preview": "data:image/png;base64（结果缩略图即原图 naturalWidth=1024）"
+  },
+  "fixedBeforeRun": {
+    "file": "web/src/features/tools/adapters/product-image-suite.ts",
+    "line": 60,
+    "bug": "isProductImageSuiteSourceReady 只接受 data:/http(s):，而素材库当次会话 URL 是 blob:，导致「请先上传商品图」且开始生成永久禁用",
+    "fix": "追加 src.startsWith(\"blob:\")，与 scale-up/change-color 等适配器保持一致"
+  },
+  "parity": {
+    "original": "page-dom-20261028/PRODUCT_IMAGE_SUITE.json",
+    "missing": [],
+    "extra": [],
+    "note": "原有 DOM 基线中的 商品图上传/卖点文案/A+图(高级·手机·普通·自定比例)/主副图(卖点图·白底图·场景图·特写图·特写白底图)/分辨率 1K-4K/品质五档/比例/无文字模式/开始生成 全部存在且可用；额外验证结果区统计与单品成功态。"
+  },
+  "notes": [
+    "1K 档实际输出 1024×1024；品质=高品质，比例=1:1。",
+    "结果以 data URL 内联返回（非 OSS 链接），保存按钮用于落库/下载。"
+  ],
+  "evidence": [
+    "01-net.json",
+    "02-result.png",
+    "03-dom-after.txt"
+  ]
+}

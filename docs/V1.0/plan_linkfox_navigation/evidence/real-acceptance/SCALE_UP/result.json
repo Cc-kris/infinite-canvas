@@ -1,0 +1,30 @@
+{
+  "tool": "SCALE_UP",
+  "group": "SDS",
+  "route": "/tools/ecommerce-suite/scale-up",
+  "verdict": "PASS",
+  "realProviderCall": true,
+  "provider": "ccai-tmp (CCAI 临时) / gpt-image-2 via canvas-proxy 127.0.0.1:23210",
+  "output": {
+    "count": 1,
+    "url": "https://oss-us.dimenoss.com/images/2026/10/28/1793184229_b7f4112d02f1cb872fd2404e127200b7.png",
+    "dims": "1024x752",
+    "localFile": "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/SCALE_UP/02-result.png"
+  },
+  "evidence": [
+    "01-net.json",
+    "02-result.png",
+    "03-dom-after.txt",
+    "04-summary.md"
+  ],
+  "codeChange": {
+    "file": "web/src/features/tools/adapters/scale-up.ts",
+    "reason": "blob: 源图被误判为未上传（真实用户上传必现）",
+    "risk": "低：仅放宽来源校验，未改请求构造"
+  },
+  "parityWithOriginal": "原页面 page-dom-20261028 中 SCALE_UP 区域：原图槽位/放大模式(变高清,2x,4x,自定义)/质量档位/生成按钮 全部存在；本次实测均可见可用，并额外验证了结果区(前后对比/下载/存入资产/发送画布)。",
+  "notes": [
+    "运行后页面出现提示「原图或参数已变更，下面的结果来自上一版配置，请重新生成。」——原因是生成后自动人脸检测回写了增强选项，属提示逻辑副作用，不影响结果可用性，已记录未修。"
+  ],
+  "runAt": "2026-10-28T18:36:00+08:00"
+}

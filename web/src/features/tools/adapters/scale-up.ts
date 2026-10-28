@@ -53,7 +53,9 @@ export class ScaleUpAdapterError extends Error {
 export function isScaleUpSourceReady(source?: ScaleUpSourceAsset | null): boolean {
     if (!source || !source.assetId.trim()) return false;
     const src = source.dataUrl || source.url || "";
-    return src.startsWith("data:image/") || src.startsWith("https://") || src.startsWith("http://");
+    // blob: 是工具素材库当次会话的对象 URL（见 ToolAssetRecord.url 注释），
+    // 发送前由 imageToDataUrl 转成 data URL，因此同样是可用来源。
+    return src.startsWith("data:image/") || src.startsWith("https://") || src.startsWith("http://") || src.startsWith("blob:");
 }
 
 export function toScaleUpReference(source: ScaleUpSourceAsset): ReferenceImage {

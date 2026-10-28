@@ -1,0 +1,23 @@
+{
+  "tool": "PRODUCT_IMAGE_SUITE",
+  "route": "/tools/ecommerce-suite/product-image-suite",
+  "capturedAt": "2026-10-28T18:52:00+08:00",
+  "channel": {
+    "id": "ccai-tmp",
+    "baseUrl": "https://api.cc-ai.xyz"
+  },
+  "model": "ccai-tmp::gpt-image-2",
+  "resolution": "1K",
+  "quality": "high",
+  "ratio": "1:1",
+  "request": {
+    "kind": "主副图·场景图",
+    "count": 1,
+    "source": "product_watch.jpg 1024x744"
+  },
+  "response": {
+    "success": 1,
+    "failed": 0,
+    "outputKind": "data:image/png (base64, 1024x1024, 2.15MB decoded)"
+  }
+}

@@ -57,7 +57,8 @@ export class SuiteAdapterError extends Error {
 export function isSuiteSourceReady(source: SuiteSourceAsset | undefined): boolean {
     if (!source || !source.assetId.trim()) return false;
     const src = source.dataUrl || source.url || "";
-    return src.startsWith("data:image/") || src.startsWith("https://") || src.startsWith("http://");
+    // 工具素材库的当次会话 URL 是 blob:（见 ToolAssetRecord.url），发送前转 data URL，故同样视为已上传。
+    return src.startsWith("data:image/") || src.startsWith("https://") || src.startsWith("http://") || src.startsWith("blob:");
 }
 
 /** 尺寸/比例/体积的硬约束（页面规格：10M、384×384 ~ 4096×4096、宽高比 ≤ 5）。 */
