@@ -1,0 +1,7 @@
+8:56:48 PM POST https://api.cc-ai.xyz/v1/images/generations -> 200 36.2s
+9:55:28 PM POST https://api.openai.com/v1/images/generations -> failed (无法连接 api.openai.com：连接超时（UND_ERR_CONNECT_TIMEOUT）。建议：网络握手超时，通常是代理不通或线路被限制；请检查代理状态与节点) 0.5s
+9:59:41 PM POST https://api.cc-ai.xyz/v1/images/generations -> 401 1.5s
+10:04:14 PM POST https://api.cc-ai.xyz/v1/images/generations -> 401 1.6s
+10:08:11 PM POST https://api.cc-ai.xyz/v1/images/generations -> 401 4.1s
+10:11:21 PM POST https://api.cc-ai.xyz/v1/images/generations -> 200 23.2s
+10:14:33 PM POST https://api.cc-ai.xyz/v1/images/generations -> 200 38.6s

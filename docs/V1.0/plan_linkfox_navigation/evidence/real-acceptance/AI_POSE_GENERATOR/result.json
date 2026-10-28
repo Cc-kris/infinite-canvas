@@ -26,11 +26,11 @@
   },
   "evidence": [
     "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/AI_POSE_GENERATOR/real-run-1024.png",
-    "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/AI_POSE_GENERATOR/real-run-proxy.log",
+    "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/AI_POSE_GENERATOR/real-run-proxy.txt",
     "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/AI_POSE_GENERATOR/result.prev-2105.json"
   ],
   "assertions": [
-    "POST https://api.cc-ai.xyz/v1/images/generations 于 22:14:33 返回 200（real-run-proxy.log，耗时 38.6s 至响应头）",
+    "POST https://api.cc-ai.xyz/v1/images/generations 于 22:14:33 返回 200（real-run-proxy.txt，耗时 38.6s 至响应头）",
     "响应体为超大 b64（约 2.07MB base64 / 1.55MB PNG），经 canvas-proxy 以约 19KB/s 流式回传，22:18:53 前端渲染完成（首图 1024x1024）",
     "结果图字节与页面 img 完全一致：sha256 bd34bb6d…ecf，1550004 bytes，PNG 头校验通过 → 不是源图回显（bogusSourceEcho）",
     "结果区出现 1 张缩略图 + 三个动作按钮（data-testid: ai-pose-result-save-0-0 / ai-pose-result-canvas-0-0 / ai-pose-result-download-0-0）",

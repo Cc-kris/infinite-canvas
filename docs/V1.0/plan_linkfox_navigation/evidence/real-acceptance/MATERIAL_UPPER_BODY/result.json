@@ -44,7 +44,7 @@
   },
   "network": {
     "line": "10:23:02 PM POST https://api.cc-ai.xyz/v1/images/edits -> 200 43.7s",
-    "fullLog": "real-run-proxy.log",
+    "fullLog": "real-run-proxy.txt",
     "note": "响应头 200 后 body 以约 2.7KB/s 慢速流式回传，1.7MB 约 8 分钟才落到前端；期间页面持续显示『生成中…』，用 netstat -anv 观察 127.0.0.1.23210 连接 rxbytes 持续增长可判定仍在传输，不应重复提交"
   },
   "specChecks": {
