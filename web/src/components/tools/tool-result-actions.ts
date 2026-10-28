@@ -206,12 +206,21 @@ export type ResultCanvasDeps = {
     videoMetadata: (video: UploadedFile) => CanvasNodeMetadata;
 };
 
-async function loadResultCanvasDeps(): Promise<Partial<ResultCanvasDeps>> {
-    const [canvasStore, factory] = await Promise.all([import("@/stores/canvas/use-canvas-store"), import("@/lib/canvas/canvas-node-factory")]);
+/** 导出仅供单测断言默认装配（缺 uploadImage/storeVideo 会让“发送画布”报依赖不可用）。 */
+export async function loadResultCanvasDeps(): Promise<Partial<ResultCanvasDeps>> {
+    const [canvasStore, factory, imageStorage, videoApi] = await Promise.all([
+        import("@/stores/canvas/use-canvas-store"),
+        import("@/lib/canvas/canvas-node-factory"),
+        import("@/services/image-storage"),
+        import("@/services/api/video"),
+    ]);
     return {
         findProject: (projectId) => canvasStore.useCanvasStore.getState().projects.find((project) => project.id === projectId),
         createProject: (title) => canvasStore.useCanvasStore.getState().createProject(title),
         updateProject: (projectId, nodes) => canvasStore.useCanvasStore.getState().updateProject(projectId, { nodes }),
+        // 结果入库依赖：与 loadResultAssetDeps 同源，缺了这两个函数“发送画布”必然报“画布依赖不可用”。
+        uploadImage: (input) => imageStorage.uploadImage(input),
+        storeVideo: (result) => videoApi.storeGeneratedVideo(result),
         createNode: factory.createCanvasNode,
         imageMetadata: factory.imageMetadata,
         videoMetadata: factory.videoMetadata,
