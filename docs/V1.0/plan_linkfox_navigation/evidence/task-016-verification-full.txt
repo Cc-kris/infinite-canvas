@@ -1,0 +1,36 @@
+== bun test (CHANGE_COLOR) ==
+bun test v1.4.2 (744846f84)
+
+src/features/tools/adapters/change-color.test.ts:
+(pass) CHANGE_COLOR 字段映射 > 16 个字段全部由页面状态产出，且与 tool_specs 的字段名逐一对应 [0.38ms]
+(pass) CHANGE_COLOR 字段映射 > 区域写进 imageTagData 与提示词；coverList 属 asset-list 且本页无套图，如实为空数组 [0.06ms]
+(pass) CHANGE_COLOR 字段映射 > 提示词携带目标色/区域/去杂色/细调/光影选项，不只是模板空话 [0.03ms]
+(pass) CHANGE_COLOR 提交防丢参 > 组装好的请求能通过自检 [0.02ms]
+(pass) CHANGE_COLOR 提交防丢参 > 字段被篡改/清空时自检直接抛错，不会把坏请求发出去 [0.13ms]
+(pass) CHANGE_COLOR 提交防丢参 > 局部重绘没有蒙版时拒绝提交 [0.01ms]
+(pass) CHANGE_COLOR 提交防丢参 > 没选颜色 / 没配模型 / 没传图都会给出就地阻塞原因 [0.02ms]
+(pass) CHANGE_COLOR 提交防丢参 > 源图格式/大小/边长不合规时说明具体原因 [0.02ms]
+(pass) CHANGE_COLOR 快照与结果归属 > 同一份配置指纹稳定，改颜色/区域后指纹变化 [0.23ms]
+(pass) CHANGE_COLOR 快照与结果归属 > 字段摘要能让人核对本次提交的关键参数 [0.06ms]
+(pass) CHANGE_COLOR 快照与结果归属 > 旧任务结果如实标记 stale，不冒充当前配置的结果 [0.09ms]
+(pass) CHANGE_COLOR 草稿 > 恢复时保留配置，丢掉未知键，蒙版本体不进草稿只留 hasMask [0.11ms]
+(pass) CHANGE_COLOR 草稿 > 非法颜色/越界滑杆/未知区域回到安全默认值 [0.03ms]
+(pass) CHANGE_COLOR 执行链路 > 提交一次即终态时不再轮询，并把快照一起带回来 [0.18ms]
+(pass) CHANGE_COLOR 执行链路 > 配置不合法时在本地就拒绝，不产生一次真实提交 [0.06ms]
+(pass) CHANGE_COLOR 执行链路 > 源图不可用时不算 ready
+
+src/components/tools/workspaces/color.test.tsx:
+(pass) 一键换色工作台渲染 > 分区齐全：图片 / 颜色参考 / 区域 / 去杂色 / 细调 / 光影 / 生成 / 本次提交 [68.41ms]
+(pass) 一键换色工作台渲染 > 区域按预设枚举渲染；没有原图时不渲染涂选画布，如实提示先上传 [1.37ms]
+(pass) 一键换色工作台渲染 > 未上传原图时生成按钮阻塞，并列出就地原因，不伪造进行中状态 [0.89ms]
+(pass) 一键换色工作台渲染 > 光影优化默认开启但强度可调，并标注一次生成 10 算力 [0.65ms]
+
+ 20 pass
+ 0 fail
+ 103 expect() calls
+Ran 20 tests across 2 files. [99.00ms]
+
+== tsc --noEmit ==
+(tsc --noEmit 无输出 = 0 error)
+error lines: 0
+exit code: 0

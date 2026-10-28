@@ -27,8 +27,8 @@ PATH=/opt/homebrew/bin:/usr/bin:/bin:$HOME/.bun/bin bun test \
 PATH=/opt/homebrew/bin:/usr/bin:/bin npx tsc --noEmit -p tsconfig.json
 ```
 
-- 测试：**20 pass / 0 fail / 103 expect() calls**（日志 `evidence/task-016-bun-test.log`）
-- 类型：`npx tsc --noEmit` **全仓 exit=0，0 个 error**（日志 `evidence/task-016-tsc.log`）
+- 测试：**20 pass / 0 fail / 103 expect() calls**（证据 `evidence/task-016-verification.txt`、`evidence/task-016-verification-full.txt`）
+- 类型：`npx tsc --noEmit` **全仓 exit=0，0 个 error**（同上证据文件末段）
   - 注：TASK-015 报告里提到的 `change-color.test.ts:81 Cannot find name 'lightSummary'` 就是本任务在写过程中的中间态，已修掉，现全仓干净
 
 ### 测试覆盖到的契约点
