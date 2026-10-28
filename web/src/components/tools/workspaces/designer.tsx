@@ -2,6 +2,8 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { ArrowDown, ArrowUp, Check, ChevronsDown, ChevronsUp, Eye, EyeOff, ImagePlus, Loader2, Lock, Maximize2, Play, Redo2, Trash2, Type, Undo2, Unlock, X } from "lucide-react";
 
 import { uploadToolAsset, resolveToolAssetConstraints } from "@/services/api/tools/assets";
+import { downloadResultItem, sendResultItemToCanvas } from "@/components/tools/tool-result-actions";
+import type { ToolTaskResultItem } from "@/services/api/tools/task-machine";
 import { cn } from "@/lib/utils";
 
 import {
@@ -115,6 +117,7 @@ export function DesignerWorkspace({
     const [stage, setStage] = useState<DesignerStageState>("idle");
     const [error, setError] = useState<DesignerAdapterError | undefined>();
     const [result, setResult] = useState<DesignerAssetRef | undefined>();
+    const [actionNotice, setActionNotice] = useState("");
     const [resultFingerprint, setResultFingerprint] = useState<string | undefined>();
     const [baselineFingerprint, setBaselineFingerprint] = useState<string>(() => designerDocumentFingerprint(history.present));
     const [restoreNotice, setRestoreNotice] = useState("");
@@ -261,6 +264,34 @@ export function DesignerWorkspace({
             setStage("failed");
         }
     }, [activeCompositor, assets, document, host.isDesignerUse, host.imageUrl, host.open, host.hasOnClose, host.hasOnDone]);
+
+    /* ---------------- 结果动作：下载 / 发送画布（复用共享真实画布依赖） ---------------- */
+    const resultItem = useMemo<ToolTaskResultItem | undefined>(
+        () => (result ? { id: result.assetId, kind: "image", url: result.url, mimeType: "image/png", bytes: result.bytes } : undefined),
+        [result],
+    );
+
+    const handleDownload = useCallback(async () => {
+        if (!resultItem) return;
+        setActionNotice("");
+        try {
+            const name = await downloadResultItem(resultItem, 0, { toolId: NEW_DESIGNER_TOOL_ID });
+            setActionNotice(`已下载 ${name}`);
+        } catch (downloadError) {
+            setActionNotice(downloadError instanceof Error ? downloadError.message : "下载失败");
+        }
+    }, [resultItem]);
+
+    const handleSendCanvas = useCallback(async () => {
+        if (!resultItem) return;
+        setActionNotice("");
+        try {
+            const created = await sendResultItemToCanvas(resultItem, { toolId: NEW_DESIGNER_TOOL_ID, projectTitle: "商品图设计器结果" });
+            setActionNotice(`已发送画布（项目 ${created.projectId.slice(0, 8)} · 节点 ${created.nodeId.slice(0, 8)}）`);
+        } catch (canvasError) {
+            setActionNotice(canvasError instanceof Error ? canvasError.message : "发送画布失败");
+        }
+    }, [resultItem]);
 
     const handleDone = useCallback(() => {
         if (!result) return;
@@ -458,7 +489,16 @@ export function DesignerWorkspace({
                         </div>
                         {error ? <p className="mt-1 text-xs text-destructive">{error.code}：{error.message}</p> : null}
                         {result ? (
-                            <p className="mt-1 text-[11px] text-muted-foreground">已入库资产 #{result.assetId.slice(0, 8)} · {result.bytes ? `${Math.round(result.bytes / 1024)} KB` : "大小未知"} · 响应 id {resultFingerprint ?? "——"}</p>
+                            <div className="mt-1 flex flex-wrap items-center gap-2 text-[11px] text-muted-foreground">
+                                <span>已入库资产 #{result.assetId.slice(0, 8)} · {result.bytes ? `${Math.round(result.bytes / 1024)} KB` : "大小未知"} · 响应 id {resultFingerprint ?? "——"}</span>
+                                <button type="button" data-testid="designer-download" onClick={() => void handleDownload()} className="rounded border border-border px-2 py-0.5 text-[11px] hover:bg-accent">
+                                    下载 PNG
+                                </button>
+                                <button type="button" data-testid="designer-send-canvas" onClick={() => void handleSendCanvas()} className="rounded border border-border px-2 py-0.5 text-[11px] hover:bg-accent">
+                                    发送画布
+                                </button>
+                                {actionNotice ? <span>{actionNotice}</span> : null}
+                            </div>
                         ) : null}
                     </div>
                 </div>

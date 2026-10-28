@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 import { ToolAssetInput } from "@/components/tools/tool-asset-input";
+import { sendResultItemToCanvas } from "@/components/tools/tool-result-actions";
 import { loadToolAssetRecords, type ToolAssetConstraints, type ToolAssetRecord } from "@/services/api/tools/assets";
 import { getToolGateway } from "@/services/api/tools/gateway";
 import type { ToolTaskResultItem } from "@/services/api/tools/task-machine";
@@ -612,6 +613,7 @@ export function ProductMarketMaterialWorkspace({ className }: { className?: stri
     const [busyUnit, setBusyUnit] = useState<string | null>(null);
     const [runError, setRunError] = useState<string | undefined>();
     const [savedKeys, setSavedKeys] = useState<Record<string, string>>({});
+    const [canvasKeys, setCanvasKeys] = useState<Record<string, string>>({});
     const [seeded, setSeeded] = useState(false);
     const abortRef = useRef<AbortController | null>(null);
 
@@ -740,6 +742,26 @@ export function ProductMarketMaterialWorkspace({ className }: { className?: stri
             setBusyUnit(null);
         }
     }, []);
+
+    /** 结果 → 真实画布：复用通用发送依赖（项目/节点/上传），失败如实报错，不静默。 */
+    const onSendItemToCanvas = useCallback(
+        async (unit: MarketUnitResult, item: ToolTaskResultItem) => {
+            const key = `${unit.unitId}:${item.id}`;
+            setBusyUnit(unit.unitId);
+            try {
+                const created = await sendResultItemToCanvas(item, {
+                    toolId,
+                    projectTitle: "商品营销素材结果",
+                });
+                setCanvasKeys((current) => ({ ...current, [key]: created.nodeId }));
+            } catch (error) {
+                setRunError(error instanceof Error ? error.message : "发送画布失败。");
+            } finally {
+                setBusyUnit(null);
+            }
+        },
+        [toolId],
+    );
 
     const aplusRatios = aplusRatiosForPlatform(config.platform);
     const aplusEnabled = platformSupportsAplus(config.platform);
@@ -1080,14 +1102,26 @@ export function ProductMarketMaterialWorkspace({ className }: { className?: stri
                                                             ) : (
                                                                 <div className="rounded border border-dashed border-stone-300 p-4 text-center text-[11px] text-stone-500">结果已被持久化策略剥离</div>
                                                             )}
-                                                            <button
-                                                                type="button"
-                                                                disabled={busyUnit === unit.unitId}
-                                                                onClick={() => void onSaveItem(unit, item)}
-                                                                className="rounded border border-stone-300 px-2 py-0.5 text-[11px] text-stone-700 disabled:opacity-40 dark:border-stone-700 dark:text-stone-200"
-                                                            >
-                                                                {savedKeys[key] ? "已存作品库" : "保存"}
-                                                            </button>
+                                                            <div className="flex flex-wrap gap-1">
+                                                                <button
+                                                                    type="button"
+                                                                    disabled={busyUnit === unit.unitId}
+                                                                    onClick={() => void onSaveItem(unit, item)}
+                                                                    data-testid={`market-save-${key}`}
+                                                                    className="rounded border border-stone-300 px-2 py-0.5 text-[11px] text-stone-700 disabled:opacity-40 dark:border-stone-700 dark:text-stone-200"
+                                                                >
+                                                                    {savedKeys[key] ? "已存作品库" : "保存"}
+                                                                </button>
+                                                                <button
+                                                                    type="button"
+                                                                    disabled={busyUnit === unit.unitId}
+                                                                    onClick={() => void onSendItemToCanvas(unit, item)}
+                                                                    data-testid={`market-canvas-${key}`}
+                                                                    className="rounded border border-stone-300 px-2 py-0.5 text-[11px] text-stone-700 disabled:opacity-40 dark:border-stone-700 dark:text-stone-200"
+                                                                >
+                                                                    {canvasKeys[key] ? "已发送画布" : "发送画布"}
+                                                                </button>
+                                                            </div>
                                                         </div>
                                                     );
                                                 })}
