@@ -1,0 +1,106 @@
+{
+ "url": "http://127.0.0.1:3000/tools/ecommerce-suite/change-color-v2",
+ "title": "无限画布",
+ "viewport": [
+  1908,
+  781
+ ],
+ "headings": [
+  "套图换色",
+  "套图换色",
+  "1 · 整套商品图",
+  "上传整套商品图",
+  "2 · 换色方案",
+  "6 · 整套结果"
+ ],
+ "tabs": [
+  "6",
+  "8",
+  "0",
+  "19",
+  "6",
+  "1",
+  "1"
+ ],
+ "buttons": [
+  {
+   "t": "中",
+   "d": false
+  },
+  {
+   "t": "切换到浅色主题",
+   "d": false
+  },
+  {
+   "t": "v0.27.0",
+   "d": false
+  },
+  {
+   "t": "开始换色",
+   "d": false
+  },
+  {
+   "t": "移除",
+   "d": false
+  },
+  {
+   "t": "移除",
+   "d": false
+  },
+  {
+   "t": "从「apparel-print.jpg」提色",
+   "d": false
+  },
+  {
+   "t": "从「product-watch.jpg」提色",
+   "d": false
+  },
+  {
+   "t": "上传参考图",
+   "d": false
+  },
+  {
+   "t": "apparel-print-ref.jpg",
+   "d": false
+  },
+  {
+   "t": "重试失败项",
+   "d": false
+  },
+  {
+   "t": "重试",
+   "d": false
+  },
+  {
+   "t": "复制提示词",
+   "d": false
+  },
+  {
+   "t": "重试",
+   "d": false
+  },
+  {
+   "t": "复制提示词",
+   "d": false
+  },
+  {
+   "t": "1",
+   "d": false
+  },
+  {
+   "t": "连接",
+   "d": false
+  },
+  {
+   "t": "连接",
+   "d": false
+  },
+  {
+   "t": "连接",
+   "d": false
+  }
+ ],
+ "fileInputs": 2,
+ "textAreas": [],
+ "bodyText": "无限画布\n电商套图\n智能修图\n批量生图\n商品图设计\nAI视频\n中\n切换到浅色主题\nv0.27.0\n电商套图\n6\n商品套图\n服装套图\n套图换色\n批量翻译\n高清放大\n智能扩图\n智能修图\n8\n批量生图\n0\n商品图设计\n19\nAI 视频\n6\n电商套图 / 套图换色\n套图换色\n/tools/ecommerce-suite/change-color-v2\n套图换色\nmakeType 93\n整套商品图批量换色：一套方案铺满全部商品图，失败单元单独重试，输入变更后结果自动标记为过期\n开始换色\n0 张完成，2 张未完成（可单独重试）\n1 · 整套商品图\n2/12 张\n上传整套商品图\n2 / 12 个 · PNG / JPG / WebP · ≤ 10 MB\n点击选择本地文件，或拖拽到这里\n校验格式 / 大小 / 像素，入库后可刷新恢复\napparel-print.jpg\n86 KB · 1024×1024 · image/jpeg\n移除\nproduct-watch.jpg\n31 KB · 1024×744 · image/jpeg\n移除\n从「apparel-print.jpg」提色\n从「product-watch.jpg」提色\n2 · 换色方案\n1/25 个\n上传参考图\n参考图只提供颜色与材质依据，不参与构图\napparel-print-ref.jpg\n图\napparel-print-ref.jpg\n参考图\n×\n3 · 换色部位\n2/50\n全身\n上装\n下装\n鞋面\n鞋底\n包身\n包带\n外壳\n瓶身\n表带\n4 · 品质\n低品质\nlow\n中品质\nmedium\n高品质\nhigh\n当前档位：中品质\n5 · 单图微调\n只影响选中的那张商品图\napparel-print.jpg\nproduct-watch.jpg\n色相\n0\n饱和度\n100\n明度\n100\n上色强度\n100\n默认（无微调）\n重置\n2 张商品图 × 1 个方案 = 2 张输出\n快照 5aa80e3d\n校验通过，可以开始换色。\n开始换色\n查看本次输入快照\n6 · 整套结果\n0/2 张完成\n单元 2\n成功 0\n未完成 2\n矩阵完整\n快照 5aa80e3d\n重试失败项\n方案\t完成\t失败\t未定\napparel-print-ref.jpg\t0/2\t0\t2\n结果未定\n任务状态未知，只能查询或人工确认\n图\napparel-print.jpg\napparel-print-ref.jpg\n重试\n复制提示词\n结果未定\n任务状态未知，只能查询或人工确认\n图\nproduct-watch.jpg\napparel-print-ref.jpg\n重试\n复制提示词\n1\n连接本地 Agent\n未连接\n点连接会自动启动本地服务、装好插件并接通，无需手动配置。\nClaude Code\n未连接\n·\nCLI · 2.1.285 (Claude Code)\n·\n直接运行\n连接\nCodex\n未连接\n·\nCLI · codex-cli 0.163.0\n·\n插件已装\n连接\nGalley\n未连接\n·\nCLI + 桌面版 · galley 0.6.4\n连接"
+}

@@ -1,0 +1,37 @@
+{
+  "tool": "SCALE_UP",
+  "verify": "IndexedDB read from real Chrome page context (infinite-canvas:asset_store / canvas_store)",
+  "assetTotal": 9,
+  "asset": {
+    "id": "AzmBB3Km3nlGYqUY4POms",
+    "kind": "image",
+    "title": "SCALE_UP 结果 1",
+    "bytes": 1152074,
+    "width": 1024,
+    "height": 752,
+    "storageKey": "image:ZGoJmi2_gBeofwfV5S5fB",
+    "metadata": {
+      "toolId": "SCALE_UP",
+      "taskId": "task-mvsbn0zb-rmqos4",
+      "resultItemId": "task-mvsbn0zb-rmqos4-0"
+    },
+    "source": "工具结果",
+    "createdAt": "2026-10-28T16:29:31.011Z"
+  },
+  "canvasProject": {
+    "id": "aFEdKzyxmfug5VRJNTkWN",
+    "title": "SCALE_UP 结果",
+    "nodeCount": 1,
+    "node": { "id": "image-1793204985747-k7zvh", "type": "image" }
+  },
+  "download": {
+    "path": "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/SCALE_UP/05-downloaded.png",
+    "bytes": 1152074,
+    "upstreamName": "scale-up-result-1.png"
+  },
+  "feedback": {
+    "save": "已保存到资产库（AzmBB3Km3nlGYqUY4POms）",
+    "canvas": "已发送到画布（aFEdKzyxmfug5VRJNTkWN）"
+  },
+  "readAt": "2026-10-29T00:30Z"
+}

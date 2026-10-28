@@ -1,13 +1,141 @@
 {
   "tool": "CHANGE_COLOR_V2",
-  "name": "套图换色",
+  "name": "套图换色 V2",
   "route": "/tools/ecommerce-suite/change-color-v2",
-  "status": "BLOCKED",
-  "result": "not_verified",
-  "runAt": "2026-10-28T20:20:00+08:00",
+  "status": "PARTIAL",
+  "result": "verified_partial",
+  "verifiedUnits": 1,
+  "totalUnits": 2,
+  "runAt": "2026-10-29T00:34:38+08:00",
+  "verifier": "browser-control (TMWebDriver, real Chrome, tab 1709628091)",
+  "generation": {
+    "mode": "真实上游生成（无 mock）",
+    "channel": {
+      "id": "ccai-tmp",
+      "baseUrl": "https://api.cc-ai.xyz"
+    },
+    "model": "ccai-tmp::gpt-image-2",
+    "proxy": "http://127.0.0.1:23210",
+    "draftSnapshot": "5aa80e3d",
+    "input": "2 张商品图 × 1 个方案 = 2 张输出",
+    "costNote": "仅对「请求失败」的未完成单元各重试 1 次；unknown 单元不做自动重发，避免重复扣费"
+  },
+  "costGuardEvidence": {
+    "firstRunTaskIds": [
+      "task-mvsb41o4-obzwag",
+      "task-mvsb41o9-hv2vqo"
+    ],
+    "firstRunStatus": "unknown / unclassified 请求失败 / retryable true / results 0",
+    "firstRunSubmittedAt": [
+      1793203580020,
+      1793203580025
+    ],
+    "whyUnknown": "上游未被受理（canvas-proxy 当时 401 后崩溃），前端保存 unknown 以保护不重复扣费",
+    "preflightProbe": {
+      "cmd": "curl -s -o /dev/null -w '%{http_code} %{time_total}' https://api.cc-ai.xyz/v1/models",
+      "result": "401 / 1.54s（无 key，符合预期，链路可达）"
+    }
+  },
+  "units": [
+    {
+      "index": 0,
+      "product": "apparel-print.jpg",
+      "reference": "apparel-print-ref.jpg",
+      "taskId": "task-mvsc4fyg-qobp8k",
+      "status": "succeeded",
+      "submittedAt": 1793205278152,
+      "finishedAt": 1793205308288,
+      "resultUrl": "https://oss-us.dimenoss.com/images/2026/10/29/1793205308_f2532a74dca46886316b645a820d05c7",
+      "dims": {
+        "w": 1024,
+        "h": 1024
+      },
+      "download": {
+        "clicked": "结果区「下载」",
+        "savedAs": "~/Downloads/1793205308_f2532a74dca46886316b645a820d05c7.png",
+        "evidenceCopy": "evidence/real-acceptance/CHANGE_COLOR_V2/05-unit1-result.png",
+        "bytes": 1115668,
+        "sha256_16": "dd56d50404c37c6a"
+      }
+    },
+    {
+      "index": 1,
+      "product": "product-watch.jpg",
+      "reference": "apparel-print-ref.jpg",
+      "taskId": "task-mvsc7s58-2rrnqz",
+      "status": "unknown",
+      "submittedAt": 1793205433916,
+      "note": "重试提交后页面于 00:38:41 整页重置，任务记录停在 submitting（pollCount 0），结果无法回收；按防重复扣费策略不再自动重发",
+      "finalRecordStatus": "submitting"
+    }
+  ],
+  "inAppActions": {
+    "download": "PASS（unit0 真实落盘 1,115,668B）",
+    "asset": "N/A — 页面重置后整套结果回到「尚未生成」，结果区无「存入资产」入口",
+    "canvas": "N/A — 同上",
+    "note": "任务记录 result item 标记 payloadDropped:true，会话内结果已不可再操作"
+  },
+  "openRisks": [
+    "unit1(product-watch.jpg) 始终未拿到结果：首次 unclassified 失败 + 重试期间页面重置",
+    "建议：恢复后单跑该单元一次，或接受 PARTIAL 交付"
+  ],
+  "evidence": [
+    "01-task-history.json",
+    "05-unit1-result.png",
+    "08-linkfox-dom.json",
+    "09-site-config-dom.json",
+    "10-retry-unit1-state.json"
+  ],
+  "group": "SDS",
   "worker": "sds",
-  "attempts": [],
-  "blocker": "环境阻塞：CDP/TMWebDriver 评估通道在所有 :3000 标签页上不可用。实测 load average 100~162 持续 60 分钟以上，6 个 Chrome Renderer 各占 ~100% CPU、累计 CPU 时间 57~82 分钟；:3000 上 48 条已建立连接（多为开发模式标签）；单次 Runtime.evaluate 在 180s 内不返回（cap.py/bg.py 均超时），而 driver HTTP 端口本身仍可达（GET / 快速返回 426）。",
-  "observed": "未开始执行：等待 CDP 通道恢复期间环境持续饱和，未能提交任务。",
-  "evidence": []
+  "provider": "ccai-tmp (CCAI 临时) / gpt-image-2 via canvas-proxy 127.0.0.1:23210",
+  "realProviderCall": true,
+  "history": {
+    "previousStatus": "BLOCKED",
+    "previousRunAt": "2026-10-28T20:20:00+08:00",
+    "previousBlocker": "环境阻塞：CDP/TMWebDriver 评估通道在所有 :3000 标签页上不可用。实测 load average 100~162 持续 60 分钟以上，6 个 Chrome Renderer 各占 ~100% CPU、累计 CPU 时间 57~82 分钟；:3000 上 48 条已建立连接（多为开发模式标签）；单次 Runtime.evaluate 在 180s 内不返回（cap.py/bg.py 均超时），而 driver HTTP 端口本身仍可达（GET / 快速返回 426）。",
+    "note": "上一轮因 CDP 通道不可用阻塞未执行；本轮通道恢复后真实提交并拿到 1/2 单元真实产物。"
+  },
+  "parityWithOriginal": {
+    "url": "https://www.linkfox.com/draw/product-color-change",
+    "capturedAt": "2026-10-29T00:33Z",
+    "evidence": "evidence/real-acceptance/CHANGE_COLOR_V2/08-linkfox-dom.json",
+    "siteEvidence": "evidence/real-acceptance/CHANGE_COLOR_V2/09-site-config-dom.json",
+    "checked": [
+      {
+        "item": "上传入口",
+        "linkfox": "从本地上传 / 从作品库选择 / 从商品库选择（多张）",
+        "site": "商品图多选 + 资产库素材",
+        "parity": "基本一致（本站走资产库）"
+      },
+      {
+        "item": "提色方式",
+        "linkfox": "商品图提色 / 历史使用颜色",
+        "site": "换色方案（多方案）× 提色/部位/品质",
+        "parity": "1:1（方案矩阵更细）"
+      },
+      {
+        "item": "批量矩阵",
+        "linkfox": "上传多张图片，开始批量套图换色",
+        "site": "N 张商品图 × M 个方案 = 结果矩阵，单元级状态",
+        "parity": "优于原站（单元级重试/未定保护）"
+      },
+      {
+        "item": "结果操作",
+        "linkfox": "下载 / 一键做同款",
+        "site": "下载 / 重试失败项 / 复制提示词",
+        "parity": "本站多了失败项单独重试"
+      },
+      {
+        "item": "历史记录",
+        "linkfox": "历史记录 tab",
+        "site": "任务历史（tool-task:v1）+ 整套结果区",
+        "parity": "承载方式不同"
+      }
+    ],
+    "differences": [
+      "原站「商品图提色/历史使用颜色/一键做同款」，本站以换色方案矩阵 + 提色取样替代",
+      "原站无单元级 unknown 保护，本站对未定单元禁止自动重发（防重复扣费）"
+    ]
+  }
 }

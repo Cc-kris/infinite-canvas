@@ -1,0 +1,39 @@
+{
+  "url": "http://127.0.0.1:3000/tools/ecommerce-suite/scale-up",
+  "feedbackVisible": {
+    "text": "已发送到画布（aFEdKzyxmfug5VRJNTkWN）",
+    "display": "block",
+    "opacity": "1"
+  },
+  "summary": "共 1 个结果 · 图片 1",
+  "image": {
+    "src": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABAAAAALwCAIAAACGPZD3AAHWWWNhQlgAAdZZanVtYgAA",
+    "natural": [
+      1024,
+      752
+    ],
+    "complete": false
+  },
+  "tileAttrs": {
+    "kind": "image",
+    "dropped": null
+  },
+  "buttons": [
+    {
+      "id": "tool-result-download-0",
+      "text": "下载",
+      "disabled": false
+    },
+    {
+      "id": "tool-result-save-0",
+      "text": "存入资产",
+      "disabled": false
+    },
+    {
+      "id": "tool-result-canvas-0",
+      "text": "发送画布",
+      "disabled": false
+    }
+  ],
+  "resultSection": "中\n高\n\n细节最丰富，耗时最长\n\n生成\n模型：default::gpt-image-2\n开始放大（1024×752）\n放大结果\n已完成\n共 1 个结果 · 图片 1\n下载\n存入资产\n发送画布\n\n已发送到画布（aFEdKzyxmfug5VRJNTkWN）\n\n前后对比\n拖动滑块查看细节\n\n左为原图 50% · 右为放大后\n\n1\n连接本地 Agent\n未连接\n点连接会自动启动本地服务、装好插件并接通，无需手动配置。\nClaude Code\n未连接\n·\nCLI · 2.1.285 (Claude Code)\n·\n直接运行\n连接\nCodex\n未连接\n·\nCLI · codex-cli 0.163.0\n·\n插件已装\n连接\nGalley\n未连接\n·\nCLI + 桌面版 · galley 0.6.4\n连接"
+}

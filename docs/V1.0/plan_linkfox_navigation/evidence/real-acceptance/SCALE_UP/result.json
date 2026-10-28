@@ -1,30 +1,143 @@
 {
   "tool": "SCALE_UP",
   "group": "SDS",
+  "name": "高清放大",
   "route": "/tools/ecommerce-suite/scale-up",
   "verdict": "PASS",
+  "status": "PASS",
+  "result": "verified_real",
   "realProviderCall": true,
   "provider": "ccai-tmp (CCAI 临时) / gpt-image-2 via canvas-proxy 127.0.0.1:23210",
+  "runAt": "2026-10-28T18:36:00+08:00",
+  "verifiedAt": "2026-10-29T00:28:00+08:00",
+  "worker": "sds",
   "output": {
-    "count": 1,
-    "url": "https://oss-us.dimenoss.com/images/2026/10/28/1793184229_b7f4112d02f1cb872fd2404e127200b7.png",
-    "dims": "1024x752",
-    "localFile": "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/SCALE_UP/02-result.png"
+    "previousRun": {
+      "count": 1,
+      "url": "https://oss-us.dimenoss.com/images/2026/10/28/1793184229_b7f4112d02f1cb872fd2404e127200b7.png",
+      "dims": "1024x752",
+      "localFile": "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/SCALE_UP/02-result.png"
+    },
+    "sessionResult": {
+      "note": "复用本会话内已完成的真实生成结果（task-mvsbn0zb-rmqos4），未重新付费生成",
+      "source": "blob:http://127.0.0.1:3000/5a3a2b8c-8a9a-4a0f-8134-90cddcd92c36",
+      "dims": {
+        "w": 1024,
+        "h": 752
+      },
+      "uiStatus": "已完成 · 共 1 个结果 · 图片 1",
+      "downloaded": "~/Downloads/scale-up-result-1.png",
+      "evidenceCopy": "evidence/real-acceptance/SCALE_UP/05-downloaded.png",
+      "bytes": 1152074,
+      "sha256_16": "1e12a562cb2cdc19",
+      "taskId": "task-mvsbn0zb-rmqos4",
+      "resultItemId": "task-mvsbn0zb-rmqos4-0"
+    }
   },
-  "evidence": [
-    "01-net.json",
-    "02-result.png",
-    "03-dom-after.txt",
-    "04-summary.md"
-  ],
+  "verifiedActions": {
+    "download": {
+      "testId": "tool-result-download-0",
+      "ok": true,
+      "file": "~/Downloads/scale-up-result-1.png",
+      "bytes": 1152074
+    },
+    "saveToAsset": {
+      "testId": "tool-result-save-0",
+      "ok": true,
+      "feedback": "已保存到资产库（AzmBB3Km3nlGYqUY4POms）",
+      "assetId": "AzmBB3Km3nlGYqUY4POms",
+      "idb": {
+        "store": "IndexedDB infinite-canvas / app_state / infinite-canvas:asset_store",
+        "bytes": 1152074,
+        "width": 1024,
+        "height": 752,
+        "storageKey": "image:ZGoJmi2_gBeofwfV5S5fB",
+        "toolId": "SCALE_UP"
+      },
+      "assetTitle": "SCALE_UP 结果 1",
+      "createdAt": "2026-10-28T16:29:31.011Z"
+    },
+    "sendToCanvas": {
+      "testId": "tool-result-canvas-0",
+      "ok": true,
+      "feedback": "已发送到画布（aFEdKzyxmfug5VRJNTkWN）",
+      "projectId": "aFEdKzyxmfug5VRJNTkWN",
+      "idb": {
+        "store": "IndexedDB infinite-canvas / app_state / infinite-canvas:canvas_store",
+        "title": "SCALE_UP 结果",
+        "nodeCount": 1,
+        "node": {
+          "id": "image-1793204985747-k7zvh",
+          "type": "image"
+        }
+      }
+    }
+  },
   "codeChange": {
     "file": "web/src/features/tools/adapters/scale-up.ts",
     "reason": "blob: 源图被误判为未上传（真实用户上传必现）",
     "risk": "低：仅放宽来源校验，未改请求构造"
   },
-  "parityWithOriginal": "原页面 page-dom-20261028 中 SCALE_UP 区域：原图槽位/放大模式(变高清,2x,4x,自定义)/质量档位/生成按钮 全部存在；本次实测均可见可用，并额外验证了结果区(前后对比/下载/存入资产/发送画布)。",
-  "notes": [
-    "运行后页面出现提示「原图或参数已变更，下面的结果来自上一版配置，请重新生成。」——原因是生成后自动人脸检测回写了增强选项，属提示逻辑副作用，不影响结果可用性，已记录未修。"
+  "parityWithOriginal": {
+    "summary": "配置区 1:1 对齐 LinkFox 高清放大（变高清/2倍/4倍/自定义 + 面部美化 + 质量档位），结果区按无限画布能力扩展。",
+    "detail": [
+      {
+        "item": "放大模式",
+        "linkfox": "变高清 / 高清+2倍放大 / 高清+4倍放大 / 自定义",
+        "site": "变高清 / 高清+2倍放大 / 高清+4倍放大 / 自定义",
+        "parity": "1:1"
+      },
+      {
+        "item": "输出尺寸联动",
+        "linkfox": "倍率切换后展示输出尺寸",
+        "site": "输出尺寸：1024×752；倍率：1×；自定义可编辑",
+        "parity": "1:1"
+      },
+      {
+        "item": "面部美化",
+        "linkfox": "面部美化 开关",
+        "site": "增强选项 · 面部美化（含不支持人脸检测时的说明）",
+        "parity": "1:1"
+      },
+      {
+        "item": "上传区",
+        "linkfox": "从本地上传 / 从作品库选择 / 批量高清放大 / jpg-jpeg-png-webp ≤4096×4096",
+        "site": "上传素材（1 个 file input）+ 资产库素材",
+        "parity": "基本一致（本站走资产库，无独立『批量』入口）"
+      },
+      {
+        "item": "结果对比",
+        "linkfox": "原图 / 高清放大后",
+        "site": "前后对比（拖动滑块，左原图 50% / 右放大后）",
+        "parity": "1:1"
+      },
+      {
+        "item": "结果操作",
+        "linkfox": "下载图片 / 历史记录",
+        "site": "下载 / 存入资产 / 发送画布",
+        "parity": "本站按无限画布能力扩展（原站无资产/画布）"
+      }
+    ],
+    "differences": [
+      "原站有独立「历史记录」tab，本站以任务历史（localStorage tool-task:v1:*）+ 结果区承载",
+      "原站「批量高清放大」「从作品库选择」为独立入口，本站通过资产库多选与单图上传覆盖"
+    ],
+    "original": "原页面 page-dom-20261028 中 SCALE_UP 区域：原图槽位/放大模式(变高清,2x,4x,自定义)/质量档位/生成按钮 全部存在；本次实测均可见可用，并额外验证了结果区(前后对比/下载/存入资产/发送画布)。"
+  },
+  "evidence": [
+    "01-net.json",
+    "02-result.png",
+    "03-dom-after.txt",
+    "04-summary.md",
+    "05-downloaded.png",
+    "06-result-actions.json",
+    "07-result-actions-verified.json",
+    "08-linkfox-dom.json",
+    "09-site-config-dom.json"
   ],
-  "runAt": "2026-10-28T18:36:00+08:00"
+  "notes": [
+    "运行后页面出现提示「原图或参数已变更，下面的结果来自上一版配置，请重新生成。」——原因是生成后自动人脸检测回写了增强选项，属提示逻辑副作用，不影响结果可用性，已记录未修。",
+    "本次会话结果（1,152,074B）与 18:37 首跑产物（02-result.png，755,743B）为两次不同生成，尺寸同为 1024×752，均真实来自上游。",
+    "存资产/发画布均已在 IndexedDB 侧核对字节数与节点数，非仅读取 UI 文案。"
+  ]
 }

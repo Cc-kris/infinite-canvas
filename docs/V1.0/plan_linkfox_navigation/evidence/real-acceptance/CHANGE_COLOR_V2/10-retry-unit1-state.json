@@ -1,0 +1,49 @@
+{
+ "imgs": [
+  {
+   "src": "blob:http://127.0.0.1:3000/7bf6c5b0-14e4-405b-95cd-30d016ac3c23",
+   "w": 1024,
+   "h": 1024,
+   "len": 63
+  },
+  {
+   "src": "blob:http://127.0.0.1:3000/7d00ca2d-f06d-4d34-b115-8ea8ebb885c8",
+   "w": 1024,
+   "h": 744,
+   "len": 63
+  },
+  {
+   "src": "https://oss-us.dimenoss.com/images/2026/10/29/1793205308_f2532a74dca46886316b645",
+   "w": 1024,
+   "h": 1024,
+   "len": 93
+  }
+ ],
+ "btns": [
+  "中",
+  "切换到浅色主题",
+  "v0.27.0",
+  "开始换色",
+  "移除",
+  "上传参考图",
+  "×",
+  "全身",
+  "上装",
+  "下装",
+  "鞋面",
+  "鞋底",
+  "包身",
+  "包带",
+  "外壳",
+  "瓶身",
+  "表带",
+  "重置",
+  "重试失败项",
+  "下载",
+  "复制提示词",
+  "重试",
+  "1",
+  "连接"
+ ],
+ "section": "6 · 整套结果\n1/2 张完成\n单元 2\n成功 1\n未完成 1\n矩阵完整\n快照 5aa80e3d\n重试失败项\n方案\t完成\t失败\t未定\napparel-print-ref.jpg\t1/2\t0\t1\n图\napparel-print.jpg\napparel-print-ref.jpg\n下载\n复制提示词\n结果未定\n任务状态未知，只能查询或人工确认\n图\nproduct-watch.jpg\napparel-print-ref.jpg\n重试\n复制提示词\n1\n连接本地 Agent\n未连接\n点连接会自动启动本地服务、装好插件并接通，无需手动配置。\nClaude Code\n未连接\n·\nCLI · 2.1.285 (Claude Code)\n·\n直接运行\n连接\nCodex\n未连接\n·\nCLI · codex-cli 0.163.0\n·\n插件已装\n连接\nGalley\n未连接\n·\nCLI + 桌面版 · galley 0.6.4\n连接"
+}

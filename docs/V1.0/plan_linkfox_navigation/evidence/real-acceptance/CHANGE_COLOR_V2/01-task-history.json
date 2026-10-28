@@ -1,0 +1,38 @@
+[
+ {
+  "key": "tool-task:v1:task-mvsb41o4-obzwag",
+  "toolId": "CHANGE_COLOR_V2",
+  "id": "task-mvsb41o4-obzwag",
+  "status": "unknown",
+  "attempts": 1,
+  "pollCount": 0,
+  "transientFailures": 0,
+  "submittedAt": 1793203580020,
+  "error": {
+   "code": "unclassified",
+   "message": "请求失败",
+   "retryable": true
+  },
+  "units": null,
+  "resultCount": 0,
+  "draftRevision": null
+ },
+ {
+  "key": "tool-task:v1:task-mvsb41o9-hv2vqo",
+  "toolId": "CHANGE_COLOR_V2",
+  "id": "task-mvsb41o9-hv2vqo",
+  "status": "unknown",
+  "attempts": 1,
+  "pollCount": 0,
+  "transientFailures": 0,
+  "submittedAt": 1793203580025,
+  "error": {
+   "code": "unclassified",
+   "message": "请求失败",
+   "retryable": true
+  },
+  "units": null,
+  "resultCount": 0,
+  "draftRevision": null
+ }
+]
