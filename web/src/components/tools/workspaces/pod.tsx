@@ -1,10 +1,10 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { AlertTriangle, Check, Loader2, Redo2, RotateCcw, Sparkles, Undo2 } from "lucide-react";
+import { AlertTriangle, Check, ImageOff, ImagePlus, Loader2, Maximize, Minus, Move, Palette, Plus, Redo2, RotateCcw, RotateCw, Sparkles, Trash2, Undo2 } from "lucide-react";
 
 import { ToolAssetInput } from "@/components/tools/tool-asset-input";
 import { ToolResult } from "@/components/tools/tool-result";
 import { cn } from "@/lib/utils";
-import type { ToolAssetRecord } from "@/services/api/tools/assets";
+import { loadToolAssetRecords, type ToolAssetRecord } from "@/services/api/tools/assets";
 import type { ToolTask } from "@/services/api/tools/task-machine";
 import { resolveModelChannel, selectableModelsByCapability, useConfigStore } from "@/stores/use-config-store";
 import { useToolDraftStore } from "@/stores/use-tool-draft-store";
@@ -57,6 +57,61 @@ import {
     validateAiTextSource,
     type AiTextSourceAsset,
 } from "@/features/tools/adapters/ai-text";
+import {
+    SdsAdapterError,
+    assertSdsDesignInput,
+    buildSdsDesignInput,
+    createSdsRequestId,
+    isSdsSourceReady,
+    sdsDesignResultFromTask,
+    sdsDesignResultNotice,
+    sdsMissingIndexes,
+    sdsRepairIndexes,
+    sdsResponseId,
+    validateSdsSource,
+    type SdsResult,
+    type SdsSourceAsset,
+} from "@/features/tools/adapters/sds-design";
+import {
+    DEFAULT_SDS_COLOR_ID,
+    SDS_COLOR_OPTIONS,
+    SDS_DESIGN_TOOL_ID,
+    SDS_MATERIAL_COUNT,
+    SDS_TILING_PRESETS,
+    SDS_UPLOAD_LIMITS,
+    applySdsPlacementAction,
+    applySdsPlacementRecord,
+    sdsAssetFields,
+    canRedoSdsPlacement,
+    canUndoSdsPlacement,
+    commitSdsPlacement,
+    createSdsMaterial,
+    createSdsPlacementHistory,
+    createSdsSnapshot,
+    createSdsValues,
+    describeSdsDrift,
+    isSdsReady,
+    parseSdsDraft,
+    patchSdsPlacement,
+    placementRecordFromMaterials,
+    reconcileSdsValues,
+    redoSdsPlacement,
+    sdsColorOption,
+    sdsDraftAssetIds,
+    sdsPlacementKeyAction,
+    sdsPrintableArea,
+    sdsSelectedMaterial,
+    sdsSubmitLabel,
+    sdsTilingPreset,
+    serializeSdsValues,
+    undoSdsPlacement,
+    validateSdsDesignState,
+    type SdsAssetLike,
+    type SdsPlacementHistory,
+    type SdsSnapshot,
+    type SdsTilingPresetId,
+    type SdsValues,
+} from "@/features/tools/registry/sds-design";
 
 /**
  * TASK-029：AI_TEXT（POD素材）工作区。
@@ -681,6 +736,926 @@ export function PodMaterialWorkspace() {
                     </div>
 
                     <ToolResult task={task ?? null} toolId={toolId} title="POD 素材结果" onRetry={handleRetry} />
+                </section>
+            </div>
+        </div>
+    );
+}
+
+/* =====================================================================================
+ * TASK-031：SDS_DESIGN（素材贴合）
+ * 布局（page-spec 24 §3）：左「素材」｜中「素材操作」画布｜右「结果」。
+ * 真实执行边界：字段由 adapters/sds-design 组装并逐项核对，提交走 runTool 真实 gateway，
+ * 没有本地假图/假进度；商品图与素材都来自 ToolAssetInput 的真实上传。
+ * ===================================================================================== */
+
+const sdsCardClass = "rounded-xl border border-[var(--border)] bg-[var(--card)] p-3";
+const sdsFieldClass =
+    "mt-1 w-full rounded-lg border border-[var(--border)] bg-[var(--background)] px-3 py-2 text-sm text-[var(--foreground)] outline-none focus:border-[var(--primary)]";
+
+function toSdsAsset(record: ToolAssetRecord): SdsAssetLike {
+    return {
+        id: record.id,
+        name: record.name,
+        url: record.url,
+        mimeType: record.mimeType,
+        bytes: record.bytes,
+        width: record.width,
+        height: record.height,
+    };
+}
+
+function toSdsSource(record: ToolAssetRecord): SdsSourceAsset {
+    return {
+        assetId: record.id,
+        url: record.url,
+        name: record.name,
+        mimeType: record.mimeType,
+        bytes: record.bytes,
+        width: record.width,
+        height: record.height,
+    };
+}
+
+/** 平铺缩略图：列/行/错位与 preset 定义一一对应，纯装饰（aria-hidden）。 */
+function TilingGlyph({ columns, rows, stagger, active }: { columns: number; rows: number; stagger: boolean; active: boolean }) {
+    const cells = Array.from({ length: columns * rows }, (_, index) => index);
+    return (
+        <span
+            aria-hidden="true"
+            className="grid h-4 w-4 shrink-0 gap-[1px]"
+            style={{ gridTemplateColumns: `repeat(${columns}, minmax(0, 1fr))`, gridTemplateRows: `repeat(${rows}, minmax(0, 1fr))` }}
+        >
+            {cells.map((index) => {
+                const row = Math.floor(index / columns);
+                const shifted = stagger && row % 2 === 1;
+                return (
+                    <span
+                        key={index}
+                        className={cn("rounded-[1px]", active ? "bg-[var(--primary)]" : "bg-current opacity-60")}
+                        style={shifted ? { transform: "translateX(50%)" } : undefined}
+                    />
+                );
+            })}
+        </span>
+    );
+}
+
+export function TilingPresetSelect({
+    value,
+    onChange,
+    disabled,
+}: {
+    value: SdsTilingPresetId;
+    onChange: (value: SdsTilingPresetId) => void;
+    disabled?: boolean;
+}) {
+    return (
+        <div role="group" aria-label="平铺预设" className="flex flex-wrap gap-2">
+            {SDS_TILING_PRESETS.map((preset) => {
+                const active = preset.id === value;
+                return (
+                    <button
+                        key={preset.id}
+                        type="button"
+                        aria-pressed={active}
+                        disabled={disabled}
+                        onClick={() => onChange(preset.id)}
+                        className={cn(
+                            "flex min-h-[40px] items-center gap-2 rounded-lg border px-3 text-xs transition",
+                            active
+                                ? "border-[var(--primary)] bg-[var(--primary)]/10 text-[var(--foreground)]"
+                                : "border-[var(--border)] text-[var(--muted-foreground)] hover:border-[var(--primary)]/60",
+                            disabled && "cursor-not-allowed opacity-50",
+                        )}
+                    >
+                        <TilingGlyph columns={preset.columns} rows={preset.rows} stagger={preset.stagger} active={active} />
+                        {preset.label}
+                    </button>
+                );
+            })}
+        </div>
+    );
+}
+
+export type PodMaterialFormProps = {
+    values: SdsValues;
+    materials: ToolAssetRecord[];
+    disabled?: boolean;
+    onMaterialsChange: (records: ToolAssetRecord[]) => void;
+    onNameChange: (name: string) => void;
+    onSelect: (assetId: string) => void;
+    onTilingChange: (assetId: string, preset: SdsTilingPresetId) => void;
+    onRemove: (assetId: string) => void;
+};
+
+/** PodMaterialForm：素材上传 + 素材列表 + 素材名 + 当前素材平铺。 */
+export function PodMaterialForm({
+    values,
+    materials,
+    disabled,
+    onMaterialsChange,
+    onNameChange,
+    onSelect,
+    onTilingChange,
+    onRemove,
+}: PodMaterialFormProps) {
+    const selected = sdsSelectedMaterial(values);
+    return (
+        <div className="flex flex-col gap-3" aria-label="素材">
+            <ToolAssetInput
+                toolId={SDS_DESIGN_TOOL_ID}
+                title="上传素材"
+                maxCount={SDS_MATERIAL_COUNT.max}
+                disabled={disabled}
+                onChange={(_assetIds, records) => onMaterialsChange(records)}
+                constraints={{
+                    kind: "image",
+                    mimeTypes: [...SDS_UPLOAD_LIMITS.mimeTypes],
+                    maxBytes: SDS_UPLOAD_LIMITS.maxBytes,
+                    minWidth: SDS_UPLOAD_LIMITS.minSide,
+                    minHeight: SDS_UPLOAD_LIMITS.minSide,
+                    maxWidth: SDS_UPLOAD_LIMITS.maxSide,
+                    maxHeight: SDS_UPLOAD_LIMITS.maxSide,
+                }}
+            />
+
+            <label className={labelClass}>
+                素材名（提交字段 imageName）
+                <input
+                    className={sdsFieldClass}
+                    value={values.imageName}
+                    placeholder="默认取第一个素材文件名"
+                    maxLength={60}
+                    disabled={disabled}
+                    onChange={(event) => onNameChange(event.target.value)}
+                />
+            </label>
+
+            <div className="flex flex-col gap-2">
+                <p className="text-xs text-[var(--muted-foreground)]">
+                    素材 {values.materials.length}/{SDS_MATERIAL_COUNT.max}（{materials.length} 个已上传，输出张数与素材一一对应）
+                </p>
+                {values.materials.length === 0 ? (
+                    <p className="rounded-lg border border-dashed border-[var(--border)] px-3 py-6 text-center text-xs text-[var(--muted-foreground)]">
+                        还没有素材，先上传要贴到商品上的图案。
+                    </p>
+                ) : (
+                    <ul className="flex flex-col gap-2">
+                        {values.materials.map((material, index) => {
+                            const active = material.assetId === values.selectedMaterialId;
+                            const preset = sdsTilingPreset(material.tilingPresetId);
+                            return (
+                                <li key={material.assetId}>
+                                    <div
+                                        className={cn(
+                                            "flex items-center gap-2 rounded-lg border p-2",
+                                            active ? "border-[var(--primary)] bg-[var(--primary)]/5" : "border-[var(--border)]",
+                                        )}
+                                    >
+                                        <button
+                                            type="button"
+                                            onClick={() => onSelect(material.assetId)}
+                                            aria-pressed={active}
+                                            className="flex min-w-0 flex-1 items-center gap-2 text-left"
+                                            title="选中该素材后在画布上调整位置"
+                                        >
+                                            <span className="flex h-10 w-10 items-center justify-center overflow-hidden rounded-md border border-[var(--border)] bg-[var(--background)]">
+                                                {material.url ? (
+                                                    <img src={material.url} alt={material.name} className="h-full w-full object-cover" />
+                                                ) : (
+                                                    <ImageOff className="h-4 w-4 text-[var(--muted-foreground)]" />
+                                                )}
+                                            </span>
+                                            <span className="min-w-0 flex-1">
+                                                <span className="block truncate text-xs text-[var(--foreground)]">
+                                                    {index + 1}. {material.name}
+                                                </span>
+                                                <span className="block truncate text-[11px] text-[var(--muted-foreground)]">
+                                                    {preset.label} · {Math.round(material.placement.scale * 100)}% · {Math.round(material.placement.rotation)}°
+                                                </span>
+                                            </span>
+                                        </button>
+                                        <button
+                                            type="button"
+                                            aria-label={`移除素材 ${material.name}`}
+                                            disabled={disabled}
+                                            onClick={() => onRemove(material.assetId)}
+                                            className="flex h-8 w-8 shrink-0 items-center justify-center rounded-md border border-[var(--border)] text-[var(--muted-foreground)] hover:border-red-400 hover:text-red-500 disabled:opacity-50"
+                                        >
+                                            <Trash2 className="h-4 w-4" />
+                                        </button>
+                                    </div>
+                                    {active ? (
+                                        <div className="mt-2 rounded-lg border border-[var(--border)] bg-[var(--background)]/60 p-2">
+                                            <p className="mb-1 text-[11px] text-[var(--muted-foreground)]">平铺（{material.name}）</p>
+                                            <TilingPresetSelect
+                                                value={sdsTilingPreset(material.tilingPresetId).id}
+                                                disabled={disabled}
+                                                onChange={(presetId) => onTilingChange(material.assetId, presetId)}
+                                            />
+                                        </div>
+                                    ) : null}
+                                </li>
+                            );
+                        })}
+                    </ul>
+                )}
+            </div>
+        </div>
+    );
+}
+
+export type ProductPlacementCanvasProps = {
+    values: SdsValues;
+    colorId: string;
+    disabled?: boolean;
+    onSelect: (assetId: string) => void;
+    onPlacementChange: (assetId: string, patch: { x?: number; y?: number; scale?: number; rotation?: number }) => void;
+    onSelectColor: (colorId: string) => void;
+    onUndo: () => void;
+    onRedo: () => void;
+    canUndo: boolean;
+    canRedo: boolean;
+};
+
+/** ProductPlacementCanvas：商品图 + 可贴区域 + 素材层（拖拽/键盘）+ 颜色与位置工具条。 */
+export function ProductPlacementCanvas({
+    values,
+    colorId,
+    disabled,
+    onSelect,
+    onPlacementChange,
+    onSelectColor,
+    onUndo,
+    onRedo,
+    canUndo,
+    canRedo,
+}: ProductPlacementCanvasProps) {
+    const dragRef = useRef<{ assetId: string; startX: number; startY: number; originX: number; originY: number } | null>(null);
+    const product = values.product;
+    const area = sdsPrintableArea(product);
+    const selected = sdsSelectedMaterial(values);
+    const color = sdsColorOption(colorId);
+    const ratio = product?.width && product?.height ? product.width / product.height : 1;
+
+    const handlePointerDown = useCallback(
+        (event: React.PointerEvent<HTMLDivElement>, assetId: string) => {
+            if (disabled) return;
+            const target = values.materials.find((material) => material.assetId === assetId);
+            if (!target) return;
+            (event.target as HTMLElement).setPointerCapture?.(event.pointerId);
+            dragRef.current = {
+                assetId,
+                startX: event.clientX,
+                startY: event.clientY,
+                originX: target.placement.x,
+                originY: target.placement.y,
+            };
+            onSelect(assetId);
+        },
+        [disabled, onSelect, values.materials],
+    );
+
+    const handlePointerMove = useCallback(
+        (event: React.PointerEvent<HTMLDivElement>) => {
+            const drag = dragRef.current;
+            if (!drag) return;
+            const rect = event.currentTarget.getBoundingClientRect();
+            if (!rect.width || !rect.height) return;
+            onPlacementChange(drag.assetId, {
+                x: drag.originX + (event.clientX - drag.startX) / rect.width,
+                y: drag.originY + (event.clientY - drag.startY) / rect.height,
+            });
+        },
+        [onPlacementChange],
+    );
+
+    const handlePointerUp = useCallback(() => {
+        dragRef.current = null;
+    }, []);
+
+    const handleKeyDown = useCallback(
+        (event: React.KeyboardEvent<HTMLDivElement>) => {
+            if (disabled || !selected) return;
+            const meta = event.metaKey || event.ctrlKey;
+            if (meta && event.key.toLowerCase() === "z") {
+                event.preventDefault();
+                if (event.shiftKey) onRedo();
+                else onUndo();
+                return;
+            }
+            const action = sdsPlacementKeyAction(event.key, event.shiftKey);
+            if (!action) return;
+            event.preventDefault();
+            const target = selected.placement;
+            if (action.kind === "move") onPlacementChange(selected.assetId, { x: target.x + action.dx, y: target.y + action.dy });
+            else if (action.kind === "scale") onPlacementChange(selected.assetId, { scale: target.scale * action.factor });
+            else onPlacementChange(selected.assetId, { rotation: target.rotation + action.delta });
+        },
+        [disabled, onPlacementChange, onRedo, onUndo, selected],
+    );
+
+    return (
+        <div className="flex flex-col gap-3">
+            <div className="flex flex-wrap items-center gap-2">
+                <button
+                    type="button"
+                    onClick={onUndo}
+                    disabled={disabled || !canUndo}
+                    aria-label="撤销位置"
+                    className="flex h-9 items-center gap-1 rounded-lg border border-[var(--border)] px-2 text-xs text-[var(--muted-foreground)] disabled:opacity-40"
+                >
+                    <Undo2 className="h-4 w-4" /> 撤销
+                </button>
+                <button
+                    type="button"
+                    onClick={onRedo}
+                    disabled={disabled || !canRedo}
+                    aria-label="重做位置"
+                    className="flex h-9 items-center gap-1 rounded-lg border border-[var(--border)] px-2 text-xs text-[var(--muted-foreground)] disabled:opacity-40"
+                >
+                    <Redo2 className="h-4 w-4" /> 重做
+                </button>
+                <button
+                    type="button"
+                    disabled={disabled || !selected}
+                    onClick={() => selected && onPlacementChange(selected.assetId, { x: 0.5, y: 0.5, scale: 0.6, rotation: 0 })}
+                    className="flex h-9 items-center gap-1 rounded-lg border border-[var(--border)] px-2 text-xs text-[var(--muted-foreground)] disabled:opacity-40"
+                >
+                    <RotateCcw className="h-4 w-4" /> 复位
+                </button>
+                <button
+                    type="button"
+                    disabled={disabled || !selected}
+                    onClick={() => selected && onPlacementChange(selected.assetId, { scale: selected.placement.scale * 1.05 })}
+                    aria-label="放大素材"
+                    className="flex h-9 w-9 items-center justify-center rounded-lg border border-[var(--border)] text-[var(--muted-foreground)] disabled:opacity-40"
+                >
+                    <Plus className="h-4 w-4" />
+                </button>
+                <button
+                    type="button"
+                    disabled={disabled || !selected}
+                    onClick={() => selected && onPlacementChange(selected.assetId, { scale: selected.placement.scale / 1.05 })}
+                    aria-label="缩小素材"
+                    className="flex h-9 w-9 items-center justify-center rounded-lg border border-[var(--border)] text-[var(--muted-foreground)] disabled:opacity-40"
+                >
+                    <Minus className="h-4 w-4" />
+                </button>
+                <button
+                    type="button"
+                    disabled={disabled || !selected}
+                    onClick={() => selected && onPlacementChange(selected.assetId, { rotation: selected.placement.rotation + 5 })}
+                    aria-label="旋转素材"
+                    className="flex h-9 w-9 items-center justify-center rounded-lg border border-[var(--border)] text-[var(--muted-foreground)] disabled:opacity-40"
+                >
+                    <RotateCw className="h-4 w-4" />
+                </button>
+            </div>
+
+            <div
+                role="application"
+                tabIndex={0}
+                aria-label="素材操作画布"
+                onKeyDown={handleKeyDown}
+                onPointerMove={handlePointerMove}
+                onPointerUp={handlePointerUp}
+                onPointerCancel={handlePointerUp}
+                className="relative w-full overflow-hidden rounded-xl border border-[var(--border)] bg-[var(--background)] outline-none focus-visible:border-[var(--primary)]"
+                style={{ aspectRatio: `${ratio}` }}
+            >
+                {product?.url ? (
+                    <img src={product.url} alt={product.name || "商品图"} className="h-full w-full select-none object-contain" draggable={false} />
+                ) : (
+                    <div className="flex h-full w-full flex-col items-center justify-center gap-2 text-xs text-[var(--muted-foreground)]">
+                        <ImagePlus className="h-6 w-6" />
+                        先上传商品图，素材才能按商品比例摆放
+                    </div>
+                )}
+
+                {color.hex ? (
+                    <div aria-hidden="true" className="pointer-events-none absolute inset-0" style={{ backgroundColor: color.hex, mixBlendMode: "multiply", opacity: 0.55 }} />
+                ) : null}
+
+                {product?.url ? (
+                    <div
+                        aria-hidden="true"
+                        className="pointer-events-none absolute rounded border border-dashed border-[var(--primary)]/70"
+                        style={{
+                            left: `${area.x * 100}%`,
+                            top: `${area.y * 100}%`,
+                            width: `${area.width * 100}%`,
+                            height: `${area.height * 100}%`,
+                            transform: "translate(-50%, -50%)",
+                        }}
+                    />
+                ) : null}
+
+                {values.materials.map((material) => {
+                    const active = material.assetId === values.selectedMaterialId;
+                    return (
+                        <div
+                            key={material.assetId}
+                            role="button"
+                            tabIndex={-1}
+                            aria-label={`摆放素材 ${material.name}`}
+                            aria-pressed={active}
+                            onPointerDown={(event) => handlePointerDown(event, material.assetId)}
+                            className={cn("absolute select-none", disabled ? "cursor-default" : "cursor-move")}
+                            style={{
+                                left: `${material.placement.x * 100}%`,
+                                top: `${material.placement.y * 100}%`,
+                                width: `${material.placement.scale * area.width * 100}%`,
+                                transform: `translate(-50%, -50%) rotate(${material.placement.rotation}deg)`,
+                                touchAction: "none",
+                            }}
+                        >
+                            {material.url ? (
+                                <img
+                                    src={material.url}
+                                    alt={material.name}
+                                    draggable={false}
+                                    className={cn("w-full rounded-sm", active ? "ring-2 ring-[var(--primary)]" : "opacity-95")}
+                                />
+                            ) : (
+                                <div className="w-full rounded-sm bg-[var(--muted)] py-4 text-center text-[11px] text-[var(--muted-foreground)]">
+                                    {material.name}
+                                </div>
+                            )}
+                        </div>
+                    );
+                })}
+            </div>
+
+            <div className="flex flex-wrap items-center gap-2">
+                <span className="flex items-center gap-1 text-[11px] text-[var(--muted-foreground)]">
+                    <Palette className="h-4 w-4" /> 选择颜色
+                </span>
+                {SDS_COLOR_OPTIONS.map((option) => {
+                    const active = option.id === colorId;
+                    return (
+                        <button
+                            key={option.id}
+                            type="button"
+                            aria-pressed={active}
+                            disabled={disabled}
+                            onClick={() => onSelectColor(option.id === DEFAULT_SDS_COLOR_ID ? DEFAULT_SDS_COLOR_ID : option.id)}
+                            className={cn(
+                                "flex min-h-[36px] items-center gap-1 rounded-full border px-3 text-xs",
+                                active ? "border-[var(--primary)] text-[var(--foreground)]" : "border-[var(--border)] text-[var(--muted-foreground)]",
+                                disabled && "opacity-50",
+                            )}
+                        >
+                            <span
+                                aria-hidden="true"
+                                className="h-3 w-3 rounded-full border border-[var(--border)]"
+                                style={{ backgroundColor: option.hex || "transparent" }}
+                            />
+                            {option.label}
+                        </button>
+                    );
+                })}
+            </div>
+
+            <p className="flex items-center gap-1 text-[11px] text-[var(--muted-foreground)]">
+                <Move className="h-3.5 w-3.5" />
+                拖动素材调整位置；方向键微调 1%（Shift 10%）、+/- 缩放、[ ] 旋转、⌘Z 撤销
+            </p>
+        </div>
+    );
+}
+
+export function SdsDesignWorkspace() {
+    const toolId = SDS_DESIGN_TOOL_ID;
+    const config = useConfigStore((state) => state.config);
+    const imageModels = useMemo(() => selectableModelsByCapability(config, "image"), [config]);
+    const model = config.imageModel || imageModels[0] || "";
+    const modelReady = Boolean(model && resolveModelChannel(config, model));
+
+    const [values, setValues] = useState<SdsValues>(() => createSdsValues());
+    const [materialRecords, setMaterialRecords] = useState<ToolAssetRecord[]>([]);
+    const [productRecords, setProductRecords] = useState<ToolAssetRecord[]>([]);
+    const [history, setHistory] = useState<SdsPlacementHistory>(() => createSdsPlacementHistory());
+    const [hydrated, setHydrated] = useState(false);
+    const [notice, setNotice] = useState("");
+    const [errorText, setErrorText] = useState("");
+    const [running, setRunning] = useState(false);
+    const [snapshot, setSnapshot] = useState<SdsSnapshot | undefined>();
+    const [tab, setTab] = useState<"material" | "preview" | "result">("material");
+    const abortRef = useRef<AbortController | null>(null);
+
+    const hydrateDraft = useToolDraftStore((state) => state.hydrate);
+    const patchDraft = useToolDraftStore((state) => state.patch);
+    const draftRevision = useToolDraftStore((state) => state.drafts[toolId]?.revision ?? null);
+    const tasks = useToolTaskStore((state) => state.tasks);
+    const runTool = useToolTaskStore((state) => state.runTool);
+    const retryTask = useToolTaskStore((state) => state.retryTask);
+
+    /* ---------------- 草稿回填 ---------------- */
+
+    useEffect(() => {
+        let alive = true;
+        void (async () => {
+            const draft = await hydrateDraft(toolId);
+            if (!alive) return;
+            const parsed = draft ? parseSdsDraft(draft.values) : createSdsValues();
+            const ids = [parsed.product?.assetId ?? "", ...parsed.materials.map((material) => material.assetId)].filter(Boolean);
+            if (!ids.length) {
+                setValues(parsed);
+                setHydrated(true);
+                return;
+            }
+            const { records, lostIds } = await loadToolAssetRecords(ids);
+            if (!alive) return;
+            const byId = new Map(records.map((record) => [record.id, record]));
+            const product = parsed.product && byId.has(parsed.product.assetId) ? parsed.product : null;
+            const materials = parsed.materials.filter((material) => byId.has(material.assetId));
+            const refreshed = reconcileSdsValues({
+                ...parsed,
+                product: product ? { ...product, url: byId.get(product.assetId)?.url ?? product.url } : null,
+                materials: materials.map((material) => ({ ...material, url: byId.get(material.assetId)?.url ?? material.url })),
+            });
+            setProductRecords(product && byId.get(product.assetId) ? [byId.get(product.assetId) as ToolAssetRecord] : []);
+            setMaterialRecords(materials.map((material) => byId.get(material.assetId)).filter((record): record is ToolAssetRecord => Boolean(record)));
+            setValues(refreshed);
+            setHistory(createSdsPlacementHistory(refreshed.materials));
+            if (lostIds.length) setNotice(`有 ${lostIds.length} 个素材文件已失效，请重新上传后再提交。`);
+            setHydrated(true);
+        })();
+        return () => {
+            alive = false;
+        };
+    }, [hydrateDraft, toolId]);
+
+    const update = useCallback(
+        (updater: (previous: SdsValues) => SdsValues) => {
+            setValues((previous) => {
+                const next = reconcileSdsValues(updater(previous));
+                patchDraft(toolId, { values: serializeSdsValues(next) as unknown as Record<string, unknown> });
+                return next;
+            });
+        },
+        [patchDraft, toolId],
+    );
+
+    /* ---------------- 素材 / 商品图 ---------------- */
+
+    const handleMaterials = useCallback(
+        (records: ToolAssetRecord[]) => {
+            setMaterialRecords(records);
+            let nextMaterials: SdsValues["materials"] = [];
+            setValues((previous) => {
+                const materials = records.slice(0, SDS_MATERIAL_COUNT.max).map((record) => {
+                    const existing = previous.materials.find((material) => material.assetId === record.id);
+                    const fields = toSdsAsset(record);
+                    return existing
+                        ? { ...existing, ...fields, assetId: record.id, placement: existing.placement, tilingPresetId: existing.tilingPresetId }
+                        : createSdsMaterial(fields);
+                });
+                nextMaterials = materials;
+                const next = reconcileSdsValues({ ...previous, materials });
+                patchDraft(toolId, { values: serializeSdsValues(next) as unknown as Record<string, unknown> });
+                return next;
+            });
+            setHistory((previous) => ({ ...previous, present: placementRecordFromMaterials(nextMaterials), future: [] }));
+        },
+        [patchDraft, toolId],
+    );
+
+    const handleProduct = useCallback(
+        (_assetIds: string[], records: ToolAssetRecord[]) => {
+            setProductRecords(records.slice(0, 1));
+            const record = records[0];
+            update((previous) => ({
+                ...previous,
+                product: record ? sdsAssetFields(toSdsAsset(record)) : null,
+                materials: record ? previous.materials : previous.materials,
+            }));
+            if (!record) {
+                setHistory((previous) => ({ ...previous, present: {}, future: [] }));
+                return;
+            }
+        },
+        [update],
+    );
+
+    const handleRemoveMaterial = useCallback(
+        (assetId: string) => {
+            handleMaterials(materialRecords.filter((record) => record.id !== assetId));
+        },
+        [handleMaterials, materialRecords],
+    );
+
+    const handleSelect = useCallback((assetId: string) => update((previous) => ({ ...previous, selectedMaterialId: assetId })), [update]);
+
+    const handleTiling = useCallback(
+        (assetId: string, preset: SdsTilingPresetId) =>
+            update((previous) => ({
+                ...previous,
+                materials: previous.materials.map((material) =>
+                    material.assetId === assetId ? { ...material, tilingPresetId: preset } : material,
+                ),
+            })),
+        [update],
+    );
+
+    /* ---------------- 画布几何 ---------------- */
+
+    const handlePlacementChange = useCallback(
+        (assetId: string, patch: { x?: number; y?: number; scale?: number; rotation?: number }) => {
+            const next = patchSdsPlacement(values.materials, assetId, patch, values.product);
+            update((previous) => ({ ...previous, materials: next }));
+            setHistory((previous) => commitSdsPlacement(previous, placementRecordFromMaterials(next)));
+        },
+        [update, values.materials, values.product],
+    );
+
+    const handleUndo = useCallback(() => {
+        if (!canUndoSdsPlacement(history)) return;
+        const next = undoSdsPlacement(history);
+        setHistory(next);
+        update((previous) => ({ ...previous, materials: applySdsPlacementRecord(previous.materials, next.present) }));
+    }, [history, update]);
+
+    const handleRedo = useCallback(() => {
+        if (!canRedoSdsPlacement(history)) return;
+        const next = redoSdsPlacement(history);
+        setHistory(next);
+        update((previous) => ({ ...previous, materials: applySdsPlacementRecord(previous.materials, next.present) }));
+    }, [history, update]);
+
+    /* ---------------- 校验 / 任务 / 结果 ---------------- */
+
+    const issues = useMemo(() => validateSdsDesignState({ values, hasModel: modelReady }), [values, modelReady]);
+    const blocked = !isSdsReady(values, modelReady);
+
+    const task = useMemo(() => {
+        const own = Object.values(tasks).filter((item) => item.toolId === toolId);
+        return own.sort((a, b) => b.createdAt - a.createdAt)[0];
+    }, [tasks]);
+
+    const currentSnapshot = useMemo(
+        () =>
+            hydrated && values.product && values.materials.length
+                ? createSdsSnapshot(values, { revision: draftRevision, requestId: snapshot?.requestId ?? "" })
+                : undefined,
+        [draftRevision, hydrated, snapshot?.requestId, values],
+    );
+    const drift = useMemo(() => describeSdsDrift(snapshot, currentSnapshot), [snapshot, currentSnapshot]);
+    const result: SdsResult = useMemo(
+        () => sdsDesignResultFromTask(task, snapshot, currentSnapshot, drift),
+        [currentSnapshot, drift, snapshot, task],
+    );
+    const resultNotice = useMemo(() => sdsDesignResultNotice(result), [result]);
+
+    const handleSubmit = useCallback(async () => {
+        if (blocked) {
+            setErrorText(issues[0]?.message ?? "配置不完整，无法提交。");
+            return;
+        }
+        setErrorText("");
+        setNotice("");
+        setRunning(true);
+        const controller = new AbortController();
+        abortRef.current = controller;
+        try {
+            const requestId = createSdsRequestId();
+            const input = buildSdsDesignInput({ values, model, revision: draftRevision });
+            assertSdsDesignInput(input, values);
+            setSnapshot(createSdsSnapshot(values, { revision: draftRevision, requestId }));
+            const next = await runTool(input, { draftRevision, signal: controller.signal });
+            if (next.status === "failed") setErrorText(next.error?.message ?? "生成失败：上游未返回原因。");
+        } catch (error) {
+            setErrorText(error instanceof SdsAdapterError || error instanceof Error ? error.message : String(error));
+        } finally {
+            setRunning(false);
+            abortRef.current = null;
+        }
+    }, [blocked, draftRevision, issues, model, runTool, values]);
+
+    const handleRetry = useCallback(async () => {
+        if (!task) return;
+        setErrorText("");
+        setRunning(true);
+        try {
+            const requestId = createSdsRequestId();
+            const input = buildSdsDesignInput({ values, model, revision: draftRevision });
+            assertSdsDesignInput(input, values);
+            const next = await retryTask(task.id, input, { draftRevision });
+            if (next.status === "failed") setErrorText(next.error?.message ?? "重试失败：上游未返回原因。");
+        } catch (error) {
+            setErrorText(error instanceof Error ? error.message : String(error));
+        } finally {
+            setRunning(false);
+        }
+    }, [draftRevision, model, retryTask, task, values]);
+
+    /** 部分失败补生成：只把缺失的素材重新提交成新任务，结果不覆盖已有成功槽位。 */
+    const handleRepair = useCallback(async () => {
+        const indexes = sdsRepairIndexes(result);
+        if (!indexes.length) return;
+        setErrorText("");
+        setRunning(true);
+        try {
+            const subset: SdsValues = {
+                ...values,
+                materials: indexes.map((index) => values.materials[index]).filter(Boolean),
+                selectedMaterialId: null,
+            };
+            const input = buildSdsDesignInput({ values, model, revision: draftRevision, materialIndexes: indexes });
+            assertSdsDesignInput(input, { ...subset, selectedMaterialId: subset.materials[0]?.assetId ?? null });
+            const next = await runTool(input, { draftRevision });
+            if (next.status === "failed") setErrorText(next.error?.message ?? "补生成失败：上游未返回原因。");
+            else setNotice(`已补生成 ${indexes.length} 个素材，结果请对照素材槽位查看。`);
+        } catch (error) {
+            setErrorText(error instanceof Error ? error.message : String(error));
+        } finally {
+            setRunning(false);
+        }
+    }, [draftRevision, model, result, runTool, values]);
+
+    const materialSources = useMemo(
+        () => materialRecords.map((record) => toSdsSource(record)),
+        [materialRecords],
+    );
+    const productSource = useMemo(() => (productRecords[0] ? toSdsSource(productRecords[0]) : undefined), [productRecords]);
+
+    useEffect(() => {
+        const problems: string[] = [];
+        materialSources.forEach((source) => {
+            const check = validateSdsSource(source, "material");
+            if (!check.ok) problems.push(check.message);
+        });
+        if (productSource) {
+            const check = validateSdsSource(productSource, "product");
+            if (!check.ok) problems.push(check.message);
+        }
+        setNotice(problems[0] ?? "");
+    }, [materialSources, productSource]);
+
+    const missing = sdsMissingIndexes(result.slots);
+
+    return (
+        <div className="flex flex-col gap-4">
+            <div className="flex flex-wrap items-center gap-2 md:hidden">
+                {(["material", "preview", "result"] as const).map((key) => (
+                    <button
+                        key={key}
+                        type="button"
+                        aria-pressed={tab === key}
+                        onClick={() => setTab(key)}
+                        className={cn(
+                            "min-h-[38px] rounded-lg border px-3 text-xs",
+                            tab === key ? "border-[var(--primary)] text-[var(--foreground)]" : "border-[var(--border)] text-[var(--muted-foreground)]",
+                        )}
+                    >
+                        {key === "material" ? "素材" : key === "preview" ? "素材操作" : "结果"}
+                    </button>
+                ))}
+            </div>
+
+            <div className="grid grid-cols-1 gap-4 xl:grid-cols-[340px_minmax(0,1fr)_360px]">
+                {/* 左：素材 */}
+                <section className={cn("flex flex-col gap-3", tab === "material" ? "" : "hidden xl:flex")} aria-label="素材">
+                    <h2 className="text-sm font-medium text-[var(--foreground)]">素材</h2>
+                    <div className={cn(sdsCardClass, "flex flex-col gap-3")}>
+                        <label className={labelClass}>
+                            商品图（提交字段 productId）
+                            <span className="mt-1 block text-[11px] font-normal text-[var(--muted-foreground)]">上传要贴图的商品照片，素材按它的比例摆放</span>
+                        </label>
+                        <ToolAssetInput
+                            toolId={`${toolId}:product`}
+                            title="上传商品图"
+                            maxCount={1}
+                            disabled={running}
+                            onChange={handleProduct}
+                            constraints={{
+                                kind: "image",
+                                mimeTypes: [...SDS_UPLOAD_LIMITS.mimeTypes],
+                                maxBytes: SDS_UPLOAD_LIMITS.maxBytes,
+                                minWidth: SDS_UPLOAD_LIMITS.minSide,
+                                minHeight: SDS_UPLOAD_LIMITS.minSide,
+                                maxWidth: SDS_UPLOAD_LIMITS.maxSide,
+                                maxHeight: SDS_UPLOAD_LIMITS.maxSide,
+                            }}
+                        />
+                    </div>
+
+                    <div className={cn(sdsCardClass, "flex flex-col gap-3")}>
+                        <PodMaterialForm
+                            values={values}
+                            materials={materialRecords}
+                            disabled={running}
+                            onMaterialsChange={handleMaterials}
+                            onNameChange={(name) => update((previous) => ({ ...previous, imageName: name }))}
+                            onSelect={handleSelect}
+                            onTilingChange={handleTiling}
+                            onRemove={handleRemoveMaterial}
+                        />
+                    </div>
+
+                    <div className={cn(sdsCardClass, "flex flex-col gap-2 text-xs text-[var(--muted-foreground)]")}>
+                        <p>输出数量：{values.materials.length} 张（与素材一一对应）</p>
+                        <p>素材：{values.materials.length} 个 · 商品图：{values.product ? "已上传" : "未上传"}</p>
+                        <p>颜色：{sdsColorOption(values.colorId).label}</p>
+                    </div>
+                </section>
+
+                {/* 中：素材操作 */}
+                <section className={cn("flex flex-col gap-3", tab === "preview" ? "" : "hidden xl:flex")} aria-label="素材操作">
+                    <h2 className="text-sm font-medium text-[var(--foreground)]">素材操作</h2>
+                    <div className={cn(sdsCardClass, "flex flex-col gap-3")}>
+                        <ProductPlacementCanvas
+                            values={values}
+                            colorId={values.colorId}
+                            disabled={running}
+                            onSelect={handleSelect}
+                            onPlacementChange={handlePlacementChange}
+                            onSelectColor={(colorId) => update((previous) => ({ ...previous, colorId }))}
+                            onUndo={handleUndo}
+                            onRedo={handleRedo}
+                            canUndo={canUndoSdsPlacement(history)}
+                            canRedo={canRedoSdsPlacement(history)}
+                        />
+                    </div>
+                </section>
+
+                {/* 右：结果 */}
+                <section className={cn("flex flex-col gap-3", tab === "result" ? "" : "hidden xl:flex")} aria-label="结果">
+                    <h2 className="text-sm font-medium text-[var(--foreground)]">结果</h2>
+                    <div className={cn(sdsCardClass, "flex flex-col gap-3")}>
+                        <ul className="flex flex-col gap-1.5" aria-label="素材槽位">
+                            {result.slots.length === 0 ? (
+                                <li className="text-xs text-[var(--muted-foreground)]">还没有结果，先补齐素材后点「立即生成」。</li>
+                            ) : (
+                                result.slots.map((slot) => (
+                                    <li key={slot.assetId} className="flex items-center gap-2 text-xs">
+                                        <span
+                                            className={cn(
+                                                "flex h-5 w-5 items-center justify-center rounded-full border",
+                                                slot.item
+                                                    ? "border-emerald-500 text-emerald-600"
+                                                    : missing.includes(slot.index)
+                                                      ? "border-amber-500 text-amber-600"
+                                                      : "border-[var(--border)] text-[var(--muted-foreground)]",
+                                            )}
+                                        >
+                                            {slot.item ? <Check className="h-3 w-3" /> : <AlertTriangle className="h-3 w-3" />}
+                                        </span>
+                                        <span className="min-w-0 flex-1 truncate text-[var(--foreground)]">
+                                            {slot.index + 1}. {slot.name}
+                                        </span>
+                                        <span className="text-[11px] text-[var(--muted-foreground)]">
+                                            {slot.item ? "已生成" : result.status === "succeeded" ? "缺图" : "待生成"}
+                                        </span>
+                                    </li>
+                                ))
+                            )}
+                        </ul>
+
+                        {result.stale ? (
+                            <p className="rounded-lg border border-amber-300 bg-amber-50 px-2 py-1.5 text-[11px] text-amber-700">
+                                结果来自旧版本（改动：{result.drift || "配置已变化"}），需重新生成。
+                            </p>
+                        ) : null}
+                        {resultNotice ? (
+                            <p className="rounded-lg border border-[var(--border)] bg-[var(--background)] px-2 py-1.5 text-[11px] text-[var(--muted-foreground)]">
+                                {resultNotice}
+                            </p>
+                        ) : null}
+                        {sdsRepairIndexes(result).length ? (
+                            <button
+                                type="button"
+                                disabled={running}
+                                onClick={() => void handleRepair()}
+                                className="flex min-h-[40px] items-center justify-center gap-2 rounded-lg border border-[var(--primary)] px-3 text-xs text-[var(--foreground)] disabled:opacity-50"
+                            >
+                                {running ? <Loader2 className="h-4 w-4 animate-spin" /> : <ImagePlus className="h-4 w-4" />}
+                                只补生成缺失的 {sdsRepairIndexes(result).length} 张
+                            </button>
+                        ) : null}
+
+                        <button
+                            type="button"
+                            disabled={running || blocked}
+                            onClick={() => void handleSubmit()}
+                            title={blocked ? (issues[0]?.message ?? "配置不完整") : ""}
+                            className="flex min-h-[44px] items-center justify-center gap-2 rounded-lg bg-[var(--primary)] px-4 text-sm font-medium text-[var(--primary-foreground)] disabled:cursor-not-allowed disabled:opacity-50"
+                        >
+                            {running ? <Loader2 className="h-4 w-4 animate-spin" /> : <Sparkles className="h-4 w-4" />}
+                            {running ? "生成中…" : sdsSubmitLabel(values)}
+                        </button>
+                        {blocked && issues[0] ? <p className="text-[11px] text-amber-600">{issues[0].message}</p> : null}
+                        {errorText ? <p className="text-[11px] text-red-500">{errorText}</p> : null}
+                        {notice ? <p className="text-[11px] text-[var(--muted-foreground)]">{notice}</p> : null}
+                        {!modelReady ? <p className="text-[11px] text-amber-600">未配置可用的图片模型，请先在设置里选择模型。</p> : null}
+                        <p className="text-[11px] text-[var(--muted-foreground)]">
+                            商品图：{values.product?.assetId ? `#${values.product.assetId.slice(0, 8)}` : "——"} · 响应 id：{sdsResponseId(task) || "——（上游未回填）"}
+                        </p>
+                    </div>
+
+                    <ToolResult task={task ?? null} toolId={toolId} title="SDS 素材贴合结果" onRetry={handleRetry} />
                 </section>
             </div>
         </div>
