@@ -536,3 +536,36 @@ describe("adapter · 批量运行", () => {
         expect(outcomeOf(merged, "a", "en")?.status).toBe("succeeded");
     });
 });
+
+describe("任务载荷（页面规范 §7）", () => {
+    test("prepareTranslationRun 携带 draftRevision / clientOperationId / sourceAssetIds / configSnapshot", () => {
+        const values = setImageConfirmed(valuesWithBoxes({ targets: ["en", "ja"], translations: { en: "tee", ja: "ティー" } }), "asset-a", true);
+        const prepared = prepareTranslationRun({
+            records: [record("asset-a")],
+            assetIds: ["asset-a"],
+            values,
+            draftRevision: 7,
+            clientOperationId: "op-1",
+        });
+        expect(prepared.outputCount).toBe(2);
+        const fields = prepared.units[0].fields as Record<string, unknown>;
+        expect(fields.draftRevision).toBe(7);
+        expect(fields.clientOperationId).toBe("op-1");
+        expect(fields.sourceAssetIds).toEqual(["asset-a"]);
+        expect(fields.imageName).toBe("asset-a.png");
+        expect(fields.configSnapshot).toEqual({
+            hash: prepared.snapshot.hash,
+            sourceLanguage: values.sourceLanguage,
+            targetLanguages: ["en", "ja"],
+        });
+    });
+
+    test("未传 meta 时 sourceAssetIds 回落到本次图片集合", () => {
+        const values = setImageConfirmed(valuesWithBoxes(), "asset-a", true);
+        const prepared = prepareTranslationRun({ records: [record("asset-a")], assetIds: ["asset-a"], values });
+        const fields = prepared.units[0].fields as Record<string, unknown>;
+        expect(fields.sourceAssetIds).toEqual(["asset-a"]);
+        expect(fields.draftRevision).toBeNull();
+        expect(fields.clientOperationId).toBeNull();
+    });
+});

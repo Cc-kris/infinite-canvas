@@ -316,9 +316,12 @@ export function buildTranslationUnits(input: {
     images: TranslationImageInput[];
     values: TranslationValues;
     snapshotHash: string;
+    /** §7：任务需带草稿版本、源资产集合与客户端幂等号，便于审计与去重。 */
+    meta?: { draftRevision?: number; sourceAssetIds?: readonly string[]; clientOperationId?: string };
 }): TranslationUnit[] {
     const targets = input.values.targetLanguages;
     const units: TranslationUnit[] = [];
+    const meta = input.meta ?? {};
     for (const image of input.images) {
         const state = input.values.images.find((item) => item.assetId === image.assetId);
         for (const language of targets) {
@@ -338,6 +341,14 @@ export function buildTranslationUnits(input: {
                     imageUrl: image.reference.url ?? image.reference.dataUrl,
                     sourceLanguage: input.values.sourceLanguage,
                     targetLanguage: language,
+                    draftRevision: meta.draftRevision ?? null,
+                    clientOperationId: meta.clientOperationId ?? null,
+                    sourceAssetIds: meta.sourceAssetIds ?? input.images.map((item) => item.assetId),
+                    configSnapshot: {
+                        hash: input.snapshotHash,
+                        sourceLanguage: input.values.sourceLanguage,
+                        targetLanguages: [...targets],
+                    },
                 },
                 snapshotHash: input.snapshotHash,
                 texts,
@@ -510,10 +521,21 @@ export function prepareTranslationRun(input: {
     values: TranslationValues;
     imageNames?: Readonly<Record<string, string>>;
     at?: number;
+    draftRevision?: number;
+    clientOperationId?: string;
 }): { snapshot: TranslationSnapshot; units: TranslationUnit[]; outputCount: number } {
     const snapshot = buildTranslationSnapshot({ assetIds: input.assetIds, values: input.values, imageNames: input.imageNames, at: input.at });
     const images = buildTranslationImages(input.records, input.assetIds);
-    const units = buildTranslationUnits({ images, values: input.values, snapshotHash: snapshot.hash });
+    const units = buildTranslationUnits({
+        images,
+        values: input.values,
+        snapshotHash: snapshot.hash,
+        meta: {
+            ...(input.draftRevision === undefined ? {} : { draftRevision: input.draftRevision }),
+            sourceAssetIds: input.assetIds,
+            ...(input.clientOperationId ? { clientOperationId: input.clientOperationId } : {}),
+        },
+    });
     return { snapshot, units, outputCount: estimatedOutputCount(input.assetIds.length, input.values.targetLanguages.length) };
 }
 

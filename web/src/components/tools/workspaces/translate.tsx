@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 
 import { ToolAssetInput } from "@/components/tools/tool-asset-input";
 import { ToolShell } from "@/components/tools/tool-shell";
+import { saveResultItemToAssets, sendResultItemToCanvas } from "@/components/tools/tool-result-actions";
 import {
     auditConfirmed,
     buildTranslationUnits,
@@ -106,6 +107,7 @@ export function TranslateWorkspace({ className }: TranslateWorkspaceProps = {}) 
     const spec = useMemo(() => getToolById(TOOL_ID), []);
     const patchDraft = useToolDraftStore((state) => state.patch);
     const hydrateDraft = useToolDraftStore((state) => state.hydrate);
+    const draftRevision = useToolDraftStore((state) => state.drafts[TOOL_ID]?.revision ?? 0);
     const conflict = useToolDraftStore((state) => state.conflicts[TOOL_ID]);
 
     const [values, setValues] = useState(() => createTranslationValues());
@@ -363,6 +365,11 @@ export function TranslateWorkspace({ className }: TranslateWorkspaceProps = {}) 
             assetIds,
             values: valuesRef.current,
             imageNames: Object.fromEntries(readable.map((record) => [record.id, record.name])),
+            draftRevision,
+            clientOperationId:
+                typeof crypto !== "undefined" && typeof crypto.randomUUID === "function"
+                    ? crypto.randomUUID()
+                    : `${Date.now()}-${Math.random().toString(16).slice(2)}`,
         });
         const built = prepared.units.map((unit) => ({ ...unit, references: [toReference(readable.find((record) => record.id === unit.assetId) ?? readable[0])] }));
         if (!built.length) {
@@ -372,7 +379,7 @@ export function TranslateWorkspace({ className }: TranslateWorkspaceProps = {}) 
         setUnits(built);
         setOutcomes([]);
         await execute(built, prepared.snapshot.hash);
-    }, [assetIds, busy, execute, records]);
+    }, [assetIds, busy, draftRevision, execute, records]);
 
     const retryFailed = useCallback(async () => {
         if (busy) return;
@@ -415,6 +422,51 @@ export function TranslateWorkspace({ className }: TranslateWorkspaceProps = {}) 
             anchor.remove();
         },
         [records],
+    );
+
+    const resultItemOf = useCallback((outcome: TranslationUnitOutcome) => {
+        const url = outcome.image?.url;
+        const dataUrl = outcome.image?.dataUrl;
+        return {
+            id: outcome.taskId ?? outcome.unitId,
+            kind: "image" as const,
+            ...(dataUrl ? { dataUrl } : {}),
+            ...(url ? { url } : {}),
+            ...(outcome.image?.mimeType ? { mimeType: outcome.image.mimeType } : {}),
+        };
+    }, []);
+
+    const saveToAssets = useCallback(
+        async (outcome: TranslationUnitOutcome) => {
+            const record = records.find((item) => item.id === outcome.assetId);
+            const base = (record?.name ?? "图片").replace(/\.[^.]+$/, "");
+            try {
+                await saveResultItemToAssets(resultItemOf(outcome), 0, {
+                    toolId: IMAGE_TRANSLATION_TOOL_ID,
+                    ...(outcome.taskId ? { taskId: outcome.taskId } : {}),
+                    title: `${base}-${languageLabel(outcome.language)}`,
+                });
+                setNotice(`已存入资产库：${base}-${languageLabel(outcome.language)}`);
+            } catch (error) {
+                setNotice(error instanceof Error ? error.message : "存入资产库失败");
+            }
+        },
+        [records, resultItemOf],
+    );
+
+    const sendToCanvas = useCallback(
+        async (outcome: TranslationUnitOutcome) => {
+            try {
+                const created = await sendResultItemToCanvas(resultItemOf(outcome), {
+                    toolId: IMAGE_TRANSLATION_TOOL_ID,
+                    projectTitle: "图片翻译结果",
+                });
+                setNotice(`已发送到画布（项目 ${created.projectId.slice(0, 8)}）`);
+            } catch (error) {
+                setNotice(error instanceof Error ? error.message : "发送到画布失败");
+            }
+        },
+        [resultItemOf],
     );
 
     /* ---------------- 渲染 ---------------- */
@@ -843,6 +895,24 @@ export function TranslateWorkspace({ className }: TranslateWorkspaceProps = {}) 
                                                                         >
                                                                             下载
                                                                         </button>
+                                                                    ) : null}
+                                                                    {outcome?.image?.dataUrl || outcome?.image?.url ? (
+                                                                        <>
+                                                                            <button
+                                                                                type="button"
+                                                                                onClick={() => void saveToAssets(outcome)}
+                                                                                className="rounded border border-border px-1 text-[10px] transition hover:bg-accent"
+                                                                            >
+                                                                                存库
+                                                                            </button>
+                                                                            <button
+                                                                                type="button"
+                                                                                onClick={() => void sendToCanvas(outcome)}
+                                                                                className="rounded border border-border px-1 text-[10px] transition hover:bg-accent"
+                                                                            >
+                                                                                发画布
+                                                                            </button>
+                                                                        </>
                                                                     ) : null}
                                                                     <button
                                                                         type="button"
