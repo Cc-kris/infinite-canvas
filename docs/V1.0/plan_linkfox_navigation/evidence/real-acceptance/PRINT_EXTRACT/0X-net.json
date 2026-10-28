@@ -1,0 +1,14 @@
+[
+ {
+  "method": "POST",
+  "url": "http://127.0.0.1:23210/https://api.cc-ai.xyz/v1/images/edits",
+  "headers": {
+   "Accept": "application/json, text/plain, */*",
+   "Authorization": "Bearer ***"
+  },
+  "t": 1793184297851,
+  "reqBody": "FormData{model=gpt-image-2; prompt=参考图片编号：图片1。请按这些编号理解提示词中的图片引用。\n\nExtract the printed artwork (the print/graphic) from the provided product photo. Output a single flat image of the print at 1024x1024 pixels, straightened, with the original colors and no product texture, folds or shadows. Keep the printed artwork on its original neutr; n=1; output_format=png; size=720x960; image=[file 36492b]}",
+  "status": 200,
+  "resp": "{\"created\":1793184303,\"background\":\"auto\",\"data\":[{\"output_format\":\"png\",\"revised_prompt\":\"参考图片编号：图片1。请按这些编号理解提示词中的图片引用。\\r\\n\\r\\nExtract the printed artwork (the print/graphic) from the provided product photo. Output a single flat image of the print at 1024x1024 pixels, straightened, with the original colors and no product texture, folds or shadows. Keep the printed artwork on its original neutral background; do not invent new props. Do not add text, logos or decorative elements that are not visible in the source print.\",\"url\":\"https://oss-us.dimenoss.com/images/2026/10/28/1793184385_8598b3c84acfecec45f215c9f3d7f894.png\"}],\"model\":\"gpt-image-2\",\"output_format\":\"png\",\"quality\":\"auto\",\"size\":\"720x960\",\"usage\":{\"input_tokens\":1761,\"output_tokens\":712,\"total_tokens\":2473,\"input_tokens_details\":"
+ }
+]

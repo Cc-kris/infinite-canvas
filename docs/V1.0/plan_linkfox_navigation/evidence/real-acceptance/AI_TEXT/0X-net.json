@@ -1,0 +1,14 @@
+[
+ {
+  "method": "POST",
+  "url": "http://127.0.0.1:23210/https://api.cc-ai.xyz/v1/images/edits",
+  "headers": {
+   "Accept": "application/json, text/plain, */*",
+   "Authorization": "Bearer ***"
+  },
+  "t": 1793184084832,
+  "reqBody": "FormData{model=gpt-image-2; prompt=参考图片编号：图片1。请按这些编号理解提示词中的图片引用。\n\n生成可直接用于 POD（按需印刷）的素材，比例 1:1，输出 1 张，模式 pattern。 平铺规则：不平铺（单图）（1 列 × 1 行无缝重复）。 视觉风格：花卉 / floral。 变化强度：默认——各张共享同一构图语言，只做轻微变化，保证系列一致性。 质量要求：透明或纯色底、边缘干净无白边、画面无外部留白、无裁切文字；不得出现第三方商标、版权角色与真实人物肖像。 输出为单张独立素材，不需要拼接出血位。 素材内容与文字：vintage floral seamless pattern, muted rose and sage t; n=1; output_format=png; size=720x960; image=[file 36492b]}",
+  "status": 200,
+  "resp": "{\"created\":1793184092,\"data\":[{\"revised_prompt\":\"参考图片编号：图片1。请按这些编号理解提示词中的图片引用。\\r\\n\\r\\n生成可直接用于 POD（按需印刷）的素材，比例 1:1，输出 1 张，模式 pattern。 平铺规则：不平铺（单图）（1 列 × 1 行无缝重复）。 视觉风格：花卉 / floral。 变化强度：默认——各张共享同一构图语言，只做轻微变化，保证系列一致性。 质量要求：透明或纯色底、边缘干净无白边、画面无外部留白、无裁切文字；不得出现第三方商标、版权角色与真实人物肖像。 输出为单张独立素材，不需要拼接出血位。 素材内容与文字：vintage floral seamless pattern, muted rose and sage tones 文案处理：围绕上述文字生成图案化排版，文字可读、行距均匀、不拉伸不变形。\",\"b64_json\":\"iVBORw0KGgoAAAANSUhEUgAAAtAAAAPACAIAAACTlNnkAAT3i2NhQlgABPeLanVtYgAAAB5qdW1kYzJwYQARABCAAACqADibcQNjMnBhAAAAXEBqdW1iAAAAR2p1bWRjMm1hABEAEIAAAKoAOJtxA3VybjpjMnBhOjA3YTJjN2Y2LTM1NDktNDAzNi1iOTQ2LTNiNjJhMDQwMGM2NgAAAAx8anVtYgAAAClqdW1kYzJhcwARABCAAACqADibcQNjMnBhLmFzc2VydGlvbnMAAAAJ0Wp1bWIAAAA7anVtZEDLDDK7ikidpwsq1vR/Q2kTYzJwYS5pY29uAAAAABhjMnNo9quTrToUGYSxEJ33TEtSYAAAABdiZmRiAGltYWdlL3N2Zy"
+ }
+]

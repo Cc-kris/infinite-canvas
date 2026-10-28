@@ -1,0 +1,14 @@
+[
+ {
+  "method": "POST",
+  "url": "http://127.0.0.1:23210/https://api.cc-ai.xyz/v1/images/edits",
+  "headers": {
+   "Accept": "application/json, text/plain, */*",
+   "Authorization": "Bearer ***"
+  },
+  "t": 1793184569282,
+  "reqBody": "FormData{model=gpt-image-2; prompt=参考图片编号：图片1、图片2。请按这些编号理解提示词中的图片引用。\n\n素材贴合任务（SDS_DESIGN） 商品：参考图第 1 张为商品底图，商品 ID：cD4b_Uxrxu5zSrVaD9gIG 颜色：原色（保持商品原始颜色） 素材数量：1（输出 1 张，与素材一一对应，不合并、不遗漏） 素材 1「pattern_material_1024.png」，中心位置 (50.0%, 50.0%)，缩放 60.0%，旋转 0.0°，平铺：单张居中（单张不重复） 要求：保持商品本体的形状、材质纹理、光泽、褶皱和背景不变，只把素材按上述位置、缩放与旋转贴合到商品表面； 素材纹理需随商品表面透视与光影变化; n=1; output_format=png; size=720x960; image[]=[file 36492b]; image[]=[file 36492b]}",
+  "status": 200,
+  "resp": "{\"created\":1793184576,\"data\":[{\"revised_prompt\":\"参考图片编号：图片1、图片2。请按这些编号理解提示词中的图片引用。\\r\\n\\r\\n素材贴合任务（SDS_DESIGN） 商品：参考图第 1 张为商品底图，商品 ID：cD4b_Uxrxu5zSrVaD9gIG 颜色：原色（保持商品原始颜色） 素材数量：1（输出 1 张，与素材一一对应，不合并、不遗漏） 素材 1「pattern_material_1024.png」，中心位置 (50.0%, 50.0%)，缩放 60.0%，旋转 0.0°，平铺：单张居中（单张不重复） 要求：保持商品本体的形状、材质纹理、光泽、褶皱和背景不变，只把素材按上述位置、缩放与旋转贴合到商品表面； 素材纹理需随商品表面透视与光影变化，边缘自然过渡，不出现溢出、拉伸或重复接缝； 每张输出只包含对应素材；不要改变商品颜色以外的其他细节。\",\"b64_json\":\"iVBORw0KGgoAAAANSUhEUgAAAtAAAAPACAIAAACTlNnkAANJLmNhQlgAA0kuanVtYgAAAB5qdW1kYzJwYQARABCAAACqADibcQNjMnBhAAAAVVNqdW1iAAAAR2p1bWRjMm1hABEAEIAAAKoAOJtxA3VybjpjMnBhOjE4YTA4NzI0LTc1NGQtNDlkZS1hM2ExLTgxZmUzMmY0MTk4YgAAAAx8anVtYgAAAClqdW1kYzJhcwARABCAAACqADibcQNjMnBhLmFzc2VydGlvbnMAAAAJ0Wp1bWIAAAA7anVtZEDLDDK7ikidpwsq1vR/Q2kTYzJwYS5pY29uAAAAABhjMnNotuSneSw7pg6OrGdVwW7C/gAAABdiZmRiAGlt"
+ }
+]

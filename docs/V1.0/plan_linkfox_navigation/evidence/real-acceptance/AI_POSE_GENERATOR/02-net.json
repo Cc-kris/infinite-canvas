@@ -1,0 +1,15 @@
+[
+ {
+  "method": "POST",
+  "url": "http://127.0.0.1:23210/https://api.cc-ai.xyz/v1/images/generations",
+  "headers": {
+   "Accept": "application/json, text/plain, */*",
+   "Content-Type": "application/json",
+   "Authorization": "Bearer ***"
+  },
+  "t": 1793185051088,
+  "reqBody": "{\"model\":\"gpt-image-2\",\"prompt\":\"Create a full-body pose reference photo of a single fashion model. Pose: 女性模特正面站姿，全身入镜，双手自然下垂，中性背景，均匀布光 Framing: head to toe, 50mm lens, eye level, single subject, no crop. Scene directives: plain studio backdrop, soft even lighting, neutral floor. Hard rule: scene directives must never change the body pose, limb positions, head angle or the direction the model faces. Keep wardrobe and body proportions consistent; photorealistic, sharp focus, no text, no watermark, no collage.\",\"n\":1,\"size\":\"720x960\",\"output_format\":\"png\"}",
+  "status": 200,
+  "resp": "{\"created\":1793185056,\"background\":\"auto\",\"data\":[{\"b64_json\":\"iVBORw0KGgoAAAANSUhEUgAAAtAAAAPACAIAAACTlNnkAAEAAElEQVR4nGT928/t25YdhLXex5zf963r3vtcqk4ZUQQwxsk/EPESkFCEEikRD5EiUJKXSEhWFImQcMlNeUikBOUhQkIIxzEmkZ04IYWxfOGSYAkw2NjHFNhgsKsMCNtVrnPbt7W+6/z1nofWWh9znayqs/fa3+U3x2+M3ltv/Triz/yZP4tYgQ6gIwIRaAS6gUB3B6IbERGB7u7uyEBj/wkA2VWNDiAiuhtAZgDo7ogEUF38biAioxuR6Aa6M7K6wE8EuriATqAjMgIIBLimyMiIruZDurVyoAOobnSDPwtkRHNJAXRHaOUR6EYEADT/10Dor9Dnge+MBFo/33rxiGi+aetLEXouAh0Rep9P/nRmdAPgP5sP4P5wb7jJ/Ep3IxpodCJQQDYCKCACVc0N1wkgADQapTfsboRfJMH/0s9zGYE5x0aHnlABnhGKr9bw8esn/XmBq4e0HhzgD0T00RHebh+S3iv5L6xIrhMR3RHdgA8mgI7kwQd/fF7HO9/I9JtG6EwbEVGUVR1VJ79SzVeBxdvHx88LQF+JQLePdMsMxdG/FYHu1O8FoJVordg/BWSkFs8f4+E2ePaUJVRBGtiIoDAjM7jsBlpSj25QDUMbpUOp7oQFO6KLK5ICd6GDOy4ZDFjkIC3r7uS7ezPCwmUciO6yHEYXrFTg28TPCQWaQuMnj"
+ }
+]

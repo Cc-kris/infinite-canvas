@@ -1,0 +1,19 @@
+{
+  "toolId": "AREA_REPAIR",
+  "route": "/tools/smart-edit/area-repair",
+  "fixture": "product-watch.jpg",
+  "startedAt": "2026-10-28T10:46:34.874Z",
+  "before": {
+    "images": [],
+    "issues": [
+      "area-repair-issues=请先上传要重绘的图片\n请先在图片上涂抹需要重绘的区域\n请填写重绘描述"
+    ]
+  },
+  "submitBefore": {
+    "id": "area-repair-submit",
+    "text": "立即生成",
+    "disabled": true
+  },
+  "error": "page.click: Timeout 30000ms exceeded.\nCall log:\n  - waiting for locator('[data-testid=area-repair-submit]')\n    - locator resolved to <button disabled type=\"button\" data-testid=\"area-repair-submit\" class=\"inline-flex items-center gap-1 rounded-md bg-primary px-3 py-1.5 text-xs font-medium text-primary-foreground disabled:cursor-not-allowed disabled:opacity-50\">…</button>\n  - attempting click action\n    2 × waiting for element to be visible, enabled and stable\n      - element is not enabled\n    - retrying click action\n    - waiting 20ms\n    2 × waiting for element to be visible, enabled and stable\n      - element is not enabled\n    - retrying click action\n      - waiting 100ms\n    55 × waiting for element to be visible, enabled and stable\n       - element is not enabled\n     - retrying click action\n       - waiting 500ms\n",
+  "ok": false
+}

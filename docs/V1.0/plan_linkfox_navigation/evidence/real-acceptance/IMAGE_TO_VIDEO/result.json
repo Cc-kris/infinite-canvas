@@ -1,0 +1,73 @@
+{
+  "tool_id": "IMAGE_TO_VIDEO",
+  "tool_name_cn": "图转视频",
+  "route": "/tools/ai-video/image-to-video",
+  "group": "video-text",
+  "run_at": "2026-10-28T18:35:00+08:00",
+  "app_base": "http://127.0.0.1:3000",
+  "branch": "feat/linkfox-v1-real",
+  "mode": "real_ui_real_provider",
+  "inputs": {
+    "reference_asset": "product-1024.png (asset id KkOqiqto1Sqb-cNy6jnKP, uploaded via UI file input)",
+    "prompt_text": "产品缓慢旋转展示，镜头环绕，柔光棚拍，干净背景（自定义描述）",
+    "prompt_mode": "template->custom",
+    "type": "product-showcase",
+    "ratio": "16:9",
+    "duration_s": 5,
+    "resolution": "768P",
+    "country": "US",
+    "language": "英语",
+    "model_selected_in_ui": "MiniMax-H3"
+  },
+  "provider": {
+    "endpoint": "POST http://127.0.0.1:23210/https://sub2api.1006000.xyz/v1/videos",
+    "async": true,
+    "create_status": 200,
+    "task_id": "task_ee59WDydFTvP1EJkT76YtmR3eJAs8fuP",
+    "request_id": "task_ee59WDydFTvP1EJkT76YtmR3eJAs8fuP",
+    "model_returned": "MiniMax-H3",
+    "poll_count": 31,
+    "terminal_status": "succeeded",
+    "content_endpoint": "GET /v1/videos/task_ee59WDydFTvP1EJkT76YtmR3eJAs8fuP/content -> 200"
+  },
+  "result": {
+    "ui_state": "视频生成完成 · 模型 MiniMax-H3 · 31 次轮询 · 视频结果 已完成 · 共 1 个结果",
+    "blob_url": "blob:http://127.0.0.1:3000/84cc65b0-d141-4234-aaf0-7bdf8ecb3aa6",
+    "blob_mime": "video/mp4",
+    "blob_bytes": 1297168,
+    "saved_copy": "evidence/real-acceptance/IMAGE_TO_VIDEO/06-result-video.mp4",
+    "ffprobe": {
+      "video": "h264 1344x768 5.166667s 124 frames",
+      "audio": "aac 5.167s 163 frames"
+    }
+  },
+  "asset_saved": {
+    "action": "存入资产 (clicked)",
+    "store": "indexedDB infinite-canvas / media_files",
+    "entry": "video/mp4 1297168 bytes (byte-exact match with blob)"
+  },
+  "canvas_insert": {
+    "action": "发送画布",
+    "status": "blocked_at_runtime",
+    "reason": "button disabled while 存入资产 busy; subsequent click attempts blocked by machine saturation (load avg >140, TMWebDriver remote execute timeouts)"
+  },
+  "parity_notes": [
+    "Controls present and match spec: 素材来源(upload) / 1.素材来源 / 2.提示词(视频模板|自定义描述) / 3.模型品质(视频模型/清晰度/时长/比例/销售国家/语言) / 发送规格行",
+    "Model list shows bare model names (grok-imagine-video, MiniMax-H3) rather than channel-qualified ids",
+    "Resolution options 768P/1080P emit provider vquality 768/1080",
+    "duration options 5/10/15s"
+  ],
+  "config_finding": {
+    "issue": "global config videoModel = 'N1Nrn7BJ4qwHc_AfZIGta::MiniMax-H3' references a channel id that no longer exists; resolveModelChannel() falls back to config.channels[0] (default OpenAI base, no key) => would 401",
+    "impact": "any video tool that leaves 视频模型 on 跟随默认模型 will hit 401 on real provider",
+    "workaround_used": "selected tool-level model MiniMax-H3 in the tool UI (bare name resolves by scanning channels that contain the model)",
+    "verdict": "data/config issue not a code bug"
+  },
+  "evidence_files": [
+    "02-filled-form.png",
+    "03-net-create-poll.json",
+    "04-result-ui.png",
+    "06-result-video.mp4"
+  ],
+  "verdict": "PASS (generation+asset) / PARTIAL (canvas insert not executed)"
+}
