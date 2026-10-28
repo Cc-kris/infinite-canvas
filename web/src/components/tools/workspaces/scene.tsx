@@ -804,3 +804,443 @@ export default SceneWorkspace;
 
 /* ==== 场景裂变 PRODUCT_SCENE（TASK-024）：实现在 scene-fission.tsx，入口统一收在 scene.tsx ==== */
 export { ProductSceneWorkspace } from "./scene-fission";
+
+/* ================================================================== *
+ * 场景裂变链接 FISSION_LINK（TASK-035）
+ * 规格 §2：输入只有 imageUrl（粘贴链接 / 本地上传二选一）+ outputNum；
+ * 规格 §3：数量 = 请求扇出，每张一次真实请求，失败格不补造、可单格重试。
+ * 与 NEW_REPLACE_BG_V2 / PRODUCT_SCENE 无共享状态，只共享 scene 布局。
+ * ================================================================== */
+
+import { describeToolExecution } from "@/services/api/tools/gateway";
+import {
+    FISSION_LINK_OUTPUT_FALLBACK,
+    FISSION_LINK_TOOL_ID,
+    FISSION_LINK_TITLE,
+    FISSION_LINK_UPLOAD_CONSTRAINTS,
+    buildFissionLinkSnapshot,
+    createFissionLinkState,
+    fissionLinkOutputOptions,
+    fissionLinkPlan,
+    fissionLinkSnapshotHash,
+    fissionLinkSourceKey,
+    fissionLinkSubmitLabel,
+    inspectFissionLinkSource,
+    parseFissionLinkDraft,
+    serializeFissionLinkDraft,
+    validateFissionLinkSubmit,
+    type FissionLinkPreviewState,
+    type FissionLinkSnapshot,
+    type FissionLinkState,
+} from "@/features/tools/registry/fission-link";
+import {
+    buildFissionLinkUnit,
+    createFissionLinkRunPort,
+    fissionLinkFailedRun,
+    fissionLinkResultView,
+    fissionLinkRunFromTask,
+    fissionLinkStatusText,
+    runFissionLinkUnit,
+    toFissionLinkReference,
+    type FissionLinkGatewayLike,
+    type FissionLinkRun,
+    type FissionLinkUnit,
+} from "@/features/tools/adapters/fission-link";
+
+export type FissionLinkWorkspaceProps = {
+    className?: string;
+    /** 测试注入的执行端口；默认走共享任务网关（真实 provider 请求）。 */
+    port?: FissionLinkGatewayLike;
+};
+
+const FISSION_LINK_EMPTY_CELL_TEXT = "等待提交";
+
+function fissionLinkCellText(run: FissionLinkRun | undefined): string {
+    if (!run) return FISSION_LINK_EMPTY_CELL_TEXT;
+    if (run.status === "succeeded") return "已完成";
+    if (run.status === "failed") return run.error?.message ?? "失败";
+    if (run.status === "cancelled") return "已取消（上游可能仍在计费）";
+    return run.error?.message ?? "上游状态未知";
+}
+
+export function FissionLinkWorkspace({ className, port }: FissionLinkWorkspaceProps = {}) {
+    const hydrate = useToolDraftStore((store) => store.hydrate);
+    const patchDraft = useToolDraftStore((store) => store.patch);
+    const draft = useToolDraftStore((store) => store.drafts[FISSION_LINK_TOOL_ID]);
+
+    const [state, setState] = useState<FissionLinkState>(() => createFissionLinkState());
+    const [asset, setAsset] = useState<ToolAssetRecord | null>(null);
+    const [preview, setPreview] = useState<FissionLinkPreviewState>("idle");
+    const [runs, setRuns] = useState<(FissionLinkRun | undefined)[]>([]);
+    const [lockedHash, setLockedHash] = useState("");
+    const [error, setError] = useState("");
+    const [busy, setBusy] = useState(false);
+    const abortRef = useRef<AbortController | null>(null);
+    const hydratedRef = useRef(false);
+
+    const inspection = useMemo(() => inspectFissionLinkSource(state.imageUrl), [state.imageUrl]);
+    const previewUrl = asset?.url ?? (inspection.kind === "invalid" ? "" : inspection.value);
+
+    /** 草稿只恢复输入，不恢复“预览已就绪”（规格 §5）。 */
+    useEffect(() => {
+        if (hydratedRef.current) return;
+        hydratedRef.current = true;
+        void hydrate(FISSION_LINK_TOOL_ID);
+        const restored = parseFissionLinkDraft(draft?.values);
+        if (restored.imageUrl || restored.outputNum !== FISSION_LINK_OUTPUT_FALLBACK) {
+            setState(restored);
+        }
+    }, [hydrate, draft?.values]);
+
+    const updateState = useCallback(
+        (next: Partial<FissionLinkState>) => {
+            setState((current) => {
+                const merged = { ...current, ...next };
+                patchDraft(FISSION_LINK_TOOL_ID, { values: { ...serializeFissionLinkDraft(merged) } });
+                return merged;
+            });
+            setError("");
+        },
+        [patchDraft],
+    );
+
+    const executable = useMemo(() => describeToolExecution(FISSION_LINK_TOOL_ID).executable, []);
+    const issues = useMemo(
+        () => validateFissionLinkSubmit({ state, preview, executable }),
+        [state, preview, executable],
+    );
+    const plan = fissionLinkPlan({ outputNum: state.outputNum });
+    const options = fissionLinkOutputOptions();
+    const canSubmit = !busy && issues.length === 0;
+
+    /** 当前配置的指纹：用于判断结果是否已“变旧”（换图/改数量后旧结果不能充新）。 */
+    const currentHash = useMemo(
+        () =>
+            fissionLinkSnapshotHash({
+                sourceUrl: asset ? `asset:${asset.id}` : inspection.value,
+                sourceAssetId: asset?.id ?? "",
+                sourceWidth: asset?.width ?? 0,
+                sourceHeight: asset?.height ?? 0,
+                outputNum: state.outputNum,
+                version: 1,
+            }),
+        [asset, inspection.value, state.outputNum],
+    );
+
+    const pickAsset = useCallback(
+        (records: ToolAssetRecord[]) => {
+            const record = records[0] ?? null;
+            setAsset(record);
+            if (record) {
+                setState((current) => {
+                    const merged = { ...current, imageUrl: `asset:${record.id}` };
+                    patchDraft(FISSION_LINK_TOOL_ID, { values: { ...serializeFissionLinkDraft(merged) } });
+                    return merged;
+                });
+                setPreview("ready");
+            } else {
+                setPreview("idle");
+            }
+            setError("");
+        },
+        [patchDraft],
+    );
+
+    const resolveSource = useCallback(async () => {
+        if (asset) {
+            const { imageToDataUrl } = await import("@/services/image-storage");
+            const dataUrl = await imageToDataUrl({ storageKey: asset.storageKey, url: asset.url });
+            return { asset, url: asset.url ?? dataUrl, dataUrl };
+        }
+        return { asset: null, url: inspection.value, dataUrl: undefined };
+    }, [asset, inspection.value]);
+
+    const runCells = useCallback(
+        async (indices: readonly number[]) => {
+            abortRef.current?.abort();
+            const controller = new AbortController();
+            abortRef.current = controller;
+            setBusy(true);
+            setError("");
+
+            let units: FissionLinkUnit[] = [];
+            try {
+                const execution = port ?? (await createFissionLinkRunPort());
+                const source = await resolveSource();
+                if (!source.url) throw new Error("参考图没有可用地址，请重新粘贴链接或上传");
+                const snapshot: FissionLinkSnapshot = buildFissionLinkSnapshot({
+                    sourceKind: source.asset ? "asset" : inspection.kind,
+                    sourceUrl: source.url,
+                    sourceAssetId: source.asset?.id ?? "",
+                    sourceName: source.asset?.name ?? "链接参考图",
+                    sourceWidth: source.asset?.width ?? 0,
+                    sourceHeight: source.asset?.height ?? 0,
+                    outputNum: state.outputNum,
+                    draftRevision: draft?.revision ?? null,
+                    clientOperationId: crypto.randomUUID(),
+                });
+                const reference = toFissionLinkReference({
+                    id: source.asset?.id ?? "fission-link-source",
+                    name: snapshot.sourceName || "source.png",
+                    url: source.url,
+                    dataUrl: source.dataUrl,
+                });
+                units = indices.map((index) =>
+                    buildFissionLinkUnit({ snapshot, source: reference, index, total: snapshot.outputNum }),
+                );
+                setLockedHash(fissionLinkSnapshotHash(snapshot));
+            } catch (cause) {
+                setBusy(false);
+                setError(cause instanceof Error ? cause.message : "参考图不可用");
+                return;
+            }
+
+            setRuns((current) =>
+                Array.from({ length: state.outputNum }, (_, index) => (indices.includes(index) ? undefined : current[index])),
+            );
+
+            await Promise.all(
+                units.map(async (unit) => {
+                    try {
+                        const run = await runFissionLinkUnit(unit, {
+                            port: port ?? (await createFissionLinkRunPort()),
+                            signal: controller.signal,
+                            draftRevision: draft?.revision ?? null,
+                            onTask: (task) => {
+                                const pending = fissionLinkRunFromTask(unit, task);
+                                setRuns((current) => {
+                                    const next = [...current];
+                                    next[unit.index] = pending;
+                                    return next;
+                                });
+                            },
+                        });
+                        setRuns((current) => {
+                            const next = [...current];
+                            next[unit.index] = run;
+                            return next;
+                        });
+                    } catch (cause) {
+                        const failed = fissionLinkFailedRun(unit, cause);
+                        setRuns((current) => {
+                            const next = [...current];
+                            next[unit.index] = failed;
+                            return next;
+                        });
+                    }
+                }),
+            );
+
+            setBusy(false);
+        },
+        [port, resolveSource, inspection.kind, state.outputNum, draft?.revision],
+    );
+
+    const submit = useCallback(() => {
+        if (!canSubmit) {
+            setError(issues[0]?.message ?? "还不能提交");
+            return;
+        }
+        void runCells(Array.from({ length: state.outputNum }, (_, index) => index));
+    }, [canSubmit, issues, runCells, state.outputNum]);
+
+    const retryCell = useCallback(
+        (index: number) => {
+            if (busy) return;
+            void runCells([index]);
+        },
+        [busy, runCells],
+    );
+
+    const cancel = useCallback(() => {
+        abortRef.current?.abort();
+        abortRef.current = null;
+        setBusy(false);
+    }, []);
+
+    const view = useMemo(
+        () => fissionLinkResultView({ runs, requested: state.outputNum, running: busy }),
+        [runs, state.outputNum, busy],
+    );
+
+    return (
+        <div
+            data-testid="fission-link-workspace"
+            className={["grid gap-4 lg:grid-cols-[minmax(0,380px)_minmax(0,1fr)]", className].filter(Boolean).join(" ")}
+        >
+            <section
+                data-testid="fission-link-config"
+                className="rounded-lg border border-stone-200 bg-white/60 p-4 dark:border-stone-800 dark:bg-stone-900/40"
+            >
+                <h2 className="text-sm font-medium">{FISSION_LINK_TITLE}</h2>
+                <p className="mt-1 text-[11px] leading-relaxed text-muted-foreground">
+                    粘贴一张商品/场景图的链接，或直接上传；数量 = 每张一次真实请求。
+                </p>
+
+                <label className="mt-3 block text-[11px] font-medium" htmlFor="fission-link-url">
+                    参考图链接
+                </label>
+                <textarea
+                    id="fission-link-url"
+                    data-testid="fission-link-url"
+                    value={state.imageUrl.startsWith("asset:") ? "" : state.imageUrl}
+                    disabled={busy}
+                    rows={2}
+                    placeholder="https://example.com/product.png"
+                    onChange={(event) => {
+                        setAsset(null);
+                        setPreview(event.target.value.trim() ? "loading" : "idle");
+                        updateState({ imageUrl: event.target.value });
+                    }}
+                    className="mt-1 w-full rounded-md border border-stone-300 bg-white p-2 text-xs outline-none focus:border-stone-500 dark:border-stone-700 dark:bg-stone-900"
+                />
+
+                {previewUrl ? (
+                    <div className="mt-2 flex items-center gap-2">
+                        <img
+                            src={previewUrl}
+                            alt="参考图预览"
+                            data-testid="fission-link-preview"
+                            data-state={preview}
+                            onLoad={() => setPreview("ready")}
+                            onError={() => setPreview("error")}
+                            className="h-16 w-16 rounded border border-stone-200 object-cover dark:border-stone-700"
+                        />
+                        <span className="text-[11px] text-muted-foreground">
+                            {preview === "ready" ? "预览已就绪" : preview === "error" ? "加载失败" : "加载中…"}
+                        </span>
+                    </div>
+                ) : null}
+
+                <div className="mt-3">
+                    <ToolAssetInput
+                        toolId={FISSION_LINK_TOOL_ID}
+                        constraints={FISSION_LINK_UPLOAD_CONSTRAINTS}
+                        maxCount={1}
+                        disabled={busy}
+                        title="或上传本地参考图"
+                        onChange={(_ids, records) => pickAsset(records)}
+                    />
+                </div>
+
+                <div className="mt-3">
+                    <span className="text-[11px] font-medium">裂变数量</span>
+                    <div data-testid="fission-link-output" className="mt-1 flex gap-1">
+                        {options.map((count) => (
+                            <button
+                                key={count}
+                                type="button"
+                                disabled={busy}
+                                aria-pressed={state.outputNum === count}
+                                onClick={() => updateState({ outputNum: count })}
+                                className={[
+                                    "h-7 w-9 rounded border text-xs",
+                                    state.outputNum === count
+                                        ? "border-stone-900 bg-stone-900 text-white dark:border-stone-100 dark:bg-stone-100 dark:text-stone-900"
+                                        : "border-stone-300 text-stone-700 dark:border-stone-700 dark:text-stone-300",
+                                ].join(" ")}
+                            >
+                                {count}
+                            </button>
+                        ))}
+                    </div>
+                    <p data-testid="fission-link-plan" className="mt-1 text-[11px] text-muted-foreground">
+                        {plan.label}
+                    </p>
+                </div>
+
+                {issues.length > 0 ? (
+                    <ul data-testid="fission-link-issues" className="mt-2 space-y-1">
+                        {issues.map((issue) => (
+                            <li key={issue.code} className="text-[11px] text-amber-700 dark:text-amber-400">
+                                {issue.message}
+                            </li>
+                        ))}
+                    </ul>
+                ) : null}
+
+                {error ? (
+                    <p data-testid="fission-link-error" className="mt-2 text-[11px] text-red-600 dark:text-red-400">
+                        {error}
+                    </p>
+                ) : null}
+
+                <div className="mt-3 flex gap-2">
+                    <button
+                        type="button"
+                        data-testid="fission-link-submit"
+                        disabled={!canSubmit}
+                        onClick={submit}
+                        className="h-8 flex-1 rounded-md bg-stone-900 text-xs text-white disabled:opacity-40 dark:bg-stone-100 dark:text-stone-900"
+                    >
+                        {fissionLinkSubmitLabel(state, busy)}
+                    </button>
+                    {busy ? (
+                        <button
+                            type="button"
+                            onClick={cancel}
+                            className="h-8 rounded-md border border-stone-300 px-3 text-xs dark:border-stone-700"
+                        >
+                            取消
+                        </button>
+                    ) : null}
+                </div>
+            </section>
+
+            <section
+                data-testid="fission-link-result"
+                className="rounded-lg border border-stone-200 bg-white/60 p-4 dark:border-stone-800 dark:bg-stone-900/40"
+            >
+                <div className="flex items-baseline justify-between">
+                    <h2 className="text-sm font-medium">裂变结果</h2>
+                    <span data-testid="fission-link-result-status" className="text-[11px] text-muted-foreground">
+                        {fissionLinkStatusText(view)}
+                    </span>
+                </div>
+                {lockedHash && lockedHash !== currentHash ? (
+                    <p data-testid="fission-link-stale" className="mt-1 text-[11px] text-amber-700 dark:text-amber-400">
+                        参数已改动，下面这些结果是上一次配置生成的，需要重新提交
+                    </p>
+                ) : null}
+
+                <div className="mt-3 grid grid-cols-2 gap-2 sm:grid-cols-3">
+                    {Array.from({ length: state.outputNum }, (_, index) => {
+                        const run = runs[index];
+                        const image = run?.image;
+                        return (
+                            <div
+                                key={index}
+                                data-testid={`fission-link-cell-${index + 1}`}
+                                className="rounded border border-stone-200 p-2 dark:border-stone-800"
+                            >
+                                <p className="text-[11px] text-muted-foreground">第 {index + 1} 张</p>
+                                {image?.url || image?.dataUrl ? (
+                                    <img
+                                        src={image.url ?? image.dataUrl}
+                                        alt={`裂变结果 ${index + 1}`}
+                                        className="mt-1 aspect-square w-full rounded object-cover"
+                                    />
+                                ) : (
+                                    <div className="mt-1 flex aspect-square w-full items-center justify-center rounded bg-stone-100 text-[11px] text-stone-500 dark:bg-stone-800 dark:text-stone-400">
+                                        {fissionLinkCellText(run)}
+                                    </div>
+                                )}
+                                <p className="mt-1 truncate text-[11px] text-muted-foreground">{fissionLinkCellText(run)}</p>
+                                {run?.status === "failed" ? (
+                                    <button
+                                        type="button"
+                                        disabled={busy}
+                                        onClick={() => retryCell(index)}
+                                        className="mt-1 w-full rounded border border-stone-300 py-1 text-[11px] dark:border-stone-700"
+                                    >
+                                        只重试这一张
+                                    </button>
+                                ) : null}
+                            </div>
+                        );
+                    })}
+                </div>
+            </section>
+        </div>
+    );
+}
