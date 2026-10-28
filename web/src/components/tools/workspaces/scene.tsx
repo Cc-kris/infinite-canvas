@@ -801,3 +801,6 @@ export function SceneWorkspace({ className }: { className?: string }) {
 }
 
 export default SceneWorkspace;
+
+/* ==== 场景裂变 PRODUCT_SCENE（TASK-024）：实现在 scene-fission.tsx，入口统一收在 scene.tsx ==== */
+export { ProductSceneWorkspace } from "./scene-fission";
