@@ -1,0 +1,22 @@
+src/components/tools/workspaces/repair.tsx(72,10): error TS2459: Module '"@/features/tools/registry/fix-color"' declares 'MaskHistory' locally, but it is not exported.
+src/components/tools/workspaces/repair.tsx(73,10): error TS2459: Module '"@/features/tools/registry/fix-color"' declares 'MaskStroke' locally, but it is not exported.
+src/components/tools/workspaces/repair.tsx(116,73): error TS2345: Argument of type '"slider"' is not assignable to parameter of type '"slide" | "side" | "result" | (() => "slide" | "side" | "result")'.
+src/components/tools/workspaces/repair.tsx(428,26): error TS2339: Property 'label' does not exist on type 'ToolSpec'.
+src/components/tools/workspaces/repair.tsx(429,29): error TS2339: Property 'description' does not exist on type 'ToolSpec'.
+src/components/tools/workspaces/repair.tsx(431,28): error TS2322: Type '{ label: string; }[]' is not assignable to type 'ReactNode'.
+  Type '{ label: string; }[]' is not assignable to type 'Iterable<ReactNode>'.
+    The types returned by '[Symbol.iterator]().next(...)' are incompatible between these types.
+      Type 'IteratorResult<{ label: string; }, undefined>' is not assignable to type 'IteratorResult<ReactNode, any>'.
+        Type 'IteratorYieldResult<{ label: string; }>' is not assignable to type 'IteratorResult<ReactNode, any>'.
+          Type 'IteratorYieldResult<{ label: string; }>' is not assignable to type 'IteratorYieldResult<ReactNode>'.
+            Object literal may only specify known properties, and 'label' does not exist in type 'ReactElement<unknown, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | Promise<...>'.
+src/components/tools/workspaces/repair.tsx(441,35): error TS2339: Property 'label' does not exist on type 'ToolSpec'.
+src/components/tools/workspaces/repair.tsx(580,37): error TS2322: Type '{ canUndo: boolean; canRedo: boolean; strokeCount: number; }' is not assignable to type 'ReactI18NextChildren | Iterable<ReactI18NextChildren>'.
+src/components/tools/workspaces/repair.tsx(639,34): error TS2367: This comparison appears to be unintentional because the types '"slide" | "side" | "result"' and '"slider"' have no overlap.
+src/components/tools/workspaces/repair.tsx(648,30): error TS2367: This comparison appears to be unintentional because the types '"slide" | "side" | "result"' and '"slider"' have no overlap.
+src/components/tools/workspaces/repair.tsx(756,108): error TS2339: Property 'description' does not exist on type '{ readonly id: "match-region"; readonly label: "参考匹配"; readonly hint: "只把涂抹区域的颜色对齐到目标色，保留原明暗与材质"; readonly instruction: "只把选定区域的颜色对齐到目标参考色，保留原有明暗层次与材质纹理，不动其他区域"; } | { readonly id: "neutralize"; readonly label: "色偏中和"; readonly hint: "按区域平均偏色做整体中和，适合整片偏黄/偏蓝的拍摄色差"; readonly instruction: "按选定区域的平均偏色做中和校正，消除整体偏黄/偏蓝/偏绿，...'.
+  Property 'description' does not exist on type '{ readonly id: "match-region"; readonly label: "参考匹配"; readonly hint: "只把涂抹区域的颜色对齐到目标色，保留原明暗与材质"; readonly instruction: "只把选定区域的颜色对齐到目标参考色，保留原有明暗层次与材质纹理，不动其他区域"; }'.
+src/components/tools/workspaces/repair.tsx(855,58): error TS2339: Property 'label' does not exist on type 'ToolSpec'.
+src/components/tools/workspaces/repair.tsx(857,25): error TS2339: Property 'label' does not exist on type 'ToolSpec'.
+src/features/tools/registry/printing-repair.ts(561,52): error TS2339: Property 'point' does not exist on type 'Pick<PrintingRepairSnapshot, "rotate" | "scale" | "strength">'.
+src/features/tools/registry/printing-repair.ts(561,93): error TS2339: Property 'point' does not exist on type 'Pick<PrintingRepairSnapshot, "rotate" | "scale" | "strength">'.
