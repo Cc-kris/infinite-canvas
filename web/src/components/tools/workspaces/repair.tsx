@@ -16,6 +16,7 @@ import { ArrowLeftRight, Paintbrush, Pipette, Redo2, RotateCcw, Sparkles, Undo2 
 
 import { ToolAssetInput } from "@/components/tools/tool-asset-input";
 import { ToolResult } from "@/components/tools/tool-result";
+import { saveResultItemToAssets, sendResultItemToCanvas } from "@/components/tools/tool-result-actions";
 import { ToolShell } from "@/components/tools/tool-shell";
 import {
     buildFixColorUnit,
@@ -116,7 +117,7 @@ import {
 import type { MaskHistory, MaskStroke } from "@/features/tools/registry/area-repair";
 import { cn, randomId } from "@/lib/utils";
 import { loadToolAssetRecords, type ToolAssetRecord } from "@/services/api/tools/assets";
-import type { ToolTask } from "@/services/api/tools/task-machine";
+import type { ToolTask, ToolTaskResultItem } from "@/services/api/tools/task-machine";
 import { imageToDataUrl } from "@/services/image-storage";
 import { flushToolDrafts, useToolDraftStore } from "@/stores/use-tool-draft-store";
 
@@ -917,6 +918,8 @@ export function HandRepairWorkspace({ className }: RepairWorkspaceProps = {}) {
     const [outcomes, setOutcomes] = useState<HandRepairUnitOutcome[]>([]);
     const [progress, setProgress] = useState<{ done: number; total: number } | null>(null);
     const [runSnapshot, setRunSnapshot] = useState<HandRepairSnapshot | null>(null);
+    const [resultPending, setResultPending] = useState<string | null>(null);
+    const [resultFeedback, setResultFeedback] = useState<string | null>(null);
 
     const commitState = useCallback(
         (next: HandRepairState, asset: UploadedImage | null) => {
@@ -1197,6 +1200,26 @@ export function HandRepairWorkspace({ className }: RepairWorkspaceProps = {}) {
         }
     }, []);
 
+    const toResultItem = useCallback(
+        (item: { url: string; index: number }): ToolTaskResultItem =>
+            item.url.startsWith("data:")
+                ? { id: `${HAND_REPAIR_TOOL_ID}-result-${item.index}`, kind: "image", dataUrl: item.url, mimeType: "image/png" }
+                : { id: `${HAND_REPAIR_TOOL_ID}-result-${item.index}`, kind: "image", url: item.url, mimeType: "image/png" },
+        [],
+    );
+
+    const runResultAction = useCallback(async (key: string, action: () => Promise<string>) => {
+        setResultPending(key);
+        setResultFeedback(null);
+        try {
+            setResultFeedback(await action());
+        } catch (error) {
+            setResultFeedback(error instanceof Error ? error.message : "操作失败，请重试");
+        } finally {
+            setResultPending(null);
+        }
+    }, []);
+
     const repairSiblings = useMemo(() => toolSpecs.filter((tool) => tool.layout === "repair"), []);
     const personTypes = useMemo(() => handRepairPersonTypeOptions(null), []);
     const submitBlocked = busy || !image || maskEmpty;
@@ -1379,17 +1402,56 @@ export function HandRepairWorkspace({ className }: RepairWorkspaceProps = {}) {
                                     {view.images.map((item) => (
                                         <figure key={item.index} className="overflow-hidden rounded border border-border bg-muted/20">
                                             <img src={item.url} alt={`手部修复结果 ${item.index}`} className="block w-full object-contain" />
-                                            <figcaption className="flex items-center justify-between px-1.5 py-1 text-[11px] text-muted-foreground">
+                                            <figcaption className="flex items-center justify-between gap-1 px-1.5 py-1 text-[11px] text-muted-foreground">
                                                 <span>第 {item.index} 张</span>
-                                                <a href={item.url} download={handRepairDownloadName(image?.name ?? "", item.index)} className="underline-offset-2 hover:underline">
-                                                    下载
-                                                </a>
+                                                <span className="flex items-center gap-1.5">
+                                                    <button
+                                                        type="button"
+                                                        data-testid={`hand-repair-save-${item.index}`}
+                                                        disabled={resultPending !== null}
+                                                        onClick={() => {
+                                                            void runResultAction(`save-${item.index}`, async () => {
+                                                                await saveResultItemToAssets(toResultItem(item), item.index - 1, {
+                                                                    toolId: HAND_REPAIR_TOOL_ID,
+                                                                    title: `${image?.name ?? "手部修复"} 第 ${item.index} 张`,
+                                                                    source: "hand-repair",
+                                                                });
+                                                                return `第 ${item.index} 张已存入资产库`;
+                                                            });
+                                                        }}
+                                                        className="underline-offset-2 hover:underline disabled:opacity-50"
+                                                    >
+                                                        存库
+                                                    </button>
+                                                    <button
+                                                        type="button"
+                                                        data-testid={`hand-repair-send-${item.index}`}
+                                                        disabled={resultPending !== null}
+                                                        onClick={() => {
+                                                            void runResultAction(`send-${item.index}`, async () => {
+                                                                const sent = await sendResultItemToCanvas(toResultItem(item), { toolId: HAND_REPAIR_TOOL_ID });
+                                                                return `第 ${item.index} 张已发到画布 ${sent.projectId}`;
+                                                            });
+                                                        }}
+                                                        className="underline-offset-2 hover:underline disabled:opacity-50"
+                                                    >
+                                                        发画布
+                                                    </button>
+                                                    <a href={item.url} download={handRepairDownloadName(image?.name ?? "", item.index)} className="underline-offset-2 hover:underline">
+                                                        下载
+                                                    </a>
+                                                </span>
                                             </figcaption>
                                         </figure>
                                     ))}
                                 </div>
                             ) : view.status !== "running" ? (
                                 <p className="mt-3 text-[11px] text-muted-foreground">还没有结果。涂好手部并选择人物类型后点「开始生成」。</p>
+                            ) : null}
+                            {resultFeedback ? (
+                                <p data-testid="hand-repair-result-feedback" className="mt-2 text-[11px] text-muted-foreground">
+                                    {resultFeedback}
+                                </p>
                             ) : null}
                             {view.errors.length > 0 ? (
                                 <ul data-testid="hand-repair-errors" className="mt-2 space-y-1 text-[11px] text-red-700 dark:text-red-300">

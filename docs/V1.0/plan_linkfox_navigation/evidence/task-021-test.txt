@@ -1,28 +1,28 @@
 bun test v1.4.2 (744846f84)
 
 src/features/tools/adapters/hand-repair.test.ts:
-(pass) HAND_REPAIR registry：规格一致性 > 工具页规格存在，路由与布局与文档一致 [0.05ms]
+(pass) HAND_REPAIR registry：规格一致性 > 工具页规格存在，路由与布局与文档一致 [0.06ms]
 (pass) HAND_REPAIR registry：规格一致性 > 人物类型只接受四种真实取值，未知值退回默认而不是静默接受 [0.04ms]
 (pass) HAND_REPAIR registry：规格一致性 > 模型目录缺失的人物类型被标记为不可用并给出原因 [0.07ms]
 (pass) HAND_REPAIR registry：规格一致性 > 张数被夹到 1–4，非法值退回默认 [0.03ms]
 (pass) HAND_REPAIR registry：规格一致性 > 画笔尺寸被夹在合法区间内 [0.02ms]
-(pass) HAND_REPAIR 蒙版：真实笔画驱动覆盖率 > 空状态蒙版为空，涂抹后不再为空 [0.72ms]
+(pass) HAND_REPAIR 蒙版：真实笔画驱动覆盖率 > 空状态蒙版为空，涂抹后不再为空 [1.08ms]
 (pass) HAND_REPAIR 蒙版：真实笔画驱动覆盖率 > 撤销/重做/重置走真实历史栈 [0.07ms]
-(pass) HAND_REPAIR 快照与草稿 > 同一输入得到同一指纹，换人物类型指纹变化 [0.38ms]
-(pass) HAND_REPAIR 快照与草稿 > 草稿序列化 → 解析后蒙版与参数不丢 [0.08ms]
-(pass) HAND_REPAIR 校验：缺参必须拒绝，不静默发请求 > 空蒙版 / 缺源图 / 张数越界都被拦下 [0.06ms]
-(pass) HAND_REPAIR 校验：缺参必须拒绝，不静默发请求 > 源图限制给出中文原因（大小/格式/尺寸） [0.04ms]
-(pass) HAND_REPAIR 适配器：字段落点与单元构造 > outputNum 张 = 真实 N 个单元，每个单元都带人物类型与蒙版引用 [0.18ms]
-(pass) HAND_REPAIR 适配器：字段落点与单元构造 > 请求体 count=1 且五个字段齐全，能通过提交前守卫 [0.14ms]
-(pass) HAND_REPAIR 适配器：字段落点与单元构造 > 缺字段 / 蒙版未导出 / 缺幂等键 → 直接抛错而不是发请求 [0.16ms]
-(pass) HAND_REPAIR 适配器：字段落点与单元构造 > 字段覆盖审计把规格五字段全部对上，缺一即报 [0.11ms]
-(pass) HAND_REPAIR 适配器：字段落点与单元构造 > 指令随人物类型变化（成人与儿童措辞不同）
+(pass) HAND_REPAIR 快照与草稿 > 同一输入得到同一指纹，换人物类型指纹变化 [0.42ms]
+(pass) HAND_REPAIR 快照与草稿 > 草稿序列化 → 解析后蒙版与参数不丢 [0.26ms]
+(pass) HAND_REPAIR 校验：缺参必须拒绝，不静默发请求 > 空蒙版 / 缺源图 / 张数越界都被拦下 [0.12ms]
+(pass) HAND_REPAIR 校验：缺参必须拒绝，不静默发请求 > 源图限制给出中文原因（大小/格式/尺寸） [0.09ms]
+(pass) HAND_REPAIR 适配器：字段落点与单元构造 > outputNum 张 = 真实 N 个单元，每个单元都带人物类型与蒙版引用 [0.35ms]
+(pass) HAND_REPAIR 适配器：字段落点与单元构造 > 请求体 count=1 且五个字段齐全，能通过提交前守卫 [0.15ms]
+(pass) HAND_REPAIR 适配器：字段落点与单元构造 > 缺字段 / 蒙版未导出 / 缺幂等键 → 直接抛错而不是发请求 [0.18ms]
+(pass) HAND_REPAIR 适配器：字段落点与单元构造 > 字段覆盖审计把规格五字段全部对上，缺一即报 [0.12ms]
+(pass) HAND_REPAIR 适配器：字段落点与单元构造 > 指令随人物类型变化（成人与儿童措辞不同） [0.01ms]
 (pass) HAND_REPAIR 适配器：字段落点与单元构造 > 下载名带原图名，多张加序号 [0.06ms]
-(pass) HAND_REPAIR 任务 → 结果：不把失败伪装成成功 > 成功但无图 → failed(empty-result)；失败保留上游原因 [0.10ms]
-(pass) HAND_REPAIR 任务 → 结果：不把失败伪装成成功 > 并发运行：单张失败不影响其它张，逐张回调推进 [0.30ms]
-(pass) HAND_REPAIR 任务 → 结果：不把失败伪装成成功 > 空结果视图是 idle，不补造占位图 [0.01ms]
+(pass) HAND_REPAIR 任务 → 结果：不把失败伪装成成功 > 成功但无图 → failed(empty-result)；失败保留上游原因 [0.13ms]
+(pass) HAND_REPAIR 任务 → 结果：不把失败伪装成成功 > 并发运行：单张失败不影响其它张，逐张回调推进 [0.31ms]
+(pass) HAND_REPAIR 任务 → 结果：不把失败伪装成成功 > 空结果视图是 idle，不补造占位图 [0.02ms]
 
  20 pass
  0 fail
  112 expect() calls
-Ran 20 tests across 1 file. [17.00ms]
+Ran 20 tests across 1 file. [24.00ms]
