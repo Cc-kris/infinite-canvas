@@ -1,32 +1,82 @@
 {
   "tool": "VIDEO_TRANSLATION",
   "name": "视频翻译",
-  "group": "ai-video",
-  "route": "/tools/ai-video/video-translation",
   "status": "PARTIAL",
-  "result": "verified_with_gap",
-  "verdict": "PARTIAL — 页面结构/口型同步门禁/历史复用已实测通过；未发起真实翻译调用（明确禁止声称真实出片），出片与配音未验证",
-  "realProviderCall": false,
-  "provider": "未调用（通道行显示当前视频模型渠道；openai 类视频通道无 lipSync 参数）",
-  "runAt": "2026-10-28T16:05:40Z",
-  "output": null,
-  "evidence": [
-    "/Users/mac/Documents/Dev/infinite-canvas/docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/VIDEO_TRANSLATION/dom-snapshot.json"
-  ],
-  "assertions": [
-    "工作台分区齐全：原视频/上传、源语言→目标语言、口型同步、模式与输出、视频模型、生成结果、视频翻译结果、历史任务",
-    "口型同步首次加载默认开启（registry 默认值与页面规格对齐）",
-    "开启口型同步且当前通道无该能力时，结果区上方给出阻断说明「当前视频模型没有口型同步能力声明，无法保证唇形对齐：请关闭「口型同步」后重试」并提供一键「关闭口型同步后继续」",
-    "一键关闭后：开关变 false、阻断文案消失、状态行改为「本次只替换音轨与字幕，不改动唇形」，提交只剩「未上传原视频」这一真实输入约束（不再被能力项永久锁死）",
-    "历史任务区块存在（0 条空态：提交后这里会出现真实任务记录），支持「查看结果」回填结果区"
+  "statusReason": "真实 UI 全链路已跑通（真 Chrome + 真文件上传 + 真 provider 调用），但上游 400：sub2api 中转的 /videos 只解析 JSON，收不了本地上传的视频字节；应用侧媒体只落 IndexedDB（objectURL），拿不到公网直链，故本轮无法产出翻译成片。未伪造任何结果。",
+  "verifiedAt": "2026-10-29",
+  "branch": "feat/linkfox-v1-real",
+  "environment": {
+    "appOrigin": "http://localhost:3000",
+    "route": "/tools/ai-video/video-translation",
+    "channel": {
+      "id": "sub2api-real",
+      "name": "sub2api-real",
+      "baseUrlHost": "sub2api.1006000.xyz",
+      "apiFormat": "openai",
+      "videoModel": "MiniMax-H3",
+      "apiKeyNote": "仅运行期从本地 18471 服务内存注入 localStorage，未落盘、未打印"
+    },
+    "driver": "Playwright + 真 Chrome（scripts/real-acceptance/accept-video-translation.mjs）"
+  },
+  "realRun": {
+    "steps": ["config-injected", "uploaded", "submitted"],
+    "sourceFile": "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/IMAGE_TO_VIDEO/06-result-video.mp4",
+    "sourceFact": "1,297,168 bytes · H.264(avc1) · 5.167s · 1280 宽（本地解析 moov/mvhd）",
+    "lipSync": "closed-by-button（模型无口型同步能力声明 → 应用按表单值判定并允许继续）",
+    "submitDisabledBeforeFix": false,
+    "upstreamRequest": "POST https://sub2api.1006000.xyz/v1/videos · Content-Type: multipart/form-data",
+    "upstreamResponse": {
+      "status": 400,
+      "body": "{\"error\":{\"message\":\"'utf-8' codec can't decode byte 0xe8 in position 1614: invalid continuation byte\",\"type\":\"invalid_request_error\"}}"
+    },
+    "uiErrorAfterFix": "任务失败 · 'utf-8' codec can't decode byte 0xe8 in position 1614: invalid continuation byte · sub2api.1006000.xyz/videos · HTTP 400（该中转的 /videos 只接受 JSON，收不了上传的视频文件字节；源视频需是公网可访问的 http(s) 地址）",
+    "evidence": {
+      "run": "run-real.json",
+      "beforeShot": "before-submit.png",
+      "afterShot": "after-submit.png"
+    }
+  },
+  "upstreamCapabilityProbe": {
+    "method": "直连同一把 key（仅内存使用），不同 JSON 形状各建一次任务",
+    "results": [
+      {"shape": "videos: [公网 https URL]", "http": 200, "taskId": "task_DNhsAxEHAUJd0OUiCE121dBGrkdslvvq"},
+      {"shape": "video_url: 公网 https URL", "http": 200, "taskId": "task_Q2qtvaiynLurmLHeXRtcltkJQNSZuZdv"},
+      {"shape": "input_reference: 公网 https URL", "http": 200, "taskId": "task_IN9NHhCBMe7cMUq48DKUBVxzUnBvYFCx"},
+      {"shape": "content[].video_url.url 公网 https URL", "http": 200, "taskId": "task_qvw92rVvPECWV731lLRBFZfNKp7HVga8"}
+    ],
+    "conclusion": "上游 JSON 通路支持源视频，但要求公网可访问的 http(s) 地址；multipart 一律 400。"
+  },
+  "fixedIssues": [
+    {
+      "title": "中转域带源视频时强制 multipart，必然 400（前端参数/路由问题）",
+      "file": "web/src/services/api/video.ts",
+      "change": [
+        "新增 collectPublicVideoUrls()：只认 http(s)，过滤 blob:/data:",
+        "createOpenAIVideoTask 在源视频全部具备公网 URL 时把 videos:[url] 内联进 JSON 体",
+        "planVideoSubmitPayloads 新增 inlineVideos：源视频已内联时不再强制 mediaOnlyInMultipart，中转域先发 JSON",
+        "新增 relayMultipartRejectionHint()：命中上游 400 原文（codec can't decode / invalid continuation byte / Expecting value）时，把「该中转只接受 JSON」直接写进用户可见报错"
+      ],
+      "verifiedBy": [
+        "bun test src/services/api/video.submit-plan.test.ts → 6 pass（含用真实 400 原文做断言的用例）",
+        "npx tsc --noEmit → 0 error",
+        "重跑真实 UI 验收 → 报错文本中出现新增诊断（见 realRun.uiErrorAfterFix）"
+      ]
+    }
   ],
   "notExercised": [
-    "真实翻译调用与配音产出",
-    "上传后口型开/关两条路由的实际参数差异",
-    "下载/存入资产/发送画布（无结果可点）"
+    "真实翻译成片（源视频无法提供公网直链，上游 400 阻断）",
+    "JSON 内联 videos[] 的端到端成功路径（需源视频为公网 URL，当前上传控件只产本地 blob）",
+    "口型同步开启路径（MiniMax-H3 无该能力声明）"
   ],
-  "notes": [
-    "能力闸门改为按本次表单值判定：lipSync 仅在开关为 true 时要求通道能力，outputNum 仅在请求条数超过通道原生条数时才要求；静态调用仍按规格校验，adapter 侧继续硬拦避免静默丢参数。",
-    "草稿会持久化用户上一次选择，因此再次进入可能保持关闭状态，属预期行为而非默认值回退。"
+  "linkfoxComparison": {
+    "reference": "https://www.linkfox.com/draw/batch-generate-images 等已捕获页面",
+    "differences": [
+      "LinkFox 的视频/图像工具把源素材上传到其自有 CDN 后再交给模型服务，前端不需要「公网直链」这一前置条件；本应用媒体只存浏览器 IndexedDB，交给中转时只能 multipart。",
+      "LinkFox 参数面板按「模型能力」动态启停（口型同步等），本应用实现为按本次表单值 + 通道能力双判定，行为一致但文案里出现了两次开关提示（可用但略啰嗦）。"
+    ]
+  },
+  "risks": [
+    "同仓其它工作台正在并发修改（tool-page.tsx 曾因未定义常量整页白屏，刷新后恢复）；本次只提交本工具相关文件，避免踩到他人未提交改动。",
+    "新增 JSON 内联分支目前无真实成功样例覆盖，仅单测与上游探针佐证。"
   ]
 }

@@ -245,10 +245,39 @@ export function planVideoSubmitPayloads(input: {
     mediaOnlyInMultipart: boolean;
     /** 是否中转域（非 openai.com），中转多半只解析 JSON。 */
     relayHost: boolean;
+    /**
+     * 源视频是否已内联进 JSON（videos: [公网 http(s) URL]）。
+     * 实测 2026-10-29：sub2api 的 /videos 收 multipart 直接 400
+     * （`'utf-8' codec can't decode byte 0xe8`，把视频字节当文本解码），
+     * 但 JSON `{"videos":["https://…mp4"]}` 返回 200 并建任务。
+     * 因此源视频有公网地址时不能被迫走 multipart。
+     */
+    inlineVideos?: boolean;
 }): { order: VideoSubmitSlot[] } {
+    if (input.inlineVideos) {
+        // 中转域只解析 JSON：先发 JSON，再留 multipart 兜底（官方 OpenAI 只认 multipart）
+        return { order: input.relayHost ? ["json", "multipart"] : ["multipart", "json"] };
+    }
     if (input.mediaOnlyInMultipart) return { order: ["multipart"] };
     const multipartFirst = !input.inlineImages && !input.relayHost;
     return { order: multipartFirst ? ["multipart", "json"] : ["json", "multipart"] };
+}
+
+/** 公网可访问的源视频地址（blob:/data:/idb 一律不算）。 */
+export function collectPublicVideoUrls(videos: ReadonlyArray<{ url?: string }> | undefined): string[] {
+    return (videos ?? [])
+        .map((video) => (typeof video.url === "string" ? video.url.trim() : ""))
+        .filter((url) => /^https?:\/\//i.test(url));
+}
+
+/**
+ * 中转域把 multipart 当文本解码时的上游原文 → 人话。
+ * 实测原文：`'utf-8' codec can't decode byte 0xe8 in position 1614: invalid continuation byte`。
+ */
+export function relayMultipartRejectionHint(status: number | undefined, message: string): string {
+    if (status !== 400) return "";
+    if (!/(codec can't decode|invalid continuation byte|Expecting value)/i.test(message)) return "";
+    return "（该中转的 /videos 只接受 JSON，收不了上传的视频文件字节；源视频需是公网可访问的 http(s) 地址）";
 }
 
 async function createOpenAIVideoTask(config: AiConfig, model: string, prompt: string, references: ReferenceImage[], options?: VideoMediaOptions): Promise<VideoGenerationTask> {
@@ -306,6 +335,10 @@ async function createOpenAIVideoTask(config: AiConfig, model: string, prompt: st
     };
     if (ratio && ratio !== "auto") jsonFields.ratio = ratio;
     if (inlineImages) jsonFields.images = await shrinkInlineImages(imageDataUrls);
+    // 源视频有公网地址时可以直接进 JSON（videos: [url]）：中转域（sub2api 等）收 multipart 会 400。
+    const publicVideoUrls = collectPublicVideoUrls(options?.videos);
+    const inlineVideos = videos.length > 0 && publicVideoUrls.length === videos.length;
+    if (inlineVideos) jsonFields.videos = publicVideoUrls;
     // 路由保持 OpenAI 标准 /videos：实测 sub2api 中转支持；ccai 中转整站不支持视频 API
     // （/videos 与 /video/generations 均失败，后者明确回 "Video API is not supported for this platform"），
     // 所以不做跨路由猜测，失败按上游原文报错。
@@ -315,8 +348,9 @@ async function createOpenAIVideoTask(config: AiConfig, model: string, prompt: st
     });
     const plan = planVideoSubmitPayloads({
         inlineImages: Boolean(inlineImages),
-        mediaOnlyInMultipart: videos.length > 0 || audios.length > 0,
+        mediaOnlyInMultipart: (videos.length > 0 && !inlineVideos) || audios.length > 0,
         relayHost: prefersJsonFirst(config.baseUrl),
+        inlineVideos,
     });
     try {
         let created: ReturnType<typeof unwrapVideoResponse> | undefined;
@@ -337,7 +371,7 @@ async function createOpenAIVideoTask(config: AiConfig, model: string, prompt: st
         if (!created.id) throw new Error(apiText("noVideoTaskId"));
         return { id: created.id, provider: "openai", model };
     } catch (error) {
-        throw new Error(withRequestDiagnosis(readAxiosError(error, apiText("videoTaskCreateFailed")), requestStatus(error), config.baseUrl, "/videos"));
+        throw new Error(withRequestDiagnosis(readAxiosError(error, apiText("videoTaskCreateFailed")), requestStatus(error), config.baseUrl, "/videos") + relayMultipartRejectionHint(requestStatus(error), readAxiosError(error, "")));
     }
 }
 
