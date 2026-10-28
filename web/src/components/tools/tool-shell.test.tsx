@@ -211,8 +211,8 @@ describe("ToolRouteView", () => {
         expect(render(<ToolRouteView catalog={catalog} category="ecommerce-suite" toolId="nope" />, "/tools/ecommerce-suite/nope")).toContain("404");
     });
 
-    test("renders the batch placeholder for batch routes", () => {
-        expect(render(<ToolRouteView catalog={catalog} category="batch-generate" />, "/tools/batch-generate")).toContain("批量编排占位");
+    test("renders the batch workspace for batch routes", () => {
+        expect(render(<ToolRouteView catalog={catalog} category="batch-generate" />, "/tools/batch-generate")).toContain("批量生图工作台");
         const detail = render(<ToolRouteView catalog={catalog} category="batch-generate" toolId="batch-123" />, "/tools/batch-generate/batch-123");
         expect(detail).toContain("batch-123");
         expect(detail).not.toContain("进度 100%");

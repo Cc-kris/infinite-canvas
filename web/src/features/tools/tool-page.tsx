@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 import { Navigate, useParams } from "react-router-dom";
 
 import { ToolShell } from "@/components/tools/tool-shell";
+import { BatchPage } from "@/features/tools/batch-page";
 import { ToolSidebar, type ToolSidebarCategory } from "@/components/tools/tool-sidebar";
 import NotFound from "@/pages/not-found";
 
@@ -348,20 +349,6 @@ function CategoryHome({ category, catalog, sidebar }: { category: ToolCategorySl
     );
 }
 
-function BatchPlaceholder({ batchId, sidebar }: { batchId?: string; sidebar: ReactNode }) {
-    return (
-        <ToolShell title={batchId ? `批量任务 ${batchId}` : "批量生图"} subtitle={batchId ? `/tools/batch-generate/${batchId}` : "/tools/batch-generate"} breadcrumb="工具 / 批量生图" sidebar={sidebar}>
-            <section className="rounded-lg border border-dashed border-border bg-muted/40 px-4 py-3" data-testid="batch-placeholder">
-                <h2 className="text-sm font-medium">批量编排占位</h2>
-                <p className="mt-1 text-sm leading-6 text-muted-foreground">
-                    批量预检、并发上限、部分成功与单行重试由 TASK-007 落地。当前仅保留路由入口，不创建任务、不展示进度百分比、不生成报告。
-                </p>
-                {batchId ? <p className="mt-2 font-mono text-xs text-muted-foreground">batchId: {batchId}</p> : null}
-            </section>
-        </ToolShell>
-    );
-}
-
 export interface ToolRouteViewProps {
     catalog: ToolCatalog;
     category?: string;
@@ -384,9 +371,9 @@ export function ToolRouteView({ catalog, category, toolId }: ToolRouteViewProps)
             if (!match.toolSlug) return <CategoryHome category={match.category} catalog={catalog} sidebar={sidebar} />;
             return <Navigate to={`/tools/${match.category}/${match.toolSlug}`} replace />;
         case "batch-home":
-            return <BatchPlaceholder sidebar={sidebar} />;
+            return <BatchPage sidebar={sidebar} />;
         case "batch-detail":
-            return <BatchPlaceholder batchId={match.batchId} sidebar={sidebar} />;
+            return <BatchPage batchId={match.batchId} sidebar={sidebar} />;
         case "not-found":
             return <NotFound />;
         case "tool": {
