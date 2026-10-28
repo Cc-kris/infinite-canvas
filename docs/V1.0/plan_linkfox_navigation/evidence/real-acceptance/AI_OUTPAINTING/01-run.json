@@ -1,0 +1,75 @@
+{
+ "tool": "AI_OUTPAINTING",
+ "route": "/tools/ecommerce-suite/ai-outpainting",
+ "app": "http://127.0.0.1:3000 (v0.27.0, vite dev)",
+ "runAt": "2026-10-28T16:22:49Z / 2026-10-29 00:22:49 +08:00",
+ "source": {
+  "file": "product_watch.jpg (fixture http://127.0.0.1:8977/product_watch.jpg)",
+  "width": 1024,
+  "height": 744,
+  "uploadPath": "从本地上传按钮真实上传"
+ },
+ "geometry": {
+  "ratio": "1:1",
+  "canvas": "1024x1024",
+  "expansion": {
+   "bottom": 280
+  },
+  "notice": "已载入原图 1024 × 744，画布按原图尺寸 1:1 摆放"
+ },
+ "prompt": "延续灰色水泥地面与柔和侧光，在下方补出完整的产品阴影与投影，保持商品主体不变（几何自动带入目标 1024×1024 / 新增区域：下 280px / 原图覆盖区域必须像素级不变）",
+ "count": 1,
+ "task": {
+  "id": "task-mvsbp9c8-y8q5vf",
+  "status": "succeeded",
+  "capability": "image",
+  "clientOperationId": "c838ae58-f85d-4e83-8def-9f325b959d8b",
+  "fingerprint": "0d953f024f9f536b",
+  "submittedAt": 1793204569736,
+  "finishedAt": 1793204613636,
+  "durationMs": 43900,
+  "transientFailures": 0,
+  "sourceAssetIds": [
+   "_zBfzDoIAiNdpqWscc4K1",
+   "3GnEychE49HBswp3es3Y1"
+  ],
+  "resultItems": [
+   {
+    "id": "task-mvsbp9c8-y8q5vf-0",
+    "kind": "image",
+    "payloadDropped": true
+   }
+  ]
+ },
+ "configSnapshot": {
+  "apiFormat": "openai",
+  "capability": "image",
+  "channelId": "default",
+  "model": "default::gpt-image-2",
+  "count": "1",
+  "quality": "auto",
+  "size": "1:1"
+ },
+ "channel": {
+  "localStorageId": "default",
+  "name": "ccai-tmp",
+  "baseUrl": "https://api.cc-ai.xyz",
+  "model": "gpt-image-2 (capability=image)",
+  "apiKeyPresent": true
+ },
+ "result": {
+  "url": "https://oss-us.dimenoss.com/images/2026/10/29/1793204613_b542867b69ff378db30f0ff3c5e9621a.png",
+  "mimeType": "image/png",
+  "width": 1024,
+  "height": 1024,
+  "bytes": 929476,
+  "sha256": "8680a0476955acd8b1ae0644b3568999e08d151782fb9b217e94b90b89f152b0",
+  "savedAs": "02-result.png"
+ },
+ "uiAfter": {
+  "resultPanelView": "succeeded",
+  "summary": "共 1 个结果 · 图片 1",
+  "notice": "生成完成：1 张",
+  "submitLabelBackTo": "生成 1 张扩图"
+ }
+}

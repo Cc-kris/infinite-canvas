@@ -1,0 +1,51 @@
+{
+ "saveToAssetLibrary": {
+  "action": "结果卡「存入资产」按钮（data-testid=tool-result-save-0）",
+  "assetRecord": {
+   "id": "rJEMPir9He5-H__5Yj80Q",
+   "name": "AI_OUTPAINTING 结果 1",
+   "kind": "image",
+   "mimeType": "image/png",
+   "width": 1024,
+   "height": 1024,
+   "bytes": 929476,
+   "storageKey": "image:9uRDy3sKYXKnvDx5UIjaC",
+   "taskId": "task-mvsbp9c8-y8q5vf",
+   "resultItemId": "task-mvsbp9c8-y8q5vf-0",
+   "origin": "tool-task"
+  },
+  "verifiedBy": "IndexedDB infinite-canvas / objectStore tool_assets（35 条，最新一条即本结果）"
+ },
+ "sendToCanvas": {
+  "action": "结果卡「发送画布」按钮（data-testid=tool-result-canvas-0）",
+  "toast": "已发送到画布（5S4iu3U6GcJwI0Q3Il7-n）",
+  "project": {
+   "id": "5S4iu3U6GcJwI0Q3Il7-n",
+   "title": "AI_OUTPAINTING 结果",
+   "nodeCount": 1
+  },
+  "node": {
+   "id": "image-1793204809741-4boac",
+   "type": "image",
+   "width": 340,
+   "height": 240,
+   "position": {
+    "x": 150,
+    "y": 120
+   },
+   "metadata": {
+    "storageKey": "image:fkTjDYdztN3wJ-a4dXMU3",
+    "naturalWidth": 1024,
+    "naturalHeight": 1024,
+    "bytes": 929476,
+    "mimeType": "image/png",
+    "status": "success"
+   }
+  },
+  "verifiedBy": "IndexedDB infinite-canvas / app_state -> state.projects[0]"
+ },
+ "download": {
+  "action": "结果卡「下载」按钮存在（data-testid=tool-result-download-0）",
+  "note": "结果图另经 OSS URL 直接取回落盘为 02-result.png（sha256 与页面内字节数一致）"
+ }
+}

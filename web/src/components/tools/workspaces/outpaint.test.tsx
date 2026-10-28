@@ -92,8 +92,17 @@ describe("智能扩图工作台渲染", () => {
         expect(html).toContain("⌘/Ctrl+Z");
     });
 
-    test("画布尺寸与蒙版状态同步展示（未生成蒙版时不冒充已同步）", async () => {
+    test("新增区域内容为空时，必填提示内联可见，且禁用按钮带原因（不会静默禁用）", async () => {
         const html = await renderWorkspace();
+        expect(html).toContain("新增区域内容（必填）");
+        expect(attr(html, "outpaint-prompt-error")).toContain('data-testid="outpaint-prompt-error"');
+        expect(html).toContain("请描述扩展区域要补什么");
+        const generate = attr(html, "outpaint-submit");
+        expect(/disabled=""/.test(generate)).toBe(true);
+        expect(generate).toContain("title=");
+    });
+
+    test("画布尺寸与蒙版状态同步展示（未生成蒙版时不冒充已同步）", async () => {        const html = await renderWorkspace();
         const canvas = attr(html, "outpaint-canvas");
         expect(canvas).toContain("data-width=");
         expect(canvas).toContain("data-height=");

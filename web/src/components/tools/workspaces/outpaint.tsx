@@ -452,7 +452,13 @@ export function OutpaintWorkspace({ className }: OutpaintWorkspaceProps = {}) {
 
     const issues = useMemo(() => validateOutpaint(values), [values]);
     const blocking = useMemo(() => issues.filter((issue) => issue.field !== "prompt"), [issues]);
+    // prompt 是必填项（自动文案服务未接入），但提示区只展示几何类阻塞，
+    // 因此这里单独取出来在输入框下方提示，避免"按钮禁用却没有任何原因"。
+    const promptIssue = useMemo(() => issues.find((issue) => issue.field === "prompt") ?? null, [issues]);
     const submitReady = canSubmitOutpaint(values) && Boolean(sourceRecord) && !busy;
+    const submitBlockedReason = submitReady
+        ? undefined
+        : promptIssue?.message ?? blocking[0]?.message ?? (sourceRecord ? "提交中…" : "请先上传要扩展的原图");
     const maskState = maskSyncState(values);
     const expansion = useMemo(() => expansionOf(values), [values]);
     const snapshot = useMemo(() => buildOutpaintSnapshot(values), [values]);
@@ -558,6 +564,7 @@ export function OutpaintWorkspace({ className }: OutpaintWorkspaceProps = {}) {
                     type="button"
                     data-testid="outpaint-submit"
                     disabled={!submitReady}
+                    title={submitBlockedReason}
                     onClick={() => void submit()}
                     className="rounded-md bg-primary px-3 py-1.5 text-xs font-medium text-primary-foreground disabled:cursor-not-allowed disabled:opacity-50"
                 >
@@ -726,16 +733,23 @@ export function OutpaintWorkspace({ className }: OutpaintWorkspaceProps = {}) {
                         </div>
                     </Section>
 
-                    <Section id="prompt" title="3 · 新增区域内容" hint={`${values.prompt.length}/${OUTPAINT_MAX_PROMPT}`}>
+                    <Section id="prompt" title="3 · 新增区域内容（必填）" hint={`${values.prompt.length}/${OUTPAINT_MAX_PROMPT}`}>
                         <textarea
                             value={values.prompt}
                             maxLength={OUTPAINT_MAX_PROMPT}
                             disabled={busy}
+                            aria-invalid={promptIssue ? true : undefined}
+                            aria-required
                             onChange={(event) => commit({ ...valuesRef.current, prompt: event.target.value })}
                             placeholder="描述新增画布区域要出现什么，例如：延续灰色水泥地面与柔和侧光，右侧补出完整的产品阴影"
                             rows={3}
                             className="w-full resize-y rounded border border-border bg-background px-2 py-1.5 text-xs text-foreground outline-none focus-visible:ring-2 focus-visible:ring-ring"
                         />
+                        {promptIssue ? (
+                            <p data-testid="outpaint-prompt-error" id="outpaint-prompt-error" className="text-[11px] leading-4 text-destructive">
+                                {promptIssue.message}
+                            </p>
+                        ) : null}
                         <details className="rounded border border-border bg-muted/30 px-2 py-1.5 text-[11px] text-muted-foreground">
                             <summary className="cursor-pointer select-none">查看提交给上游的完整描述（几何自动带入）</summary>
                             <pre className="mt-1.5 whitespace-pre-wrap break-words font-mono text-[10px] leading-4">{promptPreview}</pre>
@@ -756,6 +770,8 @@ export function OutpaintWorkspace({ className }: OutpaintWorkspaceProps = {}) {
                             type="button"
                             data-testid="outpaint-submit-inline"
                             disabled={!submitReady}
+                            title={submitBlockedReason}
+                            aria-describedby={promptIssue ? "outpaint-prompt-error" : undefined}
                             onClick={() => void submit()}
                             className="flex w-full items-center justify-center gap-1.5 rounded-md bg-primary px-3 py-2 text-xs font-medium text-primary-foreground disabled:cursor-not-allowed disabled:opacity-50"
                         >

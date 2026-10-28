@@ -1,0 +1,23 @@
+AI_OUTPAINTING 结果区 DOM 证据（生成完成时刻，web_execute_js 读取 innerText / data-*）
+时间：2026-10-29 00:23:49 ~ 00:26:14 +08:00
+
+[tool-result]
+data-view="succeeded"
+data-testid=tool-result-summary -> "共 1 个结果 · 图片 1"
+data-testid=tool-result-image[0] -> https://oss-us.dimenoss.com/images/2026/10/29/1793204613_b542867b69ff378db30f0ff3c5e9621a.png
+
+[结果卡内文本]
+扩图结果 已完成 共 1 个结果 · 图片 1 下载 存入资产 发送画布
+（点击「发送画布」后出现）已发送到画布（5S4iu3U6GcJwI0Q3Il7-n）
+
+[侧栏/工作区文本（同刻）]
+原图 1024 × 744 新增 下 280px 原图已锁定
+画布比例（只扩画布，不拉伸原图）：原图比例 1:1 4:3 3:4 16:9 9:16 3:2 2:3 21:9 自定义
+尺寸档 标准 1024 高清 1536 2K 2048
+3 · 新增区域内容 38/4000（提交时内容长度）
+4 · 生成数量 1 张 2 张 3 张 4 张
+提交快照 e82297aa · 默认 4 张
+提示：生成完成：1 张
+
+[图片实际取回校验（页面内 fetch + createImageBitmap）]
+status=200 type=image/png bytes=929476 width=1024 height=1024

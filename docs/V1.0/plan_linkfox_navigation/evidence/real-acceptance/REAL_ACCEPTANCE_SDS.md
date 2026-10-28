@@ -13,7 +13,7 @@
 | IMAGE_TRANSLATION（批量翻译） | /tools/ecommerce-suite/image-translation | PARTIAL | 见下（提交前全链路实测通过，结果因通道失效未取回） |
 | DRESS_WEAR_SET（服装套图） | /tools/ecommerce-suite/dress-wear-set | PARTIAL | 见下（表单校验卡点已定位，点击后通道失效） |
 | CHANGE_COLOR_V2（套图换色） | /tools/ecommerce-suite/change-color-v2 | BLOCKED | 未提交（环境饱和） |
-| AI_OUTPAINTING（智能扩图） | /tools/ecommerce-suite/ai-outpainting | BLOCKED | 未提交（环境饱和） |
+| AI_OUTPAINTING（智能扩图） | /tools/ecommerce-suite/ai-outpainting | **PASS** | 真实出图 1024×1024（PNG 929,476 B），存入资产库 + 发送画布均落库；见 `evidence/real-acceptance/AI_OUTPAINTING/` |
 
 ## 疑似缺陷（已定位，可复现）
 
@@ -33,6 +33,18 @@
 「平台 / 销售地区 / 语言」不是原生 select，而是 `<input list="dress-platform|dress-region|dress-language">` 的 datalist 输入框；
 未填时「开始生成」禁用并提示「智能品牌基因需要先选择平台 / 销售地区 / 语言」。
 实测填 `亚马逊 / 美国 / 英语` 后提示消失、按钮可用；产出为「2 张 / 2 组」（各分组计数均 ≥1，每组单独发起一次真实请求）。
+
+**BUG-OUTPAINT-A：提示词必填错误被过滤，导致「生成」静默禁用（AI_OUTPAINTING）。**
+
+上传原图并选好比例（画布已有 280px 外扩）后，「生成 1 张扩图」按钮 `disabled`，界面无任何原因说明 —— 看起来像功能坏了。
+
+- 位置：`web/src/components/tools/workspaces/outpaint.tsx`（`blocking = issues.filter(i => i.field !== "prompt")`）
+  与 `web/src/features/tools/registry/ai-outpainting.ts`（`validateOutpaint` 产出 `prompt-required`）。
+- 根因：`submitReady` 用完整校验结果，而可见提示区把 `prompt` 字段的错误过滤掉。
+- 修复：内联展示 prompt 必填错误（`required`/`aria-invalid`/`aria-describedby`）+ 分区标题标注「（必填）」+
+  两个提交按钮补 `title=submitBlockedReason`；新增回归测试 `outpaint.test.tsx > …禁用按钮带原因`。
+- 验证：修复后空提示词 → 内联红字 + 悬停原因；填回 → 按钮可用。`bun test` 57 pass / 0 fail，`tsc --noEmit` 通过。
+- 同类风险：其余工具的 `blocking` 若同样按 `field !== "prompt"` 过滤，也会出现「禁用无提示」，建议统一。
 
 ## 环境事实（本轮最大阻塞）
 

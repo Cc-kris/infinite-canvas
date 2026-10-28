@@ -1,0 +1,31 @@
+{
+ "bug": "BUG-OUTPAINT-A：新增区域内容（prompt）为必填，但空值时「生成」按钮禁用且界面不给任何原因",
+ "cause": [
+  "web/src/components/tools/workspaces/outpaint.tsx: submitReady = canSubmitOutpaint(values) 且 canSubmitOutpaint -> validateOutpaint(values).length === 0",
+  "web/src/features/tools/registry/ai-outpainting.ts: validateOutpaint 对空 prompt 产出 {field:'prompt', code:'prompt-required'}",
+  "outpaint.tsx: blocking = issues.filter(i => i.field !== 'prompt') —— prompt 错误被从可见提示区过滤掉，于是按钮禁用但无提示"
+ ],
+ "repro": "上传原图 -> 点 1:1（画布 1024x1024，下扩 280px，头部无阻塞提示）-> 不填新增区域内容 -> 「生成 1 张扩图」按钮 disabled，界面无任何原因",
+ "fix": [
+  "新增 promptIssue memo（取 prompt 字段的第一条 issue），在 textarea 下方内联展示，并设 aria-invalid / aria-describedby / required",
+  "分区标题改为「3 · 新增区域内容（必填）」",
+  "新增 submitBlockedReason，作为侧栏主按钮（outpaint-submit）与内联按钮（outpaint-submit-inline）的 title，禁用时鼠标悬停即可看到原因"
+ ],
+ "liveVerification": {
+  "emptyPrompt": {
+   "promptError": "请描述扩展区域要补什么（自动文案服务未接入，此项必填）",
+   "submitDisabled": true,
+   "submitTitle": "请描述扩展区域要补什么（自动文案服务未接入，此项必填）"
+  },
+  "filledPrompt": {
+   "promptError": null,
+   "submitDisabled": false,
+   "submitTitle": null
+  }
+ },
+ "regression": {
+  "test": "web/src/components/tools/workspaces/outpaint.test.tsx > 新增区域内容为空时，必填提示内联可见，且禁用按钮带原因（不会静默禁用）",
+  "result": "57 pass / 0 fail（outpaint.test.tsx + adapters/ai-outpainting.test.ts）",
+  "typecheck": "tsc --noEmit 通过"
+ }
+}

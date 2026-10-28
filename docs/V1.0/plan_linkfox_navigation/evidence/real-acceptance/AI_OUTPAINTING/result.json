@@ -1,13 +1,63 @@
 {
-  "tool": "AI_OUTPAINTING",
-  "name": "智能扩图",
-  "route": "/tools/ecommerce-suite/ai-outpainting",
-  "status": "BLOCKED",
-  "result": "not_verified",
-  "runAt": "2026-10-28T20:20:00+08:00",
-  "worker": "sds",
-  "attempts": [],
-  "blocker": "环境阻塞：CDP/TMWebDriver 评估通道在所有 :3000 标签页上不可用。实测 load average 100~162 持续 60 分钟以上，6 个 Chrome Renderer 各占 ~100% CPU、累计 CPU 时间 57~82 分钟；:3000 上 48 条已建立连接（多为开发模式标签）；单次 Runtime.evaluate 在 180s 内不返回（cap.py/bg.py 均超时），而 driver HTTP 端口本身仍可达（GET / 快速返回 426）。",
-  "observed": "未开始执行：等待 CDP 通道恢复期间环境持续饱和，未能提交任务。",
-  "evidence": []
+ "tool": "AI_OUTPAINTING",
+ "name": "智能扩图",
+ "route": "/tools/ecommerce-suite/ai-outpainting",
+ "status": "PASS",
+ "result": {
+  "url": "https://oss-us.dimenoss.com/images/2026/10/29/1793204613_b542867b69ff378db30f0ff3c5e9621a.png",
+  "mimeType": "image/png",
+  "width": 1024,
+  "height": 1024,
+  "bytes": 929476,
+  "sha256": "8680a0476955acd8b1ae0644b3568999e08d151782fb9b217e94b90b89f152b0",
+  "file": "02-result.png"
+ },
+ "runAt": "2026-10-29T00:22:49+08:00",
+ "app": "http://127.0.0.1:3000 (v0.27.0, vite dev)",
+ "channel": "ccai-tmp (localStorage id=default, https://api.cc-ai.xyz) · gpt-image-2 · capability=image",
+ "taskId": "task-mvsbp9c8-y8q5vf",
+ "taskStatus": "succeeded",
+ "durationMs": 43900,
+ "resultItemId": "task-mvsbp9c8-y8q5vf-0",
+ "geometry": {
+  "ratio": "1:1",
+  "canvas": "1024x1024",
+  "source": "1024x744",
+  "expansion": {
+   "bottom": 280
+  }
+ },
+ "assetRecordId": "rJEMPir9He5-H__5Yj80Q",
+ "canvasProjectId": "5S4iu3U6GcJwI0Q3Il7-n",
+ "canvasNodeId": "image-1793204809741-4boac",
+ "tests": {
+  "unit": "57 pass / 0 fail (outpaint.test.tsx + adapters/ai-outpainting.test.ts)",
+  "typecheck": "tsc --noEmit 通过"
+ },
+ "defectsFixed": [
+  "BUG-OUTPAINT-A：prompt 必填但错误被过滤 -> 按钮静默禁用（见 05-ui-fix-prompt-gate.json）"
+ ],
+ "partial": [
+  "「从作品库选择」在本仓库叫「从资产库选择（n）」（ToolAssetInput details），功能等价、命名不同",
+  "单结果重试：仅在任务 failed/unknown 时由 TaskStatusPanel 提供（onRetry），成功结果卡上无逐张重试",
+  "原站「默认尺寸 / 优秀案例 / 历史记录 / 算力」未复刻：默认尺寸对应「原图比例」，算力按规格不复制，优秀案例/历史记录未实现（任务历史在任务存储中可查，但本页无独立列表）",
+  "刷新恢复：仅恢复草稿（几何/提示词/数量/源图），不恢复上次结果面板（结果 payload 按设计从 localStorage 裁剪；已存入资产库的结果可从资产库取回）"
+ ],
+ "history": [
+  {
+   "status": "BLOCKED",
+   "runAt": "2026-10-28T20:20:00+08:00",
+   "worker": "sds",
+   "blocker": "环境阻塞：CDP/TMWebDriver 评估通道在所有 :3000 标签页上不可用。实测 load average 100~162 持续 60 分钟以上，6 个 Chrome Renderer 各占 ~100% CPU、累计 CPU 时间 57~82 分钟；:3000 上 48 条已建立连接（多为开发模式标签）；单次 Runtime.evaluate 在 180s 内不返回（cap.py/bg.py 均超时），而 driver HTTP 端口本身仍可达（GET / 快速返回 426）。",
+   "observed": "未开始执行：等待 CDP 通道恢复期间环境持续饱和，未能提交任务。"
+  }
+ ],
+ "evidence": [
+  "01-run.json",
+  "02-result.png",
+  "03-dom-after.txt",
+  "04-result-actions.json",
+  "05-ui-fix-prompt-gate.json",
+  "REPORT.md"
+ ]
 }
