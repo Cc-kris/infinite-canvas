@@ -337,9 +337,9 @@ function throwIfAborted(signal: AbortSignal | undefined) {
     if (signal?.aborted) throw new ToolAssetError(makeIssue("aborted"));
 }
 
-async function defaultStore(blob: Blob, prefix: string): Promise<StoredToolAssetBlob> {
+async function defaultStore(blob: Blob, prefix: string, meta?: { width?: number; height?: number; durationMs?: number }): Promise<StoredToolAssetBlob> {
     const { uploadMediaFile } = await import("@/services/file-storage");
-    const stored = await uploadMediaFile(blob, prefix);
+    const stored = await uploadMediaFile(blob, prefix, meta ? { knownMeta: meta } : undefined);
     return { storageKey: stored.storageKey, url: stored.url, bytes: stored.bytes, mimeType: stored.mimeType, width: stored.width, height: stored.height, durationMs: stored.durationMs };
 }
 
@@ -469,7 +469,10 @@ export async function uploadToolAsset(source: File | Blob, options: ToolAssetUpl
     options.onProgress?.({ phase: "storing", loaded: sized.size, total: sized.size, ratio: 1 });
     let stored: StoredToolAssetBlob;
     try {
-        stored = await (deps.store ?? defaultStore)(sized, "tool-asset");
+        const storeMeta = mimeType.startsWith("video/")
+            ? { width: dimensions?.width, height: dimensions?.height, durationMs: dimensions?.durationMs }
+            : undefined;
+        stored = await (deps.store ?? defaultStore)(sized, "tool-asset", storeMeta);
     } catch (error) {
         if (options.signal?.aborted) throw new ToolAssetError(makeIssue("aborted"));
         throw new ToolAssetError(makeIssue("store-failed", { detail: error instanceof Error ? error.message : String(error) }));

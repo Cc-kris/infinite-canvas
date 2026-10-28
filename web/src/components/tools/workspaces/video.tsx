@@ -89,6 +89,7 @@ import {
     aiVideoEditingGatewayRequires,
     aiVideoEditingResultView,
     buildAiVideoEditingBrowserInput,
+    collectAiVideoEditingAssetIssues,
     createAiVideoEditingRunPort,
     retryAiVideoEditingTask,
     runAiVideoEditingTask,
@@ -1432,6 +1433,8 @@ export function AiVideoEditingWorkspace({ className }: AiVideoEditingWorkspacePr
     const [notice, setNotice] = useState("");
     const [running, setRunning] = useState(false);
     const [draftReady, setDraftReady] = useState(false);
+    /** D3：本地 Blob 失效的具体原因（空串 = 素材可用），直接决定按钮是否可点。 */
+    const [assetIssue, setAssetIssue] = useState("");
     const revisionRef = useRef<number | null>(null);
     const aliveRef = useRef(true);
     const lastReferencesRef = useRef<ReferenceImage[]>([]);
@@ -1483,17 +1486,46 @@ export function AiVideoEditingWorkspace({ className }: AiVideoEditingWorkspacePr
     const window = useMemo(() => aiVideoEditingClipWindow(state, source), [source, state]);
     const gatewayRequires = useMemo(() => aiVideoEditingGatewayRequires(), []);
 
+    /* D3：素材记录还在、本地 Blob 却可能已经没了（素材库清理 / 别的标签页删除 / 浏览器回收）。
+     * 提交前先核对真实字节；失效就禁用按钮并把原因写在按钮下方，不能等点了才只弹一句提示。 */
+    useEffect(() => {
+        let alive = true;
+        const records = [...sourceRecords, ...referenceRecords];
+        if (!records.length) {
+            setAssetIssue("");
+            return () => {
+                alive = false;
+            };
+        }
+        const check = () => {
+            void collectAiVideoEditingAssetIssues(records, readToolAssetBlob).then((issues) => {
+                if (alive) setAssetIssue(issues[0] ?? "");
+            });
+        };
+        check();
+        /* 切回页面/标签时再核一次：用户可能刚在别处删了素材。
+         * 注意：本组件内 `window` 是截取窗对象，全局事件必须走 globalThis。 */
+        globalThis.addEventListener("focus", check);
+        document.addEventListener("visibilitychange", check);
+        return () => {
+            alive = false;
+            globalThis.removeEventListener("focus", check);
+            document.removeEventListener("visibilitychange", check);
+        };
+    }, [referenceRecords, sourceRecords]);
+
     const capability = useMemo(
         () =>
             resolveAiVideoEditingCapability({
                 model,
                 hasSourceVideo: Boolean(source),
+                sourceIssues: assetIssue ? [assetIssue] : [],
                 referenceCount: referenceRecords.length,
                 gatewayRequiresReferences: gatewayRequires.references,
                 prompt: state.prompt,
                 clip: window,
             }),
-        [gatewayRequires.references, model, referenceRecords.length, source, state.prompt, window],
+        [assetIssue, gatewayRequires.references, model, referenceRecords.length, source, state.prompt, window],
     );
 
     const activeType: AiVideoEditingType = useMemo(
@@ -1590,6 +1622,11 @@ export function AiVideoEditingWorkspace({ className }: AiVideoEditingWorkspacePr
     const handleSubmit = useCallback(
         async (options?: { retry?: boolean }) => {
             if (running) return;
+            /* D3：素材本地字节已失效时不要进入提交流程，直接把原因落到错误区。 */
+            if (assetIssue) {
+                setError(assetIssue);
+                return;
+            }
             setError("");
             setNotice("");
             setRunning(true);
@@ -1630,7 +1667,7 @@ export function AiVideoEditingWorkspace({ className }: AiVideoEditingWorkspacePr
                 if (aliveRef.current) setRunning(false);
             }
         },
-        [model, referenceRecords, running, source, state, task, window],
+        [assetIssue, model, referenceRecords, running, source, state, task, window],
     );
 
     const view = aiVideoEditingResultView({ task, snapshot, current: currentSnapshot });
@@ -1677,7 +1714,7 @@ export function AiVideoEditingWorkspace({ className }: AiVideoEditingWorkspacePr
                         <div className="flex items-baseline justify-between">
                             <h2 className="text-sm font-medium">原视频</h2>
                             <span className="text-[11px] text-muted-foreground">
-                                {source ? `${source.name} · ${formatSeconds(window.sourceDurationMs)}` : "MP4 / MOV，100M 内，≥4 秒"}
+                                {source ? `${source.name} · ${window.sourceDurationMs > 0 ? formatSeconds(window.sourceDurationMs) : "时长未知"}` : "MP4 / MOV，100M 内，≥4 秒"}
                             </span>
                         </div>
                         <ToolAssetInput
@@ -1840,6 +1877,11 @@ export function AiVideoEditingWorkspace({ className }: AiVideoEditingWorkspacePr
                         >
                             {running ? "编辑中…" : "立即生成"}
                         </button>
+                        {assetIssue ? (
+                            <p className="text-[11px] text-destructive" role="alert" data-testid="ai-video-editing-asset-issue">
+                                {assetIssue}
+                            </p>
+                        ) : null}
                         {capability.canSubmit ? (
                             <p className="text-[11px] text-muted-foreground" data-testid="ai-video-editing-output">
                                 {aiVideoEditingOutputLabel(window)}

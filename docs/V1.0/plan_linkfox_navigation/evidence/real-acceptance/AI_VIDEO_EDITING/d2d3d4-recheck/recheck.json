@@ -1,0 +1,66 @@
+{
+ "run_at": "2026-10-28T16:54:51.360Z",
+ "route": "http://127.0.0.1:3000/tools/ai-video/ai-video-editing",
+ "steps": {
+  "D2": {
+   "recorded": true,
+   "elapsedMs": 15484,
+   "timeline": [
+    {
+     "t": 27,
+     "phase": "视频编辑截取 ≤30 秒参考图 30 张内需求 0/2500上传原视频与参考图，输入编辑需求，AI 智能编辑视频原视频MP4 / MOV，100M 内，≥4 秒上传需要编辑的视频0 / 1 个 · MP4 / MOV · ≤ 100 MB点"
+    },
+    {
+     "t": 15484,
+     "phase": "视频编辑截取 ≤30 秒参考图 30 张内需求 0/2500上传原视频与参考图，输入编辑需求，AI 智能编辑视频原视频06-result-video.mp4 · 时长未知上传需要编辑的视频1 / 1 个 · MP4 / MOV · ≤ 10"
+    }
+   ],
+   "hungVideoCount": 2,
+   "clipLabel": "时长未知",
+   "clipNotice": "已上传源视频，但读不到时长（浏览器无法解码该文件），请重新上传可播放的 MP4/MOV",
+   "workspaceText": "视频编辑截取 ≤30 秒参考图 30 张内需求 0/2500上传原视频与参考图，输入编辑需求，AI 智能编辑视频原视频06-result-video.mp4 · 时长未知上传需要编辑的视频1 / 1 个 · MP4 / MOV · ≤ 100 MB已达数量上限，先移除一个再上传校验格式 / 大小 / 像素，入库后可刷新恢复06-result-video.mp41.2 MB · video/mp4移除截取区间时长未知起点（秒）时长（秒，≤30）已上传源视频，但读不到时长（浏览器无法解码该文件），请重新上传可播放的 MP4/MOV参考图 （选填）0/30上传参考图0 / 30 个 · PNG / JPG / WebP · ≤ 10 MB点击选择本地文件，或拖拽到这里校验格式 / 大小 / 像素，入库后可刷新恢复还没有素材支持上传 30 张图，10M 以内，384*384 ~ 4096*4096，宽高比（宽÷高）0.4～2.5（含边界）原站标注「选填」，但本地网关对本工具要求 ≥1 张参考图（requiresReferences），因此提交前必须至少 1 张。编辑需求描述0 / 2500模板"
+  },
+  "D4": {
+   "clipLabel": "0–5 秒（共 5 秒）",
+   "submitDisabledBeforeClick": false,
+   "blockedText": null,
+   "request": {
+    "url": "http://127.0.0.1:23210/https://mock-upstream.invalid/v1/videos",
+    "method": "POST",
+    "contentType": "multipart/form-data; boundary=----WebKitFormBoundaryEVBDvjDEQVsqVTaZ"
+   },
+   "multipartFields": {
+    "model": "grok-imagine-video",
+    "prompt": "【视频编辑 · 模板 v1】 编辑类型：商品人物精准编辑；编辑意图：保持参考图中商品与人物的一致性，只按需求改写镜头内容、动作、场景与光线 源视频取自 0–5 秒（共 5 秒，源片 5.2 秒） 参考素材：1 张参考图按上传顺序参与主体一致性约束；商品外观、颜色、logo 与人物身份必须与参考图一致 输出：1 条视频，时长约 5 秒；模型：default::grok-imagine-video 约束：不新增未出现在源视频/参考图中的商品、人物与文字；不改变源视频镜头语言之外的事实；不加水印与字幕贴纸 【编辑需求（用户可见，可编辑）】 把视频里的产品替换为参考图中的白色降噪耳机，保持人物动作、镜头运动和背景不变",
+    "seconds": "5",
+    "size": "1280x720",
+    "ratio": "16:9",
+    "resolution_name": "720p",
+    "generate_audio": "true",
+    "watermark": "false",
+    "mode": "frames",
+    "first_frame": "",
+    "images": "",
+    "video[]": ""
+   },
+   "seconds": "5",
+   "size": "1280x720",
+   "ratio": "16:9",
+   "hasVideoPart": true,
+   "uiAfterSubmit": "视频编辑结果还没有生成结果填好参数并提交后，结果会出现在这里，可预览、下载、存入资产库或发送到画布。"
+  },
+  "D3": {
+   "deletedKeys": 2,
+   "before": {
+    "disabled": false,
+    "issue": null
+   },
+   "after": {
+    "disabled": true,
+    "issue": "06-result-video.mp4（源视频）本地数据已失效，请重新上传",
+    "blocked": "· 06-result-video.mp4（源视频）本地数据已失效，请重新上传"
+   },
+   "upstreamRequestsAfterForcedClick": 0
+  }
+ }
+}

@@ -3,6 +3,8 @@ import { nanoid } from "nanoid";
 
 import { withLocalProxy } from "@/stores/use-config-store";
 
+import { readAudioMeta, readVideoMeta } from "./media-metadata";
+
 export type UploadedFile = { url: string; storageKey: string; bytes: number; mimeType: string; width?: number; height?: number; durationMs?: number };
 
 export type StoreMediaOptions = {
@@ -10,6 +12,8 @@ export type StoreMediaOptions = {
     mimeType?: string;
     signal?: AbortSignal;
     timeoutMs?: number;
+    /** 调用方已探测好的元数据：给定则不再对同一 Blob 二次探测（避免重复等待超时）。 */
+    knownMeta?: { width?: number; height?: number; durationMs?: number };
 };
 
 export type MediaStoreErrorCode = "empty-input" | "empty-blob" | "fetch-failed" | "aborted" | "timeout";
@@ -44,7 +48,9 @@ export async function uploadMediaFile(input: string | Blob, prefix = "file", opt
     await store.setItem(storageKey, blob);
     const url = URL.createObjectURL(blob);
     objectUrls.set(storageKey, url);
-    const meta = mimeType.startsWith("video/") ? await readVideoMeta(url) : mimeType.startsWith("audio/") ? await readAudioMeta(url) : {};
+    const meta = options.knownMeta && Object.keys(options.knownMeta).length > 0
+        ? options.knownMeta
+        : mimeType.startsWith("video/") ? await readVideoMeta(url) : mimeType.startsWith("audio/") ? await readAudioMeta(url) : {};
     return { url, storageKey, bytes: blob.size, mimeType: mimeType || "application/octet-stream", ...meta };
 }
 
@@ -167,22 +173,5 @@ export function collectMediaStorageKeys(value: unknown, keys = new Set<string>()
     return keys;
 }
 
-function readVideoMeta(url: string) {
-    return new Promise<{ width: number; height: number; durationMs?: number }>((resolve) => {
-        const video = document.createElement("video");
-        const done = () => resolve({ width: video.videoWidth || 1280, height: video.videoHeight || 720, durationMs: Number.isFinite(video.duration) ? Math.round(video.duration * 1000) : undefined });
-        video.onloadedmetadata = done;
-        video.onerror = done;
-        video.src = url;
-    });
-}
-
-function readAudioMeta(url: string) {
-    return new Promise<{ durationMs?: number }>((resolve) => {
-        const audio = document.createElement("audio");
-        const done = () => resolve({ durationMs: Number.isFinite(audio.duration) ? Math.round(audio.duration * 1000) : undefined });
-        audio.onloadedmetadata = done;
-        audio.onerror = done;
-        audio.src = url;
-    });
-}
+/* readVideoMeta / readAudioMeta：见 services/media-metadata.ts
+ * （带超时兜底，避免后台标签挂起媒体加载时上传永久卡在「写入本地库存…」）。 */

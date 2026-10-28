@@ -18,6 +18,7 @@ import {
     type VideoGenerationTask,
     type VideoGenerationTaskState,
 } from "@/services/api/video";
+import { clampVideoSeconds, computeVideoSize, parseVideoResolution } from "@/lib/media-size";
 import { resolveModelChannel, useConfigStore, type AiConfig } from "@/stores/use-config-store";
 import type { ReferenceImage } from "@/types/image";
 import type { ReferenceAudio, ReferenceVideo } from "@/types/media";
@@ -117,6 +118,13 @@ export type ToolAdapterInput = {
     count?: number;
     /** 工具独有字段（套图组合、平台、语言…）；只参与指纹与 UI 展示，不发送给 provider。 */
     fields?: Record<string, unknown>;
+    /**
+     * 视频请求的参数覆盖（仅视频工具用；缺省时沿用全局配置）。
+     * seconds：输出秒数（整数秒字符串）；ratio：画幅（如 "16:9"），size 由 ratio + 分辨率档位推导。
+     * 存在的意义：视频编辑必须跟随「截取区间 / 源视频画幅」，不能沿用全局 6 秒 · 1:1。
+     */
+    videoSeconds?: string;
+    videoRatio?: string;
 };
 
 export type ImageInvocation = {
@@ -180,6 +188,12 @@ export function buildToolConfig(config: AiConfig, kind: ToolAdapterKind, input: 
         count: normalizeCount(input.count, config.count),
         ...(input.size ? { size: input.size } : {}),
         ...(input.quality ? { quality: input.quality } : {}),
+        /* 视频工具的参数覆盖：seconds 直接替换；ratio 按当前分辨率档位换算成像素尺寸，
+         * provider 端再把 size 反推回 ratio，两者因此始终一致。 */
+        ...(input.videoSeconds && /^\d+$/.test(input.videoSeconds.trim()) ? { videoSeconds: clampVideoSeconds(input.videoSeconds) } : {}),
+        ...(!input.size && input.videoRatio?.trim()
+            ? { size: computeVideoSize(parseVideoResolution(config.vquality), input.videoRatio.trim()) }
+            : {}),
     };
 }
 

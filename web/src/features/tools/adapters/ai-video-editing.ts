@@ -9,6 +9,7 @@
  * - 截取区间不进上游参数，故同时写进 prompt（模板段 + 用户可见段），页面只读展示模板段。
  */
 
+import { clampVideoSeconds, inferVideoRatio } from "@/lib/media-size";
 import type { ToolAssetRecord } from "@/services/api/tools/assets";
 import type { BrowserToolInput, SubmitOptions, WaitOptions } from "@/services/api/tools/gateway";
 import { describeToolExecution } from "@/services/api/tools/gateway";
@@ -87,7 +88,56 @@ export function aiVideoEditingClipWindow(state: AiVideoEditingState, source: Too
         clipStart: state.clipStart,
         clipDuration: state.clipDuration,
         type: findAiVideoEditingType(state.videoType),
+        hasSource: Boolean(source),
     });
+}
+
+/**
+ * D4：视频请求的视频参数必须跟随「截取区间 / 源视频画幅」，不能沿用全局 6 秒 / 1:1。
+ * - seconds：截取时长向上取整（provider 只要整数秒，向下取整会截掉尾帧），再按 4–30 秒夹紧；
+ * - ratio：由源视频真实宽高推导；宽高未知时返回 undefined（保持全局配置，不瞎猜）。
+ * 像素尺寸 size 由 gateway 按 ratio + 当前分辨率档位推导，adapter 不重复算。
+ */
+export function aiVideoEditingVideoRequestParams(input: {
+    window: AiVideoEditingClipWindow;
+    source: ToolAssetRecord | null;
+}): { seconds?: string; ratio?: string } {
+    const { window, source } = input;
+    const seconds = window.durationMs > 0 ? clampVideoSeconds(String(Math.ceil(window.durationMs / 1000))) : undefined;
+    const width = source?.width ?? 0;
+    const height = source?.height ?? 0;
+    const ratio = width > 0 && height > 0 ? inferVideoRatio(`${width}x${height}`) : undefined;
+    return {
+        ...(seconds ? { seconds } : {}),
+        ...(ratio && ratio !== "auto" ? { ratio } : {}),
+    };
+}
+
+/**
+ * D3：提交前核对本地库存里 Blob 是否还在。
+ * 素材可能被「素材库清理 / 另一个标签页删除 / 浏览器回收」弄失效；记录还在时按钮不该仍可点。
+ * 纯函数注入 readBlob，便于单测（adapter 不直接碰 IndexedDB）。
+ */
+export async function collectAiVideoEditingAssetIssues(
+    records: readonly ToolAssetRecord[],
+    readBlob: (storageKey: string) => Promise<Blob | null>,
+): Promise<string[]> {
+    const issues: string[] = [];
+    const seen = new Set<string>();
+    for (const record of records) {
+        if (!record.storageKey || seen.has(record.storageKey)) continue;
+        seen.add(record.storageKey);
+        let blob: Blob | null = null;
+        try {
+            blob = await readBlob(record.storageKey);
+        } catch {
+            blob = null;
+        }
+        if (!blob || blob.size === 0) {
+            issues.push(`${record.name}（${record.kind === "video" ? "源视频" : "参考图"}）本地数据已失效，请重新上传`);
+        }
+    }
+    return issues;
 }
 
 /** 参考图/源视频由共享上传组件校验过尺寸比例；这里复核 adpater 侧必须自己保证的项。 */
@@ -217,6 +267,8 @@ export function buildAiVideoEditingBrowserInput(input: AiVideoEditingBrowserInpu
     const fields = buildAiVideoEditingFields({ ...input, window });
     const gaps = collectAiVideoEditingFieldGaps(fields);
     if (gaps.length) throw new AiVideoEditingAdapterError("field-missing", `缺少必要字段：${gaps.join(", ")}`);
+    /* D4：让请求的 seconds/size/ratio 跟随截取区间与源视频画幅，而不是全局默认 6 秒 / 1:1。 */
+    const videoRequest = aiVideoEditingVideoRequestParams({ window, source: input.source });
     return {
         toolId: AI_VIDEO_EDITING_TOOL_ID,
         prompt: composeAiVideoEditingProviderPrompt({
@@ -229,6 +281,8 @@ export function buildAiVideoEditingBrowserInput(input: AiVideoEditingBrowserInpu
         videos: [toAiVideoEditingVideoRef(input.source as ToolAssetRecord)],
         model: input.model.trim(),
         fields,
+        ...(videoRequest.seconds ? { videoSeconds: videoRequest.seconds } : {}),
+        ...(videoRequest.ratio ? { videoRatio: videoRequest.ratio } : {}),
     };
 }
 

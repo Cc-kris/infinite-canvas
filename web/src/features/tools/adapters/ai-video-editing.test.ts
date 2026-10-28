@@ -55,9 +55,11 @@ const {
     aiVideoEditingResultView,
     aiVideoEditingSourceDurationMs,
     aiVideoEditingStatusText,
+    aiVideoEditingVideoRequestParams,
     assertAiVideoEditingInput,
     buildAiVideoEditingBrowserInput,
     buildAiVideoEditingFields,
+    collectAiVideoEditingAssetIssues,
     collectAiVideoEditingFieldGaps,
     retryAiVideoEditingTask,
     runAiVideoEditingTask,
@@ -528,5 +530,123 @@ describe("AI_VIDEO_EDITING workspace：页面结构", () => {
         expect(html).toContain('data-testid="ai-video-editing-submit"');
         expect(html).toMatch(/<button[^>]*disabled=""[^>]*data-testid="ai-video-editing-submit"/);
         expect(html).toContain("先上传需要编辑的视频");
+    });
+});
+
+/* ============================== D4：视频参数跟随截取区间 / 画幅 ============================== */
+
+describe("AI_VIDEO_EDITING D4 视频请求参数", () => {
+    function windowFor(durationSec: number, source: ToolAssetRecord) {
+        return aiVideoEditingClipWindow(createAiVideoEditingState({ clipStart: 0, clipDuration: durationSec }), source);
+    }
+
+    test("横屏源视频 + 7.3 秒截取 → seconds 向上取整为 8，ratio 跟随 1920x1080", () => {
+        const source = videoRecord({ width: 1920, height: 1080 });
+        const params = aiVideoEditingVideoRequestParams({ window: windowFor(7.3, source), source });
+        expect(params.seconds).toBe("8");
+        expect(params.ratio).toBe("16:9");
+    });
+
+    test("竖屏源视频 → ratio 9:16；截取过短按 4 秒下限兜底", () => {
+        const source = videoRecord({ width: 1080, height: 1920, durationMs: 20_000 });
+        const params = aiVideoEditingVideoRequestParams({ window: windowFor(2.1, source), source });
+        expect(params.ratio).toBe("9:16");
+        expect(params.seconds).toBe("4");
+    });
+
+    test("源视频宽高未知 → 不瞎猜 ratio（保持全局配置），seconds 仍按截取区间", () => {
+        const source = videoRecord({ width: undefined, height: undefined });
+        const params = aiVideoEditingVideoRequestParams({ window: windowFor(12, source), source });
+        expect(params.ratio).toBeUndefined();
+        expect(params.seconds).toBe("12");
+    });
+
+    test("browserInput 真的带上 videoSeconds/videoRatio（gateway 才能覆盖全局 6 秒 · 1:1）", () => {
+        const source = videoRecord({ width: 1920, height: 1080 });
+        const input = readyInput({
+            source,
+            state: createAiVideoEditingState({ prompt: "把背景换成纯色，保留商品细节", clipDuration: 9 }),
+        });
+        const browserInput = buildAiVideoEditingBrowserInput({ ...input, referenceImages: [referenceImage(imageRecord())] });
+        expect(browserInput.videoSeconds).toBe("9");
+        expect(browserInput.videoRatio).toBe("16:9");
+    });
+});
+
+/* ============================== D3：失效素材提交前拦截 ============================== */
+
+describe("AI_VIDEO_EDITING D3 素材本地字节校验", () => {
+    test("本地 Blob 读不到 → 报出具体素材名与重新上传指引", async () => {
+        const issues = await collectAiVideoEditingAssetIssues([videoRecord(), imageRecord()], async () => null);
+        expect(issues.length).toBe(2);
+        expect(issues[0]).toContain("demo.mp4");
+        expect(issues[0]).toContain("源视频");
+        expect(issues[1]).toContain("asset-image-1.png");
+        expect(issues[1]).toContain("参考图");
+        expect(issues[0]).toContain("重新上传");
+    });
+
+    test("本地 Blob 存在 → 无阻塞项；空 Blob 视为失效", async () => {
+        const blob = new Blob(["x"]);
+        expect(await collectAiVideoEditingAssetIssues([videoRecord()], async () => blob)).toEqual([]);
+        const issues = await collectAiVideoEditingAssetIssues([videoRecord()], async () => new Blob([]));
+        expect(issues.length).toBe(1);
+        expect(issues[0]).toContain("demo.mp4");
+    });
+
+    test("读取抛错（IndexedDB 被清理）也算失效，不吞异常", async () => {
+        const issues = await collectAiVideoEditingAssetIssues([videoRecord()], async () => {
+            throw new Error("NotFoundError");
+        });
+        expect(issues.length).toBe(1);
+        expect(issues[0]).toContain("重新上传");
+    });
+});
+
+/* ================== D2 补充：源视频已上传但时长读不出来 ================== */
+
+describe("AI_VIDEO_EDITING D2 时长未知", () => {
+    const hungSource = {
+        id: "asset-1",
+        toolId: AI_VIDEO_EDITING_TOOL_ID,
+        kind: "sourceVideo",
+        name: "hung.mp4",
+        storageKey: "k1",
+        url: "blob:u1",
+        bytes: 1024,
+        mimeType: "video/mp4",
+        width: 1344,
+        height: 768,
+        durationMs: 0,
+        createdAt: 0,
+    } as never;
+
+    test("有时长未知的源视频时不再谎称「待上传源视频」，而是提示读不到时长", () => {
+        const window = aiVideoEditingClipWindow(createAiVideoEditingState(), hungSource);
+        expect(window.reason).toBe("unknown-duration");
+        expect(aiVideoEditingClipLabel(window)).toBe("时长未知");
+        expect(aiVideoEditingOutputLabel(window)).toBe("1 条 · 时长未知");
+        expect(window.notice).toContain("读不到时长");
+    });
+
+    test("时长未知 → 拒绝提交，并给出可操作原因（不能拿 0 秒去发请求）", () => {
+        const window = aiVideoEditingClipWindow(createAiVideoEditingState(), hungSource);
+        const capability = resolveAiVideoEditingCapability({
+            model: "grok-imagine-video",
+            hasSourceVideo: true,
+            clip: window,
+            referenceCount: 1,
+            prompt: "把产品换成参考图里的耳机",
+            gatewayRequiresReferences: true,
+        });
+        expect(capability.canSubmit).toBe(false);
+        expect(capability.issues.join("|")).toContain("时长读取失败");
+        expect(capability.missingFields).toContain("sourceVideoDuration");
+    });
+
+    test("还没上传源视频时仍是「待上传源视频」，两种状态不混淆", () => {
+        const window = aiVideoEditingClipWindow(createAiVideoEditingState(), null);
+        expect(window.reason).toBe("no-source");
+        expect(aiVideoEditingClipLabel(window)).toBe("待上传源视频");
     });
 });

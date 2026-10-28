@@ -124,7 +124,7 @@ export function normalizeAiVideoEditingState(patch: Partial<AiVideoEditingState>
 
 /* ============================== 截取 / 时长联动 ============================== */
 
-export type AiVideoEditingClampReason = "none" | "source-end" | "type-limit" | "min-clip" | "no-source";
+export type AiVideoEditingClampReason = "none" | "source-end" | "type-limit" | "min-clip" | "no-source" | "unknown-duration";
 
 export type AiVideoEditingClipWindow = {
     /** 源视频总长（毫秒），未知时为 0。 */
@@ -156,11 +156,16 @@ export function resolveAiVideoEditingClip(input: {
     clipStart: number;
     clipDuration: number;
     type?: AiVideoEditingType;
+    /** 是否已有源视频记录：用于区分「还没上传」和「上传了但读不出时长」。 */
+    hasSource?: boolean;
 }): AiVideoEditingClipWindow {
     const type = input.type ?? findAiVideoEditingType(DEFAULT_AI_VIDEO_EDITING_TYPE) ?? AI_VIDEO_EDITING_TYPES[0];
     const source = Math.max(0, Math.floor(input.sourceDurationMs || 0));
     const maxClip = Math.min(type.maxClipMs, AI_VIDEO_EDITING_VIDEO_RULE.maxClipMs);
     if (source <= 0) {
+        // 已有源视频记录却拿不到时长：浏览器无法解码/元数据探测超时。不能假装「还没上传」，
+        // 也不该继续用 0 秒截取区间去提交（会出现 prompt 写 X 秒、实际下发别的秒数）。
+        const unknown = Boolean(input.hasSource);
         return {
             sourceDurationMs: 0,
             startMs: 0,
@@ -170,8 +175,8 @@ export function resolveAiVideoEditingClip(input: {
             endSec: 0,
             durationSec: 0,
             maxClipMs: maxClip,
-            reason: "no-source",
-            notice: "先上传源视频，才能确定截取区间",
+            reason: unknown ? "unknown-duration" : "no-source",
+            notice: unknown ? "已上传源视频，但读不到时长（浏览器无法解码该文件），请重新上传可播放的 MP4/MOV" : "先上传源视频，才能确定截取区间",
         };
     }
     let reason: AiVideoEditingClampReason = "none";
@@ -275,6 +280,7 @@ export function formatSeconds(ms: number): string {
 /** 截取区间文案：`0–12.5 秒（共 12.5 秒）`。 */
 export function aiVideoEditingClipLabel(window: AiVideoEditingClipWindow): string {
     if (window.reason === "no-source") return "待上传源视频";
+    if (window.reason === "unknown-duration") return "时长未知";
     return `${window.startSec}–${window.endSec} 秒（共 ${window.durationSec} 秒）`;
 }
 
@@ -412,6 +418,7 @@ export function isAiVideoEditingSnapshotStale(submitted: AiVideoEditingSnapshot 
 /** 产物说明：替代原站算力区，只报真实数量/时长。 */
 export function aiVideoEditingOutputLabel(window: AiVideoEditingClipWindow): string {
     if (window.reason === "no-source") return `1 条 · 待上传源视频`;
+    if (window.reason === "unknown-duration") return `1 条 · 时长未知`;
     return `1 条 · ${window.durationSec} 秒`;
 }
 
@@ -480,6 +487,11 @@ export function resolveAiVideoEditingCapability(input: AiVideoEditingCapabilityI
     if (!input.hasSourceVideo) {
         issues.push("先上传需要编辑的视频（MP4/MOV，100M 内，≥4 秒）");
         missingFields.push("sourceVideoUrl");
+    }
+    if (input.hasSourceVideo && input.clip.reason === "unknown-duration") {
+        // 时长读不出来就无法确定 seconds，硬提交会让 prompt 与真实下发时长互相矛盾。
+        issues.push("源视频时长读取失败（浏览器无法解码），请重新上传可播放的 MP4/MOV");
+        missingFields.push("sourceVideoDuration");
     }
     if (input.clip.reason === "source-end" || input.clip.reason === "type-limit") notices.push(input.clip.notice);
     if (input.hasSourceVideo && input.clip.durationMs < AI_VIDEO_EDITING_MIN_CLIP_MS) {

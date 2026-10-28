@@ -110,6 +110,29 @@ test("buildToolConfig 用用户配置的模型，工具级 model 覆盖生效，
     expect(overridden.count).toBe("1");
 });
 
+/* D4：视频编辑必须让 seconds/size 跟随截取区间与源视频画幅，而不是全局默认 6 秒 · 1:1。 */
+test("buildToolConfig 视频覆盖：videoSeconds 生效、videoRatio 换算成像素尺寸，非法值不落地", () => {
+    const adapter = TOOL_ADAPTERS.AI_VIDEO_EDITING;
+    const videoConfig = { ...config, vquality: "1080" };
+
+    const landscape = buildToolConfig(videoConfig as never, adapter.kind, { videoSeconds: "8", videoRatio: "16:9" });
+    expect(landscape.videoSeconds).toBe("8");
+    expect(landscape.size).toBe("1920x1080");
+
+    const portrait = buildToolConfig(videoConfig as never, adapter.kind, { videoSeconds: "13", videoRatio: "9:16" });
+    expect(portrait.size).toBe("1080x1920");
+
+    /* 秒数收敛到 4–30；没有 ratio 时保持用户原本的 size */
+    const clamped = buildToolConfig(videoConfig as never, adapter.kind, { videoSeconds: "99" });
+    expect(clamped.videoSeconds).toBe("30");
+    expect(clamped.size).toBe(config.size);
+
+    /* 非法输入（非整数秒 / 空画幅）不覆盖配置，避免把脏值发给 provider */
+    const invalid = buildToolConfig(videoConfig as never, adapter.kind, { videoSeconds: "8.6", videoRatio: "  " });
+    expect(invalid.videoSeconds).toBe("6");
+    expect(invalid.size).toBe(config.size);
+});
+
 /* ---------------- 校验 ---------------- */
 
 test("缺 prompt 的提交被判失败并留痕，且不会调用 provider", async () => {
