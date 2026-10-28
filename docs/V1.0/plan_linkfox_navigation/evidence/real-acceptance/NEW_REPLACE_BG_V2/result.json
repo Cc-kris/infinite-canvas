@@ -1,0 +1,40 @@
+{
+  "tool": "NEW_REPLACE_BG_V2",
+  "name": "商品图",
+  "group": "product-design",
+  "route": "/tools/product-design/new-replace-bg-v2",
+  "status": "PASS",
+  "result": "verified",
+  "verdict": "PASS",
+  "realProviderCall": true,
+  "provider": "gpt-image-2 via canvas-proxy (127.0.0.1:23210)",
+  "runAt": "2026-10-28T18:39:00+08:00",
+  "output": {
+    "count": 1,
+    "localFile": "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/NEW_REPLACE_BG_V2/result1.png",
+    "dims": "1024x1024",
+    "bytes": 1109268,
+    "source": "结果区大图 img 直接抓取（非截图）"
+  },
+  "evidence": [
+    "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/NEW_REPLACE_BG_V2/before_submit.png",
+    "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/NEW_REPLACE_BG_V2/inflight.png",
+    "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/NEW_REPLACE_BG_V2/done.png",
+    "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/NEW_REPLACE_BG_V2/result1.png",
+    "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/NEW_REPLACE_BG_V2/result_actions.png"
+  ],
+  "assertions": [
+    "提交前：底图槽位已就位，按钮可用（before_submit.png）",
+    "生成中：面板进入 inflight 态（inflight.png），说明请求已真实发出",
+    "完成：结果区出现 1024x1024 成片，并出现动作按钮条（done.png / result_actions.png）"
+  ],
+  "notExercised": [
+    "下载",
+    "存入资产",
+    "发送画布",
+    "取消/重试"
+  ],
+  "notes": [
+    "本轮为该目录既有截图证据的复核（结果图刚做过 PNG 头尺寸校验 1024x1024），当时未把 DOM 文案与 net 记录另存为 json。"
+  ]
+}

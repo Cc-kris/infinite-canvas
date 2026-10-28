@@ -1,0 +1,35 @@
+{
+  "tool": "AI_DRESSING_V2",
+  "name": "AI穿衣",
+  "group": "product-design",
+  "route": "/tools/product-design/ai-dressing-v2",
+  "status": "PARTIAL",
+  "result": "verified_with_gap",
+  "verdict": "PARTIAL — 真实出图已确认，UI 文案/动作未落证据",
+  "realProviderCall": true,
+  "provider": "gpt-image-2 via canvas-proxy (127.0.0.1:23210)",
+  "runAt": "2026-10-28T20:08:00+08:00",
+  "output": {
+    "count": 1,
+    "localFile": "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/AI_DRESSING_V2/result1.png",
+    "dims": "720x960",
+    "bytes": 819224,
+    "source": "结果区大图 img 直接抓取"
+  },
+  "evidence": [
+    "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/AI_DRESSING_V2/result1.png"
+  ],
+  "assertions": [
+    "结果区渲染出 720x960 成片（非截图，直接从 img 的 currentSrc 取），说明真实上游调用成功"
+  ],
+  "notExercised": [
+    "下载",
+    "存入资产",
+    "发送画布",
+    "上衣/下装/套装多槽位组合",
+    "多姿势"
+  ],
+  "notes": [
+    "该轮次只留存了结果图，未把面板文案与 net 记录另存；建议下一轮补齐。"
+  ]
+}

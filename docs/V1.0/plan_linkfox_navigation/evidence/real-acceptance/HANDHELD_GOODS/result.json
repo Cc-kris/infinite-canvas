@@ -1,0 +1,39 @@
+{
+  "tool": "HANDHELD_GOODS",
+  "name": "手持商品",
+  "group": "product-design",
+  "route": "/tools/product-design/handheld-goods",
+  "status": "PASS",
+  "result": "verified",
+  "verdict": "PASS",
+  "realProviderCall": true,
+  "provider": "gpt-image-2 via canvas-proxy (127.0.0.1:23210) — 结果在客户端以 base64 PNG 呈现",
+  "runAt": "2026-10-28T21:05:00+08:00",
+  "output": {
+    "count": 1,
+    "localFile": "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/HANDHELD_GOODS/result.png",
+    "dims": "720x960",
+    "bytes": 1060068,
+    "source": "结果面板 img.currentSrc 为 data:image/png;base64；已解码落盘并校验 PNG 头 720x960"
+  },
+  "evidence": [
+    "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/HANDHELD_GOODS/result.png",
+    "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/HANDHELD_GOODS/atob_fail.json"
+  ],
+  "assertions": [
+    "修复前：提交即崩，window.onerror → InvalidCharacterError: atob 失败（见 atob_fail.json），根因是姿势示意图 data:image/svg+xml（百分号编码）被当参考图送 dataUrlToFile 做 base64 解码",
+    "修复后（本次运行 21:02 提交 / 21:05 出图）：无 atob 异常，面板文案『已生成 1 张』『已回填输出字段：imageResultUrl / targetResultUrl』『已完成』，结果图 720x960 真实出图",
+    "修复代码：web/src/lib/image-utils.ts（dataUrlToFile 解析 data URL，兼容非 base64 与 SVG）+ web/src/lib/inline-image.ts（SVG 参考图始终光栅化为 PNG）；回归用例 web/src/lib/image-utils.test.ts 5/5 通过，tsc --noEmit 干净"
+  ],
+  "notExercised": [
+    "下载",
+    "存入资产",
+    "发送画布",
+    "取消本次生成",
+    "多张(2/3/4)"
+  ],
+  "notes": [
+    "本轮运行结束后页面被外部重载（Chrome 窗口在 21:04 前后被其他 worker 关闭/恢复导致整页 reload），React 状态清零，故 下载/存入资产/发送画布 三个动作未能点击验证。",
+    "同一标签页 21:07 复查：结果区已回到『还没有结果：上传商品图 → 选一个姿势 → 开始生成』，属于外部 reload 造成，不是工具缺陷。"
+  ]
+}

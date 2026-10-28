@@ -1,0 +1,41 @@
+{
+  "tool": "REPLACE_GOODS",
+  "name": "商品替换",
+  "group": "product-design",
+  "route": "/tools/product-design/replace-goods",
+  "status": "PARTIAL",
+  "result": "verified_with_gap",
+  "verdict": "PARTIAL — 上游已出图，但结果区静默清空（缺陷候选）",
+  "realProviderCall": true,
+  "provider": "gpt-image-2 via canvas-proxy (127.0.0.1:23210)",
+  "runAt": "2026-10-28T20:25:00+08:00",
+  "output": {
+    "count": 1,
+    "localFile": "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/REPLACE_GOODS/upstream_result.png",
+    "dims": "1254x1254",
+    "bytes": 1216214,
+    "source": "上游响应体里的图片 URL 直接下载（upstream.json 记录了完整 revised_prompt 与 usage）"
+  },
+  "evidence": [
+    "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/REPLACE_GOODS/upstream.json",
+    "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/REPLACE_GOODS/upstream_result.png",
+    "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/REPLACE_GOODS/silent_reset.json"
+  ],
+  "assertions": [
+    "upstream.json：POST 到 images 接口返回 200，model=gpt-image-2，usage 有 input/output tokens，data[0] 只带 url（无 b64_json），revised_prompt 正确带上了 4 张参考图编号与导引图落位描述 → 上游链路正常",
+    "下载该 url 得到 1254x1254 PNG（upstream_result.png），说明上游确实产出了合格成片",
+    "但 UI 侧未渲染任何结果：面板回到空态且无错误提示（silent reset），用户看不到成片也拿不到动作按钮"
+  ],
+  "notExercised": [
+    "下载",
+    "存入资产",
+    "发送画布"
+  ],
+  "defect": {
+    "id": "REPLACE_GOODS-1",
+    "kind": "结果不渲染 / 静默失败",
+    "detail": "上游 200 且返回 url（非 b64_json），页面未报错也未展示结果，直接回到空态",
+    "hypothesis": "结果提取只认 b64_json 或只认某一种 data 形状，url 形态被丢弃且异常未冒泡（待代码定位）",
+    "repro": "replace-goods 上传场景图+商品图→提交→上游 200→页面无结果"
+  }
+}
