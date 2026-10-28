@@ -19,14 +19,20 @@ function loadImageElement(src: string) {
     });
 }
 
+/** SVG（本地示意图）必须光栅化：上游图生图接口只接受位图，且其 data URL 是百分号编码而非 base64。 */
+function isNonRasterDataUrl(dataUrl: string) {
+    return /^data:image\/svg\+xml/i.test(dataUrl);
+}
+
 export async function shrinkInlineImage(dataUrl: string, maxEdge = INLINE_IMAGE_MAX_EDGE): Promise<string> {
     if (!dataUrl.startsWith("data:image/")) return dataUrl;
+    const mustRasterize = isNonRasterDataUrl(dataUrl);
     try {
         const image = await loadImageElement(dataUrl);
         const naturalWidth = image.naturalWidth || image.width;
         const naturalHeight = image.naturalHeight || image.height;
         const scale = Math.min(1, maxEdge / Math.max(naturalWidth, naturalHeight));
-        if (scale === 1 && dataUrl.length <= INLINE_IMAGE_MAX_CHARS) return dataUrl;
+        if (!mustRasterize && scale === 1 && dataUrl.length <= INLINE_IMAGE_MAX_CHARS) return dataUrl;
         const width = Math.max(1, Math.round(naturalWidth * scale));
         const height = Math.max(1, Math.round(naturalHeight * scale));
         const canvas = document.createElement("canvas");
@@ -34,9 +40,11 @@ export async function shrinkInlineImage(dataUrl: string, maxEdge = INLINE_IMAGE_
         canvas.height = height;
         const context = canvas.getContext("2d");
         if (!context) return dataUrl;
+        // SVG 示意图可能有透明背景，用白色垫底并在 PNG/JPEG 之间按需选择
         context.fillStyle = "#fff";
         context.fillRect(0, 0, width, height);
         context.drawImage(image, 0, 0, width, height);
+        if (mustRasterize) return canvas.toDataURL("image/png");
         let output = canvas.toDataURL("image/jpeg", 0.86);
         if (output.length > INLINE_IMAGE_MAX_CHARS) output = canvas.toDataURL("image/jpeg", 0.7);
         return output;

@@ -51,13 +51,39 @@ export function readImageMeta(dataUrl: string) {
     });
 }
 
+/** data URL 有两种载荷：`;base64,`（位图）与百分号编码/纯文本（SVG 示意图）。
+ * 旧实现一律 atob，遇到 SVG 会抛 "Failed to execute 'atob'"，把请求构建错误伪装成上游未知状态。 */
 export function dataUrlToFile(image: ReferenceImage) {
-    const [header, content] = image.dataUrl.split(",", 2);
-    const mimeType = header.match(/data:(.*?);base64/)?.[1] || image.type || "image/png";
-    const binary = atob(content || "");
+    const dataUrl = image.dataUrl || "";
+    const commaIndex = dataUrl.indexOf(",");
+    if (!dataUrl.startsWith("data:") || commaIndex < 0) {
+        throw new Error(`参考图不是 data URL，无法作为文件提交：${dataUrl.slice(0, 32) || "(empty)"}`);
+    }
+    const header = dataUrl.slice(0, commaIndex);
+    const payload = dataUrl.slice(commaIndex + 1);
+    const mimeType = header.match(/^data:([^;,]+)/)?.[1] || image.type || "image/png";
+    const isBase64 = /;base64/i.test(header);
+    const bytes = isBase64 ? base64ToBytes(payload, mimeType) : new TextEncoder().encode(safeDecode(payload));
+    return new File([bytes], image.name || "reference.png", { type: mimeType });
+}
+
+function base64ToBytes(payload: string, mimeType: string) {
+    const cleaned = payload.replace(/\s+/g, "");
+    if (!/^[A-Za-z0-9+/]*={0,2}$/.test(cleaned)) {
+        throw new Error(`参考图 base64 载荷包含非法字符（${mimeType}）`);
+    }
+    const binary = atob(cleaned);
     const bytes = new Uint8Array(binary.length);
     for (let index = 0; index < binary.length; index += 1) {
         bytes[index] = binary.charCodeAt(index);
     }
-    return new File([bytes], image.name || "reference.png", { type: mimeType });
+    return bytes;
+}
+
+function safeDecode(payload: string) {
+    try {
+        return decodeURIComponent(payload);
+    } catch {
+        return payload;
+    }
 }
