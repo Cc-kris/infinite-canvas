@@ -413,6 +413,26 @@ export function classifyProviderError(error: unknown): ProviderErrorClass {
 
 export type ProviderImageResult = { id: string; dataUrl: string };
 
+const REMOTE_URL_PATTERN = /^https?:\/\//i;
+
+/**
+ * 把 provider 的图片结果翻译成任务结果项。
+ *
+ * B7 缺陷修复：上游（cc-ai / gpt-image-2 等）返回的 `dataUrl` 往往就是 OSS `https://` 地址，
+ * 并不是二进制。原来的映射只写 `dataUrl`，而 `sanitizeTaskForPersist()` 见到 `dataUrl` 就按
+ * 「二进制」剥离并置 `payloadDropped: true`，于是刷新/历史回填后结果图再也下载不了、
+ * 存不进资产库、发不到画布。远程地址本身可以落盘，写成 `url` 即可完整保留。
+ */
+export function imageResultItems(taskId: string, results: ProviderImageResult[]): ToolTaskResultItem[] {
+    return results.map((item, index) => {
+        const base = { id: `${taskId}-${index}`, kind: "image" as const };
+        if (typeof item.dataUrl === "string" && REMOTE_URL_PATTERN.test(item.dataUrl)) {
+            return { ...base, url: item.dataUrl };
+        }
+        return { ...base, dataUrl: item.dataUrl };
+    });
+}
+
 /** provider 端口：生产实现直连真实接口；测试只替换此端口，绝不替换业务状态机。 */
 export type ProviderPort = {
     generateImage(config: AiConfig, prompt: string, signal?: AbortSignal): Promise<ProviderImageResult[]>;
@@ -871,7 +891,7 @@ export class ToolTaskGateway {
             const succeeded = transitionTask(task, "succeeded", {
                 at: receivedAt,
                 result: {
-                    items: results.map((item, index) => ({ id: `${task.id}-${index}`, kind: "image" as const, dataUrl: item.dataUrl })),
+                    items: imageResultItems(task.id, results),
                     receivedAt,
                 },
                 error: undefined,
