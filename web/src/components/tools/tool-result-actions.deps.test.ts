@@ -1,97 +1,93 @@
-import { expect, mock, test } from "bun:test";
+import { expect, test } from "bun:test";
+
+import { loadResultCanvasDeps, sendResultItemToCanvas, type ResultCanvasModules } from "./tool-result-actions";
 
 /**
  * 回归：`loadResultCanvasDeps` 必须自行装配 uploadImage / storeVideo。
- * 缺陷背景：早期默认装配只给了 findProject/createProject/updateProject/createNode/*Metadata，
- * “发送画布”必然抛 `画布依赖不可用：uploadImage, storeVideo`。
- * 这里用 mock.module 拦截真实服务模块（避免 IndexedDB/axios 的浏览器依赖），
- * 断言默认链路真的把图片入库、视频入库接上了。
+ * 缺陷背景：默认装配漏了这两个函数 → 工具台“发送画布”必然抛
+ * `画布依赖不可用：uploadImage, storeVideo`（只做 typecheck 看不出来）。
+ *
+ * 真实模块依赖 IndexedDB/axios/localStorage，纯 bun 进程不可直接加载，
+ * 故 loader 支持注入模块替身（生产路径不传，仍走真实 import）。
  */
 
-const uploadedImage = { url: "blob:canvas-image", storageKey: "image:9", width: 512, height: 512, bytes: 11, mimeType: "image/png" };
-const storedVideo = { url: "blob:canvas-video", storageKey: "video:9", bytes: 22, mimeType: "video/mp4" };
+function createFakeModules() {
+    const projects: Array<{ id: string; title: string; nodes: any[] }> = [{ id: "project-1", title: "P1", nodes: [] }];
+    const calls = { uploadImage: [] as unknown[], storeVideo: [] as unknown[] };
 
-const uploadCalls: unknown[] = [];
-const storeVideoCalls: unknown[] = [];
+    const canvasStore = {
+        useCanvasStore: {
+            getState: () => ({
+                projects,
+                createProject: (title: string) => {
+                    const project = { id: `project-${projects.length + 1}`, title, nodes: [] as any[] };
+                    projects.push(project);
+                    return project.id;
+                },
+                updateProject: (projectId: string, patch: { nodes: any[] }) => {
+                    const project = projects.find((entry) => entry.id === projectId);
+                    if (project) project.nodes = patch.nodes;
+                },
+            }),
+        },
+    };
 
-mock.module("@/services/image-storage", () => ({
-    uploadImage: async (input: unknown) => {
-        uploadCalls.push(input);
-        return uploadedImage;
-    },
-}));
+    const factory = {
+        createCanvasNode: (kind: string, position: { x: number; y: number }) => ({ id: `node-${kind}`, kind, position }),
+        imageMetadata: (image: { url: string }) => ({ assetUrl: image.url }),
+        videoMetadata: (video: { url: string }) => ({ assetUrl: video.url }),
+    };
 
-mock.module("@/services/api/video", () => ({
-    storeGeneratedVideo: async (input: unknown) => {
-        storeVideoCalls.push(input);
-        return storedVideo;
-    },
-}));
+    const imageStorage = {
+        uploadImage: async (input: unknown) => {
+            calls.uploadImage.push(input);
+            return { url: "blob:canvas-image", storageKey: "image:9", width: 10, height: 10, bytes: 5, mimeType: "image/png" };
+        },
+    };
 
-type FakeProject = { id: string; nodes: Array<{ id: string; type: string; title: string; position: { x: number; y: number }; width: number; height: number }> };
-const projects = new Map<string, FakeProject>([["project-1", { id: "project-1", nodes: [] }]]);
+    const videoApi = {
+        storeGeneratedVideo: async (input: unknown) => {
+            calls.storeVideo.push(input);
+            return { url: "blob:canvas-video", storageKey: "video:9", bytes: 8, mimeType: "video/mp4" };
+        },
+    };
 
-mock.module("@/stores/canvas/use-canvas-store", () => ({
-    useCanvasStore: {
-        getState: () => ({
-            projects: Array.from(projects.values()),
-            createProject: (title?: string) => {
-                const id = `project-${projects.size + 1}`;
-                projects.set(id, { id, nodes: [] });
-                void title;
-                return id;
-            },
-            updateProject: (projectId: string, patch: { nodes: FakeProject["nodes"] }) => {
-                const project = projects.get(projectId);
-                if (project) project.nodes = patch.nodes;
-            },
-        }),
-    },
-}));
+    return {
+        calls,
+        projects,
+        modules: { canvasStore, factory, imageStorage, videoApi } as unknown as ResultCanvasModules,
+    };
+}
 
-mock.module("@/lib/canvas/canvas-node-factory", () => ({
-    createCanvasNode: (type: "image" | "video", position: { x: number; y: number }, metadata: { title?: string }) => ({
-        id: `node-${type}`,
-        type,
-        title: metadata?.title ?? "结果",
-        position,
-        width: 320,
-        height: 320,
-    }),
-    imageMetadata: (image: typeof uploadedImage) => ({ content: image.url, storageKey: image.storageKey, naturalWidth: image.width, naturalHeight: image.height }),
-    videoMetadata: (video: typeof storedVideo) => ({ content: video.url, storageKey: video.storageKey }),
-}));
+test("loadResultCanvasDeps 默认装配 uploadImage/storeVideo 并接到真实服务模块", async () => {
+    const { calls, modules } = createFakeModules();
+    const deps = await loadResultCanvasDeps(async () => modules);
 
-test("loadResultCanvasDeps 默认装配 uploadImage/storeVideo 并转发给真实服务", async () => {
-    uploadCalls.length = 0;
-    storeVideoCalls.length = 0;
-    const { loadResultCanvasDeps } = await import("./tool-result-actions");
-    const deps = await loadResultCanvasDeps();
-
+    // 缺陷点：缺这一行会 undefined，进而“发送画布”直接抛依赖不可用。
     expect(typeof deps.uploadImage).toBe("function");
     expect(typeof deps.storeVideo).toBe("function");
+    expect(typeof deps.updateProject).toBe("function");
     expect(typeof deps.createNode).toBe("function");
 
-    // 不是“有个同名函数”，而是真的调到 image-storage / video api。
-    await expect(deps.uploadImage?.("data:image/png;base64,AAAA")).resolves.toEqual(uploadedImage);
-    expect(uploadCalls).toEqual(["data:image/png;base64,AAAA"]);
+    const image = await deps.uploadImage!("data:image/png;base64,AAAA");
+    expect(calls.uploadImage).toEqual(["data:image/png;base64,AAAA"]);
+    expect(image).toMatchObject({ url: "blob:canvas-image", storageKey: "image:9" });
 
-    await expect(deps.storeVideo?.({ url: "blob:source", mimeType: "video/mp4" })).resolves.toEqual(storedVideo);
-    expect(storeVideoCalls).toEqual([{ url: "blob:source", mimeType: "video/mp4" }]);
+    const video = await deps.storeVideo!({ blob: undefined, url: "blob:raw-video", mimeType: "video/mp4" });
+    expect(calls.storeVideo).toHaveLength(1);
+    expect(video).toMatchObject({ url: "blob:canvas-video", storageKey: "video:9" });
 });
 
-test("sendResultItemToCanvas 不注入 deps 也能完成图片入库与节点追加", async () => {
-    uploadCalls.length = 0;
-    const { sendResultItemToCanvas } = await import("./tool-result-actions");
+test("sendResultItemToCanvas 走默认装配时不再报“画布依赖不可用”", async () => {
+    const { calls, modules, projects } = createFakeModules();
 
     const result = await sendResultItemToCanvas(
         { id: "item-1", kind: "image", dataUrl: "data:image/png;base64,BBBB", mimeType: "image/png" },
-        { toolId: "IMAGE_CROP", projectId: "project-1" },
+        { toolId: "IMAGE_CROP", projectId: "project-1", loadDeps: () => loadResultCanvasDeps(async () => modules) },
     );
 
     expect(result.projectId).toBe("project-1");
     expect(result.nodeId).toBe("node-image");
-    expect(uploadCalls).toEqual(["data:image/png;base64,BBBB"]);
-    expect(projects.get("project-1")?.nodes).toHaveLength(1);
-    expect(projects.get("project-1")?.nodes[0]?.type).toBe("image");
+    expect(calls.uploadImage).toEqual(["data:image/png;base64,BBBB"]);
+    expect(projects[0]?.nodes).toHaveLength(1);
 });

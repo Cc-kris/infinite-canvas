@@ -206,14 +206,27 @@ export type ResultCanvasDeps = {
     videoMetadata: (video: UploadedFile) => CanvasNodeMetadata;
 };
 
-/** 导出仅供单测断言默认装配（缺 uploadImage/storeVideo 会让“发送画布”报依赖不可用）。 */
-export async function loadResultCanvasDeps(): Promise<Partial<ResultCanvasDeps>> {
+/** 默认装配所需的四个模块，抽成类型便于单测注入替身（真实模块依赖 IndexedDB/axios，纯 Node 下不可直接加载）。 */
+export type ResultCanvasModules = {
+    canvasStore: typeof import("@/stores/canvas/use-canvas-store");
+    factory: typeof import("@/lib/canvas/canvas-node-factory");
+    imageStorage: typeof import("@/services/image-storage");
+    videoApi: typeof import("@/services/api/video");
+};
+
+async function importResultCanvasModules(): Promise<ResultCanvasModules> {
     const [canvasStore, factory, imageStorage, videoApi] = await Promise.all([
         import("@/stores/canvas/use-canvas-store"),
         import("@/lib/canvas/canvas-node-factory"),
         import("@/services/image-storage"),
         import("@/services/api/video"),
     ]);
+    return { canvasStore, factory, imageStorage, videoApi };
+}
+
+/** 默认装配：缺 uploadImage/storeVideo 会让“发送画布”报“画布依赖不可用”。 */
+export async function loadResultCanvasDeps(loadModules: () => Promise<ResultCanvasModules> = importResultCanvasModules): Promise<Partial<ResultCanvasDeps>> {
+    const { canvasStore, factory, imageStorage, videoApi } = await loadModules();
     return {
         findProject: (projectId) => canvasStore.useCanvasStore.getState().projects.find((project) => project.id === projectId),
         createProject: (title) => canvasStore.useCanvasStore.getState().createProject(title),
@@ -232,11 +245,13 @@ export type SendToCanvasOptions = {
     projectId?: string;
     projectTitle?: string;
     deps?: Partial<ResultCanvasDeps>;
+    /** 单测注入点：替换默认依赖装配，生产路径不要传。 */
+    loadDeps?: () => Promise<Partial<ResultCanvasDeps>>;
 };
 
 export async function sendResultItemToCanvas(item: ToolTaskResultItem, options: SendToCanvasOptions): Promise<{ projectId: string; nodeId: string }> {
     assertResultPayload(item);
-    const deps: Partial<ResultCanvasDeps> = { ...(await loadResultCanvasDeps()), ...options.deps };
+    const deps: Partial<ResultCanvasDeps> = { ...(await (options.loadDeps ?? loadResultCanvasDeps)()), ...options.deps };
     if (typeof deps.findProject !== "function" || typeof deps.createProject !== "function") {
         throw new Error("画布依赖不可用：findProject, createProject");
     }
