@@ -36,8 +36,10 @@ Object.defineProperty(globalThis, "localStorage", {
 
 async function renderWorkspace(): Promise<string> {
     const React = await import("react");
+    const { MemoryRouter } = await import("react-router-dom");
     const { default: Workspace } = await import("./color");
-    return renderToStaticMarkup(React.createElement(Workspace) as ReactElement);
+    // 工作台里有跳转到「批量一键换色」的 <Link>，SSR 渲染必须给路由上下文。
+    return renderToStaticMarkup(React.createElement(MemoryRouter, null, React.createElement(Workspace)) as ReactElement);
 }
 
 describe("一键换色工作台渲染", () => {

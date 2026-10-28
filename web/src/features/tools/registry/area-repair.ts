@@ -383,6 +383,13 @@ export function computeMaskHash(state: Pick<MaskState, "strokes" | "feather" | "
     });
 }
 
+/** 结果下载文件名，与原站「下载」一致：源图名 + 张号，去扩展名后统一 .png。 */
+export function areaRepairDownloadName(imageName: string, index = 1): string {
+    const base = (imageName || "area-repair").replace(/\.[^.]+$/, "").replace(/[\\/:*?"<>|]+/g, "-").slice(0, 60);
+    const suffix = index > 1 ? `-${index}` : "";
+    return `${base || "area-repair"}-repainted${suffix}.png`;
+}
+
 export function buildAreaRepairSnapshot(input: AreaRepairSnapshotInput): AreaRepairSnapshot {
     return {
         toolId: AREA_REPAIR_TOOL_ID,

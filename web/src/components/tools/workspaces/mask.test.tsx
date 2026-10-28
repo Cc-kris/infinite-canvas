@@ -84,3 +84,71 @@ describe("局部重绘工作台渲染", () => {
         expect(html).not.toContain('data-testid="mask-canvas"');
     });
 });
+
+/**
+ * 结果动作 1:1 证据：原站每张结果都能「下载」，HAND_REPAIR 同类结果还有 存库 / 发画布，
+ * 这里直接渲染真实的 AreaRepairResultCard 组件，断言三个动作都在、文件名带源图名与张号。
+ */
+async function renderResultCard(overrides: Record<string, unknown> = {}): Promise<string> {
+    const React = await import("react");
+    const { AreaRepairResultCard } = await import("./mask");
+    const outcome = {
+        unitId: "unit-1",
+        index: 1,
+        total: 2,
+        status: "succeeded",
+        snapshotHash: "hash",
+        image: { url: "https://example.invalid/result-1.png", mimeType: "image/png" },
+        ...overrides,
+    };
+    return renderToStaticMarkup(
+        React.createElement(
+            "ul",
+            null,
+            React.createElement(AreaRepairResultCard as never, {
+                outcome,
+                imageName: "product-watch.jpg",
+                onSave: () => undefined,
+                onSend: () => undefined,
+            }),
+        ) as ReactElement,
+    );
+}
+
+describe("局部重绘结果动作", () => {
+    test("成功结果同时给出 存库 / 发画布 / 下载，且下载文件名带源图名与张号", async () => {
+        const html = await renderResultCard();
+        for (const testId of ["area-repair-result-1", "area-repair-save-1", "area-repair-send-1", "area-repair-download-1"]) {
+            expect(html).toContain(`data-testid="${testId}"`);
+        }
+        for (const text of ["存库", "发画布", "下载"]) expect(html).toContain(text);
+        expect(html).toContain('download="product-watch-repainted.png"');
+        expect(html).toContain('href="https://example.invalid/result-1.png"');
+        expect(html).toContain('alt="结果 1"');
+    });
+
+    test("第 2 张起的下载文件名带张号，避免同名覆盖", async () => {
+        const html = await renderResultCard({ index: 3, unitId: "unit-3" });
+        expect(html).toContain('download="product-watch-repainted-3.png"');
+    });
+
+    test("失败结果不编造动作，只给出上游错误", async () => {
+        const html = await renderResultCard({
+            status: "failed",
+            image: undefined,
+            error: { code: "UPSTREAM_FAILED", message: "上游网关 401" },
+        });
+        expect(html).toContain("上游网关 401");
+        expect(html).toContain("#1 · failed");
+        expect(html).not.toContain("area-repair-save-1");
+        expect(html).not.toContain("area-repair-send-1");
+        expect(html).not.toContain("area-repair-download-1");
+    });
+
+    test("下载文件名过滤非法字符并兜底", async () => {
+        const { areaRepairDownloadName } = await import("@/features/tools/registry/area-repair");
+        expect(areaRepairDownloadName("a/b:c*.png", 1)).toBe("a-b-c--repainted.png");
+        expect(areaRepairDownloadName("", 1)).toBe("area-repair-repainted.png");
+        expect(areaRepairDownloadName("x.jpg", 2)).toBe("x-repainted-2.png");
+    });
+});

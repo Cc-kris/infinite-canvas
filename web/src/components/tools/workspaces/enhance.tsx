@@ -2,9 +2,16 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 import { ToolAssetInput } from "@/components/tools/tool-asset-input";
 import { ToolResult } from "@/components/tools/tool-result";
-import { loadToolAssetRecords, type ToolAssetConstraints, type ToolAssetRecord } from "@/services/api/tools/assets";
+import { ToolTaskHistory } from "@/components/tools/tool-task-history";
+import {
+    loadToolAssetRecords,
+    toolAssetLibraryItemsFromAssets,
+    type ToolAssetConstraints,
+    type ToolAssetRecord,
+} from "@/services/api/tools/assets";
 import { getToolGateway } from "@/services/api/tools/gateway";
 import type { ToolTask } from "@/services/api/tools/task-machine";
+import { useAssetStore, type ImageAsset, type VideoAsset } from "@/stores/use-asset-store";
 import { useConfigStore } from "@/stores/use-config-store";
 import { useToolDraftStore } from "@/stores/use-tool-draft-store";
 
@@ -546,6 +553,13 @@ export function ProductRefineWorkspace({ className }: { className?: string }) {
     const flushDraft = useToolDraftStore((state) => state.flush);
     const draft = useToolDraftStore((state) => state.drafts[toolId]);
     const imageModel = useConfigStore((state) => state.config.imageModel);
+    const assets = useAssetStore((state) => state.assets);
+    const libraryItems = useMemo(
+        () => assets.filter((asset): asset is ImageAsset | VideoAsset => asset.kind === "image" || asset.kind === "video"),
+        [assets],
+    );
+    const library = useMemo(() => toolAssetLibraryItemsFromAssets(libraryItems), [libraryItems]);
+    const [resultTab, setResultTab] = useState<"result" | "history">("result");
 
     const [values, setValues] = useState<ProductRefineValues>(() => ({ ...DEFAULT_PRODUCT_REFINE_VALUES }));
     const [source, setSource] = useState<ProductRefineSourceAsset | undefined>();
@@ -725,6 +739,7 @@ export function ProductRefineWorkspace({ className }: { className?: string }) {
                         constraints={REFINE_ASSET_CONSTRAINTS}
                         maxCount={1}
                         disabled={running}
+                        library={library}
                         onChange={onSourceChange}
                     />
                     {restoringSource ? <p className="mt-2 text-[11px] text-stone-500">正在恢复上次的商品图…</p> : null}
@@ -895,7 +910,44 @@ export function ProductRefineWorkspace({ className }: { className?: string }) {
                 </p>
             ) : null}
 
-            <ToolResult task={task} toolId={toolId} title="生成结果" onCancel={onCancel} onRetry={onRetry} />
+            <div className="flex items-center gap-1 border-b border-stone-200 dark:border-stone-700" role="tablist" aria-label="结果区">
+                <button
+                    type="button"
+                    role="tab"
+                    aria-selected={resultTab === "result"}
+                    className={`-mb-px border-b-2 px-2 py-1 text-xs transition ${
+                        resultTab === "result" ? "border-stone-900 font-medium text-stone-900 dark:border-stone-100 dark:text-stone-100" : "border-transparent text-stone-500 hover:text-stone-800"
+                    }`}
+                    onClick={() => setResultTab("result")}
+                    data-testid="refine-tab-result"
+                >
+                    生成结果
+                </button>
+                <button
+                    type="button"
+                    role="tab"
+                    aria-selected={resultTab === "history"}
+                    className={`-mb-px border-b-2 px-2 py-1 text-xs transition ${
+                        resultTab === "history" ? "border-stone-900 font-medium text-stone-900 dark:border-stone-100 dark:text-stone-100" : "border-transparent text-stone-500 hover:text-stone-800"
+                    }`}
+                    onClick={() => setResultTab("history")}
+                    data-testid="refine-tab-history"
+                >
+                    历史记录
+                </button>
+            </div>
+
+            {resultTab === "result" ? (
+                <ToolResult task={task} toolId={toolId} title="生成结果" onCancel={onCancel} onRetry={onRetry} />
+            ) : (
+                <ToolTaskHistory
+                    toolId={toolId}
+                    onSelectTask={(historyTask) => {
+                        setTask(historyTask);
+                        setResultTab("result");
+                    }}
+                />
+            )}
 
             {resultImage && (source?.dataUrl || source?.url) ? (
                 <Section title="前后对比" hint="拖动滑块查看细节">

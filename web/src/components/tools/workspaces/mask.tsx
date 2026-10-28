@@ -5,6 +5,7 @@ import { Eraser, Paintbrush, Redo2, RotateCcw, Sparkles, Undo2 } from "lucide-re
 import { ToolAssetInput } from "@/components/tools/tool-asset-input";
 import { ToolShell } from "@/components/tools/tool-shell";
 import { TaskStatusPanel } from "@/components/tools/task-status";
+import { saveResultItemToAssets, sendResultItemToCanvas } from "@/components/tools/tool-result-actions";
 import { buildAreaRepairUnits, createAreaRepairRunPort, renderMaskPng, runAreaRepairUnits, type AreaRepairUnitOutcome } from "@/features/tools/adapters/area-repair";
 import { getToolById, toolSpecs } from "@/features/tools/registry";
 import {
@@ -13,6 +14,7 @@ import {
     AREA_REPAIR_PROMPT_MAX,
     AREA_REPAIR_SLUG,
     AREA_REPAIR_TOOL_ID,
+    areaRepairDownloadName,
     MASK_BRUSH_MAX,
     MASK_BRUSH_MIN,
     MASK_FEATHER_MAX,
@@ -77,7 +79,7 @@ import {
 } from "@/features/tools/registry/remove-pen";
 import { cn, randomId } from "@/lib/utils";
 import { loadToolAssetRecords, type ToolAssetRecord } from "@/services/api/tools/assets";
-import type { ToolTask } from "@/services/api/tools/task-machine";
+import type { ToolTask, ToolTaskResultItem } from "@/services/api/tools/task-machine";
 import { imageToDataUrl } from "@/services/image-storage";
 import { flushToolDrafts, useToolDraftStore } from "@/stores/use-tool-draft-store";
 
@@ -93,6 +95,69 @@ const TOOL_ID = AREA_REPAIR_TOOL_ID;
  * 真实边界：蒙版是画布上真实绘制的笔画（画笔/橡皮/羽化/反选/自动扩边），提交时导出成同尺寸 PNG，
  * 与原图一起作为两张参考图发给真实图像编辑接口；结果只来自上游返回，不补造。
  */
+export type AreaRepairResultCardProps = {
+    outcome: AreaRepairUnitOutcome;
+    imageName?: string;
+    pending?: string | null;
+    onSave?: (outcome: AreaRepairUnitOutcome) => void;
+    onSend?: (outcome: AreaRepairUnitOutcome) => void;
+};
+
+/**
+ * 单张结果卡片：图片 + 存库 / 发画布 / 下载。
+ * 与原站「下载」以及 HAND_REPAIR 的结果动作保持 1:1，不额外造按钮。
+ */
+export function AreaRepairResultCard({ outcome, imageName = "", pending = null, onSave, onSend }: AreaRepairResultCardProps) {
+    const src = outcome.image?.dataUrl || outcome.image?.url || "";
+    const ready = outcome.status === "succeeded" && Boolean(src);
+    return (
+        <li data-testid={`area-repair-result-${outcome.index}`} className="overflow-hidden rounded border border-border">
+            {ready ? (
+                <a href={src} target="_blank" rel="noreferrer" className="block">
+                    <img src={src} alt={`结果 ${outcome.index}`} className="block h-auto w-full" />
+                </a>
+            ) : (
+                <div className="flex h-20 items-center justify-center px-2 text-center text-[10px] text-muted-foreground">
+                    {outcome.status === "cancelled" ? "已取消" : (outcome.error?.message ?? "未返回图片")}
+                </div>
+            )}
+            <p className="border-t border-border px-1.5 py-1 text-[10px] text-muted-foreground">
+                #{outcome.index} · {outcome.status}
+            </p>
+            {ready ? (
+                <span className="flex flex-wrap items-center gap-2 border-t border-border px-1.5 py-1 text-[10px] text-muted-foreground">
+                    <button
+                        type="button"
+                        data-testid={`area-repair-save-${outcome.index}`}
+                        disabled={pending !== null || !onSave}
+                        onClick={() => onSave?.(outcome)}
+                        className="underline-offset-2 hover:underline disabled:opacity-50"
+                    >
+                        存库
+                    </button>
+                    <button
+                        type="button"
+                        data-testid={`area-repair-send-${outcome.index}`}
+                        disabled={pending !== null || !onSend}
+                        onClick={() => onSend?.(outcome)}
+                        className="underline-offset-2 hover:underline disabled:opacity-50"
+                    >
+                        发画布
+                    </button>
+                    <a
+                        data-testid={`area-repair-download-${outcome.index}`}
+                        href={src}
+                        download={areaRepairDownloadName(imageName, outcome.index)}
+                        className="underline-offset-2 hover:underline"
+                    >
+                        下载
+                    </a>
+                </span>
+            ) : null}
+        </li>
+    );
+}
+
 export function MaskWorkspace({ className }: MaskWorkspaceProps = {}) {
     const spec = useMemo(() => getToolById(TOOL_ID), []);
     const siblings = useMemo(() => toolSpecs.filter((tool) => tool.layout === "mask" && tool.id !== TOOL_ID), []);
@@ -111,6 +176,8 @@ export function MaskWorkspace({ className }: MaskWorkspaceProps = {}) {
     const [outcomes, setOutcomes] = useState<AreaRepairUnitOutcome[]>([]);
     const [tasks, setTasks] = useState<ToolTask[]>([]);
     const [runSnapshot, setRunSnapshot] = useState<AreaRepairSnapshot | null>(null);
+    const [resultPending, setResultPending] = useState<string | null>(null);
+    const [resultFeedback, setResultFeedback] = useState<string | null>(null);
 
     const canvasRef = useRef<HTMLCanvasElement | null>(null);
     const stateRef = useRef(state);
@@ -428,6 +495,26 @@ export function MaskWorkspace({ className }: MaskWorkspaceProps = {}) {
 
     const coverageLabel = describeCoverage(maskRatio);
 
+    const toResultItem = useCallback((outcome: AreaRepairUnitOutcome): ToolTaskResultItem => {
+        const dataUrl = outcome.image?.dataUrl;
+        const url = outcome.image?.url;
+        return dataUrl
+            ? { id: `${TOOL_ID}-result-${outcome.index}`, kind: "image", dataUrl, mimeType: outcome.image?.mimeType ?? "image/png" }
+            : { id: `${TOOL_ID}-result-${outcome.index}`, kind: "image", url, mimeType: outcome.image?.mimeType ?? "image/png" };
+    }, []);
+
+    const runResultAction = useCallback(async (key: string, action: () => Promise<string>) => {
+        setResultPending(key);
+        setResultFeedback(null);
+        try {
+            setResultFeedback(await action());
+        } catch (error) {
+            setResultFeedback(error instanceof Error ? error.message : "操作失败，请重试");
+        } finally {
+            setResultPending(null);
+        }
+    }, []);
+
     return (
         <ToolShell
             className={className}
@@ -706,21 +793,37 @@ export function MaskWorkspace({ className }: MaskWorkspaceProps = {}) {
                         ) : (
                             <ul data-testid="area-repair-results" className="mt-2 grid grid-cols-2 gap-2">
                                 {outcomes.map((outcome) => (
-                                    <li key={outcome.unitId} className="overflow-hidden rounded border border-border">
-                                        {outcome.status === "succeeded" && (outcome.image?.dataUrl || outcome.image?.url) ? (
-                                            <a href={outcome.image.dataUrl || outcome.image.url} target="_blank" rel="noreferrer" className="block">
-                                                <img src={outcome.image.dataUrl || outcome.image.url} alt={`结果 ${outcome.index}`} className="block h-auto w-full" />
-                                            </a>
-                                        ) : (
-                                            <div className="flex h-20 items-center justify-center px-2 text-center text-[10px] text-muted-foreground">{outcome.status === "cancelled" ? "已取消" : (outcome.error?.message ?? "未返回图片")}</div>
-                                        )}
-                                        <p className="border-t border-border px-1.5 py-1 text-[10px] text-muted-foreground">
-                                            #{outcome.index} · {outcome.status}
-                                        </p>
-                                    </li>
+                                    <AreaRepairResultCard
+                                        key={outcome.unitId}
+                                        outcome={outcome}
+                                        imageName={image?.name ?? ""}
+                                        pending={resultPending}
+                                        onSave={(item) => {
+                                            void runResultAction(`save-${item.index}`, async () => {
+                                                await saveResultItemToAssets(toResultItem(item), item.index - 1, {
+                                                    toolId: TOOL_ID,
+                                                    taskId: item.taskId,
+                                                    title: `${image?.name ?? "局部重绘"} 第 ${item.index} 张`,
+                                                    source: "area-repair",
+                                                });
+                                                return `第 ${item.index} 张已存入资产库`;
+                                            });
+                                        }}
+                                        onSend={(item) => {
+                                            void runResultAction(`send-${item.index}`, async () => {
+                                                const sent = await sendResultItemToCanvas(toResultItem(item), { toolId: TOOL_ID });
+                                                return `第 ${item.index} 张已发到画布 ${sent.projectId}`;
+                                            });
+                                        }}
+                                    />
                                 ))}
                             </ul>
                         )}
+                        {resultFeedback ? (
+                            <p data-testid="area-repair-result-feedback" className="mt-2 text-[11px] text-muted-foreground">
+                                {resultFeedback}
+                            </p>
+                        ) : null}
                     </div>
                 </aside>
             </div>

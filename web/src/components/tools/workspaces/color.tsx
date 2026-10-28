@@ -1,10 +1,20 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
+import { Link } from "react-router-dom";
+
 import { ToolAssetInput } from "@/components/tools/tool-asset-input";
 import { ToolResult } from "@/components/tools/tool-result";
-import { loadToolAssetRecords, type ToolAssetConstraints, type ToolAssetRecord } from "@/services/api/tools/assets";
+import { ToolTaskHistory } from "@/components/tools/tool-task-history";
+import {
+    loadToolAssetRecords,
+    toolAssetLibraryItemsFromAssets,
+    type ToolAssetConstraints,
+    type ToolAssetRecord,
+} from "@/services/api/tools/assets";
 import { getToolGateway } from "@/services/api/tools/gateway";
 import type { ToolTask } from "@/services/api/tools/task-machine";
+import { CHANGE_COLOR_V2_ROUTE } from "@/features/tools/registry/change-color-v2";
+import { useAssetStore, type ImageAsset, type VideoAsset } from "@/stores/use-asset-store";
 import { useConfigStore } from "@/stores/use-config-store";
 import { useToolDraftStore } from "@/stores/use-tool-draft-store";
 
@@ -397,6 +407,13 @@ export function ChangeColorWorkspace({ className }: { className?: string }) {
     const flushDraft = useToolDraftStore((state) => state.flush);
     const draft = useToolDraftStore((state) => state.drafts[toolId]);
     const imageModel = useConfigStore((state) => state.config.imageModel);
+    const assets = useAssetStore((state) => state.assets);
+    const libraryItems = useMemo(
+        () => assets.filter((asset): asset is ImageAsset | VideoAsset => asset.kind === "image" || asset.kind === "video"),
+        [assets],
+    );
+    const library = useMemo(() => toolAssetLibraryItemsFromAssets(libraryItems), [libraryItems]);
+    const [resultTab, setResultTab] = useState<"result" | "history">("result");
 
     const [values, setValues] = useState<ChangeColorValues>(() => ({ ...DEFAULT_CHANGE_COLOR_VALUES }));
     const [source, setSource] = useState<ChangeColorSourceAsset | undefined>();
@@ -641,9 +658,17 @@ export function ChangeColorWorkspace({ className }: { className?: string }) {
                             constraints={SOURCE_CONSTRAINTS}
                             maxCount={1}
                             disabled={disabled}
+                            library={library}
                             onChange={onSourceChange}
                         />
                         {restoringSource ? <p className="mt-1 text-[11px] text-muted-foreground">正在恢复上次的图片…</p> : null}
+                        <Link
+                            to={CHANGE_COLOR_V2_ROUTE}
+                            className="mt-1 inline-flex items-center gap-1 text-[11px] text-muted-foreground underline-offset-2 hover:underline"
+                            data-testid="change-color-batch-link"
+                        >
+                            批量一键换色（多图批处理）
+                        </Link>
                         {source ? (
                             <p className="mt-1 text-[11px] text-muted-foreground" data-testid="change-color-source-meta">
                                 {source.name} · {source.width ?? "?"}×{source.height ?? "?"} · {imageFormatOf(source.mimeType, source.name).toUpperCase()}
@@ -722,7 +747,7 @@ export function ChangeColorWorkspace({ className }: { className?: string }) {
 
                         <div className="mt-3">
                             <p className="mb-1 text-[11px] text-muted-foreground">颜色参考图（可选）</p>
-                            <ToolAssetInput toolId={toolId} constraints={REFERENCE_CONSTRAINTS} maxCount={1} disabled={disabled} onChange={onReferenceChange} />
+                            <ToolAssetInput toolId={toolId} constraints={REFERENCE_CONSTRAINTS} maxCount={1} disabled={disabled} library={library} onChange={onReferenceChange} />
                             {paletteNote ? (
                                 <p className="mt-1 text-[11px] text-muted-foreground" data-testid="change-color-palette-note">
                                     {paletteNote}
@@ -953,7 +978,44 @@ export function ChangeColorWorkspace({ className }: { className?: string }) {
                         </p>
                     ) : null}
 
-                    <ToolResult task={task} toolId={toolId} title="生成结果" onCancel={onCancel} onRetry={() => void onRetry()} />
+                    <div className="flex items-center gap-1 border-b border-border" role="tablist" aria-label="结果区">
+                        <button
+                            type="button"
+                            role="tab"
+                            aria-selected={resultTab === "result"}
+                            className={`-mb-px border-b-2 px-2 py-1 text-xs transition ${
+                                resultTab === "result" ? "border-foreground font-medium text-foreground" : "border-transparent text-muted-foreground hover:text-foreground"
+                            }`}
+                            onClick={() => setResultTab("result")}
+                            data-testid="change-color-tab-result"
+                        >
+                            生成结果
+                        </button>
+                        <button
+                            type="button"
+                            role="tab"
+                            aria-selected={resultTab === "history"}
+                            className={`-mb-px border-b-2 px-2 py-1 text-xs transition ${
+                                resultTab === "history" ? "border-foreground font-medium text-foreground" : "border-transparent text-muted-foreground hover:text-foreground"
+                            }`}
+                            onClick={() => setResultTab("history")}
+                            data-testid="change-color-tab-history"
+                        >
+                            历史记录
+                        </button>
+                    </div>
+
+                    {resultTab === "result" ? (
+                        <ToolResult task={task} toolId={toolId} title="生成结果" onCancel={onCancel} onRetry={() => void onRetry()} />
+                    ) : (
+                        <ToolTaskHistory
+                            toolId={toolId}
+                            onSelectTask={(historyTask) => {
+                                setTask(historyTask);
+                                setResultTab("result");
+                            }}
+                        />
+                    )}
 
                     {result.image && beforeImage ? (
                         <Section title="前后对比" hint="拖动滑块查看细节" testId="change-color-compare-section">
