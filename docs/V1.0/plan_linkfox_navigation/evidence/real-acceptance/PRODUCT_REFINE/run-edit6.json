@@ -1,0 +1,393 @@
+{
+  "toolId": "PRODUCT_REFINE",
+  "name": "商品精修",
+  "route": "/tools/smart-edit/product-refine",
+  "fixture": "product-watch.jpg",
+  "startedAt": "2026-10-28T14:48:20.676Z",
+  "provider": {
+    "baseUrl": "https://api.cc-ai.xyz",
+    "model": "sf-accept::Qwen/Qwen3-VL-8B-Instruct",
+    "imageModel": "ccai-accept::gpt-image-2",
+    "channelCount": 2,
+    "keyLen": 67,
+    "textKeyLen": 51
+  },
+  "beforeIssues": [
+    "refine-issues=请先上传待精修的商品图。"
+  ],
+  "finishedAt": "2026-10-28T14:49:58.581Z",
+  "resultSrcPrefix": "https://oss-us.dimenoss.com/images/2026/",
+  "resultSaved": true,
+  "resultActions": [
+    {
+      "id": "tool-result-download-0",
+      "text": "下载",
+      "disabled": false
+    },
+    {
+      "id": "tool-result-save-0",
+      "text": "存入资产",
+      "disabled": false
+    },
+    {
+      "id": "tool-result-canvas-0",
+      "text": "发送画布",
+      "disabled": false
+    },
+    {
+      "id": "tool-result-download-0",
+      "text": "下载",
+      "disabled": false
+    },
+    {
+      "id": "tool-result-save-0",
+      "text": "存入资产",
+      "disabled": false
+    },
+    {
+      "id": "tool-result-canvas-0",
+      "text": "发送画布",
+      "disabled": false
+    }
+  ],
+  "issues": [],
+  "submitAfter": {
+    "id": "refine-generate",
+    "text": "开始精修（2048×1488）",
+    "disabled": false
+  },
+  "network": [
+    {
+      "method": "POST",
+      "url": "http://127.0.0.1:17371/canvas/state?token=6076e31f4497025ea74106480193e2f29e34&clientId=1RbJsAALDbu97keAicL4j",
+      "status": 200,
+      "ms": 2,
+      "at": "2026-10-28T14:48:21.951Z"
+    },
+    {
+      "method": "POST",
+      "url": "http://127.0.0.1:17371/canvas/activate?token=6076e31f4497025ea74106480193e2f29e34&clientId=1RbJsAALDbu97keAicL4j",
+      "status": 200,
+      "ms": 1,
+      "at": "2026-10-28T14:48:21.951Z"
+    },
+    {
+      "method": "POST",
+      "url": "http://127.0.0.1:17371/canvas/state?token=6076e31f4497025ea74106480193e2f29e34&clientId=1RbJsAALDbu97keAicL4j",
+      "status": 200,
+      "ms": 1,
+      "at": "2026-10-28T14:48:22.413Z"
+    },
+    {
+      "method": "POST",
+      "url": "http://127.0.0.1:17371/canvas/activate?token=6076e31f4497025ea74106480193e2f29e34&clientId=1RbJsAALDbu97keAicL4j",
+      "status": 200,
+      "ms": 1,
+      "at": "2026-10-28T14:48:22.420Z"
+    },
+    {
+      "method": "POST",
+      "url": "http://127.0.0.1:23210/https://api.cc-ai.xyz/v1/images/edits",
+      "status": 200,
+      "ms": 91431,
+      "at": "2026-10-28T14:49:57.884Z"
+    }
+  ],
+  "pageFetchLog": [
+    {
+      "url": "/__canvas-hub/state",
+      "start": 1793198926391,
+      "end": 1793198926394,
+      "status": 200,
+      "err": null
+    },
+    {
+      "url": "/__canvas-hub/state",
+      "start": 1793198928396,
+      "end": 1793198928401,
+      "status": 200,
+      "err": null
+    },
+    {
+      "url": "/__canvas-hub/state",
+      "start": 1793198930403,
+      "end": 1793198930407,
+      "status": 200,
+      "err": null
+    },
+    {
+      "url": "/__canvas-hub/state",
+      "start": 1793198932410,
+      "end": 1793198932413,
+      "status": 200,
+      "err": null
+    },
+    {
+      "url": "/__canvas-hub/state",
+      "start": 1793198934414,
+      "end": 1793198934419,
+      "status": 200,
+      "err": null
+    },
+    {
+      "url": "/__canvas-hub/state",
+      "start": 1793198936419,
+      "end": 1793198936425,
+      "status": 200,
+      "err": null
+    },
+    {
+      "url": "/__canvas-hub/state",
+      "start": 1793198938428,
+      "end": 1793198938433,
+      "status": 200,
+      "err": null
+    },
+    {
+      "url": "/__canvas-hub/state",
+      "start": 1793198940436,
+      "end": 1793198940440,
+      "status": 200,
+      "err": null
+    },
+    {
+      "url": "/__canvas-hub/state",
+      "start": 1793198942441,
+      "end": 1793198942444,
+      "status": 200,
+      "err": null
+    },
+    {
+      "url": "/__canvas-hub/state",
+      "start": 1793198944447,
+      "end": 1793198944451,
+      "status": 200,
+      "err": null
+    },
+    {
+      "url": "/__canvas-hub/state",
+      "start": 1793198946452,
+      "end": 1793198946455,
+      "status": 200,
+      "err": null
+    },
+    {
+      "url": "/__canvas-hub/state",
+      "start": 1793198948458,
+      "end": 1793198948459,
+      "status": 200,
+      "err": null
+    },
+    {
+      "url": "/__canvas-hub/state",
+      "start": 1793198950462,
+      "end": 1793198950466,
+      "status": 200,
+      "err": null
+    },
+    {
+      "url": "/__canvas-hub/state",
+      "start": 1793198952466,
+      "end": 1793198952470,
+      "status": 200,
+      "err": null
+    },
+    {
+      "url": "/__canvas-hub/state",
+      "start": 1793198954473,
+      "end": 1793198954475,
+      "status": 200,
+      "err": null
+    },
+    {
+      "url": "/__canvas-hub/state",
+      "start": 1793198956478,
+      "end": 1793198956481,
+      "status": 200,
+      "err": null
+    },
+    {
+      "url": "/__canvas-hub/state",
+      "start": 1793198958482,
+      "end": 1793198958484,
+      "status": 200,
+      "err": null
+    },
+    {
+      "url": "/__canvas-hub/state",
+      "start": 1793198960487,
+      "end": 1793198960489,
+      "status": 200,
+      "err": null
+    },
+    {
+      "url": "/__canvas-hub/state",
+      "start": 1793198962491,
+      "end": 1793198962492,
+      "status": 200,
+      "err": null
+    },
+    {
+      "url": "/__canvas-hub/state",
+      "start": 1793198964495,
+      "end": 1793198964497,
+      "status": 200,
+      "err": null
+    },
+    {
+      "url": "/__canvas-hub/state",
+      "start": 1793198966500,
+      "end": 1793198966502,
+      "status": 200,
+      "err": null
+    },
+    {
+      "url": "/__canvas-hub/state",
+      "start": 1793198968504,
+      "end": 1793198968506,
+      "status": 200,
+      "err": null
+    },
+    {
+      "url": "/__canvas-hub/state",
+      "start": 1793198970509,
+      "end": 1793198970510,
+      "status": 200,
+      "err": null
+    },
+    {
+      "url": "/__canvas-hub/state",
+      "start": 1793198972512,
+      "end": 1793198972514,
+      "status": 200,
+      "err": null
+    },
+    {
+      "url": "/__canvas-hub/state",
+      "start": 1793198974516,
+      "end": 1793198974518,
+      "status": 200,
+      "err": null
+    },
+    {
+      "url": "/__canvas-hub/state",
+      "start": 1793198976520,
+      "end": 1793198976525,
+      "status": 200,
+      "err": null
+    },
+    {
+      "url": "/__canvas-hub/state",
+      "start": 1793198978528,
+      "end": 1793198978530,
+      "status": 200,
+      "err": null
+    },
+    {
+      "url": "/__canvas-hub/state",
+      "start": 1793198980532,
+      "end": 1793198980534,
+      "status": 200,
+      "err": null
+    },
+    {
+      "url": "/__canvas-hub/state",
+      "start": 1793198982537,
+      "end": 1793198982539,
+      "status": 200,
+      "err": null
+    },
+    {
+      "url": "/__canvas-hub/state",
+      "start": 1793198984542,
+      "end": 1793198984543,
+      "status": 200,
+      "err": null
+    },
+    {
+      "url": "/__canvas-hub/state",
+      "start": 1793198986544,
+      "end": 1793198986546,
+      "status": 200,
+      "err": null
+    },
+    {
+      "url": "/__canvas-hub/state",
+      "start": 1793198988546,
+      "end": 1793198988548,
+      "status": 200,
+      "err": null
+    },
+    {
+      "url": "/__canvas-hub/state",
+      "start": 1793198990551,
+      "end": 1793198990552,
+      "status": 200,
+      "err": null
+    },
+    {
+      "url": "/__canvas-hub/state",
+      "start": 1793198992555,
+      "end": 1793198992557,
+      "status": 200,
+      "err": null
+    },
+    {
+      "url": "/__canvas-hub/state",
+      "start": 1793198994559,
+      "end": 1793198994561,
+      "status": 200,
+      "err": null
+    },
+    {
+      "url": "/__canvas-hub/state",
+      "start": 1793198996564,
+      "end": 1793198996566,
+      "status": 200,
+      "err": null
+    },
+    {
+      "url": "/__canvas-hub/state",
+      "start": 1793198998568,
+      "end": 1793198998570,
+      "status": 200,
+      "err": null
+    },
+    {
+      "url": "https://oss-us.dimenoss.com/images/2026/10/28/1793198997_cabf4ef587e2a79ab532f97043f5b24e.png",
+      "start": 1793198998581,
+      "end": 1793198998648,
+      "status": 200,
+      "err": null
+    },
+    {
+      "url": "/__canvas-hub/state",
+      "start": 1793199000570,
+      "end": 1793199000573,
+      "status": 200,
+      "err": null
+    },
+    {
+      "url": "/__canvas-hub/state",
+      "start": 1793199002575,
+      "end": 1793199002577,
+      "status": 200,
+      "err": null
+    }
+  ],
+  "bodyText": "无限画布\n电商套图\n智能修图\n批量生图\n商品图设计\nAI视频\n中\n切换到浅色主题\nv0.27.0\n电商套图\n6\n智能修图\n8\n局部重绘\n局部消除\n一键换色\n图片裁剪\n商品精修\n色差修复\n印花修复\n手部修复\n批量生图\n0\n商品图设计\n19\nAI 视频\n6\n智能修图 / 商品精修\n商品精修\n\n/tools/smart-edit/product-refine\n\n商品图\nJPG/PNG/WEBP · 20M 以内\n上传素材\n1 / 1 个 · JPG / image/jpg / PNG / WebP · ≤ 20 MB\n已达数量上限，先移除一个再上传\n校验格式 / 大小 / 像素，入库后可刷新恢复\n\nproduct-watch.jpg\n\n31 KB · 1024×744 · image/jpeg\n\n移除\n\n原图 1024×744\n\n精修配置\n输出 2048×1488\n\n精修模式\n\n整图精修\n去背景精修\n\n保留原始场景，只改善轮廓、光泽、材质与颜色。\n\n精修强度\n\n轻度\n标准\n强力\n\n默认档位，平衡质感提升与原图一致性。\n\n输出尺寸：2048×1488\n输出比例：128:93\n放大倍数：2×\n去背景：关闭\n\n💡默认生图尺寸规则：原图尺寸≤512px → 放大 4 倍，513~1024px → 放大 2 倍，＞1024px → 原尺寸\n\n当前命中：513~1024px → 放大 2 倍\n\n色彩校正\n\n开启后按色值做偏色/白平衡校正（进 provider 的 color 字段），不改材质与明暗结构。\n\n生成\n模型：ccai-accept::gpt-image-2\n开始精修（2048×1488）\n\n预计产出 1 张主结果\n\n生成结果\n已完成\n共 1 个结果 · 图片 1\n下载\n存入资产\n发送画布\n前后对比\n拖动滑块查看细节\n\n左为精修前 50% · 右为精修后\n\n99+\n连接本地 Agent\n已连接\n点连接会自动启动本地服务、装好插件并接通，无需手动配置。\nClaude Code\n未连接\n·\nCLI · 2.1.285 (Claude Code)\n·\n直接运行\n连接\nCodex\n已连接\n·\n运行时\n·\nCLI · codex-cli 0.163.0\n·\n插件已装\n断开连接\nGalley\n未连接\n·\nCLI + 桌面版 · galley 0.6.4\n连接",
+  "resultDom": "<section data-testid=\"tool-result\" data-view=\"succeeded\" class=\"space-y-3 rounded-2xl border border-border bg-card p-4\"><header class=\"flex flex-wrap items-center gap-2\"><h2 class=\"text-sm font-semibold\">生成结果</h2><span data-testid=\"tool-task-status\" data-status=\"succeeded\" data-tone=\"success\" title=\"结果已返回\" class=\"inline-flex items-center gap-1.5 rounded-full border px-2 py-0.5 text-xs font-medium border-emerald-300 bg-emerald-50 text-emerald-700 dark:border-emerald-800 dark:bg-emerald-950 dark:text-emerald-200\"><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-circle-check lucide-check-circle-2 size-3.5\" aria-hidden=\"true\"><circle cx=\"12\" cy=\"12\" r=\"10\"></circle><path d=\"m16 9-5.5 5.5L8 12\"></path></svg>已完成</span><span class=\"ml-auto text-xs text-muted-foreground\" data-testid=\"tool-result-summary\">共 1 个结果 · 图片 1</span></header><ul class=\"grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-3\"><li data-testid=\"tool-result-item-0\" data-kind=\"image\" class=\"overflow-hidden rounded-xl border border-border bg-background\"><div class=\"flex aspect-video items-center justify-center bg-stone-100 dark:bg-stone-900\"><img data-testid=\"tool-result-image\" alt=\"结果 1\" loading=\"lazy\" class=\"h-full w-full object-contain\" src=\"https://oss-us.dimenoss.com/images/2026/10/28/1793198997_cabf4ef587e2a79ab532f97043f5b24e.png\"></div><div class=\"flex flex-w\n---\n<span class=\"ml-auto text-xs text-muted-foreground\" data-testid=\"tool-result-summary\">共 1 个结果 · 图片 1</span>\n---\n<li data-testid=\"tool-result-item-0\" data-kind=\"image\" class=\"overflow-hidden rounded-xl border border-border bg-background\"><div class=\"flex aspect-video items-center justify-center bg-stone-100 dark:bg-stone-900\"><img data-testid=\"tool-result-image\" alt=\"结果 1\" loading=\"lazy\" class=\"h-full w-full object-contain\" src=\"https://oss-us.dimenoss.com/images/2026/10/28/1793198997_cabf4ef587e2a79ab532f97043f5b24e.png\"></div><div class=\"flex flex-wrap gap-1.5 p-2\"><button type=\"button\" data-testid=\"tool-result-download-0\" class=\"inline-flex items-center gap-1 rounded-md border border-border px-2 py-1 text-[11px] transition hover:bg-accent disabled:cursor-not-allowed disabled:opacity-50\"><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-download size-3.5\" aria-hidden=\"true\"><path d=\"M12 15V3\"></path><path d=\"M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4\"></path><path d=\"m7 10 5 5 5-5\"></path></svg>下载</button><button type=\"button\" data-testid=\"tool-result-save-0\" class=\"inline-flex items-center gap-1 rounded-md border border-border px-2 py-1 text-[11px] transition hover:bg-accent disabled:cursor-not-allowed disabled:opacity-50\"><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stro",
+  "fixtureSha": "43ede96e7ce88509",
+  "resultSha": "fa14f2a40c7d236e",
+  "afterReload": {
+    "images": 1,
+    "hasResult": true,
+    "actions": []
+  },
+  "ok": true,
+  "console": [
+    "error: Cannot update a component (`%s`) while rendering a different component (`%s`). To locate the bad setState() call inside `%s`, follow the stack trace as described in https://react.dev/link/setstate-in-",
+    "error: Cannot update a component (`%s`) while rendering a different component (`%s`). To locate the bad setState() call inside `%s`, follow the stack trace as described in https://react.dev/link/setstate-in-",
+    "error: Cannot update a component (`%s`) while rendering a different component (`%s`). To locate the bad setState() call inside `%s`, follow the stack trace as described in https://react.dev/link/setstate-in-"
+  ]
+}

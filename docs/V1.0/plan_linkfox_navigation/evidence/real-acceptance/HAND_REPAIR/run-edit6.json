@@ -1,0 +1,372 @@
+{
+  "toolId": "HAND_REPAIR",
+  "name": "手部修复",
+  "route": "/tools/smart-edit/hand-repair",
+  "fixture": "hand-product.jpg",
+  "startedAt": "2026-10-28T14:57:29.991Z",
+  "provider": {
+    "baseUrl": "https://api.cc-ai.xyz",
+    "model": "sf-accept::Qwen/Qwen3-VL-8B-Instruct",
+    "imageModel": "ccai-accept::gpt-image-2",
+    "channelCount": 2,
+    "keyLen": 67,
+    "textKeyLen": 51
+  },
+  "beforeIssues": [],
+  "finishedAt": "2026-10-28T14:58:15.148Z",
+  "resultSrcPrefix": "https://oss-us.dimenoss.com/images/2026/",
+  "resultSaved": true,
+  "resultActions": [
+    {
+      "id": "hand-repair-save-1",
+      "text": "存库",
+      "disabled": false
+    },
+    {
+      "id": "hand-repair-send-1",
+      "text": "发画布",
+      "disabled": false
+    },
+    {
+      "id": "",
+      "text": "下载",
+      "disabled": false
+    }
+  ],
+  "issues": [],
+  "submitAfter": {
+    "id": "hand-repair-submit",
+    "text": "开始生成",
+    "disabled": false
+  },
+  "network": [
+    {
+      "method": "POST",
+      "url": "http://127.0.0.1:17371/canvas/state?token=6076e31f4497025ea74106480193e2f29e34&clientId=lwrINHw48sGwqZB7qwhuO",
+      "status": 200,
+      "ms": 2,
+      "at": "2026-10-28T14:57:31.400Z"
+    },
+    {
+      "method": "POST",
+      "url": "http://127.0.0.1:17371/canvas/activate?token=6076e31f4497025ea74106480193e2f29e34&clientId=lwrINHw48sGwqZB7qwhuO",
+      "status": 200,
+      "ms": 1,
+      "at": "2026-10-28T14:57:31.400Z"
+    },
+    {
+      "method": "POST",
+      "url": "http://127.0.0.1:17371/canvas/state?token=6076e31f4497025ea74106480193e2f29e34&clientId=lwrINHw48sGwqZB7qwhuO",
+      "status": 200,
+      "ms": 1,
+      "at": "2026-10-28T14:57:31.881Z"
+    },
+    {
+      "method": "POST",
+      "url": "http://127.0.0.1:17371/canvas/activate?token=6076e31f4497025ea74106480193e2f29e34&clientId=lwrINHw48sGwqZB7qwhuO",
+      "status": 200,
+      "ms": 1,
+      "at": "2026-10-28T14:57:31.889Z"
+    },
+    {
+      "method": "POST",
+      "url": "http://127.0.0.1:23210/https://api.cc-ai.xyz/v1/images/edits",
+      "status": 200,
+      "ms": 30093,
+      "at": "2026-10-28T14:58:08.115Z"
+    }
+  ],
+  "pageFetchLog": [
+    {
+      "url": "https://raw.githubusercontent.com/yukkcat/image-prompts/main/dist/sources/banana-prompt-quicker.json",
+      "start": 1793199451786,
+      "end": 1793199451930,
+      "status": 200,
+      "err": null
+    },
+    {
+      "url": "https://raw.githubusercontent.com/yukkcat/image-prompts/main/dist/sources/davidwu-gpt-image2-prompts.json",
+      "start": 1793199451786,
+      "end": 1793199452129,
+      "status": 200,
+      "err": null
+    },
+    {
+      "url": "https://raw.githubusercontent.com/yukkcat/image-prompts/main/dist/sources/freestylefly-gpt-image-2.json",
+      "start": 1793199451786,
+      "end": 1793199452129,
+      "status": 200,
+      "err": null
+    },
+    {
+      "url": "https://raw.githubusercontent.com/yukkcat/image-prompts/main/dist/sources/awesome-gpt-image.json",
+      "start": 1793199451786,
+      "end": 1793199452025,
+      "status": 200,
+      "err": null
+    },
+    {
+      "url": "https://raw.githubusercontent.com/yukkcat/image-prompts/main/dist/sources/awesome-gpt4o-image-prompts.json",
+      "start": 1793199451786,
+      "end": 1793199452129,
+      "status": 200,
+      "err": null
+    },
+    {
+      "url": "https://raw.githubusercontent.com/yukkcat/image-prompts/main/dist/sources/youmind-gpt-image-2.json",
+      "start": 1793199451786,
+      "end": 1793199452130,
+      "status": 200,
+      "err": null
+    },
+    {
+      "url": "https://raw.githubusercontent.com/yukkcat/image-prompts/main/dist/sources/youmind-nano-banana-pro.json",
+      "start": 1793199451786,
+      "end": 1793199452129,
+      "status": 200,
+      "err": null
+    },
+    {
+      "url": "http://127.0.0.1:17371/canvas/state?token=6076e31f4497025ea74106480193e2f29e34&clientId=lwrINHw48sGwqZB7qwhuO",
+      "start": 1793199451806,
+      "end": 1793199451829,
+      "status": 200,
+      "err": null
+    },
+    {
+      "url": "http://127.0.0.1:17371/canvas/activate?token=6076e31f4497025ea74106480193e2f29e34&clientId=lwrINHw48sGwqZB7qwhuO",
+      "start": 1793199451806,
+      "end": 1793199451838,
+      "status": 200,
+      "err": null
+    },
+    {
+      "url": "http://127.0.0.1:17371/config?token=6076e31f4497025ea74106480193e2f29e34",
+      "start": 1793199451806,
+      "end": 1793199451829,
+      "status": 200,
+      "err": null
+    },
+    {
+      "url": "http://127.0.0.1:17371/agent/skills?token=6076e31f4497025ea74106480193e2f29e34",
+      "start": 1793199451826,
+      "end": 1793199451839,
+      "status": 200,
+      "err": null
+    },
+    {
+      "url": "http://127.0.0.1:17371/agent/models?token=6076e31f4497025ea74106480193e2f29e34",
+      "start": 1793199451826,
+      "end": 1793199451838,
+      "status": 200,
+      "err": null
+    },
+    {
+      "url": "http://127.0.0.1:17371/agent/codex/threads?token=6076e31f4497025ea74106480193e2f29e34",
+      "start": 1793199451839,
+      "end": 1793199453108,
+      "status": 200,
+      "err": null
+    },
+    {
+      "url": "http://127.0.0.1:17371/agent/codex/threads/01a17b8e-2bd3-73c0-a8d9-8151288bbd5b?token=6076e31f4497025ea74106480193e2f29e",
+      "start": 1793199453109,
+      "end": 1793199453128,
+      "status": 200,
+      "err": null
+    },
+    {
+      "url": "blob:http://127.0.0.1:3000/c0080482-4266-45ad-93c6-b2ae6cdb71b2",
+      "start": 1793199453368,
+      "end": 1793199453368,
+      "status": 200,
+      "err": null
+    },
+    {
+      "url": "blob:http://127.0.0.1:3000/c0080482-4266-45ad-93c6-b2ae6cdb71b2",
+      "start": 1793199453368,
+      "end": 1793199453369,
+      "status": 200,
+      "err": null
+    },
+    {
+      "url": "blob:http://127.0.0.1:3000/c0080482-4266-45ad-93c6-b2ae6cdb71b2",
+      "start": 1793199453375,
+      "end": 1793199453376,
+      "status": 200,
+      "err": null
+    },
+    {
+      "url": "/__canvas-hub/state",
+      "start": 1793199453787,
+      "end": 1793199453792,
+      "status": 200,
+      "err": null
+    },
+    {
+      "url": "/__canvas-hub/state",
+      "start": 1793199455793,
+      "end": 1793199455797,
+      "status": 200,
+      "err": null
+    },
+    {
+      "url": "/__canvas-hub/state",
+      "start": 1793199457799,
+      "end": 1793199457802,
+      "status": 200,
+      "err": null
+    },
+    {
+      "url": "/__canvas-hub/state",
+      "start": 1793199459803,
+      "end": 1793199459807,
+      "status": 200,
+      "err": null
+    },
+    {
+      "url": "/__canvas-hub/state",
+      "start": 1793199461809,
+      "end": 1793199461814,
+      "status": 200,
+      "err": null
+    },
+    {
+      "url": "/__canvas-hub/state",
+      "start": 1793199463815,
+      "end": 1793199463819,
+      "status": 200,
+      "err": null
+    },
+    {
+      "url": "/__canvas-hub/state",
+      "start": 1793199465821,
+      "end": 1793199465824,
+      "status": 200,
+      "err": null
+    },
+    {
+      "url": "/__canvas-hub/state",
+      "start": 1793199467826,
+      "end": 1793199467830,
+      "status": 200,
+      "err": null
+    },
+    {
+      "url": "/__canvas-hub/state",
+      "start": 1793199469832,
+      "end": 1793199469836,
+      "status": 200,
+      "err": null
+    },
+    {
+      "url": "/__canvas-hub/state",
+      "start": 1793199471838,
+      "end": 1793199471842,
+      "status": 200,
+      "err": null
+    },
+    {
+      "url": "/__canvas-hub/state",
+      "start": 1793199473844,
+      "end": 1793199473848,
+      "status": 200,
+      "err": null
+    },
+    {
+      "url": "/__canvas-hub/state",
+      "start": 1793199475850,
+      "end": 1793199475854,
+      "status": 200,
+      "err": null
+    },
+    {
+      "url": "/__canvas-hub/state",
+      "start": 1793199477854,
+      "end": 1793199477858,
+      "status": 200,
+      "err": null
+    },
+    {
+      "url": "/__canvas-hub/state",
+      "start": 1793199479860,
+      "end": 1793199479864,
+      "status": 200,
+      "err": null
+    },
+    {
+      "url": "/__canvas-hub/state",
+      "start": 1793199481866,
+      "end": 1793199481869,
+      "status": 200,
+      "err": null
+    },
+    {
+      "url": "/__canvas-hub/state",
+      "start": 1793199483870,
+      "end": 1793199483873,
+      "status": 200,
+      "err": null
+    },
+    {
+      "url": "/__canvas-hub/state",
+      "start": 1793199485874,
+      "end": 1793199485876,
+      "status": 200,
+      "err": null
+    },
+    {
+      "url": "/__canvas-hub/state",
+      "start": 1793199487878,
+      "end": 1793199487882,
+      "status": 200,
+      "err": null
+    },
+    {
+      "url": "/__canvas-hub/state",
+      "start": 1793199489884,
+      "end": 1793199489890,
+      "status": 200,
+      "err": null
+    },
+    {
+      "url": "/__canvas-hub/state",
+      "start": 1793199491892,
+      "end": 1793199491893,
+      "status": 200,
+      "err": null
+    },
+    {
+      "url": "/__canvas-hub/state",
+      "start": 1793199493895,
+      "end": 1793199493898,
+      "status": 200,
+      "err": null
+    },
+    {
+      "url": "https://oss-us.dimenoss.com/images/2026/10/28/1793199487_1ae76b65bdf7c0c415e9fed0e8025f06.png",
+      "start": 1793199495149,
+      "end": 1793199495150,
+      "status": 200,
+      "err": null
+    },
+    {
+      "url": "/__canvas-hub/state",
+      "start": 1793199495900,
+      "end": 1793199495901,
+      "status": 200,
+      "err": null
+    }
+  ],
+  "bodyText": "无限画布\n电商套图\n智能修图\n批量生图\n商品图设计\nAI视频\n中\n切换到浅色主题\nv0.27.0\n电商套图\n6\n智能修图\n8\n局部重绘\n局部消除\n一键换色\n图片裁剪\n商品精修\n色差修复\n印花修复\n手部修复\n批量生图\n0\n商品图设计\n19\nAI 视频\n6\n智能修图 / 手部修复\n手部修复\n\n/tools/smart-edit/hand-repair\n\n手部修复\n原站即将下架\n智能修图 · 最多 4 张\n\n涂抹畸形的手部区域，选择人物类型，按真实图像模型重画\n\n开始生成\n\n涂抹手部区域\n\n已涂抹 14.7% 区域｜红色覆盖只是预览，导出为白色蒙版\n画笔\n35px\n15\n35\n60\n100\n撤销\n重做\n重置\n\n生成结果\n\n成功 1/1 张｜来自旧版本输入\n第 1 张\n存库\n发画布\n下载\n\n上传原图\n\nJPG / PNG / WebP，手部畸形的原图效果最好。\n\nhand-product.jpg\n更换图片\n1 / 1 个 · PNG / JPG / WebP · ≤ 20 MB\n已达数量上限，先移除一个再上传\n校验格式 / 大小 / 像素，入库后可刷新恢复\n\nhand-product.jpg\n\n96 KB · 1024×683 · image/jpeg\n\n移除\n\n换图会清空已涂抹的蒙版。\n\n人物类型\n\n用于约束重画的手部结构与年龄性别特征。\n\n成年男性\n成年女性\n男孩\n女孩\n\n生成张数\n\n1\n2\n3\n4\n\n预计输出 1 张（每张都是独立真实请求）\n\n提交前检查\n\n✓ 已上传原图\n✓ 已涂抹手部区域\n✓ 人物类型：成年男性\n✓ 生成张数：1\n\n原站菜单已把「手部修复」归入「即将下架」分组；本项目保留该工具的独立工作区与真实生成链路。\n\n99+\n连接本地 Agent\n已连接\n点连接会自动启动本地服务、装好插件并接通，无需手动配置。\nClaude Code\n未连接\n·\nCLI · 2.1.285 (Claude Code)\n·\n直接运行\n连接\nCodex\n已连接\n·\n运行时\n·\nCLI · codex-cli 0.163.0\n·\n插件已装\n断开连接\nGalley\n未连接\n·\nCLI + 桌面版 · galley 0.6.4\n连接",
+  "resultDom": "<div data-testid=\"hand-repair-results\" class=\"mt-3 grid grid-cols-2 gap-2 sm:grid-cols-4\"><figure class=\"overflow-hidden rounded border border-border bg-muted/20\"><img alt=\"手部修复结果 1\" class=\"block w-full object-contain\" src=\"https://oss-us.dimenoss.com/images/2026/10/28/1793199487_1ae76b65bdf7c0c415e9fed0e8025f06.png\"><figcaption class=\"flex items-center justify-between gap-1 px-1.5 py-1 text-[11px] text-muted-foreground\"><span>第 1 张</span><span class=\"flex items-center gap-1.5\"><button type=\"button\" data-testid=\"hand-repair-save-1\" class=\"underline-offset-2 hover:underline disabled:opacity-50\">存库</button><button type=\"button\" data-testid=\"hand-repair-send-1\" class=\"underline-offset-2 hover:underline disabled:opacity-50\">发画布</button><a href=\"https://oss-us.dimenoss.com/images/2026/10/28/1793199487_1ae76b65bdf7c0c415e9fed0e8025f06.png\" download=\"hand-product-hand-fixed.png\" class=\"underline-offset-2 hover:underline\">下载</a></span></figcaption></figure></div>",
+  "fixtureSha": "6fa693cbc2a1bf08",
+  "resultSha": "3e53cf331d5dae4b",
+  "afterReload": {
+    "images": 2,
+    "hasResult": true,
+    "actions": []
+  },
+  "ok": true,
+  "console": []
+}

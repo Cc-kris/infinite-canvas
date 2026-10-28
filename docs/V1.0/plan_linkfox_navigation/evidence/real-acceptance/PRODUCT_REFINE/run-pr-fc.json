@@ -1,0 +1,84 @@
+{
+  "toolId": "PRODUCT_REFINE",
+  "name": "商品精修",
+  "route": "/tools/smart-edit/product-refine",
+  "fixture": "product-watch.jpg",
+  "startedAt": "2026-10-28T15:27:37.046Z",
+  "urls": {
+    "workspace": "/tools/smart-edit/product-refine",
+    "submitted": "/tools/smart-edit/product-refine"
+  },
+  "provider": {
+    "baseUrl": "https://api.cc-ai.xyz",
+    "model": "sf-accept::Qwen/Qwen3-VL-8B-Instruct",
+    "imageModel": "ccai-accept::gpt-image-2",
+    "channelCount": 2,
+    "keyLen": 67,
+    "textKeyLen": 51
+  },
+  "sourceBefore": {
+    "blobSrc": "",
+    "all": [
+      "http://127.0.0.1:3000/logo.png"
+    ]
+  },
+  "sourceAfterUpload": {
+    "blobSrc": "blob:http://127.0.0.1:3000/69b51590-df62-4b02-871e-e1bcb58f82b2",
+    "all": [
+      "http://127.0.0.1:3000/logo.png",
+      "blob:http://127.0.0.1:3000/69b51590-df62-4b02-871e-e1bcb58f82b2"
+    ]
+  },
+  "p0BlobAccepted": true,
+  "submitReady": {
+    "found": true,
+    "disabled": false,
+    "label": "开始精修（2048×1488）",
+    "issues": [],
+    "errors": [],
+    "imgs": [
+      "http://127.0.0.1:3000/logo.png",
+      "blob:http://127.0.0.1:3000/69b"
+    ],
+    "after": {
+      "tasks": [],
+      "toasts": [],
+      "errs": [],
+      "btns": [
+        {
+          "text": "整图精修",
+          "disabled": true
+        },
+        {
+          "text": "去背景精修",
+          "disabled": true
+        },
+        {
+          "text": "精修中…",
+          "disabled": true
+        }
+      ]
+    }
+  },
+  "error": "点击后未创建任务：{\"tasks\":[],\"toasts\":[],\"errs\":[],\"btns\":[{\"text\":\"整图精修\",\"disabled\":true},{\"text\":\"去背景精修\",\"disabled\":true},{\"text\":\"精修中…\",\"disabled\":true}]}",
+  "ok": false,
+  "network": [
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:23210/",
+      "status": 200,
+      "at": "2026-10-28T15:27:38.314Z"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:23210/",
+      "status": 200,
+      "at": "2026-10-28T15:27:38.590Z"
+    }
+  ],
+  "console": [
+    "error: Cannot update a component (`%s`) while rendering a different component (`%s`). To locate the bad setState() call inside `%s`, follow the stack trace as described in https://react.dev/link/setstate-in-",
+    "error: Cannot update a component (`%s`) while rendering a different component (`%s`). To locate the bad setState() call inside `%s`, follow the stack trace as described in https://react.dev/link/setstate-in-"
+  ],
+  "finishedAt": "2026-10-28T15:27:51.136Z"
+}
