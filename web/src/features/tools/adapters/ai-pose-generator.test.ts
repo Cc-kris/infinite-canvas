@@ -438,3 +438,58 @@ describe("AI 姿势生成 · 工作区渲染", () => {
         expect(html).toContain(AI_POSE_GENERATOR_DRAFT_KEY);
     });
 });
+
+describe("AI 姿势生成 · 结果动作（存入资产 / 发送画布 / 下载）", () => {
+    test("dataUrl 结果转成通用动作载荷，且不再重复携带 url", async () => {
+        const { aiPoseGeneratorResultItem } = await import("@/features/tools/adapters/ai-pose-generator");
+        const payload = aiPoseGeneratorResultItem({ sceneId: "s1", sceneLabel: "影棚", dataUrl: "data:image/png;base64,AAA", url: "https://cdn.example.com/a.png" }, 0);
+        expect(payload.kind).toBe("image");
+        expect(payload.mimeType).toBe("image/png");
+        expect(payload.id).toBe(`${AI_POSE_GENERATOR_TOOL_ID}-result-1`);
+        expect(payload.dataUrl).toBe("data:image/png;base64,AAA");
+        expect(payload.url).toBeUndefined();
+    });
+
+    test("只有远端 url 时保留 url，不伪造 dataUrl", async () => {
+        const { aiPoseGeneratorResultItem } = await import("@/features/tools/adapters/ai-pose-generator");
+        const payload = aiPoseGeneratorResultItem({ sceneId: "s1", sceneLabel: "街头", url: "https://cdn.example.com/b.jpg" }, 2);
+        expect(payload.url).toBe("https://cdn.example.com/b.jpg");
+        expect(payload.dataUrl).toBeUndefined();
+        expect(payload.id).toBe(`${AI_POSE_GENERATOR_TOOL_ID}-result-3`);
+    });
+
+    test("data: URL 落在 url 字段时也归一到 dataUrl", async () => {
+        const { aiPoseGeneratorResultItem } = await import("@/features/tools/adapters/ai-pose-generator");
+        const payload = aiPoseGeneratorResultItem({ sceneId: "s1", sceneLabel: "影棚", url: "data:image/png;base64,CCC" }, 0);
+        expect(payload.dataUrl).toBe("data:image/png;base64,CCC");
+        expect(payload.url).toBeUndefined();
+    });
+
+    test("空结果不冒充可用载荷：动作前置校验直接报 payload-missing", async () => {
+        const { aiPoseGeneratorResultItem } = await import("@/features/tools/adapters/ai-pose-generator");
+        const { assertResultPayload } = await import("@/components/tools/tool-result-actions");
+        const payload = aiPoseGeneratorResultItem({ sceneId: "s1", sceneLabel: "影棚" }, 0);
+        expect(() => assertResultPayload(payload)).toThrow(/没有返回可用的结果文件/);
+    });
+
+    test("下载文件名带工具前缀与序号", async () => {
+        const { aiPoseGeneratorResultItem } = await import("@/features/tools/adapters/ai-pose-generator");
+        const { buildResultFileName } = await import("@/components/tools/tool-result-actions");
+        const payload = aiPoseGeneratorResultItem({ sceneId: "s1", sceneLabel: "影棚", dataUrl: "data:image/png;base64,AAA" }, 0);
+        expect(buildResultFileName(AI_POSE_GENERATOR_TOOL_ID, payload, 0)).toBe("ai-pose-generator-result-1.png");
+    });
+
+    test("源码守卫：结果卡片挂载三个动作入口并走通用动作管道", async () => {
+        const fs = await import("node:fs");
+        const path = await import("node:path");
+        const source = fs.readFileSync(path.resolve(import.meta.dir, "../../../components/tools/workspaces/model.tsx"), "utf8");
+        for (const marker of ["ai-pose-result-save-", "ai-pose-result-canvas-", "ai-pose-result-download-", "ai-pose-result-action-status-"]) {
+            expect(source).toContain(marker);
+        }
+        expect(source).toContain("saveResultItemToAssets(payload");
+        expect(source).toContain("sendResultItemToCanvas(payload");
+        expect(source).toContain("downloadResultItem(payload");
+        // 三条动作都必须用本页 toolId，避免资产/画布来源标错工具
+        expect(source.match(/toolId: AI_POSE_GENERATOR_TOOL_ID/g)?.length ?? 0).toBeGreaterThanOrEqual(3);
+    });
+});

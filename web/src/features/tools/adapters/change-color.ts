@@ -55,7 +55,16 @@ export function isChangeColorSourceUsable(source?: ChangeColorSourceAsset | null
     if (!source || !source.assetId.trim()) return false;
     if (!isChangeColorSourceReady(source)) return false;
     const src = source.dataUrl || source.url || "";
-    return src.startsWith("data:image/") || src.startsWith("https://") || src.startsWith("http://");
+    // blob: 是 ToolAssetInput 上传后本地资产记录的真实形态（IndexedDB 里的对象 URL），
+    // 请求阶段 imageToDataUrl 会把它抓成 data: 再发给 provider；这里若只认 data:/http(s)，
+    // 用户上传成功但「立即生成」永远禁用以至于无法使用本工具（真实面包屑：上传后仍提示
+    // 「请先上传需要换色的图片」）。
+    return (
+        src.startsWith("data:image/") ||
+        src.startsWith("https://") ||
+        src.startsWith("http://") ||
+        src.startsWith("blob:")
+    );
 }
 
 export function toChangeColorReference(source: ChangeColorSourceAsset): ReferenceImage {

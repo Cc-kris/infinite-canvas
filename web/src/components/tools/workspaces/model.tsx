@@ -14,10 +14,11 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Link } from "react-router-dom";
-import { ArrowDown, ArrowUp, Check, ChevronRight, Loader2, Plus, Redo2, Save, Sparkles, Tag, Trash2, Undo2, X } from "lucide-react";
+import { ArrowDown, ArrowUp, Check, ChevronRight, Download, FolderPlus, Loader2, Plus, Redo2, Save, Send, Sparkles, Tag, Trash2, Undo2, X } from "lucide-react";
 
 import { ToolAssetInput } from "@/components/tools/tool-asset-input";
 import { ToolShell } from "@/components/tools/tool-shell";
+import { downloadResultItem, saveResultItemToAssets, sendResultItemToCanvas } from "@/components/tools/tool-result-actions";
 import { cn, randomId } from "@/lib/utils";
 import type { ToolAssetRecord } from "@/services/api/tools/assets";
 import { useToolDraftStore } from "@/stores/use-tool-draft-store";
@@ -69,6 +70,7 @@ import {
     type AiPostureWorkspace,
 } from "@/features/tools/registry/ai-posture";
 import {
+    aiPoseGeneratorResultItem,
     aiPoseGeneratorResultView,
     assertAiPoseGeneratorPlan,
     assertAiPoseGeneratorWorkspace,
@@ -76,6 +78,8 @@ import {
     planAiPoseGeneratorUnits,
     retryAiPoseGeneratorUnit,
     runAiPoseGeneratorPlan,
+    type AiPoseGeneratorResultViewGroup,
+    type AiPoseGeneratorResultViewItem,
     type AiPoseGeneratorUnit,
     type AiPoseGeneratorUnitOutcome,
 } from "@/features/tools/adapters/ai-pose-generator";
@@ -828,6 +832,8 @@ export function AiPoseGeneratorWorkspace({ className }: AiPoseGeneratorWorkspace
     const [outcomes, setOutcomes] = useState<AiPoseGeneratorUnitOutcome[]>([]);
     const [run, setRun] = useState<RunState>({ running: false, message: null });
     const [submitError, setSubmitError] = useState<string | null>(null);
+    /** 结果动作（存入资产 / 发送画布 / 下载）按单张结果卡片记录状态。 */
+    const [resultAction, setResultAction] = useState<{ key: string; busy: boolean; tone: "ok" | "error"; message: string } | null>(null);
 
     const revisionRef = useRef<number | null>(null);
     const abortRef = useRef<AbortController | null>(null);
@@ -879,6 +885,38 @@ export function AiPoseGeneratorWorkspace({ className }: AiPoseGeneratorWorkspace
     }, [redo, undo]);
 
     /* ---------------- 提交 / 重试 ---------------- */
+
+    /**
+     * 结果动作：把某一张真实结果存入资产库 / 发送到画布 / 下载。
+     * 复用 `ToolResult` 的同一套载荷协议，避免本页结果只能停留在页面内。
+     */
+    const runResultAction = useCallback(
+        async (
+            group: AiPoseGeneratorResultViewGroup,
+            item: AiPoseGeneratorResultViewItem,
+            itemIndex: number,
+            action: "assets" | "canvas" | "download",
+        ) => {
+            const key = `${group.unitId}#${itemIndex}`;
+            setResultAction({ key, busy: true, tone: "ok", message: "处理中…" });
+            const payload = aiPoseGeneratorResultItem(item, itemIndex);
+            try {
+                if (action === "assets") {
+                    const saved = await saveResultItemToAssets(payload, itemIndex, { toolId: AI_POSE_GENERATOR_TOOL_ID });
+                    setResultAction({ key, busy: false, tone: "ok", message: `已存入资产库（${saved.assetId.slice(0, 8)}）` });
+                } else if (action === "canvas") {
+                    const sent = await sendResultItemToCanvas(payload, { toolId: AI_POSE_GENERATOR_TOOL_ID });
+                    setResultAction({ key, busy: false, tone: "ok", message: `已发送到画布（${sent.nodeId.slice(0, 8)}）` });
+                } else {
+                    const fileName = await downloadResultItem(payload, itemIndex, { toolId: AI_POSE_GENERATOR_TOOL_ID });
+                    setResultAction({ key, busy: false, tone: "ok", message: `已下载 ${fileName}` });
+                }
+            } catch (error) {
+                setResultAction({ key, busy: false, tone: "error", message: error instanceof Error ? error.message : String(error) });
+            }
+        },
+        [],
+    );
 
     const submit = useCallback(async () => {
         if (!canSubmit) return;
@@ -1335,15 +1373,65 @@ export function AiPoseGeneratorWorkspace({ className }: AiPoseGeneratorWorkspace
                                         </header>
                                         {group.items.length > 0 ? (
                                             <div className="mt-2 grid gap-2 sm:grid-cols-2 xl:grid-cols-4">
-                                                {group.items.map((item, itemIndex) => (
-                                                    <figure key={`${group.unitId}-${itemIndex}`} className="overflow-hidden rounded-lg border border-border">
-                                                        <img
-                                                            src={item.dataUrl || item.url}
-                                                            alt={`${group.label} 第 ${itemIndex + 1} 张`}
-                                                            className="aspect-[3/4] w-full object-cover"
-                                                        />
-                                                    </figure>
-                                                ))}
+                                                {group.items.map((item, itemIndex) => {
+                                                    const actionKey = `${group.unitId}#${itemIndex}`;
+                                                    const actionState = resultAction?.key === actionKey ? resultAction : null;
+                                                    return (
+                                                        <figure key={`${group.unitId}-${itemIndex}`} className="overflow-hidden rounded-lg border border-border">
+                                                            <img
+                                                                src={item.dataUrl || item.url}
+                                                                alt={`${group.label} 第 ${itemIndex + 1} 张`}
+                                                                className="aspect-[3/4] w-full object-cover"
+                                                            />
+                                                            <figcaption className="space-y-1 border-t border-border p-1.5">
+                                                                <div className="flex flex-wrap gap-1">
+                                                                    <button
+                                                                        type="button"
+                                                                        data-testid={`ai-pose-result-save-${index}-${itemIndex}`}
+                                                                        onClick={() => void runResultAction(group, item, itemIndex, "assets")}
+                                                                        disabled={actionState?.busy ?? false}
+                                                                        className="inline-flex h-7 items-center gap-1 rounded border border-border px-1.5 text-[11px] hover:bg-accent disabled:opacity-40"
+                                                                    >
+                                                                        <FolderPlus aria-hidden="true" className="size-3" />
+                                                                        存入资产
+                                                                    </button>
+                                                                    <button
+                                                                        type="button"
+                                                                        data-testid={`ai-pose-result-canvas-${index}-${itemIndex}`}
+                                                                        onClick={() => void runResultAction(group, item, itemIndex, "canvas")}
+                                                                        disabled={actionState?.busy ?? false}
+                                                                        className="inline-flex h-7 items-center gap-1 rounded border border-border px-1.5 text-[11px] hover:bg-accent disabled:opacity-40"
+                                                                    >
+                                                                        <Send aria-hidden="true" className="size-3" />
+                                                                        发送画布
+                                                                    </button>
+                                                                    <button
+                                                                        type="button"
+                                                                        data-testid={`ai-pose-result-download-${index}-${itemIndex}`}
+                                                                        onClick={() => void runResultAction(group, item, itemIndex, "download")}
+                                                                        disabled={actionState?.busy ?? false}
+                                                                        className="inline-flex h-7 items-center gap-1 rounded border border-border px-1.5 text-[11px] hover:bg-accent disabled:opacity-40"
+                                                                    >
+                                                                        <Download aria-hidden="true" className="size-3" />
+                                                                        下载
+                                                                    </button>
+                                                                </div>
+                                                                {actionState ? (
+                                                                    <p
+                                                                        data-testid={`ai-pose-result-action-status-${index}-${itemIndex}`}
+                                                                        className={
+                                                                            actionState.tone === "error"
+                                                                                ? "text-[11px] text-destructive"
+                                                                                : "text-[11px] text-muted-foreground"
+                                                                        }
+                                                                    >
+                                                                        {actionState.message}
+                                                                    </p>
+                                                                ) : null}
+                                                            </figcaption>
+                                                        </figure>
+                                                    );
+                                                })}
                                             </div>
                                         ) : (
                                             <p className="mt-2 text-[11px] text-muted-foreground">{group.status === "running" ? "正在生成…" : "该场景暂无结果"}</p>

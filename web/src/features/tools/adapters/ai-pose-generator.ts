@@ -12,7 +12,7 @@
  */
 
 import type { BrowserToolInput } from "@/services/api/tools/gateway";
-import type { ToolTask } from "@/services/api/tools/task-machine";
+import type { ToolTask, ToolTaskResultItem } from "@/services/api/tools/task-machine";
 
 import {
     AI_POSE_GENERATOR_MAX_OUTPUT,
@@ -444,6 +444,19 @@ export function aiPoseGeneratorResultView(options: {
         stale: groups.some((group) => group.stale),
         snapshotHash: currentHash ?? undefined,
     };
+}
+
+/**
+ * 结果项 → 通用结果动作载荷（存入资产 / 发送画布 / 下载共用）。
+ *
+ * 结果区用自己的分组视图渲染，但落库/上画布必须走与 `ToolResult` 相同的载荷结构；
+ * data URL 与远端 URL 只保留一个（`saveResultItemToAssets` 优先取 dataUrl）。
+ */
+export function aiPoseGeneratorResultItem(item: AiPoseGeneratorResultViewItem, index: number): ToolTaskResultItem {
+    const id = `${AI_POSE_GENERATOR_TOOL_ID}-result-${index + 1}`;
+    const dataUrl = item.dataUrl ?? (item.url?.startsWith("data:") ? item.url : undefined);
+    const base: ToolTaskResultItem = { id, kind: "image", mimeType: "image/png" };
+    return dataUrl ? { ...base, dataUrl } : { ...base, url: item.url };
 }
 
 /** 字段规格自检：注册表字段必须与请求字段一一对应（供测试与诊断使用）。 */

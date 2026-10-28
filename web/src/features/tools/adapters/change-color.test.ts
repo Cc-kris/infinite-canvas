@@ -17,6 +17,7 @@ import {
     DEFAULT_CHANGE_COLOR_VALUES,
     createChangeColorSnapshot,
     isChangeColorSnapshotStale,
+    isChangeColorSourceReady,
     readChangeColorValues,
     snapshotFieldSummary,
     validateChangeColorState,
@@ -279,5 +280,19 @@ describe("CHANGE_COLOR 执行链路", () => {
     test("源图不可用时不算 ready", () => {
         expect(isChangeColorSourceUsable(source)).toBe(true);
         expect(isChangeColorSourceUsable({ ...source, dataUrl: "", url: undefined })).toBe(false);
+    });
+
+    // 回归：ToolAssetInput 上传后资产记录里的 url 是 blob:（IndexedDB 对象 URL）。
+    // 旧实现只认 data:/http(s)，导致上传成功却仍报「请先上传需要换色的图片」、提交按钮永久禁用。
+    test("blob: 源图（上传后的本地资产）也算可用，否则上传成功也永远提交不了", () => {
+        const blobSource = { ...source, dataUrl: "", url: "blob:http://127.0.0.1:3000/2f1c-uuid" };
+        expect(isChangeColorSourceUsable(blobSource)).toBe(true);
+        expect(isChangeColorSourceReady(blobSource)).toBe(true);
+        expect(validateChangeColorState({
+            values: values({ targetColor: "#2E6BE6" }),
+            sourceReady: isChangeColorSourceReady(blobSource),
+            imageModelReady: true,
+            maskReady: false,
+        }).some((issue) => issue.code === "source-required")).toBe(false);
     });
 });
