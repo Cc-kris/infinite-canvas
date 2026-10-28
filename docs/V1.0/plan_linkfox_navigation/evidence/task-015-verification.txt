@@ -1,0 +1,24 @@
+bun test v1.4.2 (744846f84)
+
+src/features/tools/adapters/remove-pen.test.ts:
+(pass) REMOVE_PEN 契约 > 注册表内的 toolId / slug / route 与本模块一致，且是 mask 布局的单结果工具 [0.04ms]
+(pass) REMOVE_PEN 契约 > 草稿键与工具 ID 绑定，草稿值可往返解析 [0.21ms]
+(pass) REMOVE_PEN 契约 > 画笔大小被夹在共享上下限内，越界输入不产生非法笔刷 [0.02ms]
+(pass) REMOVE_PEN 契约 > 撤销/重做/重置只作用于笔画，语义与共享蒙版历史一致 [0.07ms]
+(pass) REMOVE_PEN 蒙版与校验 > 空蒙版判空并给出“先涂抹”文案，涂过之后不再为空 [0.29ms]
+(pass) REMOVE_PEN 蒙版与校验 > 缺原图 / 缺蒙版 / 尺寸不一致都会被拦下，且各给一条具体原因 [0.05ms]
+(pass) REMOVE_PEN 蒙版与校验 > 源图限制按规格给出行数：格式/大小/像素 [0.04ms]
+(pass) REMOVE_PEN 快照与请求 > 快照指纹不含幂等键：同输入重试不变，改笔画即变 [0.43ms]
+(pass) REMOVE_PEN 快照与请求 > 四个 ToolSpec 字段全部落到请求，幂等键来自快照 [0.08ms]
+(pass) REMOVE_PEN 快照与请求 > unit 携带原图 + 蒙版两张参考图，蒙版必须是第二张 [0.14ms]
+(pass) REMOVE_PEN 快照与请求 > 守卫拒绝缺蒙版 / 缺字段 / 缺幂等键的请求，而不是发出去等上游报错 [0.20ms]
+(pass) REMOVE_PEN 结果与接力 > 上游成功但无图 → 判失败，不补造占位结果 [0.07ms]
+(pass) REMOVE_PEN 结果与接力 > 成功结果直接使用上游返回的两张真实图地址；运行中保持 running [0.03ms]
+(pass) REMOVE_PEN 结果与接力 > 对比滑块被夹在 0–100，文案在两端明确 [0.04ms]
+(pass) REMOVE_PEN 结果与接力 > 三个接力入口指向真实路由并带上结果地址 [0.04ms]
+(pass) REMOVE_PEN 工作区渲染 > 只渲染消除控件：画笔/大小/重置/撤销/重做/重新上传/开始消除，且不含重绘描述 [52.75ms]
+
+ 16 pass
+ 0 fail
+ 82 expect() calls
+Ran 16 tests across 1 file. [68.00ms]
