@@ -48,3 +48,22 @@
 
 - 复跑 probe-mask9：空闲 1s 内 `patch` 次数应从 438 降到 0；涂抹后 `present` 保持 1、覆盖率 > 0、提交按钮解除禁用。
 - 再用真实鼠标完成 AREA_REPAIR / REMOVE_PEN 的真实 provider 出图（证据见 `evidence/real-acceptance/<TOOL_ID>/`）。
+
+## 6. 修复后实测（2026-10-28 21:2x）
+
+| 工具 | 空转 1s 内 patch 次数 | 涂抹后 | 提交按钮 |
+| --- | --- | --- | --- |
+| AREA_REPAIR | 438 → **0** | `1 笔 · 覆盖 已涂抹 7.8% 区域` | 解除禁用 |
+| REMOVE_PEN | — → **0** | `1 笔`，重置蒙版可用 | **已启用** |
+
+草稿 revision 从 1342 降到 5，说明持久化不再自激。
+
+## 7. 仍未打通：真实出图凭据
+
+修复蒙版链路后，点击提交能真实走到 provider，但返回
+`Incorrect API key provided: ''`——浏览器端 `defaultConfig.channels[].apiKey` 为空字符串（`use-config-store.ts:116/123`），
+验收脚本按规则不写任何密钥。同时本机 23210 端口上的 canvas-proxy 由其它 worker 启动、**没有上游代理环境**，
+访问 `api.openai.com` 直接超时；改用 `node canvas-proxy/index.js --port 23299`（自带系统代理探测，走 macOS 系统代理 127.0.0.1:7890）后可以连通（401 = 可达）。
+
+所以剩下 6 个需要真实出图的工具（AREA_REPAIR / REMOVE_PEN / CHANGE_COLOR / PRODUCT_REFINE / FIX_COLOR / PRINTING_REPAIR / HAND_REPAIR）
+只差一个可用的 `baseUrl + apiKey`；应用已支持用 `?baseUrl=...&apiKey=...` 注入（`client-root-init.tsx`）。
