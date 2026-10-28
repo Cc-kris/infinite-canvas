@@ -18,9 +18,10 @@ import { ArrowRight, CircleAlert, Download, Layers, Loader2, Move, Redo2, Rotate
 import { ToolAssetInput } from "@/components/tools/tool-asset-input";
 import { ToolResult } from "@/components/tools/tool-result";
 import { ToolShell } from "@/components/tools/tool-shell";
+import { saveResultItemToAssets, sendResultItemToCanvas } from "@/components/tools/tool-result-actions";
 import { cn, randomId } from "@/lib/utils";
 import type { ToolAssetRecord } from "@/services/api/tools/assets";
-import type { ToolTask } from "@/services/api/tools/task-machine";
+import type { ToolTask, ToolTaskResultItem } from "@/services/api/tools/task-machine";
 import { useToolDraftStore } from "@/stores/use-tool-draft-store";
 
 import {
@@ -116,6 +117,62 @@ function clampSplit01(value: number): number {
 
 function percent(value: number, digits = 0) {
     return `${(value * 100).toFixed(digits)}%`;
+}
+
+/**
+ * 结果动作条：下载（原站 1:1）+ 存入资产库 + 发送画布。
+ *
+ * 与 HAND_REPAIR / AREA_REPAIR 的结果动作一致：只有真实结果存在时才渲染；动作本身走
+ * `tool-result-actions` 的真实副作用（上传到图片存储 + 资产库 / 画布节点），不在这里造数据。
+ */
+export type PrintingRepairResultActionsProps = {
+    imageUrl: string;
+    imageName?: string;
+    pending?: boolean;
+    notice?: string | null;
+    onSave?: () => void;
+    onSend?: () => void;
+};
+
+export function PrintingRepairResultActions({ imageUrl, imageName = "", pending = false, notice = null, onSave, onSend }: PrintingRepairResultActionsProps) {
+    return (
+        <div className="space-y-1">
+            <span className="flex flex-wrap items-center gap-2 text-[11px] text-muted-foreground">
+                <button
+                    type="button"
+                    data-testid="printing-repair-save"
+                    disabled={pending || !onSave}
+                    onClick={() => onSave?.()}
+                    className="underline-offset-2 hover:underline disabled:opacity-50"
+                >
+                    存入资产
+                </button>
+                <button
+                    type="button"
+                    data-testid="printing-repair-send"
+                    disabled={pending || !onSend}
+                    onClick={() => onSend?.()}
+                    className="underline-offset-2 hover:underline disabled:opacity-50"
+                >
+                    发送画布
+                </button>
+                <a
+                    href={imageUrl}
+                    download={printingRepairDownloadName(imageName)}
+                    data-testid="printing-repair-download"
+                    className="inline-flex items-center gap-1 text-primary underline-offset-2 hover:underline"
+                >
+                    <Download aria-hidden="true" className="size-3.5" />
+                    下载结果
+                </a>
+            </span>
+            {notice ? (
+                <p data-testid="printing-repair-result-feedback" className="text-[11px] text-muted-foreground">
+                    {notice}
+                </p>
+            ) : null}
+        </div>
+    );
 }
 
 function StepBadge({ index, active }: { index: number; active: boolean }) {
@@ -393,6 +450,9 @@ export function PrintingRepairWorkspace({ className }: PrintingRepairWorkspacePr
     const [submitError, setSubmitError] = useState<string | null>(null);
     const [lastSnapshot, setLastSnapshot] = useState<PrintingRepairSnapshot | null>(null);
     const [notice, setNotice] = useState<string | null>(null);
+    /** 结果动作（存入资产 / 发送画布）进行中与结果提示，避免连点重复入库/重复建项目。 */
+    const [resultPending, setResultPending] = useState(false);
+    const [resultNotice, setResultNotice] = useState<string | null>(null);
 
     const revisionRef = useRef<number | null>(null);
     const abortRef = useRef<AbortController | null>(null);
@@ -558,10 +618,72 @@ export function PrintingRepairWorkspace({ className }: PrintingRepairWorkspacePr
         [base, run, running, stale],
     );
 
+    /* ---------------- 结果动作：存入资产库 / 发送画布 ---------------- */
+
+    /**
+     * 取本次真实结果的 item：优先复用任务里的第一张图片结果（保留 dataUrl / url / mimeType），
+     * 退化为 run.image；两者都没有就是没有结果，动作直接拒绝，不造占位图。
+     */
+    const resultItem = useCallback((): ToolTaskResultItem | null => {
+        const fromTask = run?.task?.result?.items?.find((item) => item.kind === "image" && (item.dataUrl || item.url || item.blob));
+        if (fromTask) return fromTask;
+        const src = run?.image?.dataUrl ?? run?.image?.url ?? "";
+        if (!src) return null;
+        return {
+            id: `${run?.task?.id ?? "printing-repair"}-0`,
+            kind: "image",
+            dataUrl: src.startsWith("data:") ? src : undefined,
+            url: src.startsWith("data:") ? undefined : src,
+            mimeType: "image/png",
+        };
+    }, [run]);
+
+    const saveResult = useCallback(async () => {
+        const item = resultItem();
+        if (!item) {
+            setResultNotice("没有可存入的结果图：请先完成一次真实修复");
+            return;
+        }
+        setResultPending(true);
+        setResultNotice(null);
+        try {
+            const saved = await saveResultItemToAssets(item, 0, {
+                toolId: PRINTING_REPAIR_TOOL_ID,
+                taskId: run?.task?.id,
+                title: `${base?.name ?? "印花修复"} 修复结果`,
+                source: "printing-repair",
+            });
+            setResultNotice(`已存入资产库（${saved.assetId.slice(0, 8)}）`);
+        } catch (error) {
+            setResultNotice(error instanceof Error ? error.message : "存入资产库失败");
+        } finally {
+            setResultPending(false);
+        }
+    }, [base, resultItem, run]);
+
+    const sendResult = useCallback(async () => {
+        const item = resultItem();
+        if (!item) {
+            setResultNotice("没有可发送的结果图：请先完成一次真实修复");
+            return;
+        }
+        setResultPending(true);
+        setResultNotice(null);
+        try {
+            const sent = await sendResultItemToCanvas(item, { toolId: PRINTING_REPAIR_TOOL_ID });
+            setResultNotice(`已发送画布（项目 ${sent.projectId.slice(0, 8)} · 节点 ${sent.nodeId.slice(0, 8)}）`);
+        } catch (error) {
+            setResultNotice(error instanceof Error ? error.message : "发送画布失败");
+        } finally {
+            setResultPending(false);
+        }
+    }, [resultItem]);
+
     const submit = useCallback(async () => {
         if (running || !base || !print || seg.status !== "ready") return;
         setRunning(true);
         setSubmitError(null);
+        setResultNotice(null);
         const controller = new AbortController();
         abortRef.current = controller;
         try {
@@ -847,15 +969,14 @@ export function PrintingRepairWorkspace({ className }: PrintingRepairWorkspacePr
                                 <p data-testid="printing-repair-region" className="text-[11px] text-muted-foreground">
                                     局部范围：印花中心周围 {percent(compareRegion(transform).width, 0)} 画面
                                 </p>
-                                <a
-                                    href={view.imageUrl}
-                                    download={printingRepairDownloadName(base.name)}
-                                    data-testid="printing-repair-download"
-                                    className="inline-flex items-center gap-1 text-[11px] text-primary underline-offset-2 hover:underline"
-                                >
-                                    <Download aria-hidden="true" className="size-3.5" />
-                                    下载结果
-                                </a>
+                                <PrintingRepairResultActions
+                                    imageUrl={view.imageUrl}
+                                    imageName={base.name}
+                                    pending={resultPending}
+                                    notice={resultNotice}
+                                    onSave={() => void saveResult()}
+                                    onSend={() => void sendResult()}
+                                />
                             </>
                         ) : (
                             <p data-testid="printing-repair-result-empty" className="text-[11px] text-muted-foreground">
