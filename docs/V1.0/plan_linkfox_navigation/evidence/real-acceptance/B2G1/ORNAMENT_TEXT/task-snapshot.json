@@ -1,0 +1,10 @@
+[
+ {
+  "key": "tool-task:v1:index",
+  "value": "[\"task-mvsdivlg-6slebs\"]"
+ },
+ {
+  "key": "tool-task:v1:task-mvsdivlg-6slebs",
+  "value": "{\"id\":\"task-mvsdivlg-6slebs\",\"toolId\":\"ORNAMENT_TEXT\",\"status\":\"succeeded\",\"clientOperationId\":\"fb84ee11-e941-40f8-8452-2ec50810038e\",\"fingerprint\":\"2b4b6e856b268987\",\"capability\":\"image\",\"prompt\":\"饰品文字效果图：在珠宝饰品表面生成清晰、贴合材质的文字。 文字内容：「FOREVER」（逐字照排，不得增字、漏字、改字）。 字体：serif（衬线 Serif）；字号：96。 位置：文字水平范围 18%–82%（画面居中），沿饰品正面曲率排布，不压住宝石主刻面。 效果：玫瑰金浮雕 宝石边镶嵌碎钻 输出：单张成品图，1920 长边以内；文字完整、无裁切、无重影、无错字。\",\"configSnapshot\":{\"capability\":\"image\",\"model\":\"ccai-accept::gpt-image-2\",\"apiFormat\":\"openai\",\"size\":\"1:1\",\"quality\":\"auto\",\"count\":\"1\",\"channelId\":\"ccai-accept\"},\"sourceAssetIds\":[],\"draftRevision\":5,\"createdAt\":1793207631220,\"updatedAt\":1793207664042,\"attempts\":1,\"pollCount\":0,\"transientFailures\":0,\"submittedAt\":1793207631220,\"result\":{\"items\":[{\"id\":\"task-mvsdivlg-6slebs-0\",\"kind\":\"image\",\"storageKey\":\"tool-result:fwfbptF9hIuRm4lozH8J4\",\"url\":\"blob:http://127.0.0.1:3000/0245c500-cd07-47c2-a2e5-6dc9b9ea8e86\",\"bytes\":2439783,\"mimeType\":\"image/png\",\"payloadDropped\":false}],\"receivedAt\":1793207664042},\"finishedAt\":1793207664042}"
+ }
+]

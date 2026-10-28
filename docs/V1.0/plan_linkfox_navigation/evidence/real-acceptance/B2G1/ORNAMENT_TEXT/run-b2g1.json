@@ -1,0 +1,101 @@
+{
+ "tool": "ORNAMENT_TEXT",
+ "route": "/tools/product-design/ornament-text",
+ "startedAt": "2026-10-28T17:13:46.494Z",
+ "upstream": [
+  {
+   "file": "/Users/mac/Documents/Dev/infinite-canvas/docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/B2G1/ORNAMENT_TEXT/raw-upstream-0.json",
+   "bytes": 3253845,
+   "url": "http://127.0.0.1:23210/https://api.cc-ai.xyz/v1/images/generations",
+   "status": 200,
+   "requestContentType": "application/json"
+  }
+ ],
+ "steps": [
+  {
+   "step": "file-inputs",
+   "count": 0
+  },
+  {
+   "step": "submitted",
+   "at": "2026-10-28T17:13:51.241Z"
+  }
+ ],
+ "g1": {
+  "persisted": {
+   "taskId": "task-mvsdivlg-6slebs",
+   "storageKey": "tool-result:fwfbptF9hIuRm4lozH8J4",
+   "bytes": 2439783,
+   "hasDataUrlInSnapshot": false,
+   "payloadDropped": false,
+   "snapshotChars": 1021
+  },
+  "afterReload": {
+   "storageKey": "tool-result:fwfbptF9hIuRm4lozH8J4",
+   "bytes": 2439783,
+   "mimeType": "image/png",
+   "sha256": "d7a57b9b72c29334eb9fde659bb024b5bff55229188a35a0c66fcb760fe07c90",
+   "matchesUpstream": true
+  },
+  "restoredPanel": {
+   "view": "succeeded",
+   "text": "饰品文字结果 已完成 共 1 个结果 · 图片 1 下载 存入资产 发送画布"
+  },
+  "restoredButtons": {
+   "download": {
+    "exists": true,
+    "disabled": false
+   },
+   "save": {
+    "exists": true,
+    "disabled": false
+   },
+   "canvas": {
+    "exists": true,
+    "disabled": false
+   }
+  }
+ },
+ "linkfox": {
+  "note": "LinkFox 原站 /tools/product-design/ornament-text 抓取时重定向首页；参数基准取 page-specs + acceptance 契约。"
+ },
+ "provider": {
+  "baseUrl": "https://api.cc-ai.xyz",
+  "model": "sf-accept::Qwen/Qwen3-VL-8B-Instruct",
+  "imageModel": "ccai-accept::gpt-image-2",
+  "channelCount": 2,
+  "keyLen": 67,
+  "textKeyLen": 51
+ },
+ "resultView": "succeeded",
+ "result": {
+  "file": "result-0.png",
+  "bytes": 2439783,
+  "sha256": "d7a57b9b72c29334eb9fde659bb024b5bff55229188a35a0c66fcb760fe07c90",
+  "format": "png",
+  "width": 1024,
+  "height": 1024
+ },
+ "upstreamJson": {
+  "keys": [
+   "created",
+   "data",
+   "usage"
+  ],
+  "dataLen": 1,
+  "revisedPrompt": "饰品文字效果图：在珠宝饰品表面生成清晰、贴合材质的文字。 文字内容：「FOREVER」（逐字照排，不得增字、漏字、改字）。 字体：serif（衬线 Serif）；字号：96。 位置：文字水平范围 18%–82%（画面居中），沿饰品正面曲率排布，不压住宝石主刻面。 效果：玫瑰金浮雕 宝石边镶嵌碎钻 输出：单张成品图，1920 长边以内；文字完整、无裁切、无重影、无错字。"
+ },
+ "actions": {
+  "download": {
+   "suggestedFilename": "ornament-text-result-1.png",
+   "bytes": 2439783,
+   "sha256": "d7a57b9b72c29334eb9fde659bb024b5bff55229188a35a0c66fcb760fe07c90",
+   "matchesUpstream": true
+  },
+  "saveAsset": "已保存到资产库（_JGRrrDhs1xgmgeGmmnZ0）",
+  "sendCanvas": "已发送到画布（xpWrYbEDQlCJH8It8ID_Q）"
+ },
+ "assetsPage": null,
+ "finishedAt": "2026-10-28T17:14:36.290Z",
+ "verdict": "PASS"
+}
