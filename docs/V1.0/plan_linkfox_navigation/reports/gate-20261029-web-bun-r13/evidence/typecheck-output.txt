@@ -1,0 +1,8 @@
++ bun run typecheck
+$ tsc --noEmit
+
+real	3m18.898s
+user	1m4.538s
+sys	0m17.884s
+
+TYPECHECK_EXIT=0
