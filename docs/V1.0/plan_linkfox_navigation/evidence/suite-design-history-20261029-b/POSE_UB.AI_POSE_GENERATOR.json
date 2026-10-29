@@ -1,0 +1,106 @@
+{
+ "toolId": "AI_POSE_GENERATOR",
+ "alias": "POSE_UB",
+ "route": "/tools/product-design/ai-pose-generator",
+ "url": "http://127.0.0.1:3000/tools/product-design/ai-pose-generator",
+ "verdict": "BLOCKED_NO_BYTES",
+ "checkedAt": "2026-10-29T17:40:45+08:00",
+ "freshReload": {
+  "navType": "reload",
+  "dockPresent": true,
+  "dockCountText": "5 条"
+ },
+ "realTaskId": "task-mvs73hbe-ak20fw",
+ "realTaskStatus": "succeeded",
+ "resultCount": 1,
+ "resultItems": [
+  {
+   "id": "task-mvs73hbe-ak20fw-0",
+   "kind": "image",
+   "payloadDropped": true
+  }
+ ],
+ "resultItemPayloadDropped": true,
+ "dockItems": [
+  {
+   "taskId": "task-mvs73hbe-ak20fw",
+   "status": "succeeded",
+   "text": "2026-10-28 22:13 已完成 Create a full-body pose reference photo of a single fash… default::gpt-image-2 · image · 1 个结果 原始文件未保留（历史快照只存元数据），如需文件请重新生成。"
+  },
+  {
+   "taskId": "task-mvs6zovx-pod3rz",
+   "status": "failed",
+   "text": "2026-10-28 22:10 失败 Create a full-body pose reference photo of a single fash… default::gpt-image-2 · image · 0 个结果"
+  },
+  {
+   "taskId": "task-mvs6r088-39u8zq",
+   "status": "failed",
+   "text": "2026-10-28 22:04 失败 Create a full-body pose reference photo of a single fash… default::gpt-image-2 · image · 0 个结果"
+  },
+  {
+   "taskId": "task-mvs6l55s-fufs7l",
+   "status": "failed",
+   "text": "2026-10-28 21:59 失败 Create a full-body pose reference photo of a single fash… default::gpt-image-2 · image · 0 个结果"
+  },
+  {
+   "taskId": "task-mvs6fr7b-plo8es",
+   "status": "failed",
+   "text": "2026-10-28 21:55 失败 Create a full-body pose reference photo of a single fash… default::gpt-image-2 · image · 0 个结果"
+  }
+ ],
+ "historyDockDom": {
+  "data-testid": "tool-history-dock",
+  "items": 5,
+  "succeeded": 1,
+  "failed": 4,
+  "failedTaskIds": [
+   "task-mvs6zovx-pod3rz",
+   "task-mvs6r088-39u8zq",
+   "task-mvs6l55s-fufs7l",
+   "task-mvs6fr7b-plo8es"
+  ],
+  "expandedItemShows": [
+   "配置快照（可复用）",
+   "能力：image",
+   "模型：default::gpt-image-2",
+   "接口格式：openai",
+   "尺寸：1:1",
+   "质量：auto",
+   "数量：1",
+   "channelId：default",
+   "复制配置 JSON",
+   "结果（1）",
+   "无字节",
+   "task-mvs73hbe-ak20fw-0"
+  ]
+ },
+ "actionDomEvidence": {
+  "download": {
+   "testid": "tool-history-dock-download",
+   "title": "下载",
+   "disabledBeforeClick": false,
+   "clicked": true,
+   "feedbackText": "原始文件未保留（历史快照只存元数据），如需文件请重新生成。"
+  },
+  "assets": {
+   "testid": "tool-history-dock-save",
+   "title": "存入资产",
+   "disabledBeforeClick": false,
+   "clicked": true,
+   "feedbackText": "原始文件未保留（历史快照只存元数据），如需文件请重新生成。"
+  },
+  "canvas": {
+   "testid": "tool-history-dock-canvas",
+   "title": "发送到画布",
+   "disabledBeforeClick": false,
+   "clicked": true,
+   "feedbackText": "原始文件未保留（历史快照只存元数据），如需文件请重新生成。"
+  }
+ },
+ "workspaceEntryDom": {
+  "assetsEntry": "a[data-testid=workspace-link-assets][aria-label=我的资产] present",
+  "canvasEntry": "a[data-testid=workspace-link-canvas][aria-label=我的画布] present"
+ },
+ "conclusion": "真实任务已存在并在 fresh reload 后由共享历史坞复原（5 条，1 succeeded / 4 failed，结果 1 项）；但结果项带 payloadDropped=true，项内显示「无字节」，下载/存入资产/发送到画布三键点击均返回同一提示「原始文件未保留（历史快照只存元数据），如需文件请重新生成」。即：历史列表可复原，字节不可复原；要拿到可下载文件必须重新生成（本次任务禁止），故不做任何注入或重新生成。",
+ "verdictDetail": "真实任务与配置快照可复原，但结果字节已被持久化策略剥离（payloadDropped=true），下载/存入资产/发送到画布均不可用 → 如实记 BLOCKED，不伪造 PASS。"
+}

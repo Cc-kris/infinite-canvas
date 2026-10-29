@@ -1,0 +1,23 @@
+{
+ "toolId": "AI_POSTURE",
+ "alias": "POSE_SUITE",
+ "route": "/tools/product-design/ai-posture",
+ "verdict": "BLOCKED",
+ "blockedReason": "无真实任务：fresh reload 后共享历史坞 0 条，localStorage 中该 toolId 任务数 0",
+ "checkedAt": "2026-10-29T17:40:22+08:00",
+ "origin": "http://127.0.0.1:3000",
+ "freshReload": {
+  "navType": "reload",
+  "url": "http://127.0.0.1:3000/tools/product-design/ai-posture",
+  "dockPresent": true
+ },
+ "dock": {
+  "countText": "0 条",
+  "itemCount": 0,
+  "emptyText": "本工具还没有历史任务；提交一次后会在这里留下任务、配置与结果，刷新后仍在。"
+ },
+ "realTask": null,
+ "resultCount": 0,
+ "actionDomEvidence": null,
+ "conclusion": "历史坞为空态，无可复现的真实结果，按规则记 BLOCKED（禁止注入/重新生成）"
+}
