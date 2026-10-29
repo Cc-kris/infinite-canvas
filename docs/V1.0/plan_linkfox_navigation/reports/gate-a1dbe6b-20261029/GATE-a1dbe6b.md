@@ -14,6 +14,8 @@
 | 提交时间 | 2026-10-29 22:18:10 +0800 |
 | 分支 | `feat/linkfox-v1-real` |
 
+HEAD 漂移说明：三闸全部跑完之后、提交本报告之前，分支被其他 worker 推进到 `09f7279`，随后本报告提交为 `8982e82`。**验证对象始终是 `a1dbe6b`**（`git archive` 独立目录），未追并发 HEAD，结论仅对该快照有效。
+
 工作区说明：仓库工作区当时存在其他 worker 未提交改动（`web/src/components/tools/workspaces/mask.tsx`、`web/src/features/tools/adapters/remove-pen.ts`、`project_memory.md`、`docs/.../matrix.*` 等）以及大量未跟踪目录。这些内容**未参与**本次验证，也**未进入**本次提交。验证对象完全来自 git 对象库中的 `a1dbe6b` 树。
 
 ## 2. 环境与隔离方式
