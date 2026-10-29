@@ -1,0 +1,19 @@
+{
+ "capturedAt": "2026-10-29T12:16:55.559Z",
+ "bytes": [
+  {
+   "index": 0,
+   "type": "image/png",
+   "bytes": 2516552,
+   "nw": 1024,
+   "nh": 1024
+  },
+  {
+   "index": 1,
+   "type": "image/png",
+   "bytes": 1883817,
+   "nw": 1024,
+   "nh": 1024
+  }
+ ]
+}

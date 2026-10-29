@@ -1,0 +1,32 @@
+{
+ "url": "http://127.0.0.1:3000/tools/ecommerce-suite/dress-wear-set",
+ "navType": "reload",
+ "panel": true,
+ "view": "succeeded",
+ "panelSummary": "共 2 个结果 · 图片 2",
+ "items": [
+  {
+   "i": 0,
+   "nw": 1024,
+   "nh": 1024,
+   "src": "blob:http://127.0.0.1:3000",
+   "download": true,
+   "save": true,
+   "canvas": true
+  },
+  {
+   "i": 1,
+   "nw": 1024,
+   "nh": 1024,
+   "src": "blob:http://127.0.0.1:3000",
+   "download": true,
+   "save": true,
+   "canvas": true
+  }
+ ],
+ "groups": [
+  "dress-group-modelLook",
+  "dress-group-whiteBg"
+ ],
+ "suiteSummary": "共 2 组 · 成功 2 · 失败 0 · 进行中 0产物 2 张"
+}

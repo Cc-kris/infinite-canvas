@@ -1,0 +1,38 @@
+{
+ "capturedAt": "2026-10-29T12:12:00.000Z",
+ "taskId": "task-mvt74l6q-1vljau",
+ "reusedTask": true,
+ "panel": {
+  "testid": "tool-result",
+  "view": "succeeded",
+  "summary": "共 2 个结果 · 图片 2",
+  "items": 2
+ },
+ "save": {
+  "testid": "tool-result-save-0",
+  "clicked": true,
+  "feedback": "已保存到资产库（k6hsJTCu6gpZCDejqFwDQ）",
+  "tone": "success",
+  "verdict": "VERIFIED"
+ },
+ "canvas": {
+  "testid": "tool-result-canvas-0",
+  "clicked": true,
+  "feedback": "已发送到画布（dqIF3G06LSLuwhlLQmloq）",
+  "tone": "success",
+  "verdict": "VERIFIED"
+ },
+ "download": {
+  "testid": "tool-result-download-0",
+  "clicked": true,
+  "feedback": "已下载 dress-wear-set-result-1.png",
+  "tone": "success",
+  "file": {
+   "path": "/Users/mac/Downloads/dress-wear-set-result-1 (1).png",
+   "bytes": 2516552,
+   "mtime": "2026-10-29T20:13"
+  },
+  "verdict": "VERIFIED"
+ },
+ "note": "三动作均为结果面板（data-testid=tool-result）按钮真实点击，未注入、未新建 task；回执取自面板反馈区 data-testid=tool-result-feedback。"
+}
