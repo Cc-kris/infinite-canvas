@@ -367,7 +367,7 @@ export function HandheldGoodsWorkspace({ className }: HandheldGoodsWorkspaceProp
                             disabled={submitDisabled}
                             title={issues[0]?.message}
                         >
-                            {running ? "生成中…" : "立即生成 (40算力)"}
+                            {running ? "生成中…" : "立即生成"}
                         </Design19PrimaryButton>
                     }
                 >

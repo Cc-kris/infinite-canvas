@@ -23,7 +23,6 @@ import {
     type TranslationUnitStatus,
 } from "@/features/tools/adapters/image-translation";
 import {
-    IMAGE_TRANSLATION_CREDITS,
     IMAGE_TRANSLATION_DRAFT_KEY,
     IMAGE_TRANSLATION_MAX_IMAGES,
     IMAGE_TRANSLATION_MAX_TARGETS,
@@ -87,7 +86,7 @@ const STATUS_LABEL: Record<TranslationUnitStatus, string> = {
 const CHIP_CLASS = (active: boolean) =>
     cn(
         "h-[26px] rounded-[6px] px-3 text-xs leading-none transition disabled:cursor-not-allowed disabled:opacity-50",
-        active ? "bg-[#723CF9] text-white" : "bg-[#ECEEF4] text-[#1D1D1F] hover:bg-[#E1E5EE]",
+        active ? "bg-primary text-primary-foreground" : "bg-muted text-foreground hover:bg-muted/80",
     );
 
 function Section({
@@ -556,7 +555,7 @@ export function TranslateWorkspace({ className }: TranslateWorkspaceProps = {}) 
                 </nav>
             }
         >
-            <div className="grid min-h-0 gap-3 bg-[#F7F8FA] p-3 xl:grid-cols-[300px_minmax(0,1fr)]">
+            <div className="grid min-h-0 gap-3 bg-muted/40 p-3 xl:grid-cols-[300px_minmax(0,1fr)]">
                 <div className="space-y-3">
                     <Section id="images" title="上传需要翻译的图片" titleClassName="text-xs font-normal">
                         <ToolAssetInput
@@ -613,7 +612,7 @@ export function TranslateWorkspace({ className }: TranslateWorkspaceProps = {}) 
                             </ul>
                         ) : (
                             hydrated ? (
-                                <p className="text-sm text-[#723CF9]">上传多张图片，开始批量翻译</p>
+                                <p className="text-sm text-primary">上传多张图片，开始批量翻译</p>
                             ) : (
                                 <p className="text-xs text-muted-foreground">正在恢复草稿…</p>
                             )
@@ -666,7 +665,7 @@ export function TranslateWorkspace({ className }: TranslateWorkspaceProps = {}) 
                                     <div key={group.key} className="space-y-1.5">
                                         <div className="flex items-center gap-1 text-[11px] text-muted-foreground">
                                             <span>{group.label}</span>
-                                            {count ? <span className="text-[#723CF9]">已选 {count}</span> : null}
+                                            {count ? <span className="text-primary">已选 {count}</span> : null}
                                         </div>
                                         <div className="flex flex-wrap gap-1.5">
                                             {group.languages.map((language) => {
@@ -680,7 +679,7 @@ export function TranslateWorkspace({ className }: TranslateWorkspaceProps = {}) 
                                                         onClick={() => commit(toggleTargetLanguage(valuesRef.current, language.code))}
                                                         aria-pressed={selected}
                                                         title={sameAsSource ? "与原文语言相同：该语言不会重复出图" : undefined}
-                                                        className={cn(CHIP_CLASS(selected), sameAsSource && !selected ? "ring-1 ring-dashed ring-[#723CF9]/40" : "")}
+                                                        className={cn(CHIP_CLASS(selected), sameAsSource && !selected ? "ring-1 ring-dashed ring-primary/40" : "")}
                                                     >
                                                         {language.label}
                                                     </button>
@@ -700,16 +699,16 @@ export function TranslateWorkspace({ className }: TranslateWorkspaceProps = {}) 
                             type="button"
                             disabled={busy || !assetIds.length || !values.targetLanguages.length}
                             onClick={() => void runAll()}
-                            className="h-9 w-full rounded-md bg-[#723CF9] text-sm font-medium text-white transition hover:bg-[#5F2BD9] disabled:cursor-not-allowed disabled:opacity-50"
+                            className="h-9 w-full rounded-md bg-primary text-sm font-medium text-primary-foreground transition hover:bg-primary/90 disabled:cursor-not-allowed disabled:opacity-50"
                         >
-                            {busy ? `翻译中 ${progress.done}/${progress.total}` : `开始翻译 (${IMAGE_TRANSLATION_CREDITS}算力)`}
+                            {busy ? `翻译中 ${progress.done}/${progress.total}` : "开始翻译"}
                         </button>
                     </Section>
                 </div>
 
                 <div className="flex min-h-0 flex-col gap-3">
                     <div className="flex h-[41px] shrink-0 items-center gap-6 border-b border-border bg-card px-4 text-sm">
-                        <span className="-mb-px flex h-full items-center border-b-2 border-[#723CF9] font-medium text-[#723CF9]">生成结果</span>
+                        <span className="-mb-px flex h-full items-center border-b-2 border-primary font-medium text-primary">生成结果</span>
                     </div>
                     <Section
                         id="proofread"

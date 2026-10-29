@@ -519,7 +519,7 @@ export function OutpaintWorkspace({ className }: OutpaintWorkspaceProps = {}) {
                 const response = await fetch(param.src);
                 if (!response.ok) throw new Error(`案例素材读取失败（HTTP ${response.status}）`);
                 const blob = await response.blob();
-                const file = new File([blob], `linkfox-case-${item.id}.${(blob.type.split("/")[1] || "jpg")}`, {
+                const file = new File([blob], `case-${item.id}.${(blob.type.split("/")[1] || "jpg")}`, {
                     type: blob.type || "image/jpeg",
                 });
                 const record = await uploadToolAsset(file);
@@ -647,7 +647,7 @@ export function OutpaintWorkspace({ className }: OutpaintWorkspaceProps = {}) {
     return (
         <div
             data-tool={AI_OUTPAINTING_TOOL_ID}
-            data-layout="linkfox-outpaint"
+            data-layout="outpaint"
             className={cn("flex h-full min-h-0 min-w-0 gap-[10px] overflow-hidden text-foreground", className)}
         >
             {/* 左：白卡 = 画布区（#EDEFF5）+ 底部单条参数条（原站 1083×651 / 画布 601 / 参数条 48） */}
@@ -833,7 +833,6 @@ export function OutpaintWorkspace({ className }: OutpaintWorkspaceProps = {}) {
                     >
                         {busy ? <Loader2 className="size-4 animate-spin" /> : <Sparkles className="size-4" />}
                         <span>{busy ? "生成中…" : "立即生成"}</span>
-                        <span className="text-[12px] leading-none opacity-90">(40算力)</span>
                     </button>
                 </div>
 

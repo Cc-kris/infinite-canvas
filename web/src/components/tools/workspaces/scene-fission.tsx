@@ -85,7 +85,7 @@ const MODEL_PREVIEW: Record<string, string> = {
 function FieldLabel({ htmlFor, children, extra }: { htmlFor?: string; children: React.ReactNode; extra?: React.ReactNode }) {
     return (
         <div className="mb-2 flex items-baseline justify-between gap-2">
-            <label htmlFor={htmlFor} className="text-[12px] leading-4 text-black/45">
+            <label htmlFor={htmlFor} className="text-[12px] leading-4 text-muted-foreground">
                 {children}
             </label>
             {extra}
@@ -142,7 +142,7 @@ function SceneLayerComposer({
             <button
                 type="button"
                 onClick={() => navigate("/tools/product-design/product-suite")}
-                className="mt-3 block text-left text-[13px] leading-5 text-[#723cf9] hover:underline"
+                className="mt-3 block text-left text-[13px] leading-5 text-primary hover:underline"
                 data-testid="scene-to-suite"
             >
                 上传多图，体验新功能商品套图
@@ -188,7 +188,7 @@ function SimilarityControl({
                 disabled={disabled || smart}
                 aria-describedby="scene-similarity-hint"
                 onChange={(event) => onChange({ similarity: Number(event.target.value) })}
-                className="h-4 w-full accent-[#723cf9] disabled:opacity-50"
+                className="h-4 w-full accent-primary disabled:opacity-50"
             />
             <p id="scene-similarity-hint" className="mt-1 text-[11px] leading-4 text-black/40">
                 {smart
@@ -528,9 +528,9 @@ export function ProductSceneWorkspace({ className, toolId = PRODUCT_SCENE_TOOL_I
 
     return (
         <div className={`min-w-0 ${className ?? ""}`} data-tool="product-scene" data-layout="linkfox-two-pane">
-            <div className="flex h-[calc(100dvh-193px)] min-h-[560px] w-full overflow-hidden rounded-[8px] border border-black/[0.06] bg-white">
+            <div className="flex h-[calc(100dvh-193px)] min-h-[560px] w-full overflow-hidden rounded-[8px] border border-black/[0.06] bg-card">
                 {/* 左栏：原站表单列 300px 白底，操作按钮固定在列底 */}
-                <div className="flex h-full w-[300px] shrink-0 flex-col border-r border-[#ededf0]">
+                <div className="flex h-full w-[300px] shrink-0 flex-col border-r border-border">
                     <div className="min-h-0 flex-1 overflow-y-auto px-4 pb-4 pt-3" data-testid="scene-form">
                         <SceneLayerComposer
                             toolId={toolId}
@@ -569,7 +569,7 @@ export function ProductSceneWorkspace({ className, toolId = PRODUCT_SCENE_TOOL_I
                                 disabled={running}
                                 onChange={(event) => update({ prompt: event.target.value.slice(0, SCENE_PROMPT_LIMIT) })}
                                 placeholder="描述想要的场景，例如：晨光下的北欧客厅，浅木色地板"
-                                className="min-h-[84px] w-full resize-y rounded-[6px] border border-[#e5e5ea] bg-white p-2 text-[12px] leading-5 text-[#1f2024] outline-none transition placeholder:text-black/25 focus:border-[#723cf9]"
+                                className="min-h-[84px] w-full resize-y rounded-[6px] border border-border bg-card p-2 text-[12px] leading-5 text-foreground outline-none transition placeholder:text-black/25 focus:border-primary"
                             />
                             <details className="mt-1.5">
                                 <summary className="cursor-pointer text-[11px] leading-5 text-black/35 hover:text-black/55">
@@ -583,7 +583,7 @@ export function ProductSceneWorkspace({ className, toolId = PRODUCT_SCENE_TOOL_I
                                     onChange={(event) => update({ sceneKeyword: event.target.value })}
                                     placeholder="逗号分隔，例如：木质桌面, 白色墙面, 绿植"
                                     data-testid="scene-keyword"
-                                    className="mt-1 h-8 w-full rounded-[6px] border border-[#e5e5ea] bg-white px-2 text-[12px] text-[#1f2024] outline-none transition placeholder:text-black/25 focus:border-[#723cf9]"
+                                    className="mt-1 h-8 w-full rounded-[6px] border border-border bg-card px-2 text-[12px] text-foreground outline-none transition placeholder:text-black/25 focus:border-primary"
                                 />
                             </details>
                         </div>
@@ -602,10 +602,10 @@ export function ProductSceneWorkspace({ className, toolId = PRODUCT_SCENE_TOOL_I
                                             data-mode={item.id}
                                             disabled={running}
                                             onClick={() => update({ modelId: item.id })}
-                                            className={`w-[60px] shrink-0 overflow-hidden rounded-[6px] border bg-white text-center transition ${
+                                            className={`w-[60px] shrink-0 overflow-hidden rounded-[6px] border bg-card text-center transition ${
                                                 active
-                                                    ? "border-[#723cf9]"
-                                                    : "border-[#ededf0] hover:border-[#c9c9d4]"
+                                                    ? "border-primary"
+                                                    : "border-border hover:border-primary/40"
                                             } disabled:opacity-50`}
                                         >
                                             <span
@@ -615,7 +615,7 @@ export function ProductSceneWorkspace({ className, toolId = PRODUCT_SCENE_TOOL_I
                                             />
                                             <span
                                                 className={`block py-1 text-[12px] leading-4 ${
-                                                    active ? "text-[#723cf9]" : "text-black/45"
+                                                    active ? "text-primary" : "text-muted-foreground"
                                                 }`}
                                             >
                                                 {item.label}
@@ -650,8 +650,8 @@ export function ProductSceneWorkspace({ className, toolId = PRODUCT_SCENE_TOOL_I
                                             onClick={() => update({ sizeType: item.id })}
                                             className={`h-[30px] flex-1 rounded-[6px] border text-[12px] transition ${
                                                 active
-                                                    ? "border-[#723cf9] bg-[#f4f0ff] text-[#723cf9]"
-                                                    : "border-[#e5e5ea] bg-white text-[#5a5a66] hover:border-[#c9c9d4]"
+                                                    ? "border-primary bg-primary/10 text-primary"
+                                                    : "border-border bg-card text-muted-foreground hover:border-primary/40"
                                             } disabled:opacity-50`}
                                         >
                                             {item.label}
@@ -672,7 +672,7 @@ export function ProductSceneWorkspace({ className, toolId = PRODUCT_SCENE_TOOL_I
                                             value={values.customWidth}
                                             disabled={running}
                                             onChange={(event) => update({ customWidth: Number(event.target.value) })}
-                                            className="mt-1 h-8 w-full rounded-[6px] border border-[#e5e5ea] bg-white px-2 text-[12px] tabular-nums text-[#1f2024] outline-none focus:border-[#723cf9]"
+                                            className="mt-1 h-8 w-full rounded-[6px] border border-border bg-card px-2 text-[12px] tabular-nums text-foreground outline-none focus:border-primary"
                                         />
                                     </label>
                                     <label className="text-[11px] leading-4 text-black/35">
@@ -685,7 +685,7 @@ export function ProductSceneWorkspace({ className, toolId = PRODUCT_SCENE_TOOL_I
                                             value={values.customHeight}
                                             disabled={running}
                                             onChange={(event) => update({ customHeight: Number(event.target.value) })}
-                                            className="mt-1 h-8 w-full rounded-[6px] border border-[#e5e5ea] bg-white px-2 text-[12px] tabular-nums text-[#1f2024] outline-none focus:border-[#723cf9]"
+                                            className="mt-1 h-8 w-full rounded-[6px] border border-border bg-card px-2 text-[12px] tabular-nums text-foreground outline-none focus:border-primary"
                                         />
                                     </label>
                                 </div>
@@ -708,8 +708,8 @@ export function ProductSceneWorkspace({ className, toolId = PRODUCT_SCENE_TOOL_I
                                             onClick={() => update({ outputNum: count })}
                                             className={`h-[26px] w-[42px] rounded-[4px] border text-[12px] tabular-nums transition ${
                                                 active
-                                                    ? "border-[#723cf9] bg-[#f4f0ff] text-[#723cf9]"
-                                                    : "border-[#e5e5ea] bg-white text-[#5a5a66] hover:border-[#c9c9d4]"
+                                                    ? "border-primary bg-primary/10 text-primary"
+                                                    : "border-border bg-card text-muted-foreground hover:border-primary/40"
                                             } disabled:opacity-50`}
                                         >
                                             {count}
@@ -720,7 +720,7 @@ export function ProductSceneWorkspace({ className, toolId = PRODUCT_SCENE_TOOL_I
                         </div>
                     </div>
 
-                    <div className="shrink-0 border-t border-[#f0f0f3] px-4 py-3">
+                    <div className="shrink-0 border-t border-border px-4 py-3">
                         {issues.length > 0 && runError ? (
                             <ul className="mb-2 list-none space-y-0.5 text-[10px] leading-4 text-[#c47a1a]" data-testid="scene-issues">
                                 {issues.map((issue) => (
@@ -745,10 +745,9 @@ export function ProductSceneWorkspace({ className, toolId = PRODUCT_SCENE_TOOL_I
                             disabled={blocked || !source}
                             onClick={() => void onGenerate()}
                             data-testid="scene-generate"
-                            className="flex h-8 w-full items-center justify-center gap-1 rounded-[4px] bg-[#723cf9] text-[13px] font-medium leading-none text-white transition hover:bg-[#6130e0] disabled:cursor-not-allowed disabled:bg-[#c9b6fb]"
+                            className="flex h-8 w-full items-center justify-center gap-1 rounded-[4px] bg-primary text-[13px] font-medium leading-none text-white transition hover:bg-primary/90 disabled:cursor-not-allowed disabled:bg-primary/40"
                         >
                             {running ? "裂变中…" : "立即生成"}
-                            <span className="text-[12px] font-normal opacity-90">(40算力)</span>
                         </button>
                         <p className="sr-only" data-testid="scene-expected">
                             {describeSceneProduct(output, values.outputNum)} · {sceneOutputOptionLabel(values.outputNum)} ·{" "}
@@ -758,9 +757,9 @@ export function ProductSceneWorkspace({ className, toolId = PRODUCT_SCENE_TOOL_I
                 </div>
 
                 {/* 右栏：结果页签 + 浅灰画布 */}
-                <div className="flex min-w-0 flex-1 flex-col bg-[#edeff5]">
+                <div className="flex min-w-0 flex-1 flex-col bg-muted">
                     <div
-                        className="flex h-[42px] shrink-0 items-center gap-1 border-b border-[#ededf0] bg-white px-3"
+                        className="flex h-[42px] shrink-0 items-center gap-1 border-b border-border bg-card px-3"
                         role="tablist"
                         aria-label="结果视图"
                     >
@@ -775,7 +774,7 @@ export function ProductSceneWorkspace({ className, toolId = PRODUCT_SCENE_TOOL_I
                                     data-testid={`scene-tab-${item.id}`}
                                     onClick={() => setTab(item.id)}
                                     className={`h-full px-3 text-[14px] leading-none transition ${
-                                        active ? "font-medium text-[#723cf9]" : "text-[#5a5a66] hover:text-[#1f2024]"
+                                        active ? "font-medium text-primary" : "text-muted-foreground hover:text-foreground"
                                     }`}
                                 >
                                     {item.label}
@@ -799,24 +798,24 @@ export function ProductSceneWorkspace({ className, toolId = PRODUCT_SCENE_TOOL_I
                                 {showEmpty ? (
                                     <div className="flex flex-1 items-center justify-center">
                                         <div
-                                            className="flex h-[300px] w-[460px] max-w-full flex-col items-center justify-center gap-2 rounded-[12px] bg-white px-8 text-center shadow-[0_1px_2px_rgba(0,0,0,0.03)]"
+                                            className="flex h-[300px] w-[460px] max-w-full flex-col items-center justify-center gap-2 rounded-[12px] bg-card px-8 text-center shadow-[0_1px_2px_rgba(0,0,0,0.03)]"
                                             data-testid="scene-result-empty"
                                         >
                                             <svg width="40" height="40" viewBox="0 0 40 40" aria-hidden className="mb-1">
-                                                <rect x="4" y="8" width="32" height="24" rx="4" fill="#f4f0ff" />
-                                                <circle cx="14" cy="17" r="3" fill="#c9b6fb" />
-                                                <path d="M8 27l7-7 5 5 4-3 8 5" stroke="#723cf9" strokeWidth="1.6" fill="none" strokeLinecap="round" strokeLinejoin="round" />
+                                                <rect x="4" y="8" width="32" height="24" rx="4" fill="var(--primary)" fillOpacity="0.1" />
+                                                <circle cx="14" cy="17" r="3" fill="var(--primary)" fillOpacity="0.35" />
+                                                <path d="M8 27l7-7 5 5 4-3 8 5" stroke="var(--primary)" strokeWidth="1.6" fill="none" strokeLinecap="round" strokeLinejoin="round" />
                                             </svg>
-                                            <p className="text-[20px] font-medium leading-7 text-[#1f2024]">上传商品场景参考图</p>
+                                            <p className="text-[20px] font-medium leading-7 text-foreground">上传商品场景参考图</p>
                                             <p className="text-[15px] leading-6 text-black/60">
                                                 3秒裂变出多张相似的场景图，快来裂变您的场景图吧~
                                             </p>
                                         </div>
                                     </div>
                                 ) : (
-                                    <div className="rounded-[8px] bg-white p-3">
+                                    <div className="rounded-[8px] bg-card p-3">
                                         <div className="mb-2 flex items-baseline justify-between gap-2">
-                                            <h3 className="text-[13px] font-medium text-[#1f2024]">生成结果</h3>
+                                            <h3 className="text-[13px] font-medium text-foreground">生成结果</h3>
                                             <span className="text-[11px] tabular-nums text-black/35">
                                                 本次 {result.expected} 张 · 已返回 {result.count} 张
                                             </span>
@@ -855,7 +854,7 @@ export function ProductSceneWorkspace({ className, toolId = PRODUCT_SCENE_TOOL_I
 
                         {tab === "history" ? (
                             <div className="p-4">
-                                <ToolHistoryDock toolId={toolId} className="border border-[#ededf0] bg-white" />
+                                <ToolHistoryDock toolId={toolId} className="border border-border bg-card" />
                             </div>
                         ) : null}
                     </div>

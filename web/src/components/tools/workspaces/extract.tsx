@@ -892,7 +892,7 @@ export function PrintExtractWorkspace() {
                             className="inline-flex h-8 w-full items-center justify-center gap-1 rounded-md bg-primary text-[13px] font-medium text-primary-foreground transition hover:bg-primary/90 disabled:cursor-not-allowed disabled:opacity-40"
                         >
                             {busy ? <Loader2 className="size-3.5 animate-spin" aria-hidden /> : null}
-                            立即生成 (10算力)
+                            立即生成
                         </button>
                         {items.length === 0 ? <p className="mt-1.5 text-[11px] leading-4 text-[#999]">先上传需要提取印花的商品图片。</p> : null}
                     </div>

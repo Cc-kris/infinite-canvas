@@ -511,12 +511,7 @@ export function ScaleUpWorkspace({ className }: { className?: string }) {
                         data-testid="scale-up-generate"
                         className="w-full rounded-md bg-stone-800 px-3 py-2 text-xs font-medium text-white disabled:cursor-not-allowed disabled:opacity-50 dark:bg-stone-200 dark:text-stone-900"
                     >
-                        {running ? "生成中…" : (
-                            <span className="inline-flex items-center justify-center gap-1.5">
-                                立即生成
-                                <span className="text-[11px] font-normal opacity-80" data-testid="scale-up-cost">(20算力)</span>
-                            </span>
-                        )}
+                        {running ? "生成中…" : "立即生成"}
                     </button>
                     {/* 原站「立即生成」下方紧跟同宽「下载图片」按钮（319×28，outlined，无结果时 disabled，#d9d9d9 边框 + rgba(0,0,0,0.04) 底） */}
                     <button

@@ -732,7 +732,7 @@ export function ChangeColorWorkspace({ className }: { className?: string }) {
                 footer={
                     <div className="border-t border-border p-[10px]">
                         <button type="button" className={edit8PrimaryButtonClass} disabled={blocked || !sourceReady} onClick={() => void onGenerate()} data-testid="change-color-submit">
-                            {running ? "生成中…" : "立即生成 (10算力)"}
+                            {running ? "生成中…" : "立即生成"}
                         </button>
                         {running ? (
                             <button type="button" className={cn(ghostButton, "mt-1 w-full")} onClick={onCancel} data-testid="change-color-cancel">
@@ -972,7 +972,7 @@ export function ChangeColorWorkspace({ className }: { className?: string }) {
                         {resultTab === "result" ? <ToolResult task={task} toolId={toolId} title="生成结果" emptyTitle="暂无生成结果图" emptyHint="快在左侧操作物品换色吧~" onCancel={onCancel} onRetry={() => void onRetry()} /> : null}
                         {resultTab === "gallery" ? (
                             <div className="flex flex-1 items-center justify-center p-4 text-center" data-testid="change-color-gallery">
-                                <p className="text-[12px] leading-5 text-muted-foreground">优秀案例来自原站社区，本地未接入社区数据。</p>
+                                <p className="text-[12px] leading-5 text-muted-foreground">优秀案例来自社区灵感库，本地暂未接入社区数据。</p>
                             </div>
                         ) : null}
                         {resultTab === "history" ? (

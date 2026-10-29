@@ -726,7 +726,7 @@ export function MaskWorkspace({ className }: MaskWorkspaceProps = {}) {
                             className={edit8PrimaryButtonClass}
                         >
                             <Sparkles className="mr-1 size-3.5" aria-hidden />
-                            {busy ? "生成中…" : "立即生成 (40算力)"}
+                            {busy ? "生成中…" : "立即生成"}
                         </button>
                     }
                 >

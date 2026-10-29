@@ -61,7 +61,7 @@ function attr(html: string, testId: string): string {
 describe("智能扩图工作台渲染", () => {
     test("骨架：左画布卡 + 底部参数条 + 右结果栏（不再嵌套 ToolShell）", async () => {
         const html = await renderWorkspace();
-        expect(html).toContain('data-layout="linkfox-outpaint"');
+        expect(html).toContain('data-layout="outpaint"');
         expect(html).toContain('data-region="canvas"');
         expect(html).toContain('data-region="results"');
         expect(html).toContain('data-testid="outpaint-param-bar"');
@@ -69,7 +69,7 @@ describe("智能扩图工作台渲染", () => {
         expect(html).not.toContain("tool-workspace-placeholder");
     });
 
-    test("参数条：默认尺寸 / 提示词 / 生成张数 / 立即生成（含算力文案）", async () => {
+    test("参数条：默认尺寸 / 提示词 / 生成张数 / 立即生成", async () => {
         const html = await renderWorkspace();
         expect(html).toContain("默认尺寸");
         expect(html).toContain('aria-label="画布宽度"');
@@ -77,7 +77,7 @@ describe("智能扩图工作台渲染", () => {
         expect(html).toContain('placeholder="描述想要扩图的内容，不填将基于原图生成"');
         expect(html).toContain("生成：");
         expect(html).toContain("立即生成");
-        expect(html).toContain("(40算力)");
+        expect(html).toContain("立即生成");
         // 默认 4 张，与原站默认值一致
         expect(html).toContain('<option value="4" selected="">4张</option>');
     });

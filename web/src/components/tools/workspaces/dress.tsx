@@ -1034,7 +1034,7 @@ export function AiWearableWorkspace({ className, toolId = AI_WEARABLE_TOOL_ID }:
                             <ToolResult task={task} toolId={toolId} title="结果资产" onCancel={running ? cancel : undefined} />
                         </>
                     ) : (
-                        <Section title="优秀案例" hint="取一条原站案例，一键回填商品图与模特参考图" testId="dress-cases">
+                        <Section title="优秀案例" hint="选一条优秀案例，一键回填商品图与模特参考图" testId="dress-cases">
                             <ToolCases
                                 cases={AI_WEARABLE_CASES}
                                 applyingId={applyingCaseId}

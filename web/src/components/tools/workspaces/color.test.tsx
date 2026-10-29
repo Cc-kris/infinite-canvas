@@ -69,9 +69,9 @@ describe("一键换色工作台渲染", () => {
         expect(html).not.toContain("生成中");
     });
 
-    test("光影优化默认开启但强度可调，数值框与一次生成 10 算力都在", async () => {
+    test("光影优化默认开启但强度可调，数值框与生成按钮都在", async () => {
         const html = await renderWorkspace();
-        expect(html).toContain("立即生成 (10算力)");
+        expect(html).toContain(">立即生成<");
         expect(html).toContain("change-color-light-strength");
         // 细调四项都有 48×22 数值框
         for (const key of ["hue", "saturation", "brightness", "contrast"]) {

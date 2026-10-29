@@ -656,7 +656,7 @@ export function DressSuiteWorkspace({ toolId = DRESS_WEAR_SET_TOOL_ID }: DressSu
                         )}
                     </Section>
 
-                    <Section title="优秀案例" hint="原站真实作品；点「做同款」把案例服装图写入商品图，再自行调整场景与数量。">
+                    <Section title="优秀案例" hint="真实优秀作品；点「做同款」把案例服装图写入商品图，再自行调整场景与数量。">
                         <ToolCases
                             cases={DRESS_SET_CASES}
                             onApply={applyCase}

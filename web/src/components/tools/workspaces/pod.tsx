@@ -1611,7 +1611,7 @@ export function SdsDesignWorkspace() {
             {/* 左：素材贴合主面板（舞台 + 右栏参数卡） */}
             <section
                 aria-label="素材贴合"
-                className="flex min-w-0 flex-1 flex-col gap-[10px] rounded-[8px] border border-[#E8E8E8] bg-[#EDEFF5] p-[10px] lg:flex-row"
+                className="flex min-w-0 flex-1 flex-col gap-[10px] rounded-[8px] border border-border bg-muted p-[10px] lg:flex-row"
             >
                 <div className="flex min-w-0 flex-1 flex-col items-center justify-center px-[10px] pb-[10px] pt-[50px]">
                     {stageHasContent ? (
@@ -1631,21 +1631,21 @@ export function SdsDesignWorkspace() {
                             />
                         </div>
                     ) : (
-                        <div className="flex w-full max-w-[540px] flex-col items-center gap-0 rounded-[12px] bg-white p-[20px] shadow-[0_2px_12px_rgba(0,0,0,0.06)]">
-                            <div className="flex h-[282px] w-full flex-col items-center justify-center gap-2 rounded-lg bg-[#F5F6FA]">
-                                <ImagePlus className="h-9 w-9 text-[#C4C7CF]" />
-                                <p className="text-[13px] text-[#B4B7BF]">上传素材后在这里预览贴合效果</p>
+                        <div className="flex w-full max-w-[540px] flex-col items-center gap-0 rounded-[12px] bg-card p-[20px] shadow-[0_2px_12px_rgba(0,0,0,0.06)]">
+                            <div className="flex h-[282px] w-full flex-col items-center justify-center gap-2 rounded-lg bg-muted/50">
+                                <ImagePlus className="h-9 w-9 text-muted-foreground" />
+                                <p className="text-[13px] text-muted-foreground">上传素材后在这里预览贴合效果</p>
                             </div>
                             <h3 className="text-center text-[20px] leading-[31px] text-[rgba(0,0,0,0.85)]" style={{ margin: "16px 0 0" }}>素材贴合</h3>
-                            <p className="text-center text-[16px] leading-[25px] text-[#939599]" style={{ margin: "6px 0 0" }}>
+                            <p className="text-center text-[16px] leading-[25px] text-muted-foreground" style={{ margin: "6px 0 0" }}>
                                 上传精美素材，一键贴合到商品预览效果，极大提高测款效率
                             </p>
                             <button
                                 type="button"
                                 disabled={running || stageBusy}
                                 onClick={() => materialInputRef.current?.click()}
-                                className="flex h-[32px] items-center justify-center gap-[6px] rounded-[6px] px-[15px] text-[14px] text-white disabled:cursor-not-allowed disabled:opacity-60"
-                                style={{ marginTop: 14, backgroundImage: "linear-gradient(90deg, #3A7DF9 0%, #723CF9 100%)" }}
+                                className="flex h-[32px] items-center justify-center gap-[6px] rounded-[6px] bg-primary px-[15px] text-[14px] text-primary-foreground disabled:cursor-not-allowed disabled:opacity-60"
+                                style={{ marginTop: 14 }}
                             >
                                 {stageBusy ? <Loader2 className="h-4 w-4 animate-spin" /> : <Upload className="h-4 w-4" />}
                                 上传素材
@@ -1657,23 +1657,23 @@ export function SdsDesignWorkspace() {
 
                 <div className="flex w-full shrink-0 flex-col gap-[10px] lg:w-[279px]">
                     {/* 产品 */}
-                    <div className="rounded-[8px] bg-[#F9F9F9] p-[10px_20px_10px_10px]">
+                    <div className="rounded-[8px] bg-muted/50 p-[10px_20px_10px_10px]">
                         <button
                             type="button"
                             disabled={running || stageBusy}
                             onClick={() => productInputRef.current?.click()}
                             className="flex w-full items-center gap-[10px] text-left disabled:cursor-not-allowed disabled:opacity-60"
                         >
-                            <span className="flex h-[60px] w-[60px] shrink-0 items-center justify-center overflow-hidden rounded-md bg-[#EDEFF5]">
+                            <span className="flex h-[60px] w-[60px] shrink-0 items-center justify-center overflow-hidden rounded-md bg-muted">
                                 {productUrl ? (
                                     <img src={productUrl} alt="商品图" className="h-full w-full object-cover" />
                                 ) : (
-                                    <Plus className="h-5 w-5 text-[#B9BCC4]" />
+                                    <Plus className="h-5 w-5 text-muted-foreground" />
                                 )}
                             </span>
                             <span className="min-w-0 flex-1">
                                 <span className="block text-[14px] leading-[22px] text-[rgba(0,0,0,0.85)]">产品</span>
-                                <span className="mt-[2px] block truncate text-[12px] leading-[18px] text-[#939599]">
+                                <span className="mt-[2px] block truncate text-[12px] leading-[18px] text-muted-foreground">
                                     {productUrl ? "已选择商品图，点击可更换" : "选择产品进行素材贴合"}
                                 </span>
                             </span>
@@ -1681,7 +1681,7 @@ export function SdsDesignWorkspace() {
                     </div>
 
                     {/* 选择颜色 */}
-                    <div className="rounded-[8px] bg-[#F9F9F9] px-[16px] pt-[10px]">
+                    <div className="rounded-[8px] bg-muted/50 px-[16px] pt-[10px]">
                         <p className="text-[14px] leading-[22px] text-[rgba(0,0,0,0.85)]" style={{ margin: 0 }}>选择颜色</p>
                         <div className="mt-[7px] flex h-[42px] items-center gap-[10px]" role="group" aria-label="选择颜色">
                             {SDS_COLOR_OPTIONS.map((option) => {
@@ -1696,7 +1696,7 @@ export function SdsDesignWorkspace() {
                                         onClick={() => update((previous) => ({ ...previous, colorId: option.id }))}
                                         className={cn(
                                             "flex h-[26px] w-[26px] items-center justify-center rounded-full border transition",
-                                            active ? "border-[#723CF9]" : "border-transparent",
+                                            active ? "border-primary" : "border-transparent",
                                             running && "opacity-50",
                                         )}
                                     >
@@ -1713,7 +1713,7 @@ export function SdsDesignWorkspace() {
                     </div>
 
                     {/* 素材操作 */}
-                    <div className="rounded-[8px] bg-[#F9F9F9] px-[16px] pt-[10px]">
+                    <div className="rounded-[8px] bg-muted/50 px-[16px] pt-[10px]">
                         <p className="text-[14px] leading-[22px] text-[rgba(0,0,0,0.85)]" style={{ margin: 0 }}>素材操作</p>
                         <div className="mt-[7px] flex h-[30px] items-center gap-[8px]">
                             <button
@@ -1721,7 +1721,7 @@ export function SdsDesignWorkspace() {
                                 aria-label="撤销"
                                 disabled={running || !canUndoSdsPlacement(history)}
                                 onClick={handleUndo}
-                                className="flex h-[30px] w-[30px] items-center justify-center rounded-md border border-[#E8E8E8] bg-white text-[#5B5F68] disabled:cursor-not-allowed disabled:opacity-40"
+                                className="flex h-[30px] w-[30px] items-center justify-center rounded-md border border-border bg-card text-muted-foreground disabled:cursor-not-allowed disabled:opacity-40"
                             >
                                 <Undo2 className="h-4 w-4" />
                             </button>
@@ -1730,7 +1730,7 @@ export function SdsDesignWorkspace() {
                                 aria-label="重做"
                                 disabled={running || !canRedoSdsPlacement(history)}
                                 onClick={handleRedo}
-                                className="flex h-[30px] w-[30px] items-center justify-center rounded-md border border-[#E8E8E8] bg-white text-[#5B5F68] disabled:cursor-not-allowed disabled:opacity-40"
+                                className="flex h-[30px] w-[30px] items-center justify-center rounded-md border border-border bg-card text-muted-foreground disabled:cursor-not-allowed disabled:opacity-40"
                             >
                                 <Redo2 className="h-4 w-4" />
                             </button>
@@ -1739,8 +1739,7 @@ export function SdsDesignWorkspace() {
                                 disabled={running || blocked}
                                 onClick={() => void handleSubmit()}
                                 title={blocked ? (issues[0]?.message ?? "配置不完整") : ""}
-                                className="ml-auto flex h-[30px] items-center justify-center gap-1.5 rounded-md px-[14px] text-[14px] text-white disabled:cursor-not-allowed disabled:opacity-50"
-                                style={{ backgroundImage: "linear-gradient(90deg, #3A7DF9 0%, #723CF9 100%)" }}
+                                className="ml-auto flex h-[30px] items-center justify-center gap-1.5 rounded-md bg-primary px-[14px] text-[14px] text-primary-foreground disabled:cursor-not-allowed disabled:opacity-50"
                             >
                                 {running ? <Loader2 className="h-4 w-4 animate-spin" /> : null}
                                 {submitLabel}
@@ -1753,9 +1752,9 @@ export function SdsDesignWorkspace() {
             {/* 右：生成结果面板 */}
             <aside
                 aria-label="生成结果"
-                className="flex w-full shrink-0 flex-col rounded-[8px] bg-[#EDEFF5] xl:w-[300px]"
+                className="flex w-full shrink-0 flex-col rounded-[8px] bg-muted xl:w-[300px]"
             >
-                <div className="flex h-[42px] shrink-0 items-center justify-between rounded-t-[8px] bg-white px-[12px]">
+                <div className="flex h-[42px] shrink-0 items-center justify-between rounded-t-[8px] bg-card px-[12px]">
                     <div className="flex items-center gap-[14px]">
                         {([
                             ["result", "生成结果"],
@@ -1768,7 +1767,7 @@ export function SdsDesignWorkspace() {
                                 onClick={() => setResultTab(key)}
                                 className={cn(
                                     "flex h-[41px] items-center px-0 text-[14px] leading-[22px]",
-                                    resultTab === key ? "text-[#723CF9]" : "text-[#5B5F68]",
+                                    resultTab === key ? "text-primary" : "text-muted-foreground",
                                 )}
                             >
                                 {label}
@@ -1781,7 +1780,7 @@ export function SdsDesignWorkspace() {
                         onClick={() => setResultTab("history")}
                         className={cn(
                             "flex h-[41px] items-center text-[14px] leading-[22px]",
-                            resultTab === "history" ? "text-[#723CF9]" : "text-[#5B5F68]",
+                            resultTab === "history" ? "text-primary" : "text-muted-foreground",
                         )}
                     >
                         历史记录
@@ -1800,15 +1799,15 @@ export function SdsDesignWorkspace() {
                         </div>
                     ) : resultTab === "history" ? (
                         <div className="flex flex-1 flex-col items-center justify-center gap-2 text-center">
-                            <p className="text-[14px] text-[#939599]">暂无历史记录</p>
-                            <p className="text-[13px] text-[#B4B7BF]">每次生成会自动存档，可在这里回看~</p>
+                            <p className="text-[14px] text-muted-foreground">暂无历史记录</p>
+                            <p className="text-[13px] text-muted-foreground">每次生成会自动存档，可在这里回看~</p>
                         </div>
                     ) : (
                         <div className="flex flex-1 flex-col gap-3">
                             {result.slots.length === 0 && !task ? (
                                 <div className="flex flex-1 flex-col items-center gap-[22px] pt-[96px] text-center">
                                     <p className="text-[14px] text-[rgba(0,0,0,0.45)]">暂无生成结果图</p>
-                                    <p className="text-[14px] text-[#939599]">快在左侧操作素材贴合吧~</p>
+                                    <p className="text-[14px] text-muted-foreground">快在左侧操作素材贴合吧~</p>
                                 </div>
                             ) : (
                                 <ul className="flex flex-col gap-1.5" aria-label="素材槽位">
@@ -1821,7 +1820,7 @@ export function SdsDesignWorkspace() {
                                                         ? "border-emerald-500 text-emerald-600"
                                                         : missing.includes(slot.index)
                                                           ? "border-amber-500 text-amber-600"
-                                                          : "border-[#D9DBE0] text-[#939599]",
+                                                          : "border-border text-muted-foreground",
                                                 )}
                                             >
                                                 {slot.item ? <Check className="h-3 w-3" /> : <AlertTriangle className="h-3 w-3" />}
@@ -1829,7 +1828,7 @@ export function SdsDesignWorkspace() {
                                             <span className="min-w-0 flex-1 truncate text-[rgba(0,0,0,0.85)]">
                                                 {slot.index + 1}. {slot.name}
                                             </span>
-                                            <span className="text-[12px] text-[#939599]">
+                                            <span className="text-[12px] text-muted-foreground">
                                                 {slot.item ? "已生成" : result.status === "succeeded" ? "缺图" : "待生成"}
                                             </span>
                                         </li>
@@ -1845,7 +1844,7 @@ export function SdsDesignWorkspace() {
                                         </p>
                                     ) : null}
                                     {resultNotice ? (
-                                        <p className="rounded-[8px] border border-[#E8E8E8] bg-white px-2 py-1.5 text-[12px] text-[#939599]">
+                                        <p className="rounded-[8px] border border-border bg-card px-2 py-1.5 text-[12px] text-muted-foreground">
                                             {resultNotice}
                                         </p>
                                     ) : null}
@@ -1854,7 +1853,7 @@ export function SdsDesignWorkspace() {
                                             type="button"
                                             disabled={running}
                                             onClick={() => void handleRepair()}
-                                            className="flex min-h-[36px] items-center justify-center gap-2 rounded-[8px] border border-[#723CF9] px-3 text-[13px] text-[#723CF9] disabled:opacity-50"
+                                            className="flex min-h-[36px] items-center justify-center gap-2 rounded-[8px] border border-primary px-3 text-[13px] text-primary disabled:opacity-50"
                                         >
                                             {running ? <Loader2 className="h-4 w-4 animate-spin" /> : <ImagePlus className="h-4 w-4" />}
                                             只补生成缺失的 {sdsRepairIndexes(result).length} 张
@@ -1863,7 +1862,7 @@ export function SdsDesignWorkspace() {
 
                                     {blocked && issues[0] ? <p className="text-[12px] text-amber-600">{issues[0].message}</p> : null}
                                     {errorText ? <p className="text-[12px] text-red-500">{errorText}</p> : null}
-                                    {notice ? <p className="text-[12px] text-[#939599]">{notice}</p> : null}
+                                    {notice ? <p className="text-[12px] text-muted-foreground">{notice}</p> : null}
                                     {!modelReady ? <p className="text-[12px] text-amber-600">未配置可用的图片模型，请先在设置里选择模型。</p> : null}
                                 </>
                             ) : null}

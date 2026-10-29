@@ -550,7 +550,7 @@ export function DesignerWorkspace({
                                                 <input type="color" value={selected.color ?? "#ffffff"} onChange={(event) => apply(updateDesignerLayer(document, selected.id, { color: event.target.value }))} className="h-9 w-14 rounded-md border border-border bg-background" />
                                             </label>
                                         </div>
-                                        <p className="text-[11px] text-muted-foreground">字体只提供系统可渲染字族（LinkFox 侧由 /image/designer/font/list 下发上传字体，本站未接远端字体库）。</p>
+                                        <p className="text-[11px] text-muted-foreground">字体只提供系统可渲染字族；未接入远端字体库，不伪造字体列表。</p>
                                     </>
                                 ) : null}
                                 <div className="grid grid-cols-2 gap-2">
