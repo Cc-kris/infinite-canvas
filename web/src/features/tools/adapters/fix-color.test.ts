@@ -364,11 +364,11 @@ describe("FIX_COLOR 工作区渲染", () => {
         );
     };
 
-    test("首屏是本页独有区域：色差源图/涂抹/区域色/目标色/版本，未上传不能提交", async () => {
+    test("首屏是本页独有区域：画布空态/涂抹/区域色/目标色/版本，未上传不能提交", async () => {
         const html = await render();
         expect(html).toContain('data-testid="fix-color-mask-panel"');
         expect(html).toContain('data-testid="fix-color-color-panel"');
-        for (const copy of ["色差源图", "区域颜色", "目标颜色", "修复版本"]) {
+        for (const copy of ["上传偏色服装图片", "区域颜色", "目标颜色", "修复版本"]) {
             expect(html).toContain(copy);
         }
         expect(/<button(?=[^>]*\bdata-testid="fix-color-submit")(?=[^>]*\bdisabled="")[^>]*>/.test(html)).toBe(true);

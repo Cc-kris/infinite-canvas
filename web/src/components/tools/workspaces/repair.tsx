@@ -17,7 +17,17 @@ import { ArrowLeftRight, Paintbrush, Pipette, Redo2, RotateCcw, Sparkles, Undo2 
 import { ToolAssetInput } from "@/components/tools/tool-asset-input";
 import { ToolResult } from "@/components/tools/tool-result";
 import { saveResultItemToAssets, sendResultItemToCanvas } from "@/components/tools/tool-result-actions";
+import {
+    Edit8Canvas,
+    Edit8CanvasToolbar,
+    Edit8Config,
+    Edit8Page,
+    Edit8Results,
+    Edit8Section,
+    edit8PrimaryButtonClass,
+} from "@/components/tools/edit8-frame";
 import { ToolShell } from "@/components/tools/tool-shell";
+import { ToolTaskHistory } from "@/components/tools/tool-task-history";
 import {
     buildFixColorUnit,
     clampCompareSplit,
@@ -150,6 +160,7 @@ export function FixColorWorkspace({ className }: RepairWorkspaceProps = {}) {
     const stateRef = useRef(state);
     const [history, setHistory] = useState<MaskHistory>(() => createFixColorHistory());
     const historyRef = useRef(history);
+    const [resultTab, setResultTab] = useState<"result" | "history">("result");
     const [regionColor, setRegionColor] = useState(FIX_COLOR_DEFAULT_REGION_COLOR);
     const regionColorRef = useRef(regionColor);
     const [targetColor, setTargetColor] = useState(FIX_COLOR_DEFAULT_TARGET_COLOR);
@@ -466,293 +477,229 @@ export function FixColorWorkspace({ className }: RepairWorkspaceProps = {}) {
     const busyBlocked = busy || !image;
 
     return (
-        <ToolShell
-            className={className}
-            title={spec?.title ?? "色差修复"}
-            subtitle="涂抹偏色区域，指定目标色，按真实图像模型完成校正"
-            badges={<span className="text-[11px] text-muted-foreground">智能修图 · 单图输出</span>}
-            breadcrumb={<span className="text-[11px] text-muted-foreground">智能修图 / 色差修复</span>}
-            sidebar={
-                <nav className="flex flex-col gap-1 p-2 text-xs">
-                    <span className="px-2 py-1 font-medium text-foreground">修复</span>
-                    {siblings.map((tool) => (
-                        <Link
-                            key={tool.id}
-                            to={tool.route}
-                            className="rounded px-2 py-1 text-muted-foreground transition hover:bg-accent hover:text-foreground"
+        <Edit8Page toolId={TOOL_ID} className={className} data-testid="fix-color-workspace">
+            <Edit8Canvas>
+                <Edit8CanvasToolbar>
+                    <div className="flex items-center gap-1">
+                        <button
+                            type="button"
+                            aria-pressed={state.tool === "brush"}
+                            onClick={() => setToolMode("brush")}
+                            className={cn(
+                                "h-6 rounded-[4px] px-2 text-[12px] leading-none transition",
+                                state.tool === "brush" ? "bg-white text-[#723cf9]" : "text-[#6b6b80] hover:text-[#1f1f2c]",
+                            )}
                         >
-                            {tool.title}
-                        </Link>
-                    ))}
-                </nav>
-            }
-        >
-            <div className="grid min-h-0 flex-1 gap-4 overflow-y-auto p-4 xl:grid-cols-[minmax(0,1fr)_360px]">
-                <div className="flex min-w-0 flex-col gap-3">
-                    <section className="rounded-lg border border-border bg-card p-3">
-                        <div className="flex items-center justify-between gap-2">
-                            <h2 className="text-sm font-medium">色差源图</h2>
-                            {image ? (
-                                <button
-                                    type="button"
-                                    data-testid="fix-color-reset-image"
-                                    className="text-[11px] text-muted-foreground underline-offset-2 hover:underline"
-                                    onClick={() => {
-                                        imageRef.current = null;
-                                        setImage(null);
-                                        setRun(null);
-                                        setTask(null);
-                                    }}
-                                >
-                                    更换图片
-                                </button>
-                            ) : null}
+                            画笔
+                        </button>
+                        <button
+                            type="button"
+                            aria-pressed={state.tool === "eraser"}
+                            onClick={() => setToolMode("eraser")}
+                            className={cn(
+                                "h-6 rounded-[4px] px-2 text-[12px] leading-none transition",
+                                state.tool === "eraser" ? "bg-white text-[#723cf9]" : "text-[#6b6b80] hover:text-[#1f1f2c]",
+                            )}
+                        >
+                            橡皮
+                        </button>
+                    </div>
+                    <span className="ml-2 text-[12px] text-[#8a8a99]">笔刷</span>
+                    <input
+                        type="range"
+                        min={FIX_COLOR_BRUSH_MIN}
+                        max={FIX_COLOR_BRUSH_MAX}
+                        value={state.brushSize}
+                        onChange={(event) => setBrush(Number(event.target.value))}
+                        className="h-[22px] w-[112px] accent-[#723cf9]"
+                        aria-label="笔刷大小"
+                    />
+                    <span className="w-8 text-[12px] tabular-nums text-[#1f1f2c]">{state.brushSize}px</span>
+                    <span className="ml-2 text-[12px] text-[#8a8a99]">羽化</span>
+                    <input
+                        type="range"
+                        min={0}
+                        max={30}
+                        value={state.feather}
+                        onChange={(event) => {
+                            const feather = clampFixColorFeather(Number(event.target.value));
+                            setState((prev) => ({ ...prev, feather }));
+                            stateRef.current = { ...stateRef.current, feather };
+                            persist({ ...stateRef.current, feather }, {});
+                        }}
+                        className="h-[22px] w-[80px] accent-[#723cf9]"
+                        aria-label="羽化"
+                    />
+                    <div className="ml-2 flex items-center gap-1">
+                        {FIX_COLOR_BRUSH_PRESETS.map((preset) => (
+                            <button
+                                key={preset}
+                                type="button"
+                                onClick={() => setBrush(preset)}
+                                className="h-6 rounded-[4px] border border-[#e5e5ea] px-1.5 text-[11px] leading-none text-[#5a5a66] transition hover:border-[#723cf9]/50"
+                            >
+                                {preset}
+                            </button>
+                        ))}
+                    </div>
+                    <div className="ml-auto flex items-center gap-1">
+                        <button
+                            type="button"
+                            onClick={undo}
+                            disabled={history.past.length === 0}
+                            className="inline-flex size-6 items-center justify-center rounded-[4px] text-[#6b6b80] transition hover:bg-white disabled:opacity-40"
+                            aria-label="撤销"
+                        >
+                            <Undo2 className="size-3.5" />
+                        </button>
+                        <button
+                            type="button"
+                            onClick={redo}
+                            disabled={history.future.length === 0}
+                            className="inline-flex size-6 items-center justify-center rounded-[4px] text-[#6b6b80] transition hover:bg-white disabled:opacity-40"
+                            aria-label="重做"
+                        >
+                            <Redo2 className="size-3.5" />
+                        </button>
+                        <button
+                            type="button"
+                            onClick={resetMask}
+                            className="inline-flex size-6 items-center justify-center rounded-[4px] text-[#6b6b80] transition hover:bg-white"
+                            aria-label="清空涂抹"
+                        >
+                            <RotateCcw className="size-3.5" />
+                        </button>
+                        <span className="ml-1 text-[12px] text-[#8a8a99]">已涂 {fixColorHistoryState(history).strokeCount} 笔</span>
+                    </div>
+                </Edit8CanvasToolbar>
+                <div data-testid="fix-color-mask-panel" className="relative flex min-h-0 flex-1 items-center justify-center overflow-hidden p-[10px]">
+                    {image ? (
+                        <div className="relative mx-auto w-fit max-w-full">
+                            <img
+                                src={image.dataUrl}
+                                alt="色差源图"
+                                className="block max-h-[calc(100vh-220px)] w-auto max-w-full select-none"
+                                draggable={false}
+                            />
+                            <canvas
+                                ref={canvasRef}
+                                data-testid="fix-color-mask-canvas"
+                                className="absolute inset-0 h-full w-full cursor-crosshair touch-none"
+                                onPointerDown={onPointerDown}
+                                onPointerMove={onPointerMove}
+                                onPointerUp={finishStroke}
+                                onPointerCancel={finishStroke}
+                                onPointerLeave={finishStroke}
+                            />
                         </div>
-                        <ToolAssetInput
-                            toolId={TOOL_ID}
-                            maxCount={1}
-                            title="上传色差图"
-                            disabled={busy}
-                            onChange={(_ids, records) => {
-                                void adoptRecord(records[0] ?? null);
-                            }}
-                        />
-                        {image ? (
-                            <p className="mt-2 text-[11px] text-muted-foreground">
-                                {image.name} · {image.width}×{image.height}
+                    ) : (
+                        <div className="mx-auto flex w-[542px] max-w-full flex-col items-center gap-[10px] rounded-[12px] bg-white p-6 text-center shadow-[0_2px_12px_rgba(31,31,44,0.04)]">
+                            <h2 className="text-[16px] font-medium leading-6 text-[#1f1f2c]">色差修复</h2>
+                            <p className="text-[13px] leading-5 text-[#8a8a99]">上传偏色服装图片</p>
+                            <p className="text-[12px] leading-5 text-[#8a8a99]">AI将以服装原图为依据修复偏色</p>
+                        </div>
+                    )}
+                </div>
+                <p className="shrink-0 px-4 pb-2 text-[11px] leading-5 text-[#8a8a99]" data-testid="fix-color-coverage">
+                    {describeFixColorCoverage(state)} · 覆盖率 {Math.round(fixColorCoverage(state) * 100)}%
+                </p>
+            </Edit8Canvas>
+
+            <Edit8Config
+                footer={
+                    <div className="border-t border-[#f0f0f3] px-[16px] py-[10px]">
+                        <button
+                            type="button"
+                            data-testid="fix-color-submit"
+                            disabled={busyBlocked}
+                            onClick={() => void submit()}
+                            className={edit8PrimaryButtonClass}
+                        >
+                            {busy ? "修复中…" : "立即生成"}
+                        </button>
+                        {notice ? (
+                            <p className="mt-1.5 text-[11px] leading-4 text-[#f5483b]" data-testid="fix-color-notice">
+                                {notice}
                             </p>
                         ) : null}
-                    </section>
-
-                    <section className="rounded-lg border border-border bg-card p-3" data-testid="fix-color-mask-panel">
-                        <div className="flex flex-wrap items-center gap-2">
-                            <div className="flex items-center gap-1 rounded-md border border-border p-0.5">
-                                <button
-                                    type="button"
-                                    aria-pressed={state.tool === "brush"}
-                                    onClick={() => setToolMode("brush")}
-                                    className={cn(
-                                        "rounded px-2 py-1 text-[11px] transition",
-                                        state.tool === "brush" ? "bg-accent text-foreground" : "text-muted-foreground hover:text-foreground",
-                                    )}
-                                >
-                                    画笔
-                                </button>
-                                <button
-                                    type="button"
-                                    aria-pressed={state.tool === "eraser"}
-                                    onClick={() => setToolMode("eraser")}
-                                    className={cn(
-                                        "rounded px-2 py-1 text-[11px] transition",
-                                        state.tool === "eraser" ? "bg-accent text-foreground" : "text-muted-foreground hover:text-foreground",
-                                    )}
-                                >
-                                    橡皮
-                                </button>
-                            </div>
-                            <label className="flex items-center gap-2 text-[11px] text-muted-foreground">
-                                笔刷
-                                <input
-                                    type="range"
-                                    min={FIX_COLOR_BRUSH_MIN}
-                                    max={FIX_COLOR_BRUSH_MAX}
-                                    value={state.brushSize}
-                                    onChange={(event) => setBrush(Number(event.target.value))}
-                                    className="w-28"
-                                    aria-label="笔刷大小"
-                                />
-                                <span className="tabular-nums text-foreground">{state.brushSize}px</span>
-                            </label>
-                            <div className="flex items-center gap-1">
-                                {FIX_COLOR_BRUSH_PRESETS.map((preset) => (
-                                    <button
-                                        key={preset}
-                                        type="button"
-                                        onClick={() => setBrush(preset)}
-                                        className="rounded border border-border px-1.5 py-0.5 text-[11px] text-muted-foreground transition hover:bg-accent hover:text-foreground"
-                                    >
-                                        {preset}
-                                    </button>
-                                ))}
-                            </div>
-                            <label className="flex items-center gap-2 text-[11px] text-muted-foreground">
-                                羽化
-                                <input
-                                    type="range"
-                                    min={0}
-                                    max={30}
-                                    value={state.feather}
-                                    onChange={(event) => {
-                                        const feather = clampFixColorFeather(Number(event.target.value));
-                                        setState((prev) => ({ ...prev, feather }));
-                                        stateRef.current = { ...stateRef.current, feather };
-                                        persist({ ...stateRef.current, feather }, {});
-                                    }}
-                                    className="w-20"
-                                    aria-label="羽化"
-                                />
-                            </label>
-                            <div className="ml-auto flex items-center gap-1">
-                                <button
-                                    type="button"
-                                    onClick={undo}
-                                    disabled={history.past.length === 0}
-                                    className="inline-flex size-7 items-center justify-center rounded border border-border text-muted-foreground transition hover:bg-accent hover:text-foreground disabled:opacity-40"
-                                    aria-label="撤销"
-                                >
-                                    <Undo2 className="size-3.5" />
-                                </button>
-                                <button
-                                    type="button"
-                                    onClick={redo}
-                                    disabled={history.future.length === 0}
-                                    className="inline-flex size-7 items-center justify-center rounded border border-border text-muted-foreground transition hover:bg-accent hover:text-foreground disabled:opacity-40"
-                                    aria-label="重做"
-                                >
-                                    <Redo2 className="size-3.5" />
-                                </button>
-                                <button
-                                    type="button"
-                                    onClick={resetMask}
-                                    className="inline-flex size-7 items-center justify-center rounded border border-border text-muted-foreground transition hover:bg-accent hover:text-foreground"
-                                    aria-label="清空涂抹"
-                                >
-                                    <RotateCcw className="size-3.5" />
-                                </button>
-                                <span className="ml-1 text-[11px] text-muted-foreground">
-                                    已涂 {fixColorHistoryState(history).strokeCount} 笔
-                                </span>
-                            </div>
+                        {!hydrated ? <p className="mt-1.5 text-[11px] leading-4 text-[#8a8a99]">正在恢复上次的草稿…</p> : null}
+                    </div>
+                }
+            >
+                <Edit8Section title="Step 1：上传待修复图" required>
+                    <ToolAssetInput
+                        toolId={TOOL_ID}
+                        maxCount={1}
+                        title="上传色差图"
+                        disabled={busy}
+                        onChange={(_ids, records) => {
+                            void adoptRecord(records[0] ?? null);
+                        }}
+                    />
+                    {image ? (
+                        <div className="mt-1.5 flex items-center justify-between gap-2">
+                            <span className="truncate text-[11px] leading-4 text-[#8a8a99]">
+                                {image.name} · {image.width}×{image.height}
+                            </span>
+                            <button
+                                type="button"
+                                data-testid="fix-color-reset-image"
+                                className="shrink-0 text-[11px] leading-4 text-[#723cf9] hover:underline"
+                                onClick={() => {
+                                    imageRef.current = null;
+                                    setImage(null);
+                                    setRun(null);
+                                    setTask(null);
+                                }}
+                            >
+                                更换
+                            </button>
                         </div>
-
-                        <div className="mt-3 rounded-md border border-dashed border-border bg-muted/30 p-2">
-                            {image ? (
-                                <div className="relative mx-auto w-fit max-w-full">
-                                    <img src={image.dataUrl} alt="色差源图" className="block max-h-[62vh] w-auto max-w-full select-none" draggable={false} />
-                                    <canvas
-                                        ref={canvasRef}
-                                        data-testid="fix-color-mask-canvas"
-                                        className="absolute inset-0 h-full w-full cursor-crosshair touch-none"
-                                        onPointerDown={onPointerDown}
-                                        onPointerMove={onPointerMove}
-                                        onPointerUp={finishStroke}
-                                        onPointerCancel={finishStroke}
-                                        onPointerLeave={finishStroke}
-                                    />
-                                </div>
-                            ) : (
-                                <p className="py-10 text-center text-xs text-muted-foreground">先上传色差图，再在图中涂抹需要校正的区域</p>
-                            )}
-                        </div>
-                        <p className="mt-2 text-[11px] text-muted-foreground" data-testid="fix-color-coverage">
-                            {describeFixColorCoverage(state)} · 覆盖率 {Math.round(fixColorCoverage(state) * 100)}%
-                        </p>
-                    </section>
-
-                    {view.imageUrl ? (
-                        <section className="rounded-lg border border-border bg-card p-3">
-                            <h2 className="text-sm font-medium">结果对比</h2>
-                            {stale ? (
-                                <p className="mt-1 text-[11px] text-amber-600 dark:text-amber-400">参数已改动，下面这张图来自旧版本，请重新提交。</p>
-                            ) : null}
-                            <div className="mt-2 flex items-center gap-2">
-                                {FIX_COLOR_COMPARE_MODES.map((mode) => (
-                                    <button
-                                        key={mode.id}
-                                        type="button"
-                                        aria-pressed={compareMode === mode.id}
-                                        onClick={() => {
-                                            setCompareMode(mode.id);
-                                            compareModeRef.current = mode.id;
-                                            persist(stateRef.current, { compareMode: mode.id });
-                                        }}
-                                        className={cn(
-                                            "rounded border px-2 py-1 text-[11px] transition",
-                                            compareMode === mode.id
-                                                ? "border-primary bg-accent text-foreground"
-                                                : "border-border text-muted-foreground hover:text-foreground",
-                                        )}
-                                    >
-                                        {mode.label}
-                                    </button>
-                                ))}
-                            </div>
-                            <div className="relative mt-2 overflow-hidden rounded-md border border-border">
-                                <img src={view.imageUrl} alt="校正结果" className="block w-full" />
-                                {compareMode === "slide" && view.sourceUrl ? (
-                                    <>
-                                        <div className="absolute inset-0 overflow-hidden" style={{ width: `${split}%` }}>
-                                            <img src={view.sourceUrl} alt="原图" className="block h-full w-full object-cover" />
-                                        </div>
-                                        <div className="absolute inset-y-0 w-px bg-white/80" style={{ left: `${split}%` }} />
-                                    </>
-                                ) : null}
-                            </div>
-                            {compareMode === "slide" ? (
-                                <input
-                                    type="range"
-                                    min={0}
-                                    max={100}
-                                    value={split}
-                                    onChange={(event) => setSplit(clampCompareSplit(Number(event.target.value)))}
-                                    className="mt-2 w-full"
-                                    aria-label="对比分割线"
-                                />
-                            ) : null}
-                        </section>
                     ) : null}
-                </div>
+                </Edit8Section>
 
-                <aside className="flex min-w-0 flex-col gap-3">
-                    <section className="rounded-lg border border-border bg-card p-3" data-testid="fix-color-color-panel">
-                        <h2 className="text-sm font-medium">颜色</h2>
-                        <p className="mt-1 text-[11px] text-muted-foreground">
-                            区域色 = 图上被判定偏色的颜色（fixColorSegUrl）；目标色 = 校正后应达到的颜色（fixColorUrl）。
-                        </p>
-                        <div className="mt-3 flex flex-col gap-3">
-                            <ColorField
-                                label="区域颜色"
-                                value={regionColor}
-                                disabled={busy}
-                                onChange={(next) => {
-                                    setRegionColor(next);
-                                    regionColorRef.current = next;
-                                    persist(stateRef.current, { regionColor: next });
+                <Edit8Section title="Step 2：颜色矫正（区域色 / 目标色）">
+                    <div data-testid="fix-color-color-panel" className="flex flex-col gap-2">
+                        <ColorField
+                            label="区域颜色"
+                            value={regionColor}
+                            disabled={busy}
+                            onChange={(next) => {
+                                setRegionColor(next);
+                                regionColorRef.current = next;
+                                persist(stateRef.current, { regionColor: next });
+                            }}
+                        />
+                        <div className="flex items-center justify-between">
+                            <span className="text-[11px] leading-4 text-[#8a8a99]">色差 {describeColorDelta(colorDelta)}</span>
+                            <button
+                                type="button"
+                                className="inline-flex items-center gap-1 rounded-[4px] border border-[#ededf0] px-2 text-[11px] leading-5 text-[#5a5a66] transition hover:border-[#723cf9]/50"
+                                onClick={() => {
+                                    const nextRegion = targetColor;
+                                    const nextTarget = regionColor;
+                                    setRegionColor(nextRegion);
+                                    setTargetColor(nextTarget);
+                                    regionColorRef.current = nextRegion;
+                                    targetColorRef.current = nextTarget;
+                                    persist(stateRef.current, { regionColor: nextRegion, targetColor: nextTarget });
                                 }}
-                            />
-                            <div className="flex items-center justify-between">
-                                <span className="text-[11px] text-muted-foreground">
-                                    色差 {describeColorDelta(colorDelta)}
-                                </span>
-                                <button
-                                    type="button"
-                                    className="inline-flex items-center gap-1 rounded border border-border px-2 py-1 text-[11px] text-muted-foreground transition hover:bg-accent hover:text-foreground"
-                                    onClick={() => {
-                                        const nextRegion = targetColor;
-                                        const nextTarget = regionColor;
-                                        setRegionColor(nextRegion);
-                                        setTargetColor(nextTarget);
-                                        regionColorRef.current = nextRegion;
-                                        targetColorRef.current = nextTarget;
-                                        persist(stateRef.current, { regionColor: nextRegion, targetColor: nextTarget });
-                                    }}
-                                >
-                                    <ArrowLeftRight className="size-3" />
-                                    交换
-                                </button>
-                            </div>
-                            <ColorField
-                                label="目标颜色"
-                                value={targetColor}
-                                disabled={busy}
-                                onChange={(next) => {
-                                    setTargetColor(next);
-                                    targetColorRef.current = next;
-                                    persist(stateRef.current, { targetColor: next });
-                                }}
-                            />
+                            >
+                                <ArrowLeftRight className="size-3" />
+                                交换
+                            </button>
                         </div>
-                        <div className="mt-3 flex flex-wrap items-center gap-1">
+                        <ColorField
+                            label="目标颜色"
+                            value={targetColor}
+                            disabled={busy}
+                            onChange={(next) => {
+                                setTargetColor(next);
+                                targetColorRef.current = next;
+                                persist(stateRef.current, { targetColor: next });
+                            }}
+                        />
+                        <div className="flex flex-wrap items-center gap-1">
                             {FIX_COLOR_PALETTE.map((color) => (
                                 <button
                                     key={color}
@@ -764,75 +711,132 @@ export function FixColorWorkspace({ className }: RepairWorkspaceProps = {}) {
                                         targetColorRef.current = color;
                                         persist(stateRef.current, { targetColor: color });
                                     }}
-                                    className="size-5 rounded border border-border"
+                                    className="size-5 rounded-[4px] border border-[#ededf0]"
                                     style={{ backgroundColor: color }}
                                 />
                             ))}
-                            <span className="ml-1 inline-flex items-center gap-1 text-[11px] text-muted-foreground">
+                            <span className="ml-1 inline-flex items-center gap-1 text-[11px] leading-4 text-[#8a8a99]">
                                 <Pipette className="size-3" />
                                 点色块设为目标色
                             </span>
                         </div>
-                    </section>
+                    </div>
+                </Edit8Section>
 
-                    <section className="rounded-lg border border-border bg-card p-3">
-                        <h2 className="text-sm font-medium">修复版本</h2>
-                        <div className="mt-2 flex flex-col gap-1">
-                            {FIX_COLOR_VERSIONS.map((item) => (
-                                <button
-                                    key={item.id}
-                                    type="button"
-                                    aria-pressed={version === item.id}
-                                    onClick={() => {
-                                        setVersion(item.id);
-                                        versionRef.current = item.id;
-                                        persist(stateRef.current, { version: item.id });
-                                    }}
-                                    className={cn(
-                                        "rounded border px-2 py-1.5 text-left transition",
-                                        version === item.id
-                                            ? "border-primary bg-accent"
-                                            : "border-border hover:bg-accent/60",
-                                    )}
-                                >
-                                    <span className="block text-xs text-foreground">{item.label}</span>
-                                    <span className="mt-0.5 block text-[11px] text-muted-foreground">{item.hint}</span>
-                                </button>
-                            ))}
-                        </div>
-                    </section>
+                <Edit8Section title="修复版本">
+                    <div className="flex flex-col gap-1">
+                        {FIX_COLOR_VERSIONS.map((item) => (
+                            <button
+                                key={item.id}
+                                type="button"
+                                aria-pressed={version === item.id}
+                                onClick={() => {
+                                    setVersion(item.id);
+                                    versionRef.current = item.id;
+                                    persist(stateRef.current, { version: item.id });
+                                }}
+                                className={cn(
+                                    "rounded-[4px] border px-2 py-1 text-left transition",
+                                    version === item.id
+                                        ? "border-[#723cf9] bg-[#f5f2ff]"
+                                        : "border-[#ededf0] hover:border-[#723cf9]/40",
+                                )}
+                            >
+                                <span className="block text-[12px] leading-5 text-[#1f1f2c]">{item.label}</span>
+                                <span className="block text-[11px] leading-4 text-[#8a8a99]">{item.hint}</span>
+                            </button>
+                        ))}
+                    </div>
+                </Edit8Section>
 
-                    <section className="rounded-lg border border-border bg-card p-3">
-                        <button
-                            type="button"
-                            data-testid="fix-color-submit"
-                            disabled={busyBlocked}
-                            onClick={() => void submit()}
-                            className="inline-flex w-full items-center justify-center gap-2 rounded-md bg-primary px-3 py-2 text-sm font-medium text-primary-foreground transition hover:opacity-90 disabled:opacity-50"
-                        >
-                            <Sparkles className="size-4" />
-                            {busy ? "修复中…" : "开始修复"}
-                        </button>
-                        {notice ? (
-                            <p className="mt-2 text-[11px] text-red-600 dark:text-red-400" data-testid="fix-color-notice">
-                                {notice}
-                            </p>
+                <Edit8Section title="Step 3：进行AI修复">
+                    <p className="text-[11px] leading-4 text-[#8a8a99]">
+                        请确保在左侧画板中选择了要进行修复的区域，AI将根据原图为您修复。
+                    </p>
+                </Edit8Section>
+            </Edit8Config>
+
+            <Edit8Results
+                tabs={[
+                    { id: "result", label: "生成结果" },
+                    { id: "history", label: "历史记录" },
+                ]}
+                active={resultTab}
+                onTabChange={(id) => setResultTab(id as "result" | "history")}
+            >
+                {resultTab === "result" ? (
+                    <div className="flex flex-col gap-2">
+                        {view.imageUrl ? (
+                            <div className="rounded-[8px] bg-white p-2" data-testid="fix-color-compare-section">
+                                <div className="flex items-center gap-1">
+                                    {FIX_COLOR_COMPARE_MODES.map((mode) => (
+                                        <button
+                                            key={mode.id}
+                                            type="button"
+                                            aria-pressed={compareMode === mode.id}
+                                            onClick={() => {
+                                                setCompareMode(mode.id);
+                                                compareModeRef.current = mode.id;
+                                                persist(stateRef.current, { compareMode: mode.id });
+                                            }}
+                                            className={cn(
+                                                "h-6 rounded-[4px] px-2 text-[11px] leading-none transition",
+                                                compareMode === mode.id
+                                                    ? "bg-[#723cf9] text-white"
+                                                    : "text-[#6b6b80] hover:text-[#1f1f2c]",
+                                            )}
+                                        >
+                                            {mode.label}
+                                        </button>
+                                    ))}
+                                </div>
+                                {stale ? (
+                                    <p className="mt-1 text-[11px] leading-4 text-[#d97706]">参数已改动，下面这张图来自旧版本，请重新提交。</p>
+                                ) : null}
+                                <div className="relative mt-2 overflow-hidden rounded-[6px] border border-[#ededf0]">
+                                    <img src={view.imageUrl} alt="校正结果" className="block w-full" />
+                                    {compareMode === "slide" && view.sourceUrl ? (
+                                        <>
+                                            <div className="absolute inset-0 overflow-hidden" style={{ width: `${split}%` }}>
+                                                <img src={view.sourceUrl} alt="原图" className="block h-full w-full object-cover" />
+                                            </div>
+                                            <div className="pointer-events-none absolute inset-y-0 w-px bg-white/90" style={{ left: `${split}%` }} />
+                                        </>
+                                    ) : null}
+                                </div>
+                                {compareMode === "slide" ? (
+                                    <input
+                                        type="range"
+                                        min={0}
+                                        max={100}
+                                        value={split}
+                                        onChange={(event) => setSplit(clampCompareSplit(Number(event.target.value)))}
+                                        className="mt-2 h-[22px] w-full accent-[#723cf9]"
+                                        aria-label="对比分割线"
+                                    />
+                                ) : null}
+                            </div>
                         ) : null}
-                        {!hydrated ? <p className="mt-2 text-[11px] text-muted-foreground">正在恢复上次的草稿…</p> : null}
-                        <p className="mt-2 text-[11px] text-muted-foreground">
-                            提交会真实调用当前图像模型；未返回图片即判失败，不会用占位图代替。
-                        </p>
-                    </section>
-
-                    <ToolResult
-                        task={task}
+                        <ToolResult
+                            task={task}
+                            toolId={TOOL_ID}
+                            title="色差修复结果"
+                            emptyTitle="暂无生成结果图"
+                            emptyHint="上传偏色图并涂抹区域后，点立即生成。"
+                            onRetry={() => void submit()}
+                        />
+                    </div>
+                ) : (
+                    <ToolTaskHistory
                         toolId={TOOL_ID}
-                        title="色差修复结果"
-                        onRetry={() => void submit()}
+                        onSelectTask={(historyTask) => {
+                            setTask(historyTask);
+                            setResultTab("result");
+                        }}
                     />
-                </aside>
-            </div>
-        </ToolShell>
+                )}
+            </Edit8Results>
+        </Edit8Page>
     );
 }
 
