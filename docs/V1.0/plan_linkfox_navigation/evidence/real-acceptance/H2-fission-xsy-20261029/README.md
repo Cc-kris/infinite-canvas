@@ -35,6 +35,10 @@
 
 结论：XSY 属历史遗留的数据缺失，当前网关无缺口；按「不新建任务、不注入快照」约束，本工具的刷新恢复真实证据仍缺（不伪造）。
 
+## 提交对应
+- 代码：`b95ff4c fix(tools/fission-link): 刷新后从本地真实任务恢复结果并可下载/入库/发画布`（工作树 `scene.tsx` 与该提交一致，已核 7 处 `applyStoredTask/restoredNotice`）
+- 证据：`df765ff`（本目录 README.md / evidence.json / NOTES.md）
+
 ## 验证命令
 ```bash
 cd web && ./node_modules/.bin/tsc --noEmit          # exit 0
