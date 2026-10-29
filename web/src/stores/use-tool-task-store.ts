@@ -363,6 +363,39 @@ export async function healResultMediaByProvenance(
 }
 
 /**
+ * 用「工具草稿里 app 自己回写的持久结果地址」补回被旧版剥离的结果项来源。
+ *
+ * 现场（IMAGE_TEXT_EDIT task-mvs8bhu1-hhue24）：旧快照只剩 `{ id, kind, payloadDropped: true }`，
+ * IndexedDB 里也没有该任务的字节；但工作区成功时会把真实上游产物地址回写进草稿
+ * （`values.resultImageUrl`，换源图会清空），这份地址就是该任务字节的合法 provenance。
+ * 这里只把地址挂回结果项（纯函数、不碰存储），字节仍由既有 ingestResultMedia 抓同一上游真实
+ * 产物入库拿 storageKey —— 不补造任何字节、不重提交任务。
+ *
+ * 门禁：任务必须 succeeded；目标项必须没有任何字节来源；地址必须是 http(s) 持久地址。
+ */
+export function attachDroppedResultUrl(task: ToolTask, url: string, index = 0): ToolTask | null {
+    if (!isDurableResultUrl(url)) return null;
+    if (task.status !== "succeeded" || !task.result) return null;
+    const item = task.result.items[index];
+    if (!item) return null;
+    if (item.storageKey || item.dataUrl || item.blob || isFetchableResultUrl(item.url)) return null;
+    const items = task.result.items.map((entry, i) =>
+        i === index ? { ...entry, url: url.trim(), payloadDropped: false, ingestError: undefined } : entry,
+    );
+    return { ...task, result: { ...task.result, items } };
+}
+
+/** 把工具草稿记录的持久结果地址挂回指定任务（写 store 后会触发既有入库链拿到 storageKey）。 */
+export function reattachDroppedResultUrl(taskId: string, url: string, index = 0): boolean {
+    const current = useToolTaskStore.getState().tasks[taskId];
+    if (!current) return false;
+    const next = attachDroppedResultUrl(current, url, index);
+    if (!next) return false;
+    useToolTaskStore.getState().upsertTask({ ...next, updatedAt: Math.max(Date.now(), current.updatedAt + 1) });
+    return true;
+}
+
+/**
  * 防降级合并：同一份结果（receivedAt 相同）里，旧对象已带 storageKey 时不因为一次
  * 「重新 normalize 出来的无 storageKey 副本」而丢掉字节引用——这正是字节明明入库却查不到的共同根因之一。
  */

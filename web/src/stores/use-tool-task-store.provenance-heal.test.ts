@@ -77,6 +77,20 @@ test("IDB 里没有真实字节时不伪造，自愈保持空操作", async () =
     expect(healed).toBeNull();
 });
 
+test("草稿里 app 回写的持久结果地址可补回被旧版剥掉的结果项（挂回后落盘仍保地址）", async () => {
+    const { attachDroppedResultUrl } = await import("./use-tool-task-store");
+    const stripped = taskWith([{ id: "task-provenance-0", kind: "image", payloadDropped: true }]);
+    const attached = attachDroppedResultUrl(stripped, OSS);
+    expect(attached?.result?.items[0]).toEqual({ id: "task-provenance-0", kind: "image", url: OSS, payloadDropped: false });
+    const persisted = sanitizeTaskForPersist(attached!);
+    expect(persisted.result?.items[0].url).toBe(OSS);
+    expect(persisted.result?.items[0].payloadDropped).toBeFalsy();
+    // 门禁：非持久地址 / 已有字节来源 / 非成功任务一律不动（避免把别的产物挂到这条任务上）。
+    expect(attachDroppedResultUrl(stripped, "blob:http://127.0.0.1:3000/abc")).toBeNull();
+    expect(attachDroppedResultUrl(taskWith([{ id: "x", kind: "image", storageKey: "tool-result:x:0:k" }]), OSS)).toBeNull();
+    expect(attachDroppedResultUrl({ ...stripped, status: "failed" } as ToolTask, OSS)).toBeNull();
+});
+
 test("同一结果里已有 storageKey 不会被无 storageKey 的副本降级覆盖", () => {
     const current = taskWith([{ id: "i0", kind: "image", storageKey: "tool-result:task-provenance:0:abc123", bytes: 850_799 }]);
     const incoming = taskWith([{ id: "i0", kind: "image", payloadDropped: true }]);

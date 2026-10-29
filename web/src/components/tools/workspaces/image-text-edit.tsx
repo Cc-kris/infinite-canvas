@@ -66,7 +66,7 @@ import {
 } from "@/features/tools/adapters/image-text-edit";
 import { resolveModelChannel, selectableModelsByCapability, useConfigStore } from "@/stores/use-config-store";
 import { useToolDraftStore } from "@/stores/use-tool-draft-store";
-import { useToolTaskStore } from "@/stores/use-tool-task-store";
+import { reattachDroppedResultUrl, useToolTaskStore } from "@/stores/use-tool-task-store";
 
 const toolId = IMAGE_TEXT_EDIT_TOOL_ID;
 const cardClass = "rounded-2xl border border-[var(--border)] bg-[var(--card)] p-4";
@@ -219,6 +219,17 @@ export function ImageTextEditWorkspace() {
             .sort((a, b) => b.createdAt - a.createdAt);
         return owned.find((task) => (task.result?.items ?? []).some((item) => item.kind === "image")) ?? owned[0];
     }, [tasks, toolId]);
+    /**
+     * 刷新后补回真实来源：草稿里的 `resultImageUrl` 是上次成功时 app 自己回写的真实上游产物地址
+     * （换源图会清空），它是这条任务字节的合法 provenance。旧版快照把结果剥成 payloadDropped 后，
+     * 这里把地址挂回结果项，再由 store 既有链路抓同一上游产物入库拿 storageKey（不补造字节、不重提交）。
+     */
+    useEffect(() => {
+        if (!draftRestored || !latest || latest.status !== "succeeded") return;
+        const url = values.resultImageUrl.trim();
+        if (!url) return;
+        reattachDroppedResultUrl(latest.id, url);
+    }, [draftRestored, latest, values.resultImageUrl]);
     const gateway = useMemo<ImageTextEditGatewayLike>(
         () => ({
             submit: (input, options) => runTool(input, { ...options, draftRevision }),
