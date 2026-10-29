@@ -1,0 +1,32 @@
+{
+  "toolId": "HANDHELD_GOODS",
+  "route": "/tools/product-design/handheld-goods",
+  "taskId": "task-mvtm8p59-8qkp5s",
+  "capturedVia": "page-scope XMLHttpRequest observer (read-only tap: logs url/method/status/FormData fields/response text; does not alter payload or response)",
+  "request": {
+    "method": "POST",
+    "url": "http://127.0.0.1:23210/https://api.cc-ai.xyz/v1/images/edits",
+    "note": "127.0.0.1:23210 = 本地代理前缀（ai_config_store.proxyUrl），真实目标 https://api.cc-ai.xyz/v1/images/edits",
+    "contentType": "multipart/form-data",
+    "fields": [
+      "model :: gpt-image-2",
+      "prompt :: 参考图片编号：图片1、图片2。请按这些编号理解提示词中的图片引用。\\n\\nPhotorealistic e-commerce product photo: the uploaded product held in the left hand, palm supporting the base, product facing the camera Keep the product's shape, logo, text and colour exactly as in the reference; regenerate only the hand, arm and background. Fingers must wrap the product surface naturally with correct contact shadows, no fused fingers, no floating product. seamless studio backdrop, soft key light, no props Quality check: verify finger contact follows the product surface and the product silhouette is intact. Output 1 image.",
+      "n :: 1",
+      "output_format :: png",
+      "size :: 1024x1024",
+      "image[] :: File(product.png|image/jpeg|42762B)",
+      "image[] :: File(left-cradle-front.svg|image/png|7490B)"
+    ]
+  },
+  "response": {
+    "httpStatus": 200,
+    "bodyPrefix": "{\"created\":1793282748,\"data\":[{\"revised_prompt\":\"参考图片编号：图片1、图片2。…\",\"b64_json\":\"<truncated in observer>\"}]}"
+  },
+  "selectedOptions": {
+    "handTab": "左手",
+    "pose": "左手托底正面",
+    "scene": "纯色棚拍",
+    "checkType": "手部接触与商品一致性",
+    "outputNum": 1
+  }
+}
