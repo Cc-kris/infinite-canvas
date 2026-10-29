@@ -1,0 +1,199 @@
+{
+ "schema": "infinite-canvas.r20-recheck/v1",
+ "generatedAt": "2026-10-29T23:30:28+08:00",
+ "repo": "infinite-canvas",
+ "gitHead": "2248098eafb4501d4d3d8435373e8f7b90ce4f7d",
+ "scope": "只读复验 72bd1271(IMAGE_TEXT_EDIT) / dd8192a8(AI_VIDEO_EDITING) 对 R20 H 硬判据",
+ "readOnly": true,
+ "noNewGeneration": true,
+ "noByteInjection": true,
+ "interaction": "未点击任何 UI、未写入 IndexedDB/localStorage；复用 127.0.0.1:3000 同源标签(1709629323)执行只读读取",
+ "r20_H_rubric": "真实 task-mv*(primary taskId 绑定、非 failed、非 synthetic) + 机器 fresh reload 标记(phase/navType=reload、reload/fresh_reload 对象节点、Page.reload/location.reload() 回执) + 同一回执内刷新后观测(dockItems/rows/stored_bytes/result_img_in_card)指向该 task 或其结果字节/sha + 下载/入库/发画布字节须由该工具已提交产物按同尺寸(+声明 sha256 时)同 sha 复核 + b5-*/task-real-*、recovery|inject 目录、payloadDropped、快照回填一律不计",
+ "storageInventory": {
+  "db": "infinite-canvas",
+  "version": 7,
+  "stores": [
+   "app_state",
+   "image_files",
+   "image_previews",
+   "local-forage-detect-blob-support",
+   "media_files",
+   "prompt_cache",
+   "tool_assets"
+  ],
+  "media_files_keys_total": 115,
+  "tool_assets_records": 63,
+  "tool_assets_matches_for_targets": 0,
+  "note": "tool_assets 63 条中无任何记录含 mvs8bhu1/e7b260/mvt42rpv/47573c14/9s5210QlKFErewOM93H0m/Uo2TaAle6tyRcgSpHY1JF"
+ },
+ "tools": {
+  "IMAGE_TEXT_EDIT": {
+   "commits": [
+    "72bd1271"
+   ],
+   "receipt": "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/IMAGE_TEXT_EDIT/r19-strict-reload-bytes-20261029.json",
+   "taskId": {
+    "id": "task-mvs8bhu1-hhue24",
+    "source": "localStorage tool-task:v1:task-mvs8bhu1-hhue24",
+    "status": "succeeded",
+    "draftRevision": 21,
+    "toolId": "IMAGE_TEXT_EDIT",
+    "resultCount": 1,
+    "primaryResult": {
+     "id": "task-mvs8bhu1-hhue24-0",
+     "storageKey": "tool-result:task-mvs8bhu1-hhue24:0:ZQg4pDfHC25ssM7hDsse7",
+     "provenance": "taskId-bound",
+     "bytes": 844613,
+     "mimeType": "image/png",
+     "payloadDropped": false
+    }
+   },
+   "reload": {
+    "source": "回执自述",
+    "navType": "reload",
+    "method": "CDP Page.reload (ignoreCache=false)",
+    "sessionStorage_sid_continuity": "9c264573-0ece-4528-b4b8-da08fb8de59a",
+    "timeOrigin": 1793286826509.4,
+    "pass": true
+   },
+   "byteChain_recomputed_this_run": {
+    "committedArtifact": {
+     "path": "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/IMAGE_TEXT_EDIT/03-result-image.png",
+     "size": 844613,
+     "sha256": "e7b260e7b0642dd1acd0e41e41eedf9bfe635a3a28e8175029d3248aabf5be4c"
+    },
+    "downloadCopy": {
+     "path": "/Users/mac/Downloads/image-text-edit-result-1 (1).png",
+     "size": 844613,
+     "sha256": "e7b260e7b0642dd1acd0e41e41eedf9bfe635a3a28e8175029d3248aabf5be4c"
+    },
+    "idbBlob": {
+     "db": "infinite-canvas",
+     "store": "media_files",
+     "key": "tool-result:task-mvs8bhu1-hhue24:0:ZQg4pDfHC25ssM7hDsse7",
+     "size": 844613,
+     "sha256": "e7b260e7b0642dd1acd0e41e41eedf9bfe635a3a28e8175029d3248aabf5be4c",
+     "shaMethod": "crypto.subtle.digest(SHA-256) in page on stored Blob"
+    },
+    "three_way_equal": true
+   },
+   "asset_leg": {
+    "toolAssetsRecords": 63,
+    "matchesForTaskOrSha": 0,
+    "receiptAssetId": null,
+    "receiptPass": false,
+    "status": "MISSING"
+   },
+   "canvas_leg": {
+    "store": "app_state",
+    "stateBytes": 98533,
+    "taskIdHits": 2,
+    "assetIdHits_BmtqvOWUMLOt": 1,
+    "mediaKeyHits": 0,
+    "nodeByteFields": null,
+    "status": "REFERENCED_ONLY_NO_BYTES"
+   },
+   "r20_gates": {
+    "taskId_binding": "PASS",
+    "machine_reload_marker": "PASS(回执取证)",
+    "post_reload_observation": "PASS(回执 download 同文档点击+落盘)",
+    "bytes_download": "PASS",
+    "bytes_asset": "FAIL",
+    "bytes_canvas": "FAIL"
+   },
+   "verdict": "H_NOT_PASS",
+   "minimal_gap": "缺「入库」与「发画布」两路字节：需一次真实点击「存入资产」产生 tool_assets 记录(含 assetId/size/sha/taskId provenance)并读回该记录字节 sha；发画布节点需其绑定字节字段。属新增 UI 动作，超出只读复验范围，本次不执行、不注入。"
+  },
+  "AI_VIDEO_EDITING": {
+   "commits": [
+    "dd8192a8"
+   ],
+   "receipt": "evidence/real-acceptance/VIDEO_4TOOLS_HISTORY_20261029/AI_VIDEO_EDITING.recovery-receipt-20261029.json",
+   "taskId": {
+    "id": "task-mvt42rpv-kfl1ov",
+    "source": "localStorage tool-task:v1:task-mvt42rpv-kfl1ov",
+    "status": "succeeded",
+    "toolId": "AI_VIDEO_EDITING",
+    "resultCount": 1,
+    "upstreamTaskId": "task_QFvq6WMc09jv2kSZzh4fFboNx5ZccHBm",
+    "primaryResult": {
+     "id": "video-0",
+     "storageKey": "tool-result:6x-FsSnD1IMk76p5iayw-",
+     "provenance": "legacy-nanoid (无 taskId 绑定)",
+     "bytes": 2268656,
+     "mimeType": "video/mp4",
+     "payloadDropped": false
+    }
+   },
+   "reload": {
+    "source": "回执自述",
+    "method": "same-origin iframe loading the route (new document)",
+    "navType": null,
+    "pageReloadReceipt": false,
+    "timeOrigin": null,
+    "verdict": "非 R20 列举的机器 reload 标记(navType=reload / Page.reload / location.reload() 回执)",
+    "pass": false
+   },
+   "byteChain_recomputed_this_run": {
+    "committedArtifact": {
+     "path": "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/AI_VIDEO_EDITING/receipt-20261029/task_QFvq6WMc_video.mp4",
+     "size": 2268656,
+     "sha256": "47573c147325d451f41ffd89ae21b82c895623c682832546c24181b18f92a505"
+    },
+    "idbBlob": {
+     "db": "infinite-canvas",
+     "store": "media_files",
+     "key": "tool-result:6x-FsSnD1IMk76p5iayw-",
+     "size": 2268656,
+     "sha256": "47573c147325d451f41ffd89ae21b82c895623c682832546c24181b18f92a505"
+    },
+    "source_vs_artifact_equal": true,
+    "downloadOnDisk": {
+     "fileOnDisk": false,
+     "capturedVia": "iframe 内 URL.createObjectURL + anchor hook",
+     "verdict": "无真实落盘文件"
+    }
+   },
+   "asset_leg": {
+    "receiptAssetId": "i_JqTTSbFcAOrL7VkWlkt",
+    "receiptStorageKey": "video:9s5210QlKFErewOM93H0m",
+    "toolAssetsRecordsMatching": "0 条(同上 tool_assets 扫描)",
+    "receiptByteCheck_size": 2268656,
+    "status": "RECEIPT_ONLY_NO_STORE_RECORD"
+   },
+   "canvas_leg": {
+    "store": "app_state",
+    "assetIdHits_i_JqTTSbFcAOrL7VkWlkt": 1,
+    "legacyKeyHits": 0,
+    "nodeByteFields": null,
+    "status": "REFERENCED_ONLY_NO_BYTES"
+   },
+   "rubric_exclusions_hit": [
+    "回执位于 VIDEO_4TOOLS_HISTORY_20261029 且文件名含 recovery-receipt（R20：recovery|inject 目录一律不计）",
+    "storageKey=legacy-nanoid 无 taskId 绑定",
+    "下载未落盘"
+   ],
+   "r20_gates": {
+    "taskId_binding": "FAIL(legacy-nanoid 键无法按 taskId 归属)",
+    "machine_reload_marker": "FAIL(iframe 替代)",
+    "post_reload_observation": "PARTIAL(iframe 内查看结果)",
+    "bytes_download": "FAIL(未落盘)",
+    "bytes_asset": "FAIL(无 tool_assets 记录)",
+    "bytes_canvas": "FAIL"
+   },
+   "verdict": "H_NOT_PASS",
+   "minimal_gap": "即使补证据也无法在现有产物上成立：需重新跑一次真实任务使 storageKey 带 taskId provenance、做真实同文档 Page.reload、真实落盘下载；并须移出 recovery 命名目录。属新生成/改码，按只读复验约束不执行。"
+  }
+ },
+ "crossVerifiedFacts": {
+  "ITE_bytes_identical_across": "IndexedDB stored Blob = 已提交产物 = ~/Downloads 落盘文件（844613B / e7b260e7…）",
+  "AIV_bytes_identical_across": "IndexedDB stored Blob(legacy key) = 已提交产物（2268656B / 47573c14…）",
+  "auditor_alignment": "与 tools/recompute_scope_matrix_r20.py 的 neg_ai_video_editing_h 负证方向一致；本轮独立复核增加 IndexedDB 侧 sha 与 tool_assets/app_state 扫描证据"
+ },
+ "reproduce": [
+  "shasum -a 256 'docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/IMAGE_TEXT_EDIT/03-result-image.png' '/Users/mac/Downloads/image-text-edit-result-1 (1).png'",
+  "shasum -a 256 'evidence/real-acceptance/VIDEO_4TOOLS_HISTORY_20261029/receipt-20261029/task_QFvq6WMc_video.mp4'",
+  "页面内只读: idb open('infinite-canvas') -> media_files.get(key) -> crypto.subtle.digest('SHA-256', await blob.arrayBuffer())",
+  "页面内只读: tool_assets.getAll() 过滤目标 taskId/sha/assetId（命中 0）; app_state.getAll() JSON 字符串计数命中"
+ ]
+}
