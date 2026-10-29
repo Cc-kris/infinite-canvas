@@ -1261,36 +1261,8 @@ export function RemovePenWorkspace({ className }: RemovePenWorkspaceProps = {}) 
     return (
         <ToolShell
             className={className}
+            immersive
             title={spec?.title ?? "局部消除"}
-            subtitle="上传需要消除的图片，使用画笔涂抹即可一键消除；结果与原图可前后对比"
-            badges={<span className="rounded border border-border px-1.5 py-0.5 text-[11px] text-muted-foreground">{spec ? `makeType ${spec.makeType}` : REMOVE_PEN_ID}</span>}
-            actions={
-                <button
-                    type="button"
-                    data-testid="remove-pen-submit"
-                    disabled={busy || issues.length > 0}
-                    onClick={() => void submit()}
-                    className="inline-flex items-center gap-1 rounded-md bg-primary px-3 py-1.5 text-xs font-medium text-primary-foreground disabled:cursor-not-allowed disabled:opacity-50"
-                >
-                    <Sparkles className="size-3.5" aria-hidden />
-                    {busy ? "消除中…" : "开始消除"}
-                </button>
-            }
-            notices={
-                <>
-                    {conflict ? <p className="rounded border border-amber-500/40 bg-amber-500/10 px-3 py-2 text-xs text-amber-700 dark:text-amber-300">草稿在其他标签页被修改，本页未覆盖；刷新可载入最新草稿。</p> : null}
-                    {notice ? (
-                        <p data-testid="remove-pen-notice" className="rounded border border-border bg-card px-3 py-2 text-xs text-muted-foreground">
-                            {notice}
-                        </p>
-                    ) : null}
-                    {stale ? (
-                        <p className="rounded border border-amber-500/40 bg-amber-500/10 px-3 py-2 text-xs text-amber-700 dark:text-amber-300">
-                            涂抹或图片已变更：下面是上一次提交的结果，不代表当前涂抹区域。
-                        </p>
-                    ) : null}
-                </>
-            }
             sidebar={
                 <nav className="flex flex-col gap-1 p-2 text-xs">
                     <span className="px-2 py-1 font-medium text-foreground">局部消除</span>
@@ -1305,28 +1277,65 @@ export function RemovePenWorkspace({ className }: RemovePenWorkspaceProps = {}) 
                 </nav>
             }
         >
-            <div data-testid="remove-pen-workspace" className="grid min-h-0 flex-1 grid-cols-1 gap-4 overflow-y-auto p-4 xl:grid-cols-[320px_minmax(0,1fr)]">
-                <aside className="flex min-w-0 flex-col gap-3">
-                    <section className="rounded-lg border border-border bg-card p-3">
-                        <p className="text-xs font-medium text-foreground">需要消除的图片</p>
-                        <div className="mt-2">
-                            <ToolAssetInput
-                                toolId={REMOVE_PEN_ID}
-                                title={image ? "重新上传" : "上传图片（之后可重新上传）"}
-                                maxCount={1}
-                                disabled={busy}
-                                onChange={(_ids, records) => {
-                                    const record = records[records.length - 1];
-                                    if (record) void adoptImage(record);
-                                }}
+            <Edit8Page toolId={REMOVE_PEN_ID} data-testid="remove-pen-workspace">
+                <Edit8Canvas>
+                    <Edit8CanvasToolbar className="justify-between gap-3">
+                        <div className="flex items-center gap-2">
+                            <span className="flex items-center gap-1 text-[#1f1f2c]">
+                                <Paintbrush className="size-3.5" aria-hidden /> 画笔
+                            </span>
+                            <span className="text-[#6b6b80]">大小：</span>
+                            <input
+                                type="range"
+                                data-testid="remove-pen-brush-range"
+                                min={REMOVE_PEN_BRUSH_MIN}
+                                max={REMOVE_PEN_BRUSH_MAX}
+                                value={state.brushSize}
+                                onChange={(event) => commitBrush(Number(event.target.value))}
+                                className="w-[88px] accent-[#723cf9]"
+                                aria-label="画笔大小"
                             />
-                        </div>
-                        {image ? <p className="mt-2 truncate text-[11px] text-muted-foreground">{image.name} · {image.width}×{image.height}</p> : null}
-                        {image ? (
+                            <input
+                                type="number"
+                                min={REMOVE_PEN_BRUSH_MIN}
+                                max={REMOVE_PEN_BRUSH_MAX}
+                                value={state.brushSize}
+                                onChange={(event) => commitBrush(Number(event.target.value))}
+                                className="h-[24px] w-[44px] rounded-[4px] border border-[#ededf0] bg-white px-1 text-[11px] text-[#1f1f2c]"
+                                aria-label="画笔大小像素"
+                            />
+                            <span className="text-[#6b6b80]">像素</span>
                             <button
                                 type="button"
-                                data-testid="remove-pen-reset-image"
-                                className="mt-2 text-[11px] text-muted-foreground underline-offset-2 hover:underline"
+                                data-testid="remove-pen-reset-mask"
+                                disabled={historyLabel.strokeCount === 0 || busy}
+                                onClick={reset}
+                                className="inline-flex h-[24px] items-center gap-1 rounded-[4px] px-1.5 text-[12px] text-[#1f1f2c] hover:bg-white/70 disabled:opacity-40"
+                            >
+                                <RotateCcw className="size-3" aria-hidden /> 重置
+                            </button>
+                            <button
+                                type="button"
+                                data-testid="remove-pen-undo"
+                                disabled={!historyLabel.canUndo || busy}
+                                onClick={undo}
+                                className="inline-flex h-[24px] items-center gap-1 rounded-[4px] px-1.5 text-[12px] text-[#1f1f2c] hover:bg-white/70 disabled:opacity-40"
+                            >
+                                <Undo2 className="size-3" aria-hidden /> 撤销
+                            </button>
+                            <button
+                                type="button"
+                                data-testid="remove-pen-redo"
+                                disabled={!historyLabel.canRedo || busy}
+                                onClick={redo}
+                                className="inline-flex h-[24px] items-center gap-1 rounded-[4px] px-1.5 text-[12px] text-[#1f1f2c] hover:bg-white/70 disabled:opacity-40"
+                            >
+                                <Redo2 className="size-3" aria-hidden /> 重做
+                            </button>
+                        </div>
+                        <div className="flex items-center gap-2">
+                            <button
+                                type="button"
                                 onClick={() => {
                                     imageRef.current = null;
                                     assetRef.current = null;
@@ -1340,134 +1349,126 @@ export function RemovePenWorkspace({ className }: RemovePenWorkspaceProps = {}) 
                                     setRunSnapshot(null);
                                     patchDraft(REMOVE_PEN_ID, { values: serializeRemovePenDraftValues({ state: cleared, imageName: "", compareMode: compareRef.current }), assetIds: [] });
                                 }}
+                                data-testid="remove-pen-reset-image"
+                                className="h-[28px] rounded-[6px] px-2 text-[12px] text-[#1f1f2c] hover:bg-white/70"
                             >
-                                重新上传（清空涂抹）
+                                重新上传
                             </button>
-                        ) : null}
-                    </section>
-
-                    <section className="rounded-lg border border-border bg-card p-3">
-                        <p className="text-xs font-medium text-foreground">画笔</p>
-                        <div className="mt-2 flex items-center gap-2 text-[11px] text-muted-foreground">
-                            <span>大小</span>
-                            <input
-                                type="range"
-                                data-testid="remove-pen-brush-range"
-                                min={REMOVE_PEN_BRUSH_MIN}
-                                max={REMOVE_PEN_BRUSH_MAX}
-                                value={state.brushSize}
-                                onChange={(event) => commitBrush(Number(event.target.value))}
-                                className="min-w-0 flex-1 accent-primary"
-                                aria-label="画笔大小"
-                            />
-                            <input
-                                type="number"
-                                min={REMOVE_PEN_BRUSH_MIN}
-                                max={REMOVE_PEN_BRUSH_MAX}
-                                value={state.brushSize}
-                                onChange={(event) => commitBrush(Number(event.target.value))}
-                                className="w-14 rounded border border-border bg-background px-1.5 py-0.5 text-[11px] text-foreground"
-                                aria-label="画笔大小像素"
-                            />
-                            像素
-                        </div>
-                        <div className="mt-2 flex flex-wrap gap-1">
-                            {REMOVE_PEN_BRUSH_PRESETS.map((size) => (
+                            <button
+                                type="button"
+                                data-testid="remove-pen-submit"
+                                disabled={busy || issues.length > 0}
+                                onClick={() => void submit()}
+                                className="inline-flex h-[28px] items-center gap-1 rounded-[6px] bg-[#723cf9] px-[15px] text-[12px] leading-none text-white transition hover:bg-[#6231e0] disabled:cursor-not-allowed disabled:opacity-50"
+                            >
+                                {busy ? "消除中…" : "开始消除"}
+                            </button>
+                            {["下载图片", "高清放大", "商品图", "手部修复"].map((label) => (
                                 <button
-                                    key={size}
+                                    key={label}
                                     type="button"
-                                    aria-pressed={state.brushSize === size}
-                                    onClick={() => commitBrush(size)}
-                                    className={cn("rounded border border-border px-1.5 py-0.5 text-[11px]", state.brushSize === size ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:bg-accent")}
+                                    disabled
+                                    className="inline-flex h-[28px] items-center rounded-[6px] px-2 text-[12px] text-[#1f1f2c] opacity-50"
                                 >
-                                    {size}
+                                    {label}
                                 </button>
                             ))}
                         </div>
-                        <div className="mt-2 flex flex-wrap items-center gap-1.5">
-                            <button type="button" data-testid="remove-pen-undo" disabled={!historyLabel.canUndo || busy} onClick={undo} className="inline-flex items-center gap-1 rounded border border-border px-1.5 py-0.5 text-[11px] text-muted-foreground disabled:opacity-40">
-                                <Undo2 className="size-3" aria-hidden /> 撤销
-                            </button>
-                            <button type="button" data-testid="remove-pen-redo" disabled={!historyLabel.canRedo || busy} onClick={redo} className="inline-flex items-center gap-1 rounded border border-border px-1.5 py-0.5 text-[11px] text-muted-foreground disabled:opacity-40">
-                                <Redo2 className="size-3" aria-hidden /> 重做
-                            </button>
-                            <button type="button" data-testid="remove-pen-reset-mask" disabled={historyLabel.strokeCount === 0 || busy} onClick={reset} className="inline-flex items-center gap-1 rounded border border-border px-1.5 py-0.5 text-[11px] text-muted-foreground disabled:opacity-40">
-                                <RotateCcw className="size-3" aria-hidden /> 重置
-                            </button>
-                        </div>
-                        <p className="mt-2 text-[11px] text-muted-foreground">
-                            已涂抹 {historyLabel.strokeCount} 笔 · {coverageLabel}
-                        </p>
-                    </section>
+                    </Edit8CanvasToolbar>
 
-                    {issues.length > 0 ? (
-                        <ul data-testid="remove-pen-issues" className="rounded-lg border border-border bg-card p-3 text-[11px] text-muted-foreground">
-                            {issues.map((issue) => (
-                                <li key={issue.field}>· {issue.message}</li>
-                            ))}
-                        </ul>
+                    {conflict || notice || stale ? (
+                        <div className="flex shrink-0 flex-col gap-1 px-4 pb-2 text-[11px]">
+                            {conflict ? <p className="rounded-[4px] bg-[#fff7e6] px-2 py-1 text-[#b26b00]">草稿在其他标签页被修改，本页未覆盖；刷新可载入最新草稿。</p> : null}
+                            {notice ? (
+                                <p data-testid="remove-pen-notice" className="rounded-[4px] bg-white px-2 py-1 text-[#6b6b80]">
+                                    {notice}
+                                </p>
+                            ) : null}
+                            {stale ? <p className="rounded-[4px] bg-[#fff7e6] px-2 py-1 text-[#b26b00]">涂抹或图片已变更：下面是上一次提交的结果，不代表当前涂抹区域。</p> : null}
+                        </div>
                     ) : null}
-                </aside>
 
-                <div className="flex min-w-0 flex-col gap-3">
-                    <section className="rounded-lg border border-border bg-card p-3">
-                        <div className="flex flex-wrap items-center justify-between gap-2">
-                            <p className="flex items-center gap-1.5 text-xs font-medium text-foreground">
-                                <Paintbrush className="size-3.5" aria-hidden /> 涂抹消除区域
-                            </p>
-                            <span className="text-[11px] text-muted-foreground">白色蒙版 = 要消除的区域；红色覆盖只是预览</span>
-                        </div>
-                        <div className="mt-2 rounded-md border border-dashed border-border bg-muted/30 p-2">
-                            {image ? (
-                                <div className="relative mx-auto w-fit max-w-full">
-                                    <img src={image.dataUrl} alt="待消除原图" className="block max-h-[520px] w-auto max-w-full select-none" draggable={false} />
-                                    <canvas
-                                        ref={canvasRef}
-                                        data-testid="remove-pen-canvas"
-                                        aria-label="涂抹画布"
-                                        onPointerDown={onPointerDown}
-                                        onPointerMove={onPointerMove}
-                                        onPointerUp={onPointerUp}
-                                        onPointerCancel={onPointerUp}
-                                        className="absolute inset-0 size-full cursor-crosshair touch-none"
-                                    />
+                    <div className="min-h-0 flex-1 overflow-y-auto px-4 pb-4">
+                        {image ? (
+                            <div className="mx-auto flex w-fit max-w-full flex-col gap-3">
+                                <div className="relative rounded-[8px] bg-white p-2">
+                                    <div className="relative mx-auto w-fit max-w-full">
+                                        <img src={image.dataUrl} alt="待消除原图" className="block max-h-[520px] w-auto max-w-full select-none" draggable={false} />
+                                        <canvas
+                                            ref={canvasRef}
+                                            data-testid="remove-pen-canvas"
+                                            aria-label="涂抹画布"
+                                            onPointerDown={onPointerDown}
+                                            onPointerMove={onPointerMove}
+                                            onPointerUp={onPointerUp}
+                                            onPointerCancel={onPointerUp}
+                                            className="absolute inset-0 size-full cursor-crosshair touch-none"
+                                        />
+                                    </div>
                                 </div>
-                            ) : (
-                                <p className="py-16 text-center text-xs text-muted-foreground">先上传需要消除的图片，再用画笔涂抹要去掉的物体或瑕疵。</p>
-                            )}
-                        </div>
-                    </section>
-
-                    <section className="rounded-lg border border-border bg-card p-3">
-                        <div className="flex flex-wrap items-center justify-between gap-2">
-                            <p className="text-xs font-medium text-foreground">前后对比</p>
-                            <div className="flex items-center gap-1">
-                                {REMOVE_PEN_COMPARE_MODES.map((mode) => (
-                                    <button
-                                        key={mode.id}
-                                        type="button"
-                                        data-testid={`remove-pen-compare-${mode.id}`}
-                                        aria-pressed={compareMode === mode.id}
-                                        onClick={() => commitCompare(mode.id)}
-                                        className={cn("rounded border border-border px-1.5 py-0.5 text-[11px]", compareMode === mode.id ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:bg-accent")}
-                                    >
-                                        {mode.label}
-                                    </button>
-                                ))}
+                                <p className="text-[11px] text-[#8a8a99]">
+                                    {image.name} · {image.width}×{image.height} · 已涂抹 {historyLabel.strokeCount} 笔 · {coverageLabel}（白色蒙版 = 要消除的区域）
+                                </p>
+                                {issues.length > 0 ? (
+                                    <ul data-testid="remove-pen-issues" className="rounded-[6px] bg-white p-2 text-[11px] text-[#6b6b80]">
+                                        {issues.map((issue) => (
+                                            <li key={issue.field}>· {issue.message}</li>
+                                        ))}
+                                    </ul>
+                                ) : null}
                             </div>
-                        </div>
+                        ) : (
+                            <div className="flex min-h-full items-center justify-center">
+                                <Edit8CanvasCard className="w-[520px]">
+                                    <p className="text-[18px] font-medium leading-6 text-[#1f1f2c]">局部消除</p>
+                                    <p className="text-[12px] leading-5 text-[#8a8a99]">上传需要消除的图片，使用画笔涂抹即可实现一键消除</p>
+                                    <ToolAssetInput
+                                        toolId={REMOVE_PEN_ID}
+                                        variant="linkfox"
+                                        wide
+                                        maxCount={1}
+                                        disabled={busy}
+                                        title=""
+                                        onChange={(_ids, records) => {
+                                            const record = records[records.length - 1];
+                                            if (record) void adoptImage(record);
+                                        }}
+                                    />
+                                </Edit8CanvasCard>
+                            </div>
+                        )}
 
-                        {view.status === "running" ? <p className="mt-3 text-[11px] text-muted-foreground">正在提交真实请求并等待结果…</p> : null}
-                        {view.error && view.status !== "running" ? (
-                            <p data-testid="remove-pen-error" className="mt-2 rounded border border-red-300 bg-red-50 px-2 py-1.5 text-[11px] text-red-800 dark:border-red-900 dark:bg-red-950 dark:text-red-200">
-                                {view.error.message}（诊断码：{view.error.code}）
-                            </p>
-                        ) : null}
-
-                        {run?.task ? <TaskStatusPanel className="mt-3" task={run.task} /> : null}
-
+                        {run?.task || resultUrl ? (
+                            <div className="mx-auto mt-3 flex w-fit max-w-full flex-col gap-2 rounded-[8px] bg-white p-3">
+                                <div className="flex flex-wrap items-center justify-between gap-2">
+                                    <p className="text-[12px] font-medium text-[#1f1f2c]">前后对比</p>
+                                    <div className="flex items-center gap-1">
+                                        {REMOVE_PEN_COMPARE_MODES.map((mode) => (
+                                            <button
+                                                key={mode.id}
+                                                type="button"
+                                                data-testid={`remove-pen-compare-${mode.id}`}
+                                                aria-pressed={compareMode === mode.id}
+                                                onClick={() => commitCompare(mode.id)}
+                                                className={cn(
+                                                    "h-[24px] rounded-[5px] border px-2 text-[11px] leading-none transition",
+                                                    compareMode === mode.id ? "border-[#723cf9] bg-[#723cf9] text-white" : "border-[#ededf0] bg-white text-[#1f1f2c] hover:border-[#723cf9]/50",
+                                                )}
+                                            >
+                                                {mode.label}
+                                            </button>
+                                        ))}
+                                    </div>
+                                </div>
+                                {view.status === "running" ? <p className="text-[11px] text-[#8a8a99]">正在提交真实请求并等待结果…</p> : null}
+                                {view.error && view.status !== "running" ? (
+                                    <p data-testid="remove-pen-error" className="rounded-[4px] bg-[#fdecea] px-2 py-1.5 text-[11px] text-[#c0392b]">
+                                        {view.error.message}（诊断码：{view.error.code}）
+                                    </p>
+                                ) : null}
+                                {run?.task ? <TaskStatusPanel task={run.task} /> : null}
                         {resultUrl && image ? (
-                            <div className="mt-3">
+                            <div className="mt-1">
                                 {compareMode === "slider" ? (
                                     <div className="relative mx-auto w-fit max-w-full overflow-hidden rounded border border-border">
                                         <img src={image.dataUrl} alt="原图" className="block max-h-[520px] w-auto max-w-full select-none" draggable={false} />
@@ -1553,9 +1554,11 @@ export function RemovePenWorkspace({ className }: RemovePenWorkspaceProps = {}) 
                         ) : view.status !== "running" ? (
                             <p className="mt-3 text-[11px] text-muted-foreground">还没有结果。涂抹要消除的区域后点「开始消除」。</p>
                         ) : null}
-                    </section>
-                </div>
-            </div>
+                            </div>
+                        ) : null}
+                    </div>
+                </Edit8Canvas>
+            </Edit8Page>
         </ToolShell>
     );
 }

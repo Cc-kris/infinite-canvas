@@ -11,11 +11,17 @@ import { cn } from "@/lib/utils";
  *  - 配置列：240px 白色卡片，圆角 8，分区内边距 10px 16px
  *  - 结果列：300px，底色 rgb(237,239,245)，圆角 8，顶部 42px 标签栏，内容内边距 16px 12px
  */
-export function Edit8Page({ toolId, className, children }: { toolId: string; className?: string; children: ReactNode }) {
+export function Edit8Page({
+    toolId,
+    className,
+    children,
+    ...rest
+}: { toolId: string; className?: string; children: ReactNode } & Record<string, unknown>) {
     return (
         <div
             data-tool={toolId}
             data-layout="linkfox-edit8"
+            {...rest}
             className={cn("flex h-full min-h-0 gap-[10px] overflow-hidden bg-[#f5f7fa] p-[10px] text-[#1f1f2c]", className)}
         >
             {children}
