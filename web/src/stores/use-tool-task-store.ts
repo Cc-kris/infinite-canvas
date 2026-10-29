@@ -131,6 +131,18 @@ export function readPersistedTasks(storage: ToolTaskStorage = getTaskStorage()):
     return tasks.sort((a, b) => b.updatedAt - a.updatedAt);
 }
 
+/** 单条任务的最新落盘快照（跨标签恢复用：比内存新就以它为准）。 */
+export function readPersistedTask(taskId: string, storage: ToolTaskStorage = getTaskStorage()): ToolTask | null {
+    try {
+        const raw = storage.getItem(taskStorageKey(taskId));
+        if (!raw) return null;
+        const parsed: unknown = JSON.parse(raw);
+        return isToolTask(parsed) ? parsed : null;
+    } catch {
+        return null;
+    }
+}
+
 /**
  * 把索引与真实数据键对齐（幂等；无差异时零写入）。
  *
@@ -318,6 +330,7 @@ function getGateway(): ToolTaskGateway {
         set: (task) => useToolTaskStore.getState().upsertTask(task),
         remove: (taskId) => useToolTaskStore.getState().removeTask(taskId),
         list: () => Object.values(useToolTaskStore.getState().tasks),
+        readPersisted: (taskId) => readPersistedTask(taskId),
     };
     gatewayInstance = createToolGateway({ store: port, getConfig: () => useConfigStore.getState().config });
     return gatewayInstance;
@@ -337,6 +350,13 @@ export const useToolTaskStore = create<ToolTaskState>((set, get) => ({
     hydrated: false,
 
     upsertTask: (task) => {
+        /**
+         * 拒绝旧快照回退：跨标签时本页内存可能是 hydrate 时的副本，
+         * 别的标签已经把同一任务推进到更新的状态（succeeded/新 upstreamTaskId 等），
+         * 旧对象写回去会把真实结果覆盖掉。
+         */
+        const current = get().tasks[task.id];
+        if (current && current.updatedAt > task.updatedAt) return;
         set((state) => ({ tasks: { ...state.tasks, [task.id]: task } }));
         persistTask(task);
         void ingestResultMediaIntoStore(task);

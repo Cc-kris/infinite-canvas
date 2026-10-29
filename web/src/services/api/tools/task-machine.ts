@@ -330,7 +330,9 @@ export type RecoveryReason =
     | "submit-uncertain"
     | "image-running-without-upstream-id"
     | "expired-query-upstream"
-    | "manual-retry-required";
+    | "manual-retry-required"
+    /** 另一个标签页正在推进这条任务（活跃租约）：本页只读不改。 */
+    | "active-in-other-tab";
 
 export type RecoveryPlan = {
     action: RecoveryAction;

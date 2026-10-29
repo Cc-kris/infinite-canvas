@@ -23,6 +23,7 @@ import { resolveModelChannel, useConfigStore, type AiConfig } from "@/stores/use
 import type { ReferenceImage } from "@/types/image";
 import type { ReferenceAudio, ReferenceVideo } from "@/types/media";
 
+import { getTaskLease, type TaskLeasePort } from "./task-lease";
 import {
     canAutoResubmit,
     computeFingerprint,
@@ -473,6 +474,14 @@ export type ToolTaskStorePort = {
     set(task: ToolTask): void;
     remove(taskId: string): void;
     list(): ToolTask[];
+    /**
+     * 只读最新落盘快照（可选）。
+     *
+     * 跨标签竞态：标签页 B 在 hydrate 时就拿到了「提交中」的内存副本，标签页 A 之后
+     * 才把真实结果写成 succeeded。B 若用陈旧内存去收敛，会把 A 的成功记录覆盖成失败。
+     * 恢复前先取落盘最新版本，比内存新就以落盘为准（见 recover 里的 latestTask）。
+     */
+    readPersisted?(taskId: string): ToolTask | null;
 };
 
 export function createMemoryTaskStore(): ToolTaskStorePort {
@@ -517,6 +526,11 @@ export type GatewayDeps = {
     provider?: ProviderPort;
     store?: ToolTaskStorePort;
     now?: () => number;
+    /**
+     * 跨标签任务租约。缺省用 localStorage 共享租约；显式传 null 表示不做跨标签协调
+     * （纯内存场景/测试）。
+     */
+    lease?: TaskLeasePort | null;
 };
 
 export class ToolTaskGateway {
@@ -524,12 +538,45 @@ export class ToolTaskGateway {
     private readonly provider: ProviderPort;
     private readonly store: ToolTaskStorePort;
     private readonly now: () => number;
+    private readonly lease: TaskLeasePort | null;
 
     constructor(deps: GatewayDeps) {
         this.getConfig = deps.getConfig;
         this.provider = deps.provider ?? realProviderPort;
         this.store = deps.store ?? createMemoryTaskStore();
         this.now = deps.now ?? (() => Date.now());
+        this.lease = deps.lease === undefined ? getTaskLease() : deps.lease;
+    }
+
+    /* -------------------------- 跨标签租约（内部） -------------------------- */
+
+    /** 本页开始真正推进这条任务。 */
+    private claimLease(taskId: string): void {
+        this.lease?.claim(taskId, this.now());
+    }
+
+    /** 任务已到终态/未知：本页不再推进，让别的标签页可以接手查询。 */
+    private releaseLease(task: ToolTask): void {
+        if (isTerminalStatus(task.status) || task.status === "unknown") this.lease?.release(task.id);
+    }
+
+    /** 请求在飞行中时续租约（图片请求可能几十秒，超过 TTL 就会被别的标签页误判为“没人管”）。 */
+    private async whileLeased<T>(taskId: string, run: () => Promise<T>): Promise<T> {
+        const lease = this.lease;
+        if (!lease) return run();
+        lease.claim(taskId, this.now());
+        const intervalMs = Math.max(1000, Math.floor(lease.ttlMs / 3));
+        const timer = setInterval(() => lease.renew(taskId, this.now()), intervalMs);
+        try {
+            return await run();
+        } finally {
+            clearInterval(timer);
+        }
+    }
+
+    /** 别的标签页正在处理（租约新鲜且不属于本页）→ 本页不得改动这条任务。 */
+    private heldByAnotherTab(taskId: string): boolean {
+        return Boolean(this.lease?.isLiveElsewhere(taskId, this.now()));
     }
 
     listTasks(): ToolTask[] {
@@ -624,11 +671,17 @@ export class ToolTaskGateway {
         let task = transitionTask(record, "validating", { at: this.now() });
         task = transitionTask(task, "submitting", { at: this.now(), attempts: 1 });
         this.store.set(task);
+        // 从「本页真的发出请求」这一刻起持有租约：别的标签页打开时不能把这条任务当孤儿关掉。
+        this.claimLease(task.id);
 
         if (capability === "image") {
-            return this.executeImage(task, invocation as ImageInvocation, options);
+            const executed = await this.executeImage(task, invocation as ImageInvocation, options);
+            this.releaseLease(executed);
+            return executed;
         }
-        return this.executeVideoCreate(task, invocation as VideoInvocation, options);
+        const executed = await this.executeVideoCreate(task, invocation as VideoInvocation, options);
+        this.releaseLease(executed);
+        return executed;
     }
 
     /** 单步轮询：推进一次任务状态（视频）；图片没有查询接口，只能报 unknown。 */
@@ -739,6 +792,20 @@ export class ToolTaskGateway {
 
     /** 连续轮询到终态；超时→unknown（不当作失败），heartbeat 缺失 3 次→unknown。 */
     async waitForResult(taskId: string, options: WaitOptions = {}): Promise<ToolTask> {
+        const current = this.latestTask(taskId);
+        if (isTerminalStatus(current.status)) return current;
+        // 另一个标签页正在跑这条任务：不抢租约、不重复轮询，交给它推进；本页稍后再查。
+        if (this.heldByAnotherTab(taskId)) return current;
+        // 等待期间持有租约：别的标签页打开时不会把这条「正在跑」的任务当成孤儿。
+        this.claimLease(taskId);
+        try {
+            return await this.waitForResultLeased(taskId, options);
+        } finally {
+            this.lease?.release(taskId);
+        }
+    }
+
+    private async waitForResultLeased(taskId: string, options: WaitOptions = {}): Promise<ToolTask> {
         const sleep = options.sleep ?? ((ms: number) => new Promise<void>((resolve) => setTimeout(resolve, ms)));
         const timeoutMs = options.timeoutMs ?? DEFAULT_TASK_TIMEOUT_MS;
         const startedAt = this.now();
@@ -796,6 +863,7 @@ export class ToolTaskGateway {
                 : {}),
         });
         this.store.set(cancelled);
+        this.releaseLease(cancelled);
         return cancelled;
     }
 
@@ -845,12 +913,26 @@ export class ToolTaskGateway {
         return this.waitForResult(executed.id, options);
     }
 
-    /** 刷新页面后恢复：只查询/等待，不自动重提交；需要人工确认的返回计划本身。 */
+    /**
+     * 刷新页面后恢复：只查询/等待，不自动重提交；需要人工确认的返回计划本身。
+     *
+     * 跨标签约定：另一个标签页仍在推进这条任务（租约新鲜）时，本页只读不改，
+     * 避免把别人真实的 in-flight 提交误关成 submit-unconfirmed。
+     */
     async recover(taskId: string, options: WaitOptions = {}): Promise<{ plan: RecoveryPlan; task: ToolTask }> {
-        const task = this.requireTask(taskId);
-        const plan = planRecovery(task, this.now(), options.timeoutMs ?? DEFAULT_TASK_TIMEOUT_MS);
+        const task = this.latestTask(taskId);
+        const now = this.now();
+        if (!isTerminalStatus(task.status) && this.heldByAnotherTab(task.id)) {
+            return {
+                plan: { action: "wait", reason: "active-in-other-tab", requiresServerLookup: false, autoResubmit: false },
+                task,
+            };
+        }
+        const plan = planRecovery(task, now, options.timeoutMs ?? DEFAULT_TASK_TIMEOUT_MS);
         if (plan.action === "poll") {
+            this.claimLease(task.id);
             const polled = await this.poll(taskId, options);
+            this.releaseLease(polled);
             return { plan, task: polled };
         }
         // 已终态 / 还没提交（draft、validating）：没有可恢复的动作，原样返回。
@@ -925,10 +1007,11 @@ export class ToolTaskGateway {
             else outerSignal.addEventListener("abort", onOuterAbort);
         }
         try {
-            const results =
+            const results = await this.whileLeased(task.id, () =>
                 invocation.mode === "edit"
-                    ? await this.provider.editImage(invocation.config, invocation.prompt, invocation.references, controller.signal)
-                    : await this.provider.generateImage(invocation.config, invocation.prompt, controller.signal);
+                    ? this.provider.editImage(invocation.config, invocation.prompt, invocation.references, controller.signal)
+                    : this.provider.generateImage(invocation.config, invocation.prompt, controller.signal),
+            );
             if (results.length === 0) {
                 return this.recordFailure(
                     task,
@@ -966,13 +1049,15 @@ export class ToolTaskGateway {
 
     private async executeVideoCreate(task: ToolTask, invocation: VideoInvocation, options: SubmitOptions): Promise<ToolTask> {
         try {
-            const upstream = await this.provider.createVideoTask(
-                invocation.config,
-                invocation.prompt,
-                invocation.references,
-                invocation.videos,
-                invocation.audios,
-                options.signal,
+            const upstream = await this.whileLeased(task.id, () =>
+                this.provider.createVideoTask(
+                    invocation.config,
+                    invocation.prompt,
+                    invocation.references,
+                    invocation.videos,
+                    invocation.audios,
+                    options.signal,
+                ),
             );
             if (!upstream?.id) {
                 return this.recordFailure(
@@ -1028,6 +1113,23 @@ export class ToolTaskGateway {
         const task = this.store.get(taskId);
         if (!task) throw new ToolGatewayError("unknown-task", `Unknown tool task: ${taskId}`);
         return task;
+    }
+
+    /**
+     * 取「最新」任务：落盘快照比内存新时以落盘为准。
+     *
+     * 竞态现场：本标签页 hydrate 到 submitting 后，原标签页把真实结果写成了 succeeded；
+     * 若本页拿陈旧内存继续收敛，就会用旧状态覆盖别人已经到达的终态。
+     */
+    private latestTask(taskId: string): ToolTask {
+        const memory = this.store.get(taskId);
+        const persisted = this.store.readPersisted?.(taskId) ?? null;
+        if (persisted && (!memory || persisted.updatedAt > memory.updatedAt)) {
+            this.store.set(persisted);
+            return persisted;
+        }
+        if (!memory) throw new ToolGatewayError("unknown-task", `Unknown tool task: ${taskId}`);
+        return memory;
     }
 }
 
