@@ -1,0 +1,1672 @@
+{
+ "generatedAt": "2026-10-29T19:36:17+0800",
+ "origin": "http://127.0.0.1:3000",
+ "purpose": "R9 AI_TEXT/ORNAMENT_TEXT/SDS_DESIGN 三腿补录前的目标任务存在性取证（只读，无注入/无生成）",
+ "cases": [
+  {
+   "toolId": "AI_TEXT",
+   "primaryTaskId": "task-mvsdhatp-kdyvt6",
+   "route": "/tools/product-design/ai-text",
+   "resultStorageKey": "tool-result:IHXDX5ekYGw5A5g9zPYm3",
+   "tabId": 1709629292,
+   "observed": {
+    "bodySnippet": "无限画布 首页 电商套图 智能修图 新模型 AI视频 HOT 批量生图 商品图设计 中 切换到深色主题 v0.27.0 商品图设计 商品图 商品替换 场景裂变 手持商品 AI穿衣 姿势裂变 AI穿戴 POD素材 饰品文字 素材贴合 印花提取 AI姿势生成 补充 AI试衣XSY 补充 场景裂变链接 补充 图片文字编辑 补充 上装换料 补充 商品图设计器 补充 商品营销素材 补充 场景迁移 补充 免责声明 POD 素材 图案 / 文字素材生成，支持平铺规则、案例变体与真实 provider 出图。 目录：模式 / 比例 / 风格 / 中文风格 default::gpt-image-2 上传底图（参",
+    "dockRows": [],
+    "dockSectionFound": true,
+    "indexLen": 66,
+    "lsKeys": 78,
+    "taskKeys": 66,
+    "toolTasks": [
+     {
+      "createdAt": 1793198355351,
+      "hasResult": false,
+      "id": "task-mvs802af-u9vwye",
+      "status": "failed",
+      "toolId": "AI_VIDEO_EDITING"
+     },
+     {
+      "createdAt": 1793203580020,
+      "hasResult": false,
+      "id": "task-mvsb41o4-obzwag",
+      "status": "failed",
+      "toolId": "CHANGE_COLOR_V2"
+     },
+     {
+      "createdAt": 1793205278152,
+      "hasResult": true,
+      "id": "task-mvsc4fyg-qobp8k",
+      "status": "succeeded",
+      "toolId": "CHANGE_COLOR_V2"
+     },
+     {
+      "createdAt": 1793267602095,
+      "hasResult": true,
+      "id": "task-mvtd89f3-9qpix6",
+      "status": "succeeded",
+      "toolId": "AI_POSE_GENERATOR"
+     },
+     {
+      "createdAt": 1793256938555,
+      "hasResult": true,
+      "id": "task-mvt6vpdn-17qby2",
+      "status": "succeeded",
+      "toolId": "PRODUCT_IMAGE_SUITE"
+     },
+     {
+      "createdAt": 1793268224784,
+      "hasResult": true,
+      "id": "task-mvtdllw0-dn440l",
+      "status": "succeeded",
+      "toolId": "SCALE_UP"
+     },
+     {
+      "createdAt": 1793198512226,
+      "hasResult": false,
+      "id": "task-mvs83fc2-dc6b5s",
+      "status": "failed",
+      "toolId": "AI_VIDEO_EDITING"
+     },
+     {
+      "createdAt": 1793256938556,
+      "hasResult": true,
+      "id": "task-mvt6vpdo-sc1x8w",
+      "status": "succeeded",
+      "toolId": "PRODUCT_IMAGE_SUITE"
+     },
+     {
+      "createdAt": 1793204569736,
+      "hasResult": true,
+      "id": "task-mvsbp9c8-y8q5vf",
+      "status": "succeeded",
+      "toolId": "AI_OUTPAINTING"
+     },
+     {
+      "createdAt": 1793257353023,
+      "hasResult": true,
+      "id": "task-mvt74l6n-y5sie3",
+      "status": "succeeded",
+      "toolId": "DRESS_WEAR_SET"
+     },
+     {
+      "createdAt": 1793264028283,
+      "hasResult": true,
+      "id": "task-mvtb3nuj-3d0mnv",
+      "status": "succeeded",
+      "toolId": "PRODUCT_REFINE"
+     },
+     {
+      "createdAt": 1793264366560,
+      "hasResult": true,
+      "id": "task-mvtbawv4-zxcmpv",
+      "status": "succeeded",
+      "toolId": "PRINTING_REPAIR"
+     },
+     {
+      "createdAt": 1793266977882,
+      "hasResult": false,
+      "id": "task-mvtcuvru-9ef0rv",
+      "status": "failed",
+      "toolId": "SCALE_UP"
+     },
+     {
+      "createdAt": 1793247314188,
+      "hasResult": false,
+      "id": "task-mvt15f64-jnx1gz",
+      "status": "failed",
+      "toolId": "FISSION_LINK"
+     },
+     {
+      "createdAt": 1793268209204,
+      "hasResult": true,
+      "id": "task-mvtdl9v8-165q1n",
+      "status": "succeeded",
+      "toolId": "NEW_DESIGNER"
+     },
+     {
+      "createdAt": 1793204438464,
+      "hasResult": false,
+      "id": "task-mvsbmg1s-vrn9il",
+      "status": "failed",
+      "toolId": "AI_VIDEO_EDITING"
+     },
+     {
+      "createdAt": 1793196028746,
+      "hasResult": false,
+      "id": "task-mvs6m72i-eidjm6",
+      "status": "failed",
+      "toolId": "SALE_VIDEO"
+     },
+     {
+      "createdAt": 1793201885034,
+      "hasResult": true,
+      "id": "task-mvsa3pt6-4wqy46",
+      "status": "succeeded",
+      "toolId": "REMOVE_PEN"
+     },
+     {
+      "createdAt": 1793195979616,
+      "hasResult": false,
+      "id": "task-mvs6l55s-fufs7l",
+      "status": "failed",
+      "toolId": "AI_POSE_GENERATOR"
+     },
+     {
+      "createdAt": 1793261759956,
+      "hasResult": true,
+      "id": "task-mvt9r1lg-ab8tqn",
+      "status": "succeeded",
+      "toolId": "FIX_COLOR"
+     },
+     {
+      "createdAt": 1793266791065,
+      "hasResult": false,
+      "id": "task-mvtcqvmh-ucrp2a",
+      "status": "failed",
+      "toolId": "SCALE_UP"
+     },
+     {
+      "createdAt": 1793246682366,
+      "hasResult": true,
+      "id": "task-mvt0rvni-ylxhm0",
+      "status": "succeeded",
+      "toolId": "FISSION_LINK"
+     },
+     {
+      "createdAt": 1793204418362,
+      "hasResult": false,
+      "id": "task-mvsbm0je-ci8p2w",
+      "status": "failed",
+      "toolId": "AI_VIDEO_EDITING"
+     },
+     {
+      "createdAt": 1793260465687,
+      "hasResult": true,
+      "id": "task-mvt42rpv-kfl1ov",
+      "status": "succeeded",
+      "toolId": "AI_VIDEO_EDITING"
+     },
+     {
+      "createdAt": 1793201091731,
+      "hasResult": false,
+      "id": "task-mvs9mpoz-e8u2ry",
+      "status": "failed",
+      "toolId": "VIDEO_REPLICATION"
+     },
+     {
+      "createdAt": 1793257353026,
+      "hasResult": true,
+      "id": "task-mvt74l6q-1vljau",
+      "status": "succeeded",
+      "toolId": "DRESS_WEAR_SET"
+     },
+     {
+      "createdAt": 1793196835178,
+      "hasResult": true,
+      "id": "task-mvs73hbe-ak20fw",
+      "status": "succeeded",
+      "toolId": "AI_POSE_GENERATOR"
+     },
+     {
+      "createdAt": 1793260706752,
+      "hasResult": false,
+      "id": "task-mvt94gxs-p0r29t",
+      "status": "failed",
+      "toolId": "VIDEO_CONCAT"
+     },
+     {
+      "createdAt": 1793202930730,
+      "hasResult": false,
+      "id": "task-mvsaq4oa-4giro0",
+      "status": "failed",
+      "toolId": "REMOVE_PEN"
+     },
+     {
+      "createdAt": 1793264923461,
+      "hasResult": true,
+      "id": "task-mvtbmukl-quasjm",
+      "status": "succeeded",
+      "toolId": "IMAGE_CROP"
+     },
+     {
+      "createdAt": 1793204005829,
+      "hasResult": false,
+      "id": "task-mvsbd685-5tzfuw",
+      "status": "failed",
+      "toolId": "SALE_VIDEO"
+     },
+     {
+      "createdAt": 1793273279202,
+      "hasResult": true,
+      "id": "task-mvtglxwi-ys0y85",
+      "status": "succeeded",
+      "toolId": "AI_WEARABLE"
+     },
+     {
+      "createdAt": 1793267410603,
+      "hasResult": true,
+      "id": "task-mvtd45nv-y7cum6",
+      "status": "succeeded",
+      "toolId": "MATERIAL_UPPER_BODY"
+     },
+     {
+      "createdAt": 1793203580025,
+      "hasResult": false,
+      "id": "task-mvsb41o9-hv2vqo",
+      "status": "failed",
+      "toolId": "CHANGE_COLOR_V2"
+     },
+     {
+      "createdAt": 1793205433916,
+      "hasResult": false,
+      "id": "task-mvsc7s58-2rrnqz",
+      "status": "failed",
+      "toolId": "CHANGE_COLOR_V2"
+     },
+     {
+      "createdAt": 1793266977885,
+      "hasResult": false,
+      "id": "task-mvtcuvrx-y8uyad",
+      "status": "failed",
+      "toolId": "SCALE_UP"
+     },
+     {
+      "createdAt": 1793202758045,
+      "hasResult": true,
+      "id": "task-mvsamffh-uh79ky",
+      "status": "succeeded",
+      "toolId": "PRINTING_REPAIR"
+     },
+     {
+      "createdAt": 1793197868218,
+      "hasResult": true,
+      "id": "task-mvs7pmey-uxscga",
+      "status": "succeeded",
+      "toolId": "FISSION_LINK"
+     },
+     {
+      "createdAt": 1793203868724,
+      "hasResult": true,
+      "id": "task-mvsba8fo-iplfjq",
+      "status": "succeeded",
+      "toolId": "REMOVE_PEN"
+     },
+     {
+      "createdAt": 1793257199306,
+      "hasResult": false,
+      "id": "task-mvt71akq-bu2hxh",
+      "status": "failed",
+      "toolId": "IMAGE_TO_VIDEO"
+     },
+     {
+      "createdAt": 1793268224794,
+      "hasResult": true,
+      "id": "task-mvtdllwa-4nnit3",
+      "status": "succeeded",
+      "toolId": "SCALE_UP"
+     },
+     {
+      "createdAt": 1793272940271,
+      "hasResult": true,
+      "id": "task-mvtgeodr-5vx7tw",
+      "status": "succeeded",
+      "toolId": "AI_DRESSING_V2"
+     },
+     {
+      "createdAt": 1793201590072,
+      "hasResult": false,
+      "id": "task-mvs9xe7s-9jmboc",
+      "status": "failed",
+      "toolId": "REMOVE_PEN"
+     },
+     {
+      "createdAt": 1793197453068,
+      "hasResult": false,
+      "id": "task-mvs7gq30-m78zxu",
+      "status": "failed",
+      "toolId": "FISSION_LINK"
+     },
+     {
+      "createdAt": 1793193937165,
+      "hasResult": false,
+      "id": "task-mvs5dd71-4s35w2",
+      "status": "failed",
+      "toolId": "PRINT_EXTRACT"
+     },
+     {
+      "createdAt": 1793261179000,
+      "hasResult": true,
+      "id": "task-mvt9elbs-u4grlv",
+      "status": "succeeded",
+      "toolId": "IMAGE_TRANSLATION"
+     },
+     {
+      "createdAt": 1793271270464,
+      "hasResult": true,
+      "id": "task-mvtfevy8-rrr2ye",
+      "status": "succeeded",
+      "toolId": "AREA_REPAIR"
+     },
+     {
+      "createdAt": 1793247462713,
+      "hasResult": true,
+      "id": "task-mvt18lrt-rsnifn",
+      "status": "succeeded",
+      "toolId": "FISSION_LINK"
+     },
+     {
+      "createdAt": 1793196775151,
+      "hasResult": false,
+      "id": "task-mvs726zz-lwouyf",
+      "status": "failed",
+      "toolId": "FISSION_LINK"
+     },
+     {
+      "createdAt": 1793264518069,
+      "hasResult": true,
+      "id": "task-mvtbe5rp-0maafh",
+      "status": "succeeded",
+      "toolId": "HAND_REPAIR"
+     },
+     {
+      "createdAt": 1793264695411,
+      "hasResult": true,
+      "id": "task-mvtbhylv-bmyjus",
+      "status": "succeeded",
+      "toolId": "AI_OUTPAINTING"
+     },
+     {
+      "createdAt": 1793198888713,
+      "hasResult": true,
+      "id": "task-mvs8bhu1-hhue24",
+      "status": "succeeded",
+      "toolId": "IMAGE_TEXT_EDIT"
+     },
+     {
+      "createdAt": 1793196658365,
+      "hasResult": false,
+      "id": "task-mvs6zovx-pod3rz",
+      "status": "failed",
+      "toolId": "AI_POSE_GENERATOR"
+     },
+     {
+      "createdAt": 1793257458001,
+      "hasResult": true,
+      "id": "task-mvt76u6p-7cfnff",
+      "status": "succeeded",
+      "toolId": "SALE_VIDEO"
+     },
+     {
+      "createdAt": 1793194490888,
+      "hasResult": false,
+      "id": "task-mvs5p8g8-or3oim",
+      "status": "failed",
+      "toolId": "HANDHELD_GOODS"
+     },
+     {
+      "createdAt": 1793196999353,
+      "hasResult": false,
+      "id": "task-mvs76zzt-c0f9u5",
+      "status": "failed",
+      "toolId": "AI_VIDEO_EDITING"
+     },
+     {
+      "createdAt": 1793203352739,
+      "hasResult": false,
+      "id": "task-mvsaz6ar-m6osdl",
+      "status": "failed",
+      "toolId": "REMOVE_PEN"
+     },
+     {
+      "createdAt": 1793262251104,
+      "hasResult": true,
+      "id": "task-mvta1kkg-t8y1yo",
+      "status": "succeeded",
+      "toolId": "FIX_COLOR"
+     },
+     {
+      "createdAt": 1793267213928,
+      "hasResult": true,
+      "id": "task-mvtczxwo-e1d1w0",
+      "status": "succeeded",
+      "toolId": "AI_POSTURE"
+     },
+     {
+      "createdAt": 1793247402906,
+      "hasResult": true,
+      "id": "task-mvt17bmi-xpint5",
+      "status": "succeeded",
+      "toolId": "FISSION_LINK"
+     },
+     {
+      "createdAt": 1793203147737,
+      "hasResult": true,
+      "id": "task-mvsaus49-i7vsmt",
+      "status": "succeeded",
+      "toolId": "REMOVE_PEN"
+     },
+     {
+      "createdAt": 1793246916169,
+      "hasResult": true,
+      "id": "task-mvt0ww21-bhl4e9",
+      "status": "succeeded",
+      "toolId": "FISSION_LINK"
+     },
+     {
+      "createdAt": 1793196253160,
+      "hasResult": false,
+      "id": "task-mvs6r088-39u8zq",
+      "status": "failed",
+      "toolId": "AI_POSE_GENERATOR"
+     },
+     {
+      "createdAt": 1793266791071,
+      "hasResult": false,
+      "id": "task-mvtcqvmn-p4kk5n",
+      "status": "failed",
+      "toolId": "SCALE_UP"
+     },
+     {
+      "createdAt": 1793198005141,
+      "hasResult": false,
+      "id": "task-mvs7sk2d-cmr0uf",
+      "status": "failed",
+      "toolId": "AI_VIDEO_EDITING"
+     },
+     {
+      "createdAt": 1793195728247,
+      "hasResult": false,
+      "id": "task-mvs6fr7b-plo8es",
+      "status": "failed",
+      "toolId": "AI_POSE_GENERATOR"
+     }
+    ],
+    "toolTasksCount": 66,
+    "url": "http://127.0.0.1:3000/tools/product-design/ai-text"
+   },
+   "checks": {
+    "targetTaskIdPresent": false,
+    "targetResultKeyPresent": false,
+    "sameToolTaskIds": [
+     "task-mvs802af-u9vwye",
+     "task-mvsb41o4-obzwag",
+     "task-mvsc4fyg-qobp8k",
+     "task-mvtd89f3-9qpix6",
+     "task-mvt6vpdn-17qby2",
+     "task-mvtdllw0-dn440l",
+     "task-mvs83fc2-dc6b5s",
+     "task-mvt6vpdo-sc1x8w",
+     "task-mvsbp9c8-y8q5vf",
+     "task-mvt74l6n-y5sie3",
+     "task-mvtb3nuj-3d0mnv",
+     "task-mvtbawv4-zxcmpv",
+     "task-mvtcuvru-9ef0rv",
+     "task-mvt15f64-jnx1gz",
+     "task-mvtdl9v8-165q1n",
+     "task-mvsbmg1s-vrn9il",
+     "task-mvs6m72i-eidjm6",
+     "task-mvsa3pt6-4wqy46",
+     "task-mvs6l55s-fufs7l",
+     "task-mvt9r1lg-ab8tqn",
+     "task-mvtcqvmh-ucrp2a",
+     "task-mvt0rvni-ylxhm0",
+     "task-mvsbm0je-ci8p2w",
+     "task-mvt42rpv-kfl1ov",
+     "task-mvs9mpoz-e8u2ry",
+     "task-mvt74l6q-1vljau",
+     "task-mvs73hbe-ak20fw",
+     "task-mvt94gxs-p0r29t",
+     "task-mvsaq4oa-4giro0",
+     "task-mvtbmukl-quasjm",
+     "task-mvsbd685-5tzfuw",
+     "task-mvtglxwi-ys0y85",
+     "task-mvtd45nv-y7cum6",
+     "task-mvsb41o9-hv2vqo",
+     "task-mvsc7s58-2rrnqz",
+     "task-mvtcuvrx-y8uyad",
+     "task-mvsamffh-uh79ky",
+     "task-mvs7pmey-uxscga",
+     "task-mvsba8fo-iplfjq",
+     "task-mvt71akq-bu2hxh",
+     "task-mvtdllwa-4nnit3",
+     "task-mvtgeodr-5vx7tw",
+     "task-mvs9xe7s-9jmboc",
+     "task-mvs7gq30-m78zxu",
+     "task-mvs5dd71-4s35w2",
+     "task-mvt9elbs-u4grlv",
+     "task-mvtfevy8-rrr2ye",
+     "task-mvt18lrt-rsnifn",
+     "task-mvs726zz-lwouyf",
+     "task-mvtbe5rp-0maafh",
+     "task-mvtbhylv-bmyjus",
+     "task-mvs8bhu1-hhue24",
+     "task-mvs6zovx-pod3rz",
+     "task-mvt76u6p-7cfnff",
+     "task-mvs5p8g8-or3oim",
+     "task-mvs76zzt-c0f9u5",
+     "task-mvsaz6ar-m6osdl",
+     "task-mvta1kkg-t8y1yo",
+     "task-mvtczxwo-e1d1w0",
+     "task-mvt17bmi-xpint5",
+     "task-mvsaus49-i7vsmt",
+     "task-mvt0ww21-bhl4e9",
+     "task-mvs6r088-39u8zq",
+     "task-mvtcqvmn-p4kk5n",
+     "task-mvs7sk2d-cmr0uf",
+     "task-mvs6fr7b-plo8es"
+    ],
+    "targetResultKeyChars": 0
+   },
+   "tabClosed": true
+  },
+  {
+   "toolId": "ORNAMENT_TEXT",
+   "primaryTaskId": "task-mvsdivlg-6slebs",
+   "route": "/tools/product-design/ornament-text",
+   "resultStorageKey": "tool-result:fwfbptF9hIuRm4lozH8J4",
+   "tabId": 1709629294,
+   "observed": {
+    "bodySnippet": "无限画布 首页 电商套图 智能修图 新模型 AI视频 HOT 批量生图 商品图设计 中 切换到深色主题 v0.27.0 商品图设计 商品图 商品替换 场景裂变 手持商品 AI穿衣 姿势裂变 AI穿戴 POD素材 饰品文字 素材贴合 印花提取 AI姿势生成 补充 AI试衣XSY 补充 场景裂变链接 补充 图片文字编辑 补充 上装换料 补充 商品图设计器 补充 商品营销素材 补充 场景迁移 补充 免责声明 饰品文字 文字内容、字体、字号与左右定位实时预览；提交后由图片模型生成成品。 default::gpt-image-2 字数 0/4000 饰品文字内容 逐字照排，最多 4000 字。 效果描述",
+    "dockRows": [],
+    "dockSectionFound": true,
+    "indexLen": 66,
+    "lsKeys": 78,
+    "taskKeys": 66,
+    "toolTasks": [
+     {
+      "createdAt": 1793198355351,
+      "hasResult": false,
+      "id": "task-mvs802af-u9vwye",
+      "status": "failed",
+      "toolId": "AI_VIDEO_EDITING"
+     },
+     {
+      "createdAt": 1793203580020,
+      "hasResult": false,
+      "id": "task-mvsb41o4-obzwag",
+      "status": "failed",
+      "toolId": "CHANGE_COLOR_V2"
+     },
+     {
+      "createdAt": 1793205278152,
+      "hasResult": true,
+      "id": "task-mvsc4fyg-qobp8k",
+      "status": "succeeded",
+      "toolId": "CHANGE_COLOR_V2"
+     },
+     {
+      "createdAt": 1793267602095,
+      "hasResult": true,
+      "id": "task-mvtd89f3-9qpix6",
+      "status": "succeeded",
+      "toolId": "AI_POSE_GENERATOR"
+     },
+     {
+      "createdAt": 1793256938555,
+      "hasResult": true,
+      "id": "task-mvt6vpdn-17qby2",
+      "status": "succeeded",
+      "toolId": "PRODUCT_IMAGE_SUITE"
+     },
+     {
+      "createdAt": 1793268224784,
+      "hasResult": true,
+      "id": "task-mvtdllw0-dn440l",
+      "status": "succeeded",
+      "toolId": "SCALE_UP"
+     },
+     {
+      "createdAt": 1793198512226,
+      "hasResult": false,
+      "id": "task-mvs83fc2-dc6b5s",
+      "status": "failed",
+      "toolId": "AI_VIDEO_EDITING"
+     },
+     {
+      "createdAt": 1793256938556,
+      "hasResult": true,
+      "id": "task-mvt6vpdo-sc1x8w",
+      "status": "succeeded",
+      "toolId": "PRODUCT_IMAGE_SUITE"
+     },
+     {
+      "createdAt": 1793204569736,
+      "hasResult": true,
+      "id": "task-mvsbp9c8-y8q5vf",
+      "status": "succeeded",
+      "toolId": "AI_OUTPAINTING"
+     },
+     {
+      "createdAt": 1793257353023,
+      "hasResult": true,
+      "id": "task-mvt74l6n-y5sie3",
+      "status": "succeeded",
+      "toolId": "DRESS_WEAR_SET"
+     },
+     {
+      "createdAt": 1793264028283,
+      "hasResult": true,
+      "id": "task-mvtb3nuj-3d0mnv",
+      "status": "succeeded",
+      "toolId": "PRODUCT_REFINE"
+     },
+     {
+      "createdAt": 1793264366560,
+      "hasResult": true,
+      "id": "task-mvtbawv4-zxcmpv",
+      "status": "succeeded",
+      "toolId": "PRINTING_REPAIR"
+     },
+     {
+      "createdAt": 1793266977882,
+      "hasResult": false,
+      "id": "task-mvtcuvru-9ef0rv",
+      "status": "failed",
+      "toolId": "SCALE_UP"
+     },
+     {
+      "createdAt": 1793247314188,
+      "hasResult": false,
+      "id": "task-mvt15f64-jnx1gz",
+      "status": "failed",
+      "toolId": "FISSION_LINK"
+     },
+     {
+      "createdAt": 1793268209204,
+      "hasResult": true,
+      "id": "task-mvtdl9v8-165q1n",
+      "status": "succeeded",
+      "toolId": "NEW_DESIGNER"
+     },
+     {
+      "createdAt": 1793204438464,
+      "hasResult": false,
+      "id": "task-mvsbmg1s-vrn9il",
+      "status": "failed",
+      "toolId": "AI_VIDEO_EDITING"
+     },
+     {
+      "createdAt": 1793196028746,
+      "hasResult": false,
+      "id": "task-mvs6m72i-eidjm6",
+      "status": "failed",
+      "toolId": "SALE_VIDEO"
+     },
+     {
+      "createdAt": 1793201885034,
+      "hasResult": true,
+      "id": "task-mvsa3pt6-4wqy46",
+      "status": "succeeded",
+      "toolId": "REMOVE_PEN"
+     },
+     {
+      "createdAt": 1793195979616,
+      "hasResult": false,
+      "id": "task-mvs6l55s-fufs7l",
+      "status": "failed",
+      "toolId": "AI_POSE_GENERATOR"
+     },
+     {
+      "createdAt": 1793261759956,
+      "hasResult": true,
+      "id": "task-mvt9r1lg-ab8tqn",
+      "status": "succeeded",
+      "toolId": "FIX_COLOR"
+     },
+     {
+      "createdAt": 1793266791065,
+      "hasResult": false,
+      "id": "task-mvtcqvmh-ucrp2a",
+      "status": "failed",
+      "toolId": "SCALE_UP"
+     },
+     {
+      "createdAt": 1793246682366,
+      "hasResult": true,
+      "id": "task-mvt0rvni-ylxhm0",
+      "status": "succeeded",
+      "toolId": "FISSION_LINK"
+     },
+     {
+      "createdAt": 1793204418362,
+      "hasResult": false,
+      "id": "task-mvsbm0je-ci8p2w",
+      "status": "failed",
+      "toolId": "AI_VIDEO_EDITING"
+     },
+     {
+      "createdAt": 1793260465687,
+      "hasResult": true,
+      "id": "task-mvt42rpv-kfl1ov",
+      "status": "succeeded",
+      "toolId": "AI_VIDEO_EDITING"
+     },
+     {
+      "createdAt": 1793201091731,
+      "hasResult": false,
+      "id": "task-mvs9mpoz-e8u2ry",
+      "status": "failed",
+      "toolId": "VIDEO_REPLICATION"
+     },
+     {
+      "createdAt": 1793257353026,
+      "hasResult": true,
+      "id": "task-mvt74l6q-1vljau",
+      "status": "succeeded",
+      "toolId": "DRESS_WEAR_SET"
+     },
+     {
+      "createdAt": 1793196835178,
+      "hasResult": true,
+      "id": "task-mvs73hbe-ak20fw",
+      "status": "succeeded",
+      "toolId": "AI_POSE_GENERATOR"
+     },
+     {
+      "createdAt": 1793260706752,
+      "hasResult": false,
+      "id": "task-mvt94gxs-p0r29t",
+      "status": "failed",
+      "toolId": "VIDEO_CONCAT"
+     },
+     {
+      "createdAt": 1793202930730,
+      "hasResult": false,
+      "id": "task-mvsaq4oa-4giro0",
+      "status": "failed",
+      "toolId": "REMOVE_PEN"
+     },
+     {
+      "createdAt": 1793264923461,
+      "hasResult": true,
+      "id": "task-mvtbmukl-quasjm",
+      "status": "succeeded",
+      "toolId": "IMAGE_CROP"
+     },
+     {
+      "createdAt": 1793204005829,
+      "hasResult": false,
+      "id": "task-mvsbd685-5tzfuw",
+      "status": "failed",
+      "toolId": "SALE_VIDEO"
+     },
+     {
+      "createdAt": 1793273279202,
+      "hasResult": true,
+      "id": "task-mvtglxwi-ys0y85",
+      "status": "succeeded",
+      "toolId": "AI_WEARABLE"
+     },
+     {
+      "createdAt": 1793267410603,
+      "hasResult": true,
+      "id": "task-mvtd45nv-y7cum6",
+      "status": "succeeded",
+      "toolId": "MATERIAL_UPPER_BODY"
+     },
+     {
+      "createdAt": 1793203580025,
+      "hasResult": false,
+      "id": "task-mvsb41o9-hv2vqo",
+      "status": "failed",
+      "toolId": "CHANGE_COLOR_V2"
+     },
+     {
+      "createdAt": 1793205433916,
+      "hasResult": false,
+      "id": "task-mvsc7s58-2rrnqz",
+      "status": "failed",
+      "toolId": "CHANGE_COLOR_V2"
+     },
+     {
+      "createdAt": 1793266977885,
+      "hasResult": false,
+      "id": "task-mvtcuvrx-y8uyad",
+      "status": "failed",
+      "toolId": "SCALE_UP"
+     },
+     {
+      "createdAt": 1793202758045,
+      "hasResult": true,
+      "id": "task-mvsamffh-uh79ky",
+      "status": "succeeded",
+      "toolId": "PRINTING_REPAIR"
+     },
+     {
+      "createdAt": 1793197868218,
+      "hasResult": true,
+      "id": "task-mvs7pmey-uxscga",
+      "status": "succeeded",
+      "toolId": "FISSION_LINK"
+     },
+     {
+      "createdAt": 1793203868724,
+      "hasResult": true,
+      "id": "task-mvsba8fo-iplfjq",
+      "status": "succeeded",
+      "toolId": "REMOVE_PEN"
+     },
+     {
+      "createdAt": 1793257199306,
+      "hasResult": false,
+      "id": "task-mvt71akq-bu2hxh",
+      "status": "failed",
+      "toolId": "IMAGE_TO_VIDEO"
+     },
+     {
+      "createdAt": 1793268224794,
+      "hasResult": true,
+      "id": "task-mvtdllwa-4nnit3",
+      "status": "succeeded",
+      "toolId": "SCALE_UP"
+     },
+     {
+      "createdAt": 1793272940271,
+      "hasResult": true,
+      "id": "task-mvtgeodr-5vx7tw",
+      "status": "succeeded",
+      "toolId": "AI_DRESSING_V2"
+     },
+     {
+      "createdAt": 1793201590072,
+      "hasResult": false,
+      "id": "task-mvs9xe7s-9jmboc",
+      "status": "failed",
+      "toolId": "REMOVE_PEN"
+     },
+     {
+      "createdAt": 1793197453068,
+      "hasResult": false,
+      "id": "task-mvs7gq30-m78zxu",
+      "status": "failed",
+      "toolId": "FISSION_LINK"
+     },
+     {
+      "createdAt": 1793193937165,
+      "hasResult": false,
+      "id": "task-mvs5dd71-4s35w2",
+      "status": "failed",
+      "toolId": "PRINT_EXTRACT"
+     },
+     {
+      "createdAt": 1793261179000,
+      "hasResult": true,
+      "id": "task-mvt9elbs-u4grlv",
+      "status": "succeeded",
+      "toolId": "IMAGE_TRANSLATION"
+     },
+     {
+      "createdAt": 1793271270464,
+      "hasResult": true,
+      "id": "task-mvtfevy8-rrr2ye",
+      "status": "succeeded",
+      "toolId": "AREA_REPAIR"
+     },
+     {
+      "createdAt": 1793247462713,
+      "hasResult": true,
+      "id": "task-mvt18lrt-rsnifn",
+      "status": "succeeded",
+      "toolId": "FISSION_LINK"
+     },
+     {
+      "createdAt": 1793196775151,
+      "hasResult": false,
+      "id": "task-mvs726zz-lwouyf",
+      "status": "failed",
+      "toolId": "FISSION_LINK"
+     },
+     {
+      "createdAt": 1793264518069,
+      "hasResult": true,
+      "id": "task-mvtbe5rp-0maafh",
+      "status": "succeeded",
+      "toolId": "HAND_REPAIR"
+     },
+     {
+      "createdAt": 1793264695411,
+      "hasResult": true,
+      "id": "task-mvtbhylv-bmyjus",
+      "status": "succeeded",
+      "toolId": "AI_OUTPAINTING"
+     },
+     {
+      "createdAt": 1793198888713,
+      "hasResult": true,
+      "id": "task-mvs8bhu1-hhue24",
+      "status": "succeeded",
+      "toolId": "IMAGE_TEXT_EDIT"
+     },
+     {
+      "createdAt": 1793196658365,
+      "hasResult": false,
+      "id": "task-mvs6zovx-pod3rz",
+      "status": "failed",
+      "toolId": "AI_POSE_GENERATOR"
+     },
+     {
+      "createdAt": 1793257458001,
+      "hasResult": true,
+      "id": "task-mvt76u6p-7cfnff",
+      "status": "succeeded",
+      "toolId": "SALE_VIDEO"
+     },
+     {
+      "createdAt": 1793194490888,
+      "hasResult": false,
+      "id": "task-mvs5p8g8-or3oim",
+      "status": "failed",
+      "toolId": "HANDHELD_GOODS"
+     },
+     {
+      "createdAt": 1793196999353,
+      "hasResult": false,
+      "id": "task-mvs76zzt-c0f9u5",
+      "status": "failed",
+      "toolId": "AI_VIDEO_EDITING"
+     },
+     {
+      "createdAt": 1793203352739,
+      "hasResult": false,
+      "id": "task-mvsaz6ar-m6osdl",
+      "status": "failed",
+      "toolId": "REMOVE_PEN"
+     },
+     {
+      "createdAt": 1793262251104,
+      "hasResult": true,
+      "id": "task-mvta1kkg-t8y1yo",
+      "status": "succeeded",
+      "toolId": "FIX_COLOR"
+     },
+     {
+      "createdAt": 1793267213928,
+      "hasResult": true,
+      "id": "task-mvtczxwo-e1d1w0",
+      "status": "succeeded",
+      "toolId": "AI_POSTURE"
+     },
+     {
+      "createdAt": 1793247402906,
+      "hasResult": true,
+      "id": "task-mvt17bmi-xpint5",
+      "status": "succeeded",
+      "toolId": "FISSION_LINK"
+     },
+     {
+      "createdAt": 1793203147737,
+      "hasResult": true,
+      "id": "task-mvsaus49-i7vsmt",
+      "status": "succeeded",
+      "toolId": "REMOVE_PEN"
+     },
+     {
+      "createdAt": 1793246916169,
+      "hasResult": true,
+      "id": "task-mvt0ww21-bhl4e9",
+      "status": "succeeded",
+      "toolId": "FISSION_LINK"
+     },
+     {
+      "createdAt": 1793196253160,
+      "hasResult": false,
+      "id": "task-mvs6r088-39u8zq",
+      "status": "failed",
+      "toolId": "AI_POSE_GENERATOR"
+     },
+     {
+      "createdAt": 1793266791071,
+      "hasResult": false,
+      "id": "task-mvtcqvmn-p4kk5n",
+      "status": "failed",
+      "toolId": "SCALE_UP"
+     },
+     {
+      "createdAt": 1793198005141,
+      "hasResult": false,
+      "id": "task-mvs7sk2d-cmr0uf",
+      "status": "failed",
+      "toolId": "AI_VIDEO_EDITING"
+     },
+     {
+      "createdAt": 1793195728247,
+      "hasResult": false,
+      "id": "task-mvs6fr7b-plo8es",
+      "status": "failed",
+      "toolId": "AI_POSE_GENERATOR"
+     }
+    ],
+    "toolTasksCount": 66,
+    "url": "http://127.0.0.1:3000/tools/product-design/ornament-text"
+   },
+   "checks": {
+    "targetTaskIdPresent": false,
+    "targetResultKeyPresent": false,
+    "sameToolTaskIds": [
+     "task-mvs802af-u9vwye",
+     "task-mvsb41o4-obzwag",
+     "task-mvsc4fyg-qobp8k",
+     "task-mvtd89f3-9qpix6",
+     "task-mvt6vpdn-17qby2",
+     "task-mvtdllw0-dn440l",
+     "task-mvs83fc2-dc6b5s",
+     "task-mvt6vpdo-sc1x8w",
+     "task-mvsbp9c8-y8q5vf",
+     "task-mvt74l6n-y5sie3",
+     "task-mvtb3nuj-3d0mnv",
+     "task-mvtbawv4-zxcmpv",
+     "task-mvtcuvru-9ef0rv",
+     "task-mvt15f64-jnx1gz",
+     "task-mvtdl9v8-165q1n",
+     "task-mvsbmg1s-vrn9il",
+     "task-mvs6m72i-eidjm6",
+     "task-mvsa3pt6-4wqy46",
+     "task-mvs6l55s-fufs7l",
+     "task-mvt9r1lg-ab8tqn",
+     "task-mvtcqvmh-ucrp2a",
+     "task-mvt0rvni-ylxhm0",
+     "task-mvsbm0je-ci8p2w",
+     "task-mvt42rpv-kfl1ov",
+     "task-mvs9mpoz-e8u2ry",
+     "task-mvt74l6q-1vljau",
+     "task-mvs73hbe-ak20fw",
+     "task-mvt94gxs-p0r29t",
+     "task-mvsaq4oa-4giro0",
+     "task-mvtbmukl-quasjm",
+     "task-mvsbd685-5tzfuw",
+     "task-mvtglxwi-ys0y85",
+     "task-mvtd45nv-y7cum6",
+     "task-mvsb41o9-hv2vqo",
+     "task-mvsc7s58-2rrnqz",
+     "task-mvtcuvrx-y8uyad",
+     "task-mvsamffh-uh79ky",
+     "task-mvs7pmey-uxscga",
+     "task-mvsba8fo-iplfjq",
+     "task-mvt71akq-bu2hxh",
+     "task-mvtdllwa-4nnit3",
+     "task-mvtgeodr-5vx7tw",
+     "task-mvs9xe7s-9jmboc",
+     "task-mvs7gq30-m78zxu",
+     "task-mvs5dd71-4s35w2",
+     "task-mvt9elbs-u4grlv",
+     "task-mvtfevy8-rrr2ye",
+     "task-mvt18lrt-rsnifn",
+     "task-mvs726zz-lwouyf",
+     "task-mvtbe5rp-0maafh",
+     "task-mvtbhylv-bmyjus",
+     "task-mvs8bhu1-hhue24",
+     "task-mvs6zovx-pod3rz",
+     "task-mvt76u6p-7cfnff",
+     "task-mvs5p8g8-or3oim",
+     "task-mvs76zzt-c0f9u5",
+     "task-mvsaz6ar-m6osdl",
+     "task-mvta1kkg-t8y1yo",
+     "task-mvtczxwo-e1d1w0",
+     "task-mvt17bmi-xpint5",
+     "task-mvsaus49-i7vsmt",
+     "task-mvt0ww21-bhl4e9",
+     "task-mvs6r088-39u8zq",
+     "task-mvtcqvmn-p4kk5n",
+     "task-mvs7sk2d-cmr0uf",
+     "task-mvs6fr7b-plo8es"
+    ],
+    "targetResultKeyChars": 0
+   },
+   "tabClosed": true
+  },
+  {
+   "toolId": "SDS_DESIGN",
+   "primaryTaskId": "task-mvsdlqxd-ttx3pl",
+   "route": "/tools/design/sds-design",
+   "resultStorageKey": "tool-result:LOADB6TqqrfGBPU2BYCfF",
+   "tabId": 1709629296,
+   "observed": {
+    "bodySnippet": "无限画布 首页 电商套图 智能修图 新模型 AI视频 HOT 批量生图 商品图设计 中 切换到深色主题 v0.27.0 商品图设计 商品图 商品替换 场景裂变 手持商品 AI穿衣 姿势裂变 AI穿戴 POD素材 饰品文字 素材贴合 印花提取 AI姿势生成 补充 AI试衣XSY 补充 场景裂变链接 补充 图片文字编辑 补充 上装换料 补充 商品图设计器 补充 商品营销素材 补充 场景迁移 补充 免责声明 上传素材后在这里预览贴合效果 素材贴合 上传精美素材，一键贴合到商品预览效果，极大提高测款效率 上传素材 产品 选择产品进行素材贴合 选择颜色 原色 黑色 白色 藏青 米色 素材操作 立即生成 ",
+    "dockRows": [],
+    "dockSectionFound": true,
+    "indexLen": 66,
+    "lsKeys": 78,
+    "taskKeys": 66,
+    "toolTasks": [
+     {
+      "createdAt": 1793198355351,
+      "hasResult": false,
+      "id": "task-mvs802af-u9vwye",
+      "status": "failed",
+      "toolId": "AI_VIDEO_EDITING"
+     },
+     {
+      "createdAt": 1793203580020,
+      "hasResult": false,
+      "id": "task-mvsb41o4-obzwag",
+      "status": "failed",
+      "toolId": "CHANGE_COLOR_V2"
+     },
+     {
+      "createdAt": 1793205278152,
+      "hasResult": true,
+      "id": "task-mvsc4fyg-qobp8k",
+      "status": "succeeded",
+      "toolId": "CHANGE_COLOR_V2"
+     },
+     {
+      "createdAt": 1793267602095,
+      "hasResult": true,
+      "id": "task-mvtd89f3-9qpix6",
+      "status": "succeeded",
+      "toolId": "AI_POSE_GENERATOR"
+     },
+     {
+      "createdAt": 1793256938555,
+      "hasResult": true,
+      "id": "task-mvt6vpdn-17qby2",
+      "status": "succeeded",
+      "toolId": "PRODUCT_IMAGE_SUITE"
+     },
+     {
+      "createdAt": 1793268224784,
+      "hasResult": true,
+      "id": "task-mvtdllw0-dn440l",
+      "status": "succeeded",
+      "toolId": "SCALE_UP"
+     },
+     {
+      "createdAt": 1793198512226,
+      "hasResult": false,
+      "id": "task-mvs83fc2-dc6b5s",
+      "status": "failed",
+      "toolId": "AI_VIDEO_EDITING"
+     },
+     {
+      "createdAt": 1793256938556,
+      "hasResult": true,
+      "id": "task-mvt6vpdo-sc1x8w",
+      "status": "succeeded",
+      "toolId": "PRODUCT_IMAGE_SUITE"
+     },
+     {
+      "createdAt": 1793204569736,
+      "hasResult": true,
+      "id": "task-mvsbp9c8-y8q5vf",
+      "status": "succeeded",
+      "toolId": "AI_OUTPAINTING"
+     },
+     {
+      "createdAt": 1793257353023,
+      "hasResult": true,
+      "id": "task-mvt74l6n-y5sie3",
+      "status": "succeeded",
+      "toolId": "DRESS_WEAR_SET"
+     },
+     {
+      "createdAt": 1793264028283,
+      "hasResult": true,
+      "id": "task-mvtb3nuj-3d0mnv",
+      "status": "succeeded",
+      "toolId": "PRODUCT_REFINE"
+     },
+     {
+      "createdAt": 1793264366560,
+      "hasResult": true,
+      "id": "task-mvtbawv4-zxcmpv",
+      "status": "succeeded",
+      "toolId": "PRINTING_REPAIR"
+     },
+     {
+      "createdAt": 1793266977882,
+      "hasResult": false,
+      "id": "task-mvtcuvru-9ef0rv",
+      "status": "failed",
+      "toolId": "SCALE_UP"
+     },
+     {
+      "createdAt": 1793247314188,
+      "hasResult": false,
+      "id": "task-mvt15f64-jnx1gz",
+      "status": "failed",
+      "toolId": "FISSION_LINK"
+     },
+     {
+      "createdAt": 1793268209204,
+      "hasResult": true,
+      "id": "task-mvtdl9v8-165q1n",
+      "status": "succeeded",
+      "toolId": "NEW_DESIGNER"
+     },
+     {
+      "createdAt": 1793204438464,
+      "hasResult": false,
+      "id": "task-mvsbmg1s-vrn9il",
+      "status": "failed",
+      "toolId": "AI_VIDEO_EDITING"
+     },
+     {
+      "createdAt": 1793196028746,
+      "hasResult": false,
+      "id": "task-mvs6m72i-eidjm6",
+      "status": "failed",
+      "toolId": "SALE_VIDEO"
+     },
+     {
+      "createdAt": 1793201885034,
+      "hasResult": true,
+      "id": "task-mvsa3pt6-4wqy46",
+      "status": "succeeded",
+      "toolId": "REMOVE_PEN"
+     },
+     {
+      "createdAt": 1793195979616,
+      "hasResult": false,
+      "id": "task-mvs6l55s-fufs7l",
+      "status": "failed",
+      "toolId": "AI_POSE_GENERATOR"
+     },
+     {
+      "createdAt": 1793261759956,
+      "hasResult": true,
+      "id": "task-mvt9r1lg-ab8tqn",
+      "status": "succeeded",
+      "toolId": "FIX_COLOR"
+     },
+     {
+      "createdAt": 1793266791065,
+      "hasResult": false,
+      "id": "task-mvtcqvmh-ucrp2a",
+      "status": "failed",
+      "toolId": "SCALE_UP"
+     },
+     {
+      "createdAt": 1793246682366,
+      "hasResult": true,
+      "id": "task-mvt0rvni-ylxhm0",
+      "status": "succeeded",
+      "toolId": "FISSION_LINK"
+     },
+     {
+      "createdAt": 1793204418362,
+      "hasResult": false,
+      "id": "task-mvsbm0je-ci8p2w",
+      "status": "failed",
+      "toolId": "AI_VIDEO_EDITING"
+     },
+     {
+      "createdAt": 1793260465687,
+      "hasResult": true,
+      "id": "task-mvt42rpv-kfl1ov",
+      "status": "succeeded",
+      "toolId": "AI_VIDEO_EDITING"
+     },
+     {
+      "createdAt": 1793201091731,
+      "hasResult": false,
+      "id": "task-mvs9mpoz-e8u2ry",
+      "status": "failed",
+      "toolId": "VIDEO_REPLICATION"
+     },
+     {
+      "createdAt": 1793257353026,
+      "hasResult": true,
+      "id": "task-mvt74l6q-1vljau",
+      "status": "succeeded",
+      "toolId": "DRESS_WEAR_SET"
+     },
+     {
+      "createdAt": 1793196835178,
+      "hasResult": true,
+      "id": "task-mvs73hbe-ak20fw",
+      "status": "succeeded",
+      "toolId": "AI_POSE_GENERATOR"
+     },
+     {
+      "createdAt": 1793260706752,
+      "hasResult": false,
+      "id": "task-mvt94gxs-p0r29t",
+      "status": "failed",
+      "toolId": "VIDEO_CONCAT"
+     },
+     {
+      "createdAt": 1793202930730,
+      "hasResult": false,
+      "id": "task-mvsaq4oa-4giro0",
+      "status": "failed",
+      "toolId": "REMOVE_PEN"
+     },
+     {
+      "createdAt": 1793264923461,
+      "hasResult": true,
+      "id": "task-mvtbmukl-quasjm",
+      "status": "succeeded",
+      "toolId": "IMAGE_CROP"
+     },
+     {
+      "createdAt": 1793204005829,
+      "hasResult": false,
+      "id": "task-mvsbd685-5tzfuw",
+      "status": "failed",
+      "toolId": "SALE_VIDEO"
+     },
+     {
+      "createdAt": 1793273279202,
+      "hasResult": true,
+      "id": "task-mvtglxwi-ys0y85",
+      "status": "succeeded",
+      "toolId": "AI_WEARABLE"
+     },
+     {
+      "createdAt": 1793267410603,
+      "hasResult": true,
+      "id": "task-mvtd45nv-y7cum6",
+      "status": "succeeded",
+      "toolId": "MATERIAL_UPPER_BODY"
+     },
+     {
+      "createdAt": 1793203580025,
+      "hasResult": false,
+      "id": "task-mvsb41o9-hv2vqo",
+      "status": "failed",
+      "toolId": "CHANGE_COLOR_V2"
+     },
+     {
+      "createdAt": 1793205433916,
+      "hasResult": false,
+      "id": "task-mvsc7s58-2rrnqz",
+      "status": "failed",
+      "toolId": "CHANGE_COLOR_V2"
+     },
+     {
+      "createdAt": 1793266977885,
+      "hasResult": false,
+      "id": "task-mvtcuvrx-y8uyad",
+      "status": "failed",
+      "toolId": "SCALE_UP"
+     },
+     {
+      "createdAt": 1793202758045,
+      "hasResult": true,
+      "id": "task-mvsamffh-uh79ky",
+      "status": "succeeded",
+      "toolId": "PRINTING_REPAIR"
+     },
+     {
+      "createdAt": 1793197868218,
+      "hasResult": true,
+      "id": "task-mvs7pmey-uxscga",
+      "status": "succeeded",
+      "toolId": "FISSION_LINK"
+     },
+     {
+      "createdAt": 1793203868724,
+      "hasResult": true,
+      "id": "task-mvsba8fo-iplfjq",
+      "status": "succeeded",
+      "toolId": "REMOVE_PEN"
+     },
+     {
+      "createdAt": 1793257199306,
+      "hasResult": false,
+      "id": "task-mvt71akq-bu2hxh",
+      "status": "failed",
+      "toolId": "IMAGE_TO_VIDEO"
+     },
+     {
+      "createdAt": 1793268224794,
+      "hasResult": true,
+      "id": "task-mvtdllwa-4nnit3",
+      "status": "succeeded",
+      "toolId": "SCALE_UP"
+     },
+     {
+      "createdAt": 1793272940271,
+      "hasResult": true,
+      "id": "task-mvtgeodr-5vx7tw",
+      "status": "succeeded",
+      "toolId": "AI_DRESSING_V2"
+     },
+     {
+      "createdAt": 1793201590072,
+      "hasResult": false,
+      "id": "task-mvs9xe7s-9jmboc",
+      "status": "failed",
+      "toolId": "REMOVE_PEN"
+     },
+     {
+      "createdAt": 1793197453068,
+      "hasResult": false,
+      "id": "task-mvs7gq30-m78zxu",
+      "status": "failed",
+      "toolId": "FISSION_LINK"
+     },
+     {
+      "createdAt": 1793193937165,
+      "hasResult": false,
+      "id": "task-mvs5dd71-4s35w2",
+      "status": "failed",
+      "toolId": "PRINT_EXTRACT"
+     },
+     {
+      "createdAt": 1793261179000,
+      "hasResult": true,
+      "id": "task-mvt9elbs-u4grlv",
+      "status": "succeeded",
+      "toolId": "IMAGE_TRANSLATION"
+     },
+     {
+      "createdAt": 1793271270464,
+      "hasResult": true,
+      "id": "task-mvtfevy8-rrr2ye",
+      "status": "succeeded",
+      "toolId": "AREA_REPAIR"
+     },
+     {
+      "createdAt": 1793247462713,
+      "hasResult": true,
+      "id": "task-mvt18lrt-rsnifn",
+      "status": "succeeded",
+      "toolId": "FISSION_LINK"
+     },
+     {
+      "createdAt": 1793196775151,
+      "hasResult": false,
+      "id": "task-mvs726zz-lwouyf",
+      "status": "failed",
+      "toolId": "FISSION_LINK"
+     },
+     {
+      "createdAt": 1793264518069,
+      "hasResult": true,
+      "id": "task-mvtbe5rp-0maafh",
+      "status": "succeeded",
+      "toolId": "HAND_REPAIR"
+     },
+     {
+      "createdAt": 1793264695411,
+      "hasResult": true,
+      "id": "task-mvtbhylv-bmyjus",
+      "status": "succeeded",
+      "toolId": "AI_OUTPAINTING"
+     },
+     {
+      "createdAt": 1793198888713,
+      "hasResult": true,
+      "id": "task-mvs8bhu1-hhue24",
+      "status": "succeeded",
+      "toolId": "IMAGE_TEXT_EDIT"
+     },
+     {
+      "createdAt": 1793196658365,
+      "hasResult": false,
+      "id": "task-mvs6zovx-pod3rz",
+      "status": "failed",
+      "toolId": "AI_POSE_GENERATOR"
+     },
+     {
+      "createdAt": 1793257458001,
+      "hasResult": true,
+      "id": "task-mvt76u6p-7cfnff",
+      "status": "succeeded",
+      "toolId": "SALE_VIDEO"
+     },
+     {
+      "createdAt": 1793194490888,
+      "hasResult": false,
+      "id": "task-mvs5p8g8-or3oim",
+      "status": "failed",
+      "toolId": "HANDHELD_GOODS"
+     },
+     {
+      "createdAt": 1793196999353,
+      "hasResult": false,
+      "id": "task-mvs76zzt-c0f9u5",
+      "status": "failed",
+      "toolId": "AI_VIDEO_EDITING"
+     },
+     {
+      "createdAt": 1793203352739,
+      "hasResult": false,
+      "id": "task-mvsaz6ar-m6osdl",
+      "status": "failed",
+      "toolId": "REMOVE_PEN"
+     },
+     {
+      "createdAt": 1793262251104,
+      "hasResult": true,
+      "id": "task-mvta1kkg-t8y1yo",
+      "status": "succeeded",
+      "toolId": "FIX_COLOR"
+     },
+     {
+      "createdAt": 1793267213928,
+      "hasResult": true,
+      "id": "task-mvtczxwo-e1d1w0",
+      "status": "succeeded",
+      "toolId": "AI_POSTURE"
+     },
+     {
+      "createdAt": 1793247402906,
+      "hasResult": true,
+      "id": "task-mvt17bmi-xpint5",
+      "status": "succeeded",
+      "toolId": "FISSION_LINK"
+     },
+     {
+      "createdAt": 1793203147737,
+      "hasResult": true,
+      "id": "task-mvsaus49-i7vsmt",
+      "status": "succeeded",
+      "toolId": "REMOVE_PEN"
+     },
+     {
+      "createdAt": 1793246916169,
+      "hasResult": true,
+      "id": "task-mvt0ww21-bhl4e9",
+      "status": "succeeded",
+      "toolId": "FISSION_LINK"
+     },
+     {
+      "createdAt": 1793196253160,
+      "hasResult": false,
+      "id": "task-mvs6r088-39u8zq",
+      "status": "failed",
+      "toolId": "AI_POSE_GENERATOR"
+     },
+     {
+      "createdAt": 1793266791071,
+      "hasResult": false,
+      "id": "task-mvtcqvmn-p4kk5n",
+      "status": "failed",
+      "toolId": "SCALE_UP"
+     },
+     {
+      "createdAt": 1793198005141,
+      "hasResult": false,
+      "id": "task-mvs7sk2d-cmr0uf",
+      "status": "failed",
+      "toolId": "AI_VIDEO_EDITING"
+     },
+     {
+      "createdAt": 1793195728247,
+      "hasResult": false,
+      "id": "task-mvs6fr7b-plo8es",
+      "status": "failed",
+      "toolId": "AI_POSE_GENERATOR"
+     }
+    ],
+    "toolTasksCount": 66,
+    "url": "http://127.0.0.1:3000/tools/design/sds-design"
+   },
+   "checks": {
+    "targetTaskIdPresent": false,
+    "targetResultKeyPresent": false,
+    "sameToolTaskIds": [
+     "task-mvs802af-u9vwye",
+     "task-mvsb41o4-obzwag",
+     "task-mvsc4fyg-qobp8k",
+     "task-mvtd89f3-9qpix6",
+     "task-mvt6vpdn-17qby2",
+     "task-mvtdllw0-dn440l",
+     "task-mvs83fc2-dc6b5s",
+     "task-mvt6vpdo-sc1x8w",
+     "task-mvsbp9c8-y8q5vf",
+     "task-mvt74l6n-y5sie3",
+     "task-mvtb3nuj-3d0mnv",
+     "task-mvtbawv4-zxcmpv",
+     "task-mvtcuvru-9ef0rv",
+     "task-mvt15f64-jnx1gz",
+     "task-mvtdl9v8-165q1n",
+     "task-mvsbmg1s-vrn9il",
+     "task-mvs6m72i-eidjm6",
+     "task-mvsa3pt6-4wqy46",
+     "task-mvs6l55s-fufs7l",
+     "task-mvt9r1lg-ab8tqn",
+     "task-mvtcqvmh-ucrp2a",
+     "task-mvt0rvni-ylxhm0",
+     "task-mvsbm0je-ci8p2w",
+     "task-mvt42rpv-kfl1ov",
+     "task-mvs9mpoz-e8u2ry",
+     "task-mvt74l6q-1vljau",
+     "task-mvs73hbe-ak20fw",
+     "task-mvt94gxs-p0r29t",
+     "task-mvsaq4oa-4giro0",
+     "task-mvtbmukl-quasjm",
+     "task-mvsbd685-5tzfuw",
+     "task-mvtglxwi-ys0y85",
+     "task-mvtd45nv-y7cum6",
+     "task-mvsb41o9-hv2vqo",
+     "task-mvsc7s58-2rrnqz",
+     "task-mvtcuvrx-y8uyad",
+     "task-mvsamffh-uh79ky",
+     "task-mvs7pmey-uxscga",
+     "task-mvsba8fo-iplfjq",
+     "task-mvt71akq-bu2hxh",
+     "task-mvtdllwa-4nnit3",
+     "task-mvtgeodr-5vx7tw",
+     "task-mvs9xe7s-9jmboc",
+     "task-mvs7gq30-m78zxu",
+     "task-mvs5dd71-4s35w2",
+     "task-mvt9elbs-u4grlv",
+     "task-mvtfevy8-rrr2ye",
+     "task-mvt18lrt-rsnifn",
+     "task-mvs726zz-lwouyf",
+     "task-mvtbe5rp-0maafh",
+     "task-mvtbhylv-bmyjus",
+     "task-mvs8bhu1-hhue24",
+     "task-mvs6zovx-pod3rz",
+     "task-mvt76u6p-7cfnff",
+     "task-mvs5p8g8-or3oim",
+     "task-mvs76zzt-c0f9u5",
+     "task-mvsaz6ar-m6osdl",
+     "task-mvta1kkg-t8y1yo",
+     "task-mvtczxwo-e1d1w0",
+     "task-mvt17bmi-xpint5",
+     "task-mvsaus49-i7vsmt",
+     "task-mvt0ww21-bhl4e9",
+     "task-mvs6r088-39u8zq",
+     "task-mvtcqvmn-p4kk5n",
+     "task-mvs7sk2d-cmr0uf",
+     "task-mvs6fr7b-plo8es"
+    ],
+    "targetResultKeyChars": 0
+   },
+   "tabClosed": true
+  }
+ ]
+}
