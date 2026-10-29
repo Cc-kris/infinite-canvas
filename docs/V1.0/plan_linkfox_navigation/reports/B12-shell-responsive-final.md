@@ -96,3 +96,13 @@ node_modules/.bin/tsc --noEmit
 
 注：`shot_shell_playwright.js` 默认指向本机缓存的 Chromium 1234（`chromium.launch({executablePath})`）；
 换机时若版本不符，改该常量或先 `npx playwright install chromium`。
+
+## 六、复核记录（2026-10-29 复跑）
+
+| 检查 | 命令 | 结果 |
+|---|---|---|
+| typecheck | `web/node_modules/.bin/tsc --noEmit` | **EXIT=0，0 行输出**（无类型错误） |
+| 单测 | `~/.bun/bin/bun test` | 1351 pass / 6 fail，与改动前 HEAD 同一批错误（预存在，非本次引入） |
+| 截图证据 | `shot_shell_playwright.js` | 18/18 md5 唯一，逐张像素 = `w×900`（`shots-verify.json`） |
+
+> 复跑注意：本机 `node` 在 `/usr/local/bin/node`，非登录 shell 的 PATH 里没有 → `tsc`/`node` 必须用 `zsh -lc` 执行，否则报 `env: node: No such file or directory`（该报错不是类型错误）。
