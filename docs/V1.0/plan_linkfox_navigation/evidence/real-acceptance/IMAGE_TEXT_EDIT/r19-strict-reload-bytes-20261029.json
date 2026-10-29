@@ -1,0 +1,74 @@
+{
+ "run": "R19-strict",
+ "date": "2026-10-29",
+ "tool": "IMAGE_TEXT_EDIT",
+ "verdict": "PARTIAL",
+ "objective": "同一文档 Page.reload 后复用真实任务 task-mvs8bhu1-hhue24，对账下载落盘字节 / 结果 source 字节 / 资产·画布字节",
+ "no_new_generation": true,
+ "no_byte_injection": true,
+ "reload": {
+  "method": "CDP Page.reload (ignoreCache=false) on tab 1709629353",
+  "docURL": "http://127.0.0.1:3000/tools/product-design/image-text-edit",
+  "navType": "reload",
+  "sessionStorage_sid": "9c264573-0ece-4528-b4b8-da08fb8de59a",
+  "sid_note": "sid 仅在 reload 前的探测脚本中写入 sessionStorage；reload 后仍读到同一值 => 同标签同文档会话延续",
+  "window_flag_after_reload": false,
+  "timeOrigin": 1793286826509.4,
+  "ready": "complete",
+  "pass": true
+ },
+ "task": {
+  "id": "task-mvs8bhu1-hhue24",
+  "storage": "localStorage tool-task:v1:task-mvs8bhu1-hhue24",
+  "status": "succeeded",
+  "draftRevision": 21,
+  "resultItemId": "task-mvs8bhu1-hhue24-0",
+  "storageKey": "tool-result:task-mvs8bhu1-hhue24:0:ZQg4pDfHC25ssM7hDsse7",
+  "bytes": 844613,
+  "mimeType": "image/png"
+ },
+ "byte_chain": {
+  "result_blob_sha256": "e7b260e7b0642dd1acd0e41e41eedf9bfe635a3a28e8175029d3248aabf5be4c",
+  "download_file": "/Users/mac/Downloads/image-text-edit-result-1 (1).png",
+  "download_size": 844613,
+  "download_sha256": "e7b260e7b0642dd1acd0e41e41eedf9bfe635a3a28e8175029d3248aabf5be4c",
+  "baseline": "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/IMAGE_TEXT_EDIT/03-result-image.png (844613B, e7b260e7…)",
+  "download_pass": true,
+  "result_bytes_pass": true,
+  "note": "下载按钮在 reload 后同一文档内真实点击，浏览器落盘新文件；字节与 IndexedDB 结果源、基线图一致"
+ },
+ "asset_canvas": {
+  "clicks": {
+   "save": "存入资产 -> ok:true",
+   "canvas": "发送画布 -> ok:true"
+  },
+  "assetId": null,
+  "canvasNodeId": null,
+  "asset_sha256": null,
+  "canvas_sha256": null,
+  "pass": false,
+  "blocker": "资产/画布持久化走 localforage(zustand persist)。在本页执行 indexedDB 事务读取时 store 不存在/事务超时（open('localforage') 返回 objectStoreNames 为空；'infinite-canvas' 的 image_files 批量读取超时返回 null），因此无法机读 assetId/canvasNodeId 及其字节；R18 记录的 BmtqvOWUMLOt_-6ITewQa / JXNuqx1kX4ydpBGfhPTcQ 属上一轮产物，本轮未复验，不予引用。已停止继续重试，不以推测替代证据。"
+ },
+ "gate": {
+  "reload_marker": true,
+  "download_disk_sha": true,
+  "result_source_sha": true,
+  "asset_canvas_sha": false
+ },
+ "run_tab": "1709629353 (created this run, closed at end)",
+ "gates": {
+  "typecheck": {
+   "cmd": "cd web && npx tsc --noEmit",
+   "exit": 2,
+   "errors": "web/src/services/api/video.submit-plan.test.ts 6 处 TS2304 (isRequestTimeoutError/VIDEO_*_MS)；该文件与 video.ts/inline-image.ts 同属工作区中他人未提交改动，本轮未触碰，属既有报错，不计入本任务回归",
+   "note": "本轮未修改任何源码，仅新增证据文件"
+  },
+  "tests": {
+   "cmd": "bun test image-text-edit.test.ts tool-result-actions.deps.test.ts tool-result-actions.hydration.test.ts",
+   "pass": 32,
+   "fail": 0,
+   "expects": 144
+  },
+  "git_head": "abdb825e"
+ }
+}
