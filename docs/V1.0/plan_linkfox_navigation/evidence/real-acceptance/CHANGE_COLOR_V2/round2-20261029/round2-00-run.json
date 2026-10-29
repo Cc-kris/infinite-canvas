@@ -1,0 +1,94 @@
+{
+  "round": 2,
+  "route": "/tools/ecommerce-suite/change-color-v2",
+  "region": "表带",
+  "files": [
+    "product-watch.jpg"
+  ],
+  "startedAt": "2026-10-29T07:38:31.288Z",
+  "steps": [
+    {
+      "name": "upload-suite",
+      "at": "2026-10-29T07:38:33.454Z",
+      "suiteCount": 1,
+      "expected": 1
+    },
+    {
+      "name": "extract-plan",
+      "at": "2026-10-29T07:38:33.573Z",
+      "planCount": 4,
+      "plansText": "颜色选择 | 商品图提色 | 历史使用颜色 | 拖拽 或 点击批量上传 商品参考图 | 整张商品图作为换色参考 · 支持多选 · 最多 25 张 · 单张 10M 以内 | 本次换色方案 · 0 张参考图 | 从「product-watch.jpg」提色 | product-watch.jpg · #D9D9D9 | 商品提色 | × | product-watch.jpg · #A2A2A2 | 商品提色 | × | product-watch.jpg · #B9B9B9 | 商品提色 | × | product-watch.jpg · #232323 | 商品提色 | ×"
+    },
+    {
+      "name": "select-region",
+      "at": "2026-10-29T07:38:33.795Z",
+      "region": "表带"
+    },
+    {
+      "name": "select-quality",
+      "at": "2026-10-29T07:38:34.156Z",
+      "quality": "high",
+      "qualityState": {
+        "highColor": "oklch(0.205 0 0)",
+        "highBg": "oklab(0.205 0 0 / 0.1)",
+        "lowColor": "oklch(0.556 0 0)",
+        "lowBg": "oklch(1 0 0)"
+      }
+    },
+    {
+      "name": "submit",
+      "at": "2026-10-29T07:39:04.186Z",
+      "ok": true
+    },
+    {
+      "name": "generate",
+      "at": "2026-10-29T07:39:08.199Z",
+      "finished": true,
+      "figureCount": 0,
+      "resultsHead": "生成结果 | 优秀案例 | 历史记录 | 进度 4/4 | · 已完成 0 | · 快照 ddb17488 | 重试失败单元（4） | product-watch.jpg · #D9D9D9：0/1 | · 失败 1 | product-watch.jpg · #A2A2A2：0/1 | · 失败 1 | product-watch.jpg · #B9B9B9：0/1 | · 失败 1 | product-watch.jpg · #232323：0/1 | · 失败 1 | 一致性：整套矩阵覆盖完整 · 无单图微调 | 失败 | product-watch.jpg | product-watch.jpg · #D9D9D9 · 失败 | 重试 | 失败 | product-watch.jpg | product-watch.jpg · #A2A2A2 · 失败 | 重试 | 失败 | product-watch.jpg | product-watch.jpg · #B9B9B9 · 失败 | 重试 | 失败 | product-watch.jpg | product-watch.jpg · #232323 · 失败 | 重试 | 查看本次输入快照"
+    },
+    {
+      "name": "save-bytes",
+      "at": "2026-10-29T07:39:08.294Z",
+      "saved": []
+    },
+    {
+      "name": "reload-history",
+      "at": "2026-10-29T07:39:11.583Z",
+      "figures": 0,
+      "hasHistoryTab": true
+    }
+  ],
+  "ok": false,
+  "finishedAt": "2026-10-29T07:39:11.585Z",
+  "networkErrors": [
+    {
+      "method": "POST",
+      "url": "http://127.0.0.1:23210/https://api.openai.com/v1/images/edits",
+      "status": 401,
+      "ms": 774,
+      "at": "2026-10-29T07:39:05.038Z"
+    },
+    {
+      "method": "POST",
+      "url": "http://127.0.0.1:23210/https://api.openai.com/v1/images/edits",
+      "status": 401,
+      "ms": 829,
+      "at": "2026-10-29T07:39:05.088Z"
+    },
+    {
+      "method": "POST",
+      "url": "http://127.0.0.1:23210/https://api.openai.com/v1/images/edits",
+      "status": 401,
+      "ms": 859,
+      "at": "2026-10-29T07:39:05.120Z"
+    },
+    {
+      "method": "POST",
+      "url": "http://127.0.0.1:23210/https://api.openai.com/v1/images/edits",
+      "status": 401,
+      "ms": 468,
+      "at": "2026-10-29T07:39:05.522Z"
+    }
+  ]
+}

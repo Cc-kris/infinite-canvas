@@ -1,0 +1,28 @@
+route: /tools/ecommerce-suite/change-color-v2
+files: product-watch.jpg
+region: 表带
+quality: high
+plans: 颜色选择
+商品图提色
+历史使用颜色
+
+拖拽 或 点击批量上传 商品参考图
+
+整张商品图作为换色参考 · 支持多选 · 最多 25 张 · 单张 10M 以内
+
+本次换色方案 · 0 张参考图
+
+从「product-watch.jpg」提色
+product-watch.jpg · #D9D9D9
+商品提色
+×
+product-watch.jpg · #A2A2A2
+商品提色
+×
+product-watch.jpg · #B9B9B9
+商品提色
+×
+product-watch.jpg · #232323
+商品提色
+×
+adjust/snapshot: 

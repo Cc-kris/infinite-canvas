@@ -5,6 +5,7 @@ import { Navigate, useParams } from "react-router-dom";
 import { ToolShell } from "@/components/tools/tool-shell";
 import { ToolHistoryDock } from "@/components/tools/tool-history-dock";
 import { BatchPage } from "@/features/tools/batch-page";
+import { useTaskRecovery } from "@/features/tools/use-task-recovery";
 import { ToolSidebar, type ToolSidebarCategory } from "@/components/tools/tool-sidebar";
 import NotFound from "@/pages/not-found";
 
@@ -639,5 +640,7 @@ export function ToolRouteView({ catalog, category, toolId }: ToolRouteViewProps)
 export default function ToolPage() {
     const params = useParams<{ category?: string; toolId?: string }>();
     const catalog = useMemo(() => getToolCatalog(), []);
+    // 刷新后把落盘任务收敛到终态（否则「提交中 / 结果未知」会永久停留）。
+    useTaskRecovery();
     return <ToolRouteView catalog={catalog} category={params.category} toolId={params.toolId} />;
 }

@@ -1,0 +1,54 @@
+{
+  "round": 2,
+  "route": "/tools/ecommerce-suite/change-color-v2",
+  "region": "表带",
+  "files": [
+    "product-watch.jpg"
+  ],
+  "startedAt": "2026-10-29T07:34:27.214Z",
+  "steps": [
+    {
+      "name": "upload-suite",
+      "at": "2026-10-29T07:34:29.166Z",
+      "suiteCount": 1,
+      "expected": 1
+    },
+    {
+      "name": "upload-reference-plan",
+      "at": "2026-10-29T07:35:15.761Z",
+      "planCount": 0,
+      "plansText": "颜色选择 | 商品图提色 | 历史使用颜色 | 拖拽 或 点击批量上传 商品参考图 | 整张商品图作为换色参考 · 支持多选 · 最多 25 张 · 单张 10M 以内 | 本次换色方案 · 0 张参考图 | 图 | color-ref-navy.png | 参考图 | ×"
+    }
+  ],
+  "error": "参考图方案未生成\nError: 参考图方案未生成\n    at file:///Users/mac/Documents/Dev/infinite-canvas/web/scripts/real-acceptance/run-color-v2.mjs:72:30",
+  "network": [
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:23210/",
+      "status": 200,
+      "ms": 3,
+      "at": "2026-10-29T07:34:27.206Z"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:23210/",
+      "status": 200,
+      "ms": 4,
+      "at": "2026-10-29T07:34:27.596Z"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:23210/",
+      "status": 200,
+      "ms": 1,
+      "at": "2026-10-29T07:34:40.426Z"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:23210/",
+      "status": 200,
+      "ms": 5,
+      "at": "2026-10-29T07:35:15.660Z"
+    }
+  ]
+}

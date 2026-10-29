@@ -340,7 +340,8 @@ const DEFINITIVE_PATTERNS: readonly RegExp[] = [
 
 /** 这些状态下“结果未知”才是合法表达。 */
 const ALLOWED_UNKNOWN_FROM: ReadonlySet<string> = new Set(["submitting", "running", "unknown"]);
-
+/** 图片单次请求的本地上限：超时就把任务收敛成可重试终态，避免永远停在「提交中」。 */
+const IMAGE_REQUEST_TIMEOUT_MS = 10 * 60 * 1000;
 /** 明确表示“肯定没有产出”的 HTTP 状态。 */
 const DEFINITIVE_STATUS = new Set([400, 401, 403, 404, 405, 413, 415, 422]);
 
@@ -850,6 +851,24 @@ export class ToolTaskGateway {
             const polled = await this.poll(taskId, options);
             return { plan, task: polled };
         }
+        // 已终态 / 还没提交（draft、validating）：没有可恢复的动作，原样返回。
+        if (plan.action === "none") return { plan, task };
+        /**
+         * 刷新/重开页面时，本页发起的 HTTP 请求已经不存在了：
+         * - 有 upstreamTaskId → 上面走 poll，真的去查上游；
+         * - 没有 upstreamTaskId（计划是 wait / reconcile）→ 这个任务再也不会自己推进。
+         * 旧行为把它写成 unknown 后就没下文了，历史里永远「提交中」/「结果未知」。
+         * 现在收敛成终态 failed + reconcileRequired：不自动重提交，但用户能看见、能手动重试，
+         * 且明确提示「上游可能已受理，重试前先确认」。
+         */
+        if (!task.upstreamTaskId) {
+            const closed = this.closeUnconfirmed(
+                task,
+                "submit-unconfirmed",
+                "页面刷新中断了这次请求，本服务无法反查上游是否已受理。已关闭为失败；重试前请先到服务商后台确认，避免重复计费。",
+            );
+            return { plan, task: closed };
+        }
         if (plan.action === "reconcile") {
             const unknown = transitionTask(task, "unknown", {
                 at: this.now(),
@@ -860,6 +879,22 @@ export class ToolTaskGateway {
             return { plan, task: unknown };
         }
         return { plan, task };
+    }
+
+    /**
+     * 无法确认上游是否受理（刷新中断 / 本地请求超时）：收敛到终态 failed。
+     * 不自动重提交（canAutoResubmit 仍是 false），只是把「无法收敛的非终态」变成
+     * 「用户可见、可手动重试的终态」，由人决定是否重试。
+     */
+    private closeUnconfirmed(task: ToolTask, code: string, message: string): ToolTask {
+        const at = this.now();
+        const next = transitionTask(task, "failed", {
+            at,
+            reconcileRequired: true,
+            error: { code, message, retryable: true },
+        });
+        this.store.set(next);
+        return next;
     }
 
     /** 恢复所有未完结任务（页面初始化时调用）。 */
@@ -875,11 +910,23 @@ export class ToolTaskGateway {
     /* ---------------------------- 内部执行 ---------------------------- */
 
     private async executeImage(task: ToolTask, invocation: ImageInvocation, options: SubmitOptions): Promise<ToolTask> {
+        /**
+         * 图片是一次性 HTTP 请求：没有本地超时的话，代理/上游挂住会让任务永远停在「提交中」，
+         * 刷新后也没有 upstreamTaskId 可查。加一个上限，超时收敛为可重试的终态。
+         */
+        const controller = new AbortController();
+        const timer = setTimeout(() => controller.abort(), IMAGE_REQUEST_TIMEOUT_MS);
+        const outerSignal = options.signal;
+        const onOuterAbort = () => controller.abort();
+        if (outerSignal) {
+            if (outerSignal.aborted) controller.abort();
+            else outerSignal.addEventListener("abort", onOuterAbort);
+        }
         try {
             const results =
                 invocation.mode === "edit"
-                    ? await this.provider.editImage(invocation.config, invocation.prompt, invocation.references, options.signal)
-                    : await this.provider.generateImage(invocation.config, invocation.prompt, options.signal);
+                    ? await this.provider.editImage(invocation.config, invocation.prompt, invocation.references, controller.signal)
+                    : await this.provider.generateImage(invocation.config, invocation.prompt, controller.signal);
             if (results.length === 0) {
                 return this.recordFailure(
                     task,
@@ -899,8 +946,19 @@ export class ToolTaskGateway {
             this.store.set(succeeded);
             return succeeded;
         } catch (error) {
+            // 本地超时（而不是用户取消）→ 上游可能已受理但拿不到结果：收敛终态并提示先确认。
+            if (controller.signal.aborted && !outerSignal?.aborted) {
+                return this.closeUnconfirmed(
+                    task,
+                    "submit-timeout",
+                    `出图请求超过 ${Math.round(IMAGE_REQUEST_TIMEOUT_MS / 60000)} 分钟没有返回，无法确认上游是否已受理。已关闭为失败；重试前请先确认，避免重复计费。`,
+                );
+            }
             const classified = classifyProviderError(error);
             return this.recordFailure(task, classified, { definitive: classified.definitive });
+        } finally {
+            clearTimeout(timer);
+            outerSignal?.removeEventListener("abort", onOuterAbort);
         }
     }
 

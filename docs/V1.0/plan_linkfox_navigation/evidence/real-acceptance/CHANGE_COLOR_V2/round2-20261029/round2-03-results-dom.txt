@@ -1,0 +1,47 @@
+生成结果
+优秀案例
+历史记录
+进度 4/4
+· 已完成 0
+· 快照 ddb17488
+重试失败单元（4）
+product-watch.jpg · #D9D9D9：0/1
+· 失败 1
+product-watch.jpg · #A2A2A2：0/1
+· 失败 1
+product-watch.jpg · #B9B9B9：0/1
+· 失败 1
+product-watch.jpg · #232323：0/1
+· 失败 1
+
+一致性：整套矩阵覆盖完整 · 无单图微调
+
+失败
+
+product-watch.jpg
+
+product-watch.jpg · #D9D9D9 · 失败
+
+重试
+失败
+
+product-watch.jpg
+
+product-watch.jpg · #A2A2A2 · 失败
+
+重试
+失败
+
+product-watch.jpg
+
+product-watch.jpg · #B9B9B9 · 失败
+
+重试
+失败
+
+product-watch.jpg
+
+product-watch.jpg · #232323 · 失败
+
+重试
+查看本次输入快照
