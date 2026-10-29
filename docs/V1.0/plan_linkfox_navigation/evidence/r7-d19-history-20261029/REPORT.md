@@ -30,7 +30,7 @@ MATERIAL_UPPER_BODY / NEW_DESIGNER / PRODUCT_MARKET_MATERIAL
 |---|---|---|---|---|---|
 | NEW_REPLACE_BG_V2 | /tools/product-design/new-replace-bg-v2 | dock | 0 条 | 无 | 空态文案正确，表面可用 |
 | REPLACE_GOODS | /tools/product-design/replace-goods | dock | 0 条 | 无 | 同上 |
-| PRODUCT_SCENE | /tools/product-design/product-scene | dock + 自带「历史记录」tab | 0 条 | 无 | dock `data-tool-id=PRODUCT_SCENE`，空态正确；历史 tab 可选中 |
+| PRODUCT_SCENE | /tools/product-design/product-scene | 右栏「历史记录」页签（WORKSPACE_OWN_HISTORY，页底不挂 dock） | 0 条 | 无 | 点开页签后 dock `data-tool-id=PRODUCT_SCENE`，空态文案正确；`product-scene-surface.json` |
 | HANDHELD_GOODS | /tools/product-design/handheld-goods | dock | **1 条** | failed 2026-10-28 21:34 `default::gpt-image-2` 0 结果 | 修复前不可见→现可见，展开有配置快照+输入素材 |
 | AI_DRESSING_V2 | /tools/product-design/ai-dressing-v2 | dock | 0 条 | 无 | 空态正确 |
 | AI_POSTURE | /tools/product-design/ai-posture | dock | 0 条 | 无 | 空态正确 |

@@ -1,0 +1,28 @@
+{
+ "note": "PRODUCT_SCENE 属 WORKSPACE_OWN_HISTORY：页底不挂 dock，历史在场景裂变工作区右栏「历史记录」页签内（scene-fission.tsx:856-860）；下方为点开页签后的真机证据",
+ "observed": {
+  "path": "/tools/product-design/product-scene",
+  "dock": true,
+  "toolId": "PRODUCT_SCENE",
+  "count": "0 条",
+  "empty": "本工具还没有历史任务；提交一次后会在这里留下任务、配置与结果，刷新后仍在。",
+  "tabSelected": "true",
+  "tabs": [
+   {
+    "id": "scene-tab-result",
+    "t": "生成结果",
+    "sel": "false"
+   },
+   {
+    "id": "scene-tab-cases",
+    "t": "优秀案例",
+    "sel": "false"
+   },
+   {
+    "id": "scene-tab-history",
+    "t": "历史记录",
+    "sel": "true"
+   }
+  ]
+ }
+}

@@ -166,7 +166,15 @@ def main():
                 continue
             if data.get("path") == f"/tools/product-design/{slug}" and data.get("readyState") == "complete":
                 break
-        time.sleep(2.0)  # 等 hydrate + 首帧渲染
+        # 等 hydrate + 首帧渲染；PRODUCT_SCENE 等工具坞挂载较晚，最多再等 8s
+        for _ in range(20):
+            time.sleep(0.4)
+            try:
+                if call(driver, "!!document.querySelector('[data-testid=\"tool-history-dock\"]')"):
+                    break
+            except Exception:
+                pass
+        time.sleep(1.2)
         try:
             cap = call(driver, CAPTURE_JS, timeout=90)
         except Exception as e:
