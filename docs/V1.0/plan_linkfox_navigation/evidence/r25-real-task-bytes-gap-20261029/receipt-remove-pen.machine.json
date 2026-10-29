@@ -1,0 +1,100 @@
+{
+  "schema": "infinite-canvas/evidence/receipt@1",
+  "round": "r25",
+  "date": "2026-10-29",
+  "baselineCommit": "0dc21b06",
+  "scope": "REMOVE_PEN",
+  "verdict": "BLOCKED_NO_BYTES",
+  "verdictKind": "physical_gap_confirmed",
+  "constraints": {
+    "workerDispatched": false,
+    "regenerated": false,
+    "injectedBytes": false,
+    "sourceCodeChanged": false
+  },
+  "taskId": "task-mvtmnhk5-nr2g0z",
+  "resultItemId": "task-mvtmnhk5-nr2g0z-0",
+  "storageKey": "tool-result:task-mvtmnhk5-nr2g0z:0:komJnSXgwkxdOFeQHXTGI",
+  "bytes": 2440825,
+  "sha256": null,
+  "sha256Status": "unavailable_after_run",
+  "sha256Reason": "task record and its IDB blob lived only in the disposable Playwright profile /tmp/ic-profile (r20 launchPersistentContext), which was deleted and has no APFS snapshot; no 2440825-byte file exists on disk",
+  "probes": [
+    {
+      "id": "profile-exists",
+      "cmd": "ls -d /tmp/ic-profile /private/tmp/ic-profile",
+      "result": "both: No such file or directory",
+      "hit": false
+    },
+    {
+      "id": "profile-path-used-in-r20",
+      "cmd": "grep -n launchPersistentContext /private/tmp/ic_run2.mjs /private/tmp/ic_run4.mjs",
+      "result": "ic_run2.mjs:6 and ic_run4.mjs:5 -> chromium.launchPersistentContext('/tmp/ic-profile')",
+      "hit": true,
+      "note": "confirms the same deleted directory, not a persistent user profile"
+    },
+    {
+      "id": "apfs-local-snapshots",
+      "cmd": "tmutil listlocalsnapshots /",
+      "result": "Snapshots for disk /: (empty)",
+      "hit": false
+    },
+    {
+      "id": "file-size-2440825",
+      "cmd": "find $HOME /tmp /private/var/folders -xdev -type f -size 2440825c",
+      "result": "0 matches",
+      "hit": false
+    },
+    {
+      "id": "tmp-artifacts-taskid",
+      "cmd": "rg -a -uu -l 'mvtmnhk5' /private/tmp",
+      "result": "only textual evidence: ic_tasks.json, ic_task_latest.json, ic_run4.mjs, ic_run4.json, ic-snap-*/docs/**.md|json",
+      "hit": false,
+      "note": "zero leveldb/blob hits"
+    },
+    {
+      "id": "real-profile-idb-locator",
+      "cmd": "find ~/Library -maxdepth 9 -type d -name 'http_127.0.0.1_3000.indexeddb.leveldb'",
+      "result": [
+        "Google/Chrome/Profile 1",
+        "Citro Labs/ego lite/Profile 1",
+        "Citro Labs/ego lite/Profile 2"
+      ],
+      "hit": true
+    },
+    {
+      "id": "real-profile-taskid-search",
+      "cmd": "rg -a -uu -l 'mvtmnhk5|komJnSXgwkxdOFeQHXTGI' <profile>/IndexedDB <profile>/Local Storage",
+      "result": "0 hits in all three real profiles",
+      "hit": false,
+      "note": "rules out 'wrong profile, right data'"
+    },
+    {
+      "id": "trash",
+      "cmd": "ls ~/.Trash",
+      "result": "Operation not permitted",
+      "hit": null,
+      "note": "uncovered residual possibility, recorded as risk not as evidence"
+    }
+  ],
+  "rootCauseCheck": {
+    "sanitizeTaskForPersist": "task-machine.ts keeps items with storageKey|durable url and clears payloadDropped (G1 in place)",
+    "imageResultItems": "gateway.ts normalizes https dataUrl to durable url (B7 in place)",
+    "resultAssetsGate": "result-assets.ts blocks payloadDropped by design",
+    "conclusion": "no actionable code root cause in this round; historical byte loss is snapshot-ordering + deleted runtime instance"
+  },
+  "actionsVerified": {
+    "download": "NOT_VERIFIABLE_NO_BYTES",
+    "saveAsset": "NOT_VERIFIABLE_NO_BYTES",
+    "sendCanvas": "NOT_VERIFIABLE_NO_BYTES"
+  },
+  "gates": {
+    "tsc": { "cmd": "web/node_modules/.bin/tsc --noEmit", "exit": 0 },
+    "tests": {
+      "cmd": "bun test src/services/api/tools/result-assets.test.ts src/services/api/tools/task-machine.test.ts",
+      "pass": 51,
+      "fail": 0,
+      "expects": 192
+    }
+  }
+}
