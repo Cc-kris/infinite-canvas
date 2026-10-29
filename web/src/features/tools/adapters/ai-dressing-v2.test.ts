@@ -7,6 +7,7 @@ import type { MaskRenderDeps } from "./area-repair";
 import {
     buildDressingInput,
     buildDressingUnit,
+    dressingResultPanelTask,
     dressingResultView,
     mapDressingTaskToOutcome,
     renderDressingMasks,
@@ -218,5 +219,60 @@ describe("AI_DRESSING_V2 工作区", () => {
         expect(html).toContain('data-testid="dressing-tabs"');
         expect(html).toContain('data-testid="dressing-submit"');
         expect(html).toContain("disabled");
+    });
+});
+
+describe("dressingResultPanelTask（刷新后结果面板视图）", () => {
+    const base = {
+        toolId: AI_DRESSING_V2_TOOL_ID,
+        clientOperationId: "op",
+        fingerprint: "fp",
+        capability: "image" as const,
+        prompt: "p",
+        createdAt: 1,
+        updatedAt: 2,
+    };
+    const task = (patch: Partial<ToolTask> & { id: string }): ToolTask =>
+        ({
+            ...base,
+            status: "succeeded",
+            result: {
+                items: [
+                    {
+                        id: `${patch.id}-0`,
+                        kind: "image",
+                        storageKey: "tool-result:abc",
+                        bytes: 2115031,
+                        mimeType: "image/png",
+                        payloadDropped: false,
+                    },
+                ],
+                receivedAt: 3,
+            },
+            ...patch,
+        }) as ToolTask;
+
+    test("无任务/无结果项时返回 null，不造空面板", () => {
+        expect(dressingResultPanelTask([])).toBeNull();
+        expect(dressingResultPanelTask([task({ id: "t0", result: undefined })])).toBeNull();
+    });
+
+    test("原样引用 storageKey 结果项，状态取成功，不改名不补字节", () => {
+        const panel = dressingResultPanelTask([task({ id: "t1" })]);
+        expect(panel?.result?.items).toHaveLength(1);
+        expect(panel?.result?.items[0].storageKey).toBe("tool-result:abc");
+        expect(panel?.result?.items[0].bytes).toBe(2115031);
+        expect(panel?.result?.items[0].payloadDropped).toBe(false);
+        expect(panel?.status).toBe("succeeded");
+    });
+
+    test("多任务按提交顺序聚合，运行中优先显示 running", () => {
+        const panel = dressingResultPanelTask([
+            task({ id: "t2", createdAt: 5 }),
+            task({ id: "t1", createdAt: 1 }),
+            task({ id: "t3", createdAt: 9, status: "running" }),
+        ]);
+        expect(panel?.result?.items.map((item) => item.id)).toEqual(["t1-0", "t2-0", "t3-0"]);
+        expect(panel?.status).toBe("running");
     });
 });

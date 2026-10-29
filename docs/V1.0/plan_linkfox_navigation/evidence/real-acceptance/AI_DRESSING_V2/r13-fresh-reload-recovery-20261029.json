@@ -1,0 +1,47 @@
+{
+ "toolId": "AI_DRESSING_V2",
+ "taskId": "task-mvtgeodr-5vx7tw",
+ "round": "R13",
+ "date": "2026-10-29",
+ "mode": "fresh reload + byte recovery（复用真实 task，未注入、未重新生成）",
+ "before": {
+  "panel": "absent（结果区只渲染内存 outcomes）",
+  "persistedItem": {
+   "storageKey": "tool-result:q4bPZX5vTN4iHB0rXuXBt",
+   "bytes": 2115031,
+   "payloadDropped": false,
+   "url": null
+  }
+ },
+ "fix": {
+  "adapter": "dressingResultPanelTask(tasks) 视图聚合，items 原样引用，不新建/不改写字节",
+  "workspace": "dressing.tsx 挂共享 ToolResult + hydrate 落库任务；i18n 模块级 localStorage 加 SSR 守卫"
+ },
+ "after": {
+  "reload": "location.reload() 后",
+  "panelMounted": true,
+  "view": "succeeded",
+  "dataDropped": "false",
+  "imgSrc": "blob:http://127.0.0.1:3000/...",
+  "bytes": 2115031,
+  "sha256_browser": "860007f212c813591b72c2463d898c99e4517e43479493caac783a1918e5ac38"
+ },
+ "actions": {
+  "download": {
+   "feedback": "已下载 ai-dressing-v2-result-1.png",
+   "fileBytes": 2115031,
+   "sha256_on_disk": "860007f212c813591b72c2463d898c99e4517e43479493caac783a1918e5ac38",
+   "byteIdentical": true
+  },
+  "saveToAssets": {
+   "feedback": "已保存到资产库（oqQcYHMZsj_FstuWJ0_o7）"
+  },
+  "sendToCanvas": {
+   "feedback": "已发送到画布（nalt2pW6dMIOEURHGJEf-）"
+  }
+ },
+ "checks": {
+  "tsc": "exit 0",
+  "tests": "bun test ai-dressing-v2.test.ts 17 pass / 0 fail"
+ }
+}

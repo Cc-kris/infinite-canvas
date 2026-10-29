@@ -8,12 +8,23 @@ export type AppLocale = "zh-CN" | "en-US";
 
 const LOCALE_STORAGE_KEY = "infinite-canvas:locale";
 
+/** SSR/无 DOM 环境（bun 测试、首屏服务端渲染）没有 localStorage，不能在建模块时直接读。 */
+function readStoredLocale(): AppLocale | null {
+    try {
+        if (typeof localStorage === "undefined") return null;
+        const raw = localStorage.getItem(LOCALE_STORAGE_KEY);
+        return raw === "zh-CN" || raw === "en-US" ? raw : null;
+    } catch {
+        return null;
+    }
+}
+
 i18n.use(initReactI18next).init({
     resources: {
         "zh-CN": { translation: zhCN },
         "en-US": { translation: enUS },
     },
-    lng: (localStorage.getItem(LOCALE_STORAGE_KEY) as AppLocale) || "zh-CN",
+    lng: readStoredLocale() ?? "zh-CN",
     fallbackLng: "zh-CN",
     supportedLngs: ["zh-CN", "en-US"],
     initAsync: false,

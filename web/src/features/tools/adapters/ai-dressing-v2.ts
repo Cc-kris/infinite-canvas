@@ -343,3 +343,43 @@ export function describeDressingOutcome(outcome: DressingUnitOutcome): string {
             return "进行中";
     }
 }
+
+const PANEL_RUNNING_STATUSES: ReadonlySet<ToolTask["status"]> = new Set<ToolTask["status"]>([
+    "draft",
+    "validating",
+    "submitting",
+    "running",
+]);
+
+function hasDeliverableImage(task: ToolTask): boolean {
+    return (task.result?.items ?? []).some((item) =>
+        Boolean(item.storageKey || item.dataUrl || item.url || item.blob),
+    );
+}
+
+/**
+ * 结果面板视图：把本页真实任务的结果项聚合成一个 `ToolTask`，交给共享 `ToolResult` 渲染。
+ *
+ * 为什么需要它：结果区原来只渲染本次会话的内存 outcomes，刷新后即使任务快照里的结果项
+ * 已由 storageKey 复原出真实字节，页面上也没有标准结果面板（三动作入口随之消失）。
+ * 这里**只做视图聚合**：items 原样引用真实任务的结果项（含 hydrate 复原的字节），
+ * 不新建任务、不伪造/改写结果；没有结果项时返回 null。
+ */
+export function dressingResultPanelTask(tasks: readonly ToolTask[]): ToolTask | null {
+    if (tasks.length === 0) return null;
+    const ordered = [...tasks].sort((a, b) => a.createdAt - b.createdAt);
+    const latest = ordered[ordered.length - 1];
+    const items = ordered.flatMap((task) => task.result?.items ?? []);
+    if (items.length === 0) return null;
+    const receivedAt = ordered.reduce((acc, task) => Math.max(acc, task.result?.receivedAt ?? 0), 0);
+    const status: ToolTask["status"] = ordered.some((task) => PANEL_RUNNING_STATUSES.has(task.status))
+        ? "running"
+        : ordered.some(hasDeliverableImage)
+          ? "succeeded"
+          : latest.status;
+    return {
+        ...latest,
+        result: { items, receivedAt: receivedAt || latest.result?.receivedAt || latest.updatedAt },
+        status,
+    };
+}

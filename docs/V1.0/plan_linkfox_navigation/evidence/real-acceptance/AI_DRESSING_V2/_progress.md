@@ -14,3 +14,11 @@
   - storageKey tool-result:q4bPZX5vTN4iHB0rXuXBt
   - bytes 2115031, mimeType image/png, 1024x1024
   - sha256 860007f212c813591b72c2463d898c99e4517e43479493caac783a1918e5ac38
+
+## R13 2026-10-29：fresh reload + 字节恢复 + 三动作（复用同一真实 task，无注入/无重生成）
+- 修复：dressing.tsx 结果区改挂共享 ToolResult（此前只渲染内存 outcomes，reload 后整块消失）；adapter 新增 dressingResultPanelTask 视图聚合，items 原样引用
+- reload 后：panel mounted，view=succeeded，data-dropped=false，img=blob URL
+- 字节：2115031B，sha256 860007f212c813591b72c2463d898c99e4517e43479493caac783a1918e5ac38
+- 三动作：下载「已下载 ai-dressing-v2-result-1.png」落盘 2115031B/sha 一致；存资产「已保存到资产库（oqQcYHMZsj_FstuWJ0_o7）」；发画布「已发送到画布（nalt2pW6dMIOEURHGJEf-）」
+- 校验：tsc exit 0；bun test ai-dressing-v2.test.ts 17 pass 0 fail
+- 证据：r13-fresh-reload-recovery-20261029.json

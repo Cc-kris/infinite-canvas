@@ -12,6 +12,8 @@ import { useCallback, useEffect, useMemo, useRef, useState, type PointerEvent as
 import { ToolAssetInput } from "@/components/tools/tool-asset-input";
 import { ToolCases, type ToolCase } from "@/components/tools/tool-cases";
 import { ToolResult } from "@/components/tools/tool-result";
+import { dressingResultPanelTask } from "@/features/tools/adapters/ai-dressing-v2";
+import { useToolTaskStore } from "@/stores/use-tool-task-store";
 import { cn } from "@/lib/utils";
 import {
     AI_DRESSING_V2_TOOL_ID,
@@ -94,6 +96,20 @@ export function DressingWorkspace({ className }: DressingWorkspaceProps) {
     const hydrate = useToolDraftStore((state) => state.hydrate);
     const patchDraft = useToolDraftStore((state) => state.patch);
     const flushDraft = useToolDraftStore((state) => state.flush);
+
+    // 结果面板只认落库任务：刷新后由 hydrate 用 storageKey 复原真实字节，再交给共享 ToolResult。
+    const storedTasks = useToolTaskStore((state) => state.tasks);
+    const tasksHydrated = useToolTaskStore((state) => state.hydrated);
+    const hydrateTasks = useToolTaskStore((state) => state.hydrate);
+    const toolTasks = useMemo(
+        () => Object.values(storedTasks).filter((task) => task.toolId === AI_DRESSING_V2_TOOL_ID),
+        [storedTasks],
+    );
+    const panelTask = useMemo(() => dressingResultPanelTask(toolTasks), [toolTasks]);
+
+    useEffect(() => {
+        if (!tasksHydrated) hydrateTasks();
+    }, [tasksHydrated, hydrateTasks]);
 
     useEffect(() => {
         let alive = true;
@@ -662,6 +678,13 @@ export function DressingWorkspace({ className }: DressingWorkspaceProps) {
             >
                 {busy ? "生成中…" : "立即生成"}
             </button>
+
+            {panelTask ? (
+                <div data-testid="dressing-result-panel" className="space-y-2">
+                    {/* 标准结果面板：reload 后由 storageKey 复原的真实字节直接渲染，三动作走统一链路。 */}
+                    <ToolResult task={panelTask} toolId={AI_DRESSING_V2_TOOL_ID} title="生成结果" projectTitle="AI 穿衣结果" />
+                </div>
+            ) : null}
 
             {outcomes.length > 0 ? (
                 <div className="space-y-2" data-testid="dressing-results">
