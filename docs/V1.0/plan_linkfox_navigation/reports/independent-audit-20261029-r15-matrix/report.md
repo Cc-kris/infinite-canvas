@@ -1,8 +1,8 @@
 # R15 独立复核：严格三腿矩阵（39 工具）
 
-- 审计对象（committed tree）：HEAD `3afe2c2`（`feat/linkfox-v1-real`）
+- 审计对象（committed tree）：HEAD `469fbec`（`feat/linkfox-v1-real`）
 - 基线：R14 6ca29da（F33/6 T39/0 R37/2 H31/8 K12/27 U39）+ 残余复核 74aba4b
-- 生成：2026-10-29T22:08:42+0800；审计器：`tools/recompute_scope_matrix_r15.py`（继承 R14/R13，**只收紧**：散文式 reload 不计入 H 机器腿，不放宽任何判据）
+- 生成：2026-10-29T22:10:11+0800；审计器：`tools/recompute_scope_matrix_r15.py`（继承 R14/R13，**只收紧**：散文式 reload 不计入 H 机器腿，不放宽任何判据）
 - 证据源：`git ls-tree HEAD` + 磁盘字节/sha256 实算；**未提交/未跟踪内容一律不吸收**
 
 ## 统计（F/T/R/H/K/U）
@@ -31,7 +31,7 @@
 - `c125c62` — R17 修复后三动作机器回执：PIS 存资产 2/2（assetId VNzmLg-tuAfTh0nJcODrp 2,785,837B sha 6f9dec2a…；wz_Za93ggobpIS9WqsPkG 2,840,825B）+ 发画布 2/2（project/node 各 1 image 节点）；NEW_DESIGNER 下载 411,801B sha 90e28e0f… + 存资产 2 条同字节 + 发画布 Z_1vTtbr… / image-1793282047892-95442
 - `73b09be` — PRODUCT_SCENE 真实成功任务 task-mvtly3vu-fdqgy7：storageKey `tool-result:task-mvtly3vu-fdqgy7:0:TTlb-VmksNFfPn_GhRyTk`、2,398,828B / sha fa5ee380…、下载/存资产 ofbXDtlnY5gFse29gfpuf/发画布 A6AI_SDmdn8KK1WmaHkg5；回执自述为**刷新前**控制台证据
 - `8df2d8a` — PRINT_EXTRACT 真实成功任务 task-mvtlxua2-kh39uf：succeeded / payloadDropped=false / storageKey `tool-result:task-mvtlxua2-kh39uf:0:jf8VlMsU9spY5W5raRSnO` / 2,783,996B / image/png + 上游 OSS url；落盘 result.png 同尺寸（md5 ccdef37f…）；README §3 为**散文** reload 观测，存资产动作 UNVERIFIED
-- `560a46e` — HAND_REPAIR 真实任务 task-mvtbe5rp-0maafh 三动作回执：下载/存资产 assetId qVZbf4pJUvsoYXGe04jvD/发画布 b35kvRaZb6zdwcOT_Yn2i + image-1793281461613-pl9uk，三处字节 2,153,466B / sha a34cea71… 互证（R20 勘误：下载腿落盘文件 mtime 17:49/17:52 早于本轮 freshReload 21:43，本轮无新落盘文件；F 仍 PASS 仅因存资产+发画布 2 条硬腿满足 ≥2 判据），metadata.taskId 绑定
+- `560a46e` — HAND_REPAIR 真实任务 task-mvtbe5rp-0maafh 三动作回执：下载/存资产 assetId qVZbf4pJUvsoYXGe04jvD/发画布 b35kvRaZb6zdwcOT_Yn2i + image-1793281461613-pl9uk，三处字节 2,153,466B / sha a34cea71… 互证，metadata.taskId 绑定
 - `5156699` — r13 报告先行主张 HAND_REPAIR F PARTIAL→PASS（当时无机器回执；R14 树内未生效，R15 由 560a46e 兑现）
 - `7f64b09` — CHANGE_COLOR_V2 / REMOVE_PEN H 腿探针：真实 taskId 齐备但 BLOCKED_NO_BYTES（payloadDropped）
 - `f19a784` — 6ede584 后独立快照三闸：typecheck/test/build exit 0，1475 pass / 0 fail / 84 files
@@ -372,7 +372,7 @@
 - **K N/A / U PASS**：原站无案例模块｜设计 token 扫描 0 命中
 
 ### NEW_DESIGNER（商品图设计器）`/tools/product-design/new-designer`
-- **F PASS**：c125c62 R17 修复后三动作机器回执（ACTIONS.json，不新生成）：下载 411,801B/sha 90e28e0f…（落盘 ~/Downloads 与 IDB 同 sha）、存资产 2 条 assetId nowDKQUvmRssATNlZ83VO / 8J_BAwI8zxZ4ShWj0fxB7 同字节（R20 勘误：两条资产 createdAt 19:00/18:04 早于本轮 21:53，属早前导出入库遗留，非本轮点击回执；F PASS 由下载+发画布 2 条硬腿满足）、发画布 project Z_1vTtbrlxiYoAUmDXh3t + node image-1793282047892-95442（image）→ c034fae 代码腿有了回执腿
+- **F PASS**：c125c62 R17 修复后三动作机器回执（ACTIONS.json，不新生成）：下载 411,801B/sha 90e28e0f…（落盘 ~/Downloads 与 IDB 同 sha）、存资产 2 条 assetId nowDKQUvmRssATNlZ83VO / 8J_BAwI8zxZ4ShWj0fxB7 同字节、发画布 project Z_1vTtbrlxiYoAUmDXh3t + node image-1793282047892-95442（image）→ c034fae 代码腿有了回执腿
   - 证据：`real-acceptance/R17-three-actions-20261029/ACTIONS.json`, `suite-design-realgen-20261029/new-designer-result-1.png`
 - **T PASS**：文案/品牌扫描 0 命中
 - **R PASS**：回执声明 411,801B / sha 90e28e0f… 可由已提交产物 suite-design-realgen-20261029/new-designer-result-1.png 逐位复算（R15 实算 411,801B / 90e28e0f… 一致），且 c125c62 落盘文件 bytesEqual/shaEqual 同为 true → R14 的「证据链断裂」结论已不成立（74aba4b 已指出）
