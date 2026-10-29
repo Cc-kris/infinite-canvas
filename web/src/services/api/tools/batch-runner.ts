@@ -395,7 +395,7 @@ function collectResultUrls(items: ToolTaskResultItem[] | undefined): string[] {
         .filter((url): url is string => typeof url === "string" && /^https?:\/\//i.test(url));
 }
 
-function applyTaskToOutcome(outcome: BatchRowOutcome, task: ToolTask, now: number): BatchRowOutcome {
+export function applyTaskToOutcome(outcome: BatchRowOutcome, task: ToolTask, now: number): BatchRowOutcome {
     const status: BatchRowStatus =
         task.status === "succeeded" ? "succeeded" : task.status === "cancelled" ? "cancelled" : task.status === "failed" ? "failed" : task.status === "unknown" ? "unknown" : "failed";
     const finishedAt = task.finishedAt ?? now;

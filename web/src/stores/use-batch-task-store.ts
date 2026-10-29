@@ -12,6 +12,7 @@ import { nanoid } from "nanoid";
 import { create } from "zustand";
 
 import {
+    applyTaskToOutcome,
     buildBatchReport,
     clampBatchConcurrency,
     preflightBatch,
@@ -30,6 +31,7 @@ import {
     type BatchRunRequest,
     type BatchSummary,
 } from "@/services/api/tools/batch-runner";
+import type { ToolTask } from "@/services/api/tools/task-machine";
 import { useConfigStore } from "@/stores/use-config-store";
 import { useToolTaskStore } from "@/stores/use-tool-task-store";
 import type { ReferenceImage } from "@/types/image";
@@ -275,6 +277,72 @@ function touch(batch: BatchTask, patch: Partial<BatchTask>): BatchTask {
     return { ...batch, ...patch, updatedAt: Date.now() };
 }
 
+/**
+ * 刷新/崩溃后收敛被中断的批次。
+ *
+ * 执行器只活在内存里，刷新后 running 行的 Promise 已经不存在：
+ * - 有 taskId 且任务已终态 → 用任务真实结果回填（成功结果、失败原因都不丢）；
+ * - 没有 taskId 或任务仍在跑 → 关闭为可重试失败，绝不假装成功，也不让批次永久卡在 running。
+ */
+export function reconcileInterruptedBatch(
+    batch: BatchTask,
+    tasks: Record<string, ToolTask>,
+    at: number,
+): BatchTask {
+    if (batch.status !== "running") return batch;
+
+    const byRow = new Map(batch.outcomes.map((outcome) => [outcome.rowId, outcome]));
+    const outcomes: BatchRowOutcome[] = batch.rows.map((row) => {
+        const existing = byRow.get(row.id);
+        if (existing && existing.status !== "pending" && existing.status !== "running") return existing;
+        const task = existing?.taskId ? tasks[existing.taskId] : undefined;
+        if (task && task.status !== "submitting" && task.status !== "validating" && task.status !== "running") {
+            return applyTaskToOutcome(existing ?? emptyOutcome(row, at), task, at);
+        }
+        const base = existing ?? emptyOutcome(row, at);
+        return {
+            ...base,
+            status: "failed",
+            finishedAt: at,
+            durationMs: base.startedAt !== undefined ? Math.max(0, at - base.startedAt) : undefined,
+            error: {
+                code: "batch-interrupted",
+                message:
+                    "页面刷新中断了这次批量执行；本行没有可反查的任务 ID，重试前请先到服务商后台确认是否已受理。",
+                retryable: true,
+            },
+        };
+    });
+    const changed = batch.outcomes.length !== outcomes.length || outcomes.some((outcome, index) => outcome !== batch.outcomes[index]);
+    if (!changed) {
+        return touch(batch, { status: "completed", finishedAt: at });
+    }
+    return touch(batch, {
+        outcomes,
+        status: "completed",
+        finishedAt: at,
+        aborted: false,
+        lastError: outcomes.some((outcome) => outcome.error?.code === "batch-interrupted")
+            ? { code: "batch-interrupted", message: "页面刷新中断了批量执行；未完成的行已关闭为可重试失败。" }
+            : null,
+    });
+}
+
+function emptyOutcome(row: BatchTaskRow, at: number): BatchRowOutcome {
+    return {
+        rowId: row.id,
+        status: "failed",
+        attempts: 0,
+        startedAt: at,
+        finishedAt: at,
+        resultCount: 0,
+        resultUrls: [],
+        preflightIssues: [],
+        duplicates: [],
+        deduplicated: false,
+    };
+}
+
 export const useBatchTaskStore = create<BatchState>((set, get) => ({
     batches: {},
     activeBatchId: null,
@@ -292,6 +360,14 @@ export const useBatchTaskStore = create<BatchState>((set, get) => ({
         }
         // 刷新后任务网关也要有任务，failed 行才能走 gateway.retry 而不是重新扣费。
         useToolTaskStore.getState().hydrate();
+        // 刷新/崩溃会中断内存里的执行器：running 状态必须收敛，否则批次永远卡在“取消/重试”不可用的状态。
+        const tasks = useToolTaskStore.getState().tasks;
+        for (const batchId of Object.keys(batches)) {
+            const reconciled = reconcileInterruptedBatch(batches[batchId], tasks, Date.now());
+            if (reconciled === batches[batchId]) continue;
+            batches[batchId] = reconciled;
+            persistBatch(reconciled, target);
+        }
         set({ batches, hydrated: true });
     },
 
@@ -486,12 +562,15 @@ export const useBatchTaskStore = create<BatchState>((set, get) => ({
                 gateway: options?.gateway ?? defaultGatewayPort(),
                 signal: controller.signal,
                 onRowUpdate: (outcome) => {
+                    let next: BatchTask | undefined;
                     set((state) => {
                         const current = state.batches[batchId];
                         if (!current) return state;
-                        // 运行中不落盘每一行：dataUrl 大且刷新恢复不依赖中间态，结束统一持久化。
-                        return { batches: { ...state.batches, [batchId]: { ...current, outcomes: [...current.outcomes.filter((item) => item.rowId !== outcome.rowId), outcome] } } };
+                        // 行级结果即时落盘：刷新/崩溃后成功结果与失败原因都还在（outcome 里不含 dataUrl）。
+                        next = { ...current, outcomes: [...current.outcomes.filter((item) => item.rowId !== outcome.rowId), outcome] };
+                        return { batches: { ...state.batches, [batchId]: next } };
                     });
+                    if (next) persistBatch(next);
                 },
             });
             const finished: BatchTask = touch(get().batches[batchId] ?? started, {
@@ -533,11 +612,14 @@ export const useBatchTaskStore = create<BatchState>((set, get) => ({
         const result = await retryBatchRows(request, preflight, batch.outcomes, targets, {
             gateway: options?.gateway ?? defaultGatewayPort(),
             onRowUpdate: (outcome) => {
+                let next: BatchTask | undefined;
                 set((state) => {
                     const current = state.batches[batchId];
                     if (!current) return state;
-                    return { batches: { ...state.batches, [batchId]: { ...current, outcomes: [...current.outcomes.filter((item) => item.rowId !== outcome.rowId), outcome] } } };
+                    next = { ...current, outcomes: [...current.outcomes.filter((item) => item.rowId !== outcome.rowId), outcome] };
+                    return { batches: { ...state.batches, [batchId]: next } };
                 });
+                if (next) persistBatch(next);
             },
         });
         const next = touch(get().batches[batchId] ?? batch, {
