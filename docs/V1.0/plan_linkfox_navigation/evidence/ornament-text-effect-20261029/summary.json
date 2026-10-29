@@ -1,0 +1,68 @@
+{
+  "route": "/tools/product-design/ornament-text",
+  "base": "http://127.0.0.1:3000",
+  "cases": {
+    "empty-effect": {
+      "effectInput": "",
+      "submittedAt": "2026-10-29T05:03:28.441Z",
+      "upstreamStatus": 200,
+      "upstreamUrl": "http://127.0.0.1:23210/https://api.cc-ai.xyz/v1/images/generations",
+      "prompt": "饰品文字效果图：在珠宝饰品表面生成清晰、贴合材质的文字。 文字内容：「FOREVER」（逐字照排，不得增字、漏字、改字）。 字体：serif（衬线 Serif）；字号：96。 位置：文字水平范围 18%–82%（画面居中），沿饰品正面曲率排布，不压住宝石主刻面。 效果：无额外效果描述，保持金属/宝石原材质与真实光影，文字为雕刻质感。 输出：单张成品图，1920 长边以内；文字完整、无裁切、无重影、无错字。",
+      "promptLen": 204,
+      "promptHasEffectText": false,
+      "promptHasFallback": true,
+      "promptHasLocalBlockers": false,
+      "uiError": "",
+      "result": {
+        "file": "empty-effect.png",
+        "bytes": 1230983,
+        "sha256": "8371c376caee4af99d33a94f1490bc64e164da5c75522ddb0abdd84ee50d626a",
+        "width": 1024,
+        "height": 1024,
+        "srcKind": "data"
+      },
+      "noticeText": ""
+    },
+    "effect-value": {
+      "effectInput": "玫瑰金浮雕，边缘镶嵌碎钻",
+      "submittedAt": "2026-10-29T05:03:51.877Z",
+      "upstreamStatus": 200,
+      "upstreamUrl": "http://127.0.0.1:23210/https://api.cc-ai.xyz/v1/images/generations",
+      "prompt": "饰品文字效果图：在珠宝饰品表面生成清晰、贴合材质的文字。 文字内容：「FOREVER」（逐字照排，不得增字、漏字、改字）。 字体：serif（衬线 Serif）；字号：96。 位置：文字水平范围 18%–82%（画面居中），沿饰品正面曲率排布，不压住宝石主刻面。 效果：玫瑰金浮雕，边缘镶嵌碎钻 输出：单张成品图，1920 长边以内；文字完整、无裁切、无重影、无错字。",
+      "promptLen": 184,
+      "promptHasEffectText": true,
+      "promptHasFallback": false,
+      "promptHasLocalBlockers": false,
+      "uiError": "",
+      "result": {
+        "file": "effect-value.png",
+        "bytes": 1481174,
+        "sha256": "0e2cf22e712d86460b27342eda842e414a3df93ef5aca3fc86c3c43a3536bbf6",
+        "width": 1024,
+        "height": 1024,
+        "srcKind": "data"
+      },
+      "noticeText": ""
+    }
+  },
+  "ui": {
+    "defaults": {
+      "text": "",
+      "effect": "",
+      "font": "serif",
+      "fontSize": "96",
+      "positionText": "偏右",
+      "submitDisabled": true
+    },
+    "actions": {
+      "initial": "18%–82%",
+      "afterNudge": "19%–83%",
+      "afterUndo": "18%–82%",
+      "afterRedo": "19%–83%",
+      "afterReset": "18%–82%"
+    }
+  },
+  "errors": [],
+  "ok": true,
+  "failures": []
+}

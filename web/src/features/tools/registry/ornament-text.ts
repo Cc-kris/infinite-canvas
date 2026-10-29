@@ -20,6 +20,14 @@ export const ORNAMENT_TEXT_TOOL_ID = "ORNAMENT_TEXT";
 export const ORNAMENT_TEXT_TEXT_LIMIT = 4000;
 /** 效果描述是同一 prompt 字段内的补充段，单独限长，避免挤占文字内容额度。 */
 export const ORNAMENT_TEXT_EFFECT_LIMIT = 600;
+/**
+ * 效果描述为空时的回落语义（唯一事实来源）。
+ *
+ * 原站效果描述是**可选**字段（page-spec 23 §4：输入文字与效果描述→…），所以空值不得阻塞提交；
+ * 但网关只把 prompt 送给 provider，如果整段消失，模型会自行发挥。因此空值必须在 prompt 里
+ * 显式写明“无额外效果描述、保持原材质”，prompt 与审计共用这一个常量，避免两边文案漂移。
+ */
+export const ORNAMENT_TEXT_EFFECT_FALLBACK = "无额外效果描述，保持金属/宝石原材质与真实光影，文字为雕刻质感。";
 export const ORNAMENT_TEXT_FONT_NAME_LIMIT = 64;
 
 export const ORNAMENT_TEXT_FONT_SIZE = { min: 8, max: 400, step: 1 } as const;
@@ -206,11 +214,20 @@ export function buildOrnamentTextPrompt(values: OrnamentTextValues): string {
         `文字内容：「${text}」（逐字照排，不得增字、漏字、改字）。`,
         `字体：${fontname}（${ornamentTextFontLabel(fontname)}）；字号：${fontSize}。`,
         `位置：文字水平范围 ${left}%–${right}%（画面${position}），沿饰品正面曲率排布，不压住宝石主刻面。`,
-        effect
-            ? `效果：${effect}`
-            : "效果：无额外效果描述，保持金属/宝石原材质与真实光影，文字为雕刻质感。",
+        ornamentTextEffectSegment(values).line,
         "输出：单张成品图，1920 长边以内；文字完整、无裁切、无重影、无错字。",
     ].join("\n");
+}
+
+/**
+ * 效果描述在 prompt 里的落点。
+ *
+ * 效果是可选字段：有值 → 原文进入 prompt（真实效果必须被上游看到）；
+ * 空值 → 写入回落语义（不编造效果，也不让这一段静默消失）。审计与 prompt 共用本函数。
+ */
+export function ornamentTextEffectSegment(values: Pick<OrnamentTextValues, "effect">): { line: string; described: boolean } {
+    const effect = values.effect.trim();
+    return effect ? { line: `效果：${effect}`, described: true } : { line: `效果：${ORNAMENT_TEXT_EFFECT_FALLBACK}`, described: false };
 }
 
 export function buildOrnamentTextEffectLine(values: OrnamentTextValues): string {

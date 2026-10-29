@@ -4,6 +4,8 @@ import type { BrowserToolInput, SubmitOptions } from "@/services/api/tools/gatew
 import type { ToolTask } from "@/services/api/tools/task-machine";
 
 import {
+    ORNAMENT_TEXT_DEFAULT_FONT,
+    ORNAMENT_TEXT_EFFECT_FALLBACK,
     ORNAMENT_TEXT_EFFECT_LIMIT,
     ORNAMENT_TEXT_FONTS,
     ORNAMENT_TEXT_FONT_SIZE,
@@ -24,6 +26,7 @@ import {
     nudgeOrnamentTextLayout,
     ornamentTextFontLabel,
     ornamentTextFontStack,
+    ornamentTextLayout,
     ornamentTextPositionLabel,
     readOrnamentTextValues,
     redoOrnamentTextLayout,
@@ -57,6 +60,16 @@ const values = (patch: Partial<OrnamentTextValues> = {}) =>
         right: 80,
         ...patch,
     });
+
+/**
+ * BrowserToolInput.prompt 在类型上是可选的；测试里先显式坐实它存在，
+ * 再拿它核对参数是否真的进了提示词（不静默回落空串，以免审计断言变成假绿）。
+ */
+function promptOf(input: BrowserToolInput): string {
+    const prompt = input.prompt;
+    if (typeof prompt !== "string" || prompt.length === 0) throw new Error("请求缺少 prompt，无法核对参数是否进提示词");
+    return prompt;
+}
 
 const task = (patch: Partial<ToolTask> = {}): ToolTask =>
     ({
@@ -361,5 +374,126 @@ describe("工作区渲染（无网络、无假结果）", () => {
         // 未填文字 → 提交按钮必须禁用
         expect(html).toMatch(/<button[^>]*disabled[^>]*>[^<]*生成饰品文字/);
         expect(html).toContain("预览字族");
+    });
+});
+
+/**
+ * 回归：原站「效果描述」是可选项，首屏默认就是空。旧审计把 `Boolean(effect) && prompt.includes(effect)`
+ * 当硬条件，空效果必然报 “prompt 未带上 effect 参数”，于是真实生成在提交前被本地拦截
+ * （2026-10-29 evidence/design19-nv-20261029/gen/ORNAMENT_TEXT.json 提交后 240s 无结果即为该路径）。
+ * 现在的契约：空值 → prompt 写明回落语义后才放行；有值 → 原文必须进 prompt 且不得混入回落语义。
+ */
+describe("效果描述可选：空值不阻塞，有值必须真的进请求", () => {
+    test("空/纯空白效果：校验无阻断项，审计通过并写明回落语义", () => {
+        for (const effect of ["", "   ", "\n\t "]) {
+            const empty = values({ effect });
+            expect(validateOrnamentTextState({ values: empty, modelReady: true })).toEqual([]);
+            const input = buildOrnamentTextInput({ values: empty, requestId: "req-empty" });
+            expect(() => assertOrnamentTextInput(input, empty, "req-empty")).not.toThrow();
+            const audit = auditOrnamentTextFields(input.fields, empty, "req-empty", promptOf(input));
+            expect(audit.ok).toBe(true);
+            expect(audit.issues).toEqual([]);
+            expect(audit.effectMode).toBe("fallback");
+            expect(audit.promptCarries.effect).toBe(true);
+            expect(input.prompt).toContain(ORNAMENT_TEXT_EFFECT_FALLBACK);
+        }
+        // 回落语义是提示词的一部分，不能冒充用户填写过的效果
+        expect(buildOrnamentTextEffectLine(values({ effect: "" }))).toBe("无额外效果描述（保持原材质与真实光影）");
+    });
+
+    test("有真实效果：原文逐字进 prompt，不混入回落语义", () => {
+        const withEffect = values({ effect: "  玫瑰金浮雕，边缘镶嵌碎钻  " });
+        const input = buildOrnamentTextInput({ values: withEffect, requestId: "req-eff" });
+        expect(() => assertOrnamentTextInput(input, withEffect, "req-eff")).not.toThrow();
+        expect(input.prompt).toContain("效果：玫瑰金浮雕，边缘镶嵌碎钻");
+        expect(input.prompt).not.toContain(ORNAMENT_TEXT_EFFECT_FALLBACK);
+        expect(buildOrnamentTextEffectLine(withEffect)).toBe("效果：玫瑰金浮雕，边缘镶嵌碎钻");
+        const audit = auditOrnamentTextFields(input.fields, withEffect, "req-eff", promptOf(input));
+        expect(audit.ok).toBe(true);
+        expect(audit.effectMode).toBe("described");
+        expect(audit.promptCarries.effect).toBe(true);
+    });
+
+    test("效果真的丢了仍然点名，且空/非空两种丢法错误文案不同", () => {
+        const withEffect = values({ effect: "磨砂哑光" });
+        const lost = buildOrnamentTextInput({ values: withEffect, requestId: "req-lost" });
+        const lostAudit = auditOrnamentTextFields(lost.fields, withEffect, "req-lost", promptOf(lost).replace("磨砂哑光", ""));
+        expect(lostAudit.ok).toBe(false);
+        expect(lostAudit.issues).toContain("prompt 未带上 effect 参数");
+
+        const empty = values({ effect: "" });
+        const emptyInput = buildOrnamentTextInput({ values: empty, requestId: "req-lost-2" });
+        const emptyAudit = auditOrnamentTextFields(emptyInput.fields, empty, "req-lost-2", promptOf(emptyInput).replace(ORNAMENT_TEXT_EFFECT_FALLBACK, ""));
+        expect(emptyAudit.ok).toBe(false);
+        expect(emptyAudit.issues).toContain("效果描述为空时 prompt 未写明回落语义");
+    });
+
+    test("超长效果描述在发请求前抛错，与页面校验同源", () => {
+        const tooLong = values({ effect: "e".repeat(ORNAMENT_TEXT_EFFECT_LIMIT + 1) });
+        expect(validateOrnamentTextState({ values: tooLong, modelReady: true }).map((issue) => issue.code)).toContain("effect-too-long");
+        const input = buildOrnamentTextInput({ values: tooLong, requestId: "req-long" });
+        expect(() => assertOrnamentTextInput(input, tooLong, "req-long")).toThrow(/效果描述最多/);
+    });
+
+    test("空效果真的走到网关：submit 收到完整 prompt，fields 仍是页面目录 5 个 + requestId", async () => {
+        const { gateway, submits } = fakeGateway();
+        const empty = values({ effect: "" });
+        await runOrnamentText({ gateway, values: empty, model: "img-model", onUpdate: () => {} });
+        expect(submits).toHaveLength(1);
+        const sent = submits[0].input;
+        expect(sent.prompt).toContain(ORNAMENT_TEXT_EFFECT_FALLBACK);
+        expect(sent.prompt).toContain("FOREVER");
+        expect(Object.keys(sent.fields ?? {}).sort()).toEqual(["fontSize", "fontname", "left", "prompt", "requestId", "right"]);
+    });
+});
+
+/** 三动作（撤销定位 / 重做定位 / 复位定位）与默认值：空效果不改变这三条路径。 */
+describe("默认值与三动作：撤销/重做/复位定位", () => {
+    test("默认值：空文字空效果、衬线、96 号、18–82 定位", () => {
+        expect(createOrnamentTextValues()).toEqual({
+            text: "",
+            effect: "",
+            fontname: ORNAMENT_TEXT_DEFAULT_FONT,
+            fontSize: 96,
+            left: 18,
+            right: 82,
+        });
+        const empty = values({ effect: "" });
+        expect(ornamentTextLayout(empty)).toEqual({ left: 20, right: 80, fontSize: 96 });
+    });
+
+    test("拖动→撤销→重做 闭环，效果描述不参与历史也不被改写", () => {
+        const empty = values({ effect: "" });
+        let history = createOrnamentTextHistory(empty);
+        expect(canUndoOrnamentTextLayout(history)).toBe(false);
+        expect(canRedoOrnamentTextLayout(history)).toBe(false);
+
+        history = commitOrnamentTextLayout(history, { left: 30, right: 70, fontSize: 96 });
+        expect(history.present).toEqual({ left: 30, right: 70, fontSize: 96 });
+        expect(canUndoOrnamentTextLayout(history)).toBe(true);
+
+        history = undoOrnamentTextLayout(history);
+        expect(history.present).toEqual({ left: 20, right: 80, fontSize: 96 });
+        expect(canRedoOrnamentTextLayout(history)).toBe(true);
+
+        history = redoOrnamentTextLayout(history);
+        expect(history.present).toEqual({ left: 30, right: 70, fontSize: 96 });
+
+        // 撤销/重做只动定位，效果为空的事实保持不变（否则审计会重新拦）
+        const applied = applyOrnamentTextLayout(empty, undoOrnamentTextLayout(history).present);
+        expect(applied.effect).toBe("");
+        expect(() => assertOrnamentTextInput(buildOrnamentTextInput({ values: applied, requestId: "req-undo" }), applied, "req-undo")).not.toThrow();
+    });
+
+    test("复位定位回到默认 18–82 / 96，且不影响文字与效果", () => {
+        const base = createOrnamentTextValues();
+        const dragged = applyOrnamentTextLayout(values({ effect: "磨砂哑光", text: "FOREVER" }), { left: 5, right: 95, fontSize: 240 });
+        const reset = applyOrnamentTextLayout(dragged, { left: base.left, right: base.right, fontSize: base.fontSize });
+        expect(ornamentTextLayout(reset)).toEqual({ left: 18, right: 82, fontSize: 96 });
+        expect(reset.text).toBe("FOREVER");
+        expect(reset.effect).toBe("磨砂哑光");
+        const input = buildOrnamentTextInput({ values: reset, requestId: "req-reset" });
+        expect(input.prompt).toContain("磨砂哑光");
+        expect(() => assertOrnamentTextInput(input, reset, "req-reset")).not.toThrow();
     });
 });

@@ -13,14 +13,17 @@ import type { BrowserToolInput, SubmitOptions, WaitOptions } from "@/services/ap
 import type { ToolTask, ToolTaskResultItem } from "@/services/api/tools/task-machine";
 
 import {
+    ORNAMENT_TEXT_EFFECT_LIMIT,
     ORNAMENT_TEXT_FONT_SIZE,
     ORNAMENT_TEXT_TEXT_LIMIT,
     ORNAMENT_TEXT_TOOL_ID,
+    ORNAMENT_TEXT_EFFECT_FALLBACK,
     buildOrnamentTextPrompt,
     createOrnamentTextSnapshot,
     clampOrnamentTextFontSize,
     describeOrnamentTextDrift,
     normalizeOrnamentTextPosition,
+    ornamentTextEffectSegment,
     ornamentTextFont,
     validateOrnamentTextState,
     type OrnamentTextIssue,
@@ -85,6 +88,8 @@ export type OrnamentTextAudit = {
     requestId: string;
     ok: boolean;
     issues: string[];
+    /** 效果描述的落点：有值走原文，空值走回落语义（可选字段，见 ORNAMENT_TEXT_EFFECT_FALLBACK）。 */
+    effectMode: "described" | "fallback";
     /** prompt 是否真的带上了每个参数（网关只送 prompt，必须在这里坐实）。 */
     promptCarries: { text: boolean; fontname: boolean; fontSize: boolean; left: boolean; right: boolean; effect: boolean };
 };
@@ -114,19 +119,28 @@ export function auditOrnamentTextFields(
     if (extra.length) issues.push(`出现未声明字段：${extra.join("、")}`);
 
     const promptText = providerPrompt ?? "";
+    const effect = values.effect.trim();
+    const effectSegment = ornamentTextEffectSegment(values);
+    /**
+     * 效果描述是可选字段：有值必须原文进 prompt；空值不阻断提交，但 prompt 必须写下回落语义
+     * （否则模型会自己编效果）。这两条都算“效果契约满足”，不再用 Boolean(effect) 一刀切。
+     */
+    const effectCarried = effect ? promptText.includes(effect) : promptText.includes(ORNAMENT_TEXT_EFFECT_FALLBACK);
+
     const promptCarries = {
         text: Boolean(values.text.trim()) && promptText.includes(values.text.trim()),
         fontname: Boolean(values.fontname.trim()) && promptText.includes(values.fontname.trim()),
         fontSize: promptText.includes(`${clampOrnamentTextFontSize(values.fontSize)}`),
         left: promptText.includes(`${normalizeOrnamentTextPosition(values.left, values.right).left}%`),
         right: promptText.includes(`${normalizeOrnamentTextPosition(values.left, values.right).right}%`),
-        effect: Boolean(values.effect.trim()) && promptText.includes(values.effect.trim()),
+        effect: effectCarried,
     };
     for (const [key, carried] of Object.entries(promptCarries)) {
-        if (!carried) issues.push(`prompt 未带上 ${key} 参数`);
+        if (carried) continue;
+        issues.push(key === "effect" ? (effect ? "prompt 未带上 effect 参数" : "效果描述为空时 prompt 未写明回落语义") : `prompt 未带上 ${key} 参数`);
     }
 
-    return { requestId, ok: issues.length === 0, issues, promptCarries };
+    return { requestId, ok: issues.length === 0, issues, effectMode: effectSegment.described ? "described" : "fallback", promptCarries };
 }
 
 /** 提交前守卫：参数非法 / 字段丢失 / prompt 漏参 / 数量不为 1，都直接抛错，绝不“假成功”。 */
@@ -138,6 +152,8 @@ export function assertOrnamentTextInput(input: BrowserToolInput, values: Ornamen
     const text = values.text.trim();
     if (!text) throw new OrnamentTextAdapterError("text-required", "请先填写饰品文字内容。");
     if (text.length > ORNAMENT_TEXT_TEXT_LIMIT) throw new OrnamentTextAdapterError("text-too-long", `文字内容最多 ${ORNAMENT_TEXT_TEXT_LIMIT} 字。`);
+    // 效果描述是可选项：空值合法，只有超长才阻断（与 validateOrnamentTextState 同源）。
+    if (values.effect.trim().length > ORNAMENT_TEXT_EFFECT_LIMIT) throw new OrnamentTextAdapterError("effect-too-long", `效果描述最多 ${ORNAMENT_TEXT_EFFECT_LIMIT} 字。`);
     if (!values.fontname.trim()) throw new OrnamentTextAdapterError("font-required", "请选择或填写字体名。");
     if (!Number.isFinite(values.fontSize) || values.fontSize < ORNAMENT_TEXT_FONT_SIZE.min || values.fontSize > ORNAMENT_TEXT_FONT_SIZE.max) {
         throw new OrnamentTextAdapterError("font-size-range", `字号需在 ${ORNAMENT_TEXT_FONT_SIZE.min}–${ORNAMENT_TEXT_FONT_SIZE.max} 之间。`);
