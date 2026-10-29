@@ -1,0 +1,347 @@
+{
+  "tool": "dressing",
+  "toolId": "AI_DRESSING_V2",
+  "route": "/tools/product-design/ai-dressing-v2",
+  "base": "http://127.0.0.1:3000",
+  "requestedCaseId": null,
+  "startedAt": "2026-10-29T06:43:23.541Z",
+  "network": [
+    {
+      "method": "POST",
+      "url": "http://127.0.0.1:23210/https://api.cc-ai.xyz/v1/images/edits",
+      "status": 200,
+      "at": "2026-10-29T06:45:06.915Z"
+    }
+  ],
+  "steps": [
+    {
+      "step": "applied",
+      "dom": {
+        "textareas": [],
+        "inputs": [
+          {
+            "type": "checkbox",
+            "value": "on"
+          },
+          {
+            "type": "checkbox",
+            "value": "on"
+          },
+          {
+            "type": "text",
+            "value": "3"
+          },
+          {
+            "type": "checkbox",
+            "value": "on"
+          },
+          {
+            "type": "checkbox",
+            "value": "on"
+          }
+        ],
+        "selects": [
+          "adult",
+          "v2"
+        ],
+        "buttons": [
+          "更多",
+          "购买",
+          "用\n本地用户\n个人账号",
+          "上下装衣服",
+          "连体衣服",
+          "整件",
+          "撤销",
+          "重做",
+          "清空",
+          "1 张",
+          "2 张",
+          "3 张",
+          "4 张",
+          "立即生成",
+          "优秀案例",
+          "操作咨询",
+          "产品教程",
+          "连接",
+          "连接",
+          "连接"
+        ],
+        "thumbs": 2,
+        "body": "无限画布 · 39 个电商 AI 工具，一套导航直达\n本地运行 · API Key 只保存在你自己的浏览器\n插件与模型可自定义 · 无需注册账号\n无限画布\n首页\n电商套图\n智能修图\n新模型\nAI视频\nHOT\n批量生图\n商品图设计\nSkills\nAgent\n更多\n学习中心\n免费得算力\n积分\n0\n购买\n用\n本地用户\n个人账号\n商品图设计\n商品图\n商品替换\n场景裂变\n手持商品\nAI穿衣\n姿势裂变\nAI穿戴\nPOD素材\n饰品文字\n素材贴合\n印花提取\nAI姿势生成\n补充\nAI试衣XSY\n补充\n场景裂变链接\n补充\n图片文字编辑\n补充\n上装换料\n补充\n商品图设计器\n补充\n商品营销素材\n补充\n场景迁移\n补充\n免责声明\nAI 穿衣\n图片限制：10M以内，384*384 ~ 4096*4096\n上下装衣服\n连体衣服\n\n当前模式：连体衣服｜参与生成：套装\n\n模特参考（最多 4 张，当前 1 张）\n上传模特图\n0 / 4 个 · PNG / JPG / WebP · ≤ 10 MB\n点击选择本地文件，或拖拽到这里\n校验格式 / 大小 / 像素，入库后可刷新恢复\n\n还没有素材\n\n套装\n蒙版覆盖 100%\n上传套装图\n0 / 1 个 · PNG / JPG / WebP · ≤ 10 MB\n点击选择本地文件，或拖拽到这里\n校验格式 / 大小 / 像素，入库后可刷新恢复\n\n还没有素材\n\n整件\n撤销\n重做\n清空\n反向\n扩边\n生成张数\n1 张\n2 张\n3 张\n4 张\n模型类型\n成人模特\n儿童模特\n版本\nV2（本页）\n任务名称\n服务商\n保持原分辨率\n二次操作\n立即生成\n优秀案例\n历史任务\n0 条\n\n本工具还没有历史任务；提交一次后会在这里留下任务、配置与结果，刷新后仍在。\n\n操作咨询\n产品教程\n连接本地 Agent\n未连接\n点连接会自动启动本地服务、装好插件并接通，无需手动配置。\nClaude Code\n未连接\n·\nCLI · 2.1.285 (Claude Code)\n·\n直接运行\n连接\nCodex\n未连接\n·\nCLI · codex-cli 0.163.0\n·\n插件已装\n连接\nGalley\n未连接\n·"
+      },
+      "draft": {
+        "store": "app_state",
+        "draft": {
+          "draftVersion": 1,
+          "toolId": "AI_DRESSING_V2",
+          "values": {
+            "activeTab": "suit",
+            "garments": {
+              "upper": {
+                "slot": "upper",
+                "assetId": "",
+                "name": "",
+                "imageUrl": "",
+                "originUrl": "",
+                "width": 0,
+                "height": 0,
+                "mask": {
+                  "strokes": [],
+                  "tool": "brush",
+                  "brushSize": 35,
+                  "feather": 0,
+                  "inverted": false,
+                  "autoExpand": false
+                },
+                "past": [],
+                "future": []
+              },
+              "down": {
+                "slot": "down",
+                "assetId": "",
+                "name": "",
+                "imageUrl": "",
+                "originUrl": "",
+                "width": 0,
+                "height": 0,
+                "mask": {
+                  "strokes": [],
+                  "tool": "brush",
+                  "brushSize": 35,
+                  "feather": 0,
+                  "inverted": false,
+                  "autoExpand": false
+                },
+                "past": [],
+                "future": []
+              },
+              "suit": {
+                "slot": "suit",
+                "assetId": "5Dw1KXKsjtmpTKnibTt-E",
+                "name": "linkfox-case-1940370107691995136-garment.webp",
+                "imageUrl": "blob:http://127.0.0.1:3000/f0f7b8e9-0d0c-4ec2-99de-665d065f74e1",
+                "originUrl": "blob:http://127.0.0.1:3000/f0f7b8e9-0d0c-4ec2-99de-665d065f74e1",
+                "width": 512,
+                "height": 683,
+                "mask": {
+                  "strokes": [
+                    {
+                      "id": "case-1940370107691995136-full-mask",
+                      "tool": "brush",
+                      "size": 512,
+                      "points": [
+                        {
+                          "x": 0.5,
+                          "y": 0
+                        },
+                        {
+                          "x": 0.5,
+                          "y": 1
+                        }
+                      ]
+                    }
+                  ],
+                  "tool": "brush",
+                  "brushSize": 35,
+                  "feather": 0,
+                  "inverted": false,
+                  "autoExpand": false
+                },
+                "past": [
+                  []
+                ],
+                "future": []
+              }
+            },
+            "poses": [
+              {
+                "id": "1ri-YWwOfupsYMa0RVAJL",
+                "assetId": "1ri-YWwOfupsYMa0RVAJL",
+                "name": "linkfox-case-1940370107691995136-model.webp",
+                "imageUrl": "blob:http://127.0.0.1:3000/4402d684-fc73-4705-872b-e408ea55c4c1",
+                "width": 512,
+                "height": 682
+              }
+            ],
+            "activePoseId": "1ri-YWwOfupsYMa0RVAJL",
+            "outputNum": 1,
+            "genOriRes": false,
+            "isSecondOperate": false,
+            "name": "",
+            "version": "v2",
+            "provider": "3",
+            "modelType": "adult"
+          },
+          "assetIds": [],
+          "updatedAt": "2026-10-29T06:43:34.061Z",
+          "revision": 5
+        }
+      }
+    },
+    {
+      "step": "submitted",
+      "dom": {
+        "textareas": [],
+        "inputs": [
+          {
+            "type": "checkbox",
+            "value": "on"
+          },
+          {
+            "type": "checkbox",
+            "value": "on"
+          },
+          {
+            "type": "text",
+            "value": "3"
+          },
+          {
+            "type": "checkbox",
+            "value": "on"
+          },
+          {
+            "type": "checkbox",
+            "value": "on"
+          }
+        ],
+        "selects": [
+          "adult",
+          "v2"
+        ],
+        "buttons": [
+          "更多",
+          "购买",
+          "用\n本地用户\n个人账号",
+          "上下装衣服",
+          "连体衣服",
+          "整件",
+          "撤销",
+          "重做",
+          "清空",
+          "1 张",
+          "2 张",
+          "3 张",
+          "4 张",
+          "生成中…",
+          "优秀案例",
+          "2026-10-29 14:44\n提交中\n[AI_DRESSING v2/pose:1ri-YWwOfupsYMa0RVAJL/tab:suit]第 1 …\nccai-accept::gpt-image-2 · image · 0 个结果",
+          "操作咨询",
+          "产品教程",
+          "连接",
+          "连接",
+          "连接"
+        ],
+        "thumbs": 2,
+        "body": "无限画布 · 39 个电商 AI 工具，一套导航直达\n本地运行 · API Key 只保存在你自己的浏览器\n插件与模型可自定义 · 无需注册账号\n无限画布\n首页\n电商套图\n智能修图\n新模型\nAI视频\nHOT\n批量生图\n商品图设计\nSkills\nAgent\n更多\n学习中心\n免费得算力\n积分\n0\n购买\n用\n本地用户\n个人账号\n商品图设计\n商品图\n商品替换\n场景裂变\n手持商品\nAI穿衣\n姿势裂变\nAI穿戴\nPOD素材\n饰品文字\n素材贴合\n印花提取\nAI姿势生成\n补充\nAI试衣XSY\n补充\n场景裂变链接\n补充\n图片文字编辑\n补充\n上装换料\n补充\n商品图设计器\n补充\n商品营销素材\n补充\n场景迁移\n补充\n免责声明\nAI 穿衣\n图片限制：10M以内，384*384 ~ 4096*4096\n上下装衣服\n连体衣服\n\n当前模式：连体衣服｜参与生成：套装\n\n模特参考（最多 4 张，当前 1 张）\n上传模特图\n0 / 4 个 · PNG / JPG / WebP · ≤ 10 MB\n点击选择本地文件，或拖拽到这里\n校验格式 / 大小 / 像素，入库后可刷新恢复\n\n还没有素材\n\n套装\n蒙版覆盖 100%\n上传套装图\n0 / 1 个 · PNG / JPG / WebP · ≤ 10 MB\n点击选择本地文件，或拖拽到这里\n校验格式 / 大小 / 像素，入库后可刷新恢复\n\n还没有素材\n\n整件\n撤销\n重做\n清空\n反向\n扩边\n生成张数\n1 张\n2 张\n3 张\n4 张\n模型类型\n成人模特\n儿童模特\n版本\nV2（本页）\n任务名称\n服务商\n保持原分辨率\n二次操作\n生成中…\n优秀案例\n历史任务\n1 条\n2026-10-29 14:44\n提交中\n[AI_DRESSING v2/pose:1ri-YWwOfupsYMa0RVAJL/tab:suit]第 1 …\nccai-accept::gpt-image-2 · image · 0 个结果\n操作咨询\n产品教程\n连接本地 Agent\n未连接\n点连接会自动启动本地服务、装好插件并接通，无需手动配置。\nClaude Code\n未连接\n·\nCLI · 2.1.285 (C"
+      }
+    }
+  ],
+  "ok": true,
+  "provider": {
+    "imageModel": "ccai-accept::gpt-image-2",
+    "channels": [
+      "ccai-accept",
+      "sf-accept"
+    ],
+    "baseUrl": "https://api.cc-ai.xyz",
+    "keyLen": 67,
+    "proxyEnabled": true,
+    "channelCount": 2,
+    "model": "gpt-image-2"
+  },
+  "cases": [
+    {
+      "id": "1940370107691995136",
+      "text": "预览||商品|参考图|做同款",
+      "broken": false
+    },
+    {
+      "id": "1940369738240921600",
+      "text": "预览||商品|参考图|做同款",
+      "broken": false
+    },
+    {
+      "id": "1955583515158163456",
+      "text": "预览||商品|参考图|做同款",
+      "broken": false
+    },
+    {
+      "id": "1955583269879459840",
+      "text": "预览||商品|参考图|做同款",
+      "broken": false
+    },
+    {
+      "id": "1940369796831154176",
+      "text": "预览||商品|参考图|做同款",
+      "broken": false
+    },
+    {
+      "id": "1940369770805497856",
+      "text": "预览||商品|参考图|做同款",
+      "broken": false
+    },
+    {
+      "id": "1940369698512474112",
+      "text": "预览||商品|参考图|做同款",
+      "broken": false
+    },
+    {
+      "id": "1940357479011749888",
+      "text": "预览||商品|参考图|做同款",
+      "broken": false
+    },
+    {
+      "id": "1940357428071927808",
+      "text": "预览||商品|参考图|做同款",
+      "broken": false
+    },
+    {
+      "id": "1940357325680578560",
+      "text": "预览||商品|参考图|做同款",
+      "broken": false
+    },
+    {
+      "id": "1940357261981683712",
+      "text": "预览||商品|参考图|做同款",
+      "broken": false
+    },
+    {
+      "id": "1940357194906374144",
+      "text": "预览||商品|参考图|做同款",
+      "broken": false
+    },
+    {
+      "id": "1940357138912415744",
+      "text": "预览||商品|参考图|做同款",
+      "broken": false
+    },
+    {
+      "id": "1940356980090900480",
+      "text": "预览||商品|参考图|做同款",
+      "broken": false
+    },
+    {
+      "id": "1807600002531631104",
+      "text": "预览||商品|参考图|做同款",
+      "broken": false
+    },
+    {
+      "id": "1807599755185135616",
+      "text": "预览||商品|参考图|做同款",
+      "broken": false
+    }
+  ],
+  "caseId": "1940370107691995136",
+  "result": {
+    "state": "image",
+    "error": null,
+    "notices": [],
+    "srcPrefix": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABAAAAAQACAIAAADwf7zUAAJ81WNhQlgAAn"
+  },
+  "resultBytes": {
+    "file": "result-1940370107691995136.png",
+    "size": 1646968,
+    "contentType": "image/png",
+    "sha256": "12825db5e0b342b2bc5a5d260c92d2d61cece9bcfaf77d825af598a8abbcacad"
+  }
+}

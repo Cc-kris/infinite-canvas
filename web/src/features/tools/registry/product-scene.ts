@@ -28,8 +28,17 @@ export const PRODUCT_SCENE_ROUTE = "/tools/product-design/product-scene";
 export const SCENE_MAX_OUTPUT = 4;
 export const SCENE_OUTPUT_OPTIONS: readonly number[] = [1, 2, 3, 4];
 
-/** 场景描述上限：原站计数器 `0 / 100`。 */
-export const SCENE_PROMPT_LIMIT = 100;
+/**
+ * 场景描述上限。
+ *
+ * 事实来源（2026-10-29 真实案例复现）：
+ * - 原站 `/image/make-case/list` 下发的 PRODUCT_SCENE 案例，`promptTranslation` 真实长度 400 字量级
+ *   （例：案例 1983831220118597632 = 400 字符），且原站页面 textarea 无 `maxlength` 约束；
+ * - 旧值 100 是按「计数器 0 / 100」推断的本地限制，会让「做同款」回填原站案例后必然超限、
+ *   生成按钮永久禁用（真实失败：`prompt-too-long`），属于本地缺陷；
+ * - 这里放宽到 1000，仍保留上限以挡住异常超长输入；provider 侧对 prompt 长度无更严限制。
+ */
+export const SCENE_PROMPT_LIMIT = 1000;
 
 /** 背景相似度：原站滑杆 0–100；智能模式下由模型决定。 */
 export const SCENE_SIMILARITY = { min: 0, max: 100, step: 5, defaultValue: 60 } as const;
@@ -38,7 +47,8 @@ export const SCENE_SIMILARITY = { min: 0, max: 100, step: 5, defaultValue: 60 } 
 export const SCENE_SMART_STRENGTH = 60;
 
 /** 自定义尺寸：原站 384*384 ~ 4096*4096，最大宽高比 5，步进 8 便于多数生图模型接受。 */
-export const SCENE_CUSTOM_SIZE = { min: 384, max: 4096, step: 8, maxAspect: 5, defaultValue: 1024 } as const;
+/** 步进 16：上游 provider 只接受宽高均为 16 倍数的尺寸（实测报错见 evidence design19-cases-20261029）。 */
+export const SCENE_CUSTOM_SIZE = { min: 384, max: 4096, step: 16, maxAspect: 5, defaultValue: 1024 } as const;
 
 /** 上传约束：10M以内，分辨率 384*384 ~ 4096*4096（宽高比 5 在 validateSceneSource 里额外校验）。 */
 export const SCENE_SOURCE_LIMITS: ToolAssetConstraints = {
@@ -260,8 +270,10 @@ const DEFAULT_SCENE_PRESETS: readonly { ratio: string; width: number; height: nu
     { ratio: "1:1", width: 1024, height: 1024 },
     { ratio: "4:5", width: 1024, height: 1280 },
     { ratio: "5:4", width: 1280, height: 1024 },
-    { ratio: "3:4", width: 1024, height: 1365 },
-    { ratio: "4:3", width: 1365, height: 1024 },
+    /* 2026-10-29 真实上游约束：provider 拒收宽高非 16 倍数的尺寸（"图像尺寸的宽高必须是 16 的倍数"），
+       3:4 / 4:3 档位从 1024×1365 / 1365×1024 改为 16 的倍数。 */
+    { ratio: "3:4", width: 1024, height: 1360 },
+    { ratio: "4:3", width: 1360, height: 1024 },
     { ratio: "9:16", width: 864, height: 1536 },
     { ratio: "16:9", width: 1536, height: 864 },
     { ratio: "2:3", width: 1024, height: 1536 },
@@ -444,6 +456,7 @@ export type SceneIssueCode =
     | "prompt-too-long"
     | "custom-size-range"
     | "custom-size-aspect"
+    | "custom-size-step"
     | "output-num-unsupported"
     | "model-not-ready"
     | "provider-not-executable"
@@ -503,6 +516,14 @@ export function validateSceneState(input: ValidateSceneStateInput): SceneIssue[]
                     code: "custom-size-aspect",
                     field: "customWidth",
                     message: `最大宽高比为 ${SCENE_CUSTOM_SIZE.maxAspect}，当前 ${aspect.toFixed(2)}`,
+                });
+            }
+            /* 上游硬约束：宽高必须是 16 的倍数（实测拒绝文案「图像尺寸的宽高必须是 16 的倍数」） */
+            if (width % 16 !== 0 || height % 16 !== 0) {
+                issues.push({
+                    code: "custom-size-step",
+                    field: "customWidth",
+                    message: `图像尺寸的宽高必须是 16 的倍数，当前 ${width}×${height}`,
                 });
             }
         }

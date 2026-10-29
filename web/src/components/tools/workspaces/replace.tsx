@@ -16,9 +16,13 @@ import { Link } from "react-router-dom";
 import { ChevronLeft, ChevronRight, Layers, Loader2, Move, Plus, Redo2, RotateCcw, Trash2, Undo2 } from "lucide-react";
 
 import { ToolAssetInput } from "@/components/tools/tool-asset-input";
+import { ToolCases } from "@/components/tools/tool-cases";
+import type { ToolCase } from "@/components/tools/tool-cases";
 import { ToolResult } from "@/components/tools/tool-result";
 import { ToolShell } from "@/components/tools/tool-shell";
 import { cn, randomId } from "@/lib/utils";
+import { uploadCaseFiles } from "@/features/tools/case-apply";
+import { REPLACE_GOODS_CASES } from "@/features/tools/tool-cases-data";
 import type { ToolAssetRecord } from "@/services/api/tools/assets";
 import type { ToolTask } from "@/services/api/tools/task-machine";
 import { useToolDraftStore } from "@/stores/use-tool-draft-store";
@@ -56,6 +60,7 @@ import {
     addSku,
     applyQuad,
     clamp01,
+    createSku,
     createTransformHistory,
     createWorkspace,
     deriveQuadFields,
@@ -63,6 +68,7 @@ import {
     getReplaceGoodsSpec,
     moveQuad,
     parseDraftValues,
+    quadFromCaseShape,
     pointInQuad,
     protectMaskCoverage,
     redoTransform,
@@ -96,6 +102,13 @@ const UPLOAD_CONSTRAINTS = {
     minSide: REPLACE_GOODS_UPLOAD_LIMITS.minSide,
     maxSide: REPLACE_GOODS_UPLOAD_LIMITS.maxSide,
 };
+
+/** 右栏页签 */
+const REPLACE_TABS = [
+    { id: "result", label: "生成结果" },
+    { id: "cases", label: "优秀案例" },
+] as const;
+type ReplaceTabId = (typeof REPLACE_TABS)[number]["id"];
 
 type RunState = {
     status: "idle" | "running" | "succeeded" | "failed" | "cancelled" | "unknown";
@@ -355,6 +368,8 @@ export function ReplaceGoodsWorkspace({ className }: ReplaceGoodsWorkspaceProps 
     const [running, setRunning] = useState(false);
     const [notice, setNotice] = useState<string | null>(null);
     const [submitError, setSubmitError] = useState<string | null>(null);
+    const [tab, setTab] = useState<ReplaceTabId>("result");
+    const [applyingCaseId, setApplyingCaseId] = useState<string | null>(null);
 
     const revisionRef = useRef<number | null>(null);
     const abortRef = useRef<AbortController | null>(null);
@@ -436,6 +451,119 @@ export function ReplaceGoodsWorkspace({ className }: ReplaceGoodsWorkspaceProps 
             }),
         );
     }, []);
+
+    /* ---------------- 「做同款」：入库案例素材并回填配置 ---------------- */
+
+    const applyCase = useCallback(
+        async (item: ToolCase) => {
+            setApplyingCaseId(item.id);
+            setSubmitError(null);
+            setNotice(null);
+            try {
+                const assets = await uploadCaseFiles(item);
+                const sourceRecord = assets.source as ToolAssetRecord | undefined;
+                const targetRecord = assets.target as ToolAssetRecord | undefined;
+
+                if (!sourceRecord || Array.isArray(sourceRecord)) {
+                    throw new Error("该案例缺少可用的参考场景图");
+                }
+                if (!targetRecord || Array.isArray(targetRecord)) {
+                    throw new Error("该案例缺少可用的替换商品图");
+                }
+
+                // 写入场景
+                setSceneRecord(sourceRecord);
+                const scene = {
+                    assetId: sourceRecord.id,
+                    name: sourceRecord.name,
+                    url: sourceRecord.url,
+                    originUrl: sourceRecord.url,
+                    width: sourceRecord.width ?? 0,
+                    height: sourceRecord.height ?? 0,
+                };
+
+                // 当前活跃 SKU（如无则创建第一个）
+                const apply = item.apply ?? {};
+                let currentSku = activeSku(workspace);
+                let activeId = workspace.activeSkuId;
+
+                if (!currentSku) {
+                    const newSkuId = `sku-${Date.now().toString(36)}`;
+                    const newSku = createSku({ id: newSkuId, label: "商品 1" });
+                    setWorkspace((current) => ({
+                        ...current,
+                        scene,
+                        skus: [newSku],
+                        activeSkuId: newSkuId,
+                    }));
+                    activeId = newSkuId;
+                    currentSku = newSku;
+                } else {
+                    setWorkspace((current) => ({ ...current, scene }));
+                }
+
+                // 写入替换商品到 targets 和 sku
+                setTargets((current) => ({ ...current, [activeId]: targetRecord }));
+
+                // 回填字段：workspace 级别（denoiseStrength/cutoutProvider/outputNum）+ sku 级别（target 信息）
+                setWorkspace((current) => {
+                    const updatedSku: Partial<ReplaceGoodsSku> = {
+                        targetAssetId: targetRecord.id,
+                        targetName: targetRecord.name,
+                        targetUrl: targetRecord.url,
+                        targetOriginUrl: targetRecord.url,
+                        targetWidth: targetRecord.width ?? 0,
+                        targetHeight: targetRecord.height ?? 0,
+                    };
+
+                    // 如果案例有 quad，设置初始 history（原站像素坐标系 → 本页 0–1 归一化四边形）
+                    const caseQuad = quadFromCaseShape(apply.quad);
+                    if (caseQuad) {
+                        updatedSku.history = createTransformHistory({ quad: caseQuad });
+                    }
+
+                    const updated = updateSku(current, activeId, updatedSku);
+
+                    // workspace 级别字段：原站 denoiseStrength 是 0–1 小数，本页滑杆是 0–100；
+                    // cutoutProvider 原站是 CUTOUT_ALI 之类的枚举，本页只有 local/model。
+                    const rawDenoise = typeof apply.denoiseStrength === "number" ? apply.denoiseStrength : null;
+                    const denoiseStrength =
+                        rawDenoise === null
+                            ? updated.denoiseStrength
+                            : Math.round(
+                                  Math.min(
+                                      REPLACE_GOODS_DENOISE.max,
+                                      Math.max(REPLACE_GOODS_DENOISE.min, rawDenoise <= 1 ? rawDenoise * 100 : rawDenoise),
+                                  ),
+                              );
+                    const rawCutout = typeof apply.cutoutProvider === "string" ? apply.cutoutProvider.toUpperCase() : "";
+                    const cutoutProvider = rawCutout
+                        ? rawCutout.includes("LOCAL") || rawCutout === ""
+                            ? "local"
+                            : "model"
+                        : updated.cutoutProvider;
+
+                    return {
+                        ...updated,
+                        denoiseStrength,
+                        cutoutProvider,
+                        outputNum: typeof apply.outputNum === "number" ? apply.outputNum : updated.outputNum,
+                    };
+                });
+
+                setTask(null);
+                setUnit(null);
+                setOutcome(null);
+                setTab("result");
+                setNotice("已应用案例配置，请检查画布定位后提交");
+            } catch (error) {
+                setSubmitError(error instanceof Error ? error.message : "做同款失败");
+            } finally {
+                setApplyingCaseId(null);
+            }
+        },
+        [workspace],
+    );
 
     /* ---------------- 画布变换 ---------------- */
 
@@ -895,52 +1023,82 @@ export function ReplaceGoodsWorkspace({ className }: ReplaceGoodsWorkspaceProps 
                     </StepCard>
 
                     <section className="rounded-2xl border border-border bg-card p-4">
-                        <div className="flex flex-wrap items-center justify-between gap-2">
-                            <div>
-                                <h3 className="text-sm font-medium text-foreground">生成结果</h3>
-                                <p className="mt-0.5 text-xs text-muted-foreground">
-                                    预计输出 {workspace.outputNum} 张 · {REPLACE_GOODS_OUTPUT_SIZE.width}×{REPLACE_GOODS_OUTPUT_SIZE.height}
-                                    {stale ? " · 当前配置已变更，下面结果来自旧版本" : ""}
-                                </p>
-                            </div>
-                            <button
-                                type="button"
-                                data-testid="replace-goods-submit"
-                                disabled={!canSubmit}
-                                onClick={submit}
-                                className="inline-flex h-10 items-center gap-2 rounded-lg bg-primary px-4 text-sm font-medium text-primary-foreground disabled:cursor-not-allowed disabled:opacity-50"
-                            >
-                                {running ? <Loader2 className="size-4 animate-spin" /> : null}
-                                {running ? "生成中…" : "立即生成"}
-                            </button>
+                        <div className="mb-3 flex items-center gap-2 border-b border-border">
+                            {REPLACE_TABS.map((item) => (
+                                <button
+                                    key={item.id}
+                                    type="button"
+                                    data-testid={`replace-goods-tab-${item.id}`}
+                                    aria-pressed={tab === item.id}
+                                    onClick={() => setTab(item.id)}
+                                    className={cn(
+                                        "relative px-3 pb-2 text-sm transition",
+                                        tab === item.id
+                                            ? "font-medium text-foreground after:absolute after:inset-x-0 after:bottom-0 after:h-0.5 after:bg-primary"
+                                            : "text-muted-foreground hover:text-foreground",
+                                    )}
+                                >
+                                    {item.label}
+                                </button>
+                            ))}
                         </div>
 
-                        {issues.length > 0 ? (
-                            <ul data-testid="replace-goods-issues" className="mt-2 space-y-1 text-xs text-amber-600 dark:text-amber-400">
-                                {issues.map((issue) => (
-                                    <li key={issue.code}>· {issue.message}</li>
-                                ))}
-                            </ul>
+                        {tab === "result" ? (
+                            <>
+                                <div className="flex flex-wrap items-center justify-between gap-2">
+                                    <div>
+                                        <h3 className="text-sm font-medium text-foreground">生成结果</h3>
+                                        <p className="mt-0.5 text-xs text-muted-foreground">
+                                            预计输出 {workspace.outputNum} 张 · {REPLACE_GOODS_OUTPUT_SIZE.width}×{REPLACE_GOODS_OUTPUT_SIZE.height}
+                                            {stale ? " · 当前配置已变更，下面结果来自旧版本" : ""}
+                                        </p>
+                                    </div>
+                                    <button
+                                        type="button"
+                                        data-testid="replace-goods-submit"
+                                        disabled={!canSubmit}
+                                        onClick={submit}
+                                        className="inline-flex h-10 items-center gap-2 rounded-lg bg-primary px-4 text-sm font-medium text-primary-foreground disabled:cursor-not-allowed disabled:opacity-50"
+                                    >
+                                        {running ? <Loader2 className="size-4 animate-spin" /> : null}
+                                        {running ? "生成中…" : "立即生成"}
+                                    </button>
+                                </div>
+
+                                {issues.length > 0 ? (
+                                    <ul data-testid="replace-goods-issues" className="mt-2 space-y-1 text-xs text-amber-600 dark:text-amber-400">
+                                        {issues.map((issue) => (
+                                            <li key={issue.code}>· {issue.message}</li>
+                                        ))}
+                                    </ul>
+                                ) : null}
+                                {notice ? <p className="mt-2 text-xs text-amber-600 dark:text-amber-400">{notice}</p> : null}
+                                {submitError ? <p data-testid="replace-goods-submit-error" className="mt-2 text-xs text-destructive">{submitError}</p> : null}
+
+                                <div className="mt-3">
+                                    <ToolResult task={task} toolId={REPLACE_GOODS_TOOL_ID} title="替换结果" onCancel={() => abortRef.current?.abort()} onRetry={retry} />
+                                </div>
+
+                                {unit ? (
+                                    <details data-testid="replace-goods-snapshot" className="mt-3 rounded-lg border border-border px-3 py-2 text-[11px] text-muted-foreground">
+                                        <summary className="cursor-pointer text-xs text-foreground">本次输入快照</summary>
+                                        <ul className="mt-2 space-y-0.5">
+                                            <li>SKU：{unit.snapshot.skuLabel}（{unit.id}）</li>
+                                            <li>场景：{unit.snapshot.sceneName || "—"} {unit.snapshot.sceneWidth}×{unit.snapshot.sceneHeight}</li>
+                                            <li>替换商品：{unit.snapshot.targetName || "—"} {unit.snapshot.targetWidth}×{unit.snapshot.targetHeight}</li>
+                                            <li>中心点 {unit.snapshot.point.x.toFixed(3)}, {unit.snapshot.point.y.toFixed(3)} · 缩放 {unit.snapshot.scale.toFixed(2)}× · 旋转 {unit.snapshot.rotate.toFixed(1)}°</li>
+                                            <li>字段 {Object.keys(unit.fields).length} 个 · 保护覆盖 {(unit.maskCoverage * 100).toFixed(1)}% · snapshotHash {unit.snapshotHash}</li>
+                                            <li>参考图 {unit.references.length} 张（场景 / 替换商品 / 落位导引 / 保护蒙版）</li>
+                                        </ul>
+                                    </details>
+                                ) : null}
+                            </>
                         ) : null}
-                        {notice ? <p className="mt-2 text-xs text-amber-600 dark:text-amber-400">{notice}</p> : null}
-                        {submitError ? <p data-testid="replace-goods-submit-error" className="mt-2 text-xs text-destructive">{submitError}</p> : null}
 
-                        <div className="mt-3">
-                            <ToolResult task={task} toolId={REPLACE_GOODS_TOOL_ID} title="替换结果" onCancel={() => abortRef.current?.abort()} onRetry={retry} />
-                        </div>
-
-                        {unit ? (
-                            <details data-testid="replace-goods-snapshot" className="mt-3 rounded-lg border border-border px-3 py-2 text-[11px] text-muted-foreground">
-                                <summary className="cursor-pointer text-xs text-foreground">本次输入快照</summary>
-                                <ul className="mt-2 space-y-0.5">
-                                    <li>SKU：{unit.snapshot.skuLabel}（{unit.id}）</li>
-                                    <li>场景：{unit.snapshot.sceneName || "—"} {unit.snapshot.sceneWidth}×{unit.snapshot.sceneHeight}</li>
-                                    <li>替换商品：{unit.snapshot.targetName || "—"} {unit.snapshot.targetWidth}×{unit.snapshot.targetHeight}</li>
-                                    <li>中心点 {unit.snapshot.point.x.toFixed(3)}, {unit.snapshot.point.y.toFixed(3)} · 缩放 {unit.snapshot.scale.toFixed(2)}× · 旋转 {unit.snapshot.rotate.toFixed(1)}°</li>
-                                    <li>字段 {Object.keys(unit.fields).length} 个 · 保护覆盖 {(unit.maskCoverage * 100).toFixed(1)}% · snapshotHash {unit.snapshotHash}</li>
-                                    <li>参考图 {unit.references.length} 张（场景 / 替换商品 / 落位导引 / 保护蒙版）</li>
-                                </ul>
-                            </details>
+                        {tab === "cases" ? (
+                            <div className="max-h-[600px] overflow-y-auto">
+                                <ToolCases cases={REPLACE_GOODS_CASES} onApply={applyCase} applyingId={applyingCaseId} emptyHint="暂无优秀案例" />
+                            </div>
                         ) : null}
                     </section>
                 </div>

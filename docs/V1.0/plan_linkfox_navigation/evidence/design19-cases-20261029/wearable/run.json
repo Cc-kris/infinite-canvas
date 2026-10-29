@@ -1,0 +1,374 @@
+{
+  "tool": "wearable",
+  "toolId": "AI_WEARABLE",
+  "route": "/tools/product-design/ai-wearable",
+  "base": "http://127.0.0.1:3000",
+  "requestedCaseId": null,
+  "startedAt": "2026-10-29T06:32:28.324Z",
+  "network": [
+    {
+      "method": "POST",
+      "url": "http://127.0.0.1:23210/https://api.cc-ai.xyz/v1/images/edits",
+      "status": 200,
+      "at": "2026-10-29T06:34:09.388Z"
+    }
+  ],
+  "steps": [
+    {
+      "step": "applied",
+      "dom": {
+        "textareas": [],
+        "inputs": [
+          {
+            "type": "range",
+            "value": "0.5"
+          },
+          {
+            "type": "range",
+            "value": "0.5"
+          },
+          {
+            "type": "range",
+            "value": "0.4"
+          },
+          {
+            "type": "range",
+            "value": "0.4"
+          },
+          {
+            "type": "range",
+            "value": "0.5"
+          },
+          {
+            "type": "range",
+            "value": "0.26"
+          },
+          {
+            "type": "range",
+            "value": "0.09"
+          },
+          {
+            "type": "range",
+            "value": "0.05"
+          },
+          {
+            "type": "checkbox",
+            "value": "on"
+          }
+        ],
+        "selects": [
+          "ccai-accept::gpt-image-2"
+        ],
+        "buttons": [
+          "更多",
+          "购买",
+          "用\n本地用户\n个人账号",
+          "优秀案例\n收起",
+          "预览",
+          "做同款",
+          "预览",
+          "做同款",
+          "预览",
+          "做同款",
+          "预览",
+          "做同款",
+          "预览",
+          "做同款",
+          "预览",
+          "做同款",
+          "预览",
+          "做同款",
+          "预览",
+          "做同款",
+          "预览",
+          "做同款",
+          "预览",
+          "做同款",
+          "预览",
+          "做同款",
+          "预览",
+          "做同款",
+          "预览",
+          "做同款",
+          "预览",
+          "做同款",
+          "预览",
+          "做同款",
+          "预览",
+          "做同款",
+          "预览",
+          "做同款",
+          "预览",
+          "做同款"
+        ],
+        "thumbs": 2,
+        "body": "无限画布 · 39 个电商 AI 工具，一套导航直达\n本地运行 · API Key 只保存在你自己的浏览器\n插件与模型可自定义 · 无需注册账号\n无限画布\n首页\n电商套图\n智能修图\n新模型\nAI视频\nHOT\n批量生图\n商品图设计\nSkills\nAgent\n更多\n学习中心\n免费得算力\n积分\n0\n购买\n用\n本地用户\n个人账号\n商品图设计\n商品图\n商品替换\n场景裂变\n手持商品\nAI穿衣\n姿势裂变\nAI穿戴\nPOD素材\n饰品文字\n素材贴合\n印花提取\nAI姿势生成\n补充\nAI试衣XSY\n补充\n场景裂变链接\n补充\n图片文字编辑\n补充\n上装换料\n补充\n商品图设计器\n补充\n商品营销素材\n补充\n场景迁移\n补充\n免责声明\nAI穿戴\n\n选择穿戴区域，上传穿戴物品，快速将物品穿戴上身生成特写图。\n\n1. 上传穿戴商品\n›\n2. 商品品类\n›\n3. 穿戴模特\n›\n4. 生成张数\n›\n5. 结果\n优秀案例\n收起\n\n预览\n\n原图\n做同款\n\n预览\n\n原图\n做同款\n\n预览\n\n原图\n做同款\n\n预览\n\n原图\n做同款\n\n预览\n\n原图\n做同款\n\n预览\n\n原图\n做同款\n\n预览\n\n原图\n做同款\n\n预览\n\n原图\n做同款\n\n预览\n\n原图\n做同款\n\n预览\n\n原图\n做同款\n\n预览\n\n原图\n做同款\n\n预览\n\n原图\n做同款\n\n预览\n\n原图\n做同款\n\n预览\n\n原图\n做同款\n\n预览\n\n原图\n做同款\n\n预览\n\n原图\n做同款\n\n预览\n\n原图\n做同款\n\n预览\n\n原图\n做同款\n\n预览\n\n原图\n做同款\n\n预览\n\n原图\n做同款\n\n预览\n\n原图\n做同款\n\n已应用案例素材，请确认穿戴区域与参数后点「立即生成」\n\n1. 上传穿戴商品\n10M以内，384*384 ~ 4096*4096\n上传商品图\n0 / 1 个 · PNG / JPG / WebP · ≤ 10 MB\n点击选择本地文件，或拖拽到这里\n校验格式 / 大小 / 像素，入库后可刷新恢复\n\n还没有素材\n\n💡 以模特穿戴效果图作为商品图，会为 AI 提供更好的作图参考。\n\n商品蒙版\n\n圈出要穿戴的商品主体，导出 PNG 与商品图同尺寸\n\n撤销\n重做\n水平位置\n垂直位置\n横向半径\n纵向半径\n"
+      },
+      "draft": {
+        "store": "app_state",
+        "draft": {
+          "draftVersion": 1,
+          "toolId": "AI_WEARABLE",
+          "values": {
+            "aiWearable": {
+              "checkType": "compliance",
+              "productCategory": "jewelry",
+              "part": "neck",
+              "modelTabType": "real",
+              "sceneTabType": "keep",
+              "modelId": "",
+              "outputNum": 1,
+              "isSecondOperate": false,
+              "productAssetId": "h9HahMokDi9DZX_zRNE-g",
+              "modelAssetId": "AefchzaPA-O4EdJYm_Gt0",
+              "productRegion": {
+                "cx": 0.5,
+                "cy": 0.5,
+                "rx": 0.4,
+                "ry": 0.4
+              },
+              "targetRegion": {
+                "cx": 0.5,
+                "cy": 0.26,
+                "rx": 0.09,
+                "ry": 0.05
+              },
+              "productName": "linkfox-case-1955579942177386496-product.webp",
+              "modelName": "linkfox-case-1955579942177386496-model.webp"
+            }
+          },
+          "assetIds": [
+            "h9HahMokDi9DZX_zRNE-g",
+            "AefchzaPA-O4EdJYm_Gt0"
+          ],
+          "updatedAt": "2026-10-29T06:33:08.695Z",
+          "revision": 7
+        }
+      }
+    },
+    {
+      "step": "submitted",
+      "dom": {
+        "textareas": [],
+        "inputs": [
+          {
+            "type": "range",
+            "value": "0.5"
+          },
+          {
+            "type": "range",
+            "value": "0.5"
+          },
+          {
+            "type": "range",
+            "value": "0.4"
+          },
+          {
+            "type": "range",
+            "value": "0.4"
+          },
+          {
+            "type": "range",
+            "value": "0.5"
+          },
+          {
+            "type": "range",
+            "value": "0.26"
+          },
+          {
+            "type": "range",
+            "value": "0.09"
+          },
+          {
+            "type": "range",
+            "value": "0.05"
+          },
+          {
+            "type": "checkbox",
+            "value": "on"
+          }
+        ],
+        "selects": [
+          "ccai-accept::gpt-image-2"
+        ],
+        "buttons": [
+          "更多",
+          "购买",
+          "用\n本地用户\n个人账号",
+          "优秀案例\n收起",
+          "预览",
+          "做同款",
+          "预览",
+          "做同款",
+          "预览",
+          "做同款",
+          "预览",
+          "做同款",
+          "预览",
+          "做同款",
+          "预览",
+          "做同款",
+          "预览",
+          "做同款",
+          "预览",
+          "做同款",
+          "预览",
+          "做同款",
+          "预览",
+          "做同款",
+          "预览",
+          "做同款",
+          "预览",
+          "做同款",
+          "预览",
+          "做同款",
+          "预览",
+          "做同款",
+          "预览",
+          "做同款",
+          "预览",
+          "做同款",
+          "预览",
+          "做同款",
+          "预览",
+          "做同款"
+        ],
+        "thumbs": 2,
+        "body": "无限画布 · 39 个电商 AI 工具，一套导航直达\n本地运行 · API Key 只保存在你自己的浏览器\n插件与模型可自定义 · 无需注册账号\n无限画布\n首页\n电商套图\n智能修图\n新模型\nAI视频\nHOT\n批量生图\n商品图设计\nSkills\nAgent\n更多\n学习中心\n免费得算力\n积分\n0\n购买\n用\n本地用户\n个人账号\n商品图设计\n商品图\n商品替换\n场景裂变\n手持商品\nAI穿衣\n姿势裂变\nAI穿戴\nPOD素材\n饰品文字\n素材贴合\n印花提取\nAI姿势生成\n补充\nAI试衣XSY\n补充\n场景裂变链接\n补充\n图片文字编辑\n补充\n上装换料\n补充\n商品图设计器\n补充\n商品营销素材\n补充\n场景迁移\n补充\n免责声明\nAI穿戴\n\n选择穿戴区域，上传穿戴物品，快速将物品穿戴上身生成特写图。\n\n1. 上传穿戴商品\n›\n2. 商品品类\n›\n3. 穿戴模特\n›\n4. 生成张数\n›\n5. 结果\n优秀案例\n收起\n\n预览\n\n原图\n做同款\n\n预览\n\n原图\n做同款\n\n预览\n\n原图\n做同款\n\n预览\n\n原图\n做同款\n\n预览\n\n原图\n做同款\n\n预览\n\n原图\n做同款\n\n预览\n\n原图\n做同款\n\n预览\n\n原图\n做同款\n\n预览\n\n原图\n做同款\n\n预览\n\n原图\n做同款\n\n预览\n\n原图\n做同款\n\n预览\n\n原图\n做同款\n\n预览\n\n原图\n做同款\n\n预览\n\n原图\n做同款\n\n预览\n\n原图\n做同款\n\n预览\n\n原图\n做同款\n\n预览\n\n原图\n做同款\n\n预览\n\n原图\n做同款\n\n预览\n\n原图\n做同款\n\n预览\n\n原图\n做同款\n\n预览\n\n原图\n做同款\n\n已应用案例素材，请确认穿戴区域与参数后点「立即生成」\n\n1. 上传穿戴商品\n10M以内，384*384 ~ 4096*4096\n上传商品图\n0 / 1 个 · PNG / JPG / WebP · ≤ 10 MB\n点击选择本地文件，或拖拽到这里\n校验格式 / 大小 / 像素，入库后可刷新恢复\n\n还没有素材\n\n💡 以模特穿戴效果图作为商品图，会为 AI 提供更好的作图参考。\n\n商品蒙版\n\n圈出要穿戴的商品主体，导出 PNG 与商品图同尺寸\n\n撤销\n重做\n水平位置\n垂直位置\n横向半径\n纵向半径\n"
+      }
+    }
+  ],
+  "ok": true,
+  "provider": {
+    "imageModel": "ccai-accept::gpt-image-2",
+    "channels": [
+      "ccai-accept",
+      "sf-accept"
+    ],
+    "baseUrl": "https://api.cc-ai.xyz",
+    "keyLen": 67,
+    "proxyEnabled": true,
+    "channelCount": 2,
+    "model": "gpt-image-2"
+  },
+  "cases": [
+    {
+      "id": "1955579942177386496",
+      "text": "预览||原图|做同款",
+      "broken": false
+    },
+    {
+      "id": "1955585163435749376",
+      "text": "预览||原图|做同款",
+      "broken": false
+    },
+    {
+      "id": "1955579706398781440",
+      "text": "预览||原图|做同款",
+      "broken": false
+    },
+    {
+      "id": "1955579758294904832",
+      "text": "预览||原图|做同款",
+      "broken": false
+    },
+    {
+      "id": "1955580188852793344",
+      "text": "预览||原图|做同款",
+      "broken": false
+    },
+    {
+      "id": "1937723310174044160",
+      "text": "预览||原图|做同款",
+      "broken": false
+    },
+    {
+      "id": "1937723082284924928",
+      "text": "预览||原图|做同款",
+      "broken": false
+    },
+    {
+      "id": "1937722201183289344",
+      "text": "预览||原图|做同款",
+      "broken": false
+    },
+    {
+      "id": "1937721999995109376",
+      "text": "预览||原图|做同款",
+      "broken": false
+    },
+    {
+      "id": "1937721360489578496",
+      "text": "预览||原图|做同款",
+      "broken": false
+    },
+    {
+      "id": "1937721290083991552",
+      "text": "预览||原图|做同款",
+      "broken": false
+    },
+    {
+      "id": "1937721180839149568",
+      "text": "预览||原图|做同款",
+      "broken": false
+    },
+    {
+      "id": "1937721088618987520",
+      "text": "预览||原图|做同款",
+      "broken": false
+    },
+    {
+      "id": "1937720954002800640",
+      "text": "预览||原图|做同款",
+      "broken": false
+    },
+    {
+      "id": "1937720391315947520",
+      "text": "预览||原图|做同款",
+      "broken": false
+    },
+    {
+      "id": "1868972752455667712",
+      "text": "预览||原图|做同款",
+      "broken": false
+    },
+    {
+      "id": "1868972005869555712",
+      "text": "预览||原图|做同款",
+      "broken": false
+    },
+    {
+      "id": "1868972162749108224",
+      "text": "预览||原图|做同款",
+      "broken": false
+    },
+    {
+      "id": "1868593558908751872",
+      "text": "预览||原图|做同款",
+      "broken": false
+    },
+    {
+      "id": "1868597020950188032",
+      "text": "预览||原图|做同款",
+      "broken": false
+    },
+    {
+      "id": "1868597226076819456",
+      "text": "预览||原图|做同款",
+      "broken": false
+    }
+  ],
+  "caseId": "1955579942177386496",
+  "result": {
+    "state": "image",
+    "error": null,
+    "notices": [],
+    "srcPrefix": "https://oss-us.dimenoss.com/images/2026/10/29/1793255649_6d1be64c065c6f6c7ed7d19"
+  },
+  "resultBytes": {
+    "file": "result-1955579942177386496.png",
+    "size": 1229594,
+    "contentType": "image/png",
+    "sha256": "0a73ab1e2a63929387da493f69d6bc5e920aa1503a825fc93973dafc631b2ce8"
+  }
+}

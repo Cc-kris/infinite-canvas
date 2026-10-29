@@ -1,0 +1,325 @@
+{
+  "tool": "scene",
+  "toolId": "PRODUCT_SCENE",
+  "route": "/tools/product-design/product-scene",
+  "base": "http://127.0.0.1:3000",
+  "requestedCaseId": null,
+  "startedAt": "2026-10-29T06:18:10.336Z",
+  "network": [
+    {
+      "method": "POST",
+      "url": "http://127.0.0.1:23210/https://api.cc-ai.xyz/v1/images/edits",
+      "status": 200,
+      "at": "2026-10-29T06:19:55.202Z"
+    }
+  ],
+  "steps": [
+    {
+      "step": "applied",
+      "dom": {
+        "textareas": [
+          "Replace the background with a serene lakeside campsite at dawn, with soft morning light filtering through distant trees and mist rising from the calm water in the background. Ensure the camping tent is naturally placed on a flat patch of grass near the water's edge. Add the campfire grill and a stack of firewood next to the tent. The camera angle should be Side View (侧面) and identical for all outp"
+        ],
+        "inputs": [
+          {
+            "type": "range",
+            "value": "50"
+          }
+        ],
+        "selects": [],
+        "buttons": [
+          "更多",
+          "购买",
+          "用\n本地用户\n个人账号",
+          "从作品库选择",
+          "从商品库选择",
+          "上传多图，体验新功能商品套图",
+          "写实",
+          "简约",
+          "智能",
+          "默认尺寸",
+          "自定义",
+          "1",
+          "2",
+          "3",
+          "4",
+          "立即生成\n(40算力)",
+          "生成结果",
+          "优秀案例",
+          "历史记录",
+          "连接",
+          "连接",
+          "连接"
+        ],
+        "thumbs": 0
+      },
+      "draft": {
+        "store": "app_state",
+        "draft": {
+          "draftVersion": 1,
+          "toolId": "PRODUCT_SCENE",
+          "values": {
+            "productScene": {
+              "modelId": "realistic",
+              "similarity": 50,
+              "prompt": "Replace the background with a serene lakeside campsite at dawn, with soft morning light filtering through distant trees and mist rising from the calm water in the background. Ensure the camping tent is naturally placed on a flat patch of grass near the water's edge. Add the campfire grill and a stack of firewood next to the tent. The camera angle should be Side View (侧面) and identical for all outputs. Keep the product’s position and scale and the general layout. Remove any overlaid icons/graphics. Do not change the product’s appearance, color, material, or texture. Preserve original shadows and reflections; harmonize lighting to the scene.",
+              "sceneKeyword": "",
+              "sizeType": "default",
+              "customWidth": 1024,
+              "customHeight": 1024,
+              "outputNum": 1,
+              "sourceAssetId": "HoIPlaCQZ_9eZlb_haWQ7",
+              "imageName": "linkfox-case-1983831220118597632-source.webp",
+              "cutoutProvider": "",
+              "segAssetId": ""
+            }
+          },
+          "assetIds": [
+            "HoIPlaCQZ_9eZlb_haWQ7"
+          ],
+          "updatedAt": "2026-10-29T06:18:20.420Z",
+          "revision": 3
+        }
+      }
+    },
+    {
+      "step": "submitted",
+      "dom": {
+        "textareas": [
+          "Replace the background with a serene lakeside campsite at dawn, with soft morning light filtering through distant trees and mist rising from the calm water in the background. Ensure the camping tent is naturally placed on a flat patch of grass near the water's edge. Add the campfire grill and a stack of firewood next to the tent. The camera angle should be Side View (侧面) and identical for all outp"
+        ],
+        "inputs": [
+          {
+            "type": "range",
+            "value": "50"
+          }
+        ],
+        "selects": [],
+        "buttons": [
+          "更多",
+          "购买",
+          "用\n本地用户\n个人账号",
+          "从作品库选择",
+          "从商品库选择",
+          "上传多图，体验新功能商品套图",
+          "写实",
+          "简约",
+          "智能",
+          "默认尺寸",
+          "自定义",
+          "1",
+          "2",
+          "3",
+          "4",
+          "裂变中…\n(40算力)",
+          "生成结果",
+          "优秀案例",
+          "历史记录",
+          "重试这一张",
+          "连接",
+          "连接",
+          "连接"
+        ],
+        "thumbs": 0
+      }
+    }
+  ],
+  "ok": true,
+  "provider": {
+    "imageModel": "ccai-accept::gpt-image-2",
+    "channels": [
+      "ccai-accept",
+      "sf-accept"
+    ],
+    "baseUrl": "https://api.cc-ai.xyz",
+    "keyLen": 67,
+    "proxyEnabled": true,
+    "channelCount": 2,
+    "model": "gpt-image-2"
+  },
+  "cases": [
+    {
+      "id": "1983831220118597632",
+      "text": "预览||原图|做同款",
+      "broken": false
+    },
+    {
+      "id": "1984091344636719104",
+      "text": "预览||原图|做同款",
+      "broken": false
+    },
+    {
+      "id": "1740339005955035136",
+      "text": "预览||原图|做同款",
+      "broken": false
+    },
+    {
+      "id": "1740552538122670080",
+      "text": "预览||原图|做同款",
+      "broken": false
+    },
+    {
+      "id": "1740537621810302976",
+      "text": "预览||原图|做同款",
+      "broken": false
+    },
+    {
+      "id": "1740552324171223040",
+      "text": "预览||原图|做同款",
+      "broken": false
+    },
+    {
+      "id": "1984090628450922496",
+      "text": "预览||原图|做同款",
+      "broken": false
+    },
+    {
+      "id": "1984090535073132544",
+      "text": "预览||原图|做同款",
+      "broken": false
+    },
+    {
+      "id": "1984090429255036928",
+      "text": "预览||原图|做同款",
+      "broken": false
+    },
+    {
+      "id": "1983846127195107328",
+      "text": "预览||原图|做同款",
+      "broken": false
+    },
+    {
+      "id": "1983831377144950784",
+      "text": "预览||原图|做同款",
+      "broken": false
+    },
+    {
+      "id": "1983831155903803392",
+      "text": "预览||原图|做同款",
+      "broken": false
+    },
+    {
+      "id": "1983831102560645120",
+      "text": "预览||原图|做同款",
+      "broken": false
+    },
+    {
+      "id": "1983805839680450560",
+      "text": "预览||原图|做同款",
+      "broken": false
+    },
+    {
+      "id": "1983780547578540032",
+      "text": "预览||原图|做同款",
+      "broken": false
+    },
+    {
+      "id": "1983780450664951808",
+      "text": "预览||原图|做同款",
+      "broken": false
+    },
+    {
+      "id": "1983779885243412480",
+      "text": "预览||原图|做同款",
+      "broken": false
+    },
+    {
+      "id": "1983037133948858368",
+      "text": "预览||原图|做同款",
+      "broken": false
+    },
+    {
+      "id": "1982733693691506688",
+      "text": "预览||原图|做同款",
+      "broken": false
+    },
+    {
+      "id": "1982003556029181952",
+      "text": "预览||原图|做同款",
+      "broken": false
+    },
+    {
+      "id": "1982002493309988864",
+      "text": "预览||原图|做同款",
+      "broken": false
+    },
+    {
+      "id": "1982001967805640704",
+      "text": "预览||原图|做同款",
+      "broken": false
+    },
+    {
+      "id": "1982001810284359680",
+      "text": "预览||原图|做同款",
+      "broken": false
+    },
+    {
+      "id": "1982001585113149440",
+      "text": "预览||原图|做同款",
+      "broken": false
+    },
+    {
+      "id": "1982001152613298176",
+      "text": "预览||原图|做同款",
+      "broken": false
+    },
+    {
+      "id": "1982000418102587392",
+      "text": "预览||原图|做同款",
+      "broken": false
+    },
+    {
+      "id": "1982000205027749888",
+      "text": "预览||原图|做同款",
+      "broken": false
+    },
+    {
+      "id": "1981999652193316864",
+      "text": "预览||原图|做同款",
+      "broken": false
+    },
+    {
+      "id": "1744309222887178240",
+      "text": "预览||原图|做同款",
+      "broken": false
+    },
+    {
+      "id": "1744309067387551744",
+      "text": "预览||原图|做同款",
+      "broken": false
+    },
+    {
+      "id": "1744308153788448768",
+      "text": "预览||原图|做同款",
+      "broken": false
+    },
+    {
+      "id": "1744308017892999168",
+      "text": "预览||原图|做同款",
+      "broken": false
+    },
+    {
+      "id": "1743099341919940608",
+      "text": "预览||原图|做同款",
+      "broken": false
+    },
+    {
+      "id": "1740339046786584576",
+      "text": "预览||原图|做同款",
+      "broken": false
+    }
+  ],
+  "caseId": "1983831220118597632",
+  "result": {
+    "state": "image",
+    "error": null,
+    "notices": [],
+    "srcPrefix": "https://oss-us.dimenoss.com/images/2026/10/29/1793254794_6e620c0c8410138f842c1d6"
+  },
+  "resultBytes": {
+    "file": "result-1983831220118597632.png",
+    "size": 2377287,
+    "contentType": "image/png",
+    "sha256": "acf6cad629d8b5d9d1721f43498ebf8a394e4de96cd6bc43634c477eca10b9cb"
+  }
+}

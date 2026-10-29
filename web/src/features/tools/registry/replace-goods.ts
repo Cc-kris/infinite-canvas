@@ -244,6 +244,7 @@ export function quadCoverage(quad: ReplaceGoodsQuad): number {
 }
 
 export function quadIsConvex(quad: ReplaceGoodsQuad): boolean {
+    if (!isQuadShape(quad)) return false;
     const points = REPLACE_GOODS_CORNERS.map((corner) => quad[corner]);
     let sign = 0;
     for (let index = 0; index < points.length; index += 1) {
@@ -257,6 +258,55 @@ export function quadIsConvex(quad: ReplaceGoodsQuad): boolean {
         else if (current !== sign) return false;
     }
     return true;
+}
+
+/** 校验四边形结构（四个角点齐全且都是有限数值），畸形数据只判无效、不抛错。 */
+export function isQuadShape(value: unknown): value is ReplaceGoodsQuad {
+    if (!value || typeof value !== "object") return false;
+    return REPLACE_GOODS_CORNERS.every((corner) => {
+        const point = (value as Record<string, unknown>)[corner] as ReplaceGoodsPoint | undefined;
+        return Boolean(point) && Number.isFinite(point?.x) && Number.isFinite(point?.y);
+    });
+}
+
+/**
+ * 原站「优秀案例」的 quad → 本页四边形。
+ *
+ * 原站结构（真实下发，`/image/make-case/list`）：`{ point, width, height, scale, rotate, stage }`
+ * - `point` 是缩放后目标框的左上角、`stage` 是画布像素尺寸；
+ * - `width/height` 是未缩放的目标框像素尺寸，实际显示尺寸 = 尺寸 × scale。
+ * 本页四边形是 0–1 归一化到场景的四个角点，因此这里做一次换算 + 旋转。
+ */
+export function quadFromCaseShape(raw: unknown): ReplaceGoodsQuad | null {
+    if (!raw || typeof raw !== "object") return null;
+    if (isQuadShape(raw)) return raw;
+
+    const source = raw as {
+        point?: { x?: number; y?: number };
+        width?: number;
+        height?: number;
+        scale?: number;
+        rotate?: number;
+        stage?: { width?: number; height?: number };
+    };
+    const point = source.point;
+    const stageWidth = Number(source.stage?.width);
+    const stageHeight = Number(source.stage?.height);
+    const width = Number(source.width);
+    const height = Number(source.height);
+    const scale = Number(source.scale) || 1;
+    if (!point || !Number.isFinite(point.x) || !Number.isFinite(point.y)) return null;
+    if (!(width > 0) || !(height > 0) || !(stageWidth > 0) || !(stageHeight > 0)) return null;
+
+    const scaledWidth = width * scale;
+    const scaledHeight = height * scale;
+    const center: ReplaceGoodsPoint = {
+        x: (Number(point.x) + scaledWidth / 2) / stageWidth,
+        y: (Number(point.y) + scaledHeight / 2) / stageHeight,
+    };
+    const size: ReplaceGoodsSize = { width: scaledWidth / stageWidth, height: scaledHeight / stageHeight };
+    const rotate = Number(source.rotate);
+    return quadFromRect(center, size, Number.isFinite(rotate) ? rotate : 0);
 }
 
 /** 由四边形反推 point / rotate / scale（scale 以 fit 面积为基准）。 */

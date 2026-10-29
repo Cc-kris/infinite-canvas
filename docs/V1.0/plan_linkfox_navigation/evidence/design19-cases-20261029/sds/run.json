@@ -1,0 +1,243 @@
+{
+  "tool": "sds",
+  "toolId": "SDS_DESIGN",
+  "route": "/tools/product-design/sds-design",
+  "base": "http://127.0.0.1:3000",
+  "requestedCaseId": null,
+  "startedAt": "2026-10-29T06:40:41.538Z",
+  "network": [
+    {
+      "method": "POST",
+      "url": "http://127.0.0.1:23210/https://api.cc-ai.xyz/v1/images/edits",
+      "status": 200,
+      "at": "2026-10-29T06:42:43.489Z"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:23210/https://oss-us.dimenoss.com/images/2026/10/29/1793256163_1f04c20f34eab216e9c3aefc73d2449d.png",
+      "status": 200,
+      "at": "2026-10-29T06:42:44.408Z"
+    }
+  ],
+  "steps": [
+    {
+      "step": "applied",
+      "dom": {
+        "textareas": [],
+        "inputs": [],
+        "selects": [],
+        "buttons": [
+          "更多",
+          "购买",
+          "用\n本地用户\n个人账号",
+          "撤销",
+          "重做",
+          "复位",
+          "产品\n已选择商品图，点击可更换",
+          "原色",
+          "黑色",
+          "白色",
+          "藏青",
+          "米色",
+          "立即生成",
+          "生成结果",
+          "优秀案例",
+          "历史记录",
+          "操作咨询",
+          "产品教程",
+          "连接",
+          "连接",
+          "连接"
+        ],
+        "thumbs": 3,
+        "body": "无限画布 · 39 个电商 AI 工具，一套导航直达\n本地运行 · API Key 只保存在你自己的浏览器\n插件与模型可自定义 · 无需注册账号\n无限画布\n首页\n电商套图\n智能修图\n新模型\nAI视频\nHOT\n批量生图\n商品图设计\nSkills\nAgent\n更多\n学习中心\n免费得算力\n积分\n0\n购买\n用\n本地用户\n个人账号\n商品图设计\n商品图\n商品替换\n场景裂变\n手持商品\nAI穿衣\n姿势裂变\nAI穿戴\nPOD素材\n饰品文字\n素材贴合\n印花提取\nAI姿势生成\n补充\nAI试衣XSY\n补充\n场景裂变链接\n补充\n图片文字编辑\n补充\n上装换料\n补充\n商品图设计器\n补充\n商品营销素材\n补充\n场景迁移\n补充\n免责声明\n撤销\n重做\n复位\n产品\n已选择商品图，点击可更换\n\n选择颜色\n\n原色\n黑色\n白色\n藏青\n米色\n\n素材操作\n\n立即生成\n生成结果\n优秀案例\n历史记录\n\n暂无生成结果图\n\n快在左侧操作素材贴合吧~\n\n暂无生成结果图：在左侧上传素材并选择商品后提交。\n\n历史任务\n0 条\n\n本工具还没有历史任务；提交一次后会在这里留下任务、配置与结果，刷新后仍在。\n\n操作咨询\n产品教程\n连接本地 Agent\n未连接\n点连接会自动启动本地服务、装好插件并接通，无需手动配置。\nClaude Code\n未连接\n·\nCLI · 2.1.285 (Claude Code)\n·\n直接运行\n连接\nCodex\n未连接\n·\nCLI · codex-cli 0.163.0\n·\n插件已装\n连接\nGalley\n未连接\n·\nCLI + 桌面版 · galley 0.6.4\n连接"
+      },
+      "draft": {
+        "store": "app_state",
+        "draft": {
+          "draftVersion": 1,
+          "toolId": "SDS_DESIGN",
+          "values": {
+            "imageName": "linkfox-case-1780443735213010944-materials.webp",
+            "colorId": "original",
+            "productId": "thtf9C0M43Prt6jU_6xVv",
+            "productName": "linkfox-case-1780443735213010944-product.webp",
+            "productWidth": 512,
+            "productHeight": 512,
+            "selectedMaterialId": "o1DkaRnJwO7ELh4JWO8rr",
+            "materials": [
+              {
+                "assetId": "o1DkaRnJwO7ELh4JWO8rr",
+                "name": "linkfox-case-1780443735213010944-materials.webp",
+                "tilingPresetId": "single",
+                "placement": {
+                  "x": 0.5,
+                  "y": 0.5,
+                  "scale": 0.6,
+                  "rotation": 0
+                },
+                "width": 512,
+                "height": 512
+              }
+            ]
+          },
+          "assetIds": [],
+          "updatedAt": "2026-10-29T06:41:22.240Z",
+          "revision": 3
+        }
+      }
+    },
+    {
+      "step": "submitted",
+      "dom": {
+        "textareas": [],
+        "inputs": [],
+        "selects": [],
+        "buttons": [
+          "更多",
+          "购买",
+          "用\n本地用户\n个人账号",
+          "撤销",
+          "重做",
+          "复位",
+          "产品\n已选择商品图，点击可更换",
+          "原色",
+          "黑色",
+          "白色",
+          "藏青",
+          "米色",
+          "生成中…",
+          "生成结果",
+          "优秀案例",
+          "历史记录",
+          "2026-10-29 14:42\n提交中\n素材贴合任务（SDS_DESIGN） 商品：参考图第 1 张为商品底图，商品 ID：thtf9C0M43Prt6…\nccai-accept::gpt-image-2 · image · 0 个结果",
+          "操作咨询",
+          "产品教程",
+          "连接",
+          "连接",
+          "连接"
+        ],
+        "thumbs": 3,
+        "body": "无限画布 · 39 个电商 AI 工具，一套导航直达\n本地运行 · API Key 只保存在你自己的浏览器\n插件与模型可自定义 · 无需注册账号\n无限画布\n首页\n电商套图\n智能修图\n新模型\nAI视频\nHOT\n批量生图\n商品图设计\nSkills\nAgent\n更多\n学习中心\n免费得算力\n积分\n0\n购买\n用\n本地用户\n个人账号\n商品图设计\n商品图\n商品替换\n场景裂变\n手持商品\nAI穿衣\n姿势裂变\nAI穿戴\nPOD素材\n饰品文字\n素材贴合\n印花提取\nAI姿势生成\n补充\nAI试衣XSY\n补充\n场景裂变链接\n补充\n图片文字编辑\n补充\n上装换料\n补充\n商品图设计器\n补充\n商品营销素材\n补充\n场景迁移\n补充\n免责声明\n撤销\n重做\n复位\n产品\n已选择商品图，点击可更换\n\n选择颜色\n\n原色\n黑色\n白色\n藏青\n米色\n\n素材操作\n\n生成中…\n生成结果\n优秀案例\n历史记录\n1. linkfox-case-1780443735213010944-materials.webp\n待生成\n\n正在贴合，请稍候…\n\n素材贴合结果\n提交中\n提交中\n请求已发出，等待上游受理\n0s\n\n正在等待上游真实返回，请勿重复提交；离开页面后任务仍会继续轮询。\n\n历史任务\n1 条\n2026-10-29 14:42\n提交中\n素材贴合任务（SDS_DESIGN） 商品：参考图第 1 张为商品底图，商品 ID：thtf9C0M43Prt6…\nccai-accept::gpt-image-2 · image · 0 个结果\n操作咨询\n产品教程\n连接本地 Agent\n未连接\n点连接会自动启动本地服务、装好插件并接通，无需手动配置。\nClaude Code\n未连接\n·\nCLI · 2.1.285 (Claude Code)\n·\n直接运行\n连接\nCodex\n未连接\n·\nCLI · codex-cli 0.163.0\n·\n插件已装\n连接\nGalley\n未连接\n·\nCLI + 桌面版 · galley 0.6.4\n连接"
+      }
+    }
+  ],
+  "ok": true,
+  "provider": {
+    "imageModel": "ccai-accept::gpt-image-2",
+    "channels": [
+      "ccai-accept",
+      "sf-accept"
+    ],
+    "baseUrl": "https://api.cc-ai.xyz",
+    "keyLen": 67,
+    "proxyEnabled": true,
+    "channelCount": 2,
+    "model": "gpt-image-2"
+  },
+  "cases": [
+    {
+      "id": "1780443735213010944",
+      "text": "预览||原图|做同款",
+      "broken": false
+    },
+    {
+      "id": "1780444197689552896",
+      "text": "预览||原图|做同款",
+      "broken": false
+    },
+    {
+      "id": "1780443897880702976",
+      "text": "预览||原图|做同款",
+      "broken": false
+    },
+    {
+      "id": "1780444012611694592",
+      "text": "预览||原图|做同款",
+      "broken": false
+    },
+    {
+      "id": "1780444055037079552",
+      "text": "预览||原图|做同款",
+      "broken": false
+    },
+    {
+      "id": "1780444291360944128",
+      "text": "预览||原图|做同款",
+      "broken": false
+    },
+    {
+      "id": "1780444251250814976",
+      "text": "预览||原图|做同款",
+      "broken": false
+    },
+    {
+      "id": "1778691287949357056",
+      "text": "预览||原图|做同款",
+      "broken": false
+    },
+    {
+      "id": "1778685694421348352",
+      "text": "预览||原图|做同款",
+      "broken": false
+    },
+    {
+      "id": "1777277515489972224",
+      "text": "预览||原图|做同款",
+      "broken": false
+    },
+    {
+      "id": "1777277557185548288",
+      "text": "预览||原图|做同款",
+      "broken": false
+    },
+    {
+      "id": "1777277597325037568",
+      "text": "预览||原图|做同款",
+      "broken": false
+    },
+    {
+      "id": "1777317914283708416",
+      "text": "预览||原图|做同款",
+      "broken": false
+    },
+    {
+      "id": "1777318068764119040",
+      "text": "预览||原图|做同款",
+      "broken": false
+    },
+    {
+      "id": "1777318010199052288",
+      "text": "预览||原图|做同款",
+      "broken": false
+    },
+    {
+      "id": "1777318326248247296",
+      "text": "预览||原图|做同款",
+      "broken": false
+    },
+    {
+      "id": "1777318280521945088",
+      "text": "预览||原图|做同款",
+      "broken": false
+    },
+    {
+      "id": "1777318564505686016",
+      "text": "预览||原图|做同款",
+      "broken": false
+    }
+  ],
+  "caseId": "1780443735213010944",
+  "result": {
+    "state": "image",
+    "error": null,
+    "notices": [],
+    "srcPrefix": "https://oss-us.dimenoss.com/images/2026/10/29/1793256163_1f04c20f34eab216e9c3aef"
+  },
+  "resultBytes": {
+    "file": "result-1780443735213010944.png",
+    "size": 1442444,
+    "contentType": "image/png",
+    "sha256": "c762f8ea5c5903991396580d38079f65ecb26b7a1cebb0a86b3a40961f6bb75f"
+  }
+}

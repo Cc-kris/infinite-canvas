@@ -5,8 +5,6 @@ import { useTranslation } from "react-i18next";
 import { Link, useLocation } from "react-router-dom";
 
 import { AppConfigModal } from "@/components/layout/app-config-modal";
-import { AppPromoBar } from "@/components/layout/app-promo-bar";
-import { AppUserArea } from "@/components/layout/app-user-area";
 import { MobileNavDrawer } from "@/components/layout/mobile-nav-drawer";
 import { UserStatusActions } from "@/components/layout/user-status-actions";
 import { getActiveCategorySlug, getCategoryMenuTools, getToolNavigationCategory, navigationTools, resolveToolNavigation, shellMoreMenuItems, toolNavigationCategories, type ToolCategorySlug, type ToolNavigationItem } from "@/constant/navigation-tools";
@@ -509,7 +507,6 @@ export function AppTopNav() {
         <>
             {!hideHeader ? (
                 <>
-                    <AppPromoBar />
                     <header data-testid="shell-top-nav" className="sticky top-0 z-[7] h-[60px] shrink-0 border-b border-hairline bg-surface">
                         <div className="flex h-full w-full items-stretch justify-between gap-4" style={{ paddingLeft: "var(--shell-pad-left)", paddingRight: "var(--shell-pad-right)" }}>
                             <div className="flex min-w-0 flex-1 items-center">
@@ -535,20 +532,15 @@ export function AppTopNav() {
                                 <ToolsPrimaryNavigation className="ml-[var(--shell-nav-offset)] hidden min-w-0 md:flex" />
                             </div>
 
-                            <div className="my-auto flex h-9 shrink-0 items-center justify-end whitespace-nowrap">
-                                <AppUserArea>
-                                    {/* 原站顶栏右侧只有用户区；本地既有的画布入口/Agent/设置/语言/主题/版本/GitHub 收进头像下拉，保持可达 */}
-                                    <WorkspaceLinks className="flex justify-center" />
-                                    <div className="flex items-center justify-between rounded-lg bg-accent/70 px-2 py-1">
-                                        <span className="text-xs text-accent-foreground">Agent</span>
-                                        <Tooltip title={t(panelOpen ? "topNav.closeAgent" : "topNav.openAgent")}>
-                                            <Button type="text" size="small" className="!h-7 !w-7 !min-w-7" icon={<Bot className="size-4" />} onClick={togglePanel} aria-label={t(panelOpen ? "topNav.closeAgent" : "topNav.openAgent")} />
-                                        </Tooltip>
-                                    </div>
-                                    <div className="flex items-center justify-center gap-1 border-t border-hairline pt-2">
-                                        <UserStatusActions />
-                                    </div>
-                                </AppUserArea>
+                            <div className="my-auto flex h-9 shrink-0 items-center justify-end gap-2 whitespace-nowrap">
+                                <WorkspaceLinks className="flex justify-center" />
+                                <div className="flex items-center justify-between gap-1 rounded-lg bg-accent/70 px-2 py-1">
+                                    <span className="text-xs text-accent-foreground">Agent</span>
+                                    <Tooltip title={t(panelOpen ? "topNav.closeAgent" : "topNav.openAgent")}>
+                                        <Button type="text" size="small" className="!h-7 !w-7 !min-w-7" icon={<Bot className="size-4" />} onClick={togglePanel} aria-label={t(panelOpen ? "topNav.closeAgent" : "topNav.openAgent")} />
+                                    </Tooltip>
+                                </div>
+                                <UserStatusActions />
                             </div>
                         </div>
                     </header>

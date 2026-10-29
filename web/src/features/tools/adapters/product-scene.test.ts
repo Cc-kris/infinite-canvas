@@ -106,7 +106,7 @@ describe("PRODUCT_SCENE 契约", () => {
         const fromSource = computeSceneOutput(values(), { width: 1200, height: 1600 });
         expect(fromSource.sizeType).toBe("default");
         expect(fromSource.ratio).toBe("3:4");
-        expect(fromSource.requestSize).toBe("1024x1365");
+        expect(fromSource.requestSize).toBe("1024x1360");
 
         const custom = computeSceneOutput(values({ sizeType: "custom", customWidth: 900, customHeight: 3000 }), SOURCE);
         expect(custom.requestSize).toBe("900x3000");
