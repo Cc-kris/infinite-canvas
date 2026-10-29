@@ -41,8 +41,8 @@ IDB 无孤儿图片字节（3 个孤儿均为视频），localStorage 无 gatewa
 | PRINTING_REPAIR | task-mvtbawv4-zxcmpv | PASS | 1183770B / sha d5b52a36…；四路全等（共享历史坞 下载/存库/发画布） |
 | HAND_REPAIR | task-mvtbe5rp-0maafh | PASS | 2153466B / sha a34cea71…；四路全等 + media_files(tool-result:MJlcLXl2-O1DnKd-NUgg2) 对账 |
 | AREA_REPAIR | task-mvtfevy8-rrr2ye | PASS（授权内最小真实生成 1 次） | 2065981B / sha 8625a56f…；五路全等（落盘/缩略图/下载/存库/发画布），payloadDropped=false |
-| CHANGE_COLOR_V2 | task-mvsc4fyg-qobp8k | NOT_AVAILABLE_HISTORICAL_PAYLOAD_DROPPED | 历史仅 {id,kind,payloadDropped:true}；资产/画布按 taskId 精确匹配 0 命中 → 不可回溯 |
-| REMOVE_PEN | 3 条 succeeded（最近 task-mvsba8fo-iplfjq） | NOT_AVAILABLE_HISTORICAL_PAYLOAD_DROPPED | 同上；旁证：画布项目「REMOVE_PEN 结果」850799B sha 67d5d6a6…（+42s 时序，但无 taskId 绑定） |
+| CHANGE_COLOR_V2 | task-mvsc4fyg-qobp8k | PARTIAL_NOT_AVAILABLE_HISTORICAL_PAYLOAD_DROPPED | 历史仅 {id,kind,payloadDropped:true}；资产/画布按 taskId 精确匹配 0 命中 → 不可回溯 |
+| REMOVE_PEN | 3 条 succeeded（最近 task-mvsba8fo-iplfjq） | PARTIAL_NOT_AVAILABLE_HISTORICAL_PAYLOAD_DROPPED | 同上；旁证：画布项目「REMOVE_PEN 结果」850799B sha 67d5d6a6…（+42s 时序，但无 taskId 绑定） |
 
 每个工具的证据：`<TOOL>.json`（含 \`"phase":"reload"\`、\`taskId\`、\`bytes\`、\`sha256\`、四/五路对账明细）+ 结果 PNG（bytes 与 sha256 前缀双对账）。
 
