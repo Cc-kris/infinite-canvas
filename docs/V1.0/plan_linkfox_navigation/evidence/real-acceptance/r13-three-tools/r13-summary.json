@@ -1,0 +1,51 @@
+{
+ "title": "r13 三工具真实链路：IMAGE_TO_VIDEO / VIDEO_REPLICATION / AI_VIDEO_EDITING",
+ "runAt": "2026-10-29T12:20:00Z ~ 12:36:00Z",
+ "harness": "web/scripts/real-acceptance/accept-r13-three-video-tools.mjs",
+ "profile": "/tmp/ic_r9_profile_translation (channel=sub2api-real, model=MiniMax-H3, mediaHostUrl=trycloudflare→127.0.0.1:23210)",
+ "material": {
+  "image": "web/scripts/real-acceptance/fixtures/product-watch.jpg (31860B)",
+  "video": "https://media.w3.org/2010/05/sintel/trailer.mp4 (4372373B)"
+ },
+ "receipts": {
+  "IMAGE_TO_VIDEO": {
+   "submitLabel": "生成视频（1 个视频 · 5s · 自适应 · 768P · 产品展示）",
+   "ui": [
+    "01-filled.png",
+    "02-submitted.png"
+   ],
+   "task": "未落库（run 以 Execution context destroyed 中断，无 task 快照）",
+   "verdict": "UNVERIFIED"
+  },
+  "VIDEO_REPLICATION": {
+   "ui": [],
+   "task": "未落库（等待终端 240s 超时，无 task 快照）",
+   "verdict": "UNVERIFIED"
+  },
+  "AI_VIDEO_EDITING": {
+   "taskId": "task-mvtizx6d-mha8cl",
+   "status_final": "failed",
+   "error": "submit-unconfirmed（刷新中断请求，无法反查上游）",
+   "upstream": null,
+   "items": [],
+   "net": [
+    {
+     "path": "/v1/videos",
+     "status": 502,
+     "body": "无法连接 sub2api.1006000.xyz：连接超时（ETIMEDOUT）"
+    },
+    {
+     "path": "/v1/videos",
+     "status": 400,
+     "body": "'utf-8' codec can't decode byte 0xff in position 1817: invalid start byte"
+    }
+   ],
+   "verdict": "FAILED_REAL_RECEIPT"
+  }
+ },
+ "gaps": [
+  "MP4 ftyp/字节 sha/三动作（下载·存资产·发画布）本轮三项均未取得：无终态 succeeded 的结果项",
+  "I2V、VR 的客户端 task 快照未留在 profile，需重跑时改为提交后立即 dump localStorage（本次 dump 放在整段流程末尾，前两次被 reload 流程覆盖）",
+  "上游 sub2api.1006000.xyz 当前 ETIMEDOUT，AI_VIDEO_EDITING 的多段上传还触发 400 utf-8 解码错误（疑 multipart 编码问题，待复现）"
+ ]
+}

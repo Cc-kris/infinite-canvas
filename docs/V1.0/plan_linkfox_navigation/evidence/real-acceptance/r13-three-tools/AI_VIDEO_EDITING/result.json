@@ -1,0 +1,38 @@
+{
+ "toolId": "AI_VIDEO_EDITING",
+ "runAt": "2026-10-29T12:34:37.867Z",
+ "base": "http://127.0.0.1:3000",
+ "issues": [],
+ "net": [
+  {
+   "at": "2026-10-29T12:34:51.832Z",
+   "method": "POST",
+   "status": 502,
+   "path": "/v1/videos",
+   "body": "{\"error\":\"无法连接 sub2api.1006000.xyz：连接超时（ETIMEDOUT）。建议：网络握手超时，通常是代理不通或线路被限制；请检查代理状态与节点\",\"host\":\"sub2api.1006000.xyz\",\"code\":\"ETIMEDOUT\",\"attempts\":[{\"channel\":\"node\",\"code\":\"ETIMEDOUT\",\"message\":\"fetch failed\"}]}"
+  },
+  {
+   "at": "2026-10-29T12:35:06.743Z",
+   "method": "POST",
+   "status": 400,
+   "path": "/v1/videos",
+   "body": "{\"error\":{\"message\":\"'utf-8' codec can't decode byte 0xff in position 1817: invalid start byte\",\"type\":\"invalid_request_error\"}}"
+  }
+ ],
+ "actions": {},
+ "submitLabel": "立即生成",
+ "terminal": {
+  "id": "task-mvtizx6d-mha8cl",
+  "status": "unknown",
+  "upstreamTaskId": null,
+  "createdAt": 1793277290677,
+  "updatedAt": 1793277435431,
+  "error": {
+   "code": "timeout-or-network",
+   "message": "素材上传失败：Failed to fetch · sub2api.1006000.xyz/videos"
+  },
+  "items": []
+ },
+ "taskId": "task-mvtizx6d-mha8cl",
+ "verdict": "FAILED_UPSTREAM_OR_TIMEOUT"
+}

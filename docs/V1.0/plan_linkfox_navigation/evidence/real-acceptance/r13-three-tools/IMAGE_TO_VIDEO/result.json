@@ -1,0 +1,12 @@
+{
+ "toolId": "IMAGE_TO_VIDEO",
+ "runAt": "2026-10-29T12:23:21.504Z",
+ "base": "http://127.0.0.1:3000",
+ "issues": [
+  "fatal: Error: page.evaluate: Execution context was destroyed, most likely because of a navigation"
+ ],
+ "net": [],
+ "actions": {},
+ "submitLabel": "生成视频（1 个视频 · 5s · 自适应 · 768P · 产品展示）",
+ "verdict": "ERROR"
+}

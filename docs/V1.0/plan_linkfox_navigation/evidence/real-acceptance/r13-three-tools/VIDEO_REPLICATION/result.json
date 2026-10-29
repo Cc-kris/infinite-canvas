@@ -1,0 +1,11 @@
+{
+ "toolId": "VIDEO_REPLICATION",
+ "runAt": "2026-10-29T12:30:13.511Z",
+ "base": "http://127.0.0.1:3000",
+ "issues": [
+  "fatal: TimeoutError: page.waitForFunction: Timeout 240000ms exceeded."
+ ],
+ "net": [],
+ "actions": {},
+ "verdict": "ERROR"
+}

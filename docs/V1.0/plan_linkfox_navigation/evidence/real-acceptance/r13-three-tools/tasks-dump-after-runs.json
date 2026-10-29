@@ -1,0 +1,44 @@
+[
+ {
+  "key": "tool-task:v1:task-mvtizx6d-mha8cl",
+  "id": "task-mvtizx6d-mha8cl",
+  "toolId": "AI_VIDEO_EDITING",
+  "status": "failed",
+  "upstream": null,
+  "provider": null,
+  "createdAt": 1793277290677,
+  "updatedAt": 1793277485703,
+  "err": {
+   "code": "submit-unconfirmed",
+   "message": "页面刷新中断了这次请求，本服务无法反查上游是否已受理。已关闭为失败；重试前请先到服务商后台确认，避免重复计费。"
+  },
+  "items": []
+ },
+ {
+  "key": "tool-task:v1:task-mvth8drs-dk86it",
+  "id": "task-mvth8drs-dk86it",
+  "toolId": "VIDEO_TRANSLATION",
+  "status": "succeeded",
+  "upstream": "task_ye7NHl8fwVr1Roh5ysCKB1C7Nr2lMwZd",
+  "provider": "openai",
+  "createdAt": 1793274326200,
+  "updatedAt": 1793275533199,
+  "err": null,
+  "items": [
+   {
+    "kind": "video",
+    "url": null,
+    "storageKey": "tool-result:eUvs37Htd5R-8rWnRufLz",
+    "bytes": 1080637,
+    "payloadDropped": false
+   }
+  ]
+ },
+ {
+  "key": "tool-task:v1:index",
+  "upstream": null,
+  "provider": null,
+  "err": null,
+  "items": []
+ }
+]
