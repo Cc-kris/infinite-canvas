@@ -1,0 +1,42 @@
+{
+  "capturedAt": "2026-10-29T11:52Z",
+  "origin": "http://127.0.0.1:3000",
+  "method": "read-only localStorage/indexedDB dump from same-origin tab (no injection, no new generation)",
+  "taskStorageKeys": 65,
+  "assignedTasks": {
+    "task-mvsaz6ar-m6osdl": {
+      "toolId": "REMOVE_PEN",
+      "status": "failed",
+      "items": [],
+      "note": "submit-unconfirmed：页面刷新中断提交，无可恢复结果"
+    },
+    "task-mvsc4fyg-qobp8k": {
+      "toolId": "CHANGE_COLOR_V2",
+      "status": "succeeded",
+      "result": {
+        "receivedAt": 1793205308288,
+        "items": [
+          { "id": "task-mvsc4fyg-qobp8k-0", "kind": "image", "payloadDropped": true }
+        ]
+      },
+      "note": "payloadDropped=true：字节未入 media_files，无 url/storageKey"
+    }
+  },
+  "removePenTasks": [
+    { "id": "task-mvsa3pt6-4wqy46", "status": "succeeded", "updatedAt": 1793202144236, "items": [{ "id": "task-mvsa3pt6-4wqy46-0", "kind": "image", "payloadDropped": true }] },
+    { "id": "task-mvsba8fo-iplfjq", "status": "succeeded", "updatedAt": 1793203903627, "items": [{ "kind": "image", "payloadDropped": true }] },
+    { "id": "task-mvsaus49-i7vsmt", "status": "succeeded", "updatedAt": 1793203168489, "items": [{ "kind": "image", "payloadDropped": true }] },
+    { "id": "task-mvsaz6ar-m6osdl", "status": "failed", "items": [] },
+    { "id": "task-mvsaq4oa-4giro0", "status": "failed", "items": [] },
+    { "id": "task-mvs9xe7s-9jmboc", "status": "failed", "items": [] }
+  ],
+  "check": {
+    "deletegateToFix": "has url/dataUrl/storageKey ? render result + 3 actions : mark failed, no placeholder"
+  },
+  "indexedDB": [
+    { "name": "infinite-canvas", "stores": { "app_state": 38, "image_files": 76, "image_previews": 76, "local-forage-detect-blob-support": 1, "media_files": 92, "prompt_cache": 7, "tool_assets": 57 } },
+    { "name": "canvas-assets", "stores": {} },
+    { "name": "tool-assets", "stores": {} }
+  ],
+  "conclusion": "媒体仓可用（media_files 92 条），但结果项入库在真实链路上抛错 → payloadDropped=true；这批历史任务 reload 后无真实字节，恢复必须如实降级"
+}
