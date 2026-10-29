@@ -16,7 +16,7 @@ import {
     type ToolTaskStorePort,
     type WaitOptions,
 } from "@/services/api/tools/gateway";
-import { sanitizeTaskForPersist, type ToolTask, type ToolTaskResultItem } from "@/services/api/tools/task-machine";
+import { reclaimRecoverableResultItems, isDurableResultUrl, sanitizeTaskForPersist, type ToolTask, type ToolTaskResultItem } from "@/services/api/tools/task-machine";
 import { resolveMediaUrl, uploadMediaFile } from "@/services/file-storage";
 
 export const TOOL_TASK_STORAGE_VERSION = 1 as const;
@@ -238,8 +238,8 @@ function resultIngestKey(task: ToolTask) {
 }
 
 /** 只有远程地址可抓（http(s)）。blob:/data: 由 uploadMediaFile 直接处理；asset: 等本地键跳过。 */
-function isFetchableResultUrl(url?: string) {
-    return Boolean(url && /^https?:\/\//i.test(url));
+function isFetchableResultUrl(url?: string): url is string {
+    return isDurableResultUrl(url);
 }
 
 function needsIngest(item: ToolTaskResultItem) {
@@ -256,7 +256,7 @@ export async function ingestResultMedia(task: ToolTask): Promise<ToolTask> {
     const items = await Promise.all(
         task.result.items.map(async (item) => {
             if (!needsIngest(item)) return item;
-            const source = item.blob ?? item.dataUrl ?? (isFetchableResultUrl(item.url) ? item.url! : undefined);
+            const source = item.blob ?? item.dataUrl ?? (isFetchableResultUrl(item.url) ? item.url : undefined);
             if (!source) return item;
             try {
                 const stored = await uploadMediaFile(source, RESULT_MEDIA_PREFIX, { mimeType: item.mimeType });
@@ -264,14 +264,16 @@ export async function ingestResultMedia(task: ToolTask): Promise<ToolTask> {
                 return {
                     ...item,
                     storageKey: stored.storageKey,
-                    url: item.url ?? stored.url,
+                    // 有持久远程地址时优先保留它：刷新后 storageKey 丢了还能按地址重新入库。
+                    url: isFetchableResultUrl(item.url) ? item.url : stored.url,
                     bytes: stored.bytes,
                     mimeType: item.mimeType ?? stored.mimeType,
                     payloadDropped: false,
+                    ingestError: undefined,
                 };
-            } catch {
-                // 入库失败不伪造成功：保留原字节（内存态仍可下载），落盘时会标记 payloadDropped。
-                return item;
+            } catch (error) {
+                // 入库失败不伪造成功：保留原字节/远程地址，只把原因写进快照，便于刷新后重试与排查。
+                return { ...item, ingestError: error instanceof Error ? error.message : String(error) };
             }
         }),
     );
@@ -304,7 +306,12 @@ async function ingestResultMediaIntoStore(task: ToolTask) {
         const ingested = await ingestResultMedia(task);
         const current = useToolTaskStore.getState().tasks[task.id];
         if (!current || current.result?.receivedAt !== task.result?.receivedAt) return;
-        if (!hasPendingResultMedia(ingested)) useToolTaskStore.getState().upsertTask(ingested);
+        // 拿到 storageKey 或失败原因变化时才回写（轮询会反复 upsert 同一任务，不能无限自激）。
+        const changed = (ingested.result?.items ?? []).some((item, index) => {
+            const before = task.result?.items[index];
+            return item.storageKey !== before?.storageKey || item.ingestError !== before?.ingestError;
+        });
+        if (changed) useToolTaskStore.getState().upsertTask(ingested);
     } finally {
         ingestingKeys.delete(key);
     }
@@ -319,6 +326,15 @@ async function restorePersistedTaskMedia(taskId: string) {
     const latest = useToolTaskStore.getState().tasks[taskId];
     if (!latest || latest.result?.receivedAt !== current.result?.receivedAt) return;
     useToolTaskStore.getState().upsertTask(restored);
+}
+
+
+/** hydrate 后的自愈：先回收可恢复的 payloadDropped，再补做缺失的真实字节入库，最后还原对象 URL。 */
+async function healPersistedTaskMedia(taskId: string) {
+    const current = useToolTaskStore.getState().tasks[taskId];
+    if (!current) return;
+    if (hasPendingResultMedia(current)) await ingestResultMediaIntoStore(current);
+    await restorePersistedTaskMedia(taskId);
 }
 
 
@@ -379,11 +395,13 @@ export const useToolTaskStore = create<ToolTaskState>((set, get) => ({
         const persisted = readPersistedTasks(target);
         set((state) => {
             const tasks = { ...state.tasks };
-            for (const task of persisted) tasks[task.id] = tasks[task.id] ?? task;
+            // 旧快照把「有持久 url / 已有 storageKey」的结果误标成 payloadDropped，这里按事实回收。
+            for (const task of persisted) tasks[task.id] = reclaimRecoverableResultItems(tasks[task.id] ?? task);
             return { tasks, hydrated: true };
         });
-        // 快照里的对象 URL 早就失效：按 storageKey 从 IndexedDB 复原真实字节地址。
-        for (const task of persisted) void restorePersistedTaskMedia(task.id);
+        // 快照里的对象 URL 早就失效：按 storageKey 从 IndexedDB 复原真实字节地址；
+        // 只有远程地址没有字节的历史任务，这里补做一次真实入库（拿到 storageKey 才算持久化）。
+        for (const task of persisted) void healPersistedTaskMedia(task.id);
     },
 
     submitTool: async (input, options) => {

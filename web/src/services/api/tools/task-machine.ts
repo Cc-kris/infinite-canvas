@@ -67,6 +67,8 @@ export type ToolTaskResultItem = {
     blob?: Blob;
     /** 持久化时被剥离了二进制内容（没有 storageKey 兜底时才会置位）。 */
     payloadDropped?: boolean;
+    /** 最近一次字节入库失败的可读原因（不伪造成功，只做可见化）。 */
+    ingestError?: string;
 };
 
 export type ToolTaskResult = {
@@ -392,15 +394,42 @@ export function canAutoResubmit(task: ToolTask): boolean {
  * G1：字节已落 IDB（item.storageKey 存在）时**不算丢**——保留 storageKey/bytes/mimeType/url，
  * 不置 payloadDropped，刷新后仍可下载/存资产/发画布；只有既没 storageKey 也没字节时才是真缺失。
  */
+/** 只有 http(s) 是刷新后还能再取的持久地址；blob:/data: 随标签页销毁。 */
+export function isDurableResultUrl(url?: string): url is string {
+    return typeof url === "string" && /^https?:\/\//i.test(url.trim());
+}
+
 export function sanitizeTaskForPersist(task: ToolTask): ToolTask {
     if (!task.result) return task;
     const items = task.result.items.map((item) => {
-        const { blob: _blob, ...rest } = item;
-        if (!item.dataUrl && !item.blob) return rest;
-        const { dataUrl: _dataUrl, ...withoutPayload } = rest;
-        return item.storageKey ? { ...withoutPayload, payloadDropped: false } : { ...withoutPayload, payloadDropped: true };
+        const { blob: _blob, dataUrl: _dataUrl, url: rawUrl, ...rest } = item;
+        // H4 修复：对象 URL（blob:）刷新后必然失效，落盘时必须丢掉，否则刷新后拿到的是死链接。
+        const url = isDurableResultUrl(rawUrl) ? rawUrl.trim() : undefined;
+        const kept: ToolTaskResultItem = url ? { ...rest, url } : { ...rest };
+        // 字节已在 IDB（storageKey）或仍有可再取的远程地址 → 不算丢，刷新后仍可下载/存资产/发画布。
+        // 只在原本被误标 payloadDropped 时清除标记：干净快照不该平添字段（否则快照 diff/断言噪音）。
+        if (item.storageKey || url) return item.payloadDropped ? { ...kept, payloadDropped: false } : kept;
+        // 只有内存字节（dataUrl/blob）且没落库 → 才是真丢。
+        if (item.dataUrl || item.blob) return { ...kept, payloadDropped: true };
+        return item.payloadDropped ? { ...kept, payloadDropped: true } : kept;
     });
     return { ...task, result: { ...task.result, items } };
+}
+
+/**
+ * 历史快照自愈：旧版本把「有持久 url 但未入库」的结果误标成 payloadDropped，
+ * 或者入库失败后被标成 payloadDropped。这里按事实回收可恢复项，让动作门禁恢复可用。
+ */
+export function reclaimRecoverableResultItems(task: ToolTask): ToolTask {
+    if (!task.result) return task;
+    let changed = false;
+    const items = task.result.items.map((item) => {
+        if (!item.payloadDropped) return item;
+        if (!item.storageKey && !isDurableResultUrl(item.url)) return item;
+        changed = true;
+        return { ...item, payloadDropped: false };
+    });
+    return changed ? { ...task, result: { ...task.result, items: [...items] } } : task;
 }
 
 export function sameSubmission(task: ToolTask, fingerprint: string, clientOperationId: string): boolean {
