@@ -1,0 +1,209 @@
+{
+ "tool": "AI_TEXT",
+ "route": "/tools/product-design/ai-text",
+ "base": "http://127.0.0.1:3000",
+ "startedAt": "2026-10-29T11:54:16.306Z",
+ "ok": true,
+ "steps": {
+  "before": {
+   "assetCount": 0,
+   "assetTitles": [],
+   "projectCount": 0,
+   "nodeCount": 0,
+   "taskCount": 0
+  },
+  "submitButton": {
+   "disabled": false,
+   "text": "生成 POD 素材"
+  },
+  "result": {
+   "view": "succeeded",
+   "text": "POD 素材结果 已完成 共 1 个结果 · 图片 1 下载 存入资产 发送画布",
+   "ms": 24145
+  },
+  "bytes": {
+   "storageKey": "tool-result:Pbtr7J1ym3uoK5HWqHavf",
+   "store": "media_files",
+   "mime": "image/png",
+   "size": 1445425,
+   "sha256": "f2b8505e85f08cd799562efbad498b33497c1bddfe58e58caf2b0493483e45bb",
+   "magic": "89504e470d0a1a0a",
+   "dims": {
+    "width": 1024,
+    "height": 1024,
+    "format": "png"
+   },
+   "file": "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/AI_TEXT/r10-real-20261029/03-result.png",
+   "declaredBytes": 1445425,
+   "width": null,
+   "height": null
+  },
+  "reload": {
+   "navType": "reload",
+   "dockCount": "1 条",
+   "rowCount": 1,
+   "rows": [
+    {
+     "taskId": "task-mvthk2pn-kdz7i6",
+     "text": "2026-10-29 19:54 已完成 生成可直接用于 POD（按需印刷）的素材，比例 1:1，输出 1 张，模式 pattern-text。 平铺规则… ccai-accept::gpt-image-2 · image · 1 个结果"
+    }
+   ],
+   "myRowVisible": true,
+   "resultView": "succeeded",
+   "resultText": "POD 素材结果 已完成 共 1 个结果 · 图片 1 下载 存入资产 发送画布",
+   "actionButtons": [
+    {
+     "text": "下载",
+     "disabled": false
+    },
+    {
+     "text": "存入资产",
+     "disabled": false
+    },
+    {
+     "text": "发送画布",
+     "disabled": false
+    }
+   ]
+  },
+  "download": {
+   "suggestedFilename": "ai-text-result-1.png",
+   "savedTo": "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/AI_TEXT/r10-real-20261029/05-download-ai-text-result-1.png",
+   "size": 1445425,
+   "sha256": "f2b8505e85f08cd799562efbad498b33497c1bddfe58e58caf2b0493483e45bb",
+   "matchesStored": true,
+   "toast": "POD 素材结果 已完成 共 1 个结果 · 图片 1 下载 存入资产 发送画布 已下载 ai-text-result-1.png"
+  },
+  "saveToAssets": {
+   "before": {
+    "assetCount": 0,
+    "assetTitles": [],
+    "projectCount": 0,
+    "nodeCount": 0,
+    "taskCount": 1
+   },
+   "after": {
+    "assetCount": 1,
+    "assetTitles": [
+     "AI_TEXT 结果 1"
+    ],
+    "projectCount": 0,
+    "nodeCount": 0,
+    "taskCount": 1
+   },
+   "delta": 1,
+   "toast": "POD 素材结果 已完成 共 1 个结果 · 图片 1 下载 存入资产 发送画布 已保存到资产库（r8PzYsSg070EX5WaRdXNd）"
+  },
+  "sendToCanvas": {
+   "before": {
+    "assetCount": 1,
+    "assetTitles": [
+     "AI_TEXT 结果 1"
+    ],
+    "projectCount": 0,
+    "nodeCount": 0,
+    "taskCount": 1
+   },
+   "after": {
+    "assetCount": 1,
+    "assetTitles": [
+     "AI_TEXT 结果 1"
+    ],
+    "projectCount": 1,
+    "nodeCount": 1,
+    "taskCount": 1
+   },
+   "nodeDelta": 1,
+   "projectDelta": 1,
+   "toast": "POD 素材结果 已完成 共 1 个结果 · 图片 1 下载 存入资产 发送画布 已发送到画布（5teO7OeAj6uhP4m7LdRP0）"
+  }
+ },
+ "errors": [],
+ "provider": {
+  "imageModel": "ccai-accept::gpt-image-2",
+  "channels": [
+   "ccai-accept",
+   "sf-accept"
+  ],
+  "baseUrl": "https://api.cc-ai.xyz",
+  "keyLen": 67,
+  "proxyEnabled": true,
+  "channelCount": 2,
+  "model": "gpt-image-2"
+ },
+ "task": {
+  "id": "task-mvthk2pn-kdz7i6",
+  "toolId": "AI_TEXT",
+  "status": "succeeded",
+  "createdAt": 1793274871739,
+  "submittedAt": 1793274871740,
+  "prompt": "生成可直接用于 POD（按需印刷）的素材，比例 1:1，输出 1 张，模式 pattern-text。 平铺规则：不平铺（单图）（1 列 × 1 行无缝重复）。 视觉风格：按模式默认风格，保持干净的印刷质感。 变化强度：默认——各张共享同一构图语言，只做轻微变化，保证系列一致性。 质量要求：透明或纯色底、边缘干净无白边、画面无外部留白、无裁切文字；不得出现第三方商标、版权角色与真实人物肖像。 输出为单张独立素材，不需要拼接出血位。 素材内容与文字：FOREVER YOUNG 夏日帆布印花，粗体无衬线英文，暖橙底 文案处理：围绕上述文字生成图案化排版，文字可读、行距均匀、不拉伸不变形。",
+  "upstream": null,
+  "error": null,
+  "configSnapshot": {
+   "capability": "image",
+   "model": "ccai-accept::gpt-image-2",
+   "apiFormat": "openai",
+   "size": "1:1",
+   "quality": "auto",
+   "count": "1",
+   "videoSeconds": "6",
+   "channelId": "ccai-accept"
+  },
+  "items": [
+   {
+    "id": "task-mvthk2pn-kdz7i6-0",
+    "kind": "image",
+    "mimeType": "image/png",
+    "bytes": 1445425,
+    "storageKey": "tool-result:Pbtr7J1ym3uoK5HWqHavf",
+    "payloadDropped": false
+   }
+  ]
+ },
+ "upstream": [
+  {
+   "phase": 0,
+   "at": "2026-10-29T11:54:31.796Z",
+   "url": "http://127.0.0.1:23210/https://api.cc-ai.xyz/v1/images/edits",
+   "model": null,
+   "size": null,
+   "n": null,
+   "prompt": null
+  },
+  {
+   "at": "2026-10-29T11:54:54.267Z",
+   "url": null,
+   "status": 200,
+   "requestId": "7c06ae40-814b-41e7-a18e-717dcee31713, f662e08b-60ac-4969-8166-418f9143991e",
+   "contentType": "application/json",
+   "bodyKind": [
+    "created",
+    "data",
+    "usage"
+   ],
+   "created": 1793274878,
+   "itemCount": 1,
+   "b64Length": 1927236,
+   "revisedPrompt": "参考图片编号：图片1。请按这些编号理解提示词中的图片引用。\r\n\r\n生成可直接用于 POD（按需印刷）的素材，比例 1:1，输出 1 张，模式 pattern-text。 平铺规则：不平铺（单图）（1 列 × 1 行无缝重复）。 视觉风格：按模式默认风格，保持干净的印刷质感。 变化强度：默认——各张共享同一构图语言，只做轻微变化，保证系列一致性。 质量要求：透明或纯色底、边缘干净无白边、画面无外部留白、无裁切文字；不得出现第三方商标、版权角色与真实人物肖像。 输出为单张独立素材，不需要拼接出血位。 素材内容与文字：FOREVER YOUNG 夏日帆布印花，粗体无衬线英文，暖橙底 文案处理：围绕上",
+   "billing": {
+    "input_tokens": 440,
+    "output_tokens": 205,
+    "total_tokens": 645,
+    "input_tokens_details": {
+     "text_tokens": 240,
+     "image_tokens": 200,
+     "cached_tokens": 0
+    },
+    "output_tokens_details": {
+     "text_tokens": 0,
+     "image_tokens": 205,
+     "reasoning_tokens": 0
+    }
+   },
+   "kind": "response"
+  }
+ ],
+ "finishedAt": "2026-10-29T11:55:09.350Z",
+ "durationMs": 37634
+}

@@ -1,0 +1,43 @@
+[
+ {
+  "phase": 0,
+  "at": "2026-10-29T11:55:38.143Z",
+  "url": "http://127.0.0.1:23210/https://api.cc-ai.xyz/v1/images/edits",
+  "model": null,
+  "size": null,
+  "n": null,
+  "prompt": null
+ },
+ {
+  "at": "2026-10-29T11:56:26.654Z",
+  "url": null,
+  "status": 200,
+  "requestId": "f6b5b285-1303-492f-9332-85357cdf3338, 449224f5-d5ec-4405-8b79-3b0aaadbf07e",
+  "contentType": "application/json",
+  "bodyKind": [
+   "created",
+   "data",
+   "usage"
+  ],
+  "created": 1793274945,
+  "itemCount": 1,
+  "b64Length": 2746268,
+  "revisedPrompt": "参考图片编号：图片1、图片2。请按这些编号理解提示词中的图片引用。\r\n\r\n素材贴合任务（SDS_DESIGN） 商品：参考图第 1 张为商品底图，商品 ID：792jj3bTjUFIYbUo4bMD1 颜色：原色（保持商品原始颜色） 素材数量：1（输出 1 张，与素材一一对应，不合并、不遗漏） 素材 1「apparel-print.jpg」，中心位置 (50.0%, 50.0%)，缩放 60.0%，旋转 0.0°，平铺：单张居中（单张不重复） 要求：保持商品本体的形状、材质纹理、光泽、褶皱和背景不变，只把素材按上述位置、缩放与旋转贴合到商品表面； 素材纹理需随商品表面透视与光影变化，边缘自然过",
+  "billing": {
+   "input_tokens": 617,
+   "output_tokens": 211,
+   "total_tokens": 828,
+   "input_tokens_details": {
+    "text_tokens": 251,
+    "image_tokens": 366,
+    "cached_tokens": 0
+   },
+   "output_tokens_details": {
+    "text_tokens": 0,
+    "image_tokens": 211,
+    "reasoning_tokens": 0
+   }
+  },
+  "kind": "response"
+ }
+]

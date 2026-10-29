@@ -1,0 +1,209 @@
+{
+ "tool": "SDS_DESIGN",
+ "route": "/tools/product-design/sds-design",
+ "base": "http://127.0.0.1:3000",
+ "startedAt": "2026-10-29T11:55:21.403Z",
+ "ok": true,
+ "steps": {
+  "before": {
+   "assetCount": 0,
+   "assetTitles": [],
+   "projectCount": 0,
+   "nodeCount": 0,
+   "taskCount": 0
+  },
+  "submitButton": {
+   "disabled": false,
+   "text": "立即生成"
+  },
+  "result": {
+   "view": "succeeded",
+   "text": "素材贴合结果 已完成 共 1 个结果 · 图片 1 下载 存入资产 发送画布",
+   "ms": 50421
+  },
+  "bytes": {
+   "storageKey": "tool-result:BmnUpTX9JtQn7L-ZVf98w",
+   "store": "media_files",
+   "mime": "image/png",
+   "size": 2059699,
+   "sha256": "1f13cf01caefaaf02634b3205e17bff2e9f12770d010ac37298e458b27dc3868",
+   "magic": "89504e470d0a1a0a",
+   "dims": {
+    "width": 1024,
+    "height": 1024,
+    "format": "png"
+   },
+   "file": "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/SDS_DESIGN/r10-real-20261029/03-result.png",
+   "declaredBytes": 2059699,
+   "width": null,
+   "height": null
+  },
+  "reload": {
+   "navType": "reload",
+   "dockCount": "1 条",
+   "rowCount": 1,
+   "rows": [
+    {
+     "taskId": "task-mvthlhwg-txm7nl",
+     "text": "2026-10-29 19:55 已完成 素材贴合任务（SDS_DESIGN） 商品：参考图第 1 张为商品底图，商品 ID：792jj3bTjUFIYb… ccai-accept::gpt-image-2 · image · 1 个结果"
+    }
+   ],
+   "myRowVisible": true,
+   "resultView": "succeeded",
+   "resultText": "素材贴合结果 已完成 共 1 个结果 · 图片 1 下载 存入资产 发送画布",
+   "actionButtons": [
+    {
+     "text": "下载",
+     "disabled": false
+    },
+    {
+     "text": "存入资产",
+     "disabled": false
+    },
+    {
+     "text": "发送画布",
+     "disabled": false
+    }
+   ]
+  },
+  "download": {
+   "suggestedFilename": "sds-design-result-1.png",
+   "savedTo": "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/SDS_DESIGN/r10-real-20261029/05-download-sds-design-result-1.png",
+   "size": 2059699,
+   "sha256": "1f13cf01caefaaf02634b3205e17bff2e9f12770d010ac37298e458b27dc3868",
+   "matchesStored": true,
+   "toast": "素材贴合结果 已完成 共 1 个结果 · 图片 1 下载 存入资产 发送画布 已下载 sds-design-result-1.png"
+  },
+  "saveToAssets": {
+   "before": {
+    "assetCount": 0,
+    "assetTitles": [],
+    "projectCount": 0,
+    "nodeCount": 0,
+    "taskCount": 1
+   },
+   "after": {
+    "assetCount": 1,
+    "assetTitles": [
+     "SDS_DESIGN 结果 1"
+    ],
+    "projectCount": 0,
+    "nodeCount": 0,
+    "taskCount": 1
+   },
+   "delta": 1,
+   "toast": "素材贴合结果 已完成 共 1 个结果 · 图片 1 下载 存入资产 发送画布 已保存到资产库（T7ce-1avnbxbqI1YFWeh_）"
+  },
+  "sendToCanvas": {
+   "before": {
+    "assetCount": 1,
+    "assetTitles": [
+     "SDS_DESIGN 结果 1"
+    ],
+    "projectCount": 0,
+    "nodeCount": 0,
+    "taskCount": 1
+   },
+   "after": {
+    "assetCount": 1,
+    "assetTitles": [
+     "SDS_DESIGN 结果 1"
+    ],
+    "projectCount": 1,
+    "nodeCount": 1,
+    "taskCount": 1
+   },
+   "nodeDelta": 1,
+   "projectDelta": 1,
+   "toast": "素材贴合结果 已完成 共 1 个结果 · 图片 1 下载 存入资产 发送画布 已发送到画布（NLjYsreGMaT5YQnhKHCRv）"
+  }
+ },
+ "errors": [],
+ "provider": {
+  "imageModel": "ccai-accept::gpt-image-2",
+  "channels": [
+   "ccai-accept",
+   "sf-accept"
+  ],
+  "baseUrl": "https://api.cc-ai.xyz",
+  "keyLen": 67,
+  "proxyEnabled": true,
+  "channelCount": 2,
+  "model": "gpt-image-2"
+ },
+ "task": {
+  "id": "task-mvthlhwg-txm7nl",
+  "toolId": "SDS_DESIGN",
+  "status": "succeeded",
+  "createdAt": 1793274938080,
+  "submittedAt": 1793274938080,
+  "prompt": "素材贴合任务（SDS_DESIGN） 商品：参考图第 1 张为商品底图，商品 ID：792jj3bTjUFIYbUo4bMD1 颜色：原色（保持商品原始颜色） 素材数量：1（输出 1 张，与素材一一对应，不合并、不遗漏） 素材 1「apparel-print.jpg」，中心位置 (50.0%, 50.0%)，缩放 60.0%，旋转 0.0°，平铺：单张居中（单张不重复） 要求：保持商品本体的形状、材质纹理、光泽、褶皱和背景不变，只把素材按上述位置、缩放与旋转贴合到商品表面； 素材纹理需随商品表面透视与光影变化，边缘自然过渡，不出现溢出、拉伸或重复接缝； 每张输出只包含对应素材；不要改变商品颜色以外的其他细节。",
+  "upstream": null,
+  "error": null,
+  "configSnapshot": {
+   "capability": "image",
+   "model": "ccai-accept::gpt-image-2",
+   "apiFormat": "openai",
+   "size": "1:1",
+   "quality": "auto",
+   "count": "1",
+   "videoSeconds": "6",
+   "channelId": "ccai-accept"
+  },
+  "items": [
+   {
+    "id": "task-mvthlhwg-txm7nl-0",
+    "kind": "image",
+    "mimeType": "image/png",
+    "bytes": 2059699,
+    "storageKey": "tool-result:BmnUpTX9JtQn7L-ZVf98w",
+    "payloadDropped": false
+   }
+  ]
+ },
+ "upstream": [
+  {
+   "phase": 0,
+   "at": "2026-10-29T11:55:38.143Z",
+   "url": "http://127.0.0.1:23210/https://api.cc-ai.xyz/v1/images/edits",
+   "model": null,
+   "size": null,
+   "n": null,
+   "prompt": null
+  },
+  {
+   "at": "2026-10-29T11:56:26.654Z",
+   "url": null,
+   "status": 200,
+   "requestId": "f6b5b285-1303-492f-9332-85357cdf3338, 449224f5-d5ec-4405-8b79-3b0aaadbf07e",
+   "contentType": "application/json",
+   "bodyKind": [
+    "created",
+    "data",
+    "usage"
+   ],
+   "created": 1793274945,
+   "itemCount": 1,
+   "b64Length": 2746268,
+   "revisedPrompt": "参考图片编号：图片1、图片2。请按这些编号理解提示词中的图片引用。\r\n\r\n素材贴合任务（SDS_DESIGN） 商品：参考图第 1 张为商品底图，商品 ID：792jj3bTjUFIYbUo4bMD1 颜色：原色（保持商品原始颜色） 素材数量：1（输出 1 张，与素材一一对应，不合并、不遗漏） 素材 1「apparel-print.jpg」，中心位置 (50.0%, 50.0%)，缩放 60.0%，旋转 0.0°，平铺：单张居中（单张不重复） 要求：保持商品本体的形状、材质纹理、光泽、褶皱和背景不变，只把素材按上述位置、缩放与旋转贴合到商品表面； 素材纹理需随商品表面透视与光影变化，边缘自然过",
+   "billing": {
+    "input_tokens": 617,
+    "output_tokens": 211,
+    "total_tokens": 828,
+    "input_tokens_details": {
+     "text_tokens": 251,
+     "image_tokens": 366,
+     "cached_tokens": 0
+    },
+    "output_tokens_details": {
+     "text_tokens": 0,
+     "image_tokens": 211,
+     "reasoning_tokens": 0
+    }
+   },
+   "kind": "response"
+  }
+ ],
+ "finishedAt": "2026-10-29T11:56:41.669Z",
+ "durationMs": 63605
+}
