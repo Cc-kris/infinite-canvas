@@ -15,7 +15,7 @@ import { REMOVE_PEN_INSTRUCTION, REMOVE_PEN_TOOL_ID, composeRemovePenFields, rem
 import { sourceReferenceUrls } from "../source-asset";
 import { renderMaskPng } from "./area-repair";
 import type { BrowserToolInput, WaitOptions } from "@/services/api/tools/gateway";
-import type { ToolTask } from "@/services/api/tools/task-machine";
+import type { ToolTask, ToolTaskResultItem } from "@/services/api/tools/task-machine";
 import type { ReferenceImage } from "@/types/image";
 
 export class RemovePenAdapterError extends Error {
@@ -195,8 +195,20 @@ export function removePenRunFromTask(unit: RemovePenUnitRef, task: ToolTask): Re
 
 export type RemovePenResultView = {
     status: "idle" | "running" | "succeeded" | "failed" | "cancelled" | "unknown";
-    /** 结果图（真实上游返回）。 */
+    /** 结果图的可渲染地址（本会话 dataUrl / 持久 http 地址 / 由 storageKey 还原的对象 URL）。 */
     imageUrl?: string;
+    /**
+     * 结果字节在 media_files 的持久定位符。
+     *
+     * 旧实现只暴露 imageUrl：刷新后快照里 dataUrl 被剥、url 是失效的 blob:，
+     * 结果区就变成「成功但无图」——三动作（下载/存资产/发画布）全部不可达，
+     * 也就是 r17b 记的 BLOCKED_NO_LOCATOR。storageKey 是刷新后唯一还在的定位符，
+     * 必须原样带到视图与结果项里，交给上层按真实字节还原。
+     */
+    imageStorageKey?: string;
+    imageBytes?: number;
+    /** 有任一可用定位符（dataUrl / url / storageKey）才算有结果，不靠渲染地址推断。 */
+    hasImage: boolean;
     /** 提交时的原图，用于前后对比。 */
     sourceUrl?: string;
     /** 结果相对当前配置是否已过期（“来自旧版本”）。 */
@@ -207,16 +219,53 @@ export type RemovePenResultView = {
 
 export function removePenResultView(input: { run?: RemovePenRun | null; running?: boolean; sourceUrl?: string; stale?: boolean }): RemovePenResultView {
     if (!input.run) {
-        return { status: input.running ? "running" : "idle", sourceUrl: input.sourceUrl, stale: false };
+        return { status: input.running ? "running" : "idle", hasImage: false, sourceUrl: input.sourceUrl, stale: false };
     }
+    const image = input.run.image;
     return {
         status: input.running ? "running" : input.run.status,
-        imageUrl: input.run.image?.dataUrl ?? input.run.image?.url,
+        imageUrl: image?.dataUrl ?? image?.url,
+        ...(image?.storageKey ? { imageStorageKey: image.storageKey } : {}),
+        ...(typeof image?.bytes === "number" ? { imageBytes: image.bytes } : {}),
+        hasImage: Boolean(image?.dataUrl || image?.url || image?.storageKey),
         sourceUrl: input.sourceUrl,
         stale: Boolean(input.stale),
         snapshotHash: input.run.snapshotHash,
         error: input.run.error,
     };
+}
+
+/** 结果项：保留 storageKey/bytes，刷新后三动作仍能按真实字节执行（不再只靠内存地址）。 */
+export function removePenResultItem(
+    run: RemovePenRun | null | undefined,
+    fallbackId = REMOVE_PEN_TOOL_ID,
+    resolvedUrl?: string,
+): ToolTaskResultItem | null {
+    const image = run?.image;
+    if (!image || (!image.dataUrl && !image.url && !image.storageKey)) return null;
+    const url = image.url || resolvedUrl;
+    return {
+        id: `${fallbackId}-${run?.snapshotHash ?? "result"}`,
+        kind: "image",
+        ...(image.dataUrl ? { dataUrl: image.dataUrl } : {}),
+        ...(url ? { url } : {}),
+        ...(image.storageKey ? { storageKey: image.storageKey } : {}),
+        ...(typeof image.bytes === "number" ? { bytes: image.bytes } : {}),
+        mimeType: "image/png",
+    };
+}
+
+/**
+ * 历史定位：一条落盘任务是否还有「结果图」可回填。
+ *
+ * 旧实现只认 dataUrl/url，忽略 storageKey —— 刷新后快照恰好只剩 storageKey 时，
+ * 历史坞/结果区就再也找不到这条真实结果（BLOCKED_NO_LOCATOR 的另一半根因）。
+ */
+export function removePenTaskHasResult(task: ToolTask): boolean {
+    if (task.toolId !== REMOVE_PEN_TOOL_ID || task.status !== "succeeded") return false;
+    return (task.result?.items ?? []).some(
+        (item) => item.kind === "image" && !item.payloadDropped && Boolean(item.dataUrl || item.url || item.storageKey),
+    );
 }
 
 /** 滑动对比的裁剪百分比：0 = 只看原图，100 = 只看结果。 */

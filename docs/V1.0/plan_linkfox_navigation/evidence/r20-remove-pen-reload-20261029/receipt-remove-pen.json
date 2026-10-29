@@ -1,0 +1,76 @@
+{
+  "date": "2026-10-29",
+  "scope": "REMOVE_PEN 历史主定位/结果恢复根因修复 + 真实UI生成 + fresh reload 三动作",
+  "codeChange": {
+    "adapters/remove-pen.ts": [
+      "RemovePenResultView 增 imageStorageKey / imageBytes / hasImage（结果视图不再只认内存地址）",
+      "removePenResultItem(run)：结果项必须带 storageKey/bytes，不再从 view.imageUrl 字符串重建",
+      "removePenTaskHasResult(task)：历史定位判据 dataUrl||url||storageKey"
+    ],
+    "components/tools/workspaces/mask.tsx": [
+      "restoredTask 过滤改用 removePenTaskHasResult（原 Boolean(dataUrl||url) 忽略 storageKey → 刷新后定位不到）",
+      "resultItem 改用 removePenResultItem（原实现丢 storageKey，三动作拿不到真实字节）",
+      "新增 resolveMediaUrl(storageKey) 回读对象 URL → storedResultUrl → resultUrl 兜底（url 为空时仍可渲染/接力）"
+    ]
+  },
+  "rootCause": "REMOVE_PEN 结果恢复链路只认 dataUrl/url 两个内存地址：快照剥离 dataUrl 后，本通道（b64 优先、无远端 url）只剩 storageKey，于是历史任务既定位不到也渲染不出 → BLOCKED_NO_LOCATOR。并非字节丢失，是定位符被判据丢弃。",
+  "realRun": {
+    "input": {
+      "source": "https://images.unsplash.com/photo-1518791841217-8f162f1e1131?w=1024&q=80",
+      "license": "Unsplash License",
+      "file": "public_input.jpg",
+      "size": "1024x683",
+      "localBytes": 124700
+    },
+    "instruction": "REMOVE_PEN_INSTRUCTION（局部消除：参考图1=原图，参考图2=画布导出蒙版PNG）",
+    "upstream": {
+      "request": "POST http://127.0.0.1:23210/https://api.cc-ai.xyz/v1/images/edits",
+      "responseStatus": 200
+    },
+    "taskId": "task-mvtmnhk5-nr2g0z",
+    "status": "succeeded",
+    "duration": "34s",
+    "result": {
+      "storageKey": "tool-result:task-mvtmnhk5-nr2g0z:0:komJnSXgwkxdOFeQHXTGI",
+      "bytes": 2440825,
+      "url": "",
+      "payloadDropped": false,
+      "dimensions": "1024x1024"
+    }
+  },
+  "freshReload": {
+    "method": "冷启动同一浏览器 profile，直接打开 /tools/smart-edit/remove-pen（localStorage 中该任务 url 为空、仅 storageKey）",
+    "panelText": "已按落盘任务 task-mvtmnhk5-nr2g0z 恢复结果：下载/存入资产/发送画布都沿用该任务的真实图片字节。",
+    "renderedImgSrc": "blob:http://127.0.0.1:3000/08f7e033-a746…（由 storageKey 回读）",
+    "buttons": {
+      "save": "enabled",
+      "send": "enabled",
+      "download": "enabled（下载完成，无 disabled 标记）"
+    }
+  },
+  "threeActions": {
+    "download": {
+      "file": "public_input-erased.png",
+      "bytes": 2440825,
+      "matchTaskBytes": true
+    },
+    "saveAsset": {
+      "feedback": "已存入资产库（1xIHbpny）",
+      "result": "OK"
+    },
+    "sendCanvas": {
+      "feedback": "已发送画布（项目 ojUWiNT5 · 节点 image-17）",
+      "result": "OK"
+    }
+  },
+  "gates": {
+    "typecheck": "node_modules/typescript/bin/tsc --noEmit → exit 0（无输出）",
+    "tests": "bun test src/features/tools/adapters/remove-pen.test.ts src/components/tools/workspaces/mask.test.tsx → 28 pass / 0 fail / 152 expect"
+  },
+  "compliance": "未派子 worker、未读调度 SOP、未注入任何结果字节；生成走上游真实请求（23210 代理 → api.cc-ai.xyz/v1/images/edits 200）；三动作均为真实点击后由应用自身产出。",
+  "notes": [
+    "本通道返回 b64 优先、无远端 url，因此任务项 url 为空串；storageKey 为唯一持久定位符。",
+    "旧任务 task-mvsa3pt6-4wqy46（r17b 的修复前任务）IDB 无字节，本次未回灌，仍属不可恢复的历史项。",
+    "公网图源以 curl 实测可达性选择：wikimedia 超时、picsum 302、unsplash 200/375KB。"
+  ]
+}

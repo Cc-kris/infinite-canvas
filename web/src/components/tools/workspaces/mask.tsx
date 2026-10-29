@@ -47,7 +47,7 @@ import {
     type MaskState,
     type MaskStroke,
 } from "@/features/tools/registry/area-repair";
-import { clampCompareSplit, exportRemovePenMaskPng, removePenResultView, removePenRunFromTask, runRemovePen, type RemovePenRun } from "@/features/tools/adapters/remove-pen";
+import { clampCompareSplit, exportRemovePenMaskPng, removePenResultItem, removePenResultView, removePenRunFromTask, removePenTaskHasResult, runRemovePen, type RemovePenRun } from "@/features/tools/adapters/remove-pen";
 import {
     REMOVE_PEN_BRUSH_MAX,
     REMOVE_PEN_BRUSH_MIN,
@@ -83,6 +83,7 @@ import { cn, randomId } from "@/lib/utils";
 import { loadToolAssetRecords, type ToolAssetRecord } from "@/services/api/tools/assets";
 import type { ToolTask, ToolTaskResultItem } from "@/services/api/tools/task-machine";
 import { imageToDataUrl } from "@/services/image-storage";
+import { resolveMediaUrl } from "@/services/file-storage";
 import { flushToolDrafts, useToolDraftStore } from "@/stores/use-tool-draft-store";
 import { useToolTaskStore } from "@/stores/use-tool-task-store";
 
@@ -1044,12 +1045,7 @@ export function RemovePenWorkspace({ className }: RemovePenWorkspaceProps = {}) 
     const restoredTask = useMemo(() => {
         if (run) return null;
         if (pickedTask) return pickedTask;
-        const candidates = Object.values(storedTasks).filter(
-            (task) =>
-                task.toolId === REMOVE_PEN_ID &&
-                task.status === "succeeded" &&
-                (task.result?.items ?? []).some((item) => item.kind === "image" && Boolean(item.dataUrl || item.url)),
-        );
+        const candidates = Object.values(storedTasks).filter((task) => removePenTaskHasResult(task));
         candidates.sort((a, b) => (b.updatedAt ?? b.createdAt ?? 0) - (a.updatedAt ?? a.createdAt ?? 0));
         return candidates[0] ?? null;
     }, [run, pickedTask, storedTasks]);
@@ -1302,19 +1298,37 @@ export function RemovePenWorkspace({ className }: RemovePenWorkspaceProps = {}) 
     const stale = runSnapshot ? isRemovePenSnapshotStale(runSnapshot, currentSnapshot) : false;
     const view = useMemo(() => removePenResultView({ run: activeRun, running: busy, sourceUrl: image?.dataUrl, stale }), [activeRun, busy, image, stale]);
 
+    /**
+     * 结果字节回读：刷新后快照只剩 storageKey（dataUrl 被剥、url 是失效 blob:），
+     * 这里按 storageKey 从 media_files 取回真实字节的对象 URL 供渲染与接力。
+     * 只读真实存在的字节，取不到就保持空（不造图）。
+     */
+    const resultStorageKey = activeRun?.image?.storageKey;    const [storedResultUrl, setStoredResultUrl] = useState<string | null>(null);
+    useEffect(() => {
+        if (!resultStorageKey) {
+            setStoredResultUrl(null);
+            return;
+        }
+        let cancelled = false;
+        void resolveMediaUrl(resultStorageKey)
+            .then((url) => {
+                if (!cancelled) setStoredResultUrl(url || null);
+            })
+            .catch(() => {
+                if (!cancelled) setStoredResultUrl(null);
+            });
+        return () => {
+            cancelled = true;
+        };
+    }, [resultStorageKey]);
+
     /* ---------------- 结果动作：存入资产库 / 发送画布 ---------------- */
 
-    /** 只把本次真实返回的结果包装成结果项；没有 url 就是没有结果，动作直接拒绝，不造占位图。 */
-    const resultItem = useCallback((): ToolTaskResultItem | null => {
-        const url = view.imageUrl;
-        if (!url) return null;
-        return {
-            id: `${REMOVE_PEN_ID}-${activeRun?.snapshotHash ?? "result"}`,
-            kind: "image",
-            ...(url.startsWith("data:") ? { dataUrl: url } : { url }),
-            mimeType: "image/png",
-        };
-    }, [run?.snapshotHash, view.imageUrl]);
+    /** 只把本次真实返回的结果包装成结果项；storageKey 必须带出去，刷新后三动作才吃得到真实字节。 */
+    const resultItem = useCallback(
+        (): ToolTaskResultItem | null => removePenResultItem(activeRun, REMOVE_PEN_ID, storedResultUrl ?? undefined),
+        [activeRun, storedResultUrl],
+    );
 
     const saveResult = useCallback(async () => {
         const item = resultItem();
@@ -1353,7 +1367,7 @@ export function RemovePenWorkspace({ className }: RemovePenWorkspaceProps = {}) 
             setResultPending(false);
         }
     }, [resultItem]);
-    const resultUrl = view.imageUrl;
+    const resultUrl = view.imageUrl ?? storedResultUrl ?? undefined;
 
     /** 提交：导出同尺寸蒙版 → 校验字段 → 一次真实图像编辑请求。 */
     const submit = useCallback(async () => {
