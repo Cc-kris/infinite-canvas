@@ -41,7 +41,6 @@ import {
     isSuiteSourceReady,
     retrySuiteUnit,
     runSuite,
-    saveSuiteResultItem,
     summarizeSuiteRun,
     suiteResultsStale,
     suiteUnitResultFromTask,
@@ -211,6 +210,8 @@ export function ProductImageSuiteWorkspace({ className }: { className?: string }
     const [busyUnit, setBusyUnit] = useState<string | null>(null);
     const [runError, setRunError] = useState<string | undefined>();
     const [savedKeys, setSavedKeys] = useState<Record<string, string>>({});
+    /** 发送画布回执：nodeId，供结果面板直接回显真实动作结果。 */
+    const [canvasKeys, setCanvasKeys] = useState<Record<string, string>>({});
     const [seeded, setSeeded] = useState(false);
     const [rightTab, setRightTab] = useState<"result" | "cases" | "history">("result");
     const [applyingCaseId, setApplyingCaseId] = useState<string | null>(null);
@@ -431,15 +432,46 @@ export function ProductImageSuiteWorkspace({ className }: { className?: string }
     );
 
     const onSave = useCallback(
-        async (item: ToolTaskResultItem, result: SuiteUnitResult) => {
+        async (item: ToolTaskResultItem, result: SuiteUnitResult, index: number) => {
             try {
-                const saved = await saveSuiteResultItem(item, result);
-                setSavedKeys((previous) => ({ ...previous, [`${result.unitId}:${item.id}`]: saved.storageKey }));
+                const saved = await saveResultItemToAssets(item, index, {
+                    toolId,
+                    title: `商品套图 结果 ${index + 1}`,
+                });
+                setSavedKeys((previous) => ({ ...previous, [`${result.unitId}:${item.id}`]: saved.assetId }));
             } catch (error) {
                 setRunError(error instanceof Error ? error.message : "保存失败。");
             }
         },
-        [],
+        [toolId],
+    );
+
+    /** 结果 → 真实画布：与其它工具共用发送依赖，失败如实报错。 */
+    const onSendToCanvas = useCallback(
+        async (item: ToolTaskResultItem, result: SuiteUnitResult) => {
+            try {
+                const created = await sendResultItemToCanvas(item, {
+                    toolId,
+                    projectTitle: "商品套图结果",
+                });
+                setCanvasKeys((previous) => ({ ...previous, [`${result.unitId}:${item.id}`]: created.nodeId }));
+            } catch (error) {
+                setRunError(error instanceof Error ? error.message : "发送画布失败。");
+            }
+        },
+        [toolId],
+    );
+
+    /** 结果 → 本地下载：与其它工具同一实现（storageKey 失效时先取回真实字节）。 */
+    const onDownload = useCallback(
+        async (item: ToolTaskResultItem, index: number) => {
+            try {
+                await downloadResultItem(item, index, { toolId });
+            } catch (error) {
+                setRunError(error instanceof Error ? error.message : "下载失败。");
+            }
+        },
+        [toolId],
     );
 
     return (
@@ -774,19 +806,41 @@ export function ProductImageSuiteWorkspace({ className }: { className?: string }
                                         </header>
                                         {unit.items.length ? (
                                             <div className="flex flex-col gap-1">
-                                                {unit.items.map((item) => {
+                                                {unit.items.map((item, itemIndex) => {
                                                     const key = `${unit.unitId}:${item.id}`;
                                                     const src = item.dataUrl ?? item.url;
                                                     return (
                                                         <div key={item.id} className="flex items-center gap-2">
-                                                            {src ? <img src={src} alt={unit.label} className="size-16 rounded object-cover" /> : null}
-                                                            <button
-                                                                type="button"
-                                                                onClick={() => void onSave(item, unit)}
-                                                                className="rounded border border-stone-200 px-2 py-0.5 text-[11px] text-stone-700 dark:border-stone-700 dark:text-stone-200"
-                                                            >
-                                                                {savedKeys[key] ? "已存作品库" : "保存"}
-                                                            </button>
+                                                            {src ? (
+                                                                <img src={src} alt={unit.label} className="size-16 rounded object-cover" />
+                                                            ) : (
+                                                                <div className="flex size-16 items-center justify-center rounded border border-dashed border-stone-300 text-center text-[10px] text-stone-400">
+                                                                    已入库
+                                                                </div>
+                                                            )}
+                                                            <div className="flex flex-wrap gap-1">
+                                                                <button
+                                                                    type="button"
+                                                                    onClick={() => void onSave(item, unit, itemIndex)}
+                                                                    className="rounded border border-stone-200 px-2 py-0.5 text-[11px] text-stone-700 dark:border-stone-700 dark:text-stone-200"
+                                                                >
+                                                                    {savedKeys[key] ? "已存作品库" : "保存"}
+                                                                </button>
+                                                                <button
+                                                                    type="button"
+                                                                    onClick={() => void onSendToCanvas(item, unit)}
+                                                                    className="rounded border border-stone-200 px-2 py-0.5 text-[11px] text-stone-700 dark:border-stone-700 dark:text-stone-200"
+                                                                >
+                                                                    {canvasKeys[key] ? "已发送画布" : "发送画布"}
+                                                                </button>
+                                                                <button
+                                                                    type="button"
+                                                                    onClick={() => void onDownload(item, itemIndex)}
+                                                                    className="rounded border border-stone-200 px-2 py-0.5 text-[11px] text-stone-700 dark:border-stone-700 dark:text-stone-200"
+                                                                >
+                                                                    下载
+                                                                </button>
+                                                            </div>
                                                         </div>
                                                     );
                                                 })}
