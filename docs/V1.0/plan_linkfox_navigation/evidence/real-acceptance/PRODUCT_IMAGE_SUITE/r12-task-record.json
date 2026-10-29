@@ -1,0 +1,29 @@
+{
+ "toolId": "PRODUCT_IMAGE_SUITE",
+ "route": "/tools/ecommerce-suite/product-image-suite",
+ "source": "own",
+ "taskId": "task-mvt6vpdo-sc1x8w",
+ "configSnapshot": {
+  "apiFormat": "openai",
+  "capability": "image",
+  "channelId": "default",
+  "count": "1",
+  "model": "default::gpt-image-2",
+  "quality": "auto",
+  "size": "1:1"
+ },
+ "reusedNotRegenerated": true,
+ "actions": {
+  "b4": {
+   "file": "b4-actions.json",
+   "note": "R7 三动作回执：下载 2151517B 与 02-result.png 字节一致"
+  }
+ },
+ "r12TaskRecordBytes": {
+  "taskId": "task-mvt6vpdo-sc1x8w",
+  "bytes": 2840825,
+  "storageKey": "tool-result:98tXNya0JHj77cjXVRxLa"
+ },
+ "verdict": "F PASS(既有 b4 回执) / 本次未重跑三动作",
+ "recordedAt": "2026-10-29T13:00:00Z"
+}

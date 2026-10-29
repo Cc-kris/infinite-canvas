@@ -1,0 +1,75 @@
+{
+ "toolId": "SALE_VIDEO",
+ "route": "/tools/ai-video/sale-video",
+ "source": "own",
+ "reusedNotRegenerated": true,
+ "taskId": "task-mvt76u6p-7cfnff",
+ "upstreamTaskId": "task_hhe2FmdxNCwz8Vn86YO7kYxrudtQDGVx",
+ "upstreamProvider": "openai",
+ "status": "succeeded",
+ "submittedAt": 1793257458001,
+ "finishedAt": 1793257623379,
+ "configSnapshot": {
+  "apiFormat": "openai",
+  "capability": "video",
+  "channelId": "sub2",
+  "count": "1",
+  "model": "sub2::MiniMax-H3",
+  "quality": "auto",
+  "size": "1:1"
+ },
+ "promptFieldPassthrough": {
+  "text": "【带货口播 · 模板 v1】 目标市场：JP（日本）；口播语言：日语（日本語） 成片：5 秒 / 720P / 画幅 9:16",
+  "durationSeconds": 5,
+  "resolution": "720P",
+  "aspectRatio": "9:16"
+ },
+ "fieldAudit": {
+  "text": "PASS（prompt 含市场/语言/时长/分辨率/画幅）",
+  "aspectRatio": "PARTIAL：prompt 声明 9:16，configSnapshot.size 实际为 1:1",
+  "duration": "PARTIAL：时长仅在 prompt 文本，configSnapshot 无 duration/seconds 字段",
+  "detail": "上游请求体未落盘，只能按客户端 configSnapshot 与 prompt 对账"
+ },
+ "result": {
+  "items": [
+   {
+    "kind": "video",
+    "bytes": 1366190,
+    "storageKey": "tool-result:Be9yI14yvxVSg1r0TjYPJ",
+    "mimeType": "video/mp4"
+   }
+  ],
+  "receivedAt": 1793257623379
+ },
+ "actions": {
+  "restore": {
+   "via": "历史任务坞「查看结果」",
+   "resultVisible": true,
+   "resultText": "task-mvt76u6p-7cfnff-0",
+   "configPanelVisible": true
+  },
+  "download": {
+   "ok": true,
+   "button": "tool-history-dock-download",
+   "feedback": "下载 sale-video-result-1.mp4",
+   "file": "real-acceptance/SALE_VIDEO/r12-downloaded.mp4",
+   "bytes": 1366190,
+   "sha256": "39193f0a2c97c24e3a06fd6d38f8c633e6b6a53546d1c235038f4f7cb22bcb73",
+   "ftyp": "ftypisom",
+   "bytesMatchTaskRecord": true
+  },
+  "sendCanvas": {
+   "ok": true,
+   "button": "tool-history-dock-canvas",
+   "feedback": "已发送到画布（lA2nAfkKAt5CrIhZDwcTK / video-1793278569675-4m128）",
+   "projectId": "lA2nAfkKAt5CrIhZDwcTK",
+   "nodeId": "video-1793278569675-4m128"
+  },
+  "saveAsset": {
+   "ok": false,
+   "reason": "历史任务坞详情只有 下载/发画布 两个动作，坞内不含「存入资产」入口"
+  }
+ },
+ "verdict": "F PARTIAL：下载+发画布 2 项真实回执（字节 1366190 与任务记录一致），存资产入口在本入口不可用；画幅/时长透传为 PARTIAL",
+ "recordedAt": "2026-10-29T21:05:00+08:00"
+}
