@@ -1,5 +1,5 @@
 import type { BrowserToolInput } from "@/services/api/tools/gateway";
-import type { ToolTask } from "@/services/api/tools/task-machine";
+import type { ToolTask, ToolTaskResultItem } from "@/services/api/tools/task-machine";
 import type { ReferenceImage } from "@/types/image";
 
 import {
@@ -467,6 +467,14 @@ function groupStatus(tasks: readonly ToolTask[]): DressGroupStatus {
 }
 
 /** 任务 → 结果组。分组依据是 prompt 首行标签，因此刷新后仍可还原。 */
+/**
+ * 结果项取图源：内存态是 dataUrl，刷新后只剩 hydrate 还原的对象 URL（item.url）。
+ * 只认 dataUrl 会让「刷新后成功但产物 0 张」——两种都算真实结果。
+ */
+function resultItemSrc(item: ToolTaskResultItem): string | undefined {
+    return item.dataUrl ?? item.url;
+}
+
 export function groupDressTasks(tasks: readonly ToolTask[]): DressResultGroup[] {
     const groups = new Map<string, DressResultGroup>();
     const order = [...DRESS_MAIN_SCENE_OPTIONS, ...DRESS_APLUS_SCENE_OPTIONS];
@@ -482,7 +490,12 @@ export function groupDressTasks(tasks: readonly ToolTask[]): DressResultGroup[] 
             scene: option.key,
             label: option.label,
             tasks: [...bucket],
-            images: bucket.flatMap((task) => (task.result?.items ?? []).filter((item) => Boolean(item.dataUrl)).map((item) => ({ id: item.id, dataUrl: item.dataUrl as string, taskId: task.id }))),
+            images: bucket.flatMap((task) =>
+                (task.result?.items ?? []).flatMap((item) => {
+                    const src = resultItemSrc(item);
+                    return src ? [{ id: item.id, dataUrl: src, taskId: task.id }] : [];
+                }),
+            ),
             status: groupStatus(bucket),
         });
     }
@@ -502,7 +515,7 @@ export function summarizeDressTasks(tasks: readonly ToolTask[]): DressTaskSummar
         else if (task.status === "succeeded") summary.succeeded += 1;
         else if (task.status === "unknown") summary.unknown += 1;
         else summary.failed += 1;
-        summary.images += (task.result?.items ?? []).filter((item) => Boolean(item.dataUrl)).length;
+        summary.images += (task.result?.items ?? []).filter((item) => Boolean(resultItemSrc(item))).length;
     }
     return summary;
 }
