@@ -1,0 +1,94 @@
+{
+  "run": "R17 修复后 三动作真实回执（fresh reload，不新生成/不注入）",
+  "date": "2026-10-29",
+  "fixesUnderTest": {
+    "PRODUCT_IMAGE_SUITE": "e78f6349b3f2c958e1d120b6b1bc242472589f5f",
+    "NEW_DESIGNER": "c034fae6e3f226af358105cfae2353285995d13a"
+  },
+  "method": {
+    "browser": "用户 Chrome 现有会话，127.0.0.1:3000 真实 origin",
+    "newTab": "CDP Target.createTarget（自开标签，收工关闭）",
+    "freshReload": "URL 追加 ?fresh=<epochMs>，禁用缓存式冷启动",
+    "receipts": "点击后读 IndexedDB(infinite-canvas: app_state/tool_assets/image_files) + ~/Downloads 落盘文件 + crypto.subtle SHA-256",
+    "noNewTask": true
+  },
+  "PRODUCT_IMAGE_SUITE": {
+    "page": "/tools/ecommerce-suite/product-image-suite?fresh=1793281840581",
+    "restoredUnits": 2,
+    "taskIds": ["task-mvt6vpdn-17qby2", "task-mvt6vpdo-sc1x8w"],
+    "saveToAssets": [
+      {
+        "assetId": "VNzmLg-tuAfTh0nJcODrp",
+        "resultItemId": "task-mvt6vpdn-17qby2-0",
+        "storageKey": "image:i9oThfW4OXKr5goSri-mF",
+        "bytes": 2785837,
+        "sha256": "6f9dec2af872e9e97f26830b63f3126fd462a71ff8106bfbc3f67c43ae22c6a4",
+        "createdAt": "2026-10-29T13:51:19.392Z"
+      },
+      {
+        "assetId": "wz_Za93ggobpIS9WqsPkG",
+        "resultItemId": "task-mvt6vpdo-sc1x8w-0",
+        "bytes": 2840825,
+        "sha256": "4047edd57e482b45f47a61d8fbacb4ec9b17635d06c1004793039e3ee42d7b52",
+        "createdAt": "2026-10-29T13:51:21.880Z"
+      }
+    ],
+    "saveVerdict": "PASS 2/2 入库（点击后按钮态变为「已存作品库」）",
+    "sendToCanvas": [
+      { "projectId": "aGnnTvJu1QdMhV7H_hu9_", "nodeId": "image-1793281952745-t588k", "nodeType": "image", "createdAt": "2026-10-29T13:52:32.647Z" },
+      { "projectId": "y8FGuKkp7tc1KWnIRwB-f", "nodeId": "image-1793281957755-63se1", "nodeType": "image", "createdAt": "2026-10-29T13:52:37.653Z" }
+    ],
+    "sendToCanvasVerdict": "PASS 2/2（按钮态变「已发送画布」，canvas_store 新增 2 个 project 各含 1 个 image 节点）",
+    "download": [
+      {
+        "file": "~/Downloads/product-image-suite-result-1 (3).png",
+        "bytes": 2785837,
+        "sha256": "6f9dec2af872e9e97f26830b63f3126fd462a71ff8106bfbc3f67c43ae22c6a4",
+        "mtime": "2026-10-29 21:52:36",
+        "matchesAssetId": "VNzmLg-tuAfTh0nJcODrp",
+        "bytesEqual": true,
+        "shaEqual": true
+      }
+    ],
+    "downloadVerdict": "PARTIAL 1/2：第 1 张（A+）落盘且与资产字节 sha 完全一致；第 2 张（场景图）单击后无新文件、无 .crdownload、页面无报错——Chrome 对同一 origin 的连续自动下载静默拦截（downloadResultItem 成功后本就不写 UI 回执，故应用层不可见）",
+    "downloadRootCause": "browser-policy: Chrome automatic-downloads 限制；非应用异常（无 ToolResultActionError，无 blob/dataUrl 取字节失败）"
+  },
+  "NEW_DESIGNER": {
+    "page": "/tools/product-design/new-designer?fresh=1793281986826",
+    "taskId": "task-mvtdl9v8-165q1n",
+    "responseId": "dz1-156niae-2",
+    "storedResult": {
+      "storageKey": "tool-result:vf21IxChoGYqJ9C8z8qMg",
+      "bytes": 411801,
+      "sha256": "90e28e0f93420bb42270708737760d810d9df1e986566aed60d61a79b4a09d88"
+    },
+    "download": {
+      "file": "~/Downloads/new-designer-result-1 (2).png",
+      "bytes": 411801,
+      "sha256": "90e28e0f93420bb42270708737760d810d9df1e986566aed60d61a79b4a09d88",
+      "mtime": "2026-10-29 21:53:35",
+      "bytesEqual": true,
+      "shaEqual": true
+    },
+    "downloadVerdict": "PASS（c034fae 生效：fresh reload 后 fetch 不再 Failed to fetch，字节与 IndexedDB 真字节 sha 一致）",
+    "sendToCanvas": {
+      "notice": "已发送画布（项目 Z_1vTtbr · 节点 image-17…）",
+      "projectId": "Z_1vTtbrlxiYoAUmDXh3t",
+      "nodeId": "image-1793282047892-95442",
+      "nodeType": "image",
+      "createdAt": "2026-10-29T13:54:07.814Z",
+      "verdict": "PASS"
+    },
+    "saveToAssets": [
+      { "assetId": "nowDKQUvmRssATNlZ83VO", "bytes": 411801, "sha256": "90e28e0f93420bb42270708737760d810d9df1e986566aed60d61a79b4a09d88", "createdAt": "2026-10-29T11:00:23.439Z" },
+      { "assetId": "8J_BAwI8zxZ4ShWj0fxB7", "bytes": 411801, "sha256": "90e28e0f93420bb42270708737760d810d9df1e986566aed60d61a79b4a09d88", "createdAt": "2026-10-29T10:04:07.700Z" }
+    ],
+    "saveVerdict": "PASS（同一 taskId 的 2 条资产，字节/sha 与下载文件一致；设计器「导出设计稿」即入库，结果条已显示「已入库资产 #156niae- · 402 KB」）"
+  },
+  "residualRisks": [
+    "PIS 保存的 asset.metadata 只写 resultItemId，不写 taskId（需靠 resultItemId 前缀反推）",
+    "PIS 保存成功后 UI 只显示「已存作品库」，不显示 assetId，人工无法直接核对",
+    "PIS 连续下载第 2 张被浏览器静默拦截；若要批量下载需改打包 zip 或显式提示用户允许自动下载",
+    "NEW_DESIGNER fresh reload 后无独立「存资产」按钮，入库能力绑定在导出动作上"
+  ]
+}
