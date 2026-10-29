@@ -83,6 +83,8 @@ export function ImageTextEditWorkspace() {
     const [history, setHistory] = useState<ImageTextBoxHistory>(() => createImageTextBoxHistory([]));
     const [selectedId, setSelectedId] = useState<string>("");
     const [snapshot, setSnapshot] = useState<ImageTextEditSnapshot | undefined>();
+    const [draftRestored, setDraftRestored] = useState(false);
+    const snapshotRestoredRef = useRef(false);
     const [running, setRunning] = useState(false);
     const [uploading, setUploading] = useState(false);
     const [errorText, setErrorText] = useState("");
@@ -110,16 +112,33 @@ export function ImageTextEditWorkspace() {
         let alive = true;
         void (async () => {
             const draft = await hydrateDraft(toolId);
-            if (!alive || !draft) return;
-            const restored = readImageTextEditValues(draft.values);
-            setValues(restored);
-            setHistory(createImageTextBoxHistory(restored.boxes));
-            setSelectedId(restored.boxes[0]?.id ?? "");
+            if (!alive) return;
+            if (draft) {
+                const restored = readImageTextEditValues(draft.values);
+                setValues(restored);
+                setHistory(createImageTextBoxHistory(restored.boxes));
+                setSelectedId(restored.boxes[0]?.id ?? "");
+            }
+            setDraftRestored(true);
         })();
         return () => {
             alive = false;
         };
     }, [hydrateDraft]);
+
+    /** 刷新后自然回填：由落盘任务还原快照（不伪造字节，结果仍只认任务 result.items）。
+     *  必须等草稿恢复完成，否则会用默认值算出与任务不一致的快照指纹。 */
+    useEffect(() => {
+        if (!draftRestored || snapshotRestoredRef.current) return;
+        const newest = Object.values(tasks)
+            .filter((task) => task.toolId === toolId)
+            .sort((a, b) => b.createdAt - a.createdAt)[0];
+        if (!newest) return;
+        if (newest.status === "draft" || newest.status === "validating" || newest.status === "submitting") return;
+        snapshotRestoredRef.current = true;
+        if (snapshot) return;
+        setSnapshot(createImageTextEditSnapshot(valuesRef.current, newest.draftRevision ?? draftRevision, newest.clientOperationId ?? ""));
+    }, [draftRestored, draftRevision, snapshot, tasks, toolId]);
 
     // 草稿落盘：values 每次都写（含框），刷新后能续上同一批文字框。
     useEffect(() => {

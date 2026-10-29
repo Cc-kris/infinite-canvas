@@ -1,0 +1,45 @@
+{
+ "disabledActions": [],
+ "dock": [],
+ "items": [
+  {
+   "id": "task-mvs8bhu1-hhue24-0",
+   "kind": "image",
+   "payloadDropped": true
+  }
+ ],
+ "navType": "reload",
+ "origin": "http://127.0.0.1:3000",
+ "resultCardText": null,
+ "snapshotHeader": null,
+ "taskId": "task-mvs8bhu1-hhue24",
+ "taskStatus": "succeeded",
+ "url": "http://127.0.0.1:3000/tools/product-design/image-text-edit",
+ "toolId": "IMAGE_TEXT_EDIT",
+ "route": "/tools/product-design/image-text-edit",
+ "app": "http://127.0.0.1:3000",
+ "method": "复用已有真实任务 task-mvs8bhu1-hhue24；Page.reload(navType=reload) 后读 DOM 与任务库；未注入、未新生成、未手动点历史项",
+ "payload": {
+  "payloadDropped": true,
+  "storageKey": null,
+  "url": null,
+  "bytes": null,
+  "proof": [
+   "tool-task item 只有 {id,kind,payloadDropped:true}",
+   "IDB media_files/image_files 全量扫描无 844613B / 无 tool-result 记录对应该任务",
+   "tool_assets 仅源图 product-watch.jpg 31860B",
+   "localhost:3000 origin 任务库无 IMAGE_TEXT_EDIT 任务"
+  ]
+ },
+ "actions": {
+  "download": "不可用(无字节)",
+  "saveToAssets": "不可用(无字节)",
+  "sendToCanvas": "不可用(无字节)"
+ },
+ "codeChange": "image-text-edit.tsx: 草稿恢复完成后由落盘任务回填快照(createImageTextEditSnapshot(values, task.draftRevision, task.clientOperationId)); 结果仍只认 task.result.items，不伪造字节",
+ "verdict": "BLOCKED(payload)：自然恢复链路已具备，但该真实任务无任何可验证字节，三动作无法取证",
+ "limits": [
+  "本轮 reload 抓取 1.5s 窗口内未取到结果卡文本/DOM，按钮列表为空，需二次抓取确认",
+  "轮次上限未复抓"
+ ]
+}
