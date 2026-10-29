@@ -1,0 +1,66 @@
+{
+  "schema": "r8-fix-video-h-reload/1",
+  "capturedAt": "2026-10-29",
+  "profile": "ego lite 真实用户 profile（localStorage 已有 63 条 tool-task 记录，非新建空 profile）",
+  "origin": "http://127.0.0.1:3000",
+  "toolId": "AI_VIDEO_EDITING",
+  "route": "/tools/ai-video/ai-video-editing",
+  "steps": [
+    { "step": "navigate", "navType": "navigate", "dockItems": 7, "hasResultArea": true },
+    { "step": "reload", "marker": "sessionStorage r8fix:target stage=reloading", "preReloadDockItems": 7 }
+  ],
+  "afterReload": {
+    "navType": "reload",
+    "dockPresent": true,
+    "dockItems": 7,
+    "resultAreaPresent": true,
+    "resultView": "empty",
+    "resultVideos": [],
+    "note": "刷新后坞内任务恢复（task-mvt42rpv-kfl1ov 在列），但结果区 data-view=empty、无 video 元素；点击坞条目仅展开，不回填结果"
+  },
+  "task": {
+    "id": "task-mvt42rpv-kfl1ov",
+    "toolId": "AI_VIDEO_EDITING",
+    "status": "succeeded",
+    "upstreamTaskId": "task_QFvq6WMc09jv2kSZzh4fFboNx5ZccHBm",
+    "storageKey": "tool-result:6x-FsSnD1IMk76p5iayw-",
+    "receivedAt": 1793260637648
+  },
+  "bytes": {
+    "source": "刷新后从任务记录取 blob URL 再 fetch（真实网络/内存字节，非声明值）",
+    "bytes": 2268656,
+    "mimeType": "video/mp4",
+    "boxes": [
+      { "offset": 0, "size": 32, "type": "ftyp" },
+      { "offset": 32, "size": 6156, "type": "moov" },
+      { "type": "mvhd", "version": 0, "timescale": 1000, "duration": 6584, "seconds": 6.584 },
+      { "type": "trak", "size": 2750 },
+      { "type": "trak", "size": 3161 }
+    ]
+  },
+  "defect": {
+    "id": "VIDEO-H-RESULT-NOT-RESTORED",
+    "summary": "任务快照与结果字节都已落盘（IDB storageKey 可复原），但四个视频工作台的结果区只读本会话 useState，刷新后结果区为空，下载/存资产/发画布全部不可达",
+    "scope": ["AI_VIDEO_EDITING", "VIDEO_REPLICATION", "IMAGE_TO_VIDEO", "VIDEO_TRANSLATION"]
+  },
+  "fix": {
+    "files": [
+      "web/src/features/tools/stored-tool-task.ts",
+      "web/src/features/tools/use-stored-tool-task.ts",
+      "web/src/components/tools/workspaces/video.tsx",
+      "web/src/components/tools/workspaces/video-translation.tsx",
+      "web/src/components/tools/workspaces/image-to-video.tsx",
+      "web/src/features/tools/stored-tool-task.test.ts"
+    ],
+    "behavior": "挂载时 hydrate 任务库 → 取该工具最近一条落盘任务 → 仅当本会话 task 为空时回填（不覆盖新提交）；失败任务同样回填，结果区显示真实失败原因",
+    "verification": {
+      "typecheck": "bunx tsc --noEmit -p tsconfig.json → 无输出（通过）",
+      "unit": "bun test src/features/tools → 1149 pass / 0 fail（含新增 3 例）",
+      "browserReloadAfterFix": "未完成：ego lite 目标标签残留调试会话（CDP: Another debugger is already attached），页内脚本无法取回执；VTDecoder 进程 93% CPU 显示该页已在解码视频，但未取得可复核 DOM 回执，故不据此判 PASS"
+    }
+  },
+  "gradeImpact": {
+    "H": "PARTIAL（不变）：真实 task + 机器 reload 采集 + 2,268,656B 可抓字节已具备；结果区回填修复已落地并有单测，但浏览器 reload 复验未取到回执",
+    "R": "不变"
+  }
+}

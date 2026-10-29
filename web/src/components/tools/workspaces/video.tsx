@@ -18,6 +18,7 @@ import { ToolAssetInput } from "@/components/tools/tool-asset-input";
 import { ToolResult } from "@/components/tools/tool-result";
 import { ToolShell } from "@/components/tools/tool-shell";
 import { ToolTaskHistory } from "@/components/tools/tool-task-history";
+import { useStoredToolTask } from "@/features/tools/use-stored-tool-task";
 import { ToolCases } from "../tool-cases";
 import {
     SALE_VIDEO_COUNTRIES,
@@ -1458,6 +1459,15 @@ export function AiVideoEditingWorkspace({ className }: AiVideoEditingWorkspacePr
     const [draftReady, setDraftReady] = useState(false);
     /** D3：本地 Blob 失效的具体原因（空串 = 素材可用），直接决定按钮是否可点。 */
     const [assetIssue, setAssetIssue] = useState("");
+    /**
+     * 结果回填：任务与结果字节都已落库（use-tool-task-store + media_files/storageKey），
+     * 刷新/重进后按最近一条落盘任务还原结果区；否则「编辑成功 → 刷新 → 结果空白」，
+     * 下载 / 存资产 / 发画布全部点不到。只在本会话还没有任务时回填，不覆盖新提交。
+     */
+    const storedTask = useStoredToolTask(AI_VIDEO_EDITING_TOOL_ID);
+    useEffect(() => {
+        if (!task && storedTask) setTask(storedTask);
+    }, [storedTask, task]);
     const revisionRef = useRef<number | null>(null);
     const aliveRef = useRef(true);
     const lastReferencesRef = useRef<ReferenceImage[]>([]);
@@ -2045,6 +2055,14 @@ export function VideoReplicationWorkspace({ className }: VideoReplicationWorkspa
     const [refRecords, setRefRecords] = useState<ToolAssetRecord[]>([]);
     const [task, setTask] = useState<ToolTask | null>(null);
     const [submittedFingerprint, setSubmittedFingerprint] = useState<string | null>(null);
+    /**
+     * 结果回填：任务与结果字节都已落库，刷新/重进后按最近一条落盘任务还原结果区，
+     * 否则「生成成功 → 刷新 → 结果空白」，下载 / 存资产 / 发画布全部点不到。
+     */
+    const storedTask = useStoredToolTask(VIDEO_REPLICATION_TOOL_ID);
+    useEffect(() => {
+        if (!task && storedTask) setTask(storedTask);
+    }, [storedTask, task]);
     const [running, setRunning] = useState(false);
     const [error, setError] = useState("");
     const [notice, setNotice] = useState("");
