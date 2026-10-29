@@ -17,6 +17,7 @@
  * （imageMaskUrl/targetMaskUrl，规格 §2 无蒙版控件，不伪造 URL）。
  */
 
+import { pickResultPanelTask } from "./result-panel";
 import {
     HANDHELD_GOODS_TOOL_ID,
     auditHandheldGoodsFields,
@@ -472,4 +473,9 @@ export function handheldGoodsStatusText(view: HandheldGoodsResultView): string {
         default:
             return view.error?.message ?? "生成失败";
     }
+}
+
+/** 结果区面板用：从落库任务里选「本次该展示的那一条」（只选择，不造数据）。 */
+export function handheldGoodsResultPanelTask(tasks: readonly ToolTask[]): ToolTask | null {
+    return pickResultPanelTask(tasks, { toolId: HANDHELD_GOODS_TOOL_ID, includeLatestWithoutItems: true });
 }

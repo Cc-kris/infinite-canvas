@@ -1,0 +1,33 @@
+{
+ "toolId": "HANDHELD_GOODS",
+ "route": "/tools/product-design/handheld-goods",
+ "round": "R14",
+ "date": "2026-10-29",
+ "mode": "fresh reload（复用落库任务 task-mvs5p8g8-or3oim；未注入、未重新生成）",
+ "after": {
+  "navType": "reload",
+  "phase": "reload",
+  "reloadAt": "2026-10-29T12:58:34.063Z",
+  "panel": {
+   "taskId": "task-mvs5p8g8-or3oim",
+   "status": "failed",
+   "primaryTaskIdBound": true,
+   "text": "最近一次上游返回 · 失败 · 任务失败 · 页面刷新中断了这次请求…诊断码：submit-unconfirmed"
+  },
+  "storedTask": {
+   "id": "task-mvs5p8g8-or3oim",
+   "status": "failed",
+   "items": 0
+  },
+  "actionNodes": [
+   "tool-result-failed"
+  ],
+  "downloadSaveCanvas": "不可用：task 物理为 failed 且 items 为空（无真实字节），无下载/存资产/发画布目标；面板只呈现失败态与重试入口。"
+ },
+ "verdict": "H 不成立（无成功任务）：唯一落库任务是刷新中断导致的 failed，无字节、无 sha，故三动作无从验证。面板 primary taskId 绑定与 reload 标记机器可读这两条腿已可观测；字节腿缺失如实保留。",
+ "codePath": "handheld-goods.tsx 结果区改为 lastTask ?? handheldGoodsResultPanelTask(落库任务)，并挂 data-testid/data-task-id/data-task-status；hydrate 用 storageKey 复原字节。",
+ "checks": {
+  "tsc": "exit 0",
+  "tests": "84 pass / 0 fail"
+ }
+}

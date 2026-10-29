@@ -29,6 +29,8 @@ import {
     Design19Workbench,
 } from "@/components/tools/design19-frame";
 import { cn } from "@/lib/utils";
+import { useToolTaskStore } from "@/stores/use-tool-task-store";
+import { handheldGoodsResultPanelTask } from "@/features/tools/adapters/handheld-goods";
 import { ToolResult } from "@/components/tools/tool-result";
 import { ToolShell } from "@/components/tools/tool-shell";
 import {
@@ -89,6 +91,20 @@ export type HandheldGoodsWorkspaceProps = { className?: string };
 
 export function HandheldGoodsWorkspace({ className }: HandheldGoodsWorkspaceProps = {}) {
     const spec = useMemo(() => getHandheldGoodsSpec(), []);
+
+    // 结果面板只认落库任务：刷新后由 hydrate 用 storageKey 复原真实字节，再交给共享 ToolResult。
+    const storedTasks = useToolTaskStore((state) => state.tasks);
+    const tasksHydrated = useToolTaskStore((state) => state.hydrated);
+    const hydrateTasks = useToolTaskStore((state) => state.hydrate);
+    const toolTasks = useMemo(
+        () => Object.values(storedTasks).filter((task) => task.toolId === HANDHELD_GOODS_TOOL_ID),
+        [storedTasks],
+    );
+    const panelTask = useMemo(() => handheldGoodsResultPanelTask(toolTasks), [toolTasks]);
+
+    useEffect(() => {
+        if (!tasksHydrated) hydrateTasks();
+    }, [tasksHydrated, hydrateTasks]);
 
     const [state, setState] = useState<HandheldGoodsState>(() => createHandheldGoodsState());
     const [product, setProduct] = useState<ToolAssetRecord | null>(null);
@@ -627,9 +643,19 @@ export function HandheldGoodsWorkspace({ className }: HandheldGoodsWorkspaceProp
                             </button>
                         ) : null}
 
-                        {lastTask ? (
-                            <div className="mt-4">
-                                <ToolResult task={lastTask} toolId={HANDHELD_GOODS_TOOL_ID} title="最近一次上游返回" />
+                        {lastTask || panelTask ? (
+                            <div
+                                className="mt-4"
+                                data-testid="handheld-result-panel"
+                                data-tool-id={HANDHELD_GOODS_TOOL_ID}
+                                data-task-id={(lastTask ?? panelTask)!.id}
+                                data-task-status={(lastTask ?? panelTask)!.status}
+                            >
+                                <ToolResult
+                                    task={(lastTask ?? panelTask)!}
+                                    toolId={HANDHELD_GOODS_TOOL_ID}
+                                    title="最近一次上游返回"
+                                />
                             </div>
                         ) : null}
                     </div>
