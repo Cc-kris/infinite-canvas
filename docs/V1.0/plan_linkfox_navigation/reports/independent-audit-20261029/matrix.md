@@ -1,6 +1,6 @@
 # 39 工具独立证据矩阵（F/T/R/H/K/U）
 
-- 生成时间：2026-10-29T15:40:58 ｜ 分支 `feat/linkfox-v1-real` ｜ HEAD `dda567d`
+- 生成时间：2026-10-29T15:41:17 ｜ 分支 `feat/linkfox-v1-real` ｜ HEAD `e0fbfd9`
 - 口径：见 `rubric`（matrix.json）。所有结论绑定证据文件，R 产物做了尺寸/字节/哈希复核。
 
 ## 汇总

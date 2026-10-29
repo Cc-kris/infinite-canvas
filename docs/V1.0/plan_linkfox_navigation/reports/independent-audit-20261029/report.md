@@ -141,6 +141,8 @@ F=PARTIAL 共 19 个，分两类：
 
 其余 35 个工具仍为 PARTIAL：任务是否落盘未经「整页加载后回填」验证。判定依据（可 `rg` 复验）：`run-b5-history-dock.mjs` 与 `run-b4-dock-actions.mjs` 均直接 `store.persistTask(payload)` 注入。
 
+**一处口径说明**：`e990e85` 给 SCENE_TRANSFER 补了 `SCENE_TRANSFER_SNAPSHOT_SLOT` 草稿槽 + `restored-after-reload.png`，刷新后能恢复工作台。但这是「草稿/快照恢复」，不是「历史坞列出已提交任务」，两者证据形态不同，故 SCENE_TRANSFER 的 H 仍为 PARTIAL（U/V 不受影响）。
+
 ### 4. 文案（T）
 
 17 条 warning，集中在 `video.tsx`(12)、`video-translation.tsx`(3)、`suite.tsx`(2)，规则均为 `unfinished-copy:case-module`。修复方式是补齐「优秀案例」模块的真实数据渲染，而不是换文案。
