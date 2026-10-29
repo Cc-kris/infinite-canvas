@@ -1,0 +1,24 @@
+{
+  "realSucceededTaskIds": [
+    "task-mvsa3pt6-4wqy46"
+  ],
+  "historicalByteAudit": "同上：items 仅 {id,kind,payloadDropped:true}，无任何地址/存储键，IDB 无对应字节，无资产/画布血缘 → 真实字节不存在。",
+  "fix": "adapters/remove-pen.ts removePenRunFromTask 结果图判定加入 storageKey，并把 storageKey/bytes 透传到 image；此前 storageKey-only 任务被降级成 empty-result。",
+  "changedFiles": [
+    "web/src/features/tools/adapters/remove-pen.ts"
+  ],
+  "tool": "REMOVE_PEN",
+  "common": {
+    "schema": "r13-mapping-fix/1",
+    "date": "2026-10-29",
+    "baseCommit": "a087ce4",
+    "browserOrigin": "http://127.0.0.1:3000",
+    "idbDatabase": "infinite-canvas",
+    "mediaStore": "media_files",
+    "verification": {
+      "tsc": "pass",
+      "tests": "bun test src/features/tools/adapters src/components/tools/workspaces -> 1125 pass / 0 fail"
+    }
+  },
+  "verdict": "MAPPING_FIXED / H_BLOCKED_BY_MISSING_BYTES"
+}

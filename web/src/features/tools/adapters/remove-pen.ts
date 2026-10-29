@@ -145,7 +145,7 @@ export type RemovePenRun = {
     unitId: string;
     snapshotHash: string;
     task: ToolTask;
-    image?: { url?: string; dataUrl?: string };
+    image?: { url?: string; dataUrl?: string; storageKey?: string; bytes?: number };
     status: "succeeded" | "failed" | "cancelled" | "unknown";
     error?: { code: string; message: string };
 };
@@ -168,12 +168,17 @@ export type RemovePenUnitRef = Pick<RemovePenUnit, "id" | "snapshotHash"> & Part
 
 export function removePenRunFromTask(unit: RemovePenUnitRef, task: ToolTask): RemovePenRun {
     const base = { unitId: unit.id, snapshotHash: unit.snapshotHash, task };
-    const firstImage = task.result?.items.find((item) => item.kind === "image" && (item.dataUrl || item.url));
+    // 刷新后快照只剩 storageKey 时同样视为有结果图（字节在 media_files）。
+    const firstImage = task.result?.items.find((item) => item.kind === "image" && (item.dataUrl || item.url || item.storageKey));
     if (task.status === "succeeded") {
         if (!firstImage) {
             return { ...base, status: "failed", error: { code: "empty-result", message: "上游返回成功但没有图片结果" } };
         }
-        return { ...base, status: "succeeded", image: { url: firstImage.url, dataUrl: firstImage.dataUrl } };
+        return {
+            ...base,
+            status: "succeeded",
+            image: { url: firstImage.url, dataUrl: firstImage.dataUrl, storageKey: firstImage.storageKey, bytes: firstImage.bytes },
+        };
     }
     if (task.status === "failed") {
         return { ...base, status: "failed", error: task.error ? { code: task.error.code, message: task.error.message } : { code: "task-failed", message: "任务失败（上游未给出原因）" } };
