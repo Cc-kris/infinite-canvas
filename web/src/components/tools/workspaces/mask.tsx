@@ -1303,7 +1303,8 @@ export function RemovePenWorkspace({ className }: RemovePenWorkspaceProps = {}) 
      * 这里按 storageKey 从 media_files 取回真实字节的对象 URL 供渲染与接力。
      * 只读真实存在的字节，取不到就保持空（不造图）。
      */
-    const resultStorageKey = activeRun?.image?.storageKey;    const [storedResultUrl, setStoredResultUrl] = useState<string | null>(null);
+    const resultStorageKey = activeRun?.image?.storageKey;
+    const [storedResultUrl, setStoredResultUrl] = useState<string | null>(null);
     useEffect(() => {
         if (!resultStorageKey) {
             setStoredResultUrl(null);

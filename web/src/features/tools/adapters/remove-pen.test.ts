@@ -38,8 +38,10 @@ import {
     buildRemovePenUnit,
     clampCompareSplit,
     compareSplitLabel,
+    removePenResultItem,
     removePenResultView,
     removePenRunFromTask,
+    removePenTaskHasResult,
     toRemovePenReference,
 } from "./remove-pen";
 import { getToolById } from "../registry";
@@ -335,5 +337,46 @@ describe("REMOVE_PEN 刷新后从落盘任务恢复", () => {
         const run = removePenRunFromTask({ id: task.id, snapshotHash: task.id }, task);
         expect(run.status).toBe("failed");
         expect(run.image).toBeUndefined();
+    });
+});
+
+describe("REMOVE_PEN storageKey-only 定位符（刷新后无 dataUrl / 无持久 url）", () => {
+    const storageKeyOnlyTask = () =>
+        toolTask({
+            status: "succeeded",
+            result: {
+                items: [
+                    {
+                        id: "item-1",
+                        kind: "image",
+                        mimeType: "image/png",
+                        url: "blob:https://app/dead-session-url",
+                        storageKey: "tool-result:task-1:0:abc",
+                        bytes: 2545568,
+                    },
+                ],
+                receivedAt: 2,
+            } as ToolTask["result"],
+        });
+
+    test("历史列表判据认 storageKey：刷新后该任务不再被当成无结果", () => {
+        expect(removePenTaskHasResult(storageKeyOnlyTask())).toBe(true);
+        expect(removePenTaskHasResult(toolTask({ result: { items: [{ kind: "image" }], receivedAt: 2 } as ToolTask["result"] }))).toBe(false);
+    });
+
+    test("run 还原把 storageKey/bytes 带下来，不判失败", () => {
+        const run = removePenRunFromTask({ id: "unit-1", snapshotHash: "hash-1" }, storageKeyOnlyTask());
+        expect(run.status).toBe("succeeded");
+        expect(run.image?.storageKey).toBe("tool-result:task-1:0:abc");
+        expect(run.image?.bytes).toBe(2545568);
+    });
+
+    test("view.hasImage 为真、resultItem 携带 storageKey 供三动作取真实字节", () => {
+        const run = removePenRunFromTask({ id: "unit-1", snapshotHash: "hash-1" }, storageKeyOnlyTask());
+        expect(removePenResultView({ run }).hasImage).toBe(true);
+        const item = removePenResultItem(run, REMOVE_PEN_TOOL_ID, "blob:resolved-from-idb");
+        expect(item).not.toBeNull();
+        expect(item!.storageKey).toBe("tool-result:task-1:0:abc");
+        expect(item!.dataUrl).toBeUndefined();
     });
 });
