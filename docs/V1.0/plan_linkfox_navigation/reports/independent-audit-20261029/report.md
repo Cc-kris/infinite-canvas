@@ -220,4 +220,4 @@ cat docs/V1.0/plan_linkfox_navigation/reports/independent-audit-20261029/logs/te
 | `reports/independent-audit-20261029/matrix.{json,md}` | 39×6 结论 + 每维证据路径 |
 | `reports/independent-audit-20261029/scope-audit.json` | 0 error / 17 warning 明细 |
 | `evidence/real-acceptance/H-history-freshload-20261029.json` | 4 个工具的整页加载历史回填实测 |
-| `reports/independent-audit-20261029/logs/` | typecheck(0) 与 36 项单测全绿日志 |
+| `reports/independent-audit-20261029/logs/typecheck.txt` `logs/tests.txt` | typecheck exit 0；单测 36 pass / 0 fail（`*.log` 被 .gitignore 忽略，故留 `.txt` 副本） |
