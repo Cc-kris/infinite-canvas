@@ -1,0 +1,21 @@
+{
+ "tool": "FISSION_LINK",
+ "capturedAt": "2026-10-29T11:54:22.922Z",
+ "route": "/tools/product-design/fission-link",
+ "navType": "reload",
+ "dockCount": "8 条",
+ "dockItems": [
+  "2026-10-29 12:17 已完成 Keep the product in the reference image \"链接参考图\" exactly … default::gpt-image-2 · image · 1 个结果",
+  "2026-10-29 12:16 已完成 Keep the product in the reference image \"链接参考图\" exactly … default::gpt-image-2 · image · 1 个结果",
+  "2026-10-29 12:15 失败 Keep the product in the reference image \"链接参考图\" exactly … default::gpt-image-2 · image · 0 个结果",
+  "2026-10-29 12:08 已完成 Keep the product in the reference image \"链接参考图\" exactly … default::gpt-image-2 · image · 1 个结果",
+  "2026-10-29 12:04 已完成 Keep the product in the reference image \"链接参考图\" exactly … default::gpt-image-2 · image · 1 个结果",
+  "2026-10-28 22:31 已完成 Keep the product in the reference image \"product_watch.j… default::gpt-image-2 · image · 1 个结果 原始文件未保留（历史快照只存元数据），如需文件请",
+  "2026-10-28 22:24 失败 Keep the product in the reference image \"product_watch.j… default::gpt-image-2 · image · 0 个结果",
+  "2026-10-28 22:12 失败 Keep the product in the reference image \"product_watch.j… default::gpt-image-2 · image · 0 个结果"
+ ],
+ "actionReceipts": [
+  "已发送到画布（n72ES3VldwkXZZXshMcKp / image-1793274830645-3rs9o）"
+ ],
+ "realExportNote": "FISSION_LINK 真实产物为上游返回的 PNG（1 个结果/任务），本次提交的是该持久化字节本身，未伪造链接/图片"
+}

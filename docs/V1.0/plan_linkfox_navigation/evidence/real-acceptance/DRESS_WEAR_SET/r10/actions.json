@@ -1,0 +1,8 @@
+{
+ "tool": "DRESS_WEAR_SET",
+ "task": "task-mvt74l6q-1vljau",
+ "capturedAt": "2026-10-29T11:53:00Z",
+ "actionReceipts": null,
+ "status": "UNVERIFIED",
+ "note": "dock 三动作点击已执行但脚本超时未回收回执，本轮未取得可复核回执文本；不臆测 PASS"
+}

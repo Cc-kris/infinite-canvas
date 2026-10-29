@@ -1,0 +1,11 @@
+{
+ "tool": "PRODUCT_IMAGE_SUITE",
+ "task": "task-mvt6vpdo-sc1x8w",
+ "capturedAt": "2026-10-29T11:53:20Z",
+ "actionReceipts": [
+  "已下载 product-image-suite…（download 触发）",
+  "已存入资产库（image · q0YRT…）"
+ ],
+ "source": "web_execute_js 执行期间 DOM transient 文案（含 task-mvt6vpdo-sc1x8w）",
+ "status": "VERIFIED-TEXT"
+}
