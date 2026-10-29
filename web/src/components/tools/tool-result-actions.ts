@@ -57,8 +57,21 @@ export function resolveToolResultView(task?: Pick<ToolTask, "status"> | null): T
     }
 }
 
+/**
+ * 结果项的 `kind` 只由上游成功时写入；外部恢复/旧快照里可能只剩 mimeType（或 dataUrl 前缀）。
+ * 缺 kind 时按 mimeType 兜底推导，否则视频结果会被当成图片渲染（<img src="blob:...video/mp4"> 只能是破图），
+ * 且「存入资产」「发送画布」也会走成图片分支。
+ * 已经对得上的项原样返回（保持引用不变，避免无谓重渲染）。
+ */
+function withDerivedKind(item: ToolTaskResultItem): ToolTaskResultItem {
+    const mime = (item.mimeType ?? item.blob?.type ?? (item.dataUrl?.startsWith("data:") ? item.dataUrl.slice(5).split(/[;,]/)[0] : "") ?? "").toLowerCase();
+    const derived = mime.startsWith("video/") ? "video" : mime.startsWith("image/") ? "image" : undefined;
+    if (!derived || item.kind === derived) return item;
+    return { ...item, kind: derived };
+}
+
 export function resultItems(task?: Pick<ToolTask, "result"> | null): ToolTaskResultItem[] {
-    return task?.result?.items ?? [];
+    return (task?.result?.items ?? []).map(withDerivedKind);
 }
 
 export type ResultSummary = { total: number; images: number; videos: number; dropped: number };

@@ -1,7 +1,7 @@
 import type { ReactElement } from "react";
 import { renderToStaticMarkup } from "react-dom/server";
 
-import type { ToolTask, ToolTaskStatus } from "@/services/api/tools/task-machine";
+import type { ToolTask, ToolTaskResultItem, ToolTaskStatus } from "@/services/api/tools/task-machine";
 import { readZip } from "@/lib/zip";
 
 type Expectation = {
@@ -94,6 +94,23 @@ describe("result view mapping", () => {
         expect(summarizeResultItems([imageItem, videoItem, { id: "item-3", kind: "image", payloadDropped: true }])).toEqual({ total: 3, images: 2, videos: 1, dropped: 1 });
         expect(resultItems(makeTask({ result: { items: [imageItem], receivedAt: 1 } }))).toHaveLength(1);
         expect(resultItems(makeTask({}))).toEqual([]);
+    });
+
+    test("derives missing kind from mimeType so video results never render as images", () => {
+        const legacyVideo = { id: "video-0", url: "blob:http://127.0.0.1:3000/x", storageKey: "tool-result:6x-", bytes: 2268656, mimeType: "video/mp4" } as unknown as ToolTaskResultItem;
+        const derived = resultItems(makeTask({ result: { items: [legacyVideo], receivedAt: 1 } }));
+        expect(derived).toHaveLength(1);
+        expect(derived[0].kind).toBe("video");
+        expect(derived[0].id).toBe("video-0");
+        expect(derived[0].storageKey).toBe("tool-result:6x-");
+        expect(summarizeResultItems(derived)).toEqual({ total: 1, images: 0, videos: 1, dropped: 0 });
+
+        const legacyDataUrlImage = { id: "image-0", dataUrl: "data:image/webp;base64,AA" } as unknown as ToolTaskResultItem;
+        expect(resultItems(makeTask({ result: { items: [legacyDataUrlImage], receivedAt: 1 } }))[0].kind).toBe("image");
+
+        // 已带正确 kind 的项保持引用不变，避免无谓重渲染
+        const same = resultItems(makeTask({ result: { items: [videoItem], receivedAt: 1 } }));
+        expect(same[0]).toBe(videoItem);
     });
 
     test("builds file names from real mime/data URL, not a fixed guess", () => {
