@@ -2,8 +2,8 @@
   "tool": "IMAGE_TRANSLATION",
   "name": "批量翻译",
   "route": "/tools/ecommerce-suite/image-translation",
-  "status": "PASS",
-  "result": "verified",
+  "status": "PARTIAL",
+  "result": "verified-with-ui-diffs",
   "runAt": "2026-10-28T20:20:00+08:00",
   "worker": "sds",
   "attempts": [],
@@ -67,6 +67,36 @@
     "refreshPersistence": "历史任务 0→1 条（提交后刷新仍在）",
     "source": "b4-actions.json"
   },
-  "verdict": "DIFF",
-  "notes": "原 result 记录 BLOCKED（2026-10-28 环境 CDP 超时）；本次复核：b4-actions.json 已留真实三动作证据（747105 字节下载/入库/发画布三处一致），且双端 DOM 默认值直采完成，故状态改为 PASS，verdict=DIFF（12 项差异见 default-values.json）。"
+  "verdict": "PARTIAL",
+  "notes": "原 result 记录 BLOCKED（2026-10-28 环境 CDP 超时）；本次复核：b4-actions.json 已留真实三动作证据（747105 字节下载/入库/发画布三处一致），且双端 DOM 默认值直采完成，故状态改为 PASS，verdict=DIFF（12 项差异见 default-values.json）。",
+  "uiParity": {
+    "checkedAt": "2026-10-29",
+    "method": "登录原站 https://www.linkfox.com/draw/image-translation 与本地 127.0.0.1:3000 同状态截图 + DOM/CSS 直采 + 交互复验（playwright, chrome channel, 1440 视口）",
+    "evidence": {
+      "originScreenshot": "ui-origin-2026-10-29.png",
+      "localScreenshot": "ui-local-2026-10-29.png",
+      "localAfterInteraction": "ui-local-after-interaction-2026-10-29.png",
+      "measurements": "ui-parity-2026-10-29.json",
+      "controls": "default-values.json"
+    },
+    "aligned": [
+      "结果区单页签「生成结果」",
+      "上传区标题「上传需要翻译的图片」+ 三入口（从本地上传/从作品库选择/从商品库选择）",
+      "20M以内，384*384 ~ 4096*4096（12px #999）；💡单张图内500字以下（12px rgb(250,81,81)）",
+      "占位文案「上传多张图片，开始批量翻译」（14px #723CF9）",
+      "原文语言 11 项、无默认、无「自动识别」；点选日语后 aria-pressed 且刷新保持",
+      "目标语言 53 项、默认英语；标题内联「（可多选，已选 N 个语言）」",
+      "主按钮「开始翻译 (20算力)」；无图/无语言时 disabled",
+      "0 条 console error"
+    ],
+    "remainingDiffs": [
+      "目标语言分组归属与每组数量：本地 5 组(26/14/6/6/1)，原站 6 组(25/11/9/6/…)；总数同为 53",
+      "本地保留 12 张上传上限与 PNG/JPG/WebP 约束，UI 不标注；原站未标注",
+      "本地保留折叠「逐文本框校对」+ 结果矩阵空态；原站无此面板（提交后直接出图）",
+      "本地保留历史任务与失败单元重试；原站无",
+      "资产库为空时「从作品库/商品库选择」为 disabled（数据态差异，非入口缺失）",
+      "工具页左侧导航：本地为共享 ToolShell 180px 分区导航，原站为图标轨",
+      "上传区标题字重：本地 500，原站 400（字号 12px 一致）"
+    ]
+  }
 }

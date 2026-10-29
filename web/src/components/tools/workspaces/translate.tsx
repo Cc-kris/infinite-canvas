@@ -1,5 +1,4 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { Link } from "react-router-dom";
 
 import { ToolAssetInput } from "@/components/tools/tool-asset-input";
 import { ToolShell } from "@/components/tools/tool-shell";
@@ -91,13 +90,47 @@ const CHIP_CLASS = (active: boolean) =>
         active ? "bg-[#723CF9] text-white" : "bg-[#ECEEF4] text-[#1D1D1F] hover:bg-[#E1E5EE]",
     );
 
-function Section({ id, title, hint, children }: { id: string; title: string; hint?: string; children: React.ReactNode }) {
+function Section({
+    id,
+    title,
+    titleClassName,
+    hint,
+    titleExtra,
+    collapsible,
+    defaultOpen = false,
+    children,
+}: {
+    id: string;
+    title?: string;
+    titleClassName?: string;
+    hint?: string;
+    titleExtra?: React.ReactNode;
+    collapsible?: boolean;
+    defaultOpen?: boolean;
+    children: React.ReactNode;
+}) {
+    const header = (
+        <header className={collapsible ? "flex items-center justify-between gap-2" : "mb-2 flex items-center justify-between gap-2"}>
+            {title || titleExtra ? (
+                <h2 className={cn("text-sm font-medium", titleClassName)}>
+                    {title}
+                    {titleExtra}
+                </h2>
+            ) : null}
+            {hint ? <span className="text-[11px] text-muted-foreground">{hint}</span> : null}
+        </header>
+    );
+    if (collapsible) {
+        return (
+            <details id={id} open={defaultOpen} className="scroll-mt-16 rounded-lg border border-border bg-card p-3">
+                <summary className="cursor-pointer list-none [&::-webkit-details-marker]:hidden">{header}</summary>
+                <div className="mt-2 space-y-2">{children}</div>
+            </details>
+        );
+    }
     return (
         <section id={id} className="scroll-mt-16 rounded-lg border border-border bg-card p-3">
-            <header className="mb-2 flex items-center justify-between gap-2">
-                <h2 className="text-sm font-medium">{title}</h2>
-                {hint ? <span className="text-[11px] text-muted-foreground">{hint}</span> : null}
-            </header>
+            {header}
             <div className="space-y-2">{children}</div>
         </section>
     );
@@ -520,21 +553,17 @@ export function TranslateWorkspace({ className }: TranslateWorkspaceProps = {}) 
                             {label}
                         </a>
                     ))}
-                    <Link
-                        to={`/tools/ecommerce-suite/${IMAGE_TRANSLATION_SLUG}`}
-                        className="mt-2 block rounded px-2 py-1.5 text-xs text-muted-foreground underline-offset-2 hover:underline"
-                    >
-                        本页规范：{IMAGE_TRANSLATION_SLUG}
-                    </Link>
                 </nav>
             }
         >
             <div className="grid min-h-0 gap-3 bg-[#F7F8FA] p-3 xl:grid-cols-[300px_minmax(0,1fr)]">
                 <div className="space-y-3">
-                    <Section id="images" title="上传需要翻译的图片">
+                    <Section id="images" title="上传需要翻译的图片" titleClassName="text-xs font-normal">
                         <ToolAssetInput
                             toolId={TOOL_ID}
                             variant="linkfox"
+                            title=""
+                            uploadLabel="从本地上传"
                             className="w-full"
                             maxCount={IMAGE_TRANSLATION_MAX_IMAGES}
                             constraints={TRANSLATE_CONSTRAINTS}
@@ -542,13 +571,10 @@ export function TranslateWorkspace({ className }: TranslateWorkspaceProps = {}) 
                             onChange={onAssetsChange}
                             hint={
                                 <>
-                                    20M 以内，{IMAGE_TRANSLATION_MIN_EDGE}*{IMAGE_TRANSLATION_MIN_EDGE} ~ {IMAGE_TRANSLATION_MAX_EDGE}*{IMAGE_TRANSLATION_MAX_EDGE}
+                                    20M以内，{IMAGE_TRANSLATION_MIN_EDGE}*{IMAGE_TRANSLATION_MIN_EDGE} ~ {IMAGE_TRANSLATION_MAX_EDGE}*{IMAGE_TRANSLATION_MAX_EDGE}
                                 </>
                             }
                         />
-                        <p className="text-[11px] text-muted-foreground">
-                            💡当前仅支持单张图内 {IMAGE_TRANSLATION_MAX_TEXT_CHARS} 字以下的内容翻译
-                        </p>
                         {assetIds.length ? (
                             <ul className="space-y-1">
                                 {assetIds.map((assetId) => {
@@ -586,8 +612,15 @@ export function TranslateWorkspace({ className }: TranslateWorkspaceProps = {}) 
                                 })}
                             </ul>
                         ) : (
-                            <p className="text-xs text-muted-foreground">{hydrated ? "还没有图片：从本地上传后开始批量翻译。" : "正在恢复草稿…"}</p>
+                            hydrated ? (
+                                <p className="text-sm text-[#723CF9]">上传多张图片，开始批量翻译</p>
+                            ) : (
+                                <p className="text-xs text-muted-foreground">正在恢复草稿…</p>
+                            )
                         )}
+                        <p className="text-xs text-[#FA5151]">
+                            💡当前仅支持单张图内{IMAGE_TRANSLATION_MAX_TEXT_CHARS}字以下的内容翻译
+                        </p>
                     </Section>
 
                     <Section id="source" title="原文语言">
@@ -617,7 +650,15 @@ export function TranslateWorkspace({ className }: TranslateWorkspaceProps = {}) 
                         ) : null}
                     </Section>
 
-                    <Section id="targets" title="目标语言（可多选）" hint={`已选 ${values.targetLanguages.length} 个语言`}>
+                    <Section
+                        id="targets"
+                        title="目标语言"
+                        titleExtra={
+                            <span className="ml-1 text-sm font-normal text-black/60 dark:text-white/60">
+                                （可多选，已选 {values.targetLanguages.length} 个语言）
+                            </span>
+                        }
+                    >
                         <div className="space-y-2">
                             {TARGET_LANGUAGE_GROUPS.map((group) => {
                                 const count = groupCounts.find((item) => item.key === group.key)?.selected ?? 0;
@@ -672,6 +713,8 @@ export function TranslateWorkspace({ className }: TranslateWorkspaceProps = {}) 
                     </div>
                     <Section
                         id="proofread"
+                        collapsible
+                        defaultOpen={false}
                         title="逐文本框校对"
                         hint={activeRecord ? `${activeRecord.name} · ${activeImage?.boxes.length ?? 0} 个文字框` : "先在左侧选择图片"}
                     >
@@ -823,7 +866,7 @@ export function TranslateWorkspace({ className }: TranslateWorkspaceProps = {}) 
                         ) : null}
                     </Section>
 
-                    <Section id="results" title="生成结果" hint={`${succeededTotal}/${plannedTotal} 完成`}>
+                    <Section id="results" hint={`${succeededTotal}/${plannedTotal} 完成`}>
                         <div className="flex flex-wrap items-center gap-2">
                             <button
                                 type="button"
