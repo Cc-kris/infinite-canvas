@@ -15,8 +15,11 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 import { ToolAssetInput } from "@/components/tools/tool-asset-input";
+import { ToolCases, type ToolCase } from "@/components/tools/tool-cases";
 import { ToolResult } from "@/components/tools/tool-result";
 import { ToolTaskHistory } from "@/components/tools/tool-task-history";
+import { uploadCaseFiles } from "@/features/tools/case-apply";
+import { IMAGE_TO_VIDEO_CASES, type ImageToVideoCase } from "@/features/tools/image-to-video-cases-data";
 import { loadToolAssetRecords, type ToolAssetRecord } from "@/services/api/tools/assets";
 import type { ToolTask } from "@/services/api/tools/task-machine";
 import { useConfigStore } from "@/stores/use-config-store";
@@ -45,6 +48,9 @@ import {
     createImageToVideoSnapshot,
     createImageToVideoValues,
     describeImageToVideoDrift,
+    imageToVideoCaseApplyPatch,
+    imageToVideoRatioFromSize,
+    isImageToVideoDuration,
     linkImageToVideoValues,
     readImageToVideoValues,
     resolveImageToVideoCapability,
@@ -140,6 +146,8 @@ export function ImageToVideoWorkspace({ className, toolId = IMAGE_TO_VIDEO_TOOL_
     const [lostAssets, setLostAssets] = useState<string[]>([]);
     const [runError, setRunError] = useState<string | undefined>();
     const [linkNotice, setLinkNotice] = useState<string | undefined>();
+    const [caseNotice, setCaseNotice] = useState<string | undefined>();
+    const [applyingCaseId, setApplyingCaseId] = useState<string | null>(null);
     const abortRef = useRef<AbortController | null>(null);
 
     // 草稿恢复：先还原值，再按 assetId 拉回资产；丢失的 id 明确提示，不静默丢状态。
@@ -276,6 +284,80 @@ export function ImageToVideoWorkspace({ className, toolId = IMAGE_TO_VIDEO_TOOL_
         [update],
     );
 
+    /**
+     * 「做同款」：真实案例 → 上传原图入库 → 回填表单（原站脚本 / 比例 / 清晰度 / 时长）。
+     * 素材上传失败直接报错，不做任何占位替身。
+     */
+    const applyCase = useCallback(
+        async (item: ToolCase) => {
+            const videoCase = item as ImageToVideoCase;
+            setApplyingCaseId(item.id);
+            setRunError(undefined);
+            setCaseNotice(undefined);
+            try {
+                const assets = await uploadCaseFiles(item);
+                const reference = assets.reference;
+                if (!reference || Array.isArray(reference)) {
+                    throw new Error("该案例没有可回填的原图素材（files.reference 缺失）。");
+                }
+                const asset = imageToVideoSourceFromRecord(reference);
+                const checked = validateImageToVideoSourceSize(asset);
+                if (!checked.ok) throw new Error(`${asset.name}：${checked.message}`);
+
+                setReferences([asset]);
+                const { patch, notices } = imageToVideoCaseApplyPatch(videoCase.apply, [asset.id ?? ""].filter(Boolean));
+                update(patch);
+                setCaseNotice(
+                    [
+                        `已套用原站案例 ${item.id}：原图 1 张 + ${patch.promptMode === "custom" ? `原站脚本 ${videoCase.apply.prompt.trim().length} 字` : "无脚本"}`,
+                        ...notices,
+                    ].join("；"),
+                );
+            } catch (error) {
+                setRunError(error instanceof Error ? error.message : "案例回填失败。");
+            } finally {
+                setApplyingCaseId(null);
+            }
+        },
+        [update],
+    );
+
+    /**
+     * 历史任务 → 表单：把该任务真实提交过的 prompt / 参考图 / 比例放回表单，便于改参数重跑。
+     * 时长与清晰度任务快照里没有存，保持当前值并在提示里说明，不假装恢复。
+     */
+    const restoreFromTask = useCallback(
+        async (historyTask: ToolTask) => {
+            const ratioKey = imageToVideoRatioFromSize(historyTask.configSnapshot?.size);
+            const ids = (historyTask.sourceAssetIds ?? []).filter((id): id is string => typeof id === "string" && id.length > 0);
+            let nextReferences: ImageToVideoAssetLike[] | undefined;
+            let lostCount = 0;
+            if (ids.length) {
+                const { records, lostIds } = await loadToolAssetRecords(ids);
+                nextReferences = records.map(imageToVideoSourceFromRecord);
+                lostCount = lostIds.length;
+                if (lostIds.length) setLostAssets((previous) => Array.from(new Set([...previous, ...lostIds])));
+            }
+            if (nextReferences) setReferences(nextReferences);
+            update({
+                sourceMode: "reference",
+                ...(historyTask.prompt.trim() ? { promptMode: "custom" as const } : {}),
+                prompt: historyTask.prompt,
+                ...(ratioKey ? { aspectRatio: ratioKey } : {}),
+                referenceAssetIds: ids,
+            });
+            setCaseNotice(
+                [
+                    `已按历史任务 ${historyTask.id.slice(0, 8)} 回填表单：提示词取该任务真实提交文本`,
+                    `${nextReferences?.length ?? 0} 张参考图${lostCount ? `（${lostCount} 张本地已不存在）` : ""}`,
+                    ratioKey ? `比例 ${ratioKey}` : "比例未记录",
+                    "时长/清晰度任务快照未存，沿用当前值",
+                ].join("；"),
+            );
+        },
+        [update],
+    );
+
     const submit = useCallback(async () => {
         setRunning(true);
         setRunError(undefined);
@@ -341,6 +423,11 @@ export function ImageToVideoWorkspace({ className, toolId = IMAGE_TO_VIDEO_TOOL_
                     已自动联动：{linkNotice}
                 </p>
             ) : null}
+            {caseNotice ? (
+                <p data-testid="image-to-video-case-note" className="rounded-md bg-muted px-3 py-2 text-[11px] text-muted-foreground">
+                    {caseNotice}
+                </p>
+            ) : null}
 
             <div className="grid min-w-0 gap-3 lg:grid-cols-[minmax(320px,420px)_minmax(0,1fr)]">
                 <div className="flex min-w-0 flex-col gap-3">
@@ -373,6 +460,7 @@ export function ImageToVideoWorkspace({ className, toolId = IMAGE_TO_VIDEO_TOOL_
                                 maxCount={IMAGE_TO_VIDEO_UPLOAD.maxCount}
                                 disabled={disabledField}
                                 constraints={imageConstraints}
+                                syncIds={values.referenceAssetIds}
                                 onChange={onReferenceChange}
                             />
                         ) : null}
@@ -671,10 +759,27 @@ export function ImageToVideoWorkspace({ className, toolId = IMAGE_TO_VIDEO_TOOL_
                 <ToolTaskHistory
                     toolId={toolId}
                     emptyHint="还没有图转视频任务：提交一次后这里会出现真实任务记录（刷新后仍在）"
+                    selectWithoutResult
                     onSelectTask={(historyTask) => {
                         setTask(historyTask);
                         setRunError(undefined);
+                        void restoreFromTask(historyTask);
                     }}
+                />
+            </section>
+
+            <section className="space-y-2 rounded-lg border border-border p-3" data-testid="image-to-video-cases">
+                <div className="flex flex-wrap items-center justify-between gap-2">
+                    <h2 className="text-sm font-medium">优秀案例·做同款</h2>
+                    <span className="text-[11px] text-muted-foreground">
+                        {IMAGE_TO_VIDEO_CASES.length} 条来自 LinkFox 原站 /image/make-case/list 的真实案例；点「做同款」会把原图入库并回填原站脚本与规格
+                    </span>
+                </div>
+                <ToolCases
+                    cases={IMAGE_TO_VIDEO_CASES}
+                    applyingId={applyingCaseId}
+                    onApply={(item) => void applyCase(item)}
+                    emptyHint="暂无优秀案例"
                 />
             </section>
         </div>

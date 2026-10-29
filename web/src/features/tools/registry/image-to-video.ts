@@ -686,6 +686,92 @@ export function describeImageToVideoDrift(snapshot: ImageToVideoSnapshot | undef
     return changed;
 }
 
+/**
+ * 「做同款」映射：原站案例字段 → 本地表单值。
+ *
+ * 诚实边界（每条都要能被证据核对）：
+ * - prompt 用原站案例里的真实脚本文本，原样进 `prompt` 并切到 `custom` 模式，不叠加模板骨架；
+ * - 比例/清晰度取原站 `aspectRatio` / `resolution`，本地没有的档位不硬塞（回落到合法档并提示）；
+ * - 原站 `videoTime`（10~20 秒）超出本地 5/10/15 档位时，按最近档位收敛并**明确提示**，
+ *   绝不把「16 秒」静默当「15 秒」提交；
+ * - 提示词优化默认关闭，避免向案例脚本追加文本、导致同款的 prompt 与原站不一致。
+ */
+export function imageToVideoCaseApplyPatch(input: {
+    prompt: string;
+    ratio: string;
+    resolution: string;
+    originDuration: number;
+}, referenceAssetIds: string[]): { patch: Partial<ImageToVideoValues>; notices: string[] } {
+    const notices: string[] = [];
+    const ratio = IMAGE_TO_VIDEO_RATIO_BY_KEY[input.ratio] ? input.ratio : IMAGE_TO_VIDEO_DEFAULTS.aspectRatio;
+    if (ratio !== input.ratio) notices.push(`原站比例 ${input.ratio} 本地无对应档位，已回落到 ${ratio}`);
+
+    const resolution = IMAGE_TO_VIDEO_RESOLUTION_BY_KEY[input.resolution]
+        ? input.resolution
+        : IMAGE_TO_VIDEO_DEFAULTS.resolution;
+    if (resolution !== input.resolution) {
+        notices.push(`原站清晰度 ${input.resolution} 本地无对应档位，已回落到 ${resolution}`);
+    }
+
+    const duration = nearestImageToVideoDuration(input.originDuration);
+    if (duration !== input.originDuration) {
+        notices.push(
+            `原站案例时长 ${input.originDuration} 秒，本地档位只有 5/10/15 秒，已按最近档位取 ${duration} 秒（请求参数真实变化）`,
+        );
+    }
+
+    const prompt = input.prompt.trim();
+    if (!prompt) {
+        // 原站个别案例本身没有脚本（API 里 prompt 为空）：不编造脚本，只回填原图与规格。
+        return {
+            patch: {
+                sourceMode: "reference",
+                imageInputMode: "local",
+                referenceAssetIds,
+                promptMode: "template",
+                prompt: "",
+                aspectRatio: ratio,
+                resolution,
+                duration,
+            },
+            notices: [...notices, "该案例原站未提供脚本（prompt 为空），本次只回填原图与规格，不编造提示词"],
+        };
+    }
+
+    return {
+        patch: {
+            sourceMode: "reference",
+            imageInputMode: "local",
+            referenceAssetIds,
+            promptMode: "custom",
+            prompt: input.prompt,
+            promptOptimizer: false,
+            aspectRatio: ratio,
+            resolution,
+            duration,
+        },
+        notices,
+    };
+}
+
+/** 最近的时长档位（等距时取更长的一档，避免把案例意图缩短）。 */
+export function nearestImageToVideoDuration(seconds: number): ImageToVideoDuration {
+    const value = Number.isFinite(seconds) && seconds > 0 ? seconds : IMAGE_TO_VIDEO_DEFAULTS.duration;
+    let best: ImageToVideoDuration = IMAGE_TO_VIDEO_DURATIONS[0];
+    for (const candidate of IMAGE_TO_VIDEO_DURATIONS) {
+        const diff = Math.abs(candidate - value);
+        const bestDiff = Math.abs(best - value);
+        if (diff < bestDiff || (diff === bestDiff && candidate > best)) best = candidate;
+    }
+    return best;
+}
+
+/** 历史任务里只存了请求的 `size`，按 value 反推回页面比例档位（认不出就返回 undefined，不乱猜）。 */
+export function imageToVideoRatioFromSize(size: string | undefined): string | undefined {
+    if (!size) return undefined;
+    return IMAGE_TO_VIDEO_RATIOS.find((item) => item.value === size)?.key;
+}
+
 /** 结果单元：一个任务只产出一个视频，失败/待定也要占位，不允许静默消失。 */
 export function imageToVideoExpectedCount(): number {
     return 1;

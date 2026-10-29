@@ -111,6 +111,17 @@ export function ToolTaskHistory({ toolId, className, limit = 8, onSelectTask, em
                                 <p className="mt-0.5 truncate text-[11px] text-muted-foreground">
                                     {task.configSnapshot?.model || "未记录模型"} · {task.capability} · {items.length} 个结果
                                 </p>
+                                {task.error && (task.status === "failed" || task.status === "unknown") ? (
+                                    <p
+                                        className={cn(
+                                            "mt-1 text-[11px]",
+                                            task.status === "unknown" ? "text-amber-600" : "text-red-600",
+                                        )}
+                                        data-testid="tool-task-history-error"
+                                    >
+                                        {task.error.message}
+                                    </p>
+                                ) : null}
                                 {thumbs.length > 0 ? (
                                     <div className="mt-1 flex items-center gap-1">
                                         {thumbs.map((item) => (

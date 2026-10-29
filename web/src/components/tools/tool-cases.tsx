@@ -29,7 +29,8 @@ export type ToolCase = {
     params: ToolCaseParam[];
     /** 结果是否为视频（原站视频案例卡片按 9:16 比例，且带播放标记） */
     video?: boolean;
-    /** 做同款时要写进工具表单的字段（只放该工具真实支持的字段） */
+    /** 视频案例的真实成片地址：卡片用 `result` 当封面图，灯箱预览用这里播视频 */
+    videoSrc?: string;
     /** 做同款回填的字段（由调用方按自身 draft 结构消费，未识别字段忽略） */
     apply?: ToolCaseApply;
 };
@@ -43,6 +44,8 @@ export type ToolCaseApply = {
     sizePreset?: string | number;
     /** 生成数量 */
     outputNum?: number;
+    /** 做同款要入库的真实素材：槽位名 → `web/public` 下的绝对路径（多图槽位用数组） */
+    files?: Record<string, string | string[]>;
     [key: string]: unknown;
 };
 
@@ -74,7 +77,7 @@ export function ToolCases({ cases, onApply, applyingId, className, emptyHint = "
 
     return (
         <div data-testid="tool-cases" className={cn("min-w-0", className)}>
-            <div className="[column-count:2] [column-gap:18px]">
+            <div className="[column-width:264px] [column-gap:18px]">
                 {cases.map((item) => {
                     const busy = applyingId === item.id;
                     return (
@@ -158,7 +161,15 @@ export function ToolCases({ cases, onApply, applyingId, className, emptyHint = "
                     className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-6"
                 >
                     {preview.video ? (
-                        <video src={preview.result} controls autoPlay loop className="max-h-full max-w-full rounded-lg shadow-lg" />
+                        <video
+                            data-testid="tool-case-preview-video"
+                            src={preview.videoSrc ?? preview.result}
+                            poster={preview.videoSrc ? preview.result : undefined}
+                            controls
+                            autoPlay
+                            loop
+                            className="max-h-full max-w-full rounded-lg shadow-lg"
+                        />
                     ) : (
                         <img src={preview.result} alt={`优秀案例-${preview.id}`} className="max-h-full max-w-full rounded-lg object-contain shadow-lg" />
                     )}

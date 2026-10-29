@@ -56,6 +56,12 @@ export type ToolAssetInputProps = {
     compact?: boolean;
     /** 选择结果变化：成功入库的 id 与记录（顺序即用户顺序） */
     onChange?: (assetIds: string[], records: ToolAssetRecord[]) => void;
+    /**
+     * 外部改选：父组件（做同款 / 历史回填 / 任务恢复）把一组资产 id 写进表单时，
+     * 用这个 prop 把上传区列表同步过去；不传则保持旧行为（只由用户操作驱动）。
+     * 传入的 id 与当前列表一致时不做任何事，不会形成回环。
+     */
+    syncIds?: string[];
 };
 
 type AssetItem = {
@@ -82,7 +88,7 @@ function phaseLabel(progress: ToolAssetUploadProgress) {
  * 资产输入：真实 `<input type=file>` / 拖拽 → `uploadToolAsset`（真实落库、真实字节进度、可取消）
  * → 资产 id 写入草稿（刷新后由草稿 + 资产索引恢复）。
  */
-export function ToolAssetInput({ toolId, draftSlot, constraints, maxCount, library, disabled, title = "上传素材", className, variant = "default", uploadLabel, actions, thirdAction, dropLabel, hint, wide, compact, onChange }: ToolAssetInputProps) {
+export function ToolAssetInput({ toolId, draftSlot, constraints, maxCount, library, disabled, title = "上传素材", className, variant = "default", uploadLabel, actions, thirdAction, dropLabel, hint, wide, compact, onChange, syncIds }: ToolAssetInputProps) {
     const effectiveConstraints = useMemo(() => resolveToolAssetConstraints(constraints), [constraints]);
     const [items, setItems] = useState<AssetItem[]>([]);
     const [notice, setNotice] = useState("");
@@ -183,6 +189,39 @@ export function ToolAssetInput({ toolId, draftSlot, constraints, maxCount, libra
             alive = false;
         };
     }, [emit, hydrateDraft, patchSlotIds, readSlotIds, toolId]);
+
+    // 外部改选（做同款 / 历史回填 / 任务恢复）：父组件换了 syncIds 时把列表同步过来。
+    // 只做「父 → 上传区」单向同步，不回 emit，避免与父组件状态互相驱动；列表已一致时直接返回。
+    const syncKey = syncIds ? syncIds.filter((id) => typeof id === "string" && id.length > 0).join("|") : "";
+    const syncIdsRef = useRef(syncIds);
+    syncIdsRef.current = syncIds;
+    useEffect(() => {
+        if (!syncKey) return;
+        const wanted = syncKey.split("|");
+        const current = itemsRef.current.filter((item) => item.status === "ready" && item.record).map((item) => item.record!.id);
+        if (wanted.length === current.length && wanted.every((id, index) => id === current[index])) return;
+        let alive = true;
+        void (async () => {
+            const { records, lostIds } = await loadToolAssetRecords(wanted);
+            if (!alive) return;
+            const restored: AssetItem[] = records.map((record) => ({
+                key: record.id,
+                name: record.name,
+                bytes: record.bytes,
+                mimeType: record.mimeType,
+                status: "ready",
+                progress: { phase: "done", loaded: record.bytes, total: record.bytes, ratio: 1 },
+                record,
+            }));
+            itemsRef.current = restored;
+            setItems(restored);
+            patchSlotIds(restored.map((item) => item.record!.id));
+            if (lostIds.length) setNotice(`已清理 ${lostIds.length} 个本地已不存在的素材`);
+        })();
+        return () => {
+            alive = false;
+        };
+    }, [patchSlotIds, syncKey]);
 
     // 卸载：取消进行中的上传并立刻落盘草稿（不等 500ms 防抖）。
     useEffect(() => {

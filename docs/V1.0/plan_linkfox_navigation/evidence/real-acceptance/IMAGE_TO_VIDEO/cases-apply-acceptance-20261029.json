@@ -1,0 +1,75 @@
+{
+  "capturedAt": "2026-10-29",
+  "env": {
+    "url": "http://127.0.0.1:3000/tools/ai-video/image-to-video",
+    "viewport": { "w": 1908, "h": 837 },
+    "method": "web_execute_js 读取真实 DOM（无截图权限，全部为 DOM 实测值）"
+  },
+  "casesSection": {
+    "testId": "image-to-video-cases",
+    "header": "优秀案例·做同款",
+    "cardCount": 10,
+    "caseIds": [
+      "2100163975447363584", "2100164064358219776", "2100163726649638912",
+      "2100163453168435200", "2100476826401685504", "2100164149024440320",
+      "2100163638699278336", "2100163900092497920", "2100163801140477952",
+      "2100164228082876416"
+    ],
+    "coverAssets": {
+      "servedBy": "/__cases/image-to-video/<id>/cover.jpg",
+      "httpStatus": 200,
+      "contentType": "image/jpeg",
+      "sampleBytes": 22705
+    },
+    "referenceAssets": {
+      "servedBy": "/__cases/image-to-video/<id>/ref-1.png",
+      "httpStatus": 200,
+      "contentType": "image/png",
+      "sampleBytes": 483818
+    },
+    "layoutFix": {
+      "before": { "cardW": 799, "cardH": 1420, "cause": "[column-count:2] 在 1642px 容器内把卡片撑到 799px" },
+      "after": { "cardW": 309, "cardH": 549, "rule": "[column-width:264px] [column-gap:18px]", "originRef": "原站卡片 264.4px / 列间距 18px" }
+    }
+  },
+  "applyCase": {
+    "clicked": "tool-case-apply（第 1 条案例）",
+    "formState": {
+      "promptMode": "custom",
+      "promptLength": 534,
+      "promptHead": "【全局设定】\n16秒，9:16竖屏，写实家居香氛广告。@图片1锁定NEOM白色菱格陶瓷罩…",
+      "ratio": "9:16",
+      "resolution": "1080P",
+      "duration": "15s",
+      "summary": "生成视频（1 个视频 · 15s · 9:16 · 1080P · 产品展示）"
+    },
+    "referenceList": {
+      "count": 1,
+      "first": "linkfox-case-2100163975447363584-reference.png 472 KB"
+    },
+    "notice": "已套用原站案例 2100163975447363584：原图 1 张 + 原站脚本 534 字；原站案例时长 16 秒，本地档位只有 5/10/15 秒，已按最近档位取 15 秒（请求参数真实变化）"
+  },
+  "historyRestore": {
+    "taskId": "task-mvt71akq-bu2hxh",
+    "taskStatus": "failed",
+    "taskSourceAssetIds": ["u9-F8H3uLv0nE5RBMv90y", "HsNAWNskFtoPh49lr1kEK"],
+    "buttonLabel": "回填表单（无结果任务也能回填）",
+    "formState": {
+      "promptLength": 83,
+      "promptHead": "主体居中，缓慢环绕运镜，依次展示产品正面、侧面与背面细节，柔和棚拍光。规格：5 ",
+      "ratio": "自适应",
+      "summary": "生成视频（1 个视频 · 15s · 自适应 · 1080P · 产品展示）"
+    },
+    "referenceList": {
+      "count": 2,
+      "names": ["product-watch.jpg 31 KB · 1024×744", "product-watch.jpg 31 KB · 1024×744"]
+    },
+    "notice": "已按历史任务 task-mvt 回填表单：提示词取该任务真实提交文本；2 张参考图；比例 auto；时长/清晰度任务快照未存，沿用当前值",
+    "bugFixed": "ToolAssetInput 只接收 onChange、内部自持 items，父层恢复 references 后列表不刷新（曾出现提示 2 张而列表 1 张）。新增可选 syncIds 单向同步（默认不传=旧行为），列表与提示现一致。"
+  },
+  "tests": {
+    "typecheck": "bunx tsc --noEmit → 0 error",
+    "unit": "bun test src/features/tools src/components/tools → 1229 pass / 0 fail",
+    "newUnit": "src/features/tools/image-to-video-cases.test.ts → 10 pass（案例数据真实性、封面与参考图真实落盘、做同款映射边界）"
+  }
+}
