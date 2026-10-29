@@ -43,40 +43,40 @@ async function renderWorkspace(): Promise<string> {
 }
 
 describe("一键换色工作台渲染", () => {
-    test("分区齐全：图片 / 颜色参考 / 区域 / 去杂色 / 细调 / 光影 / 生成 / 本次提交", async () => {
+    test("三列骨架与原站分区齐全：收藏色卡/选择颜色/颜色参考图/去除杂色/细调/光影/边缘/生成/结果标签", async () => {
         const html = await renderWorkspace();
-        for (const text of ["图片", "颜色 / 参考图", "区域", "去杂色", "颜色细调", "光影与边缘", "生成", "本次提交"]) {
+        for (const text of ["收藏色卡", "选择颜色", "颜色参考图", "去除杂色", "细调颜色效果", "光影优化", "边缘优化", "立即生成", "生成结果", "优秀案例", "历史记录"]) {
             expect(html).toContain(text);
         }
-        for (const testId of ["change-color-workspace", "change-color-region", "change-color-adjustment", "change-color-snapshot"]) {
+        for (const testId of ["change-color-workspace", "change-color-config", "change-color-results", "change-color-swatches", "change-color-adjustment", "change-color-submit", "change-color-snapshot"]) {
             expect(html).toContain(testId);
         }
     });
 
-    test("区域按预设枚举渲染；没有原图时不渲染涂选画布，如实提示先上传", async () => {
+    test("没有原图时不渲染涂选画布与前后对比，画布区如实给出上传入口与空态", async () => {
         const html = await renderWorkspace();
-        for (const preset of ["整图主体", "衣服", "上装", "下装", "鞋", "包", "配饰", "假发", "自定义"]) {
-            expect(html).toContain(preset);
-        }
-        expect(html).toContain("不涂=整图");
-        expect(html).toContain("上传图片后可在此涂抹选区");
-        // 没有真实原图就没有涂选画布，不做假画布
+        expect(html).toContain("拖拽 或 点击上传");
+        expect(html).toContain("暂无生成结果图");
+        // 没有真实原图就没有涂选画布/对比滑块，不做假画布
         expect(html).not.toContain("change-color-mask-canvas");
+        expect(html).not.toContain('change-color-compare"');
     });
 
     test("未上传原图时生成按钮阻塞，并列出就地原因，不伪造进行中状态", async () => {
         const html = await renderWorkspace();
         expect(html).toContain("请先上传需要换色的图片。");
-        expect(/<button[^>]*disabled=""[^>]*data-testid="change-color-generate"/.test(html)).toBe(true);
+        expect(/<button[^>]*disabled=""[^>]*data-testid="change-color-submit"/.test(html)).toBe(true);
         expect(html).not.toContain("生成中");
-        // 没有真实原图/结果时不渲染前后对比
-        expect(html).not.toContain("change-color-compare-section");
     });
 
-    test("光影优化默认开启但强度可调，并标注一次生成 10 算力", async () => {
+    test("光影优化默认开启但强度可调，数值框与一次生成 10 算力都在", async () => {
         const html = await renderWorkspace();
-        expect(html).toContain("光影与边缘");
-        expect(html).toContain("10 算力");
+        expect(html).toContain("立即生成 (10算力)");
         expect(html).toContain("change-color-light-strength");
+        // 细调四项都有 48×22 数值框
+        for (const key of ["hue", "saturation", "brightness", "contrast"]) {
+            expect(html).toContain(`data-adjust-value="${key}"`);
+        }
+        expect(html).toContain('data-testid="change-color-balance-value"');
     });
 });
