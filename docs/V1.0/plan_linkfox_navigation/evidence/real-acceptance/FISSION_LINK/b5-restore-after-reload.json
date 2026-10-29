@@ -1,0 +1,55 @@
+{
+  "toolId": "FISSION_LINK",
+  "route": "http://127.0.0.1:3000/tools/product-design/fission-link",
+  "purpose": "B5 真实历史恢复：复用浏览器里既有的真实任务（不重跑上游），fresh reload 后验证 结果回填 / 下载 / 存入资产库",
+  "date": "2026-10-29",
+  "env": {
+    "devServer": "http://127.0.0.1:3000",
+    "evidenceSource": "localStorage tool-task:v1:* + IndexedDB infinite-canvas/media_files",
+    "screenshot": "未采集（本机无屏幕录制权限，按 RULE 9 改用 DOM + 文件系统证据）"
+  },
+  "precondition": {
+    "fissionTasksInLocalStorage": 8,
+    "reusedTask": "task-mvt18lrt-rsnifn",
+    "reusedTaskBytes": 1988694,
+    "reusedTaskStorageKey": "tool-result:…",
+    "note": "任务来自此前真实上游产物；本次验收未发起任何生成请求"
+  },
+  "freshReload": {
+    "marker": "sessionStorage.__accept_marker=1 后 location.reload()",
+    "restoredNotice": "已从本地持久化恢复上次真实任务（2026/10/29 12:20:11 提交，状态 succeeded，任务 task-mvt18lrt-rsnifn）：结果可下载 / 存入资产库 / 发送画布。",
+    "cellCount": 1,
+    "image": { "naturalWidth": 1024, "naturalHeight": 1024, "complete": true, "srcScheme": "blob:" },
+    "staleBanner": false,
+    "actions": [
+      { "action": "download", "disabled": false },
+      { "action": "save-to-assets", "disabled": false },
+      { "action": "send-to-canvas", "disabled": false }
+    ]
+  },
+  "resultBytes": { "fetchStatus": 200, "bytes": 1988694, "mimeType": "image/png" },
+  "download": {
+    "feedback": "已下载第 1 张：fission-link-result-1.png",
+    "fileOnDisk": "~/Downloads/fission-link-result-1 (1).png",
+    "bytesOnDisk": 1988694,
+    "bytesMatchStored": true
+  },
+  "saveToAssets": {
+    "feedback": "已存入资产库（BfgE3rwFqxriGDpB9vq9p）",
+    "assetId": "BfgE3rwFqxriGDpB9vq9p"
+  },
+  "historyDockRestore": {
+    "historyEntries": 5,
+    "clickedTask": "task-mvt17bmi-xpint5",
+    "notice": "已从本地持久化恢复历史任务（2026/10/29 12:17:09 提交，状态 succeeded，任务 task-mvt17bmi-xpint5）：结果可下载 / 存入资产库 / 发送画布。",
+    "autoSwitchedToResultTab": true,
+    "image": { "naturalWidth": 1024, "naturalHeight": 1024, "complete": true },
+    "actionsEnabled": ["download", "save", "canvas"]
+  },
+  "noRegenerationProof": {
+    "fissionTasksAfterAllSteps": 8,
+    "fissionTasksBefore": 8,
+    "conclusion": "任务总数未变化 → 恢复路径只读本地持久化，未重发上游"
+  },
+  "verdict": "PASS"
+}

@@ -6,6 +6,7 @@ import { ToolResult } from "@/components/tools/tool-result";
 import { Design19LeftColumn, Design19Results, Design19Workbench, type Design19TabId } from "@/components/tools/design19-frame";
 import { ToolTaskHistory } from "@/components/tools/tool-task-history";
 import { downloadResultItem, saveResultItemToAssets, sendResultItemToCanvas } from "@/components/tools/tool-result-actions";
+import { resolveMediaUrl } from "@/services/file-storage";
 import { loadToolAssetRecords, type ToolAssetConstraints, type ToolAssetRecord } from "@/services/api/tools/assets";
 import { getToolGateway } from "@/services/api/tools/gateway";
 import type { ToolTask } from "@/services/api/tools/task-machine";
@@ -885,8 +886,13 @@ export function FissionLinkWorkspace({ className, port }: FissionLinkWorkspacePr
     const [actionPending, setActionPending] = useState("");
     /** 动作真实回执（含失败原因），不伪造成功。 */
     const [actionNotice, setActionNotice] = useState("");
+    /** 历史恢复回执：说明结果来自哪条已落盘真实任务（不重发请求）。 */
+    const [restoredNotice, setRestoredNotice] = useState("");
     const abortRef = useRef<AbortController | null>(null);
     const hydratedRef = useRef(false);
+    const autoRestoredRef = useRef(false);
+    const storedTasks = useToolTaskStore((store) => store.tasks);
+    const hydrateTasks = useToolTaskStore((store) => store.hydrate);
 
     const inspection = useMemo(() => inspectFissionLinkSource(state.imageUrl), [state.imageUrl]);
     const previewUrl = asset?.url ?? (inspection.kind === "invalid" ? "" : inspection.value);
@@ -975,6 +981,74 @@ export function FissionLinkWorkspace({ className, port }: FissionLinkWorkspacePr
         return { asset: null, url: inspection.value, dataUrl: undefined };
     }, [asset, inspection.value]);
 
+    /**
+     * 历史恢复（本地持久化 → 结果格），不重发任何请求：
+     *  - 任务本身由 `useToolTaskStore` 落盘（字节在 IndexedDB），刷新后仍可取回；
+     *  - 结果 URL 必须按 `storageKey` 重建（旧 blob URL 早就失效），否则「看着成功却点不动」；
+     *  - 恢复出来的格子沿用同一套下载 / 存资产 / 发画布动作。
+     */
+    const runFromStoredTask = useCallback(async (task: ToolTask): Promise<FissionLinkRun | null> => {
+        const item = (task.result?.items ?? []).find(
+            (entry) => entry.kind === "image" && (entry.storageKey || entry.dataUrl || entry.url),
+        );
+        if (!item) return null;
+        const url = item.storageKey ? await resolveMediaUrl(item.storageKey, item.url ?? "") : item.url;
+        if (!url && !item.dataUrl) return null;
+        return {
+            unitId: `restored-${task.id}`,
+            index: 0,
+            snapshotHash: task.fingerprint ?? "",
+            task,
+            image: { url: url ?? item.url, dataUrl: item.dataUrl },
+            status:
+                task.status === "succeeded"
+                    ? "succeeded"
+                    : task.status === "failed"
+                      ? "failed"
+                      : task.status === "cancelled"
+                        ? "cancelled"
+                        : "unknown",
+            ...(task.error ? { error: { code: task.error.code, message: task.error.message } } : {}),
+        };
+    }, []);
+
+    const applyStoredTask = useCallback(
+        async (task: ToolTask, label: string) => {
+            const restored = await runFromStoredTask(task);
+            if (!restored) return false;
+            setRuns([restored]);
+            setActionNotice("");
+            setRestoredNotice(
+                `已从本地持久化恢复${label}（${new Date(task.updatedAt).toLocaleString()} 提交，状态 ${task.status}，任务 ${task.id}）：结果可下载 / 存入资产库 / 发送画布。`,
+            );
+            return true;
+        },
+        [runFromStoredTask],
+    );
+
+    /** 挂载时先 hydrate 落盘快照（与提交链路同一 store）。 */
+    useEffect(() => {
+        hydrateTasks();
+    }, [hydrateTasks]);
+
+    /** 刷新后没有本次会话结果时，自动回填最近一条已落盘的真实成功任务（只读，不伪造）。 */
+    useEffect(() => {
+        if (autoRestoredRef.current || port || busy || runs.length > 0) return;
+        const latest = Object.values(storedTasks)
+            .filter(
+                (task) =>
+                    task.toolId === FISSION_LINK_TOOL_ID &&
+                    task.status === "succeeded" &&
+                    (task.result?.items ?? []).some(
+                        (item) => item.kind === "image" && (item.storageKey || item.dataUrl || item.url),
+                    ),
+            )
+            .sort((a, b) => (b.updatedAt ?? 0) - (a.updatedAt ?? 0))[0];
+        if (!latest) return;
+        autoRestoredRef.current = true;
+        void applyStoredTask(latest, "上次真实任务");
+    }, [storedTasks, port, busy, runs.length, applyStoredTask]);
+
     const runCells = useCallback(
         async (indices: readonly number[]) => {
             abortRef.current?.abort();
@@ -982,6 +1056,7 @@ export function FissionLinkWorkspace({ className, port }: FissionLinkWorkspacePr
             abortRef.current = controller;
             setBusy(true);
             setError("");
+            setRestoredNotice("");
 
             let units: FissionLinkUnit[] = [];
             try {
@@ -1275,6 +1350,11 @@ export function FissionLinkWorkspace({ className, port }: FissionLinkWorkspacePr
                             <ToolTaskHistory
                                 toolId={FISSION_LINK_TOOL_ID}
                                 emptyHint="还没有历史任务；提交一次后会在这里留下任务与结果。"
+                                onSelectTask={(historyTask) => {
+                                    void applyStoredTask(historyTask, "历史任务").then((restored) => {
+                                        if (restored) setResultTab("result");
+                                    });
+                                }}
                             />
                         )}
                     </div>
@@ -1290,9 +1370,14 @@ export function FissionLinkWorkspace({ className, port }: FissionLinkWorkspacePr
                         {actionNotice}
                     </p>
                 ) : null}
+                {restoredNotice ? (
+                    <p data-testid="fission-link-restored-task" className="mt-1 text-[11px] text-emerald-700 dark:text-emerald-400">
+                        {restoredNotice}
+                    </p>
+                ) : null}
 
                 <div className="mt-3 grid grid-cols-2 gap-2 sm:grid-cols-3">
-                    {Array.from({ length: state.outputNum }, (_, index) => {
+                    {Array.from({ length: Math.max(state.outputNum, runs.length) }, (_, index) => {
                         const run = runs[index];
                         const image = run?.image;
                         return (
