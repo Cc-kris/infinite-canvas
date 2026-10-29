@@ -1,0 +1,160 @@
+{
+ "path": "/tools/product-design/handheld-goods",
+ "href": "http://127.0.0.1:3000/tools/product-design/handheld-goods",
+ "readyState": "complete",
+ "dockToolId": "HANDHELD_GOODS",
+ "hasDock": true,
+ "count": "1 条",
+ "empty": null,
+ "rows": [
+  {
+   "taskId": "task-mvs5p8g8-or3oim",
+   "status": "failed",
+   "time": "2026-10-28 21:34",
+   "summary": "default::gpt-image-2 · image · 0 个结果",
+   "headline": "2026-10-28 21:34 失败 Photorealistic e-commerce product photo: the uploaded pr… default::gpt-image-2 · image · 0 个结果",
+   "thumbs": [],
+   "videoBadge": null,
+   "payloadDropped": null,
+   "error": null,
+   "actions": [
+    {
+     "label": "复制配置 JSON",
+     "testid": "tool-history-dock-copy-config",
+     "disabled": false,
+     "ariaDisabled": null,
+     "href": null
+    }
+   ],
+   "detail": "能力：image 模型：default::gpt-image-2 接口格式：openai 尺寸：1:1 质量：auto 数量：1 channelId：default 输入素材：Av-jVHErVHd5JrI1RTwi6, handheld-pose-left-cradle-front"
+  }
+ ],
+ "ownHistorySurfaces": [
+  {
+   "testid": "result-tab-history",
+   "text": "历史记录"
+  },
+  {
+   "testid": "handheld-panel-history",
+   "text": "历史记录1 条2026-10-28 21:34失败Photorealistic e-commerce product photo: the upl…default::gpt-image-2 · image · 0 个结果页面刷新中断了这次请求，本服务无法反查上游是否已受理。已关闭为失败；重试前请先到服务商后台确认，避免重复计费。"
+  },
+  {
+   "testid": "tool-task-history",
+   "text": "历史记录1 条2026-10-28 21:34失败Photorealistic e-commerce product photo: the upl…default::gpt-image-2 · image · 0 个结果页面刷新中断了这次请求，本服务无法反查上游是否已受理。已关闭为失败；重试前请先到服务商后台确认，避免重复计费。"
+  },
+  {
+   "testid": "tool-task-history-count",
+   "text": "1 条"
+  },
+  {
+   "testid": "tool-task-history-item",
+   "text": "2026-10-28 21:34失败Photorealistic e-commerce product photo: the upl…default::gpt-image-2 · image · 0 个结果页面刷新中断了这次请求，本服务无法反查上游是否已受理。已关闭为失败；重试前请先到服务商后台确认，避免重复计费。"
+  },
+  {
+   "testid": "tool-task-history-time",
+   "text": "2026-10-28 21:34"
+  },
+  {
+   "testid": "tool-task-history-error",
+   "text": "页面刷新中断了这次请求，本服务无法反查上游是否已受理。已关闭为失败；重试前请先到服务商后台确认，避免重复计费。"
+  },
+  {
+   "testid": "tool-history-dock-count",
+   "text": "1 条"
+  },
+  {
+   "testid": "tool-history-dock-item",
+   "text": "2026-10-28 21:34 失败 Photorealistic e-commerce product photo: the uploaded pr… default::gpt-image-2 · image · 0 个结果"
+  },
+  {
+   "testid": "tool-history-dock-toggle",
+   "text": "2026-10-28 21:34 失败 Photorealistic e-commerce product photo: the uploaded pr… default::gpt-image-2 · image · 0 个结果"
+  },
+  {
+   "testid": "tool-history-dock-time",
+   "text": "2026-10-28 21:34"
+  },
+  {
+   "testid": "tool-history-dock-summary",
+   "text": "default::gpt-image-2 · image · 0 个结果"
+  }
+ ],
+ "storedTasks": [
+  {
+   "key": "tool-task:v1:task-mvs5p8g8-or3oim",
+   "id": "task-mvs5p8g8-or3oim",
+   "status": "failed",
+   "capability": "image",
+   "createdAt": 1793194490888,
+   "updatedAt": 1793265087678,
+   "finishedAt": 1793265087678,
+   "model": "default::gpt-image-2",
+   "items": [],
+   "itemCount": 0,
+   "errorMessage": null
+  }
+ ],
+ "indexIds": [
+  "task-mvt0rvni-ylxhm0",
+  "task-mvs5dd71-4s35w2",
+  "task-mvs5p8g8-or3oim",
+  "task-mvs6fr7b-plo8es",
+  "task-mvs6zovx-pod3rz",
+  "task-mvs7gq30-m78zxu",
+  "task-mvs802af-u9vwye",
+  "task-mvtbmukl-quasjm",
+  "task-mvtbhylv-bmyjus",
+  "task-mvtbe5rp-0maafh",
+  "task-mvtbawv4-zxcmpv",
+  "task-mvtb3nuj-3d0mnv",
+  "task-mvta1kkg-t8y1yo",
+  "task-mvt9r1lg-ab8tqn",
+  "task-mvt9elbs-u4grlv",
+  "task-mvt94gxs-p0r29t",
+  "task-mvt42rpv-kfl1ov",
+  "task-mvs9xe7s-9jmboc",
+  "task-mvsaq4oa-4giro0",
+  "task-mvsaz6ar-m6osdl",
+  "task-mvsb41o4-obzwag",
+  "task-mvsb41o9-hv2vqo",
+  "task-mvsc7s58-2rrnqz",
+  "task-mvt15f64-jnx1gz",
+  "task-mvt76u6p-7cfnff",
+  "task-mvt74l6n-y5sie3",
+  "task-mvt74l6q-1vljau",
+  "task-mvt71akq-bu2hxh",
+  "task-mvt6vpdo-sc1x8w",
+  "task-mvt6vpdn-17qby2",
+  "task-mvt18lrt-rsnifn",
+  "task-mvt17bmi-xpint5",
+  "task-mvt0ww21-bhl4e9",
+  "task-mvsc4fyg-qobp8k",
+  "task-mvsbp9c8-y8q5vf",
+  "task-mvsbmg1s-vrn9il",
+  "task-mvsbm0je-ci8p2w",
+  "task-mvsbd685-5tzfuw",
+  "task-mvsba8fo-iplfjq",
+  "task-mvsaus49-i7vsmt",
+  "task-mvsamffh-uh79ky",
+  "task-mvsa3pt6-4wqy46",
+  "task-mvs9mpoz-e8u2ry",
+  "task-mvs8bhu1-hhue24",
+  "task-mvs83fc2-dc6b5s",
+  "task-mvs7sk2d-cmr0uf",
+  "task-mvs7pmey-uxscga",
+  "task-mvs73hbe-ak20fw",
+  "task-mvs76zzt-c0f9u5",
+  "task-mvs726zz-lwouyf",
+  "task-mvs6r088-39u8zq",
+  "task-mvs6m72i-eidjm6",
+  "task-mvs6l55s-fufs7l"
+ ],
+ "indexHasMine": [
+  {
+   "id": "task-mvs5p8g8-or3oim",
+   "inIndex": true
+  }
+ ],
+ "toolIdExpected": "HANDHELD_GOODS",
+ "urlExpected": "http://127.0.0.1:3000/tools/product-design/handheld-goods"
+}

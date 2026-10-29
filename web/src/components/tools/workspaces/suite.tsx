@@ -421,27 +421,9 @@ export function ProductImageSuiteWorkspace({ className }: { className?: string }
                 </Section>
 
                 <Section title="商品信息">
-                    <div className="mb-1.5 flex items-center justify-between gap-2">
-                        <div className="flex items-center gap-1.5">
-                            <button
-                                type="button"
-                                data-testid="suite-ai-analysis"
-                                disabled={running || !config.productInfo.trim()}
-                                title={config.productInfo.trim() ? "根据商品信息生成补充描述待接入（PARTIAL）" : "先填写商品信息"}
-                                className="rounded-[4px] border border-[#e5e5ea] px-2 py-0.5 text-[11px] text-[#5a5a66] disabled:opacity-50"
-                            >
-                                AI分析
-                            </button>
-                            <button
-                                type="button"
-                                data-testid="suite-wizard"
-                                disabled={running || !source}
-                                title={source ? "填表向导待接入（PARTIAL）" : "先上传商品图"}
-                                className="rounded-[4px] border border-[#e5e5ea] px-2 py-0.5 text-[11px] text-[#5a5a66] disabled:opacity-50"
-                            >
-                                向导
-                            </button>
-                        </div>
+                    {/* 原站套图页此处只有文本框 + 字数：origin 控件清单里没有 AI分析 / 向导 这两个按钮，
+                        本地多出来的占位按钮已删除，保持与截图 1:1 对齐。 */}
+                    <div className="mb-1.5 flex items-center justify-end gap-2">
                         <span className="text-[11px] text-muted-foreground">
                             {config.productInfo.length} / {PRODUCT_IMAGE_SUITE_MAX_PRODUCT_INFO}
                         </span>

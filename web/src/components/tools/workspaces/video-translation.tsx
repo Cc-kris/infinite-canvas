@@ -490,15 +490,11 @@ export function VideoTranslationWorkspace({ className }: VideoTranslationWorkspa
                         </details>
                     ) : null}
                     <section className="space-y-2 rounded-lg border border-border p-3" data-testid="video-translation-cases">
-                        <div className="flex items-center justify-between">
-                            <h2 className="text-sm font-medium">优秀案例</h2>
-                            <span className="text-[11px] text-muted-foreground">原站页签：生成结果 / 优秀案例 / 历史记录</span>
-                        </div>
-                        <ToolCases
-                            cases={[]}
-                            onApply={() => setNotice("案例库未接入：暂无真实案例可回填")}
-                            emptyHint="案例库未接入：原站此处展示平台优秀作品并支持「一键做同款」；本地不伪造案例卡片，等真实案例数据接入"
-                        />
+                        <h2 className="text-sm font-medium">优秀案例</h2>
+                        {/* VIDEO_TRANSLATION（type=814）：原站有「优秀案例」页签。
+                            真实数据源：LinkFox `/image/make-case/list?type=<bizType>`（抓取与落盘做法见 image-to-video-cases-data.ts）。
+                            未抓到前 cases 为空，ToolCases 只渲染标准空态（暂无优秀案例）。 */}
+                        <ToolCases cases={[]} onApply={() => undefined} />
                     </section>
                     <section className="space-y-2 rounded-lg border border-border p-3" data-testid="video-translation-history">
                         <div className="flex items-center justify-between">

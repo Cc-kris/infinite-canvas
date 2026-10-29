@@ -1,0 +1,381 @@
+{
+ "path": "/tools/product-design/ai-pose-generator",
+ "href": "http://127.0.0.1:3000/tools/product-design/ai-pose-generator",
+ "readyState": "complete",
+ "dockToolId": "AI_POSE_GENERATOR",
+ "hasDock": true,
+ "count": "5 条",
+ "empty": null,
+ "rows": [
+  {
+   "taskId": "task-mvs73hbe-ak20fw",
+   "status": "succeeded",
+   "time": "2026-10-28 22:13",
+   "summary": "default::gpt-image-2 · image · 1 个结果",
+   "headline": "2026-10-28 22:13 已完成 Create a full-body pose reference photo of a single fash… default::gpt-image-2 · image · 1 个结果",
+   "thumbs": [],
+   "videoBadge": null,
+   "payloadDropped": "原始文件未保留（历史快照只存元数据），如需文件请重新生成。",
+   "error": null,
+   "actions": [
+    {
+     "label": "复制配置 JSON",
+     "testid": "tool-history-dock-copy-config",
+     "disabled": false,
+     "ariaDisabled": null,
+     "href": null
+    },
+    {
+     "label": "下载",
+     "testid": "tool-history-dock-download",
+     "disabled": false,
+     "ariaDisabled": null,
+     "href": null
+    },
+    {
+     "label": "存入资产",
+     "testid": "tool-history-dock-save",
+     "disabled": false,
+     "ariaDisabled": null,
+     "href": null
+    },
+    {
+     "label": "发送到画布",
+     "testid": "tool-history-dock-canvas",
+     "disabled": false,
+     "ariaDisabled": null,
+     "href": null
+    }
+   ],
+   "detail": "能力：image 模型：default::gpt-image-2 接口格式：openai 尺寸：1:1 质量：auto 数量：1 channelId：default"
+  },
+  {
+   "taskId": "task-mvs6zovx-pod3rz",
+   "status": "failed",
+   "time": "2026-10-28 22:10",
+   "summary": "default::gpt-image-2 · image · 0 个结果",
+   "headline": "2026-10-28 22:10 失败 Create a full-body pose reference photo of a single fash… default::gpt-image-2 · image · 0 个结果",
+   "thumbs": [],
+   "videoBadge": null,
+   "payloadDropped": null,
+   "error": null,
+   "actions": [
+    {
+     "label": "复制配置 JSON",
+     "testid": "tool-history-dock-copy-config",
+     "disabled": false,
+     "ariaDisabled": null,
+     "href": null
+    }
+   ],
+   "detail": "能力：image 模型：default::gpt-image-2 接口格式：openai 尺寸：1:1 质量：auto 数量：1 channelId：default"
+  },
+  {
+   "taskId": "task-mvs6r088-39u8zq",
+   "status": "failed",
+   "time": "2026-10-28 22:04",
+   "summary": "default::gpt-image-2 · image · 0 个结果",
+   "headline": "2026-10-28 22:04 失败 Create a full-body pose reference photo of a single fash… default::gpt-image-2 · image · 0 个结果",
+   "thumbs": [],
+   "videoBadge": null,
+   "payloadDropped": null,
+   "error": null,
+   "actions": [
+    {
+     "label": "复制配置 JSON",
+     "testid": "tool-history-dock-copy-config",
+     "disabled": false,
+     "ariaDisabled": null,
+     "href": null
+    }
+   ],
+   "detail": "能力：image 模型：default::gpt-image-2 接口格式：openai 尺寸：1:1 质量：auto 数量：1 channelId：default"
+  },
+  {
+   "taskId": "task-mvs6l55s-fufs7l",
+   "status": "failed",
+   "time": "2026-10-28 21:59",
+   "summary": "default::gpt-image-2 · image · 0 个结果",
+   "headline": "2026-10-28 21:59 失败 Create a full-body pose reference photo of a single fash… default::gpt-image-2 · image · 0 个结果",
+   "thumbs": [],
+   "videoBadge": null,
+   "payloadDropped": null,
+   "error": null,
+   "actions": [
+    {
+     "label": "复制配置 JSON",
+     "testid": "tool-history-dock-copy-config",
+     "disabled": false,
+     "ariaDisabled": null,
+     "href": null
+    }
+   ],
+   "detail": "能力：image 模型：default::gpt-image-2 接口格式：openai 尺寸：1:1 质量：auto 数量：1 channelId：default"
+  },
+  {
+   "taskId": "task-mvs6fr7b-plo8es",
+   "status": "failed",
+   "time": "2026-10-28 21:55",
+   "summary": "default::gpt-image-2 · image · 0 个结果",
+   "headline": "2026-10-28 21:55 失败 Create a full-body pose reference photo of a single fash… default::gpt-image-2 · image · 0 个结果",
+   "thumbs": [],
+   "videoBadge": null,
+   "payloadDropped": null,
+   "error": null,
+   "actions": [
+    {
+     "label": "复制配置 JSON",
+     "testid": "tool-history-dock-copy-config",
+     "disabled": false,
+     "ariaDisabled": null,
+     "href": null
+    }
+   ],
+   "detail": "能力：image 模型：default::gpt-image-2 接口格式：openai 尺寸：1:1 质量：auto 数量：1 channelId：default"
+  }
+ ],
+ "ownHistorySurfaces": [
+  {
+   "testid": "tool-history-dock-count",
+   "text": "5 条"
+  },
+  {
+   "testid": "tool-history-dock-item",
+   "text": "2026-10-28 22:13 已完成 Create a full-body pose reference photo of a single fash… default::gpt-image-2 · image · 1 个结果 原始文件未保留（历史快照只存元数据），如需文件请重新生成。"
+  },
+  {
+   "testid": "tool-history-dock-toggle",
+   "text": "2026-10-28 22:13 已完成 Create a full-body pose reference photo of a single fash… default::gpt-image-2 · image · 1 个结果"
+  },
+  {
+   "testid": "tool-history-dock-time",
+   "text": "2026-10-28 22:13"
+  },
+  {
+   "testid": "tool-history-dock-summary",
+   "text": "default::gpt-image-2 · image · 1 个结果"
+  },
+  {
+   "testid": "tool-history-dock-payload-dropped",
+   "text": "原始文件未保留（历史快照只存元数据），如需文件请重新生成。"
+  },
+  {
+   "testid": "tool-history-dock-item",
+   "text": "2026-10-28 22:10 失败 Create a full-body pose reference photo of a single fash… default::gpt-image-2 · image · 0 个结果"
+  },
+  {
+   "testid": "tool-history-dock-toggle",
+   "text": "2026-10-28 22:10 失败 Create a full-body pose reference photo of a single fash… default::gpt-image-2 · image · 0 个结果"
+  },
+  {
+   "testid": "tool-history-dock-time",
+   "text": "2026-10-28 22:10"
+  },
+  {
+   "testid": "tool-history-dock-summary",
+   "text": "default::gpt-image-2 · image · 0 个结果"
+  },
+  {
+   "testid": "tool-history-dock-item",
+   "text": "2026-10-28 22:04 失败 Create a full-body pose reference photo of a single fash… default::gpt-image-2 · image · 0 个结果"
+  },
+  {
+   "testid": "tool-history-dock-toggle",
+   "text": "2026-10-28 22:04 失败 Create a full-body pose reference photo of a single fash… default::gpt-image-2 · image · 0 个结果"
+  },
+  {
+   "testid": "tool-history-dock-time",
+   "text": "2026-10-28 22:04"
+  },
+  {
+   "testid": "tool-history-dock-summary",
+   "text": "default::gpt-image-2 · image · 0 个结果"
+  },
+  {
+   "testid": "tool-history-dock-item",
+   "text": "2026-10-28 21:59 失败 Create a full-body pose reference photo of a single fash… default::gpt-image-2 · image · 0 个结果"
+  },
+  {
+   "testid": "tool-history-dock-toggle",
+   "text": "2026-10-28 21:59 失败 Create a full-body pose reference photo of a single fash… default::gpt-image-2 · image · 0 个结果"
+  },
+  {
+   "testid": "tool-history-dock-time",
+   "text": "2026-10-28 21:59"
+  },
+  {
+   "testid": "tool-history-dock-summary",
+   "text": "default::gpt-image-2 · image · 0 个结果"
+  },
+  {
+   "testid": "tool-history-dock-item",
+   "text": "2026-10-28 21:55 失败 Create a full-body pose reference photo of a single fash… default::gpt-image-2 · image · 0 个结果"
+  },
+  {
+   "testid": "tool-history-dock-toggle",
+   "text": "2026-10-28 21:55 失败 Create a full-body pose reference photo of a single fash… default::gpt-image-2 · image · 0 个结果"
+  },
+  {
+   "testid": "tool-history-dock-time",
+   "text": "2026-10-28 21:55"
+  },
+  {
+   "testid": "tool-history-dock-summary",
+   "text": "default::gpt-image-2 · image · 0 个结果"
+  }
+ ],
+ "storedTasks": [
+  {
+   "key": "tool-task:v1:task-mvs6l55s-fufs7l",
+   "id": "task-mvs6l55s-fufs7l",
+   "status": "failed",
+   "capability": "image",
+   "createdAt": 1793195979616,
+   "updatedAt": 1793195981084,
+   "finishedAt": 1793195981084,
+   "model": "default::gpt-image-2",
+   "items": [],
+   "itemCount": 0,
+   "errorMessage": null
+  },
+  {
+   "key": "tool-task:v1:task-mvs6zovx-pod3rz",
+   "id": "task-mvs6zovx-pod3rz",
+   "status": "failed",
+   "capability": "image",
+   "createdAt": 1793196658365,
+   "updatedAt": 1793265087669,
+   "finishedAt": 1793265087669,
+   "model": "default::gpt-image-2",
+   "items": [],
+   "itemCount": 0,
+   "errorMessage": null
+  },
+  {
+   "key": "tool-task:v1:task-mvs73hbe-ak20fw",
+   "id": "task-mvs73hbe-ak20fw",
+   "status": "succeeded",
+   "capability": "image",
+   "createdAt": 1793196835178,
+   "updatedAt": 1793197127873,
+   "finishedAt": 1793197127873,
+   "model": "default::gpt-image-2",
+   "items": [
+    {
+     "id": "task-mvs73hbe-ak20fw-0",
+     "kind": "image",
+     "storageKey": null,
+     "payloadDropped": true,
+     "url": ""
+    }
+   ],
+   "itemCount": 1,
+   "errorMessage": null
+  },
+  {
+   "key": "tool-task:v1:task-mvs6r088-39u8zq",
+   "id": "task-mvs6r088-39u8zq",
+   "status": "failed",
+   "capability": "image",
+   "createdAt": 1793196253160,
+   "updatedAt": 1793196254762,
+   "finishedAt": 1793196254762,
+   "model": "default::gpt-image-2",
+   "items": [],
+   "itemCount": 0,
+   "errorMessage": null
+  },
+  {
+   "key": "tool-task:v1:task-mvs6fr7b-plo8es",
+   "id": "task-mvs6fr7b-plo8es",
+   "status": "failed",
+   "capability": "image",
+   "createdAt": 1793195728247,
+   "updatedAt": 1793265087674,
+   "finishedAt": 1793265087674,
+   "model": "default::gpt-image-2",
+   "items": [],
+   "itemCount": 0,
+   "errorMessage": null
+  }
+ ],
+ "indexIds": [
+  "task-mvt0rvni-ylxhm0",
+  "task-mvs5dd71-4s35w2",
+  "task-mvs5p8g8-or3oim",
+  "task-mvs6fr7b-plo8es",
+  "task-mvs6zovx-pod3rz",
+  "task-mvs7gq30-m78zxu",
+  "task-mvs802af-u9vwye",
+  "task-mvtbmukl-quasjm",
+  "task-mvtbhylv-bmyjus",
+  "task-mvtbe5rp-0maafh",
+  "task-mvtbawv4-zxcmpv",
+  "task-mvtb3nuj-3d0mnv",
+  "task-mvta1kkg-t8y1yo",
+  "task-mvt9r1lg-ab8tqn",
+  "task-mvt9elbs-u4grlv",
+  "task-mvt94gxs-p0r29t",
+  "task-mvt42rpv-kfl1ov",
+  "task-mvs9xe7s-9jmboc",
+  "task-mvsaq4oa-4giro0",
+  "task-mvsaz6ar-m6osdl",
+  "task-mvsb41o4-obzwag",
+  "task-mvsb41o9-hv2vqo",
+  "task-mvsc7s58-2rrnqz",
+  "task-mvt15f64-jnx1gz",
+  "task-mvt76u6p-7cfnff",
+  "task-mvt74l6n-y5sie3",
+  "task-mvt74l6q-1vljau",
+  "task-mvt71akq-bu2hxh",
+  "task-mvt6vpdo-sc1x8w",
+  "task-mvt6vpdn-17qby2",
+  "task-mvt18lrt-rsnifn",
+  "task-mvt17bmi-xpint5",
+  "task-mvt0ww21-bhl4e9",
+  "task-mvsc4fyg-qobp8k",
+  "task-mvsbp9c8-y8q5vf",
+  "task-mvsbmg1s-vrn9il",
+  "task-mvsbm0je-ci8p2w",
+  "task-mvsbd685-5tzfuw",
+  "task-mvsba8fo-iplfjq",
+  "task-mvsaus49-i7vsmt",
+  "task-mvsamffh-uh79ky",
+  "task-mvsa3pt6-4wqy46",
+  "task-mvs9mpoz-e8u2ry",
+  "task-mvs8bhu1-hhue24",
+  "task-mvs83fc2-dc6b5s",
+  "task-mvs7sk2d-cmr0uf",
+  "task-mvs7pmey-uxscga",
+  "task-mvs73hbe-ak20fw",
+  "task-mvs76zzt-c0f9u5",
+  "task-mvs726zz-lwouyf",
+  "task-mvs6r088-39u8zq",
+  "task-mvs6m72i-eidjm6",
+  "task-mvs6l55s-fufs7l"
+ ],
+ "indexHasMine": [
+  {
+   "id": "task-mvs6l55s-fufs7l",
+   "inIndex": true
+  },
+  {
+   "id": "task-mvs6zovx-pod3rz",
+   "inIndex": true
+  },
+  {
+   "id": "task-mvs73hbe-ak20fw",
+   "inIndex": true
+  },
+  {
+   "id": "task-mvs6r088-39u8zq",
+   "inIndex": true
+  },
+  {
+   "id": "task-mvs6fr7b-plo8es",
+   "inIndex": true
+  }
+ ],
+ "toolIdExpected": "AI_POSE_GENERATOR",
+ "urlExpected": "http://127.0.0.1:3000/tools/product-design/ai-pose-generator"
+}

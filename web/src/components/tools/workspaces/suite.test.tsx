@@ -60,6 +60,16 @@ describe("商品套图工作台渲染", () => {
         for (const aplus of ["高级A+", "手机A+", "普通A+", "自定比例"]) expect(html).toContain(aplus);
     });
 
+    test("商品信息区与原站一致：只有文本域 + 字数，不渲染自造的「AI分析/向导」占位按钮", async () => {
+        const html = await renderWorkspace();
+        expect(html).not.toContain("AI分析");
+        expect(html).not.toContain(">向导<");
+        expect(html).not.toContain("suite-ai-analysis");
+        expect(html).not.toContain("suite-wizard");
+        // 字数计数仍在（原站 0 / 2500 口径）
+        expect(html).toContain("商品信息");
+    });
+
     test("未上传商品图 / 未选类型时给出真实校验提示，而不是伪造可生成", async () => {
         const html = await renderWorkspace();
         expect(html).toContain("请先上传商品图");
