@@ -1,0 +1,549 @@
+{
+ "taskId": "task-mvtjhbcg-e8lnin",
+ "toolId": "IMAGE_TO_VIDEO",
+ "terminal": {
+  "key": "tool-task:v1:task-mvtjhbcg-e8lnin",
+  "id": "task-mvtjhbcg-e8lnin",
+  "toolId": "IMAGE_TO_VIDEO",
+  "status": "succeeded",
+  "upstreamTaskId": "task_KOkmL8wCOOmL5AdPyeGwQhAZyIBdMvPR",
+  "createdAt": 1793278102192,
+  "updatedAt": 1793278352499,
+  "pollCount": 31,
+  "error": null,
+  "items": [
+   {
+    "kind": "video",
+    "url": null,
+    "storageKey": "tool-result:guW96FrxlpSM3CtY3clem",
+    "bytes": 1266723,
+    "mimeType": "video/mp4",
+    "payloadDropped": false,
+    "ingestError": null
+   }
+  ]
+ },
+ "formBefore": {
+  "submit": {
+   "disabled": false,
+   "text": "生成视频（1 个视频 · 5s · 自适应 · 768P · 产品展示）"
+  },
+  "issues": [],
+  "preview": "商品轻微旋转展示，柔光台面，镜头缓慢推进，保持手表外观与表盘细节不变。规格：5 秒，768P，画面比例 自适应，目标语言英语。请在不改变卖点的前提下优化运镜与画面节奏",
+  "assets": 0
+ },
+ "actions": {
+  "download": {
+   "bytes": 1266723,
+   "sha256": "fe5c85f8274bb7d44b1febbf2844487dcecd440dc58a129b5f1d5398c091a524",
+   "magic": "ftyp",
+   "name": "image-to-video-result-1.mp4"
+  },
+  "save": {
+   "feedback": "已保存到资产库（C1BDmN9PzlfeXw5HHc6_T）",
+   "videoAssets": []
+  }
+ },
+ "panel": {
+  "afterReload": {
+   "feedback": null,
+   "download": {
+    "exists": true,
+    "disabled": false
+   },
+   "save": {
+    "exists": true,
+    "disabled": false
+   },
+   "canvas": {
+    "exists": true,
+    "disabled": false
+   },
+   "video": {
+    "src": "blob:http://127.0.0.1:3000/7de224a0-abfc-4dde-a93b-5fe511eb5851",
+    "w": 1344,
+    "h": 768,
+    "d": 5.2,
+    "readyState": 4
+   }
+  },
+  "afterReload2": {
+   "feedback": null,
+   "download": {
+    "exists": false
+   },
+   "save": {
+    "exists": false
+   },
+   "canvas": {
+    "exists": false
+   },
+   "video": null
+  }
+ },
+ "verdict": "PARTIAL",
+ "net": [
+  {
+   "k": "req",
+   "ts": 1793278102265,
+   "m": "POST",
+   "u": "http://127.0.0.1:23220/https://sub2api.1006000.xyz/v1/videos",
+   "body": "{\"model\":\"MiniMax-H3\",\"prompt\":\"商品轻微旋转展示，柔光台面，镜头缓慢推进，保持手表外观与表盘细节不变。规格：5 秒，768P，画面比例 自适应，目标语言英语。请在不改变卖点的前提下优化运镜与画面节奏\",\"seconds\":\"5\",\"size\":\"1280x720\",\"resolution_name\":\"768p\",\"generate_audio\":true,\"watermark\":false,\"mode\":\"reference\",\"images\":[\"data:image/jpeg;base64,<33 chars truncated>conds\":\"5\",\"size\":\"1280x720\",\"resolution_name\":\"768p\",\"generate_audio\":true,\"watermark\":false,\"mode\":\"reference\",\"images\":[\"data:image/jpeg;base64,/9j/4AAQSkZJRgABAgEASABIAAD/4gxYS"
+  },
+  {
+   "k": "req",
+   "ts": 1793278109475,
+   "m": "GET",
+   "u": "http://127.0.0.1:23220/https://sub2api.1006000.xyz/v1/videos/task_KOkmL8wCOOmL5AdPyeGwQhAZyIBdMvPR",
+   "body": ""
+  },
+  {
+   "k": "res",
+   "ts": 1793278109477,
+   "s": 200,
+   "u": "http://127.0.0.1:23220/https://sub2api.1006000.xyz/v1/videos",
+   "body": "{\"id\":\"task_KOkmL8wCOOmL5AdPyeGwQhAZyIBdMvPR\",\"request_id\":\"task_KOkmL8wCOOmL5AdPyeGwQhAZyIBdMvPR\",\"status\":\"pending\",\"model\":\"MiniMax-H3\"}"
+  },
+  {
+   "k": "res",
+   "ts": 1793278111978,
+   "s": 200,
+   "u": "http://127.0.0.1:23220/https://sub2api.1006000.xyz/v1/videos/task_KOkmL8wCOOmL5AdPyeGwQhAZyIBdMvPR",
+   "body": "{\"id\":\"task_KOkmL8wCOOmL5AdPyeGwQhAZyIBdMvPR\",\"request_id\":\"task_KOkmL8wCOOmL5AdPyeGwQhAZyIBdMvPR\",\"model\":\"MiniMax-H3\",\"status\":\"pending\",\"progress\":0}"
+  },
+  {
+   "k": "req",
+   "ts": 1793278113703,
+   "m": "GET",
+   "u": "http://127.0.0.1:23220/https://sub2api.1006000.xyz/v1/videos/task_KOkmL8wCOOmL5AdPyeGwQhAZyIBdMvPR",
+   "body": ""
+  },
+  {
+   "k": "res",
+   "ts": 1793278117051,
+   "s": 200,
+   "u": "http://127.0.0.1:23220/https://sub2api.1006000.xyz/v1/videos/task_KOkmL8wCOOmL5AdPyeGwQhAZyIBdMvPR",
+   "body": "{\"id\":\"task_KOkmL8wCOOmL5AdPyeGwQhAZyIBdMvPR\",\"request_id\":\"task_KOkmL8wCOOmL5AdPyeGwQhAZyIBdMvPR\",\"model\":\"MiniMax-H3\",\"status\":\"pending\",\"progress\":0}"
+  },
+  {
+   "k": "req",
+   "ts": 1793278118934,
+   "m": "GET",
+   "u": "http://127.0.0.1:23220/https://sub2api.1006000.xyz/v1/videos/task_KOkmL8wCOOmL5AdPyeGwQhAZyIBdMvPR",
+   "body": ""
+  },
+  {
+   "k": "res",
+   "ts": 1793278121828,
+   "s": 200,
+   "u": "http://127.0.0.1:23220/https://sub2api.1006000.xyz/v1/videos/task_KOkmL8wCOOmL5AdPyeGwQhAZyIBdMvPR",
+   "body": "{\"id\":\"task_KOkmL8wCOOmL5AdPyeGwQhAZyIBdMvPR\",\"request_id\":\"task_KOkmL8wCOOmL5AdPyeGwQhAZyIBdMvPR\",\"model\":\"MiniMax-H3\",\"status\":\"pending\",\"progress\":0}"
+  },
+  {
+   "k": "req",
+   "ts": 1793278123926,
+   "m": "GET",
+   "u": "http://127.0.0.1:23220/https://sub2api.1006000.xyz/v1/videos/task_KOkmL8wCOOmL5AdPyeGwQhAZyIBdMvPR",
+   "body": ""
+  },
+  {
+   "k": "res",
+   "ts": 1793278127941,
+   "s": 200,
+   "u": "http://127.0.0.1:23220/https://sub2api.1006000.xyz/v1/videos/task_KOkmL8wCOOmL5AdPyeGwQhAZyIBdMvPR",
+   "body": "{\"id\":\"task_KOkmL8wCOOmL5AdPyeGwQhAZyIBdMvPR\",\"request_id\":\"task_KOkmL8wCOOmL5AdPyeGwQhAZyIBdMvPR\",\"model\":\"MiniMax-H3\",\"status\":\"pending\",\"progress\":0}"
+  },
+  {
+   "k": "req",
+   "ts": 1793278130128,
+   "m": "GET",
+   "u": "http://127.0.0.1:23220/https://sub2api.1006000.xyz/v1/videos/task_KOkmL8wCOOmL5AdPyeGwQhAZyIBdMvPR",
+   "body": ""
+  },
+  {
+   "k": "res",
+   "ts": 1793278131751,
+   "s": 200,
+   "u": "http://127.0.0.1:23220/https://sub2api.1006000.xyz/v1/videos/task_KOkmL8wCOOmL5AdPyeGwQhAZyIBdMvPR",
+   "body": "{\"id\":\"task_KOkmL8wCOOmL5AdPyeGwQhAZyIBdMvPR\",\"request_id\":\"task_KOkmL8wCOOmL5AdPyeGwQhAZyIBdMvPR\",\"model\":\"MiniMax-H3\",\"status\":\"pending\",\"progress\":0}"
+  },
+  {
+   "k": "req",
+   "ts": 1793278133670,
+   "m": "GET",
+   "u": "http://127.0.0.1:23220/https://sub2api.1006000.xyz/v1/videos/task_KOkmL8wCOOmL5AdPyeGwQhAZyIBdMvPR",
+   "body": ""
+  },
+  {
+   "k": "res",
+   "ts": 1793278136112,
+   "s": 200,
+   "u": "http://127.0.0.1:23220/https://sub2api.1006000.xyz/v1/videos/task_KOkmL8wCOOmL5AdPyeGwQhAZyIBdMvPR",
+   "body": "{\"id\":\"task_KOkmL8wCOOmL5AdPyeGwQhAZyIBdMvPR\",\"request_id\":\"task_KOkmL8wCOOmL5AdPyeGwQhAZyIBdMvPR\",\"model\":\"MiniMax-H3\",\"status\":\"pending\",\"progress\":0}"
+  },
+  {
+   "k": "req",
+   "ts": 1793278138105,
+   "m": "GET",
+   "u": "http://127.0.0.1:23220/https://sub2api.1006000.xyz/v1/videos/task_KOkmL8wCOOmL5AdPyeGwQhAZyIBdMvPR",
+   "body": ""
+  },
+  {
+   "k": "res",
+   "ts": 1793278140709,
+   "s": 200,
+   "u": "http://127.0.0.1:23220/https://sub2api.1006000.xyz/v1/videos/task_KOkmL8wCOOmL5AdPyeGwQhAZyIBdMvPR",
+   "body": "{\"id\":\"task_KOkmL8wCOOmL5AdPyeGwQhAZyIBdMvPR\",\"request_id\":\"task_KOkmL8wCOOmL5AdPyeGwQhAZyIBdMvPR\",\"model\":\"MiniMax-H3\",\"status\":\"pending\",\"progress\":0}"
+  },
+  {
+   "k": "req",
+   "ts": 1793278142663,
+   "m": "GET",
+   "u": "http://127.0.0.1:23220/https://sub2api.1006000.xyz/v1/videos/task_KOkmL8wCOOmL5AdPyeGwQhAZyIBdMvPR",
+   "body": ""
+  },
+  {
+   "k": "res",
+   "ts": 1793278145654,
+   "s": 200,
+   "u": "http://127.0.0.1:23220/https://sub2api.1006000.xyz/v1/videos/task_KOkmL8wCOOmL5AdPyeGwQhAZyIBdMvPR",
+   "body": "{\"id\":\"task_KOkmL8wCOOmL5AdPyeGwQhAZyIBdMvPR\",\"request_id\":\"task_KOkmL8wCOOmL5AdPyeGwQhAZyIBdMvPR\",\"model\":\"MiniMax-H3\",\"status\":\"pending\",\"progress\":0}"
+  },
+  {
+   "k": "req",
+   "ts": 1793278147620,
+   "m": "GET",
+   "u": "http://127.0.0.1:23220/https://sub2api.1006000.xyz/v1/videos/task_KOkmL8wCOOmL5AdPyeGwQhAZyIBdMvPR",
+   "body": ""
+  },
+  {
+   "k": "res",
+   "ts": 1793278150699,
+   "s": 200,
+   "u": "http://127.0.0.1:23220/https://sub2api.1006000.xyz/v1/videos/task_KOkmL8wCOOmL5AdPyeGwQhAZyIBdMvPR",
+   "body": "{\"id\":\"task_KOkmL8wCOOmL5AdPyeGwQhAZyIBdMvPR\",\"request_id\":\"task_KOkmL8wCOOmL5AdPyeGwQhAZyIBdMvPR\",\"model\":\"MiniMax-H3\",\"status\":\"pending\",\"progress\":0}"
+  },
+  {
+   "k": "req",
+   "ts": 1793278152603,
+   "m": "GET",
+   "u": "http://127.0.0.1:23220/https://sub2api.1006000.xyz/v1/videos/task_KOkmL8wCOOmL5AdPyeGwQhAZyIBdMvPR",
+   "body": ""
+  },
+  {
+   "k": "res",
+   "ts": 1793278155839,
+   "s": 200,
+   "u": "http://127.0.0.1:23220/https://sub2api.1006000.xyz/v1/videos/task_KOkmL8wCOOmL5AdPyeGwQhAZyIBdMvPR",
+   "body": "{\"id\":\"task_KOkmL8wCOOmL5AdPyeGwQhAZyIBdMvPR\",\"request_id\":\"task_KOkmL8wCOOmL5AdPyeGwQhAZyIBdMvPR\",\"model\":\"MiniMax-H3\",\"status\":\"pending\",\"progress\":0}"
+  },
+  {
+   "k": "req",
+   "ts": 1793278160807,
+   "m": "GET",
+   "u": "http://127.0.0.1:23220/https://sub2api.1006000.xyz/v1/videos/task_KOkmL8wCOOmL5AdPyeGwQhAZyIBdMvPR",
+   "body": ""
+  },
+  {
+   "k": "res",
+   "ts": 1793278165261,
+   "s": 200,
+   "u": "http://127.0.0.1:23220/https://sub2api.1006000.xyz/v1/videos/task_KOkmL8wCOOmL5AdPyeGwQhAZyIBdMvPR",
+   "body": "{\"id\":\"task_KOkmL8wCOOmL5AdPyeGwQhAZyIBdMvPR\",\"request_id\":\"task_KOkmL8wCOOmL5AdPyeGwQhAZyIBdMvPR\",\"model\":\"MiniMax-H3\",\"status\":\"pending\",\"progress\":0}"
+  },
+  {
+   "k": "req",
+   "ts": 1793278170313,
+   "m": "GET",
+   "u": "http://127.0.0.1:23220/https://sub2api.1006000.xyz/v1/videos/task_KOkmL8wCOOmL5AdPyeGwQhAZyIBdMvPR",
+   "body": ""
+  },
+  {
+   "k": "res",
+   "ts": 1793278176695,
+   "s": 200,
+   "u": "http://127.0.0.1:23220/https://sub2api.1006000.xyz/v1/videos/task_KOkmL8wCOOmL5AdPyeGwQhAZyIBdMvPR",
+   "body": "{\"id\":\"task_KOkmL8wCOOmL5AdPyeGwQhAZyIBdMvPR\",\"request_id\":\"task_KOkmL8wCOOmL5AdPyeGwQhAZyIBdMvPR\",\"model\":\"MiniMax-H3\",\"status\":\"pending\",\"progress\":0.16666666666666666}"
+  },
+  {
+   "k": "req",
+   "ts": 1793278181637,
+   "m": "GET",
+   "u": "http://127.0.0.1:23220/https://sub2api.1006000.xyz/v1/videos/task_KOkmL8wCOOmL5AdPyeGwQhAZyIBdMvPR",
+   "body": ""
+  },
+  {
+   "k": "res",
+   "ts": 1793278186053,
+   "s": 200,
+   "u": "http://127.0.0.1:23220/https://sub2api.1006000.xyz/v1/videos/task_KOkmL8wCOOmL5AdPyeGwQhAZyIBdMvPR",
+   "body": "{\"id\":\"task_KOkmL8wCOOmL5AdPyeGwQhAZyIBdMvPR\",\"request_id\":\"task_KOkmL8wCOOmL5AdPyeGwQhAZyIBdMvPR\",\"model\":\"MiniMax-H3\",\"status\":\"pending\",\"progress\":0.16666666666666666}"
+  },
+  {
+   "k": "req",
+   "ts": 1793278191009,
+   "m": "GET",
+   "u": "http://127.0.0.1:23220/https://sub2api.1006000.xyz/v1/videos/task_KOkmL8wCOOmL5AdPyeGwQhAZyIBdMvPR",
+   "body": ""
+  },
+  {
+   "k": "res",
+   "ts": 1793278193692,
+   "s": 200,
+   "u": "http://127.0.0.1:23220/https://sub2api.1006000.xyz/v1/videos/task_KOkmL8wCOOmL5AdPyeGwQhAZyIBdMvPR",
+   "body": "{\"id\":\"task_KOkmL8wCOOmL5AdPyeGwQhAZyIBdMvPR\",\"request_id\":\"task_KOkmL8wCOOmL5AdPyeGwQhAZyIBdMvPR\",\"model\":\"MiniMax-H3\",\"status\":\"pending\",\"progress\":0.16666666666666666}"
+  },
+  {
+   "k": "req",
+   "ts": 1793278198650,
+   "m": "GET",
+   "u": "http://127.0.0.1:23220/https://sub2api.1006000.xyz/v1/videos/task_KOkmL8wCOOmL5AdPyeGwQhAZyIBdMvPR",
+   "body": ""
+  },
+  {
+   "k": "res",
+   "ts": 1793278202770,
+   "s": 200,
+   "u": "http://127.0.0.1:23220/https://sub2api.1006000.xyz/v1/videos/task_KOkmL8wCOOmL5AdPyeGwQhAZyIBdMvPR",
+   "body": "{\"id\":\"task_KOkmL8wCOOmL5AdPyeGwQhAZyIBdMvPR\",\"request_id\":\"task_KOkmL8wCOOmL5AdPyeGwQhAZyIBdMvPR\",\"model\":\"MiniMax-H3\",\"status\":\"pending\",\"progress\":0.16666666666666666}"
+  },
+  {
+   "k": "req",
+   "ts": 1793278207822,
+   "m": "GET",
+   "u": "http://127.0.0.1:23220/https://sub2api.1006000.xyz/v1/videos/task_KOkmL8wCOOmL5AdPyeGwQhAZyIBdMvPR",
+   "body": ""
+  },
+  {
+   "k": "res",
+   "ts": 1793278212322,
+   "s": 200,
+   "u": "http://127.0.0.1:23220/https://sub2api.1006000.xyz/v1/videos/task_KOkmL8wCOOmL5AdPyeGwQhAZyIBdMvPR",
+   "body": "{\"id\":\"task_KOkmL8wCOOmL5AdPyeGwQhAZyIBdMvPR\",\"request_id\":\"task_KOkmL8wCOOmL5AdPyeGwQhAZyIBdMvPR\",\"model\":\"MiniMax-H3\",\"status\":\"pending\",\"progress\":0.3333333333333333}"
+  },
+  {
+   "k": "req",
+   "ts": 1793278217266,
+   "m": "GET",
+   "u": "http://127.0.0.1:23220/https://sub2api.1006000.xyz/v1/videos/task_KOkmL8wCOOmL5AdPyeGwQhAZyIBdMvPR",
+   "body": ""
+  },
+  {
+   "k": "res",
+   "ts": 1793278220472,
+   "s": 200,
+   "u": "http://127.0.0.1:23220/https://sub2api.1006000.xyz/v1/videos/task_KOkmL8wCOOmL5AdPyeGwQhAZyIBdMvPR",
+   "body": "{\"id\":\"task_KOkmL8wCOOmL5AdPyeGwQhAZyIBdMvPR\",\"request_id\":\"task_KOkmL8wCOOmL5AdPyeGwQhAZyIBdMvPR\",\"model\":\"MiniMax-H3\",\"status\":\"pending\",\"progress\":0.3333333333333333}"
+  },
+  {
+   "k": "req",
+   "ts": 1793278225401,
+   "m": "GET",
+   "u": "http://127.0.0.1:23220/https://sub2api.1006000.xyz/v1/videos/task_KOkmL8wCOOmL5AdPyeGwQhAZyIBdMvPR",
+   "body": ""
+  },
+  {
+   "k": "res",
+   "ts": 1793278230123,
+   "s": 200,
+   "u": "http://127.0.0.1:23220/https://sub2api.1006000.xyz/v1/videos/task_KOkmL8wCOOmL5AdPyeGwQhAZyIBdMvPR",
+   "body": "{\"id\":\"task_KOkmL8wCOOmL5AdPyeGwQhAZyIBdMvPR\",\"request_id\":\"task_KOkmL8wCOOmL5AdPyeGwQhAZyIBdMvPR\",\"model\":\"MiniMax-H3\",\"status\":\"pending\",\"progress\":0.3333333333333333}"
+  },
+  {
+   "k": "req",
+   "ts": 1793278235099,
+   "m": "GET",
+   "u": "http://127.0.0.1:23220/https://sub2api.1006000.xyz/v1/videos/task_KOkmL8wCOOmL5AdPyeGwQhAZyIBdMvPR",
+   "body": ""
+  },
+  {
+   "k": "res",
+   "ts": 1793278243465,
+   "s": 502,
+   "u": "http://127.0.0.1:23220/https://sub2api.1006000.xyz/v1/videos/task_KOkmL8wCOOmL5AdPyeGwQhAZyIBdMvPR",
+   "body": "{\"type\":\"https://developers.cloudflare.com/support/troubleshooting/http-status-codes/cloudflare-5xx-errors/error-502/\",\"title\":\"Error 502: Bad gateway\",\"status\":502,\"detail\":\"The origin web server returned an invalid or incomplete response to Cloudflare. This typically indicates the origin is overloaded or misconfigured.\",\"instance\":\"a5224e8dad6d0c36\",\"error_code\":502,\"error_name\":\"origin_bad_gateway\",\"error_category\":\"origin\",\"ray_id\":\"a5224e8dad6d0c36\",\"timestamp\":\"2026-10-29T12:50:41Z\",\"zone\":\"sub2api.1006000.xyz\",\"cloudflare_error\":true,\"retryable\":true,\"retry_after\":60,\"owner_action_required\":true,\"what_you_should_do\":\"**Wait and retry.** Back off for at least 60 seconds. If the error persists, the website operator should check their origin server health and configuration.\",\"footer\":\"This error was generated by Cloudflare on behalf of the website owner.\"}\n"
+  },
+  {
+   "k": "req",
+   "ts": 1793278245424,
+   "m": "GET",
+   "u": "http://127.0.0.1:23220/https://sub2api.1006000.xyz/v1/videos/task_KOkmL8wCOOmL5AdPyeGwQhAZyIBdMvPR",
+   "body": ""
+  },
+  {
+   "k": "res",
+   "ts": 1793278246864,
+   "s": 200,
+   "u": "http://127.0.0.1:23220/https://sub2api.1006000.xyz/v1/videos/task_KOkmL8wCOOmL5AdPyeGwQhAZyIBdMvPR",
+   "body": "{\"id\":\"task_KOkmL8wCOOmL5AdPyeGwQhAZyIBdMvPR\",\"request_id\":\"task_KOkmL8wCOOmL5AdPyeGwQhAZyIBdMvPR\",\"model\":\"MiniMax-H3\",\"status\":\"pending\",\"progress\":0.5}"
+  },
+  {
+   "k": "req",
+   "ts": 1793278251846,
+   "m": "GET",
+   "u": "http://127.0.0.1:23220/https://sub2api.1006000.xyz/v1/videos/task_KOkmL8wCOOmL5AdPyeGwQhAZyIBdMvPR",
+   "body": ""
+  },
+  {
+   "k": "res",
+   "ts": 1793278255500,
+   "s": 200,
+   "u": "http://127.0.0.1:23220/https://sub2api.1006000.xyz/v1/videos/task_KOkmL8wCOOmL5AdPyeGwQhAZyIBdMvPR",
+   "body": "{\"id\":\"task_KOkmL8wCOOmL5AdPyeGwQhAZyIBdMvPR\",\"request_id\":\"task_KOkmL8wCOOmL5AdPyeGwQhAZyIBdMvPR\",\"model\":\"MiniMax-H3\",\"status\":\"pending\",\"progress\":0.6666666666666666}"
+  },
+  {
+   "k": "req",
+   "ts": 1793278260494,
+   "m": "GET",
+   "u": "http://127.0.0.1:23220/https://sub2api.1006000.xyz/v1/videos/task_KOkmL8wCOOmL5AdPyeGwQhAZyIBdMvPR",
+   "body": ""
+  },
+  {
+   "k": "res",
+   "ts": 1793278265307,
+   "s": 200,
+   "u": "http://127.0.0.1:23220/https://sub2api.1006000.xyz/v1/videos/task_KOkmL8wCOOmL5AdPyeGwQhAZyIBdMvPR",
+   "body": "{\"id\":\"task_KOkmL8wCOOmL5AdPyeGwQhAZyIBdMvPR\",\"request_id\":\"task_KOkmL8wCOOmL5AdPyeGwQhAZyIBdMvPR\",\"model\":\"MiniMax-H3\",\"status\":\"pending\",\"progress\":0.8333333333333334}"
+  },
+  {
+   "k": "req",
+   "ts": 1793278270266,
+   "m": "GET",
+   "u": "http://127.0.0.1:23220/https://sub2api.1006000.xyz/v1/videos/task_KOkmL8wCOOmL5AdPyeGwQhAZyIBdMvPR",
+   "body": ""
+  },
+  {
+   "k": "res",
+   "ts": 1793278273319,
+   "s": 200,
+   "u": "http://127.0.0.1:23220/https://sub2api.1006000.xyz/v1/videos/task_KOkmL8wCOOmL5AdPyeGwQhAZyIBdMvPR",
+   "body": "{\"id\":\"task_KOkmL8wCOOmL5AdPyeGwQhAZyIBdMvPR\",\"request_id\":\"task_KOkmL8wCOOmL5AdPyeGwQhAZyIBdMvPR\",\"model\":\"MiniMax-H3\",\"status\":\"pending\",\"progress\":0.8333333333333334}"
+  },
+  {
+   "k": "req",
+   "ts": 1793278278317,
+   "m": "GET",
+   "u": "http://127.0.0.1:23220/https://sub2api.1006000.xyz/v1/videos/task_KOkmL8wCOOmL5AdPyeGwQhAZyIBdMvPR",
+   "body": ""
+  },
+  {
+   "k": "res",
+   "ts": 1793278283426,
+   "s": 200,
+   "u": "http://127.0.0.1:23220/https://sub2api.1006000.xyz/v1/videos/task_KOkmL8wCOOmL5AdPyeGwQhAZyIBdMvPR",
+   "body": "{\"id\":\"task_KOkmL8wCOOmL5AdPyeGwQhAZyIBdMvPR\",\"request_id\":\"task_KOkmL8wCOOmL5AdPyeGwQhAZyIBdMvPR\",\"model\":\"MiniMax-H3\",\"status\":\"pending\",\"progress\":0.8333333333333334}"
+  },
+  {
+   "k": "req",
+   "ts": 1793278288341,
+   "m": "GET",
+   "u": "http://127.0.0.1:23220/https://sub2api.1006000.xyz/v1/videos/task_KOkmL8wCOOmL5AdPyeGwQhAZyIBdMvPR",
+   "body": ""
+  },
+  {
+   "k": "res",
+   "ts": 1793278292106,
+   "s": 200,
+   "u": "http://127.0.0.1:23220/https://sub2api.1006000.xyz/v1/videos/task_KOkmL8wCOOmL5AdPyeGwQhAZyIBdMvPR",
+   "body": "{\"id\":\"task_KOkmL8wCOOmL5AdPyeGwQhAZyIBdMvPR\",\"request_id\":\"task_KOkmL8wCOOmL5AdPyeGwQhAZyIBdMvPR\",\"model\":\"MiniMax-H3\",\"status\":\"pending\",\"progress\":0.8333333333333334}"
+  },
+  {
+   "k": "req",
+   "ts": 1793278297086,
+   "m": "GET",
+   "u": "http://127.0.0.1:23220/https://sub2api.1006000.xyz/v1/videos/task_KOkmL8wCOOmL5AdPyeGwQhAZyIBdMvPR",
+   "body": ""
+  },
+  {
+   "k": "res",
+   "ts": 1793278304591,
+   "s": 200,
+   "u": "http://127.0.0.1:23220/https://sub2api.1006000.xyz/v1/videos/task_KOkmL8wCOOmL5AdPyeGwQhAZyIBdMvPR",
+   "body": "{\"id\":\"task_KOkmL8wCOOmL5AdPyeGwQhAZyIBdMvPR\",\"request_id\":\"task_KOkmL8wCOOmL5AdPyeGwQhAZyIBdMvPR\",\"model\":\"MiniMax-H3\",\"status\":\"pending\",\"progress\":0.8333333333333334}"
+  },
+  {
+   "k": "req",
+   "ts": 1793278309576,
+   "m": "GET",
+   "u": "http://127.0.0.1:23220/https://sub2api.1006000.xyz/v1/videos/task_KOkmL8wCOOmL5AdPyeGwQhAZyIBdMvPR",
+   "body": ""
+  },
+  {
+   "k": "res",
+   "ts": 1793278312148,
+   "s": 200,
+   "u": "http://127.0.0.1:23220/https://sub2api.1006000.xyz/v1/videos/task_KOkmL8wCOOmL5AdPyeGwQhAZyIBdMvPR",
+   "body": "{\"id\":\"task_KOkmL8wCOOmL5AdPyeGwQhAZyIBdMvPR\",\"request_id\":\"task_KOkmL8wCOOmL5AdPyeGwQhAZyIBdMvPR\",\"model\":\"MiniMax-H3\",\"status\":\"pending\",\"progress\":1}"
+  },
+  {
+   "k": "req",
+   "ts": 1793278317123,
+   "m": "GET",
+   "u": "http://127.0.0.1:23220/https://sub2api.1006000.xyz/v1/videos/task_KOkmL8wCOOmL5AdPyeGwQhAZyIBdMvPR",
+   "body": ""
+  },
+  {
+   "k": "res",
+   "ts": 1793278319601,
+   "s": 200,
+   "u": "http://127.0.0.1:23220/https://sub2api.1006000.xyz/v1/videos/task_KOkmL8wCOOmL5AdPyeGwQhAZyIBdMvPR",
+   "body": "{\"id\":\"task_KOkmL8wCOOmL5AdPyeGwQhAZyIBdMvPR\",\"request_id\":\"task_KOkmL8wCOOmL5AdPyeGwQhAZyIBdMvPR\",\"model\":\"MiniMax-H3\",\"status\":\"pending\",\"progress\":1}"
+  },
+  {
+   "k": "req",
+   "ts": 1793278324586,
+   "m": "GET",
+   "u": "http://127.0.0.1:23220/https://sub2api.1006000.xyz/v1/videos/task_KOkmL8wCOOmL5AdPyeGwQhAZyIBdMvPR",
+   "body": ""
+  },
+  {
+   "k": "res",
+   "ts": 1793278326965,
+   "s": 200,
+   "u": "http://127.0.0.1:23220/https://sub2api.1006000.xyz/v1/videos/task_KOkmL8wCOOmL5AdPyeGwQhAZyIBdMvPR",
+   "body": "{\"id\":\"task_KOkmL8wCOOmL5AdPyeGwQhAZyIBdMvPR\",\"request_id\":\"task_KOkmL8wCOOmL5AdPyeGwQhAZyIBdMvPR\",\"model\":\"MiniMax-H3\",\"status\":\"pending\",\"progress\":1}"
+  },
+  {
+   "k": "req",
+   "ts": 1793278331890,
+   "m": "GET",
+   "u": "http://127.0.0.1:23220/https://sub2api.1006000.xyz/v1/videos/task_KOkmL8wCOOmL5AdPyeGwQhAZyIBdMvPR",
+   "body": ""
+  },
+  {
+   "k": "res",
+   "ts": 1793278334961,
+   "s": 200,
+   "u": "http://127.0.0.1:23220/https://sub2api.1006000.xyz/v1/videos/task_KOkmL8wCOOmL5AdPyeGwQhAZyIBdMvPR",
+   "body": "{\"id\":\"task_KOkmL8wCOOmL5AdPyeGwQhAZyIBdMvPR\",\"request_id\":\"task_KOkmL8wCOOmL5AdPyeGwQhAZyIBdMvPR\",\"model\":\"MiniMax-H3\",\"status\":\"pending\",\"progress\":1}"
+  },
+  {
+   "k": "req",
+   "ts": 1793278339943,
+   "m": "GET",
+   "u": "http://127.0.0.1:23220/https://sub2api.1006000.xyz/v1/videos/task_KOkmL8wCOOmL5AdPyeGwQhAZyIBdMvPR",
+   "body": ""
+  },
+  {
+   "k": "req",
+   "ts": 1793278343314,
+   "m": "GET",
+   "u": "http://127.0.0.1:23220/https://sub2api.1006000.xyz/v1/videos/task_KOkmL8wCOOmL5AdPyeGwQhAZyIBdMvPR/content",
+   "body": ""
+  },
+  {
+   "k": "res",
+   "ts": 1793278343342,
+   "s": 200,
+   "u": "http://127.0.0.1:23220/https://sub2api.1006000.xyz/v1/videos/task_KOkmL8wCOOmL5AdPyeGwQhAZyIBdMvPR",
+   "body": "{\"id\":\"task_KOkmL8wCOOmL5AdPyeGwQhAZyIBdMvPR\",\"model\":\"MiniMax-H3\",\"progress\":1,\"request_id\":\"task_KOkmL8wCOOmL5AdPyeGwQhAZyIBdMvPR\",\"status\":\"done\",\"usage\":{\"input_image_count\":2,\"input_seconds\":0,\"output_seconds\":5,\"total_seconds\":5},\"video\":{\"duration\":5,\"url\":\"/v1/videos/task_KOkmL8wCOOmL5AdPyeGwQhAZyIBdMvPR/content\"}}"
+  },
+  {
+   "k": "res",
+   "ts": 1793278352910,
+   "s": 200,
+   "u": "http://127.0.0.1:23220/https://sub2api.1006000.xyz/v1/videos/task_KOkmL8wCOOmL5AdPyeGwQhAZyIBdMvPR/content",
+   "body": "\u0000\u0000\u0000 ftypisom\u0000\u0000\u0002\u0000isomiso2avc1mp41\u0000\u0000\u0015<moov\u0000\u0000\u0000lmvhd\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0003�\u0000\u0000\u0014/\u0000\u0001\u0000\u0000\u0001\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000@\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0003\u0000\u0000\n\u0016trak\u0000\u0000\u0000\\tkhd\u0000\u0000\u0000\u0003\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0000\u0000\u0000\u0014/\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000@\u0000\u0000\u0000\u0005@\u0000\u0000\u0003\u0000\u0000\u0000\u0000\u0000\u0000$edts\u0000\u0000\u0000\u001celst\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0001\u0000\u0000\u0014/\u0000\u0000\u0004\u0000\u0000\u0001\u0000\u0000\u0000\u0000\t�mdia\u0000\u0000\u0000 mdhd\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u00000\u0000\u0000\u0000�\u0000U�\u0000\u0000\u0000\u0000\u0000-hdlr\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000vide\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000VideoHandler\u0000\u0000\u0000\t9minf\u0000\u0000\u0000\u0014vmhd\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000$dinf\u0000\u0000\u0000\u001cdref\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0001\u0000\u0000\u0000\furl \u0000\u0000\u0000\u0001\u0000\u0000\b�stbl\u0000\u0000\u0000�stsd\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0001\u0000\u0000\u0000�avc1\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0005@\u0003\u0000\u0000H\u0000\u0000\u0000H\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0018��\u0000\u0000\u00008avcC\u0001d\u0000 ��\u0000\u001bgd\u0000 ��@T\u0006\u001aj\u0002\u001a\u0002�\u0000\u0000\u0003\u0000�\u0000\u0000\u0018\u0007�\u0018�\u0001\u0000\u0006h���\"����\u0000\u0000\u0000\u0000\u0013colrnclx\u0000\u0001\u0000\r\u0000\u0001\u0000\u0000\u0000\u0000\u0014btrt\u0000\u0000\u0000\u0000\u0000\u001bҹ\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0018stts\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0001\u0000\u0000\u0000|\u0000\u0000\u0002\u0000\u0000\u0000\u0000\u0014stss\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0001\u0000\u0000\u0003�ctts\u0000\u0000\u0000\u0000\u0000\u0000\u0000y\u0000\u0000\u0000\u0001\u0000\u0000\u0004\u0000\u0000\u0000\u0000\u0001\u0000\u0000\n\u0000\u0000\u0000\u0000\u0001\u0000\u0000\u0004\u0000\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0001\u0000\u0000\u0002\u0000\u0000\u0000\u0000\u0001\u0000\u0000\n\u0000\u0000\u0000\u0000\u0001\u0000\u0000\u0004\u0000\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0001\u0000\u0000\u0002\u0000\u0000\u0000\u0000\u0001\u0000\u0000\n\u0000\u0000\u0000\u0000\u0001\u0000\u0000\u0004\u0000\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0001\u0000\u0000\u0002\u0000\u0000\u0000\u0000\u0001\u0000\u0000\n\u0000\u0000\u0000\u0000\u0001\u0000\u0000\u0004\u0000\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0001\u0000\u0000\u0002\u0000\u0000\u0000\u0000\u0001\u0000\u0000\n\u0000\u0000\u0000\u0000\u0001\u0000\u0000\u0004\u0000\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0001\u0000\u0000\u0002\u0000\u0000\u0000\u0000\u0001\u0000\u0000\n\u0000\u0000\u0000\u0000\u0001\u0000\u0000\u0004\u0000\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0001\u0000\u0000\u0002\u0000\u0000\u0000\u0000...<1500 chars>"
+  }
+ ]
+}
