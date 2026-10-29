@@ -1,0 +1,202 @@
+{
+  "toolId": "NEW_REPLACE_BG_V2",
+  "at": "2026-10-29T11:54:08.282Z",
+  "baseUrl": "http://127.0.0.1:3000",
+  "injection": false,
+  "provider": {
+    "imageModel": "ccai-accept::gpt-image-2",
+    "channels": [
+      "ccai-accept",
+      "sf-accept"
+    ],
+    "baseUrl": "https://api.cc-ai.xyz",
+    "keyLen": 67,
+    "proxyEnabled": true,
+    "channelCount": 2,
+    "model": "gpt-image-2"
+  },
+  "steps": [
+    "NEW_REPLACE_BG_V2-step1-loaded.png",
+    "NEW_REPLACE_BG_V2-step2-ready.png",
+    "NEW_REPLACE_BG_V2-step3-submitted.png",
+    "NEW_REPLACE_BG_V2-step4-result.png",
+    "NEW_REPLACE_BG_V2-step5-actions.png",
+    "NEW_REPLACE_BG_V2-step6-reload.png"
+  ],
+  "uploadInputs": 2,
+  "goodsMeta": "product-watch.jpg · 1024×744 · 无透明通道",
+  "cutoutState": "抠图已确认",
+  "issuesBefore": null,
+  "submit": {
+    "found": true,
+    "disabled": false,
+    "label": "立即生成"
+  },
+  "taskKeysBefore": 0,
+  "existingTaskIds": [],
+  "submittedAt": "2026-10-29T11:55:15.293Z",
+  "elapsedMs": 32912,
+  "taskId": "task-mvthl08d-06efgs",
+  "taskStatus": "succeeded",
+  "localTaskKey": "tool-task:v1:task-mvthl08d-06efgs",
+  "taskOrigin": "localStorage",
+  "taskRecord": {
+    "localSnapshot": {
+      "id": "task-mvthl08d-06efgs",
+      "toolId": "NEW_REPLACE_BG_V2",
+      "status": "succeeded",
+      "clientOperationId": "43afe419-49ad-439b-a94f-74a2717b3807",
+      "fingerprint": "189c8e994492a0ea",
+      "capability": "image",
+      "prompt": "把商品放进新的场景背景里，保持商品本体不变（不改变形状、logo、颜色和材质）。 场景类型：推荐场景。 场景描述：干净的纯白影棚背景，柔和顶光与轻微接地阴影，商品居中，商业产品摄影。 场景模板：影棚白底。 融合强度 70%（偏强（更融入场景））：强度越高商品越融入场景光线与投影，但商品细节必须保留。 商品位置：画面横向 50%、纵向 56%；缩放 100%；旋转 0°。 锁定商品轮廓：商品边缘与主体内部不重绘。 锁定层区域保持一致，不加入新的装饰物。 输出画布 1024×1024（1:1），共 1 张。 参考图 1 是商品原图；参考图 2 是主体蒙版（白色=商品主体，黑色=需要被替换的背景）",
+      "configSnapshot": {
+        "capability": "image",
+        "model": "ccai-accept::gpt-image-2",
+        "apiFormat": "openai",
+        "size": "1024x1024",
+        "quality": "auto",
+        "count": "1",
+        "videoSeconds": "6",
+        "channelId": "ccai-accept"
+      },
+      "sourceAssetIds": [
+        "fU1mLg2EPP4IzdZjqe1MY",
+        "40aDIe4WR2jAanQZNPFwD"
+      ],
+      "draftRevision": 8,
+      "createdAt": 1793274915181,
+      "updatedAt": 1793274946916,
+      "attempts": 1,
+      "pollCount": 0,
+      "transientFailures": 0,
+      "submittedAt": 1793274915182,
+      "result": {
+        "items": [
+          {
+            "id": "task-mvthl08d-06efgs-0",
+            "kind": "image",
+            "url": "https://oss-us.dimenoss.com/images/2026/10/29/1793274946_ae244e3010598cc6040e3e83304506c8.png"
+          }
+        ],
+        "receivedAt": 1793274946916
+      },
+      "finishedAt": 1793274946916
+    },
+    "live": null
+  },
+  "resultSrcKind": "http",
+  "result": {
+    "bytes": 837987,
+    "sha256": "e3646058d0463b4b43af9bfdc26e10aeaa40a856d1d45056c42752fe50ad98ae",
+    "isPng": true
+  },
+  "inputDiff": {
+    "goodsSha256": "43ede96e7ce885098df793143b215e2c7d2ea7558af711ec5c46975a0dc19be3",
+    "goodsBytes": 31860,
+    "maskSha256": "2540c6a0072c0fa78b229f3d90b35d874d5d857c53ba09e0110e9acbec42af6d",
+    "resultDiffersFromGoods": true
+  },
+  "actions": {
+    "download": {
+      "label": "NEW_REPLACE_BG_V2-download",
+      "ok": true,
+      "suggestedFilename": "new-replace-bg-v2-result-1.png",
+      "bytes": 837987,
+      "sha256": "e3646058d0463b4b43af9bfdc26e10aeaa40a856d1d45056c42752fe50ad98ae",
+      "savedAs": "/Users/mac/Documents/Dev/infinite-canvas/docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/h4-design-realgen-retry-20261029/NEW_REPLACE_BG_V2-download-1793274952782.png"
+    },
+    "saveAsset": {
+      "label": "saveAsset",
+      "ok": true,
+      "feedback": "已保存到资产库（2HGusbdJGgddFxgTAcZml）"
+    },
+    "sendCanvas": {
+      "label": "sendCanvas",
+      "ok": true,
+      "feedback": "已发送到画布（OUZvYDSInQ8Zfhl_Ay1EO）"
+    }
+  },
+  "reloadNavType": "reload",
+  "dockAfterReload": {
+    "mounted": true,
+    "countText": "1 条",
+    "empty": false,
+    "items": [
+      {
+        "taskId": "task-mvthl08d-06efgs",
+        "status": "succeeded",
+        "summary": "ccai-accept::gpt-image-2 · image · 1 个结果"
+      }
+    ],
+    "thumbs": [
+      {
+        "src": "blob:http://127.0.0.1:3000/e75d80be-3a36-4499-bf94-600e3213eade",
+        "width": 1024,
+        "height": 1024,
+        "decoded": true
+      }
+    ]
+  },
+  "persistedAfterReload": {
+    "task-mvthl08d-06efgs": true
+  },
+  "verdict": "PASS",
+  "network": [
+    {
+      "status": 200,
+      "method": "GET",
+      "url": "http://127.0.0.1:23210/",
+      "at": "2026-10-29T11:54:04.582Z"
+    },
+    {
+      "status": 200,
+      "method": "GET",
+      "url": "http://127.0.0.1:23210/",
+      "at": "2026-10-29T11:54:06.073Z"
+    },
+    {
+      "status": 200,
+      "method": "GET",
+      "url": "http://127.0.0.1:23210/",
+      "at": "2026-10-29T11:54:09.054Z"
+    },
+    {
+      "kind": "request",
+      "method": "POST",
+      "url": "http://127.0.0.1:23210/https://api.cc-ai.xyz/v1/images/edits",
+      "at": "2026-10-29T11:55:15.285Z",
+      "postBytes": 0
+    },
+    {
+      "status": 200,
+      "method": "POST",
+      "url": "http://127.0.0.1:23210/https://api.cc-ai.xyz/v1/images/edits",
+      "at": "2026-10-29T11:55:46.914Z"
+    },
+    {
+      "status": 200,
+      "method": "GET",
+      "url": "http://127.0.0.1:23210/https://oss-us.dimenoss.com/images/2026/10/29/1793274946_ae244e3010598cc6040e3e83304506c8.png",
+      "at": "2026-10-29T11:55:47.835Z"
+    },
+    {
+      "status": 200,
+      "method": "GET",
+      "url": "http://127.0.0.1:23210/https://oss-us.dimenoss.com/images/2026/10/29/1793274946_ae244e3010598cc6040e3e83304506c8.png",
+      "at": "2026-10-29T11:55:52.875Z"
+    },
+    {
+      "status": 200,
+      "method": "GET",
+      "url": "http://127.0.0.1:23210/https://oss-us.dimenoss.com/images/2026/10/29/1793274946_ae244e3010598cc6040e3e83304506c8.png",
+      "at": "2026-10-29T11:55:53.410Z"
+    },
+    {
+      "status": 200,
+      "method": "GET",
+      "url": "http://127.0.0.1:23210/",
+      "at": "2026-10-29T11:55:54.825Z"
+    }
+  ],
+  "finishedAt": "2026-10-29T11:56:00.728Z"
+}

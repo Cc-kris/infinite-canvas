@@ -12,6 +12,8 @@ const ROUTE = "/tools/ai-video/video-translation";
 const FIXTURE = process.env.IC_FIXTURE
     || path.resolve(process.cwd(), "../docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/IMAGE_TO_VIDEO/06-result-video.mp4");
 const KEY_SERVER = process.env.IC_KEY_SERVER || "http://127.0.0.1:18471/";
+const PROXY_URL = process.env.IC_PROXY_URL || "http://127.0.0.1:23210";
+const MEDIA_HOST = process.env.IC_MEDIA_HOST || "";
 
 const log = {
     tool: "VIDEO_TRANSLATION",
@@ -45,7 +47,7 @@ async function main() {
     try {
         await page.goto(`${BASE_URL}/`, { waitUntil: "domcontentloaded" });
         // 注入渠道（等价用户在 /config 手工填写）；只改 channels/videoModel，不动其它字段
-        const cfg = await page.evaluate(async ({ baseUrl, apiKey, model }) => {
+        const cfg = await page.evaluate(async ({ baseUrl, apiKey, model, proxyUrl, mediaHostUrl }) => {
             const mod = await import("/src/stores/use-config-store.ts");
             const store = mod.useConfigStore;
             const prev = store.getState().config;
@@ -61,11 +63,24 @@ async function main() {
                 },
             ];
             store.setState({
-                config: { ...prev, channels, channelMode: "local", videoModel: `sub2api-real::${model}` },
+                config: {
+                    ...prev,
+                    channels,
+                    channelMode: "local",
+                    proxyEnabled: true,
+                    proxyUrl,
+                    mediaHostUrl,
+                    videoModel: `sub2api-real::${model}`,
+                },
             });
             const now = store.getState().config;
-            return { channels: now.channels.map((c) => c.id), videoModel: now.videoModel };
-        }, { baseUrl: secret.baseUrl, apiKey: secret.apiKey, model: "MiniMax-H3" });
+            return {
+                channels: now.channels.map((c) => c.id),
+                videoModel: now.videoModel,
+                proxyUrl: now.proxyUrl,
+                mediaHostUrl: now.mediaHostUrl,
+            };
+        }, { baseUrl: secret.baseUrl, apiKey: secret.apiKey, model: "MiniMax-H3", proxyUrl: PROXY_URL, mediaHostUrl: MEDIA_HOST });
         log.actions.config = cfg;
         log.steps.push("config-injected");
 

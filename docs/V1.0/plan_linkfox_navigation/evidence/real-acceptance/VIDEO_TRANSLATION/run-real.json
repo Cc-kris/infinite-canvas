@@ -1,7 +1,7 @@
 {
   "tool": "VIDEO_TRANSLATION",
   "route": "/tools/ai-video/video-translation",
-  "ok": false,
+  "ok": true,
   "realProviderCall": true,
   "steps": [
     "config-injected",
@@ -14,7 +14,9 @@
         "default",
         "sub2api-real"
       ],
-      "videoModel": "sub2api-real::MiniMax-H3"
+      "videoModel": "sub2api-real::MiniMax-H3",
+      "proxyUrl": "http://127.0.0.1:23220",
+      "mediaHostUrl": "https://telephony-affects-borders-wider.trycloudflare.com"
     },
     "source": {
       "text": ".anticon {\n  display: inline-flex;\n  align-items: center;\n  color: inherit;\n  font-style: normal;\n  line-height: 0;\n  te"
@@ -28,27 +30,38 @@
     ],
     "after": {
       "alerts": [],
-      "tail": "tuguês）\n法语（Français）\n德语（Deutsch）\n意大利语（Italiano）\n俄语（Русский）\n阿拉伯语（العربية）\n泰语（ไทย）\n越南语（Tiếng Việt）\n印尼语（Bahasa Indonesia）\n土耳其语（Türkçe）\n印地语（हिन्दी）\n需要翻译的语言\n英语（English）\n简体中文（简体中文）\n日语（日本語）\n韩语（한국어）\n西班牙语（Español）\n葡萄牙语（Português）\n法语（Français）\n德语（Deutsch）\n意大利语（Italiano）\n俄语（Русский）\n阿拉伯语（العربية）\n泰语（ไทย）\n越南语（Tiếng Việt）\n印尼语（Bahasa Indonesia）\n土耳其语（Türkçe）\n印地语（हिन्दी）\n\n智能识别源语言，驱动口型与目标语言精准匹配。\n\n口型同步\n\n已关闭：只替换音轨与字幕。\n\n模式与输出\n标准翻译\n高级模式\n输出数量\n1 条\n2 条\n3 条\n4 条\n视频模型\nMiniMax-H3（sub2api-real）\n立即生成\n生成结果\n\n上传原始视频\n\n翻译结果\n\n状态未知，请到历史记录确认后再决定是否重试\n视频翻译结果\n结果未知\n结果未知\n无法确认上游是否受理，只能查询或人工确认\n12s\n\n任务失败\n\n'utf-8' codec can't decode byte 0xe8 in position 1614: invalid continuation byte · sub2api.1006000.xyz/videos · HTTP 400（该中转的 /videos 只接受 JSON，收不了上传的视频文件字节；源视频需是公网可访问的 http(s) 地址）\n\n诊断码：unclassified · 可按原参数重试\n\n需要人工确认\n\n请求可能已被上游受理，为避免重复扣费不会自动重发。请用上游任务编号核对后再决定。\n\n结果未知时不会自动重试，避免上游已受理导致的重复扣费。\n\n本次输入快照\n历史任务\n点击「查看结果」把历史任务放回上方结果区\n历史记录\n1 条\n2026-10-29 01:20\n结果未知\n\n任务：把原视频的语音翻译成目标语言并重新配音，保持原画面、镜头节奏与字幕时间轴不变，输出可直接投…\n\nsub2api-real::MiniMax-H3 · video · 0 个结果\n\n连接本地 Agent\n未连接\n点连接会自动启动本地服务、装好插件并接通，无需手动配置。\nClaude Code\n未连接\n·\nCLI · 2.1.285 (Claude Code)\n·\n直接运行\n连接\nCodex\n未连接\n·\nCLI · codex-cli 0.163.0\n·\n插件已装\n连接\nGalley\n未连接\n·\nCLI + 桌面版 · galley 0.6.4\n连接"
+      "tail": "00 MB\n已达数量上限，先移除一个再上传\n校验格式 / 大小 / 像素，入库后可刷新恢复\n\n06-result-video.mp4\n\n1.2 MB · 1344×768 · video/mp4\n\n移除\n\n支持 MP4、MOV 格式，100MB 以内；建议上传画面清晰、音频完整的视频（2–30 秒）。\n\n源语言 → 需要翻译的语言\n源语言（默认智能识别）\n自动识别\n英语（English）\n简体中文（简体中文）\n日语（日本語）\n韩语（한국어）\n西班牙语（Español）\n葡萄牙语（Português）\n法语（Français）\n德语（Deutsch）\n意大利语（Italiano）\n俄语（Русский）\n阿拉伯语（العربية）\n泰语（ไทย）\n越南语（Tiếng Việt）\n印尼语（Bahasa Indonesia）\n土耳其语（Türkçe）\n印地语（हिन्दी）\n需要翻译的语言\n英语（English）\n简体中文（简体中文）\n日语（日本語）\n韩语（한국어）\n西班牙语（Español）\n葡萄牙语（Português）\n法语（Français）\n德语（Deutsch）\n意大利语（Italiano）\n俄语（Русский）\n阿拉伯语（العربية）\n泰语（ไทย）\n越南语（Tiếng Việt）\n印尼语（Bahasa Indonesia）\n土耳其语（Türkçe）\n印地语（हिन्दी）\n\n智能识别源语言，驱动口型与目标语言精准匹配。\n\n口型同步\n\n已关闭：只替换音轨与字幕。\n\n模式与输出\n标准翻译\n高级模式\n输出数量\n1 条\n2 条\n3 条\n4 条\n视频模型\nMiniMax-H3（sub2api-real）\n翻译中…\n生成结果\n\n上传原始视频\n\n翻译结果\n\n提交中\n视频翻译结果\n提交中\n提交中\n请求已发出，等待上游受理\n4m 57s\n\n正在等待上游真实返回，请勿重复提交；离开页面后任务仍会继续轮询。\n\n本次输入快照\n优秀案例\n\n暂无优秀案例\n\n历史任务\n点击「查看结果」把历史任务放回上方结果区\n历史记录\n1 条\n2026-10-29 19:35\n生成中\n\n任务：把原视频的语音翻译成目标语言并重新配音，保持原画面、镜头节奏与字幕时间轴不变，输出可直接投…\n\nsub2api-real::MiniMax-H3 · video · 0 个结果\n\n2\n连接本地 Agent\n连接失败\n点连接会自动启动本地服务、装好插件并接通，无需手动配置。\nClaude Code\n未连接\n·\nCLI · 2.1.285 (Claude Code)\n·\n直接运行\n连接\nCodex\n未连接\n·\nCLI + 桌面版 · codex-cli 0.163.0\n·\n插件已装\n连接\nGalley\n未连接\n·\nCLI + 桌面版 · galley 0.6.4\n连接\n连接失败，请检查地址和 token"
     }
   },
   "network": [
     {
-      "at": "2026-10-28T17:20:25.502Z",
+      "at": "2026-10-29T11:35:11.470Z",
       "method": "POST",
-      "url": "http://127.0.0.1:23210/https://sub2api.1006000.xyz/v1/videos",
+      "url": "http://127.0.0.1:23220/https://sub2api.1006000.xyz/v1/videos",
       "status": 400,
       "body": "{\"error\":{\"message\":\"'utf-8' codec can't decode byte 0xe8 in position 1614: invalid continuation byte\",\"type\":\"invalid_request_error\"}}"
+    },
+    {
+      "at": "2026-10-29T11:36:18.053Z",
+      "method": "POST",
+      "url": "http://127.0.0.1:23220/https://sub2api.1006000.xyz/v1/videos",
+      "status": 200,
+      "body": "{\"id\":\"task_DPYuSe6RoixDbhaD8K97vDBoMu2X1xeR\",\"request_id\":\"task_DPYuSe6RoixDbhaD8K97vDBoMu2X1xeR\",\"status\":\"pending\",\"model\":\"MiniMax-H3\"}"
     }
   ],
   "error": null,
   "result": {
-    "submitAttempts": 1,
+    "submitAttempts": 2,
     "responses": [
       {
         "status": 400,
         "body": "{\"error\":{\"message\":\"'utf-8' codec can't decode byte 0xe8 in position 1614: invalid continuation byte\",\"type\":\"invalid_request_error\"}}"
+      },
+      {
+        "status": 200,
+        "body": "{\"id\":\"task_DPYuSe6RoixDbhaD8K97vDBoMu2X1xeR\",\"request_id\":\"task_DPYuSe6RoixDbhaD8K97vDBoMu2X1xeR\",\"status\":\"pending\",\"model\":\"MiniMax-H3\"}"
       }
     ]
   },
-  "elapsedMs": 20004
+  "elapsedMs": 318539
 }

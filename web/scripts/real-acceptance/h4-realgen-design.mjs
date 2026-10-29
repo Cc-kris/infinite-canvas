@@ -18,7 +18,9 @@ import { BASE_URL, EVIDENCE_ROOT, launchBrowser, sleep } from "./lib.mjs";
 import { applyProviderConfig } from "./provider.mjs";
 
 const FIXTURES = path.resolve("scripts/real-acceptance/fixtures");
-const OUT = path.join(EVIDENCE_ROOT, "h4-design-realgen-20261029");
+const OUT = process.env.IC_EVIDENCE_DIR
+    ? path.resolve(process.env.IC_EVIDENCE_DIR)
+    : path.join(EVIDENCE_ROOT, "h4-design-realgen-20261029");
 const MASK = "/tmp/h4gen/mask-watch.png";
 const GEN_TIMEOUT_MS = Number(process.env.IC_GEN_TIMEOUT_MS || 900_000);
 
@@ -152,10 +154,17 @@ async function readLiveTask(page, toolId, beforeIds) {
     }, { toolId, beforeIds });
 }
 
-async function waitForNewTask(page, toolId, beforeKeys, beforeIds = []) {
+async function waitForNewTask(page, toolId, beforeKeys, beforeIds = [], upstreamFailures = []) {
     const started = Date.now();
     const before = new Set(beforeKeys);
+    let firstFailureAt = null;
     while (Date.now() - started < GEN_TIMEOUT_MS) {
+        // 上游 4xx/5xx 且宽限 45s 内无任务落盘 → 视为真实上游失败，不再空等
+        const failure = upstreamFailures[0];
+        if (failure) {
+            if (firstFailureAt === null) firstFailureAt = Date.now();
+            if (Date.now() - firstFailureAt > 45_000) return { failed: true, upstreamError: failure };
+        }
         const live = await readLiveTask(page, toolId, beforeIds);
         if (live) return { key: `live:${live.id}`, record: live, origin: "memory-store" };
         const keys = await taskKeys(page);
@@ -283,7 +292,7 @@ async function persistTasks(page, toolId, taskIds) {
 
 /* ------------------------------------------------------------------ */
 
-async function runScene(page, report) {
+async function runScene(page, report, upstreamFailures = []) {
     const dir = OUT;
     await page.goto(`${BASE_URL}/tools/product-design/new-replace-bg-v2`, { waitUntil: "domcontentloaded" });
     await page.waitForSelector('[data-testid="scene-workspace"]', { timeout: 60_000 });
@@ -332,8 +341,16 @@ async function runScene(page, report) {
     await sleep(4000);
     report.steps.push(await shot(page, "NEW_REPLACE_BG_V2-step3-submitted.png"));
 
-    const found = await waitForNewTask(page, "NEW_REPLACE_BG_V2", beforeKeys, beforeIds);
+    const found = await waitForNewTask(page, "NEW_REPLACE_BG_V2", beforeKeys, beforeIds, upstreamFailures);
     report.elapsedMs = Date.now() - startedAt;
+    if (found?.failed) {
+        report.verdict = "BLOCKED";
+        report.blockedReason = `upstream-http-${found.upstreamError.status}`;
+        report.upstreamReceipt = found.upstreamError;
+        report.runError = (await page.textContent('[data-testid="scene-run-error"]').catch(() => null))?.trim() ?? null;
+        report.steps.push(await shot(page, "NEW_REPLACE_BG_V2-step4-upstream-error.png"));
+        return;
+    }
     if (!found) {
         report.verdict = "BLOCKED";
         report.blockedReason = "no-task-record-after-submit";
@@ -518,11 +535,31 @@ async function main() {
     const page = await context.newPage();
     page.setDefaultTimeout(60_000);
     const network = [];
+    const upstreamFailures = [];
     page.on("pageerror", (err) => network.push({ pageerror: String(err).slice(0, 300), at: new Date().toISOString() }));
+    page.on("request", (req) => {
+        const url = req.url();
+        if (url.includes("/v1/images")) {
+            network.push({ kind: "request", method: req.method(), url: url.slice(0, 200), at: new Date().toISOString(), postBytes: (req.postData() || "").length });
+        }
+    });
     page.on("response", (res) => {
         const url = res.url();
         if (url.includes("127.0.0.1:23210") || url.includes("/v1/images")) {
-            network.push({ status: res.status(), method: res.request().method(), url: url.slice(0, 200), at: new Date().toISOString() });
+            const status = res.status();
+            const entry = { status, method: res.request().method(), url: url.slice(0, 200), at: new Date().toISOString() };
+            network.push(entry);
+            if (status >= 400) {
+                res.text()
+                    .then((body) => {
+                        entry.body = body.slice(0, 800);
+                        entry.bodySha256 = sha(Buffer.from(body));
+                    })
+                    .catch((error) => {
+                        entry.bodyError = String(error).slice(0, 200);
+                    });
+                upstreamFailures.push(entry);
+            }
         }
     });
 
@@ -542,7 +579,7 @@ async function main() {
         };
         console.log(`[run] ${toolId}`);
         try {
-            if (toolId === "NEW_REPLACE_BG_V2") await runScene(page, report);
+            if (toolId === "NEW_REPLACE_BG_V2") await runScene(page, report, upstreamFailures);
             else if (toolId === "REPLACE_GOODS") await runReplace(page, report);
             else throw new Error(`未知工具 ${toolId}`);
         } catch (error) {

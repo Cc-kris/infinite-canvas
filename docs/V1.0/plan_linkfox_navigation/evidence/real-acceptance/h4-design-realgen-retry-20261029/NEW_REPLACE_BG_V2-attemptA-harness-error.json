@@ -1,0 +1,58 @@
+{
+  "toolId": "NEW_REPLACE_BG_V2",
+  "at": "2026-10-29T11:52:03.957Z",
+  "baseUrl": "http://127.0.0.1:3000",
+  "injection": false,
+  "provider": {
+    "imageModel": "ccai-accept::gpt-image-2",
+    "channels": [
+      "ccai-accept",
+      "sf-accept"
+    ],
+    "baseUrl": "https://api.cc-ai.xyz",
+    "keyLen": 67,
+    "proxyEnabled": true,
+    "channelCount": 2,
+    "model": "gpt-image-2"
+  },
+  "steps": [
+    "NEW_REPLACE_BG_V2-step1-loaded.png",
+    "NEW_REPLACE_BG_V2-step2-ready.png",
+    "NEW_REPLACE_BG_V2-step3-submitted.png"
+  ],
+  "uploadInputs": 2,
+  "goodsMeta": "product-watch.jpg · 1024×744 · 无透明通道",
+  "cutoutState": "抠图已确认",
+  "issuesBefore": null,
+  "submit": {
+    "found": true,
+    "disabled": false,
+    "label": "立即生成"
+  },
+  "taskKeysBefore": 0,
+  "existingTaskIds": [],
+  "submittedAt": "2026-10-29T11:53:11.830Z",
+  "verdict": "ERROR",
+  "error": "ReferenceError: upstreamFailures is not defined\n    at runScene (file:///Users/mac/Documents/Dev/infinite-canvas/web/scripts/real-acceptance/h4-realgen-design.mjs:344:90)\n    at async main (file:///Users/mac/Documents/Dev/infinite-canvas/web/scripts/real-acceptance/h4-realgen-design.mjs:578:49)",
+  "network": [
+    {
+      "status": 200,
+      "method": "GET",
+      "url": "http://127.0.0.1:23210/",
+      "at": "2026-10-29T11:52:00.480Z"
+    },
+    {
+      "status": 200,
+      "method": "GET",
+      "url": "http://127.0.0.1:23210/",
+      "at": "2026-10-29T11:52:01.892Z"
+    },
+    {
+      "status": 200,
+      "method": "GET",
+      "url": "http://127.0.0.1:23210/",
+      "at": "2026-10-29T11:52:05.147Z"
+    }
+  ],
+  "finishedAt": "2026-10-29T11:53:16.079Z"
+}
