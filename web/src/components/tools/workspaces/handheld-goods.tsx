@@ -16,6 +16,19 @@ import { ArrowRight } from "lucide-react";
 import { Link } from "react-router";
 import { listToolsByCategory } from "@/features/tools/registry";
 import { ToolAssetInput } from "@/components/tools/tool-asset-input";
+import { ToolTaskHistory } from "@/components/tools/tool-task-history";
+import {
+    Design19Chip,
+    Design19ChipGroup,
+    Design19Empty,
+    Design19FieldLabel,
+    Design19LeftColumn,
+    Design19PrimaryButton,
+    Design19Results,
+    Design19Section,
+    Design19Workbench,
+} from "@/components/tools/design19-frame";
+import { cn } from "@/lib/utils";
 import { ToolResult } from "@/components/tools/tool-result";
 import { ToolShell } from "@/components/tools/tool-shell";
 import {
@@ -313,6 +326,7 @@ export function HandheldGoodsWorkspace({ className }: HandheldGoodsWorkspaceProp
     /* ---------------- 渲染 ---------------- */
 
     const submitDisabled = running || issues.length > 0;
+    const [rightTab, setRightTab] = useState<"result" | "history">("result");
 
     const sidebar = (
         <div className="space-y-1">
@@ -371,17 +385,29 @@ export function HandheldGoodsWorkspace({ className }: HandheldGoodsWorkspaceProp
                 </button>
             }
         >
-            <div className="grid min-h-0 flex-1 grid-cols-1 gap-4 overflow-y-auto p-4 lg:grid-cols-[320px_minmax(0,1fr)]">
-                {/* 左栏：商品图 + 姿势库 */}
-                <div className="flex min-w-0 flex-col gap-4">
-                    <section className="rounded-lg border border-border bg-card p-3">
+            <Design19Workbench data-testid="handheld-goods-workspace">
+                <Design19LeftColumn
+                    footer={
+                        <Design19PrimaryButton
+                            data-testid="handheld-submit"
+                            onClick={() => void submit()}
+                            disabled={submitDisabled}
+                            title={issues[0]?.message}
+                        >
+                            {running ? "生成中…" : "立即生成 (40算力)"}
+                        </Design19PrimaryButton>
+                    }
+                >
+                    {/* 1. 商品图上传（原站 268x306 浅灰上传面板） */}
+                    <Design19Section>
                         <ToolAssetInput
                             toolId={HANDHELD_GOODS_TOOL_ID}
                             constraints={SOURCE_CONSTRAINTS}
                             maxCount={1}
                             disabled={running}
                             variant="linkfox"
-                            title="上传商品图"
+                            wide
+                            title=""
                             hint="10M以内，384*384 ~ 4096*4096"
                             onChange={(assetIds, records) => {
                                 const record = records[0] ?? null;
@@ -389,19 +415,23 @@ export function HandheldGoodsWorkspace({ className }: HandheldGoodsWorkspaceProp
                                 if (assetIds.length) setNotice(null);
                             }}
                         />
-                    </section>
+                    </Design19Section>
 
-                    <section className="rounded-lg border border-border bg-card p-3">
-                        <div className="mb-2 flex items-center justify-between gap-2">
-                            <h2 className="text-sm font-medium">手持姿势</h2>
+                    {/* 2. 手持姿势（部位页签 + 姿势库） */}
+                    <Design19Section>
+                        <div className="mb-[6px] flex h-[22px] items-center justify-between gap-2">
+                            <span className="text-[14px] leading-[22px] text-black/[0.88]">选择手持姿势</span>
                             {activePose ? (
-                                <span className="text-[11px] text-muted-foreground">
+                                <span className="truncate text-[12px] leading-[22px] text-black/30">
                                     {handheldGoodsPoseLabel(activePose.id)}
                                 </span>
                             ) : null}
                         </div>
-
-                        <div role="tablist" aria-label="手持部位" className="mb-2 flex gap-1 rounded-md bg-muted p-1">
+                        <div
+                            role="tablist"
+                            aria-label="手持部位"
+                            className="flex h-[30px] items-stretch gap-5 border-b border-[#ededf0]"
+                        >
                             {HANDHELD_GOODS_HAND_TABS.map((tab) => {
                                 const selected = tab.id === state.modelTabType;
                                 return (
@@ -414,13 +444,16 @@ export function HandheldGoodsWorkspace({ className }: HandheldGoodsWorkspaceProp
                                         onClick={() => {
                                             const next = switchHandheldGoodsHandTab(state, tab.id);
                                             setState(next.state);
-                                            if (next.poseChanged) setNotice(`已切换到${handheldGoodsHandTabLabel(tab.id)}，姿势按该部位重新选择`);
+                                            if (next.poseChanged) {
+                                                setNotice(`已切换到${handheldGoodsHandTabLabel(tab.id)}，姿势按该部位重新选择`);
+                                            }
                                         }}
-                                        className={
+                                        className={cn(
+                                            "relative text-[14px] leading-[22px] transition",
                                             selected
-                                                ? "flex-1 rounded bg-background px-2 py-1 text-xs font-medium shadow-sm"
-                                                : "flex-1 rounded px-2 py-1 text-xs text-muted-foreground transition hover:text-foreground"
-                                        }
+                                                ? "text-[#723cf9] after:absolute after:inset-x-0 after:-bottom-px after:h-[2px] after:bg-[#723cf9]"
+                                                : "text-black/[0.88] hover:text-[#723cf9]",
+                                        )}
                                     >
                                         {tab.label}
                                     </button>
@@ -428,7 +461,7 @@ export function HandheldGoodsWorkspace({ className }: HandheldGoodsWorkspaceProp
                             })}
                         </div>
 
-                        <div className="grid grid-cols-2 gap-2">
+                        <div className="mt-[10px] grid grid-cols-2 gap-[10px]">
                             {poses.map((pose) => {
                                 const selected = pose.id === state.modelId;
                                 return (
@@ -437,37 +470,43 @@ export function HandheldGoodsWorkspace({ className }: HandheldGoodsWorkspaceProp
                                         type="button"
                                         aria-pressed={selected}
                                         disabled={running}
-                                        onClick={() => setState((previous) => ({ ...previous, modelId: pose.id, modelTabType: pose.hand }))}
-                                        className={
-                                            selected
-                                                ? "flex flex-col gap-1 rounded-lg border-2 border-primary bg-primary/5 p-1 text-left"
-                                                : "flex flex-col gap-1 rounded-lg border border-border p-1 text-left transition hover:border-primary/40"
+                                        onClick={() =>
+                                            setState((previous) => ({
+                                                ...previous,
+                                                modelId: pose.id,
+                                                modelTabType: pose.hand,
+                                            }))
                                         }
+                                        className={cn(
+                                            "flex flex-col gap-1 overflow-hidden rounded-[6px] border p-1 text-left transition",
+                                            selected
+                                                ? "border-[#723cf9] bg-[#f9f0ff]"
+                                                : "border-[#ededf0] bg-white hover:border-[#723cf9]/50",
+                                        )}
                                     >
                                         <img
                                             src={handheldGoodsPoseReferenceUrl(pose)}
                                             alt={`${pose.label} 示意图`}
                                             width={96}
                                             height={96}
-                                            className="h-20 w-full rounded bg-muted object-contain"
+                                            className="h-[96px] w-full rounded-[4px] bg-[#fafafa] object-contain"
                                         />
-                                        <span className="line-clamp-2 text-[11px] leading-tight">{pose.label}</span>
+                                        <span className="line-clamp-2 text-[12px] leading-4 text-black/[0.88]">
+                                            {pose.label}
+                                        </span>
                                     </button>
                                 );
                             })}
                         </div>
-                        <p className="mt-2 text-[11px] leading-relaxed text-muted-foreground">
+                        <p className="mt-[6px] text-[12px] leading-[18px] text-black/30">
                             姿势示意图由本地按部位/握法确定性绘制，仅用于指向上游“怎么握”，不是成品图。
                         </p>
-                    </section>
-                </div>
+                    </Design19Section>
 
-                {/* 右栏：配置 + 结果 */}
-                <div className="flex min-w-0 flex-col gap-4">
-                    <section className="rounded-lg border border-border bg-card p-3">
-                        <h2 className="mb-2 text-sm font-medium">场景与张数</h2>
-
-                        <div role="tablist" aria-label="场景类型" className="mb-3 flex gap-1 rounded-md bg-muted p-1">
+                    {/* 3. 场景类型 */}
+                    <Design19Section>
+                        <Design19FieldLabel>场景类型</Design19FieldLabel>
+                        <div role="tablist" aria-label="场景类型" className="flex h-[30px] items-stretch gap-5 border-b border-[#ededf0]">
                             {HANDHELD_GOODS_SCENE_TABS.map((tab) => {
                                 const selected = tab.id === state.sceneTabType;
                                 return (
@@ -478,148 +517,133 @@ export function HandheldGoodsWorkspace({ className }: HandheldGoodsWorkspaceProp
                                         aria-selected={selected}
                                         disabled={running}
                                         onClick={() => setState((previous) => switchHandheldGoodsSceneTab(previous, tab.id))}
-                                        className={
+                                        className={cn(
+                                            "relative text-[14px] leading-[22px] transition",
                                             selected
-                                                ? "flex-1 rounded bg-background px-2 py-1 text-xs font-medium shadow-sm"
-                                                : "flex-1 rounded px-2 py-1 text-xs text-muted-foreground transition hover:text-foreground"
-                                        }
+                                                ? "text-[#723cf9] after:absolute after:inset-x-0 after:-bottom-px after:h-[2px] after:bg-[#723cf9]"
+                                                : "text-black/[0.88] hover:text-[#723cf9]",
+                                        )}
                                     >
                                         {tab.label}
                                     </button>
                                 );
                             })}
                         </div>
-
-                        <div className="mb-3">
-                            <span className="mb-1 block text-xs text-muted-foreground">检测类型</span>
-                            <div className="flex flex-wrap gap-2">
+                        <div className="mt-[10px]">
+                            <Design19FieldLabel>检测类型</Design19FieldLabel>
+                            <Design19ChipGroup>
                                 {HANDHELD_GOODS_CHECK_TYPES.map((option) => {
                                     const selected = option.id === state.checkType;
                                     return (
-                                        <button
+                                        <Design19Chip
                                             key={option.id}
-                                            type="button"
-                                            aria-pressed={selected}
+                                            selected={selected}
                                             disabled={running}
                                             onClick={() => setState((previous) => ({ ...previous, checkType: option.id }))}
-                                            className={
-                                                selected
-                                                    ? "rounded-full border border-primary bg-primary/10 px-3 py-1 text-xs font-medium"
-                                                    : "rounded-full border border-border px-3 py-1 text-xs text-muted-foreground transition hover:text-foreground"
-                                            }
+                                            className="px-[10px]"
                                         >
                                             {option.label}
-                                        </button>
+                                        </Design19Chip>
                                     );
                                 })}
-                            </div>
+                            </Design19ChipGroup>
                         </div>
+                    </Design19Section>
 
-                        <div>
-                            <span className="mb-1 block text-xs text-muted-foreground">生成张数</span>
-                            <div className="flex gap-2">
-                                {HANDHELD_GOODS_OUTPUT_OPTIONS.map((num) => {
-                                    const selected = num === state.outputNum;
-                                    return (
-                                        <button
-                                            key={num}
-                                            type="button"
-                                            aria-pressed={selected}
-                                            disabled={running}
-                                            onClick={() => setState((previous) => ({ ...previous, outputNum: num }))}
-                                            className={
-                                                selected
-                                                    ? "size-9 rounded-md border border-primary bg-primary text-sm font-medium text-primary-foreground"
-                                                    : "size-9 rounded-md border border-border text-sm text-muted-foreground transition hover:text-foreground"
-                                            }
-                                        >
-                                            {num}
-                                        </button>
-                                    );
-                                })}
-                            </div>
-                            <p className="mt-1 text-[11px] text-muted-foreground">
-                                每张单独发一次真实请求（并发生效上限 2），失败张可单独重试。
-                            </p>
-                        </div>
-
+                    {/* 4. 生成张数（原站 margin-top 20 + 12px 标题 + 40x26 chip） */}
+                    <Design19Section className="mt-[20px]">
+                        <Design19FieldLabel>选择生成张数</Design19FieldLabel>
+                        <Design19ChipGroup>
+                            {HANDHELD_GOODS_OUTPUT_OPTIONS.map((num) => (
+                                <Design19Chip
+                                    key={num}
+                                    selected={num === state.outputNum}
+                                    disabled={running}
+                                    onClick={() => setState((previous) => ({ ...previous, outputNum: num }))}
+                                >
+                                    {num}
+                                </Design19Chip>
+                            ))}
+                        </Design19ChipGroup>
+                        <p className="mt-[6px] text-[12px] leading-[18px] text-black/30">
+                            每张单独发一次真实请求（并发生效上限 2），失败张可单独重试。
+                        </p>
                         {issues.length ? (
-                            <ul className="mt-3 space-y-1 text-[11px] text-amber-700 dark:text-amber-300">
+                            <ul className="mt-2 space-y-1 text-[12px] leading-[18px] text-[#d46b08]">
                                 {issues.map((issue) => (
                                     <li key={`${issue.code}-${issue.field}`}>· {issue.message}</li>
                                 ))}
                             </ul>
                         ) : null}
-                    </section>
+                    </Design19Section>
+                </Design19LeftColumn>
 
-                    <section className="flex min-h-0 flex-1 flex-col rounded-lg border border-border bg-card p-3">
-                        <div className="mb-2 flex items-center justify-between gap-2">
-                            <h2 className="text-sm font-medium">生成结果</h2>
-                            <span className="text-[11px] text-muted-foreground">{handheldGoodsStatusText(view)}</span>
-                        </div>
-
+                <Design19Results
+                    tabs={[{ id: "result", label: "生成结果" }]}
+                    active={rightTab}
+                    onTabChange={(id) => setRightTab(id === "history" ? "history" : "result")}
+                    extraTab={{ id: "history", label: "历史记录" }}
+                >
+                    <div role="tabpanel" hidden={rightTab !== "result"} data-testid="handheld-panel-result" className="flex min-h-full flex-col px-3 py-3">
                         {stale ? (
-                            <p className="mb-2 rounded border border-border bg-muted px-2 py-1 text-[11px] text-muted-foreground">
+                            <p className="mb-2 rounded-[4px] bg-[#fafafa] px-2 py-1 text-[12px] leading-[18px] text-black/30">
                                 配置已修改，下面的结果来自旧版本（快照指纹不同）。
                             </p>
                         ) : null}
 
                         {appliedFields ? (
-                            <p className="mb-2 text-[11px] text-muted-foreground">
+                            <p className="mb-2 text-[12px] leading-[18px] text-black/30">
                                 已回填输出字段：imageResultUrl / targetResultUrl
                             </p>
                         ) : null}
 
-                        <div className="grid grid-cols-2 gap-3 md:grid-cols-3">
-                            {view.items.map((item) => (
-                                <figure key={item.index} className="overflow-hidden rounded-lg border border-border">
-                                    <div className="flex aspect-square items-center justify-center bg-muted">
-                                        {item.url ? (
-                                            <img src={item.url} alt={`第 ${item.index + 1} 张结果`} className="size-full object-contain" />
-                                        ) : (
-                                            <span className="px-2 text-center text-[11px] text-muted-foreground">
-                                                {item.status === "failed"
-                                                    ? item.error?.message ?? "该张失败"
-                                                    : item.status === "cancelled"
-                                                      ? "已取消"
-                                                      : item.status === "unknown"
-                                                        ? "状态未知"
-                                                        : "生成中…"}
-                                            </span>
-                                        )}
-                                    </div>
-                                    <figcaption className="flex items-center justify-between gap-1 px-2 py-1 text-[11px] text-muted-foreground">
-                                        <span>第 {item.index + 1} 张</span>
-                                        {item.status === "failed" ? (
-                                            <button
-                                                type="button"
-                                                disabled={running || retrying !== null}
-                                                onClick={() => {
-                                                    const run = runs.find((candidate) => candidate.index === item.index);
-                                                    if (run) void retryOne(run);
-                                                }}
-                                                className="rounded border border-border px-1.5 py-0.5 transition hover:bg-accent disabled:opacity-50"
-                                            >
-                                                {retrying === item.index ? "重试中…" : "重试"}
-                                            </button>
-                                        ) : null}
-                                    </figcaption>
-                                </figure>
-                            ))}
-                        </div>
-
-                        {view.status === "idle" ? (
-                            <div className="mt-3 space-y-1">
-                                <p className="text-sm text-muted-foreground">暂无生成结果图</p>
-                                <p className="text-xs text-muted-foreground">快在左侧上传商品图并选择手持姿势吧~</p>
+                        {view.items.length ? (
+                            <div className="grid grid-cols-[repeat(auto-fill,minmax(200px,1fr))] gap-3">
+                                {view.items.map((item) => (
+                                    <figure key={item.index} className="overflow-hidden rounded-[6px] border border-[#ededf0]">
+                                        <div className="flex aspect-square items-center justify-center bg-[#fafafa]">
+                                            {item.url ? (
+                                                <img src={item.url} alt={`第 ${item.index + 1} 张结果`} className="size-full object-contain" />
+                                            ) : (
+                                                <span className="px-2 text-center text-[12px] leading-[18px] text-black/30">
+                                                    {item.status === "failed"
+                                                        ? item.error?.message ?? "该张失败"
+                                                        : item.status === "cancelled"
+                                                          ? "已取消"
+                                                          : item.status === "unknown"
+                                                            ? "状态未知"
+                                                            : "生成中…"}
+                                                </span>
+                                            )}
+                                        </div>
+                                        <figcaption className="flex items-center justify-between gap-1 px-2 py-1 text-[12px] leading-[18px] text-black/30">
+                                            <span>第 {item.index + 1} 张</span>
+                                            {item.status === "failed" ? (
+                                                <button
+                                                    type="button"
+                                                    disabled={running || retrying !== null}
+                                                    onClick={() => {
+                                                        const run = runs.find((candidate) => candidate.index === item.index);
+                                                        if (run) void retryOne(run);
+                                                    }}
+                                                    className="rounded-[4px] border border-[#ededf0] px-1.5 py-0.5 transition hover:bg-[#f9f0ff] disabled:opacity-50"
+                                                >
+                                                    {retrying === item.index ? "重试中…" : "重试"}
+                                                </button>
+                                            ) : null}
+                                        </figcaption>
+                                    </figure>
+                                ))}
                             </div>
-                        ) : null}
+                        ) : (
+                            <Design19Empty title="暂无生成结果图" hint="快在左侧上传商品图并选择手持姿势吧~" />
+                        )}
 
                         {running ? (
                             <button
                                 type="button"
                                 onClick={cancel}
-                                className="mt-3 self-start rounded-md border border-border px-3 py-1 text-xs transition hover:bg-accent"
+                                className="mt-3 self-start rounded-[6px] border border-[#ededf0] px-3 py-1 text-[12px] leading-[18px] transition hover:bg-[#fafafa]"
                             >
                                 取消本次生成
                             </button>
@@ -630,11 +654,16 @@ export function HandheldGoodsWorkspace({ className }: HandheldGoodsWorkspaceProp
                                 <ToolResult task={lastTask} toolId={HANDHELD_GOODS_TOOL_ID} title="最近一次上游返回" />
                             </div>
                         ) : null}
-                    </section>
-                </div>
-            </div>
+                    </div>
+
+                    <div role="tabpanel" hidden={rightTab !== "history"} data-testid="handheld-panel-history" className="min-h-full px-3 py-3">
+                        <ToolTaskHistory toolId={HANDHELD_GOODS_TOOL_ID} limit={8} emptyHint="还没有手持商品任务记录" />
+                    </div>
+                </Design19Results>
+            </Design19Workbench>
         </ToolShell>
     );
 }
+
 
 export default HandheldGoodsWorkspace;

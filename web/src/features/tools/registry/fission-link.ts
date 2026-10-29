@@ -408,7 +408,8 @@ export function fissionLinkPlan(snapshot: Pick<FissionLinkSnapshot, "outputNum">
 export function fissionLinkSubmitLabel(state: FissionLinkState, pending = false): string {
     if (pending) return "生成中…";
     const count = normalizeFissionLinkOutputNum(state.outputNum);
-    return count > 1 ? `生成 ${count} 张裂变结果` : "生成裂变结果";
+    // 原站 CTA 形如「立即生成 (40算力)」；多张时把扇出量写进文案，避免用户误以为是打包价。
+    return count > 1 ? `立即生成 ${count} 张 (40算力/张)` : "立即生成 (40算力)";
 }
 
 /* ------------------------------------------------------------------ *

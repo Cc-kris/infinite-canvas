@@ -3,6 +3,8 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 import { ToolAssetInput } from "@/components/tools/tool-asset-input";
 import { ToolResult } from "@/components/tools/tool-result";
+import { Design19LeftColumn, Design19Results, Design19Workbench, type Design19TabId } from "@/components/tools/design19-frame";
+import { ToolTaskHistory } from "@/components/tools/tool-task-history";
 import { downloadResultItem, saveResultItemToAssets, sendResultItemToCanvas } from "@/components/tools/tool-result-actions";
 import { loadToolAssetRecords, type ToolAssetConstraints, type ToolAssetRecord } from "@/services/api/tools/assets";
 import { getToolGateway } from "@/services/api/tools/gateway";
@@ -877,7 +879,8 @@ export function FissionLinkWorkspace({ className, port }: FissionLinkWorkspacePr
     const [lockedHash, setLockedHash] = useState("");
     const [error, setError] = useState("");
     const [busy, setBusy] = useState(false);
-    /** 单张结果动作的 pending key（`download-0` / `save-0` / `canvas-0`），按索引精确区隔，避免一卡忙全部锁死。 */
+    /** 右栏页签：原站「生成结果 / 优秀案例 / 历史记录」。 */
+    const [resultTab, setResultTab] = useState<Design19TabId>("result");
     const [actionPending, setActionPending] = useState("");
     /** 动作真实回执（含失败原因），不伪造成功。 */
     const [actionNotice, setActionNotice] = useState("");
@@ -1130,12 +1133,9 @@ export function FissionLinkWorkspace({ className, port }: FissionLinkWorkspacePr
     return (
         <div
             data-testid="fission-link-workspace"
-            className={["grid gap-6 lg:grid-cols-[minmax(300px,320px)_minmax(0,1fr)]", className].filter(Boolean).join(" ")}
+            className={cn("flex h-full min-h-0 overflow-hidden bg-white text-[#1f1f2c]", className)}
         >
-            <section
-                data-testid="fission-link-config"
-                className="rounded-lg border border-stone-200 bg-white/60 p-4 dark:border-stone-800 dark:bg-stone-900/40"
-            >
+            <Design19LeftColumn data-testid="fission-link-config">
                 <h2 className="text-sm font-medium">{FISSION_LINK_TITLE}</h2>
                 <p className="mt-1 text-[11px] leading-relaxed text-muted-foreground">
                     粘贴一张商品/场景图的链接，或直接上传；数量 = 每张一次真实请求。
@@ -1249,18 +1249,36 @@ export function FissionLinkWorkspace({ className, port }: FissionLinkWorkspacePr
                         </button>
                     ) : null}
                 </div>
-            </section>
+            </Design19LeftColumn>
 
-            <section
-                data-testid="fission-link-result"
-                className="rounded-lg border border-stone-200 bg-white/60 p-4 dark:border-stone-800 dark:bg-stone-900/40"
+            <Design19Results
+                tabs={[
+                    { id: "result", label: "生成结果" },
+                    { id: "case", label: "优秀案例" },
+                ]}
+                extraTab={{ id: "history", label: "历史记录" }}
+                active={resultTab}
+                onTabChange={setResultTab}
             >
-                <div className="flex items-baseline justify-between">
-                    <h2 className="text-sm font-medium">裂变结果</h2>
-                    <span data-testid="fission-link-result-status" className="text-[11px] text-muted-foreground">
-                        {fissionLinkStatusText(view)}
-                    </span>
-                </div>
+                <div data-testid="fission-link-result" className="contents">
+                <span data-testid="fission-link-result-status" className="sr-only">
+                    {fissionLinkStatusText(view)}
+                </span>
+                {resultTab !== "result" ? (
+                    <div className="min-h-0 flex-1 overflow-auto p-4">
+                        {resultTab === "case" ? (
+                            <p className="rounded-lg bg-white px-4 py-8 text-center text-xs text-black/45">
+                                原站该工具没有公开的优秀案例，本地不伪造案例数据。
+                            </p>
+                        ) : (
+                            <ToolTaskHistory
+                                toolId={FISSION_LINK_TOOL_ID}
+                                emptyHint="还没有历史任务；提交一次后会在这里留下任务与结果。"
+                            />
+                        )}
+                    </div>
+                ) : null}
+                <div className={resultTab === "result" ? "min-h-0 flex-1 overflow-auto p-4" : "hidden"}>
                 {lockedHash && lockedHash !== currentHash ? (
                     <p data-testid="fission-link-stale" className="mt-1 text-[11px] text-amber-700 dark:text-amber-400">
                         参数已改动，下面这些结果是上一次配置生成的，需要重新提交
@@ -1340,7 +1358,9 @@ export function FissionLinkWorkspace({ className, port }: FissionLinkWorkspacePr
                         );
                     })}
                 </div>
-            </section>
+                </div>
+                </div>
+            </Design19Results>
         </div>
     );
 }
@@ -1428,6 +1448,8 @@ export function SceneTransferWorkspace({ className, toolId = SCENE_TRANSFER_TOOL
     const [lostAssets, setLostAssets] = useState<string[]>([]);
     const [task, setTask] = useState<ToolTask | undefined>();
     const [snapshot, setSnapshot] = useState<SceneTransferSnapshot | undefined>();
+    /** 右栏页签：原站「生成结果 / 优秀案例 / 历史记录」。 */
+    const [resultTab, setResultTab] = useState<Design19TabId>("result");
     const [running, setRunning] = useState(false);
     const [error, setError] = useState("");
     const hydratedRef = useRef(false);
@@ -1557,8 +1579,8 @@ export function SceneTransferWorkspace({ className, toolId = SCENE_TRANSFER_TOOL
     }, [task]);
 
     return (
-        <div className={cn("flex flex-col gap-4 lg:flex-row", className)} data-testid="scene-transfer-workspace">
-            <section className="flex-1 space-y-4" data-testid="scene-transfer-config">
+        <div className={cn("flex flex-col gap-2.5 lg:flex-row lg:items-start", className)} data-testid="scene-transfer-workspace">
+            <Design19LeftColumn data-testid="scene-transfer-config">
                 <header>
                     <h2 className="text-sm font-medium" data-testid="scene-transfer-title">{SCENE_TRANSFER_TITLE}</h2>
                     <p className="mt-1 text-[11px] text-stone-500 dark:text-stone-400">
@@ -1705,9 +1727,18 @@ export function SceneTransferWorkspace({ className, toolId = SCENE_TRANSFER_TOOL
                         ) : null}
                     </div>
                 </div>
-            </section>
+            </Design19LeftColumn>
 
-            <section className="flex-1 space-y-3" data-testid="scene-transfer-result">
+            <Design19Results
+                tabs={[
+                    { id: "result", label: "生成结果" },
+                    { id: "case", label: "优秀案例" },
+                ]}
+                extraTab={{ id: "history", label: "历史记录" }}
+                active={resultTab}
+                onTabChange={setResultTab}
+            >
+                <div className={resultTab === "result" ? "space-y-3" : "hidden"} data-testid="scene-transfer-result">
                 <ToolResult task={task} toolId={toolId} title={`${SCENE_TRANSFER_TITLE}结果`} onCancel={running ? cancel : undefined} onRetry={undefined} />
 
                 {view.cells.length ? (
@@ -1750,7 +1781,16 @@ export function SceneTransferWorkspace({ className, toolId = SCENE_TRANSFER_TOOL
                         </p>
                     )}
                 </div>
-            </section>
+                </div>
+                {resultTab === "case" ? (
+                    <p className="rounded-lg bg-white px-4 py-8 text-center text-xs text-black/45">
+                        原站该工具没有公开的优秀案例，本地不伪造案例数据。
+                    </p>
+                ) : null}
+                {resultTab === "history" ? (
+                    <ToolTaskHistory toolId={toolId} emptyHint="还没有历史任务；提交一次后会在这里留下任务与结果。" />
+                ) : null}
+            </Design19Results>
         </div>
     );
 }

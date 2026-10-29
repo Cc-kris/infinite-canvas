@@ -448,6 +448,17 @@ export const IMMERSIVE_TOOL_IDS: ReadonlySet<string> = new Set([
     "AI_TEXT",
     "ORNAMENT_TEXT",
     "SDS_DESIGN",
+    // design19 后 9：同样没有页面标题栏/面包屑/`/tools/...` 路由行，
+    // 左栏从页面顶部开始（原站 rail y=120 / 本地去掉 dev header 后一致）。
+    "PRINT_EXTRACT",
+    "AI_POSE_GENERATOR",
+    "AI_DRESSING_XSY",
+    "FISSION_LINK",
+    "IMAGE_TEXT_EDIT",
+    "MATERIAL_UPPER_BODY",
+    "NEW_DESIGNER",
+    "PRODUCT_MARKET_MATERIAL",
+    "SCENE_TRANSFER",
 ]);
 
 /**

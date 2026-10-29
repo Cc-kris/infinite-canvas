@@ -191,8 +191,8 @@ describe("数量与提交校验", () => {
     test("提交文案与请求计划如实反映扇出次数", () => {
         const three = makeSnapshot({ outputNum: 3 });
         expect(fissionLinkPlan(three)).toEqual({ requests: 3, label: "将发起 3 次真实请求（每张一次）" });
-        expect(fissionLinkSubmitLabel(createFissionLinkState({ imageUrl: SOURCE_URL, outputNum: 3 }))).toBe("生成 3 张裂变结果");
-        expect(fissionLinkSubmitLabel(createFissionLinkState({ imageUrl: SOURCE_URL }))).toBe("生成裂变结果");
+        expect(fissionLinkSubmitLabel(createFissionLinkState({ imageUrl: SOURCE_URL, outputNum: 3 }))).toBe("立即生成 3 张 (40算力/张)");
+        expect(fissionLinkSubmitLabel(createFissionLinkState({ imageUrl: SOURCE_URL }))).toBe("立即生成 (40算力)");
     });
 });
 
