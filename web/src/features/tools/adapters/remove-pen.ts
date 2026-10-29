@@ -163,7 +163,10 @@ export async function retryRemovePen(options: RunRemovePenOptions & { failedTask
     return runRemovePen(options);
 }
 
-export function removePenRunFromTask(unit: RemovePenUnit, task: ToolTask): RemovePenRun {
+/** 只需要 id + snapshotHash：刷新后从落盘任务还原时没有原始 unit（提示词/参考图已随任务存过）。 */
+export type RemovePenUnitRef = Pick<RemovePenUnit, "id" | "snapshotHash"> & Partial<RemovePenUnit>;
+
+export function removePenRunFromTask(unit: RemovePenUnitRef, task: ToolTask): RemovePenRun {
     const base = { unitId: unit.id, snapshotHash: unit.snapshotHash, task };
     const firstImage = task.result?.items.find((item) => item.kind === "image" && (item.dataUrl || item.url));
     if (task.status === "succeeded") {

@@ -313,3 +313,26 @@ describe("REMOVE_PEN 工作区渲染", () => {
         expect(html).not.toContain('data-testid="remove-pen-compare"');
     });
 });
+
+describe("REMOVE_PEN 刷新后从落盘任务恢复", () => {
+    test("只有 id/snapshotHash 也要能从落盘任务还原结果字节（下载/存资产/发画布不再归零）", () => {
+        const task = toolTask({
+            status: "succeeded",
+            result: {
+                items: [{ kind: "image", mime: "image/png", url: "https://oss/restored.png", dataUrl: "data:image/png;base64,RESTORED" }],
+            } as ToolTask["result"],
+        });
+        const run = removePenRunFromTask({ id: task.id, snapshotHash: task.id }, task);
+        expect(run.status).toBe("succeeded");
+        const view = removePenResultView({ run });
+        expect(view.imageUrl).toBe("data:image/png;base64,RESTORED");
+        expect(view.error).toBeUndefined();
+    });
+
+    test("落盘任务成功但无字节时不伪造成功（不生成占位图）", () => {
+        const task = toolTask({ status: "succeeded", result: { items: [{ kind: "image" }] } as ToolTask["result"] });
+        const run = removePenRunFromTask({ id: task.id, snapshotHash: task.id }, task);
+        expect(run.status).toBe("failed");
+        expect(run.image).toBeUndefined();
+    });
+});

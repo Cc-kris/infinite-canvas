@@ -84,6 +84,7 @@ import { loadToolAssetRecords, type ToolAssetRecord } from "@/services/api/tools
 import type { ToolTask, ToolTaskResultItem } from "@/services/api/tools/task-machine";
 import { imageToDataUrl } from "@/services/image-storage";
 import { flushToolDrafts, useToolDraftStore } from "@/stores/use-tool-draft-store";
+import { useToolTaskStore } from "@/stores/use-tool-task-store";
 
 export type MaskWorkspaceProps = { className?: string };
 
@@ -1026,6 +1027,41 @@ export function RemovePenWorkspace({ className }: RemovePenWorkspaceProps = {}) 
     const [resultPending, setResultPending] = useState(false);
     const [resultNotice, setResultNotice] = useState("");
 
+    /* ---------------- 刷新恢复：落盘任务 → 结果区 ----------------
+     * 结果区原先只认本会话 run：整页刷新后 outcomes 归零 → 结果空白，
+     * 下载/存资产库/发画布三动作全部点不到（历史坞里明明有真实结果）。
+     * 这里 hydrate 任务库，取最近一条带图片地址的 REMOVE_PEN 成功任务，
+     * 用 removePenRunFromTask 还原成同一种 run，三动作继续吃真实字节；没有字节就不标成功，绝不补造图。
+     */
+    const storedTasks = useToolTaskStore((store) => store.tasks);
+    const tasksHydrated = useToolTaskStore((store) => store.hydrated);
+    const hydrateTasks = useToolTaskStore((store) => store.hydrate);
+    const [pickedTask, setPickedTask] = useState<ToolTask | null>(null);
+    useEffect(() => {
+        if (!tasksHydrated) hydrateTasks();
+    }, [tasksHydrated, hydrateTasks]);
+
+    const restoredTask = useMemo(() => {
+        if (run) return null;
+        if (pickedTask) return pickedTask;
+        const candidates = Object.values(storedTasks).filter(
+            (task) =>
+                task.toolId === REMOVE_PEN_ID &&
+                task.status === "succeeded" &&
+                (task.result?.items ?? []).some((item) => item.kind === "image" && Boolean(item.dataUrl || item.url)),
+        );
+        candidates.sort((a, b) => (b.updatedAt ?? b.createdAt ?? 0) - (a.updatedAt ?? a.createdAt ?? 0));
+        return candidates[0] ?? null;
+    }, [run, pickedTask, storedTasks]);
+
+    const restoredRun = useMemo<RemovePenRun | null>(() => {
+        if (!restoredTask) return null;
+        return removePenRunFromTask({ id: restoredTask.id, snapshotHash: restoredTask.id }, restoredTask);
+    }, [restoredTask]);
+
+    /** 本会话结果优先；没有就从落盘任务回填。 */
+    const activeRun = run ?? restoredRun;
+
     const canvasRef = useRef<HTMLCanvasElement | null>(null);
     const imageRef = useRef<UploadedImage | null>(null);
     const stateRef = useRef(state);
@@ -1264,7 +1300,7 @@ export function RemovePenWorkspace({ className }: RemovePenWorkspaceProps = {}) 
         [image, state],
     );
     const stale = runSnapshot ? isRemovePenSnapshotStale(runSnapshot, currentSnapshot) : false;
-    const view = useMemo(() => removePenResultView({ run, running: busy, sourceUrl: image?.dataUrl, stale }), [run, busy, image, stale]);
+    const view = useMemo(() => removePenResultView({ run: activeRun, running: busy, sourceUrl: image?.dataUrl, stale }), [activeRun, busy, image, stale]);
 
     /* ---------------- 结果动作：存入资产库 / 发送画布 ---------------- */
 
@@ -1273,7 +1309,7 @@ export function RemovePenWorkspace({ className }: RemovePenWorkspaceProps = {}) 
         const url = view.imageUrl;
         if (!url) return null;
         return {
-            id: `${REMOVE_PEN_ID}-${run?.snapshotHash ?? "result"}`,
+            id: `${REMOVE_PEN_ID}-${activeRun?.snapshotHash ?? "result"}`,
             kind: "image",
             ...(url.startsWith("data:") ? { dataUrl: url } : { url }),
             mimeType: "image/png",
@@ -1584,7 +1620,7 @@ export function RemovePenWorkspace({ className }: RemovePenWorkspaceProps = {}) 
                             </div>
                         )}
 
-                        {run?.task || resultUrl ? (
+                        {activeRun?.task || resultUrl ? (
                             <div className="mx-auto mt-3 flex w-fit max-w-full flex-col gap-2 rounded-lg bg-card p-3">
                                 <div className="flex flex-wrap items-center justify-between gap-2">
                                     <p className="text-[12px] font-medium text-foreground">前后对比</p>
@@ -1612,10 +1648,15 @@ export function RemovePenWorkspace({ className }: RemovePenWorkspaceProps = {}) 
                                         {view.error.message}（诊断码：{view.error.code}）
                                     </p>
                                 ) : null}
-                                {run?.task ? <TaskStatusPanel task={run.task} /> : null}
-                        {resultUrl && image ? (
+                                {activeRun?.task ? <TaskStatusPanel task={activeRun.task} /> : null}
+                                {restoredRun ? (
+                                    <p data-testid="remove-pen-restored-task" className="text-[11px] text-muted-foreground">
+                                        已按落盘任务 {restoredRun.task.id} 恢复结果：下载/存入资产/发送画布都沿用该任务的真实图片字节。
+                                    </p>
+                                ) : null}
+                        {resultUrl ? (
                             <div className="mt-1">
-                                {compareMode === "slider" ? (
+                                {compareMode === "slider" && image ? (
                                     <div className="relative mx-auto w-fit max-w-full overflow-hidden rounded border border-border">
                                         <img src={image.dataUrl} alt="原图" className="block max-h-[520px] w-auto max-w-full select-none" draggable={false} />
                                         <img
@@ -1635,7 +1676,7 @@ export function RemovePenWorkspace({ className }: RemovePenWorkspaceProps = {}) 
                                             className="absolute inset-x-2 bottom-2 accent-primary"
                                         />
                                     </div>
-                                ) : compareMode === "side-by-side" ? (
+                                ) : compareMode === "side-by-side" && image ? (
                                     <div data-testid="remove-pen-compare" className="grid grid-cols-2 gap-2">
                                         <figure>
                                             <img src={image.dataUrl} alt="原图" className="block w-full rounded border border-border object-contain" draggable={false} />
@@ -1654,7 +1695,7 @@ export function RemovePenWorkspace({ className }: RemovePenWorkspaceProps = {}) 
                                     <a
                                         data-testid="remove-pen-download"
                                         href={resultUrl}
-                                        download={removePenDownloadName(image.name)}
+                                        download={removePenDownloadName(image?.name ?? "remove-pen")}
                                         className="rounded border border-border px-2 py-1 text-[11px] text-muted-foreground hover:bg-accent"
                                     >
                                         下载图片
