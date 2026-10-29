@@ -1,0 +1,70 @@
+{
+  "toolId": "AI_DRESSING_V2",
+  "route": "/tools/product-design/ai-dressing-v2",
+  "steps": {
+    "dockItems": 1,
+    "surface": "dock",
+    "resultImg": null,
+    "historyText": 1,
+    "before": {
+      "assetCount": 0,
+      "lastAsset": null,
+      "projectCount": 0,
+      "lastProject": null
+    },
+    "downloadBtn": "[data-testid=\"tool-history-dock-download\"]*toggled",
+    "download": {
+      "file": {
+        "name": "ai-dressing-v2-result-1.png",
+        "bytes": 819224
+      },
+      "busy": {
+        "busySeen": true,
+        "disabledNow": 0
+      }
+    },
+    "saveBtn": "[data-testid=\"tool-history-dock-save\"]",
+    "saveFeedback": "已存入资产库（image · QuS37Z3tpyapO9-Ju_5RY）",
+    "save": {
+      "before": 0,
+      "after": 1,
+      "lastAsset": {
+        "id": "QuS37Z3tpyapO9-Ju_5RY",
+        "kind": "image",
+        "bytes": 819224,
+        "toolId": "AI_DRESSING_V2"
+      },
+      "busy": {
+        "busySeen": true,
+        "disabledNow": 0
+      }
+    },
+    "canvasBtn": "[data-testid=\"tool-history-dock-canvas\"]",
+    "canvasFeedback": "已发送到画布（xWDlhVONca0QNeeEA7VDT / image-1793250085404-ovlvb）",
+    "canvas": {
+      "before": 0,
+      "after": 1,
+      "lastProject": {
+        "id": "xWDlhVONca0QNeeEA7VDT",
+        "nodeCount": 1,
+        "lastNodeBytes": 819224,
+        "lastNodeType": "image"
+      },
+      "busy": {
+        "busySeen": true,
+        "disabledNow": 0
+      }
+    },
+    "pageErrors": [],
+    "bytes": {
+      "source": 819224,
+      "download": 819224,
+      "asset": 819224,
+      "node": 819224
+    }
+  },
+  "ok": true,
+  "errors": [],
+  "sourceBytes": 819224,
+  "recordedAt": "2026-10-29T05:01:25.817Z"
+}

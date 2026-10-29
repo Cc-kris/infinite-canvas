@@ -1,0 +1,74 @@
+{
+  "toolId": "AI_TEXT",
+  "route": "/tools/product-design/ai-text",
+  "steps": {
+    "dockItems": 1,
+    "surface": "result",
+    "resultImg": {
+      "src": "http://127.0.0.1:8993/AI_TEXT.png",
+      "w": 1024,
+      "h": 1024
+    },
+    "historyText": 1,
+    "before": {
+      "assetCount": 0,
+      "lastAsset": null,
+      "projectCount": 0,
+      "lastProject": null
+    },
+    "downloadBtn": "[data-testid=\"tool-result-download-0\"]",
+    "download": {
+      "file": {
+        "name": "ai-text-result-1.png",
+        "bytes": 836368
+      },
+      "busy": {
+        "busySeen": true,
+        "disabledNow": 0
+      }
+    },
+    "saveBtn": "[data-testid=\"tool-result-save-0\"]",
+    "saveFeedback": "已保存到资产库（HgB0zQ2JMnOS5G0_Kiyyn）",
+    "save": {
+      "before": 0,
+      "after": 1,
+      "lastAsset": {
+        "id": "HgB0zQ2JMnOS5G0_Kiyyn",
+        "kind": "image",
+        "bytes": 836368,
+        "toolId": "AI_TEXT"
+      },
+      "busy": {
+        "busySeen": true,
+        "disabledNow": 0
+      }
+    },
+    "canvasBtn": "[data-testid=\"tool-result-canvas-0\"]",
+    "canvasFeedback": "已发送到画布（ggF12ePBU-8z1sCDffzhY）",
+    "canvas": {
+      "before": 0,
+      "after": 1,
+      "lastProject": {
+        "id": "ggF12ePBU-8z1sCDffzhY",
+        "nodeCount": 1,
+        "lastNodeBytes": 836368,
+        "lastNodeType": "image"
+      },
+      "busy": {
+        "busySeen": true,
+        "disabledNow": 0
+      }
+    },
+    "pageErrors": [],
+    "bytes": {
+      "source": 836368,
+      "download": 836368,
+      "asset": 836368,
+      "node": 836368
+    }
+  },
+  "ok": true,
+  "errors": [],
+  "sourceBytes": 836368,
+  "recordedAt": "2026-10-29T04:59:43.332Z"
+}

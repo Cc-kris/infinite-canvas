@@ -1,0 +1,956 @@
+{
+ "url": "http://127.0.0.1:3000/tools/product-design/handheld-goods",
+ "title": "无限画布",
+ "bodyText": "无限画布\n首页\n电商套图\n智能修图\n新模型\nAI视频\nHOT\n批量生图\n商品图设计\nSkills\nAgent\n更多\n中\n切换到深色主题\nv0.27.0\n商品图设计\n商品图\n商品替换\n场景裂变\n手持商品\nAI穿衣\n姿势裂变\nAI穿戴\nPOD素材\n饰品文字\n素材贴合\n印花提取\nAI姿势生成\n补充\nAI试衣XSY\n补充\n场景裂变链接\n补充\n图片文字编辑\n补充\n上装换料\n补充\n商品图设计器\n补充\n商品营销素材\n补充\n场景迁移\n补充\n免责声明\n商品图设计 / 手持商品\n手持商品\n/tools/product-design/handheld-goods\n手持商品\n商品图 10M · 384²–4096²\n张数 预计输出 1 张\n上传商品图 · 选手持姿势 · 生成手持效果图\n开始生成\n商品图\n上传商品图\n0 / 1 个 · PNG / JPG / WebP · ≤ 10 MB\n点击选择本地文件，或拖拽到这里\n校验格式 / 大小 / 像素，入库后可刷新恢复\n还没有素材\n支持 PNG / JPEG / WebP，单张 10MB 以内，边长 384–4096。\n手持姿势\n左手托底正面\n左手\n右手\n双手\n左手托底正面\n左手捏边\n左手摊掌展示\n左手略仰拍\n姿势示意图由本地按部位/握法确定性绘制，仅用于指向上游“怎么握”，不是成品图。\n场景与张数\n纯色棚拍\n桌面场景\n户外自然光\n检测类型\n手部接触与商品一致性\n仅商品完整性\n生成张数\n1\n2\n3\n4\n每张单独发一次真实请求（并发生效上限 2），失败张可单独重试。\n· 请先上传手持商品图\n生成结果\n还没有生成结果\n还没有结果：上传商品图 → 选一个姿势 → 开始生成。\n历史任务\n0 条\n本工具还没有历史任务；提交一次后会在这里留下任务、配置与结果，刷新后仍在。\n连接本地 Agent\n未连接\n点连接会自动启动本地服务、装好插件并接通，无需手动配置。\nClaude Code\n未连接\n·\nCLI · 2.1.285 (Claude Code)\n·\n直接运行\n连接\nCodex\n未连接\n·\nCLI · codex-cli 0.163.0\n·\n插件已装\n连接\nGalley\n未连接\n·\nCLI + 桌面版 · galley 0.6.4\n连接",
+ "controls": [
+  {
+   "tag": "button",
+   "type": "button",
+   "role": null,
+   "label": "更多",
+   "text": "更多",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 954,
+    "y": 0,
+    "w": 47,
+    "h": 60
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": null,
+   "label": "中 切换到深色主题 v0.27.0",
+   "text": "",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 1190,
+    "y": 14,
+    "w": 32,
+    "h": 32
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": null,
+   "label": "中 切换到深色主题 v0.27.0",
+   "text": "",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 1230,
+    "y": 16,
+    "w": 28,
+    "h": 28
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": null,
+   "label": "中 切换到深色主题 v0.27.0",
+   "text": "中",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 1262,
+    "y": 16,
+    "w": 28,
+    "h": 28
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": null,
+   "label": "中 切换到深色主题 v0.27.0",
+   "text": "切换到深色主题",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 1294,
+    "y": 16,
+    "w": 28,
+    "h": 28
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": null,
+   "label": "中 切换到深色主题 v0.27.0",
+   "text": "v0.27.0",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 1326,
+    "y": 19,
+    "w": 47,
+    "h": 22
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": null,
+   "label": "开始生成",
+   "text": "开始生成",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": true,
+   "r": {
+    "x": 1332,
+    "y": 191,
+    "w": 88,
+    "h": 36
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": "tab",
+   "label": "左手 右手 双手",
+   "text": "左手",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "true",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 233,
+    "y": 601,
+    "w": 93,
+    "h": 30
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": "tab",
+   "label": "左手 右手 双手",
+   "text": "右手",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "false",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 330,
+    "y": 601,
+    "w": 93,
+    "h": 30
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": "tab",
+   "label": "左手 右手 双手",
+   "text": "双手",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "false",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 426,
+    "y": 601,
+    "w": 93,
+    "h": 30
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": null,
+   "label": "左手托底正面 左手捏边 左手摊掌展示 左手略仰拍",
+   "text": "左手托底正面",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 229,
+    "y": 643,
+    "w": 143,
+    "h": 110
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": null,
+   "label": "左手托底正面 左手捏边 左手摊掌展示 左手略仰拍",
+   "text": "左手捏边",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 380,
+    "y": 643,
+    "w": 143,
+    "h": 110
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": null,
+   "label": "左手托底正面 左手捏边 左手摊掌展示 左手略仰拍",
+   "text": "左手摊掌展示",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 229,
+    "y": 761,
+    "w": 143,
+    "h": 108
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": null,
+   "label": "左手托底正面 左手捏边 左手摊掌展示 左手略仰拍",
+   "text": "左手略仰拍",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 380,
+    "y": 761,
+    "w": 143,
+    "h": 108
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": "tab",
+   "label": "纯色棚拍 桌面场景 户外自然光",
+   "text": "纯色棚拍",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "true",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 569,
+    "y": 312,
+    "w": 270,
+    "h": 30
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": "tab",
+   "label": "纯色棚拍 桌面场景 户外自然光",
+   "text": "桌面场景",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "false",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 843,
+    "y": 312,
+    "w": 270,
+    "h": 30
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": "tab",
+   "label": "纯色棚拍 桌面场景 户外自然光",
+   "text": "户外自然光",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "false",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 1117,
+    "y": 312,
+    "w": 270,
+    "h": 30
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": null,
+   "label": "手部接触与商品一致性 仅商品完整性",
+   "text": "手部接触与商品一致性",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 565,
+    "y": 378,
+    "w": 166,
+    "h": 32
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": null,
+   "label": "手部接触与商品一致性 仅商品完整性",
+   "text": "仅商品完整性",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 739,
+    "y": 378,
+    "w": 110,
+    "h": 32
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": null,
+   "label": "1 2 3 4",
+   "text": "1",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 565,
+    "y": 442,
+    "w": 36,
+    "h": 36
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": null,
+   "label": "1 2 3 4",
+   "text": "2",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 609,
+    "y": 442,
+    "w": 36,
+    "h": 36
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": null,
+   "label": "1 2 3 4",
+   "text": "3",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 653,
+    "y": 442,
+    "w": 36,
+    "h": 36
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": null,
+   "label": "1 2 3 4",
+   "text": "4",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 697,
+    "y": 442,
+    "w": 36,
+    "h": 36
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": null,
+   "label": "连接本地 Agent 未连接 点连接会自动启动本地服务、装好插件并接通，无需手动配置。 Claude Code 未连接 ",
+   "text": "",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 1433,
+    "y": 0,
+    "w": 16,
+    "h": 900
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": null,
+   "label": "Agent未连接",
+   "text": "未连接",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 1485,
+    "y": 8,
+    "w": 32,
+    "h": 32
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": "tab",
+   "label": "对话历史技能日志",
+   "text": "对话",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "false",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 1594,
+    "y": 0,
+    "w": 32,
+    "h": 48
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": "tab",
+   "label": "对话历史技能日志",
+   "text": "历史",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "false",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 1628,
+    "y": 0,
+    "w": 32,
+    "h": 48
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": "tab",
+   "label": "对话历史技能日志",
+   "text": "技能",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "false",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 1662,
+    "y": 0,
+    "w": 32,
+    "h": 48
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": "tab",
+   "label": "对话历史技能日志",
+   "text": "日志",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "false",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 1696,
+    "y": 0,
+    "w": 32,
+    "h": 48
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": null,
+   "label": "新对话",
+   "text": "新对话",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": true,
+   "r": {
+    "x": 1804,
+    "y": 8,
+    "w": 32,
+    "h": 32
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": null,
+   "label": "新对话",
+   "text": "",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 1840,
+    "y": 8,
+    "w": 32,
+    "h": 32
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": null,
+   "label": "Claude Code 未连接 · CLI · 2.1.285 (Claude Code) · 直接运行 连接",
+   "text": "连接",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 1785,
+    "y": 147,
+    "w": 66,
+    "h": 24
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": null,
+   "label": "Codex 未连接 · CLI · codex-cli 0.163.0 · 插件已装 连接",
+   "text": "连接",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 1785,
+    "y": 215,
+    "w": 66,
+    "h": 24
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": null,
+   "label": "Galley 未连接 · CLI + 桌面版 · galley 0.6.4 连接",
+   "text": "连接",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 1785,
+    "y": 283,
+    "w": 66,
+    "h": 24
+   }
+  }
+ ],
+ "antSelected": [],
+ "optionGroups": [
+  {
+   "label": "",
+   "options": [
+    "Skills",
+    "Agent"
+   ],
+   "active": [],
+   "count": 2,
+   "r": {
+    "x": 234,
+    "y": 0,
+    "w": 735,
+    "h": 59
+   }
+  },
+  {
+   "label": "无限画布 首页 电商套图 智能修图 新模型 AI视频 HOT 批量生图 商品图设",
+   "options": [
+    "中",
+    "切换到深色主题",
+    "v0.27.0"
+   ],
+   "active": [],
+   "count": 3,
+   "r": {
+    "x": 1230,
+    "y": 16,
+    "w": 175,
+    "h": 28
+   }
+  },
+  {
+   "label": "印花提取",
+   "options": [
+    "AI姿势生成",
+    "补充"
+   ],
+   "active": [],
+   "count": 2,
+   "r": {
+    "x": 0,
+    "y": 500,
+    "w": 179,
+    "h": 40
+   }
+  },
+  {
+   "label": "AI姿势生成 补充",
+   "options": [
+    "AI试衣XSY",
+    "补充"
+   ],
+   "active": [],
+   "count": 2,
+   "r": {
+    "x": 0,
+    "y": 540,
+    "w": 179,
+    "h": 40
+   }
+  },
+  {
+   "label": "AI试衣XSY 补充",
+   "options": [
+    "场景裂变链接",
+    "补充"
+   ],
+   "active": [],
+   "count": 2,
+   "r": {
+    "x": 0,
+    "y": 580,
+    "w": 179,
+    "h": 40
+   }
+  },
+  {
+   "label": "场景裂变链接 补充",
+   "options": [
+    "图片文字编辑",
+    "补充"
+   ],
+   "active": [],
+   "count": 2,
+   "r": {
+    "x": 0,
+    "y": 620,
+    "w": 179,
+    "h": 40
+   }
+  },
+  {
+   "label": "图片文字编辑 补充",
+   "options": [
+    "上装换料",
+    "补充"
+   ],
+   "active": [],
+   "count": 2,
+   "r": {
+    "x": 0,
+    "y": 660,
+    "w": 179,
+    "h": 40
+   }
+  },
+  {
+   "label": "上装换料 补充",
+   "options": [
+    "商品图设计器",
+    "补充"
+   ],
+   "active": [],
+   "count": 2,
+   "r": {
+    "x": 0,
+    "y": 700,
+    "w": 179,
+    "h": 40
+   }
+  },
+  {
+   "label": "商品图设计器 补充",
+   "options": [
+    "商品营销素材",
+    "补充"
+   ],
+   "active": [],
+   "count": 2,
+   "r": {
+    "x": 0,
+    "y": 740,
+    "w": 179,
+    "h": 40
+   }
+  },
+  {
+   "label": "商品营销素材 补充",
+   "options": [
+    "场景迁移",
+    "补充"
+   ],
+   "active": [],
+   "count": 2,
+   "r": {
+    "x": 0,
+    "y": 780,
+    "w": 179,
+    "h": 40
+   }
+  },
+  {
+   "label": "上传商品图 0 / 1 个 · PNG / JPG / WebP · ≤ 10 ",
+   "options": [
+    "点击选择本地文件，或拖拽到这里",
+    "校验格式 / 大小 / 像素，入"
+   ],
+   "active": [],
+   "count": 2,
+   "r": {
+    "x": 229,
+    "y": 347,
+    "w": 294,
+    "h": 86
+   }
+  },
+  {
+   "label": "手持姿势 左手托底正面",
+   "options": [
+    "左手",
+    "右手",
+    "双手"
+   ],
+   "active": [
+    "左手"
+   ],
+   "count": 3,
+   "r": {
+    "x": 229,
+    "y": 597,
+    "w": 294,
+    "h": 38
+   }
+  },
+  {
+   "label": "场景与张数",
+   "options": [
+    "纯色棚拍",
+    "桌面场景",
+    "户外自然光"
+   ],
+   "active": [
+    "纯色棚拍"
+   ],
+   "count": 3,
+   "r": {
+    "x": 565,
+    "y": 308,
+    "w": 826,
+    "h": 38
+   }
+  },
+  {
+   "label": "Agent未连接",
+   "options": [
+    "对话",
+    "历史",
+    "技能",
+    "日志"
+   ],
+   "active": [],
+   "count": 4,
+   "r": {
+    "x": 1521,
+    "y": 0,
+    "w": 279,
+    "h": 48
+   }
+  }
+ ],
+ "caseModule": {
+  "caseTab": false,
+  "hasCaseWord": false,
+  "sameStyle": 0,
+  "imgs": 5
+ },
+ "capture": {
+  "side": "local",
+  "url": "http://127.0.0.1:3000/tools/product-design/handheld-goods",
+  "ready": true,
+  "ms": 4356,
+  "errors": []
+ }
+}

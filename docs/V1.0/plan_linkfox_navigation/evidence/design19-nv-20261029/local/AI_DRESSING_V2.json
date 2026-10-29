@@ -1,0 +1,1152 @@
+{
+ "url": "http://127.0.0.1:3000/tools/product-design/ai-dressing-v2",
+ "title": "无限画布",
+ "bodyText": "无限画布\n首页\n电商套图\n智能修图\n新模型\nAI视频\nHOT\n批量生图\n商品图设计\nSkills\nAgent\n更多\n中\n切换到深色主题\nv0.27.0\n商品图设计\n商品图\n商品替换\n场景裂变\n手持商品\nAI穿衣\n姿势裂变\nAI穿戴\nPOD素材\n饰品文字\n素材贴合\n印花提取\nAI姿势生成\n补充\nAI试衣XSY\n补充\n场景裂变链接\n补充\n图片文字编辑\n补充\n上装换料\n补充\n商品图设计器\n补充\n商品营销素材\n补充\n场景迁移\n补充\n免责声明\n商品图设计 / AI穿衣\nAI穿衣\n/tools/product-design/ai-dressing-v2\nAI 穿衣\n图片限制：10M以内，384*384 ~ 4096*4096\n上下装衣服\n连体衣服\n当前模式：上下装衣服｜参与生成：上装 + 下装\n模特参考（最多 4 张，当前 0 张）\n上传模特图\n0 / 4 个 · PNG / JPG / WebP · ≤ 10 MB\n点击选择本地文件，或拖拽到这里\n校验格式 / 大小 / 像素，入库后可刷新恢复\n还没有素材\n还没有模特参考图，先上传才能生成。\n请先上传穿衣的模特参考图\n上装\n蒙版覆盖 0%（未标记）\n上传上装图\n0 / 1 个 · PNG / JPG / WebP · ≤ 10 MB\n点击选择本地文件，或拖拽到这里\n校验格式 / 大小 / 像素，入库后可刷新恢复\n还没有素材\n上传上装正面图，平铺或穿着实拍均可\n整件\n撤销\n重做\n清空\n反向\n扩边\n下装\n蒙版覆盖 0%（未标记）\n上传下装图\n0 / 1 个 · PNG / JPG / WebP · ≤ 10 MB\n点击选择本地文件，或拖拽到这里\n校验格式 / 大小 / 像素，入库后可刷新恢复\n还没有素材\n上传下装正面图，裤装/裙装均可\n整件\n撤销\n重做\n清空\n反向\n扩边\n生成张数\n1 张\n2 张\n3 张\n4 张\n模型类型\n成人模特\n儿童模特\n版本\nV2（本页）\n任务名称\n服务商\n保持原分辨率\n二次操作\n提交前请先处理：上下装模式至少要上传上装或下装中的一件正面图\n开始生成（0 张模特参考）\n历史任务\n0 条\n本工具还没有历史任务；提交一次后会在这里留下任务、配置与结果，刷新后仍在。\n连接本地 Agent\n未连接\n点连接会自动启动本地服务、装好插件并接通，无需手动配置。\nClaude Code\n未连接\n·\nCLI · 2.1.285 (Claude Code)\n·\n直接运行\n连接\nCodex\n未连接\n·\nCLI · codex-cli 0.163.0\n·\n插件已装\n连接\nGalley\n未连接\n·\nCLI + 桌面版 · galley 0.6.4\n连接",
+ "controls": [
+  {
+   "tag": "button",
+   "type": "button",
+   "role": null,
+   "label": "更多",
+   "text": "更多",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 954,
+    "y": 0,
+    "w": 47,
+    "h": 60
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": null,
+   "label": "中 切换到深色主题 v0.27.0",
+   "text": "",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 1190,
+    "y": 14,
+    "w": 32,
+    "h": 32
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": null,
+   "label": "中 切换到深色主题 v0.27.0",
+   "text": "",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 1230,
+    "y": 16,
+    "w": 28,
+    "h": 28
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": null,
+   "label": "中 切换到深色主题 v0.27.0",
+   "text": "中",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 1262,
+    "y": 16,
+    "w": 28,
+    "h": 28
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": null,
+   "label": "中 切换到深色主题 v0.27.0",
+   "text": "切换到深色主题",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 1294,
+    "y": 16,
+    "w": 28,
+    "h": 28
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": null,
+   "label": "中 切换到深色主题 v0.27.0",
+   "text": "v0.27.0",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 1326,
+    "y": 19,
+    "w": 47,
+    "h": 22
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": "tab",
+   "label": "上下装衣服 连体衣服",
+   "text": "上下装衣服",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "true",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 200,
+    "y": 222,
+    "w": 94,
+    "h": 34
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": "tab",
+   "label": "上下装衣服 连体衣服",
+   "text": "连体衣服",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "false",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 302,
+    "y": 222,
+    "w": 80,
+    "h": 34
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": null,
+   "label": "整件 撤销 重做 清空 反向 扩边",
+   "text": "整件",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": true,
+   "r": {
+    "x": 213,
+    "y": 797,
+    "w": 42,
+    "h": 26
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": null,
+   "label": "整件 撤销 重做 清空 反向 扩边",
+   "text": "撤销",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": true,
+   "r": {
+    "x": 263,
+    "y": 797,
+    "w": 42,
+    "h": 26
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": null,
+   "label": "整件 撤销 重做 清空 反向 扩边",
+   "text": "重做",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": true,
+   "r": {
+    "x": 313,
+    "y": 797,
+    "w": 42,
+    "h": 26
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": null,
+   "label": "整件 撤销 重做 清空 反向 扩边",
+   "text": "清空",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": true,
+   "r": {
+    "x": 363,
+    "y": 797,
+    "w": 42,
+    "h": 26
+   }
+  },
+  {
+   "tag": "input",
+   "type": "checkbox",
+   "role": null,
+   "label": "反向",
+   "text": "",
+   "value": "on",
+   "checked": false,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "false",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 413,
+    "y": 804,
+    "w": 13,
+    "h": 13
+   }
+  },
+  {
+   "tag": "input",
+   "type": "checkbox",
+   "role": null,
+   "label": "扩边",
+   "text": "",
+   "value": "on",
+   "checked": false,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "false",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 462,
+    "y": 804,
+    "w": 13,
+    "h": 13
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": null,
+   "label": "整件 撤销 重做 清空 反向 扩边",
+   "text": "整件",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": true,
+   "r": {
+    "x": 213,
+    "y": 1097,
+    "w": 42,
+    "h": 26
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": null,
+   "label": "整件 撤销 重做 清空 反向 扩边",
+   "text": "撤销",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": true,
+   "r": {
+    "x": 263,
+    "y": 1097,
+    "w": 42,
+    "h": 26
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": null,
+   "label": "整件 撤销 重做 清空 反向 扩边",
+   "text": "重做",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": true,
+   "r": {
+    "x": 313,
+    "y": 1097,
+    "w": 42,
+    "h": 26
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": null,
+   "label": "整件 撤销 重做 清空 反向 扩边",
+   "text": "清空",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": true,
+   "r": {
+    "x": 363,
+    "y": 1097,
+    "w": 42,
+    "h": 26
+   }
+  },
+  {
+   "tag": "input",
+   "type": "checkbox",
+   "role": null,
+   "label": "反向",
+   "text": "",
+   "value": "on",
+   "checked": false,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "false",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 413,
+    "y": 1104,
+    "w": 13,
+    "h": 13
+   }
+  },
+  {
+   "tag": "input",
+   "type": "checkbox",
+   "role": null,
+   "label": "扩边",
+   "text": "",
+   "value": "on",
+   "checked": false,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "false",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 462,
+    "y": 1104,
+    "w": 13,
+    "h": 13
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": null,
+   "label": "生成张数 1 张 2 张 3 张 4 张",
+   "text": "1 张",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 277,
+    "y": 1169,
+    "w": 42,
+    "h": 30
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": null,
+   "label": "生成张数 1 张 2 张 3 张 4 张",
+   "text": "2 张",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 327,
+    "y": 1169,
+    "w": 44,
+    "h": 30
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": null,
+   "label": "生成张数 1 张 2 张 3 张 4 张",
+   "text": "3 张",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 379,
+    "y": 1169,
+    "w": 44,
+    "h": 30
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": null,
+   "label": "生成张数 1 张 2 张 3 张 4 张",
+   "text": "4 张",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 432,
+    "y": 1169,
+    "w": 45,
+    "h": 30
+   }
+  },
+  {
+   "tag": "select",
+   "type": "select-one",
+   "role": null,
+   "label": "模型类型 成人模特 儿童模特",
+   "text": "成人模特 儿童模特",
+   "value": "adult",
+   "checked": null,
+   "selected": "成人模特",
+   "options": [
+    {
+     "t": "成人模特",
+     "v": "adult",
+     "s": true
+    },
+    {
+     "t": "儿童模特",
+     "v": "kid",
+     "s": false
+    }
+   ],
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 213,
+    "y": 1227,
+    "w": 593,
+    "h": 27
+   }
+  },
+  {
+   "tag": "select",
+   "type": "select-one",
+   "role": null,
+   "label": "版本 V2（本页）",
+   "text": "V2（本页）",
+   "value": "v2",
+   "checked": null,
+   "selected": "V2（本页）",
+   "options": [
+    {
+     "t": "V2（本页）",
+     "v": "v2",
+     "s": true
+    }
+   ],
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 814,
+    "y": 1227,
+    "w": 593,
+    "h": 27
+   }
+  },
+  {
+   "tag": "input",
+   "type": "text",
+   "role": null,
+   "label": "任务名称",
+   "text": "",
+   "value": "",
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": "可选，便于在历史里辨认",
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 213,
+    "y": 1278,
+    "w": 593,
+    "h": 26
+   }
+  },
+  {
+   "tag": "input",
+   "type": "text",
+   "role": null,
+   "label": "服务商",
+   "text": "",
+   "value": "",
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": "留空跟随当前配置",
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 814,
+    "y": 1278,
+    "w": 593,
+    "h": 26
+   }
+  },
+  {
+   "tag": "input",
+   "type": "checkbox",
+   "role": null,
+   "label": "保持原分辨率",
+   "text": "",
+   "value": "on",
+   "checked": false,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "false",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 213,
+    "y": 1318,
+    "w": 13,
+    "h": 13
+   }
+  },
+  {
+   "tag": "input",
+   "type": "checkbox",
+   "role": null,
+   "label": "二次操作",
+   "text": "",
+   "value": "on",
+   "checked": false,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "false",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 318,
+    "y": 1318,
+    "w": 13,
+    "h": 13
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": null,
+   "label": "AI 穿衣 图片限制：10M以内，384*384 ~ 4096*4096 上下装衣服 连体衣服 当前模式：上下装衣服｜参",
+   "text": "开始生成（0 张模特参考）",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": true,
+   "r": {
+    "x": 200,
+    "y": 1393,
+    "w": 1220,
+    "h": 38
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": null,
+   "label": "连接本地 Agent 未连接 点连接会自动启动本地服务、装好插件并接通，无需手动配置。 Claude Code 未连接 ",
+   "text": "",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 1433,
+    "y": 0,
+    "w": 16,
+    "h": 900
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": null,
+   "label": "Agent未连接",
+   "text": "未连接",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 1485,
+    "y": 8,
+    "w": 32,
+    "h": 32
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": "tab",
+   "label": "对话历史技能日志",
+   "text": "对话",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "false",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 1594,
+    "y": 0,
+    "w": 32,
+    "h": 48
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": "tab",
+   "label": "对话历史技能日志",
+   "text": "历史",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "false",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 1628,
+    "y": 0,
+    "w": 32,
+    "h": 48
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": "tab",
+   "label": "对话历史技能日志",
+   "text": "技能",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "false",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 1662,
+    "y": 0,
+    "w": 32,
+    "h": 48
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": "tab",
+   "label": "对话历史技能日志",
+   "text": "日志",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "false",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 1696,
+    "y": 0,
+    "w": 32,
+    "h": 48
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": null,
+   "label": "新对话",
+   "text": "新对话",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": true,
+   "r": {
+    "x": 1804,
+    "y": 8,
+    "w": 32,
+    "h": 32
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": null,
+   "label": "新对话",
+   "text": "",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 1840,
+    "y": 8,
+    "w": 32,
+    "h": 32
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": null,
+   "label": "Claude Code 未连接 · CLI · 2.1.285 (Claude Code) · 直接运行 连接",
+   "text": "连接",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 1785,
+    "y": 147,
+    "w": 66,
+    "h": 24
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": null,
+   "label": "Codex 未连接 · CLI · codex-cli 0.163.0 · 插件已装 连接",
+   "text": "连接",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 1785,
+    "y": 215,
+    "w": 66,
+    "h": 24
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": null,
+   "label": "Galley 未连接 · CLI + 桌面版 · galley 0.6.4 连接",
+   "text": "连接",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 1785,
+    "y": 283,
+    "w": 66,
+    "h": 24
+   }
+  }
+ ],
+ "antSelected": [],
+ "optionGroups": [
+  {
+   "label": "",
+   "options": [
+    "Skills",
+    "Agent"
+   ],
+   "active": [],
+   "count": 2,
+   "r": {
+    "x": 234,
+    "y": 0,
+    "w": 735,
+    "h": 59
+   }
+  },
+  {
+   "label": "无限画布 首页 电商套图 智能修图 新模型 AI视频 HOT 批量生图 商品图设",
+   "options": [
+    "中",
+    "切换到深色主题",
+    "v0.27.0"
+   ],
+   "active": [],
+   "count": 3,
+   "r": {
+    "x": 1230,
+    "y": 16,
+    "w": 175,
+    "h": 28
+   }
+  },
+  {
+   "label": "印花提取",
+   "options": [
+    "AI姿势生成",
+    "补充"
+   ],
+   "active": [],
+   "count": 2,
+   "r": {
+    "x": 0,
+    "y": 500,
+    "w": 179,
+    "h": 40
+   }
+  },
+  {
+   "label": "AI姿势生成 补充",
+   "options": [
+    "AI试衣XSY",
+    "补充"
+   ],
+   "active": [],
+   "count": 2,
+   "r": {
+    "x": 0,
+    "y": 540,
+    "w": 179,
+    "h": 40
+   }
+  },
+  {
+   "label": "AI试衣XSY 补充",
+   "options": [
+    "场景裂变链接",
+    "补充"
+   ],
+   "active": [],
+   "count": 2,
+   "r": {
+    "x": 0,
+    "y": 580,
+    "w": 179,
+    "h": 40
+   }
+  },
+  {
+   "label": "场景裂变链接 补充",
+   "options": [
+    "图片文字编辑",
+    "补充"
+   ],
+   "active": [],
+   "count": 2,
+   "r": {
+    "x": 0,
+    "y": 620,
+    "w": 179,
+    "h": 40
+   }
+  },
+  {
+   "label": "图片文字编辑 补充",
+   "options": [
+    "上装换料",
+    "补充"
+   ],
+   "active": [],
+   "count": 2,
+   "r": {
+    "x": 0,
+    "y": 660,
+    "w": 179,
+    "h": 40
+   }
+  },
+  {
+   "label": "上装换料 补充",
+   "options": [
+    "商品图设计器",
+    "补充"
+   ],
+   "active": [],
+   "count": 2,
+   "r": {
+    "x": 0,
+    "y": 700,
+    "w": 179,
+    "h": 40
+   }
+  },
+  {
+   "label": "商品图设计器 补充",
+   "options": [
+    "商品营销素材",
+    "补充"
+   ],
+   "active": [],
+   "count": 2,
+   "r": {
+    "x": 0,
+    "y": 740,
+    "w": 179,
+    "h": 40
+   }
+  },
+  {
+   "label": "商品营销素材 补充",
+   "options": [
+    "场景迁移",
+    "补充"
+   ],
+   "active": [],
+   "count": 2,
+   "r": {
+    "x": 0,
+    "y": 780,
+    "w": 179,
+    "h": 40
+   }
+  },
+  {
+   "label": "AI 穿衣 图片限制：10M以内，384*384 ~ 4096*4096",
+   "options": [
+    "上下装衣服",
+    "连体衣服"
+   ],
+   "active": [
+    "上下装衣服"
+   ],
+   "count": 2,
+   "r": {
+    "x": 200,
+    "y": 222,
+    "w": 1220,
+    "h": 34
+   }
+  },
+  {
+   "label": "上传模特图 0 / 4 个 · PNG / JPG / WebP · ≤ 10 ",
+   "options": [
+    "点击选择本地文件，或拖拽到这里",
+    "校验格式 / 大小 / 像素，入"
+   ],
+   "active": [],
+   "count": 2,
+   "r": {
+    "x": 200,
+    "y": 366,
+    "w": 1220,
+    "h": 86
+   }
+  },
+  {
+   "label": "上传上装图 0 / 1 个 · PNG / JPG / WebP · ≤ 10 ",
+   "options": [
+    "点击选择本地文件，或拖拽到这里",
+    "校验格式 / 大小 / 像素，入"
+   ],
+   "active": [],
+   "count": 2,
+   "r": {
+    "x": 213,
+    "y": 643,
+    "w": 1194,
+    "h": 86
+   }
+  },
+  {
+   "label": "上传下装图 0 / 1 个 · PNG / JPG / WebP · ≤ 10 ",
+   "options": [
+    "点击选择本地文件，或拖拽到这里",
+    "校验格式 / 大小 / 像素，入"
+   ],
+   "active": [],
+   "count": 2,
+   "r": {
+    "x": 213,
+    "y": 943,
+    "w": 1194,
+    "h": 86
+   }
+  },
+  {
+   "label": "Agent未连接",
+   "options": [
+    "对话",
+    "历史",
+    "技能",
+    "日志"
+   ],
+   "active": [],
+   "count": 4,
+   "r": {
+    "x": 1521,
+    "y": 0,
+    "w": 279,
+    "h": 48
+   }
+  }
+ ],
+ "caseModule": {
+  "caseTab": false,
+  "hasCaseWord": false,
+  "sameStyle": 0,
+  "imgs": 1
+ },
+ "capture": {
+  "side": "local",
+  "url": "http://127.0.0.1:3000/tools/product-design/ai-dressing-v2",
+  "ready": true,
+  "ms": 4381,
+  "errors": []
+ }
+}

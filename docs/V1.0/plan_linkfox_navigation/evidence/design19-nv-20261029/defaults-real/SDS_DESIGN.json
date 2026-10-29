@@ -1,0 +1,70 @@
+{
+  "toolId": "SDS_DESIGN",
+  "slug": "sds-design",
+  "real": {
+    "url": "https://www.linkfox.com/draw/sds-design",
+    "title": "素材贴合 - LinkFox",
+    "loginGate": false,
+    "controls": [
+      {
+        "kind": "input:text",
+        "label": "名称",
+        "value": "LinkFox 默认"
+      },
+      {
+        "kind": "input:text",
+        "label": "水印文案",
+        "value": "本图片由 LinkFox AI 生成"
+      }
+    ],
+    "caseModule": {
+      "caseTab": 2,
+      "sameStyle": 0,
+      "hasCaseWord": true
+    }
+  },
+  "local": {
+    "url": "http://127.0.0.1:3000/tools/product-design/sds-design",
+    "title": "无限画布",
+    "loginGate": false,
+    "controls": [
+      {
+        "kind": "chips",
+        "label": "选择颜色",
+        "options": [
+          "原色",
+          "黑色",
+          "白色",
+          "藏青",
+          "米色"
+        ],
+        "active": "原色"
+      },
+      {
+        "kind": "chips",
+        "label": "生成结果 优秀案例 历史记录 暂无生成结果图 快在左侧操作素材贴合吧~",
+        "options": [
+          "生成结果",
+          "历史记录"
+        ],
+        "active": "生成结果"
+      }
+    ],
+    "caseModule": {
+      "caseTab": 1,
+      "sameStyle": 0,
+      "hasCaseWord": true
+    }
+  },
+  "diff": {
+    "onlyReal": [
+      "input:text|名称",
+      "input:text|水印文案"
+    ],
+    "onlyLocal": [
+      "chips|选择颜色",
+      "chips|生成结果 优秀案例 历史记录 暂无生成结果图 快在左侧操"
+    ],
+    "changed": []
+  }
+}

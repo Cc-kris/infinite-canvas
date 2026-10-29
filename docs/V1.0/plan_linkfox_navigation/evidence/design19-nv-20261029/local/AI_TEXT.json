@@ -1,0 +1,1189 @@
+{
+ "url": "http://127.0.0.1:3000/tools/product-design/ai-text",
+ "title": "无限画布",
+ "bodyText": "无限画布\n首页\n电商套图\n智能修图\n新模型\nAI视频\nHOT\n批量生图\n商品图设计\nSkills\nAgent\n更多\n中\n切换到深色主题\nv0.27.0\n商品图设计\n商品图\n商品替换\n场景裂变\n手持商品\nAI穿衣\n姿势裂变\nAI穿戴\nPOD素材\n饰品文字\n素材贴合\n印花提取\nAI姿势生成\n补充\nAI试衣XSY\n补充\n场景裂变链接\n补充\n图片文字编辑\n补充\n上装换料\n补充\n商品图设计器\n补充\n商品营销素材\n补充\n场景迁移\n补充\n免责声明\n商品图设计 / POD素材\nPOD素材\n/tools/product-design/ai-text\nPOD 素材\n图案 / 文字素材生成，支持平铺规则、案例变体与真实 provider 出图。\n目录：模式 / 比例 / 风格 / 中文风格\ndefault::gpt-image-2\n上传底图（参考图）\n0 / 1 个 · PNG / JPG / WebP · ≤ 20 MB\n点击选择本地文件，或拖拽到这里\n校验格式 / 大小 / 像素，入库后可刷新恢复\n还没有素材\n素材模式\n请选择\n图案素材\n文字素材\n图案 + 文字\n输出比例\n请选择\n1:1\n4:5\n3:4\n2:3\n3:2\n4:3\n16:9\n9:16\n风格\n不指定\nVintage\nMinimal\nFloral\nGeometric\nCartoon\nHand-drawn\nRetro poster\nLine art\n中文风格\n不指定\n复古\n极简\n花卉\n几何\n卡通\n手绘\n复古海报\n线稿\n输出数量（1–15）\n简易文字\n完整提示词\n简短提示词 / 文案（≤200 字）\n0/200\n自动扩写提示词\n本地确定性扩写，不调用上游；扩写结果会进预览与真实请求。\n增强变化强度\n同风格下的构图差异更明显。\n作为案例变体提交\n平铺预览\n不平铺（单图） · 只输出一张独立图案，适合单面印刷。\n复位\n待上传\n文字区\n不平铺（单图）\n2×2 平铺\n2×2 错位平铺\n3×3 平铺\n将进入请求的提示词（按模式生成）\n请先上传用于生成 POD 素材的参考图或文字底图。\n请选择素材模式。\n请选择输出比例。\n简易文字模式下请填写要生成的文字内容。\n模式 / 风格 / 比例为页面目录取值（POD 素材 chunk 枚举未确认），仅接受目录内取值；provider 目录接入后同名维度自动覆盖。\n生成 POD 素材\n尚无结果：上传素材并完成配置后提交。\nPOD 素材结果\n还没有生成结果\n填好参数并提交后，结果会出现在这里，可预览、下载、存入资产库或发送到画布。\n历史任务\n0 条\n本工具还没有历史任务；提交一次后会在这里留下任务、配置与结果，刷新后仍在。\n连接本地 Agent\n未连接\n点连接会自动启动本地服务、装好插件并接通，无需手动配置。\nClaude Code\n未连接\n·\nCLI · 2.1.285 (Claude Code)\n·\n直接运行\n连接\nCodex\n未连接\n·\nCLI · codex-cli 0.163.0\n·\n插件已装\n连接\nGalley\n未连接\n·\nCLI + 桌面版 · galley 0.6.4\n连接",
+ "controls": [
+  {
+   "tag": "button",
+   "type": "button",
+   "role": null,
+   "label": "更多",
+   "text": "更多",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 954,
+    "y": 0,
+    "w": 47,
+    "h": 60
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": null,
+   "label": "中 切换到深色主题 v0.27.0",
+   "text": "",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 1190,
+    "y": 14,
+    "w": 32,
+    "h": 32
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": null,
+   "label": "中 切换到深色主题 v0.27.0",
+   "text": "",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 1230,
+    "y": 16,
+    "w": 28,
+    "h": 28
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": null,
+   "label": "中 切换到深色主题 v0.27.0",
+   "text": "中",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 1262,
+    "y": 16,
+    "w": 28,
+    "h": 28
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": null,
+   "label": "中 切换到深色主题 v0.27.0",
+   "text": "切换到深色主题",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 1294,
+    "y": 16,
+    "w": 28,
+    "h": 28
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": null,
+   "label": "中 切换到深色主题 v0.27.0",
+   "text": "v0.27.0",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 1326,
+    "y": 19,
+    "w": 47,
+    "h": 22
+   }
+  },
+  {
+   "tag": "select",
+   "type": "select-one",
+   "role": null,
+   "label": "素材模式 请选择 图案素材 文字素材 图案 + 文字",
+   "text": "请选择 图案素材 文字素材 图案 + 文字",
+   "value": "",
+   "checked": null,
+   "selected": "请选择",
+   "options": [
+    {
+     "t": "请选择",
+     "v": "",
+     "s": true
+    },
+    {
+     "t": "图案素材",
+     "v": "pattern",
+     "s": false
+    },
+    {
+     "t": "文字素材",
+     "v": "text",
+     "s": false
+    },
+    {
+     "t": "图案 + 文字",
+     "v": "pattern-text",
+     "s": false
+    }
+   ],
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 213,
+    "y": 516,
+    "w": 294,
+    "h": 35
+   }
+  },
+  {
+   "tag": "select",
+   "type": "select-one",
+   "role": null,
+   "label": "输出比例 请选择 1:1 4:5 3:4 2:3 3:2 4:3 16:9 9:16",
+   "text": "请选择 1:1 4:5 3:4 2:3 3:2 4:3 16:9 9:16",
+   "value": "",
+   "checked": null,
+   "selected": "请选择",
+   "options": [
+    {
+     "t": "请选择",
+     "v": "",
+     "s": true
+    },
+    {
+     "t": "1:1",
+     "v": "1:1",
+     "s": false
+    },
+    {
+     "t": "4:5",
+     "v": "4:5",
+     "s": false
+    },
+    {
+     "t": "3:4",
+     "v": "3:4",
+     "s": false
+    },
+    {
+     "t": "2:3",
+     "v": "2:3",
+     "s": false
+    },
+    {
+     "t": "3:2",
+     "v": "3:2",
+     "s": false
+    },
+    {
+     "t": "4:3",
+     "v": "4:3",
+     "s": false
+    },
+    {
+     "t": "16:9",
+     "v": "16:9",
+     "s": false
+    },
+    {
+     "t": "9:16",
+     "v": "9:16",
+     "s": false
+    }
+   ],
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 213,
+    "y": 585,
+    "w": 294,
+    "h": 35
+   }
+  },
+  {
+   "tag": "select",
+   "type": "select-one",
+   "role": null,
+   "label": "风格 不指定 Vintage Minimal Floral Geometric Cartoon Hand-drawn R",
+   "text": "不指定 Vintage Minimal Floral Geometric Cartoon Hand-drawn Retro poster Line art",
+   "value": "",
+   "checked": null,
+   "selected": "不指定",
+   "options": [
+    {
+     "t": "不指定",
+     "v": "",
+     "s": true
+    },
+    {
+     "t": "Vintage",
+     "v": "vintage",
+     "s": false
+    },
+    {
+     "t": "Minimal",
+     "v": "minimal",
+     "s": false
+    },
+    {
+     "t": "Floral",
+     "v": "floral",
+     "s": false
+    },
+    {
+     "t": "Geometric",
+     "v": "geometric",
+     "s": false
+    },
+    {
+     "t": "Cartoon",
+     "v": "cartoon",
+     "s": false
+    },
+    {
+     "t": "Hand-drawn",
+     "v": "hand-drawn",
+     "s": false
+    },
+    {
+     "t": "Retro poster",
+     "v": "retro-poster",
+     "s": false
+    },
+    {
+     "t": "Line art",
+     "v": "line-art",
+     "s": false
+    }
+   ],
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 213,
+    "y": 654,
+    "w": 294,
+    "h": 35
+   }
+  },
+  {
+   "tag": "select",
+   "type": "select-one",
+   "role": null,
+   "label": "中文风格 不指定 复古 极简 花卉 几何 卡通 手绘 复古海报 线稿",
+   "text": "不指定 复古 极简 花卉 几何 卡通 手绘 复古海报 线稿",
+   "value": "",
+   "checked": null,
+   "selected": "不指定",
+   "options": [
+    {
+     "t": "不指定",
+     "v": "",
+     "s": true
+    },
+    {
+     "t": "复古",
+     "v": "复古",
+     "s": false
+    },
+    {
+     "t": "极简",
+     "v": "极简",
+     "s": false
+    },
+    {
+     "t": "花卉",
+     "v": "花卉",
+     "s": false
+    },
+    {
+     "t": "几何",
+     "v": "几何",
+     "s": false
+    },
+    {
+     "t": "卡通",
+     "v": "卡通",
+     "s": false
+    },
+    {
+     "t": "手绘",
+     "v": "手绘",
+     "s": false
+    },
+    {
+     "t": "复古海报",
+     "v": "复古海报",
+     "s": false
+    },
+    {
+     "t": "线稿",
+     "v": "线稿",
+     "s": false
+    }
+   ],
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 213,
+    "y": 723,
+    "w": 294,
+    "h": 35
+   }
+  },
+  {
+   "tag": "input",
+   "type": "number",
+   "role": null,
+   "label": "输出数量（1–15）",
+   "text": "",
+   "value": "1",
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 213,
+    "y": 792,
+    "w": 294,
+    "h": 34
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": "tab",
+   "label": "简易文字 完整提示词",
+   "text": "简易文字",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "true",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 218,
+    "y": 869,
+    "w": 140,
+    "h": 40
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": "tab",
+   "label": "简易文字 完整提示词",
+   "text": "完整提示词",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "false",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 362,
+    "y": 869,
+    "w": 140,
+    "h": 40
+   }
+  },
+  {
+   "tag": "textarea",
+   "type": "textarea",
+   "role": null,
+   "label": "简短提示词 / 文案（≤200 字） 0/200",
+   "text": "",
+   "value": "",
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 213,
+    "y": 948,
+    "w": 294,
+    "h": 80
+   }
+  },
+  {
+   "tag": "input",
+   "type": "checkbox",
+   "role": null,
+   "label": "自动扩写提示词 本地确定性扩写，不调用上游；扩写结果会进预览与真实请求。",
+   "text": "",
+   "value": "on",
+   "checked": false,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "false",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 222,
+    "y": 1070,
+    "w": 13,
+    "h": 16
+   }
+  },
+  {
+   "tag": "input",
+   "type": "checkbox",
+   "role": null,
+   "label": "增强变化强度 同风格下的构图差异更明显。",
+   "text": "",
+   "value": "on",
+   "checked": false,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "false",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 213,
+    "y": 1145,
+    "w": 16,
+    "h": 16
+   }
+  },
+  {
+   "tag": "input",
+   "type": "checkbox",
+   "role": null,
+   "label": "作为案例变体提交",
+   "text": "",
+   "value": "on",
+   "checked": false,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "false",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 213,
+    "y": 1195,
+    "w": 16,
+    "h": 16
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": null,
+   "label": "复位",
+   "text": "",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": true,
+   "r": {
+    "x": 849,
+    "y": 271,
+    "w": 40,
+    "h": 40
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": null,
+   "label": "复位",
+   "text": "",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": true,
+   "r": {
+    "x": 893,
+    "y": 271,
+    "w": 40,
+    "h": 40
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": null,
+   "label": "复位",
+   "text": "复位",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 937,
+    "y": 271,
+    "w": 74,
+    "h": 40
+   }
+  },
+  {
+   "tag": "div",
+   "type": "",
+   "role": "slider",
+   "label": "待上传 文字区",
+   "text": "文字区",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": "50",
+   "disabled": false,
+   "r": {
+    "x": 754,
+    "y": 539,
+    "w": 53,
+    "h": 29
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": null,
+   "label": "不平铺（单图） 2×2 平铺 2×2 错位平铺 3×3 平铺",
+   "text": "不平铺（单图）",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 549,
+    "y": 797,
+    "w": 124,
+    "h": 40
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": null,
+   "label": "不平铺（单图） 2×2 平铺 2×2 错位平铺 3×3 平铺",
+   "text": "2×2 平铺",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 677,
+    "y": 797,
+    "w": 83,
+    "h": 40
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": null,
+   "label": "不平铺（单图） 2×2 平铺 2×2 错位平铺 3×3 平铺",
+   "text": "2×2 错位平铺",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 764,
+    "y": 797,
+    "w": 111,
+    "h": 40
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": null,
+   "label": "不平铺（单图） 2×2 平铺 2×2 错位平铺 3×3 平铺",
+   "text": "3×3 平铺",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 879,
+    "y": 797,
+    "w": 84,
+    "h": 40
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": null,
+   "label": "请先上传用于生成 POD 素材的参考图或文字底图。 请选择素材模式。 请选择输出比例。 简易文字模式下请填写要生成的文字",
+   "text": "生成 POD 素材",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": true,
+   "r": {
+    "x": 1053,
+    "y": 418,
+    "w": 354,
+    "h": 44
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": null,
+   "label": "连接本地 Agent 未连接 点连接会自动启动本地服务、装好插件并接通，无需手动配置。 Claude Code 未连接 ",
+   "text": "",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 1433,
+    "y": 0,
+    "w": 16,
+    "h": 900
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": null,
+   "label": "Agent未连接",
+   "text": "未连接",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 1485,
+    "y": 8,
+    "w": 32,
+    "h": 32
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": "tab",
+   "label": "对话历史技能日志",
+   "text": "对话",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "false",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 1594,
+    "y": 0,
+    "w": 32,
+    "h": 48
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": "tab",
+   "label": "对话历史技能日志",
+   "text": "历史",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "false",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 1628,
+    "y": 0,
+    "w": 32,
+    "h": 48
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": "tab",
+   "label": "对话历史技能日志",
+   "text": "技能",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "false",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 1662,
+    "y": 0,
+    "w": 32,
+    "h": 48
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": "tab",
+   "label": "对话历史技能日志",
+   "text": "日志",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "false",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 1696,
+    "y": 0,
+    "w": 32,
+    "h": 48
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": null,
+   "label": "新对话",
+   "text": "新对话",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": true,
+   "r": {
+    "x": 1804,
+    "y": 8,
+    "w": 32,
+    "h": 32
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": null,
+   "label": "新对话",
+   "text": "",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 1840,
+    "y": 8,
+    "w": 32,
+    "h": 32
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": null,
+   "label": "Claude Code 未连接 · CLI · 2.1.285 (Claude Code) · 直接运行 连接",
+   "text": "连接",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 1785,
+    "y": 147,
+    "w": 66,
+    "h": 24
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": null,
+   "label": "Codex 未连接 · CLI · codex-cli 0.163.0 · 插件已装 连接",
+   "text": "连接",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 1785,
+    "y": 215,
+    "w": 66,
+    "h": 24
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": null,
+   "label": "Galley 未连接 · CLI + 桌面版 · galley 0.6.4 连接",
+   "text": "连接",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 1785,
+    "y": 283,
+    "w": 66,
+    "h": 24
+   }
+  }
+ ],
+ "antSelected": [],
+ "optionGroups": [
+  {
+   "label": "",
+   "options": [
+    "Skills",
+    "Agent"
+   ],
+   "active": [],
+   "count": 2,
+   "r": {
+    "x": 234,
+    "y": 0,
+    "w": 735,
+    "h": 59
+   }
+  },
+  {
+   "label": "无限画布 首页 电商套图 智能修图 新模型 AI视频 HOT 批量生图 商品图设",
+   "options": [
+    "中",
+    "切换到深色主题",
+    "v0.27.0"
+   ],
+   "active": [],
+   "count": 3,
+   "r": {
+    "x": 1230,
+    "y": 16,
+    "w": 175,
+    "h": 28
+   }
+  },
+  {
+   "label": "印花提取",
+   "options": [
+    "AI姿势生成",
+    "补充"
+   ],
+   "active": [],
+   "count": 2,
+   "r": {
+    "x": 0,
+    "y": 500,
+    "w": 179,
+    "h": 40
+   }
+  },
+  {
+   "label": "AI姿势生成 补充",
+   "options": [
+    "AI试衣XSY",
+    "补充"
+   ],
+   "active": [],
+   "count": 2,
+   "r": {
+    "x": 0,
+    "y": 540,
+    "w": 179,
+    "h": 40
+   }
+  },
+  {
+   "label": "AI试衣XSY 补充",
+   "options": [
+    "场景裂变链接",
+    "补充"
+   ],
+   "active": [],
+   "count": 2,
+   "r": {
+    "x": 0,
+    "y": 580,
+    "w": 179,
+    "h": 40
+   }
+  },
+  {
+   "label": "场景裂变链接 补充",
+   "options": [
+    "图片文字编辑",
+    "补充"
+   ],
+   "active": [],
+   "count": 2,
+   "r": {
+    "x": 0,
+    "y": 620,
+    "w": 179,
+    "h": 40
+   }
+  },
+  {
+   "label": "图片文字编辑 补充",
+   "options": [
+    "上装换料",
+    "补充"
+   ],
+   "active": [],
+   "count": 2,
+   "r": {
+    "x": 0,
+    "y": 660,
+    "w": 179,
+    "h": 40
+   }
+  },
+  {
+   "label": "上装换料 补充",
+   "options": [
+    "商品图设计器",
+    "补充"
+   ],
+   "active": [],
+   "count": 2,
+   "r": {
+    "x": 0,
+    "y": 700,
+    "w": 179,
+    "h": 40
+   }
+  },
+  {
+   "label": "商品图设计器 补充",
+   "options": [
+    "商品营销素材",
+    "补充"
+   ],
+   "active": [],
+   "count": 2,
+   "r": {
+    "x": 0,
+    "y": 740,
+    "w": 179,
+    "h": 40
+   }
+  },
+  {
+   "label": "商品营销素材 补充",
+   "options": [
+    "场景迁移",
+    "补充"
+   ],
+   "active": [],
+   "count": 2,
+   "r": {
+    "x": 0,
+    "y": 780,
+    "w": 179,
+    "h": 40
+   }
+  },
+  {
+   "label": "上传底图（参考图） 0 / 1 个 · PNG / JPG / WebP · ≤",
+   "options": [
+    "点击选择本地文件，或拖拽到这里",
+    "校验格式 / 大小 / 像素，入"
+   ],
+   "active": [],
+   "count": 2,
+   "r": {
+    "x": 213,
+    "y": 330,
+    "w": 294,
+    "h": 86
+   }
+  },
+  {
+   "label": "素材模式 请选择 图案素材 文字素材 图案 + 文字 输出比例 请选择 1:1 ",
+   "options": [
+    "简易文字",
+    "完整提示词"
+   ],
+   "active": [
+    "简易文字"
+   ],
+   "count": 2,
+   "r": {
+    "x": 213,
+    "y": 864,
+    "w": 294,
+    "h": 50
+   }
+  },
+  {
+   "label": "",
+   "options": [
+    "自动扩写提示词",
+    "本地确定性扩写，不调用上游；扩写"
+   ],
+   "active": [],
+   "count": 2,
+   "r": {
+    "x": 243,
+    "y": 1070,
+    "w": 255,
+    "h": 54
+   }
+  },
+  {
+   "label": "自动扩写提示词 本地确定性扩写，不调用上游；扩写结果会进预览与真实请求。",
+   "options": [
+    "增强变化强度",
+    "同风格下的构图差异更明显。"
+   ],
+   "active": [],
+   "count": 2,
+   "r": {
+    "x": 237,
+    "y": 1145,
+    "w": 143,
+    "h": 38
+   }
+  },
+  {
+   "label": "Agent未连接",
+   "options": [
+    "对话",
+    "历史",
+    "技能",
+    "日志"
+   ],
+   "active": [],
+   "count": 4,
+   "r": {
+    "x": 1521,
+    "y": 0,
+    "w": 279,
+    "h": 48
+   }
+  }
+ ],
+ "caseModule": {
+  "caseTab": false,
+  "hasCaseWord": false,
+  "sameStyle": 0,
+  "imgs": 1
+ },
+ "capture": {
+  "side": "local",
+  "url": "http://127.0.0.1:3000/tools/product-design/ai-text",
+  "ready": true,
+  "ms": 4328,
+  "errors": []
+ }
+}

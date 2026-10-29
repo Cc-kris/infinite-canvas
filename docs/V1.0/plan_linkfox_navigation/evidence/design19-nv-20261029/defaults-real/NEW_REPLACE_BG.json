@@ -1,0 +1,143 @@
+{
+  "toolId": "NEW_REPLACE_BG",
+  "slug": "new-replace-bg-v2",
+  "real": {
+    "url": "https://www.linkfox.com/draw/product-home",
+    "title": "商品图合成 - LinkFox",
+    "loginGate": false,
+    "controls": [
+      {
+        "kind": "input:text",
+        "label": "搜索标签关键词",
+        "value": ""
+      },
+      {
+        "kind": "input:text",
+        "label": "名称",
+        "value": "LinkFox 默认"
+      },
+      {
+        "kind": "input:text",
+        "label": "水印文案",
+        "value": "本图片由 LinkFox AI 生成"
+      }
+    ],
+    "caseModule": {
+      "caseTab": 0,
+      "sameStyle": 0,
+      "hasCaseWord": false
+    }
+  },
+  "local": {
+    "url": "http://127.0.0.1:3000/tools/product-design/new-replace-bg-v2",
+    "title": "无限画布",
+    "loginGate": false,
+    "controls": [
+      {
+        "kind": "input:range",
+        "label": "70%",
+        "value": "0.7"
+      },
+      {
+        "kind": "input:range",
+        "label": "横向位置 50%",
+        "value": "0.5"
+      },
+      {
+        "kind": "input:range",
+        "label": "纵向位置 56%",
+        "value": "0.56"
+      },
+      {
+        "kind": "input:range",
+        "label": "缩放 100%",
+        "value": "1"
+      },
+      {
+        "kind": "input:range",
+        "label": "旋转 0°",
+        "value": "0"
+      },
+      {
+        "kind": "chips",
+        "label": "抠图确认 先拿素材证据，再点确认",
+        "options": [
+          "画主体蒙版",
+          "确认抠图"
+        ],
+        "active": "画主体蒙版"
+      },
+      {
+        "kind": "chips",
+        "label": "场景类型 推荐模板 / 自定义背景",
+        "options": [
+          "推荐场景",
+          "自定义背景"
+        ],
+        "active": "推荐场景"
+      },
+      {
+        "kind": "chips",
+        "label": "推荐场景 自定义背景",
+        "options": [
+          "影棚白底 干净纯白，适合主图",
+          "大理石台面 香化 / 饰品常用",
+          "原木桌面 家居 / 食品",
+          "户外草地 户外 / 运动",
+          "家居客厅 大件商品",
+          "浴室台面 个护 / 洗护",
+          "纯色渐变 电商海报",
+          "节日氛围 礼赠场景"
+        ],
+        "active": "影棚白底 干净纯白，适合主图"
+      },
+      {
+        "kind": "chips",
+        "label": "输出规格 比例 / 数量",
+        "options": [
+          "1:1",
+          "4:5",
+          "3:4",
+          "16:9",
+          "9:16"
+        ],
+        "active": "1:1"
+      },
+      {
+        "kind": "chips",
+        "label": "1:1 4:5 3:4 16:9 9:16",
+        "options": [
+          "1 张",
+          "2 张",
+          "4 张"
+        ],
+        "active": "1 张"
+      }
+    ],
+    "caseModule": {
+      "caseTab": 0,
+      "sameStyle": 0,
+      "hasCaseWord": false
+    }
+  },
+  "diff": {
+    "onlyReal": [
+      "input:text|搜索标签关键词",
+      "input:text|名称",
+      "input:text|水印文案"
+    ],
+    "onlyLocal": [
+      "input:range|70%",
+      "input:range|横向位置 50%",
+      "input:range|纵向位置 56%",
+      "input:range|缩放 100%",
+      "input:range|旋转 0°",
+      "chips|抠图确认 先拿素材证据，再点确认",
+      "chips|场景类型 推荐模板 / 自定义背景",
+      "chips|推荐场景 自定义背景",
+      "chips|输出规格 比例 / 数量",
+      "chips|1:1 4:5 3:4 16:9 9:16"
+    ],
+    "changed": []
+  }
+}

@@ -1,0 +1,59 @@
+[
+  {
+    "toolId": "NEW_REPLACE_BG",
+    "counts": {
+      "onlyReal": 3,
+      "onlyLocal": 10,
+      "changed": 0
+    },
+    "caseReal": {
+      "caseTab": 0,
+      "sameStyle": 0,
+      "hasCaseWord": false
+    },
+    "caseLocal": {
+      "caseTab": 0,
+      "sameStyle": 0,
+      "hasCaseWord": false
+    },
+    "loginGate": false
+  },
+  {
+    "toolId": "REPLACE_GOODS",
+    "counts": {
+      "onlyReal": 3,
+      "onlyLocal": 8,
+      "changed": 0
+    },
+    "caseReal": {
+      "caseTab": 2,
+      "sameStyle": 0,
+      "hasCaseWord": true
+    },
+    "caseLocal": {
+      "caseTab": 0,
+      "sameStyle": 0,
+      "hasCaseWord": false
+    },
+    "loginGate": false
+  },
+  {
+    "toolId": "AI_DRESSING_V2",
+    "counts": {
+      "onlyReal": 2,
+      "onlyLocal": 12,
+      "changed": 0
+    },
+    "caseReal": {
+      "caseTab": 2,
+      "sameStyle": 0,
+      "hasCaseWord": true
+    },
+    "caseLocal": {
+      "caseTab": 0,
+      "sameStyle": 0,
+      "hasCaseWord": false
+    },
+    "loginGate": false
+  }
+]

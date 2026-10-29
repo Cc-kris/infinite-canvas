@@ -1,0 +1,60 @@
+{
+  "toolId": "AI_TEXT",
+  "naturalWidth": 1024,
+  "naturalHeight": 1024,
+  "bytes": 836368,
+  "sha256": "dc1bbf25ce6738503f39257b47d9e66134eb20f348dd657b173d126193262671",
+  "provider": "default::gpt-image-2",
+  "inputs": {
+    "fixture": "apparel-print.jpg",
+    "prompt": "极简复古几何双色印花，适合T恤平铺",
+    "selects": [
+      {
+        "i": 0,
+        "pick": "pattern",
+        "opts": [
+          "",
+          "pattern",
+          "text",
+          "pattern-text"
+        ]
+      },
+      {
+        "i": 1,
+        "pick": "1:1",
+        "opts": [
+          "",
+          "1:1",
+          "4:5",
+          "3:4",
+          "2:3",
+          "3:2"
+        ]
+      },
+      {
+        "i": 2,
+        "pick": "minimal",
+        "opts": [
+          "",
+          "vintage",
+          "minimal",
+          "floral",
+          "geometric",
+          "cartoon"
+        ]
+      },
+      {
+        "i": 3,
+        "pick": "复古",
+        "opts": [
+          "",
+          "复古",
+          "极简",
+          "花卉",
+          "几何",
+          "卡通"
+        ]
+      }
+    ]
+  }
+}

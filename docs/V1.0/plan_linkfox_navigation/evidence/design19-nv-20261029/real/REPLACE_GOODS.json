@@ -1,0 +1,606 @@
+{
+ "antSelected": [
+  {
+   "cls": "ant-select-selection-item",
+   "text": "4张"
+  },
+  {
+   "cls": "ant-tabs-tab ant-tabs-tab-active",
+   "text": "生成结果"
+  }
+ ],
+ "bodyText": "首页\n电商套图\n智能修图\n新模型\nAI视频\nHOT\n批量生图\n商品图设计\nSkills\nAgent\n更多\n学习中心\n免费得算力\n250\n购 买\n用\n用户6991\n个人账号\n商品图\n我的商品\n场景参考图\n商品替换\n场景裂变\n手持商品\n历史记录\n企业功能\n批量生图\n 免责声明\n💡 温馨提示：支持上传多张商品图进行批量替换\n商品替换\n上传参考图，一键替换商品，快来替换您的商品吧~\n上传参考图\n生成尺寸: 1024x1024\n参考图场景变化程度：\n不变\n高\n生成：\n4张\n立即生成\n(40算力)\n生成结果\n优秀案例\n历史记录\n暂无生成结果图\n快在左侧合成您的第一张商品图吧~\n操作咨询\n产品教程\n管理水印分组\n共 1/20 个\n默认\n＋ 新增水印分组",
+ "caseModule": {
+  "caseTab": true,
+  "hasCaseWord": true,
+  "imgs": 7,
+  "sameStyle": 0
+ },
+ "controls": [
+  {
+   "ariaValueNow": null,
+   "checked": null,
+   "disabled": false,
+   "label": "250 购 买",
+   "options": null,
+   "placeholder": null,
+   "r": {
+    "h": 32,
+    "w": 44,
+    "x": 1696,
+    "y": 64
+   },
+   "role": null,
+   "selected": null,
+   "state": "",
+   "tag": "button",
+   "text": "购 买",
+   "type": "button",
+   "value": null
+  },
+  {
+   "ariaValueNow": null,
+   "checked": null,
+   "disabled": false,
+   "label": "上传参考图",
+   "options": null,
+   "placeholder": null,
+   "r": {
+    "h": 32,
+    "w": 122,
+    "x": 671,
+    "y": 645
+   },
+   "role": null,
+   "selected": null,
+   "state": "",
+   "tag": "button",
+   "text": "上传参考图",
+   "type": "button",
+   "value": null
+  },
+  {
+   "ariaValueNow": "0.5",
+   "checked": null,
+   "disabled": false,
+   "label": "",
+   "options": null,
+   "placeholder": null,
+   "r": {
+    "h": 10,
+    "w": 10,
+    "x": 722,
+    "y": 862
+   },
+   "role": "slider",
+   "selected": null,
+   "state": "",
+   "tag": "div",
+   "text": "",
+   "type": "",
+   "value": null
+  },
+  {
+   "ariaValueNow": null,
+   "checked": null,
+   "disabled": false,
+   "label": "立即生成 (40算力)",
+   "options": null,
+   "placeholder": null,
+   "r": {
+    "h": 32,
+    "w": 187,
+    "x": 1069,
+    "y": 851
+   },
+   "role": null,
+   "selected": null,
+   "state": "",
+   "tag": "button",
+   "text": "立即生成 (40算力)",
+   "type": "button",
+   "value": null
+  },
+  {
+   "ariaValueNow": null,
+   "checked": null,
+   "disabled": false,
+   "label": "生成结果",
+   "options": null,
+   "placeholder": null,
+   "r": {
+    "h": 22,
+    "w": 56,
+    "x": 1296,
+    "y": 130
+   },
+   "role": "tab",
+   "selected": null,
+   "state": "true",
+   "tag": "div",
+   "text": "生成结果",
+   "type": "",
+   "value": null
+  },
+  {
+   "ariaValueNow": null,
+   "checked": null,
+   "disabled": false,
+   "label": "优秀案例",
+   "options": null,
+   "placeholder": null,
+   "r": {
+    "h": 22,
+    "w": 56,
+    "x": 1366,
+    "y": 130
+   },
+   "role": "tab",
+   "selected": null,
+   "state": "false",
+   "tag": "div",
+   "text": "优秀案例",
+   "type": "",
+   "value": null
+  },
+  {
+   "ariaValueNow": null,
+   "checked": null,
+   "disabled": false,
+   "label": "默认",
+   "options": null,
+   "placeholder": "名称",
+   "r": {
+    "h": 26,
+    "w": 74,
+    "x": 1151,
+    "y": 435
+   },
+   "role": null,
+   "selected": null,
+   "state": "",
+   "tag": "input",
+   "text": "",
+   "type": "text",
+   "value": "LinkFox 默认"
+  },
+  {
+   "ariaValueNow": null,
+   "checked": null,
+   "disabled": false,
+   "label": "默认",
+   "options": null,
+   "placeholder": "水印文案",
+   "r": {
+    "h": 26,
+    "w": 138,
+    "x": 1231,
+    "y": 435
+   },
+   "role": null,
+   "selected": null,
+   "state": "",
+   "tag": "input",
+   "text": "",
+   "type": "text",
+   "value": "本图片由 LinkFox AI 生成"
+  },
+  {
+   "ariaValueNow": null,
+   "checked": null,
+   "disabled": false,
+   "label": "默认",
+   "options": null,
+   "placeholder": null,
+   "r": {
+    "h": 24,
+    "w": 40,
+    "x": 1375,
+    "y": 436
+   },
+   "role": null,
+   "selected": null,
+   "state": "",
+   "tag": "button",
+   "text": "默认",
+   "type": "submit",
+   "value": null
+  },
+  {
+   "ariaValueNow": null,
+   "checked": null,
+   "disabled": false,
+   "label": "默认",
+   "options": null,
+   "placeholder": null,
+   "r": {
+    "h": 24,
+    "w": 24,
+    "x": 1421,
+    "y": 436
+   },
+   "role": null,
+   "selected": null,
+   "state": "",
+   "tag": "button",
+   "text": "",
+   "type": "submit",
+   "value": null
+  },
+  {
+   "ariaValueNow": null,
+   "checked": null,
+   "disabled": false,
+   "label": "管理水印分组 共 1/20 个 默认 ＋ 新增水印分组",
+   "options": null,
+   "placeholder": null,
+   "r": {
+    "h": 35,
+    "w": 294,
+    "x": 1151,
+    "y": 471
+   },
+   "role": null,
+   "selected": null,
+   "state": "",
+   "tag": "button",
+   "text": "＋ 新增水印分组",
+   "type": "submit",
+   "value": null
+  }
+ ],
+ "optionGroups": [
+  {
+   "active": [],
+   "count": 2,
+   "label": "",
+   "options": [
+    "用",
+    "用户6991 个人账号"
+   ],
+   "r": {
+    "h": 36,
+    "w": 118,
+    "x": 1755,
+    "y": 62
+   }
+  },
+  {
+   "active": [],
+   "count": 2,
+   "label": "用",
+   "options": [
+    "用户6991",
+    "个人账号"
+   ],
+   "r": {
+    "h": 36,
+    "w": 61,
+    "x": 1796,
+    "y": 62
+   }
+  },
+  {
+   "active": [
+    "商品替换"
+   ],
+   "count": 8,
+   "label": "",
+   "options": [
+    "商品图",
+    "我的商品",
+    "场景参考图",
+    "商品替换",
+    "场景裂变",
+    "手持商品",
+    "历史记录",
+    "企业功能 批量生图"
+   ],
+   "r": {
+    "h": 758,
+    "w": 179,
+    "x": 0,
+    "y": 110
+   }
+  },
+  {
+   "active": [],
+   "count": 2,
+   "label": "",
+   "options": [
+    "立即生成",
+    "(40算力)"
+   ],
+   "r": {
+    "h": 32,
+    "w": 187,
+    "x": 1069,
+    "y": 851
+   }
+  },
+  {
+   "active": [
+    "生成结果"
+   ],
+   "count": 2,
+   "label": "",
+   "options": [
+    "生成结果",
+    "优秀案例"
+   ],
+   "r": {
+    "h": 41,
+    "w": 126,
+    "x": 1296,
+    "y": 120
+   }
+  },
+  {
+   "active": [],
+   "count": 2,
+   "label": "首页 电商套图 智能修图 新模型 AI视频 HOT 批量生图 商品图设计 Ski",
+   "options": [
+    "操作咨询",
+    "产品教程"
+   ],
+   "r": {
+    "h": 90,
+    "w": 101,
+    "x": 1797,
+    "y": 481
+   }
+  }
+ ],
+ "title": "LinkFox官网 - 跨境电商AI运营助手 - AI选品AI作图AI视频AI Agent OS",
+ "url": "https://www.linkfox.com/draw/product-replacement",
+ "capture": {
+  "side": "real",
+  "url": "https://www.linkfox.com/draw/product-replacement",
+  "ready": true,
+  "sec": 16.6
+ },
+ "casePanel": {
+  "clicked": true,
+  "bodyText": "首页\n电商套图\n智能修图\n新模型\nAI视频\nHOT\n批量生图\n商品图设计\nSkills\nAgent\n更多\n学习中心\n免费得算力\n250\n购 买\n用\n用户6991\n个人账号\n商品图\n我的商品\n场景参考图\n商品替换\n场景裂变\n手持商品\n历史记录\n企业功能\n批量生图\n 免责声明\n💡 温馨提示：支持上传多张商品图进行批量替换\n商品替换\n上传参考图，一键替换商品，快来替换您的商品吧~\n上传参考图\n生成尺寸: 1024x1024\n参考图场景变化程度：\n不变\n高\n生成：\n4张\n立即生成\n(40算力)\n生成结果\n优秀案例\n历史记录\n预览\n原图\n做同款\n预览\n原图\n做同款\n预览\n原图\n做同款\n预览\n原图\n做同款\n预览\n原图\n做同款\n预览\n原图\n做同款\n预览\n原图\n做同款\n预览\n原图\n做同款\n预览\n原图\n做同款\n预览\n原图\n做同款\n预览\n原图\n做同款\n预览\n原图\n做同款\n预览\n原图\n做同款\n预览\n原图\n做同款\n预览\n原图\n做同款\n预览\n原图\n做同款\n预览\n原图\n做同款\n预览\n原图\n做同款\n预览\n原图\n做同款\n预览\n原图\n做同款\n操作咨询\n产品教程\n管理水印分组\n共 1/20 个\n默认\n＋ 新增水印分组",
+  "caseModule": {
+   "caseTab": true,
+   "hasCaseWord": true,
+   "imgs": 7,
+   "sameStyle": 20
+  },
+  "tabs": null,
+  "controls": [
+   {
+    "ariaValueNow": null,
+    "checked": null,
+    "disabled": false,
+    "label": "250 购 买",
+    "options": null,
+    "placeholder": null,
+    "r": {
+     "h": 32,
+     "w": 44,
+     "x": 1696,
+     "y": 64
+    },
+    "role": null,
+    "selected": null,
+    "state": "",
+    "tag": "button",
+    "text": "购 买",
+    "type": "button",
+    "value": null
+   },
+   {
+    "ariaValueNow": null,
+    "checked": null,
+    "disabled": false,
+    "label": "上传参考图",
+    "options": null,
+    "placeholder": null,
+    "r": {
+     "h": 32,
+     "w": 122,
+     "x": 671,
+     "y": 681
+    },
+    "role": null,
+    "selected": null,
+    "state": "",
+    "tag": "button",
+    "text": "上传参考图",
+    "type": "button",
+    "value": null
+   },
+   {
+    "ariaValueNow": "0.5",
+    "checked": null,
+    "disabled": false,
+    "label": "",
+    "options": null,
+    "placeholder": null,
+    "r": {
+     "h": 10,
+     "w": 10,
+     "x": 722,
+     "y": 862
+    },
+    "role": "slider",
+    "selected": null,
+    "state": "",
+    "tag": "div",
+    "text": "",
+    "type": "",
+    "value": null
+   },
+   {
+    "ariaValueNow": null,
+    "checked": null,
+    "disabled": false,
+    "label": "立即生成 (40算力)",
+    "options": null,
+    "placeholder": null,
+    "r": {
+     "h": 32,
+     "w": 187,
+     "x": 1069,
+     "y": 851
+    },
+    "role": null,
+    "selected": null,
+    "state": "",
+    "tag": "button",
+    "text": "立即生成 (40算力)",
+    "type": "button",
+    "value": null
+   },
+   {
+    "ariaValueNow": null,
+    "checked": null,
+    "disabled": false,
+    "label": "生成结果",
+    "options": null,
+    "placeholder": null,
+    "r": {
+     "h": 22,
+     "w": 56,
+     "x": 1296,
+     "y": 130
+    },
+    "role": "tab",
+    "selected": null,
+    "state": "false",
+    "tag": "div",
+    "text": "生成结果",
+    "type": "",
+    "value": null
+   },
+   {
+    "ariaValueNow": null,
+    "checked": null,
+    "disabled": false,
+    "label": "优秀案例",
+    "options": null,
+    "placeholder": null,
+    "r": {
+     "h": 22,
+     "w": 56,
+     "x": 1366,
+     "y": 130
+    },
+    "role": "tab",
+    "selected": null,
+    "state": "true",
+    "tag": "div",
+    "text": "优秀案例",
+    "type": "",
+    "value": null
+   },
+   {
+    "ariaValueNow": null,
+    "checked": null,
+    "disabled": false,
+    "label": "默认",
+    "options": null,
+    "placeholder": "名称",
+    "r": {
+     "h": 26,
+     "w": 74,
+     "x": 1151,
+     "y": 435
+    },
+    "role": null,
+    "selected": null,
+    "state": "",
+    "tag": "input",
+    "text": "",
+    "type": "text",
+    "value": "LinkFox 默认"
+   },
+   {
+    "ariaValueNow": null,
+    "checked": null,
+    "disabled": false,
+    "label": "默认",
+    "options": null,
+    "placeholder": "水印文案",
+    "r": {
+     "h": 26,
+     "w": 138,
+     "x": 1231,
+     "y": 435
+    },
+    "role": null,
+    "selected": null,
+    "state": "",
+    "tag": "input",
+    "text": "",
+    "type": "text",
+    "value": "本图片由 LinkFox AI 生成"
+   },
+   {
+    "ariaValueNow": null,
+    "checked": null,
+    "disabled": false,
+    "label": "默认",
+    "options": null,
+    "placeholder": null,
+    "r": {
+     "h": 24,
+     "w": 40,
+     "x": 1375,
+     "y": 436
+    },
+    "role": null,
+    "selected": null,
+    "state": "",
+    "tag": "button",
+    "text": "默认",
+    "type": "submit",
+    "value": null
+   },
+   {
+    "ariaValueNow": null,
+    "checked": null,
+    "disabled": false,
+    "label": "默认",
+    "options": null,
+    "placeholder": null,
+    "r": {
+     "h": 24,
+     "w": 24,
+     "x": 1421,
+     "y": 436
+    },
+    "role": null,
+    "selected": null,
+    "state": "",
+    "tag": "button",
+    "text": "",
+    "type": "submit",
+    "value": null
+   },
+   {
+    "ariaValueNow": null,
+    "checked": null,
+    "disabled": false,
+    "label": "管理水印分组 共 1/20 个 默认 ＋ 新增水印分组",
+    "options": null,
+    "placeholder": null,
+    "r": {
+     "h": 35,
+     "w": 294,
+     "x": 1151,
+     "y": 471
+    },
+    "role": null,
+    "selected": null,
+    "state": "",
+    "tag": "button",
+    "text": "＋ 新增水印分组",
+    "type": "submit",
+    "value": null
+   }
+  ]
+ }
+}

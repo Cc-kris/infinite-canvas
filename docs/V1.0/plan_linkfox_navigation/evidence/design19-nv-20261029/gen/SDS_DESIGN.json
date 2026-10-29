@@ -1,0 +1,13 @@
+{
+  "toolId": "SDS_DESIGN",
+  "naturalWidth": 1024,
+  "naturalHeight": 1024,
+  "bytes": 2052150,
+  "sha256": "29501b597331e0ed997193f7a5e9a8b64b2b11a0b395e7184470839590ec8983",
+  "provider": "default::gpt-image-2",
+  "inputs": {
+    "material": "apparel-print.jpg",
+    "product": "product-watch.jpg",
+    "color": "原色(默认)"
+  }
+}

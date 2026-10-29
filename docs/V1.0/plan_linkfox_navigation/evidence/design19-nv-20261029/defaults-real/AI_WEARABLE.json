@@ -1,0 +1,116 @@
+{
+  "toolId": "AI_WEARABLE",
+  "slug": "ai-wearable",
+  "real": {
+    "url": "https://www.linkfox.com/draw/ai-wearable",
+    "title": "AI穿戴 - LinkFox",
+    "loginGate": false,
+    "controls": [
+      {
+        "kind": "input:text",
+        "label": "名称",
+        "value": "LinkFox 默认"
+      },
+      {
+        "kind": "input:text",
+        "label": "水印文案",
+        "value": "本图片由 LinkFox AI 生成"
+      }
+    ],
+    "caseModule": {
+      "caseTab": 2,
+      "sameStyle": 0,
+      "hasCaseWord": true
+    }
+  },
+  "local": {
+    "url": "http://127.0.0.1:3000/tools/product-design/ai-wearable",
+    "title": "无限画布",
+    "loginGate": false,
+    "controls": [
+      {
+        "kind": "select",
+        "label": "生图模型 gpt-image-2 default::gpt-image-2",
+        "value": "default::gpt-image-2",
+        "options": [
+          "gpt-image-2=gpt-image-2",
+          "default::gpt-image-2=default::gpt-image-2"
+        ]
+      },
+      {
+        "kind": "input:range",
+        "label": "水平位置",
+        "value": "0.5"
+      },
+      {
+        "kind": "input:range",
+        "label": "垂直位置",
+        "value": "0.5"
+      },
+      {
+        "kind": "input:range",
+        "label": "横向半径",
+        "value": "0.4"
+      },
+      {
+        "kind": "input:range",
+        "label": "纵向半径",
+        "value": "0.4"
+      },
+      {
+        "kind": "input:range",
+        "label": "水平位置",
+        "value": "0.5"
+      },
+      {
+        "kind": "input:range",
+        "label": "垂直位置",
+        "value": "0.26"
+      },
+      {
+        "kind": "input:range",
+        "label": "横向半径",
+        "value": "0.09"
+      },
+      {
+        "kind": "input:range",
+        "label": "纵向半径",
+        "value": "0.05"
+      },
+      {
+        "kind": "input:checkbox",
+        "label": "二次操作（沿用上次结果的模特姿态）",
+        "value": "false"
+      },
+      {
+        "kind": "group",
+        "label": "checkbox:",
+        "options": [
+          "二次操作（沿用上次结果的模特姿态）"
+        ],
+        "checked": []
+      }
+    ],
+    "caseModule": {
+      "caseTab": 0,
+      "sameStyle": 0,
+      "hasCaseWord": false
+    }
+  },
+  "diff": {
+    "onlyReal": [
+      "input:text|名称",
+      "input:text|水印文案"
+    ],
+    "onlyLocal": [
+      "select|生图模型 gpt-image-2 default::gp",
+      "input:range|水平位置",
+      "input:range|垂直位置",
+      "input:range|横向半径",
+      "input:range|纵向半径",
+      "input:checkbox|二次操作（沿用上次结果的模特姿态）",
+      "group|checkbox:"
+    ],
+    "changed": []
+  }
+}

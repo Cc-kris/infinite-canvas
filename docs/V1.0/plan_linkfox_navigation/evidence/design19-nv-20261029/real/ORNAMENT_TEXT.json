@@ -1,0 +1,1399 @@
+{
+ "antSelected": [],
+ "bodyText": "首页\n电商套图\n智能修图\n新模型\nAI视频\nHOT\n批量生图\n商品图设计\nSkills\nAgent\n更多\n学习中心\n免费得算力\n250\n购 买\n用\n用户6991\n个人账号\n首页\n创作工具\n灵感库\n核心资产区\n商品库\n链接管理\nAI 创作工具\n图转视频\nHOT\n批量视频\nNEW\n批量生图\n创作历史\n图片交付\n从一个想法，到全球爆单\n自由创作\n套图 Agent\n视频 Agent\n链接复刻\n电商 Agent\n添加\n智能模式 \n去创作\n创作工具\n查看全部工具\n→\n电商套图\n一张白底图，生成电商套图\n进入主功能\n输入\n输出\n节日季\n❄\n❄\n❄\n❄\n❄\n❄\n❄\n❄\n❄\n❄\n❄\n❄\n❄\n❄\n智能修图\n输入编辑指令，轻松完成修图\n输入\n输出\n节日创作\n进入主功能\nAI 视频\n商品素材一键生成电商带货视频\n进入主功能\n输入\n输出\n智能修图\n对话式改图，想改哪里改哪里\n图转视频\n上传商品图，一键生成视频\n批量生图\n上传商品图，一键生成视频\n局部消除\n任意消除画面中物体、水印等\n带货口播\n生成真人出镜的带货视频\n视频复刻\n粘贴视频链接一键复刻\n灵感库\n进入完整灵感库\n→\n当季热门\nAgent 创作\n设计模板\nAI 作图工具\n类型：\n节日活动\n热门商品\n活动：\n万圣节\n10月31日\n2 天后\n黑色星期五\n11月27日\n29 天后\n圣诞节\n12月25日\n57 天后\n预览\n原图\n做同款\n预览\n原图\n做同款\n预览\n原图\n做同款\n预览\n原图\n做同款\n预览\n原图\n做同款\n预览\n原图\n做同款\n预览\n原图\n做同款\n预览\n原图\n做同款\n预览\n原图\n做同款\n预览\n原图\n做同款\n预览\n原图\n做同款\n预览\n原图\n做同款\n操作咨询\n产品教程\n管理水印分组\n共 1/20 个\n默认\n＋ 新增水印分组",
+ "caseModule": {
+  "caseTab": false,
+  "hasCaseWord": false,
+  "imgs": 37,
+  "sameStyle": 12
+ },
+ "controls": [
+  {
+   "ariaValueNow": null,
+   "checked": null,
+   "disabled": false,
+   "label": "250 购 买",
+   "options": null,
+   "placeholder": null,
+   "r": {
+    "h": 32,
+    "w": 44,
+    "x": 1696,
+    "y": 64
+   },
+   "role": null,
+   "selected": null,
+   "state": "",
+   "tag": "button",
+   "text": "购 买",
+   "type": "button",
+   "value": null
+  },
+  {
+   "ariaValueNow": null,
+   "checked": null,
+   "disabled": false,
+   "label": "自由创作 套图 Agent 视频 Agent 链接复刻 电商 Agent",
+   "options": null,
+   "placeholder": null,
+   "r": {
+    "h": 32,
+    "w": 109,
+    "x": 742,
+    "y": 228
+   },
+   "role": "tab",
+   "selected": null,
+   "state": "true",
+   "tag": "button",
+   "text": "自由创作",
+   "type": "button",
+   "value": null
+  },
+  {
+   "ariaValueNow": null,
+   "checked": null,
+   "disabled": false,
+   "label": "自由创作 套图 Agent 视频 Agent 链接复刻 电商 Agent",
+   "options": null,
+   "placeholder": null,
+   "r": {
+    "h": 32,
+    "w": 125,
+    "x": 853,
+    "y": 228
+   },
+   "role": "tab",
+   "selected": null,
+   "state": "false",
+   "tag": "button",
+   "text": "套图 Agent",
+   "type": "button",
+   "value": null
+  },
+  {
+   "ariaValueNow": null,
+   "checked": null,
+   "disabled": false,
+   "label": "自由创作 套图 Agent 视频 Agent 链接复刻 电商 Agent",
+   "options": null,
+   "placeholder": null,
+   "r": {
+    "h": 32,
+    "w": 125,
+    "x": 980,
+    "y": 228
+   },
+   "role": "tab",
+   "selected": null,
+   "state": "false",
+   "tag": "button",
+   "text": "视频 Agent",
+   "type": "button",
+   "value": null
+  },
+  {
+   "ariaValueNow": null,
+   "checked": null,
+   "disabled": false,
+   "label": "自由创作 套图 Agent 视频 Agent 链接复刻 电商 Agent",
+   "options": null,
+   "placeholder": null,
+   "r": {
+    "h": 32,
+    "w": 109,
+    "x": 1106,
+    "y": 228
+   },
+   "role": "tab",
+   "selected": null,
+   "state": "false",
+   "tag": "button",
+   "text": "链接复刻",
+   "type": "button",
+   "value": null
+  },
+  {
+   "ariaValueNow": null,
+   "checked": null,
+   "disabled": false,
+   "label": "自由创作 套图 Agent 视频 Agent 链接复刻 电商 Agent",
+   "options": null,
+   "placeholder": null,
+   "r": {
+    "h": 32,
+    "w": 125,
+    "x": 1217,
+    "y": 228
+   },
+   "role": null,
+   "selected": null,
+   "state": "",
+   "tag": "button",
+   "text": "电商 Agent",
+   "type": "button",
+   "value": null
+  },
+  {
+   "ariaValueNow": null,
+   "checked": null,
+   "disabled": false,
+   "label": "To pick up a draggable item, press the space bar. While drag",
+   "options": null,
+   "placeholder": "上传产品图，描述你想要的效果，让 AI 搞定所有设计",
+   "r": {
+    "h": 74,
+    "w": 1259,
+    "x": 413,
+    "y": 300
+   },
+   "role": null,
+   "selected": null,
+   "state": "",
+   "tag": "textarea",
+   "text": "",
+   "type": "textarea",
+   "value": ""
+  },
+  {
+   "ariaValueNow": null,
+   "checked": null,
+   "disabled": false,
+   "label": "添加",
+   "options": null,
+   "placeholder": null,
+   "r": {
+    "h": 32,
+    "w": 82,
+    "x": 413,
+    "y": 394
+   },
+   "role": null,
+   "selected": null,
+   "state": "",
+   "tag": "button",
+   "text": "添加",
+   "type": "button",
+   "value": null
+  },
+  {
+   "ariaValueNow": null,
+   "checked": null,
+   "disabled": false,
+   "label": "智能模式",
+   "options": null,
+   "placeholder": null,
+   "r": {
+    "h": 32,
+    "w": 124,
+    "x": 503,
+    "y": 394
+   },
+   "role": null,
+   "selected": null,
+   "state": "active",
+   "tag": "button",
+   "text": "智能模式",
+   "type": "button",
+   "value": null
+  },
+  {
+   "ariaValueNow": null,
+   "checked": null,
+   "disabled": true,
+   "label": "去创作",
+   "options": null,
+   "placeholder": null,
+   "r": {
+    "h": 32,
+    "w": 96,
+    "x": 1576,
+    "y": 394
+   },
+   "role": null,
+   "selected": null,
+   "state": "",
+   "tag": "button",
+   "text": "去创作",
+   "type": "button",
+   "value": null
+  },
+  {
+   "ariaValueNow": null,
+   "checked": null,
+   "disabled": false,
+   "label": "创作工具 查看全部工具 →",
+   "options": null,
+   "placeholder": null,
+   "r": {
+    "h": 22,
+    "w": 114,
+    "x": 1754,
+    "y": 489
+   },
+   "role": null,
+   "selected": null,
+   "state": "",
+   "tag": "button",
+   "text": "查看全部工具 →",
+   "type": "submit",
+   "value": null
+  },
+  {
+   "ariaValueNow": null,
+   "checked": null,
+   "disabled": false,
+   "label": "电商套图 一张白底图，生成电商套图 进入主功能 输入 输出",
+   "options": null,
+   "placeholder": null,
+   "r": {
+    "h": 164,
+    "w": 352,
+    "x": 217,
+    "y": 529
+   },
+   "role": null,
+   "selected": null,
+   "state": "",
+   "tag": "button",
+   "text": "电商套图 一张白底图，生成电商套图 进入主功能 输入 输出",
+   "type": "submit",
+   "value": null
+  },
+  {
+   "ariaValueNow": null,
+   "checked": null,
+   "disabled": false,
+   "label": "智能修图 输入编辑指令，轻松完成修图",
+   "options": null,
+   "placeholder": null,
+   "r": {
+    "h": 65,
+    "w": 141,
+    "x": 597,
+    "y": 580
+   },
+   "role": null,
+   "selected": null,
+   "state": "",
+   "tag": "button",
+   "text": "智能修图 输入编辑指令，轻松完成修图",
+   "type": "button",
+   "value": null
+  },
+  {
+   "ariaValueNow": null,
+   "checked": null,
+   "disabled": false,
+   "label": "智能修图 输入编辑指令，轻松完成修图 输入 输出 节日创作 进入主功能",
+   "options": null,
+   "placeholder": null,
+   "r": {
+    "h": 112,
+    "w": 173,
+    "x": 749,
+    "y": 541
+   },
+   "role": null,
+   "selected": null,
+   "state": "",
+   "tag": "button",
+   "text": "输入 输出",
+   "type": "button",
+   "value": null
+  },
+  {
+   "ariaValueNow": null,
+   "checked": null,
+   "disabled": false,
+   "label": "节日创作 进入主功能",
+   "options": null,
+   "placeholder": null,
+   "r": {
+    "h": 22,
+    "w": 65,
+    "x": 597,
+    "y": 661
+   },
+   "role": null,
+   "selected": null,
+   "state": "",
+   "tag": "button",
+   "text": "节日创作",
+   "type": "button",
+   "value": null
+  },
+  {
+   "ariaValueNow": null,
+   "checked": null,
+   "disabled": false,
+   "label": "节日创作 进入主功能",
+   "options": null,
+   "placeholder": null,
+   "r": {
+    "h": 22,
+    "w": 77,
+    "x": 678,
+    "y": 661
+   },
+   "role": null,
+   "selected": null,
+   "state": "",
+   "tag": "button",
+   "text": "进入主功能",
+   "type": "button",
+   "value": null
+  },
+  {
+   "ariaValueNow": null,
+   "checked": null,
+   "disabled": false,
+   "label": "AI 视频 商品素材一键生成电商带货视频 进入主功能 输入 输出",
+   "options": null,
+   "placeholder": null,
+   "r": {
+    "h": 164,
+    "w": 352,
+    "x": 949,
+    "y": 529
+   },
+   "role": null,
+   "selected": null,
+   "state": "",
+   "tag": "button",
+   "text": "AI 视频 商品素材一键生成电商带货视频 进入主功能 输入 输出",
+   "type": "submit",
+   "value": null
+  },
+  {
+   "ariaValueNow": null,
+   "checked": null,
+   "disabled": false,
+   "label": "智能修图 对话式改图，想改哪里改哪里 图转视频 上传商品图，一键生成视频 批量生图 上传商品图，一键生成视频 局部消除 ",
+   "options": null,
+   "placeholder": null,
+   "r": {
+    "h": 49,
+    "w": 272,
+    "x": 1315,
+    "y": 528
+   },
+   "role": null,
+   "selected": null,
+   "state": "",
+   "tag": "button",
+   "text": "智能修图 对话式改图，想改哪里改哪里",
+   "type": "submit",
+   "value": null
+  },
+  {
+   "ariaValueNow": null,
+   "checked": null,
+   "disabled": false,
+   "label": "智能修图 对话式改图，想改哪里改哪里 图转视频 上传商品图，一键生成视频 批量生图 上传商品图，一键生成视频 局部消除 ",
+   "options": null,
+   "placeholder": null,
+   "r": {
+    "h": 49,
+    "w": 272,
+    "x": 1596,
+    "y": 528
+   },
+   "role": null,
+   "selected": null,
+   "state": "",
+   "tag": "button",
+   "text": "图转视频 上传商品图，一键生成视频",
+   "type": "submit",
+   "value": null
+  },
+  {
+   "ariaValueNow": null,
+   "checked": null,
+   "disabled": false,
+   "label": "智能修图 对话式改图，想改哪里改哪里 图转视频 上传商品图，一键生成视频 批量生图 上传商品图，一键生成视频 局部消除 ",
+   "options": null,
+   "placeholder": null,
+   "r": {
+    "h": 49,
+    "w": 272,
+    "x": 1315,
+    "y": 586
+   },
+   "role": null,
+   "selected": null,
+   "state": "",
+   "tag": "button",
+   "text": "批量生图 上传商品图，一键生成视频",
+   "type": "submit",
+   "value": null
+  },
+  {
+   "ariaValueNow": null,
+   "checked": null,
+   "disabled": false,
+   "label": "智能修图 对话式改图，想改哪里改哪里 图转视频 上传商品图，一键生成视频 批量生图 上传商品图，一键生成视频 局部消除 ",
+   "options": null,
+   "placeholder": null,
+   "r": {
+    "h": 49,
+    "w": 272,
+    "x": 1596,
+    "y": 586
+   },
+   "role": null,
+   "selected": null,
+   "state": "",
+   "tag": "button",
+   "text": "局部消除 任意消除画面中物体、水印等",
+   "type": "submit",
+   "value": null
+  },
+  {
+   "ariaValueNow": null,
+   "checked": null,
+   "disabled": false,
+   "label": "智能修图 对话式改图，想改哪里改哪里 图转视频 上传商品图，一键生成视频 批量生图 上传商品图，一键生成视频 局部消除 ",
+   "options": null,
+   "placeholder": null,
+   "r": {
+    "h": 49,
+    "w": 272,
+    "x": 1315,
+    "y": 645
+   },
+   "role": null,
+   "selected": null,
+   "state": "",
+   "tag": "button",
+   "text": "带货口播 生成真人出镜的带货视频",
+   "type": "submit",
+   "value": null
+  },
+  {
+   "ariaValueNow": null,
+   "checked": null,
+   "disabled": false,
+   "label": "智能修图 对话式改图，想改哪里改哪里 图转视频 上传商品图，一键生成视频 批量生图 上传商品图，一键生成视频 局部消除 ",
+   "options": null,
+   "placeholder": null,
+   "r": {
+    "h": 49,
+    "w": 272,
+    "x": 1596,
+    "y": 645
+   },
+   "role": null,
+   "selected": null,
+   "state": "",
+   "tag": "button",
+   "text": "视频复刻 粘贴视频链接一键复刻",
+   "type": "submit",
+   "value": null
+  },
+  {
+   "ariaValueNow": null,
+   "checked": null,
+   "disabled": false,
+   "label": "灵感库 进入完整灵感库 →",
+   "options": null,
+   "placeholder": null,
+   "r": {
+    "h": 20,
+    "w": 116,
+    "x": 1752,
+    "y": 720
+   },
+   "role": null,
+   "selected": null,
+   "state": "",
+   "tag": "button",
+   "text": "进入完整灵感库 →",
+   "type": "submit",
+   "value": null
+  },
+  {
+   "ariaValueNow": null,
+   "checked": null,
+   "disabled": false,
+   "label": "原图 做同款",
+   "options": null,
+   "placeholder": null,
+   "r": {
+    "h": 32,
+    "w": 68,
+    "x": 423,
+    "y": 1087
+   },
+   "role": null,
+   "selected": null,
+   "state": "",
+   "tag": "button",
+   "text": "做同款",
+   "type": "button",
+   "value": null
+  },
+  {
+   "ariaValueNow": null,
+   "checked": null,
+   "disabled": false,
+   "label": "原图 做同款",
+   "options": null,
+   "placeholder": null,
+   "r": {
+    "h": 32,
+    "w": 68,
+    "x": 695,
+    "y": 1087
+   },
+   "role": null,
+   "selected": null,
+   "state": "",
+   "tag": "button",
+   "text": "做同款",
+   "type": "button",
+   "value": null
+  },
+  {
+   "ariaValueNow": null,
+   "checked": null,
+   "disabled": false,
+   "label": "原图 做同款",
+   "options": null,
+   "placeholder": null,
+   "r": {
+    "h": 32,
+    "w": 68,
+    "x": 967,
+    "y": 1087
+   },
+   "role": null,
+   "selected": null,
+   "state": "",
+   "tag": "button",
+   "text": "做同款",
+   "type": "button",
+   "value": null
+  },
+  {
+   "ariaValueNow": null,
+   "checked": null,
+   "disabled": false,
+   "label": "原图 做同款",
+   "options": null,
+   "placeholder": null,
+   "r": {
+    "h": 32,
+    "w": 68,
+    "x": 1239,
+    "y": 1087
+   },
+   "role": null,
+   "selected": null,
+   "state": "",
+   "tag": "button",
+   "text": "做同款",
+   "type": "button",
+   "value": null
+  },
+  {
+   "ariaValueNow": null,
+   "checked": null,
+   "disabled": false,
+   "label": "原图 做同款",
+   "options": null,
+   "placeholder": null,
+   "r": {
+    "h": 32,
+    "w": 68,
+    "x": 1511,
+    "y": 1087
+   },
+   "role": null,
+   "selected": null,
+   "state": "",
+   "tag": "button",
+   "text": "做同款",
+   "type": "button",
+   "value": null
+  },
+  {
+   "ariaValueNow": null,
+   "checked": null,
+   "disabled": false,
+   "label": "原图 做同款",
+   "options": null,
+   "placeholder": null,
+   "r": {
+    "h": 32,
+    "w": 68,
+    "x": 1783,
+    "y": 1087
+   },
+   "role": null,
+   "selected": null,
+   "state": "",
+   "tag": "button",
+   "text": "做同款",
+   "type": "button",
+   "value": null
+  },
+  {
+   "ariaValueNow": null,
+   "checked": null,
+   "disabled": false,
+   "label": "原图 做同款",
+   "options": null,
+   "placeholder": null,
+   "r": {
+    "h": 32,
+    "w": 68,
+    "x": 423,
+    "y": 1292
+   },
+   "role": null,
+   "selected": null,
+   "state": "",
+   "tag": "button",
+   "text": "做同款",
+   "type": "button",
+   "value": null
+  },
+  {
+   "ariaValueNow": null,
+   "checked": null,
+   "disabled": false,
+   "label": "原图 做同款",
+   "options": null,
+   "placeholder": null,
+   "r": {
+    "h": 32,
+    "w": 68,
+    "x": 695,
+    "y": 1292
+   },
+   "role": null,
+   "selected": null,
+   "state": "",
+   "tag": "button",
+   "text": "做同款",
+   "type": "button",
+   "value": null
+  },
+  {
+   "ariaValueNow": null,
+   "checked": null,
+   "disabled": false,
+   "label": "原图 做同款",
+   "options": null,
+   "placeholder": null,
+   "r": {
+    "h": 32,
+    "w": 68,
+    "x": 967,
+    "y": 1292
+   },
+   "role": null,
+   "selected": null,
+   "state": "",
+   "tag": "button",
+   "text": "做同款",
+   "type": "button",
+   "value": null
+  },
+  {
+   "ariaValueNow": null,
+   "checked": null,
+   "disabled": false,
+   "label": "原图 做同款",
+   "options": null,
+   "placeholder": null,
+   "r": {
+    "h": 32,
+    "w": 68,
+    "x": 1239,
+    "y": 1292
+   },
+   "role": null,
+   "selected": null,
+   "state": "",
+   "tag": "button",
+   "text": "做同款",
+   "type": "button",
+   "value": null
+  },
+  {
+   "ariaValueNow": null,
+   "checked": null,
+   "disabled": false,
+   "label": "原图 做同款",
+   "options": null,
+   "placeholder": null,
+   "r": {
+    "h": 32,
+    "w": 68,
+    "x": 1511,
+    "y": 1292
+   },
+   "role": null,
+   "selected": null,
+   "state": "",
+   "tag": "button",
+   "text": "做同款",
+   "type": "button",
+   "value": null
+  },
+  {
+   "ariaValueNow": null,
+   "checked": null,
+   "disabled": false,
+   "label": "原图 做同款",
+   "options": null,
+   "placeholder": null,
+   "r": {
+    "h": 32,
+    "w": 68,
+    "x": 1783,
+    "y": 1205
+   },
+   "role": null,
+   "selected": null,
+   "state": "",
+   "tag": "button",
+   "text": "做同款",
+   "type": "button",
+   "value": null
+  },
+  {
+   "ariaValueNow": null,
+   "checked": null,
+   "disabled": false,
+   "label": "默认",
+   "options": null,
+   "placeholder": "名称",
+   "r": {
+    "h": 26,
+    "w": 74,
+    "x": 1151,
+    "y": 435
+   },
+   "role": null,
+   "selected": null,
+   "state": "",
+   "tag": "input",
+   "text": "",
+   "type": "text",
+   "value": "LinkFox 默认"
+  },
+  {
+   "ariaValueNow": null,
+   "checked": null,
+   "disabled": false,
+   "label": "默认",
+   "options": null,
+   "placeholder": "水印文案",
+   "r": {
+    "h": 26,
+    "w": 138,
+    "x": 1231,
+    "y": 435
+   },
+   "role": null,
+   "selected": null,
+   "state": "",
+   "tag": "input",
+   "text": "",
+   "type": "text",
+   "value": "本图片由 LinkFox AI 生成"
+  },
+  {
+   "ariaValueNow": null,
+   "checked": null,
+   "disabled": false,
+   "label": "默认",
+   "options": null,
+   "placeholder": null,
+   "r": {
+    "h": 24,
+    "w": 40,
+    "x": 1375,
+    "y": 436
+   },
+   "role": null,
+   "selected": null,
+   "state": "",
+   "tag": "button",
+   "text": "默认",
+   "type": "submit",
+   "value": null
+  },
+  {
+   "ariaValueNow": null,
+   "checked": null,
+   "disabled": false,
+   "label": "默认",
+   "options": null,
+   "placeholder": null,
+   "r": {
+    "h": 24,
+    "w": 24,
+    "x": 1421,
+    "y": 436
+   },
+   "role": null,
+   "selected": null,
+   "state": "",
+   "tag": "button",
+   "text": "",
+   "type": "submit",
+   "value": null
+  },
+  {
+   "ariaValueNow": null,
+   "checked": null,
+   "disabled": false,
+   "label": "管理水印分组 共 1/20 个 默认 ＋ 新增水印分组",
+   "options": null,
+   "placeholder": null,
+   "r": {
+    "h": 35,
+    "w": 294,
+    "x": 1151,
+    "y": 471
+   },
+   "role": null,
+   "selected": null,
+   "state": "",
+   "tag": "button",
+   "text": "＋ 新增水印分组",
+   "type": "submit",
+   "value": null
+  }
+ ],
+ "optionGroups": [
+  {
+   "active": [],
+   "count": 2,
+   "label": "",
+   "options": [
+    "用",
+    "用户6991 个人账号"
+   ],
+   "r": {
+    "h": 36,
+    "w": 118,
+    "x": 1755,
+    "y": 62
+   }
+  },
+  {
+   "active": [],
+   "count": 2,
+   "label": "用",
+   "options": [
+    "用户6991",
+    "个人账号"
+   ],
+   "r": {
+    "h": 36,
+    "w": 61,
+    "x": 1796,
+    "y": 62
+   }
+  },
+  {
+   "active": [
+    "首页"
+   ],
+   "count": 6,
+   "label": "",
+   "options": [
+    "首页",
+    "创作工具",
+    "灵感库",
+    "核心资产区 商品库 链接管理",
+    "AI 创作工具 图转视频 HOT",
+    "图片交付"
+   ],
+   "r": {
+    "h": 790,
+    "w": 179,
+    "x": 0,
+    "y": 110
+   }
+  },
+  {
+   "active": [],
+   "count": 2,
+   "label": "核心资产区",
+   "options": [
+    "商品库",
+    "链接管理"
+   ],
+   "r": {
+    "h": 80,
+    "w": 179,
+    "x": 0,
+    "y": 270
+   }
+  },
+  {
+   "active": [],
+   "count": 4,
+   "label": "AI 创作工具",
+   "options": [
+    "图转视频 HOT",
+    "批量视频 NEW",
+    "批量生图",
+    "创作历史"
+   ],
+   "r": {
+    "h": 160,
+    "w": 179,
+    "x": 0,
+    "y": 390
+   }
+  },
+  {
+   "active": [
+    "自由创作"
+   ],
+   "count": 5,
+   "label": "",
+   "options": [
+    "自由创作",
+    "套图 Agent",
+    "视频 Agent",
+    "链接复刻",
+    "电商 Agent"
+   ],
+   "r": {
+    "h": 40,
+    "w": 608,
+    "x": 738,
+    "y": 224
+   }
+  },
+  {
+   "active": [],
+   "count": 2,
+   "label": "",
+   "options": [
+    "电商套图 一张白底图，生成电商套",
+    "输入 输出"
+   ],
+   "r": {
+    "h": 164,
+    "w": 352,
+    "x": 217,
+    "y": 529
+   }
+  },
+  {
+   "active": [],
+   "count": 2,
+   "label": "",
+   "options": [
+    "电商套图 一张白底图，生成电商套",
+    "进入主功能"
+   ],
+   "r": {
+    "h": 123,
+    "w": 141,
+    "x": 231,
+    "y": 550
+   }
+  },
+  {
+   "active": [],
+   "count": 2,
+   "label": "电商套图 一张白底图，生成电商套图 进入主功能",
+   "options": [
+    "输入",
+    "输出"
+   ],
+   "r": {
+    "h": 112,
+    "w": 173,
+    "x": 382,
+    "y": 555
+   }
+  },
+  {
+   "active": [],
+   "count": 2,
+   "label": "智能修图 输入编辑指令，轻松完成修图",
+   "options": [
+    "输入",
+    "输出"
+   ],
+   "r": {
+    "h": 112,
+    "w": 173,
+    "x": 749,
+    "y": 541
+   }
+  },
+  {
+   "active": [],
+   "count": 2,
+   "label": "输入 输出",
+   "options": [
+    "节日创作",
+    "进入主功能"
+   ],
+   "r": {
+    "h": 22,
+    "w": 324,
+    "x": 597,
+    "y": 661
+   }
+  },
+  {
+   "active": [],
+   "count": 2,
+   "label": "节日季 ❄ ❄ ❄ ❄ ❄ ❄ ❄ ❄ ❄ ❄ ❄ ❄ ❄ ❄ 智能修图 输入编",
+   "options": [
+    "AI 视频 商品素材一键生成电商",
+    "输入 输出"
+   ],
+   "r": {
+    "h": 164,
+    "w": 352,
+    "x": 949,
+    "y": 529
+   }
+  },
+  {
+   "active": [],
+   "count": 2,
+   "label": "",
+   "options": [
+    "AI 视频 商品素材一键生成电商",
+    "进入主功能"
+   ],
+   "r": {
+    "h": 123,
+    "w": 141,
+    "x": 963,
+    "y": 550
+   }
+  },
+  {
+   "active": [],
+   "count": 2,
+   "label": "AI 视频 商品素材一键生成电商带货视频 进入主功能",
+   "options": [
+    "输入",
+    "输出"
+   ],
+   "r": {
+    "h": 112,
+    "w": 173,
+    "x": 1115,
+    "y": 555
+   }
+  },
+  {
+   "active": [],
+   "count": 6,
+   "label": "电商套图 一张白底图，生成电商套图 进入主功能 输入 输出 节日季 ❄ ❄ ❄ ",
+   "options": [
+    "智能修图 对话式改图，想改哪里改",
+    "图转视频 上传商品图，一键生成视",
+    "批量生图 上传商品图，一键生成视",
+    "局部消除 任意消除画面中物体、水",
+    "带货口播 生成真人出镜的带货视频",
+    "视频复刻 粘贴视频链接一键复刻"
+   ],
+   "r": {
+    "h": 166,
+    "w": 554,
+    "x": 1315,
+    "y": 528
+   }
+  },
+  {
+   "active": [],
+   "count": 2,
+   "label": "类型：",
+   "options": [
+    "节日活动",
+    "热门商品"
+   ],
+   "r": {
+    "h": 30,
+    "w": 1585,
+    "x": 283,
+    "y": 834
+   }
+  },
+  {
+   "active": [],
+   "count": 3,
+   "label": "活动：",
+   "options": [
+    "万圣节 10月31日 2 天后",
+    "黑色星期五 11月27日 29 ",
+    "圣诞节 12月25日 57 天后"
+   ],
+   "r": {
+    "h": 36,
+    "w": 1585,
+    "x": 283,
+    "y": 872
+   }
+  },
+  {
+   "active": [],
+   "count": 3,
+   "label": "活动：",
+   "options": [
+    "万圣节",
+    "10月31日",
+    "2 天后"
+   ],
+   "r": {
+    "h": 36,
+    "w": 171,
+    "x": 283,
+    "y": 872
+   }
+  },
+  {
+   "active": [],
+   "count": 3,
+   "label": "万圣节 10月31日 2 天后",
+   "options": [
+    "黑色星期五",
+    "11月27日",
+    "29 天后"
+   ],
+   "r": {
+    "h": 36,
+    "w": 205,
+    "x": 464,
+    "y": 872
+   }
+  },
+  {
+   "active": [],
+   "count": 3,
+   "label": "黑色星期五 11月27日 29 天后",
+   "options": [
+    "圣诞节",
+    "12月25日",
+    "57 天后"
+   ],
+   "r": {
+    "h": 36,
+    "w": 179,
+    "x": 679,
+    "y": 872
+   }
+  },
+  {
+   "active": [],
+   "count": 2,
+   "label": "预览",
+   "options": [
+    "原图",
+    "做同款"
+   ],
+   "r": {
+    "h": 63,
+    "w": 268,
+    "x": 228,
+    "y": 1061
+   }
+  },
+  {
+   "active": [],
+   "count": 2,
+   "label": "预览",
+   "options": [
+    "原图",
+    "做同款"
+   ],
+   "r": {
+    "h": 63,
+    "w": 268,
+    "x": 500,
+    "y": 1061
+   }
+  },
+  {
+   "active": [],
+   "count": 2,
+   "label": "预览",
+   "options": [
+    "原图",
+    "做同款"
+   ],
+   "r": {
+    "h": 63,
+    "w": 268,
+    "x": 772,
+    "y": 1061
+   }
+  },
+  {
+   "active": [],
+   "count": 2,
+   "label": "预览",
+   "options": [
+    "原图",
+    "做同款"
+   ],
+   "r": {
+    "h": 63,
+    "w": 268,
+    "x": 1044,
+    "y": 1061
+   }
+  },
+  {
+   "active": [],
+   "count": 2,
+   "label": "预览",
+   "options": [
+    "原图",
+    "做同款"
+   ],
+   "r": {
+    "h": 63,
+    "w": 268,
+    "x": 1316,
+    "y": 1061
+   }
+  },
+  {
+   "active": [],
+   "count": 2,
+   "label": "预览",
+   "options": [
+    "原图",
+    "做同款"
+   ],
+   "r": {
+    "h": 63,
+    "w": 268,
+    "x": 1588,
+    "y": 1061
+   }
+  },
+  {
+   "active": [],
+   "count": 2,
+   "label": "预览",
+   "options": [
+    "原图",
+    "做同款"
+   ],
+   "r": {
+    "h": 63,
+    "w": 268,
+    "x": 228,
+    "y": 1266
+   }
+  },
+  {
+   "active": [],
+   "count": 2,
+   "label": "预览",
+   "options": [
+    "原图",
+    "做同款"
+   ],
+   "r": {
+    "h": 63,
+    "w": 268,
+    "x": 500,
+    "y": 1266
+   }
+  },
+  {
+   "active": [],
+   "count": 2,
+   "label": "预览",
+   "options": [
+    "原图",
+    "做同款"
+   ],
+   "r": {
+    "h": 63,
+    "w": 268,
+    "x": 772,
+    "y": 1266
+   }
+  },
+  {
+   "active": [],
+   "count": 2,
+   "label": "预览",
+   "options": [
+    "原图",
+    "做同款"
+   ],
+   "r": {
+    "h": 63,
+    "w": 268,
+    "x": 1044,
+    "y": 1266
+   }
+  },
+  {
+   "active": [],
+   "count": 2,
+   "label": "预览",
+   "options": [
+    "原图",
+    "做同款"
+   ],
+   "r": {
+    "h": 63,
+    "w": 268,
+    "x": 1316,
+    "y": 1266
+   }
+  },
+  {
+   "active": [],
+   "count": 2,
+   "label": "预览",
+   "options": [
+    "原图",
+    "做同款"
+   ],
+   "r": {
+    "h": 63,
+    "w": 268,
+    "x": 1588,
+    "y": 1179
+   }
+  },
+  {
+   "active": [],
+   "count": 2,
+   "label": "首页 电商套图 智能修图 新模型 AI视频 HOT 批量生图 商品图设计 Ski",
+   "options": [
+    "操作咨询",
+    "产品教程"
+   ],
+   "r": {
+    "h": 90,
+    "w": 101,
+    "x": 1797,
+    "y": 481
+   }
+  }
+ ],
+ "title": "LinkFox官网 - 跨境电商AI运营助手 - AI选品AI作图AI视频AI Agent OS",
+ "url": "https://www.linkfox.com/home",
+ "capture": {
+  "side": "real",
+  "url": "https://www.linkfox.com/draw/ornament-text",
+  "ready": true,
+  "sec": 16.6
+ }
+}

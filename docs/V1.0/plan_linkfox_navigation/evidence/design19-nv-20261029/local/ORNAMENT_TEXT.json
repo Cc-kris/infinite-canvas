@@ -1,0 +1,873 @@
+{
+ "url": "http://127.0.0.1:3000/tools/product-design/ornament-text",
+ "title": "无限画布",
+ "bodyText": "无限画布\n首页\n电商套图\n智能修图\n新模型\nAI视频\nHOT\n批量生图\n商品图设计\nSkills\nAgent\n更多\n中\n切换到深色主题\nv0.27.0\n商品图设计\n商品图\n商品替换\n场景裂变\n手持商品\nAI穿衣\n姿势裂变\nAI穿戴\nPOD素材\n饰品文字\n素材贴合\n印花提取\nAI姿势生成\n补充\nAI试衣XSY\n补充\n场景裂变链接\n补充\n图片文字编辑\n补充\n上装换料\n补充\n商品图设计器\n补充\n商品营销素材\n补充\n场景迁移\n补充\n免责声明\n商品图设计 / 饰品文字\n饰品文字\n/tools/product-design/ornament-text\n饰品文字\n文字内容、字体、字号与左右定位实时预览；提交后由图片模型生成成品。\ndefault::gpt-image-2\n字数 0/4000\n饰品文字内容\n逐字照排，最多 4000 字。\n效果描述（可选）\n字体与字号\n字体\n衬线 Serif\n无衬线 Sans\n手写 Script\n展示 Display\n圆体 Rounded\n等宽 Mono\n自定义字体名（原样透传上游）\n字号 96\n字体列表是本地可渲染的预览字族（上游字体库未取证），fontname 原样透传；预览随文字、字体、字号、左右定位实时更新，提交后结果以上游返回为准。\n左右定位\n居中 · 18%–82%\n左 (%)\n右 (%)\n偏左\n居中\n偏右\n效果预览\n拖动文字框或方向键微调，实时同步左右定位\n饰品文字\n预览字族：衬线 Serif；上游若替换字族不会回写本地配置。\n文字框列表\n（空文字框）\n衬线 Serif · 96 · 18%–82%\n生成饰品文字\n请先填写饰品文字内容。\n饰品文字结果\n还没有生成结果\n填好参数并提交后，结果会出现在这里，可预览、下载、存入资产库或发送到画布。\n历史任务\n0 条\n本工具还没有历史任务；提交一次后会在这里留下任务、配置与结果，刷新后仍在。\n连接本地 Agent\n未连接\n点连接会自动启动本地服务、装好插件并接通，无需手动配置。\nClaude Code\n未连接\n·\nCLI · 2.1.285 (Claude Code)\n·\n直接运行\n连接\nCodex\n未连接\n·\nCLI · codex-cli 0.163.0\n·\n插件已装\n连接\nGalley\n未连接\n·\nCLI + 桌面版 · galley 0.6.4\n连接",
+ "controls": [
+  {
+   "tag": "button",
+   "type": "button",
+   "role": null,
+   "label": "更多",
+   "text": "更多",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 954,
+    "y": 0,
+    "w": 47,
+    "h": 60
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": null,
+   "label": "中 切换到深色主题 v0.27.0",
+   "text": "",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 1190,
+    "y": 14,
+    "w": 32,
+    "h": 32
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": null,
+   "label": "中 切换到深色主题 v0.27.0",
+   "text": "",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 1230,
+    "y": 16,
+    "w": 28,
+    "h": 28
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": null,
+   "label": "中 切换到深色主题 v0.27.0",
+   "text": "中",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 1262,
+    "y": 16,
+    "w": 28,
+    "h": 28
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": null,
+   "label": "中 切换到深色主题 v0.27.0",
+   "text": "切换到深色主题",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 1294,
+    "y": 16,
+    "w": 28,
+    "h": 28
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": null,
+   "label": "中 切换到深色主题 v0.27.0",
+   "text": "v0.27.0",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 1326,
+    "y": 19,
+    "w": 47,
+    "h": 22
+   }
+  },
+  {
+   "tag": "textarea",
+   "type": "textarea",
+   "role": null,
+   "label": "饰品文字内容 逐字照排，最多 4000 字。",
+   "text": "",
+   "value": "",
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": "例如：FOREVER · 永",
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 217,
+    "y": 299,
+    "w": 318,
+    "h": 98
+   }
+  },
+  {
+   "tag": "textarea",
+   "type": "textarea",
+   "role": null,
+   "label": "效果描述（可选）",
+   "text": "",
+   "value": "",
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": "例如：玫瑰金浮雕、宝石边镶嵌碎钻",
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 217,
+    "y": 453,
+    "w": 318,
+    "h": 58
+   }
+  },
+  {
+   "tag": "select",
+   "type": "select-one",
+   "role": null,
+   "label": "字体 衬线 Serif 无衬线 Sans 手写 Script 展示 Display 圆体 Rounded 等宽 Mono",
+   "text": "衬线 Serif 无衬线 Sans 手写 Script 展示 Display 圆体 Rounded 等宽 Mono",
+   "value": "serif",
+   "checked": null,
+   "selected": "衬线 Serif",
+   "options": [
+    {
+     "t": "衬线 Serif",
+     "v": "serif",
+     "s": true
+    },
+    {
+     "t": "无衬线 Sans",
+     "v": "sans-serif",
+     "s": false
+    },
+    {
+     "t": "手写 Script",
+     "v": "script",
+     "s": false
+    },
+    {
+     "t": "展示 Display",
+     "v": "display",
+     "s": false
+    },
+    {
+     "t": "圆体 Rounded",
+     "v": "rounded",
+     "s": false
+    },
+    {
+     "t": "等宽 Mono",
+     "v": "mono",
+     "s": false
+    }
+   ],
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 217,
+    "y": 609,
+    "w": 318,
+    "h": 35
+   }
+  },
+  {
+   "tag": "input",
+   "type": "text",
+   "role": null,
+   "label": "自定义字体名（原样透传上游）",
+   "text": "",
+   "value": "serif",
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 217,
+    "y": 676,
+    "w": 318,
+    "h": 34
+   }
+  },
+  {
+   "tag": "input",
+   "type": "range",
+   "role": null,
+   "label": "字号 96",
+   "text": "",
+   "value": "96",
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 217,
+    "y": 742,
+    "w": 318,
+    "h": 16
+   }
+  },
+  {
+   "tag": "input",
+   "type": "number",
+   "role": null,
+   "label": "左 (%)",
+   "text": "",
+   "value": "18",
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 217,
+    "y": 927,
+    "w": 155,
+    "h": 34
+   }
+  },
+  {
+   "tag": "input",
+   "type": "number",
+   "role": null,
+   "label": "右 (%)",
+   "text": "",
+   "value": "82",
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 380,
+    "y": 927,
+    "w": 155,
+    "h": 34
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": null,
+   "label": "偏左 居中 偏右",
+   "text": "偏左",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 217,
+    "y": 973,
+    "w": 101,
+    "h": 40
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": null,
+   "label": "偏左 居中 偏右",
+   "text": "居中",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 326,
+    "y": 973,
+    "w": 101,
+    "h": 40
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": null,
+   "label": "偏左 居中 偏右",
+   "text": "偏右",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 434,
+    "y": 973,
+    "w": 101,
+    "h": 40
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": null,
+   "label": "撤销定位",
+   "text": "",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": true,
+   "r": {
+    "x": 939,
+    "y": 275,
+    "w": 40,
+    "h": 40
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": null,
+   "label": "重做定位",
+   "text": "",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": true,
+   "r": {
+    "x": 983,
+    "y": 275,
+    "w": 40,
+    "h": 40
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": null,
+   "label": "复位定位",
+   "text": "",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 1027,
+    "y": 275,
+    "w": 40,
+    "h": 40
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": null,
+   "label": "生成饰品文字 请先填写饰品文字内容。",
+   "text": "生成饰品文字",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": true,
+   "r": {
+    "x": 1117,
+    "y": 275,
+    "w": 286,
+    "h": 40
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": null,
+   "label": "连接本地 Agent 未连接 点连接会自动启动本地服务、装好插件并接通，无需手动配置。 Claude Code 未连接 ",
+   "text": "",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 1433,
+    "y": 0,
+    "w": 16,
+    "h": 900
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": null,
+   "label": "Agent未连接",
+   "text": "未连接",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 1485,
+    "y": 8,
+    "w": 32,
+    "h": 32
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": "tab",
+   "label": "对话历史技能日志",
+   "text": "对话",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "false",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 1594,
+    "y": 0,
+    "w": 32,
+    "h": 48
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": "tab",
+   "label": "对话历史技能日志",
+   "text": "历史",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "false",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 1628,
+    "y": 0,
+    "w": 32,
+    "h": 48
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": "tab",
+   "label": "对话历史技能日志",
+   "text": "技能",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "false",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 1662,
+    "y": 0,
+    "w": 32,
+    "h": 48
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": "tab",
+   "label": "对话历史技能日志",
+   "text": "日志",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "false",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 1696,
+    "y": 0,
+    "w": 32,
+    "h": 48
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": null,
+   "label": "新对话",
+   "text": "新对话",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": true,
+   "r": {
+    "x": 1804,
+    "y": 8,
+    "w": 32,
+    "h": 32
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": null,
+   "label": "新对话",
+   "text": "",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 1840,
+    "y": 8,
+    "w": 32,
+    "h": 32
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": null,
+   "label": "Claude Code 未连接 · CLI · 2.1.285 (Claude Code) · 直接运行 连接",
+   "text": "连接",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 1785,
+    "y": 147,
+    "w": 66,
+    "h": 24
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": null,
+   "label": "Codex 未连接 · CLI · codex-cli 0.163.0 · 插件已装 连接",
+   "text": "连接",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 1785,
+    "y": 215,
+    "w": 66,
+    "h": 24
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": null,
+   "label": "Galley 未连接 · CLI + 桌面版 · galley 0.6.4 连接",
+   "text": "连接",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 1785,
+    "y": 283,
+    "w": 66,
+    "h": 24
+   }
+  }
+ ],
+ "antSelected": [],
+ "optionGroups": [
+  {
+   "label": "",
+   "options": [
+    "Skills",
+    "Agent"
+   ],
+   "active": [],
+   "count": 2,
+   "r": {
+    "x": 234,
+    "y": 0,
+    "w": 735,
+    "h": 59
+   }
+  },
+  {
+   "label": "无限画布 首页 电商套图 智能修图 新模型 AI视频 HOT 批量生图 商品图设",
+   "options": [
+    "中",
+    "切换到深色主题",
+    "v0.27.0"
+   ],
+   "active": [],
+   "count": 3,
+   "r": {
+    "x": 1230,
+    "y": 16,
+    "w": 175,
+    "h": 28
+   }
+  },
+  {
+   "label": "印花提取",
+   "options": [
+    "AI姿势生成",
+    "补充"
+   ],
+   "active": [],
+   "count": 2,
+   "r": {
+    "x": 0,
+    "y": 500,
+    "w": 179,
+    "h": 40
+   }
+  },
+  {
+   "label": "AI姿势生成 补充",
+   "options": [
+    "AI试衣XSY",
+    "补充"
+   ],
+   "active": [],
+   "count": 2,
+   "r": {
+    "x": 0,
+    "y": 540,
+    "w": 179,
+    "h": 40
+   }
+  },
+  {
+   "label": "AI试衣XSY 补充",
+   "options": [
+    "场景裂变链接",
+    "补充"
+   ],
+   "active": [],
+   "count": 2,
+   "r": {
+    "x": 0,
+    "y": 580,
+    "w": 179,
+    "h": 40
+   }
+  },
+  {
+   "label": "场景裂变链接 补充",
+   "options": [
+    "图片文字编辑",
+    "补充"
+   ],
+   "active": [],
+   "count": 2,
+   "r": {
+    "x": 0,
+    "y": 620,
+    "w": 179,
+    "h": 40
+   }
+  },
+  {
+   "label": "图片文字编辑 补充",
+   "options": [
+    "上装换料",
+    "补充"
+   ],
+   "active": [],
+   "count": 2,
+   "r": {
+    "x": 0,
+    "y": 660,
+    "w": 179,
+    "h": 40
+   }
+  },
+  {
+   "label": "上装换料 补充",
+   "options": [
+    "商品图设计器",
+    "补充"
+   ],
+   "active": [],
+   "count": 2,
+   "r": {
+    "x": 0,
+    "y": 700,
+    "w": 179,
+    "h": 40
+   }
+  },
+  {
+   "label": "商品图设计器 补充",
+   "options": [
+    "商品营销素材",
+    "补充"
+   ],
+   "active": [],
+   "count": 2,
+   "r": {
+    "x": 0,
+    "y": 740,
+    "w": 179,
+    "h": 40
+   }
+  },
+  {
+   "label": "商品营销素材 补充",
+   "options": [
+    "场景迁移",
+    "补充"
+   ],
+   "active": [],
+   "count": 2,
+   "r": {
+    "x": 0,
+    "y": 780,
+    "w": 179,
+    "h": 40
+   }
+  },
+  {
+   "label": "Agent未连接",
+   "options": [
+    "对话",
+    "历史",
+    "技能",
+    "日志"
+   ],
+   "active": [],
+   "count": 4,
+   "r": {
+    "x": 1521,
+    "y": 0,
+    "w": 279,
+    "h": 48
+   }
+  }
+ ],
+ "caseModule": {
+  "caseTab": false,
+  "hasCaseWord": false,
+  "sameStyle": 0,
+  "imgs": 1
+ },
+ "capture": {
+  "side": "local",
+  "url": "http://127.0.0.1:3000/tools/product-design/ornament-text",
+  "ready": true,
+  "ms": 4398,
+  "errors": []
+ }
+}

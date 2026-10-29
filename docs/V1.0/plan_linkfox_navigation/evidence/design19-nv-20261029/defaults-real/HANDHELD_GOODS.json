@@ -1,0 +1,103 @@
+{
+  "toolId": "HANDHELD_GOODS",
+  "slug": "handheld-goods",
+  "real": {
+    "url": "https://www.linkfox.com/draw/handheld-goods",
+    "title": "LinkFox官网 - 跨境电商AI运营助手 - AI选品AI作图AI视频AI Agent OS",
+    "loginGate": false,
+    "controls": [
+      {
+        "kind": "input:text",
+        "label": "名称",
+        "value": "LinkFox 默认"
+      },
+      {
+        "kind": "input:text",
+        "label": "水印文案",
+        "value": "本图片由 LinkFox AI 生成"
+      }
+    ],
+    "caseModule": {
+      "caseTab": 0,
+      "sameStyle": 0,
+      "hasCaseWord": false
+    }
+  },
+  "local": {
+    "url": "http://127.0.0.1:3000/tools/product-design/handheld-goods",
+    "title": "无限画布",
+    "loginGate": false,
+    "controls": [
+      {
+        "kind": "chips",
+        "label": "手持姿势 左手托底正面",
+        "options": [
+          "左手",
+          "右手",
+          "双手"
+        ],
+        "active": "左手"
+      },
+      {
+        "kind": "chips",
+        "label": "左手 右手 双手",
+        "options": [
+          "左手托底正面",
+          "左手捏边",
+          "左手摊掌展示",
+          "左手略仰拍"
+        ],
+        "active": "左手托底正面"
+      },
+      {
+        "kind": "chips",
+        "label": "场景与张数",
+        "options": [
+          "纯色棚拍",
+          "桌面场景",
+          "户外自然光"
+        ],
+        "active": "纯色棚拍"
+      },
+      {
+        "kind": "chips",
+        "label": "检测类型",
+        "options": [
+          "手部接触与商品一致性",
+          "仅商品完整性"
+        ],
+        "active": "手部接触与商品一致性"
+      },
+      {
+        "kind": "chips",
+        "label": "生成张数",
+        "options": [
+          "1",
+          "2",
+          "3",
+          "4"
+        ],
+        "active": "1"
+      }
+    ],
+    "caseModule": {
+      "caseTab": 0,
+      "sameStyle": 0,
+      "hasCaseWord": false
+    }
+  },
+  "diff": {
+    "onlyReal": [
+      "input:text|名称",
+      "input:text|水印文案"
+    ],
+    "onlyLocal": [
+      "chips|手持姿势 左手托底正面",
+      "chips|左手 右手 双手",
+      "chips|场景与张数",
+      "chips|检测类型",
+      "chips|生成张数"
+    ],
+    "changed": []
+  }
+}

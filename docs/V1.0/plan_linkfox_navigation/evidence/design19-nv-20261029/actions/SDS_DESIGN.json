@@ -1,0 +1,74 @@
+{
+  "toolId": "SDS_DESIGN",
+  "route": "/tools/product-design/sds-design",
+  "steps": {
+    "dockItems": 1,
+    "surface": "result",
+    "resultImg": {
+      "src": "http://127.0.0.1:8993/SDS_DESIGN.png",
+      "w": 1024,
+      "h": 1024
+    },
+    "historyText": 1,
+    "before": {
+      "assetCount": 0,
+      "lastAsset": null,
+      "projectCount": 0,
+      "lastProject": null
+    },
+    "downloadBtn": "[data-testid=\"tool-result-download-0\"]",
+    "download": {
+      "file": {
+        "name": "sds-design-result-1.png",
+        "bytes": 2052150
+      },
+      "busy": {
+        "busySeen": true,
+        "disabledNow": 0
+      }
+    },
+    "saveBtn": "[data-testid=\"tool-result-save-0\"]",
+    "saveFeedback": "已保存到资产库（WrILtrCRU_SabE38Z_VIy）",
+    "save": {
+      "before": 0,
+      "after": 1,
+      "lastAsset": {
+        "id": "WrILtrCRU_SabE38Z_VIy",
+        "kind": "image",
+        "bytes": 2052150,
+        "toolId": "SDS_DESIGN"
+      },
+      "busy": {
+        "busySeen": true,
+        "disabledNow": 0
+      }
+    },
+    "canvasBtn": "[data-testid=\"tool-result-canvas-0\"]",
+    "canvasFeedback": "已发送到画布（53fZQlBxeFQJFPYJQNZlq）",
+    "canvas": {
+      "before": 0,
+      "after": 1,
+      "lastProject": {
+        "id": "53fZQlBxeFQJFPYJQNZlq",
+        "nodeCount": 1,
+        "lastNodeBytes": 2052150,
+        "lastNodeType": "image"
+      },
+      "busy": {
+        "busySeen": true,
+        "disabledNow": 0
+      }
+    },
+    "pageErrors": [],
+    "bytes": {
+      "source": 2052150,
+      "download": 2052150,
+      "asset": 2052150,
+      "node": 2052150
+    }
+  },
+  "ok": true,
+  "errors": [],
+  "sourceBytes": 2052150,
+  "recordedAt": "2026-10-29T05:00:13.345Z"
+}

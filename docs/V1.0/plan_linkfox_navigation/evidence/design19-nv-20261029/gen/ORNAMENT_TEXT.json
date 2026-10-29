@@ -1,0 +1,13 @@
+{
+  "toolId": "ORNAMENT_TEXT",
+  "naturalWidth": 1024,
+  "naturalHeight": 1024,
+  "bytes": 2540971,
+  "sha256": "9b005afe4317cba53d990d04286190553dd790f440af830ae251dc279c5e9dcb",
+  "srcKind": "data:image/png;base64,iV",
+  "provider": "default::gpt-image-2",
+  "inputs": {
+    "text": "FOREVER · 永恒",
+    "effect": "玫瑰金浮雕，宝石边镶嵌碎钻，暖光高光"
+  }
+}

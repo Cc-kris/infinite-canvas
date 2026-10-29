@@ -1,0 +1,70 @@
+{
+  "toolId": "REPLACE_GOODS",
+  "route": "/tools/product-design/replace-goods",
+  "steps": {
+    "dockItems": 1,
+    "surface": "result",
+    "resultImg": null,
+    "historyText": 1,
+    "before": {
+      "assetCount": 0,
+      "lastAsset": null,
+      "projectCount": 0,
+      "lastProject": null
+    },
+    "downloadBtn": "[data-testid=\"tool-history-dock-download\"]*toggled",
+    "download": {
+      "file": {
+        "name": "replace-goods-result-1.png",
+        "bytes": 1216214
+      },
+      "busy": {
+        "busySeen": false,
+        "disabledNow": 0
+      }
+    },
+    "saveBtn": "[data-testid=\"tool-history-dock-save\"]",
+    "saveFeedback": "已存入资产库（image · VoLNVDJwAjCQww4CmjZ2X）",
+    "save": {
+      "before": 0,
+      "after": 1,
+      "lastAsset": {
+        "id": "VoLNVDJwAjCQww4CmjZ2X",
+        "kind": "image",
+        "bytes": 1216214,
+        "toolId": "REPLACE_GOODS"
+      },
+      "busy": {
+        "busySeen": false,
+        "disabledNow": 0
+      }
+    },
+    "canvasBtn": "[data-testid=\"tool-history-dock-canvas\"]",
+    "canvasFeedback": "已发送到画布（6Wv5gIDPaEaRRr6BghJr6 / image-1793250045085-h1tge）",
+    "canvas": {
+      "before": 0,
+      "after": 1,
+      "lastProject": {
+        "id": "6Wv5gIDPaEaRRr6BghJr6",
+        "nodeCount": 1,
+        "lastNodeBytes": 1216214,
+        "lastNodeType": "image"
+      },
+      "busy": {
+        "busySeen": false,
+        "disabledNow": 0
+      }
+    },
+    "pageErrors": [],
+    "bytes": {
+      "source": 1216214,
+      "download": 1216214,
+      "asset": 1216214,
+      "node": 1216214
+    }
+  },
+  "ok": true,
+  "errors": [],
+  "sourceBytes": 1216214,
+  "recordedAt": "2026-10-29T05:00:45.495Z"
+}

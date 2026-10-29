@@ -1,0 +1,1193 @@
+{
+ "url": "http://127.0.0.1:3000/tools/product-design/ai-posture",
+ "title": "无限画布",
+ "bodyText": "无限画布\n首页\n电商套图\n智能修图\n新模型\nAI视频\nHOT\n批量生图\n商品图设计\nSkills\nAgent\n更多\n中\n切换到深色主题\nv0.27.0\n商品图设计\n商品图\n商品替换\n场景裂变\n手持商品\nAI穿衣\n姿势裂变\nAI穿戴\nPOD素材\n饰品文字\n素材贴合\n印花提取\nAI姿势生成\n补充\nAI试衣XSY\n补充\n场景裂变链接\n补充\n图片文字编辑\n补充\n上装换料\n补充\n商品图设计器\n补充\n商品营销素材\n补充\n场景迁移\n补充\n免责声明\n商品图设计 / 姿势裂变\n姿势裂变\n/tools/product-design/ai-posture\n姿势裂变\nmakeType 58\n上传 1 张模特图 → 选姿势库或自定义 → 选张数 → 生成，按来源姿势分组出图\n模特姿势图\n拖拽/粘贴 或 上传模特姿势图；一张图裂变出多种姿势，人物/服装保持一致。\n模特图\n0 / 1 个 · JPG / PNG / WebP · ≤ 10 MB\n点击选择本地文件，或拖拽到这里\n校验格式 / 大小 / 像素，入库后可刷新恢复\n还没有素材\n图片标签（imageTags，可增删，≤12）\n还没有标签；点选姿势卡片会自动带出建议标签。\n添加\n图片规则：10M以内，384×384 ~ 4096×4096\n姿势库 / 自定义\n选择姿势（可选）：不选则按张数自动裂变；姿势库与自定义各自保存，来回切换不会互相覆盖。\n姿势库\n自定义\n已选 0 个姿势（将自动裂变）\n全部\n站姿\n角度\n动态\n坐姿\n正面站姿\nstanding straight and facing the camera, arms relaxed naturally at the sides, feet shoulder-width apart\n标签：站姿 / 正面 / 全身\n单手叉腰\nstanding with one hand on the hip and the other arm relaxed, weight shifted onto one leg\n标签：站姿 / 叉腰\n双手插兜\nstanding casually with both hands in pockets, shoulders relaxed\n标签：站姿 / 插兜\n双臂交叉\nstanding with arms crossed over the chest in a confident posture\n标签：站姿 / 交叉\n侧身站立\nstanding in a three-quarter side profile with the head turned toward the camera\n标签：侧身 / 回眸\n背身回眸\nback to the camera with the head turned over the shoulder, looking back at the viewer\n标签：背身 / 回眸\n低机位仰拍\na low camera angle looking up at the model while standing tall\n标签：低机位 / 仰拍\n行走抓拍\ncaught mid-stride walking toward the camera with a natural arm swing\n标签：动态 / 行走\n转身瞬间\ncaught mid-turn with hair and clothing following the motion\n标签：动态 / 转身\n轻跳\na light jump with both feet off the ground and arms slightly raised\n标签：动态 / 跳跃\n高脚凳坐姿\nsitting on a tall stool with one leg crossed over the other, back straight\n标签：坐姿 / 高脚凳\n坐地\nsitting on the floor with legs folded to one side, hands resting on the knee\n标签：坐姿 / 坐地\n清空选择（改为自动裂变）\n生成结果\n按来源姿势分组；单组失败只重试该组，已成功的姿势不会重复生成。\n还没有生成结果\n📸 1 张模特图 → N 种姿势套图！告别重复拍摄成本。\n选择生成张数\n1–4 张，按姿势平均分配；未选姿势时自动从姿势库裂变出互不重复的姿势。\n1\n2\n3\n4\n裂变方式\n自动裂变\n姿势 / 张数\n正面站姿×1\n预计输出\n1 张 / 1 个请求\n补充描述\n可选：光线、场景、气质等；姿势本身由上面的选择决定。\n立即生成\n1 张 · 1 个姿势请求\n请先上传模特姿势图（拖拽/粘贴或从本地选择）\n本次输入快照\n历史任务\n0 条\n本工具还没有历史任务；提交一次后会在这里留下任务、配置与结果，刷新后仍在。\n连接本地 Agent\n未连接\n点连接会自动启动本地服务、装好插件并接通，无需手动配置。\nClaude Code\n未连接\n·\nCLI · 2.1.285 (Claude Code)\n·\n直接运行\n连接\nCodex\n未连接\n·\nCLI · codex-cli 0.163.0\n·\n插件已装\n连接\nGalley\n未连接\n·\nCLI + 桌面版 · galley 0.6.4\n连接",
+ "controls": [
+  {
+   "tag": "button",
+   "type": "button",
+   "role": null,
+   "label": "更多",
+   "text": "更多",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 954,
+    "y": 0,
+    "w": 47,
+    "h": 60
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": null,
+   "label": "中 切换到深色主题 v0.27.0",
+   "text": "",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 1190,
+    "y": 14,
+    "w": 32,
+    "h": 32
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": null,
+   "label": "中 切换到深色主题 v0.27.0",
+   "text": "",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 1230,
+    "y": 16,
+    "w": 28,
+    "h": 28
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": null,
+   "label": "中 切换到深色主题 v0.27.0",
+   "text": "中",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 1262,
+    "y": 16,
+    "w": 28,
+    "h": 28
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": null,
+   "label": "中 切换到深色主题 v0.27.0",
+   "text": "切换到深色主题",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 1294,
+    "y": 16,
+    "w": 28,
+    "h": 28
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": null,
+   "label": "中 切换到深色主题 v0.27.0",
+   "text": "v0.27.0",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 1326,
+    "y": 19,
+    "w": 47,
+    "h": 22
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": null,
+   "label": "撤销姿势/标签编辑",
+   "text": "",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": true,
+   "r": {
+    "x": 951,
+    "y": 269,
+    "w": 36,
+    "h": 36
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": null,
+   "label": "重做姿势/标签编辑",
+   "text": "",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": true,
+   "r": {
+    "x": 991,
+    "y": 269,
+    "w": 36,
+    "h": 36
+   }
+  },
+  {
+   "tag": "input",
+   "type": "text",
+   "role": null,
+   "label": "添加",
+   "text": "",
+   "value": "",
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": "新增标签后回车",
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 462,
+    "y": 401,
+    "w": 496,
+    "h": 36
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": null,
+   "label": "添加",
+   "text": "添加",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 964,
+    "y": 401,
+    "w": 50,
+    "h": 36
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": null,
+   "label": "姿势库 自定义 已选 0 个姿势（将自动裂变）",
+   "text": "姿势库",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 217,
+    "y": 662,
+    "w": 68,
+    "h": 36
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": null,
+   "label": "姿势库 自定义 已选 0 个姿势（将自动裂变）",
+   "text": "自定义",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 291,
+    "y": 662,
+    "w": 68,
+    "h": 36
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": null,
+   "label": "全部 站姿 角度 动态 坐姿",
+   "text": "全部",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 217,
+    "y": 710,
+    "w": 54,
+    "h": 36
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": null,
+   "label": "全部 站姿 角度 动态 坐姿",
+   "text": "站姿",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 277,
+    "y": 710,
+    "w": 54,
+    "h": 36
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": null,
+   "label": "全部 站姿 角度 动态 坐姿",
+   "text": "角度",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 337,
+    "y": 710,
+    "w": 54,
+    "h": 36
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": null,
+   "label": "全部 站姿 角度 动态 坐姿",
+   "text": "动态",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 397,
+    "y": 710,
+    "w": 54,
+    "h": 36
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": null,
+   "label": "全部 站姿 角度 动态 坐姿",
+   "text": "坐姿",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 457,
+    "y": 710,
+    "w": 54,
+    "h": 36
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": null,
+   "label": "正面站姿 standing straight and facing the camera, arms relaxed n",
+   "text": "正面站姿 standing straight and facing the camera, arms relaxed naturally at the side",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 217,
+    "y": 754,
+    "w": 265,
+    "h": 111
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": null,
+   "label": "正面站姿 standing straight and facing the camera, arms relaxed n",
+   "text": "单手叉腰 standing with one hand on the hip and the other arm relaxed, weight shifted",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 490,
+    "y": 754,
+    "w": 265,
+    "h": 111
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": null,
+   "label": "正面站姿 standing straight and facing the camera, arms relaxed n",
+   "text": "双手插兜 standing casually with both hands in pockets, shoulders relaxed 标签：站姿 / 插兜",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 762,
+    "y": 754,
+    "w": 265,
+    "h": 111
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": null,
+   "label": "正面站姿 standing straight and facing the camera, arms relaxed n",
+   "text": "双臂交叉 standing with arms crossed over the chest in a confident posture 标签：站姿 / 交叉",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 217,
+    "y": 873,
+    "w": 265,
+    "h": 95
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": null,
+   "label": "正面站姿 standing straight and facing the camera, arms relaxed n",
+   "text": "侧身站立 standing in a three-quarter side profile with the head turned toward the ca",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 490,
+    "y": 873,
+    "w": 265,
+    "h": 95
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": null,
+   "label": "正面站姿 standing straight and facing the camera, arms relaxed n",
+   "text": "背身回眸 back to the camera with the head turned over the shoulder, looking back at ",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 762,
+    "y": 873,
+    "w": 265,
+    "h": 95
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": null,
+   "label": "正面站姿 standing straight and facing the camera, arms relaxed n",
+   "text": "低机位仰拍 a low camera angle looking up at the model while standing tall 标签：低机位 / 仰拍",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 217,
+    "y": 977,
+    "w": 265,
+    "h": 95
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": null,
+   "label": "正面站姿 standing straight and facing the camera, arms relaxed n",
+   "text": "行走抓拍 caught mid-stride walking toward the camera with a natural arm swing 标签：动态 ",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 490,
+    "y": 977,
+    "w": 265,
+    "h": 95
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": null,
+   "label": "正面站姿 standing straight and facing the camera, arms relaxed n",
+   "text": "转身瞬间 caught mid-turn with hair and clothing following the motion 标签：动态 / 转身",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 762,
+    "y": 977,
+    "w": 265,
+    "h": 95
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": null,
+   "label": "正面站姿 standing straight and facing the camera, arms relaxed n",
+   "text": "轻跳 a light jump with both feet off the ground and arms slightly raised 标签：动态 / 跳",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 217,
+    "y": 1080,
+    "w": 265,
+    "h": 95
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": null,
+   "label": "正面站姿 standing straight and facing the camera, arms relaxed n",
+   "text": "高脚凳坐姿 sitting on a tall stool with one leg crossed over the other, back straight",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 490,
+    "y": 1080,
+    "w": 265,
+    "h": 95
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": null,
+   "label": "正面站姿 standing straight and facing the camera, arms relaxed n",
+   "text": "坐地 sitting on the floor with legs folded to one side, hands resting on the knee ",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 762,
+    "y": 1080,
+    "w": 265,
+    "h": 95
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": null,
+   "label": "清空选择（改为自动裂变）",
+   "text": "清空选择（改为自动裂变）",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": true,
+   "r": {
+    "x": 217,
+    "y": 1183,
+    "w": 190,
+    "h": 36
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": null,
+   "label": "1 2 3 4",
+   "text": "1",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 1077,
+    "y": 360,
+    "w": 40,
+    "h": 36
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": null,
+   "label": "1 2 3 4",
+   "text": "2",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 1123,
+    "y": 360,
+    "w": 40,
+    "h": 36
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": null,
+   "label": "1 2 3 4",
+   "text": "3",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 1169,
+    "y": 360,
+    "w": 40,
+    "h": 36
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": null,
+   "label": "1 2 3 4",
+   "text": "4",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 1215,
+    "y": 360,
+    "w": 40,
+    "h": 36
+   }
+  },
+  {
+   "tag": "textarea",
+   "type": "textarea",
+   "role": null,
+   "label": "例如：室内柔光，浅灰背景，全身构图",
+   "text": "",
+   "value": "",
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": "例如：室内柔光，浅灰背景，全身构图",
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 1077,
+    "y": 622,
+    "w": 326,
+    "h": 84
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": null,
+   "label": "立即生成 1 张 · 1 个姿势请求 请先上传模特姿势图（拖拽/粘贴或从本地选择） 本次输入快照",
+   "text": "立即生成",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": true,
+   "r": {
+    "x": 1077,
+    "y": 762,
+    "w": 326,
+    "h": 40
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": null,
+   "label": "连接本地 Agent 未连接 点连接会自动启动本地服务、装好插件并接通，无需手动配置。 Claude Code 未连接 ",
+   "text": "",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 1433,
+    "y": 0,
+    "w": 16,
+    "h": 900
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": null,
+   "label": "Agent未连接",
+   "text": "未连接",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 1485,
+    "y": 8,
+    "w": 32,
+    "h": 32
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": "tab",
+   "label": "对话历史技能日志",
+   "text": "对话",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "false",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 1594,
+    "y": 0,
+    "w": 32,
+    "h": 48
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": "tab",
+   "label": "对话历史技能日志",
+   "text": "历史",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "false",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 1628,
+    "y": 0,
+    "w": 32,
+    "h": 48
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": "tab",
+   "label": "对话历史技能日志",
+   "text": "技能",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "false",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 1662,
+    "y": 0,
+    "w": 32,
+    "h": 48
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": "tab",
+   "label": "对话历史技能日志",
+   "text": "日志",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "false",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 1696,
+    "y": 0,
+    "w": 32,
+    "h": 48
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": null,
+   "label": "新对话",
+   "text": "新对话",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": true,
+   "r": {
+    "x": 1804,
+    "y": 8,
+    "w": 32,
+    "h": 32
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": null,
+   "label": "新对话",
+   "text": "",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 1840,
+    "y": 8,
+    "w": 32,
+    "h": 32
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": null,
+   "label": "Claude Code 未连接 · CLI · 2.1.285 (Claude Code) · 直接运行 连接",
+   "text": "连接",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 1785,
+    "y": 147,
+    "w": 66,
+    "h": 24
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": null,
+   "label": "Codex 未连接 · CLI · codex-cli 0.163.0 · 插件已装 连接",
+   "text": "连接",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 1785,
+    "y": 215,
+    "w": 66,
+    "h": 24
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": null,
+   "label": "Galley 未连接 · CLI + 桌面版 · galley 0.6.4 连接",
+   "text": "连接",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 1785,
+    "y": 283,
+    "w": 66,
+    "h": 24
+   }
+  }
+ ],
+ "antSelected": [],
+ "optionGroups": [
+  {
+   "label": "",
+   "options": [
+    "Skills",
+    "Agent"
+   ],
+   "active": [],
+   "count": 2,
+   "r": {
+    "x": 234,
+    "y": 0,
+    "w": 735,
+    "h": 59
+   }
+  },
+  {
+   "label": "无限画布 首页 电商套图 智能修图 新模型 AI视频 HOT 批量生图 商品图设",
+   "options": [
+    "中",
+    "切换到深色主题",
+    "v0.27.0"
+   ],
+   "active": [],
+   "count": 3,
+   "r": {
+    "x": 1230,
+    "y": 16,
+    "w": 175,
+    "h": 28
+   }
+  },
+  {
+   "label": "印花提取",
+   "options": [
+    "AI姿势生成",
+    "补充"
+   ],
+   "active": [],
+   "count": 2,
+   "r": {
+    "x": 0,
+    "y": 500,
+    "w": 179,
+    "h": 40
+   }
+  },
+  {
+   "label": "AI姿势生成 补充",
+   "options": [
+    "AI试衣XSY",
+    "补充"
+   ],
+   "active": [],
+   "count": 2,
+   "r": {
+    "x": 0,
+    "y": 540,
+    "w": 179,
+    "h": 40
+   }
+  },
+  {
+   "label": "AI试衣XSY 补充",
+   "options": [
+    "场景裂变链接",
+    "补充"
+   ],
+   "active": [],
+   "count": 2,
+   "r": {
+    "x": 0,
+    "y": 580,
+    "w": 179,
+    "h": 40
+   }
+  },
+  {
+   "label": "场景裂变链接 补充",
+   "options": [
+    "图片文字编辑",
+    "补充"
+   ],
+   "active": [],
+   "count": 2,
+   "r": {
+    "x": 0,
+    "y": 620,
+    "w": 179,
+    "h": 40
+   }
+  },
+  {
+   "label": "图片文字编辑 补充",
+   "options": [
+    "上装换料",
+    "补充"
+   ],
+   "active": [],
+   "count": 2,
+   "r": {
+    "x": 0,
+    "y": 660,
+    "w": 179,
+    "h": 40
+   }
+  },
+  {
+   "label": "上装换料 补充",
+   "options": [
+    "商品图设计器",
+    "补充"
+   ],
+   "active": [],
+   "count": 2,
+   "r": {
+    "x": 0,
+    "y": 700,
+    "w": 179,
+    "h": 40
+   }
+  },
+  {
+   "label": "商品图设计器 补充",
+   "options": [
+    "商品营销素材",
+    "补充"
+   ],
+   "active": [],
+   "count": 2,
+   "r": {
+    "x": 0,
+    "y": 740,
+    "w": 179,
+    "h": 40
+   }
+  },
+  {
+   "label": "商品营销素材 补充",
+   "options": [
+    "场景迁移",
+    "补充"
+   ],
+   "active": [],
+   "count": 2,
+   "r": {
+    "x": 0,
+    "y": 780,
+    "w": 179,
+    "h": 40
+   }
+  },
+  {
+   "label": "模特图 0 / 1 个 · JPG / PNG / WebP · ≤ 10 MB",
+   "options": [
+    "点击选择本地文件，或拖拽到这里",
+    "校验格式 / 大小 / 像素，入"
+   ],
+   "active": [],
+   "count": 2,
+   "r": {
+    "x": 217,
+    "y": 399,
+    "w": 220,
+    "h": 102
+   }
+  },
+  {
+   "label": "Agent未连接",
+   "options": [
+    "对话",
+    "历史",
+    "技能",
+    "日志"
+   ],
+   "active": [],
+   "count": 4,
+   "r": {
+    "x": 1521,
+    "y": 0,
+    "w": 279,
+    "h": 48
+   }
+  }
+ ],
+ "caseModule": {
+  "caseTab": false,
+  "hasCaseWord": false,
+  "sameStyle": 0,
+  "imgs": 1
+ },
+ "capture": {
+  "side": "local",
+  "url": "http://127.0.0.1:3000/tools/product-design/ai-posture",
+  "ready": true,
+  "ms": 4321,
+  "errors": []
+ }
+}

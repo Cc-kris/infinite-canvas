@@ -1,0 +1,70 @@
+{
+  "toolId": "PRODUCT_SCENE",
+  "route": "/tools/product-design/product-scene",
+  "steps": {
+    "dockItems": 1,
+    "surface": "dock",
+    "resultImg": null,
+    "historyText": 1,
+    "before": {
+      "assetCount": 0,
+      "lastAsset": null,
+      "projectCount": 0,
+      "lastProject": null
+    },
+    "downloadBtn": "[data-testid=\"tool-history-dock-download\"]*toggled",
+    "download": {
+      "file": {
+        "name": "product-scene-result-1.png",
+        "bytes": 1421980
+      },
+      "busy": {
+        "busySeen": true,
+        "disabledNow": 0
+      }
+    },
+    "saveBtn": "[data-testid=\"tool-history-dock-save\"]",
+    "saveFeedback": "已存入资产库（image · p3pucsdT3htpEzvu5fyfu）",
+    "save": {
+      "before": 0,
+      "after": 1,
+      "lastAsset": {
+        "id": "p3pucsdT3htpEzvu5fyfu",
+        "kind": "image",
+        "bytes": 1421980,
+        "toolId": "PRODUCT_SCENE"
+      },
+      "busy": {
+        "busySeen": true,
+        "disabledNow": 0
+      }
+    },
+    "canvasBtn": "[data-testid=\"tool-history-dock-canvas\"]",
+    "canvasFeedback": "已发送到画布（VZNxUX71lxMHOLs_i3t5Z / image-1793250210617-8rsms）",
+    "canvas": {
+      "before": 0,
+      "after": 1,
+      "lastProject": {
+        "id": "VZNxUX71lxMHOLs_i3t5Z",
+        "nodeCount": 1,
+        "lastNodeBytes": 1421980,
+        "lastNodeType": "image"
+      },
+      "busy": {
+        "busySeen": true,
+        "disabledNow": 0
+      }
+    },
+    "pageErrors": [],
+    "bytes": {
+      "source": 1421980,
+      "download": 1421980,
+      "asset": 1421980,
+      "node": 1421980
+    }
+  },
+  "ok": true,
+  "errors": [],
+  "sourceBytes": 1421980,
+  "recordedAt": "2026-10-29T05:03:31.269Z"
+}

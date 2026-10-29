@@ -1,0 +1,171 @@
+{
+  "toolId": "ORNAMENT_TEXT",
+  "slug": "ornament-text",
+  "real": {
+    "url": "https://www.linkfox.com/home",
+    "title": "首页 - LinkFox",
+    "loginGate": false,
+    "controls": [
+      {
+        "kind": "textarea",
+        "label": "上传产品图，描述你想要的效果，让 AI 搞定所有设计",
+        "value": ""
+      },
+      {
+        "kind": "input:radio",
+        "label": "当季热门",
+        "value": "true"
+      },
+      {
+        "kind": "input:radio",
+        "label": "Agent 创作",
+        "value": "false"
+      },
+      {
+        "kind": "input:radio",
+        "label": "设计模板",
+        "value": "false"
+      },
+      {
+        "kind": "input:radio",
+        "label": "AI 作图工具",
+        "value": "false"
+      },
+      {
+        "kind": "input:text",
+        "label": "名称",
+        "value": "LinkFox 默认"
+      },
+      {
+        "kind": "input:text",
+        "label": "水印文案",
+        "value": "本图片由 LinkFox AI 生成"
+      },
+      {
+        "kind": "textarea",
+        "label": "",
+        "value": " "
+      },
+      {
+        "kind": "group",
+        "label": "radio::r6s:",
+        "options": [
+          "当季热门",
+          "Agent 创作",
+          "设计模板",
+          "AI 作图工具"
+        ],
+        "checked": [
+          "当季热门"
+        ]
+      },
+      {
+        "kind": "chips",
+        "label": "自由创作 套图 Agent 视频 Agent 链接复刻 电商 Agent",
+        "options": [
+          "自由创作",
+          "套图 Agent",
+          "视频 Agent",
+          "链接复刻",
+          "电商 Agent"
+        ],
+        "active": "自由创作"
+      }
+    ],
+    "caseModule": {
+      "caseTab": 0,
+      "sameStyle": 0,
+      "hasCaseWord": false
+    }
+  },
+  "local": {
+    "url": "http://127.0.0.1:3000/tools/product-design/ornament-text",
+    "title": "无限画布",
+    "loginGate": false,
+    "controls": [
+      {
+        "kind": "select",
+        "label": "字体",
+        "value": "serif",
+        "options": [
+          "serif=衬线 Serif",
+          "sans-serif=无衬线 Sans",
+          "script=手写 Script",
+          "display=展示 Display",
+          "rounded=圆体 Rounded",
+          "mono=等宽 Mono"
+        ]
+      },
+      {
+        "kind": "textarea",
+        "label": "例如：FOREVER · 永",
+        "value": ""
+      },
+      {
+        "kind": "textarea",
+        "label": "例如：玫瑰金浮雕、宝石边镶嵌碎钻",
+        "value": ""
+      },
+      {
+        "kind": "input:text",
+        "label": "自定义字体名",
+        "value": "serif"
+      },
+      {
+        "kind": "input:range",
+        "label": "字号",
+        "value": "96"
+      },
+      {
+        "kind": "input:number",
+        "label": "左定位",
+        "value": "18"
+      },
+      {
+        "kind": "input:number",
+        "label": "右定位",
+        "value": "82"
+      },
+      {
+        "kind": "chips",
+        "label": "饰品文字 文字内容、字体、字号与左右定位实时预览；提交后由图片模型生成成品。 d",
+        "options": [
+          "文字与参数",
+          "效果预览",
+          "结果"
+        ],
+        "active": "文字与参数"
+      }
+    ],
+    "caseModule": {
+      "caseTab": 0,
+      "sameStyle": 0,
+      "hasCaseWord": false
+    }
+  },
+  "diff": {
+    "onlyReal": [
+      "textarea|上传产品图，描述你想要的效果，让 AI 搞定所有设计",
+      "input:radio|当季热门",
+      "input:radio|Agent 创作",
+      "input:radio|设计模板",
+      "input:radio|AI 作图工具",
+      "input:text|名称",
+      "input:text|水印文案",
+      "textarea|",
+      "group|radio::r6s:",
+      "chips|自由创作 套图 Agent 视频 Agent 链接复刻 "
+    ],
+    "onlyLocal": [
+      "select|字体",
+      "textarea|例如：FOREVER · 永",
+      "textarea|例如：玫瑰金浮雕、宝石边镶嵌碎钻",
+      "input:text|自定义字体名",
+      "input:range|字号",
+      "input:number|左定位",
+      "input:number|右定位",
+      "chips|饰品文字 文字内容、字体、字号与左右定位实时预览；提交后"
+    ],
+    "changed": []
+  }
+}

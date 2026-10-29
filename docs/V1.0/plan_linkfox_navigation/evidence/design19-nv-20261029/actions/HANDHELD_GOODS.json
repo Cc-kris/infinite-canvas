@@ -1,0 +1,70 @@
+{
+  "toolId": "HANDHELD_GOODS",
+  "route": "/tools/product-design/handheld-goods",
+  "steps": {
+    "dockItems": 1,
+    "surface": "dock",
+    "resultImg": null,
+    "historyText": 1,
+    "before": {
+      "assetCount": 0,
+      "lastAsset": null,
+      "projectCount": 0,
+      "lastProject": null
+    },
+    "downloadBtn": "[data-testid=\"tool-history-dock-download\"]*toggled",
+    "download": {
+      "file": {
+        "name": "handheld-goods-result-1.png",
+        "bytes": 1060068
+      },
+      "busy": {
+        "busySeen": true,
+        "disabledNow": 0
+      }
+    },
+    "saveBtn": "[data-testid=\"tool-history-dock-save\"]",
+    "saveFeedback": "已存入资产库（image · HAWsLM3VUHowz8hcsjkEf）",
+    "save": {
+      "before": 0,
+      "after": 1,
+      "lastAsset": {
+        "id": "HAWsLM3VUHowz8hcsjkEf",
+        "kind": "image",
+        "bytes": 1060068,
+        "toolId": "HANDHELD_GOODS"
+      },
+      "busy": {
+        "busySeen": true,
+        "disabledNow": 0
+      }
+    },
+    "canvasBtn": "[data-testid=\"tool-history-dock-canvas\"]",
+    "canvasFeedback": "已发送到画布（KcDysFsMMkyPfuhAX1pKp / image-1793250070170-7t2f3）",
+    "canvas": {
+      "before": 0,
+      "after": 1,
+      "lastProject": {
+        "id": "KcDysFsMMkyPfuhAX1pKp",
+        "nodeCount": 1,
+        "lastNodeBytes": 1060068,
+        "lastNodeType": "image"
+      },
+      "busy": {
+        "busySeen": true,
+        "disabledNow": 0
+      }
+    },
+    "pageErrors": [],
+    "bytes": {
+      "source": 1060068,
+      "download": 1060068,
+      "asset": 1060068,
+      "node": 1060068
+    }
+  },
+  "ok": true,
+  "errors": [],
+  "sourceBytes": 1060068,
+  "recordedAt": "2026-10-29T05:01:10.594Z"
+}

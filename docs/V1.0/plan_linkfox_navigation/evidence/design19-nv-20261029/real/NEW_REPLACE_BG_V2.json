@@ -1,0 +1,281 @@
+{
+ "antSelected": [],
+ "bodyText": "首页\n电商套图\n智能修图\n新模型\nAI视频\nHOT\n批量生图\n商品图设计\nSkills\nAgent\n更多\n学习中心\n免费得算力\n250\n购 买\n用\n用户6991\n个人账号\n商品图\n我的商品\n场景参考图\n商品替换\n场景裂变\n手持商品\n历史记录\n企业功能\n批量生图\n 免责声明\n上传商品图\n或拖拽/粘贴图片到此处\n或试试这些\n场景参考图\n排序：\n智能推荐\n按收藏时间\n按素材热度\n日用百货\n家居家装\n服饰箱包\n美妆个护\n家用电器\n玩具类目\n儿童 & 母婴\n3C数码\n办公用品\n运动户外\n工艺/艺术品\n宠物用品\n食品饮料\n医药保健/护理\n汽车用品\n其他\n更多 \n桌面-保温杯\n厨房-搅拌器\n客厅-毯子\n厨房-电子秤\n厨房-电子秤\n草地-篮子\n餐桌-杯子\n餐桌-水壶\n客厅-书柜\n餐桌-茶具\n书架-储物箱\n餐桌-篮子\n餐桌-保温箱\n桌面-蜡烛\n节日装饰-蜡烛\n厨房-电子秤\n厨房-水果篮\n厨房-刀具\n餐桌-蜡烛\n厨房-厨房岛\n客厅-收纳篮\n客厅-毛毯\n礼品展示-圣诞装饰\n展台-海绵\n餐桌-茶具\n餐桌-茶壶\n窗边-陶瓷壶\n窗边-首饰架\n厨房-置物架\n厨房-餐车\n厨房-厨房岛\n节日场景-万圣节装饰\n节日装饰-鬼魂装饰\n节日场景-蜡烛\n洗衣房-洗衣篮\n洗衣房-洗衣篮\n节日场景-万圣节装饰\n客厅-垃圾桶\n客厅-垃圾桶\n节日场景-圣诞气球\n桌面-充电器\n厨房-垃圾桶\n纯色背景-支架\n客厅-充电器\n客厅-收纳筐\n书房-储物篮\n桌面-托盘\n厨房-厨房用具\n操作咨询\n产品教程\n管理水印分组\n共 1/20 个\n默认\n＋ 新增水印分组",
+ "caseModule": {
+  "caseTab": false,
+  "hasCaseWord": false,
+  "imgs": 109,
+  "sameStyle": 0
+ },
+ "controls": [
+  {
+   "ariaValueNow": null,
+   "checked": null,
+   "disabled": false,
+   "label": "250 购 买",
+   "options": null,
+   "placeholder": null,
+   "r": {
+    "h": 32,
+    "w": 44,
+    "x": 1696,
+    "y": 64
+   },
+   "role": null,
+   "selected": null,
+   "state": "",
+   "tag": "button",
+   "text": "购 买",
+   "type": "button",
+   "value": null
+  },
+  {
+   "ariaValueNow": null,
+   "checked": null,
+   "disabled": false,
+   "label": "上传商品图 或拖拽/粘贴图片到此处",
+   "options": null,
+   "placeholder": null,
+   "r": {
+    "h": 32,
+    "w": 122,
+    "x": 811,
+    "y": 157
+   },
+   "role": null,
+   "selected": null,
+   "state": "",
+   "tag": "button",
+   "text": "上传商品图",
+   "type": "button",
+   "value": null
+  },
+  {
+   "ariaValueNow": null,
+   "checked": null,
+   "disabled": false,
+   "label": "搜索标签关键词",
+   "options": null,
+   "placeholder": "搜索标签关键词",
+   "r": {
+    "h": 27,
+    "w": 154,
+    "x": 1422,
+    "y": 372
+   },
+   "role": null,
+   "selected": null,
+   "state": "",
+   "tag": "input",
+   "text": "",
+   "type": "text",
+   "value": ""
+  },
+  {
+   "ariaValueNow": null,
+   "checked": null,
+   "disabled": false,
+   "label": "默认",
+   "options": null,
+   "placeholder": "名称",
+   "r": {
+    "h": 26,
+    "w": 74,
+    "x": 1151,
+    "y": 435
+   },
+   "role": null,
+   "selected": null,
+   "state": "",
+   "tag": "input",
+   "text": "",
+   "type": "text",
+   "value": "LinkFox 默认"
+  },
+  {
+   "ariaValueNow": null,
+   "checked": null,
+   "disabled": false,
+   "label": "默认",
+   "options": null,
+   "placeholder": "水印文案",
+   "r": {
+    "h": 26,
+    "w": 138,
+    "x": 1231,
+    "y": 435
+   },
+   "role": null,
+   "selected": null,
+   "state": "",
+   "tag": "input",
+   "text": "",
+   "type": "text",
+   "value": "本图片由 LinkFox AI 生成"
+  },
+  {
+   "ariaValueNow": null,
+   "checked": null,
+   "disabled": false,
+   "label": "默认",
+   "options": null,
+   "placeholder": null,
+   "r": {
+    "h": 24,
+    "w": 40,
+    "x": 1375,
+    "y": 436
+   },
+   "role": null,
+   "selected": null,
+   "state": "",
+   "tag": "button",
+   "text": "默认",
+   "type": "submit",
+   "value": null
+  },
+  {
+   "ariaValueNow": null,
+   "checked": null,
+   "disabled": false,
+   "label": "默认",
+   "options": null,
+   "placeholder": null,
+   "r": {
+    "h": 24,
+    "w": 24,
+    "x": 1421,
+    "y": 436
+   },
+   "role": null,
+   "selected": null,
+   "state": "",
+   "tag": "button",
+   "text": "",
+   "type": "submit",
+   "value": null
+  },
+  {
+   "ariaValueNow": null,
+   "checked": null,
+   "disabled": false,
+   "label": "管理水印分组 共 1/20 个 默认 ＋ 新增水印分组",
+   "options": null,
+   "placeholder": null,
+   "r": {
+    "h": 35,
+    "w": 294,
+    "x": 1151,
+    "y": 471
+   },
+   "role": null,
+   "selected": null,
+   "state": "",
+   "tag": "button",
+   "text": "＋ 新增水印分组",
+   "type": "submit",
+   "value": null
+  }
+ ],
+ "optionGroups": [
+  {
+   "active": [],
+   "count": 2,
+   "label": "",
+   "options": [
+    "用",
+    "用户6991 个人账号"
+   ],
+   "r": {
+    "h": 36,
+    "w": 118,
+    "x": 1755,
+    "y": 62
+   }
+  },
+  {
+   "active": [],
+   "count": 2,
+   "label": "用",
+   "options": [
+    "用户6991",
+    "个人账号"
+   ],
+   "r": {
+    "h": 36,
+    "w": 61,
+    "x": 1796,
+    "y": 62
+   }
+  },
+  {
+   "active": [
+    "商品图"
+   ],
+   "count": 8,
+   "label": "",
+   "options": [
+    "商品图",
+    "我的商品",
+    "场景参考图",
+    "商品替换",
+    "场景裂变",
+    "手持商品",
+    "历史记录",
+    "企业功能 批量生图"
+   ],
+   "r": {
+    "h": 758,
+    "w": 179,
+    "x": 0,
+    "y": 110
+   }
+  },
+  {
+   "active": [],
+   "count": 10,
+   "label": "场景参考图 排序： 智能推荐 按收藏时间 按素材热度",
+   "options": [
+    "日用百货",
+    "家居家装",
+    "服饰箱包",
+    "美妆个护",
+    "家用电器",
+    "玩具类目",
+    "儿童 & 母婴",
+    "3C数码",
+    "办公用品",
+    "运动户外"
+   ],
+   "r": {
+    "h": 22,
+    "w": 1644,
+    "x": 190,
+    "y": 420
+   }
+  },
+  {
+   "active": [],
+   "count": 2,
+   "label": "首页 电商套图 智能修图 新模型 AI视频 HOT 批量生图 商品图设计 Ski",
+   "options": [
+    "操作咨询",
+    "产品教程"
+   ],
+   "r": {
+    "h": 90,
+    "w": 101,
+    "x": 1797,
+    "y": 481
+   }
+  }
+ ],
+ "title": "LinkFox官网 - 跨境电商AI运营助手 - AI选品AI作图AI视频AI Agent OS",
+ "url": "https://www.linkfox.com/draw/product-home",
+ "capture": {
+  "side": "real",
+  "url": "https://www.linkfox.com/draw/product-home",
+  "ready": true,
+  "sec": 16.6
+ }
+}

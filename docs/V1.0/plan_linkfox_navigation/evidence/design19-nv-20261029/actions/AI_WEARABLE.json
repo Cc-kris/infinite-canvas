@@ -1,0 +1,70 @@
+{
+  "toolId": "AI_WEARABLE",
+  "route": "/tools/product-design/ai-wearable",
+  "steps": {
+    "dockItems": 1,
+    "surface": "result",
+    "resultImg": null,
+    "historyText": 1,
+    "before": {
+      "assetCount": 0,
+      "lastAsset": null,
+      "projectCount": 0,
+      "lastProject": null
+    },
+    "downloadBtn": "[data-testid=\"tool-history-dock-download\"]*toggled",
+    "download": {
+      "file": {
+        "name": "ai-wearable-result-1.png",
+        "bytes": 1641506
+      },
+      "busy": {
+        "busySeen": false,
+        "disabledNow": 0
+      }
+    },
+    "saveBtn": "[data-testid=\"tool-history-dock-save\"]",
+    "saveFeedback": "已存入资产库（image · s1EDJIBhO1Ffqj356hGa9）",
+    "save": {
+      "before": 0,
+      "after": 1,
+      "lastAsset": {
+        "id": "s1EDJIBhO1Ffqj356hGa9",
+        "kind": "image",
+        "bytes": 1641506,
+        "toolId": "AI_WEARABLE"
+      },
+      "busy": {
+        "busySeen": false,
+        "disabledNow": 0
+      }
+    },
+    "canvasBtn": "[data-testid=\"tool-history-dock-canvas\"]",
+    "canvasFeedback": "已发送到画布（pXnkz6M200DXEPTrcKGwc / image-1793250115835-l97zi）",
+    "canvas": {
+      "before": 0,
+      "after": 1,
+      "lastProject": {
+        "id": "pXnkz6M200DXEPTrcKGwc",
+        "nodeCount": 1,
+        "lastNodeBytes": 1641506,
+        "lastNodeType": "image"
+      },
+      "busy": {
+        "busySeen": false,
+        "disabledNow": 0
+      }
+    },
+    "pageErrors": [],
+    "bytes": {
+      "source": 1641506,
+      "download": 1641506,
+      "asset": 1641506,
+      "node": 1641506
+    }
+  },
+  "ok": true,
+  "errors": [],
+  "sourceBytes": 1641506,
+  "recordedAt": "2026-10-29T05:01:56.245Z"
+}

@@ -1,0 +1,74 @@
+{
+  "toolId": "ORNAMENT_TEXT",
+  "route": "/tools/product-design/ornament-text",
+  "steps": {
+    "dockItems": 1,
+    "surface": "result",
+    "resultImg": {
+      "src": "http://127.0.0.1:8993/ORNAMENT_TEXT.png",
+      "w": 1024,
+      "h": 1024
+    },
+    "historyText": 1,
+    "before": {
+      "assetCount": 0,
+      "lastAsset": null,
+      "projectCount": 0,
+      "lastProject": null
+    },
+    "downloadBtn": "[data-testid=\"tool-result-download-0\"]",
+    "download": {
+      "file": {
+        "name": "ornament-text-result-1.png",
+        "bytes": 2540971
+      },
+      "busy": {
+        "busySeen": true,
+        "disabledNow": 0
+      }
+    },
+    "saveBtn": "[data-testid=\"tool-result-save-0\"]",
+    "saveFeedback": "已保存到资产库（V7zEJPz6Li61AysAt6tgI）",
+    "save": {
+      "before": 0,
+      "after": 1,
+      "lastAsset": {
+        "id": "V7zEJPz6Li61AysAt6tgI",
+        "kind": "image",
+        "bytes": 2540971,
+        "toolId": "ORNAMENT_TEXT"
+      },
+      "busy": {
+        "busySeen": true,
+        "disabledNow": 0
+      }
+    },
+    "canvasBtn": "[data-testid=\"tool-result-canvas-0\"]",
+    "canvasFeedback": "已发送到画布（LpDl4NTTBc8XUUeo-zklQ）",
+    "canvas": {
+      "before": 0,
+      "after": 1,
+      "lastProject": {
+        "id": "LpDl4NTTBc8XUUeo-zklQ",
+        "nodeCount": 1,
+        "lastNodeBytes": 2540971,
+        "lastNodeType": "image"
+      },
+      "busy": {
+        "busySeen": true,
+        "disabledNow": 0
+      }
+    },
+    "pageErrors": [],
+    "bytes": {
+      "source": 2540971,
+      "download": 2540971,
+      "asset": 2540971,
+      "node": 2540971
+    }
+  },
+  "ok": true,
+  "errors": [],
+  "sourceBytes": 2540971,
+  "recordedAt": "2026-10-29T04:59:58.342Z"
+}

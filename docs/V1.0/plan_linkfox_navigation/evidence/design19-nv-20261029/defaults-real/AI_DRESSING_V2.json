@@ -1,0 +1,156 @@
+{
+  "toolId": "AI_DRESSING_V2",
+  "slug": "ai-dressing-v2",
+  "real": {
+    "url": "https://www.linkfox.com/draw/ai-dressing",
+    "title": "AI穿衣 - LinkFox",
+    "loginGate": false,
+    "controls": [
+      {
+        "kind": "input:text",
+        "label": "名称",
+        "value": "LinkFox 默认"
+      },
+      {
+        "kind": "input:text",
+        "label": "水印文案",
+        "value": "本图片由 LinkFox AI 生成"
+      }
+    ],
+    "caseModule": {
+      "caseTab": 2,
+      "sameStyle": 0,
+      "hasCaseWord": true
+    }
+  },
+  "local": {
+    "url": "http://127.0.0.1:3000/tools/product-design/ai-dressing-v2",
+    "title": "无限画布",
+    "loginGate": false,
+    "controls": [
+      {
+        "kind": "select",
+        "label": "模型类型 成人模特 儿童模特",
+        "value": "adult",
+        "options": [
+          "adult=成人模特",
+          "kid=儿童模特"
+        ]
+      },
+      {
+        "kind": "select",
+        "label": "版本 V2（本页）",
+        "value": "v2",
+        "options": [
+          "v2=V2（本页）"
+        ]
+      },
+      {
+        "kind": "input:checkbox",
+        "label": "反向",
+        "value": "false"
+      },
+      {
+        "kind": "input:checkbox",
+        "label": "扩边",
+        "value": "false"
+      },
+      {
+        "kind": "input:checkbox",
+        "label": "反向",
+        "value": "false"
+      },
+      {
+        "kind": "input:checkbox",
+        "label": "扩边",
+        "value": "false"
+      },
+      {
+        "kind": "input:text",
+        "label": "可选，便于在历史里辨认",
+        "value": ""
+      },
+      {
+        "kind": "input:text",
+        "label": "留空跟随当前配置",
+        "value": ""
+      },
+      {
+        "kind": "input:checkbox",
+        "label": "保持原分辨率",
+        "value": "false"
+      },
+      {
+        "kind": "input:checkbox",
+        "label": "二次操作",
+        "value": "false"
+      },
+      {
+        "kind": "group",
+        "label": "checkbox:整件 撤销 重做 清空 反向 扩边",
+        "options": [
+          "反向",
+          "扩边",
+          "反向",
+          "扩边"
+        ],
+        "checked": []
+      },
+      {
+        "kind": "group",
+        "label": "checkbox:保持原分辨率 二次操作",
+        "options": [
+          "保持原分辨率",
+          "二次操作"
+        ],
+        "checked": []
+      },
+      {
+        "kind": "chips",
+        "label": "AI 穿衣 图片限制：10M以内，384*384 ~ 4096*4096",
+        "options": [
+          "上下装衣服",
+          "连体衣服"
+        ],
+        "active": "上下装衣服"
+      },
+      {
+        "kind": "chips",
+        "label": "生成张数 1 张 2 张 3 张 4 张 模型类型 成人模特 儿童模特 版本 V",
+        "options": [
+          "1 张",
+          "2 张",
+          "3 张",
+          "4 张"
+        ],
+        "active": "1 张"
+      }
+    ],
+    "caseModule": {
+      "caseTab": 0,
+      "sameStyle": 0,
+      "hasCaseWord": false
+    }
+  },
+  "diff": {
+    "onlyReal": [
+      "input:text|名称",
+      "input:text|水印文案"
+    ],
+    "onlyLocal": [
+      "select|模型类型 成人模特 儿童模特",
+      "select|版本 V2（本页）",
+      "input:checkbox|反向",
+      "input:checkbox|扩边",
+      "input:text|可选，便于在历史里辨认",
+      "input:text|留空跟随当前配置",
+      "input:checkbox|保持原分辨率",
+      "input:checkbox|二次操作",
+      "group|checkbox:整件 撤销 重做 清空 反向 扩边",
+      "group|checkbox:保持原分辨率 二次操作",
+      "chips|AI 穿衣 图片限制：10M以内，384*384 ~ 4",
+      "chips|生成张数 1 张 2 张 3 张 4 张 模型类型 成人"
+    ],
+    "changed": []
+  }
+}

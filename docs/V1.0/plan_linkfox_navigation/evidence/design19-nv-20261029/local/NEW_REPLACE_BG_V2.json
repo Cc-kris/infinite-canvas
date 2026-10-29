@@ -1,0 +1,1481 @@
+{
+ "url": "http://127.0.0.1:3000/tools/product-design/new-replace-bg-v2",
+ "title": "无限画布",
+ "bodyText": "无限画布\n首页\n电商套图\n智能修图\n新模型\nAI视频\nHOT\n批量生图\n商品图设计\nSkills\nAgent\n更多\n中\n切换到深色主题\nv0.27.0\n商品图设计\n商品图\n商品替换\n场景裂变\n手持商品\nAI穿衣\n姿势裂变\nAI穿戴\nPOD素材\n饰品文字\n素材贴合\n印花提取\nAI姿势生成\n补充\nAI试衣XSY\n补充\n场景裂变链接\n补充\n图片文字编辑\n补充\n上装换料\n补充\n商品图设计器\n补充\n商品营销素材\n补充\n场景迁移\n补充\n免责声明\n商品图设计 / 商品图\n商品图\n/tools/product-design/new-replace-bg-v2\n流程\n上传 → 抠图确认 → 场景 → 结果\n1. 上传商品\n2. 抠图确认\n3. 场景模板 / 自定义\n4. 结果网格\n商品层（必填）\npng / jpeg / webp · 20M 以内\n上传商品图\n0 / 1 个 · PNG / JPG / WebP · ≤ 20 MB\n点击选择本地文件，或拖拽到这里\n校验格式 / 大小 / 像素，入库后可刷新恢复\n还没有素材\n抠图确认\n先拿素材证据，再点确认\n画主体蒙版\n已是透明底 PNG\n上传主体蒙版（白=主体）\n0 / 1 个 · PNG · ≤ 8.0 MB\n点击选择本地文件，或拖拽到这里\n校验格式 / 大小 / 像素，入库后可刷新恢复\n还没有素材\n请先在商品图上涂出主体，生成蒙版后再确认抠图。\n确认抠图\n场景类型\n推荐模板 / 自定义背景\n推荐场景\n自定义背景\n影棚白底\n干净纯白，适合主图\n大理石台面\n香化 / 饰品常用\n原木桌面\n家居 / 食品\n户外草地\n户外 / 运动\n家居客厅\n大件商品\n浴室台面\n个护 / 洗护\n纯色渐变\n电商海报\n节日氛围\n礼赠场景\n融合强度\n偏强（更融入场景）\n70%\n输出规格\n比例 / 数量\n1:1\n4:5\n3:4\n16:9\n9:16\n1 张\n2 张\n4 张\n1024×1024\n合成画布\n商品层按位置/缩放/旋转叠在场景层上\n干净的纯白影棚背景，柔和顶光与轻微接地阴影，商品居中，商业产品摄影\n位置 50% / 56%，缩放 100%，旋转 0°\n↶\n↷\n无可撤销步骤 · 无可重做步骤\n横向位置 50%\n纵向位置 56%\n缩放 100%\n旋转 0°\n复位变换\n锁定抠图边缘 开\n图层\n可见 / 锁定\n背景层场景模板或自定义背景，决定光线与台面\n可见\n未锁\n恢复\n商品层抠图后的商品主体，可拖动 / 缩放 / 旋转\n可见\n未锁\n恢复\n材质层台面材质与接触阴影，跟着背景走\n可见\n未锁\n恢复\n锁定层锁住的区域不参与重绘，保护商品轮廓\n可见\n已锁\n恢复\n默认图层：4 层可见 / 共 4 层\n请求参数（真实下发）\ncanvasData / sizeData / imageRecords\n1024×1024 @ 1:1 · 1 张 · 4 层可见 · px\n参考图 0 张：未选择\n展开提示词与 canvasData\n提交\n先补齐拦截项\n· 请先上传商品图。\n· 请先在商品图上涂出主体，生成蒙版后再确认抠图。\n生成 1 张\n模型：GPT Image 2\n结果\n按输出数量分格展示\n待生成\n商品图结果\n还没有生成结果\n填好参数并提交后，结果会出现在这里，可预览、下载、存入资产库或发送到画布。\n本次提交快照\n提交时锁定的参数；结果与快照不一致会标记为旧版本\n还没有提交过任务；提交后这里会显示本次锁定的场景 / 强度 / 图层 / 输出规格。\n历史任务\n0 条\n本工具还没有历史任务；提交一次后会在这里留下任务、配置与结果，刷新后仍在。\n连接本地 Agent\n未连接\n点连接会自动启动本地服务、装好插件并接通，无需手动配置。\nClaude Code\n未连接\n·\nCLI · 2.1.285 (Claude Code)\n·\n直接运行\n连接\nCodex\n未连接\n·\nCLI · codex-cli 0.163.0\n·\n插件已装\n连接\nGalley\n未连接\n·\nCLI + 桌面版 · galley 0.6.4\n连接",
+ "controls": [
+  {
+   "tag": "button",
+   "type": "button",
+   "role": null,
+   "label": "更多",
+   "text": "更多",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 954,
+    "y": 0,
+    "w": 47,
+    "h": 60
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": null,
+   "label": "中 切换到深色主题 v0.27.0",
+   "text": "",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 1190,
+    "y": 14,
+    "w": 32,
+    "h": 32
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": null,
+   "label": "中 切换到深色主题 v0.27.0",
+   "text": "",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 1230,
+    "y": 16,
+    "w": 28,
+    "h": 28
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": null,
+   "label": "中 切换到深色主题 v0.27.0",
+   "text": "中",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 1262,
+    "y": 16,
+    "w": 28,
+    "h": 28
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": null,
+   "label": "中 切换到深色主题 v0.27.0",
+   "text": "切换到深色主题",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 1294,
+    "y": 16,
+    "w": 28,
+    "h": 28
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": null,
+   "label": "中 切换到深色主题 v0.27.0",
+   "text": "v0.27.0",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 1326,
+    "y": 19,
+    "w": 47,
+    "h": 22
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": null,
+   "label": "画主体蒙版 已是透明底 PNG",
+   "text": "画主体蒙版",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 213,
+    "y": 577,
+    "w": 88,
+    "h": 32
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": null,
+   "label": "画主体蒙版 已是透明底 PNG",
+   "text": "已是透明底 PNG",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 309,
+    "y": 577,
+    "w": 121,
+    "h": 32
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": null,
+   "label": "请先在商品图上涂出主体，生成蒙版后再确认抠图。 确认抠图",
+   "text": "确认抠图",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": true,
+   "r": {
+    "x": 675,
+    "y": 782,
+    "w": 74,
+    "h": 32
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": null,
+   "label": "推荐场景 自定义背景",
+   "text": "推荐场景",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 213,
+    "y": 887,
+    "w": 74,
+    "h": 32
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": null,
+   "label": "推荐场景 自定义背景",
+   "text": "自定义背景",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 295,
+    "y": 887,
+    "w": 88,
+    "h": 32
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": null,
+   "label": "影棚白底 干净纯白，适合主图 大理石台面 香化 / 饰品常用 原木桌面 家居 / 食品 户外草地 户外 / 运动 家居客",
+   "text": "影棚白底 干净纯白，适合主图",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 213,
+    "y": 927,
+    "w": 264,
+    "h": 58
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": null,
+   "label": "影棚白底 干净纯白，适合主图 大理石台面 香化 / 饰品常用 原木桌面 家居 / 食品 户外草地 户外 / 运动 家居客",
+   "text": "大理石台面 香化 / 饰品常用",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 485,
+    "y": 927,
+    "w": 264,
+    "h": 58
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": null,
+   "label": "影棚白底 干净纯白，适合主图 大理石台面 香化 / 饰品常用 原木桌面 家居 / 食品 户外草地 户外 / 运动 家居客",
+   "text": "原木桌面 家居 / 食品",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 213,
+    "y": 993,
+    "w": 264,
+    "h": 58
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": null,
+   "label": "影棚白底 干净纯白，适合主图 大理石台面 香化 / 饰品常用 原木桌面 家居 / 食品 户外草地 户外 / 运动 家居客",
+   "text": "户外草地 户外 / 运动",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 485,
+    "y": 993,
+    "w": 264,
+    "h": 58
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": null,
+   "label": "影棚白底 干净纯白，适合主图 大理石台面 香化 / 饰品常用 原木桌面 家居 / 食品 户外草地 户外 / 运动 家居客",
+   "text": "家居客厅 大件商品",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 213,
+    "y": 1059,
+    "w": 264,
+    "h": 58
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": null,
+   "label": "影棚白底 干净纯白，适合主图 大理石台面 香化 / 饰品常用 原木桌面 家居 / 食品 户外草地 户外 / 运动 家居客",
+   "text": "浴室台面 个护 / 洗护",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 485,
+    "y": 1059,
+    "w": 264,
+    "h": 58
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": null,
+   "label": "影棚白底 干净纯白，适合主图 大理石台面 香化 / 饰品常用 原木桌面 家居 / 食品 户外草地 户外 / 运动 家居客",
+   "text": "纯色渐变 电商海报",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 213,
+    "y": 1125,
+    "w": 264,
+    "h": 58
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": null,
+   "label": "影棚白底 干净纯白，适合主图 大理石台面 香化 / 饰品常用 原木桌面 家居 / 食品 户外草地 户外 / 运动 家居客",
+   "text": "节日氛围 礼赠场景",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 485,
+    "y": 1125,
+    "w": 264,
+    "h": 58
+   }
+  },
+  {
+   "tag": "input",
+   "type": "range",
+   "role": null,
+   "label": "70%",
+   "text": "",
+   "value": "0.7",
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 213,
+    "y": 1256,
+    "w": 491,
+    "h": 16
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": null,
+   "label": "1:1 4:5 3:4 16:9 9:16",
+   "text": "1:1",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 213,
+    "y": 1345,
+    "w": 35,
+    "h": 32
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": null,
+   "label": "1:1 4:5 3:4 16:9 9:16",
+   "text": "4:5",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 256,
+    "y": 1345,
+    "w": 40,
+    "h": 32
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": null,
+   "label": "1:1 4:5 3:4 16:9 9:16",
+   "text": "3:4",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 303,
+    "y": 1345,
+    "w": 40,
+    "h": 32
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": null,
+   "label": "1:1 4:5 3:4 16:9 9:16",
+   "text": "16:9",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 351,
+    "y": 1345,
+    "w": 46,
+    "h": 32
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": null,
+   "label": "1:1 4:5 3:4 16:9 9:16",
+   "text": "9:16",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 405,
+    "y": 1345,
+    "w": 46,
+    "h": 32
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": null,
+   "label": "1 张 2 张 4 张 1024×1024",
+   "text": "1 张",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 213,
+    "y": 1385,
+    "w": 42,
+    "h": 32
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": null,
+   "label": "1 张 2 张 4 张 1024×1024",
+   "text": "2 张",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 263,
+    "y": 1385,
+    "w": 44,
+    "h": 32
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": null,
+   "label": "1 张 2 张 4 张 1024×1024",
+   "text": "4 张",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 315,
+    "y": 1385,
+    "w": 45,
+    "h": 32
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": null,
+   "label": "↶ ↷ 无可撤销步骤 · 无可重做步骤",
+   "text": "↶",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": true,
+   "r": {
+    "x": 787,
+    "y": 873,
+    "w": 40,
+    "h": 40
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": null,
+   "label": "↶ ↷ 无可撤销步骤 · 无可重做步骤",
+   "text": "↷",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": true,
+   "r": {
+    "x": 835,
+    "y": 873,
+    "w": 40,
+    "h": 40
+   }
+  },
+  {
+   "tag": "input",
+   "type": "range",
+   "role": null,
+   "label": "横向位置 50%",
+   "text": "",
+   "value": "0.5",
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 787,
+    "y": 939,
+    "w": 306,
+    "h": 16
+   }
+  },
+  {
+   "tag": "input",
+   "type": "range",
+   "role": null,
+   "label": "纵向位置 56%",
+   "text": "",
+   "value": "0.56",
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 1101,
+    "y": 939,
+    "w": 306,
+    "h": 16
+   }
+  },
+  {
+   "tag": "input",
+   "type": "range",
+   "role": null,
+   "label": "缩放 100%",
+   "text": "",
+   "value": "1",
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 787,
+    "y": 984,
+    "w": 306,
+    "h": 16
+   }
+  },
+  {
+   "tag": "input",
+   "type": "range",
+   "role": null,
+   "label": "旋转 0°",
+   "text": "",
+   "value": "0",
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 1101,
+    "y": 984,
+    "w": 306,
+    "h": 16
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": null,
+   "label": "复位变换 锁定抠图边缘 开",
+   "text": "复位变换",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 787,
+    "y": 1013,
+    "w": 74,
+    "h": 32
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": null,
+   "label": "复位变换 锁定抠图边缘 开",
+   "text": "锁定抠图边缘 开",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 869,
+    "y": 1013,
+    "w": 120,
+    "h": 32
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": null,
+   "label": "背景层场景模板或自定义背景，决定光线与台面 可见 未锁 恢复",
+   "text": "可见",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 1262,
+    "y": 1123,
+    "w": 40,
+    "h": 27
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": null,
+   "label": "背景层场景模板或自定义背景，决定光线与台面 可见 未锁 恢复",
+   "text": "未锁",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 1310,
+    "y": 1123,
+    "w": 40,
+    "h": 27
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": null,
+   "label": "背景层场景模板或自定义背景，决定光线与台面 可见 未锁 恢复",
+   "text": "恢复",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 1358,
+    "y": 1123,
+    "w": 40,
+    "h": 27
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": null,
+   "label": "商品层抠图后的商品主体，可拖动 / 缩放 / 旋转 可见 未锁 恢复",
+   "text": "可见",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 1262,
+    "y": 1164,
+    "w": 40,
+    "h": 27
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": null,
+   "label": "商品层抠图后的商品主体，可拖动 / 缩放 / 旋转 可见 未锁 恢复",
+   "text": "未锁",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 1310,
+    "y": 1164,
+    "w": 40,
+    "h": 27
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": null,
+   "label": "商品层抠图后的商品主体，可拖动 / 缩放 / 旋转 可见 未锁 恢复",
+   "text": "恢复",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 1358,
+    "y": 1164,
+    "w": 40,
+    "h": 27
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": null,
+   "label": "材质层台面材质与接触阴影，跟着背景走 可见 未锁 恢复",
+   "text": "可见",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 1262,
+    "y": 1205,
+    "w": 40,
+    "h": 27
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": null,
+   "label": "材质层台面材质与接触阴影，跟着背景走 可见 未锁 恢复",
+   "text": "未锁",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 1310,
+    "y": 1205,
+    "w": 40,
+    "h": 27
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": null,
+   "label": "材质层台面材质与接触阴影，跟着背景走 可见 未锁 恢复",
+   "text": "恢复",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 1358,
+    "y": 1205,
+    "w": 40,
+    "h": 27
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": null,
+   "label": "锁定层锁住的区域不参与重绘，保护商品轮廓 可见 已锁 恢复",
+   "text": "可见",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 1262,
+    "y": 1246,
+    "w": 40,
+    "h": 27
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": null,
+   "label": "锁定层锁住的区域不参与重绘，保护商品轮廓 可见 已锁 恢复",
+   "text": "已锁",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 1310,
+    "y": 1246,
+    "w": 40,
+    "h": 27
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": null,
+   "label": "锁定层锁住的区域不参与重绘，保护商品轮廓 可见 已锁 恢复",
+   "text": "恢复",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 1358,
+    "y": 1246,
+    "w": 40,
+    "h": 27
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": null,
+   "label": "生成 1 张 模型：GPT Image 2",
+   "text": "生成 1 张",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": true,
+   "r": {
+    "x": 787,
+    "y": 1593,
+    "w": 80,
+    "h": 34
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": null,
+   "label": "连接本地 Agent 未连接 点连接会自动启动本地服务、装好插件并接通，无需手动配置。 Claude Code 未连接 ",
+   "text": "",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 1433,
+    "y": 0,
+    "w": 16,
+    "h": 900
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": null,
+   "label": "Agent未连接",
+   "text": "未连接",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 1485,
+    "y": 8,
+    "w": 32,
+    "h": 32
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": "tab",
+   "label": "对话历史技能日志",
+   "text": "对话",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "false",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 1594,
+    "y": 0,
+    "w": 32,
+    "h": 48
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": "tab",
+   "label": "对话历史技能日志",
+   "text": "历史",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "false",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 1628,
+    "y": 0,
+    "w": 32,
+    "h": 48
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": "tab",
+   "label": "对话历史技能日志",
+   "text": "技能",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "false",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 1662,
+    "y": 0,
+    "w": 32,
+    "h": 48
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": "tab",
+   "label": "对话历史技能日志",
+   "text": "日志",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "false",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 1696,
+    "y": 0,
+    "w": 32,
+    "h": 48
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": null,
+   "label": "新对话",
+   "text": "新对话",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": true,
+   "r": {
+    "x": 1804,
+    "y": 8,
+    "w": 32,
+    "h": 32
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": null,
+   "label": "新对话",
+   "text": "",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 1840,
+    "y": 8,
+    "w": 32,
+    "h": 32
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": null,
+   "label": "Claude Code 未连接 · CLI · 2.1.285 (Claude Code) · 直接运行 连接",
+   "text": "连接",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 1785,
+    "y": 147,
+    "w": 66,
+    "h": 24
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": null,
+   "label": "Codex 未连接 · CLI · codex-cli 0.163.0 · 插件已装 连接",
+   "text": "连接",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 1785,
+    "y": 215,
+    "w": 66,
+    "h": 24
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": null,
+   "label": "Galley 未连接 · CLI + 桌面版 · galley 0.6.4 连接",
+   "text": "连接",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 1785,
+    "y": 283,
+    "w": 66,
+    "h": 24
+   }
+  }
+ ],
+ "antSelected": [],
+ "optionGroups": [
+  {
+   "label": "",
+   "options": [
+    "Skills",
+    "Agent"
+   ],
+   "active": [],
+   "count": 2,
+   "r": {
+    "x": 234,
+    "y": 0,
+    "w": 735,
+    "h": 59
+   }
+  },
+  {
+   "label": "无限画布 首页 电商套图 智能修图 新模型 AI视频 HOT 批量生图 商品图设",
+   "options": [
+    "中",
+    "切换到深色主题",
+    "v0.27.0"
+   ],
+   "active": [],
+   "count": 3,
+   "r": {
+    "x": 1230,
+    "y": 16,
+    "w": 175,
+    "h": 28
+   }
+  },
+  {
+   "label": "印花提取",
+   "options": [
+    "AI姿势生成",
+    "补充"
+   ],
+   "active": [],
+   "count": 2,
+   "r": {
+    "x": 0,
+    "y": 500,
+    "w": 179,
+    "h": 40
+   }
+  },
+  {
+   "label": "AI姿势生成 补充",
+   "options": [
+    "AI试衣XSY",
+    "补充"
+   ],
+   "active": [],
+   "count": 2,
+   "r": {
+    "x": 0,
+    "y": 540,
+    "w": 179,
+    "h": 40
+   }
+  },
+  {
+   "label": "AI试衣XSY 补充",
+   "options": [
+    "场景裂变链接",
+    "补充"
+   ],
+   "active": [],
+   "count": 2,
+   "r": {
+    "x": 0,
+    "y": 580,
+    "w": 179,
+    "h": 40
+   }
+  },
+  {
+   "label": "场景裂变链接 补充",
+   "options": [
+    "图片文字编辑",
+    "补充"
+   ],
+   "active": [],
+   "count": 2,
+   "r": {
+    "x": 0,
+    "y": 620,
+    "w": 179,
+    "h": 40
+   }
+  },
+  {
+   "label": "图片文字编辑 补充",
+   "options": [
+    "上装换料",
+    "补充"
+   ],
+   "active": [],
+   "count": 2,
+   "r": {
+    "x": 0,
+    "y": 660,
+    "w": 179,
+    "h": 40
+   }
+  },
+  {
+   "label": "上装换料 补充",
+   "options": [
+    "商品图设计器",
+    "补充"
+   ],
+   "active": [],
+   "count": 2,
+   "r": {
+    "x": 0,
+    "y": 700,
+    "w": 179,
+    "h": 40
+   }
+  },
+  {
+   "label": "商品图设计器 补充",
+   "options": [
+    "商品营销素材",
+    "补充"
+   ],
+   "active": [],
+   "count": 2,
+   "r": {
+    "x": 0,
+    "y": 740,
+    "w": 179,
+    "h": 40
+   }
+  },
+  {
+   "label": "商品营销素材 补充",
+   "options": [
+    "场景迁移",
+    "补充"
+   ],
+   "active": [],
+   "count": 2,
+   "r": {
+    "x": 0,
+    "y": 780,
+    "w": 179,
+    "h": 40
+   }
+  },
+  {
+   "label": "上传商品图 0 / 1 个 · PNG / JPG / WebP · ≤ 20 ",
+   "options": [
+    "点击选择本地文件，或拖拽到这里",
+    "校验格式 / 大小 / 像素，入"
+   ],
+   "active": [],
+   "count": 2,
+   "r": {
+    "x": 213,
+    "y": 378,
+    "w": 536,
+    "h": 86
+   }
+  },
+  {
+   "label": "上传主体蒙版（白=主体） 0 / 1 个 · PNG · ≤ 8.0 MB",
+   "options": [
+    "点击选择本地文件，或拖拽到这里",
+    "校验格式 / 大小 / 像素，入"
+   ],
+   "active": [],
+   "count": 2,
+   "r": {
+    "x": 213,
+    "y": 656,
+    "w": 536,
+    "h": 86
+   }
+  },
+  {
+   "label": "Agent未连接",
+   "options": [
+    "对话",
+    "历史",
+    "技能",
+    "日志"
+   ],
+   "active": [],
+   "count": 4,
+   "r": {
+    "x": 1521,
+    "y": 0,
+    "w": 279,
+    "h": 48
+   }
+  }
+ ],
+ "caseModule": {
+  "caseTab": false,
+  "hasCaseWord": false,
+  "sameStyle": 0,
+  "imgs": 1
+ },
+ "capture": {
+  "side": "local",
+  "url": "http://127.0.0.1:3000/tools/product-design/new-replace-bg-v2",
+  "ready": true,
+  "ms": 7625,
+  "errors": []
+ }
+}

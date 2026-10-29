@@ -1,0 +1,482 @@
+{
+ "antSelected": [
+  {
+   "cls": "ant-tabs-tab ant-tabs-tab-active",
+   "text": "姿势库"
+  },
+  {
+   "cls": "ant-tabs-tab ant-tabs-tab-active",
+   "text": "生成结果"
+  }
+ ],
+ "bodyText": "首页\n电商套图\n智能修图\n新模型\nAI视频\nHOT\n批量生图\n商品图设计\nSkills\nAgent\n更多\n学习中心\n免费得算力\n250\n购 买\n用\n用户6991\n个人账号\n真人换模特\n模特换场景\nAI穿衣\n姿势裂变\nAI穿戴\n历史记录\n企业功能\n批量生图\n即将下架\n人台换模特\n下架\n 免责声明\n图片规则\n拖拽/粘贴 或 上传模特姿势图\n从本地上传\n从作品库选择\n从商品库选择\n10M以内，384*384 ~ 4096*4096\n或试试这些\n上传多张图片，开始批量姿势裂变\n姿势库\n自定义\n选择姿势（可选）\n生成图片的模特姿势\n选择生成张数\n1\n2\n3\n4\n立即生成\n(40算力)\n生成结果\n历史记录\n📸 1 张模特图→N 种姿势套图！告别重复拍摄成本，秒变视觉内容高产能手！\n上传模特图\n选择参考图\n生成结果\n一键做同款\n第一步：选择示例图或上传模特姿势图片\n我是高手，不再提醒\n操作咨询\n产品教程\n管理水印分组\n共 1/20 个\n默认\n＋ 新增水印分组",
+ "caseModule": {
+  "caseTab": false,
+  "hasCaseWord": false,
+  "imgs": 16,
+  "sameStyle": 1
+ },
+ "controls": [
+  {
+   "ariaValueNow": null,
+   "checked": null,
+   "disabled": false,
+   "label": "250 购 买",
+   "options": null,
+   "placeholder": null,
+   "r": {
+    "h": 32,
+    "w": 44,
+    "x": 1696,
+    "y": 64
+   },
+   "role": null,
+   "selected": null,
+   "state": "",
+   "tag": "button",
+   "text": "购 买",
+   "type": "button",
+   "value": null
+  },
+  {
+   "ariaValueNow": null,
+   "checked": null,
+   "disabled": false,
+   "label": "图片规则 拖拽/粘贴 或 上传模特姿势图 从本地上传 从作品库选择 从商品库选择 10M以内，384*384 ~ 409",
+   "options": null,
+   "placeholder": null,
+   "r": {
+    "h": 24,
+    "w": 80,
+    "x": 383,
+    "y": 141
+   },
+   "role": null,
+   "selected": null,
+   "state": "",
+   "tag": "button",
+   "text": "图片规则",
+   "type": "button",
+   "value": null
+  },
+  {
+   "ariaValueNow": null,
+   "checked": null,
+   "disabled": false,
+   "label": "从本地上传 从作品库选择 从商品库选择",
+   "options": null,
+   "placeholder": null,
+   "r": {
+    "h": 24,
+    "w": 214,
+    "x": 233,
+    "y": 234
+   },
+   "role": null,
+   "selected": null,
+   "state": "",
+   "tag": "button",
+   "text": "从本地上传",
+   "type": "button",
+   "value": null
+  },
+  {
+   "ariaValueNow": null,
+   "checked": null,
+   "disabled": false,
+   "label": "从作品库选择 从商品库选择",
+   "options": null,
+   "placeholder": null,
+   "r": {
+    "h": 24,
+    "w": 102,
+    "x": 233,
+    "y": 268
+   },
+   "role": null,
+   "selected": null,
+   "state": "",
+   "tag": "button",
+   "text": "从作品库选择",
+   "type": "button",
+   "value": null
+  },
+  {
+   "ariaValueNow": null,
+   "checked": null,
+   "disabled": false,
+   "label": "从作品库选择 从商品库选择",
+   "options": null,
+   "placeholder": null,
+   "r": {
+    "h": 24,
+    "w": 102,
+    "x": 345,
+    "y": 268
+   },
+   "role": null,
+   "selected": null,
+   "state": "",
+   "tag": "button",
+   "text": "从商品库选择",
+   "type": "button",
+   "value": null
+  },
+  {
+   "ariaValueNow": null,
+   "checked": null,
+   "disabled": false,
+   "label": "图片规则 拖拽/粘贴 或 上传模特姿势图 从本地上传 从作品库选择 从商品库选择 10M以内，384*384 ~ 409",
+   "options": null,
+   "placeholder": null,
+   "r": {
+    "h": 32,
+    "w": 268,
+    "x": 206,
+    "y": 451
+   },
+   "role": null,
+   "selected": null,
+   "state": "",
+   "tag": "button",
+   "text": "上传多张图片，开始批量姿势裂变",
+   "type": "button",
+   "value": null
+  },
+  {
+   "ariaValueNow": null,
+   "checked": null,
+   "disabled": false,
+   "label": "姿势库",
+   "options": null,
+   "placeholder": null,
+   "r": {
+    "h": 22,
+    "w": 42,
+    "x": 208,
+    "y": 497
+   },
+   "role": "tab",
+   "selected": null,
+   "state": "true",
+   "tag": "div",
+   "text": "姿势库",
+   "type": "",
+   "value": null
+  },
+  {
+   "ariaValueNow": null,
+   "checked": null,
+   "disabled": false,
+   "label": "自定义",
+   "options": null,
+   "placeholder": null,
+   "r": {
+    "h": 22,
+    "w": 42,
+    "x": 264,
+    "y": 497
+   },
+   "role": "tab",
+   "selected": null,
+   "state": "false",
+   "tag": "div",
+   "text": "自定义",
+   "type": "",
+   "value": null
+  },
+  {
+   "ariaValueNow": null,
+   "checked": null,
+   "disabled": false,
+   "label": "立即生成 (40算力)",
+   "options": null,
+   "placeholder": null,
+   "r": {
+    "h": 32,
+    "w": 268,
+    "x": 206,
+    "y": 850
+   },
+   "role": null,
+   "selected": null,
+   "state": "",
+   "tag": "button",
+   "text": "立即生成 (40算力)",
+   "type": "button",
+   "value": null
+  },
+  {
+   "ariaValueNow": null,
+   "checked": null,
+   "disabled": false,
+   "label": "生成结果",
+   "options": null,
+   "placeholder": null,
+   "r": {
+    "h": 22,
+    "w": 56,
+    "x": 503,
+    "y": 130
+   },
+   "role": "tab",
+   "selected": null,
+   "state": "true",
+   "tag": "div",
+   "text": "生成结果",
+   "type": "",
+   "value": null
+  },
+  {
+   "ariaValueNow": null,
+   "checked": null,
+   "disabled": false,
+   "label": "上传模特图 选择参考图 生成结果 一键做同款",
+   "options": null,
+   "placeholder": null,
+   "r": {
+    "h": 40,
+    "w": 110,
+    "x": 1139,
+    "y": 751
+   },
+   "role": null,
+   "selected": null,
+   "state": "",
+   "tag": "button",
+   "text": "一键做同款",
+   "type": "button",
+   "value": null
+  },
+  {
+   "ariaValueNow": null,
+   "checked": null,
+   "disabled": false,
+   "label": "默认",
+   "options": null,
+   "placeholder": "名称",
+   "r": {
+    "h": 26,
+    "w": 74,
+    "x": 1151,
+    "y": 435
+   },
+   "role": null,
+   "selected": null,
+   "state": "",
+   "tag": "input",
+   "text": "",
+   "type": "text",
+   "value": "LinkFox 默认"
+  },
+  {
+   "ariaValueNow": null,
+   "checked": null,
+   "disabled": false,
+   "label": "默认",
+   "options": null,
+   "placeholder": "水印文案",
+   "r": {
+    "h": 26,
+    "w": 138,
+    "x": 1231,
+    "y": 435
+   },
+   "role": null,
+   "selected": null,
+   "state": "",
+   "tag": "input",
+   "text": "",
+   "type": "text",
+   "value": "本图片由 LinkFox AI 生成"
+  },
+  {
+   "ariaValueNow": null,
+   "checked": null,
+   "disabled": false,
+   "label": "默认",
+   "options": null,
+   "placeholder": null,
+   "r": {
+    "h": 24,
+    "w": 40,
+    "x": 1375,
+    "y": 436
+   },
+   "role": null,
+   "selected": null,
+   "state": "",
+   "tag": "button",
+   "text": "默认",
+   "type": "submit",
+   "value": null
+  },
+  {
+   "ariaValueNow": null,
+   "checked": null,
+   "disabled": false,
+   "label": "默认",
+   "options": null,
+   "placeholder": null,
+   "r": {
+    "h": 24,
+    "w": 24,
+    "x": 1421,
+    "y": 436
+   },
+   "role": null,
+   "selected": null,
+   "state": "",
+   "tag": "button",
+   "text": "",
+   "type": "submit",
+   "value": null
+  },
+  {
+   "ariaValueNow": null,
+   "checked": null,
+   "disabled": false,
+   "label": "管理水印分组 共 1/20 个 默认 ＋ 新增水印分组",
+   "options": null,
+   "placeholder": null,
+   "r": {
+    "h": 35,
+    "w": 294,
+    "x": 1151,
+    "y": 471
+   },
+   "role": null,
+   "selected": null,
+   "state": "",
+   "tag": "button",
+   "text": "＋ 新增水印分组",
+   "type": "submit",
+   "value": null
+  }
+ ],
+ "optionGroups": [
+  {
+   "active": [],
+   "count": 2,
+   "label": "",
+   "options": [
+    "用",
+    "用户6991 个人账号"
+   ],
+   "r": {
+    "h": 36,
+    "w": 118,
+    "x": 1755,
+    "y": 62
+   }
+  },
+  {
+   "active": [],
+   "count": 2,
+   "label": "用",
+   "options": [
+    "用户6991",
+    "个人账号"
+   ],
+   "r": {
+    "h": 36,
+    "w": 61,
+    "x": 1796,
+    "y": 62
+   }
+  },
+  {
+   "active": [
+    "姿势裂变"
+   ],
+   "count": 8,
+   "label": "",
+   "options": [
+    "真人换模特",
+    "模特换场景",
+    "AI穿衣",
+    "姿势裂变",
+    "AI穿戴",
+    "历史记录",
+    "企业功能 批量生图",
+    "即将下架 人台换模特 下架"
+   ],
+   "r": {
+    "h": 758,
+    "w": 179,
+    "x": 0,
+    "y": 110
+   }
+  },
+  {
+   "active": [],
+   "count": 2,
+   "label": "从本地上传",
+   "options": [
+    "从作品库选择",
+    "从商品库选择"
+   ],
+   "r": {
+    "h": 24,
+    "w": 214,
+    "x": 233,
+    "y": 268
+   }
+  },
+  {
+   "active": [
+    "姿势库"
+   ],
+   "count": 2,
+   "label": "",
+   "options": [
+    "姿势库",
+    "自定义"
+   ],
+   "r": {
+    "h": 30,
+    "w": 102,
+    "x": 206,
+    "y": 493
+   }
+  },
+  {
+   "active": [],
+   "count": 2,
+   "label": "",
+   "options": [
+    "立即生成",
+    "(40算力)"
+   ],
+   "r": {
+    "h": 32,
+    "w": 268,
+    "x": 206,
+    "y": 850
+   }
+  },
+  {
+   "active": [],
+   "count": 2,
+   "label": "首页 电商套图 智能修图 新模型 AI视频 HOT 批量生图 商品图设计 Ski",
+   "options": [
+    "操作咨询",
+    "产品教程"
+   ],
+   "r": {
+    "h": 90,
+    "w": 101,
+    "x": 1797,
+    "y": 481
+   }
+  }
+ ],
+ "title": "LinkFox官网 - 跨境电商AI运营助手 - AI选品AI作图AI视频AI Agent OS",
+ "url": "https://www.linkfox.com/draw/ai-posture",
+ "capture": {
+  "side": "real",
+  "url": "https://www.linkfox.com/draw/ai-posture",
+  "ready": true,
+  "sec": 16.6
+ }
+}

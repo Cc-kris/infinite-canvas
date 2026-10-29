@@ -1,0 +1,70 @@
+{
+  "toolId": "AI_POSTURE",
+  "route": "/tools/product-design/ai-posture",
+  "steps": {
+    "dockItems": 1,
+    "surface": "dock",
+    "resultImg": null,
+    "historyText": 1,
+    "before": {
+      "assetCount": 0,
+      "lastAsset": null,
+      "projectCount": 0,
+      "lastProject": null
+    },
+    "downloadBtn": "[data-testid=\"tool-history-dock-download\"]*toggled",
+    "download": {
+      "file": {
+        "name": "ai-posture-result-1.png",
+        "bytes": 972271
+      },
+      "busy": {
+        "busySeen": true,
+        "disabledNow": 0
+      }
+    },
+    "saveBtn": "[data-testid=\"tool-history-dock-save\"]",
+    "saveFeedback": "已存入资产库（image · hKcMC-eB6OAra5p5EQATC）",
+    "save": {
+      "before": 0,
+      "after": 1,
+      "lastAsset": {
+        "id": "hKcMC-eB6OAra5p5EQATC",
+        "kind": "image",
+        "bytes": 972271,
+        "toolId": "AI_POSTURE"
+      },
+      "busy": {
+        "busySeen": true,
+        "disabledNow": 0
+      }
+    },
+    "canvasBtn": "[data-testid=\"tool-history-dock-canvas\"]",
+    "canvasFeedback": "已发送到画布（7ZhaWKjDL-3rYDCx8DuMz / image-1793250100619-wfwae）",
+    "canvas": {
+      "before": 0,
+      "after": 1,
+      "lastProject": {
+        "id": "7ZhaWKjDL-3rYDCx8DuMz",
+        "nodeCount": 1,
+        "lastNodeBytes": 972271,
+        "lastNodeType": "image"
+      },
+      "busy": {
+        "busySeen": true,
+        "disabledNow": 0
+      }
+    },
+    "pageErrors": [],
+    "bytes": {
+      "source": 972271,
+      "download": 972271,
+      "asset": 972271,
+      "node": 972271
+    }
+  },
+  "ok": true,
+  "errors": [],
+  "sourceBytes": 972271,
+  "recordedAt": "2026-10-29T05:01:41.045Z"
+}

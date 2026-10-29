@@ -1,0 +1,92 @@
+{
+  "toolId": "AI_POSTURE",
+  "slug": "ai-posture",
+  "real": {
+    "url": "https://www.linkfox.com/draw/ai-posture",
+    "title": "姿势裂变 - LinkFox",
+    "loginGate": false,
+    "controls": [
+      {
+        "kind": "input:text",
+        "label": "名称",
+        "value": "LinkFox 默认"
+      },
+      {
+        "kind": "input:text",
+        "label": "水印文案",
+        "value": "本图片由 LinkFox AI 生成"
+      }
+    ],
+    "caseModule": {
+      "caseTab": 0,
+      "sameStyle": 0,
+      "hasCaseWord": false
+    }
+  },
+  "local": {
+    "url": "http://127.0.0.1:3000/tools/product-design/ai-posture",
+    "title": "无限画布",
+    "loginGate": false,
+    "controls": [
+      {
+        "kind": "input:text",
+        "label": "新增标签后回车",
+        "value": ""
+      },
+      {
+        "kind": "textarea",
+        "label": "例如：室内柔光，浅灰背景，全身构图",
+        "value": ""
+      },
+      {
+        "kind": "chips",
+        "label": "姿势库 自定义 已选 0 个姿势（将自动裂变） 全部 站姿 角度 动态 坐姿 正",
+        "options": [
+          "姿势库",
+          "自定义"
+        ],
+        "active": "姿势库"
+      },
+      {
+        "kind": "chips",
+        "label": "姿势库 自定义 已选 0 个姿势（将自动裂变）",
+        "options": [
+          "全部",
+          "正面站姿 standing straight and facing the camera, arms relaxed naturally at the sides, feet shoulder-width apart 标签：站姿 / 正面 / 全身",
+          "清空选择（改为自动裂变）"
+        ],
+        "active": "全部"
+      },
+      {
+        "kind": "chips",
+        "label": "1 2 3 4 裂变方式 自动裂变 姿势 / 张数 正面站姿×1 预计输出 1 ",
+        "options": [
+          "1",
+          "2",
+          "3",
+          "4"
+        ],
+        "active": "1"
+      }
+    ],
+    "caseModule": {
+      "caseTab": 0,
+      "sameStyle": 0,
+      "hasCaseWord": false
+    }
+  },
+  "diff": {
+    "onlyReal": [
+      "input:text|名称",
+      "input:text|水印文案"
+    ],
+    "onlyLocal": [
+      "input:text|新增标签后回车",
+      "textarea|例如：室内柔光，浅灰背景，全身构图",
+      "chips|姿势库 自定义 已选 0 个姿势（将自动裂变） 全部 站",
+      "chips|姿势库 自定义 已选 0 个姿势（将自动裂变）",
+      "chips|1 2 3 4 裂变方式 自动裂变 姿势 / 张数 正面"
+    ],
+    "changed": []
+  }
+}

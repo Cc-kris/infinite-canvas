@@ -1,0 +1,129 @@
+{
+  "REPLACE_GOODS": {
+    "real": {
+      "url": "https://www.linkfox.com/draw/product-replacement",
+      "caseTabs": [
+        {
+          "t": "优秀案例",
+          "role": "",
+          "cls": "ant-tabs-tab"
+        },
+        {
+          "t": "优秀案例",
+          "role": "tab",
+          "cls": "ant-tabs-tab-btn"
+        }
+      ],
+      "sameStyle": 0
+    },
+    "local": {
+      "url": "http://127.0.0.1:3000/tools/product-design/replace-goods",
+      "caseTabs": [],
+      "sameStyle": 0
+    }
+  },
+  "AI_DRESSING_V2": {
+    "real": {
+      "url": "https://www.linkfox.com/draw/ai-dressing",
+      "caseTabs": [
+        {
+          "t": "优秀案例",
+          "role": "",
+          "cls": "ant-tabs-tab"
+        },
+        {
+          "t": "优秀案例",
+          "role": "tab",
+          "cls": "ant-tabs-tab-btn"
+        }
+      ],
+      "sameStyle": 0
+    },
+    "local": {
+      "url": "http://127.0.0.1:3000/tools/product-design/ai-dressing-v2",
+      "caseTabs": [],
+      "sameStyle": 0
+    }
+  },
+  "AI_WEARABLE": {
+    "real": {
+      "url": "https://www.linkfox.com/draw/ai-wearable",
+      "caseTabs": [
+        {
+          "t": "优秀案例",
+          "role": "",
+          "cls": "ant-tabs-tab"
+        },
+        {
+          "t": "优秀案例",
+          "role": "tab",
+          "cls": "ant-tabs-tab-btn"
+        }
+      ],
+      "sameStyle": 0
+    },
+    "local": {
+      "url": "http://127.0.0.1:3000/tools/product-design/ai-wearable",
+      "caseTabs": [],
+      "sameStyle": 0
+    }
+  },
+  "PRODUCT_SCENE": {
+    "real": {
+      "url": "https://www.linkfox.com/draw/product-scene?type=2",
+      "caseTabs": [
+        {
+          "t": "优秀案例",
+          "role": "",
+          "cls": "ant-tabs-tab"
+        },
+        {
+          "t": "优秀案例",
+          "role": "tab",
+          "cls": "ant-tabs-tab-btn"
+        }
+      ],
+      "sameStyle": 0
+    },
+    "local": {
+      "url": "http://127.0.0.1:3000/tools/product-design/product-scene",
+      "caseTabs": [
+        {
+          "t": "优秀案例",
+          "role": "tab",
+          "cls": "h-full px-3 text-[14px] leading-none tra"
+        }
+      ],
+      "sameStyle": 0
+    }
+  },
+  "SDS_DESIGN": {
+    "real": {
+      "url": "https://www.linkfox.com/draw/sds-design",
+      "caseTabs": [
+        {
+          "t": "优秀案例",
+          "role": "",
+          "cls": "ant-tabs-tab"
+        },
+        {
+          "t": "优秀案例",
+          "role": "tab",
+          "cls": "ant-tabs-tab-btn"
+        }
+      ],
+      "sameStyle": 0
+    },
+    "local": {
+      "url": "http://127.0.0.1:3000/tools/product-design/sds-design",
+      "caseTabs": [
+        {
+          "t": "优秀案例",
+          "role": "",
+          "cls": "flex h-[41px] items-center px-0 text-[14"
+        }
+      ],
+      "sameStyle": 0
+    }
+  }
+}

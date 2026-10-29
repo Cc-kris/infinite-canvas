@@ -1,0 +1,1610 @@
+{
+ "url": "http://127.0.0.1:3000/tools/product-design/ai-wearable",
+ "title": "无限画布",
+ "bodyText": "无限画布\n首页\n电商套图\n智能修图\n新模型\nAI视频\nHOT\n批量生图\n商品图设计\nSkills\nAgent\n更多\n中\n切换到深色主题\nv0.27.0\n商品图设计\n商品图\n商品替换\n场景裂变\n手持商品\nAI穿衣\n姿势裂变\nAI穿戴\nPOD素材\n饰品文字\n素材贴合\n印花提取\nAI姿势生成\n补充\nAI试衣XSY\n补充\n场景裂变链接\n补充\n图片文字编辑\n补充\n上装换料\n补充\n商品图设计器\n补充\n商品营销素材\n补充\n场景迁移\n补充\n免责声明\n商品图设计 / AI穿戴\nAI穿戴\n/tools/product-design/ai-wearable\nAI穿戴\n选择穿戴区域，上传穿戴物品，快速将物品穿戴上身生成特写图。\n1. 上传穿戴商品\n›\n2. 商品品类\n›\n3. 穿戴模特\n›\n4. 生成张数\n›\n5. 结果\n1. 上传穿戴商品\n10M以内，384*384 ~ 4096*4096\n上传商品图\n0 / 1 个 · PNG / JPG / WebP · ≤ 10 MB\n点击选择本地文件，或拖拽到这里\n校验格式 / 大小 / 像素，入库后可刷新恢复\n还没有素材\n💡 以模特穿戴效果图作为商品图，会为 AI 提供更好的作图参考。\n商品蒙版\n圈出要穿戴的商品主体，导出 PNG 与商品图同尺寸\n撤销\n重做\n上传后在此框选蒙版\n水平位置\n垂直位置\n横向半径\n纵向半径\n2. 商品品类\n品类改变可选穿戴部位与模特过滤\n穿戴的商品品类\n首饰\n手表\n眼镜\n帽饰\n围巾\n手套\n腰带\n包袋\n穿戴部位与模特参考\n耳部\n颈部\n手腕\n手指\n检测类型\n不检测\n敏感词检测\n合规检测\n主体检测\n3. 穿戴模特\n换模特不会重新上传商品\n模特类型\n真人模特\n手部特写\n半身\n全身\n选择穿戴模特参考图\n0 / 1 个 · PNG / JPG / WebP · ≤ 20 MB\n点击选择本地文件，或拖拽到这里\n校验格式 / 大小 / 像素，入库后可刷新恢复\n还没有素材\nTips：为您的穿戴商品选择与原图角度、部位与画面占比相近的模特参考，生成的效果更好哦！\n目标蒙版\n圈出模特身上的目标穿戴区域，导出 PNG 与模特图同尺寸\n撤销\n重做\n上传后在此框选蒙版\n水平位置\n垂直位置\n横向半径\n纵向半径\n场景类型\n保持原背景\n纯白背景\n影棚\n街拍\n二次操作（沿用上次结果的模特姿态）\n生图模型\ngpt-image-2\ndefault::gpt-image-2\n4. 生成张数\n1–4 张\n1\n2\n3\n4\n立即生成（1 张 · 首饰 · 颈部）\n请先上传穿戴商品图（模特穿戴效果图更好）\n请先上传或选择穿戴模特参考图\n品类 / 模特页签 / 场景 / 检测类型为页面目录取值，chunk 枚举未确认，仅接受目录内取值\n本次提交快照\n真人模特 · 保持原背景\n把参考图中的饰品（保持宝石/金属材质与镶口细节）佩戴在模特颈部，与模特参考图合成特写级穿戴效果。 模特取景：真人模特（默认真人半身，保留原图背景）。 场景：沿用模特参考图的原始背景与光线。 保持商品的颜色、材质、文字与 Logo 完全一致；按目标蒙版区域落位，透视、遮挡、接触阴影与高光随模特姿态变化。 不要改变模特身份、体型与服装，不要新增未提供的商品，不要改变商品数量。\n主体\n1 张 · 首饰 · 颈部\n商品蒙版\nx 50% · y 50% · r 40/40%\n目标蒙版\nx 50% · y 26% · r 9/5%\n模型\n已配置\n生成结果\n本次 1 张 · 已返回 0 张\n第 1 张\n待生成\n空\n结果资产\n还没有生成结果\n填好参数并提交后，结果会出现在这里，可预览、下载、存入资产库或发送到画布。\n历史任务\n0 条\n本工具还没有历史任务；提交一次后会在这里留下任务、配置与结果，刷新后仍在。\n连接本地 Agent\n未连接\n点连接会自动启动本地服务、装好插件并接通，无需手动配置。\nClaude Code\n未连接\n·\nCLI · 2.1.285 (Claude Code)\n·\n直接运行\n连接\nCodex\n未连接\n·\nCLI · codex-cli 0.163.0\n·\n插件已装\n连接\nGalley\n未连接\n·\nCLI + 桌面版 · galley 0.6.4\n连接",
+ "controls": [
+  {
+   "tag": "button",
+   "type": "button",
+   "role": null,
+   "label": "更多",
+   "text": "更多",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 954,
+    "y": 0,
+    "w": 47,
+    "h": 60
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": null,
+   "label": "中 切换到深色主题 v0.27.0",
+   "text": "",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 1190,
+    "y": 14,
+    "w": 32,
+    "h": 32
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": null,
+   "label": "中 切换到深色主题 v0.27.0",
+   "text": "",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 1230,
+    "y": 16,
+    "w": 28,
+    "h": 28
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": null,
+   "label": "中 切换到深色主题 v0.27.0",
+   "text": "中",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 1262,
+    "y": 16,
+    "w": 28,
+    "h": 28
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": null,
+   "label": "中 切换到深色主题 v0.27.0",
+   "text": "切换到深色主题",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 1294,
+    "y": 16,
+    "w": 28,
+    "h": 28
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": null,
+   "label": "中 切换到深色主题 v0.27.0",
+   "text": "v0.27.0",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 1326,
+    "y": 19,
+    "w": 47,
+    "h": 22
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": null,
+   "label": "撤销 重做",
+   "text": "撤销",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": true,
+   "r": {
+    "x": 506,
+    "y": 517,
+    "w": 40,
+    "h": 40
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": null,
+   "label": "撤销 重做",
+   "text": "重做",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": true,
+   "r": {
+    "x": 550,
+    "y": 517,
+    "w": 40,
+    "h": 40
+   }
+  },
+  {
+   "tag": "input",
+   "type": "range",
+   "role": null,
+   "label": "水平位置",
+   "text": "",
+   "value": "0.5",
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 230,
+    "y": 1082,
+    "w": 176,
+    "h": 36
+   }
+  },
+  {
+   "tag": "input",
+   "type": "range",
+   "role": null,
+   "label": "垂直位置",
+   "text": "",
+   "value": "0.5",
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 414,
+    "y": 1082,
+    "w": 176,
+    "h": 36
+   }
+  },
+  {
+   "tag": "input",
+   "type": "range",
+   "role": null,
+   "label": "横向半径",
+   "text": "",
+   "value": "0.4",
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 230,
+    "y": 1148,
+    "w": 176,
+    "h": 36
+   }
+  },
+  {
+   "tag": "input",
+   "type": "range",
+   "role": null,
+   "label": "纵向半径",
+   "text": "",
+   "value": "0.4",
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 414,
+    "y": 1148,
+    "w": 176,
+    "h": 36
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": "radio",
+   "label": "首饰 手表 眼镜 帽饰 围巾 手套 腰带 包袋",
+   "text": "首饰",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "true",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 217,
+    "y": 1310,
+    "w": 54,
+    "h": 40
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": "radio",
+   "label": "首饰 手表 眼镜 帽饰 围巾 手套 腰带 包袋",
+   "text": "手表",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "false",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 275,
+    "y": 1310,
+    "w": 54,
+    "h": 40
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": "radio",
+   "label": "首饰 手表 眼镜 帽饰 围巾 手套 腰带 包袋",
+   "text": "眼镜",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "false",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 333,
+    "y": 1310,
+    "w": 54,
+    "h": 40
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": "radio",
+   "label": "首饰 手表 眼镜 帽饰 围巾 手套 腰带 包袋",
+   "text": "帽饰",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "false",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 391,
+    "y": 1310,
+    "w": 54,
+    "h": 40
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": "radio",
+   "label": "首饰 手表 眼镜 帽饰 围巾 手套 腰带 包袋",
+   "text": "围巾",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "false",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 449,
+    "y": 1310,
+    "w": 54,
+    "h": 40
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": "radio",
+   "label": "首饰 手表 眼镜 帽饰 围巾 手套 腰带 包袋",
+   "text": "手套",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "false",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 507,
+    "y": 1310,
+    "w": 54,
+    "h": 40
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": "radio",
+   "label": "首饰 手表 眼镜 帽饰 围巾 手套 腰带 包袋",
+   "text": "腰带",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "false",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 217,
+    "y": 1354,
+    "w": 54,
+    "h": 40
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": "radio",
+   "label": "首饰 手表 眼镜 帽饰 围巾 手套 腰带 包袋",
+   "text": "包袋",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "false",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 275,
+    "y": 1354,
+    "w": 54,
+    "h": 40
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": "radio",
+   "label": "耳部 颈部 手腕 手指",
+   "text": "耳部",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "false",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 217,
+    "y": 1435,
+    "w": 54,
+    "h": 40
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": "radio",
+   "label": "耳部 颈部 手腕 手指",
+   "text": "颈部",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "true",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 275,
+    "y": 1435,
+    "w": 54,
+    "h": 40
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": "radio",
+   "label": "耳部 颈部 手腕 手指",
+   "text": "手腕",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "false",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 333,
+    "y": 1435,
+    "w": 54,
+    "h": 40
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": "radio",
+   "label": "耳部 颈部 手腕 手指",
+   "text": "手指",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "false",
+   "ariaValueNow": null,
+   "disabled": true,
+   "r": {
+    "x": 391,
+    "y": 1435,
+    "w": 54,
+    "h": 40
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": "radio",
+   "label": "不检测 敏感词检测 合规检测 主体检测",
+   "text": "不检测",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "false",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 217,
+    "y": 1515,
+    "w": 68,
+    "h": 40
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": "radio",
+   "label": "不检测 敏感词检测 合规检测 主体检测",
+   "text": "敏感词检测",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "false",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 289,
+    "y": 1515,
+    "w": 96,
+    "h": 40
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": "radio",
+   "label": "不检测 敏感词检测 合规检测 主体检测",
+   "text": "合规检测",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "true",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 389,
+    "y": 1515,
+    "w": 82,
+    "h": 40
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": "radio",
+   "label": "不检测 敏感词检测 合规检测 主体检测",
+   "text": "主体检测",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "false",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 475,
+    "y": 1515,
+    "w": 82,
+    "h": 40
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": "radio",
+   "label": "真人模特 手部特写 半身 全身",
+   "text": "真人模特",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "true",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 217,
+    "y": 1664,
+    "w": 82,
+    "h": 40
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": "radio",
+   "label": "真人模特 手部特写 半身 全身",
+   "text": "手部特写",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "false",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 303,
+    "y": 1664,
+    "w": 82,
+    "h": 40
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": "radio",
+   "label": "真人模特 手部特写 半身 全身",
+   "text": "半身",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "false",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 389,
+    "y": 1664,
+    "w": 54,
+    "h": 40
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": "radio",
+   "label": "真人模特 手部特写 半身 全身",
+   "text": "全身",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "false",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 447,
+    "y": 1664,
+    "w": 54,
+    "h": 40
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": null,
+   "label": "撤销 重做",
+   "text": "撤销",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": true,
+   "r": {
+    "x": 506,
+    "y": 1957,
+    "w": 40,
+    "h": 40
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": null,
+   "label": "撤销 重做",
+   "text": "重做",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": true,
+   "r": {
+    "x": 550,
+    "y": 1957,
+    "w": 40,
+    "h": 40
+   }
+  },
+  {
+   "tag": "input",
+   "type": "range",
+   "role": null,
+   "label": "水平位置",
+   "text": "",
+   "value": "0.5",
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 230,
+    "y": 2532,
+    "w": 176,
+    "h": 36
+   }
+  },
+  {
+   "tag": "input",
+   "type": "range",
+   "role": null,
+   "label": "垂直位置",
+   "text": "",
+   "value": "0.26",
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 414,
+    "y": 2532,
+    "w": 176,
+    "h": 36
+   }
+  },
+  {
+   "tag": "input",
+   "type": "range",
+   "role": null,
+   "label": "横向半径",
+   "text": "",
+   "value": "0.09",
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 230,
+    "y": 2597,
+    "w": 176,
+    "h": 36
+   }
+  },
+  {
+   "tag": "input",
+   "type": "range",
+   "role": null,
+   "label": "纵向半径",
+   "text": "",
+   "value": "0.05",
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 414,
+    "y": 2597,
+    "w": 176,
+    "h": 36
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": "radio",
+   "label": "保持原背景 纯白背景 影棚 街拍",
+   "text": "保持原背景",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "true",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 217,
+    "y": 2691,
+    "w": 96,
+    "h": 40
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": "radio",
+   "label": "保持原背景 纯白背景 影棚 街拍",
+   "text": "纯白背景",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "false",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 317,
+    "y": 2691,
+    "w": 82,
+    "h": 40
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": "radio",
+   "label": "保持原背景 纯白背景 影棚 街拍",
+   "text": "影棚",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "false",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 403,
+    "y": 2691,
+    "w": 54,
+    "h": 40
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": "radio",
+   "label": "保持原背景 纯白背景 影棚 街拍",
+   "text": "街拍",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "false",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 461,
+    "y": 2691,
+    "w": 54,
+    "h": 40
+   }
+  },
+  {
+   "tag": "input",
+   "type": "checkbox",
+   "role": null,
+   "label": "二次操作（沿用上次结果的模特姿态）",
+   "text": "",
+   "value": "on",
+   "checked": false,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "false",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 217,
+    "y": 2743,
+    "w": 16,
+    "h": 16
+   }
+  },
+  {
+   "tag": "select",
+   "type": "select-one",
+   "role": null,
+   "label": "生图模型 gpt-image-2 default::gpt-image-2",
+   "text": "gpt-image-2 default::gpt-image-2",
+   "value": "default::gpt-image-2",
+   "checked": null,
+   "selected": "default::gpt-image-2",
+   "options": [
+    {
+     "t": "gpt-image-2",
+     "v": "gpt-image-2",
+     "s": false
+    },
+    {
+     "t": "default::gpt-image-2",
+     "v": "default::gpt-image-2",
+     "s": true
+    }
+   ],
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 217,
+    "y": 2785,
+    "w": 386,
+    "h": 36
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": "radio",
+   "label": "1 2 3 4",
+   "text": "1",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "true",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 217,
+    "y": 2902,
+    "w": 44,
+    "h": 40
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": "radio",
+   "label": "1 2 3 4",
+   "text": "2",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "false",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 269,
+    "y": 2902,
+    "w": 44,
+    "h": 40
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": "radio",
+   "label": "1 2 3 4",
+   "text": "3",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "false",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 321,
+    "y": 2902,
+    "w": 44,
+    "h": 40
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": "radio",
+   "label": "1 2 3 4",
+   "text": "4",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "false",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 373,
+    "y": 2902,
+    "w": 44,
+    "h": 40
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": null,
+   "label": "4. 生成张数 1–4 张 1 2 3 4 立即生成（1 张 · 首饰 · 颈部） 请先上传穿戴商品图（模特穿戴效果图更",
+   "text": "立即生成（1 张 · 首饰 · 颈部）",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": true,
+   "r": {
+    "x": 217,
+    "y": 2942,
+    "w": 386,
+    "h": 40
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": null,
+   "label": "连接本地 Agent 未连接 点连接会自动启动本地服务、装好插件并接通，无需手动配置。 Claude Code 未连接 ",
+   "text": "",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 1433,
+    "y": 0,
+    "w": 16,
+    "h": 900
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": null,
+   "label": "Agent未连接",
+   "text": "未连接",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 1485,
+    "y": 8,
+    "w": 32,
+    "h": 32
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": "tab",
+   "label": "对话历史技能日志",
+   "text": "对话",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "false",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 1594,
+    "y": 0,
+    "w": 32,
+    "h": 48
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": "tab",
+   "label": "对话历史技能日志",
+   "text": "历史",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "false",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 1628,
+    "y": 0,
+    "w": 32,
+    "h": 48
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": "tab",
+   "label": "对话历史技能日志",
+   "text": "技能",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "false",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 1662,
+    "y": 0,
+    "w": 32,
+    "h": 48
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": "tab",
+   "label": "对话历史技能日志",
+   "text": "日志",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "false",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 1696,
+    "y": 0,
+    "w": 32,
+    "h": 48
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": null,
+   "label": "新对话",
+   "text": "新对话",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": true,
+   "r": {
+    "x": 1804,
+    "y": 8,
+    "w": 32,
+    "h": 32
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": null,
+   "label": "新对话",
+   "text": "",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 1840,
+    "y": 8,
+    "w": 32,
+    "h": 32
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": null,
+   "label": "Claude Code 未连接 · CLI · 2.1.285 (Claude Code) · 直接运行 连接",
+   "text": "连接",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 1785,
+    "y": 147,
+    "w": 66,
+    "h": 24
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": null,
+   "label": "Codex 未连接 · CLI · codex-cli 0.163.0 · 插件已装 连接",
+   "text": "连接",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 1785,
+    "y": 215,
+    "w": 66,
+    "h": 24
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "role": null,
+   "label": "Galley 未连接 · CLI + 桌面版 · galley 0.6.4 连接",
+   "text": "连接",
+   "value": null,
+   "checked": null,
+   "selected": null,
+   "options": null,
+   "placeholder": null,
+   "state": "",
+   "ariaValueNow": null,
+   "disabled": false,
+   "r": {
+    "x": 1785,
+    "y": 283,
+    "w": 66,
+    "h": 24
+   }
+  }
+ ],
+ "antSelected": [],
+ "optionGroups": [
+  {
+   "label": "",
+   "options": [
+    "Skills",
+    "Agent"
+   ],
+   "active": [],
+   "count": 2,
+   "r": {
+    "x": 234,
+    "y": 0,
+    "w": 735,
+    "h": 59
+   }
+  },
+  {
+   "label": "无限画布 首页 电商套图 智能修图 新模型 AI视频 HOT 批量生图 商品图设",
+   "options": [
+    "中",
+    "切换到深色主题",
+    "v0.27.0"
+   ],
+   "active": [],
+   "count": 3,
+   "r": {
+    "x": 1230,
+    "y": 16,
+    "w": 175,
+    "h": 28
+   }
+  },
+  {
+   "label": "印花提取",
+   "options": [
+    "AI姿势生成",
+    "补充"
+   ],
+   "active": [],
+   "count": 2,
+   "r": {
+    "x": 0,
+    "y": 500,
+    "w": 179,
+    "h": 40
+   }
+  },
+  {
+   "label": "AI姿势生成 补充",
+   "options": [
+    "AI试衣XSY",
+    "补充"
+   ],
+   "active": [],
+   "count": 2,
+   "r": {
+    "x": 0,
+    "y": 540,
+    "w": 179,
+    "h": 40
+   }
+  },
+  {
+   "label": "AI试衣XSY 补充",
+   "options": [
+    "场景裂变链接",
+    "补充"
+   ],
+   "active": [],
+   "count": 2,
+   "r": {
+    "x": 0,
+    "y": 580,
+    "w": 179,
+    "h": 40
+   }
+  },
+  {
+   "label": "场景裂变链接 补充",
+   "options": [
+    "图片文字编辑",
+    "补充"
+   ],
+   "active": [],
+   "count": 2,
+   "r": {
+    "x": 0,
+    "y": 620,
+    "w": 179,
+    "h": 40
+   }
+  },
+  {
+   "label": "图片文字编辑 补充",
+   "options": [
+    "上装换料",
+    "补充"
+   ],
+   "active": [],
+   "count": 2,
+   "r": {
+    "x": 0,
+    "y": 660,
+    "w": 179,
+    "h": 40
+   }
+  },
+  {
+   "label": "上装换料 补充",
+   "options": [
+    "商品图设计器",
+    "补充"
+   ],
+   "active": [],
+   "count": 2,
+   "r": {
+    "x": 0,
+    "y": 700,
+    "w": 179,
+    "h": 40
+   }
+  },
+  {
+   "label": "商品图设计器 补充",
+   "options": [
+    "商品营销素材",
+    "补充"
+   ],
+   "active": [],
+   "count": 2,
+   "r": {
+    "x": 0,
+    "y": 740,
+    "w": 179,
+    "h": 40
+   }
+  },
+  {
+   "label": "商品营销素材 补充",
+   "options": [
+    "场景迁移",
+    "补充"
+   ],
+   "active": [],
+   "count": 2,
+   "r": {
+    "x": 0,
+    "y": 780,
+    "w": 179,
+    "h": 40
+   }
+  },
+  {
+   "label": "上传商品图 0 / 1 个 · PNG / JPG / WebP · ≤ 10 ",
+   "options": [
+    "点击选择本地文件，或拖拽到这里",
+    "校验格式 / 大小 / 像素，入"
+   ],
+   "active": [],
+   "count": 2,
+   "r": {
+    "x": 217,
+    "y": 340,
+    "w": 386,
+    "h": 86
+   }
+  },
+  {
+   "label": "穿戴的商品品类",
+   "options": [
+    "首饰",
+    "手表",
+    "眼镜",
+    "帽饰",
+    "围巾",
+    "手套",
+    "腰带",
+    "包袋"
+   ],
+   "active": [
+    "首饰"
+   ],
+   "count": 8,
+   "r": {
+    "x": 217,
+    "y": 1310,
+    "w": 386,
+    "h": 84
+   }
+  },
+  {
+   "label": "穿戴部位与模特参考",
+   "options": [
+    "耳部",
+    "颈部",
+    "手腕",
+    "手指"
+   ],
+   "active": [
+    "颈部"
+   ],
+   "count": 4,
+   "r": {
+    "x": 217,
+    "y": 1435,
+    "w": 386,
+    "h": 40
+   }
+  },
+  {
+   "label": "检测类型",
+   "options": [
+    "不检测",
+    "敏感词检测",
+    "合规检测",
+    "主体检测"
+   ],
+   "active": [
+    "合规检测"
+   ],
+   "count": 4,
+   "r": {
+    "x": 217,
+    "y": 1515,
+    "w": 386,
+    "h": 40
+   }
+  },
+  {
+   "label": "模特类型",
+   "options": [
+    "真人模特",
+    "手部特写",
+    "半身",
+    "全身"
+   ],
+   "active": [
+    "真人模特"
+   ],
+   "count": 4,
+   "r": {
+    "x": 217,
+    "y": 1664,
+    "w": 386,
+    "h": 40
+   }
+  },
+  {
+   "label": "选择穿戴模特参考图 0 / 1 个 · PNG / JPG / WebP · ≤",
+   "options": [
+    "点击选择本地文件，或拖拽到这里",
+    "校验格式 / 大小 / 像素，入"
+   ],
+   "active": [],
+   "count": 2,
+   "r": {
+    "x": 217,
+    "y": 1755,
+    "w": 386,
+    "h": 86
+   }
+  },
+  {
+   "label": "场景类型",
+   "options": [
+    "保持原背景",
+    "纯白背景",
+    "影棚",
+    "街拍"
+   ],
+   "active": [
+    "保持原背景"
+   ],
+   "count": 4,
+   "r": {
+    "x": 217,
+    "y": 2691,
+    "w": 386,
+    "h": 40
+   }
+  },
+  {
+   "label": "4. 生成张数 1–4 张",
+   "options": [
+    "1",
+    "2",
+    "3",
+    "4"
+   ],
+   "active": [
+    "1"
+   ],
+   "count": 4,
+   "r": {
+    "x": 217,
+    "y": 2902,
+    "w": 386,
+    "h": 40
+   }
+  },
+  {
+   "label": "Agent未连接",
+   "options": [
+    "对话",
+    "历史",
+    "技能",
+    "日志"
+   ],
+   "active": [],
+   "count": 4,
+   "r": {
+    "x": 1521,
+    "y": 0,
+    "w": 279,
+    "h": 48
+   }
+  }
+ ],
+ "caseModule": {
+  "caseTab": false,
+  "hasCaseWord": false,
+  "sameStyle": 0,
+  "imgs": 1
+ },
+ "capture": {
+  "side": "local",
+  "url": "http://127.0.0.1:3000/tools/product-design/ai-wearable",
+  "ready": true,
+  "ms": 4423,
+  "errors": []
+ }
+}

@@ -1,0 +1,82 @@
+{
+  "toolId": "PRODUCT_SCENE",
+  "slug": "product-scene",
+  "real": {
+    "url": "https://www.linkfox.com/draw/product-scene?type=2",
+    "title": "场景裂变 - LinkFox",
+    "loginGate": false,
+    "controls": [
+      {
+        "kind": "textarea",
+        "label": "描述您想要的场景（在描述语中包含上传的商品），例如：把水壶放在客厅餐桌上。",
+        "value": ""
+      },
+      {
+        "kind": "input:text",
+        "label": "名称",
+        "value": "LinkFox 默认"
+      },
+      {
+        "kind": "input:text",
+        "label": "水印文案",
+        "value": "本图片由 LinkFox AI 生成"
+      }
+    ],
+    "caseModule": {
+      "caseTab": 2,
+      "sameStyle": 0,
+      "hasCaseWord": true
+    }
+  },
+  "local": {
+    "url": "http://127.0.0.1:3000/tools/product-design/product-scene",
+    "title": "无限画布",
+    "loginGate": false,
+    "controls": [
+      {
+        "kind": "input:range",
+        "label": "背景相似度：",
+        "value": "60"
+      },
+      {
+        "kind": "textarea",
+        "label": "描述想要的场景，例如：晨光下的北欧客厅，浅木色地板",
+        "value": ""
+      },
+      {
+        "kind": "input:text",
+        "label": "逗号分隔，例如：木质桌面, 白色墙面, 绿植",
+        "value": ""
+      },
+      {
+        "kind": "chips",
+        "label": "生成结果 优秀案例 历史记录 上传商品场景参考图 3秒裂变出多张相似的场景图，快",
+        "options": [
+          "生成结果",
+          "优秀案例",
+          "历史记录"
+        ],
+        "active": "生成结果"
+      }
+    ],
+    "caseModule": {
+      "caseTab": 1,
+      "sameStyle": 0,
+      "hasCaseWord": true
+    }
+  },
+  "diff": {
+    "onlyReal": [
+      "textarea|描述您想要的场景（在描述语中包含上传的商品），例如：把水",
+      "input:text|名称",
+      "input:text|水印文案"
+    ],
+    "onlyLocal": [
+      "input:range|背景相似度：",
+      "textarea|描述想要的场景，例如：晨光下的北欧客厅，浅木色地板",
+      "input:text|逗号分隔，例如：木质桌面, 白色墙面, 绿植",
+      "chips|生成结果 优秀案例 历史记录 上传商品场景参考图 3秒裂"
+    ],
+    "changed": []
+  }
+}
