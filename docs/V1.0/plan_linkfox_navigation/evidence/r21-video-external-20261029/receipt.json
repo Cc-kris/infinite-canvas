@@ -1,0 +1,114 @@
+{
+  "capturedAt": "2026-10-29T22:2x+08:00",
+  "env": "http://127.0.0.1:3000 (vite dev) + canvas-proxy :23210",
+  "headAtCapture": "a1dbe6b",
+  "branch": "feat/linkfox-v1-real",
+  "source": {
+    "worker": "lf_video_external_final (已退出, 未提交, 未改源码)",
+    "workerOutput": "/Users/mac/Library/Application Support/app.galley/managed-ga-state/temp/lf_video_external_final/output.txt",
+    "reverify": "本轮只读复核：live localStorage / IndexedDB / proxy 日志 / fresh reload DOM，未重试生成、未注入"
+  },
+  "tasks": [
+    {
+      "toolId": "VIDEO_REPLICATION",
+      "route": "/tools/ai-video/video-replication",
+      "taskId": "task-mvtk9pu3-sfifnh",
+      "status": "succeeded",
+      "verdict": "REAL_SUCCESS_BYTES_VERIFIED / actions UNVERIFIED",
+      "model": "sub2::MiniMax-H3",
+      "submittedAt": 1793279427340,
+      "finishedAt": 1793280759098,
+      "pollCount": 171,
+      "attempts": 1,
+      "upstreamTaskId": "task_2JtjPzuJuUBegKsPPvQoQWrXCdGt5B9G",
+      "upstreamProvider": "openai",
+      "persistedKey": "tool-task:v1:task-mvtk9pu3-sfifnh",
+      "persistedItemKeys": [
+        "id",
+        "kind",
+        "storageKey",
+        "bytes",
+        "mimeType",
+        "payloadDropped"
+      ],
+      "result": {
+        "itemId": "task-mvtk9pu3-sfifnh-0",
+        "kind": "video",
+        "storageKey": "tool-result:4zwepLZTtpMan11tTGMKR",
+        "bytes": 1963716,
+        "mimeType": "video/mp4",
+        "payloadDropped": false,
+        "sha256": "e5cd3158a67c86d6f79e578792f1351ee50c77cc78853113aa97b95564179afd",
+        "headHex": "000000206674797069736f6d",
+        "verifiedBy": "页面内 getMediaBlob(storageKey) → Blob 1,963,716B video/mp4 → crypto.subtle.digest(SHA-256) + 头部 ftypisom；导出同一字节落盘为目标证据文件，sha256 与任务快照 bytes 完全一致",
+        "evidenceFile": "VIDEO_REPLICATION-result-1.mp4"
+      },
+      "upstreamReceipts": [
+        "9:11:27 PM MEDIA upload 56226153eb7e1f8b9b8a5db680ffc966.mp4 1297168B",
+        "9:11:35 PM POST https://sub2api.1006000.xyz/v1/videos -> 200 7.5s",
+        "9:32:24 PM GET https://sub2api.1006000.xyz/v1/videos/task_2JtjPzuJuUBegKsPPvQoQWrXCdGt5B9G/content -> 200 5.2s",
+        "9:32:29 PM GET .../content -> 200 5.8s",
+        "9:32:37 PM GET .../content -> 200 7.7s"
+      ],
+      "freshReload": {
+        "navigationType": "reload",
+        "panel": "video-replication-result",
+        "dataView": "succeeded",
+        "resultTile": {
+          "dataKind": "video",
+          "dataDropped": "true",
+          "text": "上游未返回该结果的文件"
+        },
+        "buttons": {
+          "tool-result-download-0": false,
+          "tool-result-save-0": false,
+          "tool-result-canvas-0": false
+        },
+        "videoElement": {
+          "src": "blob:http://127.0.0.1:3000/863657f1-…",
+          "videoWidth": 0,
+          "videoHeight": 0
+        },
+        "verdict": "UNVERIFIED — 三动作按钮 disabled，未伪造点击"
+      },
+      "localGap": {
+        "symptom": "刷新后结果卡 data-dropped=true、下载/存入资产/发送画布 全 disabled，卡片文案「上游未返回该结果的文件」",
+        "fact": "持久化结果项只剩 storageKey/bytes（无 url/dataUrl），而结果瓦片以可渲染源(item.blob|dataUrl|url)判定 dropped；IDB 字节与 resolveMediaUrl 均正常（1,963,716B、blob: URL fetch 200）",
+        "notFixedHere": "lf_video_external_final 声明未改源码；本轮按「只提交真实回执/UNVERIFIED」口径不新增修复"
+      }
+    },
+    {
+      "toolId": "AI_VIDEO_EDITING",
+      "route": "/tools/ai-video/ai-video-editing",
+      "taskId": "task-mvtkgo4b-gaomk5",
+      "status": "failed",
+      "verdict": "UNVERIFIED (上游未受理/无上游 taskId，无产物字节)",
+      "model": "sub2::MiniMax-H3",
+      "submittedAt": 1793279751707,
+      "finishedAt": 1793280109911,
+      "pollCount": 0,
+      "attempts": 1,
+      "upstreamTaskId": null,
+      "reconcileRequired": true,
+      "error": {
+        "code": "submit-unconfirmed",
+        "message": "页面刷新中断了这次请求，本服务无法反查上游是否已受理。已关闭为失败；重试前请先到服务商后台确认，避免重复计费。",
+        "retryable": true
+      },
+      "result": null,
+      "upstreamReceipts": [
+        "9:15:55 PM POST https://sub2api.1006000.xyz/v1/videos -> 400 3.3s (multipart 被拒)",
+        "9:16:35 PM MEDIA upload 56226153eb7e1f8b9b8a5db680ffc966.mp4 1297168B",
+        "9:18:40 PM POST https://sub2api.1006000.xyz/v1/videos -> 502 124.7s",
+        "9:20:46 PM POST https://sub2api.1006000.xyz/v1/videos -> 502 125.1s"
+      ],
+      "note": "未重试、未注入；上游 502 长挂，按口径记 UNVERIFIED（不代表本地功能失败，也不代表已受理）"
+    }
+  ],
+  "notCommitted": {
+    "otherDirtyFiles": [
+      "web/src/components/tools/workspaces/mask.tsx + features/tools/adapters/remove-pen.ts（并发 worker lf_remove_pen_final 仍在改，未纳入本次提交）",
+      "docs/.../independent-audit-20261029-r9/matrix.{json,md}、project_memory.md（他组工作区，未动）"
+    ]
+  }
+}
