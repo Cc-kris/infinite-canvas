@@ -32,7 +32,7 @@ Object.defineProperty(globalThis, "localStorage", {
 
 import { expect, test } from "bun:test";
 
-const { healResultMediaByProvenance, mergeWithoutStorageKeyDowngrade } = await import("./use-tool-task-store");
+const { adoptLegacyResultMedia, healResultMediaByProvenance, mergeWithoutStorageKeyDowngrade } = await import("./use-tool-task-store");
 const { imageResultItems } = await import("@/services/api/tools/gateway");
 const { sanitizeTaskForPersist } = await import("@/services/api/tools/task-machine");
 type ToolTask = import("@/services/api/tools/task-machine").ToolTask;
@@ -104,4 +104,43 @@ test("不同结果批次（receivedAt 不同）不做合并，保留新结果", 
     const current = taskWith([{ id: "i0", kind: "image", storageKey: "old" }], 1);
     const incoming = taskWith([{ id: "i0", kind: "image", payloadDropped: true }], 2);
     expect(mergeWithoutStorageKeyDowngrade(current, incoming)).toBe(incoming);
+});
+
+/**
+ * r21（2026-10-29）：旧键 `tool-result:<nanoid>` 的字节归属回归。
+ *
+ * 现场：AI_VIDEO_EDITING task-mvt42rpv-kfl1ov 成功、字节真实（2,268,656 B / video/mp4），
+ * 但 storageKey 是旧 nanoid 键 → 不含任务信息，`listTaskResultMedia(taskId)` 永远扫不到。
+ * 修复只「搬运」真实字节到 `tool-result:<taskId>:<index>:<itemId>`，读不到就不动。
+ */
+test("旧 nanoid 键的真实字节被搬运到带 taskId 的 provenance 键，且旧键原字节保留", async () => {
+    const blob = new Blob([new Uint8Array(8)], { type: "video/mp4" });
+    const store = new Map<string, Blob>([["tool-result:6x-FsSnD1IMk76p5iayw-", blob]]);
+    const task = taskWith([{ id: "video-0", kind: "video", storageKey: "tool-result:6x-FsSnD1IMk76p5iayw-", bytes: 8 }]);
+
+    const adopted = await adoptLegacyResultMedia(task, {
+        read: async (key) => store.get(key) ?? null,
+        write: async (key, value) => {
+            store.set(key, value);
+        },
+    });
+
+    expect(adopted?.result?.items[0].storageKey).toBe("tool-result:task-provenance:0:video-0");
+    expect(adopted?.result?.items[0].bytes).toBe(8);
+    expect(adopted?.result?.items[0].payloadDropped).toBe(false);
+    expect(store.get("tool-result:task-provenance:0:video-0")).toBe(blob);
+    expect(store.get("tool-result:6x-FsSnD1IMk76p5iayw-")).toBe(blob);
+});
+
+test("旧键读不到真实字节时不伪造 provenance 键", async () => {
+    const task = taskWith([{ id: "video-0", kind: "video", storageKey: "tool-result:gone" }]);
+    const adopted = await adoptLegacyResultMedia(task, { read: async () => null, write: async () => undefined });
+    expect(adopted).toBeNull();
+});
+
+test("已经是 provenance 键或没有 storageKey 的项保持不变（幂等空操作）", async () => {
+    const already = taskWith([{ id: "video-0", kind: "video", storageKey: "tool-result:task-provenance:0:video-0" }]);
+    expect(await adoptLegacyResultMedia(already, { read: async () => new Blob(["x"]) , write: async () => undefined })).toBeNull();
+    const blank = taskWith([{ id: "video-0", kind: "video", payloadDropped: true }]);
+    expect(await adoptLegacyResultMedia(blank, { read: async () => new Blob(["x"]), write: async () => undefined })).toBeNull();
 });

@@ -17,7 +17,7 @@ import {
     type WaitOptions,
 } from "@/services/api/tools/gateway";
 import { reclaimRecoverableResultItems, isDurableResultUrl, sanitizeTaskForPersist, type ToolTask, type ToolTaskResultItem } from "@/services/api/tools/task-machine";
-import { listTaskResultMedia, resolveMediaUrl, uploadMediaFile } from "@/services/file-storage";
+import { getMediaBlob, listTaskResultMedia, resolveMediaUrl, setMediaBlob, uploadMediaFile } from "@/services/file-storage";
 
 export const TOOL_TASK_STORAGE_VERSION = 1 as const;
 export const TASK_INDEX_KEY = "tool-task:v1:index";
@@ -363,6 +363,63 @@ export async function healResultMediaByProvenance(
 }
 
 /**
+ * 旧键字节归属（2026-10-29 r21 复核后修复）：
+ *
+ * 现场（AI_VIDEO_EDITING task-mvt42rpv-kfl1ov）：任务 succeeded、结果项 storageKey 为旧格式
+ * `tool-result:<nanoid>`，字节真实存在（2,268,656 B / video/mp4）且 payloadDropped=false，
+ * 但键名不含任务信息 → `listTaskResultMedia(taskId)` 永远扫不到，刷新后该任务无法按 provenance
+ * 归属字节，也无法在结果区/资产/画布三路之间做同一份字节对账。
+ *
+ * 本函数只做「搬运」：读旧键里的真实 Blob，原样写到 `tool-result:<taskId>:<index>:<itemId>`，
+ * 不生成、不改写、不补齐任何字节内容；读不到/写失败就跳过（保持空操作，绝不伪造）。
+ */
+export async function adoptLegacyResultMedia(
+    task: ToolTask,
+    deps: {
+        read?: (storageKey: string) => Promise<Blob | null>;
+        write?: (storageKey: string, blob: Blob) => Promise<unknown>;
+    } = {},
+): Promise<ToolTask | null> {
+    if (!task.result || task.result.items.length === 0) return null;
+    const read = deps.read ?? getMediaBlob;
+    const write = deps.write ?? setMediaBlob;
+    const prefix = `tool-result:${task.id}:`;
+    const targets = task.result.items
+        .map((item, index) => ({ item, index }))
+        .filter(({ item }) => Boolean(item.storageKey) && !String(item.storageKey).startsWith(prefix));
+    if (targets.length === 0) return null;
+
+    const adopted = new Map<number, ToolTaskResultItem>();
+    for (const { item, index } of targets) {
+        let blob: Blob | null = null;
+        try {
+            blob = await read(String(item.storageKey));
+        } catch {
+            blob = null;
+        }
+        if (!blob || typeof blob.size !== "number" || blob.size <= 0) continue;
+        const provenanceKey = `${prefix}${index}:${item.id}`;
+        try {
+            await write(provenanceKey, blob);
+        } catch {
+            continue;
+        }
+        adopted.set(index, {
+            ...item,
+            storageKey: provenanceKey,
+            bytes: blob.size,
+            mimeType: item.mimeType ?? blob.type,
+            payloadDropped: false,
+        });
+    }
+    if (adopted.size === 0) return null;
+    return {
+        ...task,
+        result: { ...task.result, items: task.result.items.map((item, index) => adopted.get(index) ?? item) },
+    };
+}
+
+/**
  * 用「工具草稿里 app 自己回写的持久结果地址」补回被旧版剥离的结果项来源。
  *
  * 现场（IMAGE_TEXT_EDIT task-mvs8bhu1-hhue24）：旧快照只剩 `{ id, kind, payloadDropped: true }`，
@@ -428,6 +485,10 @@ async function healPersistedTaskMedia(taskId: string) {
     if (afterIngest) {
         const healed = await healResultMediaByProvenance(afterIngest);
         if (healed) useToolTaskStore.getState().upsertTask(healed);
+        // 旧键（`tool-result:<nanoid>`，不含任务信息）里已入库的真实字节：补一份带 provenance 的键，
+        // 否则这些字节永远无法按 taskId 反查（仅搬运，不生成任何字节内容）。
+        const adopted = await adoptLegacyResultMedia(useToolTaskStore.getState().tasks[taskId] ?? afterIngest);
+        if (adopted) useToolTaskStore.getState().upsertTask(adopted);
     }
     await restorePersistedTaskMedia(taskId);
 }

@@ -1,0 +1,124 @@
+{
+ "schema": "infinite-canvas.recovery-receipt/v1",
+ "round": "r21",
+ "generatedAt": "2026-10-29T23:59:00+08:00",
+ "repo": "infinite-canvas",
+ "gitHeadAtCapture": "e1aa853c919ba9689d0d263b619565c5532a77e3",
+ "tool": "AI_VIDEO_EDITING",
+ "route": "/tools/ai-video/ai-video-editing",
+ "harness": {
+  "browser": "ego lite (real user profile, own tab opened by agent, tabId 1709629356)",
+  "driver": "TMWebDriver 18765 -> CDP bridge",
+  "note": "真实浏览器真实标签；未用 iframe 复现；未注入任何字节或 React 状态"
+ },
+ "task": {
+  "taskId": "task-mvt42rpv-kfl1ov",
+  "status": "succeeded",
+  "upstreamTaskId": "task_QFvq6WMc09jv2kSZzh4fFboNx5ZccHBm",
+  "succeededAtLocal": "2026-10-29 15:54",
+  "resultItems": [
+   {
+    "id": "video-0",
+    "kind": "video",
+    "storageKey": "tool-result:task-mvt42rpv-kfl1ov:0:video-0",
+    "storageKeyProvenance": "task-bound",
+    "legacyStorageKey": "tool-result:6x-FsSnD1IMk76p5iayw-",
+    "bytes": 2268656,
+    "mimeType": "video/mp4",
+    "payloadDropped": false,
+    "note": "旧 legacy 键里的真实字节由 adoptLegacyResultMedia 原样搬运到带 taskId 的 provenance 键（copy 非生成）"
+   }
+  ]
+ },
+ "freshReload": {
+  "method": "cdp Page.reload (real CDP Page.reload on the same tab)",
+  "tabId": 1709629356,
+  "sameTab": true,
+  "navType": "reload",
+  "timeOriginBefore": 1793288782457.9,
+  "timeOriginAfter": 1793288879030.1,
+  "sessionStorageProbeKey": "r21probe2",
+  "sessionStorageProbeSurvived": true,
+  "historyCardVisible": true,
+  "viewResult": "点击「查看结果」后历史任务回填结果区",
+  "dataDroppedAttr": "false",
+  "buttons": {
+   "下载": "enabled",
+   "存入资产": "enabled",
+   "发送画布": "enabled"
+  },
+  "earlierNavType": "navigate",
+  "earlierTimeOrigin": 1793288450805.9
+ },
+ "byteReconciliation": {
+  "legacyKeySha256": "47573c147325d451f41ffd89ae21b82c895623c682832546c24181b18f92a505",
+  "adoptedKeySha256": "47573c147325d451f41ffd89ae21b82c895623c682832546c24181b18f92a505",
+  "downloadSha256": "47573c147325d451f41ffd89ae21b82c895623c682832546c24181b18f92a505",
+  "assetSha256": "47573c147325d451f41ffd89ae21b82c895623c682832546c24181b18f92a505",
+  "canvasSha256": "47573c147325d451f41ffd89ae21b82c895623c682832546c24181b18f92a505",
+  "allEqual": true,
+  "bytes": 2268656,
+  "artifactCommittedSha256": "47573c147325d451f41ffd89ae21b82c895623c682832546c24181b18f92a505",
+  "artifactCommittedPath": "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/AI_VIDEO_EDITING/receipt-20261029/task_QFvq6WMc_video.mp4"
+ },
+ "actions": [
+  {
+   "action": "download",
+   "clicked": true,
+   "fileOnDisk": true,
+   "filePath": "/Users/mac/Downloads/ai-video-editing-result-1.mp4",
+   "sizeAfterDownload": 2268656,
+   "sha256": "47573c147325d451f41ffd89ae21b82c895623c682832546c24181b18f92a505",
+   "fileName": "ai-video-editing-result-1.mp4",
+   "verdict": "PASS"
+  },
+  {
+   "action": "saveToAssets",
+   "clicked": true,
+   "feedbackText": "已保存到资产库（UnSCAIikwxZ7TpvWDxnfh）",
+   "asset": {
+    "id": "UnSCAIikwxZ7TpvWDxnfh",
+    "storageKey": "video:g4gjeClwb7BfX9GO_7R_O",
+    "bytes": 2268656,
+    "mimeType": "video/mp4",
+    "metadata": {
+     "toolId": "AI_VIDEO_EDITING",
+     "taskId": "task-mvt42rpv-kfl1ov",
+     "resultItemId": "video-0",
+     "resultId": "video-0",
+     "resultAssetKey": "tool-result:AI_VIDEO_EDITING:task-mvt42rpv-kfl1ov:video-0"
+    }
+   },
+   "verdict": "PASS"
+  },
+  {
+   "action": "sendToCanvas",
+   "clicked": true,
+   "feedbackText": "已发送到画布（C10cGx1mBJcHAbf2-fBx7）",
+   "project": {
+    "id": "C10cGx1mBJcHAbf2-fBx7",
+    "title": "AI_VIDEO_EDITING 结果"
+   },
+   "canvasNode": {
+    "id": "video-1793288914935-dlswf",
+    "type": "video",
+    "storageKey": "video:Xgb3xgDNUROAgq34cBGte",
+    "bytes": 2268656,
+    "width": 1344,
+    "height": 768,
+    "durationMs": 6583
+   },
+   "verdict": "PASS"
+  }
+ ],
+ "codeFix": {
+  "file": "web/src/stores/use-tool-task-store.ts",
+  "function": "adoptLegacyResultMedia",
+  "rootCause": "旧键名 tool-result:<nanoid> 不含 taskId → listTaskResultMedia(taskId) 永远扫不到真实字节，刷新后无法按 provenance 归属",
+  "behavior": "只把 IndexedDB 里已存在的真实 Blob 原样写入 tool-result:<taskId>:<index>:<itemId>（copy，不生成/不改写字节）",
+  "hook": "healPersistedTaskMedia（刷新 hydrate 自愈链）",
+  "tests": "web/src/stores/use-tool-task-store.provenance-heal.test.ts（+3 例）"
+ },
+ "verdict": "H_PASS",
+ "gaps": []
+}
