@@ -1,0 +1,46 @@
+{
+ "toolId": "NEW_DESIGNER",
+ "route": "/tools/product-design/new-designer",
+ "app": "http://127.0.0.1:3000",
+ "capturedAt": "2026-10-29T19:12+08:00",
+ "method": "real user Chrome profile + CDP; fresh tab load then full reload (navigation.type=reload); no injection",
+ "task": {
+  "id": "task-mvtdl9v8-165q1n",
+  "status": "succeeded",
+  "storageKey": "tool-result:vf21IxChoGYqJ9C8z8qMg",
+  "declaredBytes": 411801
+ },
+ "reload": {
+  "navType": "reload",
+  "dockItems": [
+   {
+    "id": "task-mvtdl9v8-165q1n",
+    "status": "succeeded"
+   }
+  ],
+  "restorePath": "history-dock + designer 草稿恢复（已恢复草稿 2026-10-29T11:00:04.687Z）"
+ },
+ "imageBytes": {
+  "renderedBytes": 411801,
+  "renderedWidth": 1200,
+  "renderedHeight": 1200,
+  "sha256": "90e28e0f93420bb42270708737760d810d9df1e986566aed60d61a79b4a09d88",
+  "matchTaskBytes": true
+ },
+ "actions": {
+  "download": {
+   "feedback": "已下载 new-designer-result-1.png",
+   "tone": "success"
+  },
+  "save": {
+   "feedback": "已存入资产库（image · nowDKQUvmRssATNlZ83VO）",
+   "tone": "success"
+  },
+  "canvas": {
+   "feedback": "已发送到画布（3R6-XT-TrS0SuvpJ2pwbj / image-1793271623664-6ilpf）",
+   "tone": "success"
+  }
+ },
+ "verdict": "PASS",
+ "H_path": "history-dock-refill"
+}

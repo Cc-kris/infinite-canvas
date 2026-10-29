@@ -1,0 +1,69 @@
+{
+ "toolId": "AI_POSE_GENERATOR",
+ "route": "/tools/product-design/ai-pose-generator",
+ "app": "http://127.0.0.1:3000",
+ "capturedAt": "2026-10-29T19:05+08:00",
+ "method": "real user Chrome profile + CDP; full page reload (navigation.type=reload); no snapshot injection, no new generation",
+ "task": {
+  "id": "task-mvtd89f3-9qpix6",
+  "status": "succeeded",
+  "createdAt": "2026-10-29T09:53:22.095Z",
+  "promptHead": "Create a full-body pose reference photo of a single fashion model. Pose: 女性模特正面站姿…",
+  "storageKey": "tool-result:G8rkyLhFbZptxmqcCYTet",
+  "declaredBytes": 1151209
+ },
+ "reload": {
+  "navType": "reload",
+  "dockItems": [
+   {
+    "id": "task-mvtd89f3-9qpix6",
+    "status": "succeeded"
+   },
+   {
+    "id": "task-mvs73hbe-ak20fw",
+    "status": "succeeded"
+   },
+   {
+    "id": "task-mvs6zovx-pod3rz",
+    "status": "failed"
+   },
+   {
+    "id": "task-mvs6r088-39u8zq",
+    "status": "failed"
+   },
+   {
+    "id": "task-mvs6l55s-fufs7l",
+    "status": "failed"
+   },
+   {
+    "id": "task-mvs6fr7b-plo8es",
+    "status": "failed"
+   }
+  ],
+  "restorePath": "history-dock（坞项缩略图从 tool-result IDB 还原 1024×1024）",
+  "workspaceResultsArea": "empty（该页结果区不落地历史，H 由历史坞回填取证）"
+ },
+ "imageBytes": {
+  "renderedBytes": 1151209,
+  "renderedWidth": 1024,
+  "renderedHeight": 1024,
+  "sha256": "19028125bae9618e8e01801480518db186b6ace6cccf0cff7f5ae4c6ec84300d",
+  "matchTaskBytes": true
+ },
+ "actions": {
+  "download": {
+   "feedback": "已下载 ai-pose-generator-result-1.png",
+   "tone": "success"
+  },
+  "save": {
+   "feedback": "已存入资产库（image · eOac1dvc3DprdD6NDUo8k）",
+   "tone": "success"
+  },
+  "canvas": {
+   "feedback": "已发送到画布（nlMUWNNqAfWJY-Al0VshT / image-1793271583656-kz905）",
+   "tone": "success"
+  }
+ },
+ "verdict": "PASS",
+ "H_path": "history-dock-refill"
+}
