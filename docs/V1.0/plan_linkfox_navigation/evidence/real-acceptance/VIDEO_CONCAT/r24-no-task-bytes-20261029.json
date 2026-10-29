@@ -1,0 +1,69 @@
+{
+  "tool": "VIDEO_CONCAT",
+  "toolId": "VIDEO_CONCAT",
+  "route": "/tools/ai-video/video-concat",
+  "capturedAt": "2026-10-29T23:59+08:00",
+  "round": "R24",
+  "verdict": "BLOCKED_NO_LOCAL_TASK_BYTES",
+  "claim": "R17 记录的『存资产/发画布无回执』在本地无法用同一真实任务复现验证：该历史任务的任务记录与其 2,133,234B 视频字节在当前浏览器 profile 中均不存在。未新建任务、未生成视频、未注入任何数据。",
+  "expectedRealTask": {
+    "localTaskId": "task-mvthgaa4-pdg1eq",
+    "upstreamTaskId": "task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF",
+    "legacyStorageKey": "tool-result:54gWW1bCX8Ywy63CQR-xj",
+    "expectedBytes": 2133234,
+    "expectedSha256": "daf59082f500fa964baa508b9ece84a62c3f2093f46e12c2a309eec501613b2f",
+    "expectedSource": "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/VIDEO_CONCAT/downloaded.mp4 (sha256 与上一致)"
+  },
+  "probes": [
+    {
+      "probe": "origin-indexeddb-media_files",
+      "target": "http://127.0.0.1:3000  IDB infinite-canvas / media_files",
+      "result": { "totalKeys": 112, "blobSizeEq2133234": 0, "keyEqualsLegacyStorageKey": false },
+      "method": "indexedDB.getAllKeys + getAll，逐条读 blob.size / blob.type",
+      "conclusion": "该真实视频字节从未落进当前 profile 的 media_files；既没有 2,133,234B 的 mp4，也没有 tool-result:54gWW1bCX8Ywy63CQR-xj 这个键。"
+    },
+    {
+      "probe": "origin-localstorage-tool-task",
+      "target": "http://127.0.0.1:3000 localStorage tool-task:v1:*",
+      "result": { "toolTaskKeys": 87, "key_task-mvthgaa4-pdg1eq": false, "valueContainsTaskId": 0, "videoConcatTasksPresent": 1, "videoConcatTaskStatus": "failed", "videoConcatTaskId_present": "task-mvt94gxs-p0r29t" },
+      "conclusion": "成功任务记录已不在本地（唯一在库的 VIDEO_CONCAT 任务是 failed 的 task-mvt94gxs-p0r29t），因此 UI 历史里没有可点『存入资产库/发送到画布』的真实成功卡片。"
+    },
+    {
+      "probe": "disk-profile-grep",
+      "target": "~/Library/Application Support/{Google/Chrome,Chromium,Microsoft Edge,BraveSoftware,Infinite Canvas,camoufox}",
+      "result": { "filesContainingTaskId": 0 },
+      "method": "grep -ral 'task-mvthgaa4-pdg1eq'（leveldb 二进制安全）",
+      "conclusion": "本机任何浏览器 profile 的落盘数据都不含该任务 id，排除『只是连错了 browser』。"
+    },
+    {
+      "probe": "upstream-task-resume",
+      "target": "http://127.0.0.1:23220/https://sub2api.1006000.xyz/v1/videos/task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF",
+      "result": { "proxyLiveness": 200, "upstreamResponse": "INVALID_API_KEY", "resumePossible": false },
+      "conclusion": "没有可用凭据，无法通过 resume 从上游把同一真实任务重新拉回本地（且该路径亦属恢复、非新生成）。"
+    }
+  ],
+  "rootCause": {
+    "class": "legacy-storage-key-without-task-provenance",
+    "statement": "该历史结果的字节引用是旧格式 tool-result:<nanoid>（不含 taskId/index），并且其真实字节在本地存储中已不存在；刷新后 item 只剩死掉的 blob: URL，共享三动作（下载/存资产/发画布）拿不到字节，故表现为『点击无回执』。",
+    "codeStateAtHead": "HEAD 已修复该类问题：结果入库改用 tool-result:<toolId>:<taskId>:<index>:<itemId> 复合键（web/src/services/api/tools/result-assets.ts），刷新后按 tool-result:<taskId>: 前缀反查真实字节（web/src/services/file-storage.ts listTaskResultMedia），并在 tool-result-actions.ts hydrateResultItemBytes 里还原。",
+    "whyNotFixedAgain": "对该历史任务而言修复点在『数据已丢失』而非代码缺失；在没有新生成、不允许注入的约束下无法重建该任务，故本轮不改代码。"
+  },
+  "verification": {
+    "tsc": "node ./node_modules/typescript/bin/tsc --noEmit -p tsconfig.json → exit 0",
+    "tests": "bun test tool-result-actions.hydration.test.ts tool-result-actions.deps.test.ts → 9 pass / 0 fail / 30 expect()",
+    "uiFreshReloadLegs": "未执行（本地无该任务卡片，按钮无从点击）"
+  },
+  "notDone": [
+    "fresh reload 后对真实 task-mvthgaa4-pdg1eq 点『存入资产库』拿到 assetId —— 任务与字节均不在本地，无法在不注入的前提下执行",
+    "fresh reload 后『发送到画布』拿到 canvasNodeId —— 同上"
+  ],
+  "howToUnblock": [
+    "提供仍保有该会话 storage 的浏览器 profile / 机器（或把该 profile 拷回本机），我直接在同一 task 上跑 fresh reload + 三动作并出 assetId/canvasNodeId 回执",
+    "或授权一次『按上游任务 resume 重建本地任务记录』（属于恢复既有真实结果，不是新生成），并给出可用 sub2api 凭据"
+  ],
+  "integrity": {
+    "newGeneration": false,
+    "dataInjection": false,
+    "fabricatedIds": false
+  }
+}
