@@ -1,0 +1,115 @@
+{
+ "status": "OK",
+ "source": "03b8f47e 提交的原始日志（独立目录 git archive + bun install --frozen-lockfile 全量重装）",
+ "snapshot": "d5aa048a（tree 3ef46fd6；机检 web/ 与 HEAD 逐 blob 相同 → 结论对 HEAD 有效）",
+ "checks": [
+  {
+   "name": "typecheck",
+   "cmd": "bun run typecheck (tsc --noEmit)",
+   "result": "EXIT 0（TC_EXIT=0）"
+  },
+  {
+   "name": "test",
+   "cmd": "bun test（全量）",
+   "result": "1483 pass / 0 fail / 8342 expect（84 文件），TEST_EXIT=0"
+  },
+  {
+   "name": "build",
+   "cmd": "bun run build",
+   "result": "built in 30.34s，index-DPpMYq6s.js 5,607,804B，BUILD_EXIT=0"
+  },
+  {
+   "name": "typecheck-scope",
+   "cmd": "tsc --listFiles",
+   "result": "3437 行文件清单，web/src 入编译"
+  }
+ ],
+ "note": "日志路径 docs/V1.0/reports/verify-d5aa048a-20261029-logs/；本目录 evidence/gate.json 为机检摘要（含 web/ 一致性断言）",
+ "machineChecks": [
+  {
+   "name": "GATE.d5aa048a:gate.webTreeIdentical",
+   "ok": true,
+   "detail": "identical"
+  },
+  {
+   "name": "GATE.d5aa048a:gate.snapshotTree",
+   "ok": true,
+   "detail": "3ef46fd6361eeb264a560287099fcc3cec432434"
+  },
+  {
+   "name": "GATE.d5aa048a:gate.typecheck.cmd",
+   "ok": true,
+   "detail": "$ tsc --noEmit"
+  },
+  {
+   "name": "GATE.d5aa048a:gate.typecheck.exit",
+   "ok": true,
+   "detail": "TC_EXIT=0"
+  },
+  {
+   "name": "GATE.d5aa048a:gate.test.pass",
+   "ok": true,
+   "detail": "1483 pass"
+  },
+  {
+   "name": "GATE.d5aa048a:gate.test.fail",
+   "ok": true,
+   "detail": "0 fail"
+  },
+  {
+   "name": "GATE.d5aa048a:gate.test.expects",
+   "ok": true,
+   "detail": "8342 expect"
+  },
+  {
+   "name": "GATE.d5aa048a:gate.test.files",
+   "ok": true,
+   "detail": "84 files"
+  },
+  {
+   "name": "GATE.d5aa048a:gate.test.exit",
+   "ok": true,
+   "detail": "TEST_EXIT=0"
+  },
+  {
+   "name": "GATE.d5aa048a:gate.build.built",
+   "ok": true,
+   "detail": "built in 30.34s"
+  },
+  {
+   "name": "GATE.d5aa048a:gate.build.asset",
+   "ok": true,
+   "detail": "index-DPpMYq6s.js"
+  },
+  {
+   "name": "GATE.d5aa048a:gate.build.exit",
+   "ok": true,
+   "detail": "BUILD_EXIT=0"
+  },
+  {
+   "name": "GATE.d5aa048a:gate.listfiles.volume",
+   "ok": true,
+   "detail": "3437 lines"
+  },
+  {
+   "name": "GATE.d5aa048a:gate.listfiles.webSrc",
+   "ok": true,
+   "detail": "web/src 入编译"
+  },
+  {
+   "name": "GATE.d5aa048a:gate.report.snapshot",
+   "ok": true,
+   "detail": "d5aa048a"
+  },
+  {
+   "name": "GATE.d5aa048a:gate.report.pass",
+   "ok": true,
+   "detail": "1483"
+  },
+  {
+   "name": "GATE.d5aa048a:gate.report.noRegression",
+   "ok": true,
+   "detail": "结论句在"
+  }
+ ]
+}
