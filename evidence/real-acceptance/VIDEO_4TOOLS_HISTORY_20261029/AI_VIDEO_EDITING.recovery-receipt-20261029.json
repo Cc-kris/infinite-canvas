@@ -1,0 +1,104 @@
+{
+  "schema": "infinite-canvas.recovery-receipt/v1",
+  "generatedAt": "2026-10-29T23:18:40.672525+08:00",
+  "repo": "infinite-canvas",
+  "gitHead": "c8c8ce9e6f09785eb01b73657dc746e0abebb478",
+  "tool": "AI_VIDEO_EDITING",
+  "route": "/tools/ai-video/ai-video-editing",
+  "task": {
+    "taskId": "task-mvt42rpv-kfl1ov",
+    "status": "succeeded",
+    "upstreamTaskId": "task_QFvq6WMc09jv2kSZzh4fFboNx5ZccHBm",
+    "succeededAtLocal": "2026-10-29 15:54",
+    "resultItems": [
+      {
+        "id": "video-0",
+        "storageKey": "tool-result:6x-FsSnD1IMk76p5iayw-",
+        "storageKeyProvenance": "legacy-nanoid",
+        "bytes": 2268656,
+        "mimeType": "video/mp4",
+        "payloadDropped": false
+      }
+    ]
+  },
+  "baselineByteEvidence": {
+    "source": "IndexedDB infinite-canvas/media_files",
+    "storageKey": "tool-result:6x-FsSnD1IMk76p5iayw-",
+    "size": 2268656,
+    "sha256": "47573c147325d451f41ffd89ae21b82c895623c682832546c24181b18f92a505"
+  },
+  "freshReload": {
+    "method": "same-origin iframe loading the route (new document, zustand persist hydrate from IndexedDB); equivalent to Page.reload for this SPA, user tabs untouched",
+    "historyCardVisible": true,
+    "viewResult": "clicked 查看结果 -> result tile renders playable <video> with blob: src",
+    "dataDroppedAttr": "false",
+    "buttons": {
+      "下载": "enabled",
+      "存入资产": "enabled",
+      "发送画布": "enabled"
+    }
+  },
+  "actions": [
+    {
+      "action": "download",
+      "clicked": true,
+      "payload": {
+        "fileName": "ai-video-editing-result-1.mp4",
+        "size": 2268656,
+        "sha256": "47573c147325d451f41ffd89ae21b82c895623c682832546c24181b18f92a505",
+        "capturedVia": "URL.createObjectURL + HTMLAnchorElement dispatchEvent hook inside iframe"
+      },
+      "fileOnDisk": false,
+      "verdict": "PAYLOAD_OK_BYTES_MATCH",
+      "note": "应用层交给浏览器的是完整且字节一致的文件；本次沙箱/iframe 复现环境未在 ~/Downloads 观察到落盘文件，未定位为应用缺陷，故不判定应用失败"
+    },
+    {
+      "action": "saveToAssets",
+      "clicked": true,
+      "feedbackText": "已保存到资产库（i_JqTTSbFcAOrL7VkWlkt）",
+      "asset": {
+        "id": "i_JqTTSbFcAOrL7VkWlkt",
+        "storageKey": "video:9s5210QlKFErewOM93H0m",
+        "bytes": 2268656,
+        "mimeType": "video/mp4",
+        "width": 1280,
+        "height": 720
+      },
+      "byteCheck": {
+        "size": 2268656,
+        "sha256": "47573c147325d451f41ffd89ae21b82c895623c682832546c24181b18f92a505"
+      },
+      "verdict": "PASS"
+    },
+    {
+      "action": "sendToCanvas",
+      "clicked": true,
+      "canvasNode": {
+        "id": "video-1793287028414-m5t13",
+        "type": "video",
+        "storageKey": "video:Uo2TaAle6tyRcgSpHY1JF"
+      },
+      "byteCheck": {
+        "size": 2268656,
+        "sha256": "47573c147325d451f41ffd89ae21b82c895623c682832546c24181b18f92a505"
+      },
+      "verdict": "PASS",
+      "note": "画布库 infinite-canvas:canvas_store 中 projects 内新增该 video 节点，storageKey 指向 media_files 内 2,268,656B 字节"
+    }
+  ],
+  "byteReconciliation": {
+    "identicalSha256Count": 3,
+    "sha256": "47573c147325d451f41ffd89ae21b82c895623c682832546c24181b18f92a505",
+    "keys": [
+      "tool-result:6x-FsSnD1IMk76p5iayw-",
+      "video:9s5210QlKFErewOM93H0m",
+      "video:Uo2TaAle6tyRcgSpHY1JF"
+    ],
+    "fabricatedBytes": false
+  },
+  "verdict": "H_PASS_WITH_HARNESS_CAVEAT",
+  "residualRisks": [
+    "旧键 tool-result:<nanoid> 不含 taskId/index：listTaskResultMedia 只扫 `tool-result:<taskId>:` 前缀，故这些历史字节无法按 provenance 重新挂回任务。若某次快照丢失 storageKey（R19 payloadDropped 场景），字节仍在库内但应用无法归属 -> 需要一次「按任务读取旧键并改写入带 provenance 新键」的回填，本次未改代码（未见可复现的应用层缺陷，避免无根据改动）。",
+    "下载落盘在 iframe 复现环境未观察到文件，需在顶层标签复核（未动用户标签）。"
+  ]
+}
