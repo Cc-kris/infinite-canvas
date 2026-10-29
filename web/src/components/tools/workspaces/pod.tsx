@@ -4,7 +4,7 @@ import { AlertTriangle, Check, ImageOff, ImagePlus, Loader2, Maximize, Minus, Mo
 import { ToolAssetInput } from "@/components/tools/tool-asset-input";
 import { ToolResult } from "@/components/tools/tool-result";
 import { cn } from "@/lib/utils";
-import { loadToolAssetRecords, type ToolAssetRecord } from "@/services/api/tools/assets";
+import { loadToolAssetRecords, uploadToolAsset, type ToolAssetRecord } from "@/services/api/tools/assets";
 import type { ToolTask } from "@/services/api/tools/task-machine";
 import { resolveModelChannel, selectableModelsByCapability, useConfigStore } from "@/stores/use-config-store";
 import { useToolDraftStore } from "@/stores/use-tool-draft-store";
@@ -977,6 +977,8 @@ export type ProductPlacementCanvasProps = {
     onRedo: () => void;
     canUndo: boolean;
     canRedo: boolean;
+    /** 颜色选择与操作提示是否由外层（LinkFox 右栏参数卡）承载；true 时组件内不再重复渲染。 */
+    compact?: boolean;
 };
 
 /** ProductPlacementCanvas：商品图 + 可贴区域 + 素材层（拖拽/键盘）+ 颜色与位置工具条。 */
@@ -991,6 +993,7 @@ export function ProductPlacementCanvas({
     onRedo,
     canUndo,
     canRedo,
+    compact = false,
 }: ProductPlacementCanvasProps) {
     const dragRef = useRef<{ assetId: string; startX: number; startY: number; originX: number; originY: number } | null>(null);
     const product = values.product;
@@ -1188,7 +1191,8 @@ export function ProductPlacementCanvas({
                 })}
             </div>
 
-            <div className="flex flex-wrap items-center gap-2">
+            {compact ? null : (
+            <div className="flex flex-wrap items-center gap-2" data-canvas-color-row>
                 <span className="flex items-center gap-1 text-[11px] text-[var(--muted-foreground)]">
                     <Palette className="h-4 w-4" /> 选择颜色
                 </span>
@@ -1217,11 +1221,14 @@ export function ProductPlacementCanvas({
                     );
                 })}
             </div>
+            )}
 
+            {compact ? null : (
             <p className="flex items-center gap-1 text-[11px] text-[var(--muted-foreground)]">
                 <Move className="h-3.5 w-3.5" />
                 拖动素材调整位置；方向键微调 1%（Shift 10%）、+/- 缩放、[ ] 旋转、⌘Z 撤销
             </p>
+            )}
         </div>
     );
 }
@@ -1242,8 +1249,26 @@ export function SdsDesignWorkspace() {
     const [errorText, setErrorText] = useState("");
     const [running, setRunning] = useState(false);
     const [snapshot, setSnapshot] = useState<SdsSnapshot | undefined>();
-    const [tab, setTab] = useState<"material" | "preview" | "result">("material");
+    const [resultTab, setResultTab] = useState<"result" | "cases" | "history">("result");
+    const [stageBusy, setStageBusy] = useState(false);
+    const [stageError, setStageError] = useState("");
+    const materialInputRef = useRef<HTMLInputElement | null>(null);
+    const productInputRef = useRef<HTMLInputElement | null>(null);
     const abortRef = useRef<AbortController | null>(null);
+
+    /** 阶段卡直接选图上传所用的约束（与工具注册表一致）。 */
+    const sdsConstraints = useMemo(
+        () => ({
+            kind: "image" as const,
+            mimeTypes: [...SDS_UPLOAD_LIMITS.mimeTypes],
+            maxBytes: SDS_UPLOAD_LIMITS.maxBytes,
+            minWidth: SDS_UPLOAD_LIMITS.minSide,
+            minHeight: SDS_UPLOAD_LIMITS.minSide,
+            maxWidth: SDS_UPLOAD_LIMITS.maxSide,
+            maxHeight: SDS_UPLOAD_LIMITS.maxSide,
+        }),
+        [],
+    );
 
     const hydrateDraft = useToolDraftStore((state) => state.hydrate);
     const patchDraft = useToolDraftStore((state) => state.patch);
@@ -1338,6 +1363,33 @@ export function SdsDesignWorkspace() {
             }
         },
         [update],
+    );
+
+    /** 舞台卡 / 产品卡的文件选择 → 上传落库 → 回填素材或商品图。 */
+    const uploadStageFiles = useCallback(
+        async (files: File[], slot: "material" | "product") => {
+            if (!files.length) return;
+            setStageBusy(true);
+            setStageError("");
+            const limit = slot === "product" ? 1 : Math.max(0, SDS_MATERIAL_COUNT.max - materialRecords.length);
+            try {
+                const created: ToolAssetRecord[] = [];
+                for (const file of files.slice(0, limit)) {
+                    created.push(await uploadToolAsset(file, { constraints: sdsConstraints }));
+                }
+                if (!created.length) return;
+                if (slot === "product") {
+                    handleProduct([], created);
+                } else {
+                    handleMaterials([...materialRecords, ...created].slice(0, SDS_MATERIAL_COUNT.max));
+                }
+            } catch (error) {
+                setStageError(error instanceof Error ? error.message : "上传失败，请重试");
+            } finally {
+                setStageBusy(false);
+            }
+        },
+        [handleMaterials, handleProduct, materialRecords, sdsConstraints],
     );
 
     const handleRemoveMaterial = useCallback(
@@ -1495,169 +1547,301 @@ export function SdsDesignWorkspace() {
     }, [materialSources, productSource]);
 
     const missing = sdsMissingIndexes(result.slots);
+    const productUrl = productRecords[0]?.url ?? values.product?.url ?? null;
+    const stageHasContent = values.materials.length > 0;
+    const submitLabel = running ? "生成中…" : "立即生成";
 
     return (
-        <div className="flex flex-col gap-4">
-            <div className="flex flex-wrap items-center gap-2 md:hidden">
-                {(["material", "preview", "result"] as const).map((key) => (
-                    <button
-                        key={key}
-                        type="button"
-                        aria-pressed={tab === key}
-                        onClick={() => setTab(key)}
-                        className={cn(
-                            "min-h-[38px] rounded-lg border px-3 text-xs",
-                            tab === key ? "border-[var(--primary)] text-[var(--foreground)]" : "border-[var(--border)] text-[var(--muted-foreground)]",
-                        )}
-                    >
-                        {key === "material" ? "素材" : key === "preview" ? "素材操作" : "结果"}
-                    </button>
-                ))}
-            </div>
-
-            <div className="grid grid-cols-1 gap-4 xl:grid-cols-[340px_minmax(0,1fr)_360px]">
-                {/* 左：素材 */}
-                <section className={cn("flex flex-col gap-3", tab === "material" ? "" : "hidden xl:flex")} aria-label="素材">
-                    <h2 className="text-sm font-medium text-[var(--foreground)]">素材</h2>
-                    <div className={cn(sdsCardClass, "flex flex-col gap-3")}>
-                        <label className={labelClass}>
-                            商品图（提交字段 productId）
-                            <span className="mt-1 block text-[11px] font-normal text-[var(--muted-foreground)]">上传要贴图的商品照片，素材按它的比例摆放</span>
-                        </label>
-                        <ToolAssetInput
-                            toolId={`${toolId}:product`}
-                            title="上传商品图"
-                            maxCount={1}
-                            disabled={running}
-                            onChange={handleProduct}
-                            constraints={{
-                                kind: "image",
-                                mimeTypes: [...SDS_UPLOAD_LIMITS.mimeTypes],
-                                maxBytes: SDS_UPLOAD_LIMITS.maxBytes,
-                                minWidth: SDS_UPLOAD_LIMITS.minSide,
-                                minHeight: SDS_UPLOAD_LIMITS.minSide,
-                                maxWidth: SDS_UPLOAD_LIMITS.maxSide,
-                                maxHeight: SDS_UPLOAD_LIMITS.maxSide,
-                            }}
-                        />
-                    </div>
-
-                    <div className={cn(sdsCardClass, "flex flex-col gap-3")}>
-                        <PodMaterialForm
-                            values={values}
-                            materials={materialRecords}
-                            disabled={running}
-                            onMaterialsChange={handleMaterials}
-                            onNameChange={(name) => update((previous) => ({ ...previous, imageName: name }))}
-                            onSelect={handleSelect}
-                            onTilingChange={handleTiling}
-                            onRemove={handleRemoveMaterial}
-                        />
-                    </div>
-
-                    <div className={cn(sdsCardClass, "flex flex-col gap-2 text-xs text-[var(--muted-foreground)]")}>
-                        <p>输出数量：{values.materials.length} 张（与素材一一对应）</p>
-                        <p>素材：{values.materials.length} 个 · 商品图：{values.product ? "已上传" : "未上传"}</p>
-                        <p>颜色：{sdsColorOption(values.colorId).label}</p>
-                    </div>
-                </section>
-
-                {/* 中：素材操作 */}
-                <section className={cn("flex flex-col gap-3", tab === "preview" ? "" : "hidden xl:flex")} aria-label="素材操作">
-                    <h2 className="text-sm font-medium text-[var(--foreground)]">素材操作</h2>
-                    <div className={cn(sdsCardClass, "flex flex-col gap-3")}>
-                        <ProductPlacementCanvas
-                            values={values}
-                            colorId={values.colorId}
-                            disabled={running}
-                            onSelect={handleSelect}
-                            onPlacementChange={handlePlacementChange}
-                            onSelectColor={(colorId) => update((previous) => ({ ...previous, colorId }))}
-                            onUndo={handleUndo}
-                            onRedo={handleRedo}
-                            canUndo={canUndoSdsPlacement(history)}
-                            canRedo={canRedoSdsPlacement(history)}
-                        />
-                    </div>
-                </section>
-
-                {/* 右：结果 */}
-                <section className={cn("flex flex-col gap-3", tab === "result" ? "" : "hidden xl:flex")} aria-label="结果">
-                    <h2 className="text-sm font-medium text-[var(--foreground)]">结果</h2>
-                    <div className={cn(sdsCardClass, "flex flex-col gap-3")}>
-                        <ul className="flex flex-col gap-1.5" aria-label="素材槽位">
-                            {result.slots.length === 0 ? (
-                                <li className="text-xs text-[var(--muted-foreground)]">还没有结果，先补齐素材后点「立即生成」。</li>
-                            ) : (
-                                result.slots.map((slot) => (
-                                    <li key={slot.assetId} className="flex items-center gap-2 text-xs">
-                                        <span
-                                            className={cn(
-                                                "flex h-5 w-5 items-center justify-center rounded-full border",
-                                                slot.item
-                                                    ? "border-emerald-500 text-emerald-600"
-                                                    : missing.includes(slot.index)
-                                                      ? "border-amber-500 text-amber-600"
-                                                      : "border-[var(--border)] text-[var(--muted-foreground)]",
-                                            )}
-                                        >
-                                            {slot.item ? <Check className="h-3 w-3" /> : <AlertTriangle className="h-3 w-3" />}
-                                        </span>
-                                        <span className="min-w-0 flex-1 truncate text-[var(--foreground)]">
-                                            {slot.index + 1}. {slot.name}
-                                        </span>
-                                        <span className="text-[11px] text-[var(--muted-foreground)]">
-                                            {slot.item ? "已生成" : result.status === "succeeded" ? "缺图" : "待生成"}
-                                        </span>
-                                    </li>
-                                ))
-                            )}
-                        </ul>
-
-                        {result.stale ? (
-                            <p className="rounded-lg border border-amber-300 bg-amber-50 px-2 py-1.5 text-[11px] text-amber-700">
-                                结果来自旧版本（改动：{result.drift || "配置已变化"}），需重新生成。
+        <div className="flex flex-col gap-[10px] xl:flex-row" data-tool-workspace="sds-design" data-variant="sds-1to1">
+            {/* 左：素材贴合主面板（舞台 + 右栏参数卡） */}
+            <section
+                aria-label="素材贴合"
+                className="flex min-w-0 flex-1 flex-col gap-[10px] rounded-[8px] border border-[#E8E8E8] bg-[#EDEFF5] p-[10px] lg:flex-row"
+            >
+                <div className="flex min-w-0 flex-1 flex-col items-center justify-center px-[10px] pb-[10px] pt-[50px]">
+                    {stageHasContent ? (
+                        <div className="w-full max-w-[560px]">
+                            <ProductPlacementCanvas
+                                values={values}
+                                colorId={values.colorId}
+                                disabled={running}
+                                onSelect={handleSelect}
+                                onPlacementChange={handlePlacementChange}
+                                onSelectColor={(colorId) => update((previous) => ({ ...previous, colorId }))}
+                                onUndo={handleUndo}
+                                onRedo={handleRedo}
+                                canUndo={canUndoSdsPlacement(history)}
+                                canRedo={canRedoSdsPlacement(history)}
+                                compact
+                            />
+                        </div>
+                    ) : (
+                        <div className="flex w-full max-w-[540px] flex-col items-center gap-[6px] rounded-[12px] bg-white p-[20px] shadow-[0_2px_12px_rgba(0,0,0,0.06)]">
+                            <div className="flex h-[282px] w-full flex-col items-center justify-center gap-2 rounded-lg bg-[#F5F6FA]">
+                                <ImagePlus className="h-9 w-9 text-[#C4C7CF]" />
+                                <p className="text-[13px] text-[#B4B7BF]">上传素材后在这里预览贴合效果</p>
+                            </div>
+                            <h3 className="m-0 !mt-[16px] text-center text-[20px] leading-[31px] text-[rgba(0,0,0,0.85)]">素材贴合</h3>
+                            <p className="m-0 !mt-[6px] text-center text-[16px] leading-[25px] text-[#939599]">
+                                上传精美素材，一键贴合到商品预览效果，极大提高测款效率
                             </p>
-                        ) : null}
-                        {resultNotice ? (
-                            <p className="rounded-lg border border-[var(--border)] bg-[var(--background)] px-2 py-1.5 text-[11px] text-[var(--muted-foreground)]">
-                                {resultNotice}
-                            </p>
-                        ) : null}
-                        {sdsRepairIndexes(result).length ? (
                             <button
                                 type="button"
-                                disabled={running}
-                                onClick={() => void handleRepair()}
-                                className="flex min-h-[40px] items-center justify-center gap-2 rounded-lg border border-[var(--primary)] px-3 text-xs text-[var(--foreground)] disabled:opacity-50"
+                                disabled={running || stageBusy}
+                                onClick={() => materialInputRef.current?.click()}
+                                className="m-0 !mt-[14px] flex h-[32px] items-center justify-center gap-1.5 rounded-md px-[15px] text-[14px] text-white disabled:cursor-not-allowed disabled:opacity-60"
+                                style={{ backgroundImage: "linear-gradient(90deg, #3A7DF9 0%, #723CF9 100%)" }}
                             >
-                                {running ? <Loader2 className="h-4 w-4 animate-spin" /> : <ImagePlus className="h-4 w-4" />}
-                                只补生成缺失的 {sdsRepairIndexes(result).length} 张
+                                {stageBusy ? <Loader2 className="h-4 w-4 animate-spin" /> : null}
+                                上传素材
                             </button>
-                        ) : null}
+                            {stageError ? <p className="text-[12px] text-red-500">{stageError}</p> : null}
+                        </div>
+                    )}
+                </div>
 
+                <div className="flex w-full shrink-0 flex-col gap-[10px] lg:w-[279px]">
+                    {/* 产品 */}
+                    <div className="rounded-[8px] bg-[#F9F9F9] p-[10px_20px_10px_10px]">
                         <button
                             type="button"
-                            disabled={running || blocked}
-                            onClick={() => void handleSubmit()}
-                            title={blocked ? (issues[0]?.message ?? "配置不完整") : ""}
-                            className="flex min-h-[44px] items-center justify-center gap-2 rounded-lg bg-[var(--primary)] px-4 text-sm font-medium text-[var(--primary-foreground)] disabled:cursor-not-allowed disabled:opacity-50"
+                            disabled={running || stageBusy}
+                            onClick={() => productInputRef.current?.click()}
+                            className="flex w-full items-center gap-[10px] text-left disabled:cursor-not-allowed disabled:opacity-60"
                         >
-                            {running ? <Loader2 className="h-4 w-4 animate-spin" /> : <Sparkles className="h-4 w-4" />}
-                            {running ? "生成中…" : sdsSubmitLabel(values)}
+                            <span className="flex h-[60px] w-[60px] shrink-0 items-center justify-center overflow-hidden rounded-md bg-[#EDEFF5]">
+                                {productUrl ? (
+                                    <img src={productUrl} alt="商品图" className="h-full w-full object-cover" />
+                                ) : (
+                                    <Plus className="h-5 w-5 text-[#B9BCC4]" />
+                                )}
+                            </span>
+                            <span className="min-w-0 flex-1">
+                                <span className="block text-[14px] leading-[22px] text-[rgba(0,0,0,0.85)]">产品</span>
+                                <span className="mt-[2px] block truncate text-[12px] leading-[18px] text-[#939599]">
+                                    {productUrl ? "已选择商品图，点击可更换" : "选择产品进行素材贴合"}
+                                </span>
+                            </span>
                         </button>
-                        {blocked && issues[0] ? <p className="text-[11px] text-amber-600">{issues[0].message}</p> : null}
-                        {errorText ? <p className="text-[11px] text-red-500">{errorText}</p> : null}
-                        {notice ? <p className="text-[11px] text-[var(--muted-foreground)]">{notice}</p> : null}
-                        {!modelReady ? <p className="text-[11px] text-amber-600">未配置可用的图片模型，请先在设置里选择模型。</p> : null}
-                        <p className="text-[11px] text-[var(--muted-foreground)]">
-                            商品图：{values.product?.assetId ? `#${values.product.assetId.slice(0, 8)}` : "——"} · 响应 id：{sdsResponseId(task) || "——（上游未回填）"}
-                        </p>
                     </div>
 
-                    <ToolResult task={task ?? null} toolId={toolId} title="SDS 素材贴合结果" onRetry={handleRetry} />
-                </section>
-            </div>
+                    {/* 选择颜色 */}
+                    <div className="rounded-[8px] bg-[#F9F9F9] px-[16px] pt-[10px]">
+                        <p className="text-[14px] leading-[22px] text-[rgba(0,0,0,0.85)]">选择颜色</p>
+                        <div className="flex h-[42px] items-center gap-[10px]" role="group" aria-label="选择颜色">
+                            {SDS_COLOR_OPTIONS.map((option) => {
+                                const active = option.id === values.colorId;
+                                return (
+                                    <button
+                                        key={option.id}
+                                        type="button"
+                                        aria-pressed={active}
+                                        disabled={running}
+                                        title={option.label}
+                                        onClick={() => update((previous) => ({ ...previous, colorId: option.id }))}
+                                        className={cn(
+                                            "flex h-[26px] w-[26px] items-center justify-center rounded-full border transition",
+                                            active ? "border-[#723CF9]" : "border-transparent",
+                                            running && "opacity-50",
+                                        )}
+                                    >
+                                        <span
+                                            aria-hidden="true"
+                                            className="block h-[20px] w-[20px] rounded-full border border-black/10"
+                                            style={{ backgroundColor: option.hex || "transparent" }}
+                                        />
+                                        <span className="sr-only">{option.label}</span>
+                                    </button>
+                                );
+                            })}
+                        </div>
+                    </div>
+
+                    {/* 素材操作 */}
+                    <div className="rounded-[8px] bg-[#F9F9F9] px-[16px] pt-[10px]">
+                        <p className="text-[14px] leading-[22px] text-[rgba(0,0,0,0.85)]">素材操作</p>
+                        <div className="flex h-[36px] items-center gap-[8px]">
+                            <button
+                                type="button"
+                                aria-label="撤销"
+                                disabled={running || !canUndoSdsPlacement(history)}
+                                onClick={handleUndo}
+                                className="flex h-[30px] w-[30px] items-center justify-center rounded-md border border-[#E8E8E8] bg-white text-[#5B5F68] disabled:cursor-not-allowed disabled:opacity-40"
+                            >
+                                <Undo2 className="h-4 w-4" />
+                            </button>
+                            <button
+                                type="button"
+                                aria-label="重做"
+                                disabled={running || !canRedoSdsPlacement(history)}
+                                onClick={handleRedo}
+                                className="flex h-[30px] w-[30px] items-center justify-center rounded-md border border-[#E8E8E8] bg-white text-[#5B5F68] disabled:cursor-not-allowed disabled:opacity-40"
+                            >
+                                <Redo2 className="h-4 w-4" />
+                            </button>
+                            <button
+                                type="button"
+                                disabled={running || blocked}
+                                onClick={() => void handleSubmit()}
+                                title={blocked ? (issues[0]?.message ?? "配置不完整") : ""}
+                                className="ml-auto flex h-[30px] items-center justify-center gap-1.5 rounded-md px-[14px] text-[14px] text-white disabled:cursor-not-allowed disabled:opacity-50"
+                                style={{ backgroundImage: "linear-gradient(90deg, #3A7DF9 0%, #723CF9 100%)" }}
+                            >
+                                {running ? <Loader2 className="h-4 w-4 animate-spin" /> : null}
+                                {submitLabel}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            {/* 右：生成结果面板 */}
+            <aside
+                aria-label="生成结果"
+                className="flex w-full shrink-0 flex-col rounded-[8px] bg-[#EDEFF5] xl:w-[300px]"
+            >
+                <div className="flex h-[42px] shrink-0 items-center justify-between rounded-t-[8px] bg-white px-[12px]">
+                    <div className="flex items-center gap-[14px]">
+                        {([
+                            ["result", "生成结果"],
+                            ["cases", "优秀案例"],
+                        ] as const).map(([key, label]) => (
+                            <button
+                                key={key}
+                                type="button"
+                                aria-pressed={resultTab === key}
+                                onClick={() => setResultTab(key)}
+                                className={cn(
+                                    "flex h-[41px] items-center px-0 text-[14px] leading-[22px]",
+                                    resultTab === key ? "text-[#723CF9]" : "text-[#5B5F68]",
+                                )}
+                            >
+                                {label}
+                            </button>
+                        ))}
+                    </div>
+                    <button
+                        type="button"
+                        aria-pressed={resultTab === "history"}
+                        onClick={() => setResultTab("history")}
+                        className={cn(
+                            "flex h-[41px] items-center text-[14px] leading-[22px]",
+                            resultTab === "history" ? "text-[#723CF9]" : "text-[#5B5F68]",
+                        )}
+                    >
+                        历史记录
+                    </button>
+                </div>
+
+                <div className="flex min-h-[320px] flex-1 flex-col px-[16px]">
+                    {resultTab === "cases" ? (
+                        <div className="flex flex-1 flex-col items-center justify-center gap-2 text-center">
+                            <p className="text-[14px] text-[#939599]">暂无优秀案例</p>
+                            <p className="text-[13px] text-[#B4B7BF]">生成结果达到满意效果后会出现在这里~</p>
+                        </div>
+                    ) : resultTab === "history" ? (
+                        <div className="flex flex-1 flex-col items-center justify-center gap-2 text-center">
+                            <p className="text-[14px] text-[#939599]">暂无历史记录</p>
+                            <p className="text-[13px] text-[#B4B7BF]">每次生成会自动存档，可在这里回看~</p>
+                        </div>
+                    ) : (
+                        <div className="flex flex-1 flex-col gap-3">
+                            {result.slots.length === 0 && !task ? (
+                                <div className="flex flex-1 flex-col items-center gap-[22px] pt-[96px] text-center">
+                                    <p className="text-[14px] text-[rgba(0,0,0,0.45)]">暂无生成结果图</p>
+                                    <p className="text-[14px] text-[#939599]">快在左侧操作素材贴合吧~</p>
+                                </div>
+                            ) : (
+                                <ul className="flex flex-col gap-1.5" aria-label="素材槽位">
+                                    {result.slots.map((slot) => (
+                                        <li key={slot.assetId} className="flex items-center gap-2 text-[13px]">
+                                            <span
+                                                className={cn(
+                                                    "flex h-5 w-5 items-center justify-center rounded-full border",
+                                                    slot.item
+                                                        ? "border-emerald-500 text-emerald-600"
+                                                        : missing.includes(slot.index)
+                                                          ? "border-amber-500 text-amber-600"
+                                                          : "border-[#D9DBE0] text-[#939599]",
+                                                )}
+                                            >
+                                                {slot.item ? <Check className="h-3 w-3" /> : <AlertTriangle className="h-3 w-3" />}
+                                            </span>
+                                            <span className="min-w-0 flex-1 truncate text-[rgba(0,0,0,0.85)]">
+                                                {slot.index + 1}. {slot.name}
+                                            </span>
+                                            <span className="text-[12px] text-[#939599]">
+                                                {slot.item ? "已生成" : result.status === "succeeded" ? "缺图" : "待生成"}
+                                            </span>
+                                        </li>
+                                    ))}
+                                </ul>
+                            )}
+
+                            {stageHasContent ? (
+                                <>
+                                    {result.stale ? (
+                                        <p className="rounded-[8px] border border-amber-300 bg-amber-50 px-2 py-1.5 text-[12px] text-amber-700">
+                                            结果来自旧版本（改动：{result.drift || "配置已变化"}），需重新生成。
+                                        </p>
+                                    ) : null}
+                                    {resultNotice ? (
+                                        <p className="rounded-[8px] border border-[#E8E8E8] bg-white px-2 py-1.5 text-[12px] text-[#939599]">
+                                            {resultNotice}
+                                        </p>
+                                    ) : null}
+                                    {sdsRepairIndexes(result).length ? (
+                                        <button
+                                            type="button"
+                                            disabled={running}
+                                            onClick={() => void handleRepair()}
+                                            className="flex min-h-[36px] items-center justify-center gap-2 rounded-[8px] border border-[#723CF9] px-3 text-[13px] text-[#723CF9] disabled:opacity-50"
+                                        >
+                                            {running ? <Loader2 className="h-4 w-4 animate-spin" /> : <ImagePlus className="h-4 w-4" />}
+                                            只补生成缺失的 {sdsRepairIndexes(result).length} 张
+                                        </button>
+                                    ) : null}
+
+                                    {blocked && issues[0] ? <p className="text-[12px] text-amber-600">{issues[0].message}</p> : null}
+                                    {errorText ? <p className="text-[12px] text-red-500">{errorText}</p> : null}
+                                    {notice ? <p className="text-[12px] text-[#939599]">{notice}</p> : null}
+                                    {!modelReady ? <p className="text-[12px] text-amber-600">未配置可用的图片模型，请先在设置里选择模型。</p> : null}
+                                </>
+                            ) : null}
+
+                            {task ? (
+                                <div className="min-h-0 flex-1">
+                                    <ToolResult task={task ?? null} toolId={toolId} title="素材贴合结果" onRetry={handleRetry} />
+                                </div>
+                            ) : null}
+                        </div>
+                    )}
+                </div>
+            </aside>
+
+            <input
+                ref={materialInputRef}
+                type="file"
+                hidden
+                multiple
+                accept="image/png,image/jpeg,image/webp"
+                onChange={(event) => {
+                    const files = Array.from(event.target.files ?? []);
+                    event.target.value = "";
+                    void uploadStageFiles(files, "material");
+                }}
+            />
+            <input
+                ref={productInputRef}
+                type="file"
+                hidden
+                accept="image/png,image/jpeg,image/webp"
+                onChange={(event) => {
+                    const files = Array.from(event.target.files ?? []);
+                    event.target.value = "";
+                    void uploadStageFiles(files, "product");
+                }}
+            />
         </div>
     );
 }
