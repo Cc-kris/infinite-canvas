@@ -1,0 +1,197 @@
+{
+  "round": "R27",
+  "head": "captured-in-run",
+  "route": "/tools/ai-video/video-concat",
+  "startedAt": "2026-10-29T15:26:42.596Z",
+  "clips": [
+    "1. small.mp4 ↑ ↓ × 原始 3s · 有效 3s 还原 起 止 秒",
+    "2. clip-b.mp4 ↑ ↓ × 原始 4s · 有效 4s 还原 起 止 秒",
+    "3. downloaded.mp4 ↑ ↓ × 原始 6.6s · 有效 6.6s 还原 起 止 秒"
+  ],
+  "steps": [
+    "page-opened",
+    "draft-cleared",
+    "clips-uploaded-with-real-duration",
+    "cover-grabbed",
+    "submit-clicked",
+    "terminal-or-timeout",
+    "fresh-reload-history"
+  ],
+  "upstream": {
+    "requests": [
+      {
+        "at": "2026-10-29T15:26:48.643Z",
+        "method": "POST",
+        "url": "http://127.0.0.1:23220/https://sub2api.1006000.xyz/v1/videos"
+      },
+      {
+        "at": "2026-10-29T15:29:49.767Z",
+        "method": "POST",
+        "url": "http://127.0.0.1:23220/https://sub2api.1006000.xyz/v1/videos",
+        "bytes": 25463,
+        "videoFields": 0,
+        "imageFields": 0,
+        "mediaUrls": [
+          "https://telephony-affects-borders-wider.trycloudflare.com/__media/79ca27ce822a893bed6bc10d3a71765f.mp4",
+          "https://telephony-affects-borders-wider.trycloudflare.com/__media/2fca4ea7467e241e99f673e1e3521678.mp4",
+          "https://telephony-affects-borders-wider.trycloudflare.com/__media/9416a68a11b04d39faa4cde7ea57d753.mp4",
+          "https://telephony-affects-borders-wider.trycloudflare.com/__media/47573c147325d451f41ffd89ae21b82c.mp4"
+        ],
+        "model": null,
+        "seconds": null,
+        "size": null
+      }
+    ],
+    "responses": [
+      {
+        "at": "2026-10-29T15:27:02.871Z",
+        "method": "POST",
+        "status": 400,
+        "url": "http://127.0.0.1:23220/https://sub2api.1006000.xyz/v1/videos",
+        "body": "{\"error\":{\"message\":\"'utf-8' codec can't decode byte 0xff in position 1535: invalid start byte\",\"type\":\"invalid_request_error\"}}"
+      },
+      {
+        "at": "2026-10-29T15:29:54.148Z",
+        "method": "POST",
+        "status": 400,
+        "url": "http://127.0.0.1:23220/https://sub2api.1006000.xyz/v1/videos",
+        "body": "{\"error\":{\"message\":\"references exceed limits: images 9, videos 3, audio 3, total 12\",\"type\":\"invalid_request_error\"}}"
+      }
+    ]
+  },
+  "media": {
+    "requests": [
+      {
+        "at": "2026-10-29T15:27:02.870Z",
+        "method": "POST",
+        "url": "https://telephony-affects-borders-wider.trycloudflare.com/__media/upload",
+        "bytes": null
+      },
+      {
+        "at": "2026-10-29T15:27:05.447Z",
+        "method": "POST",
+        "url": "https://telephony-affects-borders-wider.trycloudflare.com/__media/upload",
+        "bytes": null
+      },
+      {
+        "at": "2026-10-29T15:27:27.089Z",
+        "method": "POST",
+        "url": "https://telephony-affects-borders-wider.trycloudflare.com/__media/upload",
+        "bytes": null
+      },
+      {
+        "at": "2026-10-29T15:28:15.462Z",
+        "method": "POST",
+        "url": "https://telephony-affects-borders-wider.trycloudflare.com/__media/upload",
+        "bytes": null
+      }
+    ]
+  },
+  "statusTimeline": [
+    {
+      "at": "2026-10-29T15:26:48.662Z",
+      "status": "submitting",
+      "progress": null,
+      "items": 0,
+      "error": null
+    },
+    {
+      "at": "2026-10-29T15:29:57.229Z",
+      "status": "unknown",
+      "progress": null,
+      "items": 0,
+      "error": "references exceed limits: images 9, videos 3, audio 3, total 12 · sub2api.1006000.xyz/videos · HTTP 400"
+    }
+  ],
+  "reload": {
+    "count": 2,
+    "matched": true,
+    "head": [
+      {
+        "taskId": "task-mvtp52jt-4yy3d4",
+        "status": "failed",
+        "text": "2026-10-29 23:26 失败 把 4 段参考视频按给定顺序首尾拼成 1 条连续视频，9:16 画幅，目标时长 20 秒。 片段… sub2api-real::MiniMax-H3 · video · 0 个结果 这次提交在请求发出之前就中断了（页面刷新或关闭），上游没有收到请求，也不会产生费用。可以直接重试。"
+      },
+      {
+        "taskId": "task-mvthgaa4-pdg1eq",
+        "status": "succeeded",
+        "text": "2026-10-29 19:51 已完成 把 2 段参考视频按给定顺序首尾拼成 1 条连续视频，9:16 画幅，目标时长 7 秒。 片段 … sub2api-real::MiniMax-H3 · video · 1 个结果 查看结果"
+      }
+    ]
+  },
+  "result": null,
+  "actions": {},
+  "issues": [
+    "任务非成功终态（unknown），不构造成功证据"
+  ],
+  "expect": {
+    "clipA": {
+      "path": "/Users/mac/Documents/Dev/infinite-canvas/docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/VIDEO_TRANSLATION/downloaded.mp4",
+      "bytes": 1080637,
+      "sha256": "9416a68a11b04d39faa4cde7ea57d753d6b9fd720705775a64cf86dbf8632a8c"
+    },
+    "clipB": {
+      "path": "/Users/mac/Documents/Dev/infinite-canvas/docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/AI_VIDEO_EDITING/receipt-20261029/task_QFvq6WMc_video.mp4",
+      "bytes": 2268656,
+      "sha256": "47573c147325d451f41ffd89ae21b82c895623c682832546c24181b18f92a505"
+    }
+  },
+  "consoleErrors": [
+    "Failed to load resource: net::ERR_FILE_NOT_FOUND",
+    "Failed to load resource: the server responded with a status of 403 ()",
+    "Failed to load resource: the server responded with a status of 403 ()",
+    "Cannot update a component (`%s`) while rendering a different component (`%s`). To locate the bad setState() call inside `%s`, follow the stack trace as described in https://react.dev/link/setstate-in-render VideoConcatWorkspace ToolAssetInp",
+    "Failed to load resource: the server responded with a status of 400 (Bad Request)",
+    "Failed to load resource: the server responded with a status of 400 (Bad Request)"
+  ],
+  "cover": {
+    "name": "small.mp4 封面",
+    "imgBytes": null
+  },
+  "preSubmit": {
+    "channel": "通道 openai · 多段视频 已验证发送",
+    "summary": "4 段 / 最少 2 段 · 素材 20.2s → 输出 20s",
+    "issues": [],
+    "blocked": null
+  },
+  "submitState": {
+    "visible": 1,
+    "disabled": false,
+    "text": "开始拼接"
+  },
+  "submitAt": "2026-10-29T15:26:48.631Z",
+  "storeSnapshotCount": 2,
+  "final": {
+    "key": "tool-task:v1:task-mvtp52jt-4yy3d4",
+    "id": "task-mvtp52jt-4yy3d4",
+    "status": "unknown",
+    "upstreamTaskId": null,
+    "createdAt": 1793287608617,
+    "submittedAt": 1793287608617,
+    "progress": null,
+    "error": {
+      "message": "references exceed limits: images 9, videos 3, audio 3, total 12 · sub2api.1006000.xyz/videos · HTTP 400",
+      "code": "unclassified"
+    },
+    "items": [],
+    "updatedAt": 1793287794098
+  },
+  "upstreamPost": {
+    "at": "2026-10-29T15:26:48.643Z",
+    "method": "POST",
+    "url": "http://127.0.0.1:23220/https://sub2api.1006000.xyz/v1/videos"
+  },
+  "upstreamTaskId": null,
+  "localTaskId": "task-mvtp52jt-4yy3d4",
+  "upstreamTaskIdFromStore": null,
+  "errorDom": {
+    "alerts": [
+      "缺少封面：还没有封面：请上传封面图或从片段抓取一帧",
+      "封面必须是图片（PNG / JPG / WebP），「small.mp4」是 video/mp4，请换图或从片段抓帧"
+    ],
+    "errorText": "封面必须是图片（PNG / JPG / WebP），「small.mp4」是 video/mp4，请换图或从片段抓帧",
+    "historyText": "历史任务 点击「查看结果」把历史任务放回上方结果区 历史记录 2 条 2026-10-29 23:26 失败 把 4 段参考视频按给定顺序首尾拼成 1 条连续视频，9:16 画幅，目标时长 20 秒。 片段… sub2api-real::MiniMax-H3 · video · 0 个结果 这次提交在请求发出之前就中断了（页面刷新或关闭），上游没有收到请求，也不会产生费用。可以直接重试。 2026-10-29 19:51 已完成 把 2 段参考视频按给定顺序首尾拼成 1 条连续视频，9:16 画幅，目标时长 7 秒。 片段 … sub2api-real::MiniMax-H3 · video · 1 个结果 查看结果"
+  },
+  "finishedAt": "2026-10-29T15:30:00.726Z",
+  "upstreamRequestCount": 2
+}
