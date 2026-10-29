@@ -643,7 +643,7 @@ export function SaleVideoWorkspace({ className }: SaleVideoWorkspaceProps = {}) 
                     <section className="space-y-2 rounded-lg border border-border p-3" data-testid="sale-video-cases">
                         <h2 className="text-sm font-medium">优秀案例</h2>
                         {/* SALE_VIDEO（type=73）：原站有「优秀案例」页签，视频案例卡片=封面图+视频。
-                            真实数据源：LinkFox `/image/make-case/list?type=<bizType>`（抓取与落盘做法见 image-to-video-cases-data.ts）。
+                            数据源：上游案例接口 `/image/make-case/list?type=<bizType>`（抓取与落盘做法见 image-to-video-cases-data.ts）。
                             未抓到前 cases 为空，ToolCases 只渲染标准空态（暂无优秀案例）。 */}
                         <ToolCases cases={[]} onApply={() => undefined} />
                     </section>
@@ -1355,7 +1355,7 @@ export function VideoConcatWorkspace({ className }: VideoConcatWorkspaceProps = 
                         <section className="space-y-2 rounded-lg border border-border p-3" data-testid="video-concat-cases">
                             <h2 className="text-sm font-medium">优秀案例</h2>
                             {/* VIDEO_CONCAT（type=52）：原站有「优秀案例」页签。
-                                真实数据源：LinkFox `/image/make-case/list?type=<bizType>`（抓取与落盘做法见 image-to-video-cases-data.ts）。
+                                数据源：上游案例接口 `/image/make-case/list?type=<bizType>`（抓取与落盘做法见 image-to-video-cases-data.ts）。
                                 未抓到前 cases 为空，ToolCases 只渲染标准空态（暂无优秀案例）。 */}
                             <ToolCases cases={[]} onApply={() => undefined} />
                         </section>
@@ -1950,7 +1950,7 @@ export function AiVideoEditingWorkspace({ className }: AiVideoEditingWorkspacePr
                     <section className="space-y-2 rounded-lg border border-border p-3" data-testid="ai-video-editing-cases">
                         <h2 className="text-sm font-medium">优秀案例</h2>
                         {/* AI_VIDEO_EDITING（type=95）：原站有「优秀案例」页签。
-                            真实数据源：LinkFox `/image/make-case/list?type=<bizType>`（抓取与落盘做法见 image-to-video-cases-data.ts）。
+                            数据源：上游案例接口 `/image/make-case/list?type=<bizType>`（抓取与落盘做法见 image-to-video-cases-data.ts）。
                             未抓到前 cases 为空，ToolCases 只渲染标准空态（暂无优秀案例）。 */}
                         <ToolCases cases={[]} onApply={() => undefined} />
                     </section>
@@ -2653,7 +2653,7 @@ export function VideoReplicationWorkspace({ className }: VideoReplicationWorkspa
             <section className="space-y-2 rounded-lg border border-border p-3" data-testid="video-replication-cases">
                 <h2 className="text-sm font-medium">优秀案例</h2>
                 {/* VIDEO_REPLICATION（type=89）：原站有「优秀案例」页签。
-                    真实数据源：LinkFox `/image/make-case/list?type=<bizType>`（抓取与落盘做法见 image-to-video-cases-data.ts）。
+                    数据源：上游案例接口 `/image/make-case/list?type=<bizType>`（抓取与落盘做法见 image-to-video-cases-data.ts）。
                     未抓到前 cases 为空，ToolCases 只渲染标准空态（暂无优秀案例）。 */}
                 <ToolCases cases={[]} onApply={() => undefined} />
             </section>
