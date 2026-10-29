@@ -1,0 +1,231 @@
+{
+ "tool": "PRODUCT_MARKET_MATERIAL",
+ "route": "/tools/product-design/product-market-material",
+ "base": "http://127.0.0.1:3000",
+ "startedAt": "2026-10-29T12:54:14.694Z",
+ "steps": {
+  "initial": {
+   "history": "0",
+   "submitDisabled": true,
+   "issues": [
+    "至少上传 1 张商品图。"
+   ]
+  },
+  "upload": {
+   "fixture": "/Users/mac/Documents/Dev/infinite-canvas/web/scripts/real-acceptance/fixtures/product-watch.jpg",
+   "fixtureBytes": 31860,
+   "fixtureSha256": "43ede96e7ce885098df793143b215e2c7d2ea7558af711ec5c46975a0dc19be3",
+   "countText": "1 / 6 个",
+   "hints": [
+    "点击选择本地文件，或拖拽到这里\n校验格式 / 大小 / 像素，入库后可刷新恢复",
+    "校验格式 / 大小 / 像素，入库后可刷新恢复"
+   ]
+  },
+  "prepared": {
+   "banner": null,
+   "submitDisabled": false,
+   "issues": [],
+   "count": "1"
+  },
+  "submit": {
+   "ok": true,
+   "cards": 1,
+   "summary": "共 1 屏 · 成功 1 · 失败 0 · 待定 0",
+   "elapsedMs": 45293
+  },
+  "bytes": [
+   {
+    "taskId": "task-mvtjpn12-s1c4t6",
+    "itemId": "task-mvtjpn12-s1c4t6-0",
+    "storageKey": "tool-result:CAPv0__15orwUjL60Q9n-",
+    "store": "media_files",
+    "mime": "image/png",
+    "bytes": 1902882,
+    "sha256": "5cdef97dcd570308fcc9d843effe7b10bc66b19ee4d42beb7d85603a7a771823",
+    "file": "/Users/mac/Documents/Dev/infinite-canvas/docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/PRODUCT_MARKET_MATERIAL/r13-real-ui-20261029/s1c4t6-c4t6-0.png",
+    "header": "89504e470d0a1a0a"
+   }
+  ],
+  "beforeActions": {
+   "assetCount": 0,
+   "assetTitles": [],
+   "projectCount": 0,
+   "nodeCount": 0,
+   "taskCount": 1
+  },
+  "download": {
+   "present": true,
+   "suggested": "product-market-material-result-1.png",
+   "file": "/Users/mac/Documents/Dev/infinite-canvas/docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/PRODUCT_MARKET_MATERIAL/r13-real-ui-20261029/download-product-market-material-result-1.png",
+   "bytes": 1902882,
+   "sha256": "5cdef97dcd570308fcc9d843effe7b10bc66b19ee4d42beb7d85603a7a771823",
+   "matchesStored": true
+  },
+  "saveToAssets": {
+   "before": 0,
+   "after": 1,
+   "delta": 1,
+   "titles": [
+    "高级A+ 1/1 · 970×600"
+   ],
+   "label": "已存资产库 BRxRfQm8"
+  },
+  "sendToCanvas": {
+   "beforeNodes": 0,
+   "afterNodes": 1,
+   "delta": 1,
+   "projects": 1,
+   "label": "已发送画布"
+  },
+  "reload": {
+   "historyTabClicked": false,
+   "historyCount": "1",
+   "resultCards": 1,
+   "historyRows": [
+    {
+     "id": "task-mvtjpn12-s1c4t6",
+     "status": "succeeded",
+     "text": "2026-10-29 20:54 已完成 基于上传的商品图生成 高级A+ 营销素材第 1/1 屏，投放平台：亚马逊，销售地区：美国。 保持商品本体形状、颜… ccai-accept"
+    }
+   ],
+   "myTaskVisible": true,
+   "summary": "共 1 屏 · 成功 1 · 失败 0 · 待定 0 高级A+ 1/1 成功 高级A+ 1/1 · 970×600 存入资产库 发送画布 下载 历史任务 1 条 2026-10-29 20:54 已完成 基于上传的商品图生成 高级A+ 营销素材第 1/1 屏，投放平台：亚马逊，销售地区：美国。 保持商品本体形状、颜… ccai-accept::gpt-image-2 · image · 1 个结果 连接本地 Agent 未连接 点连接会自动启动本地服务、装好插件并接通，无需手动配置。 Claude Code 未连接 · CLI · 2.1.285 (Claude Code) · 直接运行 连接 Codex 未连接 · CLI + 桌面版 · codex-cli 0.163.0 · 插件已装 连接 Galley 未连接 · CLI + 桌面版 · galley 0.6.4 连接",
+   "resultCardsAfterTab": 1,
+   "actionsAfterReload": {
+    "save": 1,
+    "canvas": 1,
+    "download": 1
+   }
+  }
+ },
+ "errors": [
+  "console: Cannot update a component (`%s`) while rendering a different component (`%s`). To locate the bad setState() call inside `%s`, follow the stack trace as described in https://react.dev/link/setstate-in-",
+  "console: Cannot update a component (`%s`) while rendering a different component (`%s`). To locate the bad setState() call inside `%s`, follow the stack trace as described in https://react.dev/link/setstate-in-",
+  "console: Cannot update a component (`%s`) while rendering a different component (`%s`). To locate the bad setState() call inside `%s`, follow the stack trace as described in https://react.dev/link/setstate-in-"
+ ],
+ "upstream": [
+  {
+   "at": "2026-10-29T12:54:50.858Z",
+   "dir": "req",
+   "url": "http://127.0.0.1:23210/https://api.cc-ai.xyz/v1/images/edits",
+   "model": null,
+   "size": null,
+   "n": null,
+   "prompt": null
+  },
+  {
+   "at": "2026-10-29T12:55:24.666Z",
+   "dir": "res",
+   "url": "http://127.0.0.1:23210/https://api.cc-ai.xyz/v1/images/edits",
+   "status": 200,
+   "requestId": "2ab1c6d2-9a5c-4c2a-8b17-596d0ee10898, 5aec207d-f29f-4d0a-9834-643722f3ae4e",
+   "contentType": "application/json",
+   "body": {
+    "keys": [
+     "created",
+     "data",
+     "usage"
+    ],
+    "created": 1793278498,
+    "data": [
+     {
+      "url": "",
+      "b64Len": 2537176,
+      "revisedPrompt": "参考图片编号：图片1。请按这些编号理解提示词中的图片引用。\r\n\r\n基于上传的商品图生成 高级A+ 营销素材第 1/1 屏，投放平台：亚马逊，销售地区：美国。 保"
+     }
+    ]
+   }
+  }
+ ],
+ "aplus": {
+  "before": [
+   {
+    "id": "market-aplus-template-APlusPro",
+    "pressed": "true",
+    "ariaDisabled": "true",
+    "title": "至少保留一个 A+ 模板"
+   },
+   {
+    "id": "market-aplus-template-A+",
+    "pressed": "false",
+    "ariaDisabled": "false",
+    "title": "普通 A+ 详情页模块：标准图文排版，一张主图配一段利益点文案区，背景干净，商品边缘清晰。"
+   },
+   {
+    "id": "market-aplus-template-APlusHasPhone",
+    "pressed": "false",
+    "ariaDisabled": "false",
+    "title": "手机端 A+ 模块：竖版构图，主体偏中上，文字区留白保证小屏可读，商品细节不被裁切。"
+   },
+   {
+    "id": "market-aplus-template-custom",
+    "pressed": "false",
+    "ariaDisabled": "false",
+    "title": "自定比例 A+ 模块：按用户给定宽高构图，主体居中并留出安全边距，避免文字压住商品关键细节。"
+   }
+  ],
+  "activeCountBefore": 1,
+  "guardClick": {
+   "id": "market-aplus-template-APlusPro",
+   "pressedAfterClick": "true",
+   "stillSelected": true,
+   "ariaDisabled": "true",
+   "hint": true
+  }
+ },
+ "tasks": [
+  {
+   "key": "tool-task:v1:task-mvtjpn12-s1c4t6",
+   "id": "task-mvtjpn12-s1c4t6",
+   "toolId": "PRODUCT_MARKET_MATERIAL",
+   "status": "succeeded",
+   "createdAt": 1793278490582,
+   "finishedAt": 1793278533905,
+   "error": null,
+   "model": null,
+   "provider": null,
+   "prompt": "基于上传的商品图生成 高级A+ 营销素材第 1/1 屏，投放平台：亚马逊，销售地区：美国。 保持商品本体形状、颜色、材质纹理、logo 与包装文字不变，不得臆造未出现的配件、赠品或参数。 画幅 970×600px（A+ 比例 970x600），分辨率 2K，品质 高品质。 高级 A+ 详情页模块：宽",
+   "meta": null,
+   "items": [
+    {
+     "id": "task-mvtjpn12-s1c4t6-0",
+     "kind": "image",
+     "mimeType": "image/png",
+     "storageKey": "tool-result:CAPv0__15orwUjL60Q9n-",
+     "url": "",
+     "dataUrlLen": 0,
+     "dropped": false,
+     "width": null,
+     "height": null
+    }
+   ]
+  }
+ ],
+ "pageText": null,
+ "screenshots": [
+  "/Users/mac/Documents/Dev/infinite-canvas/docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/PRODUCT_MARKET_MATERIAL/r13-real-ui-20261029/01-before.png",
+  "/Users/mac/Documents/Dev/infinite-canvas/docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/PRODUCT_MARKET_MATERIAL/r13-real-ui-20261029/02-uploaded.png",
+  "/Users/mac/Documents/Dev/infinite-canvas/docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/PRODUCT_MARKET_MATERIAL/r13-real-ui-20261029/03-ready.png",
+  "/Users/mac/Documents/Dev/infinite-canvas/docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/PRODUCT_MARKET_MATERIAL/r13-real-ui-20261029/04-submitted.png",
+  "/Users/mac/Documents/Dev/infinite-canvas/docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/PRODUCT_MARKET_MATERIAL/r13-real-ui-20261029/05-result.png",
+  "/Users/mac/Documents/Dev/infinite-canvas/docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/PRODUCT_MARKET_MATERIAL/r13-real-ui-20261029/06-download.png",
+  "/Users/mac/Documents/Dev/infinite-canvas/docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/PRODUCT_MARKET_MATERIAL/r13-real-ui-20261029/07-saved.png",
+  "/Users/mac/Documents/Dev/infinite-canvas/docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/PRODUCT_MARKET_MATERIAL/r13-real-ui-20261029/08-canvas.png",
+  "/Users/mac/Documents/Dev/infinite-canvas/docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/PRODUCT_MARKET_MATERIAL/r13-real-ui-20261029/09-reload-history.png",
+  "/Users/mac/Documents/Dev/infinite-canvas/docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/PRODUCT_MARKET_MATERIAL/r13-real-ui-20261029/10-reload-result.png"
+ ],
+ "provider": {
+  "imageModel": "ccai-accept::gpt-image-2",
+  "channels": [
+   "ccai-accept",
+   "sf-accept"
+  ],
+  "baseUrl": "https://api.cc-ai.xyz",
+  "proxyEnabled": true,
+  "keyLen": 67
+ },
+ "submittedAt": "2026-10-29T12:54:50.874Z",
+ "ok": true,
+ "finishedAt": "2026-10-29T12:56:00.194Z",
+ "durationMs": 70278
+}
