@@ -241,7 +241,7 @@ describe("REMOVE_PEN 结果与接力", () => {
     test("成功结果直接使用上游返回的两张真实图地址；运行中保持 running", () => {
         const run = removePenRunFromTask(
             { id: "u", prompt: "", references: [], fields: {}, snapshotHash: "h" },
-            toolTask({ result: { items: [{ kind: "image", dataUrl: "data:image/png;base64,OUT", url: "https://cdn/out.png" }] } as ToolTask["result"] }),
+            toolTask({ result: { items: [{ kind: "image", dataUrl: "data:image/png;base64,OUT", url: "https://cdn/out.png" }], receivedAt: 2 } as ToolTask["result"] }),
         );
         expect(run.status).toBe("succeeded");
         const view = removePenResultView({ run, sourceUrl: "https://cdn/in.png", stale: true });
@@ -319,7 +319,8 @@ describe("REMOVE_PEN 刷新后从落盘任务恢复", () => {
         const task = toolTask({
             status: "succeeded",
             result: {
-                items: [{ kind: "image", mime: "image/png", url: "https://oss/restored.png", dataUrl: "data:image/png;base64,RESTORED" }],
+                items: [{ id: "item-1", kind: "image", mimeType: "image/png", url: "https://oss/restored.png", dataUrl: "data:image/png;base64,RESTORED" }],
+                receivedAt: 2,
             } as ToolTask["result"],
         });
         const run = removePenRunFromTask({ id: task.id, snapshotHash: task.id }, task);
@@ -330,7 +331,7 @@ describe("REMOVE_PEN 刷新后从落盘任务恢复", () => {
     });
 
     test("落盘任务成功但无字节时不伪造成功（不生成占位图）", () => {
-        const task = toolTask({ status: "succeeded", result: { items: [{ kind: "image" }] } as ToolTask["result"] });
+        const task = toolTask({ status: "succeeded", result: { items: [{ kind: "image" }], receivedAt: 2 } as ToolTask["result"] });
         const run = removePenRunFromTask({ id: task.id, snapshotHash: task.id }, task);
         expect(run.status).toBe("failed");
         expect(run.image).toBeUndefined();
