@@ -1,0 +1,15 @@
+{
+  "round": "r23",
+  "date": "2026-10-29T14:35Z",
+  "toolId": "CHANGE_COLOR_V2",
+  "taskId": "task-mvtn1xg0-sbk0fl",
+  "mode": "fresh-reload + real DOM clicks, no injected bytes",
+  "restoredCard": {"testid": "color-v2-restored", "bytesKB": 2486, "buttonsEnabled": true},
+  "actions": {
+    "download": {"status": "PASS_prev_round", "note": "r22 verified; not re-run this round"},
+    "saveToAssets": {"status": "PASS", "assetId": "zxuUxQCyoeBWjoVp8YahO", "store": "indexedDB infinite-canvas / app_state / infinite-canvas:asset_store", "assetsBefore": 55, "assetsAfter": 56, "createdAt": "2026-10-29T14:35:46.411Z", "toast": "已存入资产库（zxuUxQCy）"},
+    "sendToCanvas": {"status": "PASS", "projectId": "QGxsBR8KJkmhAo-lwneap", "projectTitle": "套图换色结果", "canvasNodeId": "image-1793284560236-0grci", "node": {"type": "image", "width": 340, "height": 240}, "toast": "已发送画布（项目 QGxsBR8K · 节点 image-17）"}
+  },
+  "storeCorrection": {"note": "存资产库 writes to app_state/asset_store, NOT tool_assets; r22 judged FAIL against wrong store"},
+  "checks": {"tsc": "0 error", "bunTest": "35 pass / 0 fail (tool-result.test.tsx, tool-result-actions.deps.test.ts)"}
+}
