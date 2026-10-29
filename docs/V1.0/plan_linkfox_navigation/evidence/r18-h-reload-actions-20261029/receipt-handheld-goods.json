@@ -1,0 +1,99 @@
+{
+  "schema": "h-reload-three-actions/v1",
+  "toolId": "HANDHELD_GOODS",
+  "route": "/tools/product-design/handheld-goods",
+  "env": "http://127.0.0.1:3000 (vite dev, HEAD workspace)",
+  "capturedAt": "2026-10-29T22:21:3x+0800",
+  "verifier": "ego-lite web_execute_js (DOM + IndexedDB byte reads + crypto.subtle SHA-256)",
+  "task": {
+    "taskId": "task-mvtm8p59-8qkp5s",
+    "status": "succeeded",
+    "createdAt": 1793282739021,
+    "updatedAt": 1793282780051,
+    "source": "localStorage tool-task:v1:task-mvtm8p59-8qkp5s",
+    "resultItemId": "task-mvtm8p59-8qkp5s-0",
+    "storageKey": "tool-result:task-mvtm8p59-8qkp5s:0:c3Xf2R0z4RYt31DCxRmmX"
+  },
+  "reload": {
+    "url": "http://127.0.0.1:3000/tools/product-design/handheld-goods?fresh=1793283665045",
+    "requestedAt": 1793283684636,
+    "navigationType": "reload",
+    "domContentLoadedEventStart": 1793283685252,
+    "postReloadPanel": {
+      "selector": "[data-testid=tool-result]",
+      "dataView": "succeeded",
+      "text": "最近一次上游返回 已完成 共 1 个结果 · 图片 1 下载 存入资产 发送画布",
+      "imageSha256": "29c1afcd7bdad71b369664a756b2825395aea9c7e6634a6e23360ba9682cae84",
+      "imageBytes": 1455193,
+      "naturalSize": "1024x1024",
+      "hydration": "panel bytes fetched from <img data-testid=tool-result-image> blob after reload"
+    }
+  },
+  "actions": {
+    "download": {
+      "buttonTestId": "tool-result-download-0",
+      "clickedAt": 1793283694537,
+      "suggestedFilename": "handheld-goods-result-1.png",
+      "savedPath": "/Users/mac/Downloads/handheld-goods-result-1 (1).png",
+      "mtime": "2026-10-29T22:21:34+0800",
+      "bytes": 1455193,
+      "sha256": "29c1afcd7bdad71b369664a756b2825395aea9c7e6634a6e23360ba9682cae84",
+      "toast": "已下载 handheld-goods-result-1.png"
+    },
+    "saveAsset": {
+      "buttonTestId": "tool-result-save-0",
+      "clickedAt": 1793283697040,
+      "assetId": "92UtEzWXt3YLL1uf-aSej",
+      "toast": "已保存到资产库（92UtEzWXt3YLL1uf-aSej）",
+      "metadata": {
+        "toolId": "HANDHELD_GOODS",
+        "taskId": "task-mvtm8p59-8qkp5s",
+        "resultItemId": "task-mvtm8p59-8qkp5s-0"
+      },
+      "dataStorageKey": "image:IHMMoRrRSkxKIgwF0YCxu",
+      "db": "infinite-canvas/image_files/image:IHMMoRrRSkxKIgwF0YCxu",
+      "bytes": 1455193,
+      "sha256": "29c1afcd7bdad71b369664a756b2825395aea9c7e6634a6e23360ba9682cae84"
+    },
+    "sendCanvas": {
+      "buttonTestId": "tool-result-canvas-0",
+      "clickedAt": 1793283697445,
+      "toast": "已发送到画布（dRgYk58nWI5L7qH36F9Q7）",
+      "canvasProjectId": "dRgYk58nWI5L7qH36F9Q7",
+      "canvasNodeId": "image-1793283697520-vnm7b",
+      "nodeType": "image",
+      "nodeStorageKey": "image:6NZmO8kbL4vnm0VmyZ1US",
+      "nodeMetadata": {
+        "bytes": 1455193,
+        "mimeType": "image/png",
+        "naturalWidth": 1024,
+        "naturalHeight": 1024,
+        "status": "success",
+        "storageKey": "image:6NZmO8kbL4vnm0VmyZ1US"
+      },
+      "db": "infinite-canvas/image_files/image:6NZmO8kbL4vnm0VmyZ1US",
+      "bytes": 1455193,
+      "sha256": "29c1afcd7bdad71b369664a756b2825395aea9c7e6634a6e23360ba9682cae84"
+    }
+  },
+  "byteAgreement": {
+    "committedArtifact": "docs/V1.0/plan_linkfox_navigation/evidence/r17-handheld-real-20261029/HANDHELD_GOODS-result-1.png",
+    "committedBytes": 1455193,
+    "committedSha256": "29c1afcd7bdad71b369664a756b2825395aea9c7e6634a6e23360ba9682cae84",
+    "allEqual": true
+  },
+  "noNewGeneration": {
+    "generationCalled": false,
+    "injectionPerformed": false,
+    "taskUpdatedAtBeforeAfter": [
+      1793282780051,
+      1793282780051
+    ],
+    "taskCountForTool": 2,
+    "note": "task-mvs5p8g8-or3oim remains failed (historical); the panel restored task-mvtm8p59-8qkp5s only. No submit/generate request was sent."
+  },
+  "assetProjectDelta": {
+    "assets": 1,
+    "canvasProjects": 1
+  }
+}

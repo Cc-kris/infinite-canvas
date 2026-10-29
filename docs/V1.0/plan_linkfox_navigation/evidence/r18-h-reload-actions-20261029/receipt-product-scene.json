@@ -1,0 +1,103 @@
+{
+  "schema": "h-reload-three-actions/v1",
+  "toolId": "PRODUCT_SCENE",
+  "route": "/tools/product-design/product-scene",
+  "env": "http://127.0.0.1:3000 (vite dev, HEAD workspace)",
+  "capturedAt": "2026-10-29T22:20:3x+0800",
+  "verifier": "ego-lite web_execute_js (DOM + IndexedDB byte reads + crypto.subtle SHA-256)",
+  "task": {
+    "taskId": "task-mvtly3vu-fdqgy7",
+    "status": "succeeded",
+    "createdAt": 1793282244906,
+    "updatedAt": 1793282295219,
+    "source": "localStorage tool-task:v1:task-mvtly3vu-fdqgy7",
+    "resultItemId": "task-mvtly3vu-fdqgy7-0",
+    "storageKey": "tool-result:task-mvtly3vu-fdqgy7:0:TTlb-VmksNFfPn_GhRyTk"
+  },
+  "reload": {
+    "url": "http://127.0.0.1:3000/tools/product-design/product-scene?fresh=1793283600000",
+    "requestedAt": 1793283612261,
+    "navigationType": "reload",
+    "performanceNavigationStart": 1793283612760,
+    "domContentLoadedEventStart": 1793283612760,
+    "postReloadPanel": {
+      "selector": "[data-testid=tool-result]",
+      "dataView": "succeeded",
+      "text": "结果资产 已完成 共 1 个结果 · 图片 1 下载 存入资产 发送画布",
+      "imageSha256": "fa5ee380ab79ae8b924e1481136cbcfe4f23473926246c79129fc0c59093f9e2",
+      "imageBytes": 2398828,
+      "naturalSize": "1024x1024",
+      "hydration": "panel bytes fetched from <img data-testid=tool-result-image> blob after reload, not from memory"
+    }
+  },
+  "actions": {
+    "download": {
+      "buttonTestId": "tool-result-download-0",
+      "clickedAt": 1793283625320,
+      "suggestedFilename": "product-scene-result-1.png",
+      "savedPath": "/Users/mac/Downloads/product-scene-result-1 (1).png",
+      "mtime": "2026-10-29T22:20:25+0800",
+      "bytes": 2398828,
+      "sha256": "fa5ee380ab79ae8b924e1481136cbcfe4f23473926246c79129fc0c59093f9e2",
+      "toast": "已下载 product-scene-result-1.png"
+    },
+    "saveAsset": {
+      "buttonTestId": "tool-result-save-0",
+      "clickedAtObservedWindow": [
+        1793283625320,
+        1793283628227
+      ],
+      "assetId": "KY0av0CXhd3-OFulLII_O",
+      "toast": "已保存到资产库（KY0av0CXhd3-OFulLII_O）",
+      "metadata": {
+        "toolId": "PRODUCT_SCENE",
+        "taskId": "task-mvtly3vu-fdqgy7",
+        "resultItemId": "task-mvtly3vu-fdqgy7-0"
+      },
+      "dataStorageKey": "image:Ax9oXqNqedcNZ40XGdh19",
+      "db": "infinite-canvas/image_files/image:Ax9oXqNqedcNZ40XGdh19",
+      "bytes": 2398828,
+      "sha256": "fa5ee380ab79ae8b924e1481136cbcfe4f23473926246c79129fc0c59093f9e2"
+    },
+    "sendCanvas": {
+      "buttonTestId": "tool-result-canvas-0",
+      "clickedAt": 1793283628227,
+      "toast": "已发送到画布（OCk3x2ThYr5Fom6sRbdg8）",
+      "canvasProjectId": "OCk3x2ThYr5Fom6sRbdg8",
+      "canvasNodeId": "image-1793283628325-tasuh",
+      "nodeType": "image",
+      "nodeStorageKey": "image:7x6DyXlCjNnZozGl69wmV",
+      "nodeMetadata": {
+        "bytes": 2398828,
+        "mimeType": "image/png",
+        "naturalWidth": 1024,
+        "naturalHeight": 1024,
+        "status": "success",
+        "storageKey": "image:7x6DyXlCjNnZozGl69wmV"
+      },
+      "db": "infinite-canvas/image_files/image:7x6DyXlCjNnZozGl69wmV",
+      "bytes": 2398828,
+      "sha256": "fa5ee380ab79ae8b924e1481136cbcfe4f23473926246c79129fc0c59093f9e2"
+    }
+  },
+  "byteAgreement": {
+    "committedArtifact": "docs/V1.0/plan_linkfox_navigation/evidence/r16-scene-real-20261029/PRODUCT_SCENE-result-1.png",
+    "committedBytes": 2398828,
+    "committedSha256": "fa5ee380ab79ae8b924e1481136cbcfe4f23473926246c79129fc0c59093f9e2",
+    "allEqual": true
+  },
+  "noNewGeneration": {
+    "generationCalled": false,
+    "injectionPerformed": false,
+    "taskUpdatedAtBeforeAfter": [
+      1793282295219,
+      1793282295219
+    ],
+    "taskCountForTool": 1,
+    "note": "Page loaded an existing persisted task; only the three result actions were invoked. No submit/generate request was sent."
+  },
+  "assetProjectDelta": {
+    "assets": 1,
+    "canvasProjects": 1
+  }
+}
