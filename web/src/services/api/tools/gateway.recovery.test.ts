@@ -103,6 +103,65 @@ test("recoverAll 把落盘的所有未完结任务一次性收敛，不留非终
     expect(store.list().every((task) => task.status === "failed")).toBe(true);
 });
 
+/**
+ * 缺陷回归：刷新后有 upstreamTaskId 的视频任务，`recoverAll` 只探测一次就返回 running，
+ * 页面开着也不会再推进（历史永远停在「生成中」）。接力 `waitForResult` 必须走到终态，
+ * 且全程不重提交（不产生第二次计费）。
+ */
+test("刷新后仍在跑的视频任务：探测一次后接力等待到终态，且不重提交", async () => {
+    const store = createMemoryTaskStore();
+    const calls = { create: 0, poll: 0 };
+    const provider = {
+        createVideoTask: async () => {
+            calls.create += 1;
+            throw new Error("recovery must not resubmit");
+        },
+        pollVideoTask: async () => {
+            calls.poll += 1;
+            return calls.poll < 2
+                ? { status: "pending" as const }
+                : { status: "completed" as const, result: { url: "https://cdn.example.com/out.mp4", mimeType: "video/mp4" } };
+        },
+    };
+    const gateway = new ToolTaskGateway({
+        getConfig: () => ({ model: "MiniMax-H3", apiFormat: "openai", count: "1" }) as never,
+        provider: provider as never,
+        store,
+    });
+
+    const now = Date.now();
+    const draft = createTaskRecord({
+        toolId: "SALE_VIDEO",
+        capability: "video",
+        prompt: "sale-video prompt",
+        configSnapshot: { capability: "video", model: "MiniMax-H3", apiFormat: "openai", count: "1", size: "720x1280", videoSeconds: "5" },
+        at: now,
+    });
+    const running = transitionTask(
+        transitionTask(transitionTask(draft, "validating", { at: now }), "submitting", { at: now }),
+        "running",
+        {
+            at: now,
+            upstreamTaskId: "up-reload-1",
+            upstreamProvider: "http",
+            lastHeartbeatAt: now,
+        },
+    );
+    store.set(running);
+
+    // 1) 刷新恢复：只探测一次，任务仍未完结
+    const recovered = await gateway.recoverAll({ maxPolls: 1 });
+    expect(recovered).toHaveLength(1);
+    expect(recovered[0].task.status).toBe("running");
+
+    // 2) 接力等待：推进到终态
+    const final = await gateway.waitForResult(running.id, { pollIntervalMs: 0 });
+    expect(final.status).toBe("succeeded");
+    expect(final.result?.items?.[0]?.url).toBe("https://cdn.example.com/out.mp4");
+    expect(store.get(running.id)?.status).toBe("succeeded");
+    expect(calls.create).toBe(0);
+});
+
 test("已终态任务不会被 recover 改动", async () => {
     const { gateway, store } = makeGateway();
     const seeded = seed(store, "submitting");

@@ -82,6 +82,8 @@ export type ToolTaskConfigSnapshot = {
     size?: string;
     quality?: string;
     count: string;
+    /** 视频秒数：页面选择的时长必须随任务落库，否则重试/恢复会退回全局默认时长。 */
+    videoSeconds?: string;
     /** 供恢复时判断模型是否仍可用；真实凭据在恢复时从用户配置重新解析。 */
     channelId?: string;
 };

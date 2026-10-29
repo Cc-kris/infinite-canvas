@@ -128,6 +128,11 @@ export type ToolTaskState = {
     cancelTask: (taskId: string) => void;
     retryTask: (taskId: string, input: BrowserToolInput, options?: WaitOptions) => Promise<ToolTask>;
     recoverAll: (options?: WaitOptions) => Promise<ToolTask[]>;
+    /**
+     * 刷新后接力等待：只查询/等待上游，不重提交（见 gateway.waitForResult）。
+     * recoverAll 只做一次探测；仍在 running 且有 upstreamTaskId 的任务靠这里推进到终态。
+     */
+    resumeTask: (taskId: string, options?: WaitOptions) => Promise<ToolTask>;
     reset: () => void;
 };
 
@@ -314,6 +319,17 @@ export const useToolTaskStore = create<ToolTaskState>((set, get) => ({
     recoverAll: async (options) => {
         const results = await getGateway().recoverAll(options);
         return results.map((item) => item.task);
+    },
+
+    resumeTask: async (taskId, options) => {
+        const task = await getGateway().waitForResult(taskId, {
+            ...options,
+            onUpdate: (next) => {
+                get().upsertTask(next);
+                options?.onUpdate?.(next);
+            },
+        });
+        return task;
     },
 
     reset: () => {

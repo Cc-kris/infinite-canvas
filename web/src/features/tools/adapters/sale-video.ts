@@ -7,6 +7,7 @@
  * - 商品图约束与原站一致：≤9 张、≤10MB、384²–4096²、宽高比 0.4–2.5、png/jpeg/webp。
  */
 
+import { computeVideoSize } from "@/lib/media-size";
 import type { ToolAssetRecord } from "@/services/api/tools/assets";
 import type { BrowserToolInput, SubmitOptions, WaitOptions } from "@/services/api/tools/gateway";
 import type { ToolTask, ToolTaskResultItem } from "@/services/api/tools/task-machine";
@@ -236,6 +237,11 @@ export function buildSaleVideoBrowserInput(input: SaleVideoBrowserInputArgs): Br
         references: input.references as ReferenceImage[],
         model: input.model.trim(),
         fields: buildSaleVideoFields(input),
+        /* 页内「画幅 / 时长 / 分辨率」必须真的进请求：此前只写进 prompt 文本，
+         * 请求沿用了全局配置（6 秒 · 1:1），成片与页面选择不一致。 */
+        videoRatio: input.state.aspectRatio,
+        videoSeconds: String(input.state.videoTime),
+        size: computeVideoSize(input.state.resolution, input.state.aspectRatio),
     };
 }
 

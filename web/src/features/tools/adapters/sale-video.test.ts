@@ -276,6 +276,20 @@ describe("SALE_VIDEO adapter：输入校验与真实请求", () => {
         expect(input.prompt).toContain("【带货口播 · 模板 v1】");
         expect(input.prompt).toContain(state.prompt);
         expect(input.fields?.saleCountry).toBe("US");
+        /* 页内画幅/时长/分辨率必须真的进请求，不能只写在 prompt 里 */
+        expect(input.videoSeconds).toBe("15");
+        expect(input.videoRatio).toBe(state.aspectRatio);
+        /* 画幅为 auto 时不硬编码像素，交给通道按画幅推导 */
+        expect(input.size).toBe(state.aspectRatio === "auto" ? "auto" : `${input.size}`);
+        expect(
+            buildSaleVideoBrowserInput({
+                state: { ...state, resolution: "720P", aspectRatio: "9:16" },
+                model: "video-model",
+                prompt: state.prompt,
+                sources: SOURCES,
+                references: REFERENCES,
+            }).size,
+        ).toBe("720x1280");
 
         expect(() =>
             buildSaleVideoBrowserInput({ state, model: "video-model", prompt: state.prompt, sources: SOURCES, references: [REFERENCES[0]] }),

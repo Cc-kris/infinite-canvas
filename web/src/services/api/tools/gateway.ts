@@ -211,6 +211,7 @@ export function buildConfigSnapshot(config: AiConfig, capability: ToolTaskCapabi
         size: config.size || undefined,
         quality: config.quality || undefined,
         count: config.count,
+        ...(config.videoSeconds ? { videoSeconds: String(config.videoSeconds) } : {}),
         channelId,
     };
 }
@@ -225,6 +226,7 @@ export function applyConfigSnapshot(config: AiConfig, snapshot: ToolTaskConfigSn
         count: snapshot.count || config.count,
         ...(snapshot.size ? { size: snapshot.size } : {}),
         ...(snapshot.quality ? { quality: snapshot.quality } : {}),
+        ...(snapshot.videoSeconds ? { videoSeconds: snapshot.videoSeconds } : {}),
     };
 }
 

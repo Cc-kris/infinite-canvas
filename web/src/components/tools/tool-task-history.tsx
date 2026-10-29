@@ -23,6 +23,11 @@ export type ToolTaskHistoryProps = {
     onSelectTask?: (task: ToolTask) => void;
     emptyHint?: string;
     /**
+     * 即使任务没有可复用结果也允许选中（此时按钮文案是「回填表单」）。
+     * 默认关闭：只有明确要在工作区里把历史参数还原成表单的工具才打开。
+     */
+    selectWithoutResult?: boolean;
+    /**
      * 任务快照来源覆盖。默认读 `useToolTaskStore`；批量任务页等可以把已经拿到的
      * 快照直接传进来（也让本组件能在 SSR/测试里被确定性渲染）。
      */
@@ -50,7 +55,7 @@ function taskHasRecoverableResult(task: ToolTask): boolean {
     return Boolean(task.result?.items.some((item) => Boolean(item.url)));
 }
 
-export function ToolTaskHistory({ toolId, className, limit = 8, onSelectTask, emptyHint, tasks: injectedTasks }: ToolTaskHistoryProps) {
+export function ToolTaskHistory({ toolId, className, limit = 8, onSelectTask, emptyHint, selectWithoutResult = false, tasks: injectedTasks }: ToolTaskHistoryProps) {
     const storeTasks = useToolTaskStore((state) => state.tasks);
     const tasks = injectedTasks ?? storeTasks;
     const hydrated = useToolTaskStore((state) => state.hydrated);
@@ -139,14 +144,14 @@ export function ToolTaskHistory({ toolId, className, limit = 8, onSelectTask, em
                                         原始文件未保留（历史快照只存元数据），如需文件请重新生成。
                                     </p>
                                 ) : null}
-                                {onSelectTask && taskHasRecoverableResult(task) ? (
+                                {onSelectTask && (selectWithoutResult || taskHasRecoverableResult(task)) ? (
                                     <button
                                         type="button"
                                         className="mt-1 rounded border border-border px-2 py-0.5 text-[11px] transition hover:bg-accent"
                                         onClick={() => onSelectTask(task)}
                                         data-testid="tool-task-history-open"
                                     >
-                                        查看结果
+                                        {taskHasRecoverableResult(task) ? "查看结果" : "回填表单"}
                                     </button>
                                 ) : null}
                             </li>
