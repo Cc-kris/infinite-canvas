@@ -2,7 +2,9 @@
 
 - 分类：商品图设计；目标路由：`/tools/product-design/ai-pose-generator`；页面类型：`model`。
 - 目标：通过提示词与场景提示生成姿势参考。
-- 证据级别：`supplemental_chunk_design`；原站 URL：`补充工具无本轮直达 URL`。
+- 证据级别：`workspace_dom`；原站 URL：`https://www.linkfox.com/draw/ai-posture`。
+- 证据文件：`../evidence/page-dom-20261028/AI_POSE_GENERATOR.json`（2026-10-29 实拍：姿势裂变真实工作区 DOM（21 控件：姿势库/自定义/生成张数）；字段 modelPose/modelStyle/outputNum 与本地一致）
+- 路由依据：`workbench-BcUrzOPA.js` 侧栏菜单表 text/label/path/drawType/whitelist（非猜测）。
 - 实现边界：复刻信息架构和操作逻辑，使用无限画布设计令牌、资产、任务和模型服务；不搬 LinkFox 前端代码，不复制算力区。
 
 ## 1. 页面区域与布局

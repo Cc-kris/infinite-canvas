@@ -90,10 +90,11 @@
   {
     "id": "FIX_COLOR",
     "label": "色差修复",
-    "status": "workspace_dom_corrected_route",
+    "status": "workspace_dom",
     "url": "https://www.linkfox.com/draw/color-diff-repair",
-    "title": "色差修复实际工作区",
-    "evidence": "COLOR_DIFF_REPAIR.json"
+    "title": "LinkFox官网 - 跨境电商AI运营助手 - AI选品AI作图AI视频AI Agent OS",
+    "evidence": "/Users/mac/Documents/Dev/infinite-canvas/docs/V1.0/plan_linkfox_navigation/evidence/page-dom-20261028/FIX_COLOR.json",
+    "capturedAt": "2026-10-29"
   },
   {
     "id": "PRINTING_REPAIR",
@@ -113,11 +114,12 @@
   },
   {
     "id": "NEW_REPLACE_BG_V2",
-    "label": "商品图",
-    "status": "supplemental_chunk_design",
-    "url": "",
-    "title": "",
-    "evidence": "workbench chunk + tool_specs.json"
+    "label": "商品图（换背景）",
+    "status": "workspace_dom",
+    "url": "https://www.linkfox.com/draw/product-home",
+    "title": "LinkFox官网 - 跨境电商AI运营助手 - AI选品AI作图AI视频AI Agent OS",
+    "evidence": "/Users/mac/Documents/Dev/infinite-canvas/docs/V1.0/plan_linkfox_navigation/evidence/page-dom-20261028/NEW_REPLACE_BG_V2.json",
+    "capturedAt": "2026-10-29"
   },
   {
     "id": "REPLACE_GOODS",
@@ -169,19 +171,21 @@
   },
   {
     "id": "AI_TEXT",
-    "label": "POD素材",
+    "label": "POD素材（原站现名「创意文字」）",
     "status": "permission_redirect_home",
-    "url": "https://www.linkfox.com/home",
-    "title": "LinkFox官网 - 跨境电商AI运营助手 - AI选品AI作图AI视频AI Agent OS",
-    "evidence": "/Users/mac/Documents/Dev/infinite-canvas/docs/V1.0/plan_linkfox_navigation/evidence/page-dom-20261028/AI_TEXT.json"
+    "url": "https://www.linkfox.com/draw/ai-text",
+    "title": "LinkFox 首页（重定向）",
+    "evidence": "/Users/mac/Documents/Dev/infinite-canvas/docs/V1.0/plan_linkfox_navigation/evidence/page-dom-20261028/AI_TEXT.json",
+    "capturedAt": "2026-10-29"
   },
   {
     "id": "ORNAMENT_TEXT",
     "label": "饰品文字",
     "status": "permission_redirect_home",
-    "url": "https://www.linkfox.com/home",
-    "title": "LinkFox官网 - 跨境电商AI运营助手 - AI选品AI作图AI视频AI Agent OS",
-    "evidence": "/Users/mac/Documents/Dev/infinite-canvas/docs/V1.0/plan_linkfox_navigation/evidence/page-dom-20261028/ORNAMENT_TEXT.json"
+    "url": "https://www.linkfox.com/draw/ornament-text",
+    "title": "LinkFox 首页（重定向）",
+    "evidence": "/Users/mac/Documents/Dev/infinite-canvas/docs/V1.0/plan_linkfox_navigation/evidence/page-dom-20261028/ORNAMENT_TEXT.json",
+    "capturedAt": "2026-10-29"
   },
   {
     "id": "SDS_DESIGN",
@@ -202,66 +206,74 @@
   {
     "id": "AI_POSE_GENERATOR",
     "label": "AI姿势生成",
-    "status": "supplemental_chunk_design",
-    "url": "",
-    "title": "",
-    "evidence": "workbench chunk + tool_specs.json"
+    "status": "workspace_dom",
+    "url": "https://www.linkfox.com/draw/ai-posture",
+    "title": "LinkFox官网 - 跨境电商AI运营助手 - AI选品AI作图AI视频AI Agent OS",
+    "evidence": "/Users/mac/Documents/Dev/infinite-canvas/docs/V1.0/plan_linkfox_navigation/evidence/page-dom-20261028/AI_POSE_GENERATOR.json",
+    "capturedAt": "2026-10-29"
   },
   {
     "id": "AI_DRESSING_XSY",
     "label": "AI试衣XSY",
-    "status": "supplemental_chunk_design",
-    "url": "",
-    "title": "",
-    "evidence": "workbench chunk + tool_specs.json"
+    "status": "workspace_dom",
+    "url": "https://www.linkfox.com/draw/ai-dressing",
+    "title": "LinkFox官网 - 跨境电商AI运营助手 - AI选品AI作图AI视频AI Agent OS",
+    "evidence": "/Users/mac/Documents/Dev/infinite-canvas/docs/V1.0/plan_linkfox_navigation/evidence/page-dom-20261028/AI_DRESSING_XSY.json",
+    "capturedAt": "2026-10-29"
   },
   {
     "id": "FISSION_LINK",
     "label": "场景裂变链接",
-    "status": "supplemental_chunk_design",
-    "url": "",
+    "status": "workspace_dom",
+    "url": "https://www.linkfox.com/draw/product-scene?type=2",
     "title": "",
-    "evidence": "workbench chunk + tool_specs.json"
+    "evidence": "/Users/mac/Documents/Dev/infinite-canvas/docs/V1.0/plan_linkfox_navigation/evidence/page-dom-20261028/FISSION_LINK.json",
+    "capturedAt": "2026-10-29"
   },
   {
     "id": "IMAGE_TEXT_EDIT",
     "label": "图片文字编辑",
-    "status": "supplemental_chunk_design",
-    "url": "",
+    "status": "route_not_found",
+    "url": "https://www.linkfox.com/draw/designer",
     "title": "",
-    "evidence": "workbench chunk + tool_specs.json"
+    "evidence": "/Users/mac/Documents/Dev/infinite-canvas/docs/V1.0/plan_linkfox_navigation/evidence/page-dom-20261028/IMAGE_TEXT_EDIT.json",
+    "capturedAt": "2026-10-29"
   },
   {
     "id": "MATERIAL_UPPER_BODY",
     "label": "上装换料",
-    "status": "supplemental_chunk_design",
-    "url": "",
-    "title": "",
-    "evidence": "workbench chunk + tool_specs.json"
+    "status": "workspace_dom",
+    "url": "https://www.linkfox.com/draw/clothing-image-suite",
+    "title": "LinkFox官网 - 跨境电商AI运营助手 - AI选品AI作图AI视频AI Agent OS",
+    "evidence": "/Users/mac/Documents/Dev/infinite-canvas/docs/V1.0/plan_linkfox_navigation/evidence/page-dom-20261028/MATERIAL_UPPER_BODY.json",
+    "capturedAt": "2026-10-29"
   },
   {
     "id": "NEW_DESIGNER",
     "label": "商品图设计器",
-    "status": "supplemental_chunk_design",
-    "url": "",
-    "title": "",
-    "evidence": "workbench chunk + tool_specs.json"
+    "status": "workspace_dom",
+    "url": "https://www.linkfox.com/draw/designer-home",
+    "title": "LinkFox官网 - 跨境电商AI运营助手 - AI选品AI作图AI视频AI Agent OS",
+    "evidence": "/Users/mac/Documents/Dev/infinite-canvas/docs/V1.0/plan_linkfox_navigation/evidence/page-dom-20261028/NEW_DESIGNER.json",
+    "capturedAt": "2026-10-29"
   },
   {
     "id": "PRODUCT_MARKET_MATERIAL",
     "label": "商品营销素材",
-    "status": "supplemental_chunk_design",
-    "url": "",
+    "status": "workspace_dom_text_only",
+    "url": "https://www.linkfox.com/draw/product-image-suite?batchType=PRODUCT_MATERIAL",
     "title": "",
-    "evidence": "workbench chunk + tool_specs.json"
+    "evidence": "/Users/mac/Documents/Dev/infinite-canvas/docs/V1.0/plan_linkfox_navigation/evidence/page-dom-20261028/PRODUCT_MARKET_MATERIAL.json",
+    "capturedAt": "2026-10-29"
   },
   {
     "id": "SCENE_TRANSFER",
     "label": "场景迁移",
-    "status": "supplemental_chunk_design",
-    "url": "",
+    "status": "private_b2b_route",
+    "url": "https://www.linkfox.com/draw/",
     "title": "",
-    "evidence": "workbench chunk + tool_specs.json"
+    "evidence": "/Users/mac/Documents/Dev/infinite-canvas/docs/V1.0/plan_linkfox_navigation/evidence/page-dom-20261028/SCENE_TRANSFER.json",
+    "capturedAt": "2026-10-29"
   },
   {
     "id": "IMAGE_TO_VIDEO",
@@ -306,9 +318,10 @@
   {
     "id": "VIDEO_CONCAT",
     "label": "视频拼接",
-    "status": "supplemental_chunk_design",
-    "url": "",
-    "title": "",
-    "evidence": "workbench chunk + tool_specs.json"
+    "status": "workspace_dom",
+    "url": "https://www.linkfox.com/draw/video-concat",
+    "title": "LinkFox官网 - 跨境电商AI运营助手 - AI选品AI作图AI视频AI Agent OS",
+    "evidence": "/Users/mac/Documents/Dev/infinite-canvas/docs/V1.0/plan_linkfox_navigation/evidence/page-dom-20261028/VIDEO_CONCAT.json",
+    "capturedAt": "2026-10-29"
   }
 ]

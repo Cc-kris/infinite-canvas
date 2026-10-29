@@ -2,7 +2,9 @@
 
 - 分类：商品图设计；目标路由：`/tools/product-design/product-market-material`；页面类型：`suite`。
 - 目标：生成 A+ 与营销场景素材。
-- 证据级别：`supplemental_chunk_design`；原站 URL：`补充工具无本轮直达 URL`。
+- 证据级别：`workspace_dom_text_only`；原站 URL：`https://www.linkfox.com/draw/product-image-suite?batchType=PRODUCT_MATERIAL`。
+- 证据文件：`../evidence/page-dom-20261028/PRODUCT_MARKET_MATERIAL.json`（2026-10-29 实拍：商品套图 batchType=PRODUCT_MATERIAL 工作区（主副图8张+A+图4张=600点）；仅文本层证据，无控件样式）
+- 路由依据：`workbench-BcUrzOPA.js` 侧栏菜单表 text/label/path/drawType/whitelist（非猜测）。
 - 实现边界：复刻信息架构和操作逻辑，使用无限画布设计令牌、资产、任务和模型服务；不搬 LinkFox 前端代码，不复制算力区。
 
 ## 1. 页面区域与布局

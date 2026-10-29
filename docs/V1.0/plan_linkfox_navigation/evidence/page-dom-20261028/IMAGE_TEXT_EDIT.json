@@ -1,0 +1,19 @@
+{
+  "tool": "IMAGE_TEXT_EDIT",
+  "label": "图片文字编辑",
+  "status": "route_not_found",
+  "url": "https://www.linkfox.com/draw/designer",
+  "capturedAt": "2026-10-29",
+  "method": "同源 iframe 注入已登录 Chrome 页面 (CDP Runtime.evaluate), viewport 1600x1000, 等待 9s 后取 body.innerText + 可见 button/input/textarea 的 rect/字号/颜色/圆角",
+  "routeSource": "workbench-BcUrzOPA.js 侧栏菜单表 (text/label/path/drawType/whitelist)",
+  "note": "/draw/designer 返回「页面不存在」；/draw/ai-image-edit 被 whitelist 重定向 /home；编辑态应经 designer-home 进入",
+  "finalUrl": "https://www.linkfox.com/draw/designer",
+  "text": "页面不存在\n\n您访问的页面可能已被删除、移动或暂时不可用\n\n返回首页",
+  "regions": [
+    "页面不存在",
+    "您访问的页面可能已被删除、移动或暂时不可用",
+    "返回首页"
+  ],
+  "controlsCount": 0,
+  "controls": []
+}

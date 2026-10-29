@@ -2,7 +2,9 @@
 
 - 分类：商品图设计；目标路由：`/tools/product-design/image-text-edit`；页面类型：`text`。
 - 目标：直接编辑图片中的文本框。
-- 证据级别：`supplemental_chunk_design`；原站 URL：`补充工具无本轮直达 URL`。
+- 证据级别：`route_not_found`；原站 URL：`https://www.linkfox.com/draw/designer`。
+- 证据文件：`../evidence/page-dom-20261028/IMAGE_TEXT_EDIT.json`（2026-10-29 实拍：`/draw/designer` 实测 404「页面不存在」；`/draw/ai-image-edit` 被白名单重定向 /home；文字编辑态经 /draw/designer-home 进入，未取得独立 DOM）
+- 路由依据：`workbench-BcUrzOPA.js` 侧栏菜单表 text/label/path/drawType/whitelist（非猜测）。
 - 实现边界：复刻信息架构和操作逻辑，使用无限画布设计令牌、资产、任务和模型服务；不搬 LinkFox 前端代码，不复制算力区。
 
 ## 1. 页面区域与布局

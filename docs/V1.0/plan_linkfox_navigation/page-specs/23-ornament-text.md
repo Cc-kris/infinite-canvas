@@ -2,7 +2,9 @@
 
 - 分类：商品图设计；目标路由：`/tools/product-design/ornament-text`；页面类型：`text`。
 - 目标：生成饰品文字效果。
-- 证据级别：`permission_redirect_home`；原站 URL：`https://www.linkfox.com/home`。
+- 证据级别：`permission_redirect_home`；原站 URL：`https://www.linkfox.com/draw/ornament-text`（本账号被重定向 `https://www.linkfox.com/home`）。
+- 证据文件：`../evidence/page-dom-20261028/ORNAMENT_TEXT.json`（2026-10-29 实拍）。
+- 路由依据：bundle 菜单表 `label:饰品文字, path:/draw/ornament-text, drawType:P.ORNAMENT_TEXT, betaLabel:{饰品文字}{Beta}, whitelist:!0`；本账号同样被重定向 /home。
 - 实现边界：复刻信息架构和操作逻辑，使用无限画布设计令牌、资产、任务和模型服务；不搬 LinkFox 前端代码，不复制算力区。
 
 ## 1. 页面区域与布局

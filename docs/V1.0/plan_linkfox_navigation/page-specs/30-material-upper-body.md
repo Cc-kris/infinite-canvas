@@ -2,7 +2,9 @@
 
 - 分类：商品图设计；目标路由：`/tools/product-design/material-upper-body`；页面类型：`dress`。
 - 目标：替换上装材质并保留版型。
-- 证据级别：`supplemental_chunk_design`；原站 URL：`补充工具无本轮直达 URL`。
+- 证据级别：`workspace_dom`；原站 URL：`https://www.linkfox.com/draw/clothing-image-suite`。
+- 证据文件：`../evidence/page-dom-20261028/MATERIAL_UPPER_BODY.json`（2026-10-29 实拍：服装套图真实工作区 DOM（40 控件）；公共站无独立「上装换料」入口，判定为套图内换料子能力（PARTIAL））
+- 路由依据：`workbench-BcUrzOPA.js` 侧栏菜单表 text/label/path/drawType/whitelist（非猜测）。
 - 实现边界：复刻信息架构和操作逻辑，使用无限画布设计令牌、资产、任务和模型服务；不搬 LinkFox 前端代码，不复制算力区。
 
 ## 1. 页面区域与布局

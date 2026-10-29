@@ -1,0 +1,232 @@
+{
+  "generatedAt": "2026-10-29",
+  "gate": "1:1 布局/样式/文案/字段/交互 对照；仅去除 LinkFox 品牌字样与算力区",
+  "screenshotCapability": "不可用（无屏幕录制权限）→ 仅 DOM + computed CSS 证据",
+  "originalCapture": "https://www.linkfox.com 已登录账号 用户6991，viewport 1600x1000",
+  "localCapture": "本轮未采集（B8 范围=原站路由与 DOM 落证；本地对照留待 B9）",
+  "overall": "PARTIAL",
+  "tools": {
+    "FIX_COLOR": {
+      "label": "色差修复",
+      "originalUrl": "https://www.linkfox.com/draw/color-diff-repair",
+      "originalStatus": "workspace_dom",
+      "layout": "原站区域序列已落证",
+      "style": "原站 bodyBg/bodyColor/bodyFont + 控件字号/颜色已落证",
+      "copy": "原站可见文案已落证",
+      "fields": "控件清单已落证",
+      "interaction": "按钮/输入可见性与算力提示已记录",
+      "localEvidence": null,
+      "evidenceLevel": "PARTIAL",
+      "score": 0.55,
+      "gaps": [
+        "本地页面尚未与本轮原站 DOM 逐项 diff"
+      ],
+      "verdict": "PARTIAL-待本地对照"
+    },
+    "AI_TEXT": {
+      "label": "POD素材（原站现名「创意文字」）",
+      "originalUrl": "https://www.linkfox.com/draw/ai-text",
+      "originalStatus": "permission_redirect_home",
+      "layout": "无",
+      "style": "无",
+      "copy": "无",
+      "fields": "无",
+      "interaction": "无",
+      "localEvidence": null,
+      "evidenceLevel": "BLOCKED",
+      "score": 0.0,
+      "gaps": [
+        "账号无白名单，原站无可对照 DOM"
+      ],
+      "verdict": "BLOCKED-不可 1:1 验收"
+    },
+    "ORNAMENT_TEXT": {
+      "label": "饰品文字",
+      "originalUrl": "https://www.linkfox.com/draw/ornament-text",
+      "originalStatus": "permission_redirect_home",
+      "layout": "无",
+      "style": "无",
+      "copy": "无",
+      "fields": "无",
+      "interaction": "无",
+      "localEvidence": null,
+      "evidenceLevel": "BLOCKED",
+      "score": 0.0,
+      "gaps": [
+        "账号无白名单，原站无可对照 DOM"
+      ],
+      "verdict": "BLOCKED-不可 1:1 验收"
+    },
+    "NEW_REPLACE_BG_V2": {
+      "label": "商品图（换背景）",
+      "originalUrl": "https://www.linkfox.com/draw/product-home",
+      "originalStatus": "workspace_dom",
+      "layout": "原站区域序列已落证",
+      "style": "原站 bodyBg/bodyColor/bodyFont + 控件字号/颜色已落证",
+      "copy": "原站可见文案已落证",
+      "fields": "控件清单已落证",
+      "interaction": "按钮/输入可见性与算力提示已记录",
+      "localEvidence": null,
+      "evidenceLevel": "PARTIAL",
+      "score": 0.55,
+      "gaps": [
+        "本地页面尚未与本轮原站 DOM 逐项 diff"
+      ],
+      "verdict": "PARTIAL-待本地对照"
+    },
+    "VIDEO_CONCAT": {
+      "label": "视频拼接",
+      "originalUrl": "https://www.linkfox.com/draw/video-concat",
+      "originalStatus": "workspace_dom",
+      "layout": "原站区域序列已落证",
+      "style": "原站 bodyBg/bodyColor/bodyFont + 控件字号/颜色已落证",
+      "copy": "原站可见文案已落证",
+      "fields": "控件清单已落证",
+      "interaction": "按钮/输入可见性与算力提示已记录",
+      "localEvidence": null,
+      "evidenceLevel": "PARTIAL",
+      "score": 0.55,
+      "gaps": [
+        "本地页面尚未与本轮原站 DOM 逐项 diff"
+      ],
+      "verdict": "PARTIAL-待本地对照"
+    },
+    "NEW_DESIGNER": {
+      "label": "商品图设计器",
+      "originalUrl": "https://www.linkfox.com/draw/designer-home",
+      "originalStatus": "workspace_dom",
+      "layout": "原站区域序列已落证",
+      "style": "原站 bodyBg/bodyColor/bodyFont + 控件字号/颜色已落证",
+      "copy": "原站可见文案已落证",
+      "fields": "控件清单已落证",
+      "interaction": "按钮/输入可见性与算力提示已记录",
+      "localEvidence": null,
+      "evidenceLevel": "PARTIAL",
+      "score": 0.55,
+      "gaps": [
+        "本地页面尚未与本轮原站 DOM 逐项 diff"
+      ],
+      "verdict": "PARTIAL-待本地对照"
+    },
+    "AI_POSE_GENERATOR": {
+      "label": "AI姿势生成",
+      "originalUrl": "https://www.linkfox.com/draw/ai-posture",
+      "originalStatus": "workspace_dom",
+      "layout": "原站区域序列已落证",
+      "style": "原站 bodyBg/bodyColor/bodyFont + 控件字号/颜色已落证",
+      "copy": "原站可见文案已落证",
+      "fields": "控件清单已落证",
+      "interaction": "按钮/输入可见性与算力提示已记录",
+      "localEvidence": null,
+      "evidenceLevel": "PARTIAL",
+      "score": 0.55,
+      "gaps": [
+        "本地页面尚未与本轮原站 DOM 逐项 diff"
+      ],
+      "verdict": "PARTIAL-待本地对照"
+    },
+    "AI_DRESSING_XSY": {
+      "label": "AI试衣XSY",
+      "originalUrl": "https://www.linkfox.com/draw/ai-dressing",
+      "originalStatus": "workspace_dom",
+      "layout": "原站区域序列已落证",
+      "style": "原站 bodyBg/bodyColor/bodyFont + 控件字号/颜色已落证",
+      "copy": "原站可见文案已落证",
+      "fields": "控件清单已落证",
+      "interaction": "按钮/输入可见性与算力提示已记录",
+      "localEvidence": null,
+      "evidenceLevel": "PARTIAL",
+      "score": 0.55,
+      "gaps": [
+        "本地页面尚未与本轮原站 DOM 逐项 diff"
+      ],
+      "verdict": "PARTIAL-待本地对照"
+    },
+    "FISSION_LINK": {
+      "label": "场景裂变链接",
+      "originalUrl": "https://www.linkfox.com/draw/product-scene?type=2",
+      "originalStatus": "workspace_dom",
+      "layout": "原站区域序列已落证",
+      "style": "原站 bodyBg/bodyColor/bodyFont + 控件字号/颜色已落证",
+      "copy": "原站可见文案已落证",
+      "fields": "控件清单已落证",
+      "interaction": "按钮/输入可见性与算力提示已记录",
+      "localEvidence": null,
+      "evidenceLevel": "PARTIAL",
+      "score": 0.55,
+      "gaps": [
+        "本地页面尚未与本轮原站 DOM 逐项 diff"
+      ],
+      "verdict": "PARTIAL-待本地对照"
+    },
+    "PRODUCT_MARKET_MATERIAL": {
+      "label": "商品营销素材",
+      "originalUrl": "https://www.linkfox.com/draw/product-image-suite?batchType=PRODUCT_MATERIAL",
+      "originalStatus": "workspace_dom_text_only",
+      "layout": "无",
+      "style": "无",
+      "copy": "原站可见文案已落证",
+      "fields": "控件数量 54",
+      "interaction": "按钮/输入可见性与算力提示已记录",
+      "localEvidence": null,
+      "evidenceLevel": "PARTIAL",
+      "score": 0.35,
+      "gaps": [
+        "仅文本层证据，缺控件样式/坐标",
+        "本地对照未采集"
+      ],
+      "verdict": "PARTIAL-待本地对照"
+    },
+    "MATERIAL_UPPER_BODY": {
+      "label": "上装换料",
+      "originalUrl": "https://www.linkfox.com/draw/clothing-image-suite",
+      "originalStatus": "workspace_dom",
+      "layout": "原站区域序列已落证",
+      "style": "原站 bodyBg/bodyColor/bodyFont + 控件字号/颜色已落证",
+      "copy": "原站可见文案已落证",
+      "fields": "控件清单已落证",
+      "interaction": "按钮/输入可见性与算力提示已记录",
+      "localEvidence": null,
+      "evidenceLevel": "PARTIAL",
+      "score": 0.55,
+      "gaps": [
+        "本地页面尚未与本轮原站 DOM 逐项 diff"
+      ],
+      "verdict": "PARTIAL-待本地对照"
+    },
+    "SCENE_TRANSFER": {
+      "label": "场景迁移",
+      "originalUrl": "https://www.linkfox.com/draw/",
+      "originalStatus": "private_b2b_route",
+      "layout": "无",
+      "style": "无",
+      "copy": "无",
+      "fields": "无",
+      "interaction": "无",
+      "localEvidence": null,
+      "evidenceLevel": "BLOCKED",
+      "score": 0.0,
+      "gaps": [
+        "仅 B2B 自定义路由，公共站无入口"
+      ],
+      "verdict": "BLOCKED-不可 1:1 验收"
+    },
+    "IMAGE_TEXT_EDIT": {
+      "label": "图片文字编辑",
+      "originalUrl": "https://www.linkfox.com/draw/designer",
+      "originalStatus": "route_not_found",
+      "layout": "无",
+      "style": "无",
+      "copy": "原站可见文案已落证",
+      "fields": "控件数量 0",
+      "interaction": "按钮/输入可见性与算力提示已记录",
+      "localEvidence": null,
+      "evidenceLevel": "BLOCKED",
+      "score": 0.0,
+      "gaps": [
+        "原站该 URL 404，入口在 designer-home 内部"
+      ],
+      "verdict": "BLOCKED-不可 1:1 验收"
+    }
+  }
+}

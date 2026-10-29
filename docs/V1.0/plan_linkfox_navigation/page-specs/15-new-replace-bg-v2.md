@@ -2,7 +2,9 @@
 
 - 分类：商品图设计；目标路由：`/tools/product-design/new-replace-bg-v2`；页面类型：`scene`。
 - 目标：为商品生成新背景/场景图。
-- 证据级别：`supplemental_chunk_design`；原站 URL：`补充工具无本轮直达 URL`。
+- 证据级别：`workspace_dom`；原站 URL：`https://www.linkfox.com/draw/product-home`。
+- 证据文件：`../evidence/page-dom-20261028/NEW_REPLACE_BG_V2.json`（2026-10-29 实拍：商品图工具台真实工作区 DOM（17 控件，含「商品替换/场景裂变/手持商品」导航））
+- 路由依据：`workbench-BcUrzOPA.js` 侧栏菜单表 text/label/path/drawType/whitelist（非猜测）。
 - 实现边界：复刻信息架构和操作逻辑，使用无限画布设计令牌、资产、任务和模型服务；不搬 LinkFox 前端代码，不复制算力区。
 
 ## 1. 页面区域与布局

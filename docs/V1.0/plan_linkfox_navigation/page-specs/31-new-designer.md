@@ -2,7 +2,9 @@
 
 - 分类：商品图设计；目标路由：`/tools/product-design/new-designer`；页面类型：`designer`。
 - 目标：在宿主内打开完整设计器。
-- 证据级别：`supplemental_chunk_design`；原站 URL：`补充工具无本轮直达 URL`。
+- 证据级别：`workspace_dom`；原站 URL：`https://www.linkfox.com/draw/designer-home`。
+- 证据文件：`../evidence/page-dom-20261028/NEW_DESIGNER.json`（2026-10-29 实拍：设计器首页真实 DOM（20 控件：草稿箱/模板推荐/创建设计））
+- 路由依据：`workbench-BcUrzOPA.js` 侧栏菜单表 text/label/path/drawType/whitelist（非猜测）。
 - 实现边界：复刻信息架构和操作逻辑，使用无限画布设计令牌、资产、任务和模型服务；不搬 LinkFox 前端代码，不复制算力区。
 
 ## 1. 页面区域与布局
