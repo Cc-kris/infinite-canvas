@@ -94,8 +94,8 @@
     "h": 32
    },
    "origin": "从本地上传 / 我是高手，不再提醒",
-   "local": "missing",
-   "status": "title_missing"
+   "local": "present",
+   "status": "title_present"
   },
   {
    "order": 7,
@@ -107,8 +107,8 @@
     "h": 491
    },
    "origin": "从作品库选择 / 从商品库选择 / 上传商品场景参考图 生成结果 一键做同款 上传商品场景参考图 / 上传商品场景参考图",
-   "local": "missing",
-   "status": "title_missing"
+   "local": "present",
+   "status": "title_present"
   },
   {
    "order": 8,
@@ -120,8 +120,8 @@
     "h": 395
    },
    "origin": "10M以内，分辨率：384*384 ~ 4096*4096， / 上传商品场景参考图 / 生成结果",
-   "local": "missing",
-   "status": "title_missing"
+   "local": "present",
+   "status": "title_present"
   },
   {
    "order": 9,
@@ -159,8 +159,8 @@
     "h": 56
    },
    "origin": "背景相似度： / 💡已选择智能模式，将根据模型自动生成场景",
-   "local": "missing",
-   "status": "title_missing"
+   "local": "present",
+   "status": "title_present"
   },
   {
    "order": 12,
@@ -237,8 +237,8 @@
     "h": 32
    },
    "origin": "设置生成尺寸 / 立即生成 (40算力) / 立即生成 / (40算力)",
-   "local": "missing",
-   "status": "title_missing"
+   "local": "present",
+   "status": "title_present"
   },
   {
    "order": 18,
@@ -263,8 +263,8 @@
     "h": 54
    },
    "origin": "选择生成张数 / 1 / 2 / 3 / 4",
-   "local": "missing",
-   "status": "title_missing"
+   "local": "present",
+   "status": "title_present"
   }
  ],
  "styles": [
@@ -343,8 +343,27 @@
      "pad": "0px 7px"
     }
    },
-   "local": null,
-   "status": "missing"
+   "local": {
+    "rect": {
+     "h": 24,
+     "w": 100,
+     "x": 230,
+     "y": 274
+    },
+    "css": {
+     "bc": "rgb(229, 229, 234)",
+     "bg": "rgb(255, 255, 255)",
+     "br": "4px",
+     "bw": "1px",
+     "color": "oklch(0.145 0 0)",
+     "ff": "-apple-system",
+     "fs": "12px",
+     "fw": "400",
+     "lh": "16px",
+     "pad": "0px"
+    }
+   },
+   "status": "match"
   },
   {
    "control": "从商品库选择",
@@ -369,8 +388,27 @@
      "pad": "0px 7px"
     }
    },
-   "local": null,
-   "status": "missing"
+   "local": {
+    "rect": {
+     "h": 24,
+     "w": 100,
+     "x": 338,
+     "y": 274
+    },
+    "css": {
+     "bc": "rgb(229, 229, 234)",
+     "bg": "rgb(255, 255, 255)",
+     "br": "4px",
+     "bw": "1px",
+     "color": "oklch(0.145 0 0)",
+     "ff": "-apple-system",
+     "fs": "12px",
+     "fw": "400",
+     "lh": "16px",
+     "pad": "0px"
+    }
+   },
+   "status": "match"
   },
   {
    "control": "上传多图，体验新功能商品套图",
@@ -395,8 +433,27 @@
      "pad": "0px 15px"
     }
    },
-   "local": null,
-   "status": "missing"
+   "local": {
+    "rect": {
+     "h": 22,
+     "w": 196,
+     "x": 217,
+     "y": 378
+    },
+    "css": {
+     "bc": "oklch(0.922 0 0)",
+     "bg": "rgba(0, 0, 0, 0)",
+     "br": "0px",
+     "bw": "0px",
+     "color": "oklch(0.145 0 0)",
+     "ff": "-apple-system",
+     "fs": "14px",
+     "fw": "400",
+     "lh": "22px",
+     "pad": "0px"
+    }
+   },
+   "status": "mismatch"
   },
   {
    "control": "默认尺寸",
@@ -423,22 +480,22 @@
    },
    "local": {
     "rect": {
-     "h": 36,
-     "w": 74,
-     "x": 213,
-     "y": 974
+     "h": 30,
+     "w": 130,
+     "x": 217,
+     "y": 820
     },
     "css": {
-     "bc": "oklch(0.205 0 0)",
-     "bg": "oklch(0.205 0 0)",
-     "br": "8px",
+     "bc": "rgb(114, 60, 249)",
+     "bg": "rgb(244, 240, 255)",
+     "br": "6px",
      "bw": "1px",
      "color": "oklch(0.145 0 0)",
      "ff": "-apple-system",
      "fs": "14px",
      "fw": "400",
      "lh": "22px",
-     "pad": "4px 8px"
+     "pad": "0px"
     }
    },
    "status": "mismatch"
@@ -468,22 +525,22 @@
    },
    "local": {
     "rect": {
-     "h": 36,
-     "w": 60,
-     "x": 295,
-     "y": 974
+     "h": 30,
+     "w": 130,
+     "x": 355,
+     "y": 820
     },
     "css": {
-     "bc": "oklch(0.922 0 0)",
-     "bg": "rgba(0, 0, 0, 0)",
-     "br": "8px",
+     "bc": "rgb(229, 229, 234)",
+     "bg": "rgb(255, 255, 255)",
+     "br": "6px",
      "bw": "1px",
      "color": "oklch(0.145 0 0)",
      "ff": "-apple-system",
      "fs": "14px",
      "fw": "400",
      "lh": "22px",
-     "pad": "4px 8px"
+     "pad": "0px"
     }
    },
    "status": "mismatch"
@@ -511,8 +568,27 @@
      "pad": "0px 15px"
     }
    },
-   "local": null,
-   "status": "missing"
+   "local": {
+    "rect": {
+     "h": 32,
+     "w": 267,
+     "x": 217,
+     "y": 720
+    },
+    "css": {
+     "bc": "oklch(0.922 0 0)",
+     "bg": "rgb(201, 182, 251)",
+     "br": "4px",
+     "bw": "0px",
+     "color": "oklch(0.145 0 0)",
+     "ff": "-apple-system",
+     "fs": "14px",
+     "fw": "500",
+     "lh": "22px",
+     "pad": "0px"
+    }
+   },
+   "status": "mismatch"
   },
   {
    "control": "生成结果",
@@ -537,8 +613,27 @@
      "pad": "0px"
     }
    },
-   "local": null,
-   "status": "missing"
+   "local": {
+    "rect": {
+     "h": 41,
+     "w": 80,
+     "x": 513,
+     "y": 178
+    },
+    "css": {
+     "bc": "oklch(0.922 0 0)",
+     "bg": "rgba(0, 0, 0, 0)",
+     "br": "0px",
+     "bw": "0px",
+     "color": "oklch(0.145 0 0)",
+     "ff": "-apple-system",
+     "fs": "14px",
+     "fw": "500",
+     "lh": "22px",
+     "pad": "0px 12px"
+    }
+   },
+   "status": "mismatch"
   },
   {
    "control": "优秀案例",
@@ -563,8 +658,27 @@
      "pad": "0px"
     }
    },
-   "local": null,
-   "status": "missing"
+   "local": {
+    "rect": {
+     "h": 41,
+     "w": 80,
+     "x": 597,
+     "y": 178
+    },
+    "css": {
+     "bc": "oklch(0.922 0 0)",
+     "bg": "rgba(0, 0, 0, 0)",
+     "br": "0px",
+     "bw": "0px",
+     "color": "oklch(0.145 0 0)",
+     "ff": "-apple-system",
+     "fs": "14px",
+     "fw": "400",
+     "lh": "22px",
+     "pad": "0px 12px"
+    }
+   },
+   "status": "mismatch"
   },
   {
    "control": "一键做同款",
@@ -721,15 +835,15 @@
    },
    "local": {
     "rect": {
-     "h": 36,
-     "w": 40,
-     "x": 213,
-     "y": 1038
+     "h": 26,
+     "w": 42,
+     "x": 217,
+     "y": 890
     },
     "css": {
-     "bc": "oklch(0.205 0 0)",
-     "bg": "oklch(0.205 0 0)",
-     "br": "8px",
+     "bc": "rgb(114, 60, 249)",
+     "bg": "rgb(244, 240, 255)",
+     "br": "4px",
      "bw": "1px",
      "color": "oklch(0.145 0 0)",
      "ff": "-apple-system",
@@ -766,15 +880,15 @@
    },
    "local": {
     "rect": {
-     "h": 36,
-     "w": 40,
-     "x": 261,
-     "y": 1038
+     "h": 26,
+     "w": 42,
+     "x": 267,
+     "y": 890
     },
     "css": {
-     "bc": "oklch(0.922 0 0)",
-     "bg": "rgba(0, 0, 0, 0)",
-     "br": "8px",
+     "bc": "rgb(229, 229, 234)",
+     "bg": "rgb(255, 255, 255)",
+     "br": "4px",
      "bw": "1px",
      "color": "oklch(0.145 0 0)",
      "ff": "-apple-system",
@@ -991,31 +1105,29 @@
    "上传参考图 从本地上传 从作品库选择 从商品库选择 10M以",
    "生成结果 优秀案例 历史记录 上传商品场景参考图，3秒裂变出",
    "生成结果 优秀案例",
-   "优秀案例",
    "上传商品场景参考图，3秒裂变出多张相似的场景图，快来裂变您的",
    "第一步：选择示例图或上传商品图 我是高手，不再提醒",
    "第一步：选择示例图或上传商品图",
-   "从本地上传",
    "我是高手，不再提醒",
-   "从作品库选择",
-   "从商品库选择",
-   "10M以内，分辨率：384*384 ~ 4096*4096，",
-   "上传多图，体验新功能商品套图",
-   "背景相似度：",
    "💡已选择智能模式，将根据模型自动生成场景",
    "生图模型 写实 简约 智能",
    "写实 简约 智能",
-   "立即生成 (40算力)",
-   "设置生成尺寸",
-   "(40算力)",
-   "选择生成张数"
+   "立即生成 (40算力)"
   ],
-  "missing_count": 21
+  "missing_count": 11
  },
  "verdict": "PARTIAL",
  "blockers": [
-  "regions 只做了标题级存在性判定，未做位置/尺寸 1:1 对齐",
+  "regions 只做标题级存在性判定，未做位置/尺寸 1:1 对齐",
   "interactions 未做点击/撤销/加载/失败实测：仅采集默认态",
-  "工具面板文案缺失 21 条"
+  "原站新手引导条未实现；智能模式提示与本地 manual 能力卡不一致"
+ ],
+ "notes": [
+  "本轮（2026-10-29）已按原站改为「左表单列 + 右三页签结果列」两栏：左栏=上传卡/背景相似度/场景描述/生图模型/尺寸/张数 + 底部整宽紫色「立即生成 (40算力)」；右栏=生成结果|优秀案例|历史记录，画布 #EDEFF5，空态卡 460×300。",
+  "missing_in_local 中「立即生成 (40算力)」「写实 简约 智能」「生成结果 优秀案例」「上传商品场景参考图，3秒裂变…」等为块级短语匹配产物：本地按行渲染，逐条文案实际存在（见 local/PRODUCT_SCENE/text.txt）。",
+  "真实差异1：「💡已选择智能模式…」本地不出现——本地能力卡为 manual（「真实光影与材质，背景相似度可手调」），相似度需手调故显示 60 与手调提示。",
+  "真实差异2：原站「第一步：选择示例图或上传商品图 / 我是高手，不再提醒」新手引导条未实现；与产品取「不打断」一致，保留为已知差距。",
+  "真实差异3：优秀案例为 5 张同尺寸中性渐变占位卡（不引 LinkFox 示例图，去品牌），非原站实拍案例图。",
+  "布局高度：本工具卡片 644px（视口 781 时），左栏内容超出后左列内部滚动、提交按钮固定列底；与原站单屏铺满存在滚动差异。"
  ]
 }

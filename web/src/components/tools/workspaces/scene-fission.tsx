@@ -3,6 +3,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { ToolAssetInput } from "@/components/tools/tool-asset-input";
+import { ToolHistoryDock } from "@/components/tools/tool-history-dock";
 import { ToolResult } from "@/components/tools/tool-result";
 import { useConfigStore, resolveModelChannel } from "@/stores/use-config-store";
 import { useToolDraftStore } from "@/stores/use-tool-draft-store";
@@ -58,15 +59,42 @@ import {
 
 const DRAFT_SLOT = "productScene";
 
-function Section({ title, hint, children }: { title: string; hint?: string; children: React.ReactNode }) {
+/** 右栏页签，顺序与原站一致。 */
+const SCENE_TABS = [
+    { id: "result", label: "生成结果" },
+    { id: "cases", label: "优秀案例" },
+    { id: "history", label: "历史记录" },
+] as const;
+type SceneTabId = (typeof SCENE_TABS)[number]["id"];
+
+/**
+ * 模型卡的缩略图占位：原站用官方示例图，这里不引外部 CDN（去 LinkFox 品牌资产），
+ * 只保留同尺寸同圆角的中性渐变块，保证卡片 60×89 的视觉权重一致。
+ */
+const MODEL_PREVIEW: Record<string, string> = {
+    realistic: "linear-gradient(135deg,#e9e6e1,#cfc9c0)",
+    minimal: "linear-gradient(135deg,#f5f3f0,#dedad4)",
+    smart: "linear-gradient(135deg,#e9e5ff,#d3c9fb)",
+};
+
+/** 优秀案例：原站 5 张示例卡（同一行铺开，宽 260）。仅作风格参考，未接入预设接口。 */
+const SCENE_CASES = [
+    { id: "living-room", title: "北欧客厅", preview: "linear-gradient(135deg,#e8ebf0,#c9d2de)" },
+    { id: "outdoor-street", title: "街头外景", preview: "linear-gradient(135deg,#e6e9e4,#c8cfc5)" },
+    { id: "nature", title: "自然草地", preview: "linear-gradient(135deg,#e4eee6,#c3d8c8)" },
+    { id: "studio", title: "极简影棚", preview: "linear-gradient(135deg,#f0eeec,#d8d3cd)" },
+    { id: "dining", title: "餐桌美食", preview: "linear-gradient(135deg,#f2e9e2,#dcc9b9)" },
+] as const;
+
+/** 原站左栏字段标题：12px / 45% 黑 / 无加粗，行高 16。 */
+function FieldLabel({ htmlFor, children, extra }: { htmlFor?: string; children: React.ReactNode; extra?: React.ReactNode }) {
     return (
-        <section className="min-w-0 rounded-lg border border-border bg-card p-3">
-            <header className="mb-2 flex items-baseline gap-2">
-                <h3 className="text-sm font-medium text-card-foreground">{title}</h3>
-                {hint ? <span className="text-[11px] text-muted-foreground">{hint}</span> : null}
-            </header>
-            {children}
-        </section>
+        <div className="mb-2 flex items-baseline justify-between gap-2">
+            <label htmlFor={htmlFor} className="text-[12px] leading-4 text-black/45">
+                {children}
+            </label>
+            {extra}
+        </div>
     );
 }
 
@@ -90,15 +118,21 @@ function SceneLayerComposer({
     const navigate = useNavigate();
     const sourceIssue = source ? validateSceneSource(source) : undefined;
     return (
-        <Section title="商品/场景参考" hint="10M以内 · 分辨率 384×384 ~ 4096×4096 · 最大宽高比 5">
+        <div className="min-w-0" data-testid="scene-source">
+            <FieldLabel>上传参考图</FieldLabel>
             <ToolAssetInput
                 toolId={toolId}
+                title=""
                 constraints={SCENE_SOURCE_LIMITS}
                 maxCount={1}
                 disabled={disabled}
+                variant="linkfox"
+                wide
+                compact
+                hint="10M以内，分辨率：384*384 ~ 4096*4096，最大宽高比5"
                 onChange={onChange}
             />
-            {restoring ? <p className="mt-2 text-[11px] text-muted-foreground">正在恢复上次的参考图…</p> : null}
+            {restoring ? <p className="mt-2 text-[11px] text-black/40">正在恢复上次的参考图…</p> : null}
             {lostSource ? <p className="mt-2 text-[11px] text-amber-600">上次的参考图已失效，请重新上传。</p> : null}
             {sourceIssue && !sourceIssue.ok ? (
                 <p className="mt-2 text-[11px] text-red-600" data-testid="scene-source-error">
@@ -106,19 +140,19 @@ function SceneLayerComposer({
                 </p>
             ) : null}
             {source?.width && source?.height ? (
-                <p className="mt-2 text-[11px] text-muted-foreground" data-testid="scene-source-size">
+                <p className="mt-2 text-[11px] text-black/40" data-testid="scene-source-size">
                     参考图 {source.width}×{source.height}
                 </p>
             ) : null}
             <button
                 type="button"
                 onClick={() => navigate("/tools/product-design/product-suite")}
-                className="mt-2 min-h-9 text-left text-[11px] text-primary underline-offset-2 hover:underline"
+                className="mt-3 block text-left text-[13px] leading-5 text-[#723cf9] hover:underline"
                 data-testid="scene-to-suite"
             >
-                上传多图，体验商品套图
+                上传多图，体验新功能商品套图
             </button>
-        </Section>
+        </div>
     );
 }
 
@@ -139,14 +173,16 @@ function SimilarityControl({
 }) {
     return (
         <div data-testid="scene-similarity">
-            <div className="mb-1 flex items-center justify-between">
-                <label htmlFor="scene-similarity-range" className="text-[11px] text-muted-foreground">
-                    背景相似度
-                </label>
-                <span className="text-[11px] font-medium tabular-nums" data-testid="scene-similarity-value">
-                    {smart ? `${effective}（智能）` : effective}
-                </span>
-            </div>
+            <FieldLabel
+                htmlFor="scene-similarity-range"
+                extra={
+                    <span className="text-[12px] tabular-nums text-black/35" data-testid="scene-similarity-value">
+                        {smart ? `${effective}（智能）` : effective}
+                    </span>
+                }
+            >
+                背景相似度：
+            </FieldLabel>
             <input
                 id="scene-similarity-range"
                 type="range"
@@ -157,11 +193,11 @@ function SimilarityControl({
                 disabled={disabled || smart}
                 aria-describedby="scene-similarity-hint"
                 onChange={(event) => onChange({ similarity: Number(event.target.value) })}
-                className="h-9 w-full accent-primary disabled:opacity-50"
+                className="h-4 w-full accent-[#723cf9] disabled:opacity-50"
             />
-            <p id="scene-similarity-hint" className="text-[11px] text-muted-foreground">
+            <p id="scene-similarity-hint" className="mt-1 text-[11px] leading-4 text-black/40">
                 {smart
-                    ? "💡已选择智能模式，将根据模型自动生成场景，相似度由模型决定。"
+                    ? "💡已选择智能模式，将根据模型自动生成场景"
                     : "相似度越高，越贴近参考图的背景结构；越低，场景变化越大。"}
             </p>
         </div>
@@ -256,6 +292,7 @@ export function ProductSceneWorkspace({ className, toolId = PRODUCT_SCENE_TOOL_I
     const [snapshot, setSnapshot] = useState<SceneSnapshot | undefined>();
     const [running, setRunning] = useState(false);
     const [runError, setRunError] = useState<string | undefined>();
+    const [tab, setTab] = useState<SceneTabId>("result");
     const abortRef = useRef<AbortController | null>(null);
 
     /* 草稿恢复：值 + 参考图资产 id；图丢了明确提示重选，不假装已恢复 */
@@ -460,232 +497,357 @@ export function ProductSceneWorkspace({ className, toolId = PRODUCT_SCENE_TOOL_I
     }, []);
 
     const card = sceneModelCard(values.modelId);
+    const showEmpty = !running && result.cells.every((cell) => cell.status === "missing" && !cell.dataUrl);
 
     return (
-        <div className={`flex min-w-0 flex-col gap-3 ${className ?? ""}`} data-tool="product-scene">
-            <div className="grid min-w-0 gap-3 lg:grid-cols-[minmax(320px,380px)_minmax(0,1fr)]">
-                <div className="flex min-w-0 flex-col gap-3">
-                    <SceneLayerComposer
-                        toolId={toolId}
-                        disabled={running}
-                        source={source}
-                        restoring={restoringSource}
-                        lostSource={lostSource}
-                        onChange={onSourceChange}
-                    />
-
-                    <Section title="场景配置" hint={`输出 ${output.label}`}>
-                        <SimilarityControl
-                            values={values}
-                            smart={smart}
-                            effective={strength}
+        <div className={`min-w-0 ${className ?? ""}`} data-tool="product-scene" data-layout="linkfox-two-pane">
+            <div className="flex h-[calc(100dvh-193px)] min-h-[560px] w-full overflow-hidden rounded-[8px] border border-black/[0.06] bg-white">
+                {/* 左栏：原站表单列 300px 白底，操作按钮固定在列底 */}
+                <div className="flex h-full w-[300px] shrink-0 flex-col border-r border-[#ededf0]">
+                    <div className="min-h-0 flex-1 overflow-y-auto px-4 pb-4 pt-3" data-testid="scene-form">
+                        <SceneLayerComposer
+                            toolId={toolId}
                             disabled={running}
-                            onChange={update}
+                            source={source}
+                            restoring={restoringSource}
+                            lostSource={lostSource}
+                            onChange={onSourceChange}
                         />
 
-                        <p className="mt-3 mb-1 text-[11px] text-muted-foreground">生图模型</p>
-                        <div className="flex flex-wrap gap-2" role="radiogroup" aria-label="生图模型" data-testid="scene-modes">
-                            {SCENE_MODELS.map((item) => {
-                                const active = values.modelId === item.id;
-                                return (
-                                    <button
-                                        key={item.id}
-                                        type="button"
-                                        role="radio"
-                                        aria-checked={active}
-                                        data-mode={item.id}
-                                        disabled={running}
-                                        onClick={() => update({ modelId: item.id })}
-                                        className={`min-h-9 rounded-md border px-2 py-1 text-xs ${
-                                            active
-                                                ? "border-primary bg-primary text-primary-foreground"
-                                                : "border-border text-foreground hover:bg-accent"
-                                        }`}
-                                    >
-                                        {item.label}
-                                    </button>
-                                );
-                            })}
-                        </div>
-                        <p className="mt-2 text-[11px] text-muted-foreground" data-testid="scene-mode-hint">
-                            {card.hint}
-                        </p>
-
-                        <label htmlFor="scene-keyword" className="mt-3 block text-[11px] text-muted-foreground">
-                            场景关键词（逗号分隔，进入 provider 的 sceneKeyword）
-                        </label>
-                        <input
-                            id="scene-keyword"
-                            type="text"
-                            value={values.sceneKeyword}
-                            disabled={running}
-                            onChange={(event) => update({ sceneKeyword: event.target.value })}
-                            placeholder="例如：木质桌面, 白色墙面, 绿植"
-                            className="mt-1 h-9 w-full rounded-md border border-border bg-background px-2 text-xs"
-                        />
-
-                        <label htmlFor="scene-prompt" className="mt-3 block text-[11px] text-muted-foreground">
-                            场景描述（可选）
-                        </label>
-                        <textarea
-                            id="scene-prompt"
-                            value={values.prompt}
-                            maxLength={SCENE_PROMPT_LIMIT}
-                            disabled={running}
-                            onChange={(event) => update({ prompt: event.target.value.slice(0, SCENE_PROMPT_LIMIT) })}
-                            placeholder="描述想要的场景，例如：晨光下的北欧客厅，浅木色地板"
-                            className="mt-1 min-h-20 w-full resize-y rounded-md border border-border bg-background p-2 text-xs"
-                        />
-                        <p className="mt-1 text-right text-[11px] tabular-nums text-muted-foreground" data-testid="scene-prompt-count">
-                            {values.prompt.length} / {SCENE_PROMPT_LIMIT}
-                        </p>
-                    </Section>
-
-                    <Section title="尺寸 / 数量" hint={describeSceneProduct(output, values.outputNum)}>
-                        <div className="flex gap-2" role="radiogroup" aria-label="尺寸方式" data-testid="scene-size-type">
-                            {(
-                                [
-                                    { id: "default" as const, label: "默认尺寸" },
-                                    { id: "custom" as const, label: "自定义" },
-                                ] as const
-                            ).map((item) => {
-                                const active = values.sizeType === item.id;
-                                return (
-                                    <button
-                                        key={item.id}
-                                        type="button"
-                                        role="radio"
-                                        aria-checked={active}
-                                        data-size-type={item.id}
-                                        disabled={running || (item.id === "custom" && !capability.customSize)}
-                                        onClick={() => update({ sizeType: item.id })}
-                                        className={`min-h-9 rounded-md border px-2 py-1 text-xs ${
-                                            active
-                                                ? "border-primary bg-primary text-primary-foreground"
-                                                : "border-border text-foreground hover:bg-accent"
-                                        } disabled:opacity-50`}
-                                    >
-                                        {item.label}
-                                    </button>
-                                );
-                            })}
+                        <div className="mt-4">
+                            <SimilarityControl
+                                values={values}
+                                smart={smart}
+                                effective={strength}
+                                disabled={running}
+                                onChange={update}
+                            />
                         </div>
 
-                        {values.sizeType === "custom" ? (
-                            <div className="mt-2 grid grid-cols-2 gap-2" data-testid="scene-custom-size">
-                                <label className="text-[11px] text-muted-foreground">
-                                    宽
-                                    <input
-                                        type="number"
-                                        min={SCENE_CUSTOM_SIZE.min}
-                                        max={SCENE_CUSTOM_SIZE.max}
-                                        step={SCENE_CUSTOM_SIZE.step}
-                                        value={values.customWidth}
-                                        disabled={running}
-                                        onChange={(event) => update({ customWidth: Number(event.target.value) })}
-                                        className="mt-1 h-9 w-full rounded-md border border-border bg-background px-2 text-xs tabular-nums"
-                                    />
-                                </label>
-                                <label className="text-[11px] text-muted-foreground">
-                                    高
-                                    <input
-                                        type="number"
-                                        min={SCENE_CUSTOM_SIZE.min}
-                                        max={SCENE_CUSTOM_SIZE.max}
-                                        step={SCENE_CUSTOM_SIZE.step}
-                                        value={values.customHeight}
-                                        disabled={running}
-                                        onChange={(event) => update({ customHeight: Number(event.target.value) })}
-                                        className="mt-1 h-9 w-full rounded-md border border-border bg-background px-2 text-xs tabular-nums"
-                                    />
-                                </label>
+                        <div className="mt-4">
+                            <FieldLabel
+                                htmlFor="scene-prompt"
+                                extra={
+                                    <span className="text-[11px] tabular-nums text-black/30" data-testid="scene-prompt-count">
+                                        {values.prompt.length} / {SCENE_PROMPT_LIMIT}
+                                    </span>
+                                }
+                            >
+                                场景描述（可选）
+                            </FieldLabel>
+                            <textarea
+                                id="scene-prompt"
+                                value={values.prompt}
+                                maxLength={SCENE_PROMPT_LIMIT}
+                                disabled={running}
+                                onChange={(event) => update({ prompt: event.target.value.slice(0, SCENE_PROMPT_LIMIT) })}
+                                placeholder="描述想要的场景，例如：晨光下的北欧客厅，浅木色地板"
+                                className="min-h-[84px] w-full resize-y rounded-[6px] border border-[#e5e5ea] bg-white p-2 text-[12px] leading-5 text-[#1f2024] outline-none transition placeholder:text-black/25 focus:border-[#723cf9]"
+                            />
+                            <details className="mt-1.5">
+                                <summary className="cursor-pointer text-[11px] leading-5 text-black/35 hover:text-black/55">
+                                    高级：场景关键词
+                                </summary>
+                                <input
+                                    id="scene-keyword"
+                                    type="text"
+                                    value={values.sceneKeyword}
+                                    disabled={running}
+                                    onChange={(event) => update({ sceneKeyword: event.target.value })}
+                                    placeholder="逗号分隔，例如：木质桌面, 白色墙面, 绿植"
+                                    data-testid="scene-keyword"
+                                    className="mt-1 h-8 w-full rounded-[6px] border border-[#e5e5ea] bg-white px-2 text-[12px] text-[#1f2024] outline-none transition placeholder:text-black/25 focus:border-[#723cf9]"
+                                />
+                            </details>
+                        </div>
+
+                        <div className="mt-4">
+                            <FieldLabel>生图模型</FieldLabel>
+                            <div className="flex gap-2" role="radiogroup" aria-label="生图模型" data-testid="scene-modes">
+                                {SCENE_MODELS.map((item) => {
+                                    const active = values.modelId === item.id;
+                                    return (
+                                        <button
+                                            key={item.id}
+                                            type="button"
+                                            role="radio"
+                                            aria-checked={active}
+                                            data-mode={item.id}
+                                            disabled={running}
+                                            onClick={() => update({ modelId: item.id })}
+                                            className={`w-[60px] shrink-0 overflow-hidden rounded-[6px] border bg-white text-center transition ${
+                                                active
+                                                    ? "border-[#723cf9]"
+                                                    : "border-[#ededf0] hover:border-[#c9c9d4]"
+                                            } disabled:opacity-50`}
+                                        >
+                                            <span
+                                                aria-hidden
+                                                className="block h-[60px] w-full"
+                                                style={{ background: MODEL_PREVIEW[item.id] }}
+                                            />
+                                            <span
+                                                className={`block py-1 text-[12px] leading-4 ${
+                                                    active ? "text-[#723cf9]" : "text-black/45"
+                                                }`}
+                                            >
+                                                {item.label}
+                                            </span>
+                                        </button>
+                                    );
+                                })}
                             </div>
-                        ) : null}
-
-                        <p className="mt-3 mb-1 text-[11px] text-muted-foreground">生成张数</p>
-                        <div className="flex gap-2" role="radiogroup" aria-label="生成张数" data-testid="scene-output-num">
-                            {capability.outputOptions.map((count) => {
-                                const active = values.outputNum === count;
-                                return (
-                                    <button
-                                        key={count}
-                                        type="button"
-                                        role="radio"
-                                        aria-checked={active}
-                                        data-output-num={count}
-                                        disabled={running}
-                                        onClick={() => update({ outputNum: count })}
-                                        className={`min-h-9 w-10 rounded-md border text-xs tabular-nums ${
-                                            active
-                                                ? "border-primary bg-primary text-primary-foreground"
-                                                : "border-border text-foreground hover:bg-accent"
-                                        }`}
-                                    >
-                                        {count}
-                                    </button>
-                                );
-                            })}
+                            <p className="sr-only" data-testid="scene-mode-hint" title={card.hint}>
+                                {card.hint}
+                            </p>
                         </div>
 
+                        <div className="mt-4">
+                            <FieldLabel>设置生成尺寸</FieldLabel>
+                            <div className="flex gap-2" role="radiogroup" aria-label="尺寸方式" data-testid="scene-size-type">
+                                {(
+                                    [
+                                        { id: "default" as const, label: "默认尺寸" },
+                                        { id: "custom" as const, label: "自定义" },
+                                    ] as const
+                                ).map((item) => {
+                                    const active = values.sizeType === item.id;
+                                    return (
+                                        <button
+                                            key={item.id}
+                                            type="button"
+                                            role="radio"
+                                            aria-checked={active}
+                                            data-size-type={item.id}
+                                            disabled={running || (item.id === "custom" && !capability.customSize)}
+                                            onClick={() => update({ sizeType: item.id })}
+                                            className={`h-[30px] flex-1 rounded-[6px] border text-[12px] transition ${
+                                                active
+                                                    ? "border-[#723cf9] bg-[#f4f0ff] text-[#723cf9]"
+                                                    : "border-[#e5e5ea] bg-white text-[#5a5a66] hover:border-[#c9c9d4]"
+                                            } disabled:opacity-50`}
+                                        >
+                                            {item.label}
+                                        </button>
+                                    );
+                                })}
+                            </div>
+
+                            {values.sizeType === "custom" ? (
+                                <div className="mt-2 grid grid-cols-2 gap-2" data-testid="scene-custom-size">
+                                    <label className="text-[11px] leading-4 text-black/35">
+                                        宽
+                                        <input
+                                            type="number"
+                                            min={SCENE_CUSTOM_SIZE.min}
+                                            max={SCENE_CUSTOM_SIZE.max}
+                                            step={SCENE_CUSTOM_SIZE.step}
+                                            value={values.customWidth}
+                                            disabled={running}
+                                            onChange={(event) => update({ customWidth: Number(event.target.value) })}
+                                            className="mt-1 h-8 w-full rounded-[6px] border border-[#e5e5ea] bg-white px-2 text-[12px] tabular-nums text-[#1f2024] outline-none focus:border-[#723cf9]"
+                                        />
+                                    </label>
+                                    <label className="text-[11px] leading-4 text-black/35">
+                                        高
+                                        <input
+                                            type="number"
+                                            min={SCENE_CUSTOM_SIZE.min}
+                                            max={SCENE_CUSTOM_SIZE.max}
+                                            step={SCENE_CUSTOM_SIZE.step}
+                                            value={values.customHeight}
+                                            disabled={running}
+                                            onChange={(event) => update({ customHeight: Number(event.target.value) })}
+                                            className="mt-1 h-8 w-full rounded-[6px] border border-[#e5e5ea] bg-white px-2 text-[12px] tabular-nums text-[#1f2024] outline-none focus:border-[#723cf9]"
+                                        />
+                                    </label>
+                                </div>
+                            ) : null}
+                        </div>
+
+                        <div className="mt-4">
+                            <FieldLabel>选择生成张数</FieldLabel>
+                            <div className="flex gap-2" role="radiogroup" aria-label="生成张数" data-testid="scene-output-num">
+                                {capability.outputOptions.map((count) => {
+                                    const active = values.outputNum === count;
+                                    return (
+                                        <button
+                                            key={count}
+                                            type="button"
+                                            role="radio"
+                                            aria-checked={active}
+                                            data-output-num={count}
+                                            disabled={running}
+                                            onClick={() => update({ outputNum: count })}
+                                            className={`h-[26px] w-[42px] rounded-[4px] border text-[12px] tabular-nums transition ${
+                                                active
+                                                    ? "border-[#723cf9] bg-[#f4f0ff] text-[#723cf9]"
+                                                    : "border-[#e5e5ea] bg-white text-[#5a5a66] hover:border-[#c9c9d4]"
+                                            } disabled:opacity-50`}
+                                        >
+                                            {count}
+                                        </button>
+                                    );
+                                })}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="shrink-0 border-t border-[#f0f0f3] px-4 py-3">
+                        {issues.length > 0 && runError ? (
+                            <ul className="mb-2 list-none space-y-0.5 text-[10px] leading-4 text-[#c47a1a]" data-testid="scene-issues">
+                                {issues.map((issue) => (
+                                    <li key={`${issue.code}-${issue.field}`}>· {issue.message}</li>
+                                ))}
+                            </ul>
+                        ) : null}
+                        {capability.notices.length > 0 ? (
+                            <ul className="mb-2 list-none space-y-0.5 text-[10px] leading-4 text-black/35" data-testid="scene-capability-notices">
+                                {capability.notices.map((notice) => (
+                                    <li key={notice}>· {notice}</li>
+                                ))}
+                            </ul>
+                        ) : null}
+                        {runError ? (
+                            <p className="mb-2 text-[10px] leading-4 text-red-600" data-testid="scene-run-error">
+                                {runError}
+                            </p>
+                        ) : null}
                         <button
                             type="button"
                             disabled={blocked || !source}
                             onClick={() => void onGenerate()}
                             data-testid="scene-generate"
-                            className="mt-3 min-h-10 w-full rounded-md bg-primary px-3 py-2 text-xs font-medium text-primary-foreground disabled:cursor-not-allowed disabled:opacity-50"
+                            className="flex h-8 w-full items-center justify-center gap-1 rounded-[4px] bg-[#723cf9] text-[13px] font-medium leading-none text-white transition hover:bg-[#6130e0] disabled:cursor-not-allowed disabled:bg-[#c9b6fb]"
                         >
-                            {running ? "裂变中…" : `立即生成 · ${sceneOutputOptionLabel(values.outputNum)}`}
+                            {running ? "裂变中…" : "立即生成"}
+                            <span className="text-[12px] font-normal opacity-90">(40算力)</span>
                         </button>
-                        <p className="mt-2 text-[11px] text-muted-foreground" data-testid="scene-expected">
-                            {describeSceneProduct(output, values.outputNum)} · 模型：{modelLabel(imageModel)}
+                        <p className="sr-only" data-testid="scene-expected">
+                            {describeSceneProduct(output, values.outputNum)} · {sceneOutputOptionLabel(values.outputNum)} ·{" "}
+                            {modelLabel(imageModel)}
                         </p>
-                        {issues.length > 0 ? (
-                            <ul className="mt-2 list-disc pl-4 text-[11px] text-amber-600" data-testid="scene-issues">
-                                {issues.map((issue) => (
-                                    <li key={`${issue.code}-${issue.field}`}>{issue.message}</li>
-                                ))}
-                            </ul>
-                        ) : null}
-                        {capability.notices.length > 0 ? (
-                            <ul className="mt-2 list-disc pl-4 text-[11px] text-muted-foreground" data-testid="scene-capability-notices">
-                                {capability.notices.map((notice) => (
-                                    <li key={notice}>{notice}</li>
-                                ))}
-                            </ul>
-                        ) : null}
-                        {runError ? (
-                            <p className="mt-2 text-[11px] text-red-600" data-testid="scene-run-error">
-                                {runError}
-                            </p>
-                        ) : null}
-                    </Section>
+                    </div>
                 </div>
 
-                <div className="flex min-w-0 flex-col gap-3">
-                    <Section title="生成结果" hint={`本次 ${result.expected} 张 · 已返回 ${result.count} 张`}>
-                        {drift && task ? (
-                            <p
-                                className="mb-2 rounded-md bg-amber-50 px-2 py-1 text-[11px] text-amber-700 dark:bg-amber-950/40 dark:text-amber-300"
-                                data-testid="scene-stale"
-                            >
-                                配置已变更（{drift}），下面的结果来自上一版配置，请重新生成。
-                            </p>
-                        ) : null}
-                        <SceneVariantGrid
-                            cells={result.cells}
-                            expected={result.expected}
-                            running={running}
-                            onRetryCell={(index) => void onRetryCell(index)}
-                        />
-                    </Section>
+                {/* 右栏：结果页签 + 浅灰画布 */}
+                <div className="flex min-w-0 flex-1 flex-col bg-[#edeff5]">
+                    <div
+                        className="flex h-[42px] shrink-0 items-center gap-1 border-b border-[#ededf0] bg-white px-3"
+                        role="tablist"
+                        aria-label="结果视图"
+                    >
+                        {SCENE_TABS.map((item) => {
+                            const active = tab === item.id;
+                            return (
+                                <button
+                                    key={item.id}
+                                    type="button"
+                                    role="tab"
+                                    aria-selected={active}
+                                    data-testid={`scene-tab-${item.id}`}
+                                    onClick={() => setTab(item.id)}
+                                    className={`h-full px-3 text-[14px] leading-none transition ${
+                                        active ? "font-medium text-[#723cf9]" : "text-[#5a5a66] hover:text-[#1f2024]"
+                                    }`}
+                                >
+                                    {item.label}
+                                </button>
+                            );
+                        })}
+                    </div>
 
-                    <ToolResult
-                        task={task}
-                        toolId={toolId}
-                        title="结果资产"
-                        onCancel={running ? onCancel : undefined}
-                        onRetry={task && !running ? () => void onRetry() : undefined}
-                    />
+                    <div className="min-h-0 flex-1 overflow-y-auto">
+                        {tab === "result" ? (
+                            <div className="flex min-h-full flex-col gap-3 p-4">
+                                {drift && task ? (
+                                    <p
+                                        className="rounded-[6px] border border-[#f0d9b0] bg-[#fdf6e8] px-3 py-1.5 text-[11px] leading-4 text-[#8a5d10]"
+                                        data-testid="scene-stale"
+                                    >
+                                        配置已变更（{drift}），下面的结果来自上一版配置，请重新生成。
+                                    </p>
+                                ) : null}
+
+                                {showEmpty ? (
+                                    <div className="flex flex-1 items-center justify-center">
+                                        <div
+                                            className="flex h-[300px] w-[460px] max-w-full flex-col items-center justify-center gap-2 rounded-[12px] bg-white px-8 text-center shadow-[0_1px_2px_rgba(0,0,0,0.03)]"
+                                            data-testid="scene-result-empty"
+                                        >
+                                            <svg width="40" height="40" viewBox="0 0 40 40" aria-hidden className="mb-1">
+                                                <rect x="4" y="8" width="32" height="24" rx="4" fill="#f4f0ff" />
+                                                <circle cx="14" cy="17" r="3" fill="#c9b6fb" />
+                                                <path d="M8 27l7-7 5 5 4-3 8 5" stroke="#723cf9" strokeWidth="1.6" fill="none" strokeLinecap="round" strokeLinejoin="round" />
+                                            </svg>
+                                            <p className="text-[20px] font-medium leading-7 text-[#1f2024]">上传商品场景参考图</p>
+                                            <p className="text-[15px] leading-6 text-black/60">
+                                                3秒裂变出多张相似的场景图，快来裂变您的场景图吧~
+                                            </p>
+                                        </div>
+                                    </div>
+                                ) : (
+                                    <div className="rounded-[8px] bg-white p-3">
+                                        <div className="mb-2 flex items-baseline justify-between gap-2">
+                                            <h3 className="text-[13px] font-medium text-[#1f2024]">生成结果</h3>
+                                            <span className="text-[11px] tabular-nums text-black/35">
+                                                本次 {result.expected} 张 · 已返回 {result.count} 张
+                                            </span>
+                                        </div>
+                                        <SceneVariantGrid
+                                            cells={result.cells}
+                                            expected={result.expected}
+                                            running={running}
+                                            onRetryCell={(index) => void onRetryCell(index)}
+                                        />
+                                    </div>
+                                )}
+
+                                {task ? (
+                                    <ToolResult
+                                        task={task}
+                                        toolId={toolId}
+                                        title="结果资产"
+                                        onCancel={running ? onCancel : undefined}
+                                        onRetry={task && !running ? () => void onRetry() : undefined}
+                                    />
+                                ) : null}
+                            </div>
+                        ) : null}
+
+                        {tab === "cases" ? (
+                            <div className="p-4" data-testid="scene-cases">
+                                <div className="grid grid-cols-[repeat(auto-fill,minmax(240px,1fr))] gap-3">
+                                    {SCENE_CASES.map((item) => (
+                                        <div key={item.id} className="overflow-hidden rounded-[8px] bg-white" data-case={item.id}>
+                                            <div
+                                                aria-hidden
+                                                className="h-[150px] w-full"
+                                                style={{ background: item.preview }}
+                                            />
+                                            <div className="flex items-center justify-between gap-2 px-3 py-2">
+                                                <span className="truncate text-[12px] text-[#1f2024]">{item.title}</span>
+                                                <button
+                                                    type="button"
+                                                    disabled
+                                                    title="案例预设未接入（PARTIAL）：请用左侧表单自行描述场景"
+                                                    className="h-6 shrink-0 rounded-[4px] border border-[#e5e5ea] px-2 text-[11px] text-[#5a5a66] disabled:cursor-not-allowed disabled:opacity-50"
+                                                >
+                                                    一键做同款
+                                                </button>
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                        ) : null}
+
+                        {tab === "history" ? (
+                            <div className="p-4">
+                                <ToolHistoryDock toolId={toolId} className="border border-[#ededf0] bg-white" />
+                            </div>
+                        ) : null}
+                    </div>
                 </div>
             </div>
         </div>

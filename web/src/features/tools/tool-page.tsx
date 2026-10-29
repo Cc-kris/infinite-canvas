@@ -421,6 +421,8 @@ export const WORKSPACE_OWN_HISTORY: ReadonlySet<string> = new Set([
     "AI_OUTPAINTING",
     "VIDEO_CONCAT",
     "VIDEO_TRANSLATION",
+    // 场景裂变：原站历史是右栏第三个页签，工作区自己渲染，页底不再重复挂 dock
+    "PRODUCT_SCENE",
 ]);
 
 /**

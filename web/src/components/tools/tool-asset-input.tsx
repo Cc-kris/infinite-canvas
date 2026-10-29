@@ -48,6 +48,8 @@ export type ToolAssetInputProps = {
     hint?: ReactNode;
     /** linkfox 变体：按钮/提示行按容器宽度铺满（原站画布内 490px 卡片），默认 210px 固定宽度 */
     wide?: boolean;
+    /** linkfox 变体：压缩上传卡高度（原站场景裂变卡片更矮，152 而非 249） */
+    compact?: boolean;
     /** 选择结果变化：成功入库的 id 与记录（顺序即用户顺序） */
     onChange?: (assetIds: string[], records: ToolAssetRecord[]) => void;
 };
@@ -76,7 +78,7 @@ function phaseLabel(progress: ToolAssetUploadProgress) {
  * 资产输入：真实 `<input type=file>` / 拖拽 → `uploadToolAsset`（真实落库、真实字节进度、可取消）
  * → 资产 id 写入草稿（刷新后由草稿 + 资产索引恢复）。
  */
-export function ToolAssetInput({ toolId, draftSlot, constraints, maxCount, library, disabled, title = "上传素材", className, variant = "default", uploadLabel, actions, hint, wide, onChange }: ToolAssetInputProps) {
+export function ToolAssetInput({ toolId, draftSlot, constraints, maxCount, library, disabled, title = "上传素材", className, variant = "default", uploadLabel, actions, hint, wide, compact, onChange }: ToolAssetInputProps) {
     const effectiveConstraints = useMemo(() => resolveToolAssetConstraints(constraints), [constraints]);
     const [items, setItems] = useState<AssetItem[]>([]);
     const [notice, setNotice] = useState("");
@@ -311,7 +313,10 @@ export function ToolAssetInput({ toolId, draftSlot, constraints, maxCount, libra
                 className={cn(
                     linkfox
                         ? wide
-                            ? "flex min-h-[249px] w-full cursor-pointer flex-col items-center justify-center gap-2 rounded-[6px] border border-dashed border-[#d9d9e0] bg-[#fafafa] p-3 text-xs transition"
+                            ? cn(
+                                  "flex w-full cursor-pointer flex-col items-center justify-center gap-2 rounded-[6px] border border-dashed border-[#d9d9e0] bg-[#fafafa] p-3 text-xs transition",
+                                  compact ? "min-h-[152px]" : "min-h-[249px]",
+                              )
                             : "flex cursor-pointer flex-col items-start gap-2 rounded-[6px] border border-[#EDEDF0] bg-white p-3 text-xs transition"
                         : "flex cursor-pointer flex-col items-center justify-center gap-1 rounded-xl border border-dashed px-4 py-6 text-center text-xs transition",
                     dragging ? "border-stone-500 bg-stone-100 dark:bg-stone-800" : linkfox ? "" : "border-stone-300 dark:border-stone-700",
@@ -441,7 +446,7 @@ export function ToolAssetInput({ toolId, draftSlot, constraints, maxCount, libra
                         </li>
                     ))}
                 </ul>
-            ) : (
+            ) : linkfox && hydratedDraft ? null : (
                 <p className="text-xs text-stone-500">{hydratedDraft ? "还没有素材" : "正在恢复上次的素材…"}</p>
             )}
 
