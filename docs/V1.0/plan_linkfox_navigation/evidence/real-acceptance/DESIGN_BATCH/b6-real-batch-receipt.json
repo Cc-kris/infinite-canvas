@@ -1,0 +1,150 @@
+{
+  "toolId": "DESIGN_BATCH",
+  "label": "批量生图（/tools/batch-generate）",
+  "status": "PASS",
+  "date": "2026-10-29",
+  "route": "/tools/batch-generate",
+  "detailRoute": "/tools/batch-generate/batch_XoWY1VJqvX",
+  "batch": {
+    "batchId": "batch_XoWY1VJqvX",
+    "toolId": "SCALE_UP",
+    "concurrency": 3,
+    "startedAt": 1793268224777,
+    "finishedAt": 1793268266694,
+    "status": "completed",
+    "lastError": null,
+    "rows": 2,
+    "succeeded": 2,
+    "failed": 0,
+    "skipped": 0
+  },
+  "inputs": {
+    "source": "真实图片：SCALE_UP 工具此前真实产出的结果 PNG（docs/.../SCALE_UP/05-downloaded.png，1,152,074 B，1024x752）",
+    "uploadPath": "页面内 file input（accept=image/*）+ DataTransfer 赋真实 File 字节；未改动任何请求/响应",
+    "prompts": [
+      "高清放大：保持原图构图与配色，强化文字与网格线条清晰度，输出 2048px 长边。",
+      "高清放大：保留原图细节与字体，提升边缘锐度与线条对比，输出 2048px 长边。"
+    ]
+  },
+  "receipts": [
+    {
+      "rowId": "row_D3BqXT8q",
+      "taskId": "task-mvtdllw0-dn440l",
+      "status": "succeeded",
+      "attempts": 1,
+      "clientOperationId": "57809bef-282c-456d-a98f-ec49795f990e",
+      "capability": "image",
+      "configSnapshot": {
+        "model": "default::gpt-image-2",
+        "apiFormat": "openai",
+        "size": "1:1",
+        "quality": "auto",
+        "count": "1",
+        "channelId": "default"
+      },
+      "sourceAssetIds": [
+        "row_D3BqXT8q-ref-1793268136293-0"
+      ],
+      "resultItems": [
+        {
+          "id": "task-mvtdllw0-dn440l-0",
+          "kind": "image",
+          "storageKey": "tool-result:MOMNo1DkYuHlii4tVlc0Z",
+          "url": "blob:http://127.0.0.1:3000/6c5033f7-9f54-4182-a839-43caad51c7f4",
+          "bytes": 1638630,
+          "mimeType": "image/png",
+          "payloadDropped": false
+        }
+      ],
+      "durationMs": 41900,
+      "verifiedFile": {
+        "file": "batch_XoWY1VJqvX-row_D3BqXT8q.png",
+        "bytes": 1638630,
+        "magic": "89504e470d0a1a0a",
+        "width": 1024,
+        "height": 1024,
+        "sha256": "cc6cf58b3ee94bff9dfacb859853618711189bc7cf83fe7ba39b7759f9cb047b"
+      }
+    },
+    {
+      "rowId": "row_KWQoUzW9",
+      "taskId": "task-mvtdllwa-4nnit3",
+      "status": "succeeded",
+      "attempts": 1,
+      "clientOperationId": "50d28480-b365-47e8-b7ea-e23a858466bd",
+      "capability": "image",
+      "configSnapshot": {
+        "model": "default::gpt-image-2",
+        "apiFormat": "openai",
+        "size": "1:1",
+        "quality": "auto",
+        "count": "1",
+        "channelId": "default"
+      },
+      "sourceAssetIds": [
+        "row_KWQoUzW9-ref-1793268182730-0"
+      ],
+      "resultItems": [
+        {
+          "id": "task-mvtdllwa-4nnit3-0",
+          "kind": "image",
+          "storageKey": "tool-result:4tmHV06OonsLJrg0wC655",
+          "url": "blob:http://127.0.0.1:3000/884b5c0a-c66c-4213-ac0c-f3cb76b69dc2",
+          "bytes": 1237615,
+          "mimeType": "image/png",
+          "payloadDropped": false
+        }
+      ],
+      "publishedUrl": "https://oss-us.dimenoss.com/images/2026/10/29/1793268247_7ccc9eed5d79e196344c3b00aab00fc3.png",
+      "durationMs": 22725,
+      "verifiedFile": {
+        "file": "batch_XoWY1VJqvX-row_KWQoUzW9.png",
+        "bytes": 1237615,
+        "magic": "89504e470d0a1a0a",
+        "width": 1024,
+        "height": 1024,
+        "sha256": "e4bd821fcd8f52f9f150cb23dfbdfb20bf6be0ad27ce3d4a4813f92617dcd8f9"
+      }
+    }
+  ],
+  "byteVerification": {
+    "method": "行2：curl 真实下载 OSS 产物落盘；行1：从 IndexedDB（localforage db=infinite-canvas / store=media_files / key=tool-result:MOMNo1DkYuHlii4tVlc0Z）取原始 Blob 字节，经本地 127.0.0.1:8811 接收器原样落盘（页面内 blob: URL 在刷新后已被回收，无法直接 fetch）。",
+    "row1": {
+      "file": "batch_XoWY1VJqvX-row_D3BqXT8q.png",
+      "bytes": 1638630,
+      "magic": "89504e470d0a1a0a",
+      "width": 1024,
+      "height": 1024,
+      "sha256": "cc6cf58b3ee94bff9dfacb859853618711189bc7cf83fe7ba39b7759f9cb047b"
+    },
+    "row2": {
+      "file": "batch_XoWY1VJqvX-row_KWQoUzW9.png",
+      "bytes": 1237615,
+      "magic": "89504e470d0a1a0a",
+      "width": 1024,
+      "height": 1024,
+      "sha256": "e4bd821fcd8f52f9f150cb23dfbdfb20bf6be0ad27ce3d4a4813f92617dcd8f9"
+    }
+  },
+  "freshReload": {
+    "verifiedAt": "2026-10-29",
+    "url": "http://127.0.0.1:3000/tools/batch-generate/batch_XoWY1VJqvX",
+    "batchStatusText": "已结束",
+    "pageCounters": {
+      "成功": 2,
+      "失败": 0,
+      "跳过": 0
+    },
+    "row0Text": "成功 · 第 1 次；结果缩略图缺失（blob 结果 url 刷新后失效）",
+    "row1Text": "成功 · 第 1 次；结果缩略图存在，指向 OSS 真实 PNG，可点击",
+    "row2ResultLink": "https://oss-us.dimenoss.com/images/2026/10/29/1793268247_7ccc9eed5d79e196344c3b00aab00fc3.png"
+  },
+  "knownGaps": [
+    "刷新后两行都提示「刷新后有 1 张参考图未恢复，请重新上传」——参考图（sourceAsset）不做跨刷新持久化（与旧批次 batch_dPefELopUM 的 referencesDetached=1 表现一致，非本次引入）。",
+    "行1 结果为 blob: 存储：outcome.resultUrls 只保留 http(s)（batch-runner.ts collectResultUrls），因此刷新后历史卡片不给行1 可点缩略图；真实字节仍在 IndexedDB media_files 中（本次已取出落盘校验 1,638,630 B / sha256 cc6cf58b…）。按用户要求只做验收闭环，不在本次改落库逻辑。"
+  ],
+  "noFabrication": {
+    "statement": "本记录所有 taskId/batchId/字节数/sha256/URL 均来自 localStorage 任务库与真实文件；未注入任何伪造结果，未修改应用源码。",
+    "previousBlocked": "b5-blocked-no-real-batch.json（2026-10-29 早，本机 0 条 batch-task 真实记录）已被本次真实提交取代，标记 superseded。"
+  }
+}

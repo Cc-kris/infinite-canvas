@@ -14,14 +14,23 @@
         "allLocalStorageKeys": 57,
         "otherToolTasksPresent": 48,
         "fissionLinkTasksPresent": 8,
-        "idbDatabases": ["infinite-canvas", "tool-assets", "canvas-assets", "localforage"],
+        "idbDatabases": [
+          "infinite-canvas",
+          "tool-assets",
+          "canvas-assets",
+          "localforage"
+        ],
         "note": "同一 origin 有 48 条其它工具真实任务，唯独没有 batch-task:v1:*，说明不是浏览器数据被整体清空"
       }
     },
     {
       "origin": "http://localhost:3000",
       "target": "localStorage",
-      "findings": { "batchTaskKeys": [], "batch_task_v1_index": null, "allLocalStorageKeys": 9 }
+      "findings": {
+        "batchTaskKeys": [],
+        "batch_task_v1_index": null,
+        "allLocalStorageKeys": 9
+      }
     },
     {
       "route": "http://localhost:3000/tools/batch-generate",
@@ -46,5 +55,7 @@
     "未注入任何伪造批次数据",
     "DESIGN_BATCH 的“结果可下载 / 存入资产库 / 刷新恢复”三项未取得真实验收证据"
   ],
-  "nextStepToUnblock": "在批量生图页真实提交一个小批次（例如 SCALE_UP 1 行）并成功后，按同一套 fresh reload 流程验收结果/下载/资产库"
+  "nextStepToUnblock": "在批量生图页真实提交一个小批次（例如 SCALE_UP 1 行）并成功后，按同一套 fresh reload 流程验收结果/下载/资产库",
+  "supersededBy": "b6-real-batch-receipt.json",
+  "supersededNote": "2026-10-29 晚：已在 UI 用最小 2 行真实素材提交一次，两行均 succeeded，见 b6-real-batch-receipt.json。"
 }
