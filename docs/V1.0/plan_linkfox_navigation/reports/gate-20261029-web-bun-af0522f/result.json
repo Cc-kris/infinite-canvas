@@ -1,0 +1,35 @@
+{
+  "snapshot": {
+    "commit": "af0522fcf4ddebaf7a0df2ad5511fa5b051f04f0",
+    "tree": "640582300afc24a109a9abcd0dbb4b457bac60c4",
+    "subject": "fix(tool-result): 视频结果刷新后按 storageKey 还原字节再存资产/发画布；补 R13 VIDEO_CONCAT 真实字段与三动作回执",
+    "branch": "feat/linkfox-v1-real",
+    "repo": "/Users/mac/Documents/Dev/infinite-canvas"
+  },
+  "method": {
+    "isolation": "git archive af0522f | tar -x -C /Users/mac/Documents/Dev/ga-gate-af0522f",
+    "install": "bun install --frozen-lockfile (931 packages)",
+    "bun": "1.4.2 (744846f84)",
+    "node": "v24.14.0",
+    "vite": "7.3.6",
+    "cwd": "web"
+  },
+  "gates": {
+    "typecheck": {"cmd": "bun run typecheck", "exit": 0, "duration_s": 48, "tsbuildinfo_bytes": 720529},
+    "test": {"cmd": "bun test", "exit": 0, "duration_s": 4, "pass": 1470, "fail": 0, "expect_calls": 8298, "files": 83},
+    "build": {"cmd": "bun run build", "exit": 0, "duration_s": 30, "vite_built_in_s": 28.3,
+      "assets": {"index-B8U_zLm6.js": {"bytes": 5603305, "sha256": "f22a105f920a7094586353a1e8c7eb1f1498bfaec25173e507640f77da70eda1"},
+                 "index-MCAOPxSD.css": {"bytes": 159737, "sha256": "f2f3f9d64c1b898a683a9d279170c9d3be9e63d5db67b6e6b9bc57db6a667561"}}}
+  },
+  "integrity": {"tracked_files_compared": 3169, "mismatches": 0},
+  "baseline": {"commit": "094bad2e9e73c8637418c94d3f212ec4f68bfa41", "typecheck_exit": 0, "test_exit": 0, "test_pass": 1470, "test_fail": 0, "build_exit": 0, "verdict": "identical"},
+  "regressions_found": false,
+  "source_files_modified": 0,
+  "log_sha256": {
+    "summary.txt": "d0efcfbe84dbeeaaf1c4e572498c4a77640660806048a0ac7a5f5105b2db3044",
+    "typecheck.log": "8366207267355d3e3d5bf3bf6e8c94c5f93f6078c34f08973fa2b38cdda6cc92",
+    "test.log": "7b7358b9e34f49a35fb61258ab21ddfb3b6a8bc751e3c5659e625bf840410cc5",
+    "build.log": "6211b4f0efdac9094cd09f132e89ae62d3ba10608e751fe38a31fd0bc3bc3712",
+    "baseline-094bad2-summary.txt": "d2741009e3e679d62e9d1c08a45ce3ca82acb4fc48e44aa6bcb6f5cdab34eb1f"
+  }
+}
