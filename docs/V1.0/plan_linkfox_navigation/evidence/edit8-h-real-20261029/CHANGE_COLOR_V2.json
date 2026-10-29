@@ -1,0 +1,46 @@
+{
+ "toolId": "CHANGE_COLOR_V2",
+ "route": "/tools/smart-edit/change-color-v2",
+ "phase": "reload",
+ "realHistoryOnly": true,
+ "verdict": "NOT_AVAILABLE_HISTORICAL_PAYLOAD_DROPPED",
+ "meaning": "该工具在本浏览器真实历史中确实有 succeeded 任务，但结果字节在落盘时被剥离，且无上游 job id 可回溯；因此无法从真实历史给出「刷新后历史行可下载且字节一致」的 H 回执。未重跑（遵守『其余不重复生成』）。",
+ "historicalTasks": [
+  {
+   "taskId": "task-mvsc4fyg-qobp8k",
+   "status": "succeeded",
+   "createdAt": "2026-10-28T16:34:38.152Z",
+   "resultItems": 1,
+   "itemKeys": [
+    "id",
+    "kind",
+    "payloadDropped"
+   ],
+   "payloadDropped": true,
+   "configSnapshot": {
+    "capability": "image",
+    "model": "default::gpt-image-2",
+    "size": "1:1"
+   },
+   "promptHead": "对上传商品图「apparel-print.jpg」做换色：把上装改成参考图「apparel-print-ref.jpg」中的颜色与材质…"
+  },
+  {
+   "taskId": "task-mvsc7s58-2rrnqz",
+   "status": "failed",
+   "createdAt": "2026-10-28T16:37:13.916Z",
+   "resultItems": 0
+  }
+ ],
+ "bindingCheck": {
+  "searchScope": "IDB infinite-canvas: asset_store(31 assets) + canvas_store(25 projects，逐节点) 按 metadata.taskId 精确匹配本工具历史 taskId",
+  "assetHits": 0,
+  "canvasNodeHits": 0,
+  "conclusion": "没有任何资产或画布节点与本工具历史 taskId 绑定 → 结果既未入库也未带 taskId 回流画布，字节不可恢复"
+ },
+ "reloadBehavior": {
+  "historyRows": "历史行仍在（任务元数据/配置/状态保留）",
+  "imageRestore": "无图可恢复：items 仅有 {id,kind,payloadDropped:true}"
+ },
+ "rootCauseAndFix": "见同目录 PERSISTENCE_FIX.json（修复已在树内，并用 AREA_REPAIR 新任务 + 单测实证生效）",
+ "note": "本机存在 CHANGE_COLOR(旧工具) 的画布结果(930500B, sha 4b659a90)与资产 taskId=task-mvs9pfey-coo4gd，但工具 ID 不是 CHANGE_COLOR_V2，不能作为本工具回执"
+}

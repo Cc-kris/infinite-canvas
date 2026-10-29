@@ -1,0 +1,17 @@
+{
+ "issue": "历史任务结果 payloadDropped=true：任务落盘时把结果字节剥离，刷新后无 storageKey/url，历史行无法下载/存库/发画布",
+ "rootCause": "旧版本 sanitize/persist 只保留 result.items 的 {id,kind}，未把结果字节写入 media store，故落盘时标记 payloadDropped=true 且字节永久丢失",
+ "fixAlreadyInTree": {
+  "persist": "web/src/services/api/tools/task-machine.ts:393-401 — 仅当既无 storageKey 也无字节时才置 payloadDropped:true；有 storageKey 时置 false",
+  "ingest": "web/src/stores/use-tool-task-store.ts ingestResultMediaIntoStore() — upsert 时先把待入库结果字节写入 media store(tool-result:*)，成功后再写一次 store（已无待入库字节，不递归）",
+  "tests": [
+   "web/src/services/api/tools/gateway.result-items.test.ts（远程 dataUrl 落成 url，持久化后不丢结果；本地 base64 仍只写 dataUrl；多项结果保持顺序；真实网关 submit 链路刷新后仍可下载）"
+  ]
+ },
+ "verificationThisRound": {
+  "unit": "npx --yes bun test src/services/api/tools/gateway.result-items.test.ts → 4 pass / 0 fail（bun 1.4.4）",
+  "realRuntime": "AREA_REPAIR 新任务 task-mvtfevy8-rrr2ye 落盘后 payloadDropped=false，storageKey=tool-result:YJZMRTkIBxD9EH1-DXAam；刷新后历史行可下载/存库/发画布，四路 sha 全等（见 AREA_REPAIR.json）",
+  "conclusion": "持久化修复已生效；但 2026-10-28 之前的旧记录字节未入库且无上游 job id，无法事后回溯，只能如实标注 NOT_AVAILABLE"
+ },
+ "recommendation": "如需这两条历史产出可比对，需按用户授权重跑一次同配置任务（本轮按指令未重跑）"
+}

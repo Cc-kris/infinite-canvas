@@ -1,0 +1,82 @@
+{
+ "toolId": "REMOVE_PEN",
+ "route": "/tools/smart-edit/remove-pen",
+ "phase": "reload",
+ "realHistoryOnly": true,
+ "verdict": "NOT_AVAILABLE_HISTORICAL_PAYLOAD_DROPPED",
+ "meaning": "该工具在本浏览器真实历史中确实有 succeeded 任务，但结果字节在落盘时被剥离，且无上游 job id 可回溯；因此无法从真实历史给出「刷新后历史行可下载且字节一致」的 H 回执。未重跑（遵守『其余不重复生成』）。",
+ "historicalTasks": [
+  {
+   "taskId": "task-mvs9xe7s-9jmboc",
+   "status": "failed",
+   "createdAt": "2026-10-28T15:33:10.072Z",
+   "resultItems": 0
+  },
+  {
+   "taskId": "task-mvsa3pt6-4wqy46",
+   "status": "succeeded",
+   "createdAt": "2026-10-28T15:38:05.034Z",
+   "resultItems": 1,
+   "itemKeys": [
+    "id",
+    "kind",
+    "payloadDropped"
+   ],
+   "payloadDropped": true
+  },
+  {
+   "taskId": "task-mvsaq4oa-4giro0",
+   "status": "failed",
+   "createdAt": "2026-10-28T15:55:30.730Z",
+   "resultItems": 0
+  },
+  {
+   "taskId": "task-mvsaus49-i7vsmt",
+   "status": "succeeded",
+   "createdAt": "2026-10-28T15:59:07.737Z",
+   "resultItems": 1,
+   "itemKeys": [
+    "id",
+    "kind",
+    "payloadDropped"
+   ],
+   "payloadDropped": true
+  },
+  {
+   "taskId": "task-mvsba8fo-iplfjq",
+   "status": "succeeded",
+   "createdAt": "2026-10-28T16:11:08.724Z",
+   "resultItems": 1,
+   "itemKeys": [
+    "id",
+    "kind",
+    "payloadDropped"
+   ],
+   "payloadDropped": true,
+   "corroboration": {
+    "note": "同批结果曾发到画布，可作为『产出真实存在』的旁证，但因画布节点 metadata 无 taskId，不构成 H 回执",
+    "canvasProject": {
+     "projectId": "9PtWcnwKDkuVxzTGRyENT",
+     "title": "REMOVE_PEN 结果",
+     "updatedAt": "2026-10-28T16:12:43.697Z",
+     "nodeId": "image-1793203945768-3q7sk",
+     "storageKey": "image:ycBqh6LYaZViOmPAypGnR",
+     "bytes": 850799,
+     "sha256": "67d5d6a637518af3e0aa9147bfc0f855b350a244b3345b93ab05d3faa223f392",
+     "timingVsTask": "任务结果 receivedAt=16:11:43.6Z，画布节点创建 16:12:25.7Z（+42s），时间相邻但无 taskId 绑定"
+    }
+   }
+  }
+ ],
+ "bindingCheck": {
+  "searchScope": "IDB infinite-canvas: asset_store(31 assets) + canvas_store(25 projects，逐节点) 按 metadata.taskId 精确匹配本工具历史 taskId",
+  "assetHits": 0,
+  "canvasNodeHits": 0,
+  "conclusion": "没有任何资产或画布节点与本工具历史 taskId 绑定 → 结果既未入库也未带 taskId 回流画布，字节不可恢复"
+ },
+ "reloadBehavior": {
+  "historyRows": "历史行仍在（任务元数据/配置/状态保留）",
+  "imageRestore": "无图可恢复：items 仅有 {id,kind,payloadDropped:true}"
+ },
+ "rootCauseAndFix": "见同目录 PERSISTENCE_FIX.json（修复已在树内，并用 AREA_REPAIR 新任务 + 单测实证生效）"
+}
