@@ -16,10 +16,12 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 import { ToolAssetInput } from "@/components/tools/tool-asset-input";
 import { ToolResult } from "@/components/tools/tool-result";
+import { ToolTaskHistory } from "@/components/tools/tool-task-history";
 import { loadToolAssetRecords, type ToolAssetRecord } from "@/services/api/tools/assets";
 import type { ToolTask } from "@/services/api/tools/task-machine";
 import { useConfigStore } from "@/stores/use-config-store";
 import { useToolDraftStore } from "@/stores/use-tool-draft-store";
+import { useToolTaskStore } from "@/stores/use-tool-task-store";
 import { cn } from "@/lib/utils";
 
 import {
@@ -287,10 +289,15 @@ export function ImageToVideoWorkspace({ className, toolId = IMAGE_TO_VIDEO_TOOL_
                 config,
                 signal: controller.signal,
                 draftRevision: draft?.revision ?? null,
-                onTask: (next) => setTask(next),
+                onTask: (next) => {
+                    setTask(next);
+                    // 真实任务快照落库（localStorage），历史区与刷新恢复都读它；不写假状态。
+                    useToolTaskStore.getState().upsertTask(next);
+                },
             });
             setSnapshot(run.snapshot);
             setTask(run.task);
+            useToolTaskStore.getState().upsertTask(run.task);
         } catch (error) {
             setRunError(error instanceof ImageToVideoAdapterError || error instanceof Error ? error.message : "生成失败。");
         } finally {
@@ -655,6 +662,21 @@ export function ImageToVideoWorkspace({ className, toolId = IMAGE_TO_VIDEO_TOOL_
                     </div>
                 </div>
             </div>
+
+            <section className="space-y-2 rounded-lg border border-border p-3" data-testid="image-to-video-history">
+                <div className="flex flex-wrap items-center justify-between gap-2">
+                    <h2 className="text-sm font-medium">历史任务</h2>
+                    <span className="text-[11px] text-muted-foreground">点击「查看结果」把历史任务放回上方结果区；不会重新提交、不重复消耗</span>
+                </div>
+                <ToolTaskHistory
+                    toolId={toolId}
+                    emptyHint="还没有图转视频任务：提交一次后这里会出现真实任务记录（刷新后仍在）"
+                    onSelectTask={(historyTask) => {
+                        setTask(historyTask);
+                        setRunError(undefined);
+                    }}
+                />
+            </section>
         </div>
     );
 }
