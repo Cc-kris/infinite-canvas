@@ -1,0 +1,40 @@
+{
+  "baseUrl": "http://127.0.0.1:3000",
+  "at": "2026-10-29T07:04:24.882Z",
+  "pages": {
+    "wearable": {
+      "headerY": 0,
+      "headerH": 56,
+      "navText": "无限画布 首页 电商套图 智能修图 新模型 AI视频 HOT 批量生图 商品图设计 中 切换到深色主题 v0.27.0",
+      "forbiddenInHeader": [],
+      "helpDock": false,
+      "entries": {
+        "agent": true,
+        "settings": true,
+        "theme": true,
+        "canvas": true
+      },
+      "billingResidue": [],
+      "key": "wearable",
+      "route": "/tools/product-design/ai-wearable"
+    },
+    "remove-pen": {
+      "headerY": 0,
+      "headerH": 56,
+      "navText": "无限画布 首页 电商套图 智能修图 新模型 AI视频 HOT 批量生图 商品图设计 中 切换到深色主题 v0.27.0",
+      "forbiddenInHeader": [],
+      "helpDock": false,
+      "entries": {
+        "agent": true,
+        "settings": true,
+        "theme": true,
+        "canvas": true
+      },
+      "billingResidue": [],
+      "key": "remove-pen",
+      "route": "/tools/smart-edit/remove-pen"
+    }
+  },
+  "failed": [],
+  "ok": true
+}
