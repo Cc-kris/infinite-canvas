@@ -323,8 +323,32 @@ async function importResultCanvasModules(): Promise<ResultCanvasModules> {
 }
 
 /** 默认装配：缺 uploadImage/storeVideo 会让“发送画布”报“画布依赖不可用”。 */
+/**
+ * 画布 store 走 zustand persist + IndexedDB(localForage) 异步水合，且首次使用才懒加载。
+ * 若在“水合完成前”createProject，随后的 rehydrate 会用持久化快照整体覆盖 state，刚建的项目/node 会被静默丢掉
+ * （实测：createProject 返回 id，1.5s 后 projects 变回 []）。发画布前必须等水合完成。
+ */
+export async function waitForCanvasHydration(canvasStore: ResultCanvasModules["canvasStore"]): Promise<void> {
+    const store = canvasStore?.useCanvasStore as (typeof canvasStore)["useCanvasStore"] | undefined;
+    // 单测/降级替身可能没有挂 persist 中间件：此时没有水合可言，直接返回（不抛 TypeError）。
+    if (!store || !store.persist) return;
+    if (store.persist.hasHydrated()) return;
+    await new Promise<void>((resolve) => {
+        const unsub = store.persist.onFinishHydration(() => {
+            unsub();
+            resolve();
+        });
+        // 兜底：事件注册前水合恰好完成
+        if (store.persist.hasHydrated()) {
+            unsub();
+            resolve();
+        }
+    });
+}
+
 export async function loadResultCanvasDeps(loadModules: () => Promise<ResultCanvasModules> = importResultCanvasModules): Promise<Partial<ResultCanvasDeps>> {
     const { canvasStore, factory, imageStorage, videoApi } = await loadModules();
+    await waitForCanvasHydration(canvasStore);
     return {
         findProject: (projectId) => canvasStore.useCanvasStore.getState().projects.find((project) => project.id === projectId),
         createProject: (title) => canvasStore.useCanvasStore.getState().createProject(title),
