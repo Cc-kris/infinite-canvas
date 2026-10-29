@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { AlertTriangle, Check, ImageOff, ImagePlus, Loader2, Maximize, Minus, Move, Palette, Plus, Redo2, RotateCcw, RotateCw, Sparkles, Trash2, Undo2 } from "lucide-react";
+import { AlertTriangle, Check, ImageOff, ImagePlus, Loader2, Maximize, Minus, Move, Palette, Plus, Redo2, RotateCcw, RotateCw, Sparkles, Trash2, Undo2, Upload } from "lucide-react";
 
 import { ToolAssetInput } from "@/components/tools/tool-asset-input";
 import { ToolResult } from "@/components/tools/tool-result";
@@ -1576,23 +1576,23 @@ export function SdsDesignWorkspace() {
                             />
                         </div>
                     ) : (
-                        <div className="flex w-full max-w-[540px] flex-col items-center gap-[6px] rounded-[12px] bg-white p-[20px] shadow-[0_2px_12px_rgba(0,0,0,0.06)]">
+                        <div className="flex w-full max-w-[540px] flex-col items-center gap-0 rounded-[12px] bg-white p-[20px] shadow-[0_2px_12px_rgba(0,0,0,0.06)]">
                             <div className="flex h-[282px] w-full flex-col items-center justify-center gap-2 rounded-lg bg-[#F5F6FA]">
                                 <ImagePlus className="h-9 w-9 text-[#C4C7CF]" />
                                 <p className="text-[13px] text-[#B4B7BF]">上传素材后在这里预览贴合效果</p>
                             </div>
-                            <h3 className="m-0 !mt-[16px] text-center text-[20px] leading-[31px] text-[rgba(0,0,0,0.85)]">素材贴合</h3>
-                            <p className="m-0 !mt-[6px] text-center text-[16px] leading-[25px] text-[#939599]">
+                            <h3 className="text-center text-[20px] leading-[31px] text-[rgba(0,0,0,0.85)]" style={{ margin: "16px 0 0" }}>素材贴合</h3>
+                            <p className="text-center text-[16px] leading-[25px] text-[#939599]" style={{ margin: "6px 0 0" }}>
                                 上传精美素材，一键贴合到商品预览效果，极大提高测款效率
                             </p>
                             <button
                                 type="button"
                                 disabled={running || stageBusy}
                                 onClick={() => materialInputRef.current?.click()}
-                                className="m-0 !mt-[14px] flex h-[32px] items-center justify-center gap-1.5 rounded-md px-[15px] text-[14px] text-white disabled:cursor-not-allowed disabled:opacity-60"
-                                style={{ backgroundImage: "linear-gradient(90deg, #3A7DF9 0%, #723CF9 100%)" }}
+                                className="flex h-[32px] items-center justify-center gap-[6px] rounded-[6px] px-[15px] text-[14px] text-white disabled:cursor-not-allowed disabled:opacity-60"
+                                style={{ marginTop: 14, backgroundImage: "linear-gradient(90deg, #3A7DF9 0%, #723CF9 100%)" }}
                             >
-                                {stageBusy ? <Loader2 className="h-4 w-4 animate-spin" /> : null}
+                                {stageBusy ? <Loader2 className="h-4 w-4 animate-spin" /> : <Upload className="h-4 w-4" />}
                                 上传素材
                             </button>
                             {stageError ? <p className="text-[12px] text-red-500">{stageError}</p> : null}
@@ -1627,8 +1627,8 @@ export function SdsDesignWorkspace() {
 
                     {/* 选择颜色 */}
                     <div className="rounded-[8px] bg-[#F9F9F9] px-[16px] pt-[10px]">
-                        <p className="text-[14px] leading-[22px] text-[rgba(0,0,0,0.85)]">选择颜色</p>
-                        <div className="flex h-[42px] items-center gap-[10px]" role="group" aria-label="选择颜色">
+                        <p className="text-[14px] leading-[22px] text-[rgba(0,0,0,0.85)]" style={{ margin: 0 }}>选择颜色</p>
+                        <div className="mt-[7px] flex h-[42px] items-center gap-[10px]" role="group" aria-label="选择颜色">
                             {SDS_COLOR_OPTIONS.map((option) => {
                                 const active = option.id === values.colorId;
                                 return (
@@ -1659,8 +1659,8 @@ export function SdsDesignWorkspace() {
 
                     {/* 素材操作 */}
                     <div className="rounded-[8px] bg-[#F9F9F9] px-[16px] pt-[10px]">
-                        <p className="text-[14px] leading-[22px] text-[rgba(0,0,0,0.85)]">素材操作</p>
-                        <div className="flex h-[36px] items-center gap-[8px]">
+                        <p className="text-[14px] leading-[22px] text-[rgba(0,0,0,0.85)]" style={{ margin: 0 }}>素材操作</p>
+                        <div className="mt-[7px] flex h-[30px] items-center gap-[8px]">
                             <button
                                 type="button"
                                 aria-label="撤销"

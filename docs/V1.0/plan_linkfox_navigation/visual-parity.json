@@ -1,0 +1,135 @@
+{
+  "schema": 1,
+  "generated_at": "2026-10-29",
+  "branch": "feat/linkfox-v1-real",
+  "viewport": {
+    "width": 1908,
+    "height": 781,
+    "deviceScaleFactor": 1
+  },
+  "measurement": "CDP + Emulation.setDeviceMetricsOverride，实站与本地同为 1908x781；数值取自 getBoundingClientRect / getComputedStyle",
+  "tools": {
+    "SDS_DESIGN": {
+      "status": "PARTIAL",
+      "real_url": "https://www.linkfox.com/draw/designer-home（设计器内的「素材贴合」工作台）",
+      "local_url": "http://127.0.0.1:3000/tools/product-design/sds-design",
+      "shell_offset_note": "外层 main 由共享 shell 提供（本地 pad 16/20、高 620；实站 pad 无、高 651），工作区内部尺寸按同一基准比对",
+      "match": [
+        {
+          "node": "外层容器",
+          "real": "display:flex, gap:10px",
+          "local": "display:flex, gap:10px",
+          "ok": true
+        },
+        {
+          "node": "左主卡",
+          "real": "bg #EDEFF5, radius 8, pad 10, gap 10",
+          "local": "bg rgb(237,239,245), radius 8, pad 10, gap 10",
+          "ok": true
+        },
+        {
+          "node": "舞台内边距",
+          "real": "pad 50px 0 0 10px",
+          "local": "pad 50px 10px 10px",
+          "ok": true
+        },
+        {
+          "node": "舞台白卡",
+          "real": "540x444, radius 12, pad 20",
+          "local": "540x446, radius 12, pad 20",
+          "delta_px": 2,
+          "delta_pct": 0.45,
+          "ok": false
+        },
+        {
+          "node": "预览区",
+          "real": "500x282, radius 12, bg #F5F6FA",
+          "local": "500x282, radius 12, bg rgb(245,246,250)",
+          "ok": true
+        },
+        {
+          "node": "标题「素材贴合」",
+          "real": "20px / 31 行高 / rgba(0,0,0,.85)",
+          "local": "20px / 31 / rgba(0,0,0,.85)",
+          "ok": true
+        },
+        {
+          "node": "副标题",
+          "real": "16px / #939599 / 上间距 6",
+          "local": "16px / #939599 / margin-top 6（实测 6）",
+          "ok": true
+        },
+        {
+          "node": "上传按钮",
+          "real": "108x32, radius 6, 渐变 #3A7DF9→#723CF9",
+          "local": "108x32, radius 6, 同渐变（图标+文字），上间距 14",
+          "ok": true
+        },
+        {
+          "node": "产品卡",
+          "real": "279x80, radius 8, pad 10/20/10/10, 缩略图 60x60",
+          "local": "279x80, radius 8, pad 10/20/10/10, 缩略图 60x60",
+          "ok": true
+        },
+        {
+          "node": "选择颜色卡",
+          "real": "279x81, pad 10px 16px 0",
+          "local": "279x81, pad 10px 16px 0",
+          "ok": true
+        },
+        {
+          "node": "素材操作卡",
+          "real": "279x69, pad 10px 16px 0",
+          "local": "279x69, pad 10px 16px 0",
+          "ok": true
+        },
+        {
+          "node": "右面板",
+          "real": "300 wide, bg #EDEFF5, radius 8",
+          "local": "300 wide, bg rgb(237,239,245), radius 8",
+          "ok": true
+        },
+        {
+          "node": "Tab 条",
+          "real": "h42, 白底, radius 8 8 0 0, pad 0 12",
+          "local": "h42, 白底, radius 8 8 0 0, pad 0 12",
+          "ok": true
+        },
+        {
+          "node": "Tab 间距",
+          "real": "生成结果/优秀案例 gap 14，历史记录靠右",
+          "local": "gap 14，历史记录靠右",
+          "ok": true
+        },
+        {
+          "node": "面板内容区",
+          "real": "pad 0 16",
+          "local": "pad 0 16",
+          "ok": true
+        }
+      ],
+      "deviations": [
+        "预览区素材：实站为 LinkFox 品牌演示视频，按「仅去品牌」改为中性占位图标+文案（不引用品牌素材）",
+        "右下浮标「操作咨询 / 产品教程」属站点级客服组件，未在工作区内实现（避免与共享 shell 冲突，需 shell 侧接入）",
+        "按钮算力标注「(20算力)」未复制：本平台计费体系不同，复制会误导",
+        "舞台白卡高度 446 vs 444（+2px，0.45%）",
+        "右面板空态垂直位置为顶端 96px 偏移，实站疑似居中排布，此项未取得可信数值，标注为未验证"
+      ],
+      "verification": {
+        "typecheck": "pnpm typecheck 通过",
+        "unit_render_tests": "bun test src/components/tools/workspaces/pod.test.tsx: 5 pass / 0 fail",
+        "browser_interaction": "CDP 真实点击验证：上传按钮触发 <input type=file accept=image/png,image/jpeg,image/webp>；三个 tab 点击后内容真实切换（暂无生成结果图 / 暂无优秀案例 / 暂无历史记录）",
+        "brand_removal": "页面 DOM 内不含 linkfox / 领狐 字样（单元测试断言）"
+      },
+      "evidence": [
+        "evidence/d19-deep-20261029/local-SDS.png",
+        "evidence/d19-deep-20261029/local-SDS-interaction.png",
+        "evidence/d19-deep-20261029/local-SDS-tab-cases.png"
+      ]
+    }
+  },
+  "pending": {
+    "REPLACE_GOODS": "未开始：按本轮指令（先提交当前工具、不扩大范围）暂缓，需下一轮继续 1:1 复刻",
+    "other_tools_design19": "未开始（design19 前 10 工具中的其余项）"
+  }
+}
