@@ -1,0 +1,16 @@
+{
+  "round": "R25",
+  "taskId": "task-mvtof8um-7034v0",
+  "toolId": "VIDEO_CONCAT",
+  "submittedAt": "2026-10-29T23:06+08:00",
+  "configSnapshot": {"model":"sub2::MiniMax-H3","apiFormat":"openai","size":"720x1280","quality":"auto","count":"1","videoSeconds":"13","channelId":"sub2"},
+  "inputs": [
+    {"name":"concat-clip-a.mp4","bytes":1080637,"sha256":"9416a68a11b04d39faa4cde7ea57d753d6b9fd720705775a64cf86dbf8632a8c","durationMs":6600,"source":"VIDEO_TRANSLATION/downloaded.mp4"},
+    {"name":"concat-clip-b.mp4","bytes":2268656,"sha256":"47573c147325d451f41ffd89ae21b82c895623c682832546c24181b18f92a505","durationMs":6600,"source":"AI_VIDEO_EDITING/receipt-20261029/task_QFvq6WMc_video.mp4"}
+  ],
+  "mediaHost": "https://laura-identical-station-execute.trycloudflare.com",
+  "publishedPaths": ["/__media/9416a68a11b04d39faa4cde7ea57d753.mp4","/__media/47573c147325d451f41ffd89ae21b82c.mp4"],
+  "tunnelGetShaVerified": true,
+  "cover": "grabed frame from clip a at t=1s via UI button 从当前帧抓取",
+  "note": "task status=submitting at capture"
+}
