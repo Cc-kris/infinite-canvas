@@ -1,0 +1,61 @@
+{
+  "canvasProject": {
+    "id": "c86DFKiJXDkVfHFgz5-jP",
+    "title": "IMAGE_TO_VIDEO 结果",
+    "nodes": 1,
+    "viewport": {
+      "x": 0,
+      "y": 0,
+      "k": 1
+    }
+  },
+  "canvasNode": {
+    "id": "video-1793279957420-oc3a1",
+    "type": "video",
+    "title": "视频",
+    "width": 420,
+    "height": 236,
+    "metadata": {
+      "content": "blob:http://127.0.0.1:3000/84411fae-d158-4333-9677-9a6d5508ada2",
+      "status": "success",
+      "storageKey": "video:Ungj5Op5QcjjEDTtlJAYY",
+      "naturalWidth": 1344,
+      "naturalHeight": 768,
+      "bytes": 1266723,
+      "mimeType": "video/mp4",
+      "durationMs": 5167
+    }
+  },
+  "asset": {
+    "id": "vT7_AZTJmExCSJO3_dt3j",
+    "kind": "video",
+    "title": "IMAGE_TO_VIDEO 结果 1",
+    "createdAt": "2026-10-29T13:19:15.670Z",
+    "data": {
+      "storageKey": "video:3Gi2P5gtItjUL3gLmgKcb",
+      "bytes": 1266723,
+      "width": 1344,
+      "height": 768,
+      "mimeType": "video/mp4"
+    },
+    "metadata": {
+      "toolId": "IMAGE_TO_VIDEO",
+      "taskId": "task-mvtjhbcg-e8lnin",
+      "resultItemId": "task-mvtjhbcg-e8lnin-0"
+    }
+  },
+  "mediaBlobs": {
+    "video:Ungj5Op5QcjjEDTtlJAYY": {
+      "type": "video/mp4",
+      "size": 1266723
+    },
+    "video:3Gi2P5gtItjUL3gLmgKcb": {
+      "type": "video/mp4",
+      "size": 1266723
+    }
+  },
+  "taskResultStore": {
+    "type": "video/mp4",
+    "size": 1266723
+  }
+}

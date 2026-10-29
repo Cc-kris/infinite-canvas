@@ -1,0 +1,381 @@
+{
+  "task": "task-mvtjhbcg-e8lnin",
+  "ts": "2026-10-29T13:18:59.811Z",
+  "steps": {
+    "freshLoad": {
+      "t": 2705,
+      "ua": "headless"
+    },
+    "persistedTask": {
+      "ok": true,
+      "keys": [
+        "attempts",
+        "capability",
+        "clientOperationId",
+        "configSnapshot",
+        "createdAt",
+        "draftRevision",
+        "fingerprint",
+        "finishedAt",
+        "id",
+        "lastHeartbeatAt",
+        "lastPolledAt",
+        "pollCount",
+        "prompt",
+        "result",
+        "sourceAssetIds",
+        "status",
+        "submittedAt",
+        "toolId",
+        "transientFailures",
+        "updatedAt",
+        "upstreamProvider",
+        "upstreamTaskId"
+      ],
+      "id": "task-mvtjhbcg-e8lnin",
+      "toolId": "IMAGE_TO_VIDEO",
+      "status": "succeeded",
+      "createdAt": 1793278102192,
+      "updatedAt": 1793278352499,
+      "upstreamTaskId": "task_KOkmL8wCOOmL5AdPyeGwQhAZyIBdMvPR",
+      "configSnapshot": {
+        "capability": "video",
+        "model": "sub2api-real::MiniMax-H3",
+        "apiFormat": "openai",
+        "size": "auto",
+        "quality": "768P",
+        "count": "1",
+        "videoSeconds": "5",
+        "channelId": "sub2api-real"
+      },
+      "sourceAssetIds": [
+        "QjHmWRaCMSRfd8ipT0hre",
+        "tyLv_ID7ANvdWI6Wut0vY"
+      ],
+      "prompt": "商品轻微旋转展示，柔光台面，镜头缓慢推进，保持手表外观与表盘细节不变。规格：5 秒，768P，画面比例 自适应，目标语言英语。请在不改变卖点的前提下优化运镜与画面节奏",
+      "result": {
+        "keys": [
+          "items",
+          "receivedAt"
+        ],
+        "items": [
+          {
+            "keys": [
+              "bytes",
+              "id",
+              "kind",
+              "mimeType",
+              "payloadDropped",
+              "storageKey"
+            ],
+            "url": null,
+            "blob": "undefined",
+            "storageKey": "tool-result:guW96FrxlpSM3CtY3clem",
+            "payloadDropped": false,
+            "bytes": 1266723,
+            "width": null,
+            "height": null,
+            "mimeType": "video/mp4"
+          }
+        ]
+      }
+    },
+    "historyOpen": {
+      "historyCount": 1,
+      "found": true,
+      "rowText": "2026-10-29 20:48已完成商品轻微旋转展示，柔光台面，镜头缓慢推进，保持手表外观与表盘细节不变。规格：5 秒，768P，画…sub2api-real::MiniMax-H3 · video · 1 个结果查看结果"
+    },
+    "panelAfterReload": {
+      "tone": "视频生成完成",
+      "detail": "模型 sub2api-real::MiniMax-H3 · 31 次轮询",
+      "resultText": "视频结果已完成共 1 个结果 · 视频 1下载存入资产发送画布",
+      "canvasBtn": {
+        "disabled": false,
+        "label": "发送画布"
+      },
+      "downloadBtn": true,
+      "saveBtn": true,
+      "videos": [
+        {
+          "src": "blob:http://127.0.0.1:3000/4aa477a4-e7a6-47c0-a7c7-4e21add230ff",
+          "duration": 5.167,
+          "vw": 1344,
+          "vh": 768,
+          "readyState": 4,
+          "paused": true
+        }
+      ],
+      "falseAccusation": false,
+      "caseNote": "已按历史任务 task-mvt 回填表单：提示词取该任务真实提交文本；2 张参考图；比例 auto；时长 5s；清晰度 768P"
+    },
+    "formRestored": {
+      "resolution": {
+        "value": "768P",
+        "label": "768P",
+        "disabled": false
+      },
+      "duration": {
+        "value": "5",
+        "label": "5 秒",
+        "disabled": false
+      },
+      "ratio": {
+        "value": "auto",
+        "label": "自适应",
+        "disabled": false
+      },
+      "prompt": "商品轻微旋转展示，柔光台面，镜头缓慢推进，保持手表外观与表盘细节不变。规格：5 秒，768P，画面比例 自适应，目标语言英语。请在不改变卖点的前提下优化运镜与画面节奏",
+      "caseNote": "已按历史任务 task-mvt 回填表单：提示词取该任务真实提交文本；2 张参考图；比例 auto；时长 5s；清晰度 768P",
+      "lostNotice": []
+    },
+    "download": {
+      "bytes": 1266723,
+      "magic": "ftyp",
+      "sha256": "fe5c85f8274bb7d44b1febbf2844487dcecd440dc58a129b5f1d5398c091a524",
+      "suggestedFilename": "image-to-video-result-1.mp4",
+      "ffprobe": {
+        "programs": [],
+        "stream_groups": [],
+        "streams": [
+          {
+            "codec_name": "h264",
+            "width": 1344,
+            "height": 768,
+            "r_frame_rate": "24/1",
+            "duration": "5.166667",
+            "nb_frames": "124"
+          },
+          {
+            "codec_name": "aac",
+            "r_frame_rate": "0/0",
+            "duration": "5.167000",
+            "nb_frames": "163"
+          }
+        ],
+        "format": {
+          "format_name": "mov,mp4,m4a,3gp,3g2,mj2",
+          "duration": "5.167000",
+          "size": "1266723"
+        }
+      }
+    },
+    "saveAsset": {
+      "feedback": "已保存到资产库（vT7_AZTJmExCSJO3_dt3j）",
+      "beforeCount": 6,
+      "afterCount": 7,
+      "beforeIds": [
+        "7FhsnN_dgMfxamxRZQDkL",
+        "eb4yUv73YK8eHY9Gkis3S",
+        "66QROnionVYl_YYgCex3S"
+      ],
+      "newest": {
+        "id": "vT7_AZTJmExCSJO3_dt3j",
+        "kind": "video",
+        "createdAt": "2026-10-29T13:19:15.670Z",
+        "storageKey": "video:3Gi2P5gtItjUL3gLmgKcb",
+        "bytes": 1266723,
+        "width": 1344,
+        "height": 768,
+        "taskId": "task-mvtjhbcg-e8lnin"
+      }
+    },
+    "sendToCanvas": {
+      "feedback": "已发送到画布（c86DFKiJXDkVfHFgz5-jP）",
+      "projectsBefore": [
+        {
+          "id": "NJOiqhOF3-sD5BTta8epi",
+          "title": "IMAGE_TO_VIDEO 结果",
+          "nodes": 1
+        },
+        {
+          "id": "Hg33qdkVhi3JdSSu-ZV92",
+          "title": "IMAGE_TO_VIDEO 结果",
+          "nodes": 1
+        },
+        {
+          "id": "ZEMIi3QSB_NHNU5bOYx3L",
+          "title": "IMAGE_TO_VIDEO 结果",
+          "nodes": 1
+        },
+        {
+          "id": "MPX3zz7kSFzUQUl5aH6TS",
+          "title": "IMAGE_TO_VIDEO 结果",
+          "nodes": 1
+        },
+        {
+          "id": "gKAmde1fsqlXY-ejMPHek",
+          "title": "IMAGE_TO_VIDEO 结果",
+          "nodes": 1
+        },
+        {
+          "id": "C62Iwwjc0E4NP9TcXH7C_",
+          "title": "VIDEO_TRANSLATION 结果",
+          "nodes": 1
+        }
+      ],
+      "projectsAfter": [
+        {
+          "id": "c86DFKiJXDkVfHFgz5-jP",
+          "title": "IMAGE_TO_VIDEO 结果",
+          "nodes": 1,
+          "videoNodes": 1,
+          "lastNode": {
+            "id": "video-1793279957420-oc3a1",
+            "type": "video",
+            "title": "视频",
+            "metaKeys": [
+              "content",
+              "status",
+              "storageKey",
+              "naturalWidth",
+              "naturalHeight",
+              "bytes",
+              "mimeType",
+              "durationMs"
+            ],
+            "content": "blob:http://127.0.0.1:3000/84411fae-d158-4333-9677-9a6d5508ada2"
+          }
+        },
+        {
+          "id": "NJOiqhOF3-sD5BTta8epi",
+          "title": "IMAGE_TO_VIDEO 结果",
+          "nodes": 1,
+          "videoNodes": 1,
+          "lastNode": {
+            "id": "video-1793279494258-6kfos",
+            "type": "video",
+            "title": "视频",
+            "metaKeys": [
+              "content",
+              "status",
+              "storageKey",
+              "naturalWidth",
+              "naturalHeight",
+              "bytes",
+              "mimeType",
+              "durationMs"
+            ],
+            "content": "blob:http://127.0.0.1:3000/bf06a45f-fb01-4272-a3c4-8ed9d571c6d9"
+          }
+        },
+        {
+          "id": "Hg33qdkVhi3JdSSu-ZV92",
+          "title": "IMAGE_TO_VIDEO 结果",
+          "nodes": 1,
+          "videoNodes": 1,
+          "lastNode": {
+            "id": "video-1793279339019-nqo6a",
+            "type": "video",
+            "title": "视频",
+            "metaKeys": [
+              "content",
+              "status",
+              "storageKey",
+              "naturalWidth",
+              "naturalHeight",
+              "bytes",
+              "mimeType",
+              "durationMs"
+            ],
+            "content": "blob:http://127.0.0.1:3000/0de98443-dfef-4232-815b-6bf6f0094e41"
+          }
+        },
+        {
+          "id": "ZEMIi3QSB_NHNU5bOYx3L",
+          "title": "IMAGE_TO_VIDEO 结果",
+          "nodes": 1,
+          "videoNodes": 1,
+          "lastNode": {
+            "id": "video-1793279024851-3gb13",
+            "type": "video",
+            "title": "视频",
+            "metaKeys": [
+              "content",
+              "status",
+              "storageKey",
+              "naturalWidth",
+              "naturalHeight",
+              "bytes",
+              "mimeType",
+              "durationMs"
+            ],
+            "content": "blob:http://127.0.0.1:3000/ce73d257-3bd9-4d04-8ba9-36611eb9ef84"
+          }
+        },
+        {
+          "id": "MPX3zz7kSFzUQUl5aH6TS",
+          "title": "IMAGE_TO_VIDEO 结果",
+          "nodes": 1,
+          "videoNodes": 1,
+          "lastNode": {
+            "id": "video-1793278826800-99bcs",
+            "type": "video",
+            "title": "视频",
+            "metaKeys": [
+              "content",
+              "status",
+              "storageKey",
+              "naturalWidth",
+              "naturalHeight",
+              "bytes",
+              "mimeType",
+              "durationMs"
+            ],
+            "content": "blob:http://127.0.0.1:3000/9ca6334a-76e4-446c-8fc0-dd49a017402b"
+          }
+        },
+        {
+          "id": "gKAmde1fsqlXY-ejMPHek",
+          "title": "IMAGE_TO_VIDEO 结果",
+          "nodes": 1,
+          "videoNodes": 1,
+          "lastNode": {
+            "id": "video-1793278768838-mgtfj",
+            "type": "video",
+            "title": "视频",
+            "metaKeys": [
+              "content",
+              "status",
+              "storageKey",
+              "naturalWidth",
+              "naturalHeight",
+              "bytes",
+              "mimeType",
+              "durationMs"
+            ],
+            "content": "blob:http://127.0.0.1:3000/dc470cd5-5c40-4b29-85d7-f455315d710a"
+          }
+        },
+        {
+          "id": "C62Iwwjc0E4NP9TcXH7C_",
+          "title": "VIDEO_TRANSLATION 结果",
+          "nodes": 1,
+          "videoNodes": 1,
+          "lastNode": {
+            "id": "video-1793275923354-p80jh",
+            "type": "video",
+            "title": "视频",
+            "metaKeys": [
+              "content",
+              "status",
+              "storageKey",
+              "naturalWidth",
+              "naturalHeight",
+              "bytes",
+              "mimeType",
+              "durationMs"
+            ],
+            "content": "blob:http://127.0.0.1:3000/1a84e589-2991-4a99-bb38-fe03095cef0e"
+          }
+        }
+      ]
+    },
+    "console": {
+      "total": 1,
+      "renderPhaseSetState": [],
+      "last": [
+        "Failed to load resource: net::ERR_CONNECTION_REFUSED"
+      ]
+    }
+  }
+}
