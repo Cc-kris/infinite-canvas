@@ -1,0 +1,162 @@
+{
+ "real:NEW_REPLACE_BG_V2": {
+  "url": "https://www.linkfox.com/draw/product-home",
+  "ready": true,
+  "snapshot": true,
+  "shot": true,
+  "shot_full": true,
+  "sec": 22.7
+ },
+ "real:REPLACE_GOODS": {
+  "url": "https://www.linkfox.com/draw/product-replacement",
+  "ready": true,
+  "snapshot": true,
+  "shot": true,
+  "shot_full": true,
+  "sec": 22.9
+ },
+ "real:PRODUCT_SCENE": {
+  "url": "https://www.linkfox.com/draw/product-scene?type=2",
+  "ready": true,
+  "snapshot": true,
+  "shot": true,
+  "shot_full": true,
+  "sec": 22.5
+ },
+ "real:HANDHELD_GOODS": {
+  "url": "https://www.linkfox.com/draw/handheld-goods",
+  "ready": true,
+  "snapshot": true,
+  "shot": true,
+  "shot_full": true,
+  "sec": 22.5
+ },
+ "real:AI_DRESSING_V2": {
+  "url": "https://www.linkfox.com/draw/ai-dressing",
+  "ready": true,
+  "snapshot": true,
+  "shot": true,
+  "shot_full": true,
+  "sec": 22.7
+ },
+ "real:AI_POSTURE": {
+  "url": "https://www.linkfox.com/draw/ai-posture",
+  "ready": true,
+  "snapshot": true,
+  "shot": true,
+  "shot_full": true,
+  "sec": 22.5
+ },
+ "real:AI_WEARABLE": {
+  "url": "https://www.linkfox.com/draw/ai-wearable",
+  "ready": true,
+  "snapshot": true,
+  "shot": true,
+  "shot_full": true,
+  "sec": 22.5
+ },
+ "real:AI_TEXT": {
+  "url": "https://www.linkfox.com/draw/ai-text",
+  "ready": true,
+  "snapshot": true,
+  "shot": true,
+  "shot_full": true,
+  "sec": 22.9
+ },
+ "real:ORNAMENT_TEXT": {
+  "url": "https://www.linkfox.com/draw/ornament-text",
+  "ready": true,
+  "snapshot": true,
+  "shot": true,
+  "shot_full": true,
+  "sec": 22.7
+ },
+ "real:SDS_DESIGN": {
+  "url": "https://www.linkfox.com/draw/sds-design",
+  "ready": true,
+  "snapshot": true,
+  "shot": true,
+  "shot_full": true,
+  "sec": 22.5
+ },
+ "local:NEW_REPLACE_BG_V2": {
+  "url": "http://127.0.0.1:3000/tools/product-design/new-replace-bg-v2",
+  "ready": true,
+  "snapshot": true,
+  "shot": true,
+  "shot_full": true,
+  "sec": 22.5
+ },
+ "local:REPLACE_GOODS": {
+  "url": "http://127.0.0.1:3000/tools/product-design/replace-goods",
+  "ready": true,
+  "snapshot": true,
+  "shot": true,
+  "shot_full": true,
+  "sec": 22.7
+ },
+ "local:PRODUCT_SCENE": {
+  "url": "http://127.0.0.1:3000/tools/product-design/product-scene",
+  "ready": true,
+  "snapshot": true,
+  "shot": true,
+  "shot_full": true,
+  "sec": 22.5
+ },
+ "local:HANDHELD_GOODS": {
+  "url": "http://127.0.0.1:3000/tools/product-design/handheld-goods",
+  "ready": true,
+  "snapshot": true,
+  "shot": true,
+  "shot_full": true,
+  "sec": 22.7
+ },
+ "local:AI_DRESSING_V2": {
+  "url": "http://127.0.0.1:3000/tools/product-design/ai-dressing-v2",
+  "ready": true,
+  "snapshot": true,
+  "shot": true,
+  "shot_full": true,
+  "sec": 30.9
+ },
+ "local:AI_POSTURE": {
+  "url": "http://127.0.0.1:3000/tools/product-design/ai-posture",
+  "ready": true,
+  "snapshot": true,
+  "shot": true,
+  "shot_full": true,
+  "sec": 22.5
+ },
+ "local:AI_WEARABLE": {
+  "url": "http://127.0.0.1:3000/tools/product-design/ai-wearable",
+  "ready": true,
+  "snapshot": true,
+  "shot": true,
+  "shot_full": true,
+  "sec": 25.0
+ },
+ "local:AI_TEXT": {
+  "url": "http://127.0.0.1:3000/tools/product-design/ai-text",
+  "ready": true,
+  "snapshot": true,
+  "shot": true,
+  "shot_full": true,
+  "sec": 23.7
+ },
+ "local:ORNAMENT_TEXT": {
+  "url": "http://127.0.0.1:3000/tools/product-design/ornament-text",
+  "ready": true,
+  "snapshot": true,
+  "shot": true,
+  "shot_full": true,
+  "sec": 22.9
+ },
+ "local:SDS_DESIGN": {
+  "url": "http://127.0.0.1:3000/tools/product-design/sds-design",
+  "ready": true,
+  "snapshot": true,
+  "shot": true,
+  "shot_full": true,
+  "sec": 22.9
+ }
+}

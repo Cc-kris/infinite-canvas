@@ -1,0 +1,175 @@
+无限画布
+电商套图
+智能修图
+批量生图
+商品图设计
+AI视频
+中
+切换到深色主题
+v0.27.0
+电商套图
+商品套图
+服装套图
+套图换色
+批量翻译
+高清放大
+智能扩图
+智能修图
+局部重绘
+局部消除
+一键换色
+图片裁剪
+商品精修
+色差修复
+印花修复
+手部修复
+批量生图
+该分类尚无已注册工具
+商品图设计
+商品图
+商品替换
+场景裂变
+手持商品
+AI穿衣
+姿势裂变
+AI穿戴
+POD素材
+饰品文字
+素材贴合
+印花提取
+AI姿势生成
+补充
+AI试衣XSY
+补充
+场景裂变链接
+补充
+图片文字编辑
+补充
+上装换料
+补充
+商品图设计器
+补充
+商品营销素材
+补充
+场景迁移
+补充
+AI 视频
+图转视频
+带货口播
+视频复刻
+视频编辑
+视频翻译
+视频拼接
+补充
+商品图设计 / 姿势裂变
+姿势裂变
+/tools/product-design/ai-posture
+姿势裂变
+makeType 58
+上传 1 张模特图 → 选姿势库或自定义 → 选张数 → 生成，按来源姿势分组出图
+模特姿势图
+拖拽/粘贴 或 上传模特姿势图；一张图裂变出多种姿势，人物/服装保持一致。
+模特图
+0 / 1 个 · JPG / PNG / WebP · ≤ 10 MB
+点击选择本地文件，或拖拽到这里
+校验格式 / 大小 / 像素，入库后可刷新恢复
+还没有素材
+图片标签（imageTags，可增删，≤12）
+还没有标签；点选姿势卡片会自动带出建议标签。
+添加
+图片规则：10M以内，384×384 ~ 4096×4096
+姿势库 / 自定义
+选择姿势（可选）：不选则按张数自动裂变；姿势库与自定义各自保存，来回切换不会互相覆盖。
+姿势库
+自定义
+已选 0 个姿势（将自动裂变）
+全部
+站姿
+角度
+动态
+坐姿
+正面站姿
+standing straight and facing the camera, arms relaxed naturally at the sides, feet shoulder-width apart
+标签：站姿 / 正面 / 全身
+单手叉腰
+standing with one hand on the hip and the other arm relaxed, weight shifted onto one leg
+标签：站姿 / 叉腰
+双手插兜
+standing casually with both hands in pockets, shoulders relaxed
+标签：站姿 / 插兜
+双臂交叉
+standing with arms crossed over the chest in a confident posture
+标签：站姿 / 交叉
+侧身站立
+standing in a three-quarter side profile with the head turned toward the camera
+标签：侧身 / 回眸
+背身回眸
+back to the camera with the head turned over the shoulder, looking back at the viewer
+标签：背身 / 回眸
+低机位仰拍
+a low camera angle looking up at the model while standing tall
+标签：低机位 / 仰拍
+行走抓拍
+caught mid-stride walking toward the camera with a natural arm swing
+标签：动态 / 行走
+转身瞬间
+caught mid-turn with hair and clothing following the motion
+标签：动态 / 转身
+轻跳
+a light jump with both feet off the ground and arms slightly raised
+标签：动态 / 跳跃
+高脚凳坐姿
+sitting on a tall stool with one leg crossed over the other, back straight
+标签：坐姿 / 高脚凳
+坐地
+sitting on the floor with legs folded to one side, hands resting on the knee
+标签：坐姿 / 坐地
+清空选择（改为自动裂变）
+生成结果
+按来源姿势分组；单组失败只重试该组，已成功的姿势不会重复生成。
+还没有生成结果
+📸 1 张模特图 → N 种姿势套图！告别重复拍摄成本。
+选择生成张数
+1–4 张，按姿势平均分配；未选姿势时自动从姿势库裂变出互不重复的姿势。
+1
+2
+3
+4
+裂变方式
+自动裂变
+姿势 / 张数
+正面站姿×1
+预计输出
+1 张 / 1 个请求
+补充描述
+可选：光线、场景、气质等；姿势本身由上面的选择决定。
+立即生成
+1 张 · 1 个姿势请求
+请先上传模特姿势图（拖拽/粘贴或从本地选择）
+本次输入快照
+历史任务
+0 条
+本工具还没有历史任务；提交一次后会在这里留下任务、配置与结果，刷新后仍在。
+1
+连接本地 Agent
+未连接
+点连接会自动启动本地服务、装好插件并接通，无需手动配置。
+Claude Code
+未连接
+·
+CLI · 2.1.285 (Claude Code)
+·
+直接运行
+连接
+Codex
+未连接
+·
+CLI · codex-cli 0.163.0
+·
+插件已装
+连接
+Galley
+未连接
+·
+CLI + 桌面版 · galley 0.6.4
+连接

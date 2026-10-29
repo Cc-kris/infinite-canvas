@@ -1,0 +1,459 @@
+{
+ "tool_id": "NEW_REPLACE_BG_V2",
+ "origin_url": "https://www.linkfox.com/draw/product-home",
+ "local_url": "http://127.0.0.1:3000/tools/product-design/new-replace-bg-v2",
+ "viewport": {
+  "origin": {
+   "h": 781,
+   "scrollH": 781,
+   "w": 1908
+  },
+  "local": {
+   "h": 781,
+   "scrollH": 781,
+   "w": 1908
+  }
+ },
+ "screenshots": {
+  "origin": "evidence/design19-visual-parity-20261029/real/NEW_REPLACE_BG_V2/shot.jpg",
+  "local": "evidence/design19-visual-parity-20261029/local/NEW_REPLACE_BG_V2/shot.jpg"
+ },
+ "regions": [
+  {
+   "order": 1,
+   "title": "学习中心 免费得算力 250 购 买 用 用户6991 个人 / 用 用户6991 个人账号 / 用 / 用户6991 ",
+   "rect": {
+    "x": 184,
+    "y": 50,
+    "w": 1689,
+    "h": 60
+   },
+   "origin": "学习中心 免费得算力 250 购 买 用 用户6991 个人 / 用 用户6991 个人账号 / 用 / 用户6991 ",
+   "local": "missing",
+   "status": "title_missing"
+  },
+  {
+   "order": 2,
+   "title": "个人账号 / 上传商品图 或拖拽/粘贴图片到此处 或试试这些 场景参考图 ",
+   "rect": {
+    "x": 180,
+    "y": 82,
+    "w": 1728,
+    "h": 699
+   },
+   "origin": "个人账号 / 上传商品图 或拖拽/粘贴图片到此处 或试试这些 场景参考图 ",
+   "local": "missing",
+   "status": "title_missing"
+  },
+  {
+   "order": 3,
+   "title": "上传商品图 或拖拽/粘贴图片到此处 或试试这些",
+   "rect": {
+    "x": 190,
+    "y": 120,
+    "w": 1704,
+    "h": 240
+   },
+   "origin": "上传商品图 或拖拽/粘贴图片到此处 或试试这些",
+   "local": "missing",
+   "status": "title_missing"
+  },
+  {
+   "order": 4,
+   "title": "上传商品图",
+   "rect": {
+    "x": 848,
+    "y": 163,
+    "w": 70,
+    "h": 20
+   },
+   "origin": "上传商品图",
+   "local": "present",
+   "status": "title_present"
+  },
+  {
+   "order": 5,
+   "title": "或拖拽/粘贴图片到此处",
+   "rect": {
+    "x": 227,
+    "y": 199,
+    "w": 1290,
+    "h": 19
+   },
+   "origin": "或拖拽/粘贴图片到此处",
+   "local": "missing",
+   "status": "title_missing"
+  },
+  {
+   "order": 6,
+   "title": "或试试这些",
+   "rect": {
+    "x": 227,
+    "y": 228,
+    "w": 1290,
+    "h": 19
+   },
+   "origin": "或试试这些",
+   "local": "missing",
+   "status": "title_missing"
+  },
+  {
+   "order": 7,
+   "title": "管理水印分组 共 1/20 个 / 共 1/20 个",
+   "rect": {
+    "x": 1151,
+    "y": 339,
+    "w": 151,
+    "h": 21
+   },
+   "origin": "管理水印分组 共 1/20 个 / 共 1/20 个",
+   "local": "missing",
+   "status": "title_missing"
+  },
+  {
+   "order": 8,
+   "title": "场景参考图 排序： 智能推荐 按收藏时间 按素材热度 日用百 / 智能推荐 / 按收藏时间 / 按素材热度 / 排序： ",
+   "rect": {
+    "x": 190,
+    "y": 370,
+    "w": 1704,
+    "h": 76
+   },
+   "origin": "场景参考图 排序： 智能推荐 按收藏时间 按素材热度 日用百 / 智能推荐 / 按收藏时间 / 按素材热度 / 排序： ",
+   "local": "missing",
+   "status": "title_missing"
+  },
+  {
+   "order": 9,
+   "title": "日用百货 / 家居家装 / 服饰箱包 / 美妆个护 / 家用电器 / 玩具类目 / 儿童 & 母婴 / 3C数码 / 办",
+   "rect": {
+    "x": 190,
+    "y": 420,
+    "w": 1704,
+    "h": 22
+   },
+   "origin": "日用百货 / 家居家装 / 服饰箱包 / 美妆个护 / 家用电器 / 玩具类目 / 儿童 & 母婴 / 3C数码 / 办",
+   "local": "missing",
+   "status": "title_missing"
+  },
+  {
+   "order": 10,
+   "title": "桌面-保温杯 厨房-搅拌器 客厅-毯子 厨房-电子秤 厨房- / 操作咨询 产品教程",
+   "rect": {
+    "x": 190,
+    "y": 462,
+    "w": 1708,
+    "h": 1397
+   },
+   "origin": "桌面-保温杯 厨房-搅拌器 客厅-毯子 厨房-电子秤 厨房- / 操作咨询 产品教程",
+   "local": "missing",
+   "status": "title_missing"
+  },
+  {
+   "order": 11,
+   "title": "操作咨询",
+   "rect": {
+    "x": 1834,
+    "y": 493,
+    "w": 56,
+    "h": 16
+   },
+   "origin": "操作咨询",
+   "local": "missing",
+   "status": "title_missing"
+  },
+  {
+   "order": 12,
+   "title": "产品教程",
+   "rect": {
+    "x": 1834,
+    "y": 543,
+    "w": 56,
+    "h": 16
+   },
+   "origin": "产品教程",
+   "local": "missing",
+   "status": "title_missing"
+  },
+  {
+   "order": 13,
+   "title": "桌面-保温杯 / 厨房-搅拌器 / 客厅-毯子 / 厨房-电子秤 / 草地-篮子 / 餐桌-杯子 / 餐桌-水壶",
+   "rect": {
+    "x": 194,
+    "y": 667,
+    "w": 1696,
+    "h": 22
+   },
+   "origin": "桌面-保温杯 / 厨房-搅拌器 / 客厅-毯子 / 厨房-电子秤 / 草地-篮子 / 餐桌-杯子 / 餐桌-水壶",
+   "local": "missing",
+   "status": "title_missing"
+  },
+  {
+   "order": 14,
+   "title": "客厅-书柜 / 餐桌-茶具 / 书架-储物箱 / 餐桌-篮子 / 餐桌-保温箱 / 桌面-蜡烛 / 节日装饰-蜡烛 / ",
+   "rect": {
+    "x": 194,
+    "y": 901,
+    "w": 1696,
+    "h": 22
+   },
+   "origin": "客厅-书柜 / 餐桌-茶具 / 书架-储物箱 / 餐桌-篮子 / 餐桌-保温箱 / 桌面-蜡烛 / 节日装饰-蜡烛 / ",
+   "local": "missing",
+   "status": "title_missing"
+  },
+  {
+   "order": 15,
+   "title": "厨房-水果篮 / 厨房-刀具 / 餐桌-蜡烛 / 厨房-厨房岛 / 客厅-收纳篮 / 客厅-毛毯 / 礼品展示-圣诞装饰",
+   "rect": {
+    "x": 194,
+    "y": 1135,
+    "w": 1696,
+    "h": 22
+   },
+   "origin": "厨房-水果篮 / 厨房-刀具 / 餐桌-蜡烛 / 厨房-厨房岛 / 客厅-收纳篮 / 客厅-毛毯 / 礼品展示-圣诞装饰",
+   "local": "missing",
+   "status": "title_missing"
+  },
+  {
+   "order": 16,
+   "title": "餐桌-茶具 / 餐桌-茶壶 / 窗边-陶瓷壶 / 窗边-首饰架 / 厨房-置物架 / 厨房-餐车 / 厨房-厨房岛 / ",
+   "rect": {
+    "x": 194,
+    "y": 1369,
+    "w": 1696,
+    "h": 22
+   },
+   "origin": "餐桌-茶具 / 餐桌-茶壶 / 窗边-陶瓷壶 / 窗边-首饰架 / 厨房-置物架 / 厨房-餐车 / 厨房-厨房岛 / ",
+   "local": "missing",
+   "status": "title_missing"
+  },
+  {
+   "order": 17,
+   "title": "节日装饰-鬼魂装饰 / 节日场景-蜡烛 / 洗衣房-洗衣篮 / 节日场景-万圣节装饰 / 客厅-垃圾桶 / 节日场景-圣",
+   "rect": {
+    "x": 194,
+    "y": 1603,
+    "w": 1696,
+    "h": 22
+   },
+   "origin": "节日装饰-鬼魂装饰 / 节日场景-蜡烛 / 洗衣房-洗衣篮 / 节日场景-万圣节装饰 / 客厅-垃圾桶 / 节日场景-圣",
+   "local": "missing",
+   "status": "title_missing"
+  },
+  {
+   "order": 18,
+   "title": "桌面-充电器 / 厨房-垃圾桶 / 纯色背景-支架 / 客厅-充电器 / 客厅-收纳筐 / 书房-储物篮 / 桌面-托盘",
+   "rect": {
+    "x": 194,
+    "y": 1837,
+    "w": 1696,
+    "h": 22
+   },
+   "origin": "桌面-充电器 / 厨房-垃圾桶 / 纯色背景-支架 / 客厅-充电器 / 客厅-收纳筐 / 书房-储物篮 / 桌面-托盘",
+   "local": "missing",
+   "status": "title_missing"
+  }
+ ],
+ "styles": [
+  {
+   "control": "购 买",
+   "tag": "button",
+   "origin": {
+    "rect": {
+     "h": 32,
+     "w": 44,
+     "x": 1696,
+     "y": 64
+    },
+    "css": {
+     "bc": "rgb(255, 255, 255)",
+     "bg": "rgba(0, 0, 0, 0)",
+     "br": "0px",
+     "bw": "0px",
+     "color": "rgb(255, 255, 255)",
+     "ff": "-apple-system",
+     "fs": "12px",
+     "fw": "400",
+     "lh": "normal",
+     "pad": "0px 8px"
+    }
+   },
+   "local": null,
+   "status": "missing"
+  },
+  {
+   "control": "上传商品图",
+   "tag": "button",
+   "origin": {
+    "rect": {
+     "h": 32,
+     "w": 122,
+     "x": 811,
+     "y": 157
+    },
+    "css": {
+     "bc": "rgb(255, 255, 255)",
+     "bg": "rgba(0, 0, 0, 0)",
+     "br": "6px",
+     "bw": "0px",
+     "color": "rgb(255, 255, 255)",
+     "ff": "-apple-system",
+     "fs": "14px",
+     "fw": "400",
+     "lh": "normal",
+     "pad": "0px 15px"
+    }
+   },
+   "local": null,
+   "status": "missing"
+  },
+  {
+   "control": "默认",
+   "tag": "button",
+   "origin": {
+    "rect": {
+     "h": 24,
+     "w": 40,
+     "x": 1375,
+     "y": 376
+    },
+    "css": {
+     "bc": "rgb(114, 60, 249)",
+     "bg": "rgb(114, 60, 249)",
+     "br": "5px",
+     "bw": "1px",
+     "color": "rgb(255, 255, 255)",
+     "ff": "Arial",
+     "fs": "11px",
+     "fw": "600",
+     "lh": "normal",
+     "pad": "2px 8px"
+    }
+   },
+   "local": null,
+   "status": "missing"
+  },
+  {
+   "control": "＋ 新增水印分组",
+   "tag": "button",
+   "origin": {
+    "rect": {
+     "h": 35,
+     "w": 294,
+     "x": 1151,
+     "y": 411
+    },
+    "css": {
+     "bc": "rgb(201, 187, 255)",
+     "bg": "rgb(250, 248, 255)",
+     "br": "9px",
+     "bw": "1px",
+     "color": "rgb(114, 60, 249)",
+     "ff": "Arial",
+     "fs": "12px",
+     "fw": "700",
+     "lh": "normal",
+     "pad": "8px"
+    }
+   },
+   "local": null,
+   "status": "missing"
+  }
+ ],
+ "interactions": [
+  {
+   "control": "购 买",
+   "default_value": "",
+   "disabled": false,
+   "status": "captured-default-state",
+   "note": "本轮未逐项点击（原站执行交互需登录态与额度）"
+  },
+  {
+   "control": "上传商品图",
+   "default_value": "",
+   "disabled": false,
+   "status": "captured-default-state",
+   "note": "本轮未逐项点击（原站执行交互需登录态与额度）"
+  },
+  {
+   "control": "input",
+   "default_value": "",
+   "disabled": false,
+   "status": "captured-default-state",
+   "note": "本轮未逐项点击（原站执行交互需登录态与额度）"
+  },
+  {
+   "control": "input",
+   "default_value": "LinkFox 默认",
+   "disabled": false,
+   "status": "captured-default-state",
+   "note": "本轮未逐项点击（原站执行交互需登录态与额度）"
+  },
+  {
+   "control": "input",
+   "default_value": "本图片由 LinkFox AI 生成",
+   "disabled": false,
+   "status": "captured-default-state",
+   "note": "本轮未逐项点击（原站执行交互需登录态与额度）"
+  },
+  {
+   "control": "默认",
+   "default_value": "",
+   "disabled": false,
+   "status": "captured-default-state",
+   "note": "本轮未逐项点击（原站执行交互需登录态与额度）"
+  },
+  {
+   "control": "button",
+   "default_value": "",
+   "disabled": false,
+   "status": "captured-default-state",
+   "note": "本轮未逐项点击（原站执行交互需登录态与额度）"
+  },
+  {
+   "control": "＋ 新增水印分组",
+   "default_value": "",
+   "disabled": false,
+   "status": "captured-default-state",
+   "note": "本轮未逐项点击（原站执行交互需登录态与额度）"
+  }
+ ],
+ "brand_removals": [
+  "LinkFox 站名/Logo/购买按钮/算力文案保留结构但品牌字样需去"
+ ],
+ "text_gap": {
+  "scope": "原站工具面板 x150-620,y>=100 的叶子文案",
+  "origin_panel_lines": 22,
+  "missing_in_local": [
+   "上传商品图 或拖拽/粘贴图片到此处 或试试这些 场景参考图 ",
+   "上传商品图 或拖拽/粘贴图片到此处 或试试这些",
+   "或拖拽/粘贴图片到此处",
+   "或试试这些",
+   "场景参考图 排序： 智能推荐 按收藏时间 按素材热度 日用百",
+   "日用百货",
+   "家居家装",
+   "服饰箱包",
+   "美妆个护",
+   "家用电器",
+   "桌面-保温杯 厨房-搅拌器 客厅-毯子 厨房-电子秤 厨房-",
+   "桌面-保温杯",
+   "厨房-搅拌器",
+   "客厅-书柜",
+   "餐桌-茶具",
+   "厨房-水果篮",
+   "厨房-刀具",
+   "餐桌-茶壶",
+   "节日装饰-鬼魂装饰",
+   "节日场景-蜡烛",
+   "桌面-充电器",
+   "厨房-垃圾桶"
+  ],
+  "missing_count": 22
+ },
+ "verdict": "PARTIAL",
+ "blockers": [
+  "regions 只做了标题级存在性判定，未做位置/尺寸 1:1 对齐",
+  "interactions 未做点击/撤销/加载/失败实测：仅采集默认态",
+  "工具面板文案缺失 22 条"
+ ]
+}
