@@ -43,11 +43,15 @@ web$ bun test src/components/tools/tool-result.test.tsx \
       → 60 pass / 0 fail / 333 expect()（3 files）
 ```
 环境：`bun 1.4.2` 位于 `~/.bun/bin`（不在默认 PATH）；`npx` 不存在。
+门禁在核对时 HEAD `7069b84`（含 `8761c4e`/`1876b32`）上重跑结果一致：tsc 0 error、60 pass / 0 fail。
 
 ## 4. 缺口与风险（如实 PARTIAL）
 
 1. **字段级证据缺口**：PIS / VT / VC 的上行请求体无任何存量回执，因此「表单字段 → 上游字段」仅能靠代码推断，不算真实回执证据。补齐需各工具再真实提交一次并抓请求体。
-2. **I2V 二次刷新**：`receipt-image-to-video.json` 中 `panel.afterReload2` 的 `download/save/canvas` 均 `exists:false`、`video:null`；首次 reload（`afterReload`）三项均存在。二次连续刷新后结果面板未重建，属残留问题，本次未修。
+2. **I2V 二次刷新（已被后续提交修复）**：`receipt-image-to-video.json` 中 `panel.afterReload2` 的 `download/save/canvas` 均 `exists:false`、`video:null`；首次 reload（`afterReload`）三项均存在。
+   - 该回执抓取于 20:55，早于修复提交 `8761c4e`（21:13，他人提交，`fix(IMAGE_TO_VIDEO): reload 后结果可播放判定与历史回填不再误报`）：根因是结果单元只认 `url/blob`，刷新后只剩 `storageKey` 导致误判为空；已改为 `storageKey` 且未 `payloadDropped` 即可播放，并按快照回填时长/清晰度。
+   - 残留：仓库内**没有修复后的 `afterReload2`（二次连续刷新）回执**，只有修复提交说明中的「重跑探针三段 PASS」。因此「二次刷新面板重建」仍缺一手证据 → 记为 PARTIAL，需在修复后补抓一次 afterReload2。
+
 3. 未纳入本组提交的脏文件：`reports/independent-audit-20261029-r9/matrix.{json,md}`、`project_memory.md`（其他 worker 改动，来源未确认，不动）。
 
 ## 5. 复核入口
