@@ -1,19 +1,18 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { Link } from "react-router-dom";
+import { ImagePlus, Loader2, Sparkles } from "lucide-react";
 
 import { ToolAssetInput } from "@/components/tools/tool-asset-input";
-import { ToolShell } from "@/components/tools/tool-shell";
+import { ToolTaskHistory } from "@/components/tools/tool-task-history";
 import { saveResultItemToAssets, sendResultItemToCanvas } from "@/components/tools/tool-result-actions";
 import {
-    assetRecordToReference,
     auditSuiteConsistency,
     buildSuiteFromValues,
     createTaskStoreRunPort,
     mergeOutcomes,
+    paletteToPlans,
     retryableUnits,
     runColorV2Suite,
     sampleImagePalette,
-    paletteToPlans,
     summarizeByPlan,
     type ColorV2Unit,
     type ColorV2UnitOutcome,
@@ -27,16 +26,12 @@ import {
     COLOR_V2_MAX_REFERENCE_IMAGES,
     COLOR_V2_MAX_REGION_LENGTH,
     COLOR_V2_MAX_SUITE_IMAGES,
-    DEFAULT_COLOR_ADJUSTMENT,
     addColorPlan,
-    adjustmentKey,
-    adjustmentSummary,
     buildColorV2Snapshot,
     createColorPlan,
     estimatedOutputCount,
     getQualityLevel,
     isSnapshotStale,
-    normalizeAdjustment,
     parseColorV2Values,
     planLabel,
     planSwatch,
@@ -69,47 +64,30 @@ export interface ColorV2WorkspaceProps {
 }
 
 /* ------------------------------------------------------------------ *
- * 小部件
+ * 小部件（对齐原站：46px 分区标题条 / 12px 标题 / #723cf9 主色）
  * ------------------------------------------------------------------ */
 
-function Section({ id, title, hint, children }: { id: string; title: string; hint?: string; children: React.ReactNode }) {
+function PanelSection({ id, title, hint, children }: { id?: string; title: string; hint?: string; children: React.ReactNode }) {
     return (
-        <section id={id} className="rounded-lg border border-border bg-card">
-            <header className="flex items-baseline justify-between gap-2 border-b border-border px-3 py-2">
-                <h2 className="text-sm font-medium">{title}</h2>
-                {hint ? <span className="text-[11px] text-muted-foreground">{hint}</span> : null}
+        <section id={id} data-section={id} className="border-b border-[#f1f1f4]">
+            <header className="flex h-[46px] items-center justify-between gap-2 px-4">
+                <h2 style={{ fontSize: 14, fontWeight: 400, lineHeight: 1 }} className="text-[#000000e0]">{title}</h2>
+                {hint ? <span className="text-[11px] leading-none text-[#8a8a99]">{hint}</span> : null}
             </header>
-            <div className="space-y-3 p-3">{children}</div>
+            <div className="pb-4">{children}</div>
         </section>
     );
 }
 
-function Swatch({ plan, size = "size-5" }: { plan: ColorPlan; size?: string }) {
+function Swatch({ plan, size = "size-4" }: { plan: ColorPlan; size?: string }) {
     const hex = planSwatch(plan);
     if (hex) {
-        return <span aria-hidden className={cn("inline-block shrink-0 rounded border border-border", size)} style={{ backgroundColor: hex }} />;
+        return <span aria-hidden className={cn("inline-block shrink-0 rounded-[3px] border border-[#ededf0]", size)} style={{ backgroundColor: hex }} />;
     }
     return (
-        <span className={cn("inline-flex shrink-0 items-center justify-center rounded border border-dashed border-border text-[9px] text-muted-foreground", size)} title="参考图方案，无固定色值">
+        <span className={cn("inline-flex shrink-0 items-center justify-center rounded-[3px] border border-dashed border-[#d9d9e0] text-[9px] text-[#8a8a99]", size)} title="参考图方案，无固定色值">
             图
         </span>
-    );
-}
-
-function Pill({ active, children, onClick, title }: { active?: boolean; children: React.ReactNode; onClick?: () => void; title?: string }) {
-    return (
-        <button
-            type="button"
-            onClick={onClick}
-            title={title}
-            aria-pressed={active}
-            className={cn(
-                "rounded-full border px-2.5 py-1 text-xs transition",
-                active ? "border-primary bg-primary text-primary-foreground" : "border-border bg-background text-muted-foreground hover:bg-accent hover:text-foreground",
-            )}
-        >
-            {children}
-        </button>
     );
 }
 
@@ -121,10 +99,6 @@ const STATUS_LABEL: Record<ColorV2UnitOutcome["status"], string> = {
     unknown: "结果未定",
     cancelled: "已取消",
 };
-
-/* ------------------------------------------------------------------ *
- * 页面
- * ------------------------------------------------------------------ */
 
 export function ColorV2Workspace({ className }: ColorV2WorkspaceProps = {}) {
     const spec = useMemo(() => getToolById(TOOL_ID), []);
@@ -438,520 +412,616 @@ export function ColorV2Workspace({ className }: ColorV2WorkspaceProps = {}) {
     const outcomeByUnit = useMemo(() => new Map(outcomes.map((item) => [item.unitId, item])), [outcomes]);    const planRows = useMemo(() => (units.length ? summarizeByPlan(units, outcomes) : []), [outcomes, units]);
     const consistency = useMemo(() => (units.length ? auditSuiteConsistency(units, outcomes) : null), [outcomes, units]);
     const succeeded = outcomes.filter((item) => item.status === "succeeded").length;
-
     /* ---------------- 渲染 ---------------- */
 
+    const [colorMode, setColorMode] = useState<"extract" | "history">("extract");
+    const [rightTab, setRightTab] = useState<"result" | "cases" | "history">("result");
+    const [stepDismissed, setStepDismissed] = useState(false);
+    const qualityLevel = getQualityLevel(values.quality);
+    const showResults = outcomes.length > 0 || busy;
+
     return (
-        <ToolShell
-            className={className}
-            title={spec?.title ?? "套图换色"}
-            subtitle="整套商品图批量换色：一套方案铺满全部商品图，失败单元单独重试，输入变更后结果自动标记为过期"
-            badges={
-                <span className="rounded border border-border px-1.5 py-0.5 text-[11px] text-muted-foreground">
-                    {spec ? `makeType ${spec.makeType}` : "CHANGE_COLOR_V2"}
-                </span>
-            }
-            actions={
-                <button
-                    type="button"
-                    disabled={busy}
-                    onClick={runSuite}
-                    className="rounded-md bg-primary px-3 py-1.5 text-xs font-medium text-primary-foreground disabled:cursor-not-allowed disabled:opacity-50"
-                >
-                    {busy ? `生成中 ${progress.done}/${progress.total}` : "开始换色"}
-                </button>
-            }
-            notices={
-                <>
-                    {conflict ? (
-                        <p key="conflict" className="mb-2 rounded border border-destructive/40 bg-destructive/10 px-3 py-2 text-xs text-destructive">
-                            该工具的其他标签页修改了草稿，当前页面可能覆盖远端改动；刷新后再编辑可避免冲突。
-                        </p>
-                    ) : null}
-                    {notice ? <p className="mb-2 rounded border border-border bg-accent px-3 py-2 text-xs">{notice}</p> : null}
-                    {stale ? (
-                        <p className="mb-2 rounded border border-amber-500/40 bg-amber-500/10 px-3 py-2 text-xs text-amber-700 dark:text-amber-400">
-                            输入已变更，下面的结果是旧快照的产物（快照 {runHash?.slice(0, 8)}），重新生成才会反映当前设置。
-                        </p>
-                    ) : null}
-                </>
-            }
-            sidebar={
-                <nav className="space-y-1 p-2 text-sm">
-                    {[
-                        ["suite", "整套商品图"],
-                        ["plans", "换色方案"],
-                        ["region", "换色部位"],
-                        ["quality", "品质"],
-                        ["adjust", "单图微调"],
-                        ["results", "整套结果"],
-                    ].map(([id, label]) => (
-                        <a key={id} href={`#${id}`} className="block rounded px-2 py-1.5 text-muted-foreground transition hover:bg-accent hover:text-foreground">
-                            {label}
-                        </a>
-                    ))}
-                    <Link to={`/tools/ecommerce-suite/${CHANGE_COLOR_V2_SLUG}`} className="mt-2 block rounded px-2 py-1.5 text-xs text-muted-foreground underline-offset-2 hover:underline">
-                        本页规范：{CHANGE_COLOR_V2_SLUG}
-                    </Link>
-                </nav>
-            }
+        <div
+            data-tool={TOOL_ID}
+            data-layout="linkfox-change-color"
+            data-spec={spec?.slug ?? CHANGE_COLOR_V2_SLUG}
+            style={{ fontFamily: '"Microsoft YaHei", "PingFang SC", "Hiragino Sans GB", sans-serif' }}
+            className={cn("flex h-full min-h-0 min-w-0 gap-[10px] overflow-hidden bg-[#f4f6f8] text-[13px] text-[#000000e0]", className)}
         >
-            <div className={cn("grid min-h-0 gap-4 p-4 xl:grid-cols-[minmax(0,400px)_minmax(0,1fr)]")}>
-                <div className="space-y-4">
-                    <Section id="suite" title="1 · 整套商品图" hint={`${suiteIds.length}/${COLOR_V2_MAX_SUITE_IMAGES} 张`}>
-                        <ToolAssetInput
-                            toolId={TOOL_ID}
-                            title="上传整套商品图"
-                            maxCount={COLOR_V2_MAX_SUITE_IMAGES}
-                            constraints={SUITE_CONSTRAINTS}
-                            disabled={busy}
-                            onChange={(ids, records) => {
-                                setSuiteIds(ids);
-                                setSuiteRecords(records);
-                            }}
-                        />
-                        {suiteRecords.length ? (
-                            <div className="flex flex-wrap gap-2">
-                                {suiteRecords.map((record) => (
-                                    <button
-                                        key={record.id}
-                                        type="button"
-                                        disabled={busy || extracting === record.id}
-                                        onClick={() => void extractPalette(record)}
-                                        className="rounded border border-border px-2 py-1 text-[11px] text-muted-foreground transition hover:bg-accent hover:text-foreground disabled:opacity-50"
-                                        title="从这张商品图提取 5 个主色作为方案"
-                                    >
-                                        {extracting === record.id ? "提色中…" : `从「${record.name}」提色`}
-                                    </button>
-                                ))}
+            {/* 左：296px 参数面板（原站 x190 w296；提交条固定在面板底部） */}
+            <section data-region="params" className="flex h-full w-[296px] shrink-0 flex-col overflow-hidden rounded-[8px] border border-[#ededf0] bg-white">
+                <div className="min-h-0 flex-1 overflow-y-auto">
+                    <PanelSection id="upload" title="上传图片" hint={`${suiteIds.length} / ${COLOR_V2_MAX_SUITE_IMAGES}`}>
+                        <div className="px-4">
+                            <div className="mx-auto w-[210px]">
+                                <ToolAssetInput
+                                    toolId={TOOL_ID}
+                                    maxCount={COLOR_V2_MAX_SUITE_IMAGES}
+                                    constraints={SUITE_CONSTRAINTS}
+                                    disabled={busy}
+                                    title=""
+                                    variant="linkfox"
+                                    uploadLabel="从本地上传"
+                                    hint={`10M以内，最多 ${COLOR_V2_MAX_SUITE_IMAGES} 张`}
+                                    onChange={(ids, records) => {
+                                        setSuiteIds(ids);
+                                        setSuiteRecords(records);
+                                    }}
+                                />
                             </div>
-                        ) : null}
-                    </Section>
-
-                    <Section id="plans" title="2 · 换色方案" hint={`${values.plans.length}/${COLOR_V2_MAX_REFERENCE_IMAGES} 个`}>
-                        <div className="flex flex-wrap items-center gap-2">
-                            <input
-                                ref={referenceInputRef}
-                                type="file"
-                                accept="image/png,image/jpeg,image/webp"
-                                multiple
-                                hidden
-                                onChange={(event) => {
-                                    const files = Array.from(event.target.files ?? []);
-                                    event.target.value = "";
-                                    void addReferenceFiles(files);
-                                }}
-                            />
-                            <button
-                                type="button"
-                                disabled={busy}
-                                onClick={() => referenceInputRef.current?.click()}
-                                className="rounded border border-border px-2 py-1 text-xs transition hover:bg-accent disabled:opacity-50"
-                            >
-                                上传参考图
-                            </button>
-                            <span className="text-[11px] text-muted-foreground">参考图只提供颜色与材质依据，不参与构图</span>
-                        </div>
-
-                        {referenceRecords.length ? (
-                            <div className="flex flex-wrap gap-1.5">
-                                {referenceRecords.map((record) => (
-                                    <Pill
-                                        key={record.id}
-                                        active={values.referenceAssetIds.includes(record.id)}
-                                        onClick={() => toggleReferenceRecord(record)}
-                                        title="点击切换该参考图方案是否启用"
-                                    >
-                                        {record.name}
-                                    </Pill>
-                                ))}
-                            </div>
-                        ) : null}
-
-                        {values.plans.length === 0 ? (
-                            <p className="text-xs text-muted-foreground">还没有换色方案：上传参考图、从商品图提色，或点下面任一历史颜色。</p>
-                        ) : (
-                            <ul className="space-y-1">
-                                {values.plans.map((plan) => (
-                                    <li
-                                        key={plan.id}
-                                        className={cn(
-                                            "flex items-center gap-2 rounded border px-2 py-1.5 text-xs",
-                                            plan.id === selectedPlan?.id ? "border-primary bg-primary/5" : "border-border",
-                                        )}
-                                    >
-                                        <button
-                                            type="button"
-                                            onClick={() => commit({ ...valuesRef.current, selectedPlanId: plan.id })}
-                                            className="flex min-w-0 flex-1 items-center gap-2 text-left"
-                                            aria-pressed={plan.id === selectedPlan?.id}
-                                        >
-                                            <Swatch plan={plan} />
-                                            <span className="truncate">{planLabel(plan)}</span>
-                                            <span className="shrink-0 rounded border border-border px-1 text-[10px] text-muted-foreground">{SOURCE_LABEL[plan.source]}</span>
-                                        </button>
-                                        <button
-                                            type="button"
-                                            aria-label={`移除方案 ${plan.name}`}
-                                            onClick={() => {
-                                                const current = valuesRef.current;
-                                                commit({
-                                                    ...current,
-                                                    plans: removeColorPlan(current.plans, plan.id),
-                                                    selectedPlanId: current.selectedPlanId === plan.id ? null : current.selectedPlanId,
-                                                    referenceAssetIds: plan.referenceAssetId
-                                                        ? current.referenceAssetIds.filter((id) => id !== plan.referenceAssetId)
-                                                        : current.referenceAssetIds,
-                                                });
-                                            }}
-                                            className="shrink-0 rounded px-1 text-muted-foreground transition hover:bg-accent hover:text-foreground"
-                                        >
-                                            ×
-                                        </button>
-                                    </li>
-                                ))}
-                            </ul>
-                        )}
-
-                        {values.historyColors.length ? (
-                            <div className="space-y-1">
-                                <p className="text-[11px] text-muted-foreground">历史使用颜色</p>
-                                <div className="flex flex-wrap gap-1.5">
-                                    {values.historyColors.map((hex) => (
-                                        <button
-                                            key={hex}
-                                            type="button"
-                                            onClick={() => addHistoryColor(hex)}
-                                            className="flex items-center gap-1 rounded border border-border px-1.5 py-0.5 text-[11px] transition hover:bg-accent"
-                                            title={`把 ${hex} 加为一个换色方案`}
-                                        >
-                                            <span aria-hidden className="size-3 rounded-sm border border-border" style={{ backgroundColor: hex }} />
-                                            {hex}
-                                        </button>
-                                    ))}
-                                </div>
-                            </div>
-                        ) : null}
-                    </Section>
-
-                    <Section id="region" title="3 · 换色部位" hint={`${values.region.length}/${COLOR_V2_MAX_REGION_LENGTH}`}>
-                        <div className="flex flex-wrap gap-1.5">
-                            {COLOR_REGION_PRESETS.map((preset) => (
-                                <Pill
-                                    key={preset.key}
-                                    active={sanityRegion(values.region) === preset.label}
-                                    onClick={() => commit({ ...valuesRef.current, region: preset.label })}
-                                >
-                                    {preset.label}
-                                </Pill>
-                            ))}
-                        </div>
-                        <input
-                            value={values.region}
-                            maxLength={COLOR_V2_MAX_REGION_LENGTH}
-                            onChange={(event) => commit({ ...valuesRef.current, region: sanityRegion(event.target.value) })}
-                            placeholder="不选则按商品主体处理"
-                            className="w-full rounded border border-border bg-background px-2 py-1.5 text-xs outline-none focus-visible:ring-2 focus-visible:ring-ring"
-                        />
-                    </Section>
-
-                    <Section id="quality" title="4 · 品质">
-                        <div className="grid gap-1.5">
-                            {COLOR_QUALITY_LEVELS.map((level) => (
-                                <label
-                                    key={level.key}
-                                    className={cn(
-                                        "flex cursor-pointer items-center gap-2 rounded border px-2 py-1.5 text-xs",
-                                        values.quality === level.key ? "border-primary bg-primary/5" : "border-border",
-                                    )}
-                                >
-                                    <input
-                                        type="radio"
-                                        name="color-v2-quality"
-                                        checked={values.quality === level.key}
-                                        onChange={() => commit({ ...valuesRef.current, quality: level.key as ColorQualityKey })}
-                                    />
-                                    <span>{level.label}</span>
-                                    <span className="ml-auto text-[10px] text-muted-foreground">{level.providerQuality}</span>
-                                </label>
-                            ))}
-                        </div>
-                        <p className="text-[11px] text-muted-foreground">当前档位：{getQualityLevel(values.quality).label}</p>
-                    </Section>
-
-                    <Section id="adjust" title="5 · 单图微调" hint="只影响选中的那张商品图">
-                        {suiteRecords.length === 0 ? (
-                            <p className="text-xs text-muted-foreground">先上传商品图，再按图微调颜色。</p>
-                        ) : (
-                            <>
-                                <select
-                                    value={values.selectedAssetId ?? suiteRecords[0].id}
-                                    onChange={(event) => commit({ ...valuesRef.current, selectedAssetId: event.target.value })}
-                                    className="w-full rounded border border-border bg-background px-2 py-1.5 text-xs"
-                                >
+                            {suiteRecords.length ? (
+                                <ul data-testid="color-v2-suite-list" className="mt-3 grid grid-cols-3 gap-2">
                                     {suiteRecords.map((record) => (
-                                        <option key={record.id} value={record.id}>
-                                            {record.name}
-                                        </option>
-                                    ))}
-                                </select>
-                                {(() => {
-                                    const assetId = values.selectedAssetId ?? suiteRecords[0].id;
-                                    const adjustment = normalizeAdjustment(values.adjustments[assetId]);
-                                    const setAdjustment = (patch: Partial<typeof adjustment>) =>
-                                        commit({
-                                            ...valuesRef.current,
-                                            adjustments: { ...valuesRef.current.adjustments, [assetId]: normalizeAdjustment({ ...adjustment, ...patch }) },
-                                        });
-                                    const rows: Array<[string, keyof typeof adjustment, number, number, number]> = [
-                                        ["色相", "hue", -180, 180, 1],
-                                        ["饱和度", "saturation", 40, 160, 1],
-                                        ["明度", "lightness", 40, 160, 1],
-                                        ["上色强度", "strength", 0, 100, 1],
-                                    ];
-                                    return (
-                                        <div className="space-y-2">
-                                            {rows.map(([label, key, min, max, step]) => (
-                                                <label key={key} className="block text-xs">
-                                                    <span className="flex items-center justify-between text-muted-foreground">
-                                                        <span>{label}</span>
-                                                        <span>{adjustment[key]}</span>
-                                                    </span>
-                                                    <input
-                                                        type="range"
-                                                        min={min}
-                                                        max={max}
-                                                        step={step}
-                                                        value={adjustment[key]}
-                                                        onChange={(event) => setAdjustment({ [key]: Number(event.target.value) })}
-                                                        className="w-full"
-                                                    />
-                                                </label>
-                                            ))}
-                                            <div className="flex items-center justify-between gap-2">
-                                                <span className="text-[11px] text-muted-foreground">
-                                                    {adjustmentKey(adjustment) === adjustmentKey(DEFAULT_COLOR_ADJUSTMENT) ? "默认（无微调）" : adjustmentSummary(adjustment)}
-                                                </span>
-                                                <button
-                                                    type="button"
-                                                    onClick={() => setAdjustment(DEFAULT_COLOR_ADJUSTMENT)}
-                                                    className="rounded border border-border px-2 py-1 text-[11px] transition hover:bg-accent"
-                                                >
-                                                    重置
-                                                </button>
+                                        <li key={record.id} className="min-w-0">
+                                            <div className="flex aspect-square items-center justify-center overflow-hidden rounded-[4px] border border-[#ededf0] bg-[#fafafa]">
+                                                {record.url ? (
+                                                    <img src={record.url} alt={record.name} className="h-full w-full object-cover" />
+                                                ) : (
+                                                    <span className="text-[10px] text-[#8a8a99]">无预览</span>
+                                                )}
                                             </div>
-                                        </div>
-                                    );
-                                })()}
-                            </>
-                        )}
-                    </Section>
-
-                    <div className="space-y-2 rounded-lg border border-border bg-card p-3">
-                        <div className="flex items-center justify-between text-xs">
-                            <span className="text-muted-foreground">
-                                {suiteIds.length} 张商品图 × {values.plans.length} 个方案 = {plannedCount} 张输出
-                            </span>
-                            <span className="text-[11px] text-muted-foreground">快照 {currentSnapshot.hash.slice(0, 8)}</span>
-                        </div>
-                        {issues.length ? (
-                            <ul className="space-y-1 text-[11px] text-destructive">
-                                {issues.map((issue) => (
-                                    <li key={`${issue.field}:${issue.message}`}>· {issue.message}</li>
-                                ))}
-                            </ul>
-                        ) : (
-                            <p className="text-[11px] text-muted-foreground">校验通过，可以开始换色。</p>
-                        )}
-                        <div className="flex gap-2">
-                            <button
-                                type="button"
-                                disabled={busy || issues.length > 0}
-                                onClick={() => void runSuite()}
-                                className="flex-1 rounded-md bg-primary px-3 py-2 text-xs font-medium text-primary-foreground disabled:cursor-not-allowed disabled:opacity-50"
-                            >
-                                {busy ? `生成中 ${progress.done}/${progress.total}` : "开始换色"}
-                            </button>
-                            {busy ? (
-                                <button type="button" onClick={stop} className="rounded-md border border-border px-3 py-2 text-xs transition hover:bg-accent">
-                                    取消
-                                </button>
+                                            <p className="mt-1 truncate text-[11px] leading-4 text-[#8a8a99]" title={record.name}>
+                                                {record.name}
+                                            </p>
+                                        </li>
+                                    ))}
+                                </ul>
                             ) : null}
                         </div>
-                        <button
-                            type="button"
-                            onClick={() => setShowSnapshot((prev) => !prev)}
-                            className="w-full rounded border border-border px-3 py-1.5 text-[11px] text-muted-foreground transition hover:bg-accent"
-                            aria-expanded={showSnapshot}
-                        >
-                            {showSnapshot ? "收起本次输入快照" : "查看本次输入快照"}
-                        </button>
-                        {showSnapshot ? (
-                            <pre className="max-h-56 overflow-auto rounded border border-border bg-muted/40 p-2 text-[10px] leading-relaxed">
-                                {JSON.stringify({ snapshot: currentSnapshot, values: { ...values, plans: values.plans.map((plan) => ({ ...plan, createdAt: plan.createdAt })) } }, null, 2)}
-                            </pre>
-                        ) : null}
-                    </div>
-                </div>
+                    </PanelSection>
 
-                <div className="min-w-0 space-y-4">
-                    <Section
-                        id="results"
-                        title="6 · 整套结果"
-                        hint={units.length ? `${succeeded}/${units.length} 张完成` : "尚未生成"}
-                    >
-                        {units.length === 0 ? (
-                            <p className="text-xs text-muted-foreground">
-                                {hydrated ? "还没有结果：左侧补齐商品图与方案后点「开始换色」，每张图 × 每个方案都会生成一张。" : "正在恢复草稿…"}
-                            </p>
-                        ) : (
-                            <>
-                                <div className="flex flex-wrap items-center gap-2 text-[11px]">
-                                    <span className="rounded border border-border px-1.5 py-0.5">单元 {units.length}</span>
-                                    <span className="rounded border border-border px-1.5 py-0.5">成功 {succeeded}</span>
-                                    <span className="rounded border border-border px-1.5 py-0.5">未完成 {units.length - succeeded}</span>
-                                    {consistency ? (
-                                        <span className={cn("rounded border px-1.5 py-0.5", consistency.completeMatrix ? "border-emerald-500/40 text-emerald-600" : "border-amber-500/40 text-amber-600")}>
-                                            {consistency.completeMatrix ? "矩阵完整" : "矩阵不完整"}
-                                        </span>
-                                    ) : null}
-                                    {runHash ? <span className="text-muted-foreground">快照 {runHash.slice(0, 8)}</span> : null}
+                    <PanelSection id="plans" title="颜色选择" hint={`${values.plans.length} 个方案`}>
+                        <div className="px-4">
+                            <div role="tablist" aria-label="取色方式" className="flex h-[34px] w-full items-center rounded-[8px] bg-[#f4f6f8] p-[2px]">
+                                <button
+                                    type="button"
+                                    role="tab"
+                                    aria-selected={colorMode === "extract"}
+                                    data-testid="color-v2-mode-extract"
+                                    onClick={() => setColorMode("extract")}
+                                    style={{ fontSize: 12, fontWeight: 600 }}
+                                    className={cn(
+                                        "h-full flex-1 rounded-[6px] leading-none transition",
+                                        colorMode === "extract" ? "bg-white text-[#723cf9] shadow-[0_1px_2px_rgba(0,0,0,0.06)]" : "text-[#5a5a6e]",
+                                    )}
+                                >
+                                    商品图提色
+                                </button>
+                                <button
+                                    type="button"
+                                    role="tab"
+                                    aria-selected={colorMode === "history"}
+                                    data-testid="color-v2-mode-history"
+                                    style={{ fontSize: 12, fontWeight: 600 }}
+                                    onClick={() => setColorMode("history")}
+                                    className={cn(
+                                        "h-full flex-1 rounded-[6px] leading-none transition",
+                                        colorMode === "history" ? "bg-white text-[#723cf9] shadow-[0_1px_2px_rgba(0,0,0,0.06)]" : "text-[#5a5a6e]",
+                                    )}
+                                >
+                                    历史使用颜色
+                                </button>
+                            </div>
+
+                            {colorMode === "extract" ? (
+                                <div className="mt-3 space-y-2">
+                                    {suiteRecords.length ? (
+                                        <div className="space-y-1.5">
+                                            {suiteRecords.map((record) => (
+                                                <button
+                                                    key={record.id}
+                                                    type="button"
+                                                    data-testid="color-v2-extract"
+                                                    disabled={busy || extracting === record.id}
+                                                    onClick={() => void extractPalette(record)}
+                                                    title="从这张商品图提取 5 个主色作为方案"
+                                                    className="flex w-full items-center gap-2 rounded-[4px] border border-[#e5e5ea] px-2 py-1 text-left text-[11px] leading-4 text-[#5a5a66] transition hover:border-[#723cf9]/50 disabled:cursor-not-allowed disabled:opacity-50"
+                                                >
+                                                    <ImagePlus className="size-3 shrink-0 text-[#723cf9]" aria-hidden="true" />
+                                                    <span className="truncate">{extracting === record.id ? "提色中…" : `从「${record.name}」提色`}</span>
+                                                </button>
+                                            ))}
+                                        </div>
+                                    ) : (
+                                        <p className="text-[11px] leading-4 text-[#8a8a99]">先上传商品图，这里会按图片自动提取 5 个主色方案。</p>
+                                    )}
+
                                     <button
                                         type="button"
-                                        disabled={busy || retryableUnits(units, outcomes).length === 0}
-                                        onClick={() => void retryFailed()}
-                                        className="ml-auto rounded border border-border px-2 py-1 transition hover:bg-accent disabled:opacity-40"
+                                        data-testid="color-v2-reference-upload"
+                                        disabled={busy}
+                                        onClick={() => referenceInputRef.current?.click()}
+                                        className="flex w-full items-center justify-center gap-1 rounded-[4px] border border-dashed border-[#d9d9e0] px-2 py-1 text-[11px] leading-4 text-[#6b6b7a] transition hover:border-[#723cf9]/50 disabled:opacity-50"
                                     >
-                                        重试失败项
+                                        ＋ 上传参考图（{referenceRecords.length}/{COLOR_V2_MAX_REFERENCE_IMAGES}）
                                     </button>
+                                    <input
+                                        ref={referenceInputRef}
+                                        type="file"
+                                        accept="image/*"
+                                        multiple
+                                        hidden
+                                        onChange={(event) => {
+                                            const files = Array.from(event.target.files ?? []);
+                                            if (files.length) void addReferenceFiles(files);
+                                            event.target.value = "";
+                                        }}
+                                    />
+                                    {referenceRecords.length ? (
+                                        <ul className="flex flex-wrap gap-1.5">
+                                            {referenceRecords.map((record) => {
+                                                const active = values.referenceAssetIds.includes(record.id);
+                                                return (
+                                                    <li key={record.id}>
+                                                        <button
+                                                            type="button"
+                                                            onClick={() => toggleReferenceRecord(record)}
+                                                            title={`${record.name}${active ? " · 已作为方案" : " · 点击作为参考方案"}`}
+                                                            className={cn(
+                                                                "size-9 overflow-hidden rounded-[4px] border transition",
+                                                                active ? "border-[#723cf9] ring-1 ring-[#723cf9]/40" : "border-[#ededf0] hover:border-[#723cf9]/50",
+                                                            )}
+                                                        >
+                                                            {record.url ? <img src={record.url} alt={record.name} className="h-full w-full object-cover" /> : null}
+                                                        </button>
+                                                    </li>
+                                                );
+                                            })}
+                                        </ul>
+                                    ) : null}
+                                </div>
+                            ) : (
+                                <div className="mt-3">
+                                    {values.historyColors.length ? (
+                                        <ul className="grid grid-cols-8 gap-1.5">
+                                            {values.historyColors.map((hex) => (
+                                                <li key={hex}>
+                                                    <button
+                                                        type="button"
+                                                        data-testid="color-v2-history-color"
+                                                        title={`使用历史色 ${hex}`}
+                                                        onClick={() => addHistoryColor(hex)}
+                                                        className="size-5 rounded-[3px] border border-[#ededf0] transition hover:scale-110"
+                                                        style={{ backgroundColor: hex }}
+                                                    />
+                                                </li>
+                                            ))}
+                                        </ul>
+                                    ) : (
+                                        <p className="text-[11px] leading-4 text-[#8a8a99]">暂无历史使用颜色，提色或手动添加后会出现在这里。</p>
+                                    )}
+                                </div>
+                            )}
+
+                            <ul data-testid="color-v2-plans" className="mt-3 space-y-1.5">
+                                {values.plans.length ? (
+                                    values.plans.map((plan) => {
+                                        const active = plan.id === selectedPlan?.id;
+                                        return (
+                                            <li key={plan.id} className="flex items-center gap-2">
+                                                <button
+                                                    type="button"
+                                                    onClick={() => commit({ ...valuesRef.current, selectedPlanId: plan.id })}
+                                                    title={planLabel(plan)}
+                                                    className={cn(
+                                                        "flex min-w-0 flex-1 items-center gap-2 rounded-[4px] border px-2 py-1 text-left text-[11px] leading-4 transition",
+                                                        active ? "border-[#723cf9] bg-[#f9f0ff] text-[#1f1f2c]" : "border-[#e5e5ea] bg-white text-[#5a5a66] hover:border-[#723cf9]/50",
+                                                    )}
+                                                >
+                                                    <Swatch plan={plan} />
+                                                    <span className="min-w-0 flex-1 truncate">{plan.name}</span>
+                                                    <span className="shrink-0 text-[10px] text-[#8a8a99]">{SOURCE_LABEL[plan.source]}</span>
+                                                </button>
+                                                <button
+                                                    type="button"
+                                                    aria-label={`移除方案 ${plan.name}`}
+                                                    disabled={busy}
+                                                    onClick={() => commit({ ...valuesRef.current, plans: removeColorPlan(valuesRef.current.plans, plan.id) })}
+                                                    className="shrink-0 rounded-[3px] px-1 text-[12px] leading-5 text-[#8a8a99] transition hover:text-[#f5483b] disabled:opacity-40"
+                                                >
+                                                    ×
+                                                </button>
+                                            </li>
+                                        );
+                                    })
+                                ) : (
+                                    <li className="text-[11px] leading-4 text-[#8a8a99]">还没有换色方案：从商品图提色、选历史色或上传参考图。</li>
+                                )}
+                            </ul>
+                        </div>
+                    </PanelSection>
+
+                    <PanelSection id="region" title="换色部位" hint={values.region ? `${values.region.length}/${COLOR_V2_MAX_REGION_LENGTH}` : "必填"}>
+                        <div className="px-4">
+                            <textarea
+                                data-testid="color-v2-region"
+                                style={{ height: 52 }}
+                                value={values.region}
+                                disabled={busy}
+                                rows={2}
+                                maxLength={COLOR_V2_MAX_REGION_LENGTH}
+                                placeholder="请输入需要换色的部位（必填），如 上装、鞋面"
+                                onChange={(event) => commit({ ...valuesRef.current, region: sanityRegion(event.target.value) })}
+                                className="w-full resize-none rounded-[4px] border border-[#e5e5ea] bg-white px-2.5 py-2 text-[14px] leading-5 text-[#000000e0] outline-none transition placeholder:text-[#b4b4c0] focus:border-[#723cf9] disabled:opacity-60"
+                            />
+                            <div className="mt-2 flex flex-wrap gap-1.5">
+                                {COLOR_REGION_PRESETS.map((preset) => {
+                                    const active = values.region.includes(preset.label);
+                                    return (
+                                        <button
+                                            key={preset.key}
+                                            type="button"
+                                            data-testid={`color-v2-region-${preset.key}`}
+                                            disabled={busy}
+                                            onClick={() => {
+                                                if (active) return;
+                                                const base = valuesRef.current.region.trim();
+                                                const merged = base ? `${base}、${preset.label}` : preset.label;
+                                                commit({ ...valuesRef.current, region: sanityRegion(merged) });
+                                            }}
+                                            className={cn(
+                                                "rounded-[3px] border px-1.5 py-0.5 text-[11px] leading-4 transition",
+                                                active ? "border-[#723cf9] bg-[#f9f0ff] text-[#723cf9]" : "border-[#e5e5ea] bg-white text-[#5a5a66] hover:border-[#723cf9]/50",
+                                            )}
+                                        >
+                                            {preset.label}
+                                        </button>
+                                    );
+                                })}
+                            </div>
+                        </div>
+                    </PanelSection>
+
+                    <PanelSection id="quality" title="模型设置">
+                        <div className="px-4">
+                            <p className="text-[12px] leading-4 text-[#1f1f2c]">模型品质</p>
+                            <div className="mt-2 flex gap-[10px]">
+                                {COLOR_QUALITY_LEVELS.map((level) => {
+                                    const active = values.quality === level.key;
+                                    return (
+                                        <button
+                                            key={level.key}
+                                            type="button"
+                                            data-testid={`color-v2-quality-${level.key}`}
+                                            disabled={busy}
+                                            onClick={() => commit({ ...valuesRef.current, quality: level.key as ColorQualityKey })}
+                                            title={`调用上游 ${level.providerQuality} 品质`}
+                                            style={{ fontSize: 14, fontWeight: 400 }}
+                                            className={cn(
+                                                "h-8 w-[75px] rounded-[6px] border leading-none transition",
+                                                active ? "border-[#723cf9] bg-[#f9f0ff] text-[#723cf9]" : "border-[#e5e5ea] bg-white text-[#5a5a66] hover:border-[#723cf9]/50",
+                                            )}
+                                        >
+                                            {level.label}
+                                        </button>
+                                    );
+                                })}
+                            </div>
+                            <p className="mt-2 text-[11px] leading-4 text-[#8a8a99]">
+                                预计输出 {plannedCount} 张（{suiteIds.length} 张商品图 × {values.plans.length} 个方案）
+                            </p>
+                        </div>
+                    </PanelSection>
+                </div>
+
+                <div className="shrink-0 border-t border-[#ededf0] px-4 py-3">
+                    {conflict ? (
+                        <p key="conflict" className="mb-2 rounded-[4px] bg-[#fff1f0] px-2 py-1 text-[11px] leading-4 text-[#f5483b]">
+                            其他标签页改过草稿，当前页面可能覆盖远端改动；刷新后再编辑。
+                        </p>
+                    ) : null}
+                    {stale ? (
+                        <p key="stale" data-testid="color-v2-stale" className="mb-2 rounded-[4px] bg-[#fff8e6] px-2 py-1 text-[11px] leading-4 text-[#a86b00]">
+                            输入已变更，当前结果来自旧快照 {runHash?.slice(0, 8)}；重新生成才会反映最新设置。
+                        </p>
+                    ) : null}
+                    <button
+                        type="button"
+                        data-testid="color-v2-submit"
+                        style={{ fontSize: 14 }}
+                        disabled={busy || issues.length > 0}
+                        title={issues[0]?.message}
+                        onClick={() => void runSuite()}
+                        className="inline-flex h-8 w-full items-center justify-center gap-1 rounded-[6px] bg-[#723cf9] text-[14px] leading-none text-white transition hover:bg-[#6231e0] disabled:cursor-not-allowed disabled:opacity-50"
+                    >
+                        {busy ? <Loader2 className="size-4 animate-spin" aria-hidden="true" /> : <Sparkles className="size-4" aria-hidden="true" />}
+                        <span>{busy ? `生成中 ${progress.done}/${progress.total}` : "开始生成"}</span>
+                        <span className="text-[12px] leading-none opacity-90">(50算力)</span>
+                    </button>
+                    <p className="mt-1 text-center text-[11px] leading-4 text-[#8a8a99]">
+                        共 {plannedCount} 张 · {qualityLevel.label}
+                        {busy ? ` · 已完成 ${succeeded}` : ""}
+                    </p>
+                    {notice ? (
+                        <p data-testid="color-v2-notice" className="mt-1 text-[11px] leading-4 text-[#6b6b7a]">
+                            {notice}
+                        </p>
+                    ) : null}
+                    {issues.length ? (
+                        <p data-testid="color-v2-blocked" className="mt-1 text-[11px] leading-4 text-[#f5483b]">
+                            {issues[0].message}
+                        </p>
+                    ) : null}
+                </div>
+            </section>
+
+            {/* 右：结果区（原站 42px 白条 tab + #f4f6f8 内容） */}
+            <section id="results" data-region="results" className="flex min-w-0 flex-1 flex-col overflow-hidden rounded-[8px] bg-[#f4f6f8]">
+                <div role="tablist" aria-label="右栏页签" className="flex h-[42px] shrink-0 items-center gap-[14px] bg-white px-3">
+                    {(
+                        [
+                            { key: "result", label: "生成结果" },
+                            { key: "cases", label: "优秀案例" },
+                        ] as const
+                    ).map((item) => (
+                        <button
+                            key={item.key}
+                            type="button"
+                            role="tab"
+                            aria-selected={rightTab === item.key}
+                            data-testid={`color-v2-tab-${item.key}`}
+                            style={{ fontSize: 14, fontWeight: 400 }}
+                            onClick={() => setRightTab(item.key)}
+                            className={cn(
+                                "h-[42px] text-[14px] font-normal leading-none transition",
+                                rightTab === item.key ? "text-[#723cf9]" : "text-[#000000e0] hover:text-[#723cf9]",
+                            )}
+                        >
+                            {item.label}
+                        </button>
+                    ))}
+                    <button
+                        type="button"
+                        data-testid="color-v2-tab-history"
+                        onClick={() => setRightTab("history")}
+                        className={cn(
+                            "ml-auto text-[12px] leading-none transition",
+                            rightTab === "history" ? "font-medium text-[#723cf9]" : "text-[#6b6b80] hover:text-[#723cf9]",
+                        )}
+                    >
+                        历史记录
+                    </button>
+                </div>
+
+                <div className="min-h-0 flex-1 overflow-y-auto">
+                    {rightTab === "result" ? (
+                        showResults ? (
+                            <div className="space-y-3 p-3">
+                                <div className="flex flex-wrap items-center gap-2 rounded-[8px] bg-white px-3 py-2 text-[12px] text-[#5a5a66]">
+                                    <span data-testid="color-v2-progress" className="font-medium text-[#1f1f2c]">
+                                        进度 {progress.done}/{progress.total || units.length}
+                                    </span>
+                                    <span>· 已完成 {succeeded}</span>
+                                    {runHash ? <span>· 快照 {runHash.slice(0, 8)}</span> : null}
+                                    <span className="ml-auto flex items-center gap-2">
+                                        {busy ? (
+                                            <button
+                                                type="button"
+                                                data-testid="color-v2-stop"
+                                                onClick={stop}
+                                                className="rounded-[4px] border border-[#e5e5ea] px-2 py-0.5 text-[11px] text-[#5a5a66] transition hover:border-[#723cf9]/50"
+                                            >
+                                                停止
+                                            </button>
+                                        ) : null}
+                                        {!busy && retryableUnits(units, outcomes).length ? (
+                                            <button
+                                                type="button"
+                                                data-testid="color-v2-retry-failed"
+                                                onClick={() => void retryFailed()}
+                                                className="rounded-[4px] border border-[#e5e5ea] px-2 py-0.5 text-[11px] text-[#5a5a66] transition hover:border-[#723cf9]/50"
+                                            >
+                                                重试失败单元（{retryableUnits(units, outcomes).length}）
+                                            </button>
+                                        ) : null}
+                                    </span>
                                 </div>
 
-                                {consistency && consistency.deviatingUnits.length ? (
-                                    <ul className="space-y-0.5 rounded border border-amber-500/40 bg-amber-500/10 px-2 py-1.5 text-[11px] text-amber-700 dark:text-amber-400">
-                                        {consistency.deviatingUnits.map((item) => (
-                                            <li key={item.unitId}>
-                                                · {item.assetId} / {item.planId}：{item.summary}
-                                            </li>
-                                        ))}
-                                    </ul>
-                                ) : null}
-
                                 {planRows.length ? (
-                                    <div className="overflow-x-auto">
-                                        <table className="w-full text-[11px]">
-                                            <thead className="text-muted-foreground">
-                                                <tr>
-                                                    <th className="py-1 text-left font-normal">方案</th>
-                                                    <th className="py-1 text-right font-normal">完成</th>
-                                                    <th className="py-1 text-right font-normal">失败</th>
-                                                    <th className="py-1 text-right font-normal">未定</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                {planRows.map((row) => (
-                                                    <tr key={row.planId} className="border-t border-border">
-                                                        <td className="py-1">
-                                                            <span className="inline-flex items-center gap-1.5">
-                                                                {row.hex ? <span aria-hidden className="size-3 rounded-sm border border-border" style={{ backgroundColor: row.hex }} /> : null}
-                                                                {row.planName}
-                                                            </span>
-                                                        </td>
-                                                        <td className="py-1 text-right">
-                                                            {row.succeeded}/{row.total}
-                                                        </td>
-                                                        <td className="py-1 text-right">{row.failed}</td>
-                                                        <td className="py-1 text-right">{row.unknown}</td>
-                                                    </tr>
-                                                ))}
-                                            </tbody>
-                                        </table>
+                                    <div className="flex flex-wrap gap-2">
+                                        {planRows.map((row) => (
+                                            <span key={row.planId} className="inline-flex items-center gap-1.5 rounded-[4px] bg-white px-2 py-1 text-[11px] leading-4 text-[#5a5a66]">
+                                                {row.hex ? <span aria-hidden className="inline-block size-3 rounded-[2px] border border-[#ededf0]" style={{ backgroundColor: row.hex }} /> : null}
+                                                {row.planName}：{row.succeeded}/{row.total}
+                                                {row.failed ? <span className="text-[#f5483b]">· 失败 {row.failed}</span> : null}
+                                                {row.unknown ? <span className="text-[#a86b00]">· 未定 {row.unknown}</span> : null}
+                                            </span>
+                                        ))}
                                     </div>
                                 ) : null}
 
-                                <div className="grid gap-2 sm:grid-cols-2 2xl:grid-cols-3">
-                                    {actionNotice ? (
-                                        <p data-testid="color-v2-action-notice" className="sm:col-span-2 2xl:col-span-3 rounded border border-border bg-accent px-2 py-1 text-[11px]">
-                                            {actionNotice}
-                                        </p>
-                                    ) : null}
-                                    {units.map((unit) => {
-                                        const outcome = outcomeByUnit.get(unit.unitId);
-                                        const plan = values.plans.find((item) => item.id === unit.planId);
-                                        const asset = suiteRecords.find((item) => item.id === unit.assetId);
-                                        const src = outcome?.image?.dataUrl || outcome?.image?.url;
-                                        return (
-                                            <figure key={unit.unitId} className="overflow-hidden rounded border border-border bg-background">
-                                                <div className="relative aspect-square bg-muted/40">
-                                                    {src ? (
-                                                        <img src={src} alt={`${asset?.name ?? unit.assetId} · ${plan?.name ?? unit.planId}`} className="size-full object-contain" />
-                                                    ) : (
-                                                        <div className="flex size-full flex-col items-center justify-center gap-1 p-2 text-center text-[11px] text-muted-foreground">
-                                                            <span>{outcome ? STATUS_LABEL[outcome.status] : "排队中"}</span>
-                                                            {outcome?.error ? <span className="line-clamp-3 text-destructive">{outcome.error.message}</span> : null}
-                                                        </div>
-                                                    )}
-                                                </div>
-                                                <figcaption className="space-y-1 border-t border-border px-2 py-1.5">
-                                                    <div className="flex items-center justify-between gap-1 text-[11px]">
-                                                        <span className="inline-flex min-w-0 items-center gap-1">
-                                                            {plan ? <Swatch plan={plan} size="size-3" /> : null}
-                                                            <span className="truncate">{asset?.name ?? unit.assetId}</span>
-                                                        </span>
-                                                        <span className="shrink-0 text-muted-foreground">{plan?.name ?? unit.planId}</span>
-                                                    </div>
-                                                    <div className="flex items-center gap-1">
-                                                        {outcome?.status === "succeeded" ? (
-                                                            <>
-                                                                <button type="button" onClick={() => download(outcome)} className="rounded border border-border px-1.5 py-0.5 text-[10px] transition hover:bg-accent">
-                                                                    下载
-                                                                </button>
-                                                                <button
-                                                                    type="button"
-                                                                    disabled={actingUnit === outcome.unitId}
-                                                                    onClick={() => void saveOutcome(outcome)}
-                                                                    className="rounded border border-border px-1.5 py-0.5 text-[10px] transition hover:bg-accent disabled:opacity-40"
-                                                                >
-                                                                    存入资产
-                                                                </button>
-                                                                <button
-                                                                    type="button"
-                                                                    disabled={actingUnit === outcome.unitId}
-                                                                    onClick={() => void sendOutcome(outcome)}
-                                                                    className="rounded border border-border px-1.5 py-0.5 text-[10px] transition hover:bg-accent disabled:opacity-40"
-                                                                >
-                                                                    发画布
-                                                                </button>
-                                                            </>
-                                                        ) : null}
-                                                        {outcome && outcome.status !== "succeeded" ? (
-                                                            <button
-                                                                type="button"
-                                                                disabled={busy}
-                                                                onClick={() => void retryUnit(unit)}
-                                                                className="rounded border border-border px-1.5 py-0.5 text-[10px] transition hover:bg-accent disabled:opacity-40"
-                                                            >
-                                                                重试
-                                                            </button>
-                                                        ) : null}
-                                                        <button
-                                                            type="button"
-                                                            onClick={() => void navigator.clipboard?.writeText(unit.prompt)}
-                                                            className="ml-auto rounded border border-border px-1.5 py-0.5 text-[10px] text-muted-foreground transition hover:bg-accent"
-                                                        >
-                                                            复制提示词
-                                                        </button>
-                                                    </div>
-                                                </figcaption>
-                                            </figure>
-                                        );
-                                    })}
+                                {consistency ? (
+                                    <p className="text-[11px] leading-4 text-[#8a8a99]">
+                                        一致性：{consistency.completeMatrix ? "整套矩阵覆盖完整" : "矩阵尚未覆盖全部商品图 × 方案"}
+                                        {consistency.deviatingUnits.length ? ` · ${consistency.deviatingUnits.length} 张做过单图微调` : " · 无单图微调"}
+                                    </p>
+                                ) : null}
+
+                                {actionNotice ? (
+                                    <p data-testid="color-v2-action-notice" className="rounded-[4px] bg-accent px-2 py-1 text-[11px] leading-4 text-[#5a5a66]">
+                                        {actionNotice}
+                                    </p>
+                                ) : null}
+
+                                <div className="grid grid-cols-[repeat(auto-fill,minmax(180px,1fr))] gap-2">
+                                    {units.length
+                                        ? units.map((unit) => {
+                                              const outcome = outcomeByUnit.get(unit.unitId);
+                                              const imageUrl = outcome?.image?.dataUrl || outcome?.image?.url;
+                                              const status = outcome?.status;
+                                              return (
+                                                  <figure
+                                                      key={unit.unitId}
+                                                      data-testid="color-v2-unit"
+                                                      data-status={status ?? "pending"}
+                                                      className="overflow-hidden rounded-[8px] border border-[#ededf0] bg-white"
+                                                  >
+                                                      <div className="flex aspect-[3/4] items-center justify-center bg-[#fafafa]">
+                                                          {imageUrl ? (
+                                                              <img src={imageUrl} alt={unit.imageName} className="h-full w-full object-contain" />
+                                                          ) : (
+                                                              <span className="px-2 text-center text-[11px] leading-4 text-[#8a8a99]">
+                                                                  {status ? STATUS_LABEL[status] : busy ? "等待生成…" : "未生成"}
+                                                              </span>
+                                                          )}
+                                                      </div>
+                                                      <figcaption className="space-y-1 p-2">
+                                                          <p className="truncate text-[12px] leading-4 text-[#1f1f2c]" title={unit.imageName}>
+                                                              {unit.imageName}
+                                                          </p>
+                                                          <p className="text-[11px] leading-4 text-[#8a8a99]">
+                                                              {unit.planName}
+                                                              {status ? ` · ${STATUS_LABEL[status]}` : ""}
+                                                          </p>
+                                                          <div className="flex flex-wrap gap-1 pt-0.5">
+                                                              {outcome && status === "succeeded" ? (
+                                                                  <>
+                                                                      <button
+                                                                          type="button"
+                                                                          data-testid="color-v2-download"
+                                                                          onClick={() => download(outcome)}
+                                                                          className="rounded-[3px] border border-[#e5e5ea] px-1.5 py-0.5 text-[11px] leading-4 text-[#5a5a66] transition hover:border-[#723cf9]/50"
+                                                                      >
+                                                                          下载
+                                                                      </button>
+                                                                      <button
+                                                                          type="button"
+                                                                          data-testid="color-v2-save"
+                                                                          disabled={actingUnit === outcome.unitId}
+                                                                          onClick={() => void saveOutcome(outcome)}
+                                                                          className="rounded-[3px] border border-[#e5e5ea] px-1.5 py-0.5 text-[11px] leading-4 text-[#5a5a66] transition hover:border-[#723cf9]/50 disabled:opacity-50"
+                                                                      >
+                                                                          存资产库
+                                                                      </button>
+                                                                      <button
+                                                                          type="button"
+                                                                          data-testid="color-v2-send"
+                                                                          disabled={actingUnit === outcome.unitId}
+                                                                          onClick={() => void sendOutcome(outcome)}
+                                                                          className="rounded-[3px] border border-[#e5e5ea] px-1.5 py-0.5 text-[11px] leading-4 text-[#5a5a66] transition hover:border-[#723cf9]/50 disabled:opacity-50"
+                                                                      >
+                                                                          发画布
+                                                                      </button>
+                                                                  </>
+                                                              ) : null}
+                                                              {outcome && status !== "succeeded" && !busy ? (
+                                                                  <button
+                                                                      type="button"
+                                                                      data-testid="color-v2-retry-unit"
+                                                                      onClick={() => void retryUnit(unit)}
+                                                                      title="只重试这一张，其余结果保持不变"
+                                                                      className="rounded-[3px] border border-[#e5e5ea] px-1.5 py-0.5 text-[11px] leading-4 text-[#723cf9] transition hover:border-[#723cf9]/50"
+                                                                  >
+                                                                      重试
+                                                                  </button>
+                                                              ) : null}
+                                                          </div>
+                                                      </figcaption>
+                                                  </figure>
+                                              );
+                                          })
+                                        : null}
                                 </div>
-                            </>
-                        )}
-                    </Section>
+
+                                <button
+                                    type="button"
+                                    onClick={() => setShowSnapshot((value) => !value)}
+                                    aria-expanded={showSnapshot}
+                                    className="text-[11px] leading-4 text-[#6b6b80] underline-offset-2 transition hover:text-[#723cf9] hover:underline"
+                                >
+                                    {showSnapshot ? "收起本次输入快照" : "查看本次输入快照"}
+                                </button>
+                                {showSnapshot ? (
+                                    <pre
+                                        data-testid="color-v2-snapshot"
+                                        className="max-h-[240px] overflow-auto rounded-[6px] border border-[#ededf0] bg-white p-2 text-[11px] leading-4 text-[#5a5a66]"
+                                    >
+                                        {JSON.stringify(currentSnapshot, null, 2)}
+                                    </pre>
+                                ) : null}
+                            </div>
+                        ) : (
+                            <div className="mx-auto flex h-full w-full max-w-[1000px] flex-col justify-center px-6 py-4">
+                                {stepDismissed ? null : (
+                                    <div className="flex items-center gap-3">
+                                        <span className="text-[14px] leading-5 text-[#1f1f2c]">第一步：上传 1 张需要换色的商品图片</span>
+                                        <button
+                                            type="button"
+                                            data-testid="color-v2-dismiss-step"
+                                            onClick={() => setStepDismissed(true)}
+                                            className="text-[12px] leading-4 text-[#723cf9] transition hover:underline"
+                                        >
+                                            我是高手，不再提醒
+                                        </button>
+                                    </div>
+                                )}
+                                <h2 className="mt-1 text-center text-[20px] font-medium leading-7 text-[#1f1f2c]">上传整套商品图，批量生成多色变体结果</h2>
+                                <div className="mt-5 flex justify-center">
+                                    <div className="flex w-[474px] max-w-full flex-col items-center rounded-[8px] bg-white px-10 py-8 text-center">
+                                        <div className="flex size-16 items-center justify-center rounded-[18px] bg-[#723cf9]/10">
+                                            <ImagePlus className="size-7 text-[#723cf9]" aria-hidden="true" />
+                                        </div>
+                                        <p data-testid="color-v2-empty-hint" className="mt-3 text-[12px] leading-5 text-[#8a8a99]">
+                                            拖拽图片到此处或点击上传，支持一次多张
+                                        </p>
+                                        <div className="mt-4 w-[210px] text-left">
+                                            <ToolAssetInput
+                                                toolId={TOOL_ID}
+                                                maxCount={COLOR_V2_MAX_SUITE_IMAGES}
+                                                constraints={SUITE_CONSTRAINTS}
+                                                disabled={busy}
+                                                variant="linkfox"
+                                                title=""
+                                                uploadLabel="从本地上传"
+                                                onChange={(ids, records) => {
+                                                    setSuiteIds(ids);
+                                                    setSuiteRecords(records);
+                                                }}
+                                            />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        )
+                    ) : rightTab === "cases" ? (
+                        <div className="p-3">
+                            <p className="mb-2 text-[12px] leading-4 text-[#8a8a99]">共 {COLOR_REGION_PRESETS.length} 个部位案例模板，点「一键做同款」把部位写进换色部位。</p>
+                            <div className="grid grid-cols-[repeat(auto-fill,minmax(220px,1fr))] gap-2">
+                                {COLOR_REGION_PRESETS.map((preset) => (
+                                    <article key={preset.key} className="overflow-hidden rounded-[8px] border border-[#ededf0] bg-white">
+                                        <div className="flex h-[110px] items-center justify-center bg-[linear-gradient(135deg,#f4ecff,#eef3ff)]">
+                                            <span className="text-[22px] font-medium text-[#723cf9]/70">{preset.label}</span>
+                                        </div>
+                                        <div className="flex items-center justify-between gap-2 p-2">
+                                            <div className="min-w-0">
+                                                <p className="truncate text-[12px] leading-4 text-[#1f1f2c]">{preset.label}换色</p>
+                                                <p className="text-[11px] leading-4 text-[#8a8a99]">整套商品图统一换色</p>
+                                            </div>
+                                            <button
+                                                type="button"
+                                                data-testid={`color-v2-apply-${preset.key}`}
+                                                onClick={() => {
+                                                    commit({ ...valuesRef.current, region: sanityRegion(preset.label) });
+                                                    setRightTab("result");
+                                                    setNotice(`已套用「${preset.label}」换色部位`);
+                                                }}
+                                                className="shrink-0 rounded-[4px] border border-[#723cf9] px-2 py-0.5 text-[11px] leading-4 text-[#723cf9] transition hover:bg-[#f9f0ff]"
+                                            >
+                                                一键做同款
+                                            </button>
+                                        </div>
+                                    </article>
+                                ))}
+                            </div>
+                        </div>
+                    ) : (
+                        <div className="p-3">
+                            <ToolTaskHistory toolId={TOOL_ID} emptyHint="还没有换色任务，生成一次后会出现在这里。" />
+                        </div>
+                    )}
                 </div>
-            </div>
-        </ToolShell>
+            </section>
+        </div>
     );
 }
 

@@ -1,0 +1,47 @@
+{
+  "round": 1,
+  "route": "/tools/ecommerce-suite/change-color-v2",
+  "region": "上装",
+  "files": [
+    "apparel-print.jpg",
+    "model-portrait.png"
+  ],
+  "startedAt": "2026-10-28T16:43:45.785Z",
+  "steps": [
+    {
+      "name": "upload-suite",
+      "at": "2026-10-28T16:43:48.329Z",
+      "suiteCount": 2,
+      "expected": 2
+    },
+    {
+      "name": "upload-reference-plan",
+      "at": "2026-10-28T16:43:48.939Z",
+      "planCount": 1,
+      "plansText": "2 · 换色方案 | 1/25 个 | 上传参考图 | 参考图只提供颜色与材质依据，不参与构图 | color-ref-navy.png | 图 | color-ref-navy.png | 参考图 | ×"
+    },
+    {
+      "name": "select-region",
+      "at": "2026-10-28T16:43:48.971Z",
+      "region": "上装",
+      "active": "3 · 换色部位 | 2/50 | 全身 | 上装 | 下装 | 鞋面 | 鞋底 | 包身 | 包带 | 外壳 | 瓶身 | 表带"
+    }
+  ],
+  "error": "locator.click: Timeout 30000ms exceeded.\nCall log:\n  - waiting for locator('section#quality button').filter({ hasText: /高品质/ }).first()\n\nlocator.click: Timeout 30000ms exceeded.\nCall log:\n  - waiting for locator('section#quality button').filter({ hasText: /高品质/ }).first()\n\n    at /Users/mac/Documents/Dev/infinite-canvas/web/scripts/real-acceptance/run-color-v2.mjs:79:78",
+  "network": [
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:23210/",
+      "status": 200,
+      "ms": 1,
+      "at": "2026-10-28T16:43:45.772Z"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:23210/",
+      "status": 200,
+      "ms": 1,
+      "at": "2026-10-28T16:43:46.090Z"
+    }
+  ]
+}

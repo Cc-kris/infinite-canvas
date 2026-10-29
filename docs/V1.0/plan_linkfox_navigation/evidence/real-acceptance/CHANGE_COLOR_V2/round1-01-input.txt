@@ -1,0 +1,27 @@
+route: /tools/ecommerce-suite/change-color-v2
+files: apparel-print.jpg, model-portrait.png
+region: 上装
+quality: high
+plans: 2 · 换色方案
+1/25 个
+上传参考图
+参考图只提供颜色与材质依据，不参与构图
+color-ref-navy.png
+图
+color-ref-navy.png
+参考图
+×
+adjust/snapshot: 5 · 单图微调
+只影响选中的那张商品图
+apparel-print.jpg
+model-portrait.png
+色相
+0
+饱和度
+100
+明度
+100
+上色强度
+100
+默认（无微调）
+重置

@@ -1,0 +1,846 @@
+{
+ "anchors": {
+  "上传图片": {
+   "box": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "0px",
+    "color": "rgb(114, 60, 249)",
+    "disp": "block",
+    "fs": "12px",
+    "fw": "600",
+    "gap": "normal",
+    "h": 19,
+    "pad": "0px",
+    "w": 240,
+    "x": 206,
+    "y": 132
+   },
+   "parent": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "0px",
+    "color": "rgba(0, 0, 0, 0.88)",
+    "disp": "flex",
+    "fs": "14px",
+    "fw": "400",
+    "gap": "normal",
+    "h": 46,
+    "pad": "12px 16px",
+    "w": 296,
+    "x": 190,
+    "y": 120
+   },
+   "tag": "SPAN"
+  },
+  "上装": {
+   "box": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "0px",
+    "color": "rgba(0, 0, 0, 0.88)",
+    "disp": "inline",
+    "fs": "12px",
+    "fw": "400",
+    "gap": "normal",
+    "h": 15,
+    "pad": "0px",
+    "w": 24,
+    "x": 292,
+    "y": 864
+   },
+   "parent": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "4px",
+    "color": "rgba(0, 0, 0, 0.88)",
+    "disp": "block",
+    "fs": "12px",
+    "fw": "400",
+    "gap": "normal",
+    "h": 22,
+    "pad": "0px 7px",
+    "w": 40,
+    "x": 284,
+    "y": 861
+   },
+   "tag": "SPAN"
+  },
+  "下装": {
+   "box": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "0px",
+    "color": "rgba(0, 0, 0, 0.88)",
+    "disp": "inline",
+    "fs": "12px",
+    "fw": "400",
+    "gap": "normal",
+    "h": 15,
+    "pad": "0px",
+    "w": 24,
+    "x": 338,
+    "y": 864
+   },
+   "parent": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "4px",
+    "color": "rgba(0, 0, 0, 0.88)",
+    "disp": "block",
+    "fs": "12px",
+    "fw": "400",
+    "gap": "normal",
+    "h": 22,
+    "pad": "0px 7px",
+    "w": 40,
+    "x": 330,
+    "y": 861
+   },
+   "tag": "SPAN"
+  },
+  "中品质": {
+   "box": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "0px",
+    "color": "rgb(114, 60, 249)",
+    "disp": "block",
+    "fs": "14px",
+    "fw": "400",
+    "gap": "normal",
+    "h": 20,
+    "pad": "0px",
+    "w": 42,
+    "x": 317,
+    "y": 1029
+   },
+   "parent": {
+    "bg": "rgb(249, 240, 255)",
+    "br": "6px",
+    "color": "rgb(114, 60, 249)",
+    "disp": "flex",
+    "fs": "14px",
+    "fw": "400",
+    "gap": "8px",
+    "h": 32,
+    "pad": "0px 15px",
+    "w": 75,
+    "x": 300,
+    "y": 1023
+   },
+   "tag": "SPAN"
+  },
+  "从作品库选择": {
+   "box": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "0px",
+    "color": "rgb(114, 46, 209)",
+    "disp": "block",
+    "fs": "12px",
+    "fw": "400",
+    "gap": "normal",
+    "h": 17,
+    "pad": "0px",
+    "w": 72,
+    "x": 247,
+    "y": 235
+   },
+   "parent": {
+    "bg": "rgb(255, 255, 255)",
+    "br": "4px",
+    "color": "rgb(114, 46, 209)",
+    "disp": "flex",
+    "fs": "12px",
+    "fw": "400",
+    "gap": "8px",
+    "h": 24,
+    "pad": "0px 7px",
+    "w": 100,
+    "x": 233,
+    "y": 231
+   },
+   "tag": "SPAN"
+  },
+  "从商品库选择": {
+   "box": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "0px",
+    "color": "rgb(114, 46, 209)",
+    "disp": "block",
+    "fs": "12px",
+    "fw": "400",
+    "gap": "normal",
+    "h": 17,
+    "pad": "0px",
+    "w": 72,
+    "x": 357,
+    "y": 235
+   },
+   "parent": {
+    "bg": "rgb(255, 255, 255)",
+    "br": "4px",
+    "color": "rgb(114, 46, 209)",
+    "disp": "flex",
+    "fs": "12px",
+    "fw": "400",
+    "gap": "8px",
+    "h": 24,
+    "pad": "0px 7px",
+    "w": 100,
+    "x": 343,
+    "y": 231
+   },
+   "tag": "SPAN"
+  },
+  "从本地上传": {
+   "box": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "0px",
+    "color": "rgb(255, 255, 255)",
+    "disp": "block",
+    "fs": "12px",
+    "fw": "400",
+    "gap": "normal",
+    "h": 17,
+    "pad": "0px",
+    "w": 60,
+    "x": 318,
+    "y": 201
+   },
+   "parent": {
+    "bg": "rgb(114, 60, 249)",
+    "br": "4px",
+    "color": "rgb(255, 255, 255)",
+    "disp": "flex",
+    "fs": "12px",
+    "fw": "400",
+    "gap": "8px",
+    "h": 24,
+    "pad": "0px 7px",
+    "w": 210,
+    "x": 233,
+    "y": 197
+   },
+   "tag": "SPAN"
+  },
+  "优秀案例": {
+   "box": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "0px",
+    "color": "rgba(0, 0, 0, 0.88)",
+    "disp": "block",
+    "fs": "14px",
+    "fw": "400",
+    "gap": "normal",
+    "h": 22,
+    "pad": "0px",
+    "w": 56,
+    "x": 573,
+    "y": 130
+   },
+   "parent": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "0px",
+    "color": "rgba(0, 0, 0, 0.88)",
+    "disp": "flex",
+    "fs": "14px",
+    "fw": "400",
+    "gap": "normal",
+    "h": 41,
+    "pad": "10px 0px",
+    "w": 56,
+    "x": 573,
+    "y": 120
+   },
+   "tag": "DIV"
+  },
+  "低品质": {
+   "box": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "0px",
+    "color": "rgba(0, 0, 0, 0.88)",
+    "disp": "block",
+    "fs": "14px",
+    "fw": "400",
+    "gap": "normal",
+    "h": 20,
+    "pad": "0px",
+    "w": 42,
+    "x": 232,
+    "y": 1029
+   },
+   "parent": {
+    "bg": "rgb(255, 255, 255)",
+    "br": "6px",
+    "color": "rgba(0, 0, 0, 0.88)",
+    "disp": "flex",
+    "fs": "14px",
+    "fw": "400",
+    "gap": "8px",
+    "h": 32,
+    "pad": "0px 15px",
+    "w": 75,
+    "x": 215,
+    "y": 1023
+   },
+   "tag": "SPAN"
+  },
+  "全身": {
+   "box": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "0px",
+    "color": "rgba(0, 0, 0, 0.88)",
+    "disp": "inline",
+    "fs": "12px",
+    "fw": "400",
+    "gap": "normal",
+    "h": 15,
+    "pad": "0px",
+    "w": 24,
+    "x": 246,
+    "y": 864
+   },
+   "parent": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "4px",
+    "color": "rgba(0, 0, 0, 0.88)",
+    "disp": "block",
+    "fs": "12px",
+    "fw": "400",
+    "gap": "normal",
+    "h": 22,
+    "pad": "0px 7px",
+    "w": 40,
+    "x": 238,
+    "y": 861
+   },
+   "tag": "SPAN"
+  },
+  "包带": {
+   "box": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "0px",
+    "color": "rgba(0, 0, 0, 0.88)",
+    "disp": "inline",
+    "fs": "12px",
+    "fw": "400",
+    "gap": "normal",
+    "h": 15,
+    "pad": "0px",
+    "w": 24,
+    "x": 260,
+    "y": 892
+   },
+   "parent": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "4px",
+    "color": "rgba(0, 0, 0, 0.88)",
+    "disp": "block",
+    "fs": "12px",
+    "fw": "400",
+    "gap": "normal",
+    "h": 22,
+    "pad": "0px 7px",
+    "w": 40,
+    "x": 252,
+    "y": 889
+   },
+   "tag": "SPAN"
+  },
+  "包身": {
+   "box": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "0px",
+    "color": "rgba(0, 0, 0, 0.88)",
+    "disp": "inline",
+    "fs": "12px",
+    "fw": "400",
+    "gap": "normal",
+    "h": 15,
+    "pad": "0px",
+    "w": 24,
+    "x": 214,
+    "y": 892
+   },
+   "parent": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "4px",
+    "color": "rgba(0, 0, 0, 0.88)",
+    "disp": "block",
+    "fs": "12px",
+    "fw": "400",
+    "gap": "normal",
+    "h": 22,
+    "pad": "0px 7px",
+    "w": 40,
+    "x": 206,
+    "y": 889
+   },
+   "tag": "SPAN"
+  },
+  "历史使用颜色": {
+   "box": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "6px",
+    "color": "rgb(90, 90, 110)",
+    "disp": "flex",
+    "fs": "12px",
+    "fw": "600",
+    "gap": "4px",
+    "h": 30,
+    "pad": "0px 8px",
+    "w": 129,
+    "x": 339,
+    "y": 450
+   },
+   "parent": {
+    "bg": "rgb(244, 244, 248)",
+    "br": "8px",
+    "color": "rgba(0, 0, 0, 0.88)",
+    "disp": "flex",
+    "fs": "14px",
+    "fw": "400",
+    "gap": "2px",
+    "h": 34,
+    "pad": "2px",
+    "w": 264,
+    "x": 206,
+    "y": 448
+   },
+   "tag": "BUTTON"
+  },
+  "历史记录": {
+   "box": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "0px",
+    "color": "rgba(0, 0, 0, 0.88)",
+    "disp": "block",
+    "fs": "12px",
+    "fw": "400",
+    "gap": "normal",
+    "h": 19,
+    "pad": "0px",
+    "w": 64,
+    "x": 1822,
+    "y": 128
+   },
+   "parent": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "0px",
+    "color": "rgba(0, 0, 0, 0.88)",
+    "disp": "inline-flex",
+    "fs": "12px",
+    "fw": "400",
+    "gap": "8px",
+    "h": 19,
+    "pad": "0px",
+    "w": 64,
+    "x": 1822,
+    "y": 128
+   },
+   "tag": "DIV"
+  },
+  "商品图提色": {
+   "box": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "0px",
+    "color": "rgb(114, 60, 249)",
+    "disp": "block",
+    "fs": "12px",
+    "fw": "600",
+    "gap": "normal",
+    "h": 17,
+    "pad": "0px",
+    "w": 60,
+    "x": 229,
+    "y": 457
+   },
+   "parent": {
+    "bg": "rgb(255, 255, 255)",
+    "br": "6px",
+    "color": "rgb(114, 60, 249)",
+    "disp": "flex",
+    "fs": "12px",
+    "fw": "600",
+    "gap": "4px",
+    "h": 30,
+    "pad": "0px 8px",
+    "w": 129,
+    "x": 208,
+    "y": 450
+   },
+   "tag": "SPAN"
+  },
+  "外壳": {
+   "box": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "0px",
+    "color": "rgba(0, 0, 0, 0.88)",
+    "disp": "inline",
+    "fs": "12px",
+    "fw": "400",
+    "gap": "normal",
+    "h": 15,
+    "pad": "0px",
+    "w": 24,
+    "x": 306,
+    "y": 892
+   },
+   "parent": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "4px",
+    "color": "rgba(0, 0, 0, 0.88)",
+    "disp": "block",
+    "fs": "12px",
+    "fw": "400",
+    "gap": "normal",
+    "h": 22,
+    "pad": "0px 7px",
+    "w": 40,
+    "x": 298,
+    "y": 889
+   },
+   "tag": "SPAN"
+  },
+  "开始生成": {
+   "box": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "0px",
+    "color": "rgb(255, 255, 255)",
+    "disp": "block",
+    "fs": "12px",
+    "fw": "400",
+    "gap": "normal",
+    "h": 17,
+    "pad": "0px",
+    "w": 48,
+    "x": 298,
+    "y": 747
+   },
+   "parent": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "6px",
+    "color": "rgb(255, 255, 255)",
+    "disp": "inline-flex",
+    "fs": "14px",
+    "fw": "400",
+    "gap": "8px",
+    "h": 32,
+    "pad": "0px 15px",
+    "w": 300,
+    "x": 190,
+    "y": 739
+   },
+   "tag": "SPAN"
+  },
+  "换色部位": {
+   "box": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "0px",
+    "color": "rgb(114, 60, 249)",
+    "disp": "block",
+    "fs": "12px",
+    "fw": "600",
+    "gap": "normal",
+    "h": 19,
+    "pad": "0px",
+    "w": 240,
+    "x": 206,
+    "y": 749
+   },
+   "parent": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "0px",
+    "color": "rgba(0, 0, 0, 0.88)",
+    "disp": "flex",
+    "fs": "14px",
+    "fw": "400",
+    "gap": "normal",
+    "h": 46,
+    "pad": "12px 16px",
+    "w": 296,
+    "x": 190,
+    "y": 737
+   },
+   "tag": "SPAN"
+  },
+  "模型品质": {
+   "box": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "0px",
+    "color": "rgba(0, 0, 0, 0.45)",
+    "disp": "block",
+    "fs": "12px",
+    "fw": "400",
+    "gap": "normal",
+    "h": 20,
+    "pad": "0px",
+    "w": 264,
+    "x": 206,
+    "y": 987
+   },
+   "parent": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "0px",
+    "color": "rgba(0, 0, 0, 0.88)",
+    "disp": "block",
+    "fs": "14px",
+    "fw": "400",
+    "gap": "normal",
+    "h": 101,
+    "pad": "4px 16px 16px",
+    "w": 296,
+    "x": 190,
+    "y": 983
+   },
+   "tag": "P"
+  },
+  "模型设置": {
+   "box": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "0px",
+    "color": "rgb(114, 60, 249)",
+    "disp": "block",
+    "fs": "12px",
+    "fw": "600",
+    "gap": "normal",
+    "h": 19,
+    "pad": "0px",
+    "w": 240,
+    "x": 206,
+    "y": 949
+   },
+   "parent": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "0px",
+    "color": "rgba(0, 0, 0, 0.88)",
+    "disp": "flex",
+    "fs": "14px",
+    "fw": "400",
+    "gap": "normal",
+    "h": 46,
+    "pad": "12px 16px",
+    "w": 296,
+    "x": 190,
+    "y": 937
+   },
+   "tag": "SPAN"
+  },
+  "瓶身": {
+   "box": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "0px",
+    "color": "rgba(0, 0, 0, 0.88)",
+    "disp": "inline",
+    "fs": "12px",
+    "fw": "400",
+    "gap": "normal",
+    "h": 15,
+    "pad": "0px",
+    "w": 24,
+    "x": 352,
+    "y": 892
+   },
+   "parent": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "4px",
+    "color": "rgba(0, 0, 0, 0.88)",
+    "disp": "block",
+    "fs": "12px",
+    "fw": "400",
+    "gap": "normal",
+    "h": 22,
+    "pad": "0px 7px",
+    "w": 40,
+    "x": 344,
+    "y": 889
+   },
+   "tag": "SPAN"
+  },
+  "生成结果": {
+   "box": {
+    "bg": "rgba(0, 0, 0, 0.6)",
+    "br": "13px",
+    "color": "rgb(255, 255, 255)",
+    "disp": "block",
+    "fs": "14px",
+    "fw": "400",
+    "gap": "normal",
+    "h": 28,
+    "pad": "3px 10px",
+    "w": 76,
+    "x": 12848,
+    "y": 291
+   },
+   "parent": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "0px",
+    "color": "rgba(0, 0, 0, 0.88)",
+    "disp": "flex",
+    "fs": "14px",
+    "fw": "400",
+    "gap": "normal",
+    "h": 390,
+    "pad": "0px",
+    "w": 352,
+    "x": 12710,
+    "y": 291
+   },
+   "tag": "SPAN"
+  },
+  "表带": {
+   "box": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "0px",
+    "color": "rgba(0, 0, 0, 0.88)",
+    "disp": "inline",
+    "fs": "12px",
+    "fw": "400",
+    "gap": "normal",
+    "h": 15,
+    "pad": "0px",
+    "w": 24,
+    "x": 398,
+    "y": 892
+   },
+   "parent": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "4px",
+    "color": "rgba(0, 0, 0, 0.88)",
+    "disp": "block",
+    "fs": "12px",
+    "fw": "400",
+    "gap": "normal",
+    "h": 22,
+    "pad": "0px 7px",
+    "w": 40,
+    "x": 390,
+    "y": 889
+   },
+   "tag": "SPAN"
+  },
+  "鞋底": {
+   "box": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "0px",
+    "color": "rgba(0, 0, 0, 0.88)",
+    "disp": "inline",
+    "fs": "12px",
+    "fw": "400",
+    "gap": "normal",
+    "h": 15,
+    "pad": "0px",
+    "w": 24,
+    "x": 430,
+    "y": 864
+   },
+   "parent": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "4px",
+    "color": "rgba(0, 0, 0, 0.88)",
+    "disp": "block",
+    "fs": "12px",
+    "fw": "400",
+    "gap": "normal",
+    "h": 22,
+    "pad": "0px 7px",
+    "w": 40,
+    "x": 422,
+    "y": 861
+   },
+   "tag": "SPAN"
+  },
+  "鞋面": {
+   "box": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "0px",
+    "color": "rgba(0, 0, 0, 0.88)",
+    "disp": "inline",
+    "fs": "12px",
+    "fw": "400",
+    "gap": "normal",
+    "h": 15,
+    "pad": "0px",
+    "w": 24,
+    "x": 384,
+    "y": 864
+   },
+   "parent": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "4px",
+    "color": "rgba(0, 0, 0, 0.88)",
+    "disp": "block",
+    "fs": "12px",
+    "fw": "400",
+    "gap": "normal",
+    "h": 22,
+    "pad": "0px 7px",
+    "w": 40,
+    "x": 376,
+    "y": 861
+   },
+   "tag": "SPAN"
+  },
+  "颜色选择": {
+   "box": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "0px",
+    "color": "rgb(114, 60, 249)",
+    "disp": "block",
+    "fs": "12px",
+    "fw": "600",
+    "gap": "normal",
+    "h": 19,
+    "pad": "0px",
+    "w": 240,
+    "x": 206,
+    "y": 406
+   },
+   "parent": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "0px",
+    "color": "rgba(0, 0, 0, 0.88)",
+    "disp": "flex",
+    "fs": "14px",
+    "fw": "400",
+    "gap": "normal",
+    "h": 46,
+    "pad": "12px 16px",
+    "w": 296,
+    "x": 190,
+    "y": 394
+   },
+   "tag": "SPAN"
+  },
+  "高品质": {
+   "box": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "0px",
+    "color": "rgba(0, 0, 0, 0.88)",
+    "disp": "block",
+    "fs": "14px",
+    "fw": "400",
+    "gap": "normal",
+    "h": 20,
+    "pad": "0px",
+    "w": 42,
+    "x": 402,
+    "y": 1029
+   },
+   "parent": {
+    "bg": "rgb(255, 255, 255)",
+    "br": "6px",
+    "color": "rgba(0, 0, 0, 0.88)",
+    "disp": "flex",
+    "fs": "14px",
+    "fw": "400",
+    "gap": "8px",
+    "h": 32,
+    "pad": "0px 15px",
+    "w": 75,
+    "x": 386,
+    "y": 1023
+   },
+   "tag": "SPAN"
+  }
+ },
+ "bodyText": "首页\n电商套图\n智能修图\n新模型\nAI视频\nHOT\n批量生图\n商品图设计\nSkills\nAgent\n更多\n学习中心\n免费得算力\n250\n购 买\n用\n用户6991\n个人账号\n商品套图\n服装套图\n爆款图复刻\nNEW\n套图换色\nNEW\n批量翻译\n高清放大\n批量抠图\n智能扩图\n 免责声明\n上传图片\n从本地上传\n从作品库选择\n从商品库选择\n\n10M以内，分辨率：384*384 ~ 4096*4096，最大宽高比5\n\n上传多张图片，开始批量套图换色\n颜色选择\n商品图提色\n历史使用颜色\n拖拽 或 点击批量上传 商品参考图\n整张商品图作为换色参考 · 支持多选 · 最多 25 张 · 单张 10M 以内\n本次换色方案 · 0 张参考图\n换色部位\n0 / 50\n常用\n全身\n上装\n下装\n鞋面\n鞋底\n包身\n包带\n外壳\n瓶身\n表带\n模型设置\n\n模型品质\n\n低品质\n中品质\n高品质\n开始生成\n(50算力)\n生成结果\n优秀案例\n历史记录\n\n上传整套商品图，批量生成多色变体结果\n\n上传商品图\n生成结果\n一键做同款\n上传商品图\n生成结果\n一键做同款\n上传商品图\n生成结果\n一键做同款\n上传商品图\n生成结果\n一键做同款\n上传商品图\n生成结果\n一键做同款\n上传商品图\n生成结果\n一键做同款\n上传商品图\n生成结果\n一键做同款\n上传商品图\n生成结果\n一键做同款\n上传商品图\n生成结果\n一键做同款\n上传商品图\n生成结果\n一键做同款\n上传商品图\n生成结果\n一键做同款\n上传商品图\n生成结果\n一键做同款\n上传商品图\n生成结果\n一键做同款\n1\n2\n3\n4\n5\n6\n第一步：上传 1 张需要换色的商品图片\n我是高手，不再提醒\n操作咨询\n产品教程\n管理水印分组\n共 1/20 个\n默认\n＋ 新增水印分组",
+ "panels": {
+  "resCard": null,
+  "upCard": null
+ }
+}

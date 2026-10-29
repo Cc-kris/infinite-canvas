@@ -1,0 +1,15 @@
+route: /tools/ecommerce-suite/change-color-v2
+files: product-watch.jpg
+region: 表带
+quality: high
+plans: 颜色选择
+1 个方案
+商品图提色
+历史使用颜色
+从「product-watch.jpg」提色
+＋ 上传参考图（1/25）
+图
+color-ref-navy.png
+参考图
+×
+adjust/snapshot: 

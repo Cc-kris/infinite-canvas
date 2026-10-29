@@ -1,0 +1,24 @@
+6 · 整套结果
+0/2 张完成
+单元 2
+成功 0
+未完成 2
+矩阵完整
+快照 fd37dc21
+重试失败项
+方案	完成	失败	未定
+color-ref-navy.png	0/2	0	2
+结果未定
+任务状态未知，只能查询或人工确认
+图
+apparel-print.jpg
+color-ref-navy.png
+重试
+复制提示词
+结果未定
+任务状态未知，只能查询或人工确认
+图
+model-portrait.png
+color-ref-navy.png
+重试
+复制提示词
