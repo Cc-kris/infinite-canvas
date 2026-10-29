@@ -389,9 +389,9 @@ export function ProductImageSuiteWorkspace({ className }: { className?: string }
             <div className="flex h-full w-[307px] shrink-0 flex-col border-r border-[#EDEDF0]">
                 <div className="min-h-0 flex-1 overflow-y-auto px-6 pb-4 pt-3">
                     <div className="flex flex-col gap-3">
-                    <div className="flex items-center gap-2 text-[12px] text-[#8a8a99]">
+                    <div className="flex items-center gap-2 text-[12px] text-muted-foreground">
                         <span>免责声明</span>
-                        <button type="button" className="text-[12px] text-[#723cf9] hover:underline" onClick={() => setDisclaimerOpen((v) => !v)}>
+                        <button type="button" className="text-[12px] text-primary hover:underline" onClick={() => setDisclaimerOpen((v) => !v)}>
                             {disclaimerOpen ? "收起" : "查看"}
                         </button>
                     </div>
@@ -442,7 +442,7 @@ export function ProductImageSuiteWorkspace({ className }: { className?: string }
                                 向导
                             </button>
                         </div>
-                        <span className="text-[11px] text-[#8a8a99]">
+                        <span className="text-[11px] text-muted-foreground">
                             {config.productInfo.length} / {PRODUCT_IMAGE_SUITE_MAX_PRODUCT_INFO}
                         </span>
                     </div>
@@ -489,7 +489,7 @@ export function ProductImageSuiteWorkspace({ className }: { className?: string }
                                 </select>
                             </div>
                         </Field>
-                        <div className="flex items-center gap-1.5 text-[11px] text-[#8a8a99]">
+                        <div className="flex items-center gap-1.5 text-[11px] text-muted-foreground">
                             <span>智能合规检查</span>
                             <span>未选择敏感词库</span>
                             <span>·</span>
@@ -500,11 +500,7 @@ export function ProductImageSuiteWorkspace({ className }: { className?: string }
 
                 <Section title="模型选择">
                     <div className="flex flex-col gap-2">
-                        <div className="flex items-center gap-1.5 text-[12px] text-[#2b2b36]">
-                            <span>LF智能模型 G-2.5 Sunburst</span>
-                            <span className="rounded-[3px] bg-[#f2eeff] px-1 text-[10px] leading-4 text-[#723cf9]">NEW</span>
-                        </div>
-                        <span className="text-[11px] text-[#8a8a99]">当前模型：{imageModel?.split("::").pop()?.trim() || "未配置"}</span>
+                        <span className="text-[11px] text-muted-foreground">当前模型：{imageModel?.split("::").pop()?.trim() || "未配置"}</span>
                         <Field label="分辨率选择">
                             <select className={inputClass} value={config.resolution} onChange={(event) => update({ resolution: event.target.value as SuiteConfig["resolution"] })}>
                                 {SUITE_RESOLUTIONS.map((value) => (
@@ -536,7 +532,7 @@ export function ProductImageSuiteWorkspace({ className }: { className?: string }
                 </Section>
 
             <Section title="A+图设置">
-                <p className="mb-1.5 text-[11px] text-[#8a8a99]">生成类型（单选）</p>
+                <p className="mb-1.5 text-[11px] text-muted-foreground">生成类型（单选）</p>
                 <div className="flex flex-wrap gap-2">
                     {APLUS_MODULES.map((module) => (
                         <button
@@ -577,7 +573,7 @@ export function ProductImageSuiteWorkspace({ className }: { className?: string }
             </Section>
 
             <Section title="主副图设置">
-                <p className="mb-1.5 text-[11px] text-[#8a8a99]">生成类型（多选）</p>
+                <p className="mb-1.5 text-[11px] text-muted-foreground">生成类型（多选）</p>
                 <div className="flex flex-wrap gap-2">
                     {MAIN_SUB_MODULES.map((module) => {
                         const checked = config.mainSubModuleIds.includes(module.id);
@@ -626,9 +622,9 @@ export function ProductImageSuiteWorkspace({ className }: { className?: string }
 
                     </div>
                 </div>
-                <div className="shrink-0 border-t border-[#EDEDF0] px-6 py-3" data-testid="suite-fee-footer">
-                    <p className="text-[11px] leading-4 text-[#6b6b80]">
-                        A+图{aplusUnits}张 * 每张50点 + 主副图{mainSubUnits}张 * 每张50点 = {expected * 50}点
+                <div className="shrink-0 border-t border-[#EDEDF0] px-6 py-3" data-testid="suite-generate-summary">
+                    <p className="text-[11px] leading-4 text-muted-foreground">
+                        A+图{aplusUnits}张 + 主副图{mainSubUnits}张，共 {expected} 张
                     </p>
                     <div className="mt-2 flex items-center gap-2">
                         <button
@@ -637,11 +633,10 @@ export function ProductImageSuiteWorkspace({ className }: { className?: string }
                             title={issues[0]?.message}
                             onClick={() => void onGenerate()}
                             data-testid="suite-generate"
-                            className="h-8 flex-1 rounded-[4px] bg-[#723cf9] text-[12px] font-medium leading-none text-white disabled:cursor-not-allowed disabled:opacity-40"
+                            className="h-8 flex-1 rounded-md bg-primary text-[12px] font-medium leading-none text-primary-foreground hover:bg-primary/90 disabled:cursor-not-allowed disabled:opacity-40"
                         >
                             {running ? "生成中…" : "开始生成"}
                         </button>
-                        <span className="shrink-0 text-[11px] leading-4 text-[#8a8a99]">({expected * 50}算力)</span>
                         {units.length ? (
                             <button
                                 type="button"
@@ -677,8 +672,8 @@ export function ProductImageSuiteWorkspace({ className }: { className?: string }
                             className={cn(
                                 "h-11 text-[13px] leading-none transition",
                                 rightTab === id
-                                    ? "border-b-2 border-[#723cf9] font-medium text-[#1f1f2c]"
-                                    : "border-b-2 border-transparent text-[#6b6b80] hover:text-[#1f1f2c]",
+                                    ? "border-b-2 border-primary font-medium text-foreground"
+                                    : "border-b-2 border-transparent text-muted-foreground hover:text-foreground",
                             )}
                         >
                             {label}
