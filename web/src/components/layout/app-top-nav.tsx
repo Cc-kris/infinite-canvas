@@ -5,6 +5,8 @@ import { useTranslation } from "react-i18next";
 import { Link, useLocation } from "react-router-dom";
 
 import { AppConfigModal } from "@/components/layout/app-config-modal";
+import { AppPromoBar } from "@/components/layout/app-promo-bar";
+import { AppUserArea } from "@/components/layout/app-user-area";
 import { MobileNavDrawer } from "@/components/layout/mobile-nav-drawer";
 import { UserStatusActions } from "@/components/layout/user-status-actions";
 import { getActiveCategorySlug, getCategoryMenuTools, getToolNavigationCategory, navigationTools, resolveToolNavigation, shellMoreMenuItems, toolNavigationCategories, type ToolCategorySlug, type ToolNavigationItem } from "@/constant/navigation-tools";
@@ -227,7 +229,7 @@ export function ToolsPrimaryNavigation({ className, onNavigate }: ToolsPrimaryNa
                     aria-current={pathname === "/" ? "page" : undefined}
                     data-active={pathname === "/" ? "true" : "false"}
                     className={cn(
-                        "relative mr-[30px] flex h-[60px] shrink-0 items-center rounded-none text-[16px]! leading-[25.1429px] outline-none transition-colors focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
+                        "relative mr-[var(--shell-nav-gap)] flex h-[60px] shrink-0 items-center rounded-none text-[16px]! leading-[25.1429px] outline-none transition-colors focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
                         pathname === "/" ? "text-[var(--brand)]!" : "text-black/85! hover:text-[var(--brand)]! dark:text-white/85 dark:hover:text-[var(--brand)]!",
                     )}
                 >
@@ -240,7 +242,7 @@ export function ToolsPrimaryNavigation({ className, onNavigate }: ToolsPrimaryNa
                     const entries = getCategoryMenuTools(category.slug);
                     const isBatch = category.slug === "batch-generate";
                     return (
-                        <div key={category.slug} className="relative mr-[30px] flex h-full items-stretch last:mr-0" onMouseEnter={() => openMenu(category.slug)} onMouseLeave={scheduleClose}>
+                        <div key={category.slug} className="relative mr-[var(--shell-nav-gap)] flex h-full items-stretch last:mr-0" onMouseEnter={() => openMenu(category.slug)} onMouseLeave={scheduleClose}>
                             <Link
                                 ref={(node) => {
                                     if (node) triggerRefs.current.set(category.slug, node);
@@ -341,14 +343,14 @@ export function ToolsPrimaryNavigation({ className, onNavigate }: ToolsPrimaryNa
                         aria-disabled="true"
                         title={t("toolsNav.moreUnavailable")}
                         data-testid={`tools-nav-external-${entry.key}`}
-                        className="mr-[30px] flex h-[60px] shrink-0 cursor-default items-center text-[16px]! leading-[25.1429px] text-black/85! dark:text-white/85"
+                        className="mr-[var(--shell-nav-gap)] flex h-[60px] shrink-0 cursor-default items-center text-[16px]! leading-[25.1429px] text-black/85! dark:text-white/85"
                     >
                         {entry.label}
                     </span>
                 ))}
 
                 {/* 原站实测：末尾「更多」汇总下拉——触发器含文字 47px（含 10px 下箭头）、面板宽 168px、行高 32px/14px/圆角 4px */}
-                <div className="relative mr-[30px] flex h-full items-stretch last:mr-0" onMouseEnter={() => setMoreOpen(true)} onMouseLeave={() => setMoreOpen(false)}>
+                <div className="relative mr-[var(--shell-nav-gap)] flex h-full items-stretch last:mr-0" onMouseEnter={() => setMoreOpen(true)} onMouseLeave={() => setMoreOpen(false)}>
                     <button
                         type="button"
                         id={moreTriggerId}
@@ -506,40 +508,51 @@ export function AppTopNav() {
     return (
         <>
             {!hideHeader ? (
-                <header className="sticky top-0 z-20 h-[60px] shrink-0 border-b border-hairline bg-surface dark:border-white/10">
-                    <div className="flex h-full w-full items-stretch justify-between gap-4 pl-6 pr-[35px]">
-                        <div className="flex min-w-0 items-center">
-                            {/* 原站实测：品牌区占位 160px（logo 24→184），随后 50px 间距，导航首项 x=234 */}
-                        <Link to="/" className="flex h-full min-w-[160px] shrink-0 items-center gap-2 text-sm font-semibold leading-none tracking-tight text-stone-950 transition hover:text-stone-600 dark:text-stone-100 dark:hover:text-stone-300">
-                                <img src="/logo.png" alt="" className="size-5 shrink-0 select-none" draggable={false} />
-                                <span className="text-base font-medium">{t("meta.title")}</span>
-                            </Link>
+                <>
+                    <AppPromoBar />
+                    <header data-testid="shell-top-nav" className="sticky top-0 z-[7] h-[60px] shrink-0 border-b border-hairline bg-surface">
+                        <div className="flex h-full w-full items-stretch justify-between gap-4" style={{ paddingLeft: "var(--shell-pad-left)", paddingRight: "var(--shell-pad-right)" }}>
+                            <div className="flex min-w-0 items-center">
+                                {/* 原站实测：品牌区占位 160px（logo 24→184），随后 50px 间距，导航首项 x=234；<1440 时该间距收为 0 */}
+                                <Link to="/" className="flex h-full min-w-[160px] shrink-0 items-center gap-2 text-sm font-semibold leading-none tracking-tight text-stone-950 transition hover:text-stone-600 dark:text-stone-100 dark:hover:text-stone-300">
+                                    <img src="/logo.png" alt="" className="size-5 shrink-0 select-none" draggable={false} />
+                                    <span className="text-base font-medium">{t("meta.title")}</span>
+                                </Link>
 
-                            <button
-                                type="button"
-                                className="ml-3 inline-flex size-9 shrink-0 items-center justify-center rounded-lg text-stone-600 transition hover:text-stone-950 md:hidden dark:text-stone-300 dark:hover:text-white"
-                                onClick={() => setMobileNavOpen(true)}
-                                aria-label={t("topNav.openMenu")}
-                                aria-expanded={mobileNavOpen}
-                                aria-controls="mobile-tools-navigation"
-                                data-testid="tools-nav-mobile-trigger"
-                                title={t("topNav.menu")}
-                            >
-                                <Menu className="size-5" />
-                            </button>
+                                <button
+                                    type="button"
+                                    className="ml-3 inline-flex size-9 shrink-0 items-center justify-center rounded-lg text-stone-600 transition hover:text-stone-950 md:hidden dark:text-stone-300 dark:hover:text-white"
+                                    onClick={() => setMobileNavOpen(true)}
+                                    aria-label={t("topNav.openMenu")}
+                                    aria-expanded={mobileNavOpen}
+                                    aria-controls="mobile-tools-navigation"
+                                    data-testid="tools-nav-mobile-trigger"
+                                    title={t("topNav.menu")}
+                                >
+                                    <Menu className="size-5" />
+                                </button>
 
-                            <ToolsPrimaryNavigation className="ml-[50px] hidden md:flex" />
+                                <ToolsPrimaryNavigation className="ml-[var(--shell-nav-offset)] hidden md:flex" />
+                            </div>
+
+                            <div className="my-auto flex h-9 min-w-0 items-center justify-end whitespace-nowrap">
+                                <AppUserArea>
+                                    {/* 原站顶栏右侧只有用户区；本地既有的画布入口/Agent/设置/语言/主题/版本/GitHub 收进头像下拉，保持可达 */}
+                                    <WorkspaceLinks className="flex justify-center" />
+                                    <div className="flex items-center justify-between rounded-lg bg-accent/70 px-2 py-1">
+                                        <span className="text-xs text-accent-foreground">Agent</span>
+                                        <Tooltip title={t(panelOpen ? "topNav.closeAgent" : "topNav.openAgent")}>
+                                            <Button type="text" size="small" className="!h-7 !w-7 !min-w-7" icon={<Bot className="size-4" />} onClick={togglePanel} aria-label={t(panelOpen ? "topNav.closeAgent" : "topNav.openAgent")} />
+                                        </Tooltip>
+                                    </div>
+                                    <div className="flex items-center justify-center gap-1 border-t border-hairline pt-2">
+                                        <UserStatusActions />
+                                    </div>
+                                </AppUserArea>
+                            </div>
                         </div>
-
-                        <div className="my-auto flex h-9 min-w-0 items-center justify-end gap-2 justify-self-end whitespace-nowrap">
-                            <WorkspaceLinks className="mr-1 hidden xl:flex" />
-                            <Tooltip title={t(panelOpen ? "topNav.closeAgent" : "topNav.openAgent")}>
-                                <Button type="text" shape="circle" className="!h-8 !w-8 !min-w-8" icon={<Bot className="size-4" />} onClick={togglePanel} aria-label={t(panelOpen ? "topNav.closeAgent" : "topNav.openAgent")} />
-                            </Tooltip>
-                            <UserStatusActions />
-                        </div>
-                    </div>
-                </header>
+                    </header>
+                </>
             ) : null}
 
             <MobileNavDrawer open={mobileNavOpen} activeToolSlug={getActiveCategorySlug(pathname)} onClose={() => setMobileNavOpen(false)} />

@@ -1,0 +1,1205 @@
+{
+ "vp": {
+  "w": 1280,
+  "h": 900,
+  "scrollW": 1280
+ },
+ "heads": [
+  {
+   "tag": "div",
+   "cls": "_wrap_scegn_1",
+   "rect": {
+    "x": 0,
+    "y": 0,
+    "w": 1280,
+    "h": 50
+   },
+   "css": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "color": "rgba(0, 0, 0, 0.88)",
+    "fs": "14px",
+    "fw": "400",
+    "lh": "22px",
+    "br": "0px",
+    "pad": "0px",
+    "mar": "0px",
+    "border": "0px/rgba(0, 0, 0, 0.88)",
+    "disp": "block",
+    "pos": "relative",
+    "z": "8",
+    "ff": "-apple-system"
+   },
+   "text": ""
+  },
+  {
+   "tag": "div",
+   "cls": "ant-carousel ant-carousel-vertical css-1d18km6",
+   "rect": {
+    "x": 0,
+    "y": 0,
+    "w": 1280,
+    "h": 50
+   },
+   "css": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "color": "rgba(0, 0, 0, 0.88)",
+    "fs": "14px",
+    "fw": "400",
+    "lh": "22px",
+    "br": "0px",
+    "pad": "0px",
+    "mar": "0px",
+    "border": "0px/rgba(0, 0, 0, 0.88)",
+    "disp": "block",
+    "pos": "static",
+    "z": "auto",
+    "ff": "-apple-system"
+   },
+   "text": ""
+  },
+  {
+   "tag": "div",
+   "cls": "slick-slider slick-vertical slick-initialized",
+   "rect": {
+    "x": 0,
+    "y": 0,
+    "w": 1280,
+    "h": 50
+   },
+   "css": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "color": "rgba(0, 0, 0, 0.88)",
+    "fs": "14px",
+    "fw": "400",
+    "lh": "22px",
+    "br": "0px",
+    "pad": "0px",
+    "mar": "0px",
+    "border": "0px/rgba(0, 0, 0, 0.88)",
+    "disp": "block",
+    "pos": "relative",
+    "z": "auto",
+    "ff": "-apple-system"
+   },
+   "text": ""
+  },
+  {
+   "tag": "div",
+   "cls": "slick-list",
+   "rect": {
+    "x": 0,
+    "y": 0,
+    "w": 1280,
+    "h": 50
+   },
+   "css": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "color": "rgba(0, 0, 0, 0.88)",
+    "fs": "14px",
+    "fw": "400",
+    "lh": "22px",
+    "br": "0px",
+    "pad": "0px",
+    "mar": "0px",
+    "border": "0px/rgba(0, 0, 0, 0.88)",
+    "disp": "block",
+    "pos": "relative",
+    "z": "auto",
+    "ff": "-apple-system"
+   },
+   "text": ""
+  },
+  {
+   "tag": "div",
+   "cls": "slick-slide slick-cloned",
+   "rect": {
+    "x": 0,
+    "y": 0,
+    "w": 1908,
+    "h": 50
+   },
+   "css": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "color": "rgba(0, 0, 0, 0.88)",
+    "fs": "14px",
+    "fw": "400",
+    "lh": "22px",
+    "br": "0px",
+    "pad": "0px",
+    "mar": "0px",
+    "border": "0px/rgba(0, 0, 0, 0.88)",
+    "disp": "block",
+    "pos": "static",
+    "z": "auto",
+    "ff": "-apple-system"
+   },
+   "text": ""
+  },
+  {
+   "tag": "div",
+   "cls": "",
+   "rect": {
+    "x": 0,
+    "y": 0,
+    "w": 1908,
+    "h": 50
+   },
+   "css": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "color": "rgba(0, 0, 0, 0.88)",
+    "fs": "14px",
+    "fw": "400",
+    "lh": "22px",
+    "br": "0px",
+    "pad": "0px",
+    "mar": "0px",
+    "border": "0px/rgba(0, 0, 0, 0.88)",
+    "disp": "block",
+    "pos": "static",
+    "z": "auto",
+    "ff": "-apple-system"
+   },
+   "text": ""
+  },
+  {
+   "tag": "div",
+   "cls": "_adImage_scegn_31",
+   "rect": {
+    "x": 0,
+    "y": 0,
+    "w": 1280,
+    "h": 50
+   },
+   "css": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "color": "rgba(0, 0, 0, 0.88)",
+    "fs": "14px",
+    "fw": "400",
+    "lh": "22px",
+    "br": "0px",
+    "pad": "0px",
+    "mar": "0px",
+    "border": "0px/rgba(0, 0, 0, 0.88)",
+    "disp": "inline-block",
+    "pos": "relative",
+    "z": "auto",
+    "ff": "-apple-system"
+   },
+   "text": ""
+  },
+  {
+   "tag": "div",
+   "cls": "ant-image css-1d18km6",
+   "rect": {
+    "x": 0,
+    "y": 0,
+    "w": 1280,
+    "h": 50
+   },
+   "css": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "color": "rgba(0, 0, 0, 0.88)",
+    "fs": "14px",
+    "fw": "400",
+    "lh": "22px",
+    "br": "0px",
+    "pad": "0px",
+    "mar": "0px",
+    "border": "0px/rgba(0, 0, 0, 0.88)",
+    "disp": "inline-block",
+    "pos": "relative",
+    "z": "auto",
+    "ff": "-apple-system"
+   },
+   "text": ""
+  },
+  {
+   "tag": "div",
+   "cls": "slick-slide",
+   "rect": {
+    "x": 0,
+    "y": 50,
+    "w": 1908,
+    "h": 50
+   },
+   "css": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "color": "rgba(0, 0, 0, 0.88)",
+    "fs": "14px",
+    "fw": "400",
+    "lh": "22px",
+    "br": "0px",
+    "pad": "0px",
+    "mar": "0px",
+    "border": "0px/rgba(0, 0, 0, 0.88)",
+    "disp": "block",
+    "pos": "static",
+    "z": "auto",
+    "ff": "-apple-system"
+   },
+   "text": ""
+  },
+  {
+   "tag": "div",
+   "cls": "",
+   "rect": {
+    "x": 0,
+    "y": 50,
+    "w": 1908,
+    "h": 50
+   },
+   "css": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "color": "rgba(0, 0, 0, 0.88)",
+    "fs": "14px",
+    "fw": "400",
+    "lh": "22px",
+    "br": "0px",
+    "pad": "0px",
+    "mar": "0px",
+    "border": "0px/rgba(0, 0, 0, 0.88)",
+    "disp": "block",
+    "pos": "static",
+    "z": "auto",
+    "ff": "-apple-system"
+   },
+   "text": ""
+  },
+  {
+   "tag": "div",
+   "cls": "_survey_scegn_20 _adImage_scegn_31",
+   "rect": {
+    "x": 0,
+    "y": 50,
+    "w": 1280,
+    "h": 50
+   },
+   "css": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "color": "rgba(0, 0, 0, 0.88)",
+    "fs": "14px",
+    "fw": "400",
+    "lh": "22px",
+    "br": "0px",
+    "pad": "0px",
+    "mar": "0px",
+    "border": "0px/rgba(0, 0, 0, 0.88)",
+    "disp": "inline-block",
+    "pos": "relative",
+    "z": "auto",
+    "ff": "-apple-system"
+   },
+   "text": ""
+  },
+  {
+   "tag": "div",
+   "cls": "slick-slide",
+   "rect": {
+    "x": 0,
+    "y": 100,
+    "w": 1908,
+    "h": 50
+   },
+   "css": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "color": "rgba(0, 0, 0, 0.88)",
+    "fs": "14px",
+    "fw": "400",
+    "lh": "22px",
+    "br": "0px",
+    "pad": "0px",
+    "mar": "0px",
+    "border": "0px/rgba(0, 0, 0, 0.88)",
+    "disp": "block",
+    "pos": "static",
+    "z": "auto",
+    "ff": "-apple-system"
+   },
+   "text": ""
+  },
+  {
+   "tag": "div",
+   "cls": "",
+   "rect": {
+    "x": 0,
+    "y": 100,
+    "w": 1908,
+    "h": 50
+   },
+   "css": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "color": "rgba(0, 0, 0, 0.88)",
+    "fs": "14px",
+    "fw": "400",
+    "lh": "22px",
+    "br": "0px",
+    "pad": "0px",
+    "mar": "0px",
+    "border": "0px/rgba(0, 0, 0, 0.88)",
+    "disp": "block",
+    "pos": "static",
+    "z": "auto",
+    "ff": "-apple-system"
+   },
+   "text": ""
+  },
+  {
+   "tag": "div",
+   "cls": "_adImage_scegn_31",
+   "rect": {
+    "x": 0,
+    "y": 100,
+    "w": 1280,
+    "h": 50
+   },
+   "css": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "color": "rgba(0, 0, 0, 0.88)",
+    "fs": "14px",
+    "fw": "400",
+    "lh": "22px",
+    "br": "0px",
+    "pad": "0px",
+    "mar": "0px",
+    "border": "0px/rgba(0, 0, 0, 0.88)",
+    "disp": "inline-block",
+    "pos": "relative",
+    "z": "auto",
+    "ff": "-apple-system"
+   },
+   "text": ""
+  },
+  {
+   "tag": "div",
+   "cls": "ant-image css-1d18km6",
+   "rect": {
+    "x": 0,
+    "y": 100,
+    "w": 1280,
+    "h": 50
+   },
+   "css": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "color": "rgba(0, 0, 0, 0.88)",
+    "fs": "14px",
+    "fw": "400",
+    "lh": "22px",
+    "br": "0px",
+    "pad": "0px",
+    "mar": "0px",
+    "border": "0px/rgba(0, 0, 0, 0.88)",
+    "disp": "inline-block",
+    "pos": "relative",
+    "z": "auto",
+    "ff": "-apple-system"
+   },
+   "text": ""
+  },
+  {
+   "tag": "div",
+   "cls": "_box_139v7_5",
+   "rect": {
+    "x": 0,
+    "y": 50,
+    "w": 1280,
+    "h": 60
+   },
+   "css": {
+    "bg": "rgb(255, 255, 255)",
+    "color": "rgba(0, 0, 0, 0.88)",
+    "fs": "14px",
+    "fw": "400",
+    "lh": "22px",
+    "br": "0px",
+    "pad": "0px 20px 0px 16px",
+    "mar": "0px",
+    "border": "0px/rgba(0, 0, 0, 0.88)",
+    "disp": "block",
+    "pos": "relative",
+    "z": "7",
+    "ff": "-apple-system"
+   },
+   "text": "首页 电商套图 智能修图 新模型 AI视频 HOT 批量生图 商品图设计 Skills Agent 更多 学习中心 免费"
+  },
+  {
+   "tag": "div",
+   "cls": "_head_139v7_55",
+   "rect": {
+    "x": 16,
+    "y": 50,
+    "w": 1244,
+    "h": 60
+   },
+   "css": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "color": "rgba(0, 0, 0, 0.88)",
+    "fs": "14px",
+    "fw": "400",
+    "lh": "22px",
+    "br": "0px",
+    "pad": "0px",
+    "mar": "0px",
+    "border": "0px/rgba(0, 0, 0, 0.88)",
+    "disp": "flex",
+    "pos": "static",
+    "z": "auto",
+    "ff": "-apple-system"
+   },
+   "text": "首页 电商套图 智能修图 新模型 AI视频 HOT 批量生图 商品图设计 Skills Agent 更多 学习中心 免费"
+  }
+ ],
+ "navItems": [
+  {
+   "tag": "a",
+   "cls": "",
+   "rect": {
+    "x": 176,
+    "y": 67.4,
+    "w": 32,
+    "h": 25.1
+   },
+   "css": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "color": "rgba(0, 0, 0, 0.85)",
+    "fs": "16px",
+    "fw": "400",
+    "lh": "25.1429px",
+    "br": "0px",
+    "pad": "0px",
+    "mar": "0px 20px 0px 0px",
+    "border": "0px/rgba(0, 0, 0, 0.85)",
+    "disp": "flex",
+    "pos": "static",
+    "z": "auto",
+    "ff": "-apple-system"
+   },
+   "text": "首页"
+  },
+  {
+   "tag": "a",
+   "cls": "_active_139v7_171",
+   "rect": {
+    "x": 228,
+    "y": 67.4,
+    "w": 64,
+    "h": 25.1
+   },
+   "css": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "color": "rgb(114, 60, 249)",
+    "fs": "16px",
+    "fw": "400",
+    "lh": "25.1429px",
+    "br": "0px",
+    "pad": "0px",
+    "mar": "0px 20px 0px 0px",
+    "border": "0px/rgb(114, 60, 249)",
+    "disp": "flex",
+    "pos": "static",
+    "z": "auto",
+    "ff": "-apple-system"
+   },
+   "text": "电商套图"
+  },
+  {
+   "tag": "a",
+   "cls": "",
+   "rect": {
+    "x": 312,
+    "y": 67.4,
+    "w": 101.5,
+    "h": 25.1
+   },
+   "css": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "color": "rgba(0, 0, 0, 0.85)",
+    "fs": "16px",
+    "fw": "400",
+    "lh": "25.1429px",
+    "br": "0px",
+    "pad": "0px",
+    "mar": "0px 20px 0px 0px",
+    "border": "0px/rgba(0, 0, 0, 0.85)",
+    "disp": "flex",
+    "pos": "static",
+    "z": "auto",
+    "ff": "-apple-system"
+   },
+   "text": "智能修图 新模型"
+  },
+  {
+   "tag": "a",
+   "cls": "",
+   "rect": {
+    "x": 433.5,
+    "y": 67.4,
+    "w": 77.3,
+    "h": 25.1
+   },
+   "css": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "color": "rgba(0, 0, 0, 0.85)",
+    "fs": "16px",
+    "fw": "400",
+    "lh": "25.1429px",
+    "br": "0px",
+    "pad": "0px",
+    "mar": "0px 20px 0px 0px",
+    "border": "0px/rgba(0, 0, 0, 0.85)",
+    "disp": "flex",
+    "pos": "static",
+    "z": "auto",
+    "ff": "-apple-system"
+   },
+   "text": "AI视频 HOT"
+  },
+  {
+   "tag": "a",
+   "cls": "",
+   "rect": {
+    "x": 530.9,
+    "y": 67.4,
+    "w": 64,
+    "h": 25.1
+   },
+   "css": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "color": "rgba(0, 0, 0, 0.85)",
+    "fs": "16px",
+    "fw": "400",
+    "lh": "25.1429px",
+    "br": "0px",
+    "pad": "0px",
+    "mar": "0px 20px 0px 0px",
+    "border": "0px/rgba(0, 0, 0, 0.85)",
+    "disp": "flex",
+    "pos": "static",
+    "z": "auto",
+    "ff": "-apple-system"
+   },
+   "text": "批量生图"
+  },
+  {
+   "tag": "a",
+   "cls": "",
+   "rect": {
+    "x": 614.9,
+    "y": 67.4,
+    "w": 80,
+    "h": 25.1
+   },
+   "css": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "color": "rgba(0, 0, 0, 0.85)",
+    "fs": "16px",
+    "fw": "400",
+    "lh": "25.1429px",
+    "br": "0px",
+    "pad": "0px",
+    "mar": "0px 20px 0px 0px",
+    "border": "0px/rgba(0, 0, 0, 0.85)",
+    "disp": "flex",
+    "pos": "static",
+    "z": "auto",
+    "ff": "-apple-system"
+   },
+   "text": "商品图设计"
+  },
+  {
+   "tag": "a",
+   "cls": "",
+   "rect": {
+    "x": 714.9,
+    "y": 67.4,
+    "w": 37.4,
+    "h": 25.1
+   },
+   "css": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "color": "rgba(0, 0, 0, 0.85)",
+    "fs": "16px",
+    "fw": "400",
+    "lh": "25.1429px",
+    "br": "0px",
+    "pad": "0px",
+    "mar": "0px 20px 0px 0px",
+    "border": "0px/rgba(0, 0, 0, 0.85)",
+    "disp": "flex",
+    "pos": "static",
+    "z": "auto",
+    "ff": "-apple-system"
+   },
+   "text": "Skills"
+  },
+  {
+   "tag": "a",
+   "cls": "",
+   "rect": {
+    "x": 772.3,
+    "y": 67.4,
+    "w": 42.8,
+    "h": 25.1
+   },
+   "css": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "color": "rgba(0, 0, 0, 0.85)",
+    "fs": "16px",
+    "fw": "400",
+    "lh": "25.1429px",
+    "br": "0px",
+    "pad": "0px",
+    "mar": "0px 20px 0px 0px",
+    "border": "0px/rgba(0, 0, 0, 0.85)",
+    "disp": "flex",
+    "pos": "static",
+    "z": "auto",
+    "ff": "-apple-system"
+   },
+   "text": "Agent"
+  },
+  {
+   "tag": "span",
+   "cls": "ant-dropdown-trigger",
+   "rect": {
+    "x": 835.1,
+    "y": 67.4,
+    "w": 47,
+    "h": 25.1
+   },
+   "css": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "color": "rgba(0, 0, 0, 0.85)",
+    "fs": "16px",
+    "fw": "400",
+    "lh": "25.1429px",
+    "br": "0px",
+    "pad": "0px",
+    "mar": "0px 30px 0px 0px",
+    "border": "0px/rgba(0, 0, 0, 0.85)",
+    "disp": "flex",
+    "pos": "static",
+    "z": "auto",
+    "ff": "-apple-system"
+   },
+   "text": "更多"
+  },
+  {
+   "tag": "div",
+   "cls": "ant-space-item",
+   "rect": {
+    "x": 912.1,
+    "y": 64,
+    "w": 92,
+    "h": 32
+   },
+   "css": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "color": "rgba(0, 0, 0, 0.88)",
+    "fs": "14px",
+    "fw": "400",
+    "lh": "22px",
+    "br": "0px",
+    "pad": "0px",
+    "mar": "0px",
+    "border": "0px/rgba(0, 0, 0, 0.88)",
+    "disp": "block",
+    "pos": "static",
+    "z": "auto",
+    "ff": "-apple-system"
+   },
+   "text": "学习中心"
+  },
+  {
+   "tag": "a",
+   "cls": "_learnCenter_139v7_255",
+   "rect": {
+    "x": 912.1,
+    "y": 64,
+    "w": 92,
+    "h": 32
+   },
+   "css": {
+    "bg": "rgb(244, 244, 245)",
+    "color": "rgba(0, 0, 0, 0.85)",
+    "fs": "13px",
+    "fw": "400",
+    "lh": "20.4286px",
+    "br": "6px",
+    "pad": "0px 10px",
+    "mar": "0px",
+    "border": "0px/rgba(0, 0, 0, 0.85)",
+    "disp": "flex",
+    "pos": "static",
+    "z": "auto",
+    "ff": "-apple-system"
+   },
+   "text": "学习中心"
+  },
+  {
+   "tag": "div",
+   "cls": "ant-space-item",
+   "rect": {
+    "x": 1019.1,
+    "y": 64,
+    "w": 94,
+    "h": 32
+   },
+   "css": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "color": "rgba(0, 0, 0, 0.88)",
+    "fs": "14px",
+    "fw": "400",
+    "lh": "22px",
+    "br": "0px",
+    "pad": "0px",
+    "mar": "0px",
+    "border": "0px/rgba(0, 0, 0, 0.88)",
+    "disp": "block",
+    "pos": "static",
+    "z": "auto",
+    "ff": "-apple-system"
+   },
+   "text": "免费得算力"
+  },
+  {
+   "tag": "div",
+   "cls": "_box_tlhxi_1",
+   "rect": {
+    "x": 1019.1,
+    "y": 64,
+    "w": 94,
+    "h": 32
+   },
+   "css": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "color": "rgba(0, 0, 0, 0.88)",
+    "fs": "14px",
+    "fw": "400",
+    "lh": "22px",
+    "br": "0px",
+    "pad": "0px",
+    "mar": "0px",
+    "border": "0px/rgba(0, 0, 0, 0.88)",
+    "disp": "block",
+    "pos": "static",
+    "z": "auto",
+    "ff": "-apple-system"
+   },
+   "text": "免费得算力"
+  },
+  {
+   "tag": "div",
+   "cls": "",
+   "rect": {
+    "x": 1019.1,
+    "y": 64,
+    "w": 94,
+    "h": 32
+   },
+   "css": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "color": "rgba(0, 0, 0, 0.88)",
+    "fs": "14px",
+    "fw": "400",
+    "lh": "22px",
+    "br": "0px",
+    "pad": "0px",
+    "mar": "0px",
+    "border": "0px/rgba(0, 0, 0, 0.88)",
+    "disp": "block",
+    "pos": "static",
+    "z": "auto",
+    "ff": "-apple-system"
+   },
+   "text": "免费得算力"
+  },
+  {
+   "tag": "div",
+   "cls": "_wechatBox_tlhxi_3 ",
+   "rect": {
+    "x": 1019.1,
+    "y": 64,
+    "w": 94,
+    "h": 32
+   },
+   "css": {
+    "bg": "rgb(254, 226, 226)",
+    "color": "rgb(239, 68, 68)",
+    "fs": "14px",
+    "fw": "400",
+    "lh": "22px",
+    "br": "6px",
+    "pad": "0px 12px",
+    "mar": "0px",
+    "border": "0px/rgb(239, 68, 68)",
+    "disp": "flex",
+    "pos": "relative",
+    "z": "auto",
+    "ff": "\"Noto Sans SC\""
+   },
+   "text": "免费得算力"
+  },
+  {
+   "tag": "div",
+   "cls": "ant-space-item",
+   "rect": {
+    "x": 1128.1,
+    "y": 64,
+    "w": 98.9,
+    "h": 32
+   },
+   "css": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "color": "rgba(0, 0, 0, 0.88)",
+    "fs": "14px",
+    "fw": "400",
+    "lh": "22px",
+    "br": "0px",
+    "pad": "0px",
+    "mar": "0px",
+    "border": "0px/rgba(0, 0, 0, 0.88)",
+    "disp": "block",
+    "pos": "static",
+    "z": "auto",
+    "ff": "-apple-system"
+   },
+   "text": "250 购 买"
+  },
+  {
+   "tag": "div",
+   "cls": "_pointsPopover_193u6_1",
+   "rect": {
+    "x": 1128.1,
+    "y": 64,
+    "w": 98.9,
+    "h": 32
+   },
+   "css": {
+    "bg": "rgb(226, 236, 254)",
+    "color": "rgba(0, 0, 0, 0.88)",
+    "fs": "14px",
+    "fw": "400",
+    "lh": "22px",
+    "br": "4px",
+    "pad": "0px",
+    "mar": "0px",
+    "border": "0px/rgba(0, 0, 0, 0.88)",
+    "disp": "flex",
+    "pos": "static",
+    "z": "auto",
+    "ff": "-apple-system"
+   },
+   "text": "250 购 买"
+  },
+  {
+   "tag": "div",
+   "cls": "_points_193u6_1",
+   "rect": {
+    "x": 1128.1,
+    "y": 64,
+    "w": 54.9,
+    "h": 32
+   },
+   "css": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "color": "rgba(0, 0, 0, 0.85)",
+    "fs": "12px",
+    "fw": "700",
+    "lh": "18.8571px",
+    "br": "0px",
+    "pad": "0px 5px",
+    "mar": "0px",
+    "border": "0px/rgba(0, 0, 0, 0.85)",
+    "disp": "flex",
+    "pos": "static",
+    "z": "auto",
+    "ff": "-apple-system"
+   },
+   "text": "250"
+  },
+  {
+   "tag": "span",
+   "cls": "_pointsValue_193u6_21",
+   "rect": {
+    "x": 1151.1,
+    "y": 70.6,
+    "w": 23.9,
+    "h": 18.8
+   },
+   "css": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "color": "rgba(0, 0, 0, 0.85)",
+    "fs": "12px",
+    "fw": "700",
+    "lh": "18.8571px",
+    "br": "0px",
+    "pad": "0px",
+    "mar": "0px 3px",
+    "border": "0px/rgba(0, 0, 0, 0.85)",
+    "disp": "block",
+    "pos": "static",
+    "z": "auto",
+    "ff": "-apple-system"
+   },
+   "text": "250"
+  },
+  {
+   "tag": "span",
+   "cls": "",
+   "rect": {
+    "x": 1191.3,
+    "y": 71.5,
+    "w": 27.4,
+    "h": 17
+   },
+   "css": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "color": "rgb(255, 255, 255)",
+    "fs": "12px",
+    "fw": "400",
+    "lh": "normal",
+    "br": "0px",
+    "pad": "0px",
+    "mar": "0px",
+    "border": "0px/rgb(255, 255, 255)",
+    "disp": "block",
+    "pos": "static",
+    "z": "auto",
+    "ff": "-apple-system"
+   },
+   "text": "购 买"
+  },
+  {
+   "tag": "div",
+   "cls": "_avatarWrap_15na6_82",
+   "rect": {
+    "x": 1242,
+    "y": 62,
+    "w": 36,
+    "h": 36
+   },
+   "css": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "color": "rgba(0, 0, 0, 0.88)",
+    "fs": "14px",
+    "fw": "400",
+    "lh": "22px",
+    "br": "0px",
+    "pad": "0px",
+    "mar": "0px 5px 0px 0px",
+    "border": "0px/rgba(0, 0, 0, 0.88)",
+    "disp": "block",
+    "pos": "relative",
+    "z": "auto",
+    "ff": "-apple-system"
+   },
+   "text": "用"
+  },
+  {
+   "tag": "span",
+   "cls": "ant-avatar ant-avatar-circle css-1d18km6",
+   "rect": {
+    "x": 1242,
+    "y": 62,
+    "w": 36,
+    "h": 36
+   },
+   "css": {
+    "bg": "rgb(168, 141, 237)",
+    "color": "rgb(255, 255, 255)",
+    "fs": "14px",
+    "fw": "400",
+    "lh": "22px",
+    "br": "50%",
+    "pad": "0px",
+    "mar": "0px",
+    "border": "1px/rgba(0, 0, 0, 0)",
+    "disp": "inline-flex",
+    "pos": "relative",
+    "z": "auto",
+    "ff": "-apple-system"
+   },
+   "text": "用"
+  },
+  {
+   "tag": "span",
+   "cls": "_userName_15na6_78",
+   "rect": {
+    "x": 1283,
+    "y": 62,
+    "w": 60.6,
+    "h": 20
+   },
+   "css": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "color": "rgb(51, 51, 51)",
+    "fs": "14px",
+    "fw": "400",
+    "lh": "20px",
+    "br": "0px",
+    "pad": "0px",
+    "mar": "0px",
+    "border": "0px/rgb(51, 51, 51)",
+    "disp": "block",
+    "pos": "static",
+    "z": "auto",
+    "ff": "-apple-system"
+   },
+   "text": "用户6991"
+  },
+  {
+   "tag": "span",
+   "cls": "_auxiliaryText_15na6_117",
+   "rect": {
+    "x": 1283,
+    "y": 82,
+    "w": 60.6,
+    "h": 16
+   },
+   "css": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "color": "rgb(153, 153, 153)",
+    "fs": "12px",
+    "fw": "400",
+    "lh": "16px",
+    "br": "0px",
+    "pad": "0px",
+    "mar": "0px",
+    "border": "0px/rgb(153, 153, 153)",
+    "disp": "block",
+    "pos": "static",
+    "z": "auto",
+    "ff": "-apple-system"
+   },
+   "text": "个人账号"
+  }
+ ],
+ "right": [],
+ "promo": {
+  "cls": "_wrap_scegn_1",
+  "rect": {
+   "x": 0,
+   "y": 0,
+   "w": 1280,
+   "h": 50
+  },
+  "css": {
+   "bg": "rgba(0, 0, 0, 0)",
+   "color": "rgba(0, 0, 0, 0.88)",
+   "fs": "14px",
+   "fw": "400",
+   "lh": "22px",
+   "br": "0px",
+   "pad": "0px",
+   "mar": "0px",
+   "border": "0px/rgba(0, 0, 0, 0.88)",
+   "disp": "block",
+   "pos": "relative",
+   "z": "8",
+   "ff": "-apple-system"
+  }
+ },
+ "close": {
+  "rect": {
+   "x": 1233,
+   "y": 14,
+   "w": 22,
+   "h": 22
+  },
+  "css": {
+   "bg": "rgba(0, 0, 0, 0)",
+   "color": "rgb(255, 255, 255)",
+   "fs": "22px",
+   "fw": "400",
+   "lh": "0px",
+   "br": "0px",
+   "pad": "0px",
+   "mar": "0px",
+   "border": "0px/rgb(255, 255, 255)",
+   "disp": "flex",
+   "pos": "absolute",
+   "z": "auto",
+   "ff": "-apple-system"
+  },
+  "cls": "anticon anticon-close-circle _closeBtn_scegn_74"
+ },
+ "rightBox": {
+  "cls": "_userNameWrap_15na6_102",
+  "rect": {
+   "x": 1283,
+   "y": 62,
+   "w": 60.6,
+   "h": 36
+  },
+  "css": {
+   "bg": "rgba(0, 0, 0, 0)",
+   "color": "rgba(0, 0, 0, 0.88)",
+   "fs": "14px",
+   "fw": "400",
+   "lh": "22px",
+   "br": "0px",
+   "pad": "0px",
+   "mar": "0px 4px 0px 0px",
+   "border": "0px/rgba(0, 0, 0, 0.88)",
+   "disp": "flex",
+   "pos": "static",
+   "z": "auto",
+   "ff": "-apple-system"
+  }
+ },
+ "rightKids": [
+  {
+   "tag": "span",
+   "cls": "_userName_15na6_78",
+   "rect": {
+    "x": 1283,
+    "y": 62,
+    "w": 60.6,
+    "h": 20
+   },
+   "css": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "color": "rgb(51, 51, 51)",
+    "fs": "14px",
+    "fw": "400",
+    "lh": "20px",
+    "br": "0px",
+    "pad": "0px",
+    "mar": "0px",
+    "border": "0px/rgb(51, 51, 51)",
+    "disp": "block",
+    "pos": "static",
+    "z": "auto",
+    "ff": "-apple-system"
+   },
+   "text": "用户6991"
+  },
+  {
+   "tag": "span",
+   "cls": "_auxiliaryText_15na6_117",
+   "rect": {
+    "x": 1283,
+    "y": 82,
+    "w": 60.6,
+    "h": 16
+   },
+   "css": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "color": "rgb(153, 153, 153)",
+    "fs": "12px",
+    "fw": "400",
+    "lh": "16px",
+    "br": "0px",
+    "pad": "0px",
+    "mar": "0px",
+    "border": "0px/rgb(153, 153, 153)",
+    "disp": "block",
+    "pos": "static",
+    "z": "auto",
+    "ff": "-apple-system"
+   },
+   "text": "个人账号"
+  }
+ ],
+ "html": 488014
+}

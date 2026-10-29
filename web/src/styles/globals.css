@@ -58,10 +58,17 @@
     --radius: 0.625rem;
     /* 原站实测（1908x781）：内容画布 #F4F6F8、分隔线 #E6E6E7、品牌紫 #723CF9、卡片/导航 #FFFFFF */
     --canvas: #f4f6f8;
-    --hairline: #e6e6e7;
+    --hairline: #e7e7e7;
+    --shell-body: #f5f7fa;
     --brand: #723cf9;
     --brand-soft: #f2edff;
     --surface: #ffffff;
+    /* 共享框架顶栏节奏（原站实测）：1908 → 左右 24/35、导航项间距 30、导航左偏移 50；
+       1280 → 16/20、20、0。见 docs/V1.0/plan_linkfox_navigation/evidence/b12-shell-final-20261029/BASELINE.md */
+    --shell-pad-left: 24px;
+    --shell-pad-right: 35px;
+    --shell-nav-gap: 30px;
+    --shell-nav-offset: 50px;
     --border: oklch(0.922 0 0);
     --ring: oklch(0.708 0 0);
     --background: oklch(1 0 0);
@@ -95,10 +102,21 @@
     --sidebar-ring: oklch(0.708 0 0);
 }
 
+/* 原站 1280 实测：顶栏内边距 16/20、导航项间距 20、导航相对品牌区偏移 0 */
+@media (max-width: 1439px) {
+    :root {
+        --shell-pad-left: 16px;
+        --shell-pad-right: 20px;
+        --shell-nav-gap: 20px;
+        --shell-nav-offset: 0px;
+    }
+}
+
 .dark {
     --background: oklch(0.145 0 0);
     --canvas: oklch(0.163 0 0);
     --hairline: oklch(1 0 0 / 12%);
+    --shell-body: oklch(0.145 0 0);
     --brand: #8b5cff;
     --brand-soft: oklch(0.28 0.07 300);
     --surface: oklch(0.205 0 0);
@@ -144,7 +162,8 @@
         overflow: hidden;
     }
     body {
-        @apply bg-background text-foreground;
+        @apply text-foreground;
+        background-color: var(--shell-body, var(--background));
     }
     textarea {
         resize: none;
@@ -469,7 +488,6 @@
             transform: translate(0, 0) rotate(0) scale(1);
         }
     }
-
 }
 
 ::view-transition-old(root),

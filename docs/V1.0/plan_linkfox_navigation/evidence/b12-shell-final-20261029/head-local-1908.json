@@ -1,0 +1,587 @@
+{
+ "vp": {
+  "w": 1908,
+  "h": 900,
+  "scrollW": 1908
+ },
+ "heads": [
+  {
+   "tag": "div",
+   "cls": "relative z-[8] h-[50px] w-full shrink-0 overflow-hidden bg-[",
+   "rect": {
+    "x": 0,
+    "y": 0,
+    "w": 1908,
+    "h": 50
+   },
+   "css": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "color": "oklch(0.145 0 0)",
+    "fs": "14px",
+    "fw": "400",
+    "lh": "22px",
+    "br": "0px",
+    "pad": "0px",
+    "mar": "0px",
+    "border": "0px/oklch(0.922 0 0)",
+    "disp": "block",
+    "pos": "relative",
+    "z": "8",
+    "ff": "-apple-system"
+   },
+   "text": "无限画布 · 39 个电商 AI 工具，一套导航直达 本地运行 · API Key 只保存在你自己的浏览器 插件与模型可"
+  },
+  {
+   "tag": "div",
+   "cls": "flex h-[50px] w-full shrink-0 items-center justify-center px",
+   "rect": {
+    "x": 0,
+    "y": 0,
+    "w": 1908,
+    "h": 50
+   },
+   "css": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "color": "rgb(255, 255, 255)",
+    "fs": "14px",
+    "fw": "400",
+    "lh": "22px",
+    "br": "0px",
+    "pad": "0px 52px",
+    "mar": "0px",
+    "border": "0px/oklch(0.922 0 0)",
+    "disp": "flex",
+    "pos": "static",
+    "z": "auto",
+    "ff": "-apple-system"
+   },
+   "text": "无限画布 · 39 个电商 AI 工具，一套导航直达"
+  },
+  {
+   "tag": "div",
+   "cls": "flex h-[50px] w-full shrink-0 items-center justify-center px",
+   "rect": {
+    "x": 0,
+    "y": 50,
+    "w": 1908,
+    "h": 50
+   },
+   "css": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "color": "rgb(255, 255, 255)",
+    "fs": "14px",
+    "fw": "400",
+    "lh": "22px",
+    "br": "0px",
+    "pad": "0px 52px",
+    "mar": "0px",
+    "border": "0px/oklch(0.922 0 0)",
+    "disp": "flex",
+    "pos": "static",
+    "z": "auto",
+    "ff": "-apple-system"
+   },
+   "text": "本地运行 · API Key 只保存在你自己的浏览器"
+  },
+  {
+   "tag": "div",
+   "cls": "flex h-[50px] w-full shrink-0 items-center justify-center px",
+   "rect": {
+    "x": 0,
+    "y": 100,
+    "w": 1908,
+    "h": 50
+   },
+   "css": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "color": "rgb(255, 255, 255)",
+    "fs": "14px",
+    "fw": "400",
+    "lh": "22px",
+    "br": "0px",
+    "pad": "0px 52px",
+    "mar": "0px",
+    "border": "0px/oklch(0.922 0 0)",
+    "disp": "flex",
+    "pos": "static",
+    "z": "auto",
+    "ff": "-apple-system"
+   },
+   "text": "插件与模型可自定义 · 无需注册账号"
+  },
+  {
+   "tag": "header",
+   "cls": "sticky top-0 z-[7] h-[60px] shrink-0 bg-surface",
+   "rect": {
+    "x": 0,
+    "y": 50,
+    "w": 1908,
+    "h": 60
+   },
+   "css": {
+    "bg": "rgb(255, 255, 255)",
+    "color": "oklch(0.145 0 0)",
+    "fs": "14px",
+    "fw": "400",
+    "lh": "22px",
+    "br": "0px",
+    "pad": "0px",
+    "mar": "0px",
+    "border": "0px/oklch(0.922 0 0)",
+    "disp": "block",
+    "pos": "sticky",
+    "z": "7",
+    "ff": "-apple-system"
+   },
+   "text": "无限画布 首页 电商套图 智能修图 新模型 AI视频 HOT 批量生图 商品图设计 Skills Agent 更多 学习"
+  },
+  {
+   "tag": "div",
+   "cls": "flex h-full w-full items-stretch justify-between gap-4",
+   "rect": {
+    "x": 0,
+    "y": 50,
+    "w": 1908,
+    "h": 60
+   },
+   "css": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "color": "oklch(0.145 0 0)",
+    "fs": "14px",
+    "fw": "400",
+    "lh": "22px",
+    "br": "0px",
+    "pad": "0px 35px 0px 24px",
+    "mar": "0px",
+    "border": "0px/oklch(0.922 0 0)",
+    "disp": "flex",
+    "pos": "static",
+    "z": "auto",
+    "ff": "-apple-system"
+   },
+   "text": "无限画布 首页 电商套图 智能修图 新模型 AI视频 HOT 批量生图 商品图设计 Skills Agent 更多 学习"
+  }
+ ],
+ "navItems": [
+  {
+   "tag": "span",
+   "cls": "text-base font-medium",
+   "rect": {
+    "x": 52,
+    "y": 68,
+    "w": 62.6,
+    "h": 24
+   },
+   "css": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "color": "rgb(23, 23, 23)",
+    "fs": "16px",
+    "fw": "500",
+    "lh": "24px",
+    "br": "0px",
+    "pad": "0px",
+    "mar": "0px",
+    "border": "0px/oklch(0.922 0 0)",
+    "disp": "block",
+    "pos": "static",
+    "z": "auto",
+    "ff": "-apple-system"
+   },
+   "text": "无限画布"
+  },
+  {
+   "tag": "span",
+   "cls": "truncate",
+   "rect": {
+    "x": 296,
+    "y": 67.4,
+    "w": 64,
+    "h": 25.1
+   },
+   "css": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "color": "rgb(114, 60, 249)",
+    "fs": "16px",
+    "fw": "400",
+    "lh": "25.1429px",
+    "br": "0px",
+    "pad": "0px",
+    "mar": "0px",
+    "border": "0px/oklch(0.922 0 0)",
+    "disp": "block",
+    "pos": "static",
+    "z": "auto",
+    "ff": "-apple-system"
+   },
+   "text": "电商套图"
+  },
+  {
+   "tag": "span",
+   "cls": "truncate",
+   "rect": {
+    "x": 390,
+    "y": 67.4,
+    "w": 64,
+    "h": 25.1
+   },
+   "css": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "color": "oklab(0 0 0 / 0.85)",
+    "fs": "16px",
+    "fw": "400",
+    "lh": "25.1429px",
+    "br": "0px",
+    "pad": "0px",
+    "mar": "0px",
+    "border": "0px/oklch(0.922 0 0)",
+    "disp": "block",
+    "pos": "static",
+    "z": "auto",
+    "ff": "-apple-system"
+   },
+   "text": "智能修图"
+  },
+  {
+   "tag": "span",
+   "cls": "truncate",
+   "rect": {
+    "x": 521,
+    "y": 67.4,
+    "w": 46.4,
+    "h": 25.1
+   },
+   "css": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "color": "oklab(0 0 0 / 0.85)",
+    "fs": "16px",
+    "fw": "400",
+    "lh": "25.1429px",
+    "br": "0px",
+    "pad": "0px",
+    "mar": "0px",
+    "border": "0px/oklch(0.922 0 0)",
+    "disp": "block",
+    "pos": "static",
+    "z": "auto",
+    "ff": "-apple-system"
+   },
+   "text": "AI视频"
+  },
+  {
+   "tag": "span",
+   "cls": "truncate",
+   "rect": {
+    "x": 627.8,
+    "y": 67.4,
+    "w": 64,
+    "h": 25.1
+   },
+   "css": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "color": "oklab(0 0 0 / 0.85)",
+    "fs": "16px",
+    "fw": "400",
+    "lh": "25.1429px",
+    "br": "0px",
+    "pad": "0px",
+    "mar": "0px",
+    "border": "0px/oklch(0.922 0 0)",
+    "disp": "block",
+    "pos": "static",
+    "z": "auto",
+    "ff": "-apple-system"
+   },
+   "text": "批量生图"
+  },
+  {
+   "tag": "span",
+   "cls": "truncate",
+   "rect": {
+    "x": 721.8,
+    "y": 67.4,
+    "w": 80,
+    "h": 25.1
+   },
+   "css": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "color": "oklab(0 0 0 / 0.85)",
+    "fs": "16px",
+    "fw": "400",
+    "lh": "25.1429px",
+    "br": "0px",
+    "pad": "0px",
+    "mar": "0px",
+    "border": "0px/oklch(0.922 0 0)",
+    "disp": "block",
+    "pos": "static",
+    "z": "auto",
+    "ff": "-apple-system"
+   },
+   "text": "商品图设计"
+  },
+  {
+   "tag": "a",
+   "cls": "inline-flex h-8 shrink-0 items-center rounded-[6px",
+   "rect": {
+    "x": 1435.8,
+    "y": 64,
+    "w": 72,
+    "h": 32
+   },
+   "css": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "color": "rgb(23, 23, 23)",
+    "fs": "13px",
+    "fw": "400",
+    "lh": "20.43px",
+    "br": "6px",
+    "pad": "0px 10px",
+    "mar": "0px",
+    "border": "0px/oklch(0.922 0 0)",
+    "disp": "flex",
+    "pos": "static",
+    "z": "auto",
+    "ff": "-apple-system"
+   },
+   "text": "学习中心"
+  },
+  {
+   "tag": "a",
+   "cls": "inline-flex h-8 shrink-0 items-center rounded-[6px",
+   "rect": {
+    "x": 1522.8,
+    "y": 64,
+    "w": 94,
+    "h": 32
+   },
+   "css": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "color": "rgb(23, 23, 23)",
+    "fs": "14px",
+    "fw": "400",
+    "lh": "22px",
+    "br": "6px",
+    "pad": "0px 12px",
+    "mar": "0px",
+    "border": "0px/oklch(0.922 0 0)",
+    "disp": "flex",
+    "pos": "static",
+    "z": "auto",
+    "ff": "-apple-system"
+   },
+   "text": "免费得算力"
+  },
+  {
+   "tag": "span",
+   "cls": "px-[5px]",
+   "rect": {
+    "x": 1631.8,
+    "y": 70.6,
+    "w": 34,
+    "h": 18.9
+   },
+   "css": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "color": "oklab(0 0 0 / 0.85)",
+    "fs": "12px",
+    "fw": "700",
+    "lh": "18.857px",
+    "br": "0px",
+    "pad": "0px 5px",
+    "mar": "0px",
+    "border": "0px/oklch(0.922 0 0)",
+    "disp": "block",
+    "pos": "static",
+    "z": "auto",
+    "ff": "-apple-system"
+   },
+   "text": "积分"
+  },
+  {
+   "tag": "span",
+   "cls": "inline-flex size-9 shrink-0 items-center justify-c",
+   "rect": {
+    "x": 1757,
+    "y": 62,
+    "w": 36,
+    "h": 36
+   },
+   "css": {
+    "bg": "rgb(168, 141, 237)",
+    "color": "rgb(255, 255, 255)",
+    "fs": "14px",
+    "fw": "400",
+    "lh": "22px",
+    "br": "3.35544e+07px",
+    "pad": "0px",
+    "mar": "0px",
+    "border": "0px/oklch(0.922 0 0)",
+    "disp": "flex",
+    "pos": "static",
+    "z": "auto",
+    "ff": "-apple-system"
+   },
+   "text": "用"
+  },
+  {
+   "tag": "span",
+   "cls": "truncate text-[14px] leading-5 text-[#333] dark:te",
+   "rect": {
+    "x": 1797,
+    "y": 62,
+    "w": 56,
+    "h": 20
+   },
+   "css": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "color": "rgb(51, 51, 51)",
+    "fs": "14px",
+    "fw": "400",
+    "lh": "20px",
+    "br": "0px",
+    "pad": "0px",
+    "mar": "0px",
+    "border": "0px/oklch(0.922 0 0)",
+    "disp": "block",
+    "pos": "static",
+    "z": "auto",
+    "ff": "-apple-system"
+   },
+   "text": "本地用户"
+  },
+  {
+   "tag": "span",
+   "cls": "truncate text-[12px] leading-4 text-[#999] dark:te",
+   "rect": {
+    "x": 1797,
+    "y": 82,
+    "w": 48,
+    "h": 16
+   },
+   "css": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "color": "rgb(153, 153, 153)",
+    "fs": "12px",
+    "fw": "400",
+    "lh": "16px",
+    "br": "0px",
+    "pad": "0px",
+    "mar": "0px",
+    "border": "0px/oklch(0.922 0 0)",
+    "disp": "block",
+    "pos": "static",
+    "z": "auto",
+    "ff": "-apple-system"
+   },
+   "text": "个人账号"
+  }
+ ],
+ "right": [],
+ "promo": null,
+ "close": null,
+ "rightBox": {
+  "cls": "flex h-8 shrink-0 items-center rounded-[4px] bg-[#",
+  "rect": {
+   "x": 1631.8,
+   "y": 64,
+   "w": 110.2,
+   "h": 32
+  },
+  "css": {
+   "bg": "rgb(226, 236, 254)",
+   "color": "oklab(0 0 0 / 0.85)",
+   "fs": "12px",
+   "fw": "700",
+   "lh": "18.857px",
+   "br": "4px",
+   "pad": "0px",
+   "mar": "0px",
+   "border": "0px/oklch(0.922 0 0)",
+   "disp": "flex",
+   "pos": "static",
+   "z": "auto",
+   "ff": "-apple-system"
+  }
+ },
+ "rightKids": [
+  {
+   "tag": "span",
+   "cls": "px-[5px]",
+   "rect": {
+    "x": 1631.8,
+    "y": 70.6,
+    "w": 34,
+    "h": 18.9
+   },
+   "css": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "color": "oklab(0 0 0 / 0.85)",
+    "fs": "12px",
+    "fw": "700",
+    "lh": "18.857px",
+    "br": "0px",
+    "pad": "0px 5px",
+    "mar": "0px",
+    "border": "0px/oklch(0.922 0 0)",
+    "disp": "block",
+    "pos": "static",
+    "z": "auto",
+    "ff": "-apple-system"
+   },
+   "text": "积分"
+  },
+  {
+   "tag": "span",
+   "cls": "mx-3",
+   "rect": {
+    "x": 1677.8,
+    "y": 70.6,
+    "w": 8.2,
+    "h": 18.9
+   },
+   "css": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "color": "oklab(0 0 0 / 0.85)",
+    "fs": "12px",
+    "fw": "700",
+    "lh": "18.857px",
+    "br": "0px",
+    "pad": "0px",
+    "mar": "0px 12px",
+    "border": "0px/oklch(0.922 0 0)",
+    "disp": "block",
+    "pos": "static",
+    "z": "auto",
+    "ff": "-apple-system"
+   },
+   "text": "0"
+  },
+  {
+   "tag": "button",
+   "cls": "inline-flex h-8 w-11 shrink-0 cursor-not-allo",
+   "rect": {
+    "x": 1698,
+    "y": 64,
+    "w": 44,
+    "h": 32
+   },
+   "css": {
+    "bg": "rgb(114, 60, 249)",
+    "color": "oklab(0 0 0 / 0.85)",
+    "fs": "12px",
+    "fw": "400",
+    "lh": "18.857px",
+    "br": "4px",
+    "pad": "0px",
+    "mar": "0px",
+    "border": "0px/oklch(0.922 0 0)",
+    "disp": "flex",
+    "pos": "static",
+    "z": "auto",
+    "ff": "-apple-system"
+   },
+   "text": "购买"
+  }
+ ],
+ "html": 377164
+}

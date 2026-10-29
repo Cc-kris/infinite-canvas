@@ -1,0 +1,214 @@
+{
+ "side": "local",
+ "vp": {
+  "w": 1280,
+  "h": 781,
+  "scrollW": 1280
+ },
+ "theme": {
+  "bodyBg": "rgb(245, 247, 250)",
+  "colorScheme": "light",
+  "htmlCls": "font-sans"
+ },
+ "header": {
+  "rect": {
+   "x": 0,
+   "y": 50,
+   "w": 1280,
+   "h": 60
+  },
+  "css": {
+   "backgroundColor": "rgb(255, 255, 255)",
+   "zIndex": "7",
+   "borderBottomWidth": "1px",
+   "borderBottomColor": "rgb(231, 231, 231)"
+  }
+ },
+ "promo": {
+  "rect": {
+   "x": 0,
+   "y": 0,
+   "w": 1280,
+   "h": 50
+  },
+  "css": {
+   "position": "relative",
+   "zIndex": "8",
+   "overflow": "visible"
+  },
+  "text": "无限画布 · 39 个电商 AI 工具，一套导航直达本地运行 · API Key"
+ },
+ "promoClose": {
+  "rect": {
+   "x": 1233,
+   "y": 14,
+   "w": 22,
+   "h": 22
+  },
+  "css": {
+   "position": "absolute",
+   "color": "oklch(0.145 0 0)",
+   "fontSize": "14px"
+  }
+ },
+ "navItems": [],
+ "navWrap": null,
+ "user": {
+  "learn": {
+   "leaf": {
+    "rect": {
+     "x": 814,
+     "y": 63.5,
+     "w": 92,
+     "h": 32
+    },
+    "css": {
+     "color": "rgba(0, 0, 0, 0.88)",
+     "fontSize": "14px",
+     "fontWeight": "400",
+     "lineHeight": "22px"
+    }
+   },
+   "chip": null
+  },
+  "free": {
+   "leaf": {
+    "rect": {
+     "x": 921,
+     "y": 63.5,
+     "w": 94,
+     "h": 32
+    },
+    "css": {
+     "color": "rgb(23, 23, 23)",
+     "fontSize": "14px",
+     "fontWeight": "400",
+     "lineHeight": "22px"
+    }
+   },
+   "chip": null
+  },
+  "buy": {
+   "leaf": {
+    "rect": {
+     "x": 1092.3,
+     "y": 71,
+     "w": 27.4,
+     "h": 17
+    },
+    "css": {
+     "color": "rgb(255, 255, 255)",
+     "fontSize": "12px",
+     "fontWeight": "400",
+     "lineHeight": "normal"
+    }
+   },
+   "chip": {
+    "rect": {
+     "x": 1084,
+     "y": 63.5,
+     "w": 44,
+     "h": 32
+    },
+    "css": {
+     "backgroundColor": "rgba(0, 0, 0, 0)",
+     "backgroundImage": "linear-gradient(90deg, rgb(58, 125, 249) 0%, rgb(114, 60, 249) 100%)",
+     "borderRadius": "0px",
+     "padding": "0px 8px"
+    }
+   }
+  },
+  "points": {
+   "leaf": {
+    "rect": {
+     "x": 1057,
+     "y": 70.1,
+     "w": 24,
+     "h": 18.9
+    },
+    "css": {
+     "color": "oklab(0 0 0 / 0.85)",
+     "fontSize": "12px",
+     "fontWeight": "700",
+     "lineHeight": "18.857px"
+    }
+   },
+   "chip": null
+  },
+  "avatar": {
+   "rect": {
+    "x": 1143,
+    "y": 61.5,
+    "w": 36,
+    "h": 36
+   },
+   "css": {
+    "backgroundColor": "rgb(168, 141, 237)",
+    "color": "rgb(255, 255, 255)",
+    "fontSize": "14px",
+    "borderRadius": "50%"
+   }
+  },
+  "name": {
+   "rect": {
+    "x": 1183,
+    "y": 61.5,
+    "w": 61,
+    "h": 20
+   },
+   "css": {
+    "color": "rgb(51, 51, 51)",
+    "fontSize": "14px",
+    "lineHeight": "20px"
+   }
+  },
+  "sub": {
+   "rect": {
+    "x": 1183,
+    "y": 81.5,
+    "w": 61,
+    "h": 16
+   },
+   "css": {
+    "color": "rgb(153, 153, 153)",
+    "fontSize": "12px",
+    "lineHeight": "16px"
+   }
+  },
+  "pill": {
+   "rect": {
+    "x": 1030,
+    "y": 63.5,
+    "w": 98,
+    "h": 32
+   },
+   "css": {
+    "backgroundColor": "rgb(226, 236, 254)",
+    "borderRadius": "4px"
+   }
+  }
+ },
+ "aside": {
+  "rect": {
+   "x": 0,
+   "y": 110,
+   "w": 180,
+   "h": 671
+  },
+  "css": {
+   "backgroundColor": "rgb(255, 255, 255)",
+   "borderRightWidth": "1px"
+  }
+ },
+ "main": {
+  "rect": {
+   "x": 180,
+   "y": 110,
+   "w": 1100,
+   "h": 671
+  },
+  "css": {
+   "backgroundColor": "rgb(244, 246, 248)"
+  }
+ }
+}

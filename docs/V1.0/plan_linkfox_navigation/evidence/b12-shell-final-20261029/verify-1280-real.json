@@ -1,0 +1,315 @@
+{
+ "side": "real",
+ "vp": {
+  "w": 1280,
+  "h": 781,
+  "scrollW": 1280
+ },
+ "theme": {
+  "bodyBg": "rgb(245, 247, 250)",
+  "colorScheme": "normal",
+  "htmlCls": ""
+ },
+ "header": {
+  "rect": {
+   "x": 0,
+   "y": 50,
+   "w": 1280,
+   "h": 60
+  },
+  "css": {
+   "backgroundColor": "rgb(255, 255, 255)",
+   "zIndex": "7",
+   "borderBottomWidth": "1px",
+   "borderBottomColor": "rgb(231, 231, 231)"
+  }
+ },
+ "promo": {
+  "rect": {
+   "x": 0,
+   "y": 0,
+   "w": 1280,
+   "h": 50
+  },
+  "css": {
+   "position": "relative",
+   "zIndex": "8",
+   "overflow": "visible"
+  },
+  "text": ""
+ },
+ "promoClose": null,
+ "navItems": [
+  {
+   "text": "首页",
+   "rect": {
+    "x": 176,
+    "y": 67.4,
+    "w": 32,
+    "h": 25.1
+   },
+   "css": {
+    "fontSize": "16px",
+    "color": "rgba(0, 0, 0, 0.85)",
+    "fontWeight": "400",
+    "lineHeight": "25.1429px"
+   }
+  },
+  {
+   "text": "电商套图",
+   "rect": {
+    "x": 228,
+    "y": 67.4,
+    "w": 64,
+    "h": 25.1
+   },
+   "css": {
+    "fontSize": "16px",
+    "color": "rgb(114, 60, 249)",
+    "fontWeight": "400",
+    "lineHeight": "25.1429px"
+   }
+  },
+  {
+   "text": "智能修图新模型",
+   "rect": {
+    "x": 312,
+    "y": 67.4,
+    "w": 101.5,
+    "h": 25.1
+   },
+   "css": {
+    "fontSize": "16px",
+    "color": "rgba(0, 0, 0, 0.85)",
+    "fontWeight": "400",
+    "lineHeight": "25.1429px"
+   }
+  },
+  {
+   "text": "AI视频HOT",
+   "rect": {
+    "x": 433.5,
+    "y": 67.4,
+    "w": 77.3,
+    "h": 25.1
+   },
+   "css": {
+    "fontSize": "16px",
+    "color": "rgba(0, 0, 0, 0.85)",
+    "fontWeight": "400",
+    "lineHeight": "25.1429px"
+   }
+  },
+  {
+   "text": "批量生图",
+   "rect": {
+    "x": 530.9,
+    "y": 67.4,
+    "w": 64,
+    "h": 25.1
+   },
+   "css": {
+    "fontSize": "16px",
+    "color": "rgba(0, 0, 0, 0.85)",
+    "fontWeight": "400",
+    "lineHeight": "25.1429px"
+   }
+  },
+  {
+   "text": "商品图设计",
+   "rect": {
+    "x": 614.9,
+    "y": 67.4,
+    "w": 80,
+    "h": 25.1
+   },
+   "css": {
+    "fontSize": "16px",
+    "color": "rgba(0, 0, 0, 0.85)",
+    "fontWeight": "400",
+    "lineHeight": "25.1429px"
+   }
+  },
+  {
+   "text": "Skills",
+   "rect": {
+    "x": 714.9,
+    "y": 67.4,
+    "w": 37.4,
+    "h": 25.1
+   },
+   "css": {
+    "fontSize": "16px",
+    "color": "rgba(0, 0, 0, 0.85)",
+    "fontWeight": "400",
+    "lineHeight": "25.1429px"
+   }
+  },
+  {
+   "text": "Agent",
+   "rect": {
+    "x": 772.3,
+    "y": 67.4,
+    "w": 42.8,
+    "h": 25.1
+   },
+   "css": {
+    "fontSize": "16px",
+    "color": "rgba(0, 0, 0, 0.85)",
+    "fontWeight": "400",
+    "lineHeight": "25.1429px"
+   }
+  }
+ ],
+ "navWrap": {
+  "x": 146,
+  "y": 67.4,
+  "w": 766.1,
+  "h": 25.1
+ },
+ "user": {
+  "learn": {
+   "leaf": {
+    "rect": {
+     "x": 912.1,
+     "y": 64,
+     "w": 92,
+     "h": 32
+    },
+    "css": {
+     "color": "rgba(0, 0, 0, 0.88)",
+     "fontSize": "14px",
+     "fontWeight": "400",
+     "lineHeight": "22px"
+    }
+   },
+   "chip": null
+  },
+  "free": {
+   "leaf": {
+    "rect": {
+     "x": 1019.1,
+     "y": 64,
+     "w": 94,
+     "h": 32
+    },
+    "css": {
+     "color": "rgba(0, 0, 0, 0.88)",
+     "fontSize": "14px",
+     "fontWeight": "400",
+     "lineHeight": "22px"
+    }
+   },
+   "chip": null
+  },
+  "buy": {
+   "leaf": {
+    "rect": {
+     "x": 1191.3,
+     "y": 71.5,
+     "w": 27.4,
+     "h": 17
+    },
+    "css": {
+     "color": "rgb(255, 255, 255)",
+     "fontSize": "12px",
+     "fontWeight": "400",
+     "lineHeight": "normal"
+    }
+   },
+   "chip": {
+    "rect": {
+     "x": 1183,
+     "y": 64,
+     "w": 44,
+     "h": 32
+    },
+    "css": {
+     "backgroundColor": "rgba(0, 0, 0, 0)",
+     "backgroundImage": "linear-gradient(90deg, rgb(58, 125, 249), rgb(114, 60, 249))",
+     "borderRadius": "0px",
+     "padding": "0px 8px"
+    }
+   }
+  },
+  "points": {
+   "leaf": null,
+   "chip": null
+  },
+  "avatar": {
+   "rect": {
+    "x": 1242,
+    "y": 62,
+    "w": 36,
+    "h": 36
+   },
+   "css": {
+    "backgroundColor": "rgb(168, 141, 237)",
+    "color": "rgb(255, 255, 255)",
+    "fontSize": "14px",
+    "borderRadius": "50%"
+   }
+  },
+  "name": {
+   "rect": {
+    "x": 1283,
+    "y": 62,
+    "w": 60.6,
+    "h": 20
+   },
+   "css": {
+    "color": "rgb(51, 51, 51)",
+    "fontSize": "14px",
+    "lineHeight": "20px"
+   }
+  },
+  "sub": {
+   "rect": {
+    "x": 1283,
+    "y": 82,
+    "w": 60.6,
+    "h": 16
+   },
+   "css": {
+    "color": "rgb(153, 153, 153)",
+    "fontSize": "12px",
+    "lineHeight": "16px"
+   }
+  },
+  "pill": {
+   "rect": {
+    "x": 1128.1,
+    "y": 64,
+    "w": 98.9,
+    "h": 32
+   },
+   "css": {
+    "backgroundColor": "rgb(226, 236, 254)",
+    "borderRadius": "4px"
+   }
+  }
+ },
+ "aside": {
+  "rect": {
+   "x": 0,
+   "y": 110,
+   "w": 180,
+   "h": 671
+  },
+  "css": {
+   "backgroundColor": "rgb(255, 255, 255)",
+   "borderRightWidth": "1px"
+  }
+ },
+ "main": {
+  "rect": {
+   "x": 180,
+   "y": 110,
+   "w": 1100,
+   "h": 671
+  },
+  "css": {
+   "backgroundColor": "rgb(244, 246, 248)"
+  }
+ }
+}

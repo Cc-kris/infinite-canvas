@@ -1,0 +1,907 @@
+{
+ "url": "https://www.linkfox.com/draw/ai-outpainting",
+ "title": "LinkFox官网 - 跨境电商AI运营助手 - AI选品AI作图AI视频AI Agent OS",
+ "ready": "complete",
+ "vp": {
+  "w": 1908,
+  "h": 781,
+  "scrollW": 1908,
+  "scrollH": 781,
+  "dpr": 1
+ },
+ "theme": {
+  "htmlCls": "",
+  "htmlStyle": null,
+  "bodyBg": "rgb(245, 247, 250)",
+  "bodyColor": "rgb(0, 0, 0)",
+  "colorScheme": "normal",
+  "storedTheme": "{\"ls\":null,\"mql\":false}"
+ },
+ "header": null,
+ "nav": null,
+ "promo": {
+  "tag": "div",
+  "cls": "_wrap_scegn_1",
+  "rect": {
+   "x": 0,
+   "y": 0,
+   "w": 1908,
+   "h": 50
+  },
+  "css": {
+   "bg": "rgba(0, 0, 0, 0)",
+   "color": "rgba(0, 0, 0, 0.88)",
+   "fs": "14px",
+   "fw": "400",
+   "lh": "22px",
+   "br": "0px",
+   "pad": "0px",
+   "mar": "0px",
+   "border": "0px/rgba(0, 0, 0, 0.88)",
+   "disp": "block",
+   "pos": "relative",
+   "z": "8",
+   "shadow": "none",
+   "ff": "-apple-system"
+  },
+  "text": "",
+  "kids": [
+   {
+    "tag": "div",
+    "cls": "ant-carousel ant-carousel-vertical css-1d18km6",
+    "rect": {
+     "x": 0,
+     "y": 0,
+     "w": 1908,
+     "h": 50
+    },
+    "css": {
+     "bg": "rgba(0, 0, 0, 0)",
+     "color": "rgba(0, 0, 0, 0.88)",
+     "fs": "14px",
+     "fw": "400",
+     "lh": "22px",
+     "br": "0px",
+     "pad": "0px",
+     "mar": "0px",
+     "border": "0px/rgba(0, 0, 0, 0.88)",
+     "disp": "block",
+     "pos": "static",
+     "z": "auto",
+     "shadow": "none",
+     "ff": "-apple-system"
+    },
+    "text": ""
+   },
+   {
+    "tag": "div",
+    "cls": "slick-slider slick-vertical slick-initialized",
+    "rect": {
+     "x": 0,
+     "y": 0,
+     "w": 1908,
+     "h": 50
+    },
+    "css": {
+     "bg": "rgba(0, 0, 0, 0)",
+     "color": "rgba(0, 0, 0, 0.88)",
+     "fs": "14px",
+     "fw": "400",
+     "lh": "22px",
+     "br": "0px",
+     "pad": "0px",
+     "mar": "0px",
+     "border": "0px/rgba(0, 0, 0, 0.88)",
+     "disp": "block",
+     "pos": "relative",
+     "z": "auto",
+     "shadow": "none",
+     "ff": "-apple-system"
+    },
+    "text": ""
+   },
+   {
+    "tag": "div",
+    "cls": "slick-list",
+    "rect": {
+     "x": 0,
+     "y": 0,
+     "w": 1908,
+     "h": 50
+    },
+    "css": {
+     "bg": "rgba(0, 0, 0, 0)",
+     "color": "rgba(0, 0, 0, 0.88)",
+     "fs": "14px",
+     "fw": "400",
+     "lh": "22px",
+     "br": "0px",
+     "pad": "0px",
+     "mar": "0px",
+     "border": "0px/rgba(0, 0, 0, 0.88)",
+     "disp": "block",
+     "pos": "relative",
+     "z": "auto",
+     "shadow": "none",
+     "ff": "-apple-system"
+    },
+    "text": ""
+   },
+   {
+    "tag": "div",
+    "cls": "slick-track",
+    "rect": {
+     "x": 0,
+     "y": -50,
+     "w": 1908,
+     "h": 250
+    },
+    "css": {
+     "bg": "rgba(0, 0, 0, 0)",
+     "color": "rgba(0, 0, 0, 0.88)",
+     "fs": "14px",
+     "fw": "400",
+     "lh": "22px",
+     "br": "0px",
+     "pad": "0px",
+     "mar": "0px",
+     "border": "0px/rgba(0, 0, 0, 0.88)",
+     "disp": "block",
+     "pos": "relative",
+     "z": "auto",
+     "shadow": "none",
+     "ff": "-apple-system"
+    },
+    "text": ""
+   },
+   {
+    "tag": "div",
+    "cls": "slick-slide slick-cloned",
+    "rect": {
+     "x": 0,
+     "y": -50,
+     "w": 1908,
+     "h": 50
+    },
+    "css": {
+     "bg": "rgba(0, 0, 0, 0)",
+     "color": "rgba(0, 0, 0, 0.88)",
+     "fs": "14px",
+     "fw": "400",
+     "lh": "22px",
+     "br": "0px",
+     "pad": "0px",
+     "mar": "0px",
+     "border": "0px/rgba(0, 0, 0, 0.88)",
+     "disp": "block",
+     "pos": "static",
+     "z": "auto",
+     "shadow": "none",
+     "ff": "-apple-system"
+    },
+    "text": ""
+   },
+   {
+    "tag": "div",
+    "cls": "",
+    "rect": {
+     "x": 0,
+     "y": -50,
+     "w": 1908,
+     "h": 50
+    },
+    "css": {
+     "bg": "rgba(0, 0, 0, 0)",
+     "color": "rgba(0, 0, 0, 0.88)",
+     "fs": "14px",
+     "fw": "400",
+     "lh": "22px",
+     "br": "0px",
+     "pad": "0px",
+     "mar": "0px",
+     "border": "0px/rgba(0, 0, 0, 0.88)",
+     "disp": "block",
+     "pos": "static",
+     "z": "auto",
+     "shadow": "none",
+     "ff": "-apple-system"
+    },
+    "text": ""
+   },
+   {
+    "tag": "div",
+    "cls": "_adImage_scegn_31",
+    "rect": {
+     "x": 0,
+     "y": -50,
+     "w": 1908,
+     "h": 50
+    },
+    "css": {
+     "bg": "rgba(0, 0, 0, 0)",
+     "color": "rgba(0, 0, 0, 0.88)",
+     "fs": "14px",
+     "fw": "400",
+     "lh": "22px",
+     "br": "0px",
+     "pad": "0px",
+     "mar": "0px",
+     "border": "0px/rgba(0, 0, 0, 0.88)",
+     "disp": "inline-block",
+     "pos": "relative",
+     "z": "auto",
+     "shadow": "none",
+     "ff": "-apple-system"
+    },
+    "text": ""
+   },
+   {
+    "tag": "div",
+    "cls": "ant-image css-1d18km6",
+    "rect": {
+     "x": 0,
+     "y": -50,
+     "w": 1908,
+     "h": 50
+    },
+    "css": {
+     "bg": "rgba(0, 0, 0, 0)",
+     "color": "rgba(0, 0, 0, 0.88)",
+     "fs": "14px",
+     "fw": "400",
+     "lh": "22px",
+     "br": "0px",
+     "pad": "0px",
+     "mar": "0px",
+     "border": "0px/rgba(0, 0, 0, 0.88)",
+     "disp": "inline-block",
+     "pos": "relative",
+     "z": "auto",
+     "shadow": "none",
+     "ff": "-apple-system"
+    },
+    "text": ""
+   },
+   {
+    "tag": "img",
+    "cls": "ant-image-img _adImage_scegn_31 css-1d18km6",
+    "rect": {
+     "x": 0,
+     "y": -50,
+     "w": 1908,
+     "h": 50
+    },
+    "css": {
+     "bg": "rgba(0, 0, 0, 0)",
+     "color": "rgba(0, 0, 0, 0.88)",
+     "fs": "14px",
+     "fw": "400",
+     "lh": "22px",
+     "br": "0px",
+     "pad": "0px",
+     "mar": "0px",
+     "border": "0px/rgba(0, 0, 0, 0.88)",
+     "disp": "block",
+     "pos": "relative",
+     "z": "auto",
+     "shadow": "none",
+     "ff": "-apple-system"
+    },
+    "text": ""
+   },
+   {
+    "tag": "span",
+    "cls": "anticon anticon-close-circle _closeBtn_scegn_74",
+    "rect": {
+     "x": 1861,
+     "y": -36,
+     "w": 22,
+     "h": 22
+    },
+    "css": {
+     "bg": "rgba(0, 0, 0, 0)",
+     "color": "rgb(255, 255, 255)",
+     "fs": "22px",
+     "fw": "400",
+     "lh": "0px",
+     "br": "0px",
+     "pad": "0px",
+     "mar": "0px",
+     "border": "0px/rgb(255, 255, 255)",
+     "disp": "flex",
+     "pos": "absolute",
+     "z": "auto",
+     "shadow": "none",
+     "ff": "-apple-system"
+    },
+    "text": ""
+   },
+   {
+    "tag": "svg",
+    "cls": "[object SVGAnimatedString]",
+    "rect": {
+     "x": 1861,
+     "y": -36,
+     "w": 22,
+     "h": 22
+    },
+    "css": {
+     "bg": "rgba(0, 0, 0, 0)",
+     "color": "rgb(255, 255, 255)",
+     "fs": "22px",
+     "fw": "400",
+     "lh": "22px",
+     "br": "0px",
+     "pad": "0px",
+     "mar": "0px",
+     "border": "0px/rgb(255, 255, 255)",
+     "disp": "block",
+     "pos": "static",
+     "z": "auto",
+     "shadow": "none",
+     "ff": "-apple-system"
+    },
+    "text": ""
+   },
+   {
+    "tag": "path",
+    "cls": "[object SVGAnimatedString]",
+    "rect": {
+     "x": 1861,
+     "y": -36,
+     "w": 22,
+     "h": 22
+    },
+    "css": {
+     "bg": "rgba(0, 0, 0, 0)",
+     "color": "rgb(255, 255, 255)",
+     "fs": "22px",
+     "fw": "400",
+     "lh": "22px",
+     "br": "0px",
+     "pad": "0px",
+     "mar": "0px",
+     "border": "0px/rgb(255, 255, 255)",
+     "disp": "inline",
+     "pos": "static",
+     "z": "auto",
+     "shadow": "none",
+     "ff": "-apple-system"
+    },
+    "text": ""
+   }
+  ],
+  "close": [
+   {
+    "tag": "span",
+    "cls": "anticon anticon-close-circle _closeBtn_scegn_74",
+    "rect": {
+     "x": 1861,
+     "y": -36,
+     "w": 22,
+     "h": 22
+    },
+    "css": {
+     "bg": "rgba(0, 0, 0, 0)",
+     "color": "rgb(255, 255, 255)",
+     "fs": "22px",
+     "fw": "400",
+     "lh": "0px",
+     "br": "0px",
+     "pad": "0px",
+     "mar": "0px",
+     "border": "0px/rgb(255, 255, 255)",
+     "disp": "flex",
+     "pos": "absolute",
+     "z": "auto",
+     "shadow": "none",
+     "ff": "-apple-system"
+    },
+    "text": ""
+   }
+  ]
+ },
+ "promoHtml": "<div class=\"_wrap_scegn_1\"><div class=\"ant-carousel ant-carousel-vertical css-1d18km6\"><div class=\"slick-slider slick-vertical slick-initialized\" dir=\"ltr\"><div class=\"slick-list\" style=\"height: 50px;\"><div class=\"slick-track\" style=\"opacity: 1; transform: translate3d(0px, -150px, 0px); height: 250px;\"><div data-index=\"-1\" tabindex=\"-1\" class=\"slick-slide slick-cloned\" aria-hidden=\"true\" style=\"width: 1908px;\"><div><div class=\"_adImage_scegn_31\" tabindex=\"-1\" style=\"width: 100%; display: inline-block;\"><div class=\"ant-image css-1d18km6\"><img class=\"ant-image-img _adImage_scegn_31 css-1d18km6\" src=\"https://file-ai.linkfox.com/UPLOAD/MANAGE/5518bb7306904474ac19f3e38d9487a0.png\"></div><span role=\"img\" aria-label=\"close-circle\" tabindex=\"-1\" class=\"anticon anticon-close-circle _closeBtn_scegn_74\"><svg fill-rule=\"evenodd\" viewBox=\"64 64 896 896\" focusable=\"false\" data-icon=\"close-circle\" widt",
+ "rightBox": null,
+ "rightKids": [],
+ "userRes": {
+  "freeQuota": [
+   {
+    "tag": "div",
+    "cls": "ant-space-item",
+    "rect": {
+     "x": 1532.5,
+     "y": 64,
+     "w": 94,
+     "h": 32
+    },
+    "css": {
+     "bg": "rgba(0, 0, 0, 0)",
+     "color": "rgba(0, 0, 0, 0.88)",
+     "fs": "14px",
+     "fw": "400",
+     "lh": "22px",
+     "br": "0px",
+     "pad": "0px",
+     "mar": "0px",
+     "border": "0px/rgba(0, 0, 0, 0.88)",
+     "disp": "block",
+     "pos": "static",
+     "z": "auto",
+     "shadow": "none",
+     "ff": "-apple-system"
+    },
+    "text": "免费得算力"
+   },
+   {
+    "tag": "div",
+    "cls": "_box_tlhxi_1",
+    "rect": {
+     "x": 1532.5,
+     "y": 64,
+     "w": 94,
+     "h": 32
+    },
+    "css": {
+     "bg": "rgba(0, 0, 0, 0)",
+     "color": "rgba(0, 0, 0, 0.88)",
+     "fs": "14px",
+     "fw": "400",
+     "lh": "22px",
+     "br": "0px",
+     "pad": "0px",
+     "mar": "0px",
+     "border": "0px/rgba(0, 0, 0, 0.88)",
+     "disp": "block",
+     "pos": "static",
+     "z": "auto",
+     "shadow": "none",
+     "ff": "-apple-system"
+    },
+    "text": "免费得算力"
+   },
+   {
+    "tag": "div",
+    "cls": "",
+    "rect": {
+     "x": 1532.5,
+     "y": 64,
+     "w": 94,
+     "h": 32
+    },
+    "css": {
+     "bg": "rgba(0, 0, 0, 0)",
+     "color": "rgba(0, 0, 0, 0.88)",
+     "fs": "14px",
+     "fw": "400",
+     "lh": "22px",
+     "br": "0px",
+     "pad": "0px",
+     "mar": "0px",
+     "border": "0px/rgba(0, 0, 0, 0.88)",
+     "disp": "block",
+     "pos": "static",
+     "z": "auto",
+     "shadow": "none",
+     "ff": "-apple-system"
+    },
+    "text": "免费得算力"
+   }
+  ],
+  "credits": [],
+  "buy": [],
+  "login": [],
+  "avatar": [
+   {
+    "tag": "div",
+    "cls": "_avatarWrap_15na6_82",
+    "rect": {
+     "x": 1755.4,
+     "y": 62,
+     "w": 36,
+     "h": 36
+    },
+    "css": {
+     "bg": "rgba(0, 0, 0, 0)",
+     "color": "rgba(0, 0, 0, 0.88)",
+     "fs": "14px",
+     "fw": "400",
+     "lh": "22px",
+     "br": "0px",
+     "pad": "0px",
+     "mar": "0px 5px 0px 0px",
+     "border": "0px/rgba(0, 0, 0, 0.88)",
+     "disp": "block",
+     "pos": "relative",
+     "z": "auto",
+     "shadow": "none",
+     "ff": "-apple-system"
+    },
+    "text": "用"
+   },
+   {
+    "tag": "span",
+    "cls": "ant-avatar ant-avatar-circle css-1d18km6",
+    "rect": {
+     "x": 1755.4,
+     "y": 62,
+     "w": 36,
+     "h": 36
+    },
+    "css": {
+     "bg": "rgb(168, 141, 237)",
+     "color": "rgb(255, 255, 255)",
+     "fs": "14px",
+     "fw": "400",
+     "lh": "22px",
+     "br": "50%",
+     "pad": "0px",
+     "mar": "0px",
+     "border": "1px/rgba(0, 0, 0, 0)",
+     "disp": "inline-flex",
+     "pos": "relative",
+     "z": "auto",
+     "shadow": "none",
+     "ff": "-apple-system"
+    },
+    "text": "用"
+   },
+   {
+    "tag": "span",
+    "cls": "ant-avatar-string",
+    "rect": {
+     "x": 1766.4,
+     "y": 69,
+     "w": 14,
+     "h": 22
+    },
+    "css": {
+     "bg": "rgba(0, 0, 0, 0)",
+     "color": "rgb(255, 255, 255)",
+     "fs": "14px",
+     "fw": "400",
+     "lh": "22px",
+     "br": "0px",
+     "pad": "0px",
+     "mar": "0px",
+     "border": "0px/rgb(255, 255, 255)",
+     "disp": "block",
+     "pos": "static",
+     "z": "auto",
+     "shadow": "none",
+     "ff": "-apple-system"
+    },
+    "text": "用"
+   }
+  ]
+ },
+ "aside": {
+  "tag": "aside",
+  "cls": "ant-layout-sider ant-layout-sider-dark _leftSider_1k85n_3  css-1d18km6",
+  "rect": {
+   "x": 0,
+   "y": 110,
+   "w": 180,
+   "h": 671
+  },
+  "css": {
+   "bg": "rgb(255, 255, 255)",
+   "color": "rgba(0, 0, 0, 0.88)",
+   "fs": "14px",
+   "fw": "400",
+   "lh": "22px",
+   "br": "0px",
+   "pad": "0px",
+   "mar": "0px",
+   "border": "0px/rgba(0, 0, 0, 0.88)",
+   "disp": "block",
+   "pos": "relative",
+   "z": "2",
+   "shadow": "none",
+   "ff": "-apple-system"
+  },
+  "text": "商品套图 服装套图 爆款图复刻 NEW 套图换色 NEW 批量翻译 高清放大 批量抠图 智能扩图 免责声明"
+ },
+ "asideRows": [
+  {
+   "tag": "li",
+   "cls": "ant-menu-item",
+   "rect": {
+    "x": 0,
+    "y": 110,
+    "w": 179,
+    "h": 40
+   },
+   "css": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "color": "rgba(0, 0, 0, 0.6)",
+    "fs": "16px",
+    "fw": "400",
+    "lh": "40px",
+    "br": "0px",
+    "pad": "0px 12px 0px 18px",
+    "mar": "0px",
+    "border": "0px/rgba(0, 0, 0, 0.6)",
+    "disp": "flex",
+    "pos": "relative",
+    "z": "auto",
+    "shadow": "none",
+    "ff": "-apple-system"
+   },
+   "text": "商品套图"
+  },
+  {
+   "tag": "li",
+   "cls": "ant-menu-item",
+   "rect": {
+    "x": 0,
+    "y": 150,
+    "w": 179,
+    "h": 40
+   },
+   "css": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "color": "rgba(0, 0, 0, 0.6)",
+    "fs": "16px",
+    "fw": "400",
+    "lh": "40px",
+    "br": "0px",
+    "pad": "0px 12px 0px 18px",
+    "mar": "0px",
+    "border": "0px/rgba(0, 0, 0, 0.6)",
+    "disp": "flex",
+    "pos": "relative",
+    "z": "auto",
+    "shadow": "none",
+    "ff": "-apple-system"
+   },
+   "text": "服装套图"
+  },
+  {
+   "tag": "li",
+   "cls": "ant-menu-item-divider",
+   "rect": {
+    "x": 0,
+    "y": 198,
+    "w": 179,
+    "h": 1
+   },
+   "css": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "color": "rgba(0, 0, 0, 0.88)",
+    "fs": "14px",
+    "fw": "400",
+    "lh": "0px",
+    "br": "0px",
+    "pad": "0px",
+    "mar": "8px 0px",
+    "border": "1px/rgba(5, 5, 5, 0.06)",
+    "disp": "list-item",
+    "pos": "static",
+    "z": "auto",
+    "shadow": "none",
+    "ff": "-apple-system"
+   },
+   "text": ""
+  },
+  {
+   "tag": "li",
+   "cls": "ant-menu-item",
+   "rect": {
+    "x": 0,
+    "y": 207,
+    "w": 179,
+    "h": 40
+   },
+   "css": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "color": "rgba(0, 0, 0, 0.6)",
+    "fs": "16px",
+    "fw": "400",
+    "lh": "40px",
+    "br": "0px",
+    "pad": "0px 12px 0px 18px",
+    "mar": "0px",
+    "border": "0px/rgba(0, 0, 0, 0.6)",
+    "disp": "flex",
+    "pos": "relative",
+    "z": "auto",
+    "shadow": "none",
+    "ff": "-apple-system"
+   },
+   "text": "爆款图复刻 NEW"
+  },
+  {
+   "tag": "li",
+   "cls": "ant-menu-item",
+   "rect": {
+    "x": 0,
+    "y": 247,
+    "w": 179,
+    "h": 40
+   },
+   "css": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "color": "rgba(0, 0, 0, 0.6)",
+    "fs": "16px",
+    "fw": "400",
+    "lh": "40px",
+    "br": "0px",
+    "pad": "0px 12px 0px 18px",
+    "mar": "0px",
+    "border": "0px/rgba(0, 0, 0, 0.6)",
+    "disp": "flex",
+    "pos": "relative",
+    "z": "auto",
+    "shadow": "none",
+    "ff": "-apple-system"
+   },
+   "text": "套图换色 NEW"
+  },
+  {
+   "tag": "li",
+   "cls": "ant-menu-item-divider",
+   "rect": {
+    "x": 0,
+    "y": 295,
+    "w": 179,
+    "h": 1
+   },
+   "css": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "color": "rgba(0, 0, 0, 0.88)",
+    "fs": "14px",
+    "fw": "400",
+    "lh": "0px",
+    "br": "0px",
+    "pad": "0px",
+    "mar": "8px 0px",
+    "border": "1px/rgba(5, 5, 5, 0.06)",
+    "disp": "list-item",
+    "pos": "static",
+    "z": "auto",
+    "shadow": "none",
+    "ff": "-apple-system"
+   },
+   "text": ""
+  },
+  {
+   "tag": "li",
+   "cls": "ant-menu-item",
+   "rect": {
+    "x": 0,
+    "y": 304,
+    "w": 179,
+    "h": 40
+   },
+   "css": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "color": "rgba(0, 0, 0, 0.6)",
+    "fs": "16px",
+    "fw": "400",
+    "lh": "40px",
+    "br": "0px",
+    "pad": "0px 12px 0px 18px",
+    "mar": "0px",
+    "border": "0px/rgba(0, 0, 0, 0.6)",
+    "disp": "flex",
+    "pos": "relative",
+    "z": "auto",
+    "shadow": "none",
+    "ff": "-apple-system"
+   },
+   "text": "批量翻译"
+  },
+  {
+   "tag": "li",
+   "cls": "ant-menu-item",
+   "rect": {
+    "x": 0,
+    "y": 344,
+    "w": 179,
+    "h": 40
+   },
+   "css": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "color": "rgba(0, 0, 0, 0.6)",
+    "fs": "16px",
+    "fw": "400",
+    "lh": "40px",
+    "br": "0px",
+    "pad": "0px 12px 0px 18px",
+    "mar": "0px",
+    "border": "0px/rgba(0, 0, 0, 0.6)",
+    "disp": "flex",
+    "pos": "relative",
+    "z": "auto",
+    "shadow": "none",
+    "ff": "-apple-system"
+   },
+   "text": "高清放大"
+  }
+ ],
+ "asideFoot": [
+  {
+   "tag": "div",
+   "cls": "_declare_1k85n_117",
+   "rect": {
+    "x": 0,
+    "y": 754.2,
+    "w": 179,
+    "h": 18.8
+   },
+   "css": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "color": "rgb(208, 210, 214)",
+    "fs": "12px",
+    "fw": "400",
+    "lh": "18.8571px",
+    "br": "0px",
+    "pad": "0px",
+    "mar": "0px",
+    "border": "0px/rgb(208, 210, 214)",
+    "disp": "block",
+    "pos": "absolute",
+    "z": "auto",
+    "shadow": "none",
+    "ff": "-apple-system"
+   },
+   "text": "免责声明"
+  },
+  {
+   "tag": "span",
+   "cls": "",
+   "rect": {
+    "x": 57.8,
+    "y": 755.2,
+    "w": 63.4,
+    "h": 15
+   },
+   "css": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "color": "rgb(208, 210, 214)",
+    "fs": "12px",
+    "fw": "400",
+    "lh": "18.8571px",
+    "br": "0px",
+    "pad": "0px",
+    "mar": "0px",
+    "border": "0px/rgb(208, 210, 214)",
+    "disp": "inline",
+    "pos": "static",
+    "z": "auto",
+    "shadow": "none",
+    "ff": "-apple-system"
+   },
+   "text": "免责声明"
+  },
+  {
+   "tag": "span",
+   "cls": "_spanText_1k85n_112",
+   "rect": {
+    "x": 69.8,
+    "y": 755.2,
+    "w": 51.4,
+    "h": 15
+   },
+   "css": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "color": "rgb(208, 210, 214)",
+    "fs": "12px",
+    "fw": "400",
+    "lh": "18.8571px",
+    "br": "0px",
+    "pad": "0px",
+    "mar": "0px",
+    "border": "0px/rgb(208, 210, 214)",
+    "disp": "inline",
+    "pos": "static",
+    "z": "auto",
+    "shadow": "none",
+    "ff": "-apple-system"
+   },
+   "text": "免责声明"
+  }
+ ],
+ "main": null
+}
