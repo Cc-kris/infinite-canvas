@@ -11,7 +11,23 @@
 ## 一、本地实测（含深色）
 
 证据目录：`docs/V1.0/plan_linkfox_navigation/evidence/b12-shell-responsive-20261029/`
-每档含 `measure.json`（rect + 计算样式）与 `shot.jpg`；`summary-local.json` 为汇总。
+- `local/<w>/`、`local-dark/<w>/`：`measure.json`（CDP rect + 计算样式）+ `shot.jpg`
+- `real/<w>/`、`local*/<w>/shot.jpg`：**Playwright 真视口截图**（18 张，见 `shots-verify.json`：像素尺寸逐张校验 `w×900`、md5 18/18 唯一）
+- `summary-local.json`：本地 12 组溢出/主题汇总
+
+> 说明：首轮 CDP `Page.captureScreenshot` 产出的 `shot.jpg` 存在**相邻视口复帧**（多个宽度字节数/md5 相同），已判定不可用作逐档证据，全部用 Playwright 重拍覆盖。
+> 原站/本地同状态实测（Playwright，2026-10-29）：
+
+| 视口 | 原站 scrollWidth | 原站溢出 | 原站 `<header>` | 本地 scrollWidth | 本地溢出 | 本地 `<header>` |
+|---|---|---|---|---|---|---|
+| 1908 | 1908 | 无 | 无（0） | 1908 | 无 | 60 |
+| 1440 | 1440 | 无 | 无（0） | 1440 | 无 | 60 |
+| 1280 | 1280 | 无 | 无（0） | 1280 | 无 | 60 |
+| 1024 | 1200 | **有** | 无（0） | 1024 | 无 | 60 |
+| 768 | 1200 | **有** | 无（0） | 768 | 无 | 60 |
+| 390 | 390 | 无 | 无（0） | 390 | 无 | 60 |
+
+结论：原站 1024/768 依赖 1200 最小宽整页横滚；本地 6 档全部 `scrollWidth == innerWidth`，无横滚。
 
 | 视口 | 溢出 | 促销条 | 顶栏 | 导航 | 用户区(x,w) | 学习中心 | 免费/积分 | 侧栏 |
 |---|---|---|---|---|---|---|---|---|
@@ -38,8 +54,9 @@
 4. `web/src/styles/globals.css`
    - 新增 `--tool-row`（`:root` = rgba(0,0,0,.6)；`.dark` = rgba(255,255,255,.62)）。
 
-新增采集器：`docs/V1.0/plan_linkfox_navigation/tools/probe_shell_responsive.py`
-（`--side local|real --widths ... --dark`，按 CDP `Emulation.setDeviceMetricsOverride` 逐档切换，落 `measure.json` + `shot.jpg`；主题经 `localStorage['infinite-canvas:theme_store']` 注入后重载）。
+新增采集器（两件）：
+1. `tools/probe_shell_responsive.py`：CDP `Emulation.setDeviceMetricsOverride` 逐档切宽，落 `measure.json`（rect/计算样式/主题变量）+ `summary-local.json`；主题经 `localStorage['infinite-canvas:theme_store']` 注入后重载。
+2. `tools/shot_shell_playwright.js`：Playwright 真视口截图（每档独立 context、`viewport={w,900}`、`deviceScaleFactor=1`），逐张校验 JPEG 像素尺寸 `w×900` 并输出 md5 到 `evidence/.../shots-verify.json`。**截图以此为准**（CDP 截图存在复帧，已废弃）。
 
 ## 三、验证
 
@@ -52,7 +69,7 @@
 
 ## 四、未完成 / 风险（PARTIAL 依据）
 
-1. **原站 6 视口未同步落盘**：原站在 768/1024 自身 1200 最小宽横向溢出、390 无 `<header>`（仅 83px 紧凑条）、不提供汉堡入口；本报告的原站结论来自本轮探针（已在会话中测得），但未逐档存 `measure.json`，故不能声称「双端 6 档全量证据齐备」。
+1. **原站无 `measure.json`（仅有截图）**：原站 6 档截图已落盘 `real/<w>/shot.jpg`（Playwright 校验通过），但原站的 rect/计算样式明细未逐档存 JSON（首页/工具页为第三方站点，DOM 结构与本仓库不同，逐字段对齐意义有限）。故原站侧只是「截图 + scrollWidth/header 高度」级证据，不构成逐字段对照。
 2. **窄屏策略差异不是缺陷**：本地采用「汉堡 + 抽屉」而非原站「整页横滚」，属体验改良；若要求 1:1 复制原站横向滚动，需要产品确认（不建议）。
 3. **Playwright 响应式 e2e 未跑**（`tools-responsive.spec.ts`：1440/1024/768/390 × 3 路由，断言 `scrollWidth - innerWidth <= 1` 与侧栏/抽屉入口）。建议在有 bun/playwright 起的 CI 环境补跑，作为本档的自动化回归。
 4. 暗色仅对照主题变量与关键容器底色（body/header/sidebar row），未做逐像素截图比对（原站无暗色主题可对照）。
@@ -61,9 +78,21 @@
 ## 五、如何复跑
 
 ```bash
+# 1) 布局明细（rect/样式/主题）
 cd docs/V1.0/plan_linkfox_navigation/tools
 python3 probe_shell_responsive.py --side local \
   --url http://127.0.0.1:3000/tools/ecommerce-suite/ai-outpainting --dark
-cd ../../../web && node_modules/.bin/tsc --noEmit
-cd ../web && ~/.bun/bin/bun test
+
+# 2) 真视口截图（本地浅/暗 + 原站，18 张）
+cd /Users/mac/Documents/Dev/infinite-canvas/web
+NODE_PATH=$PWD/node_modules node \
+  ../docs/V1.0/plan_linkfox_navigation/tools/shot_shell_playwright.js
+
+# 3) 类型与单测
+cd /Users/mac/Documents/Dev/infinite-canvas/web
+node_modules/.bin/tsc --noEmit
+~/.bun/bin/bun test
 ```
+
+注：`shot_shell_playwright.js` 默认指向本机缓存的 Chromium 1234（`chromium.launch({executablePath})`）；
+换机时若版本不符，改该常量或先 `npx playwright install chromium`。
