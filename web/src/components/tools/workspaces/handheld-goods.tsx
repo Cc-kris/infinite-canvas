@@ -349,42 +349,15 @@ export function HandheldGoodsWorkspace({ className }: HandheldGoodsWorkspaceProp
     );
 
     return (
-        <ToolShell
-            className={className}
-            title={spec?.title ?? "手持商品"}
-            subtitle="快速生成手持商品图，快速上架"
-            sidebar={sidebar}
-            badges={
-                <>
-                    <span className="rounded border border-border px-1.5 py-0.5 text-[11px] text-muted-foreground">
-                        商品图 10M · 384²–4096²
-                    </span>
-                    <span className="rounded border border-border px-1.5 py-0.5 text-[11px] text-muted-foreground">
-                        张数 {handheldGoodsOutputLabel(state.outputNum)}
-                    </span>
-                </>
-            }
-            notices={
-                notice ? (
-                    <div
-                        role="status"
-                        className="rounded-md border border-amber-300/60 bg-amber-50 px-3 py-2 text-xs text-amber-900 dark:border-amber-500/40 dark:bg-amber-500/10 dark:text-amber-200"
-                    >
-                        {notice}
-                    </div>
-                ) : null
-            }
-            actions={
-                <button
-                    type="button"
-                    onClick={() => void submit()}
-                    disabled={submitDisabled}
-                    className="inline-flex h-9 items-center gap-2 rounded-md bg-primary px-4 text-sm font-medium text-primary-foreground transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50"
+        <div className={cn("flex min-h-0 min-w-0 flex-1 flex-col", className)} data-testid="handheld-workspace-root">
+            {notice ? (
+                <div
+                    role="status"
+                    className="mb-2 rounded-md border border-amber-300/60 bg-amber-50 px-3 py-2 text-xs text-amber-900 dark:border-amber-500/40 dark:bg-amber-500/10 dark:text-amber-200"
                 >
-                    {running ? "生成中…" : "立即生成"}
-                </button>
-            }
-        >
+                    {notice}
+                </div>
+            ) : null}
             <Design19Workbench data-testid="handheld-goods-workspace">
                 <Design19LeftColumn
                     footer={
@@ -398,6 +371,11 @@ export function HandheldGoodsWorkspace({ className }: HandheldGoodsWorkspaceProp
                         </Design19PrimaryButton>
                     }
                 >
+                    {/* 0. 原站左卡标题：工具名 + 一句话 tagline（real/HANDHELD_GOODS/text.txt L47） */}
+                    <Design19Section>
+                        <p className="text-[16px]! font-medium leading-6 text-[#1f2024]!">手持商品</p>
+                        <p className="mt-1 text-[12px]! leading-5 text-black/60!">快速生成手持商品图，快速上架</p>
+                    </Design19Section>
                     {/* 1. 商品图上传（原站 268x306 浅灰上传面板） */}
                     <Design19Section>
                         <ToolAssetInput
@@ -661,7 +639,7 @@ export function HandheldGoodsWorkspace({ className }: HandheldGoodsWorkspaceProp
                     </div>
                 </Design19Results>
             </Design19Workbench>
-        </ToolShell>
+        </div>
     );
 }
 
