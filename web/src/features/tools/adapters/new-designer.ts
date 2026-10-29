@@ -273,11 +273,14 @@ export async function runDesigner(options: DesignerRunOptions): Promise<Designer
     }
     throwIfAborted(signal);
 
-    // 结果项带真实资产地址：刷新后 ingestResultMedia 会把字节落到 IDB，下载/存资产/发画布都还能用。
+    // 结果项同时带真实字节：asset.url 是会话内 object URL（刷新即失效），
+    // 只有 blob 能让 use-tool-task-store 的 ingestResultMedia 落进 media_files（storageKey），
+    // 刷新后由 storageKey 重建 URL，下载/存资产/发画布才继续可用。
     const item: ToolTaskResultItem = {
         id: `designer-${snapshot.fingerprint.slice(0, 12)}-${asset.assetId.slice(0, 8)}`,
         kind: "image",
         url: asset.url,
+        blob: composite.blob,
         mimeType: composite.mimeType || DESIGNER_DONE_MIME,
         bytes: composite.blob.size,
     };

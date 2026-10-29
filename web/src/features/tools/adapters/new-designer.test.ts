@@ -644,6 +644,10 @@ describe("任务持久化（历史坞读的是真实任务记录，不是本地�
         expect(run.task.upstreamProvider).toBe(DESIGNER_TASK_ENGINE);
         expect(run.task.inputSnapshot).toBeDefined();
         expect(run.task.result?.items[0]?.url).toBe("https://cdn.example.com/designer.png");
+        // 真实字节必须随结果项交给 store：只有 blob 才能进 media_files（storageKey），
+        // 刷新后 URL 由 storageKey 重建，下载/存资产/发画布才不会 Failed to fetch。
+        expect(run.task.result?.items[0]?.blob).toBeInstanceOf(Blob);
+        expect(run.task.result?.items[0]?.blob?.size).toBe(run.task.result?.items[0]?.bytes);
         expect(run.task.error).toBeUndefined();
 
         const replayed = readDesignerReplaySnapshot(run.task.inputSnapshot);
