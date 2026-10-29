@@ -70,12 +70,43 @@ export function buildFixColorPrompt(snapshot: FixColorSnapshot): string {
     ].join("");
 }
 
+/* ------------------------------------------------------------------ *
+ * 输出尺寸：色差修复必须回到原图尺寸
+ * ------------------------------------------------------------------ *
+ * 「输出与原图相同尺寸」是这个工具的真实契约：指令里写死、蒙版也按原图尺寸导出。
+ * 旧实现没下发 size，网关回落到用户全局画幅（默认 1:1）→ 1024×744 的图被改成 1024×1024 输出。
+ * 这里按原图宽高算出请求尺寸：边长吸附到上游步进（16），并夹在图像管线的像素/边长上下限内。
+ */
+export const FIX_COLOR_OUTPUT_STEP = 16;
+export const FIX_COLOR_OUTPUT_LIMITS = { maxEdge: 3840, maxPixels: 8_294_400, minPixels: 655_360 } as const;
+
+export function fixColorOutputSize(width?: number, height?: number): string | null {
+    if (!Number.isFinite(width) || !Number.isFinite(height) || !width || !height || width <= 0 || height <= 0) return null;
+    const { maxEdge, maxPixels, minPixels } = FIX_COLOR_OUTPUT_LIMITS;
+    const snap = (value: number) => Math.max(FIX_COLOR_OUTPUT_STEP, Math.round(value / FIX_COLOR_OUTPUT_STEP) * FIX_COLOR_OUTPUT_STEP);
+    const pixels = width * height;
+    let scale = Math.min(1, maxEdge / Math.max(width, height), Math.sqrt(maxPixels / pixels));
+    if (pixels * scale * scale < minPixels) scale = Math.sqrt(minPixels / pixels);
+    let w = snap(width * scale);
+    let h = snap(height * scale);
+    // 吸附会让像素数小幅越界：按 2% 步进收敛回合法区间，保持比例不变。
+    for (let guard = 0; guard < 64; guard += 1) {
+        if (w * h >= minPixels && w * h <= maxPixels && w <= maxEdge && h <= maxEdge) break;
+        scale *= w * h < minPixels ? 1.02 : 0.98;
+        w = snap(width * scale);
+        h = snap(height * scale);
+    }
+    return `${w}x${h}`;
+}
+
 export type FixColorUnit = {
     id: string;
     prompt: string;
     references: ReferenceImage[];
     fields: Record<string, unknown>;
     snapshotHash: string;
+    /** 按原图尺寸算出的请求尺寸（`宽x高`）；没有原图尺寸时缺省，交给全局配置。 */
+    size?: string;
 };
 
 export type BuildFixColorUnitInput = {
@@ -97,6 +128,7 @@ export function buildFixColorUnit(input: BuildFixColorUnitInput): FixColorUnit {
         references: [input.image, input.mask],
         fields: { ...fields, clientOperationId: input.snapshot.clientOperationId },
         snapshotHash: hash,
+        size: fixColorOutputSize(input.snapshot.imageWidth, input.snapshot.imageHeight) ?? undefined,
     };
 }
 
@@ -106,6 +138,7 @@ export function buildFixColorInput(unit: FixColorUnit, options: { draftRevision?
         prompt: unit.prompt,
         references: unit.references,
         count: 1,
+        ...(unit.size ? { size: unit.size } : {}),
         fields: { ...unit.fields, ...(options.draftRevision !== undefined ? { draftRevision: options.draftRevision } : {}) },
     };
 }
@@ -135,6 +168,28 @@ export function assertFixColorInput(input: BrowserToolInput): void {
     }
     if (typeof input.prompt !== "string" || !input.prompt.trim()) {
         throw new FixColorAdapterError("prompt-missing", "校正指令为空，拒绝提交");
+    }
+    if (input.size !== undefined) {
+        const parsed = /^(\d+)x(\d+)$/.exec(input.size.trim());
+        if (!parsed) {
+            throw new FixColorAdapterError("size-invalid", `请求尺寸必须形如 1024x768，当前是 ${input.size}`);
+        }
+        const width = Number(parsed[1]);
+        const height = Number(parsed[2]);
+        const { maxEdge, maxPixels, minPixels } = FIX_COLOR_OUTPUT_LIMITS;
+        const legal =
+            width % FIX_COLOR_OUTPUT_STEP === 0 &&
+            height % FIX_COLOR_OUTPUT_STEP === 0 &&
+            width <= maxEdge &&
+            height <= maxEdge &&
+            width * height >= minPixels &&
+            width * height <= maxPixels;
+        if (!legal) {
+            throw new FixColorAdapterError(
+                "size-invalid",
+                `请求尺寸 ${input.size} 不合法：需为 ${FIX_COLOR_OUTPUT_STEP} 的倍数、边长不超过 ${maxEdge}、像素数在 ${minPixels}~${maxPixels} 之间`,
+            );
+        }
     }
 }
 

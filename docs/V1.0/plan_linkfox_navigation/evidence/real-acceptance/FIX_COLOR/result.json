@@ -1,11 +1,57 @@
 {
   "toolId": "FIX_COLOR",
-  "status": "PARTIAL",
-  "capturedAt": "2026-10-28T17:21:48Z",
+  "status": "PASS",
+  "capturedAt": "2026-10-29T08:24:00Z",
   "route": "/tools/smart-edit/fix-color",
-  "fixture": "product-watch.jpg（1024x744）",
-  "provenance": "多轮真实提交，均未取得可用上游结果。",
-  "result": null,
+  "fixture": "product-watch.jpg（1024x744，31,860 bytes，sha256 43ede96e…dc19be3）",
+  "provenance": "两次真实上游提交（ccai gpt-image-2，channelId=default），均取回可解码 PNG 并落盘。",
+  "result": {
+    "taskId": "task-mvta1kkg-t8y1yo",
+    "status": "succeeded",
+    "durationSec": 41,
+    "model": "default::gpt-image-2",
+    "channelId": "default",
+    "requestSize": "1024x752",
+    "bytes": 1003673,
+    "width": 1024,
+    "height": 752,
+    "mimeType": "image/png",
+    "sha256": "a5958a770e8f630649e57a8849858ab2b8c72f72f344673f77e22f2c89339525",
+    "storageKey": "tool-result:qQAR2JMo3arS4IRSr9C_i",
+    "file": "result-real-run2-20261029.png",
+    "diffVsInput": {
+      "meanAbsDiff": 14.75,
+      "pixelsOver12Pct": 17.8,
+      "pixelsOver30Pct": 16.0,
+      "note": "还原到 1024x744 后逐像素比较，确为真实改图，非回传原图"
+    }
+  },
+  "firstRun": {
+    "taskId": "task-mvt9r1lg-ab8tqn",
+    "status": "succeeded",
+    "durationSec": 24,
+    "requestSize": "1:1（旧缺陷：未下发原图尺寸）",
+    "bytes": 1218527,
+    "width": 1024,
+    "height": 1024,
+    "sha256": "83ef17c23f33eb25593f48aac97db9c4b8797f898fc530c12d80871bbd92d900",
+    "storageKey": "tool-result:PIvAsueZHgZNHS9_77Fw8",
+    "file": "result-real-20261029.png"
+  },
+  "fix": {
+    "file": "web/src/features/tools/adapters/fix-color.ts",
+    "change": "色差修复按原图尺寸下发 size（fixColorOutputSize：16 步进吸附 + 像素/边长限幅），并在提交前守卫非法尺寸；此前未下发 size，网关回落到用户全局画幅 1:1 → 1024x744 被改成 1024x1024 输出。",
+    "tests": "web/src/features/tools/adapters/fix-color.test.ts 新增 4 条尺寸用例（23 pass）"
+  },
+  "historyRecovery": {
+    "method": "整页 reload 后：历史标签 2 条 succeeded（16:15 / 16:24）均带结果缩略图；点『查看结果』→ 结果区显示 1024x752 图，下载/存入资产/发送画布可用。",
+    "limitation": "reload 后结果区默认空态（task 不持久化，需从历史恢复）；历史恢复时前后对比视图不显示（对比视图取 run，历史走 task）。"
+  },
+  "actions": {
+    "download": "按钮存在且结果图可解码",
+    "saveToAssets": "按钮存在",
+    "sendToCanvas": "按钮存在"
+  },
   "attempts": [
     {
       "at": "2026-10-28T13:54:41.834Z",
@@ -17,10 +63,9 @@
       "outcome": "另有 502 / execution-context 失败（见 run-edit6.json）"
     }
   ],
-  "actions": null,
-  "blockedReason": "上游线路对 fix-color 通道持续超时/502，未产生任何真实结果图；按规则不伪造产物，保持 PARTIAL。",
-  "uncovered": [
-    "无真实结果 → 下载 / 存资产 / 发送画布三项动作无法验收",
-    "需在代理可用时重跑一次真实提交（会产生算力消耗）"
+  "supersededBlockedReason": "上游线路对 fix-color 通道持续超时/502，未产生任何真实结果图；按规则不伪造产物，保持 PARTIAL。",
+  "residual": [
+    "16 步进吸附使输出比原图最多差 8px（744→752，纵向 ≈1.08%），比例误差 ≈1%",
+    "历史恢复不还原前后对比视图（本次未改，属工作台 run/task 状态边界）"
   ]
 }

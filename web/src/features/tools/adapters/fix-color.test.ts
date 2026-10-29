@@ -36,12 +36,15 @@ import {
     validateFixColorSource,
 } from "../registry/fix-color";
 import {
+    FIX_COLOR_OUTPUT_LIMITS,
+    FIX_COLOR_OUTPUT_STEP,
     FixColorAdapterError,
     assertFixColorInput,
     buildFixColorInput,
     buildFixColorUnit,
     clampCompareSplit,
     fixColorDownloadName,
+    fixColorOutputSize,
     fixColorResultView,
     fixColorRunFromTask,
     runFixColor,
@@ -388,5 +391,48 @@ describe("FIX_COLOR 工作区渲染", () => {
         );
         expect(html).toContain("尚未接入");
         expect(html).not.toContain("fix-color-submit");
+    });
+});
+
+describe("FIX_COLOR 输出尺寸必须跟随原图", () => {
+    test("1024×744 的原图不再按全局 1:1 出图：尺寸吸附到 16 的倍数且与原图比例一致", () => {
+        const size = fixColorOutputSize(1024, 744);
+        expect(size).toBe("1024x752");
+        const [width, height] = size!.split("x").map(Number);
+        expect(width % FIX_COLOR_OUTPUT_STEP).toBe(0);
+        expect(height % FIX_COLOR_OUTPUT_STEP).toBe(0);
+        // 比例误差 < 2%（旧行为是 1024x1024，比例误差 33%）
+        expect(Math.abs(width / height - 1024 / 744)).toBeLessThan(0.02);
+    });
+
+    test("过小的原图放大到像素下限，过大的原图收敛到上限，均保持 16 步进", () => {
+        const tiny = fixColorOutputSize(100, 100)!.split("x").map(Number);
+        expect(tiny[0] * tiny[1]).toBeGreaterThanOrEqual(FIX_COLOR_OUTPUT_LIMITS.minPixels);
+        const huge = fixColorOutputSize(8192, 8192)!.split("x").map(Number);
+        expect(huge[0] * huge[1]).toBeLessThanOrEqual(FIX_COLOR_OUTPUT_LIMITS.maxPixels);
+        expect(Math.max(huge[0], huge[1])).toBeLessThanOrEqual(FIX_COLOR_OUTPUT_LIMITS.maxEdge);
+        for (const value of [...tiny, ...huge]) expect(value % FIX_COLOR_OUTPUT_STEP).toBe(0);
+    });
+
+    test("没有原图尺寸时不下发 size，交给全局配置（不伪造尺寸）", () => {
+        expect(fixColorOutputSize(undefined, 744)).toBeNull();
+        expect(fixColorOutputSize(0, 0)).toBeNull();
+        expect(fixColorOutputSize(Number.NaN, 100)).toBeNull();
+    });
+
+    test("unit 算出的尺寸真的落到请求里，且非法尺寸被提交前守卫拒绝", () => {
+        const snapshot = snapshotOf();
+        const unit = buildFixColorUnit({
+            snapshot,
+            image: toFixColorReference({ id: "a", name: "shoe.jpg", type: "image/png", dataUrl: "data:image/png;base64,IN" }),
+            mask: { id: "m", name: "mask.png", type: "image/png", dataUrl: "data:image/png;base64,M" },
+        });
+        expect(unit.size).toBe(fixColorOutputSize(snapshot.imageWidth, snapshot.imageHeight)!);
+        const input = buildFixColorInput(unit);
+        expect(input.size).toBe(unit.size);
+        expect(() => assertFixColorInput(input)).not.toThrow();
+        // 未吸附的原始尺寸（744 不是 16 的倍数）不允许直接下发
+        expect(() => assertFixColorInput({ ...input, size: "1024x744" })).toThrow(/尺寸/);
+        expect(() => assertFixColorInput({ ...input, size: "1:1" })).toThrow(/尺寸/);
     });
 });
