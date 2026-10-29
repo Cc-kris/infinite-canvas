@@ -17,6 +17,7 @@ import { ToolAssetInput } from "@/components/tools/tool-asset-input";
 import { ToolResult } from "@/components/tools/tool-result";
 import { ToolShell } from "@/components/tools/tool-shell";
 import { ToolTaskHistory } from "@/components/tools/tool-task-history";
+import { ToolCases } from "../tool-cases";
 import {
     buildVideoTranslationBrowserInput,
     checkVideoTranslationCapability,
@@ -488,6 +489,17 @@ export function VideoTranslationWorkspace({ className }: VideoTranslationWorkspa
                             </dl>
                         </details>
                     ) : null}
+                    <section className="space-y-2 rounded-lg border border-border p-3" data-testid="video-translation-cases">
+                        <div className="flex items-center justify-between">
+                            <h2 className="text-sm font-medium">优秀案例</h2>
+                            <span className="text-[11px] text-muted-foreground">原站页签：生成结果 / 优秀案例 / 历史记录</span>
+                        </div>
+                        <ToolCases
+                            cases={[]}
+                            onApply={() => setNotice("案例库未接入：暂无真实案例可回填")}
+                            emptyHint="案例库未接入：原站此处展示平台优秀作品并支持「一键做同款」；本地不伪造案例卡片，等真实案例数据接入"
+                        />
+                    </section>
                     <section className="space-y-2 rounded-lg border border-border p-3" data-testid="video-translation-history">
                         <div className="flex items-center justify-between">
                             <h2 className="text-sm font-medium">历史任务</h2>

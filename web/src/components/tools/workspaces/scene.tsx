@@ -3,6 +3,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 import { ToolAssetInput } from "@/components/tools/tool-asset-input";
 import { ToolResult } from "@/components/tools/tool-result";
+import { downloadResultItem, saveResultItemToAssets, sendResultItemToCanvas } from "@/components/tools/tool-result-actions";
 import { loadToolAssetRecords, type ToolAssetConstraints, type ToolAssetRecord } from "@/services/api/tools/assets";
 import { getToolGateway } from "@/services/api/tools/gateway";
 import type { ToolTask } from "@/services/api/tools/task-machine";
@@ -876,6 +877,10 @@ export function FissionLinkWorkspace({ className, port }: FissionLinkWorkspacePr
     const [lockedHash, setLockedHash] = useState("");
     const [error, setError] = useState("");
     const [busy, setBusy] = useState(false);
+    /** 单张结果动作的 pending key（`download-0` / `save-0` / `canvas-0`），按索引精确区隔，避免一卡忙全部锁死。 */
+    const [actionPending, setActionPending] = useState("");
+    /** 动作真实回执（含失败原因），不伪造成功。 */
+    const [actionNotice, setActionNotice] = useState("");
     const abortRef = useRef<AbortController | null>(null);
     const hydratedRef = useRef(false);
 
@@ -950,7 +955,17 @@ export function FissionLinkWorkspace({ className, port }: FissionLinkWorkspacePr
     const resolveSource = useCallback(async () => {
         if (asset) {
             const { imageToDataUrl } = await import("@/services/image-storage");
-            const dataUrl = await imageToDataUrl({ storageKey: asset.storageKey, url: asset.url });
+            /**
+             * 真实缺陷修复（2026-10-29 真机复现）：刷新页面后草稿里的资产还在，但 IndexedDB 字节可能已经不在，
+             * `imageToDataUrl` 会一直挂起 —— 界面永远停在「正在生成：已返回 0/1 张」，且一个上游请求都没发。
+             * 这里加超时兜底：读不到字节就回退到资产自身 URL，让提交要么带真实地址继续，要么立刻报错。
+             */
+            const dataUrl = await Promise.race<string | undefined>([
+                imageToDataUrl({ storageKey: asset.storageKey, url: asset.url }),
+                new Promise<undefined>((resolve) => {
+                    setTimeout(() => resolve(undefined), 8000);
+                }),
+            ]);
             return { asset, url: asset.url ?? dataUrl, dataUrl };
         }
         return { asset: null, url: inspection.value, dataUrl: undefined };
@@ -1051,6 +1066,54 @@ export function FissionLinkWorkspace({ className, port }: FissionLinkWorkspacePr
             void runCells([index]);
         },
         [busy, runCells],
+    );
+
+    /**
+     * 单张结果的三个真实动作。
+     *
+     * 规格要求「下载 / 存入资产库 / 发送到画布」都是真实副作用：这里复用 ToolResult 同一套
+     * 动作实现（file-saver / image-storage + asset-store / canvas-store），不另造链路，
+     * 也不在任何一步失败时谎报成功。pending 用 `${action}-${index}` 精确到单张。
+     */
+    const runCellAction = useCallback(
+        async (action: "download" | "save" | "canvas", index: number) => {
+            const image = runs[index]?.image;
+            if (!image?.url && !image?.dataUrl) return;
+            const key = `${action}-${index}`;
+            setActionPending(key);
+            setActionNotice("");
+            const item = {
+                id: `fission-link-${index}`,
+                kind: "image" as const,
+                url: image.url,
+                dataUrl: image.dataUrl,
+                mimeType: "image/png",
+            };
+            try {
+                if (action === "download") {
+                    const fileName = await downloadResultItem(item, index, { toolId: FISSION_LINK_TOOL_ID });
+                    setActionNotice(`已下载第 ${index + 1} 张：${fileName}`);
+                } else if (action === "save") {
+                    const saved = await saveResultItemToAssets(item, index, {
+                        toolId: FISSION_LINK_TOOL_ID,
+                        title: `${FISSION_LINK_TITLE} 第 ${index + 1} 张`,
+                        source: "场景裂变",
+                    });
+                    setActionNotice(`已存入资产库（${saved.assetId}）`);
+                } else {
+                    const sent = await sendResultItemToCanvas(item, {
+                        toolId: FISSION_LINK_TOOL_ID,
+                        projectTitle: `${FISSION_LINK_TITLE} 结果`,
+                    });
+                    setActionNotice(`已发送到画布（${sent.projectId}）`);
+                }
+            } catch (cause) {
+                setActionNotice(cause instanceof Error ? cause.message : "操作失败");
+            } finally {
+                setActionPending("");
+            }
+        },
+        [runs],
     );
 
     const cancel = useCallback(() => {
@@ -1203,6 +1266,11 @@ export function FissionLinkWorkspace({ className, port }: FissionLinkWorkspacePr
                         参数已改动，下面这些结果是上一次配置生成的，需要重新提交
                     </p>
                 ) : null}
+                {actionNotice ? (
+                    <p data-testid="fission-link-action-notice" className="mt-1 text-[11px] text-stone-600 dark:text-stone-300">
+                        {actionNotice}
+                    </p>
+                ) : null}
 
                 <div className="mt-3 grid grid-cols-2 gap-2 sm:grid-cols-3">
                     {Array.from({ length: state.outputNum }, (_, index) => {
@@ -1227,6 +1295,37 @@ export function FissionLinkWorkspace({ className, port }: FissionLinkWorkspacePr
                                     </div>
                                 )}
                                 <p className="mt-1 truncate text-[11px] text-muted-foreground">{fissionLinkCellText(run)}</p>
+                                {image?.url || image?.dataUrl ? (
+                                    <div className="mt-1 space-y-1" data-testid={`fission-link-actions-${index + 1}`}>
+                                        <button
+                                            type="button"
+                                            disabled={Boolean(actionPending)}
+                                            onClick={() => void runCellAction("download", index)}
+                                            data-testid={`fission-link-download-${index + 1}`}
+                                            className="w-full rounded border border-stone-300 py-1 text-[11px] disabled:opacity-60 dark:border-stone-700"
+                                        >
+                                            {actionPending === `download-${index}` ? "下载中…" : "下载"}
+                                        </button>
+                                        <button
+                                            type="button"
+                                            disabled={Boolean(actionPending)}
+                                            onClick={() => void runCellAction("save", index)}
+                                            data-testid={`fission-link-save-${index + 1}`}
+                                            className="w-full rounded border border-stone-300 py-1 text-[11px] disabled:opacity-60 dark:border-stone-700"
+                                        >
+                                            {actionPending === `save-${index}` ? "保存中…" : "存入资产库"}
+                                        </button>
+                                        <button
+                                            type="button"
+                                            disabled={Boolean(actionPending)}
+                                            onClick={() => void runCellAction("canvas", index)}
+                                            data-testid={`fission-link-canvas-${index + 1}`}
+                                            className="w-full rounded border border-stone-300 py-1 text-[11px] disabled:opacity-60 dark:border-stone-700"
+                                        >
+                                            {actionPending === `canvas-${index}` ? "发送中…" : "发送到画布"}
+                                        </button>
+                                    </div>
+                                ) : null}
                                 {run?.status === "failed" ? (
                                     <button
                                         type="button"

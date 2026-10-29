@@ -1,0 +1,94 @@
+{
+  "capturedAt": "2026-10-29",
+  "scope": "6 个视频工具（IMAGE_TO_VIDEO/SALE_VIDEO/VIDEO_REPLICATION/AI_VIDEO_EDITING/VIDEO_TRANSLATION/VIDEO_CONCAT）非视觉缺口收口",
+  "method": "真实浏览器（127.0.0.1:3000 dev）逐页打开 + DOM 读取；原站证据来自 evidence/page-dom-20261028/*.json",
+  "historyDock": {
+    "SALE_VIDEO": {
+      "testid": "sale-video-history",
+      "rendered": true,
+      "count": 1,
+      "status": "失败"
+    },
+    "VIDEO_CONCAT": {
+      "testid": "video-concat-history",
+      "rendered": true,
+      "count": 0,
+      "status": "空态"
+    },
+    "AI_VIDEO_EDITING": {
+      "testid": "ai-video-editing-history",
+      "rendered": true,
+      "count": 2,
+      "status": "失败"
+    },
+    "VIDEO_REPLICATION": {
+      "testid": "video-replication-history",
+      "rendered": true,
+      "count": 1,
+      "status": "失败"
+    },
+    "VIDEO_TRANSLATION": {
+      "testid": "video-translation-history",
+      "rendered": true,
+      "count": 0,
+      "status": "空态"
+    },
+    "PRODUCT_SCENE": {
+      "testid": "scene-tab-history",
+      "rendered": true,
+      "note": "既有 ToolHistoryDock 页签"
+    }
+  },
+  "casesSection": {
+    "originalEvidence": "原站结果区为「生成结果 / 优秀案例 / 历史记录」三页签（VIDEO_TRANSLATION 原文：'生成结果\\\\n优秀案例\\\\n历史记录 ... 一键做同款'）",
+    "local": {
+      "new": [
+        "sale-video-cases",
+        "video-concat-cases",
+        "ai-video-editing-cases",
+        "video-replication-cases",
+        "video-translation-cases"
+      ],
+      "rendered": true,
+      "content": "诚实空态：案例库未接入，不伪造案例卡片",
+      "precedent": "outpaint/suite 同范式（ToolCases 无数据时给 emptyHint，不造卡）"
+    }
+  },
+  "defaults": {
+    "SALE_VIDEO": {
+      "country": "US",
+      "language": "en-US",
+      "prompt": "已预填口播草稿"
+    },
+    "VIDEO_CONCAT": {
+      "clipStart": 0,
+      "clipDuration": 5.2
+    },
+    "AI_VIDEO_EDITING": {
+      "clipStart": 0,
+      "clipDuration": 5
+    },
+    "VIDEO_REPLICATION": {
+      "country": "US",
+      "language": "en",
+      "model": "default::（Seedance 2.0 fast）"
+    },
+    "VIDEO_TRANSLATION": {
+      "sourceLanguage": "auto",
+      "targetLanguage": "en",
+      "lipSync": "1(开)"
+    }
+  },
+  "linkage": {
+    "SALE_VIDEO": {
+      "action": "country US -> JP",
+      "result": {
+        "country": "JP",
+        "language": "ja-JP",
+        "notice": "已按 JP 切换口播语言"
+      }
+    }
+  },
+  "generation": "视频生成真实上游仍 pending/失败（历史任务状态=失败），不判 PASS；未伪造成功结果",
+  "threeActions": "ToolResult 自带下载/存资产/发画布入口；本轮无成功视频产物，故三动作未取得真实回执，保持未判定"
+}

@@ -18,6 +18,7 @@ import { ToolAssetInput } from "@/components/tools/tool-asset-input";
 import { ToolResult } from "@/components/tools/tool-result";
 import { ToolShell } from "@/components/tools/tool-shell";
 import { ToolTaskHistory } from "@/components/tools/tool-task-history";
+import { ToolCases } from "../tool-cases";
 import {
     SALE_VIDEO_COUNTRIES,
     SALE_VIDEO_DURATIONS,
@@ -638,6 +639,31 @@ export function SaleVideoWorkspace({ className }: SaleVideoWorkspaceProps = {}) 
                             </dl>
                         </details>
                     ) : null}
+                    <section className="space-y-2 rounded-lg border border-border p-3" data-testid="sale-video-cases">
+                        <div className="flex items-center justify-between">
+                            <h2 className="text-sm font-medium">优秀案例</h2>
+                            <span className="text-[11px] text-muted-foreground">原站页签：生成结果 / 优秀案例 / 历史记录</span>
+                        </div>
+                        <ToolCases
+                            cases={[]}
+                            onApply={() => setNotice("案例库未接入：暂无真实案例可回填")}
+                            emptyHint="案例库未接入：原站此处展示平台优秀作品并支持「一键做同款」；本地不伪造案例卡片，等真实案例数据接入"
+                        />
+                    </section>
+                    <section className="space-y-2 rounded-lg border border-border p-3" data-testid="sale-video-history">
+                        <div className="flex items-center justify-between">
+                            <h2 className="text-sm font-medium">历史任务</h2>
+                            <span className="text-[11px] text-muted-foreground">点击「查看结果」把历史任务放回上方结果区</span>
+                        </div>
+                        <ToolTaskHistory
+                            toolId={SALE_VIDEO_TOOL_ID}
+                            emptyHint="还没有带货口播视频任务：提交后这里会出现真实任务记录"
+                            onSelectTask={(historyTask) => {
+                                setTask(historyTask);
+                                setNotice("已载入历史任务结果；国家/语言与商品图未改动，不会重新提交");
+                            }}
+                        />
+                    </section>
                 </div>
             </div>
         </ToolShell>
@@ -1321,6 +1347,17 @@ export function VideoConcatWorkspace({ className }: VideoConcatWorkspaceProps = 
                                 </dl>
                             </details>
                         ) : null}
+                        <section className="space-y-2 rounded-lg border border-border p-3" data-testid="video-concat-cases">
+                            <div className="flex items-center justify-between">
+                                <h2 className="text-sm font-medium">优秀案例</h2>
+                                <span className="text-[11px] text-muted-foreground">原站页签：生成结果 / 优秀案例 / 历史记录</span>
+                            </div>
+                            <ToolCases
+                                cases={[]}
+                                onApply={() => setNotice("案例库未接入：暂无真实案例可回填")}
+                                emptyHint="案例库未接入：原站此处展示平台优秀作品并支持「一键做同款」；本地不伪造案例卡片，等真实案例数据接入"
+                            />
+                        </section>
                         <section className="space-y-2 rounded-lg border border-border p-3" data-testid="video-concat-history">
                             <div className="flex items-center justify-between">
                                 <h2 className="text-sm font-medium">历史任务</h2>
@@ -1909,6 +1946,31 @@ export function AiVideoEditingWorkspace({ className }: AiVideoEditingWorkspacePr
                             {view.message}
                         </div>
                     ) : null}
+                    <section className="space-y-2 rounded-lg border border-border p-3" data-testid="ai-video-editing-cases">
+                        <div className="flex items-center justify-between">
+                            <h2 className="text-sm font-medium">优秀案例</h2>
+                            <span className="text-[11px] text-muted-foreground">原站页签：生成结果 / 优秀案例 / 历史记录</span>
+                        </div>
+                        <ToolCases
+                            cases={[]}
+                            onApply={() => setNotice("案例库未接入：暂无真实案例可回填")}
+                            emptyHint="案例库未接入：原站此处展示平台优秀作品并支持「一键做同款」；本地不伪造案例卡片，等真实案例数据接入"
+                        />
+                    </section>
+                    <section className="space-y-2 rounded-lg border border-border p-3" data-testid="ai-video-editing-history">
+                        <div className="flex items-center justify-between">
+                            <h2 className="text-sm font-medium">历史任务</h2>
+                            <span className="text-[11px] text-muted-foreground">点击「查看结果」把历史任务放回上方结果区</span>
+                        </div>
+                        <ToolTaskHistory
+                            toolId={AI_VIDEO_EDITING_TOOL_ID}
+                            emptyHint="还没有视频编辑任务：提交后这里会出现真实任务记录"
+                            onSelectTask={(historyTask) => {
+                                setTask(historyTask);
+                                setNotice("已载入历史任务结果；素材与编辑需求未改动，不会重新提交");
+                            }}
+                        />
+                    </section>
                 </div>
             </div>
         </ToolShell>
@@ -2560,6 +2622,32 @@ export function VideoReplicationWorkspace({ className }: VideoReplicationWorkspa
                     />
                 </div>
             ) : null}
+
+            <section className="space-y-2 rounded-lg border border-border p-3" data-testid="video-replication-cases">
+                <div className="flex items-center justify-between">
+                    <h2 className="text-sm font-medium">优秀案例</h2>
+                    <span className="text-[11px] text-muted-foreground">原站页签：生成结果 / 优秀案例 / 历史记录</span>
+                </div>
+                <ToolCases
+                    cases={[]}
+                    onApply={() => setNotice("案例库未接入：暂无真实案例可回填")}
+                    emptyHint="案例库未接入：原站此处展示平台优秀作品并支持「一键做同款」；本地不伪造案例卡片，等真实案例数据接入"
+                />
+            </section>
+            <section className="mt-4 space-y-2 rounded-lg border border-border p-3" data-testid="video-replication-history">
+                <div className="flex items-center justify-between">
+                    <h2 className="text-sm font-medium">历史任务</h2>
+                    <span className="text-[11px] text-muted-foreground">点击「查看结果」把历史任务放回上方结果区</span>
+                </div>
+                <ToolTaskHistory
+                    toolId={VIDEO_REPLICATION_TOOL_ID}
+                    emptyHint="还没有视频复刻任务：提交后这里会出现真实任务记录"
+                    onSelectTask={(historyTask) => {
+                        setTask(historyTask);
+                        setNotice("已载入历史任务结果；脚本与配置未改动，不会重新提交");
+                    }}
+                />
+            </section>
         </ToolShell>
     );
 }
