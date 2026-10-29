@@ -1,0 +1,146 @@
+{
+ "tool_id": "VIDEO_REPLICATION",
+ "origin_url": "https://www.linkfox.com/draw/video-replication",
+ "local_url": "http://127.0.0.1:3000/tools/ai-video/video-replication",
+ "captured_at": "2026-10-29",
+ "viewport": {
+  "width": 1908,
+  "height": 781,
+  "local_main_rect": {
+   "x": 180,
+   "y": 161,
+   "w": 1728,
+   "h": 620
+  }
+ },
+ "layout": {
+  "origin_config_column_right_edge": 547,
+  "origin_regions": [
+   {
+    "title": "用\n用户6991\n个人账号",
+    "rect": {
+     "bottom": 98,
+     "height": 36,
+     "left": 1767.359375,
+     "right": 1885,
+     "top": 62,
+     "width": 117.640625,
+     "x": 1767.359375,
+     "y": 62
+    }
+   },
+   {
+    "title": "灵感\n灵感视频\n创作\n图转视频\n批量生成\nNEW\n带货口播\n视频复刻\n视频编辑\n工具\n视频翻译\n视频剪辑\n历史记录\n 免",
+    "rect": {
+     "bottom": 839,
+     "height": 729,
+     "left": 0,
+     "right": 180,
+     "top": 110,
+     "width": 180,
+     "x": 0,
+     "y": 110
+    }
+   },
+   {
+    "title": "灵感",
+    "rect": {
+     "bottom": 148,
+     "height": 34,
+     "left": 18,
+     "right": 145,
+     "top": 114,
+     "width": 127,
+     "x": 18,
+     "y": 114
+    }
+   },
+   {
+    "title": "灵感视频",
+    "rect": {
+     "bottom": 192,
+     "height": 40,
+     "left": 58,
+     "right": 167,
+     "top": 152,
+     "width": 109,
+     "x": 58,
+     "y": 152
+    }
+   },
+   {
+    "title": "创作",
+    "rect": {
+     "bottom": 240,
+     "height": 34,
+     "left": 18,
+     "right": 145,
+     "top": 206,
+     "width": 127,
+     "x": 18,
+     "y": 206
+    }
+   },
+   {
+    "title": "图转视频",
+    "rect": {
+     "bottom": 284,
+     "height": 40,
+     "left": 58,
+     "right": 167,
+     "top": 244,
+     "width": 109,
+     "x": 58,
+     "y": 244
+    }
+   }
+  ],
+  "local_grid": "lg:grid-cols-[minmax(300px,320px)_minmax(0,1fr)]",
+  "local_config_content_width": 306,
+  "note": "原站配置列实测 216→~490px（约 274px 内容宽），结果区自 x=520 起 1390px；本地配置列 320px、去掉 gap-4→gap-6 后结果区起点约 583px，差值来自 ToolShell 侧栏宽度（本 180px vs 原站 ~184px）与卡片内边距"
+ },
+ "text_gap": {
+  "origin_lines": 95,
+  "missing_count": 28,
+  "missing_in_local": [
+   "商品图设计",
+   "Skills",
+   "免费得算力",
+   "用户6991",
+   "TikTok 视频链接",
+   "或 手动上传参考视频",
+   "支持MP4/MOV格式，100M以内",
+   "上传后可截取5-30s参考片段",
+   "上传商品与参考图",
+   "上传商品与参考图",
+   "支持上传6张图，10M以内，384*384 ~ 4096*4096，宽高比（宽÷高）0.4～2.5（含边界）",
+   "商品库选择",
+   "AI脚本分析",
+   "默认自动分析",
+   "Seedance 2.0 fast",
+   "适合日常稳妥出片",
+   "视频分辨率",
+   "拖动选择时长",
+   "销售国家/地区",
+   "645 算力",
+   "上传商品图，自动分析商品信息并输出提示词，一键生成带货口播视频",
+   "一键做同款",
+   "管理水印分组",
+   "共 1/20 个",
+   "＋ 新增水印分组",
+   "ljq_driver: 已连接",
+   "「批量生成」功能重磅上线！",
+   "批量上传商品图，一次最多生成100条视频，同时给每个商品出视频，不用一张张传、一条条等。非高峰算力5折！"
+  ]
+ },
+ "changes_applied": [
+  "栅格方向改为 左配置 minmax(300px,340px) + 右结果 minmax(0,1fr)（原为 1fr+360px，结果区被挤窄、与原站左右比例相反）",
+  "移除页头 badges（视频复刻 / 参考片段 / 27 字段契约）"
+ ],
+ "pending": [
+  "原站字段序列（27 字段）与本地分节文案尚未逐项校对",
+  "原站「TikTok 视频链接 / 或 手动上传参考视频」双入口文案未完全对齐"
+ ],
+ "verdict": "PARTIAL",
+ "brand_removal": "仅移除 LinkFox 品牌字样；结构/文案/字段/功能按原站对齐，未做功能删减"
+}

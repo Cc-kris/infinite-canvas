@@ -1,0 +1,75 @@
+{
+ "tool_id": "VIDEO_CONCAT",
+ "origin_url": "https://www.linkfox.com/draw/video-concat",
+ "local_url": "http://127.0.0.1:3000/tools/ai-video/video-concat",
+ "captured_at": "2026-10-29",
+ "viewport": {
+  "width": 1908,
+  "height": 781,
+  "local_main_rect": {
+   "x": 180,
+   "y": 161,
+   "w": 1728,
+   "h": 620
+  }
+ },
+ "layout": {
+  "origin_config_column_right_edge": null,
+  "origin_regions": [
+   {
+    "title": "首页",
+    "rect": null
+   },
+   {
+    "title": "电商套图",
+    "rect": null
+   },
+   {
+    "title": "智能修图",
+    "rect": null
+   },
+   {
+    "title": "新模型",
+    "rect": null
+   },
+   {
+    "title": "AI视频",
+    "rect": null
+   },
+   {
+    "title": "HOT",
+    "rect": null
+   }
+  ],
+  "local_grid": "lg:grid-cols-[minmax(300px,320px)_minmax(0,1fr)]",
+  "local_config_content_width": null,
+  "note": "原站配置列实测 216→~490px（约 274px 内容宽），结果区自 x=520 起 1390px；本地配置列 320px、去掉 gap-4→gap-6 后结果区起点约 583px，差值来自 ToolShell 侧栏宽度（本 180px vs 原站 ~184px）与卡片内边距"
+ },
+ "text_gap": {
+  "origin_lines": 49,
+  "missing_count": 10,
+  "missing_in_local": [
+   "商品图设计",
+   "Skills",
+   "免费得算力",
+   "用户6991",
+   "选择视频素材",
+   "支持选择2~4个视频素材，一键拼接成品视频。",
+   "(限时优惠60算力)",
+   "管理水印分组",
+   "共 1/20 个",
+   "＋ 新增水印分组"
+  ]
+ },
+ "changes_applied": [
+  "配置列由 minmax(320px,420px) 收窄为 minmax(300px,320px)，间距 gap-4→gap-6",
+  "移除页头 badges（N/M 段 · 素材时长、输出标签）",
+  "移除侧栏「提交字段：…全部落齐才允许提交」工程化文案"
+ ],
+ "pending": [
+  "原站证据仅 268 字符、无控件矩形，无法做控件级 1:1 判定",
+  "历史复用能力仍缺"
+ ],
+ "verdict": "PARTIAL",
+ "brand_removal": "仅移除 LinkFox 品牌字样；结构/文案/字段/功能按原站对齐，未做功能删减"
+}

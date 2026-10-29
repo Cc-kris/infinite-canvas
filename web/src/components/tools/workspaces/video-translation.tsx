@@ -256,7 +256,7 @@ export function VideoTranslationWorkspace({ className }: VideoTranslationWorkspa
                 </>
             }
         >
-            <div className="grid min-h-0 flex-1 gap-4 overflow-auto p-4 lg:grid-cols-[minmax(320px,400px)_minmax(0,1fr)]">
+            <div className="grid min-h-0 flex-1 gap-6 overflow-auto p-4 lg:grid-cols-[minmax(300px,320px)_minmax(0,1fr)]">
                 {/* 配置区 */}
                 <div className="min-w-0 space-y-4" data-testid="video-translation-config">
                     <section className="space-y-2 rounded-lg border border-border p-3">

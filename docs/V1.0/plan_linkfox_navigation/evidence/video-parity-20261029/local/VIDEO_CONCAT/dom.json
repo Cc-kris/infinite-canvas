@@ -1,0 +1,3131 @@
+{
+  "url": "http://127.0.0.1:3000/tools/ai-video/video-concat",
+  "title": "无限画布",
+  "viewport": {
+    "w": 1908,
+    "h": 781,
+    "scrollH": 781
+  },
+  "mainRect": {
+    "x": 180,
+    "y": 161,
+    "w": 1728,
+    "h": 620
+  },
+  "controls": [
+    {
+      "tag": "button",
+      "text": "打开 Agent",
+      "placeholder": "",
+      "disabled": false,
+      "rect": {
+        "x": 1658,
+        "y": 14,
+        "w": 32,
+        "h": 32
+      },
+      "style": {
+        "fontSize": "14px",
+        "fontWeight": "400",
+        "color": "rgba(0, 0, 0, 0.88)",
+        "background": "rgba(0, 0, 0, 0)",
+        "borderRadius": "50%",
+        "padding": "0px",
+        "border": "1px solid rgba(0, 0, 0, 0)"
+      }
+    },
+    {
+      "tag": "button",
+      "text": "配置",
+      "placeholder": "",
+      "disabled": false,
+      "rect": {
+        "x": 1698,
+        "y": 16,
+        "w": 28,
+        "h": 28
+      },
+      "style": {
+        "fontSize": "14px",
+        "fontWeight": "400",
+        "color": "oklch(0.145 0 0)",
+        "background": "rgba(0, 0, 0, 0)",
+        "borderRadius": "8px",
+        "padding": "0px",
+        "border": "0px solid oklch(0.922 0 0)"
+      }
+    },
+    {
+      "tag": "button",
+      "text": "中",
+      "placeholder": "",
+      "disabled": false,
+      "rect": {
+        "x": 1730,
+        "y": 16,
+        "w": 28,
+        "h": 28
+      },
+      "style": {
+        "fontSize": "14px",
+        "fontWeight": "600",
+        "color": "oklch(0.145 0 0)",
+        "background": "rgba(0, 0, 0, 0)",
+        "borderRadius": "8px",
+        "padding": "0px",
+        "border": "0px solid oklch(0.922 0 0)"
+      }
+    },
+    {
+      "tag": "button",
+      "text": "切换到深色主题",
+      "placeholder": "",
+      "disabled": false,
+      "rect": {
+        "x": 1762,
+        "y": 16,
+        "w": 28,
+        "h": 28
+      },
+      "style": {
+        "fontSize": "14px",
+        "fontWeight": "400",
+        "color": "oklch(0.145 0 0)",
+        "background": "rgba(0, 0, 0, 0)",
+        "borderRadius": "8px",
+        "padding": "0px",
+        "border": "0px solid oklch(0.922 0 0)"
+      }
+    },
+    {
+      "tag": "button",
+      "text": "v0.27.0",
+      "placeholder": "",
+      "disabled": false,
+      "rect": {
+        "x": 1794,
+        "y": 19,
+        "w": 47,
+        "h": 22
+      },
+      "style": {
+        "fontSize": "14px",
+        "fontWeight": "500",
+        "color": "oklch(0.145 0 0)",
+        "background": "rgba(0, 0, 0, 0)",
+        "borderRadius": "0px",
+        "padding": "0px",
+        "border": "0px solid oklch(0.922 0 0)"
+      }
+    },
+    {
+      "tag": "button",
+      "text": "从当前帧抓取",
+      "placeholder": "",
+      "disabled": true,
+      "rect": {
+        "x": 521,
+        "y": 597,
+        "w": 102,
+        "h": 32
+      },
+      "style": {
+        "fontSize": "14px",
+        "fontWeight": "400",
+        "color": "oklch(0.145 0 0)",
+        "background": "rgba(0, 0, 0, 0)",
+        "borderRadius": "4px",
+        "padding": "4px 8px",
+        "border": "1px solid oklch(0.922 0 0)"
+      }
+    },
+    {
+      "tag": "button",
+      "text": "grok-imagine-video（默认渠道）",
+      "placeholder": "",
+      "disabled": false,
+      "rect": {
+        "x": 665,
+        "y": 479,
+        "w": 1194,
+        "h": 32
+      },
+      "style": {
+        "fontSize": "14px",
+        "fontWeight": "400",
+        "color": "oklch(0.145 0 0)",
+        "background": "rgba(0, 0, 0, 0)",
+        "borderRadius": "3.35544e+07px",
+        "padding": "8px 12px",
+        "border": "1px solid oklch(0.922 0 0)"
+      }
+    },
+    {
+      "tag": "button",
+      "text": "9:16",
+      "placeholder": "",
+      "disabled": false,
+      "rect": {
+        "x": 665,
+        "y": 552,
+        "w": 47,
+        "h": 32
+      },
+      "style": {
+        "fontSize": "14px",
+        "fontWeight": "500",
+        "color": "oklch(0.145 0 0)",
+        "background": "oklch(0.97 0 0)",
+        "borderRadius": "8px",
+        "padding": "0px 8px",
+        "border": "1px solid oklch(0.922 0 0)"
+      }
+    },
+    {
+      "tag": "button",
+      "text": "16:9",
+      "placeholder": "",
+      "disabled": false,
+      "rect": {
+        "x": 720,
+        "y": 552,
+        "w": 46,
+        "h": 32
+      },
+      "style": {
+        "fontSize": "14px",
+        "fontWeight": "400",
+        "color": "oklch(0.145 0 0)",
+        "background": "rgba(0, 0, 0, 0)",
+        "borderRadius": "8px",
+        "padding": "0px 8px",
+        "border": "1px solid oklch(0.922 0 0)"
+      }
+    },
+    {
+      "tag": "button",
+      "text": "1:1",
+      "placeholder": "",
+      "disabled": false,
+      "rect": {
+        "x": 774,
+        "y": 552,
+        "w": 35,
+        "h": 32
+      },
+      "style": {
+        "fontSize": "14px",
+        "fontWeight": "400",
+        "color": "oklch(0.145 0 0)",
+        "background": "rgba(0, 0, 0, 0)",
+        "borderRadius": "8px",
+        "padding": "0px 8px",
+        "border": "1px solid oklch(0.922 0 0)"
+      }
+    },
+    {
+      "tag": "button",
+      "text": "4:3",
+      "placeholder": "",
+      "disabled": false,
+      "rect": {
+        "x": 816,
+        "y": 552,
+        "w": 39,
+        "h": 32
+      },
+      "style": {
+        "fontSize": "14px",
+        "fontWeight": "400",
+        "color": "oklch(0.145 0 0)",
+        "background": "rgba(0, 0, 0, 0)",
+        "borderRadius": "8px",
+        "padding": "0px 8px",
+        "border": "1px solid oklch(0.922 0 0)"
+      }
+    },
+    {
+      "tag": "button",
+      "text": "3:4",
+      "placeholder": "",
+      "disabled": false,
+      "rect": {
+        "x": 864,
+        "y": 552,
+        "w": 40,
+        "h": 32
+      },
+      "style": {
+        "fontSize": "14px",
+        "fontWeight": "400",
+        "color": "oklch(0.145 0 0)",
+        "background": "rgba(0, 0, 0, 0)",
+        "borderRadius": "8px",
+        "padding": "0px 8px",
+        "border": "1px solid oklch(0.922 0 0)"
+      }
+    },
+    {
+      "tag": "button",
+      "text": "21:9",
+      "placeholder": "",
+      "disabled": false,
+      "rect": {
+        "x": 911,
+        "y": 552,
+        "w": 45,
+        "h": 32
+      },
+      "style": {
+        "fontSize": "14px",
+        "fontWeight": "400",
+        "color": "oklch(0.145 0 0)",
+        "background": "rgba(0, 0, 0, 0)",
+        "borderRadius": "8px",
+        "padding": "0px 8px",
+        "border": "1px solid oklch(0.922 0 0)"
+      }
+    },
+    {
+      "tag": "button",
+      "text": "自动",
+      "placeholder": "",
+      "disabled": false,
+      "rect": {
+        "x": 665,
+        "y": 645,
+        "w": 293,
+        "h": 36
+      },
+      "style": {
+        "fontSize": "14px",
+        "fontWeight": "500",
+        "color": "oklch(0.145 0 0)",
+        "background": "oklch(0.97 0 0)",
+        "borderRadius": "8px",
+        "padding": "0px",
+        "border": "1px solid oklch(0.922 0 0)"
+      }
+    },
+    {
+      "tag": "button",
+      "text": "5秒",
+      "placeholder": "",
+      "disabled": false,
+      "rect": {
+        "x": 966,
+        "y": 645,
+        "w": 293,
+        "h": 36
+      },
+      "style": {
+        "fontSize": "14px",
+        "fontWeight": "400",
+        "color": "oklch(0.145 0 0)",
+        "background": "rgba(0, 0, 0, 0)",
+        "borderRadius": "8px",
+        "padding": "0px",
+        "border": "1px solid oklch(0.922 0 0)"
+      }
+    },
+    {
+      "tag": "button",
+      "text": "10秒",
+      "placeholder": "",
+      "disabled": false,
+      "rect": {
+        "x": 1266,
+        "y": 645,
+        "w": 293,
+        "h": 36
+      },
+      "style": {
+        "fontSize": "14px",
+        "fontWeight": "400",
+        "color": "oklch(0.145 0 0)",
+        "background": "rgba(0, 0, 0, 0)",
+        "borderRadius": "8px",
+        "padding": "0px",
+        "border": "1px solid oklch(0.922 0 0)"
+      }
+    },
+    {
+      "tag": "button",
+      "text": "15秒",
+      "placeholder": "",
+      "disabled": false,
+      "rect": {
+        "x": 1567,
+        "y": 645,
+        "w": 293,
+        "h": 36
+      },
+      "style": {
+        "fontSize": "14px",
+        "fontWeight": "400",
+        "color": "oklch(0.145 0 0)",
+        "background": "rgba(0, 0, 0, 0)",
+        "borderRadius": "8px",
+        "padding": "0px",
+        "border": "1px solid oklch(0.922 0 0)"
+      }
+    },
+    {
+      "tag": "button",
+      "text": "开始拼接",
+      "placeholder": "",
+      "disabled": true,
+      "rect": {
+        "x": 652,
+        "y": 910,
+        "w": 1220,
+        "h": 40
+      },
+      "style": {
+        "fontSize": "14px",
+        "fontWeight": "500",
+        "color": "oklch(0.145 0 0)",
+        "background": "oklch(0.205 0 0)",
+        "borderRadius": "10px",
+        "padding": "0px",
+        "border": "0px solid oklch(0.922 0 0)"
+      }
+    },
+    {
+      "tag": "button",
+      "text": "调整右侧面板宽度",
+      "placeholder": "",
+      "disabled": false,
+      "rect": {
+        "x": 1901,
+        "y": 0,
+        "w": 16,
+        "h": 781
+      },
+      "style": {
+        "fontSize": "14px",
+        "fontWeight": "400",
+        "color": "rgb(41, 37, 36)",
+        "background": "rgba(0, 0, 0, 0)",
+        "borderRadius": "0px",
+        "padding": "0px",
+        "border": "0px solid oklch(0.922 0 0)"
+      }
+    },
+    {
+      "tag": "button",
+      "text": "连接设置，当前未连接",
+      "placeholder": "",
+      "disabled": false,
+      "rect": {
+        "x": 1953,
+        "y": 8,
+        "w": 32,
+        "h": 32
+      },
+      "style": {
+        "fontSize": "14px",
+        "fontWeight": "400",
+        "color": "rgba(0, 0, 0, 0.88)",
+        "background": "rgba(0, 0, 0, 0)",
+        "borderRadius": "4px",
+        "padding": "0px",
+        "border": "1px solid rgba(0, 0, 0, 0)"
+      }
+    },
+    {
+      "tag": "button",
+      "text": "对话",
+      "placeholder": "",
+      "disabled": false,
+      "rect": {
+        "x": 2062,
+        "y": 0,
+        "w": 32,
+        "h": 48
+      },
+      "style": {
+        "fontSize": "14px",
+        "fontWeight": "400",
+        "color": "rgb(120, 113, 108)",
+        "background": "rgba(0, 0, 0, 0)",
+        "borderRadius": "0px",
+        "padding": "0px 6px",
+        "border": "0px solid rgba(0, 0, 0, 0)"
+      }
+    },
+    {
+      "tag": "button",
+      "text": "历史",
+      "placeholder": "",
+      "disabled": false,
+      "rect": {
+        "x": 2096,
+        "y": 0,
+        "w": 32,
+        "h": 48
+      },
+      "style": {
+        "fontSize": "14px",
+        "fontWeight": "400",
+        "color": "rgb(120, 113, 108)",
+        "background": "rgba(0, 0, 0, 0)",
+        "borderRadius": "0px",
+        "padding": "0px 6px",
+        "border": "0px solid rgba(0, 0, 0, 0)"
+      }
+    },
+    {
+      "tag": "button",
+      "text": "技能",
+      "placeholder": "",
+      "disabled": false,
+      "rect": {
+        "x": 2130,
+        "y": 0,
+        "w": 32,
+        "h": 48
+      },
+      "style": {
+        "fontSize": "14px",
+        "fontWeight": "400",
+        "color": "rgb(120, 113, 108)",
+        "background": "rgba(0, 0, 0, 0)",
+        "borderRadius": "0px",
+        "padding": "0px 6px",
+        "border": "0px solid rgba(0, 0, 0, 0)"
+      }
+    },
+    {
+      "tag": "button",
+      "text": "日志",
+      "placeholder": "",
+      "disabled": false,
+      "rect": {
+        "x": 2164,
+        "y": 0,
+        "w": 32,
+        "h": 48
+      },
+      "style": {
+        "fontSize": "14px",
+        "fontWeight": "400",
+        "color": "rgb(120, 113, 108)",
+        "background": "rgba(0, 0, 0, 0)",
+        "borderRadius": "0px",
+        "padding": "0px 6px",
+        "border": "0px solid rgba(0, 0, 0, 0)"
+      }
+    },
+    {
+      "tag": "button",
+      "text": "新对话",
+      "placeholder": "",
+      "disabled": true,
+      "rect": {
+        "x": 2272,
+        "y": 8,
+        "w": 32,
+        "h": 32
+      },
+      "style": {
+        "fontSize": "14px",
+        "fontWeight": "400",
+        "color": "rgba(0, 0, 0, 0.25)",
+        "background": "rgba(0, 0, 0, 0)",
+        "borderRadius": "4px",
+        "padding": "0px",
+        "border": "1px solid rgba(0, 0, 0, 0)"
+      }
+    },
+    {
+      "tag": "button",
+      "text": "收起 Agent 面板",
+      "placeholder": "",
+      "disabled": false,
+      "rect": {
+        "x": 2308,
+        "y": 8,
+        "w": 32,
+        "h": 32
+      },
+      "style": {
+        "fontSize": "14px",
+        "fontWeight": "400",
+        "color": "rgb(120, 113, 108)",
+        "background": "rgba(0, 0, 0, 0)",
+        "borderRadius": "50%",
+        "padding": "0px",
+        "border": "1px solid rgba(0, 0, 0, 0)"
+      }
+    },
+    {
+      "tag": "button",
+      "text": "连接",
+      "placeholder": "",
+      "disabled": false,
+      "rect": {
+        "x": 2253,
+        "y": 147,
+        "w": 66,
+        "h": 24
+      },
+      "style": {
+        "fontSize": "14px",
+        "fontWeight": "400",
+        "color": "rgb(23, 23, 23)",
+        "background": "rgba(0, 0, 0, 0)",
+        "borderRadius": "4px",
+        "padding": "0px 7px",
+        "border": "1px solid rgb(23, 23, 23)"
+      }
+    },
+    {
+      "tag": "button",
+      "text": "连接",
+      "placeholder": "",
+      "disabled": false,
+      "rect": {
+        "x": 2253,
+        "y": 215,
+        "w": 66,
+        "h": 24
+      },
+      "style": {
+        "fontSize": "14px",
+        "fontWeight": "400",
+        "color": "rgb(23, 23, 23)",
+        "background": "rgba(0, 0, 0, 0)",
+        "borderRadius": "4px",
+        "padding": "0px 7px",
+        "border": "1px solid rgb(23, 23, 23)"
+      }
+    },
+    {
+      "tag": "button",
+      "text": "连接",
+      "placeholder": "",
+      "disabled": false,
+      "rect": {
+        "x": 2253,
+        "y": 283,
+        "w": 66,
+        "h": 24
+      },
+      "style": {
+        "fontSize": "14px",
+        "fontWeight": "400",
+        "color": "rgb(23, 23, 23)",
+        "background": "rgba(0, 0, 0, 0)",
+        "borderRadius": "4px",
+        "padding": "0px 7px",
+        "border": "1px solid rgb(23, 23, 23)"
+      }
+    }
+  ],
+  "texts": [
+    {
+      "text": "无限画布",
+      "rect": {
+        "x": 52,
+        "y": 18,
+        "w": 63,
+        "h": 24
+      },
+      "style": {
+        "fontSize": "16px",
+        "fontWeight": "500",
+        "color": "rgb(23, 23, 23)",
+        "background": "rgba(0, 0, 0, 0)",
+        "borderRadius": "0px",
+        "padding": "0px",
+        "border": "0px solid oklch(0.922 0 0)"
+      }
+    },
+    {
+      "text": "电商套图",
+      "rect": {
+        "x": 169,
+        "y": 16,
+        "w": 56,
+        "h": 24
+      },
+      "style": {
+        "fontSize": "14px",
+        "fontWeight": "400",
+        "color": "rgb(23, 23, 23)",
+        "background": "rgba(0, 0, 0, 0)",
+        "borderRadius": "0px",
+        "padding": "0px",
+        "border": "0px solid oklch(0.922 0 0)"
+      }
+    },
+    {
+      "text": "智能修图",
+      "rect": {
+        "x": 287,
+        "y": 16,
+        "w": 56,
+        "h": 24
+      },
+      "style": {
+        "fontSize": "14px",
+        "fontWeight": "400",
+        "color": "rgb(23, 23, 23)",
+        "background": "rgba(0, 0, 0, 0)",
+        "borderRadius": "0px",
+        "padding": "0px",
+        "border": "0px solid oklch(0.922 0 0)"
+      }
+    },
+    {
+      "text": "批量生图",
+      "rect": {
+        "x": 405,
+        "y": 16,
+        "w": 56,
+        "h": 24
+      },
+      "style": {
+        "fontSize": "14px",
+        "fontWeight": "400",
+        "color": "rgb(23, 23, 23)",
+        "background": "rgba(0, 0, 0, 0)",
+        "borderRadius": "0px",
+        "padding": "0px",
+        "border": "0px solid oklch(0.922 0 0)"
+      }
+    },
+    {
+      "text": "商品图设计",
+      "rect": {
+        "x": 523,
+        "y": 16,
+        "w": 70,
+        "h": 24
+      },
+      "style": {
+        "fontSize": "14px",
+        "fontWeight": "400",
+        "color": "rgb(23, 23, 23)",
+        "background": "rgba(0, 0, 0, 0)",
+        "borderRadius": "0px",
+        "padding": "0px",
+        "border": "0px solid oklch(0.922 0 0)"
+      }
+    },
+    {
+      "text": "AI视频",
+      "rect": {
+        "x": 655,
+        "y": 16,
+        "w": 41,
+        "h": 24
+      },
+      "style": {
+        "fontSize": "14px",
+        "fontWeight": "500",
+        "color": "rgb(23, 23, 23)",
+        "background": "rgba(0, 0, 0, 0)",
+        "borderRadius": "0px",
+        "padding": "0px",
+        "border": "0px solid oklch(0.922 0 0)"
+      }
+    },
+    {
+      "text": "中",
+      "rect": {
+        "x": 1730,
+        "y": 16,
+        "w": 28,
+        "h": 28
+      },
+      "style": {
+        "fontSize": "14px",
+        "fontWeight": "600",
+        "color": "oklch(0.145 0 0)",
+        "background": "rgba(0, 0, 0, 0)",
+        "borderRadius": "8px",
+        "padding": "0px",
+        "border": "0px solid oklch(0.922 0 0)"
+      }
+    },
+    {
+      "text": "v0.27.0",
+      "rect": {
+        "x": 1794,
+        "y": 19,
+        "w": 47,
+        "h": 22
+      },
+      "style": {
+        "fontSize": "14px",
+        "fontWeight": "500",
+        "color": "oklch(0.145 0 0)",
+        "background": "rgba(0, 0, 0, 0)",
+        "borderRadius": "0px",
+        "padding": "0px",
+        "border": "0px solid oklch(0.922 0 0)"
+      }
+    },
+    {
+      "text": "商品套图",
+      "rect": {
+        "x": 44,
+        "y": 70,
+        "w": 64,
+        "h": 20
+      },
+      "style": {
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "color": "rgba(0, 0, 0, 0.6)",
+        "background": "rgba(0, 0, 0, 0)",
+        "borderRadius": "0px",
+        "padding": "0px",
+        "border": "0px solid oklch(0.922 0 0)"
+      }
+    },
+    {
+      "text": "服装套图",
+      "rect": {
+        "x": 44,
+        "y": 110,
+        "w": 64,
+        "h": 20
+      },
+      "style": {
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "color": "rgba(0, 0, 0, 0.6)",
+        "background": "rgba(0, 0, 0, 0)",
+        "borderRadius": "0px",
+        "padding": "0px",
+        "border": "0px solid oklch(0.922 0 0)"
+      }
+    },
+    {
+      "text": "套图换色",
+      "rect": {
+        "x": 44,
+        "y": 150,
+        "w": 64,
+        "h": 20
+      },
+      "style": {
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "color": "rgba(0, 0, 0, 0.6)",
+        "background": "rgba(0, 0, 0, 0)",
+        "borderRadius": "0px",
+        "padding": "0px",
+        "border": "0px solid oklch(0.922 0 0)"
+      }
+    },
+    {
+      "text": "批量翻译",
+      "rect": {
+        "x": 44,
+        "y": 190,
+        "w": 64,
+        "h": 20
+      },
+      "style": {
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "color": "rgba(0, 0, 0, 0.6)",
+        "background": "rgba(0, 0, 0, 0)",
+        "borderRadius": "0px",
+        "padding": "0px",
+        "border": "0px solid oklch(0.922 0 0)"
+      }
+    },
+    {
+      "text": "高清放大",
+      "rect": {
+        "x": 44,
+        "y": 230,
+        "w": 64,
+        "h": 20
+      },
+      "style": {
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "color": "rgba(0, 0, 0, 0.6)",
+        "background": "rgba(0, 0, 0, 0)",
+        "borderRadius": "0px",
+        "padding": "0px",
+        "border": "0px solid oklch(0.922 0 0)"
+      }
+    },
+    {
+      "text": "智能扩图",
+      "rect": {
+        "x": 44,
+        "y": 270,
+        "w": 64,
+        "h": 20
+      },
+      "style": {
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "color": "rgba(0, 0, 0, 0.6)",
+        "background": "rgba(0, 0, 0, 0)",
+        "borderRadius": "0px",
+        "padding": "0px",
+        "border": "0px solid oklch(0.922 0 0)"
+      }
+    },
+    {
+      "text": "局部重绘",
+      "rect": {
+        "x": 44,
+        "y": 341,
+        "w": 64,
+        "h": 20
+      },
+      "style": {
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "color": "rgba(0, 0, 0, 0.6)",
+        "background": "rgba(0, 0, 0, 0)",
+        "borderRadius": "0px",
+        "padding": "0px",
+        "border": "0px solid oklch(0.922 0 0)"
+      }
+    },
+    {
+      "text": "局部消除",
+      "rect": {
+        "x": 44,
+        "y": 381,
+        "w": 64,
+        "h": 20
+      },
+      "style": {
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "color": "rgba(0, 0, 0, 0.6)",
+        "background": "rgba(0, 0, 0, 0)",
+        "borderRadius": "0px",
+        "padding": "0px",
+        "border": "0px solid oklch(0.922 0 0)"
+      }
+    },
+    {
+      "text": "一键换色",
+      "rect": {
+        "x": 44,
+        "y": 421,
+        "w": 64,
+        "h": 20
+      },
+      "style": {
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "color": "rgba(0, 0, 0, 0.6)",
+        "background": "rgba(0, 0, 0, 0)",
+        "borderRadius": "0px",
+        "padding": "0px",
+        "border": "0px solid oklch(0.922 0 0)"
+      }
+    },
+    {
+      "text": "图片裁剪",
+      "rect": {
+        "x": 44,
+        "y": 461,
+        "w": 64,
+        "h": 20
+      },
+      "style": {
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "color": "rgba(0, 0, 0, 0.6)",
+        "background": "rgba(0, 0, 0, 0)",
+        "borderRadius": "0px",
+        "padding": "0px",
+        "border": "0px solid oklch(0.922 0 0)"
+      }
+    },
+    {
+      "text": "商品精修",
+      "rect": {
+        "x": 44,
+        "y": 501,
+        "w": 64,
+        "h": 20
+      },
+      "style": {
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "color": "rgba(0, 0, 0, 0.6)",
+        "background": "rgba(0, 0, 0, 0)",
+        "borderRadius": "0px",
+        "padding": "0px",
+        "border": "0px solid oklch(0.922 0 0)"
+      }
+    },
+    {
+      "text": "色差修复",
+      "rect": {
+        "x": 44,
+        "y": 541,
+        "w": 64,
+        "h": 20
+      },
+      "style": {
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "color": "rgba(0, 0, 0, 0.6)",
+        "background": "rgba(0, 0, 0, 0)",
+        "borderRadius": "0px",
+        "padding": "0px",
+        "border": "0px solid oklch(0.922 0 0)"
+      }
+    },
+    {
+      "text": "印花修复",
+      "rect": {
+        "x": 44,
+        "y": 581,
+        "w": 64,
+        "h": 20
+      },
+      "style": {
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "color": "rgba(0, 0, 0, 0.6)",
+        "background": "rgba(0, 0, 0, 0)",
+        "borderRadius": "0px",
+        "padding": "0px",
+        "border": "0px solid oklch(0.922 0 0)"
+      }
+    },
+    {
+      "text": "手部修复",
+      "rect": {
+        "x": 44,
+        "y": 621,
+        "w": 64,
+        "h": 20
+      },
+      "style": {
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "color": "rgba(0, 0, 0, 0.6)",
+        "background": "rgba(0, 0, 0, 0)",
+        "borderRadius": "0px",
+        "padding": "0px",
+        "border": "0px solid oklch(0.922 0 0)"
+      }
+    },
+    {
+      "text": "该分类尚无已注册工具",
+      "rect": {
+        "x": 0,
+        "y": 682,
+        "w": 179,
+        "h": 36
+      },
+      "style": {
+        "fontSize": "12px",
+        "fontWeight": "400",
+        "color": "oklab(0 0 0 / 0.45)",
+        "background": "rgba(0, 0, 0, 0)",
+        "borderRadius": "0px",
+        "padding": "8px 18px",
+        "border": "0px solid oklch(0.922 0 0)"
+      }
+    },
+    {
+      "text": "商品图",
+      "rect": {
+        "x": 44,
+        "y": 757,
+        "w": 48,
+        "h": 20
+      },
+      "style": {
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "color": "rgba(0, 0, 0, 0.6)",
+        "background": "rgba(0, 0, 0, 0)",
+        "borderRadius": "0px",
+        "padding": "0px",
+        "border": "0px solid oklch(0.922 0 0)"
+      }
+    },
+    {
+      "text": "商品替换",
+      "rect": {
+        "x": 44,
+        "y": 797,
+        "w": 64,
+        "h": 20
+      },
+      "style": {
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "color": "rgba(0, 0, 0, 0.6)",
+        "background": "rgba(0, 0, 0, 0)",
+        "borderRadius": "0px",
+        "padding": "0px",
+        "border": "0px solid oklch(0.922 0 0)"
+      }
+    },
+    {
+      "text": "场景裂变",
+      "rect": {
+        "x": 44,
+        "y": 837,
+        "w": 64,
+        "h": 20
+      },
+      "style": {
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "color": "rgba(0, 0, 0, 0.6)",
+        "background": "rgba(0, 0, 0, 0)",
+        "borderRadius": "0px",
+        "padding": "0px",
+        "border": "0px solid oklch(0.922 0 0)"
+      }
+    },
+    {
+      "text": "手持商品",
+      "rect": {
+        "x": 44,
+        "y": 877,
+        "w": 64,
+        "h": 20
+      },
+      "style": {
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "color": "rgba(0, 0, 0, 0.6)",
+        "background": "rgba(0, 0, 0, 0)",
+        "borderRadius": "0px",
+        "padding": "0px",
+        "border": "0px solid oklch(0.922 0 0)"
+      }
+    },
+    {
+      "text": "AI穿衣",
+      "rect": {
+        "x": 44,
+        "y": 917,
+        "w": 46,
+        "h": 20
+      },
+      "style": {
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "color": "rgba(0, 0, 0, 0.6)",
+        "background": "rgba(0, 0, 0, 0)",
+        "borderRadius": "0px",
+        "padding": "0px",
+        "border": "0px solid oklch(0.922 0 0)"
+      }
+    },
+    {
+      "text": "姿势裂变",
+      "rect": {
+        "x": 44,
+        "y": 957,
+        "w": 64,
+        "h": 20
+      },
+      "style": {
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "color": "rgba(0, 0, 0, 0.6)",
+        "background": "rgba(0, 0, 0, 0)",
+        "borderRadius": "0px",
+        "padding": "0px",
+        "border": "0px solid oklch(0.922 0 0)"
+      }
+    },
+    {
+      "text": "AI穿戴",
+      "rect": {
+        "x": 44,
+        "y": 997,
+        "w": 46,
+        "h": 20
+      },
+      "style": {
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "color": "rgba(0, 0, 0, 0.6)",
+        "background": "rgba(0, 0, 0, 0)",
+        "borderRadius": "0px",
+        "padding": "0px",
+        "border": "0px solid oklch(0.922 0 0)"
+      }
+    },
+    {
+      "text": "POD素材",
+      "rect": {
+        "x": 44,
+        "y": 1037,
+        "w": 65,
+        "h": 20
+      },
+      "style": {
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "color": "rgba(0, 0, 0, 0.6)",
+        "background": "rgba(0, 0, 0, 0)",
+        "borderRadius": "0px",
+        "padding": "0px",
+        "border": "0px solid oklch(0.922 0 0)"
+      }
+    },
+    {
+      "text": "饰品文字",
+      "rect": {
+        "x": 44,
+        "y": 1077,
+        "w": 64,
+        "h": 20
+      },
+      "style": {
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "color": "rgba(0, 0, 0, 0.6)",
+        "background": "rgba(0, 0, 0, 0)",
+        "borderRadius": "0px",
+        "padding": "0px",
+        "border": "0px solid oklch(0.922 0 0)"
+      }
+    },
+    {
+      "text": "素材贴合",
+      "rect": {
+        "x": 44,
+        "y": 1117,
+        "w": 64,
+        "h": 20
+      },
+      "style": {
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "color": "rgba(0, 0, 0, 0.6)",
+        "background": "rgba(0, 0, 0, 0)",
+        "borderRadius": "0px",
+        "padding": "0px",
+        "border": "0px solid oklch(0.922 0 0)"
+      }
+    },
+    {
+      "text": "印花提取",
+      "rect": {
+        "x": 44,
+        "y": 1157,
+        "w": 64,
+        "h": 20
+      },
+      "style": {
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "color": "rgba(0, 0, 0, 0.6)",
+        "background": "rgba(0, 0, 0, 0)",
+        "borderRadius": "0px",
+        "padding": "0px",
+        "border": "0px solid oklch(0.922 0 0)"
+      }
+    },
+    {
+      "text": "AI姿势生成",
+      "rect": {
+        "x": 44,
+        "y": 1197,
+        "w": 78,
+        "h": 20
+      },
+      "style": {
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "color": "rgba(0, 0, 0, 0.6)",
+        "background": "rgba(0, 0, 0, 0)",
+        "borderRadius": "0px",
+        "padding": "0px",
+        "border": "0px solid oklch(0.922 0 0)"
+      }
+    },
+    {
+      "text": "补充",
+      "rect": {
+        "x": 137,
+        "y": 1198,
+        "w": 30,
+        "h": 18
+      },
+      "style": {
+        "fontSize": "10px",
+        "fontWeight": "400",
+        "color": "oklab(0 0 0 / 0.45)",
+        "background": "rgba(0, 0, 0, 0)",
+        "borderRadius": "4px",
+        "padding": "0px 4px",
+        "border": "1px solid rgb(230, 230, 231)"
+      }
+    },
+    {
+      "text": "AI试衣XSY",
+      "rect": {
+        "x": 44,
+        "y": 1237,
+        "w": 77,
+        "h": 20
+      },
+      "style": {
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "color": "rgba(0, 0, 0, 0.6)",
+        "background": "rgba(0, 0, 0, 0)",
+        "borderRadius": "0px",
+        "padding": "0px",
+        "border": "0px solid oklch(0.922 0 0)"
+      }
+    },
+    {
+      "text": "补充",
+      "rect": {
+        "x": 137,
+        "y": 1238,
+        "w": 30,
+        "h": 18
+      },
+      "style": {
+        "fontSize": "10px",
+        "fontWeight": "400",
+        "color": "oklab(0 0 0 / 0.45)",
+        "background": "rgba(0, 0, 0, 0)",
+        "borderRadius": "4px",
+        "padding": "0px 4px",
+        "border": "1px solid rgb(230, 230, 231)"
+      }
+    },
+    {
+      "text": "场景裂变链接",
+      "rect": {
+        "x": 44,
+        "y": 1277,
+        "w": 83,
+        "h": 20
+      },
+      "style": {
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "color": "rgba(0, 0, 0, 0.6)",
+        "background": "rgba(0, 0, 0, 0)",
+        "borderRadius": "0px",
+        "padding": "0px",
+        "border": "0px solid oklch(0.922 0 0)"
+      }
+    },
+    {
+      "text": "补充",
+      "rect": {
+        "x": 137,
+        "y": 1278,
+        "w": 30,
+        "h": 18
+      },
+      "style": {
+        "fontSize": "10px",
+        "fontWeight": "400",
+        "color": "oklab(0 0 0 / 0.45)",
+        "background": "rgba(0, 0, 0, 0)",
+        "borderRadius": "4px",
+        "padding": "0px 4px",
+        "border": "1px solid rgb(230, 230, 231)"
+      }
+    },
+    {
+      "text": "图片文字编辑",
+      "rect": {
+        "x": 44,
+        "y": 1317,
+        "w": 83,
+        "h": 20
+      },
+      "style": {
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "color": "rgba(0, 0, 0, 0.6)",
+        "background": "rgba(0, 0, 0, 0)",
+        "borderRadius": "0px",
+        "padding": "0px",
+        "border": "0px solid oklch(0.922 0 0)"
+      }
+    },
+    {
+      "text": "补充",
+      "rect": {
+        "x": 137,
+        "y": 1318,
+        "w": 30,
+        "h": 18
+      },
+      "style": {
+        "fontSize": "10px",
+        "fontWeight": "400",
+        "color": "oklab(0 0 0 / 0.45)",
+        "background": "rgba(0, 0, 0, 0)",
+        "borderRadius": "4px",
+        "padding": "0px 4px",
+        "border": "1px solid rgb(230, 230, 231)"
+      }
+    },
+    {
+      "text": "上装换料",
+      "rect": {
+        "x": 44,
+        "y": 1357,
+        "w": 64,
+        "h": 20
+      },
+      "style": {
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "color": "rgba(0, 0, 0, 0.6)",
+        "background": "rgba(0, 0, 0, 0)",
+        "borderRadius": "0px",
+        "padding": "0px",
+        "border": "0px solid oklch(0.922 0 0)"
+      }
+    },
+    {
+      "text": "补充",
+      "rect": {
+        "x": 137,
+        "y": 1358,
+        "w": 30,
+        "h": 18
+      },
+      "style": {
+        "fontSize": "10px",
+        "fontWeight": "400",
+        "color": "oklab(0 0 0 / 0.45)",
+        "background": "rgba(0, 0, 0, 0)",
+        "borderRadius": "4px",
+        "padding": "0px 4px",
+        "border": "1px solid rgb(230, 230, 231)"
+      }
+    },
+    {
+      "text": "商品图设计器",
+      "rect": {
+        "x": 44,
+        "y": 1397,
+        "w": 83,
+        "h": 20
+      },
+      "style": {
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "color": "rgba(0, 0, 0, 0.6)",
+        "background": "rgba(0, 0, 0, 0)",
+        "borderRadius": "0px",
+        "padding": "0px",
+        "border": "0px solid oklch(0.922 0 0)"
+      }
+    },
+    {
+      "text": "补充",
+      "rect": {
+        "x": 137,
+        "y": 1398,
+        "w": 30,
+        "h": 18
+      },
+      "style": {
+        "fontSize": "10px",
+        "fontWeight": "400",
+        "color": "oklab(0 0 0 / 0.45)",
+        "background": "rgba(0, 0, 0, 0)",
+        "borderRadius": "4px",
+        "padding": "0px 4px",
+        "border": "1px solid rgb(230, 230, 231)"
+      }
+    },
+    {
+      "text": "商品营销素材",
+      "rect": {
+        "x": 44,
+        "y": 1437,
+        "w": 83,
+        "h": 20
+      },
+      "style": {
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "color": "rgba(0, 0, 0, 0.6)",
+        "background": "rgba(0, 0, 0, 0)",
+        "borderRadius": "0px",
+        "padding": "0px",
+        "border": "0px solid oklch(0.922 0 0)"
+      }
+    },
+    {
+      "text": "补充",
+      "rect": {
+        "x": 137,
+        "y": 1438,
+        "w": 30,
+        "h": 18
+      },
+      "style": {
+        "fontSize": "10px",
+        "fontWeight": "400",
+        "color": "oklab(0 0 0 / 0.45)",
+        "background": "rgba(0, 0, 0, 0)",
+        "borderRadius": "4px",
+        "padding": "0px 4px",
+        "border": "1px solid rgb(230, 230, 231)"
+      }
+    },
+    {
+      "text": "场景迁移",
+      "rect": {
+        "x": 44,
+        "y": 1477,
+        "w": 64,
+        "h": 20
+      },
+      "style": {
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "color": "rgba(0, 0, 0, 0.6)",
+        "background": "rgba(0, 0, 0, 0)",
+        "borderRadius": "0px",
+        "padding": "0px",
+        "border": "0px solid oklch(0.922 0 0)"
+      }
+    },
+    {
+      "text": "补充",
+      "rect": {
+        "x": 137,
+        "y": 1478,
+        "w": 30,
+        "h": 18
+      },
+      "style": {
+        "fontSize": "10px",
+        "fontWeight": "400",
+        "color": "oklab(0 0 0 / 0.45)",
+        "background": "rgba(0, 0, 0, 0)",
+        "borderRadius": "4px",
+        "padding": "0px 4px",
+        "border": "1px solid rgb(230, 230, 231)"
+      }
+    },
+    {
+      "text": "图转视频",
+      "rect": {
+        "x": 44,
+        "y": 1548,
+        "w": 64,
+        "h": 20
+      },
+      "style": {
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "color": "rgba(0, 0, 0, 0.6)",
+        "background": "rgba(0, 0, 0, 0)",
+        "borderRadius": "0px",
+        "padding": "0px",
+        "border": "0px solid oklch(0.922 0 0)"
+      }
+    },
+    {
+      "text": "带货口播",
+      "rect": {
+        "x": 44,
+        "y": 1588,
+        "w": 64,
+        "h": 20
+      },
+      "style": {
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "color": "rgba(0, 0, 0, 0.6)",
+        "background": "rgba(0, 0, 0, 0)",
+        "borderRadius": "0px",
+        "padding": "0px",
+        "border": "0px solid oklch(0.922 0 0)"
+      }
+    },
+    {
+      "text": "视频复刻",
+      "rect": {
+        "x": 44,
+        "y": 1628,
+        "w": 64,
+        "h": 20
+      },
+      "style": {
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "color": "rgba(0, 0, 0, 0.6)",
+        "background": "rgba(0, 0, 0, 0)",
+        "borderRadius": "0px",
+        "padding": "0px",
+        "border": "0px solid oklch(0.922 0 0)"
+      }
+    },
+    {
+      "text": "视频编辑",
+      "rect": {
+        "x": 44,
+        "y": 1668,
+        "w": 64,
+        "h": 20
+      },
+      "style": {
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "color": "rgba(0, 0, 0, 0.6)",
+        "background": "rgba(0, 0, 0, 0)",
+        "borderRadius": "0px",
+        "padding": "0px",
+        "border": "0px solid oklch(0.922 0 0)"
+      }
+    },
+    {
+      "text": "视频翻译",
+      "rect": {
+        "x": 44,
+        "y": 1708,
+        "w": 64,
+        "h": 20
+      },
+      "style": {
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "color": "rgba(0, 0, 0, 0.6)",
+        "background": "rgba(0, 0, 0, 0)",
+        "borderRadius": "0px",
+        "padding": "0px",
+        "border": "0px solid oklch(0.922 0 0)"
+      }
+    },
+    {
+      "text": "视频拼接",
+      "rect": {
+        "x": 44,
+        "y": 1748,
+        "w": 64,
+        "h": 20
+      },
+      "style": {
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "color": "rgb(114, 60, 249)",
+        "background": "rgba(0, 0, 0, 0)",
+        "borderRadius": "0px",
+        "padding": "0px",
+        "border": "0px solid oklch(0.922 0 0)"
+      }
+    },
+    {
+      "text": "补充",
+      "rect": {
+        "x": 137,
+        "y": 1749,
+        "w": 30,
+        "h": 18
+      },
+      "style": {
+        "fontSize": "10px",
+        "fontWeight": "400",
+        "color": "oklab(0 0 0 / 0.45)",
+        "background": "rgba(0, 0, 0, 0)",
+        "borderRadius": "4px",
+        "padding": "0px 4px",
+        "border": "1px solid rgb(230, 230, 231)"
+      }
+    },
+    {
+      "text": "AI 视频 / 视频拼接",
+      "rect": {
+        "x": 200,
+        "y": 68,
+        "w": 1688,
+        "h": 20
+      },
+      "style": {
+        "fontSize": "12px",
+        "fontWeight": "400",
+        "color": "oklch(0.556 0 0)",
+        "background": "rgba(0, 0, 0, 0)",
+        "borderRadius": "0px",
+        "padding": "0px",
+        "border": "0px solid oklch(0.922 0 0)"
+      }
+    },
+    {
+      "text": "视频拼接",
+      "rect": {
+        "x": 200,
+        "y": 88,
+        "w": 64,
+        "h": 24
+      },
+      "style": {
+        "fontSize": "16px",
+        "fontWeight": "500",
+        "color": "oklch(0.145 0 0)",
+        "background": "rgba(0, 0, 0, 0)",
+        "borderRadius": "0px",
+        "padding": "0px",
+        "border": "0px solid oklch(0.922 0 0)"
+      }
+    },
+    {
+      "text": "补充",
+      "rect": {
+        "x": 272,
+        "y": 93,
+        "w": 36,
+        "h": 22
+      },
+      "style": {
+        "fontSize": "11px",
+        "fontWeight": "400",
+        "color": "oklch(0.556 0 0)",
+        "background": "rgba(0, 0, 0, 0)",
+        "borderRadius": "4px",
+        "padding": "0px 6px",
+        "border": "1px solid oklch(0.922 0 0)"
+      }
+    },
+    {
+      "text": "/tools/ai-video/video-concat",
+      "rect": {
+        "x": 200,
+        "y": 120,
+        "w": 1688,
+        "h": 20
+      },
+      "style": {
+        "fontSize": "12px",
+        "fontWeight": "400",
+        "color": "oklch(0.556 0 0)",
+        "background": "rgba(0, 0, 0, 0)",
+        "borderRadius": "0px",
+        "padding": "0px",
+        "border": "0px solid oklch(0.922 0 0)"
+      }
+    },
+    {
+      "text": "视频拼接",
+      "rect": {
+        "x": 200,
+        "y": 177,
+        "w": 56,
+        "h": 24
+      },
+      "style": {
+        "fontSize": "14px",
+        "fontWeight": "500",
+        "color": "oklch(0.145 0 0)",
+        "background": "rgba(0, 0, 0, 0)",
+        "borderRadius": "0px",
+        "padding": "0px",
+        "border": "0px solid oklch(0.922 0 0)"
+      }
+    },
+    {
+      "text": "0/10 段 · 素材 0s",
+      "rect": {
+        "x": 264,
+        "y": 181,
+        "w": 98,
+        "h": 23
+      },
+      "style": {
+        "fontSize": "11px",
+        "fontWeight": "400",
+        "color": "oklch(0.556 0 0)",
+        "background": "rgba(0, 0, 0, 0)",
+        "borderRadius": "4px",
+        "padding": "2px 6px",
+        "border": "1px solid oklch(0.922 0 0)"
+      }
+    },
+    {
+      "text": "未添加片段",
+      "rect": {
+        "x": 370,
+        "y": 181,
+        "w": 69,
+        "h": 23
+      },
+      "style": {
+        "fontSize": "11px",
+        "fontWeight": "400",
+        "color": "oklch(0.556 0 0)",
+        "background": "rgba(0, 0, 0, 0)",
+        "borderRadius": "4px",
+        "padding": "2px 6px",
+        "border": "1px solid oklch(0.922 0 0)"
+      }
+    },
+    {
+      "text": "按顺序拼接多段视频 · 逐段裁剪 · 抓帧做封面",
+      "rect": {
+        "x": 200,
+        "y": 208,
+        "w": 1688,
+        "h": 20
+      },
+      "style": {
+        "fontSize": "12px",
+        "fontWeight": "400",
+        "color": "oklch(0.556 0 0)",
+        "background": "rgba(0, 0, 0, 0)",
+        "borderRadius": "0px",
+        "padding": "0px",
+        "border": "0px solid oklch(0.922 0 0)"
+      }
+    },
+    {
+      "text": "视频片段",
+      "rect": {
+        "x": 229,
+        "y": 281,
+        "w": 56,
+        "h": 20
+      },
+      "style": {
+        "fontSize": "14px",
+        "fontWeight": "500",
+        "color": "oklch(0.145 0 0)",
+        "background": "rgba(0, 0, 0, 0)",
+        "borderRadius": "0px",
+        "padding": "0px",
+        "border": "0px solid oklch(0.922 0 0)"
+      }
+    },
+    {
+      "text": "0 / 10 段",
+      "rect": {
+        "x": 580,
+        "y": 283,
+        "w": 43,
+        "h": 17
+      },
+      "style": {
+        "fontSize": "11px",
+        "fontWeight": "400",
+        "color": "oklch(0.556 0 0)",
+        "background": "rgba(0, 0, 0, 0)",
+        "borderRadius": "0px",
+        "padding": "0px",
+        "border": "0px solid oklch(0.922 0 0)"
+      }
+    },
+    {
+      "text": "上传视频片段",
+      "rect": {
+        "x": 229,
+        "y": 316,
+        "w": 84,
+        "h": 20
+      },
+      "style": {
+        "fontSize": "14px",
+        "fontWeight": "500",
+        "color": "oklch(0.268 0.007 34.298)",
+        "background": "rgba(0, 0, 0, 0)",
+        "borderRadius": "0px",
+        "padding": "0px",
+        "border": "0px solid oklch(0.922 0 0)"
+      }
+    },
+    {
+      "text": "0 / 10 个 · MP4 / MOV / WebM · ≤ 100 MB",
+      "rect": {
+        "x": 393,
+        "y": 319,
+        "w": 230,
+        "h": 16
+      },
+      "style": {
+        "fontSize": "12px",
+        "fontWeight": "400",
+        "color": "oklch(0.553 0.013 58.071)",
+        "background": "rgba(0, 0, 0, 0)",
+        "borderRadius": "0px",
+        "padding": "0px",
+        "border": "0px solid oklch(0.922 0 0)"
+      }
+    },
+    {
+      "text": "点击选择本地文件，或拖拽到这里",
+      "rect": {
+        "x": 336,
+        "y": 380,
+        "w": 180,
+        "h": 16
+      },
+      "style": {
+        "fontSize": "12px",
+        "fontWeight": "400",
+        "color": "oklch(0.374 0.01 67.558)",
+        "background": "rgba(0, 0, 0, 0)",
+        "borderRadius": "0px",
+        "padding": "0px",
+        "border": "0px solid oklch(0.922 0 0)"
+      }
+    },
+    {
+      "text": "校验格式 / 大小 / 像素，入库后可刷新恢复",
+      "rect": {
+        "x": 314,
+        "y": 400,
+        "w": 225,
+        "h": 16
+      },
+      "style": {
+        "fontSize": "12px",
+        "fontWeight": "400",
+        "color": "oklch(0.553 0.013 58.071)",
+        "background": "rgba(0, 0, 0, 0)",
+        "borderRadius": "0px",
+        "padding": "0px",
+        "border": "0px solid oklch(0.922 0 0)"
+      }
+    },
+    {
+      "text": "还没有素材",
+      "rect": {
+        "x": 229,
+        "y": 453,
+        "w": 394,
+        "h": 16
+      },
+      "style": {
+        "fontSize": "12px",
+        "fontWeight": "400",
+        "color": "oklch(0.553 0.013 58.071)",
+        "background": "rgba(0, 0, 0, 0)",
+        "borderRadius": "0px",
+        "padding": "0px",
+        "border": "0px solid oklch(0.922 0 0)"
+      }
+    },
+    {
+      "text": "支持 MP4 / MOV / WebM，单段 ≤ 100MB；读不到时长会阻止提交，不用默认值猜测。",
+      "rect": {
+        "x": 229,
+        "y": 481,
+        "w": 394,
+        "h": 35
+      },
+      "style": {
+        "fontSize": "11px",
+        "fontWeight": "400",
+        "color": "oklch(0.556 0 0)",
+        "background": "rgba(0, 0, 0, 0)",
+        "borderRadius": "0px",
+        "padding": "0px",
+        "border": "0px solid oklch(0.922 0 0)"
+      }
+    },
+    {
+      "text": "还没有片段：至少上传 2 段视频才能拼接。",
+      "rect": {
+        "x": 229,
+        "y": 527,
+        "w": 394,
+        "h": 17
+      },
+      "style": {
+        "fontSize": "11px",
+        "fontWeight": "400",
+        "color": "oklch(0.556 0 0)",
+        "background": "rgba(0, 0, 0, 0)",
+        "borderRadius": "0px",
+        "padding": "0px",
+        "border": "0px solid oklch(0.922 0 0)"
+      }
+    },
+    {
+      "text": "视频封面",
+      "rect": {
+        "x": 229,
+        "y": 603,
+        "w": 56,
+        "h": 20
+      },
+      "style": {
+        "fontSize": "14px",
+        "fontWeight": "500",
+        "color": "oklch(0.145 0 0)",
+        "background": "rgba(0, 0, 0, 0)",
+        "borderRadius": "0px",
+        "padding": "0px",
+        "border": "0px solid oklch(0.922 0 0)"
+      }
+    },
+    {
+      "text": "从当前帧抓取",
+      "rect": {
+        "x": 521,
+        "y": 597,
+        "w": 102,
+        "h": 32
+      },
+      "style": {
+        "fontSize": "14px",
+        "fontWeight": "400",
+        "color": "oklch(0.145 0 0)",
+        "background": "rgba(0, 0, 0, 0)",
+        "borderRadius": "4px",
+        "padding": "4px 8px",
+        "border": "1px solid oklch(0.922 0 0)"
+      }
+    },
+    {
+      "text": "上传封面图",
+      "rect": {
+        "x": 229,
+        "y": 638,
+        "w": 70,
+        "h": 20
+      },
+      "style": {
+        "fontSize": "14px",
+        "fontWeight": "500",
+        "color": "oklch(0.268 0.007 34.298)",
+        "background": "rgba(0, 0, 0, 0)",
+        "borderRadius": "0px",
+        "padding": "0px",
+        "border": "0px solid oklch(0.922 0 0)"
+      }
+    },
+    {
+      "text": "0 / 1 个 · PNG / JPG / WebP · ≤ 10 MB",
+      "rect": {
+        "x": 415,
+        "y": 641,
+        "w": 208,
+        "h": 16
+      },
+      "style": {
+        "fontSize": "12px",
+        "fontWeight": "400",
+        "color": "oklch(0.553 0.013 58.071)",
+        "background": "rgba(0, 0, 0, 0)",
+        "borderRadius": "0px",
+        "padding": "0px",
+        "border": "0px solid oklch(0.922 0 0)"
+      }
+    },
+    {
+      "text": "点击选择本地文件，或拖拽到这里",
+      "rect": {
+        "x": 336,
+        "y": 702,
+        "w": 180,
+        "h": 16
+      },
+      "style": {
+        "fontSize": "12px",
+        "fontWeight": "400",
+        "color": "oklch(0.374 0.01 67.558)",
+        "background": "rgba(0, 0, 0, 0)",
+        "borderRadius": "0px",
+        "padding": "0px",
+        "border": "0px solid oklch(0.922 0 0)"
+      }
+    },
+    {
+      "text": "校验格式 / 大小 / 像素，入库后可刷新恢复",
+      "rect": {
+        "x": 314,
+        "y": 722,
+        "w": 225,
+        "h": 16
+      },
+      "style": {
+        "fontSize": "12px",
+        "fontWeight": "400",
+        "color": "oklch(0.553 0.013 58.071)",
+        "background": "rgba(0, 0, 0, 0)",
+        "borderRadius": "0px",
+        "padding": "0px",
+        "border": "0px solid oklch(0.922 0 0)"
+      }
+    },
+    {
+      "text": "还没有素材",
+      "rect": {
+        "x": 229,
+        "y": 775,
+        "w": 394,
+        "h": 16
+      },
+      "style": {
+        "fontSize": "12px",
+        "fontWeight": "400",
+        "color": "oklch(0.553 0.013 58.071)",
+        "background": "rgba(0, 0, 0, 0)",
+        "borderRadius": "0px",
+        "padding": "0px",
+        "border": "0px solid oklch(0.922 0 0)"
+      }
+    },
+    {
+      "text": "封面必填：上传一张图，或用播放器把画面拖到目标位置后抓帧。",
+      "rect": {
+        "x": 229,
+        "y": 803,
+        "w": 394,
+        "h": 17
+      },
+      "style": {
+        "fontSize": "11px",
+        "fontWeight": "400",
+        "color": "oklch(0.556 0 0)",
+        "background": "rgba(0, 0, 0, 0)",
+        "borderRadius": "0px",
+        "padding": "0px",
+        "border": "0px solid oklch(0.922 0 0)"
+      }
+    },
+    {
+      "text": "播放与裁剪预览",
+      "rect": {
+        "x": 665,
+        "y": 281,
+        "w": 98,
+        "h": 20
+      },
+      "style": {
+        "fontSize": "14px",
+        "fontWeight": "500",
+        "color": "oklch(0.145 0 0)",
+        "background": "rgba(0, 0, 0, 0)",
+        "borderRadius": "0px",
+        "padding": "0px",
+        "border": "0px solid oklch(0.922 0 0)"
+      }
+    },
+    {
+      "text": "未选择片段",
+      "rect": {
+        "x": 1804,
+        "y": 286,
+        "w": 55,
+        "h": 17
+      },
+      "style": {
+        "fontSize": "11px",
+        "fontWeight": "400",
+        "color": "oklch(0.556 0 0)",
+        "background": "rgba(0, 0, 0, 0)",
+        "borderRadius": "0px",
+        "padding": "0px",
+        "border": "0px solid oklch(0.922 0 0)"
+      }
+    },
+    {
+      "text": "上传片段后可在这里预览并按裁剪区间播放",
+      "rect": {
+        "x": 665,
+        "y": 316,
+        "w": 1194,
+        "h": 70
+      },
+      "style": {
+        "fontSize": "14px",
+        "fontWeight": "400",
+        "color": "oklch(0.556 0 0)",
+        "background": "rgba(0, 0, 0, 0)",
+        "borderRadius": "10px",
+        "padding": "24px",
+        "border": "1px dashed oklch(0.922 0 0)"
+      }
+    },
+    {
+      "text": "生成设置",
+      "rect": {
+        "x": 665,
+        "y": 424,
+        "w": 1194,
+        "h": 20
+      },
+      "style": {
+        "fontSize": "14px",
+        "fontWeight": "500",
+        "color": "oklch(0.145 0 0)",
+        "background": "rgba(0, 0, 0, 0)",
+        "borderRadius": "0px",
+        "padding": "0px",
+        "border": "0px solid oklch(0.922 0 0)"
+      }
+    },
+    {
+      "text": "视频模型",
+      "rect": {
+        "x": 665,
+        "y": 451,
+        "w": 1194,
+        "h": 17
+      },
+      "style": {
+        "fontSize": "11px",
+        "fontWeight": "400",
+        "color": "oklch(0.556 0 0)",
+        "background": "rgba(0, 0, 0, 0)",
+        "borderRadius": "0px",
+        "padding": "0px",
+        "border": "0px solid oklch(0.922 0 0)"
+      }
+    },
+    {
+      "text": "grok-imagine-video（默认渠道）",
+      "rect": {
+        "x": 702,
+        "y": 484,
+        "w": 1120,
+        "h": 22
+      },
+      "style": {
+        "fontSize": "14px",
+        "fontWeight": "400",
+        "color": "oklch(0.145 0 0)",
+        "background": "rgba(0, 0, 0, 0)",
+        "borderRadius": "0px",
+        "padding": "0px",
+        "border": "0px solid oklch(0.922 0 0)"
+      }
+    },
+    {
+      "text": "视频比例",
+      "rect": {
+        "x": 665,
+        "y": 523,
+        "w": 1194,
+        "h": 17
+      },
+      "style": {
+        "fontSize": "11px",
+        "fontWeight": "400",
+        "color": "oklch(0.556 0 0)",
+        "background": "rgba(0, 0, 0, 0)",
+        "borderRadius": "0px",
+        "padding": "0px",
+        "border": "0px solid oklch(0.922 0 0)"
+      }
+    },
+    {
+      "text": "9:16",
+      "rect": {
+        "x": 665,
+        "y": 552,
+        "w": 47,
+        "h": 32
+      },
+      "style": {
+        "fontSize": "14px",
+        "fontWeight": "500",
+        "color": "oklch(0.145 0 0)",
+        "background": "oklch(0.97 0 0)",
+        "borderRadius": "8px",
+        "padding": "0px 8px",
+        "border": "1px solid oklch(0.922 0 0)"
+      }
+    },
+    {
+      "text": "16:9",
+      "rect": {
+        "x": 720,
+        "y": 552,
+        "w": 46,
+        "h": 32
+      },
+      "style": {
+        "fontSize": "14px",
+        "fontWeight": "400",
+        "color": "oklch(0.145 0 0)",
+        "background": "rgba(0, 0, 0, 0)",
+        "borderRadius": "8px",
+        "padding": "0px 8px",
+        "border": "1px solid oklch(0.922 0 0)"
+      }
+    },
+    {
+      "text": "1:1",
+      "rect": {
+        "x": 774,
+        "y": 552,
+        "w": 35,
+        "h": 32
+      },
+      "style": {
+        "fontSize": "14px",
+        "fontWeight": "400",
+        "color": "oklch(0.145 0 0)",
+        "background": "rgba(0, 0, 0, 0)",
+        "borderRadius": "8px",
+        "padding": "0px 8px",
+        "border": "1px solid oklch(0.922 0 0)"
+      }
+    },
+    {
+      "text": "4:3",
+      "rect": {
+        "x": 816,
+        "y": 552,
+        "w": 39,
+        "h": 32
+      },
+      "style": {
+        "fontSize": "14px",
+        "fontWeight": "400",
+        "color": "oklch(0.145 0 0)",
+        "background": "rgba(0, 0, 0, 0)",
+        "borderRadius": "8px",
+        "padding": "0px 8px",
+        "border": "1px solid oklch(0.922 0 0)"
+      }
+    },
+    {
+      "text": "3:4",
+      "rect": {
+        "x": 864,
+        "y": 552,
+        "w": 40,
+        "h": 32
+      },
+      "style": {
+        "fontSize": "14px",
+        "fontWeight": "400",
+        "color": "oklch(0.145 0 0)",
+        "background": "rgba(0, 0, 0, 0)",
+        "borderRadius": "8px",
+        "padding": "0px 8px",
+        "border": "1px solid oklch(0.922 0 0)"
+      }
+    },
+    {
+      "text": "21:9",
+      "rect": {
+        "x": 911,
+        "y": 552,
+        "w": 45,
+        "h": 32
+      },
+      "style": {
+        "fontSize": "14px",
+        "fontWeight": "400",
+        "color": "oklch(0.145 0 0)",
+        "background": "rgba(0, 0, 0, 0)",
+        "borderRadius": "8px",
+        "padding": "0px 8px",
+        "border": "1px solid oklch(0.922 0 0)"
+      }
+    },
+    {
+      "text": "默认 9:16；片段比例不一致时由模型按输出比例统一。",
+      "rect": {
+        "x": 665,
+        "y": 588,
+        "w": 1194,
+        "h": 17
+      },
+      "style": {
+        "fontSize": "11px",
+        "fontWeight": "400",
+        "color": "oklch(0.556 0 0)",
+        "background": "rgba(0, 0, 0, 0)",
+        "borderRadius": "0px",
+        "padding": "0px",
+        "border": "0px solid oklch(0.922 0 0)"
+      }
+    },
+    {
+      "text": "输出时长",
+      "rect": {
+        "x": 665,
+        "y": 617,
+        "w": 1194,
+        "h": 17
+      },
+      "style": {
+        "fontSize": "11px",
+        "fontWeight": "400",
+        "color": "oklch(0.556 0 0)",
+        "background": "rgba(0, 0, 0, 0)",
+        "borderRadius": "0px",
+        "padding": "0px",
+        "border": "0px solid oklch(0.922 0 0)"
+      }
+    },
+    {
+      "text": "自动",
+      "rect": {
+        "x": 665,
+        "y": 645,
+        "w": 293,
+        "h": 36
+      },
+      "style": {
+        "fontSize": "14px",
+        "fontWeight": "500",
+        "color": "oklch(0.145 0 0)",
+        "background": "oklch(0.97 0 0)",
+        "borderRadius": "8px",
+        "padding": "0px",
+        "border": "1px solid oklch(0.922 0 0)"
+      }
+    },
+    {
+      "text": "5秒",
+      "rect": {
+        "x": 966,
+        "y": 645,
+        "w": 293,
+        "h": 36
+      },
+      "style": {
+        "fontSize": "14px",
+        "fontWeight": "400",
+        "color": "oklch(0.145 0 0)",
+        "background": "rgba(0, 0, 0, 0)",
+        "borderRadius": "8px",
+        "padding": "0px",
+        "border": "1px solid oklch(0.922 0 0)"
+      }
+    },
+    {
+      "text": "10秒",
+      "rect": {
+        "x": 1266,
+        "y": 645,
+        "w": 293,
+        "h": 36
+      },
+      "style": {
+        "fontSize": "14px",
+        "fontWeight": "400",
+        "color": "oklch(0.145 0 0)",
+        "background": "rgba(0, 0, 0, 0)",
+        "borderRadius": "8px",
+        "padding": "0px",
+        "border": "1px solid oklch(0.922 0 0)"
+      }
+    },
+    {
+      "text": "15秒",
+      "rect": {
+        "x": 1567,
+        "y": 645,
+        "w": 293,
+        "h": 36
+      },
+      "style": {
+        "fontSize": "14px",
+        "fontWeight": "400",
+        "color": "oklch(0.145 0 0)",
+        "background": "rgba(0, 0, 0, 0)",
+        "borderRadius": "8px",
+        "padding": "0px",
+        "border": "1px solid oklch(0.922 0 0)"
+      }
+    },
+    {
+      "text": "自动 = 片段有效时长之和 0s",
+      "rect": {
+        "x": 665,
+        "y": 685,
+        "w": 1194,
+        "h": 17
+      },
+      "style": {
+        "fontSize": "11px",
+        "fontWeight": "400",
+        "color": "oklch(0.556 0 0)",
+        "background": "rgba(0, 0, 0, 0)",
+        "borderRadius": "0px",
+        "padding": "0px",
+        "border": "0px solid oklch(0.922 0 0)"
+      }
+    },
+    {
+      "text": "通道能力",
+      "rect": {
+        "x": 665,
+        "y": 751,
+        "w": 1194,
+        "h": 20
+      },
+      "style": {
+        "fontSize": "14px",
+        "fontWeight": "500",
+        "color": "oklch(0.145 0 0)",
+        "background": "rgba(0, 0, 0, 0)",
+        "borderRadius": "0px",
+        "padding": "0px",
+        "border": "0px solid oklch(0.922 0 0)"
+      }
+    },
+    {
+      "text": "通道 openai · 多段视频 已验证发送",
+      "rect": {
+        "x": 665,
+        "y": 778,
+        "w": 1194,
+        "h": 17
+      },
+      "style": {
+        "fontSize": "11px",
+        "fontWeight": "400",
+        "color": "oklch(0.556 0 0)",
+        "background": "rgba(0, 0, 0, 0)",
+        "borderRadius": "0px",
+        "padding": "0px",
+        "border": "0px solid oklch(0.922 0 0)"
+      }
+    },
+    {
+      "text": "OpenAI /videos 通道会把每段视频作为 video[] 上传；多段是否被上游采用仍取决于中转实现。",
+      "rect": {
+        "x": 665,
+        "y": 807,
+        "w": 1194,
+        "h": 17
+      },
+      "style": {
+        "fontSize": "11px",
+        "fontWeight": "400",
+        "color": "oklch(0.556 0 0)",
+        "background": "rgba(0, 0, 0, 0)",
+        "borderRadius": "0px",
+        "padding": "0px",
+        "border": "0px solid oklch(0.922 0 0)"
+      }
+    },
+    {
+      "text": "还没有片段：至少需要 2 段视频，当前还没有片段",
+      "rect": {
+        "x": 665,
+        "y": 835,
+        "w": 1194,
+        "h": 17
+      },
+      "style": {
+        "fontSize": "11px",
+        "fontWeight": "400",
+        "color": "oklch(0.577 0.245 27.325)",
+        "background": "rgba(0, 0, 0, 0)",
+        "borderRadius": "0px",
+        "padding": "0px",
+        "border": "0px solid oklch(0.922 0 0)"
+      }
+    },
+    {
+      "text": "缺少封面：还没有封面：请上传封面图或从片段抓取一帧",
+      "rect": {
+        "x": 665,
+        "y": 856,
+        "w": 1194,
+        "h": 17
+      },
+      "style": {
+        "fontSize": "11px",
+        "fontWeight": "400",
+        "color": "oklch(0.577 0.245 27.325)",
+        "background": "rgba(0, 0, 0, 0)",
+        "borderRadius": "0px",
+        "padding": "0px",
+        "border": "0px solid oklch(0.922 0 0)"
+      }
+    },
+    {
+      "text": "开始拼接",
+      "rect": {
+        "x": 652,
+        "y": 910,
+        "w": 1220,
+        "h": 40
+      },
+      "style": {
+        "fontSize": "14px",
+        "fontWeight": "500",
+        "color": "oklch(0.145 0 0)",
+        "background": "oklch(0.205 0 0)",
+        "borderRadius": "10px",
+        "padding": "0px",
+        "border": "0px solid oklch(0.922 0 0)"
+      }
+    },
+    {
+      "text": "至少需要 2 段视频，当前还没有片段",
+      "rect": {
+        "x": 652,
+        "y": 950,
+        "w": 1220,
+        "h": 17
+      },
+      "style": {
+        "fontSize": "11px",
+        "fontWeight": "400",
+        "color": "oklch(0.556 0 0)",
+        "background": "rgba(0, 0, 0, 0)",
+        "borderRadius": "0px",
+        "padding": "0px",
+        "border": "0px solid oklch(0.922 0 0)"
+      }
+    },
+    {
+      "text": "拼接结果",
+      "rect": {
+        "x": 652,
+        "y": 979,
+        "w": 56,
+        "h": 20
+      },
+      "style": {
+        "fontSize": "14px",
+        "fontWeight": "500",
+        "color": "oklch(0.145 0 0)",
+        "background": "rgba(0, 0, 0, 0)",
+        "borderRadius": "0px",
+        "padding": "0px",
+        "border": "0px solid oklch(0.922 0 0)"
+      }
+    },
+    {
+      "text": "拼接视频",
+      "rect": {
+        "x": 669,
+        "y": 1035,
+        "w": 56,
+        "h": 20
+      },
+      "style": {
+        "fontSize": "14px",
+        "fontWeight": "500",
+        "color": "oklch(0.145 0 0)",
+        "background": "rgba(0, 0, 0, 0)",
+        "borderRadius": "0px",
+        "padding": "0px",
+        "border": "0px solid oklch(0.922 0 0)"
+      }
+    },
+    {
+      "text": "还没有生成结果",
+      "rect": {
+        "x": 686,
+        "y": 1139,
+        "w": 1152,
+        "h": 20
+      },
+      "style": {
+        "fontSize": "14px",
+        "fontWeight": "400",
+        "color": "oklch(0.556 0 0)",
+        "background": "rgba(0, 0, 0, 0)",
+        "borderRadius": "0px",
+        "padding": "0px",
+        "border": "0px solid oklch(0.922 0 0)"
+      }
+    },
+    {
+      "text": "填好参数并提交后，结果会出现在这里，可预览、下载、存入资产库或发送到画布。",
+      "rect": {
+        "x": 686,
+        "y": 1173,
+        "w": 1152,
+        "h": 16
+      },
+      "style": {
+        "fontSize": "12px",
+        "fontWeight": "400",
+        "color": "oklch(0.556 0 0)",
+        "background": "rgba(0, 0, 0, 0)",
+        "borderRadius": "0px",
+        "padding": "0px",
+        "border": "0px solid oklch(0.922 0 0)"
+      }
+    },
+    {
+      "text": "尚未提交",
+      "rect": {
+        "x": 652,
+        "y": 1350,
+        "w": 1220,
+        "h": 70
+      },
+      "style": {
+        "fontSize": "14px",
+        "fontWeight": "400",
+        "color": "oklch(0.556 0 0)",
+        "background": "rgba(0, 0, 0, 0)",
+        "borderRadius": "10px",
+        "padding": "24px",
+        "border": "1px dashed oklch(0.922 0 0)"
+      }
+    },
+    {
+      "text": "历史任务",
+      "rect": {
+        "x": 665,
+        "y": 1445,
+        "w": 56,
+        "h": 20
+      },
+      "style": {
+        "fontSize": "14px",
+        "fontWeight": "500",
+        "color": "oklch(0.145 0 0)",
+        "background": "rgba(0, 0, 0, 0)",
+        "borderRadius": "0px",
+        "padding": "0px",
+        "border": "0px solid oklch(0.922 0 0)"
+      }
+    },
+    {
+      "text": "点击「查看结果」把历史任务放回上方结果区",
+      "rect": {
+        "x": 1639,
+        "y": 1450,
+        "w": 220,
+        "h": 17
+      },
+      "style": {
+        "fontSize": "11px",
+        "fontWeight": "400",
+        "color": "oklch(0.556 0 0)",
+        "background": "rgba(0, 0, 0, 0)",
+        "borderRadius": "0px",
+        "padding": "0px",
+        "border": "0px solid oklch(0.922 0 0)"
+      }
+    },
+    {
+      "text": "历史记录",
+      "rect": {
+        "x": 678,
+        "y": 1493,
+        "w": 66,
+        "h": 16
+      },
+      "style": {
+        "fontSize": "12px",
+        "fontWeight": "500",
+        "color": "oklch(0.145 0 0)",
+        "background": "rgba(0, 0, 0, 0)",
+        "borderRadius": "0px",
+        "padding": "0px",
+        "border": "0px solid oklch(0.922 0 0)"
+      }
+    },
+    {
+      "text": "0 条",
+      "rect": {
+        "x": 1825,
+        "y": 1493,
+        "w": 21,
+        "h": 17
+      },
+      "style": {
+        "fontSize": "11px",
+        "fontWeight": "400",
+        "color": "oklch(0.556 0 0)",
+        "background": "rgba(0, 0, 0, 0)",
+        "borderRadius": "0px",
+        "padding": "0px",
+        "border": "0px solid oklch(0.922 0 0)"
+      }
+    },
+    {
+      "text": "还没有视频拼接任务：提交后这里会出现真实任务记录",
+      "rect": {
+        "x": 678,
+        "y": 1518,
+        "w": 1168,
+        "h": 17
+      },
+      "style": {
+        "fontSize": "11px",
+        "fontWeight": "400",
+        "color": "oklch(0.556 0 0)",
+        "background": "rgba(0, 0, 0, 0)",
+        "borderRadius": "0px",
+        "padding": "0px",
+        "border": "0px solid oklch(0.922 0 0)"
+      }
+    },
+    {
+      "text": "连接本地 Agent",
+      "rect": {
+        "x": 1925,
+        "y": 65,
+        "w": 113,
+        "h": 24
+      },
+      "style": {
+        "fontSize": "16px",
+        "fontWeight": "600",
+        "color": "rgb(41, 37, 36)",
+        "background": "rgba(0, 0, 0, 0)",
+        "borderRadius": "0px",
+        "padding": "0px",
+        "border": "0px solid oklch(0.922 0 0)"
+      }
+    },
+    {
+      "text": "未连接",
+      "rect": {
+        "x": 2290,
+        "y": 69,
+        "w": 33,
+        "h": 16
+      },
+      "style": {
+        "fontSize": "11px",
+        "fontWeight": "400",
+        "color": "rgb(120, 113, 108)",
+        "background": "rgba(0, 0, 0, 0)",
+        "borderRadius": "0px",
+        "padding": "0px",
+        "border": "0px solid oklch(0.922 0 0)"
+      }
+    },
+    {
+      "text": "点连接会自动启动本地服务、装好插件并接通，无需手动配置。",
+      "rect": {
+        "x": 1925,
+        "y": 93,
+        "w": 407,
+        "h": 20
+      },
+      "style": {
+        "fontSize": "12px",
+        "fontWeight": "400",
+        "color": "rgb(120, 113, 108)",
+        "background": "rgba(0, 0, 0, 0)",
+        "borderRadius": "0px",
+        "padding": "0px",
+        "border": "0px solid oklch(0.922 0 0)"
+      }
+    },
+    {
+      "text": "Claude Code",
+      "rect": {
+        "x": 1938,
+        "y": 140,
+        "w": 303,
+        "h": 20
+      },
+      "style": {
+        "fontSize": "14px",
+        "fontWeight": "500",
+        "color": "rgb(41, 37, 36)",
+        "background": "rgba(0, 0, 0, 0)",
+        "borderRadius": "0px",
+        "padding": "0px",
+        "border": "0px solid oklch(0.922 0 0)"
+      }
+    },
+    {
+      "text": "未连接",
+      "rect": {
+        "x": 1938,
+        "y": 162,
+        "w": 33,
+        "h": 16
+      },
+      "style": {
+        "fontSize": "11px",
+        "fontWeight": "400",
+        "color": "rgb(120, 113, 108)",
+        "background": "rgba(0, 0, 0, 0)",
+        "borderRadius": "0px",
+        "padding": "0px",
+        "border": "0px solid oklch(0.922 0 0)"
+      }
+    },
+    {
+      "text": "·",
+      "rect": {
+        "x": 1977,
+        "y": 162,
+        "w": 3,
+        "h": 16
+      },
+      "style": {
+        "fontSize": "11px",
+        "fontWeight": "400",
+        "color": "rgb(120, 113, 108)",
+        "background": "rgba(0, 0, 0, 0)",
+        "borderRadius": "0px",
+        "padding": "0px",
+        "border": "0px solid oklch(0.922 0 0)"
+      }
+    },
+    {
+      "text": "CLI · 2.1.285 (Claude Code)",
+      "rect": {
+        "x": 1986,
+        "y": 162,
+        "w": 144,
+        "h": 16
+      },
+      "style": {
+        "fontSize": "11px",
+        "fontWeight": "400",
+        "color": "rgb(120, 113, 108)",
+        "background": "rgba(0, 0, 0, 0)",
+        "borderRadius": "0px",
+        "padding": "0px",
+        "border": "0px solid oklch(0.922 0 0)"
+      }
+    },
+    {
+      "text": "直接运行",
+      "rect": {
+        "x": 2146,
+        "y": 162,
+        "w": 44,
+        "h": 16
+      },
+      "style": {
+        "fontSize": "11px",
+        "fontWeight": "400",
+        "color": "rgb(120, 113, 108)",
+        "background": "rgba(0, 0, 0, 0)",
+        "borderRadius": "0px",
+        "padding": "0px",
+        "border": "0px solid oklch(0.922 0 0)"
+      }
+    },
+    {
+      "text": "连接",
+      "rect": {
+        "x": 2283,
+        "y": 148,
+        "w": 28,
+        "h": 22
+      },
+      "style": {
+        "fontSize": "14px",
+        "fontWeight": "400",
+        "color": "rgb(23, 23, 23)",
+        "background": "rgba(0, 0, 0, 0)",
+        "borderRadius": "0px",
+        "padding": "0px",
+        "border": "0px solid oklch(0.922 0 0)"
+      }
+    },
+    {
+      "text": "Codex",
+      "rect": {
+        "x": 1938,
+        "y": 208,
+        "w": 303,
+        "h": 20
+      },
+      "style": {
+        "fontSize": "14px",
+        "fontWeight": "500",
+        "color": "rgb(41, 37, 36)",
+        "background": "rgba(0, 0, 0, 0)",
+        "borderRadius": "0px",
+        "padding": "0px",
+        "border": "0px solid oklch(0.922 0 0)"
+      }
+    },
+    {
+      "text": "未连接",
+      "rect": {
+        "x": 1938,
+        "y": 230,
+        "w": 33,
+        "h": 16
+      },
+      "style": {
+        "fontSize": "11px",
+        "fontWeight": "400",
+        "color": "rgb(120, 113, 108)",
+        "background": "rgba(0, 0, 0, 0)",
+        "borderRadius": "0px",
+        "padding": "0px",
+        "border": "0px solid oklch(0.922 0 0)"
+      }
+    },
+    {
+      "text": "·",
+      "rect": {
+        "x": 1977,
+        "y": 230,
+        "w": 3,
+        "h": 16
+      },
+      "style": {
+        "fontSize": "11px",
+        "fontWeight": "400",
+        "color": "rgb(120, 113, 108)",
+        "background": "rgba(0, 0, 0, 0)",
+        "borderRadius": "0px",
+        "padding": "0px",
+        "border": "0px solid oklch(0.922 0 0)"
+      }
+    },
+    {
+      "text": "CLI · codex-cli 0.163.0",
+      "rect": {
+        "x": 1986,
+        "y": 230,
+        "w": 117,
+        "h": 16
+      },
+      "style": {
+        "fontSize": "11px",
+        "fontWeight": "400",
+        "color": "rgb(120, 113, 108)",
+        "background": "rgba(0, 0, 0, 0)",
+        "borderRadius": "0px",
+        "padding": "0px",
+        "border": "0px solid oklch(0.922 0 0)"
+      }
+    },
+    {
+      "text": "插件已装",
+      "rect": {
+        "x": 2119,
+        "y": 230,
+        "w": 44,
+        "h": 16
+      },
+      "style": {
+        "fontSize": "11px",
+        "fontWeight": "400",
+        "color": "rgb(22, 163, 74)",
+        "background": "rgba(0, 0, 0, 0)",
+        "borderRadius": "0px",
+        "padding": "0px",
+        "border": "0px solid oklch(0.922 0 0)"
+      }
+    },
+    {
+      "text": "连接",
+      "rect": {
+        "x": 2283,
+        "y": 216,
+        "w": 28,
+        "h": 22
+      },
+      "style": {
+        "fontSize": "14px",
+        "fontWeight": "400",
+        "color": "rgb(23, 23, 23)",
+        "background": "rgba(0, 0, 0, 0)",
+        "borderRadius": "0px",
+        "padding": "0px",
+        "border": "0px solid oklch(0.922 0 0)"
+      }
+    },
+    {
+      "text": "Galley",
+      "rect": {
+        "x": 1938,
+        "y": 276,
+        "w": 303,
+        "h": 20
+      },
+      "style": {
+        "fontSize": "14px",
+        "fontWeight": "500",
+        "color": "rgb(41, 37, 36)",
+        "background": "rgba(0, 0, 0, 0)",
+        "borderRadius": "0px",
+        "padding": "0px",
+        "border": "0px solid oklch(0.922 0 0)"
+      }
+    },
+    {
+      "text": "未连接",
+      "rect": {
+        "x": 1938,
+        "y": 298,
+        "w": 33,
+        "h": 16
+      },
+      "style": {
+        "fontSize": "11px",
+        "fontWeight": "400",
+        "color": "rgb(120, 113, 108)",
+        "background": "rgba(0, 0, 0, 0)",
+        "borderRadius": "0px",
+        "padding": "0px",
+        "border": "0px solid oklch(0.922 0 0)"
+      }
+    },
+    {
+      "text": "·",
+      "rect": {
+        "x": 1977,
+        "y": 298,
+        "w": 3,
+        "h": 16
+      },
+      "style": {
+        "fontSize": "11px",
+        "fontWeight": "400",
+        "color": "rgb(120, 113, 108)",
+        "background": "rgba(0, 0, 0, 0)",
+        "borderRadius": "0px",
+        "padding": "0px",
+        "border": "0px solid oklch(0.922 0 0)"
+      }
+    },
+    {
+      "text": "CLI + 桌面版 · galley 0.6.4",
+      "rect": {
+        "x": 1986,
+        "y": 298,
+        "w": 134,
+        "h": 16
+      },
+      "style": {
+        "fontSize": "11px",
+        "fontWeight": "400",
+        "color": "rgb(120, 113, 108)",
+        "background": "rgba(0, 0, 0, 0)",
+        "borderRadius": "0px",
+        "padding": "0px",
+        "border": "0px solid oklch(0.922 0 0)"
+      }
+    },
+    {
+      "text": "连接",
+      "rect": {
+        "x": 2283,
+        "y": 284,
+        "w": 28,
+        "h": 22
+      },
+      "style": {
+        "fontSize": "14px",
+        "fontWeight": "400",
+        "color": "rgb(23, 23, 23)",
+        "background": "rgba(0, 0, 0, 0)",
+        "borderRadius": "0px",
+        "padding": "0px",
+        "border": "0px solid oklch(0.922 0 0)"
+      }
+    }
+  ],
+  "html": 82555
+}

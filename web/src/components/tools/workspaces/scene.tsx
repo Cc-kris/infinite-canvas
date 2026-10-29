@@ -1067,7 +1067,7 @@ export function FissionLinkWorkspace({ className, port }: FissionLinkWorkspacePr
     return (
         <div
             data-testid="fission-link-workspace"
-            className={["grid gap-4 lg:grid-cols-[minmax(0,380px)_minmax(0,1fr)]", className].filter(Boolean).join(" ")}
+            className={["grid gap-6 lg:grid-cols-[minmax(300px,320px)_minmax(0,1fr)]", className].filter(Boolean).join(" ")}
         >
             <section
                 data-testid="fission-link-config"

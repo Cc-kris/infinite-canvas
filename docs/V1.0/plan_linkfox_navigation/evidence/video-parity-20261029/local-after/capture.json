@@ -1,0 +1,112 @@
+{
+  "baseUrl": "http://127.0.0.1:3000",
+  "capturedAt": "2026-10-29T03:21:36.295Z",
+  "viewport": {
+    "w": 1908,
+    "h": 781
+  },
+  "tools": {
+    "AI_VIDEO_EDITING": {
+      "url": "http://127.0.0.1:3000/tools/ai-video/ai-video-editing",
+      "title": "无限画布",
+      "viewport": {
+        "w": 1908,
+        "h": 781,
+        "scrollH": 781
+      },
+      "mainRect": {
+        "x": 180,
+        "y": 161,
+        "w": 1728,
+        "h": 620
+      },
+      "controls": 22,
+      "texts": 125
+    },
+    "VIDEO_REPLICATION": {
+      "url": "http://127.0.0.1:3000/tools/ai-video/video-replication",
+      "title": "无限画布",
+      "viewport": {
+        "w": 1908,
+        "h": 781,
+        "scrollH": 781
+      },
+      "mainRect": {
+        "x": 180,
+        "y": 161,
+        "w": 1728,
+        "h": 620
+      },
+      "controls": 41,
+      "texts": 139
+    },
+    "SALE_VIDEO": {
+      "url": "http://127.0.0.1:3000/tools/ai-video/sale-video",
+      "title": "无限画布",
+      "viewport": {
+        "w": 1908,
+        "h": 781,
+        "scrollH": 781
+      },
+      "mainRect": {
+        "x": 180,
+        "y": 161,
+        "w": 1728,
+        "h": 620
+      },
+      "controls": 34,
+      "texts": 129
+    },
+    "FISSION_LINK": {
+      "url": "http://127.0.0.1:3000/tools/product-design/fission-link",
+      "title": "无限画布",
+      "viewport": {
+        "w": 1908,
+        "h": 781,
+        "scrollH": 781
+      },
+      "mainRect": {
+        "x": 180,
+        "y": 161,
+        "w": 1728,
+        "h": 620
+      },
+      "controls": 22,
+      "texts": 105
+    },
+    "VIDEO_TRANSLATION": {
+      "url": "http://127.0.0.1:3000/tools/ai-video/video-translation",
+      "title": "无限画布",
+      "viewport": {
+        "w": 1908,
+        "h": 781,
+        "scrollH": 781
+      },
+      "mainRect": {
+        "x": 180,
+        "y": 161,
+        "w": 1728,
+        "h": 620
+      },
+      "controls": 24,
+      "texts": 122
+    },
+    "VIDEO_CONCAT": {
+      "url": "http://127.0.0.1:3000/tools/ai-video/video-concat",
+      "title": "无限画布",
+      "viewport": {
+        "w": 1908,
+        "h": 781,
+        "scrollH": 781
+      },
+      "mainRect": {
+        "x": 180,
+        "y": 161,
+        "w": 1728,
+        "h": 620
+      },
+      "controls": 29,
+      "texts": 137
+    }
+  }
+}

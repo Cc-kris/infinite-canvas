@@ -122,15 +122,12 @@ import {
     trimVideoConcatClip,
     validateVideoConcatState,
     videoConcatClipMs,
-    videoConcatOutputLabel,
-    videoConcatTotalMs,
     type VideoConcatClip,
     type VideoConcatCover,
     type VideoConcatSnapshot,
     type VideoConcatState,
 } from "@/features/tools/registry/video-concat";
 import {
-    VIDEO_CONCAT_FIELD_KEYS,
     assertVideoConcatInput,
     buildVideoConcatBrowserInput,
     buildVideoConcatFields,
@@ -395,7 +392,7 @@ export function SaleVideoWorkspace({ className }: SaleVideoWorkspaceProps = {}) 
                 </>
             }
         >
-            <div className="grid min-h-0 flex-1 gap-4 overflow-auto p-4 lg:grid-cols-[minmax(320px,400px)_minmax(0,1fr)]">
+            <div className="grid min-h-0 flex-1 gap-6 overflow-auto p-4 lg:grid-cols-[minmax(300px,320px)_minmax(0,1fr)]">
                 {/* 配置区 */}
                 <div className="min-w-0 space-y-4" data-testid="sale-video-config">
                     <section className="space-y-2 rounded-lg border border-border p-3">
@@ -978,16 +975,12 @@ export function VideoConcatWorkspace({ className }: VideoConcatWorkspaceProps = 
         [capability, model, running, state],
     );
 
-    const totalMs = videoConcatTotalMs(state.clips);
     const sidebar = (
         <div className="space-y-1">
             <p className="px-2 text-xs font-medium text-muted-foreground">拼接说明</p>
             <p className="mt-3 px-2 text-[11px] leading-4 text-muted-foreground">
                 片段 {VIDEO_CONCAT_MIN_CLIPS}–{VIDEO_CONCAT_MAX_CLIPS} 段，单段 ≤ {Math.round(VIDEO_CONCAT_SOURCE_RULE.maxBytes / 1024 / 1024)}MB，
                 时长 0.5s–5min。顺序即拼接顺序，裁剪区间会写进提示词。
-            </p>
-            <p className="px-2 text-[11px] leading-4 text-muted-foreground">
-                提交字段：{VIDEO_CONCAT_FIELD_KEYS.join(" / ")}（{VIDEO_CONCAT_FIELD_KEYS.length} 个，全部落齐才允许提交）
             </p>
         </div>
     );
@@ -998,18 +991,8 @@ export function VideoConcatWorkspace({ className }: VideoConcatWorkspaceProps = 
             title={spec?.title ?? "视频拼接"}
             subtitle="按顺序拼接多段视频 · 逐段裁剪 · 抓帧做封面"
             sidebar={sidebar}
-            badges={
-                <>
-                    <span className="rounded border border-border px-1.5 py-0.5 text-[11px] text-muted-foreground">
-                        {state.clips.length}/{VIDEO_CONCAT_MAX_CLIPS} 段 · 素材 {formatVideoConcatDuration(totalMs)}
-                    </span>
-                    <span className="rounded border border-border px-1.5 py-0.5 text-[11px] text-muted-foreground">
-                        {videoConcatOutputLabel(state)}
-                    </span>
-                </>
-            }
         >
-            <div className="grid min-h-0 flex-1 gap-4 overflow-auto p-4 lg:grid-cols-[minmax(320px,420px)_minmax(0,1fr)]">
+            <div className="grid min-h-0 flex-1 gap-6 overflow-auto p-4 lg:grid-cols-[minmax(300px,320px)_minmax(0,1fr)]">
                 <div className="min-w-0 space-y-4" data-testid="video-concat-config">
                     <section className="space-y-2 rounded-lg border border-border p-3">
                         <div className="flex items-baseline justify-between">
@@ -1693,28 +1676,16 @@ export function AiVideoEditingWorkspace({ className }: AiVideoEditingWorkspacePr
             title={spec?.title ?? "视频编辑"}
             subtitle="上传原视频与参考图，输入编辑需求，AI 智能编辑视频"
             sidebar={sidebar}
-            badges={
-                <>
-                    <span className="rounded border border-border px-1.5 py-0.5 text-[11px] text-muted-foreground">
-                        截取 ≤{maxClipSec} 秒
-                    </span>
-                    <span className="rounded border border-border px-1.5 py-0.5 text-[11px] text-muted-foreground">
-                        参考图 {AI_VIDEO_EDITING_MAX_REFERENCES} 张内
-                    </span>
-                    <span className="rounded border border-border px-1.5 py-0.5 text-[11px] text-muted-foreground">
-                        需求 0/{AI_VIDEO_EDITING_PROMPT_MAX}
-                    </span>
-                </>
-            }
         >
-            <div className="grid grid-cols-1 gap-4 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)]">
+            {/* 原站：左侧窄配置列（216–490px 内实测 274px）+ 右侧宽结果区（520–1910px） */}
+            <div className="grid grid-cols-1 gap-6 lg:grid-cols-[minmax(300px,320px)_minmax(0,1fr)]">
                 {/* 表单区 */}
                 <div className="min-w-0 space-y-3">
                     <section className="space-y-2 rounded-lg border border-border p-3">
                         <div className="flex items-baseline justify-between">
                             <h2 className="text-sm font-medium">原视频</h2>
                             <span className="text-[11px] text-muted-foreground">
-                                {source ? `${source.name} · ${window.sourceDurationMs > 0 ? formatSeconds(window.sourceDurationMs) : "时长未知"}` : "MP4 / MOV，100M 内，≥4 秒"}
+                                {source ? `${source.name} · ${window.sourceDurationMs > 0 ? formatSeconds(window.sourceDurationMs) : "时长未知"}` : "支持MP4/MOV格式，100M以内，时长不低于4秒"}
                             </span>
                         </div>
                         <ToolAssetInput
@@ -1725,7 +1696,8 @@ export function AiVideoEditingWorkspace({ className }: AiVideoEditingWorkspacePr
                             disabled={running}
                             onChange={handleSourceChange}
                         />
-                        <div className="space-y-2 rounded-md border border-dashed border-border p-2">
+                        {source ? (
+                            <div className="space-y-2 rounded-md border border-dashed border-border p-2">
                             <div className="flex items-center justify-between text-[11px] text-muted-foreground">
                                 <span>截取区间</span>
                                 <span data-testid="ai-video-editing-clip-label">{aiVideoEditingClipLabel(window)}</span>
@@ -1763,7 +1735,13 @@ export function AiVideoEditingWorkspace({ className }: AiVideoEditingWorkspacePr
                                     {window.notice}
                                 </p>
                             ) : null}
-                        </div>
+                            </div>
+                        ) : (
+                            <div className="flex items-center justify-between text-[11px] text-muted-foreground">
+                                <span>截取区间</span>
+                                <span data-testid="ai-video-editing-clip-label">超长视频可截取30秒以内片段</span>
+                            </div>
+                        )}
                     </section>
 
                     <section className="space-y-2 rounded-lg border border-border p-3">
@@ -1785,9 +1763,12 @@ export function AiVideoEditingWorkspace({ className }: AiVideoEditingWorkspacePr
                             支持上传 {AI_VIDEO_EDITING_MAX_REFERENCES} 张图，10M 以内，384*384 ~ 4096*4096，宽高比（宽÷高）0.4～2.5（含边界）
                         </p>
                         {gatewayRequires.references ? (
-                            <p className="text-[11px] text-amber-600" data-testid="ai-video-editing-reference-rule">
-                                原站标注「选填」，但本地网关对本工具要求 ≥1 张参考图（requiresReferences），因此提交前必须至少 1 张。
-                            </p>
+                            <details className="text-[11px] leading-4 text-muted-foreground" data-testid="ai-video-editing-reference-rule">
+                                <summary className="cursor-pointer select-none">图片规则</summary>
+                                <p className="mt-1">
+                                    原站标注「选填」，但本地网关对本工具要求 ≥1 张参考图（requiresReferences），因此提交前必须至少 1 张。
+                                </p>
+                            </details>
                         ) : null}
                     </section>
 
@@ -1813,9 +1794,10 @@ export function AiVideoEditingWorkspace({ className }: AiVideoEditingWorkspacePr
                                 className="h-8 rounded-md border border-border px-2 text-xs hover:bg-accent/60"
                                 onClick={handleOptimizePrompt}
                                 disabled={running}
+                                title="本地模板生成，不调用模型"
                                 data-testid="ai-video-editing-optimize"
                             >
-                                模板优化
+                                提示词优化
                             </button>
                             <button
                                 type="button"
@@ -1825,7 +1807,6 @@ export function AiVideoEditingWorkspace({ className }: AiVideoEditingWorkspacePr
                             >
                                 撤销
                             </button>
-                            <span className="text-[11px] text-muted-foreground">本地模板生成，不调用模型</span>
                         </div>
                     </section>
 
@@ -2218,7 +2199,6 @@ export function VideoReplicationWorkspace({ className }: VideoReplicationWorkspa
             title="视频复刻"
             subtitle="上传参考视频与商品图，复刻原片镜头与节奏，生成可投放的带货视频。"
             sidebar={null}
-            badges={["视频复刻", "参考片段", "27 字段契约"]}
             actions={
                 <button
                     type="button"
@@ -2231,7 +2211,7 @@ export function VideoReplicationWorkspace({ className }: VideoReplicationWorkspa
                 </button>
             }
         >
-            <div className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_360px]" data-testid="video-replication-workspace">
+            <div className="grid gap-6 lg:grid-cols-[minmax(300px,340px)_minmax(0,1fr)]" data-testid="video-replication-workspace">
                 <div className="space-y-4">
                     <section className="rounded-lg border border-border bg-card p-4">
                         <div className="flex items-center justify-between gap-2">
