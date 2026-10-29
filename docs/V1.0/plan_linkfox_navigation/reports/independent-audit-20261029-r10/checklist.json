@@ -1,0 +1,91 @@
+{
+  "schema": "h-receipt-reverify/v1",
+  "audit": "r10",
+  "date": "2026-10-29",
+  "mode": "read-only (no source change, no regeneration, no byte injection, no store writes)",
+  "headAtAudit": "92d1b3c",
+  "criteria": {
+    "taskId": "primary binding (tool-task:v1 + resultItemId + storageKey) and same target as observation",
+    "freshReload": "machine-readable reload marker (navigationType=reload / location.reload receipt) + post-reload observation",
+    "bytes": "same size + same sha256, third-party recomputable from a committed artifact"
+  },
+  "tools": [
+    {
+      "toolId": "PRODUCT_SCENE",
+      "receipt": "09f7279 docs/V1.0/plan_linkfox_navigation/evidence/r18-h-reload-actions-20261029/receipt-product-scene.json",
+      "taskId": "task-mvtly3vu-fdqgy7",
+      "storageKey": "tool-result:task-mvtly3vu-fdqgy7:0:TTlb-VmksNFfPn_GhRyTk",
+      "bytes": 2398828,
+      "sha256": "fa5ee380ab79ae8b924e1481136cbcfe4f23473926246c79129fc0c59093f9e2",
+      "legs": {
+        "taskId": "PASS",
+        "freshReload": "PASS (navigationType=reload, performanceNavigationStart=1793283612760, postReloadPanel imageBytes+sha)",
+        "bytes": "PASS (committed PNG + ~/Downloads/product-scene-result-1 (1).png recomputed = same sha)",
+        "saveAsset": "PASS (assetId KY0av0CXhd3-OFulLII_O, image:Ax9oXqNqedcNZ40XGdh19)",
+        "sendCanvas": "PASS (canvasProjectId OCk3x2ThYr5Fom6sRbdg8, node image-1793283628325-tasuh, image:7x6DyXlCjNnZozGl69wmV)"
+      },
+      "h": "PASS (newly countable)",
+      "notes": "noNewGeneration: taskUpdatedAt 1793282295219 unchanged, generationCalled=false"
+    },
+    {
+      "toolId": "HANDHELD_GOODS",
+      "receipt": "09f7279 docs/V1.0/plan_linkfox_navigation/evidence/r18-h-reload-actions-20261029/receipt-handheld-goods.json",
+      "taskId": "task-mvtm8p59-8qkp5s",
+      "storageKey": "tool-result:task-mvtm8p59-8qkp5s:0:c3Xf2R0z4RYt31DCxRmmX",
+      "bytes": 1455193,
+      "sha256": "29c1afcd7bdad71b369664a756b2825395aea9c7e6634a6e23360ba9682cae84",
+      "legs": {
+        "taskId": "PASS",
+        "freshReload": "PASS (navigationType=reload, domContentLoadedEventStart=1793283685252, postReloadPanel imageBytes+sha)",
+        "bytes": "PASS (committed PNG + ~/Downloads/handheld-goods-result-1 (1).png recomputed = same sha)",
+        "saveAsset": "PASS (assetId 92UtEzWXt3YLL1uf-aSej, image:IHMMoRrRSkxKIgwF0YCxu)",
+        "sendCanvas": "PASS (canvasProjectId dRgYk58nWI5L7qH36F9Q7, node image-1793283697520-vnm7b, image:6NZmO8kbL4vnm0VmyZ1US)"
+      },
+      "h": "PASS (newly countable)",
+      "notes": "historical task-mvs5p8g8-or3oim remains failed; not used"
+    },
+    {
+      "toolId": "PRINT_EXTRACT",
+      "receipt": "a94e382 evidence/real-acceptance/PRINT_EXTRACT/reload-verify-r16.json",
+      "taskId": "task-mvtlxua2-kh39uf",
+      "storageKey": "tool-result:task-mvtlxua2-kh39uf:0:jf8VlMsU9spY5W5raRSnO",
+      "bytes": 2783996,
+      "sha256": "1577dafdcda3797856efcae1c662cdccbc2de0ab94b88acd2b94fe541e51d822",
+      "legs": {
+        "taskId": "PASS",
+        "freshReload": "FAIL-STRICT (navType=navigate + cache-buster; reload swallowed by Galley bridge; no navigationType=reload marker)",
+        "bytes": "PASS (committed result.png + ~/Downloads/print-extract-result-1.png same sha; payload blob cross-checks x4)",
+        "saveAsset": "PASS (assetId fjzr1NhaALbnYz5LOAv9r, count 50->51, image:ssG2wIoxYLuGtnivHhx0Z)",
+        "sendCanvas": "PASS (projectId DD6JsYYuaqJz5Eh7Ot-Oa, node image-1793283578986-px8bw, image:n3NLNYGrCamnFi-i5yR-Z)"
+      },
+      "h": "PARTIAL",
+      "gap": "real location.reload() run (r18 proved it works on :3000) + a fresh download landing as (1) copy"
+    },
+    {
+      "toolId": "REMOVE_PEN",
+      "receipt": "92d1b3c docs/V1.0/plan_linkfox_navigation/evidence/r20-remove-pen-reload-20261029/receipt-remove-pen.json",
+      "taskId": "task-mvtmnhk5-nr2g0z",
+      "bytes": 2440825,
+      "sha256": null,
+      "legs": {
+        "taskId": "UNVERIFIED (taskId absent from every browser profile: ego lite Profile 1/2, Chrome Profile 1, Chromium/Brave/Edge/Vivaldi/GrokBot/InfiniteCanvas; also absent from tool-task:v1:index)",
+        "freshReload": "FAIL-STRICT (text-only 'cold start same profile'; no navType/timeOrigin/performance fields)",
+        "bytes": "UNVERIFIED (no sha256 declared; no 2440825B file on disk; no committed artifact)",
+        "saveAsset": "UNVERIFIED (1xIHbpny only appears in the same Galley transcript)",
+        "sendCanvas": "UNVERIFIED (ojUWiNT5 / image-17 only in the same Galley transcript)"
+      },
+      "h": "PARTIAL (not countable)",
+      "gap": "re-generate in ego lite Profile 1, real location.reload(), land a real download + commit the PNG, declare sha256 for all three actions"
+    }
+  ],
+  "netDelta": {
+    "hNewlyPass": ["PRODUCT_SCENE", "HANDHELD_GOODS"],
+    "hStillPartial": ["PRINT_EXTRACT", "REMOVE_PEN"],
+    "matrixEffect": "H PARTIAL 20 / PASS 19 (R9, HEAD 2f0b607) -> PARTIAL 18 / PASS 21"
+  },
+  "notDone": [
+    "matrix.json/md not touched (dirty with someone else's uncommitted edits)",
+    "tsc/bun test not re-run (receipt gate claims not re-verified; out of scope)",
+    "staged tool-result-*.ts(x) / task-snapshot.ts left untouched"
+  ]
+}

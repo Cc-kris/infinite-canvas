@@ -1,84 +1,131 @@
-# R10 独立复核：严格三腿矩阵（39 工具）
+# R10 独立只读复验：R18 / R16 / R20 三份机器回执
 
-- 审计对象（committed tree）：`3f772a9`（`feat/linkfox-v1-real`）；基线 `d596c25`(R9) + `434bc44`(R9 crosscheck)
-- 生成：2026-10-29；审计器：`tools/recompute_scope_matrix_r10.py`（继承 R9，只补映射与归因，不放宽判定）
-- 证据源：`git ls-tree HEAD` 内已提交文件；工作区未提交内容一律不计
-- 本报告**未生成任何新证据、未改业务源码、未派 worker**
+- 日期：2026-10-29
+- 复验对象：HEAD `92d1b3c` 内的三份回执
+  - `09f7279` — `docs/V1.0/plan_linkfox_navigation/evidence/r18-h-reload-actions-20261029/`（PRODUCT_SCENE / HANDHELD_GOODS）
+  - `a94e382` — `evidence/real-acceptance/PRINT_EXTRACT/reload-verify-r16.json`（PRINT_EXTRACT）
+  - `92d1b3c` — `docs/V1.0/plan_linkfox_navigation/evidence/r20-remove-pen-reload-20261029/`（REMOVE_PEN）
+- 方式：**只读**。未改业务源码、未重跑生成、未注入字节、未改写任何 localStorage / IndexedDB。
+- 判据：沿用 R9 收紧后的 H 三腿，未放宽——
+  1. **taskId** 须 primary 绑定（本地任务记录/结果项 storageKey）且与观测同指；
+  2. **fresh reload** 须机器可读标记 + 刷新后观测（字节来自刷新后的面板/存储，不是内存）；
+  3. **字节** 须同尺寸 + 同 sha256，且能被第三方用仓库内已提交产物复算。
 
-## 1. 结论总览
+## 0. 结论（可计入 H 的精确清单）
 
-| 维度 | 分布 |
+| 工具 | 回执 | 本判 | 依据 |
+| --- | --- | --- | --- |
+| PRODUCT_SCENE | 09f7279 | **H PASS（新增 +1）** | 三腿全绿，sha 由仓库产物与 `~/Downloads` 双向复算一致 |
+| HANDHELD_GOODS | 09f7279 | **H PASS（新增 +1）** | 三腿全绿，同上 |
+| PRINT_EXTRACT | a94e382 | **仍 PARTIAL** | 字节腿 PASS；reload 腿为 `navType=navigate`+cache-buster（非 `nav=reload`），且本轮下载被浏览器策略拦下无新落盘 |
+| REMOVE_PEN | 92d1b3c(r20) | **仍 PARTIAL（不可计入 H）** | 无 sha、无提交产物、无第三方可读任务记录；回执中的 taskId/assetId/projectId 在任何浏览器 profile 与磁盘均无第二处佐证 |
+
+→ 本轮净增 H：**2**（PRODUCT_SCENE、HANDHELD_GOODS）。按 R9 口径 H 由 `PARTIAL 20 / PASS 19` → **`PARTIAL 18 / PASS 21`**。
+（未改动 `reports/independent-audit-20261029-r9/matrix.*`：该文件工作区有他人未提交改动，本轮不动。）
+
+## 1. PRODUCT_SCENE（task-mvtly3vu-fdqgy7）→ PASS
+
+回执字段核对（`receipt-product-scene.json`）：
+
+| 腿 | 回执字段 | 复核结果 |
+| --- | --- | --- |
+| taskId | `task.taskId=task-mvtly3vu-fdqgy7`，`resultItemId=task-mvtly3vu-fdqgy7-0`，`storageKey=tool-result:task-mvtly3vu-fdqgy7:0:TTlb-VmksNFfPn_GhRyTk` | 该 taskId 在 ego lite Profile 1 的 `Local Storage/leveldb`（origin `http://127.0.0.1:3000`，key `tool-task:v1:index`）索引中存在，绑定成立 |
+| fresh reload | `navigationType=reload`，`performanceNavigationStart=1793283612760`，`postReloadPanel.imageSha256/imageBytes` | 机器可读；刷新后面板图片字节实算，非内存 |
+| 下载 | `savedPath=~/Downloads/product-scene-result-1 (1).png`，`bytes=2398828`，`sha256=fa5ee380…9f9e2` | 实存、mtime 22:20，实算一致 |
+| 存资产 | `assetId=KY0av0CXhd3-OFulLII_O`，`db=image_files/image:Ax9oXqNqedcNZ40XGdh19`，同字节同 sha | 回执内有 storageKey + 字节复核；本轮只读未触库 |
+| 发画布 | `canvasProjectId=OCk3x2ThYr5Fom6sRbdg8`，`canvasNodeId=image-1793283628325-tasuh`，`nodeStorageKey=image:7x6DyXlCjNnZozGl69wmV`，同字节同 sha | 同上 |
+| 无新生成 | `generationCalled=false`，`taskUpdatedAtBeforeAfter` 前后同为 1793282295219 | 与"复用既有任务"一致 |
+
+第三方可复算（本机实跑）：
+
+```
+$ shasum -a 256 docs/V1.0/plan_linkfox_navigation/evidence/r16-scene-real-20261029/PRODUCT_SCENE-result-1.png
+fa5ee380ab79ae8b924e1481136cbcfe4f23473926246c79129fc0c59093f9e2   (2398828 B)
+$ shasum -a 256 "$HOME/Downloads/product-scene-result-1 (1).png"
+fa5ee380ab79ae8b924e1481136cbcfe4f23473926246c79129fc0c59093f9e2   (2398828 B)
+```
+
+三处（回执声明 / 提交产物 / 下载落盘）同尺寸同 sha → 字节腿成立，H PASS。
+
+## 2. HANDHELD_GOODS（task-mvtm8p59-8qkp5s）→ PASS
+
+| 腿 | 回执字段 | 复核结果 |
+| --- | --- | --- |
+| taskId | `task-mvtm8p59-8qkp5s` / `...-0` / `storageKey=tool-result:task-mvtm8p59-8qkp5s:0:c3Xf2R0z4RYt31DCxRmmX` | ego lite Profile 1 的 `tool-task:v1:index` 索引命中 |
+| fresh reload | `navigationType=reload`，`domContentLoadedEventStart=1793283685252`，面板 `imageBytes=1455193 / imageSha256=29c1afcd…ae84` | 机器可读 |
+| 下载 | `~/Downloads/handheld-goods-result-1 (1).png`，1455193 B | 实存、mtime 22:21，实算一致（同目录 `handheld-goods-result-1.png` 亦同 sha） |
+| 存资产 | `assetId=92UtEzWXt3YLL1uf-aSej`，`image:IHMMoRrRSkxKIgwF0YCxu` | 回执内字节复核 |
+| 发画布 | `canvasProjectId=dRgYk58nWI5L7qH36F9Q7`，`canvasNodeId=image-1793283697520-vnm7b`，`nodeStorageKey=image:6NZmO8kbL4vnm0VmyZ1US` | 同上 |
+| 无新生成 | `taskUpdatedAtBeforeAfter` 同为 1793282780051；工具任务数 2（另一条 failed 历史项未参与） | 一致 |
+
+```
+$ shasum -a 256 docs/V1.0/plan_linkfox_navigation/evidence/r17-handheld-real-20261029/HANDHELD_GOODS-result-1.png
+29c1afcd7bdad71b369664a756b2825395aea9c7e6634a6e23360ba9682cae84   (1455193 B)
+$ shasum -a 256 "$HOME/Downloads/handheld-goods-result-1 (1).png"
+29c1afcd7bdad71b369664a756b2825395aea9c7e6634a6e23360ba9682cae84   (1455193 B)
+```
+
+→ H PASS。
+
+## 3. PRINT_EXTRACT（task-mvtlxua2-kh39uf）→ 仍 PARTIAL
+
+已核实（PASS 的部分）：
+
+- taskId 绑定：`taskId=task-mvtlxua2-kh39uf`，`storageKey=tool-result:task-mvtlxua2-kh39uf:0:jf8VlMsU9spY5W5raRSnO`；ego lite Profile 1 `tool-task:v1:index` 命中。
+- 字节：2783996 B / `1577dafd…d822`，四处一致（回执声明、`evidence/real-acceptance/PRINT_EXTRACT/result.png`、`~/Downloads/print-extract-result-1.png` 实算、回执内 media_files/image_files 副本）。
+- 存资产：`assetId=fjzr1NhaALbnYz5LOAv9r`，`countBefore/After=50/51`，metadata.taskId 命中。
+- 发画布：`projectId=DD6JsYYuaqJz5Eh7Ot-Oa`，`canvasNodeId=image-1793283578986-px8bw`，DOM 命中 `data-node-id`。
+
+仍未满足（不放宽）：
+
+1. **reload 腿不是 `nav=reload`**：回执自述 `navType="navigate"`、mechanism 为「加 cache-buster 的全文档导航」，虽有 `timeOrigin 1793283410632 → 1793283495679`、`documentRecreated=true`，但 R9 收紧判据要求机器可读的 fresh reload 标记（`navigationType=reload` / `location.reload()` 回执）；r18 已证明该环境 `location.reload()` 可用（两份回执 `navigationType=reload`），故本项属**可补**而非不可补。
+2. **本轮下载未落新文件**：回执如实记录自动化点击被 Chrome 多自动下载策略拦下，`~/Downloads` 无 22:16/22:20 新条目；payload 级捕获 + 旧落盘产物同 sha 只够字节腿，不构成"下载动作在本轮真实成功"。
+
+→ H 记 PARTIAL。补齐方式（下一轮，需真实点击）：在 3000 环境用 `location.reload()` 真刷新后点下载，产出 `(1)` 副本并回填 sha。
+
+## 4. REMOVE_PEN（task-mvtmnhk5-nr2g0z）→ 仍 PARTIAL，且回执不可第三方复核
+
+回执声明（`receipt-remove-pen.json` / `report.md`）：task `succeeded` 34s、2440825 B、`storageKey=tool-result:task-mvtmnhk5-nr2g0z:0:komJnSXgwkxdOFeQHXTGI`、下载 2440825 B、存资产 `1xIHbpny`、发画布 `ojUWiNT5 · image-17`。
+
+本轮只读核查结果：
+
+| 检查 | 结果 |
 | --- | --- |
-| F | PASS 28 / PARTIAL 11 |
-| T | PASS 32 / PARTIAL 7 |
-| R | PASS 35 / PARTIAL 2 / BLOCKED 2 |
-| **H** | **PASS 22 / PARTIAL 17**（R9 13 → crosscheck 19 → R10 **22**） |
-| K | PASS 12 / N/A 27 |
-| U | PASS 39 |
+| 该 taskId 是否在浏览器持久存储 | **否**。ego lite Profile 1/2、Chrome Profile 1、Chromium/Brave/Edge/Vivaldi/Grok Bot/Infinite Canvas 等全部 profile 字节级扫描：`task-mvtmnhk5-nr2g0z` **0 命中**；ego lite Profile 1 的 `tool-task:v1:index` 列表里也**没有**该 id（索引最新到 r18/r16 两轮的任务为止） |
+| 回执声称的 storageKey / assetId / projectId 是否有别处佐证 | **否**。`komJnSXgwkxdOFeQHXTGI`、`1xIHbpny`、`ojUWiNT5` 仅出现在 Galley 会话临时文件（`temp/lf_remove_pen_final/output.txt`、`workbench.db-wal`、模型响应转写）中，属**同一来源的自述**，不构成独立证据 |
+| 是否有 2440825 B 的真实字节文件 | **否**。`find` 全盘（含 `~/Downloads`、`/tmp`、`/var/folders`、playwright 缓存、IDB blob 目录）无该尺寸文件；`~/Downloads` 无任何 `*erased*` / `public_input*` 文件 |
+| 仓库内是否有该工具已提交产物可复算 sha | **无**（r20 目录只有 json + report，没有 PNG） |
+| 回执内的 reload 标记 | 只有文本 `method="冷启动同一浏览器 profile，直接打开…"`，**无** navType / timeOrigin / performance 字段 → 不满足"机器可读 fresh reload 标记" |
+| 回执内字节 sha256 | **未声明**（只声明 bytes） |
 
-R10 相对 R9（`d596c25`）共 **9 项改判，全部 PARTIAL→PASS，无一项回退**：
+结论：**REMOVE_PEN H 不可计入**。`92d1b3c` 的代码修复（`mask.tsx` 判据补 storageKey、`remove-pen.ts` 增 `removePenResultItem/removePenTaskHasResult`）本身在 HEAD 内可读、方向正确，但 r20 回执缺少可复核锚点：任务记录不落盘（r20 用 playwright 独立临时 profile，关闭即丢弃）、无产物入库、无 sha。按现有证据只能记 PARTIAL/UNVERIFIED。
 
-| 工具 | 来源 | 关键证据 |
-| --- | --- | --- |
-| AI_TEXT / ORNAMENT_TEXT / SDS_DESIGN / SCENE_TRANSFER | crosscheck 映射修复（`dockItems` 数组观测） | `real-acceptance/B2G1/<TOOL>/run-b2g1.json` 的 `g1.afterReload`（storageKey+bytes+sha256）+ 同目录 `downloaded-*.png` 实算 sha 逐位相同 |
-| AI_POSE_GENERATOR / NEW_DESIGNER | crosscheck 映射修复（`navType=reload` + 字节） | `suite-design-realgen-20261029/*` |
-| **AI_DRESSING_V2** | 新提交证据（`c39ad37`+`c2246ce`） | `task-mvtgeodr-5vx7tw`（succeeded）+ `"fresh_reload"`（CDP Page.reload）+ `stored_bytes:[2115031]` ↔ `result1_live_20261029.png` 2115031B / sha `860007f2…` |
-| **AI_WEARABLE** | 新提交证据（`c39ad37`+`c2246ce`） | `task-mvtglxwi-ys0y85` + `"fresh_reload"` + `stored_bytes:[1247574]` ↔ `result1_live_20261029.png` 1247574B / sha `0cf9444…`；下载动作落盘 sha 一致 |
-| **SALE_VIDEO** | R9/crosscheck 均漏读的字节字段（本次补 `fetchedSha256`） | `SALE_VIDEO.dock-after-reload.json`（`nav=reload` + `rows[0].results[0].media.fetchedBytes=1366190` / `fetchedSha256=39193f0a…`）↔ `SALE_VIDEO_20261029/sale-video-task-mvt76u6p.mp4` 同尺寸同 sha |
+补齐所需（下一轮，真实执行）：
+1. 用 **ego lite（默认控制浏览器，Profile 1，origin http://127.0.0.1:3000）** 真实生成一次 REMOVE_PEN，确认 `tool-task:v1:index` 出现新 taskId；
+2. 用 `location.reload()` 真刷新（机器读取 `performance.getEntriesByType('navigation')[0].type === 'reload'`），记录 timeOrigin 前后值；
+3. 三动作各留机器字段：下载 `savedPath/bytes/sha256`（落盘后 `shasum` 实算）、存资产 `assetId + image_files storageKey + bytes/sha`、发画布 `projectId + canvasNodeId + app_state 节点 metadata.storageKey/bytes`；
+4. 把结果 PNG 提交进 `evidence/` 目录，供第三方用 `shasum -a 256` 复算。
 
-> 关键校验：以上 7 项中每一项的「声明字节」都由仓库内该工具已提交产物**实际复算**校验过尺寸；含 sha 声明的还做了 sha256 逐位比对（AI_TEXT `9019ffaf…`、ORNAMENT_TEXT `d7a57b9b…`、SDS_DESIGN `a119eb6c…`、SCENE_TRANSFER `dfb33c53…`、AI_DRESSING_V2 `860007f2…`、AI_WEARABLE `0cf9444…`、SALE_VIDEO `39193f0a…`）。
-
-### 1.1 R10 相对 crosscheck（19）的增量
-
-crosscheck 已把 6 项漏读纠正为 PASS，但仍有 3 个映射点未覆盖；R10 补齐后多出 3 项：
-
-1. reload 节点写的是 `"fresh_reload": {…}`（snake_case），不在 R9 的 reload 节点白名单；
-2. 刷新后观测是 `history_card_status: "succeeded"` + `stored_bytes: [<n>]` + `result_img_in_card: 1`，而 R9 的观测正则只认 `dockItems/rows/items` 这类对象数组；
-3. 字节 sha 字段名是 `sha256_browser` / `sha256_on_disk` / `fetchedSha256`，R9 只认 `sha256/sha/digest`；且产物声明节点没有 `fileName/file/storageKey` 提示字段，被 artifact 候选过滤掉。
-
-R10 因此新增：`fresh_reload` 节点识别、`stored_bytes`/`history_card_status` 观测、`sha256_browser`/`sha256_on_disk`/`fetchedSha256` 键，以及**带路径的 artifact 声明**（`result.*` / `actions.download.*` / `rows.results.media.*`）。**对账口径不变**：仍要求同尺寸，声明 sha 时必须同 sha。
-
-### 1.2 归因修正（结论不变，只改原因文字）
-
-| 工具 | 旧原因 | R10 原因（回执原文） |
-| --- | --- | --- |
-| IMAGE_TEXT_EDIT | 记为「task 失败」 | `H4-real-20261029/IMAGE_TEXT_EDIT.json`：`verdict=BLOCKED(payload)`、`payloadDropped=true`、`storageKey/bytes=null` —— 自然恢复链路成立但结果字节未入库 |
-| REMOVE_PEN | 记为「task failed」 | `edit8-h-real-20261029/REMOVE_PEN.json`：有 3 条 succeeded 任务，但 `payloadDropped=true`（字节未入库）；`018a6e1` 已如实记录 |
-| CHANGE_COLOR_V2 | 记为「无 reload」 | 同上：`task-mvsc4fyg-qobp8k` succeeded 但 `payloadDropped=true`，且无 fresh reload 回执 |
-| PRODUCT_MARKET_MATERIAL | 记为「仅在自由文本出现」 | `tool-product-market-material.json`：`dockToolId=PRODUCT_MARKET_MATERIAL`、`count="0 条"`、`rows=[]`、`storedTasks=[]` → **countForTool=0**，该工具压根无任务 |
-
-## 2. 判定口径（R10 未放宽）
-
-PASS 必须同时满足三腿，且全部取自**已提交**字节：
-
-1. **taskId 绑定**：真实 `task-mv*`，来自 primary 指针（`taskId` / `data-task-id` / localStorage 快照键），非 failed、非 synthetic（`b5-*` / `task-real-*` 不计）；
-2. **fresh reload 标记 + 刷新后观测**：`phase/navType=reload`、`reload|fresh_reload` 对象节点、或 `Page.reload()/location.reload()` 回执；且同一回执内出现刷新后观测（`dockItems/rows/stored_bytes/restoredPanel/result_img_in_card`），并指向同一 task 或其结果字节/sha；
-3. **字节**：下载/资产/画布字节须由该工具的已提交产物按**同尺寸**校验；声明 sha256 时须**同 sha**。
-
-排除项照旧：`recovery|inject` 目录、`快照回填`（`backfill`）、`payloadDropped=true`、失败/未确认任务。
-
-## 3. 剩余 17 项缺口清单（按可推进性排序）
-
-| 类型 | 工具 | 缺口 |
-| --- | --- | --- |
-| 有 reload 采集但字节不可复核 | PRODUCT_IMAGE_SUITE（2840825B）、DRESS_WEAR_SET（2516552B） | 回执声明字节，但仓库内无同尺寸同 sha 的该工具产物 → 补一张已提交 result PNG 即可转 PASS |
-| 任务真实但 payloadDropped | IMAGE_TEXT_EDIT、REMOVE_PEN、CHANGE_COLOR_V2 | 需「结果入库修复后」的一条新真实任务，重新走 reload + 三动作 |
-| 无该工具任务快照 | PRODUCT_MARKET_MATERIAL（countForTool=0）、NEW_REPLACE_BG_V2、REPLACE_GOODS、PRODUCT_SCENE、PRINT_EXTRACT | 需该工具一次真实提交（生成）后采集；其中 PRODUCT_SCENE 的历史字节缺口与 crosscheck 结论一致 |
-| task 失败/未确认 | HANDHELD_GOODS、IMAGE_TO_VIDEO、VIDEO_REPLICATION、VIDEO_CONCAT | 需成功任务后重采 |
-| 无机器 reload 标记 | FISSION_LINK、AI_VIDEO_EDITING、VIDEO_TRANSLATION | 有真实 task，缺 `Page.reload` 级回执 |
-| 无证据 | VIDEO_TRANSLATION | 证据包无该工具回执 |
-
-K 维度 27 项 N/A 仍属「证据包未覆盖该模型/渠道回执」，非失败。
-
-## 4. 风险与可复现性提示（R10 新增）
-
-1. **B2G1 四项的历史任务已不在当前 live 任务库**：`d66e690` 的只读取证显示 `AI_TEXT/ORNAMENT_TEXT/SDS_DESIGN` 的 `tool-task:v1:*` 键与 IDB 记录在当前 profile 中零命中（`dockRows=0`）。这不否定已提交回执（当时的真实 reload + 下载产物仍在仓库中，且 sha 可复算），但**无法在今天原地重放**；R10 依据「已提交证据 + 可复算字节」判定，不依赖当前 live store。
-2. **SALE_VIDEO 的刷新后字节来自页面内 `fetch(blob)` 回读**（`fetchedBytes/fetchedSha256`），属机器观测而非 UI 元信息，已与仓库内 mp4 同尺寸同 sha 对账；其 `visibilityState=hidden` 导致的 `<video>` duration 不可读不影响字节判定。
-3. `434bc44` 之后 HEAD 前进到 `3f772a9`（仅测试 fixture 类型修复），不影响证据口径；R10 明确记录审计 HEAD。
-
-## 5. 复现
+## 5. 复验所用命令（可重放）
 
 ```bash
-python3 docs/V1.0/plan_linkfox_navigation/tools/recompute_scope_matrix_r10.py            # 生成 matrix.json/matrix.md
-python3 docs/V1.0/plan_linkfox_navigation/tools/recompute_scope_matrix_r10.py --debug --only AI_DRESSING_V2 AI_WEARABLE SALE_VIDEO
+cd /Users/mac/Documents/Dev/infinite-canvas
+shasum -a 256 docs/V1.0/plan_linkfox_navigation/evidence/r16-scene-real-20261029/PRODUCT_SCENE-result-1.png
+shasum -a 256 docs/V1.0/plan_linkfox_navigation/evidence/r17-handheld-real-20261029/HANDHELD_GOODS-result-1.png
+shasum -a 256 evidence/real-acceptance/PRINT_EXTRACT/result.png
+shasum -a 256 "$HOME/Downloads/product-scene-result-1 (1).png" \
+                "$HOME/Downloads/handheld-goods-result-1 (1).png" \
+                "$HOME/Downloads/print-extract-result-1.png"
+# 任务持久化核查（origin 前缀 http://127.0.0.1:3000）
+grep -a 'tool-task:v1:index' "$HOME/Library/Application Support/Citro Labs/ego lite/Profile 1/Local Storage/leveldb/000661.log" | head -c 400
+# REMOVE_PEN 任务全 profile 搜（0 命中）
+grep -rl 'task-mvtmnhk5-nr2g0z' "$HOME/Library/Application Support"/{Google/Chrome,Citro\ Labs,Chromium,BraveSoftware} 2>/dev/null
+# 2440825B 文件全盘搜（0 命中）
+find "$HOME" /private/var/folders /private/tmp -type f -size 2440825c 2>/dev/null
 ```
+
+## 6. 未做 / 边界
+
+- 未重跑 `tsc` / `bun test`（r20 声明的 28 pass 未独立复跑；本轮目标是回执证据链，不是闸门）。
+- 未修改 `matrix.json/md`、`project_memory.md`（工作区有他人未提交改动），也未触碰暂存区里他人的 `tool-result-*.ts(x)` / `task-snapshot.ts`。
+- 未在浏览器里做任何写入型操作，未新开/关闭任何用户标签。
