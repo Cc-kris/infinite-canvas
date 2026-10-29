@@ -139,6 +139,28 @@ export async function getMediaBlob(storageKey: string) {
     return store.getItem<Blob>(storageKey);
 }
 
+/**
+ * 结果字节的 provenance 反查：按 `tool-result:<taskId>:<index>:` 前缀扫 IndexedDB。
+ *
+ * 动机（2026-10-29 复核）：落盘快照在入库完成前就被写出（payloadDropped），若此刻刷新，
+ * 任务只剩「成功但无字节」。而字节其实已经或正在写进 media_files，只是 storageKey 没来得及回写。
+ * 旧键名 `tool-result:<nanoid>` 不含任务信息 → 这些真实字节永远无法归属回任务。
+ * 新键名带任务 id 与结果项序号，刷新后可按前缀把真实字节重新挂回对应 item（不构造任何字节）。
+ */
+export async function listTaskResultMedia(taskId: string): Promise<Array<{ storageKey: string; index: number; bytes: number; mimeType: string }>> {
+    const prefix = `tool-result:${taskId}:`;
+    const found: Array<{ storageKey: string; index: number; bytes: number; mimeType: string }> = [];
+    await store.iterate((value, key) => {
+        if (!key.startsWith(prefix)) return;
+        const blob = value as Blob | null;
+        const index = Number(key.slice(prefix.length).split(":")[0]);
+        const bytes = typeof blob?.size === "number" ? blob.size : 0;
+        if (!Number.isInteger(index) || index < 0 || bytes <= 0) return;
+        found.push({ storageKey: key, index, bytes, mimeType: blob?.type || "application/octet-stream" });
+    });
+    return found.sort((a, b) => a.index - b.index);
+}
+
 export async function setMediaBlob(storageKey: string, blob: Blob) {
     await store.setItem(storageKey, blob);
     const url = URL.createObjectURL(blob);

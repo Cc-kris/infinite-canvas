@@ -17,7 +17,7 @@ import {
     type WaitOptions,
 } from "@/services/api/tools/gateway";
 import { reclaimRecoverableResultItems, isDurableResultUrl, sanitizeTaskForPersist, type ToolTask, type ToolTaskResultItem } from "@/services/api/tools/task-machine";
-import { resolveMediaUrl, uploadMediaFile } from "@/services/file-storage";
+import { listTaskResultMedia, resolveMediaUrl, uploadMediaFile } from "@/services/file-storage";
 
 export const TOOL_TASK_STORAGE_VERSION = 1 as const;
 export const TASK_INDEX_KEY = "tool-task:v1:index";
@@ -232,7 +232,6 @@ let gatewayInstance: ToolTaskGateway | null = null;
 const RESULT_MEDIA_PREFIX = "tool-result";
 /** 同一任务同一次结果只入库一次（轮询会把同一个 task 反复 upsert）。 */
 const ingestingKeys = new Set<string>();
-
 function resultIngestKey(task: ToolTask) {
     return `${task.id}:${task.result?.receivedAt ?? 0}`;
 }
@@ -254,12 +253,13 @@ export function hasPendingResultMedia(task: ToolTask): boolean {
 export async function ingestResultMedia(task: ToolTask): Promise<ToolTask> {
     if (!task.result || !hasPendingResultMedia(task)) return task;
     const items = await Promise.all(
-        task.result.items.map(async (item) => {
+        task.result.items.map(async (item, index) => {
             if (!needsIngest(item)) return item;
             const source = item.blob ?? item.dataUrl ?? (isFetchableResultUrl(item.url) ? item.url : undefined);
             if (!source) return item;
             try {
-                const stored = await uploadMediaFile(source, RESULT_MEDIA_PREFIX, { mimeType: item.mimeType });
+                // 键名带任务 id 与结果项序号：入库即留下 provenance，快照被剥/回写丢失后仍能反查真实字节。
+                const stored = await uploadMediaFile(source, `${RESULT_MEDIA_PREFIX}:${task.id}:${index}`, { mimeType: item.mimeType });
                 // 内存态保留原 dataUrl/blob（共享结果动作优先用它们），只额外记住落库键与字节数。
                 return {
                     ...item,
@@ -329,11 +329,73 @@ async function restorePersistedTaskMedia(taskId: string) {
 }
 
 
+/**
+ * 刷新后的 provenance 自愈：快照里被剥成 payloadDropped（无 storageKey / dataUrl / 远程 url）的项，
+ * 按 `tool-result:<taskId>:<index>:` 前缀回 IndexedDB 找同一任务当时写进去的真实字节，
+ * 找到就挂回 storageKey/bytes（只认磁盘里真实存在的字节，不做任何字节补造）。
+ */
+export async function healResultMediaByProvenance(
+    task: ToolTask,
+    findStored: (taskId: string) => Promise<Array<{ storageKey: string; index: number; bytes: number; mimeType: string }>> = listTaskResultMedia,
+): Promise<ToolTask | null> {
+    if (!task.result) return null;
+    const missing = task.result.items.some(
+        (item) => !item.storageKey && !item.dataUrl && !item.blob && !isFetchableResultUrl(item.url),
+    );
+    if (!missing) return null;
+    const stored = await findStored(task.id);
+    if (stored.length === 0) return null;
+    let changed = false;
+    const items = task.result.items.map((item, index) => {
+        const match = stored.find((entry) => entry.index === index);
+        if (!match) return item;
+        if (item.storageKey || item.dataUrl || item.blob || isFetchableResultUrl(item.url)) return item;
+        changed = true;
+        return {
+            ...item,
+            storageKey: match.storageKey,
+            bytes: match.bytes,
+            mimeType: item.mimeType ?? match.mimeType,
+            payloadDropped: false,
+        };
+    });
+    return changed ? { ...task, result: { ...task.result, items } } : null;
+}
+
+/**
+ * 防降级合并：同一份结果（receivedAt 相同）里，旧对象已带 storageKey 时不因为一次
+ * 「重新 normalize 出来的无 storageKey 副本」而丢掉字节引用——这正是字节明明入库却查不到的共同根因之一。
+ */
+export function mergeWithoutStorageKeyDowngrade(current: ToolTask | undefined, incoming: ToolTask): ToolTask {
+    if (!current?.result || !incoming.result) return incoming;
+    if (current.result.receivedAt !== incoming.result.receivedAt) return incoming;
+    let changed = false;
+    const items = incoming.result.items.map((item, index) => {
+        const previous = current.result?.items[index];
+        if (!previous?.storageKey || item.storageKey) return item;
+        changed = true;
+        return {
+            ...item,
+            storageKey: previous.storageKey,
+            bytes: item.bytes ?? previous.bytes,
+            mimeType: item.mimeType ?? previous.mimeType,
+            payloadDropped: false,
+        };
+    });
+    return changed ? { ...incoming, result: { ...incoming.result, items } } : incoming;
+}
+
 /** hydrate 后的自愈：先回收可恢复的 payloadDropped，再补做缺失的真实字节入库，最后还原对象 URL。 */
 async function healPersistedTaskMedia(taskId: string) {
     const current = useToolTaskStore.getState().tasks[taskId];
     if (!current) return;
     if (hasPendingResultMedia(current)) await ingestResultMediaIntoStore(current);
+    // 快照被剥且没有任何来源可抓：尝试按任务前缀从 IndexedDB 找回当时已写进去的真实字节。
+    const afterIngest = useToolTaskStore.getState().tasks[taskId];
+    if (afterIngest) {
+        const healed = await healResultMediaByProvenance(afterIngest);
+        if (healed) useToolTaskStore.getState().upsertTask(healed);
+    }
     await restorePersistedTaskMedia(taskId);
 }
 
@@ -373,9 +435,11 @@ export const useToolTaskStore = create<ToolTaskState>((set, get) => ({
          */
         const current = get().tasks[task.id];
         if (current && current.updatedAt > task.updatedAt) return;
-        set((state) => ({ tasks: { ...state.tasks, [task.id]: task } }));
-        persistTask(task);
-        void ingestResultMediaIntoStore(task);
+        // 同一结果里已有的 storageKey 不允许被无 storageKey 的副本覆盖（字节已入库却查不到的老毛病）。
+        const merged = mergeWithoutStorageKeyDowngrade(current, task);
+        set((state) => ({ tasks: { ...state.tasks, [task.id]: merged } }));
+        persistTask(merged);
+        void ingestResultMediaIntoStore(merged);
     },
 
     removeTask: (taskId) => {

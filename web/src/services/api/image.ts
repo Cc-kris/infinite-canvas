@@ -269,12 +269,20 @@ function resolveGeminiImageSize(dimensions: { width: number; height: number } | 
     return "4K";
 }
 
-function resolveImageSource(item: Record<string, unknown>) {
+/**
+ * 结果项映射：`dataUrl` 是「立即能渲染的来源」，`url` 是「可落盘的持久地址」。
+ *
+ * 旧实现 b64 优先且只返回一个字符串：上游同时给 `b64_json` + `url` 时，https 地址被静默丢掉，
+ * 于是一次刷新后只剩被剥离的 payload，字节与地址双双不可恢复（B7 同源缺口）。
+ * 这里两种来源都保留：有 b64 就用 b64 渲染，同时记住远程地址；只有 url 时两者相同。
+ */
+function resolveImageItem(item: Record<string, unknown>): { dataUrl: string; url?: string } | null {
+    const remote = typeof item.url === "string" && /^https?:\/\//i.test(item.url) && isUsableImageSource(item.url) ? item.url : undefined;
     if (typeof item.b64_json === "string" && item.b64_json) {
-        return `data:image/png;base64,${item.b64_json}`;
+        return remote ? { dataUrl: `data:image/png;base64,${item.b64_json}`, url: remote } : { dataUrl: `data:image/png;base64,${item.b64_json}` };
     }
-    if (typeof item.url === "string" && item.url) {
-        return isUsableImageSource(item.url) ? item.url : null;
+    if (typeof item.url === "string" && item.url && isUsableImageSource(item.url)) {
+        return { dataUrl: item.url, url: remote };
     }
     return null;
 }
@@ -307,9 +315,9 @@ function parseImagePayload(payload: ImageApiResponse) {
         || (payload as Record<string, unknown>).results as Array<Record<string, unknown>> | undefined
         || [];
     const images = imageList
-        .map(resolveImageSource)
-        .filter((value): value is string => isUsableImageSource(value))
-        .map((dataUrl) => ({ id: nanoid(), dataUrl }));
+        .map(resolveImageItem)
+        .filter((value): value is { dataUrl: string; url?: string } => Boolean(value))
+        .map((item) => ({ id: nanoid(), dataUrl: item.dataUrl, ...(item.url ? { url: item.url } : {}) }));
 
     if (images.length === 0) {
         // Check whether the response contains data in an unrecognized format.

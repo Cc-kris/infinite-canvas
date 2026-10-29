@@ -415,7 +415,7 @@ export function classifyProviderError(error: unknown): ProviderErrorClass {
 
 /* ============================ 真实 Provider ============================ */
 
-export type ProviderImageResult = { id: string; dataUrl: string };
+export type ProviderImageResult = { id: string; dataUrl: string; /** 上游同时给出的持久地址（https），有则必须落盘保留。 */ url?: string };
 
 const REMOTE_URL_PATTERN = /^https?:\/\//i;
 
@@ -432,6 +432,10 @@ export function imageResultItems(taskId: string, results: ProviderImageResult[])
         const base = { id: `${taskId}-${index}`, kind: "image" as const };
         if (typeof item.dataUrl === "string" && REMOTE_URL_PATTERN.test(item.dataUrl)) {
             return { ...base, url: item.dataUrl };
+        }
+        // b64 渲染 + 远程地址并存时两者都留：快照只剥 dataUrl，url 让刷新后仍能重新取字节。
+        if (typeof item.url === "string" && REMOTE_URL_PATTERN.test(item.url)) {
+            return { ...base, dataUrl: item.dataUrl, url: item.url };
         }
         return { ...base, dataUrl: item.dataUrl };
     });
