@@ -1,0 +1,24 @@
+{
+  "realSucceededTaskIds": [
+    "task-mvs8bhu1-hhue24"
+  ],
+  "historicalByteAudit": "同上：items 仅 {id,kind,payloadDropped:true}，IDB 无字节、无血缘 → 真实字节不存在。",
+  "fix": "workspaces/image-text-edit.tsx 增加任务库 hydrate（刷新后按 storageKey 从 media_files 还原对象 URL）并把结果面板改为取最近一条「带结果图」的任务，避免最新任务无 items 时面板空。",
+  "changedFiles": [
+    "web/src/components/tools/workspaces/image-text-edit.tsx"
+  ],
+  "tool": "IMAGE_TEXT_EDIT",
+  "common": {
+    "schema": "r13-mapping-fix/1",
+    "date": "2026-10-29",
+    "baseCommit": "a087ce4",
+    "browserOrigin": "http://127.0.0.1:3000",
+    "idbDatabase": "infinite-canvas",
+    "mediaStore": "media_files",
+    "verification": {
+      "tsc": "pass",
+      "tests": "bun test src/features/tools/adapters src/components/tools/workspaces -> 1125 pass / 0 fail"
+    }
+  },
+  "verdict": "MAPPING_FIXED / H_BLOCKED_BY_MISSING_BYTES"
+}

@@ -105,6 +105,7 @@ export function ImageTextEditWorkspace() {
     const flushDraft = useToolDraftStore((state) => state.flush);
     const draftRevision = useToolDraftStore((state) => state.drafts[toolId]?.revision ?? null);
     const tasks = useToolTaskStore((state) => state.tasks);
+    const hydrateTasks = useToolTaskStore((state) => state.hydrate);
     const runTool = useToolTaskStore((state) => state.runTool);
     const retryTask = useToolTaskStore((state) => state.retryTask);
 
@@ -207,13 +208,17 @@ export function ImageTextEditWorkspace() {
     const issues = useMemo(() => validateImageTextEditState({ values, modelReady }), [values, modelReady]);
     const blocking = useMemo(() => issues.filter(isBlockingImageTextEditIssue), [issues]);
     const currentSnapshot = useMemo(() => createImageTextEditSnapshot(values, draftRevision, ""), [values, draftRevision]);
-    const latest = useMemo(
-        () =>
-            Object.values(tasks)
-                .filter((task) => task.toolId === toolId)
-                .sort((a, b) => b.createdAt - a.createdAt)[0],
-        [tasks],
-    );
+    /** 刷新后先 hydrate 任务库，再从 IndexedDB 按 storageKey 还原真实结果字节。 */
+    useEffect(() => {
+        hydrateTasks();
+    }, [hydrateTasks]);
+    /** 结果面板取最近一条「带结果图」的任务（字节可能在 storageKey 里），没有则退回最近任务。 */
+    const latest = useMemo(() => {
+        const owned = Object.values(tasks)
+            .filter((task) => task.toolId === toolId)
+            .sort((a, b) => b.createdAt - a.createdAt);
+        return owned.find((task) => (task.result?.items ?? []).some((item) => item.kind === "image")) ?? owned[0];
+    }, [tasks, toolId]);
     const gateway = useMemo<ImageTextEditGatewayLike>(
         () => ({
             submit: (input, options) => runTool(input, { ...options, draftRevision }),
