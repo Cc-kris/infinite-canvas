@@ -1,0 +1,87 @@
+{
+  "tool": "VIDEO_CONCAT",
+  "route": "/tools/ai-video/video-concat",
+  "capturedAt": "2026-10-29T21:45+08:00",
+  "reusedRealTask": {
+    "localTaskId": "task-mvthgaa4-pdg1eq",
+    "upstreamTaskId": "task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF",
+    "regenerated": false,
+    "note": "复用 2026-10-29 12:06 已成功的真实拼接任务，未新生成、未注入"
+  },
+  "submittedConfig": {
+    "model": "sub2api-real::MiniMax-H3",
+    "channel": "openai",
+    "ratio": "9:16",
+    "seconds": "auto",
+    "effectiveDurationS": 7,
+    "clips": 2,
+    "note": "工作区配置：两段片段按列表顺序拼接，输出时长 auto=片段有效时长之和 7s；默认 9:16"
+  },
+  "resultBytes": {
+    "source": "download 动作落盘 downloaded.mp4",
+    "bytes": 2133234,
+    "sha256": "daf59082f500fa964baa508b9ece84a62c3f2093f46e12c2a309eec501613b2f",
+    "magic": "ftyp/isom",
+    "container": "mp4"
+  },
+  "playback": {
+    "durationS": 7.292,
+    "width": 768,
+    "height": 1344,
+    "ratioActual": 0.5714,
+    "ratioRequested": "9:16(0.5625)",
+    "note": "上游按输出比例统一，实际 0.5714，与 9:16 相差 1.6%；原画幅以实测 768x1344 为准"
+  },
+  "threeActionsReceipts": {
+    "download": {
+      "suggested": "video-concat-result-1.mp4",
+      "bytes": 2133234,
+      "magic": "ftyp",
+      "matchesResultBytes": true,
+      "sha256OnDisk": "daf59082f500fa964baa508b9ece84a62c3f2093f46e12c2a309eec501613b2f"
+    },
+    "save": {
+      "feedback": "已保存到资产库（NCM6l4cDKtyL6cz6o67OG）",
+      "assetsCountInPage": 0
+    },
+    "canvas": {
+      "feedback": "已发送到画布（ce14D3JIahdvNNuS173zT）",
+      "videoNodesInPage": null
+    }
+  },
+  "idbVerification": {
+    "probedAt": "2026-10-29T21:2x+08:00",
+    "origin": "http://127.0.0.1:3000",
+    "storeMedia": {
+      "targetStorageKey": "tool-result:54gWW1bCX8Ywy63CQR-xj",
+      "keyPresent": false,
+      "toolResultKeys": 30
+    },
+    "storeToolAssets": {
+      "total": 62,
+      "videoAssetsWith2133234Bytes": 0,
+      "sampleVideoBytes": [
+        1297168,
+        16830,
+        1297168,
+        422358,
+        1297168
+      ]
+    },
+    "canvasVideoNodes": [],
+    "conclusion": "下载有真实字节闭环；存资产/发画布虽回执 success，但库内没有 2133234B 视频资产、media_files 无该 storageKey、画布无 video 节点 → 未落真实字节"
+  },
+  "defect": {
+    "file": "web/src/components/tools/tool-result-actions.ts",
+    "symptom": "刷新后视频结果只剩 storageKey（blob: URL 失效、item.blob 不在内存），saveResultItemToAssets / sendResultItemToCanvas 直接把 item.blob(undefined)+死链 url 交给 storeVideo，字节丢失",
+    "fix": "新增 hydrateResultItemBytes()：视频项在缺 blob 且有 storageKey 时按 storageKey 还原真实字节再走存资产/发画布",
+    "scope": "仅两处调用前置一行，无 API/TS 类型变更"
+  },
+  "verification": {
+    "tsc": "node ./node_modules/typescript/bin/tsc --noEmit -p tsconfig.json → exit 0",
+    "tests": "bun test tool-result-actions.deps.test.ts tool-result-actions.hydration.test.ts → 9 pass / 0 fail"
+  },
+  "pending": [
+    "修复后需在 UI 对同一历史 task 再点一次「存入资产库 / 发送到画布」，用 IDB 复核落库字节 sha 与 daf59082… 一致（本轮未做，不伪造）"
+  ]
+}

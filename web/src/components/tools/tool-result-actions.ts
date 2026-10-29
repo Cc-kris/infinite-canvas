@@ -283,7 +283,19 @@ export type SaveToAssetsOptions = {
     deps?: Partial<ResultAssetDeps>;
 };
 
+/**
+ * 刷新后视频结果只剩 storageKey（blob: URL 已失效、item.blob 不驻留内存）：
+ * 存资产/发画布前先按 storageKey 还原真实字节，避免把死链 blob: 地址交给 storeVideo。
+ */
+async function hydrateResultItemBytes(item: ToolTaskResultItem): Promise<ToolTaskResultItem> {
+    if (item.kind !== "video" || item.blob || !item.storageKey) return item;
+    const stored = await readStoredResultBlob(item.storageKey).catch(() => null);
+    if (!stored) return item;
+    return { ...item, blob: stored, mimeType: item.mimeType || stored.type || "video/mp4" };
+}
+
 export async function saveResultItemToAssets(item: ToolTaskResultItem, index: number, options: SaveToAssetsOptions): Promise<{ assetId: string; kind: "image" | "video" }> {
+    item = await hydrateResultItemBytes(item);
     assertResultPayload(item);
     const deps: ResultAssetDeps = { ...(await loadResultAssetDeps()), ...options.deps };
     const title = options.title ?? `${options.toolId} 结果 ${index + 1}`;
@@ -413,6 +425,7 @@ export type SendToCanvasOptions = {
 };
 
 export async function sendResultItemToCanvas(item: ToolTaskResultItem, options: SendToCanvasOptions): Promise<{ projectId: string; nodeId: string }> {
+    item = await hydrateResultItemBytes(item);
     assertResultPayload(item);
     const deps: Partial<ResultCanvasDeps> = { ...(await (options.loadDeps ?? loadResultCanvasDeps)()), ...options.deps };
     if (typeof deps.findProject !== "function" || typeof deps.createProject !== "function") {
