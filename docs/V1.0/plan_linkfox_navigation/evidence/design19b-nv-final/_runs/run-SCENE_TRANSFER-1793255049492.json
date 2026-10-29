@@ -1,0 +1,65 @@
+[
+ {
+  "toolId": "SCENE_TRANSFER",
+  "route": "/tools/product-design/scene-transfer",
+  "steps": {
+   "provider": {
+    "imageModel": "ccai-accept::gpt-image-2",
+    "channels": [
+     "ccai-accept",
+     "sf-accept"
+    ],
+    "baseUrl": "https://api.cc-ai.xyz",
+    "keyLen": 67,
+    "proxyEnabled": true,
+    "channelCount": 2,
+    "model": "gpt-image-2"
+   },
+   "title": "场景迁移\n\n商品图 + 场景风格参考图，按相似度把商品迁移进参考场景；提交即一次真实图像请求。\n\n商品图 imageUr",
+   "upload": {
+    "product": "product-watch.jpg · 1024×744 · image/jpeg",
+    "style": "color-ref-navy.png · 512×512 · image/png"
+   },
+   "gate": {
+    "disabled": false
+   },
+   "providerCalls": [
+    "200 https://api.cc-ai.xyz/v1/images/edits",
+    "200 https://oss-us.dimenoss.com/images/2026/10/29/1793255035_e00",
+    "200 https://oss-us.dimenoss.com/images/2026/10/29/1793255035_e00"
+   ],
+   "result": {
+    "src": "https://oss-us.dimenoss.com/images/2026/10/29/1793255035_e0073f12da9b32544e84f8c1ac6b7290.png",
+    "failed": null,
+    "feedback": null,
+    "progress": null,
+    "elapsedMs": 24045,
+    "sha": "f493b25fc333aaa7a3590a7b",
+    "bytes": 1091009
+   },
+   "download": {
+    "file": "dl-SCENE_TRANSFER-1793255042308.png",
+    "bytes": 1091009,
+    "sha": "f493b25fc333aaa7a3590a7b",
+    "match": true
+   },
+   "save": {
+    "feedback": "已保存到资产库（cTY6HNmAdtrnSZnkKn9Bt）",
+    "last": null
+   },
+   "canvas": {
+    "feedback": "已发送到画布（z0I_Qt5iz59PWwPe_mxer）"
+   },
+   "history": {
+    "beforeCount": "0 条",
+    "afterReload": {
+     "count": "0 条",
+     "items": 0,
+     "hasResult": true
+    }
+   }
+  },
+  "errors": [],
+  "_base": 3
+ }
+]

@@ -174,7 +174,7 @@ def up_change_color_v2_h(ctx) -> tuple[bool, str]:
             rl.get("previousDocumentTimeOrigin") not in (None, rl.get("newDocumentTimeOrigin")),
             f"{rl.get('previousDocumentTimeOrigin')}->{rl.get('newDocumentTimeOrigin')}")
     ok &= a("reload.domContentLoaded", bool(rl.get("domContentLoadedEventStart")), str(rl.get("domContentLoadedEventStart")))
-    ok &= a("reload.notNewTab", "same document" in (rl.get("mechanism") or ""), (rl.get("mechanism") or "")[:60])
+    ok &= a("reload.notNewTab", "same document" in (rl.get("mechanism") or "").lower(), (rl.get("mechanism") or "")[:60])
     ok &= a("post.panelText", bool(rl.get("postReloadPanelText")), (rl.get("postReloadPanelText") or "")[:40])
     ok &= a("post.actionButtons",
             set(rl.get("postReloadActionTestIds") or []) >= {"color-v2-restored-download", "color-v2-restored-save", "color-v2-restored-send"},

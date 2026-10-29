@@ -1,0 +1,35 @@
+[
+ {
+  "toolId": "PRINT_EXTRACT",
+  "route": "/tools/product-design/print-extract",
+  "steps": {
+   "provider": {
+    "imageModel": "ccai-accept::gpt-image-2",
+    "channels": [
+     "ccai-accept",
+     "sf-accept"
+    ],
+    "baseUrl": "https://api.cc-ai.xyz",
+    "keyLen": 67,
+    "proxyEnabled": true,
+    "channelCount": 2,
+    "model": "gpt-image-2"
+   },
+   "mount": 3,
+   "upload": {
+    "list": 0
+   },
+   "gate": {
+    "disabled": false,
+    "text": "立即生成 (10算力)"
+   },
+   "result": {
+    "src": "blob:http://127.0.0.1:3000/04e9ce27-0e8f-4096-b86b-cba8fb5cd3e4",
+    "sha": "5c80a61e9271298d",
+    "bytes": 88526
+   },
+   "resultStatus": "无限画布 · 39 个电商 AI 工具，一套导航直达\n本地运行 · API Key 只保存在你自己的浏览器\n插件与模型可自定义 · 无需注册账号\n无限画布\n首页\n电商套图\n智能修图\n新模型\nAI视频\nHOT\n批量生图\n商品图设计\nSkills\nAgent\n更多\n学习中心\n免费得算力\n积分\n0\n购买\n用\n本地用户\n个人账号\n商品图设计\n商品图\n商品替换\n场景裂变\n手持商品\nAI穿衣\n姿势裂变\nAI穿戴\nPOD素材\n饰品文字\n素材贴合\n印花提取\nAI姿势生成\n补充\nAI试衣XSY\n补充\n场景裂变链接\n补充\n图片文字编辑\n补充\n上装换料\n补充\n商品图设计器\n补充\n商品营销素材\n补充\n场景迁移\n补充\n免责声明\n印花提取\n真实提取 · 上游出图\n\n快速提取商品中的印花图案 · 20M / 384–4096 · 提取中 1/1\n\n撤销\n重做\n重置\n\n上传需要提取印花的商品图片\n\n从本地上传\n从作品库选择\n\n20M以内，分辨率：384 * 384 ~ 4096 * 4096，宽高比小于5\n\n上传多张图片，开始批量提取\n\n单张模式：一次处理一张商品图\n\n生成透明图\n关闭\n\n预计输出 1 张 PNG · 宽高跟随源图\n\n立即生成 (10算力)\n生成结果\n历史记录\n0\n提取中 1/1\n提取结果\n提取中\napparel-print.jpg\n原图\n提取中…\n结果\n历史任务\n1 条\n2026-10-29 13:55\n提交中\nExtract the printed artwork (the print/graphic) from the…\nccai-accept::gpt-image-2 · image · 0 个结果\n连接本地 Agent\n未连接\n点连接会自动启动本地服务、装好插件并接通，无需手动配置。\nClaude Code\n未连接\n·\nCLI · 2.1.285 (Claude Code)\n·\n"
+  },
+  "errors": []
+ }
+]

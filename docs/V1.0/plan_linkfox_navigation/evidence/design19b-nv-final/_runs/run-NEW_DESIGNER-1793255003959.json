@@ -1,0 +1,61 @@
+[
+ {
+  "toolId": "NEW_DESIGNER",
+  "route": "/tools/product-design/new-designer",
+  "steps": {
+   "provider": {
+    "imageModel": "ccai-accept::gpt-image-2",
+    "channels": [
+     "ccai-accept",
+     "sf-accept"
+    ],
+    "baseUrl": "https://api.cc-ai.xyz",
+    "keyLen": 67,
+    "proxyEnabled": true,
+    "channelCount": 2,
+    "model": "gpt-image-2"
+   },
+   "title": "商品图设计器\n商品图 · 1200×1200\n设计器宿主\n预览\n关闭\n完成回传\n\n已恢复草稿：2026-10-29T06",
+   "fileInputs": 1,
+   "layers": "1",
+   "gate": {
+    "disabled": false,
+    "title": "真实合成并入库"
+   },
+   "exportText": "无限画布 · 39 个电商 AI 工具，一套导航直达\n本地运行 · API Key 只保存在你自己的浏览器\n插件与模型可自定义 · 无需注册账号\n无限画布\n首页\n电商套图\n智能修图\n新模型\nAI视频\nHOT\n批量生图\n商品图设计\nSkills\nAgent\n更多\n学习中心\n免费得算力\n积分\n0\n购买\n用\n本地用户\n个人账号\n商品图设计\n商品图\n商品替换\n场景裂变\n手持商品\nAI穿衣\n姿势裂变\nAI穿戴\nPOD素材\n饰品文字\n素材贴合\n印花提取\nAI姿势生成\n补充\nAI试衣XSY\n补充\n场景裂变链接\n补充\n图片文字编辑\n补充\n上装换料\n补充\n商品图设计器\n补充\n商品营销素材\n补充\n场景迁移\n补充\n免责声明\n商品图设计器\n商品图 · 1200×1200\n设计器宿主\n预览\n关闭\n完成回传\n\n已恢复草稿：2026-10-29T06:23:06.649Z（0 个图层）\n\n素材与图层\n1 层\n添加文字\n",
+   "export": {
+    "file": "designer-download-1793254998171.png",
+    "bytes": 122903,
+    "sha": "81b6d83cc983fe7687943a86"
+   },
+   "sendCanvas": "无限画布 · 39 个电商 AI 工具，一套导航直达\n本地运行 · API Key 只保存在你自己的浏览器\n插件与模型可自定义 · 无需注册账号\n无限画布\n首页\n电商套图\n智能修图\n新模型\nAI视频\nHOT\n批量生图\n商品图设计\nSkills\nAgent\n更多\n学习中心\n免费得算力\n积分\n0\n购买\n用\n本地用户\n个人账号\n商品图设计\n商品图\n商品替换\n场景裂变\n手持商品\nAI穿衣\n姿势裂变\nAI穿",
+   "result": {
+    "src": "blob:http://127.0.0.1:3000/db0b9e63-ece3-4d5c-b3db-f39c6501039d",
+    "failed": null,
+    "feedback": null,
+    "progress": null,
+    "elapsedMs": 0,
+    "sha": "43ede96e7ce885098df79314",
+    "bytes": 31860
+   },
+   "download": {
+    "absent": true
+   },
+   "save": {
+    "absent": true
+   },
+   "canvas": {
+    "absent": true
+   },
+   "history": {
+    "beforeCount": "0 条",
+    "afterReload": {
+     "count": "0 条",
+     "items": 0,
+     "hasResult": true
+    }
+   }
+  },
+  "errors": []
+ }
+]

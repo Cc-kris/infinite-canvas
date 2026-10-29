@@ -1,0 +1,1648 @@
+{
+ "PRINT_EXTRACT": {
+  "path": "/tools/product-design/print-extract",
+  "toolId": "PRINT_EXTRACT",
+  "workspaceReady": "ready",
+  "testids": [
+   "shell-promo-bar",
+   "shell-promo-slide-shellPromo.slide1",
+   "shell-promo-slide-shellPromo.slide2",
+   "shell-promo-slide-shellPromo.slide3",
+   "shell-promo-close",
+   "shell-top-nav",
+   "tools-nav-mobile-trigger",
+   "tools-nav-primary",
+   "tools-nav-trigger-home",
+   "tools-nav-trigger-ecommerce-suite",
+   "tools-nav-trigger-smart-edit",
+   "tools-nav-badge-smart-edit",
+   "tools-nav-trigger-ai-video",
+   "tools-nav-badge-ai-video",
+   "tools-nav-trigger-batch-generate",
+   "tools-nav-trigger-product-design",
+   "tools-nav-external-skills",
+   "tools-nav-external-agent",
+   "tools-nav-more-trigger",
+   "shell-user-area",
+   "shell-user-learning-center",
+   "shell-user-free-quota",
+   "shell-user-points",
+   "shell-user-points-value",
+   "shell-user-buy",
+   "shell-user-menu-trigger",
+   "shell-user-avatar",
+   "shell-user-name",
+   "shell-user-account-type",
+   "tool-shell-nav-trigger",
+   "tool-sidebar",
+   "tool-workspace",
+   "tool-workspace-chrome",
+   "print-extract-real-badge",
+   "print-extract-undo",
+   "print-extract-redo",
+   "print-extract-reset",
+   "print-extract-workspace",
+   "print-extract-uploader",
+   "tool-asset-file-input",
+   "print-extract-batch",
+   "print-extract-batch-hint",
+   "print-extract-transparent",
+   "print-extract-estimate",
+   "print-extract-generate",
+   "print-extract-tab-result",
+   "print-extract-tab-history",
+   "print-extract-empty",
+   "tool-history-dock",
+   "tool-history-dock-count",
+   "tool-history-dock-empty"
+  ],
+  "files": [
+   {
+    "i": 0,
+    "accept": "image/png,image/jpeg,image/webp",
+    "multiple": false
+   }
+  ],
+  "buttons": [
+   {
+    "text": "撤销",
+    "testid": "print-extract-undo",
+    "disabled": true
+   },
+   {
+    "text": "重做",
+    "testid": "print-extract-redo",
+    "disabled": true
+   },
+   {
+    "text": "重置",
+    "testid": "print-extract-reset",
+    "disabled": false
+   },
+   {
+    "text": "从本地上传",
+    "testid": null,
+    "disabled": false
+   },
+   {
+    "text": "从作品库选择",
+    "testid": null,
+    "disabled": true
+   },
+   {
+    "text": "上传多张图片，开始批量提取",
+    "testid": "print-extract-batch",
+    "disabled": false
+   },
+   {
+    "text": "关闭",
+    "testid": "print-extract-transparent",
+    "disabled": false
+   },
+   {
+    "text": "立即生成 (10算力)",
+    "testid": "print-extract-generate",
+    "disabled": true
+   },
+   {
+    "text": "生成结果",
+    "testid": "print-extract-tab-result",
+    "disabled": false
+   },
+   {
+    "text": "历史记录0",
+    "testid": "print-extract-tab-history",
+    "disabled": false
+   }
+  ],
+  "textareas": [],
+  "selects": [],
+  "tabs": [
+   {
+    "text": "对话",
+    "sel": "false",
+    "testid": null
+   },
+   {
+    "text": "历史",
+    "sel": "false",
+    "testid": null
+   },
+   {
+    "text": "技能",
+    "sel": "false",
+    "testid": null
+   },
+   {
+    "text": "日志",
+    "sel": "false",
+    "testid": null
+   }
+  ],
+  "bodyText": "无限画布 · 39 个电商 AI 工具，一套导航直达\n本地运行 · API Key 只保存在你自己的浏览器\n插件与模型可自定义 · 无需注册账号\n无限画布\n首页\n电商套图\n智能修图\n新模型\nAI视频\nHOT\n批量生图\n商品图设计\nSkills\nAgent\n更多\n学习中心\n免费得算力\n积分\n0\n购买\n用\n本地用户\n个人账号\n商品图设计\n商品图\n商品替换\n场景裂变\n手持商品\nAI穿衣\n姿势裂变\nAI穿戴\nPOD素材\n饰品文字\n素材贴合\n印花提取\nAI姿势生成\n补充\nAI试衣XSY\n补充\n场景裂变链接\n补充\n图片文字编辑\n补充\n上装换料\n补充\n商品图设计器\n补充\n商品营销素材\n补充\n场景迁移\n补充\n免责声明\n印花提取\n真实提取 · 上游出图\n快速提取商品中的印花图案 · 20M / 384–4096 · 尚未上传商品图\n撤销\n重做\n重置\n上传需要提取印花的商品图片\n从本地上传\n从作品库选择\n20M以内，分辨率：384 * 384 ~ 4096 * 4096，宽高比小于5\n或试试这些\n上传多张图片，开始批量提取\n单张模式：一次处理一张商品图\n生成透明图\n关闭\n预计输出 0 张 PNG · 宽高跟随源图\n立即生成 (10算力)\n先上传需要提取印花的商品图片。\n生成结果\n历史记录\n0\n尚未上传商品图\n提取结果\n印花提取\n快速提取商品中的印花图案\n历史任务\n0 条\n本工具还没有历史任务；提交一次后会在这里留下任务、配置与结果，刷新后仍在。\n连接本地 Agent\n未连接\n点连接会自动启动本地服务、装好插件并接通，无需手动配置。\nClaude Code\n未连接\n·\nCLI · 2.1.285 (Claude Code)\n·\n直接运行\n连接\nCodex\n未连接\n·\nCLI · codex-cli 0.163.0\n·\n插件已装\n连接\nGalley\n未连接\n·\nCLI + 桌面版 · galley 0.6.4\n连接",
+  "errors": []
+ },
+ "AI_POSE_GENERATOR": {
+  "path": "/tools/product-design/ai-pose-generator",
+  "toolId": "AI_POSE_GENERATOR",
+  "workspaceReady": "ready",
+  "testids": [
+   "shell-promo-bar",
+   "shell-promo-slide-shellPromo.slide1",
+   "shell-promo-slide-shellPromo.slide2",
+   "shell-promo-slide-shellPromo.slide3",
+   "shell-promo-close",
+   "shell-top-nav",
+   "tools-nav-mobile-trigger",
+   "tools-nav-primary",
+   "tools-nav-trigger-home",
+   "tools-nav-trigger-ecommerce-suite",
+   "tools-nav-trigger-smart-edit",
+   "tools-nav-badge-smart-edit",
+   "tools-nav-trigger-ai-video",
+   "tools-nav-badge-ai-video",
+   "tools-nav-trigger-batch-generate",
+   "tools-nav-trigger-product-design",
+   "tools-nav-external-skills",
+   "tools-nav-external-agent",
+   "tools-nav-more-trigger",
+   "shell-user-area",
+   "shell-user-learning-center",
+   "shell-user-free-quota",
+   "shell-user-points",
+   "shell-user-points-value",
+   "shell-user-buy",
+   "shell-user-menu-trigger",
+   "shell-user-avatar",
+   "shell-user-name",
+   "shell-user-account-type",
+   "tool-shell-nav-trigger",
+   "tool-sidebar",
+   "tool-workspace",
+   "tool-workspace-chrome",
+   "ai-pose-generator-workspace",
+   "ai-pose-pose-panel",
+   "ai-pose-undo",
+   "ai-pose-redo",
+   "ai-pose-prompt",
+   "ai-pose-prompt-count",
+   "ai-pose-categories",
+   "ai-pose-category-standing",
+   "ai-pose-category-sitting",
+   "ai-pose-category-motion",
+   "ai-pose-category-detail",
+   "ai-pose-preset-list",
+   "ai-pose-preset-stand-front",
+   "ai-pose-preset-stand-three-quarter",
+   "ai-pose-preset-stand-back",
+   "ai-pose-preset-stand-lean-wall",
+   "ai-pose-preset-name",
+   "ai-pose-preset-save",
+   "ai-pose-scene-panel",
+   "ai-pose-scene-add",
+   "ai-pose-scene-empty",
+   "ai-pose-scene-count",
+   "ai-pose-preview-panel",
+   "ai-pose-preview-tabs",
+   "ai-pose-preview-tab-0",
+   "ai-pose-preview-prompt",
+   "ai-pose-results",
+   "ai-pose-results-empty",
+   "ai-pose-output-control",
+   "ai-pose-output-1",
+   "ai-pose-output-2",
+   "ai-pose-output-3",
+   "ai-pose-output-4",
+   "ai-pose-plan-scenes",
+   "ai-pose-plan-total",
+   "ai-pose-submit",
+   "ai-pose-submit-hint",
+   "ai-pose-issues",
+   "ai-pose-snapshot",
+   "ai-pose-snapshot-hash",
+   "tool-history-dock",
+   "tool-history-dock-count",
+   "tool-history-dock-empty"
+  ],
+  "files": [],
+  "buttons": [
+   {
+    "text": "",
+    "testid": "ai-pose-undo",
+    "disabled": true
+   },
+   {
+    "text": "",
+    "testid": "ai-pose-redo",
+    "disabled": true
+   },
+   {
+    "text": "站姿",
+    "testid": "ai-pose-category-standing",
+    "disabled": false
+   },
+   {
+    "text": "坐姿",
+    "testid": "ai-pose-category-sitting",
+    "disabled": false
+   },
+   {
+    "text": "动态",
+    "testid": "ai-pose-category-motion",
+    "disabled": false
+   },
+   {
+    "text": "手部与镜头",
+    "testid": "ai-pose-category-detail",
+    "disabled": false
+   },
+   {
+    "text": "正面站姿标准商品图站姿，肩线正对镜头",
+    "testid": "ai-pose-preset-stand-front",
+    "disabled": false
+   },
+   {
+    "text": "3/4 侧身显瘦角度，适合连衣裙/外套",
+    "testid": "ai-pose-preset-stand-three-quarter",
+    "disabled": false
+   },
+   {
+    "text": "背面回眸展示背部剪裁与版型",
+    "testid": "ai-pose-preset-stand-back",
+    "disabled": false
+   },
+   {
+    "text": "倚墙城市/街头氛围",
+    "testid": "ai-pose-preset-stand-lean-wall",
+    "disabled": false
+   },
+   {
+    "text": "保存预设",
+    "testid": "ai-pose-preset-save",
+    "disabled": true
+   },
+   {
+    "text": "加场景",
+    "testid": "ai-pose-scene-add",
+    "disabled": false
+   },
+   {
+    "text": "默认场景",
+    "testid": "ai-pose-preview-tab-0",
+    "disabled": false
+   },
+   {
+    "text": "1 张",
+    "testid": "ai-pose-output-1",
+    "disabled": false
+   },
+   {
+    "text": "2 张",
+    "testid": "ai-pose-output-2",
+    "disabled": false
+   },
+   {
+    "text": "3 张",
+    "testid": "ai-pose-output-3",
+    "disabled": false
+   },
+   {
+    "text": "4 张",
+    "testid": "ai-pose-output-4",
+    "disabled": false
+   },
+   {
+    "text": "生成姿势参考",
+    "testid": "ai-pose-submit",
+    "disabled": true
+   }
+  ],
+  "textareas": [
+   {
+    "aria": null,
+    "ph": "例：女性模特侧身站立，一手扶腰，重心落在后腿，头部转向镜头，全身入镜",
+    "testid": "ai-pose-prompt"
+   }
+  ],
+  "selects": [],
+  "tabs": [
+   {
+    "text": "对话",
+    "sel": "false",
+    "testid": null
+   },
+   {
+    "text": "历史",
+    "sel": "false",
+    "testid": null
+   },
+   {
+    "text": "技能",
+    "sel": "false",
+    "testid": null
+   },
+   {
+    "text": "日志",
+    "sel": "false",
+    "testid": null
+   }
+  ],
+  "bodyText": "无限画布 · 39 个电商 AI 工具，一套导航直达\n本地运行 · API Key 只保存在你自己的浏览器\n插件与模型可自定义 · 无需注册账号\n无限画布\n首页\n电商套图\n智能修图\n新模型\nAI视频\nHOT\n批量生图\n商品图设计\nSkills\nAgent\n更多\n学习中心\n免费得算力\n积分\n0\n购买\n用\n本地用户\n个人账号\n商品图设计\n商品图\n商品替换\n场景裂变\n手持商品\nAI穿衣\n姿势裂变\nAI穿戴\nPOD素材\n饰品文字\n素材贴合\n印花提取\nAI姿势生成\n补充\nAI试衣XSY\n补充\n场景裂变链接\n补充\n图片文字编辑\n补充\n上装换料\n补充\n商品图设计器\n补充\n商品营销素材\n补充\n场景迁移\n补充\n免责声明\nAI姿势生成\n写姿势提示词 → 逐条加场景 → 预览实际 prompt → 按场景生成姿势参考图\n姿势提示词\n4000 字可用；姿势库是结构化约束，与自定义描述一起送 provider。\n0/4000\n站姿\n坐姿\n动态\n手部与镜头\n正面站姿\n标准商品图站姿，肩线正对镜头\n3/4 侧身\n显瘦角度，适合连衣裙/外套\n背面回眸\n展示背部剪裁与版型\n倚墙\n城市/街头氛围\n保存当前姿势 + 场景组合（最多 12 条，可撤销）\n保存预设\n场景提示词\n每条场景各自成为一个真实生成请求；最多 6 条，场景只描述环境/光线/道具，不能改写姿势。\n加场景\n还没有场景；不填场景也能生成（按「默认场景」影棚背景出图）。加上场景可一次对比多个环境。\n场景 1/6 · 每场景 1 张 · 共 1 张请求\n参考预览\n这里展示的是真正发给 provider 的 prompt，不是界面文案。\n默认场景\nCreate a full-body pose reference photo of a single fashion model. Pose: natural, relaxed standing pose, full body visible. Framing: head to toe, 50mm lens, eye level, single subject, no crop. Scene directives: plain studio backdrop, soft even lighting, neutral floor. Hard rule: scene directives must never change the body pose, limb positions, head angle or the direction the model faces. Keep wardrobe and body proportions consistent; photorealistic, sharp focus, no text, no watermark, no collage.\n姿势约束：自定义描述\n·\n共 12 个姿势卡片\n生成结果\n按场景分组；单组失败只重试该组，已成功的场景不会重复生成。\n填好姿势提示词后点「生成姿势参考」，结果会按场景分组出现在这里。\n每场景张数\n1–4 张；总产出 = 场景数 × 张数（上限 24）。\n1 张\n2 张\n3 张\n4 张\n场景数\n1\n总产出\n1 张\n请求数\n1 个（每场景 1 个请求）\n生成姿势参考\n1 个场景 × 1 张 = 1 张\n请先填写姿势描述（无姿势描述不能生成）\n本次输入快照\n历史任务\n0 条\n本工具还没有历史任务；提交一次后会在这里留下任务、配置与结果，刷新后仍在。\n连接本地 Agent\n未连接\n点连接会自动启动本地服务、装好插件并接通，无需手动配置。\nClaude Code\n未连接\n·\nCLI · 2.1.285 (Claude Code)\n·\n直接运行\n连接\nCodex\n未连接\n·\nCLI · codex-cli 0.163.0\n·\n插件已装\n连接\nGalley\n未连接\n·\nCLI + 桌面版 · galley 0.6.4\n连接",
+  "errors": []
+ },
+ "AI_DRESSING_XSY": {
+  "path": "/tools/product-design/ai-dressing-xsy",
+  "toolId": "AI_DRESSING_XSY",
+  "workspaceReady": "ready",
+  "testids": [
+   "shell-promo-bar",
+   "shell-promo-slide-shellPromo.slide1",
+   "shell-promo-slide-shellPromo.slide2",
+   "shell-promo-slide-shellPromo.slide3",
+   "shell-promo-close",
+   "shell-top-nav",
+   "tools-nav-mobile-trigger",
+   "tools-nav-primary",
+   "tools-nav-trigger-home",
+   "tools-nav-trigger-ecommerce-suite",
+   "tools-nav-trigger-smart-edit",
+   "tools-nav-badge-smart-edit",
+   "tools-nav-trigger-ai-video",
+   "tools-nav-badge-ai-video",
+   "tools-nav-trigger-batch-generate",
+   "tools-nav-trigger-product-design",
+   "tools-nav-external-skills",
+   "tools-nav-external-agent",
+   "tools-nav-more-trigger",
+   "shell-user-area",
+   "shell-user-learning-center",
+   "shell-user-free-quota",
+   "shell-user-points",
+   "shell-user-points-value",
+   "shell-user-buy",
+   "shell-user-menu-trigger",
+   "shell-user-avatar",
+   "shell-user-name",
+   "shell-user-account-type",
+   "tool-shell-nav-trigger",
+   "tool-sidebar",
+   "tool-workspace",
+   "xsy-workspace",
+   "xsy-estimate",
+   "xsy-steps",
+   "xsy-issues",
+   "xsy-step-model",
+   "tool-asset-dropzone",
+   "tool-asset-file-input",
+   "xsy-model-types",
+   "xsy-model-styles",
+   "xsy-next-model",
+   "xsy-step-garment",
+   "xsy-slot-upper",
+   "xsy-slot-down",
+   "xsy-next-garment",
+   "xsy-step-mask",
+   "xsy-mask-upper",
+   "xsy-mask-upper-undo",
+   "xsy-mask-upper-redo",
+   "xsy-mask-upper-canvas-wrap",
+   "xsy-mask-upper-canvas-wrap-canvas",
+   "xsy-mask-upper-tool",
+   "xsy-mask-upper-fill",
+   "xsy-mask-upper-clear",
+   "xsy-mask-upper-brush",
+   "xsy-mask-down",
+   "xsy-mask-down-undo",
+   "xsy-mask-down-redo",
+   "xsy-mask-down-canvas-wrap",
+   "xsy-mask-down-canvas-wrap-canvas",
+   "xsy-mask-down-tool",
+   "xsy-mask-down-fill",
+   "xsy-mask-down-clear",
+   "xsy-mask-down-brush",
+   "xsy-model-poses",
+   "xsy-next-mask",
+   "xsy-step-generate",
+   "xsy-output",
+   "xsy-version",
+   "xsy-prompt",
+   "xsy-submit",
+   "xsy-gate",
+   "xsy-results",
+   "xsy-result-empty",
+   "tool-result",
+   "tool-result-empty",
+   "tool-history-dock",
+   "tool-history-dock-count",
+   "tool-history-dock-empty"
+  ],
+  "files": [
+   {
+    "i": 0,
+    "accept": "image/png,image/jpeg,image/webp",
+    "multiple": false
+   },
+   {
+    "i": 1,
+    "accept": "image/png,image/jpeg,image/webp",
+    "multiple": false
+   },
+   {
+    "i": 2,
+    "accept": "image/png,image/jpeg,image/webp",
+    "multiple": false
+   }
+  ],
+  "buttons": [
+   {
+    "text": "1. 模特进行中",
+    "testid": null,
+    "disabled": false
+   },
+   {
+    "text": "2. 服装2 项待补",
+    "testid": null,
+    "disabled": true
+   },
+   {
+    "text": "3. 蒙版/姿势已就绪",
+    "testid": null,
+    "disabled": true
+   },
+   {
+    "text": "4. 生成已就绪",
+    "testid": null,
+    "disabled": true
+   },
+   {
+    "text": "棚拍模特",
+    "testid": null,
+    "disabled": false
+   },
+   {
+    "text": "街拍模特",
+    "testid": null,
+    "disabled": false
+   },
+   {
+    "text": "自定义模特",
+    "testid": null,
+    "disabled": false
+   },
+   {
+    "text": "干净通勤",
+    "testid": null,
+    "disabled": false
+   },
+   {
+    "text": "杂志大片",
+    "testid": null,
+    "disabled": false
+   },
+   {
+    "text": "日常休闲",
+    "testid": null,
+    "disabled": false
+   },
+   {
+    "text": "运动机能",
+    "testid": null,
+    "disabled": false
+   },
+   {
+    "text": "下一步：服装",
+    "testid": "xsy-next-model",
+    "disabled": false
+   },
+   {
+    "text": "上下装衣服",
+    "testid": null,
+    "disabled": false
+   },
+   {
+    "text": "连体衣服",
+    "testid": null,
+    "disabled": false
+   },
+   {
+    "text": "下一步：蒙版/姿势",
+    "testid": "xsy-next-garment",
+    "disabled": false
+   },
+   {
+    "text": "撤销",
+    "testid": "xsy-mask-upper-undo",
+    "disabled": true
+   },
+   {
+    "text": "重做",
+    "testid": "xsy-mask-upper-redo",
+    "disabled": true
+   },
+   {
+    "text": "涂抹",
+    "testid": null,
+    "disabled": false
+   },
+   {
+    "text": "橡皮",
+    "testid": null,
+    "disabled": false
+   },
+   {
+    "text": "整件",
+    "testid": "xsy-mask-upper-fill",
+    "disabled": true
+   },
+   {
+    "text": "清空",
+    "testid": "xsy-mask-upper-clear",
+    "disabled": true
+   },
+   {
+    "text": "撤销",
+    "testid": "xsy-mask-down-undo",
+    "disabled": true
+   },
+   {
+    "text": "重做",
+    "testid": "xsy-mask-down-redo",
+    "disabled": true
+   },
+   {
+    "text": "涂抹",
+    "testid": null,
+    "disabled": false
+   },
+   {
+    "text": "橡皮",
+    "testid": null,
+    "disabled": false
+   },
+   {
+    "text": "整件",
+    "testid": "xsy-mask-down-fill",
+    "disabled": true
+   },
+   {
+    "text": "清空",
+    "testid": "xsy-mask-down-clear",
+    "disabled": true
+   },
+   {
+    "text": "正面站立",
+    "testid": null,
+    "disabled": false
+   },
+   {
+    "text": "侧身 3/4",
+    "testid": null,
+    "disabled": false
+   },
+   {
+    "text": "行走动势",
+    "testid": null,
+    "disabled": false
+   },
+   {
+    "text": "坐姿",
+    "testid": null,
+    "disabled": false
+   },
+   {
+    "text": "下一步：生成",
+    "testid": "xsy-next-mask",
+    "disabled": false
+   },
+   {
+    "text": "1 张",
+    "testid": null,
+    "disabled": false
+   },
+   {
+    "text": "2 张",
+    "testid": null,
+    "disabled": false
+   },
+   {
+    "text": "3 张",
+    "testid": null,
+    "disabled": false
+   },
+   {
+    "text": "4 张",
+    "testid": null,
+    "disabled": false
+   },
+   {
+    "text": "标准试衣 v1",
+    "testid": null,
+    "disabled": false
+   },
+   {
+    "text": "细节修复 v2",
+    "testid": null,
+    "disabled": false
+   },
+   {
+    "text": "生成 1 张试穿图",
+    "testid": "xsy-submit",
+    "disabled": true
+   }
+  ],
+  "textareas": [],
+  "selects": [],
+  "tabs": [
+   {
+    "text": "上下装衣服",
+    "sel": "true",
+    "testid": null
+   },
+   {
+    "text": "连体衣服",
+    "sel": "false",
+    "testid": null
+   },
+   {
+    "text": "对话",
+    "sel": "false",
+    "testid": null
+   },
+   {
+    "text": "历史",
+    "sel": "false",
+    "testid": null
+   },
+   {
+    "text": "技能",
+    "sel": "false",
+    "testid": null
+   },
+   {
+    "text": "日志",
+    "sel": "false",
+    "testid": null
+   }
+  ],
+  "bodyText": "无限画布 · 39 个电商 AI 工具，一套导航直达\n本地运行 · API Key 只保存在你自己的浏览器\n插件与模型可自定义 · 无需注册账号\n无限画布\n首页\n电商套图\n智能修图\n新模型\nAI视频\nHOT\n批量生图\n商品图设计\nSkills\nAgent\n更多\n学习中心\n免费得算力\n积分\n0\n购买\n用\n本地用户\n个人账号\n商品图设计\n商品图\n商品替换\n场景裂变\n手持商品\nAI穿衣\n姿势裂变\nAI穿戴\nPOD素材\n饰品文字\n素材贴合\n印花提取\nAI姿势生成\n补充\nAI试衣XSY\n补充\n场景裂变链接\n补充\n图片文字编辑\n补充\n上装换料\n补充\n商品图设计器\n补充\n商品营销素材\n补充\n场景迁移\n补充\n免责声明\nAI试衣XSY · 分步试衣\n第 1 步 / 共 4 步 · 模特 — 上传模特图，选定模特类型与风格\n上下装衣服 · 预计输出 1 张\n参考图 1 张 · 模型 default::gpt-image-2\n1. 模特\n进行中\n2. 服装\n2 项待补\n3. 蒙版/姿势\n已就绪\n4. 生成\n已就绪\n· 第 1 步：请先上传模特图（第 1 步）\n· 第 2 步：请上传上装图（第 2 步）\n· 第 2 步：请上传下装图（第 2 步）\n1.模特图\n模特图决定身份、姿态与光照；之后只替换服装部位\n选择模特图\n0 / 1 个 · PNG / JPG / WebP · ≤ 20 MB\n点击选择本地文件，或拖拽到这里\n校验格式 / 大小 / 像素，入库后可刷新恢复\n还没有素材\n模特类型\n棚拍模特\n街拍模特\n自定义模特\n模特风格\n干净通勤\n杂志大片\n日常休闲\n运动机能\n下一步：服装\n2.分步服装上传\n上下装模式需要上装与下装；连体模式只看一件套装\n上下装衣服\n连体衣服\n上装\n上传上装正面图，平铺或穿着实拍均可\n选择上装图\n0 / 1 个 · PNG / JPG / WebP · ≤ 20 MB\n点击选择本地文件，或拖拽到这里\n校验格式 / 大小 / 像素，入库后可刷新恢复\n还没有素材\n下装\n上传下装正面图，裤装/裙装均可\n选择下装图\n0 / 1 个 · PNG / JPG / WebP · ≤ 20 MB\n点击选择本地文件，或拖拽到这里\n校验格式 / 大小 / 像素，入库后可刷新恢复\n还没有素材\n下一步：蒙版/姿势\n3.蒙版与姿势\n涂出该件服装在模特图上的区域；白=替换，黑=保持原样\n上装蒙版\n覆盖 0.0% · 0 笔\n撤销\n重做\n画笔/橡皮\n涂抹\n橡皮\n整件\n清空\n笔刷粗细 35px\n下装蒙版\n覆盖 0.0% · 0 笔\n撤销\n重做\n画笔/橡皮\n涂抹\n橡皮\n整件\n清空\n笔刷粗细 35px\n模特姿势\n正面站立\n侧身 3/4\n行走动势\n坐姿\n下一步：生成\n4.生成设置\n张数与算法版本只影响本次提交，不会删除历史结果\n生成张数\n1 张\n2 张\n3 张\n4 张\n算法/修复版本\n标准试衣 v1\n细节修复 v2\n按分步试衣流程生成试穿效果：模特图 缺失；模特类型 棚拍模特；风格 干净通勤；姿势 正面站立。服装：未提供。每个服装槽位附一张同尺寸蒙版（白=该部位穿戴区域），只在蒙版区域替换为上传服装，保持模特身份、姿态、光照与画面构图不变；服装纹理、褶皱与版型需与上传图一致，不要新增图案或改变颜色。算法版本 标准试衣 v1；输出 1 张。[AI_DRESSING_XSY/tab:upper-lower/step:1]\n生成 1 张试穿图\n提交被拦下：请先上传模特图（第 1 步）\n试穿结果\n结果显示在下方；结果与提交快照不一致时会标注旧配置\n还没有结果：完成前 4 步后点「生成」\n试衣结果操作\n还没有生成结果\n填好参数并提交后，结果会出现在这里，可预览、下载、存入资产库或发送到画布。\n当前蒙版是否为空由真实栅格化覆盖率判定；参考图 = 模特 1 张 + 服装 1 张 + 同尺寸蒙版 1 张（每件）。\n历史任务\n0 条\n本工具还没有历史任务；提交一次后会在这里留下任务、配置与结果，刷新后仍在。\n连接本地 Agent\n未连接\n点连接会自动启动本地服务、装好插件并接通，无需手动配置。\nClaude Code\n未连接\n·\nCLI · 2.1.285 (Claude Code)\n·\n直接运行\n连接\nCodex\n未连接\n·\nCLI · codex-cli 0.163.0\n·\n插件已装\n连接\nGalley\n未连接\n·\nCLI + 桌面版 · galley 0.6.4\n连接",
+  "errors": []
+ },
+ "FISSION_LINK": {
+  "path": "/tools/product-design/fission-link",
+  "toolId": "FISSION_LINK",
+  "workspaceReady": "ready",
+  "testids": [
+   "shell-promo-bar",
+   "shell-promo-slide-shellPromo.slide1",
+   "shell-promo-slide-shellPromo.slide2",
+   "shell-promo-slide-shellPromo.slide3",
+   "shell-promo-close",
+   "shell-top-nav",
+   "tools-nav-mobile-trigger",
+   "tools-nav-primary",
+   "tools-nav-trigger-home",
+   "tools-nav-trigger-ecommerce-suite",
+   "tools-nav-trigger-smart-edit",
+   "tools-nav-badge-smart-edit",
+   "tools-nav-trigger-ai-video",
+   "tools-nav-badge-ai-video",
+   "tools-nav-trigger-batch-generate",
+   "tools-nav-trigger-product-design",
+   "tools-nav-external-skills",
+   "tools-nav-external-agent",
+   "tools-nav-more-trigger",
+   "shell-user-area",
+   "shell-user-learning-center",
+   "shell-user-free-quota",
+   "shell-user-points",
+   "shell-user-points-value",
+   "shell-user-buy",
+   "shell-user-menu-trigger",
+   "shell-user-avatar",
+   "shell-user-name",
+   "shell-user-account-type",
+   "tool-shell-nav-trigger",
+   "tool-sidebar",
+   "tool-workspace",
+   "fission-link-workspace",
+   "fission-link-config",
+   "fission-link-url",
+   "tool-asset-dropzone",
+   "tool-asset-file-input",
+   "fission-link-output",
+   "fission-link-plan",
+   "fission-link-issues",
+   "fission-link-submit",
+   "result-tab-result",
+   "result-tab-case",
+   "result-tab-history",
+   "fission-link-result-status",
+   "fission-link-cell-1",
+   "tool-history-dock",
+   "tool-history-dock-count",
+   "tool-history-dock-empty"
+  ],
+  "files": [
+   {
+    "i": 0,
+    "accept": "image/png,image/jpeg,image/webp",
+    "multiple": false
+   }
+  ],
+  "buttons": [
+   {
+    "text": "1",
+    "testid": null,
+    "disabled": false
+   },
+   {
+    "text": "2",
+    "testid": null,
+    "disabled": false
+   },
+   {
+    "text": "3",
+    "testid": null,
+    "disabled": false
+   },
+   {
+    "text": "4",
+    "testid": null,
+    "disabled": false
+   },
+   {
+    "text": "立即生成 (40算力)",
+    "testid": "fission-link-submit",
+    "disabled": true
+   },
+   {
+    "text": "生成结果",
+    "testid": "result-tab-result",
+    "disabled": false
+   },
+   {
+    "text": "优秀案例",
+    "testid": "result-tab-case",
+    "disabled": false
+   },
+   {
+    "text": "历史记录",
+    "testid": "result-tab-history",
+    "disabled": false
+   }
+  ],
+  "textareas": [
+   {
+    "aria": null,
+    "ph": "https://example.com/product.png",
+    "testid": "fission-link-url"
+   }
+  ],
+  "selects": [],
+  "tabs": [
+   {
+    "text": "生成结果",
+    "sel": "true",
+    "testid": "result-tab-result"
+   },
+   {
+    "text": "优秀案例",
+    "sel": "false",
+    "testid": "result-tab-case"
+   },
+   {
+    "text": "历史记录",
+    "sel": "false",
+    "testid": "result-tab-history"
+   },
+   {
+    "text": "对话",
+    "sel": "false",
+    "testid": null
+   },
+   {
+    "text": "历史",
+    "sel": "false",
+    "testid": null
+   },
+   {
+    "text": "技能",
+    "sel": "false",
+    "testid": null
+   },
+   {
+    "text": "日志",
+    "sel": "false",
+    "testid": null
+   }
+  ],
+  "bodyText": "无限画布 · 39 个电商 AI 工具，一套导航直达\n本地运行 · API Key 只保存在你自己的浏览器\n插件与模型可自定义 · 无需注册账号\n无限画布\n首页\n电商套图\n智能修图\n新模型\nAI视频\nHOT\n批量生图\n商品图设计\nSkills\nAgent\n更多\n学习中心\n免费得算力\n积分\n0\n购买\n用\n本地用户\n个人账号\n商品图设计\n商品图\n商品替换\n场景裂变\n手持商品\nAI穿衣\n姿势裂变\nAI穿戴\nPOD素材\n饰品文字\n素材贴合\n印花提取\nAI姿势生成\n补充\nAI试衣XSY\n补充\n场景裂变链接\n补充\n图片文字编辑\n补充\n上装换料\n补充\n商品图设计器\n补充\n商品营销素材\n补充\n场景迁移\n补充\n免责声明\n场景裂变链接\n粘贴一张商品/场景图的链接，或直接上传；数量 = 每张一次真实请求。\n参考图链接\n或上传本地参考图\n0 / 1 个 · PNG / JPG / WebP · ≤ 20 MB\n点击选择本地文件，或拖拽到这里\n校验格式 / 大小 / 像素，入库后可刷新恢复\n还没有素材\n裂变数量\n1\n2\n3\n4\n将发起 1 次真实请求（每张一次）\n请粘贴图片链接，或从本地上传一张参考图\n立即生成 (40算力)\n生成结果\n优秀案例\n历史记录\n还没有结果：粘贴参考图 → 选裂变数量 → 生成\n第 1 张\n等待提交\n等待提交\n历史任务\n0 条\n本工具还没有历史任务；提交一次后会在这里留下任务、配置与结果，刷新后仍在。\n连接本地 Agent\n未连接\n点连接会自动启动本地服务、装好插件并接通，无需手动配置。\nClaude Code\n未连接\n·\nCLI · 2.1.285 (Claude Code)\n·\n直接运行\n连接\nCodex\n未连接\n·\nCLI · codex-cli 0.163.0\n·\n插件已装\n连接\nGalley\n未连接\n·\nCLI + 桌面版 · galley 0.6.4\n连接",
+  "errors": []
+ },
+ "IMAGE_TEXT_EDIT": {
+  "path": "/tools/product-design/image-text-edit",
+  "toolId": "IMAGE_TEXT_EDIT",
+  "workspaceReady": "ready",
+  "testids": [
+   "shell-promo-bar",
+   "shell-promo-slide-shellPromo.slide1",
+   "shell-promo-slide-shellPromo.slide2",
+   "shell-promo-slide-shellPromo.slide3",
+   "shell-promo-close",
+   "shell-top-nav",
+   "tools-nav-mobile-trigger",
+   "tools-nav-primary",
+   "tools-nav-trigger-home",
+   "tools-nav-trigger-ecommerce-suite",
+   "tools-nav-trigger-smart-edit",
+   "tools-nav-badge-smart-edit",
+   "tools-nav-trigger-ai-video",
+   "tools-nav-badge-ai-video",
+   "tools-nav-trigger-batch-generate",
+   "tools-nav-trigger-product-design",
+   "tools-nav-external-skills",
+   "tools-nav-external-agent",
+   "tools-nav-more-trigger",
+   "shell-user-area",
+   "shell-user-learning-center",
+   "shell-user-free-quota",
+   "shell-user-points",
+   "shell-user-points-value",
+   "shell-user-buy",
+   "shell-user-menu-trigger",
+   "shell-user-avatar",
+   "shell-user-name",
+   "shell-user-account-type",
+   "tool-shell-nav-trigger",
+   "tool-sidebar",
+   "tool-workspace",
+   "image-text-edit-workspace",
+   "image-text-edit-file",
+   "image-text-edit-submit",
+   "tool-result",
+   "tool-result-empty",
+   "tool-history-dock",
+   "tool-history-dock-count",
+   "tool-history-dock-empty"
+  ],
+  "files": [
+   {
+    "i": 0,
+    "accept": "image/png,image/jpeg,image/webp",
+    "multiple": false
+   }
+  ],
+  "buttons": [
+   {
+    "text": "撤销",
+    "testid": null,
+    "disabled": true
+   },
+   {
+    "text": "重做",
+    "testid": null,
+    "disabled": true
+   },
+   {
+    "text": "上传源图",
+    "testid": null,
+    "disabled": false
+   },
+   {
+    "text": "新增文字框",
+    "testid": null,
+    "disabled": true
+   },
+   {
+    "text": "上传 JPG / PNG / WebP 源图后开始框选文字",
+    "testid": null,
+    "disabled": false
+   },
+   {
+    "text": "PNG（透明背景）",
+    "testid": null,
+    "disabled": false
+   },
+   {
+    "text": "JPEG（更小体积）",
+    "testid": null,
+    "disabled": false
+   },
+   {
+    "text": "WebP（体积与质量平衡）",
+    "testid": null,
+    "disabled": false
+   },
+   {
+    "text": "生成图片文字",
+    "testid": "image-text-edit-submit",
+    "disabled": true
+   }
+  ],
+  "textareas": [],
+  "selects": [],
+  "tabs": [
+   {
+    "text": "对话",
+    "sel": "false",
+    "testid": null
+   },
+   {
+    "text": "历史",
+    "sel": "false",
+    "testid": null
+   },
+   {
+    "text": "技能",
+    "sel": "false",
+    "testid": null
+   },
+   {
+    "text": "日志",
+    "sel": "false",
+    "testid": null
+   }
+  ],
+  "bodyText": "无限画布 · 39 个电商 AI 工具，一套导航直达\n本地运行 · API Key 只保存在你自己的浏览器\n插件与模型可自定义 · 无需注册账号\n无限画布\n首页\n电商套图\n智能修图\n新模型\nAI视频\nHOT\n批量生图\n商品图设计\nSkills\nAgent\n更多\n学习中心\n免费得算力\n积分\n0\n购买\n用\n本地用户\n个人账号\n商品图设计\n商品图\n商品替换\n场景裂变\n手持商品\nAI穿衣\n姿势裂变\nAI穿戴\nPOD素材\n饰品文字\n素材贴合\n印花提取\nAI姿势生成\n补充\nAI试衣XSY\n补充\n场景裂变链接\n补充\n图片文字编辑\n补充\n上装换料\n补充\n商品图设计器\n补充\n商品营销素材\n补充\n场景迁移\n补充\n免责声明\n图片文字编辑\n上传图片后可框选或新增文字框；画布选中与右侧属性面板始终同步。\n撤销\n重做\n图片文字画布\n上传源图\n新增文字框\n上传 JPG / PNG / WebP 源图后开始框选文字\n在画布空白处拖拽可框选新文字框；选中后方向键微调（Shift 加速）、Delete 删除、⌘/Ctrl+Z 撤销。\n属性编辑\n在画布或列表里选中一个文字框后编辑属性。\n文本框列表\n0/30\n还没有文字框。\n导出\nPNG（透明背景）\nJPEG（更小体积）\nWebP（体积与质量平衡）\n导出的是新结果文件；原图保持不动，可随时改框重出。\n请先上传要编辑文字的图片。\n生成图片文字\n字体列表是本地可渲染的预览字族（上游字体库未取证），fontId 原样透传；溢出与缺字提示按本地字宽模型估算，提交前请自行确认。原图只作为参考图上传，不会被覆盖。\n图片文字结果\n尚未提交\n尚无结果：上传图片、框选文字框并填写文字后点击“生成图片文字”。\n图片文字结果\n还没有生成结果\n填好参数并提交后，结果会出现在这里，可预览、下载、存入资产库或发送到画布。\n历史任务\n0 条\n本工具还没有历史任务；提交一次后会在这里留下任务、配置与结果，刷新后仍在。\n连接本地 Agent\n未连接\n点连接会自动启动本地服务、装好插件并接通，无需手动配置。\nClaude Code\n未连接\n·\nCLI · 2.1.285 (Claude Code)\n·\n直接运行\n连接\nCodex\n未连接\n·\nCLI · codex-cli 0.163.0\n·\n插件已装\n连接\nGalley\n未连接\n·\nCLI + 桌面版 · galley 0.6.4\n连接",
+  "errors": []
+ },
+ "MATERIAL_UPPER_BODY": {
+  "path": "/tools/product-design/material-upper-body",
+  "toolId": "MATERIAL_UPPER_BODY",
+  "workspaceReady": "ready",
+  "testids": [
+   "shell-promo-bar",
+   "shell-promo-slide-shellPromo.slide1",
+   "shell-promo-slide-shellPromo.slide2",
+   "shell-promo-slide-shellPromo.slide3",
+   "shell-promo-close",
+   "shell-top-nav",
+   "tools-nav-mobile-trigger",
+   "tools-nav-primary",
+   "tools-nav-trigger-home",
+   "tools-nav-trigger-ecommerce-suite",
+   "tools-nav-trigger-smart-edit",
+   "tools-nav-badge-smart-edit",
+   "tools-nav-trigger-ai-video",
+   "tools-nav-badge-ai-video",
+   "tools-nav-trigger-batch-generate",
+   "tools-nav-trigger-product-design",
+   "tools-nav-external-skills",
+   "tools-nav-external-agent",
+   "tools-nav-more-trigger",
+   "shell-user-area",
+   "shell-user-learning-center",
+   "shell-user-free-quota",
+   "shell-user-points",
+   "shell-user-points-value",
+   "shell-user-buy",
+   "shell-user-menu-trigger",
+   "shell-user-avatar",
+   "shell-user-name",
+   "shell-user-account-type",
+   "tool-shell-nav-trigger",
+   "tool-sidebar",
+   "tool-workspace",
+   "material-workspace",
+   "material-steps",
+   "material-upload",
+   "tool-asset-dropzone",
+   "tool-asset-file-input",
+   "material-image-name",
+   "material-categories",
+   "material-category-tree",
+   "material-leaves-empty",
+   "material-category-name",
+   "material-sub-type",
+   "material-matting",
+   "material-is-matting",
+   "material-output",
+   "material-output-options",
+   "material-model-select",
+   "material-submit",
+   "material-issues",
+   "material-notices",
+   "material-snapshot",
+   "material-prompt",
+   "material-summary",
+   "material-results-section",
+   "material-result-grid",
+   "tool-result",
+   "tool-result-empty",
+   "tool-history-dock",
+   "tool-history-dock-count",
+   "tool-history-dock-empty"
+  ],
+  "files": [
+   {
+    "i": 0,
+    "accept": "image/png,image/jpeg,image/webp",
+    "multiple": false
+   }
+  ],
+  "buttons": [
+   {
+    "text": "棉质",
+    "testid": null,
+    "disabled": false
+   },
+   {
+    "text": "牛仔",
+    "testid": null,
+    "disabled": false
+   },
+   {
+    "text": "真丝",
+    "testid": null,
+    "disabled": false
+   },
+   {
+    "text": "皮革",
+    "testid": null,
+    "disabled": false
+   },
+   {
+    "text": "针织",
+    "testid": null,
+    "disabled": false
+   },
+   {
+    "text": "亚麻",
+    "testid": null,
+    "disabled": false
+   },
+   {
+    "text": "雪纺",
+    "testid": null,
+    "disabled": false
+   },
+   {
+    "text": "功能性面料",
+    "testid": null,
+    "disabled": false
+   },
+   {
+    "text": "1 张",
+    "testid": null,
+    "disabled": false
+   },
+   {
+    "text": "2 张",
+    "testid": null,
+    "disabled": false
+   },
+   {
+    "text": "3 张",
+    "testid": null,
+    "disabled": false
+   },
+   {
+    "text": "4 张",
+    "testid": null,
+    "disabled": false
+   },
+   {
+    "text": "立即生成（本次将生成 1 张换料结果）",
+    "testid": "material-submit",
+    "disabled": true
+   }
+  ],
+  "textareas": [],
+  "selects": [
+   {
+    "testid": "material-model-select",
+    "value": "default::gpt-image-2",
+    "n": 3
+   }
+  ],
+  "tabs": [
+   {
+    "text": "对话",
+    "sel": "false",
+    "testid": null
+   },
+   {
+    "text": "历史",
+    "sel": "false",
+    "testid": null
+   },
+   {
+    "text": "技能",
+    "sel": "false",
+    "testid": null
+   },
+   {
+    "text": "日志",
+    "sel": "false",
+    "testid": null
+   }
+  ],
+  "bodyText": "无限画布 · 39 个电商 AI 工具，一套导航直达\n本地运行 · API Key 只保存在你自己的浏览器\n插件与模型可自定义 · 无需注册账号\n无限画布\n首页\n电商套图\n智能修图\n新模型\nAI视频\nHOT\n批量生图\n商品图设计\nSkills\nAgent\n更多\n学习中心\n免费得算力\n积分\n0\n购买\n用\n本地用户\n个人账号\n商品图设计\n商品图\n商品替换\n场景裂变\n手持商品\nAI穿衣\n姿势裂变\nAI穿戴\nPOD素材\n饰品文字\n素材贴合\n印花提取\nAI姿势生成\n补充\nAI试衣XSY\n补充\n场景裂变链接\n补充\n图片文字编辑\n补充\n上装换料\n补充\n商品图设计器\n补充\n商品营销素材\n补充\n场景迁移\n补充\n免责声明\n上装换料\n上传一件上装 → 选择材质类目与子类 → 可选抠图蒙版 → 生成换料成片（makeType 16，7 字段真实提交）\n1. 上传上装\n›\n2. 材质类目\n›\n3. 抠图与蒙版\n›\n4. 生成张数\n›\n5. 结果\n1. 上传上装图片\n20M 以内，384×384 ~ 4096×4096，PNG/JPEG/WebP（通用图片上限，chunk 未单列本工具限制）\n上传上装图\n0 / 1 个 · PNG / JPG / WebP · ≤ 20 MB\n点击选择本地文件，或拖拽到这里\n校验格式 / 大小 / 像素，入库后可刷新恢复\n还没有素材\n图片名称（imageName，可编辑）\n2. 材质类目\ncategoryIds / categoryName / subType · 材质大类/子类为本地材质目录（chunk 未取证原站枚举），仅用于本页联动与 prompt；提交的 categoryIds 是本地稳定 id，adapter 会显式校验，无法命中目录时拒绝提交。\n棉质\n牛仔\n真丝\n皮革\n针织\n亚麻\n雪纺\n功能性面料\n先选择材质大类，子类会自动联动出现。\ncategoryName\n未选择\nsubType\n未选择\n3. 抠图与上装蒙版\nisMatting（boolean，默认关闭）；开启后导出与原图同尺寸的椭圆蒙版并作为第 2 张参考图真实提交\n抠图上装（仅保留上装区域参与换料）\n4. 生成张数与模型\noutputNum · 默认 1，范围 1-4\n1 张\n2 张\n3 张\n4 张\n生图模型\n跟随默认模型\ngpt-image-2\ndefault::gpt-image-2\n立即生成（本次将生成 1 张换料结果）\n请先上传上装图片（PNG/JPEG/WebP，20M 以内）\n图片名称不能为空（上传后会自动填入，可编辑）\n请选择材质大类\n材质大类/子类为本地材质目录（chunk 未取证原站枚举），仅用于本页联动与 prompt；提交的 categoryIds 是本地稳定 id，adapter 会显式校验，无法命中目录时拒绝提交。\n本次提交快照\n未选材 · 1 张\n任务：上装换料（只替换上装面料材质，保留原版型）。\n目标材质：未指定。\n必须保留：廓形与版型、领型、袖型与袖长、衣长、肩线与腰线位置、门襟与车缝走向、纽扣/拉链/口袋/印花与 logo 的位置和比例；不得改款、不得新增装饰、不得改变穿着姿态。\n替换要求：仅在面料区域生成符合上述质感的新材质，褶皱、垂坠与光影随新面料自然变化，边缘干净贴合原有轮廓，接缝处不出现错位。\n输入说明：原图为完整商品图，请在保留人物/背景关系的前提下只改上装面料。\n画面要求：电商产品图质感，主体完整入画，不裁切关键细节，不新增水印或文字。\n张数\n本次将生成 1 张换料结果\n抠图\n关闭\n参考图\n1 张\n模型\n已配置\n生成结果\n本次 1 张 · 已返回 0 张\n第 1 张\n待生成\n空\n结果资产\n还没有生成结果\n填好参数并提交后，结果会出现在这里，可预览、下载、存入资产库或发送到画布。\n历史任务\n0 条\n本工具还没有历史任务；提交一次后会在这里留下任务、配置与结果，刷新后仍在。\n连接本地 Agent\n未连接\n点连接会自动启动本地服务、装好插件并接通，无需手动配置。\nClaude Code\n未连接\n·\nCLI · 2.1.285 (Claude Code)\n·\n直接运行\n连接\nCodex\n未连接\n·\nCLI · codex-cli 0.163.0\n·\n插件已装\n连接\nGalley\n未连接\n·\nCLI + 桌面版 · galley 0.6.4\n连接",
+  "errors": []
+ },
+ "NEW_DESIGNER": {
+  "path": "/tools/product-design/new-designer",
+  "toolId": "NEW_DESIGNER",
+  "workspaceReady": "ready",
+  "testids": [
+   "shell-promo-bar",
+   "shell-promo-slide-shellPromo.slide1",
+   "shell-promo-slide-shellPromo.slide2",
+   "shell-promo-slide-shellPromo.slide3",
+   "shell-promo-close",
+   "shell-top-nav",
+   "tools-nav-mobile-trigger",
+   "tools-nav-primary",
+   "tools-nav-trigger-home",
+   "tools-nav-trigger-ecommerce-suite",
+   "tools-nav-trigger-smart-edit",
+   "tools-nav-badge-smart-edit",
+   "tools-nav-trigger-ai-video",
+   "tools-nav-badge-ai-video",
+   "tools-nav-trigger-batch-generate",
+   "tools-nav-trigger-product-design",
+   "tools-nav-external-skills",
+   "tools-nav-external-agent",
+   "tools-nav-more-trigger",
+   "shell-user-area",
+   "shell-user-learning-center",
+   "shell-user-free-quota",
+   "shell-user-points",
+   "shell-user-points-value",
+   "shell-user-buy",
+   "shell-user-menu-trigger",
+   "shell-user-avatar",
+   "shell-user-name",
+   "shell-user-account-type",
+   "tool-shell-nav-trigger",
+   "tool-sidebar",
+   "tool-workspace",
+   "designer-done",
+   "designer-export",
+   "designer-background",
+   "tool-history-dock",
+   "tool-history-dock-count",
+   "tool-history-dock-empty"
+  ],
+  "files": [
+   {
+    "i": 0,
+    "accept": "image/png,image/jpeg,image/webp",
+    "multiple": false
+   }
+  ],
+  "buttons": [
+   {
+    "text": "预览",
+    "testid": null,
+    "disabled": false
+   },
+   {
+    "text": "关闭",
+    "testid": null,
+    "disabled": false
+   },
+   {
+    "text": "完成回传",
+    "testid": "designer-done",
+    "disabled": true
+   },
+   {
+    "text": "添加文字",
+    "testid": null,
+    "disabled": false
+   },
+   {
+    "text": "添加图片",
+    "testid": null,
+    "disabled": false
+   },
+   {
+    "text": "1:1 方形",
+    "testid": null,
+    "disabled": false
+   },
+   {
+    "text": "3:4 竖版",
+    "testid": null,
+    "disabled": false
+   },
+   {
+    "text": "4:3 横版",
+    "testid": null,
+    "disabled": false
+   },
+   {
+    "text": "导出设计稿",
+    "testid": "designer-export",
+    "disabled": true
+   }
+  ],
+  "textareas": [],
+  "selects": [],
+  "tabs": [
+   {
+    "text": "对话",
+    "sel": "false",
+    "testid": null
+   },
+   {
+    "text": "历史",
+    "sel": "false",
+    "testid": null
+   },
+   {
+    "text": "技能",
+    "sel": "false",
+    "testid": null
+   },
+   {
+    "text": "日志",
+    "sel": "false",
+    "testid": null
+   }
+  ],
+  "bodyText": "无限画布 · 39 个电商 AI 工具，一套导航直达\n本地运行 · API Key 只保存在你自己的浏览器\n插件与模型可自定义 · 无需注册账号\n无限画布\n首页\n电商套图\n智能修图\n新模型\nAI视频\nHOT\n批量生图\n商品图设计\nSkills\nAgent\n更多\n学习中心\n免费得算力\n积分\n0\n购买\n用\n本地用户\n个人账号\n商品图设计\n商品图\n商品替换\n场景裂变\n手持商品\nAI穿衣\n姿势裂变\nAI穿戴\nPOD素材\n饰品文字\n素材贴合\n印花提取\nAI姿势生成\n补充\nAI试衣XSY\n补充\n场景裂变链接\n补充\n图片文字编辑\n补充\n上装换料\n补充\n商品图设计器\n补充\n商品营销素材\n补充\n场景迁移\n补充\n免责声明\n商品图设计器\n商品图 · 1200×1200\n设计器宿主\n预览\n关闭\n完成回传\n已恢复草稿：2026-10-29T05:41:04.686Z（0 个图层）\n素材与图层\n0 层\n添加文字\n添加图片\n1:1 方形\n3:4 竖版\n4:3 横版\n画布为空：上传商品图或添加文字图层开始设计\n方向键微调 8px（Shift 32px），[ / ] 旋转 1°，撤销 Ctrl/Cmd+Z 之外请用顶部按钮\n在左侧添加图层、在画布上编辑，然后点“导出设计稿”。\n草稿已保存\n导出设计稿\n属性\n未选中图层：在左侧列表或画布上点选。\n画布背景\n#ffffff · 导出合成与预览使用同一底色（对应 LinkFox 设计器「背景」面板）。\n画布为空：至少保留一个图层再完成。\n工具 NEW_DESIGNER · 草稿键 tool-draft:v1:NEW_DESIGNER\n历史任务\n0 条\n本工具还没有历史任务；提交一次后会在这里留下任务、配置与结果，刷新后仍在。\n连接本地 Agent\n未连接\n点连接会自动启动本地服务、装好插件并接通，无需手动配置。\nClaude Code\n未连接\n·\nCLI · 2.1.285 (Claude Code)\n·\n直接运行\n连接\nCodex\n未连接\n·\nCLI · codex-cli 0.163.0\n·\n插件已装\n连接\nGalley\n未连接\n·\nCLI + 桌面版 · galley 0.6.4\n连接",
+  "errors": []
+ },
+ "PRODUCT_MARKET_MATERIAL": {
+  "path": "/tools/product-design/product-market-material",
+  "toolId": "PRODUCT_MARKET_MATERIAL",
+  "workspaceReady": "ready",
+  "testids": [
+   "shell-promo-bar",
+   "shell-promo-slide-shellPromo.slide1",
+   "shell-promo-slide-shellPromo.slide2",
+   "shell-promo-slide-shellPromo.slide3",
+   "shell-promo-close",
+   "shell-top-nav",
+   "tools-nav-mobile-trigger",
+   "tools-nav-primary",
+   "tools-nav-trigger-home",
+   "tools-nav-trigger-ecommerce-suite",
+   "tools-nav-trigger-smart-edit",
+   "tools-nav-badge-smart-edit",
+   "tools-nav-trigger-ai-video",
+   "tools-nav-badge-ai-video",
+   "tools-nav-trigger-batch-generate",
+   "tools-nav-trigger-product-design",
+   "tools-nav-external-skills",
+   "tools-nav-external-agent",
+   "tools-nav-more-trigger",
+   "shell-user-area",
+   "shell-user-learning-center",
+   "shell-user-free-quota",
+   "shell-user-points",
+   "shell-user-points-value",
+   "shell-user-buy",
+   "shell-user-menu-trigger",
+   "shell-user-avatar",
+   "shell-user-name",
+   "shell-user-account-type",
+   "tool-shell-nav-trigger",
+   "tool-sidebar",
+   "tool-workspace",
+   "tool-asset-dropzone",
+   "tool-asset-file-input",
+   "tool-history-dock",
+   "tool-history-dock-count",
+   "tool-history-dock-empty"
+  ],
+  "files": [
+   {
+    "i": 0,
+    "accept": "image/png,image/jpeg,image/webp",
+    "multiple": true
+   }
+  ],
+  "buttons": [
+   {
+    "text": "亚马逊",
+    "testid": null,
+    "disabled": false
+   },
+   {
+    "text": "Shopify 独立站",
+    "testid": null,
+    "disabled": false
+   },
+   {
+    "text": "沃尔玛",
+    "testid": null,
+    "disabled": false
+   },
+   {
+    "text": "Etsy",
+    "testid": null,
+    "disabled": false
+   },
+   {
+    "text": "Temu",
+    "testid": null,
+    "disabled": false
+   },
+   {
+    "text": "高级A+",
+    "testid": null,
+    "disabled": false
+   },
+   {
+    "text": "普通A+",
+    "testid": null,
+    "disabled": false
+   },
+   {
+    "text": "手机A+",
+    "testid": null,
+    "disabled": false
+   },
+   {
+    "text": "自定比例",
+    "testid": null,
+    "disabled": false
+   },
+   {
+    "text": "头图 970×600",
+    "testid": null,
+    "disabled": false
+   },
+   {
+    "text": "宽屏 1464×600",
+    "testid": null,
+    "disabled": false
+   },
+   {
+    "text": "手机 600×450",
+    "testid": null,
+    "disabled": false
+   },
+   {
+    "text": "自定比例",
+    "testid": null,
+    "disabled": false
+   },
+   {
+    "text": "1:1",
+    "testid": null,
+    "disabled": false
+   },
+   {
+    "text": "4:5",
+    "testid": null,
+    "disabled": false
+   },
+   {
+    "text": "9:16",
+    "testid": null,
+    "disabled": false
+   },
+   {
+    "text": "16:9",
+    "testid": null,
+    "disabled": false
+   },
+   {
+    "text": "3:4",
+    "testid": null,
+    "disabled": false
+   },
+   {
+    "text": "3:2",
+    "testid": null,
+    "disabled": false
+   },
+   {
+    "text": "开始生成",
+    "testid": null,
+    "disabled": true
+   }
+  ],
+  "textareas": [
+   {
+    "aria": null,
+    "ph": "商品卖点、材质、尺寸、使用场景…（必填，避免凭空生成）",
+    "testid": null
+   }
+  ],
+  "selects": [
+   {
+    "testid": null,
+    "value": "",
+    "n": 4
+   },
+   {
+    "testid": null,
+    "value": "us",
+    "n": 4
+   },
+   {
+    "testid": null,
+    "value": "en",
+    "n": 3
+   },
+   {
+    "testid": null,
+    "value": "GPT_2_5_IMAGE",
+    "n": 3
+   },
+   {
+    "testid": null,
+    "value": "2K",
+    "n": 3
+   },
+   {
+    "testid": null,
+    "value": "high",
+    "n": 5
+   }
+  ],
+  "tabs": [
+   {
+    "text": "对话",
+    "sel": "false",
+    "testid": null
+   },
+   {
+    "text": "历史",
+    "sel": "false",
+    "testid": null
+   },
+   {
+    "text": "技能",
+    "sel": "false",
+    "testid": null
+   },
+   {
+    "text": "日志",
+    "sel": "false",
+    "testid": null
+   }
+  ],
+  "bodyText": "无限画布 · 39 个电商 AI 工具，一套导航直达\n本地运行 · API Key 只保存在你自己的浏览器\n插件与模型可自定义 · 无需注册账号\n无限画布\n首页\n电商套图\n智能修图\n新模型\nAI视频\nHOT\n批量生图\n商品图设计\nSkills\nAgent\n更多\n学习中心\n免费得算力\n积分\n0\n购买\n用\n本地用户\n个人账号\n商品图设计\n商品图\n商品替换\n场景裂变\n手持商品\nAI穿衣\n姿势裂变\nAI穿戴\nPOD素材\n饰品文字\n素材贴合\n印花提取\nAI姿势生成\n补充\nAI试衣XSY\n补充\n场景裂变链接\n补充\n图片文字编辑\n补充\n上装换料\n补充\n商品图设计器\n补充\n商品营销素材\n补充\n场景迁移\n补充\n免责声明\n商品多图与信息\n1–6 张 · 首张为主图\n上传商品多图\n0 / 6 个 · PNG / JPG / WebP · ≤ 10 MB\n点击选择本地文件，或拖拽到这里\n校验格式 / 大小 / 像素，入库后可刷新恢复\n还没有素材\n0 / 2500\n品牌与投放\n平台切换会过滤合法 A+ 比例\n项目名称\n品牌名称\n品牌主色\n字体风格\n跟随品牌\n现代无衬线\n经典衬线\n粗体强调\n亚马逊\nShopify 独立站\n沃尔玛\nEtsy\nTemu\n销售地区\n美国\n英国\n德国\n日本\n输出语言\n英语\n德语\n日语\nA+ 与营销画幅\nA+ 模板可多选，按模块分组输出\n高级A+\n普通A+\n手机A+\n自定比例\n头图 970×600\n宽屏 1464×600\n手机 600×450\n自定比例\n每模块张数\n模型\nLF智能模型 G-2.5 Sunburst\nLF全能模型 2.1\nLF智能模型 G-2.5 Flare\n分辨率\n1K\n2K\n4K\n品质\n低品质\n中品质\n高品质\n超高品质\n最大品质\n1:1\n4:5\n9:16\n16:9\n3:4\n3:2\n自定义画幅\n预计生成 4 屏 · 高级A+×4\n开始生成\n至少上传 1 张商品图。\n历史任务\n0 条\n本工具还没有历史任务；提交一次后会在这里留下任务、配置与结果，刷新后仍在。\n连接本地 Agent\n未连接\n点连接会自动启动本地服务、装好插件并接通，无需手动配置。\nClaude Code\n未连接\n·\nCLI · 2.1.285 (Claude Code)\n·\n直接运行\n连接\nCodex\n未连接\n·\nCLI · codex-cli 0.163.0\n·\n插件已装\n连接\nGalley\n未连接\n·\nCLI + 桌面版 · galley 0.6.4\n连接",
+  "errors": []
+ },
+ "SCENE_TRANSFER": {
+  "path": "/tools/product-design/scene-transfer",
+  "toolId": "SCENE_TRANSFER",
+  "workspaceReady": "ready",
+  "testids": [
+   "shell-promo-bar",
+   "shell-promo-slide-shellPromo.slide1",
+   "shell-promo-slide-shellPromo.slide2",
+   "shell-promo-slide-shellPromo.slide3",
+   "shell-promo-close",
+   "shell-top-nav",
+   "tools-nav-mobile-trigger",
+   "tools-nav-primary",
+   "tools-nav-trigger-home",
+   "tools-nav-trigger-ecommerce-suite",
+   "tools-nav-trigger-smart-edit",
+   "tools-nav-badge-smart-edit",
+   "tools-nav-trigger-ai-video",
+   "tools-nav-badge-ai-video",
+   "tools-nav-trigger-batch-generate",
+   "tools-nav-trigger-product-design",
+   "tools-nav-external-skills",
+   "tools-nav-external-agent",
+   "tools-nav-more-trigger",
+   "shell-user-area",
+   "shell-user-learning-center",
+   "shell-user-free-quota",
+   "shell-user-points",
+   "shell-user-points-value",
+   "shell-user-buy",
+   "shell-user-menu-trigger",
+   "shell-user-avatar",
+   "shell-user-name",
+   "shell-user-account-type",
+   "tool-shell-nav-trigger",
+   "tool-sidebar",
+   "tool-workspace",
+   "scene-transfer-workspace",
+   "scene-transfer-config",
+   "scene-transfer-title",
+   "scene-transfer-product",
+   "tool-asset-dropzone",
+   "tool-asset-file-input",
+   "scene-transfer-product-state",
+   "scene-transfer-style",
+   "scene-transfer-style-state",
+   "scene-transfer-seg",
+   "scene-transfer-seg-notice",
+   "scene-transfer-similarity",
+   "scene-transfer-similarity-value",
+   "scene-transfer-similarity-slider",
+   "scene-transfer-preset-30",
+   "scene-transfer-preset-55",
+   "scene-transfer-preset-80",
+   "scene-transfer-similarity-label",
+   "scene-transfer-plan",
+   "scene-transfer-issue",
+   "scene-transfer-submit",
+   "result-tab-result",
+   "result-tab-case",
+   "result-tab-history",
+   "tool-result",
+   "tool-result-empty",
+   "scene-transfer-snapshot-empty",
+   "tool-history-dock",
+   "tool-history-dock-count",
+   "tool-history-dock-empty"
+  ],
+  "files": [
+   {
+    "i": 0,
+    "accept": "image/png,image/jpeg,image/webp",
+    "multiple": false
+   },
+   {
+    "i": 1,
+    "accept": "image/png,image/jpeg,image/webp",
+    "multiple": false
+   },
+   {
+    "i": 2,
+    "accept": "image/png,image/jpeg,image/webp",
+    "multiple": false
+   }
+  ],
+  "buttons": [
+   {
+    "text": "轻度 30%",
+    "testid": "scene-transfer-preset-30",
+    "disabled": false
+   },
+   {
+    "text": "平衡 55%",
+    "testid": "scene-transfer-preset-55",
+    "disabled": false
+   },
+   {
+    "text": "强风格 80%",
+    "testid": "scene-transfer-preset-80",
+    "disabled": false
+   },
+   {
+    "text": "开始迁移",
+    "testid": "scene-transfer-submit",
+    "disabled": true
+   },
+   {
+    "text": "生成结果",
+    "testid": "result-tab-result",
+    "disabled": false
+   },
+   {
+    "text": "优秀案例",
+    "testid": "result-tab-case",
+    "disabled": false
+   },
+   {
+    "text": "历史记录",
+    "testid": "result-tab-history",
+    "disabled": false
+   }
+  ],
+  "textareas": [],
+  "selects": [],
+  "tabs": [
+   {
+    "text": "生成结果",
+    "sel": "true",
+    "testid": "result-tab-result"
+   },
+   {
+    "text": "优秀案例",
+    "sel": "false",
+    "testid": "result-tab-case"
+   },
+   {
+    "text": "历史记录",
+    "sel": "false",
+    "testid": "result-tab-history"
+   },
+   {
+    "text": "对话",
+    "sel": "false",
+    "testid": null
+   },
+   {
+    "text": "历史",
+    "sel": "false",
+    "testid": null
+   },
+   {
+    "text": "技能",
+    "sel": "false",
+    "testid": null
+   },
+   {
+    "text": "日志",
+    "sel": "false",
+    "testid": null
+   }
+  ],
+  "bodyText": "无限画布 · 39 个电商 AI 工具，一套导航直达\n本地运行 · API Key 只保存在你自己的浏览器\n插件与模型可自定义 · 无需注册账号\n无限画布\n首页\n电商套图\n智能修图\n新模型\nAI视频\nHOT\n批量生图\n商品图设计\nSkills\nAgent\n更多\n学习中心\n免费得算力\n积分\n0\n购买\n用\n本地用户\n个人账号\n商品图设计\n商品图\n商品替换\n场景裂变\n手持商品\nAI穿衣\n姿势裂变\nAI穿戴\nPOD素材\n饰品文字\n素材贴合\n印花提取\nAI姿势生成\n补充\nAI试衣XSY\n补充\n场景裂变链接\n补充\n图片文字编辑\n补充\n上装换料\n补充\n商品图设计器\n补充\n商品营销素材\n补充\n场景迁移\n补充\n免责声明\n场景迁移\n商品图 + 场景风格参考图，按相似度把商品迁移进参考场景；提交即一次真实图像请求。\n商品图 imageUrl\n上传商品图\n0 / 1 个 · PNG / JPG / WebP · ≤ 10 MB\n点击选择本地文件，或拖拽到这里\n校验格式 / 大小 / 像素，入库后可刷新恢复\n还没有素材\n未选择\n场景风格参考图 imageStyleUrl\n上传场景风格参考图\n0 / 1 个 · PNG / JPG / WebP · ≤ 10 MB\n点击选择本地文件，或拖拽到这里\n校验格式 / 大小 / 像素，入库后可刷新恢复\n还没有素材\n未选择\n商品分割图 segImageUrl（可选）\n上传商品分割图\n0 / 1 个 · PNG / JPG / WebP · ≤ 10 MB\n点击选择本地文件，或拖拽到这里\n校验格式 / 大小 / 像素，入库后可刷新恢复\n还没有素材\n未提供商品分割图：本地没有分割服务，不会用商品原图冒充 segImageUrl\n相似度 similarity\n70%\n轻度 30%\n平衡 55%\n强风格 80%\n70% · 强保留参考场景的光影与背景风格\n产物 1 张 · 相似度 70% · 整图迁移（未提供分割图）\n请上传或选择商品图（字段 imageUrl）\n请上传或选择场景风格参考图（字段 imageStyleUrl）\n开始迁移\n生成结果\n优秀案例\n历史记录\n场景迁移结果\n还没有生成结果\n填好参数并提交后，结果会出现在这里，可预览、下载、存入资产库或发送到画布。\n本次提交快照\n还没有提交过任务；提交后这里会显示锁定的商品图 / 风格图 / 分割图 / 相似度。\n历史任务\n0 条\n本工具还没有历史任务；提交一次后会在这里留下任务、配置与结果，刷新后仍在。\n连接本地 Agent\n未连接\n点连接会自动启动本地服务、装好插件并接通，无需手动配置。\nClaude Code\n未连接\n·\nCLI · 2.1.285 (Claude Code)\n·\n直接运行\n连接\nCodex\n未连接\n·\nCLI · codex-cli 0.163.0\n·\n插件已装\n连接\nGalley\n未连接\n·\nCLI + 桌面版 · galley 0.6.4\n连接",
+  "errors": []
+ }
+}

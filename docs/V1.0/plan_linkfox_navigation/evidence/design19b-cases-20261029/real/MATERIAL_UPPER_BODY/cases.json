@@ -1,0 +1,528 @@
+{
+ "bodyText": "首页\n电商套图\n智能修图\n新模型\nAI视频\nHOT\n批量生图\n商品图设计\nSkills\nAgent\n更多\n学习中心\n免费得算力\n250\n购 买\n用\n用户6991\n个人账号\n商品套图\n服装套图\n爆款图复刻\nNEW\n套图换色\nNEW\n批量翻译\n高清放大\n批量抠图\n智能扩图\n 免责声明\n多角度服装图&搭配图 \n从本地上传\n从作品库选择\n从商品库选择\n最多上传5张图，10M以内，384*384~4096*4096\n或试试这些\n商品信息 \nAI分析\n向导\n0 / 2500\n品牌与合规（可选）\n智能品牌基因\n智能主色、智能字体风格\n智能合规检查\n未选择敏感词库\n·\n未选择替换词库\n模型选择\nLF智能模型 G-2.5 Sunburst\nNEW\n分辨率选择\n1K\n2K\n4K\n模型品质\n低品质\n中品质\n高品质\n超高品质\n最大品质\n主副图设置 \n生成类型（多选）\n模特图\n4\n种草图\n4\n卖点图\n4\n选择排版\n每种排版生成一张\n无文字模式\n💡未选择排版时，将根据官方排版随机生成\n尺码图\n4\n白底图\n4\n生成比例\n1:1\n3:4\n4:3\n2:3\n3:2\n更多\nA+图设置 \n生成类型（单选）\n高级A+\n4\n手机A+\n4\n普通A+\n4\n自定比例\n4\n选择排版\n每种排版生成一张\n无文字模式\n💡未选择排版时，将根据官方排版随机生成\n主副图8张 * 每张50点 + A+图4张 * 每张50点 = 600点\n开始生成\n(600算力)\n生成结果\n优秀案例\n历史记录\n预览\n原图\n做同款\n预览\n原图\n做同款\n预览\n原图\n做同款\n预览\n原图\n做同款\n预览\n原图\n做同款\n预览\n原图\n做同款\n预览\n原图\n做同款\n预览\n原图\n做同款\n预览\n原图\n做同款\n预览\n原图\n做同款\n预览\n原图\n做同款\n预览\n原图\n做同款\n预览\n原图\n做同款\n预览\n原图\n做同款\n预览\n原图\n做同款\n预览\n原图\n做同款\n预览\n原图\n做同款\n预览\n原图\n做同款\n预览\n原图\n做同款\n预览\n原图\n做同款\n第一步：上传服装配饰及细节图\n我是高手，不再提醒\n操作咨询\n产品教程\n管理水印分组\n共 1/20 个\n默认\n＋ 新增水印分组",
+ "caseInfo": {
+  "contentCls": "_content_176zc_1",
+  "count": 20,
+  "padding": "16px 32px",
+  "pane": {
+   "h": 609,
+   "w": 1408,
+   "x": 490,
+   "y": 162
+  },
+  "recs": [
+   {
+    "alt": "优秀案例-2026966441820966912",
+    "btns": [
+     "做同款"
+    ],
+    "maskText": "预览",
+    "paramLabels": [
+     "原图"
+    ],
+    "params": [
+     {
+      "h": 64,
+      "src": "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/WEAR_COLLECTION/2026966441820966912/image.jpg?x-oss-process=image/resize,m_mfit,w_64,h_64/format,webp",
+      "w": 64
+     }
+    ],
+    "r": {
+     "h": 200,
+     "w": 321,
+     "x": 522,
+     "y": 178
+    },
+    "result": "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/WEAR_COLLECTION/2026966441820966912/main_result_9abb233c878448638dc317270f47cd34.jpg?x-oss-process=image/resize,m_mfit,w_512,h_512/format,webp"
+   },
+   {
+    "alt": "优秀案例-2010584971116363776",
+    "btns": [
+     "做同款"
+    ],
+    "maskText": "预览",
+    "paramLabels": [
+     "原图"
+    ],
+    "params": [
+     {
+      "h": 85,
+      "src": "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/WEAR_COLLECTION/2010584971116363776/image.jpeg?x-oss-process=image/resize,m_mfit,w_64,h_64/format,webp",
+      "w": 64
+     }
+    ],
+    "r": {
+     "h": 215,
+     "w": 321,
+     "x": 861,
+     "y": 178
+    },
+    "result": "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/WEAR_COLLECTION/2010584971116363776/main_result_a25a6569c94742198d250a16f7738935.png?x-oss-process=image/resize,m_mfit,w_512,h_512/format,webp"
+   },
+   {
+    "alt": "优秀案例-2010559668042153984",
+    "btns": [
+     "做同款"
+    ],
+    "maskText": "预览",
+    "paramLabels": [
+     "原图"
+    ],
+    "params": [
+     {
+      "h": 117,
+      "src": "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/WEAR_COLLECTION/2010559668042153984/image.jpg?x-oss-process=image/resize,m_mfit,w_64,h_64/format,webp",
+      "w": 64
+     }
+    ],
+    "r": {
+     "h": 215,
+     "w": 321,
+     "x": 1200,
+     "y": 178
+    },
+    "result": "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/WEAR_COLLECTION/2010559668042153984/main_result_b5be373298784fe4883f86a40e2a9d94.png?x-oss-process=image/resize,m_mfit,w_512,h_512/format,webp"
+   },
+   {
+    "alt": "优秀案例-2052630503189741568",
+    "btns": [
+     "做同款"
+    ],
+    "maskText": "预览",
+    "paramLabels": [
+     "原图"
+    ],
+    "params": [
+     {
+      "h": 99,
+      "src": "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/WEAR_COLLECTION/2052630503189741568/image.jpg?x-oss-process=image/resize,m_mfit,w_64,h_64/format,webp",
+      "w": 64
+     }
+    ],
+    "r": {
+     "h": 430,
+     "w": 321,
+     "x": 1539,
+     "y": 178
+    },
+    "result": "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/WEAR_COLLECTION/2052630503189741568/main_result_b7cadc3001b54042baacf1079677d049.jpg?x-oss-process=image/resize,m_mfit,w_512,h_512/format,webp"
+   },
+   {
+    "alt": "优秀案例-2042559549172404224",
+    "btns": [
+     "做同款"
+    ],
+    "maskText": "预览",
+    "paramLabels": [
+     "原图"
+    ],
+    "params": [
+     {
+      "h": 69,
+      "src": "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/WEAR_COLLECTION/2042559549172404224/image.png?x-oss-process=image/resize,m_mfit,w_64,h_64/format,webp",
+      "w": 64
+     }
+    ],
+    "r": {
+     "h": 430,
+     "w": 321,
+     "x": 522,
+     "y": 388
+    },
+    "result": "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/WEAR_COLLECTION/2042559549172404224/main_result_24737b5c1d874b1aaa644451244e1181.png?x-oss-process=image/resize,m_mfit,w_512,h_512/format,webp"
+   },
+   {
+    "alt": "优秀案例-2042550493179334656",
+    "btns": [
+     "做同款"
+    ],
+    "maskText": "预览",
+    "paramLabels": [
+     "原图"
+    ],
+    "params": [
+     {
+      "h": 75,
+      "src": "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/WEAR_COLLECTION/2042550493179334656/image.png?x-oss-process=image/resize,m_mfit,w_64,h_64/format,webp",
+      "w": 64
+     }
+    ],
+    "r": {
+     "h": 430,
+     "w": 321,
+     "x": 861,
+     "y": 403
+    },
+    "result": "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/WEAR_COLLECTION/2042550493179334656/main_result_5ac3505c55184b66984da5e6f10f93dd.jpg?x-oss-process=image/resize,m_mfit,w_512,h_512/format,webp"
+   },
+   {
+    "alt": "优秀案例-2042550605402132480",
+    "btns": [
+     "做同款"
+    ],
+    "maskText": "预览",
+    "paramLabels": [
+     "原图"
+    ],
+    "params": [
+     {
+      "h": 72,
+      "src": "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/WEAR_COLLECTION/2042550605402132480/image.png?x-oss-process=image/resize,m_mfit,w_64,h_64/format,webp",
+      "w": 64
+     }
+    ],
+    "r": {
+     "h": 430,
+     "w": 321,
+     "x": 1200,
+     "y": 403
+    },
+    "result": "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/WEAR_COLLECTION/2042550605402132480/main_result_8cb80accb1404a5086cd38439a8031c5.jpg?x-oss-process=image/resize,m_mfit,w_512,h_512/format,webp"
+   },
+   {
+    "alt": "优秀案例-2037102697139732480",
+    "btns": [
+     "做同款"
+    ],
+    "maskText": "预览",
+    "paramLabels": [
+     "原图"
+    ],
+    "params": [
+     {
+      "h": 76,
+      "src": "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/WEAR_COLLECTION/2037102697139732480/image.png?x-oss-process=image/resize,m_mfit,w_64,h_64/format,webp",
+      "w": 64
+     }
+    ],
+    "r": {
+     "h": 430,
+     "w": 321,
+     "x": 1539,
+     "y": 618
+    },
+    "result": "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/WEAR_COLLECTION/2037102697139732480/main_result_d6bcb85927504772a77dd7ebd06a1eca.jpg?x-oss-process=image/resize,m_mfit,w_512,h_512/format,webp"
+   },
+   {
+    "alt": "优秀案例-2037106539239636992",
+    "btns": [
+     "做同款"
+    ],
+    "maskText": "预览",
+    "paramLabels": [
+     "原图"
+    ],
+    "params": [
+     {
+      "h": 77,
+      "src": "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/WEAR_COLLECTION/2037106539239636992/image.png?x-oss-process=image/resize,m_mfit,w_64,h_64/format,webp",
+      "w": 64
+     }
+    ],
+    "r": {
+     "h": 430,
+     "w": 321,
+     "x": 522,
+     "y": 828
+    },
+    "result": "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/WEAR_COLLECTION/2037106539239636992/main_result_60c496352cc841639fa162ba7e46f1f8.jpg?x-oss-process=image/resize,m_mfit,w_512,h_512/format,webp"
+   },
+   {
+    "alt": "优秀案例-2037106761474834432",
+    "btns": [
+     "做同款"
+    ],
+    "maskText": "预览",
+    "paramLabels": [
+     "原图"
+    ],
+    "params": [
+     {
+      "h": 67,
+      "src": "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/WEAR_COLLECTION/2037106761474834432/image.png?x-oss-process=image/resize,m_mfit,w_64,h_64/format,webp",
+      "w": 64
+     }
+    ],
+    "r": {
+     "h": 132,
+     "w": 321,
+     "x": 861,
+     "y": 843
+    },
+    "result": "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/WEAR_COLLECTION/2037106761474834432/main_result_a57ce9c18bb04531b64c61c4a0f20eac.jpg?x-oss-process=image/resize,m_mfit,w_512,h_512/format,webp"
+   },
+   {
+    "alt": "优秀案例-2037108682935828480",
+    "btns": [
+     "做同款"
+    ],
+    "maskText": "预览",
+    "paramLabels": [
+     "原图"
+    ],
+    "params": [
+     {
+      "h": 74,
+      "src": "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/WEAR_COLLECTION/2037108682935828480/image.png?x-oss-process=image/resize,m_mfit,w_64,h_64/format,webp",
+      "w": 64
+     }
+    ],
+    "r": {
+     "h": 430,
+     "w": 321,
+     "x": 1200,
+     "y": 843
+    },
+    "result": "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/WEAR_COLLECTION/2037108682935828480/main_result_7dd66929c0f1466f952790365460f1d4.jpg?x-oss-process=image/resize,m_mfit,w_512,h_512/format,webp"
+   },
+   {
+    "alt": "优秀案例-2034938374070009856",
+    "btns": [
+     "做同款"
+    ],
+    "maskText": "预览",
+    "paramLabels": [
+     "原图"
+    ],
+    "params": [
+     {
+      "h": 64,
+      "src": "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/WEAR_COLLECTION/2034938374070009856/image.png?x-oss-process=image/resize,m_mfit,w_64,h_64/format,webp",
+      "w": 65
+     }
+    ],
+    "r": {
+     "h": 132,
+     "w": 321,
+     "x": 861,
+     "y": 985
+    },
+    "result": "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/WEAR_COLLECTION/2034938374070009856/main_result_bc65589f3d1e48ff9f7754e8cdf1618b.jpg?x-oss-process=image/resize,m_mfit,w_512,h_512/format,webp"
+   },
+   {
+    "alt": "优秀案例-2034939802050166784",
+    "btns": [
+     "做同款"
+    ],
+    "maskText": "预览",
+    "paramLabels": [
+     "原图"
+    ],
+    "params": [
+     {
+      "h": 66,
+      "src": "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/WEAR_COLLECTION/2034939802050166784/image.png?x-oss-process=image/resize,m_mfit,w_64,h_64/format,webp",
+      "w": 64
+     }
+    ],
+    "r": {
+     "h": 430,
+     "w": 321,
+     "x": 1539,
+     "y": 1058
+    },
+    "result": "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/WEAR_COLLECTION/2034939802050166784/main_result_c205162027f145e696deabc93e6d222c.jpg?x-oss-process=image/resize,m_mfit,w_512,h_512/format,webp"
+   },
+   {
+    "alt": "优秀案例-2019725199905161216",
+    "btns": [
+     "做同款"
+    ],
+    "maskText": "预览",
+    "paramLabels": [
+     "原图"
+    ],
+    "params": [
+     {
+      "h": 64,
+      "src": "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/WEAR_COLLECTION/2019725199905161216/image.jpg?x-oss-process=image/resize,m_mfit,w_64,h_64/format,webp",
+      "w": 64
+     }
+    ],
+    "r": {
+     "h": 132,
+     "w": 321,
+     "x": 861,
+     "y": 1127
+    },
+    "result": "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/WEAR_COLLECTION/2019725199905161216/main_result_0ed6b5cdcfde4c35b690bfbf314df63c.jpg?x-oss-process=image/resize,m_mfit,w_512,h_512/format,webp"
+   },
+   {
+    "alt": "优秀案例-2013185524178739200",
+    "btns": [
+     "做同款"
+    ],
+    "maskText": "预览",
+    "paramLabels": [
+     "原图"
+    ],
+    "params": [
+     {
+      "h": 86,
+      "src": "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/WEAR_COLLECTION/2013185524178739200/image.jpg?x-oss-process=image/resize,m_mfit,w_64,h_64/format,webp",
+      "w": 64
+     }
+    ],
+    "r": {
+     "h": 430,
+     "w": 321,
+     "x": 522,
+     "y": 1268
+    },
+    "result": "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/WEAR_COLLECTION/2013185524178739200/main_result_085a2ec378a24bc7b35b634b1bd2062e.jpg?x-oss-process=image/resize,m_mfit,w_512,h_512/format,webp"
+   },
+   {
+    "alt": "优秀案例-2032294037771280384",
+    "btns": [
+     "做同款"
+    ],
+    "maskText": "预览",
+    "paramLabels": [
+     "原图"
+    ],
+    "params": [
+     {
+      "h": 64,
+      "src": "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/WEAR_COLLECTION/2032294037771280384/image.webp?x-oss-process=image/resize,m_mfit,w_64,h_64/format,webp",
+      "w": 64
+     }
+    ],
+    "r": {
+     "h": 430,
+     "w": 321,
+     "x": 861,
+     "y": 1268
+    },
+    "result": "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/WEAR_COLLECTION/2032294037771280384/main_result_395ff59d22594607a612da35c67d2db7.png?x-oss-process=image/resize,m_mfit,w_512,h_512/format,webp"
+   },
+   {
+    "alt": "优秀案例-2032300382369112064",
+    "btns": [
+     "做同款"
+    ],
+    "maskText": "预览",
+    "paramLabels": [
+     "原图"
+    ],
+    "params": [
+     {
+      "h": 72,
+      "src": "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/WEAR_COLLECTION/2032300382369112064/image.png?x-oss-process=image/resize,m_mfit,w_64,h_64/format,webp",
+      "w": 64
+     }
+    ],
+    "r": {
+     "h": 132,
+     "w": 321,
+     "x": 1200,
+     "y": 1284
+    },
+    "result": "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/WEAR_COLLECTION/2032300382369112064/main_result_0b5c5f0e147f43399314193425044a9b.jpg?x-oss-process=image/resize,m_mfit,w_512,h_512/format,webp"
+   },
+   {
+    "alt": "优秀案例-2032302502182936576",
+    "btns": [
+     "做同款"
+    ],
+    "maskText": "预览",
+    "paramLabels": [
+     "原图"
+    ],
+    "params": [
+     {
+      "h": 72,
+      "src": "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/WEAR_COLLECTION/2032302502182936576/image.png?x-oss-process=image/resize,m_mfit,w_64,h_64/format,webp",
+      "w": 64
+     }
+    ],
+    "r": {
+     "h": 200,
+     "w": 321,
+     "x": 1200,
+     "y": 1425
+    },
+    "result": "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/WEAR_COLLECTION/2032302502182936576/main_result_276381d724ea4c2ebf401b982fceb862.jpg?x-oss-process=image/resize,m_mfit,w_512,h_512/format,webp"
+   },
+   {
+    "alt": "优秀案例-2028402457421303808",
+    "btns": [
+     "做同款"
+    ],
+    "maskText": "预览",
+    "paramLabels": [
+     "原图"
+    ],
+    "params": [
+     {
+      "h": 64,
+      "src": "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/WEAR_COLLECTION/2028402457421303808/image.jpg?x-oss-process=image/resize,m_mfit,w_64,h_64/format,webp",
+      "w": 81
+     }
+    ],
+    "r": {
+     "h": 132,
+     "w": 321,
+     "x": 1539,
+     "y": 1498
+    },
+    "result": "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/WEAR_COLLECTION/2028402457421303808/main_result_97b87c6f38e440e495186a767c102449.jpg?x-oss-process=image/resize,m_mfit,w_512,h_512/format,webp"
+   },
+   {
+    "alt": "优秀案例-2028406529385844736",
+    "btns": [
+     "做同款"
+    ],
+    "maskText": "预览",
+    "paramLabels": [
+     "原图"
+    ],
+    "params": [
+     {
+      "h": 64,
+      "src": "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/WEAR_COLLECTION/2028406529385844736/image.png?x-oss-process=image/resize,m_mfit,w_64,h_64/format,webp",
+      "w": 68
+     }
+    ],
+    "r": {
+     "h": 430,
+     "w": 321,
+     "x": 1200,
+     "y": 1635
+    },
+    "result": "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/WEAR_COLLECTION/2028406529385844736/main_result_d016a09de9984b3aa2abdbe39962f35b.jpg?x-oss-process=image/resize,m_mfit,w_512,h_512/format,webp"
+   }
+  ],
+  "txt": "预览||原图|做同款||预览||原图|做同款||预览||原图|做同款||预览||原图|做同款||预览||原图|做同款||预览||原图|做同款||预览||原图|做同款||预览||原图|做同款||预览||原图|做同款||预览||原图|做同款||预览||原图|做同款||预览||原图|做同款||预览||原图|做同款||预览||原图|做同款||预览||原图|做同款||预览||原图|做同款||预览||原图|做同款||预览||原图|做同款||预览||原图|做同款||预览||原图|做同款"
+ },
+ "labels": [
+  {
+   "active": true,
+   "r": {
+    "h": 22,
+    "w": 56,
+    "x": 503,
+    "y": 130
+   },
+   "t": "生成结果"
+  },
+  {
+   "active": false,
+   "r": {
+    "h": 22,
+    "w": 56,
+    "x": 573,
+    "y": 130
+   },
+   "t": "优秀案例"
+  }
+ ],
+ "ready": "complete",
+ "title": "服装套图 - LinkFox",
+ "url": "https://www.linkfox.com/draw/clothing-image-suite",
+ "viewport": {
+  "h": 781,
+  "w": 1908
+ },
+ "id": "MATERIAL_UPPER_BODY",
+ "probeUrl": "https://www.linkfox.com/draw/clothing-image-suite"
+}

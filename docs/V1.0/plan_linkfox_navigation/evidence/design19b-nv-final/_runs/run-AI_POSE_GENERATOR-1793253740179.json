@@ -1,0 +1,30 @@
+[
+ {
+  "toolId": "AI_POSE_GENERATOR",
+  "route": "/tools/product-design/ai-pose-generator",
+  "steps": {
+   "provider": {
+    "imageModel": "ccai-accept::gpt-image-2",
+    "channels": [
+     "ccai-accept",
+     "sf-accept"
+    ],
+    "baseUrl": "https://api.cc-ai.xyz",
+    "keyLen": 67,
+    "proxyEnabled": true,
+    "channelCount": 2,
+    "model": "gpt-image-2"
+   },
+   "title": "AI姿势生成\n\n写姿势提示词 → 逐条加场景 → 预览实际 prompt → 按场景生成姿势参考图\n\n姿势提示词\n\n40",
+   "gate": {
+    "disabled": true,
+    "hint": "1 个场景 × 1 张 = 1 张"
+   },
+   "result": {
+    "timeout": true,
+    "elapsedMs": 240477
+   }
+  },
+  "errors": []
+ }
+]

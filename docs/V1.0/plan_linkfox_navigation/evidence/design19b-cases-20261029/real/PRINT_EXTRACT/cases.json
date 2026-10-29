@@ -1,0 +1,25 @@
+{
+ "bodyText": "首页\n电商套图\n智能修图\n新模型\nAI视频\nHOT\n批量生图\n商品图设计\nSkills\nAgent\n更多\n学习中心\n免费得算力\n250\n购 买\n用\n用户6991\n个人账号\n素材和灵感\n场景素材\n相似图裂变\nAI自由绘图\nPOD素材\n素材贴合\n印花提取\n企业功能\n批量生图\n 免责声明\n上传需要提取印花的商品图片\n从本地上传\n从作品库选择\n20M以内，分辨率：384 * 384 ~ 4096 * 4096，宽高比小于5\n或试试这些\n上传多张图片，开始批量提取\n生成透明图 \n开启\n关闭\n立即生成\n(10算力)\n生成结果\n历史记录\n印花提取\n快速提取商品中的印花图案\n操作咨询\n产品教程\n管理水印分组\n共 1/20 个\n默认\n＋ 新增水印分组",
+ "caseInfo": null,
+ "labels": [
+  {
+   "active": true,
+   "r": {
+    "h": 22,
+    "w": 56,
+    "x": 504,
+    "y": 131
+   },
+   "t": "生成结果"
+  }
+ ],
+ "ready": "complete",
+ "title": "印花提取 - LinkFox",
+ "url": "https://www.linkfox.com/draw/print-extract",
+ "viewport": {
+  "h": 781,
+  "w": 1908
+ },
+ "id": "PRINT_EXTRACT",
+ "probeUrl": "https://www.linkfox.com/draw/print-extract"
+}

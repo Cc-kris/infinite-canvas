@@ -1,0 +1,120 @@
+{
+ "tab": 1709628649,
+ "created": false,
+ "snap": {
+  "anchors": [
+   {
+    "href": "/draw/product-image-suite",
+    "text": "电商套图"
+   },
+   {
+    "href": "/draw/smart-repair",
+    "text": "智能修图 新模型"
+   },
+   {
+    "href": "/draw/inspiration-video",
+    "text": "AI视频 HOT"
+   },
+   {
+    "href": "/draw/batch-generate-images",
+    "text": "批量生图"
+   },
+   {
+    "href": "/draw/designer-home",
+    "text": "商品图设计"
+   },
+   {
+    "href": "/draw/history",
+    "text": "历史记录"
+   }
+  ],
+  "h1": [
+   "创建设计",
+   "我的设计",
+   "我的模板",
+   "团队空间",
+   "AI会话",
+   "品牌与合规",
+   "通用素材库",
+   "历史记录",
+   "大文件下载中心",
+   "LinkFox Claw"
+  ],
+  "login": true,
+  "path": "/draw/designer-home",
+  "title": "创建设计 - LinkFox",
+  "url": "https://www.linkfox.com/draw/designer-home",
+  "wall": false
+ },
+ "snapAfterHover": {
+  "anchors": [
+   {
+    "href": "/draw/product-image-suite",
+    "text": "电商套图"
+   },
+   {
+    "href": "/draw/smart-repair",
+    "text": "智能修图 新模型"
+   },
+   {
+    "href": "/draw/inspiration-video",
+    "text": "AI视频 HOT"
+   },
+   {
+    "href": "/draw/batch-generate-images",
+    "text": "批量生图"
+   },
+   {
+    "href": "/draw/designer-home",
+    "text": "商品图设计"
+   },
+   {
+    "href": "/draw/history",
+    "text": "历史记录"
+   }
+  ],
+  "h1": [
+   "创建设计",
+   "我的设计",
+   "我的模板",
+   "团队空间",
+   "AI会话",
+   "品牌与合规",
+   "通用素材库",
+   "历史记录",
+   "大文件下载中心",
+   "LinkFox Claw"
+  ],
+  "login": true,
+  "path": "/draw/designer-home",
+  "title": "创建设计 - LinkFox",
+  "url": "https://www.linkfox.com/draw/designer-home",
+  "wall": false
+ },
+ "routes": [
+  {
+   "href": "/draw/batch-generate-images",
+   "text": "批量生图"
+  },
+  {
+   "href": "/draw/designer-home",
+   "text": "商品图设计"
+  },
+  {
+   "href": "/draw/history",
+   "text": "历史记录"
+  },
+  {
+   "href": "/draw/inspiration-video",
+   "text": "AI视频 HOT"
+  },
+  {
+   "href": "/draw/product-image-suite",
+   "text": "电商套图"
+  },
+  {
+   "href": "/draw/smart-repair",
+   "text": "智能修图 新模型"
+  }
+ ]
+}

@@ -1,0 +1,282 @@
+{
+ "bodyText": "首页\n电商套图\n智能修图\n新模型\nAI视频\nHOT\n批量生图\n商品图设计\nSkills\nAgent\n更多\n学习中心\n免费得算力\n250\n购 买\n用\n用户6991\n个人账号\n商品图\n我的商品\n场景参考图\n商品替换\n场景裂变\n手持商品\n历史记录\n企业功能\n批量生图\n 免责声明\n上传参考图\n从本地上传\n从作品库选择\n从商品库选择\n10M以内，分辨率：384*384 ~ 4096*4096，最大宽高比5\n上传多图，体验新功能商品套图\n背景相似度：\n💡已选择智能模式，将根据模型自动生成场景\n场景描述（可选）\n💡场景描述怎么写？\n0 / 100\n生图模型\n写实\n简约\n智能\n设置生成尺寸\n默认尺寸\n自定义\n选择生成张数\n1\n2\n3\n4\n立即生成\n(40算力)\n生成结果\n优秀案例\n历史记录\n上传商品场景参考图，3秒裂变出多张相似的场景图，快来裂变您的场景图吧~\n上传商品场景参考图\n生成结果\n一键做同款\n上传商品场景参考图\n生成结果\n一键做同款\n上传商品场景参考图\n生成结果\n一键做同款\n上传商品场景参考图\n生成结果\n一键做同款\n上传商品场景参考图\n生成结果\n一键做同款\n1\n2\n第一步：选择示例图或上传商品图\n我是高手，不再提醒\n操作咨询\n产品教程\n管理水印分组\n共 1/20 个\n默认\n＋ 新增水印分组",
+ "chips": [
+  {
+   "cls": "_wechatBox_tlhxi_3 ",
+   "text": "免费得算力"
+  },
+  {
+   "cls": "_pointsValue_193u6_21",
+   "text": "250"
+  },
+  {
+   "cls": "",
+   "text": "购 买"
+  },
+  {
+   "cls": "ant-avatar-string",
+   "text": "用"
+  },
+  {
+   "cls": "_userName_15na6_78",
+   "text": "用户6991"
+  },
+  {
+   "cls": "_auxiliaryText_15na6_117",
+   "text": "个人账号"
+  },
+  {
+   "cls": "_drawPopTipsWrapper_1vbg4_5",
+   "text": "商品图"
+  },
+  {
+   "cls": "ant-menu-title-content",
+   "text": "我的商品"
+  },
+  {
+   "cls": "ant-menu-title-content",
+   "text": "场景参考图"
+  },
+  {
+   "cls": "_drawPopTipsWrapper_1vbg4_5",
+   "text": "商品替换"
+  },
+  {
+   "cls": "_drawPopTipsWrapper_1vbg4_5",
+   "text": "场景裂变"
+  },
+  {
+   "cls": "_drawPopTipsWrapper_1vbg4_5",
+   "text": "手持商品"
+  },
+  {
+   "cls": "ant-menu-title-content",
+   "text": "历史记录"
+  },
+  {
+   "cls": "ant-menu-title-content",
+   "text": "企业功能"
+  },
+  {
+   "cls": "_betaLabel_1k85n_294",
+   "text": "批量生图"
+  },
+  {
+   "cls": "_spanText_1k85n_112",
+   "text": "免责声明"
+  },
+  {
+   "cls": "",
+   "text": "从本地上传"
+  },
+  {
+   "cls": "",
+   "text": "从作品库选择"
+  },
+  {
+   "cls": "",
+   "text": "从商品库选择"
+  },
+  {
+   "cls": "",
+   "text": "上传多图，体验新功能商品套图"
+  },
+  {
+   "cls": "",
+   "text": "场景描述（可选）"
+  },
+  {
+   "cls": "ant-input-data-count",
+   "text": "0 / 100"
+  },
+  {
+   "cls": "ant-collapse-header-text",
+   "text": "生图模型"
+  },
+  {
+   "cls": "",
+   "text": "默认尺寸"
+  },
+  {
+   "cls": "",
+   "text": "自定义"
+  },
+  {
+   "cls": "_imgCountItem_1rhd3_12",
+   "text": "1"
+  },
+  {
+   "cls": "_imgCountItem_1rhd3_12",
+   "text": "2"
+  },
+  {
+   "cls": "_imgCountItem_1rhd3_12",
+   "text": "3"
+  },
+  {
+   "cls": "_imgCountItem_1rhd3_12 _active_1rhd3_30",
+   "text": "4"
+  },
+  {
+   "cls": "",
+   "text": "立即生成"
+  },
+  {
+   "cls": "_cost_1kho5_43",
+   "text": "(40算力)"
+  },
+  {
+   "cls": "ant-tabs-tab-btn",
+   "text": "生成结果"
+  },
+  {
+   "cls": "ant-tabs-tab-btn",
+   "text": "优秀案例"
+  },
+  {
+   "cls": "_label_176zc_703",
+   "text": "上传商品场景参考图"
+  },
+  {
+   "cls": "_label_176zc_703",
+   "text": "生成结果"
+  },
+  {
+   "cls": "",
+   "text": "一键做同款"
+  },
+  {
+   "cls": "_label_176zc_703",
+   "text": "上传商品场景参考图"
+  },
+  {
+   "cls": "_label_176zc_703",
+   "text": "生成结果"
+  },
+  {
+   "cls": "",
+   "text": "一键做同款"
+  },
+  {
+   "cls": "_label_176zc_703",
+   "text": "上传商品场景参考图"
+  },
+  {
+   "cls": "_label_176zc_703",
+   "text": "生成结果"
+  },
+  {
+   "cls": "",
+   "text": "一键做同款"
+  },
+  {
+   "cls": "_label_176zc_703",
+   "text": "上传商品场景参考图"
+  },
+  {
+   "cls": "_label_176zc_703",
+   "text": "生成结果"
+  },
+  {
+   "cls": "",
+   "text": "一键做同款"
+  },
+  {
+   "cls": "_label_176zc_703",
+   "text": "上传商品场景参考图"
+  },
+  {
+   "cls": "_label_176zc_703",
+   "text": "生成结果"
+  },
+  {
+   "cls": "",
+   "text": "一键做同款"
+  },
+  {
+   "cls": "",
+   "text": "1"
+  },
+  {
+   "cls": "",
+   "text": "2"
+  },
+  {
+   "cls": "ant-tour-description",
+   "text": "第一步：选择示例图或上传商品图"
+  },
+  {
+   "cls": "_text_ai70q_69 _textExpanded_ai70q_105",
+   "text": "操作咨询"
+  },
+  {
+   "cls": "_text_ai70q_69 _textExpanded_ai70q_105",
+   "text": "产品教程"
+  },
+  {
+   "cls": "_mgCount_g24uu_224",
+   "text": "共 1/20 个"
+  },
+  {
+   "cls": "_mgAct_g24uu_300 _mgDefBtn_g24uu_324 _mgDefBtnActive_g24uu_339",
+   "text": "默认"
+  },
+  {
+   "cls": "_addGroupBtn_g24uu_353 ",
+   "text": "＋ 新增水印分组"
+  }
+ ],
+ "links": [
+  {
+   "href": "/home",
+   "text": ""
+  },
+  {
+   "href": "/home",
+   "text": "首页"
+  },
+  {
+   "href": "/draw/product-image-suite",
+   "text": "电商套图"
+  },
+  {
+   "href": "/draw/smart-repair",
+   "text": "智能修图 新模型"
+  },
+  {
+   "href": "/draw/inspiration-video",
+   "text": "AI视频 HOT"
+  },
+  {
+   "href": "/draw/batch-generate-images",
+   "text": "批量生图"
+  },
+  {
+   "href": "/draw/designer-home",
+   "text": "商品图设计"
+  },
+  {
+   "href": "https://skill.linkfox.com/",
+   "text": "Skills"
+  },
+  {
+   "href": "https://os.linkfox.com/?from=home",
+   "text": "Agent"
+  },
+  {
+   "href": "https://wiki.linkfox.com/creative/agent-guide",
+   "text": "学习中心"
+  },
+  {
+   "href": "https://yxgb3sicy7.feishu.cn/wiki/WmmEwIO2Pim3twk8aeZcm9QJnU2?fromScene=spaceOverview#share-FYGZd9hftojGrMxAXI2c9SnZn1c",
+   "text": "💡场景描述怎么写？"
+  },
+  {
+   "href": "/draw/history?type=13",
+   "text": "历史记录"
+  }
+ ],
+ "loginName": "用户6991",
+ "title": "LinkFox官网 - 跨境电商AI运营助手 - AI选品AI作图AI视频AI Agent OS",
+ "url": "https://www.linkfox.com/draw/product-scene?type=2"
+}

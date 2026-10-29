@@ -1,0 +1,56 @@
+[
+ {
+  "toolId": "FISSION_LINK",
+  "route": "/tools/product-design/fission-link",
+  "steps": {
+   "provider": {
+    "imageModel": "ccai-accept::gpt-image-2",
+    "channels": [
+     "ccai-accept",
+     "sf-accept"
+    ],
+    "baseUrl": "https://api.cc-ai.xyz",
+    "keyLen": 67,
+    "proxyEnabled": true,
+    "channelCount": 2,
+    "model": "gpt-image-2"
+   },
+   "title": "场景裂变链接\n\n粘贴一张商品/场景图的链接，或直接上传；数量 = 每张一次真实请求。\n\n参考图链接\n或上传本地参考图\n0",
+   "gate": {
+    "disabled": false,
+    "issues": ""
+   },
+   "providerCalls": [
+    "404 https://img.alicdn.com/imgextra/i1/O1CN01Z5paLt1sQqU8fJ0lH_!"
+   ],
+   "result": {
+    "src": "/logo.png",
+    "failed": null,
+    "feedback": null,
+    "progress": null,
+    "elapsedMs": 32067,
+    "sha": "dc6606590189bcae39195cdf",
+    "bytes": 60838
+   },
+   "download": {
+    "absent": true
+   },
+   "save": {
+    "absent": true
+   },
+   "canvas": {
+    "absent": true
+   },
+   "history": {
+    "beforeCount": "1 条",
+    "afterReload": {
+     "count": "1 条",
+     "items": 0,
+     "hasResult": true
+    }
+   }
+  },
+  "errors": [],
+  "_base": 2
+ }
+]

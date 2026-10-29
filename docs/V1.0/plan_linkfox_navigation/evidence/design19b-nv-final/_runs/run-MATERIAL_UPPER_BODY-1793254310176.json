@@ -1,0 +1,64 @@
+[
+ {
+  "toolId": "MATERIAL_UPPER_BODY",
+  "route": "/tools/product-design/material-upper-body",
+  "steps": {
+   "provider": {
+    "imageModel": "ccai-accept::gpt-image-2",
+    "channels": [
+     "ccai-accept",
+     "sf-accept"
+    ],
+    "baseUrl": "https://api.cc-ai.xyz",
+    "keyLen": 67,
+    "proxyEnabled": true,
+    "channelCount": 2,
+    "model": "gpt-image-2"
+   },
+   "title": "上装换料\n\n上传一件上装 → 选择材质类目与子类 → 可选抠图蒙版 → 生成换料成片（makeType 16，7 字段真",
+   "upload": {
+    "inputs": 1,
+    "list": 1
+   },
+   "gate": {
+    "disabled": false,
+    "issues": ""
+   },
+   "providerCalls": [
+    "200 https://api.cc-ai.xyz/v1/images/edits",
+    "200 https://oss-us.dimenoss.com/images/2026/10/29/1793254299_a11",
+    "200 https://oss-us.dimenoss.com/images/2026/10/29/1793254299_a11"
+   ],
+   "result": {
+    "src": "https://oss-us.dimenoss.com/images/2026/10/29/1793254299_a11b0af5c8a1009dcc22c0ad2cb5dd2b.png",
+    "failed": null,
+    "feedback": null,
+    "progress": null,
+    "elapsedMs": 22044
+   },
+   "download": {
+    "file": "dl-MATERIAL_UPPER_BODY-1793254302566.png",
+    "bytes": 1127305,
+    "sha": "37891c7b9976a22fb56d73e7",
+    "match": false
+   },
+   "save": {
+    "feedback": "已保存到资产库（8I7v_LiLHHEsGzKyIo3OK）",
+    "last": null
+   },
+   "canvas": {
+    "feedback": "已发送到画布（0TVn0IuE2X51V5MgcGXk3）"
+   },
+   "history": {
+    "beforeCount": "0 条",
+    "afterReload": {
+     "count": "0 条",
+     "items": 0,
+     "hasResult": true
+    }
+   }
+  },
+  "errors": [],
+  "_base": 2
+ }
+]

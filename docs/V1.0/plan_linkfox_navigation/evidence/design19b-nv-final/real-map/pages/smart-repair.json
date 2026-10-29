@@ -1,0 +1,318 @@
+{
+ "bodyText": "首页\n电商套图\n智能修图\n新模型\nAI视频\nHOT\n批量生图\n商品图设计\nSkills\nAgent\n更多\n学习中心\n免费得算力\n250\n购 买\n用\n用户6991\n个人账号\n图片编辑\n智能修图\n局部重绘\n局部消除\n一键换色\n图片裁剪\n质量提升\n商品精修\n图像修复\n色差修复\n印花修复\n抠图工具\n精细抠图\n批量抠图\n企业功能\n批量生图\n即将下架\n手部修复\n下架\n 免责声明\n智能修图\n上传单图 + 输入指令，可直接修改图片；上传多图 + 输入指令，能多图融合生成新图\n节日季\n服装/模特\n商品/静物\n其他\n去「批量智能修图」\n✦\n✦\n✦\n✦\n✦\n✦\n✦\n✦\n✦\n✦\n✦\n✦\n✦\n✦\n✦\n✦\n✦\n✦\n万圣节海报\n商品图生成万圣氛围海报\n多图融合\n万圣节Banner\n商品图生成万圣风格Banner\n多图融合\n圣诞节海报\n商品图生成圣诞氛围海报\n多图融合\n圣诞节Banner\n商品图生成圣诞风格Banner\n多图融合\n黑五海报\n商品图生成黑五氛围海报\n多图融合\n黑五Banner\n商品图生成黑五风格Banner\n多图融合\n不懂得怎么用？看看大家的生图案例\n上传参考图\n支持多图融合\n﻿\n直接描述你想如何调整图片，支持中英文。\n我的提示词\n0 / 3000\nLF智能模型 G-2.5 Sunburst\n最新旗舰模型\n稳定模式\n中品质\n2K\n默认比例\n1张\n立即生成\n(50算力)\n生成结果\n优秀案例\n历史记录\n暂无生成结果\n快在左侧操作智能修图吧~\n操作咨询\n产品教程\n管理水印分组\n共 1/20 个\n默认\n＋ 新增水印分组",
+ "chips": [
+  {
+   "cls": "_wechatBox_tlhxi_3 ",
+   "text": "免费得算力"
+  },
+  {
+   "cls": "_pointsValue_193u6_21",
+   "text": "250"
+  },
+  {
+   "cls": "",
+   "text": "购 买"
+  },
+  {
+   "cls": "ant-avatar-string",
+   "text": "用"
+  },
+  {
+   "cls": "_userName_15na6_78",
+   "text": "用户6991"
+  },
+  {
+   "cls": "_auxiliaryText_15na6_117",
+   "text": "个人账号"
+  },
+  {
+   "cls": "ant-menu-title-content",
+   "text": "图片编辑"
+  },
+  {
+   "cls": "_drawPopTipsWrapper_1vbg4_5",
+   "text": "智能修图"
+  },
+  {
+   "cls": "_drawPopTipsWrapper_1vbg4_5",
+   "text": "局部重绘"
+  },
+  {
+   "cls": "_drawPopTipsWrapper_1vbg4_5",
+   "text": "局部消除"
+  },
+  {
+   "cls": "_drawPopTipsWrapper_1vbg4_5",
+   "text": "一键换色"
+  },
+  {
+   "cls": "_drawPopTipsWrapper_1vbg4_5",
+   "text": "图片裁剪"
+  },
+  {
+   "cls": "ant-menu-title-content",
+   "text": "质量提升"
+  },
+  {
+   "cls": "_drawPopTipsWrapper_1vbg4_5",
+   "text": "商品精修"
+  },
+  {
+   "cls": "ant-menu-title-content",
+   "text": "图像修复"
+  },
+  {
+   "cls": "_drawPopTipsWrapper_1vbg4_5",
+   "text": "色差修复"
+  },
+  {
+   "cls": "_drawPopTipsWrapper_1vbg4_5",
+   "text": "印花修复"
+  },
+  {
+   "cls": "ant-menu-title-content",
+   "text": "抠图工具"
+  },
+  {
+   "cls": "_drawPopTipsWrapper_1vbg4_5",
+   "text": "精细抠图"
+  },
+  {
+   "cls": "_drawPopTipsWrapper_1vbg4_5",
+   "text": "批量抠图"
+  },
+  {
+   "cls": "ant-menu-title-content",
+   "text": "企业功能"
+  },
+  {
+   "cls": "_betaLabel_1k85n_294",
+   "text": "批量生图"
+  },
+  {
+   "cls": "ant-menu-title-content",
+   "text": "即将下架"
+  },
+  {
+   "cls": "_deprecatedStyle_1k85n_362",
+   "text": "下架"
+  },
+  {
+   "cls": "_spanText_1k85n_112",
+   "text": "免责声明"
+  },
+  {
+   "cls": "_tabItem_inufw_129 _tabItemActive_inufw_159 _festivalTabItem_inufw_429",
+   "text": "节日季"
+  },
+  {
+   "cls": "_tabItem_inufw_129",
+   "text": "服装/模特"
+  },
+  {
+   "cls": "_tabItem_inufw_129",
+   "text": "商品/静物"
+  },
+  {
+   "cls": "_tabItem_inufw_129",
+   "text": "其他"
+  },
+  {
+   "cls": "_templateName_inufw_283",
+   "text": "万圣节海报"
+  },
+  {
+   "cls": "_templateSubTitle_inufw_307",
+   "text": "商品图生成万圣氛围海报"
+  },
+  {
+   "cls": "_templateTag_inufw_331 _templateTagMulti_inufw_371",
+   "text": "多图融合"
+  },
+  {
+   "cls": "_templateName_inufw_283",
+   "text": "万圣节Banner"
+  },
+  {
+   "cls": "_templateSubTitle_inufw_307",
+   "text": "商品图生成万圣风格Banner"
+  },
+  {
+   "cls": "_templateTag_inufw_331 _templateTagMulti_inufw_371",
+   "text": "多图融合"
+  },
+  {
+   "cls": "_templateName_inufw_283",
+   "text": "圣诞节海报"
+  },
+  {
+   "cls": "_templateSubTitle_inufw_307",
+   "text": "商品图生成圣诞氛围海报"
+  },
+  {
+   "cls": "_templateTag_inufw_331 _templateTagMulti_inufw_371",
+   "text": "多图融合"
+  },
+  {
+   "cls": "_templateName_inufw_283",
+   "text": "圣诞节Banner"
+  },
+  {
+   "cls": "_templateSubTitle_inufw_307",
+   "text": "商品图生成圣诞风格Banner"
+  },
+  {
+   "cls": "_templateTag_inufw_331 _templateTagMulti_inufw_371",
+   "text": "多图融合"
+  },
+  {
+   "cls": "_templateName_inufw_283",
+   "text": "黑五海报"
+  },
+  {
+   "cls": "_templateSubTitle_inufw_307",
+   "text": "商品图生成黑五氛围海报"
+  },
+  {
+   "cls": "_templateTag_inufw_331 _templateTagMulti_inufw_371",
+   "text": "多图融合"
+  },
+  {
+   "cls": "_templateName_inufw_283",
+   "text": "黑五Banner"
+  },
+  {
+   "cls": "_templateSubTitle_inufw_307",
+   "text": "商品图生成黑五风格Banner"
+  },
+  {
+   "cls": "_templateTag_inufw_331 _templateTagMulti_inufw_371",
+   "text": "多图融合"
+  },
+  {
+   "cls": "_subText_sgtg7_277",
+   "text": "上传参考图"
+  },
+  {
+   "cls": "_subText_sgtg7_277",
+   "text": "支持多图融合"
+  },
+  {
+   "cls": "chat-placeholder-wrap chat-view-show",
+   "text": "直接描述你想如何调整图片，支持中英文。"
+  },
+  {
+   "cls": "_charCount_sgtg7_817",
+   "text": "0 / 3000"
+  },
+  {
+   "cls": "",
+   "text": "稳定模式"
+  },
+  {
+   "cls": "",
+   "text": "中品质"
+  },
+  {
+   "cls": "",
+   "text": "2K"
+  },
+  {
+   "cls": "",
+   "text": "默认比例"
+  },
+  {
+   "cls": "",
+   "text": "1张"
+  },
+  {
+   "cls": "",
+   "text": "立即生成"
+  },
+  {
+   "cls": "_cost_1kho5_43",
+   "text": "(50算力)"
+  },
+  {
+   "cls": "ant-tabs-tab-btn",
+   "text": "生成结果"
+  },
+  {
+   "cls": "ant-tabs-tab-btn",
+   "text": "优秀案例"
+  },
+  {
+   "cls": "_text_ai70q_69 _textExpanded_ai70q_105",
+   "text": "操作咨询"
+  },
+  {
+   "cls": "_text_ai70q_69 _textExpanded_ai70q_105",
+   "text": "产品教程"
+  },
+  {
+   "cls": "_mgCount_g24uu_224",
+   "text": "共 1/20 个"
+  },
+  {
+   "cls": "_mgAct_g24uu_300 _mgDefBtn_g24uu_324 _mgDefBtnActive_g24uu_339",
+   "text": "默认"
+  },
+  {
+   "cls": "_addGroupBtn_g24uu_353 ",
+   "text": "＋ 新增水印分组"
+  }
+ ],
+ "links": [
+  {
+   "href": "/home",
+   "text": ""
+  },
+  {
+   "href": "/home",
+   "text": "首页"
+  },
+  {
+   "href": "/draw/product-image-suite",
+   "text": "电商套图"
+  },
+  {
+   "href": "/draw/smart-repair",
+   "text": "智能修图 新模型"
+  },
+  {
+   "href": "/draw/inspiration-video",
+   "text": "AI视频 HOT"
+  },
+  {
+   "href": "/draw/batch-generate-images",
+   "text": "批量生图"
+  },
+  {
+   "href": "/draw/designer-home",
+   "text": "商品图设计"
+  },
+  {
+   "href": "https://skill.linkfox.com/",
+   "text": "Skills"
+  },
+  {
+   "href": "https://os.linkfox.com/?from=home",
+   "text": "Agent"
+  },
+  {
+   "href": "https://wiki.linkfox.com/creative/agent-guide",
+   "text": "学习中心"
+  },
+  {
+   "href": "/draw/batch-generate-images/create-task/ai-smart-repair",
+   "text": "去「批量智能修图」"
+  },
+  {
+   "href": "/draw/history?type=61",
+   "text": "历史记录"
+  }
+ ],
+ "loginName": "用户6991",
+ "title": "LinkFox官网 - 跨境电商AI运营助手 - AI选品AI作图AI视频AI Agent OS",
+ "url": "https://www.linkfox.com/draw/smart-repair"
+}

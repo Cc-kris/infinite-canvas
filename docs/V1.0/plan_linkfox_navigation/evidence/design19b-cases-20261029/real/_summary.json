@@ -1,0 +1,42 @@
+{
+ "AI_POSE_GENERATOR": {
+  "caseTab": false,
+  "count": null,
+  "shots": [
+   true,
+   false
+  ]
+ },
+ "AI_DRESSING_XSY": {
+  "caseTab": true,
+  "count": 18,
+  "shots": [
+   true,
+   true
+  ]
+ },
+ "FISSION_LINK": {
+  "caseTab": true,
+  "count": 20,
+  "shots": [
+   true,
+   true
+  ]
+ },
+ "IMAGE_TEXT_EDIT": {
+  "caseTab": false,
+  "count": null,
+  "shots": [
+   true,
+   false
+  ]
+ },
+ "SCENE_TRANSFER": {
+  "caseTab": true,
+  "count": 20,
+  "shots": [
+   true,
+   true
+  ]
+ }
+}

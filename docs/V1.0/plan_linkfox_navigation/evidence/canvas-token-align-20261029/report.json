@@ -1,0 +1,723 @@
+{
+  "at": "2026-10-29T06:57:53.166Z",
+  "baseUrl": "http://127.0.0.1:3000",
+  "cases": {
+    "design19_handheld__desktop-light": {
+      "url": "/tools/product-design/handheld-goods",
+      "theme": "light",
+      "viewport": {
+        "w": 1440,
+        "h": 900
+      },
+      "workbench": {
+        "found": true,
+        "bg": "oklch(1 0 0)",
+        "color": "oklch(0.145 0 0)",
+        "radius": "0px",
+        "box": {
+          "w": 1194,
+          "h": 1074,
+          "x": 219,
+          "y": 67
+        }
+      },
+      "leftCol": {
+        "bg": "oklch(1 0 0)",
+        "borderRight": "1px oklch(0.922 0 0)",
+        "radius": "0px",
+        "box": {
+          "w": 300,
+          "h": 1074,
+          "x": 219,
+          "y": 67
+        }
+      },
+      "tabbar": {
+        "bg": "rgba(0, 0, 0, 0)",
+        "borderBottom": "1px rgb(237, 237, 240)",
+        "box": {
+          "w": 271,
+          "h": 30,
+          "x": 235,
+          "y": 444
+        }
+      },
+      "activeTab": {
+        "text": "左手",
+        "color": "oklch(0.145 0 0)",
+        "weight": "400"
+      },
+      "primaryBtn": {
+        "text": "生成结果",
+        "bg": "rgba(0, 0, 0, 0)",
+        "image": "none",
+        "color": "oklch(0.145 0 0)",
+        "radius": "0px",
+        "shadow": "none",
+        "box": {
+          "w": 56,
+          "h": 42,
+          "x": 531,
+          "y": 67
+        }
+      },
+      "chip": {
+        "text": "手部接触与商品一",
+        "bg": "oklab(0.205 0 0 / 0.1)",
+        "border": "oklab(0.205 0 0 / 0.4)",
+        "radius": "8px",
+        "selectedBg": "oklch(1 0 0)"
+      },
+      "dropLabel": null,
+      "bannedHits": [
+        {
+          "tag": "em",
+          "cls": "ml-1 inline-flex h-4 shrink-0 items-center rounded-full bg-brand/12 px",
+          "prop": "color",
+          "value": "#723cf9",
+          "text": "新模型"
+        },
+        {
+          "tag": "em",
+          "cls": "ml-1 inline-flex h-4 shrink-0 items-center rounded-full bg-brand/12 px",
+          "prop": "color",
+          "value": "#723cf9",
+          "text": "HOT"
+        }
+      ],
+      "overflowX": 0,
+      "hasHelpDock": false,
+      "pageerrors": []
+    },
+    "design19_handheld__mobile390-light": {
+      "url": "/tools/product-design/handheld-goods",
+      "theme": "light",
+      "viewport": {
+        "w": 390,
+        "h": 844
+      },
+      "workbench": {
+        "found": true,
+        "bg": "oklch(1 0 0)",
+        "color": "oklch(0.145 0 0)",
+        "radius": "0px",
+        "box": {
+          "w": 344,
+          "h": 1074,
+          "x": 23,
+          "y": 123
+        }
+      },
+      "leftCol": {
+        "bg": "oklch(1 0 0)",
+        "borderRight": "1px oklch(0.922 0 0)",
+        "radius": "0px",
+        "box": {
+          "w": 300,
+          "h": 1074,
+          "x": 23,
+          "y": 123
+        }
+      },
+      "tabbar": {
+        "bg": "rgba(0, 0, 0, 0)",
+        "borderBottom": "1px rgb(237, 237, 240)",
+        "box": {
+          "w": 271,
+          "h": 30,
+          "x": 39,
+          "y": 500
+        }
+      },
+      "activeTab": {
+        "text": "左手",
+        "color": "oklch(0.145 0 0)",
+        "weight": "400"
+      },
+      "primaryBtn": {
+        "text": "生成结果",
+        "bg": "rgba(0, 0, 0, 0)",
+        "image": "none",
+        "color": "oklch(0.145 0 0)",
+        "radius": "0px",
+        "shadow": "none",
+        "box": {
+          "w": 14,
+          "h": 42,
+          "x": 335,
+          "y": 123
+        }
+      },
+      "chip": {
+        "text": "手部接触与商品一",
+        "bg": "oklab(0.205 0 0 / 0.1)",
+        "border": "oklab(0.205 0 0 / 0.4)",
+        "radius": "8px",
+        "selectedBg": "oklch(1 0 0)"
+      },
+      "dropLabel": null,
+      "bannedHits": [
+        {
+          "tag": "em",
+          "cls": "ml-1 inline-flex h-4 shrink-0 items-center rounded-full bg-brand/12 px",
+          "prop": "color",
+          "value": "#723cf9",
+          "text": "新模型"
+        },
+        {
+          "tag": "em",
+          "cls": "ml-1 inline-flex h-4 shrink-0 items-center rounded-full bg-brand/12 px",
+          "prop": "color",
+          "value": "#723cf9",
+          "text": "HOT"
+        }
+      ],
+      "overflowX": 0,
+      "hasHelpDock": false,
+      "pageerrors": []
+    },
+    "design19_handheld__desktop-dark": {
+      "url": "/tools/product-design/handheld-goods",
+      "theme": "dark",
+      "viewport": {
+        "w": 1440,
+        "h": 900
+      },
+      "workbench": {
+        "found": true,
+        "bg": "oklch(0.145 0 0)",
+        "color": "oklch(0.985 0 0)",
+        "radius": "0px",
+        "box": {
+          "w": 1194,
+          "h": 1074,
+          "x": 219,
+          "y": 67
+        }
+      },
+      "leftCol": {
+        "bg": "oklch(0.205 0 0)",
+        "borderRight": "1px oklch(1 0 0 / 0.1)",
+        "radius": "0px",
+        "box": {
+          "w": 300,
+          "h": 1074,
+          "x": 219,
+          "y": 67
+        }
+      },
+      "tabbar": {
+        "bg": "rgba(0, 0, 0, 0)",
+        "borderBottom": "1px rgb(237, 237, 240)",
+        "box": {
+          "w": 271,
+          "h": 30,
+          "x": 235,
+          "y": 444
+        }
+      },
+      "activeTab": {
+        "text": "左手",
+        "color": "oklch(0.985 0 0)",
+        "weight": "400"
+      },
+      "primaryBtn": {
+        "text": "生成结果",
+        "bg": "rgba(0, 0, 0, 0)",
+        "image": "none",
+        "color": "oklch(0.985 0 0)",
+        "radius": "0px",
+        "shadow": "none",
+        "box": {
+          "w": 56,
+          "h": 42,
+          "x": 531,
+          "y": 67
+        }
+      },
+      "chip": {
+        "text": "手部接触与商品一",
+        "bg": "oklab(0.922 0 0 / 0.1)",
+        "border": "oklab(0.922 0 0 / 0.4)",
+        "radius": "8px",
+        "selectedBg": "oklch(0.205 0 0)"
+      },
+      "dropLabel": null,
+      "bannedHits": [],
+      "overflowX": 0,
+      "hasHelpDock": false,
+      "pageerrors": []
+    },
+    "edit8_change_color__desktop-light": {
+      "url": "/tools/smart-edit/change-color",
+      "theme": "light",
+      "viewport": {
+        "w": 1440,
+        "h": 900
+      },
+      "workbench": {
+        "found": true,
+        "bg": "oklch(1 0 0)",
+        "color": "oklch(0.145 0 0)",
+        "radius": "0px",
+        "box": {
+          "w": 1174,
+          "h": 1086,
+          "x": 229,
+          "y": 182
+        }
+      },
+      "leftCol": {
+        "bg": "rgb(255, 255, 255)",
+        "borderRight": "1px oklch(0.922 0 0)",
+        "radius": "14px",
+        "box": {
+          "w": 495,
+          "h": 1066,
+          "x": 239,
+          "y": 192
+        }
+      },
+      "tabbar": {
+        "bg": "rgba(0, 0, 0, 0)",
+        "borderBottom": "0px oklch(0.922 0 0)",
+        "box": {
+          "w": 332,
+          "h": 42,
+          "x": 1061,
+          "y": 192
+        }
+      },
+      "activeTab": {
+        "text": "生成结果",
+        "color": "oklch(0.145 0 0)",
+        "weight": "500"
+      },
+      "primaryBtn": {
+        "text": "生成结果",
+        "bg": "rgba(0, 0, 0, 0)",
+        "image": "none",
+        "color": "oklch(0.145 0 0)",
+        "radius": "0px",
+        "shadow": "none",
+        "box": {
+          "w": 56,
+          "h": 42,
+          "x": 1074,
+          "y": 192
+        }
+      },
+      "chip": null,
+      "dropLabel": null,
+      "bannedHits": [
+        {
+          "tag": "em",
+          "cls": "ml-1 inline-flex h-4 shrink-0 items-center rounded-full bg-brand/12 px",
+          "prop": "color",
+          "value": "#723cf9",
+          "text": "新模型"
+        },
+        {
+          "tag": "em",
+          "cls": "ml-1 inline-flex h-4 shrink-0 items-center rounded-full bg-brand/12 px",
+          "prop": "color",
+          "value": "#723cf9",
+          "text": "HOT"
+        },
+        {
+          "tag": "h2",
+          "cls": "text-[24px] font-semibold leading-[31px] text-[#1f1f2c]",
+          "prop": "color",
+          "value": "#1f1f2c",
+          "text": "一键快速上色"
+        },
+        {
+          "tag": "p",
+          "cls": "mt-[8px] max-w-[600px] text-[15px] leading-[25px] text-[#8a8a99]",
+          "prop": "color",
+          "value": "#8a8a99",
+          "text": "立即改变照片中任何物品的颜色，无论是衣服、商品、"
+        },
+        {
+          "tag": "span",
+          "cls": "text-[12px] font-medium leading-5 text-[#1f1f2c]",
+          "prop": "color",
+          "value": "#1f1f2c",
+          "text": "收藏色卡"
+        },
+        {
+          "tag": "span",
+          "cls": "text-[11px] leading-5 text-[#8a8a99]",
+          "prop": "color",
+          "value": "#8a8a99",
+          "text": "共 12/24 个"
+        },
+        {
+          "tag": "svg",
+          "cls": "[object SVGAnimatedString]",
+          "prop": "color",
+          "value": "#8a8a99",
+          "text": ""
+        },
+        {
+          "tag": "path",
+          "cls": "[object SVGAnimatedString]",
+          "prop": "color",
+          "value": "#8a8a99",
+          "text": ""
+        },
+        {
+          "tag": "span",
+          "cls": "text-[12px] font-medium leading-5 text-[#1f1f2c]",
+          "prop": "color",
+          "value": "#1f1f2c",
+          "text": "选择颜色"
+        },
+        {
+          "tag": "svg",
+          "cls": "[object SVGAnimatedString]",
+          "prop": "color",
+          "value": "#8a8a99",
+          "text": ""
+        },
+        {
+          "tag": "path",
+          "cls": "[object SVGAnimatedString]",
+          "prop": "color",
+          "value": "#8a8a99",
+          "text": ""
+        },
+        {
+          "tag": "span",
+          "cls": "text-[12px] leading-[22px] text-[#1f1f2c]",
+          "prop": "color",
+          "value": "#1f1f2c",
+          "text": "去除杂色"
+        }
+      ],
+      "overflowX": 0,
+      "hasHelpDock": false,
+      "pageerrors": []
+    },
+    "edit8_change_color__mobile390-light": {
+      "url": "/tools/smart-edit/change-color",
+      "theme": "light",
+      "viewport": {
+        "w": 390,
+        "h": 844
+      },
+      "workbench": {
+        "found": true,
+        "bg": "oklch(1 0 0)",
+        "color": "oklch(0.145 0 0)",
+        "radius": "0px",
+        "box": {
+          "w": 332,
+          "h": 1086,
+          "x": 29,
+          "y": 237
+        }
+      },
+      "leftCol": {
+        "bg": "rgb(255, 255, 255)",
+        "borderRight": "1px oklch(0.922 0 0)",
+        "radius": "14px",
+        "box": {
+          "w": 2,
+          "h": 1066,
+          "x": 39,
+          "y": 247
+        }
+      },
+      "tabbar": {
+        "bg": "rgba(0, 0, 0, 0)",
+        "borderBottom": "0px oklch(0.922 0 0)",
+        "box": {
+          "w": 332,
+          "h": 42,
+          "x": 368,
+          "y": 247
+        }
+      },
+      "activeTab": {
+        "text": "生成结果",
+        "color": "oklch(0.145 0 0)",
+        "weight": "500"
+      },
+      "primaryBtn": {
+        "text": "生成结果",
+        "bg": "rgba(0, 0, 0, 0)",
+        "image": "none",
+        "color": "oklch(0.145 0 0)",
+        "radius": "0px",
+        "shadow": "none",
+        "box": {
+          "w": 56,
+          "h": 42,
+          "x": 381,
+          "y": 247
+        }
+      },
+      "chip": null,
+      "dropLabel": null,
+      "bannedHits": [
+        {
+          "tag": "em",
+          "cls": "ml-1 inline-flex h-4 shrink-0 items-center rounded-full bg-brand/12 px",
+          "prop": "color",
+          "value": "#723cf9",
+          "text": "新模型"
+        },
+        {
+          "tag": "em",
+          "cls": "ml-1 inline-flex h-4 shrink-0 items-center rounded-full bg-brand/12 px",
+          "prop": "color",
+          "value": "#723cf9",
+          "text": "HOT"
+        },
+        {
+          "tag": "h2",
+          "cls": "text-[24px] font-semibold leading-[31px] text-[#1f1f2c]",
+          "prop": "color",
+          "value": "#1f1f2c",
+          "text": "一键快速上色"
+        },
+        {
+          "tag": "p",
+          "cls": "mt-[8px] max-w-[600px] text-[15px] leading-[25px] text-[#8a8a99]",
+          "prop": "color",
+          "value": "#8a8a99",
+          "text": "立即改变照片中任何物品的颜色，无论是衣服、商品、"
+        },
+        {
+          "tag": "span",
+          "cls": "text-[12px] font-medium leading-5 text-[#1f1f2c]",
+          "prop": "color",
+          "value": "#1f1f2c",
+          "text": "收藏色卡"
+        },
+        {
+          "tag": "span",
+          "cls": "text-[11px] leading-5 text-[#8a8a99]",
+          "prop": "color",
+          "value": "#8a8a99",
+          "text": "共 12/24 个"
+        },
+        {
+          "tag": "svg",
+          "cls": "[object SVGAnimatedString]",
+          "prop": "color",
+          "value": "#8a8a99",
+          "text": ""
+        },
+        {
+          "tag": "path",
+          "cls": "[object SVGAnimatedString]",
+          "prop": "color",
+          "value": "#8a8a99",
+          "text": ""
+        },
+        {
+          "tag": "span",
+          "cls": "text-[12px] font-medium leading-5 text-[#1f1f2c]",
+          "prop": "color",
+          "value": "#1f1f2c",
+          "text": "选择颜色"
+        },
+        {
+          "tag": "svg",
+          "cls": "[object SVGAnimatedString]",
+          "prop": "color",
+          "value": "#8a8a99",
+          "text": ""
+        },
+        {
+          "tag": "path",
+          "cls": "[object SVGAnimatedString]",
+          "prop": "color",
+          "value": "#8a8a99",
+          "text": ""
+        },
+        {
+          "tag": "span",
+          "cls": "text-[12px] leading-[22px] text-[#1f1f2c]",
+          "prop": "color",
+          "value": "#1f1f2c",
+          "text": "去除杂色"
+        }
+      ],
+      "overflowX": 0,
+      "hasHelpDock": false,
+      "pageerrors": []
+    },
+    "edit8_change_color__desktop-dark": {
+      "url": "/tools/smart-edit/change-color",
+      "theme": "dark",
+      "viewport": {
+        "w": 1440,
+        "h": 900
+      },
+      "workbench": {
+        "found": true,
+        "bg": "oklch(0.145 0 0)",
+        "color": "oklch(0.985 0 0)",
+        "radius": "0px",
+        "box": {
+          "w": 1174,
+          "h": 1086,
+          "x": 229,
+          "y": 182
+        }
+      },
+      "leftCol": {
+        "bg": "oklch(0.205 0 0)",
+        "borderRight": "1px oklch(1 0 0 / 0.1)",
+        "radius": "14px",
+        "box": {
+          "w": 495,
+          "h": 1066,
+          "x": 239,
+          "y": 192
+        }
+      },
+      "tabbar": {
+        "bg": "rgba(0, 0, 0, 0)",
+        "borderBottom": "0px oklch(1 0 0 / 0.1)",
+        "box": {
+          "w": 332,
+          "h": 42,
+          "x": 1061,
+          "y": 192
+        }
+      },
+      "activeTab": {
+        "text": "生成结果",
+        "color": "oklch(0.985 0 0)",
+        "weight": "500"
+      },
+      "primaryBtn": {
+        "text": "生成结果",
+        "bg": "rgba(0, 0, 0, 0)",
+        "image": "none",
+        "color": "oklch(0.985 0 0)",
+        "radius": "0px",
+        "shadow": "none",
+        "box": {
+          "w": 56,
+          "h": 42,
+          "x": 1074,
+          "y": 192
+        }
+      },
+      "chip": null,
+      "dropLabel": null,
+      "bannedHits": [
+        {
+          "tag": "h2",
+          "cls": "text-[24px] font-semibold leading-[31px] text-[#1f1f2c]",
+          "prop": "color",
+          "value": "#1f1f2c",
+          "text": "一键快速上色"
+        },
+        {
+          "tag": "p",
+          "cls": "mt-[8px] max-w-[600px] text-[15px] leading-[25px] text-[#8a8a99]",
+          "prop": "color",
+          "value": "#8a8a99",
+          "text": "立即改变照片中任何物品的颜色，无论是衣服、商品、"
+        },
+        {
+          "tag": "span",
+          "cls": "text-[12px] font-medium leading-5 text-[#1f1f2c]",
+          "prop": "color",
+          "value": "#1f1f2c",
+          "text": "收藏色卡"
+        },
+        {
+          "tag": "span",
+          "cls": "text-[11px] leading-5 text-[#8a8a99]",
+          "prop": "color",
+          "value": "#8a8a99",
+          "text": "共 12/24 个"
+        },
+        {
+          "tag": "svg",
+          "cls": "[object SVGAnimatedString]",
+          "prop": "color",
+          "value": "#8a8a99",
+          "text": ""
+        },
+        {
+          "tag": "path",
+          "cls": "[object SVGAnimatedString]",
+          "prop": "color",
+          "value": "#8a8a99",
+          "text": ""
+        },
+        {
+          "tag": "span",
+          "cls": "text-[12px] font-medium leading-5 text-[#1f1f2c]",
+          "prop": "color",
+          "value": "#1f1f2c",
+          "text": "选择颜色"
+        },
+        {
+          "tag": "svg",
+          "cls": "[object SVGAnimatedString]",
+          "prop": "color",
+          "value": "#8a8a99",
+          "text": ""
+        },
+        {
+          "tag": "path",
+          "cls": "[object SVGAnimatedString]",
+          "prop": "color",
+          "value": "#8a8a99",
+          "text": ""
+        },
+        {
+          "tag": "span",
+          "cls": "text-[12px] leading-[22px] text-[#1f1f2c]",
+          "prop": "color",
+          "value": "#1f1f2c",
+          "text": "去除杂色"
+        },
+        {
+          "tag": "span",
+          "cls": "text-[11px] leading-[22px] text-[#8a8a99]",
+          "prop": "color",
+          "value": "#8a8a99",
+          "text": "关闭：保留原色噪点"
+        },
+        {
+          "tag": "span",
+          "cls": "text-[12px] font-medium leading-5 text-[#1f1f2c]",
+          "prop": "color",
+          "value": "#1f1f2c",
+          "text": "细调颜色效果"
+        }
+      ],
+      "overflowX": 0,
+      "hasHelpDock": false,
+      "pageerrors": []
+    }
+  },
+  "banned": [
+    "#f5f7fa",
+    "#edeff5",
+    "#fafafa",
+    "#f9f0ff",
+    "#723cf9",
+    "#3a7df9",
+    "#6231e0",
+    "#ededf0",
+    "#f0f0f3",
+    "#d9d9e0",
+    "#e5e5ea",
+    "#c9c9d4",
+    "#1f1f2c",
+    "#8a8a99",
+    "#5a5a66",
+    "#6b6b80"
+  ]
+}

@@ -1,0 +1,146 @@
+{
+ "local:PRINT_EXTRACT": {
+  "url": "http://127.0.0.1:3000/tools/product-design/print-extract",
+  "ready": true,
+  "snapshot": true,
+  "shot": true,
+  "shot_full": true,
+  "sec": 22.5
+ },
+ "real:PRINT_EXTRACT": {
+  "url": "https://www.linkfox.com/draw/print-extract",
+  "ready": true,
+  "snapshot": true,
+  "shot": true,
+  "shot_full": true,
+  "sec": 22.9
+ },
+ "real:AI_POSE_GENERATOR": {
+  "url": "https://www.linkfox.com/draw/ai-posture",
+  "ready": true,
+  "snapshot": true,
+  "shot": true,
+  "shot_full": true,
+  "sec": 22.9
+ },
+ "real:AI_DRESSING_XSY": {
+  "url": "https://www.linkfox.com/draw/ai-dressing",
+  "ready": true,
+  "snapshot": true,
+  "shot": true,
+  "shot_full": true,
+  "sec": 22.7
+ },
+ "real:FISSION_LINK": {
+  "url": "https://www.linkfox.com/draw/product-scene?type=2",
+  "ready": true,
+  "snapshot": true,
+  "shot": true,
+  "shot_full": true,
+  "sec": 22.7
+ },
+ "real:IMAGE_TEXT_EDIT": {
+  "url": "https://www.linkfox.com/draw/designer-home",
+  "ready": true,
+  "snapshot": true,
+  "shot": true,
+  "shot_full": true,
+  "sec": 22.7
+ },
+ "real:MATERIAL_UPPER_BODY": {
+  "url": "https://www.linkfox.com/draw/clothing-image-suite",
+  "ready": true,
+  "snapshot": true,
+  "shot": true,
+  "shot_full": true,
+  "sec": 22.7
+ },
+ "real:NEW_DESIGNER": {
+  "url": "https://www.linkfox.com/draw/designer-home",
+  "ready": true,
+  "snapshot": true,
+  "shot": true,
+  "shot_full": true,
+  "sec": 22.5
+ },
+ "real:PRODUCT_MARKET_MATERIAL": {
+  "url": "https://www.linkfox.com/draw/product-image-suite?batchType=PRODUCT_MATERIAL",
+  "ready": true,
+  "snapshot": true,
+  "shot": true,
+  "shot_full": true,
+  "sec": 22.5
+ },
+ "real:SCENE_TRANSFER": {
+  "url": "https://www.linkfox.com/draw/product-scene?type=2",
+  "ready": true,
+  "snapshot": true,
+  "shot": true,
+  "shot_full": true,
+  "sec": 22.5
+ },
+ "local:AI_POSE_GENERATOR": {
+  "url": "http://127.0.0.1:3000/tools/product-design/ai-pose-generator",
+  "ready": true,
+  "snapshot": true,
+  "shot": true,
+  "shot_full": true,
+  "sec": 22.5
+ },
+ "local:AI_DRESSING_XSY": {
+  "url": "http://127.0.0.1:3000/tools/product-design/ai-dressing-xsy",
+  "ready": true,
+  "snapshot": true,
+  "shot": true,
+  "shot_full": true,
+  "sec": 29.7
+ },
+ "local:FISSION_LINK": {
+  "url": "http://127.0.0.1:3000/tools/product-design/fission-link",
+  "ready": true,
+  "snapshot": true,
+  "shot": true,
+  "shot_full": true,
+  "sec": 22.5
+ },
+ "local:IMAGE_TEXT_EDIT": {
+  "url": "http://127.0.0.1:3000/tools/product-design/image-text-edit",
+  "ready": true,
+  "snapshot": true,
+  "shot": true,
+  "shot_full": true,
+  "sec": 22.5
+ },
+ "local:MATERIAL_UPPER_BODY": {
+  "url": "http://127.0.0.1:3000/tools/product-design/material-upper-body",
+  "ready": true,
+  "snapshot": true,
+  "shot": true,
+  "shot_full": true,
+  "sec": 31.4
+ },
+ "local:NEW_DESIGNER": {
+  "url": "http://127.0.0.1:3000/tools/product-design/new-designer",
+  "ready": true,
+  "snapshot": true,
+  "shot": true,
+  "shot_full": true,
+  "sec": 22.5
+ },
+ "local:PRODUCT_MARKET_MATERIAL": {
+  "url": "http://127.0.0.1:3000/tools/product-design/product-market-material",
+  "ready": true,
+  "snapshot": true,
+  "shot": true,
+  "shot_full": true,
+  "sec": 22.5
+ },
+ "local:SCENE_TRANSFER": {
+  "url": "http://127.0.0.1:3000/tools/product-design/scene-transfer",
+  "ready": true,
+  "snapshot": true,
+  "shot": true,
+  "shot_full": true,
+  "sec": 29.7
+ }
+}

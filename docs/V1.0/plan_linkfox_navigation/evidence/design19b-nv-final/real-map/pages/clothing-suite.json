@@ -1,0 +1,450 @@
+{
+ "bodyText": "首页\n电商套图\n智能修图\n新模型\nAI视频\nHOT\n批量生图\n商品图设计\nSkills\nAgent\n更多\n学习中心\n免费得算力\n250\n购 买\n用\n用户6991\n个人账号\n商品套图\n服装套图\n爆款图复刻\nNEW\n套图换色\nNEW\n批量翻译\n高清放大\n批量抠图\n智能扩图\n 免责声明\n多角度服装图&搭配图 \n从本地上传\n从作品库选择\n从商品库选择\n最多上传5张图，10M以内，384*384~4096*4096\n或试试这些\n商品信息 \nAI分析\n向导\n0 / 2500\n品牌与合规（可选）\n智能品牌基因\n智能主色、智能字体风格\n智能合规检查\n未选择敏感词库\n·\n未选择替换词库\n模型选择\nLF智能模型 G-2.5 Sunburst\nNEW\n分辨率选择\n1K\n2K\n4K\n模型品质\n低品质\n中品质\n高品质\n超高品质\n最大品质\n主副图设置 \n生成类型（多选）\n模特图\n4\n种草图\n4\n卖点图\n4\n选择排版\n每种排版生成一张\n无文字模式\n💡未选择排版时，将根据官方排版随机生成\n尺码图\n4\n白底图\n4\n生成比例\n1:1\n3:4\n4:3\n2:3\n3:2\n更多\nA+图设置 \n生成类型（单选）\n高级A+\n4\n手机A+\n4\n普通A+\n4\n自定比例\n4\n选择排版\n每种排版生成一张\n无文字模式\n💡未选择排版时，将根据官方排版随机生成\n主副图8张 * 每张50点 + A+图4张 * 每张50点 = 600点\n开始生成\n(600算力)\n生成结果\n优秀案例\n历史记录\n上传服装图\n生成结果\n一键做同款\n上传服装图\n生成结果\n一键做同款\n上传服装图\n生成结果\n一键做同款\n上传服装图\n生成结果\n一键做同款\n上传服装图\n生成结果\n一键做同款\n上传服装图\n生成结果\n一键做同款\n上传服装图\n生成结果\n一键做同款\n1\n2\n3\n第一步：上传服装配饰及细节图\n我是高手，不再提醒\n操作咨询\n产品教程\n管理水印分组\n共 1/20 个\n默认\n＋ 新增水印分组",
+ "chips": [
+  {
+   "cls": "_wechatBox_tlhxi_3 ",
+   "text": "免费得算力"
+  },
+  {
+   "cls": "_pointsValue_193u6_21",
+   "text": "250"
+  },
+  {
+   "cls": "",
+   "text": "购 买"
+  },
+  {
+   "cls": "ant-avatar-string",
+   "text": "用"
+  },
+  {
+   "cls": "_userName_15na6_78",
+   "text": "用户6991"
+  },
+  {
+   "cls": "_auxiliaryText_15na6_117",
+   "text": "个人账号"
+  },
+  {
+   "cls": "_drawPopTipsWrapper_1vbg4_5",
+   "text": "商品套图"
+  },
+  {
+   "cls": "_drawPopTipsWrapper_1vbg4_5",
+   "text": "服装套图"
+  },
+  {
+   "cls": "_newStyle_1k85n_166",
+   "text": "NEW"
+  },
+  {
+   "cls": "_newStyle_1k85n_166",
+   "text": "NEW"
+  },
+  {
+   "cls": "_drawPopTipsWrapper_1vbg4_5",
+   "text": "批量翻译"
+  },
+  {
+   "cls": "_drawPopTipsWrapper_1vbg4_5",
+   "text": "高清放大"
+  },
+  {
+   "cls": "_drawPopTipsWrapper_1vbg4_5",
+   "text": "批量抠图"
+  },
+  {
+   "cls": "_drawPopTipsWrapper_1vbg4_5",
+   "text": "智能扩图"
+  },
+  {
+   "cls": "_spanText_1k85n_112",
+   "text": "免责声明"
+  },
+  {
+   "cls": "",
+   "text": "从本地上传"
+  },
+  {
+   "cls": "",
+   "text": "从作品库选择"
+  },
+  {
+   "cls": "",
+   "text": "从商品库选择"
+  },
+  {
+   "cls": "_fgxText_1afee_21",
+   "text": "或试试这些"
+  },
+  {
+   "cls": "",
+   "text": "AI分析"
+  },
+  {
+   "cls": "",
+   "text": "向导"
+  },
+  {
+   "cls": "_count_1itzk_21",
+   "text": "0 / 2500"
+  },
+  {
+   "cls": "_triggerTitle_1swfs_173",
+   "text": "智能品牌基因"
+  },
+  {
+   "cls": "_triggerSubtitle_1swfs_61",
+   "text": "智能主色、智能字体风格"
+  },
+  {
+   "cls": "_triggerTitle_1swfs_173",
+   "text": "智能合规检查"
+  },
+  {
+   "cls": "_subtitlePart_1kom2_98",
+   "text": "未选择敏感词库"
+  },
+  {
+   "cls": "_subtitleSep_1kom2_112",
+   "text": "·"
+  },
+  {
+   "cls": "_subtitlePart_1kom2_98",
+   "text": "未选择替换词库"
+  },
+  {
+   "cls": "_newTag_17jrc_53",
+   "text": "NEW"
+  },
+  {
+   "cls": "",
+   "text": "1K"
+  },
+  {
+   "cls": "",
+   "text": "2K"
+  },
+  {
+   "cls": "",
+   "text": "4K"
+  },
+  {
+   "cls": "",
+   "text": "低品质"
+  },
+  {
+   "cls": "",
+   "text": "中品质"
+  },
+  {
+   "cls": "",
+   "text": "高品质"
+  },
+  {
+   "cls": "",
+   "text": "超高品质"
+  },
+  {
+   "cls": "",
+   "text": "最大品质"
+  },
+  {
+   "cls": "ant-checkbox-label",
+   "text": "模特图"
+  },
+  {
+   "cls": "",
+   "text": "4"
+  },
+  {
+   "cls": "ant-checkbox-label",
+   "text": "种草图"
+  },
+  {
+   "cls": "",
+   "text": "4"
+  },
+  {
+   "cls": "ant-checkbox-label",
+   "text": "卖点图"
+  },
+  {
+   "cls": "",
+   "text": "4"
+  },
+  {
+   "cls": "",
+   "text": "无文字模式"
+  },
+  {
+   "cls": "_noneTip_bw8er_73",
+   "text": "💡未选择排版时，将根据官方排版随机生成"
+  },
+  {
+   "cls": "ant-checkbox-label",
+   "text": "尺码图"
+  },
+  {
+   "cls": "",
+   "text": "4"
+  },
+  {
+   "cls": "ant-checkbox-label",
+   "text": "白底图"
+  },
+  {
+   "cls": "",
+   "text": "4"
+  },
+  {
+   "cls": "",
+   "text": "1:1"
+  },
+  {
+   "cls": "",
+   "text": "3:4"
+  },
+  {
+   "cls": "",
+   "text": "4:3"
+  },
+  {
+   "cls": "",
+   "text": "2:3"
+  },
+  {
+   "cls": "",
+   "text": "3:2"
+  },
+  {
+   "cls": "ant-select-selection-placeholder",
+   "text": "更多"
+  },
+  {
+   "cls": "ant-radio-label",
+   "text": "高级A+"
+  },
+  {
+   "cls": "",
+   "text": "4"
+  },
+  {
+   "cls": "ant-checkbox-label",
+   "text": "手机A+"
+  },
+  {
+   "cls": "",
+   "text": "4"
+  },
+  {
+   "cls": "ant-radio-label",
+   "text": "普通A+"
+  },
+  {
+   "cls": "",
+   "text": "4"
+  },
+  {
+   "cls": "ant-radio-label",
+   "text": "自定比例"
+  },
+  {
+   "cls": "",
+   "text": "4"
+  },
+  {
+   "cls": "",
+   "text": "无文字模式"
+  },
+  {
+   "cls": "_noneTip_bw8er_73",
+   "text": "💡未选择排版时，将根据官方排版随机生成"
+  },
+  {
+   "cls": "",
+   "text": "开始生成"
+  },
+  {
+   "cls": "_cost_1kho5_43",
+   "text": "(600算力)"
+  },
+  {
+   "cls": "ant-tabs-tab-btn",
+   "text": "生成结果"
+  },
+  {
+   "cls": "ant-tabs-tab-btn",
+   "text": "优秀案例"
+  },
+  {
+   "cls": "_label_176zc_703",
+   "text": "上传服装图"
+  },
+  {
+   "cls": "_label_176zc_703",
+   "text": "生成结果"
+  },
+  {
+   "cls": "",
+   "text": "一键做同款"
+  },
+  {
+   "cls": "_label_176zc_703",
+   "text": "上传服装图"
+  },
+  {
+   "cls": "_label_176zc_703",
+   "text": "生成结果"
+  },
+  {
+   "cls": "",
+   "text": "一键做同款"
+  },
+  {
+   "cls": "_label_176zc_703",
+   "text": "上传服装图"
+  },
+  {
+   "cls": "_label_176zc_703",
+   "text": "生成结果"
+  },
+  {
+   "cls": "",
+   "text": "一键做同款"
+  },
+  {
+   "cls": "_label_176zc_703",
+   "text": "上传服装图"
+  },
+  {
+   "cls": "_label_176zc_703",
+   "text": "生成结果"
+  },
+  {
+   "cls": "",
+   "text": "一键做同款"
+  },
+  {
+   "cls": "_label_176zc_703",
+   "text": "上传服装图"
+  },
+  {
+   "cls": "_label_176zc_703",
+   "text": "生成结果"
+  },
+  {
+   "cls": "",
+   "text": "一键做同款"
+  },
+  {
+   "cls": "_label_176zc_703",
+   "text": "上传服装图"
+  },
+  {
+   "cls": "_label_176zc_703",
+   "text": "生成结果"
+  },
+  {
+   "cls": "",
+   "text": "一键做同款"
+  },
+  {
+   "cls": "_label_176zc_703",
+   "text": "上传服装图"
+  },
+  {
+   "cls": "_label_176zc_703",
+   "text": "生成结果"
+  },
+  {
+   "cls": "",
+   "text": "一键做同款"
+  },
+  {
+   "cls": "",
+   "text": "1"
+  },
+  {
+   "cls": "",
+   "text": "2"
+  },
+  {
+   "cls": "",
+   "text": "3"
+  },
+  {
+   "cls": "ant-tour-description",
+   "text": "第一步：上传服装配饰及细节图"
+  },
+  {
+   "cls": "_text_ai70q_69 _textExpanded_ai70q_105",
+   "text": "操作咨询"
+  },
+  {
+   "cls": "_text_ai70q_69 _textExpanded_ai70q_105",
+   "text": "产品教程"
+  },
+  {
+   "cls": "_mgCount_g24uu_224",
+   "text": "共 1/20 个"
+  },
+  {
+   "cls": "_mgAct_g24uu_300 _mgDefBtn_g24uu_324 _mgDefBtnActive_g24uu_339",
+   "text": "默认"
+  },
+  {
+   "cls": "_addGroupBtn_g24uu_353 ",
+   "text": "＋ 新增水印分组"
+  }
+ ],
+ "links": [
+  {
+   "href": "/home",
+   "text": ""
+  },
+  {
+   "href": "/home",
+   "text": "首页"
+  },
+  {
+   "href": "/draw/product-image-suite",
+   "text": "电商套图"
+  },
+  {
+   "href": "/draw/smart-repair",
+   "text": "智能修图 新模型"
+  },
+  {
+   "href": "/draw/inspiration-video",
+   "text": "AI视频 HOT"
+  },
+  {
+   "href": "/draw/batch-generate-images",
+   "text": "批量生图"
+  },
+  {
+   "href": "/draw/designer-home",
+   "text": "商品图设计"
+  },
+  {
+   "href": "https://skill.linkfox.com/",
+   "text": "Skills"
+  },
+  {
+   "href": "https://os.linkfox.com/?from=home",
+   "text": "Agent"
+  },
+  {
+   "href": "https://wiki.linkfox.com/creative/agent-guide",
+   "text": "学习中心"
+  },
+  {
+   "href": "/draw/history?type=69",
+   "text": "历史记录"
+  }
+ ],
+ "loginName": "用户6991",
+ "title": "LinkFox官网 - 跨境电商AI运营助手 - AI选品AI作图AI视频AI Agent OS",
+ "url": "https://www.linkfox.com/draw/clothing-image-suite"
+}

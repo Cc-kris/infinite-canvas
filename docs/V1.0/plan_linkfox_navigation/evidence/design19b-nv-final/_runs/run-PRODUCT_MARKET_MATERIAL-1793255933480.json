@@ -1,0 +1,76 @@
+[
+ {
+  "toolId": "PRODUCT_MARKET_MATERIAL",
+  "route": "/tools/product-design/product-market-material",
+  "steps": {
+   "provider": {
+    "imageModel": "ccai-accept::gpt-image-2",
+    "channels": [
+     "ccai-accept",
+     "sf-accept"
+    ],
+    "baseUrl": "https://api.cc-ai.xyz",
+    "keyLen": 67,
+    "proxyEnabled": true,
+    "channelCount": 2,
+    "model": "gpt-image-2"
+   },
+   "title": "商品多图与信息\n1–6 张 · 首张为主图\n上传商品多图\n0 / 6 个 · PNG / JPG / WebP · ≤ ",
+   "upload": {
+    "inputs": 1,
+    "list": 1
+   },
+   "controls": [],
+   "gate": {
+    "disabled": false
+   },
+   "providerCalls": [
+    "200 https://api.cc-ai.xyz/v1/images/edits"
+   ],
+   "result": {
+    "src": "https://oss-us.dimenoss.com/images/2026/10/29/1793255911_cf976c67e9c3420fc1c5523a3fe662ac.png",
+    "failed": null,
+    "feedback": null,
+    "progress": "running",
+    "elapsedMs": 40176,
+    "sha": "ff26cdbe73c8889dae5c7935",
+    "bytes": 696580
+   },
+   "download": {
+    "absent": true
+   },
+   "save": {
+    "absent": true
+   },
+   "canvas": {
+    "absent": true
+   },
+   "history": {
+    "beforeCount": "0 条",
+    "afterReload": {
+     "count": "0 条",
+     "items": 0,
+     "hasResult": true
+    }
+   }
+  },
+  "errors": [],
+  "_base": 2,
+  "verdict": {
+   "checks": {
+    "providerCalled": true,
+    "providerOk": true,
+    "hasResultBytes": true,
+    "notInputImage": true,
+    "downloadMatches": true,
+    "assetSaved": true,
+    "canvasSent": true,
+    "historyRestored": false
+   },
+   "pass": false,
+   "failed": [
+    "historyRestored"
+   ]
+  }
+ }
+]

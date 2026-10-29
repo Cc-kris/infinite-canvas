@@ -1,8 +1,8 @@
 # R17 独立复核：严格三腿矩阵（39 工具）
 
-- 审计对象（committed tree）：HEAD `65d83b2`（`feat/linkfox-v1-real`）
+- 审计对象（committed tree）：HEAD `815fbdb`（`feat/linkfox-v1-real`）
 - 基线：R16 419b0dec（matrix head 0bec102：F35/4 T39/0 R39/0 H34/5 K12/27 U39；非全绿 9 单元 / 7 工具）
-- 生成：2026-10-29T22:42:05+0800；审计器：`tools/recompute_scope_matrix_r17.py`（继承 R16 判据，**只收紧**：只吸收 committed 证据，散文/未提交一律不计，且升级须过硬断言）
+- 生成：2026-10-29T22:52:15+0800；审计器：`tools/recompute_scope_matrix_r17.py`（继承 R16 判据，**只收紧**：只吸收 committed 证据，散文/未提交一律不计，且升级须过硬断言）
 - 证据源：`git ls-tree -r -l HEAD` + blob sha256 现算；**未提交/未跟踪内容不吸收**
 
 ## 统计（F/T/R/H/K/U）
@@ -12,14 +12,15 @@
 | F | 36 | 3 | — |
 | T | 39 | 0 | — |
 | R | 39 | 0 | — |
-| H | 35 | 4 | — |
+| H | 36 | 3 | — |
 | K | 12 | 0 | N/A 27 |
 | U | 39 | 0 | — |
 
-非全绿单元：**7** 个（6 个工具）
+非全绿单元：**6** 个（5 个工具）
 
-相对 R16 改判：**2 处**
+相对 R16 改判：**3 处**
 
+- **CHANGE_COLOR_V2** `H` PARTIAL → PASS（r24-20261029/receipt-ccv2.json）
 - **VIDEO_REPLICATION** `F` PARTIAL → PASS（docs/diagnostics/result-recovery-e2e-task-mvtk9pu3-sfifnh.json）
 - **VIDEO_REPLICATION** `H` PARTIAL → PASS（docs/diagnostics/result-recovery-e2e-task-mvtk9pu3-sfifnh.json）
 
@@ -46,7 +47,7 @@
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | 1 | PRODUCT_IMAGE_SUITE | PASS | PASS | PASS | PASS | PASS | PASS |
 | 2 | DRESS_WEAR_SET | PASS | PASS | PASS | PASS | PASS | PASS |
-| 3 | CHANGE_COLOR_V2 | PASS | PASS | PASS | PARTIAL | PASS | PASS |
+| 3 | CHANGE_COLOR_V2 | PASS | PASS | PASS | PASS | PASS | PASS |
 | 4 | IMAGE_TRANSLATION | PASS | PASS | PASS | PASS | N/A | PASS |
 | 5 | SCALE_UP | PASS | PASS | PASS | PASS | PASS | PASS |
 | 6 | AI_OUTPAINTING | PASS | PASS | PASS | PASS | PASS | PASS |
@@ -88,10 +89,9 @@
 
 | # | 工具 | 维度 | 判定 | 唯一缺口 |
 | --- | --- | --- | --- | --- |
-| 1 | CHANGE_COLOR_V2 | H | PARTIAL | CHANGE_COLOR_V2 有成功真实任务，但回执 r14h-20261029/receipt-BLOCKED.json 记 payloadDropped=true：结果项无 storageKey/url，字节未入库 → 无字节可下载/存资产/发画布 |
-| 2 | REMOVE_PEN | H | PARTIAL | REMOVE_PEN 有成功真实任务，但回执 edit8-h-real-20261029/REMOVE_PEN.json 记 payloadDropped=true：结果项无 storageKey/url，字节未入库 → 无字节可下载/存资产/发画布 |
-| 3 | IMAGE_TEXT_EDIT | H | PARTIAL | IMAGE_TEXT_EDIT 有成功真实任务，但回执 real-acceptance/H4-real-20261029/IMAGE_TEXT_EDIT-natural-20261029.json 记 BLOCKED(payload)：结果项无 storageKey/url，字节未入库 → 无字节可下载/存资产/发画布 |
-| 4 | AI_VIDEO_EDITING | F | PARTIAL | 仅 download 一项动作回执（存资产/发画布无结构化回执）→ 维持 PARTIAL |
-| 5 | AI_VIDEO_EDITING | H | PARTIAL | AI_VIDEO_EDITING 有成功真实任务，但回执 r7-d19-history-20261029/orphan-tasks-127-3000-20261029.json 记 payloadDropped=true：结果项无 storageKey/url，字节未入库 → 无字节可下载/存资产/发画布 |
-| 6 | VIDEO_TRANSLATION | F | PARTIAL | 上游 /videos 只收 JSON、拒上传字节（400），HEAD 内仍无成功样例可挂三动作 → 维持 PARTIAL（上游阻塞） |
-| 7 | VIDEO_CONCAT | F | PARTIAL | 0e8f9f1+af0522f：下载 2,133,234B/sha daf59082… 与已提交 downloaded.mp4 一致（硬腿 1）；存资产 tool_assets 0 条同尺、media_files 无该 storageKey、canvasVideoNodes=[] → 维持 PARTIAL |
+| 1 | REMOVE_PEN | H | PARTIAL | REMOVE_PEN 有成功真实任务，但回执 edit8-h-real-20261029/REMOVE_PEN.json 记 payloadDropped=true：结果项无 storageKey/url，字节未入库 → 无字节可下载/存资产/发画布 |
+| 2 | IMAGE_TEXT_EDIT | H | PARTIAL | IMAGE_TEXT_EDIT 有成功真实任务，但回执 real-acceptance/H4-real-20261029/IMAGE_TEXT_EDIT-natural-20261029.json 记 BLOCKED(payload)：结果项无 storageKey/url，字节未入库 → 无字节可下载/存资产/发画布 |
+| 3 | AI_VIDEO_EDITING | F | PARTIAL | 仅 download 一项动作回执（存资产/发画布无结构化回执）→ 维持 PARTIAL |
+| 4 | AI_VIDEO_EDITING | H | PARTIAL | AI_VIDEO_EDITING 有成功真实任务，但回执 r7-d19-history-20261029/orphan-tasks-127-3000-20261029.json 记 payloadDropped=true：结果项无 storageKey/url，字节未入库 → 无字节可下载/存资产/发画布 |
+| 5 | VIDEO_TRANSLATION | F | PARTIAL | 上游 /videos 只收 JSON、拒上传字节（400），HEAD 内仍无成功样例可挂三动作 → 维持 PARTIAL（上游阻塞） |
+| 6 | VIDEO_CONCAT | F | PARTIAL | 0e8f9f1+af0522f：下载 2,133,234B/sha daf59082… 与已提交 downloaded.mp4 一致（硬腿 1）；存资产 tool_assets 0 条同尺、media_files 无该 storageKey、canvasVideoNodes=[] → 维持 PARTIAL |

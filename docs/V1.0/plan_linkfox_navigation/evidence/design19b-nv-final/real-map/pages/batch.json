@@ -1,0 +1,346 @@
+{
+ "bodyText": "首页\n电商套图\n智能修图\n新模型\nAI视频\nHOT\n批量生图\n商品图设计\nSkills\nAgent\n更多\n学习中心\n免费得算力\n250\n购 买\n用\n用户6991\n个人账号\n图片编辑\n智能修图\n局部重绘\n局部消除\n一键换色\n图片裁剪\n质量提升\n商品精修\n图像修复\n色差修复\n印花修复\n抠图工具\n精细抠图\n批量抠图\n企业功能\n批量生图\n即将下架\n手部修复\n下架\n 免责声明\n创建项目\n我的项目\n切换为 团队版账号，畅享批量生图功能\n切换账号\n全部\n模特图\n商品图\nPOD素材\nAI修图\n智能修图\nNEW\n免费试用\n支持批量换商品、换套版等高频场景\n套图换色\nNEW\n免费试用\n上传套图并指定目标色，轻松获得变体结果\n商品套图\n免费试用\n输入商品图与商品信息，批量生成套图\n服装套图\n免费试用\n支持上传服装/鞋靴/首饰等，生成电商套图\n姿势裂变\n免费试用\n1 张模特图→N 种姿势套图！\n一键换色/印花\n免费试用\n商品色彩/印花一键切换\nAI穿衣\n免费试用\n服装平铺图一键上身，商拍「0」成本\n相似图裂变\n免费试用\n上传一张参考图，裂变出多张相似图\n场景裂变\n免费试用\n批量上传参考图，一键实现多样化场景\n高清放大\n免费试用\n放大清晰不失真，细节更丰富\n图片翻译\n免费试用\n快速翻译成多语言，快速上架\n印花提取\n免费试用\n快速提取服装中的印花图案\n操作咨询\n产品教程\n管理水印分组\n共 1/20 个\n默认\n＋ 新增水印分组",
+ "chips": [
+  {
+   "cls": "_wechatBox_tlhxi_3 ",
+   "text": "免费得算力"
+  },
+  {
+   "cls": "_pointsValue_193u6_21",
+   "text": "250"
+  },
+  {
+   "cls": "",
+   "text": "购 买"
+  },
+  {
+   "cls": "ant-avatar-string",
+   "text": "用"
+  },
+  {
+   "cls": "_userName_15na6_78",
+   "text": "用户6991"
+  },
+  {
+   "cls": "_auxiliaryText_15na6_117",
+   "text": "个人账号"
+  },
+  {
+   "cls": "ant-menu-title-content",
+   "text": "图片编辑"
+  },
+  {
+   "cls": "_drawPopTipsWrapper_1vbg4_5",
+   "text": "智能修图"
+  },
+  {
+   "cls": "_drawPopTipsWrapper_1vbg4_5",
+   "text": "局部重绘"
+  },
+  {
+   "cls": "_drawPopTipsWrapper_1vbg4_5",
+   "text": "局部消除"
+  },
+  {
+   "cls": "_drawPopTipsWrapper_1vbg4_5",
+   "text": "一键换色"
+  },
+  {
+   "cls": "_drawPopTipsWrapper_1vbg4_5",
+   "text": "图片裁剪"
+  },
+  {
+   "cls": "ant-menu-title-content",
+   "text": "质量提升"
+  },
+  {
+   "cls": "_drawPopTipsWrapper_1vbg4_5",
+   "text": "商品精修"
+  },
+  {
+   "cls": "ant-menu-title-content",
+   "text": "图像修复"
+  },
+  {
+   "cls": "_drawPopTipsWrapper_1vbg4_5",
+   "text": "色差修复"
+  },
+  {
+   "cls": "_drawPopTipsWrapper_1vbg4_5",
+   "text": "印花修复"
+  },
+  {
+   "cls": "ant-menu-title-content",
+   "text": "抠图工具"
+  },
+  {
+   "cls": "_drawPopTipsWrapper_1vbg4_5",
+   "text": "精细抠图"
+  },
+  {
+   "cls": "_drawPopTipsWrapper_1vbg4_5",
+   "text": "批量抠图"
+  },
+  {
+   "cls": "ant-menu-title-content",
+   "text": "企业功能"
+  },
+  {
+   "cls": "_betaLabel_1k85n_294",
+   "text": "批量生图"
+  },
+  {
+   "cls": "ant-menu-title-content",
+   "text": "即将下架"
+  },
+  {
+   "cls": "_deprecatedStyle_1k85n_362",
+   "text": "下架"
+  },
+  {
+   "cls": "_spanText_1k85n_112",
+   "text": "免责声明"
+  },
+  {
+   "cls": "ant-menu-title-content",
+   "text": "创建项目"
+  },
+  {
+   "cls": "ant-menu-title-content",
+   "text": "我的项目"
+  },
+  {
+   "cls": "",
+   "text": "切换账号"
+  },
+  {
+   "cls": "_tabItem_1sy5q_76 _active_1sy5q_86",
+   "text": "全部"
+  },
+  {
+   "cls": "_tabItem_1sy5q_76",
+   "text": "模特图"
+  },
+  {
+   "cls": "_tabItem_1sy5q_76",
+   "text": "商品图"
+  },
+  {
+   "cls": "_tabItem_1sy5q_76",
+   "text": "POD素材"
+  },
+  {
+   "cls": "_tabItem_1sy5q_76",
+   "text": "AI修图"
+  },
+  {
+   "cls": "_newTag_1sy5q_198",
+   "text": "NEW"
+  },
+  {
+   "cls": "",
+   "text": "免费试用"
+  },
+  {
+   "cls": "_tempDesc_1sy5q_233",
+   "text": "支持批量换商品、换套版等高频场景"
+  },
+  {
+   "cls": "_newTag_1sy5q_198",
+   "text": "NEW"
+  },
+  {
+   "cls": "",
+   "text": "免费试用"
+  },
+  {
+   "cls": "_tempDesc_1sy5q_233",
+   "text": "上传套图并指定目标色，轻松获得变体结果"
+  },
+  {
+   "cls": "_tempTitle_1sy5q_160",
+   "text": "商品套图"
+  },
+  {
+   "cls": "",
+   "text": "免费试用"
+  },
+  {
+   "cls": "_tempDesc_1sy5q_233",
+   "text": "输入商品图与商品信息，批量生成套图"
+  },
+  {
+   "cls": "_tempTitle_1sy5q_160",
+   "text": "服装套图"
+  },
+  {
+   "cls": "",
+   "text": "免费试用"
+  },
+  {
+   "cls": "_tempDesc_1sy5q_233",
+   "text": "支持上传服装/鞋靴/首饰等，生成电商套图"
+  },
+  {
+   "cls": "_tempTitle_1sy5q_160",
+   "text": "姿势裂变"
+  },
+  {
+   "cls": "",
+   "text": "免费试用"
+  },
+  {
+   "cls": "_tempDesc_1sy5q_233",
+   "text": "1 张模特图→N 种姿势套图！"
+  },
+  {
+   "cls": "_tempTitle_1sy5q_160",
+   "text": "一键换色/印花"
+  },
+  {
+   "cls": "",
+   "text": "免费试用"
+  },
+  {
+   "cls": "_tempDesc_1sy5q_233",
+   "text": "商品色彩/印花一键切换"
+  },
+  {
+   "cls": "_tempTitle_1sy5q_160",
+   "text": "AI穿衣"
+  },
+  {
+   "cls": "",
+   "text": "免费试用"
+  },
+  {
+   "cls": "_tempDesc_1sy5q_233",
+   "text": "服装平铺图一键上身，商拍「0」成本"
+  },
+  {
+   "cls": "_tempTitle_1sy5q_160",
+   "text": "相似图裂变"
+  },
+  {
+   "cls": "",
+   "text": "免费试用"
+  },
+  {
+   "cls": "_tempDesc_1sy5q_233",
+   "text": "上传一张参考图，裂变出多张相似图"
+  },
+  {
+   "cls": "_tempTitle_1sy5q_160",
+   "text": "场景裂变"
+  },
+  {
+   "cls": "",
+   "text": "免费试用"
+  },
+  {
+   "cls": "_tempDesc_1sy5q_233",
+   "text": "批量上传参考图，一键实现多样化场景"
+  },
+  {
+   "cls": "_tempTitle_1sy5q_160",
+   "text": "高清放大"
+  },
+  {
+   "cls": "",
+   "text": "免费试用"
+  },
+  {
+   "cls": "_tempDesc_1sy5q_233",
+   "text": "放大清晰不失真，细节更丰富"
+  },
+  {
+   "cls": "_tempTitle_1sy5q_160",
+   "text": "图片翻译"
+  },
+  {
+   "cls": "",
+   "text": "免费试用"
+  },
+  {
+   "cls": "_tempDesc_1sy5q_233",
+   "text": "快速翻译成多语言，快速上架"
+  },
+  {
+   "cls": "_tempTitle_1sy5q_160",
+   "text": "印花提取"
+  },
+  {
+   "cls": "",
+   "text": "免费试用"
+  },
+  {
+   "cls": "_tempDesc_1sy5q_233",
+   "text": "快速提取服装中的印花图案"
+  },
+  {
+   "cls": "_text_ai70q_69 _textExpanded_ai70q_105",
+   "text": "操作咨询"
+  },
+  {
+   "cls": "_text_ai70q_69 _textExpanded_ai70q_105",
+   "text": "产品教程"
+  },
+  {
+   "cls": "_mgCount_g24uu_224",
+   "text": "共 1/20 个"
+  },
+  {
+   "cls": "_mgAct_g24uu_300 _mgDefBtn_g24uu_324 _mgDefBtnActive_g24uu_339",
+   "text": "默认"
+  },
+  {
+   "cls": "_addGroupBtn_g24uu_353 ",
+   "text": "＋ 新增水印分组"
+  }
+ ],
+ "links": [
+  {
+   "href": "/home",
+   "text": ""
+  },
+  {
+   "href": "/home",
+   "text": "首页"
+  },
+  {
+   "href": "/draw/product-image-suite",
+   "text": "电商套图"
+  },
+  {
+   "href": "/draw/smart-repair",
+   "text": "智能修图 新模型"
+  },
+  {
+   "href": "/draw/inspiration-video",
+   "text": "AI视频 HOT"
+  },
+  {
+   "href": "/draw/batch-generate-images",
+   "text": "批量生图"
+  },
+  {
+   "href": "/draw/designer-home",
+   "text": "商品图设计"
+  },
+  {
+   "href": "https://skill.linkfox.com/",
+   "text": "Skills"
+  },
+  {
+   "href": "https://os.linkfox.com/?from=home",
+   "text": "Agent"
+  },
+  {
+   "href": "https://wiki.linkfox.com/creative/agent-guide",
+   "text": "学习中心"
+  }
+ ],
+ "loginName": "用户6991",
+ "title": "LinkFox官网 - 跨境电商AI运营助手 - AI选品AI作图AI视频AI Agent OS",
+ "url": "https://www.linkfox.com/draw/batch-generate-images"
+}

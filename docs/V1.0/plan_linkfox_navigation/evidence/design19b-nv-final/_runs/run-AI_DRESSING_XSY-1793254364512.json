@@ -1,0 +1,61 @@
+[
+ {
+  "toolId": "AI_DRESSING_XSY",
+  "route": "/tools/product-design/ai-dressing-xsy",
+  "steps": {
+   "provider": {
+    "imageModel": "ccai-accept::gpt-image-2",
+    "channels": [
+     "ccai-accept",
+     "sf-accept"
+    ],
+    "baseUrl": "https://api.cc-ai.xyz",
+    "keyLen": 67,
+    "proxyEnabled": true,
+    "channelCount": 2,
+    "model": "gpt-image-2"
+   },
+   "title": "AI试衣XSY · 分步试衣\n\n第 1 步 / 共 4 步 · 模特 — 上传模特图，选定模特类型与风格\n\n上下装衣服 ",
+   "gate": {
+    "disabled": false,
+    "text": "自检通过，可提交"
+   },
+   "providerCalls": [
+    "200 https://api.cc-ai.xyz/v1/images/edits",
+    "200 https://oss-us.dimenoss.com/images/2026/10/29/1793254353_f74",
+    "200 https://oss-us.dimenoss.com/images/2026/10/29/1793254353_f74",
+    "200 https://oss-us.dimenoss.com/images/2026/10/29/1793254353_f74"
+   ],
+   "result": {
+    "src": "https://oss-us.dimenoss.com/images/2026/10/29/1793254353_f74ef9ea32b9017fa92b2a5743335f8d.png",
+    "failed": null,
+    "feedback": null,
+    "progress": null,
+    "elapsedMs": 28060
+   },
+   "download": {
+    "file": "dl-AI_DRESSING_XSY-1793254357324.png",
+    "bytes": 1197181,
+    "sha": "08cabe93f359d2b6deb6f6d4",
+    "match": false
+   },
+   "save": {
+    "feedback": "已保存到资产库（87JGQz0ReoUtjPSN_oa66）",
+    "last": null
+   },
+   "canvas": {
+    "feedback": "已发送到画布（u2mrRaaLKBkKDnw3K5GZ1）"
+   },
+   "history": {
+    "beforeCount": "1 条",
+    "afterReload": {
+     "count": "1 条",
+     "items": 0,
+     "hasResult": true
+    }
+   }
+  },
+  "errors": [],
+  "_base": 7
+ }
+]

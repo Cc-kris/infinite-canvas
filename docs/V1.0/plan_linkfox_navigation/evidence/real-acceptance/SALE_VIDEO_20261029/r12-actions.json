@@ -1,0 +1,58 @@
+{
+ "toolId": "SALE_VIDEO",
+ "route": "/tools/ai-video/sale-video",
+ "source": "own",
+ "taskId": "task-mvt76u6p-7cfnff",
+ "upstreamTaskId": "task_hhe2FmdxNCwz8Vn86OY7kYxrudtQDGVx",
+ "reusedNotRegenerated": true,
+ "configSnapshot": {
+  "apiFormat": "openai",
+  "capability": "video",
+  "channelId": "sub2",
+  "count": "1",
+  "model": "sub2::MiniMax-H3",
+  "quality": "auto",
+  "size": "1:1"
+ },
+ "passthrough": {
+  "promptDeclares": {
+   "seconds": 5,
+   "resolution": "720P",
+   "aspect": "9:16",
+   "market": "JP",
+   "language": "ja"
+  },
+  "configSize": "1:1",
+  "verdict": "PARTIAL",
+  "note": "任务快照 configSnapshot.size=1:1，未按表单 9:16 透传为 9:16；时长/分辨率只写在 prompt 文本里，未作为独立字段透传（provider=openai /videos 仅收 prompt+size）。实测产物 1,366,190B 可下载。"
+ },
+ "actions": {
+  "restore": {
+   "via": "历史任务坞「查看结果」",
+   "resultItemId": "task-mvt76u6p-7cfnff-0",
+   "storageKey": "tool-result:Be9yI14yvxVSg1r0TjYPJ",
+   "bytes": 1366190,
+   "configPanelRendered": true
+  },
+  "download": {
+   "ui": "tool-history-dock-download",
+   "suggestedFilename": "sale-video-result-1.mp4",
+   "bytes": 1366190,
+   "sha256_prefix": "39193f0a",
+   "landedPath": "~/Downloads/sale-video-result-1 (1).mp4",
+   "bytesMatchTaskRecord": true
+  },
+  "canvas": {
+   "ui": "tool-history-dock-canvas",
+   "feedback": "已发送到画布（lA2nAfkKAt5CrIhZDwcTK / video-1793278569675-4m128）",
+   "projectId": "lA2nAfkKAt5CrIhZDwcTK",
+   "nodeId": "video-1793278569675-4m128"
+  },
+  "saveAsset": {
+   "status": "NOT_EXPOSED_IN_DOCK",
+   "note": "历史坞仅提供下载/发画布两个动作按钮（tool-history-dock-download / -canvas），本次复用的历史结果无法从坞内存资产；工作区结果区的存资产入口需重新提交生成后才能验证，本轮不重生成。"
+  }
+ },
+ "recordedAt": "2026-10-29T13:00:00Z",
+ "ok": true
+}

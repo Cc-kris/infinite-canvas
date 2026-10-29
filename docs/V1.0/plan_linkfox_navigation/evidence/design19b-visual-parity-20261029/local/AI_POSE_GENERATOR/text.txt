@@ -1,0 +1,132 @@
+无限画布 · 39 个电商 AI 工具，一套导航直达
+本地运行 · API Key 只保存在你自己的浏览器
+插件与模型可自定义 · 无需注册账号
+无限画布
+首页
+电商套图
+智能修图
+新模型
+AI视频
+HOT
+批量生图
+商品图设计
+Skills
+Agent
+更多
+学习中心
+免费得算力
+积分
+0
+购买
+用
+本地用户
+个人账号
+商品图设计
+商品图
+商品替换
+场景裂变
+手持商品
+AI穿衣
+姿势裂变
+AI穿戴
+POD素材
+饰品文字
+素材贴合
+印花提取
+AI姿势生成
+补充
+AI试衣XSY
+补充
+场景裂变链接
+补充
+图片文字编辑
+补充
+上装换料
+补充
+商品图设计器
+补充
+商品营销素材
+补充
+场景迁移
+补充
+免责声明
+商品图设计 / AI姿势生成
+AI姿势生成
+补充
+/tools/product-design/ai-pose-generator
+AI姿势生成
+makeType 57
+写姿势提示词 → 逐条加场景 → 预览实际 prompt → 按场景生成姿势参考图
+姿势提示词
+3970 字可用；姿势库是结构化约束，与自定义描述一起送 provider。
+30/4000
+站姿
+坐姿
+动态
+手部与镜头
+正面站姿
+标准商品图站姿，肩线正对镜头
+3/4 侧身
+显瘦角度，适合连衣裙/外套
+背面回眸
+展示背部剪裁与版型
+倚墙
+城市/街头氛围
+保存当前姿势 + 场景组合（最多 12 条，可撤销）
+保存预设
+场景提示词
+每条场景各自成为一个真实生成请求；最多 6 条，场景只描述环境/光线/道具，不能改写姿势。
+加场景
+还没有场景；不填场景也能生成（按「默认场景」影棚背景出图）。加上场景可一次对比多个环境。
+场景 1/6 · 每场景 1 张 · 共 1 张请求
+参考预览
+这里展示的是真正发给 provider 的 prompt，不是界面文案。
+默认场景
+Create a full-body pose reference photo of a single fashion model. Pose: 女性模特正面站姿，全身入镜，双手自然下垂，肩线平齐，中性表情 Framing: head to toe, 50mm lens, eye level, single subject, no crop. Scene directives: plain studio backdrop, soft even lighting, neutral floor. Hard rule: scene directives must never change the body pose, limb positions, head angle or the direction the model faces. Keep wardrobe and body proportions consistent; photorealistic, sharp focus, no text, no watermark, no collage.
+姿势约束：自定义描述
+·
+共 12 个姿势卡片
+生成结果
+按场景分组；单组失败只重试该组，已成功的场景不会重复生成。
+填好姿势提示词后点「生成姿势参考」，结果会按场景分组出现在这里。
+每场景张数
+1–4 张；总产出 = 场景数 × 张数（上限 24）。
+1 张
+2 张
+3 张
+4 张
+场景数
+1
+总产出
+1 张
+请求数
+1 个（每场景 1 个请求）
+生成姿势参考
+1 个场景 × 1 张 = 1 张
+本次输入快照
+历史任务
+0 条
+本工具还没有历史任务；提交一次后会在这里留下任务、配置与结果，刷新后仍在。
+1
+连接本地 Agent
+未连接
+点连接会自动启动本地服务、装好插件并接通，无需手动配置。
+Claude Code
+未连接
+·
+CLI · 2.1.285 (Claude Code)
+·
+直接运行
+连接
+Codex
+未连接
+·
+CLI · codex-cli 0.163.0
+·
+插件已装
+连接
+Galley
+未连接
+·
+CLI + 桌面版 · galley 0.6.4
+连接

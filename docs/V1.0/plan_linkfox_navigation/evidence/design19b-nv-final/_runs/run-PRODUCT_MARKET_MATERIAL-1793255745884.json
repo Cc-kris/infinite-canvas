@@ -1,0 +1,56 @@
+[
+ {
+  "toolId": "PRODUCT_MARKET_MATERIAL",
+  "route": "/tools/product-design/product-market-material",
+  "steps": {
+   "provider": {
+    "imageModel": "ccai-accept::gpt-image-2",
+    "channels": [
+     "ccai-accept",
+     "sf-accept"
+    ],
+    "baseUrl": "https://api.cc-ai.xyz",
+    "keyLen": 67,
+    "proxyEnabled": true,
+    "channelCount": 2,
+    "model": "gpt-image-2"
+   },
+   "title": "商品多图与信息\n1–6 张 · 首张为主图\n上传商品多图\n0 / 6 个 · PNG / JPG / WebP · ≤ ",
+   "upload": {
+    "inputs": 1,
+    "list": 1
+   },
+   "controls": [],
+   "gate": {
+    "disabled": null
+   },
+   "result": {
+    "timeout": true,
+    "elapsedMs": 240343
+   }
+  },
+  "errors": [],
+  "verdict": {
+   "checks": {
+    "providerCalled": false,
+    "providerOk": false,
+    "hasResultBytes": false,
+    "notInputImage": true,
+    "downloadMatches": false,
+    "assetSaved": false,
+    "canvasSent": false,
+    "historyRestored": false
+   },
+   "pass": false,
+   "failed": [
+    "providerCalled",
+    "providerOk",
+    "hasResultBytes",
+    "downloadMatches",
+    "assetSaved",
+    "canvasSent",
+    "historyRestored"
+   ]
+  }
+ }
+]

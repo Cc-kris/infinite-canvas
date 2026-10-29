@@ -1,0 +1,528 @@
+{
+ "bodyText": "首页\n电商套图\n智能修图\n新模型\nAI视频\nHOT\n批量生图\n商品图设计\nSkills\nAgent\n更多\n学习中心\n免费得算力\n250\n购 买\n用\n用户6991\n个人账号\n商品图\n我的商品\n场景参考图\n商品替换\n场景裂变\n手持商品\n历史记录\n企业功能\n批量生图\n 免责声明\n上传参考图\n从本地上传\n从作品库选择\n从商品库选择\n10M以内，分辨率：384*384 ~ 4096*4096，最大宽高比5\n上传多图，体验新功能商品套图\n背景相似度：\n💡已选择智能模式，将根据模型自动生成场景\n场景描述（可选）\n💡场景描述怎么写？\n0 / 100\n生图模型\n写实\n简约\n智能\n设置生成尺寸\n默认尺寸\n自定义\n选择生成张数\n1\n2\n3\n4\n立即生成\n(40算力)\n生成结果\n优秀案例\n历史记录\n预览\n原图\n做同款\n预览\n原图\n做同款\n预览\n原图\n做同款\n预览\n原图\n做同款\n预览\n原图\n做同款\n预览\n原图\n做同款\n预览\n原图\n做同款\n预览\n原图\n做同款\n预览\n原图\n做同款\n预览\n原图\n做同款\n预览\n原图\n做同款\n预览\n原图\n做同款\n预览\n原图\n做同款\n预览\n原图\n做同款\n预览\n原图\n做同款\n预览\n原图\n做同款\n预览\n原图\n做同款\n预览\n原图\n做同款\n预览\n原图\n做同款\n预览\n原图\n做同款\n第一步：选择示例图或上传商品图\n我是高手，不再提醒\n操作咨询\n产品教程\n管理水印分组\n共 1/20 个\n默认\n＋ 新增水印分组",
+ "caseInfo": {
+  "contentCls": "_content_176zc_1",
+  "count": 20,
+  "padding": "16px 32px",
+  "pane": {
+   "h": 609,
+   "w": 1408,
+   "x": 490,
+   "y": 162
+  },
+  "recs": [
+   {
+    "alt": "优秀案例-1983831220118597632",
+    "btns": [
+     "做同款"
+    ],
+    "maskText": "预览",
+    "paramLabels": [
+     "原图"
+    ],
+    "params": [
+     {
+      "h": 85,
+      "src": "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/SCENE_FISSION/1983831220118597632/image.webp?x-oss-process=image/resize,m_mfit,w_64,h_64/format,webp",
+      "w": 64
+     }
+    ],
+    "r": {
+     "h": 428,
+     "w": 321,
+     "x": 522,
+     "y": 178
+    },
+    "result": "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/SCENE_FISSION/1983831220118597632/main_result_c70e756458aa492fb8dae1a0cebaddc8.webp?x-oss-process=image/resize,m_mfit,w_512,h_512/format,webp"
+   },
+   {
+    "alt": "优秀案例-1984091344636719104",
+    "btns": [
+     "做同款"
+    ],
+    "maskText": "预览",
+    "paramLabels": [
+     "原图"
+    ],
+    "params": [
+     {
+      "h": 96,
+      "src": "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/SCENE_FISSION/1984091344636719104/image.webp?x-oss-process=image/resize,m_mfit,w_64,h_64/format,webp",
+      "w": 64
+     }
+    ],
+    "r": {
+     "h": 482,
+     "w": 321,
+     "x": 861,
+     "y": 178
+    },
+    "result": "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/SCENE_FISSION/1984091344636719104/main_result_90459da3467a4800ba42113404905442.webp?x-oss-process=image/resize,m_mfit,w_512,h_512/format,webp"
+   },
+   {
+    "alt": "优秀案例-1740339005955035136",
+    "btns": [
+     "做同款"
+    ],
+    "maskText": "预览",
+    "paramLabels": [
+     "原图"
+    ],
+    "params": [
+     {
+      "h": 64,
+      "src": "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/SCENE_FISSION/1740339005955035136/image.jpg?x-oss-process=image/resize,m_mfit,w_64,h_64/format,webp",
+      "w": 95
+     }
+    ],
+    "r": {
+     "h": 216,
+     "w": 321,
+     "x": 1200,
+     "y": 178
+    },
+    "result": "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/SCENE_FISSION/1740339005955035136/main_result_bb0efd63b20542ee80bf4c46f4e08f2a.png?x-oss-process=image/resize,m_mfit,w_512,h_512/format,webp"
+   },
+   {
+    "alt": "优秀案例-1740552538122670080",
+    "btns": [
+     "做同款"
+    ],
+    "maskText": "预览",
+    "paramLabels": [
+     "原图"
+    ],
+    "params": [
+     {
+      "h": 64,
+      "src": "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/SCENE_FISSION/1740552538122670080/image.jpeg?x-oss-process=image/resize,m_mfit,w_64,h_64/format,webp",
+      "w": 65
+     }
+    ],
+    "r": {
+     "h": 316,
+     "w": 321,
+     "x": 1539,
+     "y": 178
+    },
+    "result": "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/SCENE_FISSION/1740552538122670080/main_result_94f042cb4b3244679baeeff1582eef40.png?x-oss-process=image/resize,m_mfit,w_512,h_512/format,webp"
+   },
+   {
+    "alt": "优秀案例-1740537621810302976",
+    "btns": [
+     "做同款"
+    ],
+    "maskText": "预览",
+    "paramLabels": [
+     "原图"
+    ],
+    "params": [
+     {
+      "h": 64,
+      "src": "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/SCENE_FISSION/1740537621810302976/image.webp?x-oss-process=image/resize,m_mfit,w_64,h_64/format,webp",
+      "w": 64
+     }
+    ],
+    "r": {
+     "h": 321,
+     "w": 321,
+     "x": 1200,
+     "y": 404
+    },
+    "result": "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/SCENE_FISSION/1740537621810302976/main_result_89dd7e7aa3184bd7a49da33de3f80dc2.png?x-oss-process=image/resize,m_mfit,w_512,h_512/format,webp"
+   },
+   {
+    "alt": "优秀案例-1740552324171223040",
+    "btns": [
+     "做同款"
+    ],
+    "maskText": "预览",
+    "paramLabels": [
+     "原图"
+    ],
+    "params": [
+     {
+      "h": 64,
+      "src": "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/SCENE_FISSION/1740552324171223040/image.jpg?x-oss-process=image/resize,m_mfit,w_64,h_64/format,webp",
+      "w": 91
+     }
+    ],
+    "r": {
+     "h": 226,
+     "w": 321,
+     "x": 1539,
+     "y": 504
+    },
+    "result": "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/SCENE_FISSION/1740552324171223040/main_result_49df618ca3834e0e9354ac14f96a311e.png?x-oss-process=image/resize,m_mfit,w_512,h_512/format,webp"
+   },
+   {
+    "alt": "优秀案例-1984090628450922496",
+    "btns": [
+     "做同款"
+    ],
+    "maskText": "预览",
+    "paramLabels": [
+     "原图"
+    ],
+    "params": [
+     {
+      "h": 64,
+      "src": "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/SCENE_FISSION/1984090628450922496/image.webp?x-oss-process=image/resize,m_mfit,w_64,h_64/format,webp",
+      "w": 64
+     }
+    ],
+    "r": {
+     "h": 321,
+     "w": 321,
+     "x": 522,
+     "y": 616
+    },
+    "result": "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/SCENE_FISSION/1984090628450922496/main_result_34af6bf2f2524feab10161860ac020b5.webp?x-oss-process=image/resize,m_mfit,w_512,h_512/format,webp"
+   },
+   {
+    "alt": "优秀案例-1984090535073132544",
+    "btns": [
+     "做同款"
+    ],
+    "maskText": "预览",
+    "paramLabels": [
+     "原图"
+    ],
+    "params": [
+     {
+      "h": 64,
+      "src": "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/SCENE_FISSION/1984090535073132544/image.webp?x-oss-process=image/resize,m_mfit,w_64,h_64/format,webp",
+      "w": 64
+     }
+    ],
+    "r": {
+     "h": 321,
+     "w": 321,
+     "x": 861,
+     "y": 670
+    },
+    "result": "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/SCENE_FISSION/1984090535073132544/main_result_e2f5a8223a614cb9beada02999222036.webp?x-oss-process=image/resize,m_mfit,w_512,h_512/format,webp"
+   },
+   {
+    "alt": "优秀案例-1984090429255036928",
+    "btns": [
+     "做同款"
+    ],
+    "maskText": "预览",
+    "paramLabels": [
+     "原图"
+    ],
+    "params": [
+     {
+      "h": 64,
+      "src": "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/SCENE_FISSION/1984090429255036928/image.webp?x-oss-process=image/resize,m_mfit,w_64,h_64/format,webp",
+      "w": 64
+     }
+    ],
+    "r": {
+     "h": 321,
+     "w": 321,
+     "x": 1200,
+     "y": 735
+    },
+    "result": "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/SCENE_FISSION/1984090429255036928/main_result_8128dbe0df6147939c3c6c5e1e1b3345.webp?x-oss-process=image/resize,m_mfit,w_512,h_512/format,webp"
+   },
+   {
+    "alt": "优秀案例-1983846127195107328",
+    "btns": [
+     "做同款"
+    ],
+    "maskText": "预览",
+    "paramLabels": [
+     "原图"
+    ],
+    "params": [
+     {
+      "h": 64,
+      "src": "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/SCENE_FISSION/1983846127195107328/image.webp?x-oss-process=image/resize,m_mfit,w_64,h_64/format,webp",
+      "w": 64
+     }
+    ],
+    "r": {
+     "h": 321,
+     "w": 321,
+     "x": 1539,
+     "y": 740
+    },
+    "result": "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/SCENE_FISSION/1983846127195107328/main_result_a177d60d523a473bb908361d2f049eca.webp?x-oss-process=image/resize,m_mfit,w_512,h_512/format,webp"
+   },
+   {
+    "alt": "优秀案例-1983831377144950784",
+    "btns": [
+     "做同款"
+    ],
+    "maskText": "预览",
+    "paramLabels": [
+     "原图"
+    ],
+    "params": [
+     {
+      "h": 85,
+      "src": "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/SCENE_FISSION/1983831377144950784/image.webp?x-oss-process=image/resize,m_mfit,w_64,h_64/format,webp",
+      "w": 64
+     }
+    ],
+    "r": {
+     "h": 428,
+     "w": 321,
+     "x": 522,
+     "y": 947
+    },
+    "result": "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/SCENE_FISSION/1983831377144950784/main_result_0cb89ae460014605b800b028b74d2d2e.webp?x-oss-process=image/resize,m_mfit,w_512,h_512/format,webp"
+   },
+   {
+    "alt": "优秀案例-1983831155903803392",
+    "btns": [
+     "做同款"
+    ],
+    "maskText": "预览",
+    "paramLabels": [
+     "原图"
+    ],
+    "params": [
+     {
+      "h": 85,
+      "src": "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/SCENE_FISSION/1983831155903803392/image.webp?x-oss-process=image/resize,m_mfit,w_64,h_64/format,webp",
+      "w": 64
+     }
+    ],
+    "r": {
+     "h": 428,
+     "w": 321,
+     "x": 861,
+     "y": 1001
+    },
+    "result": "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/SCENE_FISSION/1983831155903803392/main_result_5e0c454587f94b57b6368ad13328d45d.webp?x-oss-process=image/resize,m_mfit,w_512,h_512/format,webp"
+   },
+   {
+    "alt": "优秀案例-1983831102560645120",
+    "btns": [
+     "做同款"
+    ],
+    "maskText": "预览",
+    "paramLabels": [
+     "原图"
+    ],
+    "params": [
+     {
+      "h": 85,
+      "src": "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/SCENE_FISSION/1983831102560645120/image.webp?x-oss-process=image/resize,m_mfit,w_64,h_64/format,webp",
+      "w": 64
+     }
+    ],
+    "r": {
+     "h": 428,
+     "w": 321,
+     "x": 1200,
+     "y": 1066
+    },
+    "result": "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/SCENE_FISSION/1983831102560645120/main_result_a6d57cdf16244185ab20cc68c4fa7dfe.webp?x-oss-process=image/resize,m_mfit,w_512,h_512/format,webp"
+   },
+   {
+    "alt": "优秀案例-1983805839680450560",
+    "btns": [
+     "做同款"
+    ],
+    "maskText": "预览",
+    "paramLabels": [
+     "原图"
+    ],
+    "params": [
+     {
+      "h": 64,
+      "src": "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/SCENE_FISSION/1983805839680450560/image.webp?x-oss-process=image/resize,m_mfit,w_64,h_64/format,webp",
+      "w": 64
+     }
+    ],
+    "r": {
+     "h": 321,
+     "w": 321,
+     "x": 1539,
+     "y": 1071
+    },
+    "result": "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/SCENE_FISSION/1983805839680450560/main_result_d7259032142e462a923a239c1b535b43.webp?x-oss-process=image/resize,m_mfit,w_512,h_512/format,webp"
+   },
+   {
+    "alt": "优秀案例-1983780547578540032",
+    "btns": [
+     "做同款"
+    ],
+    "maskText": "预览",
+    "paramLabels": [
+     "原图"
+    ],
+    "params": [
+     {
+      "h": 64,
+      "src": "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/SCENE_FISSION/1983780547578540032/image.webp?x-oss-process=image/resize,m_mfit,w_64,h_64/format,webp",
+      "w": 64
+     }
+    ],
+    "r": {
+     "h": 321,
+     "w": 321,
+     "x": 522,
+     "y": 1385
+    },
+    "result": "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/SCENE_FISSION/1983780547578540032/main_result_f7ead3c55f4c4789b25ec055f9234d69.webp?x-oss-process=image/resize,m_mfit,w_512,h_512/format,webp"
+   },
+   {
+    "alt": "优秀案例-1983780450664951808",
+    "btns": [
+     "做同款"
+    ],
+    "maskText": "预览",
+    "paramLabels": [
+     "原图"
+    ],
+    "params": [
+     {
+      "h": 64,
+      "src": "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/SCENE_FISSION/1983780450664951808/image.webp?x-oss-process=image/resize,m_mfit,w_64,h_64/format,webp",
+      "w": 64
+     }
+    ],
+    "r": {
+     "h": 321,
+     "w": 321,
+     "x": 1539,
+     "y": 1402
+    },
+    "result": "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/SCENE_FISSION/1983780450664951808/main_result_372af6f6db9d45b39460f9210cb749f2.webp?x-oss-process=image/resize,m_mfit,w_512,h_512/format,webp"
+   },
+   {
+    "alt": "优秀案例-1983779885243412480",
+    "btns": [
+     "做同款"
+    ],
+    "maskText": "预览",
+    "paramLabels": [
+     "原图"
+    ],
+    "params": [
+     {
+      "h": 96,
+      "src": "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/SCENE_FISSION/1983779885243412480/image.webp?x-oss-process=image/resize,m_mfit,w_64,h_64/format,webp",
+      "w": 64
+     }
+    ],
+    "r": {
+     "h": 482,
+     "w": 321,
+     "x": 861,
+     "y": 1439
+    },
+    "result": "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/SCENE_FISSION/1983779885243412480/main_result_537615aa78a54b5d941db507ff9484ac.webp?x-oss-process=image/resize,m_mfit,w_512,h_512/format,webp"
+   },
+   {
+    "alt": "优秀案例-1983037133948858368",
+    "btns": [
+     "做同款"
+    ],
+    "maskText": "预览",
+    "paramLabels": [
+     "原图"
+    ],
+    "params": [
+     {
+      "h": 64,
+      "src": "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/SCENE_FISSION/1983037133948858368/image.webp?x-oss-process=image/resize,m_mfit,w_64,h_64/format,webp",
+      "w": 96
+     }
+    ],
+    "r": {
+     "h": 214,
+     "w": 321,
+     "x": 1200,
+     "y": 1504
+    },
+    "result": "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/SCENE_FISSION/1983037133948858368/main_result_72fed3bf4fbb49e18035b16476785580.webp?x-oss-process=image/resize,m_mfit,w_512,h_512/format,webp"
+   },
+   {
+    "alt": "优秀案例-1982733693691506688",
+    "btns": [
+     "做同款"
+    ],
+    "maskText": "预览",
+    "paramLabels": [
+     "原图"
+    ],
+    "params": [
+     {
+      "h": 64,
+      "src": "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/SCENE_FISSION/1982733693691506688/image.webp?x-oss-process=image/resize,m_mfit,w_64,h_64/format,webp",
+      "w": 64
+     }
+    ],
+    "r": {
+     "h": 321,
+     "w": 321,
+     "x": 522,
+     "y": 1716
+    },
+    "result": "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/SCENE_FISSION/1982733693691506688/main_result_883c9a08957a4be99f093e75903c3acb.webp?x-oss-process=image/resize,m_mfit,w_512,h_512/format,webp"
+   },
+   {
+    "alt": "优秀案例-1982003556029181952",
+    "btns": [
+     "做同款"
+    ],
+    "maskText": "预览",
+    "paramLabels": [
+     "原图"
+    ],
+    "params": [
+     {
+      "h": 64,
+      "src": "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/SCENE_FISSION/1982003556029181952/image.webp?x-oss-process=image/resize,m_mfit,w_64,h_64/format,webp",
+      "w": 64
+     }
+    ],
+    "r": {
+     "h": 321,
+     "w": 321,
+     "x": 1200,
+     "y": 1728
+    },
+    "result": "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/SCENE_FISSION/1982003556029181952/main_result_7ae131da2c2d428e8d81fbca9d13c9e3.webp?x-oss-process=image/resize,m_mfit,w_512,h_512/format,webp"
+   }
+  ],
+  "txt": "预览||原图|做同款||预览||原图|做同款||预览||原图|做同款||预览||原图|做同款||预览||原图|做同款||预览||原图|做同款||预览||原图|做同款||预览||原图|做同款||预览||原图|做同款||预览||原图|做同款||预览||原图|做同款||预览||原图|做同款||预览||原图|做同款||预览||原图|做同款||预览||原图|做同款||预览||原图|做同款||预览||原图|做同款||预览||原图|做同款||预览||原图|做同款||预览||原图|做同款"
+ },
+ "labels": [
+  {
+   "active": true,
+   "r": {
+    "h": 22,
+    "w": 56,
+    "x": 503,
+    "y": 130
+   },
+   "t": "生成结果"
+  },
+  {
+   "active": false,
+   "r": {
+    "h": 22,
+    "w": 56,
+    "x": 573,
+    "y": 130
+   },
+   "t": "优秀案例"
+  }
+ ],
+ "ready": "complete",
+ "title": "场景裂变 - LinkFox",
+ "url": "https://www.linkfox.com/draw/product-scene?type=2",
+ "viewport": {
+  "h": 781,
+  "w": 1908
+ },
+ "id": "FISSION_LINK",
+ "probeUrl": "https://www.linkfox.com/draw/product-scene?type=2"
+}

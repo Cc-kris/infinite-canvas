@@ -1,0 +1,79 @@
+[
+ {
+  "toolId": "IMAGE_TEXT_EDIT",
+  "route": "/tools/product-design/image-text-edit",
+  "steps": {
+   "provider": {
+    "imageModel": "ccai-accept::gpt-image-2",
+    "channels": [
+     "ccai-accept",
+     "sf-accept"
+    ],
+    "baseUrl": "https://api.cc-ai.xyz",
+    "keyLen": 67,
+    "proxyEnabled": true,
+    "channelCount": 2,
+    "model": "gpt-image-2"
+   },
+   "title": "图片文字编辑\n\n上传图片后可框选或新增文字框；画布选中与右侧属性面板始终同步。\n\n撤销\n重做\n图片文字画布\n上传源图\n新",
+   "boxes": 1,
+   "boxText": "",
+   "gate": {
+    "disabled": false,
+    "text": "生成图片文字"
+   },
+   "providerCalls": [
+    "200 https://api.cc-ai.xyz/v1/images/edits",
+    "200 https://oss-us.dimenoss.com/images/2026/10/29/1793255381_d33",
+    "200 https://oss-us.dimenoss.com/images/2026/10/29/1793255381_d33",
+    "200 https://oss-us.dimenoss.com/images/2026/10/29/1793255381_d33"
+   ],
+   "result": {
+    "src": "https://oss-us.dimenoss.com/images/2026/10/29/1793255381_d3364c652271ccb36d5d3798f141edfd.png",
+    "failed": null,
+    "feedback": null,
+    "progress": null,
+    "elapsedMs": 24161,
+    "sha": "ac03dd05b2b411de2f6f0960",
+    "bytes": 848043
+   },
+   "download": {
+    "file": "dl-IMAGE_TEXT_EDIT-1793255389794.png",
+    "bytes": 848043,
+    "sha": "ac03dd05b2b411de2f6f0960",
+    "match": true
+   },
+   "save": {
+    "feedback": "已保存到资产库（W5KSwoJIM5C2T7cKFLDS_）",
+    "last": null
+   },
+   "canvas": {
+    "feedback": "已发送到画布（eySjHVbxe1TFlFRwHbc1o）"
+   },
+   "history": {
+    "beforeCount": "1 条",
+    "afterReload": {
+     "count": "1 条",
+     "items": 0,
+     "hasResult": true
+    }
+   }
+  },
+  "errors": [],
+  "_base": 2,
+  "verdict": {
+   "checks": {
+    "providerCalled": true,
+    "providerOk": true,
+    "hasResultBytes": true,
+    "notInputImage": true,
+    "downloadMatches": true,
+    "assetSaved": true,
+    "canvasSent": true,
+    "historyRestored": true
+   },
+   "pass": true,
+   "failed": []
+  }
+ }
+]

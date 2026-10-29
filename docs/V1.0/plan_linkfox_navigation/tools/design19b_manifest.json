@@ -1,0 +1,11 @@
+[
+ {"id":"PRINT_EXTRACT","title":"印花提取","index":25,"real":"https://www.linkfox.com/draw/print-extract","realRef":"/draw/print-extract","local":"http://127.0.0.1:3000/tools/product-design/print-extract"},
+ {"id":"AI_POSE_GENERATOR","title":"AI姿势生成","index":26,"real":"https://www.linkfox.com/draw/ai-posture","realRef":"/draw/ai-posture (姿势裂变)","local":"http://127.0.0.1:3000/tools/product-design/ai-pose-generator"},
+ {"id":"AI_DRESSING_XSY","title":"AI试衣XSY","index":27,"real":"https://www.linkfox.com/draw/ai-dressing","realRef":"/draw/ai-dressing (AI穿衣)","local":"http://127.0.0.1:3000/tools/product-design/ai-dressing-xsy"},
+ {"id":"FISSION_LINK","title":"场景裂变链接","index":28,"real":"https://www.linkfox.com/draw/product-scene?type=2","realRef":"/draw/product-scene?type=2 (场景裂变)","local":"http://127.0.0.1:3000/tools/product-design/fission-link"},
+ {"id":"IMAGE_TEXT_EDIT","title":"图片文字编辑","index":29,"real":"https://www.linkfox.com/draw/designer-home","realRef":"/draw/designer-home (设计器)","local":"http://127.0.0.1:3000/tools/product-design/image-text-edit"},
+ {"id":"MATERIAL_UPPER_BODY","title":"上装换料","index":30,"real":"https://www.linkfox.com/draw/clothing-image-suite","realRef":"/draw/clothing-image-suite (服装套图)","local":"http://127.0.0.1:3000/tools/product-design/material-upper-body"},
+ {"id":"NEW_DESIGNER","title":"商品图设计器","index":31,"real":"https://www.linkfox.com/draw/designer-home","realRef":"/draw/designer-home (设计器)","local":"http://127.0.0.1:3000/tools/product-design/new-designer"},
+ {"id":"PRODUCT_MARKET_MATERIAL","title":"商品营销素材","index":32,"real":"https://www.linkfox.com/draw/product-image-suite?batchType=PRODUCT_MATERIAL","realRef":"/draw/product-image-suite?batchType=PRODUCT_MATERIAL","local":"http://127.0.0.1:3000/tools/product-design/product-market-material"},
+ {"id":"SCENE_TRANSFER","title":"场景迁移","index":33,"real":"https://www.linkfox.com/draw/product-scene?type=2","realRef":"私有B2B无页面，最近参照 /draw/product-scene?type=2","local":"http://127.0.0.1:3000/tools/product-design/scene-transfer"}
+]

@@ -1,0 +1,122 @@
+无限画布 · 39 个电商 AI 工具，一套导航直达
+本地运行 · API Key 只保存在你自己的浏览器
+插件与模型可自定义 · 无需注册账号
+无限画布
+首页
+电商套图
+智能修图
+新模型
+AI视频
+HOT
+批量生图
+商品图设计
+Skills
+Agent
+更多
+学习中心
+免费得算力
+积分
+0
+购买
+用
+本地用户
+个人账号
+商品图设计
+商品图
+商品替换
+场景裂变
+手持商品
+AI穿衣
+姿势裂变
+AI穿戴
+POD素材
+饰品文字
+素材贴合
+印花提取
+AI姿势生成
+补充
+AI试衣XSY
+补充
+场景裂变链接
+补充
+图片文字编辑
+补充
+上装换料
+补充
+商品图设计器
+补充
+商品营销素材
+补充
+场景迁移
+补充
+免责声明
+商品图设计 / 场景裂变链接
+场景裂变链接
+补充
+/tools/product-design/fission-link
+场景裂变链接
+粘贴一张商品/场景图的链接，或直接上传；数量 = 每张一次真实请求。
+参考图链接
+或上传本地参考图
+0 / 1 个 · PNG / JPG / WebP · ≤ 20 MB
+点击选择本地文件，或拖拽到这里
+校验格式 / 大小 / 像素，入库后可刷新恢复
+还没有素材
+裂变数量
+1
+2
+3
+4
+将发起 1 次真实请求（每张一次）
+请粘贴图片链接，或从本地上传一张参考图
+生成裂变结果
+裂变结果
+还没有结果：粘贴参考图 → 选裂变数量 → 生成
+第 1 张
+等待提交
+等待提交
+历史任务
+5 条
+2026-10-29 12:17
+已完成
+Keep the product in the reference image "链接参考图" exactly …
+default::gpt-image-2 · image · 1 个结果
+2026-10-29 12:16
+已完成
+Keep the product in the reference image "链接参考图" exactly …
+default::gpt-image-2 · image · 1 个结果
+2026-10-29 12:15
+提交中
+Keep the product in the reference image "链接参考图" exactly …
+default::gpt-image-2 · image · 0 个结果
+2026-10-29 12:08
+已完成
+Keep the product in the reference image "链接参考图" exactly …
+default::gpt-image-2 · image · 1 个结果
+2026-10-29 12:04
+已完成
+Keep the product in the reference image "链接参考图" exactly …
+default::gpt-image-2 · image · 1 个结果
+1
+连接本地 Agent
+未连接
+点连接会自动启动本地服务、装好插件并接通，无需手动配置。
+Claude Code
+未连接
+·
+CLI · 2.1.285 (Claude Code)
+·
+直接运行
+连接
+Codex
+未连接
+·
+CLI · codex-cli 0.163.0
+·
+插件已装
+连接
+Galley
+未连接
+·
+CLI + 桌面版 · galley 0.6.4
+连接

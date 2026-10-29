@@ -1,0 +1,528 @@
+{
+ "bodyText": "首页\n电商套图\n智能修图\n新模型\nAI视频\nHOT\n批量生图\n商品图设计\nSkills\nAgent\n更多\n学习中心\n免费得算力\n250\n购 买\n用\n用户6991\n个人账号\n商品套图\n服装套图\n爆款图复刻\nNEW\n套图换色\nNEW\n批量翻译\n高清放大\n批量抠图\n智能扩图\n 免责声明\n多视角白底商品&实拍图 \n从本地上传\n从作品库选择\n从商品库选择\n10M以内，384*384 ~ 4096*4096，最大宽高比5\n商品信息 \nAI分析\n向导\n0 / 2500\n品牌与合规（可选）\n智能品牌基因\n智能主色、智能字体风格\n智能合规检查\n未选择敏感词库\n·\n未选择替换词库\n模型选择\nLF智能模型 G-2.5 Sunburst\nNEW\n分辨率选择\n1K\n2K\n4K\n模型品质\n低品质\n中品质\n高品质\n超高品质\n最大品质\nA+图设置 \n生成类型（单选）\n高级A+\n4\n手机A+\n4\n普通A+\n4\n自定比例\n4\n选择排版\n每种排版生成一张\n无文字模式\n💡未选择排版时，将根据官方排版随机生成\n主副图设置 \n生成类型（多选）\n卖点图\n4\n选择排版\n每种排版生成一张\n无文字模式\n💡未选择排版时，将根据官方排版随机生成\n白底图\n4\n场景图\n4\n特写图\n4\n特写白底图\n4\n生成比例\n1:1\n3:4\n4:3\n2:3\n3:2\n更多\nA+图4张 * 每张50点 + 主副图4张 * 每张50点 = 400点\n开始生成\n(400算力)\n生成结果\n优秀案例\n历史记录\n预览\n原图\n做同款\n预览\n原图\n做同款\n预览\n原图\n做同款\n预览\n原图\n做同款\n预览\n原图\n做同款\n预览\n原图\n做同款\n预览\n原图\n做同款\n预览\n原图\n做同款\n预览\n原图\n做同款\n预览\n原图\n做同款\n预览\n原图\n做同款\n预览\n原图\n做同款\n预览\n原图\n做同款\n预览\n原图\n做同款\n预览\n原图\n做同款\n预览\n原图\n做同款\n预览\n原图\n做同款\n预览\n原图\n做同款\n预览\n原图\n做同款\n预览\n原图\n做同款\n操作咨询\n产品教程\n管理水印分组\n共 1/20 个\n默认\n＋ 新增水印分组",
+ "caseInfo": {
+  "contentCls": "_content_176zc_1",
+  "count": 20,
+  "padding": "16px 32px",
+  "pane": {
+   "h": 609,
+   "w": 1408,
+   "x": 490,
+   "y": 162
+  },
+  "recs": [
+   {
+    "alt": "优秀案例-2026855585971982336",
+    "btns": [
+     "做同款"
+    ],
+    "maskText": "预览",
+    "paramLabels": [
+     "原图"
+    ],
+    "params": [
+     {
+      "h": 64,
+      "src": "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/PRODUCT_MARKET_MATERIAL_V2/2026855585971982336/image.jpg?x-oss-process=image/resize,m_mfit,w_64,h_64/format,webp",
+      "w": 64
+     }
+    ],
+    "r": {
+     "h": 200,
+     "w": 321,
+     "x": 522,
+     "y": 178
+    },
+    "result": "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/PRODUCT_MARKET_MATERIAL_V2/2026855585971982336/main_result_fd1a22ad85a948c29fb295ff13deb899.jpg?x-oss-process=image/resize,m_mfit,w_512,h_512/format,webp"
+   },
+   {
+    "alt": "优秀案例-2026854347385622528",
+    "btns": [
+     "做同款"
+    ],
+    "maskText": "预览",
+    "paramLabels": [
+     "原图"
+    ],
+    "params": [
+     {
+      "h": 64,
+      "src": "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/PRODUCT_MARKET_MATERIAL_V2/2026854347385622528/image.jpg?x-oss-process=image/resize,m_mfit,w_64,h_64/format,webp",
+      "w": 64
+     }
+    ],
+    "r": {
+     "h": 200,
+     "w": 321,
+     "x": 861,
+     "y": 178
+    },
+    "result": "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/PRODUCT_MARKET_MATERIAL_V2/2026854347385622528/main_result_0e9106ab684d4597a5d372e11d8cf77e.png?x-oss-process=image/resize,m_mfit,w_512,h_512/format,webp"
+   },
+   {
+    "alt": "优秀案例-2008849264547028909",
+    "btns": [
+     "做同款"
+    ],
+    "maskText": "预览",
+    "paramLabels": [
+     "原图"
+    ],
+    "params": [
+     {
+      "h": 64,
+      "src": "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/PRODUCT_MARKET_MATERIAL_V2/2008849264547028909/image.jpg?x-oss-process=image/resize,m_mfit,w_64,h_64/format,webp",
+      "w": 64
+     }
+    ],
+    "r": {
+     "h": 200,
+     "w": 321,
+     "x": 1200,
+     "y": 178
+    },
+    "result": "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/PRODUCT_MARKET_MATERIAL_V2/2008849264547028909/main_result_3d0fd6bb9242436593c8b1f6ffa5fbea.jpg?x-oss-process=image/resize,m_mfit,w_512,h_512/format,webp"
+   },
+   {
+    "alt": "优秀案例-2052656145868357632",
+    "btns": [
+     "做同款"
+    ],
+    "maskText": "预览",
+    "paramLabels": [
+     "原图"
+    ],
+    "params": [
+     {
+      "h": 64,
+      "src": "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/PRODUCT_MARKET_MATERIAL_V2/2052656145868357632/image.jpg?x-oss-process=image/resize,m_mfit,w_64,h_64/format,webp",
+      "w": 81
+     }
+    ],
+    "r": {
+     "h": 132,
+     "w": 321,
+     "x": 1539,
+     "y": 178
+    },
+    "result": "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/PRODUCT_MARKET_MATERIAL_V2/2052656145868357632/main_result_70b4518f8d7f4c1fa148a95a1fb2ce1c.png?x-oss-process=image/resize,m_mfit,w_512,h_512/format,webp"
+   },
+   {
+    "alt": "优秀案例-2049791360688578560",
+    "btns": [
+     "做同款"
+    ],
+    "maskText": "预览",
+    "paramLabels": [
+     "原图"
+    ],
+    "params": [
+     {
+      "h": 67,
+      "src": "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/PRODUCT_MARKET_MATERIAL_V2/2049791360688578560/image.jpg?x-oss-process=image/resize,m_mfit,w_64,h_64/format,webp",
+      "w": 64
+     }
+    ],
+    "r": {
+     "h": 132,
+     "w": 321,
+     "x": 1539,
+     "y": 320
+    },
+    "result": "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/PRODUCT_MARKET_MATERIAL_V2/2049791360688578560/main_result_cbee67ad5c6249d89db0dcf57b474ba8.png?x-oss-process=image/resize,m_mfit,w_512,h_512/format,webp"
+   },
+   {
+    "alt": "优秀案例-2048645339790995456",
+    "btns": [
+     "做同款"
+    ],
+    "maskText": "预览",
+    "paramLabels": [
+     "原图"
+    ],
+    "params": [
+     {
+      "h": 90,
+      "src": "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/PRODUCT_MARKET_MATERIAL_V2/2048645339790995456/image.jpg?x-oss-process=image/resize,m_mfit,w_64,h_64/format,webp",
+      "w": 64
+     }
+    ],
+    "r": {
+     "h": 321,
+     "w": 321,
+     "x": 522,
+     "y": 388
+    },
+    "result": "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/PRODUCT_MARKET_MATERIAL_V2/2048645339790995456/main_result_25a7ea3fcef64bacaeefed13b8b5d1a5.jpg?x-oss-process=image/resize,m_mfit,w_512,h_512/format,webp"
+   },
+   {
+    "alt": "优秀案例-2048646069000105984",
+    "btns": [
+     "做同款"
+    ],
+    "maskText": "预览",
+    "paramLabels": [
+     "原图"
+    ],
+    "params": [
+     {
+      "h": 64,
+      "src": "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/PRODUCT_MARKET_MATERIAL_V2/2048646069000105984/image.jpg?x-oss-process=image/resize,m_mfit,w_64,h_64/format,webp",
+      "w": 64
+     }
+    ],
+    "r": {
+     "h": 132,
+     "w": 321,
+     "x": 861,
+     "y": 388
+    },
+    "result": "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/PRODUCT_MARKET_MATERIAL_V2/2048646069000105984/main_result_0b0a377417e0470d8b8fe1a53c7b48e3.jpg?x-oss-process=image/resize,m_mfit,w_512,h_512/format,webp"
+   },
+   {
+    "alt": "优秀案例-2037116582322327552",
+    "btns": [
+     "做同款"
+    ],
+    "maskText": "预览",
+    "paramLabels": [
+     "原图"
+    ],
+    "params": [
+     {
+      "h": 64,
+      "src": "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/PRODUCT_MARKET_MATERIAL_V2/2037116582322327552/image.jpg?x-oss-process=image/resize,m_mfit,w_64,h_64/format,webp",
+      "w": 85
+     }
+    ],
+    "r": {
+     "h": 321,
+     "w": 321,
+     "x": 1200,
+     "y": 388
+    },
+    "result": "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/PRODUCT_MARKET_MATERIAL_V2/2037116582322327552/main_result_c953e739a22543548d87f9100fe70676.jpg?x-oss-process=image/resize,m_mfit,w_512,h_512/format,webp"
+   },
+   {
+    "alt": "优秀案例-2037115898130681856",
+    "btns": [
+     "做同款"
+    ],
+    "maskText": "预览",
+    "paramLabels": [
+     "原图"
+    ],
+    "params": [
+     {
+      "h": 66,
+      "src": "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/PRODUCT_MARKET_MATERIAL_V2/2037115898130681856/image.jpg?x-oss-process=image/resize,m_mfit,w_64,h_64/format,webp",
+      "w": 64
+     }
+    ],
+    "r": {
+     "h": 132,
+     "w": 321,
+     "x": 1539,
+     "y": 461
+    },
+    "result": "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/PRODUCT_MARKET_MATERIAL_V2/2037115898130681856/main_result_9fe5ee62fb514c099999f8e64916309a.jpg?x-oss-process=image/resize,m_mfit,w_512,h_512/format,webp"
+   },
+   {
+    "alt": "优秀案例-2035901013554167808",
+    "btns": [
+     "做同款"
+    ],
+    "maskText": "预览",
+    "paramLabels": [
+     "原图"
+    ],
+    "params": [
+     {
+      "h": 64,
+      "src": "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/PRODUCT_MARKET_MATERIAL_V2/2035901013554167808/image.jpg?x-oss-process=image/resize,m_mfit,w_64,h_64/format,webp",
+      "w": 64
+     }
+    ],
+    "r": {
+     "h": 132,
+     "w": 321,
+     "x": 861,
+     "y": 529
+    },
+    "result": "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/PRODUCT_MARKET_MATERIAL_V2/2035901013554167808/main_result_d6ffd401bbe64605817b35d4a91be61a.jpg?x-oss-process=image/resize,m_mfit,w_512,h_512/format,webp"
+   },
+   {
+    "alt": "优秀案例-2035911132090269696",
+    "btns": [
+     "做同款"
+    ],
+    "maskText": "预览",
+    "paramLabels": [
+     "原图"
+    ],
+    "params": [
+     {
+      "h": 64,
+      "src": "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/PRODUCT_MARKET_MATERIAL_V2/2035911132090269696/image.jpg?x-oss-process=image/resize,m_mfit,w_64,h_64/format,webp",
+      "w": 64
+     }
+    ],
+    "r": {
+     "h": 430,
+     "w": 321,
+     "x": 1539,
+     "y": 603
+    },
+    "result": "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/PRODUCT_MARKET_MATERIAL_V2/2035911132090269696/main_result_29c4ea27b7c9475e985dcb2dda7f56a1.jpg?x-oss-process=image/resize,m_mfit,w_512,h_512/format,webp"
+   },
+   {
+    "alt": "优秀案例-2032412870417752064",
+    "btns": [
+     "做同款"
+    ],
+    "maskText": "预览",
+    "paramLabels": [
+     "原图"
+    ],
+    "params": [
+     {
+      "h": 70,
+      "src": "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/PRODUCT_MARKET_MATERIAL_V2/2032412870417752064/image.jpg?x-oss-process=image/resize,m_mfit,w_64,h_64/format,webp",
+      "w": 64
+     }
+    ],
+    "r": {
+     "h": 321,
+     "w": 321,
+     "x": 861,
+     "y": 671
+    },
+    "result": "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/PRODUCT_MARKET_MATERIAL_V2/2032412870417752064/main_result_878b86a3f84844279599063d97a412a3.jpg?x-oss-process=image/resize,m_mfit,w_512,h_512/format,webp"
+   },
+   {
+    "alt": "优秀案例-2032294709400985600",
+    "btns": [
+     "做同款"
+    ],
+    "maskText": "预览",
+    "paramLabels": [
+     "原图"
+    ],
+    "params": [
+     {
+      "h": 64,
+      "src": "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/PRODUCT_MARKET_MATERIAL_V2/2032294709400985600/image.webp?x-oss-process=image/resize,m_mfit,w_64,h_64/format,webp",
+      "w": 64
+     }
+    ],
+    "r": {
+     "h": 132,
+     "w": 321,
+     "x": 522,
+     "y": 719
+    },
+    "result": "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/PRODUCT_MARKET_MATERIAL_V2/2032294709400985600/main_result_de9aaa3ddde4442c8c8edc77fba07e63.jpg?x-oss-process=image/resize,m_mfit,w_512,h_512/format,webp"
+   },
+   {
+    "alt": "优秀案例-2028424512657182720",
+    "btns": [
+     "做同款"
+    ],
+    "maskText": "预览",
+    "paramLabels": [
+     "原图"
+    ],
+    "params": [
+     {
+      "h": 64,
+      "src": "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/PRODUCT_MARKET_MATERIAL_V2/2028424512657182720/image.jpg?x-oss-process=image/resize,m_mfit,w_64,h_64/format,webp",
+      "w": 64
+     }
+    ],
+    "r": {
+     "h": 200,
+     "w": 321,
+     "x": 1200,
+     "y": 719
+    },
+    "result": "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/PRODUCT_MARKET_MATERIAL_V2/2028424512657182720/main_result_f1ba8f7c74d34e9abfd98439a0e52014.jpg?x-oss-process=image/resize,m_mfit,w_512,h_512/format,webp"
+   },
+   {
+    "alt": "优秀案例-2028384697144332288",
+    "btns": [
+     "做同款"
+    ],
+    "maskText": "预览",
+    "paramLabels": [
+     "原图"
+    ],
+    "params": [
+     {
+      "h": 64,
+      "src": "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/PRODUCT_MARKET_MATERIAL_V2/2028384697144332288/image.jpg?x-oss-process=image/resize,m_mfit,w_64,h_64/format,webp",
+      "w": 67
+     }
+    ],
+    "r": {
+     "h": 200,
+     "w": 321,
+     "x": 522,
+     "y": 860
+    },
+    "result": "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/PRODUCT_MARKET_MATERIAL_V2/2028384697144332288/main_result_829e90354c02447a98091417a1a25370.png?x-oss-process=image/resize,m_mfit,w_512,h_512/format,webp"
+   },
+   {
+    "alt": "优秀案例-2028387370723725312",
+    "btns": [
+     "做同款"
+    ],
+    "maskText": "预览",
+    "paramLabels": [
+     "原图"
+    ],
+    "params": [
+     {
+      "h": 64,
+      "src": "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/PRODUCT_MARKET_MATERIAL_V2/2028387370723725312/image.jpg?x-oss-process=image/resize,m_mfit,w_64,h_64/format,webp",
+      "w": 64
+     }
+    ],
+    "r": {
+     "h": 430,
+     "w": 321,
+     "x": 1200,
+     "y": 928
+    },
+    "result": "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/PRODUCT_MARKET_MATERIAL_V2/2028387370723725312/main_result_73bfc9073002447a95adbdf7f0e776a5.jpg?x-oss-process=image/resize,m_mfit,w_512,h_512/format,webp"
+   },
+   {
+    "alt": "优秀案例-2028387188518965248",
+    "btns": [
+     "做同款"
+    ],
+    "maskText": "预览",
+    "paramLabels": [
+     "原图"
+    ],
+    "params": [
+     {
+      "h": 64,
+      "src": "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/PRODUCT_MARKET_MATERIAL_V2/2028387188518965248/image.jpg?x-oss-process=image/resize,m_mfit,w_64,h_64/format,webp",
+      "w": 70
+     }
+    ],
+    "r": {
+     "h": 430,
+     "w": 321,
+     "x": 861,
+     "y": 1002
+    },
+    "result": "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/PRODUCT_MARKET_MATERIAL_V2/2028387188518965248/main_result_51f578ba779c4c0ebf426d6ee11f77d8.jpg?x-oss-process=image/resize,m_mfit,w_512,h_512/format,webp"
+   },
+   {
+    "alt": "优秀案例-2028400296826261504",
+    "btns": [
+     "做同款"
+    ],
+    "maskText": "预览",
+    "paramLabels": [
+     "原图"
+    ],
+    "params": [
+     {
+      "h": 84,
+      "src": "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/PRODUCT_MARKET_MATERIAL_V2/2028400296826261504/image.jpg?x-oss-process=image/resize,m_mfit,w_64,h_64/format,webp",
+      "w": 64
+     }
+    ],
+    "r": {
+     "h": 132,
+     "w": 321,
+     "x": 1539,
+     "y": 1043
+    },
+    "result": "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/PRODUCT_MARKET_MATERIAL_V2/2028400296826261504/main_result_a8f9a8bd38cf4c32b2d48ffbc8538a38.jpg?x-oss-process=image/resize,m_mfit,w_512,h_512/format,webp"
+   },
+   {
+    "alt": "优秀案例-2019675097706561536",
+    "btns": [
+     "做同款"
+    ],
+    "maskText": "预览",
+    "paramLabels": [
+     "原图"
+    ],
+    "params": [
+     {
+      "h": 64,
+      "src": "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/PRODUCT_MARKET_MATERIAL_V2/2019675097706561536/image.jpg?x-oss-process=image/resize,m_mfit,w_64,h_64/format,webp",
+      "w": 66
+     }
+    ],
+    "r": {
+     "h": 430,
+     "w": 321,
+     "x": 522,
+     "y": 1070
+    },
+    "result": "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/PRODUCT_MARKET_MATERIAL_V2/2019675097706561536/main_result_d0f476741ebf462aafe59bb8489d33ea.jpg?x-oss-process=image/resize,m_mfit,w_512,h_512/format,webp"
+   },
+   {
+    "alt": "优秀案例-2019697152908886016",
+    "btns": [
+     "做同款"
+    ],
+    "maskText": "预览",
+    "paramLabels": [
+     "原图"
+    ],
+    "params": [
+     {
+      "h": 64,
+      "src": "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/PRODUCT_MARKET_MATERIAL_V2/2019697152908886016/image.png?x-oss-process=image/resize,m_mfit,w_64,h_64/format,webp",
+      "w": 81
+     }
+    ],
+    "r": {
+     "h": 430,
+     "w": 321,
+     "x": 1539,
+     "y": 1184
+    },
+    "result": "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/PRODUCT_MARKET_MATERIAL_V2/2019697152908886016/main_result_d884196e0a9449b8b17f76c5e68e1024.jpg?x-oss-process=image/resize,m_mfit,w_512,h_512/format,webp"
+   }
+  ],
+  "txt": "预览||原图|做同款||预览||原图|做同款||预览||原图|做同款||预览||原图|做同款||预览||原图|做同款||预览||原图|做同款||预览||原图|做同款||预览||原图|做同款||预览||原图|做同款||预览||原图|做同款||预览||原图|做同款||预览||原图|做同款||预览||原图|做同款||预览||原图|做同款||预览||原图|做同款||预览||原图|做同款||预览||原图|做同款||预览||原图|做同款||预览||原图|做同款||预览||原图|做同款"
+ },
+ "labels": [
+  {
+   "active": true,
+   "r": {
+    "h": 22,
+    "w": 56,
+    "x": 503,
+    "y": 130
+   },
+   "t": "生成结果"
+  },
+  {
+   "active": false,
+   "r": {
+    "h": 22,
+    "w": 56,
+    "x": 573,
+    "y": 130
+   },
+   "t": "优秀案例"
+  }
+ ],
+ "ready": "complete",
+ "title": "商品套图 - LinkFox",
+ "url": "https://www.linkfox.com/draw/product-image-suite?batchType=PRODUCT_MATERIAL",
+ "viewport": {
+  "h": 781,
+  "w": 1908
+ },
+ "id": "PRODUCT_MARKET_MATERIAL",
+ "probeUrl": "https://www.linkfox.com/draw/product-image-suite?batchType=PRODUCT_MATERIAL"
+}

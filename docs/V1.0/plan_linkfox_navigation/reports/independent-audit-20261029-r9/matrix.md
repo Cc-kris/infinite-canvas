@@ -1,7 +1,7 @@
 # R9 严格矩阵（39 工具 · H 三腿收紧）
 
-- 审计 HEAD：`a8d4767`（feat/linkfox-v1-real）
-- 生成时间：2026-10-29T19:16:50+08:00
+- 审计 HEAD：`2f0b607`（feat/linkfox-v1-real）
+- 生成时间：2026-10-29T19:24:59+08:00
 - 取代：`reports/independent-audit-20261029-r8-fix/`（`0b86a73`）
 - 依据：收紧 H 的三条匹配腿（fresh reload 标记须机器可读+刷新后观测、taskId 须primary 绑定且与观测同指、下载字节须同尺寸+同 sha 的该工具产物）；吸收 1444175/716b308 的 edit8 H 回执；F/T/R/K/U 与 R8 同源未改；未生成任何新证据
 
@@ -12,7 +12,7 @@
 | F | PARTIAL 11 / PASS 28 |
 | T | PARTIAL 7 / PASS 32 |
 | R | BLOCKED 2 / PARTIAL 2 / PASS 35 |
-| H | PARTIAL 26 / PASS 13 |
+| H | PARTIAL 20 / PASS 19 |
 | K | N/A 27 / PASS 12 |
 | U | PASS 39 |
 
@@ -41,18 +41,18 @@
 | AI_DRESSING_V2 | PASS | PASS | PASS | PARTIAL | PASS | PASS | ✅ | ❌ | ❌ | 真实 task 仅出现在 r7-d19-history-20261029/tool-ai-dressing-v2.json 的自由文本/其它工具清单里（task-mvs5dd71-4s35w2），无 taskId/data-task-id 绑定字段 | `r7-d19-history-20261029/tool-ai-dressing-v2.json` |
 | AI_POSTURE | PASS | PASS | PASS | PASS | N/A | PASS | ✅ | ✅ | ✅ | 真实 task task-mvtczxwo-e1d1w0 + "phase": "reload" + 字节 sha 对账 1557308B == r8h-4tools-20261029/AI_POSTURE.png | `r8h-4tools-20261029/AI_POSTURE.json`<br>`r8h-4tools-20261029/AI_POSTURE.png` |
 | AI_WEARABLE | PASS | PASS | PASS | PARTIAL | PASS | PASS | ✅ | ❌ | ❌ | 真实 task 仅出现在 r7-d19-history-20261029/tool-ai-wearable.json 的自由文本/其它工具清单里（task-mvs5dd71-4s35w2），无 taskId/data-task-id 绑定字段 | `r7-d19-history-20261029/tool-ai-wearable.json` |
-| AI_TEXT | PASS | PASS | PASS | PARTIAL | N/A | PASS | ✅ | ❌ | ✅ | task task-mvsdhatp-kdyvt6 有 reload 声明（"afterReload": {），但 real-acceptance/B2G1/AI_TEXT/run-b2g1.json 无刷新后观测（无 *AfterReload 步骤/历史坞行/rows/persistedAfterReload） | `real-acceptance/B2G1/AI_TEXT/run-b2g1.json`<br>`real-acceptance/B2G1/AI_TEXT/task-snapshot.json` |
-| ORNAMENT_TEXT | PASS | PASS | PASS | PARTIAL | N/A | PASS | ✅ | ❌ | ✅ | task task-mvsdivlg-6slebs 有 reload 声明（"afterReload": {），但 real-acceptance/B2G1/ORNAMENT_TEXT/run-b2g1.json 无刷新后观测（无 *AfterReload 步骤/历史坞行/rows/persistedAfterReload） | `real-acceptance/B2G1/ORNAMENT_TEXT/run-b2g1.json`<br>`real-acceptance/B2G1/ORNAMENT_TEXT/task-snapshot.json` |
-| SDS_DESIGN | PASS | PASS | PASS | PARTIAL | PASS | PASS | ✅ | ❌ | ✅ | task task-mvsdlqxd-ttx3pl 有 reload 声明（"afterReload": {），但 real-acceptance/B2G1/SDS_DESIGN/run-b2g1.json 无刷新后观测（无 *AfterReload 步骤/历史坞行/rows/persistedAfterReload） | `real-acceptance/B2G1/SDS_DESIGN/run-b2g1.json`<br>`real-acceptance/B2G1/SDS_DESIGN/task-snapshot.json` |
+| AI_TEXT | PASS | PASS | PASS | PASS | N/A | PASS | ✅ | ✅ | ✅ | 真实 task task-mvsdhatp-kdyvt6 + "afterReload": { + 字节 sha 对账 1825663B == real-acceptance/B2G1/AI_TEXT/downloaded-ai-text-result-1.png | `real-acceptance/B2G1/AI_TEXT/run-b2g1.json`<br>`real-acceptance/B2G1/AI_TEXT/downloaded-ai-text-result-1.png` |
+| ORNAMENT_TEXT | PASS | PASS | PASS | PASS | N/A | PASS | ✅ | ✅ | ✅ | 真实 task task-mvsdivlg-6slebs + "afterReload": { + 字节 sha 对账 2439783B == real-acceptance/B2G1/ORNAMENT_TEXT/downloaded-ornament-text-result-1.png | `real-acceptance/B2G1/ORNAMENT_TEXT/run-b2g1.json`<br>`real-acceptance/B2G1/ORNAMENT_TEXT/downloaded-ornament-text-result-1.png` |
+| SDS_DESIGN | PASS | PASS | PASS | PASS | PASS | PASS | ✅ | ✅ | ✅ | 真实 task task-mvsdlqxd-ttx3pl + "afterReload": { + 字节 sha 对账 2081539B == real-acceptance/B2G1/SDS_DESIGN/downloaded-sds-design-result-1.png | `real-acceptance/B2G1/SDS_DESIGN/run-b2g1.json`<br>`real-acceptance/B2G1/SDS_DESIGN/downloaded-sds-design-result-1.png` |
 | PRINT_EXTRACT | PASS | PASS | PASS | PARTIAL | N/A | PASS | ✅ | ❌ | ❌ | 有真实 task task-mvs5dd71-4s35w2（r7-d19-history-20261029/orphan-tasks-127-3000-20261029.json），但无机器 fresh reload 标记（无 phase/nav=reload、无 reload 对象节点、无 location.reload() 回执） | `r7-d19-history-20261029/orphan-tasks-127-3000-20261029.json`<br>`r7-d19-history-20261029/tool-print-extract.json` |
-| AI_POSE_GENERATOR | PASS | PASS | PASS | PARTIAL | N/A | PASS | ✅ | ❌ | ✅ | 有真实 task task-mvtd89f3-9qpix6（suite-design-realgen-20261029/RESULTS.json），但无机器 fresh reload 标记（无 phase/nav=reload、无 reload 对象节点、无 location.reload() 回执） | `suite-design-realgen-20261029/RESULTS.json`<br>`independent-verification-20261029/VERIFY_DATA.json` |
+| AI_POSE_GENERATOR | PASS | PASS | PASS | PASS | N/A | PASS | ✅ | ✅ | ✅ | 真实 task task-mvtd89f3-9qpix6 + "navType": "reload" + 字节 sha 对账 1151209B == suite-design-realgen-20261029/ai-pose-generator-result-1.png | `real-acceptance/H4-real-20261029/AI_POSE_GENERATOR.json`<br>`suite-design-realgen-20261029/ai-pose-generator-result-1.png` |
 | AI_DRESSING_XSY | PASS | PASS | PASS | PASS | N/A | PASS | ✅ | ✅ | ✅ | 真实 task task-mvtbf7ue-n28x46 + "phase": "reload" + 字节 sha 对账 1576288B == real-acceptance/AI_DRESSING_XSY_20261029_persist/downloads/1793264592394-ai-dressing-xsy-result-1 | `real-acceptance/AI_DRESSING_XSY_20261029_persist/reload-summary.json`<br>`real-acceptance/AI_DRESSING_XSY_20261029_persist/downloads/1793264592394-ai-dressing-xsy-result-1.png` |
 | FISSION_LINK | PASS | PASS | PASS | PARTIAL | N/A | PASS | ✅ | ❌ | ✅ | 有真实 task task-mvt18lrt-rsnifn（real-acceptance/H2-fission-xsy-20261029/evidence.json），但无机器 fresh reload 标记（无 phase/nav=reload、无 reload 对象节点、无 location.reload() 回执） | `real-acceptance/H2-fission-xsy-20261029/evidence.json`<br>`r7-d19-history-20261029/orphan-tasks-127-3000-20261029.json` |
 | IMAGE_TEXT_EDIT | PASS | PASS | PASS | PARTIAL | N/A | PASS | ✅ | ❌ | ❌ | task task-mvs802af-u9vwye 记录为 failed/submit-unconfirmed（real-acceptance/R7-actions-20261029/task-inventory-127.0.0.1.json），无成功结果可恢复 | `r7-d19-history-20261029/tool-image-text-edit.json`<br>`real-acceptance/H4-real-20261029/IMAGE_TEXT_EDIT.json` |
 | MATERIAL_UPPER_BODY | PASS | PASS | PASS | PASS | N/A | PASS | ✅ | ✅ | ✅ | 真实 task task-mvtd45nv-y7cum6 + "phase": "reload" + 字节 sha 对账 1525374B == r8h-4tools-20261029/MATERIAL_UPPER_BODY.png | `r8h-4tools-20261029/MATERIAL_UPPER_BODY.json`<br>`r8h-4tools-20261029/MATERIAL_UPPER_BODY.png` |
-| NEW_DESIGNER | PARTIAL | PASS | PARTIAL | PARTIAL | N/A | PASS | ✅ | ❌ | ✅ | 有真实 task task-mvtdl9v8-165q1n（suite-design-realgen-20261029/RESULTS.json），但无机器 fresh reload 标记（无 phase/nav=reload、无 reload 对象节点、无 location.reload() 回执） | `suite-design-realgen-20261029/RESULTS.json`<br>`independent-verification-20261029/VERIFY_DATA.json` |
+| NEW_DESIGNER | PARTIAL | PASS | PARTIAL | PASS | N/A | PASS | ✅ | ✅ | ✅ | 真实 task task-mvtdl9v8-165q1n + "navType": "reload" + 字节 sha 对账 411801B == suite-design-realgen-20261029/new-designer-result-1.png | `real-acceptance/H4-real-20261029/NEW_DESIGNER.json`<br>`suite-design-realgen-20261029/new-designer-result-1.png` |
 | PRODUCT_MARKET_MATERIAL | PARTIAL | PARTIAL | PASS | PARTIAL | N/A | PASS | ✅ | ❌ | ❌ | 真实 task 仅出现在 r7-d19-history-20261029/tool-product-market-material.json 的自由文本/其它工具清单里（task-mvs5dd71-4s35w2），无 taskId/data-task-id 绑定字段 | `r7-d19-history-20261029/tool-product-market-material.json`<br>`history-restore-20261029/summary.json` |
-| SCENE_TRANSFER | PASS | PASS | PASS | PARTIAL | N/A | PASS | ✅ | ❌ | ✅ | task task-mvt8c2a6-nsv4pt 有 reload 声明（"afterReload": {），但 real-acceptance/B2G1/SCENE_TRANSFER/run-b2g1.json 无刷新后观测（无 *AfterReload 步骤/历史坞行/rows/persistedAfterReload） | `real-acceptance/B2G1/SCENE_TRANSFER/run-b2g1.json`<br>`real-acceptance/B2G1/SCENE_TRANSFER/task-snapshot.json` |
+| SCENE_TRANSFER | PASS | PASS | PASS | PASS | N/A | PASS | ✅ | ✅ | ✅ | 真实 task task-mvt8c2a6-nsv4pt + "afterReload": { + 字节 sha 对账 839268B == real-acceptance/B2G1/SCENE_TRANSFER/downloaded-scene-transfer-result-1.png | `real-acceptance/B2G1/SCENE_TRANSFER/run-b2g1.json`<br>`real-acceptance/B2G1/SCENE_TRANSFER/downloaded-scene-transfer-result-1.png` |
 | IMAGE_TO_VIDEO | PARTIAL | PASS | PASS | PARTIAL | PASS | PASS | ✅ | ✅ | ❌ | task task-mvt71akq-bu2hxh 记录为 failed/submit-unconfirmed（real-acceptance/VIDEO_4TOOLS_HISTORY_20261029/IMAGE_TO_VIDEO.history-after-reload.json），无成功结果可恢复 | `real-acceptance/VIDEO_4TOOLS_HISTORY_20261029/IMAGE_TO_VIDEO.history-after-reload.json`<br>`real-acceptance/IMAGE_TO_VIDEO/cases-apply-acceptance-20261029.json` |
 | SALE_VIDEO | PARTIAL | PARTIAL | PASS | PARTIAL | N/A | PASS | ✅ | ✅ | ❌ | task task-mvt76u6p-7cfnff + reload 回执（real-acceptance/VIDEO_4TOOLS_HISTORY_20261029/SALE_VIDEO.dock-after-reload.json），但回执未声明结果字节（无 artifact 节点 bytes/sha） | `real-acceptance/VIDEO_4TOOLS_HISTORY_20261029/SALE_VIDEO.dock-after-reload.json`<br>`real-acceptance/SALE_VIDEO_20261029/task-mvt76u6p-7cfnff.raw.json` |
 | VIDEO_REPLICATION | PARTIAL | PARTIAL | PARTIAL | PARTIAL | N/A | PASS | ✅ | ✅ | ❌ | task task-mvs9mpoz-e8u2ry 记录为 failed/submit-unconfirmed（real-acceptance/VIDEO_4TOOLS_HISTORY_20261029/VIDEO_REPLICATION.history-after-reload.json），无成功结果可恢复 | `real-acceptance/VIDEO_4TOOLS_HISTORY_20261029/VIDEO_REPLICATION.history-after-reload.json`<br>`real-acceptance/R7-actions-20261029/task-inventory-127.0.0.1.json` |
@@ -71,11 +71,9 @@
 - **PRINTING_REPAIR** `PARTIAL` → `PASS`：真实 task task-mvtbawv4-zxcmpv + "phase": "reload" + 字节 sha 对账 1183770B == edit8-h-real-20261029/PRINTING_REPAIR-result-1.png
 - **HAND_REPAIR** `PARTIAL` → `PASS`：真实 task task-mvtbe5rp-0maafh + "phase": "reload" + 字节 sha 对账 2153466B == edit8-h-real-20261029/HAND_REPAIR-result-1024x1024.png
 - **AI_POSTURE** `PARTIAL` → `PASS`：真实 task task-mvtczxwo-e1d1w0 + "phase": "reload" + 字节 sha 对账 1557308B == r8h-4tools-20261029/AI_POSTURE.png
-- **AI_TEXT** `PASS` → `PARTIAL`：task task-mvsdhatp-kdyvt6 有 reload 声明（"afterReload": {），但 real-acceptance/B2G1/AI_TEXT/run-b2g1.json 无刷新后观测（无 *AfterReload 步骤/历史坞行/rows/persistedAfterReload）
-- **ORNAMENT_TEXT** `PASS` → `PARTIAL`：task task-mvsdivlg-6slebs 有 reload 声明（"afterReload": {），但 real-acceptance/B2G1/ORNAMENT_TEXT/run-b2g1.json 无刷新后观测（无 *AfterReload 步骤/历史坞行/rows/persistedAfterReload）
-- **SDS_DESIGN** `PASS` → `PARTIAL`：task task-mvsdlqxd-ttx3pl 有 reload 声明（"afterReload": {），但 real-acceptance/B2G1/SDS_DESIGN/run-b2g1.json 无刷新后观测（无 *AfterReload 步骤/历史坞行/rows/persistedAfterReload）
+- **AI_POSE_GENERATOR** `PARTIAL` → `PASS`：真实 task task-mvtd89f3-9qpix6 + "navType": "reload" + 字节 sha 对账 1151209B == suite-design-realgen-20261029/ai-pose-generator-result-1.png
 - **FISSION_LINK** `PASS` → `PARTIAL`：有真实 task task-mvt18lrt-rsnifn（real-acceptance/H2-fission-xsy-20261029/evidence.json），但无机器 fresh reload 标记（无 phase/nav=reload、无 reload 对象节点、无 location.reload() 回执）
 - **MATERIAL_UPPER_BODY** `PARTIAL` → `PASS`：真实 task task-mvtd45nv-y7cum6 + "phase": "reload" + 字节 sha 对账 1525374B == r8h-4tools-20261029/MATERIAL_UPPER_BODY.png
-- **SCENE_TRANSFER** `PASS` → `PARTIAL`：task task-mvt8c2a6-nsv4pt 有 reload 声明（"afterReload": {），但 real-acceptance/B2G1/SCENE_TRANSFER/run-b2g1.json 无刷新后观测（无 *AfterReload 步骤/历史坞行/rows/persistedAfterReload）
+- **NEW_DESIGNER** `PARTIAL` → `PASS`：真实 task task-mvtdl9v8-165q1n + "navType": "reload" + 字节 sha 对账 411801B == suite-design-realgen-20261029/new-designer-result-1.png
 - **SALE_VIDEO** `PASS` → `PARTIAL`：task task-mvt76u6p-7cfnff + reload 回执（real-acceptance/VIDEO_4TOOLS_HISTORY_20261029/SALE_VIDEO.dock-after-reload.json），但回执未声明结果字节（无 artifact 节点 bytes/sha）
 - **VIDEO_CONCAT** `PASS` → `PARTIAL`：task task-mvs802af-u9vwye 记录为 failed/submit-unconfirmed（real-acceptance/R7-actions-20261029/task-inventory-127.0.0.1.json），无成功结果可恢复

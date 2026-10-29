@@ -1,0 +1,55 @@
+[
+ {
+  "toolId": "IMAGE_TEXT_EDIT",
+  "route": "/tools/product-design/image-text-edit",
+  "steps": {
+   "provider": {
+    "imageModel": "ccai-accept::gpt-image-2",
+    "channels": [
+     "ccai-accept",
+     "sf-accept"
+    ],
+    "baseUrl": "https://api.cc-ai.xyz",
+    "keyLen": 67,
+    "proxyEnabled": true,
+    "channelCount": 2,
+    "model": "gpt-image-2"
+   },
+   "title": "图片文字编辑\n\n上传图片后可框选或新增文字框；画布选中与右侧属性面板始终同步。\n\n撤销\n重做\n图片文字画布\n上传源图\n新",
+   "afterUpload": "图片文字编辑\n\n还没有文字框：在画布上拖拽框选，或点“新增文字框”。\n\n撤销\n重做\n图片文字画布\n更换源图\n新增文字框\n\n在画布空白处拖拽可框选新文字框；选中后方向键微调（Shift 加速）、Delete 删除、⌘/Ctrl+Z 撤销。\n\n已上传 product-watch.jpg（1024×744，31KB）。原图不会被覆盖。\n\n属性编辑\n\n在画布或列表里选中一个文字框后编辑属性。\n\n文本框列表\n0/30\n\n还没有文字框。\n\n导出\nPNG（透明背景）\nJPEG（更小体积）\nWebP（体积与质量平衡）\n\n导出的是新结果文件；原图保持不动，可随时改框重出。\n\n生成图片文字\n\n字体列表是本地可渲染的预览字族（上游字体库未取证），fontId 原样透传；溢出与缺字提示按本地字宽模型估算，提交前请自行确认。原图只作为参考图上传，不会被覆盖。\n\n图片文字结果\n尚未提交\n\n尚无结果：上传图片、框选文字",
+   "boxes": 0,
+   "gate": {
+    "disabled": false,
+    "text": "生成图片文字"
+   },
+   "result": {
+    "src": "/logo.png",
+    "failed": null,
+    "feedback": null,
+    "progress": null,
+    "elapsedMs": 176371,
+    "sha": "dc6606590189bcae39195cdf",
+    "bytes": 60838
+   },
+   "download": {
+    "absent": true
+   },
+   "save": {
+    "absent": true
+   },
+   "canvas": {
+    "absent": true
+   },
+   "history": {
+    "beforeCount": "0 条",
+    "afterReload": {
+     "count": "0 条",
+     "items": 0,
+     "hasResult": true
+    }
+   }
+  },
+  "errors": [],
+  "_base": 2
+ }
+]

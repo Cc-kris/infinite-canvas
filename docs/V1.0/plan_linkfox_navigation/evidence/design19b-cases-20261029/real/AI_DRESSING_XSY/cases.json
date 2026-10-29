@@ -1,0 +1,608 @@
+{
+ "bodyText": "首页\n电商套图\n智能修图\n新模型\nAI视频\nHOT\n批量生图\n商品图设计\nSkills\nAgent\n更多\n学习中心\n免费得算力\n250\n购 买\n用\n用户6991\n个人账号\n真人换模特\n模特换场景\nAI穿衣\n姿势裂变\nAI穿戴\n历史记录\n企业功能\n批量生图\n即将下架\n人台换模特\n下架\n 免责声明\n上下装衣服\n连体衣服\n图片规则\n拖拽/粘贴 或 上传上装正面图\n从本地上传\n从作品库选择\n从商品库选择\n10M以内，384*384 ~ 4096*4096\n拖拽/粘贴 或 上传下装正面图\n从本地上传\n从作品库选择\n从商品库选择\n10M以内，384*384 ~ 4096*4096\n或试试这些\n上传多件衣服，开始批量穿衣\n选择穿衣模特\n穿衣的部位与模特参考\n选择生成张数\n1\n2\n3\n4\n立即生成\n(40算力)\n生成结果\n优秀案例\n历史记录\n预览\n商品\n参考图\n做同款\n预览\n商品\n参考图\n做同款\n预览\n商品\n参考图\n做同款\n预览\n商品\n参考图\n做同款\n预览\n商品\n参考图\n做同款\n预览\n商品\n参考图\n做同款\n预览\n商品\n参考图\n做同款\n预览\n商品\n参考图\n做同款\n预览\n商品\n参考图\n做同款\n预览\n商品\n参考图\n做同款\n预览\n商品\n参考图\n做同款\n预览\n商品\n参考图\n做同款\n预览\n商品\n参考图\n做同款\n预览\n商品\n参考图\n做同款\n预览\n商品\n参考图\n做同款\n预览\n商品\n参考图\n做同款\n预览\n商品\n参考图\n做同款\n预览\n商品\n参考图\n做同款\n第一步：选择示例图或上传平铺服装图片（支持仅上传上/下装图）\n我是高手，不再提醒\n操作咨询\n产品教程\n管理水印分组\n共 1/20 个\n默认\n＋ 新增水印分组",
+ "caseInfo": {
+  "contentCls": "_content_176zc_1",
+  "count": 18,
+  "padding": "16px 32px",
+  "pane": {
+   "h": 609,
+   "w": 1408,
+   "x": 490,
+   "y": 162
+  },
+  "recs": [
+   {
+    "alt": "优秀案例-1940370107691995136",
+    "btns": [
+     "做同款"
+    ],
+    "maskText": "预览",
+    "paramLabels": [
+     "商品",
+     "参考图"
+    ],
+    "params": [
+     {
+      "h": 85,
+      "src": "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/FITTING_ROOM_V2/1940370107691995136/suit_image.png?x-oss-process=image/resize,m_mfit,w_64,h_64/format,webp",
+      "w": 64
+     },
+     {
+      "h": 85,
+      "src": "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/FITTING_ROOM_V2/1940370107691995136/model_image.png?x-oss-process=image/resize,m_mfit,w_64,h_64/format,webp",
+      "w": 64
+     }
+    ],
+    "r": {
+     "h": 0,
+     "w": 0,
+     "x": 682,
+     "y": 392
+    },
+    "result": "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/FITTING_ROOM_V2/1940370107691995136/main_result_8e2df325a5204a26abe6ec3c0847447a.webp?x-oss-process=image/resize,m_mfit,w_512,h_512/format,webp"
+   },
+   {
+    "alt": "优秀案例-1940369738240921600",
+    "btns": [
+     "做同款"
+    ],
+    "maskText": "预览",
+    "paramLabels": [
+     "商品",
+     "参考图"
+    ],
+    "params": [
+     {
+      "h": 85,
+      "src": "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/FITTING_ROOM_V2/1940369738240921600/suit_image.png?x-oss-process=image/resize,m_mfit,w_64,h_64/format,webp",
+      "w": 64
+     },
+     {
+      "h": 85,
+      "src": "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/FITTING_ROOM_V2/1940369738240921600/model_image.png?x-oss-process=image/resize,m_mfit,w_64,h_64/format,webp",
+      "w": 64
+     }
+    ],
+    "r": {
+     "h": 0,
+     "w": 0,
+     "x": 1022,
+     "y": 392
+    },
+    "result": "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/FITTING_ROOM_V2/1940369738240921600/main_result_fdebd59cca7e4848a86bed493b71961d.webp?x-oss-process=image/resize,m_mfit,w_512,h_512/format,webp"
+   },
+   {
+    "alt": "优秀案例-1955583515158163456",
+    "btns": [
+     "做同款"
+    ],
+    "maskText": "预览",
+    "paramLabels": [
+     "商品",
+     "参考图"
+    ],
+    "params": [
+     {
+      "h": 64,
+      "src": "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/FITTING_ROOM_V2/1955583515158163456/suit_image.png?x-oss-process=image/resize,m_mfit,w_64,h_64/format,webp",
+      "w": 64
+     },
+     {
+      "h": 96,
+      "src": "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/FITTING_ROOM_V2/1955583515158163456/model_image.png?x-oss-process=image/resize,m_mfit,w_64,h_64/format,webp",
+      "w": 64
+     }
+    ],
+    "r": {
+     "h": 0,
+     "w": 0,
+     "x": 1362,
+     "y": 419
+    },
+    "result": "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/FITTING_ROOM_V2/1955583515158163456/main_result_7f2b8957e4f34b759aaf3c4ba9cd9f4f.webp?x-oss-process=image/resize,m_mfit,w_512,h_512/format,webp"
+   },
+   {
+    "alt": "优秀案例-1955583269879459840",
+    "btns": [
+     "做同款"
+    ],
+    "maskText": "预览",
+    "paramLabels": [
+     "商品",
+     "参考图"
+    ],
+    "params": [
+     {
+      "h": 85,
+      "src": "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/FITTING_ROOM_V2/1955583269879459840/upper_image.png?x-oss-process=image/resize,m_mfit,w_64,h_64/format,webp",
+      "w": 64
+     },
+     {
+      "h": 96,
+      "src": "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/FITTING_ROOM_V2/1955583269879459840/model_image.png?x-oss-process=image/resize,m_mfit,w_64,h_64/format,webp",
+      "w": 64
+     }
+    ],
+    "r": {
+     "h": 0,
+     "w": 0,
+     "x": 1702,
+     "y": 419
+    },
+    "result": "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/FITTING_ROOM_V2/1955583269879459840/main_result_69764af8e4a344838aeea1aad17e4c85.webp?x-oss-process=image/resize,m_mfit,w_512,h_512/format,webp"
+   },
+   {
+    "alt": "优秀案例-1955583161792245760",
+    "btns": [
+     "做同款"
+    ],
+    "maskText": "预览",
+    "paramLabels": [
+     "商品",
+     "参考图"
+    ],
+    "params": [
+     {
+      "h": 96,
+      "src": "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/FITTING_ROOM_V2/1955583161792245760/down_image.png?x-oss-process=image/resize,m_mfit,w_64,h_64/format,webp",
+      "w": 64
+     },
+     {
+      "h": 96,
+      "src": "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/FITTING_ROOM_V2/1955583161792245760/model_image.png?x-oss-process=image/resize,m_mfit,w_64,h_64/format,webp",
+      "w": 64
+     }
+    ],
+    "r": {
+     "h": 0,
+     "w": 0,
+     "x": 682,
+     "y": 609
+    },
+    "result": "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/FITTING_ROOM_V2/1955583161792245760/main_result_8ec5653a021241bd88d10a9d88f08f5f.webp?x-oss-process=image/resize,m_mfit,w_512,h_512/format,webp"
+   },
+   {
+    "alt": "优秀案例-1940369796831154176",
+    "btns": [
+     "做同款"
+    ],
+    "maskText": "预览",
+    "paramLabels": [
+     "商品",
+     "参考图"
+    ],
+    "params": [
+     {
+      "h": 85,
+      "src": "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/FITTING_ROOM_V2/1940369796831154176/upper_image.png?x-oss-process=image/resize,m_mfit,w_64,h_64/format,webp",
+      "w": 64
+     },
+     {
+      "h": 86,
+      "src": "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/FITTING_ROOM_V2/1940369796831154176/model_image.png?x-oss-process=image/resize,m_mfit,w_64,h_64/format,webp",
+      "w": 64
+     }
+    ],
+    "r": {
+     "h": 0,
+     "w": 0,
+     "x": 1022,
+     "y": 582
+    },
+    "result": "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/FITTING_ROOM_V2/1940369796831154176/main_result_17efd1ec9fb54380b53ba2aa0d371beb.webp?x-oss-process=image/resize,m_mfit,w_512,h_512/format,webp"
+   },
+   {
+    "alt": "优秀案例-1940369770805497856",
+    "btns": [
+     "做同款"
+    ],
+    "maskText": "预览",
+    "paramLabels": [
+     "商品",
+     "参考图"
+    ],
+    "params": [
+     {
+      "h": 85,
+      "src": "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/FITTING_ROOM_V2/1940369770805497856/suit_image.png?x-oss-process=image/resize,m_mfit,w_64,h_64/format,webp",
+      "w": 64
+     },
+     {
+      "h": 86,
+      "src": "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/FITTING_ROOM_V2/1940369770805497856/model_image.png?x-oss-process=image/resize,m_mfit,w_64,h_64/format,webp",
+      "w": 64
+     }
+    ],
+    "r": {
+     "h": 0,
+     "w": 0,
+     "x": 1362,
+     "y": 582
+    },
+    "result": "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/FITTING_ROOM_V2/1940369770805497856/main_result_df661b7a730143cf9ad02f1b6f305dd3.webp?x-oss-process=image/resize,m_mfit,w_512,h_512/format,webp"
+   },
+   {
+    "alt": "优秀案例-1940369698512474112",
+    "btns": [
+     "做同款"
+    ],
+    "maskText": "预览",
+    "paramLabels": [
+     "商品",
+     "参考图"
+    ],
+    "params": [
+     {
+      "h": 85,
+      "src": "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/FITTING_ROOM_V2/1940369698512474112/upper_image.webp?x-oss-process=image/resize,m_mfit,w_64,h_64/format,webp",
+      "w": 64
+     },
+     {
+      "h": 85,
+      "src": "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/FITTING_ROOM_V2/1940369698512474112/model_image.png?x-oss-process=image/resize,m_mfit,w_64,h_64/format,webp",
+      "w": 64
+     }
+    ],
+    "r": {
+     "h": 0,
+     "w": 0,
+     "x": 1702,
+     "y": 582
+    },
+    "result": "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/FITTING_ROOM_V2/1940369698512474112/main_result_bd248d9ca2144291a95bb19ecfc05fef.webp?x-oss-process=image/resize,m_mfit,w_512,h_512/format,webp"
+   },
+   {
+    "alt": "优秀案例-1940357479011749888",
+    "btns": [
+     "做同款"
+    ],
+    "maskText": "预览",
+    "paramLabels": [
+     "商品",
+     "参考图"
+    ],
+    "params": [
+     {
+      "h": 85,
+      "src": "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/FITTING_ROOM_V2/1940357479011749888/suit_image.png?x-oss-process=image/resize,m_mfit,w_64,h_64/format,webp",
+      "w": 64
+     },
+     {
+      "h": 86,
+      "src": "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/FITTING_ROOM_V2/1940357479011749888/model_image.png?x-oss-process=image/resize,m_mfit,w_64,h_64/format,webp",
+      "w": 64
+     }
+    ],
+    "r": {
+     "h": 0,
+     "w": 0,
+     "x": 682,
+     "y": 772
+    },
+    "result": "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/FITTING_ROOM_V2/1940357479011749888/main_result_0bdc7823702c495881ab50fd8b8a0541.webp?x-oss-process=image/resize,m_mfit,w_512,h_512/format,webp"
+   },
+   {
+    "alt": "优秀案例-1940357428071927808",
+    "btns": [
+     "做同款"
+    ],
+    "maskText": "预览",
+    "paramLabels": [
+     "商品",
+     "参考图"
+    ],
+    "params": [
+     {
+      "h": 96,
+      "src": "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/FITTING_ROOM_V2/1940357428071927808/upper_image.png?x-oss-process=image/resize,m_mfit,w_64,h_64/format,webp",
+      "w": 64
+     },
+     {
+      "h": 96,
+      "src": "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/FITTING_ROOM_V2/1940357428071927808/model_image.png?x-oss-process=image/resize,m_mfit,w_64,h_64/format,webp",
+      "w": 64
+     }
+    ],
+    "r": {
+     "h": 0,
+     "w": 0,
+     "x": 1022,
+     "y": 799
+    },
+    "result": "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/FITTING_ROOM_V2/1940357428071927808/main_result_61bdf9fd728e419089c3de92ad091a80.webp?x-oss-process=image/resize,m_mfit,w_512,h_512/format,webp"
+   },
+   {
+    "alt": "优秀案例-1940357378386202624",
+    "btns": [
+     "做同款"
+    ],
+    "maskText": "预览",
+    "paramLabels": [
+     "商品",
+     "参考图"
+    ],
+    "params": [
+     {
+      "h": 86,
+      "src": "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/FITTING_ROOM_V2/1940357378386202624/down_image.png?x-oss-process=image/resize,m_mfit,w_64,h_64/format,webp",
+      "w": 64
+     },
+     {
+      "h": 96,
+      "src": "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/FITTING_ROOM_V2/1940357378386202624/model_image.png?x-oss-process=image/resize,m_mfit,w_64,h_64/format,webp",
+      "w": 64
+     }
+    ],
+    "r": {
+     "h": 0,
+     "w": 0,
+     "x": 1362,
+     "y": 799
+    },
+    "result": "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/FITTING_ROOM_V2/1940357378386202624/main_result_357a259a74a54eb7a0df123d6536eccb.webp?x-oss-process=image/resize,m_mfit,w_512,h_512/format,webp"
+   },
+   {
+    "alt": "优秀案例-1940357325680578560",
+    "btns": [
+     "做同款"
+    ],
+    "maskText": "预览",
+    "paramLabels": [
+     "商品",
+     "参考图"
+    ],
+    "params": [
+     {
+      "h": 64,
+      "src": "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/FITTING_ROOM_V2/1940357325680578560/upper_image.png?x-oss-process=image/resize,m_mfit,w_64,h_64/format,webp",
+      "w": 64
+     },
+     {
+      "h": 85,
+      "src": "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/FITTING_ROOM_V2/1940357325680578560/model_image.png?x-oss-process=image/resize,m_mfit,w_64,h_64/format,webp",
+      "w": 64
+     }
+    ],
+    "r": {
+     "h": 0,
+     "w": 0,
+     "x": 1702,
+     "y": 772
+    },
+    "result": "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/FITTING_ROOM_V2/1940357325680578560/main_result_75c53d3dd10a4cf6a8230c4cb0e0e061.webp?x-oss-process=image/resize,m_mfit,w_512,h_512/format,webp"
+   },
+   {
+    "alt": "优秀案例-1940357261981683712",
+    "btns": [
+     "做同款"
+    ],
+    "maskText": "预览",
+    "paramLabels": [
+     "商品",
+     "参考图"
+    ],
+    "params": [
+     {
+      "h": 108,
+      "src": "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/FITTING_ROOM_V2/1940357261981683712/suit_image.png?x-oss-process=image/resize,m_mfit,w_64,h_64/format,webp",
+      "w": 64
+     },
+     {
+      "h": 85,
+      "src": "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/FITTING_ROOM_V2/1940357261981683712/model_image.png?x-oss-process=image/resize,m_mfit,w_64,h_64/format,webp",
+      "w": 64
+     }
+    ],
+    "r": {
+     "h": 0,
+     "w": 0,
+     "x": 682,
+     "y": 962
+    },
+    "result": "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/FITTING_ROOM_V2/1940357261981683712/main_result_6bb228240e994815a698722f70407ba0.webp?x-oss-process=image/resize,m_mfit,w_512,h_512/format,webp"
+   },
+   {
+    "alt": "优秀案例-1940357194906374144",
+    "btns": [
+     "做同款"
+    ],
+    "maskText": "预览",
+    "paramLabels": [
+     "商品",
+     "参考图"
+    ],
+    "params": [
+     {
+      "h": 85,
+      "src": "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/FITTING_ROOM_V2/1940357194906374144/suit_image.png?x-oss-process=image/resize,m_mfit,w_64,h_64/format,webp",
+      "w": 64
+     },
+     {
+      "h": 85,
+      "src": "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/FITTING_ROOM_V2/1940357194906374144/model_image.png?x-oss-process=image/resize,m_mfit,w_64,h_64/format,webp",
+      "w": 64
+     }
+    ],
+    "r": {
+     "h": 0,
+     "w": 0,
+     "x": 1022,
+     "y": 962
+    },
+    "result": "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/FITTING_ROOM_V2/1940357194906374144/main_result_db3c5930f7804199984ef2e5fa0133ae.webp?x-oss-process=image/resize,m_mfit,w_512,h_512/format,webp"
+   },
+   {
+    "alt": "优秀案例-1940357138912415744",
+    "btns": [
+     "做同款"
+    ],
+    "maskText": "预览",
+    "paramLabels": [
+     "商品",
+     "参考图"
+    ],
+    "params": [
+     {
+      "h": 85,
+      "src": "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/FITTING_ROOM_V2/1940357138912415744/upper_image.png?x-oss-process=image/resize,m_mfit,w_64,h_64/format,webp",
+      "w": 64
+     },
+     {
+      "h": 96,
+      "src": "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/FITTING_ROOM_V2/1940357138912415744/model_image.png?x-oss-process=image/resize,m_mfit,w_64,h_64/format,webp",
+      "w": 64
+     }
+    ],
+    "r": {
+     "h": 0,
+     "w": 0,
+     "x": 1362,
+     "y": 989
+    },
+    "result": "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/FITTING_ROOM_V2/1940357138912415744/main_result_b7b361e4835847c6b9e58478a975ee79.webp?x-oss-process=image/resize,m_mfit,w_512,h_512/format,webp"
+   },
+   {
+    "alt": "优秀案例-1940356980090900480",
+    "btns": [
+     "做同款"
+    ],
+    "maskText": "预览",
+    "paramLabels": [
+     "商品",
+     "参考图"
+    ],
+    "params": [
+     {
+      "h": 85,
+      "src": "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/FITTING_ROOM_V2/1940356980090900480/upper_image.png?x-oss-process=image/resize,m_mfit,w_64,h_64/format,webp",
+      "w": 64
+     },
+     {
+      "h": 75,
+      "src": "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/FITTING_ROOM_V2/1940356980090900480/model_image.png?x-oss-process=image/resize,m_mfit,w_64,h_64/format,webp",
+      "w": 64
+     }
+    ],
+    "r": {
+     "h": 0,
+     "w": 0,
+     "x": 1702,
+     "y": 935
+    },
+    "result": "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/FITTING_ROOM_V2/1940356980090900480/main_result_42eb7bae0c3e4513ab75059f0b3f2827.webp?x-oss-process=image/resize,m_mfit,w_512,h_512/format,webp"
+   },
+   {
+    "alt": "优秀案例-1807600002531631104",
+    "btns": [
+     "做同款"
+    ],
+    "maskText": "预览",
+    "paramLabels": [
+     "商品",
+     "参考图"
+    ],
+    "params": [
+     {
+      "h": 85,
+      "src": "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/FITTING_ROOM_V2/1807600002531631104/suit_image.webp?x-oss-process=image/resize,m_mfit,w_64,h_64/format,webp",
+      "w": 64
+     },
+     {
+      "h": 85,
+      "src": "https://file-ai.linkfox.com/UPLOAD/MANAGE/09c601143e2043a7aa58dfdc79685fa8.png?x-oss-process=image/resize,m_mfit,w_64,h_64/format,webp",
+      "w": 64
+     }
+    ],
+    "r": {
+     "h": 0,
+     "w": 0,
+     "x": 682,
+     "y": 1152
+    },
+    "result": "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/FITTING_ROOM_V2/1807600002531631104/main_result_da93e13a5f1b48b2a1b9a6bb40c70369.png?x-oss-process=image/resize,m_mfit,w_512,h_512/format,webp"
+   },
+   {
+    "alt": "优秀案例-1807599755185135616",
+    "btns": [
+     "做同款"
+    ],
+    "maskText": "预览",
+    "paramLabels": [
+     "商品",
+     "参考图"
+    ],
+    "params": [
+     {
+      "h": 85,
+      "src": "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/FITTING_ROOM_V2/1807599755185135616/suit_image.png?x-oss-process=image/resize,m_mfit,w_64,h_64/format,webp",
+      "w": 64
+     },
+     {
+      "h": 85,
+      "src": "https://file-ai.linkfox.com/UPLOAD/MANAGE/48901b4c1a3c406ca5e2be25859dfd8b.png?x-oss-process=image/resize,m_mfit,w_64,h_64/format,webp",
+      "w": 64
+     }
+    ],
+    "r": {
+     "h": 0,
+     "w": 0,
+     "x": 1022,
+     "y": 1152
+    },
+    "result": "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/FITTING_ROOM_V2/1807599755185135616/main_result_95cced40eaa2445ea977857074dbd027.png?x-oss-process=image/resize,m_mfit,w_512,h_512/format,webp"
+   }
+  ],
+  "txt": "预览||商品|参考图|做同款||预览||商品|参考图|做同款||预览||商品|参考图|做同款||预览||商品|参考图|做同款||预览||商品|参考图|做同款||预览||商品|参考图|做同款||预览||商品|参考图|做同款||预览||商品|参考图|做同款||预览||商品|参考图|做同款||预览||商品|参考图|做同款||预览||商品|参考图|做同款||预览||商品|参考图|做同款||预览||商品|参考图|做同款||预览||商品|参考图|做同款||预览||商品|参考图|做同款||"
+ },
+ "labels": [
+  {
+   "active": true,
+   "r": {
+    "h": 22,
+    "w": 70,
+    "x": 212,
+    "y": 144
+   },
+   "t": "上下装衣服"
+  },
+  {
+   "active": false,
+   "r": {
+    "h": 22,
+    "w": 56,
+    "x": 296,
+    "y": 144
+   },
+   "t": "连体衣服"
+  },
+  {
+   "active": true,
+   "r": {
+    "h": 22,
+    "w": 56,
+    "x": 503,
+    "y": 130
+   },
+   "t": "生成结果"
+  },
+  {
+   "active": false,
+   "r": {
+    "h": 22,
+    "w": 56,
+    "x": 573,
+    "y": 130
+   },
+   "t": "优秀案例"
+  }
+ ],
+ "ready": "complete",
+ "title": "LinkFox官网 - 跨境电商AI运营助手 - AI选品AI作图AI视频AI Agent OS",
+ "url": "https://www.linkfox.com/draw/ai-dressing",
+ "viewport": {
+  "h": 781,
+  "w": 1908
+ },
+ "id": "AI_DRESSING_XSY",
+ "probeUrl": "https://www.linkfox.com/draw/ai-dressing"
+}
