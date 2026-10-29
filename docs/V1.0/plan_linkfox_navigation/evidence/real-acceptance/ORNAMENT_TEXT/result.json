@@ -1,113 +1,114 @@
 {
- "tool": "ORNAMENT_TEXT",
- "name": "饰品文字素材",
- "group": "POD",
- "route": "/tools/product-design/ornament-text",
- "status": "PASS",
- "result": "verified",
- "verdict": "PARTIAL — 真实上游调用 + 结果渲染 PASS；『存入资产』『发送画布』BLOCKED（原始结果字节未留存，无法在不重新付费生成的前提下复用）",
- "realProviderCall": true,
- "provider": "ccai-tmp (CCAI 临时) / gpt-image-2 via canvas-proxy 127.0.0.1:23210 -> api.cc-ai.xyz",
- "runAt": "2026-10-28T18:40:06+08:00",
- "output": {
-  "count": 1,
-  "field": "b64_json",
-  "localFile": "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/ORNAMENT_TEXT/02-result.png",
-  "note": "结果面板截图"
- },
- "evidence": [
-  "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/ORNAMENT_TEXT/02-result.png",
-  "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/ORNAMENT_TEXT/dom/ocr-02-result.txt",
-  "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/ORNAMENT_TEXT/01-net.json"
- ],
- "assertions": [
-  "POST https://api.cc-ai.xyz/v1/images/generations 18:39:07 返回 200（真实上游）",
-  "18:40:06 OCR：『饰品文字结果已完成 共1个结果·图片1』，含 下载/存入资产/发送画布"
- ],
- "notExercised": [
-  "下载",
-  "存入资产",
-  "发送画布"
- ],
- "parityWithOriginal": "无法完成原版对照（blocked）：curl 实测 https://www.linkfox.com/draw/ornament-text 与 /draw/ai-text 均返回同一 SPA 壳（16,204 bytes，title『LinkFox官网…』），内容需登录态；既有抓取 evidence/page-dom-20261028/ORNAMENT_TEXT.json 与 AI_TEXT.json 的 url 字段均为 https://www.linkfox.com/home（重定向），正文为首页工具目录，无饰品文字工具页控件。本页控件为我方实现，逐项见 parityTable，right 列为空即『原版无证据』，不做推测。",
- "notes": [
-  "与 AI_TEXT 共用同一壳；本工具走 /images/generations（无参考图路径）。"
- ],
- "traceIds": {
-  "toolId": "ORNAMENT_TEXT",
-  "upstreamCallAt": "2026-10-28T18:39:07+08:00",
-  "upstreamResultAt": "2026-10-28T18:40:06+08:00",
-  "upstreamTaskId": null,
-  "upstreamTaskIdNote": "上游 /v1/images/generations 响应只回 created + b64_json（gpt-image-2），无任务 ID；本地任务号亦未落盘（页面已重载），故无可用可追溯 ID",
-  "resultImage": "未留存原始字节（详见 byteRecoveryAudit）"
- },
- "assetSaved": {
-  "clicked": false,
-  "status": "BLOCKED",
-  "reason": "无原始结果字节可提交：app 持久化层 sanitizeTaskForPersist 会剥离 dataUrl/blob，18:39 的结果只以内存态存在过，页面重载后不可恢复",
-  "blockedBy": "missing_real_bytes"
- },
- "canvasInserted": {
-  "clicked": false,
-  "status": "BLOCKED",
-  "reason": "同 assetSaved：无结果字节 → 发送画布会写入空/伪造图，按『不伪造成功』原则不执行",
-  "blockedBy": "missing_real_bytes"
- },
- "byteRecoveryAudit": [
-  "01-net.json 仅记录请求（method/url/headers/reqBody），未保存响应体；reqBody 为 model=gpt-image-2, n=1, size=720x960, output_format=png",
-  "02-result.png 为 1920x783 UI 截图（OCR dom/ocr-02-result.txt 内含侧栏/按钮等界面文案），与上游 720x960 尺寸不符，非上游原始字节",
-  "runtime/ 与 .worker-* 目录全量搜索 iVBORw0KGgo 无命中（无 base64 落盘残留）",
-  "canvas-proxy 无响应体落盘日志（仅系统代理转发）",
-  "工具页当前 tabs.state：tasks={} 且 hydrated=false；DOM 结果区实测文案『饰品文字结果 / 还没有生成结果』→ 18:39 结果已随页面重载丢失",
-  "代码层根因：web/src/stores/use-tool-task-store.ts:4 与 sanitizeTaskForPersist 明确剥离 dataUrl/blob，仅持久化元数据 → 结果字节从不落盘"
- ],
- "howToUnblock": [
-  "方案A（推荐，零成本）：把 18:39 那张 720x960 原图（若曾下载）放到 evidence 目录，我可注入任务卡后真实点击『存入资产』『发送画布』",
-  "方案B（成本 1 次真实调用，约 40 算力）：页面重跑一次并同时抓取响应体 b64 落盘（含 network 响应体捕获脚本），随后补齐两个动作"
- ],
- "parityTable": [
-  {
-   "item": "文字内容输入",
-   "ours": "『饰品文字内容』逐字照排，最多 4000 字 + 字数计数",
-   "original": "原站 ORNAMENT_TEXT 页未取得（重定向首页），同族 AI_TEXT 抓取亦落 /home → 无原版控件证据"
+  "tool": "ORNAMENT_TEXT",
+  "name": "饰品文字素材",
+  "group": "POD",
+  "route": "/tools/product-design/ornament-text",
+  "status": "PARTIAL",
+  "result": "verified",
+  "verdict": "PARTIAL — 真实上游调用 + 结果渲染 PASS；『存入资产』『发送画布』BLOCKED（原始结果字节未留存，无法在不重新付费生成的前提下复用）",
+  "realProviderCall": true,
+  "provider": "ccai-tmp (CCAI 临时) / gpt-image-2 via canvas-proxy 127.0.0.1:23210 -> api.cc-ai.xyz",
+  "runAt": "2026-10-28T18:40:06+08:00",
+  "output": {
+    "count": 1,
+    "field": "b64_json",
+    "localFile": "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/ORNAMENT_TEXT/02-result.png",
+    "note": "结果面板截图"
   },
-  {
-   "item": "字体",
-   "ours": "『自定义字体名（原样透传上游）』默认 serif",
-   "original": "无原版证据"
+  "evidence": [
+    "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/ORNAMENT_TEXT/02-result.png",
+    "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/ORNAMENT_TEXT/dom/ocr-02-result.txt",
+    "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/ORNAMENT_TEXT/01-net.json"
+  ],
+  "assertions": [
+    "POST https://api.cc-ai.xyz/v1/images/generations 18:39:07 返回 200（真实上游）",
+    "18:40:06 OCR：『饰品文字结果已完成 共1个结果·图片1』，含 下载/存入资产/发送画布"
+  ],
+  "notExercised": [
+    "下载",
+    "存入资产",
+    "发送画布"
+  ],
+  "parityWithOriginal": "无法完成原版对照（blocked）：curl 实测 https://www.linkfox.com/draw/ornament-text 与 /draw/ai-text 均返回同一 SPA 壳（16,204 bytes，title『LinkFox官网…』），内容需登录态；既有抓取 evidence/page-dom-20261028/ORNAMENT_TEXT.json 与 AI_TEXT.json 的 url 字段均为 https://www.linkfox.com/home（重定向），正文为首页工具目录，无饰品文字工具页控件。本页控件为我方实现，逐项见 parityTable，right 列为空即『原版无证据』，不做推测。",
+  "notes": [
+    "与 AI_TEXT 共用同一壳；本工具走 /images/generations（无参考图路径）。"
+  ],
+  "traceIds": {
+    "toolId": "ORNAMENT_TEXT",
+    "upstreamCallAt": "2026-10-28T18:39:07+08:00",
+    "upstreamResultAt": "2026-10-28T18:40:06+08:00",
+    "upstreamTaskId": null,
+    "upstreamTaskIdNote": "上游 /v1/images/generations 响应只回 created + b64_json（gpt-image-2），无任务 ID；本地任务号亦未落盘（页面已重载），故无可用可追溯 ID",
+    "resultImage": "未留存原始字节（详见 byteRecoveryAudit）"
   },
-  {
-   "item": "字号",
-   "ours": "字号 96（数字输入）",
-   "original": "无原版证据"
+  "assetSaved": {
+    "clicked": false,
+    "status": "BLOCKED",
+    "reason": "无原始结果字节可提交：app 持久化层 sanitizeTaskForPersist 会剥离 dataUrl/blob，18:39 的结果只以内存态存在过，页面重载后不可恢复",
+    "blockedBy": "missing_real_bytes"
   },
-  {
-   "item": "左右定位",
-   "ours": "左(%) 18 / 右(%) 82 + 偏左/居中/偏右 + 撤销/重做/复位定位 + 画布拖拽文字框实时预览",
-   "original": "无原版证据"
+  "canvasInserted": {
+    "clicked": false,
+    "status": "BLOCKED",
+    "reason": "同 assetSaved：无结果字节 → 发送画布会写入空/伪造图，按『不伪造成功』原则不执行",
+    "blockedBy": "missing_real_bytes"
   },
-  {
-   "item": "效果描述",
-   "ours": "『效果描述（可选）』例如：玫瑰金浮雕、宝石边镶嵌碎钻",
-   "original": "无原版证据"
+  "byteRecoveryAudit": [
+    "01-net.json 仅记录请求（method/url/headers/reqBody），未保存响应体；reqBody 为 model=gpt-image-2, n=1, size=720x960, output_format=png",
+    "02-result.png 为 1920x783 UI 截图（OCR dom/ocr-02-result.txt 内含侧栏/按钮等界面文案），与上游 720x960 尺寸不符，非上游原始字节",
+    "runtime/ 与 .worker-* 目录全量搜索 iVBORw0KGgo 无命中（无 base64 落盘残留）",
+    "canvas-proxy 无响应体落盘日志（仅系统代理转发）",
+    "工具页当前 tabs.state：tasks={} 且 hydrated=false；DOM 结果区实测文案『饰品文字结果 / 还没有生成结果』→ 18:39 结果已随页面重载丢失",
+    "代码层根因：web/src/stores/use-tool-task-store.ts:4 与 sanitizeTaskForPersist 明确剥离 dataUrl/blob，仅持久化元数据 → 结果字节从不落盘"
+  ],
+  "howToUnblock": [
+    "方案A（推荐，零成本）：把 18:39 那张 720x960 原图（若曾下载）放到 evidence 目录，我可注入任务卡后真实点击『存入资产』『发送画布』",
+    "方案B（成本 1 次真实调用，约 40 算力）：页面重跑一次并同时抓取响应体 b64 落盘（含 network 响应体捕获脚本），随后补齐两个动作"
+  ],
+  "parityTable": [
+    {
+      "item": "文字内容输入",
+      "ours": "『饰品文字内容』逐字照排，最多 4000 字 + 字数计数",
+      "original": "原站 ORNAMENT_TEXT 页未取得（重定向首页），同族 AI_TEXT 抓取亦落 /home → 无原版控件证据"
+    },
+    {
+      "item": "字体",
+      "ours": "『自定义字体名（原样透传上游）』默认 serif",
+      "original": "无原版证据"
+    },
+    {
+      "item": "字号",
+      "ours": "字号 96（数字输入）",
+      "original": "无原版证据"
+    },
+    {
+      "item": "左右定位",
+      "ours": "左(%) 18 / 右(%) 82 + 偏左/居中/偏右 + 撤销/重做/复位定位 + 画布拖拽文字框实时预览",
+      "original": "无原版证据"
+    },
+    {
+      "item": "效果描述",
+      "ours": "『效果描述（可选）』例如：玫瑰金浮雕、宝石边镶嵌碎钻",
+      "original": "无原版证据"
+    },
+    {
+      "item": "提交",
+      "ours": "『生成饰品文字』（未填内容时禁用并提示『请先填写饰品文字内容。』）",
+      "original": "无原版证据"
+    },
+    {
+      "item": "结果动作",
+      "ours": "下载 / 存入资产 / 发送画布",
+      "original": "无原版证据"
+    }
+  ],
+  "gate": {
+    "real_output": true,
+    "traceable_ids": false,
+    "asset_saved": false,
+    "canvas_inserted": false,
+    "parity": "blocked",
+    "verdict": "PARTIAL"
   },
-  {
-   "item": "提交",
-   "ours": "『生成饰品文字』（未填内容时禁用并提示『请先填写饰品文字内容。』）",
-   "original": "无原版证据"
-  },
-  {
-   "item": "结果动作",
-   "ours": "下载 / 存入资产 / 发送画布",
-   "original": "无原版证据"
-  }
- ],
- "gate": {
-  "real_output": true,
-  "traceable_ids": false,
-  "asset_saved": false,
-  "canvas_inserted": false,
-  "parity": "blocked",
-  "verdict": "PARTIAL"
- }
+  "acceptance_note": "主验收纠正：结果卡存入资产/发送画布BLOCKED，真实生成成功不等于完整PASS。"
 }
