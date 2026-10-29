@@ -1,0 +1,13 @@
+{
+ "tool": "DRESS_WEAR_SET",
+ "capturedAt": "2026-10-29T11:52:00Z",
+ "origin": "127.0.0.1:3000",
+ "task": "task-mvt74l6q-1vljau",
+ "storageKey": "tool-result:UJkgjc6BIYFLDnO12F3G-",
+ "bytes": 1883817,
+ "sha256": "9b7e62daebc97949cef1a3fa7c8270ffec3b13b3f9fd5ad1ed47e1050a83896f",
+ "mime": "image/png",
+ "magic": "89504e470d0a1a0a",
+ "source": "IndexedDB infinite-canvas/media_files → POST 127.0.0.1:34567 → 本次提交的 result.png",
+ "note": "字节来自已持久化的真实任务结果；未重新生成、未注入。"
+}
