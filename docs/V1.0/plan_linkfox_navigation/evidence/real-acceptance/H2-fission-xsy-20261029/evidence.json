@@ -1,0 +1,87 @@
+{
+  "capturedAt": "2026-10-29T16:36:00+08:00",
+  "scope": ["FISSION_LINK", "AI_DRESSING_XSY"],
+  "method": "ego lite(agent 浏览器) 真实 profile + 真实全量刷新(location.reload)；只复用既有真实任务，未新建任务、未注入任何快照",
+  "app": "http://127.0.0.1:3000",
+  "FISSION_LINK": {
+    "route": "/tools/product-design/fission-link",
+    "historyDock": {
+      "present": true,
+      "headerText": "历史任务 5 条",
+      "topLevelRows": 5,
+      "statusBreakdown": "4 已完成 / 1 失败",
+      "note": "第 6 个 <li> 是展开后的结果子项，非重复渲染"
+    },
+    "restoredThumbnails": {
+      "count": 4,
+      "naturalSize": "1024x1024",
+      "source": "IndexedDB infinite-canvas / media_files(tool-result:*) → blob URL 重建"
+    },
+    "resultAreaAutoRestore": {
+      "passed": true,
+      "notice": "已从本地持久化恢复上次真实任务（2026/10/29 12:20:11 提交，状态 succeeded，任务 task-mvt18lrt-rsnifn）：结果可下载 / 存入资产库 / 发送画布。",
+      "renderedImage": "裂变结果 1 · naturalSize 1024x1024"
+    },
+    "reusedTask": {
+      "id": "task-mvt18lrt-rsnifn",
+      "status": "succeeded",
+      "resultBytes": 1988694,
+      "mimeType": "image/png",
+      "naturalSize": "1024x1024",
+      "sha256": "bbc0ca08cfa46feae85b7ee15cea28a1bd709c4171a751c0d8192dd490ff76a4"
+    },
+    "download": {
+      "passed": true,
+      "feedback": "已下载 fission-link-result-1.png",
+      "file": "/Users/mac/Downloads/fission-link-result-1 (1).png",
+      "bytes": 1988694,
+      "sha256": "bbc0ca08cfa46feae85b7ee15cea28a1bd709c4171a751c0d8192dd490ff76a4",
+      "verdict": "与页面 blob 字节级一致"
+    },
+    "asset": {
+      "passed": true,
+      "feedback": "已存入资产库（image · i28CzCpbrBdqVvU_8sKuC）",
+      "assetId": "i28CzCpbrBdqVvU_8sKuC",
+      "kind": "image",
+      "naturalSize": "1024x1024",
+      "bytes": 1988694,
+      "mimeType": "image/png",
+      "storageKey": "image:FSVCI_OJN83joCnIf9vqU",
+      "blobInIndexedDb": {"store": "image_files", "key": "image:FSVCI_OJN83joCnIf9vqU", "bytes": 1988694, "type": "image/png"},
+      "assetLibraryUi": {
+        "url": "/assets",
+        "card": "FISSION_LINK 结果 1 · 工具结果 · 图片 · 1024x1024 · 1.9 MB · image/png",
+        "thumbnailRendered": "blob URL, naturalSize 768x768(preview)"
+      }
+    },
+    "canvas": {
+      "passed": true,
+      "feedback": "已发送到画布（4YJKL9Hoq-HRiYvhqIozS / image-1793262996953-ratzx）",
+      "projectId": "4YJKL9Hoq-HRiYvhqIozS",
+      "projectTitle": "FISSION_LINK 历史结果",
+      "nodeId": "image-1793262996953-ratzx",
+      "nodePersisted": {
+        "storageKey": "image:vQS5lC_aduFTSLCermwZo",
+        "bytes": 1988694,
+        "naturalWidth": 1024,
+        "naturalHeight": 1024,
+        "status": "success"
+      },
+      "canvasPageUi": {"url": "/canvas/4YJKL9Hoq-HRiYvhqIozS", "nodeCount": 1, "nodeIdRendered": "image-1793262996953-ratzx", "imgRendered": "preview 768x768(display 340x240)"}
+    },
+    "verdict": "H PASS：真实历史任务刷新后可恢复，下载字节一致、资产库可查、画布节点渲染"
+  },
+  "AI_DRESSING_XSY": {
+    "route": "/tools/product-design/ai-dressing-xsy",
+    "historyDock": {
+      "present": true,
+      "headerText": "历史任务 0 条",
+      "emptyState": "本工具还没有历史任务；提交一次后会在这里留下任务、配置与结果，刷新后仍在。",
+      "topLevelRows": 0
+    },
+    "taskStore": {"indexSize": 33, "xsyTasks": 0},
+    "profileSweep": "对 Chrome/Chromium/Edge/Brave/Vivaldi/@hilo/Novabox 的 Local Storage leveldb 全量 grep AI_DRESSING_XSY → 无命中",
+    "whyZero": "2026-10-28 12:36 那次 XSY 真实出图早于持久化接线提交 e325ca7(2026-10-28 17:11)，任务记录从未落盘；当前代码 runTool→getGateway(store port) 已持久化，统一历史坞也已挂载",
+    "verdict": "无法恢复：可达 profile 内 0 条真实任务（历史遗留，非当前网关缺口）。按约束不新建任务、不注入快照，故本工具的「历史恢复」真实证据仍缺。"
+  }
+}
