@@ -1,0 +1,79 @@
+{
+  "schema": "r14h-h-leg/1",
+  "generatedAt": "2026-10-29T21:50:00+08:00",
+  "repo": "/Users/mac/Documents/Dev/infinite-canvas",
+  "branch": "feat/linkfox-v1-real",
+  "headAtProbe": "6ca29da",
+  "origin": "http://127.0.0.1:3000",
+  "method": "复用已有真实 task + 真实图片；不新生成、不注入；探针只读 localStorage/IndexedDB",
+  "verdict": "BLOCKED_NO_BYTES",
+  "verdictMeaning": "两条工具的 succeeded 历史任务的结果项均为 payloadDropped 且不再带 url/storageKey/bytes/upstreamTaskId；本机 103 条 media blob 中不存在对应真实结果字节（1,115,668B / 850,799B）。因此 fresh reload 后历史行没有可下载/可入库/可发画布的字节源，无法在不注入的前提下产出 assetId / canvasNodeId 回执。",
+  "tools": [
+    {
+      "toolId": "CHANGE_COLOR_V2",
+      "route": "/tools/smart-edit/change-color-v2",
+      "primaryTaskId": "task-mvsc4fyg-qobp8k",
+      "taskStatus": "succeeded",
+      "finishedAt": 1793205308288,
+      "resultItems": [
+        { "id": "task-mvsc4fyg-qobp8k-0", "kind": "image", "payloadDropped": true }
+      ],
+      "storageKey": null,
+      "url": null,
+      "bytes": null,
+      "upstreamTaskId": null,
+      "byteSourceOnDisk": {
+        "path": "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/CHANGE_COLOR_V2/05-unit1-result.png",
+        "bytes": 1115668
+      },
+      "upstreamResultUrlStillLive": {
+        "url": "https://oss-us.dimenoss.com/images/2026/10/29/1793205308_f2532a74dca46886316b645a820d05c7.png",
+        "httpStatus": 200,
+        "bytes": 1115668,
+        "sha256": "dd56d50404c37c6ab740919fb31a63186ada6cabd914ed411974c0cb8db1562b"
+      },
+      "receipt": { "download": null, "assetId": null, "canvasNodeId": null }
+    },
+    {
+      "toolId": "REMOVE_PEN",
+      "route": "/tools/smart-edit/remove-pen",
+      "primaryTaskId": "task-mvsa3pt6-4wqy46",
+      "taskStatus": "succeeded",
+      "finishedAt": 1793202144236,
+      "resultItems": [
+        { "id": "task-mvsa3pt6-4wqy46-0", "kind": "image", "payloadDropped": true }
+      ],
+      "siblingSucceededTasks": ["task-mvsaus49-i7vsmt", "task-mvsba8fo-iplfjq"],
+      "siblingNote": "同工具另外两条 succeeded 任务形态完全一致：items 仅 {id,kind,payloadDropped:true}",
+      "storageKey": null,
+      "url": null,
+      "bytes": null,
+      "upstreamTaskId": null,
+      "byteSourceOnDisk": {
+        "path": "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/B5_HISTORY_DOCK/recovery4/downloads/REMOVE_PEN-remove-pen-result-1.png",
+        "bytes": 850799
+      },
+      "upstreamResultUrlStillLive": null,
+      "receipt": { "download": null, "assetId": null, "canvasNodeId": null }
+    }
+  ],
+  "byteInventory": {
+    "store": "IndexedDB infinite-canvas / media_files",
+    "count": 103,
+    "byType": { "image/png": 54, "image/jpeg": 27, "video/mp4": 22 },
+    "keyPrefixPolicy": "uploadMediaFile(input, \"tool-result\") -> tool-result:<nanoid>；storageKey 不含 taskId，无法按任务 provenance 反查旧字节",
+    "contains1115668": false,
+    "contains850799": false,
+    "rawProbe": "media_files.json"
+  },
+  "rootCause": {
+    "code": "web/src/stores/use-tool-task-store.ts",
+    "summary": "字节入库/复原链路（ingestResultMedia / restoreResultMediaUrls / healPersistedTaskMedia）已存在；但这两条历史任务在旧版本落盘时被剥离 payload 且未留下 durable url，本机无可恢复字节。链路修复只对新任务有效。",
+    "actionableFixForFutureRuns": "确保批量工作台（换色/消除）走 getPersistedToolGateway()，使结果先入库再落盘"
+  },
+  "rawProbes": ["tasks_full.json", "media_files.json", "app_bytes_probe.json", "app_state_stores.json"],
+  "environmentNotes": [
+    "CDP 9333 直连 502；浏览器通道走 web_execute_js",
+    "window.open 与 Target.createTarget 均不可用（弹窗拦截 / 目标标签已有调试器），故未新建标签；所有读取在既有标签 1709629290 上只读完成，未导航、未点击、未改动数据"
+  ]
+}
