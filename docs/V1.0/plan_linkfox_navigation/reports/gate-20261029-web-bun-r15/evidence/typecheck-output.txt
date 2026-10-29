@@ -1,0 +1,9 @@
+### cmd: bun run typecheck (tsc --noEmit)
+### cwd: /tmp/ic-gate-r15/web
+### start: 2026-10-29 21:16:57 CST
+$ tsc --noEmit
+
+real	2m40.920s
+user	1m0.419s
+sys	0m16.824s
+TYPECHECK_EXIT=0
