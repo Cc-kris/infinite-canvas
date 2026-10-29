@@ -25,7 +25,12 @@
     "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/DRESS_WEAR_SET/03-saved-asset.png",
     "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/DRESS_WEAR_SET/04-sent-canvas.png",
     "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/DRESS_WEAR_SET/05-net.json",
-    "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/DRESS_WEAR_SET/result.png"
+    "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/DRESS_WEAR_SET/result.png",
+    "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/DRESS_WEAR_SET/default-values.json",
+    "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/DRESS_WEAR_SET/cases-evidence.json",
+    "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/DRESS_WEAR_SET/dom/origin-controls.json",
+    "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/DRESS_WEAR_SET/dom/local-controls.json",
+    "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/DRESS_WEAR_SET/b4-actions.json"
   ],
   "assertions": [
     "上传 product-watch.jpg → 填平台/地区/语言（亚马逊/美国/英语）→ 场景只勾「模特图」、数量 1 → 提交前按钮文案『开始生成』可用，预计产出 1 张 / 1 组",
@@ -43,5 +48,40 @@
     "本机再无可用 key 的历史渠道：页面配置 channelsWithKey=0、baseUrl=https://api.cc-ai.xyz，直连必 401 `Incorrect API key provided: ''`；本次由 Galley keychain 在内存中注入（不打印、不落盘、不进仓库）。",
     ":23210 可达 api.cc-ai.xyz 但不可达 api.openai.com；如需 OpenAI 官方端点需走带系统代理的实例（:23299）。",
     "UI 上任务号只显示 image.id 前 8 位（task-mvs）；全量 id 见 a[download] 属性。"
-  ]
+  ],
+  "defaultValues": {
+    "file": "default-values.json",
+    "measuredAt": "2026-10-29",
+    "originRaw": "dom/origin-controls.json",
+    "localRaw": "dom/local-controls.json",
+    "controls": 15,
+    "match": 6,
+    "diff": 8,
+    "verdict": "DIFF",
+    "headline": "分辨率2K/品质中品质/每组4张/无文字关/合规关/上传上限一致；比例默认1:1(原站3:4)、主副图默认模特图+白底图(原站种草图+卖点图)、A+默认未选(原站高级A+ 4张)"
+  },
+  "cases": {
+    "file": "cases-evidence.json",
+    "verdict": "DIFF",
+    "origin": "优秀案例 tab，20 张卡，上传服装图→生成结果 双图对照 + 一键做同款",
+    "local": "无案例区（未伪造），结果区为 套图结果 + 历史任务"
+  },
+  "nonVisual": {
+    "b4Actions": {
+      "file": "b4-actions.json",
+      "result": "PASS",
+      "downloadBytes": 1239248,
+      "assetBytes": 1239248,
+      "canvasNodeBytes": 1239248,
+      "assetId": "VAzvldYb0I4MTc3Qdd3Va",
+      "projectId": "kBWF-Oo15TNMpXW0s9KSD",
+      "nodeId": "image-1793246266388-rqve5",
+      "feedback": "已发送到画布（kBWF-Oo15TNMpXW0s9KSD / image-1793246266388-rqve5）"
+    },
+    "b5History": {
+      "file": "../B5_HISTORY_DOCK/summary.json",
+      "result": "OK",
+      "note": "刷新后历史仍在，配置可复用"
+    }
+  }
 }

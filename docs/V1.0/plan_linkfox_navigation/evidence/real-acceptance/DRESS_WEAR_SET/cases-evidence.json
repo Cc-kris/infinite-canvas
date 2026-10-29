@@ -1,0 +1,38 @@
+{
+  "tool": "DRESS_WEAR_SET",
+  "measuredAt": "2026-10-29",
+  "origin": {
+    "raw": "dom/origin-controls.json",
+    "tabs": [
+      "生成结果",
+      "优秀案例"
+    ],
+    "caseArea": {
+      "tab": "优秀案例（ant-tabs-tab，点击后 pane=.ant-tabs-tabpane-active 生效）",
+      "cards": 20,
+      "cardCta": "一键做同款",
+      "cardStructure": "上传服装图 → 生成结果 双图对照 + 一键做同款",
+      "imgHost": "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/WEAR_COLLECTI...",
+      "sampleImg": {
+        "w": 823,
+        "h": 512
+      }
+    }
+  },
+  "local": {
+    "raw": "dom/local-controls.json",
+    "tabs": [],
+    "caseArea": null,
+    "probe": {
+      "hasCase": false,
+      "hasMakeSame": false,
+      "hasPreview": false
+    },
+    "present": [
+      "套图结果（按场景分组）",
+      "历史任务 0 条"
+    ]
+  },
+  "verdict": "DIFF",
+  "note": "原站有「优秀案例」tab（20 张案例卡 + 一键做同款）；本地未提供案例区，按任务约定不伪造数据，仅记录差异。结果区本地为「套图结果 / 历史任务」两块，原站为「生成结果 / 优秀案例」两 tab。"
+}

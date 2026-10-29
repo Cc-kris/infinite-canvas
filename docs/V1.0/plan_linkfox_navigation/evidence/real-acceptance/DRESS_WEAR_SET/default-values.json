@@ -1,0 +1,226 @@
+{
+  "tool": "DRESS_WEAR_SET",
+  "toolName": "服装套图",
+  "route": "/tools/ecommerce-suite/dress-wear-set",
+  "originRoute": "https://www.linkfox.com/draw/clothing-image-suite",
+  "measuredAt": "2026-10-29",
+  "method": "已登录原站 + 本地 dev(127.0.0.1:3000) 双端 CDP 探针：原站读 antd 按钮选中底色/input[checked]/switch aria-checked；本地读 select.value 与场景行 input.value；本地为独立新标签，页面刷新后的干净默认态",
+  "raw": [
+    "dom/origin-controls.json",
+    "dom/local-controls.json"
+  ],
+  "controls": [
+    {
+      "control": "分辨率",
+      "origin": {
+        "value": "2K",
+        "evidence": "button.2K bg=rgb(249,240,255) 选中态"
+      },
+      "local": {
+        "value": "2K",
+        "evidence": "select[分辨率].value=2K"
+      },
+      "ok": true
+    },
+    {
+      "control": "模型品质",
+      "origin": {
+        "value": "中品质",
+        "evidence": "button.中品质 bg=rgb(249,240,255)"
+      },
+      "local": {
+        "value": "中品质",
+        "evidence": "select[品质].value=medium"
+      },
+      "ok": true
+    },
+    {
+      "control": "生成比例",
+      "origin": {
+        "value": "3:4",
+        "evidence": "button.3:4 bg=rgb(249,240,255)；1:1 为未选白底"
+      },
+      "local": {
+        "value": "1:1",
+        "evidence": "select[比例].value=1:1"
+      },
+      "ok": false
+    },
+    {
+      "control": "模型",
+      "origin": {
+        "value": "LF智能模型 G-2.5 Sunburst NEW",
+        "evidence": ".ant-select 显示文案"
+      },
+      "local": {
+        "value": "LF智能模型 G-2.5 Sunburst",
+        "evidence": "select[模型].value=GPT_2_5_IMAGE，选项首项文案少 NEW 后缀"
+      },
+      "ok": true,
+      "note": "同一模型的文案后缀差异（NEW），provider 一致"
+    },
+    {
+      "control": "主副图场景（多选）",
+      "origin": {
+        "value": [
+          "种草图",
+          "卖点图"
+        ],
+        "evidence": "input[checkbox] 种草图=true / 卖点图=true；模特图/尺码图/白底图/手机A+ 均 false"
+      },
+      "local": {
+        "value": [
+          "模特图",
+          "白底图"
+        ],
+        "evidence": "input[checkbox] 模特图=true 白底图=true；种草图/卖点图/尺码图 false"
+      },
+      "ok": false
+    },
+    {
+      "control": "每个场景数量",
+      "origin": {
+        "value": "每组 4 张（费用行：主副图8张 = 4+4）",
+        "evidence": "panelText 角标 4 + 费用行 主副图8张"
+      },
+      "local": {
+        "value": "4（各场景 input.value=4）",
+        "evidence": "场景行 input.value=4，预计产出 8 张 / 2 组"
+      },
+      "ok": true
+    },
+    {
+      "control": "A+ 图类型（单选）",
+      "origin": {
+        "value": "高级A+（4 张）",
+        "evidence": "input[radio] 高级A+ checked=true；手机A+/普通A+/自定比例 false"
+      },
+      "local": {
+        "value": "未选（0 张）",
+        "evidence": "高级A+/手机A+/普通A+/自定比例 checkbox 全 false；预计产出仅主副图 8 张"
+      },
+      "ok": false
+    },
+    {
+      "control": "无文字模式",
+      "origin": {
+        "value": "关（主副图、A+ 各一个开关，均 false）",
+        "evidence": "switch aria-checked=false ×2，near=无文字模式"
+      },
+      "local": {
+        "value": "关",
+        "evidence": "checkbox「画面不出现文字」checked=false"
+      },
+      "ok": true,
+      "note": "原站每区块一个开关；本地合并为单个全局开关"
+    },
+    {
+      "control": "合规（敏感词/替换词库）",
+      "origin": {
+        "value": "未选词库",
+        "evidence": "panelText：未选择敏感词库 · 未选择替换词库"
+      },
+      "local": {
+        "value": "关",
+        "evidence": "checkbox「启用敏感词与替换词库」checked=false"
+      },
+      "ok": true
+    },
+    {
+      "control": "品牌基因",
+      "origin": {
+        "value": "折叠触发器（无开关态）",
+        "evidence": "span._triggerTitle 智能品牌基因，祖先无 switch"
+      },
+      "local": {
+        "value": "智能识别（smart）",
+        "evidence": "select[品牌基因].value=smart"
+      },
+      "ok": false,
+      "note": "控件形态差异：原站为折叠面板，本地为下拉（智能识别/自定义品牌）"
+    },
+    {
+      "control": "排版（每种排版生成一张 / 无文字）",
+      "origin": {
+        "value": "每种排版生成一张",
+        "evidence": "panelText：选择排版 每种排版生成一张 无文字模式"
+      },
+      "local": {
+        "value": "无该控件",
+        "evidence": "本地无「选择排版」控件，版式由场景 + 数量推导"
+      },
+      "ok": false,
+      "note": "结构差异：原站每区块可选排版策略，本地未提供"
+    },
+    {
+      "control": "每张单独拆分",
+      "origin": {
+        "value": "无该控件",
+        "evidence": "panelText 无此文案"
+      },
+      "local": {
+        "value": "关（同组多张拼版提交）",
+        "evidence": "checkbox「每张单独拆分」checked=false"
+      },
+      "ok": false,
+      "note": "本地新增字段"
+    },
+    {
+      "control": "销售设定（平台/地区/语言）",
+      "origin": {
+        "value": "无该组控件",
+        "evidence": "panelText 无平台/销售地区/语言"
+      },
+      "local": {
+        "value": "存在，未选",
+        "evidence": "本地文本：销售设定 平台 / 地区 / 语言会同时约束文案与合规检查"
+      },
+      "ok": false,
+      "note": "本地按 create_payload 增加 brandKey/platform/language 字段"
+    },
+    {
+      "control": "算力/费用文案",
+      "origin": {
+        "value": "主副图8张*每张50点 + A+图4张*每张50点 = 600点；按钮「开始生成 (600算力)」",
+        "evidence": "button 文案 + panelText 费用行"
+      },
+      "local": {
+        "value": "预计产出 8 张 / 2 组（无算力文案）",
+        "evidence": "本地文本 预计产出 8 张 / 2 组"
+      },
+      "ok": false,
+      "note": "本地不显示算力/点数；产出预估口径也不同（组数 vs 点数）"
+    },
+    {
+      "control": "上传限制",
+      "origin": {
+        "value": "最多 5 张，10M 以内，384*384~4096*4096",
+        "evidence": "panelText"
+      },
+      "local": {
+        "value": "最多 5 张，单张 ≤10MB，长边 ≤4096px",
+        "evidence": "本地文本"
+      },
+      "ok": true,
+      "note": "下界 384*384 未在本地文案声明"
+    }
+  ],
+  "diffs": [
+    "生成比例默认 1:1（原站 3:4）",
+    "主副图默认场景 模特图+白底图（原站 种草图+卖点图）",
+    "A+ 默认全不选（原站 高级A+ 4 张）",
+    "品牌基因：下拉 smart（原站折叠触发器）",
+    "排版策略控件缺失（原站 每种排版生成一张 / 无文字模式）",
+    "新增「每张单独拆分」「平台/销售地区/语言」字段",
+    "无算力文案（原站 600 点明细）",
+    "模型文案少 NEW 后缀（同 provider）"
+  ],
+  "unchanged": [
+    "分辨率 2K",
+    "品质 中品质",
+    "每组 4 张（产出 8 张）",
+    "无文字模式关",
+    "合规词库未选",
+    "上传上限 5 张/10MB"
+  ]
+}
