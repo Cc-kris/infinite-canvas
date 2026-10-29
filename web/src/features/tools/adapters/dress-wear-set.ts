@@ -454,16 +454,23 @@ export function buildDressWearSetInput(unit: DressGenerationUnit, values: DressW
 
 const RUNNING_STATUSES: ReadonlySet<string> = new Set(["draft", "validating", "submitting", "running"]);
 
+/** 「成功」必须以真的拿到图为准：succeeded 但 0 张可取回产物 = 无结果，不能算成功。 */
+function taskHasDeliveredImage(task: ToolTask): boolean {
+    return task.status === "succeeded" && (task.result?.items ?? []).some((item) => Boolean(resultItemSrc(item) ?? item.blob));
+}
+
 function groupStatus(tasks: readonly ToolTask[]): DressGroupStatus {
     if (tasks.length === 0) return "idle";
     if (tasks.some((task) => RUNNING_STATUSES.has(task.status))) return "running";
-    const failed = tasks.filter((task) => task.status === "failed" || task.status === "cancelled").length;
+    const delivered = tasks.filter(taskHasDeliveredImage).length;
+    const failed = tasks.filter(
+        (task) => task.status === "failed" || task.status === "cancelled" || (task.status === "succeeded" && !taskHasDeliveredImage(task)),
+    ).length;
     const unknown = tasks.filter((task) => task.status === "unknown").length;
-    const succeeded = tasks.filter((task) => task.status === "succeeded").length;
-    if (failed > 0 && succeeded > 0) return "partial";
+    if (failed > 0 && delivered > 0) return "partial";
     if (failed > 0) return "failed";
     if (unknown > 0) return unknown === tasks.length ? "unknown" : "partial";
-    return "succeeded";
+    return delivered > 0 ? "succeeded" : "unknown";
 }
 
 /** 任务 → 结果组。分组依据是 prompt 首行标签，因此刷新后仍可还原。 */
@@ -512,8 +519,11 @@ export function summarizeDressTasks(tasks: readonly ToolTask[]): DressTaskSummar
     const summary: DressTaskSummary = { total: tasks.length, running: 0, succeeded: 0, failed: 0, unknown: 0, images: 0 };
     for (const task of tasks) {
         if (RUNNING_STATUSES.has(task.status)) summary.running += 1;
-        else if (task.status === "succeeded") summary.succeeded += 1;
-        else if (task.status === "unknown") summary.unknown += 1;
+        else if (task.status === "succeeded") {
+            // 成功但一张可取回的图都没有 → 计入失败，避免「成功 N 组 / 产物 0 张」自相矛盾。
+            if (taskHasDeliveredImage(task)) summary.succeeded += 1;
+            else summary.failed += 1;
+        } else if (task.status === "unknown") summary.unknown += 1;
         else summary.failed += 1;
         summary.images += (task.result?.items ?? []).filter((item) => Boolean(resultItemSrc(item))).length;
     }

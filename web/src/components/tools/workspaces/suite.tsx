@@ -247,18 +247,42 @@ export function ProductImageSuiteWorkspace({ className }: { className?: string }
     const tasksHydrated = useToolTaskStore((state) => state.hydrated);
     const hydrateTasks = useToolTaskStore((state) => state.hydrate);
     const restoredFromTasks = useRef(false);
+    /** 用户点了「清空」后不再自动把历史结果拉回来（除非重新提交）。 */
+    const clearedResults = useRef(false);
     useEffect(() => {
         if (!tasksHydrated) hydrateTasks();
     }, [tasksHydrated, hydrateTasks]);
     useEffect(() => {
-        if (restoredFromTasks.current || !seeded || !tasksHydrated) return;
+        if (!seeded || !tasksHydrated || clearedResults.current) return;
         const restored = restoreSuiteUnitsFromTasks(config, storeTasks, toolId);
         if (restored.length === 0) return;
-        // 只有真的对上单元才落锁：草稿配置异步回填前用默认 config 算不出 prompt，
-        // 提前落锁会让刷新后的结果永远不回来。
+        // 不再一次落锁：刷新时还在跑的任务之后才到终态，也要能继续回填，
+        // 否则「部分成功」会被永久定格成刷新那一刻的样子。
         restoredFromTasks.current = true;
-        setUnits((previous) => (previous.length > 0 ? previous : restored));
-        setSnapshot(createSuiteSnapshot(config, draft?.revision ?? 0));
+        setUnits((previous) => {
+            if (previous.length === 0) return restored;
+            const next = [...previous];
+            let changed = false;
+            for (const unit of restored) {
+                const index = next.findIndex((item) => item.unitId === unit.unitId);
+                if (index < 0) {
+                    next.push(unit);
+                    changed = true;
+                    continue;
+                }
+                const existing = next[index];
+                // 用户在页面上重提过（taskId 不同）：不拿历史任务覆盖当前结果。
+                if (existing.taskId && unit.taskId && existing.taskId !== unit.taskId) continue;
+                if (existing.status === unit.status && existing.items.length === unit.items.length) continue;
+                next[index] = unit;
+                changed = true;
+            }
+            if (!changed) return previous;
+            const order = new Map(buildSuiteUnits(config).map((unit, index) => [unit.id, index]));
+            next.sort((a, b) => (order.get(a.unitId) ?? 0) - (order.get(b.unitId) ?? 0));
+            return next;
+        });
+        setSnapshot((previous) => previous ?? createSuiteSnapshot(config, draft?.revision ?? 0));
     }, [seeded, tasksHydrated, storeTasks, config, toolId, draft?.revision]);
 
     /* 历史点选：把该任务还原成一张结果（同一单元取最新）。 */
@@ -323,6 +347,7 @@ export function ProductImageSuiteWorkspace({ className }: { className?: string }
     /* 生成：真实逐单元提交，回调增量渲染 */
     const onGenerate = useCallback(async () => {
         if (!source) return;
+        clearedResults.current = false;
         setRunning(true);
         setRunError(undefined);
         setSavedKeys({});
@@ -345,7 +370,12 @@ export function ProductImageSuiteWorkspace({ className }: { className?: string }
             setUnits(run.units);
             setSnapshot(run.snapshot);
             const failed = run.units.filter((unit) => unit.status === "failed").length;
-            if (failed > 0) setRunError(`${failed} 张失败，可单张重试。`);
+            const pending = run.units.filter((unit) => unit.status === "pending").length;
+            const notes = [
+                failed > 0 ? `${failed} 张失败，可单张重试。` : "",
+                pending > 0 ? `${pending} 张状态未确定：请到历史记录确认，先不要重复提交。` : "",
+            ].filter(Boolean);
+            if (notes.length > 0) setRunError(notes.join(" "));
         } catch (error) {
             setRunError(error instanceof SuiteAdapterError || error instanceof Error ? error.message : "生成失败。");
         } finally {
@@ -623,6 +653,7 @@ export function ProductImageSuiteWorkspace({ className }: { className?: string }
                             <button
                                 type="button"
                                 onClick={() => {
+                                    clearedResults.current = true;
                                     setUnits([]);
                                     setSnapshot(undefined);
                                     setSavedKeys({});

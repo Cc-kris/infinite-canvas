@@ -180,8 +180,20 @@ export function unitStatusFromTask(task: ToolTask): SuiteUnitStatus {
     }
 }
 
+/** 结果项是否有真实可取回的图源（内存 dataUrl / 落库后 url / blob / storageKey）。 */
+function suiteItemHasSource(item: ToolTaskResultItem): boolean {
+    return Boolean(item.dataUrl || item.url || item.blob || item.storageKey);
+}
+
 export function suiteUnitResultFromTask(unit: SuiteUnit, task: ToolTask): SuiteUnitResult {
-    const status = unitStatusFromTask(task);
+    const delivered = (task.result?.items ?? []).filter(suiteItemHasSource);
+    let status = unitStatusFromTask(task);
+    /**
+     * 上游自报 succeeded 但没有任何可取回的产物：不能算成功。
+     * 否则统计与结果区会出现「已完成 0 张」，把「无结果」伪装成成功。
+     */
+    if (status === "succeeded" && delivered.length === 0) status = "failed";
+    const emptyResult = status === "failed" && task.status === "succeeded";
     return {
         unitId: unit.id,
         moduleId: unit.moduleId,
@@ -192,8 +204,12 @@ export function suiteUnitResultFromTask(unit: SuiteUnit, task: ToolTask): SuiteU
         total: unit.total,
         status,
         taskId: task.id,
-        items: status === "succeeded" ? (task.result?.items ?? []) : [],
-        ...(task.error ? { error: { code: task.error.code, message: task.error.message, retryable: task.error.retryable } } : {}),
+        items: status === "succeeded" ? delivered : [],
+        ...(emptyResult
+            ? { error: { code: "empty-result", message: "上游返回成功但没有可用的图片结果，请按同一快照重试。", retryable: true } }
+            : task.error
+              ? { error: { code: task.error.code, message: task.error.message, retryable: task.error.retryable } }
+              : {}),
         attempts: task.attempts,
         ...(unit.layoutId ? { layoutId: unit.layoutId } : {}),
     };

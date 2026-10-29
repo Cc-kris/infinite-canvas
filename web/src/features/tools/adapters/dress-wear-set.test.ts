@@ -244,7 +244,11 @@ describe("parseDressSceneTag / groupDressTasks", () => {
 
     test("按标签分组，保留顺序，并统计部分失败", () => {
         const tasks = [
-            makeTask({ id: "t1", prompt: "[DRESS_SCENE main/modelLook]\nx" }),
+            makeTask({
+                id: "t1",
+                prompt: "[DRESS_SCENE main/modelLook]\nx",
+                result: { items: [{ id: "i0", kind: "image", dataUrl: "data:image/png;base64,AAA" }], receivedAt: 1 },
+            }),
             makeTask({
                 id: "t2",
                 prompt: "[DRESS_SCENE main/modelLook]\nx",
@@ -262,6 +266,17 @@ describe("parseDressSceneTag / groupDressTasks", () => {
         expect(groups[0].status).toBe("partial");
         expect(groups[1].status).toBe("succeeded");
         expect(groups[1].images).toEqual([{ id: "i1", dataUrl: "data:image/png;base64,AAA", taskId: "t3" }]);
+    });
+
+    test("上游自报成功但没返回图片：不算成功，组状态为失败", () => {
+        const tasks = [
+            makeTask({ id: "ok", prompt: "[DRESS_SCENE main/modelLook]\nx", result: { items: [{ id: "i1", kind: "image", dataUrl: "data:image/png;base64,AAA" }], receivedAt: 1 } }),
+            makeTask({ id: "empty", prompt: "[DRESS_SCENE main/modelLook]\nx", result: { items: [], receivedAt: 2 } }),
+        ];
+        const groups = groupDressTasks(tasks);
+        expect(groups[0].status).toBe("partial");
+        expect(groups[0].images).toHaveLength(1);
+        expect(summarizeDressTasks(tasks)).toEqual({ total: 2, running: 0, succeeded: 1, failed: 1, unknown: 0, images: 1 });
     });
 
     test("无标签任务单独取出，不丢结果", () => {

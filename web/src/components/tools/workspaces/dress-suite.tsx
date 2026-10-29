@@ -351,7 +351,13 @@ export function DressSuiteWorkspace({ toolId = DRESS_WEAR_SET_TOOL_ID }: DressSu
                 setNotice(`「${group.label}」当前未勾选，请先勾选该场景再重试。`);
                 return;
             }
-            const failedTask: ToolTask | undefined = group.tasks.find((task) => task.status === "failed" || task.status === "unknown");
+            const failedTask: ToolTask | undefined = group.tasks.find(
+                (task) => task.status === "failed" || task.status === "unknown" || task.status === "cancelled",
+            );
+            if (!failedTask) {
+                setNotice(`「${group.label}」上游自报成功但没有返回图片，没有可重试的任务；请直接重新生成该组。`);
+                return;
+            }
             setNotice("");
             try {
                 await retryDressUnit({
@@ -606,10 +612,10 @@ export function DressSuiteWorkspace({ toolId = DRESS_WEAR_SET_TOOL_ID }: DressSu
                                             <span className="text-sm">{group.label}</span>
                                             <div className="flex items-center gap-2">
                                                 <span className="text-[11px] text-muted-foreground">
-                                                    {group.status === "succeeded" ? "成功" : group.status === "failed" ? "失败" : group.status === "unknown" ? "状态未知" : "进行中"}
+                                                    {group.status === "succeeded" ? "成功" : group.status === "partial" ? "部分成功" : group.status === "failed" ? "失败" : group.status === "unknown" ? "状态未知" : "进行中"}
                                                     {group.images.length ? ` · ${group.images.length} 张` : ""}
                                                 </span>
-                                                {group.status === "failed" || group.status === "unknown" ? (
+                                                {group.status === "failed" || group.status === "unknown" || group.status === "partial" ? (
                                                     <button type="button" className="h-7 rounded border border-border px-2 text-xs hover:border-primary" onClick={() => void handleRetryGroup(group)}>
                                                         重试本组
                                                     </button>

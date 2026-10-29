@@ -41,6 +41,7 @@ import {
     runSuite,
     saveSuiteResultItem,
     summarizeSuiteRun,
+    suiteUnitResultFromTask,
     validateSuiteSourceLimits,
     type SuiteGatewayLike,
     type SuiteUnitResult,
@@ -268,6 +269,19 @@ describe("提交编排（真实调用路径）", () => {
         expect((first.fields as Record<string, unknown>).suiteUnitId).toBe("aplus-advanced#1");
         expect((first.fields as Record<string, unknown>).outputNum).toBe(3);
         expect(first.prompt).not.toHaveLength(0);
+    });
+
+    test("上游自报成功但没有任何结果项：记为失败，不伪装成功", () => {
+        const unit = buildSuiteUnits(config())[0];
+        const result = suiteUnitResultFromTask(
+            unit,
+            fakeTask({ id: "task-empty", status: "succeeded", result: { receivedAt: 5, items: [] } }),
+        );
+        expect(result.status).toBe("failed");
+        expect(result.items).toEqual([]);
+        expect(result.error?.code).toBe("empty-result");
+        expect(result.error?.retryable).toBe(true);
+        expect(suiteUnitResultFromTask(unit, fakeTask({ id: "task-unk", status: "unknown" })).status).toBe("pending");
     });
 
     test("单张失败不影响其它单元，失败原因保留", async () => {
