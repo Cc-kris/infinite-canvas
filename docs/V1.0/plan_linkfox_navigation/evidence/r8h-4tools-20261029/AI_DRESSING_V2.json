@@ -1,0 +1,15 @@
+{
+  "route": "/tools/product-design/ai-dressing-v2",
+  "dockToolId": "AI_DRESSING_V2",
+  "pageLoad": "real navigation (new tab, readyState complete)",
+  "dockCount": "0 条",
+  "dockRows": [],
+  "taskIndex": {
+    "key": "localStorage/tool-task:v1:index",
+    "total": 64,
+    "countForTool": 0
+  },
+  "verdict": "BLOCKED: 本机没有任何 AI_DRESSING_V2 真实任务（tool-task 索引与页面坞均为 0）。按指令禁止新生成/注入，无法产出 reload 后历史+真实字节证据。",
+  "capturedAt": "2026-10-29T19:06:30",
+  "noInjection": true
+}

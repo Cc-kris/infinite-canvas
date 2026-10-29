@@ -1,0 +1,73 @@
+{
+  "toolId": "AI_POSTURE",
+  "route": "/tools/product-design/ai-posture",
+  "phase": "reload",
+  "nav": "reload",
+  "reload": {
+    "method": "CDP Page.reload ignoreCache=true",
+    "at": "2026-10-29T11:04:00Z",
+    "url": "http://127.0.0.1:3000/tools/product-design/ai-posture"
+  },
+  "afterReload": {
+    "dockCount": "1 条",
+    "dockToolId": "AI_POSTURE",
+    "dockRows": [
+      {
+        "taskId": "task-mvtczxwo-e1d1w0"
+      }
+    ],
+    "resultArea": "empty",
+    "resultEmpty": true,
+    "note": "结果区仅由 live submit 渲染；reload 后历史经 tool-history-dock 恢复（真实 taskId + 缩略图）"
+  },
+  "taskId": "task-mvtczxwo-e1d1w0",
+  "realRun": true,
+  "persistedBytes": {
+    "store": "indexedDB/infinite-canvas/media_files",
+    "storageKey": "tool-result:rm3NtLVj9Pa2bc1xdc3t1",
+    "bytes": 1557308,
+    "mimeType": "image/png",
+    "width": 1024,
+    "height": 1024,
+    "sha256": "03ec4754b62fb2e6bdea6a3d062bf376705071de3c0faac4160958c185a9a1db"
+  },
+  "bytes": 1557308,
+  "actions": {
+    "download": {
+      "ok": true,
+      "fileName": "tool-result-1.png",
+      "savedBytes": 1557308,
+      "sha256": "03ec4754b62fb2e6bdea6a3d062bf376705071de3c0faac4160958c185a9a1db"
+    },
+    "saveToAssets": {
+      "ok": true,
+      "assetId": "GCc8Wi_FX3sYved-zjPHi",
+      "persistedIn": "indexedDB/infinite-canvas/app_state (asset store)",
+      "storageKey": "image:1FB1JoGQrriUwzGd7FCn4",
+      "bytes": 1557308,
+      "width": 1024,
+      "height": 1024,
+      "sha256": "03ec4754b62fb2e6bdea6a3d062bf376705071de3c0faac4160958c185a9a1db"
+    },
+    "sendToCanvas": {
+      "ok": true,
+      "projectId": "2zGto8FEhPKgoQvc_ne--",
+      "nodeId": "image-1793271927640-8wdoe",
+      "nodeType": "image",
+      "storageKey": "image:diCnOWCpmbYkiIKptytWg",
+      "bytes": 1557308,
+      "naturalWidth": 1024,
+      "naturalHeight": 1024,
+      "sha256": "03ec4754b62fb2e6bdea6a3d062bf376705071de3c0faac4160958c185a9a1db"
+    }
+  },
+  "bytesMatch": {
+    "persistedVsDownload": true,
+    "persistedVsAsset": true,
+    "persistedVsCanvas": true
+  },
+  "allMatch": true,
+  "dependsOnFix": "web/src/components/tools/tool-result-actions.ts L282/L408 blob 优先（提交 8264af7）",
+  "noInjection": true,
+  "capturedAt": "2026-10-29T19:06:16"
+}

@@ -91,3 +91,17 @@ test("sendResultItemToCanvas 走默认装配时不再报“画布依赖不可用
     expect(calls.uploadImage).toEqual(["data:image/png;base64,BBBB"]);
     expect(projects[0]?.nodes).toHaveLength(1);
 });
+
+test("历史结果只有 blob（无 url/dataUrl）时，发画布必须用真实字节而不是空串", async () => {
+    const { calls, modules, projects } = createFakeModules();
+    const blob = new Blob([new Uint8Array([1, 2, 3])], { type: "image/png" });
+
+    await sendResultItemToCanvas(
+        { id: "item-history", kind: "image", blob, mimeType: "image/png", bytes: 3 },
+        { toolId: "AI_POSTURE", projectId: "project-1", loadDeps: () => loadResultCanvasDeps(async () => modules) },
+    );
+
+    // 缺陷背景：老实现只取 dataUrl ?? url，历史任务两者都没有 → uploadImage("") → “读取图片失败”
+    expect(calls.uploadImage[0]).toBe(blob);
+    expect(projects[0]?.nodes).toHaveLength(1);
+});
