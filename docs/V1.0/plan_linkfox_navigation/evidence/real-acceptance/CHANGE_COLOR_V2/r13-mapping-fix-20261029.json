@@ -1,0 +1,26 @@
+{
+  "realSucceededTaskIds": [
+    "task-mvsc4fyg-qobp8k",
+    "task-mvs9qpe1-3nbnh5"
+  ],
+  "historicalByteAudit": "任务快照 result.items 只有 {id,kind,payloadDropped:true}：无 url/dataUrl/storageKey/bytes。media_files 中无对应 key，tool_assets/app_state 中无任务血缘。故这些历史任务无真实字节可读，H(字节回执) 不成立。",
+  "fix": "adapters/change-color-v2.ts mapTaskToOutcome 与 color-v2.tsx restoredTask/restoredItems 将 storageKey（IndexedDB 真实字节）认定为有结果图，并把 storageKey/bytes 透传到 outcome.image；此前只认 dataUrl/url，刷新后 storageKey-only 任务被判 empty-result → payloadDropped 复现。",
+  "changedFiles": [
+    "web/src/features/tools/adapters/change-color-v2.ts",
+    "web/src/components/tools/workspaces/color-v2.tsx"
+  ],
+  "tool": "CHANGE_COLOR_V2",
+  "common": {
+    "schema": "r13-mapping-fix/1",
+    "date": "2026-10-29",
+    "baseCommit": "a087ce4",
+    "browserOrigin": "http://127.0.0.1:3000",
+    "idbDatabase": "infinite-canvas",
+    "mediaStore": "media_files",
+    "verification": {
+      "tsc": "pass",
+      "tests": "bun test src/features/tools/adapters src/components/tools/workspaces -> 1125 pass / 0 fail"
+    }
+  },
+  "verdict": "MAPPING_FIXED / H_BLOCKED_BY_MISSING_BYTES"
+}

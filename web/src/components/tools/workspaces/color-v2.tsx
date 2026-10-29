@@ -490,7 +490,7 @@ export function ColorV2Workspace({ className }: ColorV2WorkspaceProps = {}) {
             (task) =>
                 task.toolId === TOOL_ID &&
                 task.status === "succeeded" &&
-                (task.result?.items ?? []).some((item) => item.kind === "image" && (item.dataUrl || item.url)),
+                (task.result?.items ?? []).some((item) => item.kind === "image" && (item.dataUrl || item.url || item.storageKey)),
         );
         candidates.sort((a, b) => (b.updatedAt ?? 0) - (a.updatedAt ?? 0));
         return candidates[0] ?? null;
@@ -498,7 +498,7 @@ export function ColorV2Workspace({ className }: ColorV2WorkspaceProps = {}) {
 
     const restoredItems = useMemo(() => {
         if (!restoredTask) return [] as ToolTaskResultItem[];
-        return (restoredTask.result?.items ?? []).filter((item) => item.kind === "image" && (item.dataUrl || item.url));
+        return (restoredTask.result?.items ?? []).filter((item) => item.kind === "image" && (item.dataUrl || item.url || item.storageKey));
     }, [restoredTask]);
 
     const restoredTitle = useCallback(

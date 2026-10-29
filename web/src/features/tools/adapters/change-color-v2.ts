@@ -226,7 +226,7 @@ export interface ColorV2UnitOutcome {
     status: ColorV2UnitStatus;
     snapshotHash: string;
     taskId?: string;
-    image?: { dataUrl?: string; url?: string; mimeType?: string };
+    image?: { dataUrl?: string; url?: string; mimeType?: string; storageKey?: string; bytes?: number };
     error?: { code: string; message: string; retryable?: boolean };
 }
 
@@ -238,12 +238,25 @@ export function mapTaskToOutcome(unit: ColorV2Unit, task: ToolTask): ColorV2Unit
         snapshotHash: unit.snapshotHash,
         taskId: task.id,
     };
-    const firstImage = task.result?.items.find((item: ToolTaskResultItem) => item.kind === "image" && (item.dataUrl || item.url));
+    // 刷新后快照里只剩 storageKey（字节在 IndexedDB media_files），也算有结果图。
+    const firstImage = task.result?.items.find(
+        (item: ToolTaskResultItem) => item.kind === "image" && (item.dataUrl || item.url || item.storageKey),
+    );
     if (task.status === "succeeded") {
         if (!firstImage) {
             return { ...base, status: "failed", error: { code: "empty-result", message: "上游返回成功但没有图片结果", retryable: true } };
         }
-        return { ...base, status: "succeeded", image: { dataUrl: firstImage.dataUrl, url: firstImage.url, mimeType: firstImage.mimeType } };
+        return {
+            ...base,
+            status: "succeeded",
+            image: {
+                dataUrl: firstImage.dataUrl,
+                url: firstImage.url,
+                mimeType: firstImage.mimeType,
+                storageKey: firstImage.storageKey,
+                bytes: firstImage.bytes,
+            },
+        };
     }
     if (task.status === "failed") {
         return {
