@@ -8,8 +8,9 @@ import { cn } from "@/lib/utils";
 import { ToolAssetInput } from "@/components/tools/tool-asset-input";
 import { ToolResult } from "@/components/tools/tool-result";
 import { ToolTaskHistory } from "@/components/tools/tool-task-history";
+import { useRestoredTask } from "@/components/tools/use-restored-task";
 import { loadToolAssetRecords, toolAssetLibraryItemsFromAssets, type ToolAssetConstraints, type ToolAssetRecord } from "@/services/api/tools/assets";
-import { getToolGateway } from "@/services/api/tools/gateway";
+import { getPersistedToolGateway } from "@/stores/use-tool-task-store";
 import type { ToolTask } from "@/services/api/tools/task-machine";
 import { CHANGE_COLOR_V2_ROUTE } from "@/features/tools/registry/change-color-v2";
 import { useAssetStore, type ImageAsset, type VideoAsset } from "@/stores/use-asset-store";
@@ -497,7 +498,8 @@ export function ChangeColorWorkspace({ className }: { className?: string }) {
         [values, source, sourceReady, maskReady, reference?.url, draft?.revision],
     );
 
-    const result = changeColorResultFromTask(task, snapshot, currentSnapshot);
+    const activeTask = useRestoredTask(toolId, task);
+    const result = changeColorResultFromTask(activeTask, snapshot, currentSnapshot);
     const beforeImage = source?.dataUrl ?? source?.url;
 
     const onSourceChange = useCallback(
@@ -584,7 +586,7 @@ export function ChangeColorWorkspace({ className }: { className?: string }) {
             const size = maskSize();
             const maskUrl = exportMaskPng(strokes, size.width, size.height);
             const run = await runChangeColor({
-                gateway: getToolGateway(),
+                gateway: getPersistedToolGateway(),
                 values,
                 source,
                 maskUrl,
@@ -622,7 +624,7 @@ export function ChangeColorWorkspace({ className }: { className?: string }) {
         try {
             const size = maskSize();
             const run = await retryChangeColor({
-                gateway: getToolGateway(),
+                gateway: getPersistedToolGateway(),
                 taskId: task.id,
                 values,
                 source,
@@ -969,7 +971,7 @@ export function ChangeColorWorkspace({ className }: { className?: string }) {
                         </div>
                     ) : null}
                     <div className="flex min-h-0 flex-1 flex-col rounded-[8px] bg-card">
-                        {resultTab === "result" ? <ToolResult task={task} toolId={toolId} title="生成结果" emptyTitle="暂无生成结果图" emptyHint="快在左侧操作物品换色吧~" onCancel={onCancel} onRetry={() => void onRetry()} /> : null}
+                        {resultTab === "result" ? <ToolResult task={activeTask} toolId={toolId} title="生成结果" emptyTitle="暂无生成结果图" emptyHint="快在左侧操作物品换色吧~" onCancel={onCancel} onRetry={() => void onRetry()} /> : null}
                         {resultTab === "gallery" ? (
                             <div className="flex flex-1 items-center justify-center p-4 text-center" data-testid="change-color-gallery">
                                 <p className="text-[12px] leading-5 text-muted-foreground">优秀案例来自社区灵感库，本地暂未接入社区数据。</p>

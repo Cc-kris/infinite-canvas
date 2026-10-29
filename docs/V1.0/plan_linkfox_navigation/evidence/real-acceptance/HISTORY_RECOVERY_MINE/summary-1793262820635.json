@@ -1,0 +1,83 @@
+[
+  {
+    "toolId": "CHANGE_COLOR",
+    "route": "/tools/smart-edit/change-color",
+    "startedAt": "2026-10-29T08:32:16.418Z",
+    "steps": [
+      {
+        "step": "loaded",
+        "url": "http://127.0.0.1:3000/tools/smart-edit/change-color",
+        "model": true
+      }
+    ],
+    "run": {
+      "waitedMs": 63555,
+      "timeout": false,
+      "taskCount": 1,
+      "task": {
+        "id": "task-mvtac8h5-5386tl",
+        "status": "succeeded",
+        "toolId": "CHANGE_COLOR",
+        "items": [
+          {
+            "url": "blob:http://127.0.0.1:3000/573eab05-fd59-487a-8f55-75b3806dc",
+            "storageKey": "tool-result:9oxuM4YxU24Agu4zXYALa",
+            "payloadDropped": false,
+            "mimeType": "image/png"
+          }
+        ],
+        "error": null
+      },
+      "net": [
+        {
+          "url": "http://127.0.0.1:23210/https://api.cc-ai.xyz/v1/images/edits",
+          "status": 200
+        }
+      ]
+    },
+    "afterReload": {
+      "taskCount": 1,
+      "ids": [
+        "task-mvtac8h5-5386tl:succeeded"
+      ]
+    },
+    "historyUi": {
+      "dockCount": 0,
+      "histCountText": "1 条",
+      "dockItems": 0
+    },
+    "resultAfterReload": {
+      "decodedImages": [
+        {
+          "src": "http://127.0.0.1:3000/logo.png",
+          "w": 256,
+          "h": 256
+        },
+        {
+          "src": "blob:http://127.0.0.1:3000/c3b04ecd-2371",
+          "w": 1024,
+          "h": 1024
+        },
+        {
+          "src": "blob:http://127.0.0.1:3000/c3b04ecd-2371",
+          "w": 1024,
+          "h": 1024
+        },
+        {
+          "src": "blob:http://127.0.0.1:3000/f582dcf4-77a1",
+          "w": 1024,
+          "h": 744
+        },
+        {
+          "src": "blob:http://127.0.0.1:3000/c3b04ecd-2371",
+          "w": 1024,
+          "h": 1024
+        }
+      ]
+    },
+    "download": {
+      "skipped": "no download button visible"
+    },
+    "finishedAt": "2026-10-29T08:33:39.852Z"
+  }
+]

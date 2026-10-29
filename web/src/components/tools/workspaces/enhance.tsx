@@ -5,13 +5,14 @@ import { ToolAssetInput } from "@/components/tools/tool-asset-input";
 import { ToolResult } from "@/components/tools/tool-result";
 import { downloadResultItem } from "@/components/tools/tool-result-actions";
 import { ToolTaskHistory } from "@/components/tools/tool-task-history";
+import { useRestoredTask } from "@/components/tools/use-restored-task";
 import {
     loadToolAssetRecords,
     toolAssetLibraryItemsFromAssets,
     type ToolAssetConstraints,
     type ToolAssetRecord,
 } from "@/services/api/tools/assets";
-import { getToolGateway } from "@/services/api/tools/gateway";
+import { getPersistedToolGateway } from "@/stores/use-tool-task-store";
 import type { ToolTask } from "@/services/api/tools/task-machine";
 import { useAssetStore, type ImageAsset, type VideoAsset } from "@/stores/use-asset-store";
 import { useConfigStore } from "@/stores/use-config-store";
@@ -235,8 +236,9 @@ export function ScaleUpWorkspace({ className }: { className?: string }) {
                 : undefined,
         [values, output, source, draft?.revision],
     );
-    const result = scaleUpResultFromTask(task, snapshot, currentSnapshot);
-    const resultImage = firstResultImageSource(task);
+    const activeTask = useRestoredTask(toolId, task);
+    const result = scaleUpResultFromTask(activeTask, snapshot, currentSnapshot);
+    const resultImage = firstResultImageSource(activeTask);
 
     /** 「下载图片」走与结果卡同一个下载链路（真实落盘文件名由 buildResultFileName 生成）。 */
     const onDownloadImage = useCallback(async () => {
@@ -292,7 +294,7 @@ export function ScaleUpWorkspace({ className }: { className?: string }) {
         try {
             await flushDraft(toolId);
             const run = await runScaleUp({
-                gateway: getToolGateway(),
+                gateway: getPersistedToolGateway(),
                 values,
                 output,
                 source,
@@ -318,7 +320,7 @@ export function ScaleUpWorkspace({ className }: { className?: string }) {
         setRunError(undefined);
         try {
             const run = await retryScaleUp({
-                gateway: getToolGateway(),
+                gateway: getPersistedToolGateway(),
                 values,
                 output,
                 source,
@@ -538,7 +540,7 @@ export function ScaleUpWorkspace({ className }: { className?: string }) {
             ) : null}
 
             <ToolResult
-                task={task}
+                task={activeTask}
                 toolId={toolId}
                 title="放大结果"
                 emptyTitle="暂无生成结果图"
@@ -684,8 +686,9 @@ export function ProductRefineWorkspace({ className }: { className?: string }) {
         () => describeProductRefineDrift(snapshot, currentSnapshot),
         [snapshot, currentSnapshot],
     );
-    const result = productRefineResultFromTask(task, snapshot, currentSnapshot, drift);
-    const resultImage = firstProductRefineImage(task);
+    const activeTask = useRestoredTask(toolId, task);
+    const result = productRefineResultFromTask(activeTask, snapshot, currentSnapshot, drift);
+    const resultImage = firstProductRefineImage(activeTask);
     const mode = productRefineMode(values.mode);
     const strength = productRefineStrength(values.strength);
 
@@ -720,7 +723,7 @@ export function ProductRefineWorkspace({ className }: { className?: string }) {
         try {
             await flushDraft(toolId);
             const run = await runProductRefine({
-                gateway: getToolGateway(),
+                gateway: getPersistedToolGateway(),
                 values,
                 output,
                 source,
@@ -748,7 +751,7 @@ export function ProductRefineWorkspace({ className }: { className?: string }) {
         setRunError(undefined);
         try {
             const run = await retryProductRefine({
-                gateway: getToolGateway(),
+                gateway: getPersistedToolGateway(),
                 values,
                 output,
                 source,
@@ -952,7 +955,7 @@ export function ProductRefineWorkspace({ className }: { className?: string }) {
 
             {resultTab === "result" ? (
                 <ToolResult
-                    task={task}
+                    task={activeTask}
                     toolId={toolId}
                     title="生成结果"
                     emptyTitle="暂无生成结果图"

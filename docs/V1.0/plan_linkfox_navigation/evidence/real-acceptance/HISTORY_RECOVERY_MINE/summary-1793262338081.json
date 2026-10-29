@@ -1,0 +1,79 @@
+[
+  {
+    "toolId": "SCALE_UP",
+    "route": "/tools/ecommerce-suite/scale-up",
+    "startedAt": "2026-10-29T08:23:57.406Z",
+    "steps": [
+      {
+        "step": "loaded",
+        "url": "http://127.0.0.1:3000/tools/ecommerce-suite/scale-up",
+        "model": true
+      }
+    ],
+    "run": {
+      "waitedMs": 21337,
+      "timeout": false,
+      "taskCount": 1,
+      "task": {
+        "id": "task-mvta1j0f-ifyfro",
+        "status": "succeeded",
+        "toolId": "SCALE_UP",
+        "items": [
+          {
+            "url": "https://oss-us.dimenoss.com/images/2026/10/29/1793262269_484",
+            "storageKey": null,
+            "payloadDropped": false,
+            "mimeType": null
+          }
+        ],
+        "error": null
+      },
+      "net": [
+        {
+          "url": "http://127.0.0.1:23210/https://api.cc-ai.xyz/v1/images/edits",
+          "status": 200
+        }
+      ]
+    },
+    "afterReload": {
+      "taskCount": 1,
+      "ids": [
+        "task-mvta1j0f-ifyfro:succeeded"
+      ]
+    },
+    "historyUi": {
+      "dockCount": 1,
+      "histCountText": null,
+      "dockItems": 1,
+      "detailVisible": true
+    },
+    "resultAfterReload": {
+      "decodedImages": [
+        {
+          "src": "http://127.0.0.1:3000/logo.png",
+          "w": 256,
+          "h": 256
+        },
+        {
+          "src": "blob:http://127.0.0.1:3000/c863cd73-2d69",
+          "w": 1024,
+          "h": 744
+        },
+        {
+          "src": "blob:http://127.0.0.1:3000/7c236303-aa80",
+          "w": 1024,
+          "h": 752
+        },
+        {
+          "src": "blob:http://127.0.0.1:3000/7c236303-aa80",
+          "w": 1024,
+          "h": 752
+        }
+      ]
+    },
+    "download": {
+      "error": "TimeoutError: page.waitForEvent: Timeout 30000ms exceeded while waiting for event \"download\"\n=========================== logs ===========================\nwaiting for event \"download\"\n============================================================"
+    },
+    "finishedAt": "2026-10-29T08:25:37.382Z"
+  }
+]

@@ -1,0 +1,84 @@
+[
+  {
+    "toolId": "CHANGE_COLOR",
+    "route": "/tools/smart-edit/change-color",
+    "startedAt": "2026-10-29T08:34:59.460Z",
+    "steps": [
+      {
+        "step": "loaded",
+        "url": "http://127.0.0.1:3000/tools/smart-edit/change-color",
+        "model": true
+      }
+    ],
+    "run": {
+      "waitedMs": 30066,
+      "timeout": false,
+      "taskCount": 1,
+      "task": {
+        "id": "task-mvtafqev-u2yjkh",
+        "status": "succeeded",
+        "toolId": "CHANGE_COLOR",
+        "items": [
+          {
+            "url": "https://oss-us.dimenoss.com/images/2026/10/29/1793262938_c3d",
+            "storageKey": "tool-result:iwklaYnZGAqUZtnru_2Dd",
+            "payloadDropped": false,
+            "mimeType": "image/png"
+          }
+        ],
+        "error": null
+      },
+      "net": [
+        {
+          "url": "http://127.0.0.1:23210/https://api.cc-ai.xyz/v1/images/edits",
+          "status": 200
+        }
+      ]
+    },
+    "afterReload": {
+      "taskCount": 1,
+      "ids": [
+        "task-mvtafqev-u2yjkh:succeeded"
+      ]
+    },
+    "historyUi": {
+      "dockCount": 0,
+      "histCountText": "1 条",
+      "dockItems": 0
+    },
+    "resultAfterReload": {
+      "decodedImages": [
+        {
+          "src": "http://127.0.0.1:3000/logo.png",
+          "w": 256,
+          "h": 256
+        },
+        {
+          "src": "blob:http://127.0.0.1:3000/a411fc0a-23c7",
+          "w": 1024,
+          "h": 1024
+        },
+        {
+          "src": "blob:http://127.0.0.1:3000/a411fc0a-23c7",
+          "w": 1024,
+          "h": 1024
+        },
+        {
+          "src": "blob:http://127.0.0.1:3000/75a85643-3e23",
+          "w": 1024,
+          "h": 744
+        },
+        {
+          "src": "blob:http://127.0.0.1:3000/a411fc0a-23c7",
+          "w": 1024,
+          "h": 1024
+        }
+      ]
+    },
+    "download": {
+      "file": "download-1793262950492-change-color-result-1.png",
+      "bytes": 919689
+    },
+    "finishedAt": "2026-10-29T08:35:50.527Z"
+  }
+]

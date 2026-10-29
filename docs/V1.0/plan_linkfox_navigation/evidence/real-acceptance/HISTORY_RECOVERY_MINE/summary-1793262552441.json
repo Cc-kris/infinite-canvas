@@ -1,0 +1,90 @@
+[
+  {
+    "toolId": "SCALE_UP",
+    "route": "/tools/ecommerce-suite/scale-up",
+    "startedAt": "2026-10-29T08:27:40.223Z",
+    "steps": [
+      {
+        "step": "loaded",
+        "url": "http://127.0.0.1:3000/tools/ecommerce-suite/scale-up",
+        "model": true
+      }
+    ],
+    "run": {
+      "waitedMs": 42173,
+      "timeout": false,
+      "taskCount": 1,
+      "task": {
+        "id": "task-mvta6bty-0rkwm9",
+        "status": "succeeded",
+        "toolId": "SCALE_UP",
+        "items": [
+          {
+            "url": "blob:http://127.0.0.1:3000/17499d7f-fb2d-43d9-b8c0-dcce0cb9d",
+            "storageKey": "tool-result:dG9FsRzSbuQEnA3WzXwIU",
+            "payloadDropped": false,
+            "mimeType": "image/png"
+          }
+        ],
+        "error": null
+      },
+      "net": [
+        {
+          "url": "http://127.0.0.1:23210/https://api.cc-ai.xyz/v1/images/edits",
+          "status": 200
+        }
+      ]
+    },
+    "afterReload": {
+      "taskCount": 1,
+      "ids": [
+        "task-mvta6bty-0rkwm9:succeeded"
+      ]
+    },
+    "historyUi": {
+      "dockCount": 1,
+      "histCountText": null,
+      "dockItems": 1,
+      "detailVisible": true
+    },
+    "resultAfterReload": {
+      "decodedImages": [
+        {
+          "src": "http://127.0.0.1:3000/logo.png",
+          "w": 256,
+          "h": 256
+        },
+        {
+          "src": "blob:http://127.0.0.1:3000/05c0991f-7022",
+          "w": 1024,
+          "h": 744
+        },
+        {
+          "src": "blob:http://127.0.0.1:3000/8c9ba372-9981",
+          "w": 1024,
+          "h": 752
+        },
+        {
+          "src": "blob:http://127.0.0.1:3000/8c9ba372-9981",
+          "w": 1024,
+          "h": 752
+        },
+        {
+          "src": "blob:http://127.0.0.1:3000/e6f3acb9-f8f4",
+          "w": 1024,
+          "h": 744
+        },
+        {
+          "src": "blob:http://127.0.0.1:3000/8c9ba372-9981",
+          "w": 1024,
+          "h": 752
+        }
+      ]
+    },
+    "download": {
+      "file": "download-1793262552040-scale-up-result-1.png",
+      "bytes": 871973
+    },
+    "finishedAt": "2026-10-29T08:29:12.104Z"
+  }
+]
