@@ -1,0 +1,43 @@
+[
+ {
+  "phase": 0,
+  "at": "2026-10-29T11:57:19.862Z",
+  "url": "http://127.0.0.1:23210/https://api.cc-ai.xyz/v1/images/generations",
+  "model": "gpt-image-2",
+  "size": "1024x1024",
+  "n": 1,
+  "prompt": "饰品文字效果图：在珠宝饰品表面生成清晰、贴合材质的文字。 文字内容：「FOREVER YOUNG」（逐字照排，不得增字、漏字、改字）。 字体：serif（衬线 Serif）；字号：96。 位置：文字水平范围 18%–82%（画面居中），沿饰品正面曲率排布，不压住宝石主刻面。 效果：玫瑰金浮雕，边缘细碎闪粉 输出：单张成品图，1920 长边以内；文字完整、无裁切、无重影、无错字。"
+ },
+ {
+  "at": "2026-10-29T11:57:42.531Z",
+  "url": null,
+  "status": 200,
+  "requestId": "230e715c-5b2f-4fd4-b2a4-1e6edece90c2, a3722dcc-26b1-428d-bc38-c5c27f4dc77c",
+  "contentType": "application/json",
+  "bodyKind": [
+   "created",
+   "data",
+   "usage"
+  ],
+  "created": 1793275044,
+  "itemCount": 1,
+  "b64Length": 3305168,
+  "revisedPrompt": "饰品文字效果图：在珠宝饰品表面生成清晰、贴合材质的文字。 文字内容：「FOREVER YOUNG」（逐字照排，不得增字、漏字、改字）。 字体：serif（衬线 Serif）；字号：96。 位置：文字水平范围 18%–82%（画面居中），沿饰品正面曲率排布，不压住宝石主刻面。 效果：玫瑰金浮雕，边缘细碎闪粉 输出：单张成品图，1920 长边以内；文字完整、无裁切、无重影、无错字。",
+  "billing": {
+   "input_tokens": 147,
+   "output_tokens": 198,
+   "total_tokens": 345,
+   "input_tokens_details": {
+    "text_tokens": 147,
+    "image_tokens": 0,
+    "cached_tokens": 0
+   },
+   "output_tokens_details": {
+    "text_tokens": 0,
+    "image_tokens": 198,
+    "reasoning_tokens": 0
+   }
+  },
+  "kind": "response"
+ }
+]
