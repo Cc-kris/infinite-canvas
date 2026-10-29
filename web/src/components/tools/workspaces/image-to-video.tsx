@@ -159,6 +159,13 @@ export function ImageToVideoWorkspace({ className, toolId = IMAGE_TO_VIDEO_TOOL_
     const [caseNotice, setCaseNotice] = useState<string | undefined>();
     const [applyingCaseId, setApplyingCaseId] = useState<string | null>(null);
     const abortRef = useRef<AbortController | null>(null);
+    // 最新表单值快照：update() 需要在渲染期之外基于「上一次的值」做联动计算，
+    // 不能把 setLinkNotice / patchDraft 这类副作用塞进 setValues 的 updater 里
+    // （updater 可能在渲染阶段执行，会触发 setState-in-render 与额外重渲染）。
+    const valuesRef = useRef(values);
+    useEffect(() => {
+        valuesRef.current = values;
+    }, [values]);
 
     // 草稿恢复：先还原值，再按 assetId 拉回资产；丢失的 id 明确提示，不静默丢状态。
     useEffect(() => {
@@ -205,15 +212,16 @@ export function ImageToVideoWorkspace({ className, toolId = IMAGE_TO_VIDEO_TOOL_
 
     const update = useCallback(
         (patch: Partial<ImageToVideoValues>) => {
-            setValues((previous) => {
-                const linked = linkImageToVideoValues(previous, patch);
-                patchDraft(toolId, {
-                    values: { [IMAGE_TO_VIDEO_DRAFT_SLOT]: toImageToVideoDraftValues(linked.values) },
-                    assetIds: [linked.values.firstFrameAssetId, linked.values.lastFrameAssetId, ...linked.values.referenceAssetIds].filter(Boolean),
-                });
-                if (linked.changes.length) setLinkNotice(linked.changes.join("；"));
-                return linked.values;
+            // 纯函数式联动：先算结果并同步 ref，再一次性落草稿/状态，避免在
+            // setValues 的 updater（可能在渲染阶段执行）里触发别的 setState。
+            const linked = linkImageToVideoValues(valuesRef.current, patch);
+            valuesRef.current = linked.values;
+            patchDraft(toolId, {
+                values: { [IMAGE_TO_VIDEO_DRAFT_SLOT]: toImageToVideoDraftValues(linked.values) },
+                assetIds: [linked.values.firstFrameAssetId, linked.values.lastFrameAssetId, ...linked.values.referenceAssetIds].filter(Boolean),
             });
+            setValues(linked.values);
+            if (linked.changes.length) setLinkNotice(linked.changes.join("；"));
         },
         [patchDraft, toolId],
     );
