@@ -12,10 +12,9 @@
  */
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Link } from "react-router-dom";
-import { Download, ImagePlus, RotateCcw, RotateCw, Sparkles, Trash2, UploadCloud } from "lucide-react";
+import { Download, ImagePlus, Loader2, RotateCcw, RotateCw, Sparkles, Trash2 } from "lucide-react";
 
 import { TaskStatusPanel } from "@/components/tools/task-status";
-import { ToolAssetInput } from "@/components/tools/tool-asset-input";
 import { ToolResult } from "@/components/tools/tool-result";
 import { ToolShell } from "@/components/tools/tool-shell";
 import { buildPrintExtractUnit, printExtractPreflightIssues, printExtractSourceReference, runPrintExtract } from "@/features/tools/adapters/print-extract";
@@ -42,15 +41,27 @@ import {
     type PrintExtractSnapshot,
     type PrintExtractSource,
 } from "@/features/tools/registry/print-extract";
-import { cn } from "@/lib/utils";
-import { loadToolAssetRecords, type ToolAssetRecord } from "@/services/api/tools/assets";
+import { cn, randomId } from "@/lib/utils";
+import { adoptLibraryAsset, loadToolAssetRecords, toolAssetLibraryItemsFromAssets, ToolAssetError, uploadToolAsset, type ToolAssetLibraryItem, type ToolAssetRecord } from "@/services/api/tools/assets";
 import type { ToolTask } from "@/services/api/tools/task-machine";
+import { useAssetStore, type ImageAsset, type VideoAsset } from "@/stores/use-asset-store";
 import { flushToolDrafts, useToolDraftStore } from "@/stores/use-tool-draft-store";
 import { useToolTaskStore } from "@/stores/use-tool-task-store";
 
 export type ExtractConfig = { isTransparent: boolean; format: PrintExtractOutputFormat };
 
 const FORMAT_LABEL: Record<PrintExtractOutputFormat, string> = { png: "PNG", jpeg: "JPEG" };
+
+/** 上传约束：与原站提示一致（20M / 384–4096 / 宽高比 < 5 / jpg、png、webp）。 */
+const EXTRACT_UPLOAD_CONSTRAINTS = {
+    kind: "image" as const,
+    mimeTypes: [...PRINT_EXTRACT_SOURCE_LIMITS.mimeTypes],
+    maxBytes: PRINT_EXTRACT_SOURCE_LIMITS.maxBytes,
+    minWidth: PRINT_EXTRACT_SOURCE_LIMITS.minSide,
+    minHeight: PRINT_EXTRACT_SOURCE_LIMITS.minSide,
+    maxWidth: PRINT_EXTRACT_SOURCE_LIMITS.maxSide,
+    maxHeight: PRINT_EXTRACT_SOURCE_LIMITS.maxSide,
+};
 
 const STATUS_LABEL: Record<PrintExtractItemStatus, string> = {
     idle: "待提取",
@@ -92,19 +103,236 @@ function fileExtension(format: PrintExtractOutputFormat): string {
  * ------------------------------------------------------------------ */
 
 export function ExtractUploader({ disabled, maxCount, onAssets }: { disabled: boolean; maxCount: number; onAssets: (assetIds: string[], records: ToolAssetRecord[]) => void }) {
+    const assets = useAssetStore((state) => state.assets);
+    const library = useMemo(
+        () => toolAssetLibraryItemsFromAssets(assets.filter((asset): asset is ImageAsset | VideoAsset => asset.kind === "image" || asset.kind === "video")),
+        [assets],
+    );
+    const [records, setRecords] = useState<ToolAssetRecord[]>([]);
+    const [pending, setPending] = useState<Array<{ key: string; name: string; ratio: number }>>([]);
+    const [notice, setNotice] = useState("");
+    const [dragging, setDragging] = useState(false);
+    const [libraryOpen, setLibraryOpen] = useState(false);
+    const inputRef = useRef<HTMLInputElement | null>(null);
+    const recordsRef = useRef<ToolAssetRecord[]>([]);
+    const pendingRef = useRef<Array<{ key: string; name: string; ratio: number }>>([]);
+
+    const emit = useCallback(
+        (next: ToolAssetRecord[]) => {
+            recordsRef.current = next;
+            setRecords(next);
+            onAssets(
+                next.map((record) => record.id),
+                next,
+            );
+        },
+        [onAssets],
+    );
+
+    const pickFiles = useCallback(
+        async (files: File[]) => {
+            if (disabled || !files.length) return;
+            for (const file of files) {
+                if (recordsRef.current.length + pendingRef.current.length >= maxCount) {
+                    setNotice(`最多 ${maxCount} 张，先移除一张再上传`);
+                    break;
+                }
+                const key = randomId();
+                const entry = { key, name: file.name, ratio: 0 };
+                pendingRef.current = [...pendingRef.current, entry];
+                setPending(pendingRef.current);
+                try {
+                    const record = await uploadToolAsset(file, {
+                        constraints: EXTRACT_UPLOAD_CONSTRAINTS,
+                        onProgress: (progress) => {
+                            pendingRef.current = pendingRef.current.map((item) => (item.key === key ? { ...item, ratio: progress.ratio } : item));
+                            setPending(pendingRef.current);
+                        },
+                    });
+                    setNotice("");
+                    emit([...recordsRef.current.filter((item) => item.id !== record.id), record]);
+                } catch (error) {
+                    setNotice(error instanceof ToolAssetError ? error.issue.message : "上传失败，请重试");
+                } finally {
+                    pendingRef.current = pendingRef.current.filter((item) => item.key !== key);
+                    setPending(pendingRef.current);
+                }
+            }
+        },
+        [disabled, emit, maxCount],
+    );
+
+    const adopt = useCallback(
+        async (item: ToolAssetLibraryItem) => {
+            setLibraryOpen(false);
+            if (recordsRef.current.length >= maxCount) {
+                setNotice(`最多 ${maxCount} 张，先移除一张再上传`);
+                return;
+            }
+            try {
+                const record = await adoptLibraryAsset(item);
+                emit([...recordsRef.current, record]);
+            } catch {
+                setNotice("作品库素材读取失败，请换一张");
+            }
+        },
+        [emit, maxCount],
+    );
+
+    const remove = useCallback(
+        (id: string) => {
+            emit(recordsRef.current.filter((record) => record.id !== id));
+        },
+        [emit],
+    );
+
+    const thumbs = records.length ? records : [];
+
     return (
-        <section data-testid="print-extract-uploader" className="rounded-lg border border-border bg-card p-3">
-            <header className="flex items-start gap-2">
-                <UploadCloud className="mt-0.5 size-4 text-muted-foreground" aria-hidden />
-                <div className="min-w-0">
-                    <h2 className="text-sm font-medium">上传需要提取印花的商品图片</h2>
-                    <p className="mt-1 text-[11px] leading-5 text-muted-foreground">
-                        20M 以内，分辨率：{PRINT_EXTRACT_SOURCE_LIMITS.minSide} × {PRINT_EXTRACT_SOURCE_LIMITS.minSide} ~ {PRINT_EXTRACT_SOURCE_LIMITS.maxSide} × {PRINT_EXTRACT_SOURCE_LIMITS.maxSide}，宽高比小于 {PRINT_EXTRACT_SOURCE_LIMITS.maxAspect}
-                    </p>
+        <section data-testid="print-extract-uploader" className="rounded-[8px] bg-[#f7f7f7] p-[10px]">
+            <div
+                role="button"
+                tabIndex={disabled ? -1 : 0}
+                aria-label="上传需要提取印花的商品图片"
+                onClick={() => !disabled && inputRef.current?.click()}
+                onKeyDown={(event) => {
+                    if (event.key === "Enter" || event.key === " ") {
+                        event.preventDefault();
+                        if (!disabled) inputRef.current?.click();
+                    }
+                }}
+                onDragOver={(event) => {
+                    event.preventDefault();
+                    if (!disabled) setDragging(true);
+                }}
+                onDragLeave={() => setDragging(false)}
+                onDrop={(event) => {
+                    event.preventDefault();
+                    setDragging(false);
+                    void pickFiles(Array.from(event.dataTransfer?.files ?? []));
+                }}
+                className={cn(
+                    "flex h-[186px] w-full cursor-pointer flex-col items-center justify-center gap-[6px] rounded-[8px] border border-dashed px-3 text-center transition",
+                    dragging ? "border-[#723cf9] bg-[#723cf9]/5" : "border-[#d9d9d9] bg-black/[0.02]",
+                    disabled && "cursor-not-allowed opacity-60",
+                )}
+            >
+                <ImagePlus className="size-[22px] text-[#b3b3bd]" aria-hidden />
+                <p className="text-[14px] leading-[22px] text-[rgba(0,0,0,0.88)]">上传需要提取印花的商品图片</p>
+                <div className="flex items-center gap-2" onClick={(event) => event.stopPropagation()} onKeyDown={(event) => event.stopPropagation()}>
+                    <button
+                        type="button"
+                        disabled={disabled}
+                        onClick={() => inputRef.current?.click()}
+                        className="h-6 w-[108px] rounded-[4px] bg-[#723cf9] text-[12px] leading-none text-white transition hover:bg-[#6431e0] disabled:opacity-50"
+                    >
+                        从本地上传
+                    </button>
+                    <button
+                        type="button"
+                        disabled={disabled || !library.length}
+                        title={library.length ? "从作品库（资产库）选择" : "资产库暂时没有可用图片"}
+                        onClick={() => setLibraryOpen((open) => !open)}
+                        className="h-6 w-[100px] rounded-[4px] border border-[#e5e5ea] bg-white text-[12px] leading-none text-[#5a5a66] transition hover:border-[#c9c9d4] disabled:opacity-50"
+                    >
+                        从作品库选择
+                    </button>
                 </div>
-            </header>
-            <ToolAssetInput toolId={PRINT_EXTRACT_TOOL_ID} maxCount={maxCount} title="从本地上传 / 从作品库选择" disabled={disabled} onChange={onAssets} />
-            <p className="mt-2 text-[11px] text-muted-foreground">上传多张图片，开始批量提取；每张独立提交与独立状态。</p>
+                <p className="text-[12px] leading-[19px] text-[#999]">
+                    20M以内，分辨率：{PRINT_EXTRACT_SOURCE_LIMITS.minSide} * {PRINT_EXTRACT_SOURCE_LIMITS.minSide} ~ {PRINT_EXTRACT_SOURCE_LIMITS.maxSide} * {PRINT_EXTRACT_SOURCE_LIMITS.maxSide}，宽高比小于{PRINT_EXTRACT_SOURCE_LIMITS.maxAspect}
+                </p>
+            </div>
+            <input
+                ref={inputRef}
+                type="file"
+                accept={PRINT_EXTRACT_SOURCE_LIMITS.mimeTypes.join(",")}
+                multiple={maxCount > 1}
+                className="hidden"
+                data-testid="tool-asset-file-input"
+                onChange={(event) => {
+                    const files = Array.from(event.target.files ?? []);
+                    event.target.value = "";
+                    void pickFiles(files);
+                }}
+            />
+
+            {libraryOpen ? (
+                <div className="mt-2 max-h-40 overflow-auto rounded-[6px] border border-[#e5e5ea] bg-white p-1">
+                    {library.length ? (
+                        library.map((item) => (
+                            <button
+                                key={item.id}
+                                type="button"
+                                onClick={() => void adopt(item)}
+                                className="flex w-full items-center gap-2 rounded px-1 py-1 text-left text-[11px] text-[#5a5a66] hover:bg-[#f5f5f7]"
+                            >
+                                <img src={item.url} alt="" className="size-8 shrink-0 rounded object-cover" />
+                                <span className="min-w-0 flex-1 truncate">{item.name}</span>
+                            </button>
+                        ))
+                    ) : (
+                        <p className="px-2 py-2 text-[11px] text-[#999]">作品库还没有可用图片</p>
+                    )}
+                </div>
+            ) : null}
+
+            {thumbs.length ? (
+                <div className="mt-2 flex flex-wrap gap-2" data-testid="print-extract-selected">
+                    {thumbs.map((record) => (
+                        <div key={record.id} className="group relative size-[50px] rounded-[6px] border border-black/[0.08] bg-white p-[5px]">
+                            <img src={record.url} alt={record.name} className="size-[38px] rounded-[4px] object-cover" />
+                            <button
+                                type="button"
+                                aria-label={`移除 ${record.name}`}
+                                onClick={() => remove(record.id)}
+                                className="absolute -right-1 -top-1 hidden size-4 items-center justify-center rounded-full bg-black/70 text-[10px] text-white group-hover:flex"
+                            >
+                                ×
+                            </button>
+                        </div>
+                    ))}
+                </div>
+            ) : (
+                <div className="mt-2">
+                    <div className="flex items-center gap-2 text-[12px] text-[rgba(0,0,0,0.3)]">
+                        <span className="h-px flex-1 bg-[#e5e5ea]" />
+                        <span>或试试这些</span>
+                        <span className="h-px flex-1 bg-[#e5e5ea]" />
+                    </div>
+                    <div className="mt-2 flex gap-[10px]">
+                        {[0, 1, 2, 3].map((index) => (
+                            <button
+                                key={index}
+                                type="button"
+                                disabled={disabled}
+                                aria-label={`示例图 ${index + 1}`}
+                                onClick={() => inputRef.current?.click()}
+                                className="flex size-[50px] items-center justify-center rounded-[6px] border border-black/[0.08] bg-white p-[5px] text-[#c9c9d4] transition hover:border-[#b3b3bd] disabled:opacity-50"
+                            >
+                                <ImagePlus className="size-[22px]" aria-hidden />
+                            </button>
+                        ))}
+                    </div>
+                </div>
+            )}
+
+            {pending.length ? (
+                <ul className="mt-2 space-y-1" data-testid="print-extract-upload-progress">
+                    {pending.map((item) => (
+                        <li key={item.key} className="flex items-center gap-2 text-[11px] text-[#5a5a66]">
+                            <Loader2 className="size-3 animate-spin" aria-hidden />
+                            <span className="min-w-0 flex-1 truncate">{item.name}</span>
+                            <span>{Math.round(item.ratio * 100)}%</span>
+                        </li>
+                    ))}
+                </ul>
+            ) : null}
+
+            {notice ? (
+                <p role="alert" data-testid="print-extract-upload-notice" className="mt-2 text-[11px] text-[#d4380d]">
+                    {notice}
+                </p>
+            ) : null}
         </section>
     );
 }
@@ -324,6 +552,7 @@ export function PrintExtractWorkspace() {
     const [snapshots, setSnapshots] = useState<Record<string, PrintExtractSnapshot>>({});
     const [selectedId, setSelectedId] = useState<string | null>(null);
     const [activeId, setActiveId] = useState<string | null>(null);
+    const [tab, setTab] = useState<"result" | "history">("result");
     const [showSnapshot, setShowSnapshot] = useState(false);
     const busyRef = useRef(false);
 
@@ -608,95 +837,51 @@ export function PrintExtractWorkspace() {
             sidebar={sidebar}
             sidebarLabel="商品图设计"
         >
-            <div data-testid="print-extract-workspace" className="grid gap-4 xl:grid-cols-[minmax(0,1fr)_360px]">
-                <div className="min-w-0 space-y-3">
-                    <ExtractUploader disabled={busy} maxCount={batch ? PRINT_EXTRACT_SOURCE_LIMITS.maxBatch : 1} onAssets={handleAssets} />
+            <div data-testid="print-extract-workspace" className="flex min-h-[649px] overflow-hidden rounded-lg border border-black/[0.08] bg-white">
+                {/* 左栏 300：上传 → 批量 → 透明图 → 底部生成 */}
+                <aside className="flex w-[300px] shrink-0 flex-col border-r border-black/[0.08] bg-white">
+                    <div className="flex-1 space-y-3 px-4 py-4">
+                        <ExtractUploader disabled={busy} maxCount={batch ? PRINT_EXTRACT_SOURCE_LIMITS.maxBatch : 1} onAssets={handleAssets} />
 
-                    <div data-testid="print-extract-batch" className="flex flex-wrap items-center justify-between gap-2 rounded-lg border border-border bg-card px-3 py-2">
-                        <label className="flex items-center gap-2 text-xs text-muted-foreground">
-                            <input type="checkbox" checked={batch} disabled={busy} onChange={(event) => setBatch(event.target.checked)} className="size-3.5 accent-[var(--primary)]" />
-                            批量提取（多张图各自独立状态）
-                        </label>
-                        <p data-testid="print-extract-progress" className="text-[11px] text-muted-foreground">
-                            {progress}
+                        <button
+                            type="button"
+                            data-testid="print-extract-batch"
+                            aria-pressed={batch}
+                            disabled={busy}
+                            onClick={() => setBatch((value) => !value)}
+                            className={cn(
+                                "flex h-8 w-full items-center justify-center gap-1 rounded-md border border-[#723CF9] text-xs transition disabled:opacity-50",
+                                batch ? "bg-[#723CF9] text-white" : "bg-white text-[#723CF9] hover:bg-[#f5f0ff]",
+                            )}
+                        >
+                            <ImagePlus className="size-3.5" aria-hidden /> 上传多张图片，开始批量提取
+                        </button>
+                        <p data-testid="print-extract-batch-hint" className="text-[11px] leading-4 text-[#999]">
+                            {batch ? `批量模式：最多 ${PRINT_EXTRACT_SOURCE_LIMITS.maxBatch} 张，每张独立提交与独立状态` : "单张模式：一次处理一张商品图"}
                         </p>
-                    </div>
 
-                    <section className="space-y-2">
-                        <header className="flex items-center justify-between">
-                            <h2 className="text-sm font-medium">提取结果</h2>
-                            <span className="text-[11px] text-muted-foreground">
-                                共 {summary.total} 张 · 成功 {summary.succeeded} · 失败 {summary.failed}
-                            </span>
-                        </header>
-                        <AssetResultGrid
-                            items={items}
-                            selectedId={selectedId}
-                            busyId={busy ? activeId : null}
-                            format={config.format}
-                            onSelect={setSelectedId}
-                            onRemove={handleRemove}
-                            onRetry={(id) => {
-                                const target = items.find((item) => item.id === id);
-                                if (target) void submit([target]);
-                            }}
-                            onDownload={handleDownload}
-                        />
-                        {summary.failed > 0 ? (
+                        <div className="flex h-9 items-center justify-between border-t border-black/[0.06] pt-2">
+                            <span className="text-xs text-black/70">生成透明图</span>
                             <button
                                 type="button"
-                                data-testid="print-extract-retry-failed"
+                                role="switch"
+                                aria-checked={config.isTransparent}
+                                aria-label="生成透明图"
+                                data-testid="print-extract-transparent"
                                 disabled={busy}
-                                onClick={handleRetryFailed}
-                                className="inline-flex min-h-9 items-center gap-1 rounded-md border border-border px-2 text-xs text-muted-foreground hover:bg-accent disabled:opacity-40"
-                            >
-                                <RotateCw className="size-3.5" aria-hidden /> 只重试失败的 {summary.failed} 张
-                            </button>
-                        ) : null}
-                    </section>
-
-                    {activeTask ? (
-                        <section className="space-y-2">
-                            <TaskStatusPanel task={activeTask} onRetry={() => (activeItem ? void submit([activeItem]) : undefined)} />
-                            <details open={showSnapshot} onToggle={(event) => setShowSnapshot((event.target as HTMLDetailsElement).open)} data-testid="print-extract-snapshot" className="rounded-lg border border-border bg-card px-3 py-2 text-xs">
-                                <summary className="cursor-pointer text-muted-foreground">查看本次输入快照</summary>
-                                {activeSnapshot ? (
-                                    <dl className="mt-2 grid grid-cols-2 gap-x-3 gap-y-1 text-[11px] text-muted-foreground">
-                                        <dt>源图</dt>
-                                        <dd className="truncate text-foreground">{activeSnapshot.sourceName}</dd>
-                                        <dt>尺寸</dt>
-                                        <dd className="text-foreground">
-                                            {activeSnapshot.width} × {activeSnapshot.height}
-                                        </dd>
-                                        <dt>透明图</dt>
-                                        <dd className="text-foreground">{activeSnapshot.isTransparent ? "开启" : "关闭"}</dd>
-                                        <dt>幂等键</dt>
-                                        <dd className="truncate text-foreground">{activeSnapshot.clientOperationId}</dd>
-                                        <dt>指纹</dt>
-                                        <dd className="truncate text-foreground">{activeItem ? currentHash(activeItem) : "-"}</dd>
-                                    </dl>
-                                ) : (
-                                    <p className="mt-2 text-[11px] text-muted-foreground">还没有提交过快照。</p>
+                                onClick={() => applyConfig({ isTransparent: !config.isTransparent, format: !config.isTransparent ? "png" : config.format })}
+                                className={cn(
+                                    "flex h-[22px] w-[57px] items-center justify-center rounded-full text-[10px] leading-none transition disabled:opacity-50",
+                                    config.isTransparent ? "bg-[#723CF9] text-white" : "bg-black/25 text-white",
                                 )}
-                            </details>
-                        </section>
-                    ) : null}
+                            >
+                                {config.isTransparent ? "开启" : "关闭"}
+                            </button>
+                        </div>
+                    </div>
 
-                    {activeTask ? <ToolResult task={activeTask} toolId={PRINT_EXTRACT_TOOL_ID} title="提取结果" onRetry={() => (activeItem ? void submit([activeItem]) : undefined)} /> : null}
-                </div>
-
-                <aside className="space-y-3">
-                    <TransparencySwitch
-                        value={config.isTransparent}
-                        format={config.format}
-                        disabled={busy}
-                        onValueChange={(next) => applyConfig({ ...config, isTransparent: next })}
-                        onFormatChange={(next) => applyConfig({ isTransparent: next === "jpeg" ? false : config.isTransparent, format: next })}
-                    />
-
-                    <section className="rounded-lg border border-border bg-card p-3">
-                        <h2 className="text-sm font-medium">立即生成</h2>
-                        <p data-testid="print-extract-estimate" className="mt-1 text-[11px] leading-5 text-muted-foreground">
+                    <div className="border-t-[3px] border-[#F5F7FA] bg-white px-4 py-2">
+                        <p data-testid="print-extract-estimate" className="mb-1.5 text-[11px] leading-4 text-[#999]">
                             预计输出 {batch ? summary.idle + summary.failed : Math.min(1, items.length)} 张 {FORMAT_LABEL[config.format]} · 宽高跟随源图
                         </p>
                         <button
@@ -704,15 +889,134 @@ export function PrintExtractWorkspace() {
                             data-testid="print-extract-generate"
                             disabled={!canGenerate}
                             onClick={handleGenerate}
-                            className="mt-2 inline-flex min-h-10 w-full items-center justify-center gap-1 rounded-md bg-primary px-3 text-sm font-medium text-primary-foreground transition hover:opacity-90 disabled:opacity-40"
+                            className="inline-flex h-8 w-full items-center justify-center gap-1 rounded-md bg-[#723CF9] text-[13px] font-medium text-white transition hover:bg-[#6234d8] disabled:cursor-not-allowed disabled:opacity-40"
                         >
-                            <Sparkles className="size-4" aria-hidden />
-                            {busy ? "提取中…" : "立即生成"}
+                            {busy ? <Loader2 className="size-3.5 animate-spin" aria-hidden /> : null}
+                            立即生成 (10算力)
                         </button>
-                        {items.length === 0 ? <p className="mt-2 text-[11px] text-muted-foreground">先上传需要提取印花的商品图片。</p> : null}
-                        {config.format === "jpeg" && config.isTransparent ? <p className="mt-2 text-[11px] text-amber-700 dark:text-amber-300">JPEG 不支持透明，已自动关闭透明图。</p> : null}
-                    </section>
+                        {items.length === 0 ? <p className="mt-1.5 text-[11px] leading-4 text-[#999]">先上传需要提取印花的商品图片。</p> : null}
+                    </div>
                 </aside>
+
+                {/* 右栏：白 header(42) + 结果画布 #EDEFF5 */}
+                <section className="flex min-w-0 flex-1 flex-col bg-[#EDEFF5]">
+                    <header className="flex h-[42px] shrink-0 items-center gap-5 rounded-tr-lg bg-white px-3">
+                        <button
+                            type="button"
+                            data-testid="print-extract-tab-result"
+                            aria-pressed={tab === "result"}
+                            onClick={() => setTab("result")}
+                            className={cn("text-sm transition", tab === "result" ? "font-medium text-[#723CF9]" : "text-black/60 hover:text-black/80")}
+                        >
+                            生成结果
+                        </button>
+                        <button
+                            type="button"
+                            data-testid="print-extract-tab-history"
+                            aria-pressed={tab === "history"}
+                            onClick={() => setTab("history")}
+                            className={cn("flex items-center gap-1 text-xs transition", tab === "history" ? "text-[#723CF9]" : "text-black/60 hover:text-black/80")}
+                        >
+                            历史记录
+                            <span className="rounded bg-[#f5f0ff] px-1 text-[11px] text-[#723CF9]">{items.filter((item) => item.status === "succeeded").length}</span>
+                        </button>
+                        <div className="ml-auto flex items-center gap-2">
+                            {summary.failed > 0 ? (
+                                <button
+                                    type="button"
+                                    data-testid="print-extract-retry-failed"
+                                    disabled={busy}
+                                    onClick={handleRetryFailed}
+                                    className="inline-flex h-7 items-center gap-1 rounded-md border border-black/10 bg-white px-2 text-[11px] text-black/70 hover:bg-black/[0.03] disabled:opacity-40"
+                                >
+                                    <RotateCw className="size-3" aria-hidden /> 只重试失败的 {summary.failed} 张
+                                </button>
+                            ) : null}
+                            <span className="text-[11px] text-black/40">{progress}</span>
+                        </div>
+                    </header>
+
+                    <div className="min-h-0 flex-1 space-y-3 overflow-auto p-4">
+                        <h2 className="sr-only">提取结果</h2>
+                        {tab === "result" ? (
+                            items.length === 0 ? (
+                                <div data-testid="print-extract-empty" className="flex h-full min-h-[420px] items-center justify-center">
+                                    <div className="flex h-[300px] w-[460px] max-w-full flex-col items-center justify-center gap-2 rounded-xl bg-white text-center shadow-[0_2px_8px_rgba(0,0,0,0.04)]">
+                                        <ImagePlus className="size-9 text-[#c9c2e8]" aria-hidden />
+                                        <p className="text-xl font-medium text-black/88">印花提取</p>
+                                        <p className="text-base text-black/60">快速提取商品中的印花图案</p>
+                                    </div>
+                                </div>
+                            ) : (
+                                <section className="space-y-3">
+                                    <AssetResultGrid
+                                        items={items}
+                                        selectedId={selectedId}
+                                        busyId={busy ? activeId : null}
+                                        format={config.format}
+                                        onSelect={setSelectedId}
+                                        onRemove={handleRemove}
+                                        onRetry={(id) => {
+                                            const target = items.find((item) => item.id === id);
+                                            if (target) void submit([target]);
+                                        }}
+                                        onDownload={handleDownload}
+                                    />
+                                    {activeTask ? (
+                                        <section className="space-y-2">
+                                            <TaskStatusPanel task={activeTask} onRetry={() => (activeItem ? void submit([activeItem]) : undefined)} />
+                                            <details open={showSnapshot} onToggle={(event) => setShowSnapshot((event.target as HTMLDetailsElement).open)} data-testid="print-extract-snapshot" className="rounded-lg border border-black/[0.08] bg-white px-3 py-2 text-xs">
+                                                <summary className="cursor-pointer text-muted-foreground">查看本次输入快照</summary>
+                                                {activeSnapshot ? (
+                                                    <dl className="mt-2 grid grid-cols-2 gap-x-3 gap-y-1 text-[11px] text-muted-foreground">
+                                                        <dt>源图</dt>
+                                                        <dd className="truncate text-foreground">{activeSnapshot.sourceName}</dd>
+                                                        <dt>尺寸</dt>
+                                                        <dd className="text-foreground">
+                                                            {activeSnapshot.width} × {activeSnapshot.height}
+                                                        </dd>
+                                                        <dt>透明图</dt>
+                                                        <dd className="text-foreground">{activeSnapshot.isTransparent ? "开启" : "关闭"}</dd>
+                                                        <dt>幂等键</dt>
+                                                        <dd className="truncate text-foreground">{activeSnapshot.clientOperationId}</dd>
+                                                        <dt>指纹</dt>
+                                                        <dd className="truncate text-foreground">{activeItem ? currentHash(activeItem) : "-"}</dd>
+                                                    </dl>
+                                                ) : (
+                                                    <p className="mt-2 text-[11px] text-muted-foreground">还没有提交过快照。</p>
+                                                )}
+                                            </details>
+                                        </section>
+                                    ) : null}
+                                    {activeTask ? <ToolResult task={activeTask} toolId={PRINT_EXTRACT_TOOL_ID} title="提取结果" onRetry={() => (activeItem ? void submit([activeItem]) : undefined)} /> : null}
+                                </section>
+                            )
+                        ) : (
+                            <ul data-testid="print-extract-history" className="space-y-2">
+                                {items.filter((item) => item.status === "succeeded").length === 0 ? (
+                                    <li className="rounded-lg bg-white px-4 py-8 text-center text-xs text-black/45">暂无历史记录，生成成功后会自动留档。</li>
+                                ) : (
+                                    items
+                                        .filter((item) => item.status === "succeeded")
+                                        .map((item, index) => (
+                                            <li key={item.id} className="flex items-center gap-3 rounded-lg bg-white px-3 py-2">
+                                                <img src={item.resultUrl ?? item.url} alt={item.name} className="size-10 rounded border border-black/[0.06] object-cover" />
+                                                <div className="min-w-0 flex-1">
+                                                    <p className="truncate text-xs text-black/80">{item.name}</p>
+                                                    <p className="text-[11px] text-black/40">
+                                                        {item.width} × {item.height} · {item.snapshotHash ? "已留档" : "本地产出"}
+                                                    </p>
+                                                </div>
+                                                <button type="button" className="text-[11px] text-[#723CF9]" onClick={() => handleDownload(item, index)}>
+                                                    下载
+                                                </button>
+                                            </li>
+                                        ))
+                                )}
+                            </ul>
+                        )}
+                    </div>
+                </section>
             </div>
         </ToolShell>
     );

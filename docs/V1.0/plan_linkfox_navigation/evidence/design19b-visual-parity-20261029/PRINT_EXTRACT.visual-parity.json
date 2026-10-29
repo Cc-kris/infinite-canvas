@@ -1,0 +1,114 @@
+{
+  "tool": "PRINT_EXTRACT",
+  "label": "印花提取",
+  "group": "design19b（后 9 工具）",
+  "captured_at": "2026-10-29",
+  "real_source": {
+    "url": "LinkFox 商品图设计 / 印花提取",
+    "viewport": "1908x781",
+    "probe": "docs/V1.0/plan_linkfox_navigation/tools/capture_design19b.py",
+    "raw": "/tmp/d19b_deep/PRINT_EXTRACT.json (工作副本，未入库)"
+  },
+  "real_geometry": {
+    "body_background": "#F5F7FA",
+    "workspace": {
+      "layout": "flex row",
+      "border": "1px solid rgba(0,0,0,0.08)",
+      "radius": 8,
+      "height": 649
+    },
+    "left_rail": {
+      "width": 300,
+      "background": "#FFFFFF",
+      "radius": "8 0 0 8",
+      "padding": "16 / 20",
+      "upload_container": { "size": "268x290", "background": "#F7F7F7", "radius": 8, "padding": 10 },
+      "dragger": {
+        "size": "248x186",
+        "border": "1px dashed #D9D9D9",
+        "background": "rgba(0,0,0,0.02)",
+        "radius": 8,
+        "title": { "text": "上传需要提取印花的商品图片", "font_size": 14 },
+        "primary_button": { "text": "从本地上传", "size": "108x24", "color": "#723CF9" },
+        "secondary_button": { "text": "从作品库选择", "size": "100x24" },
+        "hint": { "font_size": 12, "color": "#999", "lines": 2 }
+      },
+      "examples": { "divider_text": "或试试这些", "count": 4, "thumb": "50x50" },
+      "batch_button": { "text": "上传多张图片，开始批量提取", "size": "268x32", "border": "#723CF9", "background": "transparent" },
+      "transparent_row": { "label": "生成透明图", "switch": "57x22" },
+      "footer": {
+        "size": "300x51",
+        "border_top": "3px solid #F5F7FA",
+        "padding": "8 / 16",
+        "submit_button": { "text": "立即生成 (10算力)", "size": "268x32", "background": "#723CF9" }
+      }
+    },
+    "right_panel": {
+      "size": "1406x649",
+      "background": "#EDEFF5",
+      "radius": "0 8 8 0",
+      "header": {
+        "height": 42,
+        "background": "#FFFFFF",
+        "padding": "0 12",
+        "tabs": [
+          { "text": "生成结果", "font_size": 14, "color_active": "#723CF9" },
+          { "text": "历史记录", "font_size": 12, "color": "#723CF9", "badge": "count" }
+        ]
+      },
+      "empty_state": {
+        "video_box": "460x300",
+        "background": "#FFFFFF",
+        "radius": 12,
+        "title": { "text": "印花提取", "font_size": 20 },
+        "subtitle": { "text": "快速提取商品中的印花图案", "font_size": 16, "color": "rgba(0,0,0,0.6)" }
+      }
+    }
+  },
+  "implemented": {
+    "file": "web/src/components/tools/workspaces/extract.tsx",
+    "structure": [
+      "两栏：左 300px 白底（上传卡 → 批量入口 → 生成透明图 → 底部 立即生成 固定区）",
+      "右栏 #EDEFF5 结果画布 + 42px 白 header（生成结果 / 历史记录 + 计数）",
+      "空态 460x300 白卡（印花提取 / 快速提取商品中的印花图案）"
+    ],
+    "matches": [
+      "左栏宽度 300、白底、右分割线 rgba(0,0,0,0.08)",
+      "上传容器 #F7F7F7 + 248x186 虚线拖拽区（标题 14px / 主按钮紫色 / 从作品库选择 次级按钮 / 两行 #999 提示）",
+      "或试试这些 分隔 + 4 个 50x50 示例位",
+      "批量按钮 268x32 全宽、#723CF9 描边文本、切换后填充",
+      "生成透明图 22px 高 57px 宽开关（开启/关闭）",
+      "底部生成区 3px #F5F7FA 分隔 + 268x32 #723CF9 立即生成 (10算力)",
+      "右栏 #EDEFF5、42px 白 header、tab 选中 #723CF9、空态 460x300 白卡与 20/16px 文案"
+    ],
+    "deviations": [
+      "示例位使用中性占位图标，未使用品牌 CDN 缩略图（避免外链依赖）",
+      "右侧没有真实的 video 元素，空态用图片图标代替（原站 videoBox 为空白视频占位）",
+      "保留 ToolShell 顶部撤销/重做/重置与状态条（站内一致性，原站无）",
+      "去掉了原实现里的导出格式（PNG/JPEG）切换：真实站左栏无该控件，格式仍保留在草稿中，默认 PNG，透明图联动规则未变"
+    ],
+    "functionality_preserved": [
+      "上传约束 20M / 384–4096 / 宽高比 < 5 / jpg+png+webp（与服务端校验一致）",
+      "批量模式每张独立提交、独立状态、失败重试",
+      "结果只来自上游真实返回；换图/改配置后旧结果标记 stale",
+      "结果网格选择、删除、重试、下载，以及输入快照可展开",
+      "草稿持久化与撤销/重做"
+    ]
+  },
+  "verification": {
+    "typecheck": "npx tsc --noEmit -p web/tsconfig.json → 0 error",
+    "unit_tests": "bun test web/src/features/tools/adapters/print-extract.test.ts → 32 pass / 0 fail",
+    "ssr_first_paint": "包含 print-extract-workspace / 商品图 / 生成透明图 / 立即生成 / 提取结果"
+  },
+  "status": "DONE（视觉+结构对齐，功能保留；偏差见 deviations）",
+  "remaining_in_group": [
+    "AI_POSE_GENERATOR",
+    "AI_DRESSING_XSY",
+    "FISSION_LINK",
+    "IMAGE_TEXT_EDIT",
+    "MATERIAL_UPPER_BODY",
+    "NEW_DESIGNER",
+    "PRODUCT_MARKET_MATERIAL",
+    "SCENE_TRANSFER"
+  ]
+}
