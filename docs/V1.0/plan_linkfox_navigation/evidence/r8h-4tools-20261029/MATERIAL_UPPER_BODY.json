@@ -1,0 +1,84 @@
+{
+  "toolId": "MATERIAL_UPPER_BODY",
+  "route": "/tools/product-design/material-upper-body",
+  "phase": "reload",
+  "nav": "reload",
+  "reload": {
+    "method": "CDP Page.reload ignoreCache=true on real tool route",
+    "at": "2026-10-29T10:58:49.212Z",
+    "url": "http://127.0.0.1:3000/tools/product-design/material-upper-body"
+  },
+  "afterReload": {
+    "dockCount": "1 条",
+    "dockRows": [
+      {
+        "taskId": "task-mvtd45nv-y7cum6",
+        "status": "succeeded"
+      }
+    ],
+    "resultArea": "empty",
+    "resultEmpty": true,
+    "note": "该工作区结果区只由 live submit 的 task state 渲染，reload 后为空；历史仅经 tool-history-dock 恢复（真实 taskId + 结果缩略图）"
+  },
+  "taskId": "task-mvtd45nv-y7cum6",
+  "realRun": true,
+  "persistedBytes": {
+    "store": "indexedDB/infinite-canvas/media_files",
+    "storageKey": "tool-result:oU0TI--EZsIZ_14iPu4Jp",
+    "bytes": 1525374,
+    "mimeType": "image/png",
+    "width": 1024,
+    "height": 1024,
+    "sha256": "79bddf28c16aa5c792efbf429e084b1f81c98cfe5bc6336081480ef60f0fa5d6",
+    "pngValid": {
+      "signature": true,
+      "hasIEND": true
+    }
+  },
+  "bytes": 1525374,
+  "actions": {
+    "download": {
+      "ok": true,
+      "fileName": "material-upper-body-result-1.png",
+      "savedBytes": 1525374,
+      "sha256": "79bddf28c16aa5c792efbf429e084b1f81c98cfe5bc6336081480ef60f0fa5d6"
+    },
+    "saveToAssets": {
+      "ok": true,
+      "assetId": "sAXwygUSnXUieCD4l2YJm",
+      "persistedIn": "indexedDB/infinite-canvas/app_state (asset store persist)",
+      "storageKey": "image:hZFKnYBpDEy-2DwN6gHiL",
+      "bytes": 1525374,
+      "sha256": "79bddf28c16aa5c792efbf429e084b1f81c98cfe5bc6336081480ef60f0fa5d6"
+    },
+    "sendToCanvas": {
+      "ok": true,
+      "projectId": "KB77KFIhQpdz3x82Sp4QX",
+      "nodeId": "image-1793271704834-tsu8h",
+      "nodeType": "image",
+      "storageKey": "image:BhlmUm5XTF-XohP62Q72C",
+      "naturalWidth": 1024,
+      "naturalHeight": 1024,
+      "bytes": 1525374,
+      "sha256": "79bddf28c16aa5c792efbf429e084b1f81c98cfe5bc6336081480ef60f0fa5d6"
+    }
+  },
+  "bytesMatch": {
+    "persistedVsDownload": true,
+    "persistedVsAsset": true,
+    "persistedVsCanvas": true
+  },
+  "allMatch": true,
+  "fixedDefect": {
+    "file": "web/src/components/tools/tool-result-actions.ts",
+    "lines": [
+      282,
+      408
+    ],
+    "bug": "saveResultItemToAssets / sendResultItemToCanvas 只用 item.dataUrl ?? item.url 作为图片源，历史恢复的结果只有 blob（url/dataUrl 不落盘），导致 uploadImage(\"\") → 抛「读取图片失败」，存资产/发画布全不可用",
+    "fix": "改为 item.blob ?? item.dataUrl ?? item.url",
+    "evidence": "修复前同一任务两次调用均抛「读取图片失败」；修复后用同一份 1.53MB 真实字节成功写入资产与画布，sha256 与原图完全一致"
+  },
+  "noInjection": true,
+  "capturedAt": "2026-10-29T19:03:45"
+}

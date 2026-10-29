@@ -277,7 +277,9 @@ export async function saveResultItemToAssets(item: ToolTaskResultItem, index: nu
         return { assetId, kind: "video" };
     }
 
-    const stored = await deps.uploadImage(item.dataUrl ?? item.url ?? "");
+    // 历史结果在刷新后往往只有 blob（url/dataUrl 不落盘），必须优先用真实字节，
+    // 否则 uploadImage("") 会以「读取图片失败」收场 —— 存资产/发画布全部不可用。
+    const stored = await deps.uploadImage(item.blob ?? item.dataUrl ?? item.url ?? "");
     const assetId = deps.addAsset({
         kind: "image",
         title,
@@ -403,7 +405,7 @@ export async function sendResultItemToCanvas(item: ToolTaskResultItem, options: 
     const node =
         item.kind === "video"
             ? deps.createNode!("video", position, deps.videoMetadata!(await deps.storeVideo!({ blob: item.blob, url: item.url, mimeType: item.mimeType })))
-            : deps.createNode!("image", position, deps.imageMetadata!(await deps.uploadImage!(item.dataUrl ?? item.url ?? "")));
+            : deps.createNode!("image", position, deps.imageMetadata!(await deps.uploadImage!(item.blob ?? item.dataUrl ?? item.url ?? "")));
 
     deps.updateProject!(projectId, [...nodes, node]);
     return { projectId, nodeId: node.id };
