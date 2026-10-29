@@ -1,0 +1,56 @@
+{
+  "tool": "PRODUCT_MARKET_MATERIAL",
+  "round": "R11",
+  "date": "2026-10-29",
+  "mode": "isolated Playwright profile (no shared browser, no history injection)",
+  "env": {
+    "app": "http://127.0.0.1:3000",
+    "dev": "vite/next dev pid 80431",
+    "proxy": "http://127.0.0.1:23210"
+  },
+  "source": {
+    "file": ".worker-real-accept-market/assets/product.jpg",
+    "bytes": 31860,
+    "dimensions": "1024x744",
+    "mime": "image/jpeg",
+    "uploadedViaUI": true,
+    "sha256": "43ede96e7ce885098df793143b215e2c7d2ea7558af711ec5c46975a0dc19be3"
+  },
+  "configInUI": {
+    "provider": "GPT_2_5_IMAGE",
+    "resolution": "2K",
+    "quality": "high",
+    "platform": "amazon",
+    "ratio": "970x600",
+    "count": 1
+  },
+  "historyBefore": 0,
+  "result": {
+    "taskCreated": false,
+    "taskId": null,
+    "upstreamCalled": false,
+    "rawReceipt": null,
+    "blocker": "「开始生成」按钮 disabled，title=「请至少选择一个 A+ 模板。」；自动化脚本未勾选到有效 A+ 模板（高级A+按钮选择未生效），因此未提交、未调用上游。",
+    "blockerType": "client-side form validation (not upstream error)"
+  },
+  "checks": {
+    "realImageBytes": false,
+    "sha256": null,
+    "freshReloadHistory": "未执行（无任务）",
+    "actions": {
+      "download": false,
+      "saveAsset": false,
+      "sendCanvas": false
+    }
+  },
+  "injection": {
+    "historyInjected": false,
+    "tasksInjected": false,
+    "evidenceReusedFromEarlierRuns": false
+  },
+  "concurrencyRisk": "检测到并发 worker lf_market_material_real(pid 68452) 正在驱动同一共享浏览器；本会话新建的标签被其导航到 dress-wear-set，故改用独立 profile 隔离。",
+  "screenshots": [
+    "01-before.png（历史任务 0 条）",
+    "02-form.png（商品图已上传、卖点/平台/画幅已填）"
+  ]
+}
