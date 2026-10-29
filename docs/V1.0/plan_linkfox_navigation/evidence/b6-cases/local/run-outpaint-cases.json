@@ -1,0 +1,172 @@
+{
+  "route": "/tools/ecommerce-suite/ai-outpainting",
+  "base": "http://127.0.0.1:3000",
+  "at": "2026-10-29T02:48:32.692Z",
+  "steps": [
+    {
+      "step": "tabbar-before",
+      "text": "生成结果|优秀案例|历史记录",
+      "tabs": [
+        {
+          "text": "生成结果",
+          "selected": "true",
+          "cls": "relative text-xs font-medium text-[#723CF9] after:absolute after:-bottom-[7px] after:left-0 after:h-[2px] after:w-full after:rounded-full after:bg-[#723CF9]"
+        },
+        {
+          "text": "优秀案例",
+          "selected": "false",
+          "cls": "text-xs text-muted-foreground transition-colors hover:text-foreground"
+        },
+        {
+          "text": "历史记录",
+          "selected": "false",
+          "cls": "text-xs text-muted-foreground transition-colors hover:text-foreground"
+        }
+      ]
+    },
+    {
+      "step": "cases-panel",
+      "wrapperBox": {
+        "x": 1064,
+        "y": 536,
+        "w": 340,
+        "h": 161
+      },
+      "columnBox": {
+        "x": 1064,
+        "y": 536,
+        "w": 340,
+        "h": 161
+      },
+      "wrapperStyle": {
+        "columnCount": "2",
+        "columnGap": "18px"
+      },
+      "cards": [
+        {
+          "id": "local-run-20261028-01",
+          "box": {
+            "x": 1064,
+            "y": 536,
+            "w": 161,
+            "h": 161
+          },
+          "img": "/__acc/cases/outpaint-result-1.png",
+          "text": "预览||原图|做同款",
+          "btnBox": {
+            "x": 1146,
+            "y": 660,
+            "w": 74,
+            "h": 32
+          }
+        }
+      ],
+      "maskStyle": {
+        "bg": "oklab(0 0 0 / 0.5)",
+        "opacity": "0",
+        "position": "absolute"
+      }
+    },
+    {
+      "step": "mask-hover-opacity",
+      "opacity": "1"
+    },
+    {
+      "step": "apply-case",
+      "before": {
+        "name": null,
+        "prompt": ""
+      },
+      "after": {
+        "name": "当前原图：linkfox-case-local-run-20261028-01.jpeg",
+        "prompt": "延续灰色水泥地面与柔和侧光，在下方补出完整的产品阴影与投影，保持商品主体不变",
+        "notice": "已做同款：原图（素材 3svApN…）与提示词已回填，可直接生成",
+        "canvasImg": "blob:http://127.0.0.1:3000/2a588899-3c83-4938-9db5-9fc430ae886b",
+        "activeTab": "优秀案例"
+      },
+      "draft": {
+        "key": "tool-draft:v1:AI_OUTPAINTING",
+        "value": {
+          "draftVersion": 1,
+          "toolId": "AI_OUTPAINTING",
+          "values": {
+            "sourceAssetId": "3svApNWV0u2BeHxYaCpuz",
+            "sourceName": "linkfox-case-local-run-20261028-01.jpeg",
+            "sourceWidth": 1024,
+            "sourceHeight": 744,
+            "ratio": "1:1",
+            "sizePreset": "1024",
+            "width": 1024,
+            "height": 744,
+            "offsetX": 0,
+            "offsetY": 0,
+            "locked": true,
+            "editMode": true,
+            "outputNum": 1,
+            "prompt": "延续灰色水泥地面与柔和侧光，在下方补出完整的产品阴影与投影，保持商品主体不变",
+            "maskAssetId": null,
+            "maskUrl": "",
+            "maskHash": ""
+          },
+          "assetIds": [],
+          "updatedAt": "2026-10-29T02:48:34.724Z",
+          "revision": 3
+        },
+        "keyCount": 3
+      }
+    },
+    {
+      "step": "after-reload",
+      "name": "当前原图：linkfox-case-local-run-20261028-01.jpeg",
+      "prompt": "延续灰色水泥地面与柔和侧光，在下方补出完整的产品阴影与投影，保持商品主体不变",
+      "canvasImg": "blob:http://127.0.0.1:3000/0d9c7f26-e0c1-4280-a172-444e92c91f05",
+      "hasThumb": 1,
+      "activeTab": "生成结果",
+      "draft": {
+        "key": "tool-draft:v1:AI_OUTPAINTING",
+        "value": {
+          "draftVersion": 1,
+          "toolId": "AI_OUTPAINTING",
+          "values": {
+            "sourceAssetId": "3svApNWV0u2BeHxYaCpuz",
+            "sourceName": "linkfox-case-local-run-20261028-01.jpeg",
+            "sourceWidth": 1024,
+            "sourceHeight": 744,
+            "ratio": "1:1",
+            "sizePreset": "1024",
+            "width": 1024,
+            "height": 744,
+            "offsetX": 0,
+            "offsetY": 0,
+            "locked": true,
+            "editMode": true,
+            "outputNum": 1,
+            "prompt": "延续灰色水泥地面与柔和侧光，在下方补出完整的产品阴影与投影，保持商品主体不变",
+            "maskAssetId": null,
+            "maskUrl": "",
+            "maskHash": ""
+          },
+          "assetIds": [],
+          "updatedAt": "2026-10-29T02:48:34.724Z",
+          "revision": 3
+        },
+        "keyCount": 3
+      }
+    }
+  ],
+  "assertions": {
+    "tabBarHas3": true,
+    "tabLabels": "生成结果/优秀案例/历史记录",
+    "hasCaseCard": true,
+    "maskShowsOnHover": true,
+    "promptBackfilled": true,
+    "sourceBackfilled": true,
+    "canvasHasImage": true,
+    "draftPersistedAcrossReload": true,
+    "draftKey": "tool-draft:v1:AI_OUTPAINTING",
+    "assetIdBefore": "3svApNWV0u2BeHxYaCpuz",
+    "assetIdAfter": "3svApNWV0u2BeHxYaCpuz"
+  },
+  "ok": true,
+  "errors": []
+}

@@ -84,14 +84,18 @@ import {
     type OutpaintOutcome,
     type OutpaintSource,
 } from "@/features/tools/adapters/ai-outpainting";
-import { loadToolAssetRecords } from "@/services/api/tools/assets";
+import { AI_OUTPAINTING_CASES } from "@/features/tools/tool-cases-data";
+import { loadToolAssetRecords, uploadToolAsset } from "@/services/api/tools/assets";
 import type { ToolAssetRecord } from "@/services/api/tools/assets";
-import type { ToolTask } from "@/services/api/tools/task-machine";
+import type { ToolTask, ToolTaskResultItem } from "@/services/api/tools/task-machine";
 import { useToolDraftStore } from "@/stores/use-tool-draft-store";
+import { useToolTaskStore } from "@/stores/use-tool-task-store";
 
 import { ToolAssetInput } from "../tool-asset-input";
+import { ToolCases, type ToolCase } from "../tool-cases";
 import { ToolResult } from "../tool-result";
 import { ToolShell } from "../tool-shell";
+import { ToolTaskHistory } from "../tool-task-history";
 
 export type OutpaintWorkspaceProps = { className?: string };
 
@@ -372,6 +376,9 @@ export function OutpaintWorkspace({ className }: OutpaintWorkspaceProps = {}) {
     const [notice, setNotice] = useState("");
     const [busy, setBusy] = useState(false);
     const [hydrated, setHydrated] = useState(false);
+    /** B6：右栏与原站一致的三个页签（生成结果 / 优秀案例 / 历史记录）。 */
+    const [rightTab, setRightTab] = useState<"result" | "cases" | "history">("result");
+    const [applyingCaseId, setApplyingCaseId] = useState<string | null>(null);
 
     const historyRef = useRef(history);
     const valuesRef = useRef(values);
@@ -498,6 +505,49 @@ export function OutpaintWorkspace({ className }: OutpaintWorkspaceProps = {}) {
 
     /* ---------------- 提交 ---------------- */
 
+    /* ---------------- 优秀案例 → 做同款（真实回填） ---------------- */
+
+    const applyCase = useCallback(
+        async (item: ToolCase) => {
+            const param = item.params[0];
+            if (!param) {
+                setNotice("该案例缺少输入素材，无法回填");
+                return;
+            }
+            setApplyingCaseId(item.id);
+            try {
+                const response = await fetch(param.src);
+                if (!response.ok) throw new Error(`案例素材读取失败（HTTP ${response.status}）`);
+                const blob = await response.blob();
+                const file = new File([blob], `linkfox-case-${item.id}.${(blob.type.split("/")[1] || "jpg")}`, {
+                    type: blob.type || "image/jpeg",
+                });
+                const record = await uploadToolAsset(file);
+                await onSourceChange([record.id], [record]);
+                const apply = item.apply;
+                if (apply) {
+                    const ratioKey =
+                        typeof apply.ratio === "string" && OUTPAINT_RATIOS.some((option) => option.key === apply.ratio)
+                            ? (apply.ratio as OutpaintRatioKey)
+                            : null;
+                    commit({
+                        ...valuesRef.current,
+                        ...(typeof apply.prompt === "string" ? { prompt: apply.prompt } : {}),
+                        ...(ratioKey ? { ratio: ratioKey } : {}),
+                        ...(typeof apply.sizePreset === "string" ? { sizePreset: apply.sizePreset } : {}),
+                        ...(typeof apply.outputNum === "number" ? { outputNum: apply.outputNum } : {}),
+                    });
+                }
+                setNotice(`已做同款：原图（素材 ${record.id.slice(0, 6)}…）与提示词已回填，可直接生成`);
+            } catch (error) {
+                setNotice(error instanceof Error ? `做同款失败：${error.message}` : "做同款失败");
+            } finally {
+                setApplyingCaseId(null);
+            }
+        },
+        [commit, onSourceChange],
+    );
+
     const submit = useCallback(async () => {
         if (busy) return;
         const current = valuesRef.current;
@@ -546,6 +596,52 @@ export function OutpaintWorkspace({ className }: OutpaintWorkspaceProps = {}) {
         if (task) void import("@/stores/use-tool-task-store").then(({ useToolTaskStore }) => useToolTaskStore.getState().cancelTask(task.id));
         setNotice("已请求取消");
     }, [task]);
+
+    /**
+     * 单张重试：真实再发一次上游请求（数量固定 1 张），成功后只替换该下标的结果项，
+     * 其余结果原样保留 —— 不做「整批重来」也不伪造新图。
+     */
+    const retryItem = useCallback(
+        async (_item: ToolTaskResultItem, index: number) => {
+            if (busy) throw new Error("当前有任务在跑，请等它结束后再重试");
+            const current = valuesRef.current;
+            const found = validateOutpaint(current);
+            if (found.length) throw new Error(found[0].message);
+            if (!sourceRecord) throw new Error("请先上传原图");
+            if (!task) throw new Error("当前没有可替换的结果");
+            setBusy(true);
+            setNotice(`正在重试第 ${index + 1} 张…`);
+            try {
+                const source = await ensureSourceSize(assetRecordToSource(sourceRecord));
+                const withMask = await ensureOutpaintMask(current);
+                commit(withMask);
+                const input = buildOutpaintInput({
+                    values: { ...withMask, outputNum: 1 },
+                    source,
+                    mask: { url: withMask.maskUrl, id: withMask.maskAssetId ?? undefined },
+                });
+                const fresh = await runOutpaint(input, { port: createTaskStoreRunPort() });
+                const replacement = fresh.result?.items?.[0];
+                if (!replacement) throw new Error("上游没有返回新的结果图，已保留原结果");
+                const items = [...(task.result?.items ?? [])];
+                while (items.length < index) items.push(replacement);
+                items[index] = replacement;
+                const merged: ToolTask = {
+                    ...task,
+                    status: "succeeded",
+                    updatedAt: Date.now(),
+                    result: { items, receivedAt: Date.now() },
+                };
+                useToolTaskStore.getState().upsertTask(merged);
+                setTask(merged);
+                setOutcome(mapOutpaintTask(withMask, merged));
+                setNotice(`第 ${index + 1} 张已重试完成（其余 ${items.length - 1} 张保留原结果）`);
+            } finally {
+                setBusy(false);
+            }
+        },
+        [busy, commit, sourceRecord, task],
+    );
 
     /* ---------------- 渲染 ---------------- */
 
@@ -784,13 +880,57 @@ export function OutpaintWorkspace({ className }: OutpaintWorkspaceProps = {}) {
                         </p>
                     </Section>
 
-                    <ToolResult
+                    <div className="flex items-center gap-4 border-b border-border pb-1.5" role="tablist" aria-label="右栏页签">
+                        {([
+                            { key: "result", label: "生成结果" },
+                            { key: "cases", label: "优秀案例" },
+                            { key: "history", label: "历史记录" },
+                        ] as const).map((item) => (
+                            <button
+                                key={item.key}
+                                type="button"
+                                role="tab"
+                                aria-selected={rightTab === item.key}
+                                data-testid={`outpaint-tab-${item.key}`}
+                                onClick={() => setRightTab(item.key)}
+                                className={
+                                    rightTab === item.key
+                                        ? "relative text-xs font-medium text-[#723CF9] after:absolute after:-bottom-[7px] after:left-0 after:h-[2px] after:w-full after:rounded-full after:bg-[#723CF9]"
+                                        : "text-xs text-muted-foreground transition-colors hover:text-foreground"
+                                }
+                            >
+                                {item.label}
+                            </button>
+                        ))}
+                    </div>
+
+                    <div role="tabpanel" hidden={rightTab !== "result"} data-testid="outpaint-panel-result">
+                        <ToolResult
                         task={task}
                         toolId={AI_OUTPAINTING_TOOL_ID}
                         title="扩图结果"
                         onCancel={busy ? cancel : undefined}
                         onRetry={() => void submit()}
+                        onRetryItem={retryItem}
+                        retryItemHint="只重试这一张：会再向上游发起 1 次生成，其余结果保持不变"
                     />
+                    </div>
+
+                    <div role="tabpanel" hidden={rightTab !== "cases"} data-testid="outpaint-panel-cases">
+                        <ToolCases cases={AI_OUTPAINTING_CASES} applyingId={applyingCaseId} onApply={applyCase} />
+                    </div>
+
+                    <div role="tabpanel" hidden={rightTab !== "history"} data-testid="outpaint-panel-history">
+                        <ToolTaskHistory
+                        toolId={AI_OUTPAINTING_TOOL_ID}
+                        limit={6}
+                        emptyHint="本工具还没有历史任务；提交一次后会在这里留下记录。"
+                        onSelectTask={(selected) => {
+                            setTask(selected);
+                            setNotice("已载入历史任务结果（几何以当时提交快照为准）");
+                        }}
+                    />
+                    </div>
 
                     <div className="flex items-start gap-1.5 rounded border border-border bg-muted/30 px-2 py-1.5 text-[10px] leading-4 text-muted-foreground">
                         <RefreshCw className="mt-0.5 size-3 shrink-0" />

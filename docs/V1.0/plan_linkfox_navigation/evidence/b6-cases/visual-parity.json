@@ -1,0 +1,103 @@
+{
+  "task": "final-gap-audit B6 · 优秀案例页签与做同款回填",
+  "generatedAt": "2026-10-29",
+  "viewport": { "width": 1440, "height": 900, "note": "原站证据取自 1920×1080 视口，宽度比例按面板宽度归一化比较" },
+  "tools": {
+    "AI_OUTPAINTING": {
+      "status": "PASS",
+      "origin": {
+        "page": "https://www.linkfox.com/draw/ai-outpainting",
+        "tabs": "生成结果 / 优秀案例 / 历史记录",
+        "evidence": [
+          "origin/AI_OUTPAINTING-detail.json",
+          "origin/AI_OUTPAINTING-cases.json",
+          "origin/AI_OUTPAINTING-cases.jpg"
+        ],
+        "metrics": {
+          "panelWidth": 614.9,
+          "cardWidth": 264.4,
+          "columnGap": 18,
+          "cardGapY": 10,
+          "paramThumb": "40×40 radius 4px object-fit cover",
+          "paramLabel": "12px #fff",
+          "mask": "rgba(0,0,0,0.5), opacity 0 → 1 on hover, 12px/18.857px 白字「预览」",
+          "applyButton": "74×32, ghost 白描边, 文案「做同款」"
+        }
+      },
+      "local": {
+        "route": "/tools/ecommerce-suite/ai-outpainting",
+        "evidence": [
+          "local/run-outpaint-cases.json",
+          "local/screenshots/01-cases-tab.png",
+          "local/screenshots/02-card-hover.png",
+          "local/screenshots/03-after-apply.png",
+          "local/screenshots/04-after-reload.png"
+        ],
+        "metrics": {
+          "panelWidth": 340,
+          "cardWidth": 161,
+          "columnGap": "18px",
+          "columnCount": 2,
+          "cardGapY": 10,
+          "paramThumb": "40×40 radius 4px object-fit cover",
+          "paramLabel": "12px #fff",
+          "mask": "oklab(0 0 0 / 0.5) = rgba(0,0,0,0.5), opacity 0 → 1 on hover, 12px 白字「预览」",
+          "applyButton": "74×32, ghost 白描边, 文案「做同款」"
+        },
+        "parity": [
+          { "item": "页签数量与文案", "origin": "生成结果/优秀案例/历史记录", "local": "生成结果/优秀案例/历史记录", "verdict": "PASS" },
+          { "item": "列数/间距", "origin": "2 列, gap 18px, 卡距 10px", "local": "column-count:2, column-gap:18px, mb-10px", "verdict": "PASS" },
+          { "item": "卡片宽/面板宽比", "origin": "0.4300 (264.4/614.9)", "local": "0.4735 (161/340)", "verdict": "PARTIAL", "note": "受本地右栏 340px 固定宽度限制，2 列布局与 gap 一致，绝对宽度不同" },
+          { "item": "参数缩略图与标签", "origin": "40×40 + 12px 白字标签", "local": "40×40 + 12px 白字标签", "verdict": "PASS" },
+          { "item": "悬浮蒙层", "origin": "rgba(0,0,0,.5) 0→1", "local": "rgba(0,0,0,.5) 0→1", "verdict": "PASS" },
+          { "item": "做同款按钮", "origin": "74×32 ghost", "local": "74×32 ghost", "verdict": "PASS" }
+        ],
+        "interaction": {
+          "clickApply": {
+            "clicked": "[data-testid=tool-case-apply]（真实鼠标点击）",
+            "sourceBackfilled": "当前原图：linkfox-case-local-run-20261028-01.jpeg",
+            "promptBackfilled": "延续灰色水泥地面与柔和侧光，在下方补出完整的产品阴影与投影，保持商品主体不变",
+            "notice": "已做同款：原图（素材 3svApN…）与提示词已回填，可直接生成",
+            "canvasImage": "blob:http://127.0.0.1:3000/2a588899-…（真实 object URL）",
+            "assetId": "3svApNWV0u2BeHxYaCpuz"
+          },
+          "afterReload": {
+            "draftKey": "tool-draft:v1:AI_OUTPAINTING",
+            "assetId": "3svApNWV0u2BeHxYaCpuz",
+            "sameAssetId": true,
+            "sourceName": "当前原图：linkfox-case-local-run-20261028-01.jpeg",
+            "prompt": "延续灰色水泥地面与柔和侧光，在下方补出完整的产品阴影与投影，保持商品主体不变",
+            "canvasImage": "blob:http://127.0.0.1:3000/0d9c7f26-…（刷新后重新生成的 object URL）",
+            "verdict": "PASS"
+          },
+          "noRegeneration": "本轮未点击「生成」，复用 evidence/real-acceptance/AI_OUTPAINTING/02-result.png 的真实产物作为案例图"
+        }
+      }
+    },
+    "AI_DRESSING_V2": {
+      "status": "PARTIAL",
+      "reason": "已完成原站取证（案例卡=1 结果图 + 商品/参考图 2 个参数缩略图 + 做同款），本地尚未接线该工具工作区",
+      "origin": ["origin/AI_DRESSING_V2-cases.json", "origin/AI_DRESSING_V2-cases.jpg"]
+    },
+    "IMAGE_TO_VIDEO": {
+      "status": "PARTIAL",
+      "reason": "已完成原站取证（10 张 9:16 视频卡 + 原图参数 + 做同款，无悬浮蒙层而是播放浮标），本地尚未接线",
+      "origin": ["origin/IMAGE_TO_VIDEO-cases.json"]
+    },
+    "SCALE_UP": {
+      "status": "PARTIAL",
+      "reason": "原站页面未出现「优秀案例」页签（origin/SCALE_UP-cases.json 记录为空），无法取得 1:1 对照，故本地按原站同样不新增该页签，状态保留 PARTIAL 以待复验",
+      "origin": ["origin/SCALE_UP-cases.json"]
+    },
+    "NEW_REPLACE_BG_V2": {
+      "status": "PARTIAL",
+      "reason": "未取得该工具的原站页面（仅 supplemental_chunk_design 片段），无真实原站证据，不做臆造实现",
+      "origin": ["origin/NEW_REPLACE_BG_V2-probe.json"]
+    }
+  },
+  "summary": {
+    "pass": ["AI_OUTPAINTING"],
+    "partial": ["AI_DRESSING_V2", "IMAGE_TO_VIDEO", "SCALE_UP", "NEW_REPLACE_BG_V2"],
+    "note": "PASS 仅对 AI_OUTPAINTING 的「优秀案例页签 + 做同款回填」子项成立；其余 4 个工具按用户要求保留 PARTIAL，未宣称整体完成。"
+  }
+}
