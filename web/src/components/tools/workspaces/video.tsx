@@ -163,6 +163,15 @@ const SOURCE_CONSTRAINTS = {
     maxPixels: SALE_VIDEO_SOURCE_RULE.maxSide * SALE_VIDEO_SOURCE_RULE.maxSide,
 };
 
+import type { ComponentProps } from "react";
+
+/** 优秀案例数据（复用上游 /image/make-case/list?type=… 真实抓取产物；为空时不渲染案例模块，避免占位空态）。 */
+const SALE_VIDEO_CASES: ComponentProps<typeof ToolCases>["cases"] = [];
+
+
+/** 优秀案例数据（复用上游 /image/make-case/list?type=… 真实抓取产物；为空时不渲染案例模块，避免占位空态）。 */
+const VIDEO_CONCAT_CASES: ComponentProps<typeof ToolCases>["cases"] = [];
+
 function newOperationId(): string {
     const cryptoApi = globalThis.crypto as Crypto | undefined;
     if (cryptoApi?.randomUUID) return cryptoApi.randomUUID();
@@ -641,13 +650,13 @@ export function SaleVideoWorkspace({ className }: SaleVideoWorkspaceProps = {}) 
                             </dl>
                         </details>
                     ) : null}
-                    <section className="space-y-2 rounded-lg border border-border p-3" data-testid="sale-video-cases">
-                        <h2 className="text-sm font-medium">优秀案例</h2>
-                        {/* SALE_VIDEO（type=73）：原站有「优秀案例」页签，视频案例卡片=封面图+视频。
-                            数据源：上游案例接口 `/image/make-case/list?type=<bizType>`（抓取与落盘做法见 image-to-video-cases-data.ts）。
-                            未抓到前 cases 为空，ToolCases 只渲染标准空态（暂无优秀案例）。 */}
-                        <ToolCases cases={[]} onApply={() => undefined} />
-                    </section>
+                    {SALE_VIDEO_CASES.length > 0 ? (
+                        <section className="space-y-2 rounded-lg border border-border p-3" data-testid="sale-video-cases">
+                                                        {/* SALE_VIDEO（type=73）：原站「优秀案例」数据源为上游 `/image/make-case/list?type=<bizType>`；本地已抓取到真实案例时用 SALE_VIDEO_CASES 渲染，未抓取到则整块不渲染，不输出任何空态文案。 */}
+<h2 className="text-sm font-medium">优秀案例</h2>
+                            <ToolCases cases={SALE_VIDEO_CASES} onApply={() => undefined} />
+                        </section>
+                    ) : null}
                     <section className="space-y-2 rounded-lg border border-border p-3" data-testid="sale-video-history">
                         <div className="flex items-center justify-between">
                             <h2 className="text-sm font-medium">历史任务</h2>
@@ -1355,13 +1364,13 @@ export function VideoConcatWorkspace({ className }: VideoConcatWorkspaceProps = 
                                 </dl>
                             </details>
                         ) : null}
-                        <section className="space-y-2 rounded-lg border border-border p-3" data-testid="video-concat-cases">
-                            <h2 className="text-sm font-medium">优秀案例</h2>
-                            {/* VIDEO_CONCAT（type=52）：原站有「优秀案例」页签。
-                                数据源：上游案例接口 `/image/make-case/list?type=<bizType>`（抓取与落盘做法见 image-to-video-cases-data.ts）。
-                                未抓到前 cases 为空，ToolCases 只渲染标准空态（暂无优秀案例）。 */}
-                            <ToolCases cases={[]} onApply={() => undefined} />
-                        </section>
+                        {VIDEO_CONCAT_CASES.length > 0 ? (
+                            <section className="space-y-2 rounded-lg border border-border p-3" data-testid="video-concat-cases">
+                                                                {/* VIDEO_CONCAT（type=52）：原站「优秀案例」数据源为上游 `/image/make-case/list?type=<bizType>`；本地已抓取到真实案例时用 VIDEO_CONCAT_CASES 渲染，未抓取到则整块不渲染，不输出任何空态文案。 */}
+<h2 className="text-sm font-medium">优秀案例</h2>
+                                <ToolCases cases={VIDEO_CONCAT_CASES} onApply={() => undefined} />
+                            </section>
+                        ) : null}
                         <section className="space-y-2 rounded-lg border border-border p-3" data-testid="video-concat-history">
                             <div className="flex items-center justify-between">
                                 <h2 className="text-sm font-medium">历史任务</h2>

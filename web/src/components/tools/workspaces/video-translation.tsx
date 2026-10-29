@@ -73,6 +73,11 @@ export type VideoTranslationWorkspaceProps = { className?: string };
  *
  * 真实边界：口型同步拿不到 provider 能力证据 → 提交前阻断并给出一键关闭；不静默丢参。
  */
+import type { ComponentProps } from "react";
+
+/** 优秀案例数据（复用上游 /image/make-case/list?type=… 真实抓取产物；为空时不渲染案例模块，避免占位空态）。 */
+const VIDEO_TRANSLATION_CASES: ComponentProps<typeof ToolCases>["cases"] = [];
+
 export function VideoTranslationWorkspace({ className }: VideoTranslationWorkspaceProps = {}) {
     const spec = useMemo(() => getVideoTranslationSpec(), []);
     const catalog = useMemo(() => resolveVideoTranslationCatalog(), []);
@@ -498,13 +503,13 @@ export function VideoTranslationWorkspace({ className }: VideoTranslationWorkspa
                             </dl>
                         </details>
                     ) : null}
-                    <section className="space-y-2 rounded-lg border border-border p-3" data-testid="video-translation-cases">
-                        <h2 className="text-sm font-medium">优秀案例</h2>
-                        {/* VIDEO_TRANSLATION（type=814）：原站有「优秀案例」页签。
-                            数据源：上游案例接口 `/image/make-case/list?type=<bizType>`（抓取与落盘做法见 image-to-video-cases-data.ts）。
-                            未抓到前 cases 为空，ToolCases 只渲染标准空态（暂无优秀案例）。 */}
-                        <ToolCases cases={[]} onApply={() => undefined} />
-                    </section>
+                    {VIDEO_TRANSLATION_CASES.length > 0 ? (
+                        <section className="space-y-2 rounded-lg border border-border p-3" data-testid="video-translation-cases">
+                                                        {/* VIDEO_TRANSLATION（type=814）：原站「优秀案例」数据源为上游 `/image/make-case/list?type=<bizType>`；本地已抓取到真实案例时用 VIDEO_TRANSLATION_CASES 渲染，未抓取到则整块不渲染，不输出任何空态文案。 */}
+<h2 className="text-sm font-medium">优秀案例</h2>
+                            <ToolCases cases={VIDEO_TRANSLATION_CASES} onApply={() => undefined} />
+                        </section>
+                    ) : null}
                     <section className="space-y-2 rounded-lg border border-border p-3" data-testid="video-translation-history">
                         <div className="flex items-center justify-between">
                             <h2 className="text-sm font-medium">历史任务</h2>
