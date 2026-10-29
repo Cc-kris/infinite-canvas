@@ -9,7 +9,47 @@
     "total": 64,
     "countForTool": 0
   },
-  "verdict": "BLOCKED: 本机没有任何 AI_DRESSING_V2 真实任务（tool-task 索引与页面坞均为 0）。按指令禁止新生成/注入，无法产出 reload 后历史+真实字节证据。",
+  "verdict": "BLOCKED(保持真实,不伪PASS) | 已排除 schema/adapter/索引自愈/字节完整性四类原因; 常驻 profile 从未落过该工具任务快照",
   "capturedAt": "2026-10-29T19:06:30",
-  "noInjection": true
+  "noInjection": true,
+  "diagnosis": {
+    "status": "BLOCKED",
+    "verdict": "BLOCKED(保持真实,不伪PASS) | 已排除 schema/adapter/索引自愈/字节完整性四类原因; 常驻 profile 从未落过该工具任务快照",
+    "probedAt": "2026-10-29",
+    "profile": "real persistent profile @ http://127.0.0.1:3000",
+    "counts": {
+      "taskIndex": 64,
+      "taskKeys": 64,
+      "forThisTool": 0,
+      "mediaBlobs": 88,
+      "missingReferencedBlobs": 0,
+      "succeededWithoutItems": 0
+    },
+    "excluded": [
+      "adapter toolId 常量(ai-dressing-v2.ts:208 / ai-wearable.ts:345)",
+      "createDressingRunPort -> useToolTaskStore.runTool (store 背书, 无旁路)",
+      "healTaskIndex 自愈无裁剪/删除逻辑 (git -S 核查)",
+      "dock 过滤 task.toolId === toolId 严格相等 (tool-history-dock.tsx:105)",
+      "web/scripts 无 tool-task 清理脚本",
+      "语义归属扫描 13 命中均属 REMOVE_PEN/PRODUCT_IMAGE_SUITE/DRESS_WEAR_SET"
+    ],
+    "rootCause": "真实出图由自动化脚本在临时 chromium profile 内产生(run-b4-dock-actions.mjs 用 chromium.launch), 任务快照/字节随 profile 关闭消失, 未进入常驻 profile",
+    "realArtifacts": {
+      "AI_DRESSING_V2": {
+        "file": "evidence/real-acceptance/AI_DRESSING_V2/result1.png",
+        "bytes": 819224,
+        "sha256": "446d9ffe39f94d706a2d541118c1dadff9908fb4bf88fff2eec3fcfbea54365d",
+        "wh": "720x960"
+      },
+      "AI_WEARABLE": {
+        "file": "evidence/real-acceptance/AI_WEARABLE/result1.png",
+        "bytes": 1641506,
+        "sha256": "7615ee04f73cfd0cdbbbc42a308e272310e45d1ee16a9b30d0b46d4dd7abd312",
+        "wh": "720x960"
+      }
+    },
+    "dockDesign": "tool-history-dock 只展示任务与真实结果项并逐项提供 下载/存资产/发画布, 不做一键回填结果区",
+    "toUnblock": "在该常驻 profile 内真实提交一次(产生新任务快照), 随后 fresh reload 取证",
+    "report": "docs/V1.0/plan_linkfox_navigation/reports/D19-r8h-ai-dressing-wearable-blocked-diagnosis.md"
+  }
 }
