@@ -729,10 +729,10 @@ export function ColorV2Workspace({ className }: ColorV2WorkspaceProps = {}) {
                                                 const merged = base ? `${base}、${preset.label}` : preset.label;
                                                 commit({ ...valuesRef.current, region: sanityRegion(merged) });
                                             }}
-                                            style={{ fontSize: 12, lineHeight: "22px", padding: "0 7px" }}
+                                            style={{ fontSize: 12, lineHeight: "22px", padding: "0 7px", color: active ? "#723cf9" : "#5a5a66" }}
                                             className={cn(
                                                 "h-[22px] rounded-[4px] transition",
-                                                active ? "bg-[#f9f0ff] text-[#723cf9]" : "bg-transparent text-[#5a5a66] hover:bg-[#f4f4f8]",
+                                                active ? "bg-[#f9f0ff]" : "bg-transparent hover:bg-[#f4f4f8]",
                                             )}
                                         >
                                             {preset.label}
@@ -757,10 +757,10 @@ export function ColorV2Workspace({ className }: ColorV2WorkspaceProps = {}) {
                                             disabled={busy}
                                             onClick={() => commit({ ...valuesRef.current, quality: level.key as ColorQualityKey })}
                                             title={`调用上游 ${level.providerQuality} 品质`}
-                                            style={{ fontSize: 14, fontWeight: 400 }}
+                                            style={{ fontSize: 14, fontWeight: 400, color: active ? "#723cf9" : "#5a5a66" }}
                                             className={cn(
                                                 "h-8 w-[75px] rounded-[6px] leading-none transition",
-                                                active ? "bg-[#f9f0ff] text-[#723cf9]" : "bg-white text-[#5a5a66] hover:text-[#723cf9]",
+                                                active ? "bg-[#f9f0ff] font-medium" : "bg-white hover:text-[#723cf9]",
                                             )}
                                         >
                                             {level.label}
@@ -778,7 +778,7 @@ export function ColorV2Workspace({ className }: ColorV2WorkspaceProps = {}) {
                 </div>
                 </div>
 
-                <div className="shrink-0 pt-3">
+                <div className="shrink-0 pb-[11px] pt-3">
                     {conflict ? (
                         <p key="conflict" className="mb-2 rounded-[4px] bg-[#fff1f0] px-2 py-1 text-[11px] leading-4 text-[#f5483b]">
                             其他标签页改过草稿，当前页面可能覆盖远端改动；刷新后再编辑。
@@ -789,10 +789,20 @@ export function ColorV2Workspace({ className }: ColorV2WorkspaceProps = {}) {
                             输入已变更，当前结果来自旧快照 {runHash?.slice(0, 8)}；重新生成才会反映最新设置。
                         </p>
                     ) : null}
+                    {notice ? (
+                        <p data-testid="color-v2-notice" className="mb-1 text-[11px] leading-4 text-[#6b6b7a]">
+                            {notice}
+                        </p>
+                    ) : null}
+                    {issues.length ? (
+                        <p data-testid="color-v2-blocked" className="mb-1 text-[11px] leading-4 text-[#f5483b]">
+                            {issues[0].message}
+                        </p>
+                    ) : null}
                     <button
                         type="button"
                         data-testid="color-v2-submit"
-                        style={{ fontSize: 12, backgroundImage: "linear-gradient(90deg, #3B7AF9 0%, #723CF9 100%)" }}
+                        style={{ fontSize: 12, color: "#ffffff", backgroundImage: "linear-gradient(90deg, #3B7AF9 0%, #723CF9 100%)" }}
                         disabled={busy || issues.length > 0}
                         title={issues[0]?.message}
                         onClick={() => void runSuite()}
@@ -802,16 +812,6 @@ export function ColorV2Workspace({ className }: ColorV2WorkspaceProps = {}) {
                         <span>{busy ? `生成中 ${progress.done}/${progress.total}` : "开始生成"}</span>
                         <span className="text-[12px] leading-none opacity-90">(50算力)</span>
                     </button>
-                    {notice ? (
-                        <p data-testid="color-v2-notice" className="mt-1 text-[11px] leading-4 text-[#6b6b7a]">
-                            {notice}
-                        </p>
-                    ) : null}
-                    {issues.length ? (
-                        <p data-testid="color-v2-blocked" className="mt-1 text-[11px] leading-4 text-[#f5483b]">
-                            {issues[0].message}
-                        </p>
-                    ) : null}
                 </div>
             </section>
 
