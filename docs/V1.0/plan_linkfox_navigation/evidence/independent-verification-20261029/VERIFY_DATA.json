@@ -1,0 +1,148 @@
+{
+  "generatedAt": "2026-10-29T18:2x+08:00",
+  "designBatch": {
+    "batchId": "batch_XoWY1VJqvX",
+    "toolId": "SCALE_UP",
+    "store": {
+      "concurrency": 3,
+      "status": "completed",
+      "startedAt": 1793268224777,
+      "finishedAt": 1793268266694,
+      "lastError": null
+    },
+    "uiFreshReload": {
+      "rows": 2,
+      "succeeded": 2,
+      "failed": 0,
+      "skipped": 0,
+      "statusChip": "已结束",
+      "concurrencySelectValue": "3",
+      "row1_hasThumb": false,
+      "row2_hasLink": true
+    },
+    "files": [
+      {
+        "path": "real-acceptance/SCALE_UP/05-downloaded.png",
+        "size": [
+          1024,
+          752
+        ],
+        "mode": "RGB",
+        "bytes": 1152074,
+        "sha256": "1e12a562cb2cdc19cb9e4e1c800d68f7be6a6892dc2f0b52a6fc21b991d440f7"
+      },
+      {
+        "path": "real-acceptance/DESIGN_BATCH/batch_XoWY1VJqvX-row_D3BqXT8q.png",
+        "size": [
+          1024,
+          1024
+        ],
+        "mode": "RGB",
+        "bytes": 1638630,
+        "sha256": "cc6cf58b3ee94bff9dfacb859853618711189bc7cf83fe7ba39b7759f9cb047b"
+      },
+      {
+        "path": "real-acceptance/DESIGN_BATCH/batch_XoWY1VJqvX-row_KWQoUzW9.png",
+        "size": [
+          1024,
+          1024
+        ],
+        "mode": "RGB",
+        "bytes": 1237615,
+        "sha256": "e4bd821fcd8f52f9f150cb23dfbdfb20bf6be0ad27ce3d4a4813f92617dcd8f9"
+      }
+    ],
+    "diff": {
+      "corr_128gray": {
+        "input_row1": 0.5321,
+        "input_row2": 0.5298,
+        "row1_row2": 0.7774
+      },
+      "sharpness_meanAbsGrad": {
+        "input": 2.291,
+        "row1": 2.578,
+        "row2": 2.513
+      }
+    }
+  },
+  "aiPoseDownload": {
+    "firstClick": {
+      "landed": true,
+      "file": "~/Downloads/ai-pose-generator-result-1 (1).png",
+      "bytes": 1151209,
+      "sha256": "19028125bae9618e8e01801480518db186b6ace6cccf0cff7f5ae4c6ec84300d",
+      "mtime": "2026-10-29 18:18:30",
+      "quarantine": true,
+      "whereFroms": "http://127.0.0.1:3000/"
+    },
+    "secondThirdClick": {
+      "toast": "已下载 ai-pose-generator-result-1.png",
+      "landed": false,
+      "crdownload": false
+    },
+    "conclusion": "single-download path is optimistic (no verification); browser blocks repeated automatic downloads"
+  },
+  "fourTools": {
+    "AI_POSTURE": {
+      "taskId": "task-mvtczxwo-e1d1w0",
+      "size": [
+        1024,
+        1024
+      ],
+      "mode": "RGB",
+      "bytes": 1557308,
+      "sha256_prefix": "03ec4754b62fb2e6",
+      "download": "ok"
+    },
+    "MATERIAL_UPPER_BODY": {
+      "taskId": "task-mvtd45nv-y7cum6",
+      "size": [
+        1024,
+        1024
+      ],
+      "mode": "RGB",
+      "bytes": 1525374,
+      "sha256_prefix": "79bddf28c16aa5c7",
+      "download": "ok"
+    },
+    "AI_POSE_GENERATOR": {
+      "taskId": "task-mvtd89f3-9qpix6",
+      "size": [
+        1024,
+        1024
+      ],
+      "mode": "RGB",
+      "bytes": 1151209,
+      "sha256_prefix": "19028125bae9618e",
+      "download": "ok(实测)"
+    },
+    "NEW_DESIGNER": {
+      "taskId": "task-mvtdl9v8-165q1n",
+      "size": [
+        1200,
+        1200
+      ],
+      "mode": "RGBA",
+      "bytes": 411801,
+      "sha256_prefix": "90e28e0f93420bb4",
+      "download": "ok",
+      "canvas": {
+        "canvasId": "hizF9wCnG20QNBDsnjRM0",
+        "nodeId": "image-1793268249669-dk2gs"
+      },
+      "designerLayers": 2
+    }
+  },
+  "batchIndex": {
+    "localStorage": "batch-task:v1:index",
+    "value": [
+      "batch_XoWY1VJqvX",
+      "batch_dPefELopUM"
+    ],
+    "uiConsumer": false
+  },
+  "notes": [
+    "RUNLOG.md / 4b2e721 commit message say 并发 1, store says 3",
+    "row1 outcome.resultUrls=[] because result url is blob: (+storageKey tool-result:MOMNo1DkYuHlii4tVlc0Z)"
+  ]
+}
