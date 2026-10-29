@@ -233,10 +233,13 @@ describe("印花提取 · 请求构造", () => {
 describe("印花提取 · 结果判定", () => {
     const snapshot = snapshotOf(true);
 
-    test("运行中/失败/取消都有明确状态", () => {
+    test("运行中/未知/失败/取消都有明确状态", () => {
         expect(printExtractResultView(toolTask({ status: "running" }), snapshot).status).toBe("running");
         expect(printExtractResultView(toolTask({ status: "submitting" }), snapshot).status).toBe("running");
-        expect(printExtractResultView(toolTask({ status: "unknown" }), snapshot).status).toBe("running");
+        // unknown 不能伪装成 running：上游是否受理无法确认，卡片必须显示「结果未知」等人工确认。
+        const unknown = printExtractResultView(toolTask({ status: "unknown" }), snapshot);
+        expect(unknown.status).toBe("unknown");
+        expect(unknown.error).toContain("人工确认");
         expect(printExtractResultView(toolTask({ status: "failed", error: { message: "boom" } as never }), snapshot).status).toBe("failed");
         expect(printExtractResultView(toolTask({ status: "cancelled" }), snapshot).status).toBe("cancelled");
     });

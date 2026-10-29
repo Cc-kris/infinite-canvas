@@ -68,6 +68,7 @@ const STATUS_LABEL: Record<PrintExtractItemStatus, string> = {
     running: "提取中",
     succeeded: "已完成",
     failed: "失败",
+    unknown: "结果未知",
 };
 
 const STATUS_TONE: Record<PrintExtractItemStatus, string> = {
@@ -75,6 +76,7 @@ const STATUS_TONE: Record<PrintExtractItemStatus, string> = {
     running: "border-primary/40 bg-primary/10 text-foreground",
     succeeded: "border-emerald-500/40 bg-emerald-500/10 text-emerald-700 dark:text-emerald-300",
     failed: "border-destructive/40 bg-destructive/10 text-destructive",
+    unknown: "border-amber-500/40 bg-amber-500/10 text-amber-700 dark:text-amber-300",
 };
 
 function decodeSize(url: string): Promise<{ width: number; height: number }> {
@@ -477,6 +479,11 @@ export function AssetResultGrid({
                                     <div className="flex aspect-square w-full items-center justify-center text-[11px] text-muted-foreground">提取中…</div>
                                 ) : showResult ? (
                                     <img src={item.resultUrl} alt={`${item.name} 印花提取结果`} className="aspect-square w-full object-contain" loading="lazy" />
+                                ) : item.status === "unknown" ? (
+                                    <div data-testid={`print-extract-unknown-${index}`} className="flex aspect-square w-full flex-col items-center justify-center gap-1 px-2 text-center text-[11px] text-amber-700 dark:text-amber-300">
+                                        <span>结果未知</span>
+                                        <span className="text-[10px] text-muted-foreground">上游是否受理无法确认，请人工确认后再重提</span>
+                                    </div>
                                 ) : (
                                     <div className="flex aspect-square w-full items-center justify-center px-2 text-center text-[11px] text-muted-foreground">{item.status === "failed" ? "本张失败，可单独重试" : "待提取"}</div>
                                 )}
@@ -696,6 +703,13 @@ export function PrintExtractWorkspace() {
                             applyItem(target.id, { status: "succeeded", resultUrl: view.imageUrl, snapshotHash: view.snapshotHash });
                         } else if (view.status === "running") {
                             applyItem(target.id, { status: "running", snapshotHash: view.snapshotHash });
+                        } else if (view.status === "unknown") {
+                            // 不能标 failed（会误导用户以为没扣费），也不能标 running（永远转圈）。
+                            applyItem(target.id, {
+                                status: "unknown",
+                                snapshotHash: view.snapshotHash,
+                                error: view.error ?? "任务状态未知：无法确认上游是否受理，请先人工确认后再决定是否重提",
+                            });
                         } else {
                             applyItem(target.id, {
                                 status: "failed",

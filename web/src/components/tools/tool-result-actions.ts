@@ -1,6 +1,7 @@
 import type { UploadedFile } from "@/services/file-storage";
 import type { UploadedImage } from "@/services/image-storage";
 import type { ToolTask, ToolTaskResultItem } from "@/services/api/tools/task-machine";
+import { withDerivedKind } from "@/lib/result-item-kind";
 import type { Asset } from "@/stores/use-asset-store";
 import type { CanvasNodeMetadata } from "@/types/canvas";
 
@@ -58,18 +59,10 @@ export function resolveToolResultView(task?: Pick<ToolTask, "status"> | null): T
 }
 
 /**
- * 结果项的 `kind` 只由上游成功时写入；外部恢复/旧快照里可能只剩 mimeType（或 dataUrl 前缀）。
- * 缺 kind 时按 mimeType 兜底推导，否则视频结果会被当成图片渲染（<img src="blob:...video/mp4"> 只能是破图），
- * 且「存入资产」「发送画布」也会走成图片分支。
- * 已经对得上的项原样返回（保持引用不变，避免无谓重渲染）。
+ * 结果项 `kind` 的兜底推导放在 `@/lib/result-item-kind`：
+ * 结果区、各工具适配器（如 REPLACE_GOODS 的结果提取）必须共用同一份口径，
+ * 否则一边按 mime 推导、一边只认 `kind === "image"`，就会出现「上游已出图但结果区空」。
  */
-function withDerivedKind(item: ToolTaskResultItem): ToolTaskResultItem {
-    const mime = (item.mimeType ?? item.blob?.type ?? (item.dataUrl?.startsWith("data:") ? item.dataUrl.slice(5).split(/[;,]/)[0] : "") ?? "").toLowerCase();
-    const derived = mime.startsWith("video/") ? "video" : mime.startsWith("image/") ? "image" : undefined;
-    if (!derived || item.kind === derived) return item;
-    return { ...item, kind: derived };
-}
-
 export function resultItems(task?: Pick<ToolTask, "result"> | null): ToolTaskResultItem[] {
     return (task?.result?.items ?? []).map(withDerivedKind);
 }

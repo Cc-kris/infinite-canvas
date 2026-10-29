@@ -40,6 +40,7 @@ import {
 } from "../registry/replace-goods";
 import type { BrowserToolInput, ProviderPort, WaitOptions } from "@/services/api/tools/gateway";
 import type { ToolTask } from "@/services/api/tools/task-machine";
+import { hasUsablePayload, withDerivedKind } from "@/lib/result-item-kind";
 import type { ReferenceImage } from "@/types/image";
 
 export class ReplaceGoodsAdapterError extends Error {
@@ -420,8 +421,11 @@ export type ReplaceGoodsUnitOutcome = {
 /** 任务 → 单元结果。上游成功但无图 → failed(empty-result)，绝不补图。 */
 export function replaceGoodsOutcomeFromTask(unit: ReplaceGoodsUnit, task: ToolTask): ReplaceGoodsUnitOutcome {
     const base = { unitId: unit.id, snapshotHash: unit.snapshotHash, task };
+    // 结果项的 kind 只在上游成功时写入；url 形态 / 历史恢复的项可能缺 kind，
+    // 直接按 kind === "image" 过滤会把真实出图判成 empty-result（结果区静默清空）。
     const images = (task.result?.items ?? [])
-        .filter((item) => item.kind === "image" && (item.dataUrl || item.url))
+        .map((item) => withDerivedKind(item))
+        .filter((item) => item.kind === "image" && hasUsablePayload(item))
         .map((item) => ({ url: item.url, dataUrl: item.dataUrl }));
     if (task.status === "succeeded") {
         if (images.length === 0) return { ...base, status: "failed", images, error: { code: "empty-result", message: "上游返回成功但没有图片结果" } };

@@ -167,8 +167,19 @@ export function printExtractResultView(task: ToolTask, snapshot: Pick<PrintExtra
         width: snapshot.width,
         height: snapshot.height,
     });
-    if (task.status === "submitting" || task.status === "running" || task.status === "unknown") {
+    if (task.status === "submitting" || task.status === "running") {
         return { status: "running", sourceUrl: snapshot.sourceUrl, stale: false, snapshotHash };
+    }
+    if (task.status === "unknown") {
+        // 上游没回执 / 等待超预算：既不等于「还在跑」，也不等于失败。
+        // 把 unknown 归成 running 会让卡片永远停在「提取中」，且会诱导用户重复提交（重复扣费）。
+        return {
+            status: "unknown",
+            sourceUrl: snapshot.sourceUrl,
+            stale: false,
+            snapshotHash,
+            error: task.error?.message ?? "任务状态未知：无法确认上游是否受理，只能查询或人工确认，请勿直接重复提交",
+        };
     }
     if (task.status === "cancelled") {
         return { status: "cancelled", sourceUrl: snapshot.sourceUrl, stale: false, snapshotHash, error: task.error?.message };
@@ -204,7 +215,7 @@ export function printExtractResultView(task: ToolTask, snapshot: Pick<PrintExtra
 }
 
 export type PrintExtractResultView = {
-    status: "running" | "succeeded" | "failed" | "cancelled";
+    status: "running" | "succeeded" | "failed" | "cancelled" | "unknown";
     imageUrl?: string;
     sourceUrl: string;
     stale: boolean;

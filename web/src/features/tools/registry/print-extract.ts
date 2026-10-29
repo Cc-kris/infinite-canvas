@@ -227,7 +227,14 @@ export function isPrintExtractSnapshotStale(submitted: PrintExtractSnapshot | nu
  * 批量条目（每张图独立状态，绝不互相顶替）
  * ------------------------------------------------------------------ */
 
-export type PrintExtractItemStatus = "idle" | "running" | "succeeded" | "failed";
+/**
+ * 单张提取卡的落地状态。
+ *
+ * `unknown` 是必须单独存在的：上游没有回执 / 等待超预算时，任务既不是「还在跑」也不是「失败」，
+ * 只能人工确认（见 task-machine 的 unknown 语义：不允许自动重提交，避免重复扣费）。
+ * 曾经把 unknown 归到 running，卡片上的「提取中」会永远转下去。
+ */
+export type PrintExtractItemStatus = "idle" | "running" | "succeeded" | "failed" | "unknown";
 
 export type PrintExtractItem = PrintExtractSource & {
     id: string;
@@ -275,8 +282,9 @@ export function summarizePrintExtractItems(items: PrintExtractItem[]): {
     running: number;
     succeeded: number;
     failed: number;
+    unknown: number;
 } {
-    const summary = { total: items.length, idle: 0, running: 0, succeeded: 0, failed: 0 };
+    const summary = { total: items.length, idle: 0, running: 0, succeeded: 0, failed: 0, unknown: 0 };
     for (const item of items) {
         summary[item.status] += 1;
     }
@@ -288,6 +296,7 @@ export function describePrintExtractProgress(items: PrintExtractItem[]): string 
     if (summary.total === 0) return "尚未上传商品图";
     if (summary.running > 0) return `提取中 ${summary.running}/${summary.total}`;
     if (summary.failed > 0) return `完成 ${summary.succeeded} · 失败 ${summary.failed}`;
+    if (summary.unknown > 0) return `完成 ${summary.succeeded} · 结果未知 ${summary.unknown}（需人工确认）`;
     if (summary.succeeded === summary.total) return `已完成 ${summary.succeeded} 张`;
     return `待提取 ${summary.idle} 张`;
 }
