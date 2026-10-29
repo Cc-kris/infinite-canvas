@@ -285,5 +285,138 @@
   "snapshot": true,
   "shot": true,
   "shot_full": true
+ },
+ "real:AI_WEARABLE": {
+  "url": "https://www.linkfox.com/draw/ai-wearable",
+  "ready": true,
+  "snapshot": true,
+  "shot": true,
+  "shot_full": true
+ },
+ "real:AI_TEXT": {
+  "url": "https://www.linkfox.com/draw/ai-text",
+  "ready": true,
+  "snapshot": true,
+  "shot": true,
+  "shot_full": true
+ },
+ "real:ORNAMENT_TEXT": {
+  "url": "https://www.linkfox.com/draw/ornament-text",
+  "ready": true,
+  "snapshot": true,
+  "shot": true,
+  "shot_full": true
+ },
+ "real:SDS_DESIGN": {
+  "url": "https://www.linkfox.com/draw/sds-design",
+  "ready": false,
+  "snapshot": true,
+  "shot": true,
+  "shot_full": true
+ },
+ "real:PRINT_EXTRACT": {
+  "url": "https://www.linkfox.com/draw/print-extract",
+  "ready": true,
+  "snapshot": true,
+  "shot": true,
+  "shot_full": true
+ },
+ "real:AI_POSE_GENERATOR": {
+  "url": "https://www.linkfox.com/draw/ai-posture",
+  "ready": true,
+  "snapshot": true,
+  "shot": true,
+  "shot_full": true
+ },
+ "real:AI_DRESSING_XSY": {
+  "url": "https://www.linkfox.com/draw/ai-dressing",
+  "ready": true,
+  "snapshot": true,
+  "shot": true,
+  "shot_full": true
+ },
+ "real:FISSION_LINK": {
+  "url": "https://www.linkfox.com/draw/product-scene?type=2",
+  "ready": true,
+  "snapshot": true,
+  "shot": true,
+  "shot_full": true
+ },
+ "real:IMAGE_TEXT_EDIT": {
+  "url": "https://www.linkfox.com/draw/designer",
+  "ready": false,
+  "snapshot": true,
+  "shot": true,
+  "shot_full": true
+ },
+ "real:MATERIAL_UPPER_BODY": {
+  "url": "https://www.linkfox.com/draw/clothing-image-suite",
+  "ready": true,
+  "snapshot": true,
+  "shot": true,
+  "shot_full": true
+ },
+ "real:NEW_DESIGNER": {
+  "url": "https://www.linkfox.com/draw/designer-home",
+  "ready": false,
+  "snapshot": true,
+  "shot": true,
+  "shot_full": true
+ },
+ "real:PRODUCT_MARKET_MATERIAL": {
+  "url": "https://www.linkfox.com/draw/product-image-suite?batchType=PRODUCT_MATERIAL",
+  "ready": true,
+  "snapshot": true,
+  "shot": true,
+  "shot_full": true
+ },
+ "real:SCENE_TRANSFER": {
+  "url": "https://www.linkfox.com/draw/",
+  "ready": true,
+  "snapshot": true,
+  "shot": true,
+  "shot_full": true
+ },
+ "real:IMAGE_TO_VIDEO": {
+  "url": "https://www.linkfox.com/draw/video",
+  "ready": true,
+  "snapshot": true,
+  "shot": true,
+  "shot_full": true
+ },
+ "real:SALE_VIDEO": {
+  "url": "https://www.linkfox.com/draw/sale-video",
+  "ready": true,
+  "snapshot": true,
+  "shot": true,
+  "shot_full": true
+ },
+ "real:VIDEO_REPLICATION": {
+  "url": "https://www.linkfox.com/draw/video-replication",
+  "ready": true,
+  "snapshot": true,
+  "shot": true,
+  "shot_full": true
+ },
+ "real:AI_VIDEO_EDITING": {
+  "url": "https://www.linkfox.com/draw/ai-video-edit",
+  "ready": true,
+  "snapshot": true,
+  "shot": true,
+  "shot_full": true
+ },
+ "real:VIDEO_TRANSLATION": {
+  "url": "https://www.linkfox.com/draw/video-translation",
+  "ready": true,
+  "snapshot": true,
+  "shot": true,
+  "shot_full": true
+ },
+ "real:VIDEO_CONCAT": {
+  "url": "https://www.linkfox.com/draw/video-concat",
+  "ready": false,
+  "snapshot": true,
+  "shot": true,
+  "shot_full": true
  }
 }

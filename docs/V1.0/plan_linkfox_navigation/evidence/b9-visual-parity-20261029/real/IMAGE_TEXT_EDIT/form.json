@@ -1,0 +1,30 @@
+{
+ "bodyText": "页面不存在\n您访问的页面可能已被删除、移动或暂时不可用\n返回首页",
+ "chips": [],
+ "controls": [],
+ "labels": [
+  {
+   "css": {
+    "color": "rgb(156, 163, 175)",
+    "ff": "-apple-system",
+    "fs": "14px",
+    "fw": "400"
+   },
+   "r": {
+    "h": 20,
+    "w": 294,
+    "x": 807,
+    "y": 465
+   },
+   "text": "您访问的页面可能已被删除、移动或暂时不可用"
+  }
+ ],
+ "ready": "complete",
+ "title": "404 - 页面不存在 | Linkfox",
+ "url": "https://www.linkfox.com/draw/designer",
+ "viewport": {
+  "h": 781,
+  "scrollH": 781,
+  "w": 1908
+ }
+}

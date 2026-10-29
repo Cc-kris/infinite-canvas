@@ -1,0 +1,4658 @@
+{
+ "bodyText": "无限画布\n电商套图\n智能修图\n批量生图\n商品图设计\nAI视频\n中\n切换到深色主题\nv0.27.0\n电商套图\n商品套图\n服装套图\n套图换色\n批量翻译\n高清放大\n智能扩图\n智能修图\n局部重绘\n局部消除\n一键换色\n图片裁剪\n商品精修\n色差修复\n印花修复\n手部修复\n批量生图\n该分类尚无已注册工具\n商品图设计\n商品图\n商品替换\n场景裂变\n手持商品\nAI穿衣\n姿势裂变\nAI穿戴\nPOD素材\n饰品文字\n素材贴合\n印花提取\nAI姿势生成\n补充\nAI试衣XSY\n补充\n场景裂变链接\n补充\n图片文字编辑\n补充\n上装换料\n补充\n商品图设计器\n补充\n商品营销素材\n补充\n场景迁移\n补充\nAI 视频\n图转视频\n带货口播\n视频复刻\n视频编辑\n视频翻译\n视频拼接\n补充\n商品图设计 / POD素材\nPOD素材\n/tools/product-design/ai-text\nPOD 素材\n图案 / 文字素材生成，支持平铺规则、案例变体与真实 provider 出图。\n目录：模式 / 比例 / 风格 / 中文风格\ndefault::gpt-image-2\n上传底图（参考图）\n0 / 1 个 · PNG / JPG / WebP · ≤ 20 MB\n点击选择本地文件，或拖拽到这里\n校验格式 / 大小 / 像素，入库后可刷新恢复\n还没有素材\n素材模式\n请选择\n图案素材\n文字素材\n图案 + 文字\n输出比例\n请选择\n1:1\n4:5\n3:4\n2:3\n3:2\n4:3\n16:9\n9:16\n风格\n不指定\nVintage\nMinimal\nFloral\nGeometric\nCartoon\nHand-drawn\nRetro poster\nLine art\n中文风格\n不指定\n复古\n极简\n花卉\n几何\n卡通\n手绘\n复古海报\n线稿\n输出数量（1–15）\n简易文字\n完整提示词\n简短提示词 / 文案（≤200 字）\n0/200\n自动扩写提示词\n本地确定性扩写，不调用上游；扩写结果会进预览与真实请求。\n增强变化强度\n同风格下的构图差异更明显。\n作为案例变体提交\n平铺预览\n不平铺（单图） · 只输出一张独立图案，适合单面印刷。\n复位\n待上传\n文字区\n不平铺（单图）\n2×2 平铺\n2×2 错位平铺\n3×3 平铺\n将进入请求的提示词（按模式生成）\n请先上传用于生成 POD 素材的参考图或文字底图。\n请选择素材模式。\n请选择输出比例。\n简易文字模式下请填写要生成的文字内容。\n模式 / 风格 / 比例为页面目录取值（POD 素材 chunk 枚举未确认），仅接受目录内取值；provider 目录接入后同名维度自动覆盖。\n生成 POD 素材\n尚无结果：上传素材并完成配置后提交。\nPOD 素材结果\n还没有生成结果\n填好参数并提交后，结果会出现在这里，可预览、下载、存入资产库或发送到画布。\n历史任务\n0 条\n本工具还没有历史任务；提交一次后会在这里留下任务、配置与结果，刷新后仍在。\n1\n连接本地 Agent\n未连接\n点连接会自动启动本地服务、装好插件并接通，无需手动配置。\nClaude Code\n未连接\n·\nCLI · 2.1.285 (Claude Code)\n·\n直接运行\n连接\nCodex\n未连接\n·\nCLI · codex-cli 0.163.0\n·\n插件已装\n连接\nGalley\n未连接\n·\nCLI + 桌面版 · galley 0.6.4\n连接",
+ "chips": [
+  {
+   "active": false,
+   "cls": "text-base font-medium",
+   "css": {
+    "bc": "oklch(0.922 0 0)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "0px",
+    "bw": "0px",
+    "color": "rgb(23, 23, 23)",
+    "fs": "16px",
+    "fw": "500",
+    "pad": "0px"
+   },
+   "r": {
+    "h": 24,
+    "w": 63,
+    "x": 52,
+    "y": 18
+   },
+   "text": "无限画布"
+  },
+  {
+   "active": false,
+   "cls": "truncate",
+   "css": {
+    "bc": "oklch(0.922 0 0)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "0px",
+    "bw": "0px",
+    "color": "rgb(23, 23, 23)",
+    "fs": "14px",
+    "fw": "400",
+    "pad": "0px"
+   },
+   "r": {
+    "h": 24,
+    "w": 56,
+    "x": 169,
+    "y": 16
+   },
+   "text": "电商套图"
+  },
+  {
+   "active": false,
+   "cls": "truncate",
+   "css": {
+    "bc": "oklch(0.922 0 0)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "0px",
+    "bw": "0px",
+    "color": "rgb(23, 23, 23)",
+    "fs": "14px",
+    "fw": "400",
+    "pad": "0px"
+   },
+   "r": {
+    "h": 24,
+    "w": 56,
+    "x": 287,
+    "y": 16
+   },
+   "text": "智能修图"
+  },
+  {
+   "active": false,
+   "cls": "truncate",
+   "css": {
+    "bc": "oklch(0.922 0 0)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "0px",
+    "bw": "0px",
+    "color": "rgb(23, 23, 23)",
+    "fs": "14px",
+    "fw": "400",
+    "pad": "0px"
+   },
+   "r": {
+    "h": 24,
+    "w": 56,
+    "x": 405,
+    "y": 16
+   },
+   "text": "批量生图"
+  },
+  {
+   "active": false,
+   "cls": "truncate",
+   "css": {
+    "bc": "oklch(0.922 0 0)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "0px",
+    "bw": "0px",
+    "color": "rgb(23, 23, 23)",
+    "fs": "14px",
+    "fw": "500",
+    "pad": "0px"
+   },
+   "r": {
+    "h": 24,
+    "w": 70,
+    "x": 523,
+    "y": 16
+   },
+   "text": "商品图设计"
+  },
+  {
+   "active": false,
+   "cls": "truncate",
+   "css": {
+    "bc": "oklch(0.922 0 0)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "0px",
+    "bw": "0px",
+    "color": "rgb(23, 23, 23)",
+    "fs": "14px",
+    "fw": "400",
+    "pad": "0px"
+   },
+   "r": {
+    "h": 24,
+    "w": 41,
+    "x": 655,
+    "y": 16
+   },
+   "text": "AI视频"
+  },
+  {
+   "active": false,
+   "cls": "relative inline-flex",
+   "css": {
+    "bc": "oklch(0.922 0 0)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "0px",
+    "bw": "0px",
+    "color": "oklch(0.145 0 0)",
+    "fs": "14px",
+    "fw": "500",
+    "pad": "0px"
+   },
+   "r": {
+    "h": 22,
+    "w": 47,
+    "x": 1794,
+    "y": 19
+   },
+   "text": "v0.27.0"
+  },
+  {
+   "active": false,
+   "cls": "truncate",
+   "css": {
+    "bc": "oklch(0.922 0 0)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "0px",
+    "bw": "0px",
+    "color": "rgba(0, 0, 0, 0.6)",
+    "fs": "16px",
+    "fw": "400",
+    "pad": "0px"
+   },
+   "r": {
+    "h": 20,
+    "w": 64,
+    "x": 44,
+    "y": 70
+   },
+   "text": "商品套图"
+  },
+  {
+   "active": false,
+   "cls": "truncate",
+   "css": {
+    "bc": "oklch(0.922 0 0)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "0px",
+    "bw": "0px",
+    "color": "rgba(0, 0, 0, 0.6)",
+    "fs": "16px",
+    "fw": "400",
+    "pad": "0px"
+   },
+   "r": {
+    "h": 20,
+    "w": 64,
+    "x": 44,
+    "y": 110
+   },
+   "text": "服装套图"
+  },
+  {
+   "active": false,
+   "cls": "truncate",
+   "css": {
+    "bc": "oklch(0.922 0 0)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "0px",
+    "bw": "0px",
+    "color": "rgba(0, 0, 0, 0.6)",
+    "fs": "16px",
+    "fw": "400",
+    "pad": "0px"
+   },
+   "r": {
+    "h": 20,
+    "w": 64,
+    "x": 44,
+    "y": 150
+   },
+   "text": "套图换色"
+  },
+  {
+   "active": false,
+   "cls": "truncate",
+   "css": {
+    "bc": "oklch(0.922 0 0)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "0px",
+    "bw": "0px",
+    "color": "rgba(0, 0, 0, 0.6)",
+    "fs": "16px",
+    "fw": "400",
+    "pad": "0px"
+   },
+   "r": {
+    "h": 20,
+    "w": 64,
+    "x": 44,
+    "y": 190
+   },
+   "text": "批量翻译"
+  },
+  {
+   "active": false,
+   "cls": "truncate",
+   "css": {
+    "bc": "oklch(0.922 0 0)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "0px",
+    "bw": "0px",
+    "color": "rgba(0, 0, 0, 0.6)",
+    "fs": "16px",
+    "fw": "400",
+    "pad": "0px"
+   },
+   "r": {
+    "h": 20,
+    "w": 64,
+    "x": 44,
+    "y": 230
+   },
+   "text": "高清放大"
+  },
+  {
+   "active": false,
+   "cls": "truncate",
+   "css": {
+    "bc": "oklch(0.922 0 0)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "0px",
+    "bw": "0px",
+    "color": "rgba(0, 0, 0, 0.6)",
+    "fs": "16px",
+    "fw": "400",
+    "pad": "0px"
+   },
+   "r": {
+    "h": 20,
+    "w": 64,
+    "x": 44,
+    "y": 270
+   },
+   "text": "智能扩图"
+  },
+  {
+   "active": false,
+   "cls": "truncate",
+   "css": {
+    "bc": "oklch(0.922 0 0)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "0px",
+    "bw": "0px",
+    "color": "rgba(0, 0, 0, 0.6)",
+    "fs": "16px",
+    "fw": "400",
+    "pad": "0px"
+   },
+   "r": {
+    "h": 20,
+    "w": 64,
+    "x": 44,
+    "y": 341
+   },
+   "text": "局部重绘"
+  },
+  {
+   "active": false,
+   "cls": "truncate",
+   "css": {
+    "bc": "oklch(0.922 0 0)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "0px",
+    "bw": "0px",
+    "color": "rgba(0, 0, 0, 0.6)",
+    "fs": "16px",
+    "fw": "400",
+    "pad": "0px"
+   },
+   "r": {
+    "h": 20,
+    "w": 64,
+    "x": 44,
+    "y": 381
+   },
+   "text": "局部消除"
+  },
+  {
+   "active": false,
+   "cls": "truncate",
+   "css": {
+    "bc": "oklch(0.922 0 0)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "0px",
+    "bw": "0px",
+    "color": "rgba(0, 0, 0, 0.6)",
+    "fs": "16px",
+    "fw": "400",
+    "pad": "0px"
+   },
+   "r": {
+    "h": 20,
+    "w": 64,
+    "x": 44,
+    "y": 421
+   },
+   "text": "一键换色"
+  },
+  {
+   "active": false,
+   "cls": "truncate",
+   "css": {
+    "bc": "oklch(0.922 0 0)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "0px",
+    "bw": "0px",
+    "color": "rgba(0, 0, 0, 0.6)",
+    "fs": "16px",
+    "fw": "400",
+    "pad": "0px"
+   },
+   "r": {
+    "h": 20,
+    "w": 64,
+    "x": 44,
+    "y": 461
+   },
+   "text": "图片裁剪"
+  },
+  {
+   "active": false,
+   "cls": "truncate",
+   "css": {
+    "bc": "oklch(0.922 0 0)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "0px",
+    "bw": "0px",
+    "color": "rgba(0, 0, 0, 0.6)",
+    "fs": "16px",
+    "fw": "400",
+    "pad": "0px"
+   },
+   "r": {
+    "h": 20,
+    "w": 64,
+    "x": 44,
+    "y": 501
+   },
+   "text": "商品精修"
+  },
+  {
+   "active": false,
+   "cls": "truncate",
+   "css": {
+    "bc": "oklch(0.922 0 0)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "0px",
+    "bw": "0px",
+    "color": "rgba(0, 0, 0, 0.6)",
+    "fs": "16px",
+    "fw": "400",
+    "pad": "0px"
+   },
+   "r": {
+    "h": 20,
+    "w": 64,
+    "x": 44,
+    "y": 541
+   },
+   "text": "色差修复"
+  },
+  {
+   "active": false,
+   "cls": "truncate",
+   "css": {
+    "bc": "oklch(0.922 0 0)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "0px",
+    "bw": "0px",
+    "color": "rgba(0, 0, 0, 0.6)",
+    "fs": "16px",
+    "fw": "400",
+    "pad": "0px"
+   },
+   "r": {
+    "h": 20,
+    "w": 64,
+    "x": 44,
+    "y": 581
+   },
+   "text": "印花修复"
+  },
+  {
+   "active": false,
+   "cls": "truncate",
+   "css": {
+    "bc": "oklch(0.922 0 0)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "0px",
+    "bw": "0px",
+    "color": "rgba(0, 0, 0, 0.6)",
+    "fs": "16px",
+    "fw": "400",
+    "pad": "0px"
+   },
+   "r": {
+    "h": 20,
+    "w": 64,
+    "x": 44,
+    "y": 621
+   },
+   "text": "手部修复"
+  },
+  {
+   "active": false,
+   "cls": "truncate",
+   "css": {
+    "bc": "oklch(0.922 0 0)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "0px",
+    "bw": "0px",
+    "color": "rgba(0, 0, 0, 0.6)",
+    "fs": "16px",
+    "fw": "400",
+    "pad": "0px"
+   },
+   "r": {
+    "h": 20,
+    "w": 48,
+    "x": 44,
+    "y": 757
+   },
+   "text": "商品图"
+  },
+  {
+   "active": false,
+   "cls": "truncate",
+   "css": {
+    "bc": "oklch(0.922 0 0)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "0px",
+    "bw": "0px",
+    "color": "rgba(0, 0, 0, 0.6)",
+    "fs": "16px",
+    "fw": "400",
+    "pad": "0px"
+   },
+   "r": {
+    "h": 20,
+    "w": 64,
+    "x": 44,
+    "y": 797
+   },
+   "text": "商品替换"
+  },
+  {
+   "active": false,
+   "cls": "truncate",
+   "css": {
+    "bc": "oklch(0.922 0 0)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "0px",
+    "bw": "0px",
+    "color": "rgba(0, 0, 0, 0.6)",
+    "fs": "16px",
+    "fw": "400",
+    "pad": "0px"
+   },
+   "r": {
+    "h": 20,
+    "w": 64,
+    "x": 44,
+    "y": 837
+   },
+   "text": "场景裂变"
+  },
+  {
+   "active": false,
+   "cls": "truncate",
+   "css": {
+    "bc": "oklch(0.922 0 0)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "0px",
+    "bw": "0px",
+    "color": "rgba(0, 0, 0, 0.6)",
+    "fs": "16px",
+    "fw": "400",
+    "pad": "0px"
+   },
+   "r": {
+    "h": 20,
+    "w": 64,
+    "x": 44,
+    "y": 877
+   },
+   "text": "手持商品"
+  },
+  {
+   "active": false,
+   "cls": "truncate",
+   "css": {
+    "bc": "oklch(0.922 0 0)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "0px",
+    "bw": "0px",
+    "color": "rgba(0, 0, 0, 0.6)",
+    "fs": "16px",
+    "fw": "400",
+    "pad": "0px"
+   },
+   "r": {
+    "h": 20,
+    "w": 46,
+    "x": 44,
+    "y": 917
+   },
+   "text": "AI穿衣"
+  },
+  {
+   "active": false,
+   "cls": "truncate",
+   "css": {
+    "bc": "oklch(0.922 0 0)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "0px",
+    "bw": "0px",
+    "color": "rgba(0, 0, 0, 0.6)",
+    "fs": "16px",
+    "fw": "400",
+    "pad": "0px"
+   },
+   "r": {
+    "h": 20,
+    "w": 64,
+    "x": 44,
+    "y": 957
+   },
+   "text": "姿势裂变"
+  },
+  {
+   "active": false,
+   "cls": "truncate",
+   "css": {
+    "bc": "oklch(0.922 0 0)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "0px",
+    "bw": "0px",
+    "color": "rgba(0, 0, 0, 0.6)",
+    "fs": "16px",
+    "fw": "400",
+    "pad": "0px"
+   },
+   "r": {
+    "h": 20,
+    "w": 46,
+    "x": 44,
+    "y": 997
+   },
+   "text": "AI穿戴"
+  },
+  {
+   "active": false,
+   "cls": "truncate",
+   "css": {
+    "bc": "oklch(0.922 0 0)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "0px",
+    "bw": "0px",
+    "color": "rgb(114, 60, 249)",
+    "fs": "16px",
+    "fw": "400",
+    "pad": "0px"
+   },
+   "r": {
+    "h": 20,
+    "w": 65,
+    "x": 44,
+    "y": 1037
+   },
+   "text": "POD素材"
+  },
+  {
+   "active": false,
+   "cls": "truncate",
+   "css": {
+    "bc": "oklch(0.922 0 0)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "0px",
+    "bw": "0px",
+    "color": "rgba(0, 0, 0, 0.6)",
+    "fs": "16px",
+    "fw": "400",
+    "pad": "0px"
+   },
+   "r": {
+    "h": 20,
+    "w": 64,
+    "x": 44,
+    "y": 1077
+   },
+   "text": "饰品文字"
+  },
+  {
+   "active": false,
+   "cls": "truncate",
+   "css": {
+    "bc": "oklch(0.922 0 0)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "0px",
+    "bw": "0px",
+    "color": "rgba(0, 0, 0, 0.6)",
+    "fs": "16px",
+    "fw": "400",
+    "pad": "0px"
+   },
+   "r": {
+    "h": 20,
+    "w": 64,
+    "x": 44,
+    "y": 1117
+   },
+   "text": "素材贴合"
+  },
+  {
+   "active": false,
+   "cls": "truncate",
+   "css": {
+    "bc": "oklch(0.922 0 0)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "0px",
+    "bw": "0px",
+    "color": "rgba(0, 0, 0, 0.6)",
+    "fs": "16px",
+    "fw": "400",
+    "pad": "0px"
+   },
+   "r": {
+    "h": 20,
+    "w": 64,
+    "x": 44,
+    "y": 1157
+   },
+   "text": "印花提取"
+  },
+  {
+   "active": false,
+   "cls": "truncate",
+   "css": {
+    "bc": "oklch(0.922 0 0)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "0px",
+    "bw": "0px",
+    "color": "rgba(0, 0, 0, 0.6)",
+    "fs": "16px",
+    "fw": "400",
+    "pad": "0px"
+   },
+   "r": {
+    "h": 20,
+    "w": 78,
+    "x": 44,
+    "y": 1197
+   },
+   "text": "AI姿势生成"
+  },
+  {
+   "active": false,
+   "cls": "ml-auto shrink-0 rounded border border-hairline px-1 text-[10px] leading-4 text-black/45 dark:border-white/15 dark:text-",
+   "css": {
+    "bc": "rgb(230, 230, 231)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "4px",
+    "bw": "1px",
+    "color": "oklab(0 0 0 / 0.45)",
+    "fs": "10px",
+    "fw": "400",
+    "pad": "0px 4px"
+   },
+   "r": {
+    "h": 18,
+    "w": 30,
+    "x": 137,
+    "y": 1198
+   },
+   "text": "补充"
+  },
+  {
+   "active": false,
+   "cls": "truncate",
+   "css": {
+    "bc": "oklch(0.922 0 0)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "0px",
+    "bw": "0px",
+    "color": "rgba(0, 0, 0, 0.6)",
+    "fs": "16px",
+    "fw": "400",
+    "pad": "0px"
+   },
+   "r": {
+    "h": 20,
+    "w": 77,
+    "x": 44,
+    "y": 1237
+   },
+   "text": "AI试衣XSY"
+  },
+  {
+   "active": false,
+   "cls": "ml-auto shrink-0 rounded border border-hairline px-1 text-[10px] leading-4 text-black/45 dark:border-white/15 dark:text-",
+   "css": {
+    "bc": "rgb(230, 230, 231)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "4px",
+    "bw": "1px",
+    "color": "oklab(0 0 0 / 0.45)",
+    "fs": "10px",
+    "fw": "400",
+    "pad": "0px 4px"
+   },
+   "r": {
+    "h": 18,
+    "w": 30,
+    "x": 137,
+    "y": 1238
+   },
+   "text": "补充"
+  },
+  {
+   "active": false,
+   "cls": "truncate",
+   "css": {
+    "bc": "oklch(0.922 0 0)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "0px",
+    "bw": "0px",
+    "color": "rgba(0, 0, 0, 0.6)",
+    "fs": "16px",
+    "fw": "400",
+    "pad": "0px"
+   },
+   "r": {
+    "h": 20,
+    "w": 83,
+    "x": 44,
+    "y": 1277
+   },
+   "text": "场景裂变链接"
+  },
+  {
+   "active": false,
+   "cls": "ml-auto shrink-0 rounded border border-hairline px-1 text-[10px] leading-4 text-black/45 dark:border-white/15 dark:text-",
+   "css": {
+    "bc": "rgb(230, 230, 231)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "4px",
+    "bw": "1px",
+    "color": "oklab(0 0 0 / 0.45)",
+    "fs": "10px",
+    "fw": "400",
+    "pad": "0px 4px"
+   },
+   "r": {
+    "h": 18,
+    "w": 30,
+    "x": 137,
+    "y": 1278
+   },
+   "text": "补充"
+  },
+  {
+   "active": false,
+   "cls": "truncate",
+   "css": {
+    "bc": "oklch(0.922 0 0)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "0px",
+    "bw": "0px",
+    "color": "rgba(0, 0, 0, 0.6)",
+    "fs": "16px",
+    "fw": "400",
+    "pad": "0px"
+   },
+   "r": {
+    "h": 20,
+    "w": 83,
+    "x": 44,
+    "y": 1317
+   },
+   "text": "图片文字编辑"
+  },
+  {
+   "active": false,
+   "cls": "ml-auto shrink-0 rounded border border-hairline px-1 text-[10px] leading-4 text-black/45 dark:border-white/15 dark:text-",
+   "css": {
+    "bc": "rgb(230, 230, 231)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "4px",
+    "bw": "1px",
+    "color": "oklab(0 0 0 / 0.45)",
+    "fs": "10px",
+    "fw": "400",
+    "pad": "0px 4px"
+   },
+   "r": {
+    "h": 18,
+    "w": 30,
+    "x": 137,
+    "y": 1318
+   },
+   "text": "补充"
+  },
+  {
+   "active": false,
+   "cls": "truncate",
+   "css": {
+    "bc": "oklch(0.922 0 0)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "0px",
+    "bw": "0px",
+    "color": "rgba(0, 0, 0, 0.6)",
+    "fs": "16px",
+    "fw": "400",
+    "pad": "0px"
+   },
+   "r": {
+    "h": 20,
+    "w": 64,
+    "x": 44,
+    "y": 1357
+   },
+   "text": "上装换料"
+  },
+  {
+   "active": false,
+   "cls": "ml-auto shrink-0 rounded border border-hairline px-1 text-[10px] leading-4 text-black/45 dark:border-white/15 dark:text-",
+   "css": {
+    "bc": "rgb(230, 230, 231)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "4px",
+    "bw": "1px",
+    "color": "oklab(0 0 0 / 0.45)",
+    "fs": "10px",
+    "fw": "400",
+    "pad": "0px 4px"
+   },
+   "r": {
+    "h": 18,
+    "w": 30,
+    "x": 137,
+    "y": 1358
+   },
+   "text": "补充"
+  },
+  {
+   "active": false,
+   "cls": "truncate",
+   "css": {
+    "bc": "oklch(0.922 0 0)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "0px",
+    "bw": "0px",
+    "color": "rgba(0, 0, 0, 0.6)",
+    "fs": "16px",
+    "fw": "400",
+    "pad": "0px"
+   },
+   "r": {
+    "h": 20,
+    "w": 83,
+    "x": 44,
+    "y": 1397
+   },
+   "text": "商品图设计器"
+  },
+  {
+   "active": false,
+   "cls": "ml-auto shrink-0 rounded border border-hairline px-1 text-[10px] leading-4 text-black/45 dark:border-white/15 dark:text-",
+   "css": {
+    "bc": "rgb(230, 230, 231)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "4px",
+    "bw": "1px",
+    "color": "oklab(0 0 0 / 0.45)",
+    "fs": "10px",
+    "fw": "400",
+    "pad": "0px 4px"
+   },
+   "r": {
+    "h": 18,
+    "w": 30,
+    "x": 137,
+    "y": 1398
+   },
+   "text": "补充"
+  },
+  {
+   "active": false,
+   "cls": "truncate",
+   "css": {
+    "bc": "oklch(0.922 0 0)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "0px",
+    "bw": "0px",
+    "color": "rgba(0, 0, 0, 0.6)",
+    "fs": "16px",
+    "fw": "400",
+    "pad": "0px"
+   },
+   "r": {
+    "h": 20,
+    "w": 83,
+    "x": 44,
+    "y": 1437
+   },
+   "text": "商品营销素材"
+  },
+  {
+   "active": false,
+   "cls": "ml-auto shrink-0 rounded border border-hairline px-1 text-[10px] leading-4 text-black/45 dark:border-white/15 dark:text-",
+   "css": {
+    "bc": "rgb(230, 230, 231)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "4px",
+    "bw": "1px",
+    "color": "oklab(0 0 0 / 0.45)",
+    "fs": "10px",
+    "fw": "400",
+    "pad": "0px 4px"
+   },
+   "r": {
+    "h": 18,
+    "w": 30,
+    "x": 137,
+    "y": 1438
+   },
+   "text": "补充"
+  },
+  {
+   "active": false,
+   "cls": "truncate",
+   "css": {
+    "bc": "oklch(0.922 0 0)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "0px",
+    "bw": "0px",
+    "color": "rgba(0, 0, 0, 0.6)",
+    "fs": "16px",
+    "fw": "400",
+    "pad": "0px"
+   },
+   "r": {
+    "h": 20,
+    "w": 64,
+    "x": 44,
+    "y": 1477
+   },
+   "text": "场景迁移"
+  },
+  {
+   "active": false,
+   "cls": "ml-auto shrink-0 rounded border border-hairline px-1 text-[10px] leading-4 text-black/45 dark:border-white/15 dark:text-",
+   "css": {
+    "bc": "rgb(230, 230, 231)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "4px",
+    "bw": "1px",
+    "color": "oklab(0 0 0 / 0.45)",
+    "fs": "10px",
+    "fw": "400",
+    "pad": "0px 4px"
+   },
+   "r": {
+    "h": 18,
+    "w": 30,
+    "x": 137,
+    "y": 1478
+   },
+   "text": "补充"
+  },
+  {
+   "active": false,
+   "cls": "truncate",
+   "css": {
+    "bc": "oklch(0.922 0 0)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "0px",
+    "bw": "0px",
+    "color": "rgba(0, 0, 0, 0.6)",
+    "fs": "16px",
+    "fw": "400",
+    "pad": "0px"
+   },
+   "r": {
+    "h": 20,
+    "w": 64,
+    "x": 44,
+    "y": 1548
+   },
+   "text": "图转视频"
+  },
+  {
+   "active": false,
+   "cls": "truncate",
+   "css": {
+    "bc": "oklch(0.922 0 0)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "0px",
+    "bw": "0px",
+    "color": "rgba(0, 0, 0, 0.6)",
+    "fs": "16px",
+    "fw": "400",
+    "pad": "0px"
+   },
+   "r": {
+    "h": 20,
+    "w": 64,
+    "x": 44,
+    "y": 1588
+   },
+   "text": "带货口播"
+  },
+  {
+   "active": false,
+   "cls": "truncate",
+   "css": {
+    "bc": "oklch(0.922 0 0)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "0px",
+    "bw": "0px",
+    "color": "rgba(0, 0, 0, 0.6)",
+    "fs": "16px",
+    "fw": "400",
+    "pad": "0px"
+   },
+   "r": {
+    "h": 20,
+    "w": 64,
+    "x": 44,
+    "y": 1628
+   },
+   "text": "视频复刻"
+  },
+  {
+   "active": false,
+   "cls": "truncate",
+   "css": {
+    "bc": "oklch(0.922 0 0)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "0px",
+    "bw": "0px",
+    "color": "rgba(0, 0, 0, 0.6)",
+    "fs": "16px",
+    "fw": "400",
+    "pad": "0px"
+   },
+   "r": {
+    "h": 20,
+    "w": 64,
+    "x": 44,
+    "y": 1668
+   },
+   "text": "视频编辑"
+  },
+  {
+   "active": false,
+   "cls": "truncate",
+   "css": {
+    "bc": "oklch(0.922 0 0)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "0px",
+    "bw": "0px",
+    "color": "rgba(0, 0, 0, 0.6)",
+    "fs": "16px",
+    "fw": "400",
+    "pad": "0px"
+   },
+   "r": {
+    "h": 20,
+    "w": 64,
+    "x": 44,
+    "y": 1708
+   },
+   "text": "视频翻译"
+  },
+  {
+   "active": false,
+   "cls": "truncate",
+   "css": {
+    "bc": "oklch(0.922 0 0)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "0px",
+    "bw": "0px",
+    "color": "rgba(0, 0, 0, 0.6)",
+    "fs": "16px",
+    "fw": "400",
+    "pad": "0px"
+   },
+   "r": {
+    "h": 20,
+    "w": 64,
+    "x": 44,
+    "y": 1748
+   },
+   "text": "视频拼接"
+  },
+  {
+   "active": false,
+   "cls": "ml-auto shrink-0 rounded border border-hairline px-1 text-[10px] leading-4 text-black/45 dark:border-white/15 dark:text-",
+   "css": {
+    "bc": "rgb(230, 230, 231)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "4px",
+    "bw": "1px",
+    "color": "oklab(0 0 0 / 0.45)",
+    "fs": "10px",
+    "fw": "400",
+    "pad": "0px 4px"
+   },
+   "r": {
+    "h": 18,
+    "w": 30,
+    "x": 137,
+    "y": 1749
+   },
+   "text": "补充"
+  },
+  {
+   "active": false,
+   "cls": "text-stone-700 dark:text-stone-200",
+   "css": {
+    "bc": "oklch(0.922 0 0)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "0px",
+    "bw": "0px",
+    "color": "oklch(0.374 0.01 67.558)",
+    "fs": "12px",
+    "fw": "400",
+    "pad": "0px"
+   },
+   "r": {
+    "h": 16,
+    "w": 180,
+    "x": 270,
+    "y": 355
+   },
+   "text": "点击选择本地文件，或拖拽到这里"
+  },
+  {
+   "active": false,
+   "cls": "text-stone-500",
+   "css": {
+    "bc": "oklch(0.922 0 0)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "0px",
+    "bw": "0px",
+    "color": "oklch(0.553 0.013 58.071)",
+    "fs": "12px",
+    "fw": "400",
+    "pad": "0px"
+   },
+   "r": {
+    "h": 16,
+    "w": 225,
+    "x": 248,
+    "y": 375
+   },
+   "text": "校验格式 / 大小 / 像素，入"
+  },
+  {
+   "active": false,
+   "cls": "flex min-w-0 flex-col gap-0.5",
+   "css": {
+    "bc": "oklch(0.922 0 0)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "0px",
+    "bw": "0px",
+    "color": "oklch(0.145 0 0)",
+    "fs": "14px",
+    "fw": "400",
+    "pad": "0px"
+   },
+   "r": {
+    "h": 54,
+    "w": 255,
+    "x": 243,
+    "y": 1070
+   },
+   "text": "自动扩写提示词 本地确定性扩写，"
+  },
+  {
+   "active": false,
+   "cls": "text-sm text-[var(--foreground)]",
+   "css": {
+    "bc": "oklch(0.922 0 0)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "0px",
+    "bw": "0px",
+    "color": "oklch(0.145 0 0)",
+    "fs": "14px",
+    "fw": "400",
+    "pad": "0px"
+   },
+   "r": {
+    "h": 20,
+    "w": 255,
+    "x": 243,
+    "y": 1070
+   },
+   "text": "自动扩写提示词"
+  },
+  {
+   "active": false,
+   "cls": "text-[11px] leading-4 text-[var(--muted-foreground)]",
+   "css": {
+    "bc": "oklch(0.922 0 0)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "0px",
+    "bw": "0px",
+    "color": "oklch(0.556 0 0)",
+    "fs": "11px",
+    "fw": "400",
+    "pad": "0px"
+   },
+   "r": {
+    "h": 32,
+    "w": 255,
+    "x": 243,
+    "y": 1092
+   },
+   "text": "本地确定性扩写，不调用上游；扩写"
+  },
+  {
+   "active": false,
+   "cls": "flex min-w-0 flex-col gap-0.5",
+   "css": {
+    "bc": "oklch(0.922 0 0)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "0px",
+    "bw": "0px",
+    "color": "oklch(0.145 0 0)",
+    "fs": "14px",
+    "fw": "400",
+    "pad": "0px"
+   },
+   "r": {
+    "h": 38,
+    "w": 143,
+    "x": 237,
+    "y": 1145
+   },
+   "text": "增强变化强度 同风格下的构图差异"
+  },
+  {
+   "active": false,
+   "cls": "text-sm text-[var(--foreground)]",
+   "css": {
+    "bc": "oklch(0.922 0 0)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "0px",
+    "bw": "0px",
+    "color": "oklch(0.145 0 0)",
+    "fs": "14px",
+    "fw": "400",
+    "pad": "0px"
+   },
+   "r": {
+    "h": 20,
+    "w": 143,
+    "x": 237,
+    "y": 1145
+   },
+   "text": "增强变化强度"
+  },
+  {
+   "active": false,
+   "cls": "text-[11px] leading-4 text-[var(--muted-foreground)]",
+   "css": {
+    "bc": "oklch(0.922 0 0)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "0px",
+    "bw": "0px",
+    "color": "oklch(0.556 0 0)",
+    "fs": "11px",
+    "fw": "400",
+    "pad": "0px"
+   },
+   "r": {
+    "h": 16,
+    "w": 143,
+    "x": 237,
+    "y": 1167
+   },
+   "text": "同风格下的构图差异更明显。"
+  },
+  {
+   "active": false,
+   "cls": "flex min-w-0 flex-col gap-0.5",
+   "css": {
+    "bc": "oklch(0.922 0 0)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "0px",
+    "bw": "0px",
+    "color": "oklch(0.145 0 0)",
+    "fs": "14px",
+    "fw": "400",
+    "pad": "0px"
+   },
+   "r": {
+    "h": 20,
+    "w": 112,
+    "x": 237,
+    "y": 1195
+   },
+   "text": "作为案例变体提交"
+  },
+  {
+   "active": false,
+   "cls": "text-sm text-[var(--foreground)]",
+   "css": {
+    "bc": "oklch(0.922 0 0)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "0px",
+    "bw": "0px",
+    "color": "oklch(0.145 0 0)",
+    "fs": "14px",
+    "fw": "400",
+    "pad": "0px"
+   },
+   "r": {
+    "h": 20,
+    "w": 112,
+    "x": 237,
+    "y": 1195
+   },
+   "text": "作为案例变体提交"
+  },
+  {
+   "active": false,
+   "cls": "",
+   "css": {
+    "bc": "oklch(0.922 0 0)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "0px",
+    "bw": "0px",
+    "color": "rgb(23, 23, 23)",
+    "fs": "14px",
+    "fw": "400",
+    "pad": "0px"
+   },
+   "r": {
+    "h": 22,
+    "w": 28,
+    "x": 2331,
+    "y": 148
+   },
+   "text": "连接"
+  },
+  {
+   "active": false,
+   "cls": "",
+   "css": {
+    "bc": "oklch(0.922 0 0)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "0px",
+    "bw": "0px",
+    "color": "rgb(23, 23, 23)",
+    "fs": "14px",
+    "fw": "400",
+    "pad": "0px"
+   },
+   "r": {
+    "h": 22,
+    "w": 28,
+    "x": 2331,
+    "y": 216
+   },
+   "text": "连接"
+  },
+  {
+   "active": false,
+   "cls": "",
+   "css": {
+    "bc": "oklch(0.922 0 0)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "0px",
+    "bw": "0px",
+    "color": "rgb(23, 23, 23)",
+    "fs": "14px",
+    "fw": "400",
+    "pad": "0px"
+   },
+   "r": {
+    "h": 22,
+    "w": 28,
+    "x": 2331,
+    "y": 284
+   },
+   "text": "连接"
+  }
+ ],
+ "controls": [
+  {
+   "ariaChecked": null,
+   "ariaLabel": "打开 Agent",
+   "ariaSelected": null,
+   "checked": null,
+   "cls": "ant-btn css-dev-only-do-not-override-oc1rc0 infinite-canvas-light ant-btn-circle ant-btn-text ant-btn-color-default ant-",
+   "css": {
+    "bc": "rgba(0, 0, 0, 0)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "50%",
+    "bw": "1px",
+    "color": "rgba(0, 0, 0, 0.88)",
+    "ff": "-apple-system",
+    "fs": "14px",
+    "fw": "400",
+    "lh": "22px",
+    "pad": "0px"
+   },
+   "disabled": false,
+   "ph": null,
+   "r": {
+    "h": 32,
+    "w": 32,
+    "x": 1658,
+    "y": 14
+   },
+   "role": null,
+   "tag": "button",
+   "text": "",
+   "title": null,
+   "type": "button",
+   "value": ""
+  },
+  {
+   "ariaChecked": null,
+   "ariaLabel": "配置",
+   "ariaSelected": null,
+   "checked": null,
+   "cls": "inline-flex size-7 shrink-0 cursor-pointer items-center justify-center rounded-md text-stone-600 transition-colors hover",
+   "css": {
+    "bc": "oklch(0.922 0 0)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "8px",
+    "bw": "0px",
+    "color": "oklch(0.145 0 0)",
+    "ff": "-apple-system",
+    "fs": "14px",
+    "fw": "400",
+    "lh": "22px",
+    "pad": "0px"
+   },
+   "disabled": false,
+   "ph": null,
+   "r": {
+    "h": 28,
+    "w": 28,
+    "x": 1698,
+    "y": 16
+   },
+   "role": null,
+   "tag": "button",
+   "text": "",
+   "title": "配置",
+   "type": "button",
+   "value": ""
+  },
+  {
+   "ariaChecked": null,
+   "ariaLabel": "切换到 English",
+   "ariaSelected": null,
+   "checked": null,
+   "cls": "inline-flex size-7 shrink-0 cursor-pointer items-center justify-center rounded-md text-stone-600 transition-colors hover",
+   "css": {
+    "bc": "oklch(0.922 0 0)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "8px",
+    "bw": "0px",
+    "color": "oklch(0.145 0 0)",
+    "ff": "-apple-system",
+    "fs": "14px",
+    "fw": "600",
+    "lh": "22px",
+    "pad": "0px"
+   },
+   "disabled": false,
+   "ph": null,
+   "r": {
+    "h": 28,
+    "w": 28,
+    "x": 1730,
+    "y": 16
+   },
+   "role": null,
+   "tag": "button",
+   "text": "中",
+   "title": null,
+   "type": "button",
+   "value": ""
+  },
+  {
+   "ariaChecked": null,
+   "ariaLabel": "切换到深色主题",
+   "ariaSelected": null,
+   "checked": null,
+   "cls": "inline-flex size-7 shrink-0 cursor-pointer items-center justify-center rounded-md text-stone-600 transition-colors hover",
+   "css": {
+    "bc": "oklch(0.922 0 0)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "8px",
+    "bw": "0px",
+    "color": "oklch(0.145 0 0)",
+    "ff": "-apple-system",
+    "fs": "14px",
+    "fw": "400",
+    "lh": "22px",
+    "pad": "0px"
+   },
+   "disabled": false,
+   "ph": null,
+   "r": {
+    "h": 28,
+    "w": 28,
+    "x": 1762,
+    "y": 16
+   },
+   "role": null,
+   "tag": "button",
+   "text": "切换到深色主题",
+   "title": "切换到深色主题",
+   "type": "button",
+   "value": ""
+  },
+  {
+   "ariaChecked": null,
+   "ariaLabel": null,
+   "ariaSelected": null,
+   "checked": null,
+   "cls": "shrink-0 cursor-pointer text-xs font-medium text-stone-500 transition hover:text-stone-950 dark:text-stone-400 dark:hove",
+   "css": {
+    "bc": "oklch(0.922 0 0)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "0px",
+    "bw": "0px",
+    "color": "oklch(0.145 0 0)",
+    "ff": "-apple-system",
+    "fs": "14px",
+    "fw": "500",
+    "lh": "22px",
+    "pad": "0px"
+   },
+   "disabled": false,
+   "ph": null,
+   "r": {
+    "h": 22,
+    "w": 47,
+    "x": 1794,
+    "y": 19
+   },
+   "role": null,
+   "tag": "button",
+   "text": "v0.27.0",
+   "title": "查看版本更新",
+   "type": "button",
+   "value": ""
+  },
+  {
+   "ariaChecked": null,
+   "ariaLabel": null,
+   "ariaSelected": null,
+   "checked": null,
+   "cls": "w-full rounded-lg border border-[var(--border)] bg-[var(--background)] px-3 py-2 text-sm text-[var(--foreground)] outlin",
+   "css": {
+    "bc": "oklch(0.922 0 0)",
+    "bg": "oklch(1 0 0)",
+    "br": "10px",
+    "bw": "1px",
+    "color": "oklch(0.556 0 0)",
+    "ff": "-apple-system",
+    "fs": "12px",
+    "fw": "500",
+    "lh": "normal",
+    "pad": "8px 12px"
+   },
+   "disabled": false,
+   "ph": null,
+   "r": {
+    "h": 35,
+    "w": 294,
+    "x": 213,
+    "y": 516
+   },
+   "role": null,
+   "tag": "select",
+   "text": "请选择 图案素材 文字素材 图案 + 文字",
+   "title": null,
+   "type": "select-one",
+   "value": ""
+  },
+  {
+   "ariaChecked": null,
+   "ariaLabel": null,
+   "ariaSelected": null,
+   "checked": null,
+   "cls": "w-full rounded-lg border border-[var(--border)] bg-[var(--background)] px-3 py-2 text-sm text-[var(--foreground)] outlin",
+   "css": {
+    "bc": "oklch(0.922 0 0)",
+    "bg": "oklch(1 0 0)",
+    "br": "10px",
+    "bw": "1px",
+    "color": "oklch(0.556 0 0)",
+    "ff": "-apple-system",
+    "fs": "12px",
+    "fw": "500",
+    "lh": "normal",
+    "pad": "8px 12px"
+   },
+   "disabled": false,
+   "ph": null,
+   "r": {
+    "h": 35,
+    "w": 294,
+    "x": 213,
+    "y": 585
+   },
+   "role": null,
+   "tag": "select",
+   "text": "请选择 1:1 4:5 3:4 2:3 3:2 4:3 16:9 9:16",
+   "title": null,
+   "type": "select-one",
+   "value": ""
+  },
+  {
+   "ariaChecked": null,
+   "ariaLabel": null,
+   "ariaSelected": null,
+   "checked": null,
+   "cls": "w-full rounded-lg border border-[var(--border)] bg-[var(--background)] px-3 py-2 text-sm text-[var(--foreground)] outlin",
+   "css": {
+    "bc": "oklch(0.922 0 0)",
+    "bg": "oklch(1 0 0)",
+    "br": "10px",
+    "bw": "1px",
+    "color": "oklch(0.556 0 0)",
+    "ff": "-apple-system",
+    "fs": "12px",
+    "fw": "500",
+    "lh": "normal",
+    "pad": "8px 12px"
+   },
+   "disabled": false,
+   "ph": null,
+   "r": {
+    "h": 35,
+    "w": 294,
+    "x": 213,
+    "y": 654
+   },
+   "role": null,
+   "tag": "select",
+   "text": "不指定 Vintage Minimal Floral Geometric Car",
+   "title": null,
+   "type": "select-one",
+   "value": ""
+  },
+  {
+   "ariaChecked": null,
+   "ariaLabel": null,
+   "ariaSelected": null,
+   "checked": null,
+   "cls": "w-full rounded-lg border border-[var(--border)] bg-[var(--background)] px-3 py-2 text-sm text-[var(--foreground)] outlin",
+   "css": {
+    "bc": "oklch(0.922 0 0)",
+    "bg": "oklch(1 0 0)",
+    "br": "10px",
+    "bw": "1px",
+    "color": "oklch(0.556 0 0)",
+    "ff": "-apple-system",
+    "fs": "12px",
+    "fw": "500",
+    "lh": "normal",
+    "pad": "8px 12px"
+   },
+   "disabled": false,
+   "ph": null,
+   "r": {
+    "h": 35,
+    "w": 294,
+    "x": 213,
+    "y": 723
+   },
+   "role": null,
+   "tag": "select",
+   "text": "不指定 复古 极简 花卉 几何 卡通 手绘 复古海报 线稿",
+   "title": null,
+   "type": "select-one",
+   "value": ""
+  },
+  {
+   "ariaChecked": null,
+   "ariaLabel": null,
+   "ariaSelected": null,
+   "checked": false,
+   "cls": "w-full rounded-lg border border-[var(--border)] bg-[var(--background)] px-3 py-2 text-sm text-[var(--foreground)] outlin",
+   "css": {
+    "bc": "oklch(0.922 0 0)",
+    "bg": "oklch(1 0 0)",
+    "br": "10px",
+    "bw": "1px",
+    "color": "oklch(0.556 0 0)",
+    "ff": "-apple-system",
+    "fs": "12px",
+    "fw": "500",
+    "lh": "16px",
+    "pad": "8px 12px"
+   },
+   "disabled": false,
+   "ph": null,
+   "r": {
+    "h": 34,
+    "w": 294,
+    "x": 213,
+    "y": 792
+   },
+   "role": null,
+   "tag": "input",
+   "text": "",
+   "title": null,
+   "type": "number",
+   "value": "1"
+  },
+  {
+   "ariaChecked": null,
+   "ariaLabel": null,
+   "ariaSelected": "true",
+   "checked": null,
+   "cls": "min-h-10 flex-1 rounded-md text-sm bg-[var(--primary)] text-[var(--primary-foreground)]",
+   "css": {
+    "bc": "oklch(0.922 0 0)",
+    "bg": "oklch(0.205 0 0)",
+    "br": "8px",
+    "bw": "0px",
+    "color": "oklch(0.145 0 0)",
+    "ff": "-apple-system",
+    "fs": "14px",
+    "fw": "400",
+    "lh": "22px",
+    "pad": "0px"
+   },
+   "disabled": false,
+   "ph": null,
+   "r": {
+    "h": 40,
+    "w": 140,
+    "x": 218,
+    "y": 869
+   },
+   "role": "tab",
+   "tag": "button",
+   "text": "简易文字",
+   "title": null,
+   "type": "button",
+   "value": ""
+  },
+  {
+   "ariaChecked": null,
+   "ariaLabel": null,
+   "ariaSelected": "false",
+   "checked": null,
+   "cls": "min-h-10 flex-1 rounded-md text-sm text-[var(--muted-foreground)]",
+   "css": {
+    "bc": "oklch(0.922 0 0)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "8px",
+    "bw": "0px",
+    "color": "oklch(0.145 0 0)",
+    "ff": "-apple-system",
+    "fs": "14px",
+    "fw": "400",
+    "lh": "22px",
+    "pad": "0px"
+   },
+   "disabled": false,
+   "ph": null,
+   "r": {
+    "h": 40,
+    "w": 140,
+    "x": 362,
+    "y": 869
+   },
+   "role": "tab",
+   "tag": "button",
+   "text": "完整提示词",
+   "title": null,
+   "type": "button",
+   "value": ""
+  },
+  {
+   "ariaChecked": null,
+   "ariaLabel": null,
+   "ariaSelected": null,
+   "checked": null,
+   "cls": "w-full rounded-lg border border-[var(--border)] bg-[var(--background)] px-3 py-2 text-sm text-[var(--foreground)] outlin",
+   "css": {
+    "bc": "oklch(0.922 0 0)",
+    "bg": "oklch(1 0 0)",
+    "br": "10px",
+    "bw": "1px",
+    "color": "oklch(0.556 0 0)",
+    "ff": "-apple-system",
+    "fs": "12px",
+    "fw": "500",
+    "lh": "16px",
+    "pad": "8px 12px"
+   },
+   "disabled": false,
+   "ph": null,
+   "r": {
+    "h": 80,
+    "w": 294,
+    "x": 213,
+    "y": 948
+   },
+   "role": null,
+   "tag": "textarea",
+   "text": "",
+   "title": null,
+   "type": "textarea",
+   "value": ""
+  },
+  {
+   "ariaChecked": null,
+   "ariaLabel": null,
+   "ariaSelected": null,
+   "checked": false,
+   "cls": "mt-0.5 h-4 w-4 accent-[var(--primary)]",
+   "css": {
+    "bc": "oklch(0.145 0 0)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "0px",
+    "bw": "0px",
+    "color": "oklch(0.145 0 0)",
+    "ff": "-apple-system",
+    "fs": "14px",
+    "fw": "400",
+    "lh": "22px",
+    "pad": "0px"
+   },
+   "disabled": false,
+   "ph": null,
+   "r": {
+    "h": 16,
+    "w": 13,
+    "x": 222,
+    "y": 1070
+   },
+   "role": null,
+   "tag": "input",
+   "text": "",
+   "title": null,
+   "type": "checkbox",
+   "value": "on"
+  },
+  {
+   "ariaChecked": null,
+   "ariaLabel": null,
+   "ariaSelected": null,
+   "checked": false,
+   "cls": "mt-0.5 h-4 w-4 accent-[var(--primary)]",
+   "css": {
+    "bc": "oklch(0.145 0 0)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "0px",
+    "bw": "0px",
+    "color": "oklch(0.145 0 0)",
+    "ff": "-apple-system",
+    "fs": "14px",
+    "fw": "400",
+    "lh": "22px",
+    "pad": "0px"
+   },
+   "disabled": false,
+   "ph": null,
+   "r": {
+    "h": 16,
+    "w": 16,
+    "x": 213,
+    "y": 1145
+   },
+   "role": null,
+   "tag": "input",
+   "text": "",
+   "title": null,
+   "type": "checkbox",
+   "value": "on"
+  },
+  {
+   "ariaChecked": null,
+   "ariaLabel": null,
+   "ariaSelected": null,
+   "checked": false,
+   "cls": "mt-0.5 h-4 w-4 accent-[var(--primary)]",
+   "css": {
+    "bc": "oklch(0.145 0 0)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "0px",
+    "bw": "0px",
+    "color": "oklch(0.145 0 0)",
+    "ff": "-apple-system",
+    "fs": "14px",
+    "fw": "400",
+    "lh": "22px",
+    "pad": "0px"
+   },
+   "disabled": false,
+   "ph": null,
+   "r": {
+    "h": 16,
+    "w": 16,
+    "x": 213,
+    "y": 1195
+   },
+   "role": null,
+   "tag": "input",
+   "text": "",
+   "title": null,
+   "type": "checkbox",
+   "value": "on"
+  },
+  {
+   "ariaChecked": null,
+   "ariaLabel": "撤销位置调整",
+   "ariaSelected": null,
+   "checked": null,
+   "cls": "inline-flex h-10 w-10 items-center justify-center rounded-lg border border-[var(--border)] disabled:opacity-40",
+   "css": {
+    "bc": "oklch(0.922 0 0)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "10px",
+    "bw": "1px",
+    "color": "oklch(0.145 0 0)",
+    "ff": "-apple-system",
+    "fs": "14px",
+    "fw": "400",
+    "lh": "22px",
+    "pad": "0px"
+   },
+   "disabled": true,
+   "ph": null,
+   "r": {
+    "h": 40,
+    "w": 40,
+    "x": 1317,
+    "y": 271
+   },
+   "role": null,
+   "tag": "button",
+   "text": "",
+   "title": "撤销 (⌘Z)",
+   "type": "button",
+   "value": ""
+  },
+  {
+   "ariaChecked": null,
+   "ariaLabel": "重做位置调整",
+   "ariaSelected": null,
+   "checked": null,
+   "cls": "inline-flex h-10 w-10 items-center justify-center rounded-lg border border-[var(--border)] disabled:opacity-40",
+   "css": {
+    "bc": "oklch(0.922 0 0)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "10px",
+    "bw": "1px",
+    "color": "oklch(0.145 0 0)",
+    "ff": "-apple-system",
+    "fs": "14px",
+    "fw": "400",
+    "lh": "22px",
+    "pad": "0px"
+   },
+   "disabled": true,
+   "ph": null,
+   "r": {
+    "h": 40,
+    "w": 40,
+    "x": 1361,
+    "y": 271
+   },
+   "role": null,
+   "tag": "button",
+   "text": "",
+   "title": "重做 (⇧⌘Z)",
+   "type": "button",
+   "value": ""
+  },
+  {
+   "ariaChecked": null,
+   "ariaLabel": "复位位置",
+   "ariaSelected": null,
+   "checked": null,
+   "cls": "inline-flex h-10 items-center gap-1 rounded-lg border border-[var(--border)] px-3 text-xs",
+   "css": {
+    "bc": "oklch(0.922 0 0)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "10px",
+    "bw": "1px",
+    "color": "oklch(0.145 0 0)",
+    "ff": "-apple-system",
+    "fs": "14px",
+    "fw": "400",
+    "lh": "22px",
+    "pad": "0px 12px"
+   },
+   "disabled": false,
+   "ph": null,
+   "r": {
+    "h": 40,
+    "w": 74,
+    "x": 1405,
+    "y": 271
+   },
+   "role": null,
+   "tag": "button",
+   "text": "复位",
+   "title": null,
+   "type": "button",
+   "value": ""
+  },
+  {
+   "ariaChecked": null,
+   "ariaLabel": "文字落位框",
+   "ariaSelected": null,
+   "checked": null,
+   "cls": "absolute cursor-move touch-none rounded border-2 border-dashed border-[var(--primary)] bg-[var(--primary)]/10 px-2 py-1 ",
+   "css": {
+    "bc": "oklch(0.205 0 0)",
+    "bg": "oklab(0.205 0 0 / 0.1)",
+    "br": "4px",
+    "bw": "2px",
+    "color": "oklch(0.145 0 0)",
+    "ff": "-apple-system",
+    "fs": "11px",
+    "fw": "400",
+    "lh": "17.2857px",
+    "pad": "4px 8px"
+   },
+   "disabled": false,
+   "ph": null,
+   "r": {
+    "h": 29,
+    "w": 53,
+    "x": 988,
+    "y": 773
+   },
+   "role": "slider",
+   "tag": "div",
+   "text": "文字区",
+   "title": null,
+   "type": "",
+   "value": null
+  },
+  {
+   "ariaChecked": null,
+   "ariaLabel": null,
+   "ariaSelected": null,
+   "checked": null,
+   "cls": "min-h-10 rounded-lg border px-3 text-xs border-[var(--primary)] text-[var(--foreground)]",
+   "css": {
+    "bc": "oklch(0.205 0 0)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "10px",
+    "bw": "1px",
+    "color": "oklch(0.145 0 0)",
+    "ff": "-apple-system",
+    "fs": "14px",
+    "fw": "400",
+    "lh": "22px",
+    "pad": "0px 12px"
+   },
+   "disabled": false,
+   "ph": null,
+   "r": {
+    "h": 40,
+    "w": 124,
+    "x": 549,
+    "y": 1265
+   },
+   "role": null,
+   "tag": "button",
+   "text": "不平铺（单图）",
+   "title": null,
+   "type": "button",
+   "value": ""
+  },
+  {
+   "ariaChecked": null,
+   "ariaLabel": null,
+   "ariaSelected": null,
+   "checked": null,
+   "cls": "min-h-10 rounded-lg border px-3 text-xs border-[var(--border)] text-[var(--muted-foreground)]",
+   "css": {
+    "bc": "oklch(0.922 0 0)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "10px",
+    "bw": "1px",
+    "color": "oklch(0.145 0 0)",
+    "ff": "-apple-system",
+    "fs": "14px",
+    "fw": "400",
+    "lh": "22px",
+    "pad": "0px 12px"
+   },
+   "disabled": false,
+   "ph": null,
+   "r": {
+    "h": 40,
+    "w": 83,
+    "x": 677,
+    "y": 1265
+   },
+   "role": null,
+   "tag": "button",
+   "text": "2×2 平铺",
+   "title": null,
+   "type": "button",
+   "value": ""
+  },
+  {
+   "ariaChecked": null,
+   "ariaLabel": null,
+   "ariaSelected": null,
+   "checked": null,
+   "cls": "min-h-10 rounded-lg border px-3 text-xs border-[var(--border)] text-[var(--muted-foreground)]",
+   "css": {
+    "bc": "oklch(0.922 0 0)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "10px",
+    "bw": "1px",
+    "color": "oklch(0.145 0 0)",
+    "ff": "-apple-system",
+    "fs": "14px",
+    "fw": "400",
+    "lh": "22px",
+    "pad": "0px 12px"
+   },
+   "disabled": false,
+   "ph": null,
+   "r": {
+    "h": 40,
+    "w": 111,
+    "x": 764,
+    "y": 1265
+   },
+   "role": null,
+   "tag": "button",
+   "text": "2×2 错位平铺",
+   "title": null,
+   "type": "button",
+   "value": ""
+  },
+  {
+   "ariaChecked": null,
+   "ariaLabel": null,
+   "ariaSelected": null,
+   "checked": null,
+   "cls": "min-h-10 rounded-lg border px-3 text-xs border-[var(--border)] text-[var(--muted-foreground)]",
+   "css": {
+    "bc": "oklch(0.922 0 0)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "10px",
+    "bw": "1px",
+    "color": "oklch(0.145 0 0)",
+    "ff": "-apple-system",
+    "fs": "14px",
+    "fw": "400",
+    "lh": "22px",
+    "pad": "0px 12px"
+   },
+   "disabled": false,
+   "ph": null,
+   "r": {
+    "h": 40,
+    "w": 84,
+    "x": 879,
+    "y": 1265
+   },
+   "role": null,
+   "tag": "button",
+   "text": "3×3 平铺",
+   "title": null,
+   "type": "button",
+   "value": ""
+  },
+  {
+   "ariaChecked": null,
+   "ariaLabel": null,
+   "ariaSelected": null,
+   "checked": null,
+   "cls": "inline-flex min-h-11 items-center justify-center gap-2 rounded-lg bg-[var(--primary)] px-4 text-sm font-medium text-[var",
+   "css": {
+    "bc": "oklch(0.922 0 0)",
+    "bg": "oklch(0.205 0 0)",
+    "br": "10px",
+    "bw": "0px",
+    "color": "oklch(0.145 0 0)",
+    "ff": "-apple-system",
+    "fs": "14px",
+    "fw": "500",
+    "lh": "22px",
+    "pad": "0px 16px"
+   },
+   "disabled": true,
+   "ph": null,
+   "r": {
+    "h": 44,
+    "w": 354,
+    "x": 1521,
+    "y": 418
+   },
+   "role": null,
+   "tag": "button",
+   "text": "生成 POD 素材",
+   "title": null,
+   "type": "button",
+   "value": ""
+  },
+  {
+   "ariaChecked": null,
+   "ariaLabel": "调整右侧面板宽度",
+   "ariaSelected": null,
+   "checked": null,
+   "cls": "absolute inset-y-0 left-0 z-40 w-4 -translate-x-1/2 cursor-col-resize",
+   "css": {
+    "bc": "oklch(0.922 0 0)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "0px",
+    "bw": "0px",
+    "color": "rgb(41, 37, 36)",
+    "ff": "-apple-system",
+    "fs": "14px",
+    "fw": "400",
+    "lh": "22px",
+    "pad": "0px"
+   },
+   "disabled": false,
+   "ph": null,
+   "r": {
+    "h": 781,
+    "w": 16,
+    "x": 1949,
+    "y": 0
+   },
+   "role": null,
+   "tag": "button",
+   "text": "",
+   "title": null,
+   "type": "button",
+   "value": ""
+  },
+  {
+   "ariaChecked": null,
+   "ariaLabel": "连接设置，当前未连接",
+   "ariaSelected": null,
+   "checked": null,
+   "cls": "ant-btn css-dev-only-do-not-override-oc1rc0 infinite-canvas-light ant-btn-text ant-btn-color-default ant-btn-variant-tex",
+   "css": {
+    "bc": "rgba(0, 0, 0, 0)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "4px",
+    "bw": "1px",
+    "color": "rgba(0, 0, 0, 0.88)",
+    "ff": "-apple-system",
+    "fs": "14px",
+    "fw": "400",
+    "lh": "22px",
+    "pad": "0px"
+   },
+   "disabled": false,
+   "ph": null,
+   "r": {
+    "h": 32,
+    "w": 32,
+    "x": 2001,
+    "y": 8
+   },
+   "role": null,
+   "tag": "button",
+   "text": "未连接",
+   "title": null,
+   "type": "button",
+   "value": ""
+  },
+  {
+   "ariaChecked": null,
+   "ariaLabel": "对话",
+   "ariaSelected": "false",
+   "checked": null,
+   "cls": "inline-flex h-12 min-w-8 shrink-0 items-center justify-center gap-1.5 border-b-2 px-1.5 transition @min-[560px]:px-0.5 f",
+   "css": {
+    "bc": "rgba(0, 0, 0, 0)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "0px",
+    "bw": "0px 0px 2px",
+    "color": "rgb(120, 113, 108)",
+    "ff": "-apple-system",
+    "fs": "14px",
+    "fw": "400",
+    "lh": "20px",
+    "pad": "0px 6px"
+   },
+   "disabled": false,
+   "ph": null,
+   "r": {
+    "h": 48,
+    "w": 32,
+    "x": 2106,
+    "y": 0
+   },
+   "role": "tab",
+   "tag": "button",
+   "text": "对话",
+   "title": null,
+   "type": "button",
+   "value": ""
+  },
+  {
+   "ariaChecked": null,
+   "ariaLabel": "历史",
+   "ariaSelected": "false",
+   "checked": null,
+   "cls": "inline-flex h-12 min-w-8 shrink-0 items-center justify-center gap-1.5 border-b-2 px-1.5 transition @min-[560px]:px-0.5 f",
+   "css": {
+    "bc": "rgba(0, 0, 0, 0)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "0px",
+    "bw": "0px 0px 2px",
+    "color": "rgb(120, 113, 108)",
+    "ff": "-apple-system",
+    "fs": "14px",
+    "fw": "400",
+    "lh": "20px",
+    "pad": "0px 6px"
+   },
+   "disabled": false,
+   "ph": null,
+   "r": {
+    "h": 48,
+    "w": 32,
+    "x": 2140,
+    "y": 0
+   },
+   "role": "tab",
+   "tag": "button",
+   "text": "历史",
+   "title": null,
+   "type": "button",
+   "value": ""
+  },
+  {
+   "ariaChecked": null,
+   "ariaLabel": "技能",
+   "ariaSelected": "false",
+   "checked": null,
+   "cls": "inline-flex h-12 min-w-8 shrink-0 items-center justify-center gap-1.5 border-b-2 px-1.5 transition @min-[560px]:px-0.5 f",
+   "css": {
+    "bc": "rgba(0, 0, 0, 0)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "0px",
+    "bw": "0px 0px 2px",
+    "color": "rgb(120, 113, 108)",
+    "ff": "-apple-system",
+    "fs": "14px",
+    "fw": "400",
+    "lh": "20px",
+    "pad": "0px 6px"
+   },
+   "disabled": false,
+   "ph": null,
+   "r": {
+    "h": 48,
+    "w": 32,
+    "x": 2174,
+    "y": 0
+   },
+   "role": "tab",
+   "tag": "button",
+   "text": "技能",
+   "title": null,
+   "type": "button",
+   "value": ""
+  },
+  {
+   "ariaChecked": null,
+   "ariaLabel": "日志 1",
+   "ariaSelected": "false",
+   "checked": null,
+   "cls": "inline-flex h-12 min-w-8 shrink-0 items-center justify-center gap-1.5 border-b-2 px-1.5 transition @min-[560px]:px-0.5 f",
+   "css": {
+    "bc": "rgba(0, 0, 0, 0)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "0px",
+    "bw": "0px 0px 2px",
+    "color": "rgb(120, 113, 108)",
+    "ff": "-apple-system",
+    "fs": "14px",
+    "fw": "400",
+    "lh": "20px",
+    "pad": "0px 6px"
+   },
+   "disabled": false,
+   "ph": null,
+   "r": {
+    "h": 48,
+    "w": 38,
+    "x": 2208,
+    "y": 0
+   },
+   "role": "tab",
+   "tag": "button",
+   "text": "1",
+   "title": null,
+   "type": "button",
+   "value": ""
+  },
+  {
+   "ariaChecked": null,
+   "ariaLabel": "新对话",
+   "ariaSelected": null,
+   "checked": null,
+   "cls": "ant-btn css-dev-only-do-not-override-oc1rc0 infinite-canvas-light ant-btn-text ant-btn-color-default ant-btn-variant-tex",
+   "css": {
+    "bc": "rgba(0, 0, 0, 0)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "4px",
+    "bw": "1px",
+    "color": "rgba(0, 0, 0, 0.25)",
+    "ff": "-apple-system",
+    "fs": "14px",
+    "fw": "400",
+    "lh": "22px",
+    "pad": "0px"
+   },
+   "disabled": true,
+   "ph": null,
+   "r": {
+    "h": 32,
+    "w": 32,
+    "x": 2320,
+    "y": 8
+   },
+   "role": null,
+   "tag": "button",
+   "text": "新对话",
+   "title": null,
+   "type": "button",
+   "value": ""
+  },
+  {
+   "ariaChecked": null,
+   "ariaLabel": "收起 Agent 面板",
+   "ariaSelected": null,
+   "checked": null,
+   "cls": "ant-btn css-dev-only-do-not-override-oc1rc0 infinite-canvas-light ant-btn-circle ant-btn-text ant-btn-color-default ant-",
+   "css": {
+    "bc": "rgba(0, 0, 0, 0)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "50%",
+    "bw": "1px",
+    "color": "rgb(120, 113, 108)",
+    "ff": "-apple-system",
+    "fs": "14px",
+    "fw": "400",
+    "lh": "22px",
+    "pad": "0px"
+   },
+   "disabled": false,
+   "ph": null,
+   "r": {
+    "h": 32,
+    "w": 32,
+    "x": 2356,
+    "y": 8
+   },
+   "role": null,
+   "tag": "button",
+   "text": "",
+   "title": null,
+   "type": "button",
+   "value": ""
+  },
+  {
+   "ariaChecked": null,
+   "ariaLabel": null,
+   "ariaSelected": null,
+   "checked": null,
+   "cls": "ant-btn css-dev-only-do-not-override-oc1rc0 infinite-canvas-light ant-btn-primary ant-btn-color-primary ant-btn-variant-",
+   "css": {
+    "bc": "rgb(23, 23, 23)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "4px",
+    "bw": "1px",
+    "color": "rgb(23, 23, 23)",
+    "ff": "-apple-system",
+    "fs": "14px",
+    "fw": "400",
+    "lh": "22px",
+    "pad": "0px 7px"
+   },
+   "disabled": false,
+   "ph": null,
+   "r": {
+    "h": 24,
+    "w": 66,
+    "x": 2301,
+    "y": 147
+   },
+   "role": null,
+   "tag": "button",
+   "text": "连接",
+   "title": null,
+   "type": "button",
+   "value": ""
+  },
+  {
+   "ariaChecked": null,
+   "ariaLabel": null,
+   "ariaSelected": null,
+   "checked": null,
+   "cls": "ant-btn css-dev-only-do-not-override-oc1rc0 infinite-canvas-light ant-btn-primary ant-btn-color-primary ant-btn-variant-",
+   "css": {
+    "bc": "rgb(23, 23, 23)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "4px",
+    "bw": "1px",
+    "color": "rgb(23, 23, 23)",
+    "ff": "-apple-system",
+    "fs": "14px",
+    "fw": "400",
+    "lh": "22px",
+    "pad": "0px 7px"
+   },
+   "disabled": false,
+   "ph": null,
+   "r": {
+    "h": 24,
+    "w": 66,
+    "x": 2301,
+    "y": 215
+   },
+   "role": null,
+   "tag": "button",
+   "text": "连接",
+   "title": null,
+   "type": "button",
+   "value": ""
+  },
+  {
+   "ariaChecked": null,
+   "ariaLabel": null,
+   "ariaSelected": null,
+   "checked": null,
+   "cls": "ant-btn css-dev-only-do-not-override-oc1rc0 infinite-canvas-light ant-btn-primary ant-btn-color-primary ant-btn-variant-",
+   "css": {
+    "bc": "rgb(23, 23, 23)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "br": "4px",
+    "bw": "1px",
+    "color": "rgb(23, 23, 23)",
+    "ff": "-apple-system",
+    "fs": "14px",
+    "fw": "400",
+    "lh": "22px",
+    "pad": "0px 7px"
+   },
+   "disabled": false,
+   "ph": null,
+   "r": {
+    "h": 24,
+    "w": 66,
+    "x": 2301,
+    "y": 283
+   },
+   "role": null,
+   "tag": "button",
+   "text": "连接",
+   "title": null,
+   "type": "button",
+   "value": ""
+  }
+ ],
+ "labels": [
+  {
+   "css": {
+    "color": "oklch(0.145 0 0)",
+    "ff": "\"SF Pro Display\"",
+    "fs": "16px",
+    "fw": "400"
+   },
+   "r": {
+    "h": 781,
+    "w": 1908,
+    "x": 0,
+    "y": 0
+   },
+   "text": "无限画布 电商套图 智能修图 批量生图 商品图设计 AI视频"
+  },
+  {
+   "css": {
+    "color": "rgba(0, 0, 0, 0.88)",
+    "ff": "-apple-system",
+    "fs": "14px",
+    "fw": "400"
+   },
+   "r": {
+    "h": 781,
+    "w": 1908,
+    "x": 0,
+    "y": 0
+   },
+   "text": "无限画布 电商套图 智能修图 批量生图 商品图设计 AI视频"
+  },
+  {
+   "css": {
+    "color": "rgb(23, 23, 23)",
+    "ff": "-apple-system",
+    "fs": "16px",
+    "fw": "500"
+   },
+   "r": {
+    "h": 24,
+    "w": 63,
+    "x": 52,
+    "y": 18
+   },
+   "text": "无限画布"
+  },
+  {
+   "css": {
+    "color": "oklch(0.145 0 0)",
+    "ff": "-apple-system",
+    "fs": "14px",
+    "fw": "400"
+   },
+   "r": {
+    "h": 59,
+    "w": 585,
+    "x": 139,
+    "y": 0
+   },
+   "text": "电商套图 智能修图 批量生图 商品图设计 AI视频"
+  },
+  {
+   "css": {
+    "color": "oklch(0.145 0 0)",
+    "ff": "-apple-system",
+    "fs": "14px",
+    "fw": "400"
+   },
+   "r": {
+    "h": 59,
+    "w": 114,
+    "x": 139,
+    "y": 0
+   },
+   "text": "电商套图"
+  },
+  {
+   "css": {
+    "color": "rgb(23, 23, 23)",
+    "ff": "-apple-system",
+    "fs": "14px",
+    "fw": "400"
+   },
+   "r": {
+    "h": 24,
+    "w": 56,
+    "x": 169,
+    "y": 16
+   },
+   "text": "电商套图"
+  },
+  {
+   "css": {
+    "color": "oklch(0.145 0 0)",
+    "ff": "-apple-system",
+    "fs": "14px",
+    "fw": "400"
+   },
+   "r": {
+    "h": 59,
+    "w": 114,
+    "x": 257,
+    "y": 0
+   },
+   "text": "智能修图"
+  },
+  {
+   "css": {
+    "color": "rgb(23, 23, 23)",
+    "ff": "-apple-system",
+    "fs": "14px",
+    "fw": "400"
+   },
+   "r": {
+    "h": 24,
+    "w": 56,
+    "x": 287,
+    "y": 16
+   },
+   "text": "智能修图"
+  },
+  {
+   "css": {
+    "color": "oklch(0.145 0 0)",
+    "ff": "-apple-system",
+    "fs": "14px",
+    "fw": "400"
+   },
+   "r": {
+    "h": 59,
+    "w": 114,
+    "x": 375,
+    "y": 0
+   },
+   "text": "批量生图"
+  },
+  {
+   "css": {
+    "color": "rgb(23, 23, 23)",
+    "ff": "-apple-system",
+    "fs": "14px",
+    "fw": "400"
+   },
+   "r": {
+    "h": 24,
+    "w": 56,
+    "x": 405,
+    "y": 16
+   },
+   "text": "批量生图"
+  },
+  {
+   "css": {
+    "color": "oklch(0.145 0 0)",
+    "ff": "-apple-system",
+    "fs": "14px",
+    "fw": "400"
+   },
+   "r": {
+    "h": 59,
+    "w": 128,
+    "x": 493,
+    "y": 0
+   },
+   "text": "商品图设计"
+  },
+  {
+   "css": {
+    "color": "rgb(23, 23, 23)",
+    "ff": "-apple-system",
+    "fs": "14px",
+    "fw": "500"
+   },
+   "r": {
+    "h": 24,
+    "w": 70,
+    "x": 523,
+    "y": 16
+   },
+   "text": "商品图设计"
+  },
+  {
+   "css": {
+    "color": "oklch(0.145 0 0)",
+    "ff": "-apple-system",
+    "fs": "14px",
+    "fw": "400"
+   },
+   "r": {
+    "h": 59,
+    "w": 99,
+    "x": 625,
+    "y": 0
+   },
+   "text": "AI视频"
+  },
+  {
+   "css": {
+    "color": "rgb(23, 23, 23)",
+    "ff": "-apple-system",
+    "fs": "14px",
+    "fw": "400"
+   },
+   "r": {
+    "h": 24,
+    "w": 41,
+    "x": 655,
+    "y": 16
+   },
+   "text": "AI视频"
+  },
+  {
+   "css": {
+    "color": "oklch(0.145 0 0)",
+    "ff": "-apple-system",
+    "fs": "14px",
+    "fw": "500"
+   },
+   "r": {
+    "h": 22,
+    "w": 47,
+    "x": 1794,
+    "y": 19
+   },
+   "text": "v0.27.0"
+  },
+  {
+   "css": {
+    "color": "oklch(0.145 0 0)",
+    "ff": "-apple-system",
+    "fs": "14px",
+    "fw": "400"
+   },
+   "r": {
+    "h": 721,
+    "w": 1908,
+    "x": 0,
+    "y": 60
+   },
+   "text": "电商套图 商品套图 服装套图 套图换色 批量翻译 高清放大 "
+  },
+  {
+   "css": {
+    "color": "rgba(0, 0, 0, 0.6)",
+    "ff": "-apple-system",
+    "fs": "16px",
+    "fw": "400"
+   },
+   "r": {
+    "h": 20,
+    "w": 64,
+    "x": 44,
+    "y": 70
+   },
+   "text": "商品套图"
+  },
+  {
+   "css": {
+    "color": "rgba(0, 0, 0, 0.6)",
+    "ff": "-apple-system",
+    "fs": "16px",
+    "fw": "400"
+   },
+   "r": {
+    "h": 20,
+    "w": 64,
+    "x": 44,
+    "y": 110
+   },
+   "text": "服装套图"
+  },
+  {
+   "css": {
+    "color": "rgba(0, 0, 0, 0.6)",
+    "ff": "-apple-system",
+    "fs": "16px",
+    "fw": "400"
+   },
+   "r": {
+    "h": 20,
+    "w": 64,
+    "x": 44,
+    "y": 150
+   },
+   "text": "套图换色"
+  },
+  {
+   "css": {
+    "color": "rgba(0, 0, 0, 0.6)",
+    "ff": "-apple-system",
+    "fs": "16px",
+    "fw": "400"
+   },
+   "r": {
+    "h": 20,
+    "w": 64,
+    "x": 44,
+    "y": 190
+   },
+   "text": "批量翻译"
+  },
+  {
+   "css": {
+    "color": "rgba(0, 0, 0, 0.6)",
+    "ff": "-apple-system",
+    "fs": "16px",
+    "fw": "400"
+   },
+   "r": {
+    "h": 20,
+    "w": 64,
+    "x": 44,
+    "y": 230
+   },
+   "text": "高清放大"
+  },
+  {
+   "css": {
+    "color": "rgba(0, 0, 0, 0.6)",
+    "ff": "-apple-system",
+    "fs": "16px",
+    "fw": "400"
+   },
+   "r": {
+    "h": 20,
+    "w": 64,
+    "x": 44,
+    "y": 270
+   },
+   "text": "智能扩图"
+  },
+  {
+   "css": {
+    "color": "rgba(0, 0, 0, 0.6)",
+    "ff": "-apple-system",
+    "fs": "16px",
+    "fw": "400"
+   },
+   "r": {
+    "h": 20,
+    "w": 64,
+    "x": 44,
+    "y": 341
+   },
+   "text": "局部重绘"
+  },
+  {
+   "css": {
+    "color": "rgba(0, 0, 0, 0.6)",
+    "ff": "-apple-system",
+    "fs": "16px",
+    "fw": "400"
+   },
+   "r": {
+    "h": 20,
+    "w": 64,
+    "x": 44,
+    "y": 381
+   },
+   "text": "局部消除"
+  },
+  {
+   "css": {
+    "color": "rgba(0, 0, 0, 0.6)",
+    "ff": "-apple-system",
+    "fs": "16px",
+    "fw": "400"
+   },
+   "r": {
+    "h": 20,
+    "w": 64,
+    "x": 44,
+    "y": 421
+   },
+   "text": "一键换色"
+  },
+  {
+   "css": {
+    "color": "rgba(0, 0, 0, 0.6)",
+    "ff": "-apple-system",
+    "fs": "16px",
+    "fw": "400"
+   },
+   "r": {
+    "h": 20,
+    "w": 64,
+    "x": 44,
+    "y": 461
+   },
+   "text": "图片裁剪"
+  },
+  {
+   "css": {
+    "color": "rgba(0, 0, 0, 0.6)",
+    "ff": "-apple-system",
+    "fs": "16px",
+    "fw": "400"
+   },
+   "r": {
+    "h": 20,
+    "w": 64,
+    "x": 44,
+    "y": 501
+   },
+   "text": "商品精修"
+  },
+  {
+   "css": {
+    "color": "rgba(0, 0, 0, 0.6)",
+    "ff": "-apple-system",
+    "fs": "16px",
+    "fw": "400"
+   },
+   "r": {
+    "h": 20,
+    "w": 64,
+    "x": 44,
+    "y": 541
+   },
+   "text": "色差修复"
+  },
+  {
+   "css": {
+    "color": "rgba(0, 0, 0, 0.6)",
+    "ff": "-apple-system",
+    "fs": "16px",
+    "fw": "400"
+   },
+   "r": {
+    "h": 20,
+    "w": 64,
+    "x": 44,
+    "y": 581
+   },
+   "text": "印花修复"
+  },
+  {
+   "css": {
+    "color": "rgba(0, 0, 0, 0.6)",
+    "ff": "-apple-system",
+    "fs": "16px",
+    "fw": "400"
+   },
+   "r": {
+    "h": 20,
+    "w": 64,
+    "x": 44,
+    "y": 621
+   },
+   "text": "手部修复"
+  },
+  {
+   "css": {
+    "color": "oklab(0 0 0 / 0.45)",
+    "ff": "-apple-system",
+    "fs": "12px",
+    "fw": "400"
+   },
+   "r": {
+    "h": 36,
+    "w": 179,
+    "x": 0,
+    "y": 682
+   },
+   "text": "该分类尚无已注册工具"
+  },
+  {
+   "css": {
+    "color": "rgba(0, 0, 0, 0.6)",
+    "ff": "-apple-system",
+    "fs": "16px",
+    "fw": "400"
+   },
+   "r": {
+    "h": 20,
+    "w": 48,
+    "x": 44,
+    "y": 757
+   },
+   "text": "商品图"
+  },
+  {
+   "css": {
+    "color": "rgba(0, 0, 0, 0.6)",
+    "ff": "-apple-system",
+    "fs": "16px",
+    "fw": "400"
+   },
+   "r": {
+    "h": 20,
+    "w": 64,
+    "x": 44,
+    "y": 797
+   },
+   "text": "商品替换"
+  },
+  {
+   "css": {
+    "color": "rgba(0, 0, 0, 0.6)",
+    "ff": "-apple-system",
+    "fs": "16px",
+    "fw": "400"
+   },
+   "r": {
+    "h": 20,
+    "w": 64,
+    "x": 44,
+    "y": 837
+   },
+   "text": "场景裂变"
+  },
+  {
+   "css": {
+    "color": "rgba(0, 0, 0, 0.6)",
+    "ff": "-apple-system",
+    "fs": "16px",
+    "fw": "400"
+   },
+   "r": {
+    "h": 20,
+    "w": 64,
+    "x": 44,
+    "y": 877
+   },
+   "text": "手持商品"
+  },
+  {
+   "css": {
+    "color": "rgba(0, 0, 0, 0.6)",
+    "ff": "-apple-system",
+    "fs": "16px",
+    "fw": "400"
+   },
+   "r": {
+    "h": 20,
+    "w": 46,
+    "x": 44,
+    "y": 917
+   },
+   "text": "AI穿衣"
+  },
+  {
+   "css": {
+    "color": "rgba(0, 0, 0, 0.6)",
+    "ff": "-apple-system",
+    "fs": "16px",
+    "fw": "400"
+   },
+   "r": {
+    "h": 20,
+    "w": 64,
+    "x": 44,
+    "y": 957
+   },
+   "text": "姿势裂变"
+  },
+  {
+   "css": {
+    "color": "rgba(0, 0, 0, 0.6)",
+    "ff": "-apple-system",
+    "fs": "16px",
+    "fw": "400"
+   },
+   "r": {
+    "h": 20,
+    "w": 46,
+    "x": 44,
+    "y": 997
+   },
+   "text": "AI穿戴"
+  },
+  {
+   "css": {
+    "color": "rgb(114, 60, 249)",
+    "ff": "-apple-system",
+    "fs": "16px",
+    "fw": "400"
+   },
+   "r": {
+    "h": 20,
+    "w": 65,
+    "x": 44,
+    "y": 1037
+   },
+   "text": "POD素材"
+  },
+  {
+   "css": {
+    "color": "rgba(0, 0, 0, 0.6)",
+    "ff": "-apple-system",
+    "fs": "16px",
+    "fw": "400"
+   },
+   "r": {
+    "h": 20,
+    "w": 64,
+    "x": 44,
+    "y": 1077
+   },
+   "text": "饰品文字"
+  },
+  {
+   "css": {
+    "color": "rgba(0, 0, 0, 0.6)",
+    "ff": "-apple-system",
+    "fs": "16px",
+    "fw": "400"
+   },
+   "r": {
+    "h": 20,
+    "w": 64,
+    "x": 44,
+    "y": 1117
+   },
+   "text": "素材贴合"
+  },
+  {
+   "css": {
+    "color": "rgba(0, 0, 0, 0.6)",
+    "ff": "-apple-system",
+    "fs": "16px",
+    "fw": "400"
+   },
+   "r": {
+    "h": 20,
+    "w": 64,
+    "x": 44,
+    "y": 1157
+   },
+   "text": "印花提取"
+  },
+  {
+   "css": {
+    "color": "rgba(0, 0, 0, 0.6)",
+    "ff": "-apple-system",
+    "fs": "16px",
+    "fw": "400"
+   },
+   "r": {
+    "h": 20,
+    "w": 78,
+    "x": 44,
+    "y": 1197
+   },
+   "text": "AI姿势生成"
+  },
+  {
+   "css": {
+    "color": "oklab(0 0 0 / 0.45)",
+    "ff": "-apple-system",
+    "fs": "10px",
+    "fw": "400"
+   },
+   "r": {
+    "h": 18,
+    "w": 30,
+    "x": 137,
+    "y": 1198
+   },
+   "text": "补充"
+  },
+  {
+   "css": {
+    "color": "rgba(0, 0, 0, 0.6)",
+    "ff": "-apple-system",
+    "fs": "16px",
+    "fw": "400"
+   },
+   "r": {
+    "h": 20,
+    "w": 77,
+    "x": 44,
+    "y": 1237
+   },
+   "text": "AI试衣XSY"
+  },
+  {
+   "css": {
+    "color": "oklab(0 0 0 / 0.45)",
+    "ff": "-apple-system",
+    "fs": "10px",
+    "fw": "400"
+   },
+   "r": {
+    "h": 18,
+    "w": 30,
+    "x": 137,
+    "y": 1238
+   },
+   "text": "补充"
+  },
+  {
+   "css": {
+    "color": "rgba(0, 0, 0, 0.6)",
+    "ff": "-apple-system",
+    "fs": "16px",
+    "fw": "400"
+   },
+   "r": {
+    "h": 20,
+    "w": 83,
+    "x": 44,
+    "y": 1277
+   },
+   "text": "场景裂变链接"
+  },
+  {
+   "css": {
+    "color": "oklab(0 0 0 / 0.45)",
+    "ff": "-apple-system",
+    "fs": "10px",
+    "fw": "400"
+   },
+   "r": {
+    "h": 18,
+    "w": 30,
+    "x": 137,
+    "y": 1278
+   },
+   "text": "补充"
+  },
+  {
+   "css": {
+    "color": "rgba(0, 0, 0, 0.6)",
+    "ff": "-apple-system",
+    "fs": "16px",
+    "fw": "400"
+   },
+   "r": {
+    "h": 20,
+    "w": 83,
+    "x": 44,
+    "y": 1317
+   },
+   "text": "图片文字编辑"
+  },
+  {
+   "css": {
+    "color": "oklab(0 0 0 / 0.45)",
+    "ff": "-apple-system",
+    "fs": "10px",
+    "fw": "400"
+   },
+   "r": {
+    "h": 18,
+    "w": 30,
+    "x": 137,
+    "y": 1318
+   },
+   "text": "补充"
+  },
+  {
+   "css": {
+    "color": "rgba(0, 0, 0, 0.6)",
+    "ff": "-apple-system",
+    "fs": "16px",
+    "fw": "400"
+   },
+   "r": {
+    "h": 20,
+    "w": 64,
+    "x": 44,
+    "y": 1357
+   },
+   "text": "上装换料"
+  },
+  {
+   "css": {
+    "color": "oklab(0 0 0 / 0.45)",
+    "ff": "-apple-system",
+    "fs": "10px",
+    "fw": "400"
+   },
+   "r": {
+    "h": 18,
+    "w": 30,
+    "x": 137,
+    "y": 1358
+   },
+   "text": "补充"
+  },
+  {
+   "css": {
+    "color": "rgba(0, 0, 0, 0.6)",
+    "ff": "-apple-system",
+    "fs": "16px",
+    "fw": "400"
+   },
+   "r": {
+    "h": 20,
+    "w": 83,
+    "x": 44,
+    "y": 1397
+   },
+   "text": "商品图设计器"
+  },
+  {
+   "css": {
+    "color": "oklab(0 0 0 / 0.45)",
+    "ff": "-apple-system",
+    "fs": "10px",
+    "fw": "400"
+   },
+   "r": {
+    "h": 18,
+    "w": 30,
+    "x": 137,
+    "y": 1398
+   },
+   "text": "补充"
+  },
+  {
+   "css": {
+    "color": "rgba(0, 0, 0, 0.6)",
+    "ff": "-apple-system",
+    "fs": "16px",
+    "fw": "400"
+   },
+   "r": {
+    "h": 20,
+    "w": 83,
+    "x": 44,
+    "y": 1437
+   },
+   "text": "商品营销素材"
+  },
+  {
+   "css": {
+    "color": "oklab(0 0 0 / 0.45)",
+    "ff": "-apple-system",
+    "fs": "10px",
+    "fw": "400"
+   },
+   "r": {
+    "h": 18,
+    "w": 30,
+    "x": 137,
+    "y": 1438
+   },
+   "text": "补充"
+  },
+  {
+   "css": {
+    "color": "rgba(0, 0, 0, 0.6)",
+    "ff": "-apple-system",
+    "fs": "16px",
+    "fw": "400"
+   },
+   "r": {
+    "h": 20,
+    "w": 64,
+    "x": 44,
+    "y": 1477
+   },
+   "text": "场景迁移"
+  },
+  {
+   "css": {
+    "color": "oklab(0 0 0 / 0.45)",
+    "ff": "-apple-system",
+    "fs": "10px",
+    "fw": "400"
+   },
+   "r": {
+    "h": 18,
+    "w": 30,
+    "x": 137,
+    "y": 1478
+   },
+   "text": "补充"
+  },
+  {
+   "css": {
+    "color": "rgba(0, 0, 0, 0.6)",
+    "ff": "-apple-system",
+    "fs": "16px",
+    "fw": "400"
+   },
+   "r": {
+    "h": 20,
+    "w": 64,
+    "x": 44,
+    "y": 1548
+   },
+   "text": "图转视频"
+  },
+  {
+   "css": {
+    "color": "rgba(0, 0, 0, 0.6)",
+    "ff": "-apple-system",
+    "fs": "16px",
+    "fw": "400"
+   },
+   "r": {
+    "h": 20,
+    "w": 64,
+    "x": 44,
+    "y": 1588
+   },
+   "text": "带货口播"
+  },
+  {
+   "css": {
+    "color": "rgba(0, 0, 0, 0.6)",
+    "ff": "-apple-system",
+    "fs": "16px",
+    "fw": "400"
+   },
+   "r": {
+    "h": 20,
+    "w": 64,
+    "x": 44,
+    "y": 1628
+   },
+   "text": "视频复刻"
+  },
+  {
+   "css": {
+    "color": "rgba(0, 0, 0, 0.6)",
+    "ff": "-apple-system",
+    "fs": "16px",
+    "fw": "400"
+   },
+   "r": {
+    "h": 20,
+    "w": 64,
+    "x": 44,
+    "y": 1668
+   },
+   "text": "视频编辑"
+  },
+  {
+   "css": {
+    "color": "rgba(0, 0, 0, 0.6)",
+    "ff": "-apple-system",
+    "fs": "16px",
+    "fw": "400"
+   },
+   "r": {
+    "h": 20,
+    "w": 64,
+    "x": 44,
+    "y": 1708
+   },
+   "text": "视频翻译"
+  },
+  {
+   "css": {
+    "color": "rgba(0, 0, 0, 0.6)",
+    "ff": "-apple-system",
+    "fs": "16px",
+    "fw": "400"
+   },
+   "r": {
+    "h": 20,
+    "w": 64,
+    "x": 44,
+    "y": 1748
+   },
+   "text": "视频拼接"
+  },
+  {
+   "css": {
+    "color": "oklab(0 0 0 / 0.45)",
+    "ff": "-apple-system",
+    "fs": "10px",
+    "fw": "400"
+   },
+   "r": {
+    "h": 18,
+    "w": 30,
+    "x": 137,
+    "y": 1749
+   },
+   "text": "补充"
+  },
+  {
+   "css": {
+    "color": "oklch(0.556 0 0)",
+    "ff": "-apple-system",
+    "fs": "12px",
+    "fw": "400"
+   },
+   "r": {
+    "h": 20,
+    "w": 1688,
+    "x": 200,
+    "y": 68
+   },
+   "text": "商品图设计 / POD素材"
+  },
+  {
+   "css": {
+    "color": "oklch(0.145 0 0)",
+    "ff": "-apple-system",
+    "fs": "14px",
+    "fw": "400"
+   },
+   "r": {
+    "h": 32,
+    "w": 1688,
+    "x": 200,
+    "y": 88
+   },
+   "text": "POD素材"
+  },
+  {
+   "css": {
+    "color": "oklch(0.556 0 0)",
+    "ff": "-apple-system",
+    "fs": "12px",
+    "fw": "400"
+   },
+   "r": {
+    "h": 20,
+    "w": 1688,
+    "x": 200,
+    "y": 120
+   },
+   "text": "/tools/product-design/ai-text"
+  },
+  {
+   "css": {
+    "color": "oklch(0.556 0 0)",
+    "ff": "-apple-system",
+    "fs": "12px",
+    "fw": "400"
+   },
+   "r": {
+    "h": 16,
+    "w": 376,
+    "x": 200,
+    "y": 214
+   },
+   "text": "图案 / 文字素材生成，支持平铺规则、案例变体与真实 pro"
+  },
+  {
+   "css": {
+    "color": "oklch(0.556 0 0)",
+    "ff": "-apple-system",
+    "fs": "12px",
+    "fw": "400"
+   },
+   "r": {
+    "h": 26,
+    "w": 221,
+    "x": 1509,
+    "y": 216
+   },
+   "text": "目录：模式 / 比例 / 风格 / 中文风格"
+  },
+  {
+   "css": {
+    "color": "oklch(0.145 0 0)",
+    "ff": "-apple-system",
+    "fs": "12px",
+    "fw": "400"
+   },
+   "r": {
+    "h": 24,
+    "w": 150,
+    "x": 1738,
+    "y": 217
+   },
+   "text": "default::gpt-image-2"
+  },
+  {
+   "css": {
+    "color": "oklch(0.145 0 0)",
+    "ff": "-apple-system",
+    "fs": "14px",
+    "fw": "400"
+   },
+   "r": {
+    "h": 211,
+    "w": 320,
+    "x": 200,
+    "y": 258
+   },
+   "text": "上传底图（参考图） 0 / 1 个 · PNG / JPG "
+  },
+  {
+   "css": {
+    "color": "oklch(0.553 0.013 58.071)",
+    "ff": "-apple-system",
+    "fs": "12px",
+    "fw": "400"
+   },
+   "r": {
+    "h": 32,
+    "w": 176,
+    "x": 331,
+    "y": 274
+   },
+   "text": "0 / 1 个 · PNG / JPG / WebP · ≤"
+  },
+  {
+   "css": {
+    "color": "oklch(0.374 0.01 67.558)",
+    "ff": "-apple-system",
+    "fs": "12px",
+    "fw": "400"
+   },
+   "r": {
+    "h": 16,
+    "w": 180,
+    "x": 270,
+    "y": 355
+   },
+   "text": "点击选择本地文件，或拖拽到这里"
+  },
+  {
+   "css": {
+    "color": "oklch(0.553 0.013 58.071)",
+    "ff": "-apple-system",
+    "fs": "12px",
+    "fw": "400"
+   },
+   "r": {
+    "h": 16,
+    "w": 225,
+    "x": 248,
+    "y": 375
+   },
+   "text": "校验格式 / 大小 / 像素，入库后可刷新恢复"
+  },
+  {
+   "css": {
+    "color": "oklch(0.553 0.013 58.071)",
+    "ff": "-apple-system",
+    "fs": "12px",
+    "fw": "400"
+   },
+   "r": {
+    "h": 16,
+    "w": 294,
+    "x": 213,
+    "y": 428
+   },
+   "text": "还没有素材"
+  },
+  {
+   "css": {
+    "color": "oklch(0.556 0 0)",
+    "ff": "-apple-system",
+    "fs": "12px",
+    "fw": "500"
+   },
+   "r": {
+    "h": 57,
+    "w": 294,
+    "x": 213,
+    "y": 494
+   },
+   "text": "素材模式 请选择 图案素材 文字素材 图案 + 文字"
+  },
+  {
+   "css": {
+    "color": "oklch(0.556 0 0)",
+    "ff": "-apple-system",
+    "fs": "12px",
+    "fw": "500"
+   },
+   "r": {
+    "h": 57,
+    "w": 294,
+    "x": 213,
+    "y": 563
+   },
+   "text": "输出比例 请选择 1:1 4:5 3:4 2:3 3:2 4"
+  },
+  {
+   "css": {
+    "color": "oklch(0.556 0 0)",
+    "ff": "-apple-system",
+    "fs": "12px",
+    "fw": "500"
+   },
+   "r": {
+    "h": 57,
+    "w": 294,
+    "x": 213,
+    "y": 632
+   },
+   "text": "风格 不指定 Vintage Minimal Floral "
+  },
+  {
+   "css": {
+    "color": "oklch(0.556 0 0)",
+    "ff": "-apple-system",
+    "fs": "12px",
+    "fw": "500"
+   },
+   "r": {
+    "h": 57,
+    "w": 294,
+    "x": 213,
+    "y": 701
+   },
+   "text": "中文风格 不指定 复古 极简 花卉 几何 卡通 手绘 复古海"
+  },
+  {
+   "css": {
+    "color": "oklch(0.556 0 0)",
+    "ff": "-apple-system",
+    "fs": "12px",
+    "fw": "500"
+   },
+   "r": {
+    "h": 56,
+    "w": 294,
+    "x": 213,
+    "y": 770
+   },
+   "text": "输出数量（1–15）"
+  },
+  {
+   "css": {
+    "color": "oklch(0.556 0 0)",
+    "ff": "-apple-system",
+    "fs": "11px",
+    "fw": "500"
+   },
+   "r": {
+    "h": 15,
+    "w": 294,
+    "x": 213,
+    "y": 1034
+   },
+   "text": "0/200"
+  },
+  {
+   "css": {
+    "color": "oklch(0.145 0 0)",
+    "ff": "-apple-system",
+    "fs": "14px",
+    "fw": "400"
+   },
+   "r": {
+    "h": 72,
+    "w": 294,
+    "x": 213,
+    "y": 1061
+   },
+   "text": "自动扩写提示词 本地确定性扩写，不调用上游；扩写结果会进预览"
+  },
+  {
+   "css": {
+    "color": "oklch(0.145 0 0)",
+    "ff": "-apple-system",
+    "fs": "14px",
+    "fw": "400"
+   },
+   "r": {
+    "h": 20,
+    "w": 255,
+    "x": 243,
+    "y": 1070
+   },
+   "text": "自动扩写提示词"
+  },
+  {
+   "css": {
+    "color": "oklch(0.556 0 0)",
+    "ff": "-apple-system",
+    "fs": "11px",
+    "fw": "400"
+   },
+   "r": {
+    "h": 32,
+    "w": 255,
+    "x": 243,
+    "y": 1092
+   },
+   "text": "本地确定性扩写，不调用上游；扩写结果会进预览与真实请求。"
+  },
+  {
+   "css": {
+    "color": "oklch(0.145 0 0)",
+    "ff": "-apple-system",
+    "fs": "14px",
+    "fw": "400"
+   },
+   "r": {
+    "h": 20,
+    "w": 143,
+    "x": 237,
+    "y": 1145
+   },
+   "text": "增强变化强度"
+  },
+  {
+   "css": {
+    "color": "oklch(0.556 0 0)",
+    "ff": "-apple-system",
+    "fs": "11px",
+    "fw": "400"
+   },
+   "r": {
+    "h": 16,
+    "w": 143,
+    "x": 237,
+    "y": 1167
+   },
+   "text": "同风格下的构图差异更明显。"
+  },
+  {
+   "css": {
+    "color": "oklch(0.145 0 0)",
+    "ff": "-apple-system",
+    "fs": "14px",
+    "fw": "400"
+   },
+   "r": {
+    "h": 20,
+    "w": 112,
+    "x": 237,
+    "y": 1195
+   },
+   "text": "作为案例变体提交"
+  },
+  {
+   "css": {
+    "color": "oklch(0.145 0 0)",
+    "ff": "-apple-system",
+    "fs": "14px",
+    "fw": "400"
+   },
+   "r": {
+    "h": 20,
+    "w": 112,
+    "x": 237,
+    "y": 1195
+   },
+   "text": "作为案例变体提交"
+  },
+  {
+   "css": {
+    "color": "oklch(0.145 0 0)",
+    "ff": "-apple-system",
+    "fs": "14px",
+    "fw": "500"
+   },
+   "r": {
+    "h": 20,
+    "w": 274,
+    "x": 549,
+    "y": 272
+   },
+   "text": "平铺预览"
+  },
+  {
+   "css": {
+    "color": "oklch(0.556 0 0)",
+    "ff": "-apple-system",
+    "fs": "11px",
+    "fw": "400"
+   },
+   "r": {
+    "h": 17,
+    "w": 274,
+    "x": 549,
+    "y": 292
+   },
+   "text": "不平铺（单图） · 只输出一张独立图案，适合单面印刷。"
+  },
+  {
+   "css": {
+    "color": "oklch(0.145 0 0)",
+    "ff": "-apple-system",
+    "fs": "14px",
+    "fw": "400"
+   },
+   "r": {
+    "h": 928,
+    "w": 928,
+    "x": 550,
+    "y": 324
+   },
+   "text": "待上传"
+  },
+  {
+   "css": {
+    "color": "oklch(0.145 0 0)",
+    "ff": "-apple-system",
+    "fs": "14px",
+    "fw": "400"
+   },
+   "r": {
+    "h": 928,
+    "w": 928,
+    "x": 550,
+    "y": 324
+   },
+   "text": "待上传"
+  },
+  {
+   "css": {
+    "color": "oklch(0.556 0 0)",
+    "ff": "-apple-system",
+    "fs": "11px",
+    "fw": "400"
+   },
+   "r": {
+    "h": 926,
+    "w": 926,
+    "x": 551,
+    "y": 325
+   },
+   "text": "待上传"
+  },
+  {
+   "css": {
+    "color": "oklch(0.145 0 0)",
+    "ff": "-apple-system",
+    "fs": "11px",
+    "fw": "400"
+   },
+   "r": {
+    "h": 29,
+    "w": 53,
+    "x": 988,
+    "y": 773
+   },
+   "text": "文字区"
+  },
+  {
+   "css": {
+    "color": "oklch(0.769 0.188 70.08)",
+    "ff": "-apple-system",
+    "fs": "12px",
+    "fw": "400"
+   },
+   "r": {
+    "h": 16,
+    "w": 272,
+    "x": 1537,
+    "y": 271
+   },
+   "text": "请先上传用于生成 POD 素材的参考图或文字底图。"
+  },
+  {
+   "css": {
+    "color": "oklch(0.769 0.188 70.08)",
+    "ff": "-apple-system",
+    "fs": "12px",
+    "fw": "400"
+   },
+   "r": {
+    "h": 16,
+    "w": 96,
+    "x": 1537,
+    "y": 291
+   },
+   "text": "请选择素材模式。"
+  },
+  {
+   "css": {
+    "color": "oklch(0.769 0.188 70.08)",
+    "ff": "-apple-system",
+    "fs": "12px",
+    "fw": "400"
+   },
+   "r": {
+    "h": 16,
+    "w": 96,
+    "x": 1537,
+    "y": 311
+   },
+   "text": "请选择输出比例。"
+  },
+  {
+   "css": {
+    "color": "oklch(0.769 0.188 70.08)",
+    "ff": "-apple-system",
+    "fs": "12px",
+    "fw": "400"
+   },
+   "r": {
+    "h": 16,
+    "w": 228,
+    "x": 1537,
+    "y": 331
+   },
+   "text": "简易文字模式下请填写要生成的文字内容。"
+  },
+  {
+   "css": {
+    "color": "oklch(0.556 0 0)",
+    "ff": "-apple-system",
+    "fs": "11px",
+    "fw": "400"
+   },
+   "r": {
+    "h": 32,
+    "w": 354,
+    "x": 1521,
+    "y": 367
+   },
+   "text": "模式 / 风格 / 比例为页面目录取值（POD 素材 chu"
+  },
+  {
+   "css": {
+    "color": "oklch(0.556 0 0)",
+    "ff": "-apple-system",
+    "fs": "12px",
+    "fw": "400"
+   },
+   "r": {
+    "h": 16,
+    "w": 354,
+    "x": 1521,
+    "y": 470
+   },
+   "text": "尚无结果：上传素材并完成配置后提交。"
+  },
+  {
+   "css": {
+    "color": "oklch(0.556 0 0)",
+    "ff": "-apple-system",
+    "fs": "14px",
+    "fw": "400"
+   },
+   "r": {
+    "h": 20,
+    "w": 312,
+    "x": 1542,
+    "y": 644
+   },
+   "text": "还没有生成结果"
+  },
+  {
+   "css": {
+    "color": "oklch(0.556 0 0)",
+    "ff": "-apple-system",
+    "fs": "12px",
+    "fw": "400"
+   },
+   "r": {
+    "h": 32,
+    "w": 312,
+    "x": 1542,
+    "y": 678
+   },
+   "text": "填好参数并提交后，结果会出现在这里，可预览、下载、存入资产库"
+  },
+  {
+   "css": {
+    "color": "oklch(0.145 0 0)",
+    "ff": "-apple-system",
+    "fs": "12px",
+    "fw": "500"
+   },
+   "r": {
+    "h": 16,
+    "w": 66,
+    "x": 213,
+    "y": 1394
+   },
+   "text": "历史任务"
+  },
+  {
+   "css": {
+    "color": "oklch(0.556 0 0)",
+    "ff": "-apple-system",
+    "fs": "11px",
+    "fw": "400"
+   },
+   "r": {
+    "h": 17,
+    "w": 21,
+    "x": 1854,
+    "y": 1393
+   },
+   "text": "0 条"
+  },
+  {
+   "css": {
+    "color": "oklch(0.556 0 0)",
+    "ff": "-apple-system",
+    "fs": "11px",
+    "fw": "400"
+   },
+   "r": {
+    "h": 17,
+    "w": 1662,
+    "x": 213,
+    "y": 1418
+   },
+   "text": "本工具还没有历史任务；提交一次后会在这里留下任务、配置与结果"
+  },
+  {
+   "css": {
+    "color": "rgb(41, 37, 36)",
+    "ff": "-apple-system",
+    "fs": "14px",
+    "fw": "400"
+   },
+   "r": {
+    "h": 49,
+    "w": 439,
+    "x": 1957,
+    "y": 0
+   },
+   "text": "1"
+  },
+  {
+   "css": {
+    "color": "rgb(41, 37, 36)",
+    "ff": "-apple-system",
+    "fs": "14px",
+    "fw": "400"
+   },
+   "r": {
+    "h": 32,
+    "w": 68,
+    "x": 1965,
+    "y": 8
+   },
+   "text": "Agent未连接"
+  },
+  {
+   "css": {
+    "color": "rgb(120, 113, 108)",
+    "ff": "-apple-system",
+    "fs": "10px",
+    "fw": "400"
+   },
+   "r": {
+    "h": 10,
+    "w": 6,
+    "x": 2234,
+    "y": 18
+   },
+   "text": "1"
+  },
+  {
+   "css": {
+    "color": "rgb(41, 37, 36)",
+    "ff": "-apple-system",
+    "fs": "14px",
+    "fw": "400"
+   },
+   "r": {
+    "h": 732,
+    "w": 439,
+    "x": 1957,
+    "y": 49
+   },
+   "text": "连接本地 Agent 未连接 点连接会自动启动本地服务、装好"
+  },
+  {
+   "css": {
+    "color": "rgb(41, 37, 36)",
+    "ff": "-apple-system",
+    "fs": "16px",
+    "fw": "600"
+   },
+   "r": {
+    "h": 24,
+    "w": 113,
+    "x": 1973,
+    "y": 65
+   },
+   "text": "连接本地 Agent"
+  },
+  {
+   "css": {
+    "color": "rgb(120, 113, 108)",
+    "ff": "-apple-system",
+    "fs": "11px",
+    "fw": "400"
+   },
+   "r": {
+    "h": 16,
+    "w": 33,
+    "x": 2338,
+    "y": 69
+   },
+   "text": "未连接"
+  },
+  {
+   "css": {
+    "color": "rgb(120, 113, 108)",
+    "ff": "-apple-system",
+    "fs": "12px",
+    "fw": "400"
+   },
+   "r": {
+    "h": 20,
+    "w": 407,
+    "x": 1973,
+    "y": 93
+   },
+   "text": "点连接会自动启动本地服务、装好插件并接通，无需手动配置。"
+  },
+  {
+   "css": {
+    "color": "rgb(41, 37, 36)",
+    "ff": "-apple-system",
+    "fs": "14px",
+    "fw": "400"
+   },
+   "r": {
+    "h": 60,
+    "w": 407,
+    "x": 1973,
+    "y": 129
+   },
+   "text": "Claude Code 未连接 · CLI · 2.1.28"
+  },
+  {
+   "css": {
+    "color": "rgb(41, 37, 36)",
+    "ff": "-apple-system",
+    "fs": "14px",
+    "fw": "500"
+   },
+   "r": {
+    "h": 20,
+    "w": 303,
+    "x": 1986,
+    "y": 140
+   },
+   "text": "Claude Code"
+  },
+  {
+   "css": {
+    "color": "rgb(120, 113, 108)",
+    "ff": "-apple-system",
+    "fs": "11px",
+    "fw": "400"
+   },
+   "r": {
+    "h": 16,
+    "w": 33,
+    "x": 1986,
+    "y": 162
+   },
+   "text": "未连接"
+  },
+  {
+   "css": {
+    "color": "rgb(120, 113, 108)",
+    "ff": "-apple-system",
+    "fs": "11px",
+    "fw": "400"
+   },
+   "r": {
+    "h": 16,
+    "w": 3,
+    "x": 2025,
+    "y": 162
+   },
+   "text": "·"
+  },
+  {
+   "css": {
+    "color": "rgb(120, 113, 108)",
+    "ff": "-apple-system",
+    "fs": "11px",
+    "fw": "400"
+   },
+   "r": {
+    "h": 16,
+    "w": 144,
+    "x": 2034,
+    "y": 162
+   },
+   "text": "CLI · 2.1.285 (Claude Code)"
+  },
+  {
+   "css": {
+    "color": "rgb(120, 113, 108)",
+    "ff": "-apple-system",
+    "fs": "11px",
+    "fw": "400"
+   },
+   "r": {
+    "h": 16,
+    "w": 3,
+    "x": 2185,
+    "y": 162
+   },
+   "text": "·"
+  },
+  {
+   "css": {
+    "color": "rgb(120, 113, 108)",
+    "ff": "-apple-system",
+    "fs": "11px",
+    "fw": "400"
+   },
+   "r": {
+    "h": 16,
+    "w": 44,
+    "x": 2194,
+    "y": 162
+   },
+   "text": "直接运行"
+  },
+  {
+   "css": {
+    "color": "rgb(23, 23, 23)",
+    "ff": "-apple-system",
+    "fs": "14px",
+    "fw": "400"
+   },
+   "r": {
+    "h": 22,
+    "w": 28,
+    "x": 2331,
+    "y": 148
+   },
+   "text": "连接"
+  },
+  {
+   "css": {
+    "color": "rgb(41, 37, 36)",
+    "ff": "-apple-system",
+    "fs": "14px",
+    "fw": "400"
+   },
+   "r": {
+    "h": 60,
+    "w": 407,
+    "x": 1973,
+    "y": 197
+   },
+   "text": "Codex 未连接 · CLI · codex-cli 0."
+  },
+  {
+   "css": {
+    "color": "rgb(41, 37, 36)",
+    "ff": "-apple-system",
+    "fs": "14px",
+    "fw": "500"
+   },
+   "r": {
+    "h": 20,
+    "w": 303,
+    "x": 1986,
+    "y": 208
+   },
+   "text": "Codex"
+  },
+  {
+   "css": {
+    "color": "rgb(120, 113, 108)",
+    "ff": "-apple-system",
+    "fs": "11px",
+    "fw": "400"
+   },
+   "r": {
+    "h": 16,
+    "w": 33,
+    "x": 1986,
+    "y": 230
+   },
+   "text": "未连接"
+  },
+  {
+   "css": {
+    "color": "rgb(120, 113, 108)",
+    "ff": "-apple-system",
+    "fs": "11px",
+    "fw": "400"
+   },
+   "r": {
+    "h": 16,
+    "w": 3,
+    "x": 2025,
+    "y": 230
+   },
+   "text": "·"
+  },
+  {
+   "css": {
+    "color": "rgb(120, 113, 108)",
+    "ff": "-apple-system",
+    "fs": "11px",
+    "fw": "400"
+   },
+   "r": {
+    "h": 16,
+    "w": 117,
+    "x": 2034,
+    "y": 230
+   },
+   "text": "CLI · codex-cli 0.163.0"
+  },
+  {
+   "css": {
+    "color": "rgb(120, 113, 108)",
+    "ff": "-apple-system",
+    "fs": "11px",
+    "fw": "400"
+   },
+   "r": {
+    "h": 16,
+    "w": 3,
+    "x": 2157,
+    "y": 230
+   },
+   "text": "·"
+  },
+  {
+   "css": {
+    "color": "rgb(22, 163, 74)",
+    "ff": "-apple-system",
+    "fs": "11px",
+    "fw": "400"
+   },
+   "r": {
+    "h": 16,
+    "w": 44,
+    "x": 2167,
+    "y": 230
+   },
+   "text": "插件已装"
+  },
+  {
+   "css": {
+    "color": "rgb(23, 23, 23)",
+    "ff": "-apple-system",
+    "fs": "14px",
+    "fw": "400"
+   },
+   "r": {
+    "h": 22,
+    "w": 28,
+    "x": 2331,
+    "y": 216
+   },
+   "text": "连接"
+  },
+  {
+   "css": {
+    "color": "rgb(41, 37, 36)",
+    "ff": "-apple-system",
+    "fs": "14px",
+    "fw": "400"
+   },
+   "r": {
+    "h": 60,
+    "w": 407,
+    "x": 1973,
+    "y": 265
+   },
+   "text": "Galley 未连接 · CLI + 桌面版 · galle"
+  },
+  {
+   "css": {
+    "color": "rgb(41, 37, 36)",
+    "ff": "-apple-system",
+    "fs": "14px",
+    "fw": "500"
+   },
+   "r": {
+    "h": 20,
+    "w": 303,
+    "x": 1986,
+    "y": 276
+   },
+   "text": "Galley"
+  },
+  {
+   "css": {
+    "color": "rgb(120, 113, 108)",
+    "ff": "-apple-system",
+    "fs": "11px",
+    "fw": "400"
+   },
+   "r": {
+    "h": 16,
+    "w": 33,
+    "x": 1986,
+    "y": 298
+   },
+   "text": "未连接"
+  },
+  {
+   "css": {
+    "color": "rgb(120, 113, 108)",
+    "ff": "-apple-system",
+    "fs": "11px",
+    "fw": "400"
+   },
+   "r": {
+    "h": 16,
+    "w": 3,
+    "x": 2025,
+    "y": 298
+   },
+   "text": "·"
+  },
+  {
+   "css": {
+    "color": "rgb(120, 113, 108)",
+    "ff": "-apple-system",
+    "fs": "11px",
+    "fw": "400"
+   },
+   "r": {
+    "h": 16,
+    "w": 134,
+    "x": 2034,
+    "y": 298
+   },
+   "text": "CLI + 桌面版 · galley 0.6.4"
+  },
+  {
+   "css": {
+    "color": "rgb(23, 23, 23)",
+    "ff": "-apple-system",
+    "fs": "14px",
+    "fw": "400"
+   },
+   "r": {
+    "h": 22,
+    "w": 28,
+    "x": 2331,
+    "y": 284
+   },
+   "text": "连接"
+  }
+ ],
+ "ready": "complete",
+ "title": "无限画布",
+ "url": "http://127.0.0.1:3000/tools/product-design/ai-text",
+ "viewport": {
+  "h": 781,
+  "scrollH": 781,
+  "w": 1908
+ }
+}

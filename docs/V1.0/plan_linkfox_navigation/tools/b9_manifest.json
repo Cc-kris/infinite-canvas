@@ -158,5 +158,100 @@
   "real": "https://www.linkfox.com/draw/ai-posture",
   "local": "http://127.0.0.1:3000/tools/product-design/ai-posture",
   "page_dom_20261028": true
+ },
+ {
+  "id": "AI_WEARABLE",
+  "real": "https://www.linkfox.com/draw/ai-wearable",
+  "local": "http://127.0.0.1:3000/tools/product-design/ai-wearable"
+ },
+ {
+  "id": "AI_TEXT",
+  "real": "https://www.linkfox.com/draw/ai-text",
+  "local": "http://127.0.0.1:3000/tools/product-design/ai-text"
+ },
+ {
+  "id": "ORNAMENT_TEXT",
+  "real": "https://www.linkfox.com/draw/ornament-text",
+  "local": "http://127.0.0.1:3000/tools/product-design/ornament-text"
+ },
+ {
+  "id": "SDS_DESIGN",
+  "real": "https://www.linkfox.com/draw/sds-design",
+  "local": "http://127.0.0.1:3000/tools/product-design/sds-design"
+ },
+ {
+  "id": "PRINT_EXTRACT",
+  "real": "https://www.linkfox.com/draw/print-extract",
+  "local": "http://127.0.0.1:3000/tools/product-design/print-extract"
+ },
+ {
+  "id": "AI_POSE_GENERATOR",
+  "real": "https://www.linkfox.com/draw/ai-posture",
+  "local": "http://127.0.0.1:3000/tools/product-design/ai-pose-generator"
+ },
+ {
+  "id": "AI_DRESSING_XSY",
+  "real": "https://www.linkfox.com/draw/ai-dressing",
+  "local": "http://127.0.0.1:3000/tools/product-design/ai-dressing-xsy"
+ },
+ {
+  "id": "FISSION_LINK",
+  "real": "https://www.linkfox.com/draw/product-scene?type=2",
+  "local": "http://127.0.0.1:3000/tools/product-design/fission-link"
+ },
+ {
+  "id": "IMAGE_TEXT_EDIT",
+  "real": "https://www.linkfox.com/draw/designer",
+  "local": "http://127.0.0.1:3000/tools/product-design/image-text-edit"
+ },
+ {
+  "id": "MATERIAL_UPPER_BODY",
+  "real": "https://www.linkfox.com/draw/clothing-image-suite",
+  "local": "http://127.0.0.1:3000/tools/product-design/material-upper-body"
+ },
+ {
+  "id": "NEW_DESIGNER",
+  "real": "https://www.linkfox.com/draw/designer-home",
+  "local": "http://127.0.0.1:3000/tools/product-design/new-designer"
+ },
+ {
+  "id": "PRODUCT_MARKET_MATERIAL",
+  "real": "https://www.linkfox.com/draw/product-image-suite?batchType=PRODUCT_MATERIAL",
+  "local": "http://127.0.0.1:3000/tools/product-design/product-market-material"
+ },
+ {
+  "id": "SCENE_TRANSFER",
+  "real": "https://www.linkfox.com/draw/",
+  "local": "http://127.0.0.1:3000/tools/product-design/scene-transfer"
+ },
+ {
+  "id": "IMAGE_TO_VIDEO",
+  "real": "https://www.linkfox.com/draw/video",
+  "local": "http://127.0.0.1:3000/tools/ai-video/image-to-video"
+ },
+ {
+  "id": "SALE_VIDEO",
+  "real": "https://www.linkfox.com/draw/sale-video",
+  "local": "http://127.0.0.1:3000/tools/ai-video/sale-video"
+ },
+ {
+  "id": "VIDEO_REPLICATION",
+  "real": "https://www.linkfox.com/draw/video-replication",
+  "local": "http://127.0.0.1:3000/tools/ai-video/video-replication"
+ },
+ {
+  "id": "AI_VIDEO_EDITING",
+  "real": "https://www.linkfox.com/draw/ai-video-edit",
+  "local": "http://127.0.0.1:3000/tools/ai-video/ai-video-editing"
+ },
+ {
+  "id": "VIDEO_TRANSLATION",
+  "real": "https://www.linkfox.com/draw/video-translation",
+  "local": "http://127.0.0.1:3000/tools/ai-video/video-translation"
+ },
+ {
+  "id": "VIDEO_CONCAT",
+  "real": "https://www.linkfox.com/draw/video-concat",
+  "local": "http://127.0.0.1:3000/tools/ai-video/video-concat"
  }
 ]
