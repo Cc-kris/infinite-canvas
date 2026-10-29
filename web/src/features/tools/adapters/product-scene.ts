@@ -4,6 +4,7 @@ import type { BrowserToolInput, SubmitOptions, ToolExecutionDescriptor, WaitOpti
 import type { ToolAssetRecord } from "@/services/api/tools/assets";
 import type { ToolTask, ToolTaskResultItem } from "@/services/api/tools/task-machine";
 
+import { pickResultPanelTask } from "./result-panel";
 import {
     PRODUCT_SCENE_TOOL_ID,
     buildScenePrompt,
@@ -445,3 +446,17 @@ export function summarizeSceneExecution(
 }
 
 export { isSceneModelId };
+
+
+/**
+ * 结果区面板用：从落库任务里选「本次该展示的那一条」。
+ *
+ * 只选择不造数：返回的就是持久化快照里的任务对象（items 含 storageKey 复原的真实字节），
+ * 无任务时返回 null —— 页面刷新后结果面板因此仍能挂上共享 ToolResult 与三个动作。
+ */
+export function productSceneResultPanelTask(
+    tasks: readonly ToolTask[],
+    toolId: string = PRODUCT_SCENE_TOOL_ID,
+): ToolTask | null {
+    return pickResultPanelTask(tasks, { toolId, includeLatestWithoutItems: true });
+}

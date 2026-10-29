@@ -13,6 +13,8 @@ import { useConfigStore, resolveModelChannel } from "@/stores/use-config-store";
 import { useToolDraftStore } from "@/stores/use-tool-draft-store";
 import { describeToolExecution } from "@/services/api/tools/gateway";
 import { getPersistedToolGateway } from "@/stores/use-tool-task-store";
+import { useToolTaskStore } from "@/stores/use-tool-task-store";
+import { productSceneResultPanelTask } from "@/features/tools/adapters/product-scene";
 import { loadToolAssetRecords, type ToolAssetRecord } from "@/services/api/tools/assets";
 import type { ToolTask } from "@/services/api/tools/task-machine";
 
@@ -273,6 +275,20 @@ function SceneVariantGrid({
 /* -------------------------------- 工作区 -------------------------------- */
 
 export function ProductSceneWorkspace({ className, toolId = PRODUCT_SCENE_TOOL_ID }: { className?: string; toolId?: string }) {
+    // 结果面板只认落库任务：刷新后由 hydrate 用 storageKey 复原真实字节，再交给共享 ToolResult。
+    const storedTasks = useToolTaskStore((state) => state.tasks);
+    const tasksHydrated = useToolTaskStore((state) => state.hydrated);
+    const hydrateTasks = useToolTaskStore((state) => state.hydrate);
+    const toolTasks = useMemo(
+        () => Object.values(storedTasks).filter((task) => task.toolId === toolId),
+        [storedTasks, toolId],
+    );
+    const panelTask = useMemo(() => productSceneResultPanelTask(toolTasks, toolId), [toolTasks, toolId]);
+
+    useEffect(() => {
+        if (!tasksHydrated) hydrateTasks();
+    }, [tasksHydrated, hydrateTasks]);
+
     const hydrate = useToolDraftStore((state) => state.hydrate);
     const patchDraft = useToolDraftStore((state) => state.patch);
     const flushDraft = useToolDraftStore((state) => state.flush);
@@ -830,14 +846,21 @@ export function ProductSceneWorkspace({ className, toolId = PRODUCT_SCENE_TOOL_I
                                     </div>
                                 )}
 
-                                {task ? (
-                                    <ToolResult
-                                        task={task}
-                                        toolId={toolId}
-                                        title="结果资产"
-                                        onCancel={running ? onCancel : undefined}
-                                        onRetry={task && !running ? () => void onRetry() : undefined}
-                                    />
+                                {panelTask || task ? (
+                                    <div
+                                        data-testid="product-scene-result-panel"
+                                        data-tool-id={toolId}
+                                        data-task-id={(panelTask ?? task)?.id}
+                                        data-task-status={(panelTask ?? task)?.status}
+                                    >
+                                        <ToolResult
+                                            task={(panelTask ?? task)!}
+                                            toolId={toolId}
+                                            title="结果资产"
+                                            onCancel={running ? onCancel : undefined}
+                                            onRetry={task && !running ? () => void onRetry() : undefined}
+                                        />
+                                    </div>
                                 ) : null}
                             </div>
                         ) : null}

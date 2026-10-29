@@ -1,0 +1,21 @@
+{
+ "toolId": "PRODUCT_SCENE",
+ "route": "/tools/product-design/product-scene",
+ "round": "R14",
+ "date": "2026-10-29",
+ "mode": "fresh reload（复用落库任务；未注入、未重新生成）",
+ "after": {
+  "navType": "reload",
+  "phase": "reload",
+  "reloadAt": "2026-10-29T12:56:22.989Z",
+  "panel": null,
+  "storedTasksForTool": [],
+  "downloadSaveCanvas": null
+ },
+ "verdict": "H 不成立（物理不存在）：该工具在 localStorage tool-task:v1:* 中没有任何任务快照，刷新后结果面板无任务可挂，三动作无从触发。按要求如实保留，未注入、未新生成任务。",
+ "codePath": "workspace 已接 useToolTaskStore.tasks + hydrate，结果区面板取 productSceneResultPanelTask(落库任务)；一旦有真实任务落库，刷新后会按 storageKey 复原字节并渲染共享 ToolResult（download/save/canvas）。",
+ "checks": {
+  "tsc": "exit 0",
+  "tests": "bun test product-scene/handheld-goods/print-extract + result-panel：84 pass / 0 fail"
+ }
+}
