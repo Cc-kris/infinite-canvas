@@ -1,0 +1,24 @@
+{
+ "status": "RUN",
+ "snapshot": "/tmp/ic-gate-r18 (git archive 8751bd6e → clean tree, node_modules 软链到工作区, bunfig.toml 同 HEAD)",
+ "ranAt": "2026-10-29T22:55:03+08:00 / 22:56:06+08:00",
+ "checks": [
+  {
+   "name": "typecheck",
+   "cmd": "bun run typecheck (tsc --noEmit)",
+   "result": "EXIT 0，无输出告警"
+  },
+  {
+   "name": "相关测试-恢复/去笔",
+   "cmd": "bun test src/stores/use-tool-task-store.provenance-heal.test.ts src/features/tools/adapters/remove-pen.test.ts",
+   "result": "27 pass / 0 fail（113 expect，2 files）"
+  },
+  {
+   "name": "相关测试-结果卡/三动作",
+   "cmd": "bun test src/components/tools/tool-result.test.tsx src/components/tools/tool-result-actions.deps.test.ts",
+   "result": "35 pass / 0 fail（174 expect，2 files）"
+  }
+ ],
+ "note": "覆盖 d5aa048a（use-tool-task-store reattach / image-text-edit 回执地址回填）与 51a0ec1e（remove-pen fixture 去 blob: url）两个新源码提交；日志见同目录 typecheck.txt / tests-related.txt（tests-related.txt 只含第一组，第二组输出见 report.md）",
+ "appliesTo": "本门禁跑的树是 8751bd6e（d5aa048a + 51a0ec1e 两个新源码提交之后的最后一个源码提交）；其后 97952074 仅新增 docs 证据 JSON，无源码变更，故门禁结论对 R18 审计对象 HEAD 97952074 同样成立"
+}
