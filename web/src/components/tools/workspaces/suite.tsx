@@ -67,6 +67,7 @@ import {
     buildMarketPlan,
     buildMarketUnits,
     createDefaultMarketConfig,
+    createMarketSnapshot,
     findRegion,
     marketExpectedCount,
     normalizeConfig,
@@ -83,6 +84,7 @@ import {
     groupMarketUnits,
     isMarketSourceReady,
     marketResultsStale,
+    marketUnitResultFromTask,
     retryMarketUnit,
     runMarketMaterial,
     summarizeMarketRun,
@@ -164,8 +166,34 @@ export function restoreSuiteUnitsFromTasks(
     return restored;
 }
 
-/* ------------------------------ 主组件 ------------------------------ */
+/**
+ * 营销素材的任务回填：与套图同构——单元 prompt 由 (模块, index/count, 尺寸/品质/商品信息) 唯一决定，
+ * 刷新后按 task.prompt 与 buildMarketUnits(config).prompt 对齐还原（同 prompt 取最新一条）。
+ */
+export function restoreMarketUnitsFromTasks(
+    config: MarketConfig,
+    tasks: Record<string, ToolTask>,
+    toolId: string,
+): MarketUnitResult[] {
+    const planned = buildMarketUnits(config);
+    if (planned.length === 0) return [];
+    const latest = new Map<string, ToolTask>();
+    for (const task of Object.values(tasks)) {
+        if (task.toolId !== toolId) continue;
+        const key = normalizePrompt(task.prompt);
+        const existing = latest.get(key);
+        if (!existing || existing.createdAt < task.createdAt) latest.set(key, task);
+    }
+    const restored: MarketUnitResult[] = [];
+    for (const unit of planned) {
+        const task = latest.get(normalizePrompt(unit.prompt));
+        if (!task) continue;
+        restored.push(marketUnitResultFromTask(unit, task));
+    }
+    return restored;
+}
 
+/* ------------------------------ 主组件 ------------------------------ */
 export function ProductImageSuiteWorkspace({ className }: { className?: string }) {
     const toolId = PRODUCT_IMAGE_SUITE_TOOL_ID;
     const hydrate = useToolDraftStore((state) => state.hydrate);
@@ -855,6 +883,54 @@ export function ProductMarketMaterialWorkspace({ className }: { className?: stri
         };
     }, [toolId, hydrate, flushDraft]);
 
+    /* 任务回填：任务已由 store-backed 网关落盘（含结果字节入库），
+     * 刷新/重新进入时按当前配置的模块计划还原结果区，避免「生成成功刷新即消失」。 */
+    const storeTasks = useToolTaskStore((state) => state.tasks);
+    const tasksHydrated = useToolTaskStore((state) => state.hydrated);
+    const hydrateTasks = useToolTaskStore((state) => state.hydrate);
+    /** 用户点了「清空结果」后不再自动把历史结果拉回来（除非重新提交）。 */
+    const clearedResults = useRef(false);
+    useEffect(() => {
+        if (!tasksHydrated) hydrateTasks();
+    }, [tasksHydrated, hydrateTasks]);
+    useEffect(() => {
+        if (!seeded || !tasksHydrated || clearedResults.current) return;
+        const restored = restoreMarketUnitsFromTasks(config, storeTasks, toolId);
+        if (restored.length === 0) return;
+        setUnits((previous) => {
+            if (previous.length === 0) return restored;
+            const next = [...previous];
+            let changed = false;
+            for (const unit of restored) {
+                const index = next.findIndex((item) => item.unitId === unit.unitId);
+                if (index < 0) {
+                    next.push(unit);
+                    changed = true;
+                    continue;
+                }
+                const existing = next[index];
+                // 用户在页面上重提过（taskId 不同）：不拿历史任务覆盖当前结果。
+                if (existing.taskId && unit.taskId && existing.taskId !== unit.taskId) continue;
+                if (existing.status === unit.status && existing.items.length === unit.items.length) continue;
+                next[index] = unit;
+                changed = true;
+            }
+            if (!changed) return previous;
+            const order = new Map(buildMarketUnits(config).map((unit, index) => [unit.id, index]));
+            next.sort((a, b) => (order.get(a.unitId) ?? 0) - (order.get(b.unitId) ?? 0));
+            return next;
+        });
+        setSnapshot(
+            (previous) =>
+                previous ??
+                createMarketSnapshot(config, {
+                    revision: draft?.revision ?? 0,
+                    images: config.sourceAssetIds,
+                    provider: resolveProviderCode(config, imageModel),
+                }),
+        );
+    }, [seeded, tasksHydrated, storeTasks, config, toolId, draft?.revision, imageModel]);
+
     const update = useCallback(
         (next: Partial<MarketConfig>) => {
             setConfig((previous) => {
@@ -894,6 +970,7 @@ export function ProductMarketMaterialWorkspace({ className }: { className?: stri
 
     const onGenerate = useCallback(async () => {
         if (sources.length === 0) return;
+        clearedResults.current = false;
         setRunning(true);
         setRunError(undefined);
         setSavedKeys({});
@@ -1274,6 +1351,7 @@ export function ProductMarketMaterialWorkspace({ className }: { className?: stri
                         <button
                             type="button"
                             onClick={() => {
+                                clearedResults.current = true;
                                 setUnits([]);
                                 setSnapshot(undefined);
                                 setSavedKeys({});

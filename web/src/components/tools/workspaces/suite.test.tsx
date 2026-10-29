@@ -77,3 +77,33 @@ describe("商品套图工作台渲染", () => {
         expect(html).not.toContain("生成中");
     });
 });
+
+describe("商品营销素材刷新还原（F 边界：成功结果刷新即消失）", () => {
+    test("按单元 prompt 对齐任务还原结果；同 prompt 取最新；状态如实映射", async () => {
+        const React = await import("react");
+        void React;
+        const suite = await import("./suite");
+        const registry = await import("@/features/tools/registry/product-market-material");
+        const adapter = await import("@/features/tools/adapters/product-market-material");
+        const config = registry.createDefaultMarketConfig();
+        const planned = registry.buildMarketUnits(config);
+        const target = planned[0];
+        expect(Boolean(target)).toBe(true);
+        const task = {
+            id: "task-restore-1",
+            toolId: registry.PRODUCT_MARKET_MATERIAL_TOOL_ID,
+            prompt: target.prompt,
+            status: "succeeded",
+            createdAt: 2,
+            result: { items: [{ id: "item-1", kind: "image", url: "https://example.com/a.png" }], receivedAt: 2 },
+        } as never;
+        const older = { ...(task as Record<string, unknown>), id: "task-restore-0", createdAt: 1, status: "failed" } as never;
+        const restored = suite.restoreMarketUnitsFromTasks(config, { a: older, b: task }, registry.PRODUCT_MARKET_MATERIAL_TOOL_ID);
+        expect(restored.length).toBe(1);
+        expect(restored[0].unitId).toBe(target.id);
+        expect(restored[0].taskId).toBe("task-restore-1");
+        expect(restored[0].status).toBe("succeeded");
+        expect(restored[0].items.length).toBe(1);
+        void adapter;
+    });
+});
