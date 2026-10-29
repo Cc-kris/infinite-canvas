@@ -1,8 +1,8 @@
 # R8 输入 · 39 工具 H/F/R 真实剩余 gap-map（只读归并）
 
-- 仓库 `/Users/mac/Documents/Dev/infinite-canvas`，分支 `feat/linkfox-v1-real`，核对时 HEAD `0a6d2c8`
+- 仓库 `/Users/mac/Documents/Dev/infinite-canvas`，分支 `feat/linkfox-v1-real`，核对起点 HEAD `0a6d2c8`；核对期间被并行提交推进（`9873bb4` → `5fc2e69`），本报告提交落在其之上
 - 基准：`1e698eb`（R7 报告 `reports/independent-audit-20261029-r7/`，F 23/16、R 37/2、H 13/26）
-- 核对提交：`ec74701`、`7125df1`、`0d1eaaa`、`fde27e9`、`0b9aecf`、`fc38b49`、`0a6d2c8`（`6d9bd86`、`b43a21d` 早于 R7 且已被 R7 吸收，见 matrix 的 FIX_COLOR/SALE_VIDEO 条目）
+- 核对提交：`ec74701`、`7125df1`、`0d1eaaa`、`fde27e9`、`0b9aecf`、`fc38b49`、`0a6d2c8`、`9873bb4`、`5fc2e69`（`6d9bd86`、`b43a21d` 早于 R7 且已被 R7 吸收，见 matrix 的 FIX_COLOR/SALE_VIDEO 条目）
 - 口径未放宽：**只认已提交的机器回执**（JSON/DOM 序列化/字节/sha256）；仅 MD 文字记录、单测、注入快照不支撑新 PASS
 - 本次只读：未改功能源码、未重新生成、未起浏览器
 
@@ -46,16 +46,17 @@
 `PRODUCT_REFINE`、`PRINTING_REPAIR`、`HAND_REPAIR`、`AI_OUTPAINTING`、`IMAGE_CROP`
 证据仅 `evidence/real-acceptance/HISTORY_FRESH_RELOAD_5TOOLS.md`。已核：五条 taskId（task-mvtb3nuj-3d0mnv 等）在仓库内**只出现在 `r7-d19-history-20261029/*.json` 的 `indexIds` 全量索引数组**，不在任何工具的 DOM 行里 → 无行级回执，**不得判 PASS**。
 
-**B. 已采集但未提交（staged `A` 状态，位于工作区，R8 提交后可判）**
-`evidence/r7-d19-history-20261029/tool-*.json`（13 份）+ `capture-summary.json`、`PROBE_NOTES.md`
+**B. 已提交的冷启取证（`9873bb4` 落盘证据 + `5fc2e69` 补 PRODUCT_SCENE 表面）**
+`evidence/r7-d19-history-20261029/tool-*.json`（13 份）、`product-scene-surface.json`、`REPORT.md`
+13 个工具里只有 4 个有真实行，其余 9 个为「dock 存在但 0 条（空态文案正确）」——**空态不是 H 证据**。
 
 | 工具 | dock 行数 | 内容 | 可判性 |
 |---|---|---|---|
-| HANDHELD_GOODS | 1 | failed | 提交后可判 H=PASS（失败行+配置） |
-| PRINT_EXTRACT | 1 | failed | 同上 |
-| IMAGE_TEXT_EDIT | 1 | succeeded 但 `payloadDropped`（无字节） | 行级恢复成立、产物不可用 → 建议仍 PARTIAL |
-| AI_POSE_GENERATOR | 5 | 1 成功（同 payloadDropped）+ 4 failed | 同上 |
-| 其余 9 个（AI_DRESSING_V2/AI_POSTURE/AI_WEARABLE/MATERIAL_UPPER_BODY/NEW_DESIGNER/NEW_REPLACE_BG_V2/PRODUCT_MARKET_MATERIAL/REPLACE_GOODS/PRODUCT_SCENE） | 0 | 无行 | 无历史可恢复 |
+| HANDHELD_GOODS | 1 | failed 2026-10-28 21:34（0 结果 + 配置快照） | 按 VIDEO_CONCAT 口径可判 H=PASS（仅失败任务）；索引自愈前不可见，`0b9aecf` 后可见 |
+| PRINT_EXTRACT | 1 | failed 2026-10-28 21:25（0 结果） | 同上 |
+| IMAGE_TEXT_EDIT | 1 | succeeded 但 `payloadDropped`（`storageKey:null`、`url:""`） | 行级恢复成立、产物可用性为 0 → 仍 PARTIAL |
+| AI_POSE_GENERATOR | 5 | 1 成功（同 payloadDropped）+ 4 failed | 归 design19_b 范围，D19 报告自行不判定 → 仍 PARTIAL |
+| 其余 9 个（AI_DRESSING_V2/AI_POSTURE/AI_WEARABLE/MATERIAL_UPPER_BODY/NEW_DESIGNER/NEW_REPLACE_BG_V2/PRODUCT_MARKET_MATERIAL/REPLACE_GOODS/PRODUCT_SCENE） | 0 | 无真实任务 | 无历史可恢复，H 无证据 |
 
 **C. 仍无可用回执（沿用 R7 PARTIAL）**
 `AREA_REPAIR`、`REMOVE_PEN`（注入验证）、`VIDEO_TRANSLATION`（注入验证；且 R 亦 BLOCKED）、`NEW_REPLACE_BG_V2`、`REPLACE_GOODS`、`PRODUCT_SCENE`、`AI_DRESSING_V2`、`AI_WEARABLE`、`MATERIAL_UPPER_BODY`、`NEW_DESIGNER`、`PRODUCT_MARKET_MATERIAL`、`AI_POSTURE`
@@ -77,12 +78,13 @@
 
 1. **字段误判**：`AI_DRESSING_XSY_20261029_persist/reload-summary.json` 中 `reDownload.bytesMatchOriginal=false`，但同条 `bytes=1576288`、`sha256=a52e70d4…` 与 `state.json.resultSha` 完全一致 → 该布尔是脚本比对变量写错，**以字节/sha 为准**，R8 应修正比对逻辑而非采信该字段。
 2. **时序冲突**：`ec74701`（17:0x）判 `AI_POSE_GENERATOR` 0 条，而 `0b9aecf` 索引自愈后 D19 探针同工具 5 条 → 「0 条」部分是 `tool-task:v1:index` 丢条导致的假阴性，不能当作「该工具从无历史」。
-3. **未提交即无证据**：D19 的 13 份 `tool-*.json` 仍是 staged，未在任一提交里；R8 若不先提交，仍按 PARTIAL 计。
-4. **口径一致性**：失败任务能否算 H=PASS，R7 对 `VIDEO_CONCAT` 判过 PASS，本报告据此给 IMAGE_TO_VIDEO/VIDEO_REPLICATION 记 PASS；若 R8 收紧，需三处一起改。
+3. **并发推进**：核对开始时 D19 的 13 份 `tool-*.json` 只是 staged；核对过程中被 `9873bb4` 提交、`5fc2e69` 补表面证据，HEAD 已前进。引用时以 `9873bb4` 为准，勿再说「未提交」。
+4. **按钮可用性瑕疵**：`IMAGE_TEXT_EDIT` 的历史成功项 `payloadDropped` 时，「下载/存入资产/发画布」仍为可点，点了才报「原始文件未保留…请重新生成」——属明确失败而非静默假成功，但无字节时应置灰（D19 报告建议由 owner 统一决策，未改）。
+5. **口径一致性**：失败任务能否算 H=PASS，R7 对 `VIDEO_CONCAT` 判过 PASS，本报告据此给 IMAGE_TO_VIDEO/VIDEO_REPLICATION 记 PASS；若 R8 收紧，需三处一起改。
 
 ## 八、R8 最小待办
 
-1. 提交 D19 的 13 份 `tool-*.json`（现成机器回执），再判 HANDHELD_GOODS / PRINT_EXTRACT。
+1. D19 证据已入库（`9873bb4`/`5fc2e69`），直接按「失败任务可回溯」口径判 HANDHELD_GOODS / PRINT_EXTRACT 是否记 H=PASS（并同步第三节的严格口径开关）。
 2. 为 0d1eaaa 五工具补原始 JSON（现有 MD 已含 storageKey 与字节，重跑一次读 DOM 即可），否则保持 PARTIAL。
 3. 对 9 个「0 条」工具各跑 1 次真实任务（生成＝照常计费），再 reload 取 dock 行 + 字节。
 4. F 项统一补「下载落盘 / 资产记录 / 画布节点」三动作 JSON。
