@@ -1,0 +1,112 @@
+{
+  "schema": "ccv2-reload-three-actions/v1",
+  "round": "r24",
+  "date": "2026-10-29",
+  "toolId": "CHANGE_COLOR_V2",
+  "route": "/tools/ecommerce-suite/change-color-v2",
+  "task": {
+    "id": "task-mvtn1xg0-sbk0fl",
+    "status": "succeeded",
+    "clientOperationId": "eeb829be-34c7-4bdd-bbd7-86170165d5f0",
+    "fingerprint": "d56a6b915f368588",
+    "storageKey": "tool-result:task-mvtn1xg0-sbk0fl:0:KWct7e2ggt9qZP80UbreK",
+    "bytes": 2545568,
+    "sha256": "e1b1d638f6eb941f8eebf74da3c969e22887501fb25cee61fc57a8f8ea732458",
+    "mimeType": "image/png",
+    "source": "reused persisted task in IndexedDB (no new generation, no injected bytes)"
+  },
+  "reload": {
+    "mechanism": "CDP Page.reload on the SAME document/tab (tabId 1709629349), not a newly opened tab",
+    "documentRecreated": true,
+    "navigationType": "reload",
+    "sameDocumentSession": true,
+    "sessionDocId": "2486dccf-199d-426d-a4f8-495084046eaa",
+    "sessionDocIdSameAfterReload": true,
+    "inMemoryMarkerSurvived": false,
+    "previousDocumentTimeOrigin": 1793285159394.8,
+    "newDocumentTimeOrigin": 1793285186666.1,
+    "domContentLoadedEventStart": 713.6000000238419,
+    "domContentLoadedEventEnd": 713.6999999880791,
+    "loadEventEnd": 772.1000000238419,
+    "reloadAt": "2026-10-29T14:46:26Z",
+    "postReloadPanelText": "已从本地恢复上次生成的真实结果（任务 sbk0fl · 1 张），下载/存资产库/发画布均按库内字节执行。 linkfox-case-2069709136760979456-source-换色 #EB88A0 已完成 · 2486 KB",
+    "postReloadActionTestIds": [
+      "color-v2-restored-download",
+      "color-v2-restored-save",
+      "color-v2-restored-send"
+    ],
+    "postReloadActionButtonsEnabled": {
+      "download": true,
+      "saveAsset": true,
+      "sendCanvas": true
+    }
+  },
+  "realBytes": {
+    "storageKey": "tool-result:task-mvtn1xg0-sbk0fl:0:KWct7e2ggt9qZP80UbreK",
+    "idbStore": "infinite-canvas/media_files",
+    "bytes": 2545568,
+    "sha256": "e1b1d638f6eb941f8eebf74da3c969e22887501fb25cee61fc57a8f8ea732458",
+    "magic": "89504e470d0a1a0a",
+    "committedArtifact": "docs/V1.0/evidence/r24-20261029/CHANGE_COLOR_V2-result-1.png",
+    "howSaved": "in-page IndexedDB blob -> base64 -> decoded on disk; size+sha256 recomputed after write"
+  },
+  "actions": {
+    "download": {
+      "trigger": "real DOM click on [data-testid=color-v2-restored-download]",
+      "clickedAt": "2026-10-29T14:47:23.073Z",
+      "file": "~/Downloads/linkfox-case-2069709136760979456-source-换色 #EB88A0 (1).png",
+      "fileMtime": "2026-10-29T22:47:23+08:00",
+      "bytes": 2545568,
+      "sha256": "e1b1d638f6eb941f8eebf74da3c969e22887501fb25cee61fc57a8f8ea732458"
+    },
+    "saveToAssets": {
+      "trigger": "real DOM click on [data-testid=color-v2-restored-save]",
+      "notice": "已存入资产库（12Zq5U4w）",
+      "assetId": "12Zq5U4wkjI0P7jtnywb-",
+      "createdAt": "2026-10-29T14:47:39.458Z",
+      "store": "app_state/infinite-canvas:asset_store",
+      "storageKey": "image:lCU0u_K_u-b8evOmYtrJP",
+      "blobStore": "image_files",
+      "bytes": 2545568,
+      "mimeType": "image/png",
+      "sha256": "e1b1d638f6eb941f8eebf74da3c969e22887501fb25cee61fc57a8f8ea732458"
+    },
+    "sendToCanvas": {
+      "trigger": "real DOM click on [data-testid=color-v2-restored-send]",
+      "projectId": "CM1D7JF9OyJVB40VYzAZS",
+      "projectTitle": "套图换色结果",
+      "nodeId": "image-1793285279595-8bd7n",
+      "nodeStatus": "success",
+      "projectUpdatedAt": "2026-10-29T14:47:59.595Z",
+      "store": "app_state/infinite-canvas:canvas_store",
+      "storageKey": "image:5qp7WhYjY1gQd0XuS6vGm",
+      "blobStore": "image_files",
+      "imageBytes": 2545568,
+      "imageSha256": "e1b1d638f6eb941f8eebf74da3c969e22887501fb25cee61fc57a8f8ea732458"
+    }
+  },
+  "byteAgreement": {
+    "artifact": 2545568,
+    "task": 2545568,
+    "download": 2545568,
+    "saveToAssets": 2545568,
+    "sendToCanvas": 2545568,
+    "allEqual": true,
+    "shaAllEqual": true,
+    "committedBytes": 2545568
+  },
+  "noNewGeneration": {
+    "generationCalled": false,
+    "networkGenerationRequests": 0,
+    "note": "本轮回执未提交任何生成请求；页面无 busy/生成态，结果仅来自 IndexedDB 既有任务 sbk0fl"
+  },
+  "rootCauseCheck": {
+    "observed": "same-document Page.reload 后恢复卡与三动作全部可用，恢复链路（useToolTaskStore hydrate + storageKey→blob 还原）无回归",
+    "codeFixNeeded": false,
+    "note": "r17 的 PARTIAL 根因是证据侧（新标签 ≠ 同文档 reload + HEAD 无同尺产物），不是恢复代码缺陷；故本轮不新增源码改动"
+  },
+  "checks": {
+    "tsc": "./node_modules/.bin/tsc --noEmit -> TSC_EXIT=0",
+    "relatedTests": "~/.bun/bin/bun test src/components/tools/tool-result.test.tsx src/components/tools/tool-result-actions.deps.test.ts -> 35 pass / 0 fail (174 expect, 2 files)"
+  }
+}

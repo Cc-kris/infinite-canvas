@@ -154,6 +154,53 @@ def up_print_extract_h(ctx) -> tuple[bool, str]:
     )
 
 
+def up_change_color_v2_h(ctx) -> tuple[bool, str]:
+    """CHANGE_COLOR_V2 H：复用 task-mvtn1xg0-sbk0fl，**同文档** CDP Page.reload（非新开标签）
+    + sessionStorage docId 连续性/内存标记清零作机读标记 + 三动作字节/sha 与已提交 result.png 相等。"""
+    a, files, art_sha, art_size = ctx
+    r = load_json("r24-20261029/receipt-ccv2.json", files)
+    ok = True
+    t = r.get("task") or {}
+    ok &= a("task.success", t.get("status") == "succeeded", str(t.get("status")))
+    ok &= a("task.id", bool(TASK_RE.fullmatch(t.get("id", ""))), t.get("id", ""))
+    ok &= a("task.storageKey", bool(STORAGE_KEY_RE.fullmatch(t.get("storageKey", ""))), t.get("storageKey", ""))
+    rl = r.get("reload") or {}
+    ok &= a("reload.documentRecreated", rl.get("documentRecreated") is True, str(rl.get("documentRecreated")))
+    ok &= a("reload.navigationType", rl.get("navigationType") == "reload", str(rl.get("navigationType")))
+    ok &= a("reload.sameDocumentSession", rl.get("sessionDocIdSameAfterReload") is True and rl.get("sameDocumentSession") is True,
+            f"docId={rl.get('sessionDocId')}")
+    ok &= a("reload.inMemoryMarkerDropped", rl.get("inMemoryMarkerSurvived") is False, str(rl.get("inMemoryMarkerSurvived")))
+    ok &= a("reload.timeOriginChanged",
+            rl.get("previousDocumentTimeOrigin") not in (None, rl.get("newDocumentTimeOrigin")),
+            f"{rl.get('previousDocumentTimeOrigin')}->{rl.get('newDocumentTimeOrigin')}")
+    ok &= a("reload.domContentLoaded", bool(rl.get("domContentLoadedEventStart")), str(rl.get("domContentLoadedEventStart")))
+    ok &= a("reload.notNewTab", "same document" in (rl.get("mechanism") or ""), (rl.get("mechanism") or "")[:60])
+    ok &= a("post.panelText", bool(rl.get("postReloadPanelText")), (rl.get("postReloadPanelText") or "")[:40])
+    ok &= a("post.actionButtons",
+            set(rl.get("postReloadActionTestIds") or []) >= {"color-v2-restored-download", "color-v2-restored-save", "color-v2-restored-send"},
+            str(rl.get("postReloadActionTestIds")))
+    rb = r.get("realBytes") or {}
+    ok &= a("bytes.size", rb.get("bytes") == art_size, f"{rb.get('bytes')} vs {art_size}")
+    ok &= a("bytes.sha", rb.get("sha256") == art_sha, f"{str(rb.get('sha256'))[:12]} vs {art_sha[:12]}")
+    ok &= a("bytes.storageKey", bool(STORAGE_KEY_RE.fullmatch(rb.get("storageKey", ""))), rb.get("storageKey", ""))
+    acts = r.get("actions") or {}
+    for act in ("download", "saveToAssets", "sendToCanvas"):
+        node = acts.get(act) or {}
+        ok &= a(f"action.{act}.present", bool(node), act)
+        ok &= a(f"action.{act}.sha", _act_sha(node) == art_sha, f"{str(_act_sha(node))[:12]}")
+        ok &= a(f"action.{act}.bytes", _act_bytes(node) == art_size, str(_act_bytes(node)))
+    ba = r.get("byteAgreement") or {}
+    ok &= a("byteAgreement.allEqual", ba.get("allEqual") is True, str(ba.get("allEqual")))
+    ok &= a("byteAgreement.committedBytes", ba.get("committedBytes") == art_size, str(ba.get("committedBytes")))
+    ng = r.get("noNewGeneration") or {}
+    ok &= a("noNewGeneration.generationCalled", ng.get("generationCalled") is False, str(ng.get("generationCalled")))
+    return ok, (
+        f"r24：复用 task-{t.get('id','').split('-')[1]}-{t.get('id','').split('-')[-1]}，同文档 CDP Page.reload"
+        f"（navigationType=reload，session docId {rl.get('sessionDocId')} 连续、内存标记已清零，非新开标签）"
+        f"+ 刷新后恢复卡/三按钮机器观测；下载/存资产/发画布三动作字节 {art_size:,}B / sha {art_sha[:8]}… 与已提交 result.png 四方相等"
+    )
+
+
 def _act_sha(node):
     """动作回执里 sha256 字段位置不统一：payloadBlob / 顶层 / imageSha256。"""
     if not isinstance(node, dict):
@@ -307,6 +354,11 @@ UPGRADES = {
         "receipt": "PRINT_EXTRACT/reload-verify-r16.json",
         "artifact": "evidence/real-acceptance/PRINT_EXTRACT/result.png",
         "fn": up_print_extract_h,
+    },
+    ("CHANGE_COLOR_V2", "H"): {
+        "receipt": "r24-20261029/receipt-ccv2.json",
+        "artifact": f"{DOCS}/evidence/r24-20261029/CHANGE_COLOR_V2-result-1.png",
+        "fn": up_change_color_v2_h,
     },
     ("VIDEO_REPLICATION", "R"): {
         "receipt": "r21-video-external-20261029/receipt.json",
