@@ -1,0 +1,88 @@
+{
+  "snapshot": {
+    "commit": "6ede58480422697718516fe1d3cf6bb69097278b",
+    "tree": "fabffb7b1dba21e79b61fb545be9f3e5ae9e1915",
+    "subject": "fix(tools): 结果字节持久化共同根因 —— mapper 保远程地址 + 入库留 provenance + 刷新按任务反查 + 防降级覆盖",
+    "author_date": "2026-10-29 21:55:58 +0800",
+    "parent_baseline": "0005ef49a5cc84e21581456b92a1628776ab66ee",
+    "parent_tree": "f1eb93db9f7c1521e4134fbe176976b2c3dfc960",
+    "repo": "/Users/mac/Documents/Dev/infinite-canvas"
+  },
+  "head_at_task_start": "c125c62e52565827b802213af01523ec64d33ad5",
+  "head_after_gate": "8df2d8a86182331908dbc3c4911b136733e8dfac",
+  "head_note": "跑闸期间并发 HEAD 前进，本报告所有数字均来自 6ede584 的 git archive 独立导出树，未追 HEAD",
+  "method": {
+    "isolation": "git archive 6ede584 | tar -x -C /Users/mac/Documents/Dev/ga-gate-6ede584（无 .git，不共享工作区）",
+    "install": "cd web && bun install --frozen-lockfile（931 packages）",
+    "runtime": {
+      "bun": "1.4.2 (744846f84)",
+      "vite": "7.3.6 darwin-arm64",
+      "cwd": "web/"
+    },
+    "gates": [
+      "bun run typecheck",
+      "bun test",
+      "bun run build"
+    ],
+    "integrity_check": "fresh archive diff -rq（排除 node_modules/dist/.gate-logs/tsconfig.tsbuildinfo）→ 0 行差异，真实 exit 0，tracked 3209 文件(web 916)"
+  },
+  "results": {
+    "target": {
+      "typecheck": {
+        "exit": 0,
+        "duration_s": 42,
+        "log": "evidence/typecheck-output.txt",
+        "diagnostics": 0
+      },
+      "test": {
+        "exit": 0,
+        "duration_s": 2,
+        "wall_s": 2.75,
+        "pass": 1475,
+        "fail": 0,
+        "files": 84,
+        "expect_calls": 8308
+      },
+      "build": {
+        "exit": 0,
+        "duration_s": 27,
+        "built_in_s": 25.85,
+        "js_bytes": 5605532,
+        "css_bytes": 159737,
+        "js_sha256": "a58cbbd5cc35f63501225ef5778ab6b8054fecd5a38fc98c4daef230aad51c8a",
+        "css_sha256": "f2f3f9d64c1b898a683a9d279170c9d3be9e63d5db67b6e6b9bc57db6a667561"
+      }
+    },
+    "baseline_0005ef4": {
+      "typecheck": {
+        "exit": 0,
+        "duration_s": 41
+      },
+      "test": {
+        "exit": 0,
+        "duration_s": 3,
+        "pass": 1470,
+        "fail": 0,
+        "files": 83,
+        "expect_calls": 8298
+      },
+      "build": {
+        "exit": 0,
+        "duration_s": 21,
+        "built_in_s": 20.23,
+        "js_bytes": 5603852
+      }
+    }
+  },
+  "regression_verdict": "三闸全绿，无回归；未修改任何源码。test +5 pass/+1 file/+10 expect 全部来自本提交新增 web/src/stores/use-tool-task-store.provenance-heal.test.ts（5 个 test）；build JS +1680 B（+0.03%），构建告警数量与基线一致（dynamically imported 15 / chunk size 1）",
+  "source_changes_in_repo": "0（仅新增本报告目录）",
+  "evidence": {
+    "baseline-0005ef4-build-output.txt": "6e49bfe4d512c1f52a650ea86b39cc09e37eac9bd63ecfcca6aeff5221f806ef",
+    "baseline-0005ef4-summary.txt": "47d9aaf2709e9ff4c96071fe25d0f285aae41c11e36191909bae7336ede456ea",
+    "baseline-0005ef4-test-output.txt": "f627feb381c84bffb3752ac8a823edbbc32c05264e0f1bc4f8e35dd5039c5dc4",
+    "build-output.txt": "97265c55dbb911a181fbb2308f83e3933253cb34c88745e84e36d6b4f3206ceb",
+    "summary.txt": "fdfd609463f15278557fb94edda48036053ae3e31ddba8ed7a8ad1ed6e8d1ad1",
+    "test-output.txt": "87370c8032e3caed4860a4f3ac8b01c85ac93f4d42ed666aaf23191102006061",
+    "typecheck-output.txt": "8366207267355d3e3d5bf3bf6e8c94c5f93f6078c34f08973fa2b38cdda6cc92"
+  }
+}
