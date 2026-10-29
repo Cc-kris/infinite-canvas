@@ -59,6 +59,7 @@ import {
 import { imageToDataUrl } from "@/services/image-storage";
 import { flushToolDrafts, useToolDraftStore } from "@/stores/use-tool-draft-store";
 import { useToolTaskStore } from "@/stores/use-tool-task-store";
+import type { ToolTask, ToolTaskResultItem } from "@/services/api/tools/task-machine";
 
 const TOOL_ID = CHANGE_COLOR_V2_TOOL_ID;
 const SUITE_CONSTRAINTS = { maxBytes: COLOR_V2_MAX_BYTES } as const;
@@ -125,6 +126,8 @@ export function ColorV2Workspace({ className }: ColorV2WorkspaceProps = {}) {
     const [units, setUnits] = useState<ColorV2Unit[]>([]);
     const [extracting, setExtracting] = useState<string | null>(null);
     const [showSnapshot, setShowSnapshot] = useState(false);
+    /** 历史记录里选中的任务：选中后结果区按它渲染真实结果（含三动作）。 */
+    const [pickedTask, setPickedTask] = useState<ToolTask | null>(null);
 
     const valuesRef = useRef(values);
     const abortRef = useRef<AbortController | null>(null);
@@ -468,7 +471,95 @@ export function ColorV2Workspace({ className }: ColorV2WorkspaceProps = {}) {
     const [rightTab, setRightTab] = useState<"result" | "cases" | "history">("result");
     const [stepDismissed, setStepDismissed] = useState(false);
     const qualityLevel = getQualityLevel(values.quality);
-    const showResults = outcomes.length > 0 || busy;
+
+    /* ---------------- 刷新恢复：落盘任务 → 结果区（G1 遗留缺口） ----------------
+     * 结果区原先只认本会话 state，刷新后 outcomes 归零 → 结果空白、三动作点不到。
+     * 这里从任务库（localStorage 快照 + media_files 字节）取回真实结果：
+     * 结果项的 storageKey 已由 store 在 hydrate 时重建成对象 URL，下载/存资产/发画布继续可用。
+     */
+    const storedTasks = useToolTaskStore((state) => state.tasks);
+    const tasksHydrated = useToolTaskStore((state) => state.hydrated);
+    const hydrateTasks = useToolTaskStore((state) => state.hydrate);
+    useEffect(() => {
+        if (!tasksHydrated) hydrateTasks();
+    }, [tasksHydrated, hydrateTasks]);
+
+    const restoredTask = useMemo(() => {
+        if (pickedTask) return pickedTask;
+        const candidates = Object.values(storedTasks).filter(
+            (task) =>
+                task.toolId === TOOL_ID &&
+                task.status === "succeeded" &&
+                (task.result?.items ?? []).some((item) => item.kind === "image" && (item.dataUrl || item.url)),
+        );
+        candidates.sort((a, b) => (b.updatedAt ?? 0) - (a.updatedAt ?? 0));
+        return candidates[0] ?? null;
+    }, [pickedTask, storedTasks]);
+
+    const restoredItems = useMemo(() => {
+        if (!restoredTask) return [] as ToolTaskResultItem[];
+        return (restoredTask.result?.items ?? []).filter((item) => item.kind === "image" && (item.dataUrl || item.url));
+    }, [restoredTask]);
+
+    const restoredTitle = useCallback(
+        (item: ToolTaskResultItem, index: number) => {
+            const plan = valuesRef.current.plans[index % Math.max(1, valuesRef.current.plans.length)];
+            const asset = suiteRecords[0];
+            const base = `${(asset?.name ?? "商品图").replace(/\.[^.]+$/, "")}-${plan?.name ?? `结果${index + 1}`}`;
+            return base;
+        },
+        [suiteRecords],
+    );
+
+    const downloadRestored = useCallback((item: ToolTaskResultItem, title: string) => {
+        const url = item.dataUrl || item.url;
+        if (!url) return;
+        const anchor = document.createElement("a");
+        anchor.href = url;
+        anchor.download = `${title}.png`;
+        anchor.click();
+    }, []);
+
+    const saveRestored = useCallback(
+        async (item: ToolTaskResultItem, title: string) => {
+            setActingUnit(item.id);
+            setActionNotice("");
+            try {
+                const saved = await saveResultItemToAssets(
+                    { id: item.id, kind: "image", dataUrl: item.dataUrl, url: item.url, mimeType: item.mimeType ?? "image/png" },
+                    0,
+                    { toolId: TOOL_ID, taskId: restoredTask?.id, title: `${title} 换色结果`, source: CHANGE_COLOR_V2_SLUG },
+                );
+                setActionNotice(`已存入资产库（${saved.assetId.slice(0, 8)}）`);
+            } catch (error) {
+                setActionNotice(error instanceof Error ? error.message : "存入资产库失败");
+            } finally {
+                setActingUnit(null);
+            }
+        },
+        [restoredTask?.id],
+    );
+
+    const sendRestored = useCallback(
+        async (item: ToolTaskResultItem) => {
+            setActingUnit(item.id);
+            setActionNotice("");
+            try {
+                const sent = await sendResultItemToCanvas(
+                    { id: item.id, kind: "image", dataUrl: item.dataUrl, url: item.url, mimeType: item.mimeType ?? "image/png" },
+                    { toolId: TOOL_ID, projectTitle: "套图换色结果" },
+                );
+                setActionNotice(`已发送画布（项目 ${sent.projectId.slice(0, 8)} · 节点 ${sent.nodeId.slice(0, 8)}）`);
+            } catch (error) {
+                setActionNotice(error instanceof Error ? error.message : "发送画布失败");
+            } finally {
+                setActingUnit(null);
+            }
+        },
+        [],
+    );
+
+    const showResults = outcomes.length > 0 || busy || restoredItems.length > 0;
 
     /** 原站底部的「上传多张图片，开始批量套图换色」行：直接触发商品图上传区的文件选择器 */
     const openSuitePicker = useCallback(() => {
@@ -964,6 +1055,62 @@ export function ColorV2Workspace({ className }: ColorV2WorkspaceProps = {}) {
                                     </p>
                                 ) : null}
 
+                                {restoredItems.length ? (
+                                    <div data-testid="color-v2-restored" className="space-y-2 rounded-lg border border-border bg-card p-2">
+                                        <p className="text-[11px] leading-4 text-muted-foreground">
+                                            已从本地恢复上次生成的真实结果（任务 {restoredTask?.id.slice(-6)} · {restoredItems.length} 张），下载/存资产库/发画布均按库内字节执行。
+                                        </p>
+                                        <div className="grid grid-cols-[repeat(auto-fill,minmax(180px,1fr))] gap-2">
+                                            {restoredItems.map((item, index) => {
+                                                const title = restoredTitle(item, index);
+                                                return (
+                                                    <figure key={item.id} data-testid="color-v2-restored-item" className="overflow-hidden rounded-lg border border-border bg-card">
+                                                        <div className="flex aspect-[3/4] items-center justify-center bg-card">
+                                                            <img src={item.dataUrl || item.url} alt={title} className="h-full w-full object-contain" />
+                                                        </div>
+                                                        <figcaption className="space-y-1 p-2">
+                                                            <p className="truncate text-[12px] leading-4 text-foreground" title={title}>
+                                                                {title}
+                                                            </p>
+                                                            <p className="text-[11px] leading-4 text-muted-foreground">
+                                                                已完成{item.bytes ? ` · ${Math.round(item.bytes / 1024)} KB` : " · 字节来自本地库"}
+                                                            </p>
+                                                            <div className="flex flex-wrap gap-1 pt-0.5">
+                                                                <button
+                                                                    type="button"
+                                                                    data-testid="color-v2-restored-download"
+                                                                    onClick={() => downloadRestored(item, title)}
+                                                                    className="rounded-[3px] border border-border px-1.5 py-0.5 text-[11px] leading-4 text-muted-foreground transition hover:border-primary/50"
+                                                                >
+                                                                    下载
+                                                                </button>
+                                                                <button
+                                                                    type="button"
+                                                                    data-testid="color-v2-restored-save"
+                                                                    disabled={actingUnit === item.id}
+                                                                    onClick={() => void saveRestored(item, title)}
+                                                                    className="rounded-[3px] border border-border px-1.5 py-0.5 text-[11px] leading-4 text-muted-foreground transition hover:border-primary/50 disabled:opacity-50"
+                                                                >
+                                                                    存资产库
+                                                                </button>
+                                                                <button
+                                                                    type="button"
+                                                                    data-testid="color-v2-restored-send"
+                                                                    disabled={actingUnit === item.id}
+                                                                    onClick={() => void sendRestored(item)}
+                                                                    className="rounded-[3px] border border-border px-1.5 py-0.5 text-[11px] leading-4 text-muted-foreground transition hover:border-primary/50 disabled:opacity-50"
+                                                                >
+                                                                    发画布
+                                                                </button>
+                                                            </div>
+                                                        </figcaption>
+                                                    </figure>
+                                                );
+                                            })}
+                                        </div>
+                                    </div>
+                                ) : null}
+
                                 <div className="grid grid-cols-[repeat(auto-fill,minmax(180px,1fr))] gap-2">
                                     {units.length
                                         ? units.map((unit) => {
@@ -1115,7 +1262,14 @@ export function ColorV2Workspace({ className }: ColorV2WorkspaceProps = {}) {
                         </div>
                     ) : (
                         <div className="p-3">
-                            <ToolTaskHistory toolId={TOOL_ID} emptyHint="还没有换色任务，生成一次后会出现在这里。" />
+                            <ToolTaskHistory
+                                toolId={TOOL_ID}
+                                emptyHint="还没有换色任务，生成一次后会出现在这里。"
+                                onSelectTask={(task) => {
+                                    setPickedTask(task);
+                                    setRightTab("result");
+                                }}
+                            />
                         </div>
                     )}
                 </div>
