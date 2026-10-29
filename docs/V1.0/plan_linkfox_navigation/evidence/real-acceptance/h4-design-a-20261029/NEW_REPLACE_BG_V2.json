@@ -1,0 +1,39 @@
+{
+ "toolId": "NEW_REPLACE_BG_V2",
+ "route": "new-replace-bg-v2",
+ "phase": "reload",
+ "method": "location.reload()",
+ "navType": "reload",
+ "realRun": true,
+ "at": "2026-10-29T19:11:00+08:00",
+ "url": "http://127.0.0.1:3000/tools/product-design/new-replace-bg-v2",
+ "environment": {
+  "origin": "http://127.0.0.1:3000",
+  "browser": "user Chrome (Galley TMWebDriver, self-opened tab)",
+  "injection": false,
+  "newGeneration": false
+ },
+ "realTaskScan": {
+  "toolTaskCount": 0,
+  "ids": [],
+  "statuses": [],
+  "source": "localStorage tool-task:v1:*"
+ },
+ "dock": {
+  "mounted": true,
+  "itemCount": 0,
+  "items": []
+ },
+ "result": {
+  "bytes": null,
+  "reason": "no-task"
+ },
+ "threeActions": {
+  "download": "not-available",
+  "saveAsset": "not-available",
+  "sendCanvas": "not-available"
+ },
+ "verdict": "BLOCKED",
+ "blockedReason": "no-real-task",
+ "errors": []
+}
