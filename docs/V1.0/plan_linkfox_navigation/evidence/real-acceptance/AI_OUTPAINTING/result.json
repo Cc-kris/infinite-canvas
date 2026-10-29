@@ -2,7 +2,7 @@
  "tool": "AI_OUTPAINTING",
  "name": "智能扩图",
  "route": "/tools/ecommerce-suite/ai-outpainting",
- "status": "PASS",
+ "status": "PARTIAL",
  "result": {
   "url": "https://oss-us.dimenoss.com/images/2026/10/29/1793204613_b542867b69ff378db30f0ff3c5e9621a.png",
   "mimeType": "image/png",
@@ -33,6 +33,29 @@
  "tests": {
   "unit": "57 pass / 0 fail (outpaint.test.tsx + adapters/ai-outpainting.test.ts)",
   "typecheck": "tsc --noEmit 通过"
+ },
+ "visualParity": {
+  "gate": "PARTIAL",
+  "report": "visual-parity.json",
+  "originalUrl": "https://www.linkfox.com/draw/ai-outpainting",
+  "localUrl": "http://127.0.0.1:3000/tools/ecommerce-suite/ai-outpainting",
+  "method": "同一 Chrome 窗口（1908×781）取原站与本地可见文案 + computed style + 截图",
+  "screenshots": [
+   "visual-original-viewport.png",
+   "visual-original-full.png",
+   "visual-local-viewport.png"
+  ],
+  "dom": [
+   "dom-original.json",
+   "dom-local.json"
+  ],
+  "keyGaps": [
+   "主题：原站浅色 rgb(245,247,250)，本地深色 oklch(0.145 0 0)",
+   "框架：原站顶部导航 + 左侧栏 + 底部参数条（默认尺寸/生成数量/立即生成 40算力）+ 右侧结果区；本地 ToolShell 单列工作区（1·上传原图 → 2·扩展画布 → 3·… → 4·生成数量）",
+   "文案：原站 37 条可见文案本地缺失（默认尺寸/生成：4张/立即生成/算力/从本地上传/从作品库选择/一键无缝扩展…等）",
+   "交互：原站「立即生成」单键提交，本地「开始扩图」；原站无拖边扩展控件"
+  ],
+  "blockingForPass": "按「布局/样式/文案/字段/交互 1:1」硬门禁，功能回执成立也不得判 PASS"
  },
  "defectsFixed": [
   "BUG-OUTPAINT-A：prompt 必填但错误被过滤 -> 按钮静默禁用（见 05-ui-fix-prompt-gate.json）"

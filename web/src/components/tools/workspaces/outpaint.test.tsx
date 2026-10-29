@@ -110,4 +110,12 @@ describe("智能扩图工作台渲染", () => {
         expect(html).toContain("未生成");
         expect(html).not.toContain("已同步");
     });
+
+    test("结果区下方有本工具历史记录面板（真实任务快照，非原站外链）", async () => {
+        const html = await renderWorkspace();
+        expect(html).toContain('data-testid="tool-task-history"');
+        expect(html).toContain("历史记录");
+        // 空态是真实数据状态：没有历史任务时直说，不画占位记录
+        expect(html).toContain('data-testid="tool-task-history-empty"');
+    });
 });

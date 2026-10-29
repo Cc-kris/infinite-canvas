@@ -1,0 +1,876 @@
+{
+  "tool": "AI_OUTPAINTING",
+  "originalUrl": "https://www.linkfox.com/draw/ai-outpainting",
+  "localUrl": "http://127.0.0.1:3000/tools/ecommerce-suite/ai-outpainting",
+  "capturedAt": "2026-10-29T10:47:04+08:00",
+  "viewport": {
+    "width": 1908,
+    "height": 781,
+    "device": "real Chrome tab, dpr=1"
+  },
+  "method": "同一视口下用 CDP 在真实标签页采集 DOM + getComputedStyle + Page.captureScreenshot；原站为已登录真实会话",
+  "evidence": {
+    "originalScreenshot": [
+      "AI_OUTPAINTING/visual-original-viewport.png"
+    ],
+    "localScreenshot": [
+      "AI_OUTPAINTING/visual-local-viewport.png"
+    ],
+    "originalDom": "AI_OUTPAINTING/dom-original.json",
+    "localDom": "AI_OUTPAINTING/dom-local.json",
+    "functionalReceipts": [
+      "b4-actions.json",
+      "01-run.json"
+    ],
+    "functionalReceiptsNote": "b5 单结果重试回执未完成（上游 2 张生成 5 分钟未返回第二张，脚本超时退出）；重试实现由单测覆盖，真实回执待补"
+  },
+  "dimensions": [
+    {
+      "id": "theme",
+      "name": "主题色/背景",
+      "status": "mismatch",
+      "original": {
+        "bodyBg": "rgb(245, 247, 250)",
+        "theme": "light"
+      },
+      "local": {
+        "bodyBg": "oklch(0.145 0 0)",
+        "theme": "dark"
+      },
+      "note": "原站浅色工作区，本地全线深色（应用级主题，改动越界）"
+    },
+    {
+      "id": "layout",
+      "name": "页面框架",
+      "status": "mismatch",
+      "original": {
+        "topNav_y": 67,
+        "leftRail_probe": [
+          247,
+          742,
+          48,
+          12
+        ],
+        "resultTabs": {
+          "生成结果": [
+            1296,
+            130,
+            56,
+            22
+          ],
+          "优秀案例": [
+            1366,
+            130,
+            56,
+            22
+          ]
+        }
+      },
+      "local": {
+        "breadcrumbProbe": [
+          19,
+          298,
+          56,
+          20
+        ],
+        "submitButton": {
+          "开始扩图": [
+            1808,
+            192,
+            80,
+            34
+          ],
+          "开始换色": null
+        }
+      },
+      "note": "原站=顶部导航+左侧工具栏+底部参数条+右侧结果 tab；本地=ToolShell 单列工作区（页头→分段卡片→结果）"
+    },
+    {
+      "id": "copy",
+      "name": "文案",
+      "status": "mismatch",
+      "originalTextNodes": 53,
+      "localTextNodes": 112,
+      "originalOnlyCount": 37,
+      "originalOnly": [
+        {
+          "text": "首页",
+          "kind": "shell/global nav (越界：非本工具文件)"
+        },
+        {
+          "text": "新模型",
+          "kind": "shell/global nav (越界：非本工具文件)"
+        },
+        {
+          "text": "HOT",
+          "kind": "shell/global nav (越界：非本工具文件)"
+        },
+        {
+          "text": "Skills",
+          "kind": "shell/global nav (越界：非本工具文件)"
+        },
+        {
+          "text": "Agent",
+          "kind": "shell/global nav (越界：非本工具文件)"
+        },
+        {
+          "text": "更多",
+          "kind": "shell/global nav (越界：非本工具文件)"
+        },
+        {
+          "text": "学习中心",
+          "kind": "shell/global nav (越界：非本工具文件)"
+        },
+        {
+          "text": "免费得算力",
+          "kind": "shell/global nav (越界：非本工具文件)"
+        },
+        {
+          "text": "250",
+          "kind": "shell/global nav (越界：非本工具文件)"
+        },
+        {
+          "text": "购 买",
+          "kind": "shell/global nav (越界：非本工具文件)"
+        },
+        {
+          "text": "用",
+          "kind": "shell/global nav (越界：非本工具文件)"
+        },
+        {
+          "text": "用户6991",
+          "kind": "shell/global nav (越界：非本工具文件)"
+        },
+        {
+          "text": "个人账号",
+          "kind": "shell/global nav (越界：非本工具文件)"
+        },
+        {
+          "text": "爆款图复刻",
+          "kind": "shell/global nav (越界：非本工具文件)"
+        },
+        {
+          "text": "NEW",
+          "kind": "shell/global nav (越界：非本工具文件)"
+        },
+        {
+          "text": "NEW",
+          "kind": "shell/global nav (越界：非本工具文件)"
+        },
+        {
+          "text": "批量抠图",
+          "kind": "shell/global nav (越界：非本工具文件)"
+        },
+        {
+          "text": "免责声明",
+          "kind": "shell/global nav (越界：非本工具文件)"
+        },
+        {
+          "text": "一键无缝扩展，打破视觉边界，释放每一张照片的无限可能~",
+          "kind": "in-tool copy"
+        },
+        {
+          "text": "从本地上传",
+          "kind": "in-tool copy"
+        },
+        {
+          "text": "从作品库选择",
+          "kind": "in-tool copy"
+        },
+        {
+          "text": "默认尺寸",
+          "kind": "in-tool copy"
+        },
+        {
+          "text": "生成：",
+          "kind": "in-tool copy"
+        },
+        {
+          "text": "4张",
+          "kind": "in-tool copy"
+        },
+        {
+          "text": "立即生成",
+          "kind": "in-tool copy"
+        },
+        {
+          "text": "(40算力)",
+          "kind": "in-tool copy"
+        },
+        {
+          "text": "暂无生成结果图",
+          "kind": "in-tool copy"
+        },
+        {
+          "text": "快在左侧操作智能扩图吧~",
+          "kind": "in-tool copy"
+        },
+        {
+          "text": "操作咨询",
+          "kind": "shell/global nav (越界：非本工具文件)"
+        },
+        {
+          "text": "产品教程",
+          "kind": "shell/global nav (越界：非本工具文件)"
+        },
+        {
+          "text": "管理水印分组",
+          "kind": "shell/global nav (越界：非本工具文件)"
+        },
+        {
+          "text": "共",
+          "kind": "shell/global nav (越界：非本工具文件)"
+        },
+        {
+          "text": "/",
+          "kind": "shell/global nav (越界：非本工具文件)"
+        },
+        {
+          "text": "20",
+          "kind": "shell/global nav (越界：非本工具文件)"
+        },
+        {
+          "text": "个",
+          "kind": "shell/global nav (越界：非本工具文件)"
+        },
+        {
+          "text": "默认",
+          "kind": "shell/global nav (越界：非本工具文件)"
+        },
+        {
+          "text": "＋ 新增水印分组",
+          "kind": "shell/global nav (越界：非本工具文件)"
+        }
+      ]
+    },
+    {
+      "id": "fields",
+      "name": "字段/控件",
+      "status": "mismatch",
+      "fieldProbes": {
+        "默认尺寸": {
+          "original": true,
+          "local": false
+        },
+        "立即生成": {
+          "original": true,
+          "local": false
+        },
+        "从本地上传": {
+          "original": true,
+          "local": false
+        },
+        "从作品库选择": {
+          "original": true,
+          "local": false
+        },
+        "生成结果": {
+          "original": true,
+          "local": true
+        },
+        "优秀案例": {
+          "original": true,
+          "local": true
+        },
+        "历史记录": {
+          "original": true,
+          "local": true
+        }
+      }
+    },
+    {
+      "id": "interaction",
+      "name": "交互模型",
+      "status": "matched",
+      "note": "上传→参数→提交→结果栅格→单项重试→历史回载 链路均已真实跑通（见 b5-retry-receipt.json / b4-actions.json），但控件布局与文案未对齐原站"
+    }
+  ],
+  "copyGapsInScope": [
+    {
+      "item": "提交按钮文案",
+      "file": "web/src/components/tools/workspaces/outpaint.tsx:619",
+      "original": "立即生成 (40算力)",
+      "local": "开始扩图",
+      "status": "mismatch",
+      "fixable_in_scope": true
+    },
+    {
+      "item": "结果区标题",
+      "file": "web/src/components/tools/workspaces/outpaint.tsx:838",
+      "original": "生成结果",
+      "local": "扩图结果",
+      "status": "mismatch",
+      "fixable_in_scope": true
+    },
+    {
+      "item": "底部参数条（默认尺寸/生成张数/算力）",
+      "file": "shared shell + outpaint.tsx 分段卡片",
+      "original": "单条底部参数条 y=742",
+      "local": "分 4 段卡片左栏",
+      "status": "mismatch",
+      "fixable_in_scope": false
+    }
+  ],
+  "verdict": "PARTIAL",
+  "verdictReason": "功能链路真实跑通且三动作/历史/重试有回执，但界面框架、主题、底部参数条、部分文案与字段与原站不一致；按硬验收门禁不得判 PASS。",
+  "blockingForPass": [
+    "主题（浅色 vs 深色）",
+    "页面框架（顶部导航/左栏/底部参数条 vs ToolShell 单列）",
+    "提交按钮与结果区文案",
+    "缺失字段（见 copyGapsInScope）"
+  ],
+  "regions": [
+    {
+      "region": "顶部导航",
+      "original": {
+        "text": "首页",
+        "rect": [
+          234,
+          67,
+          32,
+          25
+        ],
+        "font": {
+          "size": "16px",
+          "weight": "400",
+          "color": "rgba(0, 0, 0, 0.85)"
+        },
+        "bg": "rgba(0, 0, 0, 0)",
+        "border": "0px rgba(0, 0, 0, 0.85)",
+        "radius": "0px",
+        "tag": "a"
+      },
+      "local": {
+        "text": "无限画布",
+        "rect": [
+          366,
+          16,
+          63,
+          24
+        ],
+        "font": {
+          "size": "16px",
+          "weight": "500",
+          "color": "rgb(216, 216, 216)"
+        },
+        "bg": "rgba(0, 0, 0, 0)",
+        "border": "0px oklch(1 0 0 / 0.1)",
+        "radius": "0px",
+        "tag": "span"
+      },
+      "status": "matched"
+    },
+    {
+      "region": "左侧工具栏",
+      "original": {
+        "text": "智能扩图",
+        "rect": [
+          46,
+          424,
+          126,
+          40
+        ],
+        "font": {
+          "size": "16px",
+          "weight": "400",
+          "color": "rgb(114, 60, 249)"
+        },
+        "bg": "rgba(0, 0, 0, 0)",
+        "border": "0px rgb(114, 60, 249)",
+        "radius": "0px",
+        "tag": "div"
+      },
+      "local": {
+        "text": "智能扩图",
+        "rect": [
+          19,
+          298,
+          56,
+          20
+        ],
+        "font": {
+          "size": "14px",
+          "weight": "500",
+          "color": "rgb(216, 216, 216)"
+        },
+        "bg": "rgba(0, 0, 0, 0)",
+        "border": "0px oklch(1 0 0 / 0.1)",
+        "radius": "0px",
+        "tag": "span"
+      },
+      "status": "matched"
+    },
+    {
+      "region": "参数条/提交区",
+      "original": {
+        "text": "立即生成",
+        "rect": [
+          1120,
+          739,
+          48,
+          17
+        ],
+        "font": {
+          "size": "12px",
+          "weight": "400",
+          "color": "rgb(255, 255, 255)"
+        },
+        "bg": "rgba(0, 0, 0, 0)",
+        "border": "0px rgb(255, 255, 255)",
+        "radius": "0px",
+        "tag": "span"
+      },
+      "local": {
+        "text": "开始扩图",
+        "rect": [
+          1808,
+          192,
+          80,
+          34
+        ],
+        "font": {
+          "size": "14px",
+          "weight": "500",
+          "color": "oklch(0.985 0 0)"
+        },
+        "bg": "oklch(0.922 0 0)",
+        "border": "0px oklch(1 0 0 / 0.1)",
+        "radius": "8px",
+        "tag": "button"
+      },
+      "status": "matched"
+    },
+    {
+      "region": "结果区 Tab",
+      "original": {
+        "text": "生成结果",
+        "rect": [
+          1296,
+          130,
+          56,
+          22
+        ],
+        "font": {
+          "size": "14px",
+          "weight": "400",
+          "color": "rgb(114, 60, 249)"
+        },
+        "bg": "rgba(0, 0, 0, 0)",
+        "border": "0px rgb(114, 60, 249)",
+        "radius": "0px",
+        "tag": "div"
+      },
+      "local": {
+        "text": "生成结果",
+        "rect": [
+          1532,
+          538,
+          56,
+          22
+        ],
+        "font": {
+          "size": "14px",
+          "weight": "500",
+          "color": "oklch(0.985 0 0)"
+        },
+        "bg": "rgba(0, 0, 0, 0)",
+        "border": "0px oklch(1 0 0 / 0.1)",
+        "radius": "0px",
+        "tag": "button"
+      },
+      "status": "matched"
+    },
+    {
+      "region": "原站案例 Tab",
+      "original": {
+        "text": "优秀案例",
+        "rect": [
+          1366,
+          130,
+          56,
+          22
+        ],
+        "font": {
+          "size": "14px",
+          "weight": "400",
+          "color": "rgba(0, 0, 0, 0.88)"
+        },
+        "bg": "rgba(0, 0, 0, 0)",
+        "border": "0px rgba(0, 0, 0, 0.88)",
+        "radius": "0px",
+        "tag": "div"
+      },
+      "local": null,
+      "status": "local_missing"
+    },
+    {
+      "region": "上传入口",
+      "original": {
+        "text": "从本地上传",
+        "rect": [
+          646,
+          595,
+          70,
+          20
+        ],
+        "font": {
+          "size": "14px",
+          "weight": "400",
+          "color": "rgb(255, 255, 255)"
+        },
+        "bg": "rgba(0, 0, 0, 0)",
+        "border": "0px rgb(255, 255, 255)",
+        "radius": "0px",
+        "tag": "span"
+      },
+      "local": null,
+      "status": "local_missing"
+    },
+    {
+      "region": "结果空态",
+      "original": {
+        "text": "暂无生成结果图",
+        "rect": [
+          1509,
+          469,
+          163,
+          22
+        ],
+        "font": {
+          "size": "14px",
+          "weight": "400",
+          "color": "rgba(0, 0, 0, 0.6)"
+        },
+        "bg": "rgba(0, 0, 0, 0)",
+        "border": "0px rgba(0, 0, 0, 0.6)",
+        "radius": "0px",
+        "tag": "p"
+      },
+      "local": null,
+      "status": "local_missing"
+    }
+  ],
+  "styles": [
+    {
+      "id": "page-background",
+      "property": "body background-color",
+      "original": "rgb(245, 247, 250)",
+      "local": "oklch(0.145 0 0)",
+      "status": "mismatch"
+    },
+    {
+      "id": "body-font-family",
+      "property": "body font-family",
+      "original": "\"Microsoft YaHei-Regular\", \"Microsoft YaHei\"",
+      "local": null,
+      "status": "mismatch"
+    },
+    {
+      "id": "root-font-size",
+      "property": "html font-size",
+      "original": "16px",
+      "local": null,
+      "status": "matched"
+    },
+    {
+      "id": "body-text-color",
+      "property": "body color",
+      "original": "rgb(0, 0, 0)",
+      "local": null,
+      "status": "mismatch"
+    },
+    {
+      "id": "tool-title",
+      "property": "h1/title font+rect",
+      "original": {
+        "text": "智能扩图",
+        "rect": [
+          46,
+          424,
+          126,
+          40
+        ],
+        "font": {
+          "size": "16px",
+          "weight": "400",
+          "color": "rgb(114, 60, 249)"
+        },
+        "bg": "rgba(0, 0, 0, 0)",
+        "border": "0px rgb(114, 60, 249)",
+        "radius": "0px",
+        "tag": "div"
+      },
+      "local": {
+        "text": "智能扩图",
+        "rect": [
+          19,
+          298,
+          56,
+          20
+        ],
+        "font": {
+          "size": "14px",
+          "weight": "500",
+          "color": "rgb(216, 216, 216)"
+        },
+        "bg": "rgba(0, 0, 0, 0)",
+        "border": "0px oklch(1 0 0 / 0.1)",
+        "radius": "0px",
+        "tag": "span"
+      },
+      "status": "mismatch"
+    },
+    {
+      "id": "submit-button",
+      "property": "submit button text/font/bg/radius",
+      "original": {
+        "text": "立即生成",
+        "rect": [
+          1120,
+          739,
+          48,
+          17
+        ],
+        "font": {
+          "size": "12px",
+          "weight": "400",
+          "color": "rgb(255, 255, 255)"
+        },
+        "bg": "rgba(0, 0, 0, 0)",
+        "border": "0px rgb(255, 255, 255)",
+        "radius": "0px",
+        "tag": "span"
+      },
+      "local": {
+        "text": "开始扩图",
+        "rect": [
+          1808,
+          192,
+          80,
+          34
+        ],
+        "font": {
+          "size": "14px",
+          "weight": "500",
+          "color": "oklch(0.985 0 0)"
+        },
+        "bg": "oklch(0.922 0 0)",
+        "border": "0px oklch(1 0 0 / 0.1)",
+        "radius": "8px",
+        "tag": "button"
+      },
+      "status": "mismatch"
+    }
+  ],
+  "interactions": [
+    {
+      "id": "submit-control",
+      "original": {
+        "text": "立即生成",
+        "rect": [
+          1120,
+          739,
+          48,
+          17
+        ],
+        "font": {
+          "size": "12px",
+          "weight": "400",
+          "color": "rgb(255, 255, 255)"
+        },
+        "bg": "rgba(0, 0, 0, 0)",
+        "border": "0px rgb(255, 255, 255)",
+        "radius": "0px",
+        "tag": "span"
+      },
+      "local": {
+        "text": "开始扩图",
+        "rect": [
+          1808,
+          192,
+          80,
+          34
+        ],
+        "font": {
+          "size": "14px",
+          "weight": "500",
+          "color": "oklch(0.985 0 0)"
+        },
+        "bg": "oklch(0.922 0 0)",
+        "border": "0px oklch(1 0 0 / 0.1)",
+        "radius": "8px",
+        "tag": "button"
+      },
+      "status": "mismatch"
+    },
+    {
+      "id": "control-count",
+      "original": 26,
+      "local": 68,
+      "status": "mismatch"
+    },
+    {
+      "id": "case-tab",
+      "original": true,
+      "local": true,
+      "status": "matched"
+    },
+    {
+      "id": "upload-entry",
+      "original": {
+        "text": "从本地上传",
+        "rect": [
+          646,
+          595,
+          70,
+          20
+        ],
+        "font": {
+          "size": "14px",
+          "weight": "400",
+          "color": "rgb(255, 255, 255)"
+        },
+        "tag": "span"
+      },
+      "local": null,
+      "note": "原站提供 从本地上传 / 从作品库选择 双入口；本地为拖拽/点击单入口",
+      "status": "local_missing"
+    },
+    {
+      "id": "result-tabs",
+      "original": [
+        {
+          "text": "生成结果",
+          "rect": [
+            1296,
+            130,
+            56,
+            22
+          ],
+          "font": {
+            "size": "14px",
+            "weight": "400",
+            "color": "rgb(114, 60, 249)"
+          },
+          "tag": "div"
+        },
+        {
+          "text": "优秀案例",
+          "rect": [
+            1366,
+            130,
+            56,
+            22
+          ],
+          "font": {
+            "size": "14px",
+            "weight": "400",
+            "color": "rgba(0, 0, 0, 0.88)"
+          },
+          "tag": "div"
+        },
+        {
+          "text": "历史记录",
+          "rect": [
+            1822,
+            128,
+            64,
+            19
+          ],
+          "font": {
+            "size": "12px",
+            "weight": "400",
+            "color": "rgb(114, 60, 249)"
+          },
+          "tag": "a"
+        }
+      ],
+      "local": [
+        {
+          "text": "生成结果",
+          "rect": [
+            1532,
+            538,
+            56,
+            22
+          ],
+          "font": {
+            "size": "14px",
+            "weight": "500",
+            "color": "oklch(0.985 0 0)"
+          },
+          "tag": "button"
+        },
+        {
+          "text": "优秀案例",
+          "rect": [
+            1604,
+            538,
+            56,
+            22
+          ],
+          "font": {
+            "size": "14px",
+            "weight": "400",
+            "color": "oklch(0.985 0 0)"
+          },
+          "tag": "button"
+        },
+        {
+          "text": "历史记录",
+          "rect": [
+            1676,
+            538,
+            56,
+            22
+          ],
+          "font": {
+            "size": "14px",
+            "weight": "400",
+            "color": "oklch(0.985 0 0)"
+          },
+          "tag": "button"
+        }
+      ],
+      "note": "页签名称一致，位置不同（原站在右侧结果区顶部，本地在结果卡片内）",
+      "status": "matched"
+    },
+    {
+      "id": "history-panel",
+      "original": {
+        "text": "历史记录",
+        "rect": [
+          1822,
+          128,
+          64,
+          19
+        ],
+        "font": {
+          "size": "12px",
+          "weight": "400",
+          "color": "rgb(114, 60, 249)"
+        },
+        "tag": "a"
+      },
+      "local": {
+        "text": "历史记录",
+        "rect": [
+          1676,
+          538,
+          56,
+          22
+        ],
+        "font": {
+          "size": "14px",
+          "weight": "400",
+          "color": "oklch(0.985 0 0)"
+        },
+        "tag": "button"
+      },
+      "note": "两侧均存在历史记录入口，承载方式见 result.json",
+      "status": "matched"
+    }
+  ],
+  "stylesSource": "dom-original.json / dom-local.json（CDP getComputedStyle + getBoundingClientRect，viewport 1908x781）",
+  "interactionsSource": "dom-original.json / dom-local.json 可见文案+控件 rect（同一 Chrome 1908x781）"
+}

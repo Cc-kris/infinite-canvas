@@ -70,10 +70,11 @@
     }
   ],
   "inAppActions": {
-    "download": "PASS（unit0 真实落盘 1,115,668B）",
-    "asset": "N/A — 页面重置后整套结果回到「尚未生成」，结果区无「存入资产」入口",
-    "canvas": "N/A — 同上",
-    "note": "任务记录 result item 标记 payloadDropped:true，会话内结果已不可再操作"
+    "receipt": "b4-actions.json（Playwright 真实点击，同一结果三动作连跑）",
+    "download": "PASS — suggestedFilename=change-color-v2-result-1.png, bytes=1115668",
+    "asset": "PASS — 已存入资产库 image · SBkP9jbSJpvWBk4Kf0InH，bytes=1115668，assetCount 0→1",
+    "canvas": "PASS — 已发送到画布 Mu3MPmIDbhxEjns8fv1SR / image-1793209185561-cjfzq，node bytes=1115668",
+    "note": "三动作与结果字节（1115668）一致，非占位图；此前 00:37 一轮因页面重置无法操作，已由 b4-actions.json 复验补齐"
   },
   "openRisks": [
     "unit1(product-watch.jpg) 始终未拿到结果：首次 unclassified 失败 + 重试期间页面重置",
@@ -95,6 +96,29 @@
     "previousRunAt": "2026-10-28T20:20:00+08:00",
     "previousBlocker": "环境阻塞：CDP/TMWebDriver 评估通道在所有 :3000 标签页上不可用。实测 load average 100~162 持续 60 分钟以上，6 个 Chrome Renderer 各占 ~100% CPU、累计 CPU 时间 57~82 分钟；:3000 上 48 条已建立连接（多为开发模式标签）；单次 Runtime.evaluate 在 180s 内不返回（cap.py/bg.py 均超时），而 driver HTTP 端口本身仍可达（GET / 快速返回 426）。",
     "note": "上一轮因 CDP 通道不可用阻塞未执行；本轮通道恢复后真实提交并拿到 1/2 单元真实产物。"
+  },
+  "visualParity": {
+    "gate": "PARTIAL",
+    "report": "visual-parity.json",
+    "originalUrl": "https://www.linkfox.com/draw/change-color-v2",
+    "localUrl": "http://127.0.0.1:3000/tools/ecommerce-suite/change-color-v2",
+    "method": "同一 Chrome 窗口（1908×781）取原站与本地 DOM 可见文案 + computed style + 截图",
+    "screenshots": [
+      "visual-original-viewport.png",
+      "visual-original-full.png",
+      "visual-local-viewport.png"
+    ],
+    "dom": [
+      "dom-original.json",
+      "dom-local.json"
+    ],
+    "keyGaps": [
+      "主题：原站浅色 rgb(245,247,250)，本地深色 oklch(0.145 0 0)",
+      "框架：原站顶部导航 + 左侧栏 + 底部参数条 + 右侧结果区；本地 ToolShell 单列工作区",
+      "文案：原站 97 条可见文案在本地缺失（从本地上传/从作品库选择/从商品库选择/颜色选择/商品图提色/历史使用颜色/模型设置/模型品质/一键做同款/算力 等）",
+      "字段：模型品质三档、提色入口、历史使用颜色在本地未以同名控件出现"
+    ],
+    "blockingForPass": "按「布局/样式/文案/字段/交互 1:1」硬门禁，功能回执成立也不得判 PASS"
   },
   "parityWithOriginal": {
     "url": "https://www.linkfox.com/draw/product-color-change",

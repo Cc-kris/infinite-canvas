@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 
 import { ToolAssetInput } from "@/components/tools/tool-asset-input";
 import { ToolShell } from "@/components/tools/tool-shell";
+import { saveResultItemToAssets, sendResultItemToCanvas } from "@/components/tools/tool-result-actions";
 import {
     assetRecordToReference,
     auditSuiteConsistency,
@@ -138,6 +139,8 @@ export function ColorV2Workspace({ className }: ColorV2WorkspaceProps = {}) {
     const [hydrated, setHydrated] = useState(false);
     const [notice, setNotice] = useState("");
     const [busy, setBusy] = useState(false);
+    const [actingUnit, setActingUnit] = useState<string | null>(null);
+    const [actionNotice, setActionNotice] = useState("");
     const [progress, setProgress] = useState({ done: 0, total: 0 });
     const [outcomes, setOutcomes] = useState<ColorV2UnitOutcome[]>([]);
     const [runHash, setRunHash] = useState<string | null>(null);
@@ -368,8 +371,71 @@ export function ColorV2Workspace({ className }: ColorV2WorkspaceProps = {}) {
         anchor.click();
     }, [suiteRecords]);
 
-    const outcomeByUnit = useMemo(() => new Map(outcomes.map((item) => [item.unitId, item])), [outcomes]);
-    const planRows = useMemo(() => (units.length ? summarizeByPlan(units, outcomes) : []), [outcomes, units]);
+    const outcomeItem = (outcome: ColorV2UnitOutcome) => ({
+        id: `${outcome.unitId}-result`,
+        kind: "image" as const,
+        dataUrl: outcome.image?.dataUrl,
+        url: outcome.image?.url,
+        mimeType: outcome.image?.mimeType ?? "image/png",
+    });
+
+    const outcomeTitle = useCallback((outcome: ColorV2UnitOutcome) => {
+        const plan = valuesRef.current.plans.find((item) => item.id === outcome.planId);
+        const asset = suiteRecords.find((item) => item.id === outcome.assetId);
+        return `${(asset?.name ?? "商品图").replace(/\.[^.]+$/, "")}-${plan?.name ?? outcome.planId}`;
+    }, [suiteRecords]);
+
+    const saveOutcome = useCallback(
+        async (outcome: ColorV2UnitOutcome) => {
+            const item = outcomeItem(outcome);
+            if (!item.dataUrl && !item.url) {
+                setActionNotice("没有可存入的结果图：请先完成一次真实换色");
+                return;
+            }
+            setActingUnit(outcome.unitId);
+            setActionNotice("");
+            try {
+                const saved = await saveResultItemToAssets(item, 0, {
+                    toolId: TOOL_ID,
+                    taskId: outcome.taskId,
+                    title: `${outcomeTitle(outcome)} 换色结果`,
+                    source: CHANGE_COLOR_V2_SLUG,
+                });
+                setActionNotice(`已存入资产库（${saved.assetId.slice(0, 8)}）`);
+            } catch (error) {
+                setActionNotice(error instanceof Error ? error.message : "存入资产库失败");
+            } finally {
+                setActingUnit(null);
+            }
+        },
+        [outcomeTitle],
+    );
+
+    const sendOutcome = useCallback(
+        async (outcome: ColorV2UnitOutcome) => {
+            const item = outcomeItem(outcome);
+            if (!item.dataUrl && !item.url) {
+                setActionNotice("没有可发送的结果图：请先完成一次真实换色");
+                return;
+            }
+            setActingUnit(outcome.unitId);
+            setActionNotice("");
+            try {
+                const sent = await sendResultItemToCanvas(item, {
+                    toolId: TOOL_ID,
+                    projectTitle: "套图换色结果",
+                });
+                setActionNotice(`已发送画布（项目 ${sent.projectId.slice(0, 8)} · 节点 ${sent.nodeId.slice(0, 8)}）`);
+            } catch (error) {
+                setActionNotice(error instanceof Error ? error.message : "发送画布失败");
+            } finally {
+                setActingUnit(null);
+            }
+        },
+        [],
+    );
+
+    const outcomeByUnit = useMemo(() => new Map(outcomes.map((item) => [item.unitId, item])), [outcomes]);    const planRows = useMemo(() => (units.length ? summarizeByPlan(units, outcomes) : []), [outcomes, units]);
     const consistency = useMemo(() => (units.length ? auditSuiteConsistency(units, outcomes) : null), [outcomes, units]);
     const succeeded = outcomes.filter((item) => item.status === "succeeded").length;
 
@@ -803,6 +869,11 @@ export function ColorV2Workspace({ className }: ColorV2WorkspaceProps = {}) {
                                 ) : null}
 
                                 <div className="grid gap-2 sm:grid-cols-2 2xl:grid-cols-3">
+                                    {actionNotice ? (
+                                        <p data-testid="color-v2-action-notice" className="sm:col-span-2 2xl:col-span-3 rounded border border-border bg-accent px-2 py-1 text-[11px]">
+                                            {actionNotice}
+                                        </p>
+                                    ) : null}
                                     {units.map((unit) => {
                                         const outcome = outcomeByUnit.get(unit.unitId);
                                         const plan = values.plans.find((item) => item.id === unit.planId);
@@ -830,9 +901,27 @@ export function ColorV2Workspace({ className }: ColorV2WorkspaceProps = {}) {
                                                     </div>
                                                     <div className="flex items-center gap-1">
                                                         {outcome?.status === "succeeded" ? (
-                                                            <button type="button" onClick={() => download(outcome)} className="rounded border border-border px-1.5 py-0.5 text-[10px] transition hover:bg-accent">
-                                                                下载
-                                                            </button>
+                                                            <>
+                                                                <button type="button" onClick={() => download(outcome)} className="rounded border border-border px-1.5 py-0.5 text-[10px] transition hover:bg-accent">
+                                                                    下载
+                                                                </button>
+                                                                <button
+                                                                    type="button"
+                                                                    disabled={actingUnit === outcome.unitId}
+                                                                    onClick={() => void saveOutcome(outcome)}
+                                                                    className="rounded border border-border px-1.5 py-0.5 text-[10px] transition hover:bg-accent disabled:opacity-40"
+                                                                >
+                                                                    存入资产
+                                                                </button>
+                                                                <button
+                                                                    type="button"
+                                                                    disabled={actingUnit === outcome.unitId}
+                                                                    onClick={() => void sendOutcome(outcome)}
+                                                                    className="rounded border border-border px-1.5 py-0.5 text-[10px] transition hover:bg-accent disabled:opacity-40"
+                                                                >
+                                                                    发画布
+                                                                </button>
+                                                            </>
                                                         ) : null}
                                                         {outcome && outcome.status !== "succeeded" ? (
                                                             <button

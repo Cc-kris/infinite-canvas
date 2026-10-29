@@ -1,0 +1,3351 @@
+{
+ "controls": [
+  {
+   "bg": "rgba(0, 0, 0, 0)",
+   "cls": "ant-btn css-1d18km6 ant-btn-primary ant-btn-color-primary ant-btn-vari",
+   "disabled": false,
+   "font": [
+    "12px",
+    "400",
+    "rgb(255, 255, 255)"
+   ],
+   "radius": "0px",
+   "rect": [
+    1696,
+    64,
+    44,
+    32
+   ],
+   "tag": "button",
+   "text": "购 买"
+  },
+  {
+   "bg": "rgba(0, 0, 0, 0)",
+   "cls": "ant-collapse-header",
+   "disabled": false,
+   "font": [
+    "14px",
+    "400",
+    "rgba(0, 0, 0, 0.88)"
+   ],
+   "radius": "0px",
+   "rect": [
+    190,
+    120,
+    296,
+    46
+   ],
+   "tag": "div",
+   "text": "上传图片"
+  },
+  {
+   "bg": "rgb(114, 60, 249)",
+   "cls": "ant-btn css-1d18km6 ant-btn-primary ant-btn-color-primary ant-btn-vari",
+   "disabled": false,
+   "font": [
+    "12px",
+    "400",
+    "rgb(255, 255, 255)"
+   ],
+   "radius": "4px",
+   "rect": [
+    233,
+    197,
+    210,
+    24
+   ],
+   "tag": "button",
+   "text": "从本地上传"
+  },
+  {
+   "bg": "rgb(255, 255, 255)",
+   "cls": "ant-btn css-1d18km6 ant-btn-default ant-btn-color-purple ant-btn-varia",
+   "disabled": false,
+   "font": [
+    "12px",
+    "400",
+    "rgb(114, 46, 209)"
+   ],
+   "radius": "4px",
+   "rect": [
+    233,
+    231,
+    100,
+    24
+   ],
+   "tag": "button",
+   "text": "从作品库选择"
+  },
+  {
+   "bg": "rgb(255, 255, 255)",
+   "cls": "ant-btn css-1d18km6 ant-btn-default ant-btn-color-purple ant-btn-varia",
+   "disabled": false,
+   "font": [
+    "12px",
+    "400",
+    "rgb(114, 46, 209)"
+   ],
+   "radius": "4px",
+   "rect": [
+    343,
+    231,
+    100,
+    24
+   ],
+   "tag": "button",
+   "text": "从商品库选择"
+  },
+  {
+   "bg": "rgba(0, 0, 0, 0)",
+   "cls": "ant-btn css-1d18km6 ant-btn-primary ant-btn-color-primary ant-btn-vari",
+   "disabled": false,
+   "font": [
+    "14px",
+    "400",
+    "rgb(114, 60, 249)"
+   ],
+   "radius": "6px",
+   "rect": [
+    206,
+    336,
+    264,
+    32
+   ],
+   "tag": "button",
+   "text": "上传多张图片，开始批量套图换色"
+  },
+  {
+   "bg": "rgba(0, 0, 0, 0)",
+   "cls": "ant-collapse-header",
+   "disabled": false,
+   "font": [
+    "14px",
+    "400",
+    "rgba(0, 0, 0, 0.88)"
+   ],
+   "radius": "0px",
+   "rect": [
+    190,
+    394,
+    296,
+    46
+   ],
+   "tag": "div",
+   "text": "颜色选择"
+  },
+  {
+   "bg": "rgb(255, 255, 255)",
+   "cls": "_pickSegItem_n7cfv_166 _pickSegItemActive_n7cfv_188",
+   "disabled": false,
+   "font": [
+    "12px",
+    "600",
+    "rgb(114, 60, 249)"
+   ],
+   "radius": "6px",
+   "rect": [
+    208,
+    450,
+    129,
+    30
+   ],
+   "tag": "button",
+   "text": "商品图提色"
+  },
+  {
+   "bg": "rgba(0, 0, 0, 0)",
+   "cls": "_pickSegItem_n7cfv_166 ",
+   "disabled": false,
+   "font": [
+    "12px",
+    "600",
+    "rgb(90, 90, 110)"
+   ],
+   "radius": "6px",
+   "rect": [
+    339,
+    450,
+    129,
+    30
+   ],
+   "tag": "button",
+   "text": "历史使用颜色"
+  },
+  {
+   "bg": "rgba(0, 0, 0, 0)",
+   "cls": "ant-collapse-header",
+   "disabled": false,
+   "font": [
+    "14px",
+    "400",
+    "rgba(0, 0, 0, 0.88)"
+   ],
+   "radius": "0px",
+   "rect": [
+    190,
+    737,
+    296,
+    46
+   ],
+   "tag": "div",
+   "text": "换色部位"
+  },
+  {
+   "bg": "rgba(0, 0, 0, 0)",
+   "cls": "ant-input css-1d18km6",
+   "disabled": false,
+   "font": [
+    "14px",
+    "400",
+    "rgba(0, 0, 0, 0.88)"
+   ],
+   "radius": "0px",
+   "rect": [
+    207,
+    788,
+    262,
+    52
+   ],
+   "tag": "textarea",
+   "text": "请输入需要换色的部位（必填），如 上装、鞋面"
+  },
+  {
+   "bg": "rgba(0, 0, 0, 0)",
+   "cls": "ant-collapse-header",
+   "disabled": false,
+   "font": [
+    "14px",
+    "400",
+    "rgba(0, 0, 0, 0.88)"
+   ],
+   "radius": "0px",
+   "rect": [
+    190,
+    937,
+    296,
+    46
+   ],
+   "tag": "div",
+   "text": "模型设置"
+  },
+  {
+   "bg": "rgb(255, 255, 255)",
+   "cls": "ant-btn css-1d18km6 ant-btn-default ant-btn-color-default ant-btn-vari",
+   "disabled": false,
+   "font": [
+    "14px",
+    "400",
+    "rgba(0, 0, 0, 0.88)"
+   ],
+   "radius": "6px",
+   "rect": [
+    215,
+    1023,
+    75,
+    32
+   ],
+   "tag": "button",
+   "text": "低品质"
+  },
+  {
+   "bg": "rgb(249, 240, 255)",
+   "cls": "ant-btn css-1d18km6 ant-btn-default ant-btn-color-default ant-btn-vari",
+   "disabled": false,
+   "font": [
+    "14px",
+    "400",
+    "rgb(114, 60, 249)"
+   ],
+   "radius": "6px",
+   "rect": [
+    300,
+    1023,
+    75,
+    32
+   ],
+   "tag": "button",
+   "text": "中品质"
+  },
+  {
+   "bg": "rgb(255, 255, 255)",
+   "cls": "ant-btn css-1d18km6 ant-btn-default ant-btn-color-default ant-btn-vari",
+   "disabled": false,
+   "font": [
+    "14px",
+    "400",
+    "rgba(0, 0, 0, 0.88)"
+   ],
+   "radius": "6px",
+   "rect": [
+    386,
+    1023,
+    75,
+    32
+   ],
+   "tag": "button",
+   "text": "高品质"
+  },
+  {
+   "bg": "rgba(0, 0, 0, 0)",
+   "cls": "ant-btn css-1d18km6 ant-btn-primary ant-btn-color-primary ant-btn-vari",
+   "disabled": false,
+   "font": [
+    "14px",
+    "400",
+    "rgb(255, 255, 255)"
+   ],
+   "radius": "6px",
+   "rect": [
+    190,
+    739,
+    300,
+    32
+   ],
+   "tag": "button",
+   "text": "开始生成\n(50算力)"
+  },
+  {
+   "bg": "rgba(0, 0, 0, 0)",
+   "cls": "ant-tabs-tab-btn",
+   "disabled": false,
+   "font": [
+    "14px",
+    "400",
+    "rgb(114, 60, 249)"
+   ],
+   "radius": "0px",
+   "rect": [
+    503,
+    130,
+    56,
+    22
+   ],
+   "tag": "div",
+   "text": "生成结果"
+  },
+  {
+   "bg": "rgba(0, 0, 0, 0)",
+   "cls": "ant-tabs-tab-btn",
+   "disabled": false,
+   "font": [
+    "14px",
+    "400",
+    "rgba(0, 0, 0, 0.88)"
+   ],
+   "radius": "0px",
+   "rect": [
+    573,
+    130,
+    56,
+    22
+   ],
+   "tag": "div",
+   "text": "优秀案例"
+  },
+  {
+   "bg": "rgba(0, 0, 0, 0)",
+   "cls": "ant-btn css-1d18km6 ant-btn-primary ant-btn-color-primary ant-btn-vari",
+   "disabled": false,
+   "font": [
+    "16px",
+    "400",
+    "rgb(255, 255, 255)"
+   ],
+   "radius": "8px",
+   "rect": [
+    181,
+    691,
+    110,
+    40
+   ],
+   "tag": "button",
+   "text": "一键做同款"
+  },
+  {
+   "bg": "rgba(0, 0, 0, 0)",
+   "cls": "ant-btn css-1d18km6 ant-btn-primary ant-btn-color-primary ant-btn-vari",
+   "disabled": false,
+   "font": [
+    "16px",
+    "400",
+    "rgb(255, 255, 255)"
+   ],
+   "radius": "8px",
+   "rect": [
+    1139,
+    691,
+    110,
+    40
+   ],
+   "tag": "button",
+   "text": "一键做同款"
+  },
+  {
+   "bg": "rgba(0, 0, 0, 0)",
+   "cls": "ant-btn css-1d18km6 ant-btn-primary ant-btn-color-primary ant-btn-vari",
+   "disabled": false,
+   "font": [
+    "16px",
+    "400",
+    "rgb(255, 255, 255)"
+   ],
+   "radius": "8px",
+   "rect": [
+    2097,
+    691,
+    110,
+    40
+   ],
+   "tag": "button",
+   "text": "一键做同款"
+  },
+  {
+   "bg": "rgba(0, 0, 0, 0)",
+   "cls": "ant-btn css-1d18km6 ant-btn-primary ant-btn-color-primary ant-btn-vari",
+   "disabled": false,
+   "font": [
+    "16px",
+    "400",
+    "rgb(255, 255, 255)"
+   ],
+   "radius": "8px",
+   "rect": [
+    3055,
+    691,
+    110,
+    40
+   ],
+   "tag": "button",
+   "text": "一键做同款"
+  },
+  {
+   "bg": "rgba(0, 0, 0, 0)",
+   "cls": "ant-btn css-1d18km6 ant-btn-primary ant-btn-color-primary ant-btn-vari",
+   "disabled": false,
+   "font": [
+    "16px",
+    "400",
+    "rgb(255, 255, 255)"
+   ],
+   "radius": "8px",
+   "rect": [
+    4013,
+    691,
+    110,
+    40
+   ],
+   "tag": "button",
+   "text": "一键做同款"
+  },
+  {
+   "bg": "rgba(0, 0, 0, 0)",
+   "cls": "ant-btn css-1d18km6 ant-btn-primary ant-btn-color-primary ant-btn-vari",
+   "disabled": false,
+   "font": [
+    "16px",
+    "400",
+    "rgb(255, 255, 255)"
+   ],
+   "radius": "8px",
+   "rect": [
+    4971,
+    691,
+    110,
+    40
+   ],
+   "tag": "button",
+   "text": "一键做同款"
+  },
+  {
+   "bg": "rgba(0, 0, 0, 0)",
+   "cls": "ant-btn css-1d18km6 ant-btn-primary ant-btn-color-primary ant-btn-vari",
+   "disabled": false,
+   "font": [
+    "16px",
+    "400",
+    "rgb(255, 255, 255)"
+   ],
+   "radius": "8px",
+   "rect": [
+    5929,
+    691,
+    110,
+    40
+   ],
+   "tag": "button",
+   "text": "一键做同款"
+  },
+  {
+   "bg": "rgba(0, 0, 0, 0)",
+   "cls": "ant-btn css-1d18km6 ant-btn-primary ant-btn-color-primary ant-btn-vari",
+   "disabled": false,
+   "font": [
+    "16px",
+    "400",
+    "rgb(255, 255, 255)"
+   ],
+   "radius": "8px",
+   "rect": [
+    6887,
+    691,
+    110,
+    40
+   ],
+   "tag": "button",
+   "text": "一键做同款"
+  },
+  {
+   "bg": "rgba(0, 0, 0, 0)",
+   "cls": "ant-btn css-1d18km6 ant-btn-primary ant-btn-color-primary ant-btn-vari",
+   "disabled": false,
+   "font": [
+    "16px",
+    "400",
+    "rgb(255, 255, 255)"
+   ],
+   "radius": "8px",
+   "rect": [
+    7845,
+    691,
+    110,
+    40
+   ],
+   "tag": "button",
+   "text": "一键做同款"
+  },
+  {
+   "bg": "rgba(0, 0, 0, 0)",
+   "cls": "ant-btn css-1d18km6 ant-btn-primary ant-btn-color-primary ant-btn-vari",
+   "disabled": false,
+   "font": [
+    "16px",
+    "400",
+    "rgb(255, 255, 255)"
+   ],
+   "radius": "8px",
+   "rect": [
+    8803,
+    691,
+    110,
+    40
+   ],
+   "tag": "button",
+   "text": "一键做同款"
+  },
+  {
+   "bg": "rgba(0, 0, 0, 0)",
+   "cls": "ant-btn css-1d18km6 ant-btn-primary ant-btn-color-primary ant-btn-vari",
+   "disabled": false,
+   "font": [
+    "16px",
+    "400",
+    "rgb(255, 255, 255)"
+   ],
+   "radius": "8px",
+   "rect": [
+    9761,
+    691,
+    110,
+    40
+   ],
+   "tag": "button",
+   "text": "一键做同款"
+  },
+  {
+   "bg": "rgba(0, 0, 0, 0)",
+   "cls": "ant-btn css-1d18km6 ant-btn-primary ant-btn-color-primary ant-btn-vari",
+   "disabled": false,
+   "font": [
+    "16px",
+    "400",
+    "rgb(255, 255, 255)"
+   ],
+   "radius": "8px",
+   "rect": [
+    10719,
+    691,
+    110,
+    40
+   ],
+   "tag": "button",
+   "text": "一键做同款"
+  },
+  {
+   "bg": "rgba(0, 0, 0, 0)",
+   "cls": "ant-btn css-1d18km6 ant-btn-primary ant-btn-color-primary ant-btn-vari",
+   "disabled": false,
+   "font": [
+    "16px",
+    "400",
+    "rgb(255, 255, 255)"
+   ],
+   "radius": "8px",
+   "rect": [
+    11677,
+    691,
+    110,
+    40
+   ],
+   "tag": "button",
+   "text": "一键做同款"
+  },
+  {
+   "bg": "rgb(114, 60, 249)",
+   "cls": "",
+   "disabled": false,
+   "font": [
+    "0px",
+    "400",
+    "rgba(0, 0, 0, 0)"
+   ],
+   "radius": "3px",
+   "rect": [
+    1148,
+    757,
+    22,
+    6
+   ],
+   "tag": "button",
+   "text": "1"
+  },
+  {
+   "bg": "rgba(0, 0, 0, 0.3)",
+   "cls": "",
+   "disabled": false,
+   "font": [
+    "0px",
+    "400",
+    "rgba(0, 0, 0, 0)"
+   ],
+   "radius": "3px",
+   "rect": [
+    1178,
+    757,
+    6,
+    6
+   ],
+   "tag": "button",
+   "text": "2"
+  },
+  {
+   "bg": "rgba(0, 0, 0, 0.3)",
+   "cls": "",
+   "disabled": false,
+   "font": [
+    "0px",
+    "400",
+    "rgba(0, 0, 0, 0)"
+   ],
+   "radius": "3px",
+   "rect": [
+    1192,
+    757,
+    6,
+    6
+   ],
+   "tag": "button",
+   "text": "3"
+  },
+  {
+   "bg": "rgba(0, 0, 0, 0.3)",
+   "cls": "",
+   "disabled": false,
+   "font": [
+    "0px",
+    "400",
+    "rgba(0, 0, 0, 0)"
+   ],
+   "radius": "3px",
+   "rect": [
+    1206,
+    757,
+    6,
+    6
+   ],
+   "tag": "button",
+   "text": "4"
+  },
+  {
+   "bg": "rgba(0, 0, 0, 0.3)",
+   "cls": "",
+   "disabled": false,
+   "font": [
+    "0px",
+    "400",
+    "rgba(0, 0, 0, 0)"
+   ],
+   "radius": "3px",
+   "rect": [
+    1220,
+    757,
+    6,
+    6
+   ],
+   "tag": "button",
+   "text": "5"
+  },
+  {
+   "bg": "rgba(0, 0, 0, 0.3)",
+   "cls": "",
+   "disabled": false,
+   "font": [
+    "0px",
+    "400",
+    "rgba(0, 0, 0, 0)"
+   ],
+   "radius": "3px",
+   "rect": [
+    1234,
+    757,
+    6,
+    6
+   ],
+   "tag": "button",
+   "text": "6"
+  },
+  {
+   "bg": "rgba(0, 0, 0, 0)",
+   "cls": "",
+   "disabled": false,
+   "font": [
+    "14px",
+    "400",
+    "rgba(0, 0, 0, 0.88)"
+   ],
+   "radius": "0px",
+   "rect": [
+    1797,
+    481,
+    101,
+    90
+   ],
+   "tag": "div",
+   "text": "操作咨询\n产品教程"
+  },
+  {
+   "bg": "rgb(255, 255, 255)",
+   "cls": "_mgName_g24uu_270",
+   "disabled": false,
+   "font": [
+    "11px",
+    "400",
+    "rgb(29, 29, 41)"
+   ],
+   "radius": "7px",
+   "rect": [
+    1151,
+    375,
+    74,
+    26
+   ],
+   "tag": "input",
+   "text": "LinkFox 默认"
+  },
+  {
+   "bg": "rgb(255, 255, 255)",
+   "cls": "_mgText_g24uu_285",
+   "disabled": false,
+   "font": [
+    "11px",
+    "400",
+    "rgb(85, 85, 85)"
+   ],
+   "radius": "7px",
+   "rect": [
+    1231,
+    375,
+    138,
+    26
+   ],
+   "tag": "input",
+   "text": "本图片由 LinkFox AI 生成"
+  },
+  {
+   "bg": "rgb(114, 60, 249)",
+   "cls": "_mgAct_g24uu_300 _mgDefBtn_g24uu_324 _mgDefBtnActive_g24uu_339",
+   "disabled": false,
+   "font": [
+    "11px",
+    "600",
+    "rgb(255, 255, 255)"
+   ],
+   "radius": "5px",
+   "rect": [
+    1375,
+    376,
+    40,
+    24
+   ],
+   "tag": "button",
+   "text": "默认"
+  },
+  {
+   "bg": "rgba(0, 0, 0, 0)",
+   "cls": "_mgAct_g24uu_300 _mgDel_g24uu_349",
+   "disabled": false,
+   "font": [
+    "13.3333px",
+    "400",
+    "rgb(179, 179, 189)"
+   ],
+   "radius": "6px",
+   "rect": [
+    1421,
+    376,
+    24,
+    24
+   ],
+   "tag": "button",
+   "text": ""
+  },
+  {
+   "bg": "rgb(250, 248, 255)",
+   "cls": "_addGroupBtn_g24uu_353 ",
+   "disabled": false,
+   "font": [
+    "12px",
+    "700",
+    "rgb(114, 60, 249)"
+   ],
+   "radius": "9px",
+   "rect": [
+    1151,
+    411,
+    294,
+    35
+   ],
+   "tag": "button",
+   "text": "＋ 新增水印分组"
+  }
+ ],
+ "texts": [
+  {
+   "p": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "cls": "",
+    "font": [
+     "16px",
+     "400",
+     "rgba(0, 0, 0, 0.85)"
+    ],
+    "radius": "0px",
+    "rect": [
+     234,
+     67,
+     32,
+     25
+    ],
+    "tag": "a"
+   },
+   "t": "首页"
+  },
+  {
+   "p": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "cls": "_active_139v7_171",
+    "font": [
+     "16px",
+     "400",
+     "rgb(114, 60, 249)"
+    ],
+    "radius": "0px",
+    "rect": [
+     296,
+     67,
+     64,
+     25
+    ],
+    "tag": "a"
+   },
+   "t": "电商套图"
+  },
+  {
+   "p": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "cls": "",
+    "font": [
+     "16px",
+     "400",
+     "rgba(0, 0, 0, 0.85)"
+    ],
+    "radius": "0px",
+    "rect": [
+     390,
+     67,
+     102,
+     25
+    ],
+    "tag": "a"
+   },
+   "t": "智能修图"
+  },
+  {
+   "p": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "cls": "_navHot_139v7_771",
+    "font": [
+     "9px",
+     "700",
+     "rgb(255, 255, 255)"
+    ],
+    "radius": "5px",
+    "rect": [
+     458,
+     65,
+     38,
+     16
+    ],
+    "tag": "em"
+   },
+   "t": "新模型"
+  },
+  {
+   "p": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "cls": "",
+    "font": [
+     "16px",
+     "400",
+     "rgba(0, 0, 0, 0.85)"
+    ],
+    "radius": "0px",
+    "rect": [
+     522,
+     67,
+     77,
+     25
+    ],
+    "tag": "a"
+   },
+   "t": "AI视频"
+  },
+  {
+   "p": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "cls": "_navHot_139v7_771",
+    "font": [
+     "9px",
+     "700",
+     "rgb(255, 255, 255)"
+    ],
+    "radius": "5px",
+    "rect": [
+     572,
+     65,
+     31,
+     16
+    ],
+    "tag": "em"
+   },
+   "t": "HOT"
+  },
+  {
+   "p": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "cls": "",
+    "font": [
+     "16px",
+     "400",
+     "rgba(0, 0, 0, 0.85)"
+    ],
+    "radius": "0px",
+    "rect": [
+     629,
+     67,
+     64,
+     25
+    ],
+    "tag": "a"
+   },
+   "t": "批量生图"
+  },
+  {
+   "p": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "cls": "",
+    "font": [
+     "16px",
+     "400",
+     "rgba(0, 0, 0, 0.85)"
+    ],
+    "radius": "0px",
+    "rect": [
+     723,
+     67,
+     80,
+     25
+    ],
+    "tag": "a"
+   },
+   "t": "商品图设计"
+  },
+  {
+   "p": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "cls": "",
+    "font": [
+     "16px",
+     "400",
+     "rgba(0, 0, 0, 0.85)"
+    ],
+    "radius": "0px",
+    "rect": [
+     833,
+     67,
+     37,
+     25
+    ],
+    "tag": "a"
+   },
+   "t": "Skills"
+  },
+  {
+   "p": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "cls": "",
+    "font": [
+     "16px",
+     "400",
+     "rgba(0, 0, 0, 0.85)"
+    ],
+    "radius": "0px",
+    "rect": [
+     900,
+     67,
+     43,
+     25
+    ],
+    "tag": "a"
+   },
+   "t": "Agent"
+  },
+  {
+   "p": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "cls": "ant-dropdown-trigger",
+    "font": [
+     "16px",
+     "400",
+     "rgba(0, 0, 0, 0.85)"
+    ],
+    "radius": "0px",
+    "rect": [
+     973,
+     67,
+     47,
+     25
+    ],
+    "tag": "span"
+   },
+   "t": "更多"
+  },
+  {
+   "p": {
+    "bg": "rgb(244, 244, 245)",
+    "cls": "_learnCenter_139v7_255",
+    "font": [
+     "13px",
+     "400",
+     "rgba(0, 0, 0, 0.85)"
+    ],
+    "radius": "6px",
+    "rect": [
+     1425,
+     64,
+     92,
+     32
+    ],
+    "tag": "a"
+   },
+   "t": "学习中心"
+  },
+  {
+   "p": {
+    "bg": "rgb(254, 226, 226)",
+    "cls": "_wechatBox_tlhxi_3 ",
+    "font": [
+     "14px",
+     "400",
+     "rgb(239, 68, 68)"
+    ],
+    "radius": "6px",
+    "rect": [
+     1532,
+     64,
+     94,
+     32
+    ],
+    "tag": "div"
+   },
+   "t": "免费得算力"
+  },
+  {
+   "p": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "cls": "_pointsValue_193u6_21",
+    "font": [
+     "12px",
+     "700",
+     "rgba(0, 0, 0, 0.85)"
+    ],
+    "radius": "0px",
+    "rect": [
+     1664,
+     71,
+     24,
+     19
+    ],
+    "tag": "span"
+   },
+   "t": "250"
+  },
+  {
+   "p": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "cls": "",
+    "font": [
+     "12px",
+     "400",
+     "rgb(255, 255, 255)"
+    ],
+    "radius": "0px",
+    "rect": [
+     1705,
+     72,
+     27,
+     17
+    ],
+    "tag": "span"
+   },
+   "t": "购 买"
+  },
+  {
+   "p": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "cls": "ant-avatar-string",
+    "font": [
+     "14px",
+     "400",
+     "rgb(255, 255, 255)"
+    ],
+    "radius": "0px",
+    "rect": [
+     1766,
+     69,
+     14,
+     22
+    ],
+    "tag": "span"
+   },
+   "t": "用"
+  },
+  {
+   "p": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "cls": "_userName_15na6_78",
+    "font": [
+     "14px",
+     "400",
+     "rgb(51, 51, 51)"
+    ],
+    "radius": "0px",
+    "rect": [
+     1796,
+     62,
+     61,
+     20
+    ],
+    "tag": "span"
+   },
+   "t": "用户6991"
+  },
+  {
+   "p": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "cls": "_auxiliaryText_15na6_117",
+    "font": [
+     "12px",
+     "400",
+     "rgb(153, 153, 153)"
+    ],
+    "radius": "0px",
+    "rect": [
+     1796,
+     82,
+     61,
+     16
+    ],
+    "tag": "span"
+   },
+   "t": "个人账号"
+  },
+  {
+   "p": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "cls": "_drawPopTipsWrapper_1vbg4_5",
+    "font": [
+     "16px",
+     "400",
+     "rgba(0, 0, 0, 0.6)"
+    ],
+    "radius": "0px",
+    "rect": [
+     46,
+     110,
+     126,
+     40
+    ],
+    "tag": "div"
+   },
+   "t": "商品套图"
+  },
+  {
+   "p": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "cls": "_drawPopTipsWrapper_1vbg4_5",
+    "font": [
+     "16px",
+     "400",
+     "rgba(0, 0, 0, 0.6)"
+    ],
+    "radius": "0px",
+    "rect": [
+     46,
+     150,
+     126,
+     40
+    ],
+    "tag": "div"
+   },
+   "t": "服装套图"
+  },
+  {
+   "p": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "cls": "_betaLabel_1k85n_294",
+    "font": [
+     "16px",
+     "400",
+     "rgba(0, 0, 0, 0.6)"
+    ],
+    "radius": "0px",
+    "rect": [
+     46,
+     207,
+     111,
+     40
+    ],
+    "tag": "div"
+   },
+   "t": "爆款图复刻"
+  },
+  {
+   "p": {
+    "bg": "rgb(250, 81, 81)",
+    "cls": "_newStyle_1k85n_166",
+    "font": [
+     "8px",
+     "400",
+     "rgb(255, 255, 255)"
+    ],
+    "radius": "4px",
+    "rect": [
+     130,
+     220,
+     21,
+     12
+    ],
+    "tag": "span"
+   },
+   "t": "NEW"
+  },
+  {
+   "p": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "cls": "_betaLabel_1k85n_294",
+    "font": [
+     "16px",
+     "400",
+     "rgb(114, 60, 249)"
+    ],
+    "radius": "0px",
+    "rect": [
+     46,
+     247,
+     95,
+     40
+    ],
+    "tag": "div"
+   },
+   "t": "套图换色"
+  },
+  {
+   "p": {
+    "bg": "rgb(250, 81, 81)",
+    "cls": "_newStyle_1k85n_166",
+    "font": [
+     "8px",
+     "400",
+     "rgb(255, 255, 255)"
+    ],
+    "radius": "4px",
+    "rect": [
+     114,
+     260,
+     21,
+     12
+    ],
+    "tag": "span"
+   },
+   "t": "NEW"
+  },
+  {
+   "p": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "cls": "_drawPopTipsWrapper_1vbg4_5",
+    "font": [
+     "16px",
+     "400",
+     "rgba(0, 0, 0, 0.6)"
+    ],
+    "radius": "0px",
+    "rect": [
+     46,
+     304,
+     126,
+     40
+    ],
+    "tag": "div"
+   },
+   "t": "批量翻译"
+  },
+  {
+   "p": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "cls": "_drawPopTipsWrapper_1vbg4_5",
+    "font": [
+     "16px",
+     "400",
+     "rgba(0, 0, 0, 0.6)"
+    ],
+    "radius": "0px",
+    "rect": [
+     46,
+     344,
+     126,
+     40
+    ],
+    "tag": "div"
+   },
+   "t": "高清放大"
+  },
+  {
+   "p": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "cls": "_drawPopTipsWrapper_1vbg4_5",
+    "font": [
+     "16px",
+     "400",
+     "rgba(0, 0, 0, 0.6)"
+    ],
+    "radius": "0px",
+    "rect": [
+     46,
+     384,
+     126,
+     40
+    ],
+    "tag": "div"
+   },
+   "t": "批量抠图"
+  },
+  {
+   "p": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "cls": "_drawPopTipsWrapper_1vbg4_5",
+    "font": [
+     "16px",
+     "400",
+     "rgba(0, 0, 0, 0.6)"
+    ],
+    "radius": "0px",
+    "rect": [
+     46,
+     424,
+     126,
+     40
+    ],
+    "tag": "div"
+   },
+   "t": "智能扩图"
+  },
+  {
+   "p": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "cls": "_spanText_1k85n_112",
+    "font": [
+     "12px",
+     "400",
+     "rgb(208, 210, 214)"
+    ],
+    "radius": "0px",
+    "rect": [
+     70,
+     755,
+     51,
+     15
+    ],
+    "tag": "span"
+   },
+   "t": "免责声明"
+  },
+  {
+   "p": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "cls": "ant-collapse-header-text",
+    "font": [
+     "12px",
+     "600",
+     "rgb(114, 60, 249)"
+    ],
+    "radius": "0px",
+    "rect": [
+     206,
+     132,
+     240,
+     19
+    ],
+    "tag": "span"
+   },
+   "t": "上传图片"
+  },
+  {
+   "p": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "cls": "",
+    "font": [
+     "12px",
+     "400",
+     "rgb(255, 255, 255)"
+    ],
+    "radius": "0px",
+    "rect": [
+     318,
+     201,
+     60,
+     17
+    ],
+    "tag": "span"
+   },
+   "t": "从本地上传"
+  },
+  {
+   "p": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "cls": "",
+    "font": [
+     "12px",
+     "400",
+     "rgb(114, 46, 209)"
+    ],
+    "radius": "0px",
+    "rect": [
+     247,
+     235,
+     72,
+     17
+    ],
+    "tag": "span"
+   },
+   "t": "从作品库选择"
+  },
+  {
+   "p": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "cls": "",
+    "font": [
+     "12px",
+     "400",
+     "rgb(114, 46, 209)"
+    ],
+    "radius": "0px",
+    "rect": [
+     357,
+     235,
+     72,
+     17
+    ],
+    "tag": "span"
+   },
+   "t": "从商品库选择"
+  },
+  {
+   "p": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "cls": "_description_12u02_90",
+    "font": [
+     "12px",
+     "400",
+     "rgb(153, 153, 153)"
+    ],
+    "radius": "0px",
+    "rect": [
+     233,
+     265,
+     210,
+     34
+    ],
+    "tag": "p"
+   },
+   "t": "10M以内，分辨率：384*384 ~ 4096*4096，最大宽高比5"
+  },
+  {
+   "p": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "cls": "",
+    "font": [
+     "14px",
+     "400",
+     "rgb(114, 60, 249)"
+    ],
+    "radius": "0px",
+    "rect": [
+     222,
+     342,
+     210,
+     20
+    ],
+    "tag": "span"
+   },
+   "t": "上传多张图片，开始批量套图换色"
+  },
+  {
+   "p": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "cls": "ant-collapse-header-text",
+    "font": [
+     "12px",
+     "600",
+     "rgb(114, 60, 249)"
+    ],
+    "radius": "0px",
+    "rect": [
+     206,
+     406,
+     240,
+     19
+    ],
+    "tag": "span"
+   },
+   "t": "颜色选择"
+  },
+  {
+   "p": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "cls": "",
+    "font": [
+     "12px",
+     "600",
+     "rgb(114, 60, 249)"
+    ],
+    "radius": "0px",
+    "rect": [
+     229,
+     457,
+     60,
+     17
+    ],
+    "tag": "span"
+   },
+   "t": "商品图提色"
+  },
+  {
+   "p": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "cls": "_pickSegItem_n7cfv_166 ",
+    "font": [
+     "12px",
+     "600",
+     "rgb(90, 90, 110)"
+    ],
+    "radius": "6px",
+    "rect": [
+     339,
+     450,
+     129,
+     30
+    ],
+    "tag": "button"
+   },
+   "t": "历史使用颜色"
+  },
+  {
+   "p": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "cls": "_uploadText_dg6l8_39",
+    "font": [
+     "12px",
+     "400",
+     "rgba(0, 0, 0, 0.85)"
+    ],
+    "radius": "0px",
+    "rect": [
+     249,
+     574,
+     178,
+     19
+    ],
+    "tag": "div"
+   },
+   "t": "拖拽 或"
+  },
+  {
+   "p": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "cls": "_uploadAccent_dg6l8_44",
+    "font": [
+     "12px",
+     "700",
+     "rgb(114, 60, 249)"
+    ],
+    "radius": "0px",
+    "rect": [
+     292,
+     575,
+     72,
+     15
+    ],
+    "tag": "b"
+   },
+   "t": "点击批量上传"
+  },
+  {
+   "p": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "cls": "_uploadText_dg6l8_39",
+    "font": [
+     "12px",
+     "400",
+     "rgba(0, 0, 0, 0.85)"
+    ],
+    "radius": "0px",
+    "rect": [
+     249,
+     574,
+     178,
+     19
+    ],
+    "tag": "div"
+   },
+   "t": "商品参考图"
+  },
+  {
+   "p": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "cls": "_uploadHint_dg6l8_48",
+    "font": [
+     "11px",
+     "400",
+     "rgba(0, 0, 0, 0.45)"
+    ],
+    "radius": "0px",
+    "rect": [
+     231,
+     598,
+     214,
+     35
+    ],
+    "tag": "div"
+   },
+   "t": "整张商品图作为换色参考 · 支持多选 · 最多"
+  },
+  {
+   "p": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "cls": "_uploadHint_dg6l8_48",
+    "font": [
+     "11px",
+     "400",
+     "rgba(0, 0, 0, 0.45)"
+    ],
+    "radius": "0px",
+    "rect": [
+     231,
+     598,
+     214,
+     35
+    ],
+    "tag": "div"
+   },
+   "t": "25"
+  },
+  {
+   "p": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "cls": "_uploadHint_dg6l8_48",
+    "font": [
+     "11px",
+     "400",
+     "rgba(0, 0, 0, 0.45)"
+    ],
+    "radius": "0px",
+    "rect": [
+     231,
+     598,
+     214,
+     35
+    ],
+    "tag": "div"
+   },
+   "t": "张 · 单张 10M 以内"
+  },
+  {
+   "p": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "cls": "_schemeTitle_n7cfv_369",
+    "font": [
+     "12px",
+     "500",
+     "rgba(0, 0, 0, 0.85)"
+    ],
+    "radius": "0px",
+    "rect": [
+     206,
+     684,
+     141,
+     19
+    ],
+    "tag": "span"
+   },
+   "t": "本次换色方案 · 0 张参考图"
+  },
+  {
+   "p": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "cls": "ant-collapse-header-text",
+    "font": [
+     "12px",
+     "600",
+     "rgb(114, 60, 249)"
+    ],
+    "radius": "0px",
+    "rect": [
+     206,
+     749,
+     240,
+     19
+    ],
+    "tag": "span"
+   },
+   "t": "换色部位"
+  },
+  {
+   "p": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "cls": "ant-input-data-count",
+    "font": [
+     "14px",
+     "400",
+     "rgba(0, 0, 0, 0.45)"
+    ],
+    "radius": "0px",
+    "rect": [
+     431,
+     840,
+     38,
+     22
+    ],
+    "tag": "span"
+   },
+   "t": "0 / 50"
+  },
+  {
+   "p": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "cls": "_tagsPrefix_n7cfv_456",
+    "font": [
+     "12px",
+     "400",
+     "rgba(0, 0, 0, 0.45)"
+    ],
+    "radius": "0px",
+    "rect": [
+     206,
+     862,
+     24,
+     19
+    ],
+    "tag": "span"
+   },
+   "t": "常用"
+  },
+  {
+   "p": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "cls": "",
+    "font": [
+     "12px",
+     "400",
+     "rgba(0, 0, 0, 0.88)"
+    ],
+    "radius": "0px",
+    "rect": [
+     246,
+     864,
+     24,
+     15
+    ],
+    "tag": "span"
+   },
+   "t": "全身"
+  },
+  {
+   "p": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "cls": "",
+    "font": [
+     "12px",
+     "400",
+     "rgba(0, 0, 0, 0.88)"
+    ],
+    "radius": "0px",
+    "rect": [
+     292,
+     864,
+     24,
+     15
+    ],
+    "tag": "span"
+   },
+   "t": "上装"
+  },
+  {
+   "p": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "cls": "",
+    "font": [
+     "12px",
+     "400",
+     "rgba(0, 0, 0, 0.88)"
+    ],
+    "radius": "0px",
+    "rect": [
+     338,
+     864,
+     24,
+     15
+    ],
+    "tag": "span"
+   },
+   "t": "下装"
+  },
+  {
+   "p": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "cls": "",
+    "font": [
+     "12px",
+     "400",
+     "rgba(0, 0, 0, 0.88)"
+    ],
+    "radius": "0px",
+    "rect": [
+     384,
+     864,
+     24,
+     15
+    ],
+    "tag": "span"
+   },
+   "t": "鞋面"
+  },
+  {
+   "p": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "cls": "",
+    "font": [
+     "12px",
+     "400",
+     "rgba(0, 0, 0, 0.88)"
+    ],
+    "radius": "0px",
+    "rect": [
+     430,
+     864,
+     24,
+     15
+    ],
+    "tag": "span"
+   },
+   "t": "鞋底"
+  },
+  {
+   "p": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "cls": "",
+    "font": [
+     "12px",
+     "400",
+     "rgba(0, 0, 0, 0.88)"
+    ],
+    "radius": "0px",
+    "rect": [
+     214,
+     892,
+     24,
+     15
+    ],
+    "tag": "span"
+   },
+   "t": "包身"
+  },
+  {
+   "p": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "cls": "",
+    "font": [
+     "12px",
+     "400",
+     "rgba(0, 0, 0, 0.88)"
+    ],
+    "radius": "0px",
+    "rect": [
+     260,
+     892,
+     24,
+     15
+    ],
+    "tag": "span"
+   },
+   "t": "包带"
+  },
+  {
+   "p": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "cls": "",
+    "font": [
+     "12px",
+     "400",
+     "rgba(0, 0, 0, 0.88)"
+    ],
+    "radius": "0px",
+    "rect": [
+     306,
+     892,
+     24,
+     15
+    ],
+    "tag": "span"
+   },
+   "t": "外壳"
+  },
+  {
+   "p": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "cls": "",
+    "font": [
+     "12px",
+     "400",
+     "rgba(0, 0, 0, 0.88)"
+    ],
+    "radius": "0px",
+    "rect": [
+     352,
+     892,
+     24,
+     15
+    ],
+    "tag": "span"
+   },
+   "t": "瓶身"
+  },
+  {
+   "p": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "cls": "",
+    "font": [
+     "12px",
+     "400",
+     "rgba(0, 0, 0, 0.88)"
+    ],
+    "radius": "0px",
+    "rect": [
+     398,
+     892,
+     24,
+     15
+    ],
+    "tag": "span"
+   },
+   "t": "表带"
+  },
+  {
+   "p": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "cls": "ant-collapse-header-text",
+    "font": [
+     "12px",
+     "600",
+     "rgb(114, 60, 249)"
+    ],
+    "radius": "0px",
+    "rect": [
+     206,
+     949,
+     240,
+     19
+    ],
+    "tag": "span"
+   },
+   "t": "模型设置"
+  },
+  {
+   "p": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "cls": "_fieldLabel_n7cfv_496",
+    "font": [
+     "12px",
+     "400",
+     "rgba(0, 0, 0, 0.45)"
+    ],
+    "radius": "0px",
+    "rect": [
+     206,
+     987,
+     264,
+     20
+    ],
+    "tag": "p"
+   },
+   "t": "模型品质"
+  },
+  {
+   "p": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "cls": "",
+    "font": [
+     "14px",
+     "400",
+     "rgba(0, 0, 0, 0.88)"
+    ],
+    "radius": "0px",
+    "rect": [
+     232,
+     1029,
+     42,
+     20
+    ],
+    "tag": "span"
+   },
+   "t": "低品质"
+  },
+  {
+   "p": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "cls": "",
+    "font": [
+     "14px",
+     "400",
+     "rgb(114, 60, 249)"
+    ],
+    "radius": "0px",
+    "rect": [
+     317,
+     1029,
+     42,
+     20
+    ],
+    "tag": "span"
+   },
+   "t": "中品质"
+  },
+  {
+   "p": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "cls": "",
+    "font": [
+     "14px",
+     "400",
+     "rgba(0, 0, 0, 0.88)"
+    ],
+    "radius": "0px",
+    "rect": [
+     402,
+     1029,
+     42,
+     20
+    ],
+    "tag": "span"
+   },
+   "t": "高品质"
+  },
+  {
+   "p": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "cls": "",
+    "font": [
+     "12px",
+     "400",
+     "rgb(255, 255, 255)"
+    ],
+    "radius": "0px",
+    "rect": [
+     298,
+     747,
+     48,
+     17
+    ],
+    "tag": "span"
+   },
+   "t": "开始生成"
+  },
+  {
+   "p": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "cls": "_cost_1kho5_43",
+    "font": [
+     "12px",
+     "400",
+     "rgb(255, 255, 255)"
+    ],
+    "radius": "0px",
+    "rect": [
+     354,
+     747,
+     48,
+     17
+    ],
+    "tag": "span"
+   },
+   "t": "(50算力)"
+  },
+  {
+   "p": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "cls": "ant-tabs-tab-btn",
+    "font": [
+     "14px",
+     "400",
+     "rgb(114, 60, 249)"
+    ],
+    "radius": "0px",
+    "rect": [
+     503,
+     130,
+     56,
+     22
+    ],
+    "tag": "div"
+   },
+   "t": "生成结果"
+  },
+  {
+   "p": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "cls": "ant-tabs-tab-btn",
+    "font": [
+     "14px",
+     "400",
+     "rgba(0, 0, 0, 0.88)"
+    ],
+    "radius": "0px",
+    "rect": [
+     573,
+     130,
+     56,
+     22
+    ],
+    "tag": "div"
+   },
+   "t": "优秀案例"
+  },
+  {
+   "p": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "cls": "_historyBtn_107ka_1",
+    "font": [
+     "12px",
+     "400",
+     "rgb(114, 60, 249)"
+    ],
+    "radius": "0px",
+    "rect": [
+     1822,
+     128,
+     64,
+     19
+    ],
+    "tag": "a"
+   },
+   "t": "历史记录"
+  },
+  {
+   "p": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "cls": "",
+    "font": [
+     "20px",
+     "400",
+     "rgba(0, 0, 0, 0.85)"
+    ],
+    "radius": "0px",
+    "rect": [
+     715,
+     228,
+     958,
+     31
+    ],
+    "tag": "p"
+   },
+   "t": "上传整套商品图，批量生成多色变体结果"
+  },
+  {
+   "p": {
+    "bg": "rgba(0, 0, 0, 0.6)",
+    "cls": "_label_176zc_703",
+    "font": [
+     "14px",
+     "400",
+     "rgb(255, 255, 255)"
+    ],
+    "radius": "13px",
+    "rect": [
+     -5,
+     291,
+     90,
+     28
+    ],
+    "tag": "span"
+   },
+   "t": "上传商品图"
+  },
+  {
+   "p": {
+    "bg": "rgba(0, 0, 0, 0.6)",
+    "cls": "_label_176zc_703",
+    "font": [
+     "14px",
+     "400",
+     "rgb(255, 255, 255)"
+    ],
+    "radius": "13px",
+    "rect": [
+     394,
+     291,
+     76,
+     28
+    ],
+    "tag": "span"
+   },
+   "t": "生成结果"
+  },
+  {
+   "p": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "cls": "",
+    "font": [
+     "16px",
+     "400",
+     "rgb(255, 255, 255)"
+    ],
+    "radius": "0px",
+    "rect": [
+     196,
+     700,
+     80,
+     22
+    ],
+    "tag": "span"
+   },
+   "t": "一键做同款"
+  },
+  {
+   "p": {
+    "bg": "rgba(0, 0, 0, 0.6)",
+    "cls": "_label_176zc_703",
+    "font": [
+     "14px",
+     "400",
+     "rgb(255, 255, 255)"
+    ],
+    "radius": "13px",
+    "rect": [
+     953,
+     291,
+     90,
+     28
+    ],
+    "tag": "span"
+   },
+   "t": "上传商品图"
+  },
+  {
+   "p": {
+    "bg": "rgba(0, 0, 0, 0.6)",
+    "cls": "_label_176zc_703",
+    "font": [
+     "14px",
+     "400",
+     "rgb(255, 255, 255)"
+    ],
+    "radius": "13px",
+    "rect": [
+     1352,
+     291,
+     76,
+     28
+    ],
+    "tag": "span"
+   },
+   "t": "生成结果"
+  },
+  {
+   "p": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "cls": "",
+    "font": [
+     "16px",
+     "400",
+     "rgb(255, 255, 255)"
+    ],
+    "radius": "0px",
+    "rect": [
+     1154,
+     700,
+     80,
+     22
+    ],
+    "tag": "span"
+   },
+   "t": "一键做同款"
+  },
+  {
+   "p": {
+    "bg": "rgba(0, 0, 0, 0.6)",
+    "cls": "_label_176zc_703",
+    "font": [
+     "14px",
+     "400",
+     "rgb(255, 255, 255)"
+    ],
+    "radius": "13px",
+    "rect": [
+     1911,
+     291,
+     90,
+     28
+    ],
+    "tag": "span"
+   },
+   "t": "上传商品图"
+  },
+  {
+   "p": {
+    "bg": "rgba(0, 0, 0, 0.6)",
+    "cls": "_label_176zc_703",
+    "font": [
+     "14px",
+     "400",
+     "rgb(255, 255, 255)"
+    ],
+    "radius": "13px",
+    "rect": [
+     2310,
+     291,
+     76,
+     28
+    ],
+    "tag": "span"
+   },
+   "t": "生成结果"
+  },
+  {
+   "p": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "cls": "",
+    "font": [
+     "16px",
+     "400",
+     "rgb(255, 255, 255)"
+    ],
+    "radius": "0px",
+    "rect": [
+     2112,
+     700,
+     80,
+     22
+    ],
+    "tag": "span"
+   },
+   "t": "一键做同款"
+  },
+  {
+   "p": {
+    "bg": "rgba(0, 0, 0, 0.6)",
+    "cls": "_label_176zc_703",
+    "font": [
+     "14px",
+     "400",
+     "rgb(255, 255, 255)"
+    ],
+    "radius": "13px",
+    "rect": [
+     2869,
+     291,
+     90,
+     28
+    ],
+    "tag": "span"
+   },
+   "t": "上传商品图"
+  },
+  {
+   "p": {
+    "bg": "rgba(0, 0, 0, 0.6)",
+    "cls": "_label_176zc_703",
+    "font": [
+     "14px",
+     "400",
+     "rgb(255, 255, 255)"
+    ],
+    "radius": "13px",
+    "rect": [
+     3268,
+     291,
+     76,
+     28
+    ],
+    "tag": "span"
+   },
+   "t": "生成结果"
+  },
+  {
+   "p": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "cls": "",
+    "font": [
+     "16px",
+     "400",
+     "rgb(255, 255, 255)"
+    ],
+    "radius": "0px",
+    "rect": [
+     3070,
+     700,
+     80,
+     22
+    ],
+    "tag": "span"
+   },
+   "t": "一键做同款"
+  },
+  {
+   "p": {
+    "bg": "rgba(0, 0, 0, 0.6)",
+    "cls": "_label_176zc_703",
+    "font": [
+     "14px",
+     "400",
+     "rgb(255, 255, 255)"
+    ],
+    "radius": "13px",
+    "rect": [
+     3827,
+     291,
+     90,
+     28
+    ],
+    "tag": "span"
+   },
+   "t": "上传商品图"
+  },
+  {
+   "p": {
+    "bg": "rgba(0, 0, 0, 0.6)",
+    "cls": "_label_176zc_703",
+    "font": [
+     "14px",
+     "400",
+     "rgb(255, 255, 255)"
+    ],
+    "radius": "13px",
+    "rect": [
+     4226,
+     291,
+     76,
+     28
+    ],
+    "tag": "span"
+   },
+   "t": "生成结果"
+  },
+  {
+   "p": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "cls": "",
+    "font": [
+     "16px",
+     "400",
+     "rgb(255, 255, 255)"
+    ],
+    "radius": "0px",
+    "rect": [
+     4028,
+     700,
+     80,
+     22
+    ],
+    "tag": "span"
+   },
+   "t": "一键做同款"
+  },
+  {
+   "p": {
+    "bg": "rgba(0, 0, 0, 0.6)",
+    "cls": "_label_176zc_703",
+    "font": [
+     "14px",
+     "400",
+     "rgb(255, 255, 255)"
+    ],
+    "radius": "13px",
+    "rect": [
+     4785,
+     291,
+     90,
+     28
+    ],
+    "tag": "span"
+   },
+   "t": "上传商品图"
+  },
+  {
+   "p": {
+    "bg": "rgba(0, 0, 0, 0.6)",
+    "cls": "_label_176zc_703",
+    "font": [
+     "14px",
+     "400",
+     "rgb(255, 255, 255)"
+    ],
+    "radius": "13px",
+    "rect": [
+     5184,
+     291,
+     76,
+     28
+    ],
+    "tag": "span"
+   },
+   "t": "生成结果"
+  },
+  {
+   "p": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "cls": "",
+    "font": [
+     "16px",
+     "400",
+     "rgb(255, 255, 255)"
+    ],
+    "radius": "0px",
+    "rect": [
+     4986,
+     700,
+     80,
+     22
+    ],
+    "tag": "span"
+   },
+   "t": "一键做同款"
+  },
+  {
+   "p": {
+    "bg": "rgba(0, 0, 0, 0.6)",
+    "cls": "_label_176zc_703",
+    "font": [
+     "14px",
+     "400",
+     "rgb(255, 255, 255)"
+    ],
+    "radius": "13px",
+    "rect": [
+     5743,
+     291,
+     90,
+     28
+    ],
+    "tag": "span"
+   },
+   "t": "上传商品图"
+  },
+  {
+   "p": {
+    "bg": "rgba(0, 0, 0, 0.6)",
+    "cls": "_label_176zc_703",
+    "font": [
+     "14px",
+     "400",
+     "rgb(255, 255, 255)"
+    ],
+    "radius": "13px",
+    "rect": [
+     6142,
+     291,
+     76,
+     28
+    ],
+    "tag": "span"
+   },
+   "t": "生成结果"
+  },
+  {
+   "p": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "cls": "",
+    "font": [
+     "16px",
+     "400",
+     "rgb(255, 255, 255)"
+    ],
+    "radius": "0px",
+    "rect": [
+     5944,
+     700,
+     80,
+     22
+    ],
+    "tag": "span"
+   },
+   "t": "一键做同款"
+  },
+  {
+   "p": {
+    "bg": "rgba(0, 0, 0, 0.6)",
+    "cls": "_label_176zc_703",
+    "font": [
+     "14px",
+     "400",
+     "rgb(255, 255, 255)"
+    ],
+    "radius": "13px",
+    "rect": [
+     6701,
+     291,
+     90,
+     28
+    ],
+    "tag": "span"
+   },
+   "t": "上传商品图"
+  },
+  {
+   "p": {
+    "bg": "rgba(0, 0, 0, 0.6)",
+    "cls": "_label_176zc_703",
+    "font": [
+     "14px",
+     "400",
+     "rgb(255, 255, 255)"
+    ],
+    "radius": "13px",
+    "rect": [
+     7100,
+     291,
+     76,
+     28
+    ],
+    "tag": "span"
+   },
+   "t": "生成结果"
+  },
+  {
+   "p": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "cls": "",
+    "font": [
+     "16px",
+     "400",
+     "rgb(255, 255, 255)"
+    ],
+    "radius": "0px",
+    "rect": [
+     6902,
+     700,
+     80,
+     22
+    ],
+    "tag": "span"
+   },
+   "t": "一键做同款"
+  },
+  {
+   "p": {
+    "bg": "rgba(0, 0, 0, 0.6)",
+    "cls": "_label_176zc_703",
+    "font": [
+     "14px",
+     "400",
+     "rgb(255, 255, 255)"
+    ],
+    "radius": "13px",
+    "rect": [
+     7659,
+     291,
+     90,
+     28
+    ],
+    "tag": "span"
+   },
+   "t": "上传商品图"
+  },
+  {
+   "p": {
+    "bg": "rgba(0, 0, 0, 0.6)",
+    "cls": "_label_176zc_703",
+    "font": [
+     "14px",
+     "400",
+     "rgb(255, 255, 255)"
+    ],
+    "radius": "13px",
+    "rect": [
+     8058,
+     291,
+     76,
+     28
+    ],
+    "tag": "span"
+   },
+   "t": "生成结果"
+  },
+  {
+   "p": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "cls": "",
+    "font": [
+     "16px",
+     "400",
+     "rgb(255, 255, 255)"
+    ],
+    "radius": "0px",
+    "rect": [
+     7860,
+     700,
+     80,
+     22
+    ],
+    "tag": "span"
+   },
+   "t": "一键做同款"
+  },
+  {
+   "p": {
+    "bg": "rgba(0, 0, 0, 0.6)",
+    "cls": "_label_176zc_703",
+    "font": [
+     "14px",
+     "400",
+     "rgb(255, 255, 255)"
+    ],
+    "radius": "13px",
+    "rect": [
+     8617,
+     291,
+     90,
+     28
+    ],
+    "tag": "span"
+   },
+   "t": "上传商品图"
+  },
+  {
+   "p": {
+    "bg": "rgba(0, 0, 0, 0.6)",
+    "cls": "_label_176zc_703",
+    "font": [
+     "14px",
+     "400",
+     "rgb(255, 255, 255)"
+    ],
+    "radius": "13px",
+    "rect": [
+     9016,
+     291,
+     76,
+     28
+    ],
+    "tag": "span"
+   },
+   "t": "生成结果"
+  },
+  {
+   "p": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "cls": "",
+    "font": [
+     "16px",
+     "400",
+     "rgb(255, 255, 255)"
+    ],
+    "radius": "0px",
+    "rect": [
+     8818,
+     700,
+     80,
+     22
+    ],
+    "tag": "span"
+   },
+   "t": "一键做同款"
+  },
+  {
+   "p": {
+    "bg": "rgba(0, 0, 0, 0.6)",
+    "cls": "_label_176zc_703",
+    "font": [
+     "14px",
+     "400",
+     "rgb(255, 255, 255)"
+    ],
+    "radius": "13px",
+    "rect": [
+     9575,
+     291,
+     90,
+     28
+    ],
+    "tag": "span"
+   },
+   "t": "上传商品图"
+  },
+  {
+   "p": {
+    "bg": "rgba(0, 0, 0, 0.6)",
+    "cls": "_label_176zc_703",
+    "font": [
+     "14px",
+     "400",
+     "rgb(255, 255, 255)"
+    ],
+    "radius": "13px",
+    "rect": [
+     9974,
+     291,
+     76,
+     28
+    ],
+    "tag": "span"
+   },
+   "t": "生成结果"
+  },
+  {
+   "p": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "cls": "",
+    "font": [
+     "16px",
+     "400",
+     "rgb(255, 255, 255)"
+    ],
+    "radius": "0px",
+    "rect": [
+     9776,
+     700,
+     80,
+     22
+    ],
+    "tag": "span"
+   },
+   "t": "一键做同款"
+  },
+  {
+   "p": {
+    "bg": "rgba(0, 0, 0, 0.6)",
+    "cls": "_label_176zc_703",
+    "font": [
+     "14px",
+     "400",
+     "rgb(255, 255, 255)"
+    ],
+    "radius": "13px",
+    "rect": [
+     10533,
+     291,
+     90,
+     28
+    ],
+    "tag": "span"
+   },
+   "t": "上传商品图"
+  },
+  {
+   "p": {
+    "bg": "rgba(0, 0, 0, 0.6)",
+    "cls": "_label_176zc_703",
+    "font": [
+     "14px",
+     "400",
+     "rgb(255, 255, 255)"
+    ],
+    "radius": "13px",
+    "rect": [
+     10932,
+     291,
+     76,
+     28
+    ],
+    "tag": "span"
+   },
+   "t": "生成结果"
+  },
+  {
+   "p": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "cls": "",
+    "font": [
+     "16px",
+     "400",
+     "rgb(255, 255, 255)"
+    ],
+    "radius": "0px",
+    "rect": [
+     10734,
+     700,
+     80,
+     22
+    ],
+    "tag": "span"
+   },
+   "t": "一键做同款"
+  },
+  {
+   "p": {
+    "bg": "rgba(0, 0, 0, 0.6)",
+    "cls": "_label_176zc_703",
+    "font": [
+     "14px",
+     "400",
+     "rgb(255, 255, 255)"
+    ],
+    "radius": "13px",
+    "rect": [
+     11491,
+     291,
+     90,
+     28
+    ],
+    "tag": "span"
+   },
+   "t": "上传商品图"
+  },
+  {
+   "p": {
+    "bg": "rgba(0, 0, 0, 0.6)",
+    "cls": "_label_176zc_703",
+    "font": [
+     "14px",
+     "400",
+     "rgb(255, 255, 255)"
+    ],
+    "radius": "13px",
+    "rect": [
+     11890,
+     291,
+     76,
+     28
+    ],
+    "tag": "span"
+   },
+   "t": "生成结果"
+  },
+  {
+   "p": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "cls": "",
+    "font": [
+     "16px",
+     "400",
+     "rgb(255, 255, 255)"
+    ],
+    "radius": "0px",
+    "rect": [
+     11692,
+     700,
+     80,
+     22
+    ],
+    "tag": "span"
+   },
+   "t": "一键做同款"
+  },
+  {
+   "p": {
+    "bg": "rgb(114, 60, 249)",
+    "cls": "",
+    "font": [
+     "0px",
+     "400",
+     "rgba(0, 0, 0, 0)"
+    ],
+    "radius": "3px",
+    "rect": [
+     1148,
+     757,
+     22,
+     6
+    ],
+    "tag": "button"
+   },
+   "t": "1"
+  },
+  {
+   "p": {
+    "bg": "rgba(0, 0, 0, 0.3)",
+    "cls": "",
+    "font": [
+     "0px",
+     "400",
+     "rgba(0, 0, 0, 0)"
+    ],
+    "radius": "3px",
+    "rect": [
+     1178,
+     757,
+     6,
+     6
+    ],
+    "tag": "button"
+   },
+   "t": "2"
+  },
+  {
+   "p": {
+    "bg": "rgba(0, 0, 0, 0.3)",
+    "cls": "",
+    "font": [
+     "0px",
+     "400",
+     "rgba(0, 0, 0, 0)"
+    ],
+    "radius": "3px",
+    "rect": [
+     1192,
+     757,
+     6,
+     6
+    ],
+    "tag": "button"
+   },
+   "t": "3"
+  },
+  {
+   "p": {
+    "bg": "rgba(0, 0, 0, 0.3)",
+    "cls": "",
+    "font": [
+     "0px",
+     "400",
+     "rgba(0, 0, 0, 0)"
+    ],
+    "radius": "3px",
+    "rect": [
+     1206,
+     757,
+     6,
+     6
+    ],
+    "tag": "button"
+   },
+   "t": "4"
+  },
+  {
+   "p": {
+    "bg": "rgba(0, 0, 0, 0.3)",
+    "cls": "",
+    "font": [
+     "0px",
+     "400",
+     "rgba(0, 0, 0, 0)"
+    ],
+    "radius": "3px",
+    "rect": [
+     1220,
+     757,
+     6,
+     6
+    ],
+    "tag": "button"
+   },
+   "t": "5"
+  },
+  {
+   "p": {
+    "bg": "rgba(0, 0, 0, 0.3)",
+    "cls": "",
+    "font": [
+     "0px",
+     "400",
+     "rgba(0, 0, 0, 0)"
+    ],
+    "radius": "3px",
+    "rect": [
+     1234,
+     757,
+     6,
+     6
+    ],
+    "tag": "button"
+   },
+   "t": "6"
+  },
+  {
+   "p": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "cls": "ant-tour-description",
+    "font": [
+     "14px",
+     "400",
+     "rgb(255, 255, 255)"
+    ],
+    "radius": "0px",
+    "rect": [
+     498,
+     223,
+     270,
+     22
+    ],
+    "tag": "div"
+   },
+   "t": "第一步：上传 1 张需要换色的商品图片"
+  },
+  {
+   "p": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "cls": "_skip_1t7u2_2",
+    "font": [
+     "12px",
+     "400",
+     "rgba(255, 255, 255, 0.6)"
+    ],
+    "radius": "0px",
+    "rect": [
+     514,
+     257,
+     108,
+     15
+    ],
+    "tag": "a"
+   },
+   "t": "我是高手，不再提醒"
+  },
+  {
+   "p": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "cls": "_text_ai70q_69 _textExpanded_ai70q_105",
+    "font": [
+     "14px",
+     "400",
+     "rgb(255, 255, 255)"
+    ],
+    "radius": "0px",
+    "rect": [
+     1834,
+     493,
+     56,
+     16
+    ],
+    "tag": "div"
+   },
+   "t": "操作咨询"
+  },
+  {
+   "p": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "cls": "_text_ai70q_69 _textExpanded_ai70q_105",
+    "font": [
+     "14px",
+     "400",
+     "rgb(255, 255, 255)"
+    ],
+    "radius": "0px",
+    "rect": [
+     1834,
+     543,
+     56,
+     16
+    ],
+    "tag": "div"
+   },
+   "t": "产品教程"
+  },
+  {
+   "p": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "cls": "_mgTitle_g24uu_216",
+    "font": [
+     "15px",
+     "800",
+     "rgb(0, 0, 0)"
+    ],
+    "radius": "0px",
+    "rect": [
+     1151,
+     339,
+     151,
+     21
+    ],
+    "tag": "span"
+   },
+   "t": "管理水印分组"
+  },
+  {
+   "p": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "cls": "_mgCount_g24uu_224",
+    "font": [
+     "11px",
+     "600",
+     "rgb(169, 169, 182)"
+    ],
+    "radius": "0px",
+    "rect": [
+     1249,
+     343,
+     53,
+     16
+    ],
+    "tag": "span"
+   },
+   "t": "共"
+  },
+  {
+   "p": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "cls": "_mgCount_g24uu_224",
+    "font": [
+     "11px",
+     "600",
+     "rgb(169, 169, 182)"
+    ],
+    "radius": "0px",
+    "rect": [
+     1249,
+     343,
+     53,
+     16
+    ],
+    "tag": "span"
+   },
+   "t": "1"
+  },
+  {
+   "p": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "cls": "_mgCount_g24uu_224",
+    "font": [
+     "11px",
+     "600",
+     "rgb(169, 169, 182)"
+    ],
+    "radius": "0px",
+    "rect": [
+     1249,
+     343,
+     53,
+     16
+    ],
+    "tag": "span"
+   },
+   "t": "/"
+  },
+  {
+   "p": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "cls": "_mgCount_g24uu_224",
+    "font": [
+     "11px",
+     "600",
+     "rgb(169, 169, 182)"
+    ],
+    "radius": "0px",
+    "rect": [
+     1249,
+     343,
+     53,
+     16
+    ],
+    "tag": "span"
+   },
+   "t": "20"
+  },
+  {
+   "p": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "cls": "_mgCount_g24uu_224",
+    "font": [
+     "11px",
+     "600",
+     "rgb(169, 169, 182)"
+    ],
+    "radius": "0px",
+    "rect": [
+     1249,
+     343,
+     53,
+     16
+    ],
+    "tag": "span"
+   },
+   "t": "个"
+  },
+  {
+   "p": {
+    "bg": "rgb(114, 60, 249)",
+    "cls": "_mgAct_g24uu_300 _mgDefBtn_g24uu_324 _mgDefBtnActive_g24uu_339",
+    "font": [
+     "11px",
+     "600",
+     "rgb(255, 255, 255)"
+    ],
+    "radius": "5px",
+    "rect": [
+     1375,
+     376,
+     40,
+     24
+    ],
+    "tag": "button"
+   },
+   "t": "默认"
+  },
+  {
+   "p": {
+    "bg": "rgb(250, 248, 255)",
+    "cls": "_addGroupBtn_g24uu_353 ",
+    "font": [
+     "12px",
+     "700",
+     "rgb(114, 60, 249)"
+    ],
+    "radius": "9px",
+    "rect": [
+     1151,
+     411,
+     294,
+     35
+    ],
+    "tag": "button"
+   },
+   "t": "＋ 新增水印分组"
+  }
+ ],
+ "url": "https://www.linkfox.com/draw/change-color-v2",
+ "vh": 781,
+ "vw": 1908,
+ "bodyBg": "rgb(245, 247, 250)",
+ "bodyFont": "\"Microsoft YaHei-Regular\", \"Microsoft YaHei\"",
+ "rootFont": "16px",
+ "bodyColor": "rgb(0, 0, 0)",
+ "measureSource": "CDP getComputedStyle(document.body/html) @2026-10-29 viewport 1908x781"
+}
