@@ -2,6 +2,10 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 import { cn } from "@/lib/utils";
 import { ToolAssetInput } from "@/components/tools/tool-asset-input";
+import { ToolCases } from "@/components/tools/tool-cases";
+import type { ToolCase } from "@/components/tools/tool-cases";
+import { uploadCaseFiles } from "@/features/tools/case-apply";
+import { PRODUCT_SUITE_CASES } from "@/features/tools/suite6-cases-data";
 import { ToolTaskHistory } from "@/components/tools/tool-task-history";
 import { saveResultItemToAssets, sendResultItemToCanvas } from "@/components/tools/tool-result-actions";
 import { loadToolAssetRecords, type ToolAssetConstraints, type ToolAssetRecord } from "@/services/api/tools/assets";
@@ -143,6 +147,32 @@ export function ProductImageSuiteWorkspace({ className }: { className?: string }
     const [savedKeys, setSavedKeys] = useState<Record<string, string>>({});
     const [seeded, setSeeded] = useState(false);
     const [rightTab, setRightTab] = useState<"result" | "cases" | "history">("result");
+    const [applyingCaseId, setApplyingCaseId] = useState<string | null>(null);
+    const [caseApplyNonce, setCaseApplyNonce] = useState(0);
+
+    /* 「优秀案例」做同款：真实案例原图入库后回填到商品图上传播槽 */
+    const applyCase = useCallback(async (item: ToolCase) => {
+        setApplyingCaseId(item.id);
+        try {
+            const assets = await uploadCaseFiles(item);
+            const record = assets.source as ToolAssetRecord | undefined;
+            if (!record) throw new Error("该案例缺少可用的商品图");
+            setSource({
+                assetId: record.id,
+                url: record.url,
+                name: record.name,
+                mimeType: record.mimeType,
+                bytes: record.bytes,
+                width: record.width,
+                height: record.height,
+            });
+            patchDraft(toolId, { assetIds: [record.id] });
+            setCaseApplyNonce((value) => value + 1);
+            setRightTab("result");
+        } finally {
+            setApplyingCaseId(null);
+        }
+    }, []);
     const [disclaimerOpen, setDisclaimerOpen] = useState(false);
     const abortRef = useRef<AbortController | null>(null);
 
@@ -301,6 +331,7 @@ export function ProductImageSuiteWorkspace({ className }: { className?: string }
                     ) : null}
                 <Section title="多视角白底商品&实拍图">
                     <ToolAssetInput
+                        key={`case-${caseApplyNonce}`}
                         toolId={toolId}
                         maxCount={1}
                         disabled={running}
@@ -585,9 +616,12 @@ export function ProductImageSuiteWorkspace({ className }: { className?: string }
                 </div>
                 <div className="min-h-0 flex-1 overflow-y-auto px-6 py-4">
                 <div role="tabpanel" hidden={rightTab !== "cases"} data-testid="suite-panel-cases" className="flex h-full flex-col">
-                    <p className="text-[12px] text-stone-500">
-                        案例库尚未接入：原站此处展示平台优秀套图作品（上传商品图 / 生成结果 / 一键做同款）。真实案例数据接口就绪后按同结构回填，暂不伪造卡片。
-                    </p>
+                    <ToolCases
+                        cases={PRODUCT_SUITE_CASES}
+                        onApply={applyCase}
+                        applyingId={applyingCaseId}
+                        emptyHint="暂无优秀案例"
+                    />
                 </div>
                 <div role="tabpanel" hidden={rightTab !== "history"} data-testid="suite-panel-history">
                     <ToolTaskHistory toolId={toolId} limit={8} emptyHint="还没有套图任务记录" />

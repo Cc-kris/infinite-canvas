@@ -1,6 +1,10 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 import { ToolAssetInput } from "@/components/tools/tool-asset-input";
+import { ToolCases } from "@/components/tools/tool-cases";
+import type { ToolCase } from "@/components/tools/tool-cases";
+import { uploadCaseFiles } from "@/features/tools/case-apply";
+import { DRESS_SET_CASES } from "@/features/tools/suite6-cases-data";
 import { saveResultItemToAssets, sendResultItemToCanvas } from "@/components/tools/tool-result-actions";
 import {
     createDressWearSetValues,
@@ -155,6 +159,8 @@ export function DressSuiteWorkspace({ toolId = DRESS_WEAR_SET_TOOL_ID }: DressSu
     const [values, setValues] = useState<DressWearSetValues>(() => createDressWearSetValues());
     const [records, setRecords] = useState<ToolAssetRecord[]>([]);
     const [notice, setNotice] = useState("");
+    const [applyingCaseId, setApplyingCaseId] = useState<string | null>(null);
+    const [caseApplyNonce, setCaseApplyNonce] = useState(0);
     const [running, setRunning] = useState(false);
     const [snapshot, setSnapshot] = useState<DressSubmitSnapshot | null>(null);
     const abortRef = useRef<AbortController | null>(null);
@@ -162,6 +168,25 @@ export function DressSuiteWorkspace({ toolId = DRESS_WEAR_SET_TOOL_ID }: DressSu
     const hydrate = useToolDraftStore((state) => state.hydrate);
     const patchDraft = useToolDraftStore((state) => state.patch);
     const draftRevision = useToolDraftStore((state) => state.drafts[toolId]?.revision ?? null);
+
+    /* 「优秀案例」做同款：真实案例原图入库后回填商品图 */
+    const applyCase = useCallback(async (item: ToolCase) => {
+        setApplyingCaseId(item.id);
+        setNotice("");
+        try {
+            const assets = await uploadCaseFiles(item);
+            const record = assets.source as ToolAssetRecord | undefined;
+            if (!record) throw new Error("该案例缺少可用的服装图");
+            setRecords([record]);
+            patchDraft(toolId, { assetIds: [record.id] });
+            setCaseApplyNonce((value) => value + 1);
+            setNotice(`已套用案例服装图：${record.name}`);
+        } catch (error) {
+            setNotice(error instanceof Error ? error.message : "案例套用失败");
+        } finally {
+            setApplyingCaseId(null);
+        }
+    }, [patchDraft, toolId]);
 
     const tasks = useToolTaskStore((state) => state.tasks);
     const runTool = useToolTaskStore((state) => state.runTool);
@@ -388,6 +413,7 @@ export function DressSuiteWorkspace({ toolId = DRESS_WEAR_SET_TOOL_ID }: DressSu
                 <div className="flex min-w-0 flex-col gap-4">
                     <Section title="商品图" hint={`jpg / png / webp，单张 ≤ ${Math.round(DRESS_UPLOAD_LIMITS.maxBytes / 1024 / 1024)}MB，长边 ≤ ${DRESS_UPLOAD_LIMITS.maxSide}px，最多 ${DRESS_UPLOAD_LIMITS.maxFiles} 张。`}>
                         <ToolAssetInput
+                            key={`case-${caseApplyNonce}`}
                             toolId={toolId}
                             maxCount={DRESS_UPLOAD_LIMITS.maxFiles}
                             constraints={{
@@ -628,6 +654,15 @@ export function DressSuiteWorkspace({ toolId = DRESS_WEAR_SET_TOOL_ID }: DressSu
                                 {untagged.length ? <p className="text-[11px] text-muted-foreground">另有 {untagged.length} 个任务未带场景标签（历史数据），已保留不丢弃。</p> : null}
                             </div>
                         )}
+                    </Section>
+
+                    <Section title="优秀案例" hint="原站真实作品；点「做同款」把案例服装图写入商品图，再自行调整场景与数量。">
+                        <ToolCases
+                            cases={DRESS_SET_CASES}
+                            onApply={applyCase}
+                            applyingId={applyingCaseId}
+                            emptyHint="暂无优秀案例"
+                        />
                     </Section>
                 </div>
             </div>

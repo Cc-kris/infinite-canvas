@@ -2,7 +2,11 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { ImagePlus, Loader2, Sparkles } from "lucide-react";
 
 import { ToolAssetInput } from "@/components/tools/tool-asset-input";
+import { ToolCases } from "@/components/tools/tool-cases";
+import type { ToolCase } from "@/components/tools/tool-cases";
 import { ToolTaskHistory } from "@/components/tools/tool-task-history";
+import { uploadCaseFiles } from "@/features/tools/case-apply";
+import { COLOR_V2_CASES } from "@/features/tools/suite6-cases-data";
 import { saveResultItemToAssets, sendResultItemToCanvas } from "@/components/tools/tool-result-actions";
 import {
     auditSuiteConsistency,
@@ -166,6 +170,52 @@ export function ColorV2Workspace({ className }: ColorV2WorkspaceProps = {}) {
     const currentSnapshot = useMemo(() => buildColorV2Snapshot({ assetIds: suiteIds, values }), [suiteIds, values]);
     const stale = runHash ? isSnapshotStale(currentSnapshot, runHash) : false;
     const plannedCount = estimatedOutputCount(suiteIds.length, values.plans.length);
+
+    /* ---------------- 「优秀案例」做同款：真实素材入库 + 回填商品图/部位/颜色 ---------------- */
+
+    const [applyingCaseId, setApplyingCaseId] = useState<string | null>(null);
+    const [caseApplyNonce, setCaseApplyNonce] = useState(0);
+
+    const applyCase = useCallback(
+        async (item: ToolCase) => {
+            setApplyingCaseId(item.id);
+            setNotice("");
+            try {
+                const assets = await uploadCaseFiles(item);
+                const record = assets.source as ToolAssetRecord | ToolAssetRecord[] | undefined;
+                if (!record || Array.isArray(record)) throw new Error("该案例缺少可用的商品图");
+
+                setSuiteIds([record.id]);
+                setSuiteRecords([record]);
+                patchDraft(TOOL_ID, { assetIds: [record.id] });
+                setCaseApplyNonce((value) => value + 1);
+
+                const apply = item.apply ?? {};
+                const region = typeof apply.colorSubject === "string" ? sanityRegion(apply.colorSubject) : "";
+                const colors = Array.isArray(apply.colors) ? (apply.colors as string[]) : [];
+
+                let plans = valuesRef.current.plans;
+                for (const hex of colors) {
+                    plans = addColorPlan(plans, createColorPlan({ source: "history", hex }));
+                }
+                const lastPlanId = plans[plans.length - 1]?.id ?? null;
+
+                commit({
+                    ...valuesRef.current,
+                    plans,
+                    selectedPlanId: lastPlanId ?? valuesRef.current.selectedPlanId,
+                    region: region || valuesRef.current.region,
+                });
+                setRightTab("result");
+                setNotice(`已套用案例商品图，换色部位「${region || "未标注"}」已回填`);
+            } catch (error) {
+                setNotice(error instanceof Error ? error.message : "案例套用失败");
+            } finally {
+                setApplyingCaseId(null);
+            }
+        },
+        [commit],
+    );
 
     /* ---------------- 参考图与方案 ---------------- */
 
@@ -441,6 +491,7 @@ export function ColorV2Workspace({ className }: ColorV2WorkspaceProps = {}) {
                     <PanelSection id="upload" title="上传图片">
                         <div className="px-4">
                             <ToolAssetInput
+                                key={`case-${caseApplyNonce}`}
                                 toolId={TOOL_ID}
                                 maxCount={COLOR_V2_MAX_SUITE_IMAGES}
                                 constraints={SUITE_CONSTRAINTS}
@@ -1056,34 +1107,12 @@ export function ColorV2Workspace({ className }: ColorV2WorkspaceProps = {}) {
                         )
                     ) : rightTab === "cases" ? (
                         <div className="p-3">
-                            <p className="mb-2 text-[12px] leading-4 text-[#8a8a99]">共 {COLOR_REGION_PRESETS.length} 个部位案例模板，点「一键做同款」把部位写进换色部位。</p>
-                            <div className="grid grid-cols-[repeat(auto-fill,minmax(220px,1fr))] gap-2">
-                                {COLOR_REGION_PRESETS.map((preset) => (
-                                    <article key={preset.key} className="overflow-hidden rounded-[8px] border border-[#ededf0] bg-white">
-                                        <div className="flex h-[110px] items-center justify-center bg-[linear-gradient(135deg,#f4ecff,#eef3ff)]">
-                                            <span className="text-[22px] font-medium text-[#723cf9]/70">{preset.label}</span>
-                                        </div>
-                                        <div className="flex items-center justify-between gap-2 p-2">
-                                            <div className="min-w-0">
-                                                <p className="truncate text-[12px] leading-4 text-[#1f1f2c]">{preset.label}换色</p>
-                                                <p className="text-[11px] leading-4 text-[#8a8a99]">整套商品图统一换色</p>
-                                            </div>
-                                            <button
-                                                type="button"
-                                                data-testid={`color-v2-apply-${preset.key}`}
-                                                onClick={() => {
-                                                    commit({ ...valuesRef.current, region: sanityRegion(preset.label) });
-                                                    setRightTab("result");
-                                                    setNotice(`已套用「${preset.label}」换色部位`);
-                                                }}
-                                                className="shrink-0 rounded-[4px] border border-[#723cf9] px-2 py-0.5 text-[11px] leading-4 text-[#723cf9] transition hover:bg-[#f9f0ff]"
-                                            >
-                                                一键做同款
-                                            </button>
-                                        </div>
-                                    </article>
-                                ))}
-                            </div>
+                            <ToolCases
+                                cases={COLOR_V2_CASES}
+                                onApply={applyCase}
+                                applyingId={applyingCaseId}
+                                emptyHint="暂无优秀案例"
+                            />
                         </div>
                     ) : (
                         <div className="p-3">

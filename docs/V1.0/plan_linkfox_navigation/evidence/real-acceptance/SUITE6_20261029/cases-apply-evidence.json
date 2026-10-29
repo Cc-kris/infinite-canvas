@@ -1,0 +1,55 @@
+{
+  "generatedAt": "2026-10-29T14:30:28",
+  "scope": "suite6 优秀案例 / 一键做同款 (CHANGE_COLOR_V2, PRODUCT_IMAGE_SUITE, DRESS_WEAR_SET)",
+  "source": "LinkFox 原站 ai-api /image/make-case/list（type 93/71/69）真实作品，素材同源落盘 web/public/__cases/",
+  "local_runs": [
+    {
+      "tool": "CHANGE_COLOR_V2",
+      "route": "/tools/ecommerce-suite/change-color-v2",
+      "tab": "优秀案例",
+      "cases": 13,
+      "firstResult": "/__cases/color-v2/2069709136760979456-r.jpg",
+      "apply": {
+        "clicked": true,
+        "uploadedAsset": "linkfox-case-2069709136760979456-source.jpeg 41KB 569x639 image/jpeg",
+        "notice": "已套用案例商品图，换色部位「上装」已回填"
+      }
+    },
+    {
+      "tool": "PRODUCT_IMAGE_SUITE",
+      "route": "/tools/ecommerce-suite/product-image-suite",
+      "tab": "优秀案例",
+      "cases": 12,
+      "firstResult": "/__cases/product-image-suite/2026855585971982336-r.jpg",
+      "apply": {
+        "clicked": true,
+        "uploadedAsset": "linkfox-case-2026855585971982336-source.jpeg 98KB 1000x1000",
+        "dropzoneState": "已达数量上限（maxCount=1）"
+      }
+    },
+    {
+      "tool": "DRESS_WEAR_SET",
+      "route": "/tools/ecommerce-suite/dress-wear-set",
+      "section": "优秀案例",
+      "cases": 12,
+      "firstResult": "/__cases/dress-wear-set/2026966441820966912-r.jpg",
+      "sections": [
+        "商品图",
+        "商品信息",
+        "销售设定",
+        "合规检查",
+        "生成参数",
+        "主副图",
+        "A+ 图",
+        "套图结果",
+        "优秀案例"
+      ],
+      "apply": {
+        "clicked": true,
+        "uploadedAsset": "linkfox-case-2026966441820966912-source.jpeg 228KB 1000x1000",
+        "notice": "已套用案例服装图"
+      }
+    }
+  ],
+  "method": "web_execute_js DOM 实测（无录屏权限，按 SOP 用 DOM 证据代替截图）"
+}
