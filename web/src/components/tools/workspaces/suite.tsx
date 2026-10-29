@@ -722,14 +722,16 @@ export function ProductImageSuiteWorkspace({ className }: { className?: string }
                     ))}
                 </div>
                 <div className="min-h-0 flex-1 overflow-y-auto px-6 py-4">
-                <div role="tabpanel" hidden={rightTab !== "cases"} data-testid="suite-panel-cases" className="flex h-full flex-col">
-                    <ToolCases
-                        cases={PRODUCT_SUITE_CASES}
-                        onApply={applyCase}
-                        applyingId={applyingCaseId}
-                        emptyHint="暂无优秀案例"
-                    />
-                </div>
+                {PRODUCT_SUITE_CASES.length > 0 ? (
+                    <div role="tabpanel" hidden={rightTab !== "cases"} data-testid="suite-panel-cases" className="flex h-full flex-col">
+                        <h2 className="mb-2 text-sm font-medium">优秀案例</h2>
+                        <ToolCases
+                            cases={PRODUCT_SUITE_CASES}
+                            onApply={applyCase}
+                            applyingId={applyingCaseId}
+                        />
+                    </div>
+                ) : null}
                 <div role="tabpanel" hidden={rightTab !== "history"} data-testid="suite-panel-history">
                     <ToolTaskHistory toolId={toolId} limit={8} onSelectTask={onSelectHistoryTask} emptyHint="还没有套图任务记录" />
                 </div>
