@@ -1,0 +1,61 @@
+{
+  "run": "R18",
+  "date": "2026-10-29",
+  "tool": "IMAGE_TEXT_EDIT",
+  "verdict": "H_PASS",
+  "codeFixCommit": "d5aa048a",
+  "task": {
+    "id": "task-mvs8bhu1-hhue24",
+    "statusBefore": "succeeded",
+    "snapshotBefore": [
+      { "id": "task-mvs8bhu1-hhue24-0", "kind": "image", "payloadDropped": true }
+    ],
+    "snapshotAfter": [
+      {
+        "id": "task-mvs8bhu1-hhue24-0",
+        "kind": "image",
+        "payloadDropped": false,
+        "storageKey": "tool-result:task-mvs8bhu1-hhue24:0:ZQg4pDfHC25ssM7hDsse7",
+        "bytes": 844613,
+        "mimeType": "image/png"
+      }
+    ]
+  },
+  "provenance": {
+    "source": "app_state/tool-draft:v1:IMAGE_TEXT_EDIT.values.resultImageUrl",
+    "url": "https://oss-us.dimenoss.com/images/2026/10/28/1793198918_efe68b3d380801d28b26a09588374ae9.png",
+    "note": "该地址由工作区成功时 app 自己回写（image-text-edit.tsx 成功后 update resultImageUrl），换源图会清空；非人工注入",
+    "httpStatus": 200,
+    "remoteBytes": 844613
+  },
+  "restoredBytes": {
+    "storageKey": "tool-result:task-mvs8bhu1-hhue24:0:ZQg4pDfHC25ssM7hDsse7",
+    "store": "indexedDB infinite-canvas / media_files",
+    "bytes": 844613,
+    "mimeType": "image/png",
+    "sha256": "e7b260e7b0642dd1acd0e41e41eedf9bfe635a3a28e8175029d3248aabf5be4c"
+  },
+  "shaCrossCheck": {
+    "file": "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/IMAGE_TEXT_EDIT/03-result-image.png",
+    "sha256": "e7b260e7b0642dd1acd0e41e41eedf9bfe635a3a28e8175029d3248aabf5be4c",
+    "match": true
+  },
+  "freshReload": {
+    "tabId": "1709629351",
+    "url": "http://127.0.0.1:3000/tools/product-design/image-text-edit",
+    "method": "location.reload() 后等到项出现 storageKey，再读 IDB media_files 计算 sha256",
+    "newGenerationTriggered": false
+  },
+  "threeActions": {
+    "download": { "ok": true, "evidence": "toast「已下载 image-text-edit-…」" },
+    "saveAsset": { "ok": true, "assetId": "BmtqvOWUMLOt_-6ITewQa", "evidence": "feedback「已保存到资产库（BmtqvOWUMLOt_-6ITewQa）」" },
+    "sendToCanvas": { "ok": true, "nodeId": "JXNuqx1kX4ydpBGfhPTcQ", "evidence": "feedback「已发送到画布（JXNuqx1kX4ydpBGfhPTcQ）」" },
+    "idPresence": "两个 id 均在 indexedDB infinite-canvas / app_state 命中"
+  },
+  "rootCause": "结果面板只消费 task.result.items；旧版落盘把结果项剥成 payloadDropped 且无 url/storageKey，而工具草稿里 app 自己回写的持久结果地址无人消费",
+  "fix": "use-tool-task-store 新增 attachDroppedResultUrl / reattachDroppedResultUrl（status=succeeded + 项无任何来源 + 地址 http(s) 才补），由 image-text-edit 工作区草稿恢复后调用；字节仍走既有 ingestResultMedia 抓同一上游真实产物入库",
+  "gates": {
+    "tsc": "exit 0",
+    "tests": "provenance-heal + index-heal + tool-result = 42 pass / 0 fail；adapters/image-text-edit = 23 pass / 0 fail"
+  }
+}
