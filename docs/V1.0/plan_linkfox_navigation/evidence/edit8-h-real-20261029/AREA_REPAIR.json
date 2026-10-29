@@ -1,0 +1,78 @@
+{
+ "toolId": "AREA_REPAIR",
+ "toolName": "局部重绘",
+ "route": "/tools/smart-edit/area-repair",
+ "phase": "reload",
+ "kind": "minimal real generation (no pre-existing task; user-authorized one real run)",
+ "taskId": "task-mvtfevy8-rrr2ye",
+ "status": "succeeded",
+ "input": {
+  "source": "IDB asset image:kcHyCD1fefu5SvIPnAt9w (1024x1024) injected into tool-asset-file-input as File",
+  "maskPaint": {
+   "testid": "mask-canvas",
+   "method": "pointerdown/move/up synthetic stroke",
+   "coverage": "7.4%"
+  },
+  "prompt": "把涂抹区域修补为与周围一致的布料纹理与褶皱光影，边缘自然过渡，不改变画面其他内容。",
+  "outputs": 1
+ },
+ "reload": {
+  "at": "2026-10-29T10:53:30.000Z",
+  "persistedAfterReload": {
+   "taskId": "task-mvtfevy8-rrr2ye",
+   "status": "succeeded",
+   "storageKey": "tool-result:YJZMRTkIBxD9EH1-DXAam",
+   "bytes": 2065981,
+   "payloadDropped": false
+  },
+  "evidence": {
+   "historyRow": "data-task-id=task-mvtfevy8-rrr2ye → 查看结果 → 历史结果面板 #1 succeeded"
+  }
+ },
+ "receipts": {
+  "expectedSha256": "8625a56f7832ca3e6b58333c9c02f75a45ad4d4225b51eefc0a447116ebe89d8",
+  "bytes": 2065981,
+  "persistedMediaFiles": {
+   "store": "media_files",
+   "key": "tool-result:YJZMRTkIBxD9EH1-DXAam",
+   "sha256": "8625a56f7832ca3e6b58333c9c02f75a45ad4d4225b51eefc0a447116ebe89d8",
+   "match": true
+  },
+  "uiThumbnail": {
+   "selector": "[data-testid=area-repair-history-result-1] img",
+   "sha256": "8625a56f7832ca3e6b58333c9c02f75a45ad4d4225b51eefc0a447116ebe89d8",
+   "match": true
+  },
+  "download": {
+   "button": "area-repair-history-download-1",
+   "cdpObservable": "HTMLAnchorElement click (file-saver)",
+   "fileName": "area-repair-result-1.png",
+   "sha256": "8625a56f7832ca3e6b58333c9c02f75a45ad4d4225b51eefc0a447116ebe89d8",
+   "match": true
+  },
+  "saveToAssets": {
+   "button": "area-repair-history-save-1",
+   "assetTitle": "历史结果 1",
+   "taskId": "task-mvtfevy8-rrr2ye",
+   "resultItemId": "task-mvtfevy8-rrr2ye-0",
+   "storageKey": "image:NB7xoOncn8OcV6HiuhO1G",
+   "sha256": "8625a56f7832ca3e6b58333c9c02f75a45ad4d4225b51eefc0a447116ebe89d8",
+   "match": true
+  },
+  "sendToCanvas": {
+   "button": "area-repair-history-send-1",
+   "projectId": "KMM4qdwPDaWKNT8ItJS7M",
+   "projectTitle": "AREA_REPAIR 结果",
+   "nodeId": "image-1793271517424-n09ik",
+   "storageKey": "image:Z1ZMTO_972Dk37fUOW8Cb",
+   "store": "image_files",
+   "sha256": "8625a56f7832ca3e6b58333c9c02f75a45ad4d4225b51eefc0a447116ebe89d8",
+   "match": true
+  }
+ },
+ "notes": [
+  "History panel for AREA_REPAIR exposes only 下载/存库/发画布 (no shared dock); all five paths compared by sha256.",
+  "payloadDropped=false for this run proves 入库→落盘 path works in real runtime (contrast with 10-28 CC_V2/REMOVE_PEN tasks)."
+ ],
+ "verdict": "PASS"
+}
