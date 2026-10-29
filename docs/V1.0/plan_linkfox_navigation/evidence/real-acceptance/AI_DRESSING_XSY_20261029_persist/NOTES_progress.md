@@ -28,5 +28,13 @@
 - `bun test src/components/tools/workspaces/dressing-xsy-restore.test.tsx src/features/tools/adapters/ai-dressing-xsy.test.ts` → 20 pass / 0 fail
 - 全量 `bun test` → 1402 pass；4 fail 全部来自 `tests/*.spec.ts`（Playwright e2e 被 bun test 误扫，既有问题，非本次改动）
 
+## 资产 / 画布落盘复核（只读 + 一次不扣费点击）
+- 「存资产」：路径 `ToolResult` → `saveResultItemToAssets` → `use-asset-store` 持久化到 **IDB `infinite-canvas` / `app_state` 键 `infinite-canvas:asset_store`**（localForage 字符串化）。
+  实测存在记录：`{ id: RDLBH3-mg4hSTH0KdUJDZ, title: "AI_DRESSING_XSY 结果 1", bytes: 1576288, storageKey: image:XAUAz1Ga6DpW1DajoNyNt, meta.taskId: task-mvtbf7ue-n28x46, createdAt 09:03:13Z }` → 刷新后仍在（真复现）。
+- 「发画布」：写入 `infinite-canvas:canvas_store`，**持久化有 400ms 防抖**（`use-canvas-store.ts` setItem + setTimeout）。
+  提交脚本点完立刻 reload，定时器被卸载打断 → 当时 `projects: []`。补做一次（不调用 provider，不扣费）：
+  点「发画布」→ 出现 `l5Gt5e9TKXkwgbLFZ8lt-`（1 节点 / 1 图）→ 等 3s → reload → **仍在**（`canvas-persist-check.json`）。
+  结论：是脚本时序现象，不是产品缺陷；用户正常停留不会触发。
+
 ## 已知脚本小瑕疵（不影响结论）
 - `reDownload.bytesMatchOriginal` 在 reload 阶段恒为 false：脚本拿 `summary.result`（reload 阶段为 null）对比；字节一致性以 sha256 == 原图为准（已核对相等）。

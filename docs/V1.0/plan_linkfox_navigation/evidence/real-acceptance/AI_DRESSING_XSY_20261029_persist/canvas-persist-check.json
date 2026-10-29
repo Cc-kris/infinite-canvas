@@ -1,0 +1,30 @@
+{
+ "enabledBefore": true,
+ "feedback": "已发送到画布（l5Gt5e9TKXkwgbLFZ8lt-）",
+ "before": {
+  "count": 0,
+  "projects": []
+ },
+ "afterClick": {
+  "count": 1,
+  "projects": [
+   {
+    "id": "l5Gt5e9TKXkwgbLFZ8lt-",
+    "title": "AI_DRESSING_XSY 结果",
+    "nodes": 1,
+    "images": 1
+   }
+  ]
+ },
+ "afterReload": {
+  "count": 1,
+  "projects": [
+   {
+    "id": "l5Gt5e9TKXkwgbLFZ8lt-",
+    "title": "AI_DRESSING_XSY 结果",
+    "nodes": 1,
+    "images": 1
+   }
+  ]
+ }
+}
