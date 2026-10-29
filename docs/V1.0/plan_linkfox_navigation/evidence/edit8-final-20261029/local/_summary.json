@@ -1,0 +1,114 @@
+{
+  "SCALE_UP": {
+    "url": "/tools/ecommerce-suite/scale-up",
+    "root": {
+      "key": "tool-workspace",
+      "r": {
+        "x": 190,
+        "y": 120,
+        "w": 1708,
+        "h": 651
+      },
+      "css": {
+        "bg": "rgba(0, 0, 0, 0)",
+        "color": "oklch(0.145 0 0)",
+        "bc": "oklch(0.922 0 0)",
+        "br": "0px",
+        "bw": "0px",
+        "fs": "14px",
+        "fw": "400",
+        "lh": "22px",
+        "pad": "0px",
+        "shadow": "none"
+      }
+    },
+    "regions": 12,
+    "controls": 28,
+    "chips": 88,
+    "errors": []
+  },
+  "REMOVE_PEN": {
+    "url": "/tools/smart-edit/remove-pen",
+    "root": {
+      "key": "tool-workspace",
+      "r": {
+        "x": 200,
+        "y": 227,
+        "w": 1688,
+        "h": 636
+      },
+      "css": {
+        "bg": "rgba(0, 0, 0, 0)",
+        "color": "oklch(0.145 0 0)",
+        "bc": "oklch(0.922 0 0)",
+        "br": "0px",
+        "bw": "0px",
+        "fs": "14px",
+        "fw": "400",
+        "lh": "22px",
+        "pad": "0px",
+        "shadow": "none"
+      }
+    },
+    "regions": 13,
+    "controls": 31,
+    "chips": 89,
+    "errors": []
+  },
+  "CHANGE_COLOR": {
+    "url": "/tools/smart-edit/change-color",
+    "root": {
+      "key": "tool-workspace",
+      "r": {
+        "x": 200,
+        "y": 227,
+        "w": 1688,
+        "h": 1084
+      },
+      "css": {
+        "bg": "rgba(0, 0, 0, 0)",
+        "color": "oklch(0.145 0 0)",
+        "bc": "oklch(0.922 0 0)",
+        "br": "0px",
+        "bw": "0px",
+        "fs": "14px",
+        "fw": "400",
+        "lh": "22px",
+        "pad": "0px",
+        "shadow": "none"
+      }
+    },
+    "regions": 23,
+    "controls": 69,
+    "chips": 128,
+    "errors": []
+  },
+  "PRODUCT_REFINE": {
+    "url": "/tools/smart-edit/product-refine",
+    "root": {
+      "key": "tool-workspace",
+      "r": {
+        "x": 200,
+        "y": 227,
+        "w": 1688,
+        "h": 812
+      },
+      "css": {
+        "bg": "rgba(0, 0, 0, 0)",
+        "color": "oklch(0.145 0 0)",
+        "bc": "oklch(0.922 0 0)",
+        "br": "0px",
+        "bw": "0px",
+        "fs": "14px",
+        "fw": "400",
+        "lh": "22px",
+        "pad": "0px",
+        "shadow": "none"
+      }
+    },
+    "regions": 12,
+    "controls": 27,
+    "chips": 92,
+    "errors": []
+  }
+}

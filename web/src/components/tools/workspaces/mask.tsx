@@ -1435,6 +1435,12 @@ export function RemovePenWorkspace({ className }: RemovePenWorkspaceProps = {}) 
                                         }}
                                     />
                                 </Edit8CanvasCard>
+                                {/* 原站空态上传卡下方是「或试试这些」ant-divider（12px / rgba(0,0,0,0.3)，居中于 y=595） */}
+                                <div className="mt-4 flex w-[520px] items-center gap-2" data-testid="remove-pen-try-these">
+                                    <span className="h-px flex-1 bg-black/[0.06]" />
+                                    <span className="text-[12px] font-medium leading-[15px] text-black/30">或试试这些</span>
+                                    <span className="h-px flex-1 bg-black/[0.06]" />
+                                </div>
                             </div>
                         )}
 

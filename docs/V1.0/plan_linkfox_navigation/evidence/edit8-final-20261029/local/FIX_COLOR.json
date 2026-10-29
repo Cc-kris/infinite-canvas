@@ -1,0 +1,4579 @@
+{
+  "url": "/tools/smart-edit/fix-color",
+  "title": "无限画布",
+  "viewport": {
+    "w": 1908,
+    "h": 781,
+    "scrollH": 781
+  },
+  "root": {
+    "key": "tool-workspace",
+    "r": {
+      "x": 200,
+      "y": 227,
+      "w": 1688,
+      "h": 963
+    },
+    "css": {
+      "bg": "rgba(0, 0, 0, 0)",
+      "color": "oklch(0.145 0 0)",
+      "bc": "oklch(0.922 0 0)",
+      "br": "0px",
+      "bw": "0px",
+      "fs": "14px",
+      "fw": "400",
+      "lh": "22px",
+      "pad": "0px",
+      "shadow": "none"
+    }
+  },
+  "panels": [
+    {
+      "key": "fix-color-workspace",
+      "r": {
+        "x": 200,
+        "y": 227,
+        "w": 1688,
+        "h": 868
+      },
+      "css": {
+        "bg": "rgb(245, 247, 250)",
+        "br": "0px",
+        "bw": "0px"
+      }
+    },
+    {
+      "key": "tool-history-dock",
+      "r": {
+        "x": 200,
+        "y": 1111,
+        "w": 1688,
+        "h": 80
+      },
+      "css": {
+        "bg": "oklab(1 0 0 / 0.4)",
+        "br": "10px",
+        "bw": "1px"
+      }
+    }
+  ],
+  "regions": [
+    {
+      "key": "shell-promo-bar",
+      "r": {
+        "x": 0,
+        "y": 0,
+        "w": 1908,
+        "h": 50
+      },
+      "css": {
+        "bg": "rgba(0, 0, 0, 0)",
+        "color": "oklch(0.145 0 0)",
+        "bc": "oklch(0.922 0 0)",
+        "br": "0px",
+        "bw": "0px",
+        "fs": "14px",
+        "fw": "400",
+        "lh": "22px",
+        "pad": "0px",
+        "shadow": "none"
+      }
+    },
+    {
+      "key": "shell-promo-slide-shellPromo.slide1",
+      "r": {
+        "x": 0,
+        "y": 0,
+        "w": 1908,
+        "h": 50
+      },
+      "css": {
+        "bg": "rgba(0, 0, 0, 0)",
+        "color": "rgb(255, 255, 255)",
+        "bc": "oklch(0.922 0 0)",
+        "br": "0px",
+        "bw": "0px",
+        "fs": "14px",
+        "fw": "400",
+        "lh": "22px",
+        "pad": "0px 52px",
+        "shadow": "none"
+      }
+    },
+    {
+      "key": "shell-promo-slide-shellPromo.slide2",
+      "r": {
+        "x": 0,
+        "y": 50,
+        "w": 1908,
+        "h": 50
+      },
+      "css": {
+        "bg": "rgba(0, 0, 0, 0)",
+        "color": "rgb(255, 255, 255)",
+        "bc": "oklch(0.922 0 0)",
+        "br": "0px",
+        "bw": "0px",
+        "fs": "14px",
+        "fw": "400",
+        "lh": "22px",
+        "pad": "0px 52px",
+        "shadow": "none"
+      }
+    },
+    {
+      "key": "shell-promo-slide-shellPromo.slide3",
+      "r": {
+        "x": 0,
+        "y": 100,
+        "w": 1908,
+        "h": 50
+      },
+      "css": {
+        "bg": "rgba(0, 0, 0, 0)",
+        "color": "rgb(255, 255, 255)",
+        "bc": "oklch(0.922 0 0)",
+        "br": "0px",
+        "bw": "0px",
+        "fs": "14px",
+        "fw": "400",
+        "lh": "22px",
+        "pad": "0px 52px",
+        "shadow": "none"
+      }
+    },
+    {
+      "key": "shell-top-nav",
+      "r": {
+        "x": 0,
+        "y": 50,
+        "w": 1908,
+        "h": 60
+      },
+      "css": {
+        "bg": "rgb(255, 255, 255)",
+        "color": "oklch(0.145 0 0)",
+        "bc": "rgb(231, 231, 231)",
+        "br": "0px",
+        "bw": "0px 0px 1px",
+        "fs": "14px",
+        "fw": "400",
+        "lh": "22px",
+        "pad": "0px",
+        "shadow": "none"
+      }
+    },
+    {
+      "key": "tools-nav-primary",
+      "r": {
+        "x": 234,
+        "y": 50,
+        "w": 785,
+        "h": 59
+      },
+      "css": {
+        "bg": "rgba(0, 0, 0, 0)",
+        "color": "oklch(0.145 0 0)",
+        "bc": "oklch(0.922 0 0)",
+        "br": "0px",
+        "bw": "0px",
+        "fs": "14px",
+        "fw": "400",
+        "lh": "22px",
+        "pad": "0px",
+        "shadow": "none"
+      }
+    },
+    {
+      "key": "tool-sidebar",
+      "r": {
+        "x": 0,
+        "y": 110,
+        "w": 180,
+        "h": 671
+      },
+      "css": {
+        "bg": "rgb(255, 255, 255)",
+        "color": "oklch(0.145 0 0)",
+        "bc": "rgb(231, 231, 231)",
+        "br": "0px",
+        "bw": "0px 1px 0px 0px",
+        "fs": "14px",
+        "fw": "400",
+        "lh": "22px",
+        "pad": "0px",
+        "shadow": "none"
+      }
+    },
+    {
+      "key": "tool-workspace",
+      "r": {
+        "x": 200,
+        "y": 227,
+        "w": 1688,
+        "h": 963
+      },
+      "css": {
+        "bg": "rgba(0, 0, 0, 0)",
+        "color": "oklch(0.145 0 0)",
+        "bc": "oklch(0.922 0 0)",
+        "br": "0px",
+        "bw": "0px",
+        "fs": "14px",
+        "fw": "400",
+        "lh": "22px",
+        "pad": "0px",
+        "shadow": "none"
+      }
+    },
+    {
+      "key": "fix-color-workspace",
+      "r": {
+        "x": 200,
+        "y": 227,
+        "w": 1688,
+        "h": 868
+      },
+      "css": {
+        "bg": "rgb(245, 247, 250)",
+        "color": "rgb(31, 31, 44)",
+        "bc": "oklch(0.922 0 0)",
+        "br": "0px",
+        "bw": "0px",
+        "fs": "14px",
+        "fw": "400",
+        "lh": "22px",
+        "pad": "10px",
+        "shadow": "none"
+      }
+    },
+    {
+      "key": "canvas",
+      "r": {
+        "x": 210,
+        "y": 237,
+        "w": 1108,
+        "h": 848
+      },
+      "css": {
+        "bg": "rgb(237, 239, 245)",
+        "color": "rgb(31, 31, 44)",
+        "bc": "oklch(0.922 0 0)",
+        "br": "8px",
+        "bw": "0px",
+        "fs": "14px",
+        "fw": "400",
+        "lh": "22px",
+        "pad": "0px",
+        "shadow": "none"
+      }
+    },
+    {
+      "key": "fix-color-mask-panel",
+      "r": {
+        "x": 210,
+        "y": 278,
+        "w": 1108,
+        "h": 768
+      },
+      "css": {
+        "bg": "rgba(0, 0, 0, 0)",
+        "color": "rgb(31, 31, 44)",
+        "bc": "oklch(0.922 0 0)",
+        "br": "0px",
+        "bw": "0px",
+        "fs": "14px",
+        "fw": "400",
+        "lh": "22px",
+        "pad": "10px",
+        "shadow": "none"
+      }
+    },
+    {
+      "key": "config",
+      "r": {
+        "x": 1328,
+        "y": 237,
+        "w": 240,
+        "h": 848
+      },
+      "css": {
+        "bg": "rgb(255, 255, 255)",
+        "color": "rgb(31, 31, 44)",
+        "bc": "oklch(0.922 0 0)",
+        "br": "8px",
+        "bw": "0px",
+        "fs": "14px",
+        "fw": "400",
+        "lh": "22px",
+        "pad": "0px",
+        "shadow": "none"
+      }
+    },
+    {
+      "key": "tool-asset-dropzone",
+      "r": {
+        "x": 1344,
+        "y": 332,
+        "w": 208,
+        "h": 105
+      },
+      "css": {
+        "bg": "rgb(255, 255, 255)",
+        "color": "rgb(31, 31, 44)",
+        "bc": "rgb(237, 237, 240)",
+        "br": "6px",
+        "bw": "1px",
+        "fs": "12px",
+        "fw": "400",
+        "lh": "16px",
+        "pad": "12px",
+        "shadow": "none"
+      }
+    },
+    {
+      "key": "fix-color-color-panel",
+      "r": {
+        "x": 1344,
+        "y": 496,
+        "w": 208,
+        "h": 195
+      },
+      "css": {
+        "bg": "rgba(0, 0, 0, 0)",
+        "color": "rgb(31, 31, 44)",
+        "bc": "oklch(0.922 0 0)",
+        "br": "0px",
+        "bw": "0px",
+        "fs": "14px",
+        "fw": "400",
+        "lh": "22px",
+        "pad": "0px",
+        "shadow": "none"
+      }
+    },
+    {
+      "key": "results",
+      "r": {
+        "x": 1578,
+        "y": 237,
+        "w": 300,
+        "h": 848
+      },
+      "css": {
+        "bg": "rgb(237, 239, 245)",
+        "color": "rgb(31, 31, 44)",
+        "bc": "oklch(0.922 0 0)",
+        "br": "8px",
+        "bw": "0px",
+        "fs": "14px",
+        "fw": "400",
+        "lh": "22px",
+        "pad": "0px",
+        "shadow": "none"
+      }
+    },
+    {
+      "key": "tool-result",
+      "r": {
+        "x": 1590,
+        "y": 287,
+        "w": 276,
+        "h": 249
+      },
+      "css": {
+        "bg": "oklch(1 0 0)",
+        "color": "rgb(31, 31, 44)",
+        "bc": "oklch(0.922 0 0)",
+        "br": "18px",
+        "bw": "1px",
+        "fs": "14px",
+        "fw": "400",
+        "lh": "22px",
+        "pad": "16px",
+        "shadow": "none"
+      }
+    },
+    {
+      "key": "tool-result-empty",
+      "r": {
+        "x": 1607,
+        "y": 343,
+        "w": 242,
+        "h": 176
+      },
+      "css": {
+        "bg": "rgba(0, 0, 0, 0)",
+        "color": "oklch(0.556 0 0)",
+        "bc": "oklch(0.922 0 0)",
+        "br": "14px",
+        "bw": "1px",
+        "fs": "14px",
+        "fw": "400",
+        "lh": "20px",
+        "pad": "32px 16px",
+        "shadow": "none"
+      }
+    },
+    {
+      "key": "tool-history-dock",
+      "r": {
+        "x": 200,
+        "y": 1111,
+        "w": 1688,
+        "h": 80
+      },
+      "css": {
+        "bg": "oklab(1 0 0 / 0.4)",
+        "color": "oklch(0.145 0 0)",
+        "bc": "oklch(0.922 0 0)",
+        "br": "10px",
+        "bw": "1px",
+        "fs": "14px",
+        "fw": "400",
+        "lh": "22px",
+        "pad": "12px",
+        "shadow": "none"
+      }
+    }
+  ],
+  "headings": [
+    {
+      "tag": "h1",
+      "text": "色差修复",
+      "r": {
+        "x": 200,
+        "y": 138,
+        "w": 64,
+        "h": 24
+      },
+      "css": {
+        "bg": "rgba(0, 0, 0, 0)",
+        "color": "oklch(0.145 0 0)",
+        "bc": "oklch(0.922 0 0)",
+        "br": "0px",
+        "bw": "0px",
+        "fs": "16px",
+        "fw": "500",
+        "lh": "24px",
+        "pad": "0px",
+        "shadow": "none"
+      }
+    },
+    {
+      "tag": "h2",
+      "text": "色差修复",
+      "r": {
+        "x": 732,
+        "y": 603,
+        "w": 64,
+        "h": 24
+      },
+      "css": {
+        "bg": "rgba(0, 0, 0, 0)",
+        "color": "rgb(31, 31, 44)",
+        "bc": "oklch(0.922 0 0)",
+        "br": "0px",
+        "bw": "0px",
+        "fs": "16px",
+        "fw": "500",
+        "lh": "24px",
+        "pad": "0px",
+        "shadow": "none"
+      }
+    },
+    {
+      "tag": "h3",
+      "text": "上传色差图",
+      "r": {
+        "x": 1344,
+        "y": 273,
+        "w": 49,
+        "h": 40
+      },
+      "css": {
+        "bg": "rgba(0, 0, 0, 0)",
+        "color": "oklch(0.268 0.007 34.298)",
+        "bc": "oklch(0.922 0 0)",
+        "br": "0px",
+        "bw": "0px",
+        "fs": "14px",
+        "fw": "500",
+        "lh": "20px",
+        "pad": "0px",
+        "shadow": "none"
+      }
+    },
+    {
+      "tag": "h2",
+      "text": "色差修复结果",
+      "r": {
+        "x": 1607,
+        "y": 304,
+        "w": 84,
+        "h": 20
+      },
+      "css": {
+        "bg": "rgba(0, 0, 0, 0)",
+        "color": "rgb(31, 31, 44)",
+        "bc": "oklch(0.922 0 0)",
+        "br": "0px",
+        "bw": "0px",
+        "fs": "14px",
+        "fw": "500",
+        "lh": "20px",
+        "pad": "0px",
+        "shadow": "none"
+      }
+    }
+  ],
+  "controls": [
+    {
+      "tag": "button",
+      "type": "button",
+      "role": null,
+      "testid": "shell-promo-close",
+      "text": "",
+      "value": "",
+      "checked": null,
+      "ariaChecked": null,
+      "ariaSelected": null,
+      "ariaPressed": null,
+      "disabled": false,
+      "ph": null,
+      "r": {
+        "x": 1861,
+        "y": 14,
+        "w": 22,
+        "h": 22
+      },
+      "css": {
+        "bg": "rgba(0, 0, 0, 0)",
+        "color": "oklch(0.145 0 0)",
+        "bc": "oklch(0.922 0 0)",
+        "br": "4px",
+        "bw": "0px",
+        "fs": "14px",
+        "fw": "400",
+        "lh": "22px",
+        "pad": "0px",
+        "shadow": "none"
+      }
+    },
+    {
+      "tag": "button",
+      "type": "button",
+      "role": null,
+      "testid": "tools-nav-more-trigger",
+      "text": "更多",
+      "value": "",
+      "checked": null,
+      "ariaChecked": null,
+      "ariaSelected": null,
+      "ariaPressed": null,
+      "disabled": false,
+      "ph": null,
+      "r": {
+        "x": 972,
+        "y": 50,
+        "w": 47,
+        "h": 60
+      },
+      "css": {
+        "bg": "rgba(0, 0, 0, 0)",
+        "color": "oklab(0 0 0 / 0.85)",
+        "bc": "oklch(0.922 0 0)",
+        "br": "0px",
+        "bw": "0px",
+        "fs": "16px",
+        "fw": "400",
+        "lh": "25.1429px",
+        "pad": "0px",
+        "shadow": "none"
+      }
+    },
+    {
+      "tag": "button",
+      "type": "button",
+      "role": null,
+      "testid": "shell-user-buy",
+      "text": "购买",
+      "value": "",
+      "checked": null,
+      "ariaChecked": null,
+      "ariaSelected": null,
+      "ariaPressed": null,
+      "disabled": true,
+      "ph": null,
+      "r": {
+        "x": 1697,
+        "y": 64,
+        "w": 44,
+        "h": 32
+      },
+      "css": {
+        "bg": "rgba(0, 0, 0, 0)",
+        "color": "oklab(0 0 0 / 0.85)",
+        "bc": "oklch(0.922 0 0)",
+        "br": "0px",
+        "bw": "0px",
+        "fs": "12px",
+        "fw": "400",
+        "lh": "18.857px",
+        "pad": "0px 8px",
+        "shadow": "none"
+      }
+    },
+    {
+      "tag": "button",
+      "type": "button",
+      "role": null,
+      "testid": "shell-user-menu-trigger",
+      "text": "用 本地用户 个人账号",
+      "value": "",
+      "checked": null,
+      "ariaChecked": null,
+      "ariaSelected": null,
+      "ariaPressed": null,
+      "disabled": false,
+      "ph": null,
+      "r": {
+        "x": 1756,
+        "y": 62,
+        "w": 105,
+        "h": 36
+      },
+      "css": {
+        "bg": "rgba(0, 0, 0, 0)",
+        "color": "oklch(0.145 0 0)",
+        "bc": "oklch(0.922 0 0)",
+        "br": "6px",
+        "bw": "0px",
+        "fs": "14px",
+        "fw": "400",
+        "lh": "22px",
+        "pad": "0px 4px 0px 0px",
+        "shadow": "none"
+      }
+    },
+    {
+      "tag": "button",
+      "type": "button",
+      "role": null,
+      "testid": null,
+      "text": "画笔",
+      "value": "",
+      "checked": null,
+      "ariaChecked": null,
+      "ariaSelected": null,
+      "ariaPressed": "true",
+      "disabled": false,
+      "ph": null,
+      "r": {
+        "x": 226,
+        "y": 246,
+        "w": 40,
+        "h": 24
+      },
+      "css": {
+        "bg": "rgb(255, 255, 255)",
+        "color": "rgb(31, 31, 44)",
+        "bc": "oklch(0.922 0 0)",
+        "br": "4px",
+        "bw": "0px",
+        "fs": "12px",
+        "fw": "400",
+        "lh": "18.8571px",
+        "pad": "0px 8px",
+        "shadow": "none"
+      }
+    },
+    {
+      "tag": "button",
+      "type": "button",
+      "role": null,
+      "testid": null,
+      "text": "橡皮",
+      "value": "",
+      "checked": null,
+      "ariaChecked": null,
+      "ariaSelected": null,
+      "ariaPressed": "false",
+      "disabled": false,
+      "ph": null,
+      "r": {
+        "x": 270,
+        "y": 246,
+        "w": 40,
+        "h": 24
+      },
+      "css": {
+        "bg": "rgba(0, 0, 0, 0)",
+        "color": "rgb(31, 31, 44)",
+        "bc": "oklch(0.922 0 0)",
+        "br": "4px",
+        "bw": "0px",
+        "fs": "12px",
+        "fw": "400",
+        "lh": "18.8571px",
+        "pad": "0px 8px",
+        "shadow": "none"
+      }
+    },
+    {
+      "tag": "input",
+      "type": "range",
+      "role": null,
+      "testid": null,
+      "text": "",
+      "value": "35",
+      "checked": false,
+      "ariaChecked": null,
+      "ariaSelected": null,
+      "ariaPressed": null,
+      "disabled": false,
+      "ph": null,
+      "r": {
+        "x": 358,
+        "y": 247,
+        "w": 112,
+        "h": 22
+      },
+      "css": {
+        "bg": "rgba(0, 0, 0, 0)",
+        "color": "rgb(31, 31, 44)",
+        "bc": "oklch(0.922 0 0)",
+        "br": "0px",
+        "bw": "0px",
+        "fs": "12px",
+        "fw": "400",
+        "lh": "18.8571px",
+        "pad": "0px",
+        "shadow": "none"
+      }
+    },
+    {
+      "tag": "input",
+      "type": "range",
+      "role": null,
+      "testid": null,
+      "text": "",
+      "value": "0",
+      "checked": false,
+      "ariaChecked": null,
+      "ariaSelected": null,
+      "ariaPressed": null,
+      "disabled": false,
+      "ph": null,
+      "r": {
+        "x": 558,
+        "y": 247,
+        "w": 80,
+        "h": 22
+      },
+      "css": {
+        "bg": "rgba(0, 0, 0, 0)",
+        "color": "rgb(31, 31, 44)",
+        "bc": "oklch(0.922 0 0)",
+        "br": "0px",
+        "bw": "0px",
+        "fs": "12px",
+        "fw": "400",
+        "lh": "18.8571px",
+        "pad": "0px",
+        "shadow": "none"
+      }
+    },
+    {
+      "tag": "button",
+      "type": "button",
+      "role": null,
+      "testid": null,
+      "text": "15",
+      "value": "",
+      "checked": null,
+      "ariaChecked": null,
+      "ariaSelected": null,
+      "ariaPressed": null,
+      "disabled": false,
+      "ph": null,
+      "r": {
+        "x": 654,
+        "y": 246,
+        "w": 27,
+        "h": 24
+      },
+      "css": {
+        "bg": "rgba(0, 0, 0, 0)",
+        "color": "rgb(31, 31, 44)",
+        "bc": "rgb(229, 229, 234)",
+        "br": "4px",
+        "bw": "1px",
+        "fs": "12px",
+        "fw": "400",
+        "lh": "18.8571px",
+        "pad": "0px 6px",
+        "shadow": "none"
+      }
+    },
+    {
+      "tag": "button",
+      "type": "button",
+      "role": null,
+      "testid": null,
+      "text": "35",
+      "value": "",
+      "checked": null,
+      "ariaChecked": null,
+      "ariaSelected": null,
+      "ariaPressed": null,
+      "disabled": false,
+      "ph": null,
+      "r": {
+        "x": 685,
+        "y": 246,
+        "w": 29,
+        "h": 24
+      },
+      "css": {
+        "bg": "rgba(0, 0, 0, 0)",
+        "color": "rgb(31, 31, 44)",
+        "bc": "rgb(229, 229, 234)",
+        "br": "4px",
+        "bw": "1px",
+        "fs": "12px",
+        "fw": "400",
+        "lh": "18.8571px",
+        "pad": "0px 6px",
+        "shadow": "none"
+      }
+    },
+    {
+      "tag": "button",
+      "type": "button",
+      "role": null,
+      "testid": null,
+      "text": "60",
+      "value": "",
+      "checked": null,
+      "ariaChecked": null,
+      "ariaSelected": null,
+      "ariaPressed": null,
+      "disabled": false,
+      "ph": null,
+      "r": {
+        "x": 718,
+        "y": 246,
+        "w": 29,
+        "h": 24
+      },
+      "css": {
+        "bg": "rgba(0, 0, 0, 0)",
+        "color": "rgb(31, 31, 44)",
+        "bc": "rgb(229, 229, 234)",
+        "br": "4px",
+        "bw": "1px",
+        "fs": "12px",
+        "fw": "400",
+        "lh": "18.8571px",
+        "pad": "0px 6px",
+        "shadow": "none"
+      }
+    },
+    {
+      "tag": "button",
+      "type": "button",
+      "role": null,
+      "testid": null,
+      "text": "100",
+      "value": "",
+      "checked": null,
+      "ariaChecked": null,
+      "ariaSelected": null,
+      "ariaPressed": null,
+      "disabled": false,
+      "ph": null,
+      "r": {
+        "x": 751,
+        "y": 246,
+        "w": 35,
+        "h": 24
+      },
+      "css": {
+        "bg": "rgba(0, 0, 0, 0)",
+        "color": "rgb(31, 31, 44)",
+        "bc": "rgb(229, 229, 234)",
+        "br": "4px",
+        "bw": "1px",
+        "fs": "12px",
+        "fw": "400",
+        "lh": "18.8571px",
+        "pad": "0px 6px",
+        "shadow": "none"
+      }
+    },
+    {
+      "tag": "button",
+      "type": "button",
+      "role": null,
+      "testid": null,
+      "text": "",
+      "value": "",
+      "checked": null,
+      "ariaChecked": null,
+      "ariaSelected": null,
+      "ariaPressed": null,
+      "disabled": true,
+      "ph": null,
+      "r": {
+        "x": 1164,
+        "y": 246,
+        "w": 24,
+        "h": 24
+      },
+      "css": {
+        "bg": "rgba(0, 0, 0, 0)",
+        "color": "rgb(31, 31, 44)",
+        "bc": "oklch(0.922 0 0)",
+        "br": "4px",
+        "bw": "0px",
+        "fs": "12px",
+        "fw": "400",
+        "lh": "18.8571px",
+        "pad": "0px",
+        "shadow": "none"
+      }
+    },
+    {
+      "tag": "button",
+      "type": "button",
+      "role": null,
+      "testid": null,
+      "text": "",
+      "value": "",
+      "checked": null,
+      "ariaChecked": null,
+      "ariaSelected": null,
+      "ariaPressed": null,
+      "disabled": true,
+      "ph": null,
+      "r": {
+        "x": 1192,
+        "y": 246,
+        "w": 24,
+        "h": 24
+      },
+      "css": {
+        "bg": "rgba(0, 0, 0, 0)",
+        "color": "rgb(31, 31, 44)",
+        "bc": "oklch(0.922 0 0)",
+        "br": "4px",
+        "bw": "0px",
+        "fs": "12px",
+        "fw": "400",
+        "lh": "18.8571px",
+        "pad": "0px",
+        "shadow": "none"
+      }
+    },
+    {
+      "tag": "button",
+      "type": "button",
+      "role": null,
+      "testid": null,
+      "text": "",
+      "value": "",
+      "checked": null,
+      "ariaChecked": null,
+      "ariaSelected": null,
+      "ariaPressed": null,
+      "disabled": false,
+      "ph": null,
+      "r": {
+        "x": 1220,
+        "y": 246,
+        "w": 24,
+        "h": 24
+      },
+      "css": {
+        "bg": "rgba(0, 0, 0, 0)",
+        "color": "rgb(31, 31, 44)",
+        "bc": "oklch(0.922 0 0)",
+        "br": "4px",
+        "bw": "0px",
+        "fs": "12px",
+        "fw": "400",
+        "lh": "18.8571px",
+        "pad": "0px",
+        "shadow": "none"
+      }
+    },
+    {
+      "tag": "div",
+      "type": null,
+      "role": "button",
+      "testid": "tool-asset-dropzone",
+      "text": "点击上传 从本地上传 从作品库选择 从商品库选择",
+      "value": "",
+      "checked": null,
+      "ariaChecked": null,
+      "ariaSelected": null,
+      "ariaPressed": null,
+      "disabled": false,
+      "ph": null,
+      "r": {
+        "x": 1344,
+        "y": 332,
+        "w": 208,
+        "h": 105
+      },
+      "css": {
+        "bg": "rgb(255, 255, 255)",
+        "color": "rgb(31, 31, 44)",
+        "bc": "rgb(237, 237, 240)",
+        "br": "6px",
+        "bw": "1px",
+        "fs": "12px",
+        "fw": "400",
+        "lh": "16px",
+        "pad": "12px",
+        "shadow": "none"
+      }
+    },
+    {
+      "tag": "button",
+      "type": "button",
+      "role": null,
+      "testid": null,
+      "text": "从作品库选择",
+      "value": "",
+      "checked": null,
+      "ariaChecked": null,
+      "ariaSelected": null,
+      "ariaPressed": null,
+      "disabled": true,
+      "ph": null,
+      "r": {
+        "x": 1357,
+        "y": 400,
+        "w": 100,
+        "h": 24
+      },
+      "css": {
+        "bg": "rgb(255, 255, 255)",
+        "color": "rgb(31, 31, 44)",
+        "bc": "rgb(229, 229, 234)",
+        "br": "4px",
+        "bw": "1px",
+        "fs": "12px",
+        "fw": "400",
+        "lh": "16px",
+        "pad": "0px",
+        "shadow": "none"
+      }
+    },
+    {
+      "tag": "button",
+      "type": "button",
+      "role": null,
+      "testid": null,
+      "text": "从商品库选择",
+      "value": "",
+      "checked": null,
+      "ariaChecked": null,
+      "ariaSelected": null,
+      "ariaPressed": null,
+      "disabled": true,
+      "ph": null,
+      "r": {
+        "x": 1465,
+        "y": 400,
+        "w": 100,
+        "h": 24
+      },
+      "css": {
+        "bg": "rgb(255, 255, 255)",
+        "color": "rgb(31, 31, 44)",
+        "bc": "rgb(229, 229, 234)",
+        "br": "4px",
+        "bw": "1px",
+        "fs": "12px",
+        "fw": "400",
+        "lh": "16px",
+        "pad": "0px",
+        "shadow": "none"
+      }
+    },
+    {
+      "tag": "input",
+      "type": "color",
+      "role": null,
+      "testid": null,
+      "text": "",
+      "value": "#b79a7c",
+      "checked": false,
+      "ariaChecked": null,
+      "ariaSelected": null,
+      "ariaPressed": null,
+      "disabled": false,
+      "ph": null,
+      "r": {
+        "x": 1344,
+        "y": 517,
+        "w": 27,
+        "h": 32
+      },
+      "css": {
+        "bg": "rgba(0, 0, 0, 0)",
+        "color": "oklch(0.556 0 0)",
+        "bc": "oklch(0.922 0 0)",
+        "br": "4px",
+        "bw": "1px",
+        "fs": "11px",
+        "fw": "400",
+        "lh": "17.2857px",
+        "pad": "2px",
+        "shadow": "none"
+      }
+    },
+    {
+      "tag": "input",
+      "type": "text",
+      "role": null,
+      "testid": null,
+      "text": "",
+      "value": "#B79A7C",
+      "checked": false,
+      "ariaChecked": null,
+      "ariaSelected": null,
+      "ariaPressed": null,
+      "disabled": false,
+      "ph": null,
+      "r": {
+        "x": 1379,
+        "y": 520,
+        "w": 173,
+        "h": 27
+      },
+      "css": {
+        "bg": "oklch(1 0 0)",
+        "color": "oklch(0.556 0 0)",
+        "bc": "oklch(0.922 0 0)",
+        "br": "4px",
+        "bw": "1px",
+        "fs": "11px",
+        "fw": "400",
+        "lh": "17.2857px",
+        "pad": "4px 8px",
+        "shadow": "none"
+      }
+    },
+    {
+      "tag": "button",
+      "type": "button",
+      "role": null,
+      "testid": null,
+      "text": "交换",
+      "value": "",
+      "checked": null,
+      "ariaChecked": null,
+      "ariaSelected": null,
+      "ariaPressed": null,
+      "disabled": false,
+      "ph": null,
+      "r": {
+        "x": 1490,
+        "y": 557,
+        "w": 62,
+        "h": 24
+      },
+      "css": {
+        "bg": "rgba(0, 0, 0, 0)",
+        "color": "rgb(31, 31, 44)",
+        "bc": "rgb(237, 237, 240)",
+        "br": "4px",
+        "bw": "1px",
+        "fs": "14px",
+        "fw": "400",
+        "lh": "22px",
+        "pad": "0px 8px",
+        "shadow": "none"
+      }
+    },
+    {
+      "tag": "input",
+      "type": "color",
+      "role": null,
+      "testid": null,
+      "text": "",
+      "value": "#a8896a",
+      "checked": false,
+      "ariaChecked": null,
+      "ariaSelected": null,
+      "ariaPressed": null,
+      "disabled": false,
+      "ph": null,
+      "r": {
+        "x": 1344,
+        "y": 611,
+        "w": 27,
+        "h": 32
+      },
+      "css": {
+        "bg": "rgba(0, 0, 0, 0)",
+        "color": "oklch(0.556 0 0)",
+        "bc": "oklch(0.922 0 0)",
+        "br": "4px",
+        "bw": "1px",
+        "fs": "11px",
+        "fw": "400",
+        "lh": "17.2857px",
+        "pad": "2px",
+        "shadow": "none"
+      }
+    },
+    {
+      "tag": "input",
+      "type": "text",
+      "role": null,
+      "testid": null,
+      "text": "",
+      "value": "#A8896A",
+      "checked": false,
+      "ariaChecked": null,
+      "ariaSelected": null,
+      "ariaPressed": null,
+      "disabled": false,
+      "ph": null,
+      "r": {
+        "x": 1379,
+        "y": 613,
+        "w": 173,
+        "h": 27
+      },
+      "css": {
+        "bg": "oklch(1 0 0)",
+        "color": "oklch(0.556 0 0)",
+        "bc": "oklch(0.922 0 0)",
+        "br": "4px",
+        "bw": "1px",
+        "fs": "11px",
+        "fw": "400",
+        "lh": "17.2857px",
+        "pad": "4px 8px",
+        "shadow": "none"
+      }
+    },
+    {
+      "tag": "button",
+      "type": "button",
+      "role": null,
+      "testid": null,
+      "text": "",
+      "value": "",
+      "checked": null,
+      "ariaChecked": null,
+      "ariaSelected": null,
+      "ariaPressed": null,
+      "disabled": false,
+      "ph": null,
+      "r": {
+        "x": 1344,
+        "y": 651,
+        "w": 20,
+        "h": 20
+      },
+      "css": {
+        "bg": "rgb(255, 255, 255)",
+        "color": "rgb(31, 31, 44)",
+        "bc": "rgb(237, 237, 240)",
+        "br": "4px",
+        "bw": "1px",
+        "fs": "14px",
+        "fw": "400",
+        "lh": "22px",
+        "pad": "0px",
+        "shadow": "none"
+      }
+    },
+    {
+      "tag": "button",
+      "type": "button",
+      "role": null,
+      "testid": null,
+      "text": "",
+      "value": "",
+      "checked": null,
+      "ariaChecked": null,
+      "ariaSelected": null,
+      "ariaPressed": null,
+      "disabled": false,
+      "ph": null,
+      "r": {
+        "x": 1368,
+        "y": 651,
+        "w": 20,
+        "h": 20
+      },
+      "css": {
+        "bg": "rgb(0, 0, 0)",
+        "color": "rgb(31, 31, 44)",
+        "bc": "rgb(237, 237, 240)",
+        "br": "4px",
+        "bw": "1px",
+        "fs": "14px",
+        "fw": "400",
+        "lh": "22px",
+        "pad": "0px",
+        "shadow": "none"
+      }
+    },
+    {
+      "tag": "button",
+      "type": "button",
+      "role": null,
+      "testid": null,
+      "text": "",
+      "value": "",
+      "checked": null,
+      "ariaChecked": null,
+      "ariaSelected": null,
+      "ariaPressed": null,
+      "disabled": false,
+      "ph": null,
+      "r": {
+        "x": 1392,
+        "y": 651,
+        "w": 20,
+        "h": 20
+      },
+      "css": {
+        "bg": "rgb(183, 154, 124)",
+        "color": "rgb(31, 31, 44)",
+        "bc": "rgb(237, 237, 240)",
+        "br": "4px",
+        "bw": "1px",
+        "fs": "14px",
+        "fw": "400",
+        "lh": "22px",
+        "pad": "0px",
+        "shadow": "none"
+      }
+    },
+    {
+      "tag": "button",
+      "type": "button",
+      "role": null,
+      "testid": null,
+      "text": "",
+      "value": "",
+      "checked": null,
+      "ariaChecked": null,
+      "ariaSelected": null,
+      "ariaPressed": null,
+      "disabled": false,
+      "ph": null,
+      "r": {
+        "x": 1416,
+        "y": 651,
+        "w": 20,
+        "h": 20
+      },
+      "css": {
+        "bg": "rgb(168, 137, 106)",
+        "color": "rgb(31, 31, 44)",
+        "bc": "rgb(237, 237, 240)",
+        "br": "4px",
+        "bw": "1px",
+        "fs": "14px",
+        "fw": "400",
+        "lh": "22px",
+        "pad": "0px",
+        "shadow": "none"
+      }
+    },
+    {
+      "tag": "button",
+      "type": "button",
+      "role": null,
+      "testid": null,
+      "text": "",
+      "value": "",
+      "checked": null,
+      "ariaChecked": null,
+      "ariaSelected": null,
+      "ariaPressed": null,
+      "disabled": false,
+      "ph": null,
+      "r": {
+        "x": 1440,
+        "y": 651,
+        "w": 20,
+        "h": 20
+      },
+      "css": {
+        "bg": "rgb(140, 140, 140)",
+        "color": "rgb(31, 31, 44)",
+        "bc": "rgb(237, 237, 240)",
+        "br": "4px",
+        "bw": "1px",
+        "fs": "14px",
+        "fw": "400",
+        "lh": "22px",
+        "pad": "0px",
+        "shadow": "none"
+      }
+    },
+    {
+      "tag": "button",
+      "type": "button",
+      "role": null,
+      "testid": null,
+      "text": "",
+      "value": "",
+      "checked": null,
+      "ariaChecked": null,
+      "ariaSelected": null,
+      "ariaPressed": null,
+      "disabled": false,
+      "ph": null,
+      "r": {
+        "x": 1464,
+        "y": 651,
+        "w": 20,
+        "h": 20
+      },
+      "css": {
+        "bg": "rgb(217, 79, 79)",
+        "color": "rgb(31, 31, 44)",
+        "bc": "rgb(237, 237, 240)",
+        "br": "4px",
+        "bw": "1px",
+        "fs": "14px",
+        "fw": "400",
+        "lh": "22px",
+        "pad": "0px",
+        "shadow": "none"
+      }
+    },
+    {
+      "tag": "button",
+      "type": "button",
+      "role": null,
+      "testid": null,
+      "text": "",
+      "value": "",
+      "checked": null,
+      "ariaChecked": null,
+      "ariaSelected": null,
+      "ariaPressed": null,
+      "disabled": false,
+      "ph": null,
+      "r": {
+        "x": 1488,
+        "y": 651,
+        "w": 20,
+        "h": 20
+      },
+      "css": {
+        "bg": "rgb(61, 107, 217)",
+        "color": "rgb(31, 31, 44)",
+        "bc": "rgb(237, 237, 240)",
+        "br": "4px",
+        "bw": "1px",
+        "fs": "14px",
+        "fw": "400",
+        "lh": "22px",
+        "pad": "0px",
+        "shadow": "none"
+      }
+    },
+    {
+      "tag": "button",
+      "type": "button",
+      "role": null,
+      "testid": null,
+      "text": "",
+      "value": "",
+      "checked": null,
+      "ariaChecked": null,
+      "ariaSelected": null,
+      "ariaPressed": null,
+      "disabled": false,
+      "ph": null,
+      "r": {
+        "x": 1512,
+        "y": 651,
+        "w": 20,
+        "h": 20
+      },
+      "css": {
+        "bg": "rgb(63, 163, 91)",
+        "color": "rgb(31, 31, 44)",
+        "bc": "rgb(237, 237, 240)",
+        "br": "4px",
+        "bw": "1px",
+        "fs": "14px",
+        "fw": "400",
+        "lh": "22px",
+        "pad": "0px",
+        "shadow": "none"
+      }
+    },
+    {
+      "tag": "button",
+      "type": "button",
+      "role": null,
+      "testid": null,
+      "text": "参考匹配 只把涂抹区域的颜色对齐到目标色，保留原明暗与材质",
+      "value": "",
+      "checked": null,
+      "ariaChecked": null,
+      "ariaSelected": null,
+      "ariaPressed": "true",
+      "disabled": false,
+      "ph": null,
+      "r": {
+        "x": 1344,
+        "y": 738,
+        "w": 208,
+        "h": 62
+      },
+      "css": {
+        "bg": "rgb(245, 242, 255)",
+        "color": "rgb(31, 31, 44)",
+        "bc": "rgb(114, 60, 249)",
+        "br": "4px",
+        "bw": "1px",
+        "fs": "14px",
+        "fw": "400",
+        "lh": "22px",
+        "pad": "4px 8px",
+        "shadow": "none"
+      }
+    },
+    {
+      "tag": "button",
+      "type": "button",
+      "role": null,
+      "testid": null,
+      "text": "色偏中和 按区域平均偏色做整体中和，适合整片偏黄/偏蓝的拍摄色差",
+      "value": "",
+      "checked": null,
+      "ariaChecked": null,
+      "ariaSelected": null,
+      "ariaPressed": "false",
+      "disabled": false,
+      "ph": null,
+      "r": {
+        "x": 1344,
+        "y": 804,
+        "w": 208,
+        "h": 62
+      },
+      "css": {
+        "bg": "rgba(0, 0, 0, 0)",
+        "color": "rgb(31, 31, 44)",
+        "bc": "rgb(237, 237, 240)",
+        "br": "4px",
+        "bw": "1px",
+        "fs": "14px",
+        "fw": "400",
+        "lh": "22px",
+        "pad": "4px 8px",
+        "shadow": "none"
+      }
+    },
+    {
+      "tag": "button",
+      "type": "button",
+      "role": null,
+      "testid": null,
+      "text": "局部补色 只修补局部色彩异常（反光、污点引起的异色），边界自然过渡",
+      "value": "",
+      "checked": null,
+      "ariaChecked": null,
+      "ariaSelected": null,
+      "ariaPressed": "false",
+      "disabled": false,
+      "ph": null,
+      "r": {
+        "x": 1344,
+        "y": 870,
+        "w": 208,
+        "h": 62
+      },
+      "css": {
+        "bg": "rgba(0, 0, 0, 0)",
+        "color": "rgb(31, 31, 44)",
+        "bc": "rgb(237, 237, 240)",
+        "br": "4px",
+        "bw": "1px",
+        "fs": "14px",
+        "fw": "400",
+        "lh": "22px",
+        "pad": "4px 8px",
+        "shadow": "none"
+      }
+    },
+    {
+      "tag": "button",
+      "type": "button",
+      "role": null,
+      "testid": "fix-color-submit",
+      "text": "立即生成",
+      "value": "",
+      "checked": null,
+      "ariaChecked": null,
+      "ariaSelected": null,
+      "ariaPressed": null,
+      "disabled": true,
+      "ph": null,
+      "r": {
+        "x": 1344,
+        "y": 1043,
+        "w": 208,
+        "h": 32
+      },
+      "css": {
+        "bg": "rgb(114, 60, 249)",
+        "color": "rgb(31, 31, 44)",
+        "bc": "oklch(0.922 0 0)",
+        "br": "6px",
+        "bw": "0px",
+        "fs": "14px",
+        "fw": "400",
+        "lh": "22px",
+        "pad": "0px 15px",
+        "shadow": "none"
+      }
+    },
+    {
+      "tag": "button",
+      "type": "button",
+      "role": "tab",
+      "testid": "edit8-tab-result",
+      "text": "生成结果",
+      "value": "",
+      "checked": null,
+      "ariaChecked": null,
+      "ariaSelected": "true",
+      "ariaPressed": null,
+      "disabled": false,
+      "ph": null,
+      "r": {
+        "x": 1591,
+        "y": 237,
+        "w": 56,
+        "h": 42
+      },
+      "css": {
+        "bg": "rgba(0, 0, 0, 0)",
+        "color": "rgb(31, 31, 44)",
+        "bc": "oklch(0.922 0 0)",
+        "br": "0px",
+        "bw": "0px",
+        "fs": "14px",
+        "fw": "500",
+        "lh": "22px",
+        "pad": "0px",
+        "shadow": "none"
+      }
+    },
+    {
+      "tag": "button",
+      "type": "button",
+      "role": "tab",
+      "testid": "edit8-tab-history",
+      "text": "历史记录",
+      "value": "",
+      "checked": null,
+      "ariaChecked": null,
+      "ariaSelected": "false",
+      "ariaPressed": null,
+      "disabled": false,
+      "ph": null,
+      "r": {
+        "x": 1667,
+        "y": 237,
+        "w": 56,
+        "h": 42
+      },
+      "css": {
+        "bg": "rgba(0, 0, 0, 0)",
+        "color": "rgb(31, 31, 44)",
+        "bc": "oklch(0.922 0 0)",
+        "br": "0px",
+        "bw": "0px",
+        "fs": "14px",
+        "fw": "400",
+        "lh": "22px",
+        "pad": "0px",
+        "shadow": "none"
+      }
+    },
+    {
+      "tag": "button",
+      "type": "button",
+      "role": null,
+      "testid": "tool-help-dock-consult",
+      "text": "操作咨询",
+      "value": "",
+      "checked": null,
+      "ariaChecked": null,
+      "ariaSelected": null,
+      "ariaPressed": null,
+      "disabled": false,
+      "ph": null,
+      "r": {
+        "x": 1797,
+        "y": 346,
+        "w": 101,
+        "h": 40
+      },
+      "css": {
+        "bg": "rgb(114, 60, 249)",
+        "color": "oklch(0.145 0 0)",
+        "bc": "oklch(0.922 0 0)",
+        "br": "3.35544e+07px",
+        "bw": "0px",
+        "fs": "14px",
+        "fw": "400",
+        "lh": "22px",
+        "pad": "0px",
+        "shadow": "none"
+      }
+    },
+    {
+      "tag": "button",
+      "type": "button",
+      "role": null,
+      "testid": "tool-help-dock-tutorial",
+      "text": "产品教程",
+      "value": "",
+      "checked": null,
+      "ariaChecked": null,
+      "ariaSelected": null,
+      "ariaPressed": null,
+      "disabled": false,
+      "ph": null,
+      "r": {
+        "x": 1797,
+        "y": 396,
+        "w": 101,
+        "h": 40
+      },
+      "css": {
+        "bg": "rgb(114, 60, 249)",
+        "color": "oklch(0.145 0 0)",
+        "bc": "oklch(0.922 0 0)",
+        "br": "3.35544e+07px",
+        "bw": "0px",
+        "fs": "14px",
+        "fw": "400",
+        "lh": "22px",
+        "pad": "0px",
+        "shadow": "none"
+      }
+    },
+    {
+      "tag": "button",
+      "type": "button",
+      "role": null,
+      "testid": null,
+      "text": "",
+      "value": "",
+      "checked": null,
+      "ariaChecked": null,
+      "ariaSelected": null,
+      "ariaPressed": null,
+      "disabled": false,
+      "ph": null,
+      "r": {
+        "x": 1901,
+        "y": 0,
+        "w": 16,
+        "h": 781
+      },
+      "css": {
+        "bg": "rgba(0, 0, 0, 0)",
+        "color": "rgb(41, 37, 36)",
+        "bc": "oklch(0.922 0 0)",
+        "br": "0px",
+        "bw": "0px",
+        "fs": "14px",
+        "fw": "400",
+        "lh": "22px",
+        "pad": "0px",
+        "shadow": "none"
+      }
+    },
+    {
+      "tag": "button",
+      "type": "button",
+      "role": null,
+      "testid": null,
+      "text": "未连接",
+      "value": "",
+      "checked": null,
+      "ariaChecked": null,
+      "ariaSelected": null,
+      "ariaPressed": null,
+      "disabled": false,
+      "ph": null,
+      "r": {
+        "x": 1953,
+        "y": 8,
+        "w": 32,
+        "h": 32
+      },
+      "css": {
+        "bg": "rgba(0, 0, 0, 0)",
+        "color": "rgba(0, 0, 0, 0.88)",
+        "bc": "rgba(0, 0, 0, 0)",
+        "br": "4px",
+        "bw": "1px",
+        "fs": "14px",
+        "fw": "400",
+        "lh": "22px",
+        "pad": "0px",
+        "shadow": "none"
+      }
+    },
+    {
+      "tag": "button",
+      "type": "button",
+      "role": "tab",
+      "testid": null,
+      "text": "对话",
+      "value": "",
+      "checked": null,
+      "ariaChecked": null,
+      "ariaSelected": "false",
+      "ariaPressed": null,
+      "disabled": false,
+      "ph": null,
+      "r": {
+        "x": 2062,
+        "y": 0,
+        "w": 32,
+        "h": 48
+      },
+      "css": {
+        "bg": "rgba(0, 0, 0, 0)",
+        "color": "rgb(120, 113, 108)",
+        "bc": "rgba(0, 0, 0, 0)",
+        "br": "0px",
+        "bw": "0px 0px 2px",
+        "fs": "14px",
+        "fw": "400",
+        "lh": "20px",
+        "pad": "0px 6px",
+        "shadow": "none"
+      }
+    },
+    {
+      "tag": "button",
+      "type": "button",
+      "role": "tab",
+      "testid": null,
+      "text": "历史",
+      "value": "",
+      "checked": null,
+      "ariaChecked": null,
+      "ariaSelected": "false",
+      "ariaPressed": null,
+      "disabled": false,
+      "ph": null,
+      "r": {
+        "x": 2096,
+        "y": 0,
+        "w": 32,
+        "h": 48
+      },
+      "css": {
+        "bg": "rgba(0, 0, 0, 0)",
+        "color": "rgb(120, 113, 108)",
+        "bc": "rgba(0, 0, 0, 0)",
+        "br": "0px",
+        "bw": "0px 0px 2px",
+        "fs": "14px",
+        "fw": "400",
+        "lh": "20px",
+        "pad": "0px 6px",
+        "shadow": "none"
+      }
+    },
+    {
+      "tag": "button",
+      "type": "button",
+      "role": "tab",
+      "testid": null,
+      "text": "技能",
+      "value": "",
+      "checked": null,
+      "ariaChecked": null,
+      "ariaSelected": "false",
+      "ariaPressed": null,
+      "disabled": false,
+      "ph": null,
+      "r": {
+        "x": 2130,
+        "y": 0,
+        "w": 32,
+        "h": 48
+      },
+      "css": {
+        "bg": "rgba(0, 0, 0, 0)",
+        "color": "rgb(120, 113, 108)",
+        "bc": "rgba(0, 0, 0, 0)",
+        "br": "0px",
+        "bw": "0px 0px 2px",
+        "fs": "14px",
+        "fw": "400",
+        "lh": "20px",
+        "pad": "0px 6px",
+        "shadow": "none"
+      }
+    },
+    {
+      "tag": "button",
+      "type": "button",
+      "role": "tab",
+      "testid": null,
+      "text": "日志",
+      "value": "",
+      "checked": null,
+      "ariaChecked": null,
+      "ariaSelected": "false",
+      "ariaPressed": null,
+      "disabled": false,
+      "ph": null,
+      "r": {
+        "x": 2164,
+        "y": 0,
+        "w": 32,
+        "h": 48
+      },
+      "css": {
+        "bg": "rgba(0, 0, 0, 0)",
+        "color": "rgb(120, 113, 108)",
+        "bc": "rgba(0, 0, 0, 0)",
+        "br": "0px",
+        "bw": "0px 0px 2px",
+        "fs": "14px",
+        "fw": "400",
+        "lh": "20px",
+        "pad": "0px 6px",
+        "shadow": "none"
+      }
+    },
+    {
+      "tag": "button",
+      "type": "button",
+      "role": null,
+      "testid": null,
+      "text": "新对话",
+      "value": "",
+      "checked": null,
+      "ariaChecked": null,
+      "ariaSelected": null,
+      "ariaPressed": null,
+      "disabled": true,
+      "ph": null,
+      "r": {
+        "x": 2272,
+        "y": 8,
+        "w": 32,
+        "h": 32
+      },
+      "css": {
+        "bg": "rgba(0, 0, 0, 0)",
+        "color": "rgba(0, 0, 0, 0.25)",
+        "bc": "rgba(0, 0, 0, 0)",
+        "br": "4px",
+        "bw": "1px",
+        "fs": "14px",
+        "fw": "400",
+        "lh": "22px",
+        "pad": "0px",
+        "shadow": "none"
+      }
+    },
+    {
+      "tag": "button",
+      "type": "button",
+      "role": null,
+      "testid": null,
+      "text": "",
+      "value": "",
+      "checked": null,
+      "ariaChecked": null,
+      "ariaSelected": null,
+      "ariaPressed": null,
+      "disabled": false,
+      "ph": null,
+      "r": {
+        "x": 2308,
+        "y": 8,
+        "w": 32,
+        "h": 32
+      },
+      "css": {
+        "bg": "rgba(0, 0, 0, 0)",
+        "color": "rgb(120, 113, 108)",
+        "bc": "rgba(0, 0, 0, 0)",
+        "br": "50%",
+        "bw": "1px",
+        "fs": "14px",
+        "fw": "400",
+        "lh": "22px",
+        "pad": "0px",
+        "shadow": "none"
+      }
+    },
+    {
+      "tag": "button",
+      "type": "button",
+      "role": null,
+      "testid": null,
+      "text": "连接",
+      "value": "",
+      "checked": null,
+      "ariaChecked": null,
+      "ariaSelected": null,
+      "ariaPressed": null,
+      "disabled": false,
+      "ph": null,
+      "r": {
+        "x": 2253,
+        "y": 147,
+        "w": 66,
+        "h": 24
+      },
+      "css": {
+        "bg": "rgba(0, 0, 0, 0)",
+        "color": "rgb(23, 23, 23)",
+        "bc": "rgb(23, 23, 23)",
+        "br": "4px",
+        "bw": "1px",
+        "fs": "14px",
+        "fw": "400",
+        "lh": "22px",
+        "pad": "0px 7px",
+        "shadow": "none"
+      }
+    },
+    {
+      "tag": "button",
+      "type": "button",
+      "role": null,
+      "testid": null,
+      "text": "连接",
+      "value": "",
+      "checked": null,
+      "ariaChecked": null,
+      "ariaSelected": null,
+      "ariaPressed": null,
+      "disabled": false,
+      "ph": null,
+      "r": {
+        "x": 2253,
+        "y": 215,
+        "w": 66,
+        "h": 24
+      },
+      "css": {
+        "bg": "rgba(0, 0, 0, 0)",
+        "color": "rgb(23, 23, 23)",
+        "bc": "rgb(23, 23, 23)",
+        "br": "4px",
+        "bw": "1px",
+        "fs": "14px",
+        "fw": "400",
+        "lh": "22px",
+        "pad": "0px 7px",
+        "shadow": "none"
+      }
+    },
+    {
+      "tag": "button",
+      "type": "button",
+      "role": null,
+      "testid": null,
+      "text": "连接",
+      "value": "",
+      "checked": null,
+      "ariaChecked": null,
+      "ariaSelected": null,
+      "ariaPressed": null,
+      "disabled": false,
+      "ph": null,
+      "r": {
+        "x": 2253,
+        "y": 283,
+        "w": 66,
+        "h": 24
+      },
+      "css": {
+        "bg": "rgba(0, 0, 0, 0)",
+        "color": "rgb(23, 23, 23)",
+        "bc": "rgb(23, 23, 23)",
+        "br": "4px",
+        "bw": "1px",
+        "fs": "14px",
+        "fw": "400",
+        "lh": "22px",
+        "pad": "0px 7px",
+        "shadow": "none"
+      }
+    }
+  ],
+  "chips": [
+    {
+      "text": "无限画布 · 39 个电商 AI 工具，一套导航直达",
+      "cls": "truncate",
+      "r": {
+        "x": 815,
+        "y": 14,
+        "w": 277,
+        "h": 22
+      },
+      "css": {
+        "bg": "rgba(0, 0, 0, 0)",
+        "color": "rgb(255, 255, 255)",
+        "bc": "oklch(0.922 0 0)",
+        "br": "0px",
+        "bw": "0px",
+        "fs": "14px",
+        "fw": "400",
+        "lh": "22px",
+        "pad": "0px",
+        "shadow": "none"
+      }
+    },
+    {
+      "text": "本地运行 · API Key 只保存在你自己的浏览器",
+      "cls": "truncate",
+      "r": {
+        "x": 817,
+        "y": 64,
+        "w": 274,
+        "h": 22
+      },
+      "css": {
+        "bg": "rgba(0, 0, 0, 0)",
+        "color": "rgb(255, 255, 255)",
+        "bc": "oklch(0.922 0 0)",
+        "br": "0px",
+        "bw": "0px",
+        "fs": "14px",
+        "fw": "400",
+        "lh": "22px",
+        "pad": "0px",
+        "shadow": "none"
+      }
+    },
+    {
+      "text": "插件与模型可自定义 · 无需注册账号",
+      "cls": "truncate",
+      "r": {
+        "x": 843,
+        "y": 114,
+        "w": 222,
+        "h": 22
+      },
+      "css": {
+        "bg": "rgba(0, 0, 0, 0)",
+        "color": "rgb(255, 255, 255)",
+        "bc": "oklch(0.922 0 0)",
+        "br": "0px",
+        "bw": "0px",
+        "fs": "14px",
+        "fw": "400",
+        "lh": "22px",
+        "pad": "0px",
+        "shadow": "none"
+      }
+    },
+    {
+      "text": "无限画布",
+      "cls": "text-base font-medium",
+      "r": {
+        "x": 52,
+        "y": 68,
+        "w": 63,
+        "h": 24
+      },
+      "css": {
+        "bg": "rgba(0, 0, 0, 0)",
+        "color": "rgb(23, 23, 23)",
+        "bc": "oklch(0.922 0 0)",
+        "br": "0px",
+        "bw": "0px",
+        "fs": "16px",
+        "fw": "500",
+        "lh": "24px",
+        "pad": "0px",
+        "shadow": "none"
+      }
+    },
+    {
+      "text": "首页",
+      "cls": "relative mr-[var(--shell-nav-gap)] flex h-[60px] shrink-0 it",
+      "r": {
+        "x": 234,
+        "y": 50,
+        "w": 32,
+        "h": 60
+      },
+      "css": {
+        "bg": "rgba(0, 0, 0, 0)",
+        "color": "oklab(0 0 0 / 0.85)",
+        "bc": "oklch(0.922 0 0)",
+        "br": "0px",
+        "bw": "0px",
+        "fs": "16px",
+        "fw": "400",
+        "lh": "25.1429px",
+        "pad": "0px",
+        "shadow": "none"
+      }
+    },
+    {
+      "text": "电商套图",
+      "cls": "truncate",
+      "r": {
+        "x": 296,
+        "y": 67,
+        "w": 64,
+        "h": 25
+      },
+      "css": {
+        "bg": "rgba(0, 0, 0, 0)",
+        "color": "oklab(0 0 0 / 0.85)",
+        "bc": "oklch(0.922 0 0)",
+        "br": "0px",
+        "bw": "0px",
+        "fs": "16px",
+        "fw": "400",
+        "lh": "25.1429px",
+        "pad": "0px",
+        "shadow": "none"
+      }
+    },
+    {
+      "text": "智能修图 新模型",
+      "cls": "relative flex h-[60px] shrink-0 items-center rounded-none te",
+      "r": {
+        "x": 390,
+        "y": 50,
+        "w": 101,
+        "h": 60
+      },
+      "css": {
+        "bg": "rgba(0, 0, 0, 0)",
+        "color": "rgb(114, 60, 249)",
+        "bc": "oklch(0.922 0 0)",
+        "br": "0px",
+        "bw": "0px",
+        "fs": "16px",
+        "fw": "400",
+        "lh": "25.1429px",
+        "pad": "0px",
+        "shadow": "none"
+      }
+    },
+    {
+      "text": "智能修图",
+      "cls": "truncate",
+      "r": {
+        "x": 390,
+        "y": 67,
+        "w": 64,
+        "h": 25
+      },
+      "css": {
+        "bg": "rgba(0, 0, 0, 0)",
+        "color": "rgb(114, 60, 249)",
+        "bc": "oklch(0.922 0 0)",
+        "br": "0px",
+        "bw": "0px",
+        "fs": "16px",
+        "fw": "400",
+        "lh": "25.1429px",
+        "pad": "0px",
+        "shadow": "none"
+      }
+    },
+    {
+      "text": "AI视频 HOT",
+      "cls": "relative flex h-[60px] shrink-0 items-center rounded-none te",
+      "r": {
+        "x": 521,
+        "y": 50,
+        "w": 77,
+        "h": 60
+      },
+      "css": {
+        "bg": "rgba(0, 0, 0, 0)",
+        "color": "oklab(0 0 0 / 0.85)",
+        "bc": "oklch(0.922 0 0)",
+        "br": "0px",
+        "bw": "0px",
+        "fs": "16px",
+        "fw": "400",
+        "lh": "25.1429px",
+        "pad": "0px",
+        "shadow": "none"
+      }
+    },
+    {
+      "text": "AI视频",
+      "cls": "truncate",
+      "r": {
+        "x": 521,
+        "y": 67,
+        "w": 46,
+        "h": 25
+      },
+      "css": {
+        "bg": "rgba(0, 0, 0, 0)",
+        "color": "oklab(0 0 0 / 0.85)",
+        "bc": "oklch(0.922 0 0)",
+        "br": "0px",
+        "bw": "0px",
+        "fs": "16px",
+        "fw": "400",
+        "lh": "25.1429px",
+        "pad": "0px",
+        "shadow": "none"
+      }
+    },
+    {
+      "text": "批量生图",
+      "cls": "truncate",
+      "r": {
+        "x": 628,
+        "y": 67,
+        "w": 64,
+        "h": 25
+      },
+      "css": {
+        "bg": "rgba(0, 0, 0, 0)",
+        "color": "oklab(0 0 0 / 0.85)",
+        "bc": "oklch(0.922 0 0)",
+        "br": "0px",
+        "bw": "0px",
+        "fs": "16px",
+        "fw": "400",
+        "lh": "25.1429px",
+        "pad": "0px",
+        "shadow": "none"
+      }
+    },
+    {
+      "text": "商品图设计",
+      "cls": "truncate",
+      "r": {
+        "x": 722,
+        "y": 67,
+        "w": 80,
+        "h": 25
+      },
+      "css": {
+        "bg": "rgba(0, 0, 0, 0)",
+        "color": "oklab(0 0 0 / 0.85)",
+        "bc": "oklch(0.922 0 0)",
+        "br": "0px",
+        "bw": "0px",
+        "fs": "16px",
+        "fw": "400",
+        "lh": "25.1429px",
+        "pad": "0px",
+        "shadow": "none"
+      }
+    },
+    {
+      "text": "Skills",
+      "cls": "mr-[var(--shell-nav-gap)] flex h-[60px] shrink-0 cursor-defa",
+      "r": {
+        "x": 832,
+        "y": 50,
+        "w": 37,
+        "h": 60
+      },
+      "css": {
+        "bg": "rgba(0, 0, 0, 0)",
+        "color": "oklab(0 0 0 / 0.85)",
+        "bc": "oklch(0.922 0 0)",
+        "br": "0px",
+        "bw": "0px",
+        "fs": "16px",
+        "fw": "400",
+        "lh": "25.1429px",
+        "pad": "0px",
+        "shadow": "none"
+      }
+    },
+    {
+      "text": "Agent",
+      "cls": "mr-[var(--shell-nav-gap)] flex h-[60px] shrink-0 cursor-defa",
+      "r": {
+        "x": 899,
+        "y": 50,
+        "w": 43,
+        "h": 60
+      },
+      "css": {
+        "bg": "rgba(0, 0, 0, 0)",
+        "color": "oklab(0 0 0 / 0.85)",
+        "bc": "oklch(0.922 0 0)",
+        "br": "0px",
+        "bw": "0px",
+        "fs": "16px",
+        "fw": "400",
+        "lh": "25.1429px",
+        "pad": "0px",
+        "shadow": "none"
+      }
+    },
+    {
+      "text": "更多",
+      "cls": "relative flex h-[60px] shrink-0 items-center rounded-none te",
+      "r": {
+        "x": 972,
+        "y": 50,
+        "w": 47,
+        "h": 60
+      },
+      "css": {
+        "bg": "rgba(0, 0, 0, 0)",
+        "color": "oklab(0 0 0 / 0.85)",
+        "bc": "oklch(0.922 0 0)",
+        "br": "0px",
+        "bw": "0px",
+        "fs": "16px",
+        "fw": "400",
+        "lh": "25.1429px",
+        "pad": "0px",
+        "shadow": "none"
+      }
+    },
+    {
+      "text": "学习中心 免费得算力 积分 0 购买 用 本地用户 个人账号",
+      "cls": "flex h-full shrink-0 items-center gap-[15px] pr-3 max-md:gap",
+      "r": {
+        "x": 1427,
+        "y": 62,
+        "w": 446,
+        "h": 36
+      },
+      "css": {
+        "bg": "rgba(0, 0, 0, 0)",
+        "color": "oklch(0.145 0 0)",
+        "bc": "oklch(0.922 0 0)",
+        "br": "0px",
+        "bw": "0px",
+        "fs": "14px",
+        "fw": "400",
+        "lh": "22px",
+        "pad": "0px 12px 0px 0px",
+        "shadow": "none"
+      }
+    },
+    {
+      "text": "学习中心",
+      "cls": "hidden h-8 shrink-0 items-center justify-center rounded-[6px",
+      "r": {
+        "x": 1427,
+        "y": 64,
+        "w": 92,
+        "h": 32
+      },
+      "css": {
+        "bg": "rgba(0, 0, 0, 0)",
+        "color": "rgba(0, 0, 0, 0.88)",
+        "bc": "oklch(0.922 0 0)",
+        "br": "6px",
+        "bw": "0px",
+        "fs": "14px",
+        "fw": "400",
+        "lh": "22px",
+        "pad": "0px 10px",
+        "shadow": "none"
+      }
+    },
+    {
+      "text": "免费得算力",
+      "cls": "hidden h-8 shrink-0 items-center rounded-[6px] bg-[#fee2e2] ",
+      "r": {
+        "x": 1534,
+        "y": 64,
+        "w": 94,
+        "h": 32
+      },
+      "css": {
+        "bg": "rgba(0, 0, 0, 0)",
+        "color": "rgb(23, 23, 23)",
+        "bc": "oklch(0.922 0 0)",
+        "br": "6px",
+        "bw": "0px",
+        "fs": "14px",
+        "fw": "400",
+        "lh": "22px",
+        "pad": "0px 12px",
+        "shadow": "none"
+      }
+    },
+    {
+      "text": "积分 0 购买",
+      "cls": "hidden h-8 shrink-0 items-center rounded-[4px] bg-[#e2ecfe] ",
+      "r": {
+        "x": 1643,
+        "y": 64,
+        "w": 98,
+        "h": 32
+      },
+      "css": {
+        "bg": "rgb(226, 236, 254)",
+        "color": "oklab(0 0 0 / 0.85)",
+        "bc": "oklch(0.922 0 0)",
+        "br": "4px",
+        "bw": "0px",
+        "fs": "12px",
+        "fw": "700",
+        "lh": "18.857px",
+        "pad": "0px",
+        "shadow": "none"
+      }
+    },
+    {
+      "text": "积分",
+      "cls": "",
+      "r": {
+        "x": 1643,
+        "y": 70,
+        "w": 24,
+        "h": 19
+      },
+      "css": {
+        "bg": "rgba(0, 0, 0, 0)",
+        "color": "oklab(0 0 0 / 0.85)",
+        "bc": "oklch(0.922 0 0)",
+        "br": "0px",
+        "bw": "0px",
+        "fs": "12px",
+        "fw": "700",
+        "lh": "18.857px",
+        "pad": "0px",
+        "shadow": "none"
+      }
+    },
+    {
+      "text": "0",
+      "cls": "mx-[3px] min-w-[24px] text-right tabular-nums",
+      "r": {
+        "x": 1670,
+        "y": 70,
+        "w": 24,
+        "h": 19
+      },
+      "css": {
+        "bg": "rgba(0, 0, 0, 0)",
+        "color": "oklab(0 0 0 / 0.85)",
+        "bc": "oklch(0.922 0 0)",
+        "br": "0px",
+        "bw": "0px",
+        "fs": "12px",
+        "fw": "700",
+        "lh": "18.857px",
+        "pad": "0px",
+        "shadow": "none"
+      }
+    },
+    {
+      "text": "购买",
+      "cls": "tracking-[1.7px] text-white",
+      "r": {
+        "x": 1705,
+        "y": 71,
+        "w": 27,
+        "h": 17
+      },
+      "css": {
+        "bg": "rgba(0, 0, 0, 0)",
+        "color": "rgb(255, 255, 255)",
+        "bc": "oklch(0.922 0 0)",
+        "br": "0px",
+        "bw": "0px",
+        "fs": "12px",
+        "fw": "400",
+        "lh": "normal",
+        "pad": "0px",
+        "shadow": "none"
+      }
+    },
+    {
+      "text": "用 本地用户 个人账号",
+      "cls": "flex h-9 shrink-0 items-center gap-1 rounded-[6px] pr-1 outl",
+      "r": {
+        "x": 1756,
+        "y": 62,
+        "w": 105,
+        "h": 36
+      },
+      "css": {
+        "bg": "rgba(0, 0, 0, 0)",
+        "color": "oklch(0.145 0 0)",
+        "bc": "oklch(0.922 0 0)",
+        "br": "6px",
+        "bw": "0px",
+        "fs": "14px",
+        "fw": "400",
+        "lh": "22px",
+        "pad": "0px 4px 0px 0px",
+        "shadow": "none"
+      }
+    },
+    {
+      "text": "用",
+      "cls": "inline-flex size-9 shrink-0 items-center justify-center roun",
+      "r": {
+        "x": 1756,
+        "y": 62,
+        "w": 36,
+        "h": 36
+      },
+      "css": {
+        "bg": "rgb(168, 141, 237)",
+        "color": "rgb(255, 255, 255)",
+        "bc": "oklch(0.922 0 0)",
+        "br": "3.35544e+07px",
+        "bw": "0px",
+        "fs": "14px",
+        "fw": "400",
+        "lh": "22px",
+        "pad": "0px",
+        "shadow": "none"
+      }
+    },
+    {
+      "text": "本地用户 个人账号",
+      "cls": "flex w-[61px] shrink-0 flex-col items-start",
+      "r": {
+        "x": 1796,
+        "y": 62,
+        "w": 61,
+        "h": 36
+      },
+      "css": {
+        "bg": "rgba(0, 0, 0, 0)",
+        "color": "oklch(0.145 0 0)",
+        "bc": "oklch(0.922 0 0)",
+        "br": "0px",
+        "bw": "0px",
+        "fs": "14px",
+        "fw": "400",
+        "lh": "22px",
+        "pad": "0px",
+        "shadow": "none"
+      }
+    },
+    {
+      "text": "本地用户",
+      "cls": "w-full truncate text-[14px] leading-5 text-[#333] dark:text-",
+      "r": {
+        "x": 1796,
+        "y": 62,
+        "w": 61,
+        "h": 20
+      },
+      "css": {
+        "bg": "rgba(0, 0, 0, 0)",
+        "color": "rgb(51, 51, 51)",
+        "bc": "oklch(0.922 0 0)",
+        "br": "0px",
+        "bw": "0px",
+        "fs": "14px",
+        "fw": "400",
+        "lh": "20px",
+        "pad": "0px",
+        "shadow": "none"
+      }
+    },
+    {
+      "text": "个人账号",
+      "cls": "w-full truncate text-[12px] leading-4 text-[#999] dark:text-",
+      "r": {
+        "x": 1796,
+        "y": 82,
+        "w": 61,
+        "h": 16
+      },
+      "css": {
+        "bg": "rgba(0, 0, 0, 0)",
+        "color": "rgb(153, 153, 153)",
+        "bc": "oklch(0.922 0 0)",
+        "br": "0px",
+        "bw": "0px",
+        "fs": "12px",
+        "fw": "400",
+        "lh": "16px",
+        "pad": "0px",
+        "shadow": "none"
+      }
+    },
+    {
+      "text": "智能修图",
+      "cls": "sr-only",
+      "r": {
+        "x": -1,
+        "y": 109,
+        "w": 1,
+        "h": 1
+      },
+      "css": {
+        "bg": "rgba(0, 0, 0, 0)",
+        "color": "rgb(23, 23, 23)",
+        "bc": "oklch(0.922 0 0)",
+        "br": "0px",
+        "bw": "0px",
+        "fs": "14px",
+        "fw": "400",
+        "lh": "22px",
+        "pad": "0px",
+        "shadow": "none"
+      }
+    },
+    {
+      "text": "局部重绘",
+      "cls": "truncate",
+      "r": {
+        "x": 44,
+        "y": 120,
+        "w": 64,
+        "h": 20
+      },
+      "css": {
+        "bg": "rgba(0, 0, 0, 0)",
+        "color": "rgba(0, 0, 0, 0.6)",
+        "bc": "oklch(0.922 0 0)",
+        "br": "0px",
+        "bw": "0px",
+        "fs": "16px",
+        "fw": "400",
+        "lh": "20px",
+        "pad": "0px",
+        "shadow": "none"
+      }
+    },
+    {
+      "text": "局部消除",
+      "cls": "truncate",
+      "r": {
+        "x": 44,
+        "y": 160,
+        "w": 64,
+        "h": 20
+      },
+      "css": {
+        "bg": "rgba(0, 0, 0, 0)",
+        "color": "rgba(0, 0, 0, 0.6)",
+        "bc": "oklch(0.922 0 0)",
+        "br": "0px",
+        "bw": "0px",
+        "fs": "16px",
+        "fw": "400",
+        "lh": "20px",
+        "pad": "0px",
+        "shadow": "none"
+      }
+    },
+    {
+      "text": "一键换色",
+      "cls": "truncate",
+      "r": {
+        "x": 44,
+        "y": 200,
+        "w": 64,
+        "h": 20
+      },
+      "css": {
+        "bg": "rgba(0, 0, 0, 0)",
+        "color": "rgba(0, 0, 0, 0.6)",
+        "bc": "oklch(0.922 0 0)",
+        "br": "0px",
+        "bw": "0px",
+        "fs": "16px",
+        "fw": "400",
+        "lh": "20px",
+        "pad": "0px",
+        "shadow": "none"
+      }
+    },
+    {
+      "text": "图片裁剪",
+      "cls": "truncate",
+      "r": {
+        "x": 44,
+        "y": 240,
+        "w": 64,
+        "h": 20
+      },
+      "css": {
+        "bg": "rgba(0, 0, 0, 0)",
+        "color": "rgba(0, 0, 0, 0.6)",
+        "bc": "oklch(0.922 0 0)",
+        "br": "0px",
+        "bw": "0px",
+        "fs": "16px",
+        "fw": "400",
+        "lh": "20px",
+        "pad": "0px",
+        "shadow": "none"
+      }
+    },
+    {
+      "text": "商品精修",
+      "cls": "truncate",
+      "r": {
+        "x": 44,
+        "y": 280,
+        "w": 64,
+        "h": 20
+      },
+      "css": {
+        "bg": "rgba(0, 0, 0, 0)",
+        "color": "rgba(0, 0, 0, 0.6)",
+        "bc": "oklch(0.922 0 0)",
+        "br": "0px",
+        "bw": "0px",
+        "fs": "16px",
+        "fw": "400",
+        "lh": "20px",
+        "pad": "0px",
+        "shadow": "none"
+      }
+    },
+    {
+      "text": "色差修复",
+      "cls": "truncate",
+      "r": {
+        "x": 44,
+        "y": 320,
+        "w": 64,
+        "h": 20
+      },
+      "css": {
+        "bg": "rgba(0, 0, 0, 0)",
+        "color": "rgb(114, 60, 249)",
+        "bc": "oklch(0.922 0 0)",
+        "br": "0px",
+        "bw": "0px",
+        "fs": "16px",
+        "fw": "400",
+        "lh": "20px",
+        "pad": "0px",
+        "shadow": "none"
+      }
+    },
+    {
+      "text": "印花修复",
+      "cls": "truncate",
+      "r": {
+        "x": 44,
+        "y": 360,
+        "w": 64,
+        "h": 20
+      },
+      "css": {
+        "bg": "rgba(0, 0, 0, 0)",
+        "color": "rgba(0, 0, 0, 0.6)",
+        "bc": "oklch(0.922 0 0)",
+        "br": "0px",
+        "bw": "0px",
+        "fs": "16px",
+        "fw": "400",
+        "lh": "20px",
+        "pad": "0px",
+        "shadow": "none"
+      }
+    },
+    {
+      "text": "手部修复",
+      "cls": "truncate",
+      "r": {
+        "x": 44,
+        "y": 400,
+        "w": 64,
+        "h": 20
+      },
+      "css": {
+        "bg": "rgba(0, 0, 0, 0)",
+        "color": "rgba(0, 0, 0, 0.6)",
+        "bc": "oklch(0.922 0 0)",
+        "br": "0px",
+        "bw": "0px",
+        "fs": "16px",
+        "fw": "400",
+        "lh": "20px",
+        "pad": "0px",
+        "shadow": "none"
+      }
+    },
+    {
+      "text": "免责声明",
+      "cls": "mt-auto select-none pb-3 pt-6 text-center text-xs leading-4 ",
+      "r": {
+        "x": 0,
+        "y": 729,
+        "w": 179,
+        "h": 52
+      },
+      "css": {
+        "bg": "rgba(0, 0, 0, 0)",
+        "color": "rgb(208, 210, 214)",
+        "bc": "oklch(0.922 0 0)",
+        "br": "0px",
+        "bw": "0px",
+        "fs": "12px",
+        "fw": "400",
+        "lh": "16px",
+        "pad": "24px 0px 12px",
+        "shadow": "none"
+      }
+    },
+    {
+      "text": "智能修图 / 色差修复",
+      "cls": "truncate text-xs leading-5 text-muted-foreground",
+      "r": {
+        "x": 200,
+        "y": 118,
+        "w": 1688,
+        "h": 20
+      },
+      "css": {
+        "bg": "rgba(0, 0, 0, 0)",
+        "color": "oklch(0.556 0 0)",
+        "bc": "oklch(0.922 0 0)",
+        "br": "0px",
+        "bw": "0px",
+        "fs": "12px",
+        "fw": "400",
+        "lh": "20px",
+        "pad": "0px",
+        "shadow": "none"
+      }
+    },
+    {
+      "text": "画笔 橡皮",
+      "cls": "flex items-center gap-1",
+      "r": {
+        "x": 226,
+        "y": 246,
+        "w": 84,
+        "h": 24
+      },
+      "css": {
+        "bg": "rgba(0, 0, 0, 0)",
+        "color": "rgb(31, 31, 44)",
+        "bc": "oklch(0.922 0 0)",
+        "br": "0px",
+        "bw": "0px",
+        "fs": "12px",
+        "fw": "400",
+        "lh": "18.8571px",
+        "pad": "0px",
+        "shadow": "none"
+      }
+    },
+    {
+      "text": "画笔",
+      "cls": "h-6 rounded-[4px] px-2 text-[12px] leading-none transition b",
+      "r": {
+        "x": 226,
+        "y": 246,
+        "w": 40,
+        "h": 24
+      },
+      "css": {
+        "bg": "rgb(255, 255, 255)",
+        "color": "rgb(31, 31, 44)",
+        "bc": "oklch(0.922 0 0)",
+        "br": "4px",
+        "bw": "0px",
+        "fs": "12px",
+        "fw": "400",
+        "lh": "18.8571px",
+        "pad": "0px 8px",
+        "shadow": "none"
+      }
+    },
+    {
+      "text": "橡皮",
+      "cls": "h-6 rounded-[4px] px-2 text-[12px] leading-none transition t",
+      "r": {
+        "x": 270,
+        "y": 246,
+        "w": 40,
+        "h": 24
+      },
+      "css": {
+        "bg": "rgba(0, 0, 0, 0)",
+        "color": "rgb(31, 31, 44)",
+        "bc": "oklch(0.922 0 0)",
+        "br": "4px",
+        "bw": "0px",
+        "fs": "12px",
+        "fw": "400",
+        "lh": "18.8571px",
+        "pad": "0px 8px",
+        "shadow": "none"
+      }
+    },
+    {
+      "text": "笔刷",
+      "cls": "ml-2 text-[12px] text-[#8a8a99]",
+      "r": {
+        "x": 326,
+        "y": 248,
+        "w": 24,
+        "h": 19
+      },
+      "css": {
+        "bg": "rgba(0, 0, 0, 0)",
+        "color": "rgb(138, 138, 153)",
+        "bc": "oklch(0.922 0 0)",
+        "br": "0px",
+        "bw": "0px",
+        "fs": "12px",
+        "fw": "400",
+        "lh": "18.8571px",
+        "pad": "0px",
+        "shadow": "none"
+      }
+    },
+    {
+      "text": "35px",
+      "cls": "w-8 text-[12px] tabular-nums text-[#1f1f2c]",
+      "r": {
+        "x": 478,
+        "y": 248,
+        "w": 32,
+        "h": 19
+      },
+      "css": {
+        "bg": "rgba(0, 0, 0, 0)",
+        "color": "rgb(31, 31, 44)",
+        "bc": "oklch(0.922 0 0)",
+        "br": "0px",
+        "bw": "0px",
+        "fs": "12px",
+        "fw": "400",
+        "lh": "18.8571px",
+        "pad": "0px",
+        "shadow": "none"
+      }
+    },
+    {
+      "text": "羽化",
+      "cls": "ml-2 text-[12px] text-[#8a8a99]",
+      "r": {
+        "x": 526,
+        "y": 248,
+        "w": 24,
+        "h": 19
+      },
+      "css": {
+        "bg": "rgba(0, 0, 0, 0)",
+        "color": "rgb(138, 138, 153)",
+        "bc": "oklch(0.922 0 0)",
+        "br": "0px",
+        "bw": "0px",
+        "fs": "12px",
+        "fw": "400",
+        "lh": "18.8571px",
+        "pad": "0px",
+        "shadow": "none"
+      }
+    },
+    {
+      "text": "15 35 60 100",
+      "cls": "ml-2 flex items-center gap-1",
+      "r": {
+        "x": 654,
+        "y": 246,
+        "w": 132,
+        "h": 24
+      },
+      "css": {
+        "bg": "rgba(0, 0, 0, 0)",
+        "color": "rgb(31, 31, 44)",
+        "bc": "oklch(0.922 0 0)",
+        "br": "0px",
+        "bw": "0px",
+        "fs": "12px",
+        "fw": "400",
+        "lh": "18.8571px",
+        "pad": "0px",
+        "shadow": "none"
+      }
+    },
+    {
+      "text": "15",
+      "cls": "h-6 rounded-[4px] border border-[#e5e5ea] px-1.5 text-[11px]",
+      "r": {
+        "x": 654,
+        "y": 246,
+        "w": 27,
+        "h": 24
+      },
+      "css": {
+        "bg": "rgba(0, 0, 0, 0)",
+        "color": "rgb(31, 31, 44)",
+        "bc": "rgb(229, 229, 234)",
+        "br": "4px",
+        "bw": "1px",
+        "fs": "12px",
+        "fw": "400",
+        "lh": "18.8571px",
+        "pad": "0px 6px",
+        "shadow": "none"
+      }
+    },
+    {
+      "text": "35",
+      "cls": "h-6 rounded-[4px] border border-[#e5e5ea] px-1.5 text-[11px]",
+      "r": {
+        "x": 685,
+        "y": 246,
+        "w": 29,
+        "h": 24
+      },
+      "css": {
+        "bg": "rgba(0, 0, 0, 0)",
+        "color": "rgb(31, 31, 44)",
+        "bc": "rgb(229, 229, 234)",
+        "br": "4px",
+        "bw": "1px",
+        "fs": "12px",
+        "fw": "400",
+        "lh": "18.8571px",
+        "pad": "0px 6px",
+        "shadow": "none"
+      }
+    },
+    {
+      "text": "60",
+      "cls": "h-6 rounded-[4px] border border-[#e5e5ea] px-1.5 text-[11px]",
+      "r": {
+        "x": 718,
+        "y": 246,
+        "w": 29,
+        "h": 24
+      },
+      "css": {
+        "bg": "rgba(0, 0, 0, 0)",
+        "color": "rgb(31, 31, 44)",
+        "bc": "rgb(229, 229, 234)",
+        "br": "4px",
+        "bw": "1px",
+        "fs": "12px",
+        "fw": "400",
+        "lh": "18.8571px",
+        "pad": "0px 6px",
+        "shadow": "none"
+      }
+    },
+    {
+      "text": "100",
+      "cls": "h-6 rounded-[4px] border border-[#e5e5ea] px-1.5 text-[11px]",
+      "r": {
+        "x": 751,
+        "y": 246,
+        "w": 35,
+        "h": 24
+      },
+      "css": {
+        "bg": "rgba(0, 0, 0, 0)",
+        "color": "rgb(31, 31, 44)",
+        "bc": "rgb(229, 229, 234)",
+        "br": "4px",
+        "bw": "1px",
+        "fs": "12px",
+        "fw": "400",
+        "lh": "18.8571px",
+        "pad": "0px 6px",
+        "shadow": "none"
+      }
+    },
+    {
+      "text": "已涂 0 笔",
+      "cls": "ml-1 text-[12px] text-[#8a8a99]",
+      "r": {
+        "x": 1252,
+        "y": 248,
+        "w": 50,
+        "h": 19
+      },
+      "css": {
+        "bg": "rgba(0, 0, 0, 0)",
+        "color": "rgb(138, 138, 153)",
+        "bc": "oklch(0.922 0 0)",
+        "br": "0px",
+        "bw": "0px",
+        "fs": "12px",
+        "fw": "400",
+        "lh": "18.8571px",
+        "pad": "0px",
+        "shadow": "none"
+      }
+    },
+    {
+      "text": "色差修复 上传偏色服装图片 AI将以服装原图为依据修复偏色",
+      "cls": "mx-auto flex w-[542px] max-w-full flex-col items-center gap-",
+      "r": {
+        "x": 493,
+        "y": 579,
+        "w": 542,
+        "h": 165
+      },
+      "css": {
+        "bg": "rgb(255, 255, 255)",
+        "color": "rgb(31, 31, 44)",
+        "bc": "oklch(0.922 0 0)",
+        "br": "12px",
+        "bw": "0px",
+        "fs": "14px",
+        "fw": "400",
+        "lh": "22px",
+        "pad": "24px",
+        "shadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(31, 31, 44, 0.04) 0px 2px 12px 0px"
+      }
+    },
+    {
+      "text": "Step 1：上传待修复图*",
+      "cls": "text-[12px] font-medium leading-5 text-[#1f1f2c]",
+      "r": {
+        "x": 1344,
+        "y": 247,
+        "w": 128,
+        "h": 20
+      },
+      "css": {
+        "bg": "rgba(0, 0, 0, 0)",
+        "color": "rgb(31, 31, 44)",
+        "bc": "oklch(0.922 0 0)",
+        "br": "0px",
+        "bw": "0px",
+        "fs": "12px",
+        "fw": "500",
+        "lh": "20px",
+        "pad": "0px",
+        "shadow": "none"
+      }
+    },
+    {
+      "text": "*",
+      "cls": "ml-0.5 text-[#f5483b]",
+      "r": {
+        "x": 1466,
+        "y": 249,
+        "w": 6,
+        "h": 15
+      },
+      "css": {
+        "bg": "rgba(0, 0, 0, 0)",
+        "color": "rgb(245, 72, 59)",
+        "bc": "oklch(0.922 0 0)",
+        "br": "0px",
+        "bw": "0px",
+        "fs": "12px",
+        "fw": "500",
+        "lh": "20px",
+        "pad": "0px",
+        "shadow": "none"
+      }
+    },
+    {
+      "text": "点击上传 从本地上传 从作品库选择 从商品库选择",
+      "cls": "flex cursor-pointer flex-col items-start gap-2 rounded-[6px]",
+      "r": {
+        "x": 1344,
+        "y": 332,
+        "w": 208,
+        "h": 105
+      },
+      "css": {
+        "bg": "rgb(255, 255, 255)",
+        "color": "rgb(31, 31, 44)",
+        "bc": "rgb(237, 237, 240)",
+        "br": "6px",
+        "bw": "1px",
+        "fs": "12px",
+        "fw": "400",
+        "lh": "16px",
+        "pad": "12px",
+        "shadow": "none"
+      }
+    },
+    {
+      "text": "点击上传",
+      "cls": "text-[12px] leading-[15px] text-[#723cf9]",
+      "r": {
+        "x": 1357,
+        "y": 345,
+        "w": 48,
+        "h": 15
+      },
+      "css": {
+        "bg": "rgba(0, 0, 0, 0)",
+        "color": "rgb(114, 60, 249)",
+        "bc": "oklch(0.922 0 0)",
+        "br": "0px",
+        "bw": "0px",
+        "fs": "12px",
+        "fw": "400",
+        "lh": "15px",
+        "pad": "0px",
+        "shadow": "none"
+      }
+    },
+    {
+      "text": "从本地上传",
+      "cls": "inline-flex h-6 items-center justify-center rounded-[4px] bg",
+      "r": {
+        "x": 1357,
+        "y": 368,
+        "w": 210,
+        "h": 24
+      },
+      "css": {
+        "bg": "rgb(114, 60, 249)",
+        "color": "rgb(255, 255, 255)",
+        "bc": "oklch(0.922 0 0)",
+        "br": "4px",
+        "bw": "0px",
+        "fs": "12px",
+        "fw": "500",
+        "lh": "12px",
+        "pad": "0px",
+        "shadow": "none"
+      }
+    },
+    {
+      "text": "从作品库选择 从商品库选择",
+      "cls": "flex items-center gap-2 w-[210px]",
+      "r": {
+        "x": 1357,
+        "y": 400,
+        "w": 210,
+        "h": 24
+      },
+      "css": {
+        "bg": "rgba(0, 0, 0, 0)",
+        "color": "rgb(31, 31, 44)",
+        "bc": "oklch(0.922 0 0)",
+        "br": "0px",
+        "bw": "0px",
+        "fs": "12px",
+        "fw": "400",
+        "lh": "16px",
+        "pad": "0px",
+        "shadow": "none"
+      }
+    },
+    {
+      "text": "从作品库选择",
+      "cls": "h-6 w-[100px] rounded-[4px] border border-[#e5e5ea] bg-white",
+      "r": {
+        "x": 1357,
+        "y": 400,
+        "w": 100,
+        "h": 24
+      },
+      "css": {
+        "bg": "rgb(255, 255, 255)",
+        "color": "rgb(31, 31, 44)",
+        "bc": "rgb(229, 229, 234)",
+        "br": "4px",
+        "bw": "1px",
+        "fs": "12px",
+        "fw": "400",
+        "lh": "16px",
+        "pad": "0px",
+        "shadow": "none"
+      }
+    },
+    {
+      "text": "从商品库选择",
+      "cls": "h-6 w-[100px] rounded-[4px] border border-[#e5e5ea] bg-white",
+      "r": {
+        "x": 1465,
+        "y": 400,
+        "w": 100,
+        "h": 24
+      },
+      "css": {
+        "bg": "rgb(255, 255, 255)",
+        "color": "rgb(31, 31, 44)",
+        "bc": "rgb(229, 229, 234)",
+        "br": "4px",
+        "bw": "1px",
+        "fs": "12px",
+        "fw": "400",
+        "lh": "16px",
+        "pad": "0px",
+        "shadow": "none"
+      }
+    },
+    {
+      "text": "Step 2：颜色矫正（区域色 / 目标色）",
+      "cls": "text-[12px] font-medium leading-5 text-[#1f1f2c]",
+      "r": {
+        "x": 1344,
+        "y": 470,
+        "w": 204,
+        "h": 20
+      },
+      "css": {
+        "bg": "rgba(0, 0, 0, 0)",
+        "color": "rgb(31, 31, 44)",
+        "bc": "oklch(0.922 0 0)",
+        "br": "0px",
+        "bw": "0px",
+        "fs": "12px",
+        "fw": "500",
+        "lh": "20px",
+        "pad": "0px",
+        "shadow": "none"
+      }
+    },
+    {
+      "text": "区域颜色",
+      "cls": "flex flex-col gap-1 text-[11px] text-muted-foreground",
+      "r": {
+        "x": 1344,
+        "y": 496,
+        "w": 208,
+        "h": 53
+      },
+      "css": {
+        "bg": "rgba(0, 0, 0, 0)",
+        "color": "oklch(0.556 0 0)",
+        "bc": "oklch(0.922 0 0)",
+        "br": "0px",
+        "bw": "0px",
+        "fs": "11px",
+        "fw": "400",
+        "lh": "17.2857px",
+        "pad": "0px",
+        "shadow": "none"
+      }
+    },
+    {
+      "text": "色差 ΔE 6.5 · 明显差异 交换",
+      "cls": "flex items-center justify-between",
+      "r": {
+        "x": 1344,
+        "y": 557,
+        "w": 208,
+        "h": 24
+      },
+      "css": {
+        "bg": "rgba(0, 0, 0, 0)",
+        "color": "rgb(31, 31, 44)",
+        "bc": "oklch(0.922 0 0)",
+        "br": "0px",
+        "bw": "0px",
+        "fs": "14px",
+        "fw": "400",
+        "lh": "22px",
+        "pad": "0px",
+        "shadow": "none"
+      }
+    },
+    {
+      "text": "色差 ΔE 6.5 · 明显差异",
+      "cls": "text-[11px] leading-4 text-[#8a8a99]",
+      "r": {
+        "x": 1344,
+        "y": 561,
+        "w": 113,
+        "h": 16
+      },
+      "css": {
+        "bg": "rgba(0, 0, 0, 0)",
+        "color": "rgb(138, 138, 153)",
+        "bc": "oklch(0.922 0 0)",
+        "br": "0px",
+        "bw": "0px",
+        "fs": "11px",
+        "fw": "400",
+        "lh": "16px",
+        "pad": "0px",
+        "shadow": "none"
+      }
+    },
+    {
+      "text": "交换",
+      "cls": "inline-flex items-center gap-1 rounded-[4px] border border-[",
+      "r": {
+        "x": 1490,
+        "y": 557,
+        "w": 62,
+        "h": 24
+      },
+      "css": {
+        "bg": "rgba(0, 0, 0, 0)",
+        "color": "rgb(31, 31, 44)",
+        "bc": "rgb(237, 237, 240)",
+        "br": "4px",
+        "bw": "1px",
+        "fs": "14px",
+        "fw": "400",
+        "lh": "22px",
+        "pad": "0px 8px",
+        "shadow": "none"
+      }
+    },
+    {
+      "text": "目标颜色",
+      "cls": "flex flex-col gap-1 text-[11px] text-muted-foreground",
+      "r": {
+        "x": 1344,
+        "y": 589,
+        "w": 208,
+        "h": 53
+      },
+      "css": {
+        "bg": "rgba(0, 0, 0, 0)",
+        "color": "oklch(0.556 0 0)",
+        "bc": "oklch(0.922 0 0)",
+        "br": "0px",
+        "bw": "0px",
+        "fs": "11px",
+        "fw": "400",
+        "lh": "17.2857px",
+        "pad": "0px",
+        "shadow": "none"
+      }
+    },
+    {
+      "text": "点色块设为目标色",
+      "cls": "ml-1 inline-flex items-center gap-1 text-[11px] leading-4 te",
+      "r": {
+        "x": 1348,
+        "y": 675,
+        "w": 104,
+        "h": 16
+      },
+      "css": {
+        "bg": "rgba(0, 0, 0, 0)",
+        "color": "rgb(138, 138, 153)",
+        "bc": "oklch(0.922 0 0)",
+        "br": "0px",
+        "bw": "0px",
+        "fs": "11px",
+        "fw": "400",
+        "lh": "16px",
+        "pad": "0px",
+        "shadow": "none"
+      }
+    },
+    {
+      "text": "修复版本",
+      "cls": "text-[12px] font-medium leading-5 text-[#1f1f2c]",
+      "r": {
+        "x": 1344,
+        "y": 712,
+        "w": 48,
+        "h": 20
+      },
+      "css": {
+        "bg": "rgba(0, 0, 0, 0)",
+        "color": "rgb(31, 31, 44)",
+        "bc": "oklch(0.922 0 0)",
+        "br": "0px",
+        "bw": "0px",
+        "fs": "12px",
+        "fw": "500",
+        "lh": "20px",
+        "pad": "0px",
+        "shadow": "none"
+      }
+    },
+    {
+      "text": "参考匹配 只把涂抹区域的颜色对齐到目标色，保留原明暗与材质",
+      "cls": "rounded-[4px] border px-2 py-1 text-left transition border-[",
+      "r": {
+        "x": 1344,
+        "y": 738,
+        "w": 208,
+        "h": 62
+      },
+      "css": {
+        "bg": "rgb(245, 242, 255)",
+        "color": "rgb(31, 31, 44)",
+        "bc": "rgb(114, 60, 249)",
+        "br": "4px",
+        "bw": "1px",
+        "fs": "14px",
+        "fw": "400",
+        "lh": "22px",
+        "pad": "4px 8px",
+        "shadow": "none"
+      }
+    },
+    {
+      "text": "参考匹配",
+      "cls": "block text-[12px] leading-5 text-[#1f1f2c]",
+      "r": {
+        "x": 1353,
+        "y": 743,
+        "w": 190,
+        "h": 20
+      },
+      "css": {
+        "bg": "rgba(0, 0, 0, 0)",
+        "color": "rgb(31, 31, 44)",
+        "bc": "oklch(0.922 0 0)",
+        "br": "0px",
+        "bw": "0px",
+        "fs": "12px",
+        "fw": "400",
+        "lh": "20px",
+        "pad": "0px",
+        "shadow": "none"
+      }
+    },
+    {
+      "text": "只把涂抹区域的颜色对齐到目标色，保留原明暗与材质",
+      "cls": "block text-[11px] leading-4 text-[#8a8a99]",
+      "r": {
+        "x": 1353,
+        "y": 763,
+        "w": 190,
+        "h": 32
+      },
+      "css": {
+        "bg": "rgba(0, 0, 0, 0)",
+        "color": "rgb(138, 138, 153)",
+        "bc": "oklch(0.922 0 0)",
+        "br": "0px",
+        "bw": "0px",
+        "fs": "11px",
+        "fw": "400",
+        "lh": "16px",
+        "pad": "0px",
+        "shadow": "none"
+      }
+    },
+    {
+      "text": "色偏中和",
+      "cls": "block text-[12px] leading-5 text-[#1f1f2c]",
+      "r": {
+        "x": 1353,
+        "y": 809,
+        "w": 190,
+        "h": 20
+      },
+      "css": {
+        "bg": "rgba(0, 0, 0, 0)",
+        "color": "rgb(31, 31, 44)",
+        "bc": "oklch(0.922 0 0)",
+        "br": "0px",
+        "bw": "0px",
+        "fs": "12px",
+        "fw": "400",
+        "lh": "20px",
+        "pad": "0px",
+        "shadow": "none"
+      }
+    },
+    {
+      "text": "按区域平均偏色做整体中和，适合整片偏黄/偏蓝的拍摄色差",
+      "cls": "block text-[11px] leading-4 text-[#8a8a99]",
+      "r": {
+        "x": 1353,
+        "y": 829,
+        "w": 190,
+        "h": 32
+      },
+      "css": {
+        "bg": "rgba(0, 0, 0, 0)",
+        "color": "rgb(138, 138, 153)",
+        "bc": "oklch(0.922 0 0)",
+        "br": "0px",
+        "bw": "0px",
+        "fs": "11px",
+        "fw": "400",
+        "lh": "16px",
+        "pad": "0px",
+        "shadow": "none"
+      }
+    },
+    {
+      "text": "局部补色",
+      "cls": "block text-[12px] leading-5 text-[#1f1f2c]",
+      "r": {
+        "x": 1353,
+        "y": 875,
+        "w": 190,
+        "h": 20
+      },
+      "css": {
+        "bg": "rgba(0, 0, 0, 0)",
+        "color": "rgb(31, 31, 44)",
+        "bc": "oklch(0.922 0 0)",
+        "br": "0px",
+        "bw": "0px",
+        "fs": "12px",
+        "fw": "400",
+        "lh": "20px",
+        "pad": "0px",
+        "shadow": "none"
+      }
+    },
+    {
+      "text": "只修补局部色彩异常（反光、污点引起的异色），边界自然过渡",
+      "cls": "block text-[11px] leading-4 text-[#8a8a99]",
+      "r": {
+        "x": 1353,
+        "y": 895,
+        "w": 190,
+        "h": 32
+      },
+      "css": {
+        "bg": "rgba(0, 0, 0, 0)",
+        "color": "rgb(138, 138, 153)",
+        "bc": "oklch(0.922 0 0)",
+        "br": "0px",
+        "bw": "0px",
+        "fs": "11px",
+        "fw": "400",
+        "lh": "16px",
+        "pad": "0px",
+        "shadow": "none"
+      }
+    },
+    {
+      "text": "Step 3：进行AI修复",
+      "cls": "text-[12px] font-medium leading-5 text-[#1f1f2c]",
+      "r": {
+        "x": 1344,
+        "y": 953,
+        "w": 109,
+        "h": 20
+      },
+      "css": {
+        "bg": "rgba(0, 0, 0, 0)",
+        "color": "rgb(31, 31, 44)",
+        "bc": "oklch(0.922 0 0)",
+        "br": "0px",
+        "bw": "0px",
+        "fs": "12px",
+        "fw": "500",
+        "lh": "20px",
+        "pad": "0px",
+        "shadow": "none"
+      }
+    },
+    {
+      "text": "立即生成",
+      "cls": "inline-flex h-8 w-full items-center justify-center rounded-[",
+      "r": {
+        "x": 1344,
+        "y": 1043,
+        "w": 208,
+        "h": 32
+      },
+      "css": {
+        "bg": "rgb(114, 60, 249)",
+        "color": "rgb(31, 31, 44)",
+        "bc": "oklch(0.922 0 0)",
+        "br": "6px",
+        "bw": "0px",
+        "fs": "14px",
+        "fw": "400",
+        "lh": "22px",
+        "pad": "0px 15px",
+        "shadow": "none"
+      }
+    },
+    {
+      "text": "生成结果 历史记录",
+      "cls": "flex h-[42px] shrink-0 items-center gap-5 px-[13px]",
+      "r": {
+        "x": 1578,
+        "y": 237,
+        "w": 300,
+        "h": 42
+      },
+      "css": {
+        "bg": "rgba(0, 0, 0, 0)",
+        "color": "rgb(31, 31, 44)",
+        "bc": "oklch(0.922 0 0)",
+        "br": "0px",
+        "bw": "0px",
+        "fs": "14px",
+        "fw": "400",
+        "lh": "22px",
+        "pad": "0px 13px",
+        "shadow": "none"
+      }
+    },
+    {
+      "text": "生成结果",
+      "cls": "h-[42px] text-[14px] leading-none transition font-medium tex",
+      "r": {
+        "x": 1591,
+        "y": 237,
+        "w": 56,
+        "h": 42
+      },
+      "css": {
+        "bg": "rgba(0, 0, 0, 0)",
+        "color": "rgb(31, 31, 44)",
+        "bc": "oklch(0.922 0 0)",
+        "br": "0px",
+        "bw": "0px",
+        "fs": "14px",
+        "fw": "500",
+        "lh": "22px",
+        "pad": "0px",
+        "shadow": "none"
+      }
+    },
+    {
+      "text": "历史记录",
+      "cls": "h-[42px] text-[14px] leading-none transition text-[#6b6b80] ",
+      "r": {
+        "x": 1667,
+        "y": 237,
+        "w": 56,
+        "h": 42
+      },
+      "css": {
+        "bg": "rgba(0, 0, 0, 0)",
+        "color": "rgb(31, 31, 44)",
+        "bc": "oklch(0.922 0 0)",
+        "br": "0px",
+        "bw": "0px",
+        "fs": "14px",
+        "fw": "400",
+        "lh": "22px",
+        "pad": "0px",
+        "shadow": "none"
+      }
+    },
+    {
+      "text": "暂无生成结果图 上传偏色图并涂抹区域后，点立即生成。",
+      "cls": "rounded-xl border border-dashed border-border px-4 py-8 text",
+      "r": {
+        "x": 1607,
+        "y": 343,
+        "w": 242,
+        "h": 176
+      },
+      "css": {
+        "bg": "rgba(0, 0, 0, 0)",
+        "color": "oklch(0.556 0 0)",
+        "bc": "oklch(0.922 0 0)",
+        "br": "14px",
+        "bw": "1px",
+        "fs": "14px",
+        "fw": "400",
+        "lh": "20px",
+        "pad": "32px 16px",
+        "shadow": "none"
+      }
+    },
+    {
+      "text": "历史任务",
+      "cls": "inline-flex items-center gap-1 text-xs font-medium text-fore",
+      "r": {
+        "x": 213,
+        "y": 1124,
+        "w": 66,
+        "h": 16
+      },
+      "css": {
+        "bg": "rgba(0, 0, 0, 0)",
+        "color": "oklch(0.145 0 0)",
+        "bc": "oklch(0.922 0 0)",
+        "br": "0px",
+        "bw": "0px",
+        "fs": "12px",
+        "fw": "500",
+        "lh": "16px",
+        "pad": "0px",
+        "shadow": "none"
+      }
+    },
+    {
+      "text": "0 条",
+      "cls": "text-[11px] text-muted-foreground",
+      "r": {
+        "x": 1854,
+        "y": 1124,
+        "w": 21,
+        "h": 17
+      },
+      "css": {
+        "bg": "rgba(0, 0, 0, 0)",
+        "color": "oklch(0.556 0 0)",
+        "bc": "oklch(0.922 0 0)",
+        "br": "0px",
+        "bw": "0px",
+        "fs": "11px",
+        "fw": "400",
+        "lh": "17.2857px",
+        "pad": "0px",
+        "shadow": "none"
+      }
+    },
+    {
+      "text": "操作咨询 产品教程",
+      "cls": "fixed right-[10px] top-1/2 flex -translate-y-1/2 flex-col ga",
+      "r": {
+        "x": 1797,
+        "y": 346,
+        "w": 101,
+        "h": 90
+      },
+      "css": {
+        "bg": "rgba(0, 0, 0, 0)",
+        "color": "oklch(0.145 0 0)",
+        "bc": "oklch(0.922 0 0)",
+        "br": "0px",
+        "bw": "0px",
+        "fs": "14px",
+        "fw": "400",
+        "lh": "22px",
+        "pad": "0px",
+        "shadow": "none"
+      }
+    },
+    {
+      "text": "操作咨询",
+      "cls": "h-[40px] w-[101px] rounded-full bg-[#723cf9] text-[14px] fon",
+      "r": {
+        "x": 1797,
+        "y": 346,
+        "w": 101,
+        "h": 40
+      },
+      "css": {
+        "bg": "rgb(114, 60, 249)",
+        "color": "oklch(0.145 0 0)",
+        "bc": "oklch(0.922 0 0)",
+        "br": "3.35544e+07px",
+        "bw": "0px",
+        "fs": "14px",
+        "fw": "400",
+        "lh": "22px",
+        "pad": "0px",
+        "shadow": "none"
+      }
+    },
+    {
+      "text": "产品教程",
+      "cls": "h-[40px] w-[101px] rounded-full bg-[#723cf9] text-[14px] fon",
+      "r": {
+        "x": 1797,
+        "y": 396,
+        "w": 101,
+        "h": 40
+      },
+      "css": {
+        "bg": "rgb(114, 60, 249)",
+        "color": "oklch(0.145 0 0)",
+        "bc": "oklch(0.922 0 0)",
+        "br": "3.35544e+07px",
+        "bw": "0px",
+        "fs": "14px",
+        "fw": "400",
+        "lh": "22px",
+        "pad": "0px",
+        "shadow": "none"
+      }
+    },
+    {
+      "text": "Agent未连接对话历史技能日志新对话",
+      "cls": "flex h-12 items-center gap-1",
+      "r": {
+        "x": 1917,
+        "y": 0,
+        "w": 423,
+        "h": 48
+      },
+      "css": {
+        "bg": "rgba(0, 0, 0, 0)",
+        "color": "rgb(41, 37, 36)",
+        "bc": "oklch(0.922 0 0)",
+        "br": "0px",
+        "bw": "0px",
+        "fs": "14px",
+        "fw": "400",
+        "lh": "22px",
+        "pad": "0px",
+        "shadow": "none"
+      }
+    },
+    {
+      "text": "Agent未连接",
+      "cls": "flex items-center gap-1",
+      "r": {
+        "x": 1917,
+        "y": 8,
+        "w": 68,
+        "h": 32
+      },
+      "css": {
+        "bg": "rgba(0, 0, 0, 0)",
+        "color": "rgb(41, 37, 36)",
+        "bc": "oklch(0.922 0 0)",
+        "br": "0px",
+        "bw": "0px",
+        "fs": "14px",
+        "fw": "400",
+        "lh": "22px",
+        "pad": "0px",
+        "shadow": "none"
+      }
+    },
+    {
+      "text": "连接本地 Agent 未连接",
+      "cls": "flex flex-wrap items-center justify-between gap-2",
+      "r": {
+        "x": 1925,
+        "y": 65,
+        "w": 407,
+        "h": 24
+      },
+      "css": {
+        "bg": "rgba(0, 0, 0, 0)",
+        "color": "rgb(41, 37, 36)",
+        "bc": "oklch(0.922 0 0)",
+        "br": "0px",
+        "bw": "0px",
+        "fs": "14px",
+        "fw": "400",
+        "lh": "22px",
+        "pad": "0px",
+        "shadow": "none"
+      }
+    },
+    {
+      "text": "连接本地 Agent",
+      "cls": "text-base font-semibold leading-6",
+      "r": {
+        "x": 1925,
+        "y": 65,
+        "w": 113,
+        "h": 24
+      },
+      "css": {
+        "bg": "rgba(0, 0, 0, 0)",
+        "color": "rgb(41, 37, 36)",
+        "bc": "oklch(0.922 0 0)",
+        "br": "0px",
+        "bw": "0px",
+        "fs": "16px",
+        "fw": "600",
+        "lh": "24px",
+        "pad": "0px",
+        "shadow": "none"
+      }
+    },
+    {
+      "text": "未连接",
+      "cls": "truncate",
+      "r": {
+        "x": 2290,
+        "y": 69,
+        "w": 33,
+        "h": 16
+      },
+      "css": {
+        "bg": "rgba(0, 0, 0, 0)",
+        "color": "rgb(120, 113, 108)",
+        "bc": "oklch(0.922 0 0)",
+        "br": "0px",
+        "bw": "0px",
+        "fs": "11px",
+        "fw": "400",
+        "lh": "16px",
+        "pad": "0px",
+        "shadow": "none"
+      }
+    },
+    {
+      "text": "点连接会自动启动本地服务、装好插件并接通，无需手动配置。",
+      "cls": "mt-1 text-xs leading-5",
+      "r": {
+        "x": 1925,
+        "y": 93,
+        "w": 407,
+        "h": 20
+      },
+      "css": {
+        "bg": "rgba(0, 0, 0, 0)",
+        "color": "rgb(120, 113, 108)",
+        "bc": "oklch(0.922 0 0)",
+        "br": "0px",
+        "bw": "0px",
+        "fs": "12px",
+        "fw": "400",
+        "lh": "20px",
+        "pad": "0px",
+        "shadow": "none"
+      }
+    },
+    {
+      "text": "Claude Code",
+      "cls": "flex items-center gap-2 text-sm font-medium leading-5",
+      "r": {
+        "x": 1938,
+        "y": 140,
+        "w": 303,
+        "h": 20
+      },
+      "css": {
+        "bg": "rgba(0, 0, 0, 0)",
+        "color": "rgb(41, 37, 36)",
+        "bc": "oklch(0.922 0 0)",
+        "br": "0px",
+        "bw": "0px",
+        "fs": "14px",
+        "fw": "500",
+        "lh": "20px",
+        "pad": "0px",
+        "shadow": "none"
+      }
+    },
+    {
+      "text": "未连接",
+      "cls": "",
+      "r": {
+        "x": 1938,
+        "y": 162,
+        "w": 33,
+        "h": 16
+      },
+      "css": {
+        "bg": "rgba(0, 0, 0, 0)",
+        "color": "rgb(120, 113, 108)",
+        "bc": "oklch(0.922 0 0)",
+        "br": "0px",
+        "bw": "0px",
+        "fs": "11px",
+        "fw": "400",
+        "lh": "16px",
+        "pad": "0px",
+        "shadow": "none"
+      }
+    },
+    {
+      "text": "·",
+      "cls": "",
+      "r": {
+        "x": 1977,
+        "y": 162,
+        "w": 3,
+        "h": 16
+      },
+      "css": {
+        "bg": "rgba(0, 0, 0, 0)",
+        "color": "rgb(120, 113, 108)",
+        "bc": "oklch(0.922 0 0)",
+        "br": "0px",
+        "bw": "0px",
+        "fs": "11px",
+        "fw": "400",
+        "lh": "16px",
+        "pad": "0px",
+        "shadow": "none"
+      }
+    },
+    {
+      "text": "CLI · 2.1.285 (Claude Code)",
+      "cls": "truncate",
+      "r": {
+        "x": 1986,
+        "y": 162,
+        "w": 144,
+        "h": 16
+      },
+      "css": {
+        "bg": "rgba(0, 0, 0, 0)",
+        "color": "rgb(120, 113, 108)",
+        "bc": "oklch(0.922 0 0)",
+        "br": "0px",
+        "bw": "0px",
+        "fs": "11px",
+        "fw": "400",
+        "lh": "16px",
+        "pad": "0px",
+        "shadow": "none"
+      }
+    },
+    {
+      "text": "·",
+      "cls": "",
+      "r": {
+        "x": 2137,
+        "y": 162,
+        "w": 3,
+        "h": 16
+      },
+      "css": {
+        "bg": "rgba(0, 0, 0, 0)",
+        "color": "rgb(120, 113, 108)",
+        "bc": "oklch(0.922 0 0)",
+        "br": "0px",
+        "bw": "0px",
+        "fs": "11px",
+        "fw": "400",
+        "lh": "16px",
+        "pad": "0px",
+        "shadow": "none"
+      }
+    },
+    {
+      "text": "直接运行",
+      "cls": "truncate",
+      "r": {
+        "x": 2146,
+        "y": 162,
+        "w": 44,
+        "h": 16
+      },
+      "css": {
+        "bg": "rgba(0, 0, 0, 0)",
+        "color": "rgb(120, 113, 108)",
+        "bc": "oklch(0.922 0 0)",
+        "br": "0px",
+        "bw": "0px",
+        "fs": "11px",
+        "fw": "400",
+        "lh": "16px",
+        "pad": "0px",
+        "shadow": "none"
+      }
+    },
+    {
+      "text": "连接",
+      "cls": "",
+      "r": {
+        "x": 2283,
+        "y": 148,
+        "w": 28,
+        "h": 22
+      },
+      "css": {
+        "bg": "rgba(0, 0, 0, 0)",
+        "color": "rgb(23, 23, 23)",
+        "bc": "oklch(0.922 0 0)",
+        "br": "0px",
+        "bw": "0px",
+        "fs": "14px",
+        "fw": "400",
+        "lh": "22px",
+        "pad": "0px",
+        "shadow": "none"
+      }
+    },
+    {
+      "text": "Codex",
+      "cls": "flex items-center gap-2 text-sm font-medium leading-5",
+      "r": {
+        "x": 1938,
+        "y": 208,
+        "w": 303,
+        "h": 20
+      },
+      "css": {
+        "bg": "rgba(0, 0, 0, 0)",
+        "color": "rgb(41, 37, 36)",
+        "bc": "oklch(0.922 0 0)",
+        "br": "0px",
+        "bw": "0px",
+        "fs": "14px",
+        "fw": "500",
+        "lh": "20px",
+        "pad": "0px",
+        "shadow": "none"
+      }
+    },
+    {
+      "text": "未连接",
+      "cls": "",
+      "r": {
+        "x": 1938,
+        "y": 230,
+        "w": 33,
+        "h": 16
+      },
+      "css": {
+        "bg": "rgba(0, 0, 0, 0)",
+        "color": "rgb(120, 113, 108)",
+        "bc": "oklch(0.922 0 0)",
+        "br": "0px",
+        "bw": "0px",
+        "fs": "11px",
+        "fw": "400",
+        "lh": "16px",
+        "pad": "0px",
+        "shadow": "none"
+      }
+    },
+    {
+      "text": "·",
+      "cls": "",
+      "r": {
+        "x": 1977,
+        "y": 230,
+        "w": 3,
+        "h": 16
+      },
+      "css": {
+        "bg": "rgba(0, 0, 0, 0)",
+        "color": "rgb(120, 113, 108)",
+        "bc": "oklch(0.922 0 0)",
+        "br": "0px",
+        "bw": "0px",
+        "fs": "11px",
+        "fw": "400",
+        "lh": "16px",
+        "pad": "0px",
+        "shadow": "none"
+      }
+    },
+    {
+      "text": "CLI · codex-cli 0.163.0",
+      "cls": "truncate",
+      "r": {
+        "x": 1986,
+        "y": 230,
+        "w": 117,
+        "h": 16
+      },
+      "css": {
+        "bg": "rgba(0, 0, 0, 0)",
+        "color": "rgb(120, 113, 108)",
+        "bc": "oklch(0.922 0 0)",
+        "br": "0px",
+        "bw": "0px",
+        "fs": "11px",
+        "fw": "400",
+        "lh": "16px",
+        "pad": "0px",
+        "shadow": "none"
+      }
+    },
+    {
+      "text": "·",
+      "cls": "",
+      "r": {
+        "x": 2109,
+        "y": 230,
+        "w": 3,
+        "h": 16
+      },
+      "css": {
+        "bg": "rgba(0, 0, 0, 0)",
+        "color": "rgb(120, 113, 108)",
+        "bc": "oklch(0.922 0 0)",
+        "br": "0px",
+        "bw": "0px",
+        "fs": "11px",
+        "fw": "400",
+        "lh": "16px",
+        "pad": "0px",
+        "shadow": "none"
+      }
+    },
+    {
+      "text": "插件已装",
+      "cls": "truncate",
+      "r": {
+        "x": 2119,
+        "y": 230,
+        "w": 44,
+        "h": 16
+      },
+      "css": {
+        "bg": "rgba(0, 0, 0, 0)",
+        "color": "rgb(22, 163, 74)",
+        "bc": "oklch(0.922 0 0)",
+        "br": "0px",
+        "bw": "0px",
+        "fs": "11px",
+        "fw": "400",
+        "lh": "16px",
+        "pad": "0px",
+        "shadow": "none"
+      }
+    },
+    {
+      "text": "连接",
+      "cls": "",
+      "r": {
+        "x": 2283,
+        "y": 216,
+        "w": 28,
+        "h": 22
+      },
+      "css": {
+        "bg": "rgba(0, 0, 0, 0)",
+        "color": "rgb(23, 23, 23)",
+        "bc": "oklch(0.922 0 0)",
+        "br": "0px",
+        "bw": "0px",
+        "fs": "14px",
+        "fw": "400",
+        "lh": "22px",
+        "pad": "0px",
+        "shadow": "none"
+      }
+    },
+    {
+      "text": "Galley",
+      "cls": "flex items-center gap-2 text-sm font-medium leading-5",
+      "r": {
+        "x": 1938,
+        "y": 276,
+        "w": 303,
+        "h": 20
+      },
+      "css": {
+        "bg": "rgba(0, 0, 0, 0)",
+        "color": "rgb(41, 37, 36)",
+        "bc": "oklch(0.922 0 0)",
+        "br": "0px",
+        "bw": "0px",
+        "fs": "14px",
+        "fw": "500",
+        "lh": "20px",
+        "pad": "0px",
+        "shadow": "none"
+      }
+    },
+    {
+      "text": "未连接 · CLI + 桌面版 · galley 0.6.4",
+      "cls": "mt-0.5 flex items-center gap-1.5 truncate text-[11px] leadin",
+      "r": {
+        "x": 1938,
+        "y": 298,
+        "w": 303,
+        "h": 16
+      },
+      "css": {
+        "bg": "rgba(0, 0, 0, 0)",
+        "color": "rgb(120, 113, 108)",
+        "bc": "oklch(0.922 0 0)",
+        "br": "0px",
+        "bw": "0px",
+        "fs": "11px",
+        "fw": "400",
+        "lh": "16px",
+        "pad": "0px",
+        "shadow": "none"
+      }
+    },
+    {
+      "text": "未连接",
+      "cls": "",
+      "r": {
+        "x": 1938,
+        "y": 298,
+        "w": 33,
+        "h": 16
+      },
+      "css": {
+        "bg": "rgba(0, 0, 0, 0)",
+        "color": "rgb(120, 113, 108)",
+        "bc": "oklch(0.922 0 0)",
+        "br": "0px",
+        "bw": "0px",
+        "fs": "11px",
+        "fw": "400",
+        "lh": "16px",
+        "pad": "0px",
+        "shadow": "none"
+      }
+    },
+    {
+      "text": "·",
+      "cls": "",
+      "r": {
+        "x": 1977,
+        "y": 298,
+        "w": 3,
+        "h": 16
+      },
+      "css": {
+        "bg": "rgba(0, 0, 0, 0)",
+        "color": "rgb(120, 113, 108)",
+        "bc": "oklch(0.922 0 0)",
+        "br": "0px",
+        "bw": "0px",
+        "fs": "11px",
+        "fw": "400",
+        "lh": "16px",
+        "pad": "0px",
+        "shadow": "none"
+      }
+    },
+    {
+      "text": "CLI + 桌面版 · galley 0.6.4",
+      "cls": "truncate",
+      "r": {
+        "x": 1986,
+        "y": 298,
+        "w": 134,
+        "h": 16
+      },
+      "css": {
+        "bg": "rgba(0, 0, 0, 0)",
+        "color": "rgb(120, 113, 108)",
+        "bc": "oklch(0.922 0 0)",
+        "br": "0px",
+        "bw": "0px",
+        "fs": "11px",
+        "fw": "400",
+        "lh": "16px",
+        "pad": "0px",
+        "shadow": "none"
+      }
+    },
+    {
+      "text": "连接",
+      "cls": "",
+      "r": {
+        "x": 2283,
+        "y": 284,
+        "w": 28,
+        "h": 22
+      },
+      "css": {
+        "bg": "rgba(0, 0, 0, 0)",
+        "color": "rgb(23, 23, 23)",
+        "bc": "oklch(0.922 0 0)",
+        "br": "0px",
+        "bw": "0px",
+        "fs": "14px",
+        "fw": "400",
+        "lh": "22px",
+        "pad": "0px",
+        "shadow": "none"
+      }
+    }
+  ],
+  "bodyText": "无限画布 · 39 个电商 AI 工具，一套导航直达\n本地运行 · API Key 只保存在你自己的浏览器\n插件与模型可自定义 · 无需注册账号\n无限画布\n首页\n电商套图\n智能修图\n新模型\nAI视频\nHOT\n批量生图\n商品图设计\nSkills\nAgent\n更多\n学习中心\n免费得算力\n积分\n0\n购买\n用\n本地用户\n个人账号\n智能修图\n局部重绘\n局部消除\n一键换色\n图片裁剪\n商品精修\n色差修复\n印花修复\n手部修复\n免责声明\n智能修图 / 色差修复\n色差修复\n\n/tools/smart-edit/fix-color\n\n画笔\n橡皮\n笔刷\n35px\n羽化\n15\n35\n60\n100\n已涂 0 笔\n色差修复\n\n上传偏色服装图片\n\nAI将以服装原图为依据修复偏色\n\n尚未涂抹 · 覆盖率 0%\n\nStep 1：上传待修复图*\n上传色差图\n0 / 1 个 · PNG / JPG / WebP · ≤ 20 MB\n点击上传\n从本地上传\n从作品库选择\n从商品库选择\nStep 2：颜色矫正（区域色 / 目标色）\n区域颜色\n色差 ΔE 6.5 · 明显差异\n交换\n目标颜色\n点色块设为目标色\n修复版本\n参考匹配\n只把涂抹区域的颜色对齐到目标色，保留原明暗与材质\n色偏中和\n按区域平均偏色做整体中和，适合整片偏黄/偏蓝的拍摄色差\n局部补色\n只修补局部色彩异常（反光、污点引起的异色），边界自然过渡\nStep 3：进行AI修复\n\n请确保在左侧画板中选择了要进行修复的区域，AI将根据原图为您修复。\n\n立即生成\n生成结果\n历史记录\n色差修复结果\n\n暂无生成结果图\n\n上传偏色图并涂抹区域后，点立即生成。\n\n历史任务\n0 条\n\n本工具还没有历史任务；提交一次后会在这里留下任务、配置与结果，刷新后仍在。\n\n操作咨询\n产品教程\n连接本地 Agent\n未连接\n点连接会自动启动本地服务、装好插件并接通，无需手动配置。\nClaude Code\n未连接\n·\nCLI · 2.1.285 (Claude Code)\n·\n直接运行\n连接\nCodex\n未连接\n·\nCLI · codex-cli 0.163.0\n·\n插件已装\n连接\nGalley\n未连接\n·\nCLI + 桌面版 · galley 0.6.4\n连接",
+  "workspaceText": "画笔 橡皮 笔刷 35px 羽化 15 35 60 100 已涂 0 笔 色差修复 上传偏色服装图片 AI将以服装原图为依据修复偏色 尚未涂抹 · 覆盖率 0% Step 1：上传待修复图* 上传色差图 0 / 1 个 · PNG / JPG / WebP · ≤ 20 MB 点击上传 从本地上传 从作品库选择 从商品库选择 Step 2：颜色矫正（区域色 / 目标色） 区域颜色 色差 ΔE 6.5 · 明显差异 交换 目标颜色 点色块设为目标色 修复版本 参考匹配 只把涂抹区域的颜色对齐到目标色，保留原明暗与材质 色偏中和 按区域平均偏色做整体中和，适合整片偏黄/偏蓝的拍摄色差 局部补色 只修补局部色彩异常（反光、污点引起的异色），边界自然过渡 Step 3：进行AI修复 请确保在左侧画板中选择了要进行修复的区域，AI将根据原图为您修复。 立即生成 生成结果 历史记录 色差修复结果 暂无生成结果图 上传偏色图并涂抹区域后，点立即生成。 历史任务 0 条 本工具还没有历史任务；提交一次后会在这里留下任务、配置与结果，刷新后仍在。",
+  "errors": []
+}
