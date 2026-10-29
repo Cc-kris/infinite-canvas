@@ -844,9 +844,10 @@ export function ColorV2Workspace({ className }: ColorV2WorkspaceProps = {}) {
                         type="button"
                         data-testid="color-v2-tab-history"
                         onClick={() => setRightTab("history")}
+                        style={{ fontSize: 14, fontWeight: rightTab === "history" ? 500 : 400, marginLeft: "auto" }}
                         className={cn(
-                            "ml-auto text-[12px] leading-none transition",
-                            rightTab === "history" ? "font-medium text-[#723cf9]" : "text-[#6b6b80] hover:text-[#723cf9]",
+                            "text-[14px] leading-none transition",
+                            rightTab === "history" ? "text-[#723cf9]" : "text-[#000000e0] hover:text-[#723cf9]",
                         )}
                     >
                         历史记录
