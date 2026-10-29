@@ -4,6 +4,8 @@ import { Eraser, Paintbrush, Redo2, RotateCcw, Sparkles, Undo2 } from "lucide-re
 
 import { ToolAssetInput } from "@/components/tools/tool-asset-input";
 import { ToolShell } from "@/components/tools/tool-shell";
+import { Edit8Canvas, Edit8CanvasCard, Edit8CanvasToolbar, Edit8Chip, Edit8Config, Edit8Page, Edit8Results, Edit8ResultsEmpty, Edit8Section, edit8PrimaryButtonClass } from "@/components/tools/edit8-frame";
+import { ToolTaskHistory } from "@/components/tools/tool-task-history";
 import { TaskStatusPanel } from "@/components/tools/task-status";
 import { saveResultItemToAssets, sendResultItemToCanvas } from "@/components/tools/tool-result-actions";
 import { buildAreaRepairUnits, createAreaRepairRunPort, renderMaskPng, runAreaRepairUnits, type AreaRepairUnitOutcome } from "@/features/tools/adapters/area-repair";
@@ -528,35 +530,13 @@ export function MaskWorkspace({ className }: MaskWorkspaceProps = {}) {
         }
     }, []);
 
+    const [resultTab, setResultTab] = useState<"result" | "history">("result");
+
     return (
         <ToolShell
             className={className}
+            immersive
             title={spec?.title ?? "局部重绘"}
-            subtitle="涂抹需要改变的区域并填写重绘描述，只重绘蒙版内内容；原图与结果并排可对照"
-            badges={<span className="rounded border border-border px-1.5 py-0.5 text-[11px] text-muted-foreground">{spec ? `makeType ${spec.makeType}` : AREA_REPAIR_TOOL_ID}</span>}
-            actions={
-                <button
-                    type="button"
-                    data-testid="area-repair-submit"
-                    disabled={busy || issues.length > 0}
-                    onClick={() => void submit()}
-                    className="inline-flex items-center gap-1 rounded-md bg-primary px-3 py-1.5 text-xs font-medium text-primary-foreground disabled:cursor-not-allowed disabled:opacity-50"
-                >
-                    <Sparkles className="size-3.5" aria-hidden />
-                    {busy ? "生成中…" : "立即生成"}
-                </button>
-            }
-            notices={
-                <>
-                    {conflict ? <p className="rounded border border-amber-500/40 bg-amber-500/10 px-3 py-2 text-xs text-amber-700 dark:text-amber-300">草稿在其他标签页被修改，本页未覆盖；刷新可载入最新草稿。</p> : null}
-                    {notice ? (
-                        <p data-testid="area-repair-notice" className="rounded border border-border bg-card px-3 py-2 text-xs text-muted-foreground">
-                            {notice}
-                        </p>
-                    ) : null}
-                    {stale ? <p className="rounded border border-amber-500/40 bg-amber-500/10 px-3 py-2 text-xs text-amber-700 dark:text-amber-300">输入已变更：当前展示的是上一次提交的结果，不代表当前参数。</p> : null}
-                </>
-            }
             sidebar={
                 <nav className="flex flex-col gap-1 p-2 text-xs">
                     <span className="px-2 py-1 font-medium text-foreground">局部重绘</span>
@@ -565,185 +545,192 @@ export function MaskWorkspace({ className }: MaskWorkspaceProps = {}) {
                             {tool.title}
                         </Link>
                     ))}
-                    <Link to={`/tools/smart-edit/${AREA_REPAIR_SLUG}`} className="mt-2 px-2 py-1 text-[11px] text-muted-foreground underline-offset-2 hover:underline">
-                        本页路由
-                    </Link>
                 </nav>
             }
         >
-            <div data-testid="area-repair-workspace" className="grid min-h-0 flex-1 grid-cols-1 gap-4 overflow-y-auto p-4 xl:grid-cols-[minmax(0,1fr)_340px]">
-                {/* 左：蒙版画布 */}
-                <section className="flex min-w-0 flex-col gap-3">
-                    <div data-testid="mask-toolbar" className="flex flex-wrap items-center gap-2 rounded-lg border border-border bg-card p-2">
-                        <div className="flex items-center gap-1 rounded-md border border-border p-0.5">
-                            <button
-                                type="button"
-                                data-testid="mask-tool-brush"
-                                aria-pressed={state.tool === "brush"}
-                                onClick={() => commit({ tool: "brush" })}
-                                className={cn("inline-flex items-center gap-1 rounded px-2 py-1 text-[11px]", state.tool === "brush" ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:bg-accent")}
-                            >
-                                <Paintbrush className="size-3.5" aria-hidden />
-                                画笔
-                            </button>
-                            <button
-                                type="button"
-                                data-testid="mask-tool-eraser"
-                                aria-pressed={state.tool === "eraser"}
-                                onClick={() => commit({ tool: "eraser" })}
-                                className={cn("inline-flex items-center gap-1 rounded px-2 py-1 text-[11px]", state.tool === "eraser" ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:bg-accent")}
-                            >
-                                <Eraser className="size-3.5" aria-hidden />
-                                橡皮
-                            </button>
-                        </div>
+            <Edit8Page toolId={TOOL_ID} data-testid="area-repair-workspace">
+                <Edit8Canvas>
+                    <Edit8CanvasToolbar>
+                        <div className="flex items-center gap-2" data-testid="mask-toolbar">
+                            <div className="flex items-center gap-1">
+                                <button
+                                    type="button"
+                                    data-testid="mask-tool-brush"
+                                    aria-pressed={state.tool === "brush"}
+                                    onClick={() => commit({ tool: "brush" })}
+                                    className={cn("inline-flex h-6 items-center gap-1 rounded-[4px] px-2 text-[12px] leading-none", state.tool === "brush" ? "bg-[#723cf9] text-white" : "text-[#1f1f2c] hover:bg-[#e3e6ee]")}
+                                >
+                                    <Paintbrush className="size-3.5" aria-hidden />
+                                    画笔
+                                </button>
+                                <button
+                                    type="button"
+                                    data-testid="mask-tool-eraser"
+                                    aria-pressed={state.tool === "eraser"}
+                                    onClick={() => commit({ tool: "eraser" })}
+                                    className={cn("inline-flex h-6 items-center gap-1 rounded-[4px] px-2 text-[12px] leading-none", state.tool === "eraser" ? "bg-[#723cf9] text-white" : "text-[#1f1f2c] hover:bg-[#e3e6ee]")}
+                                >
+                                    <Eraser className="size-3.5" aria-hidden />
+                                    橡皮
+                                </button>
+                            </div>
 
-                        <label className="flex items-center gap-2 text-[11px] text-muted-foreground">
-                            大小
-                            <input
-                                type="range"
-                                data-testid="mask-brush-size"
-                                min={MASK_BRUSH_MIN}
-                                max={MASK_BRUSH_MAX}
-                                value={state.brushSize}
-                                onChange={(event) => commit({ brushSize: clampBrushSize(event.target.value) })}
-                                className="w-24 accent-primary"
-                                aria-label="画笔大小"
-                            />
-                            <input
-                                type="number"
-                                min={MASK_BRUSH_MIN}
-                                max={MASK_BRUSH_MAX}
-                                value={state.brushSize}
-                                onChange={(event) => commit({ brushSize: clampBrushSize(event.target.value) })}
-                                className="w-14 rounded border border-border bg-background px-1.5 py-0.5 text-[11px] text-foreground"
-                                aria-label="画笔大小像素"
-                            />
-                            像素
-                        </label>
-
-                        <label className="flex items-center gap-2 text-[11px] text-muted-foreground">
-                            羽化
-                            <input
-                                type="range"
-                                data-testid="mask-feather"
-                                min={MASK_FEATHER_MIN}
-                                max={MASK_FEATHER_MAX}
-                                value={state.feather}
-                                onChange={(event) => commit({ feather: clampFeather(event.target.value) })}
-                                className="w-20 accent-primary"
-                                aria-label="羽化"
-                            />
-                            <span className="tabular-nums text-foreground">{state.feather}</span>
-                        </label>
-
-                        <label className="flex items-center gap-1.5 text-[11px] text-muted-foreground">
-                            <input type="checkbox" data-testid="mask-auto-expand" checked={state.autoExpand} onChange={(event) => commit({ autoExpand: event.target.checked })} className="size-3.5 accent-primary" />
-                            自动扩大选择区域
-                        </label>
-
-                        <button
-                            type="button"
-                            data-testid="mask-invert"
-                            aria-pressed={state.inverted}
-                            disabled={historyLabel.strokeCount === 0}
-                            onClick={() => commit({ inverted: !state.inverted })}
-                            className={cn("rounded border border-border px-2 py-1 text-[11px] disabled:opacity-40", state.inverted ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:bg-accent")}
-                        >
-                            反选
-                        </button>
-                        <button
-                            type="button"
-                            data-testid="mask-undo"
-                            disabled={!historyLabel.canUndo}
-                            onClick={() => applyHistory(undoMaskStroke(historyRef.current))}
-                            className="inline-flex items-center gap-1 rounded border border-border px-2 py-1 text-[11px] text-muted-foreground transition hover:bg-accent disabled:opacity-40"
-                        >
-                            <Undo2 className="size-3.5" aria-hidden />
-                            撤销
-                        </button>
-                        <button
-                            type="button"
-                            data-testid="mask-redo"
-                            disabled={!historyLabel.canRedo}
-                            onClick={() => applyHistory(redoMaskStroke(historyRef.current))}
-                            className="inline-flex items-center gap-1 rounded border border-border px-2 py-1 text-[11px] text-muted-foreground transition hover:bg-accent disabled:opacity-40"
-                        >
-                            <Redo2 className="size-3.5" aria-hidden />
-                            重做
-                        </button>
-                        <button
-                            type="button"
-                            data-testid="mask-reset"
-                            disabled={historyLabel.strokeCount === 0}
-                            onClick={() => applyHistory(resetMaskHistory(historyRef.current))}
-                            className="inline-flex items-center gap-1 rounded border border-border px-2 py-1 text-[11px] text-muted-foreground transition hover:bg-accent disabled:opacity-40"
-                        >
-                            <RotateCcw className="size-3.5" aria-hidden />
-                            重置
-                        </button>
-
-                        <span data-testid="mask-coverage" className="ml-auto text-[11px] text-muted-foreground">
-                            {historyLabel.strokeCount} 笔 · 覆盖 {coverageLabel}
-                        </span>
-                    </div>
-
-                    <div className="relative overflow-hidden rounded-lg border border-border bg-[repeating-conic-gradient(#00000008_0%_25%,transparent_0%_50%)] bg-[length:16px_16px]">
-                        {image ? (
-                            <div className="relative">
-                                <img src={image.dataUrl} alt={`待重绘原图 ${image.name}`} className="block h-auto w-full select-none" draggable={false} />
-                                <canvas
-                                    ref={canvasRef}
-                                    data-testid="mask-canvas"
-                                    onPointerDown={onPointerDown}
-                                    onPointerMove={onPointerMove}
-                                    onPointerUp={endStroke}
-                                    onPointerCancel={endStroke}
-                                    onPointerLeave={(event) => {
-                                        if (event.buttons === 0) endStroke();
-                                    }}
-                                    className={cn("absolute inset-0 size-full touch-none", busy ? "cursor-wait" : "cursor-crosshair")}
-                                    aria-label="蒙版涂抹画布"
+                            <label className="flex items-center gap-1.5 text-[12px] text-[#6b6b80]">
+                                大小：
+                                <input
+                                    type="range"
+                                    data-testid="mask-brush-size"
+                                    min={MASK_BRUSH_MIN}
+                                    max={MASK_BRUSH_MAX}
+                                    value={state.brushSize}
+                                    onChange={(event) => commit({ brushSize: clampBrushSize(event.target.value) })}
+                                    className="w-[86px] accent-[#723cf9]"
+                                    aria-label="画笔大小"
                                 />
+                                <input
+                                    type="number"
+                                    min={MASK_BRUSH_MIN}
+                                    max={MASK_BRUSH_MAX}
+                                    value={state.brushSize}
+                                    onChange={(event) => commit({ brushSize: clampBrushSize(event.target.value) })}
+                                    className="h-6 w-[46px] rounded-[4px] border border-[#ededf0] bg-white px-1 text-center text-[12px] text-[#1f1f2c] outline-none"
+                                    aria-label="画笔大小像素"
+                                />
+                                像素
+                            </label>
+
+                            <label className="flex items-center gap-1.5 text-[12px] text-[#6b6b80]">
+                                羽化
+                                <input
+                                    type="range"
+                                    data-testid="mask-feather"
+                                    min={MASK_FEATHER_MIN}
+                                    max={MASK_FEATHER_MAX}
+                                    value={state.feather}
+                                    onChange={(event) => commit({ feather: clampFeather(event.target.value) })}
+                                    className="w-[70px] accent-[#723cf9]"
+                                    aria-label="羽化"
+                                />
+                                <span className="tabular-nums text-[#1f1f2c]">{state.feather}</span>
+                            </label>
+
+                            <label className="flex items-center gap-1.5 text-[12px] text-[#6b6b80]">
+                                <input type="checkbox" data-testid="mask-auto-expand" checked={state.autoExpand} onChange={(event) => commit({ autoExpand: event.target.checked })} className="size-3.5 accent-[#723cf9]" />
+                                自动扩大选择区域：
+                            </label>
+
+                            <button
+                                type="button"
+                                data-testid="mask-invert"
+                                aria-pressed={state.inverted}
+                                disabled={historyLabel.strokeCount === 0}
+                                onClick={() => commit({ inverted: !state.inverted })}
+                                className={cn("h-6 rounded-[4px] px-2 text-[12px] leading-none disabled:opacity-40", state.inverted ? "bg-[#723cf9] text-white" : "text-[#1f1f2c] hover:bg-[#e3e6ee]")}
+                            >
+                                反选
+                            </button>
+                            <button
+                                type="button"
+                                data-testid="mask-undo"
+                                disabled={!historyLabel.canUndo}
+                                onClick={() => applyHistory(undoMaskStroke(historyRef.current))}
+                                className="inline-flex h-6 items-center gap-1 rounded-[4px] px-1.5 text-[12px] leading-none text-[#1f1f2c] transition hover:bg-[#e3e6ee] disabled:opacity-40"
+                            >
+                                <Undo2 className="size-3.5" aria-hidden />
+                                撤销
+                            </button>
+                            <button
+                                type="button"
+                                data-testid="mask-redo"
+                                disabled={!historyLabel.canRedo}
+                                onClick={() => applyHistory(redoMaskStroke(historyRef.current))}
+                                className="inline-flex h-6 items-center gap-1 rounded-[4px] px-1.5 text-[12px] leading-none text-[#1f1f2c] transition hover:bg-[#e3e6ee] disabled:opacity-40"
+                            >
+                                <Redo2 className="size-3.5" aria-hidden />
+                                重做
+                            </button>
+                            <button
+                                type="button"
+                                data-testid="mask-reset"
+                                disabled={historyLabel.strokeCount === 0}
+                                onClick={() => applyHistory(resetMaskHistory(historyRef.current))}
+                                className="inline-flex h-6 items-center gap-1 rounded-[4px] px-1.5 text-[12px] leading-none text-[#1f1f2c] transition hover:bg-[#e3e6ee] disabled:opacity-40"
+                            >
+                                <RotateCcw className="size-3.5" aria-hidden />
+                                重置
+                            </button>
+                            <span data-testid="mask-coverage" className="ml-1 text-[11px] text-[#8a8a99]">
+                                {coverageLabel}
+                            </span>
+                        </div>
+                    </Edit8CanvasToolbar>
+
+                    <div className="min-h-0 flex-1 overflow-auto px-4 pb-4">
+                        {image ? (
+                            <div className="mx-auto w-full max-w-[920px] overflow-hidden rounded-[8px] bg-[repeating-conic-gradient(#00000008_0%_25%,transparent_0%_50%)] bg-[length:16px_16px]">
+                                <div className="relative">
+                                    <img src={image.dataUrl} alt={`待重绘原图 ${image.name}`} className="block h-auto w-full select-none" draggable={false} />
+                                    <canvas
+                                        ref={canvasRef}
+                                        data-testid="mask-canvas"
+                                        onPointerDown={onPointerDown}
+                                        onPointerMove={onPointerMove}
+                                        onPointerUp={endStroke}
+                                        onPointerCancel={endStroke}
+                                        onPointerLeave={(event) => {
+                                            if (event.buttons === 0) endStroke();
+                                        }}
+                                        className={cn("absolute inset-0 size-full touch-none", busy ? "cursor-wait" : "cursor-crosshair")}
+                                        aria-label="蒙版涂抹画布"
+                                    />
+                                </div>
                             </div>
                         ) : (
-                            <div className="flex min-h-[320px] flex-col items-center justify-center gap-2 p-6 text-center text-xs text-muted-foreground">
-                                <p>上传图片后即可在图上涂抹需要重绘的区域</p>
-                                <p>涂抹范围会作为蒙版随原图一起发给模型</p>
+                            <div className="flex h-full min-h-[500px] items-center justify-center">
+                                <Edit8CanvasCard data-testid="area-repair-empty">
+                                    <p className="text-[14px] font-medium leading-5 text-[#1f1f2c]">局部重绘</p>
+                                    <p className="text-[12px] leading-5 text-[#8a8a99]">
+                                        上传图片，涂抹需要改变的区域并输入想要改变的内容，
+                                        <br />
+                                        即可重新对该区域进行绘制
+                                    </p>
+                                    <ToolAssetInput
+                                        toolId={TOOL_ID}
+                                        maxCount={1}
+                                        disabled={busy}
+                                        variant="linkfox"
+                                        wide
+                                        uploadLabel="从本地上传"
+                                        title=""
+                                        className="gap-0"
+                                        hint="支持 JPG / PNG / WEBP，单张不超过 20MB"
+                                        onChange={(_ids, records) => {
+                                            const record = records[records.length - 1];
+                                            if (record) void adoptImage(record);
+                                        }}
+                                    />
+                                </Edit8CanvasCard>
                             </div>
                         )}
                     </div>
-                </section>
+                </Edit8Canvas>
 
-                {/* 右：上传 / 描述 / 结果 */}
-                <aside className="flex min-w-0 flex-col gap-3">
-                    <div className="rounded-lg border border-border bg-card p-3">
-                        <ToolAssetInput
-                            toolId={TOOL_ID}
-                            title="上传图片"
-                            maxCount={1}
-                            disabled={busy}
-                            onChange={(_ids, records) => {
-                                const record = records[records.length - 1];
-                                if (record) void adoptImage(record);
-                            }}
-                        />
-                        {image ? (
-                            <p className="mt-2 truncate text-[11px] text-muted-foreground">
-                                {image.name} · {image.width}×{image.height}
-                            </p>
-                        ) : null}
-                    </div>
-
-                    <div className="rounded-lg border border-border bg-card p-3">
-                        <label htmlFor="area-repair-prompt" className="flex items-center justify-between text-xs font-medium text-foreground">
-                            <span>
-                                重绘描述 <span className="text-destructive">*</span>
-                            </span>
-                            <span className="text-[11px] font-normal text-muted-foreground tabular-nums">
-                                {prompt.length} / {AREA_REPAIR_PROMPT_MAX}
-                            </span>
-                        </label>
+                <Edit8Config
+                    data-testid="area-repair-config"
+                    footer={
+                        <button
+                            type="button"
+                            data-testid="area-repair-submit"
+                            disabled={busy || issues.length > 0}
+                            onClick={() => void submit()}
+                            className={edit8PrimaryButtonClass}
+                        >
+                            <Sparkles className="mr-1 size-3.5" aria-hidden />
+                            {busy ? "生成中…" : "立即生成 (40算力)"}
+                        </button>
+                    }
+                >
+                    <Edit8Section title="重绘描述" required aside={`${prompt.length} / ${AREA_REPAIR_PROMPT_MAX}`}>
                         <textarea
                             id="area-repair-prompt"
                             data-testid="area-repair-prompt"
@@ -757,89 +744,107 @@ export function MaskWorkspace({ className }: MaskWorkspaceProps = {}) {
                                 persist(stateRef.current);
                             }}
                             placeholder="例如：把涂抹区域换成米色针织沙发，保留原有光影和地面阴影"
-                            className="mt-2 h-24 w-full resize-y rounded border border-border bg-background px-2 py-1.5 text-xs text-foreground outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                            className="h-[118px] w-full resize-none rounded-[6px] border border-[#ededf0] bg-white p-[10px] text-[13px] leading-5 text-[#1f1f2c] outline-none transition focus:border-[#723cf9]"
                         />
+                    </Edit8Section>
 
-                        <p className="mt-3 text-xs font-medium text-foreground">生成张数</p>
-                        <div className="mt-1.5 flex items-center gap-1" data-testid="area-repair-output-num">
+                    <Edit8Section title="生成张数">
+                        <div className="flex items-center gap-1.5" data-testid="area-repair-output-num">
                             {AREA_REPAIR_OUTPUT_OPTIONS.map((option) => (
-                                <button
+                                <Edit8Chip
                                     key={option}
-                                    type="button"
+                                    selected={outputNum === option}
                                     disabled={busy}
-                                    aria-pressed={outputNum === option}
                                     onClick={() => {
                                         const next = normalizeOutputNum(option);
                                         outputRef.current = next;
                                         setOutputNum(next);
                                         persist(stateRef.current);
                                     }}
-                                    className={cn("min-w-8 rounded border border-border px-2 py-1 text-[11px] transition", outputNum === option ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:bg-accent")}
                                 >
                                     {option}
-                                </button>
+                                </Edit8Chip>
                             ))}
                         </div>
+                    </Edit8Section>
 
-                        {issues.length > 0 ? (
-                            <ul data-testid="area-repair-issues" className="mt-2 space-y-0.5 text-[11px] text-amber-600 dark:text-amber-400">
+                    {issues.length > 0 ? (
+                        <div className="px-[16px] py-2">
+                            <ul data-testid="area-repair-issues" className="space-y-0.5 text-[11px] leading-4 text-[#d46b08]">
                                 {issues.map((issue) => (
                                     <li key={issue.field}>{issue.message}</li>
                                 ))}
                             </ul>
-                        ) : null}
-                    </div>
-
-                    {latestTask ? (
-                        <div className="rounded-lg border border-border bg-card p-2">
-                            <TaskStatusPanel task={latestTask} onRetry={() => void retryUnit()} />
                         </div>
                     ) : null}
 
-                    <div className="rounded-lg border border-border bg-card p-3">
-                        <div className="flex items-center justify-between">
-                            <p className="text-xs font-medium text-foreground">结果</p>
-                            <span className="text-[11px] text-muted-foreground">{outcomes.length} 张</span>
+                    {conflict ? (
+                        <p className="mx-[16px] my-2 rounded-[6px] bg-[#fff7e6] px-2 py-1.5 text-[11px] leading-4 text-[#ad6800]">草稿在其他标签页被修改，本页未覆盖；刷新可载入最新草稿。</p>
+                    ) : null}
+                    {notice ? (
+                        <p data-testid="area-repair-notice" className="mx-[16px] my-2 rounded-[6px] bg-[#fff7e6] px-2 py-1.5 text-[11px] leading-4 text-[#ad6800]">
+                            {notice}
+                        </p>
+                    ) : null}
+
+                    {latestTask ? (
+                        <div className="px-[16px] py-2">
+                            <TaskStatusPanel task={latestTask} onRetry={() => void retryUnit()} />
                         </div>
-                        {outcomes.length === 0 ? (
-                            <p className="mt-2 text-[11px] text-muted-foreground">还没有结果。完成涂抹 + 描述后点「立即生成」。</p>
+                    ) : null}
+                </Edit8Config>
+
+                <Edit8Results
+                    active={resultTab}
+                    onTabChange={(id) => setResultTab(id as "result" | "history")}
+                    tabs={[
+                        { id: "result", label: "生成结果" },
+                        { id: "history", label: "历史记录" },
+                    ]}
+                >
+                    {resultTab === "result" ? (
+                        outcomes.length === 0 ? (
+                            <Edit8ResultsEmpty />
                         ) : (
-                            <ul data-testid="area-repair-results" className="mt-2 grid grid-cols-2 gap-2">
-                                {outcomes.map((outcome) => (
-                                    <AreaRepairResultCard
-                                        key={outcome.unitId}
-                                        outcome={outcome}
-                                        imageName={image?.name ?? ""}
-                                        pending={resultPending}
-                                        onSave={(item) => {
-                                            void runResultAction(`save-${item.index}`, async () => {
-                                                await saveResultItemToAssets(toResultItem(item), item.index - 1, {
-                                                    toolId: TOOL_ID,
-                                                    taskId: item.taskId,
-                                                    title: `${image?.name ?? "局部重绘"} 第 ${item.index} 张`,
-                                                    source: "area-repair",
+                            <>
+                                <ul data-testid="area-repair-results" className="grid grid-cols-1 gap-2">
+                                    {outcomes.map((outcome) => (
+                                        <AreaRepairResultCard
+                                            key={outcome.unitId}
+                                            outcome={outcome}
+                                            imageName={image?.name ?? ""}
+                                            pending={resultPending}
+                                            onSave={(item) => {
+                                                void runResultAction(`save-${item.index}`, async () => {
+                                                    await saveResultItemToAssets(toResultItem(item), item.index - 1, {
+                                                        toolId: TOOL_ID,
+                                                        taskId: item.taskId,
+                                                        title: `${image?.name ?? "局部重绘"} 第 ${item.index} 张`,
+                                                        source: "area-repair",
+                                                    });
+                                                    return `第 ${item.index} 张已存入资产库`;
                                                 });
-                                                return `第 ${item.index} 张已存入资产库`;
-                                            });
-                                        }}
-                                        onSend={(item) => {
-                                            void runResultAction(`send-${item.index}`, async () => {
-                                                const sent = await sendResultItemToCanvas(toResultItem(item), { toolId: TOOL_ID });
-                                                return `第 ${item.index} 张已发到画布 ${sent.projectId}`;
-                                            });
-                                        }}
-                                    />
-                                ))}
-                            </ul>
-                        )}
-                        {resultFeedback ? (
-                            <p data-testid="area-repair-result-feedback" className="mt-2 text-[11px] text-muted-foreground">
-                                {resultFeedback}
-                            </p>
-                        ) : null}
-                    </div>
-                </aside>
-            </div>
+                                            }}
+                                            onSend={(item) => {
+                                                void runResultAction(`send-${item.index}`, async () => {
+                                                    const sent = await sendResultItemToCanvas(toResultItem(item), { toolId: TOOL_ID });
+                                                    return `第 ${item.index} 张已发到画布 ${sent.projectId}`;
+                                                });
+                                            }}
+                                        />
+                                    ))}
+                                </ul>
+                                {resultFeedback ? (
+                                    <p data-testid="area-repair-result-feedback" className="mt-2 text-[11px] text-[#8a8a99]">
+                                        {resultFeedback}
+                                    </p>
+                                ) : null}
+                            </>
+                        )
+                    ) : null}
+                    {resultTab === "history" ? <ToolTaskHistory toolId={TOOL_ID} limit={8} emptyHint="暂无历史记录" /> : null}
+                </Edit8Results>
+            </Edit8Page>
         </ToolShell>
     );
 }

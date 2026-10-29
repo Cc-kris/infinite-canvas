@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 
 import { cn, randomId } from "@/lib/utils";
 import {
@@ -35,6 +35,19 @@ export type ToolAssetInputProps = {
     disabled?: boolean;
     title?: string;
     className?: string;
+    /**
+     * `linkfox`：原站商品套图的上传卡——紫色「从本地上传」主按钮 + 下方两个库按钮 + 限制提示行，
+     * 没有默认的标题行/居中提示文案。默认值保持旧行为，其它工具不受影响。
+     */
+    variant?: "default" | "linkfox";
+    /** 主按钮文案（linkfox 变体默认「从本地上传」） */
+    uploadLabel?: string;
+    /** 主按钮下方的附加动作（如「从作品库选择」「从商品库选择」） */
+    actions?: ReactNode;
+    /** 上传卡底部的限制提示行 */
+    hint?: ReactNode;
+    /** linkfox 变体：按钮/提示行按容器宽度铺满（原站画布内 490px 卡片），默认 210px 固定宽度 */
+    wide?: boolean;
     /** 选择结果变化：成功入库的 id 与记录（顺序即用户顺序） */
     onChange?: (assetIds: string[], records: ToolAssetRecord[]) => void;
 };
@@ -63,7 +76,7 @@ function phaseLabel(progress: ToolAssetUploadProgress) {
  * 资产输入：真实 `<input type=file>` / 拖拽 → `uploadToolAsset`（真实落库、真实字节进度、可取消）
  * → 资产 id 写入草稿（刷新后由草稿 + 资产索引恢复）。
  */
-export function ToolAssetInput({ toolId, draftSlot, constraints, maxCount, library, disabled, title = "上传素材", className, onChange }: ToolAssetInputProps) {
+export function ToolAssetInput({ toolId, draftSlot, constraints, maxCount, library, disabled, title = "上传素材", className, variant = "default", uploadLabel, actions, hint, wide, onChange }: ToolAssetInputProps) {
     const effectiveConstraints = useMemo(() => resolveToolAssetConstraints(constraints), [constraints]);
     const [items, setItems] = useState<AssetItem[]>([]);
     const [notice, setNotice] = useState("");
@@ -259,8 +272,12 @@ export function ToolAssetInput({ toolId, draftSlot, constraints, maxCount, libra
     const atLimit = Boolean(maxCount && readyCount >= maxCount);
     const accept = effectiveConstraints.mimeTypes.join(",");
 
+    const linkfox = variant === "linkfox";
+    const atLimitForDisplay = Boolean(atLimit);
+
     return (
-        <section className={cn("space-y-3", className)} aria-busy={items.some((item) => item.status === "uploading")} data-tool-asset-input={toolId}>
+        <section className={cn("space-y-3", className)} aria-busy={items.some((item) => item.status === "uploading")} data-tool-asset-input={toolId} data-variant={variant}>
+            {linkfox && !title ? null : (
             <div className="flex items-baseline justify-between gap-3">
                 <h3 className="text-sm font-medium text-stone-800 dark:text-stone-100">{title}</h3>
                 <span className="text-xs text-stone-500">
@@ -268,6 +285,7 @@ export function ToolAssetInput({ toolId, draftSlot, constraints, maxCount, libra
                     {maxCount ? ` / ${maxCount}` : ""} 个 · {formatMimeList(effectiveConstraints.mimeTypes)} · ≤ {formatBytesLabel(effectiveConstraints.maxBytes)}
                 </span>
             </div>
+            )}
 
             {quarantined ? <p className="rounded-lg border border-amber-300 bg-amber-50 px-3 py-2 text-xs text-amber-800">检测到旧版本草稿，已隔离保存，未载入当前表单。</p> : null}
             {conflict ? (
@@ -290,8 +308,12 @@ export function ToolAssetInput({ toolId, draftSlot, constraints, maxCount, libra
                 aria-disabled={disabled || atLimit}
                 aria-label={atLimit ? "已达数量上限" : "点击或拖拽上传素材"}
                 className={cn(
-                    "flex cursor-pointer flex-col items-center justify-center gap-1 rounded-xl border border-dashed px-4 py-6 text-center text-xs transition",
-                    dragging ? "border-stone-500 bg-stone-100 dark:bg-stone-800" : "border-stone-300 dark:border-stone-700",
+                    linkfox
+                        ? wide
+                            ? "flex min-h-[249px] w-full cursor-pointer flex-col items-center justify-center gap-2 rounded-[6px] border border-dashed border-[#d9d9e0] bg-[#fafafa] p-3 text-xs transition"
+                            : "flex cursor-pointer flex-col items-start gap-2 rounded-[6px] border border-[#EDEDF0] bg-white p-3 text-xs transition"
+                        : "flex cursor-pointer flex-col items-center justify-center gap-1 rounded-xl border border-dashed px-4 py-6 text-center text-xs transition",
+                    dragging ? "border-stone-500 bg-stone-100 dark:bg-stone-800" : linkfox ? "" : "border-stone-300 dark:border-stone-700",
                     (disabled || atLimit) && "cursor-not-allowed opacity-60",
                 )}
                 onClick={() => !disabled && !atLimit && inputRef.current?.click()}
@@ -314,8 +336,28 @@ export function ToolAssetInput({ toolId, draftSlot, constraints, maxCount, libra
                 }}
                 data-testid="tool-asset-dropzone"
             >
-                <span className="text-stone-700 dark:text-stone-200">{atLimit ? "已达数量上限，先移除一个再上传" : "点击选择本地文件，或拖拽到这里"}</span>
-                <span className="text-stone-500">校验格式 / 大小 / 像素，入库后可刷新恢复</span>
+                {linkfox ? (
+                    <>
+                        <span className={cn("inline-flex h-6 items-center justify-center rounded-[4px] bg-[#723cf9] text-[12px] font-medium leading-none text-white", wide ? "w-full" : "w-[210px]")}>
+                            {uploadLabel ?? "从本地上传"}
+                        </span>
+                        {actions ? (
+                            <div
+                                className={cn("flex items-center gap-2", wide ? "w-full" : "w-[210px]")}
+                                onClick={(event) => event.stopPropagation()}
+                                onKeyDown={(event) => event.stopPropagation()}
+                            >
+                                {actions}
+                            </div>
+                        ) : null}
+                        {hint ? <div className={cn("text-[11px] leading-4 text-[#8a8a99]", wide ? "w-full" : "w-[210px]")}>{hint}</div> : null}
+                    </>
+                ) : (
+                    <>
+                        <span className="text-stone-700 dark:text-stone-200">{atLimit ? "已达数量上限，先移除一个再上传" : "点击选择本地文件，或拖拽到这里"}</span>
+                        <span className="text-stone-500">校验格式 / 大小 / 像素，入库后可刷新恢复</span>
+                    </>
+                )}
             </div>
             <input
                 ref={inputRef}
