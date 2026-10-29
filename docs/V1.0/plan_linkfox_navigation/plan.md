@@ -68,3 +68,9 @@
 - 已在共享壳落地的上述模块（`app-promo-bar.tsx`、`app-user-area.tsx`、`tool-help-dock`）已删除，禁止再加。
 - 禁止为对齐原站写死 `#723cf9`、`!` 修饰符、`h-[42px]` 之类像素级 className，或为此移除本项目圆角/边框。功能逻辑保留，样式回到设计系统 token。
 - 完整清单与可复现验收：见 [scope_boundary.md](./scope_boundary.md) 与 `web/scripts/real-acceptance/design19-shell-check.mjs`。
+
+## 重审产物（2026-10-29 新口径）
+
+- 六维重算矩阵：[reports/scope-reaudit-20261029.md](./reports/scope-reaudit-20261029.md)（JSON 同名）。维度：功能闭环 / 必要字段文案（去 LinkFox 品牌与算力计费）/ 真实生成 / 历史 / 优秀案例同款 / 设计系统。复用既有真实证据，未重复发起计费调用。
+- 自动化 scope 审计：`python3 docs/V1.0/plan_linkfox_navigation/tools/scope_audit.py --json .../reports/scope-audit-20261029.json`。检查共享壳禁止项（促销条/积分/学习中心/HelpDock/购买入口）、必须保留项（设置/主题/Agent/画布入口）、可见文案品牌与计费残留、原站像素级样式（`#723cf9`/`!`）、未接案例占位。有 error 时退出码 1，可直接接 CI。
+- 矩阵重算：`python3 docs/V1.0/plan_linkfox_navigation/tools/recompute_scope_matrix.py`（读 evidence 目录，不联网、不计费）。
