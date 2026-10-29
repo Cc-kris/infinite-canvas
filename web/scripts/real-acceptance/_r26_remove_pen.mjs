@@ -285,7 +285,7 @@ const deadline = Date.now() + 10 * 60 * 1000;
 let task = null;
 while (Date.now() < deadline) {
     task = await page.evaluate(() => {
-        const keys = Object.keys(localStorage).filter((k) => k.startsWith("tool-task:v1:task-"));
+        const keys = Object.keys(localStorage).filter((k) => k.startsWith("tool-task:v1:") && k !== "tool-task:v1:index");
         const tasks = keys
             .map((k) => {
                 try {
@@ -360,7 +360,7 @@ rec.afterReload = await page.evaluate(() => {
         saveDisabled: btn("remove-pen-save")?.disabled ?? null,
         sendDisabled: btn("remove-pen-send")?.disabled ?? null,
         feedback: btn("remove-pen-result-feedback")?.textContent ?? null,
-        taskSnapshotKeys: Object.keys(localStorage).filter((k) => k.startsWith("tool-task:v1:task-")).length,
+        taskSnapshotKeys: Object.keys(localStorage).filter((k) => k.startsWith("tool-task:v1:") && k !== "tool-task:v1:index").length,
     };
 });
 await page.screenshot({ path: path.join(OUT, "02-after-reload.png") });
