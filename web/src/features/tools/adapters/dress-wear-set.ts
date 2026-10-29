@@ -510,6 +510,40 @@ export function groupDressTasks(tasks: readonly ToolTask[]): DressResultGroup[] 
     return Array.from(groups.values());
 }
 
+/**
+ * 结果面板视图：把本页真实任务的结果项聚合成一个 `ToolTask`，交给共享 `ToolResult` 面板渲染。
+ *
+ * 为什么需要它：结果区原本只有自有的 `dress-group-*` 分组块，刷新后没有标准结果面板，
+ * 三动作（下载 / 存入资产 / 发送画布）只能靠历史坞按钮，验收里 `[data-testid=tool-result]` 永远缺失。
+ *
+ * 这里**只做视图聚合**：`items` 原样引用真实任务的结果项（含 hydrate 用 storageKey 复原的字节），
+ * 不新建任务、不伪造结果、不改写字节；没有任务时返回 null。
+ */
+export function dressResultPanelTask(tasks: readonly ToolTask[]): ToolTask | null {
+    if (tasks.length === 0) return null;
+    const ordered = [...tasks].sort((a, b) => a.createdAt - b.createdAt);
+    const latest = ordered[ordered.length - 1];
+    const items = ordered.flatMap((task) => task.result?.items ?? []);
+    const receivedAt = ordered.reduce((acc, task) => Math.max(acc, task.result?.receivedAt ?? 0), 0);
+    const status: ToolTask["status"] = tasks.some((task) => RUNNING_STATUSES.has(task.status))
+        ? "running"
+        : tasks.some((task) => taskHasDeliveredImage(task))
+          ? "succeeded"
+          : latest.status;
+
+    return {
+        ...latest,
+        // 结果项来自所有真实任务（按提交时间顺序），id 保持原样以便动作层按项落盘。
+        result: items.length ? { items, receivedAt: receivedAt || latest.result?.receivedAt || latest.updatedAt } : undefined,
+        status,
+    };
+}
+
+/** 任一任务有可取回的产物（或等待中的结果项）即算有东西可展示。 */
+function deliveredOrPending(tasks: readonly ToolTask[]): boolean {
+    return tasks.some((task) => (task.result?.items ?? []).length > 0);
+}
+
 /** 无标签任务（历史数据）单独成组，避免结果凭空消失。 */
 export function untaggedDressTasks(tasks: readonly ToolTask[]): ToolTask[] {
     return tasks.filter((task) => parseDressSceneTag(task.prompt) === null);

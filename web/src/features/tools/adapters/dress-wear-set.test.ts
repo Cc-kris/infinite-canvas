@@ -8,6 +8,7 @@ import {
     createDressWearSetValues,
     dressSceneSelection,
     dressResultItemOf,
+    dressResultPanelTask,
     dressWearSetUnits,
     estimateDressOutputs,
     groupDressTasks,
@@ -283,6 +284,55 @@ describe("parseDressSceneTag / groupDressTasks", () => {
         const tasks = [makeTask({ id: "old", prompt: "旧版本没有标签" })];
         expect(groupDressTasks(tasks)).toHaveLength(0);
         expect(untaggedDressTasks(tasks).map((task) => task.id)).toEqual(["old"]);
+    });
+});
+
+describe("dressResultPanelTask 结果面板聚合视图", () => {
+    test("没有任务时返回 null，不造空结果", () => {
+        expect(dressResultPanelTask([])).toBeNull();
+    });
+
+    test("只聚合真实结果项：保留 storageKey/bytes 与顺序，不复制也不改写字节", () => {
+        const a = makeTask({
+            id: "t1",
+            prompt: "[DRESS_SCENE main/modelLook]\\nx",
+            createdAt: 10,
+            updatedAt: 11,
+            result: {
+                items: [{ id: "i0", kind: "image", bytes: 1883817, storageKey: "tool-result:UJkgjc6BIYFLDnO12F3G-" }],
+                receivedAt: 11,
+            },
+        });
+        const b = makeTask({
+            id: "t2",
+            prompt: "[DRESS_SCENE main/whiteBg]\\nx",
+            createdAt: 20,
+            updatedAt: 21,
+            result: { items: [{ id: "i1", kind: "image", bytes: 2516552, storageKey: "tool-result:abc-" }], receivedAt: 21 },
+        });
+        const panel = dressResultPanelTask([b, a]);
+        expect(panel).not.toBeNull();
+        expect(panel!.status).toBe("succeeded");
+        expect(panel!.result?.items.map((item) => item.storageKey)).toEqual([
+            "tool-result:UJkgjc6BIYFLDnO12F3G-",
+            "tool-result:abc-",
+        ]);
+        expect(panel!.result?.items.map((item) => item.bytes)).toEqual([1883817, 2516552]);
+        // 引用同一批结果项（视图聚合，不是新结果）
+        expect(panel!.result?.items[0]).toBe(a.result!.items[0]);
+        expect(panel!.result?.receivedAt).toBe(21);
+    });
+
+    test("有运行中任务时面板状态跟随 running，仍展示已完成的真实结果项", () => {
+        const done = makeTask({
+            id: "t1",
+            prompt: "[DRESS_SCENE main/modelLook]\\nx",
+            result: { items: [{ id: "i0", kind: "image", dataUrl: "data:image/png;base64,AAA" }], receivedAt: 1 },
+        });
+        const running = makeTask({ id: "t2", prompt: "[DRESS_SCENE main/whiteBg]\\nx", status: "running", createdAt: 5 });
+        const panel = dressResultPanelTask([done, running]);
+        expect(panel!.status).toBe("running");
+        expect(panel!.result?.items).toHaveLength(1);
     });
 });
 

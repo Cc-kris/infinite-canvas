@@ -6,8 +6,10 @@ import type { ToolCase } from "@/components/tools/tool-cases";
 import { uploadCaseFiles } from "@/features/tools/case-apply";
 import { DRESS_SET_CASES } from "@/features/tools/suite6-cases-data";
 import { saveResultItemToAssets, sendResultItemToCanvas } from "@/components/tools/tool-result-actions";
+import { ToolResult } from "@/components/tools/tool-result";
 import {
     createDressWearSetValues,
+    dressResultPanelTask,
     dressSnapshotMatches,
     dressResultItemOf,
     dressWearSetUnits,
@@ -284,6 +286,8 @@ export function DressSuiteWorkspace({ toolId = DRESS_WEAR_SET_TOOL_ID }: DressSu
         [tasks, toolId],
     );
     const groups = useMemo(() => groupDressTasks(toolTasks), [toolTasks]);
+    // 标准结果面板：只聚合本页真实任务的结果项（含刷新后 storageKey 复原的字节），不造结果。
+    const panelTask = useMemo(() => dressResultPanelTask(toolTasks), [toolTasks]);
     const untagged = useMemo(() => untaggedDressTasks(toolTasks), [toolTasks]);
     const summary = useMemo(() => summarizeDressTasks(toolTasks), [toolTasks]);
     const staleTasks = useMemo(() => toolTasks.filter((task) => isStaleDressTask(task, draftRevision)), [toolTasks, draftRevision]);
@@ -593,6 +597,12 @@ export function DressSuiteWorkspace({ toolId = DRESS_WEAR_SET_TOOL_ID }: DressSu
                     </section>
 
                     <Section title="套图结果" hint="按场景分组；组内可单张下载，失败组可单独重试。">
+                        {/* 标准结果面板：reload 后由 storageKey 复原的真实字节直接渲染，三动作走统一链路。 */}
+                        {panelTask ? (
+                            <div data-testid="dress-result-panel" className="mb-3">
+                                <ToolResult task={panelTask} toolId={toolId} title="生成结果" projectTitle="服装套图结果" />
+                            </div>
+                        ) : null}
                         {!toolTasks.length ? (
                             <div className="rounded-md border border-dashed border-border px-4 py-10 text-center text-xs text-muted-foreground" data-testid="dress-suite-empty">
                                 还没有结果。上传商品图并选择场景后点击「开始生成」。
