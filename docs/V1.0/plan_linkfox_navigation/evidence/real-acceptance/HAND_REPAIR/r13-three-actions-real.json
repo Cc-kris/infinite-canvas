@@ -1,0 +1,84 @@
+{
+  "toolId": "HAND_REPAIR",
+  "name": "手部修复",
+  "route": "/tools/smart-edit/hand-repair",
+  "phase": "reload",
+  "source": "own",
+  "realRun": true,
+  "taskId": "task-mvtbe5rp-0maafh",
+  "resultItemId": "task-mvtbe5rp-0maafh-0",
+  "taskStorageKey": "tool-result:MJlcLXl2-O1DnKd-NUgg2",
+  "reuseOnly": {
+    "noNewGeneration": true,
+    "noStateInjection": true,
+    "note": "本轮未调用任何上游生成接口；直接复用浏览器中已持久化的真实任务 task-mvtbe5rp-0maafh 与其真实结果图（storageKey tool-result:MJlcLXl2-O1DnKd-NUgg2）。未向 localStorage / IndexedDB 写入任何任务或结果数据。"
+  },
+  "freshReload": {
+    "at": "2026-10-29T13:43:20Z",
+    "method": "浏览器整页导航到工具路由（带 ?fresh= 参数）后，打开历史坞并展开该任务行",
+    "url": "http://127.0.0.1:3000/tools/smart-edit/hand-repair?fresh=<ts>",
+    "origin": "http://127.0.0.1:3000",
+    "evidence": "刷新后历史坞显示「历史任务 1 条 / 2026-10-29 17:01 / 已完成 / 1 个结果」，展开后结果项 task-mvtbe5rp-0maafh-0，img naturalWidth=1024 naturalHeight=1024 complete=true"
+  },
+  "bytesSource": {
+    "where": "dockThumb(blob:) + IndexedDB image_files",
+    "bytes": 2153466,
+    "mime": "image/png",
+    "sha256": "a34cea71ca7da6dec09ee6167367f6c60ba600e4ff44ec0c6441b6f5f3800e20",
+    "artifact": "docs/V1.0/plan_linkfox_navigation/evidence/edit8-h-real-20261029/HAND_REPAIR-result-1024x1024.png"
+  },
+  "actions": {
+    "download": {
+      "testid": "tool-history-dock-download",
+      "clicked": true,
+      "feedback": "已下载 hand-repair-result-1.png",
+      "savedTo": "/Users/mac/Downloads/hand-repair-result-1.png",
+      "bytes": 2153466,
+      "sha256": "a34cea71ca7da6dec09ee6167367f6c60ba600e4ff44ec0c6441b6f5f3800e20",
+      "bytesMatch": true
+    },
+    "saveAsset": {
+      "testid": "tool-history-dock-save",
+      "clicked": true,
+      "feedback": "已存入资产库（image · qVZbf4pJUvsoYXGe04jvD）",
+      "assetId": "qVZbf4pJUvsoYXGe04jvD",
+      "storageKey": "image:IAOrghYuVoJCEN-EQwcJb",
+      "bytes": 2153466,
+      "sha256": "a34cea71ca7da6dec09ee6167367f6c60ba600e4ff44ec0c6441b6f5f3800e20",
+      "metadata": {
+        "toolId": "HAND_REPAIR",
+        "taskId": "task-mvtbe5rp-0maafh",
+        "resultItemId": "task-mvtbe5rp-0maafh-0"
+      },
+      "verdict": "IndexedDB app_state 资产库记录存在且 metadata.taskId 绑定真实任务，image_files 字节 sha 与结果一致"
+    },
+    "sendCanvas": {
+      "testid": "tool-history-dock-canvas",
+      "clicked": true,
+      "feedback": "已发送到画布（b35kvRaZb6zdwcOT_Yn2i / image-1793281461613-pl9uk）",
+      "projectId": "b35kvRaZb6zdwcOT_Yn2i",
+      "projectTitle": "HAND_REPAIR 历史结果",
+      "nodeId": "image-1793281461613-pl9uk",
+      "storageKey": "image:88r6ZLKnLPxyB8hci62eW",
+      "bytes": 2153466,
+      "sha256": "a34cea71ca7da6dec09ee6167367f6c60ba600e4ff44ec0c6441b6f5f3800e20",
+      "verdict": "IndexedDB app_state 画布项目存在，节点 bytes/sha 与结果一致"
+    }
+  },
+  "crossCheck": {
+    "persistedVsDownload": true,
+    "persistedVsAsset": true,
+    "persistedVsCanvas": true,
+    "allMatch": true
+  },
+  "capture": {
+    "method": "真实浏览器（用户默认 Chrome 会话，127.0.0.1:3000 origin 的真实 localStorage/IDB）内执行 DOM 读取与按钮点击；字节用 crypto.subtle.digest('SHA-256') 现场计算；下载落盘文件用 shasum -a 256 复核",
+    "uiTestids": [
+      "tool-history-dock-download",
+      "tool-history-dock-save",
+      "tool-history-dock-canvas",
+      "tool-history-dock-feedback"
+    ],
+    "errors": []
+  }
+}

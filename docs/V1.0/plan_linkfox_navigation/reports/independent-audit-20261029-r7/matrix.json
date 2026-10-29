@@ -590,7 +590,8 @@
    "F_note": "仅 download 字节；存资产/发画布未取得回执",
    "F_evidence": [
     "HAND_REPAIR/result.json",
-    "HAND_REPAIR/download-action.png"
+    "HAND_REPAIR/download-action.png",
+    "HAND_REPAIR/r13-three-actions-real.json"
    ],
    "T": "PASS",
    "T_note": "文案/品牌扫描 0 命中",
