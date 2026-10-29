@@ -45,3 +45,12 @@ REMOVE_PEN 的结果恢复链路只认 `dataUrl` / `url` 两个**内存地址**�
 - 结果项 `removePenResultItem(run, id, resolvedUrl)`：`dataUrl` 缺失时把 **storageKey 回读的对象 URL** 一并写入 `url`，因此即便结果区仍走 `dataUrl‖url‖blob` 的旧门禁，刷新后的 REMOVE_PEN 结果也能通过。
 - 门禁范围说明：本工作树同时存在**其他工作流未完成的 WIP**（`web/src/lib/task-snapshot.ts` 未跟踪、`tool-result.tsx/actions/test` 半成品，独立 `tsc` 报 4 处错误、1 个用例失败），不属本次改动范围，未提交、未改动。
 - 本次两份文件的门禁：`tsc --noEmit` 中 `remove-pen.ts` / `mask.tsx` 错误数 = **0**；`bun test remove-pen.test.ts + mask.test.tsx` = **28 pass / 0 fail**。
+
+## 6. 机读回执（后补，未重跑、未注入）
+
+- 机读回执：[receipt-remove-pen.machine.json](receipt-remove-pen.machine.json)（`taskId` / `reload` / `download` / `assetId` / `canvasProjectId` / `canvasNodeId` 均为机读字段）
+- 原始轨迹 JSON 落盘（sha256 实测）：
+  - `raw/ic-run4-reload-actions.json` — sha256 `0c7e7c5133b8ec3571ca7f02fcd1be412646711f6032d1452f029468c14310eb`
+  - `raw/ic-run2-submit-observed.json` — sha256 `fa9e3e023279da3f4cd7c8969b2884b6daf9174ad2b52e1e52e645f243c14fb2`
+- **结果字节 sha256 不可得**：结果字节只存在于当时运行实例的临时 Playwright profile（`/tmp/ic-profile` 的 `infinite-canvas::media_files`）与下载产物 `/tmp/ic_download.png`，收尾清理时已删除；现已核对 `/private/tmp`、`/var/folders`、`~/Downloads` 与仓库全量，均无 2440825 字节文件，且本机无 APFS 本地快照。按“禁止重新生成/注入”的约束，机读回执中 `sha256` 置 `null` 并附 `sha256Status=unavailable_after_run` + 原因，不做任何伪造。
+- 可交叉校验的替代锚点：`taskId=task-mvtmnhk5-nr2g0z` + `storageKey=tool-result:task-mvtmnhk5-nr2g0z:0:komJnSXgwkxdOFeQHXTGI` + `bytes=2440825`（下载字节与 task item 字节一致，`downloadBytesEqualsTaskBytes=true`）。

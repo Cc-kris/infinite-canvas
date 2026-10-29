@@ -1,0 +1,93 @@
+{
+  "schema": "infinite-canvas/evidence/receipt@1",
+  "kind": "REMOVE_PEN_REAL_UI_RUN",
+  "date": "2026-10-29",
+  "repoCommit": "0bec102",
+  "toolId": "REMOVE_PEN",
+  "noRegeneration": true,
+  "noInjection": true,
+  "taskId": "task-mvtmnhk5-nr2g0z",
+  "taskStatus": "succeeded",
+  "upstream": {
+    "method": "POST",
+    "url": "http://127.0.0.1:23210/https://api.cc-ai.xyz/v1/images/edits",
+    "status": 200
+  },
+  "result": {
+    "bytes": 2440825,
+    "storageKey": "tool-result:task-mvtmnhk5-nr2g0z:0:komJnSXgwkxdOFeQHXTGI",
+    "url": "",
+    "payloadDropped": false,
+    "dimensions": "1024x1024",
+    "mimeType": "image/png",
+    "sha256": null,
+    "sha256Status": "unavailable_after_run",
+    "sha256Reason": "结果字节只存在于当时运行实例的临时 Playwright profile(/tmp/ic-profile 的 IndexedDB infinite-canvas::media_files) 与下载产物 /tmp/ic_download.png；收尾清理已删除，当前磁盘不存在 2440825 字节文件（已搜 /private/tmp、/var/folders、~/Downloads、仓库全量），且无 APFS 本地快照。按“禁重新生成/禁止注入”约束，不伪造 sha256。"
+  },
+  "reload": {
+    "mode": "fresh_cold_reload_same_profile",
+    "url": "http://127.0.0.1:3000/tools/smart-edit/remove-pen",
+    "restored": true,
+    "restoreText": "已按落盘任务 task-mvtmnhk5-nr2g0z 恢复结果：下载/存入资产/发送画布都沿用该任务的真实图片字节。",
+    "resultImgSrcScheme": "blob:",
+    "resultImgDimensions": "1024x1024",
+    "buttons": {
+      "download": {
+        "present": true,
+        "disabled": null
+      },
+      "save": {
+        "present": true,
+        "disabled": false
+      },
+      "send": {
+        "present": true,
+        "disabled": false
+      }
+    }
+  },
+  "actions": {
+    "download": {
+      "filename": "public_input-erased.png",
+      "bytes": 2440825,
+      "matchTaskBytes": true,
+      "sha256": null,
+      "sha256Status": "unavailable_after_run",
+      "result": "PASS"
+    },
+    "saveAsset": {
+      "assetId": "1xIHbpny",
+      "feedback": "已存入资产库（1xIHbpny）",
+      "result": "PASS"
+    },
+    "sendCanvas": {
+      "projectId": "ojUWiNT5",
+      "canvasNodeId": "image-17",
+      "feedback": "已发送画布（项目 ojUWiNT5 · 节点 image-17）",
+      "result": "PASS"
+    }
+  },
+  "assetId": "1xIHbpny",
+  "canvasProjectId": "ojUWiNT5",
+  "canvasNodeId": "image-17",
+  "evidence": {
+    "rawFiles": [
+      {
+        "file": "raw/ic-run4-reload-actions.json",
+        "bytes": 1768,
+        "sha256": "0c7e7c5133b8ec3571ca7f02fcd1be412646711f6032d1452f029468c14310eb"
+      },
+      {
+        "file": "raw/ic-run2-submit-observed.json",
+        "bytes": 604,
+        "sha256": "fa9e3e023279da3f4cd7c8969b2884b6daf9174ad2b52e1e52e645f243c14fb2"
+      }
+    ],
+    "sourceTrace": "galley temp/lf_remove_pen_final/output.txt"
+  },
+  "consistency": {
+    "downloadBytesEqualsTaskBytes": true,
+    "assetIdPresent": true,
+    "canvasNodePresent": true
+  }
+}

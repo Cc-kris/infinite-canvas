@@ -1,0 +1,58 @@
+{
+ "taskId": "task-mvtmnhk5-nr2g0z",
+ "reload": {
+  "text": "画笔\n大小：\n像素\n重置\n撤销\n重做\n重新上传\n开始消除\n下载图片\n高清放大\n商品图\n手部修复\n\npublic_input.jpg · 1024×683 · 已涂抹 0 笔 · 尚未涂抹（白色蒙版 = 要消除的区域）\n\n· 请先在图片上涂抹要消除的区域\n\n前后对比\n\n并排对比\n滑动对比\n只看结果\n已完成\n结果已返回\n34s\n\n已按落盘任务 task-mvtmnhk5-nr2g0z 恢复结果：下载/存入资产/发送画布都沿用该任务的真实图片字节。\n\n原图\n消除后\n下载图片\n高清放大\n商品图\n手部修复\n\n接力会把当前结果作为目标工具的输入（通过路由 handoff state 传递）。\n\n存入资产\n发送画布",
+  "resultImgs": [
+   {
+    "src": "data:image/jpeg;base64,/9j/4AAQSkZJRgABA",
+    "w": 1024,
+    "h": 683
+   },
+   {
+    "src": "data:image/jpeg;base64,/9j/4AAQSkZJRgABA",
+    "w": 1024,
+    "h": 683
+   },
+   {
+    "src": "blob:http://127.0.0.1:3000/08f7e033-a746",
+    "w": 1024,
+    "h": 1024
+   },
+   {
+    "src": "blob:http://127.0.0.1:3000/08f7e033-a746",
+    "w": 1024,
+    "h": 1024
+   }
+  ],
+  "buttons": {
+   "download": {},
+   "save": {
+    "disabled": false
+   },
+   "send": {
+    "disabled": false
+   }
+  }
+ },
+ "download": {
+  "filename": "public_input-erased.png",
+  "bytes": 2440825
+ },
+ "saveFeedback": "已存入资产库（1xIHbpny）",
+ "sendFeedback": "已发送画布（项目 ojUWiNT5 · 节点 image-17）",
+ "lsDelta": {
+  "save": [],
+  "send": []
+ },
+ "taskAfter": {
+  "status": "succeeded",
+  "items": [
+   {
+    "storageKey": "tool-result:task-mvtmnhk5-nr2g0z:0:komJnSXgwkxdOFeQHXTGI",
+    "bytes": 2440825,
+    "url": "",
+    "payloadDropped": false
+   }
+  ]
+ }
+}
