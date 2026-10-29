@@ -10,6 +10,7 @@
  *
  * 规格：docs/V1.0/plan_linkfox_navigation/page-specs/25-print-extract.md
  */
+import { pickResultPanelTask } from "./result-panel";
 import {
     PRINT_EXTRACT_TOOL_ID,
     PRINT_EXTRACT_VERSION,
@@ -253,4 +254,9 @@ export function printExtractSourceReference(source: { assetId: string; name: str
 export function isPrintExtractResultStale(snapshotHash: string | undefined, current: PrintExtractOptions & { sourceAssetId: string; width: number; height: number }): boolean {
     if (!snapshotHash) return false;
     return snapshotHash !== printExtractSnapshotHash(current);
+}
+
+/** 结果区面板用：从落库任务里选「本次该展示的那一条」（只选择，不造数据）。 */
+export function printExtractResultPanelTask(tasks: readonly ToolTask[]): ToolTask | null {
+    return pickResultPanelTask(tasks, { toolId: PRINT_EXTRACT_TOOL_ID, includeLatestWithoutItems: true });
 }

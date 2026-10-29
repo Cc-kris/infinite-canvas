@@ -1,0 +1,33 @@
+{
+ "toolId": "PRINT_EXTRACT",
+ "route": "/tools/product-design/print-extract",
+ "round": "R14",
+ "date": "2026-10-29",
+ "mode": "fresh reload（复用落库任务 task-mvs5dd71-4s35w2；未注入、未重新生成）",
+ "after": {
+  "navType": "reload",
+  "phase": "reload",
+  "reloadAt": "2026-10-29T12:59:27.422Z",
+  "panel": {
+   "taskId": "task-mvs5dd71-4s35w2",
+   "status": "failed",
+   "primaryTaskIdBound": true,
+   "text": "提取结果 · 失败 · 任务失败 · 页面刷新中断了这次请求…诊断码：submit-unconfirmed"
+  },
+  "storedTask": {
+   "id": "task-mvs5dd71-4s35w2",
+   "status": "failed",
+   "items": 0
+  },
+  "actionNodes": [
+   "tool-result-failed"
+  ],
+  "downloadSaveCanvas": "不可用：task 物理为 failed 且 items 为空（无真实字节），无下载/存资产/发画布目标。"
+ },
+ "verdict": "H 不成立（无成功任务）：唯一落库任务为 failed、无字节无 sha。修复前 reload 后面板完全不出现（空态 items.length===0 挡住），修复后面板按落库任务重建并绑定 primary taskId（机器可读），字节腿缺失如实保留。",
+ "codePath": "extract.tsx 空态条件改为 items.length===0 && !persistedPanelTask；结果区渲染 activeTask ?? printExtractResultPanelTask(落库任务)，挂 data-testid/data-task-id/data-task-status。",
+ "checks": {
+  "tsc": "exit 0",
+  "tests": "84 pass / 0 fail"
+ }
+}

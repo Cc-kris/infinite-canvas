@@ -16,6 +16,7 @@ import { Download, ImagePlus, Loader2, RotateCcw, RotateCw, Sparkles, Trash2 } f
 
 import { TaskStatusPanel } from "@/components/tools/task-status";
 import { ToolResult } from "@/components/tools/tool-result";
+import { printExtractResultPanelTask } from "@/features/tools/adapters/print-extract";
 import { ToolShell } from "@/components/tools/tool-shell";
 import { buildPrintExtractUnit, printExtractPreflightIssues, printExtractSourceReference, runPrintExtract } from "@/features/tools/adapters/print-extract";
 import { getToolById, toolSpecs } from "@/features/tools/registry";
@@ -544,6 +545,20 @@ export function PrintExtractWorkspace() {
     const draft = useToolDraftStore((state) => state.drafts[PRINT_EXTRACT_TOOL_ID]);
     const patchDraft = useToolDraftStore((state) => state.patch);
 
+    // 结果面板只认落库任务：刷新后由 hydrate 用 storageKey 复原真实字节，再交给共享 ToolResult。
+    const storedTasks = useToolTaskStore((state) => state.tasks);
+    const tasksHydrated = useToolTaskStore((state) => state.hydrated);
+    const hydrateTasks = useToolTaskStore((state) => state.hydrate);
+    const toolTasks = useMemo(
+        () => Object.values(storedTasks).filter((task) => task.toolId === PRINT_EXTRACT_TOOL_ID),
+        [storedTasks],
+    );
+    const persistedPanelTask = useMemo(() => printExtractResultPanelTask(toolTasks), [toolTasks]);
+
+    useEffect(() => {
+        if (!tasksHydrated) hydrateTasks();
+    }, [tasksHydrated, hydrateTasks]);
+
     const [items, setItems] = useState<PrintExtractItem[]>([]);
     const [cfg, setCfg] = useState<{ current: ExtractConfig; past: ExtractConfig[]; future: ExtractConfig[] }>({
         current: { isTransparent: false, format: "png" },
@@ -953,7 +968,7 @@ export function PrintExtractWorkspace() {
                     <div className="min-h-0 flex-1 space-y-3 overflow-auto p-4">
                         <h2 className="sr-only">提取结果</h2>
                         {tab === "result" ? (
-                            items.length === 0 ? (
+                            items.length === 0 && !persistedPanelTask ? (
                                 <div data-testid="print-extract-empty" className="flex h-full min-h-[420px] items-center justify-center">
                                     <div className="flex h-[300px] w-[460px] max-w-full flex-col items-center justify-center gap-2 rounded-xl bg-card text-center shadow-[0_2px_8px_rgba(0,0,0,0.04)]">
                                         <ImagePlus className="size-9 text-primary" aria-hidden />
@@ -1002,7 +1017,21 @@ export function PrintExtractWorkspace() {
                                             </details>
                                         </section>
                                     ) : null}
-                                    {activeTask ? <ToolResult task={activeTask} toolId={PRINT_EXTRACT_TOOL_ID} title="提取结果" onRetry={() => (activeItem ? void submit([activeItem]) : undefined)} /> : null}
+                                    {activeTask || persistedPanelTask ? (
+                                        <div
+                                            data-testid="print-extract-result-panel"
+                                            data-tool-id={PRINT_EXTRACT_TOOL_ID}
+                                            data-task-id={(activeTask ?? persistedPanelTask)!.id}
+                                            data-task-status={(activeTask ?? persistedPanelTask)!.status}
+                                        >
+                                            <ToolResult
+                                                task={(activeTask ?? persistedPanelTask)!}
+                                                toolId={PRINT_EXTRACT_TOOL_ID}
+                                                title="提取结果"
+                                                onRetry={() => (activeItem ? void submit([activeItem]) : undefined)}
+                                            />
+                                        </div>
+                                    ) : null}
                                 </section>
                             )
                         ) : (
