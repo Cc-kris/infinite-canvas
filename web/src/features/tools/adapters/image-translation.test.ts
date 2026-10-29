@@ -178,10 +178,19 @@ describe("registry · 状态编辑", () => {
         expect(toggleTargetLanguage(after, "en").targetLanguages).toEqual(["ja"]);
     });
 
-    test("目标语言数量受上限约束", () => {
-        let values = createTranslationValues();
-        for (const code of ["en", "ja", "ko", "de", "fr", "es", "pt", "ru", "vi", "th"]) values = toggleTargetLanguage(values, code);
-        expect(values.targetLanguages.length).toBe(IMAGE_TRANSLATION_MAX_TARGETS);
+    test("默认只选英语；目标语言不设人为上限（53 项可全选）", () => {
+        // 原站默认态：目标语言已选英语 1 个。
+        expect(createTranslationValues().targetLanguages).toEqual(["en"]);
+        const allCodes = TARGET_LANGUAGE_GROUPS.flatMap((group) => group.languages.map((language) => language.code));
+        expect(allCodes.length).toBe(53);
+        expect(IMAGE_TRANSLATION_MAX_TARGETS).toBe(allCodes.length);
+        let values = createTranslationValues({ targetLanguages: [] });
+        for (const code of allCodes) values = toggleTargetLanguage(values, code);
+        expect(values.targetLanguages.length).toBe(allCodes.length);
+        // 再点一次取消，仍可按项精确切换。
+        values = toggleTargetLanguage(values, "en");
+        expect(values.targetLanguages.includes("en")).toBe(false);
+        expect(values.targetLanguages.length).toBe(allCodes.length - 1);
     });
 
     test("手工添加/编辑/删除文字框", () => {
@@ -198,10 +207,15 @@ describe("registry · 状态编辑", () => {
         expect(values.images[0].boxes).toHaveLength(0);
     });
 
-    test("setSourceLanguage 忽略未知语言", () => {
+    test("原文语言默认不选：未知语言不生效，空串可清空", () => {
+        // 原站默认态：原文语言不选任何项（没有「自动识别」选项）。
+        expect(createTranslationValues().sourceLanguage).toBe("");
         const values = setSourceLanguage(createTranslationValues(), "nope");
-        expect(values.sourceLanguage).toBe(TRANSLATION_AUTO_SOURCE);
-        expect(setSourceLanguage(createTranslationValues(), "ja").sourceLanguage).toBe("ja");
+        expect(values.sourceLanguage).toBe("");
+        const picked = setSourceLanguage(createTranslationValues(), "ja");
+        expect(picked.sourceLanguage).toBe("ja");
+        // 再点已选项 → 回到未选择，而不是强行回落到某个自动值。
+        expect(setSourceLanguage(picked, "").sourceLanguage).toBe("");
     });
 
     test("草稿解析：坏数据丢弃、语言过滤、未确认状态保留", () => {
@@ -231,7 +245,7 @@ describe("registry · 状态编辑", () => {
 
 describe("registry · 校验", () => {
     test("没有图片/没有目标语言时阻塞并给出文案", () => {
-        const issues = validateTranslationState({ assetIds: [], values: createTranslationValues() });
+        const issues = validateTranslationState({ assetIds: [], values: createTranslationValues({ targetLanguages: [] }) });
         expect(blockingIssues(issues).length).toBeGreaterThan(0);
         expect(issues.map((issue) => issue.code)).toContain("no-images");
         expect(issues.map((issue) => issue.code)).toContain("no-target");
@@ -415,8 +429,15 @@ describe("adapter · 逐框翻译", () => {
     test("翻译提示词包含目标语言与原文条数", () => {
         const prompt = buildBoxTranslationPrompt({ sourceLanguage: "zh-CN", targetLanguage: "ja", texts: [{ id: "b1", text: "纯棉" }] });
         expect(prompt).toContain("Japanese");
+        expect(prompt).toContain("Chinese");
         expect(prompt).toContain("b1");
         expect(prompt).toContain("纯棉");
+    });
+
+    test("未选原文语言时提示词按自动识别，不出现空来源", () => {
+        const prompt = buildBoxTranslationPrompt({ sourceLanguage: "", targetLanguage: "en", texts: [{ id: "b1", text: "纯棉" }] });
+        expect(prompt).toContain("自动识别的原文");
+        expect(prompt).not.toContain("从  翻译");
     });
 });
 
@@ -434,7 +455,8 @@ describe("adapter · 图×语言单元", () => {
         expect(units[0].unitId).toBe("asset-a::en");
         expect(units[0].prompt).toContain("Summer Tee");
         expect(units[1].prompt).toContain("夏Tシャツ");
-        expect(units[0].fields).toMatchObject({ sourceLanguage: TRANSLATION_AUTO_SOURCE, targetLanguage: "en", imageName: "a.png" });
+        // 原站默认不选原文语言：未选时载荷为空串，提示词侧按「自动识别」处理（见下方提示词断言）。
+        expect(units[0].fields).toMatchObject({ sourceLanguage: "", targetLanguage: "en", imageName: "a.png" });
         expect(units[0].snapshotHash).toBe("hash-1");
     });
 

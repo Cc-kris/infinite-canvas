@@ -2,19 +2,20 @@
  * IMAGE_TRANSLATION「批量翻译」页面契约 + 纯逻辑（无 React / 无网络）。
  *
  * 证据：docs/V1.0/plan_linkfox_navigation/page-specs/04-image-translation.md
- *  - 区域：批量图片上传｜原文语言｜目标语言分组多选｜翻译结果（+ 逐文本框校对）
- *  - 限制：单图 20M、384*384 ~ 4096*4096、单图文字 500 字以内（§2、§9）
- *  - 目标语言按 欧美/亚洲/南亚/中东/非洲 分组，多选并显示已选数（§2、§9）
- *  - 目标语言每增一个即增加一路输出；原图×语言矩阵展示进度；源/目标相同须提示；
- *    OCR/版式失败只失败对应单元，可编辑文本后重试；切换语言不清空已上传图片（§3）
- *  - 主路径：上传→选择/自动识别源语言→多选目标语言→翻译→逐语言检查文字与排版→保存/下载（§4）
+ *      docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/IMAGE_TRANSLATION/
+ *  - 区域：批量图片上传｜原文语言｜目标语言分组多选｜生成结果
+ *  - 限制：单图 20M、384*384 ~ 4096*4096、单图文字 500 字以内；每次翻译消耗 20 算力
+ *  - 目标语言按 欧美/亚洲/南亚/中东/非洲 分组，多选并显示已选数；默认选中「英语」
+ *  - 目标语言每增一个即增加一路输出；源/目标相同须提示；
+ *    OCR/版式失败只失败对应单元，可编辑文本后重试；切换语言不清空已上传图片
  *
- * 证据边界：
- *  - 欧美/亚洲 两组语言清单逐项来自规格 §9 原站文案摘录；
- *  - 南亚/中东/非洲 三组规格只给出组名（§2），组内语言为本页补充清单（`evidenced: false`），
- *    不得当作原站枚举引用。
+ * 证据边界（2026-10-29 原站 DOM 逐项复核，见 default-values.json / origin-*.json）：
+ *  - 原文语言 11 项、目标语言 53 项（26/14/6/6/1）均为原站实测枚举，全部 `evidenced: true`；
+ *  - 原站原文语言没有「自动识别」选项且默认不选：本页默认 `sourceLanguage: ""`，
+ *    未选源语言时运行期由视觉模型识别后按识别结果翻译（不额外新增选项）；
+ *  - 原站目标语言无数量上限：本页同样不再设人为上限。
  *
- * 本文件只描述工具自身的输入/校对/快照语义，不复制 LinkFox 前端或算力区。
+ * 本文件只描述工具自身的输入/校对/快照语义，不复制原站前端或算力区。
  */
 
 import type { ToolSpec } from "../types";
@@ -34,8 +35,13 @@ export const IMAGE_TRANSLATION_MIN_EDGE = 384;
 export const IMAGE_TRANSLATION_MAX_EDGE = 4096;
 export const IMAGE_TRANSLATION_MAX_TEXT_CHARS = 500;
 export const IMAGE_TRANSLATION_MAX_BOXES_PER_IMAGE = 40;
-/** 一次批量最多同时产出多少路语言版本：实现侧成本护栏（规格只要求"多选"）。 */
-export const IMAGE_TRANSLATION_MAX_TARGETS = 8;
+/** 单次翻译消耗的算力（原站按钮文案「开始翻译 (20算力)」）。 */
+export const IMAGE_TRANSLATION_CREDITS = 20;
+/**
+ * 目标语言上限：原站不设人为上限（53 项全选即 53 路输出），
+ * 这里只等于语言目录总数，避免再出现「本地 8 个上限」这类原文没有的限制。
+ */
+export const IMAGE_TRANSLATION_MAX_TARGETS = 53;
 /** 单批并发上限，避免平台限流。 */
 export const IMAGE_TRANSLATION_CONCURRENCY = 3;
 
@@ -117,42 +123,46 @@ export const TARGET_LANGUAGE_GROUPS: readonly TargetLanguageGroup[] = [
             { code: "th", label: "泰语", english: "Thai" },
             { code: "vi", label: "越南语", english: "Vietnamese" },
             { code: "ms", label: "马来语", english: "Malay" },
+            { code: "my", label: "缅甸语", english: "Burmese" },
+            { code: "id", label: "印度尼西亚语", english: "Indonesian" },
+            { code: "lo", label: "老挝语", english: "Lao" },
+            { code: "bn", label: "孟加拉语", english: "Bengali" },
+            { code: "fil", label: "菲律宾语", english: "Filipino" },
+            { code: "tl", label: "他加禄语", english: "Tagalog" },
+            { code: "jv", label: "爪哇语", english: "Javanese" },
         ],
     },
     {
         key: "south-asia",
         label: "南亚",
-        evidenced: false,
+        evidenced: true,
         languages: [
             { code: "hi", label: "印地语", english: "Hindi" },
-            { code: "bn", label: "孟加拉语", english: "Bengali" },
+            { code: "gu", label: "古吉拉特语", english: "Gujarati" },
+            { code: "mr", label: "马拉地语", english: "Marathi" },
             { code: "ta", label: "泰米尔语", english: "Tamil" },
+            { code: "te", label: "泰卢固语", english: "Telugu" },
             { code: "ur", label: "乌尔都语", english: "Urdu" },
-            { code: "id", label: "印尼语", english: "Indonesian" },
-            { code: "fil", label: "菲律宾语", english: "Filipino" },
         ],
     },
     {
         key: "middle-east",
         label: "中东",
-        evidenced: false,
+        evidenced: true,
         languages: [
             { code: "ar", label: "阿拉伯语", english: "Arabic" },
-            { code: "he", label: "希伯来语", english: "Hebrew" },
             { code: "fa", label: "波斯语", english: "Persian" },
+            { code: "he", label: "希伯来语", english: "Hebrew" },
+            { code: "ckb", label: "中库尔德语", english: "Central Kurdish" },
+            { code: "tg", label: "塔吉克语", english: "Tajik" },
             { code: "tr", label: "土耳其语", english: "Turkish" },
         ],
     },
     {
         key: "africa",
         label: "非洲",
-        evidenced: false,
-        languages: [
-            { code: "sw", label: "斯瓦希里语", english: "Swahili" },
-            { code: "af", label: "南非荷兰语", english: "Afrikaans" },
-            { code: "am", label: "阿姆哈拉语", english: "Amharic" },
-            { code: "ha", label: "豪萨语", english: "Hausa" },
-        ],
+        evidenced: true,
+        languages: [{ code: "sw", label: "斯瓦希里语", english: "Swahili" }],
     },
 ];
 
@@ -243,8 +253,11 @@ export interface TranslationImageState {
     confirmed: boolean;
 }
 
+/** 原站默认选中的目标语言（英语）。 */
+export const DEFAULT_TARGET_LANGUAGES: readonly string[] = ["en"];
+
 export interface TranslationValues {
-    /** 源语言 code，或 `auto`（自动识别）。 */
+    /** 源语言 code；空串表示未选择（原站默认态），运行期按识别结果处理。 */
     sourceLanguage: string;
     targetLanguages: string[];
     images: TranslationImageState[];
@@ -255,8 +268,10 @@ export interface TranslationValues {
 
 export function createTranslationValues(overrides: Partial<TranslationValues> = {}): TranslationValues {
     return {
-        sourceLanguage: TRANSLATION_AUTO_SOURCE,
-        targetLanguages: [],
+        /** 原站默认不选原文语言；空串表示「未选择」，运行期按识别结果走。 */
+        sourceLanguage: "",
+        /** 原站默认选中「英语」1 个目标语言。 */
+        targetLanguages: [...DEFAULT_TARGET_LANGUAGES],
         images: [],
         activeAssetId: null,
         activeLanguage: null,
@@ -314,9 +329,9 @@ function parseBox(value: unknown, index: number): TranslationBox | null {
 /** 草稿/本地状态解析：只保留目录内语言，坏数据丢弃而不是猜。 */
 export function parseTranslationValues(raw: unknown): TranslationValues {
     if (!isRecord(raw)) return createTranslationValues();
-    const sourceLanguageRaw = text(raw.sourceLanguage, TRANSLATION_AUTO_SOURCE);
-    const resolvedSource =
-        sourceLanguageRaw === TRANSLATION_AUTO_SOURCE || Boolean(sourceLanguage(sourceLanguageRaw)) ? sourceLanguageRaw : TRANSLATION_AUTO_SOURCE;
+    const sourceLanguageRaw = text(raw.sourceLanguage, "");
+    /** 旧草稿里的 `auto` 归并成「未选择」；其余未知 code 也回落到未选择。 */
+    const resolvedSource = sourceLanguageRaw && sourceLanguageRaw !== TRANSLATION_AUTO_SOURCE && sourceLanguage(sourceLanguageRaw) ? sourceLanguageRaw : "";
 
     const targetsIn = Array.isArray(raw.targetLanguages) ? raw.targetLanguages : [];
     const targetLanguages = [...new Set(targetsIn.filter((code): code is string => typeof code === "string" && isKnownTargetLanguage(code)))].slice(
@@ -398,8 +413,11 @@ export function setActiveLanguage(values: TranslationValues, code: string): Tran
     return { ...values, activeLanguage: code };
 }
 
+/** 原文语言：`""` 表示未选择（原站默认态）；未知 code 忽略，不做静默降级。 */
 export function setSourceLanguage(values: TranslationValues, code: string): TranslationValues {
-    if (code !== TRANSLATION_AUTO_SOURCE && !sourceLanguage(code)) return values;
+    if (code !== "") {
+        if (!sourceLanguage(code)) return values;
+    }
     return { ...values, sourceLanguage: code };
 }
 

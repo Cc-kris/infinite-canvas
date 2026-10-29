@@ -1,0 +1,1980 @@
+{
+  "checkedAt": "2026-10-29T04:27:42.670Z",
+  "origin": {
+    "bodyText": "首页\n电商套图\n智能修图\n新模型\nAI视频\nHOT\n批量生图\n商品图设计\nSkills\nAgent\n更多\n学习中心\n免费得算力 0/5\n操作咨询\n登录/注册\n商品套图\n服装套图\n爆款图复刻\nNEW\n套图换色\nNEW\n批量翻译\n高清放大\n批量抠图\n智能扩图\n 免责声明\n上传需要翻译的图片\n从本地上传\n从作品库选择\n从商品库选择\n\n20M以内，384*384 ~ 4096*4096\n\n上传多张图片，开始批量翻译\n💡当前仅支持单张图内500字以下的内容翻译\n\n原文语言\n\n中文\n英语\n繁体中文\n西班牙语\n日语\n韩语\n葡萄牙语\n德语\n罗马尼亚语\n俄语\n越南语\n\n目标语言（可多选，已选 1 个语言）\n\n欧美\n\n英语\n俄语\n法语\n德语\n瑞典语\n挪威语\n荷兰语\n丹麦语\n意大利语\n葡萄牙语\n葡萄牙语(巴西)\n西班牙语\n波兰语\n捷克语\n希腊语\n爱沙尼亚语\n芬兰语\n匈牙利语\n立陶宛语\n拉脱维亚语\n罗马尼亚语\n斯洛伐克语\n斯洛文尼亚语\n乌克兰语\n保加利亚语\n克罗地亚语\n\n亚洲\n\n简体中文\n繁体中文\n日语\n韩语\n泰语\n越南语\n马来语\n缅甸语\n印度尼西亚语\n老挝语\n孟加拉语\n菲律宾语\n他加禄语\n爪哇语\n\n南亚\n\n印地语\n古吉拉特语\n马拉地语\n泰米尔语\n泰卢固语\n乌尔都语\n\n中东\n\n阿拉伯语\n波斯语\n希伯来语\n中库尔德语\n塔吉克语\n土耳其语\n\n非洲\n\n斯瓦希里语\n登录免费生成\n新用户免费生图300张\n新用户免费视频80条\n新用户免费生图300张\n生成结果\n历史记录\n\n快速翻译成多语言，快速上架\n操作咨询\n产品教程\n需要协助吗？点击此处咨询\n客服，快速解决问题！\n管理水印分组\n共 0/20 个\n＋ 新增水印分组",
+    "buttons": [
+      {
+        "text": "免费得算力 0/5",
+        "rect": {
+          "x": 1336,
+          "y": 64,
+          "w": 141,
+          "h": 32
+        },
+        "bg": "rgb(254, 232, 236)",
+        "color": "rgb(233, 63, 100)",
+        "radius": "6px",
+        "font": "14px/400",
+        "padding": "0px 12px",
+        "border": "0px none rgb(233, 63, 100)",
+        "disabled": false,
+        "pressed": null
+      },
+      {
+        "text": "登录/注册",
+        "rect": {
+          "x": 1603,
+          "y": 64,
+          "w": 90,
+          "h": 32
+        },
+        "bg": "rgba(0, 0, 0, 0)",
+        "color": "rgb(255, 255, 255)",
+        "radius": "4px",
+        "font": "14px/400",
+        "padding": "0px 15px",
+        "border": "0px none rgb(255, 255, 255)",
+        "disabled": false,
+        "pressed": null
+      },
+      {
+        "text": "从本地上传",
+        "rect": {
+          "x": 233,
+          "y": 234,
+          "w": 214,
+          "h": 24
+        },
+        "bg": "rgb(114, 60, 249)",
+        "color": "rgb(255, 255, 255)",
+        "radius": "4px",
+        "font": "12px/400",
+        "padding": "0px 7px",
+        "border": "1px solid rgba(0, 0, 0, 0)",
+        "disabled": false,
+        "pressed": null
+      },
+      {
+        "text": "从作品库选择",
+        "rect": {
+          "x": 233,
+          "y": 268,
+          "w": 102,
+          "h": 24
+        },
+        "bg": "rgb(255, 255, 255)",
+        "color": "rgb(114, 46, 209)",
+        "radius": "4px",
+        "font": "12px/400",
+        "padding": "0px 7px",
+        "border": "1px solid rgb(114, 46, 209)",
+        "disabled": false,
+        "pressed": null
+      },
+      {
+        "text": "从商品库选择",
+        "rect": {
+          "x": 345,
+          "y": 268,
+          "w": 102,
+          "h": 24
+        },
+        "bg": "rgb(255, 255, 255)",
+        "color": "rgb(114, 46, 209)",
+        "radius": "4px",
+        "font": "12px/400",
+        "padding": "0px 7px",
+        "border": "1px solid rgb(114, 46, 209)",
+        "disabled": false,
+        "pressed": null
+      },
+      {
+        "text": "上传多张图片，开始批量翻译",
+        "rect": {
+          "x": 206,
+          "y": 366,
+          "w": 268,
+          "h": 32
+        },
+        "bg": "rgba(0, 0, 0, 0)",
+        "color": "rgb(114, 60, 249)",
+        "radius": "6px",
+        "font": "14px/400",
+        "padding": "0px 15px",
+        "border": "1px solid rgb(114, 60, 249)",
+        "disabled": false,
+        "pressed": null
+      },
+      {
+        "text": "登录免费生成",
+        "rect": {
+          "x": 206,
+          "y": 948,
+          "w": 268,
+          "h": 32
+        },
+        "bg": "rgba(0, 0, 0, 0)",
+        "color": "rgb(255, 255, 255)",
+        "radius": "6px",
+        "font": "14px/400",
+        "padding": "0px 15px",
+        "border": "0px none rgb(255, 255, 255)",
+        "disabled": false,
+        "pressed": null
+      },
+      {
+        "text": "",
+        "rect": {
+          "x": 517,
+          "y": 120,
+          "w": 45,
+          "h": 31
+        },
+        "bg": "rgba(0, 0, 0, 0)",
+        "color": "rgba(0, 0, 0, 0.88)",
+        "radius": "0px",
+        "font": "13.3333px/400",
+        "padding": "8px 16px",
+        "border": "0px none rgba(0, 0, 0, 0.88)",
+        "disabled": false,
+        "pressed": null
+      },
+      {
+        "text": "操作咨询\n产品教程\n需要协助吗？点击此处咨询\n客服，快速解决问题！",
+        "rect": {
+          "x": 1617,
+          "y": 700,
+          "w": 101,
+          "h": 90
+        },
+        "bg": "rgba(0, 0, 0, 0)",
+        "color": "rgba(0, 0, 0, 0.88)",
+        "radius": "0px",
+        "font": "14px/400",
+        "padding": "0px",
+        "border": "0px none rgba(0, 0, 0, 0.88)",
+        "disabled": false,
+        "pressed": null
+      },
+      {
+        "text": "＋ 新增水印分组",
+        "rect": {
+          "x": 1061,
+          "y": 508,
+          "w": 294,
+          "h": 35
+        },
+        "bg": "rgb(250, 248, 255)",
+        "color": "rgb(114, 60, 249)",
+        "radius": "9px",
+        "font": "12px/700",
+        "padding": "8px",
+        "border": "1px dashed rgb(201, 187, 255)",
+        "disabled": false,
+        "pressed": null
+      }
+    ],
+    "texts": [
+      {
+        "t": "免费得算力 0/5",
+        "rect": {
+          "x": 1370,
+          "y": 70,
+          "w": 95,
+          "h": 20
+        },
+        "font": "14px/400",
+        "color": "rgb(233, 63, 100)"
+      },
+      {
+        "t": "批量翻译",
+        "rect": {
+          "x": 46,
+          "y": 304,
+          "w": 126,
+          "h": 40
+        },
+        "font": "16px/400",
+        "color": "rgb(114, 60, 249)"
+      },
+      {
+        "t": "上传需要翻译的图片",
+        "rect": {
+          "x": 286,
+          "y": 207,
+          "w": 108,
+          "h": 17
+        },
+        "font": "12px/400",
+        "color": "rgba(0, 0, 0, 0.88)"
+      },
+      {
+        "t": "从本地上传",
+        "rect": {
+          "x": 320,
+          "y": 238,
+          "w": 60,
+          "h": 17
+        },
+        "font": "12px/400",
+        "color": "rgb(255, 255, 255)"
+      },
+      {
+        "t": "20M以内，384*384 ~ 4096*4096",
+        "rect": {
+          "x": 243,
+          "y": 302,
+          "w": 193,
+          "h": 17
+        },
+        "font": "12px/400",
+        "color": "rgb(153, 153, 153)"
+      },
+      {
+        "t": "上传多张图片，开始批量翻译",
+        "rect": {
+          "x": 238,
+          "y": 372,
+          "w": 182,
+          "h": 20
+        },
+        "font": "14px/400",
+        "color": "rgb(114, 60, 249)"
+      },
+      {
+        "t": "💡当前仅支持单张图内500字以下的内容翻译",
+        "rect": {
+          "x": 206,
+          "y": 408,
+          "w": 268,
+          "h": 28
+        },
+        "font": "12px/400",
+        "color": "rgb(250, 81, 81)"
+      },
+      {
+        "t": "原文语言",
+        "rect": {
+          "x": 206,
+          "y": 456,
+          "w": 268,
+          "h": 22
+        },
+        "font": "14px/500",
+        "color": "rgb(0, 0, 0)"
+      },
+      {
+        "t": "（可多选，已选 1 个语言）",
+        "rect": {
+          "x": 262,
+          "y": 650,
+          "w": 168,
+          "h": 17
+        },
+        "font": "14px/400",
+        "color": "rgba(0, 0, 0, 0.6)"
+      },
+      {
+        "t": "快速翻译成多语言，快速上架",
+        "rect": {
+          "x": 1002,
+          "y": 822,
+          "w": 208,
+          "h": 25
+        },
+        "font": "16px/400",
+        "color": "rgb(147, 149, 153)"
+      }
+    ],
+    "leftPanel": {
+      "text": "上传需要翻译的图片\n从本地上传\n从作品库选择\n从商品库选择\n\n20M以内，384",
+      "rect": {
+        "x": 216,
+        "y": 140,
+        "w": 248,
+        "h": 196
+      },
+      "bg": "rgb(250, 250, 250)",
+      "color": "rgba(0, 0, 0, 0.88)",
+      "radius": "0px",
+      "font": "14px/400",
+      "padding": "0px",
+      "border": "0px none rgba(0, 0, 0, 0.88)",
+      "disabled": false,
+      "pressed": null
+    },
+    "width": 1728,
+    "height": 1000
+  },
+  "local": {
+    "bodyText": "无限画布\n首页\n电商套图\n智能修图\n新模型\nAI视频\nHOT\n批量生图\n商品图设计\nSkills\nAgent\n更多\n中\n切换到深色主题\nv0.27.0\n电商套图\n商品套图\n服装套图\n套图换色\n批量翻译\n高清放大\n智能扩图\n免责声明\n批量翻译\n上传需要翻译的图片\n上传素材\n0 / 12 个 · PNG / JPG / WebP · ≤ 20 MB\n从本地上传\n从作品库选择\n从商品库选择\n20M 以内，384*384 ~ 4096*4096\n\n💡当前仅支持单张图内 500 字以下的内容翻译\n\n还没有图片：从本地上传后开始批量翻译。\n\n原文语言\n中文\n英语\n繁体中文\n西班牙语\n日语\n韩语\n葡萄牙语\n德语\n罗马尼亚语\n俄语\n越南语\n目标语言（可多选）\n已选 1 个语言\n欧美\n已选 1\n英语\n俄语\n法语\n德语\n瑞典语\n挪威语\n荷兰语\n丹麦语\n意大利语\n葡萄牙语\n葡萄牙语(巴西)\n西班牙语\n波兰语\n捷克语\n希腊语\n爱沙尼亚语\n芬兰语\n匈牙利语\n立陶宛语\n拉脱维亚语\n罗马尼亚语\n斯洛伐克语\n斯洛文尼亚语\n乌克兰语\n保加利亚语\n克罗地亚语\n亚洲\n简体中文\n繁体中文\n日语\n韩语\n泰语\n越南语\n马来语\n缅甸语\n印度尼西亚语\n老挝语\n孟加拉语\n菲律宾语\n他加禄语\n爪哇语\n南亚\n印地语\n古吉拉特语\n马拉地语\n泰米尔语\n泰卢固语\n乌尔都语\n中东\n阿拉伯语\n波斯语\n希伯来语\n中库尔德语\n塔吉克语\n土耳其语\n非洲\n斯瓦希里语\n开始翻译 (20算力)\n生成结果\n逐文本框校对\n先在左侧选择图片\n\n上传图片后在这里逐框校对原文与译文。\n\n先上传需要翻译的图片\n生成结果\n0/0 完成\n重试失败单元\n查看快照\n\n上传图片并选择目标语言后，这里会出现「图片 × 语言」结果矩阵。\n\n历史任务\n0 条\n\n本工具还没有历史任务；提交一次后会在这里留下任务、配置与结果，刷新后仍在。\n\n连接本地 Agent\n未连接\n点连接会自动启动本地服务、装好插件并接通，无需手动配置。\nClaude Code\n未连接\n·\nCLI · 2.1.285 (Claude Code)\n·\n直接运行\n连接\nCodex\n未连接\n·\nCLI · codex-cli 0.163.0\n·\n插件已装\n连接\nGalley\n未连接\n·\nCLI + 桌面版 · galley 0.6.4\n连接",
+    "buttons": [
+      {
+        "text": "更多",
+        "rect": {
+          "x": 972,
+          "y": 0,
+          "w": 47,
+          "h": 60
+        },
+        "bg": "rgba(0, 0, 0, 0)",
+        "color": "oklab(0 0 0 / 0.85)",
+        "radius": "0px",
+        "font": "16px/400",
+        "padding": "0px",
+        "border": "0px solid oklch(0.922 0 0)",
+        "disabled": false,
+        "pressed": null
+      },
+      {
+        "text": "",
+        "rect": {
+          "x": 1478,
+          "y": 14,
+          "w": 32,
+          "h": 32
+        },
+        "bg": "rgba(0, 0, 0, 0)",
+        "color": "rgba(0, 0, 0, 0.88)",
+        "radius": "50%",
+        "font": "14px/400",
+        "padding": "0px",
+        "border": "1px solid rgba(0, 0, 0, 0)",
+        "disabled": false,
+        "pressed": null
+      },
+      {
+        "text": "",
+        "rect": {
+          "x": 1518,
+          "y": 16,
+          "w": 28,
+          "h": 28
+        },
+        "bg": "rgba(0, 0, 0, 0)",
+        "color": "oklch(0.145 0 0)",
+        "radius": "8px",
+        "font": "14px/400",
+        "padding": "0px",
+        "border": "0px solid oklch(0.922 0 0)",
+        "disabled": false,
+        "pressed": null
+      },
+      {
+        "text": "中",
+        "rect": {
+          "x": 1550,
+          "y": 16,
+          "w": 28,
+          "h": 28
+        },
+        "bg": "rgba(0, 0, 0, 0)",
+        "color": "oklch(0.145 0 0)",
+        "radius": "8px",
+        "font": "14px/600",
+        "padding": "0px",
+        "border": "0px solid oklch(0.922 0 0)",
+        "disabled": false,
+        "pressed": null
+      },
+      {
+        "text": "切换到深色主题",
+        "rect": {
+          "x": 1582,
+          "y": 16,
+          "w": 28,
+          "h": 28
+        },
+        "bg": "rgba(0, 0, 0, 0)",
+        "color": "oklch(0.145 0 0)",
+        "radius": "8px",
+        "font": "14px/400",
+        "padding": "0px",
+        "border": "0px solid oklch(0.922 0 0)",
+        "disabled": false,
+        "pressed": null
+      },
+      {
+        "text": "v0.27.0",
+        "rect": {
+          "x": 1614,
+          "y": 19,
+          "w": 47,
+          "h": 22
+        },
+        "bg": "rgba(0, 0, 0, 0)",
+        "color": "oklch(0.145 0 0)",
+        "radius": "0px",
+        "font": "14px/500",
+        "padding": "0px",
+        "border": "0px solid oklch(0.922 0 0)",
+        "disabled": false,
+        "pressed": null
+      },
+      {
+        "text": "从本地上传\n从作品库选择\n从商品库选择\n20M 以内，384*384 ~ 409",
+        "rect": {
+          "x": 215,
+          "y": 232,
+          "w": 274,
+          "h": 106
+        },
+        "bg": "rgb(255, 255, 255)",
+        "color": "oklch(0.145 0 0)",
+        "radius": "6px",
+        "font": "12px/400",
+        "padding": "12px",
+        "border": "1px solid rgb(237, 237, 240)",
+        "disabled": false,
+        "pressed": null
+      },
+      {
+        "text": "从作品库选择",
+        "rect": {
+          "x": 228,
+          "y": 277,
+          "w": 100,
+          "h": 24
+        },
+        "bg": "rgb(255, 255, 255)",
+        "color": "oklch(0.145 0 0)",
+        "radius": "4px",
+        "font": "12px/400",
+        "padding": "0px",
+        "border": "1px solid rgb(229, 229, 234)",
+        "disabled": true,
+        "pressed": null
+      },
+      {
+        "text": "从商品库选择",
+        "rect": {
+          "x": 336,
+          "y": 277,
+          "w": 100,
+          "h": 24
+        },
+        "bg": "rgb(255, 255, 255)",
+        "color": "oklch(0.145 0 0)",
+        "radius": "4px",
+        "font": "12px/400",
+        "padding": "0px",
+        "border": "1px solid rgb(229, 229, 234)",
+        "disabled": true,
+        "pressed": null
+      },
+      {
+        "text": "中文",
+        "rect": {
+          "x": 215,
+          "y": 479,
+          "w": 52,
+          "h": 26
+        },
+        "bg": "rgb(236, 238, 244)",
+        "color": "oklch(0.145 0 0)",
+        "radius": "6px",
+        "font": "14px/400",
+        "padding": "0px 12px",
+        "border": "0px solid oklch(0.922 0 0)",
+        "disabled": false,
+        "pressed": "false"
+      },
+      {
+        "text": "英语",
+        "rect": {
+          "x": 273,
+          "y": 479,
+          "w": 52,
+          "h": 26
+        },
+        "bg": "rgb(236, 238, 244)",
+        "color": "oklch(0.145 0 0)",
+        "radius": "6px",
+        "font": "14px/400",
+        "padding": "0px 12px",
+        "border": "0px solid oklch(0.922 0 0)",
+        "disabled": false,
+        "pressed": "false"
+      },
+      {
+        "text": "繁体中文",
+        "rect": {
+          "x": 331,
+          "y": 479,
+          "w": 80,
+          "h": 26
+        },
+        "bg": "rgb(236, 238, 244)",
+        "color": "oklch(0.145 0 0)",
+        "radius": "6px",
+        "font": "14px/400",
+        "padding": "0px 12px",
+        "border": "0px solid oklch(0.922 0 0)",
+        "disabled": false,
+        "pressed": "false"
+      },
+      {
+        "text": "西班牙语",
+        "rect": {
+          "x": 215,
+          "y": 511,
+          "w": 80,
+          "h": 26
+        },
+        "bg": "rgb(236, 238, 244)",
+        "color": "oklch(0.145 0 0)",
+        "radius": "6px",
+        "font": "14px/400",
+        "padding": "0px 12px",
+        "border": "0px solid oklch(0.922 0 0)",
+        "disabled": false,
+        "pressed": "false"
+      },
+      {
+        "text": "日语",
+        "rect": {
+          "x": 301,
+          "y": 511,
+          "w": 52,
+          "h": 26
+        },
+        "bg": "rgb(236, 238, 244)",
+        "color": "oklch(0.145 0 0)",
+        "radius": "6px",
+        "font": "14px/400",
+        "padding": "0px 12px",
+        "border": "0px solid oklch(0.922 0 0)",
+        "disabled": false,
+        "pressed": "false"
+      },
+      {
+        "text": "韩语",
+        "rect": {
+          "x": 359,
+          "y": 511,
+          "w": 52,
+          "h": 26
+        },
+        "bg": "rgb(236, 238, 244)",
+        "color": "oklch(0.145 0 0)",
+        "radius": "6px",
+        "font": "14px/400",
+        "padding": "0px 12px",
+        "border": "0px solid oklch(0.922 0 0)",
+        "disabled": false,
+        "pressed": "false"
+      },
+      {
+        "text": "葡萄牙语",
+        "rect": {
+          "x": 215,
+          "y": 543,
+          "w": 80,
+          "h": 26
+        },
+        "bg": "rgb(236, 238, 244)",
+        "color": "oklch(0.145 0 0)",
+        "radius": "6px",
+        "font": "14px/400",
+        "padding": "0px 12px",
+        "border": "0px solid oklch(0.922 0 0)",
+        "disabled": false,
+        "pressed": "false"
+      },
+      {
+        "text": "德语",
+        "rect": {
+          "x": 301,
+          "y": 543,
+          "w": 52,
+          "h": 26
+        },
+        "bg": "rgb(236, 238, 244)",
+        "color": "oklch(0.145 0 0)",
+        "radius": "6px",
+        "font": "14px/400",
+        "padding": "0px 12px",
+        "border": "0px solid oklch(0.922 0 0)",
+        "disabled": false,
+        "pressed": "false"
+      },
+      {
+        "text": "罗马尼亚语",
+        "rect": {
+          "x": 359,
+          "y": 543,
+          "w": 94,
+          "h": 26
+        },
+        "bg": "rgb(236, 238, 244)",
+        "color": "oklch(0.145 0 0)",
+        "radius": "6px",
+        "font": "14px/400",
+        "padding": "0px 12px",
+        "border": "0px solid oklch(0.922 0 0)",
+        "disabled": false,
+        "pressed": "false"
+      },
+      {
+        "text": "俄语",
+        "rect": {
+          "x": 215,
+          "y": 575,
+          "w": 52,
+          "h": 26
+        },
+        "bg": "rgb(236, 238, 244)",
+        "color": "oklch(0.145 0 0)",
+        "radius": "6px",
+        "font": "14px/400",
+        "padding": "0px 12px",
+        "border": "0px solid oklch(0.922 0 0)",
+        "disabled": false,
+        "pressed": "false"
+      },
+      {
+        "text": "越南语",
+        "rect": {
+          "x": 273,
+          "y": 575,
+          "w": 66,
+          "h": 26
+        },
+        "bg": "rgb(236, 238, 244)",
+        "color": "oklch(0.145 0 0)",
+        "radius": "6px",
+        "font": "14px/400",
+        "padding": "0px 12px",
+        "border": "0px solid oklch(0.922 0 0)",
+        "disabled": false,
+        "pressed": "false"
+      },
+      {
+        "text": "英语",
+        "rect": {
+          "x": 215,
+          "y": 698,
+          "w": 52,
+          "h": 26
+        },
+        "bg": "rgb(114, 60, 249)",
+        "color": "oklch(0.145 0 0)",
+        "radius": "6px",
+        "font": "14px/400",
+        "padding": "0px 12px",
+        "border": "0px solid oklch(0.922 0 0)",
+        "disabled": false,
+        "pressed": "true"
+      },
+      {
+        "text": "俄语",
+        "rect": {
+          "x": 273,
+          "y": 698,
+          "w": 52,
+          "h": 26
+        },
+        "bg": "rgb(236, 238, 244)",
+        "color": "oklch(0.145 0 0)",
+        "radius": "6px",
+        "font": "14px/400",
+        "padding": "0px 12px",
+        "border": "0px solid oklch(0.922 0 0)",
+        "disabled": false,
+        "pressed": "false"
+      },
+      {
+        "text": "法语",
+        "rect": {
+          "x": 331,
+          "y": 698,
+          "w": 52,
+          "h": 26
+        },
+        "bg": "rgb(236, 238, 244)",
+        "color": "oklch(0.145 0 0)",
+        "radius": "6px",
+        "font": "14px/400",
+        "padding": "0px 12px",
+        "border": "0px solid oklch(0.922 0 0)",
+        "disabled": false,
+        "pressed": "false"
+      },
+      {
+        "text": "德语",
+        "rect": {
+          "x": 389,
+          "y": 698,
+          "w": 52,
+          "h": 26
+        },
+        "bg": "rgb(236, 238, 244)",
+        "color": "oklch(0.145 0 0)",
+        "radius": "6px",
+        "font": "14px/400",
+        "padding": "0px 12px",
+        "border": "0px solid oklch(0.922 0 0)",
+        "disabled": false,
+        "pressed": "false"
+      },
+      {
+        "text": "瑞典语",
+        "rect": {
+          "x": 215,
+          "y": 730,
+          "w": 66,
+          "h": 26
+        },
+        "bg": "rgb(236, 238, 244)",
+        "color": "oklch(0.145 0 0)",
+        "radius": "6px",
+        "font": "14px/400",
+        "padding": "0px 12px",
+        "border": "0px solid oklch(0.922 0 0)",
+        "disabled": false,
+        "pressed": "false"
+      },
+      {
+        "text": "挪威语",
+        "rect": {
+          "x": 287,
+          "y": 730,
+          "w": 66,
+          "h": 26
+        },
+        "bg": "rgb(236, 238, 244)",
+        "color": "oklch(0.145 0 0)",
+        "radius": "6px",
+        "font": "14px/400",
+        "padding": "0px 12px",
+        "border": "0px solid oklch(0.922 0 0)",
+        "disabled": false,
+        "pressed": "false"
+      },
+      {
+        "text": "荷兰语",
+        "rect": {
+          "x": 359,
+          "y": 730,
+          "w": 66,
+          "h": 26
+        },
+        "bg": "rgb(236, 238, 244)",
+        "color": "oklch(0.145 0 0)",
+        "radius": "6px",
+        "font": "14px/400",
+        "padding": "0px 12px",
+        "border": "0px solid oklch(0.922 0 0)",
+        "disabled": false,
+        "pressed": "false"
+      },
+      {
+        "text": "丹麦语",
+        "rect": {
+          "x": 215,
+          "y": 762,
+          "w": 66,
+          "h": 26
+        },
+        "bg": "rgb(236, 238, 244)",
+        "color": "oklch(0.145 0 0)",
+        "radius": "6px",
+        "font": "14px/400",
+        "padding": "0px 12px",
+        "border": "0px solid oklch(0.922 0 0)",
+        "disabled": false,
+        "pressed": "false"
+      },
+      {
+        "text": "意大利语",
+        "rect": {
+          "x": 287,
+          "y": 762,
+          "w": 80,
+          "h": 26
+        },
+        "bg": "rgb(236, 238, 244)",
+        "color": "oklch(0.145 0 0)",
+        "radius": "6px",
+        "font": "14px/400",
+        "padding": "0px 12px",
+        "border": "0px solid oklch(0.922 0 0)",
+        "disabled": false,
+        "pressed": "false"
+      },
+      {
+        "text": "葡萄牙语",
+        "rect": {
+          "x": 373,
+          "y": 762,
+          "w": 80,
+          "h": 26
+        },
+        "bg": "rgb(236, 238, 244)",
+        "color": "oklch(0.145 0 0)",
+        "radius": "6px",
+        "font": "14px/400",
+        "padding": "0px 12px",
+        "border": "0px solid oklch(0.922 0 0)",
+        "disabled": false,
+        "pressed": "false"
+      },
+      {
+        "text": "葡萄牙语(巴西)",
+        "rect": {
+          "x": 215,
+          "y": 794,
+          "w": 118,
+          "h": 26
+        },
+        "bg": "rgb(236, 238, 244)",
+        "color": "oklch(0.145 0 0)",
+        "radius": "6px",
+        "font": "14px/400",
+        "padding": "0px 12px",
+        "border": "0px solid oklch(0.922 0 0)",
+        "disabled": false,
+        "pressed": "false"
+      },
+      {
+        "text": "西班牙语",
+        "rect": {
+          "x": 339,
+          "y": 794,
+          "w": 80,
+          "h": 26
+        },
+        "bg": "rgb(236, 238, 244)",
+        "color": "oklch(0.145 0 0)",
+        "radius": "6px",
+        "font": "14px/400",
+        "padding": "0px 12px",
+        "border": "0px solid oklch(0.922 0 0)",
+        "disabled": false,
+        "pressed": "false"
+      },
+      {
+        "text": "波兰语",
+        "rect": {
+          "x": 215,
+          "y": 826,
+          "w": 66,
+          "h": 26
+        },
+        "bg": "rgb(236, 238, 244)",
+        "color": "oklch(0.145 0 0)",
+        "radius": "6px",
+        "font": "14px/400",
+        "padding": "0px 12px",
+        "border": "0px solid oklch(0.922 0 0)",
+        "disabled": false,
+        "pressed": "false"
+      },
+      {
+        "text": "捷克语",
+        "rect": {
+          "x": 287,
+          "y": 826,
+          "w": 66,
+          "h": 26
+        },
+        "bg": "rgb(236, 238, 244)",
+        "color": "oklch(0.145 0 0)",
+        "radius": "6px",
+        "font": "14px/400",
+        "padding": "0px 12px",
+        "border": "0px solid oklch(0.922 0 0)",
+        "disabled": false,
+        "pressed": "false"
+      },
+      {
+        "text": "希腊语",
+        "rect": {
+          "x": 359,
+          "y": 826,
+          "w": 66,
+          "h": 26
+        },
+        "bg": "rgb(236, 238, 244)",
+        "color": "oklch(0.145 0 0)",
+        "radius": "6px",
+        "font": "14px/400",
+        "padding": "0px 12px",
+        "border": "0px solid oklch(0.922 0 0)",
+        "disabled": false,
+        "pressed": "false"
+      },
+      {
+        "text": "爱沙尼亚语",
+        "rect": {
+          "x": 215,
+          "y": 858,
+          "w": 94,
+          "h": 26
+        },
+        "bg": "rgb(236, 238, 244)",
+        "color": "oklch(0.145 0 0)",
+        "radius": "6px",
+        "font": "14px/400",
+        "padding": "0px 12px",
+        "border": "0px solid oklch(0.922 0 0)",
+        "disabled": false,
+        "pressed": "false"
+      },
+      {
+        "text": "芬兰语",
+        "rect": {
+          "x": 315,
+          "y": 858,
+          "w": 66,
+          "h": 26
+        },
+        "bg": "rgb(236, 238, 244)",
+        "color": "oklch(0.145 0 0)",
+        "radius": "6px",
+        "font": "14px/400",
+        "padding": "0px 12px",
+        "border": "0px solid oklch(0.922 0 0)",
+        "disabled": false,
+        "pressed": "false"
+      },
+      {
+        "text": "匈牙利语",
+        "rect": {
+          "x": 387,
+          "y": 858,
+          "w": 80,
+          "h": 26
+        },
+        "bg": "rgb(236, 238, 244)",
+        "color": "oklch(0.145 0 0)",
+        "radius": "6px",
+        "font": "14px/400",
+        "padding": "0px 12px",
+        "border": "0px solid oklch(0.922 0 0)",
+        "disabled": false,
+        "pressed": "false"
+      },
+      {
+        "text": "立陶宛语",
+        "rect": {
+          "x": 215,
+          "y": 890,
+          "w": 80,
+          "h": 26
+        },
+        "bg": "rgb(236, 238, 244)",
+        "color": "oklch(0.145 0 0)",
+        "radius": "6px",
+        "font": "14px/400",
+        "padding": "0px 12px",
+        "border": "0px solid oklch(0.922 0 0)",
+        "disabled": false,
+        "pressed": "false"
+      },
+      {
+        "text": "拉脱维亚语",
+        "rect": {
+          "x": 301,
+          "y": 890,
+          "w": 94,
+          "h": 26
+        },
+        "bg": "rgb(236, 238, 244)",
+        "color": "oklch(0.145 0 0)",
+        "radius": "6px",
+        "font": "14px/400",
+        "padding": "0px 12px",
+        "border": "0px solid oklch(0.922 0 0)",
+        "disabled": false,
+        "pressed": "false"
+      },
+      {
+        "text": "罗马尼亚语",
+        "rect": {
+          "x": 215,
+          "y": 922,
+          "w": 94,
+          "h": 26
+        },
+        "bg": "rgb(236, 238, 244)",
+        "color": "oklch(0.145 0 0)",
+        "radius": "6px",
+        "font": "14px/400",
+        "padding": "0px 12px",
+        "border": "0px solid oklch(0.922 0 0)",
+        "disabled": false,
+        "pressed": "false"
+      },
+      {
+        "text": "斯洛伐克语",
+        "rect": {
+          "x": 315,
+          "y": 922,
+          "w": 94,
+          "h": 26
+        },
+        "bg": "rgb(236, 238, 244)",
+        "color": "oklch(0.145 0 0)",
+        "radius": "6px",
+        "font": "14px/400",
+        "padding": "0px 12px",
+        "border": "0px solid oklch(0.922 0 0)",
+        "disabled": false,
+        "pressed": "false"
+      },
+      {
+        "text": "斯洛文尼亚语",
+        "rect": {
+          "x": 215,
+          "y": 954,
+          "w": 108,
+          "h": 26
+        },
+        "bg": "rgb(236, 238, 244)",
+        "color": "oklch(0.145 0 0)",
+        "radius": "6px",
+        "font": "14px/400",
+        "padding": "0px 12px",
+        "border": "0px solid oklch(0.922 0 0)",
+        "disabled": false,
+        "pressed": "false"
+      },
+      {
+        "text": "乌克兰语",
+        "rect": {
+          "x": 329,
+          "y": 954,
+          "w": 80,
+          "h": 26
+        },
+        "bg": "rgb(236, 238, 244)",
+        "color": "oklch(0.145 0 0)",
+        "radius": "6px",
+        "font": "14px/400",
+        "padding": "0px 12px",
+        "border": "0px solid oklch(0.922 0 0)",
+        "disabled": false,
+        "pressed": "false"
+      },
+      {
+        "text": "保加利亚语",
+        "rect": {
+          "x": 215,
+          "y": 986,
+          "w": 94,
+          "h": 26
+        },
+        "bg": "rgb(236, 238, 244)",
+        "color": "oklch(0.145 0 0)",
+        "radius": "6px",
+        "font": "14px/400",
+        "padding": "0px 12px",
+        "border": "0px solid oklch(0.922 0 0)",
+        "disabled": false,
+        "pressed": "false"
+      },
+      {
+        "text": "克罗地亚语",
+        "rect": {
+          "x": 315,
+          "y": 986,
+          "w": 94,
+          "h": 26
+        },
+        "bg": "rgb(236, 238, 244)",
+        "color": "oklch(0.145 0 0)",
+        "radius": "6px",
+        "font": "14px/400",
+        "padding": "0px 12px",
+        "border": "0px solid oklch(0.922 0 0)",
+        "disabled": false,
+        "pressed": "false"
+      },
+      {
+        "text": "简体中文",
+        "rect": {
+          "x": 215,
+          "y": 1043,
+          "w": 80,
+          "h": 26
+        },
+        "bg": "rgb(236, 238, 244)",
+        "color": "oklch(0.145 0 0)",
+        "radius": "6px",
+        "font": "14px/400",
+        "padding": "0px 12px",
+        "border": "0px solid oklch(0.922 0 0)",
+        "disabled": false,
+        "pressed": "false"
+      },
+      {
+        "text": "繁体中文",
+        "rect": {
+          "x": 301,
+          "y": 1043,
+          "w": 80,
+          "h": 26
+        },
+        "bg": "rgb(236, 238, 244)",
+        "color": "oklch(0.145 0 0)",
+        "radius": "6px",
+        "font": "14px/400",
+        "padding": "0px 12px",
+        "border": "0px solid oklch(0.922 0 0)",
+        "disabled": false,
+        "pressed": "false"
+      },
+      {
+        "text": "日语",
+        "rect": {
+          "x": 387,
+          "y": 1043,
+          "w": 52,
+          "h": 26
+        },
+        "bg": "rgb(236, 238, 244)",
+        "color": "oklch(0.145 0 0)",
+        "radius": "6px",
+        "font": "14px/400",
+        "padding": "0px 12px",
+        "border": "0px solid oklch(0.922 0 0)",
+        "disabled": false,
+        "pressed": "false"
+      },
+      {
+        "text": "韩语",
+        "rect": {
+          "x": 215,
+          "y": 1075,
+          "w": 52,
+          "h": 26
+        },
+        "bg": "rgb(236, 238, 244)",
+        "color": "oklch(0.145 0 0)",
+        "radius": "6px",
+        "font": "14px/400",
+        "padding": "0px 12px",
+        "border": "0px solid oklch(0.922 0 0)",
+        "disabled": false,
+        "pressed": "false"
+      },
+      {
+        "text": "泰语",
+        "rect": {
+          "x": 273,
+          "y": 1075,
+          "w": 52,
+          "h": 26
+        },
+        "bg": "rgb(236, 238, 244)",
+        "color": "oklch(0.145 0 0)",
+        "radius": "6px",
+        "font": "14px/400",
+        "padding": "0px 12px",
+        "border": "0px solid oklch(0.922 0 0)",
+        "disabled": false,
+        "pressed": "false"
+      },
+      {
+        "text": "越南语",
+        "rect": {
+          "x": 331,
+          "y": 1075,
+          "w": 66,
+          "h": 26
+        },
+        "bg": "rgb(236, 238, 244)",
+        "color": "oklch(0.145 0 0)",
+        "radius": "6px",
+        "font": "14px/400",
+        "padding": "0px 12px",
+        "border": "0px solid oklch(0.922 0 0)",
+        "disabled": false,
+        "pressed": "false"
+      },
+      {
+        "text": "马来语",
+        "rect": {
+          "x": 403,
+          "y": 1075,
+          "w": 66,
+          "h": 26
+        },
+        "bg": "rgb(236, 238, 244)",
+        "color": "oklch(0.145 0 0)",
+        "radius": "6px",
+        "font": "14px/400",
+        "padding": "0px 12px",
+        "border": "0px solid oklch(0.922 0 0)",
+        "disabled": false,
+        "pressed": "false"
+      },
+      {
+        "text": "缅甸语",
+        "rect": {
+          "x": 215,
+          "y": 1107,
+          "w": 66,
+          "h": 26
+        },
+        "bg": "rgb(236, 238, 244)",
+        "color": "oklch(0.145 0 0)",
+        "radius": "6px",
+        "font": "14px/400",
+        "padding": "0px 12px",
+        "border": "0px solid oklch(0.922 0 0)",
+        "disabled": false,
+        "pressed": "false"
+      },
+      {
+        "text": "印度尼西亚语",
+        "rect": {
+          "x": 287,
+          "y": 1107,
+          "w": 108,
+          "h": 26
+        },
+        "bg": "rgb(236, 238, 244)",
+        "color": "oklch(0.145 0 0)",
+        "radius": "6px",
+        "font": "14px/400",
+        "padding": "0px 12px",
+        "border": "0px solid oklch(0.922 0 0)",
+        "disabled": false,
+        "pressed": "false"
+      },
+      {
+        "text": "老挝语",
+        "rect": {
+          "x": 401,
+          "y": 1107,
+          "w": 66,
+          "h": 26
+        },
+        "bg": "rgb(236, 238, 244)",
+        "color": "oklch(0.145 0 0)",
+        "radius": "6px",
+        "font": "14px/400",
+        "padding": "0px 12px",
+        "border": "0px solid oklch(0.922 0 0)",
+        "disabled": false,
+        "pressed": "false"
+      },
+      {
+        "text": "孟加拉语",
+        "rect": {
+          "x": 215,
+          "y": 1139,
+          "w": 80,
+          "h": 26
+        },
+        "bg": "rgb(236, 238, 244)",
+        "color": "oklch(0.145 0 0)",
+        "radius": "6px",
+        "font": "14px/400",
+        "padding": "0px 12px",
+        "border": "0px solid oklch(0.922 0 0)",
+        "disabled": false,
+        "pressed": "false"
+      },
+      {
+        "text": "菲律宾语",
+        "rect": {
+          "x": 301,
+          "y": 1139,
+          "w": 80,
+          "h": 26
+        },
+        "bg": "rgb(236, 238, 244)",
+        "color": "oklch(0.145 0 0)",
+        "radius": "6px",
+        "font": "14px/400",
+        "padding": "0px 12px",
+        "border": "0px solid oklch(0.922 0 0)",
+        "disabled": false,
+        "pressed": "false"
+      },
+      {
+        "text": "他加禄语",
+        "rect": {
+          "x": 387,
+          "y": 1139,
+          "w": 80,
+          "h": 26
+        },
+        "bg": "rgb(236, 238, 244)",
+        "color": "oklch(0.145 0 0)",
+        "radius": "6px",
+        "font": "14px/400",
+        "padding": "0px 12px",
+        "border": "0px solid oklch(0.922 0 0)",
+        "disabled": false,
+        "pressed": "false"
+      },
+      {
+        "text": "爪哇语",
+        "rect": {
+          "x": 215,
+          "y": 1171,
+          "w": 66,
+          "h": 26
+        },
+        "bg": "rgb(236, 238, 244)",
+        "color": "oklch(0.145 0 0)",
+        "radius": "6px",
+        "font": "14px/400",
+        "padding": "0px 12px",
+        "border": "0px solid oklch(0.922 0 0)",
+        "disabled": false,
+        "pressed": "false"
+      },
+      {
+        "text": "印地语",
+        "rect": {
+          "x": 215,
+          "y": 1228,
+          "w": 66,
+          "h": 26
+        },
+        "bg": "rgb(236, 238, 244)",
+        "color": "oklch(0.145 0 0)",
+        "radius": "6px",
+        "font": "14px/400",
+        "padding": "0px 12px",
+        "border": "0px solid oklch(0.922 0 0)",
+        "disabled": false,
+        "pressed": "false"
+      },
+      {
+        "text": "古吉拉特语",
+        "rect": {
+          "x": 287,
+          "y": 1228,
+          "w": 94,
+          "h": 26
+        },
+        "bg": "rgb(236, 238, 244)",
+        "color": "oklch(0.145 0 0)",
+        "radius": "6px",
+        "font": "14px/400",
+        "padding": "0px 12px",
+        "border": "0px solid oklch(0.922 0 0)",
+        "disabled": false,
+        "pressed": "false"
+      },
+      {
+        "text": "马拉地语",
+        "rect": {
+          "x": 387,
+          "y": 1228,
+          "w": 80,
+          "h": 26
+        },
+        "bg": "rgb(236, 238, 244)",
+        "color": "oklch(0.145 0 0)",
+        "radius": "6px",
+        "font": "14px/400",
+        "padding": "0px 12px",
+        "border": "0px solid oklch(0.922 0 0)",
+        "disabled": false,
+        "pressed": "false"
+      },
+      {
+        "text": "泰米尔语",
+        "rect": {
+          "x": 215,
+          "y": 1260,
+          "w": 80,
+          "h": 26
+        },
+        "bg": "rgb(236, 238, 244)",
+        "color": "oklch(0.145 0 0)",
+        "radius": "6px",
+        "font": "14px/400",
+        "padding": "0px 12px",
+        "border": "0px solid oklch(0.922 0 0)",
+        "disabled": false,
+        "pressed": "false"
+      },
+      {
+        "text": "泰卢固语",
+        "rect": {
+          "x": 301,
+          "y": 1260,
+          "w": 80,
+          "h": 26
+        },
+        "bg": "rgb(236, 238, 244)",
+        "color": "oklch(0.145 0 0)",
+        "radius": "6px",
+        "font": "14px/400",
+        "padding": "0px 12px",
+        "border": "0px solid oklch(0.922 0 0)",
+        "disabled": false,
+        "pressed": "false"
+      },
+      {
+        "text": "乌尔都语",
+        "rect": {
+          "x": 387,
+          "y": 1260,
+          "w": 80,
+          "h": 26
+        },
+        "bg": "rgb(236, 238, 244)",
+        "color": "oklch(0.145 0 0)",
+        "radius": "6px",
+        "font": "14px/400",
+        "padding": "0px 12px",
+        "border": "0px solid oklch(0.922 0 0)",
+        "disabled": false,
+        "pressed": "false"
+      },
+      {
+        "text": "阿拉伯语",
+        "rect": {
+          "x": 215,
+          "y": 1317,
+          "w": 80,
+          "h": 26
+        },
+        "bg": "rgb(236, 238, 244)",
+        "color": "oklch(0.145 0 0)",
+        "radius": "6px",
+        "font": "14px/400",
+        "padding": "0px 12px",
+        "border": "0px solid oklch(0.922 0 0)",
+        "disabled": false,
+        "pressed": "false"
+      },
+      {
+        "text": "波斯语",
+        "rect": {
+          "x": 301,
+          "y": 1317,
+          "w": 66,
+          "h": 26
+        },
+        "bg": "rgb(236, 238, 244)",
+        "color": "oklch(0.145 0 0)",
+        "radius": "6px",
+        "font": "14px/400",
+        "padding": "0px 12px",
+        "border": "0px solid oklch(0.922 0 0)",
+        "disabled": false,
+        "pressed": "false"
+      },
+      {
+        "text": "希伯来语",
+        "rect": {
+          "x": 373,
+          "y": 1317,
+          "w": 80,
+          "h": 26
+        },
+        "bg": "rgb(236, 238, 244)",
+        "color": "oklch(0.145 0 0)",
+        "radius": "6px",
+        "font": "14px/400",
+        "padding": "0px 12px",
+        "border": "0px solid oklch(0.922 0 0)",
+        "disabled": false,
+        "pressed": "false"
+      },
+      {
+        "text": "中库尔德语",
+        "rect": {
+          "x": 215,
+          "y": 1349,
+          "w": 94,
+          "h": 26
+        },
+        "bg": "rgb(236, 238, 244)",
+        "color": "oklch(0.145 0 0)",
+        "radius": "6px",
+        "font": "14px/400",
+        "padding": "0px 12px",
+        "border": "0px solid oklch(0.922 0 0)",
+        "disabled": false,
+        "pressed": "false"
+      },
+      {
+        "text": "塔吉克语",
+        "rect": {
+          "x": 315,
+          "y": 1349,
+          "w": 80,
+          "h": 26
+        },
+        "bg": "rgb(236, 238, 244)",
+        "color": "oklch(0.145 0 0)",
+        "radius": "6px",
+        "font": "14px/400",
+        "padding": "0px 12px",
+        "border": "0px solid oklch(0.922 0 0)",
+        "disabled": false,
+        "pressed": "false"
+      },
+      {
+        "text": "土耳其语",
+        "rect": {
+          "x": 401,
+          "y": 1349,
+          "w": 80,
+          "h": 26
+        },
+        "bg": "rgb(236, 238, 244)",
+        "color": "oklch(0.145 0 0)",
+        "radius": "6px",
+        "font": "14px/400",
+        "padding": "0px 12px",
+        "border": "0px solid oklch(0.922 0 0)",
+        "disabled": false,
+        "pressed": "false"
+      },
+      {
+        "text": "斯瓦希里语",
+        "rect": {
+          "x": 215,
+          "y": 1407,
+          "w": 94,
+          "h": 26
+        },
+        "bg": "rgb(236, 238, 244)",
+        "color": "oklch(0.145 0 0)",
+        "radius": "6px",
+        "font": "14px/400",
+        "padding": "0px 12px",
+        "border": "0px solid oklch(0.922 0 0)",
+        "disabled": false,
+        "pressed": "false"
+      },
+      {
+        "text": "开始翻译 (20算力)",
+        "rect": {
+          "x": 215,
+          "y": 1441,
+          "w": 274,
+          "h": 36
+        },
+        "bg": "rgb(114, 60, 249)",
+        "color": "oklch(0.145 0 0)",
+        "radius": "8px",
+        "font": "14px/500",
+        "padding": "0px",
+        "border": "0px solid oklch(0.922 0 0)",
+        "disabled": true,
+        "pressed": null
+      },
+      {
+        "text": "重试失败单元",
+        "rect": {
+          "x": 527,
+          "y": 368,
+          "w": 102,
+          "h": 32
+        },
+        "bg": "rgba(0, 0, 0, 0)",
+        "color": "oklch(0.145 0 0)",
+        "radius": "4px",
+        "font": "14px/400",
+        "padding": "4px 8px",
+        "border": "1px solid oklch(0.922 0 0)",
+        "disabled": true,
+        "pressed": null
+      },
+      {
+        "text": "查看快照",
+        "rect": {
+          "x": 637,
+          "y": 368,
+          "w": 74,
+          "h": 32
+        },
+        "bg": "rgba(0, 0, 0, 0)",
+        "color": "oklch(0.145 0 0)",
+        "radius": "4px",
+        "font": "14px/400",
+        "padding": "4px 8px",
+        "border": "1px solid oklch(0.922 0 0)",
+        "disabled": false,
+        "pressed": null
+      },
+      {
+        "text": "",
+        "rect": {
+          "x": 1721,
+          "y": 0,
+          "w": 16,
+          "h": 1000
+        },
+        "bg": "rgba(0, 0, 0, 0)",
+        "color": "rgb(41, 37, 36)",
+        "radius": "0px",
+        "font": "14px/400",
+        "padding": "0px",
+        "border": "0px solid oklch(0.922 0 0)",
+        "disabled": false,
+        "pressed": null
+      },
+      {
+        "text": "未连接",
+        "rect": {
+          "x": 1773,
+          "y": 8,
+          "w": 32,
+          "h": 32
+        },
+        "bg": "rgba(0, 0, 0, 0)",
+        "color": "rgba(0, 0, 0, 0.88)",
+        "radius": "4px",
+        "font": "14px/400",
+        "padding": "0px",
+        "border": "1px solid rgba(0, 0, 0, 0)",
+        "disabled": false,
+        "pressed": null
+      },
+      {
+        "text": "对话",
+        "rect": {
+          "x": 1882,
+          "y": 0,
+          "w": 32,
+          "h": 48
+        },
+        "bg": "rgba(0, 0, 0, 0)",
+        "color": "rgb(120, 113, 108)",
+        "radius": "0px",
+        "font": "14px/400",
+        "padding": "0px 6px",
+        "border": "",
+        "disabled": false,
+        "pressed": null
+      },
+      {
+        "text": "历史",
+        "rect": {
+          "x": 1916,
+          "y": 0,
+          "w": 32,
+          "h": 48
+        },
+        "bg": "rgba(0, 0, 0, 0)",
+        "color": "rgb(120, 113, 108)",
+        "radius": "0px",
+        "font": "14px/400",
+        "padding": "0px 6px",
+        "border": "",
+        "disabled": false,
+        "pressed": null
+      },
+      {
+        "text": "技能",
+        "rect": {
+          "x": 1950,
+          "y": 0,
+          "w": 32,
+          "h": 48
+        },
+        "bg": "rgba(0, 0, 0, 0)",
+        "color": "rgb(120, 113, 108)",
+        "radius": "0px",
+        "font": "14px/400",
+        "padding": "0px 6px",
+        "border": "",
+        "disabled": false,
+        "pressed": null
+      },
+      {
+        "text": "日志",
+        "rect": {
+          "x": 1984,
+          "y": 0,
+          "w": 32,
+          "h": 48
+        },
+        "bg": "rgba(0, 0, 0, 0)",
+        "color": "rgb(120, 113, 108)",
+        "radius": "0px",
+        "font": "14px/400",
+        "padding": "0px 6px",
+        "border": "",
+        "disabled": false,
+        "pressed": null
+      },
+      {
+        "text": "新对话",
+        "rect": {
+          "x": 2092,
+          "y": 8,
+          "w": 32,
+          "h": 32
+        },
+        "bg": "rgba(0, 0, 0, 0)",
+        "color": "rgba(0, 0, 0, 0.25)",
+        "radius": "4px",
+        "font": "14px/400",
+        "padding": "0px",
+        "border": "1px solid rgba(0, 0, 0, 0)",
+        "disabled": true,
+        "pressed": null
+      },
+      {
+        "text": "",
+        "rect": {
+          "x": 2128,
+          "y": 8,
+          "w": 32,
+          "h": 32
+        },
+        "bg": "rgba(0, 0, 0, 0)",
+        "color": "rgb(120, 113, 108)",
+        "radius": "50%",
+        "font": "14px/400",
+        "padding": "0px",
+        "border": "1px solid rgba(0, 0, 0, 0)",
+        "disabled": false,
+        "pressed": null
+      },
+      {
+        "text": "连接",
+        "rect": {
+          "x": 2073,
+          "y": 147,
+          "w": 66,
+          "h": 24
+        },
+        "bg": "rgba(0, 0, 0, 0)",
+        "color": "rgb(23, 23, 23)",
+        "radius": "4px",
+        "font": "14px/400",
+        "padding": "0px 7px",
+        "border": "1px solid rgb(23, 23, 23)",
+        "disabled": false,
+        "pressed": null
+      },
+      {
+        "text": "连接",
+        "rect": {
+          "x": 2073,
+          "y": 215,
+          "w": 66,
+          "h": 24
+        },
+        "bg": "rgba(0, 0, 0, 0)",
+        "color": "rgb(23, 23, 23)",
+        "radius": "4px",
+        "font": "14px/400",
+        "padding": "0px 7px",
+        "border": "1px solid rgb(23, 23, 23)",
+        "disabled": false,
+        "pressed": null
+      },
+      {
+        "text": "连接",
+        "rect": {
+          "x": 2073,
+          "y": 283,
+          "w": 66,
+          "h": 24
+        },
+        "bg": "rgba(0, 0, 0, 0)",
+        "color": "rgb(23, 23, 23)",
+        "radius": "4px",
+        "font": "14px/400",
+        "padding": "0px 7px",
+        "border": "1px solid rgb(23, 23, 23)",
+        "disabled": false,
+        "pressed": null
+      }
+    ],
+    "texts": [
+      {
+        "t": "批量翻译",
+        "rect": {
+          "x": 44,
+          "y": 190,
+          "w": 64,
+          "h": 20
+        },
+        "font": "16px/400",
+        "color": "rgb(114, 60, 249)"
+      },
+      {
+        "t": "批量翻译",
+        "rect": {
+          "x": 190,
+          "y": 70,
+          "w": 56,
+          "h": 24
+        },
+        "font": "14px/500",
+        "color": "oklch(0.145 0 0)"
+      },
+      {
+        "t": "上传需要翻译的图片",
+        "rect": {
+          "x": 215,
+          "y": 138,
+          "w": 126,
+          "h": 20
+        },
+        "font": "14px/500",
+        "color": "oklch(0.145 0 0)"
+      },
+      {
+        "t": "上传素材",
+        "rect": {
+          "x": 215,
+          "y": 173,
+          "w": 54,
+          "h": 40
+        },
+        "font": "14px/500",
+        "color": "oklch(0.268 0.007 34.298)"
+      },
+      {
+        "t": "从本地上传",
+        "rect": {
+          "x": 228,
+          "y": 245,
+          "w": 210,
+          "h": 24
+        },
+        "font": "12px/500",
+        "color": "rgb(255, 255, 255)"
+      },
+      {
+        "t": "💡当前仅支持单张图内 500 字以下的内容翻译",
+        "rect": {
+          "x": 215,
+          "y": 350,
+          "w": 274,
+          "h": 17
+        },
+        "font": "11px/400",
+        "color": "oklch(0.556 0 0)"
+      },
+      {
+        "t": "还没有图片：从本地上传后开始批量翻译。",
+        "rect": {
+          "x": 215,
+          "y": 378,
+          "w": 274,
+          "h": 16
+        },
+        "font": "12px/400",
+        "color": "oklch(0.556 0 0)"
+      },
+      {
+        "t": "原文语言",
+        "rect": {
+          "x": 215,
+          "y": 444,
+          "w": 56,
+          "h": 20
+        },
+        "font": "14px/500",
+        "color": "oklch(0.145 0 0)"
+      },
+      {
+        "t": "目标语言（可多选）",
+        "rect": {
+          "x": 215,
+          "y": 639,
+          "w": 126,
+          "h": 20
+        },
+        "font": "14px/500",
+        "color": "oklch(0.145 0 0)"
+      },
+      {
+        "t": "已选 1 个语言",
+        "rect": {
+          "x": 423,
+          "y": 644,
+          "w": 66,
+          "h": 17
+        },
+        "font": "11px/400",
+        "color": "oklch(0.556 0 0)"
+      },
+      {
+        "t": "已选 1",
+        "rect": {
+          "x": 241,
+          "y": 674,
+          "w": 30,
+          "h": 17
+        },
+        "font": "11px/400",
+        "color": "rgb(114, 60, 249)"
+      },
+      {
+        "t": "上传图片后在这里逐框校对原文与译文。",
+        "rect": {
+          "x": 527,
+          "y": 226,
+          "w": 1166,
+          "h": 16
+        },
+        "font": "12px/400",
+        "color": "oklch(0.556 0 0)"
+      },
+      {
+        "t": "上传图片并选择目标语言后，这里会出现「图片 × 语言」结果矩阵。",
+        "rect": {
+          "x": 527,
+          "y": 408,
+          "w": 1166,
+          "h": 16
+        },
+        "font": "12px/400",
+        "color": "oklch(0.556 0 0)"
+      }
+    ],
+    "leftPanel": {
+      "text": "上传需要翻译的图片\n上传素材\n0 / 12 个 · PNG / JPG / We",
+      "rect": {
+        "x": 202,
+        "y": 125,
+        "w": 300,
+        "h": 1365
+      },
+      "bg": "rgba(0, 0, 0, 0)",
+      "color": "oklch(0.145 0 0)",
+      "radius": "0px",
+      "font": "14px/400",
+      "padding": "0px",
+      "border": "0px solid oklch(0.922 0 0)",
+      "disabled": false,
+      "pressed": null
+    },
+    "width": 1728,
+    "height": 1000
+  },
+  "localConsoleErrors": [],
+  "localSourceJa": {
+    "pressed": [
+      "日语",
+      "英语"
+    ],
+    "draft": ""
+  },
+  "localAfterDeselect": {
+    "selectedText": "已选 0 个语言",
+    "startButton": "开始翻译 (20算力)",
+    "startDisabled": true
+  },
+  "localAfterReselect": {
+    "selectedText": "已选 1 个语言"
+  },
+  "localAfterReload": {
+    "pressed": [
+      "日语",
+      "英语"
+    ],
+    "selectedText": "已选 1 个语言"
+  }
+}

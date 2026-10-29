@@ -24,6 +24,7 @@ import {
     type TranslationUnitStatus,
 } from "@/features/tools/adapters/image-translation";
 import {
+    IMAGE_TRANSLATION_CREDITS,
     IMAGE_TRANSLATION_DRAFT_KEY,
     IMAGE_TRANSLATION_MAX_IMAGES,
     IMAGE_TRANSLATION_MAX_TARGETS,
@@ -82,6 +83,13 @@ const STATUS_LABEL: Record<TranslationUnitStatus, string> = {
     unknown: "结果未定",
     cancelled: "已取消",
 };
+
+/** 原站语言 chip：26px 高、6px 圆角、浅灰底；选中为品牌紫底白字。 */
+const CHIP_CLASS = (active: boolean) =>
+    cn(
+        "h-[26px] rounded-[6px] px-3 text-xs leading-none transition disabled:cursor-not-allowed disabled:opacity-50",
+        active ? "bg-[#723CF9] text-white" : "bg-[#ECEEF4] text-[#1D1D1F] hover:bg-[#E1E5EE]",
+    );
 
 function Section({ id, title, hint, children }: { id: string; title: string; hint?: string; children: React.ReactNode }) {
     return (
@@ -477,28 +485,12 @@ export function TranslateWorkspace({ className }: TranslateWorkspaceProps = {}) 
         <ToolShell
             className={className}
             title={spec?.title ?? "批量翻译"}
-            subtitle="翻译图片内文字并保留版式：先逐框校对原文/译文，再按「图片 × 目标语言」批量出图，失败单元格单独重试"
-            badges={
-                <span className="rounded border border-border px-1.5 py-0.5 text-[11px] text-muted-foreground">
-                    {spec ? `makeType ${spec.makeType}` : TOOL_ID}
-                </span>
-            }
             actions={
-                <div className="flex items-center gap-2">
-                    {busy ? (
-                        <button type="button" onClick={stop} className="rounded-md border border-border px-3 py-1.5 text-xs hover:bg-accent">
-                            停止
-                        </button>
-                    ) : null}
-                    <button
-                        type="button"
-                        disabled={busy}
-                        onClick={() => void runAll()}
-                        className="rounded-md bg-primary px-3 py-1.5 text-xs font-medium text-primary-foreground disabled:cursor-not-allowed disabled:opacity-50"
-                    >
-                        {busy ? `翻译中 ${progress.done}/${progress.total}` : "开始批量翻译"}
+                busy ? (
+                    <button type="button" onClick={stop} className="rounded-md border border-border px-3 py-1.5 text-xs hover:bg-accent">
+                        停止
                     </button>
-                </div>
+                ) : undefined
             }
             notices={
                 <>
@@ -522,7 +514,7 @@ export function TranslateWorkspace({ className }: TranslateWorkspaceProps = {}) 
                         ["source", "原文语言"],
                         ["targets", "目标语言"],
                         ["proofread", "逐框校对"],
-                        ["results", "翻译结果"],
+                        ["results", "生成结果"],
                     ].map(([id, label]) => (
                         <a key={id} href={`#${id}`} className="block rounded px-2 py-1.5 text-muted-foreground transition hover:bg-accent hover:text-foreground">
                             {label}
@@ -537,20 +529,25 @@ export function TranslateWorkspace({ className }: TranslateWorkspaceProps = {}) 
                 </nav>
             }
         >
-            <div className="grid min-h-0 gap-4 p-4 xl:grid-cols-[minmax(0,420px)_minmax(0,1fr)]">
-                <div className="space-y-4">
-                    <Section id="images" title="1 · 上传需要翻译的图片" hint={`${assetIds.length}/${IMAGE_TRANSLATION_MAX_IMAGES} 张`}>
+            <div className="grid min-h-0 gap-3 bg-[#F7F8FA] p-3 xl:grid-cols-[300px_minmax(0,1fr)]">
+                <div className="space-y-3">
+                    <Section id="images" title="上传需要翻译的图片">
                         <ToolAssetInput
                             toolId={TOOL_ID}
-                            title="从本地上传"
+                            variant="linkfox"
+                            className="w-full"
                             maxCount={IMAGE_TRANSLATION_MAX_IMAGES}
                             constraints={TRANSLATE_CONSTRAINTS}
                             disabled={busy}
                             onChange={onAssetsChange}
+                            hint={
+                                <>
+                                    20M 以内，{IMAGE_TRANSLATION_MIN_EDGE}*{IMAGE_TRANSLATION_MIN_EDGE} ~ {IMAGE_TRANSLATION_MAX_EDGE}*{IMAGE_TRANSLATION_MAX_EDGE}
+                                </>
+                            }
                         />
                         <p className="text-[11px] text-muted-foreground">
-                            20M 以内，{IMAGE_TRANSLATION_MIN_EDGE}*{IMAGE_TRANSLATION_MIN_EDGE} ~ {IMAGE_TRANSLATION_MAX_EDGE}*{IMAGE_TRANSLATION_MAX_EDGE}
-                            ；💡当前仅支持单张图内 {IMAGE_TRANSLATION_MAX_TEXT_CHARS} 字以下的内容翻译
+                            💡当前仅支持单张图内 {IMAGE_TRANSLATION_MAX_TEXT_CHARS} 字以下的内容翻译
                         </p>
                         {assetIds.length ? (
                             <ul className="space-y-1">
@@ -593,40 +590,42 @@ export function TranslateWorkspace({ className }: TranslateWorkspaceProps = {}) 
                         )}
                     </Section>
 
-                    <Section id="source" title="2 · 原文语言" hint={languageLabel(values.sourceLanguage)}>
+                    <Section id="source" title="原文语言">
                         <div className="flex flex-wrap gap-1.5">
-                            {[{ code: TRANSLATION_AUTO_SOURCE, label: "自动识别" }, ...SOURCE_LANGUAGES].map((language) => (
+                            {SOURCE_LANGUAGES.map((language) => (
                                 <button
                                     key={language.code}
                                     type="button"
                                     disabled={busy}
-                                    onClick={() => commit(setSourceLanguage(valuesRef.current, language.code))}
+                                    onClick={() =>
+                                        commit(
+                                            setSourceLanguage(
+                                                valuesRef.current,
+                                                valuesRef.current.sourceLanguage === language.code ? "" : language.code,
+                                            ),
+                                        )
+                                    }
                                     aria-pressed={values.sourceLanguage === language.code}
-                                    className={cn(
-                                        "rounded-full border px-2.5 py-1 text-xs transition disabled:opacity-50",
-                                        values.sourceLanguage === language.code
-                                            ? "border-primary bg-primary text-primary-foreground"
-                                            : "border-border bg-background text-muted-foreground hover:bg-accent hover:text-foreground",
-                                    )}
+                                    className={CHIP_CLASS(values.sourceLanguage === language.code)}
                                 >
                                     {language.label}
                                 </button>
                             ))}
                         </div>
-                        {activeImage?.detectedLanguage && values.sourceLanguage === TRANSLATION_AUTO_SOURCE ? (
+                        {activeImage?.detectedLanguage && !values.sourceLanguage ? (
                             <p className="text-[11px] text-muted-foreground">识别图像语言：{languageLabel(activeImage.detectedLanguage)}</p>
                         ) : null}
                     </Section>
 
-                    <Section id="targets" title="3 · 目标语言（可多选）" hint={`已选 ${values.targetLanguages.length} 个语言`}>
+                    <Section id="targets" title="目标语言（可多选）" hint={`已选 ${values.targetLanguages.length} 个语言`}>
                         <div className="space-y-2">
                             {TARGET_LANGUAGE_GROUPS.map((group) => {
                                 const count = groupCounts.find((item) => item.key === group.key)?.selected ?? 0;
                                 return (
-                                    <div key={group.key} className="rounded border border-border p-2">
-                                        <div className="mb-1 flex items-center justify-between text-xs">
-                                            <span className="font-medium">{group.label}</span>
-                                            <span className="text-[11px] text-muted-foreground">{count ? `已选 ${count}` : ""}</span>
+                                    <div key={group.key} className="space-y-1.5">
+                                        <div className="flex items-center gap-1 text-[11px] text-muted-foreground">
+                                            <span>{group.label}</span>
+                                            {count ? <span className="text-[#723CF9]">已选 {count}</span> : null}
                                         </div>
                                         <div className="flex flex-wrap gap-1.5">
                                             {group.languages.map((language) => {
@@ -640,13 +639,7 @@ export function TranslateWorkspace({ className }: TranslateWorkspaceProps = {}) 
                                                         onClick={() => commit(toggleTargetLanguage(valuesRef.current, language.code))}
                                                         aria-pressed={selected}
                                                         title={sameAsSource ? "与原文语言相同：该语言不会重复出图" : undefined}
-                                                        className={cn(
-                                                            "rounded-full border px-2.5 py-1 text-xs transition disabled:opacity-50",
-                                                            selected
-                                                                ? "border-primary bg-primary text-primary-foreground"
-                                                                : "border-border bg-background text-muted-foreground hover:bg-accent hover:text-foreground",
-                                                            sameAsSource && !selected ? "border-dashed" : "",
-                                                        )}
+                                                        className={cn(CHIP_CLASS(selected), sameAsSource && !selected ? "ring-1 ring-dashed ring-[#723CF9]/40" : "")}
                                                     >
                                                         {language.label}
                                                     </button>
@@ -662,16 +655,24 @@ export function TranslateWorkspace({ className }: TranslateWorkspaceProps = {}) 
                                 目标语言与原文语言相同，该语言不会产生新的翻译图。
                             </p>
                         ) : null}
-                        <p className="text-[11px] text-muted-foreground">
-                            每个目标语言对应一路输出：{assetIds.length} 张图 × {values.targetLanguages.length} 语言 = {plannedTotal} 张结果（上限 {IMAGE_TRANSLATION_MAX_TARGETS} 个语言）
-                        </p>
+                        <button
+                            type="button"
+                            disabled={busy || !assetIds.length || !values.targetLanguages.length}
+                            onClick={() => void runAll()}
+                            className="h-9 w-full rounded-md bg-[#723CF9] text-sm font-medium text-white transition hover:bg-[#5F2BD9] disabled:cursor-not-allowed disabled:opacity-50"
+                        >
+                            {busy ? `翻译中 ${progress.done}/${progress.total}` : `开始翻译 (${IMAGE_TRANSLATION_CREDITS}算力)`}
+                        </button>
                     </Section>
                 </div>
 
-                <div className="space-y-4">
+                <div className="flex min-h-0 flex-col gap-3">
+                    <div className="flex h-[41px] shrink-0 items-center gap-6 border-b border-border bg-card px-4 text-sm">
+                        <span className="-mb-px flex h-full items-center border-b-2 border-[#723CF9] font-medium text-[#723CF9]">生成结果</span>
+                    </div>
                     <Section
                         id="proofread"
-                        title="4 · 逐文本框校对"
+                        title="逐文本框校对"
                         hint={activeRecord ? `${activeRecord.name} · ${activeImage?.boxes.length ?? 0} 个文字框` : "先在左侧选择图片"}
                     >
                         {activeRecord ? (
@@ -822,7 +823,7 @@ export function TranslateWorkspace({ className }: TranslateWorkspaceProps = {}) 
                         ) : null}
                     </Section>
 
-                    <Section id="results" title="5 · 翻译结果" hint={`${succeededTotal}/${plannedTotal} 完成`}>
+                    <Section id="results" title="生成结果" hint={`${succeededTotal}/${plannedTotal} 完成`}>
                         <div className="flex flex-wrap items-center gap-2">
                             <button
                                 type="button"

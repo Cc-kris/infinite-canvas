@@ -100,7 +100,8 @@ export interface RecognitionResult {
 export const RECOGNITION_SYSTEM_PROMPT = "你是电商图片文字识别引擎。只输出 JSON，不写解释、不写 Markdown。";
 
 export function buildRecognitionPrompt(options: { sourceLanguage?: string } = {}): string {
-    const hint = options.sourceLanguage && options.sourceLanguage !== "auto" ? `图中文字以 ${languageEnglish(options.sourceLanguage)} 为主，仍需逐条识别。` : "自动判断图中文字的语言。";
+    const hint =
+        options.sourceLanguage && options.sourceLanguage !== "auto" ? `图中文字以 ${languageEnglish(options.sourceLanguage)} 为主，仍需逐条识别。` : "自动判断图中文字的语言。";
     return [
         "识别这张电商图片里所有需要翻译的文字（标题、卖点、标签、参数、角标等）。",
         hint,
@@ -205,7 +206,7 @@ export async function transcribeImage(
 export const TRANSLATION_SYSTEM_PROMPT = "你是电商图片文案翻译引擎。只输出 JSON 数组，不写解释、不写 Markdown。";
 
 export function buildBoxTranslationPrompt(input: { sourceLanguage: string; targetLanguage: string; texts: Array<{ id: string; text: string }> }): string {
-    const source = input.sourceLanguage === "auto" ? "自动识别的原文" : languageEnglish(input.sourceLanguage);
+    const source = !input.sourceLanguage || input.sourceLanguage === "auto" ? "自动识别的原文" : languageEnglish(input.sourceLanguage);
     const target = `${languageEnglish(input.targetLanguage)}（${languageLabel(input.targetLanguage)}）`;
     return [
         `把下列电商图片文案从 ${source} 翻译成 ${target}。`,
@@ -320,6 +321,8 @@ export function buildTranslationUnits(input: {
     meta?: { draftRevision?: number; sourceAssetIds?: readonly string[]; clientOperationId?: string };
 }): TranslationUnit[] {
     const targets = input.values.targetLanguages;
+    /** 原站默认不选原文语言：未选时由识别结果决定，提示词侧按「自动识别」处理。 */
+    const sourceLanguage = input.values.sourceLanguage;
     const units: TranslationUnit[] = [];
     const meta = input.meta ?? {};
     for (const image of input.images) {
@@ -339,14 +342,14 @@ export function buildTranslationUnits(input: {
                 fields: {
                     imageName: image.name,
                     imageUrl: image.reference.url ?? image.reference.dataUrl,
-                    sourceLanguage: input.values.sourceLanguage,
+                    sourceLanguage,
                     targetLanguage: language,
                     draftRevision: meta.draftRevision ?? null,
                     clientOperationId: meta.clientOperationId ?? null,
                     sourceAssetIds: meta.sourceAssetIds ?? input.images.map((item) => item.assetId),
                     configSnapshot: {
                         hash: input.snapshotHash,
-                        sourceLanguage: input.values.sourceLanguage,
+                        sourceLanguage,
                         targetLanguages: [...targets],
                     },
                 },
