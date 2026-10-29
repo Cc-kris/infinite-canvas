@@ -7,7 +7,7 @@ import type { ToolCase } from "@/components/tools/tool-cases";
 import { uploadCaseFiles } from "@/features/tools/case-apply";
 import { PRODUCT_SUITE_CASES } from "@/features/tools/suite6-cases-data";
 import { ToolTaskHistory } from "@/components/tools/tool-task-history";
-import { saveResultItemToAssets, sendResultItemToCanvas } from "@/components/tools/tool-result-actions";
+import { downloadResultItem, saveResultItemToAssets, sendResultItemToCanvas } from "@/components/tools/tool-result-actions";
 import { loadToolAssetRecords, type ToolAssetConstraints, type ToolAssetRecord } from "@/services/api/tools/assets";
 import type { ToolTask, ToolTaskResultItem } from "@/services/api/tools/task-machine";
 import { useConfigStore } from "@/stores/use-config-store";
@@ -1069,6 +1069,24 @@ export function ProductMarketMaterialWorkspace({ className }: { className?: stri
         [toolId],
     );
 
+    /**
+     * 结果 → 本地下载：与其它工具的「下载」同一实现（downloadResultItem），
+     * 保证三动作（存入资产库 / 发送画布 / 下载）在本工具也齐备。
+     */
+    const onDownloadItem = useCallback(
+        async (unit: MarketUnitResult, item: ToolTaskResultItem, index: number) => {
+            setBusyUnit(unit.unitId);
+            try {
+                await downloadResultItem(item, index, { toolId });
+            } catch (error) {
+                setRunError(error instanceof Error ? error.message : "下载失败。");
+            } finally {
+                setBusyUnit(null);
+            }
+        },
+        [toolId],
+    );
+
     const aplusRatios = aplusRatiosForPlatform(config.platform);
     const aplusEnabled = platformSupportsAplus(config.platform);
     const regionDefault = findRegion(config.salesRegion)?.defaultLanguage;
@@ -1207,27 +1225,40 @@ export function ProductMarketMaterialWorkspace({ className }: { className?: stri
                     {MARKET_APLUS_TEMPLATES.map((template) => {
                         const disabled = !aplusEnabled || running;
                         const active = config.aplusTemplateIds.includes(template.id);
+                        // validateMarketConfig 要求 aplusTemplateIds 非空（aplus-template-required）。
+                        // 之前允许把最后一个选中项也点掉：页面进入「必然校验失败」的死局，
+                        // 提交按钮永久 disabled，唯一提示落在琥珀框/title 上，容易被当成按钮坏了。
+                        // 这里守住「至少保留一个」的边界。
+                        const lastActive = active && config.aplusTemplateIds.length === 1;
                         return (
                             <button
                                 key={template.id}
                                 type="button"
                                 disabled={disabled}
-                                onClick={() =>
+                                aria-pressed={active}
+                                aria-disabled={disabled || lastActive}
+                                data-testid={`market-aplus-template-${template.id}`}
+                                title={lastActive ? "至少保留一个 A+ 模板" : template.instruction}
+                                onClick={() => {
+                                    if (lastActive) return;
                                     update({
                                         aplusTemplateIds: active
                                             ? config.aplusTemplateIds.filter((id) => id !== template.id)
                                             : [...config.aplusTemplateIds, template.id],
-                                    })
-                                }
+                                    });
+                                }}
                                 className={`rounded border px-2 py-0.5 text-[11px] disabled:opacity-40 ${
                                     active ? "border-primary bg-primary text-primary-foreground" : "border-border text-foreground"
-                                }`}
+                                } ${lastActive ? "cursor-not-allowed" : ""}`}
                             >
                                 {template.label}
                             </button>
                         );
                     })}
                 </div>
+                {aplusEnabled && config.aplusTemplateIds.length === 1 ? (
+                    <span className="mt-1 block text-[11px] text-muted-foreground">至少保留一个 A+ 模板</span>
+                ) : null}
                 <div className="mt-2 flex flex-wrap gap-1">
                     {aplusRatios.map((ratio) => (
                         <button
@@ -1400,7 +1431,7 @@ export function ProductMarketMaterialWorkspace({ className }: { className?: stri
                                         </div>
                                         {unit.items.length ? (
                                             <div className="flex flex-col gap-1">
-                                                {unit.items.map((item) => {
+                                                {unit.items.map((item, itemIndex) => {
                                                     const key = `${unit.unitId}:${item.id}`;
                                                     return (
                                                         <div key={item.id} className="flex flex-col gap-1">
@@ -1427,6 +1458,15 @@ export function ProductMarketMaterialWorkspace({ className }: { className?: stri
                                                                     className="rounded border border-border px-2 py-0.5 text-[11px] text-foreground disabled:opacity-40"
                                                                 >
                                                                     {canvasKeys[key] ? "已发送画布" : "发送画布"}
+                                                                </button>
+                                                                <button
+                                                                    type="button"
+                                                                    disabled={busyUnit === unit.unitId || item.payloadDropped || !(item.blob ?? item.dataUrl ?? item.url)}
+                                                                    onClick={() => void onDownloadItem(unit, item, itemIndex)}
+                                                                    data-testid={`market-download-${key}`}
+                                                                    className="rounded border border-border px-2 py-0.5 text-[11px] text-foreground disabled:opacity-40"
+                                                                >
+                                                                    下载
                                                                 </button>
                                                             </div>
                                                         </div>
