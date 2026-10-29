@@ -228,13 +228,27 @@ export function DesignerWorkspace({
         if (!latest) return;
         const restored = designerResultFromStoredTask(latest);
         if (!restored) return;
-        setResult(restored.result);
-        setResultFingerprint(restored.fingerprint);
-        setStage("succeeded");
-        setError(undefined);
-        setRestoreNotice(
-            (prev) => prev || `已恢复上次导出的设计稿（资产 #${restored.result.assetId.slice(0, 8)}），来自任务记录。`,
-        );
+        // 快照里的 url 可能是上次会话的 blob:（fresh reload 后必然失效）。
+        // 只要还有 storageKey，就用 IndexedDB 里的真实字节重新签发 object URL，再交给结果区；
+        // 否则发送画布/下载会在 fetch(blob:) 处报 Failed to fetch。
+        void (async () => {
+            let url = restored.result.url;
+            if (restored.result.storageKey) {
+                const { resolveMediaUrl } = await import("@/services/file-storage");
+                url = await resolveMediaUrl(restored.result.storageKey, url).catch(() => url);
+            }
+            if (!url) {
+                setRestoreNotice((prev) => prev || "上次导出的结果字节已不在本地，请重新导出设计稿。");
+                return;
+            }
+            setResult({ ...restored.result, url });
+            setResultFingerprint(restored.fingerprint);
+            setStage("succeeded");
+            setError(undefined);
+            setRestoreNotice(
+                (prev) => prev || `已恢复上次导出的设计稿（资产 #${restored.result.assetId.slice(0, 8)}），来自任务记录。`,
+            );
+        })();
     }, [hydrateTasks, result, taskRecords, tasksHydrated]);
 
     /* ---------------- 草稿保存（真实写盘，不静默） ---------------- */
@@ -339,7 +353,7 @@ export function DesignerWorkspace({
 
     /* ---------------- 结果动作：下载 / 发送画布（复用共享真实画布依赖） ---------------- */
     const resultItem = useMemo<ToolTaskResultItem | undefined>(
-        () => (result ? { id: result.assetId, kind: "image", url: result.url, mimeType: "image/png", bytes: result.bytes } : undefined),
+        () => (result ? { id: result.assetId, kind: "image", url: result.url, mimeType: "image/png", bytes: result.bytes, storageKey: result.storageKey } : undefined),
         [result],
     );
 

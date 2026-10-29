@@ -132,6 +132,31 @@ export function assertResultPayload(item: Pick<ToolTaskResultItem, "payloadDropp
 
 export type DownloadDeps = { saveAs?: (data: Blob | string, filename: string) => void };
 
+/**
+ * 刷新后快照里的 `url` 常是上一次会话的 `blob:` 对象 URL，早已失效（fetch 直接 Failed to fetch）。
+ * 只要结果项带 `storageKey`，就以 IndexedDB 里的真实字节为准；`http(s)` 地址仍然保留可复核性，
+ * 不因为本地缓存存在就改变上游地址语义。
+ */
+export function isDurableResultSource(url?: string): url is string {
+    return Boolean(url && /^(https?:|data:)/i.test(url));
+}
+
+async function readStoredResultBlob(storageKey: string): Promise<Blob | null> {
+    const { getMediaBlob } = await import("@/services/file-storage");
+    return getMediaBlob(storageKey);
+}
+
+/** 图片入库 / 发画布前的真实来源：blob → dataUrl → storageKey(本地字节) → 持久 URL。 */
+export async function resolveResultUploadSource(item: ToolTaskResultItem): Promise<string | Blob> {
+    if (item.blob) return item.blob;
+    if (item.dataUrl) return item.dataUrl;
+    if (item.storageKey && !isDurableResultSource(item.url)) {
+        const stored = await readStoredResultBlob(item.storageKey).catch(() => null);
+        if (stored) return stored;
+    }
+    return item.url ?? "";
+}
+
 export async function downloadResultItem(
     item: ToolTaskResultItem,
     index: number,
@@ -140,8 +165,9 @@ export async function downloadResultItem(
     assertResultPayload(item);
     const fileName = buildResultFileName(options.toolId, item, index);
     const saveAs = options.deps?.saveAs ?? (await import("file-saver")).saveAs;
-    const source = item.blob ?? item.dataUrl ?? item.url;
-    if (!source) throw new ToolResultActionError("payload-missing", "上游没有返回可下载的结果文件。");
+    // 直接 saveAs 一个失效的 blob: URL 会下载出 0 字节/报错；有 storageKey 时必须先取回真实字节。
+    const direct = item.blob ?? item.dataUrl ?? (isDurableResultSource(item.url) ? item.url : undefined);
+    const source = direct ?? (await resolveResultBlob(item));
     saveAs(source, fileName);
     return fileName;
 }
@@ -166,22 +192,29 @@ export type DownloadBatchResult = {
 
 async function resolveResultBlob(item: ToolTaskResultItem): Promise<Blob> {
     const source = item.blob ?? item.dataUrl ?? item.url;
-    if (!source) throw new ToolResultActionError("payload-missing", "上游没有返回可下载的结果文件。");
-    if (typeof source !== "string") return source;
-    if (source.startsWith("data:")) {
-        const [head, body] = source.split(",", 2);
-        const mime = head.slice(5).split(";")[0] || item.mimeType || "application/octet-stream";
-        if (head.includes(";base64")) {
-            const binary = atob(body);
-            const bytes = new Uint8Array(binary.length);
-            for (let i = 0; i < binary.length; i += 1) bytes[i] = binary.charCodeAt(i);
-            return new Blob([bytes], { type: mime });
-        }
-        return new Blob([decodeURIComponent(body)], { type: mime });
+    if (!source && !item.storageKey) throw new ToolResultActionError("payload-missing", "上游没有返回可下载的结果文件。");
+    if (item.blob) return item.blob;
+    if (item.dataUrl) return sourceBlob(item.dataUrl, item.mimeType);
+    if (item.storageKey) {
+        const stored = await readStoredResultBlob(item.storageKey).catch(() => null);
+        if (stored) return stored;
     }
-    const response = await fetch(source);
+    if (!item.url) throw new ToolResultActionError("payload-missing", "结果字节已不在本地，也没有可访问的地址。");
+    const response = await fetch(item.url);
     if (!response.ok) throw new ToolResultActionError("payload-missing", `结果文件读取失败（HTTP ${response.status}）`);
     return response.blob();
+}
+
+function sourceBlob(source: string, mimeType?: string): Blob {
+    const [head, body] = source.split(",", 2);
+    const mime = head.slice(5).split(";")[0] || mimeType || "application/octet-stream";
+    if (head.includes(";base64")) {
+        const binary = atob(body);
+        const bytes = new Uint8Array(binary.length);
+        for (let i = 0; i < binary.length; i += 1) bytes[i] = binary.charCodeAt(i);
+        return new Blob([bytes], { type: mime });
+    }
+    return new Blob([decodeURIComponent(body)], { type: mime });
 }
 
 export async function downloadResultItems(
@@ -277,9 +310,9 @@ export async function saveResultItemToAssets(item: ToolTaskResultItem, index: nu
         return { assetId, kind: "video" };
     }
 
-    // 历史结果在刷新后往往只有 blob（url/dataUrl 不落盘），必须优先用真实字节，
+    // 历史结果在刷新后往往只剩 storageKey（url 是失效的 blob:），必须优先用真实字节，
     // 否则 uploadImage("") 会以「读取图片失败」收场 —— 存资产/发画布全部不可用。
-    const stored = await deps.uploadImage(item.blob ?? item.dataUrl ?? item.url ?? "");
+    const stored = await deps.uploadImage(await resolveResultUploadSource(item));
     const assetId = deps.addAsset({
         kind: "image",
         title,
@@ -405,7 +438,7 @@ export async function sendResultItemToCanvas(item: ToolTaskResultItem, options: 
     const node =
         item.kind === "video"
             ? deps.createNode!("video", position, deps.videoMetadata!(await deps.storeVideo!({ blob: item.blob, url: item.url, mimeType: item.mimeType })))
-            : deps.createNode!("image", position, deps.imageMetadata!(await deps.uploadImage!(item.blob ?? item.dataUrl ?? item.url ?? "")));
+            : deps.createNode!("image", position, deps.imageMetadata!(await deps.uploadImage!(await resolveResultUploadSource(item))));
 
     deps.updateProject!(projectId, [...nodes, node]);
     return { projectId, nodeId: node.id };

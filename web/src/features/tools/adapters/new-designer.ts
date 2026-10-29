@@ -71,7 +71,7 @@ export type DesignerCompositorPort = {
     compose: (document: DesignerDocument, options?: { signal?: AbortSignal }) => Promise<DesignerComposite>;
 };
 
-export type DesignerAssetRef = { assetId: string; url: string; bytes: number };
+export type DesignerAssetRef = { assetId: string; url: string; bytes: number; storageKey?: string };
 
 export type DesignerAssetPort = {
     save: (blob: Blob, meta: { name: string; designerId: string; width: number; height: number }) => Promise<DesignerAssetRef>;
@@ -305,12 +305,15 @@ export function designerResultFromStoredTask(
     task: ToolTask,
 ): { result: DesignerAssetRef; fingerprint?: string } | null {
     if (task.status !== "succeeded") return null;
-    const item = task.result?.items.find((entry) => entry.kind === "image" && Boolean(entry.url || entry.dataUrl));
-    const url = item?.url ?? item?.dataUrl;
-    if (!item || !url) return null;
+    // 刷新后快照可能只剩 storageKey（url 是上一次会话的 blob:，醒来即失效）；这仍然是可恢复的结果。
+    const item = task.result?.items.find(
+        (entry) => entry.kind === "image" && Boolean(entry.url || entry.dataUrl || (entry.storageKey && !entry.payloadDropped)),
+    );
+    const url = item?.url ?? item?.dataUrl ?? "";
+    if (!item || (!url && !item.storageKey)) return null;
     const matched = /^designer-[^-]+-(.+)$/.exec(item.id ?? "");
     const assetId = matched?.[1] ?? task.id;
-    return { result: { assetId, url, bytes: item.bytes ?? 0 }, fingerprint: task.fingerprint };
+    return { result: { assetId, url, bytes: item.bytes ?? 0, storageKey: item.storageKey }, fingerprint: task.fingerprint };
 }
 
 /** 该工具最近一条落盘任务（刷新回填只认最近一次导出）。 */
