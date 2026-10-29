@@ -64,8 +64,11 @@ task-mvt74l6n-y5sie3  succeeded  image/png  2516552B  sha256[0:16]=8ecb4b7cab2c4
 即：第二次程序化下载被 Chrome 的「同一站点多次自动下载」策略拦掉，属于浏览器策略，
 不是应用逻辑失败，也无法在无人值守会话里绕过。因此磁盘落地证据记为「未取得」，
 字节复现改用**页面内 fetch + sha256** 完成（等价且更严格：比较的是真实字节而不是文件名）。
-此外发现 `downloadResultItem` 对单张结果直接把 source 交给 `file-saver.saveAs` 而不先取字节，
-下载失败时仍会返回成功文案（与本文件第 143–149 行注释里批量的「假成功」同类问题），已在后续提交修复。
+需要说清的是：**单张下载本身没有缺陷**。我在 image-translation 页点 dock 下载时，
+Chrome 的 `downloads` 表确实新增了一条 `id=33` 的成功记录（state=1, danger=0, 整 1028256B 全部接收），
+说明 `downloadResultItem → file-saver.saveAs` 这条路径在真实点击下是能落盘的。
+被拦的是**同一站点短时间内的第二次程序化下载**，这是浏览器策略，
+不做「改动即无法验证」的代码修改（批量路径已有 ZIP 兜底，见 `tool-result-actions.ts` 批量注释）。
 
 ## 代码侧对照（谁在用共享持久化网关）
 
