@@ -62,22 +62,46 @@ function seed(store: ReturnType<typeof createMemoryTaskStore>, status: "submitti
     return task;
 }
 
-test("刷新后「提交中」且无 upstreamTaskId → 收敛为 failed，不自动重提交", async () => {
+test("刷新后「提交中」且无 upstreamTaskId、请求从未发出 → 收敛为 failed/submit-not-dispatched，不吓人也不自动重提交", async () => {
     const { gateway, store } = makeGateway();
     const seeded = seed(store, "submitting");
 
     const { plan, task } = await gateway.recover(seeded.id);
 
     expect(task.status).toBe("failed");
-    expect(task.error?.code).toBe("submit-unconfirmed");
+    expect(task.error?.code).toBe("submit-not-dispatched");
     expect(task.error?.retryable).toBe(true);
-    expect(task.reconcileRequired).toBe(true);
+    // 请求根本没发出去 → 不需要人工去服务商后台对账
+    expect(task.reconcileRequired).toBe(false);
     expect(task.finishedAt).toBeNumber();
     expect(canAutoResubmit(task)).toBe(false);
-    // 计划仍然只表达「需要人工确认」，不是重新提交
     expect(plan.autoResubmit).toBe(false);
-    // 收敛结果写回存储，下一次刷新读到的是终态
     expect(store.get(seeded.id)?.status).toBe("failed");
+});
+
+test("刷新后「提交中」但请求已发出（有 dispatchedAt）→ 才是 failed/submit-unconfirmed + 要求人工确认", async () => {
+    const { gateway, store } = makeGateway();
+    const seeded = seed(store, "submitting");
+    store.set({ ...seeded, dispatchedAt: seeded.submittedAt });
+
+    const { task } = await gateway.recover(seeded.id);
+
+    expect(task.status).toBe("failed");
+    expect(task.error?.code).toBe("submit-unconfirmed");
+    expect(task.reconcileRequired).toBe(true);
+    expect(canAutoResubmit(task)).toBe(false);
+});
+
+test("刷新发生在提交宽限期内（<60s）→ 只等待，不抢先结案", async () => {
+    const { gateway, store } = makeGateway();
+    const seeded = seed(store, "submitting", 10 * 1000);
+
+    const { plan, task } = await gateway.recover(seeded.id);
+
+    expect(plan.action).toBe("wait");
+    expect(task.status).toBe("submitting");
+    expect(task.error).toBeUndefined();
+    expect(store.get(seeded.id)?.status).toBe("submitting");
 });
 
 test("刷新后「结果未知」且无 upstreamTaskId → 同样收敛为 failed", async () => {
@@ -87,7 +111,7 @@ test("刷新后「结果未知」且无 upstreamTaskId → 同样收敛为 faile
     const { task } = await gateway.recover(seeded.id);
 
     expect(task.status).toBe("failed");
-    expect(task.error?.code).toBe("submit-unconfirmed");
+    expect(task.error?.code).toBe("submit-not-dispatched");
     expect(canAutoResubmit(task)).toBe(false);
 });
 

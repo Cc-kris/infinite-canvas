@@ -2,7 +2,7 @@ import { useEffect, useMemo } from "react";
 import { History } from "lucide-react";
 
 import { cn } from "@/lib/utils";
-import type { ToolTask } from "@/services/api/tools/task-machine";
+import type { ToolTask, ToolTaskResultItem } from "@/services/api/tools/task-machine";
 import { useToolTaskStore } from "@/stores/use-tool-task-store";
 
 import { TaskStatusBadge } from "./task-status";
@@ -51,8 +51,19 @@ function promptSummary(prompt: string): string {
     return text.length > 48 ? `${text.slice(0, 48)}…` : text;
 }
 
+/**
+ * 结果项「可定位」判定：url 是当前可渲染地址，storageKey 是磁盘定位符（刷新后由 store 还原 url）。
+ *
+ * 旧实现只看 url：刷新后 url 被剥离、只剩 storageKey 的健康任务会被历史坞误判成
+ * 「原始文件未保留」，不给「查看结果」入口 → 下载/存资产/发画布三动作在历史里不可达
+ * （CHANGE_COLOR_V2 旧任务 BLOCKED_NO_LOCATOR 的直接原因之一）。
+ */
+function hasResultLocator(item: ToolTaskResultItem): boolean {
+    return Boolean(item.url || item.storageKey);
+}
+
 function taskHasRecoverableResult(task: ToolTask): boolean {
-    return Boolean(task.result?.items.some((item) => Boolean(item.url)));
+    return Boolean(task.result?.items.some(hasResultLocator));
 }
 
 export function ToolTaskHistory({ toolId, className, limit = 8, onSelectTask, emptyHint, selectWithoutResult = false, tasks: injectedTasks }: ToolTaskHistoryProps) {
@@ -95,7 +106,7 @@ export function ToolTaskHistory({ toolId, className, limit = 8, onSelectTask, em
                     {rows.map((task) => {
                         const items = task.result?.items ?? [];
                         const thumbs = items.filter((item) => Boolean(item.url)).slice(0, 3);
-                        const dropped = items.some((item) => item.payloadDropped);
+                        const dropped = items.some((item) => item.payloadDropped && !hasResultLocator(item));
                         return (
                             <li
                                 key={task.id}

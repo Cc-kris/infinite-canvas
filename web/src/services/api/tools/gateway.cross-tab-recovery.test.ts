@@ -108,7 +108,9 @@ function seedTask(
         at,
     });
     const validating = transitionTask(draft, "validating", { at });
-    const submitting = transitionTask(validating, "submitting", { at });
+    // 这些场景都表示「请求已经发往上游」（提交在飞行中），因此必须带 dispatchedAt：
+    // 恢复时才能正确定性为 submit-unconfirmed（上游可能计费），而不是 submit-not-dispatched。
+    const submitting = { ...transitionTask(validating, "submitting", { at }), dispatchedAt: at };
     const task = status === "unknown" ? transitionTask(submitting, "unknown", { at }) : submitting;
     store.set(task);
     return task;

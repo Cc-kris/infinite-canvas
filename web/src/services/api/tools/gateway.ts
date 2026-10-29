@@ -942,6 +942,15 @@ export class ToolTaskGateway {
         // 已终态 / 还没提交（draft、validating）：没有可恢复的动作，原样返回。
         if (plan.action === "none") return { plan, task };
         /**
+         * 提交宽限期内只等待，不结案。
+         *
+         * 旧实现把 wait 也直接丢进下面的 closeUnconfirmed：刷新发生在点击生成后的
+         * 60s 内时，任务会被立刻判成 failed/submit-unconfirmed，宽限期形同虚设。
+         * 宽限期内的正确语义是「先等」——真机请求可能仍在另一标签页飞行（租约），
+         * 也可能是本页刚提交、页面还没卸载完。
+         */
+        if (plan.action === "wait") return { plan, task };
+        /**
          * 刷新/重开页面时，本页发起的 HTTP 请求已经不存在了：
          * - 有 upstreamTaskId → 上面走 poll，真的去查上游；
          * - 没有 upstreamTaskId（计划是 wait / reconcile）→ 这个任务再也不会自己推进。
@@ -950,10 +959,28 @@ export class ToolTaskGateway {
          * 且明确提示「上游可能已受理，重试前先确认」。
          */
         if (!task.upstreamTaskId) {
+            /**
+             * 关键区分：请求到底有没有发出去。
+             *
+             * `dispatchedAt` 由 executeImage 在真正调用 provider 前打点：
+             * - 没有该字段 → 刷新/关闭发生在组包、校验阶段，上游没收到请求：
+             *   直接给可安全重试的 `submit-not-dispatched`，且不要求人工对账；
+             * - 有该字段 → 请求已发出但拿不到上游 id，才是真正的 `submit-unconfirmed`。
+             * 旧实现一律报 submit-unconfirmed，把「根本没发」说成「可能已计费」。
+             */
+            if (!task.dispatchedAt) {
+                const closed = this.closeUnconfirmed(
+                    task,
+                    "submit-not-dispatched",
+                    "这次提交在请求发出之前就中断了（页面刷新或关闭），上游没有收到请求，也不会产生费用。可以直接重试。",
+                    { reconcileRequired: false },
+                );
+                return { plan, task: closed };
+            }
             const closed = this.closeUnconfirmed(
                 task,
                 "submit-unconfirmed",
-                "页面刷新中断了这次请求，本服务无法反查上游是否已受理。已关闭为失败；重试前请先到服务商后台确认，避免重复计费。",
+                "请求已发出，但页面刷新后本服务无法反查上游是否已受理。已关闭为失败；重试前请先到服务商后台确认，避免重复计费。",
             );
             return { plan, task: closed };
         }
@@ -973,12 +1000,15 @@ export class ToolTaskGateway {
      * 无法确认上游是否受理（刷新中断 / 本地请求超时）：收敛到终态 failed。
      * 不自动重提交（canAutoResubmit 仍是 false），只是把「无法收敛的非终态」变成
      * 「用户可见、可手动重试的终态」，由人决定是否重试。
+     *
+     * `reconcileRequired` 只在「请求已发出、上游可能计费」时为 true；
+     * 「请求从未发出」的情况必须为 false，否则会误导用户去服务商后台对账。
      */
-    private closeUnconfirmed(task: ToolTask, code: string, message: string): ToolTask {
+    private closeUnconfirmed(task: ToolTask, code: string, message: string, options: { reconcileRequired?: boolean } = {}): ToolTask {
         const at = this.now();
         const next = transitionTask(task, "failed", {
             at,
-            reconcileRequired: true,
+            reconcileRequired: options.reconcileRequired ?? true,
             error: { code, message, retryable: true },
         });
         this.store.set(next);
@@ -1011,12 +1041,19 @@ export class ToolTaskGateway {
             else outerSignal.addEventListener("abort", onOuterAbort);
         }
         try {
+            /**
+             * 真正发出请求前打点 `dispatchedAt`：这是「提交确认」的唯一依据。
+             * 只有打点之后，刷新才可能造成「上游已受理但拿不到结果」。
+             */
+            if (!task.dispatchedAt) {
+                task = { ...task, dispatchedAt: this.now(), updatedAt: this.now() };
+                this.store.set(task);
+            }
             const results = await this.whileLeased(task.id, () =>
                 invocation.mode === "edit"
                     ? this.provider.editImage(invocation.config, invocation.prompt, invocation.references, controller.signal)
                     : this.provider.generateImage(invocation.config, invocation.prompt, controller.signal),
-            );
-            if (results.length === 0) {
+            );            if (results.length === 0) {
                 return this.recordFailure(
                     task,
                     { code: "empty-image-result", message: "Provider returned no image.", retryable: true, definitive: true },

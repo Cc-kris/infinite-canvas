@@ -108,6 +108,15 @@ export type ToolTask = {
     createdAt: number;
     updatedAt: number;
     submittedAt?: number;
+    /**
+     * 请求真正发往上游的时刻（在 provider 调用前同一 tick 打点）。
+     *
+     * `submittedAt` 只是「进入提交中」的状态时间，刷新可能发生在校验/组包阶段，
+     * 此时上游根本没收到请求。恢复逻辑必须能区分这两种情况，否则会把
+     * 「从未发出」的任务误报成「上游可能已受理，重试前先确认」（submit-unconfirmed），
+     * 让用户白等或误以为计费。老快照没有该字段 → 按未发出处理（保守且不吓人）。
+     */
+    dispatchedAt?: number;
     finishedAt?: number;
     /** 第几次提交尝试（同一 clientOperationId 下递增）。 */
     attempts: number;
