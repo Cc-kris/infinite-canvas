@@ -1,0 +1,56 @@
+[
+  {
+    "url": "http://127.0.0.1:23210/https://api.cc-ai.xyz/v1/images/edits",
+    "status": 200,
+    "at": "2026-10-29T09:02:47.425Z",
+    "request": {
+      "formFields": [
+        [
+          "model",
+          "gpt-image-2"
+        ],
+        [
+          "prompt",
+          "参考图片编号：图片1、图片2、图片3。请按这些编号理解提示词中的图片引用。\n\n按分步试衣流程生成试穿效果：模特图 已提供；模特类型 棚拍模特；风格 干净通勤；姿势 正面站立。服装：套装（512×682，蒙版 100.0%）。每个服装槽位附一张同尺寸蒙版（白=该部位穿戴区域），只在蒙版区域替换为上传服装，保持模特身份、姿态、光照与画面构图不变；服装纹理、褶皱与版型需与上传图一致，不要新增图案或改变颜色。算法版本 标准试衣 v1；输出 1 张。[AI_DRESSING_XSY/tab:suit/step:4]"
+        ],
+        [
+          "n",
+          "1"
+        ],
+        [
+          "output_format",
+          "png"
+        ],
+        [
+          "size",
+          "1024x1024"
+        ],
+        [
+          "image[]",
+          "[file name=模特图 type=image/webp size=10450]"
+        ],
+        [
+          "image[]",
+          "[file name=套装图 type=image/webp size=10450]"
+        ],
+        [
+          "image[]",
+          "[file name=suit-mask.png type=image/png size=9442]"
+        ]
+      ]
+    },
+    "response": {
+      "created": 1793264575,
+      "dataCount": 1,
+      "firstKeys": [
+        "revised_prompt",
+        "b64_json",
+        "width",
+        "height"
+      ],
+      "firstB64Len": 2101720,
+      "revisedPrompt": "参考图片编号：图片1、图片2、图片3。请按这些编号理解提示词中的图片引用。\r\n\r\n按分步试衣流程生成试穿效果：模特图 已提供；模特类型 棚拍模特；风格 干净通勤；姿势 正面站立。服装：套装（512×682，蒙版 100.0%）。每个服装槽位附一张同尺寸蒙版（白=该部位穿戴区域），只在蒙版区域替换为上传服装，保持模特身份、姿态、光照与画面构图不变；服装纹理、褶皱与版型需与上传图一致，不要新增图案或改变颜色。算法版本 标准试衣 v1；输出 1 张。[AI_DRESSING_XSY/tab:suit/step:4]",
+      "error": null
+    }
+  }
+]

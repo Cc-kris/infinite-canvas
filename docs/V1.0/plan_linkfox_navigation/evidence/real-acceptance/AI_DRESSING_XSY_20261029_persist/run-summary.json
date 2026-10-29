@@ -1,0 +1,294 @@
+{
+  "phase": "submit",
+  "base": "http://127.0.0.1:3000",
+  "route": "/tools/product-design/ai-dressing-xsy",
+  "startedAt": "2026-10-29T09:02:45.680Z",
+  "provider": {
+    "imageModel": "ccai-accept::gpt-image-2",
+    "channels": [
+      "ccai-accept",
+      "sf-accept"
+    ],
+    "baseUrl": "https://api.cc-ai.xyz",
+    "keyLen": 67,
+    "proxyEnabled": true,
+    "channelCount": 2,
+    "model": "gpt-image-2"
+  },
+  "case": {
+    "model": "/Users/mac/Documents/Dev/infinite-canvas/web/public/__cases/ai-dressing/1940370107691995136-model.webp",
+    "garment": "/Users/mac/Documents/Dev/infinite-canvas/web/public/__cases/ai-dressing/1940370107691995136-garment.webp"
+  },
+  "before": {
+    "page": {
+      "tag": "before",
+      "url": "http://127.0.0.1:3000/tools/product-design/ai-dressing-xsy",
+      "dockCount": "0 条",
+      "dockItems": 0,
+      "resultGrid": 0,
+      "resultGridSrc": [],
+      "resultEmpty": "还没有结果：完成前 4 步后点「生成」",
+      "toolResult": true,
+      "toolResultEmpty": "还没有生成结果填好参数并提交后，结果会出现在这里，可预览、下载、存入资产库或发送到画布。",
+      "toolResultSummary": null,
+      "toolResultImages": 0,
+      "downloadBtn": false,
+      "downloadDisabled": null,
+      "feedback": null,
+      "runError": null,
+      "gate": "提交被拦下：请先上传模特图（第 1 步）",
+      "estimate": "上下装衣服 · 预计输出 1 张",
+      "step": "1",
+      "tab": "upper-lower"
+    },
+    "tasks": [],
+    "xsyTasks": []
+  },
+  "beforeSubmit": {
+    "page": {
+      "tag": "beforeSubmit",
+      "url": "http://127.0.0.1:3000/tools/product-design/ai-dressing-xsy",
+      "dockCount": "0 条",
+      "dockItems": 0,
+      "resultGrid": 0,
+      "resultGridSrc": [],
+      "resultEmpty": "还没有结果：完成前 4 步后点「生成」",
+      "toolResult": true,
+      "toolResultEmpty": "还没有生成结果填好参数并提交后，结果会出现在这里，可预览、下载、存入资产库或发送到画布。",
+      "toolResultSummary": null,
+      "toolResultImages": 0,
+      "downloadBtn": false,
+      "downloadDisabled": null,
+      "feedback": null,
+      "runError": null,
+      "gate": "自检通过，可提交",
+      "estimate": "连体衣服 · 预计输出 1 张",
+      "step": "4",
+      "tab": "suit"
+    },
+    "tasks": [],
+    "estimate": "连体衣服 · 预计输出 1 张"
+  },
+  "elapsedMs": 24654,
+  "receipts": {
+    "count": 1,
+    "editsCount": 1,
+    "edits": [
+      {
+        "url": "http://127.0.0.1:23210/https://api.cc-ai.xyz/v1/images/edits",
+        "status": 200,
+        "at": "2026-10-29T09:02:47.425Z",
+        "request": {
+          "formFields": [
+            [
+              "model",
+              "gpt-image-2"
+            ],
+            [
+              "prompt",
+              "参考图片编号：图片1、图片2、图片3。请按这些编号理解提示词中的图片引用。\n\n按分步试衣流程生成试穿效果：模特图 已提供；模特类型 棚拍模特；风格 干净通勤；姿势 正面站立。服装：套装（512×682，蒙版 100.0%）。每个服装槽位附一张同尺寸蒙版（白=该部位穿戴区域），只在蒙版区域替换为上传服装，保持模特身份、姿态、光照与画面构图不变；服装纹理、褶皱与版型需与上传图一致，不要新增图案或改变颜色。算法版本 标准试衣 v1；输出 1 张。[AI_DRESSING_XSY/tab:suit/step:4]"
+            ],
+            [
+              "n",
+              "1"
+            ],
+            [
+              "output_format",
+              "png"
+            ],
+            [
+              "size",
+              "1024x1024"
+            ],
+            [
+              "image[]",
+              "[file name=模特图 type=image/webp size=10450]"
+            ],
+            [
+              "image[]",
+              "[file name=套装图 type=image/webp size=10450]"
+            ],
+            [
+              "image[]",
+              "[file name=suit-mask.png type=image/png size=9442]"
+            ]
+          ]
+        },
+        "response": {
+          "created": 1793264575,
+          "dataCount": 1,
+          "firstKeys": [
+            "revised_prompt",
+            "b64_json",
+            "width",
+            "height"
+          ],
+          "firstB64Len": 2101720,
+          "revisedPrompt": "参考图片编号：图片1、图片2、图片3。请按这些编号理解提示词中的图片引用。\r\n\r\n按分步试衣流程生成试穿效果：模特图 已提供；模特类型 棚拍模特；风格 干净通勤；姿势 正面站立。服装：套装（512×682，蒙版 100.0%）。每个服装槽位附一张同尺寸蒙版（白=该部位穿戴区域），只在蒙版区域替换为上传服装，保持模特身份、姿态、光照与画面构图不变；服装纹理、褶皱与版型需与上传图一致，不要新增图案或改变颜色。算法版本 标准试衣 v1；输出 1 张。[AI_DRESSING_XSY/tab:suit/step:4]",
+          "error": null
+        }
+      }
+    ]
+  },
+  "resultSrcPrefix": "data:image/png;base64,iVBORw0KGgoAAAANSU",
+  "result": {
+    "file": "result-0.png",
+    "bytes": 1576288,
+    "sha256": "a52e70d46e31cbc47e307113a6f5592ab6f40c14884483ac527dba173e4a8a94",
+    "mime": "image/png"
+  },
+  "actionDownload": {
+    "feedback": "已下载 ai-dressing-xsy-result-1.png",
+    "downloads": [
+      {
+        "file": "/Users/mac/Documents/Dev/infinite-canvas/docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/AI_DRESSING_XSY_20261029_persist/downloads/1793264592394-ai-dressing-xsy-result-1.png",
+        "suggested": "ai-dressing-xsy-result-1.png",
+        "bytes": 1576288,
+        "sha256": "a52e70d46e31cbc47e307113a6f5592ab6f40c14884483ac527dba173e4a8a94"
+      }
+    ]
+  },
+  "actionSave": {
+    "feedback": "已保存到资产库（RDLBH3-mg4hSTH0KdUJDZ）"
+  },
+  "actionCanvas": {
+    "feedback": "已发送到画布（zS8a5GCDJxafQp5iSvAaj）"
+  },
+  "afterSubmit": {
+    "page": {
+      "tag": "afterSubmit",
+      "url": "http://127.0.0.1:3000/tools/product-design/ai-dressing-xsy",
+      "dockCount": "1 条",
+      "dockItems": 1,
+      "resultGrid": 1,
+      "resultGridSrc": [
+        "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABAAAAAQACAIAAA"
+      ],
+      "resultEmpty": null,
+      "toolResult": true,
+      "toolResultEmpty": null,
+      "toolResultSummary": "共 1 个结果 · 图片 1",
+      "toolResultImages": 1,
+      "downloadBtn": true,
+      "downloadDisabled": false,
+      "feedback": "已发送到画布（zS8a5GCDJxafQp5iSvAaj）",
+      "runError": null,
+      "gate": "自检通过，可提交",
+      "estimate": "连体衣服 · 预计输出 1 张",
+      "step": "4",
+      "tab": "suit"
+    },
+    "tasks": [
+      {
+        "id": "task-mvtbf7ue-n28x46",
+        "toolId": "AI_DRESSING_XSY",
+        "status": "succeeded",
+        "createdAt": 1793264567414,
+        "updatedAt": 1793264591936,
+        "error": null,
+        "upstreamTaskId": null,
+        "items": [
+          {
+            "kind": "image",
+            "mimeType": "image/png",
+            "bytes": 1576288,
+            "storageKey": "tool-result:Lxj84A_fS1R1aDGNoR8d_",
+            "hasDataUrl": false,
+            "url": "blob:http://127.0.0.1:3000/77542c3a-8e43-49c2-b183-4efa29dbd379",
+            "payloadDropped": false
+          }
+        ]
+      }
+    ],
+    "xsyTask": {
+      "id": "task-mvtbf7ue-n28x46",
+      "toolId": "AI_DRESSING_XSY",
+      "status": "succeeded",
+      "createdAt": 1793264567414,
+      "updatedAt": 1793264591936,
+      "error": null,
+      "upstreamTaskId": null,
+      "items": [
+        {
+          "kind": "image",
+          "mimeType": "image/png",
+          "bytes": 1576288,
+          "storageKey": "tool-result:Lxj84A_fS1R1aDGNoR8d_",
+          "hasDataUrl": false,
+          "url": "blob:http://127.0.0.1:3000/77542c3a-8e43-49c2-b183-4efa29dbd379",
+          "payloadDropped": false
+        }
+      ]
+    }
+  },
+  "afterReload": {
+    "page": {
+      "tag": "afterReload",
+      "url": "http://127.0.0.1:3000/tools/product-design/ai-dressing-xsy",
+      "dockCount": "1 条",
+      "dockItems": 1,
+      "resultGrid": 0,
+      "resultGridSrc": [],
+      "resultEmpty": "还没有结果：完成前 4 步后点「生成」",
+      "toolResult": true,
+      "toolResultEmpty": "还没有生成结果填好参数并提交后，结果会出现在这里，可预览、下载、存入资产库或发送到画布。",
+      "toolResultSummary": null,
+      "toolResultImages": 0,
+      "downloadBtn": false,
+      "downloadDisabled": null,
+      "feedback": null,
+      "runError": null,
+      "gate": "提交被拦下：套装还没有标记穿衣区域：请涂抹或点「整件」",
+      "estimate": "连体衣服 · 预计输出 1 张",
+      "step": "4",
+      "tab": "suit"
+    },
+    "tasks": [
+      {
+        "id": "task-mvtbf7ue-n28x46",
+        "toolId": "AI_DRESSING_XSY",
+        "status": "succeeded",
+        "createdAt": 1793264567414,
+        "updatedAt": 1793264591936,
+        "error": null,
+        "upstreamTaskId": null,
+        "items": [
+          {
+            "kind": "image",
+            "mimeType": "image/png",
+            "bytes": 1576288,
+            "storageKey": "tool-result:Lxj84A_fS1R1aDGNoR8d_",
+            "hasDataUrl": false,
+            "url": "blob:http://127.0.0.1:3000/1cd7a89a-8a03-43c6-8173-47f86002e796",
+            "payloadDropped": false
+          }
+        ]
+      }
+    ],
+    "xsyTask": {
+      "id": "task-mvtbf7ue-n28x46",
+      "toolId": "AI_DRESSING_XSY",
+      "status": "succeeded",
+      "createdAt": 1793264567414,
+      "updatedAt": 1793264591936,
+      "error": null,
+      "upstreamTaskId": null,
+      "items": [
+        {
+          "kind": "image",
+          "mimeType": "image/png",
+          "bytes": 1576288,
+          "storageKey": "tool-result:Lxj84A_fS1R1aDGNoR8d_",
+          "hasDataUrl": false,
+          "url": "blob:http://127.0.0.1:3000/1cd7a89a-8a03-43c6-8173-47f86002e796",
+          "payloadDropped": false
+        }
+      ]
+    },
+    "historyDockText": "历史任务1 条2026-10-29 17:02已完成按分步试衣流程生成试穿效果：模特图 已提供；模特类型 棚拍模特；风格 干净通勤；姿势 正面站立。服装：套装（51…ccai-accept::gpt-image-2 · image · 1 个结果",
+    "reDownload": {
+      "skipped": "结果区无可用下载按钮（刷新后未恢复）"
+    }
+  },
+  "finishedAt": "2026-10-29T09:03:19.068Z"
+}

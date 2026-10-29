@@ -1,0 +1,5 @@
+{
+  "ok": false,
+  "at": "2026-10-29T09:11:23.189Z",
+  "error": "page.evaluate: Execution context was destroyed, most likely because of a navigation\n    at applyProviderConfig (/Users/mac/Documents/Dev/infinite-canvas/web/scripts/real-acceptance/provider.mjs:51:16)\n    at main (/Users/mac/Documents/Dev/infinite-canvas/web/scripts/real-acceptance/xsy-persist-restore-20261029.mjs:156:28)"
+}

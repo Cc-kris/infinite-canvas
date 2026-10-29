@@ -1,0 +1,97 @@
+{
+  "phase": "submit",
+  "base": "http://127.0.0.1:3000",
+  "route": "/tools/product-design/ai-dressing-xsy",
+  "startedAt": "2026-10-29T09:01:32.770Z",
+  "provider": {
+    "imageModel": "ccai-accept::gpt-image-2",
+    "channels": [
+      "ccai-accept",
+      "sf-accept"
+    ],
+    "baseUrl": "https://api.cc-ai.xyz",
+    "keyLen": 67,
+    "proxyEnabled": true,
+    "channelCount": 2,
+    "model": "gpt-image-2"
+  },
+  "case": {
+    "model": "/Users/mac/Documents/Dev/infinite-canvas/web/public/__cases/ai-dressing/1940370107691995136-model.webp",
+    "garment": "/Users/mac/Documents/Dev/infinite-canvas/web/public/__cases/ai-dressing/1940370107691995136-garment.webp"
+  },
+  "before": {
+    "page": {
+      "tag": "before",
+      "url": "http://127.0.0.1:3000/tools/product-design/ai-dressing-xsy",
+      "dockCount": "0 条",
+      "dockItems": 0,
+      "resultGrid": 0,
+      "resultGridSrc": [],
+      "resultEmpty": "还没有结果：完成前 4 步后点「生成」",
+      "toolResult": true,
+      "toolResultEmpty": "还没有生成结果填好参数并提交后，结果会出现在这里，可预览、下载、存入资产库或发送到画布。",
+      "toolResultSummary": null,
+      "toolResultImages": 0,
+      "downloadBtn": false,
+      "downloadDisabled": null,
+      "feedback": null,
+      "runError": null,
+      "gate": "提交被拦下：请先上传模特图（第 1 步）",
+      "estimate": "上下装衣服 · 预计输出 1 张",
+      "step": "1",
+      "tab": "upper-lower"
+    },
+    "tasks": [],
+    "xsyTasks": []
+  },
+  "beforeSubmit": {
+    "page": {
+      "tag": "beforeSubmit",
+      "url": "http://127.0.0.1:3000/tools/product-design/ai-dressing-xsy",
+      "dockCount": "0 条",
+      "dockItems": 0,
+      "resultGrid": 0,
+      "resultGridSrc": [],
+      "resultEmpty": "还没有结果：完成前 4 步后点「生成」",
+      "toolResult": true,
+      "toolResultEmpty": "还没有生成结果填好参数并提交后，结果会出现在这里，可预览、下载、存入资产库或发送到画布。",
+      "toolResultSummary": null,
+      "toolResultImages": 0,
+      "downloadBtn": false,
+      "downloadDisabled": null,
+      "feedback": null,
+      "runError": null,
+      "gate": "自检通过，可提交",
+      "estimate": "连体衣服 · 预计输出 1 张",
+      "step": "4",
+      "tab": "suit"
+    },
+    "tasks": [],
+    "estimate": "连体衣服 · 预计输出 1 张"
+  },
+  "dryRun": {
+    "stopped": "before-submit",
+    "page": {
+      "tag": "dry",
+      "url": "http://127.0.0.1:3000/tools/product-design/ai-dressing-xsy",
+      "dockCount": "0 条",
+      "dockItems": 0,
+      "resultGrid": 0,
+      "resultGridSrc": [],
+      "resultEmpty": "还没有结果：完成前 4 步后点「生成」",
+      "toolResult": true,
+      "toolResultEmpty": "还没有生成结果填好参数并提交后，结果会出现在这里，可预览、下载、存入资产库或发送到画布。",
+      "toolResultSummary": null,
+      "toolResultImages": 0,
+      "downloadBtn": false,
+      "downloadDisabled": null,
+      "feedback": null,
+      "runError": null,
+      "gate": "自检通过，可提交",
+      "estimate": "连体衣服 · 预计输出 1 张",
+      "step": "4",
+      "tab": "suit"
+    },
+    "tasks": []
+  }
+}

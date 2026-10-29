@@ -2,6 +2,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 import { ToolAssetInput } from "@/components/tools/tool-asset-input";
 import { ToolResult } from "@/components/tools/tool-result";
+import { useRestoredTask } from "@/components/tools/use-restored-task";
 import { describeToolExecution } from "@/services/api/tools/gateway";
 import type { ToolTask } from "@/services/api/tools/task-machine";
 import { loadToolAssetRecords, type ToolAssetRecord } from "@/services/api/tools/assets";
@@ -13,6 +14,8 @@ import {
     buildXsyUnit,
     createXsyRunPort,
     mapXsyTaskToOutcome,
+    xsyDisplayImages,
+    type XsyImage,
     type XsyOutcome,
     type XsyUnit,
 } from "@/features/tools/adapters/ai-dressing-xsy";
@@ -607,7 +610,19 @@ export function AiDressingXsyWorkspace({ className, toolId = AI_DRESSING_XSY_TOO
 
     const activeSlots = xsyTabSlots(values.activeTab);
     const stepMeta = xsyStepMeta(values.step);
-    const images = outcome?.images ?? [];
+    /**
+     * 刷新恢复：任务快照由 store 从 localStorage/IndexedDB 还原（storageKey → 新的对象 URL），
+     * 但本工作区的 outcome 只活在内存里，所以结果区必须以恢复出来任务的为准，
+     * 否则刷新后「历史里有结果、结果区却空且没有下载/存资产/发画布」。
+     */
+    const activeTask = useRestoredTask(toolId, task);
+    const restoredImages = useMemo<XsyImage[]>(() => {
+        const items = activeTask?.result?.items ?? [];
+        return items
+            .filter((item) => item.kind === "image" && (item.url || item.dataUrl))
+            .map((item) => ({ url: item.url, dataUrl: item.dataUrl, mimeType: item.mimeType }));
+    }, [activeTask]);
+    const images = xsyDisplayImages(outcome?.images, restoredImages);
     const fieldsReady = unit ? Object.values(unit.fields).filter((value) => String(value ?? "").trim().length > 0).length : 0;
 
     return (
@@ -905,7 +920,7 @@ export function AiDressingXsyWorkspace({ className, toolId = AI_DRESSING_XSY_TOO
                     </p>
                 )}
 
-                <ToolResult task={task} toolId={toolId} title="试衣结果操作" onCancel={cancel} />
+                <ToolResult task={activeTask} toolId={toolId} title="试衣结果操作" onCancel={cancel} />
 
                 {unit ? (
                     <div data-testid="xsy-field-audit" className="rounded-lg border border-border bg-muted/20 p-3">

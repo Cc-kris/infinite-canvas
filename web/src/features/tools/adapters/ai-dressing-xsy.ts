@@ -319,6 +319,17 @@ export type XsyResultView = {
     images: XsyImage[];
 };
 
+/**
+ * 结果图来源：本会话内存里有实时结果就用实时结果；否则回落到持久化任务的图。
+ *
+ * 刷新恢复（2026-10-29 真实跑批暴露）：任务已由 store 从 localStorage/IndexedDB 还原，
+ * 但工作区的 outcome 只活在内存里，若不回落，历史坞显示「已完成 1 条」而结果区空白，
+ * 下载/存资产/发画布全都没入口。
+ */
+export function xsyDisplayImages(outcomeImages: XsyImage[] | undefined, restoredImages: XsyImage[]): XsyImage[] {
+    return outcomeImages && outcomeImages.length > 0 ? outcomeImages : restoredImages;
+}
+
 /** 结果是否属于当前快照（页面 §4：结果必须与提交快照一致，旧结果要标注）。 */
 export function xsyResultView(outcome: XsyOutcome, options: { currentHash: string; tab?: XsyTab }): XsyResultView {
     const tab = options.tab ?? outcome.tab;
