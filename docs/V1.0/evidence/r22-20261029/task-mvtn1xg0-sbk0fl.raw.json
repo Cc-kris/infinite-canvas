@@ -1,0 +1,61 @@
+{
+ "task": {
+  "id": "task-mvtn1xg0-sbk0fl",
+  "toolId": "CHANGE_COLOR_V2",
+  "status": "succeeded",
+  "clientOperationId": "eeb829be-34c7-4bdd-bbd7-86170165d5f0",
+  "fingerprint": "d56a6b915f368588",
+  "capability": "image",
+  "prompt": "对上传商品图「linkfox-case-2069709136760979456-source.jpeg」做换色：把上装改成色值 #EB88A0。 保持商品轮廓、结构、缝合线、材质纹理、Logo 位置、光照方向、投影与背景不变；不要增加或删除任何部件。 整张图其余区域保持原样，输出一张与原图同构图、同视角的图片。 输出品质：中品质。",
+  "configSnapshot": {
+   "capability": "image",
+   "model": "default::gpt-image-2",
+   "apiFormat": "openai",
+   "size": "1:1",
+   "quality": "medium",
+   "count": "1",
+   "videoSeconds": "6",
+   "channelId": "default"
+  },
+  "sourceAssetIds": [
+   "Z5NVnTxaBybbk_wKd-7z7"
+  ],
+  "draftRevision": null,
+  "createdAt": 1793284102800,
+  "updatedAt": 1793284133981,
+  "attempts": 1,
+  "pollCount": 0,
+  "transientFailures": 0,
+  "submittedAt": 1793284102800,
+  "dispatchedAt": 1793284102802,
+  "result": {
+   "items": [
+    {
+     "id": "task-mvtn1xg0-sbk0fl-0",
+     "kind": "image",
+     "storageKey": "tool-result:task-mvtn1xg0-sbk0fl:0:KWct7e2ggt9qZP80UbreK",
+     "bytes": 2545568,
+     "mimeType": "image/png",
+     "payloadDropped": false
+    }
+   ],
+   "receivedAt": 1793284133981
+  },
+  "finishedAt": 1793284133981
+ },
+ "download": {
+  "path": "/Users/mac/Downloads/linkfox-case-2069709136760979456-source-换色 #EB88A0.png",
+  "bytes": 2545568,
+  "sha256": "e1b1d638f6eb941f8eebf74da3c969e22887501fb25cee61fc57a8f8ea732458",
+  "magic": "89504e470d0a1a0a"
+ },
+ "reload_verified": {
+  "card": "已从本地恢复上次生成的真实结果（任务 sbk0fl · 1 张）",
+  "size_label": "2486 KB",
+  "buttons": {
+   "下载": false,
+   "存资产库": false,
+   "发画布": false
+  }
+ }
+}
