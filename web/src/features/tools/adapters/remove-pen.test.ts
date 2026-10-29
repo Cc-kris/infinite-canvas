@@ -350,7 +350,6 @@ describe("REMOVE_PEN storageKey-only 定位符（刷新后无 dataUrl / 无持�
                         id: "item-1",
                         kind: "image",
                         mimeType: "image/png",
-                        url: "blob:https://app/dead-session-url",
                         storageKey: "tool-result:task-1:0:abc",
                         bytes: 2545568,
                     },
@@ -378,5 +377,6 @@ describe("REMOVE_PEN storageKey-only 定位符（刷新后无 dataUrl / 无持�
         expect(item).not.toBeNull();
         expect(item!.storageKey).toBe("tool-result:task-1:0:abc");
         expect(item!.dataUrl).toBeUndefined();
+        expect(item!.url).toBe("blob:resolved-from-idb");
     });
 });
