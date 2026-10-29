@@ -1,0 +1,202 @@
+{
+  "task": "AI_VIDEO_EDITING",
+  "localTaskId": "task-mvt42rpv-kfl1ov",
+  "upstreamTaskId": "task_QFvq6WMc09jv2kSZzh4fFboNx5ZccHBm",
+  "channel": {
+    "id": "sub2",
+    "name": "sub2api",
+    "baseUrl": "https://sub2api.1006000.xyz",
+    "apiKey": "<redacted>"
+  },
+  "model": "MiniMax-H3",
+  "queriedAt": "2026-10-29T07:50:34.211Z",
+  "probe": {
+    "request": "GET https://sub2api.1006000.xyz/videos/task_QFvq6WMc09jv2kSZzh4fFboNx5ZccHBm",
+    "via": "app local proxy http://127.0.0.1:23210 (frontend withLocalProxy path)",
+    "httpStatus": 200,
+    "contentType": "application/json; charset=utf-8",
+    "elapsedMs": 3066
+  },
+  "upstreamResponse": {
+    "id": "task_QFvq6WMc09jv2kSZzh4fFboNx5ZccHBm",
+    "model": "MiniMax-H3",
+    "progress": 1,
+    "request_id": "task_QFvq6WMc09jv2kSZzh4fFboNx5ZccHBm",
+    "status": "done",
+    "usage": {
+      "input_image_count": 2,
+      "input_seconds": 6,
+      "output_seconds": 6,
+      "total_seconds": 6
+    },
+    "video": {
+      "duration": 6,
+      "url": "/videos/task_QFvq6WMc09jv2kSZzh4fFboNx5ZccHBm/content"
+    }
+  },
+  "terminalState": "done (provider) / succeeded (local task record)",
+  "download": {
+    "request": "GET /videos/task_QFvq6WMc09jv2kSZzh4fFboNx5ZccHBm/content",
+    "httpStatus": 200,
+    "contentType": "video/mp4",
+    "bytes": 2268656,
+    "sha256": "47573c147325d451f41ffd89ae21b82c895623c682832546c24181b18f92a505",
+    "file": "task_QFvq6WMc_video.mp4"
+  },
+  "ffprobe": {
+    "streams": [
+      {
+        "index": 0,
+        "codec_name": "h264",
+        "codec_long_name": "H.264 / AVC / MPEG-4 AVC / MPEG-4 part 10",
+        "profile": "High",
+        "codec_type": "video",
+        "codec_tag_string": "avc1",
+        "codec_tag": "0x31637661",
+        "mime_codec_string": "avc1.640020",
+        "width": 1344,
+        "height": 768,
+        "coded_width": 1344,
+        "coded_height": 768,
+        "has_b_frames": 2,
+        "pix_fmt": "yuv420p",
+        "level": 32,
+        "color_range": "tv",
+        "color_space": "bt709",
+        "color_transfer": "iec61966-2-1",
+        "color_primaries": "bt709",
+        "chroma_location": "left",
+        "field_order": "progressive",
+        "is_avc": "true",
+        "nal_length_size": "4",
+        "id": "0x1",
+        "r_frame_rate": "24/1",
+        "avg_frame_rate": "24/1",
+        "time_base": "1/12288",
+        "start_pts": 0,
+        "start_time": "0.000000",
+        "duration_ts": 80896,
+        "duration": "6.583333",
+        "bit_rate": "2621510",
+        "bits_per_raw_sample": "8",
+        "nb_frames": "158",
+        "extradata_size": 48,
+        "disposition": {
+          "default": 1,
+          "dub": 0,
+          "original": 0,
+          "comment": 0,
+          "lyrics": 0,
+          "karaoke": 0,
+          "forced": 0,
+          "hearing_impaired": 0,
+          "visual_impaired": 0,
+          "clean_effects": 0,
+          "attached_pic": 0,
+          "timed_thumbnails": 0,
+          "non_diegetic": 0,
+          "captions": 0,
+          "descriptions": 0,
+          "metadata": 0,
+          "dependent": 0,
+          "still_image": 0,
+          "multilayer": 0
+        },
+        "tags": {
+          "language": "und",
+          "handler_name": "VideoHandler"
+        }
+      },
+      {
+        "index": 1,
+        "codec_name": "aac",
+        "codec_long_name": "AAC (Advanced Audio Coding)",
+        "profile": "LC",
+        "codec_type": "audio",
+        "codec_tag_string": "mp4a",
+        "codec_tag": "0x6134706d",
+        "mime_codec_string": "mp4a.40.2",
+        "sample_fmt": "fltp",
+        "sample_rate": "32000",
+        "channels": 2,
+        "channel_layout": "stereo",
+        "bits_per_sample": 0,
+        "initial_padding": 0,
+        "id": "0x2",
+        "r_frame_rate": "0/0",
+        "avg_frame_rate": "0/0",
+        "time_base": "1/32000",
+        "start_pts": 0,
+        "start_time": "0.000000",
+        "duration_ts": 210400,
+        "duration": "6.575000",
+        "bit_rate": "127340",
+        "nb_frames": "207",
+        "extradata_size": 5,
+        "disposition": {
+          "default": 1,
+          "dub": 0,
+          "original": 0,
+          "comment": 0,
+          "lyrics": 0,
+          "karaoke": 0,
+          "forced": 0,
+          "hearing_impaired": 0,
+          "visual_impaired": 0,
+          "clean_effects": 0,
+          "attached_pic": 0,
+          "timed_thumbnails": 0,
+          "non_diegetic": 0,
+          "captions": 0,
+          "descriptions": 0,
+          "metadata": 0,
+          "dependent": 0,
+          "still_image": 0,
+          "multilayer": 0
+        },
+        "tags": {
+          "language": "und",
+          "handler_name": "SoundHandler"
+        }
+      }
+    ],
+    "format": {
+      "filename": "/Users/mac/Documents/Dev/infinite-canvas/docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/AI_VIDEO_EDITING/receipt-20261029/task_QFvq6WMc_video.mp4",
+      "nb_streams": 2,
+      "nb_programs": 0,
+      "nb_stream_groups": 0,
+      "format_name": "mov,mp4,m4a,3gp,3g2,mj2",
+      "format_long_name": "QuickTime / MOV",
+      "start_time": "0.000000",
+      "duration": "6.583333",
+      "size": "2268656",
+      "bit_rate": "2756847",
+      "probe_score": 100,
+      "tags": {
+        "major_brand": "isom",
+        "minor_version": "512",
+        "compatible_brands": "isomiso2avc1mp41",
+        "encoder": "Lavf62.12.102"
+      }
+    }
+  },
+  "historyRecovery": {
+    "note": "本地任务快照曾在轮询期间被清空（localStorage 无该 id），本次用应用自身 store/gateway 以 unknown + 真实 upstreamTaskId 重建记录，再由 recoverAll() 真实轮询收敛；结果字节由 uploadMediaFile 写入 IndexedDB(media_files) 并回写 storageKey，未做任何伪造。",
+    "localRecordKey": "tool-task:v1:task-mvt42rpv-kfl1ov",
+    "localStatus": "succeeded",
+    "reconcileRequired": false,
+    "resultItem": {
+      "storageKey": "tool-result:6x-FsSnD1IMk76p5iayw-",
+      "bytes": 2268656,
+      "mimeType": "video/mp4",
+      "durationMs": 6583,
+      "width": 1344,
+      "height": 768
+    },
+    "idbBlobSha256MatchesFile": true
+  },
+  "notes": [
+    "Provider 回执 output_seconds=6，实际 mp4 容器时长 6.583s（h264 1344x768 24fps + aac），以文件实测为准。",
+    "input_image_count=2、input_seconds=6 来自 provider usage 原样记录。"
+  ]
+}
