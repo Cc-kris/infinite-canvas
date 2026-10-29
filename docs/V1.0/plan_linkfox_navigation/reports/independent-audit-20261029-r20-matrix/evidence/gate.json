@@ -1,0 +1,19 @@
+{
+ "source": "tools/recompute_scope_matrix_r20.py（自跑）+ docs/V1.0/reports/verify-03b8f47e-20261029-logs（历史）",
+ "selfRun": {
+  "logs": "docs/V1.0/reports/verify-head-20261029-r20-logs",
+  "head": "dd8192a895d0637ec27c99cd410293ca99f1d7c6",
+  "typecheck": "bun run typecheck → tsc --noEmit, exit 0",
+  "test": "bun test → 1485 pass / 0 fail / 8352 expects / 84 files",
+  "build": "bun run build → vite 7.3.6, exit 0"
+ },
+ "historical": {
+  "snapshot": "03b8f47e（tree 52e83c1e）",
+  "logs": "docs/V1.0/reports/verify-03b8f47e-20261029-logs",
+  "typecheck": "exit 0（38s）",
+  "test": "1483 pass / 0 fail / 8342 expects / 84 files",
+  "build": "exit 0（30.34s，index-DPpMYq6s.js）",
+  "tscListFiles": "3436 行（含 web/src/）"
+ },
+ "note": "c8c8ce9e 落地新源码（video.ts / inline-image.ts / 新测试），03b8f47e 的门禁不再覆盖 HEAD web 树 → R20 自跑三闸并以 gate.webTree==HEAD 机检"
+}

@@ -34,7 +34,16 @@ import sys
 from datetime import datetime, timezone
 from pathlib import Path
 
-REPO = Path(__file__).resolve().parents[1]
+def _repo_root() -> Path:
+    """副本被拷到 docs/ 下时，parents[1] 不再是仓库根 → 向上找 .git。"""
+    here = Path(__file__).resolve()
+    for p in [here.parent, *here.parents]:
+        if (p / ".git").exists():
+            return p
+    return here.parents[1]
+
+
+REPO = _repo_root()
 os.chdir(REPO)
 TOOLS = REPO / "tools"
 
@@ -337,6 +346,7 @@ def neg_gate_d5aa048a_delta(files, a):
     a("delta.known_only", got <= expected, f"新增/未知: {sorted(got - expected)}")
     a("delta.source_changed", "web/src/services/api/video.ts" in got, "c8c8ce9e 改 video.ts")
     a("delta.unexpected_none", not (got - expected), f"{len(got)} 个差异文件")
+    return a.ok()
 
 
 def main() -> int:
@@ -608,7 +618,7 @@ def main() -> int:
     out = REPO / OUT_DIR
     (out / "evidence").mkdir(parents=True, exist_ok=True)
     (out / "matrix.json").write_text(json.dumps(d, ensure_ascii=False, indent=1))
-    (out / "matrix.md").write_text(render_md(d) + "\n" + r19.render_ledger(d))
+    (out / "matrix.md").write_text(render_md(d) + "\n" + render_tools(d))
     (out / "report.md").write_text(render_report(d))
     (out / "evidence" / "gate.json").write_text(json.dumps(gate_files, ensure_ascii=False, indent=1))
     (out / "auditor.py").write_text(Path(__file__).read_text())
@@ -630,6 +640,25 @@ def negative_summary(gap_updates: dict) -> list[dict]:
     for (tid, dim), txt in gap_updates.items():
         rows.append({"tool": tid, "dim": dim, "reason": txt})
     return rows
+
+
+def render_tools(d: dict) -> str:
+    L: list[str] = []
+    L.append("## 6. 逐工具明细（39 工具 · 六维）\n")
+    L.append("| # | 工具 | F | T | R | H | K | U |")
+    L.append("|---|---|---|---|---|---|---|---|")
+    for i, t in enumerate(d["tools"], 1):
+        L.append(f"| {i} | {t['id']} | {t['F']} | {t['T']} | {t['R']} | {t['H']} | {t['K']} | {t['U']} |")
+    L.append("")
+    L.append("## 7. 断言与矛盾\n")
+    fails = [a for a in d["assertions"] if not a["ok"]]
+    L.append(f"- 断言总数 {len(d['assertions'])}，失败 {len(fails)}")
+    for a in fails:
+        L.append(f"  - FAIL `{a['name']}`：{a['detail']}")
+    L.append("- 负证机检：" + "；".join(f"{r['name']}={r['assertions']}条{'OK' if r['ok'] else 'FAIL'}" for r in d["negChecks"]))
+    L.append(f"- 反证（contradictions）：{len(d['contradictions'])} 条" if d["contradictions"] else "- 反证：无")
+    L.append("")
+    return "\n".join(L)
 
 
 def render_md(d: dict) -> str:
