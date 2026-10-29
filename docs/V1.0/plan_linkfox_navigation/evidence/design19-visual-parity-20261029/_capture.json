@@ -13,7 +13,7 @@
   "snapshot": true,
   "shot": true,
   "shot_full": true,
-  "sec": 22.9
+  "sec": 22.5
  },
  "real:PRODUCT_SCENE": {
   "url": "https://www.linkfox.com/draw/product-scene?type=2",
@@ -21,7 +21,7 @@
   "snapshot": true,
   "shot": true,
   "shot_full": true,
-  "sec": 22.5
+  "sec": 31.0
  },
  "real:HANDHELD_GOODS": {
   "url": "https://www.linkfox.com/draw/handheld-goods",
@@ -37,7 +37,7 @@
   "snapshot": true,
   "shot": true,
   "shot_full": true,
-  "sec": 22.7
+  "sec": 22.5
  },
  "real:AI_POSTURE": {
   "url": "https://www.linkfox.com/draw/ai-posture",
@@ -61,7 +61,7 @@
   "snapshot": true,
   "shot": true,
   "shot_full": true,
-  "sec": 22.9
+  "sec": 22.7
  },
  "real:ORNAMENT_TEXT": {
   "url": "https://www.linkfox.com/draw/ornament-text",
@@ -69,7 +69,7 @@
   "snapshot": true,
   "shot": true,
   "shot_full": true,
-  "sec": 22.7
+  "sec": 22.5
  },
  "real:SDS_DESIGN": {
   "url": "https://www.linkfox.com/draw/sds-design",
@@ -93,7 +93,7 @@
   "snapshot": true,
   "shot": true,
   "shot_full": true,
-  "sec": 22.7
+  "sec": 22.5
  },
  "local:PRODUCT_SCENE": {
   "url": "http://127.0.0.1:3000/tools/product-design/product-scene",
@@ -109,7 +109,7 @@
   "snapshot": true,
   "shot": true,
   "shot_full": true,
-  "sec": 22.7
+  "sec": 22.5
  },
  "local:AI_DRESSING_V2": {
   "url": "http://127.0.0.1:3000/tools/product-design/ai-dressing-v2",
@@ -117,7 +117,7 @@
   "snapshot": true,
   "shot": true,
   "shot_full": true,
-  "sec": 30.9
+  "sec": 22.5
  },
  "local:AI_POSTURE": {
   "url": "http://127.0.0.1:3000/tools/product-design/ai-posture",
@@ -125,7 +125,7 @@
   "snapshot": true,
   "shot": true,
   "shot_full": true,
-  "sec": 22.5
+  "sec": 22.7
  },
  "local:AI_WEARABLE": {
   "url": "http://127.0.0.1:3000/tools/product-design/ai-wearable",
@@ -133,7 +133,7 @@
   "snapshot": true,
   "shot": true,
   "shot_full": true,
-  "sec": 25.0
+  "sec": 22.5
  },
  "local:AI_TEXT": {
   "url": "http://127.0.0.1:3000/tools/product-design/ai-text",
@@ -141,7 +141,7 @@
   "snapshot": true,
   "shot": true,
   "shot_full": true,
-  "sec": 23.7
+  "sec": 22.5
  },
  "local:ORNAMENT_TEXT": {
   "url": "http://127.0.0.1:3000/tools/product-design/ornament-text",
@@ -149,7 +149,7 @@
   "snapshot": true,
   "shot": true,
   "shot_full": true,
-  "sec": 22.9
+  "sec": 22.5
  },
  "local:SDS_DESIGN": {
   "url": "http://127.0.0.1:3000/tools/product-design/sds-design",
@@ -157,6 +157,6 @@
   "snapshot": true,
   "shot": true,
   "shot_full": true,
-  "sec": 22.9
+  "sec": 22.5
  }
 }

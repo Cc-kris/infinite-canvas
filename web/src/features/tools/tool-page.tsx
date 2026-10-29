@@ -436,6 +436,18 @@ export const IMMERSIVE_TOOL_IDS: ReadonlySet<string> = new Set([
     "IMAGE_TRANSLATION",
     "SCALE_UP",
     "AI_OUTPAINTING",
+    // design19 前 10：原站同样没有页面标题栏/面包屑/`/tools/...` 路由行，
+    // 表单列直接从顶部开始；工作台自带的紧凑标题（工具名 + 一句话）即原站左卡标题。
+    "NEW_REPLACE_BG_V2",
+    "REPLACE_GOODS",
+    "PRODUCT_SCENE",
+    "HANDHELD_GOODS",
+    "AI_DRESSING_V2",
+    "AI_POSTURE",
+    "AI_WEARABLE",
+    "AI_TEXT",
+    "ORNAMENT_TEXT",
+    "SDS_DESIGN",
 ]);
 
 /**
@@ -577,8 +589,16 @@ export function ToolRouteView({ catalog, category, toolId }: ToolRouteViewProps)
             return (
                 <ToolShell
                     title={title}
-                    subtitle={IMMERSIVE_TOOL_IDS.has(match.entry?.id ?? "") ? undefined : `/tools/${match.category}/${match.requestedSlug}`}
-                    breadcrumb={IMMERSIVE_TOOL_IDS.has(match.entry?.id ?? "") ? undefined : `${categoryLabel(match.category, i18n.language)} / ${title}`}
+                    subtitle={
+                        IMMERSIVE_TOOL_IDS.has(match.entry?.id ?? "")
+                            ? undefined
+                            : `/tools/${match.category}/${match.requestedSlug}`
+                    }
+                    breadcrumb={
+                        IMMERSIVE_TOOL_IDS.has(match.entry?.id ?? "")
+                            ? undefined
+                            : `${categoryLabel(match.category, i18n.language)} / ${title}`
+                    }
                     immersive={IMMERSIVE_TOOL_IDS.has(match.entry?.id ?? "")}
                     badges={
                         match.specPending ? (

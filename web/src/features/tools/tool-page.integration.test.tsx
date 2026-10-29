@@ -131,16 +131,20 @@ describe("TASK-INTEGRATE unchanged route contract", () => {
         expect(renderTool("ecommerce-suite", "nope")).not.toContain('data-testid="tool-workspace"');
     });
 
-    test("sidebar keeps every category and expands the active category's tools", () => {
+    test("sidebar scopes itself to the active category, like the reference rail", () => {
+        /*
+         * 原站工具页左栏（1908x781 实测）只列当前类目的工具，类目切换在上层导航完成。
+         * 这里锁住真实契约：当前类目每个工具都有链接，其它类目的工具不出现在同一栏里。
+         */
         for (const category of TOOL_CATEGORIES) {
             const first = catalog.entries.find((entry) => entry.category === category);
             if (!first) continue;
             const html = renderTool(category, first.slug);
-            // Every category entry stays reachable, collapsed ones keep their count-only grouping.
-            for (const slug of TOOL_CATEGORIES) expect(html).toContain(`/tools/${slug}`);
-            // Only the active category lists its tools; that is the TASK-003 sidebar contract.
             for (const spec of toolSpecs.filter((item) => item.category === category)) {
                 expect(html).toContain(`/tools/${spec.category}/${spec.slug}`);
+            }
+            for (const spec of toolSpecs.filter((item) => item.category !== category)) {
+                expect(html).not.toContain(`/tools/${spec.category}/${spec.slug}"`);
             }
         }
     });

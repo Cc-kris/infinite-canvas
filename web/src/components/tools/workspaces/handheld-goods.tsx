@@ -338,7 +338,7 @@ export function HandheldGoodsWorkspace({ className }: HandheldGoodsWorkspaceProp
         <ToolShell
             className={className}
             title={spec?.title ?? "手持商品"}
-            subtitle="上传商品图 · 选手持姿势 · 生成手持效果图"
+            subtitle="快速生成手持商品图，快速上架"
             sidebar={sidebar}
             badges={
                 <>
@@ -367,7 +367,7 @@ export function HandheldGoodsWorkspace({ className }: HandheldGoodsWorkspaceProp
                     disabled={submitDisabled}
                     className="inline-flex h-9 items-center gap-2 rounded-md bg-primary px-4 text-sm font-medium text-primary-foreground transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50"
                 >
-                    {running ? "生成中…" : "开始生成"}
+                    {running ? "生成中…" : "立即生成"}
                 </button>
             }
         >
@@ -375,22 +375,20 @@ export function HandheldGoodsWorkspace({ className }: HandheldGoodsWorkspaceProp
                 {/* 左栏：商品图 + 姿势库 */}
                 <div className="flex min-w-0 flex-col gap-4">
                     <section className="rounded-lg border border-border bg-card p-3">
-                        <h2 className="mb-2 text-sm font-medium">商品图</h2>
                         <ToolAssetInput
                             toolId={HANDHELD_GOODS_TOOL_ID}
                             constraints={SOURCE_CONSTRAINTS}
                             maxCount={1}
                             disabled={running}
+                            variant="linkfox"
                             title="上传商品图"
+                            hint="10M以内，384*384 ~ 4096*4096"
                             onChange={(assetIds, records) => {
                                 const record = records[0] ?? null;
                                 setProduct(record);
                                 if (assetIds.length) setNotice(null);
                             }}
                         />
-                        <p className="mt-2 text-[11px] leading-relaxed text-muted-foreground">
-                            支持 PNG / JPEG / WebP，单张 10MB 以内，边长 384–4096。
-                        </p>
                     </section>
 
                     <section className="rounded-lg border border-border bg-card p-3">
@@ -611,9 +609,10 @@ export function HandheldGoodsWorkspace({ className }: HandheldGoodsWorkspaceProp
                         </div>
 
                         {view.status === "idle" ? (
-                            <p className="mt-3 text-xs text-muted-foreground">
-                                还没有结果：上传商品图 → 选一个姿势 → 开始生成。
-                            </p>
+                            <div className="mt-3 space-y-1">
+                                <p className="text-sm text-muted-foreground">暂无生成结果图</p>
+                                <p className="text-xs text-muted-foreground">快在左侧上传商品图并选择手持姿势吧~</p>
+                            </div>
                         ) : null}
 
                         {running ? (

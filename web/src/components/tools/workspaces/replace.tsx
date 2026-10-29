@@ -680,12 +680,7 @@ export function ReplaceGoodsWorkspace({ className }: ReplaceGoodsWorkspaceProps 
         <ToolShell
             className={className}
             title={spec?.title ?? "商品替换"}
-            subtitle="上传参考场景 → 框选原商品位置 → 上传替换商品 → 透视/扭曲定位 → 生成，一次真实图像编辑"
-            badges={
-                <span data-testid="replace-goods-make-type" className="rounded-full border border-border px-2 py-0.5 text-[11px] text-muted-foreground">
-                    makeType {spec?.makeType ?? 12}
-                </span>
-            }
+            subtitle="上传参考图，一键替换商品，快来替换您的商品吧~"
             sidebar={sidebar}
         >
             <div data-testid="replace-goods-workspace" className="grid gap-4 pb-6 lg:grid-cols-[minmax(0,1fr)_360px]">
@@ -916,7 +911,7 @@ export function ReplaceGoodsWorkspace({ className }: ReplaceGoodsWorkspaceProps 
                                 className="inline-flex h-10 items-center gap-2 rounded-lg bg-primary px-4 text-sm font-medium text-primary-foreground disabled:cursor-not-allowed disabled:opacity-50"
                             >
                                 {running ? <Loader2 className="size-4 animate-spin" /> : null}
-                                {running ? "生成中…" : `开始替换（${workspace.outputNum} 张）`}
+                                {running ? "生成中…" : "立即生成"}
                             </button>
                         </div>
 

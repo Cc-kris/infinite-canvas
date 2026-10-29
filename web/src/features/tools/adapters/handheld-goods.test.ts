@@ -300,7 +300,8 @@ describe("workspace / 渲染", () => {
         const markup = await renderWorkspace();
         expect(markup).toContain("手持商品");
         expect(markup).toContain("左手");
-        expect(markup).toContain("生成手持效果图");
+        // 原站左卡副标题就是这句（evidence/design19-visual-parity-20261029/real/HANDHELD_GOODS/text.txt）
+        expect(markup).toContain("快速生成手持商品图，快速上架");
         expect(markup).toContain("disabled");
     });
 });

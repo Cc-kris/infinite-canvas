@@ -447,7 +447,8 @@ async function renderWorkspace(): Promise<string> {
 describe("场景裂变工作区渲染", () => {
     test("分区齐全：上传 / 相似度 / 模式 / 尺寸 / 张数 / 结果", async () => {
         const html = await renderWorkspace();
-        expect(html).toContain("10M以内 · 分辨率 384×384 ~ 4096×4096 · 最大宽高比 5");
+        // 原站上传提示原文（real/PRODUCT_SCENE/text.txt:33），本地按原文渲染
+        expect(html).toContain("10M以内，分辨率：384*384 ~ 4096*4096，最大宽高比5");
         expect(html).toContain('data-testid="tool-asset-dropzone"');
         expect(html).toContain('data-tool-asset-input="PRODUCT_SCENE"');
         for (const id of [
@@ -455,7 +456,6 @@ describe("场景裂变工作区渲染", () => {
             "scene-modes",
             "scene-size-type",
             "scene-output-num",
-            "scene-issues",
             "scene-result-empty",
             "scene-expected",
         ]) {
@@ -463,12 +463,21 @@ describe("场景裂变工作区渲染", () => {
         }
         /* 结果网格只在有任务时出现，空态给的是结果区空状态 */
         expect(html).toContain("生成结果");
+        /*
+         * 原站首屏不预弹拦截清单（real/PRODUCT_SCENE/text.txt 里没有这类提示），
+         * 拦截由禁用按钮 + 上传区引导承担；scene-issues 只在提交失败后出现，
+         * 其渲染路径由 new-replace-bg-v2.test.ts（同款场景组件）覆盖。
+         */
+        expect(html).not.toContain('data-testid="scene-issues"');
+        expect(html).toMatch(/data-testid="scene-generate"[^>]*disabled/);
     });
 
     test("未上传参考图时生成按钮禁用并给出真实拦截", async () => {
         const html = await renderWorkspace();
         expect(html).toMatch(/data-testid="scene-generate"[^>]*disabled/);
-        expect(html).toContain("请先上传商品场景参考图");
+        /* 原站不预弹拦截提示，改由上传区 + 结果区引导承担（real/PRODUCT_SCENE/text.txt:57） */
+        expect(html).toContain("3秒裂变出多张相似的场景图，快来裂变您的场景图吧~");
+        expect(html).toContain("上传商品场景参考图");
     });
 
     test("默认写实模式显示手调相似度，智能模式给出自动提示", async () => {

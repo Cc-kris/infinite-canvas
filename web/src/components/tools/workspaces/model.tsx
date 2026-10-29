@@ -412,12 +412,7 @@ export function AiPostureWorkspace({ className }: AiPostureWorkspaceProps = {}) 
         <ToolShell
             className={className}
             title={spec?.title ?? "姿势裂变"}
-            subtitle="上传 1 张模特图 → 选姿势库或自定义 → 选张数 → 生成，按来源姿势分组出图"
-            badges={
-                <span data-testid="ai-posture-make-type" className="rounded-full border border-border px-2 py-0.5 text-[11px] text-muted-foreground">
-                    makeType {spec?.makeType ?? 58}
-                </span>
-            }
+            subtitle="📸 1 张模特图→N 种姿势套图！告别重复拍摄成本，秒变视觉内容高产能手！"
             sidebar={sidebar}
         >
             <div data-testid="ai-posture-workspace" className="grid gap-4 pb-6 lg:grid-cols-[minmax(0,1fr)_360px]">
@@ -1034,11 +1029,6 @@ export function AiPoseGeneratorWorkspace({ className }: AiPoseGeneratorWorkspace
             className={className}
             title={spec?.title ?? "AI 姿势生成"}
             subtitle="写姿势提示词 → 逐条加场景 → 预览实际 prompt → 按场景生成姿势参考图"
-            badges={
-                <span data-testid="ai-pose-make-type" className="rounded-full border border-border px-2 py-0.5 text-[11px] text-muted-foreground">
-                    makeType {spec?.makeType ?? 57}
-                </span>
-            }
             sidebar={sidebar}
         >
             <div data-testid="ai-pose-generator-workspace" className="grid gap-4 pb-6 lg:grid-cols-[minmax(0,1fr)_360px]">

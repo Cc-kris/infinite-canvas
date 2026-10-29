@@ -751,7 +751,7 @@ export function SceneWorkspace({ className }: { className?: string }) {
                             onClick={() => void onGenerate()}
                             disabled={blocked}
                         >
-                            {running ? "生成中…" : `生成 ${output.count} 张`}
+                            {running ? "生成中…" : "立即生成"}
                         </button>
                         <span className="text-[11px] text-stone-500 dark:text-stone-400">
                             {restoring ? "正在恢复草稿素材…" : `模型：${modelLabel(imageModel)}`}
