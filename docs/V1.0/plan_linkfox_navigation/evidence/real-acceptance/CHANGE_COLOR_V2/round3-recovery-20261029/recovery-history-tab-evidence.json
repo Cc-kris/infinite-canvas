@@ -1,0 +1,40 @@
+{
+  "toolId": "CHANGE_COLOR_V2",
+  "route": "http://127.0.0.1:3000/tools/ecommerce-suite/change-color-v2",
+  "checkedAt": "2026-10-29T07:48:44.735Z",
+  "method": "注入 localStorage 快照（status=submitting / status=unknown，均无 upstreamTaskId，submittedAt=12 分钟前）→ location.reload() → 等待 3.5s → 切换到「历史」标签读取 DOM；读取后立即清除探针，不污染真实历史",
+  "result": {
+    "nonTerminalAfterReload": 0,
+    "probeTasks": [
+      {
+        "id": "probe-submitting",
+        "statusBefore": "submitting",
+        "statusAfter": "failed",
+        "errorCode": "submit-unconfirmed",
+        "reconcileRequired": true,
+        "message": "页面刷新中断了这次请求，本服务无法反查上游是否已受理。已关闭为失败；重试前请先到服务商后台确认，避免重复计费。"
+      },
+      {
+        "id": "probe-unknown",
+        "statusBefore": "unknown",
+        "statusAfter": "failed",
+        "errorCode": "submit-unconfirmed",
+        "reconcileRequired": true,
+        "message": "页面刷新中断了这次请求，本服务无法反查上游是否已受理。已关闭为失败；重试前请先到服务商后台确认，避免重复计费。"
+      }
+    ],
+    "historyTab": {
+      "dataTestid": "color-v2-tab-history",
+      "visibleErrorNodes": 5,
+      "visibleErrorText": "页面刷新中断了这次请求，本服务无法反查上游是否已受理。已关闭为失败；重试前请先到服务商后台确认，避免重复计费。",
+      "itemSamples": [
+        { "status": "failed", "text": "2026-10-29 15:36 失败 recovery probe probe-submitting probe-model · image · 0 个结果 页面刷新中断了这次请求…" },
+        { "status": "failed", "text": "2026-10-29 15:36 失败 recovery probe probe-unknown probe-model · image · 0 个结果 页面刷新中断了这次请求…" }
+      ]
+    }
+  },
+  "notes": [
+    "探针是人工注入的历史快照，用于验证「刷新后是否收敛」，不代表真实出图结果。",
+    "真实出图本轮仍被代理 401 阻断（见 round2-20261029/round2-00-run.json），本工具不标 PASS。"
+  ]
+}
