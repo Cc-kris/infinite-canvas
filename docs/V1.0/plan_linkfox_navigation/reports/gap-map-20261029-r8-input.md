@@ -16,7 +16,7 @@
 6. `NEW_DESIGNER`
 7. `PRODUCT_MARKET_MATERIAL`
 
-判定原文：仅前 2 个 `PASS`（各 2 条 succeeded 任务，fresh reload 后 dock 2 条，2/2 sha256 与 IndexedDB 一致）；其余 5 个「dock 已挂载但 0 条」= BLOCKED。表中另加第 8 行 `PRODUCT_SCENE`（右栏历史页签在、0 条，同为 BLOCKED）——**标题写 7、表里 8 行**，R8 引用时须按上面 7 名单，勿把 `PRODUCT_SCENE` 计入七工具。
+判定原文：仅前 2 个 `PASS`（各 2 条 succeeded 任务，fresh reload 后 dock 2 条，2/2 sha256 与 IndexedDB 一致）；其余 5 个 `BLOCKED`——其中 4 个是「dock 已挂载但 0 条」，`NEW_DESIGNER` 是**根本没接任务持久化**（`workspaces/designer.tsx` 只做导出/下载/发画布，dock 恒为 0），后者不改代码不可能有 H 证据。表中另加第 8 行 `PRODUCT_SCENE`（右栏历史页签在、0 条，同为 BLOCKED）——**标题写 7、表里 8 行**，R8 引用时须按上面 7 名单，勿把 `PRODUCT_SCENE` 计入七工具。
 - 该提交自述的 BLOCKED 根因：5 个工具的运行记录都在**临时 playwright profile**（`design19b-nv-final/_runs/`），与真实用户 profile（ego lite · Profile 1，`tool-task:v1:index` 33 条）不是同一份存储。
 - 注意：`2151517B` 属 R7 matrix 的 `PRODUCT_IMAGE_SUITE` b4 三动作回执，**不是** ec74701 的数字，勿混引。
 
