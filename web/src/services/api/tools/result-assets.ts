@@ -198,11 +198,11 @@ export type ResultCanvasDeps = {
 };
 
 async function loadAssetDeps(): Promise<ResultAssetDeps> {
-    const [{ useAssetStore }, imageStorage, fileStorage] = await Promise.all([import("@/stores/use-asset-store"), import("@/services/image-storage"), import("@/services/file-storage")]);
+    const [{ useAssetStore, assetResultKey }, imageStorage, fileStorage] = await Promise.all([import("@/stores/use-asset-store"), import("@/services/image-storage"), import("@/services/file-storage")]);
     return {
         uploadImage: (input, options) => imageStorage.uploadImage(input, options),
         storeMedia: fileStorage.uploadMediaFile,
-        findAssetByKey: (key) => useAssetStore.getState().assets.find((asset) => asset.metadata?.resultAssetKey === key),
+        findAssetByKey: (key) => useAssetStore.getState().assets.find((asset) => assetResultKey(asset) === key),
         upsertAsset: (asset, options) => useAssetStore.getState().upsertAsset(asset, options),
         replaceAsset: (asset) => useAssetStore.getState().replaceAsset(asset),
         removeAssets: (ids) => useAssetStore.getState().removeAssets(ids),

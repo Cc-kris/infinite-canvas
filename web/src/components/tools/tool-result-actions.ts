@@ -4,6 +4,7 @@ import type { ToolTask, ToolTaskResultItem } from "@/services/api/tools/task-mac
 import { hasUsablePayload, withDerivedKind } from "@/lib/result-item-kind";
 import type { Asset } from "@/stores/use-asset-store";
 import type { CanvasNodeMetadata } from "@/types/canvas";
+import { resultAssetKey } from "@/services/api/tools/result-assets";
 
 /**
  * TASK-006：工具结果区的纯逻辑与真实副作用（无 React）。
@@ -263,7 +264,8 @@ export async function downloadResultItems(
 export type ResultAssetDeps = {
     uploadImage: (input: string | Blob) => Promise<UploadedImage>;
     storeVideo: (result: { blob?: Blob; url?: string; mimeType?: string }) => Promise<UploadedFile>;
-    addAsset: (asset: Omit<Asset, "id" | "createdAt" | "updatedAt">) => string;
+    /** 按 resultAssetKey 幂等写入：同一 toolId+taskId+resultId 重复点击只更新、不新增。 */
+    upsertAsset: (asset: Omit<Asset, "id" | "createdAt" | "updatedAt">, options: { key: string }) => { id: string; created: boolean; revision: number };
 };
 
 async function loadResultAssetDeps(): Promise<ResultAssetDeps> {
@@ -275,7 +277,7 @@ async function loadResultAssetDeps(): Promise<ResultAssetDeps> {
     return {
         uploadImage: imageStorage.uploadImage,
         storeVideo: videoApi.storeGeneratedVideo,
-        addAsset: (asset) => assetStore.useAssetStore.getState().addAsset(asset),
+        upsertAsset: (asset, options) => assetStore.useAssetStore.getState().upsertAsset(asset, options),
     };
 }
 
@@ -303,11 +305,12 @@ export async function saveResultItemToAssets(item: ToolTaskResultItem, index: nu
     assertResultPayload(item);
     const deps: ResultAssetDeps = { ...(await loadResultAssetDeps()), ...options.deps };
     const title = options.title ?? `${options.toolId} 结果 ${index + 1}`;
-    const metadata = { toolId: options.toolId, taskId: options.taskId, resultItemId: item.id };
+    const key = resultAssetKey(item, { toolId: options.toolId, taskId: options.taskId });
+    const metadata = { toolId: options.toolId, taskId: options.taskId, resultItemId: item.id, resultId: item.id, resultAssetKey: key };
 
     if (item.kind === "video") {
         const stored = await deps.storeVideo({ blob: item.blob, url: item.url, mimeType: item.mimeType });
-        const assetId = deps.addAsset({
+        const { id: assetId } = deps.upsertAsset({
             kind: "video",
             title,
             coverUrl: stored.url,
@@ -322,14 +325,14 @@ export async function saveResultItemToAssets(item: ToolTaskResultItem, index: nu
                 mimeType: stored.mimeType || item.mimeType || "video/mp4",
             },
             metadata,
-        });
+        }, { key });
         return { assetId, kind: "video" };
     }
 
     // 历史结果在刷新后往往只剩 storageKey（url 是失效的 blob:），必须优先用真实字节，
     // 否则 uploadImage("") 会以「读取图片失败」收场 —— 存资产/发画布全部不可用。
     const stored = await deps.uploadImage(await resolveResultUploadSource(item));
-    const assetId = deps.addAsset({
+    const { id: assetId } = deps.upsertAsset({
         kind: "image",
         title,
         coverUrl: stored.url,
@@ -344,7 +347,7 @@ export async function saveResultItemToAssets(item: ToolTaskResultItem, index: nu
             mimeType: stored.mimeType,
         },
         metadata,
-    });
+    }, { key });
     return { assetId, kind: "image" };
 }
 

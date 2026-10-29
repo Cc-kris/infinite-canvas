@@ -1,0 +1,86 @@
+{
+  "report": "R20 IMAGE_TEXT_EDIT 真实任务资产/画布字节对账 + 资产幂等写修复",
+  "date": "2026-10-29",
+  "origin": "http://127.0.0.1:3000",
+  "tabId": "1709629355",
+  "no_new_generation": true,
+  "no_injection": true,
+  "task": {
+    "taskId": "task-mvs8bhu1-hhue24",
+    "toolId": "IMAGE_TEXT_EDIT",
+    "status": "succeeded",
+    "payloadDropped": false,
+    "resultItemId": "task-mvs8bhu1-hhue24-0",
+    "mediaStoreKey": "tool-result:task-mvs8bhu1-hhue24:0:ZQg4pDfHC25ssM7hDsse7",
+    "store": "IndexedDB infinite-canvas / media_files",
+    "bytes": 844613,
+    "sha256": "e7b260e7b0642dd1acd0e41e41eedf9bfe635a3a28e8175029d3248aabf5be4c"
+  },
+  "asset": {
+    "assetId": "r7_ciYAu5tz8uxzKvy0g_",
+    "revision": 2,
+    "store": "IndexedDB infinite-canvas / image_files",
+    "storageKey": "image:LFsiU-qk3egwujsgUlD-w",
+    "bytes": 844613,
+    "mimeType": "image/png",
+    "sha256": "e7b260e7b0642dd1acd0e41e41eedf9bfe635a3a28e8175029d3248aabf5be4c",
+    "metadata": {
+      "toolId": "IMAGE_TEXT_EDIT",
+      "taskId": "task-mvs8bhu1-hhue24",
+      "resultItemId": "task-mvs8bhu1-hhue24-0",
+      "resultId": "task-mvs8bhu1-hhue24-0",
+      "resultAssetKey": "tool-result:IMAGE_TEXT_EDIT:task-mvs8bhu1-hhue24:task-mvs8bhu1-hhue24-0"
+    },
+    "note": "同一结果第二次「存入资产」是 upsert 命中既有资产：revision 1→2、id 不变、未新增记录（回执：已保存到资产库（r7_ciYAu5tz8uxzKvy0g_））。"
+  },
+  "canvas": {
+    "projectId": "8wBCdJVvgleEdyMf4DGmF",
+    "projectTitle": "IMAGE_TEXT_EDIT 结果",
+    "nodeId": "image-1793288382346-xyxs9",
+    "nodeType": "image",
+    "storageKey": "image:rXO4fBWV7vKoPw69YUu3F",
+    "store": "IndexedDB infinite-canvas / image_files",
+    "bytes": 844613,
+    "mimeType": "image/png",
+    "sha256": "e7b260e7b0642dd1acd0e41e41eedf9bfe635a3a28e8175029d3248aabf5be4c",
+    "metadata": {
+      "status": "success",
+      "naturalWidth": 1024,
+      "naturalHeight": 1024,
+      "bytes": 844613
+    }
+  },
+  "three_way_equal": true,
+  "reload_marker": {
+    "navType": "reload",
+    "how": "CDP Page.reload 后读 performance.getEntriesByType('navigation')[0].type",
+    "timeOrigin": 1793288445583.4,
+    "verified": "reload 之后同一 origin 内 asset/canvas/task 三条记录仍在，且三处 blob sha256 仍全等"
+  },
+  "excluded_evidence_note": "用户提到的 task-mvthgaa4-pdg1eq 在本 profile 中属于 VIDEO_CONCAT（r18 负证），不是 IMAGE_TEXT_EDIT 结果，故未用于本轮字节对账。",
+  "root_cause_fixed": {
+    "symptom": "同一 toolId+taskId+resultId 的结果反复点「存入资产」会新增重复资产（R20 实测出现 BmtqvOWUMLOt_-6ITewQa / r7_ciYAu5tz8uxzKvy0g_ / G3Y_dJHj6F5vBLgTsuRWG 三条同内容记录），与「幂等入库」文档不符。",
+    "cause": [
+      "web/src/components/tools/tool-result-actions.ts 的 saveResultItemToAssets（ToolResult 按钮的真实路径）调用 deps.addAsset（只增不去重），metadata 也未写 resultAssetKey。",
+      "web/src/stores/use-asset-store.ts 的 assetResultKey 只认 metadata.resultAssetKey，历史资产（只有 toolId/taskId/resultItemId）无法被识别，即便走 upsert 也判为新资产。"
+    ],
+    "fix": [
+      "saveResultItemToAssets 改为 deps.upsertAsset(record, { key })；metadata 增加 resultAssetKey/resultId。",
+      "assetResultKey 增加历史资产推导：无 resultAssetKey 时按 tool-result:<toolId>:<taskId|task>:<resultId|resultItemId> 推导。",
+      "result-assets.ts 的 findAssetByKey 统一用 assetResultKey 判定，避免两条口径不一致。"
+    ]
+  },
+  "verification": {
+    "typecheck": "npx tsc --noEmit -p tsconfig.json => 0 error",
+    "tests": [
+      "bun test src/stores/use-asset-store.key.test.ts => 4 pass",
+      "bun test src/services/api/tools/result-assets.test.ts => 30 pass",
+      "bun test src/components/tools/tool-result.test.tsx => 36 pass（含新增断言：metadata.resultAssetKey 与 upsert key 一致）"
+    ],
+    "live": "真实页面再次点击「存入资产」后机读：该 task 名下资产条数未增加，r7_ciYAu5tz8uxzKvy0g_ revision 1→2，metadata.resultAssetKey 写入成功。"
+  },
+  "residual_risks": [
+    "本轮点击前已存在的历史重复记录（BmtqvOWUMLOt_-6ITewQa，无 resultAssetKey）不会被自动合并，需人工/后续迁移清理；修复只保证今后不再新增。",
+    "每次「存入资产」都会重新上传字节，storageKey 变化（image:8ZTeF… → image:LFsiU…），但 sha256/bytes 不变，属预期行为。"
+  ]
+}

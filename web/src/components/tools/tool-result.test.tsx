@@ -409,6 +409,7 @@ describe("real result actions", () => {
 
     test("saves an image into the asset library with real storage keys", async () => {
         let captured: Record<string, unknown> | undefined;
+        let capturedKey: string | undefined;
         const stored = { url: "blob:stored-image", storageKey: "image:42", width: 1024, height: 768, bytes: 2048, mimeType: "image/png" };
         const result = await saveResultItemToAssets(imageItem, 0, {
             toolId: "SCALE_UP",
@@ -418,9 +419,10 @@ describe("real result actions", () => {
                     expect(input).toBe(imageItem.dataUrl);
                     return stored;
                 },
-                addAsset: (asset) => {
+                upsertAsset: (asset, options) => {
                     captured = asset as unknown as Record<string, unknown>;
-                    return "asset-42";
+                    capturedKey = options.key;
+                    return { id: "asset-42", created: true, revision: 1 };
                 },
             },
         });
@@ -428,6 +430,8 @@ describe("real result actions", () => {
         expect((captured as { kind: string }).kind).toBe("image");
         expect((captured as { data: { storageKey: string } }).data.storageKey).toBe("image:42");
         expect((captured as { metadata: { taskId: string } }).metadata.taskId).toBe("task-1");
+        expect((captured as { metadata: { resultAssetKey: string } }).metadata.resultAssetKey).toBe("tool-result:SCALE_UP:task-1:item-1");
+        expect(capturedKey).toBe("tool-result:SCALE_UP:task-1:item-1");
     });
 
     test("stores video bytes before creating a video asset", async () => {
@@ -439,7 +443,7 @@ describe("real result actions", () => {
                     storedInput = input;
                     return { url: "blob:video", storageKey: "video:7", bytes: 999, mimeType: "video/mp4", width: 1080, height: 1920 };
                 },
-                addAsset: (asset) => (asset.kind === "video" ? "asset-video" : "wrong"),
+                upsertAsset: (asset) => ({ id: asset.kind === "video" ? "asset-video" : "wrong", created: true, revision: 1 }),
             },
         });
         expect(result).toEqual({ assetId: "asset-video", kind: "video" });

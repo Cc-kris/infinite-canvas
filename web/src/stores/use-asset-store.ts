@@ -49,7 +49,16 @@ type AssetStore = {
 
 export function assetResultKey(asset: Pick<Asset, "metadata">) {
     const key = asset.metadata?.resultAssetKey;
-    return typeof key === "string" && key !== "" ? key : undefined;
+    if (typeof key === "string" && key !== "") return key;
+    // 历史资产未写 resultAssetKey（旧版本只落 toolId/taskId/resultItemId），
+    // 按同一口径推导，否则同一结果会被判定为「新资产」而重复入库。
+    const meta = asset.metadata as Record<string, unknown> | undefined;
+    const toolId = typeof meta?.toolId === "string" ? meta.toolId : "";
+    const resultId =
+        typeof meta?.resultId === "string" ? meta.resultId : typeof meta?.resultItemId === "string" ? meta.resultItemId : "";
+    if (!toolId || !resultId) return undefined;
+    const taskId = typeof meta?.taskId === "string" && meta.taskId !== "" ? meta.taskId : "task";
+    return `tool-result:${toolId}:${taskId}:${resultId}`;
 }
 
 // 卡片用缩略图渲染，自定义封面（远程地址或单独上传的封面）保持原样。
