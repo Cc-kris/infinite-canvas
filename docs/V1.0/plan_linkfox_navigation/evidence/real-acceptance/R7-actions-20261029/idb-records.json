@@ -1,0 +1,187 @@
+{
+ "capturedAt": "2026-10-29T09:54:38.576Z",
+ "assetCount": 21,
+ "projectCount": 19,
+ "assets": [
+  {
+   "id": "5pRjNY6-nBhQHpivGWRL_",
+   "title": "HAND_REPAIR 结果 1",
+   "kind": "image",
+   "bytes": 2153466,
+   "storageKey": "image:IKtqBWhh97bo9kYTBc9tV",
+   "w": 1024,
+   "h": 1024,
+   "mime": "image/png",
+   "toolId": "HAND_REPAIR",
+   "taskId": "task-mvtbe5rp-0maafh",
+   "itemId": "task-mvtbe5rp-0maafh-0",
+   "createdAt": "2026-10-29T09:53:01.181Z"
+  },
+  {
+   "id": "arsQzAbHpBGKI-8AoPUeF",
+   "title": "PRODUCT_REFINE 结果 1",
+   "kind": "image",
+   "bytes": 2827346,
+   "storageKey": "image:kYwi9eAvdPaEBitw1j1DP",
+   "w": 2048,
+   "h": 1488,
+   "mime": "image/png",
+   "toolId": "PRODUCT_REFINE",
+   "taskId": "task-mvtb3nuj-3d0mnv",
+   "itemId": "task-mvtb3nuj-3d0mnv-0",
+   "createdAt": "2026-10-29T09:50:17.582Z"
+  },
+  {
+   "id": "DA8J8qw7BpnPB_6qFhcnY",
+   "title": "IMAGE_TRANSLATION 结果 1",
+   "kind": "image",
+   "bytes": 1028256,
+   "storageKey": "image:LKQWmB0Nf8WfSf2pW5rg8",
+   "w": 1024,
+   "h": 1024,
+   "mime": "image/png",
+   "toolId": "IMAGE_TRANSLATION",
+   "taskId": "task-mvt9elbs-u4grlv",
+   "itemId": "task-mvt9elbs-u4grlv-0",
+   "createdAt": "2026-10-29T09:48:47.056Z"
+  }
+ ],
+ "projects": [
+  {
+   "id": "lgo49vQA16ieaPARvSvAb",
+   "title": "SCENE_TRANSFER 结果",
+   "nodeCount": 1,
+   "updatedAt": "2026-10-28T15:32:30.295Z",
+   "nodes": [
+    {
+     "id": "image-1793201550295-pnlg9",
+     "type": "image",
+     "bytes": 1109675,
+     "storageKey": "image:mITfBmdIdQpYYYJXcULW1",
+     "w": 1024,
+     "h": 1024,
+     "status": "success"
+    }
+   ]
+  },
+  {
+   "id": "goqoqj-ofr8lSgBrNtlZC",
+   "title": "CHANGE_COLOR 结果",
+   "nodeCount": 1,
+   "updatedAt": "2026-10-28T15:28:48.683Z",
+   "nodes": [
+    {
+     "id": "image-1793201328683-oj153",
+     "type": "image",
+     "bytes": 930500,
+     "storageKey": "image:wjyVwF0Ly_WPXspl2LD-O",
+     "w": 1024,
+     "h": 1024,
+     "status": "success"
+    }
+   ]
+  },
+  {
+   "id": "FSTdIeMON6FhWCm2Zl9uQ",
+   "title": "商品图设计器结果",
+   "nodeCount": 1,
+   "updatedAt": "2026-10-28T15:29:22.698Z",
+   "nodes": [
+    {
+     "id": "image-1793201046988-ceos9",
+     "type": "image",
+     "bytes": 128272,
+     "storageKey": "image:UC9dV7cGdimKd7H6IMZXT",
+     "w": 1200,
+     "h": 1200,
+     "status": "success"
+    }
+   ]
+  },
+  {
+   "id": "MpaAkE1XEQJjpK0ijVm8v",
+   "title": "商品营销素材结果",
+   "nodeCount": 1,
+   "updatedAt": "2026-10-28T16:20:46.697Z",
+   "nodes": [
+    {
+     "id": "image-1793200842226-vrifp",
+     "type": "image",
+     "bytes": 703458,
+     "storageKey": "image:iMRwYGgwjetVRFHQKf5-U",
+     "w": 970,
+     "h": 600,
+     "status": "success"
+    }
+   ]
+  },
+  {
+   "id": "IKML-qu6PEujEpwHQXvj5",
+   "title": "SCENE_TRANSFER 结果",
+   "nodeCount": 1,
+   "updatedAt": "2026-10-28T15:14:41.717Z",
+   "nodes": [
+    {
+     "id": "image-1793200481717-ex1fh",
+     "type": "image",
+     "bytes": 1075050,
+     "storageKey": "image:XWoUY42IDc1nHqtUEKjCX",
+     "w": 1024,
+     "h": 1024,
+     "status": "success"
+    }
+   ]
+  },
+  {
+   "id": "kCkxO-QxE3_DogWC69Dt0",
+   "title": "MATERIAL_UPPER_BODY 结果",
+   "nodeCount": 1,
+   "updatedAt": "2026-10-28T14:31:36.615Z",
+   "nodes": [
+    {
+     "id": "image-1793197896615-rt15d",
+     "type": "image",
+     "bytes": 1699450,
+     "storageKey": "image:4xoGkPrtAhAL3ZIE2Gll7",
+     "w": 1024,
+     "h": 1024,
+     "status": "success"
+    }
+   ]
+  },
+  {
+   "id": "R0eeCURHA4at_B39kzd0W",
+   "title": "AI_POSE_GENERATOR 结果",
+   "nodeCount": 1,
+   "updatedAt": "2026-10-28T14:19:45.699Z",
+   "nodes": [
+    {
+     "id": "image-1793197185699-2s0w8",
+     "type": "image",
+     "bytes": 1550004,
+     "storageKey": "image:-danJujPvDyohKNmy_iLe",
+     "w": 1024,
+     "h": 1024,
+     "status": "success"
+    }
+   ]
+  },
+  {
+   "id": "ahxLQ_-zX8AbuVL_lY0Ij",
+   "title": "AI_DRESSING_XSY 结果",
+   "nodeCount": 1,
+   "updatedAt": "2026-10-28T13:59:46.091Z",
+   "nodes": [
+    {
+     "id": "image-1793195886841-a2et3",
+     "type": "image",
+     "bytes": 1069621,
+     "storageKey": "image:RLNyqxO946qFAaz6jFWbz",
+     "w": 720,
+     "h": 960,
+     "status": "success"
+    }
+   ]
+  }
+ ]
+}

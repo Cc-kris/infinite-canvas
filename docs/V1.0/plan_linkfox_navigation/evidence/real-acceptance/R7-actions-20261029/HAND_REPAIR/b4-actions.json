@@ -1,0 +1,57 @@
+{
+ "toolId": "HAND_REPAIR",
+ "route": "/tools/smart-edit/hand-repair",
+ "source": "own",
+ "mechanism": "ToolHistoryDock 原生动作 + 工作台 ToolResult",
+ "realTask": {
+  "id": "task-mvtbe5rp-0maafh",
+  "createdAt": "2026-10-29T09:01:58.069Z",
+  "origin": "http://127.0.0.1:3000",
+  "note": "用户既有成功任务，复用历史结果，未重新生成、未注入历史"
+ },
+ "steps": {
+  "download": {
+   "feedback": "已下载 hand-repair-result-1.png",
+   "suggestedFilename": "hand-repair-result-1.png",
+   "bytes": 2153466,
+   "sha256": "a34cea71ca7da6dec09ee6167367f6c60ba600e4ff44ec0c6441b6f5f3800e20",
+   "path": "HAND_REPAIR/hand-repair-result-1.png",
+   "bytesMatchAsset": true,
+   "bytesMatchCanvasNode": true
+  },
+  "save": {
+   "feedback": "已存入资产库（5pRjNY6-nBhQhPivGWRL_）",
+   "asset": {
+    "id": "5pRjNY6-nBhQhPivGWRL_",
+    "storageKey": "image:IKtqBWhh97bo9kYTBc9tV",
+    "bytes": 2153466,
+    "w": 1024,
+    "h": 1024,
+    "title": "HAND_REPAIR 结果 1"
+   },
+   "verifiedInIndexedDb": {
+    "db": "infinite-canvas",
+    "store": "app_state",
+    "key": "infinite-canvas:asset_store"
+   }
+  },
+  "canvas": {
+   "id": "Ng-l4G-cYB8AJEP83OZUv",
+   "node": "image-1793267583731-ask3z",
+   "bytes": 2153466,
+   "storageKey": "image:LWoSx1W1Dh1oV3GLVfFFk",
+   "w": 1024,
+   "h": 1024,
+   "title": "HAND_REPAIR 历史结果",
+   "feedback": "已发送到画布（Ng-l4G-cYB8AJEP83OZUv / image-1793267583731-ask3z）",
+   "verifiedInIndexedDb": {
+    "db": "infinite-canvas",
+    "store": "app_state",
+    "key": "infinite-canvas:canvas_store"
+   }
+  }
+ },
+ "ok": true,
+ "errors": [],
+ "recordedAt": "2026-10-29T10:00:00.000Z"
+}

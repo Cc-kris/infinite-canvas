@@ -1,0 +1,57 @@
+{
+ "toolId": "IMAGE_TRANSLATION",
+ "route": "/tools/ecommerce-suite/image-translation",
+ "source": "own",
+ "mechanism": "ToolHistoryDock 原生动作（工作台结果区未接 ToolResult；历史坞提供下载/存资产/发画布）",
+ "realTask": {
+  "id": "task-mvt9elbs-u4grlv",
+  "createdAt": "2026-10-29T08:06:19.000Z",
+  "origin": "http://127.0.0.1:3000",
+  "note": "用户既有成功任务，复用历史结果，未重新生成、未注入历史"
+ },
+ "steps": {
+  "download": {
+   "feedback": "已下载 image-translation-result-1.png",
+   "suggestedFilename": "image-translation-result-1.png",
+   "bytes": 1028256,
+   "sha256": "8b600332372fe5e687673203f7cdba6f589acc5ecd68cd66aea1dbe44dbf6652",
+   "path": "IMAGE_TRANSLATION/image-translation-result-1.png",
+   "bytesMatchAsset": true,
+   "bytesMatchCanvasNode": true
+  },
+  "save": {
+   "feedback": "已存入资产库（image · DA8J8qw7BpnPB_6qFhcnY）",
+   "asset": {
+    "id": "DA8J8qw7BpnPB_6qFhcnY",
+    "storageKey": "image:LKQWmB0Nf8WfSf2pW5rg8",
+    "bytes": 1028256,
+    "w": 1024,
+    "h": 1024,
+    "title": "IMAGE_TRANSLATION 结果 1"
+   },
+   "verifiedInIndexedDb": {
+    "db": "infinite-canvas",
+    "store": "app_state",
+    "key": "infinite-canvas:asset_store"
+   }
+  },
+  "canvas": {
+   "id": "0NDxhfkN1_ZKYI7y0d6S5",
+   "node": "image-1793267739608-qt3um",
+   "bytes": 1028256,
+   "storageKey": "image:BMcH1K4YMMPAl6Dbgd0aN",
+   "w": 1024,
+   "h": 1024,
+   "title": "IMAGE_TRANSLATION 历史结果",
+   "feedback": "已发送到画布（0NDxhfkN1_ZKYI7y0d6S5 / image-1793267739608-qt3um）",
+   "verifiedInIndexedDb": {
+    "db": "infinite-canvas",
+    "store": "app_state",
+    "key": "infinite-canvas:canvas_store"
+   }
+  }
+ },
+ "ok": true,
+ "errors": [],
+ "recordedAt": "2026-10-29T10:00:00.000Z"
+}

@@ -1,0 +1,57 @@
+{
+ "toolId": "PRODUCT_REFINE",
+ "route": "/tools/smart-edit/product-refine",
+ "source": "own",
+ "mechanism": "共享 ToolResult（tool-result-download-0 / save-0 / canvas-0）",
+ "realTask": {
+  "id": "task-mvtb3nuj-3d0mnv",
+  "createdAt": "2026-10-29T08:53:48.283Z",
+  "origin": "http://127.0.0.1:3000",
+  "note": "用户既有成功任务，复用历史结果，未重新生成、未注入历史"
+ },
+ "steps": {
+  "download": {
+   "feedback": "已下载 product-refine-result-1.png",
+   "suggestedFilename": "product-refine-result-1.png",
+   "bytes": 2827346,
+   "sha256": "454f64bbde16b5213da96097a12b67038a8f8ed9b175c492e21e3100bafe264e",
+   "path": "PRODUCT_REFINE/product-refine-result-1.png",
+   "bytesMatchAsset": true,
+   "bytesMatchCanvasNode": true
+  },
+  "save": {
+   "feedback": "已保存到资产库（arsQzAbHpBGKI-8AoPUeF）",
+   "asset": {
+    "id": "arsQzAbHpBGKI-8AoPUeF",
+    "storageKey": "image:kYwi9eAvdPaEBitw1j1DP",
+    "bytes": 2827346,
+    "w": 2048,
+    "h": 1488,
+    "title": "PRODUCT_REFINE 结果 1"
+   },
+   "verifiedInIndexedDb": {
+    "db": "infinite-canvas",
+    "store": "app_state",
+    "key": "infinite-canvas:asset_store"
+   }
+  },
+  "canvas": {
+   "id": "RaiNNBcYL08RwszivAQPR",
+   "node": "image-1793267706845-ss5qf",
+   "bytes": 2827346,
+   "storageKey": "image:EIllm0wnQ-sD0PY6HH_nr",
+   "w": 2048,
+   "h": 1488,
+   "title": "PRODUCT_REFINE 结果",
+   "feedback": "已发送到画布（RaiNNBcYL08RwszivAQPR）",
+   "verifiedInIndexedDb": {
+    "db": "infinite-canvas",
+    "store": "app_state",
+    "key": "infinite-canvas:canvas_store"
+   }
+  }
+ },
+ "ok": true,
+ "errors": [],
+ "recordedAt": "2026-10-29T10:00:00.000Z"
+}

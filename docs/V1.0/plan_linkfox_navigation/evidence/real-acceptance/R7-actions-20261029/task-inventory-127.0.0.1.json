@@ -1,0 +1,630 @@
+{
+ "origin": "http://127.0.0.1:3000",
+ "capturedAt": "2026-10-29T09:53:48.465Z",
+ "total": 60,
+ "byTool": {
+  "AI_VIDEO_EDITING": [
+   {
+    "id": "task-mvs802af-u9vwye",
+    "status": "failed",
+    "createdAt": "2026-10-28T14:39:15.351Z",
+    "itemCount": 0,
+    "items": []
+   },
+   {
+    "id": "task-mvs83fc2-dc6b5s",
+    "status": "failed",
+    "createdAt": "2026-10-28T14:41:52.226Z",
+    "itemCount": 0,
+    "items": []
+   },
+   {
+    "id": "task-mvsbmg1s-vrn9il",
+    "status": "failed",
+    "createdAt": "2026-10-28T16:20:38.464Z",
+    "itemCount": 0,
+    "items": []
+   },
+   {
+    "id": "task-mvsbm0je-ci8p2w",
+    "status": "failed",
+    "createdAt": "2026-10-28T16:20:18.362Z",
+    "itemCount": 0,
+    "items": []
+   },
+   {
+    "id": "task-mvt42rpv-kfl1ov",
+    "status": "succeeded",
+    "createdAt": "2026-10-29T07:54:25.687Z",
+    "itemCount": 1,
+    "items": [
+     {
+      "mime": "video/mp4",
+      "sk": "tool-result:6x-FsSnD1IMk76p5iayw-"
+     }
+    ]
+   },
+   {
+    "id": "task-mvs76zzt-c0f9u5",
+    "status": "failed",
+    "createdAt": "2026-10-28T14:16:39.353Z",
+    "itemCount": 0,
+    "items": []
+   },
+   {
+    "id": "task-mvs7sk2d-cmr0uf",
+    "status": "failed",
+    "createdAt": "2026-10-28T14:33:25.141Z",
+    "itemCount": 0,
+    "items": []
+   }
+  ],
+  "CHANGE_COLOR_V2": [
+   {
+    "id": "task-mvsb41o4-obzwag",
+    "status": "failed",
+    "createdAt": "2026-10-28T16:06:20.020Z",
+    "itemCount": 0,
+    "items": []
+   },
+   {
+    "id": "task-mvsc4fyg-qobp8k",
+    "status": "succeeded",
+    "createdAt": "2026-10-28T16:34:38.152Z",
+    "itemCount": 1,
+    "items": [
+     {
+      "kind": "image"
+     }
+    ]
+   },
+   {
+    "id": "task-mvsb41o9-hv2vqo",
+    "status": "failed",
+    "createdAt": "2026-10-28T16:06:20.025Z",
+    "itemCount": 0,
+    "items": []
+   },
+   {
+    "id": "task-mvsc7s58-2rrnqz",
+    "status": "failed",
+    "createdAt": "2026-10-28T16:37:13.916Z",
+    "itemCount": 0,
+    "items": []
+   }
+  ],
+  "AI_POSE_GENERATOR": [
+   {
+    "id": "task-mvtd89f3-9qpix6",
+    "status": "submitting",
+    "createdAt": "2026-10-29T09:53:22.095Z",
+    "itemCount": 0,
+    "items": []
+   },
+   {
+    "id": "task-mvs6l55s-fufs7l",
+    "status": "failed",
+    "createdAt": "2026-10-28T13:59:39.616Z",
+    "itemCount": 0,
+    "items": []
+   },
+   {
+    "id": "task-mvs73hbe-ak20fw",
+    "status": "succeeded",
+    "createdAt": "2026-10-28T14:13:55.178Z",
+    "itemCount": 1,
+    "items": [
+     {
+      "kind": "image"
+     }
+    ]
+   },
+   {
+    "id": "task-mvs6zovx-pod3rz",
+    "status": "failed",
+    "createdAt": "2026-10-28T14:10:58.365Z",
+    "itemCount": 0,
+    "items": []
+   },
+   {
+    "id": "task-mvs6r088-39u8zq",
+    "status": "failed",
+    "createdAt": "2026-10-28T14:04:13.160Z",
+    "itemCount": 0,
+    "items": []
+   },
+   {
+    "id": "task-mvs6fr7b-plo8es",
+    "status": "failed",
+    "createdAt": "2026-10-28T13:55:28.247Z",
+    "itemCount": 0,
+    "items": []
+   }
+  ],
+  "PRODUCT_IMAGE_SUITE": [
+   {
+    "id": "task-mvt6vpdn-17qby2",
+    "status": "succeeded",
+    "createdAt": "2026-10-29T06:55:38.555Z",
+    "itemCount": 1,
+    "items": [
+     {
+      "kind": "image",
+      "mime": "image/png",
+      "sk": "tool-result:FRr_uTcG6mZmHzzEJ2rYx"
+     }
+    ]
+   },
+   {
+    "id": "task-mvt6vpdo-sc1x8w",
+    "status": "succeeded",
+    "createdAt": "2026-10-29T06:55:38.556Z",
+    "itemCount": 1,
+    "items": [
+     {
+      "kind": "image",
+      "mime": "image/png",
+      "sk": "tool-result:98tXNya0JHj77cjXVRxLa"
+     }
+    ]
+   }
+  ],
+  "AI_OUTPAINTING": [
+   {
+    "id": "task-mvsbp9c8-y8q5vf",
+    "status": "succeeded",
+    "createdAt": "2026-10-28T16:22:49.736Z",
+    "itemCount": 1,
+    "items": [
+     {
+      "kind": "image"
+     }
+    ]
+   },
+   {
+    "id": "task-mvtbhylv-bmyjus",
+    "status": "succeeded",
+    "createdAt": "2026-10-29T09:04:55.411Z",
+    "itemCount": 1,
+    "items": [
+     {
+      "kind": "image",
+      "mime": "image/png",
+      "sk": "tool-result:RvlSRdnpA2kyyj8OmnSRW"
+     }
+    ]
+   }
+  ],
+  "DRESS_WEAR_SET": [
+   {
+    "id": "task-mvt74l6n-y5sie3",
+    "status": "succeeded",
+    "createdAt": "2026-10-29T07:02:33.023Z",
+    "itemCount": 1,
+    "items": [
+     {
+      "kind": "image",
+      "mime": "image/png",
+      "sk": "tool-result:og5LfxYy5GnPxzTYvmO4F"
+     }
+    ]
+   },
+   {
+    "id": "task-mvt74l6q-1vljau",
+    "status": "succeeded",
+    "createdAt": "2026-10-29T07:02:33.026Z",
+    "itemCount": 1,
+    "items": [
+     {
+      "kind": "image",
+      "mime": "image/png",
+      "sk": "tool-result:UJkgjc6BIYFLDnO12F3G-"
+     }
+    ]
+   }
+  ],
+  "PRODUCT_REFINE": [
+   {
+    "id": "task-mvtb3nuj-3d0mnv",
+    "status": "succeeded",
+    "createdAt": "2026-10-29T08:53:48.283Z",
+    "itemCount": 1,
+    "items": [
+     {
+      "kind": "image",
+      "mime": "image/png",
+      "sk": "tool-result:bbXCXFqpAjGJXnsC3Cbph"
+     }
+    ]
+   }
+  ],
+  "PRINTING_REPAIR": [
+   {
+    "id": "task-mvtbawv4-zxcmpv",
+    "status": "succeeded",
+    "createdAt": "2026-10-29T08:59:26.560Z",
+    "itemCount": 1,
+    "items": [
+     {
+      "kind": "image",
+      "mime": "image/png",
+      "sk": "tool-result:gy4ol2a8gM3_BAcbOgKQz"
+     }
+    ]
+   },
+   {
+    "id": "task-mvsamffh-uh79ky",
+    "status": "succeeded",
+    "createdAt": "2026-10-28T15:52:38.045Z",
+    "itemCount": 1,
+    "items": [
+     {
+      "kind": "image"
+     }
+    ]
+   }
+  ],
+  "SCALE_UP": [
+   {
+    "id": "task-mvtcuvru-9ef0rv",
+    "status": "failed",
+    "createdAt": "2026-10-29T09:42:57.882Z",
+    "itemCount": 0,
+    "items": []
+   },
+   {
+    "id": "task-mvtcqvmh-ucrp2a",
+    "status": "failed",
+    "createdAt": "2026-10-29T09:39:51.065Z",
+    "itemCount": 0,
+    "items": []
+   },
+   {
+    "id": "task-mvtcuvrx-y8uyad",
+    "status": "failed",
+    "createdAt": "2026-10-29T09:42:57.885Z",
+    "itemCount": 0,
+    "items": []
+   },
+   {
+    "id": "task-mvtcqvmn-p4kk5n",
+    "status": "failed",
+    "createdAt": "2026-10-29T09:39:51.071Z",
+    "itemCount": 0,
+    "items": []
+   }
+  ],
+  "FISSION_LINK": [
+   {
+    "id": "task-mvt15f64-jnx1gz",
+    "status": "failed",
+    "createdAt": "2026-10-29T04:15:14.188Z",
+    "itemCount": 0,
+    "items": []
+   },
+   {
+    "id": "task-mvt0rvni-ylxhm0",
+    "status": "succeeded",
+    "createdAt": "2026-10-29T04:04:42.366Z",
+    "itemCount": 1,
+    "items": [
+     {
+      "kind": "image",
+      "mime": "image/png",
+      "sk": "tool-result:iIlw5lgOSYJWQE8qbX1Sa"
+     }
+    ]
+   },
+   {
+    "id": "task-mvs7pmey-uxscga",
+    "status": "succeeded",
+    "createdAt": "2026-10-28T14:31:08.218Z",
+    "itemCount": 1,
+    "items": [
+     {
+      "kind": "image"
+     }
+    ]
+   },
+   {
+    "id": "task-mvs7gq30-m78zxu",
+    "status": "failed",
+    "createdAt": "2026-10-28T14:24:13.068Z",
+    "itemCount": 0,
+    "items": []
+   },
+   {
+    "id": "task-mvt18lrt-rsnifn",
+    "status": "succeeded",
+    "createdAt": "2026-10-29T04:17:42.713Z",
+    "itemCount": 1,
+    "items": [
+     {
+      "kind": "image",
+      "mime": "image/png",
+      "sk": "tool-result:SVZBd-stlKJhjHtE0ng8F"
+     }
+    ]
+   },
+   {
+    "id": "task-mvs726zz-lwouyf",
+    "status": "failed",
+    "createdAt": "2026-10-28T14:12:55.151Z",
+    "itemCount": 0,
+    "items": []
+   },
+   {
+    "id": "task-mvt17bmi-xpint5",
+    "status": "succeeded",
+    "createdAt": "2026-10-29T04:16:42.906Z",
+    "itemCount": 1,
+    "items": [
+     {
+      "kind": "image",
+      "mime": "image/png",
+      "sk": "tool-result:JfBmAE8nFp6R-Ij61W9lQ"
+     }
+    ]
+   },
+   {
+    "id": "task-mvt0ww21-bhl4e9",
+    "status": "succeeded",
+    "createdAt": "2026-10-29T04:08:36.169Z",
+    "itemCount": 1,
+    "items": [
+     {
+      "kind": "image",
+      "mime": "image/png",
+      "sk": "tool-result:5wx_pXO3KGsL85fOdiqAV"
+     }
+    ]
+   }
+  ],
+  "SALE_VIDEO": [
+   {
+    "id": "task-mvs6m72i-eidjm6",
+    "status": "failed",
+    "createdAt": "2026-10-28T14:00:28.746Z",
+    "itemCount": 0,
+    "items": []
+   },
+   {
+    "id": "task-mvsbd685-5tzfuw",
+    "status": "failed",
+    "createdAt": "2026-10-28T16:13:25.829Z",
+    "itemCount": 0,
+    "items": []
+   },
+   {
+    "id": "task-mvt76u6p-7cfnff",
+    "status": "succeeded",
+    "createdAt": "2026-10-29T07:04:18.001Z",
+    "itemCount": 1,
+    "items": [
+     {
+      "kind": "video",
+      "mime": "video/mp4",
+      "sk": "tool-result:Be9yI14yvxVSg1r0TjYPJ"
+     }
+    ]
+   }
+  ],
+  "REMOVE_PEN": [
+   {
+    "id": "task-mvsa3pt6-4wqy46",
+    "status": "succeeded",
+    "createdAt": "2026-10-28T15:38:05.034Z",
+    "itemCount": 1,
+    "items": [
+     {
+      "kind": "image"
+     }
+    ]
+   },
+   {
+    "id": "task-mvsaq4oa-4giro0",
+    "status": "failed",
+    "createdAt": "2026-10-28T15:55:30.730Z",
+    "itemCount": 0,
+    "items": []
+   },
+   {
+    "id": "task-mvsba8fo-iplfjq",
+    "status": "succeeded",
+    "createdAt": "2026-10-28T16:11:08.724Z",
+    "itemCount": 1,
+    "items": [
+     {
+      "kind": "image"
+     }
+    ]
+   },
+   {
+    "id": "task-mvs9xe7s-9jmboc",
+    "status": "failed",
+    "createdAt": "2026-10-28T15:33:10.072Z",
+    "itemCount": 0,
+    "items": []
+   },
+   {
+    "id": "task-mvsaz6ar-m6osdl",
+    "status": "failed",
+    "createdAt": "2026-10-28T16:02:32.739Z",
+    "itemCount": 0,
+    "items": []
+   },
+   {
+    "id": "task-mvsaus49-i7vsmt",
+    "status": "succeeded",
+    "createdAt": "2026-10-28T15:59:07.737Z",
+    "itemCount": 1,
+    "items": [
+     {
+      "kind": "image"
+     }
+    ]
+   }
+  ],
+  "FIX_COLOR": [
+   {
+    "id": "task-mvt9r1lg-ab8tqn",
+    "status": "succeeded",
+    "createdAt": "2026-10-29T08:15:59.956Z",
+    "itemCount": 1,
+    "items": [
+     {
+      "kind": "image",
+      "mime": "image/png",
+      "sk": "tool-result:PIvAsueZHgZNHS9_77Fw8"
+     }
+    ]
+   },
+   {
+    "id": "task-mvta1kkg-t8y1yo",
+    "status": "succeeded",
+    "createdAt": "2026-10-29T08:24:11.104Z",
+    "itemCount": 1,
+    "items": [
+     {
+      "kind": "image",
+      "mime": "image/png",
+      "sk": "tool-result:qQAR2JMo3arS4IRSr9C_i"
+     }
+    ]
+   }
+  ],
+  "VIDEO_REPLICATION": [
+   {
+    "id": "task-mvs9mpoz-e8u2ry",
+    "status": "failed",
+    "createdAt": "2026-10-28T15:24:51.731Z",
+    "itemCount": 0,
+    "items": []
+   }
+  ],
+  "VIDEO_CONCAT": [
+   {
+    "id": "task-mvt94gxs-p0r29t",
+    "status": "failed",
+    "createdAt": "2026-10-29T07:58:26.752Z",
+    "itemCount": 0,
+    "items": []
+   }
+  ],
+  "IMAGE_CROP": [
+   {
+    "id": "task-mvtbmukl-quasjm",
+    "status": "succeeded",
+    "createdAt": "2026-10-29T09:08:43.461Z",
+    "itemCount": 1,
+    "items": [
+     {
+      "kind": "image",
+      "mime": "image/png",
+      "sk": "tool-result:_Z7jp3P-mlkBnYUUw5Zf9"
+     }
+    ]
+   }
+  ],
+  "MATERIAL_UPPER_BODY": [
+   {
+    "id": "task-mvtd45nv-y7cum6",
+    "status": "succeeded",
+    "createdAt": "2026-10-29T09:50:10.603Z",
+    "itemCount": 1,
+    "items": [
+     {
+      "kind": "image",
+      "mime": "image/png",
+      "sk": "tool-result:oU0TI--EZsIZ_14iPu4Jp"
+     }
+    ]
+   }
+  ],
+  "IMAGE_TO_VIDEO": [
+   {
+    "id": "task-mvt71akq-bu2hxh",
+    "status": "failed",
+    "createdAt": "2026-10-29T06:59:59.306Z",
+    "itemCount": 0,
+    "items": []
+   }
+  ],
+  "PRINT_EXTRACT": [
+   {
+    "id": "task-mvs5dd71-4s35w2",
+    "status": "failed",
+    "createdAt": "2026-10-28T13:25:37.165Z",
+    "itemCount": 0,
+    "items": []
+   }
+  ],
+  "IMAGE_TRANSLATION": [
+   {
+    "id": "task-mvt9elbs-u4grlv",
+    "status": "succeeded",
+    "createdAt": "2026-10-29T08:06:19.000Z",
+    "itemCount": 1,
+    "items": [
+     {
+      "kind": "image",
+      "mime": "image/png",
+      "sk": "tool-result:T0C8ObdjKKWK0yXPxajoJ"
+     }
+    ]
+   }
+  ],
+  "HAND_REPAIR": [
+   {
+    "id": "task-mvtbe5rp-0maafh",
+    "status": "succeeded",
+    "createdAt": "2026-10-29T09:01:58.069Z",
+    "itemCount": 1,
+    "items": [
+     {
+      "kind": "image",
+      "mime": "image/png",
+      "sk": "tool-result:MJlcLXl2-O1DnKd-NUgg2"
+     }
+    ]
+   }
+  ],
+  "IMAGE_TEXT_EDIT": [
+   {
+    "id": "task-mvs8bhu1-hhue24",
+    "status": "succeeded",
+    "createdAt": "2026-10-28T14:48:08.713Z",
+    "itemCount": 1,
+    "items": [
+     {
+      "kind": "image"
+     }
+    ]
+   }
+  ],
+  "HANDHELD_GOODS": [
+   {
+    "id": "task-mvs5p8g8-or3oim",
+    "status": "failed",
+    "createdAt": "2026-10-28T13:34:50.888Z",
+    "itemCount": 0,
+    "items": []
+   }
+  ],
+  "AI_POSTURE": [
+   {
+    "id": "task-mvtczxwo-e1d1w0",
+    "status": "succeeded",
+    "createdAt": "2026-10-29T09:46:53.928Z",
+    "itemCount": 1,
+    "items": [
+     {
+      "kind": "image",
+      "mime": "image/png",
+      "sk": "tool-result:rm3NtLVj9Pa2bc1xdc3t1"
+     }
+    ]
+   }
+  ]
+ }
+}
