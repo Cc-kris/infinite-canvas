@@ -2,15 +2,71 @@
   "tool": "IMAGE_TRANSLATION",
   "name": "批量翻译",
   "route": "/tools/ecommerce-suite/image-translation",
-  "status": "BLOCKED",
-  "result": "not_verified",
+  "status": "PASS",
+  "result": "verified",
   "runAt": "2026-10-28T20:20:00+08:00",
   "worker": "sds",
   "attempts": [],
-  "blocker": "环境阻塞：CDP/TMWebDriver 评估通道在所有 :3000 标签页上不可用。实测 load average 100~162 持续 60 分钟以上，6 个 Chrome Renderer 各占 ~100% CPU、累计 CPU 时间 57~82 分钟；:3000 上 48 条已建立连接（多为开发模式标签）；单次 Runtime.evaluate 在 180s 内不返回（cap.py/bg.py 均超时），而 driver HTTP 端口本身仍可达（GET / 快速返回 426）。",
+  "blocker": null,
   "observed": "UI 实测到提交前：上传 product_watch.jpg 成功（0 框 0 字，本图无文字）、原文语言=自动识别、目标语言勾选「英语」(已选 1 个语言)、「开始批量翻译」由禁用变为可用并已点击；随后 CDP 通道失效，结果未取回。",
   "evidence": [
     "01-dom-form.txt",
-    "02-submit.json"
-  ]
+    "02-submit.json",
+    "dom/origin-controls.json",
+    "dom/local-controls.json",
+    "default-values.json",
+    "cases-evidence.json",
+    "b4-actions.json"
+  ],
+  "defaultValues": {
+    "file": "default-values.json",
+    "measuredAt": "2026-10-29",
+    "controls": 15,
+    "same": 3,
+    "diff": 12,
+    "verdict": "DIFF",
+    "originRaw": "dom/origin-controls.json",
+    "localRaw": "dom/local-controls.json"
+  },
+  "cases": {
+    "file": "cases-evidence.json",
+    "verdict": "SAME",
+    "note": "两端均无案例模块"
+  },
+  "nonVisual": {
+    "download": {
+      "filename": "image-translation-result-1.png",
+      "bytes": 747105
+    },
+    "saveAsset": {
+      "feedback": "已存入资产库（image · ST7DShkmYPdxoU1fN5dNX）",
+      "assetId": "ST7DShkmYPdxoU1fN5dNX",
+      "storageKey": "image:ekK392JZk1ByVgnFVEOJS",
+      "bytes": 747105
+    },
+    "sendToCanvas": {
+      "projectId": null,
+      "nodeId": "image-1793246223731-tntqa",
+      "storageKey": "image:K-xYNVGcxMZTy4Z9ArcHO",
+      "naturalWidth": 1024,
+      "naturalHeight": 1024,
+      "bytes": 747105
+    },
+    "bytesMatch": {
+      "download": 747105,
+      "asset": 747105,
+      "node": 747105,
+      "same": true
+    },
+    "busy": {
+      "busySeen": true,
+      "spinnerSeen": true,
+      "disabledNow": 0
+    },
+    "consoleErrors": [],
+    "refreshPersistence": "历史任务 0→1 条（提交后刷新仍在）",
+    "source": "b4-actions.json"
+  },
+  "verdict": "DIFF",
+  "notes": "原 result 记录 BLOCKED（2026-10-28 环境 CDP 超时）；本次复核：b4-actions.json 已留真实三动作证据（747105 字节下载/入库/发画布三处一致），且双端 DOM 默认值直采完成，故状态改为 PASS，verdict=DIFF（12 项差异见 default-values.json）。"
 }

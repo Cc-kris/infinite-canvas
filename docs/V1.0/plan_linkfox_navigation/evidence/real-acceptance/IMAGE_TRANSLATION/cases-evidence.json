@@ -1,0 +1,30 @@
+{
+  "tool": "IMAGE_TRANSLATION",
+  "measuredAt": "2026-10-29",
+  "origin": {
+    "raw": "dom/origin-controls.json",
+    "tabs": [
+      "生成结果"
+    ],
+    "caseArea": null,
+    "probe": {
+      "tabs": 1,
+      "caseTab": false,
+      "makeSame": false
+    },
+    "note": "原站该工具只有「生成结果」一个页签，无「优秀案例」tab、无做同款入口（与 DRESS_WEAR_SET 不同）"
+  },
+  "local": {
+    "caseArea": null,
+    "present": [
+      "5 · 翻译结果（图×语言矩阵）",
+      "历史任务 0 条"
+    ],
+    "probe": {
+      "caseTab": false,
+      "makeSame": false
+    }
+  },
+  "verdict": "SAME",
+  "note": "两端都无案例模块，本地未伪造案例数据。"
+}
