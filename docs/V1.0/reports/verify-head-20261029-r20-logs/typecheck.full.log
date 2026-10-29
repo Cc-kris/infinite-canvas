@@ -1,0 +1,5 @@
+$ tsc --noEmit
+real 7.76
+user 6.00
+sys 1.50
+TC_EXIT=0
