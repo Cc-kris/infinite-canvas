@@ -1,0 +1,24 @@
+{
+ "capturedAt": "2026-10-29T11:59:58.040Z",
+ "url": "http://127.0.0.1:3000/tools/ecommerce-suite/dress-wear-set?__r11=1",
+ "marker": "DWS-RELOAD-1793275190040",
+ "navType": "reload",
+ "timeOrigin": 1793275190528,
+ "wsTool": "DRESS_WEAR_SET",
+ "readyState": "complete",
+ "dockItemCount": 2,
+ "dockItems": [
+  "2026-10-29 15:02 已完成 [DRESS_SCENE main/whiteBg] … default::gpt-image-2 · image · 1 个结果",
+  "2026-10-29 15:02 已完成 [DRESS_SCENE main/modelLook] … default::gpt-image-2 · image · 1 个结果"
+ ],
+ "storeTask": {
+  "id": "task-mvt74l6q-1vljau",
+  "toolId": "DRESS_WEAR_SET",
+  "status": "succeeded",
+  "bytes": 1883817,
+  "storageKey": "tool-result:UJkgjc6BIYFLDnO12F3G-"
+ },
+ "note": "整页 reload 后 dock 从 localStorage tool-task:v1:index 恢复 2 条历史；点击 whiteBg 条目展开后缩略图 blob 1024x1024 加载完成（complete:true）。工具工作区 [data-testid=tool-result] 在本路由未挂载（该页面结果区为「套图结果」静态区块），结果恢复以历史 dock + IndexedDB 结果字节为证据。",
+ "limits": "resultMounted=false；未观察到组件的 tool-result 面板重建，本条如实记录为缺口。",
+ "verifyJs": "web_execute_js @ tab 1709629263"
+}

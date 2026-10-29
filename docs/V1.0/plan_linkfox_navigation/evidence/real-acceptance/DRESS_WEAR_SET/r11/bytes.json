@@ -1,0 +1,18 @@
+{
+ "taskId": "task-mvt74l6q-1vljau",
+ "toolId": "DRESS_WEAR_SET",
+ "reusedTask": true,
+ "storageKey": "tool-result:UJkgjc6BIYFLDnO12F3G-",
+ "bytes": 1883817,
+ "sha256": "9b7e62daebc97949cef1a3fa7c8270ffec3b13b3f9fd5ad1ed47e1050a83896f",
+ "magic": "89504e470d0a1a0a",
+ "mime": "image/png",
+ "naturalSize": "1024x1024",
+ "downloadFile": {
+  "path": "/Users/mac/Downloads/dress-wear-set-result-1.png",
+  "bytes": 1883817,
+  "sha256": "9b7e62daebc97949cef1a3fa7c8270ffec3b13b3f9fd5ad1ed47e1050a83896f",
+  "sameAsStored": true
+ },
+ "source": "IndexedDB infinite-canvas/media_files 直接读取 → POST 127.0.0.1:34567 → 本文件；未重新生成、未注入"
+}

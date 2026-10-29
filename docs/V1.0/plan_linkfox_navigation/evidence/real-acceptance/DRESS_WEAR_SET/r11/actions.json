@@ -1,0 +1,50 @@
+{
+ "capturedAt": "2026-10-29T12:01:28.516Z",
+ "taskId": "task-mvt74l6q-1vljau",
+ "before": {
+  "infinite-canvas.image_files": 82,
+  "infinite-canvas.image_previews": 82,
+  "infinite-canvas.tool_assets": 61,
+  "infinite-canvas.media_files": 97
+ },
+ "download": {
+  "clicked": true,
+  "toasts": [],
+  "receipt": {
+   "file": "~/Downloads/dress-wear-set-result-1.png",
+   "bytes": 1883817,
+   "sha256": "9b7e62daebc97949cef1a3fa7c8270ffec3b13b3f9fd5ad1ed47e1050a83896f",
+   "mtime": "2026-10-29 20:01:22",
+   "sameAsStored": true
+  },
+  "verdict": "VERIFIED"
+ },
+ "save": {
+  "clicked": true,
+  "toasts": [],
+  "receipt": {
+   "store": "IndexedDB infinite-canvas/app_state (assets)",
+   "assetTitle": "DRESS_WEAR_SET 结果 1",
+   "storageKey": "image:YIJB4f6n_YGgWDl0UF9uz",
+   "bytes": 1883817,
+   "size": "1024x1024",
+   "image_files": "82→83",
+   "image_previews": "82→83"
+  },
+  "verdict": "VERIFIED"
+ },
+ "canvas": {
+  "clicked": true,
+  "toasts": [],
+  "receipt": {
+   "store": "IndexedDB infinite-canvas/app_state (projects)",
+   "projectId": "dg9WACz9UtI0UHGVfi1gw",
+   "title": "DRESS_WEAR_SET 历史结果",
+   "createdAt": "2026-10-29T12:01:26.521Z",
+   "nodeId": "image-1793275286614-fq3si",
+   "nodeType": "image"
+  },
+  "verdict": "VERIFIED"
+ },
+ "note": "三动作均为 dock 按钮真实点击（未注入、未新建 task）；toast 选择器未捕获文案，故以落盘文件 / IndexedDB 实际写入作为回执。"
+}
