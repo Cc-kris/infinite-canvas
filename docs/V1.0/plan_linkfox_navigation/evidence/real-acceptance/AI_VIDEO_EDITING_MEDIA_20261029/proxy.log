@@ -1,0 +1,4 @@
+system proxy detected (macos system proxy: http://127.0.0.1:7890) — restarting through it
+@basketikun/canvas-proxy v0.1.3 listening on http://127.0.0.1:23211 (transports: system, direct)
+Desktop app auto-starts this proxy; manual address (browser build only): http://127.0.0.1:23211
+1:33:10 PM MEDIA upload 79ca27ce822a893bed6bc10d3a71765f.mp4 16830B

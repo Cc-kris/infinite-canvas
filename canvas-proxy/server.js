@@ -162,9 +162,30 @@ async function handleMediaUpload(req, res) {
     console.log(`${new Date().toLocaleTimeString()} MEDIA upload ${fileName} ${body.length}B`);
 }
 
+/**
+ * 素材访问追踪（CANVAS_MEDIA_TRACE=1 时开启，默认关闭、零行为影响）。
+ * 用途：在真实联调里证明「上游是否真的回拉了公网素材 URL」，并记录来源 UA / 边缘 IP / Range。
+ */
+function mediaTrace(req, name, status, extra) {
+    if (process.env.CANVAS_MEDIA_TRACE !== "1") return;
+    const line = {
+        at: new Date().toISOString(),
+        method: req.method,
+        name,
+        status,
+        ua: String(req.headers["user-agent"] || "").slice(0, 120),
+        edgeIp: req.headers["cf-connecting-ip"] || req.headers["x-forwarded-for"] || "",
+        country: req.headers["cf-ipcountry"] || "",
+        range: req.headers.range || "",
+        ...extra,
+    };
+    console.log(`MEDIA trace ${JSON.stringify(line)}`);
+}
+
 function handleMediaRead(req, res, name) {
     const file = mediaFilePath(name);
     if (!file || !existsSync(file)) {
+        mediaTrace(req, name, 404);
         sendJson(res, 404, { error: "素材不存在", name });
         return;
     }
@@ -181,10 +202,12 @@ function handleMediaRead(req, res, name) {
         const start = range[1] ? Number(range[1]) : 0;
         const end = range[2] ? Math.min(Number(range[2]), size - 1) : size - 1;
         if (start > end || start >= size) {
+            mediaTrace(req, name, 416, { bytes: 0 });
             res.writeHead(416, { ...headers, "content-range": `bytes */${size}` });
             res.end();
             return;
         }
+        mediaTrace(req, name, 206, { bytes: end - start + 1 });
         res.writeHead(206, { ...headers, "content-range": `bytes ${start}-${end}/${size}`, "content-length": end - start + 1 });
         if (req.method === "HEAD") {
             res.end();
@@ -193,6 +216,7 @@ function handleMediaRead(req, res, name) {
         createReadStream(file, { start, end }).pipe(res);
         return;
     }
+    mediaTrace(req, name, 200, { bytes: size });
     res.writeHead(200, { ...headers, "content-length": size });
     if (req.method === "HEAD") {
         res.end();
