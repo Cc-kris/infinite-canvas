@@ -1,0 +1,74 @@
+{
+ "toolId": "PRINTING_REPAIR",
+ "route": "/tools/smart-edit/printing-repair",
+ "phase": "reload",
+ "taskId": "task-mvtbawv4-zxcmpv",
+ "realRun": true,
+ "reload": {
+  "at": "2026-10-29T10:49:20.000Z",
+  "method": "fresh navigation to tool route; shared history dock opened after load",
+  "url": "http://127.0.0.1:3000/tools/smart-edit/printing-repair"
+ },
+ "steps": [
+  {
+   "step": "historyAfterReload",
+   "ok": true,
+   "historyUi": "tool-history-dock-toggle",
+   "rowBoundToTargetTask": true,
+   "rowText": "2026-10-29 16:59 已完成 印花修复：参考图 1 是印花有色的商品图…"
+  },
+  {
+   "step": "dockThumb",
+   "bytes": 1183770,
+   "sha256Short": "d5b52a36ba77196b",
+   "matches": true
+  },
+  {
+   "step": "dockDownload",
+   "fileName": "printing-repair-result-1.png",
+   "bytes": 1183770,
+   "sha256Short": "d5b52a36ba77196b",
+   "matches": true
+  },
+  {
+   "step": "dockSaveAsset",
+   "assetId": "5_4A-lCOsEJUXhnsFa5J3",
+   "title": "PRINTING_REPAIR 结果 1",
+   "metadataTaskId": "task-mvtbawv4-zxcmpv",
+   "metadataToolId": "PRINTING_REPAIR",
+   "resultItemId": "task-mvtbawv4-zxcmpv-0",
+   "storageKey": "image:kcHyCD1fefu5SvIPnAt9w",
+   "bytes": 1183770,
+   "w": 1024,
+   "h": 1024,
+   "sha256Short": "d5b52a36ba77196b",
+   "matches": true
+  },
+  {
+   "step": "dockSendCanvas",
+   "projectId": "40rJG7H3rXKQhfNeTrmlI",
+   "projectTitle": "PRINTING_REPAIR 历史结果",
+   "nodeId": "image-1793271036731-pop0w",
+   "nodeStorageKey": "image:STh6de6-eQqPFX4kw2QjL",
+   "bytes": 1183770,
+   "sha256Short": "d5b52a36ba77196b",
+   "matches": true
+  }
+ ],
+ "persisted": {
+  "store": "media_files",
+  "bytes": 1183770,
+  "mime": "image/png",
+  "w": 1024,
+  "h": 1024,
+  "sha256": "d5b52a36ba77196bd1d93c95e2e05841f42c11d2eecfde2e21d8ae930eca3fb1"
+ },
+ "bytesMatch": {
+  "thumb": true,
+  "download": true,
+  "asset": true,
+  "canvas": true
+ },
+ "allMatch": true,
+ "errors": []
+}

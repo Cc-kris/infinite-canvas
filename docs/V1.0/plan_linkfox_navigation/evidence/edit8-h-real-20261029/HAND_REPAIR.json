@@ -1,0 +1,71 @@
+{
+ "toolId": "HAND_REPAIR",
+ "route": "/tools/smart-edit/hand-repair",
+ "phase": "reload",
+ "taskId": "task-mvtbe5rp-0maafh",
+ "realRun": true,
+ "reload": {
+  "at": "2026-10-29T10:51:50.000Z",
+  "method": "fresh navigation to tool route then history dock expanded",
+  "url": "http://127.0.0.1:3000/tools/smart-edit/hand-repair"
+ },
+ "steps": [
+  {
+   "step": "historyAfterReload",
+   "ok": true,
+   "historyUi": "tool-history-dock-toggle",
+   "rowBoundToTargetTask": true,
+   "rowText": "2026-10-29 17:01 已完成 Repair the hand anatomy inside the whit..."
+  },
+  {
+   "step": "dockThumb",
+   "bytes": 2153466,
+   "sha256": "a34cea71ca7da6dec09ee6167367f6c60ba600e4ff44ec0c6441b6f5f3800e20",
+   "matches": true
+  },
+  {
+   "step": "dockDownload",
+   "fileName": "hand-repair-result-1.png",
+   "bytes": 2153466,
+   "sha256": "a34cea71ca7da6dec09ee6167367f6c60ba600e4ff44ec0c6441b6f5f3800e20",
+   "matches": true
+  },
+  {
+   "step": "dockSaveAsset",
+   "assetId": "pLsDK4vPbLCyRqcNCfYoR",
+   "storageKey": "image:O7PJO4D69Ft9lFhGt3e6E",
+   "metadataTaskId": "task-mvtbe5rp-0maafh",
+   "metadataToolId": "HAND_REPAIR",
+   "bytes": 2153466,
+   "w": 1024,
+   "h": 1024,
+   "sha256": "a34cea71ca7da6dec09ee6167367f6c60ba600e4ff44ec0c6441b6f5f3800e20",
+   "matches": true
+  },
+  {
+   "step": "dockSendCanvas",
+   "projectId": "ulsLbehsqh3h7U6XgTpte",
+   "projectTitle": "HAND_REPAIR 历史结果",
+   "nodeId": "image-1793271108915-428d0",
+   "nodeStorageKey": "image:euyQlyAGFuWavlVTsmxb5",
+   "bytes": 2153466,
+   "sha256": "a34cea71ca7da6dec09ee6167367f6c60ba600e4ff44ec0c6441b6f5f3800e20",
+   "matches": true
+  }
+ ],
+ "persisted": {
+  "store": "media_files",
+  "key": "tool-result:MJlcLXl2-O1DnKd-NUgg2",
+  "bytes": 2153466,
+  "mime": "image/png",
+  "sha256": "a34cea71ca7da6dec09ee6167367f6c60ba600e4ff44ec0c6441b6f5f3800e20"
+ },
+ "bytesMatch": {
+  "persistedVsThumb": true,
+  "persistedVsDownload": true,
+  "persistedVsAsset": true,
+  "persistedVsCanvas": true
+ },
+ "allMatch": true,
+ "errors": []
+}
