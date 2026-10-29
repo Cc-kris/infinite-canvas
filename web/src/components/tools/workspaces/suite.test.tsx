@@ -45,14 +45,15 @@ async function renderWorkspace(): Promise<string> {
 describe("商品套图工作台渲染", () => {
     test("分区齐全：商品图 / 商品信息 / 品牌基因 / 生成参数 / A+ / 主副图 / 提交区", async () => {
         const html = await renderWorkspace();
-        for (const text of ["商品图", "商品信息", "品牌基因", "生成参数", "A+ 图", "主副图", "预计生成", "开始生成"]) {
+        for (const text of ["商品信息", "品牌与合规", "品牌基因", "模型选择", "分辨率选择", "模型品质", "生成比例", "A+图设置", "主副图设置", "预计生成", "开始生成"]) {
             expect(html).toContain(text);
         }
     });
 
     test("枚举与限制按页面规格渲染（10M、384–4096px、5 比例、4 档分辨率）", async () => {
         const html = await renderWorkspace();
-        expect(html).toContain("JPG/PNG/WEBP · ≤10M · 384–4096px · 宽高比 ≤5:1");
+        // 原站 2026-10-29 限制文案逐字（real/PRODUCT_IMAGE_SUITE/text.txt 第 34 行）
+        expect(html).toContain("10M以内，384*384 ~ 4096*4096，最大宽高比5");
         for (const ratio of ["1:1", "3:4", "4:3", "2:3", "3:2"]) expect(html).toContain(ratio);
         for (const resolution of ["1K", "2K", "4K"]) expect(html).toContain(resolution);
         for (const module of ["卖点图", "白底图", "场景图", "特写图", "特写白底图"]) expect(html).toContain(module);

@@ -68,7 +68,8 @@ describe("局部重绘工作台渲染", () => {
         expect(submitDisabled).toBe(true);
         expect(html).not.toContain("生成中");
         expect(html).not.toContain('data-testid="area-repair-results"');
-        expect(html).toContain("还没有结果");
+        // 原站 2026-10-29 文案：「暂无生成结果图」（real/AREA_REPAIR/text.txt）
+        expect(html).toContain("暂无生成结果图");
         expect(html).toContain("请先上传要重绘的图片");
         expect(html).toContain("请先在图片上涂抹需要重绘的区域");
         expect(html).toContain("请填写重绘描述");
@@ -76,8 +77,9 @@ describe("局部重绘工作台渲染", () => {
 
     test("空蒙版给出涂抹指引与覆盖率，而不是空白画布", async () => {
         const html = await renderWorkspace();
-        expect(html).toContain("上传图片后即可在图上涂抹需要重绘的区域");
-        expect(html).toContain("蒙版随原图一起发给模型");
+        // 原站 2026-10-29 两行引导（real/AREA_REPAIR/text.txt 第 48-49 行），旧断言已下线
+        expect(html).toContain("上传图片，涂抹需要改变的区域并输入想要改变的内容");
+        expect(html).toContain("即可重新对该区域进行绘制");
         expect(html).toContain('data-testid="mask-coverage"');
         expect(html).toContain("尚未涂抹");
         // 没有原图时不应出现蒙版画布（画布依赖真实尺寸）
@@ -171,7 +173,9 @@ describe("局部消除结果动作", () => {
         }
         expect(html).not.toContain("已存入资产库");
         expect(html).not.toContain("已发送画布");
-        expect(html).toContain("还没有结果");
+        // 原站未上传原图时只有上传引导，没有结果区（real/REMOVE_PEN/text.txt 第 53-54 行）
+        expect(html).toContain("上传需要消除的图片，使用画笔涂抹即可实现一键消除");
+        expect(html).not.toContain("暂无生成结果图");
     });
 
     test("未上传原图时提交阻塞并给出原因", async () => {
@@ -180,7 +184,8 @@ describe("局部消除结果动作", () => {
             /data-testid="remove-pen-submit"[^>]*disabled=""/.test(html) ||
             /disabled=""[^>]*data-testid="remove-pen-submit"/.test(html);
         expect(submitDisabled).toBe(true);
-        expect(html).toContain("请先上传需要消除的图片");
+        // 阻塞原因由原站上传引导承担（组件内不会预先弹「请先上传需要消除的图片」notice）
+        expect(html).toContain("上传需要消除的图片，使用画笔涂抹即可实现一键消除");
         expect(html).not.toContain("消除中");
     });
 });
