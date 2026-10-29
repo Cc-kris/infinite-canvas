@@ -92,10 +92,10 @@ export function Design19Chip({
             aria-pressed={Boolean(selected)}
             {...rest}
             className={cn(
-                "inline-flex h-[26px] min-w-[40px] items-center justify-center rounded-[6px] border px-[16px] text-[12px] leading-[16px] transition-colors",
+                "inline-flex h-[26px] min-w-[40px] items-center justify-center rounded-[6px] border px-[16px] text-[12px]! leading-[16px]! transition-colors",
                 selected
-                    ? "border-[#723cf9] bg-[#f9f0ff] text-[#723cf9]"
-                    : "border-[#cccccc] bg-white text-black/80 hover:border-[#723cf9] hover:text-[#723cf9]",
+                    ? "border-[#723cf9] bg-[#f9f0ff] text-[#723cf9]!"
+                    : "border-[#cccccc] bg-white text-black/80! hover:border-[#723cf9] hover:text-[#723cf9]",
                 "disabled:cursor-not-allowed disabled:opacity-50",
                 className,
             )}
@@ -116,7 +116,7 @@ export function Design19PrimaryButton({
             type="button"
             {...rest}
             className={cn(
-                "inline-flex h-[32px] w-full items-center justify-center gap-1 rounded-[6px] px-[15px] text-[14px] leading-[22px] text-white transition-opacity",
+                "inline-flex h-[32px] w-full items-center justify-center gap-1 rounded-[6px] px-[15px] text-[14px]! leading-[22px]! text-white! transition-opacity",
                 "bg-[linear-gradient(90deg,#3a7df9_0%,#723cf9_100%)] hover:opacity-90",
                 "disabled:cursor-not-allowed disabled:opacity-50",
                 className,
@@ -138,7 +138,7 @@ export function Design19GhostButton({
             type="button"
             {...rest}
             className={cn(
-                "inline-flex h-[32px] w-full items-center justify-center gap-[8px] rounded-[6px] border border-[#723cf9] px-[15px] text-[14px] leading-[22px] text-[#723cf9] transition-colors hover:bg-[#f9f0ff]",
+                "inline-flex h-[32px] w-full items-center justify-center gap-[8px] rounded-[6px] border border-[#723cf9] px-[15px] text-[14px]! leading-[22px]! text-[#723cf9]! transition-colors hover:bg-[#f9f0ff]",
                 "disabled:cursor-not-allowed disabled:opacity-50",
                 className,
             )}
@@ -184,8 +184,8 @@ export function Design19Results({
                             data-testid={`result-tab-${tab.id}`}
                             onClick={() => onTabChange(tab.id)}
                             className={cn(
-                                "relative flex h-[42px] items-center px-0 pb-0 pt-0 text-[14px] leading-[22px] transition-colors",
-                                on ? "text-[#723cf9]" : "text-black/[0.88] hover:text-[#723cf9]",
+                                "relative flex h-[42px] items-center px-0 pb-0 pt-0 text-[14px]! leading-[22px]! transition-colors",
+                                on ? "text-[#723cf9]!" : "text-black/[0.88]! hover:text-[#723cf9]",
                             )}
                         >
                             {tab.label}
@@ -203,8 +203,8 @@ export function Design19Results({
                         data-testid={`result-tab-${extraTab.id}`}
                         onClick={() => onTabChange(extraTab.id)}
                         className={cn(
-                            "ml-auto flex h-[42px] items-center pr-[4px] text-[12px] leading-[20px] transition-colors",
-                            active === extraTab.id ? "text-[#723cf9]" : "text-black/60 hover:text-[#723cf9]",
+                            "ml-auto! flex h-[42px] items-center pr-[4px] text-[12px]! leading-[20px]! transition-colors",
+                            active === extraTab.id ? "text-[#723cf9]!" : "text-black/60! hover:text-[#723cf9]",
                         )}
                     >
                         {extraTab.label}

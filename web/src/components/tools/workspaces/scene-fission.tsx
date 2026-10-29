@@ -3,8 +3,12 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { ToolAssetInput } from "@/components/tools/tool-asset-input";
+import { ToolCases } from "@/components/tools/tool-cases";
+import type { ToolCase } from "@/components/tools/tool-cases";
 import { ToolHistoryDock } from "@/components/tools/tool-history-dock";
 import { ToolResult } from "@/components/tools/tool-result";
+import { uploadCaseFiles } from "@/features/tools/case-apply";
+import { PRODUCT_SCENE_CASES } from "@/features/tools/tool-cases-data";
 import { useConfigStore, resolveModelChannel } from "@/stores/use-config-store";
 import { useToolDraftStore } from "@/stores/use-tool-draft-store";
 import { describeToolExecution, getToolGateway } from "@/services/api/tools/gateway";
@@ -76,15 +80,6 @@ const MODEL_PREVIEW: Record<string, string> = {
     minimal: "linear-gradient(135deg,#f5f3f0,#dedad4)",
     smart: "linear-gradient(135deg,#e9e5ff,#d3c9fb)",
 };
-
-/** 优秀案例：原站 5 张示例卡（同一行铺开，宽 260）。仅作风格参考，未接入预设接口。 */
-const SCENE_CASES = [
-    { id: "living-room", title: "北欧客厅", preview: "linear-gradient(135deg,#e8ebf0,#c9d2de)" },
-    { id: "outdoor-street", title: "街头外景", preview: "linear-gradient(135deg,#e6e9e4,#c8cfc5)" },
-    { id: "nature", title: "自然草地", preview: "linear-gradient(135deg,#e4eee6,#c3d8c8)" },
-    { id: "studio", title: "极简影棚", preview: "linear-gradient(135deg,#f0eeec,#d8d3cd)" },
-    { id: "dining", title: "餐桌美食", preview: "linear-gradient(135deg,#f2e9e2,#dcc9b9)" },
-] as const;
 
 /** 原站左栏字段标题：12px / 45% 黑 / 无加粗，行高 16。 */
 function FieldLabel({ htmlFor, children, extra }: { htmlFor?: string; children: React.ReactNode; extra?: React.ReactNode }) {
@@ -293,6 +288,7 @@ export function ProductSceneWorkspace({ className, toolId = PRODUCT_SCENE_TOOL_I
     const [running, setRunning] = useState(false);
     const [runError, setRunError] = useState<string | undefined>();
     const [tab, setTab] = useState<SceneTabId>("result");
+    const [applyingCaseId, setApplyingCaseId] = useState<string | null>(null);
     const abortRef = useRef<AbortController | null>(null);
 
     /* 草稿恢复：值 + 参考图资产 id；图丢了明确提示重选，不假装已恢复 */
@@ -406,6 +402,37 @@ export function ProductSceneWorkspace({ className, toolId = PRODUCT_SCENE_TOOL_I
             setRunError(limits.ok ? undefined : limits.message);
         },
         [update],
+    );
+
+    /** 「做同款」：真实入库该案例的原始素材，再回填提示词/张数/原图（不做静默降级）。 */
+    const applyCase = useCallback(
+        async (item: ToolCase) => {
+            setApplyingCaseId(item.id);
+            setRunError(undefined);
+            try {
+                const assets = await uploadCaseFiles(item);
+                const slot = assets.source ? "source" : Object.keys(assets)[0];
+                const record = slot ? (assets[slot] as ToolAssetRecord | undefined) : undefined;
+                if (!record || Array.isArray(record)) throw new Error("该案例缺少可用的原始素材");
+                const nextSource = sceneSourceFromRecord(record);
+                setSource(nextSource);
+                setLostSource(false);
+                const apply = item.apply ?? {};
+                update({
+                    prompt: typeof apply.prompt === "string" ? apply.prompt : values.prompt,
+                    similarity: typeof apply.similarity === "number" ? apply.similarity : values.similarity,
+                    outputNum: typeof apply.outputNum === "number" ? apply.outputNum : values.outputNum,
+                    sourceAssetId: nextSource.assetId,
+                    imageName: nextSource.name ?? "",
+                });
+                setTab("result");
+            } catch (error) {
+                setRunError(error instanceof Error ? error.message : String(error));
+            } finally {
+                setApplyingCaseId(null);
+            }
+        },
+        [update, values.prompt, values.similarity, values.outputNum],
     );
 
     const onGenerate = useCallback(async () => {
@@ -817,28 +844,12 @@ export function ProductSceneWorkspace({ className, toolId = PRODUCT_SCENE_TOOL_I
 
                         {tab === "cases" ? (
                             <div className="p-4" data-testid="scene-cases">
-                                <div className="grid grid-cols-[repeat(auto-fill,minmax(240px,1fr))] gap-3">
-                                    {SCENE_CASES.map((item) => (
-                                        <div key={item.id} className="overflow-hidden rounded-[8px] bg-white" data-case={item.id}>
-                                            <div
-                                                aria-hidden
-                                                className="h-[150px] w-full"
-                                                style={{ background: item.preview }}
-                                            />
-                                            <div className="flex items-center justify-between gap-2 px-3 py-2">
-                                                <span className="truncate text-[12px] text-[#1f2024]">{item.title}</span>
-                                                <button
-                                                    type="button"
-                                                    disabled
-                                                    title="案例预设未接入（PARTIAL）：请用左侧表单自行描述场景"
-                                                    className="h-6 shrink-0 rounded-[4px] border border-[#e5e5ea] px-2 text-[11px] text-[#5a5a66] disabled:cursor-not-allowed disabled:opacity-50"
-                                                >
-                                                    一键做同款
-                                                </button>
-                                            </div>
-                                        </div>
-                                    ))}
-                                </div>
+                                <ToolCases
+                                    cases={PRODUCT_SCENE_CASES}
+                                    applyingId={applyingCaseId}
+                                    onApply={applyCase}
+                                    emptyHint="暂无优秀案例"
+                                />
                             </div>
                         ) : null}
 
