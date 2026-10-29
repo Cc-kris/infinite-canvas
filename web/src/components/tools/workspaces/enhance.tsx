@@ -3,6 +3,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 import { ToolAssetInput } from "@/components/tools/tool-asset-input";
 import { ToolResult } from "@/components/tools/tool-result";
+import { downloadResultItem } from "@/components/tools/tool-result-actions";
 import { ToolTaskHistory } from "@/components/tools/tool-task-history";
 import {
     loadToolAssetRecords,
@@ -237,6 +238,16 @@ export function ScaleUpWorkspace({ className }: { className?: string }) {
     const result = scaleUpResultFromTask(task, snapshot, currentSnapshot);
     const resultImage = firstResultImageSource(task);
 
+    /** 「下载图片」走与结果卡同一个下载链路（真实落盘文件名由 buildResultFileName 生成）。 */
+    const onDownloadImage = useCallback(async () => {
+        if (!resultImage) return;
+        try {
+            await downloadResultItem({ id: `${toolId}-download`, kind: "image", dataUrl: resultImage }, 0, { toolId });
+        } catch (error) {
+            setRunError(error instanceof Error ? error.message : "下载失败。");
+        }
+    }, [resultImage, toolId]);
+
     const onSourceChange = useCallback(
         (assetIds: string[], records: ToolAssetRecord[]) => {
             const record = records[0];
@@ -341,6 +352,20 @@ export function ScaleUpWorkspace({ className }: { className?: string }) {
                         constraints={ASSET_CONSTRAINTS}
                         maxCount={1}
                         disabled={running}
+                        variant="linkfox"
+                        title=""
+                        uploadLabel="从本地上传"
+                        thirdAction={
+                            <button
+                                type="button"
+                                data-testid="scale-up-batch"
+                                disabled
+                                title="批量高清放大：批量队列未接入（PARTIAL）"
+                                className="h-6 w-[100px] rounded-[4px] border border-[#723cf9] text-[12px] leading-none text-[#723cf9] disabled:opacity-50"
+                            >
+                                批量高清放大
+                            </button>
+                        }
                         onChange={onSourceChange}
                     />
                     {restoringSource ? <p className="mt-2 text-[11px] text-stone-500">正在恢复上次的原图…</p> : null}
@@ -486,7 +511,22 @@ export function ScaleUpWorkspace({ className }: { className?: string }) {
                         data-testid="scale-up-generate"
                         className="w-full rounded-md bg-stone-800 px-3 py-2 text-xs font-medium text-white disabled:cursor-not-allowed disabled:opacity-50 dark:bg-stone-200 dark:text-stone-900"
                     >
-                        {running ? "生成中…" : `开始放大（${outputSizeLabel(output)}）`}
+                        {running ? "生成中…" : (
+                            <span className="inline-flex items-center justify-center gap-1.5">
+                                立即生成
+                                <span className="text-[11px] font-normal opacity-80" data-testid="scale-up-cost">(20算力)</span>
+                            </span>
+                        )}
+                    </button>
+                    {/* 原站「立即生成」下方紧跟同宽「下载图片」按钮（319×28，outlined，无结果时 disabled，#d9d9d9 边框 + rgba(0,0,0,0.04) 底） */}
+                    <button
+                        type="button"
+                        disabled={!resultImage || running}
+                        onClick={() => void onDownloadImage()}
+                        data-testid="scale-up-download-image"
+                        className="mt-2 flex h-7 w-full items-center justify-center rounded-[4px] border border-[#d9d9d9] bg-black/[0.04] text-[12px] leading-none text-black/25 transition enabled:bg-white enabled:text-[#1f1f2c] disabled:cursor-not-allowed"
+                    >
+                        下载图片
                     </button>
                     {runError ? (
                         <p className="mt-2 text-[11px] text-red-600" data-testid="scale-up-run-error">
@@ -748,6 +788,12 @@ export function ProductRefineWorkspace({ className }: { className?: string }) {
                         maxCount={1}
                         disabled={running}
                         library={library}
+                        variant="linkfox"
+                        title=""
+                        uploadLabel="上传图片"
+                        dropLabel="点击上传"
+                        hint="20M以内，jpg/jpeg/png/webp"
+                        thirdAction={null}
                         onChange={onSourceChange}
                     />
                     {restoringSource ? <p className="mt-2 text-[11px] text-stone-500">正在恢复上次的商品图…</p> : null}
@@ -832,9 +878,9 @@ export function ProductRefineWorkspace({ className }: { className?: string }) {
                         </div>
                         <div>放大倍数：{output.factor}×</div>
                         <div>
-                            去背景：
+                            去背景精修：
                             <span className="font-medium" data-testid="refine-rm-bg">
-                                {mode.isRmBg ? "开启（透明底）" : "关闭"}
+                                {mode.isRmBg ? "透明底" : "保留原背景"}
                             </span>
                         </div>
                     </dl>
@@ -843,42 +889,6 @@ export function ProductRefineWorkspace({ className }: { className?: string }) {
                         当前命中：{output.ruleLabel}
                     </p>
 
-                    <div className="mt-3 rounded-md border border-stone-200 p-2 dark:border-stone-700">
-                        <label className="flex items-center justify-between gap-2 text-xs text-stone-700 dark:text-stone-200">
-                            <span>色彩校正</span>
-                            <input
-                                type="checkbox"
-                                checked={values.colorEnabled}
-                                disabled={running}
-                                onChange={(event) => update({ colorEnabled: event.target.checked })}
-                                data-testid="refine-color-toggle"
-                            />
-                        </label>
-                        <div className="mt-2 flex items-center gap-2">
-                            <input
-                                type="color"
-                                aria-label="目标颜色"
-                                value={values.color && /^#[0-9A-Fa-f]{6}$/.test(values.color) ? values.color : "#FFFFFF"}
-                                disabled={!values.colorEnabled || running}
-                                onChange={(event) => update({ color: event.target.value.toUpperCase() })}
-                                className="h-8 w-10 rounded border border-stone-200 dark:border-stone-700"
-                                data-testid="refine-color-picker"
-                            />
-                            <input
-                                type="text"
-                                aria-label="色值"
-                                placeholder="#RRGGBB / #RRGGBBAA"
-                                value={values.color}
-                                disabled={!values.colorEnabled || running}
-                                onChange={(event) => update({ color: event.target.value })}
-                                className={`${inputClass} flex-1`}
-                                data-testid="refine-color-text"
-                            />
-                        </div>
-                        <p className="mt-1 text-[11px] text-stone-500">
-                            开启后按色值做偏色/白平衡校正（进 provider 的 color 字段），不改材质与明暗结构。
-                        </p>
-                    </div>
                 </Section>
 
                 <Section title="生成" hint={`模型：${modelLabel(imageModel)}`}>

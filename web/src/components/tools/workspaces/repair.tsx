@@ -631,6 +631,8 @@ export function FixColorWorkspace({ className }: RepairWorkspaceProps = {}) {
                         toolId={TOOL_ID}
                         maxCount={1}
                         title="上传色差图"
+                        variant="linkfox"
+                        dropLabel="点击上传"
                         disabled={busy}
                         onChange={(_ids, records) => {
                             void adoptRecord(records[0] ?? null);

@@ -763,6 +763,7 @@ export function OutpaintWorkspace({ className }: OutpaintWorkspaceProps = {}) {
                                     variant="linkfox"
                                     title=""
                                     uploadLabel="从本地上传"
+                                    thirdAction={null}
                                     onChange={(assetIds, records) => void onSourceChange(assetIds, records)}
                                 />
                             </div>

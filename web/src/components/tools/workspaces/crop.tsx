@@ -79,6 +79,9 @@ export function CropWorkspace() {
     const patchDraft = useToolDraftStore((store) => store.patch);
     const hydrateDraft = useToolDraftStore((store) => store.hydrate);
     const upsertTask = useToolTaskStore((store) => store.upsertTask);
+    const tasksHydrated = useToolTaskStore((store) => store.hydrated);
+    const hydrateTasks = useToolTaskStore((store) => store.hydrate);
+    const storedTasks = useToolTaskStore((store) => store.tasks);
 
     const [source, setSource] = useState<SourceImage | null>(null);
     const [state, setState] = useState<CropCanvasState>(() => createCropState());
@@ -88,6 +91,8 @@ export function CropWorkspace() {
     const [notice, setNotice] = useState<string | null>(null);
     const [task, setTask] = useState<ToolTask | null>(null);
     const [submitted, setSubmitted] = useState<ImageCropSnapshot | null>(null);
+    /** 重新上传/换图后不再回放上一次任务结果（用户已明确开始新一次裁剪）。 */
+    const [restoredDismissed, setRestoredDismissed] = useState(false);
     const renderer = useRef(createCanvasCropRenderer());
 
     const size = source?.size ?? { width: 1, height: 1 };
@@ -134,6 +139,11 @@ export function CropWorkspace() {
         };
     }, [hydrateDraft]);
 
+    // 任务 store 水合：让「刷新后结果复用」成立（此前只有历史面板会 hydrate）
+    useEffect(() => {
+        if (!tasksHydrated) hydrateTasks();
+    }, [hydrateTasks, tasksHydrated]);
+
     async function hydrateSource(record: ToolAssetRecord): Promise<SourceImage> {
         const url = record.url;
         const decoded = await decodeSize(url);
@@ -155,6 +165,7 @@ export function CropWorkspace() {
             setUndoStack([]);
             setRedoStack([]);
             setSubmitted(null);
+            setRestoredDismissed(false);
         } catch (error) {
             setNotice(error instanceof Error ? error.message : "图片读取失败");
         }
@@ -193,6 +204,7 @@ export function CropWorkspace() {
         setRedoStack([]);
         setSubmitted(null);
         setTask(null);
+        setRestoredDismissed(true);
         setNotice("已清空当前图片，请重新上传");
     }, []);
 
@@ -224,6 +236,21 @@ export function CropWorkspace() {
             setBusy(false);
         }
     }, [busy, size, source, state]);
+
+    // 刷新后复用：任务 store 水合完成后，把本工具最近一次成功任务回放到结果区
+    const restoredTask = useMemo(() => {
+        const own = Object.values(storedTasks).filter((item) => item.toolId === IMAGE_CROP_TOOL_ID);
+        const sorted = own.sort((a, b) => b.updatedAt - a.updatedAt);
+        return sorted.find((item) => item.status === "succeeded") ?? sorted[0] ?? null;
+    }, [storedTasks]);
+    const activeTask = useMemo(() => {
+        if (task) return task;
+        if (restoredDismissed || !restoredTask) return null;
+        const taskSources = restoredTask.sourceAssetIds ?? [];
+        // 只有「同源」结果才回放；换了图（源资产不同）时隐藏旧结果，避免误解
+        if (source && taskSources.length > 0 && !taskSources.includes(source.assetId)) return null;
+        return restoredTask;
+    }, [restoredDismissed, restoredTask, source, task]);
 
     const stale = submitted ? isSnapshotStale(submitted, createImageCropSnapshot({ sourceAssetId: source?.assetId ?? "", sourceName: source?.name ?? "", sourceUrl: source?.url ?? "", source: size, state })) : false;
     const cropPixels = rectToPixels(state.rect, orientedSize(size, state.rotation));
@@ -264,9 +291,17 @@ export function CropWorkspace() {
                     <IconButton testId="crop-reupload" label="重新上传" disabled={!source} onClick={reupload}>
                         <Upload className="size-3.5" aria-hidden />
                     </IconButton>
-                    <IconButton testId="crop-download" label="下载图片" disabled={!source || busy} onClick={() => void downloadCurrent()}>
+                    <button
+                        type="button"
+                        data-testid="crop-download"
+                        aria-label="下载图片"
+                        disabled={!source || busy}
+                        onClick={() => void downloadCurrent()}
+                        className="inline-flex h-8 items-center gap-1.5 rounded-md bg-[#723cf9] px-3 text-xs font-medium text-white transition hover:bg-[#5f2ed6] disabled:opacity-50"
+                    >
                         <Download className="size-3.5" aria-hidden />
-                    </IconButton>
+                        下载图片
+                    </button>
                 </div>
             }
             sidebar={
@@ -301,17 +336,17 @@ export function CropWorkspace() {
                             </p>
                         </div>
                     )}
-                    <ToolAssetInput toolId={IMAGE_CROP_TOOL_ID} maxCount={1} title="源图" onChange={onAssetChange} disabled={busy} />
+                    <ToolAssetInput toolId={IMAGE_CROP_TOOL_ID} maxCount={1} title="源图" variant="linkfox" uploadLabel="从本地上传" onChange={onAssetChange} disabled={busy} />
                     {source ? (
                         <p className="text-[11px] text-muted-foreground">
                             {source.name} · {size.width}×{size.height} · 裁剪区 {cropPixels.width}×{cropPixels.height} → 输出 {state.outputWidth}×{state.outputHeight}
                         </p>
                     ) : null}
-                    {task ? (
+                    {activeTask ? (
                         <>
                             {stale ? <p data-testid="crop-stale" className="rounded border border-amber-500/40 bg-amber-500/10 px-3 py-2 text-xs text-amber-700 dark:text-amber-300">配置已变更：下方展示的是上一次提交的结果，不代表当前参数。</p> : null}
-                            <TaskStatusPanel task={task} />
-                            <ToolResult task={task} toolId={IMAGE_CROP_TOOL_ID} title="裁剪结果" onRetry={submit} />
+                            <TaskStatusPanel task={activeTask} />
+                            <ToolResult task={activeTask} toolId={IMAGE_CROP_TOOL_ID} title="裁剪结果" onRetry={submit} />
                         </>
                     ) : null}
                 </section>
@@ -337,6 +372,20 @@ export function CropWorkspace() {
 
                         {state.activeTab === "size" ? (
                             <div className="mt-2 space-y-2">
+                                {/* 原站「尺寸调整」页签首位就是「自由裁剪」尺寸卡（236×40，默认选中）；点它=按原图比例自由框选 */}
+                                <button
+                                    type="button"
+                                    data-testid="crop-size-free"
+                                    aria-pressed={state.ratioId === FREE_RATIO_ID}
+                                    onClick={() => commit(applyRatioPreset(state, FREE_RATIO_ID, size))}
+                                    className={cn(
+                                        "flex h-10 w-full items-center justify-between gap-2 rounded-md border px-3 text-left text-xs transition",
+                                        state.ratioId === FREE_RATIO_ID ? "border-[#723cf9] bg-[#723cf9]/5 text-foreground" : "border-border text-muted-foreground hover:bg-accent",
+                                    )}
+                                >
+                                    <span>自由裁剪</span>
+                                    <span className="text-[11px] text-muted-foreground">{state.ratioId === FREE_RATIO_ID ? `${state.outputWidth}×${state.outputHeight}` : "按原图比例"}</span>
+                                </button>
                                 <div className="flex items-center justify-between">
                                     <span className="text-[11px] font-medium text-foreground">目标尺寸</span>
                                     <span className="text-[11px] text-muted-foreground" data-testid="crop-output-summary">

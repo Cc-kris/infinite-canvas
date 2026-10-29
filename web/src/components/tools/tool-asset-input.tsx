@@ -44,6 +44,10 @@ export type ToolAssetInputProps = {
     uploadLabel?: string;
     /** 主按钮下方的附加动作（如「从作品库选择」「从商品库选择」） */
     actions?: ReactNode;
+    /** linkfox 变体：上传区顶部提示（原站「点击上传」，蓝色 12px） */
+    dropLabel?: string;
+    /** linkfox 变体：替换第三个按钮（原站部分工具此处是「批量高清放大」而非「从商品库选择」）；传 null 表示不渲染第三按钮 */
+    thirdAction?: ReactNode | null;
     /** 上传卡底部的限制提示行 */
     hint?: ReactNode;
     /** linkfox 变体：按钮/提示行按容器宽度铺满（原站画布内 490px 卡片），默认 210px 固定宽度 */
@@ -78,7 +82,7 @@ function phaseLabel(progress: ToolAssetUploadProgress) {
  * 资产输入：真实 `<input type=file>` / 拖拽 → `uploadToolAsset`（真实落库、真实字节进度、可取消）
  * → 资产 id 写入草稿（刷新后由草稿 + 资产索引恢复）。
  */
-export function ToolAssetInput({ toolId, draftSlot, constraints, maxCount, library, disabled, title = "上传素材", className, variant = "default", uploadLabel, actions, hint, wide, compact, onChange }: ToolAssetInputProps) {
+export function ToolAssetInput({ toolId, draftSlot, constraints, maxCount, library, disabled, title = "上传素材", className, variant = "default", uploadLabel, actions, thirdAction, dropLabel, hint, wide, compact, onChange }: ToolAssetInputProps) {
     const effectiveConstraints = useMemo(() => resolveToolAssetConstraints(constraints), [constraints]);
     const [items, setItems] = useState<AssetItem[]>([]);
     const [notice, setNotice] = useState("");
@@ -344,6 +348,11 @@ export function ToolAssetInput({ toolId, draftSlot, constraints, maxCount, libra
             >
                 {linkfox ? (
                     <>
+                        {dropLabel ? (
+                            <span className={cn("text-[12px] leading-[15px] text-[#723cf9]", wide && "text-center")} data-testid="tool-asset-drop-label">
+                                {dropLabel}
+                            </span>
+                        ) : null}
                         <span className={cn("inline-flex h-6 items-center justify-center rounded-[4px] bg-[#723cf9] text-[12px] font-medium leading-none text-white", wide ? "w-full" : "w-[210px]")}>
                             {uploadLabel ?? "从本地上传"}
                         </span>
@@ -367,6 +376,7 @@ export function ToolAssetInput({ toolId, draftSlot, constraints, maxCount, libra
                                 >
                                     从作品库选择
                                 </button>
+                                {thirdAction === undefined ? (
                                 <button
                                     type="button"
                                     className="h-6 w-[100px] rounded-[4px] border border-[#e5e5ea] bg-white text-[12px] leading-none text-[#5a5a66] transition hover:border-[#c9c9d4] disabled:opacity-50"
@@ -375,6 +385,7 @@ export function ToolAssetInput({ toolId, draftSlot, constraints, maxCount, libra
                                 >
                                     从商品库选择
                                 </button>
+                                ) : thirdAction}
                             </>
                                 ) : null)}
                             </div>

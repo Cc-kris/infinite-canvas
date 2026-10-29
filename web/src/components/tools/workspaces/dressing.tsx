@@ -10,6 +10,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState, type PointerEvent as ReactPointerEvent } from "react";
 
 import { ToolAssetInput } from "@/components/tools/tool-asset-input";
+import { ToolCases, type ToolCase } from "@/components/tools/tool-cases";
 import { ToolResult } from "@/components/tools/tool-result";
 import { cn } from "@/lib/utils";
 import {
@@ -46,6 +47,8 @@ import {
     type ModelPoseDraft,
 } from "@/features/tools/registry/ai-dressing-v2";
 import type { MaskPoint, MaskStroke } from "@/features/tools/registry/area-repair";
+import { uploadCaseFiles } from "@/features/tools/case-apply";
+import { AI_DRESSING_V2_CASES } from "@/features/tools/tool-cases-data";
 import type { ToolAssetRecord } from "@/services/api/tools/assets";
 import {
     buildDressingUnit,
@@ -84,6 +87,8 @@ export function DressingWorkspace({ className }: DressingWorkspaceProps) {
     const [busy, setBusy] = useState(false);
     const [error, setError] = useState<string | null>(null);
     const [outcomes, setOutcomes] = useState<DressingUnitOutcome[]>([]);
+    const [workspaceTab, setWorkspaceTab] = useState<"settings" | "cases">("settings");
+    const [applyingCaseId, setApplyingCaseId] = useState<string | null>(null);
     const dragRef = useRef<{ slot: GarmentSlotKey; id: string } | null>(null);
 
     const hydrate = useToolDraftStore((state) => state.hydrate);
@@ -289,6 +294,78 @@ export function DressingWorkspace({ className }: DressingWorkspaceProps) {
         dragRef.current = null;
     }, []);
 
+    const applyCase = useCallback(async (item: ToolCase) => {
+        setApplyingCaseId(item.id);
+        setError(null);
+        try {
+            const assets = await uploadCaseFiles(item);
+            const model = assets.model;
+            const garment = assets.garment;
+            if (!model || Array.isArray(model) || !garment || Array.isArray(garment)) {
+                throw new Error("该案例缺少单张模特图或服装图，无法适配当前工作区槽位。");
+            }
+            const apply = item.apply ?? {};
+            const modelPose: ModelPoseDraft = {
+                id: model.id,
+                assetId: model.id,
+                name: model.name,
+                imageUrl: model.url,
+                width: model.width ?? 0,
+                height: model.height ?? 0,
+            };
+            const modelStyle = typeof apply.modelStyle === "string" ? apply.modelStyle : "";
+            // 单张案例服装图不能凭空拆成上下装：连体/裙装/泳衣与明确的两件套保留在「套装」槽，明确上装才进上装槽；未知样式也保留原图到套装槽。
+            const garmentSlot: GarmentSlotKey = /(?:连体|连衣裙|泳衣|抹胸-长裤|短袖-长裤)/u.test(modelStyle)
+                ? "suit"
+                : /(?:短袖|大衣|外套)/u.test(modelStyle)
+                  ? "upper"
+                  : "suit";
+            const garmentDraft = fillGarmentMask({
+                ...createGarment(garmentSlot),
+                assetId: garment.id,
+                name: garment.name,
+                imageUrl: garment.url,
+                originUrl: garment.url,
+                width: garment.width ?? 0,
+                height: garment.height ?? 0,
+            }, `case-${item.id}-full-mask`);
+            const modelType = /(?:男童|女童|儿童)/u.test(modelStyle)
+                ? "kid"
+                : /(?:男士|女士)/u.test(modelStyle)
+                  ? "adult"
+                  : values.modelType;
+            const provider =
+                typeof apply.provider === "number"
+                    ? String(apply.provider)
+                    : typeof apply.provider === "string"
+                      ? apply.provider
+                      : apply.provider === null
+                        ? ""
+                        : values.provider;
+            const next: DressingValues = {
+                ...values,
+                activeTab: garmentSlot === "suit" ? "suit" : "upper-lower",
+                poses: [modelPose],
+                activePoseId: modelPose.id,
+                garments: { ...values.garments, [garmentSlot]: garmentDraft },
+                modelType,
+                provider,
+                outputNum: typeof apply.outputNum === "number" ? apply.outputNum : values.outputNum,
+                version: typeof apply.version === "string" ? apply.version : values.version,
+                isSecondOperate: typeof apply.isSecondOperate === "boolean" ? apply.isSecondOperate : values.isSecondOperate,
+            };
+            setValues(next);
+            patchDraft(AI_DRESSING_V2_TOOL_ID, { values: serializeDressingValues(next) });
+            await flushDraft(AI_DRESSING_V2_TOOL_ID);
+            setOutcomes([]);
+            setWorkspaceTab("settings");
+        } catch (cause) {
+            setError(cause instanceof Error ? cause.message : String(cause));
+        } finally {
+            setApplyingCaseId(null);
+        }
+    }, [flushDraft, patchDraft, values]);
+
     const submit = useCallback(async () => {
         const first = firstDressingError(validateDressing(values));
         if (first) {
@@ -345,6 +422,8 @@ export function DressingWorkspace({ className }: DressingWorkspaceProps) {
                 </p>
             </header>
 
+            <div className="grid items-start gap-5 lg:grid-cols-[minmax(0,1fr)_minmax(280px,360px)]">
+            <div className="min-w-0 space-y-5">
             <div className="space-y-2" data-field="poses">
                 <h3 className="text-sm font-medium">
                     模特参考（最多 {DRESSING_MAX_POSES} 张，当前 {values.poses.length} 张）
@@ -605,8 +684,9 @@ export function DressingWorkspace({ className }: DressingWorkspaceProps) {
                                                     target="_blank"
                                                     rel="noreferrer"
                                                     className="block overflow-hidden rounded border"
+                                                    data-testid="dressing-result-link"
                                                 >
-                                                    <img src={href} alt={`结果 ${index + 1}`} className="w-full" />
+                                                    <img data-testid="tool-result-image" src={href} alt={`结果 ${index + 1}`} className="w-full" />
                                                 </a>
                                             );
                                         })}
@@ -618,6 +698,18 @@ export function DressingWorkspace({ className }: DressingWorkspaceProps) {
                     })}
                 </div>
             ) : null}
+            </div>
+            <aside className="min-w-0 rounded-lg border" aria-label="右侧工具栏">
+                <div role="tablist" aria-label="右栏内容" className="flex border-b p-2">
+                    <button type="button" role="tab" aria-selected={workspaceTab === "cases"} onClick={() => setWorkspaceTab("cases")} className={cn("rounded-md px-3 py-1.5 text-sm", workspaceTab === "cases" ? "bg-primary text-primary-foreground" : "text-muted-foreground")}>优秀案例</button>
+                </div>
+                {workspaceTab === "cases" ? (
+                    <div className="p-4" data-testid="ai-dressing-v2-cases">
+                        <ToolCases cases={AI_DRESSING_V2_CASES} applyingId={applyingCaseId} onApply={applyCase} />
+                    </div>
+                ) : null}
+            </aside>
+            </div>
         </section>
     );
 }

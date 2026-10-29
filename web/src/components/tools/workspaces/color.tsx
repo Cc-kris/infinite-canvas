@@ -113,7 +113,29 @@ function ConfigSection({ title, open, onToggle, aside, testId, children }: { tit
 }
 
 /** 原站开关：32×18 圆角轨道，开启紫底（`去除杂色` 默认关闭，见 page-dom aria-checked=false）。 */
-function Switch({ checked, disabled, onChange, label, testId }: { checked: boolean; disabled?: boolean; onChange: (next: boolean) => void; label: string; testId?: string }) {
+function Switch({ checked, disabled, onChange, label, testId, showText }: { checked: boolean; disabled?: boolean; onChange: (next: boolean) => void; label: string; testId?: string; showText?: boolean }) {
+    if (showText) {
+        /* 原站 ant-switch 轨道内直接写「开启/关闭」(57×22，inner 文字 10px) */
+        return (
+            <button
+                type="button"
+                role="switch"
+                aria-checked={checked}
+                aria-label={label}
+                disabled={disabled}
+                onClick={() => onChange(!checked)}
+                className={cn("relative inline-flex h-[22px] w-[57px] shrink-0 items-center rounded-full text-[11px] leading-none text-white transition disabled:opacity-50", checked ? "bg-[#723cf9]" : "bg-[#d9d9e0]")}
+                data-testid={testId}
+            >
+                {/* 原站 ant-switch-inner：轨道内同时存在「开启」「关闭」两词，滑块遮住其一 */}
+                <span className="relative z-10 flex w-full items-center justify-between px-[8px]">
+                    <span>开启</span>
+                    <span>关闭</span>
+                </span>
+                <span className={cn("absolute top-[2px] z-20 size-[18px] rounded-full bg-white shadow-sm transition-all", checked ? "right-[2px]" : "left-[2px]")} aria-hidden />
+            </button>
+        );
+    }
     return (
         <button
             type="button"
@@ -404,6 +426,8 @@ export function ChangeColorWorkspace({ className }: { className?: string }) {
     const [brush, setBrush] = useState(28);
     const [reference, setReference] = useState<ToolAssetRecord | undefined>();
     const [paletteNote, setPaletteNote] = useState<string | undefined>();
+    /** 原站结果列顶部的「上传颜色参考图」提示卡，点「知道了」后本次会话内不再出现。 */
+    const [tipOpen, setTipOpen] = useState(true);
     const [task, setTask] = useState<ToolTask | undefined>();
     const [snapshot, setSnapshot] = useState<ReturnType<typeof createChangeColorSnapshot> | undefined>();
     const [running, setRunning] = useState(false);
@@ -684,7 +708,7 @@ export function ChangeColorWorkspace({ className }: { className?: string }) {
                             <h2 className="text-[24px] font-semibold leading-[31px] text-[#1f1f2c]">一键快速上色</h2>
                             <p className="mt-[8px] max-w-[600px] text-[15px] leading-[25px] text-[#8a8a99]">立即改变照片中任何物品的颜色，无论是衣服、商品、配饰还是假发！</p>
                             <div className="mt-[22px] flex flex-wrap items-start justify-center gap-3">
-                                <ToolAssetInput toolId={toolId} constraints={SOURCE_CONSTRAINTS} maxCount={1} disabled={disabled || restoringSource} library={library} onChange={onSourceChange} className={canvasUploadRow} />
+                                <ToolAssetInput toolId={toolId} constraints={SOURCE_CONSTRAINTS} maxCount={1} disabled={disabled || restoringSource} library={library} onChange={onSourceChange} className={canvasUploadRow} variant="linkfox" title="" uploadLabel="从本地上传" />
                                 <button
                                     type="button"
                                     disabled
@@ -778,13 +802,15 @@ export function ChangeColorWorkspace({ className }: { className?: string }) {
                             wide
                             className={referenceUploadCard}
                         />
-                        <p className="text-[11px] leading-4 text-[#8a8a99]" data-testid="change-color-reference-note">
-                            {paletteNote ?? "支持上传颜色参考图，生成效果色差更小"}
-                        </p>
+                        {paletteNote ? (
+                            <p className="text-[11px] leading-4 text-[#8a8a99]" data-testid="change-color-reference-note">
+                                {paletteNote}
+                            </p>
+                        ) : null}
 
                         <div className="flex items-center justify-between gap-2">
                             <span className="text-[12px] leading-[22px] text-[#1f1f2c]">去除杂色</span>
-                            <Switch checked={values.removeNoise} disabled={disabled} onChange={(next) => update({ removeNoise: next })} label="去除杂色" testId="change-color-noise-switch" />
+                            <Switch checked={values.removeNoise} disabled={disabled} onChange={(next) => update({ removeNoise: next })} label="去除杂色" testId="change-color-noise-switch" showText />
                         </div>
                         <div className="flex items-center justify-between gap-2">
                             <span className="text-[11px] leading-[22px] text-[#8a8a99]" data-testid="change-color-color-summary">
@@ -926,6 +952,22 @@ export function ChangeColorWorkspace({ className }: { className?: string }) {
                     ))}
                 </div>
                 <div className="flex min-h-0 flex-1 flex-col gap-[10px] overflow-y-auto px-[10px] pb-[10px]">
+                    {/* 原站结果列顶部提示卡：14px 文案 + 右下白底「知道了」(58×24)。原站 254×128，x1541/y271 */}
+                    {tipOpen ? (
+                        <div className="shrink-0 rounded-[8px] bg-white px-[12px] pb-[10px] pt-[12px]" data-testid="change-color-tip">
+                            <p className="text-[14px] leading-[22px] text-[#1f1f2c]">支持上传颜色参考图，生成效果色差更小</p>
+                            <div className="mt-3 flex justify-end">
+                                <button
+                                    type="button"
+                                    onClick={() => setTipOpen(false)}
+                                    data-testid="change-color-tip-dismiss"
+                                    className="flex h-6 items-center justify-center rounded-[6px] bg-white px-[8px] text-[14px] leading-none text-[#1f1f2c] transition hover:bg-[#f2f3f7]"
+                                >
+                                    知道了
+                                </button>
+                            </div>
+                        </div>
+                    ) : null}
                     <div className="flex min-h-0 flex-1 flex-col rounded-[8px] bg-white">
                         {resultTab === "result" ? <ToolResult task={task} toolId={toolId} title="生成结果" emptyTitle="暂无生成结果图" emptyHint="快在左侧操作物品换色吧~" onCancel={onCancel} onRetry={() => void onRetry()} /> : null}
                         {resultTab === "gallery" ? (

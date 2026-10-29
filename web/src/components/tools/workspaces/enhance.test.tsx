@@ -43,7 +43,7 @@ async function renderWorkspace(): Promise<string> {
 describe("高清放大工作台渲染", () => {
     test("分区齐全：原图 / 放大模式 / 增强选项 / 生成 / 结果", async () => {
         const html = await renderWorkspace();
-        for (const text of ["原图", "放大模式", "增强选项", "面部美化", "质量增强档位", "输出尺寸", "开始放大"]) {
+        for (const text of ["原图", "放大模式", "增强选项", "面部美化", "质量增强档位", "输出尺寸", "立即生成"]) {
             expect(html).toContain(text);
         }
     });

@@ -1,7 +1,11 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 import { ToolAssetInput } from "@/components/tools/tool-asset-input";
+import { ToolCases } from "@/components/tools/tool-cases";
+import type { ToolCase } from "@/components/tools/tool-cases";
 import { ToolResult } from "@/components/tools/tool-result";
+import { uploadCaseFiles } from "@/features/tools/case-apply";
+import { AI_WEARABLE_CASES } from "@/features/tools/tool-cases-data";
 import { uploadToolAsset, loadToolAssetRecords, type ToolAssetRecord } from "@/services/api/tools/assets";
 import { describeToolExecution, getToolGateway } from "@/services/api/tools/gateway";
 import type { ToolTask } from "@/services/api/tools/task-machine";
@@ -342,6 +346,23 @@ function VariantGrid({
 
 /* -------------------------------- 工作区 -------------------------------- */
 
+const WEARABLE_RIGHT_TABS = [
+    { id: "result", label: "生成结果" },
+    { id: "cases", label: "优秀案例" },
+] as const;
+type WearableRightTabId = (typeof WEARABLE_RIGHT_TABS)[number]["id"];
+
+function isWearableRegionLike(raw: unknown): raw is WearableRegion {
+    if (!raw || typeof raw !== "object") return false;
+    const record = raw as Record<string, unknown>;
+    return (
+        typeof record.cx === "number" &&
+        typeof record.cy === "number" &&
+        typeof record.rx === "number" &&
+        typeof record.ry === "number"
+    );
+}
+
 export function AiWearableWorkspace({ className, toolId = AI_WEARABLE_TOOL_ID }: { className?: string; toolId?: string }) {
     const hydrate = useToolDraftStore((state) => state.hydrate);
     const patchDraft = useToolDraftStore((state) => state.patch);
@@ -359,6 +380,9 @@ export function AiWearableWorkspace({ className, toolId = AI_WEARABLE_TOOL_ID }:
     const [snapshot, setSnapshot] = useState<WearableSnapshot | undefined>();
     const [running, setRunning] = useState(false);
     const [runError, setRunError] = useState<string | undefined>();
+    const [rightTab, setRightTab] = useState<WearableRightTabId>("result");
+    const [applyingCaseId, setApplyingCaseId] = useState<string | null>(null);
+    const [caseNotice, setCaseNotice] = useState<string | undefined>();
     const abortRef = useRef<AbortController | null>(null);
 
     const [productMask, setProductMask] = useState<RegionHistory>(() => ({ past: [], present: readWearableValues().productRegion, future: [] }));
@@ -537,6 +561,86 @@ export function AiWearableWorkspace({ className, toolId = AI_WEARABLE_TOOL_ID }:
             setRunError(size.ok ? undefined : `模特图尺寸不符：${size.message}`);
         },
         [update],
+    );
+
+    /**
+     * 「优秀案例·做同款」：案例素材真实落盘 → uploadToolAsset 入库 → 回填商品图/模特图。
+     *
+     * 事实边界：素材来自 LinkFox 原站案例（`files.product` / `files.model`），走的是同一套
+     * `uploadCaseFiles` 上传链路，不是把远端 URL 直接塞进表单；回填后仍由用户点「立即生成」。
+     */
+    const applyCase = useCallback(
+        async (item: ToolCase) => {
+            setApplyingCaseId(item.id);
+            setCaseNotice(undefined);
+            setRunError(undefined);
+            try {
+                const assets = await uploadCaseFiles(item);
+                const productEntry = assets.product ?? assets.image;
+                const modelEntry = assets.model ?? assets.target;
+                const productRecord = Array.isArray(productEntry) ? productEntry[0] : productEntry;
+                const modelRecord = Array.isArray(modelEntry) ? modelEntry[0] : modelEntry;
+                if (!productRecord) throw new Error("该案例缺少可用的穿戴商品图");
+                onProductChange([productRecord.id], [productRecord]);
+                if (modelRecord) onModelChange([modelRecord.id], [modelRecord]);
+
+                const apply = item.apply ?? {};
+                const nextValues: Partial<WearableValues> = {};
+                const tabKey = typeof apply.modelTabType === "string" ? apply.modelTabType : "";
+                if (WEARABLE_MODEL_TABS.some((tab) => tab.key === tabKey)) {
+                    nextValues.modelTabType = tabKey as WearableValues["modelTabType"];
+                }
+                const categoryKey = typeof apply.productCategory === "string" ? apply.productCategory : "";
+                if (categoryKey && wearableCategoryOf(categoryKey)) {
+                    nextValues.productCategory = categoryKey as WearableValues["productCategory"];
+                }
+                const partKey = typeof apply.part === "string" ? apply.part : "";
+                if (partKey && wearablePartOf(partKey)) {
+                    nextValues.part = partKey as WearableValues["part"];
+                }
+                const sceneKey = typeof apply.sceneTabType === "string" ? apply.sceneTabType : "";
+                if (WEARABLE_SCENE_TABS.some((s) => s.key === sceneKey)) {
+                    nextValues.sceneTabType = sceneKey as WearableValues["sceneTabType"];
+                }
+                const checkKey = typeof apply.checkType === "string" ? apply.checkType : "";
+                if (WEARABLE_CHECK_TYPES.some((c) => c.key === checkKey)) {
+                    nextValues.checkType = checkKey as WearableValues["checkType"];
+                }
+                if (typeof apply.outputNum === "number" && Number.isFinite(apply.outputNum)) {
+                    nextValues.outputNum = apply.outputNum;
+                }
+                if (typeof apply.isSecondOperate === "boolean") {
+                    nextValues.isSecondOperate = apply.isSecondOperate;
+                }
+                if (isWearableRegionLike(apply.productRegion)) {
+                    applyProductMask(apply.productRegion);
+                } else {
+                    const defaultProductRegion = readWearableValues().productRegion;
+                    setProductMask({ past: [], present: defaultProductRegion, future: [] });
+                    nextValues.productRegion = defaultProductRegion;
+                }
+                if (isWearableRegionLike(apply.targetRegion)) {
+                    applyTargetMask(apply.targetRegion);
+                } else {
+                    const effectiveTab = nextValues.modelTabType ?? values.modelTabType;
+                    const effectivePart = nextValues.part ?? values.part;
+                    const nextTargetRegion = defaultTargetRegion(effectivePart, effectiveTab);
+                    setTargetMask({ past: [], present: nextTargetRegion, future: [] });
+                    nextValues.targetRegion = nextTargetRegion;
+                }
+                if (Object.keys(nextValues).length) update(nextValues);
+
+                setTask(undefined);
+                setSnapshot(undefined);
+                setCaseNotice("已应用案例素材，请确认穿戴区域与参数后点「立即生成」");
+                setRightTab("result");
+            } catch (error) {
+                setRunError(error instanceof Error ? error.message : "做同款失败");
+            } finally {
+                setApplyingCaseId(null);
+            }
+        },
+        [applyProductMask, applyTargetMask, onModelChange, onProductChange, update, values.modelTabType, values.part],
     );
 
     /** 蒙版 → 同尺寸 PNG → 真实入库 → 字段引用（HTTPS 优先，否则本地资产 id）。 */
@@ -867,30 +971,78 @@ export function AiWearableWorkspace({ className, toolId = AI_WEARABLE_TOOL_ID }:
                     </Section>
                 </div>
 
-                {/* 右：提示词、结果与资产 */}
+                {/* 右：独立面板页签（生成结果 / 优秀案例） */}
                 <div className="flex min-w-0 flex-col gap-3">
-                    <Section title="本次提交快照" hint={`${wearableModelTabOf(values.modelTabType).label} · ${wearableSceneTabOf(values.sceneTabType).label}`} testId="dress-snapshot">
-                        <p data-testid="dress-prompt" className="text-[11px] leading-5 text-muted-foreground">
-                            {prompt}
+                    <div
+                        className="flex h-10 shrink-0 items-center gap-4 rounded-xl border border-border bg-card px-3"
+                        role="tablist"
+                        aria-label="右栏面板"
+                        data-testid="dress-right-tabs"
+                    >
+                        {WEARABLE_RIGHT_TABS.map((item) => {
+                            const active = rightTab === item.id;
+                            return (
+                                <button
+                                    key={item.id}
+                                    type="button"
+                                    role="tab"
+                                    aria-selected={active}
+                                    data-testid={`dress-tab-${item.id}`}
+                                    onClick={() => setRightTab(item.id)}
+                                    className={cn(
+                                        "flex h-10 items-center border-b-2 px-1 text-xs font-medium transition-colors",
+                                        active
+                                            ? "border-[#723cf9] text-[#723cf9]"
+                                            : "border-transparent text-muted-foreground hover:text-foreground",
+                                    )}
+                                >
+                                    {item.label}
+                                </button>
+                            );
+                        })}
+                    </div>
+
+                    {caseNotice ? (
+                        <p className="rounded-lg border border-border bg-card px-3 py-2 text-xs text-muted-foreground" data-testid="dress-case-notice">
+                            {caseNotice}
                         </p>
-                        <dl className="mt-2 grid grid-cols-2 gap-x-3 gap-y-1 text-[11px] text-muted-foreground">
-                            <div className="flex justify-between"><dt>主体</dt><dd data-testid="dress-summary">{output.label}</dd></div>
-                            <div className="flex justify-between"><dt>商品蒙版</dt><dd>{fmt(productMask.present)}</dd></div>
-                            <div className="flex justify-between"><dt>目标蒙版</dt><dd>{fmt(targetMask.present)}</dd></div>
-                            <div className="flex justify-between"><dt>模型</dt><dd>{capability.modelReady ? "已配置" : "未配置"}</dd></div>
-                        </dl>
-                    </Section>
+                    ) : null}
 
-                    <Section title="生成结果" hint={`本次 ${values.outputNum} 张 · 已返回 ${result.cells.filter((cell) => cell.status === "succeeded").length} 张`} testId="dress-results-section">
-                        {drift && task ? (
-                            <p data-testid="dress-stale" className="mb-2 rounded-md bg-amber-50 px-2 py-1 text-[11px] text-amber-700 dark:bg-amber-950/40 dark:text-amber-300">
-                                配置已变更（{drift}），下面的结果来自上一版配置，请重新生成。
-                            </p>
-                        ) : null}
-                        <VariantGrid cells={result.cells} expected={values.outputNum} running={running} onRetryCell={(index) => void submit(index)} />
-                    </Section>
+                    {rightTab === "result" ? (
+                        <>
+                            <Section title="本次提交快照" hint={`${wearableModelTabOf(values.modelTabType).label} · ${wearableSceneTabOf(values.sceneTabType).label}`} testId="dress-snapshot">
+                                <p data-testid="dress-prompt" className="text-[11px] leading-5 text-muted-foreground">
+                                    {prompt}
+                                </p>
+                                <dl className="mt-2 grid grid-cols-2 gap-x-3 gap-y-1 text-[11px] text-muted-foreground">
+                                    <div className="flex justify-between"><dt>主体</dt><dd data-testid="dress-summary">{output.label}</dd></div>
+                                    <div className="flex justify-between"><dt>商品蒙版</dt><dd>{fmt(productMask.present)}</dd></div>
+                                    <div className="flex justify-between"><dt>目标蒙版</dt><dd>{fmt(targetMask.present)}</dd></div>
+                                    <div className="flex justify-between"><dt>模型</dt><dd>{capability.modelReady ? "已配置" : "未配置"}</dd></div>
+                                </dl>
+                            </Section>
 
-                    <ToolResult task={task} toolId={toolId} title="结果资产" onCancel={running ? cancel : undefined} />
+                            <Section title="生成结果" hint={`本次 ${values.outputNum} 张 · 已返回 ${result.cells.filter((cell) => cell.status === "succeeded").length} 张`} testId="dress-results-section">
+                                {drift && task ? (
+                                    <p data-testid="dress-stale" className="mb-2 rounded-md bg-amber-50 px-2 py-1 text-[11px] text-amber-700 dark:bg-amber-950/40 dark:text-amber-300">
+                                        配置已变更（{drift}），下面的结果来自上一版配置，请重新生成。
+                                    </p>
+                                ) : null}
+                                <VariantGrid cells={result.cells} expected={values.outputNum} running={running} onRetryCell={(index) => void submit(index)} />
+                            </Section>
+
+                            <ToolResult task={task} toolId={toolId} title="结果资产" onCancel={running ? cancel : undefined} />
+                        </>
+                    ) : (
+                        <Section title="优秀案例" hint="取一条原站案例，一键回填商品图与模特参考图" testId="dress-cases">
+                            <ToolCases
+                                cases={AI_WEARABLE_CASES}
+                                applyingId={applyingCaseId}
+                                onApply={applyCase}
+                                emptyHint="暂无优秀案例"
+                            />
+                        </Section>
+                    )}
                 </div>
             </div>
         </div>

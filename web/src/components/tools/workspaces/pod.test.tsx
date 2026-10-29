@@ -80,4 +80,39 @@ describe("素材贴合工作台渲染（SDS_DESIGN）", () => {
         expect(lower).not.toContain("linkfox");
         expect(html).not.toContain("领狐");
     });
+
+    test("优秀案例：数据来自 SDS_DESIGN_CASES，商品图与素材槽位齐全", async () => {
+        const { SDS_DESIGN_CASES } = await import("@/features/tools/tool-cases-data");
+        expect(SDS_DESIGN_CASES.length).toBe(18);
+        // 真实数据事实：18 条里 9 条只带商品图（materials 为空数组），其余带 1~4 张素材。
+        const counts = SDS_DESIGN_CASES.map((item) => {
+            const files = (item.apply?.files ?? {}) as Record<string, unknown>;
+            const product = files.product;
+            const materials = files.materials;
+            const productOk = typeof product === "string" && product.startsWith("/__cases/sds-design/");
+            const materialsOk =
+                Array.isArray(materials) &&
+                materials.every((url) => typeof url === "string" && url.startsWith("/__cases/sds-design/"));
+            return productOk && materialsOk ? (materials as unknown[]).length : -1;
+        });
+        expect(counts.filter((value) => value < 0).length).toBe(0);
+        expect(counts.filter((value) => value > 0).length).toBe(9);
+        expect(counts.filter((value) => value === 0).length).toBe(9);
+    });
+
+    test("优秀案例画廊：真实渲染案例卡片与「做同款」入口", async () => {
+        const React = await import("react");
+        const { ToolCases } = await import("@/components/tools/tool-cases");
+        const { SDS_DESIGN_CASES } = await import("@/features/tools/tool-cases-data");
+        const html = renderToStaticMarkup(
+            React.createElement(ToolCases, {
+                cases: SDS_DESIGN_CASES,
+                applyingId: null,
+                onApply: async () => {},
+            }) as ReactElement,
+        );
+        expect(html).toContain("做同款");
+        expect(html).toContain(SDS_DESIGN_CASES[0].result);
+        expect((html.match(/data-testid="tool-case-apply"/g) ?? []).length).toBe(SDS_DESIGN_CASES.length);
+    });
 });

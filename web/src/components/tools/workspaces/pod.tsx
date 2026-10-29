@@ -2,6 +2,8 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { AlertTriangle, Check, ImageOff, ImagePlus, Loader2, Maximize, Minus, Move, Palette, Plus, Redo2, RotateCcw, RotateCw, Sparkles, Trash2, Undo2, Upload } from "lucide-react";
 
 import { ToolAssetInput } from "@/components/tools/tool-asset-input";
+import { ToolCases } from "@/components/tools/tool-cases";
+import type { ToolCase } from "@/components/tools/tool-cases";
 import { ToolResult } from "@/components/tools/tool-result";
 import { cn } from "@/lib/utils";
 import { loadToolAssetRecords, uploadToolAsset, type ToolAssetRecord } from "@/services/api/tools/assets";
@@ -112,6 +114,8 @@ import {
     type SdsTilingPresetId,
     type SdsValues,
 } from "@/features/tools/registry/sds-design";
+import { uploadCaseFiles } from "@/features/tools/case-apply";
+import { SDS_DESIGN_CASES } from "@/features/tools/tool-cases-data";
 
 /**
  * TASK-029：AI_TEXT（POD素材）工作区。
@@ -1252,6 +1256,8 @@ export function SdsDesignWorkspace() {
     const [resultTab, setResultTab] = useState<"result" | "cases" | "history">("result");
     const [stageBusy, setStageBusy] = useState(false);
     const [stageError, setStageError] = useState("");
+    const [applyingCaseId, setApplyingCaseId] = useState<string | null>(null);
+    const [casesHint, setCasesHint] = useState("");
     const materialInputRef = useRef<HTMLInputElement | null>(null);
     const productInputRef = useRef<HTMLInputElement | null>(null);
     const abortRef = useRef<AbortController | null>(null);
@@ -1360,6 +1366,55 @@ export function SdsDesignWorkspace() {
             if (!record) {
                 setHistory((previous) => ({ ...previous, present: {}, future: [] }));
                 return;
+            }
+        },
+        [update],
+    );
+
+    /**
+     * 「做同款」：把案例的商品图与素材真实入库（uploadCaseFiles），再写进本工具既有状态：
+     * 商品图 → productRecords + values.product（草稿里的 productId 即 assetId）；素材 → materialRecords + values.materials。
+     * 案例 apply 里的 productId 是原站数值商品 id，本工具 productId 语义是商品图资产 id（registry 已声明无商品库接口），
+     * 因此只能回填入库后的资产 id，不伪造原站数值 id。素材为空的案例只回填商品图并提示。
+     */
+    const applyCase = useCallback(
+        async (item: ToolCase) => {
+            setApplyingCaseId(item.id);
+            setErrorText("");
+            try {
+                const assets = await uploadCaseFiles(item);
+                const rawProduct = assets.product;
+                const productRecord = Array.isArray(rawProduct) ? rawProduct[0] : rawProduct;
+                if (!productRecord) throw new Error("该案例缺少可用的商品图素材");
+                const rawMaterials = assets.materials;
+                const caseMaterials = (Array.isArray(rawMaterials) ? rawMaterials : rawMaterials ? [rawMaterials] : []).slice(
+                    0,
+                    SDS_MATERIAL_COUNT.max,
+                );
+                const nextMaterials = caseMaterials.map((record) => createSdsMaterial(toSdsAsset(record)));
+
+                setProductRecords([productRecord]);
+                setMaterialRecords(caseMaterials);
+                update((previous) => ({
+                    ...previous,
+                    imageName: nextMaterials[0]?.name ?? previous.imageName,
+                    product: sdsAssetFields(toSdsAsset(productRecord)),
+                    materials: nextMaterials,
+                    selectedMaterialId: nextMaterials[0]?.assetId ?? null,
+                }));
+                setHistory(createSdsPlacementHistory(nextMaterials));
+                setSnapshot(undefined);
+                // 部分原站案例只落了商品图（材料槽为空）：如实提示，并停在本 tab 让提示可见。
+                setCasesHint(
+                    nextMaterials.length
+                        ? ""
+                        : "该案例只提供商品图，没有配套素材；已回填商品图，请再上传 1 个素材后生成。",
+                );
+                setResultTab(nextMaterials.length ? "result" : "cases");
+            } catch (error) {
+                setErrorText(error instanceof Error ? error.message : String(error));
+            } finally {
+                setApplyingCaseId(null);
             }
         },
         [update],
@@ -1735,9 +1790,13 @@ export function SdsDesignWorkspace() {
 
                 <div className="flex min-h-[320px] flex-1 flex-col px-[16px]">
                     {resultTab === "cases" ? (
-                        <div className="flex flex-1 flex-col items-center justify-center gap-2 text-center">
-                            <p className="text-[14px] text-[#939599]">暂无优秀案例</p>
-                            <p className="text-[13px] text-[#B4B7BF]">生成结果达到满意效果后会出现在这里~</p>
+                        <div className="p-4" data-testid="sds-cases">
+                            {casesHint ? (
+                                <p className="mb-3 rounded-[8px] border border-[#FFE0B2] bg-[#FFF8E1] px-2 py-1.5 text-[12px] text-[#8A6D3B]">
+                                    {casesHint}
+                                </p>
+                            ) : null}
+                            <ToolCases cases={SDS_DESIGN_CASES} applyingId={applyingCaseId} onApply={applyCase} />
                         </div>
                     ) : resultTab === "history" ? (
                         <div className="flex flex-1 flex-col items-center justify-center gap-2 text-center">
