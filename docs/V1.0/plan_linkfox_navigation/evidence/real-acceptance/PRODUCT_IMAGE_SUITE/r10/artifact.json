@@ -1,0 +1,13 @@
+{
+ "tool": "PRODUCT_IMAGE_SUITE",
+ "capturedAt": "2026-10-29T11:52:00Z",
+ "origin": "127.0.0.1:3000",
+ "task": "task-mvt6vpdo-sc1x8w",
+ "storageKey": "tool-result:98tXNya0JHj77cjXVRxLa",
+ "bytes": 2840825,
+ "sha256": "4047edd57e482b45f47a61d8fbacb4ec9b17635d06c1004793039e3ee42d7b52",
+ "mime": "image/png",
+ "magic": "89504e470d0a1a0a",
+ "source": "IndexedDB infinite-canvas/media_files → POST 127.0.0.1:34567 → 本次提交的 result.png",
+ "note": "字节来自已持久化的真实任务结果；未重新生成、未注入。"
+}

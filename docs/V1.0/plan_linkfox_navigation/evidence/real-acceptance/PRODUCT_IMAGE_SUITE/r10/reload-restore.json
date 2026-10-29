@@ -1,0 +1,224 @@
+{
+ "capturedAt": "2026-10-29T11:51:50.713Z",
+ "url": "http://127.0.0.1:3000/tools/ecommerce-suite/product-image-suite",
+ "marker": "PIS-1793274694883",
+ "navType": "reload",
+ "navStartMs": 0,
+ "timeOrigin": 1793274702484,
+ "storeTasks": [
+  {
+   "id": "task-mvt0rvni-ylxhm0",
+   "toolId": "FISSION_LINK",
+   "status": "succeeded",
+   "createdAt": "2026-10-29T04:04:42.366Z",
+   "finishedAt": "2026-10-29T04:05:05.629Z",
+   "items": [
+    {
+     "storageKey": "tool-result:iIlw5lgOSYJWQE8qbX1Sa",
+     "urlScheme": "blob",
+     "bytes": 1433292,
+     "mimeType": "image/png",
+     "kind": "image",
+     "payloadDropped": false
+    }
+   ]
+  },
+  {
+   "id": "task-mvs7gq30-m78zxu",
+   "toolId": "FISSION_LINK",
+   "status": "failed",
+   "createdAt": "2026-10-28T14:24:13.068Z",
+   "finishedAt": "2026-10-29T09:11:27.663Z",
+   "items": []
+  },
+  {
+   "id": "task-mvt15f64-jnx1gz",
+   "toolId": "FISSION_LINK",
+   "status": "failed",
+   "createdAt": "2026-10-29T04:15:14.188Z",
+   "finishedAt": "2026-10-29T07:42:57.670Z",
+   "items": []
+  },
+  {
+   "id": "task-mvt74l6n-y5sie3",
+   "toolId": "DRESS_WEAR_SET",
+   "status": "succeeded",
+   "createdAt": "2026-10-29T07:02:33.023Z",
+   "finishedAt": "2026-10-29T07:03:08.936Z",
+   "items": [
+    {
+     "storageKey": "tool-result:og5LfxYy5GnPxzTYvmO4F",
+     "urlScheme": "blob",
+     "bytes": 2516552,
+     "mimeType": "image/png",
+     "kind": "image",
+     "payloadDropped": false
+    }
+   ]
+  },
+  {
+   "id": "task-mvt74l6q-1vljau",
+   "toolId": "DRESS_WEAR_SET",
+   "status": "succeeded",
+   "createdAt": "2026-10-29T07:02:33.026Z",
+   "finishedAt": "2026-10-29T07:03:01.176Z",
+   "items": [
+    {
+     "storageKey": "tool-result:UJkgjc6BIYFLDnO12F3G-",
+     "urlScheme": "blob",
+     "bytes": 1883817,
+     "mimeType": "image/png",
+     "kind": "image",
+     "payloadDropped": false
+    }
+   ]
+  },
+  {
+   "id": "task-mvt6vpdo-sc1x8w",
+   "toolId": "PRODUCT_IMAGE_SUITE",
+   "status": "succeeded",
+   "createdAt": "2026-10-29T06:55:38.556Z",
+   "finishedAt": "2026-10-29T06:56:33.013Z",
+   "items": [
+    {
+     "storageKey": "tool-result:98tXNya0JHj77cjXVRxLa",
+     "urlScheme": "blob",
+     "bytes": 2840825,
+     "mimeType": "image/png",
+     "kind": "image",
+     "payloadDropped": false
+    }
+   ]
+  },
+  {
+   "id": "task-mvt6vpdn-17qby2",
+   "toolId": "PRODUCT_IMAGE_SUITE",
+   "status": "succeeded",
+   "createdAt": "2026-10-29T06:55:38.555Z",
+   "finishedAt": "2026-10-29T06:56:12.319Z",
+   "items": [
+    {
+     "storageKey": "tool-result:FRr_uTcG6mZmHzzEJ2rYx",
+     "urlScheme": "blob",
+     "bytes": 2785837,
+     "mimeType": "image/png",
+     "kind": "image",
+     "payloadDropped": false
+    }
+   ]
+  },
+  {
+   "id": "task-mvt18lrt-rsnifn",
+   "toolId": "FISSION_LINK",
+   "status": "succeeded",
+   "createdAt": "2026-10-29T04:17:42.713Z",
+   "finishedAt": "2026-10-29T04:20:11.822Z",
+   "items": [
+    {
+     "storageKey": "tool-result:SVZBd-stlKJhjHtE0ng8F",
+     "urlScheme": "blob",
+     "bytes": 1988694,
+     "mimeType": "image/png",
+     "kind": "image",
+     "payloadDropped": false
+    }
+   ]
+  },
+  {
+   "id": "task-mvt17bmi-xpint5",
+   "toolId": "FISSION_LINK",
+   "status": "succeeded",
+   "createdAt": "2026-10-29T04:16:42.906Z",
+   "finishedAt": "2026-10-29T04:17:09.865Z",
+   "items": [
+    {
+     "storageKey": "tool-result:JfBmAE8nFp6R-Ij61W9lQ",
+     "urlScheme": "blob",
+     "bytes": 1470615,
+     "mimeType": "image/png",
+     "kind": "image",
+     "payloadDropped": false
+    }
+   ]
+  },
+  {
+   "id": "task-mvt0ww21-bhl4e9",
+   "toolId": "FISSION_LINK",
+   "status": "succeeded",
+   "createdAt": "2026-10-29T04:08:36.169Z",
+   "finishedAt": "2026-10-29T04:12:32.100Z",
+   "items": [
+    {
+     "storageKey": "tool-result:5wx_pXO3KGsL85fOdiqAV",
+     "urlScheme": "blob",
+     "bytes": 2398202,
+     "mimeType": "image/png",
+     "kind": "image",
+     "payloadDropped": false
+    }
+   ]
+  },
+  {
+   "id": "task-mvs7pmey-uxscga",
+   "toolId": "FISSION_LINK",
+   "status": "succeeded",
+   "createdAt": "2026-10-28T14:31:08.218Z",
+   "finishedAt": "2026-10-28T14:31:33.654Z",
+   "items": [
+    {
+     "storageKey": null,
+     "urlScheme": "",
+     "bytes": null,
+     "mimeType": null,
+     "kind": "image",
+     "payloadDropped": true
+    }
+   ]
+  },
+  {
+   "id": "task-mvs726zz-lwouyf",
+   "toolId": "FISSION_LINK",
+   "status": "failed",
+   "createdAt": "2026-10-28T14:12:55.151Z",
+   "finishedAt": "2026-10-28T14:13:08.961Z",
+   "items": []
+  }
+ ],
+ "dock": {
+  "mounted": true,
+  "countText": "2 条",
+  "items": [
+   {
+    "text": "2026-10-29 14:55 已完成 基于上传的商品图生成 商品主副图（场景图）第 1/1 张。 保持商品本体形状、颜色、材质纹理、logo 与文字标… default::gpt-image-2 · image · 1 个结果",
+    "time": "2026-10-29 14:55",
+    "summary": "default::gpt-image-2 · image · 1 个结果",
+    "buttons": [
+     {
+      "id": "tool-history-dock-toggle",
+      "text": "2026-10-29 14:55 已完成 基于上传的商品图生成 商品主副图（场景图）第 1/1 张。 保持商品本体形状、颜色、材质纹理、logo 与文字标… default::gpt-image-2 · image · 1 个结果",
+      "disabled": false
+     }
+    ]
+   },
+   {
+    "text": "2026-10-29 14:55 已完成 基于上传的商品图生成 A+ 详情页模块（高级A+）第 1/1 屏。 保持商品本体形状、颜色、材质纹理、logo … default::gpt-image-2 · image · 1 个结果",
+    "time": "2026-10-29 14:55",
+    "summary": "default::gpt-image-2 · image · 1 个结果",
+    "buttons": [
+     {
+      "id": "tool-history-dock-toggle",
+      "text": "2026-10-29 14:55 已完成 基于上传的商品图生成 A+ 详情页模块（高级A+）第 1/1 屏。 保持商品本体形状、颜色、材质纹理、logo … default::gpt-image-2 · image · 1 个结果",
+      "disabled": false
+     }
+    ]
+   }
+  ]
+ },
+ "result": {
+  "mounted": false,
+  "summary": "",
+  "cards": [],
+  "feedback": ""
+ },
+ "bodyText": "无限画布 首页 电商套图 智能修图 新模型 AI视频 HOT 批量生图 商品图设计 中 切换到深色主题 v0.27.0 电商套图 商品套图 服装套图 套图换色 批量翻译 高清放大 智能扩图 免责声明 免责声明 查看 多视角白底商品&实拍图 从本地上传 从作品库选择 从商品库选择 10M以内，384*384 ~ 4096*4096，最大宽高比5 linkfox-case-2026855585971982336-source.jpeg 98 KB · 1000×1000 · image/jpeg 移除 商品信息 0 / 2500 品牌与合规（可选） 智能品牌基因 智能主色、智能字体风格 未指定 现代无衬线 经典衬线 粗体强调 智能合规检查 未选择敏感词库 · 未选择替换词库 模型选择 当前模型：gpt-image-2 分辨率选择 1K 2K 4K 模型品质 低品质 中品质 高品质 超高品质 最大品质 生成比例 1:1 3:4 4:3 2:3 3:2 A+图设置 生成类型（单选） 高级A+ 手机A+ 普通A+ 自定比例 张数 排版 每种排版生成一张 无文字模式 主副图设置 生成类型（多选） 卖点图 白底图 场景图 特写图 特写白底图 场景图 A+图1张 + 主副图1张，共 2 张 开始生成 清空 生成结果 优秀案例 历史记录 预计生成 2 张 · 高级A+×1 · 场景图×1 共 2 张 · 成功 2 · 失败 0 · 待定 0 高级A+（1/1） 高级A+ 1/1 成功 保存 场景图（1/1） 场景图 1/1 成功 保存 历史任务 2 条 2026-10-29 14:55 已完成 基于上传的商品图生成 商品主副图（场景图）第 1/1 张。 保持商品本体形状、颜色、材质纹理、logo 与文字标… default::gpt-image-2 · image · 1 个结果 2026-10-29 14:55 已完成 基于上传的商品图生成 A+ 详情页模块（高级A+）第 1/1 屏。 保持商品本体形状、颜色、材质纹理、logo … default::gpt-image-2 · ima"
+}
