@@ -36,6 +36,40 @@
   "evidence": [
     "01-net.json",
     "02-result.png",
-    "03-dom-after.txt"
-  ]
+    "03-dom-after.txt",
+    "dom/origin-controls.json",
+    "dom/local-controls.json",
+    "default-values.json",
+    "cases-evidence.json"
+  ],
+  "defaultValues": {
+    "file": "default-values.json",
+    "measuredAt": "2026-10-29",
+    "summary": "16 项控件逐项 origin/local 对照：匹配 11，差异 5（品质默认 high vs 中品质；排版默认 no-text vs per-layout；无文字模式并入排版 select；张数改为 1-10 输入默认 4；智能品牌基因改为复选开关）",
+    "raw": [
+      "dom/origin-controls.json",
+      "dom/local-controls.json"
+    ]
+  },
+  "cases": {
+    "file": "cases-evidence.json",
+    "status": "TAB_PARITY_PASS / CASE_DATA_MISSING",
+    "note": "三 tab 与原站同名同序；案例 7 卡未接入，显式占位未伪造"
+  },
+  "nonVisual": {
+    "b4Actions": {
+      "file": "b4-actions.json",
+      "result": "PASS",
+      "download": 2151517,
+      "asset": 2151517,
+      "node": 2151517,
+      "bytesSame": true,
+      "projectIdFeedback": "已发送到画布"
+    },
+    "b5History": {
+      "file": "../B5_HISTORY_DOCK/summary.json",
+      "result": "OK",
+      "note": "刷新后历史仍在，配置可复用"
+    }
+  }
 }

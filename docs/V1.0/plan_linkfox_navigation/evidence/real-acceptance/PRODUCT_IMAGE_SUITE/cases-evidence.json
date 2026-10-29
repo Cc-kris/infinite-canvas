@@ -1,0 +1,57 @@
+{
+  "tool": "PRODUCT_IMAGE_SUITE",
+  "measuredAt": "2026-10-29",
+  "origin": {
+    "url": "https://www.linkfox.com/draw/product-image-suite",
+    "raw": "dom/origin-controls.json",
+    "tabs": [
+      "生成结果",
+      "优秀案例",
+      "历史记录"
+    ],
+    "caseArea": {
+      "present": true,
+      "cardCount": 7,
+      "cardFields": [
+        "上传商品图缩略图",
+        "生成结果缩略图(每卡 3 张)",
+        "一键做同款 CTA"
+      ],
+      "cta": "一键做同款",
+      "sample": "caseCards[0] = {images:3, cta:'一键做同款', labels:['上传 ...']}"
+    }
+  },
+  "local": {
+    "url": "http://127.0.0.1:3000/tools/ecommerce-suite/product-image-suite",
+    "raw": "dom/local-controls.json",
+    "tabs": [
+      {
+        "text": "生成结果",
+        "testid": "suite-tab-result",
+        "ariaSelected": "true"
+      },
+      {
+        "text": "优秀案例",
+        "testid": "suite-tab-cases",
+        "ariaSelected": "false"
+      },
+      {
+        "text": "历史记录",
+        "testid": "suite-tab-history",
+        "ariaSelected": "false"
+      }
+    ],
+    "caseArea": {
+      "present": true,
+      "testid": "suite-panel-cases",
+      "cardCount": 0,
+      "text": "案例库尚未接入：原站此处展示平台优秀套图作品（上传商品图 / 生成结果 / 一键做同款）。真实案例数据接口就绪后按同结构回填，暂不伪造卡片。"
+    }
+  },
+  "verdict": "TAB_PARITY_PASS / CASE_DATA_MISSING",
+  "conclusion": [
+    "三个 tab 名称与顺序与原站一致（生成结果 / 优秀案例 / 历史记录），tab 切换 data-testid 齐备。",
+    "案例卡片数据未接入：原站 7 张真实卡片 + 一键做同款，本地显式占位文案，未伪造卡片（符合「不伪造」要求）。",
+    "差异登记：案例区数据源缺失（非视觉缺陷类，属未接入模块）。"
+  ]
+}
