@@ -1,0 +1,46 @@
+{
+ "toolId": "PRODUCT_SCENE",
+ "route": "product-scene",
+ "phase": "reload",
+ "method": "location.reload()",
+ "navType": "reload",
+ "realRun": true,
+ "at": "2026-10-29T19:11:00+08:00",
+ "url": "http://127.0.0.1:3000/tools/product-design/product-scene",
+ "environment": {
+  "origin": "http://127.0.0.1:3000",
+  "browser": "user Chrome (Galley TMWebDriver, self-opened tab)",
+  "injection": false,
+  "newGeneration": false
+ },
+ "realTaskScan": {
+  "toolTaskCount": 0,
+  "ids": [],
+  "statuses": [],
+  "source": "localStorage tool-task:v1:*"
+ },
+ "dock": {
+  "mounted": true,
+  "itemCount": 0,
+  "items": [],
+  "note": "历史坞位于「历史记录」Tab（scene-tab-history）内；点击该 Tab 后挂载",
+  "tabClick": {
+   "tab": "历史记录",
+   "dockMounted": true,
+   "itemCount": 0,
+   "dockText": "历史任务 0 条 本工具还没有历史任务；提交一次后会在这里留下任务、配置与结果，刷新后仍在。"
+  }
+ },
+ "result": {
+  "bytes": null,
+  "reason": "no-task"
+ },
+ "threeActions": {
+  "download": "not-available",
+  "saveAsset": "not-available",
+  "sendCanvas": "not-available"
+ },
+ "verdict": "BLOCKED",
+ "blockedReason": "no-real-task",
+ "errors": []
+}

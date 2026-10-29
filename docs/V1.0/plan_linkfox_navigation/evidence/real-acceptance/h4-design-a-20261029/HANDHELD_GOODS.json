@@ -1,0 +1,56 @@
+{
+ "toolId": "HANDHELD_GOODS",
+ "route": "handheld-goods",
+ "phase": "reload",
+ "method": "location.reload()",
+ "navType": "reload",
+ "realRun": true,
+ "at": "2026-10-29T19:11:00+08:00",
+ "url": "http://127.0.0.1:3000/tools/product-design/handheld-goods",
+ "environment": {
+  "origin": "http://127.0.0.1:3000",
+  "browser": "user Chrome (Galley TMWebDriver, self-opened tab)",
+  "injection": false,
+  "newGeneration": false
+ },
+ "realTaskScan": {
+  "toolTaskCount": 1,
+  "ids": [
+   "task-mvs5p8g8-or3oim"
+  ],
+  "statuses": [
+   "failed"
+  ],
+  "source": "localStorage tool-task:v1:*"
+ },
+ "dock": {
+  "mounted": true,
+  "itemCount": 1,
+  "items": [
+   {
+    "taskId": "task-mvs5p8g8-or3oim",
+    "status": "failed",
+    "text": "2026-10-28 21:34 失败 Photorealistic e-commerce product photo: the uploa"
+   }
+  ]
+ },
+ "task": {
+  "taskId": "task-mvs5p8g8-or3oim",
+  "status": "failed",
+  "resultItems": 0,
+  "payloadDropped": false,
+  "reloadEvidence": "reload 后历史坞仍渲染该 failed 项（真实快照回读），但无结果字节"
+ },
+ "result": {
+  "bytes": null,
+  "reason": "failed-task-no-bytes"
+ },
+ "threeActions": {
+  "download": "not-available",
+  "saveAsset": "not-available",
+  "sendCanvas": "not-available"
+ },
+ "verdict": "BLOCKED",
+ "blockedReason": "failed-task-no-bytes",
+ "errors": []
+}
