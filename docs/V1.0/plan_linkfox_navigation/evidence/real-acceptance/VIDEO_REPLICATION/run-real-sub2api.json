@@ -1,0 +1,45 @@
+{
+  "tool": "VIDEO_REPLICATION",
+  "verdict": "PARTIAL",
+  "recordedAt": "2026-10-29T10:47:49+08:00",
+  "channel": {
+    "id": "sub2api-real",
+    "baseUrl": "https://sub2api.1006000.xyz",
+    "model": "MiniMax-H3",
+    "apiKey": "<redacted; resolved from app config in browser, never written to disk>"
+  },
+  "how": "在 http://localhost:3000 页面内直接调用应用自身代码 services/api/video.ts#createVideoGenerationTask（非手搓 HTTP），config 用页面内已保存的 sub2api-real 渠道，model 走带渠道前缀的 'sub2api-real::MiniMax-H3'。",
+  "inputs": {
+    "image": "商品图 data URL（本地 fixture product-watch.jpg，31860 bytes）",
+    "video": "公网 https 参考视频 URL（cloudflared 隧道 small.mp4）"
+  },
+  "payloadShape": "JSON：{ model, prompt, seconds, size, images: [data:image/jpeg;base64,...], videos: ['https://<public>/small.mp4'] }",
+  "upstreamFacts": {
+    "multipartRejected": "POST /v1/videos 收 multipart 直接 400（'utf-8' codec can't decode byte 0x89 / Expecting value）→ 中转只解析 JSON",
+    "videoDataUrlRejected": "videos[] 传 data: URL → 400 content[1].video_url.url must be a public HTTPS URL",
+    "videoBlobRejected": "blob: URL 同理不可用；只有公网 http(s) 可过",
+    "imageDataUrlAccepted": "images[] 传 data URL 被采纳（usage.input_image_count=1）",
+    "onlyModel": "GET /v1/models 仅返回 MiniMax-H3"
+  },
+  "submission": {
+    "taskId": "task_HQfc0L1cHujoGxT0pMj9XNAwOp9alO5h",
+    "provider": "openai",
+    "httpStatus": 200,
+    "state": "pending",
+    "lastPolledAt": "2026-10-29T10:47:49+08:00",
+    "note": "提交链路 PASS：上游真实受理并返回任务 id；轮询窗口内未完成，故不宣称出片成功。"
+  },
+  "codeFix": {
+    "commit": "40ee806",
+    "file": "web/src/services/api/video.ts",
+    "defect": "inlineImages 被写成 !videos.length && !audios.length && 有图 → 带源视频时参考图整包丢弃，VIDEO_REPLICATION 会静默退化成只用视频",
+    "fix": "抽出 canInlineImagesToJson(imageCount)，图片内联与是否有源视频解耦",
+    "tests": "bun test src/services/api/video.submit-plan.test.ts → 9 pass / 0 fail",
+    "typecheck": "bunx tsc --noEmit → 0 error"
+  },
+  "missing": [
+    "上游出片（需继续轮询到 completed 并 ffprobe 校验 mp4）",
+    "界面三动作（提交→结果→历史）在本工具链路上的截图证据未补齐",
+    "源视频仍需公网 URL：应用内本地上传的 blob 源在此渠道不可用，需要素材托管或者在上传处显式提示"
+  ]
+}
