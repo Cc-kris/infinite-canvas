@@ -1,0 +1,59 @@
+{
+ "bytes": 411801,
+ "canvasChanged": false,
+ "canvasProjects": null,
+ "downloadClicked": true,
+ "downloadNotice": [
+  "已下载",
+  "已下载",
+  "已下载",
+  "已下载",
+  "已下载",
+  "已下载",
+  "已下载",
+  "已下载",
+  "已下载",
+  "已下载",
+  "已下载",
+  "已下载",
+  "已下载",
+  "已下载"
+ ],
+ "mime": "image/png",
+ "navType": "reload",
+ "sendNotice": null,
+ "sha256": "90e28e0f93420bb42270708737760d810d9df1e986566aed60d61a79b4a09d88",
+ "taskId": "task-mvtdl9v8-165q1n",
+ "toolId": "NEW_DESIGNER",
+ "route": "/tools/product-design/new-designer",
+ "app": "http://127.0.0.1:3000",
+ "method": "复用已有真实任务 task-mvtdl9v8-165q1n；Page.reload(navType=reload) 后点结果区真实按钮；未注入、未新生成",
+ "task": {
+  "id": "task-mvtdl9v8-165q1n",
+  "status": "succeeded",
+  "storageKey": "tool-result:vf21IxChoGYqJ9C8z8qMg",
+  "bytes": 411801,
+  "mime": "image/png",
+  "sha256": "90e28e0f93420bb42270708737760d810d9df1e986566aed60d61a79b4a09d88"
+ },
+ "actions": {
+  "download": {
+   "ok": true,
+   "receipt": "已下载 new-designer-res…"
+  },
+  "saveToAssets": {
+   "ok": true,
+   "note": "导出即入库，结果区显示「已入库资产」"
+  },
+  "sendToCanvas": {
+   "ok": false,
+   "receipt": "Failed to fetch",
+   "canvasChanged": false
+  }
+ },
+ "verdict": "PARTIAL：历史/结果恢复 + 真实字节与 sha 成立、下载成功；发送画布本次 Failed to fetch，存资产未取独立回执",
+ "limits": [
+  "发送画布失败原因未定位(疑似 canvas 依赖未起)",
+  "无二次重试(轮次上限)"
+ ]
+}

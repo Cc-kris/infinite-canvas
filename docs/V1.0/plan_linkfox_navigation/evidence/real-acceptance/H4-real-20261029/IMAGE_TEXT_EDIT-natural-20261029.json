@@ -41,5 +41,29 @@
  "limits": [
   "本轮 reload 抓取 1.5s 窗口内未取到结果卡文本/DOM，按钮列表为空，需二次抓取确认",
   "轮次上限未复抓"
- ]
+ ],
+ "postFixVerification": {
+  "at": "2026-10-29 修复后",
+  "navType": "navigate(整页新加载,等价刷新)",
+  "hasResultTitle": true,
+  "snapshotHeader": "快照 1 框｜1024×744",
+  "resultSection": "图片文字结果 · 已完成 · 共 1 个结果",
+  "manualSelectionNeeded": false,
+  "actions": [
+   {
+    "name": "下载",
+    "disabled": true
+   },
+   {
+    "name": "存入资产",
+    "disabled": true
+   },
+   {
+    "name": "发送画布",
+    "disabled": true
+   }
+  ],
+  "whyDisabled": "该任务 payloadDropped=true，本地无原始字节，按钮如实禁用而非伪造",
+  "conclusion": "自然恢复已实现并通过；字节缺失属真实数据限制，不注入不新生成"
+ }
 }
