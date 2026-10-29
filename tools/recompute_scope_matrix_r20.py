@@ -319,6 +319,26 @@ def gate_03b8f47e(files, a):
 
 
 # ---------------------------------------------------------------- main
+def neg_gate_d5aa048a_delta(files, a):
+    """d5aa048a 的三闸日志是历史证据；c8c8ce9e 落地源码后 web 树不再相同。
+    这里机检差异**只有**已知改动，防止无声明漂移。"""
+    try:
+        raw = git("diff", "--name-only", "d5aa048a", "HEAD", "--", "web/").decode()
+    except Exception as exc:  # pragma: no cover
+        a("delta.git", False, str(exc)[:60])
+        return False
+    got = {ln for ln in raw.splitlines() if ln.strip()}
+    expected = {
+        "web/scripts/real-acceptance/_r26_remove_pen.mjs",
+        "web/src/lib/inline-image.ts",
+        "web/src/services/api/video.ts",
+        "web/src/services/api/video.submit-plan.test.ts",
+    }
+    a("delta.known_only", got <= expected, f"新增/未知: {sorted(got - expected)}")
+    a("delta.source_changed", "web/src/services/api/video.ts" in got, "c8c8ce9e 改 video.ts")
+    a("delta.unexpected_none", not (got - expected), f"{len(got)} 个差异文件")
+
+
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--check", action="store_true")
@@ -419,7 +439,7 @@ def main() -> int:
         ("VIDEO_CONCAT.F@r18", r18.neg_video_concat),
         ("IMAGE_TEXT_EDIT.H@r18", r18.neg_image_text_edit),
         ("PRINT_EXTRACT.H 补强", r18.strengthen_print_extract),
-        ("GATE d5aa048a", r19.verify_gate_d5aa048a),
+        ("GATE d5aa048a 差异收敛", neg_gate_d5aa048a_delta),
     ]
     neg_rows: list[dict] = []
     for name, fn in neg_checks:
