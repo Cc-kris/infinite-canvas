@@ -1,0 +1,148 @@
+{
+  "round": "R15",
+  "scope": [
+    "PRODUCT_SCENE",
+    "HANDHELD_GOODS"
+  ],
+  "dimension": "H",
+  "verdict": "PARTIAL（维持）",
+  "rules": {
+    "noNewGeneration": true,
+    "noInjection": true,
+    "noSubWorker": true,
+    "reuseExistingRealTaskAndImage": true
+  },
+  "environment": {
+    "origin": "http://127.0.0.1:3000",
+    "store": "localStorage tool-task:v1:* (useToolTaskStore)",
+    "byteStore": "IndexedDB infinite-canvas/media_files",
+    "observedAt": "2026-10-29T21:49:31+08:00"
+  },
+  "probe": {
+    "storedTaskTotal": 69,
+    "distinctToolIds": [
+      "AI_DRESSING_V2",
+      "AI_OUTPAINTING",
+      "AI_POSE_GENERATOR",
+      "AI_POSTURE",
+      "AI_VIDEO_EDITING",
+      "AI_WEARABLE",
+      "AREA_REPAIR",
+      "CHANGE_COLOR_V2",
+      "DRESS_WEAR_SET",
+      "FISSION_LINK",
+      "FIX_COLOR",
+      "HANDHELD_GOODS",
+      "HAND_REPAIR",
+      "IMAGE_CROP",
+      "IMAGE_TEXT_EDIT",
+      "IMAGE_TO_VIDEO",
+      "IMAGE_TRANSLATION",
+      "MATERIAL_UPPER_BODY",
+      "NEW_DESIGNER",
+      "PRINTING_REPAIR",
+      "PRINT_EXTRACT",
+      "PRODUCT_IMAGE_SUITE",
+      "PRODUCT_REFINE",
+      "REMOVE_PEN",
+      "SALE_VIDEO",
+      "SCALE_UP",
+      "VIDEO_CONCAT",
+      "VIDEO_REPLICATION"
+    ],
+    "PRODUCT_SCENE_taskRecords": 0,
+    "HANDHELD_GOODS_taskRecords": 1
+  },
+  "PRODUCT_SCENE": {
+    "toolId": "PRODUCT_SCENE",
+    "taskId": null,
+    "storedTaskCount": 0,
+    "dockItemCount": 0,
+    "note": "历史坞文案「本工具还没有历史任务」；结果面板无任务可绑定",
+    "resultBytesInIdb": null,
+    "evidenceImageInRepo": {
+      "file": "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/PRODUCT_SCENE/result1.png",
+      "bytes": 1421980,
+      "width": 1024,
+      "height": 1024
+    },
+    "priorDockActionsReceipt": {
+      "file": "docs/V1.0/plan_linkfox_navigation/evidence/design19-nv-20261029/actions/PRODUCT_SCENE.json",
+      "assetId": "p3pucsdT3htpEzvu5fyfu",
+      "canvasProjectId": "VZNxUX71lxMHOLs_i3t5Z",
+      "canvasNodeId": "image-1793250210617-8rsms",
+      "bytes": 1421980,
+      "recordedAt": "2026-10-29T05:03:31.269Z",
+      "note": "该回执由历史坞按钮产生，坞项非落库任务，刷新后坞项已消失，无法在 fresh reload 后复现"
+    },
+    "threeActionsAfterReload": {
+      "download": "not-available",
+      "saveAsset": "not-available",
+      "sendCanvas": "not-available"
+    },
+    "blockedReason": "no-real-task"
+  },
+  "HANDHELD_GOODS": {
+    "toolId": "HANDHELD_GOODS",
+    "taskId": "task-mvs5p8g8-or3oim",
+    "status": "failed",
+    "resultItems": 0,
+    "errorCode": "submit-unconfirmed",
+    "storedTaskCount": 1,
+    "resultBytesInIdb": [
+      {
+        "storageKey": "tool-asset:HxIvmLcx48GX5RKHrrcPH",
+        "bytes": 1060068,
+        "mimeType": "image/png",
+        "linkedToTaskItem": false
+      },
+      {
+        "storageKey": "tool-asset:KCjvumCNW4N7sDdhTBlae",
+        "bytes": 1060068,
+        "mimeType": "image/png",
+        "linkedToTaskItem": false
+      }
+    ],
+    "evidenceImageInRepo": {
+      "file": "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/HANDHELD_GOODS/result.png",
+      "bytes": 1060068,
+      "width": 720,
+      "height": 960
+    },
+    "priorLiveActionsReceipt": {
+      "file": "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/HANDHELD_GOODS/b4-actions.json",
+      "bytes": 1060068,
+      "assetId": "KZgy-xw_ySIshJW3_h9q9",
+      "canvasProjectId": "f13JWJ-cRpB0hL_4SMoXN",
+      "canvasNodeStorageKey": "image:Ml5H-qndVKYJohx8mWGEF",
+      "recordedAt": "2026-10-28T17:39:28.862Z",
+      "note": "该回执为刷新前同一会话内的三动作，任务记录未写回成功终态"
+    },
+    "threeActionsAfterReload": {
+      "download": "not-available",
+      "saveAsset": "not-available",
+      "sendCanvas": "not-available"
+    },
+    "blockedReason": "task-not-succeeded/items-empty"
+  },
+  "sha256": {
+    "PRODUCT_SCENE": {
+      "file": "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/PRODUCT_SCENE/result1.png",
+      "bytes": 1421980,
+      "sha256": "260071186391d7d05d364c969394797194855f377974f5f9d513bfec08a5d256"
+    },
+    "HANDHELD_GOODS": {
+      "file": "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/HANDHELD_GOODS/result.png",
+      "bytes": 1060068,
+      "sha256": "fbb05871e134260c198dc4624b8b78e9d3ef2972854ba83646f5396dc7efd081"
+    }
+  },
+  "codeChange": {
+    "files": [],
+    "reason": "两格缺口都不是可修的功能缺陷：PRODUCT_SCENE 从未落库任何任务（结果为历史坞项，刷新即失效）；HANDHELD_GOODS 任务因刷新中断被判 failed 且 items 为空。要产生「带真实字节 sha 的成功任务」只能新跑一次真实生成（本轮禁止）或把 1060068B 字节回填成任务项（=注入，本轮禁止）。故未改源码、未跑 tsc/测试。"
+  },
+  "nextToClose": [
+    "PRODUCT_SCENE：允许一次真实生成（或恢复历史坞项持久化后端）后重跑本验收",
+    "HANDHELD_GOODS：允许对 task-mvs5p8g8-or3oim 做上游对账（需 upstreamTaskId，当前记录为 null）"
+  ]
+}
