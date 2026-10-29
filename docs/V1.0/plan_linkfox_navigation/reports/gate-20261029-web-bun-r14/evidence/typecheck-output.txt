@@ -1,0 +1,4 @@
+$ tsc --noEmit
+real 99.71
+user 59.22
+sys 12.44
