@@ -83,7 +83,7 @@
    "clicked": true,
    "toast": "已下载 ai-dressing-v2-r…",
    "file_in_downloads": null,
-   "caveat": "browser 为该 profile 由 Playwright 启动，file-saver 的 a[download] 点击只产生 toast，未在 ~/Downloads 落盘；字节一致性改由 blob 直取 + sha256 校对（见 result）"
+   "caveat": "点击后 toast 显示「已下载 ai-dressing-v2-r…」，但 ~/Downloads 内未找到 2115031 字节文件；该 profile 由 Playwright 启动，a[download] 未真正落盘。字节真实性改由 blob 直取 + sha256 与结果一致来证（见 result）。"
   },
   "save_to_assets": {
    "clicked": true,

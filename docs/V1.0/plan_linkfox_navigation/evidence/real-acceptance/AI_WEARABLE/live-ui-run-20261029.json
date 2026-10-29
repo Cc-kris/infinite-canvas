@@ -66,8 +66,10 @@
   "download": {
    "clicked": true,
    "toast": "已下载 ai-wearable-result-1.png",
-   "file_in_downloads": null,
-   "caveat": "同上：profile 为 Playwright 启动，a[download] 仅产生 toast；字节一致性由 blob 直取 + sha256 校对"
+   "file_in_downloads": "~/Downloads/ai-wearable-result-1.png",
+   "bytes": 1247574,
+   "sha256": "0cf9444060e814f82ace190495484d1f0bf9e69c0bc2eedbfe058b969827fa34",
+   "sha_matches_result": true
   },
   "save_to_assets": {
    "clicked": true,
