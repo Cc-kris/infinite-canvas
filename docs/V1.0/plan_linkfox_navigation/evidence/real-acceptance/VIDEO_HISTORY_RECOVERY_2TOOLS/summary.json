@@ -1,0 +1,309 @@
+{
+  "summary": {
+    "generatedAt": "2026-10-29T07:58:34.313Z",
+    "baseUrl": "http://127.0.0.1:3000",
+    "media": "http://127.0.0.1:23298",
+    "boundary": "复用已有真实任务/产物：VIDEO_REPLICATION=sub2api MiniMax-H3 done 任务+真实 mp4；VIDEO_TRANSLATION=真实 400 失败任务（无成片，不伪造）",
+    "tools": [
+      {
+        "toolId": "VIDEO_REPLICATION",
+        "kind": "success",
+        "ok": true,
+        "issues": [],
+        "historyAfterReload": [
+          {
+            "taskId": "task-real-video_replication-20261029",
+            "status": "succeeded",
+            "time": "2026-10-29 13:05",
+            "error": "",
+            "dropped": false,
+            "openButtons": 1,
+            "thumbs": [
+              {
+                "src": "blob:http://127.0.0.1:30",
+                "width": 0
+              }
+            ]
+          }
+        ],
+        "ingest": {
+          "storageKey": "tool-result:cf-J_VblrwIp1BQ8tSc1M",
+          "bytes": 2277978,
+          "urlScheme": "http"
+        },
+        "download1": {
+          "file": "VIDEO_REPLICATION-reload1-task_Ma7egazZrnGPt5BtVr5vW2hfApVxvCIS.mp4",
+          "suggested": "video-replication-result-1.mp4",
+          "bytes": 2277978,
+          "sha": "b5e80fdea6526e362703ba3e18033691fbed673416b024e4e53570a1510e4163"
+        },
+        "download2": {
+          "file": "VIDEO_REPLICATION-reload2-task_Ma7egazZrnGPt5BtVr5vW2hfApVxvCIS.mp4",
+          "suggested": "video-replication-result-1.mp4",
+          "bytes": 2277978,
+          "sha": "b5e80fdea6526e362703ba3e18033691fbed673416b024e4e53570a1510e4163"
+        },
+        "download3": {
+          "file": "VIDEO_REPLICATION-expired-link.mp4",
+          "suggested": "video-replication-result-1.mp4",
+          "bytes": 2277978,
+          "sha": "b5e80fdea6526e362703ba3e18033691fbed673416b024e4e53570a1510e4163"
+        },
+        "resultAreaExpiredLink": {
+          "hasResult": true,
+          "video": {
+            "srcScheme": "blob",
+            "readyState": 4,
+            "videoWidth": 1344,
+            "duration": 6.583333,
+            "error": null
+          },
+          "buttons": [
+            {
+              "key": "download",
+              "count": 1,
+              "disabled": false
+            },
+            {
+              "key": "save",
+              "count": 1,
+              "disabled": false
+            },
+            {
+              "key": "canvas",
+              "count": 1,
+              "disabled": false
+            }
+          ],
+          "feedback": null
+        },
+        "assets": {
+          "before": {
+            "count": 0,
+            "videos": 0
+          },
+          "after": {
+            "count": 1,
+            "videos": [
+              {
+                "id": "hd22ZkK1-Jt09U-eDUO1u",
+                "title": "VIDEO_REPLICATION 结果 1",
+                "bytes": 2277978,
+                "storageKey": "video:YCsZiQEeF5zja928Xrp2Z",
+                "mimeType": "video/mp4",
+                "toolId": "VIDEO_REPLICATION"
+              }
+            ]
+          }
+        },
+        "network": []
+      },
+      {
+        "toolId": "VIDEO_TRANSLATION",
+        "kind": "failed",
+        "ok": true,
+        "issues": [],
+        "historyAfterReload": [
+          {
+            "taskId": "task-real-video_translation-20261029",
+            "status": "failed",
+            "time": "2026-10-29 13:05",
+            "error": "'utf-8' codec can't decode byte 0xe8 in position 1614: invalid continuation byte · sub2api.1006000.xyz/videos · HTTP 400（该中转的 /videos 只接受 JSON，收不了上传的视频文件字节；源视频需是公网可访问的 http(s) 地址）",
+            "dropped": false,
+            "openButtons": 0,
+            "thumbs": []
+          }
+        ],
+        "ingest": null,
+        "download1": null,
+        "download2": null,
+        "download3": null,
+        "resultAreaExpiredLink": null,
+        "assets": null,
+        "network": []
+      }
+    ]
+  },
+  "records": [
+    {
+      "toolId": "VIDEO_REPLICATION",
+      "kind": "success",
+      "issues": [],
+      "network": [],
+      "artifact": {
+        "file": "VIDEO_REPLICATION/link-mode/out.mp4",
+        "bytes": 2277978,
+        "sha": "b5e80fdea6526e362703ba3e18033691fbed673416b024e4e53570a1510e4163"
+      },
+      "seededTaskId": "task-real-video_replication-20261029",
+      "ingest": {
+        "storageKey": "tool-result:cf-J_VblrwIp1BQ8tSc1M",
+        "bytes": 2277978,
+        "urlScheme": "http"
+      },
+      "historyAfterReload": {
+        "items": [
+          {
+            "taskId": "task-real-video_replication-20261029",
+            "status": "succeeded",
+            "time": "2026-10-29 13:05",
+            "error": "",
+            "dropped": false,
+            "openButtons": 1,
+            "thumbs": [
+              {
+                "src": "blob:http://127.0.0.1:30",
+                "width": 0
+              }
+            ]
+          }
+        ]
+      },
+      "resultArea": {
+        "hasResult": true,
+        "video": {
+          "srcScheme": "blob",
+          "readyState": 4,
+          "videoWidth": 1344,
+          "duration": 6.583333,
+          "error": null
+        },
+        "buttons": [
+          {
+            "key": "download",
+            "count": 1,
+            "disabled": false
+          },
+          {
+            "key": "save",
+            "count": 1,
+            "disabled": false
+          },
+          {
+            "key": "canvas",
+            "count": 1,
+            "disabled": false
+          }
+        ],
+        "feedback": null
+      },
+      "sourceBytes": {
+        "status": 200,
+        "bytes": 2277978,
+        "sha": "b5e80fdea6526e362703ba3e18033691fbed673416b024e4e53570a1510e4163"
+      },
+      "download1": {
+        "file": "VIDEO_REPLICATION-reload1-task_Ma7egazZrnGPt5BtVr5vW2hfApVxvCIS.mp4",
+        "suggested": "video-replication-result-1.mp4",
+        "bytes": 2277978,
+        "sha": "b5e80fdea6526e362703ba3e18033691fbed673416b024e4e53570a1510e4163"
+      },
+      "assets": {
+        "before": {
+          "count": 0,
+          "videos": 0
+        },
+        "after": {
+          "count": 1,
+          "videos": [
+            {
+              "id": "hd22ZkK1-Jt09U-eDUO1u",
+              "title": "VIDEO_REPLICATION 结果 1",
+              "bytes": 2277978,
+              "storageKey": "video:YCsZiQEeF5zja928Xrp2Z",
+              "mimeType": "video/mp4",
+              "toolId": "VIDEO_REPLICATION"
+            }
+          ]
+        }
+      },
+      "assetBytes": {
+        "bytes": 2277978,
+        "sha": "b5e80fdea6526e362703ba3e18033691fbed673416b024e4e53570a1510e4163"
+      },
+      "assetsToolIdMatched": true,
+      "download2": {
+        "file": "VIDEO_REPLICATION-reload2-task_Ma7egazZrnGPt5BtVr5vW2hfApVxvCIS.mp4",
+        "suggested": "video-replication-result-1.mp4",
+        "bytes": 2277978,
+        "sha": "b5e80fdea6526e362703ba3e18033691fbed673416b024e4e53570a1510e4163"
+      },
+      "assetsAfterSecondReload": 1,
+      "resultAreaExpiredLink": {
+        "hasResult": true,
+        "video": {
+          "srcScheme": "blob",
+          "readyState": 4,
+          "videoWidth": 1344,
+          "duration": 6.583333,
+          "error": null
+        },
+        "buttons": [
+          {
+            "key": "download",
+            "count": 1,
+            "disabled": false
+          },
+          {
+            "key": "save",
+            "count": 1,
+            "disabled": false
+          },
+          {
+            "key": "canvas",
+            "count": 1,
+            "disabled": false
+          }
+        ],
+        "feedback": null
+      },
+      "download3": {
+        "file": "VIDEO_REPLICATION-expired-link.mp4",
+        "suggested": "video-replication-result-1.mp4",
+        "bytes": 2277978,
+        "sha": "b5e80fdea6526e362703ba3e18033691fbed673416b024e4e53570a1510e4163"
+      }
+    },
+    {
+      "toolId": "VIDEO_TRANSLATION",
+      "kind": "failed",
+      "issues": [],
+      "network": [],
+      "historyAfterReload": {
+        "items": [
+          {
+            "taskId": "task-real-video_translation-20261029",
+            "status": "failed",
+            "time": "2026-10-29 13:05",
+            "error": "'utf-8' codec can't decode byte 0xe8 in position 1614: invalid continuation byte · sub2api.1006000.xyz/videos · HTTP 400（该中转的 /videos 只接受 JSON，收不了上传的视频文件字节；源视频需是公网可访问的 http(s) 地址）",
+            "dropped": false,
+            "openButtons": 0,
+            "thumbs": []
+          }
+        ]
+      },
+      "resultArea": {
+        "hasResult": false,
+        "video": null,
+        "buttons": [
+          {
+            "key": "download",
+            "count": 0,
+            "disabled": null
+          },
+          {
+            "key": "save",
+            "count": 0,
+            "disabled": null
+          },
+          {
+            "key": "canvas",
+            "count": 0,
+            "disabled": null
+          }
+        ],
+        "feedback": null
+      }
+    }
+  ]
+}
