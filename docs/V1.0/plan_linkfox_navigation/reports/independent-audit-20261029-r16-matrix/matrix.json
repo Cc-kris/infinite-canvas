@@ -1,0 +1,3612 @@
+{
+ "generatedAt": "2026-10-29T22:30:11+0800",
+ "head": "0bec10238d9eb3763f44bf94123656530120bf17",
+ "branch": "feat/linkfox-v1-real",
+ "scope": "39 个工具（沿用 R14/R15 范围，K/U 口径继承）",
+ "rubric": {
+  "F": "结果 + >=2 项动作回执（下载/存资产/发画布），且回执文件必须在 HEAD 中提交",
+  "T": "无 LinkFox 品牌 / 无算力·积分计费 / 无案例库占位",
+  "R": "回执声明字节须能由已提交产物复核（尺寸或 sha256）",
+  "H": "真实 task-mv*（primary taskId 绑定、非 failed、非 synthetic）+ 机器 fresh reload 标记（phase/navType=reload、reload/fresh_reload 对象节点、Page.reload/location.reload() 回执）且同一回执内有刷新后观测（dockItems 数组/rows/stored_bytes/result_img_in_card）并指向该 task 或其结果字节/sha + 下载/入库/发画布字节须由该工具已提交产物按同尺寸（+声明 sha256 时）同 sha 复核；b5-*/task-real-*、recovery|inject 目录、payloadDropped、快照回填一律不计",
+  "K": "原站案例数据（evidence/b6-cases/origin）已提交",
+  "U": "未知/越界能力残留"
+ },
+ "baseline": "R15 7a15c0f（matrix head 469fbec：F35/4 T39/0 R38/1 H31/8 K12/27 U39）",
+ "auditor": "tools/recompute_scope_matrix_r16.py",
+ "strictness": {
+  "absorb": "仅 committed 证据（git ls-tree HEAD + blob sha256 现算）；工作区未提交/未跟踪内容不参与",
+  "upgrade_rule": "每条升级必须通过 UPGRADES 硬断言（字段/取值/字节/sha 三方相等），断言失败即保持原判",
+  "downgrade_rule": "仅反证可降级（产物字节/sha 不符、payloadDropped、快照回填、非法 taskId）；『无法复核』不构成降级",
+  "loosened": false
+ },
+ "summary": {
+  "tools": 39,
+  "tally": {
+   "F": {
+    "PASS": 35,
+    "PARTIAL": 4
+   },
+   "T": {
+    "PASS": 39
+   },
+   "R": {
+    "PASS": 39
+   },
+   "H": {
+    "PASS": 34,
+    "PARTIAL": 5
+   },
+   "K": {
+    "N/A": 27,
+    "PASS": 12
+   },
+   "U": {
+    "PASS": 39
+   }
+  },
+  "changes_vs_r15": 4
+ },
+ "tools": [
+  {
+   "id": "PRODUCT_IMAGE_SUITE",
+   "name": "商品套图",
+   "route": "/tools/ecommerce-suite/product-image-suite",
+   "F": "PASS",
+   "F_note": "R14 PASS + c125c62 全结构化回执：存资产 2/2（assetId VNzmLg-tuAfTh0nJcODrp 2,785,837B、wz_Za93ggobpIS9WqsPkG 2,840,825B）、发画布 2/2（project aGnnTvJu1QdMhV7H_hu9_ / y8FGuKkp7tc1KWnIRwB-f 各 1 image 节点）、下载 1/2（第二张被 Chrome 同源连续自动下载静默拦截，非应用异常）→ 三腿成立且首次含 assetId/nodeId 机器字段",
+   "F_evidence": [
+    "PRODUCT_IMAGE_SUITE/b4-actions.json",
+    "PRODUCT_IMAGE_SUITE/02-result.png"
+   ],
+   "T": "PASS",
+   "T_note": "2e62fa3 移除 suite.tsx 的 emptyHint=\"暂无优秀案例\"；HEAD blob 复扫（注释剥离）案例占位/计费/品牌可见文案 0 命中，案例区改为 PRODUCT_SUITE_CASES.length>0 才渲染",
+   "R": "PASS",
+   "R_note": "字节可复核：2840825B == real-acceptance/PRODUCT_IMAGE_SUITE/r10/result.png",
+   "R_artifacts": [
+    {
+     "path": "real-acceptance/PRODUCT_IMAGE_SUITE/02-result.png",
+     "exists": true,
+     "bytes": 2151517,
+     "w": 1024,
+     "h": 1024,
+     "sha256_12": "a0e17fc0aff0",
+     "verified": {
+      "path": "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/PRODUCT_IMAGE_SUITE/02-result.png",
+      "bytes": 2151517,
+      "sha256_12": "a0e17fc0aff0"
+     }
+    }
+   ],
+   "H": "PASS",
+   "H_note": "真实 task task-mvt6vpdo-sc1x8w + call: location.assign( + 字节 sha 对账 2840825B == real-acceptance/PRODUCT_IMAGE_SUITE/r10/result.png",
+   "H_evidence": [
+    "history-restore-20261029/summary.json",
+    "real-acceptance/PRODUCT_IMAGE_SUITE/r10/result.png"
+   ],
+   "K": "PASS",
+   "K_note": "原站 type71 12 案例 + 本地页签/做同款回填 DOM 回执",
+   "K_evidence": [],
+   "U": "PASS",
+   "U_note": "设计 token 扫描 0 命中",
+   "r7": {
+    "F": "PASS",
+    "T": "PARTIAL",
+    "R": "PASS",
+    "H": "PASS",
+    "K": "PASS",
+    "U": "PASS"
+   },
+   "H_legs": {
+    "file": "history-restore-20261029/summary.json",
+    "task": true,
+    "reload": true,
+    "bytes": true,
+    "reload_mark": "call: location.assign(",
+    "post_reload": "items",
+    "claims": [
+     {
+      "bytes": 2840825,
+      "sha": null,
+      "where": "claim"
+     },
+     {
+      "bytes": 2785837,
+      "sha": null,
+      "where": "claim"
+     }
+    ],
+    "artifact": "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/PRODUCT_IMAGE_SUITE/r10/result.png",
+    "negative": null,
+    "backfill": null,
+    "payload_drop": false,
+    "binding": [
+     "task-mvt6vpdo-sc1x8w",
+     "task-mvt6vpdn-17qby2"
+    ]
+   },
+   "H_gap": null,
+   "T_evidence": [
+    "real-acceptance/PRODUCT_IMAGE_SUITE/02-result.png"
+   ]
+  },
+  {
+   "id": "DRESS_WEAR_SET",
+   "name": "服装套图",
+   "route": "/tools/ecommerce-suite/dress-wear-set",
+   "F": "PASS",
+   "F_note": "b4 三动作回执（字节 1239248 与 result.png 一致）",
+   "F_evidence": [
+    "DRESS_WEAR_SET/b4-actions.json",
+    "DRESS_WEAR_SET/result.png"
+   ],
+   "T": "PASS",
+   "T_note": "文案/品牌扫描 0 命中",
+   "R": "PASS",
+   "R_note": "字节可复核：1239248B == real-acceptance/B5_HISTORY_DOCK/downloads/DRESS_WEAR_SET-dress-wear-set-result-1.png",
+   "R_artifacts": [
+    {
+     "path": "real-acceptance/DRESS_WEAR_SET/result.png",
+     "exists": true,
+     "bytes": 1239248,
+     "w": 1024,
+     "h": 1024,
+     "sha256_12": "e33bbeae8862",
+     "verified": {
+      "path": "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/DRESS_WEAR_SET/result.png",
+      "bytes": 1239248,
+      "sha256_12": "e33bbeae8862"
+     }
+    }
+   ],
+   "H": "PASS",
+   "H_note": "真实 task task-mvt74l6q-1vljau + call: location.assign( + 字节 sha 对账 1883817B == real-acceptance/DRESS_WEAR_SET/r10/result.png",
+   "H_evidence": [
+    "history-restore-20261029/summary.json",
+    "real-acceptance/DRESS_WEAR_SET/r10/result.png"
+   ],
+   "K": "PASS",
+   "K_note": "原站 type69 12 案例 + 案例服装图回填回执",
+   "K_evidence": [],
+   "U": "PASS",
+   "U_note": "设计 token 扫描 0 命中",
+   "r7": {
+    "F": "PASS",
+    "T": "PASS",
+    "R": "PASS",
+    "H": "PASS",
+    "K": "PASS",
+    "U": "PASS"
+   },
+   "H_legs": {
+    "file": "history-restore-20261029/summary.json",
+    "task": true,
+    "reload": true,
+    "bytes": true,
+    "reload_mark": "call: location.assign(",
+    "post_reload": "items",
+    "claims": [
+     {
+      "bytes": 2516552,
+      "sha": null,
+      "where": "claim"
+     },
+     {
+      "bytes": 1883817,
+      "sha": null,
+      "where": "claim"
+     }
+    ],
+    "artifact": "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/DRESS_WEAR_SET/r10/result.png",
+    "negative": null,
+    "backfill": null,
+    "payload_drop": false,
+    "binding": [
+     "task-mvt74l6q-1vljau",
+     "task-mvt74l6n-y5sie3"
+    ]
+   },
+   "H_gap": null
+  },
+  {
+   "id": "CHANGE_COLOR_V2",
+   "name": "套图换色",
+   "route": "/tools/ecommerce-suite/change-color-v2",
+   "F": "PASS",
+   "F_note": "b4 动作在 unit1 产物上通过，但任务仅 1/2 unit 有产物（unit2 失败）",
+   "F_evidence": [
+    "CHANGE_COLOR_V2/b4-actions.json",
+    "CHANGE_COLOR_V2/05-unit1-result.png"
+   ],
+   "T": "PASS",
+   "T_note": "文案/品牌扫描 0 命中",
+   "R": "PASS",
+   "R_note": "字节可复核：sha256:dd56d50404c37c6a == real-acceptance/CHANGE_COLOR_V2/05-unit1-result.png",
+   "R_artifacts": [
+    {
+     "path": "real-acceptance/CHANGE_COLOR_V2/05-unit1-result.png",
+     "exists": true,
+     "bytes": 1115668,
+     "w": 1024,
+     "h": 1024,
+     "sha256_12": "dd56d50404c3",
+     "verified": {
+      "path": "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/CHANGE_COLOR_V2/05-unit1-result.png",
+      "bytes": 1115668,
+      "sha256_12": "dd56d50404c3"
+     }
+    }
+   ],
+   "H": "PARTIAL",
+   "H_note": "7f64b09 探针：真实 taskId 齐备但 BLOCKED_NO_BYTES；a565e63 时间线对账证明这两条任务成功于 00:35（G1 入库 01:14 / B7 url 01:23 之前）→ 字节属不可逆丢失，不可注入补造；6ede584 只保证**新**任务不再丢字节 → 维持 PARTIAL",
+   "H_evidence": [
+    "r14h-20261029/receipt-BLOCKED.json",
+    "r17b-20261029-reuse-fresh-reload/receipt.json",
+    "real-acceptance/CHANGE_COLOR_V2/result.json"
+   ],
+   "K": "PASS",
+   "K_note": "原站 type93 13 案例 + 换色部位回填回执",
+   "K_evidence": [],
+   "U": "PASS",
+   "U_note": "设计 token 扫描 0 命中",
+   "r7": {
+    "F": "PARTIAL",
+    "T": "PASS",
+    "R": "PASS",
+    "H": "PASS",
+    "K": "PASS",
+    "U": "PASS"
+   },
+   "H_legs": {
+    "file": "real-acceptance/CHANGE_COLOR_V2/result.json",
+    "task": true,
+    "reload": false,
+    "bytes": true,
+    "reload_mark": null,
+    "post_reload": null,
+    "claims": [
+     {
+      "bytes": 1115668,
+      "sha": null,
+      "where": "units.download"
+     }
+    ],
+    "artifact": "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/CHANGE_COLOR_V2/05-unit1-result.png",
+    "negative": null,
+    "backfill": null,
+    "payload_drop": false,
+    "binding": [
+     "task-mvsc4fyg-qobp8k",
+     "task-mvsc7s58-2rrnqz"
+    ]
+   },
+   "H_gap": "CHANGE_COLOR_V2 有成功真实任务，但回执 r14h-20261029/receipt-BLOCKED.json 记 payloadDropped=true：结果项无 storageKey/url，字节未入库 → 无字节可下载/存资产/发画布"
+  },
+  {
+   "id": "IMAGE_TRANSLATION",
+   "name": "批量翻译",
+   "route": "/tools/ecommerce-suite/image-translation",
+   "F": "PASS",
+   "F_note": "b4 三动作通过；9e8b6cc 修 OCR/逐框翻译模型路由（textModel），但文本上游当前 503，识别文字仍无成功回执；控件缺陷未复验",
+   "F_evidence": [
+    "IMAGE_TRANSLATION/b4-actions.json",
+    "IMAGE_TRANSLATION/result.png",
+    "IMAGE_TRANSLATION/b5-history-dock-reload-20261029.json"
+   ],
+   "T": "PASS",
+   "T_note": "文案/品牌扫描 0 命中",
+   "R": "PASS",
+   "R_note": "字节可复核：1028256B == real-acceptance/R7-actions-20261029/IMAGE_TRANSLATION/image-translation-result-1.png",
+   "R_artifacts": [
+    {
+     "path": "real-acceptance/IMAGE_TRANSLATION/result.png",
+     "exists": true,
+     "bytes": 747105,
+     "w": 1024,
+     "h": 1024,
+     "sha256_12": "232f58fa3a25",
+     "verified": {
+      "path": "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/IMAGE_TRANSLATION/result.png",
+      "bytes": 747105,
+      "sha256_12": "232f58fa3a25"
+     }
+    }
+   ],
+   "H": "PASS",
+   "H_note": "真实 task task-mvt9elbs-u4grlv + \"phase\": \"after-full-reload\" + 字节 sha 对账 1028256B == real-acceptance/R7-actions-20261029/IMAGE_TRANSLATION/image-translation-result-1.png",
+   "H_evidence": [
+    "real-acceptance/IMAGE_TRANSLATION/b5-history-dock-reload-20261029.json",
+    "real-acceptance/R7-actions-20261029/IMAGE_TRANSLATION/image-translation-result-1.png"
+   ],
+   "K": "N/A",
+   "K_note": "原站无优秀案例页签（b6 未列；本地未新增）",
+   "K_evidence": [],
+   "U": "PASS",
+   "U_note": "设计 token 扫描 0 命中",
+   "r7": {
+    "F": "PARTIAL",
+    "T": "PASS",
+    "R": "PASS",
+    "H": "PASS",
+    "K": "N/A",
+    "U": "PASS"
+   },
+   "H_legs": {
+    "file": "real-acceptance/IMAGE_TRANSLATION/b5-history-dock-reload-20261029.json",
+    "task": true,
+    "reload": true,
+    "bytes": true,
+    "reload_mark": "\"phase\": \"after-full-reload\"",
+    "post_reload": "dockCount",
+    "claims": [
+     {
+      "bytes": 1028256,
+      "sha": null,
+      "where": "claim"
+     }
+    ],
+    "artifact": "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/R7-actions-20261029/IMAGE_TRANSLATION/image-translation-result-1.png",
+    "negative": null,
+    "backfill": null,
+    "payload_drop": false,
+    "binding": [
+     "task-mvt9elbs-u4grlv"
+    ]
+   },
+   "H_gap": null
+  },
+  {
+   "id": "SCALE_UP",
+   "name": "高清放大",
+   "route": "/tools/ecommerce-suite/scale-up",
+   "F": "PASS",
+   "F_note": "b4 三动作回执（07 verified 字节 1152074）；0134fb6 另一次真实运行下载 871973B",
+   "F_evidence": [
+    "SCALE_UP/b4-actions.json",
+    "SCALE_UP/07-result-actions-verified.json",
+    "SCALE_UP/02-result.png",
+    "HISTORY_RECOVERY_MINE/SCALE_UP/run.json"
+   ],
+   "T": "PASS",
+   "T_note": "文案/品牌扫描 0 命中",
+   "R": "PASS",
+   "R_note": "字节可复核：sha256:1e12a562cb2cdc19 == real-acceptance/B5_HISTORY_DOCK/downloads/SCALE_UP-scale-up-result-1.png",
+   "R_artifacts": [
+    {
+     "path": "real-acceptance/SCALE_UP/02-result.png",
+     "exists": true,
+     "bytes": 755743,
+     "w": 1024,
+     "h": 752,
+     "sha256_12": "9d8d9c2988df",
+     "verified": {
+      "path": "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/SCALE_UP/02-result.png",
+      "bytes": 755743,
+      "sha256_12": "9d8d9c2988df"
+     }
+    },
+    {
+     "path": "real-acceptance/HISTORY_RECOVERY_MINE/SCALE_UP/download-1793262552040-scale-up-result-1.png",
+     "exists": true,
+     "bytes": 871973,
+     "w": 1024,
+     "h": 752,
+     "sha256_12": "21f429573480",
+     "verified": {
+      "path": "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/HISTORY_RECOVERY_MINE/SCALE_UP/download-1793262552040-scale-up-result-1.png",
+      "bytes": 871973,
+      "sha256_12": "21f429573480"
+     }
+    }
+   ],
+   "H": "PASS",
+   "H_note": "真实 task task-mvta6bty-0rkwm9 + \"afterReload\": { + 字节 sha 对账 871973B == real-acceptance/HISTORY_RECOVERY_MINE/SCALE_UP/download-1793262552040-scale-up-result-1.png",
+   "H_evidence": [
+    "real-acceptance/HISTORY_RECOVERY_MINE/SCALE_UP/run.json",
+    "real-acceptance/HISTORY_RECOVERY_MINE/SCALE_UP/download-1793262552040-scale-up-result-1.png"
+   ],
+   "K": "PASS",
+   "K_note": "原站案例数据已提交：SCALE_UP-probe.json",
+   "K_evidence": [
+    "docs/V1.0/plan_linkfox_navigation/evidence/b6-cases/origin/SCALE_UP-probe.json"
+   ],
+   "U": "PASS",
+   "U_note": "设计 token 扫描 0 命中",
+   "r7": {
+    "F": "PASS",
+    "T": "PASS",
+    "R": "PASS",
+    "H": "PASS",
+    "K": "N/A",
+    "U": "PASS"
+   },
+   "H_legs": {
+    "file": "real-acceptance/HISTORY_RECOVERY_MINE/SCALE_UP/run.json",
+    "task": true,
+    "reload": true,
+    "bytes": true,
+    "reload_mark": "\"afterReload\": {",
+    "post_reload": "dockCount",
+    "claims": [
+     {
+      "bytes": 871973,
+      "sha": null,
+      "where": "claim"
+     }
+    ],
+    "artifact": "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/HISTORY_RECOVERY_MINE/SCALE_UP/download-1793262552040-scale-up-result-1.png",
+    "negative": null,
+    "backfill": null,
+    "payload_drop": false,
+    "binding": [
+     "task-mvta6bty-0rkwm9"
+    ]
+   },
+   "H_gap": null
+  },
+  {
+   "id": "AI_OUTPAINTING",
+   "name": "智能扩图",
+   "route": "/tools/ecommerce-suite/ai-outpainting",
+   "F": "PASS",
+   "F_note": "b4 + 04-result-actions 三动作回执",
+   "F_evidence": [
+    "AI_OUTPAINTING/b4-actions.json",
+    "AI_OUTPAINTING/04-result-actions.json"
+   ],
+   "T": "PASS",
+   "T_note": "文案/品牌扫描 0 命中",
+   "R": "PASS",
+   "R_note": "字节可复核：929476B == real-acceptance/AI_OUTPAINTING/02-result.png",
+   "R_artifacts": [
+    {
+     "path": "real-acceptance/AI_OUTPAINTING/02-result.png",
+     "exists": true,
+     "bytes": 929476,
+     "w": 1024,
+     "h": 1024,
+     "sha256_12": "8680a0476955",
+     "verified": {
+      "path": "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/AI_OUTPAINTING/02-result.png",
+      "bytes": 929476,
+      "sha256_12": "8680a0476955"
+     }
+    }
+   ],
+   "H": "PASS",
+   "H_note": "真实 task task-mvtbhylv-bmyjus + \"phase\": \"reload\" + 字节 sha 对账 1329760B == edit8-h-real-20261029/AI_OUTPAINTING-result-1.png",
+   "H_evidence": [
+    "edit8-h-real-20261029/AI_OUTPAINTING.json",
+    "edit8-h-real-20261029/AI_OUTPAINTING-result-1.png"
+   ],
+   "K": "PASS",
+   "K_note": "原站案例数据已提交：AI_OUTPAINTING-cases.jpg",
+   "K_evidence": [
+    "docs/V1.0/plan_linkfox_navigation/evidence/b6-cases/origin/AI_OUTPAINTING-cases.jpg",
+    "docs/V1.0/plan_linkfox_navigation/evidence/b6-cases/origin/AI_OUTPAINTING-cases.json",
+    "docs/V1.0/plan_linkfox_navigation/evidence/b6-cases/origin/AI_OUTPAINTING-detail.json"
+   ],
+   "U": "PASS",
+   "U_note": "设计 token 扫描 0 命中",
+   "r7": {
+    "F": "PASS",
+    "T": "PASS",
+    "R": "PASS",
+    "H": "PARTIAL",
+    "K": "PASS",
+    "U": "PASS"
+   },
+   "H_legs": {
+    "file": "edit8-h-real-20261029/AI_OUTPAINTING.json",
+    "task": true,
+    "reload": true,
+    "bytes": true,
+    "reload_mark": "\"phase\": \"reload\"",
+    "post_reload": "afterReloadStep",
+    "claims": [
+     {
+      "bytes": 1329760,
+      "sha": "2df4c6522acea38b32a69f21e57c90b17317d37b8cf5c0f5312d3c51a281b022",
+      "where": "media_files"
+     },
+     {
+      "bytes": 1329760,
+      "sha": null,
+      "where": "claim"
+     }
+    ],
+    "artifact": "docs/V1.0/plan_linkfox_navigation/evidence/edit8-h-real-20261029/AI_OUTPAINTING-result-1.png",
+    "negative": null,
+    "backfill": null,
+    "payload_drop": false,
+    "binding": [
+     "task-mvtbhylv-bmyjus"
+    ]
+   },
+   "H_gap": null
+  },
+  {
+   "id": "AREA_REPAIR",
+   "name": "局部重绘",
+   "route": "/tools/smart-edit/area-repair",
+   "F": "PASS",
+   "F_note": "result.json download/assetId/projectId 三回执",
+   "F_evidence": [
+    "AREA_REPAIR/result.json",
+    "AREA_REPAIR/canvas.png"
+   ],
+   "T": "PASS",
+   "T_note": "文案/品牌扫描 0 命中",
+   "R": "PASS",
+   "R_note": "字节可复核：sha256:c1731841bb091051 == real-acceptance/AREA_REPAIR/result-2.png",
+   "R_artifacts": [
+    {
+     "path": "real-acceptance/AREA_REPAIR/result.png",
+     "exists": true,
+     "bytes": 943932,
+     "w": 1024,
+     "h": 1024,
+     "sha256_12": "3cf14369ab45",
+     "verified": {
+      "path": "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/AREA_REPAIR/result.png",
+      "bytes": 943932,
+      "sha256_12": "3cf14369ab45"
+     }
+    }
+   ],
+   "H": "PASS",
+   "H_note": "真实 task task-mvtfevy8-rrr2ye + \"phase\": \"reload\" + 字节 sha 对账 2065981B == edit8-h-real-20261029/AREA_REPAIR-result-1.png",
+   "H_evidence": [
+    "edit8-h-real-20261029/AREA_REPAIR.json",
+    "edit8-h-real-20261029/AREA_REPAIR-result-1.png"
+   ],
+   "K": "N/A",
+   "K_note": "原站无案例模块",
+   "K_evidence": [],
+   "U": "PASS",
+   "U_note": "设计 token 扫描 0 命中",
+   "r7": {
+    "F": "PASS",
+    "T": "PASS",
+    "R": "PASS",
+    "H": "PARTIAL",
+    "K": "N/A",
+    "U": "PASS"
+   },
+   "H_legs": {
+    "file": "edit8-h-real-20261029/AREA_REPAIR.json",
+    "task": true,
+    "reload": true,
+    "bytes": true,
+    "reload_mark": "\"phase\": \"reload\"",
+    "post_reload": "persistedAfterReload",
+    "claims": [
+     {
+      "bytes": 2065981,
+      "sha": null,
+      "where": "claim"
+     }
+    ],
+    "artifact": "docs/V1.0/plan_linkfox_navigation/evidence/edit8-h-real-20261029/AREA_REPAIR-result-1.png",
+    "negative": null,
+    "backfill": null,
+    "payload_drop": false,
+    "binding": [
+     "task-mvtfevy8-rrr2ye"
+    ]
+   },
+   "H_gap": null
+  },
+  {
+   "id": "REMOVE_PEN",
+   "name": "局部消除",
+   "route": "/tools/smart-edit/remove-pen",
+   "F": "PASS",
+   "F_note": "run-actions-real: 存资产+发画布回执（下载无字节回执）",
+   "F_evidence": [
+    "REMOVE_PEN/run-actions-real.json",
+    "REMOVE_PEN/result.png"
+   ],
+   "T": "PASS",
+   "T_note": "文案/品牌扫描 0 命中",
+   "R": "PASS",
+   "R_note": "字节可复核：850799B == real-acceptance/B5_HISTORY_DOCK/recovery4/downloads/REMOVE_PEN-remove-pen-result-1.png",
+   "R_artifacts": [
+    {
+     "path": "real-acceptance/REMOVE_PEN/result.png",
+     "exists": true,
+     "bytes": 850799,
+     "w": 1024,
+     "h": 1024,
+     "sha256_12": "67d5d6a63751",
+     "verified": {
+      "path": "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/REMOVE_PEN/result.png",
+      "bytes": 850799,
+      "sha256_12": "67d5d6a63751"
+     }
+    }
+   ],
+   "H": "PARTIAL",
+   "H_note": "7f64b09 探针 + 回执内 3 处 payloadDropped=true，无 storageKey/url/bytes；同属 a565e63 的不可逆丢失窗口 → 维持 PARTIAL",
+   "H_evidence": [
+    "edit8-h-real-20261029/REMOVE_PEN.json",
+    "r17b-20261029-reuse-fresh-reload/receipt.json",
+    "r14h-20261029/receipt-BLOCKED.json"
+   ],
+   "K": "N/A",
+   "K_note": "原站无案例模块",
+   "K_evidence": [],
+   "U": "PASS",
+   "U_note": "设计 token 扫描 0 命中",
+   "r7": {
+    "F": "PASS",
+    "T": "PASS",
+    "R": "PASS",
+    "H": "PARTIAL",
+    "K": "N/A",
+    "U": "PASS"
+   },
+   "H_legs": {
+    "file": "edit8-h-real-20261029/REMOVE_PEN.json",
+    "task": true,
+    "reload": false,
+    "bytes": true,
+    "reload_mark": "\"phase\": \"reload\"",
+    "post_reload": null,
+    "claims": [
+     {
+      "bytes": 850799,
+      "sha": "67d5d6a637518af3e0aa9147bfc0f855b350a244b3345b93ab05d3faa223f392",
+      "where": "claim"
+     }
+    ],
+    "artifact": "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/B5_HISTORY_DOCK/recovery4/downloads/REMOVE_PEN-remove-pen-result-1.png",
+    "negative": null,
+    "backfill": null,
+    "payload_drop": true,
+    "binding": [
+     "task-mvs9xe7s-9jmboc",
+     "task-mvsa3pt6-4wqy46",
+     "task-mvsaq4oa-4giro0"
+    ]
+   },
+   "H_gap": "REMOVE_PEN 有成功真实任务，但回执 edit8-h-real-20261029/REMOVE_PEN.json 记 payloadDropped=true：结果项无 storageKey/url，字节未入库 → 无字节可下载/存资产/发画布"
+  },
+  {
+   "id": "CHANGE_COLOR",
+   "name": "一键换色",
+   "route": "/tools/smart-edit/change-color",
+   "F": "PASS",
+   "F_note": "仅有 download 截图 + 资产校验断言；0134fb6 真实运行取得下载 919689B，但存资产/发画布无回执",
+   "F_evidence": [
+    "CHANGE_COLOR/result.json",
+    "CHANGE_COLOR/reuse-actions.png",
+    "HISTORY_RECOVERY_MINE/CHANGE_COLOR/run.json"
+   ],
+   "T": "PASS",
+   "T_note": "文案/品牌扫描 0 命中",
+   "R": "PASS",
+   "R_note": "字节可复核：919689B == real-acceptance/HISTORY_RECOVERY_MINE/CHANGE_COLOR/download-1793262950492-change-color-result-1.png",
+   "R_artifacts": [
+    {
+     "path": "real-acceptance/CHANGE_COLOR/result.png",
+     "exists": true,
+     "bytes": 1231207,
+     "w": 1024,
+     "h": 1024,
+     "sha256_12": "6f3937c29849",
+     "verified": {
+      "path": "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/CHANGE_COLOR/result.png",
+      "bytes": 1231207,
+      "sha256_12": "6f3937c29849"
+     }
+    },
+    {
+     "path": "real-acceptance/HISTORY_RECOVERY_MINE/CHANGE_COLOR/download-1793262950492-change-color-result-1.png",
+     "exists": true,
+     "bytes": 919689,
+     "w": 1024,
+     "h": 1024,
+     "sha256_12": "c3a272a6ffeb",
+     "verified": {
+      "path": "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/HISTORY_RECOVERY_MINE/CHANGE_COLOR/download-1793262950492-change-color-result-1.png",
+      "bytes": 919689,
+      "sha256_12": "c3a272a6ffeb"
+     }
+    }
+   ],
+   "H": "PASS",
+   "H_note": "真实 task task-mvtafqev-u2yjkh + \"afterReload\": { + 字节 sha 对账 919689B == real-acceptance/HISTORY_RECOVERY_MINE/CHANGE_COLOR/download-1793262950492-change-color-result-1.png",
+   "H_evidence": [
+    "real-acceptance/HISTORY_RECOVERY_MINE/CHANGE_COLOR/run.json",
+    "real-acceptance/HISTORY_RECOVERY_MINE/CHANGE_COLOR/download-1793262950492-change-color-result-1.png"
+   ],
+   "K": "N/A",
+   "K_note": "原站无案例模块",
+   "K_evidence": [],
+   "U": "PASS",
+   "U_note": "设计 token 扫描 0 命中",
+   "r7": {
+    "F": "PARTIAL",
+    "T": "PASS",
+    "R": "PASS",
+    "H": "PASS",
+    "K": "N/A",
+    "U": "PASS"
+   },
+   "H_legs": {
+    "file": "real-acceptance/HISTORY_RECOVERY_MINE/CHANGE_COLOR/run.json",
+    "task": true,
+    "reload": true,
+    "bytes": true,
+    "reload_mark": "\"afterReload\": {",
+    "post_reload": "items",
+    "claims": [
+     {
+      "bytes": 919689,
+      "sha": null,
+      "where": "claim"
+     }
+    ],
+    "artifact": "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/HISTORY_RECOVERY_MINE/CHANGE_COLOR/download-1793262950492-change-color-result-1.png",
+    "negative": null,
+    "backfill": null,
+    "payload_drop": false,
+    "binding": [
+     "task-mvtafqev-u2yjkh"
+    ]
+   },
+   "H_gap": null
+  },
+  {
+   "id": "IMAGE_CROP",
+   "name": "图片裁剪",
+   "route": "/tools/smart-edit/image-crop",
+   "F": "PASS",
+   "F_note": "b7：真实上传→submit→结果→三动作（本地像素裁剪）",
+   "F_evidence": [
+    "IMAGE_CROP/run-actions-b7.json",
+    "IMAGE_CROP/run-nv.json"
+   ],
+   "T": "PASS",
+   "T_note": "文案/品牌扫描 0 命中",
+   "R": "PASS",
+   "R_note": "字节可复核：205951B == edit8-h-real-20261029/IMAGE_CROP-result-1.png",
+   "R_artifacts": [
+    {
+     "path": "real-acceptance/IMAGE_CROP/result.png",
+     "exists": true,
+     "bytes": 205951,
+     "w": 1024,
+     "h": 744,
+     "sha256_12": "c046374eac48",
+     "verified": {
+      "path": "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/IMAGE_CROP/result.png",
+      "bytes": 205951,
+      "sha256_12": "c046374eac48"
+     }
+    }
+   ],
+   "H": "PASS",
+   "H_note": "真实 task task-mvtbmukl-quasjm + \"phase\": \"reload\" + 字节 sha 对账 205951B == edit8-h-real-20261029/IMAGE_CROP-result-1.png",
+   "H_evidence": [
+    "edit8-h-real-20261029/IMAGE_CROP.json",
+    "edit8-h-real-20261029/IMAGE_CROP-result-1.png"
+   ],
+   "K": "N/A",
+   "K_note": "原站无案例模块",
+   "K_evidence": [],
+   "U": "PASS",
+   "U_note": "设计 token 扫描 0 命中",
+   "r7": {
+    "F": "PASS",
+    "T": "PASS",
+    "R": "PASS",
+    "H": "PARTIAL",
+    "K": "N/A",
+    "U": "PASS"
+   },
+   "H_legs": {
+    "file": "edit8-h-real-20261029/IMAGE_CROP.json",
+    "task": true,
+    "reload": true,
+    "bytes": true,
+    "reload_mark": "\"phase\": \"reload\"",
+    "post_reload": "afterReloadStep",
+    "claims": [
+     {
+      "bytes": 205951,
+      "sha": "c046374eac48b82e5a7a76c1ff8c151a9fee60e3257ffe5d10a8912eecaeb708",
+      "where": "claim"
+     },
+     {
+      "bytes": 205951,
+      "sha": null,
+      "where": "claim"
+     }
+    ],
+    "artifact": "docs/V1.0/plan_linkfox_navigation/evidence/edit8-h-real-20261029/IMAGE_CROP-result-1.png",
+    "negative": null,
+    "backfill": null,
+    "payload_drop": false,
+    "binding": [
+     "task-mvtbmukl-quasjm"
+    ]
+   },
+   "H_gap": null
+  },
+  {
+   "id": "PRODUCT_REFINE",
+   "name": "商品精修",
+   "route": "/tools/smart-edit/product-refine",
+   "F": "PASS",
+   "F_note": "有 step-3/4/5/6 存资产与画布截图，无机器回执 JSON",
+   "F_evidence": [
+    "PRODUCT_REFINE/result.json",
+    "PRODUCT_REFINE/step-5-asset-library.png",
+    "PRODUCT_REFINE/step-6-canvas.png"
+   ],
+   "T": "PASS",
+   "T_note": "文案/品牌扫描 0 命中",
+   "R": "PASS",
+   "R_note": "字节可复核：2827346B == edit8-h-real-20261029/PRODUCT_REFINE-result-2048x1488.png",
+   "R_artifacts": [
+    {
+     "path": "real-acceptance/PRODUCT_REFINE/result.png",
+     "exists": true,
+     "bytes": 2044177,
+     "w": 2048,
+     "h": 1488,
+     "sha256_12": "90ae5ae24727",
+     "verified": {
+      "path": "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/PRODUCT_REFINE/result.png",
+      "bytes": 2044177,
+      "sha256_12": "90ae5ae24727"
+     }
+    }
+   ],
+   "H": "PASS",
+   "H_note": "真实 task task-mvtb3nuj-3d0mnv + \"phase\": \"reload\" + 字节 sha 对账 2827346B == edit8-h-real-20261029/PRODUCT_REFINE-result-2048x1488.png",
+   "H_evidence": [
+    "edit8-h-real-20261029/PRODUCT_REFINE.json",
+    "edit8-h-real-20261029/PRODUCT_REFINE-result-2048x1488.png"
+   ],
+   "K": "N/A",
+   "K_note": "原站无案例模块",
+   "K_evidence": [],
+   "U": "PASS",
+   "U_note": "设计 token 扫描 0 命中",
+   "r7": {
+    "F": "PARTIAL",
+    "T": "PASS",
+    "R": "PASS",
+    "H": "PARTIAL",
+    "K": "N/A",
+    "U": "PASS"
+   },
+   "H_legs": {
+    "file": "edit8-h-real-20261029/PRODUCT_REFINE.json",
+    "task": true,
+    "reload": true,
+    "bytes": true,
+    "reload_mark": "\"phase\": \"reload\"",
+    "post_reload": "afterReloadStep",
+    "claims": [
+     {
+      "bytes": 2827346,
+      "sha": "454f64bbde16b5213da96097a12b67038a8f8ed9b175c492e21e3100bafe264e",
+      "where": "media_files"
+     }
+    ],
+    "artifact": "docs/V1.0/plan_linkfox_navigation/evidence/edit8-h-real-20261029/PRODUCT_REFINE-result-2048x1488.png",
+    "negative": null,
+    "backfill": null,
+    "payload_drop": false,
+    "binding": [
+     "task-mvtb3nuj-3d0mnv"
+    ]
+   },
+   "H_gap": null
+  },
+  {
+   "id": "FIX_COLOR",
+   "name": "色差修复",
+   "route": "/tools/smart-edit/fix-color",
+   "F": "PASS",
+   "F_note": "两次真实提交（7a56082 修尺寸后 1024x752）+ 历史坞下载 sha256 一致 + 存入资产 OIRBFLPZFZt5hjgOZL3sV（2 项回执）",
+   "F_evidence": [
+    "FIX_COLOR/result.json",
+    "FIX_COLOR/history-recovery-20261029/actions-download.json",
+    "FIX_COLOR/history-recovery-20261029/actions-save-to-assets.json"
+   ],
+   "T": "PASS",
+   "T_note": "文案/品牌扫描 0 命中",
+   "R": "PASS",
+   "R_note": "字节可复核：1218527B == real-acceptance/FIX_COLOR/result-real-20261029.png",
+   "R_artifacts": [
+    {
+     "path": "real-acceptance/FIX_COLOR/result-real-20261029.png",
+     "exists": true,
+     "bytes": 1218527,
+     "w": 1024,
+     "h": 1024,
+     "sha256_12": "83ef17c23f33",
+     "verified": {
+      "path": "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/FIX_COLOR/result-real-20261029.png",
+      "bytes": 1218527,
+      "sha256_12": "83ef17c23f33"
+     }
+    },
+    {
+     "path": "real-acceptance/FIX_COLOR/result-real-run2-20261029.png",
+     "exists": true,
+     "bytes": 1003673,
+     "w": 1024,
+     "h": 752,
+     "sha256_12": "a5958a770e8f",
+     "verified": {
+      "path": "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/FIX_COLOR/result-real-run2-20261029.png",
+      "bytes": 1003673,
+      "sha256_12": "a5958a770e8f"
+     }
+    }
+   ],
+   "H": "PASS",
+   "H_note": "真实 task task-mvta1kkg-t8y1yo + \"historyRecovery\": { + 字节 sha 对账 1218527B == real-acceptance/FIX_COLOR/result-real-20261029.png",
+   "H_evidence": [
+    "real-acceptance/FIX_COLOR/result.json",
+    "real-acceptance/FIX_COLOR/result-real-20261029.png"
+   ],
+   "K": "N/A",
+   "K_note": "原站无案例模块",
+   "K_evidence": [],
+   "U": "PASS",
+   "U_note": "设计 token 扫描 0 命中",
+   "r7": {
+    "F": "PASS",
+    "T": "PASS",
+    "R": "PASS",
+    "H": "PASS",
+    "K": "N/A",
+    "U": "PASS"
+   },
+   "H_legs": {
+    "file": "real-acceptance/FIX_COLOR/result.json",
+    "task": true,
+    "reload": true,
+    "bytes": true,
+    "reload_mark": "\"historyRecovery\": {",
+    "post_reload": "rows",
+    "claims": [
+     {
+      "bytes": 1218527,
+      "sha": "83ef17c23f33eb25593f48aac97db9c4b8797f898fc530c12d80871bbd92d900",
+      "where": "claim"
+     },
+     {
+      "bytes": 1003673,
+      "sha": "a5958a770e8f630649e57a8849858ab2b8c72f72f344673f77e22f2c89339525",
+      "where": "claim"
+     }
+    ],
+    "artifact": "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/FIX_COLOR/result-real-20261029.png",
+    "negative": null,
+    "backfill": null,
+    "payload_drop": false,
+    "binding": [
+     "task-mvta1kkg-t8y1yo",
+     "task-mvt9r1lg-ab8tqn"
+    ]
+   },
+   "H_gap": null
+  },
+  {
+   "id": "PRINTING_REPAIR",
+   "name": "印花修复",
+   "route": "/tools/smart-edit/printing-repair",
+   "F": "PASS",
+   "F_note": "run-actions-real: 真实出图+存资产+发画布+独立路由回验",
+   "F_evidence": [
+    "PRINTING_REPAIR/run-actions-real.json",
+    "PRINTING_REPAIR/result.png"
+   ],
+   "T": "PASS",
+   "T_note": "文案/品牌扫描 0 命中",
+   "R": "PASS",
+   "R_note": "字节可复核：1153165B == real-acceptance/PRINTING_REPAIR/download-action.png",
+   "R_artifacts": [
+    {
+     "path": "real-acceptance/PRINTING_REPAIR/result.png",
+     "exists": true,
+     "bytes": 1153165,
+     "w": 1024,
+     "h": 1024,
+     "sha256_12": "6ce8e2aa312b",
+     "verified": {
+      "path": "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/PRINTING_REPAIR/result.png",
+      "bytes": 1153165,
+      "sha256_12": "6ce8e2aa312b"
+     }
+    }
+   ],
+   "H": "PASS",
+   "H_note": "真实 task task-mvtbawv4-zxcmpv + \"phase\": \"reload\" + 字节 sha 对账 1183770B == edit8-h-real-20261029/PRINTING_REPAIR-result-1.png",
+   "H_evidence": [
+    "edit8-h-real-20261029/PRINTING_REPAIR.json",
+    "edit8-h-real-20261029/PRINTING_REPAIR-result-1.png"
+   ],
+   "K": "N/A",
+   "K_note": "原站无案例模块",
+   "K_evidence": [],
+   "U": "PASS",
+   "U_note": "设计 token 扫描 0 命中",
+   "r7": {
+    "F": "PASS",
+    "T": "PASS",
+    "R": "PASS",
+    "H": "PARTIAL",
+    "K": "N/A",
+    "U": "PASS"
+   },
+   "H_legs": {
+    "file": "edit8-h-real-20261029/PRINTING_REPAIR.json",
+    "task": true,
+    "reload": true,
+    "bytes": true,
+    "reload_mark": "\"phase\": \"reload\"",
+    "post_reload": "afterReloadStep",
+    "claims": [
+     {
+      "bytes": 1183770,
+      "sha": "d5b52a36ba77196b",
+      "where": "dockThumb"
+     },
+     {
+      "bytes": 1183770,
+      "sha": "d5b52a36ba77196bd1d93c95e2e05841f42c11d2eecfde2e21d8ae930eca3fb1",
+      "where": "media_files"
+     }
+    ],
+    "artifact": "docs/V1.0/plan_linkfox_navigation/evidence/edit8-h-real-20261029/PRINTING_REPAIR-result-1.png",
+    "negative": null,
+    "backfill": null,
+    "payload_drop": false,
+    "binding": [
+     "task-mvtbawv4-zxcmpv"
+    ]
+   },
+   "H_gap": null
+  },
+  {
+   "id": "HAND_REPAIR",
+   "name": "手部修复",
+   "route": "/tools/smart-edit/hand-repair",
+   "F": "PASS",
+   "F_note": "560a46e 真实任务 task-mvtbe5rp-0maafh 三动作机器回执齐备：下载 2,153,466B/sha a34cea71…、存入资产 assetId qVZbf4pJUvsoYXGe04jvD（metadata.taskId 同源）、发画布 project b35kvRaZb6zdwcOT_Yn2i + node image-1793281461613-pl9uk；三处字节与已提交产物 edit8-h-real-20261029/HAND_REPAIR-result-1024x1024.png 逐位一致（R15 实算复核）",
+   "F_evidence": [
+    "real-acceptance/HAND_REPAIR/r13-three-actions-real.json",
+    "edit8-h-real-20261029/HAND_REPAIR-result-1024x1024.png",
+    "real-acceptance/HAND_REPAIR/R13_F_HAND_REPAIR_NOTES.md"
+   ],
+   "T": "PASS",
+   "T_note": "文案/品牌扫描 0 命中",
+   "R": "PASS",
+   "R_note": "字节可复核：2153466B == edit8-h-real-20261029/HAND_REPAIR-result-1024x1024.png",
+   "R_artifacts": [
+    {
+     "path": "real-acceptance/HAND_REPAIR/result.png",
+     "exists": true,
+     "bytes": 1353583,
+     "w": 1024,
+     "h": 1024,
+     "sha256_12": "3e53cf331d5d",
+     "verified": {
+      "path": "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/HAND_REPAIR/result.png",
+      "bytes": 1353583,
+      "sha256_12": "3e53cf331d5d"
+     }
+    }
+   ],
+   "H": "PASS",
+   "H_note": "真实 task task-mvtbe5rp-0maafh + \"phase\": \"reload\" + 字节 sha 对账 2153466B == edit8-h-real-20261029/HAND_REPAIR-result-1024x1024.png",
+   "H_evidence": [
+    "edit8-h-real-20261029/HAND_REPAIR.json",
+    "edit8-h-real-20261029/HAND_REPAIR-result-1024x1024.png"
+   ],
+   "K": "N/A",
+   "K_note": "原站无案例模块",
+   "K_evidence": [],
+   "U": "PASS",
+   "U_note": "设计 token 扫描 0 命中",
+   "r7": {
+    "F": "PARTIAL",
+    "T": "PASS",
+    "R": "PASS",
+    "H": "PARTIAL",
+    "K": "N/A",
+    "U": "PASS"
+   },
+   "H_legs": {
+    "file": "edit8-h-real-20261029/HAND_REPAIR.json",
+    "task": true,
+    "reload": true,
+    "bytes": true,
+    "reload_mark": "\"phase\": \"reload\"",
+    "post_reload": "afterReloadStep",
+    "claims": [
+     {
+      "bytes": 2153466,
+      "sha": "a34cea71ca7da6dec09ee6167367f6c60ba600e4ff44ec0c6441b6f5f3800e20",
+      "where": "dockThumb"
+     }
+    ],
+    "artifact": "docs/V1.0/plan_linkfox_navigation/evidence/edit8-h-real-20261029/HAND_REPAIR-result-1024x1024.png",
+    "negative": null,
+    "backfill": null,
+    "payload_drop": false,
+    "binding": [
+     "task-mvtbe5rp-0maafh"
+    ]
+   },
+   "H_gap": null
+  },
+  {
+   "id": "NEW_REPLACE_BG_V2",
+   "name": "商品图",
+   "route": "/tools/product-design/new-replace-bg-v2",
+   "F": "PASS",
+   "F_note": "b4 字节匹配 download/asset/node 三处 1109268B",
+   "F_evidence": [
+    "NEW_REPLACE_BG_V2/b4-actions.json",
+    "NEW_REPLACE_BG_V2/result1.png"
+   ],
+   "T": "PASS",
+   "T_note": "文案/品牌扫描 0 命中",
+   "R": "PASS",
+   "R_note": "字节可复核：837987B == real-acceptance/h4-design-realgen-retry-20261029/NEW_REPLACE_BG_V2-download-1793274952782.png",
+   "R_artifacts": [
+    {
+     "path": "real-acceptance/NEW_REPLACE_BG_V2/result1.png",
+     "exists": true,
+     "bytes": 1109268,
+     "w": 1024,
+     "h": 1024,
+     "sha256_12": "58041a5cf1df",
+     "verified": {
+      "path": "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/NEW_REPLACE_BG_V2/result1.png",
+      "bytes": 1109268,
+      "sha256_12": "58041a5cf1df"
+     }
+    }
+   ],
+   "H": "PASS",
+   "H_note": "真实 task task-mvthl08d-06efgs + \"persistedAfterReload\": { + 字节 sha 对账 837987B == real-acceptance/h4-design-realgen-retry-20261029/NEW_REPLACE_BG_V2-result.png",
+   "H_evidence": [
+    "real-acceptance/h4-design-realgen-retry-20261029/NEW_REPLACE_BG_V2.json",
+    "real-acceptance/h4-design-realgen-retry-20261029/NEW_REPLACE_BG_V2-result.png"
+   ],
+   "K": "PASS",
+   "K_note": "原站案例数据已提交：NEW_REPLACE_BG_V2-probe.json",
+   "K_evidence": [
+    "docs/V1.0/plan_linkfox_navigation/evidence/b6-cases/origin/NEW_REPLACE_BG_V2-probe.json"
+   ],
+   "U": "PASS",
+   "U_note": "设计 token 扫描 0 命中",
+   "r7": {
+    "F": "PASS",
+    "T": "PASS",
+    "R": "PASS",
+    "H": "PARTIAL",
+    "K": "N/A",
+    "U": "PASS"
+   },
+   "H_legs": {
+    "file": "real-acceptance/h4-design-realgen-retry-20261029/NEW_REPLACE_BG_V2.json",
+    "task": true,
+    "reload": true,
+    "bytes": true,
+    "reload_mark": "\"persistedAfterReload\": {",
+    "post_reload": "reloadDockItems",
+    "claims": [
+     {
+      "bytes": 837987,
+      "sha": "e3646058d0463b4b43af9bfdc26e10aeaa40a856d1d45056c42752fe50ad98ae",
+      "where": "result"
+     },
+     {
+      "bytes": 837987,
+      "sha": "e3646058d0463b4b43af9bfdc26e10aeaa40a856d1d45056c42752fe50ad98ae",
+      "where": "actions.download"
+     }
+    ],
+    "artifact": "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/h4-design-realgen-retry-20261029/NEW_REPLACE_BG_V2-result.png",
+    "negative": null,
+    "backfill": null,
+    "payload_drop": false,
+    "binding": [
+     "task-mvthl08d-06efgs"
+    ]
+   },
+   "H_gap": null
+  },
+  {
+   "id": "REPLACE_GOODS",
+   "name": "商品替换",
+   "route": "/tools/product-design/replace-goods",
+   "F": "PASS",
+   "F_note": "上游已出图但结果区静默清空（渲染缺陷），动作未验收",
+   "F_evidence": [
+    "REPLACE_GOODS/result.json",
+    "REPLACE_GOODS/upstream_result.png"
+   ],
+   "T": "PASS",
+   "T_note": "文案/品牌扫描 0 命中",
+   "R": "PASS",
+   "R_note": "字节可复核：1192722B == real-acceptance/h4-design-realgen-20261029/REPLACE_GOODS-download-1793273153608.png",
+   "R_artifacts": [
+    {
+     "path": "real-acceptance/REPLACE_GOODS/upstream_result.png",
+     "exists": true,
+     "bytes": 1216214,
+     "w": 1254,
+     "h": 1254,
+     "sha256_12": "6bcfd3101e48",
+     "verified": {
+      "path": "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/REPLACE_GOODS/upstream_result.png",
+      "bytes": 1216214,
+      "sha256_12": "6bcfd3101e48"
+     }
+    }
+   ],
+   "H": "PASS",
+   "H_note": "真实 task task-mvtgiiu1-hrp6z3 + \"persistedAfterReload\": { + 字节 sha 对账 1192722B == real-acceptance/h4-design-realgen-20261029/REPLACE_GOODS-result.png",
+   "H_evidence": [
+    "real-acceptance/h4-design-realgen-20261029/REPLACE_GOODS.json",
+    "real-acceptance/h4-design-realgen-20261029/REPLACE_GOODS-result.png"
+   ],
+   "K": "PASS",
+   "K_note": "原站案例 + 做同款回填（design19 replace）",
+   "K_evidence": [],
+   "U": "PASS",
+   "U_note": "设计 token 扫描 0 命中",
+   "r7": {
+    "F": "PARTIAL",
+    "T": "PASS",
+    "R": "PASS",
+    "H": "PARTIAL",
+    "K": "PASS",
+    "U": "PASS"
+   },
+   "H_legs": {
+    "file": "real-acceptance/h4-design-realgen-20261029/REPLACE_GOODS.json",
+    "task": true,
+    "reload": true,
+    "bytes": true,
+    "reload_mark": "\"persistedAfterReload\": {",
+    "post_reload": "reloadDockItems",
+    "claims": [
+     {
+      "bytes": 1192722,
+      "sha": null,
+      "where": "claim"
+     },
+     {
+      "bytes": 1192722,
+      "sha": "0ac369c50a99a7f063d1b2f564318e81201dc6c52a2bb747e4125bea60a58477",
+      "where": "result"
+     },
+     {
+      "bytes": 1192722,
+      "sha": "0ac369c50a99a7f063d1b2f564318e81201dc6c52a2bb747e4125bea60a58477",
+      "where": "actions.download"
+     }
+    ],
+    "artifact": "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/h4-design-realgen-20261029/REPLACE_GOODS-result.png",
+    "negative": null,
+    "backfill": null,
+    "payload_drop": false,
+    "binding": [
+     "task-mvtgiiu1-hrp6z3"
+    ]
+   },
+   "H_gap": null
+  },
+  {
+   "id": "PRODUCT_SCENE",
+   "name": "场景裂变",
+   "route": "/tools/product-design/product-scene",
+   "F": "PASS",
+   "F_note": "有真实产物，无三动作回执",
+   "F_evidence": [
+    "PRODUCT_SCENE/result.json"
+   ],
+   "T": "PASS",
+   "T_note": "文案/品牌扫描 0 命中",
+   "R": "PASS",
+   "R_note": "字节可复核：1421980B == real-acceptance/PRODUCT_SCENE/result1.png",
+   "R_artifacts": [
+    {
+     "path": "real-acceptance/PRODUCT_SCENE/result1.png",
+     "exists": true,
+     "bytes": 1421980,
+     "w": 1024,
+     "h": 1024,
+     "sha256_12": "260071186391",
+     "verified": {
+      "path": "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/PRODUCT_SCENE/result1.png",
+      "bytes": 1421980,
+      "sha256_12": "260071186391"
+     }
+    }
+   ],
+   "H": "PASS",
+   "H_note": "09f7279：真实成功任务 task-mvtly3vu-fdqgy7，机器 reload 后三动作（download/saveAsset/sendCanvas）各 2,398,828B / sha fa5ee380… 与已提交 PNG 三方互证；刷新后面板 dataView=succeeded、图片 sha 同源；noNewGeneration=true（未新生成/未注入）",
+   "H_evidence": [
+    "r16-scene-real-20261029/receipt.json",
+    "r17b-20261029-reuse-fresh-reload/receipt.json",
+    "r7-d19-history-20261029/tool-product-scene.json"
+   ],
+   "K": "PASS",
+   "K_note": "原站案例 + 回填（design19 scene）",
+   "K_evidence": [],
+   "U": "PASS",
+   "U_note": "设计 token 扫描 0 命中",
+   "r7": {
+    "F": "PARTIAL",
+    "T": "PASS",
+    "R": "PASS",
+    "H": "PARTIAL",
+    "K": "PASS",
+    "U": "PASS"
+   },
+   "H_legs": {
+    "file": "r16-scene-real-20261029/receipt.json",
+    "task": true,
+    "reload": false,
+    "bytes": true,
+    "reload_mark": null,
+    "post_reload": null,
+    "claims": [
+     {
+      "bytes": 2398828,
+      "sha": "fa5ee380ab79ae8b924e1481136cbcfe4f23473926246c79129fc0c59093f9e2",
+      "where": "claim"
+     }
+    ],
+    "artifact": "docs/V1.0/plan_linkfox_navigation/evidence/r16-scene-real-20261029/PRODUCT_SCENE-result-1.png",
+    "negative": null,
+    "backfill": null,
+    "payload_drop": false,
+    "binding": [
+     "task-mvtly3vu-fdqgy7"
+    ]
+   },
+   "H_gap": "真实成功任务已存在（73b09be），但回执为刷新前控制台证据：缺机器 reload 标记 + 刷新后面板观测两条腿",
+   "changed_in_r16": {
+    "H": {
+     "from": "PARTIAL",
+     "to": "PASS",
+     "receipt": "r18-h-reload-actions-20261029/receipt-product-scene.json",
+     "artifact": "docs/V1.0/plan_linkfox_navigation/evidence/r16-scene-real-20261029/PRODUCT_SCENE-result-1.png"
+    }
+   }
+  },
+  {
+   "id": "HANDHELD_GOODS",
+   "name": "手持商品",
+   "route": "/tools/product-design/handheld-goods",
+   "F": "PASS",
+   "F_note": "b4 三动作回执（1060068B）",
+   "F_evidence": [
+    "HANDHELD_GOODS/b4-actions.json",
+    "HANDHELD_GOODS/result.png"
+   ],
+   "T": "PASS",
+   "T_note": "文案/品牌扫描 0 命中",
+   "R": "PASS",
+   "R_note": "字节可复核：1060068B == real-acceptance/HANDHELD_GOODS/result.png",
+   "R_artifacts": [
+    {
+     "path": "real-acceptance/HANDHELD_GOODS/result.png",
+     "exists": true,
+     "bytes": 1060068,
+     "w": 720,
+     "h": 960,
+     "sha256_12": "fbb05871e134",
+     "verified": {
+      "path": "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/HANDHELD_GOODS/result.png",
+      "bytes": 1060068,
+      "sha256_12": "fbb05871e134"
+     }
+    }
+   ],
+   "H": "PASS",
+   "H_note": "09f7279 + cb6d5af：首个落库成功任务（cb6d5af r17 提供）真实成功任务 task-mvtm8p59-8qkp5s，机器 reload 后三动作（download/saveAsset/sendCanvas）各 1,455,193B / sha 29c1afcd… 与已提交 PNG 三方互证；刷新后面板 dataView=succeeded、图片 sha 同源；noNewGeneration=true（未新生成/未注入）",
+   "H_evidence": [
+    "real-acceptance/h4-design-a-20261029/HANDHELD_GOODS.json",
+    "r7-d19-history-20261029/orphan-tasks-127-3000-20261029.json",
+    "r7-d19-history-20261029/tool-handheld-goods.json"
+   ],
+   "K": "N/A",
+   "K_note": "原站无案例模块",
+   "K_evidence": [],
+   "U": "PASS",
+   "U_note": "设计 token 扫描 0 命中",
+   "r7": {
+    "F": "PASS",
+    "T": "PASS",
+    "R": "PASS",
+    "H": "PARTIAL",
+    "K": "N/A",
+    "U": "PASS"
+   },
+   "H_legs": {
+    "file": "real-acceptance/h4-design-a-20261029/HANDHELD_GOODS.json",
+    "task": true,
+    "reload": true,
+    "bytes": false,
+    "reload_mark": "\"phase\": \"reload\"",
+    "post_reload": "items",
+    "claims": [],
+    "artifact": null,
+    "negative": null,
+    "backfill": null,
+    "payload_drop": false,
+    "binding": [
+     "task-mvs5p8g8-or3oim"
+    ]
+   },
+   "H_gap": "HANDHELD_GOODS 有成功真实任务，但回执 r7-d19-history-20261029/orphan-tasks-127-3000-20261029.json 记 payloadDropped=true：结果项无 storageKey/url，字节未入库 → 无字节可下载/存资产/发画布",
+   "changed_in_r16": {
+    "H": {
+     "from": "PARTIAL",
+     "to": "PASS",
+     "receipt": "r18-h-reload-actions-20261029/receipt-handheld-goods.json",
+     "artifact": "docs/V1.0/plan_linkfox_navigation/evidence/r17-handheld-real-20261029/HANDHELD_GOODS-result-1.png"
+    }
+   }
+  },
+  {
+   "id": "AI_DRESSING_V2",
+   "name": "AI穿衣",
+   "route": "/tools/product-design/ai-dressing-v2",
+   "F": "PASS",
+   "F_note": "b4 三动作回执（819224B，与 result1.png 一致）",
+   "F_evidence": [
+    "AI_DRESSING_V2/b4-actions.json",
+    "AI_DRESSING_V2/result1.png"
+   ],
+   "T": "PASS",
+   "T_note": "文案/品牌扫描 0 命中",
+   "R": "PASS",
+   "R_note": "字节可复核：819224B == real-acceptance/AI_DRESSING_V2/result1.png",
+   "R_artifacts": [
+    {
+     "path": "real-acceptance/AI_DRESSING_V2/result1.png",
+     "exists": true,
+     "bytes": 819224,
+     "w": 720,
+     "h": 960,
+     "sha256_12": "446d9ffe39f9",
+     "verified": {
+      "path": "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/AI_DRESSING_V2/result1.png",
+      "bytes": 819224,
+      "sha256_12": "446d9ffe39f9"
+     }
+    },
+    {
+     "path": "design19-cases-20261029/dressing/result-1940370107691995136.png",
+     "exists": true,
+     "bytes": 1646968,
+     "w": 1024,
+     "h": 1024,
+     "sha256_12": "12825db5e0b3",
+     "verified": {
+      "path": "docs/V1.0/plan_linkfox_navigation/evidence/design19-cases-20261029/dressing/result-1940370107691995136.png",
+      "bytes": 1646968,
+      "sha256_12": "12825db5e0b3"
+     }
+    }
+   ],
+   "H": "PASS",
+   "H_note": "真实 task task-mvtgeodr-5vx7tw + \"fresh_reload\": { + 字节 sha 对账 2115031B == real-acceptance/AI_DRESSING_V2/result1_live_20261029.png",
+   "H_evidence": [
+    "real-acceptance/AI_DRESSING_V2/live-ui-run-20261029.json",
+    "real-acceptance/AI_DRESSING_V2/result1_live_20261029.png"
+   ],
+   "K": "PASS",
+   "K_note": "原站案例数据已提交：AI_DRESSING_V2-cases.jpg",
+   "K_evidence": [
+    "docs/V1.0/plan_linkfox_navigation/evidence/b6-cases/origin/AI_DRESSING_V2-cases.jpg",
+    "docs/V1.0/plan_linkfox_navigation/evidence/b6-cases/origin/AI_DRESSING_V2-cases.json",
+    "docs/V1.0/plan_linkfox_navigation/evidence/b6-cases/origin/AI_DRESSING_V2-probe.json"
+   ],
+   "U": "PASS",
+   "U_note": "设计 token 扫描 0 命中",
+   "r7": {
+    "F": "PASS",
+    "T": "PASS",
+    "R": "PASS",
+    "H": "PARTIAL",
+    "K": "PASS",
+    "U": "PASS"
+   },
+   "H_legs": {
+    "file": "real-acceptance/AI_DRESSING_V2/live-ui-run-20261029.json",
+    "task": true,
+    "reload": true,
+    "bytes": true,
+    "reload_mark": "\"fresh_reload\": {",
+    "post_reload": "storedBytes",
+    "claims": [
+     {
+      "bytes": 2115031,
+      "sha": null,
+      "where": "claim"
+     },
+     {
+      "bytes": 2115031,
+      "sha": "860007f212c813591b72c2463d898c99e4517e43479493caac783a1918e5ac38",
+      "where": "result"
+     }
+    ],
+    "artifact": "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/AI_DRESSING_V2/result1_live_20261029.png",
+    "negative": null,
+    "backfill": null,
+    "payload_drop": false,
+    "binding": [
+     "task-mvtgeodr-5vx7tw"
+    ]
+   },
+   "H_gap": null
+  },
+  {
+   "id": "AI_POSTURE",
+   "name": "姿势裂变",
+   "route": "/tools/product-design/ai-posture",
+   "F": "PASS",
+   "F_note": "b4 三动作回执（972271B）",
+   "F_evidence": [
+    "AI_POSTURE/b4-actions.json",
+    "AI_POSTURE/result1.png"
+   ],
+   "T": "PASS",
+   "T_note": "文案/品牌扫描 0 命中",
+   "R": "PASS",
+   "R_note": "字节可复核：972271B == real-acceptance/AI_POSTURE/result1.png",
+   "R_artifacts": [
+    {
+     "path": "real-acceptance/AI_POSTURE/result1.png",
+     "exists": true,
+     "bytes": 972271,
+     "w": 720,
+     "h": 960,
+     "sha256_12": "60e839b98832",
+     "verified": {
+      "path": "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/AI_POSTURE/result1.png",
+      "bytes": 972271,
+      "sha256_12": "60e839b98832"
+     }
+    }
+   ],
+   "H": "PASS",
+   "H_note": "真实 task task-mvtczxwo-e1d1w0 + \"phase\": \"reload\" + 字节 sha 对账 1557308B == r8h-4tools-20261029/AI_POSTURE.png",
+   "H_evidence": [
+    "r8h-4tools-20261029/AI_POSTURE.json",
+    "r8h-4tools-20261029/AI_POSTURE.png"
+   ],
+   "K": "N/A",
+   "K_note": "design19 未覆盖；b6 origin 有案例但本地未实现（见 report 缺口）",
+   "K_evidence": [],
+   "U": "PASS",
+   "U_note": "设计 token 扫描 0 命中",
+   "r7": {
+    "F": "PASS",
+    "T": "PASS",
+    "R": "PASS",
+    "H": "PARTIAL",
+    "K": "N/A",
+    "U": "PASS"
+   },
+   "H_legs": {
+    "file": "r8h-4tools-20261029/AI_POSTURE.json",
+    "task": true,
+    "reload": true,
+    "bytes": true,
+    "reload_mark": "\"phase\": \"reload\"",
+    "post_reload": "dockCount",
+    "claims": [
+     {
+      "bytes": 1557308,
+      "sha": "03ec4754b62fb2e6bdea6a3d062bf376705071de3c0faac4160958c185a9a1db",
+      "where": "indexedDB/infinite-canvas/media_files"
+     }
+    ],
+    "artifact": "docs/V1.0/plan_linkfox_navigation/evidence/r8h-4tools-20261029/AI_POSTURE.png",
+    "negative": null,
+    "backfill": null,
+    "payload_drop": false,
+    "binding": [
+     "task-mvtczxwo-e1d1w0"
+    ]
+   },
+   "H_gap": null
+  },
+  {
+   "id": "AI_WEARABLE",
+   "name": "AI穿戴",
+   "route": "/tools/product-design/ai-wearable",
+   "F": "PASS",
+   "F_note": "b4 三动作回执（1641506B）",
+   "F_evidence": [
+    "AI_WEARABLE/b4-actions.json",
+    "AI_WEARABLE/result1.png"
+   ],
+   "T": "PASS",
+   "T_note": "文案/品牌扫描 0 命中",
+   "R": "PASS",
+   "R_note": "字节可复核：1641506B == real-acceptance/AI_WEARABLE/result1.png",
+   "R_artifacts": [
+    {
+     "path": "real-acceptance/AI_WEARABLE/result1.png",
+     "exists": true,
+     "bytes": 1641506,
+     "w": 720,
+     "h": 960,
+     "sha256_12": "7615ee04f73c",
+     "verified": {
+      "path": "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/AI_WEARABLE/result1.png",
+      "bytes": 1641506,
+      "sha256_12": "7615ee04f73c"
+     }
+    },
+    {
+     "path": "design19-cases-20261029/wearable/result-1955579942177386496.png",
+     "exists": true,
+     "bytes": 1229594,
+     "w": 1024,
+     "h": 1024,
+     "sha256_12": "0a73ab1e2a63",
+     "verified": {
+      "path": "docs/V1.0/plan_linkfox_navigation/evidence/design19-cases-20261029/wearable/result-1955579942177386496.png",
+      "bytes": 1229594,
+      "sha256_12": "0a73ab1e2a63"
+     }
+    }
+   ],
+   "H": "PASS",
+   "H_note": "真实 task task-mvtglxwi-ys0y85 + \"fresh_reload\": { + 字节 sha 对账 1247574B == real-acceptance/AI_WEARABLE/result1_live_20261029.png",
+   "H_evidence": [
+    "real-acceptance/AI_WEARABLE/live-ui-run-20261029.json",
+    "real-acceptance/AI_WEARABLE/result1_live_20261029.png"
+   ],
+   "K": "PASS",
+   "K_note": "原站案例 + 回填（design19 wearable）",
+   "K_evidence": [],
+   "U": "PASS",
+   "U_note": "设计 token 扫描 0 命中",
+   "r7": {
+    "F": "PASS",
+    "T": "PASS",
+    "R": "PASS",
+    "H": "PARTIAL",
+    "K": "PASS",
+    "U": "PASS"
+   },
+   "H_legs": {
+    "file": "real-acceptance/AI_WEARABLE/live-ui-run-20261029.json",
+    "task": true,
+    "reload": true,
+    "bytes": true,
+    "reload_mark": "\"fresh_reload\": {",
+    "post_reload": "storedBytes",
+    "claims": [
+     {
+      "bytes": 1247574,
+      "sha": "0cf9444060e814f82ace190495484d1f0bf9e69c0bc2eedbfe058b969827fa34",
+      "where": "result"
+     },
+     {
+      "bytes": 1247574,
+      "sha": "0cf9444060e814f82ace190495484d1f0bf9e69c0bc2eedbfe058b969827fa34",
+      "where": "actions.download"
+     }
+    ],
+    "artifact": "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/AI_WEARABLE/result1_live_20261029.png",
+    "negative": null,
+    "backfill": null,
+    "payload_drop": false,
+    "binding": [
+     "task-mvtglxwi-ys0y85"
+    ]
+   },
+   "H_gap": null
+  },
+  {
+   "id": "AI_TEXT",
+   "name": "POD素材",
+   "route": "/tools/product-design/ai-text",
+   "F": "PASS",
+   "F_note": "B2G1 三动作回执（download 1825663B sha256 一致 / 存资产 uStjodx0Uad4IPDsTVqoG / 画布 sNQeliaC-Z_BkqoJVdTaw）",
+   "F_evidence": [
+    "B2G1/AI_TEXT/run-b2g1.json",
+    "B2G1/AI_TEXT/result-0.png"
+   ],
+   "T": "PASS",
+   "T_note": "文案/品牌扫描 0 命中",
+   "R": "PASS",
+   "R_note": "字节可复核：1825663B == real-acceptance/B2G1/AI_TEXT/downloaded-ai-text-result-1.png",
+   "R_artifacts": [
+    {
+     "path": "real-acceptance/B2G1/AI_TEXT/result-0.png",
+     "exists": true,
+     "bytes": 1825663,
+     "w": 1024,
+     "h": 1024,
+     "sha256_12": "9019ffaf2248",
+     "verified": {
+      "path": "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/B2G1/AI_TEXT/result-0.png",
+      "bytes": 1825663,
+      "sha256_12": "9019ffaf2248"
+     }
+    }
+   ],
+   "H": "PASS",
+   "H_note": "真实 task task-mvthk2pn-kdz7i6 + \"navType\": \"reload\" + 字节 sha 对账 1445425B == real-acceptance/AI_TEXT/r10-real-20261029/03-result.png",
+   "H_evidence": [
+    "real-acceptance/AI_TEXT/r10-real-20261029/receipt.json",
+    "real-acceptance/AI_TEXT/r10-real-20261029/03-result.png"
+   ],
+   "K": "N/A",
+   "K_note": "原站无案例模块",
+   "K_evidence": [],
+   "U": "PASS",
+   "U_note": "设计 token 扫描 0 命中",
+   "r7": {
+    "F": "PASS",
+    "T": "PASS",
+    "R": "PASS",
+    "H": "PASS",
+    "K": "N/A",
+    "U": "PASS"
+   },
+   "H_legs": {
+    "file": "real-acceptance/AI_TEXT/r10-real-20261029/receipt.json",
+    "task": true,
+    "reload": true,
+    "bytes": true,
+    "reload_mark": "\"navType\": \"reload\"",
+    "post_reload": "dockCount",
+    "claims": [
+     {
+      "bytes": 1445425,
+      "sha": "f2b8505e85f08cd799562efbad498b33497c1bddfe58e58caf2b0493483e45bb",
+      "where": "media_files"
+     },
+     {
+      "bytes": 1445425,
+      "sha": null,
+      "where": "claim"
+     }
+    ],
+    "artifact": "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/AI_TEXT/r10-real-20261029/03-result.png",
+    "negative": null,
+    "backfill": null,
+    "payload_drop": false,
+    "binding": [
+     "task-mvthk2pn-kdz7i6"
+    ]
+   },
+   "H_gap": null
+  },
+  {
+   "id": "ORNAMENT_TEXT",
+   "name": "饰品文字",
+   "route": "/tools/product-design/ornament-text",
+   "F": "PASS",
+   "F_note": "B2G1 三动作回执（download 2439783B sha256 一致 / 存资产 _JGRrrDhs1xgmgeGmmnZ0 / 画布 xpWrYbEDQlCJH8It8ID_Q）",
+   "F_evidence": [
+    "B2G1/ORNAMENT_TEXT/run-b2g1.json",
+    "B2G1/ORNAMENT_TEXT/result-0.png"
+   ],
+   "T": "PASS",
+   "T_note": "文案/品牌扫描 0 命中",
+   "R": "PASS",
+   "R_note": "字节可复核：2478875B == real-acceptance/ORNAMENT_TEXT/r10-real-20261029/03-result.png",
+   "R_artifacts": [
+    {
+     "path": "real-acceptance/B2G1/ORNAMENT_TEXT/result-0.png",
+     "exists": true,
+     "bytes": 2439783,
+     "w": 1024,
+     "h": 1024,
+     "sha256_12": "d7a57b9b72c2",
+     "verified": {
+      "path": "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/B2G1/ORNAMENT_TEXT/result-0.png",
+      "bytes": 2439783,
+      "sha256_12": "d7a57b9b72c2"
+     }
+    }
+   ],
+   "H": "PASS",
+   "H_note": "真实 task task-mvsdivlg-6slebs + \"afterReload\": { + 字节 sha 对账 2439783B == real-acceptance/B2G1/ORNAMENT_TEXT/downloaded-ornament-text-result-1.png",
+   "H_evidence": [
+    "real-acceptance/B2G1/ORNAMENT_TEXT/run-b2g1.json",
+    "real-acceptance/B2G1/ORNAMENT_TEXT/downloaded-ornament-text-result-1.png"
+   ],
+   "K": "N/A",
+   "K_note": "原站无案例模块",
+   "K_evidence": [],
+   "U": "PASS",
+   "U_note": "设计 token 扫描 0 命中",
+   "r7": {
+    "F": "PASS",
+    "T": "PASS",
+    "R": "PASS",
+    "H": "PASS",
+    "K": "N/A",
+    "U": "PASS"
+   },
+   "H_legs": {
+    "file": "real-acceptance/B2G1/ORNAMENT_TEXT/run-b2g1.json",
+    "task": true,
+    "reload": true,
+    "bytes": true,
+    "reload_mark": "\"afterReload\": {",
+    "post_reload": "restoredPanel",
+    "claims": [
+     {
+      "bytes": 3253845,
+      "sha": null,
+      "where": "claim"
+     },
+     {
+      "bytes": 2439783,
+      "sha": "d7a57b9b72c29334eb9fde659bb024b5bff55229188a35a0c66fcb760fe07c90",
+      "where": "claim"
+     },
+     {
+      "bytes": 2439783,
+      "sha": null,
+      "where": "claim"
+     }
+    ],
+    "artifact": "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/B2G1/ORNAMENT_TEXT/downloaded-ornament-text-result-1.png",
+    "negative": null,
+    "backfill": null,
+    "payload_drop": false,
+    "binding": [
+     "task-mvsdivlg-6slebs"
+    ]
+   },
+   "H_gap": null
+  },
+  {
+   "id": "SDS_DESIGN",
+   "name": "素材贴合",
+   "route": "/tools/product-design/sds-design",
+   "F": "PASS",
+   "F_note": "B2G1 三动作回执（download 2081539B sha256 一致 / 存资产 tr2qRM39e-G66t6X1l3dr / 画布 S0iOeaR__wU4YSctOdBUR）",
+   "F_evidence": [
+    "B2G1/SDS_DESIGN/run-b2g1.json",
+    "B2G1/SDS_DESIGN/result-0.png"
+   ],
+   "T": "PASS",
+   "T_note": "文案/品牌扫描 0 命中",
+   "R": "PASS",
+   "R_note": "字节可复核：2059699B == real-acceptance/SDS_DESIGN/r10-real-20261029/03-result.png",
+   "R_artifacts": [
+    {
+     "path": "real-acceptance/B2G1/SDS_DESIGN/result-0.png",
+     "exists": true,
+     "bytes": 2081539,
+     "w": 1024,
+     "h": 1024,
+     "sha256_12": "a119eb6cf488",
+     "verified": {
+      "path": "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/B2G1/SDS_DESIGN/result-0.png",
+      "bytes": 2081539,
+      "sha256_12": "a119eb6cf488"
+     }
+    },
+    {
+     "path": "design19-cases-20261029/sds/result-1780443735213010944.png",
+     "exists": true,
+     "bytes": 1442444,
+     "w": 1024,
+     "h": 1024,
+     "sha256_12": "c762f8ea5c59",
+     "verified": {
+      "path": "docs/V1.0/plan_linkfox_navigation/evidence/design19-cases-20261029/sds/result-1780443735213010944.png",
+      "bytes": 1442444,
+      "sha256_12": "c762f8ea5c59"
+     }
+    }
+   ],
+   "H": "PASS",
+   "H_note": "真实 task task-mvsdlqxd-ttx3pl + \"afterReload\": { + 字节 sha 对账 2081539B == real-acceptance/B2G1/SDS_DESIGN/downloaded-sds-design-result-1.png",
+   "H_evidence": [
+    "real-acceptance/B2G1/SDS_DESIGN/run-b2g1.json",
+    "real-acceptance/B2G1/SDS_DESIGN/downloaded-sds-design-result-1.png"
+   ],
+   "K": "PASS",
+   "K_note": "原站案例 + 回填（design19 sds）",
+   "K_evidence": [],
+   "U": "PASS",
+   "U_note": "设计 token 扫描 0 命中",
+   "r7": {
+    "F": "PASS",
+    "T": "PASS",
+    "R": "PASS",
+    "H": "PASS",
+    "K": "PASS",
+    "U": "PASS"
+   },
+   "H_legs": {
+    "file": "real-acceptance/B2G1/SDS_DESIGN/run-b2g1.json",
+    "task": true,
+    "reload": true,
+    "bytes": true,
+    "reload_mark": "\"afterReload\": {",
+    "post_reload": "restoredPanel",
+    "claims": [
+     {
+      "bytes": 2776554,
+      "sha": null,
+      "where": "claim"
+     },
+     {
+      "bytes": 2081539,
+      "sha": "a119eb6cf4889e2dd5dff69d182c99c6f6283e640cb3d9c3968029bb8b095e23",
+      "where": "claim"
+     },
+     {
+      "bytes": 2081539,
+      "sha": null,
+      "where": "claim"
+     }
+    ],
+    "artifact": "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/B2G1/SDS_DESIGN/downloaded-sds-design-result-1.png",
+    "negative": null,
+    "backfill": null,
+    "payload_drop": false,
+    "binding": [
+     "task-mvsdlqxd-ttx3pl"
+    ]
+   },
+   "H_gap": null
+  },
+  {
+   "id": "PRINT_EXTRACT",
+   "name": "印花提取",
+   "route": "/tools/product-design/print-extract",
+   "F": "PASS",
+   "F_note": "结果落地状态机缺陷（卡片停在 running）；动作未全验收",
+   "F_evidence": [
+    "PRINT_EXTRACT/result.json"
+   ],
+   "T": "PASS",
+   "T_note": "文案/品牌扫描 0 命中",
+   "R": "PASS",
+   "R_note": "字节可复核：686174B == real-acceptance/PRINT_EXTRACT/result_url_download.png",
+   "R_artifacts": [
+    {
+     "path": "real-acceptance/PRINT_EXTRACT/result_url_download.png",
+     "exists": true,
+     "bytes": 686174,
+     "w": 720,
+     "h": 960,
+     "sha256_12": "804be5318a8c",
+     "verified": {
+      "path": "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/PRINT_EXTRACT/result_url_download.png",
+      "bytes": 686174,
+      "sha256_12": "804be5318a8c"
+     }
+    }
+   ],
+   "H": "PASS",
+   "H_note": "a94e382：复用 task-mvtlxua2-kh39uf，cache-buster 全文档重建（documentRecreated=true，timeOrigin 1793283410632→1793283495679）+ 刷新后面板/三按钮机器观测；下载/存资产/发画布三动作字节 2,783,996B / sha 1577dafd… 与已提交 result.png 三方相等",
+   "H_evidence": [
+    "real-acceptance/PRINT_EXTRACT/r14-inventory-no-success-20261029.json",
+    "r17b-20261029-reuse-fresh-reload/receipt.json",
+    "r7-d19-history-20261029/orphan-tasks-127-3000-20261029.json"
+   ],
+   "K": "N/A",
+   "K_note": "原站无案例模块",
+   "K_evidence": [],
+   "U": "PASS",
+   "U_note": "设计 token 扫描 0 命中",
+   "r7": {
+    "F": "PARTIAL",
+    "T": "PASS",
+    "R": "PASS",
+    "H": "PARTIAL",
+    "K": "N/A",
+    "U": "PASS"
+   },
+   "H_legs": {
+    "file": "evidence/real-acceptance/PRINT_EXTRACT/task.json",
+    "task": true,
+    "reload": false,
+    "bytes": true,
+    "reload_mark": null,
+    "post_reload": null,
+    "artifact": "evidence/real-acceptance/PRINT_EXTRACT/result.png",
+    "binding": [
+     "task-mvtlxua2-kh39uf"
+    ]
+   },
+   "H_gap": "任务腿+字节腿已成立（task-mvtlxua2-kh39uf / 2,783,996B）；缺机器 reload 回执（README 散文不计入）；存资产动作 UNVERIFIED",
+   "changed_in_r16": {
+    "H": {
+     "from": "PARTIAL",
+     "to": "PASS",
+     "receipt": "PRINT_EXTRACT/reload-verify-r16.json",
+     "artifact": "evidence/real-acceptance/PRINT_EXTRACT/result.png"
+    }
+   }
+  },
+  {
+   "id": "AI_POSE_GENERATOR",
+   "name": "AI姿势生成",
+   "route": "/tools/product-design/ai-pose-generator",
+   "F": "PASS",
+   "F_note": "b4 三动作回执（1550004B）",
+   "F_evidence": [
+    "AI_POSE_GENERATOR/b4-actions.json",
+    "AI_POSE_GENERATOR/real-run-1024.png"
+   ],
+   "T": "PASS",
+   "T_note": "文案/品牌扫描 0 命中",
+   "R": "PASS",
+   "R_note": "字节可复核：1067539B == real-acceptance/AI_POSE_GENERATOR/04-result-transparent.png",
+   "R_artifacts": [
+    {
+     "path": "real-acceptance/AI_POSE_GENERATOR/real-run-1024.png",
+     "exists": true,
+     "bytes": 1550004,
+     "w": 1024,
+     "h": 1024,
+     "sha256_12": "bd34bb6dbeee",
+     "verified": {
+      "path": "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/AI_POSE_GENERATOR/real-run-1024.png",
+      "bytes": 1550004,
+      "sha256_12": "bd34bb6dbeee"
+     }
+    }
+   ],
+   "H": "PASS",
+   "H_note": "真实 task task-mvtd89f3-9qpix6 + \"navType\": \"reload\" + 字节 sha 对账 1151209B == suite-design-realgen-20261029/ai-pose-generator-result-1.png",
+   "H_evidence": [
+    "real-acceptance/H4-real-20261029/AI_POSE_GENERATOR.json",
+    "suite-design-realgen-20261029/ai-pose-generator-result-1.png"
+   ],
+   "K": "N/A",
+   "K_note": "原站无案例模块",
+   "K_evidence": [],
+   "U": "PASS",
+   "U_note": "设计 token 扫描 0 命中",
+   "r7": {
+    "F": "PASS",
+    "T": "PASS",
+    "R": "PASS",
+    "H": "PARTIAL",
+    "K": "N/A",
+    "U": "PASS"
+   },
+   "H_legs": {
+    "file": "real-acceptance/H4-real-20261029/AI_POSE_GENERATOR.json",
+    "task": true,
+    "reload": true,
+    "bytes": true,
+    "reload_mark": "\"navType\": \"reload\"",
+    "post_reload": "dockArray",
+    "claims": [
+     {
+      "bytes": 1151209,
+      "sha": null,
+      "where": "claim"
+     },
+     {
+      "bytes": 1151209,
+      "sha": "19028125bae9618e8e01801480518db186b6ace6cccf0cff7f5ae4c6ec84300d",
+      "where": "imageBytes"
+     }
+    ],
+    "artifact": "docs/V1.0/plan_linkfox_navigation/evidence/suite-design-realgen-20261029/ai-pose-generator-result-1.png",
+    "negative": null,
+    "backfill": null,
+    "payload_drop": false,
+    "binding": [
+     "task-mvtd89f3-9qpix6",
+     "task-mvs73hbe-ak20fw",
+     "task-mvs6zovx-pod3rz"
+    ]
+   },
+   "H_gap": null
+  },
+  {
+   "id": "AI_DRESSING_XSY",
+   "name": "AI试衣XSY",
+   "route": "/tools/product-design/ai-dressing-xsy",
+   "F": "PASS",
+   "F_note": "traceIds 含 assetId+canvasNodeId 回执（无下载回执）",
+   "F_evidence": [
+    "AI_DRESSING_XSY/result.json"
+   ],
+   "T": "PASS",
+   "T_note": "文案/品牌扫描 0 命中",
+   "R": "PASS",
+   "R_note": "字节可复核：1576288B == real-acceptance/AI_DRESSING_XSY_20261029_persist/downloads/1793264592394-ai-dressing-xsy-result-1.png",
+   "R_artifacts": [
+    {
+     "path": "real-acceptance/AI_DRESSING_XSY/02-result.png",
+     "exists": true,
+     "bytes": 1069621,
+     "w": 720,
+     "h": 960,
+     "sha256_12": "3fa3873f07ac",
+     "verified": {
+      "path": "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/AI_DRESSING_XSY/02-result.png",
+      "bytes": 1069621,
+      "sha256_12": "3fa3873f07ac"
+     }
+    }
+   ],
+   "H": "PASS",
+   "H_note": "真实 task task-mvtbf7ue-n28x46 + \"phase\": \"reload\" + 字节 sha 对账 1576288B == real-acceptance/AI_DRESSING_XSY_20261029_persist/downloads/1793264592394-ai-dressing-xsy-result-1.png",
+   "H_evidence": [
+    "real-acceptance/AI_DRESSING_XSY_20261029_persist/reload-summary.json",
+    "real-acceptance/AI_DRESSING_XSY_20261029_persist/downloads/1793264592394-ai-dressing-xsy-result-1.png"
+   ],
+   "K": "N/A",
+   "K_note": "原站无案例模块",
+   "K_evidence": [],
+   "U": "PASS",
+   "U_note": "设计 token 扫描 0 命中",
+   "r7": {
+    "F": "PASS",
+    "T": "PASS",
+    "R": "PASS",
+    "H": "PARTIAL",
+    "K": "N/A",
+    "U": "PASS"
+   },
+   "H_legs": {
+    "file": "real-acceptance/AI_DRESSING_XSY_20261029_persist/reload-summary.json",
+    "task": true,
+    "reload": true,
+    "bytes": true,
+    "reload_mark": "\"phase\": \"reload\"",
+    "post_reload": "dockCount",
+    "claims": [
+     {
+      "bytes": 1576288,
+      "sha": "a52e70d46e31cbc47e307113a6f5592ab6f40c14884483ac527dba173e4a8a94",
+      "where": "claim"
+     },
+     {
+      "bytes": 1576288,
+      "sha": null,
+      "where": "claim"
+     }
+    ],
+    "artifact": "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/AI_DRESSING_XSY_20261029_persist/downloads/1793264592394-ai-dressing-xsy-result-1.png",
+    "negative": null,
+    "backfill": null,
+    "payload_drop": false,
+    "binding": [
+     "task-mvtbf7ue-n28x46"
+    ]
+   },
+   "H_gap": null
+  },
+  {
+   "id": "FISSION_LINK",
+   "name": "场景裂变链接",
+   "route": "/tools/product-design/fission-link",
+   "F": "PASS",
+   "F_note": "df765ff/b95ff4c 后 reload 恢复结果 → 下载 1988694B sha256=bbc0ca08… 实测一致 → 存入资产 i28CzCpbrBdqVvU_8sKuC → 发画布 4YJKL9Hoq-HRiYvhqIozS / image-1793262996953-ratzx（三动作齐全）",
+   "F_evidence": [
+    "FISSION_LINK/b4-actions.json",
+    "FISSION_LINK/b5-restore-after-reload.json",
+    "H2-fission-xsy-20261029/evidence.json"
+   ],
+   "T": "PASS",
+   "T_note": "文案/品牌扫描 0 命中",
+   "R": "PASS",
+   "R_note": "字节可复核：1672875B == real-acceptance/FISSION_LINK/03-upstream-result.png",
+   "R_artifacts": [
+    {
+     "path": "real-acceptance/FISSION_LINK/01-result.png",
+     "exists": true,
+     "bytes": 138756,
+     "w": 1908,
+     "h": 837,
+     "sha256_12": "d5c4ca3205cd",
+     "verified": {
+      "path": "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/FISSION_LINK/01-result.png",
+      "bytes": 138756,
+      "sha256_12": "d5c4ca3205cd"
+     }
+    },
+    {
+     "path": "real-acceptance/FISSION_LINK/03-upstream-result.png",
+     "exists": true,
+     "bytes": 1672875,
+     "w": 1024,
+     "h": 1024,
+     "sha256_12": "252b3ed1eb65",
+     "verified": {
+      "path": "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/FISSION_LINK/03-upstream-result.png",
+      "bytes": 1672875,
+      "sha256_12": "252b3ed1eb65"
+     }
+    },
+    {
+     "path": "real-acceptance/FISSION_LINK/b5-restored-download.png",
+     "exists": true,
+     "bytes": 1988694,
+     "w": 1024,
+     "h": 1024,
+     "sha256_12": "bbc0ca08cfa4",
+     "verified": {
+      "path": "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/FISSION_LINK/b5-restored-download.png",
+      "bytes": 1988694,
+      "sha256_12": "bbc0ca08cfa4"
+     }
+    }
+   ],
+   "H": "PASS",
+   "H_note": "真实 task task-mvt18lrt-rsnifn + \"navType\": \"reload\" + 字节 sha 对账 1988694B == real-acceptance/FISSION_LINK/r10/result.png",
+   "H_evidence": [
+    "real-acceptance/FISSION_LINK/r11/round-trip.json",
+    "real-acceptance/FISSION_LINK/r10/result.png"
+   ],
+   "K": "N/A",
+   "K_note": "原站无案例模块",
+   "K_evidence": [],
+   "U": "PASS",
+   "U_note": "设计 token 扫描 0 命中",
+   "r7": {
+    "F": "PASS",
+    "T": "PASS",
+    "R": "PASS",
+    "H": "PASS",
+    "K": "N/A",
+    "U": "PASS"
+   },
+   "H_legs": {
+    "file": "real-acceptance/FISSION_LINK/r11/round-trip.json",
+    "task": true,
+    "reload": true,
+    "bytes": true,
+    "reload_mark": "\"navType\": \"reload\"",
+    "post_reload": "items",
+    "claims": [
+     {
+      "bytes": 1988694,
+      "sha": "bbc0ca08cfa46feae85b7ee15cea28a1bd709c4171a751c0d8192dd490ff76a4",
+      "where": "claim"
+     },
+     {
+      "bytes": 1988694,
+      "sha": null,
+      "where": "claim"
+     }
+    ],
+    "artifact": "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/FISSION_LINK/r10/result.png",
+    "negative": null,
+    "backfill": null,
+    "payload_drop": false,
+    "binding": [
+     "task-mvt18lrt-rsnifn",
+     "task-mvt17bmi-xpint5",
+     "task-mvt15f64-jnx1gz"
+    ]
+   },
+   "H_gap": null
+  },
+  {
+   "id": "IMAGE_TEXT_EDIT",
+   "name": "图片文字编辑",
+   "route": "/tools/product-design/image-text-edit",
+   "F": "PASS",
+   "F_note": "b7：真实 OSS 产物 + 三动作回执",
+   "F_evidence": [
+    "IMAGE_TEXT_EDIT/run-actions-b7.json"
+   ],
+   "T": "PASS",
+   "T_note": "文案/品牌扫描 0 命中",
+   "R": "PASS",
+   "R_note": "字节可复核：844613B == real-acceptance/IMAGE_TEXT_EDIT/03-result-image.png",
+   "R_artifacts": [
+    {
+     "path": "real-acceptance/IMAGE_TEXT_EDIT/result.png",
+     "exists": true,
+     "bytes": 844613,
+     "w": 1024,
+     "h": 1024,
+     "sha256_12": "e7b260e7b064",
+     "verified": {
+      "path": "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/IMAGE_TEXT_EDIT/result.png",
+      "bytes": 844613,
+      "sha256_12": "e7b260e7b064"
+     }
+    }
+   ],
+   "H": "PARTIAL",
+   "H_note": "H4-real 回执 payloadDropped=true（BLOCKED(payload)），无 storageKey/url/bytes；24165da 只修 hydrate 代码腿 → 维持 PARTIAL",
+   "H_evidence": [
+    "real-acceptance/H4-real-20261029/IMAGE_TEXT_EDIT-natural-20261029.json",
+    "real-acceptance/IMAGE_TEXT_EDIT/result.json",
+    "r7-d19-history-20261029/tool-image-text-edit.json"
+   ],
+   "K": "N/A",
+   "K_note": "原站无案例模块",
+   "K_evidence": [],
+   "U": "PASS",
+   "U_note": "设计 token 扫描 0 命中",
+   "r7": {
+    "F": "PASS",
+    "T": "PASS",
+    "R": "PASS",
+    "H": "PARTIAL",
+    "K": "N/A",
+    "U": "PASS"
+   },
+   "H_legs": {
+    "file": "real-acceptance/H4-real-20261029/IMAGE_TEXT_EDIT-natural-20261029.json",
+    "task": true,
+    "reload": true,
+    "bytes": false,
+    "reload_mark": "\"navType\": \"reload\"",
+    "post_reload": "items",
+    "claims": [],
+    "artifact": null,
+    "negative": null,
+    "backfill": null,
+    "payload_drop": true,
+    "binding": [
+     "task-mvs8bhu1-hhue24"
+    ]
+   },
+   "H_gap": "IMAGE_TEXT_EDIT 有成功真实任务，但回执 real-acceptance/H4-real-20261029/IMAGE_TEXT_EDIT-natural-20261029.json 记 BLOCKED(payload)：结果项无 storageKey/url，字节未入库 → 无字节可下载/存资产/发画布"
+  },
+  {
+   "id": "MATERIAL_UPPER_BODY",
+   "name": "上装换料",
+   "route": "/tools/product-design/material-upper-body",
+   "F": "PASS",
+   "F_note": "b4 三动作回执（1699450B）",
+   "F_evidence": [
+    "MATERIAL_UPPER_BODY/b4-actions.json",
+    "MATERIAL_UPPER_BODY/real-run-1024.png"
+   ],
+   "T": "PASS",
+   "T_note": "文案/品牌扫描 0 命中",
+   "R": "PASS",
+   "R_note": "字节可复核：1699450B == real-acceptance/MATERIAL_UPPER_BODY/real-run-1024.png",
+   "R_artifacts": [
+    {
+     "path": "real-acceptance/MATERIAL_UPPER_BODY/real-run-1024.png",
+     "exists": true,
+     "bytes": 1699450,
+     "w": 1024,
+     "h": 1024,
+     "sha256_12": "dede7ba9a582",
+     "verified": {
+      "path": "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/MATERIAL_UPPER_BODY/real-run-1024.png",
+      "bytes": 1699450,
+      "sha256_12": "dede7ba9a582"
+     }
+    }
+   ],
+   "H": "PASS",
+   "H_note": "真实 task task-mvtd45nv-y7cum6 + \"phase\": \"reload\" + 字节 sha 对账 1525374B == r8h-4tools-20261029/MATERIAL_UPPER_BODY.png",
+   "H_evidence": [
+    "r8h-4tools-20261029/MATERIAL_UPPER_BODY.json",
+    "r8h-4tools-20261029/MATERIAL_UPPER_BODY.png"
+   ],
+   "K": "N/A",
+   "K_note": "原站无案例模块",
+   "K_evidence": [],
+   "U": "PASS",
+   "U_note": "设计 token 扫描 0 命中",
+   "r7": {
+    "F": "PASS",
+    "T": "PASS",
+    "R": "PASS",
+    "H": "PARTIAL",
+    "K": "N/A",
+    "U": "PASS"
+   },
+   "H_legs": {
+    "file": "r8h-4tools-20261029/MATERIAL_UPPER_BODY.json",
+    "task": true,
+    "reload": true,
+    "bytes": true,
+    "reload_mark": "\"phase\": \"reload\"",
+    "post_reload": "dockCount",
+    "claims": [
+     {
+      "bytes": 1525374,
+      "sha": "79bddf28c16aa5c792efbf429e084b1f81c98cfe5bc6336081480ef60f0fa5d6",
+      "where": "indexedDB/infinite-canvas/media_files"
+     }
+    ],
+    "artifact": "docs/V1.0/plan_linkfox_navigation/evidence/r8h-4tools-20261029/MATERIAL_UPPER_BODY.png",
+    "negative": null,
+    "backfill": null,
+    "payload_drop": false,
+    "binding": [
+     "task-mvtd45nv-y7cum6"
+    ]
+   },
+   "H_gap": null
+  },
+  {
+   "id": "NEW_DESIGNER",
+   "name": "商品图设计器",
+   "route": "/tools/product-design/new-designer",
+   "F": "PASS",
+   "F_note": "c125c62 R17 修复后三动作机器回执（ACTIONS.json，不新生成）：下载 411,801B/sha 90e28e0f…（落盘 ~/Downloads 与 IDB 同 sha）、存资产 2 条 assetId nowDKQUvmRssATNlZ83VO / 8J_BAwI8zxZ4ShWj0fxB7 同字节、发画布 project Z_1vTtbrlxiYoAUmDXh3t + node image-1793282047892-95442（image）→ c034fae 代码腿有了回执腿",
+   "F_evidence": [
+    "real-acceptance/R17-three-actions-20261029/ACTIONS.json",
+    "suite-design-realgen-20261029/new-designer-result-1.png"
+   ],
+   "T": "PASS",
+   "T_note": "文案/品牌扫描 0 命中",
+   "R": "PASS",
+   "R_note": "回执声明 411,801B / sha 90e28e0f… 可由已提交产物 suite-design-realgen-20261029/new-designer-result-1.png 逐位复算（R15 实算 411,801B / 90e28e0f… 一致），且 c125c62 落盘文件 bytesEqual/shaEqual 同为 true → R14 的「证据链断裂」结论已不成立（74aba4b 已指出）",
+   "R_artifacts": [
+    {
+     "path": "real-acceptance/NEW_DESIGNER/result.png",
+     "exists": true,
+     "bytes": 32854,
+     "w": 1200,
+     "h": 1200,
+     "sha256_12": "2ee5aa7b300b",
+     "verified": {
+      "path": "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/NEW_DESIGNER/result.png",
+      "bytes": 32854,
+      "sha256_12": "2ee5aa7b300b"
+     }
+    }
+   ],
+   "H": "PASS",
+   "H_note": "维持 PASS（H4-real 机器 reload 标记 + 411,801B/sha 对账），c125c62 另证修复后下载 sha 与 IDB 一致",
+   "H_evidence": [
+    "real-acceptance/H4-real-20261029/NEW_DESIGNER.json",
+    "suite-design-realgen-20261029/new-designer-result-1.png",
+    "real-acceptance/H4-real-20261029/NEW_DESIGNER-three-legs-20261029.json"
+   ],
+   "K": "N/A",
+   "K_note": "原站无案例模块",
+   "K_evidence": [],
+   "U": "PASS",
+   "U_note": "设计 token 扫描 0 命中",
+   "r7": {
+    "F": "PARTIAL",
+    "T": "PASS",
+    "R": "PASS",
+    "H": "PARTIAL",
+    "K": "N/A",
+    "U": "PASS"
+   },
+   "H_legs": {
+    "file": "real-acceptance/R17-three-actions-20261029/ACTIONS.json",
+    "task": true,
+    "reload": true,
+    "bytes": true,
+    "reload_mark": "\"freshReload\": \"URL 追加 ?fresh=<epochMs>\"",
+    "post_reload": "restoredUnits + download/saveToAssets/sendToCanvas",
+    "claims": [
+     {
+      "bytes": 411801,
+      "sha": null,
+      "where": "claim"
+     },
+     {
+      "bytes": 411801,
+      "sha": "90e28e0f93420bb42270708737760d810d9df1e986566aed60d61a79b4a09d88",
+      "where": "imageBytes"
+     }
+    ],
+    "artifact": "docs/V1.0/plan_linkfox_navigation/evidence/suite-design-realgen-20261029/new-designer-result-1.png",
+    "negative": null,
+    "backfill": null,
+    "payload_drop": false,
+    "binding": [
+     "task-mvtdl9v8-165q1n"
+    ]
+   },
+   "H_gap": null,
+   "R_evidence": [
+    "real-acceptance/R17-three-actions-20261029/ACTIONS.json",
+    "suite-design-realgen-20261029/new-designer-result-1.png"
+   ]
+  },
+  {
+   "id": "PRODUCT_MARKET_MATERIAL",
+   "name": "商品营销素材",
+   "route": "/tools/product-design/product-market-material",
+   "F": "PASS",
+   "F_note": "r13 真实全链路：task-mvtjpn12-s1c4t6（succeeded）下载 1902882B(sha 5cdef97d…) + 存资产库(BRxRfQm8) + 发画布(1 节点)；字节与 media_files 记录同尺，三动作齐",
+   "F_evidence": [
+    "real-acceptance/PRODUCT_MARKET_MATERIAL/r13-real-ui-20261029/receipt.json",
+    "real-acceptance/PRODUCT_MARKET_MATERIAL/r13-real-ui-20261029/download-product-market-material-result-1.png"
+   ],
+   "T": "PASS",
+   "T_note": "同一 workspace 的占位文案已随 2e62fa3 删除；HEAD blob 复扫 0 命中，MARKET 不渲染案例区（与原站「无案例模块」一致），无空态文案",
+   "R": "PASS",
+   "R_note": "字节可复核：703458B == real-acceptance/PRODUCT_MARKET_MATERIAL/result.png",
+   "R_artifacts": [
+    {
+     "path": "real-acceptance/PRODUCT_MARKET_MATERIAL/result.png",
+     "exists": true,
+     "bytes": 703458,
+     "w": 970,
+     "h": 600,
+     "sha256_12": "d1343fdf6f40",
+     "verified": {
+      "path": "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/PRODUCT_MARKET_MATERIAL/result.png",
+      "bytes": 703458,
+      "sha256_12": "d1343fdf6f40"
+     }
+    }
+   ],
+   "H": "PASS",
+   "H_note": "真实 task-mvtjpn12-s1c4t6（succeeded，items.dropped=false，storageKey tool-result:CAPv0__15orwUjL60Q9n-，1902882B/ sha 5cdef97d…）+ 机器 reload 步骤（steps.reload：historyRows 含该 task、resultCards=1、myTaskVisible=true，刷新后结果面板可操作）+ 字节腿对账通过（下载产物与 media_files 同尺同 sha）",
+   "H_evidence": [
+    "real-acceptance/PRODUCT_MARKET_MATERIAL/r13-real-ui-20261029/receipt.json",
+    "real-acceptance/PRODUCT_MARKET_MATERIAL/r13-real-ui-20261029/download-product-market-material-result-1.png"
+   ],
+   "K": "N/A",
+   "K_note": "原站无案例模块",
+   "K_evidence": [],
+   "U": "PASS",
+   "U_note": "设计 token 扫描 0 命中",
+   "r7": {
+    "F": "PARTIAL",
+    "T": "PARTIAL",
+    "R": "PASS",
+    "H": "PARTIAL",
+    "K": "N/A",
+    "U": "PASS"
+   },
+   "H_legs": {
+    "file": "real-acceptance/PRODUCT_MARKET_MATERIAL/r13-real-ui-20261029/receipt.json",
+    "task": true,
+    "reload": true,
+    "bytes": true,
+    "reload_mark": "\"reload\": {",
+    "post_reload": "rows",
+    "claims": [
+     {
+      "bytes": 1902882,
+      "sha": "5cdef97dcd570308fcc9d843effe7b10bc66b19ee4d42beb7d85603a7a771823",
+      "where": "media_files"
+     }
+    ],
+    "artifact": "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/PRODUCT_MARKET_MATERIAL/r13-real-ui-20261029/download-product-market-material-result-1.png",
+    "negative": null,
+    "backfill": null,
+    "payload_drop": false,
+    "binding": [
+     "task-mvtjpn12-s1c4t6"
+    ]
+   },
+   "H_gap": null,
+   "T_evidence": [
+    "real-acceptance/PRODUCT_MARKET_MATERIAL/receipt.json"
+   ]
+  },
+  {
+   "id": "SCENE_TRANSFER",
+   "name": "场景迁移",
+   "route": "/tools/product-design/scene-transfer",
+   "F": "PASS",
+   "F_note": "B2G1 三动作回执（download 839268B sha256 一致 / 存资产 kb0gp-E_C3Eqz5FNTvuly / 画布 XURFCb2xCZsawQkjmLQ7z）；e990e85 才接通 getPersistedToolGateway",
+   "F_evidence": [
+    "B2G1/SCENE_TRANSFER/run-b2g1.json",
+    "B2G1/SCENE_TRANSFER/result-0.png"
+   ],
+   "T": "PASS",
+   "T_note": "文案/品牌扫描 0 命中",
+   "R": "PASS",
+   "R_note": "字节可复核：839268B == real-acceptance/B2G1/SCENE_TRANSFER/downloaded-scene-transfer-result-1.png",
+   "R_artifacts": [
+    {
+     "path": "real-acceptance/B2G1/SCENE_TRANSFER/result-0.png",
+     "exists": true,
+     "bytes": 839268,
+     "w": 1024,
+     "h": 1024,
+     "sha256_12": "dfb33c53c727",
+     "verified": {
+      "path": "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/B2G1/SCENE_TRANSFER/result-0.png",
+      "bytes": 839268,
+      "sha256_12": "dfb33c53c727"
+     }
+    }
+   ],
+   "H": "PASS",
+   "H_note": "真实 task task-mvt8c2a6-nsv4pt + \"afterReload\": { + 字节 sha 对账 839268B == real-acceptance/B2G1/SCENE_TRANSFER/downloaded-scene-transfer-result-1.png",
+   "H_evidence": [
+    "real-acceptance/B2G1/SCENE_TRANSFER/run-b2g1.json",
+    "real-acceptance/B2G1/SCENE_TRANSFER/downloaded-scene-transfer-result-1.png"
+   ],
+   "K": "N/A",
+   "K_note": "原站无案例模块",
+   "K_evidence": [],
+   "U": "PASS",
+   "U_note": "设计 token 扫描 0 命中",
+   "r7": {
+    "F": "PASS",
+    "T": "PASS",
+    "R": "PASS",
+    "H": "PASS",
+    "K": "N/A",
+    "U": "PASS"
+   },
+   "H_legs": {
+    "file": "real-acceptance/B2G1/SCENE_TRANSFER/run-b2g1.json",
+    "task": true,
+    "reload": true,
+    "bytes": true,
+    "reload_mark": "\"afterReload\": {",
+    "post_reload": "restoredPanel",
+    "claims": [
+     {
+      "bytes": 839268,
+      "sha": "dfb33c53c727c6fe3eed713fab07192c48e9e8ac09c7da8f689a0483bf822c0e",
+      "where": "claim"
+     },
+     {
+      "bytes": 839268,
+      "sha": null,
+      "where": "claim"
+     }
+    ],
+    "artifact": "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/B2G1/SCENE_TRANSFER/downloaded-scene-transfer-result-1.png",
+    "negative": null,
+    "backfill": null,
+    "payload_drop": false,
+    "binding": [
+     "task-mvt8c2a6-nsv4pt"
+    ]
+   },
+   "H_gap": null
+  },
+  {
+   "id": "IMAGE_TO_VIDEO",
+   "name": "图转视频",
+   "route": "/tools/ai-video/image-to-video",
+   "F": "PASS",
+   "F_note": "90fa31d 三动作机器回执（下载 1266723B + 存资产 count 6→7 + 发画布 videoNodes=1），维持 PASS 并升级说明",
+   "F_evidence": [
+    "reports/independent-audit-20261029-r14/receipt-image-to-video.json",
+    "reports/independent-audit-20261029-r14/i2v-result.mp4"
+   ],
+   "T": "PASS",
+   "T_note": "文案/品牌扫描 0 命中",
+   "R": "PASS",
+   "R_note": "已提交产物 1297168B（无回执字节对账）",
+   "R_artifacts": [
+    {
+     "path": "real-acceptance/IMAGE_TO_VIDEO/06-result-video.mp4",
+     "exists": true,
+     "bytes": 1297168,
+     "w": null,
+     "h": null,
+     "sha256_12": "56226153eb7e",
+     "verified": {
+      "path": "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/IMAGE_TO_VIDEO/06-result-video.mp4",
+      "bytes": 1297168,
+      "sha256_12": "56226153eb7e"
+     }
+    }
+   ],
+   "H": "PASS",
+   "H_note": "90fa31d 真实任务 task-mvtjhbcg-e8lnin 全新加载三腿：task succeeded+payloadDropped=false+storageKey；机器全新加载标记（steps.freshLoad t=2705ms + persistedTask 回读 + historyOpen.found=true）；刷新后观测 readyState=4/1344x768/5.167s 且下载·存资产·发画布三键 enabled、falseAccusation=false；字节 1266723B/sha fe5c85f8… 与 r14/i2v-result.mp4 磁盘字节一致，发画布 project 含 videoNodes=1",
+   "H_evidence": [
+    "reports/independent-audit-20261029-r16/evidence/receipt-fresh-reload-sequence.json",
+    "reports/independent-audit-20261029-r14/receipt-image-to-video.json",
+    "reports/independent-audit-20261029-r14/i2v-result.mp4"
+   ],
+   "K": "PASS",
+   "K_note": "原站案例数据已提交：IMAGE_TO_VIDEO-cases.json",
+   "K_evidence": [
+    "docs/V1.0/plan_linkfox_navigation/evidence/b6-cases/origin/IMAGE_TO_VIDEO-cases.json",
+    "docs/V1.0/plan_linkfox_navigation/evidence/b6-cases/origin/IMAGE_TO_VIDEO-probe.json"
+   ],
+   "U": "PASS",
+   "U_note": "设计 token 扫描 0 命中",
+   "r7": {
+    "F": "PARTIAL",
+    "T": "PASS",
+    "R": "PASS",
+    "H": "PARTIAL",
+    "K": "PASS",
+    "U": "PASS"
+   },
+   "H_legs": {
+    "file": "real-acceptance/VIDEO_4TOOLS_HISTORY_20261029/IMAGE_TO_VIDEO.history-after-reload.json",
+    "task": true,
+    "reload": true,
+    "bytes": false,
+    "reload_mark": "\"nav\": \"reload\"",
+    "post_reload": "rows",
+    "claims": [],
+    "artifact": null,
+    "negative": null,
+    "backfill": null,
+    "payload_drop": false,
+    "binding": [
+     "task-mvt71akq-bu2hxh"
+    ]
+   },
+   "H_gap": "task task-mvt71akq-bu2hxh 记录为 failed/submit-unconfirmed（real-acceptance/VIDEO_4TOOLS_HISTORY_20261029/IMAGE_TO_VIDEO.history-after-reload.json），无成功结果可恢复"
+  },
+  {
+   "id": "SALE_VIDEO",
+   "name": "带货口播",
+   "route": "/tools/ai-video/sale-video",
+   "F": "PASS",
+   "F_note": "r12-actions.json：下载 1366190B(sha 39193f0a…，与任务记录一致) + 发画布(projectId lA2nAfkKAt5CrIhZDwcTK / nodeId video-1793278569675-4m128)；存资产在本入口历史坞内无该按钮（如实记录，不计入）",
+   "F_evidence": [
+    "real-acceptance/SALE_VIDEO/r12-actions.json",
+    "real-acceptance/SALE_VIDEO/r12-downloaded.mp4"
+   ],
+   "T": "PASS",
+   "T_note": "f2bbbf4 后 video.tsx 已无 ToolCases cases={[]} 空态占位（案例区改 %s_CASES.length>0 条件渲染）；品牌/计费文案扫描 0 命中",
+   "R": "PASS",
+   "R_note": "字节可复核：1366190B == real-acceptance/SALE_VIDEO/r12-downloaded.mp4",
+   "R_artifacts": [
+    {
+     "path": "real-acceptance/SALE_VIDEO_20261029/sale-video-task-mvt76u6p.mp4",
+     "exists": true,
+     "bytes": 1366190,
+     "w": null,
+     "h": null,
+     "sha256_12": "39193f0a2c97",
+     "verified": {
+      "path": "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/SALE_VIDEO_20261029/sale-video-task-mvt76u6p.mp4",
+      "bytes": 1366190,
+      "sha256_12": "39193f0a2c97"
+     }
+    }
+   ],
+   "H": "PASS",
+   "H_note": "真实 task task-mvt76u6p-7cfnff + \"nav\": \"reload\" + 字节 sha 对账 1366190B == real-acceptance/SALE_VIDEO/r12-downloaded.mp4",
+   "H_evidence": [
+    "real-acceptance/VIDEO_4TOOLS_HISTORY_20261029/SALE_VIDEO.dock-after-reload.json",
+    "real-acceptance/SALE_VIDEO/r12-downloaded.mp4"
+   ],
+   "K": "N/A",
+   "K_note": "原站无案例模块",
+   "K_evidence": [],
+   "U": "PASS",
+   "U_note": "设计 token 扫描 0 命中",
+   "r7": {
+    "F": "PARTIAL",
+    "T": "PARTIAL",
+    "R": "PASS",
+    "H": "PARTIAL",
+    "K": "N/A",
+    "U": "PASS"
+   },
+   "H_legs": {
+    "file": "real-acceptance/VIDEO_4TOOLS_HISTORY_20261029/SALE_VIDEO.dock-after-reload.json",
+    "task": true,
+    "reload": true,
+    "bytes": true,
+    "reload_mark": "\"nav\": \"reload\"",
+    "post_reload": "rows",
+    "claims": [
+     {
+      "bytes": 1366190,
+      "sha": "39193f0a2c97c24e3a06fd6d38f8c633e6b6a53546d1c235038f4f7cb22bcb73",
+      "where": "rows.results.media"
+     }
+    ],
+    "artifact": "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/SALE_VIDEO/r12-downloaded.mp4",
+    "negative": null,
+    "backfill": null,
+    "payload_drop": false,
+    "binding": [
+     "task-mvt76u6p-7cfnff",
+     "task-mvsbd685-5tzfuw",
+     "task-mvs6m72i-eidjm6"
+    ]
+   },
+   "H_gap": null,
+   "T_evidence": [
+    "web/src/components/tools/workspaces/video.tsx"
+   ]
+  },
+  {
+   "id": "VIDEO_REPLICATION",
+   "name": "视频复刻",
+   "route": "/tools/ai-video/video-replication",
+   "F": "PARTIAL",
+   "F_note": "HEAD 内无任何该工具的动作回执（无 download/saveAsset/sendCanvas 结构化字段），a565e63 只是字节抽样 → 维持 PARTIAL",
+   "F_evidence": [
+    "VIDEO_HISTORY_RECOVERY_2TOOLS/summary.json",
+    "VIDEO_REPLICATION/link-mode/out.mp4"
+   ],
+   "T": "PASS",
+   "T_note": "同上：video.tsx 案例区已条件渲染，无空态占位文案",
+   "R": "PASS",
+   "R_note": "b85b13e：task-mvtk9pu3-sfifnh succeeded，payloadDropped=false，storageKey `tool-result:4zwepLZTtpMan11tTGMKR`，读回 1,963,716B / video/mp4 / sha e5cd3158… == 已提交 VIDEO_REPLICATION-result-1.mp4（独立实算）→ R 的『声明字节可复算』成立",
+   "R_artifacts": [
+    {
+     "path": "real-acceptance/VIDEO_REPLICATION/link-mode/out.mp4",
+     "exists": true,
+     "bytes": 2277978,
+     "w": null,
+     "h": null,
+     "sha256_12": "b5e80fdea652",
+     "verified": {
+      "path": "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/VIDEO_REPLICATION/link-mode/out.mp4",
+      "bytes": 2277978,
+      "sha256_12": "b5e80fdea652"
+     }
+    }
+   ],
+   "H": "PARTIAL",
+   "H_note": "a565e63 抽样显示 task-mvtk9pu3-sfifnh 现已 succeeded（payloadDropped=false，storageKey `tool-result:4zwepLZTtpMan11tTGMKR`，读回 1,963,716B / video/mp4），但该结论只存在于 README 散文：无机器 reload 回执、无刷新后该工具面板观测 → 由「上游 502 阻塞」降级为「缺机器回执」，维持 PARTIAL",
+   "H_evidence": [
+    "real-acceptance/VIDEO_4TOOLS_HISTORY_20261029/VIDEO_REPLICATION.history-after-reload.json",
+    "real-acceptance/R7-actions-20261029/task-inventory-127.0.0.1.json",
+    "real-acceptance/R9-history-backfill-20261029/probe.json"
+   ],
+   "K": "N/A",
+   "K_note": "原站无案例模块",
+   "K_evidence": [],
+   "U": "PASS",
+   "U_note": "设计 token 扫描 0 命中",
+   "r7": {
+    "F": "PARTIAL",
+    "T": "PARTIAL",
+    "R": "PASS",
+    "H": "PARTIAL",
+    "K": "N/A",
+    "U": "PASS"
+   },
+   "H_legs": {
+    "file": "real-acceptance/VIDEO_4TOOLS_HISTORY_20261029/VIDEO_REPLICATION.history-after-reload.json",
+    "task": true,
+    "reload": true,
+    "bytes": false,
+    "reload_mark": "\"nav\": \"reload\"",
+    "post_reload": "rows",
+    "claims": [],
+    "artifact": null,
+    "negative": null,
+    "backfill": null,
+    "payload_drop": false,
+    "binding": [
+     "task-mvs9mpoz-e8u2ry"
+    ]
+   },
+   "H_gap": "task-mvtk9pu3-sfifnh 现为 succeeded（a565e63 抽样 1,963,716B），但仅 README 散文、无机器 reload 回执/刷新后观测；且无该尺已提交产物",
+   "T_evidence": [
+    "web/src/components/tools/workspaces/video.tsx"
+   ],
+   "changed_in_r16": {
+    "R": {
+     "from": "PARTIAL",
+     "to": "PASS",
+     "receipt": "r21-video-external-20261029/receipt.json",
+     "artifact": "docs/V1.0/plan_linkfox_navigation/evidence/r21-video-external-20261029/VIDEO_REPLICATION-result-1.mp4"
+    }
+   }
+  },
+  {
+   "id": "AI_VIDEO_EDITING",
+   "name": "视频编辑",
+   "route": "/tools/ai-video/ai-video-editing",
+   "F": "PARTIAL",
+   "F_note": "仅 download 一项动作回执（存资产/发画布无结构化回执）→ 维持 PARTIAL",
+   "F_evidence": [
+    "AI_VIDEO_EDITING/receipt-20261029/receipt.json",
+    "AI_VIDEO_EDITING/receipt-20261029/task_QFvq6WMc_video.mp4"
+   ],
+   "T": "PASS",
+   "T_note": "同上：video.tsx 案例区已条件渲染，无空态占位文案",
+   "R": "PASS",
+   "R_note": "字节可复核：2268656B == real-acceptance/AI_VIDEO_EDITING/receipt-20261029/task_QFvq6WMc_video.mp4",
+   "R_artifacts": [
+    {
+     "path": "real-acceptance/AI_VIDEO_EDITING/receipt-20261029/task_QFvq6WMc_video.mp4",
+     "exists": true,
+     "bytes": 2268656,
+     "w": null,
+     "h": null,
+     "sha256_12": "47573c147325",
+     "verified": {
+      "path": "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/AI_VIDEO_EDITING/receipt-20261029/task_QFvq6WMc_video.mp4",
+      "bytes": 2268656,
+      "sha256_12": "47573c147325"
+     }
+    }
+   ],
+   "H": "PARTIAL",
+   "H_note": "1ba727c：task-mvtkgo4b-gaomk5 status=failed（提交链未确认、无 upstream 产物），本轮无新任务/无新回执 → 维持 PARTIAL",
+   "H_evidence": [
+    "real-acceptance/AI_VIDEO_EDITING/receipt-20261029/receipt.json",
+    "real-acceptance/VIDEO_4TOOLS_HISTORY_20261029/AI_VIDEO_EDITING.tasks-localStorage.json",
+    "r7-d19-history-20261029/orphan-tasks-127-3000-20261029.json"
+   ],
+   "K": "N/A",
+   "K_note": "原站无案例模块",
+   "K_evidence": [],
+   "U": "PASS",
+   "U_note": "设计 token 扫描 0 命中",
+   "r7": {
+    "F": "PARTIAL",
+    "T": "PARTIAL",
+    "R": "PASS",
+    "H": "PARTIAL",
+    "K": "N/A",
+    "U": "PASS"
+   },
+   "H_legs": {
+    "file": "real-acceptance/VIDEO_4TOOLS_HISTORY_20261029/AI_VIDEO_EDITING.tasks-localStorage.json",
+    "task": true,
+    "reload": false,
+    "bytes": true,
+    "reload_mark": null,
+    "post_reload": "items",
+    "claims": [
+     {
+      "bytes": 2268656,
+      "sha": null,
+      "where": "claim"
+     }
+    ],
+    "artifact": "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/AI_VIDEO_EDITING/receipt-20261029/task_QFvq6WMc_video.mp4",
+    "negative": null,
+    "backfill": null,
+    "payload_drop": false,
+    "binding": [
+     "task-mvt42rpv-kfl1ov",
+     "task-mvs802af-u9vwye",
+     "task-mvs83fc2-dc6b5s"
+    ]
+   },
+   "H_gap": "AI_VIDEO_EDITING 有成功真实任务，但回执 r7-d19-history-20261029/orphan-tasks-127-3000-20261029.json 记 payloadDropped=true：结果项无 storageKey/url，字节未入库 → 无字节可下载/存资产/发画布",
+   "T_evidence": [
+    "web/src/components/tools/workspaces/video.tsx"
+   ]
+  },
+  {
+   "id": "VIDEO_TRANSLATION",
+   "name": "视频翻译",
+   "route": "/tools/ai-video/video-translation",
+   "F": "PARTIAL",
+   "F_note": "上游 /videos 只收 JSON、拒上传字节（400），HEAD 内仍无成功样例可挂三动作 → 维持 PARTIAL（上游阻塞）",
+   "F_evidence": [
+    "VIDEO_TRANSLATION/result.json"
+   ],
+   "T": "PASS",
+   "T_note": "原 PARTIAL 为 R7 旧扫描的注释行命中（注释里写着「不输出任何空态文案」）；按 HEAD blob 剥离注释后复扫 0 命中，案例区为 VIDEO_TRANSLATION_CASES.length>0 条件渲染",
+   "R": "PASS",
+   "R_note": "字节可复核：1080637B == real-acceptance/VIDEO_TRANSLATION/downloaded.mp4",
+   "R_artifacts": [],
+   "H": "PASS",
+   "H_note": "真实 task task-mvth8drs-dk86it + \"reload\": { + 字节 sha 对账 1080637B == real-acceptance/VIDEO_TRANSLATION/downloaded.mp4",
+   "H_evidence": [
+    "real-acceptance/VIDEO_TRANSLATION/run-resume-translation.json",
+    "real-acceptance/VIDEO_TRANSLATION/downloaded.mp4"
+   ],
+   "K": "N/A",
+   "K_note": "原站无案例模块",
+   "K_evidence": [],
+   "U": "PASS",
+   "U_note": "设计 token 扫描 0 命中",
+   "r7": {
+    "F": "PARTIAL",
+    "T": "PARTIAL",
+    "R": "BLOCKED",
+    "H": "PARTIAL",
+    "K": "N/A",
+    "U": "PASS"
+   },
+   "H_legs": {
+    "file": "real-acceptance/VIDEO_TRANSLATION/run-resume-translation.json",
+    "task": true,
+    "reload": true,
+    "bytes": true,
+    "reload_mark": "\"reload\": {",
+    "post_reload": "items",
+    "claims": [
+     {
+      "bytes": 1080637,
+      "sha": null,
+      "where": "claim"
+     }
+    ],
+    "artifact": "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/VIDEO_TRANSLATION/downloaded.mp4",
+    "negative": null,
+    "backfill": null,
+    "payload_drop": false,
+    "binding": [
+     "task-mvth8drs-dk86it"
+    ]
+   },
+   "H_gap": null,
+   "T_evidence": [
+    "real-acceptance/VIDEO_TRANSLATION/run-resume-translation.json"
+   ]
+  },
+  {
+   "id": "VIDEO_CONCAT",
+   "name": "视频拼接",
+   "route": "/tools/ai-video/video-concat",
+   "F": "PARTIAL",
+   "F_note": "0e8f9f1+af0522f：下载 2,133,234B/sha daf59082… 与已提交 downloaded.mp4 一致（硬腿 1）；存资产 tool_assets 0 条同尺、media_files 无该 storageKey、canvasVideoNodes=[] → 维持 PARTIAL",
+   "F_evidence": [
+    "VIDEO_CONCAT/request-evidence-20261029.json",
+    "VIDEO_CONCAT/task-record-20261029.json"
+   ],
+   "T": "PASS",
+   "T_note": "video.tsx 案例区条件渲染（f2bbbf4），HEAD blob 复扫 0 命中",
+   "R": "PASS",
+   "R_note": "字节可复核：2133234B == real-acceptance/VIDEO_CONCAT/downloaded.mp4",
+   "R_artifacts": [],
+   "H": "PASS",
+   "H_note": "af0522f：真实任务 task-mvthgaa4-pdg1eq（上游 task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF）刷新后按 storageKey 还原字节，768x1344/7.292s 与下载 sha daf59082… 同源 → 维持 PASS",
+   "H_evidence": [
+    "real-acceptance/VIDEO_CONCAT/run-resume-concat.json",
+    "real-acceptance/VIDEO_CONCAT/downloaded.mp4"
+   ],
+   "K": "N/A",
+   "K_note": "原站无案例模块",
+   "K_evidence": [],
+   "U": "PASS",
+   "U_note": "设计 token 扫描 0 命中",
+   "r7": {
+    "F": "PARTIAL",
+    "T": "PARTIAL",
+    "R": "BLOCKED",
+    "H": "PASS",
+    "K": "N/A",
+    "U": "PASS"
+   },
+   "H_legs": {
+    "file": "real-acceptance/VIDEO_CONCAT/run-resume-concat.json",
+    "task": true,
+    "reload": true,
+    "bytes": true,
+    "reload_mark": "\"reload\": {",
+    "post_reload": "items",
+    "claims": [
+     {
+      "bytes": 2133234,
+      "sha": null,
+      "where": "claim"
+     }
+    ],
+    "artifact": "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/VIDEO_CONCAT/downloaded.mp4",
+    "negative": null,
+    "backfill": null,
+    "payload_drop": false,
+    "binding": [
+     "task-mvthgaa4-pdg1eq"
+    ]
+   },
+   "H_gap": null,
+   "T_evidence": [
+    "web/src/components/tools/workspaces/video.tsx"
+   ]
+  }
+ ],
+ "changes_vs_r15": [
+  {
+   "tool": "PRODUCT_SCENE",
+   "dim": "H",
+   "from": "PARTIAL",
+   "to": "PASS",
+   "evidence": "r18-h-reload-actions-20261029/receipt-product-scene.json",
+   "artifact": "docs/V1.0/plan_linkfox_navigation/evidence/r16-scene-real-20261029/PRODUCT_SCENE-result-1.png"
+  },
+  {
+   "tool": "HANDHELD_GOODS",
+   "dim": "H",
+   "from": "PARTIAL",
+   "to": "PASS",
+   "evidence": "r18-h-reload-actions-20261029/receipt-handheld-goods.json",
+   "artifact": "docs/V1.0/plan_linkfox_navigation/evidence/r17-handheld-real-20261029/HANDHELD_GOODS-result-1.png"
+  },
+  {
+   "tool": "PRINT_EXTRACT",
+   "dim": "H",
+   "from": "PARTIAL",
+   "to": "PASS",
+   "evidence": "PRINT_EXTRACT/reload-verify-r16.json",
+   "artifact": "evidence/real-acceptance/PRINT_EXTRACT/result.png"
+  },
+  {
+   "tool": "VIDEO_REPLICATION",
+   "dim": "R",
+   "from": "PARTIAL",
+   "to": "PASS",
+   "evidence": "r21-video-external-20261029/receipt.json",
+   "artifact": "docs/V1.0/plan_linkfox_navigation/evidence/r21-video-external-20261029/VIDEO_REPLICATION-result-1.mp4"
+  }
+ ],
+ "absorbed_commits": [
+  {
+   "commit": "cb6d5af",
+   "note": "r17 HANDHELD_GOODS 首个落库成功任务 task-mvtm8p59-8qkp5s：1455193B / sha 29c1afcd… / storageKey + 三动作 + freshReload 段落（报告自述）"
+  },
+  {
+   "commit": "09f7279",
+   "note": "r18 机器 reload 后三动作回执（schema h-reload-three-actions/v1）：PRODUCT_SCENE task-mvtly3vu-fdqgy7、HANDHELD_GOODS task-mvtm8p59-8qkp5s"
+  },
+  {
+   "commit": "a94e382",
+   "note": "r16 PRINT_EXTRACT 复用 task-mvtlxua2-kh39uf：cache-buster 全文档重建 + 刷新后面板三按钮 + 三动作全机器凭证（2783996B/sha 1577dafd…）"
+  },
+  {
+   "commit": "b85b13e",
+   "note": "r21 视频外部通道真实终态：VIDEO_REPLICATION succeeded 1963716B/sha e5cd3158…（独立实算）；AI_VIDEO_EDITING 上游 502 两连记 UNVERIFIED；fresh reload 三动作 disabled 如实登记"
+  },
+  {
+   "commit": "a1dbe6b",
+   "note": "gateway 定性修复（dispatchedAt / recover 宽限期 / 历史坞 storageKey 定位）+ CCV2 提交确认回执"
+  },
+  {
+   "commit": "8982e82",
+   "note": "gate 报告：固定快照 a1dbe6b 三闸 typecheck/test/build exit 0（1477 pass / 0 fail / 84 files，408 源文件）"
+  },
+  {
+   "commit": "09df7a4",
+   "note": "gate 报告 HEAD 漂移说明（验证对象仍为 a1dbe6b，未追并发 HEAD）"
+  }
+ ],
+ "absorbed_no_change": [
+  {
+   "evidence": "b85b13e / VIDEO_REPLICATION.H、F",
+   "why_not_upgraded": "刷新后结果瓦片 data-dropped=true（卡片文案『上游未返回该结果的文件』），下载/存资产/发画布三按钮全 disabled，回执明确『未伪造点击』→ 无三动作回执，H/F 无双腿，维持 PARTIAL；另登记为刷新后渲染回归缺口（字节在库、瓦片不认 storageKey）"
+  },
+  {
+   "evidence": "b85b13e / AI_VIDEO_EDITING.H、F",
+   "why_not_upgraded": "task-mvtkgo4b-gaomk5 status=failed（上游 502 两连，无 upstreamTaskId、无产物），无新成功任务/无动作回执 → 维持 PARTIAL"
+  },
+  {
+   "evidence": "a1dbe6b / CHANGE_COLOR_V2.H",
+   "why_not_upgraded": "RECEIPT.md §3.2 记录新真实任务 task-mvtml34y-cd8qm6 succeeded / 2,445,799B / storageKey，§3.3 记录 Page.reload 后三按钮 enabled；但三动作**只验证 enabled、未执行**，且 HEAD 内无 2,445,799B 已提交产物 → 字节腿与动作腿均不成立，维持 PARTIAL（不放宽）"
+  },
+  {
+   "evidence": "a1dbe6b / 代码侧",
+   "why_not_upgraded": "gateway submit 定性（dispatchedAt → submit-not-dispatched vs submit-unconfirmed）、recover 尊重 60s 宽限期、历史坞 url||storageKey 定位；8982e82+09df7a4 门禁：固定快照 a1dbe6b 三闸 typecheck/test/build exit 0（1477 pass / 0 fail / 84 files）。只影响未来任务的定性，不补齐任何历史任务的字节/动作腿 → 全维判定不变"
+  },
+  {
+   "evidence": "09f7279 / PRODUCT_SCENE.F、HANDHELD_GOODS.F",
+   "why_not_upgraded": "三动作回执同时使 F 的事实更完整（此前 F_note 标『无三动作回执』但判定已为 PASS），判定不变，仅更新注记"
+  },
+  {
+   "evidence": "a94e382 / PRINT_EXTRACT.F",
+   "why_not_upgraded": "存资产此前 UNVERIFIED，现 assetId fjzr1NhaALbnYz5LOAv9r + 同字节 sha 齐全；F 原判 PASS，维持，仅更新注记"
+  }
+ ],
+ "assertions": [
+  {
+   "name": "PRODUCT_SCENE.H:schema",
+   "ok": true,
+   "detail": "h-reload-three-actions/v1"
+  },
+  {
+   "name": "PRODUCT_SCENE.H:toolId",
+   "ok": true,
+   "detail": "PRODUCT_SCENE"
+  },
+  {
+   "name": "PRODUCT_SCENE.H:task.status",
+   "ok": true,
+   "detail": "succeeded"
+  },
+  {
+   "name": "PRODUCT_SCENE.H:task.id",
+   "ok": true,
+   "detail": "task-mvtly3vu-fdqgy7"
+  },
+  {
+   "name": "PRODUCT_SCENE.H:task.storageKey",
+   "ok": true,
+   "detail": "tool-result:task-mvtly3vu-fdqgy7:0:TTlb-VmksNFfPn_GhRyTk"
+  },
+  {
+   "name": "PRODUCT_SCENE.H:reload.navType",
+   "ok": true,
+   "detail": "reload"
+  },
+  {
+   "name": "PRODUCT_SCENE.H:reload.domContentLoaded",
+   "ok": true,
+   "detail": "1793283612760"
+  },
+  {
+   "name": "PRODUCT_SCENE.H:post.panelView",
+   "ok": true,
+   "detail": "succeeded"
+  },
+  {
+   "name": "PRODUCT_SCENE.H:post.panelSha",
+   "ok": true,
+   "detail": "fa5ee380ab79"
+  },
+  {
+   "name": "PRODUCT_SCENE.H:post.panelBytes",
+   "ok": true,
+   "detail": "2398828"
+  },
+  {
+   "name": "PRODUCT_SCENE.H:action.download.present",
+   "ok": true,
+   "detail": "download"
+  },
+  {
+   "name": "PRODUCT_SCENE.H:action.download.sha",
+   "ok": true,
+   "detail": "fa5ee380ab79"
+  },
+  {
+   "name": "PRODUCT_SCENE.H:action.download.bytes",
+   "ok": true,
+   "detail": "2398828"
+  },
+  {
+   "name": "PRODUCT_SCENE.H:action.saveAsset.present",
+   "ok": true,
+   "detail": "saveAsset"
+  },
+  {
+   "name": "PRODUCT_SCENE.H:action.saveAsset.sha",
+   "ok": true,
+   "detail": "fa5ee380ab79"
+  },
+  {
+   "name": "PRODUCT_SCENE.H:action.saveAsset.bytes",
+   "ok": true,
+   "detail": "2398828"
+  },
+  {
+   "name": "PRODUCT_SCENE.H:action.sendCanvas.present",
+   "ok": true,
+   "detail": "sendCanvas"
+  },
+  {
+   "name": "PRODUCT_SCENE.H:action.sendCanvas.sha",
+   "ok": true,
+   "detail": "fa5ee380ab79"
+  },
+  {
+   "name": "PRODUCT_SCENE.H:action.sendCanvas.bytes",
+   "ok": true,
+   "detail": "2398828"
+  },
+  {
+   "name": "PRODUCT_SCENE.H:byteAgreement.allEqual",
+   "ok": true,
+   "detail": "True"
+  },
+  {
+   "name": "PRODUCT_SCENE.H:byteAgreement.bytes",
+   "ok": true,
+   "detail": "2398828"
+  },
+  {
+   "name": "PRODUCT_SCENE.H:noNewGeneration",
+   "ok": true,
+   "detail": "generationCalled"
+  },
+  {
+   "name": "HANDHELD_GOODS.H:schema",
+   "ok": true,
+   "detail": "h-reload-three-actions/v1"
+  },
+  {
+   "name": "HANDHELD_GOODS.H:toolId",
+   "ok": true,
+   "detail": "HANDHELD_GOODS"
+  },
+  {
+   "name": "HANDHELD_GOODS.H:task.status",
+   "ok": true,
+   "detail": "succeeded"
+  },
+  {
+   "name": "HANDHELD_GOODS.H:task.id",
+   "ok": true,
+   "detail": "task-mvtm8p59-8qkp5s"
+  },
+  {
+   "name": "HANDHELD_GOODS.H:task.storageKey",
+   "ok": true,
+   "detail": "tool-result:task-mvtm8p59-8qkp5s:0:c3Xf2R0z4RYt31DCxRmmX"
+  },
+  {
+   "name": "HANDHELD_GOODS.H:reload.navType",
+   "ok": true,
+   "detail": "reload"
+  },
+  {
+   "name": "HANDHELD_GOODS.H:reload.domContentLoaded",
+   "ok": true,
+   "detail": "1793283685252"
+  },
+  {
+   "name": "HANDHELD_GOODS.H:post.panelView",
+   "ok": true,
+   "detail": "succeeded"
+  },
+  {
+   "name": "HANDHELD_GOODS.H:post.panelSha",
+   "ok": true,
+   "detail": "29c1afcd7bda"
+  },
+  {
+   "name": "HANDHELD_GOODS.H:post.panelBytes",
+   "ok": true,
+   "detail": "1455193"
+  },
+  {
+   "name": "HANDHELD_GOODS.H:action.download.present",
+   "ok": true,
+   "detail": "download"
+  },
+  {
+   "name": "HANDHELD_GOODS.H:action.download.sha",
+   "ok": true,
+   "detail": "29c1afcd7bda"
+  },
+  {
+   "name": "HANDHELD_GOODS.H:action.download.bytes",
+   "ok": true,
+   "detail": "1455193"
+  },
+  {
+   "name": "HANDHELD_GOODS.H:action.saveAsset.present",
+   "ok": true,
+   "detail": "saveAsset"
+  },
+  {
+   "name": "HANDHELD_GOODS.H:action.saveAsset.sha",
+   "ok": true,
+   "detail": "29c1afcd7bda"
+  },
+  {
+   "name": "HANDHELD_GOODS.H:action.saveAsset.bytes",
+   "ok": true,
+   "detail": "1455193"
+  },
+  {
+   "name": "HANDHELD_GOODS.H:action.sendCanvas.present",
+   "ok": true,
+   "detail": "sendCanvas"
+  },
+  {
+   "name": "HANDHELD_GOODS.H:action.sendCanvas.sha",
+   "ok": true,
+   "detail": "29c1afcd7bda"
+  },
+  {
+   "name": "HANDHELD_GOODS.H:action.sendCanvas.bytes",
+   "ok": true,
+   "detail": "1455193"
+  },
+  {
+   "name": "HANDHELD_GOODS.H:byteAgreement.allEqual",
+   "ok": true,
+   "detail": "True"
+  },
+  {
+   "name": "HANDHELD_GOODS.H:byteAgreement.bytes",
+   "ok": true,
+   "detail": "1455193"
+  },
+  {
+   "name": "HANDHELD_GOODS.H:noNewGeneration",
+   "ok": true,
+   "detail": "generationCalled"
+  },
+  {
+   "name": "PRINT_EXTRACT.H:task.success",
+   "ok": true,
+   "detail": "succeeded"
+  },
+  {
+   "name": "PRINT_EXTRACT.H:task.id",
+   "ok": true,
+   "detail": "task-mvtlxua2-kh39uf"
+  },
+  {
+   "name": "PRINT_EXTRACT.H:reload.documentRecreated",
+   "ok": true,
+   "detail": "True"
+  },
+  {
+   "name": "PRINT_EXTRACT.H:reload.timeOriginChanged",
+   "ok": true,
+   "detail": "1793283410632->1793283495679"
+  },
+  {
+   "name": "PRINT_EXTRACT.H:reload.mechanism",
+   "ok": true,
+   "detail": "location.reload() 与 CDP Page.reload 均被 G"
+  },
+  {
+   "name": "PRINT_EXTRACT.H:post.panelText",
+   "ok": true,
+   "detail": "提取结果 / 已完成 / 共 1 个结果 · 图片 1 / 下载 / 存入资产 "
+  },
+  {
+   "name": "PRINT_EXTRACT.H:post.actionButtons",
+   "ok": true,
+   "detail": "['tool-result-download-0', 'tool-result-save-0', 'tool-result-canvas-0']"
+  },
+  {
+   "name": "PRINT_EXTRACT.H:bytes.size",
+   "ok": true,
+   "detail": "2783996 vs 2783996"
+  },
+  {
+   "name": "PRINT_EXTRACT.H:bytes.sha",
+   "ok": true,
+   "detail": "1577dafdcda3 vs 1577dafdcda3"
+  },
+  {
+   "name": "PRINT_EXTRACT.H:bytes.storageKey",
+   "ok": true,
+   "detail": "tool-result:task-mvtlxua2-kh39uf:0:jf8VlMsU9spY5W5raRSnO"
+  },
+  {
+   "name": "PRINT_EXTRACT.H:action.download.present",
+   "ok": true,
+   "detail": "download"
+  },
+  {
+   "name": "PRINT_EXTRACT.H:action.download.sha",
+   "ok": true,
+   "detail": "1577dafdcda3"
+  },
+  {
+   "name": "PRINT_EXTRACT.H:action.download.bytes",
+   "ok": true,
+   "detail": "2783996"
+  },
+  {
+   "name": "PRINT_EXTRACT.H:action.saveAsset.present",
+   "ok": true,
+   "detail": "saveToAssets"
+  },
+  {
+   "name": "PRINT_EXTRACT.H:action.saveAsset.sha",
+   "ok": true,
+   "detail": "1577dafdcda3"
+  },
+  {
+   "name": "PRINT_EXTRACT.H:action.saveAsset.bytes",
+   "ok": true,
+   "detail": "2783996"
+  },
+  {
+   "name": "PRINT_EXTRACT.H:action.sendCanvas.present",
+   "ok": true,
+   "detail": "sendToCanvas"
+  },
+  {
+   "name": "PRINT_EXTRACT.H:action.sendCanvas.sha",
+   "ok": true,
+   "detail": "1577dafdcda3"
+  },
+  {
+   "name": "PRINT_EXTRACT.H:action.sendCanvas.bytes",
+   "ok": true,
+   "detail": "2783996"
+  },
+  {
+   "name": "VIDEO_REPLICATION.R:task.present",
+   "ok": true,
+   "detail": "VIDEO_REPLICATION"
+  },
+  {
+   "name": "VIDEO_REPLICATION.R:claim.bytes",
+   "ok": true,
+   "detail": "1963716 vs 1963716"
+  },
+  {
+   "name": "VIDEO_REPLICATION.R:claim.sha",
+   "ok": true,
+   "detail": "e5cd3158a67c vs e5cd3158a67c"
+  },
+  {
+   "name": "VIDEO_REPLICATION.R:claim.notDropped",
+   "ok": true,
+   "detail": "False"
+  },
+  {
+   "name": "VIDEO_REPLICATION.R:claim.mime",
+   "ok": true,
+   "detail": "video/mp4"
+  },
+  {
+   "name": "VIDEO_REPLICATION.R:artifact.mp4Header",
+   "ok": true,
+   "detail": "ftypisom 由校验器另核（见 VERIFY 日志）"
+  }
+ ],
+ "contradictions": [],
+ "audit_log": [
+  "REMOVE_PEN.H payload_drop=true → 不可升级",
+  "IMAGE_TEXT_EDIT.H payload_drop=true → 不可升级"
+ ],
+ "residual": [
+  {
+   "tool": "CHANGE_COLOR_V2",
+   "dim": "H",
+   "verdict": "PARTIAL",
+   "note": "7f64b09 探针：真实 taskId 齐备但 BLOCKED_NO_BYTES；a565e63 时间线对账证明这两条任务成功于 00:35（G1 入库 01:14 / B7 url 01:23 之前）→ 字节属不可逆丢失，不可注入补造；6ede584 只保证**新**任务不再丢字节 → 维持 PARTIAL",
+   "gap": "CHANGE_COLOR_V2 有成功真实任务，但回执 r14h-20261029/receipt-BLOCKED.json 记 payloadDropped=true：结果项无 storageKey/url，字节未入库 → 无字节可下载/存资产/发画布"
+  },
+  {
+   "tool": "REMOVE_PEN",
+   "dim": "H",
+   "verdict": "PARTIAL",
+   "note": "7f64b09 探针 + 回执内 3 处 payloadDropped=true，无 storageKey/url/bytes；同属 a565e63 的不可逆丢失窗口 → 维持 PARTIAL",
+   "gap": "REMOVE_PEN 有成功真实任务，但回执 edit8-h-real-20261029/REMOVE_PEN.json 记 payloadDropped=true：结果项无 storageKey/url，字节未入库 → 无字节可下载/存资产/发画布"
+  },
+  {
+   "tool": "IMAGE_TEXT_EDIT",
+   "dim": "H",
+   "verdict": "PARTIAL",
+   "note": "H4-real 回执 payloadDropped=true（BLOCKED(payload)），无 storageKey/url/bytes；24165da 只修 hydrate 代码腿 → 维持 PARTIAL",
+   "gap": "IMAGE_TEXT_EDIT 有成功真实任务，但回执 real-acceptance/H4-real-20261029/IMAGE_TEXT_EDIT-natural-20261029.json 记 BLOCKED(payload)：结果项无 storageKey/url，字节未入库 → 无字节可下载/存资产/发画布"
+  },
+  {
+   "tool": "VIDEO_REPLICATION",
+   "dim": "F",
+   "verdict": "PARTIAL",
+   "note": "HEAD 内无任何该工具的动作回执（无 download/saveAsset/sendCanvas 结构化字段），a565e63 只是字节抽样 → 维持 PARTIAL",
+   "gap": null
+  },
+  {
+   "tool": "VIDEO_REPLICATION",
+   "dim": "H",
+   "verdict": "PARTIAL",
+   "note": "a565e63 抽样显示 task-mvtk9pu3-sfifnh 现已 succeeded（payloadDropped=false，storageKey `tool-result:4zwepLZTtpMan11tTGMKR`，读回 1,963,716B / video/mp4），但该结论只存在于 README 散文：无机器 reload 回执、无刷新后该工具面板观测 → 由「上游 502 阻塞」降级为「缺机器回执」，维持 PARTIAL",
+   "gap": "task-mvtk9pu3-sfifnh 现为 succeeded（a565e63 抽样 1,963,716B），但仅 README 散文、无机器 reload 回执/刷新后观测；且无该尺已提交产物"
+  },
+  {
+   "tool": "AI_VIDEO_EDITING",
+   "dim": "F",
+   "verdict": "PARTIAL",
+   "note": "仅 download 一项动作回执（存资产/发画布无结构化回执）→ 维持 PARTIAL",
+   "gap": null
+  },
+  {
+   "tool": "AI_VIDEO_EDITING",
+   "dim": "H",
+   "verdict": "PARTIAL",
+   "note": "1ba727c：task-mvtkgo4b-gaomk5 status=failed（提交链未确认、无 upstream 产物），本轮无新任务/无新回执 → 维持 PARTIAL",
+   "gap": "AI_VIDEO_EDITING 有成功真实任务，但回执 r7-d19-history-20261029/orphan-tasks-127-3000-20261029.json 记 payloadDropped=true：结果项无 storageKey/url，字节未入库 → 无字节可下载/存资产/发画布"
+  },
+  {
+   "tool": "VIDEO_TRANSLATION",
+   "dim": "F",
+   "verdict": "PARTIAL",
+   "note": "上游 /videos 只收 JSON、拒上传字节（400），HEAD 内仍无成功样例可挂三动作 → 维持 PARTIAL（上游阻塞）",
+   "gap": null
+  },
+  {
+   "tool": "VIDEO_CONCAT",
+   "dim": "F",
+   "verdict": "PARTIAL",
+   "note": "0e8f9f1+af0522f：下载 2,133,234B/sha daf59082… 与已提交 downloaded.mp4 一致（硬腿 1）；存资产 tool_assets 0 条同尺、media_files 无该 storageKey、canvasVideoNodes=[] → 维持 PARTIAL",
+   "gap": null
+  }
+ ]
+}
