@@ -1,0 +1,178 @@
+{
+  "generated_at": "2026-10-29T15:33:54+08:00",
+  "repo": "/Users/mac/Documents/Dev/infinite-canvas",
+  "branch": "feat/linkfox-v1-real",
+  "head": "81d9f7c",
+  "dirty_web_src": [
+    "eb/src/components/tools/tool-cases.tsx",
+    "web/src/components/tools/workspaces/scene.tsx",
+    "web/src/features/tools/adapters/scene-transfer.ts",
+    "web/src/features/tools/registry/scene-transfer.ts",
+    "web/src/features/tools/image-to-video-cases-data.ts"
+  ],
+  "checks": {
+    "shell_files_present": [
+      "web/src/components/layout/app-top-nav.tsx",
+      "web/src/components/layout/mobile-nav-drawer.tsx",
+      "web/src/components/layout/user-status-actions.tsx",
+      "web/src/components/tools/tool-shell.tsx",
+      "web/src/components/tools/tool-sidebar.tsx",
+      "web/src/components/layout/app-config-modal.tsx"
+    ],
+    "shell_files_absent": [
+      "web/src/components/tools/tool-page.tsx"
+    ],
+    "shell_required": {
+      "top-nav-shell": "ok:web/src/components/layout/app-top-nav.tsx",
+      "agent-entry": "ok:web/src/components/layout/app-top-nav.tsx",
+      "canvas-entry": "ok:web/src/components/layout/app-top-nav.tsx",
+      "settings-entry": "ok:web/src/components/layout/user-status-actions.tsx",
+      "theme-entry": "ok:web/src/components/layout/user-status-actions.tsx"
+    }
+  },
+  "summary": {
+    "errors": 0,
+    "warnings": 17,
+    "by_rule": {
+      "unfinished-copy:case-module": 17
+    }
+  },
+  "findings": [
+    {
+      "rule": "unfinished-copy:case-module",
+      "severity": "warning",
+      "file": "web/src/components/tools/workspaces/video.tsx",
+      "line": 649,
+      "excerpt": "onApply={() => setNotice(\"案例库未接入：暂无真实案例可回填\")}",
+      "detail": "原站有优秀案例的工具，本地不应以占位文案收尾"
+    },
+    {
+      "rule": "unfinished-copy:case-module",
+      "severity": "warning",
+      "file": "web/src/components/tools/workspaces/video.tsx",
+      "line": 649,
+      "excerpt": "onApply={() => setNotice(\"案例库未接入：暂无真实案例可回填\")}",
+      "detail": "原站有优秀案例的工具，本地不应以占位文案收尾"
+    },
+    {
+      "rule": "unfinished-copy:case-module",
+      "severity": "warning",
+      "file": "web/src/components/tools/workspaces/video.tsx",
+      "line": 650,
+      "excerpt": "emptyHint=\"案例库未接入：原站此处展示平台优秀作品并支持「一键做同款」；本地不伪造案例卡片，等真实案例数据接入\"",
+      "detail": "原站有优秀案例的工具，本地不应以占位文案收尾"
+    },
+    {
+      "rule": "unfinished-copy:case-module",
+      "severity": "warning",
+      "file": "web/src/components/tools/workspaces/video.tsx",
+      "line": 1357,
+      "excerpt": "onApply={() => setNotice(\"案例库未接入：暂无真实案例可回填\")}",
+      "detail": "原站有优秀案例的工具，本地不应以占位文案收尾"
+    },
+    {
+      "rule": "unfinished-copy:case-module",
+      "severity": "warning",
+      "file": "web/src/components/tools/workspaces/video.tsx",
+      "line": 1357,
+      "excerpt": "onApply={() => setNotice(\"案例库未接入：暂无真实案例可回填\")}",
+      "detail": "原站有优秀案例的工具，本地不应以占位文案收尾"
+    },
+    {
+      "rule": "unfinished-copy:case-module",
+      "severity": "warning",
+      "file": "web/src/components/tools/workspaces/video.tsx",
+      "line": 1358,
+      "excerpt": "emptyHint=\"案例库未接入：原站此处展示平台优秀作品并支持「一键做同款」；本地不伪造案例卡片，等真实案例数据接入\"",
+      "detail": "原站有优秀案例的工具，本地不应以占位文案收尾"
+    },
+    {
+      "rule": "unfinished-copy:case-module",
+      "severity": "warning",
+      "file": "web/src/components/tools/workspaces/video.tsx",
+      "line": 1956,
+      "excerpt": "onApply={() => setNotice(\"案例库未接入：暂无真实案例可回填\")}",
+      "detail": "原站有优秀案例的工具，本地不应以占位文案收尾"
+    },
+    {
+      "rule": "unfinished-copy:case-module",
+      "severity": "warning",
+      "file": "web/src/components/tools/workspaces/video.tsx",
+      "line": 1956,
+      "excerpt": "onApply={() => setNotice(\"案例库未接入：暂无真实案例可回填\")}",
+      "detail": "原站有优秀案例的工具，本地不应以占位文案收尾"
+    },
+    {
+      "rule": "unfinished-copy:case-module",
+      "severity": "warning",
+      "file": "web/src/components/tools/workspaces/video.tsx",
+      "line": 1957,
+      "excerpt": "emptyHint=\"案例库未接入：原站此处展示平台优秀作品并支持「一键做同款」；本地不伪造案例卡片，等真实案例数据接入\"",
+      "detail": "原站有优秀案例的工具，本地不应以占位文案收尾"
+    },
+    {
+      "rule": "unfinished-copy:case-module",
+      "severity": "warning",
+      "file": "web/src/components/tools/workspaces/video.tsx",
+      "line": 2663,
+      "excerpt": "onApply={() => setNotice(\"案例库未接入：暂无真实案例可回填\")}",
+      "detail": "原站有优秀案例的工具，本地不应以占位文案收尾"
+    },
+    {
+      "rule": "unfinished-copy:case-module",
+      "severity": "warning",
+      "file": "web/src/components/tools/workspaces/video.tsx",
+      "line": 2663,
+      "excerpt": "onApply={() => setNotice(\"案例库未接入：暂无真实案例可回填\")}",
+      "detail": "原站有优秀案例的工具，本地不应以占位文案收尾"
+    },
+    {
+      "rule": "unfinished-copy:case-module",
+      "severity": "warning",
+      "file": "web/src/components/tools/workspaces/video.tsx",
+      "line": 2664,
+      "excerpt": "emptyHint=\"案例库未接入：原站此处展示平台优秀作品并支持「一键做同款」；本地不伪造案例卡片，等真实案例数据接入\"",
+      "detail": "原站有优秀案例的工具，本地不应以占位文案收尾"
+    },
+    {
+      "rule": "unfinished-copy:case-module",
+      "severity": "warning",
+      "file": "web/src/components/tools/workspaces/video-translation.tsx",
+      "line": 499,
+      "excerpt": "onApply={() => setNotice(\"案例库未接入：暂无真实案例可回填\")}",
+      "detail": "原站有优秀案例的工具，本地不应以占位文案收尾"
+    },
+    {
+      "rule": "unfinished-copy:case-module",
+      "severity": "warning",
+      "file": "web/src/components/tools/workspaces/video-translation.tsx",
+      "line": 499,
+      "excerpt": "onApply={() => setNotice(\"案例库未接入：暂无真实案例可回填\")}",
+      "detail": "原站有优秀案例的工具，本地不应以占位文案收尾"
+    },
+    {
+      "rule": "unfinished-copy:case-module",
+      "severity": "warning",
+      "file": "web/src/components/tools/workspaces/video-translation.tsx",
+      "line": 500,
+      "excerpt": "emptyHint=\"案例库未接入：原站此处展示平台优秀作品并支持「一键做同款」；本地不伪造案例卡片，等真实案例数据接入\"",
+      "detail": "原站有优秀案例的工具，本地不应以占位文案收尾"
+    },
+    {
+      "rule": "unfinished-copy:case-module",
+      "severity": "warning",
+      "file": "web/src/components/tools/workspaces/suite.tsx",
+      "line": 430,
+      "excerpt": "title={config.productInfo.trim() ? \"根据商品信息生成补充描述待接入（PARTIAL）\" : \"先填写商品信息\"}",
+      "detail": "原站有优秀案例的工具，本地不应以占位文案收尾"
+    },
+    {
+      "rule": "unfinished-copy:case-module",
+      "severity": "warning",
+      "file": "web/src/components/tools/workspaces/suite.tsx",
+      "line": 439,
+      "excerpt": "title={source ? \"填表向导待接入（PARTIAL）\" : \"先上传商品图\"}",
+      "detail": "原站有优秀案例的工具，本地不应以占位文案收尾"
+    }
+  ]
+}

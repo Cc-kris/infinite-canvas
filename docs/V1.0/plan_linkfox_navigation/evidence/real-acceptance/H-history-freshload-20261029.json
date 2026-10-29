@@ -1,0 +1,171 @@
+{
+ "capturedAt": "2026-10-29T15:37:27",
+ "method": "agent CDP fresh-load (location.href full load, not SPA route change)",
+ "app": "http://127.0.0.1:3000",
+ "note": "历史坞在全新加载后从 localStorage tool-task:v1:* + IndexedDB 媒体还原渲染",
+ "records": [
+  {
+   "toolId": "PRODUCT_IMAGE_SUITE",
+   "route": "/tools/ecommerce-suite/product-image-suite",
+   "historyDock": {
+    "visible": true,
+    "count": 2,
+    "text": "历史任务 2 条"
+   },
+   "tasks": [
+    {
+     "time": "2026-10-29 14:55",
+     "status": "已完成",
+     "model": "default::gpt-image-2",
+     "results": 1,
+     "thumbDecoded": "blob:...ef7ae1a1 (decoded)"
+    },
+    {
+     "time": "2026-10-29 14:55",
+     "status": "已完成",
+     "model": "default::gpt-image-2",
+     "results": 1,
+     "thumbDecoded": "blob:...f8c12994 (decoded)"
+    }
+   ],
+   "localStorageKeys": [
+    "tool-task:v1:task-mvt6vpdn-17qby2",
+    "tool-task:v1:task-mvt6vpdo-sc1x8w"
+   ],
+   "doc": "evidence/real-acceptance/SUITE6_20261029/PIS-real-batch-refresh-20261029.md",
+   "verdict": "H PASS: 真实任务落盘且全新加载后历史坞 2 条可读、缩略图解码成功"
+  },
+  {
+   "toolId": "DRESS_WEAR_SET",
+   "route": "/tools/ecommerce-suite/dress-wear-set",
+   "historyDock": {
+    "visible": true,
+    "count": 2,
+    "text": "历史任务 2 条"
+   },
+   "tasks": [
+    {
+     "time": "2026-10-29 15:02",
+     "status": "已完成",
+     "label": "[DRESS_SCENE main/whiteBg]",
+     "model": "default::gpt-image-2",
+     "results": 1,
+     "thumb": "1024x1024"
+    },
+    {
+     "time": "2026-10-29 15:02",
+     "status": "已完成",
+     "label": "[DRESS_SCENE main/modelLook]",
+     "model": "default::gpt-image-2",
+     "results": 1,
+     "thumb": "1024x1024"
+    }
+   ],
+   "resultArea": {
+    "blobs": [
+     "1000x1000",
+     "1024x1024",
+     "1024x1024"
+    ],
+    "caseAssetsRestored": "1/5 商品图 linkfox-case-2026966441820966912-source.jpeg"
+   },
+   "localStorageKeys": [
+    "tool-task:v1:task-mvt74l6q-1vljau",
+    "tool-task:v1:task-mvt74l6n-y5sie3"
+   ],
+   "doc": "evidence/real-acceptance/SUITE6_20261029/DRESS-real-batch-refresh-20261029.md",
+   "verdict": "H PASS: 真实任务落盘且全新加载后历史坞 2 条可读、结果区 blob 已解码"
+  },
+  {
+   "toolId": "FISSION_LINK",
+   "route": "/tools/product-design/fission-link",
+   "historyDock": {
+    "visible": true,
+    "count": 5,
+    "text": "历史任务 5 条"
+   },
+   "tasks": [
+    {
+     "time": "2026-10-29 12:17",
+     "status": "已完成",
+     "model": "default::gpt-image-2",
+     "results": 1,
+     "thumb": "1024x1024"
+    },
+    {
+     "time": "2026-10-29 12:16",
+     "status": "已完成",
+     "model": "default::gpt-image-2",
+     "results": 1,
+     "thumb": "1024x1024"
+    },
+    {
+     "time": "2026-10-29 12:15",
+     "status": "提交中",
+     "model": "default::gpt-image-2",
+     "results": 0
+    },
+    {
+     "time": "2026-10-29 12:08",
+     "status": "已完成",
+     "model": "default::gpt-image-2",
+     "results": 1,
+     "thumb": "1024x1024"
+    },
+    {
+     "time": "2026-10-29 12:04",
+     "status": "已完成",
+     "model": "default::gpt-image-2",
+     "results": 1,
+     "thumb": "1024x1024"
+    }
+   ],
+   "resultArea": {
+    "blobs": [
+     "1024x1024",
+     "1024x1024",
+     "1024x1024",
+     "1024x1024"
+    ]
+   },
+   "localStorageKeys": [
+    "tool-task:v1:task-mvt0rvni-*",
+    "tool-task:v1:task-mvt17bmi-*",
+    "tool-task:v1:task-mvt0ww21-*"
+   ],
+   "verdict": "H PASS；顺带缺陷：2 条 12:15 任务刷新后仍停在「提交中」"
+  },
+  {
+   "toolId": "CHANGE_COLOR_V2",
+   "route": "/tools/ecommerce-suite/change-color-v2",
+   "historyDock": {
+    "visible": true,
+    "count": 4,
+    "text": "历史任务 4 条"
+   },
+   "tasks": [
+    {
+     "time": "2026-10-29 00:37",
+     "status": "提交中",
+     "results": 0
+    },
+    {
+     "time": "2026-10-29 00:34",
+     "status": "已完成",
+     "results": 1
+    },
+    {
+     "time": "2026-10-29 00:06",
+     "status": "结果未知",
+     "results": 0
+    }
+   ],
+   "domNote": "历史坞显示 4 条，DOM 中任务行出现 8 次（每任务 2 节点，疑双容器同时挂载）",
+   "verdict": "H PASS（有已完成任务回填）；缺陷：僵尸「提交中」不收敛、卡片重复渲染"
+  }
+ ],
+ "defects": [
+  "刷新后未对账：处于提交中的任务永久停留「提交中」（CHANGE_COLOR_V2 00:37、FISSION_LINK 12:15）",
+  "历史卡片重复渲染：dock count=2/4，DOM 行数为 4/8"
+ ]
+}
