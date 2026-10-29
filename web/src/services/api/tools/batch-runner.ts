@@ -389,10 +389,25 @@ function isAbortSignalAborted(signal?: AbortSignal): boolean {
     return Boolean(signal?.aborted);
 }
 
-function collectResultUrls(items: ToolTaskResultItem[] | undefined): string[] {
-    return (items ?? [])
-        .map((item) => item.url)
-        .filter((url): url is string => typeof url === "string" && /^https?:\/\//i.test(url));
+/**
+ * 行结果的可显示地址。
+ * - http(s)：上游直链，天生可持久化（报告/回执只用它）；
+ * - blob: 只在当前标签页有效，刷新后必定失效 —— 仅用于本轮 UI 显示，
+ *   落盘时由 store 剥离，刷新后按 `storageKey` 从 IndexedDB 重建。
+ */
+export function collectResultUrls(
+    items: ToolTaskResultItem[] | undefined,
+    options: { includeSession?: boolean } = {},
+): string[] {
+    const urls: string[] = [];
+    for (const item of items ?? []) {
+        const url = item.url;
+        if (typeof url !== "string" || url.length === 0) continue;
+        const displayable = /^https?:\/\//i.test(url) || (options.includeSession === true && url.startsWith("blob:"));
+        if (!displayable || urls.includes(url)) continue;
+        urls.push(url);
+    }
+    return urls;
 }
 
 export function applyTaskToOutcome(outcome: BatchRowOutcome, task: ToolTask, now: number): BatchRowOutcome {
@@ -407,7 +422,7 @@ export function applyTaskToOutcome(outcome: BatchRowOutcome, task: ToolTask, now
         finishedAt,
         durationMs: outcome.startedAt !== undefined ? Math.max(0, finishedAt - outcome.startedAt) : undefined,
         resultCount: task.result?.items?.length ?? 0,
-        resultUrls: collectResultUrls(task.result?.items),
+        resultUrls: collectResultUrls(task.result?.items, { includeSession: true }),
         error:
             status === "succeeded"
                 ? undefined

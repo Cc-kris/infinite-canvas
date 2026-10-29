@@ -10,7 +10,7 @@ import {
     BATCH_CONCURRENCY_MAX,
     BATCH_CONCURRENCY_MIN,
 } from "@/services/api/tools/batch-runner";
-import { useBatchTaskStore, type BatchStatus, type BatchTask, type BatchTaskRow } from "@/stores/use-batch-task-store";
+import { useBatchTaskStore, sortBatchesForHistory, type BatchStatus, type BatchTask, type BatchTaskRow } from "@/stores/use-batch-task-store";
 
 /**
  * 批量生图工作台（TASK-007）。
@@ -143,6 +143,13 @@ export function BatchPage({ batchId, sidebar }: BatchPageProps) {
     const handleCreate = (toolId: string) => {
         const created = createBatch(toolId);
         window.history.replaceState(null, "", `/tools/batch-generate/${created.batchId}`);
+    };
+
+    /** 历史列表点开：走同一个 openBatch，URL 跟着换，刷新仍是这一批。 */
+    const handleOpenBatch = (targetId: string) => {
+        const opened = openBatch(targetId);
+        if (!opened) return;
+        window.history.replaceState(null, "", `/tools/batch-generate/${targetId}`);
     };
 
     const handleRun = async () => {
@@ -292,7 +299,10 @@ export function BatchPage({ batchId, sidebar }: BatchPageProps) {
                 {!hydrated ? (
                     <p className="text-sm text-muted-foreground">正在恢复本地批次…</p>
                 ) : !batch ? (
-                    <ToolPicker tools={batchTools} onCreate={handleCreate} />
+                    <>
+                        <BatchHistory batches={sortBatchesForHistory(batches)} tools={batchTools} onOpen={handleOpenBatch} />
+                        <ToolPicker tools={batchTools} onCreate={handleCreate} />
+                    </>
                 ) : (
                     <>
                         <section className="flex flex-wrap items-end gap-3 rounded-lg border border-border bg-card px-4 py-3">
@@ -425,6 +435,58 @@ export function BatchPage({ batchId, sidebar }: BatchPageProps) {
                 )}
             </div>
         </ToolShell>
+    );
+}
+
+/**
+ * 本地批次历史：`batch-task:v1:index` 的唯一 UI 消费方。
+ * 刷新后还没点进具体批次时，用户能看见“哪些批次在本地、每批真实成功/失败多少行”，
+ * 而不是只剩一个空的工具选择页（旧行为：索引写了没人读，批次等于不可达）。
+ */
+function BatchHistory({
+    batches,
+    tools,
+    onOpen,
+}: {
+    batches: BatchTask[];
+    tools: ReturnType<typeof getBatchTools>;
+    onOpen: (batchId: string) => void;
+}) {
+    if (batches.length === 0) return null;
+    const titles = new Map(tools.map((tool) => [tool.id, tool.title]));
+    return (
+        <section data-testid="batch-history" className="rounded-lg border border-border bg-card px-4 py-4">
+            <h2 className="text-sm font-medium">本地批次</h2>
+            <p className="mt-1 text-xs text-muted-foreground">
+                刷新后从这里继续；行结果按每行任务的真实落盘结果还原（本地结果图会重新取字节，不重跑、不重新计费）。
+            </p>
+            <ul className="mt-3 grid gap-2 sm:grid-cols-2 xl:grid-cols-3">
+                {batches.map((batch) => {
+                    const done = batch.outcomes.filter((outcome) => outcome.status === "succeeded").length;
+                    const failed = batch.outcomes.filter(
+                        (outcome) => outcome.status === "failed" || outcome.status === "unknown",
+                    ).length;
+                    return (
+                        <li key={batch.batchId}>
+                            <button
+                                type="button"
+                                data-testid={`batch-history-${batch.batchId}`}
+                                onClick={() => onOpen(batch.batchId)}
+                                className="w-full rounded-md border border-border px-3 py-2 text-left transition hover:bg-accent"
+                            >
+                                <span className="block text-sm">
+                                    {titles.get(batch.toolId) ?? batch.toolId} · {STATUS_LABEL[batch.status]}
+                                </span>
+                                <span className="mt-0.5 block text-[11px] text-muted-foreground">
+                                    {batch.rows.length} 行 · 成功 {done} · 失败 {failed} · {new Date(batch.updatedAt).toLocaleString()}
+                                </span>
+                                <span className="mt-0.5 block font-mono text-[11px] text-muted-foreground">{batch.batchId}</span>
+                            </button>
+                        </li>
+                    );
+                })}
+            </ul>
+        </section>
     );
 }
 
