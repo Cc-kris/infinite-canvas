@@ -58,6 +58,12 @@ const proxyEntry = path.join(proxyDir, "server.js");
 const SHELL_PORT = 23211;
 const PROXY_PORT = 23210;
 const PORT_SCAN = 12;
+/** The proxy may fall back, but only inside its own range — never onto SHELL_PORT. A second, higher
+ *  range keeps the proxy scanning even when a few of the classic ports are taken. */
+const PROXY_FALLBACK_PORT = 23240;
+/** Where the renderer origin used to wander to (23211+1..+PORT_SCAN) when the port was busy. Those
+ *  origins may still hold a user's channels/logs from a build before this fix. */
+const LEGACY_SHELL_PORTS = Array.from({ length: PORT_SCAN }, (_, i) => SHELL_PORT + 1 + i);
 
 const MIME_TYPES = {
     ".html": "text/html; charset=utf-8",
@@ -85,6 +91,8 @@ const MIME_TYPES = {
 let proxyServer = null;
 /** @type {import("node:http").Server | null} */
 let shellServer = null;
+/** One-shot flag: only tell the user about a legacy (drifting) origin once per launch. */
+let SHELL_LEGACY_HINTED = false;
 
 function log(...args) {
     console.log("[infinite-canvas]", ...args);
@@ -130,6 +138,20 @@ async function detectRunningProxy(port) {
     }
 }
 
+/** Ports the bundled proxy is allowed to probe/bind, in priority order.
+ *  SHELL_PORT is deliberately excluded: if the proxy grabbed the renderer port, the renderer would
+ *  have to move to another origin, which hides every channel and generation log from the user
+ *  (localStorage + IndexedDB are per-origin) and looks exactly like "my data disappeared". */
+function proxyPorts() {
+    const ports = [];
+    for (let offset = 0; offset < PORT_SCAN; offset += 1) {
+        const port = PROXY_PORT + offset;
+        if (port !== SHELL_PORT) ports.push(port);
+    }
+    for (let offset = 0; offset < PORT_SCAN; offset += 1) ports.push(PROXY_FALLBACK_PORT + offset);
+    return ports;
+}
+
 /** Reuse a proxy that is already listening, otherwise start the bundled one. */
 async function startProxy() {
     // Same decision the standalone proxy makes for itself (environment → macOS → Windows), so the
@@ -139,8 +161,7 @@ async function startProxy() {
     if (systemProxy) log(`system proxy: ${systemProxy.url} (${systemProxy.source}) — outbound goes through it`);
     else log("no system proxy configured — outbound goes direct");
 
-    for (let offset = 0; offset < PORT_SCAN; offset += 1) {
-        const port = PROXY_PORT + offset;
+    for (const port of proxyPorts()) {
         const existing = await detectRunningProxy(port);
         if (existing) {
             log(`reusing local proxy at ${existing}`);
@@ -170,7 +191,10 @@ async function startProxy() {
     throw new Error("no free port for the local proxy");
 }
 
-/** Serve the built renderer over http so history routing and IndexedDB behave like the web build. */
+/** Serve the built renderer over http so history routing and IndexedDB behave like the web build.
+ *  The port is not negotiable: a different port is a different origin, and every store the user
+ *  cares about (channels in localStorage, canvases/logs in IndexedDB) is per-origin. Silently
+ *  moving to 23212 is exactly how "all my settings and generation history vanished" reports start. */
 function serveRenderer() {
     return new Promise((resolve, reject) => {
         const server = createServer((req, res) => {
@@ -195,21 +219,65 @@ function serveRenderer() {
                 .pipe(res);
         });
 
-        const listen = (port, attempt = 0) => {
-            server.once("error", (error) => {
-                if (error.code === "EADDRINUSE" && attempt < PORT_SCAN) listen(port + 1, attempt + 1);
-                else reject(error);
-            });
-            server.listen(port, "127.0.0.1", () => {
-                shellServer = server;
-                const address = server.address();
-                const url = `http://127.0.0.1:${typeof address === "object" && address ? address.port : port}`;
-                log(`renderer served at ${url}`);
-                resolve(url);
-            });
-        };
-        listen(SHELL_PORT);
+        server.once("error", (error) => reject(error));
+        server.listen(SHELL_PORT, "127.0.0.1", () => {
+            shellServer = server;
+            log(`renderer served at http://127.0.0.1:${SHELL_PORT}`);
+            resolve(`http://127.0.0.1:${SHELL_PORT}`);
+        });
     });
+}
+
+/** True when one of the old drifting origins still holds stores — i.e. the user's data is on disk,
+ *  under a port this build no longer opens. Used for the one-time hint below. */
+function legacyOriginHint() {
+    if (SHELL_LEGACY_HINTED) return "";
+    try {
+        const idbRoot = path.join(app.getPath("userData"), "IndexedDB");
+        const hit = LEGACY_SHELL_PORTS.find((port) =>
+            existsSync(path.join(idbRoot, `http_127.0.0.1_${port}.indexeddb.leveldb`)),
+        );
+        if (!hit) return "";
+        SHELL_LEGACY_HINTED = true;
+        return String(hit);
+    } catch {
+        return "";
+    }
+}
+
+/** Bind the renderer port, or stop and tell the user why. Never fall back to another origin. */
+async function resolveRendererUrl() {
+    for (;;) {
+        try {
+            return await serveRenderer();
+        } catch (error) {
+            if (error?.code !== "EADDRINUSE") throw error;
+            log(`renderer port ${SHELL_PORT} is busy — refusing to switch origin`);
+            const legacy = legacyOriginHint();
+            const { response } = await dialog.showMessageBox({
+                type: "warning",
+                title: "端口被占用",
+                message: `端口 ${SHELL_PORT} 被其它程序占用，界面打不开。`,
+                detail:
+                    `画布的渠道配置和生成记录都保存在 http://127.0.0.1:${SHELL_PORT} 这一个地址下。` +
+                    `换端口会有另一套空的存储，看起来就像"配置和记录全没了"，所以这里不会自动换。\n\n` +
+                    `请关闭占用该端口的程序，然后点「重试」。\n` +
+                    (legacy
+                        ? `\n另外：旧版本曾在端口 ${legacy} 下存过数据，那里可能还有你之前的配置和记录（可用「打开数据目录」查看）。`
+                        : ""),
+                buttons: ["重试", "打开数据目录", "退出"],
+                defaultId: 0,
+                cancelId: 2,
+                noLink: true,
+            });
+            if (response === 0) continue;
+            if (response === 1) {
+                await shell.openPath(app.getPath("userData"));
+                continue;
+            }
+            return "";
+        }
+    }
 }
 
 /** Updates are published as desktop-v* releases in the user's own repository. */
@@ -553,8 +621,11 @@ function attachContextMenu(window) {
     });
 }
 
-async function createWindow(proxyUrl) {
-    const appUrl = await serveRenderer();
+async function createWindow(proxyUrl, rendererUrl) {
+    // The origin is fixed; a busy port stops the launch with an explicit dialog instead of quietly
+    // serving the UI from a different origin (which empties every per-origin store).
+    const appUrl = rendererUrl || (await resolveRendererUrl());
+    if (!appUrl) return false;
     const window = new BrowserWindow({
         width: 1440,
         height: 900,
@@ -585,6 +656,7 @@ async function createWindow(proxyUrl) {
     attachContextMenu(window);
 
     await window.loadURL(appUrl);
+    return true;
 }
 
 const gotLock = app.requestSingleInstanceLock();
@@ -609,7 +681,15 @@ if (!gotLock) {
         } catch (error) {
             log("continuing without the local proxy:", error);
         }
-        await createWindow(proxyUrl);
+        // Resolve the renderer origin once: it is the user's data identity, so the same URL is reused
+        // when the window is re-opened from the Dock and a busy port never turns into a silent switch.
+        const rendererUrl = await resolveRendererUrl();
+        if (!rendererUrl) {
+            log("renderer port unavailable and the user chose to quit");
+            app.quit();
+            return;
+        }
+        await createWindow(proxyUrl, rendererUrl);
 
         // 上次「点更新 → 退出 → 什么都没发生」的话，这里补一次明确告知。
         reportAbortedUpdate();
@@ -627,7 +707,7 @@ if (!gotLock) {
         }, 1500);
 
         app.on("activate", () => {
-            if (BrowserWindow.getAllWindows().length === 0) void createWindow(proxyUrl);
+            if (BrowserWindow.getAllWindows().length === 0) void createWindow(proxyUrl, rendererUrl);
         });
     });
 
