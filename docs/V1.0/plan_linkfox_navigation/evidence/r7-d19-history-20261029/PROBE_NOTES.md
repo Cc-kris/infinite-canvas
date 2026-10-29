@@ -1,32 +1,28 @@
-# R7 design19 历史取证 · 探针笔记（2026-10-29）
+# PROBE NOTES · R7 design19 历史取证（2026-10-29）
 
-## 范围（13）
-NEW_REPLACE_BG_V2 / REPLACE_GOODS / PRODUCT_SCENE / HANDHELD_GOODS / AI_DRESSING_V2 /
-AI_POSTURE / AI_WEARABLE / PRINT_EXTRACT / AI_POSE_GENERATOR / IMAGE_TEXT_EDIT /
-MATERIAL_UPPER_BODY / NEW_DESIGNER / PRODUCT_MARKET_MATERIAL
-（AI_DRESSING_XSY 归另一 worker，不碰）
+## 复用给后来者的坑（都已实测）
 
-## 环境
-- 浏览器 ego lite Profile 1（真实用户 profile，非临时 playwright）
-- 本地 http://127.0.0.1:3000（vite dev，200）；另有 http://localhost:3000 独立 origin（IDB 4.6MB，待查）
-- 索引键 `tool-task:v1:index`（localStorage）→ 37 个 task id 数组
+1. **TMWebDriver.execute_js 的 session_id 必须传 `str`**
+   - 传 `int` 会被当成非法会话 → **静默回落到该 driver 的默认标签**（本次回落到了别的 worker 的
+     `video-replication` 标签，导致一次误采，已删数据重采）。
+   - 正确写法：`driver.execute_js(js, timeout=60, session_id="1709629220")`。
+   - 用 `location.pathname` 探针确认命中自己的标签后再动手，别信默认会话。
 
-## 已探明（127.0.0.1:3000）
-- 37 条任务按 toolId 汇总：仅 IMAGE_TEXT_EDIT 属本次 13 个工具，共 1 条
-  - task-mvs8bhu1-hhue24, succeeded, createdAt 1793198888713 (2026-10-28T09:28:08Z)
-  - result.items[0] = {kind:"image", payloadDropped:true} —— **无 storageKey、无字节**
-  - 即「成功但产物未落盘」，刷新后历史行无图可下载/入库/发画布
-- 其余 12 个工具在真实 profile 的索引里 0 条
-- IDB infinite-canvas：media_files 74（tool-result 20 / tool-asset 51 / video 3）、image_files 32、tool_assets 48（无 toolId 元数据）
+2. **本机请求要清代理**：环境里 `HTTP(S)_PROXY=…:7890` 会让 `127.0.0.1:3000` 打不通。
+   探针脚本开头统一 `pop` 掉 proxy 变量并设 `NO_PROXY=127.0.0.1,localhost`。
 
-## 代码事实
-- web/src/stores/use-tool-task-store.ts：hydrate 只按 storageKey 复原对象 URL；payloadDropped 项不会重取
-- web/src/features/tools/use-task-recovery.ts：挂载时只 resume 「未完结」任务，已 succeeded 但不完整的不处理
-- web/src/features/tools/tool-page.tsx：WORKSPACE_OWN_HISTORY 豁免板（无我 13 个，除 PRODUCT_SCENE 自带历史 tab）
-  → 13 个工具都有历史表面（dock 或自带 tab）
+3. **不要在 `/tmp` 跑 Python**：`/private/tmp/tokenize.py` 会遮蔽标准库，
+   `import requests` 直接 `SyntaxError: no binding for nonlocal 'n' found`。
 
-## 真机验证 1（2026-10-29T09:2x）
-- 修复后新开 127.0.0.1 标签 /tools/product-design/handheld-goods（hard navigation = fresh load）
-- localStorage index 由 38 → **53**（healTaskIndex 把 15 条孤儿补回索引）
-- tool-history-dock：count=「1 条」，行=「2026-10-28 21:34 失败 Photorealistic e-commerce product photo…」
-  → 该任务此前在索引外，历史坞恒为空；属真实任务的历史行恢复（无产物，仅行级）
+4. **`Page.close` 之后 `get_all_sessions()` 可能仍缓存**：判定关没关要用**新建 driver** 复读列表。
+
+5. **PRODUCT_SCENE 的历史不在页底 dock**：它在 `WORKSPACE_OWN_HISTORY`（`tool-page.tsx:419-426`），
+   历史是工作区右栏第三个页签（`scene-fission.tsx:856-860` 自渲染 `ToolHistoryDock`）。
+   直接查 `[data-testid="tool-history-dock"]` 会得到「不存在」的假结论——必须先点
+   `[data-testid="scene-tab-history"]` 再查，否则会把「页签未激活」误判成「没有历史面板」。
+
+## 历史面板取数口径
+
+- 空态由 `tool-history-dock-empty` 给出，计数由 `tool-history-dock-count` 给出（形如 `0 条`）。
+- 展开行 `aria-expanded=true` 后才有 `tool-history-dock-detail`，行内才有结果项与动作按钮。
+- 任务真源是 localStorage 的任务表（本次 53 条），面板计数与之一致才算过。
