@@ -83,6 +83,7 @@ export function ToolAssetInput({ toolId, draftSlot, constraints, maxCount, libra
     const [dragging, setDragging] = useState(false);
     const [hydratedDraft, setHydratedDraft] = useState(false);
     const itemsRef = useRef<AssetItem[]>([]);
+    const libraryRef = useRef<HTMLDetailsElement | null>(null);
     const controllers = useRef(new Map<string, AbortController>());
     const inputRef = useRef<HTMLInputElement | null>(null);
 
@@ -341,13 +342,36 @@ export function ToolAssetInput({ toolId, draftSlot, constraints, maxCount, libra
                         <span className={cn("inline-flex h-6 items-center justify-center rounded-[4px] bg-[#723cf9] text-[12px] font-medium leading-none text-white", wide ? "w-full" : "w-[210px]")}>
                             {uploadLabel ?? "从本地上传"}
                         </span>
-                        {actions ? (
+                        {actions || linkfox ? (
                             <div
                                 className={cn("flex items-center gap-2", wide ? "w-full" : "w-[210px]")}
                                 onClick={(event) => event.stopPropagation()}
                                 onKeyDown={(event) => event.stopPropagation()}
                             >
-                                {actions}
+                                {actions ?? (linkfox ? (
+
+                            <>
+                                <button
+                                    type="button"
+                                    className="h-6 w-[100px] rounded-[4px] border border-[#e5e5ea] bg-white text-[12px] leading-none text-[#5a5a66] transition hover:border-[#c9c9d4] disabled:opacity-50"
+                                    disabled={disabled || atLimit || !library?.length}
+                                    title={library?.length ? "从作品库（资产库）选择" : "资产库暂时没有可用图片"}
+                                    onClick={() => {
+                                        if (libraryRef.current) libraryRef.current.open = true;
+                                    }}
+                                >
+                                    从作品库选择
+                                </button>
+                                <button
+                                    type="button"
+                                    className="h-6 w-[100px] rounded-[4px] border border-[#e5e5ea] bg-white text-[12px] leading-none text-[#5a5a66] transition hover:border-[#c9c9d4] disabled:opacity-50"
+                                    disabled
+                                    title="商品库未接入（PARTIAL）"
+                                >
+                                    从商品库选择
+                                </button>
+                            </>
+                                ) : null)}
                             </div>
                         ) : null}
                         {hint ? <div className={cn("text-[11px] leading-4 text-[#8a8a99]", wide ? "w-full" : "w-[210px]")}>{hint}</div> : null}
@@ -422,7 +446,7 @@ export function ToolAssetInput({ toolId, draftSlot, constraints, maxCount, libra
             )}
 
             {library?.length ? (
-                <details className="rounded-lg border border-stone-200 px-3 py-2 dark:border-stone-800">
+                <details ref={libraryRef} className="rounded-lg border border-stone-200 px-3 py-2 dark:border-stone-800">
                     <summary className="cursor-pointer text-xs text-stone-600 dark:text-stone-300">从资产库选择（{library.length}）</summary>
                     <ul className="mt-2 grid grid-cols-2 gap-2">
                         {library.map((libraryItem) => (

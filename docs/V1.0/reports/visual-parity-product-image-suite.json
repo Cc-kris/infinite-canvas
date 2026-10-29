@@ -1,0 +1,198 @@
+{
+ "tool": "product-image-suite",
+ "route": "/tools/ecommerce-suite/product-image-suite",
+ "originUrl": "https://www.linkfox.com/draw/product-image-suite",
+ "capturedAt": "2026-10-29T03:11:13.055Z",
+ "layout": {
+  "layout": "linkfox-two-pane",
+  "leftColumnWidth": 307,
+  "scrollOverflowY": "auto",
+  "tabs": [
+   "生成结果",
+   "优秀案例",
+   "历史记录"
+  ],
+  "status": "PASS"
+ },
+ "copy": {
+  "originCount": 54,
+  "missingInLocal": [
+   "查看",
+   "优秀案例",
+   "历史记录"
+  ],
+  "status": "PARTIAL"
+ },
+ "fields": [
+  {
+   "tag": "input",
+   "type": "file",
+   "label": null
+  },
+  {
+   "tag": "textarea",
+   "type": "textarea",
+   "label": null
+  },
+  {
+   "tag": "input",
+   "type": "checkbox",
+   "label": "智能品牌基因"
+  },
+  {
+   "tag": "input",
+   "type": "color",
+   "label": "智能主色"
+  },
+  {
+   "tag": "select",
+   "type": "select-one",
+   "label": "智能主色、智能字体风格\n未指定\n现代无衬"
+  },
+  {
+   "tag": "select",
+   "type": "select-one",
+   "label": "分辨率选择\n1K\n2K\n4K"
+  },
+  {
+   "tag": "select",
+   "type": "select-one",
+   "label": "模型品质\n低品质\n中品质\n高品质\n超高品"
+  },
+  {
+   "tag": "select",
+   "type": "select-one",
+   "label": "生成比例\n1:1\n3:4\n4:3\n2:3"
+  },
+  {
+   "tag": "input",
+   "type": "number",
+   "label": "张数"
+  },
+  {
+   "tag": "select",
+   "type": "select-one",
+   "label": "排版\n每种排版生成一张\n无文字模式"
+  }
+ ],
+ "interactions": {
+  "tabs": [
+   {
+    "click": "生成结果",
+    "selected": [
+     [
+      "生成结果",
+      "true"
+     ],
+     [
+      "优秀案例",
+      "false"
+     ],
+     [
+      "历史记录",
+      "false"
+     ],
+     [
+      "",
+      "false"
+     ],
+     [
+      "",
+      "false"
+     ],
+     [
+      "",
+      "false"
+     ],
+     [
+      "",
+      "false"
+     ]
+    ]
+   },
+   {
+    "click": "优秀案例",
+    "selected": [
+     [
+      "生成结果",
+      "false"
+     ],
+     [
+      "优秀案例",
+      "true"
+     ],
+     [
+      "历史记录",
+      "false"
+     ],
+     [
+      "",
+      "false"
+     ],
+     [
+      "",
+      "false"
+     ],
+     [
+      "",
+      "false"
+     ],
+     [
+      "",
+      "false"
+     ]
+    ]
+   },
+   {
+    "click": "历史记录",
+    "selected": [
+     [
+      "生成结果",
+      "false"
+     ],
+     [
+      "优秀案例",
+      "false"
+     ],
+     [
+      "历史记录",
+      "true"
+     ],
+     [
+      "",
+      "false"
+     ],
+     [
+      "",
+      "false"
+     ],
+     [
+      "",
+      "false"
+     ],
+     [
+      "",
+      "false"
+     ]
+    ]
+   }
+  ],
+  "disclaimer": {
+   "opened": true
+  },
+  "workLibrary": {
+   "detailsOpen": null,
+   "text": null
+  }
+ },
+ "partial": [
+  "优秀案例 Tab 无平台案例数据源，仅空态（原站案例来自平台作品）",
+  "从商品库选择 无商品库服务，按钮 disabled",
+  "LF智能模型 G-2.5 Sunburst 为原站文案；实际后端模型显示在下方「当前模型」",
+  "张数/排版 联动与 A+/主副图 计费仅本地估算"
+ ],
+ "evidence": {
+  "screenshot": "docs/V1.0/reports/suite-local.png",
+  "dom": "docs/V1.0/reports/suite-local-dom.json"
+ }
+}

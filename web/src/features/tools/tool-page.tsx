@@ -424,6 +424,19 @@ export const WORKSPACE_OWN_HISTORY: ReadonlySet<string> = new Set([
 ]);
 
 /**
+ * 电商套图 6 个工具在原站都是「左窄表单列 + 右结果页签」的沉浸式版面：
+ * 没有页面标题栏/面包屑，表单列直接从顶部开始。其余工具仍保留现有的外壳标题。
+ */
+export const IMMERSIVE_TOOL_IDS: ReadonlySet<string> = new Set([
+    "PRODUCT_IMAGE_SUITE",
+    "DRESS_WEAR_SET",
+    "CHANGE_COLOR_V2",
+    "IMAGE_TRANSLATION",
+    "SCALE_UP",
+    "AI_OUTPAINTING",
+]);
+
+/**
  * A workspace is bound to the registry's canonical ToolSpec, not to a bare id from URL params.
  * The entry must agree with the registry on id, slug, category and makeType; an entry that only
  * looks similar (an injected/partial catalog) keeps the spec placeholder instead of mounting a
@@ -562,8 +575,9 @@ export function ToolRouteView({ catalog, category, toolId }: ToolRouteViewProps)
             return (
                 <ToolShell
                     title={title}
-                    subtitle={`/tools/${match.category}/${match.requestedSlug}`}
-                    breadcrumb={`${categoryLabel(match.category, i18n.language)} / ${title}`}
+                    subtitle={IMMERSIVE_TOOL_IDS.has(match.entry?.id ?? "") ? undefined : `/tools/${match.category}/${match.requestedSlug}`}
+                    breadcrumb={IMMERSIVE_TOOL_IDS.has(match.entry?.id ?? "") ? undefined : `${categoryLabel(match.category, i18n.language)} / ${title}`}
+                    immersive={IMMERSIVE_TOOL_IDS.has(match.entry?.id ?? "")}
                     badges={
                         match.specPending ? (
                             <span className="shrink-0 rounded border border-border px-1.5 text-[11px] leading-5 text-muted-foreground">规格未接入</span>
@@ -574,7 +588,7 @@ export function ToolRouteView({ catalog, category, toolId }: ToolRouteViewProps)
                     sidebar={sidebar}
                 >
                     {workspace && match.entry ? (
-                        <div data-testid="tool-workspace" data-workspace="ready" data-tool-id={match.entry.id} className="min-w-0">
+                        <div data-testid="tool-workspace" data-workspace="ready" data-tool-id={match.entry.id} className={IMMERSIVE_TOOL_IDS.has(match.entry.id) ? "h-full min-h-0 min-w-0" : "min-w-0"}>
                             {workspace({ toolId: match.entry.id as ToolWorkspaceId })}
                             {WORKSPACE_OWN_HISTORY.has(match.entry.id) ? null : (
                                 <ToolHistoryDock toolId={match.entry.id} className="mt-4" />
