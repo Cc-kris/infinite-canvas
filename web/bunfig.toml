@@ -1,2 +1,4 @@
+# bun test 配置：Playwright E2E（*.spec.ts，含 temp/ 下的临时探针）必须由 `bunx playwright test` 运行，
+# 不能被 bun 内置测试收集，否则会抛 "Playwright Test did not expect test() to be called here"。
 [test]
-pathIgnorePatterns = ["tests/**/*.spec.ts"]
+pathIgnorePatterns = ["**/*.spec.ts"]
