@@ -4,6 +4,7 @@
  * bun 无 DOM：先 stub localStorage，再动态 import 被测模块（其依赖 i18n 顶层读 localStorage）。
  */
 import { describe, expect, it } from "bun:test";
+import { isRequestTimeoutError, VIDEO_SUBMIT_TIMEOUT_MS, VIDEO_POLL_TIMEOUT_MS } from "./video";
 
 if (!("localStorage" in globalThis)) {
     const store = new Map<string, string>();
@@ -105,5 +106,24 @@ describe("canInlineImagesToJson · 参考图与源视频解耦", () => {
             inlineVideos: true,
         });
         expect(plan.order[0]).toBe("json");
+    });
+});
+
+// 2026-10-29 真实 UI 复现：提交无预算 → 任务永久停在 submitting。锁定超时判定与「超时不重试」。
+describe("video submit time budget", () => {
+    it("recognises axios timeout shapes", () => {
+        expect(isRequestTimeoutError({ code: "ECONNABORTED" })).toBe(true);
+        expect(isRequestTimeoutError({ code: "ETIMEDOUT" })).toBe(true);
+        expect(isRequestTimeoutError({ name: "TimeoutError" })).toBe(true);
+        expect(isRequestTimeoutError({ message: "timeout of 180000ms exceeded" })).toBe(true);
+        expect(isRequestTimeoutError({ response: { status: 502 } })).toBe(false);
+        expect(isRequestTimeoutError(new Error("boom"))).toBe(false);
+    });
+
+    it("has a submit budget but no accidental infinite wait", () => {
+        expect(VIDEO_SUBMIT_TIMEOUT_MS).toBeGreaterThan(0);
+        expect(VIDEO_SUBMIT_TIMEOUT_MS).toBeLessThanOrEqual(300_000);
+        expect(VIDEO_POLL_TIMEOUT_MS).toBeGreaterThan(0);
+        expect(VIDEO_POLL_TIMEOUT_MS).toBeLessThan(VIDEO_SUBMIT_TIMEOUT_MS);
     });
 });

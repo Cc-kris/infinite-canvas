@@ -185,6 +185,28 @@ function requestStatus(error: unknown) {
 }
 
 /**
+ * 提交/轮询预算（2026-10-29 真实 UI 复现）：VIDEO_CONCAT 填 2 段真实片段后点生成，
+ * 任务记录停在 `submitting` 且 `updatedAt === createdAt`，上游迟迟没有 `/videos`，
+ * 页面上连错误都没有——因为整条提交链路没有任何时间预算：
+ * axios 不带 timeout、`withGatewayRetry` 把「没拿到响应」的 axios 错误一律当瞬时故障重试，
+ * 于是一次被卡住的连接就能让任务永久停在 submitting。
+ *
+ * 提交必须给预算：超时按「结果未知」报错（不能静默重试，上游可能已经受理并计费）。
+ */
+export const VIDEO_SUBMIT_TIMEOUT_MS = 180_000;
+export const VIDEO_POLL_TIMEOUT_MS = 60_000;
+
+/** 请求预算用尽（ECONNABORTED/ETIMEDOUT）：连接层没有回应，上游是否受理未知。 */
+export function isRequestTimeoutError(error: unknown) {
+    const code = (error as { code?: string } | null)?.code;
+    if (code === "ECONNABORTED" || code === "ETIMEDOUT") return true;
+    const name = (error as { name?: string } | null)?.name;
+    if (name === "TimeoutError") return true;
+    const message = (error as { message?: string } | null)?.message || "";
+    return /timeout of \d+ms exceeded/i.test(message);
+}
+
+/**
  * 官方 OpenAI 只吃 multipart；其余（sub2api 等中转）只解析 JSON。
  * 先发 JSON 可以省掉一次注定 400、还要等十几秒的 multipart 往返，也少一次上游压力。
  */
@@ -206,6 +228,8 @@ async function withGatewayRetry<T>(run: () => Promise<T>, attempts = 3): Promise
         } catch (error) {
             lastError = error;
             if (axios.isCancel(error)) throw error;
+            // 预算用尽（连接层无回应）不重试：上游可能已受理并计费，重发等于重复刷量。
+            if (isRequestTimeoutError(error)) throw error;
             const status = requestStatus(error);
             const transient = status ? TRANSIENT_GATEWAY_STATUSES.has(status) : axios.isAxiosError(error);
             if (!transient || attempt === attempts) throw error;
@@ -374,6 +398,7 @@ async function createOpenAIVideoTask(config: AiConfig, model: string, prompt: st
     const post = (payload: FormData | Record<string, unknown>) => axios.post<ApiVideoResponse>(aiApiUrl(config, "/videos"), payload, {
         headers: payload instanceof FormData ? aiHeaders(config) : { ...aiHeaders(config), "Content-Type": "application/json" },
         signal: options?.signal,
+        timeout: VIDEO_SUBMIT_TIMEOUT_MS,
     });
     const plan = planVideoSubmitPayloads({
         inlineImages: Boolean(inlineImages),
@@ -414,7 +439,7 @@ async function createOpenAIVideoTask(config: AiConfig, model: string, prompt: st
 
 async function pollOpenAIVideoTask(config: AiConfig, task: VideoGenerationTask, options?: RequestOptions): Promise<VideoGenerationTaskState> {
     try {
-        const video = unwrapVideoResponse((await axios.get<ApiVideoResponse>(aiApiUrl(config, `/videos/${task.id}`), { headers: aiHeaders(config), signal: options?.signal })).data);
+        const video = unwrapVideoResponse((await axios.get<ApiVideoResponse>(aiApiUrl(config, `/videos/${task.id}`), { headers: aiHeaders(config), signal: options?.signal, timeout: VIDEO_POLL_TIMEOUT_MS })).data);
         const url = videoResultUrl(video, config);
         if (url) return { status: "completed", result: await videoResultFromUrl(url, options, aiHeaders(config)) };
         if (isVideoDoneStatus(video.status)) {

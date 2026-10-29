@@ -13,8 +13,17 @@ export const INLINE_IMAGE_MAX_CHARS = 500_000;
 function loadImageElement(src: string) {
     return new Promise<HTMLImageElement>((resolve, reject) => {
         const image = new Image();
-        image.onload = () => resolve(image);
-        image.onerror = () => reject(new Error("image decode failed"));
+        // 解码预算：坏掉的 blob:/超大 data URL 有可能既不 onload 也不 onerror，
+        // 那样整个提交链路（内联参考图）会永久悬挂。超时就当解码失败，走调用方的兜底。
+        const timer = setTimeout(() => reject(new Error("image decode timeout")), 10_000);
+        image.onload = () => {
+            clearTimeout(timer);
+            resolve(image);
+        };
+        image.onerror = () => {
+            clearTimeout(timer);
+            reject(new Error("image decode failed"));
+        };
         image.src = src;
     });
 }
