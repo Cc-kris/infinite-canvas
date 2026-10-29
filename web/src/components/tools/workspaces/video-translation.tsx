@@ -52,6 +52,7 @@ import {
 } from "@/features/tools/registry/video-translation";
 import { cn } from "@/lib/utils";
 import { assertToolProvider, providerDescriptorFromChannel } from "@/features/tools/capabilities";
+import { useStoredToolTask } from "@/features/tools/use-stored-tool-task";
 import type { ToolAssetRecord } from "@/services/api/tools/assets";
 import type { ToolTask } from "@/services/api/tools/task-machine";
 import { useConfigStore, resolveModelChannel } from "@/stores/use-config-store";
@@ -84,6 +85,14 @@ export function VideoTranslationWorkspace({ className }: VideoTranslationWorkspa
     const [record, setRecord] = useState<ToolAssetRecord | null>(null);
     const [task, setTask] = useState<ToolTask | null>(null);
     const [snapshot, setSnapshot] = useState<VideoTranslationSnapshot | null>(null);
+    /**
+     * 结果回填：任务与结果字节都已落库，刷新/重进后按最近一条落盘任务还原结果区，
+     * 否则「翻译成功 → 刷新 → 结果空白」，下载 / 存资产 / 发画布全部点不到。
+     */
+    const storedTask = useStoredToolTask(VIDEO_TRANSLATION_TOOL_ID);
+    useEffect(() => {
+        if (!task && storedTask) setTask(storedTask);
+    }, [storedTask, task]);
     const [error, setError] = useState("");
     const [notice, setNotice] = useState("");
     const [running, setRunning] = useState(false);

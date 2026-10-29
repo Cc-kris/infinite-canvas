@@ -20,6 +20,7 @@ import { ToolResult } from "@/components/tools/tool-result";
 import { ToolTaskHistory } from "@/components/tools/tool-task-history";
 import { uploadCaseFiles } from "@/features/tools/case-apply";
 import { IMAGE_TO_VIDEO_CASES, type ImageToVideoCase } from "@/features/tools/image-to-video-cases-data";
+import { useStoredToolTask } from "@/features/tools/use-stored-tool-task";
 import { loadToolAssetRecords, type ToolAssetRecord } from "@/services/api/tools/assets";
 import type { ToolTask } from "@/services/api/tools/task-machine";
 import { useConfigStore } from "@/stores/use-config-store";
@@ -141,6 +142,15 @@ export function ImageToVideoWorkspace({ className, toolId = IMAGE_TO_VIDEO_TOOL_
     const [lastFrame, setLastFrame] = useState<ImageToVideoAssetLike | undefined>();
     const [task, setTask] = useState<ToolTask | undefined>();
     const [snapshot, setSnapshot] = useState<ImageToVideoSnapshot | undefined>();
+    /**
+     * 结果回填：任务与结果字节都已落库，刷新/重进后按最近一条落盘任务还原结果区，
+     * 否则「生成成功 → 刷新 → 结果空白」，下载 / 存资产 / 发画布全部点不到。
+     * 只在本会话还没有任务时回填，不覆盖新提交。
+     */
+    const storedTask = useStoredToolTask(IMAGE_TO_VIDEO_TOOL_ID);
+    useEffect(() => {
+        if (!task && storedTask) setTask(storedTask);
+    }, [storedTask, task]);
     const [running, setRunning] = useState(false);
     const [restoring, setRestoring] = useState(false);
     const [lostAssets, setLostAssets] = useState<string[]>([]);
