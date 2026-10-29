@@ -1,8 +1,9 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { ChevronDown, Copy, Download, Film, FolderPlus, History, Loader2, Send, TriangleAlert } from "lucide-react";
+import { ChevronDown, Copy, Download, Film, FolderPlus, History, Loader2, RotateCcw, Send, TriangleAlert } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import type { ToolTask, ToolTaskResultItem } from "@/services/api/tools/task-machine";
+import { useToolReplayStore } from "@/stores/use-tool-replay-store";
 import { useToolTaskStore } from "@/stores/use-tool-task-store";
 
 import { TaskStatusBadge } from "./task-status";
@@ -89,6 +90,7 @@ export function ToolHistoryDock({ toolId, className, limit = 12, tasks: injected
     const hydrate = useToolTaskStore((state) => state.hydrate);
 
     const tasks = injectedTasks ?? storeTasks;
+    const requestReplay = useToolReplayStore((state) => state.requestReplay);
     const [expandedId, setExpandedId] = useState<string | null>(null);
     const [pending, setPending] = useState<string | null>(null);
     const [feedback, setFeedback] = useState<Feedback>(null);
@@ -207,6 +209,23 @@ export function ToolHistoryDock({ toolId, className, limit = 12, tasks: injected
                                         <Film aria-hidden="true" className="size-3" />
                                         视频结果 {videoCount} 个
                                     </p>
+                                ) : null}
+
+                                {/* 只有真正落盘了输入快照的任务才能回放（NEW_DESIGNER 这类无上游 provider 的工具）。 */}
+                                {task.inputSnapshot ? (
+                                    <button
+                                        type="button"
+                                        className="mt-1 inline-flex items-center gap-1 rounded border border-border px-1.5 py-0.5 text-[11px] text-foreground transition hover:bg-accent"
+                                        title="把这条任务落盘的画布输入送回工作台"
+                                        onClick={() => {
+                                            requestReplay({ toolId: task.toolId, taskId: task.id, snapshot: task.inputSnapshot as Record<string, unknown> });
+                                            setFeedback({ tone: "success", text: `已把 ${formatTaskTime(task.createdAt)} 的画布送回工作台` });
+                                        }}
+                                        data-testid="tool-history-dock-replay"
+                                    >
+                                        <RotateCcw aria-hidden="true" className="size-3" />
+                                        回放画布
+                                    </button>
                                 ) : null}
 
                                 {dropped && thumbs.length === 0 ? (

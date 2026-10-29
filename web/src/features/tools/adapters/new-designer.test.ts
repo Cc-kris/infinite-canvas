@@ -58,10 +58,14 @@ import {
 } from "@/features/tools/registry/new-designer";
 import {
     DesignerAdapterError,
+    DESIGNER_TASK_ENGINE,
     createCanvasDesignerCompositor,
+    designerInputSnapshot,
     designerResultNotice,
+    readDesignerReplaySnapshot,
     runDesigner,
 } from "@/features/tools/adapters/new-designer";
+import type { ToolTask } from "@/services/api/tools/task-machine";
 import { getToolById } from "@/features/tools/registry";
 
 /** 从 HTML 里取出带某属性的按钮开标签，避免用脆弱的整段正则判断禁用态。 */
@@ -612,5 +616,64 @@ describe("工作区渲染（无网络、无假结果）", () => {
         expect(isDisabled(buttonTag(html, 'data-testid="designer-export"'))).toBe(false);
         expect(isDisabled(buttonTag(html, 'data-testid="designer-done"'))).toBe(true);
         expect(html).not.toContain("画布为空");
+    });
+});
+
+/* ============================== 真实任务持久化 + 回放 ============================== */
+
+describe("任务持久化（历史坞读的是真实任务记录，不是本地假历史）", () => {
+    test("成功导出：任务推进到 succeeded，落盘可回放快照与真实结果 url", async () => {
+        const document = addDesignerLayer(
+            createDesignerDocument({ designerId: "dz-persist", imageUrl: IMAGE }),
+            createTextLayer(1, { text: "回放画布" }),
+        );
+        const { compositor, assets } = ports();
+        const persisted: ToolTask[] = [];
+        const run = await runDesigner({
+            document,
+            host: host(),
+            compositor,
+            assets,
+            taskId: "task-persist",
+            persist: (task) => void persisted.push(task),
+        });
+
+        expect(persisted.map((task) => task.status)).toEqual(["validating", "submitting", "running", "succeeded"]);
+        expect(run.task.id).toBe("task-persist");
+        expect(run.task.toolId).toBe(NEW_DESIGNER_TOOL_ID);
+        expect(run.task.upstreamProvider).toBe(DESIGNER_TASK_ENGINE);
+        expect(run.task.inputSnapshot).toBeDefined();
+        expect(run.task.result?.items[0]?.url).toBe("https://cdn.example.com/designer.png");
+        expect(run.task.error).toBeUndefined();
+
+        const replayed = readDesignerReplaySnapshot(run.task.inputSnapshot);
+        expect(replayed?.designerId).toBe("dz-persist");
+        expect(replayed?.layers.length).toBe(document.layers.length);
+        expect(replayed?.width).toBe(document.width);
+    });
+
+    test("失败也落盘 failed（不假装成功），错误码来自真实失败原因", async () => {
+        const document = createDesignerDocument({ designerId: "dz-persist", imageUrl: IMAGE });
+        const failing = ports({ failCompose: new Error("canvas 崩了") });
+        const persisted: ToolTask[] = [];
+        await expect(
+            runDesigner({ document, host: host(), compositor: failing.compositor, assets: failing.assets, persist: (task) => void persisted.push(task) }),
+        ).rejects.toMatchObject({ code: "compose-failed" });
+
+        const last = persisted[persisted.length - 1];
+        expect(last.status).toBe("failed");
+        expect(last.error?.code).toBe("compose-failed");
+        expect(last.result).toBeUndefined();
+    });
+
+    test("回放只认合法落盘文档：结构不符/契约阻断一律返回 null，不猜", () => {
+        const document = createDesignerDocument({ designerId: "dz-persist", imageUrl: IMAGE });
+        expect(readDesignerReplaySnapshot(designerInputSnapshot(document, host()))).not.toBeNull();
+        expect(readDesignerReplaySnapshot(null)).toBeNull();
+        expect(readDesignerReplaySnapshot({})).toBeNull();
+        expect(readDesignerReplaySnapshot({ kind: "new-designer-canvas", document: { width: 1 } })).toBeNull();
+        expect(readDesignerReplaySnapshot({ kind: "new-designer-canvas", document: { ...document, width: 0 } })).toBeNull();
+        // 空画布在设计器契约里本就不可导出，回放同样拒绝
+        expect(readDesignerReplaySnapshot({ kind: "new-designer-canvas", document: { ...document, layers: [] } })).toBeNull();
     });
 });

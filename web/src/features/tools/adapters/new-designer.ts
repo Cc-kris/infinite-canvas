@@ -11,6 +11,8 @@
  * 不返回占位图、不伪造 assetId。
  */
 
+import { createTaskRecord, transitionTask, type ToolTask, type ToolTaskResultItem } from "@/services/api/tools/task-machine";
+
 import {
     assertDesignerFieldsSerializable,
     auditDesignerFields,
@@ -19,6 +21,7 @@ import {
     designerDocumentFingerprint,
     designerFontStack,
     hasBlockingDesignerIssue,
+    NEW_DESIGNER_TOOL_ID,
     validateDesignerState,
     type DesignerDocument,
     type DesignerFields,
@@ -87,7 +90,53 @@ export type DesignerRun = {
     snapshot: DesignerSnapshot;
     composite: DesignerComposite;
     asset: DesignerAssetRef;
+    /** 本次导出对应的真实任务记录（已落盘终态），历史坞与刷新后回放都读它。 */
+    task: ToolTask;
 };
+
+/**
+ * 设计器任务的「引擎」标记。
+ *
+ * NEW_DESIGNER 没有上游 provider（gateway 对 designer-host 直接 adapter-not-executable），
+ * 结果由本地 Canvas 像素合成 + 资产入库产生，所以这里记录的是真实执行方式而不是伪造的模型名。
+ */
+export const DESIGNER_TASK_ENGINE = "designer-canvas-composite" as const;
+
+export type DesignerTaskPersist = (task: ToolTask) => void;
+
+/**
+ * 可回放的输入快照：设计器的任务只靠自己落盘，刷新后必须能从历史坞把画布还原。
+ * `DesignerDocument` 与 `DesignerHostState` 都是纯 JSON（无回调/无二进制），可直接持久化。
+ */
+export function designerInputSnapshot(document: DesignerDocument, host: DesignerHostState): Record<string, unknown> {
+    return {
+        kind: "new-designer-canvas",
+        document: JSON.parse(JSON.stringify(document)) as DesignerDocument,
+        host: { ...host, open: true, hasOnClose: true, hasOnDone: true },
+    };
+}
+
+/**
+ * 从历史任务的 `inputSnapshot` 还原画布文档。
+ *
+ * 只做结构校验 + 设计器契约校验；结构不符/契约阻断（空画布等）都返回 null，
+ * 由调用方显式提示「这条历史任务的画布已无法回放」，不静默塞半个文档进去。
+ */
+export function readDesignerReplaySnapshot(input: Record<string, unknown> | undefined | null): DesignerDocument | null {
+    if (!input || typeof input !== "object") return null;
+    if (input.kind !== "new-designer-canvas") return null;
+    const document = input.document as DesignerDocument | undefined;
+    if (!document || typeof document !== "object") return null;
+    if (!Array.isArray(document.layers)) return null;
+    if (!Number.isFinite(document.width) || !Number.isFinite(document.height)) return null;
+    if (typeof document.designerId !== "string" || !document.designerId) return null;
+    const issues = validateDesignerState({
+        document,
+        host: { open: true, isDesignerUse: true, imageUrl: "", hasOnClose: true, hasOnDone: true },
+    });
+    if (hasBlockingDesignerIssue(issues)) return null;
+    return document;
+}
 
 export type DesignerRunOptions = {
     document: DesignerDocument;
@@ -95,8 +144,12 @@ export type DesignerRunOptions = {
     compositor: DesignerCompositorPort;
     assets: DesignerAssetPort;
     requestId?: string;
+    /** 复用同一份任务 id（同稿重试），默认新建。 */
+    taskId?: string;
     signal?: AbortSignal;
     onStage?: (stage: DesignerStageState) => void;
+    /** 任务落盘端口（页面注入 store.upsertTask）；不注入则不持久化，仅返回内存态。 */
+    persist?: DesignerTaskPersist;
 };
 
 /* ============================== 请求快照 ============================== */
@@ -154,22 +207,55 @@ export function assertDesignerComposite(composite: DesignerComposite, document: 
 }
 
 export async function runDesigner(options: DesignerRunOptions): Promise<DesignerRun> {
-    const { document, host, compositor, assets, signal, onStage } = options;
+    const { document, host, compositor, assets, signal, onStage, persist } = options;
     onStage?.("validating");
     assertDesignerReady(document, host);
     const snapshot = createDesignerSnapshot(document, host, options.requestId);
     throwIfAborted(signal);
 
+    // 任务记录在整个导出过程中真实推进：草稿不可序列化/合成失败/入库失败都必须留痕，
+    // 否则刷新后历史坞只能看到「0 条」，用户也无法判断这稿到底导出过没有。
+    let task = createTaskRecord({
+        id: options.taskId,
+        toolId: NEW_DESIGNER_TOOL_ID,
+        capability: "image",
+        prompt: snapshot.prompt,
+        configSnapshot: {
+            capability: "image",
+            model: DESIGNER_TASK_ENGINE,
+            count: "1",
+            size: `${document.width}x${document.height}`,
+        },
+        sourceAssetIds: [],
+        draftRevision: snapshot.revision,
+        fingerprint: snapshot.fingerprint,
+        clientOperationId: snapshot.requestId,
+        inputSnapshot: designerInputSnapshot(document, host),
+    });
+    task = transitionTask(task, "validating");
+    persist?.(task);
+    task = transitionTask(task, "submitting");
+    persist?.(task);
+    task = transitionTask(task, "running");
+    persist?.(task);
+
+    const fail = (code: DesignerErrorCode, message: string): never => {
+        const retryable = code !== "aborted";
+        persist?.(transitionTask(task, "failed", { error: { code, message, retryable } }));
+        throw new DesignerAdapterError(code, message);
+    };
+
     onStage?.("composing");
     let composite: DesignerComposite;
     try {
         composite = await compositor.compose(document, { signal });
+        throwIfAborted(signal);
+        assertDesignerComposite(composite, document);
     } catch (error) {
-        if (error instanceof DesignerAdapterError) throw error;
-        throw new DesignerAdapterError("compose-failed", error instanceof Error ? error.message : "画布合成失败。");
+        const code: DesignerErrorCode = error instanceof DesignerAdapterError ? error.code : "compose-failed";
+        const message = error instanceof Error && error.message ? error.message : "画布合成失败。";
+        return fail(code, message);
     }
-    throwIfAborted(signal);
-    assertDesignerComposite(composite, document);
 
     onStage?.("saving");
     let asset: DesignerAssetRef;
@@ -180,13 +266,29 @@ export async function runDesigner(options: DesignerRunOptions): Promise<Designer
             width: document.width,
             height: document.height,
         });
+        if (!asset?.assetId) throw new DesignerAdapterError("asset-save-failed", "入库未返回资产 id，onDone 不能回传。");
     } catch (error) {
-        throw new DesignerAdapterError("asset-save-failed", error instanceof Error ? error.message : "设计稿入库失败。");
+        const message = error instanceof Error && error.message ? error.message : "设计稿入库失败。";
+        return fail("asset-save-failed", message);
     }
-    if (!asset?.assetId) throw new DesignerAdapterError("asset-save-failed", "入库未返回资产 id，onDone 不能回传。");
+    throwIfAborted(signal);
+
+    // 结果项带真实资产地址：刷新后 ingestResultMedia 会把字节落到 IDB，下载/存资产/发画布都还能用。
+    const item: ToolTaskResultItem = {
+        id: `designer-${snapshot.fingerprint.slice(0, 12)}-${asset.assetId.slice(0, 8)}`,
+        kind: "image",
+        url: asset.url,
+        mimeType: composite.mimeType || DESIGNER_DONE_MIME,
+        bytes: composite.blob.size,
+    };
+    const succeeded = transitionTask(task, "succeeded", {
+        upstreamProvider: DESIGNER_TASK_ENGINE,
+        result: { items: [item], receivedAt: Date.now() },
+    });
+    persist?.(succeeded);
 
     onStage?.("succeeded");
-    return { snapshot, composite, asset };
+    return { snapshot, composite, asset, task: succeeded };
 }
 
 /** 同快照重试：重新合成 + 重新入库，复用一个 requestId，便于定位同一稿的多次导出。 */

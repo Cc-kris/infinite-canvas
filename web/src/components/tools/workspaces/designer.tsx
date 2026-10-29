@@ -4,6 +4,8 @@ import { ArrowDown, ArrowUp, Check, ChevronsDown, ChevronsUp, Eye, EyeOff, Image
 import { uploadToolAsset, resolveToolAssetConstraints } from "@/services/api/tools/assets";
 import { downloadResultItem, sendResultItemToCanvas } from "@/components/tools/tool-result-actions";
 import type { ToolTaskResultItem } from "@/services/api/tools/task-machine";
+import { useToolReplayStore } from "@/stores/use-tool-replay-store";
+import { useToolTaskStore } from "@/stores/use-tool-task-store";
 import { cn } from "@/lib/utils";
 
 import {
@@ -53,6 +55,7 @@ import {
     createDesignerSnapshot,
     designerResultNotice,
     DesignerAdapterError,
+    readDesignerReplaySnapshot,
     runDesigner,
     type DesignerAssetPort,
     type DesignerAssetRef,
@@ -124,10 +127,16 @@ export function DesignerWorkspace({
     const [resultFingerprint, setResultFingerprint] = useState<string | undefined>();
     const [baselineFingerprint, setBaselineFingerprint] = useState<string>(() => designerDocumentFingerprint(history.present));
     const [restoreNotice, setRestoreNotice] = useState("");
+    const [replayNotice, setReplayNotice] = useState("");
     const [closePrompt, setClosePrompt] = useState("");
     const [uploadNote, setUploadNote] = useState("");
     const [uploading, setUploading] = useState(false);
     const fileRef = useRef<HTMLInputElement | null>(null);
+
+    /** 任务持久化端口：每次导出都写进共享任务 store（localStorage 落盘），历史坞/刷新后回放都读它。 */
+    const upsertTask = useToolTaskStore((state) => state.upsertTask);
+    const consumeReplay = useToolReplayStore((state) => state.consumeReplay);
+    const replayRequest = useToolReplayStore((state) => state.pending[NEW_DESIGNER_TOOL_ID]);
 
     const document = history.present;
     const selected = selectedDesignerLayer(document, selectedId);
@@ -175,6 +184,28 @@ export function DesignerWorkspace({
         setBaselineFingerprint(designerDocumentFingerprint(restored.values.document));
         setRestoreNotice(`已恢复草稿：${restored.values.savedAt || "上次会话"}（${restored.values.document.layers.length} 个图层）`);
     }, [storage, designerId]);
+
+    /* ---------------- 历史任务回放（历史坞投递的真实落盘快照，非注入） ---------------- */
+    useEffect(() => {
+        if (!replayRequest) return;
+        const request = consumeReplay(NEW_DESIGNER_TOOL_ID);
+        if (!request) return;
+        const replayed = readDesignerReplaySnapshot(request.snapshot);
+        if (!replayed) {
+            setReplayNotice("这条历史任务的画布快照无法回放（结构不符），未覆盖当前编辑。");
+            return;
+        }
+        setHistory(createDesignerHistory(replayed));
+        setSelectedId(replayed.layers[0]?.id);
+        setStage("idle");
+        setError(undefined);
+        setResult(undefined);
+        setResultFingerprint(undefined);
+        setBaselineFingerprint(designerDocumentFingerprint(replayed));
+        setReplayNotice(
+            `已回放历史任务 ${request.taskId.slice(0, 12)} 的画布（${replayed.layers.length} 个图层 · ${replayed.width}×${replayed.height}）`,
+        );
+    }, [replayRequest, consumeReplay]);
 
     /* ---------------- 草稿保存（真实写盘，不静默） ---------------- */
     useEffect(() => {
@@ -256,7 +287,15 @@ export function DesignerWorkspace({
         setResult(undefined);
         try {
             const snapshot = createDesignerSnapshot(document, host);
-            const run = await runDesigner({ document, host, compositor: activeCompositor, assets, requestId: snapshot.requestId, onStage: setStage });
+            const run = await runDesigner({
+                document,
+                host,
+                compositor: activeCompositor,
+                assets,
+                requestId: snapshot.requestId,
+                onStage: setStage,
+                persist: upsertTask,
+            });
             setResult(run.asset);
             setResultFingerprint(run.snapshot.fingerprint);
             setBaselineFingerprint(run.snapshot.fingerprint);
@@ -266,7 +305,7 @@ export function DesignerWorkspace({
             setError(adapterError);
             setStage("failed");
         }
-    }, [activeCompositor, assets, document, host.isDesignerUse, host.imageUrl, host.open, host.hasOnClose, host.hasOnDone]);
+    }, [activeCompositor, assets, document, host.isDesignerUse, host.imageUrl, host.open, host.hasOnClose, host.hasOnDone, upsertTask]);
 
     /* ---------------- 结果动作：下载 / 发送画布（复用共享真实画布依赖） ---------------- */
     const resultItem = useMemo<ToolTaskResultItem | undefined>(
@@ -355,6 +394,11 @@ export function DesignerWorkspace({
             </header>
 
             {restoreNotice ? <p className="border-b border-border bg-card px-3 py-1.5 text-xs text-muted-foreground">{restoreNotice}</p> : null}
+            {replayNotice ? (
+                <p className="border-b border-border bg-card px-3 py-1.5 text-xs text-muted-foreground" data-testid="designer-replay-notice">
+                    {replayNotice}
+                </p>
+            ) : null}
             {closePrompt ? (
                 <div className="flex flex-wrap items-center justify-between gap-2 border-b border-border bg-accent px-3 py-2 text-xs">
                     <span>{closePrompt}</span>

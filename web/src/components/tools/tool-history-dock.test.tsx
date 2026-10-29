@@ -43,6 +43,7 @@ type Seed = {
     sourceAssetIds?: string[];
     items?: Array<{ id: string; kind?: string; url?: string; payloadDropped?: boolean }>;
     error?: { code: string; message: string; retryable: boolean };
+    inputSnapshot?: Record<string, unknown>;
 };
 
 /** 构造面板需要的任务快照（字段与 ToolTask 对齐）。 */
@@ -63,6 +64,7 @@ function snapshotOf(seeds: Seed[]): Record<string, unknown> {
                 ? { items: seed.items.map((item) => ({ kind: "image", ...item })), receivedAt: seed.createdAt }
                 : undefined,
             error: seed.error,
+            ...(seed.inputSnapshot ? { inputSnapshot: seed.inputSnapshot } : {}),
         };
     }
     return map;
@@ -172,5 +174,26 @@ describe("ToolHistoryDock（B5 共享历史面板）", () => {
         const html = await renderDock({ toolId: "SALE_VIDEO", tasks });
         expect(html).toContain('data-testid="tool-history-dock-video-badge"');
         expect(html).toContain("视频结果 1 个");
+    });
+});
+
+describe("ToolHistoryDock 回放入口（只认真实落盘快照，不提供假入口）", () => {
+    test("有 inputSnapshot 的任务渲染「回放画布」，无快照的老任务不给按钮", async () => {
+        const tasks = snapshotOf([
+            {
+                id: "t-replay",
+                toolId: "NEW_DESIGNER",
+                status: "succeeded",
+                createdAt: 2000,
+                prompt: "设计器导出",
+                items: [{ id: "t-replay-0", url: "https://cdn.example.com/designer.png" }],
+                inputSnapshot: { kind: "new-designer-canvas", document: { designerId: "dz-1", width: 1200, height: 1200, layers: [] } },
+            },
+            { id: "t-legacy", toolId: "NEW_DESIGNER", status: "succeeded", createdAt: 1000, prompt: "老任务无快照" },
+        ]);
+        const html = await renderDock({ toolId: "NEW_DESIGNER", tasks });
+        expect(html).toContain('data-testid="tool-history-dock-replay"');
+        expect(html).toContain("回放画布");
+        expect(html.split('data-testid="tool-history-dock-replay"').length - 1).toBe(1);
     });
 });

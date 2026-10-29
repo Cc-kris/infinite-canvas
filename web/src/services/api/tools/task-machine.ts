@@ -120,6 +120,15 @@ export type ToolTask = {
     /** 本次返回是命中已有任务（去重），不是新建。 */
     deduplicated?: boolean;
     cancelledByUser?: boolean;
+    /**
+     * 工具特有的可回放输入快照（如 NEW_DESIGNER 的画布文档草稿）。
+     *
+     * 只在**没有上游 provider 可重放**的工具里使用：任务落盘后仅凭上游 taskId 恢复不了
+     * 用户当时的输入（设计器根本不上传上游），所以必须把可序列化的输入一起存下来，
+     * 刷新后才能从历史坞把画布/表单还原回去。只允许放可 JSON 序列化的轻量字段，
+     * 二进制（dataUrl/blob）一律不进这里。
+     */
+    inputSnapshot?: Record<string, unknown>;
 };
 
 export type CreateTaskInput = {
@@ -133,6 +142,7 @@ export type CreateTaskInput = {
     id?: string;
     fingerprint?: string;
     at?: number;
+    inputSnapshot?: Record<string, unknown>;
 };
 
 export class TaskTransitionError extends Error {
@@ -284,6 +294,7 @@ export function createTaskRecord(input: CreateTaskInput): ToolTask {
         attempts: 0,
         pollCount: 0,
         transientFailures: 0,
+        ...(input.inputSnapshot ? { inputSnapshot: input.inputSnapshot } : {}),
     };
 }
 
