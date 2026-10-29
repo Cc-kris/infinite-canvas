@@ -101,6 +101,7 @@ const baseConfig: AiConfig = {
     canvasImageCount: "3",
     proxyEnabled: false,
     proxyUrl: "",
+    mediaHostUrl: "",
     nodeRegenerateBehavior: "new-node",
     autoFocusOnSelect: false,
 };

@@ -61,16 +61,17 @@ describe("planVideoSubmitPayloads · 源视频内联进 JSON（中转域）", ()
 });
 
 describe("collectPublicVideoUrls", () => {
-    it("只收 http(s)，过滤 blob:/data:", () => {
+    it("只收上游拉得到的公网 http(s)，过滤 blob:/data:/本机/私网", () => {
         expect(
             collectPublicVideoUrls([
                 { url: "https://cdn.example.com/a.mp4" },
                 { url: "blob:http://localhost:3000/abc" },
                 { url: "data:video/mp4;base64,AAAA" },
+                // 本机代理地址上游拉不到：必须先经素材通道发布，不能原样交出去。
                 { url: "  http://127.0.0.1:18471/video.mp4 " },
                 {},
             ]),
-        ).toEqual(["https://cdn.example.com/a.mp4", "http://127.0.0.1:18471/video.mp4"]);
+        ).toEqual(["https://cdn.example.com/a.mp4"]);
         expect(collectPublicVideoUrls(undefined)).toEqual([]);
     });
 });

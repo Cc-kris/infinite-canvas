@@ -294,8 +294,11 @@ export function AppConfigPanel({ showDoneButton = false, initialTab = "channels"
                                         />
                                     </div>
                                 </Form.Item>
-                                <Form.Item label={t("config.preferences.proxyUrl")} className="mb-6">
+                                <Form.Item label={t("config.preferences.proxyUrl")} className="mb-4">
                                     <Input value={config.proxyUrl} placeholder={t("config.preferences.proxyUrlPlaceholder")} onChange={(event) => updateConfig("proxyUrl", event.target.value)} />
+                                </Form.Item>
+                                <Form.Item label={t("config.preferences.mediaHostUrl")} className="mb-6" extra={t("config.preferences.mediaHostUrlDescription")}>
+                                    <Input value={config.mediaHostUrl} placeholder={t("config.preferences.mediaHostUrlPlaceholder")} onChange={(event) => updateConfig("mediaHostUrl", event.target.value)} />
                                 </Form.Item>
                                 <Form.Item label={t("config.preferences.audioInstructions")} className="mb-4">
                                     <Input.TextArea rows={2} value={config.audioInstructions} placeholder={t("config.preferences.audioInstructionsPlaceholder")} onChange={(event) => updateConfig("audioInstructions", event.target.value)} />

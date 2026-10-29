@@ -548,6 +548,10 @@ export default {
             proxyEnabledDescription: "Browsers block cross-origin relays with CORS. When enabled, requests go through the local canvas-proxy, matching the desktop app.",
             proxyUrl: "Proxy address",
             proxyUrlPlaceholder: "http://127.0.0.1:23210",
+            mediaHostUrl: "Public media base URL",
+            mediaHostUrlDescription:
+                "Local videos are uploaded to the local proxy's media endpoint before submission. Set the public tunnel domain that reaches that proxy (the provider must be able to fetch it), e.g. https://xxx.trycloudflare.com.",
+            mediaHostUrlPlaceholder: "https://xxx.trycloudflare.com",
             proxyDetected: "Local proxy detected",
             audioVoice: "Default audio voice",
             audioFormat: "Default audio format",

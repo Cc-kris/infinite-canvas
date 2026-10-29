@@ -5,6 +5,7 @@ import i18n from "@/i18n";
 import { dataUrlToFile, readFileAsDataUrl } from "@/lib/image-utils";
 import { shrinkInlineImages } from "@/lib/inline-image";
 import { clampVideoSeconds, computeVideoSize, inferVideoRatio } from "@/lib/media-size";
+import { isPublicMediaUrl, publishReferenceVideos } from "@/services/media-publish";
 import { getMediaBlob, resolveMediaUrl, uploadMediaFile, type UploadedFile } from "@/services/file-storage";
 import { imageToDataUrl } from "@/services/image-storage";
 import { boolConfig, buildApiUrl, modelOptionName, resolveModelRequestConfig, resolveModelScript, resolveVideoHttpConfig, withLocalProxy, type AiConfig, type VideoHttpConfig } from "@/stores/use-config-store";
@@ -273,11 +274,11 @@ export function planVideoSubmitPayloads(input: {
     return { order: multipartFirst ? ["multipart", "json"] : ["json", "multipart"] };
 }
 
-/** 公网可访问的源视频地址（blob:/data:/idb 一律不算）。 */
+/** 公网可访问的源视频地址（blob:/data:/本机/私网一律不算——上游拉不到）。 */
 export function collectPublicVideoUrls(videos: ReadonlyArray<{ url?: string }> | undefined): string[] {
     return (videos ?? [])
         .map((video) => (typeof video.url === "string" ? video.url.trim() : ""))
-        .filter((url) => /^https?:\/\//i.test(url));
+        .filter((url) => isPublicMediaUrl(url));
 }
 
 /**
@@ -347,10 +348,26 @@ async function createOpenAIVideoTask(config: AiConfig, model: string, prompt: st
     };
     if (ratio && ratio !== "auto") jsonFields.ratio = ratio;
     if (inlineImages) jsonFields.images = await shrinkInlineImages(imageDataUrls);
-    // 源视频有公网地址时可以直接进 JSON（videos: [url]）：中转域（sub2api 等）收 multipart 会 400。
-    const publicVideoUrls = collectPublicVideoUrls(options?.videos);
+    // 源视频有公网地址时可以直接进 JSON（videos: [url]）：这类中转（sub2api 等）收 multipart 会 400。
+    // 本地素材（blob:/data:/本机地址）上游拉不到，先不发布：多数中转（如 cc-ai）收 multipart + 文件字节
+    // 反而正常。等真正被「只认 JSON」的中转拒掉（见下面 relayMultipartRejectionHint 分支），
+    // 再把本地素材发布成公网地址、改用 JSON 重发一次——不能一上来就把 multipart 能力关掉。
+    const videoRefs = options?.videos || [];
+    const publicVideoUrls = collectPublicVideoUrls(videoRefs);
     const inlineVideos = videos.length > 0 && publicVideoUrls.length === videos.length;
     if (inlineVideos) jsonFields.videos = publicVideoUrls;
+    /** 本地素材 → 公网地址，供「只认 JSON 的中转」重试用。失败直接抛错，绝不静默降级成纯文本生成。 */
+    let publishedForJson = false;
+    const publishVideosForJson = async () => {
+        if (publishedForJson || videoRefs.length === 0) return;
+        const published = await publishReferenceVideos(videoRefs, {
+            hostBase: (config.mediaHostUrl || "").trim(),
+            requireHttps: true,
+            signal: options?.signal,
+        });
+        jsonFields.videos = published.urls;
+        publishedForJson = true;
+    };
     // 路由保持 OpenAI 标准 /videos：实测 sub2api 中转支持；ccai 中转整站不支持视频 API
     // （/videos 与 /video/generations 均失败，后者明确回 "Video API is not supported for this platform"），
     // 所以不做跨路由猜测，失败按上游原文报错。
@@ -375,6 +392,14 @@ async function createOpenAIVideoTask(config: AiConfig, model: string, prompt: st
             } catch (error) {
                 lastError = error;
                 const status = requestStatus(error);
+                const message = readAxiosError(error, "");
+                // 该中转只认 JSON（multipart 的二进制被当文本解码）→ 把本地视频发布成公网地址后，
+                // 用 JSON 重发一次。发布失败会抛错，绝不让「视频编辑」静默退化成「文生视频」。
+                if (!publishedForJson && videos.length > 0 && relayMultipartRejectionHint(status, message)) {
+                    await publishVideosForJson();
+                    created = unwrapVideoResponse((await withGatewayRetry(() => post(jsonFields), 3)).data);
+                    break;
+                }
                 if (status === 400 || status === 415 || status === 422) continue;
                 throw error;
             }
@@ -796,7 +821,7 @@ function videoResultUrl(payload: VideoResponse, config?: Pick<AiConfig, "baseUrl
 function resolveVideoMediaUrl(raw: string, config?: Pick<AiConfig, "baseUrl">) {
     const url = raw.trim();
     if (/^https?:\/\//i.test(url) || url.startsWith("blob:") || url.startsWith("data:")) {
-        return isPublicMediaUrl(url) || /\.mp4(\?|#|$)/i.test(url) || url.startsWith("blob:") || url.startsWith("data:") ? url : undefined;
+        return isPlayableVideoUrl(url) || /\.mp4(\?|#|$)/i.test(url) || url.startsWith("blob:") || url.startsWith("data:") ? url : undefined;
     }
     if (!url.startsWith("/") || !config) return undefined;
     const baseUrl = config.baseUrl.trim().replace(/\/+$/, "").replace(/\/v1$/i, "");
@@ -965,11 +990,12 @@ export function ensurePlayableVideoResult(result: VideoGenerationResult | undefi
         return result;
     }
     const url = (result.url || "").trim();
-    if (isPublicMediaUrl(url) || url.startsWith("blob:") || url.startsWith("data:video/")) return result;
+    if (isPlayableVideoUrl(url) || url.startsWith("blob:") || url.startsWith("data:video/")) return result;
     throw videoTaskFailed(apiText("noPlayableVideo"));
 }
 
-function isPublicMediaUrl(value: string) {
+/** 播放判定：只要是上游给的 http(s)/blob/data 就算可播（127.0.0.1 的上游结果在本地也能播）。 */
+function isPlayableVideoUrl(value: string) {
     return /^https?:\/\//i.test(value || "");
 }
 

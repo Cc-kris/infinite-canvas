@@ -96,6 +96,96 @@ test("planVideoSubmitPayloads：无媒体时保留 JSON 优先的回退能力", 
     ).toEqual({ order: ["multipart", "json"] });
 });
 
+test("中转只认 JSON：multipart 被 codec 400 拒后，本地视频发布成公网地址再用 JSON 重发", async () => {
+    const realFetch = globalThis.fetch;
+    const uploads: string[] = [];
+    globalThis.fetch = (async (input: RequestInfo | URL, init?: RequestInit) => {
+        const url = String(input);
+        if (url.includes("/__media/upload")) {
+            uploads.push(url);
+            const body = init?.body as Blob;
+            return new Response(
+                JSON.stringify({
+                    path: `/__media/${"a".repeat(32)}.mp4`,
+                    bytes: body.size,
+                    sha256: "f".repeat(64),
+                    mimeType: "video/mp4",
+                }),
+                { status: 200, headers: { "content-type": "application/json" } },
+            );
+        }
+        // data: URL → 本地字节（读源视频）
+        return new Response(new Uint8Array([0, 0, 0, 24, 102, 116, 121, 112]), { status: 200 });
+    }) as typeof realFetch;
+
+    const codec400 = new axios.AxiosError(
+        "Request failed with status code 400",
+        "ERR_BAD_REQUEST",
+        undefined,
+        undefined,
+        {
+            status: 400,
+            statusText: "Bad Request",
+            data: "Error: 'utf-8' codec can't decode byte 0xe8 in position 1614: invalid continuation byte",
+            headers: {},
+            config: {},
+        } as never,
+    );
+    axios.post = (async (url: string, payload: unknown) => {
+        posts.push({ url, payload });
+        if (payload instanceof FormData) throw codec400;
+        return { data: { id: "upstream-video-task-2" } };
+    }) as typeof originalPost;
+
+    try {
+        const config = { ...relayConfig(), mediaHostUrl: "https://media.example.com" };
+        const task = await createVideoGenerationTask(config, "把视频里的产品替换成参考图中的耳机", [], {
+            videos: [SOURCE_VIDEO],
+        });
+        expect(task.id).toBe("upstream-video-task-2");
+        // 第一次 multipart 被拒 → 上传一次素材 → 第二次 JSON 带公网地址
+        expect(uploads.length).toBe(1);
+        expect(posts.length).toBe(2);
+        const json = posts[1].payload as Record<string, unknown>;
+        expect(Array.isArray(json.videos)).toBe(true);
+        expect(String((json.videos as string[])[0])).toMatch(/^https:\/\/media\.example\.com\/__media\/[a-f0-9]+\.mp4$/);
+    } finally {
+        globalThis.fetch = realFetch;
+        axios.post = (async (url: string, payload: unknown) => {
+            posts.push({ url, payload });
+            return { data: { id: "upstream-video-task-1" } };
+        }) as typeof originalPost;
+    }
+});
+
+test("中转只认 JSON 但没配素材公网基址：明确报错，不静默降级成纯文本", async () => {
+    const realFetch = globalThis.fetch;
+    globalThis.fetch = (async () => new Response(new Uint8Array([1, 2, 3]), { status: 200 })) as typeof realFetch;
+    const codec400 = new axios.AxiosError("Request failed with status code 400", "ERR_BAD_REQUEST", undefined, undefined, {
+        status: 400,
+        statusText: "Bad Request",
+        data: "Error: 'utf-8' codec can't decode byte 0xe8 in position 1614: invalid continuation byte",
+        headers: {},
+        config: {},
+    } as never);
+    axios.post = (async (url: string, payload: unknown) => {
+        posts.push({ url, payload });
+        throw codec400;
+    }) as typeof originalPost;
+
+    try {
+        await expect(
+            createVideoGenerationTask(relayConfig(), "编辑一下", [], { videos: [SOURCE_VIDEO] }),
+        ).rejects.toThrow(/素材公网基址/);
+    } finally {
+        globalThis.fetch = realFetch;
+        axios.post = (async (url: string, payload: unknown) => {
+            posts.push({ url, payload });
+            return { data: { id: "upstream-video-task-1" } };
+        }) as typeof originalPost;
+    }
+});
+
 test("源视频提交：第一个请求就是 multipart，且携带 video[] 与提示词", async () => {
     const task = await createVideoGenerationTask(relayConfig(), "把视频里的产品替换成参考图中的耳机", [], {
         videos: [SOURCE_VIDEO],

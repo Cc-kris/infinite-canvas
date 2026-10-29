@@ -85,6 +85,11 @@ export type AiConfig = {
     canvasImageCount: string;
     proxyEnabled: boolean;
     proxyUrl: string;
+    /**
+     * 素材公网基址：本地视频要提交给上游前，先上传到可公网访问的地址。
+     * 填本机代理对应的公网隧道域名（如 https://xxx.trycloudflare.com）。
+     */
+    mediaHostUrl: string;
     nodeRegenerateBehavior: "new-node" | "overwrite";
     autoFocusOnSelect: boolean;
 };
@@ -155,6 +160,7 @@ export const defaultConfig: AiConfig = {
     // The desktop app always routes through the proxy it starts on launch.
     proxyEnabled: isDesktopApp(),
     proxyUrl: desktopProxyUrl() || DEFAULT_LOCAL_PROXY_URL,
+    mediaHostUrl: "",
     nodeRegenerateBehavior: "new-node",
     autoFocusOnSelect: false,
 };
@@ -315,6 +321,7 @@ export const useConfigStore = create<ConfigStore>()(
                         // Desktop builds own the proxy lifecycle, so the stored toggle is ignored there.
                         proxyEnabled: isDesktopApp() ? true : Boolean(config.proxyEnabled),
                         proxyUrl: isDesktopApp() ? desktopProxyUrl() || config.proxyUrl || DEFAULT_LOCAL_PROXY_URL : config.proxyUrl || DEFAULT_LOCAL_PROXY_URL,
+                        mediaHostUrl: typeof config.mediaHostUrl === "string" ? config.mediaHostUrl.trim() : "",
                         nodeRegenerateBehavior: config.nodeRegenerateBehavior === "overwrite" ? "overwrite" : "new-node",
                         autoFocusOnSelect: Boolean(config.autoFocusOnSelect),
                     },

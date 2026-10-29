@@ -5,8 +5,12 @@
  * Exported so the desktop app can embed the proxy in its own process instead of
  * spawning `npx @basketikun/canvas-proxy`.
  */
+import { createHash } from "node:crypto";
+import { createReadStream, existsSync, mkdirSync, statSync, writeFileSync } from "node:fs";
 import { createServer } from "node:http";
 import { createRequire } from "node:module";
+import { tmpdir } from "node:os";
+import path from "node:path";
 import { Readable } from "node:stream";
 
 const pkg = createRequire(import.meta.url)("./package.json");
@@ -73,6 +77,128 @@ function responseHeaders(upstream) {
 function sendJson(res, status, payload) {
     res.writeHead(status, { ...CORS_HEADERS, "content-type": "application/json; charset=utf-8" });
     res.end(JSON.stringify(payload));
+}
+
+/* ======================= 素材托管：本地素材 → 可公网访问的 URL =======================
+ * 上游视频接口（sub2api / MiniMax-H3 等）只接受公网 https 的视频地址，浏览器里的
+ * blob:/data: 一律拿不到。这里给本机代理加一个最小的「上传 + 回读」通道：
+ *   POST /__media/upload   body=原始字节, 头 x-media-name / content-type → { path, bytes, mimeType, sha256 }
+ *   GET  /__media/<file>   回读（支持 Range，方便上游边下边解）
+ * 返回的是**相对路径**：调用方用自己访问代理用的基址（本机 127.0.0.1:23210，或
+ * cloudflared/nginx 暴露的公网域名）拼成绝对 URL，服务端不需要猜自己对外是哪个域名。
+ * 目录默认 os.tmpdir()/canvas-media，可用 CANVAS_MEDIA_DIR 覆盖；上传上限 CANVAS_MEDIA_MAX_BYTES。
+ */
+const MEDIA_PREFIX = "/__media";
+const MEDIA_DIR = process.env.CANVAS_MEDIA_DIR || path.join(tmpdir(), "canvas-media");
+const MEDIA_MAX_BYTES = Number(process.env.CANVAS_MEDIA_MAX_BYTES) || 200 * 1024 * 1024;
+const MEDIA_EXT_BY_MIME = {
+    "video/mp4": "mp4",
+    "video/quicktime": "mov",
+    "video/webm": "webm",
+    "audio/mpeg": "mp3",
+    "audio/wav": "wav",
+    "audio/mp4": "m4a",
+    "image/png": "png",
+    "image/jpeg": "jpg",
+    "image/webp": "webp",
+};
+const MEDIA_MIME_BY_EXT = Object.fromEntries(Object.entries(MEDIA_EXT_BY_MIME).map(([mime, ext]) => [ext, mime]));
+
+function mediaFilePath(name) {
+    // 只允许单层文件名，杜绝 ../ 穿越。
+    const safe = String(name || "").replace(/[^a-zA-Z0-9._-]/g, "");
+    if (!safe || safe.startsWith(".")) return "";
+    return path.join(MEDIA_DIR, safe);
+}
+
+function mediaExtension(req) {
+    const declared = (req.headers["content-type"] || "").split(";")[0].trim().toLowerCase();
+    if (MEDIA_EXT_BY_MIME[declared]) return MEDIA_EXT_BY_MIME[declared];
+    const name = String(req.headers["x-media-name"] || "");
+    const ext = path.extname(name).replace(".", "").toLowerCase();
+    if (MEDIA_MIME_BY_EXT[ext]) return ext;
+    return "bin";
+}
+
+async function handleMediaUpload(req, res) {
+    const declaredBytes = Number(req.headers["content-length"] || 0);
+    if (declaredBytes > MEDIA_MAX_BYTES) {
+        sendJson(res, 413, { error: `文件超过上限 ${Math.round(MEDIA_MAX_BYTES / 1024 / 1024)}MB`, bytes: declaredBytes });
+        return;
+    }
+    let body;
+    try {
+        body = await readBody(req);
+    } catch (error) {
+        sendJson(res, 400, { error: `读取上传内容失败：${error instanceof Error ? error.message : String(error)}` });
+        return;
+    }
+    if (!body?.length) {
+        sendJson(res, 400, { error: "上传内容为空" });
+        return;
+    }
+    if (body.length > MEDIA_MAX_BYTES) {
+        sendJson(res, 413, { error: `文件超过上限 ${Math.round(MEDIA_MAX_BYTES / 1024 / 1024)}MB`, bytes: body.length });
+        return;
+    }
+    const sha256 = createHash("sha256").update(body).digest("hex");
+    const fileName = `${sha256.slice(0, 32)}.${mediaExtension(req)}`;
+    try {
+        mkdirSync(MEDIA_DIR, { recursive: true });
+        const target = mediaFilePath(fileName);
+        if (!existsSync(target)) writeFileSync(target, body);
+    } catch (error) {
+        sendJson(res, 500, { error: `写入素材目录失败：${error instanceof Error ? error.message : String(error)}` });
+        return;
+    }
+    const mimeType = MEDIA_MIME_BY_EXT[path.extname(fileName).slice(1)] || "application/octet-stream";
+    sendJson(res, 200, {
+        ok: true,
+        path: `${MEDIA_PREFIX}/${fileName}`,
+        bytes: body.length,
+        mimeType,
+        sha256,
+    });
+    console.log(`${new Date().toLocaleTimeString()} MEDIA upload ${fileName} ${body.length}B`);
+}
+
+function handleMediaRead(req, res, name) {
+    const file = mediaFilePath(name);
+    if (!file || !existsSync(file)) {
+        sendJson(res, 404, { error: "素材不存在", name });
+        return;
+    }
+    const size = statSync(file).size;
+    const ext = path.extname(file).slice(1);
+    const headers = {
+        ...CORS_HEADERS,
+        "content-type": MEDIA_MIME_BY_EXT[ext] || "application/octet-stream",
+        "accept-ranges": "bytes",
+        "cache-control": "public, max-age=86400, immutable",
+    };
+    const range = /^bytes=(\d*)-(\d*)$/.exec(String(req.headers.range || "").trim());
+    if (range && size > 0) {
+        const start = range[1] ? Number(range[1]) : 0;
+        const end = range[2] ? Math.min(Number(range[2]), size - 1) : size - 1;
+        if (start > end || start >= size) {
+            res.writeHead(416, { ...headers, "content-range": `bytes */${size}` });
+            res.end();
+            return;
+        }
+        res.writeHead(206, { ...headers, "content-range": `bytes ${start}-${end}/${size}`, "content-length": end - start + 1 });
+        if (req.method === "HEAD") {
+            res.end();
+            return;
+        }
+        createReadStream(file, { start, end }).pipe(res);
+        return;
+    }
+    res.writeHead(200, { ...headers, "content-length": size });
+    if (req.method === "HEAD") {
+        res.end();
+        return;
+    }
+    createReadStream(file).pipe(res);
 }
 
 function logForward(method, target, outcome, startedAt) {
@@ -311,6 +437,26 @@ export function createProxyServer() {
             res.end();
             return;
         }
+        // 素材托管路由必须在 readTarget 之前判掉：/__media/... 不是要代理的绝对地址。
+        const rawUrl = req.url || "/";
+        if (rawUrl === MEDIA_PREFIX || rawUrl.startsWith(`${MEDIA_PREFIX}/`)) {
+            const rest = rawUrl.slice(MEDIA_PREFIX.length).replace(/^\//, "").split("?")[0];
+            const method = req.method || "GET";
+            if (rest === "upload" && method === "POST") {
+                handleMediaUpload(req, res).catch((error) => sendJson(res, 500, { error: String(error?.message || error) }));
+                return;
+            }
+            if (rest && (method === "GET" || method === "HEAD")) {
+                try {
+                    handleMediaRead(req, res, rest);
+                } catch (error) {
+                    sendJson(res, 500, { error: String(error?.message || error) });
+                }
+                return;
+            }
+            sendJson(res, 404, { error: "未知的素材路由", hint: "POST /__media/upload；GET /__media/<file>" });
+            return;
+        }
         const target = readTarget(req.url || "/");
         if (!target) {
             sendJson(res, 200, {
@@ -319,6 +465,7 @@ export function createProxyServer() {
                 version: pkg.version,
                 transports: fetchCandidates.map((item) => item.name),
                 route: activeRoute,
+                media: { upload: `${MEDIA_PREFIX}/upload`, dir: MEDIA_DIR, maxBytes: MEDIA_MAX_BYTES },
                 usage: "/<full-target-url>",
             });
             return;
