@@ -233,6 +233,16 @@ await page.waitForTimeout(2500);
 rec.pageUrl = page.url();
 
 // ---- 2) 真实上传公网图片 ----
+// 页面若从草稿恢复出上一轮的图片，会直接进入"已载入"态，此时空态上传控件不在 DOM 里
+// （mask.tsx 仅在 image == null 时渲染 ToolAssetInput）。先走真实的「重新上传」按钮回到空态，
+// 再通过空态的文件选择控件上传，全程只用真实 UI。
+if ((await page.locator("input[data-testid=tool-asset-file-input]").count()) === 0) {
+    const resetImage = page.locator("[data-testid=remove-pen-reset-image]");
+    if ((await resetImage.count()) > 0) {
+        await resetImage.click();
+        await page.waitForSelector("input[data-testid=tool-asset-file-input]", { timeout: 15000 });
+    }
+}
 await page.setInputFiles("input[data-testid=tool-asset-file-input]", INPUT);
 await page.waitForSelector("[data-testid=remove-pen-canvas]", { timeout: 90000 });
 await page.waitForTimeout(2000);
