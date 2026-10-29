@@ -16,26 +16,26 @@ export function AppUserArea({ children, menuLabel }: { children?: ReactNode; men
     const [menuOpen, setMenuOpen] = useState(false);
 
     return (
-        <div data-testid="shell-user-area" className="flex h-full shrink-0 items-center gap-[15px] pr-3">
+        <div data-testid="shell-user-area" className="flex h-full shrink-0 items-center gap-[15px] pr-3 max-md:gap-2">
             <a
                 href="https://github.com/Cc-kris/infinite-canvas#readme"
                 target="_blank"
                 rel="noreferrer"
                 data-testid="shell-user-learning-center"
                 style={{ color: "rgba(0, 0, 0, 0.88)" }}
-                className="inline-flex h-8 shrink-0 items-center rounded-[6px] bg-[#f4f4f5] min-w-[92px] justify-center px-[10px] text-[14px] leading-[22px] transition hover:bg-[#ececee] dark:bg-white/10 dark:text-white/85"
+                className="hidden h-8 shrink-0 items-center justify-center rounded-[6px] bg-[#f4f4f5] px-[10px] text-[14px] leading-[22px] transition hover:bg-[#ececee] lg:inline-flex lg:min-w-[92px] dark:bg-white/10 dark:text-white/85"
             >
                 {t("shellUser.learningCenter")}
             </a>
             <Link
                 to="/tools"
                 data-testid="shell-user-free-quota"
-                className="inline-flex h-8 shrink-0 items-center rounded-[6px] bg-[#fee2e2] px-3 text-[14px] leading-[22px] text-[#ef4444] transition hover:brightness-[0.98] dark:bg-[#3b2021] dark:text-[#f87171]"
+                className="hidden h-8 shrink-0 items-center rounded-[6px] bg-[#fee2e2] px-3 text-[14px] leading-[22px] text-[#ef4444] transition hover:brightness-[0.98] md:inline-flex dark:bg-[#3b2021] dark:text-[#f87171]"
             >
                 {t("shellUser.freeQuota")}
             </Link>
 
-            <div data-testid="shell-user-points" className="flex h-8 shrink-0 items-center rounded-[4px] bg-[#e2ecfe] text-[12px] leading-[18.857px] font-bold text-black/85 dark:bg-[#1e2a44] dark:text-white/85">
+            <div data-testid="shell-user-points" className="hidden h-8 shrink-0 items-center rounded-[4px] bg-[#e2ecfe] text-[12px] leading-[18.857px] font-bold text-black/85 md:flex dark:bg-[#1e2a44] dark:text-white/85">
                 <span>{t("shellUser.points")}</span>
                 <span data-testid="shell-user-points-value" className="mx-[3px] min-w-[24px] text-right tabular-nums">
                     0

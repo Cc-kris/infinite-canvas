@@ -62,6 +62,8 @@
     --shell-body: #f5f7fa;
     --brand: #723cf9;
     --brand-soft: #f2edff;
+    /* 工具侧栏行文字色：浅色 原站 rgba(0,0,0,.6)；暗色 需反相（白 62%），故下沉为变量 */
+    --tool-row: rgba(0, 0, 0, 0.6);
     --surface: #ffffff;
     /* 共享框架顶栏节奏（原站实测）：1908 → 左右 24/35、导航项间距 30、导航左偏移 50；
        1280 → 16/20、20、0。见 docs/V1.0/plan_linkfox_navigation/evidence/b12-shell-final-20261029/BASELINE.md */
@@ -119,6 +121,7 @@
     --shell-body: oklch(0.145 0 0);
     --brand: #8b5cff;
     --brand-soft: oklch(0.28 0.07 300);
+    --tool-row: rgba(255, 255, 255, 0.62);
     --surface: oklch(0.205 0 0);
     --foreground: oklch(0.985 0 0);
     --border: oklch(1 0 0 / 10%);

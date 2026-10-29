@@ -124,7 +124,7 @@ export function ToolSidebar({
                                             style={
                                                 active
                                                     ? { color: "var(--brand)", backgroundColor: "rgba(141, 52, 249, 0.05)" }
-                                                    : { color: "rgba(0, 0, 0, 0.6)" }
+                                                    : { color: "var(--tool-row, rgba(0, 0, 0, 0.6))" }
                                             }
                                             className={cn(
                                                 "flex h-10 items-center gap-2.5 pl-[18px] pr-3 text-base leading-5 transition-colors hover:opacity-80 dark:text-white/60",

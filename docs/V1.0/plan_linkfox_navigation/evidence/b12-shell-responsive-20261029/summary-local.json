@@ -1,0 +1,122 @@
+[
+ {
+  "side": "local",
+  "width": 1908,
+  "shot": true,
+  "theme": "light",
+  "vw": 1908,
+  "scrollW": 1908,
+  "overflowX": false,
+  "bodyBg": "rgb(245, 247, 250)"
+ },
+ {
+  "side": "local-dark",
+  "width": 1908,
+  "shot": true,
+  "theme": "dark",
+  "vw": 1908,
+  "scrollW": 1908,
+  "overflowX": false,
+  "bodyBg": "oklch(0.145 0 0)"
+ },
+ {
+  "side": "local",
+  "width": 1440,
+  "shot": true,
+  "theme": "light",
+  "vw": 1440,
+  "scrollW": 1440,
+  "overflowX": false,
+  "bodyBg": "rgb(245, 247, 250)"
+ },
+ {
+  "side": "local-dark",
+  "width": 1440,
+  "shot": true,
+  "theme": "dark",
+  "vw": 1440,
+  "scrollW": 1440,
+  "overflowX": false,
+  "bodyBg": "oklch(0.145 0 0)"
+ },
+ {
+  "side": "local",
+  "width": 1280,
+  "shot": true,
+  "theme": "light",
+  "vw": 1280,
+  "scrollW": 1280,
+  "overflowX": false,
+  "bodyBg": "rgb(245, 247, 250)"
+ },
+ {
+  "side": "local-dark",
+  "width": 1280,
+  "shot": true,
+  "theme": "dark",
+  "vw": 1280,
+  "scrollW": 1280,
+  "overflowX": false,
+  "bodyBg": "oklch(0.145 0 0)"
+ },
+ {
+  "side": "local",
+  "width": 1024,
+  "shot": true,
+  "theme": "light",
+  "vw": 1024,
+  "scrollW": 1024,
+  "overflowX": false,
+  "bodyBg": "rgb(245, 247, 250)"
+ },
+ {
+  "side": "local-dark",
+  "width": 1024,
+  "shot": true,
+  "theme": "dark",
+  "vw": 1024,
+  "scrollW": 1024,
+  "overflowX": false,
+  "bodyBg": "oklch(0.145 0 0)"
+ },
+ {
+  "side": "local",
+  "width": 768,
+  "shot": true,
+  "theme": "light",
+  "vw": 768,
+  "scrollW": 768,
+  "overflowX": false,
+  "bodyBg": "rgb(245, 247, 250)"
+ },
+ {
+  "side": "local-dark",
+  "width": 768,
+  "shot": true,
+  "theme": "dark",
+  "vw": 768,
+  "scrollW": 768,
+  "overflowX": false,
+  "bodyBg": "oklch(0.145 0 0)"
+ },
+ {
+  "side": "local",
+  "width": 390,
+  "shot": true,
+  "theme": "light",
+  "vw": 390,
+  "scrollW": 390,
+  "overflowX": false,
+  "bodyBg": "rgb(245, 247, 250)"
+ },
+ {
+  "side": "local-dark",
+  "width": 390,
+  "shot": true,
+  "theme": "dark",
+  "vw": 390,
+  "scrollW": 390,
+  "overflowX": false,
+  "bodyBg": "oklch(0.145 0 0)"
+ }
+]

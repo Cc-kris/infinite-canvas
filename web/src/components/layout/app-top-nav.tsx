@@ -376,7 +376,7 @@ export function ToolsPrimaryNavigation({ className, onNavigate }: ToolsPrimaryNa
                             role="menu"
                             aria-labelledby={moreTriggerId}
                             data-testid="tools-nav-more-menu"
-                            className="absolute left-0 top-[calc(100%+4px)] z-30 w-[168px] rounded-[8px] bg-white p-1 shadow-[0_6px_16px_rgba(0,0,0,0.08),0_3px_6px_-4px_rgba(0,0,0,0.12),0_9px_28px_8px_rgba(0,0,0,0.05)]"
+                            className="absolute left-0 top-[calc(100%+4px)] z-30 w-[168px] rounded-[8px] bg-popover p-1 shadow-[0_6px_16px_rgba(0,0,0,0.08),0_3px_6px_-4px_rgba(0,0,0,0.12),0_9px_28px_8px_rgba(0,0,0,0.05)]"
                         >
                             {shellMoreMenuItems.map((item) => {
                                 const label = t(`toolsNav.moreMenu.${item.key}`);
@@ -390,7 +390,7 @@ export function ToolsPrimaryNavigation({ className, onNavigate }: ToolsPrimaryNa
                                             setMoreOpen(false);
                                             onNavigate?.();
                                         }}
-                                        className="flex h-8 items-center rounded-[4px] text-sm text-black/[0.88]! outline-none transition-colors hover:bg-black/[0.04] focus-visible:bg-black/[0.04]"
+                                        className="flex h-8 items-center rounded-[4px] text-sm text-black/[0.88]! outline-none transition-colors hover:bg-black/[0.04] focus-visible:bg-black/[0.04] dark:text-white/85! dark:hover:bg-white/10 dark:focus-visible:bg-white/10"
                                     >
                                         {label}
                                     </Link>
@@ -402,7 +402,7 @@ export function ToolsPrimaryNavigation({ className, onNavigate }: ToolsPrimaryNa
                                         data-testid={`tools-nav-more-item-${item.key}`}
                                         data-local-route="missing"
                                         title={t("toolsNav.moreUnavailable")}
-                                        className="flex h-8 cursor-default items-center rounded-[4px] text-sm text-black/[0.88]!"
+                                        className="flex h-8 cursor-default items-center rounded-[4px] text-sm text-black/[0.88]! dark:text-white/45!"
                                     >
                                         {label}
                                     </span>
@@ -512,7 +512,7 @@ export function AppTopNav() {
                     <AppPromoBar />
                     <header data-testid="shell-top-nav" className="sticky top-0 z-[7] h-[60px] shrink-0 border-b border-hairline bg-surface">
                         <div className="flex h-full w-full items-stretch justify-between gap-4" style={{ paddingLeft: "var(--shell-pad-left)", paddingRight: "var(--shell-pad-right)" }}>
-                            <div className="flex min-w-0 items-center">
+                            <div className="flex min-w-0 flex-1 items-center">
                                 {/* 原站实测：品牌区占位 160px（logo 24→184），随后 50px 间距，导航首项 x=234；<1440 时该间距收为 0 */}
                                 <Link to="/" className="flex h-full min-w-[160px] shrink-0 items-center gap-2 text-sm font-semibold leading-none tracking-tight text-stone-950 transition hover:text-stone-600 dark:text-stone-100 dark:hover:text-stone-300">
                                     <img src="/logo.png" alt="" className="size-5 shrink-0 select-none" draggable={false} />
@@ -532,10 +532,10 @@ export function AppTopNav() {
                                     <Menu className="size-5" />
                                 </button>
 
-                                <ToolsPrimaryNavigation className="ml-[var(--shell-nav-offset)] hidden md:flex" />
+                                <ToolsPrimaryNavigation className="ml-[var(--shell-nav-offset)] hidden min-w-0 md:flex" />
                             </div>
 
-                            <div className="my-auto flex h-9 min-w-0 items-center justify-end whitespace-nowrap">
+                            <div className="my-auto flex h-9 shrink-0 items-center justify-end whitespace-nowrap">
                                 <AppUserArea>
                                     {/* 原站顶栏右侧只有用户区；本地既有的画布入口/Agent/设置/语言/主题/版本/GitHub 收进头像下拉，保持可达 */}
                                     <WorkspaceLinks className="flex justify-center" />
