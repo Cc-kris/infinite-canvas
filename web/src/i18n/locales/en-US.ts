@@ -711,7 +711,17 @@ export default {
         batchEntry: "Batch generation workspace",
         batchHint: "Batch generation references 12 batch-capable tools and queues each input row as its own task",
         supplementalHint: "Supplemental tool: not part of the five original site menus, relationship defined by this project",
-        badges: { supplemental: "Supplemental", batch: "Batch" },
+        home: "Home",
+        more: "More",
+        moreUnavailable: "Available on the original site only",
+        moreMenu: {
+            aiChat: "AI Chat",
+            brandCompliance: "Brand & Compliance",
+            assetLibrary: "Asset Library",
+            history: "History",
+            downloadCenter: "Large File Downloads",
+        },
+        badges: { supplemental: "Supplemental", batch: "Batch", newModel: "New", hot: "HOT" },
         categories: {
             "ecommerce-suite": "E-commerce Sets",
             "smart-edit": "Smart Retouch",

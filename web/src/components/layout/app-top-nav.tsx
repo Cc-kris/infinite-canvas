@@ -1,4 +1,4 @@
-import { Bot, Menu } from "lucide-react";
+import { Bot, ChevronDown, Menu } from "lucide-react";
 import { Button, Tooltip } from "antd";
 import { useCallback, useEffect, useId, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -7,7 +7,7 @@ import { Link, useLocation } from "react-router-dom";
 import { AppConfigModal } from "@/components/layout/app-config-modal";
 import { MobileNavDrawer } from "@/components/layout/mobile-nav-drawer";
 import { UserStatusActions } from "@/components/layout/user-status-actions";
-import { getActiveCategorySlug, getCategoryMenuTools, getToolNavigationCategory, navigationTools, resolveToolNavigation, toolNavigationCategories, type ToolCategorySlug, type ToolNavigationItem } from "@/constant/navigation-tools";
+import { getActiveCategorySlug, getCategoryMenuTools, getToolNavigationCategory, navigationTools, resolveToolNavigation, shellMoreMenuItems, toolNavigationCategories, type ToolCategorySlug, type ToolNavigationItem } from "@/constant/navigation-tools";
 import { cn } from "@/lib/utils";
 import { useAgentStore } from "@/stores/use-agent-store";
 
@@ -43,10 +43,14 @@ export function ToolsPrimaryNavigation({ className, onNavigate }: ToolsPrimaryNa
     const { t } = useTranslation();
     const { pathname } = useLocation();
     const idPrefix = useId();
+    const moreTriggerId = `${idPrefix}-more-trigger`;
+    const moreMenuId = `${idPrefix}-more-menu`;
+    const moreMenuRef = useRef<HTMLDivElement | null>(null);
     const activeCategorySlug = getActiveCategorySlug(pathname);
     const { tool: activeTool } = resolveToolNavigation(pathname);
 
     const [openSlug, setOpenSlug] = useState<ToolCategorySlug | null>(null);
+    const [moreOpen, setMoreOpen] = useState(false);
     const [focusTick, setFocusTick] = useState(0);
     const containerRef = useRef<HTMLDivElement | null>(null);
     const triggerRefs = useRef(new Map<ToolCategorySlug, HTMLAnchorElement>());
@@ -93,6 +97,30 @@ export function ToolsPrimaryNavigation({ className, onNavigate }: ToolsPrimaryNa
     useEffect(() => {
         openSlugRef.current = openSlug;
     }, [openSlug]);
+
+    // 「更多」下拉：点击外部/按 Esc/切换路由都收起。
+    useEffect(() => {
+        if (!moreOpen) return;
+        const handlePointerDown = (event: PointerEvent) => {
+            const target = event.target as Node;
+            if (moreMenuRef.current?.contains(target)) return;
+            if ((event.target as HTMLElement | null)?.closest?.('[data-testid="tools-nav-more-trigger"]')) return;
+            setMoreOpen(false);
+        };
+        const handleKeyDown = (event: KeyboardEvent) => {
+            if (event.key === "Escape") setMoreOpen(false);
+        };
+        document.addEventListener("pointerdown", handlePointerDown);
+        document.addEventListener("keydown", handleKeyDown);
+        return () => {
+            document.removeEventListener("pointerdown", handlePointerDown);
+            document.removeEventListener("keydown", handleKeyDown);
+        };
+    }, [moreOpen]);
+
+    useEffect(() => {
+        setMoreOpen(false);
+    }, [pathname]);
 
     useEffect(() => () => clearTimer(), [clearTimer]);
 
@@ -192,6 +220,19 @@ export function ToolsPrimaryNavigation({ className, onNavigate }: ToolsPrimaryNa
             }}
         >
             <nav aria-label={t("toolsNav.primaryNav")} className="hide-scrollbar flex h-full min-w-0 items-stretch overflow-x-auto">
+                {/* 原站实测：所有主项之前有独立「首页」链接（x=234/宽 32/16px/与主项同为 30px 间距） */}
+                <Link
+                    to="/"
+                    data-testid="tools-nav-trigger-home"
+                    aria-current={pathname === "/" ? "page" : undefined}
+                    data-active={pathname === "/" ? "true" : "false"}
+                    className={cn(
+                        "relative mr-[30px] flex h-[60px] shrink-0 items-center rounded-none text-[16px]! leading-[25.1429px] outline-none transition-colors focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
+                        pathname === "/" ? "text-[var(--brand)]!" : "text-black/85! hover:text-[var(--brand)]! dark:text-white/85 dark:hover:text-[var(--brand)]!",
+                    )}
+                >
+                    {t("toolsNav.home")}
+                </Link>
                 {toolNavigationCategories.map((category) => {
                     const Icon = category.icon;
                     const isOpen = openSlug === category.slug;
@@ -217,12 +258,20 @@ export function ToolsPrimaryNavigation({ className, onNavigate }: ToolsPrimaryNa
                                 onClick={() => onNavigate?.()}
                                 onKeyDown={(event) => handleTriggerKeyDown(event, category.slug)}
                                 className={cn(
-                                    // 原站实测：无图标、无箭头、无下划线；16px、字间距由父级 30px 提供，选中为品牌紫 #723CF9
-                                    "relative flex h-[60px] shrink-0 items-center rounded-none text-base leading-5 outline-none transition-colors focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
-                                    isActive ? "text-[var(--brand)]" : "text-[rgba(0,0,0,0.85)] hover:text-[var(--brand)] dark:text-white/85 dark:hover:text-[var(--brand)]",
+                                    // 原站实测：无图标、无箭头、无下划线；16px / 行高 25.1429；项间距由父级 30px 提供，选中为品牌紫 #723CF9
+                                    "relative flex h-[60px] shrink-0 items-center rounded-none text-[16px]! leading-[25.1429px] outline-none transition-colors focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
+                                    isActive ? "text-[var(--brand)]!" : "text-black/85! hover:text-[var(--brand)]! dark:text-white/85 dark:hover:text-[var(--brand)]!",
                                 )}
                             >
                                 <span className="truncate">{t(category.labelKey)}</span>
+                                {category.badge ? (
+                                    <em
+                                        data-testid={`tools-nav-badge-${category.slug}`}
+                                        className="ml-0 inline-flex h-4 shrink-0 translate-x-[4px] -translate-y-[7px] items-center rounded-[5px] px-[5px] text-[9px] font-bold not-italic leading-4 text-white [background-image:linear-gradient(135deg,#FF4D6D,#FF7A45)]"
+                                    >
+                                        {t(`toolsNav.badges.${category.badge}`)}
+                                    </em>
+                                ) : null}
                             </Link>
 
                             {isOpen ? (
@@ -279,6 +328,87 @@ export function ToolsPrimaryNavigation({ className, onNavigate }: ToolsPrimaryNa
                         </div>
                     );
                 })}
+
+                {/* 原站导航末尾还有两个独立外部入口 Skills / Agent（x=832.9 w=37.4、x=900.3 w=42.8，同 16px/30px 间距）。
+                    原站指向 skill.linkfox.com / os.linkfox.com，本地无对应路由，故按「原站入口，本地暂未实现」渲染为不可点击项，保持 1:1 视觉。 */}
+                {[
+                    { key: "skills", label: "Skills" },
+                    { key: "agent", label: "Agent" },
+                ].map((entry) => (
+                    <span
+                        key={entry.key}
+                        role="link"
+                        aria-disabled="true"
+                        title={t("toolsNav.moreUnavailable")}
+                        data-testid={`tools-nav-external-${entry.key}`}
+                        className="mr-[30px] flex h-[60px] shrink-0 cursor-default items-center text-[16px]! leading-[25.1429px] text-black/85! dark:text-white/85"
+                    >
+                        {entry.label}
+                    </span>
+                ))}
+
+                {/* 原站实测：末尾「更多」汇总下拉——触发器含文字 47px（含 10px 下箭头）、面板宽 168px、行高 32px/14px/圆角 4px */}
+                <div className="relative mr-[30px] flex h-full items-stretch last:mr-0" onMouseEnter={() => setMoreOpen(true)} onMouseLeave={() => setMoreOpen(false)}>
+                    <button
+                        type="button"
+                        id={moreTriggerId}
+                        aria-haspopup="menu"
+                        aria-expanded={moreOpen}
+                        aria-controls={moreMenuId}
+                        data-testid="tools-nav-more-trigger"
+                        onClick={() => setMoreOpen((open) => !open)}
+                        onKeyDown={(event) => {
+                            if (event.key === "Escape") setMoreOpen(false);
+                        }}
+                        className="relative flex h-[60px] shrink-0 items-center rounded-none text-[16px]! leading-[25.1429px] text-black/85! outline-none transition-colors hover:text-[var(--brand)]! focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background dark:text-white/85 dark:hover:text-[var(--brand)]!"
+                    >
+                        {t("toolsNav.more")}
+                        <ChevronDown className="ml-[5px] size-[10px] shrink-0" strokeWidth={3} aria-hidden />
+                    </button>
+                    {moreOpen ? (
+                        <div
+                            ref={(node) => {
+                                moreMenuRef.current = node;
+                            }}
+                            id={moreMenuId}
+                            role="menu"
+                            aria-labelledby={moreTriggerId}
+                            data-testid="tools-nav-more-menu"
+                            className="absolute left-0 top-[calc(100%+4px)] z-30 w-[168px] rounded-[8px] bg-white p-1 shadow-[0_6px_16px_rgba(0,0,0,0.08),0_3px_6px_-4px_rgba(0,0,0,0.12),0_9px_28px_8px_rgba(0,0,0,0.05)]"
+                        >
+                            {shellMoreMenuItems.map((item) => {
+                                const label = t(`toolsNav.moreMenu.${item.key}`);
+                                return item.localRoute ? (
+                                    <Link
+                                        key={item.key}
+                                        to={item.localRoute}
+                                        role="menuitem"
+                                        data-testid={`tools-nav-more-item-${item.key}`}
+                                        onClick={() => {
+                                            setMoreOpen(false);
+                                            onNavigate?.();
+                                        }}
+                                        className="flex h-8 items-center rounded-[4px] text-sm text-black/[0.88]! outline-none transition-colors hover:bg-black/[0.04] focus-visible:bg-black/[0.04]"
+                                    >
+                                        {label}
+                                    </Link>
+                                ) : (
+                                    <span
+                                        key={item.key}
+                                        role="menuitem"
+                                        aria-disabled="true"
+                                        data-testid={`tools-nav-more-item-${item.key}`}
+                                        data-local-route="missing"
+                                        title={t("toolsNav.moreUnavailable")}
+                                        className="flex h-8 cursor-default items-center rounded-[4px] text-sm text-black/[0.88]!"
+                                    >
+                                        {label}
+                                    </span>
+                                );
+                            })}
+                        </div>
+                    ) : null}
+                </div>
             </nav>
         </div>
     );
@@ -379,7 +509,8 @@ export function AppTopNav() {
                 <header className="sticky top-0 z-20 h-[60px] shrink-0 border-b border-hairline bg-surface dark:border-white/10">
                     <div className="flex h-full w-full items-stretch justify-between gap-4 pl-6 pr-[35px]">
                         <div className="flex min-w-0 items-center">
-                            <Link to="/" className="flex h-full shrink-0 items-center gap-2 text-sm font-semibold leading-none tracking-tight text-stone-950 transition hover:text-stone-600 dark:text-stone-100 dark:hover:text-stone-300">
+                            {/* 原站实测：品牌区占位 160px（logo 24→184），随后 50px 间距，导航首项 x=234 */}
+                        <Link to="/" className="flex h-full min-w-[160px] shrink-0 items-center gap-2 text-sm font-semibold leading-none tracking-tight text-stone-950 transition hover:text-stone-600 dark:text-stone-100 dark:hover:text-stone-300">
                                 <img src="/logo.png" alt="" className="size-5 shrink-0 select-none" draggable={false} />
                                 <span className="text-base font-medium">{t("meta.title")}</span>
                             </Link>
@@ -397,7 +528,7 @@ export function AppTopNav() {
                                 <Menu className="size-5" />
                             </button>
 
-                            <ToolsPrimaryNavigation className="ml-6 hidden md:flex" />
+                            <ToolsPrimaryNavigation className="ml-[50px] hidden md:flex" />
                         </div>
 
                         <div className="my-auto flex h-9 min-w-0 items-center justify-end gap-2 justify-self-end whitespace-nowrap">

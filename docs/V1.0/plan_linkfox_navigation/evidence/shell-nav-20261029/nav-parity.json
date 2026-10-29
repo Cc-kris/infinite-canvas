@@ -1,0 +1,209 @@
+{
+  "real": {
+    "source": "https://www.linkfox.com/draw/designer-home (真实原站，Chrome DOM 探针 2026-10-29)",
+    "nav": {
+      "x": 234,
+      "width": 816.1,
+      "height": 25.1,
+      "itemGapPx": 30
+    },
+    "items": [
+      {
+        "label": "首页",
+        "x": 234,
+        "w": 32
+      },
+      {
+        "label": "电商套图",
+        "x": 296,
+        "w": 64
+      },
+      {
+        "label": "智能修图",
+        "x": 390,
+        "w": 101.5,
+        "badge": "新模型"
+      },
+      {
+        "label": "AI视频",
+        "x": 521.5,
+        "w": 77.3,
+        "badge": "HOT"
+      },
+      {
+        "label": "批量生图",
+        "x": 628.9,
+        "w": 64
+      },
+      {
+        "label": "商品图设计",
+        "x": 722.9,
+        "w": 80
+      },
+      {
+        "label": "Skills",
+        "x": 832.9,
+        "w": 37.4,
+        "href": "https://skill.linkfox.com/"
+      },
+      {
+        "label": "Agent",
+        "x": 900.3,
+        "w": 42.8,
+        "href": "https://os.linkfox.com/?from=home"
+      },
+      {
+        "label": "更多",
+        "x": 973.1,
+        "w": 47
+      }
+    ],
+    "badgeStyle": {
+      "fontSize": "9px",
+      "fontWeight": 700,
+      "color": "#fff",
+      "backgroundImage": "linear-gradient(135deg, rgb(255,77,109), rgb(255,122,69))",
+      "borderRadius": "5px",
+      "paddingLeft": "5px",
+      "paddingRight": "5px",
+      "height": "16px"
+    },
+    "morePanel": {
+      "x": 973,
+      "y": 97,
+      "w": 168,
+      "h": 200,
+      "borderRadius": "8px",
+      "padding": "4px",
+      "backgroundColor": "rgb(255,255,255)",
+      "boxShadow": "rgba(0,0,0,.08) 0 6px 16px, rgba(0,0,0,.12) 0 3px 6px -4px, rgba(0,0,0,.05) 0 9px 28px 8px",
+      "item": {
+        "w": 160,
+        "h": 32,
+        "fontSize": "14px",
+        "color": "rgba(0,0,0,0.88)",
+        "padding": "0px"
+      },
+      "itemTextX": 977,
+      "panelToItemTextDelta": 4,
+      "items": [
+        "AI会话",
+        "品牌与合规",
+        "通用素材库",
+        "历史记录",
+        "大文件下载中心",
+        "LinkFox Claw"
+      ],
+      "panelTopVsNavBottomDelta": 4.5
+    }
+  },
+  "local": {
+    "source": "http://127.0.0.1:3000/tools/product-design/product-scene (本地 1908 视口，重建后 DOM 探针 2026-10-29)",
+    "nav": {
+      "x": 234,
+      "width": 785,
+      "height": 59,
+      "itemGapPx": 30
+    },
+    "logo": {
+      "x": 24,
+      "w": 160
+    },
+    "items": [
+      {
+        "label": "首页",
+        "x": 234,
+        "w": 32,
+        "fontSize": "16px"
+      },
+      {
+        "label": "电商套图",
+        "x": 296,
+        "w": 64,
+        "fontSize": "16px"
+      },
+      {
+        "label": "智能修图",
+        "x": 390,
+        "w": 101,
+        "fontSize": "16px",
+        "badge": "新模型"
+      },
+      {
+        "label": "AI视频",
+        "x": 521,
+        "w": 76.8,
+        "fontSize": "16px",
+        "badge": "HOT"
+      },
+      {
+        "label": "批量生图",
+        "x": 627.8,
+        "w": 64,
+        "fontSize": "16px"
+      },
+      {
+        "label": "商品图设计",
+        "x": 721.8,
+        "w": 80,
+        "fontSize": "16px"
+      },
+      {
+        "label": "Skills",
+        "x": 831.8,
+        "w": 37.4,
+        "fontSize": "16px",
+        "note": "readonly 占位（原站外链，本地无路由）"
+      },
+      {
+        "label": "Agent",
+        "x": 899.2,
+        "w": 42.8,
+        "fontSize": "16px",
+        "note": "readonly 占位（原站外链，本地无路由）"
+      },
+      {
+        "label": "更多",
+        "x": 972,
+        "w": 47,
+        "fontSize": "16px"
+      }
+    ],
+    "navTextColor": "oklab(0 0 0 / 0.85)",
+    "badgeStyle": {
+      "fontSize": "9px",
+      "fontWeight": 700,
+      "borderRadius": "5px",
+      "height": "16px",
+      "backgroundImage": "linear-gradient(135deg, rgb(255,77,109), rgb(255,122,69))",
+      "measuredW": 37,
+      "hotMeasuredW": 30.4
+    },
+    "morePanel": {
+      "x": 972,
+      "y": 63,
+      "w": 168,
+      "h": 168,
+      "borderRadius": "8px",
+      "padding": "4px",
+      "backgroundColor": "rgb(255,255,255)",
+      "boxShadow": "rgba(0,0,0,.08) 0 6px 16px, rgba(0,0,0,.12) 0 3px 6px -4px, rgba(0,0,0,.05) 0 9px 28px 8px",
+      "item": {
+        "w": 160,
+        "h": 32,
+        "fontSize": "14px",
+        "color": "oklab(0 0 0 / 0.88)"
+      },
+      "itemTextX": 976,
+      "panelToItemTextDelta": 4,
+      "items": [
+        "AI会话",
+        "品牌与合规",
+        "通用素材库",
+        "历史记录",
+        "大文件下载中心"
+      ],
+      "panelTopVsNavBottomDelta": 4
+    }
+  }
+}

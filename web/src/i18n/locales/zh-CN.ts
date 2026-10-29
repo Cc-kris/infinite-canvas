@@ -711,7 +711,17 @@ export default {
         batchEntry: "批量生图工作台",
         batchHint: "批量生图引用 12 个可批量工具，每个输入行独立排队",
         supplementalHint: "补充工具：不在原站五类菜单中，关系按本项目 canonical 决策补齐",
-        badges: { supplemental: "补充", batch: "可批量" },
+        home: "首页",
+        more: "更多",
+        moreUnavailable: "原站入口，本地暂未实现",
+        moreMenu: {
+            aiChat: "AI会话",
+            brandCompliance: "品牌与合规",
+            assetLibrary: "通用素材库",
+            history: "历史记录",
+            downloadCenter: "大文件下载中心",
+        },
+        badges: { supplemental: "补充", batch: "可批量", newModel: "新模型", hot: "HOT" },
         categories: {
             "ecommerce-suite": "电商套图",
             "smart-edit": "智能修图",
