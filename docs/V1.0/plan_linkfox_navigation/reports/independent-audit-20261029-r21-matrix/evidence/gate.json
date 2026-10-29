@@ -1,0 +1,20 @@
+{
+ "source": "tools/recompute_scope_matrix_r21.py（自跑）+ docs/V1.0/reports/verify-03b8f47e-20261029-logs（历史）+ docs/V1.0/reports/verify-head-20261029-r21-logs（HEAD 自跑）",
+ "selfRun": {
+  "logs": "docs/V1.0/reports/verify-head-20261029-r21-logs",
+  "head": "322dee358be09c60748fe5e0570995fe3e9189cd\n35ccda1139aaab44564df219b1bb54edf5e2c690",
+  "webTree": "HEAD:web（gate-head.txt 第2行）== 机检时 HEAD:web",
+  "typecheck": "bun run typecheck → tsc --noEmit, exit 0",
+  "test": "bun test → 1485 pass / 0 fail / 8352 expect() / 84 files",
+  "build": "bun run build → vite, exit 0（built in 42.45s，仅 chunk>500kB 提示）"
+ },
+ "historical": {
+  "snapshot": "03b8f47e（tree 52e83c1e）",
+  "logs": "docs/V1.0/reports/verify-03b8f47e-20261029-logs",
+  "typecheck": "exit 0（38s）",
+  "test": "1483 pass / 0 fail / 8342 expects / 84 files",
+  "build": "exit 0（30.34s，index-DPpMYq6s.js）",
+  "tscListFiles": "3436 行（含 web/src/）"
+ },
+ "note": "R20 门禁快照 dd8192a8 之后 web 树再变（新增 2 个 real-acceptance 脚本 + 2 处验收脚本修正，零 src 改动）→ 门禁不再覆盖 HEAD，R21 自跑三闸并以 gate.webTree==HEAD:web 机检；bun 用 ~/.bun/bin/bun（非交互 PATH 无 bun）"
+}

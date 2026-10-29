@@ -15,6 +15,8 @@ ec33cf99  r26b REMOVE_PEN 真实配置（IDB app_state）真实 UI 回执：上�
 b10e4221  r26b 脚本修复：草稿恢复态上传控件缺失（先走真实「重新上传」回空态）
 b583adb9  R27 VIDEO_CONCAT 真实提交实测：2 次真实 POST /v1/videos 均 400，final unknown，无 upstreamTaskId
 322dee35  r26b 任务键前缀过滤更正（tool-task:v1:<uuid>，原 task- 前缀永不匹配）
+bf57c28d  r26b REMOVE_PEN 真实终态 succeeded（task-mvtp33dv-57nmbx，1,831,533B 三路 sha 全等；回执自判 PARTIAL）
+d75bb906  lf_video_concat_after_budget 只读回执（提交 200/task_5EgVjiQ，上游 pending 26min 未终态，三动作未验）
 
 判据：**完全不改**（rubric 原样继承 R19/R20），升级必须过硬断言，断言失败即保持原判。
 
@@ -481,7 +483,8 @@ def neg_video_concat_r27(files, a):
     a("r27.err_codec", "'utf-8' codec" in ((resp[0].get("body") or "") if resp else ""), "第1次 400 解码错")
     a("r27.err_references_limit", "references exceed limits" in ((resp[1].get("body") or "") if len(resp) > 1 else ""), "第2次 400 素材超限")
     a("r27.no_upstream_taskid", d.get("upstreamTaskId") is None, str(d.get("upstreamTaskId")))
-    a("r27.no_local_taskid", d.get("localTaskId") in (None, ""), str(d.get("localTaskId")))
+    a("r27.local_task_no_upstream", str(d.get("localTaskId") or "").startswith("task-mv") and d.get("upstreamTaskId") is None,
+      f"本地 {str(d.get('localTaskId'))[:22]} 无上游 id")
     a("r27.result_null", d.get("result") is None, str(d.get("result")))
     a("r27.actions_empty", not (d.get("actions") or {}), str(d.get("actions")))
     fin = (d.get("final") or {}).get("status")
@@ -526,12 +529,13 @@ def neg_budget_doc(files, a):
 
 
 def neg_gate_r21_delta(files, a):
-    """R20 门禁快照(dd8192a8) → HEAD：web 树只允许新增/改动 2 个验收脚本，零 src 改动。"""
+    """R20 门禁快照(dd8192a8) → HEAD：零 web/src 改动，差异全部落在验收脚本目录。"""
     got = set(x for x in git("diff", "--name-only", R20_GATE_HEAD, "HEAD", "--", "web/").decode().split("\n") if x)
     expected = {RP_SCRIPT, VC_R27_SCRIPT}
-    a("delta.known_only", got <= expected, f"新增/未知: {sorted(got - expected)}")
     a("delta.no_src_change", not any(x.startswith("web/src/") for x in got), f"src 改动 {sorted(x for x in got if x.startswith('web/src/'))}")
-    a("delta.scripts_two", got == expected, f"{len(got)} 个差异文件")
+    a("delta.scripts_only", got and all(x.startswith("web/scripts/real-acceptance/") for x in got),
+      f"{len(got)} 个差异全为验收脚本")
+    a("delta.known_anchors", {RP_SCRIPT, VC_R27_SCRIPT} <= got, f"含 r26/r27 两份真跑脚本")
     return a.ok()
 
 
@@ -690,10 +694,10 @@ def main() -> int:
             "及一条真实「发画布」后 app_state 节点自带 assetId + 字节 sha 的可核字段；须由新真实跑产生，不可注入。"
         ),
         ("VIDEO_CONCAT", "F"): (
-            "R21 复核（b583adb9 R27 真实跑）：两次真实 POST /v1/videos 均被上游 400（第1次 utf-8 解码错；第2次 references exceed limits: images 9, videos 3, audio 3, total 12），"
-            "final=unknown、upstreamTaskId=null、0 结果、无任何三动作回执；c8c8ce9e 的时间预算只保证「不再永久卡 submitting」，不等同成功。"
-            "最小硬证据缺口：一次上游 2xx 的 submit（返回 taskId）→ 轮询至 succeeded 且 items 带字节 → 下载/存资产/发画布三动作回执（含 sha 对账）；"
-            "并需先修素材超限（当前上传 4 段，工具最少 2 段上限未在前端拦）。"
+            "R21 复核（b583adb9 R27 + d75bb906 只读追加）：R27 两次真实 POST 均 400（utf-8 解码错 / references exceed limits: images 9, videos 3, audio 3, total 12）；"
+            "d75bb906 在预算修复后再提交则**成功拿到上游受理**（HTTP 200 · task_5EgVjiQ…），但上游 pending 26min 未终态，final 非 succeeded、items 为空、三动作未验。"
+            "故 F 仍不成立：提交链路可达 ≠ 产出可用。最小硬证据缺口：该 upstreamTaskId 推进到 completed → 结果字节落 IDB → 下载/存资产/发画布三动作同一回执（含 sha 对账，"
+            "并需 archiveUrl 可公网取回，R27 已证 upload 侧可受理由此不构成阻塞）。"
         ),
         ("VIDEO_TRANSLATION", "F"): (
             "R21 复核（无新提交）：/videos 形态只读复核仍只有 09d711b2 的 4 项 UNVERIFIED（Content-Type/字段名/公网 URL 形态一致结论未升级为回执），无新成功三动作。"
@@ -701,10 +705,11 @@ def main() -> int:
             "外部协议若仍不可用则须写明阻塞面（域名/鉴权/配额）并给出可复现命令。"
         ),
         ("REMOVE_PEN", "H"): (
-            "R21 复核（ec33cf99 + 322dee35）：真实 UI + IDB app_state 配置下上游已 200（响应 2,442,902B，b64Len 2,442,044），链路本身通；"
-            "但 task 始终未进入 succeeded/failed/cancelled（BLOCKED_TASK_NOT_SETTLED），故无 taskId、无终态、无字节 sha、三动作全未执行、未做任何注入。"
-            "最小硬证据缺口：图片工具在响应已回填后收敛到终态（succeeded 且 item 带 storageKey）→ 取 IDB media_files 字节算 sha → 同一任务再取下载落盘/assetId/canvasNodeId 三动作回执；"
-            "根因线索已在回执 §4 指向 web/src/services/api/gateway.ts 仅视频分支有 transitionTask(…, \"succeeded\")。"
+            "R21 复核（bf57c28d 机检 + ec33cf99）：ec33cf99 轮因任务键前缀 bug 轮询空转，322dee35 修正前缀后同一真实任务收敛 succeeded（task-mvtp33dv-57nmbx，storageKey 带 taskId 前缀），"
+            "归档回执机检通过：fresh reload navType=reload + 刷新后 resultImg 1024×1024 complete；任务结果/下载落盘/入库资产三处字节均 1,831,533B 且 sha 2f8f7f11… 全等（审计侧对归档字节重算，采信回执字段）；"
+            "画布腿亦有只读探针（节点 metadata.bytes=1,831,533、storageKey=image:…，对应 IDB image_files sha 相同）。"
+            "但回执自判 verdict=PARTIAL：checks.canvasSent=false（脚本读不到 canvas_store），三动作未在**同一回执**内闭合，rubric 要求「下载/入库/发画布字节须由该工具已提交产物按同尺寸同 sha 复核」未一次性满足 → 不升 H。"
+            "最小硬证据缺口：一次真实跑内连续完成下载落盘 + 存资产 + 发画布，并在同一机读回执里给出三者字节/sha 与任务结果一致（不得用跨文件拼合替代）。"
         ),
     }
     for (tid, dim), txt in gap_updates.items():
@@ -797,6 +802,8 @@ def main() -> int:
             {"commit": "b10e4221", "what": "r26b 脚本修复：草稿恢复态上传控件缺失 → 先走真实「重新上传」回空态", "verdict": "无改判（验收脚本改动，零 src）"},
             {"commit": "b583adb9", "what": "R27 VIDEO_CONCAT 真实提交实测（2 次 POST 均 400，final unknown）", "verdict": "无改判（无成功回执；负证）"},
             {"commit": "322dee35", "what": "r26b 任务键前缀更正 tool-task:v1:<uuid>（原 task- 前缀永不匹配）", "verdict": "无改判（解释了 ec33cf99 轮询空转，非产品缺陷）"},
+            {"commit": "bf57c28d", "what": "REMOVE_PEN 真实终态 succeeded + 三路字节对账（1,831,533B，sha 2f8f7f11…）", "verdict": "无改判（回执自判 PARTIAL：三动作未在同一回执内闭合，canvas 腿 checks.canvasSent=false；缺口收窄至「单回执三动作完整」）"},
+            {"commit": "d75bb906", "what": "VIDEO_CONCAT 预算修复后只读回执（提交 200 / task_5EgVjiQ / 上游 pending 26min）", "verdict": "无改判（无终态、无三动作；证明提交链路可达，仍需上游 completed）"},
         ],
         "absorbed_no_change": [r for r in negative_summary(gap_updates)],
         "residual": residual,
@@ -968,9 +975,10 @@ def render_report(d: dict) -> str:
         L.append(f"| `{c['commit']}` | {c['what']} | {c['verdict']} |")
     L.append("")
 
-    L.append("## 3. 改判明细\n")
+    L.append("## 3. 改判与复验明细\n")
     if not d["changes_vs_r19"]:
-        L.append("- 无改判。\n")
+        L.append("**本轮改判：0 处**（相对 R19/R20 累计改判见 §1 摘要）。\n")
+    L.append("### 3.1 复验通过项（历史升级项重跑，非本轮改判）\n")
     for u in d["upgradeAssertions"]:
         if not u["passed"]:
             continue
@@ -996,7 +1004,7 @@ def render_report(d: dict) -> str:
     sr = (d.get("gate") or {}).get("selfRun") or {}
     L.append(f"- 新源码：`c8c8ce9e` 修改 `{VIDEO_TS}`（VIDEO_SUBMIT_TIMEOUT_MS=180s / VIDEO_POLL_TIMEOUT_MS=60s / isRequestTimeoutError）与 `web/src/lib/inline-image.ts`（解码 10s 超时），新增 `video.submit-plan.test.ts` 两条用例")
     L.append(f"- 门禁（HEAD `{str(sr.get('head'))[:8]}` 自跑）：{sr.get('typecheck')}；{sr.get('test')}；{sr.get('build')}")
-    L.append(f"- 原始日志：`{sr.get('logs')}`（typecheck.log / buntest.log / build.log / gate-head.txt），机检 `gate.webTree == HEAD:web`")
+    L.append(f"- 原始日志：`{sr.get('logs')}`（typecheck.log / buntest.log / build.log / gate-head.txt），机检 `gate.srcTree == HEAD:web/src` + `gate.webDiff.scripts_only`（门禁后 web 变更全部落在验收脚本，零 src 漂移）")
     hi = (d.get("gate") or {}).get("historical") or {}
     L.append(f"- 历史门禁：{hi.get('snapshot')} 三闸全绿（{hi.get('test')}），c8c8ce9e 落地后不再覆盖 HEAD → 仅作历史证据")
     L.append("")
