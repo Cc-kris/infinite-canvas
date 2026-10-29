@@ -1,0 +1,181 @@
+{
+  "capturedAt": "2026-10-29T08:27:03.047Z",
+  "method": "playwright chromium.launch(channel=chrome, headless) 全新临时 profile；只读 DOM / localStorage / 归档文件字节，不生成、不注入",
+  "base": "http://127.0.0.1:3000",
+  "results": [
+    {
+      "tool": "NEW_REPLACE_BG_V2",
+      "url": "/tools/product-design/new-replace-bg-v2",
+      "workspaceMounted": true,
+      "dockMounted": true,
+      "dockItemCount": 0,
+      "dockCountText": "0 条",
+      "dockEmptyHint": "本工具还没有历史任务；提交一次后会在这里留下任务、配置与结果，刷新后仍在。",
+      "ownHistoryTab": false,
+      "myPersistedTasks": 0,
+      "totalPersistedTasks": 0,
+      "pageErrors": []
+    },
+    {
+      "tool": "REPLACE_GOODS",
+      "url": "/tools/product-design/replace-goods",
+      "workspaceMounted": true,
+      "dockMounted": true,
+      "dockItemCount": 0,
+      "dockCountText": "0 条",
+      "dockEmptyHint": "本工具还没有历史任务；提交一次后会在这里留下任务、配置与结果，刷新后仍在。",
+      "ownHistoryTab": false,
+      "myPersistedTasks": 0,
+      "totalPersistedTasks": 0,
+      "pageErrors": []
+    },
+    {
+      "tool": "PRODUCT_SCENE",
+      "url": "/tools/product-design/product-scene",
+      "workspaceMounted": true,
+      "dockMounted": false,
+      "dockItemCount": null,
+      "dockCountText": null,
+      "dockEmptyHint": null,
+      "ownHistoryTab": true,
+      "myPersistedTasks": 0,
+      "totalPersistedTasks": 0,
+      "pageErrors": []
+    },
+    {
+      "tool": "HANDHELD_GOODS",
+      "url": "/tools/product-design/handheld-goods",
+      "workspaceMounted": true,
+      "dockMounted": true,
+      "dockItemCount": 0,
+      "dockCountText": "0 条",
+      "dockEmptyHint": "本工具还没有历史任务；提交一次后会在这里留下任务、配置与结果，刷新后仍在。",
+      "ownHistoryTab": true,
+      "myPersistedTasks": 0,
+      "totalPersistedTasks": 0,
+      "pageErrors": []
+    },
+    {
+      "tool": "AI_DRESSING_V2",
+      "url": "/tools/product-design/ai-dressing-v2",
+      "workspaceMounted": true,
+      "dockMounted": true,
+      "dockItemCount": 0,
+      "dockCountText": "0 条",
+      "dockEmptyHint": "本工具还没有历史任务；提交一次后会在这里留下任务、配置与结果，刷新后仍在。",
+      "ownHistoryTab": false,
+      "myPersistedTasks": 0,
+      "totalPersistedTasks": 0,
+      "pageErrors": []
+    },
+    {
+      "tool": "AI_POSTURE",
+      "url": "/tools/product-design/ai-posture",
+      "workspaceMounted": true,
+      "dockMounted": true,
+      "dockItemCount": 0,
+      "dockCountText": "0 条",
+      "dockEmptyHint": "本工具还没有历史任务；提交一次后会在这里留下任务、配置与结果，刷新后仍在。",
+      "ownHistoryTab": false,
+      "myPersistedTasks": 0,
+      "totalPersistedTasks": 0,
+      "pageErrors": []
+    },
+    {
+      "tool": "AI_WEARABLE",
+      "url": "/tools/product-design/ai-wearable",
+      "workspaceMounted": true,
+      "dockMounted": true,
+      "dockItemCount": 0,
+      "dockCountText": "0 条",
+      "dockEmptyHint": "本工具还没有历史任务；提交一次后会在这里留下任务、配置与结果，刷新后仍在。",
+      "ownHistoryTab": false,
+      "myPersistedTasks": 0,
+      "totalPersistedTasks": 0,
+      "pageErrors": []
+    }
+  ],
+  "archiveRealResults": [
+    {
+      "tool": "NEW_REPLACE_BG_V2",
+      "file": "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/NEW_REPLACE_BG_V2/result1.png",
+      "bytes": 1109268,
+      "sha256": "58041a5cf1df2289d308724c167a9613473049e472a435f8f55f76e2f5723a52",
+      "png": {
+        "width": 1024,
+        "height": 1024
+      }
+    },
+    {
+      "tool": "NEW_REPLACE_BG_V2",
+      "file": "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/NEW_REPLACE_BG_V2/result_actions.png",
+      "bytes": 22606,
+      "sha256": "e1365a28e2009b789b1008961ef33416f32863a4d393edbb96827a5af92ee2f7",
+      "png": {
+        "width": 1920,
+        "height": 835
+      }
+    },
+    {
+      "tool": "REPLACE_GOODS",
+      "file": "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/REPLACE_GOODS/upstream_result.png",
+      "bytes": 1216214,
+      "sha256": "6bcfd3101e489b2844c101763a27f3026fb864741f47271f7a2e1802f3634cb8",
+      "png": {
+        "width": 1254,
+        "height": 1254
+      }
+    },
+    {
+      "tool": "PRODUCT_SCENE",
+      "file": "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/PRODUCT_SCENE/result1.png",
+      "bytes": 1421980,
+      "sha256": "260071186391d7d05d364c969394797194855f377974f5f9d513bfec08a5d256",
+      "png": {
+        "width": 1024,
+        "height": 1024
+      }
+    },
+    {
+      "tool": "HANDHELD_GOODS",
+      "file": "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/HANDHELD_GOODS/result.png",
+      "bytes": 1060068,
+      "sha256": "fbb05871e134260c198dc4624b8b78e9d3ef2972854ba83646f5396dc7efd081",
+      "png": {
+        "width": 720,
+        "height": 960
+      }
+    },
+    {
+      "tool": "AI_DRESSING_V2",
+      "file": "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/AI_DRESSING_V2/result1.png",
+      "bytes": 819224,
+      "sha256": "446d9ffe39f94d706a2d541118c1dadff9908fb4bf88fff2eec3fcfbea54365d",
+      "png": {
+        "width": 720,
+        "height": 960
+      }
+    },
+    {
+      "tool": "AI_POSTURE",
+      "file": "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/AI_POSTURE/result1.png",
+      "bytes": 972271,
+      "sha256": "60e839b98832d03a828e8996d4100cf5a3ee010e11672dc094f5befb224478bf",
+      "png": {
+        "width": 720,
+        "height": 960
+      }
+    },
+    {
+      "tool": "AI_WEARABLE",
+      "file": "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/AI_WEARABLE/result1.png",
+      "bytes": 1641506,
+      "sha256": "7615ee04f73cfd0cdbbbc42a308e272310e45d1ee16a9b30d0b46d4dd7abd312",
+      "png": {
+        "width": 720,
+        "height": 960
+      }
+    }
+  ],
+  "note": "myPersistedTasks=0 表示该工具在此 profile 无真实任务；不代表页面缺陷。历史坞挂载 = 恢复入口可用。"
+}

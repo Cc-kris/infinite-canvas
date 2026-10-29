@@ -7,7 +7,8 @@ import { ToolResult } from "@/components/tools/tool-result";
 import { uploadCaseFiles } from "@/features/tools/case-apply";
 import { AI_WEARABLE_CASES } from "@/features/tools/tool-cases-data";
 import { uploadToolAsset, loadToolAssetRecords, type ToolAssetRecord } from "@/services/api/tools/assets";
-import { describeToolExecution, getToolGateway } from "@/services/api/tools/gateway";
+import { describeToolExecution } from "@/services/api/tools/gateway";
+import { getPersistedToolGateway } from "@/stores/use-tool-task-store";
 import type { ToolTask } from "@/services/api/tools/task-machine";
 import { resolveModelChannel, useConfigStore } from "@/stores/use-config-store";
 import { useToolDraftStore } from "@/stores/use-tool-draft-store";
@@ -664,7 +665,7 @@ export function AiWearableWorkspace({ className, toolId = AI_WEARABLE_TOOL_ID }:
                 const targetMaskRef = await uploadMask(targetMask.present, wearableMaskSizeFor(modelAsset), `ai-wearable-mask-target-${Date.now()}.png`);
                 const runValues: WearableValues = variantIndex === undefined ? values : { ...values, outputNum: 1 };
                 const run: AiWearableRun = await runAiWearable({
-                    gateway: getToolGateway(),
+                    gateway: getPersistedToolGateway(),
                     values: runValues,
                     capability,
                     product,
@@ -1277,7 +1278,7 @@ export function MaterialUpperBodyWorkspace({ className, toolId = MATERIAL_UPPER_
                 const maskRef = values.isMatting ? await uploadMaskBlob(values.mattingRegion, materialMaskSizeFor(source)) : null;
                 const runValues: MaterialValues = variantIndex === undefined ? values : { ...values, outputNum: 1 };
                 const run = await runMaterialUpperBody({
-                    gateway: getToolGateway(),
+                    gateway: getPersistedToolGateway(),
                     values: runValues,
                     capability,
                     source,

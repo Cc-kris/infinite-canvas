@@ -11,7 +11,8 @@ import { uploadCaseFiles } from "@/features/tools/case-apply";
 import { PRODUCT_SCENE_CASES } from "@/features/tools/tool-cases-data";
 import { useConfigStore, resolveModelChannel } from "@/stores/use-config-store";
 import { useToolDraftStore } from "@/stores/use-tool-draft-store";
-import { describeToolExecution, getToolGateway } from "@/services/api/tools/gateway";
+import { describeToolExecution } from "@/services/api/tools/gateway";
+import { getPersistedToolGateway } from "@/stores/use-tool-task-store";
 import { loadToolAssetRecords, type ToolAssetRecord } from "@/services/api/tools/assets";
 import type { ToolTask } from "@/services/api/tools/task-machine";
 
@@ -444,7 +445,7 @@ export function ProductSceneWorkspace({ className, toolId = PRODUCT_SCENE_TOOL_I
         try {
             await flushDraft(toolId);
             const run = await runProductScene({
-                gateway: getToolGateway(),
+                gateway: getPersistedToolGateway(),
                 values,
                 output,
                 capability,
@@ -471,7 +472,7 @@ export function ProductSceneWorkspace({ className, toolId = PRODUCT_SCENE_TOOL_I
         setRunError(undefined);
         try {
             const run = await retryProductScene({
-                gateway: getToolGateway(),
+                gateway: getPersistedToolGateway(),
                 values,
                 output,
                 capability,
@@ -498,7 +499,7 @@ export function ProductSceneWorkspace({ className, toolId = PRODUCT_SCENE_TOOL_I
             setRunError(undefined);
             try {
                 const single = await retrySceneVariant({
-                    gateway: getToolGateway(),
+                    gateway: getPersistedToolGateway(),
                     values,
                     output,
                     capability,
