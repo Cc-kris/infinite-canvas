@@ -1,0 +1,95 @@
+{
+ "toolId": "PRODUCT_REFINE",
+ "route": "/tools/smart-edit/product-refine",
+ "phase": "reload",
+ "taskId": "task-mvtb3nuj-3d0mnv",
+ "realRun": true,
+ "reload": {
+  "at": "2026-10-29T10:47:10.138Z",
+  "method": "location.reload",
+  "url": "http://127.0.0.1:3000/tools/smart-edit/product-refine"
+ },
+ "task": {
+  "status": "succeeded",
+  "createdAt": 1793264028283,
+  "updatedAt": 1793264051940,
+  "clientOperationId": "3a808f3b-174d-45a9-9a99-b3ac711acfdb"
+ },
+ "result": {
+  "storageKey": "tool-result:bbXCXFqpAjGJXnsC3Cbph",
+  "store": "media_files",
+  "bytes": 2827346,
+  "mime": "image/png",
+  "w": 2048,
+  "h": 1488,
+  "sha256": "454f64bbde16b5213da96097a12b67038a8f8ed9b175c492e21e3100bafe264e",
+  "sha256Short": "454f64bbde16b521"
+ },
+ "steps": [
+  {
+   "step": "historyAfterReload",
+   "ok": true,
+   "historyRows": 1,
+   "boundTarget": true,
+   "rows": [
+    {
+     "taskId": "task-mvtb3nuj-3d0mnv",
+     "text": "2026-10-29 16:53 已完成 对给定商品图做精修：输出尺寸 2048×1488（自动规则"
+    }
+   ]
+  },
+  {
+   "step": "resultAfterReload",
+   "ok": true,
+   "domBytesMatch": true,
+   "bytes": 2827346,
+   "w": 2048,
+   "h": 1488,
+   "sha": "454f64bbde16b5213da96097a12b67038a8f8ed9b175c492e21e3100bafe264e"
+  },
+  {
+   "step": "clickDownload",
+   "ok": true,
+   "fileName": "product-refine-result-1.png",
+   "bytes": 2827346,
+   "sha256": "454f64bbde16b5213da96097a12b67038a8f8ed9b175c492e21e3100bafe264e",
+   "matches": true
+  },
+  {
+   "step": "clickSaveAsset",
+   "ok": true,
+   "assetId": "BvH6g3QXP4nl-C7UIQ_Mj",
+   "title": "PRODUCT_REFINE 结果 1",
+   "storageKey": "image:D6W1BN2gbBlp6zfaoWu2i",
+   "bytes": 2827346,
+   "width": 2048,
+   "height": 1488,
+   "sha256": "454f64bbde16b5213da96097a12b67038a8f8ed9b175c492e21e3100bafe264e",
+   "matches": true,
+   "metadata": {
+    "toolId": "PRODUCT_REFINE",
+    "taskId": "task-mvtb3nuj-3d0mnv",
+    "resultItemId": "task-mvtb3nuj-3d0mnv-0"
+   }
+  },
+  {
+   "step": "sendCanvasPersisted",
+   "ok": true,
+   "projectId": "ycX7rP2nGLdmv7qoQf897",
+   "projectTitle": "PRODUCT_REFINE 结果",
+   "nodeId": "image-1793270787755-cgjiz",
+   "nodeStorageKey": "image:cl91LbIwXmTQj_2NlyaAZ",
+   "bytes": 2827346,
+   "sha256": "454f64bbde16b5213da96097a12b67038a8f8ed9b175c492e21e3100bafe264e",
+   "matches": true
+  }
+ ],
+ "bytesMatch": {
+  "persistedVsDom": true,
+  "persistedVsDownload": true,
+  "persistedVsAsset": true,
+  "persistedVsCanvas": true
+ },
+ "allMatch": true,
+ "errors": []
+}

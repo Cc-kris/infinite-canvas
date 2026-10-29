@@ -1,0 +1,94 @@
+{
+ "toolId": "IMAGE_CROP",
+ "route": "/tools/smart-edit/image-crop",
+ "phase": "reload",
+ "taskId": "task-mvtbmukl-quasjm",
+ "realRun": true,
+ "reload": {
+  "at": "2026-10-29T10:47:40.000Z",
+  "method": "fresh navigation to tool route then history dock opened",
+  "url": "http://127.0.0.1:3000/tools/smart-edit/image-crop"
+ },
+ "task": {
+  "status": "succeeded",
+  "updatedAt": 1793264924512
+ },
+ "declared": {
+  "storageKey": "tool-result:_Z7jp3P-mlkBnYUUw5Zf9",
+  "bytes": 205951,
+  "mime": "image/png"
+ },
+ "result": {
+  "storageKey": "tool-result:_Z7jp3P-mlkBnYUUw5Zf9",
+  "bytes": 205951,
+  "mime": "image/png",
+  "w": 1024,
+  "h": 744,
+  "sha256": "c046374eac48b82e5a7a76c1ff8c151a9fee60e3257ffe5d10a8912eecaeb708",
+  "sha256Short": "c046374eac48b82e"
+ },
+ "steps": [
+  {
+   "step": "historyAfterReload",
+   "ok": true,
+   "historyUi": "tool-history-dock-toggle",
+   "dockRows": 1,
+   "boundTarget": true,
+   "rowText": "2026-10-29 17:08 已完成 图片裁剪｜自定义尺寸 1024×744｜裁剪框 0,0,1024,744｜源图"
+  },
+  {
+   "step": "resultAfterReload",
+   "ok": true,
+   "domBytesMatch": true,
+   "testid": "tool-result-image",
+   "bytes": 205951,
+   "w": 1024,
+   "h": 744,
+   "sha": "c046374eac48b82e5a7a76c1ff8c151a9fee60e3257ffe5d10a8912eecaeb708"
+  },
+  {
+   "step": "clickDownload",
+   "ok": true,
+   "fileName": "image-crop-result-1.png",
+   "bytes": 205951,
+   "sha256": "c046374eac48b82e5a7a76c1ff8c151a9fee60e3257ffe5d10a8912eecaeb708",
+   "matches": true
+  },
+  {
+   "step": "clickSaveAsset",
+   "ok": true,
+   "assetId": "PpIeIEur7ySOMCnsehdOa",
+   "title": "IMAGE_CROP 结果 1",
+   "storageKey": "image:nfmt-1yTSMfg3Cz4fJyB2",
+   "bytes": 205951,
+   "w": 1024,
+   "h": 744,
+   "sha256": "c046374eac48b82e5a7a76c1ff8c151a9fee60e3257ffe5d10a8912eecaeb708",
+   "matches": true,
+   "metadata": {
+    "toolId": "IMAGE_CROP",
+    "taskId": "task-mvtbmukl-quasjm",
+    "resultItemId": "crop-1024:744:0:-:-:0:0:1024:744:1024:744:image/png"
+   }
+  },
+  {
+   "step": "sendCanvasPersisted",
+   "ok": true,
+   "projectId": "-AW9B-hZCBy_Hcn-mzRB6",
+   "projectTitle": "IMAGE_CROP 结果",
+   "nodeId": "image-1793270949754-2upht",
+   "nodeStorageKey": "image:ayDveCCQhazfVgxHq56m0",
+   "bytes": 205951,
+   "sha256": "c046374eac48b82e5a7a76c1ff8c151a9fee60e3257ffe5d10a8912eecaeb708",
+   "matches": true
+  }
+ ],
+ "bytesMatch": {
+  "persistedVsDom": true,
+  "persistedVsDownload": true,
+  "persistedVsAsset": true,
+  "persistedVsCanvas": true
+ },
+ "allMatch": true,
+ "errors": []
+}

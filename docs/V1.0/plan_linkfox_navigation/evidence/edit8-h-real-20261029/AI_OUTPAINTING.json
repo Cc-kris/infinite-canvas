@@ -1,0 +1,95 @@
+{
+ "toolId": "AI_OUTPAINTING",
+ "route": "/tools/ecommerce-suite/ai-outpainting",
+ "phase": "reload",
+ "taskId": "task-mvtbhylv-bmyjus",
+ "realRun": true,
+ "reload": {
+  "at": "2026-10-29T10:46:30.000Z",
+  "method": "page load of tool route (fresh navigation)",
+  "url": "http://127.0.0.1:3000/tools/ecommerce-suite/ai-outpainting"
+ },
+ "task": {
+  "status": "succeeded",
+  "updatedAt": 1793264718304
+ },
+ "declared": {
+  "storageKey": "tool-result:RvlSRdnpA2kyyj8OmnSRW",
+  "bytes": 1329760,
+  "mime": "image/png"
+ },
+ "result": {
+  "storageKey": "tool-result:RvlSRdnpA2kyyj8OmnSRW",
+  "store": "media_files",
+  "bytes": 1329760,
+  "mime": "image/png",
+  "w": 1024,
+  "h": 1024,
+  "sha256": "2df4c6522acea38b32a69f21e57c90b17317d37b8cf5c0f5312d3c51a281b022",
+  "sha256Short": "2df4c6522acea38b"
+ },
+ "steps": [
+  {
+   "step": "historyAfterReload",
+   "ok": true,
+   "rows": 2,
+   "boundTarget": true,
+   "rowButton": "tool-task-history-open",
+   "action": "查看结果"
+  },
+  {
+   "step": "resultAfterReload",
+   "ok": true,
+   "domBytesMatch": true,
+   "testid": "tool-result-image",
+   "bytes": 1329760,
+   "w": 1024,
+   "h": 1024,
+   "sha": "2df4c6522acea38b32a69f21e57c90b17317d37b8cf5c0f5312d3c51a281b022"
+  },
+  {
+   "step": "clickDownload",
+   "ok": true,
+   "fileName": "ai-outpainting-result-1.png",
+   "bytes": 1329760,
+   "sha256": "2df4c6522acea38b32a69f21e57c90b17317d37b8cf5c0f5312d3c51a281b022",
+   "matches": true
+  },
+  {
+   "step": "clickSaveAsset",
+   "ok": true,
+   "assetId": "aHWx9j8S_lyVIrvWE3DNv",
+   "title": "AI_OUTPAINTING 结果 1",
+   "storageKey": "image:y5Y9Ot_BfgMi60XMT_irX",
+   "bytes": 1329760,
+   "w": 1024,
+   "h": 1024,
+   "sha256": "2df4c6522acea38b32a69f21e57c90b17317d37b8cf5c0f5312d3c51a281b022",
+   "matches": true,
+   "metadata": {
+    "toolId": "AI_OUTPAINTING",
+    "taskId": "task-mvtbhylv-bmyjus",
+    "resultItemId": "task-mvtbhylv-bmyjus-0"
+   }
+  },
+  {
+   "step": "sendCanvasPersisted",
+   "ok": true,
+   "projectId": "E2VA90BI5RsrRsOnaer_H",
+   "projectTitle": "AI_OUTPAINTING 结果",
+   "nodeId": "image-1793270903046-o2x5a",
+   "nodeStorageKey": "image:OdV9oQ_6_ixNoVccB4W7V",
+   "bytes": 1329760,
+   "sha256": "2df4c6522acea38b32a69f21e57c90b17317d37b8cf5c0f5312d3c51a281b022",
+   "matches": true
+  }
+ ],
+ "bytesMatch": {
+  "persistedVsDom": true,
+  "persistedVsDownload": true,
+  "persistedVsAsset": true,
+  "persistedVsCanvas": true
+ },
+ "allMatch": true,
+ "errors": []
+}
