@@ -238,7 +238,7 @@ export function ExtractUploader({ disabled, maxCount, onAssets }: { disabled: bo
                         从作品库选择
                     </button>
                 </div>
-                <p className="text-[12px] leading-[19px] text-[#999]">
+                <p className="text-[12px] leading-[19px] text-muted-foreground">
                     20M以内，分辨率：{PRINT_EXTRACT_SOURCE_LIMITS.minSide} * {PRINT_EXTRACT_SOURCE_LIMITS.minSide} ~ {PRINT_EXTRACT_SOURCE_LIMITS.maxSide} * {PRINT_EXTRACT_SOURCE_LIMITS.maxSide}，宽高比小于{PRINT_EXTRACT_SOURCE_LIMITS.maxAspect}
                 </p>
             </div>
@@ -271,7 +271,7 @@ export function ExtractUploader({ disabled, maxCount, onAssets }: { disabled: bo
                             </button>
                         ))
                     ) : (
-                        <p className="px-2 py-2 text-[11px] text-[#999]">作品库还没有可用图片</p>
+                        <p className="px-2 py-2 text-[11px] text-muted-foreground">作品库还没有可用图片</p>
                     )}
                 </div>
             ) : null}
@@ -329,7 +329,7 @@ export function ExtractUploader({ disabled, maxCount, onAssets }: { disabled: bo
             ) : null}
 
             {notice ? (
-                <p role="alert" data-testid="print-extract-upload-notice" className="mt-2 text-[11px] text-[#d4380d]">
+                <p role="alert" data-testid="print-extract-upload-notice" className="mt-2 text-[11px] text-destructive">
                     {notice}
                 </p>
             ) : null}
@@ -856,12 +856,12 @@ export function PrintExtractWorkspace() {
                         >
                             <ImagePlus className="size-3.5" aria-hidden /> 上传多张图片，开始批量提取
                         </button>
-                        <p data-testid="print-extract-batch-hint" className="text-[11px] leading-4 text-[#999]">
+                        <p data-testid="print-extract-batch-hint" className="text-[11px] leading-4 text-muted-foreground">
                             {batch ? `批量模式：最多 ${PRINT_EXTRACT_SOURCE_LIMITS.maxBatch} 张，每张独立提交与独立状态` : "单张模式：一次处理一张商品图"}
                         </p>
 
                         <div className="flex h-9 items-center justify-between border-t border-black/[0.06] pt-2">
-                            <span className="text-xs text-black/70">生成透明图</span>
+                            <span className="text-xs text-muted-foreground">生成透明图</span>
                             <button
                                 type="button"
                                 role="switch"
@@ -881,7 +881,7 @@ export function PrintExtractWorkspace() {
                     </div>
 
                     <div className="border-t-[3px] border-border bg-card px-4 py-2">
-                        <p data-testid="print-extract-estimate" className="mb-1.5 text-[11px] leading-4 text-[#999]">
+                        <p data-testid="print-extract-estimate" className="mb-1.5 text-[11px] leading-4 text-muted-foreground">
                             预计输出 {batch ? summary.idle + summary.failed : Math.min(1, items.length)} 张 {FORMAT_LABEL[config.format]} · 宽高跟随源图
                         </p>
                         <button
@@ -894,7 +894,7 @@ export function PrintExtractWorkspace() {
                             {busy ? <Loader2 className="size-3.5 animate-spin" aria-hidden /> : null}
                             立即生成
                         </button>
-                        {items.length === 0 ? <p className="mt-1.5 text-[11px] leading-4 text-[#999]">先上传需要提取印花的商品图片。</p> : null}
+                        {items.length === 0 ? <p className="mt-1.5 text-[11px] leading-4 text-muted-foreground">先上传需要提取印花的商品图片。</p> : null}
                     </div>
                 </aside>
 
@@ -906,7 +906,7 @@ export function PrintExtractWorkspace() {
                             data-testid="print-extract-tab-result"
                             aria-pressed={tab === "result"}
                             onClick={() => setTab("result")}
-                            className={cn("text-sm transition", tab === "result" ? "font-medium text-primary" : "text-black/60 hover:text-black/80")}
+                            className={cn("text-sm transition", tab === "result" ? "font-medium text-primary" : "text-muted-foreground hover:text-foreground")}
                         >
                             生成结果
                         </button>
@@ -915,7 +915,7 @@ export function PrintExtractWorkspace() {
                             data-testid="print-extract-tab-history"
                             aria-pressed={tab === "history"}
                             onClick={() => setTab("history")}
-                            className={cn("flex items-center gap-1 text-xs transition", tab === "history" ? "text-primary" : "text-black/60 hover:text-black/80")}
+                            className={cn("flex items-center gap-1 text-xs transition", tab === "history" ? "text-primary" : "text-muted-foreground hover:text-foreground")}
                         >
                             历史记录
                             <span className="rounded bg-primary/10 px-1 text-[11px] text-primary">{items.filter((item) => item.status === "succeeded").length}</span>
@@ -927,12 +927,12 @@ export function PrintExtractWorkspace() {
                                     data-testid="print-extract-retry-failed"
                                     disabled={busy}
                                     onClick={handleRetryFailed}
-                                    className="inline-flex h-7 items-center gap-1 rounded-md border border-black/10 bg-card px-2 text-[11px] text-black/70 hover:bg-black/[0.03] disabled:opacity-40"
+                                    className="inline-flex h-7 items-center gap-1 rounded-md border border-black/10 bg-card px-2 text-[11px] text-muted-foreground hover:bg-black/[0.03] disabled:opacity-40"
                                 >
                                     <RotateCw className="size-3" aria-hidden /> 只重试失败的 {summary.failed} 张
                                 </button>
                             ) : null}
-                            <span className="text-[11px] text-black/40">{progress}</span>
+                            <span className="text-[11px] text-muted-foreground">{progress}</span>
                         </div>
                     </header>
 
@@ -943,8 +943,8 @@ export function PrintExtractWorkspace() {
                                 <div data-testid="print-extract-empty" className="flex h-full min-h-[420px] items-center justify-center">
                                     <div className="flex h-[300px] w-[460px] max-w-full flex-col items-center justify-center gap-2 rounded-xl bg-card text-center shadow-[0_2px_8px_rgba(0,0,0,0.04)]">
                                         <ImagePlus className="size-9 text-primary" aria-hidden />
-                                        <p className="text-xl font-medium text-black/88">印花提取</p>
-                                        <p className="text-base text-black/60">快速提取商品中的印花图案</p>
+                                        <p className="text-xl font-medium text-foreground">印花提取</p>
+                                        <p className="text-base text-muted-foreground">快速提取商品中的印花图案</p>
                                     </div>
                                 </div>
                             ) : (
@@ -994,7 +994,7 @@ export function PrintExtractWorkspace() {
                         ) : (
                             <ul data-testid="print-extract-history" className="space-y-2">
                                 {items.filter((item) => item.status === "succeeded").length === 0 ? (
-                                    <li className="rounded-lg bg-card px-4 py-8 text-center text-xs text-black/45">暂无历史记录，生成成功后会自动留档。</li>
+                                    <li className="rounded-lg bg-card px-4 py-8 text-center text-xs text-muted-foreground">暂无历史记录，生成成功后会自动留档。</li>
                                 ) : (
                                     items
                                         .filter((item) => item.status === "succeeded")
@@ -1002,8 +1002,8 @@ export function PrintExtractWorkspace() {
                                             <li key={item.id} className="flex items-center gap-3 rounded-lg bg-card px-3 py-2">
                                                 <img src={item.resultUrl ?? item.url} alt={item.name} className="size-10 rounded border border-black/[0.06] object-cover" />
                                                 <div className="min-w-0 flex-1">
-                                                    <p className="truncate text-xs text-black/80">{item.name}</p>
-                                                    <p className="text-[11px] text-black/40">
+                                                    <p className="truncate text-xs text-foreground">{item.name}</p>
+                                                    <p className="text-[11px] text-muted-foreground">
                                                         {item.width} × {item.height} · {item.snapshotHash ? "已留档" : "本地产出"}
                                                     </p>
                                                 </div>

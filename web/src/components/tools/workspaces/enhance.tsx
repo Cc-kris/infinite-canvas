@@ -519,7 +519,7 @@ export function ScaleUpWorkspace({ className }: { className?: string }) {
                         disabled={!resultImage || running}
                         onClick={() => void onDownloadImage()}
                         data-testid="scale-up-download-image"
-                        className="mt-2 flex h-7 w-full items-center justify-center rounded-md border border-border bg-black/[0.04] text-[12px] leading-none text-black/25 transition enabled:bg-card enabled:text-foreground disabled:cursor-not-allowed"
+                        className="mt-2 flex h-7 w-full items-center justify-center rounded-md border border-border bg-black/[0.04] text-[12px] leading-none text-muted-foreground/70 transition enabled:bg-card enabled:text-foreground disabled:cursor-not-allowed"
                     >
                         下载图片
                     </button>

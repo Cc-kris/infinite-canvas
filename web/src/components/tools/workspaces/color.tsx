@@ -713,13 +713,13 @@ export function ChangeColorWorkspace({ className }: { className?: string }) {
                                     type="button"
                                     disabled
                                     title="批量一键换色：本地暂未接入批量队列"
-                                    className="h-8 w-[138px] shrink-0 rounded-md border border-border bg-card text-[14px] leading-none text-[#5a5a66] disabled:cursor-not-allowed disabled:opacity-60"
+                                    className="h-8 w-[138px] shrink-0 rounded-md border border-border bg-card text-[14px] leading-none text-muted-foreground disabled:cursor-not-allowed disabled:opacity-60"
                                     data-testid="change-color-batch-entry"
                                 >
                                     批量一键换色
                                 </button>
                             </div>
-                            <p className="mt-[14px] text-[12px] leading-[17px] text-[#b0b0bd]">10M以内，jpg/jpeg/png/webp</p>
+                            <p className="mt-[14px] text-[12px] leading-[17px] text-muted-foreground">10M以内，jpg/jpeg/png/webp</p>
                         </div>
                     </div>
                 )}
@@ -740,7 +740,7 @@ export function ChangeColorWorkspace({ className }: { className?: string }) {
                             </button>
                         ) : null}
                         {runError ? (
-                            <p className="mt-1 text-[11px] leading-4 text-[#f5483b]" role="alert" data-testid="change-color-run-error">
+                            <p className="mt-1 text-[11px] leading-4 text-destructive" role="alert" data-testid="change-color-run-error">
                                 {runError}
                             </p>
                         ) : null}
@@ -930,7 +930,7 @@ export function ChangeColorWorkspace({ className }: { className?: string }) {
             </Edit8Config>
 
             {/* ---------------- 结果列 ---------------- */}
-            <section data-region="results" data-testid="change-color-results" className="flex w-[332px] shrink-0 flex-col overflow-hidden rounded-[8px] bg-[#edeff5]">
+            <section data-region="results" data-testid="change-color-results" className="flex w-[332px] shrink-0 flex-col overflow-hidden rounded-[8px] bg-muted">
                 <div role="tablist" className="flex h-[42px] shrink-0 items-center gap-5 px-[13px]">
                     {[
                         { id: "result", label: "生成结果" },
@@ -997,7 +997,7 @@ export function ChangeColorWorkspace({ className }: { className?: string }) {
                             {currentSnapshot ? snapshotFieldSummary(currentSnapshot.fields) : "上传图片后可查看"}
                         </p>
                         {showSnapshot && currentSnapshot ? (
-                            <pre className="mt-2 max-h-64 overflow-auto rounded-lg bg-[#f7f7fa] p-2 text-[10px] leading-relaxed text-[#5a5a66]" data-testid="change-color-snapshot-body">
+                            <pre className="mt-2 max-h-64 overflow-auto rounded-lg bg-muted/60 p-2 text-[10px] leading-relaxed text-muted-foreground" data-testid="change-color-snapshot-body">
                                 {JSON.stringify(currentSnapshot.fields, null, 2)}
                             </pre>
                         ) : null}

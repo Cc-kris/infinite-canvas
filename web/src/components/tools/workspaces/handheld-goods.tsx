@@ -374,7 +374,7 @@ export function HandheldGoodsWorkspace({ className }: HandheldGoodsWorkspaceProp
                     {/* 0. 原站左卡标题：工具名 + 一句话 tagline（real/HANDHELD_GOODS/text.txt L47） */}
                     <Design19Section>
                         <p className="text-[16px]! font-medium leading-6 text-foreground!">手持商品</p>
-                        <p className="mt-1 text-[12px]! leading-5 text-black/60!">快速生成手持商品图，快速上架</p>
+                        <p className="mt-1 text-[12px]! leading-5 text-muted-foreground!">快速生成手持商品图，快速上架</p>
                     </Design19Section>
                     {/* 1. 商品图上传（原站 268x306 浅灰上传面板） */}
                     <Design19Section>
@@ -398,9 +398,9 @@ export function HandheldGoodsWorkspace({ className }: HandheldGoodsWorkspaceProp
                     {/* 2. 手持姿势（部位页签 + 姿势库） */}
                     <Design19Section>
                         <div className="mb-[6px] flex h-[22px] items-center justify-between gap-2">
-                            <span className="text-[14px] leading-[22px] text-black/[0.88]">选择手持姿势</span>
+                            <span className="text-[14px] leading-[22px] text-foreground">选择手持姿势</span>
                             {activePose ? (
-                                <span className="truncate text-[12px] leading-[22px] text-black/30">
+                                <span className="truncate text-[12px] leading-[22px] text-muted-foreground">
                                     {handheldGoodsPoseLabel(activePose.id)}
                                 </span>
                             ) : null}
@@ -430,7 +430,7 @@ export function HandheldGoodsWorkspace({ className }: HandheldGoodsWorkspaceProp
                                             "relative text-[14px] leading-[22px] transition",
                                             selected
                                                 ? "text-primary after:absolute after:inset-x-0 after:-bottom-px after:h-[2px] after:bg-primary"
-                                                : "text-black/[0.88] hover:text-primary",
+                                                : "text-foreground hover:text-primary",
                                         )}
                                     >
                                         {tab.label}
@@ -469,14 +469,14 @@ export function HandheldGoodsWorkspace({ className }: HandheldGoodsWorkspaceProp
                                             height={96}
                                             className="h-[96px] w-full rounded-md bg-card object-contain"
                                         />
-                                        <span className="line-clamp-2 text-[12px] leading-4 text-black/[0.88]">
+                                        <span className="line-clamp-2 text-[12px] leading-4 text-foreground">
                                             {pose.label}
                                         </span>
                                     </button>
                                 );
                             })}
                         </div>
-                        <p className="mt-[6px] text-[12px] leading-[18px] text-black/30">
+                        <p className="mt-[6px] text-[12px] leading-[18px] text-muted-foreground">
                             姿势示意图由本地按部位/握法确定性绘制，仅用于指向上游“怎么握”，不是成品图。
                         </p>
                     </Design19Section>
@@ -499,7 +499,7 @@ export function HandheldGoodsWorkspace({ className }: HandheldGoodsWorkspaceProp
                                             "relative text-[14px] leading-[22px] transition",
                                             selected
                                                 ? "text-primary after:absolute after:inset-x-0 after:-bottom-px after:h-[2px] after:bg-primary"
-                                                : "text-black/[0.88] hover:text-primary",
+                                                : "text-foreground hover:text-primary",
                                         )}
                                     >
                                         {tab.label}
@@ -543,7 +543,7 @@ export function HandheldGoodsWorkspace({ className }: HandheldGoodsWorkspaceProp
                                 </Design19Chip>
                             ))}
                         </Design19ChipGroup>
-                        <p className="mt-[6px] text-[12px] leading-[18px] text-black/30">
+                        <p className="mt-[6px] text-[12px] leading-[18px] text-muted-foreground">
                             每张单独发一次真实请求（并发生效上限 2），失败张可单独重试。
                         </p>
                         {issues.length ? (
@@ -564,13 +564,13 @@ export function HandheldGoodsWorkspace({ className }: HandheldGoodsWorkspaceProp
                 >
                     <div role="tabpanel" hidden={rightTab !== "result"} data-testid="handheld-panel-result" className="flex min-h-full flex-col px-3 py-3">
                         {stale ? (
-                            <p className="mb-2 rounded-md bg-card px-2 py-1 text-[12px] leading-[18px] text-black/30">
+                            <p className="mb-2 rounded-md bg-card px-2 py-1 text-[12px] leading-[18px] text-muted-foreground">
                                 配置已修改，下面的结果来自旧版本（快照指纹不同）。
                             </p>
                         ) : null}
 
                         {appliedFields ? (
-                            <p className="mb-2 text-[12px] leading-[18px] text-black/30">
+                            <p className="mb-2 text-[12px] leading-[18px] text-muted-foreground">
                                 已回填输出字段：imageResultUrl / targetResultUrl
                             </p>
                         ) : null}
@@ -583,7 +583,7 @@ export function HandheldGoodsWorkspace({ className }: HandheldGoodsWorkspaceProp
                                             {item.url ? (
                                                 <img src={item.url} alt={`第 ${item.index + 1} 张结果`} className="size-full object-contain" />
                                             ) : (
-                                                <span className="px-2 text-center text-[12px] leading-[18px] text-black/30">
+                                                <span className="px-2 text-center text-[12px] leading-[18px] text-muted-foreground">
                                                     {item.status === "failed"
                                                         ? item.error?.message ?? "该张失败"
                                                         : item.status === "cancelled"
@@ -594,7 +594,7 @@ export function HandheldGoodsWorkspace({ className }: HandheldGoodsWorkspaceProp
                                                 </span>
                                             )}
                                         </div>
-                                        <figcaption className="flex items-center justify-between gap-1 px-2 py-1 text-[12px] leading-[18px] text-black/30">
+                                        <figcaption className="flex items-center justify-between gap-1 px-2 py-1 text-[12px] leading-[18px] text-muted-foreground">
                                             <span>第 {item.index + 1} 张</span>
                                             {item.status === "failed" ? (
                                                 <button

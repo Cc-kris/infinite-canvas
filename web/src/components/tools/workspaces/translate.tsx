@@ -617,7 +617,7 @@ export function TranslateWorkspace({ className }: TranslateWorkspaceProps = {}) 
                                 <p className="text-xs text-muted-foreground">正在恢复草稿…</p>
                             )
                         )}
-                        <p className="text-xs text-[#FA5151]">
+                        <p className="text-xs text-destructive">
                             💡当前仅支持单张图内{IMAGE_TRANSLATION_MAX_TEXT_CHARS}字以下的内容翻译
                         </p>
                     </Section>
@@ -653,7 +653,7 @@ export function TranslateWorkspace({ className }: TranslateWorkspaceProps = {}) 
                         id="targets"
                         title="目标语言"
                         titleExtra={
-                            <span className="ml-1 text-sm font-normal text-black/60 dark:text-white/60">
+                            <span className="ml-1 text-sm font-normal text-muted-foreground dark:text-white/60">
                                 （可多选，已选 {values.targetLanguages.length} 个语言）
                             </span>
                         }

@@ -1438,7 +1438,7 @@ export function RemovePenWorkspace({ className }: RemovePenWorkspaceProps = {}) 
                                 {/* 原站空态上传卡下方是「或试试这些」ant-divider（12px / rgba(0,0,0,0.3)，居中于 y=595） */}
                                 <div className="mt-4 flex w-[520px] items-center gap-2" data-testid="remove-pen-try-these">
                                     <span className="h-px flex-1 bg-black/[0.06]" />
-                                    <span className="text-[12px] font-medium leading-[15px] text-black/30">或试试这些</span>
+                                    <span className="text-[12px] font-medium leading-[15px] text-muted-foreground">或试试这些</span>
                                     <span className="h-px flex-1 bg-black/[0.06]" />
                                 </div>
                             </div>
@@ -1468,7 +1468,7 @@ export function RemovePenWorkspace({ className }: RemovePenWorkspaceProps = {}) 
                                 </div>
                                 {view.status === "running" ? <p className="text-[11px] text-muted-foreground">正在提交真实请求并等待结果…</p> : null}
                                 {view.error && view.status !== "running" ? (
-                                    <p data-testid="remove-pen-error" className="rounded-md bg-[#fdecea] px-2 py-1.5 text-[11px] text-[#c0392b]">
+                                    <p data-testid="remove-pen-error" className="rounded-md bg-[#fdecea] px-2 py-1.5 text-[11px] text-destructive">
                                         {view.error.message}（诊断码：{view.error.code}）
                                     </p>
                                 ) : null}

@@ -127,7 +127,7 @@ function SceneLayerComposer({
                 hint="10M以内，分辨率：384*384 ~ 4096*4096，最大宽高比5"
                 onChange={onChange}
             />
-            {restoring ? <p className="mt-2 text-[11px] text-black/40">正在恢复上次的参考图…</p> : null}
+            {restoring ? <p className="mt-2 text-[11px] text-muted-foreground">正在恢复上次的参考图…</p> : null}
             {lostSource ? <p className="mt-2 text-[11px] text-amber-600">上次的参考图已失效，请重新上传。</p> : null}
             {sourceIssue && !sourceIssue.ok ? (
                 <p className="mt-2 text-[11px] text-red-600" data-testid="scene-source-error">
@@ -135,7 +135,7 @@ function SceneLayerComposer({
                 </p>
             ) : null}
             {source?.width && source?.height ? (
-                <p className="mt-2 text-[11px] text-black/40" data-testid="scene-source-size">
+                <p className="mt-2 text-[11px] text-muted-foreground" data-testid="scene-source-size">
                     参考图 {source.width}×{source.height}
                 </p>
             ) : null}
@@ -171,7 +171,7 @@ function SimilarityControl({
             <FieldLabel
                 htmlFor="scene-similarity-range"
                 extra={
-                    <span className="text-[12px] tabular-nums text-black/35" data-testid="scene-similarity-value">
+                    <span className="text-[12px] tabular-nums text-muted-foreground" data-testid="scene-similarity-value">
                         {smart ? `${effective}（智能）` : effective}
                     </span>
                 }
@@ -190,7 +190,7 @@ function SimilarityControl({
                 onChange={(event) => onChange({ similarity: Number(event.target.value) })}
                 className="h-4 w-full accent-primary disabled:opacity-50"
             />
-            <p id="scene-similarity-hint" className="mt-1 text-[11px] leading-4 text-black/40">
+            <p id="scene-similarity-hint" className="mt-1 text-[11px] leading-4 text-muted-foreground">
                 {smart
                     ? "💡已选择智能模式，将根据模型自动生成场景"
                     : "相似度越高，越贴近参考图的背景结构；越低，场景变化越大。"}
@@ -555,7 +555,7 @@ export function ProductSceneWorkspace({ className, toolId = PRODUCT_SCENE_TOOL_I
                             <FieldLabel
                                 htmlFor="scene-prompt"
                                 extra={
-                                    <span className="text-[11px] tabular-nums text-black/30" data-testid="scene-prompt-count">
+                                    <span className="text-[11px] tabular-nums text-muted-foreground" data-testid="scene-prompt-count">
                                         {values.prompt.length} / {SCENE_PROMPT_LIMIT}
                                     </span>
                                 }
@@ -569,10 +569,10 @@ export function ProductSceneWorkspace({ className, toolId = PRODUCT_SCENE_TOOL_I
                                 disabled={running}
                                 onChange={(event) => update({ prompt: event.target.value.slice(0, SCENE_PROMPT_LIMIT) })}
                                 placeholder="描述想要的场景，例如：晨光下的北欧客厅，浅木色地板"
-                                className="min-h-[84px] w-full resize-y rounded-[6px] border border-border bg-card p-2 text-[12px] leading-5 text-foreground outline-none transition placeholder:text-black/25 focus:border-primary"
+                                className="min-h-[84px] w-full resize-y rounded-[6px] border border-border bg-card p-2 text-[12px] leading-5 text-foreground outline-none transition placeholder:text-muted-foreground/70 focus:border-primary"
                             />
                             <details className="mt-1.5">
-                                <summary className="cursor-pointer text-[11px] leading-5 text-black/35 hover:text-black/55">
+                                <summary className="cursor-pointer text-[11px] leading-5 text-muted-foreground hover:text-foreground">
                                     高级：场景关键词
                                 </summary>
                                 <input
@@ -583,7 +583,7 @@ export function ProductSceneWorkspace({ className, toolId = PRODUCT_SCENE_TOOL_I
                                     onChange={(event) => update({ sceneKeyword: event.target.value })}
                                     placeholder="逗号分隔，例如：木质桌面, 白色墙面, 绿植"
                                     data-testid="scene-keyword"
-                                    className="mt-1 h-8 w-full rounded-[6px] border border-border bg-card px-2 text-[12px] text-foreground outline-none transition placeholder:text-black/25 focus:border-primary"
+                                    className="mt-1 h-8 w-full rounded-[6px] border border-border bg-card px-2 text-[12px] text-foreground outline-none transition placeholder:text-muted-foreground/70 focus:border-primary"
                                 />
                             </details>
                         </div>
@@ -662,7 +662,7 @@ export function ProductSceneWorkspace({ className, toolId = PRODUCT_SCENE_TOOL_I
 
                             {values.sizeType === "custom" ? (
                                 <div className="mt-2 grid grid-cols-2 gap-2" data-testid="scene-custom-size">
-                                    <label className="text-[11px] leading-4 text-black/35">
+                                    <label className="text-[11px] leading-4 text-muted-foreground">
                                         宽
                                         <input
                                             type="number"
@@ -675,7 +675,7 @@ export function ProductSceneWorkspace({ className, toolId = PRODUCT_SCENE_TOOL_I
                                             className="mt-1 h-8 w-full rounded-[6px] border border-border bg-card px-2 text-[12px] tabular-nums text-foreground outline-none focus:border-primary"
                                         />
                                     </label>
-                                    <label className="text-[11px] leading-4 text-black/35">
+                                    <label className="text-[11px] leading-4 text-muted-foreground">
                                         高
                                         <input
                                             type="number"
@@ -729,7 +729,7 @@ export function ProductSceneWorkspace({ className, toolId = PRODUCT_SCENE_TOOL_I
                             </ul>
                         ) : null}
                         {capability.notices.length > 0 ? (
-                            <ul className="mb-2 list-none space-y-0.5 text-[10px] leading-4 text-black/35" data-testid="scene-capability-notices">
+                            <ul className="mb-2 list-none space-y-0.5 text-[10px] leading-4 text-muted-foreground" data-testid="scene-capability-notices">
                                 {capability.notices.map((notice) => (
                                     <li key={notice}>· {notice}</li>
                                 ))}
@@ -807,7 +807,7 @@ export function ProductSceneWorkspace({ className, toolId = PRODUCT_SCENE_TOOL_I
                                                 <path d="M8 27l7-7 5 5 4-3 8 5" stroke="var(--primary)" strokeWidth="1.6" fill="none" strokeLinecap="round" strokeLinejoin="round" />
                                             </svg>
                                             <p className="text-[20px] font-medium leading-7 text-foreground">上传商品场景参考图</p>
-                                            <p className="text-[15px] leading-6 text-black/60">
+                                            <p className="text-[15px] leading-6 text-muted-foreground">
                                                 3秒裂变出多张相似的场景图，快来裂变您的场景图吧~
                                             </p>
                                         </div>
@@ -816,7 +816,7 @@ export function ProductSceneWorkspace({ className, toolId = PRODUCT_SCENE_TOOL_I
                                     <div className="rounded-[8px] bg-card p-3">
                                         <div className="mb-2 flex items-baseline justify-between gap-2">
                                             <h3 className="text-[13px] font-medium text-foreground">生成结果</h3>
-                                            <span className="text-[11px] tabular-nums text-black/35">
+                                            <span className="text-[11px] tabular-nums text-muted-foreground">
                                                 本次 {result.expected} 张 · 已返回 {result.count} 张
                                             </span>
                                         </div>

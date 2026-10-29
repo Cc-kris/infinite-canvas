@@ -1267,7 +1267,7 @@ export function FissionLinkWorkspace({ className, port }: FissionLinkWorkspacePr
                 {resultTab !== "result" ? (
                     <div className="min-h-0 flex-1 overflow-auto p-4">
                         {resultTab === "case" ? (
-                            <p className="rounded-lg bg-card px-4 py-8 text-center text-xs text-black/45">
+                            <p className="rounded-lg bg-card px-4 py-8 text-center text-xs text-muted-foreground">
                                 原站该工具没有公开的优秀案例，本地不伪造案例数据。
                             </p>
                         ) : (
@@ -1783,7 +1783,7 @@ export function SceneTransferWorkspace({ className, toolId = SCENE_TRANSFER_TOOL
                 </div>
                 </div>
                 {resultTab === "case" ? (
-                    <p className="rounded-lg bg-card px-4 py-8 text-center text-xs text-black/45">
+                    <p className="rounded-lg bg-card px-4 py-8 text-center text-xs text-muted-foreground">
                         原站该工具没有公开的优秀案例，本地不伪造案例数据。
                     </p>
                 ) : null}
