@@ -346,7 +346,9 @@ export function imageToVideoResultCell(task?: ToolTask | null): ImageToVideoResu
     const item = imageToVideoResultItems(task)[0] ?? null;
     if (!task) return { index: 0, status: "pending", item: null };
     if (task.status === "succeeded") {
-        const playable = Boolean(item?.url || item?.blob);
+        /* 刷新后 url/blob 都会被剥离，字节仍在 IndexedDB（storageKey）——这同样可播放/可下载，
+         * 不能因为内存里的 url 没了就误报「上游返回为空」。只有 storageKey 也没有、或被标 payloadDropped 才算缺。 */
+        const playable = Boolean(item?.url || item?.blob || (item?.storageKey && !item?.payloadDropped));
         return { index: 0, status: playable ? "filled" : "failed", item };
     }
     if (task.status === "failed" || task.status === "cancelled" || task.status === "unknown") {

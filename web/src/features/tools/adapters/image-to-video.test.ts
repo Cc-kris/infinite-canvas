@@ -243,6 +243,27 @@ describe("提交链路", () => {
         expect(summary.tone).toBe("succeeded");
     });
 
+    test("刷新后只剩 storageKey（url/blob 已剥离）仍算可播放，不误报上游为空", async () => {
+        const { port } = fakePort();
+        const run = await runImageToVideo({ values: values(), sources: sources(), config: config(), port });
+        const base = run.task.result!;
+        const persisted: typeof run.task = {
+            ...run.task,
+            result: {
+                ...base,
+                items: base.items.map((item) => ({ ...item, url: undefined, blob: undefined, storageKey: "tool-result:abc", bytes: 1266723 })),
+            },
+        };
+        expect(imageToVideoResultCell(persisted).status).toBe("filled");
+        const summary = describeImageToVideoResult({ task: persisted, snapshot: run.snapshot, drift: [] });
+        expect(summary.tone).toBe("succeeded");
+        const dropped = {
+            ...persisted,
+            result: { ...base, items: [{ ...base.items[0], url: undefined, blob: undefined, storageKey: undefined, payloadDropped: true }] },
+        };
+        expect(imageToVideoResultCell(dropped).status).toBe("failed");
+    });
+
     test("无素材时抛错且不发起任何请求", async () => {
         const { port, calls } = fakePort();
         await expect(runImageToVideo({ values: values(), sources: { references: [] }, config: config(), port })).rejects.toBeInstanceOf(ImageToVideoAdapterError);

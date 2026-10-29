@@ -341,12 +341,18 @@ export function ImageToVideoWorkspace({ className, toolId = IMAGE_TO_VIDEO_TOOL_
     );
 
     /**
-     * 历史任务 → 表单：把该任务真实提交过的 prompt / 参考图 / 比例放回表单，便于改参数重跑。
-     * 时长与清晰度任务快照里没有存，保持当前值并在提示里说明，不假装恢复。
+     * 历史任务 → 表单：把该任务真实提交过的 prompt / 参考图 / 比例 / 时长 / 清晰度放回表单，
+     * 便于改参数重跑。快照里没有的字段才退回当前值，并在提示里如实说明。
      */
     const restoreFromTask = useCallback(
         async (historyTask: ToolTask) => {
             const ratioKey = imageToVideoRatioFromSize(historyTask.configSnapshot?.size);
+            /* 快照里确实存了 videoSeconds / quality（网关 buildConfigSnapshot 写入），按真实值回填；
+             * 只有旧任务缺字段时才退回当前值，不再一律声称「未存」。 */
+            const seconds = Number(historyTask.configSnapshot?.videoSeconds);
+            const durationKey = isImageToVideoDuration(seconds) ? seconds : undefined;
+            const qualityKey = String(historyTask.configSnapshot?.quality ?? "");
+            const resolutionKey = IMAGE_TO_VIDEO_RESOLUTION_BY_KEY[qualityKey] ? qualityKey : undefined;
             const ids = (historyTask.sourceAssetIds ?? []).filter((id): id is string => typeof id === "string" && id.length > 0);
             let nextReferences: ImageToVideoAssetLike[] | undefined;
             let lostCount = 0;
@@ -362,6 +368,8 @@ export function ImageToVideoWorkspace({ className, toolId = IMAGE_TO_VIDEO_TOOL_
                 ...(historyTask.prompt.trim() ? { promptMode: "custom" as const } : {}),
                 prompt: historyTask.prompt,
                 ...(ratioKey ? { aspectRatio: ratioKey } : {}),
+                ...(durationKey ? { duration: durationKey } : {}),
+                ...(resolutionKey ? { resolution: resolutionKey } : {}),
                 referenceAssetIds: ids,
             });
             setCaseNotice(
@@ -369,7 +377,8 @@ export function ImageToVideoWorkspace({ className, toolId = IMAGE_TO_VIDEO_TOOL_
                     `已按历史任务 ${historyTask.id.slice(0, 8)} 回填表单：提示词取该任务真实提交文本`,
                     `${nextReferences?.length ?? 0} 张参考图${lostCount ? `（${lostCount} 张本地已不存在）` : ""}`,
                     ratioKey ? `比例 ${ratioKey}` : "比例未记录",
-                    "时长/清晰度任务快照未存，沿用当前值",
+                    durationKey ? `时长 ${durationKey}s` : "时长未记录，沿用当前值",
+                    resolutionKey ? `清晰度 ${resolutionKey}` : "清晰度未记录，沿用当前值",
                 ].join("；"),
             );
         },
