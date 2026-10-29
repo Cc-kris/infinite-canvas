@@ -318,12 +318,12 @@ export function ToolAssetInput({ toolId, draftSlot, constraints, maxCount, libra
                     linkfox
                         ? wide
                             ? cn(
-                                  "flex w-full cursor-pointer flex-col items-center justify-center gap-2 rounded-[6px] border border-dashed border-[#d9d9e0] bg-[#fafafa] p-3 text-xs transition",
+                                  "flex w-full cursor-pointer flex-col items-center justify-center gap-2 rounded-xl border border-dashed border-border bg-muted/40 p-3 text-xs transition hover:border-foreground/25",
                                   compact ? "min-h-[152px]" : "min-h-[249px]",
                               )
-                            : "flex cursor-pointer flex-col items-start gap-2 rounded-[6px] border border-[#EDEDF0] bg-white p-3 text-xs transition"
+                            : "flex cursor-pointer flex-col items-start gap-2 rounded-xl border border-border bg-card p-3 text-xs transition hover:border-foreground/25"
                         : "flex cursor-pointer flex-col items-center justify-center gap-1 rounded-xl border border-dashed px-4 py-6 text-center text-xs transition",
-                    dragging ? "border-stone-500 bg-stone-100 dark:bg-stone-800" : linkfox ? "" : "border-stone-300 dark:border-stone-700",
+                    dragging ? "border-primary/40 bg-muted" : linkfox ? "" : "border-stone-300 dark:border-stone-700",
                     (disabled || atLimit) && "cursor-not-allowed opacity-60",
                 )}
                 onClick={() => !disabled && !atLimit && inputRef.current?.click()}
@@ -349,11 +349,11 @@ export function ToolAssetInput({ toolId, draftSlot, constraints, maxCount, libra
                 {linkfox ? (
                     <>
                         {dropLabel ? (
-                            <span className={cn("text-[12px] leading-[15px] text-[#723cf9]", wide && "text-center")} data-testid="tool-asset-drop-label">
+                            <span className={cn("text-xs leading-[15px] text-foreground", wide && "text-center")} data-testid="tool-asset-drop-label">
                                 {dropLabel}
                             </span>
                         ) : null}
-                        <span className={cn("inline-flex h-6 items-center justify-center rounded-[4px] bg-[#723cf9] text-[12px] font-medium leading-none text-white", wide ? "w-full" : "w-[210px]")}>
+                        <span className={cn("inline-flex h-6 items-center justify-center rounded-md bg-primary text-xs font-medium leading-none text-primary-foreground", wide ? "w-full" : "w-[210px]")}>
                             {uploadLabel ?? "从本地上传"}
                         </span>
                         {actions || linkfox ? (
@@ -367,7 +367,7 @@ export function ToolAssetInput({ toolId, draftSlot, constraints, maxCount, libra
                             <>
                                 <button
                                     type="button"
-                                    className="h-6 w-[100px] rounded-[4px] border border-[#e5e5ea] bg-white text-[12px] leading-none text-[#5a5a66] transition hover:border-[#c9c9d4] disabled:opacity-50"
+                                    className="h-6 w-[100px] rounded-md border border-border bg-card text-xs leading-none text-muted-foreground transition hover:border-foreground/30 hover:text-foreground disabled:opacity-50"
                                     disabled={disabled || atLimit || !library?.length}
                                     title={library?.length ? "从作品库（资产库）选择" : "资产库暂时没有可用图片"}
                                     onClick={() => {
@@ -379,7 +379,7 @@ export function ToolAssetInput({ toolId, draftSlot, constraints, maxCount, libra
                                 {thirdAction === undefined ? (
                                 <button
                                     type="button"
-                                    className="h-6 w-[100px] rounded-[4px] border border-[#e5e5ea] bg-white text-[12px] leading-none text-[#5a5a66] transition hover:border-[#c9c9d4] disabled:opacity-50"
+                                    className="h-6 w-[100px] rounded-md border border-border bg-card text-xs leading-none text-muted-foreground transition hover:border-foreground/30 hover:text-foreground disabled:opacity-50"
                                     disabled
                                     title="商品库未接入（PARTIAL）"
                                 >
@@ -390,7 +390,7 @@ export function ToolAssetInput({ toolId, draftSlot, constraints, maxCount, libra
                                 ) : null)}
                             </div>
                         ) : null}
-                        {hint ? <div className={cn("text-[11px] leading-4 text-[#8a8a99]", wide ? "w-full" : "w-[210px]")}>{hint}</div> : null}
+                        {hint ? <div className={cn("text-[11px] leading-4 text-muted-foreground", wide ? "w-full" : "w-[210px]")}>{hint}</div> : null}
                     </>
                 ) : (
                     <>

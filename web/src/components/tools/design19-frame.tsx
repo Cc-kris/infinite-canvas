@@ -5,15 +5,16 @@ import { cn } from "@/lib/utils";
 /**
  * design19（原站 product-design index 15-24）工作台骨架。
  *
- * 全部几何/配色取自原站真实 computed style（viewport 1908x781，CDP 实测）：
- *  - 左列 `_configContent`：300px 白底，padding 10/12/10/16 → 内容宽 268；分区间距 15px
- *  - 右栏 `_rightWrapper`：flex-1，透明底；顶部「42px 白底页签栏」（padding 0 12px），
- *    内容区 609 高、无圆角
- *  - 页签：高 41，padding 10px 0，fs14；激活文字 #723cf9 + 底部 2px ink-bar #723cf9；
- *    历史记录固定右对齐、fs12
- *  - 张数/类型 chip：40x26，radius 6，1px #ccc，fs12；选中 #f9f0ff / 边框 #723cf9 / 文字 #723cf9
- *  - 字段小标题：fs12，color rgba(0,0,0,.3)，margin-bottom 6
- *  - 主按钮：268x32，radius 6，渐变 linear-gradient(90deg,#3a7df9,#723cf9)，fs14
+ * 几何（列宽/内边距/间距/控件高度）沿用原站真实 computed style（viewport 1908x781，CDP 实测），
+ * 配色/圆角/阴影改用本项目设计系统 token（Infinite Canvas 画布风格），不再复刻 LinkFox 紫渐变：
+ *  - 左列 `_configContent`：300px，padding 10/12/10/16 → 内容宽 268；分区间距 15px；
+ *    底色 bg-card + 右侧 border 分隔（与画布侧栏一致）
+ *  - 右栏 `_rightWrapper`：flex-1；顶部 42px 页签栏（bg-card + 下边框），内容区无圆角
+ *  - 页签：高 41，padding 10px 0，text-sm；激活 text-foreground + 底部 2px 圆角墨条（bg-foreground）；
+ *    历史记录固定右对齐、text-xs
+ *  - 张数/类型 chip：40x26，rounded-md，border-border；选中 bg-primary/10 + border-primary/40
+ *  - 字段小标题：text-xs，text-muted-foreground，margin-bottom 6
+ *  - 主按钮：268x32，rounded-lg，bg-primary + shadow-sm（原站渐变已弃用）
  */
 
 export type Design19Tab = { id: string; label: string };
@@ -31,7 +32,7 @@ export function Design19Workbench({
         <div
             data-region="design19"
             {...rest}
-            className={cn("flex h-full min-h-0 w-full items-stretch bg-white text-[#1f1f2c]", className)}
+            className={cn("flex h-full min-h-0 w-full items-stretch bg-background text-foreground", className)}
         >
             {children}
         </div>
@@ -49,7 +50,7 @@ export function Design19LeftColumn({
         <section
             data-region="design19-form"
             {...rest}
-            className={cn("flex w-[300px] shrink-0 flex-col", className)}
+            className={cn("flex w-[300px] shrink-0 flex-col border-r border-border bg-card", className)}
         >
             <div className="min-h-0 flex-1 overflow-y-auto pl-4 pr-3 py-[10px]">{children}</div>
             {footer ? <div className="shrink-0 px-3 pb-[10px] pt-0">{footer}</div> : null}
@@ -71,7 +72,7 @@ export function Design19Section({
 /** 字段小标题：fs12 / rgba(0,0,0,.3) / 22 行高 / 下间距 6。 */
 export function Design19FieldLabel({ children }: { children: ReactNode }) {
     return (
-        <p className="mb-[6px] text-[12px] leading-[22px] text-black/30">{children}</p>
+        <p className="mb-[6px] text-xs leading-[22px] text-muted-foreground">{children}</p>
     );
 }
 
@@ -92,10 +93,10 @@ export function Design19Chip({
             aria-pressed={Boolean(selected)}
             {...rest}
             className={cn(
-                "inline-flex h-[26px] min-w-[40px] items-center justify-center rounded-[6px] border px-[16px] text-[12px]! leading-[16px]! transition-colors",
+                "inline-flex h-[26px] min-w-[40px] items-center justify-center rounded-md border px-[16px] text-xs! leading-[16px]! transition-colors",
                 selected
-                    ? "border-[#723cf9] bg-[#f9f0ff] text-[#723cf9]!"
-                    : "border-[#cccccc] bg-white text-black/80! hover:border-[#723cf9] hover:text-[#723cf9]",
+                    ? "border-primary/40 bg-primary/10 text-foreground!"
+                    : "border-border bg-card text-foreground/80! hover:border-foreground/30 hover:bg-muted hover:text-foreground",
                 "disabled:cursor-not-allowed disabled:opacity-50",
                 className,
             )}
@@ -105,7 +106,7 @@ export function Design19Chip({
     );
 }
 
-/** 主按钮：渐变紫，268x32。 */
+/** 主按钮：bg-primary + shadow-sm，268x32。 */
 export function Design19PrimaryButton({
     className,
     children,
@@ -116,8 +117,8 @@ export function Design19PrimaryButton({
             type="button"
             {...rest}
             className={cn(
-                "inline-flex h-[32px] w-full items-center justify-center gap-1 rounded-[6px] px-[15px] text-[14px]! leading-[22px]! text-white! transition-opacity",
-                "bg-[linear-gradient(90deg,#3a7df9_0%,#723cf9_100%)] hover:opacity-90",
+                "inline-flex h-[32px] w-full items-center justify-center gap-1 rounded-lg px-[15px] text-sm! leading-[22px]! text-primary-foreground! transition-colors",
+                "bg-primary shadow-sm hover:bg-primary/90",
                 "disabled:cursor-not-allowed disabled:opacity-50",
                 className,
             )}
@@ -127,7 +128,7 @@ export function Design19PrimaryButton({
     );
 }
 
-/** 次级按钮：白底紫字描边，268x32。 */
+/** 次级按钮：卡片底、描边、深色字，268x32。 */
 export function Design19GhostButton({
     className,
     children,
@@ -138,7 +139,7 @@ export function Design19GhostButton({
             type="button"
             {...rest}
             className={cn(
-                "inline-flex h-[32px] w-full items-center justify-center gap-[8px] rounded-[6px] border border-[#723cf9] px-[15px] text-[14px]! leading-[22px]! text-[#723cf9]! transition-colors hover:bg-[#f9f0ff]",
+                "inline-flex h-[32px] w-full items-center justify-center gap-[8px] rounded-lg border border-border bg-card px-[15px] text-sm! leading-[22px]! text-foreground! transition-colors hover:border-foreground/30 hover:bg-muted",
                 "disabled:cursor-not-allowed disabled:opacity-50",
                 className,
             )}
@@ -172,7 +173,7 @@ export function Design19Results({
             data-region="design19-results"
             className={cn("flex min-w-0 flex-1 flex-col", className)}
         >
-            <div role="tablist" className="flex h-[42px] shrink-0 items-stretch gap-[14px] bg-white px-3">
+            <div role="tablist" className="flex h-[42px] shrink-0 items-stretch gap-[14px] border-b border-border bg-card px-3">
                 {tabs.map((tab) => {
                     const on = active === tab.id;
                     return (
@@ -184,13 +185,13 @@ export function Design19Results({
                             data-testid={`result-tab-${tab.id}`}
                             onClick={() => onTabChange(tab.id)}
                             className={cn(
-                                "relative flex h-[42px] items-center px-0 pb-0 pt-0 text-[14px]! leading-[22px]! transition-colors",
-                                on ? "text-[#723cf9]!" : "text-black/[0.88]! hover:text-[#723cf9]",
+                                "relative flex h-[42px] items-center px-0 pb-0 pt-0 text-sm! leading-[22px]! transition-colors",
+                                on ? "font-medium text-foreground!" : "text-muted-foreground! hover:text-foreground",
                             )}
                         >
                             {tab.label}
                             {on ? (
-                                <span className="absolute bottom-0 left-0 h-[2px] w-full rounded-[1px] bg-[#723cf9]" />
+                                <span className="absolute bottom-0 left-0 h-[2px] w-full rounded-full bg-foreground" />
                             ) : null}
                         </button>
                     );
@@ -203,8 +204,8 @@ export function Design19Results({
                         data-testid={`result-tab-${extraTab.id}`}
                         onClick={() => onTabChange(extraTab.id)}
                         className={cn(
-                            "ml-auto! flex h-[42px] items-center pr-[4px] text-[12px]! leading-[20px]! transition-colors",
-                            active === extraTab.id ? "text-[#723cf9]!" : "text-black/60! hover:text-[#723cf9]",
+                            "ml-auto! flex h-[42px] items-center pr-[4px] text-xs! leading-[20px]! transition-colors",
+                            active === extraTab.id ? "text-foreground!" : "text-muted-foreground! hover:text-foreground",
                         )}
                     >
                         {extraTab.label}
@@ -220,12 +221,12 @@ export function Design19Results({
 export function Design19Empty({ title, hint }: { title: string; hint?: string }) {
     return (
         <div className="flex h-full min-h-[240px] flex-col items-center justify-center gap-1 px-4 py-10">
-            <svg viewBox="0 0 64 44" className="h-10 w-16 text-black/10" aria-hidden>
+            <svg viewBox="0 0 64 44" className="h-10 w-16 text-muted-foreground/25" aria-hidden>
                 <path d="M6 30l12-14 8 10 8-8 14 16H6z" fill="currentColor" />
                 <circle cx="44" cy="12" r="5" fill="currentColor" />
             </svg>
-            <p className="text-[14px] leading-[22px] text-black/60">{title}</p>
-            {hint ? <p className="text-[14px] leading-[22px] text-black/60">{hint}</p> : null}
+            <p className="text-sm leading-[22px] text-muted-foreground">{title}</p>
+            {hint ? <p className="text-sm leading-[22px] text-muted-foreground">{hint}</p> : null}
         </div>
     );
 }
@@ -241,7 +242,7 @@ export const DESIGN19_TAB_LABEL: Record<Design19TabKey, string> = {
 };
 
 export const design19PrimaryButtonClass =
-    "inline-flex h-[32px] w-full items-center justify-center gap-1 rounded-[6px] px-[15px] text-[14px] leading-[22px] text-white bg-[linear-gradient(90deg,#3a7df9_0%,#723cf9_100%)] transition-opacity hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50";
+    "inline-flex h-[32px] w-full items-center justify-center gap-1 rounded-lg px-[15px] text-sm leading-[22px] text-primary-foreground bg-primary shadow-sm transition-colors hover:bg-primary/90 disabled:cursor-not-allowed disabled:opacity-50";
 
 export function Design19Shell({
     className,
@@ -249,7 +250,7 @@ export function Design19Shell({
     ...rest
 }: { className?: string; children: ReactNode } & Record<string, unknown>) {
     return (
-        <div {...rest} className={cn("flex h-full min-h-0 w-full items-stretch bg-white", className)}>
+        <div {...rest} className={cn("flex h-full min-h-0 w-full items-stretch bg-background text-foreground", className)}>
             {children}
         </div>
     );

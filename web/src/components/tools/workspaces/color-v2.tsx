@@ -73,10 +73,10 @@ export interface ColorV2WorkspaceProps {
 
 function PanelSection({ id, title, hint, children }: { id?: string; title: string; hint?: string; children: React.ReactNode }) {
     return (
-        <section id={id} data-section={id} className="border-b border-[#f1f1f4]">
+        <section id={id} data-section={id} className="border-b border-border">
             <header className="flex h-[46px] items-center justify-between gap-2 px-4">
                 <h2 style={{ fontSize: 12, fontWeight: 600, lineHeight: 1 }} className="text-[#000000e0]">{title}</h2>
-                {hint ? <span style={{ fontSize: 12, lineHeight: 1 }} className="text-[#8a8a99]">{hint}</span> : null}
+                {hint ? <span style={{ fontSize: 12, lineHeight: 1 }} className="text-muted-foreground">{hint}</span> : null}
             </header>
             <div className="pb-4">{children}</div>
         </section>
@@ -86,10 +86,10 @@ function PanelSection({ id, title, hint, children }: { id?: string; title: strin
 function Swatch({ plan, size = "size-4" }: { plan: ColorPlan; size?: string }) {
     const hex = planSwatch(plan);
     if (hex) {
-        return <span aria-hidden className={cn("inline-block shrink-0 rounded-[3px] border border-[#ededf0]", size)} style={{ backgroundColor: hex }} />;
+        return <span aria-hidden className={cn("inline-block shrink-0 rounded-[3px] border border-border", size)} style={{ backgroundColor: hex }} />;
     }
     return (
-        <span className={cn("inline-flex shrink-0 items-center justify-center rounded-[3px] border border-dashed border-[#d9d9e0] text-[9px] text-[#8a8a99]", size)} title="参考图方案，无固定色值">
+        <span className={cn("inline-flex shrink-0 items-center justify-center rounded-[3px] border border-dashed border-border text-[9px] text-muted-foreground", size)} title="参考图方案，无固定色值">
             图
         </span>
     );
@@ -482,11 +482,11 @@ export function ColorV2Workspace({ className }: ColorV2WorkspaceProps = {}) {
             data-layout="linkfox-change-color"
             data-spec={spec?.slug ?? CHANGE_COLOR_V2_SLUG}
             style={{ fontFamily: '"Microsoft YaHei", "PingFang SC", "Hiragino Sans GB", sans-serif' }}
-            className={cn("flex h-full min-h-0 min-w-0 gap-[6px] overflow-hidden bg-[#f4f6f8] text-[13px] text-[#000000e0]", className)}
+            className={cn("flex h-full min-h-0 min-w-0 gap-[6px] overflow-hidden bg-card text-[13px] text-[#000000e0]", className)}
         >
             {/* 左：300px 参数面板（原站 x190 w300；提交条固定在面板底部） */}
             <section data-region="params" className="flex h-full w-[300px] shrink-0 flex-col overflow-hidden">
-                <div className="flex min-h-0 flex-1 flex-col overflow-hidden rounded-[8px] border border-[#ededf0] bg-white">
+                <div className="flex min-h-0 flex-1 flex-col overflow-hidden rounded-lg border border-border bg-card">
                 <div data-region="params-scroll" className="min-h-0 flex-1 overflow-y-auto">
                     <PanelSection id="upload" title="上传图片">
                         <div className="px-4">
@@ -500,10 +500,10 @@ export function ColorV2Workspace({ className }: ColorV2WorkspaceProps = {}) {
                                 variant="linkfox"
                                 wide
                                 compact
-                                className="[&>[data-testid=tool-asset-dropzone]]:min-h-[156px] [&>[data-testid=tool-asset-dropzone]]:gap-[10px] [&>[data-testid=tool-asset-dropzone]]:rounded-[8px] [&>[data-testid=tool-asset-dropzone]]:border-0 [&>[data-testid=tool-asset-dropzone]]:bg-[#f7f7f7] [&>[data-testid=tool-asset-dropzone]]:px-3 [&>[data-testid=tool-asset-dropzone]]:py-[10px]"
+                                className="[&>[data-testid=tool-asset-dropzone]]:min-h-[156px] [&>[data-testid=tool-asset-dropzone]]:gap-[10px] [&>[data-testid=tool-asset-dropzone]]:rounded-lg [&>[data-testid=tool-asset-dropzone]]:border-0 [&>[data-testid=tool-asset-dropzone]]:bg-card [&>[data-testid=tool-asset-dropzone]]:px-3 [&>[data-testid=tool-asset-dropzone]]:py-[10px]"
                                 uploadLabel="从本地上传"
                                 hint={
-                                    <span style={{ fontSize: 12, lineHeight: "17px" }} className="block w-full text-center text-[#8a8a99]">
+                                    <span style={{ fontSize: 12, lineHeight: "17px" }} className="block w-full text-center text-muted-foreground">
                                         10M以内，分辨率：384*384 ~ 4096*4096，最大宽高比5
                                     </span>
                                 }
@@ -519,7 +519,7 @@ export function ColorV2Workspace({ className }: ColorV2WorkspaceProps = {}) {
                                 onClick={() => openSuitePicker()}
                                 onMouseDown={(event) => event.stopPropagation()}
                                 style={{ fontSize: 14 }}
-                                className="mt-[10px] h-8 w-full rounded-[6px] text-[#000000e0] transition hover:text-[#723cf9] disabled:cursor-not-allowed disabled:opacity-50"
+                                className="mt-[10px] h-8 w-full rounded-lg text-[#000000e0] transition hover:text-primary disabled:cursor-not-allowed disabled:opacity-50"
                             >
                                 上传多张图片，开始批量套图换色
                             </button>
@@ -527,14 +527,14 @@ export function ColorV2Workspace({ className }: ColorV2WorkspaceProps = {}) {
                                 <ul data-testid="color-v2-suite-list" className="mt-3 grid grid-cols-3 gap-2">
                                     {suiteRecords.map((record) => (
                                         <li key={record.id} className="min-w-0">
-                                            <div className="flex aspect-square items-center justify-center overflow-hidden rounded-[4px] border border-[#ededf0] bg-[#fafafa]">
+                                            <div className="flex aspect-square items-center justify-center overflow-hidden rounded-md border border-border bg-card">
                                                 {record.url ? (
                                                     <img src={record.url} alt={record.name} className="h-full w-full object-cover" />
                                                 ) : (
-                                                    <span className="text-[10px] text-[#8a8a99]">无预览</span>
+                                                    <span className="text-[10px] text-muted-foreground">无预览</span>
                                                 )}
                                             </div>
-                                            <p className="mt-1 truncate text-[11px] leading-4 text-[#8a8a99]" title={record.name}>
+                                            <p className="mt-1 truncate text-[11px] leading-4 text-muted-foreground" title={record.name}>
                                                 {record.name}
                                             </p>
                                         </li>
@@ -546,7 +546,7 @@ export function ColorV2Workspace({ className }: ColorV2WorkspaceProps = {}) {
 
                     <PanelSection id="plans" title="颜色选择">
                         <div className="px-4">
-                            <div role="tablist" aria-label="取色方式" className="flex h-[34px] w-full items-center rounded-[8px] bg-[#f4f4f8] p-[2px]">
+                            <div role="tablist" aria-label="取色方式" className="flex h-[34px] w-full items-center rounded-lg bg-border p-[2px]">
                                 <button
                                     type="button"
                                     role="tab"
@@ -555,8 +555,8 @@ export function ColorV2Workspace({ className }: ColorV2WorkspaceProps = {}) {
                                     onClick={() => setColorMode("extract")}
                                     style={{ fontSize: 12, fontWeight: 600 }}
                                     className={cn(
-                                        "h-full flex-1 rounded-[6px] leading-none transition",
-                                        colorMode === "extract" ? "bg-white text-[#723cf9] shadow-[0_1px_2px_rgba(0,0,0,0.06)]" : "text-[#5a5a6e]",
+                                        "h-full flex-1 rounded-lg leading-none transition",
+                                        colorMode === "extract" ? "bg-card text-primary shadow-[0_1px_2px_rgba(0,0,0,0.06)]" : "text-muted-foreground",
                                     )}
                                 >
                                     商品图提色
@@ -569,8 +569,8 @@ export function ColorV2Workspace({ className }: ColorV2WorkspaceProps = {}) {
                                     style={{ fontSize: 12, fontWeight: 600 }}
                                     onClick={() => setColorMode("history")}
                                     className={cn(
-                                        "h-full flex-1 rounded-[6px] leading-none transition",
-                                        colorMode === "history" ? "bg-white text-[#723cf9] shadow-[0_1px_2px_rgba(0,0,0,0.06)]" : "text-[#5a5a6e]",
+                                        "h-full flex-1 rounded-lg leading-none transition",
+                                        colorMode === "history" ? "bg-card text-primary shadow-[0_1px_2px_rgba(0,0,0,0.06)]" : "text-muted-foreground",
                                     )}
                                 >
                                     历史使用颜色
@@ -604,18 +604,18 @@ export function ColorV2Workspace({ className }: ColorV2WorkspaceProps = {}) {
                                             if (files.length) void addReferenceFiles(files);
                                         }}
                                         className={cn(
-                                            "flex min-h-[170px] w-full cursor-pointer flex-col items-center justify-center gap-[6px] rounded-[8px] bg-[#fafafa] px-3 py-[10px] transition",
-                                            busy ? "cursor-not-allowed opacity-60" : "hover:bg-[#f5f5f7]",
+                                            "flex min-h-[170px] w-full cursor-pointer flex-col items-center justify-center gap-[6px] rounded-lg bg-card px-3 py-[10px] transition",
+                                            busy ? "cursor-not-allowed opacity-60" : "hover:bg-border",
                                         )}
                                     >
                                         <p style={{ fontSize: 12, lineHeight: "19px" }} className="text-center text-[#000000e0]">
                                             拖拽 或{" "}
-                                            <b className="font-bold text-[#723cf9]">
+                                            <b className="font-bold text-primary">
                                                 点击批量上传
                                             </b>{" "}
                                             商品参考图
                                         </p>
-                                        <p style={{ fontSize: 11, lineHeight: "17px" }} className="max-w-[214px] text-center text-[#8a8a99]">
+                                        <p style={{ fontSize: 11, lineHeight: "17px" }} className="max-w-[214px] text-center text-muted-foreground">
                                             整张商品图作为换色参考 · 支持多选 · 最多 {COLOR_V2_MAX_REFERENCE_IMAGES} 张 · 单张 10M 以内
                                         </p>
                                     </div>
@@ -636,9 +636,9 @@ export function ColorV2Workspace({ className }: ColorV2WorkspaceProps = {}) {
                                                     disabled={busy || extracting === record.id}
                                                     onClick={() => void extractPalette(record)}
                                                     title="从这张商品图提取 5 个主色作为方案"
-                                                    className="flex w-full items-center gap-2 rounded-[4px] border border-[#e5e5ea] px-2 py-1 text-left text-[11px] leading-4 text-[#5a5a66] transition hover:border-[#723cf9]/50 disabled:cursor-not-allowed disabled:opacity-50"
+                                                    className="flex w-full items-center gap-2 rounded-md border border-border px-2 py-1 text-left text-[11px] leading-4 text-muted-foreground transition hover:border-primary/50 disabled:cursor-not-allowed disabled:opacity-50"
                                                 >
-                                                    <ImagePlus className="size-3 shrink-0 text-[#723cf9]" aria-hidden="true" />
+                                                    <ImagePlus className="size-3 shrink-0 text-primary" aria-hidden="true" />
                                                     <span className="truncate">{extracting === record.id ? "提色中…" : `从「${record.name}」提色`}</span>
                                                 </button>
                                             ))}
@@ -667,8 +667,8 @@ export function ColorV2Workspace({ className }: ColorV2WorkspaceProps = {}) {
                                                             onClick={() => toggleReferenceRecord(record)}
                                                             title={`${record.name}${active ? " · 已作为方案" : " · 点击作为参考方案"}`}
                                                             className={cn(
-                                                                "size-9 overflow-hidden rounded-[4px] border transition",
-                                                                active ? "border-[#723cf9] ring-1 ring-[#723cf9]/40" : "border-[#ededf0] hover:border-[#723cf9]/50",
+                                                                "size-9 overflow-hidden rounded-md border transition",
+                                                                active ? "border-primary ring-1 ring-primary/40" : "border-border hover:border-primary/50",
                                                             )}
                                                         >
                                                             {record.url ? <img src={record.url} alt={record.name} className="h-full w-full object-cover" /> : null}
@@ -690,14 +690,14 @@ export function ColorV2Workspace({ className }: ColorV2WorkspaceProps = {}) {
                                                         data-testid="color-v2-history-color"
                                                         title={`使用历史色 ${hex}`}
                                                         onClick={() => addHistoryColor(hex)}
-                                                        className="size-5 rounded-[3px] border border-[#ededf0] transition hover:scale-110"
+                                                        className="size-5 rounded-[3px] border border-border transition hover:scale-110"
                                                         style={{ backgroundColor: hex }}
                                                     />
                                                 </li>
                                             ))}
                                         </ul>
                                     ) : (
-                                        <p className="text-[11px] leading-4 text-[#8a8a99]">暂无历史使用颜色，提色或手动添加后会出现在这里。</p>
+                                        <p className="text-[11px] leading-4 text-muted-foreground">暂无历史使用颜色，提色或手动添加后会出现在这里。</p>
                                     )}
                                 </div>
                             )}
@@ -713,20 +713,20 @@ export function ColorV2Workspace({ className }: ColorV2WorkspaceProps = {}) {
                                                     onClick={() => commit({ ...valuesRef.current, selectedPlanId: plan.id })}
                                                     title={planLabel(plan)}
                                                     className={cn(
-                                                        "flex min-w-0 flex-1 items-center gap-2 rounded-[4px] border px-2 py-1 text-left text-[11px] leading-4 transition",
-                                                        active ? "border-[#723cf9] bg-[#f9f0ff] text-[#1f1f2c]" : "border-[#e5e5ea] bg-white text-[#5a5a66] hover:border-[#723cf9]/50",
+                                                        "flex min-w-0 flex-1 items-center gap-2 rounded-md border px-2 py-1 text-left text-[11px] leading-4 transition",
+                                                        active ? "border-primary bg-primary/10 text-foreground" : "border-border bg-card text-muted-foreground hover:border-primary/50",
                                                     )}
                                                 >
                                                     <Swatch plan={plan} />
                                                     <span className="min-w-0 flex-1 truncate">{plan.name}</span>
-                                                    <span className="shrink-0 text-[10px] text-[#8a8a99]">{SOURCE_LABEL[plan.source]}</span>
+                                                    <span className="shrink-0 text-[10px] text-muted-foreground">{SOURCE_LABEL[plan.source]}</span>
                                                 </button>
                                                 <button
                                                     type="button"
                                                     aria-label={`移除方案 ${plan.name}`}
                                                     disabled={busy}
                                                     onClick={() => commit({ ...valuesRef.current, plans: removeColorPlan(valuesRef.current.plans, plan.id) })}
-                                                    className="shrink-0 rounded-[3px] px-1 text-[12px] leading-5 text-[#8a8a99] transition hover:text-[#f5483b] disabled:opacity-40"
+                                                    className="shrink-0 rounded-[3px] px-1 text-[12px] leading-5 text-muted-foreground transition hover:text-destructive disabled:opacity-40"
                                                 >
                                                     ×
                                                 </button>
@@ -734,7 +734,7 @@ export function ColorV2Workspace({ className }: ColorV2WorkspaceProps = {}) {
                                         );
                                     })
                                 ) : (
-                                    <li className="text-[11px] leading-4 text-[#8a8a99]">还没有换色方案：从商品图提色、选历史色或上传参考图。</li>
+                                    <li className="text-[11px] leading-4 text-muted-foreground">还没有换色方案：从商品图提色、选历史色或上传参考图。</li>
                                 )}
                             </ul>
                         </div>
@@ -752,18 +752,18 @@ export function ColorV2Workspace({ className }: ColorV2WorkspaceProps = {}) {
                                     maxLength={COLOR_V2_MAX_REGION_LENGTH}
                                     placeholder="请输入需要换色的部位（必填），如 上装、鞋面"
                                     onChange={(event) => commit({ ...valuesRef.current, region: sanityRegion(event.target.value) })}
-                                    className="w-full resize-none rounded-[6px] border border-[#e5e5ea] bg-white py-2 pl-[10px] pr-12 text-[#000000e0] outline-none transition placeholder:text-[#b4b4c0] focus:border-[#723cf9] disabled:opacity-60"
+                                    className="w-full resize-none rounded-lg border border-border bg-card py-2 pl-[10px] pr-12 text-[#000000e0] outline-none transition placeholder:text-muted-foreground focus:border-primary disabled:opacity-60"
                                 />
                                 <span
                                     aria-hidden="true"
                                     style={{ fontSize: 12, lineHeight: "19px" }}
-                                    className="pointer-events-none absolute bottom-1 right-2 text-[#b4b4c0]"
+                                    className="pointer-events-none absolute bottom-1 right-2 text-muted-foreground"
                                 >
                                     {values.region.length} / {COLOR_V2_MAX_REGION_LENGTH}
                                 </span>
                             </div>
                             <div className="mt-3 flex flex-wrap items-center gap-[6px]">
-                                <span style={{ fontSize: 12, lineHeight: "19px" }} className="text-[#5a5a66]">
+                                <span style={{ fontSize: 12, lineHeight: "19px" }} className="text-muted-foreground">
                                     常用
                                 </span>
                                 {COLOR_REGION_PRESETS.map((preset) => {
@@ -782,8 +782,8 @@ export function ColorV2Workspace({ className }: ColorV2WorkspaceProps = {}) {
                                             }}
                                             style={{ fontSize: 12, lineHeight: "22px", padding: "0 7px", color: active ? "#723cf9" : "#5a5a66" }}
                                             className={cn(
-                                                "h-[22px] rounded-[4px] transition",
-                                                active ? "bg-[#f9f0ff]" : "bg-transparent hover:bg-[#f4f4f8]",
+                                                "h-[22px] rounded-md transition",
+                                                active ? "bg-primary/10" : "bg-transparent hover:bg-border",
                                             )}
                                         >
                                             {preset.label}
@@ -797,7 +797,7 @@ export function ColorV2Workspace({ className }: ColorV2WorkspaceProps = {}) {
                     <PanelSection id="quality" title="模型设置">
                         <div className="px-4">
                             <p style={{ fontSize: 12, lineHeight: "20px" }} className="text-[#000000e0]">模型品质</p>
-                            <div className="mt-2 flex gap-[10px] rounded-[4px] bg-[#f7f7f7] p-2">
+                            <div className="mt-2 flex gap-[10px] rounded-md bg-card p-2">
                                 {COLOR_QUALITY_LEVELS.map((level) => {
                                     const active = values.quality === level.key;
                                     return (
@@ -810,8 +810,8 @@ export function ColorV2Workspace({ className }: ColorV2WorkspaceProps = {}) {
                                             title={`调用上游 ${level.providerQuality} 品质`}
                                             style={{ fontSize: 14, fontWeight: 400, color: active ? "#723cf9" : "#5a5a66" }}
                                             className={cn(
-                                                "h-8 w-[75px] rounded-[6px] leading-none transition",
-                                                active ? "bg-[#f9f0ff] font-medium" : "bg-white hover:text-[#723cf9]",
+                                                "h-8 w-[75px] rounded-lg leading-none transition",
+                                                active ? "bg-primary/10 font-medium" : "bg-card hover:text-primary",
                                             )}
                                         >
                                             {level.label}
@@ -820,7 +820,7 @@ export function ColorV2Workspace({ className }: ColorV2WorkspaceProps = {}) {
                                 })}
                             </div>
                             {plannedCount > 0 ? (
-                                <p style={{ fontSize: 11, lineHeight: "17px" }} className="mt-2 text-[#8a8a99]">
+                                <p style={{ fontSize: 11, lineHeight: "17px" }} className="mt-2 text-muted-foreground">
                                     预计输出 {plannedCount} 张（{suiteIds.length} 张商品图 × {values.plans.length} 个方案）
                                 </p>
                             ) : null}
@@ -831,22 +831,22 @@ export function ColorV2Workspace({ className }: ColorV2WorkspaceProps = {}) {
 
                 <div className="shrink-0 pb-[11px] pt-3">
                     {conflict ? (
-                        <p key="conflict" className="mb-2 rounded-[4px] bg-[#fff1f0] px-2 py-1 text-[11px] leading-4 text-[#f5483b]">
+                        <p key="conflict" className="mb-2 rounded-md bg-[#fff1f0] px-2 py-1 text-[11px] leading-4 text-destructive">
                             其他标签页改过草稿，当前页面可能覆盖远端改动；刷新后再编辑。
                         </p>
                     ) : null}
                     {stale ? (
-                        <p key="stale" data-testid="color-v2-stale" className="mb-2 rounded-[4px] bg-[#fff8e6] px-2 py-1 text-[11px] leading-4 text-[#a86b00]">
+                        <p key="stale" data-testid="color-v2-stale" className="mb-2 rounded-md bg-[#fff8e6] px-2 py-1 text-[11px] leading-4 text-[#a86b00]">
                             输入已变更，当前结果来自旧快照 {runHash?.slice(0, 8)}；重新生成才会反映最新设置。
                         </p>
                     ) : null}
                     {notice ? (
-                        <p data-testid="color-v2-notice" className="mb-1 text-[11px] leading-4 text-[#6b6b7a]">
+                        <p data-testid="color-v2-notice" className="mb-1 text-[11px] leading-4 text-muted-foreground">
                             {notice}
                         </p>
                     ) : null}
                     {issues.length ? (
-                        <p data-testid="color-v2-blocked" className="mb-1 text-[11px] leading-4 text-[#f5483b]">
+                        <p data-testid="color-v2-blocked" className="mb-1 text-[11px] leading-4 text-destructive">
                             {issues[0].message}
                         </p>
                     ) : null}
@@ -857,7 +857,7 @@ export function ColorV2Workspace({ className }: ColorV2WorkspaceProps = {}) {
                         disabled={busy || issues.length > 0}
                         title={issues[0]?.message}
                         onClick={() => void runSuite()}
-                        className="inline-flex h-8 w-full items-center justify-center gap-1 rounded-[6px] leading-none text-white transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50"
+                        className="inline-flex h-8 w-full items-center justify-center gap-1 rounded-lg leading-none text-white transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50"
                     >
                         {busy ? <Loader2 className="size-3.5 animate-spin" aria-hidden="true" /> : <Sparkles className="size-3.5" aria-hidden="true" />}
                         <span>{busy ? `生成中 ${progress.done}/${progress.total}` : "开始生成"}</span>
@@ -867,8 +867,8 @@ export function ColorV2Workspace({ className }: ColorV2WorkspaceProps = {}) {
             </section>
 
             {/* 右：结果区（原站 42px 白条 tab + #f4f6f8 内容） */}
-            <section id="results" data-region="results" className="flex min-w-0 flex-1 flex-col overflow-hidden rounded-[8px] bg-[#f4f6f8]">
-                <div role="tablist" aria-label="右栏页签" className="flex h-[42px] shrink-0 items-center gap-[14px] bg-white px-3">
+            <section id="results" data-region="results" className="flex min-w-0 flex-1 flex-col overflow-hidden rounded-lg bg-card">
+                <div role="tablist" aria-label="右栏页签" className="flex h-[42px] shrink-0 items-center gap-[14px] bg-card px-3">
                     {(
                         [
                             { key: "result", label: "生成结果" },
@@ -885,7 +885,7 @@ export function ColorV2Workspace({ className }: ColorV2WorkspaceProps = {}) {
                             onClick={() => setRightTab(item.key)}
                             className={cn(
                                 "h-[42px] text-[14px] font-normal leading-none transition",
-                                rightTab === item.key ? "text-[#723cf9]" : "text-[#000000e0] hover:text-[#723cf9]",
+                                rightTab === item.key ? "text-primary" : "text-[#000000e0] hover:text-primary",
                             )}
                         >
                             {item.label}
@@ -898,7 +898,7 @@ export function ColorV2Workspace({ className }: ColorV2WorkspaceProps = {}) {
                         style={{ fontSize: 14, fontWeight: rightTab === "history" ? 500 : 400, marginLeft: "auto" }}
                         className={cn(
                             "text-[14px] leading-none transition",
-                            rightTab === "history" ? "text-[#723cf9]" : "text-[#000000e0] hover:text-[#723cf9]",
+                            rightTab === "history" ? "text-primary" : "text-[#000000e0] hover:text-primary",
                         )}
                     >
                         历史记录
@@ -909,8 +909,8 @@ export function ColorV2Workspace({ className }: ColorV2WorkspaceProps = {}) {
                     {rightTab === "result" ? (
                         showResults ? (
                             <div className="space-y-3 p-3">
-                                <div className="flex flex-wrap items-center gap-2 rounded-[8px] bg-white px-3 py-2 text-[12px] text-[#5a5a66]">
-                                    <span data-testid="color-v2-progress" className="font-medium text-[#1f1f2c]">
+                                <div className="flex flex-wrap items-center gap-2 rounded-lg bg-card px-3 py-2 text-[12px] text-muted-foreground">
+                                    <span data-testid="color-v2-progress" className="font-medium text-foreground">
                                         进度 {progress.done}/{progress.total || units.length}
                                     </span>
                                     <span>· 已完成 {succeeded}</span>
@@ -921,7 +921,7 @@ export function ColorV2Workspace({ className }: ColorV2WorkspaceProps = {}) {
                                                 type="button"
                                                 data-testid="color-v2-stop"
                                                 onClick={stop}
-                                                className="rounded-[4px] border border-[#e5e5ea] px-2 py-0.5 text-[11px] text-[#5a5a66] transition hover:border-[#723cf9]/50"
+                                                className="rounded-md border border-border px-2 py-0.5 text-[11px] text-muted-foreground transition hover:border-primary/50"
                                             >
                                                 停止
                                             </button>
@@ -931,7 +931,7 @@ export function ColorV2Workspace({ className }: ColorV2WorkspaceProps = {}) {
                                                 type="button"
                                                 data-testid="color-v2-retry-failed"
                                                 onClick={() => void retryFailed()}
-                                                className="rounded-[4px] border border-[#e5e5ea] px-2 py-0.5 text-[11px] text-[#5a5a66] transition hover:border-[#723cf9]/50"
+                                                className="rounded-md border border-border px-2 py-0.5 text-[11px] text-muted-foreground transition hover:border-primary/50"
                                             >
                                                 重试失败单元（{retryableUnits(units, outcomes).length}）
                                             </button>
@@ -942,10 +942,10 @@ export function ColorV2Workspace({ className }: ColorV2WorkspaceProps = {}) {
                                 {planRows.length ? (
                                     <div className="flex flex-wrap gap-2">
                                         {planRows.map((row) => (
-                                            <span key={row.planId} className="inline-flex items-center gap-1.5 rounded-[4px] bg-white px-2 py-1 text-[11px] leading-4 text-[#5a5a66]">
-                                                {row.hex ? <span aria-hidden className="inline-block size-3 rounded-[2px] border border-[#ededf0]" style={{ backgroundColor: row.hex }} /> : null}
+                                            <span key={row.planId} className="inline-flex items-center gap-1.5 rounded-md bg-card px-2 py-1 text-[11px] leading-4 text-muted-foreground">
+                                                {row.hex ? <span aria-hidden className="inline-block size-3 rounded-[2px] border border-border" style={{ backgroundColor: row.hex }} /> : null}
                                                 {row.planName}：{row.succeeded}/{row.total}
-                                                {row.failed ? <span className="text-[#f5483b]">· 失败 {row.failed}</span> : null}
+                                                {row.failed ? <span className="text-destructive">· 失败 {row.failed}</span> : null}
                                                 {row.unknown ? <span className="text-[#a86b00]">· 未定 {row.unknown}</span> : null}
                                             </span>
                                         ))}
@@ -953,14 +953,14 @@ export function ColorV2Workspace({ className }: ColorV2WorkspaceProps = {}) {
                                 ) : null}
 
                                 {consistency ? (
-                                    <p className="text-[11px] leading-4 text-[#8a8a99]">
+                                    <p className="text-[11px] leading-4 text-muted-foreground">
                                         一致性：{consistency.completeMatrix ? "整套矩阵覆盖完整" : "矩阵尚未覆盖全部商品图 × 方案"}
                                         {consistency.deviatingUnits.length ? ` · ${consistency.deviatingUnits.length} 张做过单图微调` : " · 无单图微调"}
                                     </p>
                                 ) : null}
 
                                 {actionNotice ? (
-                                    <p data-testid="color-v2-action-notice" className="rounded-[4px] bg-accent px-2 py-1 text-[11px] leading-4 text-[#5a5a66]">
+                                    <p data-testid="color-v2-action-notice" className="rounded-md bg-accent px-2 py-1 text-[11px] leading-4 text-muted-foreground">
                                         {actionNotice}
                                     </p>
                                 ) : null}
@@ -976,22 +976,22 @@ export function ColorV2Workspace({ className }: ColorV2WorkspaceProps = {}) {
                                                       key={unit.unitId}
                                                       data-testid="color-v2-unit"
                                                       data-status={status ?? "pending"}
-                                                      className="overflow-hidden rounded-[8px] border border-[#ededf0] bg-white"
+                                                      className="overflow-hidden rounded-lg border border-border bg-card"
                                                   >
-                                                      <div className="flex aspect-[3/4] items-center justify-center bg-[#fafafa]">
+                                                      <div className="flex aspect-[3/4] items-center justify-center bg-card">
                                                           {imageUrl ? (
                                                               <img src={imageUrl} alt={unit.imageName} className="h-full w-full object-contain" />
                                                           ) : (
-                                                              <span className="px-2 text-center text-[11px] leading-4 text-[#8a8a99]">
+                                                              <span className="px-2 text-center text-[11px] leading-4 text-muted-foreground">
                                                                   {status ? STATUS_LABEL[status] : busy ? "等待生成…" : "未生成"}
                                                               </span>
                                                           )}
                                                       </div>
                                                       <figcaption className="space-y-1 p-2">
-                                                          <p className="truncate text-[12px] leading-4 text-[#1f1f2c]" title={unit.imageName}>
+                                                          <p className="truncate text-[12px] leading-4 text-foreground" title={unit.imageName}>
                                                               {unit.imageName}
                                                           </p>
-                                                          <p className="text-[11px] leading-4 text-[#8a8a99]">
+                                                          <p className="text-[11px] leading-4 text-muted-foreground">
                                                               {unit.planName}
                                                               {status ? ` · ${STATUS_LABEL[status]}` : ""}
                                                           </p>
@@ -1002,7 +1002,7 @@ export function ColorV2Workspace({ className }: ColorV2WorkspaceProps = {}) {
                                                                           type="button"
                                                                           data-testid="color-v2-download"
                                                                           onClick={() => download(outcome)}
-                                                                          className="rounded-[3px] border border-[#e5e5ea] px-1.5 py-0.5 text-[11px] leading-4 text-[#5a5a66] transition hover:border-[#723cf9]/50"
+                                                                          className="rounded-[3px] border border-border px-1.5 py-0.5 text-[11px] leading-4 text-muted-foreground transition hover:border-primary/50"
                                                                       >
                                                                           下载
                                                                       </button>
@@ -1011,7 +1011,7 @@ export function ColorV2Workspace({ className }: ColorV2WorkspaceProps = {}) {
                                                                           data-testid="color-v2-save"
                                                                           disabled={actingUnit === outcome.unitId}
                                                                           onClick={() => void saveOutcome(outcome)}
-                                                                          className="rounded-[3px] border border-[#e5e5ea] px-1.5 py-0.5 text-[11px] leading-4 text-[#5a5a66] transition hover:border-[#723cf9]/50 disabled:opacity-50"
+                                                                          className="rounded-[3px] border border-border px-1.5 py-0.5 text-[11px] leading-4 text-muted-foreground transition hover:border-primary/50 disabled:opacity-50"
                                                                       >
                                                                           存资产库
                                                                       </button>
@@ -1020,7 +1020,7 @@ export function ColorV2Workspace({ className }: ColorV2WorkspaceProps = {}) {
                                                                           data-testid="color-v2-send"
                                                                           disabled={actingUnit === outcome.unitId}
                                                                           onClick={() => void sendOutcome(outcome)}
-                                                                          className="rounded-[3px] border border-[#e5e5ea] px-1.5 py-0.5 text-[11px] leading-4 text-[#5a5a66] transition hover:border-[#723cf9]/50 disabled:opacity-50"
+                                                                          className="rounded-[3px] border border-border px-1.5 py-0.5 text-[11px] leading-4 text-muted-foreground transition hover:border-primary/50 disabled:opacity-50"
                                                                       >
                                                                           发画布
                                                                       </button>
@@ -1032,7 +1032,7 @@ export function ColorV2Workspace({ className }: ColorV2WorkspaceProps = {}) {
                                                                       data-testid="color-v2-retry-unit"
                                                                       onClick={() => void retryUnit(unit)}
                                                                       title="只重试这一张，其余结果保持不变"
-                                                                      className="rounded-[3px] border border-[#e5e5ea] px-1.5 py-0.5 text-[11px] leading-4 text-[#723cf9] transition hover:border-[#723cf9]/50"
+                                                                      className="rounded-[3px] border border-border px-1.5 py-0.5 text-[11px] leading-4 text-primary transition hover:border-primary/50"
                                                                   >
                                                                       重试
                                                                   </button>
@@ -1049,14 +1049,14 @@ export function ColorV2Workspace({ className }: ColorV2WorkspaceProps = {}) {
                                     type="button"
                                     onClick={() => setShowSnapshot((value) => !value)}
                                     aria-expanded={showSnapshot}
-                                    className="text-[11px] leading-4 text-[#6b6b80] underline-offset-2 transition hover:text-[#723cf9] hover:underline"
+                                    className="text-[11px] leading-4 text-muted-foreground underline-offset-2 transition hover:text-primary hover:underline"
                                 >
                                     {showSnapshot ? "收起本次输入快照" : "查看本次输入快照"}
                                 </button>
                                 {showSnapshot ? (
                                     <pre
                                         data-testid="color-v2-snapshot"
-                                        className="max-h-[240px] overflow-auto rounded-[6px] border border-[#ededf0] bg-white p-2 text-[11px] leading-4 text-[#5a5a66]"
+                                        className="max-h-[240px] overflow-auto rounded-lg border border-border bg-card p-2 text-[11px] leading-4 text-muted-foreground"
                                     >
                                         {JSON.stringify(currentSnapshot, null, 2)}
                                     </pre>
@@ -1066,24 +1066,24 @@ export function ColorV2Workspace({ className }: ColorV2WorkspaceProps = {}) {
                             <div className="mx-auto flex h-full w-full max-w-[1000px] flex-col justify-center px-6 py-4">
                                 {stepDismissed ? null : (
                                     <div className="flex items-center gap-3">
-                                        <span className="text-[14px] leading-5 text-[#1f1f2c]">第一步：上传 1 张需要换色的商品图片</span>
+                                        <span className="text-[14px] leading-5 text-foreground">第一步：上传 1 张需要换色的商品图片</span>
                                         <button
                                             type="button"
                                             data-testid="color-v2-dismiss-step"
                                             onClick={() => setStepDismissed(true)}
-                                            className="text-[12px] leading-4 text-[#723cf9] transition hover:underline"
+                                            className="text-[12px] leading-4 text-primary transition hover:underline"
                                         >
                                             我是高手，不再提醒
                                         </button>
                                     </div>
                                 )}
-                                <h2 className="mt-1 text-center text-[20px] font-medium leading-7 text-[#1f1f2c]">上传整套商品图，批量生成多色变体结果</h2>
+                                <h2 className="mt-1 text-center text-[20px] font-medium leading-7 text-foreground">上传整套商品图，批量生成多色变体结果</h2>
                                 <div className="mt-5 flex justify-center">
-                                    <div className="flex w-[474px] max-w-full flex-col items-center rounded-[8px] bg-white px-10 py-8 text-center">
-                                        <div className="flex size-16 items-center justify-center rounded-[18px] bg-[#723cf9]/10">
-                                            <ImagePlus className="size-7 text-[#723cf9]" aria-hidden="true" />
+                                    <div className="flex w-[474px] max-w-full flex-col items-center rounded-lg bg-card px-10 py-8 text-center">
+                                        <div className="flex size-16 items-center justify-center rounded-[18px] bg-primary/10">
+                                            <ImagePlus className="size-7 text-primary" aria-hidden="true" />
                                         </div>
-                                        <p data-testid="color-v2-empty-hint" className="mt-3 text-[12px] leading-5 text-[#8a8a99]">
+                                        <p data-testid="color-v2-empty-hint" className="mt-3 text-[12px] leading-5 text-muted-foreground">
                                             拖拽图片到此处或点击上传，支持一次多张
                                         </p>
                                         <div className="mt-4 w-[210px] text-left">

@@ -558,7 +558,7 @@ export function MaskWorkspace({ className }: MaskWorkspaceProps = {}) {
                                     data-testid="mask-tool-brush"
                                     aria-pressed={state.tool === "brush"}
                                     onClick={() => commit({ tool: "brush" })}
-                                    className={cn("inline-flex h-6 items-center gap-1 rounded-[4px] px-2 text-[12px] leading-none", state.tool === "brush" ? "bg-[#723cf9] text-white" : "text-[#1f1f2c] hover:bg-[#e3e6ee]")}
+                                    className={cn("inline-flex h-6 items-center gap-1 rounded-md px-2 text-[12px] leading-none", state.tool === "brush" ? "bg-primary text-primary-foreground" : "text-foreground hover:bg-border")}
                                 >
                                     <Paintbrush className="size-3.5" aria-hidden />
                                     画笔
@@ -568,14 +568,14 @@ export function MaskWorkspace({ className }: MaskWorkspaceProps = {}) {
                                     data-testid="mask-tool-eraser"
                                     aria-pressed={state.tool === "eraser"}
                                     onClick={() => commit({ tool: "eraser" })}
-                                    className={cn("inline-flex h-6 items-center gap-1 rounded-[4px] px-2 text-[12px] leading-none", state.tool === "eraser" ? "bg-[#723cf9] text-white" : "text-[#1f1f2c] hover:bg-[#e3e6ee]")}
+                                    className={cn("inline-flex h-6 items-center gap-1 rounded-md px-2 text-[12px] leading-none", state.tool === "eraser" ? "bg-primary text-primary-foreground" : "text-foreground hover:bg-border")}
                                 >
                                     <Eraser className="size-3.5" aria-hidden />
                                     橡皮
                                 </button>
                             </div>
 
-                            <label className="flex items-center gap-1.5 text-[12px] text-[#6b6b80]">
+                            <label className="flex items-center gap-1.5 text-[12px] text-muted-foreground">
                                 大小：
                                 <input
                                     type="range"
@@ -584,7 +584,7 @@ export function MaskWorkspace({ className }: MaskWorkspaceProps = {}) {
                                     max={MASK_BRUSH_MAX}
                                     value={state.brushSize}
                                     onChange={(event) => commit({ brushSize: clampBrushSize(event.target.value) })}
-                                    className="w-[86px] accent-[#723cf9]"
+                                    className="w-[86px] accent-primary"
                                     aria-label="画笔大小"
                                 />
                                 <input
@@ -593,13 +593,13 @@ export function MaskWorkspace({ className }: MaskWorkspaceProps = {}) {
                                     max={MASK_BRUSH_MAX}
                                     value={state.brushSize}
                                     onChange={(event) => commit({ brushSize: clampBrushSize(event.target.value) })}
-                                    className="h-6 w-[46px] rounded-[4px] border border-[#ededf0] bg-white px-1 text-center text-[12px] text-[#1f1f2c] outline-none"
+                                    className="h-6 w-[46px] rounded-md border border-border bg-card px-1 text-center text-[12px] text-foreground outline-none"
                                     aria-label="画笔大小像素"
                                 />
                                 像素
                             </label>
 
-                            <label className="flex items-center gap-1.5 text-[12px] text-[#6b6b80]">
+                            <label className="flex items-center gap-1.5 text-[12px] text-muted-foreground">
                                 羽化
                                 <input
                                     type="range"
@@ -608,14 +608,14 @@ export function MaskWorkspace({ className }: MaskWorkspaceProps = {}) {
                                     max={MASK_FEATHER_MAX}
                                     value={state.feather}
                                     onChange={(event) => commit({ feather: clampFeather(event.target.value) })}
-                                    className="w-[70px] accent-[#723cf9]"
+                                    className="w-[70px] accent-primary"
                                     aria-label="羽化"
                                 />
-                                <span className="tabular-nums text-[#1f1f2c]">{state.feather}</span>
+                                <span className="tabular-nums text-foreground">{state.feather}</span>
                             </label>
 
-                            <label className="flex items-center gap-1.5 text-[12px] text-[#6b6b80]">
-                                <input type="checkbox" data-testid="mask-auto-expand" checked={state.autoExpand} onChange={(event) => commit({ autoExpand: event.target.checked })} className="size-3.5 accent-[#723cf9]" />
+                            <label className="flex items-center gap-1.5 text-[12px] text-muted-foreground">
+                                <input type="checkbox" data-testid="mask-auto-expand" checked={state.autoExpand} onChange={(event) => commit({ autoExpand: event.target.checked })} className="size-3.5 accent-primary" />
                                 自动扩大选择区域：
                             </label>
 
@@ -625,7 +625,7 @@ export function MaskWorkspace({ className }: MaskWorkspaceProps = {}) {
                                 aria-pressed={state.inverted}
                                 disabled={historyLabel.strokeCount === 0}
                                 onClick={() => commit({ inverted: !state.inverted })}
-                                className={cn("h-6 rounded-[4px] px-2 text-[12px] leading-none disabled:opacity-40", state.inverted ? "bg-[#723cf9] text-white" : "text-[#1f1f2c] hover:bg-[#e3e6ee]")}
+                                className={cn("h-6 rounded-md px-2 text-[12px] leading-none disabled:opacity-40", state.inverted ? "bg-primary text-primary-foreground" : "text-foreground hover:bg-border")}
                             >
                                 反选
                             </button>
@@ -634,7 +634,7 @@ export function MaskWorkspace({ className }: MaskWorkspaceProps = {}) {
                                 data-testid="mask-undo"
                                 disabled={!historyLabel.canUndo}
                                 onClick={() => applyHistory(undoMaskStroke(historyRef.current))}
-                                className="inline-flex h-6 items-center gap-1 rounded-[4px] px-1.5 text-[12px] leading-none text-[#1f1f2c] transition hover:bg-[#e3e6ee] disabled:opacity-40"
+                                className="inline-flex h-6 items-center gap-1 rounded-md px-1.5 text-[12px] leading-none text-foreground transition hover:bg-border disabled:opacity-40"
                             >
                                 <Undo2 className="size-3.5" aria-hidden />
                                 撤销
@@ -644,7 +644,7 @@ export function MaskWorkspace({ className }: MaskWorkspaceProps = {}) {
                                 data-testid="mask-redo"
                                 disabled={!historyLabel.canRedo}
                                 onClick={() => applyHistory(redoMaskStroke(historyRef.current))}
-                                className="inline-flex h-6 items-center gap-1 rounded-[4px] px-1.5 text-[12px] leading-none text-[#1f1f2c] transition hover:bg-[#e3e6ee] disabled:opacity-40"
+                                className="inline-flex h-6 items-center gap-1 rounded-md px-1.5 text-[12px] leading-none text-foreground transition hover:bg-border disabled:opacity-40"
                             >
                                 <Redo2 className="size-3.5" aria-hidden />
                                 重做
@@ -654,12 +654,12 @@ export function MaskWorkspace({ className }: MaskWorkspaceProps = {}) {
                                 data-testid="mask-reset"
                                 disabled={historyLabel.strokeCount === 0}
                                 onClick={() => applyHistory(resetMaskHistory(historyRef.current))}
-                                className="inline-flex h-6 items-center gap-1 rounded-[4px] px-1.5 text-[12px] leading-none text-[#1f1f2c] transition hover:bg-[#e3e6ee] disabled:opacity-40"
+                                className="inline-flex h-6 items-center gap-1 rounded-md px-1.5 text-[12px] leading-none text-foreground transition hover:bg-border disabled:opacity-40"
                             >
                                 <RotateCcw className="size-3.5" aria-hidden />
                                 重置
                             </button>
-                            <span data-testid="mask-coverage" className="ml-1 text-[11px] text-[#8a8a99]">
+                            <span data-testid="mask-coverage" className="ml-1 text-[11px] text-muted-foreground">
                                 {coverageLabel}
                             </span>
                         </div>
@@ -667,7 +667,7 @@ export function MaskWorkspace({ className }: MaskWorkspaceProps = {}) {
 
                     <div className="min-h-0 flex-1 overflow-auto px-4 pb-4">
                         {image ? (
-                            <div className="mx-auto w-full max-w-[920px] overflow-hidden rounded-[8px] bg-[repeating-conic-gradient(#00000008_0%_25%,transparent_0%_50%)] bg-[length:16px_16px]">
+                            <div className="mx-auto w-full max-w-[920px] overflow-hidden rounded-lg bg-[repeating-conic-gradient(#00000008_0%_25%,transparent_0%_50%)] bg-[length:16px_16px]">
                                 <div className="relative">
                                     <img src={image.dataUrl} alt={`待重绘原图 ${image.name}`} className="block h-auto w-full select-none" draggable={false} />
                                     <canvas
@@ -688,8 +688,8 @@ export function MaskWorkspace({ className }: MaskWorkspaceProps = {}) {
                         ) : (
                             <div className="flex h-full min-h-[500px] items-center justify-center">
                                 <Edit8CanvasCard data-testid="area-repair-empty">
-                                    <p className="text-[14px] font-medium leading-5 text-[#1f1f2c]">局部重绘</p>
-                                    <p className="text-[12px] leading-5 text-[#8a8a99]">
+                                    <p className="text-[14px] font-medium leading-5 text-foreground">局部重绘</p>
+                                    <p className="text-[12px] leading-5 text-muted-foreground">
                                         上传图片，涂抹需要改变的区域并输入想要改变的内容，
                                         <br />
                                         即可重新对该区域进行绘制
@@ -744,7 +744,7 @@ export function MaskWorkspace({ className }: MaskWorkspaceProps = {}) {
                                 persist(stateRef.current);
                             }}
                             placeholder="例如：把涂抹区域换成米色针织沙发，保留原有光影和地面阴影"
-                            className="h-[118px] w-full resize-none rounded-[6px] border border-[#ededf0] bg-white p-[10px] text-[13px] leading-5 text-[#1f1f2c] outline-none transition focus:border-[#723cf9]"
+                            className="h-[118px] w-full resize-none rounded-lg border border-border bg-card p-[10px] text-[13px] leading-5 text-foreground outline-none transition focus:border-primary"
                         />
                     </Edit8Section>
 
@@ -779,10 +779,10 @@ export function MaskWorkspace({ className }: MaskWorkspaceProps = {}) {
                     ) : null}
 
                     {conflict ? (
-                        <p className="mx-[16px] my-2 rounded-[6px] bg-[#fff7e6] px-2 py-1.5 text-[11px] leading-4 text-[#ad6800]">草稿在其他标签页被修改，本页未覆盖；刷新可载入最新草稿。</p>
+                        <p className="mx-[16px] my-2 rounded-lg bg-[#fff7e6] px-2 py-1.5 text-[11px] leading-4 text-[#ad6800]">草稿在其他标签页被修改，本页未覆盖；刷新可载入最新草稿。</p>
                     ) : null}
                     {notice ? (
-                        <p data-testid="area-repair-notice" className="mx-[16px] my-2 rounded-[6px] bg-[#fff7e6] px-2 py-1.5 text-[11px] leading-4 text-[#ad6800]">
+                        <p data-testid="area-repair-notice" className="mx-[16px] my-2 rounded-lg bg-[#fff7e6] px-2 py-1.5 text-[11px] leading-4 text-[#ad6800]">
                             {notice}
                         </p>
                     ) : null}
@@ -835,7 +835,7 @@ export function MaskWorkspace({ className }: MaskWorkspaceProps = {}) {
                                     ))}
                                 </ul>
                                 {resultFeedback ? (
-                                    <p data-testid="area-repair-result-feedback" className="mt-2 text-[11px] text-[#8a8a99]">
+                                    <p data-testid="area-repair-result-feedback" className="mt-2 text-[11px] text-muted-foreground">
                                         {resultFeedback}
                                     </p>
                                 ) : null}
@@ -1281,10 +1281,10 @@ export function RemovePenWorkspace({ className }: RemovePenWorkspaceProps = {}) 
                 <Edit8Canvas>
                     <Edit8CanvasToolbar className="justify-between gap-3">
                         <div className="flex items-center gap-2">
-                            <span className="flex items-center gap-1 text-[#1f1f2c]">
+                            <span className="flex items-center gap-1 text-foreground">
                                 <Paintbrush className="size-3.5" aria-hidden /> 画笔
                             </span>
-                            <span className="text-[#6b6b80]">大小：</span>
+                            <span className="text-muted-foreground">大小：</span>
                             <input
                                 type="range"
                                 data-testid="remove-pen-brush-range"
@@ -1292,7 +1292,7 @@ export function RemovePenWorkspace({ className }: RemovePenWorkspaceProps = {}) 
                                 max={REMOVE_PEN_BRUSH_MAX}
                                 value={state.brushSize}
                                 onChange={(event) => commitBrush(Number(event.target.value))}
-                                className="w-[88px] accent-[#723cf9]"
+                                className="w-[88px] accent-primary"
                                 aria-label="画笔大小"
                             />
                             <input
@@ -1301,16 +1301,16 @@ export function RemovePenWorkspace({ className }: RemovePenWorkspaceProps = {}) 
                                 max={REMOVE_PEN_BRUSH_MAX}
                                 value={state.brushSize}
                                 onChange={(event) => commitBrush(Number(event.target.value))}
-                                className="h-[24px] w-[44px] rounded-[4px] border border-[#ededf0] bg-white px-1 text-[11px] text-[#1f1f2c]"
+                                className="h-[24px] w-[44px] rounded-md border border-border bg-card px-1 text-[11px] text-foreground"
                                 aria-label="画笔大小像素"
                             />
-                            <span className="text-[#6b6b80]">像素</span>
+                            <span className="text-muted-foreground">像素</span>
                             <button
                                 type="button"
                                 data-testid="remove-pen-reset-mask"
                                 disabled={historyLabel.strokeCount === 0 || busy}
                                 onClick={reset}
-                                className="inline-flex h-[24px] items-center gap-1 rounded-[4px] px-1.5 text-[12px] text-[#1f1f2c] hover:bg-white/70 disabled:opacity-40"
+                                className="inline-flex h-[24px] items-center gap-1 rounded-md px-1.5 text-[12px] text-foreground hover:bg-card/70 disabled:opacity-40"
                             >
                                 <RotateCcw className="size-3" aria-hidden /> 重置
                             </button>
@@ -1319,7 +1319,7 @@ export function RemovePenWorkspace({ className }: RemovePenWorkspaceProps = {}) 
                                 data-testid="remove-pen-undo"
                                 disabled={!historyLabel.canUndo || busy}
                                 onClick={undo}
-                                className="inline-flex h-[24px] items-center gap-1 rounded-[4px] px-1.5 text-[12px] text-[#1f1f2c] hover:bg-white/70 disabled:opacity-40"
+                                className="inline-flex h-[24px] items-center gap-1 rounded-md px-1.5 text-[12px] text-foreground hover:bg-card/70 disabled:opacity-40"
                             >
                                 <Undo2 className="size-3" aria-hidden /> 撤销
                             </button>
@@ -1328,7 +1328,7 @@ export function RemovePenWorkspace({ className }: RemovePenWorkspaceProps = {}) 
                                 data-testid="remove-pen-redo"
                                 disabled={!historyLabel.canRedo || busy}
                                 onClick={redo}
-                                className="inline-flex h-[24px] items-center gap-1 rounded-[4px] px-1.5 text-[12px] text-[#1f1f2c] hover:bg-white/70 disabled:opacity-40"
+                                className="inline-flex h-[24px] items-center gap-1 rounded-md px-1.5 text-[12px] text-foreground hover:bg-card/70 disabled:opacity-40"
                             >
                                 <Redo2 className="size-3" aria-hidden /> 重做
                             </button>
@@ -1350,7 +1350,7 @@ export function RemovePenWorkspace({ className }: RemovePenWorkspaceProps = {}) 
                                     patchDraft(REMOVE_PEN_ID, { values: serializeRemovePenDraftValues({ state: cleared, imageName: "", compareMode: compareRef.current }), assetIds: [] });
                                 }}
                                 data-testid="remove-pen-reset-image"
-                                className="h-[28px] rounded-[6px] px-2 text-[12px] text-[#1f1f2c] hover:bg-white/70"
+                                className="h-[28px] rounded-lg px-2 text-[12px] text-foreground hover:bg-card/70"
                             >
                                 重新上传
                             </button>
@@ -1359,7 +1359,7 @@ export function RemovePenWorkspace({ className }: RemovePenWorkspaceProps = {}) 
                                 data-testid="remove-pen-submit"
                                 disabled={busy || issues.length > 0}
                                 onClick={() => void submit()}
-                                className="inline-flex h-[28px] items-center gap-1 rounded-[6px] bg-[#723cf9] px-[15px] text-[12px] leading-none text-white transition hover:bg-[#6231e0] disabled:cursor-not-allowed disabled:opacity-50"
+                                className="inline-flex h-[28px] items-center gap-1 rounded-lg bg-primary px-[15px] text-[12px] leading-none text-primary-foreground transition hover:bg-primary/90 disabled:cursor-not-allowed disabled:opacity-50"
                             >
                                 {busy ? "消除中…" : "开始消除"}
                             </button>
@@ -1368,7 +1368,7 @@ export function RemovePenWorkspace({ className }: RemovePenWorkspaceProps = {}) 
                                     key={label}
                                     type="button"
                                     disabled
-                                    className="inline-flex h-[28px] items-center rounded-[6px] px-2 text-[12px] text-[#1f1f2c] opacity-50"
+                                    className="inline-flex h-[28px] items-center rounded-lg px-2 text-[12px] text-foreground opacity-50"
                                 >
                                     {label}
                                 </button>
@@ -1378,20 +1378,20 @@ export function RemovePenWorkspace({ className }: RemovePenWorkspaceProps = {}) 
 
                     {conflict || notice || stale ? (
                         <div className="flex shrink-0 flex-col gap-1 px-4 pb-2 text-[11px]">
-                            {conflict ? <p className="rounded-[4px] bg-[#fff7e6] px-2 py-1 text-[#b26b00]">草稿在其他标签页被修改，本页未覆盖；刷新可载入最新草稿。</p> : null}
+                            {conflict ? <p className="rounded-md bg-[#fff7e6] px-2 py-1 text-[#b26b00]">草稿在其他标签页被修改，本页未覆盖；刷新可载入最新草稿。</p> : null}
                             {notice ? (
-                                <p data-testid="remove-pen-notice" className="rounded-[4px] bg-white px-2 py-1 text-[#6b6b80]">
+                                <p data-testid="remove-pen-notice" className="rounded-md bg-card px-2 py-1 text-muted-foreground">
                                     {notice}
                                 </p>
                             ) : null}
-                            {stale ? <p className="rounded-[4px] bg-[#fff7e6] px-2 py-1 text-[#b26b00]">涂抹或图片已变更：下面是上一次提交的结果，不代表当前涂抹区域。</p> : null}
+                            {stale ? <p className="rounded-md bg-[#fff7e6] px-2 py-1 text-[#b26b00]">涂抹或图片已变更：下面是上一次提交的结果，不代表当前涂抹区域。</p> : null}
                         </div>
                     ) : null}
 
                     <div className="min-h-0 flex-1 overflow-y-auto px-4 pb-4">
                         {image ? (
                             <div className="mx-auto flex w-fit max-w-full flex-col gap-3">
-                                <div className="relative rounded-[8px] bg-white p-2">
+                                <div className="relative rounded-lg bg-card p-2">
                                     <div className="relative mx-auto w-fit max-w-full">
                                         <img src={image.dataUrl} alt="待消除原图" className="block max-h-[520px] w-auto max-w-full select-none" draggable={false} />
                                         <canvas
@@ -1406,11 +1406,11 @@ export function RemovePenWorkspace({ className }: RemovePenWorkspaceProps = {}) 
                                         />
                                     </div>
                                 </div>
-                                <p className="text-[11px] text-[#8a8a99]">
+                                <p className="text-[11px] text-muted-foreground">
                                     {image.name} · {image.width}×{image.height} · 已涂抹 {historyLabel.strokeCount} 笔 · {coverageLabel}（白色蒙版 = 要消除的区域）
                                 </p>
                                 {issues.length > 0 ? (
-                                    <ul data-testid="remove-pen-issues" className="rounded-[6px] bg-white p-2 text-[11px] text-[#6b6b80]">
+                                    <ul data-testid="remove-pen-issues" className="rounded-lg bg-card p-2 text-[11px] text-muted-foreground">
                                         {issues.map((issue) => (
                                             <li key={issue.field}>· {issue.message}</li>
                                         ))}
@@ -1420,8 +1420,8 @@ export function RemovePenWorkspace({ className }: RemovePenWorkspaceProps = {}) 
                         ) : (
                             <div className="flex min-h-full items-center justify-center">
                                 <Edit8CanvasCard className="w-[520px]">
-                                    <p className="text-[18px] font-medium leading-6 text-[#1f1f2c]">局部消除</p>
-                                    <p className="text-[12px] leading-5 text-[#8a8a99]">上传需要消除的图片，使用画笔涂抹即可实现一键消除</p>
+                                    <p className="text-[18px] font-medium leading-6 text-foreground">局部消除</p>
+                                    <p className="text-[12px] leading-5 text-muted-foreground">上传需要消除的图片，使用画笔涂抹即可实现一键消除</p>
                                     <ToolAssetInput
                                         toolId={REMOVE_PEN_ID}
                                         variant="linkfox"
@@ -1445,9 +1445,9 @@ export function RemovePenWorkspace({ className }: RemovePenWorkspaceProps = {}) 
                         )}
 
                         {run?.task || resultUrl ? (
-                            <div className="mx-auto mt-3 flex w-fit max-w-full flex-col gap-2 rounded-[8px] bg-white p-3">
+                            <div className="mx-auto mt-3 flex w-fit max-w-full flex-col gap-2 rounded-lg bg-card p-3">
                                 <div className="flex flex-wrap items-center justify-between gap-2">
-                                    <p className="text-[12px] font-medium text-[#1f1f2c]">前后对比</p>
+                                    <p className="text-[12px] font-medium text-foreground">前后对比</p>
                                     <div className="flex items-center gap-1">
                                         {REMOVE_PEN_COMPARE_MODES.map((mode) => (
                                             <button
@@ -1457,8 +1457,8 @@ export function RemovePenWorkspace({ className }: RemovePenWorkspaceProps = {}) 
                                                 aria-pressed={compareMode === mode.id}
                                                 onClick={() => commitCompare(mode.id)}
                                                 className={cn(
-                                                    "h-[24px] rounded-[5px] border px-2 text-[11px] leading-none transition",
-                                                    compareMode === mode.id ? "border-[#723cf9] bg-[#723cf9] text-white" : "border-[#ededf0] bg-white text-[#1f1f2c] hover:border-[#723cf9]/50",
+                                                    "h-[24px] rounded-md border px-2 text-[11px] leading-none transition",
+                                                    compareMode === mode.id ? "border-primary bg-primary text-primary-foreground" : "border-border bg-card text-foreground hover:border-primary/50",
                                                 )}
                                             >
                                                 {mode.label}
@@ -1466,9 +1466,9 @@ export function RemovePenWorkspace({ className }: RemovePenWorkspaceProps = {}) 
                                         ))}
                                     </div>
                                 </div>
-                                {view.status === "running" ? <p className="text-[11px] text-[#8a8a99]">正在提交真实请求并等待结果…</p> : null}
+                                {view.status === "running" ? <p className="text-[11px] text-muted-foreground">正在提交真实请求并等待结果…</p> : null}
                                 {view.error && view.status !== "running" ? (
-                                    <p data-testid="remove-pen-error" className="rounded-[4px] bg-[#fdecea] px-2 py-1.5 text-[11px] text-[#c0392b]">
+                                    <p data-testid="remove-pen-error" className="rounded-md bg-[#fdecea] px-2 py-1.5 text-[11px] text-[#c0392b]">
                                         {view.error.message}（诊断码：{view.error.code}）
                                     </p>
                                 ) : null}

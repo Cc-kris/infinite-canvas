@@ -80,7 +80,7 @@ const MASK_CONSTRAINTS: Partial<ToolAssetConstraints> = {
 
 function Section({ title, hint, children, testId }: { title: string; hint?: string; children: React.ReactNode; testId?: string }) {
     return (
-        <section data-testid={testId} className="rounded-lg border border-stone-200 bg-white/60 p-3 dark:border-stone-800 dark:bg-stone-900/40">
+        <section data-testid={testId} className="rounded-lg border border-stone-200 bg-card/60 p-3 dark:border-stone-800 dark:bg-stone-900/40">
             <header className="mb-2 flex items-baseline gap-2">
                 <h3 className="text-sm font-medium text-stone-800 dark:text-stone-100">{title}</h3>
                 {hint ? <span className="text-[11px] text-stone-500 dark:text-stone-400">{hint}</span> : null}
@@ -95,7 +95,7 @@ function chipClass(active: boolean) {
         "rounded-md border px-2 py-1 text-xs transition",
         active
             ? "border-stone-800 bg-stone-800 text-white dark:border-stone-200 dark:bg-stone-200 dark:text-stone-900"
-            : "border-stone-200 bg-white text-stone-700 hover:border-stone-400 dark:border-stone-700 dark:bg-stone-900 dark:text-stone-200",
+            : "border-stone-200 bg-card text-stone-700 hover:border-stone-400 dark:border-stone-700 dark:bg-stone-900 dark:text-stone-200",
     ].join(" ");
 }
 
@@ -432,7 +432,7 @@ export function SceneWorkspace({ className }: { className?: string }) {
                                         ? "border-emerald-300 bg-emerald-50 text-emerald-800"
                                         : step.status === "active"
                                           ? "border-stone-800 bg-stone-100 text-stone-900"
-                                          : "border-stone-200 bg-white text-stone-500",
+                                          : "border-stone-200 bg-card text-stone-500",
                                 ].join(" ")}
                                 title={step.hint}
                             >
@@ -522,7 +522,7 @@ export function SceneWorkspace({ className }: { className?: string }) {
                                         "rounded-md border px-2 py-1.5 text-left text-[11px] transition",
                                         values.templateId === item.id
                                             ? "border-stone-800 bg-stone-800 text-white dark:border-stone-200 dark:bg-stone-200 dark:text-stone-900"
-                                            : "border-stone-200 bg-white text-stone-700 hover:border-stone-400 dark:border-stone-700 dark:bg-stone-900 dark:text-stone-200",
+                                            : "border-stone-200 bg-card text-stone-700 hover:border-stone-400 dark:border-stone-700 dark:bg-stone-900 dark:text-stone-200",
                                     ].join(" ")}
                                     onClick={() => update({ templateId: item.id })}
                                     disabled={running}
@@ -537,7 +537,7 @@ export function SceneWorkspace({ className }: { className?: string }) {
                             <ToolAssetInput toolId={`${toolId}:bg`} constraints={BG_CONSTRAINTS} maxCount={1} title="上传自定义背景图（可选）" onChange={onBgChange} disabled={running} />
                             <textarea
                                 data-testid="scene-custom-prompt"
-                                className="w-full rounded-md border border-stone-200 bg-white px-2 py-1 text-xs text-stone-800 outline-none focus:border-stone-400 dark:border-stone-700 dark:bg-stone-900 dark:text-stone-100"
+                                className="w-full rounded-md border border-stone-200 bg-card px-2 py-1 text-xs text-stone-800 outline-none focus:border-stone-400 dark:border-stone-700 dark:bg-stone-900 dark:text-stone-100"
                                 rows={3}
                                 maxLength={200}
                                 placeholder="描述背景与光线，例如：露营木桌上，早晨侧逆光，背景有薄雾"
@@ -637,7 +637,7 @@ export function SceneWorkspace({ className }: { className?: string }) {
                             data-testid="scene-undo"
                             disabled={!canUndo || running}
                             onClick={() => stepHistory("undo")}
-                            className="inline-flex size-10 items-center justify-center rounded-md border border-stone-200 bg-white text-sm text-stone-700 disabled:opacity-40 dark:border-stone-700 dark:bg-stone-900 dark:text-stone-200"
+                            className="inline-flex size-10 items-center justify-center rounded-md border border-stone-200 bg-card text-sm text-stone-700 disabled:opacity-40 dark:border-stone-700 dark:bg-stone-900 dark:text-stone-200"
                         >
                             ↶
                         </button>
@@ -648,7 +648,7 @@ export function SceneWorkspace({ className }: { className?: string }) {
                             data-testid="scene-redo"
                             disabled={!canRedo || running}
                             onClick={() => stepHistory("redo")}
-                            className="inline-flex size-10 items-center justify-center rounded-md border border-stone-200 bg-white text-sm text-stone-700 disabled:opacity-40 dark:border-stone-700 dark:bg-stone-900 dark:text-stone-200"
+                            className="inline-flex size-10 items-center justify-center rounded-md border border-stone-200 bg-card text-sm text-stone-700 disabled:opacity-40 dark:border-stone-700 dark:bg-stone-900 dark:text-stone-200"
                         >
                             ↷
                         </button>
@@ -1133,7 +1133,7 @@ export function FissionLinkWorkspace({ className, port }: FissionLinkWorkspacePr
     return (
         <div
             data-testid="fission-link-workspace"
-            className={cn("flex h-full min-h-0 overflow-hidden bg-white text-[#1f1f2c]", className)}
+            className={cn("flex h-full min-h-0 overflow-hidden bg-card text-foreground", className)}
         >
             <Design19LeftColumn data-testid="fission-link-config">
                 <h2 className="text-sm font-medium">{FISSION_LINK_TITLE}</h2>
@@ -1156,7 +1156,7 @@ export function FissionLinkWorkspace({ className, port }: FissionLinkWorkspacePr
                         setPreview(event.target.value.trim() ? "loading" : "idle");
                         updateState({ imageUrl: event.target.value });
                     }}
-                    className="mt-1 w-full rounded-md border border-stone-300 bg-white p-2 text-xs outline-none focus:border-stone-500 dark:border-stone-700 dark:bg-stone-900"
+                    className="mt-1 w-full rounded-md border border-stone-300 bg-card p-2 text-xs outline-none focus:border-stone-500 dark:border-stone-700 dark:bg-stone-900"
                 />
 
                 {previewUrl ? (
@@ -1267,7 +1267,7 @@ export function FissionLinkWorkspace({ className, port }: FissionLinkWorkspacePr
                 {resultTab !== "result" ? (
                     <div className="min-h-0 flex-1 overflow-auto p-4">
                         {resultTab === "case" ? (
-                            <p className="rounded-lg bg-white px-4 py-8 text-center text-xs text-black/45">
+                            <p className="rounded-lg bg-card px-4 py-8 text-center text-xs text-black/45">
                                 原站该工具没有公开的优秀案例，本地不伪造案例数据。
                             </p>
                         ) : (
@@ -1783,7 +1783,7 @@ export function SceneTransferWorkspace({ className, toolId = SCENE_TRANSFER_TOOL
                 </div>
                 </div>
                 {resultTab === "case" ? (
-                    <p className="rounded-lg bg-white px-4 py-8 text-center text-xs text-black/45">
+                    <p className="rounded-lg bg-card px-4 py-8 text-center text-xs text-black/45">
                         原站该工具没有公开的优秀案例，本地不伪造案例数据。
                     </p>
                 ) : null}

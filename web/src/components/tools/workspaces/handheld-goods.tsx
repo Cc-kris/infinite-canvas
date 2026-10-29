@@ -373,7 +373,7 @@ export function HandheldGoodsWorkspace({ className }: HandheldGoodsWorkspaceProp
                 >
                     {/* 0. 原站左卡标题：工具名 + 一句话 tagline（real/HANDHELD_GOODS/text.txt L47） */}
                     <Design19Section>
-                        <p className="text-[16px]! font-medium leading-6 text-[#1f2024]!">手持商品</p>
+                        <p className="text-[16px]! font-medium leading-6 text-foreground!">手持商品</p>
                         <p className="mt-1 text-[12px]! leading-5 text-black/60!">快速生成手持商品图，快速上架</p>
                     </Design19Section>
                     {/* 1. 商品图上传（原站 268x306 浅灰上传面板） */}
@@ -408,7 +408,7 @@ export function HandheldGoodsWorkspace({ className }: HandheldGoodsWorkspaceProp
                         <div
                             role="tablist"
                             aria-label="手持部位"
-                            className="flex h-[30px] items-stretch gap-5 border-b border-[#ededf0]"
+                            className="flex h-[30px] items-stretch gap-5 border-b border-border"
                         >
                             {HANDHELD_GOODS_HAND_TABS.map((tab) => {
                                 const selected = tab.id === state.modelTabType;
@@ -429,8 +429,8 @@ export function HandheldGoodsWorkspace({ className }: HandheldGoodsWorkspaceProp
                                         className={cn(
                                             "relative text-[14px] leading-[22px] transition",
                                             selected
-                                                ? "text-[#723cf9] after:absolute after:inset-x-0 after:-bottom-px after:h-[2px] after:bg-[#723cf9]"
-                                                : "text-black/[0.88] hover:text-[#723cf9]",
+                                                ? "text-primary after:absolute after:inset-x-0 after:-bottom-px after:h-[2px] after:bg-primary"
+                                                : "text-black/[0.88] hover:text-primary",
                                         )}
                                     >
                                         {tab.label}
@@ -456,10 +456,10 @@ export function HandheldGoodsWorkspace({ className }: HandheldGoodsWorkspaceProp
                                             }))
                                         }
                                         className={cn(
-                                            "flex flex-col gap-1 overflow-hidden rounded-[6px] border p-1 text-left transition",
+                                            "flex flex-col gap-1 overflow-hidden rounded-lg border p-1 text-left transition",
                                             selected
-                                                ? "border-[#723cf9] bg-[#f9f0ff]"
-                                                : "border-[#ededf0] bg-white hover:border-[#723cf9]/50",
+                                                ? "border-primary bg-primary/10"
+                                                : "border-border bg-card hover:border-primary/50",
                                         )}
                                     >
                                         <img
@@ -467,7 +467,7 @@ export function HandheldGoodsWorkspace({ className }: HandheldGoodsWorkspaceProp
                                             alt={`${pose.label} 示意图`}
                                             width={96}
                                             height={96}
-                                            className="h-[96px] w-full rounded-[4px] bg-[#fafafa] object-contain"
+                                            className="h-[96px] w-full rounded-md bg-card object-contain"
                                         />
                                         <span className="line-clamp-2 text-[12px] leading-4 text-black/[0.88]">
                                             {pose.label}
@@ -484,7 +484,7 @@ export function HandheldGoodsWorkspace({ className }: HandheldGoodsWorkspaceProp
                     {/* 3. 场景类型 */}
                     <Design19Section>
                         <Design19FieldLabel>场景类型</Design19FieldLabel>
-                        <div role="tablist" aria-label="场景类型" className="flex h-[30px] items-stretch gap-5 border-b border-[#ededf0]">
+                        <div role="tablist" aria-label="场景类型" className="flex h-[30px] items-stretch gap-5 border-b border-border">
                             {HANDHELD_GOODS_SCENE_TABS.map((tab) => {
                                 const selected = tab.id === state.sceneTabType;
                                 return (
@@ -498,8 +498,8 @@ export function HandheldGoodsWorkspace({ className }: HandheldGoodsWorkspaceProp
                                         className={cn(
                                             "relative text-[14px] leading-[22px] transition",
                                             selected
-                                                ? "text-[#723cf9] after:absolute after:inset-x-0 after:-bottom-px after:h-[2px] after:bg-[#723cf9]"
-                                                : "text-black/[0.88] hover:text-[#723cf9]",
+                                                ? "text-primary after:absolute after:inset-x-0 after:-bottom-px after:h-[2px] after:bg-primary"
+                                                : "text-black/[0.88] hover:text-primary",
                                         )}
                                     >
                                         {tab.label}
@@ -564,7 +564,7 @@ export function HandheldGoodsWorkspace({ className }: HandheldGoodsWorkspaceProp
                 >
                     <div role="tabpanel" hidden={rightTab !== "result"} data-testid="handheld-panel-result" className="flex min-h-full flex-col px-3 py-3">
                         {stale ? (
-                            <p className="mb-2 rounded-[4px] bg-[#fafafa] px-2 py-1 text-[12px] leading-[18px] text-black/30">
+                            <p className="mb-2 rounded-md bg-card px-2 py-1 text-[12px] leading-[18px] text-black/30">
                                 配置已修改，下面的结果来自旧版本（快照指纹不同）。
                             </p>
                         ) : null}
@@ -578,8 +578,8 @@ export function HandheldGoodsWorkspace({ className }: HandheldGoodsWorkspaceProp
                         {view.items.length ? (
                             <div className="grid grid-cols-[repeat(auto-fill,minmax(200px,1fr))] gap-3">
                                 {view.items.map((item) => (
-                                    <figure key={item.index} className="overflow-hidden rounded-[6px] border border-[#ededf0]">
-                                        <div className="flex aspect-square items-center justify-center bg-[#fafafa]">
+                                    <figure key={item.index} className="overflow-hidden rounded-lg border border-border">
+                                        <div className="flex aspect-square items-center justify-center bg-card">
                                             {item.url ? (
                                                 <img src={item.url} alt={`第 ${item.index + 1} 张结果`} className="size-full object-contain" />
                                             ) : (
@@ -604,7 +604,7 @@ export function HandheldGoodsWorkspace({ className }: HandheldGoodsWorkspaceProp
                                                         const run = runs.find((candidate) => candidate.index === item.index);
                                                         if (run) void retryOne(run);
                                                     }}
-                                                    className="rounded-[4px] border border-[#ededf0] px-1.5 py-0.5 transition hover:bg-[#f9f0ff] disabled:opacity-50"
+                                                    className="rounded-md border border-border px-1.5 py-0.5 transition hover:bg-primary/10 disabled:opacity-50"
                                                 >
                                                     {retrying === item.index ? "重试中…" : "重试"}
                                                 </button>
@@ -621,7 +621,7 @@ export function HandheldGoodsWorkspace({ className }: HandheldGoodsWorkspaceProp
                             <button
                                 type="button"
                                 onClick={cancel}
-                                className="mt-3 self-start rounded-[6px] border border-[#ededf0] px-3 py-1 text-[12px] leading-[18px] transition hover:bg-[#fafafa]"
+                                className="mt-3 self-start rounded-lg border border-border px-3 py-1 text-[12px] leading-[18px] transition hover:bg-card"
                             >
                                 取消本次生成
                             </button>

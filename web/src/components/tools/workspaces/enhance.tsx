@@ -93,7 +93,7 @@ const ASSET_CONSTRAINTS: Partial<ToolAssetConstraints> = {
 
 function Section({ title, hint, children }: { title: string; hint?: string; children: React.ReactNode }) {
     return (
-        <section className="rounded-lg border border-stone-200 bg-white/60 p-3 dark:border-stone-800 dark:bg-stone-900/40">
+        <section className="rounded-lg border border-stone-200 bg-card/60 p-3 dark:border-stone-800 dark:bg-stone-900/40">
             <header className="mb-2 flex items-baseline gap-2">
                 <h3 className="text-sm font-medium text-stone-800 dark:text-stone-100">{title}</h3>
                 {hint ? <span className="text-[11px] text-stone-500 dark:text-stone-400">{hint}</span> : null}
@@ -104,7 +104,7 @@ function Section({ title, hint, children }: { title: string; hint?: string; chil
 }
 
 const inputClass =
-    "rounded-md border border-stone-200 bg-white px-2 py-1 text-xs text-stone-800 outline-none focus:border-stone-400 dark:border-stone-700 dark:bg-stone-900 dark:text-stone-100";
+    "rounded-md border border-stone-200 bg-card px-2 py-1 text-xs text-stone-800 outline-none focus:border-stone-400 dark:border-stone-700 dark:bg-stone-900 dark:text-stone-100";
 
 function sourceFromRecord(record: ToolAssetRecord): ScaleUpSourceAsset {
     return {
@@ -135,7 +135,7 @@ function CompareSlider({ before, after, testIdPrefix = "scale-up", labels }: { b
                     style={{ clipPath: `inset(0 ${100 - position}% 0 0)` }}
                     data-testid={`${testIdPrefix}-compare-before`}
                 />
-                <div className="pointer-events-none absolute inset-y-0 w-px bg-white/90 shadow" style={{ left: `${position}%` }} />
+                <div className="pointer-events-none absolute inset-y-0 w-px bg-card/90 shadow" style={{ left: `${position}%` }} />
             </div>
             <input
                 type="range"
@@ -361,7 +361,7 @@ export function ScaleUpWorkspace({ className }: { className?: string }) {
                                 data-testid="scale-up-batch"
                                 disabled
                                 title="批量高清放大：批量队列未接入（PARTIAL）"
-                                className="h-6 w-[100px] rounded-[4px] border border-[#723cf9] text-[12px] leading-none text-[#723cf9] disabled:opacity-50"
+                                className="h-6 w-[100px] rounded-md border border-primary text-[12px] leading-none text-primary disabled:opacity-50"
                             >
                                 批量高清放大
                             </button>
@@ -524,7 +524,7 @@ export function ScaleUpWorkspace({ className }: { className?: string }) {
                         disabled={!resultImage || running}
                         onClick={() => void onDownloadImage()}
                         data-testid="scale-up-download-image"
-                        className="mt-2 flex h-7 w-full items-center justify-center rounded-[4px] border border-[#d9d9d9] bg-black/[0.04] text-[12px] leading-none text-black/25 transition enabled:bg-white enabled:text-[#1f1f2c] disabled:cursor-not-allowed"
+                        className="mt-2 flex h-7 w-full items-center justify-center rounded-md border border-border bg-black/[0.04] text-[12px] leading-none text-black/25 transition enabled:bg-card enabled:text-foreground disabled:cursor-not-allowed"
                     >
                         下载图片
                     </button>

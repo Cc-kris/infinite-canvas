@@ -486,8 +486,8 @@ export function FixColorWorkspace({ className }: RepairWorkspaceProps = {}) {
                             aria-pressed={state.tool === "brush"}
                             onClick={() => setToolMode("brush")}
                             className={cn(
-                                "h-6 rounded-[4px] px-2 text-[12px] leading-none transition",
-                                state.tool === "brush" ? "bg-white text-[#723cf9]" : "text-[#6b6b80] hover:text-[#1f1f2c]",
+                                "h-6 rounded-md px-2 text-[12px] leading-none transition",
+                                state.tool === "brush" ? "bg-card text-primary" : "text-muted-foreground hover:text-foreground",
                             )}
                         >
                             画笔
@@ -497,25 +497,25 @@ export function FixColorWorkspace({ className }: RepairWorkspaceProps = {}) {
                             aria-pressed={state.tool === "eraser"}
                             onClick={() => setToolMode("eraser")}
                             className={cn(
-                                "h-6 rounded-[4px] px-2 text-[12px] leading-none transition",
-                                state.tool === "eraser" ? "bg-white text-[#723cf9]" : "text-[#6b6b80] hover:text-[#1f1f2c]",
+                                "h-6 rounded-md px-2 text-[12px] leading-none transition",
+                                state.tool === "eraser" ? "bg-card text-primary" : "text-muted-foreground hover:text-foreground",
                             )}
                         >
                             橡皮
                         </button>
                     </div>
-                    <span className="ml-2 text-[12px] text-[#8a8a99]">笔刷</span>
+                    <span className="ml-2 text-[12px] text-muted-foreground">笔刷</span>
                     <input
                         type="range"
                         min={FIX_COLOR_BRUSH_MIN}
                         max={FIX_COLOR_BRUSH_MAX}
                         value={state.brushSize}
                         onChange={(event) => setBrush(Number(event.target.value))}
-                        className="h-[22px] w-[112px] accent-[#723cf9]"
+                        className="h-[22px] w-[112px] accent-primary"
                         aria-label="笔刷大小"
                     />
-                    <span className="w-8 text-[12px] tabular-nums text-[#1f1f2c]">{state.brushSize}px</span>
-                    <span className="ml-2 text-[12px] text-[#8a8a99]">羽化</span>
+                    <span className="w-8 text-[12px] tabular-nums text-foreground">{state.brushSize}px</span>
+                    <span className="ml-2 text-[12px] text-muted-foreground">羽化</span>
                     <input
                         type="range"
                         min={0}
@@ -527,7 +527,7 @@ export function FixColorWorkspace({ className }: RepairWorkspaceProps = {}) {
                             stateRef.current = { ...stateRef.current, feather };
                             persist({ ...stateRef.current, feather }, {});
                         }}
-                        className="h-[22px] w-[80px] accent-[#723cf9]"
+                        className="h-[22px] w-[80px] accent-primary"
                         aria-label="羽化"
                     />
                     <div className="ml-2 flex items-center gap-1">
@@ -536,7 +536,7 @@ export function FixColorWorkspace({ className }: RepairWorkspaceProps = {}) {
                                 key={preset}
                                 type="button"
                                 onClick={() => setBrush(preset)}
-                                className="h-6 rounded-[4px] border border-[#e5e5ea] px-1.5 text-[11px] leading-none text-[#5a5a66] transition hover:border-[#723cf9]/50"
+                                className="h-6 rounded-md border border-border px-1.5 text-[11px] leading-none text-muted-foreground transition hover:border-primary/50"
                             >
                                 {preset}
                             </button>
@@ -547,7 +547,7 @@ export function FixColorWorkspace({ className }: RepairWorkspaceProps = {}) {
                             type="button"
                             onClick={undo}
                             disabled={history.past.length === 0}
-                            className="inline-flex size-6 items-center justify-center rounded-[4px] text-[#6b6b80] transition hover:bg-white disabled:opacity-40"
+                            className="inline-flex size-6 items-center justify-center rounded-md text-muted-foreground transition hover:bg-card disabled:opacity-40"
                             aria-label="撤销"
                         >
                             <Undo2 className="size-3.5" />
@@ -556,7 +556,7 @@ export function FixColorWorkspace({ className }: RepairWorkspaceProps = {}) {
                             type="button"
                             onClick={redo}
                             disabled={history.future.length === 0}
-                            className="inline-flex size-6 items-center justify-center rounded-[4px] text-[#6b6b80] transition hover:bg-white disabled:opacity-40"
+                            className="inline-flex size-6 items-center justify-center rounded-md text-muted-foreground transition hover:bg-card disabled:opacity-40"
                             aria-label="重做"
                         >
                             <Redo2 className="size-3.5" />
@@ -564,12 +564,12 @@ export function FixColorWorkspace({ className }: RepairWorkspaceProps = {}) {
                         <button
                             type="button"
                             onClick={resetMask}
-                            className="inline-flex size-6 items-center justify-center rounded-[4px] text-[#6b6b80] transition hover:bg-white"
+                            className="inline-flex size-6 items-center justify-center rounded-md text-muted-foreground transition hover:bg-card"
                             aria-label="清空涂抹"
                         >
                             <RotateCcw className="size-3.5" />
                         </button>
-                        <span className="ml-1 text-[12px] text-[#8a8a99]">已涂 {fixColorHistoryState(history).strokeCount} 笔</span>
+                        <span className="ml-1 text-[12px] text-muted-foreground">已涂 {fixColorHistoryState(history).strokeCount} 笔</span>
                     </div>
                 </Edit8CanvasToolbar>
                 <div data-testid="fix-color-mask-panel" className="relative flex min-h-0 flex-1 items-center justify-center overflow-hidden p-[10px]">
@@ -593,21 +593,21 @@ export function FixColorWorkspace({ className }: RepairWorkspaceProps = {}) {
                             />
                         </div>
                     ) : (
-                        <div className="mx-auto flex w-[542px] max-w-full flex-col items-center gap-[10px] rounded-[12px] bg-white p-6 text-center shadow-[0_2px_12px_rgba(31,31,44,0.04)]">
-                            <h2 className="text-[16px] font-medium leading-6 text-[#1f1f2c]">色差修复</h2>
-                            <p className="text-[13px] leading-5 text-[#8a8a99]">上传偏色服装图片</p>
-                            <p className="text-[12px] leading-5 text-[#8a8a99]">AI将以服装原图为依据修复偏色</p>
+                        <div className="mx-auto flex w-[542px] max-w-full flex-col items-center gap-[10px] rounded-xl bg-card p-6 text-center shadow-[0_2px_12px_rgba(31,31,44,0.04)]">
+                            <h2 className="text-[16px] font-medium leading-6 text-foreground">色差修复</h2>
+                            <p className="text-[13px] leading-5 text-muted-foreground">上传偏色服装图片</p>
+                            <p className="text-[12px] leading-5 text-muted-foreground">AI将以服装原图为依据修复偏色</p>
                         </div>
                     )}
                 </div>
-                <p className="shrink-0 px-4 pb-2 text-[11px] leading-5 text-[#8a8a99]" data-testid="fix-color-coverage">
+                <p className="shrink-0 px-4 pb-2 text-[11px] leading-5 text-muted-foreground" data-testid="fix-color-coverage">
                     {describeFixColorCoverage(state)} · 覆盖率 {Math.round(fixColorCoverage(state) * 100)}%
                 </p>
             </Edit8Canvas>
 
             <Edit8Config
                 footer={
-                    <div className="border-t border-[#f0f0f3] px-[16px] py-[10px]">
+                    <div className="border-t border-border px-[16px] py-[10px]">
                         <button
                             type="button"
                             data-testid="fix-color-submit"
@@ -618,11 +618,11 @@ export function FixColorWorkspace({ className }: RepairWorkspaceProps = {}) {
                             {busy ? "修复中…" : "立即生成"}
                         </button>
                         {notice ? (
-                            <p className="mt-1.5 text-[11px] leading-4 text-[#f5483b]" data-testid="fix-color-notice">
+                            <p className="mt-1.5 text-[11px] leading-4 text-destructive" data-testid="fix-color-notice">
                                 {notice}
                             </p>
                         ) : null}
-                        {!hydrated ? <p className="mt-1.5 text-[11px] leading-4 text-[#8a8a99]">正在恢复上次的草稿…</p> : null}
+                        {!hydrated ? <p className="mt-1.5 text-[11px] leading-4 text-muted-foreground">正在恢复上次的草稿…</p> : null}
                     </div>
                 }
             >
@@ -640,13 +640,13 @@ export function FixColorWorkspace({ className }: RepairWorkspaceProps = {}) {
                     />
                     {image ? (
                         <div className="mt-1.5 flex items-center justify-between gap-2">
-                            <span className="truncate text-[11px] leading-4 text-[#8a8a99]">
+                            <span className="truncate text-[11px] leading-4 text-muted-foreground">
                                 {image.name} · {image.width}×{image.height}
                             </span>
                             <button
                                 type="button"
                                 data-testid="fix-color-reset-image"
-                                className="shrink-0 text-[11px] leading-4 text-[#723cf9] hover:underline"
+                                className="shrink-0 text-[11px] leading-4 text-primary hover:underline"
                                 onClick={() => {
                                     imageRef.current = null;
                                     setImage(null);
@@ -673,10 +673,10 @@ export function FixColorWorkspace({ className }: RepairWorkspaceProps = {}) {
                             }}
                         />
                         <div className="flex items-center justify-between">
-                            <span className="text-[11px] leading-4 text-[#8a8a99]">色差 {describeColorDelta(colorDelta)}</span>
+                            <span className="text-[11px] leading-4 text-muted-foreground">色差 {describeColorDelta(colorDelta)}</span>
                             <button
                                 type="button"
-                                className="inline-flex items-center gap-1 rounded-[4px] border border-[#ededf0] px-2 text-[11px] leading-5 text-[#5a5a66] transition hover:border-[#723cf9]/50"
+                                className="inline-flex items-center gap-1 rounded-md border border-border px-2 text-[11px] leading-5 text-muted-foreground transition hover:border-primary/50"
                                 onClick={() => {
                                     const nextRegion = targetColor;
                                     const nextTarget = regionColor;
@@ -713,11 +713,11 @@ export function FixColorWorkspace({ className }: RepairWorkspaceProps = {}) {
                                         targetColorRef.current = color;
                                         persist(stateRef.current, { targetColor: color });
                                     }}
-                                    className="size-5 rounded-[4px] border border-[#ededf0]"
+                                    className="size-5 rounded-md border border-border"
                                     style={{ backgroundColor: color }}
                                 />
                             ))}
-                            <span className="ml-1 inline-flex items-center gap-1 text-[11px] leading-4 text-[#8a8a99]">
+                            <span className="ml-1 inline-flex items-center gap-1 text-[11px] leading-4 text-muted-foreground">
                                 <Pipette className="size-3" />
                                 点色块设为目标色
                             </span>
@@ -738,21 +738,21 @@ export function FixColorWorkspace({ className }: RepairWorkspaceProps = {}) {
                                     persist(stateRef.current, { version: item.id });
                                 }}
                                 className={cn(
-                                    "rounded-[4px] border px-2 py-1 text-left transition",
+                                    "rounded-md border px-2 py-1 text-left transition",
                                     version === item.id
-                                        ? "border-[#723cf9] bg-[#f5f2ff]"
-                                        : "border-[#ededf0] hover:border-[#723cf9]/40",
+                                        ? "border-primary bg-primary/10"
+                                        : "border-border hover:border-primary/40",
                                 )}
                             >
-                                <span className="block text-[12px] leading-5 text-[#1f1f2c]">{item.label}</span>
-                                <span className="block text-[11px] leading-4 text-[#8a8a99]">{item.hint}</span>
+                                <span className="block text-[12px] leading-5 text-foreground">{item.label}</span>
+                                <span className="block text-[11px] leading-4 text-muted-foreground">{item.hint}</span>
                             </button>
                         ))}
                     </div>
                 </Edit8Section>
 
                 <Edit8Section title="Step 3：进行AI修复">
-                    <p className="text-[11px] leading-4 text-[#8a8a99]">
+                    <p className="text-[11px] leading-4 text-muted-foreground">
                         请确保在左侧画板中选择了要进行修复的区域，AI将根据原图为您修复。
                     </p>
                 </Edit8Section>
@@ -769,7 +769,7 @@ export function FixColorWorkspace({ className }: RepairWorkspaceProps = {}) {
                 {resultTab === "result" ? (
                     <div className="flex flex-col gap-2">
                         {view.imageUrl ? (
-                            <div className="rounded-[8px] bg-white p-2" data-testid="fix-color-compare-section">
+                            <div className="rounded-lg bg-card p-2" data-testid="fix-color-compare-section">
                                 <div className="flex items-center gap-1">
                                     {FIX_COLOR_COMPARE_MODES.map((mode) => (
                                         <button
@@ -782,10 +782,10 @@ export function FixColorWorkspace({ className }: RepairWorkspaceProps = {}) {
                                                 persist(stateRef.current, { compareMode: mode.id });
                                             }}
                                             className={cn(
-                                                "h-6 rounded-[4px] px-2 text-[11px] leading-none transition",
+                                                "h-6 rounded-md px-2 text-[11px] leading-none transition",
                                                 compareMode === mode.id
-                                                    ? "bg-[#723cf9] text-white"
-                                                    : "text-[#6b6b80] hover:text-[#1f1f2c]",
+                                                    ? "bg-primary text-primary-foreground"
+                                                    : "text-muted-foreground hover:text-foreground",
                                             )}
                                         >
                                             {mode.label}
@@ -795,14 +795,14 @@ export function FixColorWorkspace({ className }: RepairWorkspaceProps = {}) {
                                 {stale ? (
                                     <p className="mt-1 text-[11px] leading-4 text-[#d97706]">参数已改动，下面这张图来自旧版本，请重新提交。</p>
                                 ) : null}
-                                <div className="relative mt-2 overflow-hidden rounded-[6px] border border-[#ededf0]">
+                                <div className="relative mt-2 overflow-hidden rounded-lg border border-border">
                                     <img src={view.imageUrl} alt="校正结果" className="block w-full" />
                                     {compareMode === "slide" && view.sourceUrl ? (
                                         <>
                                             <div className="absolute inset-0 overflow-hidden" style={{ width: `${split}%` }}>
                                                 <img src={view.sourceUrl} alt="原图" className="block h-full w-full object-cover" />
                                             </div>
-                                            <div className="pointer-events-none absolute inset-y-0 w-px bg-white/90" style={{ left: `${split}%` }} />
+                                            <div className="pointer-events-none absolute inset-y-0 w-px bg-card/90" style={{ left: `${split}%` }} />
                                         </>
                                     ) : null}
                                 </div>
@@ -813,7 +813,7 @@ export function FixColorWorkspace({ className }: RepairWorkspaceProps = {}) {
                                         max={100}
                                         value={split}
                                         onChange={(event) => setSplit(clampCompareSplit(Number(event.target.value)))}
-                                        className="mt-2 h-[22px] w-full accent-[#723cf9]"
+                                        className="mt-2 h-[22px] w-full accent-primary"
                                         aria-label="对比分割线"
                                     />
                                 ) : null}

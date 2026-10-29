@@ -992,7 +992,7 @@ export function AiWearableWorkspace({ className, toolId = AI_WEARABLE_TOOL_ID }:
                                     className={cn(
                                         "flex h-10 items-center border-b-2 px-1 text-xs font-medium transition-colors",
                                         active
-                                            ? "border-[#723cf9] text-[#723cf9]"
+                                            ? "border-primary text-primary"
                                             : "border-transparent text-muted-foreground hover:text-foreground",
                                     )}
                                 >

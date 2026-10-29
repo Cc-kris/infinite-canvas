@@ -82,7 +82,7 @@ export function ToolCases({ cases, onApply, applyingId, className, emptyHint = "
                             key={item.id}
                             data-testid="tool-case-card"
                             data-case-id={item.id}
-                            className="group relative mb-[10px] break-inside-avoid overflow-hidden bg-muted"
+                            className="group relative mb-[10px] break-inside-avoid overflow-hidden rounded-lg bg-muted"
                         >
                             <img
                                 src={item.result}
@@ -116,7 +116,7 @@ export function ToolCases({ cases, onApply, applyingId, className, emptyHint = "
                                     {item.params.map((param) => (
                                         <div key={param.label} className="flex flex-col items-center">
                                             <span className="text-[12px] leading-[18.857px] text-white">{param.label}</span>
-                                            <img src={param.src} alt="" className="size-10 rounded-[4px] object-cover" draggable={false} />
+                                            <img src={param.src} alt="" className="size-10 rounded-md object-cover" draggable={false} />
                                         </div>
                                     ))}
                                 </div>
@@ -158,9 +158,9 @@ export function ToolCases({ cases, onApply, applyingId, className, emptyHint = "
                     className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-6"
                 >
                     {preview.video ? (
-                        <video src={preview.result} controls autoPlay loop className="max-h-full max-w-full rounded" />
+                        <video src={preview.result} controls autoPlay loop className="max-h-full max-w-full rounded-lg shadow-lg" />
                     ) : (
-                        <img src={preview.result} alt={`优秀案例-${preview.id}`} className="max-h-full max-w-full rounded object-contain" />
+                        <img src={preview.result} alt={`优秀案例-${preview.id}`} className="max-h-full max-w-full rounded-lg object-contain shadow-lg" />
                     )}
                 </div>
             ) : null}

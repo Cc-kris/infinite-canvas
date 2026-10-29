@@ -297,7 +297,7 @@ export function CropWorkspace() {
                         aria-label="下载图片"
                         disabled={!source || busy}
                         onClick={() => void downloadCurrent()}
-                        className="inline-flex h-8 items-center gap-1.5 rounded-md bg-[#723cf9] px-3 text-xs font-medium text-white transition hover:bg-[#5f2ed6] disabled:opacity-50"
+                        className="inline-flex h-8 items-center gap-1.5 rounded-md bg-primary px-3 text-xs font-medium text-primary-foreground transition hover:bg-primary/90 disabled:opacity-50"
                     >
                         <Download className="size-3.5" aria-hidden />
                         下载图片
@@ -380,7 +380,7 @@ export function CropWorkspace() {
                                     onClick={() => commit(applyRatioPreset(state, FREE_RATIO_ID, size))}
                                     className={cn(
                                         "flex h-10 w-full items-center justify-between gap-2 rounded-md border px-3 text-left text-xs transition",
-                                        state.ratioId === FREE_RATIO_ID ? "border-[#723cf9] bg-[#723cf9]/5 text-foreground" : "border-border text-muted-foreground hover:bg-accent",
+                                        state.ratioId === FREE_RATIO_ID ? "border-primary bg-primary/5 text-foreground" : "border-border text-muted-foreground hover:bg-accent",
                                     )}
                                 >
                                     <span>自由裁剪</span>

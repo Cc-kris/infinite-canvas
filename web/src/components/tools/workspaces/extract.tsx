@@ -189,7 +189,7 @@ export function ExtractUploader({ disabled, maxCount, onAssets }: { disabled: bo
     const thumbs = records.length ? records : [];
 
     return (
-        <section data-testid="print-extract-uploader" className="rounded-[8px] bg-[#f7f7f7] p-[10px]">
+        <section data-testid="print-extract-uploader" className="rounded-lg bg-card p-[10px]">
             <div
                 role="button"
                 tabIndex={disabled ? -1 : 0}
@@ -212,19 +212,19 @@ export function ExtractUploader({ disabled, maxCount, onAssets }: { disabled: bo
                     void pickFiles(Array.from(event.dataTransfer?.files ?? []));
                 }}
                 className={cn(
-                    "flex h-[186px] w-full cursor-pointer flex-col items-center justify-center gap-[6px] rounded-[8px] border border-dashed px-3 text-center transition",
-                    dragging ? "border-[#723cf9] bg-[#723cf9]/5" : "border-[#d9d9d9] bg-black/[0.02]",
+                    "flex h-[186px] w-full cursor-pointer flex-col items-center justify-center gap-[6px] rounded-lg border border-dashed px-3 text-center transition",
+                    dragging ? "border-primary bg-primary/5" : "border-border bg-black/[0.02]",
                     disabled && "cursor-not-allowed opacity-60",
                 )}
             >
-                <ImagePlus className="size-[22px] text-[#b3b3bd]" aria-hidden />
+                <ImagePlus className="size-[22px] text-muted-foreground" aria-hidden />
                 <p className="text-[14px] leading-[22px] text-[rgba(0,0,0,0.88)]">上传需要提取印花的商品图片</p>
                 <div className="flex items-center gap-2" onClick={(event) => event.stopPropagation()} onKeyDown={(event) => event.stopPropagation()}>
                     <button
                         type="button"
                         disabled={disabled}
                         onClick={() => inputRef.current?.click()}
-                        className="h-6 w-[108px] rounded-[4px] bg-[#723cf9] text-[12px] leading-none text-white transition hover:bg-[#6431e0] disabled:opacity-50"
+                        className="h-6 w-[108px] rounded-md bg-primary text-[12px] leading-none text-primary-foreground transition hover:bg-primary/90 disabled:opacity-50"
                     >
                         从本地上传
                     </button>
@@ -233,7 +233,7 @@ export function ExtractUploader({ disabled, maxCount, onAssets }: { disabled: bo
                         disabled={disabled || !library.length}
                         title={library.length ? "从作品库（资产库）选择" : "资产库暂时没有可用图片"}
                         onClick={() => setLibraryOpen((open) => !open)}
-                        className="h-6 w-[100px] rounded-[4px] border border-[#e5e5ea] bg-white text-[12px] leading-none text-[#5a5a66] transition hover:border-[#c9c9d4] disabled:opacity-50"
+                        className="h-6 w-[100px] rounded-md border border-border bg-card text-[12px] leading-none text-muted-foreground transition hover:border-border disabled:opacity-50"
                     >
                         从作品库选择
                     </button>
@@ -257,14 +257,14 @@ export function ExtractUploader({ disabled, maxCount, onAssets }: { disabled: bo
             />
 
             {libraryOpen ? (
-                <div className="mt-2 max-h-40 overflow-auto rounded-[6px] border border-[#e5e5ea] bg-white p-1">
+                <div className="mt-2 max-h-40 overflow-auto rounded-lg border border-border bg-card p-1">
                     {library.length ? (
                         library.map((item) => (
                             <button
                                 key={item.id}
                                 type="button"
                                 onClick={() => void adopt(item)}
-                                className="flex w-full items-center gap-2 rounded px-1 py-1 text-left text-[11px] text-[#5a5a66] hover:bg-[#f5f5f7]"
+                                className="flex w-full items-center gap-2 rounded px-1 py-1 text-left text-[11px] text-muted-foreground hover:bg-border"
                             >
                                 <img src={item.url} alt="" className="size-8 shrink-0 rounded object-cover" />
                                 <span className="min-w-0 flex-1 truncate">{item.name}</span>
@@ -279,8 +279,8 @@ export function ExtractUploader({ disabled, maxCount, onAssets }: { disabled: bo
             {thumbs.length ? (
                 <div className="mt-2 flex flex-wrap gap-2" data-testid="print-extract-selected">
                     {thumbs.map((record) => (
-                        <div key={record.id} className="group relative size-[50px] rounded-[6px] border border-black/[0.08] bg-white p-[5px]">
-                            <img src={record.url} alt={record.name} className="size-[38px] rounded-[4px] object-cover" />
+                        <div key={record.id} className="group relative size-[50px] rounded-lg border border-black/[0.08] bg-card p-[5px]">
+                            <img src={record.url} alt={record.name} className="size-[38px] rounded-md object-cover" />
                             <button
                                 type="button"
                                 aria-label={`移除 ${record.name}`}
@@ -295,9 +295,9 @@ export function ExtractUploader({ disabled, maxCount, onAssets }: { disabled: bo
             ) : (
                 <div className="mt-2">
                     <div className="flex items-center gap-2 text-[12px] text-[rgba(0,0,0,0.3)]">
-                        <span className="h-px flex-1 bg-[#e5e5ea]" />
+                        <span className="h-px flex-1 bg-border" />
                         <span>或试试这些</span>
-                        <span className="h-px flex-1 bg-[#e5e5ea]" />
+                        <span className="h-px flex-1 bg-border" />
                     </div>
                     <div className="mt-2 flex gap-[10px]">
                         {[0, 1, 2, 3].map((index) => (
@@ -307,7 +307,7 @@ export function ExtractUploader({ disabled, maxCount, onAssets }: { disabled: bo
                                 disabled={disabled}
                                 aria-label={`示例图 ${index + 1}`}
                                 onClick={() => inputRef.current?.click()}
-                                className="flex size-[50px] items-center justify-center rounded-[6px] border border-black/[0.08] bg-white p-[5px] text-[#c9c9d4] transition hover:border-[#b3b3bd] disabled:opacity-50"
+                                className="flex size-[50px] items-center justify-center rounded-lg border border-black/[0.08] bg-card p-[5px] text-muted-foreground transition hover:border-border disabled:opacity-50"
                             >
                                 <ImagePlus className="size-[22px]" aria-hidden />
                             </button>
@@ -319,7 +319,7 @@ export function ExtractUploader({ disabled, maxCount, onAssets }: { disabled: bo
             {pending.length ? (
                 <ul className="mt-2 space-y-1" data-testid="print-extract-upload-progress">
                     {pending.map((item) => (
-                        <li key={item.key} className="flex items-center gap-2 text-[11px] text-[#5a5a66]">
+                        <li key={item.key} className="flex items-center gap-2 text-[11px] text-muted-foreground">
                             <Loader2 className="size-3 animate-spin" aria-hidden />
                             <span className="min-w-0 flex-1 truncate">{item.name}</span>
                             <span>{Math.round(item.ratio * 100)}%</span>
@@ -837,9 +837,9 @@ export function PrintExtractWorkspace() {
             sidebar={sidebar}
             sidebarLabel="商品图设计"
         >
-            <div data-testid="print-extract-workspace" className="flex min-h-[649px] overflow-hidden rounded-lg border border-black/[0.08] bg-white">
+            <div data-testid="print-extract-workspace" className="flex min-h-[649px] overflow-hidden rounded-lg border border-black/[0.08] bg-card">
                 {/* 左栏 300：上传 → 批量 → 透明图 → 底部生成 */}
-                <aside className="flex w-[300px] shrink-0 flex-col border-r border-black/[0.08] bg-white">
+                <aside className="flex w-[300px] shrink-0 flex-col border-r border-black/[0.08] bg-card">
                     <div className="flex-1 space-y-3 px-4 py-4">
                         <ExtractUploader disabled={busy} maxCount={batch ? PRINT_EXTRACT_SOURCE_LIMITS.maxBatch : 1} onAssets={handleAssets} />
 
@@ -850,8 +850,8 @@ export function PrintExtractWorkspace() {
                             disabled={busy}
                             onClick={() => setBatch((value) => !value)}
                             className={cn(
-                                "flex h-8 w-full items-center justify-center gap-1 rounded-md border border-[#723CF9] text-xs transition disabled:opacity-50",
-                                batch ? "bg-[#723CF9] text-white" : "bg-white text-[#723CF9] hover:bg-[#f5f0ff]",
+                                "flex h-8 w-full items-center justify-center gap-1 rounded-md border border-primary text-xs transition disabled:opacity-50",
+                                batch ? "bg-primary text-primary-foreground" : "bg-card text-primary hover:bg-primary/10",
                             )}
                         >
                             <ImagePlus className="size-3.5" aria-hidden /> 上传多张图片，开始批量提取
@@ -872,7 +872,7 @@ export function PrintExtractWorkspace() {
                                 onClick={() => applyConfig({ isTransparent: !config.isTransparent, format: !config.isTransparent ? "png" : config.format })}
                                 className={cn(
                                     "flex h-[22px] w-[57px] items-center justify-center rounded-full text-[10px] leading-none transition disabled:opacity-50",
-                                    config.isTransparent ? "bg-[#723CF9] text-white" : "bg-black/25 text-white",
+                                    config.isTransparent ? "bg-primary text-primary-foreground" : "bg-black/25 text-primary-foreground",
                                 )}
                             >
                                 {config.isTransparent ? "开启" : "关闭"}
@@ -880,7 +880,7 @@ export function PrintExtractWorkspace() {
                         </div>
                     </div>
 
-                    <div className="border-t-[3px] border-[#F5F7FA] bg-white px-4 py-2">
+                    <div className="border-t-[3px] border-border bg-card px-4 py-2">
                         <p data-testid="print-extract-estimate" className="mb-1.5 text-[11px] leading-4 text-[#999]">
                             预计输出 {batch ? summary.idle + summary.failed : Math.min(1, items.length)} 张 {FORMAT_LABEL[config.format]} · 宽高跟随源图
                         </p>
@@ -889,7 +889,7 @@ export function PrintExtractWorkspace() {
                             data-testid="print-extract-generate"
                             disabled={!canGenerate}
                             onClick={handleGenerate}
-                            className="inline-flex h-8 w-full items-center justify-center gap-1 rounded-md bg-[#723CF9] text-[13px] font-medium text-white transition hover:bg-[#6234d8] disabled:cursor-not-allowed disabled:opacity-40"
+                            className="inline-flex h-8 w-full items-center justify-center gap-1 rounded-md bg-primary text-[13px] font-medium text-primary-foreground transition hover:bg-primary/90 disabled:cursor-not-allowed disabled:opacity-40"
                         >
                             {busy ? <Loader2 className="size-3.5 animate-spin" aria-hidden /> : null}
                             立即生成 (10算力)
@@ -899,14 +899,14 @@ export function PrintExtractWorkspace() {
                 </aside>
 
                 {/* 右栏：白 header(42) + 结果画布 #EDEFF5 */}
-                <section className="flex min-w-0 flex-1 flex-col bg-[#EDEFF5]">
-                    <header className="flex h-[42px] shrink-0 items-center gap-5 rounded-tr-lg bg-white px-3">
+                <section className="flex min-w-0 flex-1 flex-col bg-card">
+                    <header className="flex h-[42px] shrink-0 items-center gap-5 rounded-tr-lg bg-card px-3">
                         <button
                             type="button"
                             data-testid="print-extract-tab-result"
                             aria-pressed={tab === "result"}
                             onClick={() => setTab("result")}
-                            className={cn("text-sm transition", tab === "result" ? "font-medium text-[#723CF9]" : "text-black/60 hover:text-black/80")}
+                            className={cn("text-sm transition", tab === "result" ? "font-medium text-primary" : "text-black/60 hover:text-black/80")}
                         >
                             生成结果
                         </button>
@@ -915,10 +915,10 @@ export function PrintExtractWorkspace() {
                             data-testid="print-extract-tab-history"
                             aria-pressed={tab === "history"}
                             onClick={() => setTab("history")}
-                            className={cn("flex items-center gap-1 text-xs transition", tab === "history" ? "text-[#723CF9]" : "text-black/60 hover:text-black/80")}
+                            className={cn("flex items-center gap-1 text-xs transition", tab === "history" ? "text-primary" : "text-black/60 hover:text-black/80")}
                         >
                             历史记录
-                            <span className="rounded bg-[#f5f0ff] px-1 text-[11px] text-[#723CF9]">{items.filter((item) => item.status === "succeeded").length}</span>
+                            <span className="rounded bg-primary/10 px-1 text-[11px] text-primary">{items.filter((item) => item.status === "succeeded").length}</span>
                         </button>
                         <div className="ml-auto flex items-center gap-2">
                             {summary.failed > 0 ? (
@@ -927,7 +927,7 @@ export function PrintExtractWorkspace() {
                                     data-testid="print-extract-retry-failed"
                                     disabled={busy}
                                     onClick={handleRetryFailed}
-                                    className="inline-flex h-7 items-center gap-1 rounded-md border border-black/10 bg-white px-2 text-[11px] text-black/70 hover:bg-black/[0.03] disabled:opacity-40"
+                                    className="inline-flex h-7 items-center gap-1 rounded-md border border-black/10 bg-card px-2 text-[11px] text-black/70 hover:bg-black/[0.03] disabled:opacity-40"
                                 >
                                     <RotateCw className="size-3" aria-hidden /> 只重试失败的 {summary.failed} 张
                                 </button>
@@ -941,8 +941,8 @@ export function PrintExtractWorkspace() {
                         {tab === "result" ? (
                             items.length === 0 ? (
                                 <div data-testid="print-extract-empty" className="flex h-full min-h-[420px] items-center justify-center">
-                                    <div className="flex h-[300px] w-[460px] max-w-full flex-col items-center justify-center gap-2 rounded-xl bg-white text-center shadow-[0_2px_8px_rgba(0,0,0,0.04)]">
-                                        <ImagePlus className="size-9 text-[#c9c2e8]" aria-hidden />
+                                    <div className="flex h-[300px] w-[460px] max-w-full flex-col items-center justify-center gap-2 rounded-xl bg-card text-center shadow-[0_2px_8px_rgba(0,0,0,0.04)]">
+                                        <ImagePlus className="size-9 text-primary" aria-hidden />
                                         <p className="text-xl font-medium text-black/88">印花提取</p>
                                         <p className="text-base text-black/60">快速提取商品中的印花图案</p>
                                     </div>
@@ -965,7 +965,7 @@ export function PrintExtractWorkspace() {
                                     {activeTask ? (
                                         <section className="space-y-2">
                                             <TaskStatusPanel task={activeTask} onRetry={() => (activeItem ? void submit([activeItem]) : undefined)} />
-                                            <details open={showSnapshot} onToggle={(event) => setShowSnapshot((event.target as HTMLDetailsElement).open)} data-testid="print-extract-snapshot" className="rounded-lg border border-black/[0.08] bg-white px-3 py-2 text-xs">
+                                            <details open={showSnapshot} onToggle={(event) => setShowSnapshot((event.target as HTMLDetailsElement).open)} data-testid="print-extract-snapshot" className="rounded-lg border border-black/[0.08] bg-card px-3 py-2 text-xs">
                                                 <summary className="cursor-pointer text-muted-foreground">查看本次输入快照</summary>
                                                 {activeSnapshot ? (
                                                     <dl className="mt-2 grid grid-cols-2 gap-x-3 gap-y-1 text-[11px] text-muted-foreground">
@@ -994,12 +994,12 @@ export function PrintExtractWorkspace() {
                         ) : (
                             <ul data-testid="print-extract-history" className="space-y-2">
                                 {items.filter((item) => item.status === "succeeded").length === 0 ? (
-                                    <li className="rounded-lg bg-white px-4 py-8 text-center text-xs text-black/45">暂无历史记录，生成成功后会自动留档。</li>
+                                    <li className="rounded-lg bg-card px-4 py-8 text-center text-xs text-black/45">暂无历史记录，生成成功后会自动留档。</li>
                                 ) : (
                                     items
                                         .filter((item) => item.status === "succeeded")
                                         .map((item, index) => (
-                                            <li key={item.id} className="flex items-center gap-3 rounded-lg bg-white px-3 py-2">
+                                            <li key={item.id} className="flex items-center gap-3 rounded-lg bg-card px-3 py-2">
                                                 <img src={item.resultUrl ?? item.url} alt={item.name} className="size-10 rounded border border-black/[0.06] object-cover" />
                                                 <div className="min-w-0 flex-1">
                                                     <p className="truncate text-xs text-black/80">{item.name}</p>
@@ -1007,7 +1007,7 @@ export function PrintExtractWorkspace() {
                                                         {item.width} × {item.height} · {item.snapshotHash ? "已留档" : "本地产出"}
                                                     </p>
                                                 </div>
-                                                <button type="button" className="text-[11px] text-[#723CF9]" onClick={() => handleDownload(item, index)}>
+                                                <button type="button" className="text-[11px] text-primary" onClick={() => handleDownload(item, index)}>
                                                     下载
                                                 </button>
                                             </li>

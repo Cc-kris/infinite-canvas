@@ -98,7 +98,7 @@ export function ToolResult({ task, toolId = "tool", title = "生成结果", proj
     };
 
     return (
-        <section data-testid="tool-result" data-view={view} className={cn("space-y-3 rounded-2xl border border-border bg-card p-4", className)}>
+        <section data-testid="tool-result" data-view={view} className={cn("space-y-3 rounded-xl border border-border bg-card p-4", className)}>
             <header className="flex flex-wrap items-center gap-2">
                 <h2 className="text-sm font-semibold">{title}</h2>
                 {task ? <TaskStatusBadge status={task.status} /> : null}

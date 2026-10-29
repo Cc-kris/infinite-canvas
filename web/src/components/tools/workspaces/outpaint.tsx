@@ -648,24 +648,24 @@ export function OutpaintWorkspace({ className }: OutpaintWorkspaceProps = {}) {
         <div
             data-tool={AI_OUTPAINTING_TOOL_ID}
             data-layout="linkfox-outpaint"
-            className={cn("flex h-full min-h-0 min-w-0 gap-[10px] overflow-hidden text-[#1f1f2c]", className)}
+            className={cn("flex h-full min-h-0 min-w-0 gap-[10px] overflow-hidden text-foreground", className)}
         >
             {/* 左：白卡 = 画布区（#EDEFF5）+ 底部单条参数条（原站 1083×651 / 画布 601 / 参数条 48） */}
-            <section data-region="canvas" className="flex min-w-0 flex-1 flex-col overflow-hidden rounded-[8px] bg-white">
+            <section data-region="canvas" className="flex min-w-0 flex-1 flex-col overflow-hidden rounded-lg bg-card">
                 {values.sourceAssetId ? (
-                    <div className="flex shrink-0 flex-wrap items-center gap-1.5 border-b border-[#f0f0f3] px-3 py-1.5 text-[11px]">
-                        <span className="font-mono text-[#1f1f2c]">
+                    <div className="flex shrink-0 flex-wrap items-center gap-1.5 border-b border-border px-3 py-1.5 text-[11px]">
+                        <span className="font-mono text-foreground">
                             {values.width} × {values.height}
                         </span>
-                        <span className="text-[#8a8a99]">
+                        <span className="text-muted-foreground">
                             原图 {values.sourceWidth}×{values.sourceHeight}
                         </span>
                         {expansion.left + expansion.top + expansion.right + expansion.bottom > 0 ? (
                             <span className="text-[#d97706]">新增 {expansionSummary(values)}</span>
                         ) : (
-                            <span className="text-[#8a8a99]">未扩展</span>
+                            <span className="text-muted-foreground">未扩展</span>
                         )}
-                        <span className="ml-1 h-4 w-px bg-[#ededf0]" aria-hidden="true" />
+                        <span className="ml-1 h-4 w-px bg-border" aria-hidden="true" />
                         {OUTPAINT_RATIOS.map((option) => (
                             <button
                                 key={option.key}
@@ -674,14 +674,14 @@ export function OutpaintWorkspace({ className }: OutpaintWorkspaceProps = {}) {
                                 aria-pressed={values.ratio === option.key}
                                 onClick={() => commit(applyRatio(valuesRef.current, option.key as OutpaintRatioKey))}
                                 className={cn(
-                                    "h-6 rounded-[5px] border px-2 leading-none transition",
-                                    values.ratio === option.key ? "border-[#723cf9] bg-[#723cf9] text-white" : "border-[#ededf0] bg-white text-[#1f1f2c] hover:border-[#723cf9]/50",
+                                    "h-6 rounded-md border px-2 leading-none transition",
+                                    values.ratio === option.key ? "border-primary bg-primary text-primary-foreground" : "border-border bg-card text-foreground hover:border-primary/50",
                                 )}
                             >
                                 {option.label}
                             </button>
                         ))}
-                        <span className="ml-1 h-4 w-px bg-[#ededf0]" aria-hidden="true" />
+                        <span className="ml-1 h-4 w-px bg-border" aria-hidden="true" />
                         {OUTPAINT_SIZE_PRESETS.map((preset) => (
                             <button
                                 key={preset.id}
@@ -689,8 +689,8 @@ export function OutpaintWorkspace({ className }: OutpaintWorkspaceProps = {}) {
                                 aria-pressed={values.sizePreset === preset.id}
                                 onClick={() => commit(applySizePreset(valuesRef.current, preset.id))}
                                 className={cn(
-                                    "h-6 rounded-[5px] border px-2 leading-none transition",
-                                    values.sizePreset === preset.id ? "border-[#723cf9] bg-[#723cf9] text-white" : "border-[#ededf0] bg-white text-[#1f1f2c] hover:border-[#723cf9]/50",
+                                    "h-6 rounded-md border px-2 leading-none transition",
+                                    values.sizePreset === preset.id ? "border-primary bg-primary text-primary-foreground" : "border-border bg-card text-foreground hover:border-primary/50",
                                 )}
                             >
                                 {preset.label}
@@ -699,7 +699,7 @@ export function OutpaintWorkspace({ className }: OutpaintWorkspaceProps = {}) {
                         <button
                             type="button"
                             onClick={() => commit(toggleLock(valuesRef.current))}
-                            className="inline-flex h-6 items-center gap-1 rounded-[5px] border border-[#ededf0] bg-white px-2 leading-none transition hover:border-[#723cf9]/50"
+                            className="inline-flex h-6 items-center gap-1 rounded-md border border-border bg-card px-2 leading-none transition hover:border-primary/50"
                         >
                             {values.locked ? <Lock className="size-3" /> : <LockOpen className="size-3" />}
                             {values.locked ? "解锁原图" : "锁定原图"}
@@ -708,7 +708,7 @@ export function OutpaintWorkspace({ className }: OutpaintWorkspaceProps = {}) {
                             type="button"
                             title="撤销（⌘/Ctrl+Z）"
                             onClick={undo}
-                            className="inline-flex size-6 items-center justify-center rounded-[5px] border border-[#ededf0] bg-white transition hover:border-[#723cf9]/50"
+                            className="inline-flex size-6 items-center justify-center rounded-md border border-border bg-card transition hover:border-primary/50"
                         >
                             <Undo2 className="size-3" />
                         </button>
@@ -716,19 +716,19 @@ export function OutpaintWorkspace({ className }: OutpaintWorkspaceProps = {}) {
                             type="button"
                             title="重做（⇧⌘/Ctrl+Z）"
                             onClick={redo}
-                            className="inline-flex size-6 items-center justify-center rounded-[5px] border border-[#ededf0] bg-white transition hover:border-[#723cf9]/50"
+                            className="inline-flex size-6 items-center justify-center rounded-md border border-border bg-card transition hover:border-primary/50"
                         >
                             <Redo2 className="size-3" />
                         </button>
                         <button
                             type="button"
                             onClick={() => commit(resetOutpaintTransform(valuesRef.current))}
-                            className="inline-flex h-6 items-center gap-1 rounded-[5px] border border-[#ededf0] bg-white px-2 leading-none transition hover:border-[#723cf9]/50"
+                            className="inline-flex h-6 items-center gap-1 rounded-md border border-border bg-card px-2 leading-none transition hover:border-primary/50"
                         >
                             <RotateCcw className="size-3" />
                             恢复默认尺寸
                         </button>
-                        <span className="ml-auto flex items-center gap-2 text-[#8a8a99]">
+                        <span className="ml-auto flex items-center gap-2 text-muted-foreground">
                             <span className="inline-flex items-center gap-1" title={maskState === "synced" ? "蒙版几何与画布一致" : "画布有改动，提交时会按当前几何重渲蒙版"}>
                                 <Maximize2 className="size-3" />
                                 快照 {snapshot.hash.slice(0, 8)}
@@ -738,7 +738,7 @@ export function OutpaintWorkspace({ className }: OutpaintWorkspaceProps = {}) {
                     </div>
                 ) : null}
 
-                <div className="relative flex min-h-0 flex-1 items-center justify-center overflow-hidden bg-[#edeff5] p-[10px]">
+                <div className="relative flex min-h-0 flex-1 items-center justify-center overflow-hidden bg-card p-[10px]">
                     {values.sourceAssetId ? (
                         <div className="flex h-full w-full min-h-0 items-center justify-center overflow-auto p-4">
                             <div className="w-full max-w-[720px]">
@@ -748,13 +748,13 @@ export function OutpaintWorkspace({ className }: OutpaintWorkspaceProps = {}) {
                     ) : (
                         <div
                             data-testid="outpaint-upload-card"
-                            className="flex h-[474px] w-[474px] max-h-full max-w-full flex-col items-center justify-center rounded-[8px] bg-[#f7f7f7] p-[10px] text-center"
+                            className="flex h-[474px] w-[474px] max-h-full max-w-full flex-col items-center justify-center rounded-lg bg-card p-[10px] text-center"
                         >
-                            <div className="flex size-16 items-center justify-center rounded-[18px] bg-[#723cf9]/10">
-                                <ImagePlus className="size-7 text-[#723cf9]" aria-hidden="true" />
+                            <div className="flex size-16 items-center justify-center rounded-[18px] bg-primary/10">
+                                <ImagePlus className="size-7 text-primary" aria-hidden="true" />
                             </div>
-                            <h2 className="mt-3 text-[20px] font-medium leading-7 text-[#1f1f2c]">智能扩图</h2>
-                            <p className="mt-1 max-w-[400px] text-[12px] leading-5 text-[#8a8a99]">一键无缝扩展，打破视觉边界，释放每一张照片的无限可能~</p>
+                            <h2 className="mt-3 text-[20px] font-medium leading-7 text-foreground">智能扩图</h2>
+                            <p className="mt-1 max-w-[400px] text-[12px] leading-5 text-muted-foreground">一键无缝扩展，打破视觉边界，释放每一张照片的无限可能~</p>
                             <div className="mt-4 w-[210px] text-left">
                                 <ToolAssetInput
                                     toolId={AI_OUTPAINTING_TOOL_ID}
@@ -772,25 +772,25 @@ export function OutpaintWorkspace({ className }: OutpaintWorkspaceProps = {}) {
                 </div>
 
                 {/* 底部参数条：默认尺寸 / 提示词 / 生成：N张 / 立即生成（原站 1081×48，左内边距 16） */}
-                <div data-testid="outpaint-param-bar" className="flex h-12 shrink-0 items-center gap-2 border-t border-[#f0f0f3] px-4">
-                    <span className="shrink-0 text-[12px] leading-none text-[#8a8a99]">默认尺寸</span>
-                    <div className="flex h-7 w-[254px] shrink-0 items-center gap-1 rounded-[6px] bg-[#f7f7f7] px-[10px]">
+                <div data-testid="outpaint-param-bar" className="flex h-12 shrink-0 items-center gap-2 border-t border-border px-4">
+                    <span className="shrink-0 text-[12px] leading-none text-muted-foreground">默认尺寸</span>
+                    <div className="flex h-7 w-[254px] shrink-0 items-center gap-1 rounded-lg bg-card px-[10px]">
                         <input
                             aria-label="画布宽度"
                             inputMode="numeric"
                             value={values.width}
                             disabled={busy}
                             onChange={(event) => commit(applyWidth(valuesRef.current, Number(event.target.value.replace(/[^\d]/g, ""))))}
-                            className="w-[46px] bg-transparent text-[12px] tabular-nums leading-none text-[#1f1f2c] outline-none"
+                            className="w-[46px] bg-transparent text-[12px] tabular-nums leading-none text-foreground outline-none"
                         />
-                        <span className="text-[12px] leading-none text-[#8a8a99]">×</span>
+                        <span className="text-[12px] leading-none text-muted-foreground">×</span>
                         <input
                             aria-label="画布高度"
                             inputMode="numeric"
                             value={values.height}
                             disabled={busy}
                             onChange={(event) => commit(applyHeight(valuesRef.current, Number(event.target.value.replace(/[^\d]/g, ""))))}
-                            className="w-[46px] bg-transparent text-[12px] tabular-nums leading-none text-[#1f1f2c] outline-none"
+                            className="w-[46px] bg-transparent text-[12px] tabular-nums leading-none text-foreground outline-none"
                         />
                     </div>
 
@@ -803,17 +803,17 @@ export function OutpaintWorkspace({ className }: OutpaintWorkspaceProps = {}) {
                         aria-describedby={promptIssue ? "outpaint-prompt-error" : undefined}
                         onChange={(event) => commit({ ...valuesRef.current, prompt: event.target.value })}
                         placeholder="描述想要扩图的内容，不填将基于原图生成"
-                        className="h-7 min-w-0 flex-1 rounded-[6px] bg-[#f7f7f7] px-[10px] text-[12px] leading-none text-[#1f1f2c] outline-none transition placeholder:text-[#b0b0bd] focus:bg-white focus:ring-1 focus:ring-[#723cf9]"
+                        className="h-7 min-w-0 flex-1 rounded-lg bg-card px-[10px] text-[12px] leading-none text-foreground outline-none transition placeholder:text-muted-foreground focus:bg-card focus:ring-1 focus:ring-primary"
                     />
 
-                    <label className="flex shrink-0 items-center gap-1 text-[12px] leading-none text-[#8a8a99]">
+                    <label className="flex shrink-0 items-center gap-1 text-[12px] leading-none text-muted-foreground">
                         生成：
                         <select
                             aria-label="生成张数"
                             value={values.outputNum}
                             disabled={busy}
                             onChange={(event) => commit({ ...valuesRef.current, outputNum: Number(event.target.value) })}
-                            className="h-7 rounded-[6px] bg-[#f7f7f7] px-1 text-[14px] leading-none text-[#1f1f2c] outline-none"
+                            className="h-7 rounded-lg bg-card px-1 text-[14px] leading-none text-foreground outline-none"
                         >
                             {Array.from({ length: OUTPAINT_MAX_OUTPUT - OUTPAINT_MIN_OUTPUT + 1 }, (_, index) => OUTPAINT_MIN_OUTPUT + index).map((count) => (
                                 <option key={count} value={count}>
@@ -829,7 +829,7 @@ export function OutpaintWorkspace({ className }: OutpaintWorkspaceProps = {}) {
                         disabled={!submitReady}
                         title={submitBlockedReason}
                         onClick={() => void submit()}
-                        className="inline-flex h-8 w-[187px] shrink-0 items-center justify-center gap-1 rounded-[6px] bg-[#723cf9] text-[14px] leading-none text-white transition hover:bg-[#6231e0] disabled:cursor-not-allowed disabled:opacity-50"
+                        className="inline-flex h-8 w-[187px] shrink-0 items-center justify-center gap-1 rounded-lg bg-primary text-[14px] leading-none text-primary-foreground transition hover:bg-primary/90 disabled:cursor-not-allowed disabled:opacity-50"
                     >
                         {busy ? <Loader2 className="size-4 animate-spin" /> : <Sparkles className="size-4" />}
                         <span>{busy ? "生成中…" : "立即生成"}</span>
@@ -838,20 +838,20 @@ export function OutpaintWorkspace({ className }: OutpaintWorkspaceProps = {}) {
                 </div>
 
                 {promptIssue ? (
-                    <p data-testid="outpaint-prompt-error" id="outpaint-prompt-error" className="px-4 pb-1 text-[11px] leading-4 text-[#f5483b]">
+                    <p data-testid="outpaint-prompt-error" id="outpaint-prompt-error" className="px-4 pb-1 text-[11px] leading-4 text-destructive">
                         {promptIssue.message}
                     </p>
                 ) : null}
                 {notice ? (
-                    <p data-testid="outpaint-notice" className="truncate px-4 pb-1 text-[11px] leading-4 text-[#8a8a99]">
+                    <p data-testid="outpaint-notice" className="truncate px-4 pb-1 text-[11px] leading-4 text-muted-foreground">
                         {notice}
                     </p>
                 ) : null}
             </section>
 
             {/* 右：结果栏（原站 615×651，底色 #EDEFF5，顶部 42px 白条） */}
-            <section data-region="results" className="flex w-[615px] shrink-0 flex-col overflow-hidden rounded-[8px] bg-[#edeff5] max-xl:w-[420px]">
-                <div role="tablist" aria-label="右栏页签" className="flex h-[42px] shrink-0 items-center gap-5 bg-white px-[12px]">
+            <section data-region="results" className="flex w-[615px] shrink-0 flex-col overflow-hidden rounded-lg bg-card max-xl:w-[420px]">
+                <div role="tablist" aria-label="右栏页签" className="flex h-[42px] shrink-0 items-center gap-5 bg-card px-[12px]">
                     {(
                         [
                             { key: "result", label: "生成结果" },
@@ -867,7 +867,7 @@ export function OutpaintWorkspace({ className }: OutpaintWorkspaceProps = {}) {
                             onClick={() => setRightTab(item.key)}
                             className={cn(
                                 "h-[42px] text-[14px] leading-none transition",
-                                rightTab === item.key ? "font-medium text-[#723cf9]" : "text-[#6b6b80] hover:text-[#1f1f2c]",
+                                rightTab === item.key ? "font-medium text-primary" : "text-muted-foreground hover:text-foreground",
                             )}
                         >
                             {item.label}
@@ -879,7 +879,7 @@ export function OutpaintWorkspace({ className }: OutpaintWorkspaceProps = {}) {
                         onClick={() => setRightTab("history")}
                         className={cn(
                             "ml-auto text-[12px] leading-none transition",
-                            rightTab === "history" ? "font-medium text-[#723cf9]" : "text-[#6b6b80] hover:text-[#723cf9]",
+                            rightTab === "history" ? "font-medium text-primary" : "text-muted-foreground hover:text-primary",
                         )}
                     >
                         历史记录
@@ -900,19 +900,19 @@ export function OutpaintWorkspace({ className }: OutpaintWorkspaceProps = {}) {
                                     retryItemHint="只重试这一张：会再向上游发起 1 次生成，其余结果保持不变"
                                 />
                                 {stale ? (
-                                    <p data-testid="outpaint-stale" className="rounded-[6px] bg-white px-2 py-1.5 text-[11px] leading-4 text-[#d97706]">
+                                    <p data-testid="outpaint-stale" className="rounded-lg bg-card px-2 py-1.5 text-[11px] leading-4 text-[#d97706]">
                                         画布/提示词已改动，上面是上一次的结果，请重新「立即生成」。
                                     </p>
                                 ) : null}
-                                <div className="flex items-start gap-1.5 rounded-[6px] bg-white/70 px-2 py-1.5 text-[10px] leading-4 text-[#8a8a99]">
+                                <div className="flex items-start gap-1.5 rounded-lg bg-card/70 px-2 py-1.5 text-[10px] leading-4 text-muted-foreground">
                                     <RefreshCw className="mt-0.5 size-3 shrink-0" />
                                     <span>蒙版以第 2 张参考图随请求提交（当前网关未提供独立 mask 通道），字段里同时保留 maskUrl 便于排查。</span>
                                 </div>
                             </div>
                         ) : (
                             <div data-testid="outpaint-panel-result" className="flex h-full min-h-[240px] flex-col items-center justify-center gap-1 text-center">
-                                <p className="text-[12px] leading-5 text-[#8a8a99]">暂无生成结果图</p>
-                                <p className="text-[12px] leading-5 text-[#8a8a99]">快在左侧操作智能扩图吧~</p>
+                                <p className="text-[12px] leading-5 text-muted-foreground">暂无生成结果图</p>
+                                <p className="text-[12px] leading-5 text-muted-foreground">快在左侧操作智能扩图吧~</p>
                             </div>
                         )
                     ) : null}
