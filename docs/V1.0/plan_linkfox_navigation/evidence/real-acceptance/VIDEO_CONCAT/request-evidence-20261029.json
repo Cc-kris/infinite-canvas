@@ -1,0 +1,57 @@
+{
+  "capturedAt": "2026-10-29T15:58+08:00",
+  "tool": "VIDEO_CONCAT",
+  "taskId": "task-mvt94gxs-p0r29t",
+  "endpoint": "http://127.0.0.1:23210/https://sub2api.1006000.xyz/v1/videos",
+  "method": "POST",
+  "attempt1_multipart": {
+    "contentType": "multipart/form-data (axios FormData)",
+    "fields": {
+      "model": "MiniMax-H3",
+      "prompt": "把 2 段参考视频按给定顺序首尾拼成 1 条连续视频，9:16 画幅，目标时长 10 秒。 片段 1：acc-clip-a.mp4，取 0s–5.2s（有效 5.2s）。 片段 2：acc-clip-b.mp4，取 0s–5.2s（有效 5.2s）。 衔接处保持原始节奏，不加转场特效、不加字幕、不改画面内容与声音。 封面：封面使用上传图「acc-clip-a.mp4」。",
+      "seconds": "10",
+      "size": "720x1280",
+      "ratio": "9:16",
+      "resolution_name": "720p",
+      "generate_audio": "true",
+      "watermark": "false",
+      "mode": "frames",
+      "first_frame": "FILE:first.png",
+      "images": "FILE:first.png",
+      "video[]": ["FILE:acc-clip-a.mp4", "FILE:acc-clip-a.mp4"]
+    },
+    "upstreamResponse": {
+      "status": 400,
+      "body": {
+        "error": {
+          "message": "'utf-8' codec can't decode byte 0xe8 in position 1481: invalid continuation byte",
+          "type": "invalid_request_error"
+        }
+      }
+    },
+    "note": "上游 sub2api 网关不接受本客户端 multipart 二进制体（把文件字节当文本解码）；与页内字段无关。"
+  },
+  "attempt2_json_fallback": {
+    "contentType": "application/json",
+    "fields": {
+      "model": "MiniMax-H3",
+      "seconds": "10",
+      "size": "720x1280",
+      "resolution_name": "720p",
+      "generate_audio": true,
+      "watermark": false,
+      "mode": "frames",
+      "images": ["data:video/mp4;base64,....(1297168 bytes video)"]
+    },
+    "defectFound": "封面资产被当成视频文件入库（页内标注 PNG/JPG/WebP，但拖拽/DataTransfer 可绕过 accept），导致 images 字段收到 data:video/mp4，而非位图。",
+    "fixedIn": "f5c580e: registry.isVideoConcatCoverMime + handleCoverChange 拦截非图片封面"
+  },
+  "taskOutcome": {
+    "status": "failed",
+    "code": "submit-unconfirmed",
+    "message": "页面刷新中断了这次请求，本服务无法反查上游是否已受理。已关闭为失败；重试前请先到服务商后台确认，避免重复计费。",
+    "pollCount": 0,
+    "upstreamTaskId": null,
+    "note": "提交期间页面被 HMR 重载，客户端把结果显式记为 failed（不伪造 succeeded），符合“failed/unknown 原样记录”。"
+  }
+}

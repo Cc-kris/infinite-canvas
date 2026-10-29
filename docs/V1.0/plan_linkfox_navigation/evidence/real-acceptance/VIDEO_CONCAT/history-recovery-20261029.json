@@ -1,0 +1,919 @@
+{
+  "capturedAt": "2026-10-29T08:10:29.063Z",
+  "url": "http://127.0.0.1:3000/tools/ai-video/video-concat",
+  "visibility": "hidden",
+  "historyText": "历史记录 案例库未接入：原站此处展示平台优秀作品并支持「一键做同款」；本地不伪造案例卡片，等真实案例数据接入 历史任务 点击「查看结果」把历史任务放回上方结果区 历史记录 1 条 2026-10-29 15:58 失败 把 2 段参考视频按给定顺序首尾拼成 1 条连续视频，9:16 画幅，目标时长 10 秒。 片段… sub2::MiniMax-H3 · video · 0 个结果 页面刷新中断了这次请求，本服务无法反查上游是否已受理。已关闭为失败；重试前请先到服务商后台确认，避免重复计费。",
+  "tasks": [
+    {
+      "id": "task-mvsbd685-5tzfuw",
+      "toolId": "SALE_VIDEO",
+      "status": "failed",
+      "error": {
+        "code": "provider-rejected",
+        "message": "404 page not found · api.cc-ai.xyz/videos · HTTP 404"
+      },
+      "config": {
+        "capability": "video",
+        "model": "default::grok-imagine-video",
+        "apiFormat": "openai",
+        "size": "1:1",
+        "quality": "auto",
+        "count": "1",
+        "channelId": "default"
+      },
+      "upstreamTaskId": null,
+      "pollCount": 0,
+      "createdAt": 1793204005829
+    },
+    {
+      "id": "task-mvs802af-u9vwye",
+      "toolId": "AI_VIDEO_EDITING",
+      "status": "unknown",
+      "error": {
+        "code": "unclassified",
+        "message": "Video API is not supported for this platform · api.cc-ai.xyz/videos · HTTP 404"
+      },
+      "config": {
+        "capability": "video",
+        "model": "default::grok-imagine-video",
+        "apiFormat": "openai",
+        "size": "1:1",
+        "quality": "auto",
+        "count": "1",
+        "channelId": "default"
+      },
+      "upstreamTaskId": null,
+      "pollCount": 0,
+      "createdAt": 1793198355351
+    },
+    {
+      "id": "task-mvsb41o4-obzwag",
+      "toolId": "CHANGE_COLOR_V2",
+      "status": "failed",
+      "error": {
+        "code": "submit-unconfirmed",
+        "message": "页面刷新中断了这次请求，本服务无法反查上游是否已受理。已关闭为失败；重试前请先到服务商后台确认，避免重复计费。"
+      },
+      "config": {
+        "capability": "image",
+        "model": "default::gpt-image-2",
+        "apiFormat": "openai",
+        "size": "1:1",
+        "quality": "medium",
+        "count": "1",
+        "channelId": "default"
+      },
+      "upstreamTaskId": null,
+      "pollCount": 0,
+      "createdAt": 1793203580020
+    },
+    {
+      "id": "task-mvsc4fyg-qobp8k",
+      "toolId": "CHANGE_COLOR_V2",
+      "status": "succeeded",
+      "error": null,
+      "config": {
+        "capability": "image",
+        "model": "default::gpt-image-2",
+        "apiFormat": "openai",
+        "size": "1:1",
+        "quality": "medium",
+        "count": "1",
+        "channelId": "default"
+      },
+      "upstreamTaskId": null,
+      "pollCount": 0,
+      "createdAt": 1793205278152
+    },
+    {
+      "id": "task-mvsb41o9-hv2vqo",
+      "toolId": "CHANGE_COLOR_V2",
+      "status": "failed",
+      "error": {
+        "code": "submit-unconfirmed",
+        "message": "页面刷新中断了这次请求，本服务无法反查上游是否已受理。已关闭为失败；重试前请先到服务商后台确认，避免重复计费。"
+      },
+      "config": {
+        "capability": "image",
+        "model": "default::gpt-image-2",
+        "apiFormat": "openai",
+        "size": "1:1",
+        "quality": "medium",
+        "count": "1",
+        "channelId": "default"
+      },
+      "upstreamTaskId": null,
+      "pollCount": 0,
+      "createdAt": 1793203580025
+    },
+    {
+      "id": "task-mvsc7s58-2rrnqz",
+      "toolId": "CHANGE_COLOR_V2",
+      "status": "failed",
+      "error": {
+        "code": "submit-unconfirmed",
+        "message": "页面刷新中断了这次请求，本服务无法反查上游是否已受理。已关闭为失败；重试前请先到服务商后台确认，避免重复计费。"
+      },
+      "config": {
+        "capability": "image",
+        "model": "default::gpt-image-2",
+        "apiFormat": "openai",
+        "size": "1:1",
+        "quality": "medium",
+        "count": "1",
+        "channelId": "default"
+      },
+      "upstreamTaskId": null,
+      "pollCount": 0,
+      "createdAt": 1793205433916
+    },
+    {
+      "id": "task-mvsamffh-uh79ky",
+      "toolId": "PRINTING_REPAIR",
+      "status": "succeeded",
+      "error": null,
+      "config": {
+        "capability": "image",
+        "model": "default::gpt-image-2",
+        "apiFormat": "openai",
+        "size": "1:1",
+        "quality": "auto",
+        "count": "1",
+        "channelId": "default"
+      },
+      "upstreamTaskId": null,
+      "pollCount": 0,
+      "createdAt": 1793202758045
+    },
+    {
+      "id": "task-mvs7pmey-uxscga",
+      "toolId": "FISSION_LINK",
+      "status": "succeeded",
+      "error": null,
+      "config": {
+        "capability": "image",
+        "model": "default::gpt-image-2",
+        "apiFormat": "openai",
+        "size": "1:1",
+        "quality": "auto",
+        "count": "1",
+        "channelId": "default"
+      },
+      "upstreamTaskId": null,
+      "pollCount": 0,
+      "createdAt": 1793197868218
+    },
+    {
+      "id": "task-mvsba8fo-iplfjq",
+      "toolId": "REMOVE_PEN",
+      "status": "succeeded",
+      "error": null,
+      "config": {
+        "capability": "image",
+        "model": "default::gpt-image-2",
+        "apiFormat": "openai",
+        "size": "1:1",
+        "quality": "auto",
+        "count": "1",
+        "channelId": "default"
+      },
+      "upstreamTaskId": null,
+      "pollCount": 0,
+      "createdAt": 1793203868724
+    },
+    {
+      "id": "task-mvt71akq-bu2hxh",
+      "toolId": "IMAGE_TO_VIDEO",
+      "status": "failed",
+      "error": {
+        "code": "provider-failed",
+        "message": "open inline image: operation error S3: GetObject, https response error StatusCode: 404, RequestID: NmFlMmVlZjhfZjRmN2IwYl8xMzdiMl80ZjRlMGQ5, HostID: , NoSuchKey: The specified key does not exist."
+      },
+      "config": {
+        "capability": "video",
+        "model": "sub2::MiniMax-H3",
+        "apiFormat": "openai",
+        "size": "auto",
+        "quality": "768P",
+        "count": "1",
+        "channelId": "sub2"
+      },
+      "upstreamTaskId": "task_l9mQpfmngI14O3nzyErQMQEWsjVCwzTT",
+      "pollCount": 4,
+      "createdAt": 1793257199306
+    },
+    {
+      "id": "task-mvt6vpdn-17qby2",
+      "toolId": "PRODUCT_IMAGE_SUITE",
+      "status": "succeeded",
+      "error": null,
+      "config": {
+        "capability": "image",
+        "model": "default::gpt-image-2",
+        "apiFormat": "openai",
+        "size": "1:1",
+        "quality": "auto",
+        "count": "1",
+        "channelId": "default"
+      },
+      "upstreamTaskId": null,
+      "pollCount": 0,
+      "createdAt": 1793256938555
+    },
+    {
+      "id": "task-mvs9xe7s-9jmboc",
+      "toolId": "REMOVE_PEN",
+      "status": "failed",
+      "error": {
+        "code": "submit-unconfirmed",
+        "message": "页面刷新中断了这次请求，本服务无法反查上游是否已受理。已关闭为失败；重试前请先到服务商后台确认，避免重复计费。"
+      },
+      "config": {
+        "capability": "image",
+        "model": "default::gpt-image-2",
+        "apiFormat": "openai",
+        "size": "1:1",
+        "quality": "auto",
+        "count": "1",
+        "channelId": "default"
+      },
+      "upstreamTaskId": null,
+      "pollCount": 0,
+      "createdAt": 1793201590072
+    },
+    {
+      "id": "task-mvs83fc2-dc6b5s",
+      "toolId": "AI_VIDEO_EDITING",
+      "status": "failed",
+      "error": {
+        "code": "provider-rejected",
+        "message": "404 page not found · api.cc-ai.xyz/videos · HTTP 404"
+      },
+      "config": {
+        "capability": "video",
+        "model": "default::grok-imagine-video",
+        "apiFormat": "openai",
+        "size": "1:1",
+        "quality": "auto",
+        "count": "1",
+        "channelId": "default"
+      },
+      "upstreamTaskId": null,
+      "pollCount": 0,
+      "createdAt": 1793198512226
+    },
+    {
+      "id": "task-mvs7gq30-m78zxu",
+      "toolId": "FISSION_LINK",
+      "status": "unknown",
+      "error": {
+        "code": "timeout-or-network",
+        "message": "无法连接 api.cc-ai.xyz：连接超时（ETIMEDOUT）。建议：网络握手超时，通常是代理不通或线路被限制；请检查代理状态与节点"
+      },
+      "config": {
+        "capability": "image",
+        "model": "default::gpt-image-2",
+        "apiFormat": "openai",
+        "size": "1:1",
+        "quality": "auto",
+        "count": "1",
+        "channelId": "default"
+      },
+      "upstreamTaskId": null,
+      "pollCount": 0,
+      "createdAt": 1793197453068
+    },
+    {
+      "id": "task-mvsbp9c8-y8q5vf",
+      "toolId": "AI_OUTPAINTING",
+      "status": "succeeded",
+      "error": null,
+      "config": {
+        "capability": "image",
+        "model": "default::gpt-image-2",
+        "apiFormat": "openai",
+        "size": "1:1",
+        "quality": "auto",
+        "count": "1",
+        "channelId": "default"
+      },
+      "upstreamTaskId": null,
+      "pollCount": 0,
+      "createdAt": 1793204569736
+    },
+    {
+      "id": "task-mvt74l6n-y5sie3",
+      "toolId": "DRESS_WEAR_SET",
+      "status": "succeeded",
+      "error": null,
+      "config": {
+        "capability": "image",
+        "model": "default::gpt-image-2",
+        "apiFormat": "openai",
+        "size": "1:1",
+        "quality": "medium",
+        "count": "1",
+        "channelId": "default"
+      },
+      "upstreamTaskId": null,
+      "pollCount": 0,
+      "createdAt": 1793257353023
+    },
+    {
+      "id": "task-mvt6vpdo-sc1x8w",
+      "toolId": "PRODUCT_IMAGE_SUITE",
+      "status": "succeeded",
+      "error": null,
+      "config": {
+        "capability": "image",
+        "model": "default::gpt-image-2",
+        "apiFormat": "openai",
+        "size": "1:1",
+        "quality": "auto",
+        "count": "1",
+        "channelId": "default"
+      },
+      "upstreamTaskId": null,
+      "pollCount": 0,
+      "createdAt": 1793256938556
+    },
+    {
+      "id": "task-mvs5dd71-4s35w2",
+      "toolId": "PRINT_EXTRACT",
+      "status": "unknown",
+      "error": {
+        "code": "timeout-or-network",
+        "message": "无法连接 api.openai.com：连接超时（UND_ERR_CONNECT_TIMEOUT）。建议：网络握手超时，通常是代理不通或线路被限制；请检查代理状态与节点"
+      },
+      "config": {
+        "capability": "image",
+        "model": "default::gpt-image-2",
+        "apiFormat": "openai",
+        "size": "1:1",
+        "quality": "auto",
+        "count": "1",
+        "channelId": "default"
+      },
+      "upstreamTaskId": null,
+      "pollCount": 0,
+      "createdAt": 1793193937165
+    },
+    {
+      "id": "task-mvt9elbs-u4grlv",
+      "toolId": "IMAGE_TRANSLATION",
+      "status": "succeeded",
+      "error": null,
+      "config": {
+        "capability": "image",
+        "model": "default::gpt-image-2",
+        "apiFormat": "openai",
+        "size": "1:1",
+        "quality": "auto",
+        "count": "1",
+        "videoSeconds": "6",
+        "channelId": "default"
+      },
+      "upstreamTaskId": null,
+      "pollCount": 0,
+      "createdAt": 1793261179000
+    },
+    {
+      "id": "task-mvt15f64-jnx1gz",
+      "toolId": "FISSION_LINK",
+      "status": "failed",
+      "error": {
+        "code": "submit-unconfirmed",
+        "message": "页面刷新中断了这次请求，本服务无法反查上游是否已受理。已关闭为失败；重试前请先到服务商后台确认，避免重复计费。"
+      },
+      "config": {
+        "capability": "image",
+        "model": "default::gpt-image-2",
+        "apiFormat": "openai",
+        "size": "1:1",
+        "quality": "auto",
+        "count": "1",
+        "channelId": "default"
+      },
+      "upstreamTaskId": null,
+      "pollCount": 0,
+      "createdAt": 1793247314188
+    },
+    {
+      "id": "task-mvt18lrt-rsnifn",
+      "toolId": "FISSION_LINK",
+      "status": "succeeded",
+      "error": null,
+      "config": {
+        "capability": "image",
+        "model": "default::gpt-image-2",
+        "apiFormat": "openai",
+        "size": "1:1",
+        "quality": "auto",
+        "count": "1",
+        "channelId": "default"
+      },
+      "upstreamTaskId": null,
+      "pollCount": 0,
+      "createdAt": 1793247462713
+    },
+    {
+      "id": "task-mvs726zz-lwouyf",
+      "toolId": "FISSION_LINK",
+      "status": "failed",
+      "error": {
+        "code": "provider-rejected",
+        "message": "API key is required in Authorization header (Bearer scheme), x-api-key header, or x-goog-api-key header"
+      },
+      "config": {
+        "capability": "image",
+        "model": "default::gpt-image-2",
+        "apiFormat": "openai",
+        "size": "1:1",
+        "quality": "auto",
+        "count": "1",
+        "channelId": "default"
+      },
+      "upstreamTaskId": null,
+      "pollCount": 0,
+      "createdAt": 1793196775151
+    },
+    {
+      "id": "task-mvsbmg1s-vrn9il",
+      "toolId": "AI_VIDEO_EDITING",
+      "status": "failed",
+      "error": {
+        "code": "provider-rejected",
+        "message": "404 page not found · api.cc-ai.xyz/videos · HTTP 404"
+      },
+      "config": {
+        "capability": "video",
+        "model": "default::grok-imagine-video",
+        "apiFormat": "openai",
+        "size": "1:1",
+        "quality": "auto",
+        "count": "1",
+        "channelId": "default"
+      },
+      "upstreamTaskId": null,
+      "pollCount": 0,
+      "createdAt": 1793204438464
+    },
+    {
+      "id": "task-mvs6m72i-eidjm6",
+      "toolId": "SALE_VIDEO",
+      "status": "failed",
+      "error": {
+        "code": "provider-rejected",
+        "message": "请先配置 API Key"
+      },
+      "config": {
+        "capability": "video",
+        "model": "default::grok-imagine-video",
+        "apiFormat": "openai",
+        "size": "1:1",
+        "quality": "auto",
+        "count": "1",
+        "channelId": "default"
+      },
+      "upstreamTaskId": null,
+      "pollCount": 0,
+      "createdAt": 1793196028746
+    },
+    {
+      "id": "task-mvsa3pt6-4wqy46",
+      "toolId": "REMOVE_PEN",
+      "status": "succeeded",
+      "error": null,
+      "config": {
+        "capability": "image",
+        "model": "default::gpt-image-2",
+        "apiFormat": "openai",
+        "size": "1:1",
+        "quality": "auto",
+        "count": "1",
+        "channelId": "default"
+      },
+      "upstreamTaskId": null,
+      "pollCount": 0,
+      "createdAt": 1793201885034
+    },
+    {
+      "id": "task-mvs6l55s-fufs7l",
+      "toolId": "AI_POSE_GENERATOR",
+      "status": "failed",
+      "error": {
+        "code": "provider-rejected",
+        "message": "API key is required in Authorization header (Bearer scheme), x-api-key header, or x-goog-api-key header"
+      },
+      "config": {
+        "capability": "image",
+        "model": "default::gpt-image-2",
+        "apiFormat": "openai",
+        "size": "1:1",
+        "quality": "auto",
+        "count": "1",
+        "channelId": "default"
+      },
+      "upstreamTaskId": null,
+      "pollCount": 0,
+      "createdAt": 1793195979616
+    },
+    {
+      "id": "task-mvs8bhu1-hhue24",
+      "toolId": "IMAGE_TEXT_EDIT",
+      "status": "succeeded",
+      "error": null,
+      "config": {
+        "capability": "image",
+        "model": "default::gpt-image-2",
+        "apiFormat": "openai",
+        "size": "1:1",
+        "quality": "auto",
+        "count": "1",
+        "channelId": "default"
+      },
+      "upstreamTaskId": null,
+      "pollCount": 0,
+      "createdAt": 1793198888713
+    },
+    {
+      "error": null,
+      "upstreamTaskId": null
+    },
+    {
+      "id": "task-mvs6zovx-pod3rz",
+      "toolId": "AI_POSE_GENERATOR",
+      "status": "submitting",
+      "error": null,
+      "config": {
+        "capability": "image",
+        "model": "default::gpt-image-2",
+        "apiFormat": "openai",
+        "size": "1:1",
+        "quality": "auto",
+        "count": "1",
+        "channelId": "default"
+      },
+      "upstreamTaskId": null,
+      "pollCount": 0,
+      "createdAt": 1793196658365
+    },
+    {
+      "id": "task-mvt76u6p-7cfnff",
+      "toolId": "SALE_VIDEO",
+      "status": "succeeded",
+      "error": null,
+      "config": {
+        "capability": "video",
+        "model": "sub2::MiniMax-H3",
+        "apiFormat": "openai",
+        "size": "1:1",
+        "quality": "auto",
+        "count": "1",
+        "channelId": "sub2"
+      },
+      "upstreamTaskId": "task_hhe2FmdxNCwz8Vn86YO7kYxrudtQDGVx",
+      "pollCount": 22,
+      "createdAt": 1793257458001
+    },
+    {
+      "id": "task-mvs5p8g8-or3oim",
+      "toolId": "HANDHELD_GOODS",
+      "status": "unknown",
+      "error": {
+        "code": "timeout-or-network",
+        "message": "无法连接 api.openai.com：连接超时（UND_ERR_CONNECT_TIMEOUT）。建议：网络握手超时，通常是代理不通或线路被限制；请检查代理状态与节点"
+      },
+      "config": {
+        "capability": "image",
+        "model": "default::gpt-image-2",
+        "apiFormat": "openai",
+        "size": "1:1",
+        "quality": "auto",
+        "count": "1",
+        "channelId": "default"
+      },
+      "upstreamTaskId": null,
+      "pollCount": 0,
+      "createdAt": 1793194490888
+    },
+    {
+      "id": "task-mvs76zzt-c0f9u5",
+      "toolId": "AI_VIDEO_EDITING",
+      "status": "failed",
+      "error": {
+        "code": "provider-rejected",
+        "message": "404 page not found · api.cc-ai.xyz/videos · HTTP 404"
+      },
+      "config": {
+        "capability": "video",
+        "model": "default::grok-imagine-video",
+        "apiFormat": "openai",
+        "size": "1:1",
+        "quality": "auto",
+        "count": "1",
+        "channelId": "default"
+      },
+      "upstreamTaskId": null,
+      "pollCount": 0,
+      "createdAt": 1793196999353
+    },
+    {
+      "id": "task-mvsaz6ar-m6osdl",
+      "toolId": "REMOVE_PEN",
+      "status": "failed",
+      "error": {
+        "code": "submit-unconfirmed",
+        "message": "页面刷新中断了这次请求，本服务无法反查上游是否已受理。已关闭为失败；重试前请先到服务商后台确认，避免重复计费。"
+      },
+      "config": {
+        "capability": "image",
+        "model": "default::gpt-image-2",
+        "apiFormat": "openai",
+        "size": "1:1",
+        "quality": "auto",
+        "count": "1",
+        "channelId": "default"
+      },
+      "upstreamTaskId": null,
+      "pollCount": 0,
+      "createdAt": 1793203352739
+    },
+    {
+      "id": "task-mvt0rvni-ylxhm0",
+      "toolId": "FISSION_LINK",
+      "status": "succeeded",
+      "error": null,
+      "config": {
+        "capability": "image",
+        "model": "default::gpt-image-2",
+        "apiFormat": "openai",
+        "size": "1:1",
+        "quality": "auto",
+        "count": "1",
+        "channelId": "default"
+      },
+      "upstreamTaskId": null,
+      "pollCount": 0,
+      "createdAt": 1793246682366
+    },
+    {
+      "id": "task-mvsbm0je-ci8p2w",
+      "toolId": "AI_VIDEO_EDITING",
+      "status": "failed",
+      "error": {
+        "code": "provider-rejected",
+        "message": "404 page not found · api.cc-ai.xyz/videos · HTTP 404"
+      },
+      "config": {
+        "capability": "video",
+        "model": "default::grok-imagine-video",
+        "apiFormat": "openai",
+        "size": "1:1",
+        "quality": "auto",
+        "count": "1",
+        "channelId": "default"
+      },
+      "upstreamTaskId": null,
+      "pollCount": 0,
+      "createdAt": 1793204418362
+    },
+    {
+      "id": "task-mvt17bmi-xpint5",
+      "toolId": "FISSION_LINK",
+      "status": "succeeded",
+      "error": null,
+      "config": {
+        "capability": "image",
+        "model": "default::gpt-image-2",
+        "apiFormat": "openai",
+        "size": "1:1",
+        "quality": "auto",
+        "count": "1",
+        "channelId": "default"
+      },
+      "upstreamTaskId": null,
+      "pollCount": 0,
+      "createdAt": 1793247402906
+    },
+    {
+      "id": "task-mvt42rpv-kfl1ov",
+      "toolId": "AI_VIDEO_EDITING",
+      "status": "succeeded",
+      "error": null,
+      "config": {
+        "capability": "video",
+        "model": "MiniMax-H3",
+        "apiFormat": "http",
+        "count": "1",
+        "channelId": "sub2"
+      },
+      "upstreamTaskId": "task_QFvq6WMc09jv2kSZzh4fFboNx5ZccHBm",
+      "pollCount": 1,
+      "createdAt": 1793260465687
+    },
+    {
+      "id": "task-mvs9mpoz-e8u2ry",
+      "toolId": "VIDEO_REPLICATION",
+      "status": "failed",
+      "error": {
+        "code": "provider-rejected",
+        "message": "404 page not found · api.cc-ai.xyz/videos · HTTP 404"
+      },
+      "config": {
+        "capability": "video",
+        "model": "default::grok-imagine-video",
+        "apiFormat": "openai",
+        "size": "9:16",
+        "quality": "auto",
+        "count": "1",
+        "channelId": "default"
+      },
+      "upstreamTaskId": null,
+      "pollCount": 0,
+      "createdAt": 1793201091731
+    },
+    {
+      "id": "task-mvt74l6q-1vljau",
+      "toolId": "DRESS_WEAR_SET",
+      "status": "succeeded",
+      "error": null,
+      "config": {
+        "capability": "image",
+        "model": "default::gpt-image-2",
+        "apiFormat": "openai",
+        "size": "1:1",
+        "quality": "medium",
+        "count": "1",
+        "channelId": "default"
+      },
+      "upstreamTaskId": null,
+      "pollCount": 0,
+      "createdAt": 1793257353026
+    },
+    {
+      "id": "task-mvsaus49-i7vsmt",
+      "toolId": "REMOVE_PEN",
+      "status": "succeeded",
+      "error": null,
+      "config": {
+        "capability": "image",
+        "model": "default::gpt-image-2",
+        "apiFormat": "openai",
+        "size": "1:1",
+        "quality": "auto",
+        "count": "1",
+        "channelId": "default"
+      },
+      "upstreamTaskId": null,
+      "pollCount": 0,
+      "createdAt": 1793203147737
+    },
+    {
+      "id": "task-mvs73hbe-ak20fw",
+      "toolId": "AI_POSE_GENERATOR",
+      "status": "succeeded",
+      "error": null,
+      "config": {
+        "capability": "image",
+        "model": "default::gpt-image-2",
+        "apiFormat": "openai",
+        "size": "1:1",
+        "quality": "auto",
+        "count": "1",
+        "channelId": "default"
+      },
+      "upstreamTaskId": null,
+      "pollCount": 0,
+      "createdAt": 1793196835178
+    },
+    {
+      "id": "task-mvs6r088-39u8zq",
+      "toolId": "AI_POSE_GENERATOR",
+      "status": "failed",
+      "error": {
+        "code": "provider-rejected",
+        "message": "API key is required in Authorization header (Bearer scheme), x-api-key header, or x-goog-api-key header"
+      },
+      "config": {
+        "capability": "image",
+        "model": "default::gpt-image-2",
+        "apiFormat": "openai",
+        "size": "1:1",
+        "quality": "auto",
+        "count": "1",
+        "channelId": "default"
+      },
+      "upstreamTaskId": null,
+      "pollCount": 0,
+      "createdAt": 1793196253160
+    },
+    {
+      "id": "task-mvt94gxs-p0r29t",
+      "toolId": "VIDEO_CONCAT",
+      "status": "failed",
+      "error": {
+        "code": "submit-unconfirmed",
+        "message": "页面刷新中断了这次请求，本服务无法反查上游是否已受理。已关闭为失败；重试前请先到服务商后台确认，避免重复计费。"
+      },
+      "config": {
+        "capability": "video",
+        "model": "sub2::MiniMax-H3",
+        "apiFormat": "openai",
+        "size": "720x1280",
+        "quality": "auto",
+        "count": "1",
+        "videoSeconds": "10",
+        "channelId": "sub2"
+      },
+      "upstreamTaskId": null,
+      "pollCount": 0,
+      "createdAt": 1793260706752
+    },
+    {
+      "id": "task-mvt0ww21-bhl4e9",
+      "toolId": "FISSION_LINK",
+      "status": "succeeded",
+      "error": null,
+      "config": {
+        "capability": "image",
+        "model": "default::gpt-image-2",
+        "apiFormat": "openai",
+        "size": "1:1",
+        "quality": "auto",
+        "count": "1",
+        "channelId": "default"
+      },
+      "upstreamTaskId": null,
+      "pollCount": 0,
+      "createdAt": 1793246916169
+    },
+    {
+      "id": "task-mvs7sk2d-cmr0uf",
+      "toolId": "AI_VIDEO_EDITING",
+      "status": "failed",
+      "error": {
+        "code": "provider-rejected",
+        "message": "404 page not found · api.cc-ai.xyz/videos · HTTP 404"
+      },
+      "config": {
+        "capability": "video",
+        "model": "default::grok-imagine-video",
+        "apiFormat": "openai",
+        "size": "1:1",
+        "quality": "auto",
+        "count": "1",
+        "channelId": "default"
+      },
+      "upstreamTaskId": null,
+      "pollCount": 0,
+      "createdAt": 1793198005141
+    },
+    {
+      "id": "task-mvs6fr7b-plo8es",
+      "toolId": "AI_POSE_GENERATOR",
+      "status": "unknown",
+      "error": {
+        "code": "timeout-or-network",
+        "message": "无法连接 api.openai.com：连接超时（UND_ERR_CONNECT_TIMEOUT）。建议：网络握手超时，通常是代理不通或线路被限制；请检查代理状态与节点"
+      },
+      "config": {
+        "capability": "image",
+        "model": "default::gpt-image-2",
+        "apiFormat": "openai",
+        "size": "1:1",
+        "quality": "auto",
+        "count": "1",
+        "channelId": "default"
+      },
+      "upstreamTaskId": null,
+      "pollCount": 0,
+      "createdAt": 1793195728247
+    },
+    {
+      "id": "task-mvsaq4oa-4giro0",
+      "toolId": "REMOVE_PEN",
+      "status": "failed",
+      "error": {
+        "code": "submit-unconfirmed",
+        "message": "页面刷新中断了这次请求，本服务无法反查上游是否已受理。已关闭为失败；重试前请先到服务商后台确认，避免重复计费。"
+      },
+      "config": {
+        "capability": "image",
+        "model": "default::gpt-image-2",
+        "apiFormat": "openai",
+        "size": "1:1",
+        "quality": "auto",
+        "count": "1",
+        "channelId": "default"
+      },
+      "upstreamTaskId": null,
+      "pollCount": 0,
+      "createdAt": 1793202930730
+    }
+  ],
+  "draftKeys": [
+    "tool-draft:v1:NEW_DESIGNER"
+  ],
+  "clipCount": 3
+}

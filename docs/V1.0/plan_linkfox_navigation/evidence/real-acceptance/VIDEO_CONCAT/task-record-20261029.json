@@ -1,0 +1,42 @@
+{
+  "capturedAt": "2026-10-29T08:10:54.048Z",
+  "storageKey": "tool-task:v1:task-mvt94gxs-p0r29t",
+  "task": {
+    "id": "task-mvt94gxs-p0r29t",
+    "toolId": "VIDEO_CONCAT",
+    "status": "failed",
+    "clientOperationId": "cc703492-ed53-4f21-bf22-5f1b6eb0d75b",
+    "fingerprint": "8c770c8bcb3c55bd",
+    "capability": "video",
+    "prompt": "把 2 段参考视频按给定顺序首尾拼成 1 条连续视频，9:16 画幅，目标时长 10 秒。 片段 1：acc-clip-a.mp4，取 0s–5.2s（有效 5.2s）。 片段 2：acc-clip-b.mp4，取 0s–5.2s（有效 5.2s）。 衔接处保持原始节奏，不加转场特效、不加字幕、不改画面内容与声音。 封面：封面使用上传图「acc-clip-a.mp4」。",
+    "configSnapshot": {
+      "capability": "video",
+      "model": "sub2::MiniMax-H3",
+      "apiFormat": "openai",
+      "size": "720x1280",
+      "quality": "auto",
+      "count": "1",
+      "videoSeconds": "10",
+      "channelId": "sub2"
+    },
+    "sourceAssetIds": [
+      "cover-acc-clip-a.mp4",
+      "Fq7naMKWIUsfie9wKThN6",
+      "CaHanvbqztgK83tUMRhJW"
+    ],
+    "draftRevision": 16,
+    "createdAt": 1793260706752,
+    "updatedAt": 1793260864753,
+    "attempts": 1,
+    "pollCount": 0,
+    "transientFailures": 0,
+    "submittedAt": 1793260706752,
+    "reconcileRequired": true,
+    "error": {
+      "code": "submit-unconfirmed",
+      "message": "页面刷新中断了这次请求，本服务无法反查上游是否已受理。已关闭为失败；重试前请先到服务商后台确认，避免重复计费。",
+      "retryable": true
+    },
+    "finishedAt": 1793260864753
+  }
+}
