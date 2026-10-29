@@ -1,0 +1,79 @@
+{
+  "schema": "infinite-canvas/evidence/strict-h-receipt@1",
+  "kind": "REMOVE_PEN_STRICT_H",
+  "date": "2026-10-29",
+  "generatedBy": "manual single-session read-only probes (no worker, no regeneration, no byte injection, no store writes)",
+  "repoCommitAtRun": "65d83b29",
+  "toolId": "REMOVE_PEN",
+  "route": "/tools/smart-edit/remove-pen",
+  "origin": "http://127.0.0.1:3000",
+  "browser": "ego lite (Chrome/156 UA), the real profile holding all user tasks",
+  "noRegeneration": true,
+  "noInjection": true,
+  "verdict": "BLOCKED_NO_BYTES",
+  "verdictMeaning": "no real task in the reachable profile carries result bytes; H legs (realBytes/download/assetId/canvasNodeId) cannot be produced without a NEW generation, which the task forbids",
+  "strictH": {
+    "taskIdPrimaryBinding": "PARTIAL",
+    "realReload": "NOT_ATTEMPTED",
+    "realBytes": "ABSENT",
+    "download": "ABSENT",
+    "assetId": "ABSENT",
+    "canvasNodeId": "ABSENT"
+  },
+  "realTasksFound": [
+    {
+      "taskId": "task-mvsa3pt6-4wqy46",
+      "status": "succeeded",
+      "createdAt": 1793201885034,
+      "resultItems": [{"id": "task-mvsa3pt6-4wqy46-0", "kind": "image", "payloadDropped": true}],
+      "resultHasStorageKey": false,
+      "resultHasBytes": false
+    },
+    {
+      "taskId": "task-mvsba8fo-iplfjq",
+      "status": "succeeded",
+      "createdAt": 1793203868724,
+      "resultItems": [{"id": "task-mvsba8fo-iplfjq-0", "kind": "image", "payloadDropped": true}],
+      "resultHasStorageKey": false,
+      "resultHasBytes": false
+    },
+    {
+      "taskId": "task-mvsaus49-i7vsmt",
+      "status": "succeeded",
+      "createdAt": 1793203147737,
+      "resultItems": [{"id": "task-mvsaus49-i7vsmt-0", "kind": "image", "payloadDropped": true}],
+      "resultHasStorageKey": false,
+      "resultHasBytes": false
+    }
+  ],
+  "byteSearch": {
+    "indexedDbStore": "infinite-canvas / media_files",
+    "blobCount": 112,
+    "maxBlobSize": 2840825,
+    "blobOfSize850799Present": false,
+    "conclusion": "no stored blob can be attached to any REMOVE_PEN task record"
+  },
+  "r20ReceiptDisposition": {
+    "taskIdFromR20": "task-mvtmnhk5-nr2g0z",
+    "status": "NOT_REUSABLE",
+    "reason": "r20 ran in a throwaway Playwright profile; that profile was discarded, so the task record and its assetId/canvasNodeId no longer exist anywhere. No trace of the id exists in the real profile's localStorage or IndexedDB."
+  },
+  "orphanArtifact": {
+    "file": "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/B5_HISTORY_DOCK/recovery4/downloads/REMOVE_PEN-remove-pen-result-1.png",
+    "bytes": 850799,
+    "sha256": "67d5d6a637518af3e0aa9147bfc0f855b350a244b3345b93ab05d3faa223f392",
+    "mtime": "2026-10-29T15:41:16+08:00",
+    "usableAsReceipt": false,
+    "why": "a real past download, but no machine-readable task binding exists (no taskId with matching bytes/sha in any store), so it cannot back the taskId-primary criterion; using it would be an unbound claim"
+  },
+  "realRootCause": {
+    "summary": "legacy task snapshots persisted result items with the binary stripped: {id, kind, payloadDropped:true} and no storageKey/url/bytes",
+    "code": [
+      "web/src/services/api/tools/task-machine.ts:404-423 — snapshot keeps only id/kind when neither storageKey nor url exists, and marks payloadDropped:true",
+      "web/src/services/api/tools/gateway.ts:427 — documents the strip-and-mark behaviour",
+      "web/src/services/api/tools/result-assets.ts:127,254 — payloadDropped blocks download/save/send by design (correct guard)"
+    ],
+    "effect": "restore path correctly refuses actions, but the underlying bytes were never persisted, so no read-only route can recover them; only a new generation would produce bytes"
+  },
+  "nextActionIfAllowed": "one genuine REMOVE_PEN run in this profile (upload + mask + submit) to create a task whose item carries storageKey, then repeat the PRINT_EXTRACT-style evidence chain (real reload -> bytes sha -> download -> save assetId -> send canvasNodeId)"
+}

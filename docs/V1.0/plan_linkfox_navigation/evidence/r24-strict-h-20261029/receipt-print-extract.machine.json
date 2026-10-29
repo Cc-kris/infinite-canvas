@@ -1,0 +1,121 @@
+{
+  "schema": "infinite-canvas/evidence/strict-h-receipt@1",
+  "kind": "PRINT_EXTRACT_STRICT_H",
+  "date": "2026-10-29",
+  "generatedBy": "manual single-session UI run (no worker, no regeneration, no byte injection)",
+  "repoCommitAtRun": "65d83b29",
+  "toolId": "PRINT_EXTRACT",
+  "route": "/tools/product-design/print-extract",
+  "origin": "http://127.0.0.1:3000",
+  "browser": "ego lite (Chrome/156 UA)",
+  "noRegeneration": true,
+  "noInjection": true,
+  "taskBinding": {
+    "taskId": "task-mvtlxua2-kh39uf",
+    "resultItemId": "task-mvtlxua2-kh39uf-0",
+    "storageKey": "tool-result:task-mvtlxua2-kh39uf:0:jf8VlMsU9spY5W5raRSnO",
+    "taskRecordBytes": 2783996,
+    "taskRecordStatus": "succeeded",
+    "taskRecordReceivedAt": 1793282257967,
+    "taskRecordSource": "localStorage[tool-task:v1:task-mvtlxua2-kh39uf]"
+  },
+  "reload": {
+    "method": "location.reload() evaluated in the page context of the same tab",
+    "navTypeBefore": "navigate",
+    "navTypeAfter": "reload",
+    "timeOriginBefore": 1793284987751,
+    "timeOriginAfter": 1793285027102.4,
+    "timeOriginChanged": true,
+    "taskRestoredAfterReload": true,
+    "taskRowStatusAfterReload": ["succeeded", "succeeded"],
+    "resultButtonsAfterReload": ["tool-result-download-0", "tool-result-save-0", "tool-result-canvas-0"],
+    "gapClosed": "r16 leg used navType=navigate + cache-buster; this is a genuine document reload"
+  },
+  "realBytes": {
+    "source": "IndexedDB infinite-canvas / media_files, value IS a Blob stored under the task storageKey",
+    "blobSize": 2783996,
+    "blobType": "image/png",
+    "arrayBufferBytes": 2783996,
+    "sha256": "1577dafdcda3797856efcae1c662cdccbc2de0ab94b88acd2b94fe541e51d822",
+    "pngMagicHead": [137, 80, 78, 71],
+    "tailBytes": [174, 66, 96, 130],
+    "equalsTaskRecordBytes": true
+  },
+  "download": {
+    "clickTarget": "[data-testid=tool-result-download-0]",
+    "clickedInFreshReloadedDocument": true,
+    "priorDownloadsInDocument": 0,
+    "uiFeedback": "已下载 print-extract-result-1.png",
+    "file": "/Users/mac/Downloads/print-extract-result-1 (1).png",
+    "fileBytes": 2783996,
+    "fileSha256": "1577dafdcda3797856efcae1c662cdccbc2de0ab94b88acd2b94fe541e51d822",
+    "fileMtime": "2026-10-29T22:45:10+08:00",
+    "matchesTaskBytes": true,
+    "matchesStoreBlobSha": true,
+    "note": "Chrome allows only one automatic download per document; after a real reload this is download #1, which is why r16 (2nd download in one document) was blocked"
+  },
+  "asset": {
+    "clickTarget": "[data-testid=tool-result-save-0]",
+    "uiFeedback": "已保存到资产库（5iFK1BE8Ukthz2hh4qzI5）",
+    "assetId": "5iFK1BE8Ukthz2hh4qzI5",
+    "store": "IndexedDB infinite-canvas / app_state[infinite-canvas:asset_store]",
+    "countBefore": 55,
+    "countAfter": 56,
+    "assetRecord": {
+      "id": "5iFK1BE8Ukthz2hh4qzI5",
+      "kind": "image",
+      "title": "PRINT_EXTRACT 结果 1",
+      "bytes": 2783996,
+      "mimeType": "image/png",
+      "width": 1024,
+      "height": 1024,
+      "storageKey": "image:LPClWx7K01SkLGg-xAxMU",
+      "createdAt": "2026-10-29T14:45:19.495Z",
+      "metadata": {
+        "toolId": "PRINT_EXTRACT",
+        "taskId": "task-mvtlxua2-kh39uf",
+        "resultItemId": "task-mvtlxua2-kh39uf-0"
+      }
+    },
+    "assetBlobSize": 2783996,
+    "assetBlobSha256": "1577dafdcda3797856efcae1c662cdccbc2de0ab94b88acd2b94fe541e51d822",
+    "assetBlobShaMatchesTaskBytes": true
+  },
+  "canvas": {
+    "clickTarget": "[data-testid=tool-result-canvas-0]",
+    "uiFeedback": "已发送到画布（pU7Vsj40yiESBZOgZkjxW）",
+    "feedbackIdSemantics": "projectId (UI reports project, node id must be read from the project record)",
+    "projectId": "pU7Vsj40yiESBZOgZkjxW",
+    "projectTitle": "PRINT_EXTRACT 结果",
+    "projectCreatedAt": "2026-10-29T14:45:27.627Z",
+    "canvasNodeId": "image-1793285127749-alejh",
+    "canvasNode": {
+      "id": "image-1793285127749-alejh",
+      "type": "image",
+      "title": "图片",
+      "position": {"x": 150, "y": 120},
+      "width": 340,
+      "height": 240,
+      "metadata": {
+        "status": "success",
+        "storageKey": "image:8JWNiD3X-BpXBxaYsCidT",
+        "bytes": 2783996,
+        "mimeType": "image/png",
+        "naturalWidth": 1024,
+        "naturalHeight": 1024
+      }
+    },
+    "store": "IndexedDB infinite-canvas / app_state[infinite-canvas:canvas_store].state.projects[]"
+  },
+  "verdict": {
+    "strictH": "PASS",
+    "legs": {
+      "taskIdPrimaryBinding": true,
+      "realReload": true,
+      "realBytes": true,
+      "download": true,
+      "assetId": true,
+      "canvasNodeId": true
+    }
+  }
+}
