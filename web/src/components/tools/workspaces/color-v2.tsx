@@ -71,8 +71,8 @@ function PanelSection({ id, title, hint, children }: { id?: string; title: strin
     return (
         <section id={id} data-section={id} className="border-b border-[#f1f1f4]">
             <header className="flex h-[46px] items-center justify-between gap-2 px-4">
-                <h2 style={{ fontSize: 14, fontWeight: 400, lineHeight: 1 }} className="text-[#000000e0]">{title}</h2>
-                {hint ? <span className="text-[11px] leading-none text-[#8a8a99]">{hint}</span> : null}
+                <h2 style={{ fontSize: 12, fontWeight: 600, lineHeight: 1 }} className="text-[#000000e0]">{title}</h2>
+                {hint ? <span style={{ fontSize: 12, lineHeight: 1 }} className="text-[#8a8a99]">{hint}</span> : null}
             </header>
             <div className="pb-4">{children}</div>
         </section>
@@ -420,35 +420,58 @@ export function ColorV2Workspace({ className }: ColorV2WorkspaceProps = {}) {
     const qualityLevel = getQualityLevel(values.quality);
     const showResults = outcomes.length > 0 || busy;
 
+    /** 原站底部的「上传多张图片，开始批量套图换色」行：直接触发商品图上传区的文件选择器 */
+    const openSuitePicker = useCallback(() => {
+        const input = document.querySelector<HTMLInputElement>(`[data-tool="${TOOL_ID}"] [data-testid="tool-asset-file-input"]`);
+        input?.click();
+    }, []);
+
     return (
         <div
             data-tool={TOOL_ID}
             data-layout="linkfox-change-color"
             data-spec={spec?.slug ?? CHANGE_COLOR_V2_SLUG}
             style={{ fontFamily: '"Microsoft YaHei", "PingFang SC", "Hiragino Sans GB", sans-serif' }}
-            className={cn("flex h-full min-h-0 min-w-0 gap-[10px] overflow-hidden bg-[#f4f6f8] text-[13px] text-[#000000e0]", className)}
+            className={cn("flex h-full min-h-0 min-w-0 gap-[6px] overflow-hidden bg-[#f4f6f8] text-[13px] text-[#000000e0]", className)}
         >
-            {/* 左：296px 参数面板（原站 x190 w296；提交条固定在面板底部） */}
-            <section data-region="params" className="flex h-full w-[296px] shrink-0 flex-col overflow-hidden rounded-[8px] border border-[#ededf0] bg-white">
-                <div className="min-h-0 flex-1 overflow-y-auto">
-                    <PanelSection id="upload" title="上传图片" hint={`${suiteIds.length} / ${COLOR_V2_MAX_SUITE_IMAGES}`}>
+            {/* 左：300px 参数面板（原站 x190 w300；提交条固定在面板底部） */}
+            <section data-region="params" className="flex h-full w-[300px] shrink-0 flex-col overflow-hidden">
+                <div className="flex min-h-0 flex-1 flex-col overflow-hidden rounded-[8px] border border-[#ededf0] bg-white">
+                <div data-region="params-scroll" className="min-h-0 flex-1 overflow-y-auto">
+                    <PanelSection id="upload" title="上传图片">
                         <div className="px-4">
-                            <div className="mx-auto w-[210px]">
-                                <ToolAssetInput
-                                    toolId={TOOL_ID}
-                                    maxCount={COLOR_V2_MAX_SUITE_IMAGES}
-                                    constraints={SUITE_CONSTRAINTS}
-                                    disabled={busy}
-                                    title=""
-                                    variant="linkfox"
-                                    uploadLabel="从本地上传"
-                                    hint={`10M以内，最多 ${COLOR_V2_MAX_SUITE_IMAGES} 张`}
-                                    onChange={(ids, records) => {
-                                        setSuiteIds(ids);
-                                        setSuiteRecords(records);
-                                    }}
-                                />
-                            </div>
+                            <ToolAssetInput
+                                toolId={TOOL_ID}
+                                maxCount={COLOR_V2_MAX_SUITE_IMAGES}
+                                constraints={SUITE_CONSTRAINTS}
+                                disabled={busy}
+                                title=""
+                                variant="linkfox"
+                                wide
+                                compact
+                                className="[&>[data-testid=tool-asset-dropzone]]:min-h-[156px] [&>[data-testid=tool-asset-dropzone]]:gap-[10px] [&>[data-testid=tool-asset-dropzone]]:rounded-[8px] [&>[data-testid=tool-asset-dropzone]]:border-0 [&>[data-testid=tool-asset-dropzone]]:bg-[#f7f7f7] [&>[data-testid=tool-asset-dropzone]]:px-3 [&>[data-testid=tool-asset-dropzone]]:py-[10px]"
+                                uploadLabel="从本地上传"
+                                hint={
+                                    <span style={{ fontSize: 12, lineHeight: "17px" }} className="block w-full text-center text-[#8a8a99]">
+                                        10M以内，分辨率：384*384 ~ 4096*4096，最大宽高比5
+                                    </span>
+                                }
+                                onChange={(ids, records) => {
+                                    setSuiteIds(ids);
+                                    setSuiteRecords(records);
+                                }}
+                            />
+                            <button
+                                type="button"
+                                data-testid="color-v2-suite-upload-batch"
+                                disabled={busy}
+                                onClick={() => openSuitePicker()}
+                                onMouseDown={(event) => event.stopPropagation()}
+                                style={{ fontSize: 14 }}
+                                className="mt-[10px] h-8 w-full rounded-[6px] text-[#000000e0] transition hover:text-[#723cf9] disabled:cursor-not-allowed disabled:opacity-50"
+                            >
+                                上传多张图片，开始批量套图换色
+                            </button>
                             {suiteRecords.length ? (
                                 <ul data-testid="color-v2-suite-list" className="mt-3 grid grid-cols-3 gap-2">
                                     {suiteRecords.map((record) => (
@@ -470,9 +493,9 @@ export function ColorV2Workspace({ className }: ColorV2WorkspaceProps = {}) {
                         </div>
                     </PanelSection>
 
-                    <PanelSection id="plans" title="颜色选择" hint={`${values.plans.length} 个方案`}>
+                    <PanelSection id="plans" title="颜色选择">
                         <div className="px-4">
-                            <div role="tablist" aria-label="取色方式" className="flex h-[34px] w-full items-center rounded-[8px] bg-[#f4f6f8] p-[2px]">
+                            <div role="tablist" aria-label="取色方式" className="flex h-[34px] w-full items-center rounded-[8px] bg-[#f4f4f8] p-[2px]">
                                 <button
                                     type="button"
                                     role="tab"
@@ -504,9 +527,56 @@ export function ColorV2Workspace({ className }: ColorV2WorkspaceProps = {}) {
                             </div>
 
                             {colorMode === "extract" ? (
-                                <div className="mt-3 space-y-2">
+                                <div className="mt-[10px]">
+                                    <div
+                                        role="button"
+                                        tabIndex={busy ? -1 : 0}
+                                        aria-disabled={busy}
+                                        data-testid="color-v2-reference-dropzone"
+                                        aria-label="点击或拖拽批量上传商品参考图"
+                                        onClick={() => {
+                                            if (!busy) referenceInputRef.current?.click();
+                                        }}
+                                        onKeyDown={(event) => {
+                                            if (event.key !== "Enter" && event.key !== " ") return;
+                                            event.preventDefault();
+                                            if (!busy) referenceInputRef.current?.click();
+                                        }}
+                                        onDragOver={(event) => {
+                                            if (busy) return;
+                                            event.preventDefault();
+                                        }}
+                                        onDrop={(event) => {
+                                            if (busy) return;
+                                            event.preventDefault();
+                                            const files = Array.from(event.dataTransfer?.files ?? []);
+                                            if (files.length) void addReferenceFiles(files);
+                                        }}
+                                        className={cn(
+                                            "flex min-h-[170px] w-full cursor-pointer flex-col items-center justify-center gap-[6px] rounded-[8px] bg-[#fafafa] px-3 py-[10px] transition",
+                                            busy ? "cursor-not-allowed opacity-60" : "hover:bg-[#f5f5f7]",
+                                        )}
+                                    >
+                                        <p style={{ fontSize: 12, lineHeight: "19px" }} className="text-center text-[#000000e0]">
+                                            拖拽 或{" "}
+                                            <b className="font-bold text-[#723cf9]">
+                                                点击批量上传
+                                            </b>{" "}
+                                            商品参考图
+                                        </p>
+                                        <p style={{ fontSize: 11, lineHeight: "17px" }} className="max-w-[214px] text-center text-[#8a8a99]">
+                                            整张商品图作为换色参考 · 支持多选 · 最多 {COLOR_V2_MAX_REFERENCE_IMAGES} 张 · 单张 10M 以内
+                                        </p>
+                                    </div>
+                                    <p
+                                        data-testid="color-v2-plan-count"
+                                        style={{ fontSize: 12, fontWeight: 500, lineHeight: "19px" }}
+                                        className="mt-4 text-[#000000e0]"
+                                    >
+                                        本次换色方案 · {referenceRecords.length} 张参考图
+                                    </p>
                                     {suiteRecords.length ? (
-                                        <div className="space-y-1.5">
+                                        <div className="mt-2 space-y-1.5">
                                             {suiteRecords.map((record) => (
                                                 <button
                                                     key={record.id}
@@ -522,19 +592,7 @@ export function ColorV2Workspace({ className }: ColorV2WorkspaceProps = {}) {
                                                 </button>
                                             ))}
                                         </div>
-                                    ) : (
-                                        <p className="text-[11px] leading-4 text-[#8a8a99]">先上传商品图，这里会按图片自动提取 5 个主色方案。</p>
-                                    )}
-
-                                    <button
-                                        type="button"
-                                        data-testid="color-v2-reference-upload"
-                                        disabled={busy}
-                                        onClick={() => referenceInputRef.current?.click()}
-                                        className="flex w-full items-center justify-center gap-1 rounded-[4px] border border-dashed border-[#d9d9e0] px-2 py-1 text-[11px] leading-4 text-[#6b6b7a] transition hover:border-[#723cf9]/50 disabled:opacity-50"
-                                    >
-                                        ＋ 上传参考图（{referenceRecords.length}/{COLOR_V2_MAX_REFERENCE_IMAGES}）
-                                    </button>
+                                    ) : null}
                                     <input
                                         ref={referenceInputRef}
                                         type="file"
@@ -631,20 +689,32 @@ export function ColorV2Workspace({ className }: ColorV2WorkspaceProps = {}) {
                         </div>
                     </PanelSection>
 
-                    <PanelSection id="region" title="换色部位" hint={values.region ? `${values.region.length}/${COLOR_V2_MAX_REGION_LENGTH}` : "必填"}>
+                    <PanelSection id="region" title="换色部位">
                         <div className="px-4">
-                            <textarea
-                                data-testid="color-v2-region"
-                                style={{ height: 52 }}
-                                value={values.region}
-                                disabled={busy}
-                                rows={2}
-                                maxLength={COLOR_V2_MAX_REGION_LENGTH}
-                                placeholder="请输入需要换色的部位（必填），如 上装、鞋面"
-                                onChange={(event) => commit({ ...valuesRef.current, region: sanityRegion(event.target.value) })}
-                                className="w-full resize-none rounded-[4px] border border-[#e5e5ea] bg-white px-2.5 py-2 text-[14px] leading-5 text-[#000000e0] outline-none transition placeholder:text-[#b4b4c0] focus:border-[#723cf9] disabled:opacity-60"
-                            />
-                            <div className="mt-2 flex flex-wrap gap-1.5">
+                            <div className="relative">
+                                <textarea
+                                    data-testid="color-v2-region"
+                                    style={{ height: 54, fontSize: 14, lineHeight: "20px" }}
+                                    value={values.region}
+                                    disabled={busy}
+                                    rows={2}
+                                    maxLength={COLOR_V2_MAX_REGION_LENGTH}
+                                    placeholder="请输入需要换色的部位（必填），如 上装、鞋面"
+                                    onChange={(event) => commit({ ...valuesRef.current, region: sanityRegion(event.target.value) })}
+                                    className="w-full resize-none rounded-[6px] border border-[#e5e5ea] bg-white py-2 pl-[10px] pr-12 text-[#000000e0] outline-none transition placeholder:text-[#b4b4c0] focus:border-[#723cf9] disabled:opacity-60"
+                                />
+                                <span
+                                    aria-hidden="true"
+                                    style={{ fontSize: 12, lineHeight: "19px" }}
+                                    className="pointer-events-none absolute bottom-1 right-2 text-[#b4b4c0]"
+                                >
+                                    {values.region.length} / {COLOR_V2_MAX_REGION_LENGTH}
+                                </span>
+                            </div>
+                            <div className="mt-3 flex flex-wrap items-center gap-[6px]">
+                                <span style={{ fontSize: 12, lineHeight: "19px" }} className="text-[#5a5a66]">
+                                    常用
+                                </span>
                                 {COLOR_REGION_PRESETS.map((preset) => {
                                     const active = values.region.includes(preset.label);
                                     return (
@@ -659,9 +729,10 @@ export function ColorV2Workspace({ className }: ColorV2WorkspaceProps = {}) {
                                                 const merged = base ? `${base}、${preset.label}` : preset.label;
                                                 commit({ ...valuesRef.current, region: sanityRegion(merged) });
                                             }}
+                                            style={{ fontSize: 12, lineHeight: "22px", padding: "0 7px" }}
                                             className={cn(
-                                                "rounded-[3px] border px-1.5 py-0.5 text-[11px] leading-4 transition",
-                                                active ? "border-[#723cf9] bg-[#f9f0ff] text-[#723cf9]" : "border-[#e5e5ea] bg-white text-[#5a5a66] hover:border-[#723cf9]/50",
+                                                "h-[22px] rounded-[4px] transition",
+                                                active ? "bg-[#f9f0ff] text-[#723cf9]" : "bg-transparent text-[#5a5a66] hover:bg-[#f4f4f8]",
                                             )}
                                         >
                                             {preset.label}
@@ -674,8 +745,8 @@ export function ColorV2Workspace({ className }: ColorV2WorkspaceProps = {}) {
 
                     <PanelSection id="quality" title="模型设置">
                         <div className="px-4">
-                            <p className="text-[12px] leading-4 text-[#1f1f2c]">模型品质</p>
-                            <div className="mt-2 flex gap-[10px]">
+                            <p style={{ fontSize: 12, lineHeight: "20px" }} className="text-[#000000e0]">模型品质</p>
+                            <div className="mt-2 flex gap-[10px] rounded-[4px] bg-[#f7f7f7] p-2">
                                 {COLOR_QUALITY_LEVELS.map((level) => {
                                     const active = values.quality === level.key;
                                     return (
@@ -688,8 +759,8 @@ export function ColorV2Workspace({ className }: ColorV2WorkspaceProps = {}) {
                                             title={`调用上游 ${level.providerQuality} 品质`}
                                             style={{ fontSize: 14, fontWeight: 400 }}
                                             className={cn(
-                                                "h-8 w-[75px] rounded-[6px] border leading-none transition",
-                                                active ? "border-[#723cf9] bg-[#f9f0ff] text-[#723cf9]" : "border-[#e5e5ea] bg-white text-[#5a5a66] hover:border-[#723cf9]/50",
+                                                "h-8 w-[75px] rounded-[6px] leading-none transition",
+                                                active ? "bg-[#f9f0ff] text-[#723cf9]" : "bg-white text-[#5a5a66] hover:text-[#723cf9]",
                                             )}
                                         >
                                             {level.label}
@@ -697,14 +768,17 @@ export function ColorV2Workspace({ className }: ColorV2WorkspaceProps = {}) {
                                     );
                                 })}
                             </div>
-                            <p className="mt-2 text-[11px] leading-4 text-[#8a8a99]">
-                                预计输出 {plannedCount} 张（{suiteIds.length} 张商品图 × {values.plans.length} 个方案）
-                            </p>
+                            {plannedCount > 0 ? (
+                                <p style={{ fontSize: 11, lineHeight: "17px" }} className="mt-2 text-[#8a8a99]">
+                                    预计输出 {plannedCount} 张（{suiteIds.length} 张商品图 × {values.plans.length} 个方案）
+                                </p>
+                            ) : null}
                         </div>
                     </PanelSection>
                 </div>
+                </div>
 
-                <div className="shrink-0 border-t border-[#ededf0] px-4 py-3">
+                <div className="shrink-0 pt-3">
                     {conflict ? (
                         <p key="conflict" className="mb-2 rounded-[4px] bg-[#fff1f0] px-2 py-1 text-[11px] leading-4 text-[#f5483b]">
                             其他标签页改过草稿，当前页面可能覆盖远端改动；刷新后再编辑。
@@ -718,20 +792,16 @@ export function ColorV2Workspace({ className }: ColorV2WorkspaceProps = {}) {
                     <button
                         type="button"
                         data-testid="color-v2-submit"
-                        style={{ fontSize: 14 }}
+                        style={{ fontSize: 12, backgroundImage: "linear-gradient(90deg, #3B7AF9 0%, #723CF9 100%)" }}
                         disabled={busy || issues.length > 0}
                         title={issues[0]?.message}
                         onClick={() => void runSuite()}
-                        className="inline-flex h-8 w-full items-center justify-center gap-1 rounded-[6px] bg-[#723cf9] text-[14px] leading-none text-white transition hover:bg-[#6231e0] disabled:cursor-not-allowed disabled:opacity-50"
+                        className="inline-flex h-8 w-full items-center justify-center gap-1 rounded-[6px] leading-none text-white transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50"
                     >
-                        {busy ? <Loader2 className="size-4 animate-spin" aria-hidden="true" /> : <Sparkles className="size-4" aria-hidden="true" />}
+                        {busy ? <Loader2 className="size-3.5 animate-spin" aria-hidden="true" /> : <Sparkles className="size-3.5" aria-hidden="true" />}
                         <span>{busy ? `生成中 ${progress.done}/${progress.total}` : "开始生成"}</span>
                         <span className="text-[12px] leading-none opacity-90">(50算力)</span>
                     </button>
-                    <p className="mt-1 text-center text-[11px] leading-4 text-[#8a8a99]">
-                        共 {plannedCount} 张 · {qualityLevel.label}
-                        {busy ? ` · 已完成 ${succeeded}` : ""}
-                    </p>
                     {notice ? (
                         <p data-testid="color-v2-notice" className="mt-1 text-[11px] leading-4 text-[#6b6b7a]">
                             {notice}
