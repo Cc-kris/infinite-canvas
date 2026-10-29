@@ -1,0 +1,56 @@
+bun test v1.4.2 (744846f84)
+
+src/components/tools/tool-result.test.tsx:
+(pass) result view mapping > maps every real task status without inventing success [0.15ms]
+(pass) result view mapping > summarizes and counts dropped payloads [0.41ms]
+(pass) result view mapping > derives missing kind from mimeType so video results never render as images [0.07ms]
+(pass) result view mapping > builds file names from real mime/data URL, not a fixed guess [0.67ms]
+(pass) result view mapping > places new canvas nodes to the right of existing bounds [0.09ms]
+(pass) task status > labels every status and formats elapsed time [0.09ms]
+(pass) task status > uses submittedAt and finishedAt for terminal tasks [0.04ms]
+(pass) task status > warns on reconciliation and never re-labels unknown as failure [0.04ms]
+(pass) task status > renders cancel while active, retry only for failed tasks [9.86ms]
+(pass) capability notice > rarely treats absent evidence as supported [0.13ms]
+(pass) capability notice > blocks missing required capability and gates optional degradation on acceptance [0.06ms]
+(pass) capability notice > renders real evidence and the explicit degradation action [0.69ms]
+(pass) ToolResult states > renders an empty state before submit [0.42ms]
+(pass) ToolResult states > renders running progress with cancel wiring [1.18ms]
+(pass) ToolResult states > renders real image and video results with all three save actions [2.34ms]
+(pass) ToolResult states > does not fake results when a succeeded task has no items [0.66ms]
+(pass) ToolResult states > succeeded 但 0 结果时提供重新生成入口 [0.58ms]
+(pass) ToolResult states > disables save actions for payload-stripped items and explains why [0.92ms]
+270 |     });
+271 | 
+272 |     test("刷新后只剩 storageKey 的视频结果仍然可下载/存资产/发画布", () => {
+273 |         const restored = { id: "video-restored", kind: "video" as const, storageKey: "tool-result:4zwepLZTtpMan11tTGMKR", bytes: 1_963_716, mimeType: "video/mp4" };
+274 |         const html = render(<ToolResult task={makeTask({ status: "succeeded", result: { items: [restored], receivedAt: 1 } })} toolId="VIDEO_REPLICATION" />);
+275 |         expect(html).toContain('data-dropped="false"');
+                           ^
+error: expect(received).toContain(expected)
+
+Expected to contain: "data-dropped=\"false\""
+Received: "<section data-testid=\"tool-result\" data-view=\"succeeded\" class=\"space-y-3 rounded-xl border border-border bg-card p-4\"><header class=\"flex flex-wrap items-center gap-2\"><h2 class=\"text-sm font-semibold\">生成结果</h2><span data-testid=\"tool-task-status\" data-status=\"succeeded\" data-tone=\"success\" title=\"结果已返回\" class=\"inline-flex items-center gap-1.5 rounded-full border px-2 py-0.5 text-xs font-medium border-emerald-300 bg-emerald-50 text-emerald-700 dark:border-emerald-800 dark:bg-emerald-950 dark:text-emerald-200\"><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-circle-check size-3.5\" aria-hidden=\"true\"><circle cx=\"12\" cy=\"12\" r=\"10\"></circle><path d=\"m9 12 2 2 4-4\"></path></svg>已完成</span><span class=\"ml-auto text-xs text-muted-foreground\" data-testid=\"tool-result-summary\">共 1 个结果 · 视频 1</span></header><ul class=\"grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-3\"><li data-testid=\"tool-result-item-0\" data-kind=\"video\" data-dropped=\"true\" class=\"overflow-hidden rounded-xl border border-border bg-background\"><div class=\"flex aspect-video items-center justify-center bg-stone-100 dark:bg-stone-900\"><span class=\"flex flex-col items-center gap-1 px-3 text-center text-[11px] text-muted-foreground\"><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-image-off size-5\" aria-hidden=\"true\"><line x1=\"2\" x2=\"22\" y1=\"2\" y2=\"22\"></line><path d=\"M10.41 10.41a2 2 0 1 1-2.83-2.83\"></path><line x1=\"13.5\" x2=\"6\" y1=\"13.5\" y2=\"21\"></line><line x1=\"18\" x2=\"21\" y1=\"12\" y2=\"15\"></line><path d=\"M3.59 3.59A1.99 1.99 0 0 0 3 5v14a2 2 0 0 0 2 2h14c.55 0 1.052-.22 1.41-.59\"></path><path d=\"M21 15V5a2 2 0 0 0-2-2H9\"></path></svg>上游未返回该结果的文件</span></div><div class=\"flex flex-wrap gap-1.5 p-2\"><button type=\"button\" disabled=\"\" data-testid=\"tool-result-download-0\" class=\"inline-flex items-center gap-1 rounded-md border border-border px-2 py-1 text-[11px] transition hover:bg-accent disabled:cursor-not-allowed disabled:opacity-50\"><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-download size-3.5\" aria-hidden=\"true\"><path d=\"M12 15V3\"></path><path d=\"M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4\"></path><path d=\"m7 10 5 5 5-5\"></path></svg>下载</button><button type=\"button\" disabled=\"\" data-testid=\"tool-result-save-0\" class=\"inline-flex items-center gap-1 rounded-md border border-border px-2 py-1 text-[11px] transition hover:bg-accent disabled:cursor-not-allowed disabled:opacity-50\"><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-folder-plus size-3.5\" aria-hidden=\"true\"><path d=\"M12 10v6\"></path><path d=\"M9 13h6\"></path><path d=\"M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z\"></path></svg>存入资产</button><button type=\"button\" disabled=\"\" data-testid=\"tool-result-canvas-0\" class=\"inline-flex items-center gap-1 rounded-md border border-border px-2 py-1 text-[11px] transition hover:bg-accent disabled:cursor-not-allowed disabled:opacity-50\"><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-send size-3.5\" aria-hidden=\"true\"><path d=\"M14.536 21.686a.5.5 0 0 0 .937-.024l6.5-19a.496.496 0 0 0-.635-.635l-19 6.5a.5.5 0 0 0-.024.937l7.93 3.18a2 2 0 0 1 1.112 1.11z\"></path><path d=\"m21.854 2.147-10.94 10.939\"></path></svg>发送画布</button></div></li></ul></section>"
+
+      at <anonymous> (/private/tmp/ic-neg-3f7a5fc9/web/src/components/tools/tool-result.test.tsx:275:22)
+(fail) ToolResult states > 刷新后只剩 storageKey 的视频结果仍然可下载/存资产/发画布 [3.05ms]
+(pass) ToolResult states > 共享结果区优先采用任务库里更完整的快照（heal 后的 storageKey/对象 URL） [0.26ms]
+(pass) ToolResult states > surfaces failures with diagnostics and retry [0.50ms]
+(pass) ToolResult states > 多结果时给出「全部下载」，单结果/全丢图时不给 [3.15ms]
+(pass) ToolResult states > 只有传入 onRetryItem 才渲染单张重试，且按钮文案说明只重试这一张 [1.60ms]
+(pass) real result actions > downloads through the injected saver with a derived filename [0.22ms]
+(pass) real result actions > 多张结果打成一次 ZIP 下载（避免浏览器拦截第 2 个下载），按原下标命名，坏项只跳过不伪造文件 [4.83ms]
+(pass) real result actions > 只有一张结果时不打包，直接单文件下载 [0.20ms]
+(pass) real result actions > saves an image into the asset library with real storage keys [90.44ms]
+(pass) real result actions > stores video bytes before creating a video asset [0.15ms]
+(pass) real result actions > refuses to save stripped payloads instead of faking success [0.10ms]
+(pass) real result actions > appends a real node to the chosen canvas project [3.67ms]
+(pass) real result actions > creates a project when none is chosen and rejects unknown projects [0.38ms]
+(pass) 单卡 busy 解析 > 按下标精确命中，retry-10 不再串到第 0 张 [0.08ms]
+
+1 tests failed:
+(fail) ToolResult states > 刷新后只剩 storageKey 的视频结果仍然可下载/存资产/发画布 [3.05ms]
+
+ 31 pass
+ 1 fail
+ 155 expect() calls
+Ran 32 tests across 1 file. [219.00ms]
