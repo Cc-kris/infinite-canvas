@@ -42,6 +42,14 @@ export const VIDEO_CONCAT_SOURCE_RULE = {
     maxClipMs: VIDEO_CONCAT_CLIP_MAX_MS,
 } as const;
 
+/** 封面硬约束：只接受位图，视频文件绝不能当封面塞进 images 字段。 */
+export const VIDEO_CONCAT_COVER_MIMES = ["image/png", "image/jpeg", "image/webp"] as const;
+
+export function isVideoConcatCoverMime(mimeType?: string): boolean {
+    const mime = normalizeMime(mimeType);
+    return (VIDEO_CONCAT_COVER_MIMES as readonly string[]).includes(mime);
+}
+
 /** 本页 editType 固定为 video（图片编辑走 IMAGE_CROP 等页），保留字段是为了指纹与审计。 */
 export const VIDEO_CONCAT_EDIT_TYPE = "video" as const;
 export type VideoConcatEditType = typeof VIDEO_CONCAT_EDIT_TYPE;
@@ -371,6 +379,12 @@ export function validateVideoConcatState(input: {
         issues.push({ code: "cover-missing", field: "videoCoverUrl", message: "还没有封面：请上传封面图或从片段抓取一帧" });
     } else if (!state.cover.url) {
         issues.push({ code: "cover-invalid", field: "videoCoverUrl", message: "封面地址为空，无法提交" });
+    } else if (state.cover.mimeType && !isVideoConcatCoverMime(state.cover.mimeType)) {
+        issues.push({
+            code: "cover-invalid",
+            field: "videoCoverUrl",
+            message: `封面必须是图片（仅 PNG / JPG / WebP），当前是 ${state.cover.mimeType}，请重新抓帧或换图`,
+        });
     }
 
     if (!VIDEO_CONCAT_RATIOS.some((ratio) => ratio.value === state.videoRatio)) {

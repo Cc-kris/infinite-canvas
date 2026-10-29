@@ -113,6 +113,7 @@ import {
     effectiveVideoConcatSeconds,
     formatVideoConcatDuration,
     getVideoConcatSpec,
+    isVideoConcatCoverMime,
     isVideoConcatSnapshotStale,
     moveVideoConcatClip,
     normalizeVideoConcatClip,
@@ -850,6 +851,14 @@ export function VideoConcatWorkspace({ className }: VideoConcatWorkspaceProps = 
                 setState((previous) => ({ ...previous, cover: null }));
                 return;
             }
+            if (!isVideoConcatCoverMime(record.mimeType)) {
+                // 封面只能是位图：视频文件被塞进 images 会让上游拿到 data:video/mp4
+                setError(`封面必须是图片（PNG / JPG / WebP），「${record.name}」是 ${record.mimeType || "未知格式"}，请换图或从片段抓帧`);
+                setCoverRecords(records.filter((item) => item.id !== record.id));
+                setState((previous) => ({ ...previous, cover: null }));
+                return;
+            }
+            setError("");
             const size = record.width && record.height
                 ? { width: record.width, height: record.height }
                 : await readImageSize(record.url);

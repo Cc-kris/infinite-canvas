@@ -337,6 +337,7 @@ export function buildVideoConcatBrowserInput(input: {
             ? `封面取「${cover.name}」第 ${formatVideoConcatDuration(cover.frameMs ?? 0)} 帧`
             : `封面使用上传图「${cover.name}」`;
     const prompt = buildVideoConcatPrompt({ state, coverNote });
+    const seconds = effectiveVideoConcatSeconds({ videoTime: state.videoTime, clips: state.clips });
 
     return {
         toolId: VIDEO_CONCAT_TOOL_ID,
@@ -346,6 +347,9 @@ export function buildVideoConcatBrowserInput(input: {
         videos: state.clips.map(toVideoConcatReferenceVideo),
         fields,
         count: 1,
+        /* 页内画幅与时长同样必须进请求：此前只写进 prompt，请求沿用全局 1:1 / 6 秒。 */
+        videoRatio: state.videoRatio,
+        ...(seconds > 0 ? { videoSeconds: String(seconds) } : {}),
     };
 }
 

@@ -26,6 +26,7 @@ import {
     createVideoConcatSnapshot,
     createVideoConcatState,
     effectiveVideoConcatSeconds,
+    isVideoConcatCoverMime,
     isVideoConcatSnapshotStale,
     moveVideoConcatClip,
     normalizeVideoConcatClip,
@@ -215,6 +216,34 @@ describe("video-concat registry · 目录级校验", () => {
     test("完整状态零问题（说明字段名与阈值自洽）", () => {
         expect(validateVideoConcatState({ state: readyState(), model: "veo-3" })).toHaveLength(0);
     });
+
+    test("封面是视频文件必须阻断（否则 images 会收到 data:video/mp4）", () => {
+        const videoCover: VideoConcatCover = {
+            source: "upload",
+            url: "media:cover-mp4",
+            name: "acc-clip-a.mp4",
+            mimeType: "video/mp4",
+            bytes: 1_200_000,
+        };
+        const issues = validateVideoConcatState({
+            state: createVideoConcatState({ clips: [clip("a", 4000), clip("b", 4000)], cover: videoCover }),
+            model: "veo-3",
+        });
+        const coverIssue = issues.find((issue) => issue.code === "cover-invalid");
+        expect(coverIssue?.message).toContain("封面必须是图片");
+        expect(isVideoConcatCoverMime("video/mp4")).toBe(false);
+        expect(isVideoConcatCoverMime("image/webp")).toBe(true);
+    });
+
+    test("submit 前断言：封面是视频同样被挡下", () => {
+        const videoCover: VideoConcatCover = { source: "upload", url: "media:cover-mp4", name: "a.mp4", mimeType: "video/mp4", bytes: 1024 };
+        expect(() =>
+            assertVideoConcatInput({
+                state: createVideoConcatState({ clips: [clip("a", 4000), clip("b", 4000)], cover: videoCover }),
+                model: "veo-3",
+            }),
+        ).toThrow(/封面/);
+    });
 });
 
 describe("video-concat registry · 快照与草稿", () => {
@@ -356,6 +385,13 @@ describe("video-concat adapter · 字段与请求", () => {
         expect(input.prompt).toContain("2 段");
         expect(input.prompt).toContain("9:16");
         expect(input.fields?.videoCoverUrl).toBe(cover.url);
+    });
+
+    test("浏览器入参：画幅与总时长必须进请求（不能只写在 prompt 里）", () => {
+        const state = readyState();
+        const input = buildVideoConcatBrowserInput({ state, model: "veo-3" });
+        expect(input.videoRatio).toBe("9:16");
+        expect(input.videoSeconds).toBe(String(effectiveVideoConcatSeconds({ videoTime: state.videoTime, clips: state.clips })));
     });
 
     test("封面为上传图时 referenceImage 用 url 而不是空 dataUrl", () => {
