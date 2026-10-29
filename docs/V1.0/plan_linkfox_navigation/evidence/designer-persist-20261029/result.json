@@ -1,0 +1,14 @@
+{
+  "dockExists": 1,
+  "dockRows": 1,
+  "replayBtns": 1,
+  "notice": 1,
+  "noticeText": "已回放历史任务 task-mvtd22r 的画布（1 个图层 · 1200×1200）",
+  "layersAfterReplay": 1,
+  "uploadErrText": "",
+  "consoleErrors": [
+    "Failed to load resource: net::ERR_FILE_NOT_FOUND",
+    "Failed to load resource: net::ERR_FILE_NOT_FOUND"
+  ],
+  "pageErrors": []
+}
