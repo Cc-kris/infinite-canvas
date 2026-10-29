@@ -15,7 +15,7 @@
 | 2 | 两行结果都是真实 PNG 字节，sha256 与回执一致 | **PASS** | 证据 PNG `shasum -a 256` 复算 = 回执值；`git ls-tree` blob 与工作区一致 |
 | 3 | 行 2 产物可从 OSS 直链独立取得同字节 | **PASS** | `curl` → HTTP 200、1237615 B、sha256 `e4bd821f…` 完全一致 |
 | 4 | 两行结果与输入不是同一张图（真跑过模型） | **PASS** | 灰度 128×128 相关：input↔row1 0.532、input↔row2 0.530；row1↔row2 0.777；三者 sha 各异；锐度 mean\|∇\| 2.291 → 2.578 / 2.513 |
-| 5 | 两行并行执行 | **PASS** | 两行 `submittedAt` 差 11 ms；wall 41.9 s < 41.9+22.7 s |
+| 5 | 两行并行执行 | **PASS** | 两任务 `submittedAt` = 1793268224785 / 1793268224794（差 **9 ms**）；wall 41.9 s 明显小于 41.9+22.7 s |
 | 6 | 回执 / RUNLOG 记「2 行，并发 1」 | **FAIL（文档错，功能无碍）** | store `concurrency=3`；详情页并发下拉实测 `3`；`b6-real-batch-receipt.json` 写 3 正确，`RUNLOG.md` 与 `4b2e721` commit message 写 1 错误 |
 | 7 | 刷新后批次状态与计数可恢复 | **PASS** | fresh reload 后仍 2/0/0，逐行「成功 · 第 1 次」 |
 | 8 | 刷新后行 1 无缩略图、行 2 有可点链接（回执自述） | **PASS（现象属实，原因已定位）** | 行 1 `result.items[0].url` = `blob:`+`storageKey=tool-result:MOMNo1Dk…`，`outcomes[row_D3BqXT8q].resultUrls=[]` → 刷新后失效；行 2 `resultUrls=[OSS…]` 稳定 → `<a href>` 缩略图可点 |
@@ -53,7 +53,7 @@ outcomes=[
   taskId:task-mvtdllwa-4nnit3, startedAt:1793268224793, finishedAt:1793268247518, durationMs:22725}]
 ```
 
-并行证据：两项 `submittedAt` 相差 11 ms，总耗时 41.9 s 明显小于「41.9 + 22.7」→ 两行同时在跑，与 `concurrency=3` 一致、与 RUNLOG「并发 1」矛盾。
+并行证据：两任务 `submittedAt` 相差 9 ms（1793268224785 / 1793268224794），总耗时 41.9 s 明显小于「41.9 + 22.7」→ 两行同时在跑，与 `concurrency=3` 一致、与 RUNLOG「并发 1」矛盾。
 
 ### 2.3 结果与输入的差异（量化）
 
