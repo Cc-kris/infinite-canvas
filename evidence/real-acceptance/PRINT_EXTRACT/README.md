@@ -64,3 +64,44 @@
 3. 点「立即生成」，等 `[data-task-status]` 从 submitting → succeeded；
 4. 读 `localStorage['tool-task:v1:<taskId>']` 取 request/终态/字节；`curl` 结果 URL 落盘比对 md5；
 5. `Page.reload` 后复验结果图解码与三动作。
+
+## 7. R16 补验：fresh reload + 三动作全机器凭证（2026-10-29 22:14–22:22）
+
+对应上一轮 R15「reload 仅散文 / 存入资产 UNVERIFIED」。本节**复用同一条真实任务** `task-mvtlxua2-kh39uf`，未重新提交生成、未发任何新上游请求、未改写任何 `localStorage`/IndexedDB 记录，只点既有结果卡片上的三个按钮并读取真实存储。机器回执见 [reload-verify-r16.json](./reload-verify-r16.json)。
+
+### 7.1 reload 口径（附桥限制实测）
+
+| 项 | 值 |
+| --- | --- |
+| 页 | `http://127.0.0.1:3000/tools/product-design/print-extract?fresh=1793283495674` |
+| nav | `type=navigate`、`transferSize=1527`、`decodedBodySize=1227`、`domContentLoadedEnd=1071ms`、`loadEventEnd=1257ms` |
+| 文档重建 | 新 `timeOrigin=1793283495679` > 旧文档 `1793283410632`，`documentRecreated=true` |
+| 状态来源 | 结果面板**不是内存残留**：新上下文从 `localStorage['tool-task:v1:task-mvtlxua2-kh39uf']` 读任务、从 IndexedDB `media_files` 读字节后重新生成 `blob:` 预览（`naturalWidth/Height=1024/1024`、`complete=true`） |
+| reload 后 DOM | 「提取结果 / 已完成 / 共 1 个结果 · 图片 1 / 下载 / 存入资产 / 发送画布」，testid `tool-result-download-0`、`tool-result-save-0`、`tool-result-canvas-0` 均在 |
+
+桥限制（实测 3 次，非缺陷）：`location.reload()`、`setTimeout(location.reload)`、CDP `Page.reload` 在本 ego 桥上都被吞掉（`timeOrigin` 不变、`js_return=null`）。因此用**同路径 + cache-buster 的全文档导航**触发等价刷新：整个 JS 上下文重建、HTML 重新请求（transferSize>0），比单次 `reload()` 的持久化考验更强。
+
+### 7.2 真实字节（四份副本同 sha256）
+
+`sha256=1577dafdcda3797856efcae1c662cdccbc2de0ab94b88acd2b94fe541e51d822`、`bytes=2783996`、`image/png`、`md5=ccdef37fe1cc90b5920d200ff9c2417e`：
+
+| 副本 | 位置 | 字节 | sha256 |
+| --- | --- | --- | --- |
+| 结果原始缓存 | IndexedDB `media_files/tool-result:task-mvtlxua2-kh39uf:0:jf8VlMsU9spY5W5raRSnO` | 2783996 | 1577dafd… |
+| 磁盘落盘 | `~/Downloads/print-extract-result-1.png` | 2783996 | 1577dafd… |
+| 资产库副本 | IndexedDB `image_files/image:ssG2wIoxYLuGtnivHhx0Z` | 2783996 | 1577dafd… |
+| 画布节点副本 | IndexedDB `image_files/image:n3NLNYGrCamnFi-i5yR-Z` | 2783996 | 1577dafd… |
+
+### 7.3 三动作回执
+
+| 动作 | 机器证据 | 结论 |
+| --- | --- | --- |
+| 下载 | toast `已下载 print-extract-result-1.png`；hook 捕获真实出站：`a.download=print-extract-result-1.png` + `blob:`（`dispatchEvent(MouseEvent click)`），payload `2783996B / image/png / sha256=1577dafd…` | **PASS（payload）**；本轮自动化点击未再落新文件（Downloads 无 `(1)` 副本）——无用户手势被 Chrome「多个自动下载」策略拦下，属浏览器策略；磁盘同 sha 文件为上一轮真实落盘 |
+| 存入资产 | toast `已保存到资产库（fjzr1NhaALbnYz5LOAv9r）`；`infinite-canvas:asset_store` 50→51 条；新记录 `assetId=fjzr1NhaALbnYz5LOAv9r`、`storageKey=image:ssG2wIoxYLuGtnivHhx0Z`、`metadata={taskId:task-mvtlxua2-kh39uf, resultItemId:task-mvtlxua2-kh39uf-0, toolId:PRINT_EXTRACT}`、字节与 sha 同上；`/assets` 页真实卡片「PRINT_EXTRACT 结果 1 / 工具结果 / 图片 / 1024x1024 · 2.7 MB · image/png」 | **PASS** |
+| 发送画布 | toast `已发送到画布（DD6JsYYuaqJz5Eh7Ot-Oa）`；`infinite-canvas:canvas_store` 新建项目 `DD6JsYYuaqJz5Eh7Ot-Oa`（标题「PRINT_EXTRACT 结果」，1 个节点）；`canvasNodeId=image-1793283578986-px8bw`、`type=image`、`position={150,120}`、节点 `metadata.storageKey=image:n3NLNYGrCamnFi-i5yR-Z`、`1024x1024`；`/canvas/DD6JsYYuaqJz5Eh7Ot-Oa` 页 DOM 存在 `data-node-id="image-1793283578986-px8bw"` | **PASS** |
+
+### 7.4 结论与残余风险
+
+- R15 两条未证实项均已闭环：**fresh reload 后三动作可点且真实成功**（非散文）。
+- 唯一残余：下载的**物理落盘**本轮未重演（浏览器自动下载策略），但出站 payload 与磁盘既有文件的 sha256 完全一致，字节级可信；如需强制落盘需一次真实用户手势点击。
+- 本轮**未改任何源码**，因此未新增门禁；上一轮已记录 `bunx tsc --noEmit` 退出码 0、`bun test` 1082 pass / 0 fail。

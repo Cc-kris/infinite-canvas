@@ -1,0 +1,168 @@
+{
+ "_note": "R16 机器验收回执：复用既有真实任务 task-mvtlxua2-kh39uf（未重新生成、未注入任何数据）。所有 sha256 由浏览器 WebCrypto 对真实 Blob 现算；磁盘 sha 由 shasum -a 256 现算。",
+ "taskId": "task-mvtlxua2-kh39uf",
+ "toolId": "PRINT_EXTRACT",
+ "status": "succeeded",
+ "finishedAt": 1793282257967,
+ "verifiedAt": "2026-10-29T22:22:00+08:00",
+ "persistence": {
+  "localStorageKey": "tool-task:v1:task-mvtlxua2-kh39uf",
+  "indexedDb": {
+   "db": "infinite-canvas",
+   "stores": {
+    "resultBlob": "media_files",
+    "imageBlob": "image_files",
+    "state": "app_state"
+   }
+  },
+  "stateKeys": {
+   "assets": "infinite-canvas:asset_store",
+   "canvas": "infinite-canvas:canvas_store"
+  }
+ },
+ "reload": {
+  "decodedBodySize": 1227,
+  "documentUptimeMs": 97067,
+  "domContentLoadedEnd": 1071,
+  "loadEventEnd": 1257,
+  "navType": "navigate",
+  "responseStart": 116,
+  "timeOrigin": 1793283495679,
+  "transferSize": 1527,
+  "url": "http://127.0.0.1:3000/tools/product-design/print-extract?fresh=1793283495674",
+  "mechanism": "location.reload() 与 CDP Page.reload 均被 Galley 桥吞掉（timeOrigin 不变，实测 3 次）；改用同路径加 cache-buster 的全文档导航，等效于一次刷新：JS 上下文重建 + 从 localStorage/IndexedDB 重新水合",
+  "previousDocumentTimeOrigin": 1793283410632,
+  "newDocumentTimeOrigin": 1793283495679,
+  "documentRecreated": true,
+  "postReloadPanelText": "提取结果 / 已完成 / 共 1 个结果 · 图片 1 / 下载 / 存入资产 / 发送画布",
+  "postReloadResultImg": {
+   "naturalWidth": 1024,
+   "naturalHeight": 1024,
+   "complete": true,
+   "srcScheme": "blob:"
+  },
+  "postReloadActionTestIds": [
+   "tool-result-download-0",
+   "tool-result-save-0",
+   "tool-result-canvas-0"
+  ]
+ },
+ "realBytes": {
+  "bytes": 2783996,
+  "idbBytes": 2783996,
+  "mimeType": "image/png",
+  "sha256": "1577dafdcda3797856efcae1c662cdccbc2de0ab94b88acd2b94fe541e51d822",
+  "storageKey": "tool-result:task-mvtlxua2-kh39uf:0:jf8VlMsU9spY5W5raRSnO",
+  "sha256Algorithm": "SHA-256 (WebCrypto over Blob read from IndexedDB media_files)",
+  "md5OfSameBytes": "ccdef37fe1cc90b5920d200ff9c2417e",
+  "independentCrossChecks": [
+   {
+    "where": "IndexedDB media_files (结果原始缓存)",
+    "bytes": 2783996,
+    "sha256": "1577dafdcda3797856efcae1c662cdccbc2de0ab94b88acd2b94fe541e51d822"
+   },
+   {
+    "where": "磁盘 ~/Downloads/print-extract-result-1.png (上一轮真实落盘)",
+    "bytes": 2783996,
+    "sha256": "1577dafdcda3797856efcae1c662cdccbc2de0ab94b88acd2b94fe541e51d822",
+    "mtime": "2026-10-29T21:58:52+08:00"
+   },
+   {
+    "where": "IndexedDB image_files 资产副本",
+    "bytes": 2783996,
+    "sha256": "1577dafdcda3797856efcae1c662cdccbc2de0ab94b88acd2b94fe541e51d822"
+   },
+   {
+    "where": "IndexedDB image_files 画布节点副本",
+    "bytes": 2783996,
+    "sha256": "1577dafdcda3797856efcae1c662cdccbc2de0ab94b88acd2b94fe541e51d822"
+   }
+  ]
+ },
+ "actions": {
+  "download": {
+   "button": "[data-testid=tool-result-download-0]",
+   "feedback": "已下载 print-extract-result-1.png",
+   "capturedAnchor": {
+    "filename": "print-extract-result-1.png",
+    "hrefScheme": "blob:",
+    "dispatch": "dispatchEvent(MouseEvent click)"
+   },
+   "payloadBlob": {
+    "bytes": 2783996,
+    "mimeType": "image/png",
+    "sha256": "1577dafdcda3797856efcae1c662cdccbc2de0ab94b88acd2b94fe541e51d822"
+   },
+   "diskArtifact": {
+    "path": "/Users/mac/Downloads/print-extract-result-1.png",
+    "bytes": 2783996,
+    "sha256": "1577dafdcda3797856efcae1c662cdccbc2de0ab94b88acd2b94fe541e51d822",
+    "mtimeLocal": "2026-10-29 21:58:52"
+   },
+   "verdict": "PASS(payload)+PASS(disk artifact, 旧轮落盘同 sha)",
+   "caveat": "本轮注入式点击重建了真实 payload 但 Chrome 未再落新文件（无 (1) 副本，Downloads 无 22:16/22:20 新条目）：自动化点击无用户手势，被 Chrome 多个自动下载策略拦下。属浏览器策略，不是应用缺陷；应用侧 Blob→BlobURL→a[download] 链路与字节完全正确。"
+  },
+  "saveToAssets": {
+   "button": "[data-testid=tool-result-save-0]",
+   "feedback": "已保存到资产库（fjzr1NhaALbnYz5LOAv9r）",
+   "assetId": "fjzr1NhaALbnYz5LOAv9r",
+   "storeKey": "infinite-canvas:asset_store",
+   "countBefore": 50,
+   "countAfter": 51,
+   "imageStorageKey": "image:ssG2wIoxYLuGtnivHhx0Z",
+   "idbBytes": 2783996,
+   "mimeType": "image/png",
+   "sha256": "1577dafdcda3797856efcae1c662cdccbc2de0ab94b88acd2b94fe541e51d822",
+   "metadata": {
+    "resultItemId": "task-mvtlxua2-kh39uf-0",
+    "taskId": "task-mvtlxua2-kh39uf",
+    "toolId": "PRINT_EXTRACT"
+   },
+   "source": "工具结果",
+   "createdAt": "2026-10-29T14:19:27.561Z",
+   "uiCrossCheck": {
+    "page": "/assets",
+    "cardText": "PRINT_EXTRACT 结果 1 | 工具结果 | 图片 | 1024x1024 · 2.7 MB · image/png",
+    "found": true
+   },
+   "verdict": "PASS"
+  },
+  "sendToCanvas": {
+   "button": "[data-testid=tool-result-canvas-0]",
+   "feedback": "已发送到画布（DD6JsYYuaqJz5Eh7Ot-Oa）",
+   "projectId": "DD6JsYYuaqJz5Eh7Ot-Oa",
+   "projectTitle": "PRINT_EXTRACT 结果",
+   "nodeCount": 1,
+   "canvasNodeId": "image-1793283578986-px8bw",
+   "nodeType": "image",
+   "position": {
+    "x": 150,
+    "y": 120
+   },
+   "nodeImageStorageKey": "image:n3NLNYGrCamnFi-i5yR-Z",
+   "imageBytes": 2783996,
+   "imageSha256": "1577dafdcda3797856efcae1c662cdccbc2de0ab94b88acd2b94fe541e51d822",
+   "nodeMetadata": {
+    "bytes": 2783996,
+    "content": "blob:http://127.0.0.1:3000/a19cb101-3707-4c26-a41d-f3fe273b9ed1",
+    "mimeType": "image/png",
+    "naturalHeight": 1024,
+    "naturalWidth": 1024,
+    "status": "success",
+    "storageKey": "image:n3NLNYGrCamnFi-i5yR-Z"
+   },
+   "uiCrossCheck": {
+    "page": "/canvas/DD6JsYYuaqJz5Eh7Ot-Oa",
+    "nodeAttrPresent": true,
+    "nodeAttr": "data-node-id=image-1793283578986-px8bw",
+    "projectLabel": "PRINT_EXTRACT 结果",
+    "elements": "画布元素 1"
+   },
+   "verdict": "PASS"
+  }
+ },
+ "limits": [
+  "未重新提交生成、未向上游发任何新请求、未改写任何 localStorage/IndexedDB 记录；仅点击既有结果的三动作按钮并读取真实存储。",
+  "history DB 复制的 Chrome Default profile 无今日下载记录（ego lite 使用独立 profile），因此磁盘证据取 ~/Downloads 实际文件。"
+ ]
+}
