@@ -8,7 +8,6 @@ import { ToolTaskHistory } from "@/components/tools/tool-task-history";
 import { downloadResultItem, saveResultItemToAssets, sendResultItemToCanvas } from "@/components/tools/tool-result-actions";
 import { resolveMediaUrl } from "@/services/file-storage";
 import { loadToolAssetRecords, type ToolAssetConstraints, type ToolAssetRecord } from "@/services/api/tools/assets";
-import { getToolGateway } from "@/services/api/tools/gateway";
 import type { ToolTask } from "@/services/api/tools/task-machine";
 import { useConfigStore } from "@/stores/use-config-store";
 import { useToolDraftStore } from "@/stores/use-tool-draft-store";
@@ -342,7 +341,7 @@ export function SceneWorkspace({ className }: { className?: string }) {
         abortRef.current = controller;
         try {
             const run = await runNewReplaceBg({
-                gateway: getToolGateway(),
+                gateway: getPersistedToolGateway(),
                 values,
                 output,
                 goods,
@@ -376,7 +375,7 @@ export function SceneWorkspace({ className }: { className?: string }) {
         abortRef.current = controller;
         try {
             const run = await retryNewReplaceBg({
-                gateway: getToolGateway(),
+                gateway: getPersistedToolGateway(),
                 taskId: task.id,
                 values,
                 output,
@@ -403,7 +402,7 @@ export function SceneWorkspace({ className }: { className?: string }) {
         abortRef.current?.abort();
         if (!task) return;
         try {
-            setTask(getToolGateway().cancel(task.id));
+            setTask(getPersistedToolGateway().cancel(task.id));
         } catch {
             /* 任务已是终态时取消会抛错，保持现状即可 */
         }

@@ -1,0 +1,66 @@
+{
+  "toolId": "NEW_REPLACE_BG_V2",
+  "at": "2026-10-29T11:34:44.180Z",
+  "baseUrl": "http://127.0.0.1:3000",
+  "injection": false,
+  "provider": {
+    "imageModel": "ccai-accept::gpt-image-2",
+    "channels": [
+      "ccai-accept",
+      "sf-accept"
+    ],
+    "baseUrl": "https://api.cc-ai.xyz",
+    "keyLen": 67,
+    "proxyEnabled": true,
+    "channelCount": 2,
+    "model": "gpt-image-2"
+  },
+  "steps": [
+    "NEW_REPLACE_BG_V2-step1-loaded.png",
+    "NEW_REPLACE_BG_V2-step2-ready.png",
+    "NEW_REPLACE_BG_V2-step3-submitted.png"
+  ],
+  "uploadInputs": 2,
+  "goodsMeta": "product-watch.jpg · 1024×744 · 无透明通道",
+  "cutoutState": "抠图已确认",
+  "issuesBefore": null,
+  "submit": {
+    "found": true,
+    "disabled": false,
+    "label": "立即生成"
+  },
+  "taskKeysBefore": 0,
+  "existingTaskIds": [],
+  "submittedAt": "2026-10-29T11:35:53.690Z",
+  "elapsedMs": 426163,
+  "verdict": "BLOCKED",
+  "blockedReason": "no-task-record-after-submit",
+  "runError": null,
+  "network": [
+    {
+      "status": 200,
+      "method": "GET",
+      "url": "http://127.0.0.1:23210/",
+      "at": "2026-10-29T11:34:40.418Z"
+    },
+    {
+      "status": 200,
+      "method": "GET",
+      "url": "http://127.0.0.1:23210/",
+      "at": "2026-10-29T11:34:41.952Z"
+    },
+    {
+      "status": 200,
+      "method": "GET",
+      "url": "http://127.0.0.1:23210/",
+      "at": "2026-10-29T11:34:45.937Z"
+    },
+    {
+      "status": 502,
+      "method": "POST",
+      "url": "http://127.0.0.1:23210/https://api.cc-ai.xyz/v1/images/edits",
+      "at": "2026-10-29T11:35:55.157Z"
+    }
+  ],
+  "finishedAt": "2026-10-29T11:43:59.090Z"
+}

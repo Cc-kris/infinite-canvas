@@ -1,0 +1,22 @@
+{
+  "at": "2026-10-29T11:43:59.926Z",
+  "provider": {
+    "imageModel": "ccai-accept::gpt-image-2",
+    "channels": [
+      "ccai-accept",
+      "sf-accept"
+    ],
+    "baseUrl": "https://api.cc-ai.xyz",
+    "keyLen": 67,
+    "proxyEnabled": true,
+    "channelCount": 2,
+    "model": "gpt-image-2"
+  },
+  "results": {
+    "NEW_REPLACE_BG_V2": {
+      "verdict": "BLOCKED",
+      "taskId": null,
+      "reason": "no-task-record-after-submit"
+    }
+  }
+}

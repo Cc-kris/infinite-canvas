@@ -1,0 +1,182 @@
+{
+  "toolId": "REPLACE_GOODS",
+  "at": "2026-10-29T11:24:00.760Z",
+  "baseUrl": "http://127.0.0.1:3000",
+  "injection": false,
+  "provider": {
+    "imageModel": "ccai-accept::gpt-image-2",
+    "channels": [
+      "ccai-accept",
+      "sf-accept"
+    ],
+    "baseUrl": "https://api.cc-ai.xyz",
+    "keyLen": 67,
+    "proxyEnabled": true,
+    "channelCount": 2,
+    "model": "gpt-image-2"
+  },
+  "steps": [
+    "REPLACE_GOODS-step1-loaded.png",
+    "REPLACE_GOODS-step2-ready.png",
+    "REPLACE_GOODS-step3-submitted.png",
+    "REPLACE_GOODS-step4-result.png",
+    "REPLACE_GOODS-step5-actions.png",
+    "REPLACE_GOODS-step6-reload.png"
+  ],
+  "outputCount": 1,
+  "uploadInputs": 2,
+  "uploadInputsAfterScene": 2,
+  "issuesBefore": null,
+  "quadReadout": "中心点0.500, 0.500缩放1.00×旋转0.0°锁定覆盖：49.8%（四边形外自动保护，可用补锁/擦除微调）",
+  "submit": {
+    "found": true,
+    "disabled": false,
+    "label": "立即生成"
+  },
+  "taskKeysBefore": 0,
+  "submittedAt": "2026-10-29T11:25:19.343Z",
+  "elapsedMs": 33564,
+  "taskId": "task-mvtgiiu1-hrp6z3",
+  "taskStatus": "succeeded",
+  "localTaskKey": "tool-task:v1:task-mvtgiiu1-hrp6z3",
+  "taskRecord": {
+    "localSnapshot": {
+      "id": "task-mvtgiiu1-hrp6z3",
+      "toolId": "REPLACE_GOODS",
+      "status": "succeeded",
+      "clientOperationId": "66b7009e-c2fa-41f9-800b-bf9363fc60c4",
+      "fingerprint": "1764dc34869b11e0",
+      "capability": "image",
+      "prompt": "第 1 张是参考场景，第 2 张是替换商品。把场景里的原商品整体换成第 2 张图中的商品：保留原商品的透视、朝向、接触面与投影关系，落位按导引图四边形（中心 50%,50%，缩放 1.00×，旋转 0°）贴合；商品材质、纹理、logo 与颜色严格来自第 2 张图，不要凭空重绘商品本体；导引图或蒙版中白色锁定区域（场景、道具、背景）不得改动；场景变化程度：不变。背景保持原样，只重算新商品的受光与落地阴影。输出 1:1 方形成片，不要残留原商品边缘或重影。",
+      "configSnapshot": {
+        "capability": "image",
+        "model": "ccai-accept::gpt-image-2",
+        "apiFormat": "openai",
+        "size": "1:1",
+        "quality": "auto",
+        "count": "1",
+        "videoSeconds": "6",
+        "channelId": "ccai-accept"
+      },
+      "sourceAssetIds": [
+        "scene",
+        "target",
+        "placement-guide",
+        "protect-mask"
+      ],
+      "draftRevision": null,
+      "createdAt": 1793273119705,
+      "updatedAt": 1793273150609,
+      "attempts": 1,
+      "pollCount": 0,
+      "transientFailures": 0,
+      "submittedAt": 1793273119706,
+      "result": {
+        "items": [
+          {
+            "id": "task-mvtgiiu1-hrp6z3-0",
+            "kind": "image",
+            "storageKey": "tool-result:EgXIv9jYc6CjyTXclmmcm",
+            "url": "blob:http://127.0.0.1:3000/3ae9819b-c0fa-4a0e-8c94-3ac9a182d588",
+            "bytes": 1192722,
+            "mimeType": "image/png",
+            "payloadDropped": false
+          }
+        ],
+        "receivedAt": 1793273150609
+      },
+      "finishedAt": 1793273150609
+    },
+    "live": null
+  },
+  "resultSrcKind": "data",
+  "result": {
+    "bytes": 1192722,
+    "sha256": "0ac369c50a99a7f063d1b2f564318e81201dc6c52a2bb747e4125bea60a58477",
+    "isPng": true
+  },
+  "inputDiff": {
+    "sceneSha256": "43ede96e7ce885098df793143b215e2c7d2ea7558af711ec5c46975a0dc19be3",
+    "targetSha256": "6fa693cbc2a1bf08dead2cb8f64c6daae122fd039c7ea4df6a9b25878af6c71b",
+    "resultDiffersFromScene": true,
+    "resultDiffersFromTarget": true
+  },
+  "actions": {
+    "download": {
+      "label": "REPLACE_GOODS-download",
+      "ok": true,
+      "suggestedFilename": "replace-goods-result-1.png",
+      "bytes": 1192722,
+      "sha256": "0ac369c50a99a7f063d1b2f564318e81201dc6c52a2bb747e4125bea60a58477",
+      "savedAs": "/Users/mac/Documents/Dev/infinite-canvas/docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/h4-design-realgen-20261029/REPLACE_GOODS-download-1793273153608.png"
+    },
+    "saveAsset": {
+      "label": "saveAsset",
+      "ok": true,
+      "feedback": "已保存到资产库（ARMdRqO73OqxRXae4TGBb）"
+    },
+    "sendCanvas": {
+      "label": "sendCanvas",
+      "ok": true,
+      "feedback": "已发送到画布（DLPBAtx83xm_EQu-rcKeW）"
+    }
+  },
+  "reloadNavType": "reload",
+  "dockAfterReload": {
+    "mounted": true,
+    "countText": "1 条",
+    "empty": false,
+    "items": [
+      {
+        "taskId": "task-mvtgiiu1-hrp6z3",
+        "status": "succeeded",
+        "summary": "ccai-accept::gpt-image-2 · image · 1 个结果"
+      }
+    ],
+    "thumbs": [
+      {
+        "src": "blob:http://127.0.0.1:3000/fd650aad-165a-46e5-a285-67782f96bacd",
+        "width": 1024,
+        "height": 1024,
+        "decoded": true
+      }
+    ]
+  },
+  "persistedAfterReload": {
+    "task-mvtgiiu1-hrp6z3": true
+  },
+  "verdict": "PASS",
+  "network": [
+    {
+      "status": 200,
+      "method": "GET",
+      "url": "http://127.0.0.1:23210/",
+      "at": "2026-10-29T11:23:55.595Z"
+    },
+    {
+      "status": 200,
+      "method": "GET",
+      "url": "http://127.0.0.1:23210/",
+      "at": "2026-10-29T11:23:58.234Z"
+    },
+    {
+      "status": 200,
+      "method": "GET",
+      "url": "http://127.0.0.1:23210/",
+      "at": "2026-10-29T11:24:03.612Z"
+    },
+    {
+      "status": 200,
+      "method": "POST",
+      "url": "http://127.0.0.1:23210/https://api.cc-ai.xyz/v1/images/edits",
+      "at": "2026-10-29T11:25:50.110Z"
+    },
+    {
+      "status": 200,
+      "method": "GET",
+      "url": "http://127.0.0.1:23210/",
+      "at": "2026-10-29T11:25:58.072Z"
+    }
+  ],
+  "finishedAt": "2026-10-29T11:26:03.863Z"
+}
