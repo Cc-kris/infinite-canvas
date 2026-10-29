@@ -130,6 +130,12 @@ const inputClass =
 /* ---------------------- 历史回填（UI 刷新后不丢结果） ---------------------- */
 
 /**
+ * prompt 归一化：任务落盘时换行会被压成空格（长度不变），
+ * 所以对齐只能用空白归一化后的文本比较，不能直接字符串相等。
+ */
+const normalizePrompt = (value: string) => value.replace(/\s+/g, " ").trim();
+
+/**
  * 已落盘任务 → 结果区单元。
  * 每个单元是一次真实请求，且单元 prompt 由 (模块, index/count, 尺寸/品质/商品信息) 唯一决定，
  * 所以用 task.prompt 与 buildSuiteUnits(config).prompt 对齐即可还原（不依赖任务里不存在的 fields）。
@@ -145,12 +151,13 @@ export function restoreSuiteUnitsFromTasks(
     const latest = new Map<string, ToolTask>();
     for (const task of Object.values(tasks)) {
         if (task.toolId !== toolId) continue;
-        const existing = latest.get(task.prompt);
-        if (!existing || existing.createdAt < task.createdAt) latest.set(task.prompt, task);
+        const key = normalizePrompt(task.prompt);
+        const existing = latest.get(key);
+        if (!existing || existing.createdAt < task.createdAt) latest.set(key, task);
     }
     const restored: SuiteUnitResult[] = [];
     for (const unit of planned) {
-        const task = latest.get(unit.prompt);
+        const task = latest.get(normalizePrompt(unit.prompt));
         if (!task) continue;
         restored.push(suiteUnitResultFromTask(unit, task));
     }
@@ -246,8 +253,10 @@ export function ProductImageSuiteWorkspace({ className }: { className?: string }
     useEffect(() => {
         if (restoredFromTasks.current || !seeded || !tasksHydrated) return;
         const restored = restoreSuiteUnitsFromTasks(config, storeTasks, toolId);
-        restoredFromTasks.current = true;
         if (restored.length === 0) return;
+        // 只有真的对上单元才落锁：草稿配置异步回填前用默认 config 算不出 prompt，
+        // 提前落锁会让刷新后的结果永远不回来。
+        restoredFromTasks.current = true;
         setUnits((previous) => (previous.length > 0 ? previous : restored));
         setSnapshot(createSuiteSnapshot(config, draft?.revision ?? 0));
     }, [seeded, tasksHydrated, storeTasks, config, toolId, draft?.revision]);
@@ -255,7 +264,8 @@ export function ProductImageSuiteWorkspace({ className }: { className?: string }
     /* 历史点选：把该任务还原成一张结果（同一单元取最新）。 */
     const onSelectHistoryTask = useCallback(
         (task: ToolTask) => {
-            const unit = buildSuiteUnits(config).find((item) => item.prompt === task.prompt);
+            const target = normalizePrompt(task.prompt);
+            const unit = buildSuiteUnits(config).find((item) => normalizePrompt(item.prompt) === target);
             if (!unit) return;
             const restored = suiteUnitResultFromTask(unit, task);
             setUnits((previous) => [...previous.filter((item) => item.unitId !== unit.id), restored]);
