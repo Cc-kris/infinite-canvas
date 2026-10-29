@@ -9,10 +9,10 @@ import { PRODUCT_SUITE_CASES } from "@/features/tools/suite6-cases-data";
 import { ToolTaskHistory } from "@/components/tools/tool-task-history";
 import { saveResultItemToAssets, sendResultItemToCanvas } from "@/components/tools/tool-result-actions";
 import { loadToolAssetRecords, type ToolAssetConstraints, type ToolAssetRecord } from "@/services/api/tools/assets";
-import { getToolGateway } from "@/services/api/tools/gateway";
-import type { ToolTaskResultItem } from "@/services/api/tools/task-machine";
+import type { ToolTask, ToolTaskResultItem } from "@/services/api/tools/task-machine";
 import { useConfigStore } from "@/stores/use-config-store";
 import { useToolDraftStore } from "@/stores/use-tool-draft-store";
+import { getPersistedToolGateway, useToolTaskStore } from "@/stores/use-tool-task-store";
 
 import {
     PRODUCT_IMAGE_SUITE_MAX_PRODUCT_INFO,
@@ -44,6 +44,7 @@ import {
     saveSuiteResultItem,
     summarizeSuiteRun,
     suiteResultsStale,
+    suiteUnitResultFromTask,
     validateSuiteSourceLimits,
     type SuiteSourceAsset,
     type SuiteUnitResult,
@@ -126,6 +127,36 @@ function Field({ label, children }: { label: string; children: React.ReactNode }
 const inputClass =
     "rounded-md border border-stone-200 bg-white px-2 py-1 text-xs text-stone-800 outline-none focus:border-stone-400 dark:border-stone-700 dark:bg-stone-900 dark:text-stone-100";
 
+/* ---------------------- 历史回填（UI 刷新后不丢结果） ---------------------- */
+
+/**
+ * 已落盘任务 → 结果区单元。
+ * 每个单元是一次真实请求，且单元 prompt 由 (模块, index/count, 尺寸/品质/商品信息) 唯一决定，
+ * 所以用 task.prompt 与 buildSuiteUnits(config).prompt 对齐即可还原（不依赖任务里不存在的 fields）。
+ * 同一 prompt 有多条时取最新一条；配置改过（prompt 变化）则不还原，避免张冠李戴。
+ */
+export function restoreSuiteUnitsFromTasks(
+    config: SuiteConfig,
+    tasks: Record<string, ToolTask>,
+    toolId: string,
+): SuiteUnitResult[] {
+    const planned = buildSuiteUnits(config);
+    if (planned.length === 0) return [];
+    const latest = new Map<string, ToolTask>();
+    for (const task of Object.values(tasks)) {
+        if (task.toolId !== toolId) continue;
+        const existing = latest.get(task.prompt);
+        if (!existing || existing.createdAt < task.createdAt) latest.set(task.prompt, task);
+    }
+    const restored: SuiteUnitResult[] = [];
+    for (const unit of planned) {
+        const task = latest.get(unit.prompt);
+        if (!task) continue;
+        restored.push(suiteUnitResultFromTask(unit, task));
+    }
+    return restored;
+}
+
 /* ------------------------------ 主组件 ------------------------------ */
 
 export function ProductImageSuiteWorkspace({ className }: { className?: string }) {
@@ -203,6 +234,36 @@ export function ProductImageSuiteWorkspace({ className }: { className?: string }
         };
     }, [toolId, hydrate, flushDraft]);
 
+    /* 任务回填：任务已由 store-backed 网关落盘（含结果字节入库），
+     * 刷新/重新进入时按当前配置的单元计划还原结果区，避免「成功结果刷新即消失」。 */
+    const storeTasks = useToolTaskStore((state) => state.tasks);
+    const tasksHydrated = useToolTaskStore((state) => state.hydrated);
+    const hydrateTasks = useToolTaskStore((state) => state.hydrate);
+    const restoredFromTasks = useRef(false);
+    useEffect(() => {
+        if (!tasksHydrated) hydrateTasks();
+    }, [tasksHydrated, hydrateTasks]);
+    useEffect(() => {
+        if (restoredFromTasks.current || !seeded || !tasksHydrated) return;
+        const restored = restoreSuiteUnitsFromTasks(config, storeTasks, toolId);
+        restoredFromTasks.current = true;
+        if (restored.length === 0) return;
+        setUnits((previous) => (previous.length > 0 ? previous : restored));
+        setSnapshot(createSuiteSnapshot(config, draft?.revision ?? 0));
+    }, [seeded, tasksHydrated, storeTasks, config, toolId, draft?.revision]);
+
+    /* 历史点选：把该任务还原成一张结果（同一单元取最新）。 */
+    const onSelectHistoryTask = useCallback(
+        (task: ToolTask) => {
+            const unit = buildSuiteUnits(config).find((item) => item.prompt === task.prompt);
+            if (!unit) return;
+            const restored = suiteUnitResultFromTask(unit, task);
+            setUnits((previous) => [...previous.filter((item) => item.unitId !== unit.id), restored]);
+            setRightTab("result");
+        },
+        [config],
+    );
+
     const update = useCallback(
         (next: Partial<SuiteConfig>) => {
             setConfig((previous) => {
@@ -263,7 +324,7 @@ export function ProductImageSuiteWorkspace({ className }: { className?: string }
         try {
             await flushDraft(toolId);
             const run = await runSuite({
-                gateway: getToolGateway(),
+                gateway: getPersistedToolGateway(),
                 config,
                 source,
                 revision: draft?.revision ?? null,
@@ -290,7 +351,7 @@ export function ProductImageSuiteWorkspace({ className }: { className?: string }
             try {
                 const unitDef = buildSuiteUnitDefinition(config, result.unitId);
                 if (!unitDef) throw new SuiteAdapterError("unit-missing", "找不到该单元配置，请重新生成。");
-                const next = await retrySuiteUnit({ gateway: getToolGateway(), config, source: source ?? { assetId: "" }, unit: unitDef, previous: result });
+                const next = await retrySuiteUnit({ gateway: getPersistedToolGateway(), config, source: source ?? { assetId: "" }, unit: unitDef, previous: result });
                 setUnits((previous) => previous.map((item) => (item.unitId === next.unitId ? next : item)));
             } catch (error) {
                 setRunError(error instanceof Error ? error.message : "重试失败。");
@@ -624,7 +685,7 @@ export function ProductImageSuiteWorkspace({ className }: { className?: string }
                     />
                 </div>
                 <div role="tabpanel" hidden={rightTab !== "history"} data-testid="suite-panel-history">
-                    <ToolTaskHistory toolId={toolId} limit={8} emptyHint="还没有套图任务记录" />
+                    <ToolTaskHistory toolId={toolId} limit={8} onSelectTask={onSelectHistoryTask} emptyHint="还没有套图任务记录" />
                 </div>
                 <div role="tabpanel" hidden={rightTab !== "result"} data-testid="suite-panel-result" className="flex flex-col gap-3">
                     <p className="text-[11px] text-[#6b6b80]">
@@ -824,7 +885,7 @@ export function ProductMarketMaterialWorkspace({ className }: { className?: stri
         try {
             await flushDraft(toolId);
             const run = await runMarketMaterial({
-                gateway: getToolGateway(),
+                gateway: getPersistedToolGateway(),
                 config,
                 sources,
                 provider,
@@ -851,7 +912,7 @@ export function ProductMarketMaterialWorkspace({ className }: { className?: stri
             setBusyUnit(previous.unitId);
             try {
                 const next = await retryMarketUnit({
-                    gateway: getToolGateway(),
+                    gateway: getPersistedToolGateway(),
                     config,
                     sources,
                     provider,

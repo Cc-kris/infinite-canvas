@@ -247,6 +247,15 @@ function getGateway(): ToolTaskGateway {
     return gatewayInstance;
 }
 
+/**
+ * 取「写进本 store」的网关（与 runTool 同一个实例）。
+ * 批量工作台（套图/换色等）直接调 adapter 时也必须用它，否则任务只存在网关的内存端口里：
+ * 历史记录永远 0 条、刷新后结果与任务全部丢失。
+ */
+export function getPersistedToolGateway(): ToolTaskGateway {
+    return getGateway();
+}
+
 export const useToolTaskStore = create<ToolTaskState>((set, get) => ({
     tasks: {},
     hydrated: false,
