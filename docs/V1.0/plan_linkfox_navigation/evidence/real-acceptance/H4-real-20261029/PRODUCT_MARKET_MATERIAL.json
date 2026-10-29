@@ -1,0 +1,24 @@
+{
+ "toolId": "PRODUCT_MARKET_MATERIAL",
+ "route": "/tools/product-design/product-market-material",
+ "app": "http://127.0.0.1:3000",
+ "capturedAt": "2026-10-29T19:22+08:00",
+ "method": "real Chrome profile + CDP; fresh load + reload; 未注入、未新生成",
+ "probe": {
+  "toolTaskKeys": 64,
+  "toolTaskCountByTool": {
+   "PRODUCT_MARKET_MATERIAL": 0
+  },
+  "otherOrigins": {
+   "http://localhost:3000": "1 条（AI_VIDEO_EDITING，无关）"
+  },
+  "workerProfile": {
+   "path": "temp/xsy-profile-20261029/Default/Local Storage/leveldb",
+   "marketTasks": 0
+  },
+  "sourceDraftOnly": "页面能恢复素材（product.jpg 1024×744）与配置，8ad16ec 的 restoreMarketUnitsFromTasks 依赖 toolId=PRODUCT_MARKET_MATERIAL 的任务"
+ },
+ "verdict": "BLOCKED(no-real-task)",
+ "H_path": "none",
+ "blocking": "全环境无该工具的持久真实任务；刷新回填逻辑无法被真实数据触发（新生成被本轮约束禁止）"
+}

@@ -1,0 +1,25 @@
+{
+ "toolId": "IMAGE_TEXT_EDIT",
+ "route": "/tools/product-design/image-text-edit",
+ "app": "http://127.0.0.1:3000",
+ "capturedAt": "2026-10-29T19:20+08:00",
+ "method": "real Chrome profile + CDP; Page.navigate(full load) → Page.reload(navigation.type=reload); 未注入、未新生成、未手动点历史项",
+ "naturalRecovery": {
+  "navType": "reload",
+  "resView": "succeeded",
+  "resTxt": "图片文字结果 已完成 共 1 个结果 · 图片 1 刷新后原始文件未保留，无法预览 下载 存入资产 发送画布",
+  "restoredTask": "task-mvs8bhu1-hhue24",
+  "restoredAt": "2026-10-28T14:48:08.713Z",
+  "autoSelected": false,
+  "note": "结果卡由 store hydrate 后自动回填，非点击历史项触发"
+ },
+ "payload": {
+  "payloadDropped": true,
+  "storageKey": null,
+  "bytes": null,
+  "reason": "该真实任务早于结果持久化修复（10-28 14:48），tool-task 快照只存元数据，IDB 无 tool-result 记录"
+ },
+ "verdict": "BLOCKED(payload)",
+ "H_path": "result-card-refill",
+ "blocking": "自然恢复链路已证实；但无可验证的结果字节与三动作回执。需一条修复后提交的真实任务才能 PASS（本轮禁止新生成）"
+}

@@ -1,41 +1,45 @@
 {
- "generatedAt": "2026-10-29T15:41:17",
- "head": "e0fbfd9",
+ "generatedAt": "2026-10-29T17:57:07",
+ "head": "6c6785d",
  "branch": "feat/linkfox-v1-real",
  "scope": {
   "tools": 39
+ },
+ "worktree": {
+  "dirtyWebSrc": [
+   "M web/src/components/tools/workspaces/video-translation.tsx",
+   " M web/src/components/tools/workspaces/video.tsx"
+  ],
+  "note": "矩阵依据已提交证据；scope_audit 在含未提交改动的 web/src 上运行，未提交代码不作为证据"
  },
  "rubric": {
   "F": "产物 + >=2 项动作回执（download 字节 / assetId / projectId）；注入或借用 payload 不 PASS",
   "T": "scope_audit 可见文案/品牌命中（case-module 占位 => PARTIAL）",
   "R": "真实产物字节/URL；截图（>=1440 宽）不计；仅 URL 需可取回",
-  "H": "仅真实提交→persist→reload 证据可 PASS；B5/B4/B7 均为 persistTask 注入，故最多 PARTIAL",
+  "H": "仅真实提交→persist→reload 证据可 PASS（快照恢复或历史回填均可）；B5/B4/B7 注入快照不算；H_path 区分恢复路径",
   "K": "原站案例数据 + 本地页签/做同款回执；原站无页签或无取证 => N/A/MISSING",
   "U": "scope_audit 设计系统（原站像素值硬编码）命中"
  },
  "summary": {
   "F": {
-   "PASS": 18,
-   "PARTIAL": 19,
-   "BLOCKED": 2
+   "PASS": 26,
+   "PARTIAL": 13
   },
   "T": {
    "PARTIAL": 7,
    "PASS": 32
   },
   "R": {
-   "PASS": 33,
-   "BLOCKED": 5,
-   "PARTIAL": 1
+   "PASS": 37,
+   "BLOCKED": 2
   },
   "H": {
-   "PASS": 4,
-   "PARTIAL": 35
+   "PASS": 13,
+   "PARTIAL": 26
   },
   "K": {
-   "PASS": 9,
-   "N/A": 29,
-   "MISSING": 1
+   "PASS": 10,
+   "N/A": 29
   },
   "U": {
    "PASS": 39
@@ -72,6 +76,8 @@
    "H_evidence": [
     "H-history-freshload-20261029.json"
    ],
+   "H_path": "历史回填",
+   "H_path_note": "全新加载后历史坞 2 条真实任务（14:55 已完成）",
    "K": "PASS",
    "K_note": "原站 type71 12 案例 + 本地页签/做同款回填 DOM 回执",
    "K_evidence": [
@@ -111,6 +117,8 @@
    "H_evidence": [
     "H-history-freshload-20261029.json"
    ],
+   "H_path": "历史回填",
+   "H_path_note": "全新加载后历史坞 2 条真实任务（15:02 已完成）+ 素材/结果还原",
    "K": "PASS",
    "K_note": "原站 type69 12 案例 + 案例服装图回填回执",
    "K_evidence": [
@@ -150,6 +158,8 @@
    "H_evidence": [
     "H-history-freshload-20261029.json"
    ],
+   "H_path": "历史回填（含收敛验证）",
+   "H_path_note": "全新加载后历史坞 4 条真实任务（1 条含结果）；069a455 后注入 submitting/unknown 探针 reload 收敛 failed 并在历史显示失败原因（round3）；round2 真实出图仍被代理 401 阻断",
    "K": "PASS",
    "K_note": "原站 type93 13 案例 + 换色部位回填回执",
    "K_evidence": [
@@ -164,16 +174,18 @@
    "name": "批量翻译",
    "route": "/tools/ecommerce-suite/image-translation",
    "workspace": "web/src/components/tools/workspaces/translate.tsx",
-   "F": "PARTIAL",
-   "F_note": "b4 三动作通过，但工作台存在控件/校验缺陷（旧矩阵已记录）",
+   "F": "PASS",
+   "F_note": "r7 复用真实成功任务 task-mvt9elbs-u4grlv，三动作齐全且字节三处互证：下载 1028256B（sha256 8b600332…）＝资产 DA8J8qw7BpnPB_6qFhcnY（image:LKQWmB0Nf8WfSf2pW5rg8，1024x1024）＝画布 0NDxhfkN1_ZKYI7y0d6S5 / image-1793267739608-qt3um（1028256B）；同标签内点后即时回读 IDB，无注入、未重生成",
    "F_evidence": [
+    "R7-actions-20261029/IMAGE_TRANSLATION/b4-actions.json",
+    "R7-actions-20261029/IMAGE_TRANSLATION/image-translation-result-1.png",
     "IMAGE_TRANSLATION/b4-actions.json",
-    "IMAGE_TRANSLATION/result.png"
+    "IMAGE_TRANSLATION/b5-history-dock-reload-20261029.json"
    ],
    "T": "PASS",
    "T_note": "文案/品牌扫描 0 命中",
    "R": "PASS",
-   "R_note": "747KB 本地落盘",
+   "R_note": "747KB 本地落盘（另有 b5 真实任务结果 1028256B）",
    "R_artifacts": [
     {
      "path": "real-acceptance/IMAGE_TRANSLATION/result.png",
@@ -184,9 +196,13 @@
      "sha256_12": "232f58fa3a25"
     }
    ],
-   "H": "PARTIAL",
-   "H_note": "无真实提交→刷新回填证据",
-   "H_evidence": [],
+   "H": "PASS",
+   "H_note": "真实提交 task-mvt9elbs-u4grlv（succeeded，1 结果 1028256B）→ 整页 reload → 历史坞 1 条 succeeded + 缩略图 blob 1024x1024",
+   "H_evidence": [
+    "IMAGE_TRANSLATION/b5-history-dock-reload-20261029.json"
+   ],
+   "H_path": "历史回填",
+   "H_path_note": "9e8b6cc：真实上传 + 手工文本框 + 开始翻译 task-mvt9elbs-u4grlv（succeeded，1028256B）→ 整页 reload → 历史坞 1 条 succeeded + 缩略图 blob 解码 1024x1024",
    "K": "N/A",
    "K_note": "原站无优秀案例页签（b6 未列；本地未新增）",
    "K_evidence": [],
@@ -199,16 +215,17 @@
    "route": "/tools/ecommerce-suite/scale-up",
    "workspace": "web/src/components/tools/workspaces/enhance.tsx",
    "F": "PASS",
-   "F_note": "b4 三动作回执（07 verified 字节 1152074）",
+   "F_note": "b4 三动作回执（07 verified 字节 1152074）；0134fb6 另一次真实运行下载 871973B",
    "F_evidence": [
     "SCALE_UP/b4-actions.json",
     "SCALE_UP/07-result-actions-verified.json",
-    "SCALE_UP/02-result.png"
+    "SCALE_UP/02-result.png",
+    "HISTORY_RECOVERY_MINE/SCALE_UP/run.json"
    ],
    "T": "PASS",
    "T_note": "文案/品牌扫描 0 命中",
    "R": "PASS",
-   "R_note": "1.15MB 本地落盘",
+   "R_note": "1.15MB 本地落盘（r7 另存 871973B 回放图）",
    "R_artifacts": [
     {
      "path": "real-acceptance/SCALE_UP/02-result.png",
@@ -217,11 +234,24 @@
      "w": 1024,
      "h": 752,
      "sha256_12": "9d8d9c2988df"
+    },
+    {
+     "path": "real-acceptance/HISTORY_RECOVERY_MINE/SCALE_UP/download-1793262552040-scale-up-result-1.png",
+     "exists": true,
+     "bytes": 871973,
+     "w": 1024,
+     "h": 752,
+     "sha256_12": "21f429573480"
     }
    ],
-   "H": "PARTIAL",
-   "H_note": "无真实提交→刷新回填证据",
-   "H_evidence": [],
+   "H": "PASS",
+   "H_note": "真实提交 task-mvta6bty-0rkwm9（POST /images/edits 200）→ page.reload → 任务恢复 + 历史坞 1 条 + 结果 1024x752 回放 + 下载 871973B",
+   "H_evidence": [
+    "HISTORY_RECOVERY_MINE/SCALE_UP/run.json",
+    "HISTORY_RECOVERY_MINE/summary-1793262552441.json"
+   ],
+   "H_path": "快照恢复",
+   "H_path_note": "0134fb6：真实提交 task-mvta6bty-0rkwm9（POST /images/edits 200，storageKey 入 IDB）→ Playwright page.reload → 任务恢复 + 历史坞 1 条 + 结果 1024x752 blob 回放 + 下载 871973B",
    "K": "N/A",
    "K_note": "b6 明确：原站该页无「优秀案例」页签（origin/SCALE_UP-cases.json 为空），旧矩阵 MISSING 口径错误",
    "K_evidence": [
@@ -257,8 +287,10 @@
     }
    ],
    "H": "PARTIAL",
-   "H_note": "无真实提交→刷新回填证据",
+   "H_note": "未取证：无 reload 快照恢复回执，也未采集「全新加载后历史坞」；B5/B4/B7 的注入快照不计入 H",
    "H_evidence": [],
+   "H_path": "未取证",
+   "H_path_note": "无真实提交→persist→reload 证据（B5/B4/B7 为注入快照）",
    "K": "PASS",
    "K_note": "原站案例数据 + 本地页签/做同款 4 步截图",
    "K_evidence": [
@@ -294,8 +326,12 @@
     }
    ],
    "H": "PARTIAL",
-   "H_note": "无真实提交→刷新回填证据",
-   "H_evidence": [],
+   "H_note": "recovery4 以 store.persistTask 注入 2 条合成任务 → reload 后历史坞 2 条 succeeded + 4 缩略图解码 + 下载字节匹配（恢复链路可用，但非真实提交）",
+   "H_evidence": [
+    "B5_HISTORY_DOCK/recovery4/summary.json"
+   ],
+   "H_path": "注入验证",
+   "H_path_note": "recovery4 persistTask 注入 2 条合成任务 → reload 历史坞还原 + 缩略图解码",
    "K": "N/A",
    "K_note": "原站无案例模块",
    "K_evidence": [],
@@ -328,8 +364,12 @@
     }
    ],
    "H": "PARTIAL",
-   "H_note": "无真实提交→刷新回填证据",
-   "H_evidence": [],
+   "H_note": "recovery4 注入合成任务 → reload 后历史坞 / 详情结果 / 下载 850799B sha256 一致（恢复链路可用，非真实提交）",
+   "H_evidence": [
+    "B5_HISTORY_DOCK/recovery4/summary.json"
+   ],
+   "H_path": "注入验证",
+   "H_path_note": "recovery4 注入 → reload 历史坞/详情/下载字节 sha256 一致",
    "K": "N/A",
    "K_note": "原站无案例模块",
    "K_evidence": [],
@@ -342,15 +382,16 @@
    "route": "/tools/smart-edit/change-color",
    "workspace": "web/src/components/tools/workspaces/color.tsx",
    "F": "PARTIAL",
-   "F_note": "仅有 download 截图 + 资产校验断言，无存资产/发画布回执",
+   "F_note": "仅有 download 截图 + 资产校验断言；0134fb6 真实运行取得下载 919689B，但存资产/发画布无回执",
    "F_evidence": [
     "CHANGE_COLOR/result.json",
-    "CHANGE_COLOR/reuse-actions.png"
+    "CHANGE_COLOR/reuse-actions.png",
+    "HISTORY_RECOVERY_MINE/CHANGE_COLOR/run.json"
    ],
    "T": "PASS",
    "T_note": "文案/品牌扫描 0 命中",
    "R": "PASS",
-   "R_note": "1.23MB 本地落盘",
+   "R_note": "1.23MB 本地落盘（r7 另一次真实运行 919689B）",
    "R_artifacts": [
     {
      "path": "real-acceptance/CHANGE_COLOR/result.png",
@@ -359,11 +400,24 @@
      "w": 1024,
      "h": 1024,
      "sha256_12": "6f3937c29849"
+    },
+    {
+     "path": "real-acceptance/HISTORY_RECOVERY_MINE/CHANGE_COLOR/download-1793262950492-change-color-result-1.png",
+     "exists": true,
+     "bytes": 919689,
+     "w": 1024,
+     "h": 1024,
+     "sha256_12": "c3a272a6ffeb"
     }
    ],
-   "H": "PARTIAL",
-   "H_note": "无真实提交→刷新回填证据",
-   "H_evidence": [],
+   "H": "PASS",
+   "H_note": "真实提交 task-mvtafqev-u2yjkh（POST /images/edits 200）→ page.reload → 自有历史「1 条」+ 结果 1024x1024 blob 解码 + 下载 919689B",
+   "H_evidence": [
+    "HISTORY_RECOVERY_MINE/CHANGE_COLOR/run.json",
+    "HISTORY_RECOVERY_MINE/summary-1793262950790.json"
+   ],
+   "H_path": "快照恢复",
+   "H_path_note": "0134fb6：真实提交 task-mvtafqev-u2yjkh（POST /images/edits 200）→ page.reload → 自有历史「1 条」+ 结果 1024x1024 blob 回放 + 下载 919689B（本轮仅取下载，存资产/画布未回执）",
    "K": "N/A",
    "K_note": "原站无案例模块",
    "K_evidence": [],
@@ -396,8 +450,12 @@
     }
    ],
    "H": "PARTIAL",
-   "H_note": "无真实提交→刷新回填证据",
-   "H_evidence": [],
+   "H_note": "recovery4 注入合成任务 → reload 后历史坞还原 1 条 + 下载 205951B sha256 一致（恢复链路可用，非真实提交）",
+   "H_evidence": [
+    "B5_HISTORY_DOCK/recovery4/summary.json"
+   ],
+   "H_path": "注入验证",
+   "H_path_note": "recovery4 注入 → reload 历史坞还原 + 下载字节一致",
    "K": "N/A",
    "K_note": "原站无案例模块",
    "K_evidence": [],
@@ -409,12 +467,12 @@
    "name": "商品精修",
    "route": "/tools/smart-edit/product-refine",
    "workspace": "web/src/components/tools/workspaces/enhance.tsx",
-   "F": "PARTIAL",
-   "F_note": "有 step-3/4/5/6 存资产与画布截图，无机器回执 JSON",
+   "F": "PASS",
+   "F_note": "r7 复用真实成功任务 task-mvtb3nuj-3d0mnv，三动作齐全且字节三处互证：下载 2827346B（sha256 454f64bb…）＝资产 arsQzAbHpBGKI-8AoPUeF（image:kYwi9eAvdPaEBitw1j1DP，2048x1488）＝画布 RaiNNBcYL08RwszivAQPR / image-1793267706845-ss5qf（2827346B）；同标签内点后即时回读 IDB，无注入、未重生成",
    "F_evidence": [
-    "PRODUCT_REFINE/result.json",
-    "PRODUCT_REFINE/step-5-asset-library.png",
-    "PRODUCT_REFINE/step-6-canvas.png"
+    "R7-actions-20261029/PRODUCT_REFINE/b4-actions.json",
+    "R7-actions-20261029/PRODUCT_REFINE/product-refine-result-1.png",
+    "PRODUCT_REFINE/result.json"
    ],
    "T": "PASS",
    "T_note": "文案/品牌扫描 0 命中",
@@ -431,8 +489,10 @@
     }
    ],
    "H": "PARTIAL",
-   "H_note": "无真实提交→刷新回填证据",
+   "H_note": "未取证：无 reload 快照恢复回执，也未采集「全新加载后历史坞」；B5/B4/B7 的注入快照不计入 H",
    "H_evidence": [],
+   "H_path": "未取证",
+   "H_path_note": "无真实提交→persist→reload 证据（B5/B4/B7 为注入快照）",
    "K": "N/A",
    "K_note": "原站无案例模块",
    "K_evidence": [],
@@ -444,19 +504,45 @@
    "name": "色差修复",
    "route": "/tools/smart-edit/fix-color",
    "workspace": "web/src/components/tools/workspaces/repair.tsx",
-   "F": "PARTIAL",
-   "F_note": "提交后无结果区（仅有空态），三动作未执行",
+   "F": "PASS",
+   "F_note": "两次真实提交（7a56082 修尺寸后 1024x752）+ 历史坞下载 sha256 一致 + 存入资产 OIRBFLPZFZt5hjgOZL3sV（2 项回执）",
    "F_evidence": [
-    "FIX_COLOR/ui.png"
+    "FIX_COLOR/result.json",
+    "FIX_COLOR/history-recovery-20261029/actions-download.json",
+    "FIX_COLOR/history-recovery-20261029/actions-save-to-assets.json"
    ],
    "T": "PASS",
    "T_note": "文案/品牌扫描 0 命中",
-   "R": "BLOCKED",
-   "R_note": "目录内只有 1440x900 UI 截图，无任何产物字节（旧矩阵 R=PASS 为截图充数）",
-   "R_artifacts": [],
-   "H": "PARTIAL",
-   "H_note": "无真实提交→刷新回填证据",
-   "H_evidence": [],
+   "R": "PASS",
+   "R_note": "1218527B 1024x1024 + 1003673B 1024x752 两次真实出图落盘（非截图）",
+   "R_artifacts": [
+    {
+     "path": "real-acceptance/FIX_COLOR/result-real-20261029.png",
+     "exists": true,
+     "bytes": 1218527,
+     "w": 1024,
+     "h": 1024,
+     "sha256_12": "83ef17c23f33"
+    },
+    {
+     "path": "real-acceptance/FIX_COLOR/result-real-run2-20261029.png",
+     "exists": true,
+     "bytes": 1003673,
+     "w": 1024,
+     "h": 752,
+     "sha256_12": "a5958a770e8f"
+    }
+   ],
+   "H": "PASS",
+   "H_note": "真实提交 task-mvt9r1lg-ab8tqn / task-mvta1kkg-t8y1yo → 新标签 navigate + location.reload → 历史坞 2 条、下载 sha256 83ef17c2… 实测一致、存入资产成功",
+   "H_evidence": [
+    "FIX_COLOR/history-recovery-20261029/probe-fresh-load.json",
+    "FIX_COLOR/history-recovery-20261029/probe-after-reload.json",
+    "FIX_COLOR/history-recovery-20261029/actions-download.json",
+    "FIX_COLOR/history-recovery-20261029/actions-save-to-assets.json"
+   ],
+   "H_path": "历史回填",
+   "H_path_note": "6d9bd86/7a56082：两次真实 gpt-image-2 提交（task-mvt9r1lg-ab8tqn 1218527B / task-mvta1kkg-t8y1yo 1003673B，diffVsInput 证明非回传原图）→ 新标签 navigate + location.reload(navType=navigate) → 历史坞 2 条、下载 sha256 83ef17c2… 实测一致、存入资产 OIRBFLPZFZt5hjgOZL3sV",
    "K": "N/A",
    "K_note": "原站无案例模块",
    "K_evidence": [],
@@ -489,8 +575,10 @@
     }
    ],
    "H": "PARTIAL",
-   "H_note": "无真实提交→刷新回填证据",
+   "H_note": "未取证：无 reload 快照恢复回执，也未采集「全新加载后历史坞」；B5/B4/B7 的注入快照不计入 H",
    "H_evidence": [],
+   "H_path": "未取证",
+   "H_path_note": "无真实提交→persist→reload 证据（B5/B4/B7 为注入快照）",
    "K": "N/A",
    "K_note": "原站无案例模块",
    "K_evidence": [],
@@ -502,11 +590,12 @@
    "name": "手部修复",
    "route": "/tools/smart-edit/hand-repair",
    "workspace": "web/src/components/tools/workspaces/repair.tsx",
-   "F": "PARTIAL",
-   "F_note": "仅 download 字节；存资产/发画布未取得回执",
+   "F": "PASS",
+   "F_note": "r7 复用真实成功任务 task-mvtbe5rp-0maafh，三动作齐全且字节三处互证：下载 2153466B（sha256 a34cea71…）＝资产 5pRjNY6-nBhQHpivGWRL_（image:IKtqBWhh97bo9kYTBc9tV，1024x1024）＝画布 Ng-l4G-cYB8AJEP83OZUv / image-1793267583731-ask3z（2153466B）；同标签内点后即时回读 IDB，无注入、未重生成",
    "F_evidence": [
-    "HAND_REPAIR/result.json",
-    "HAND_REPAIR/download-action.png"
+    "R7-actions-20261029/HAND_REPAIR/b4-actions.json",
+    "R7-actions-20261029/HAND_REPAIR/hand-repair-result-1.png",
+    "HAND_REPAIR/result.json"
    ],
    "T": "PASS",
    "T_note": "文案/品牌扫描 0 命中",
@@ -523,8 +612,10 @@
     }
    ],
    "H": "PARTIAL",
-   "H_note": "无真实提交→刷新回填证据",
+   "H_note": "未取证：无 reload 快照恢复回执，也未采集「全新加载后历史坞」；B5/B4/B7 的注入快照不计入 H",
    "H_evidence": [],
+   "H_path": "未取证",
+   "H_path_note": "无真实提交→persist→reload 证据（B5/B4/B7 为注入快照）",
    "K": "N/A",
    "K_note": "原站无案例模块",
    "K_evidence": [],
@@ -557,8 +648,10 @@
     }
    ],
    "H": "PARTIAL",
-   "H_note": "无真实提交→刷新回填证据",
+   "H_note": "未取证：无 reload 快照恢复回执，也未采集「全新加载后历史坞」；B5/B4/B7 的注入快照不计入 H",
    "H_evidence": [],
+   "H_path": "未取证",
+   "H_path_note": "无真实提交→persist→reload 证据（B5/B4/B7 为注入快照）",
    "K": "N/A",
    "K_note": "原站页面未取得（仅 supplemental 片段），案例有无未取证；不得判定为“原站有案例”",
    "K_evidence": [
@@ -594,8 +687,10 @@
     }
    ],
    "H": "PARTIAL",
-   "H_note": "无真实提交→刷新回填证据",
+   "H_note": "未取证：无 reload 快照恢复回执，也未采集「全新加载后历史坞」；B5/B4/B7 的注入快照不计入 H",
    "H_evidence": [],
+   "H_path": "未取证",
+   "H_path_note": "无真实提交→persist→reload 证据（B5/B4/B7 为注入快照）",
    "K": "PASS",
    "K_note": "原站案例 + 做同款回填（design19 replace）",
    "K_evidence": [
@@ -630,8 +725,10 @@
     }
    ],
    "H": "PARTIAL",
-   "H_note": "无真实提交→刷新回填证据",
+   "H_note": "未取证：无 reload 快照恢复回执，也未采集「全新加载后历史坞」；B5/B4/B7 的注入快照不计入 H",
    "H_evidence": [],
+   "H_path": "未取证",
+   "H_path_note": "无真实提交→persist→reload 证据（B5/B4/B7 为注入快照）",
    "K": "PASS",
    "K_note": "原站案例 + 回填（design19 scene）",
    "K_evidence": [
@@ -667,8 +764,10 @@
     }
    ],
    "H": "PARTIAL",
-   "H_note": "无真实提交→刷新回填证据",
+   "H_note": "未取证：无 reload 快照恢复回执，也未采集「全新加载后历史坞」；B5/B4/B7 的注入快照不计入 H",
    "H_evidence": [],
+   "H_path": "未取证",
+   "H_path_note": "无真实提交→persist→reload 证据（B5/B4/B7 为注入快照）",
    "K": "N/A",
    "K_note": "原站无案例模块",
    "K_evidence": [],
@@ -709,8 +808,10 @@
     }
    ],
    "H": "PARTIAL",
-   "H_note": "无真实提交→刷新回填证据",
+   "H_note": "未取证：无 reload 快照恢复回执，也未采集「全新加载后历史坞」；B5/B4/B7 的注入快照不计入 H",
    "H_evidence": [],
+   "H_path": "未取证",
+   "H_path_note": "无真实提交→persist→reload 证据（B5/B4/B7 为注入快照）",
    "K": "PASS",
    "K_note": "原站案例 + 做同款回填+提交回执",
    "K_evidence": [
@@ -747,8 +848,10 @@
     }
    ],
    "H": "PARTIAL",
-   "H_note": "无真实提交→刷新回填证据",
+   "H_note": "未取证：无 reload 快照恢复回执，也未采集「全新加载后历史坞」；B5/B4/B7 的注入快照不计入 H",
    "H_evidence": [],
+   "H_path": "未取证",
+   "H_path_note": "无真实提交→persist→reload 证据（B5/B4/B7 为注入快照）",
    "K": "N/A",
    "K_note": "design19 未覆盖；b6 origin 有案例但本地未实现（见 report 缺口）",
    "K_evidence": [
@@ -791,8 +894,10 @@
     }
    ],
    "H": "PARTIAL",
-   "H_note": "无真实提交→刷新回填证据",
+   "H_note": "未取证：无 reload 快照恢复回执，也未采集「全新加载后历史坞」；B5/B4/B7 的注入快照不计入 H",
    "H_evidence": [],
+   "H_path": "未取证",
+   "H_path_note": "无真实提交→persist→reload 证据（B5/B4/B7 为注入快照）",
    "K": "PASS",
    "K_note": "原站案例 + 回填（design19 wearable）",
    "K_evidence": [
@@ -807,28 +912,34 @@
    "name": "POD素材",
    "route": "/tools/product-design/ai-text",
    "workspace": "web/src/components/tools/workspaces/pod.tsx",
-   "F": "PARTIAL",
-   "F_note": "provider 200 但响应 b64 截断；三动作未验收",
+   "F": "PASS",
+   "F_note": "B2G1 三动作回执（download 1825663B sha256 一致 / 存资产 uStjodx0Uad4IPDsTVqoG / 画布 sNQeliaC-Z_BkqoJVdTaw）",
    "F_evidence": [
-    "AI_TEXT/result.json"
+    "B2G1/AI_TEXT/run-b2g1.json",
+    "B2G1/AI_TEXT/result-0.png"
    ],
    "T": "PASS",
    "T_note": "文案/品牌扫描 0 命中",
-   "R": "PARTIAL",
-   "R_note": "真实调用成功但产物字节/URL 未留存（05-real-result.png 是 1920x839 面板截图）",
+   "R": "PASS",
+   "R_note": "1825663B 1024x1024 本地落盘（B2G1，真实 provider）",
    "R_artifacts": [
     {
-     "path": "real-acceptance/AI_TEXT/result.json",
+     "path": "real-acceptance/B2G1/AI_TEXT/result-0.png",
      "exists": true,
-     "bytes": 2516,
-     "w": null,
-     "h": null,
-     "sha256_12": "b7cbd1773aeb"
+     "bytes": 1825663,
+     "w": 1024,
+     "h": 1024,
+     "sha256_12": "9019ffaf2248"
     }
    ],
-   "H": "PARTIAL",
-   "H_note": "无真实提交→刷新回填证据",
-   "H_evidence": [],
+   "H": "PASS",
+   "H_note": "真实提交 task-mvsdhatp-kdyvt6 → tool-task:v1 落库 → reload 面板 succeeded 且 IDB 字节 sha256=上游（快照恢复）",
+   "H_evidence": [
+    "B2G1/AI_TEXT/run-b2g1.json",
+    "B2G1/AI_TEXT/task-snapshot.json"
+   ],
+   "H_path": "快照恢复",
+   "H_path_note": "task-mvsdhatp-kdyvt6 → tool-task:v1 落库 → reload 后面板 succeeded，IDB 1825663B sha256=上游",
    "K": "N/A",
    "K_note": "原站无案例模块",
    "K_evidence": [],
@@ -840,29 +951,34 @@
    "name": "饰品文字",
    "route": "/tools/product-design/ornament-text",
    "workspace": "web/src/components/tools/workspaces/text.tsx",
-   "F": "PARTIAL",
-   "F_note": "仅有 nv-actions.png 截图，无机器回执",
+   "F": "PASS",
+   "F_note": "B2G1 三动作回执（download 2439783B sha256 一致 / 存资产 _JGRrrDhs1xgmgeGmmnZ0 / 画布 xpWrYbEDQlCJH8It8ID_Q）",
    "F_evidence": [
-    "ORNAMENT_TEXT/nv-actions.png",
-    "ORNAMENT_TEXT/nv-result.png"
+    "B2G1/ORNAMENT_TEXT/run-b2g1.json",
+    "B2G1/ORNAMENT_TEXT/result-0.png"
    ],
    "T": "PASS",
    "T_note": "文案/品牌扫描 0 命中",
    "R": "PASS",
-   "R_note": "1.33MB 本地落盘",
+   "R_note": "2439783B 1024x1024 本地落盘（B2G1，真实 provider）",
    "R_artifacts": [
     {
-     "path": "real-acceptance/ORNAMENT_TEXT/nv-result.png",
+     "path": "real-acceptance/B2G1/ORNAMENT_TEXT/result-0.png",
      "exists": true,
-     "bytes": 1332984,
+     "bytes": 2439783,
      "w": 1024,
      "h": 1024,
-     "sha256_12": "41c21d3d661b"
+     "sha256_12": "d7a57b9b72c2"
     }
    ],
-   "H": "PARTIAL",
-   "H_note": "无真实提交→刷新回填证据",
-   "H_evidence": [],
+   "H": "PASS",
+   "H_note": "真实提交 task-mvsdivlg-6slebs → tool-task:v1 落库 → reload 面板 succeeded 且 IDB 字节 sha256=上游（快照恢复）",
+   "H_evidence": [
+    "B2G1/ORNAMENT_TEXT/run-b2g1.json",
+    "B2G1/ORNAMENT_TEXT/task-snapshot.json"
+   ],
+   "H_path": "快照恢复",
+   "H_path_note": "task-mvsdivlg-6slebs → tool-task:v1 落库 → reload 后面板 succeeded，IDB 2439783B sha256=上游",
    "K": "N/A",
    "K_note": "原站无案例模块",
    "K_evidence": [],
@@ -874,17 +990,25 @@
    "name": "素材贴合",
    "route": "/tools/product-design/sds-design",
    "workspace": "web/src/components/tools/workspaces/pod.tsx",
-   "F": "PARTIAL",
-   "F_note": "真实产物存在，无三动作回执（旧矩阵 H 依赖 B5 注入）",
+   "F": "PASS",
+   "F_note": "B2G1 三动作回执（download 2081539B sha256 一致 / 存资产 tr2qRM39e-G66t6X1l3dr / 画布 S0iOeaR__wU4YSctOdBUR）",
    "F_evidence": [
-    "SDS_DESIGN/result.json",
-    "design19-cases-20261029/sds/run.json"
+    "B2G1/SDS_DESIGN/run-b2g1.json",
+    "B2G1/SDS_DESIGN/result-0.png"
    ],
    "T": "PASS",
    "T_note": "文案/品牌扫描 0 命中",
    "R": "PASS",
-   "R_note": "design19 1.44MB 1024x1024（real-acceptance 目录只有 1920x839 截图）",
+   "R_note": "2081539B 1024x1024（B2G1）；design19 另存 1.44MB",
    "R_artifacts": [
+    {
+     "path": "real-acceptance/B2G1/SDS_DESIGN/result-0.png",
+     "exists": true,
+     "bytes": 2081539,
+     "w": 1024,
+     "h": 1024,
+     "sha256_12": "a119eb6cf488"
+    },
     {
      "path": "design19-cases-20261029/sds/result-1780443735213010944.png",
      "exists": true,
@@ -894,9 +1018,14 @@
      "sha256_12": "c762f8ea5c59"
     }
    ],
-   "H": "PARTIAL",
-   "H_note": "无真实提交→刷新回填证据",
-   "H_evidence": [],
+   "H": "PASS",
+   "H_note": "真实提交 task-mvsdlqxd-ttx3pl → tool-task:v1 落库 → reload 面板 succeeded 且 IDB 字节 sha256=上游（快照恢复）",
+   "H_evidence": [
+    "B2G1/SDS_DESIGN/run-b2g1.json",
+    "B2G1/SDS_DESIGN/task-snapshot.json"
+   ],
+   "H_path": "快照恢复",
+   "H_path_note": "task-mvsdlqxd-ttx3pl → tool-task:v1 落库 → reload 后面板 succeeded，IDB 2081539B sha256=上游",
    "K": "PASS",
    "K_note": "原站案例 + 回填（design19 sds）",
    "K_evidence": [
@@ -931,8 +1060,10 @@
     }
    ],
    "H": "PARTIAL",
-   "H_note": "无真实提交→刷新回填证据",
+   "H_note": "未取证：无 reload 快照恢复回执，也未采集「全新加载后历史坞」；B5/B4/B7 的注入快照不计入 H",
    "H_evidence": [],
+   "H_path": "未取证",
+   "H_path_note": "无真实提交→persist→reload 证据（B5/B4/B7 为注入快照）",
    "K": "N/A",
    "K_note": "原站无案例模块",
    "K_evidence": [],
@@ -964,9 +1095,13 @@
      "sha256_12": "bd34bb6dbeee"
     }
    ],
-   "H": "PARTIAL",
-   "H_note": "无真实提交→刷新回填证据",
-   "H_evidence": [],
+   "H": "PASS",
+   "H_note": "真实 reload 后历史坞回填 task-mvtd89f3-9qpix6：渲染 1151209B/1024² 与任务声明字节一致（sha256 19028125…），三动作回执（下载/存资产 eOac1dvc…/画布 nlMUWNNq…）",
+   "H_evidence": [
+    "H4-real-20261029/AI_POSE_GENERATOR.json"
+   ],
+   "H_path": "history-dock-refill",
+   "H_path_note": "无真实提交→persist→reload 证据（B5/B4/B7 为注入快照）",
    "K": "N/A",
    "K_note": "原站无案例模块",
    "K_evidence": [],
@@ -998,8 +1133,10 @@
     }
    ],
    "H": "PARTIAL",
-   "H_note": "无真实提交→刷新回填证据",
+   "H_note": "未取证：无 reload 快照恢复回执，也未采集「全新加载后历史坞」；B5/B4/B7 的注入快照不计入 H",
    "H_evidence": [],
+   "H_path": "未取证",
+   "H_path_note": "无真实提交→persist→reload 证据（B5/B4/B7 为注入快照）",
    "K": "N/A",
    "K_note": "原站无案例模块",
    "K_evidence": [],
@@ -1012,15 +1149,16 @@
    "route": "/tools/product-design/fission-link",
    "workspace": "web/src/components/tools/workspaces/scene.tsx",
    "F": "PASS",
-   "F_note": "b4 下载+存资产回执（无画布回执）",
+   "F_note": "df765ff/b95ff4c 后 reload 恢复结果 → 下载 1988694B sha256=bbc0ca08… 实测一致 → 存入资产 i28CzCpbrBdqVvU_8sKuC → 发画布 4YJKL9Hoq-HRiYvhqIozS / image-1793262996953-ratzx（三动作齐全）",
    "F_evidence": [
     "FISSION_LINK/b4-actions.json",
-    "FISSION_LINK/01-result.png"
+    "FISSION_LINK/b5-restore-after-reload.json",
+    "H2-fission-xsy-20261029/evidence.json"
    ],
    "T": "PASS",
    "T_note": "文案/品牌扫描 0 命中",
    "R": "PASS",
-   "R_note": "139KB 结果 + 1.67MB 上游原图",
+   "R_note": "b5 真实任务结果 1988694B（r7 实测 sha256 bbc0ca08…）+ 139KB 本地结果 + 1.67MB 上游原图",
    "R_artifacts": [
     {
      "path": "real-acceptance/FISSION_LINK/01-result.png",
@@ -1037,6 +1175,14 @@
      "w": 1024,
      "h": 1024,
      "sha256_12": "252b3ed1eb65"
+    },
+    {
+     "path": "real-acceptance/FISSION_LINK/b5-restored-download.png",
+     "exists": true,
+     "bytes": 1988694,
+     "w": 1024,
+     "h": 1024,
+     "sha256_12": "bbc0ca08cfa4"
     }
    ],
    "H": "PASS",
@@ -1044,6 +1190,8 @@
    "H_evidence": [
     "H-history-freshload-20261029.json"
    ],
+   "H_path": "历史回填",
+   "H_path_note": "全新加载后历史坞 5 条 + 4 张缩略图解码（另有 2 条「提交中」）",
    "K": "N/A",
    "K_note": "原站无案例模块",
    "K_evidence": [],
@@ -1074,9 +1222,13 @@
      "sha256_12": "e7b260e7b064"
     }
    ],
-   "H": "PARTIAL",
-   "H_note": "无真实提交→刷新回填证据",
-   "H_evidence": [],
+   "H": "BLOCKED",
+   "H_note": "自然恢复已成立（reload 后结果卡自动回填 task-mvs8bhu1-hhue24，未点历史项）；但该任务早于结果持久化修复，payloadDropped=true，无字节/三动作可验；需修复后真实任务（本轮禁新生成）",
+   "H_evidence": [
+    "H4-real-20261029/IMAGE_TEXT_EDIT.json"
+   ],
+   "H_path": "result-card-refill",
+   "H_path_note": "无真实提交→persist→reload 证据（B5/B4/B7 为注入快照）",
    "K": "N/A",
    "K_note": "原站无案例模块",
    "K_evidence": [],
@@ -1109,8 +1261,10 @@
     }
    ],
    "H": "PARTIAL",
-   "H_note": "无真实提交→刷新回填证据",
+   "H_note": "未取证：无 reload 快照恢复回执，也未采集「全新加载后历史坞」；B5/B4/B7 的注入快照不计入 H",
    "H_evidence": [],
+   "H_path": "未取证",
+   "H_path_note": "无真实提交→persist→reload 证据（B5/B4/B7 为注入快照）",
    "K": "N/A",
    "K_note": "原站无案例模块",
    "K_evidence": [],
@@ -1142,9 +1296,13 @@
      "sha256_12": "2ee5aa7b300b"
     }
    ],
-   "H": "PARTIAL",
-   "H_note": "无真实提交→刷新回填证据",
-   "H_evidence": [],
+   "H": "PASS",
+   "H_note": "真实 reload 后历史坞 + 草稿恢复 task-mvtdl9v8-165q1n：411801B/1200² 一致（sha256 90e28e0f…），三动作回执（下载/存资产 nowDKQUv…/画布 3R6-XT-Tr…）",
+   "H_evidence": [
+    "H4-real-20261029/NEW_DESIGNER.json"
+   ],
+   "H_path": "history-dock-refill",
+   "H_path_note": "无真实提交→persist→reload 证据（B5/B4/B7 为注入快照）",
    "K": "N/A",
    "K_note": "原站无案例模块",
    "K_evidence": [],
@@ -1176,9 +1334,13 @@
      "sha256_12": "d1343fdf6f40"
     }
    ],
-   "H": "PARTIAL",
-   "H_note": "无真实提交→刷新回填证据",
-   "H_evidence": [],
+   "H": "BLOCKED",
+   "H_note": "全环境（127.0.0.1 本地存储 64 条任务 / localhost 源 / worker profile）均无该工具真实任务，刷新回填逻辑无法被真实数据触发；未注入、未新生成",
+   "H_evidence": [
+    "H4-real-20261029/PRODUCT_MARKET_MATERIAL.json"
+   ],
+   "H_path": "none",
+   "H_path_note": "无真实提交→persist→reload 证据（B5/B4/B7 为注入快照）",
    "K": "N/A",
    "K_note": "原站无案例模块",
    "K_evidence": [],
@@ -1190,27 +1352,34 @@
    "name": "场景迁移",
    "route": "/tools/product-design/scene-transfer",
    "workspace": "web/src/components/tools/workspaces/scene.tsx",
-   "F": "PARTIAL",
-   "F_note": "仅 URL 产物，无三动作回执",
+   "F": "PASS",
+   "F_note": "B2G1 三动作回执（download 839268B sha256 一致 / 存资产 kb0gp-E_C3Eqz5FNTvuly / 画布 XURFCb2xCZsawQkjmLQ7z）；e990e85 才接通 getPersistedToolGateway",
    "F_evidence": [
-    "SCENE_TRANSFER/result.json"
+    "B2G1/SCENE_TRANSFER/run-b2g1.json",
+    "B2G1/SCENE_TRANSFER/result-0.png"
    ],
    "T": "PASS",
    "T_note": "文案/品牌扫描 0 命中",
    "R": "PASS",
-   "R_note": "结果 URL 直出 OSS（URL-only，实测 HEAD 200）",
+   "R_note": "839268B 1024x1024 本地落盘（IDB tool-result, 无 dataURL 直塞）",
    "R_artifacts": [
     {
-     "path": "https://oss-us.dimenoss.com/images/2026/10/28/1793201468_9270e246095bfc569d43a8d447b31b25.png",
+     "path": "real-acceptance/B2G1/SCENE_TRANSFER/result-0.png",
      "exists": true,
-     "bytes": 1109675,
-     "url_status": 200,
-     "url_only": true
+     "bytes": 839268,
+     "w": 1024,
+     "h": 1024,
+     "sha256_12": "dfb33c53c727"
     }
    ],
-   "H": "PARTIAL",
-   "H_note": "无真实提交→刷新回填证据",
-   "H_evidence": [],
+   "H": "PASS",
+   "H_note": "真实提交 task-mvt8c2a6-nsv4pt → tool-task:v1 落库 → reload 面板 succeeded 且 IDB 字节 sha256=上游（快照恢复；历史坞 Tab 已渲染但点击回填未取证）",
+   "H_evidence": [
+    "B2G1/SCENE_TRANSFER/run-b2g1.json",
+    "B2G1/SCENE_TRANSFER/task-snapshot.json"
+   ],
+   "H_path": "快照恢复",
+   "H_path_note": "task-mvt8c2a6-nsv4pt → tool-task:v1 落库 → reload 后面板 succeeded，IDB 839268B sha256=上游；历史坞 Tab 存在但点击回填未取证（e990e85）",
    "K": "N/A",
    "K_note": "原站无案例模块",
    "K_evidence": [],
@@ -1223,7 +1392,7 @@
    "route": "/tools/ai-video/image-to-video",
    "workspace": "web/src/components/tools/workspaces/image-to-video.tsx",
    "F": "PARTIAL",
-   "F_note": "生成+存资产已验收；发画布未执行（ddba2e6 刚修落库，待重取证）",
+   "F_note": "生成+存资产已验收（06-result-video.mp4 1.30MB）；发画布未执行；ddba2e6 只补落库/历史区代码，上游 503 无新结果",
    "F_evidence": [
     "IMAGE_TO_VIDEO/result.json"
    ],
@@ -1242,13 +1411,17 @@
     }
    ],
    "H": "PARTIAL",
-   "H_note": "ddba2e6 修真实任务落库+历史区，但无刷新回填证据文件",
-   "H_evidence": [],
-   "K": "MISSING",
-   "K_note": "原站有 10 张案例卡+做同款，本地未接线（占位文案 video.tsx:649）",
+   "H_note": "真实失败任务 task-mvt71akq-bu2hxh 可从历史「回填表单」（提示词 83 字 + 2 参考图，DOM 回执）；但无结果可回填（上游 503）、无 reload 时间线证据",
+   "H_evidence": [
+    "IMAGE_TO_VIDEO/cases-apply-acceptance-20261029.json"
+   ],
+   "H_path": "历史回填（部分）",
+   "H_path_note": "真实失败任务 task-mvt71akq-bu2hxh → 历史「回填表单」还原提示词 83 字 + 2 参考图；无结果可回填（上游 503）、无 reload 时间线",
+   "K": "PASS",
+   "K_note": "原站 10 条真实案例（cover.jpg/ref-1.png 均 200 真图）+ 本地「做同款」回执（formState 534 字原站脚本、9:16、15s、1080P、1 参考图 472KB）",
    "K_evidence": [
-    "b6-cases/origin/IMAGE_TO_VIDEO-cases.json",
-    "b6-cases/visual-parity.json"
+    "IMAGE_TO_VIDEO/cases-apply-acceptance-20261029.json",
+    "IMAGE_TO_VIDEO/cases-source.json"
    ],
    "U": "PASS",
    "U_note": "设计 token 扫描 0 命中"
@@ -1258,19 +1431,34 @@
    "name": "带货口播",
    "route": "/tools/ai-video/sale-video",
    "workspace": "web/src/components/tools/workspaces/video.tsx",
-   "F": "BLOCKED",
-   "F_note": "上游端点 404，无自有产物；b4 动作使用 IMAGE_TO_VIDEO 借用 mp4（source=borrowed）",
+   "F": "PARTIAL",
+   "F_note": "真实任务 task-mvt76u6p-7cfnff（succeeded，上游 task_hhe2Fmdx…）产物 1366190B；下载 sha256 39193f0a… 实测一致；存入资产 CSjc856F5YIETwEX435Cr / 发画布 P3rUhnqi1Rm9ZpAqs4KPo 仅记录在 FOLLOWUP.md（无 JSON/DOM 回执）",
    "F_evidence": [
-    "SALE_VIDEO/b4-actions.json"
+    "SALE_VIDEO_20261029/task-mvt76u6p-7cfnff.raw.json",
+    "SALE_VIDEO_20261029/FOLLOWUP_20261029.md"
    ],
    "T": "PARTIAL",
    "T_note": "case-module 占位文案： web/src/components/tools/workspaces/video.tsx:649, web/src/components/tools/workspaces/video.tsx:649, web/src/components/tools/workspaces/video.tsx:650, web/src/components/tools/workspaces/video.tsx:1357",
-   "R": "BLOCKED",
-   "R_note": "无自有产物；b4 视频字节来自 IMAGE_TO_VIDEO",
-   "R_artifacts": [],
+   "R": "PASS",
+   "R_note": "1366190B 768x768 H.264 6.583s（r7 实测 sha256 39193f0a…，ffmpeg 全解码 0 错）",
+   "R_artifacts": [
+    {
+     "path": "real-acceptance/SALE_VIDEO_20261029/sale-video-task-mvt76u6p.mp4",
+     "exists": true,
+     "bytes": 1366190,
+     "w": null,
+     "h": null,
+     "sha256_12": "39193f0a2c97"
+    }
+   ],
    "H": "PARTIAL",
-   "H_note": "无真实提交→刷新回填证据",
-   "H_evidence": [],
+   "H_note": "真实任务 succeeded → reload 后 blob 由 IDB 复原（新 blob id 且字节一致）、历史 2 条；但该 reload 仅有人工文字记录，未落机器回执",
+   "H_evidence": [
+    "SALE_VIDEO_20261029/task-mvt76u6p-7cfnff.raw.json",
+    "SALE_VIDEO_20261029/FOLLOWUP_20261029.md"
+   ],
+   "H_path": "人工记录（非机器回执）",
+   "H_path_note": "b43a21d：FOLLOWUP 记录 reload 后 blob 由 IDB 复原（新 blob id）、历史 2 条、查看结果三动作可用、资产 CSjc856F5YIETwEX435Cr / 画布 P3rUhnqi1Rm9ZpAqs4KPo；未落 JSON/DOM 回执",
    "K": "N/A",
    "K_note": "原站无案例模块",
    "K_evidence": [],
@@ -1283,14 +1471,15 @@
    "route": "/tools/ai-video/video-replication",
    "workspace": "web/src/components/tools/workspaces/video.tsx",
    "F": "PARTIAL",
-   "F_note": "工作台通道 404；仅直连 link 模式成功，三动作未走 UI",
+   "F_note": "真实产物 2277978B；真浏览器 UI 下载×2 / 存资产 / 画布按钮全部可用且字节 sha256 一致；但工作台提交通道仍 404（产物来自 link 模式真实任务），记录由脚本 upsertTask 注入",
    "F_evidence": [
-    "VIDEO_REPLICATION/link-mode/run-final.json"
+    "VIDEO_HISTORY_RECOVERY_2TOOLS/summary.json",
+    "VIDEO_REPLICATION/link-mode/out.mp4"
    ],
    "T": "PARTIAL",
    "T_note": "case-module 占位文案： web/src/components/tools/workspaces/video.tsx:649, web/src/components/tools/workspaces/video.tsx:649, web/src/components/tools/workspaces/video.tsx:650, web/src/components/tools/workspaces/video.tsx:1357",
    "R": "PASS",
-   "R_note": "link 模式 out.mp4 2.28MB + 上游 done",
+   "R_note": "link 模式 out.mp4 2.28MB（1344px/6.58s）与历史恢复下载逐字节一致",
    "R_artifacts": [
     {
      "path": "real-acceptance/VIDEO_REPLICATION/link-mode/out.mp4",
@@ -1302,8 +1491,12 @@
     }
    ],
    "H": "PARTIAL",
-   "H_note": "无真实提交→刷新回填证据",
-   "H_evidence": [],
+   "H_note": "真浏览器 reload 后历史坞 1 条 succeeded → 查看结果 readyState=4/1344px → 下载/存资产/二次刷新/上游链接过期全部 sha256=b5e80fde… 一致；但任务记录为 upsertTask 注入（task-real-*），非真实提交落库",
+   "H_evidence": [
+    "VIDEO_HISTORY_RECOVERY_2TOOLS/summary.json"
+   ],
+   "H_path": "注入验证（真实产物）",
+   "H_path_note": "upsertTask 注入 task-real-video_replication-20261029；reload 后历史坞/查看结果/下载/存资产/二次刷新/链接过期全部 sha256 一致，但非真实提交落库",
    "K": "N/A",
    "K_note": "原站无案例模块",
    "K_evidence": [],
@@ -1315,19 +1508,34 @@
    "name": "视频编辑",
    "route": "/tools/ai-video/ai-video-editing",
    "workspace": "web/src/components/tools/workspaces/video.tsx",
-   "F": "BLOCKED",
-   "F_note": "上游 404，无自有产物；b4 借用 IMAGE_TO_VIDEO mp4",
+   "F": "PARTIAL",
+   "F_note": "真实上游任务 task_QFvq6WMc 已 done，产物 2268656B 可下载/可入库；但原始 prompt/两张输入图未恢复，无存资产/发画布回执（b4 的 1297168B 为借用 IMAGE_TO_VIDEO，不计）",
    "F_evidence": [
-    "AI_VIDEO_EDITING/b4-actions.json"
+    "AI_VIDEO_EDITING/receipt-20261029/receipt.json",
+    "AI_VIDEO_EDITING/receipt-20261029/task_QFvq6WMc_video.mp4"
    ],
    "T": "PARTIAL",
    "T_note": "case-module 占位文案： web/src/components/tools/workspaces/video.tsx:649, web/src/components/tools/workspaces/video.tsx:649, web/src/components/tools/workspaces/video.tsx:650, web/src/components/tools/workspaces/video.tsx:1357",
-   "R": "BLOCKED",
-   "R_note": "无自有产物（旧矩阵 R=PASS 不成立）",
-   "R_artifacts": [],
+   "R": "PASS",
+   "R_note": "2268656B h264 1344x768 6.58s 本地落盘（真实 provider 产物，sha256 与下载一致）",
+   "R_artifacts": [
+    {
+     "path": "real-acceptance/AI_VIDEO_EDITING/receipt-20261029/task_QFvq6WMc_video.mp4",
+     "exists": true,
+     "bytes": 2268656,
+     "w": null,
+     "h": null,
+     "sha256_12": "47573c147325"
+    }
+   ],
    "H": "PARTIAL",
-   "H_note": "无真实提交→刷新回填证据",
-   "H_evidence": [],
+   "H_note": "既有真实任务记录被清空后，用 store 以真实 upstreamTaskId 重建 → recoverAll 只轮询不重提 → succeeded，IDB 2268656B sha256=文件；但未取 reload 面板 DOM，prompt/输入字段为空",
+   "H_evidence": [
+    "AI_VIDEO_EDITING/receipt-20261029/receipt.json",
+    "AI_VIDEO_EDITING/receipt-20261029/REPORT.md"
+   ],
+   "H_path": "重建记录（未取 reload 面板）",
+   "H_path_note": "task-mvt42rpv-kfl1ov 以真实 upstreamTaskId 重建 → recoverAll 只轮询不重提 → succeeded，IDB 2268656B sha256=文件；prompt/输入字段为空，无 reload 面板回执",
    "K": "N/A",
    "K_note": "原站无案例模块",
    "K_evidence": [],
@@ -1340,18 +1548,22 @@
    "route": "/tools/ai-video/video-translation",
    "workspace": "web/src/components/tools/workspaces/video-translation.tsx",
    "F": "PARTIAL",
-   "F_note": "未取得成功样例；三动作未验收",
+   "F_note": "真实提交被上游 400 拒绝（/videos 只收 JSON，收不了上传字节），无成功样例；三动作无对象可验",
    "F_evidence": [
     "VIDEO_TRANSLATION/result.json"
    ],
    "T": "PARTIAL",
    "T_note": "case-module 占位文案： web/src/components/tools/workspaces/video-translation.tsx:499, web/src/components/tools/workspaces/video-translation.tsx:499, web/src/components/tools/workspaces/video-translation.tsx:500",
    "R": "BLOCKED",
-   "R_note": "无任何视频产物，上游失败（旧矩阵 R=PASS 为口误）",
+   "R_note": "无任何视频产物，上游 400（旧矩阵 R=PASS 为口误）",
    "R_artifacts": [],
    "H": "PARTIAL",
-   "H_note": "无真实提交→刷新回填证据",
-   "H_evidence": [],
+   "H_note": "真浏览器刷新后历史坞 1 条 failed + 完整 400 原文、查看结果按钮 0 个、POST /v1/videos 0 次；但记录由 upsertTask 注入（task-real-*），且无成功任务可验",
+   "H_evidence": [
+    "VIDEO_HISTORY_RECOVERY_2TOOLS/summary.json"
+   ],
+   "H_path": "注入验证（真实失败任务）",
+   "H_path_note": "upsertTask 注入 task-real-video_translation-20261029；reload 后 failed + 真实 400 原文、无查看结果、0 次重提；无成功任务",
    "K": "N/A",
    "K_note": "原站无案例模块",
    "K_evidence": [],
@@ -1364,18 +1576,24 @@
    "route": "/tools/ai-video/video-concat",
    "workspace": "web/src/components/tools/workspaces/video.tsx",
    "F": "PARTIAL",
-   "F_note": "只验证工作台/校验，未发起真实拼接",
+   "F_note": "39bf486：真实 UI 提交带页内字段（seconds=10&size=720x1280&ratio=9:16&resolution_name=720p），但上游 400（multipart 被当 utf-8 解码）+ HMR 重载中断 → 显式记 failed；无结果区闭环",
    "F_evidence": [
-    "VIDEO_CONCAT/result.json"
+    "VIDEO_CONCAT/request-evidence-20261029.json",
+    "VIDEO_CONCAT/task-record-20261029.json"
    ],
    "T": "PARTIAL",
    "T_note": "case-module 占位文案： web/src/components/tools/workspaces/video.tsx:649, web/src/components/tools/workspaces/video.tsx:649, web/src/components/tools/workspaces/video.tsx:650, web/src/components/tools/workspaces/video.tsx:1357",
    "R": "BLOCKED",
-   "R_note": "未发起真实生成调用，无产物",
+   "R_note": "仍无拼接产物：上游 multipart 400（网关侧编码缺陷），JSON 回退需公网可访问资产 URL，本轮未取得",
    "R_artifacts": [],
-   "H": "PARTIAL",
-   "H_note": "无真实提交→刷新回填证据",
-   "H_evidence": [],
+   "H": "PASS",
+   "H_note": "真实提交 task-mvt94gxs-p0r29t → tool-task:v1 落库 failed（submit-unconfirmed）→ fresh reload 后历史「1 条 · 失败」+ 原因 + 配置快照，草稿 3 clip 恢复",
+   "H_evidence": [
+    "VIDEO_CONCAT/history-recovery-20261029.json",
+    "VIDEO_CONCAT/task-record-20261029.json"
+   ],
+   "H_path": "历史回填（失败任务）",
+   "H_path_note": "39bf486：真实 UI 提交 task-mvt94gxs-p0r29t（9:16/10s 字段正确，上游 400 + HMR 中断）→ 记录落库 failed → reload 后历史「1 条 · 失败」+ 完整原因 + 配置快照，草稿 clipCount=3 恢复；无成功样例",
    "K": "N/A",
    "K_note": "原站无案例模块",
    "K_evidence": [],
@@ -1389,7 +1607,7 @@
    "errors": 0,
    "warnings": 17
   },
-  "typecheck": "logs/typecheck.log exit=0",
-  "tests": "logs/tests.log 36 pass / 0 fail"
+  "typecheck": "本轮未运行（仅审计，未改功能源码）",
+  "tests": "本轮未运行；32a7919 附 bun 80 pass/0 fail 回执（AI_VIDEO_EDITING/receipt-20261029/test-report.txt），仅作代码证据，不作为生成证据"
  }
 }
