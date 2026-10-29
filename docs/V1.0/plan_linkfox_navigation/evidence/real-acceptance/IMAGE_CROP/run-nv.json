@@ -1,0 +1,366 @@
+{
+  "toolId": "IMAGE_CROP",
+  "at": "2026-10-29T04:10:12.490Z",
+  "issues": [
+    "刷新后裁剪结果未复用（页面无结果项）"
+  ],
+  "localDefaults": [
+    {
+      "testid": "tool-asset-file-input",
+      "type": "file",
+      "value": "",
+      "pressed": null,
+      "disabled": false,
+      "min": "",
+      "max": "",
+      "step": ""
+    },
+    {
+      "testid": "crop-output-width",
+      "type": "number",
+      "value": "1",
+      "pressed": null,
+      "disabled": false,
+      "min": "1",
+      "max": "",
+      "step": ""
+    },
+    {
+      "testid": "crop-output-height",
+      "type": "number",
+      "value": "1",
+      "pressed": null,
+      "disabled": false,
+      "min": "1",
+      "max": "",
+      "step": ""
+    },
+    {
+      "testid": "crop-lock-ratio",
+      "type": "button",
+      "value": "",
+      "pressed": "true",
+      "disabled": false,
+      "min": null,
+      "max": null,
+      "step": null
+    },
+    {
+      "testid": "crop-format",
+      "type": "select-one",
+      "value": "image/png",
+      "pressed": null,
+      "disabled": false,
+      "min": null,
+      "max": null,
+      "step": null
+    },
+    {
+      "testid": "crop-platform-amazon",
+      "type": "button",
+      "value": "",
+      "pressed": "false",
+      "disabled": false,
+      "min": null,
+      "max": null,
+      "step": null
+    },
+    {
+      "testid": "crop-platform-walmart",
+      "type": "button",
+      "value": "",
+      "pressed": "false",
+      "disabled": false,
+      "min": null,
+      "max": null,
+      "step": null
+    },
+    {
+      "testid": "crop-platform-etsy",
+      "type": "button",
+      "value": "",
+      "pressed": "false",
+      "disabled": false,
+      "min": null,
+      "max": null,
+      "step": null
+    },
+    {
+      "testid": "crop-platform-mercado",
+      "type": "button",
+      "value": "",
+      "pressed": "false",
+      "disabled": false,
+      "min": null,
+      "max": null,
+      "step": null
+    },
+    {
+      "testid": "crop-platform-ebay",
+      "type": "button",
+      "value": "",
+      "pressed": "false",
+      "disabled": false,
+      "min": null,
+      "max": null,
+      "step": null
+    },
+    {
+      "testid": "crop-platform-temu",
+      "type": "button",
+      "value": "",
+      "pressed": "false",
+      "disabled": false,
+      "min": null,
+      "max": null,
+      "step": null
+    },
+    {
+      "testid": "crop-platform-shopify-square",
+      "type": "button",
+      "value": "",
+      "pressed": "false",
+      "disabled": false,
+      "min": null,
+      "max": null,
+      "step": null
+    },
+    {
+      "testid": "crop-platform-shopify-landscape",
+      "type": "button",
+      "value": "",
+      "pressed": "false",
+      "disabled": false,
+      "min": null,
+      "max": null,
+      "step": null
+    },
+    {
+      "testid": "crop-platform-shopify-portrait",
+      "type": "button",
+      "value": "",
+      "pressed": "false",
+      "disabled": false,
+      "min": null,
+      "max": null,
+      "step": null
+    },
+    {
+      "testid": "crop-platform-shein",
+      "type": "button",
+      "value": "",
+      "pressed": "false",
+      "disabled": false,
+      "min": null,
+      "max": null,
+      "step": null
+    },
+    {
+      "testid": "crop-platform-aliexpress",
+      "type": "button",
+      "value": "",
+      "pressed": "false",
+      "disabled": false,
+      "min": null,
+      "max": null,
+      "step": null
+    },
+    {
+      "testid": "crop-platform-shopee",
+      "type": "button",
+      "value": "",
+      "pressed": "false",
+      "disabled": false,
+      "min": null,
+      "max": null,
+      "step": null
+    },
+    {
+      "testid": "crop-platform-lazada",
+      "type": "button",
+      "value": "",
+      "pressed": "false",
+      "disabled": false,
+      "min": null,
+      "max": null,
+      "step": null
+    },
+    {
+      "testid": "crop-platform-tiktok-shop",
+      "type": "button",
+      "value": "",
+      "pressed": "false",
+      "disabled": false,
+      "min": null,
+      "max": null,
+      "step": null
+    },
+    {
+      "testid": "crop-platform-douyin-shop",
+      "type": "button",
+      "value": "",
+      "pressed": "false",
+      "disabled": false,
+      "min": null,
+      "max": null,
+      "step": null
+    },
+    {
+      "testid": "crop-platform-taobao",
+      "type": "button",
+      "value": "",
+      "pressed": "false",
+      "disabled": false,
+      "min": null,
+      "max": null,
+      "step": null
+    },
+    {
+      "testid": "crop-platform-jd",
+      "type": "button",
+      "value": "",
+      "pressed": "false",
+      "disabled": false,
+      "min": null,
+      "max": null,
+      "step": null
+    },
+    {
+      "testid": "crop-platform-wayfair",
+      "type": "button",
+      "value": "",
+      "pressed": "false",
+      "disabled": false,
+      "min": null,
+      "max": null,
+      "step": null
+    },
+    {
+      "testid": "crop-platform-cdiscount",
+      "type": "button",
+      "value": "",
+      "pressed": "false",
+      "disabled": false,
+      "min": null,
+      "max": null,
+      "step": null
+    },
+    {
+      "testid": "crop-platform-jumia",
+      "type": "button",
+      "value": "",
+      "pressed": "false",
+      "disabled": false,
+      "min": null,
+      "max": null,
+      "step": null
+    },
+    {
+      "testid": "crop-platform-rakuten",
+      "type": "button",
+      "value": "",
+      "pressed": "false",
+      "disabled": false,
+      "min": null,
+      "max": null,
+      "step": null
+    },
+    {
+      "testid": "crop-platform-wish",
+      "type": "button",
+      "value": "",
+      "pressed": "false",
+      "disabled": false,
+      "min": null,
+      "max": null,
+      "step": null
+    }
+  ],
+  "source": {
+    "summary": "1024×744 px",
+    "canvasBox": {
+      "w": 878,
+      "h": 638
+    }
+  },
+  "afterUpload": {
+    "width": "1024",
+    "height": "744",
+    "locked": "true",
+    "tabPressed": [
+      {
+        "t": "尺寸调整",
+        "p": null
+      },
+      {
+        "t": "比例调整",
+        "p": null
+      }
+    ],
+    "platformPressed": [],
+    "format": "image/png"
+  },
+  "submitted": {
+    "src": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABAAAAALoCAYAAA",
+    "naturalWidth": 1024,
+    "naturalHeight": 744,
+    "taskText": "下载存入资产发送画布"
+  },
+  "download": {
+    "suggestedFilename": "image-crop-result-1.png",
+    "bytes": 205951,
+    "sha256": "c046374eac48b82e5a7a76c1ff8c151a9fee60e3257ffe5d10a8912eecaeb708"
+  },
+  "assets": {
+    "before": 0,
+    "after": 1,
+    "newest": [
+      {
+        "id": "-6MUi2JrzZQ9rYOieAhnL",
+        "kind": "image",
+        "title": "IMAGE_CROP 结果 1",
+        "bytes": 205951,
+        "width": 1024,
+        "height": 744
+      }
+    ],
+    "feedback": "已保存到资产库（-6MUi2JrzZQ9rYOieAhnL）"
+  },
+  "canvas": {
+    "before": [],
+    "after": [
+      {
+        "id": "dFJ1Rm2EfEbvVAvrfcWMu",
+        "nodes": 1
+      }
+    ],
+    "feedback": "已发送到画布（dFJ1Rm2EfEbvVAvrfcWMu）"
+  },
+  "taskStore": {
+    "cropTasksBeforeReload": 1,
+    "afterReloadCropTasks": [
+      {
+        "id": "task-mvt0yzj5-nryeif",
+        "status": "succeeded",
+        "items": 1
+      }
+    ]
+  },
+  "afterReload": {
+    "sourceRestored": true,
+    "outputSummary": "1024×744 px",
+    "resultVisible": false,
+    "resultTabs": [],
+    "historyItems": 0,
+    "downloadButtons": 0,
+    "historyNote": "裁剪页无历史列表 UI（仅恢复草稿+源图，结果任务不回流）"
+  },
+  "storeAssetsAfterReload": [
+    {
+      "id": "-6MUi2JrzZQ9rYOieAhnL",
+      "bytes": 205951,
+      "w": 1024,
+      "h": 744
+    }
+  ]
+}

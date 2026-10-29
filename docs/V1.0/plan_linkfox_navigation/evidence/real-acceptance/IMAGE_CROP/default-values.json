@@ -1,0 +1,131 @@
+{
+ "toolId": "IMAGE_CROP",
+ "measuredAt": "2026-10-29",
+ "origin": {
+  "url": "https://www.linkfox.com/draw/image-crop",
+  "viewport": "1908x1200",
+  "evidence": [
+   ".worker-edit8-nv/orig_crop1.json",
+   "evidence/b9-visual-parity-20261029/real/IMAGE_CROP/form.json"
+  ]
+ },
+ "local": {
+  "route": "/tools/smart-edit/image-crop",
+  "evidence": "evidence/real-acceptance/IMAGE_CROP/run-nv.json"
+ },
+ "rows": [
+  {
+   "control": "页签默认选中",
+   "origin": "尺寸调整",
+   "local": "尺寸调整",
+   "equal": true
+  },
+  {
+   "control": "平台预设数量/选中",
+   "origin": "22 个平台预设（亚马逊…Wish），默认无选中",
+   "local": "22 个平台预设，默认无选中（platformKey=null）",
+   "equal": true
+  },
+  {
+   "control": "比例预设选中",
+   "origin": "无选中",
+   "local": "无选中",
+   "equal": true
+  },
+  {
+   "control": "目标尺寸·宽（未上传时）",
+   "origin": "1024",
+   "local": "空（无源图不显示尺寸）",
+   "equal": false,
+   "note": "原站给 1024 占位默认；本地无源图时不填。上传后两者都取源图宽（本地实测 1024）"
+  },
+  {
+   "control": "目标尺寸·高（未上传时）",
+   "origin": "1024",
+   "local": "空（无源图不显示尺寸）",
+   "equal": false,
+   "note": "同上"
+  },
+  {
+   "control": "上传后目标尺寸",
+   "origin": "取源图尺寸（文案：384*384 ~ 4096*4096）",
+   "local": "取源图尺寸（实测 1024×744）",
+   "equal": true
+  },
+  {
+   "control": "锁定比例",
+   "origin": "无独立开关（自由裁剪 chip）",
+   "local": "有锁定按钮，默认锁定 aria-pressed=true",
+   "equal": false,
+   "note": "结构差异：本地用锁比例开关替代原站自由裁剪 chip"
+  },
+  {
+   "control": "输出格式",
+   "origin": "无格式选择（下载图片为 PNG）",
+   "local": "下拉，默认 image/png",
+   "equal": false,
+   "note": "本地额外控件，默认值与原站输出一致（PNG）"
+  },
+  {
+   "control": "源图尺寸限制",
+   "origin": "384*384 ~ 4096*4096",
+   "local": "IMAGE_CROP_MIN_SIDE=384 / MAX_SIDE=4096",
+   "equal": true
+  },
+  {
+   "control": "源图体积上限",
+   "origin": "10M 以内",
+   "local": "IMAGE_CROP_MAX_BYTES=10MiB",
+   "equal": true
+  },
+  {
+   "control": "目标尺寸下限",
+   "origin": "未在页面文案中标注",
+   "local": "64px",
+   "equal": null,
+   "note": "原站下限未实测，未做断言"
+  },
+  {
+   "control": "历史记录入口",
+   "origin": "有「历史记录」入口",
+   "local": "无历史列表 UI（刷新仅恢复草稿+源图）",
+   "equal": false
+  },
+  {
+   "control": "主操作语义",
+   "origin": "「下载图片」直出（裁剪即下载）",
+   "local": "「开始裁剪」→ 结果卡 → 下载/存资产/发画布",
+   "equal": false,
+   "note": "本地按本仓 ToolResult 规范增加结果与留痕动作"
+  }
+ ],
+ "actions": {
+  "download": {
+   "bytes": 205951,
+   "sha256": "c046374eac48b82e5a7a76c1ff8c151a9fee60e3257ffe5d10a8912eecaeb708",
+   "filename": "image-crop-result-1.png"
+  },
+  "asset": {
+   "id": "-6MUi2JrzZQ9rYOieAhnL",
+   "kind": "image",
+   "title": "IMAGE_CROP 结果 1",
+   "bytes": 205951,
+   "width": 1024,
+   "height": 744
+  },
+  "canvas": {
+   "projectId": "dFJ1Rm2EfEbvVAvrfcWMu",
+   "nodes": 1
+  },
+  "taskStore": {
+   "cropTasksBeforeReload": 1,
+   "afterReloadCropTasks": [
+    {
+     "id": "task-mvt0yzj5-nryeif",
+     "status": "succeeded",
+     "items": 1
+    }
+   ]
+  }
+ }
+}
