@@ -238,13 +238,20 @@ export function validateVideoReplicationState(
     const issues: VideoReplicationIssue[] = [];
 
     if (values.sourceMode === "link") {
-        if (!values.videoLink.trim()) {
-            issues.push({ code: "link-missing", field: "videoLink", message: "请粘贴 TikTok 视频链接。" });
-        } else if (!source.linkResolved) {
+        const raw = values.videoLink.trim();
+        if (!raw) {
+            issues.push({ code: "link-missing", field: "videoLink", message: "请粘贴公网视频直链（http(s)://…）。" });
+        } else if (!/^https?:\/\//i.test(raw) || /^(blob|data):/i.test(raw)) {
+            issues.push({
+                code: "link-invalid",
+                field: "videoLink",
+                message: "链接需是公网可访问的 http(s) 直链（本地 blob/data 地址上游拿不到）。",
+            });
+        } else if (/tiktok\.com|douyin\.com|kuaishou\.com/i.test(raw)) {
             issues.push({
                 code: "link-unresolved",
                 field: "videoLink",
-                message: "链接解析能力尚未接入：请改用「本地上传」参考视频，避免生成与参考无关的结果。",
+                message: "分享页链接需要服务端解析，当前未接入；请填视频文件直链（.mp4/.mov）。",
             });
         }
     } else if (!source.videoReady) {

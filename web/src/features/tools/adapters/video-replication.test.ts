@@ -11,6 +11,8 @@ import {
     checkVideoReplicationClip,
     checkVideoReplicationReference,
     checkVideoReplicationVideo,
+    linkToVideoReplicationVideoRef,
+    parsePublicVideoLink,
     toVideoReplicationVideoRef,
     videoReplicationFingerprint,
     videoReplicationMissingHints,
@@ -246,12 +248,25 @@ describe("adapter：提交入参与结果视图", () => {
     test("缺口提示按顺序给出可执行动作", () => {
         const hints = videoReplicationMissingHints({ values: values(), videoReady: false, referenceCount: 0 });
         expect(hints.some((hint) => hint.includes("参考视频"))).toBe(true);
-        const link = videoReplicationMissingHints({
-            values: values({ sourceMode: "link" }),
+        const emptyLink = videoReplicationMissingHints({
+            values: values({ sourceMode: "link", videoLink: "" }),
             videoReady: false,
             referenceCount: 0,
         });
-        expect(link.some((hint) => hint.includes("链接解析未接入"))).toBe(true);
+        expect(emptyLink.some((hint) => hint.includes("公网视频直链"))).toBe(true);
+        const sharePage = videoReplicationMissingHints({
+            values: values({ sourceMode: "link", videoLink: "https://www.tiktok.com/@x/video/1" }),
+            videoReady: false,
+            referenceCount: 0,
+        });
+        expect(sharePage.some((hint) => hint.includes("服务端解析"))).toBe(true);
+        /* 真·公网直链：可提交，不该再提示任何链接问题。 */
+        const ready = videoReplicationMissingHints({
+            values: values({ sourceMode: "link", videoLink: "https://cdn.example.com/ref.mp4" }),
+            videoReady: true,
+            referenceCount: 1,
+        });
+        expect(ready.some((hint) => hint.includes("链接") || hint.includes("直链"))).toBe(false);
     });
 });
 
@@ -263,12 +278,33 @@ describe("registry：提交前校验", () => {
         expect(issues.map((issue) => issue.code)).toContain("source-missing");
     });
 
-    test("链接模式未解析必须阻断（不假装成功）", () => {
+    test("分享页链接必须阻断（不假装能解析）", () => {
         const issues = validateVideoReplicationState(
             values({ sourceMode: "link", videoLink: "https://www.tiktok.com/@x/video/1" }),
             { ...emptySource, linkResolved: false },
         );
         expect(issues.map((issue) => issue.code)).toContain("link-unresolved");
+    });
+
+    test("公网直链可提交（不依赖服务端解析）", () => {
+        const issues = validateVideoReplicationState(
+            values({ sourceMode: "link", videoLink: "https://cdn.example.com/ref.mp4" }),
+            { ...emptySource, videoReady: true, linkResolved: true, referenceCount: 1 },
+        );
+        expect(issues).toEqual([]);
+    });
+
+    test("空链接/本地地址必须阻断", () => {
+        const empty = validateVideoReplicationState(
+            values({ sourceMode: "link", videoLink: "   " }),
+            { ...emptySource, videoReady: false },
+        );
+        expect(empty.map((issue) => issue.code)).toContain("link-missing");
+        const blob = validateVideoReplicationState(
+            values({ sourceMode: "link", videoLink: "blob:http://127.0.0.1:3000/abc" }),
+            { ...emptySource, videoReady: true },
+        );
+        expect(blob.map((issue) => issue.code)).toContain("link-invalid");
     });
 
     test("商品图超过 6 张必须阻断", () => {
@@ -292,5 +328,104 @@ describe("registry：提交前校验", () => {
             referenceCount: 1,
         });
         expect(issues).toEqual([]);
+    });
+});
+
+/* ===================== 链接模式：公网直链（实测 2026-10-29） =====================
+ * 上游 /v1/videos 只收公网 http(s) 视频地址：`videos: ["https://…"]` 建任务成功并出片；
+ * `data:video/...` 会被回 400 “must be a public HTTPS URL”。所以链接模式必须真的透传 URL，
+ * 而不是假装解析、也不是把本地字节内联上去。
+ */
+describe("链接模式：公网直链解析", () => {
+    test("https 直链被接受且原样保留", () => {
+        const parsed = parsePublicVideoLink(" https://cdn.example.com/ref.mp4 ");
+        expect(parsed.ok).toBe(true);
+        if (parsed.ok) expect(parsed.url).toBe("https://cdn.example.com/ref.mp4");
+    });
+
+    test("空链接给出可执行提示", () => {
+        const parsed = parsePublicVideoLink("   ");
+        expect(parsed.ok).toBe(false);
+        if (!parsed.ok) {
+            expect(parsed.code).toBe("link-empty");
+            expect(parsed.message).toContain("公网视频直链");
+        }
+    });
+
+    test("blob/data 本地地址被拒绝（上游拿不到）", () => {
+        for (const raw of ["blob:http://127.0.0.1:3000/abc", "data:video/mp4;base64,AAAA"]) {
+            const parsed = parsePublicVideoLink(raw);
+            expect(parsed.ok).toBe(false);
+            if (!parsed.ok) expect(parsed.code).toBe("link-invalid");
+        }
+    });
+
+    test("非 http(s) 与小写协议外的写法被拒绝", () => {
+        const parsed = parsePublicVideoLink("ftp://cdn.example.com/ref.mp4");
+        expect(parsed.ok).toBe(false);
+        if (!parsed.ok) expect(parsed.code).toBe("link-invalid");
+    });
+
+    test("分享页链接明确报「需服务端解析」", () => {
+        const parsed = parsePublicVideoLink("https://www.tiktok.com/@x/video/1");
+        expect(parsed.ok).toBe(false);
+        if (!parsed.ok) {
+            expect(parsed.code).toBe("link-unresolved");
+            expect(parsed.message).toContain("服务端解析");
+        }
+    });
+
+    test("直链转成参考视频引用：保留 URL、按扩展名给 MIME", () => {
+        const ref = linkToVideoReplicationVideoRef("https://cdn.example.com/a/b/clip.mov?sign=1");
+        expect(ref.url).toBe("https://cdn.example.com/a/b/clip.mov?sign=1");
+        expect(ref.name).toBe("clip.mov");
+        expect(ref.type).toBe("video/quicktime");
+
+        const mp4 = linkToVideoReplicationVideoRef("https://cdn.example.com/clip.mp4");
+        expect(mp4.type).toBe("video/mp4");
+        expect(mp4.name).toBe("clip.mp4");
+    });
+
+    test("提交校验：链接模式不再要求本地文件，但要求合法直链", () => {
+        const linkValues = values({ sourceMode: "link", videoLink: "https://cdn.example.com/ref.mp4" });
+        const noVideo = { assetId: "", name: "", url: "" };
+        const refs = [{ id: "img-1", name: "p.png", url: "https://cdn.example.com/p.png" }];
+        expect(() =>
+            assertVideoReplicationInput({
+                values: linkValues,
+                model: "MiniMax-H3",
+                video: noVideo,
+                references: refs,
+            }),
+        ).not.toThrow();
+
+        expect(() =>
+            assertVideoReplicationInput({
+                values: values({ sourceMode: "link", videoLink: "blob:http://127.0.0.1:3000/abc" }),
+                model: "MiniMax-H3",
+                video: noVideo,
+                references: refs,
+            }),
+        ).toThrow(/公网/);
+
+        expect(() =>
+            assertVideoReplicationInput({
+                values: values({ sourceMode: "link", videoLink: "" }),
+                model: "MiniMax-H3",
+                video: noVideo,
+                references: refs,
+            }),
+        ).toThrow(/公网视频直链/);
+    });
+
+    test("上传模式仍然必须真的校验本地视频", () => {
+        expect(() =>
+            assertVideoReplicationInput({
+                values: values({ sourceMode: "upload" }),
+                model: "MiniMax-H3",
+                video: { assetId: "", name: "", url: "" },
+                references: [],
+            }),
+        ).toThrow();
     });
 });

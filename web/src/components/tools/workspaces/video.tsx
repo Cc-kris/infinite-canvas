@@ -2009,6 +2009,8 @@ import {
     checkVideoReplicationVideo,
     createVideoReplicationRunPort,
     loadVideoReplicationReferences,
+    parsePublicVideoLink,
+    linkToVideoReplicationVideoRef,
     retryVideoReplicationTask,
     runVideoReplicationTask,
     toVideoReplicationVideoRef,
@@ -2083,15 +2085,17 @@ export function VideoReplicationWorkspace({ className }: VideoReplicationWorkspa
     );
     const clipReady = videoReplicationClipReady(values);
     const counter = videoReplicationPromptCounter(values);
-    const videoReady = Boolean(videoRecord) && Boolean(videoCheck?.ok);
+    /* 链接模式：公网直链本身就是可用源（上游 videos[] 直接吃 URL），不需要服务端解析。 */
+    const linkParse = useMemo(() => parsePublicVideoLink(values.videoLink), [values.videoLink]);
+    const videoReady = values.sourceMode === "link" ? linkParse.ok : Boolean(videoRecord) && Boolean(videoCheck?.ok);
     const sourceState = useMemo(
         () => ({
             videoReady,
-            linkResolved: false,
+            linkResolved: linkParse.ok,
             referenceCount: refRecords.length,
             referenceIssues: referenceIssues.map((issue) => (issue.ok ? "" : issue.message)),
         }),
-        [referenceIssues, refRecords.length, videoReady],
+        [linkParse.ok, referenceIssues, refRecords.length, videoReady],
     );
     const issues = useMemo(() => validateVideoReplicationState(values, sourceState, catalog), [catalog, sourceState, values]);
     const hints = useMemo(
@@ -2137,17 +2141,34 @@ export function VideoReplicationWorkspace({ className }: VideoReplicationWorkspa
 
     /* ---------- 提交 / 重试 ---------- */
     const buildInput = useCallback(async () => {
-        if (!videoRecord) throw new VideoReplicationAdapterError("no-video", "请先上传参考视频");
-        const video = {
-            assetId: videoRecord.id,
-            name: videoRecord.name,
-            url: videoRecord.url,
-            storageKey: videoRecord.storageKey,
-            mimeType: videoRecord.mimeType,
-            bytes: videoRecord.bytes,
-            durationMs: videoRecord.durationMs,
-        };
-        const videoRef = toVideoReplicationVideoRef(videoRecord);
+        const isLink = values.sourceMode === "link";
+        const link = isLink ? parsePublicVideoLink(values.videoLink) : null;
+        if (isLink) {
+            if (!link || !link.ok) {
+                throw new VideoReplicationAdapterError(link?.ok === false ? link.code : "link-empty", link?.ok === false ? link.message : "请粘贴公网视频直链");
+            }
+        } else if (!videoRecord) {
+            throw new VideoReplicationAdapterError("no-video", "请先上传参考视频");
+        }
+        const video = isLink && link?.ok
+            ? {
+                assetId: "",
+                name: link.url.split("?")[0].split("/").pop() || "参考视频.mp4",
+                url: link.url,
+                mimeType: "video/mp4",
+                bytes: undefined,
+                durationMs: undefined,
+            }
+            : {
+                assetId: videoRecord!.id,
+                name: videoRecord!.name,
+                url: videoRecord!.url,
+                storageKey: videoRecord!.storageKey,
+                mimeType: videoRecord!.mimeType,
+                bytes: videoRecord!.bytes,
+                durationMs: videoRecord!.durationMs,
+            };
+        const videoRef = isLink && link?.ok ? linkToVideoReplicationVideoRef(link.url) : toVideoReplicationVideoRef(videoRecord!);
         const references = refRecords.map((record) => ({
             id: record.id,
             name: record.name,
@@ -2317,12 +2338,21 @@ export function VideoReplicationWorkspace({ className }: VideoReplicationWorkspa
                             <div className="mt-3 space-y-2">
                                 <input
                                     className="w-full rounded border border-border bg-background px-2 py-1.5 text-sm"
-                                    placeholder="粘贴 TikTok 视频链接"
+                                    placeholder="粘贴公网视频直链（https://…/xxx.mp4）"
                                     value={values.videoLink}
                                     onChange={(event) => update("videoLink", event.target.value)}
                                 />
-                                <p className="rounded border border-amber-200 bg-amber-50 px-2 py-1.5 text-[11px] text-amber-700">
-                                    链接解析能力尚未接入（需要服务端解析 TikTok 视频）。请改用「本地上传」，否则无法生成与参考一致的结果。
+                                {linkParse.ok ? (
+                                    <p className="rounded border border-emerald-200 bg-emerald-50 px-2 py-1.5 text-[11px] text-emerald-700">
+                                        已识别公网直链：{linkParse.url}
+                                    </p>
+                                ) : (
+                                    <p className="rounded border border-border bg-muted px-2 py-1.5 text-[11px] text-muted-foreground">
+                                        {linkParse.message}
+                                    </p>
+                                )}
+                                <p className="text-[11px] leading-4 text-muted-foreground">
+                                    上游只接受公网可访问的视频地址；TikTok/抖音分享页需要服务端解析（未接入），请填视频文件直链。
                                 </p>
                             </div>
                         )}

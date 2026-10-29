@@ -86,7 +86,9 @@ export type VideoReplicationErrorCode =
     | "prompt-too-long"
     | "param-dropped"
     | "model-missing"
-    | "link-unresolved";
+    | "link-unresolved"
+    | "link-empty"
+    | "link-invalid";
 
 export class VideoReplicationAdapterError extends Error {
     readonly code: VideoReplicationErrorCode;
@@ -329,16 +331,17 @@ export function assertVideoReplicationInput(input: VideoReplicationInput): void 
     if (!model) throw new VideoReplicationAdapterError("model-missing", "请先选择视频模型");
 
     if (input.values.sourceMode === "link") {
-        throw new VideoReplicationAdapterError(
-            "link-unresolved",
-            "链接解析能力尚未接入：请改用「本地上传」参考视频（TikTok 链接解析需要服务端能力）",
-        );
-    }
-
-    const videoCheck = checkVideoReplicationVideo({ name: input.video.name, mimeType: input.video.mimeType, bytes: input.video.bytes });
-    if (!videoCheck.ok) throw new VideoReplicationAdapterError(videoCheck.code, videoCheck.message);
-    if (!input.video.url.trim()) {
-        throw new VideoReplicationAdapterError("no-video", "参考视频地址缺失，请重新上传");
+        /* 链接模式走公网直链（实测 2026-10-29：上游 /videos 只收公网 http(s) URL，
+           本地 blob/data 地址一律 400）。这里只做「是不是公网直链」的判定，
+           不假装能解析 TikTok 分享页——页面链接仍按未接入报错。 */
+        const link = parsePublicVideoLink(input.values.videoLink);
+        if (!link.ok) throw new VideoReplicationAdapterError(link.code, link.message);
+    } else {
+        const videoCheck = checkVideoReplicationVideo({ name: input.video.name, mimeType: input.video.mimeType, bytes: input.video.bytes });
+        if (!videoCheck.ok) throw new VideoReplicationAdapterError(videoCheck.code, videoCheck.message);
+        if (!input.video.url.trim()) {
+            throw new VideoReplicationAdapterError("no-video", "参考视频地址缺失，请重新上传");
+        }
     }
 
     const clipCheck = checkVideoReplicationClip(input.values);
@@ -540,7 +543,8 @@ export function videoReplicationMissingHints(input: {
 }): string[] {
     const hints: string[] = [];
     if (input.values.sourceMode === "link") {
-        hints.push("链接解析未接入：请改用「本地上传」参考视频");
+        const link = parsePublicVideoLink(input.values.videoLink);
+        if (!link.ok) hints.push(link.message);
     } else if (!input.videoReady) {
         hints.push("请上传参考视频（MP4/MOV，≤100MB）");
     }
@@ -574,6 +578,34 @@ export function toVideoReplicationVideoRef(record: ToolAssetRecord): import("@/t
         height: record.height,
         durationMs: record.durationMs,
     };
+}
+
+/**
+ * 链接模式：只接受「公网可访问的视频直链」。
+ * 不需要服务端解析——上游 /videos 直接吃 `videos: [https://…]`（实测 2026-10-29 建任务并出片），
+ * 所以能透传的就必须透传，不能透传的（blob/data/分享页）要在这里说清楚原因。
+ */
+export function parsePublicVideoLink(raw: string): { ok: true; url: string } | { ok: false; code: VideoReplicationErrorCode; message: string } {
+    const url = (raw ?? "").trim();
+    if (!url) return { ok: false, code: "link-empty", message: "请粘贴公网视频直链（以 http(s):// 开头，指向可直接下载的视频文件）" };
+    if (/^(blob|data):/i.test(url)) {
+        return { ok: false, code: "link-invalid", message: "这是浏览器本地地址，上游拿不到；请改用公网 http(s) 直链" };
+    }
+    if (!/^https?:\/\//i.test(url)) {
+        return { ok: false, code: "link-invalid", message: "链接需以 http:// 或 https:// 开头（公网可访问）" };
+    }
+    if (/tiktok\.com|douyin\.com|kuaishou\.com/i.test(url)) {
+        return { ok: false, code: "link-unresolved", message: "分享页链接需要服务端解析，当前未接入；请填视频文件直链（.mp4/.mov）" };
+    }
+    return { ok: true, url };
+}
+
+/** 公网直链 → ReferenceVideo（无本地字节，url 原样下发，由 video.ts 走 JSON videos[]）。 */
+export function linkToVideoReplicationVideoRef(url: string): import("@/types/media").ReferenceVideo {
+    const name = url.split("?")[0].split("/").pop() || "参考视频.mp4";
+    const lower = name.toLowerCase();
+    const type = lower.endsWith(".mov") ? "video/quicktime" : "video/mp4";
+    return { id: `link-${name}`, name, type, url };
 }
 
 async function blobToDataUrl(blob: Blob): Promise<string> {
