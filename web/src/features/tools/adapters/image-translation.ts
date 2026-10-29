@@ -67,7 +67,15 @@ export function createModelTextPort(): TranslationTextPort {
                 import("@/stores/use-config-store"),
             ]);
             const config = useConfigStore.getState().config;
-            return requestImageQuestion(config, messages as never, () => {}, { signal: options?.signal });
+            /**
+             * 识别/翻译都是「问答」请求，必须走文本模型。
+             * `requestImageQuestion` 取的是 `config.model`（图像模型，如 gpt-image-2），
+             * 图像模型不回答这类请求，上游直接返回 `Upstream request failed`，
+             * 于是「识别文字」100% 失败、历史坞永远是 0 条。这里显式指定 textModel。
+             */
+            const textModel = config.textModel?.trim();
+            const requestConfig = textModel && textModel !== config.model ? { ...config, model: textModel } : config;
+            return requestImageQuestion(requestConfig, messages as never, () => {}, { signal: options?.signal });
         },
     };
 }
