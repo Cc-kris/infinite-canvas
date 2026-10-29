@@ -1,26 +1,22 @@
 {
-  "generated_at": "2026-10-29T15:02:45+08:00",
+  "generated_at": "2026-10-29T15:05:11+08:00",
   "repo": "/Users/mac/Documents/Dev/infinite-canvas",
   "branch": "feat/linkfox-v1-real",
-  "head": "6fdd9a5",
+  "head": "fcb1b69",
   "dirty_web_src": [
-    "eb/src/components/tools/design19-frame.tsx",
-    "web/src/components/tools/edit8-frame.tsx",
-    "web/src/components/tools/tool-asset-input.tsx",
-    "web/src/components/tools/tool-cases.tsx",
-    "web/src/components/tools/tool-result.tsx",
-    "web/src/components/tools/workspaces/color-v2.tsx",
+    "eb/src/components/tools/workspaces/color-v2.tsx",
     "web/src/components/tools/workspaces/color.tsx",
-    "web/src/components/tools/workspaces/crop.tsx",
-    "web/src/components/tools/workspaces/dress.tsx",
+    "web/src/components/tools/workspaces/designer.tsx",
     "web/src/components/tools/workspaces/enhance.tsx",
     "web/src/components/tools/workspaces/extract.tsx",
     "web/src/components/tools/workspaces/handheld-goods.tsx",
     "web/src/components/tools/workspaces/image-to-video.tsx",
     "web/src/components/tools/workspaces/mask.tsx",
     "web/src/components/tools/workspaces/outpaint.tsx",
-    "web/src/components/tools/workspaces/repair.tsx",
-    "web/src/components/tools/workspaces/scene.tsx"
+    "web/src/components/tools/workspaces/pod.tsx",
+    "web/src/components/tools/workspaces/scene-fission.tsx",
+    "web/src/components/tools/workspaces/translate.tsx",
+    "web/src/features/tools/adapters/dress-wear-set.ts"
   ],
   "checks": {
     "shell_files_present": [
@@ -43,96 +39,15 @@
     }
   },
   "summary": {
-    "errors": 11,
-    "warnings": 53,
+    "errors": 1,
+    "warnings": 21,
     "by_rule": {
-      "brand-visible": 1,
-      "design:original-brand-hex": 36,
-      "tool-copy:billing": 10,
+      "design:original-brand-hex": 4,
+      "tool-copy:billing": 1,
       "unfinished-copy:case-module": 17
     }
   },
   "findings": [
-    {
-      "rule": "brand-visible",
-      "severity": "error",
-      "file": "web/src/components/tools/workspaces/designer.tsx",
-      "line": 551,
-      "excerpt": "字体只提供系统可渲染字族（LinkFox 侧由 /image/designer/font/list 下发上传字体，本站未接远端字体库）。",
-      "detail": "可见文案必须使用本项目品牌，不出现 LinkFox"
-    },
-    {
-      "rule": "tool-copy:billing",
-      "severity": "error",
-      "file": "web/src/components/tools/workspaces/extract.tsx",
-      "line": 895,
-      "excerpt": "立即生成 (10算力)",
-      "detail": "工具页只保留功能字段与必要文案，不搬原站计费/运营/学习中心文案"
-    },
-    {
-      "rule": "tool-copy:billing",
-      "severity": "error",
-      "file": "web/src/components/tools/workspaces/color-v2.tsx",
-      "line": 864,
-      "excerpt": "<span className=\"text-[12px] leading-none opacity-90\">(50算力)</span>",
-      "detail": "工具页只保留功能字段与必要文案，不搬原站计费/运营/学习中心文案"
-    },
-    {
-      "rule": "tool-copy:billing",
-      "severity": "error",
-      "file": "web/src/components/tools/workspaces/scene-fission.tsx",
-      "line": 751,
-      "excerpt": "<span className=\"text-[12px] font-normal opacity-90\">(40算力)</span>",
-      "detail": "工具页只保留功能字段与必要文案，不搬原站计费/运营/学习中心文案"
-    },
-    {
-      "rule": "tool-copy:billing",
-      "severity": "error",
-      "file": "web/src/components/tools/workspaces/translate.tsx",
-      "line": 705,
-      "excerpt": "{busy ? `翻译中 ${progress.done}/${progress.total}` : `开始翻译 (${IMAGE_TRANSLATION_CREDITS}算力)`}",
-      "detail": "工具页只保留功能字段与必要文案，不搬原站计费/运营/学习中心文案"
-    },
-    {
-      "rule": "tool-copy:billing",
-      "severity": "error",
-      "file": "web/src/components/tools/workspaces/color.tsx",
-      "line": 735,
-      "excerpt": "{running ? \"生成中…\" : \"立即生成 (10算力)\"}",
-      "detail": "工具页只保留功能字段与必要文案，不搬原站计费/运营/学习中心文案"
-    },
-    {
-      "rule": "tool-copy:billing",
-      "severity": "error",
-      "file": "web/src/components/tools/workspaces/handheld-goods.tsx",
-      "line": 370,
-      "excerpt": "{running ? \"生成中…\" : \"立即生成 (40算力)\"}",
-      "detail": "工具页只保留功能字段与必要文案，不搬原站计费/运营/学习中心文案"
-    },
-    {
-      "rule": "tool-copy:billing",
-      "severity": "error",
-      "file": "web/src/components/tools/workspaces/mask.tsx",
-      "line": 729,
-      "excerpt": "{busy ? \"生成中…\" : \"立即生成 (40算力)\"}",
-      "detail": "工具页只保留功能字段与必要文案，不搬原站计费/运营/学习中心文案"
-    },
-    {
-      "rule": "tool-copy:billing",
-      "severity": "error",
-      "file": "web/src/components/tools/workspaces/enhance.tsx",
-      "line": 517,
-      "excerpt": "<span className=\"text-[11px] font-normal opacity-80\" data-testid=\"scale-up-cost\">(20算力)</span>",
-      "detail": "工具页只保留功能字段与必要文案，不搬原站计费/运营/学习中心文案"
-    },
-    {
-      "rule": "tool-copy:billing",
-      "severity": "error",
-      "file": "web/src/components/tools/workspaces/outpaint.tsx",
-      "line": 836,
-      "excerpt": "<span className=\"text-[12px] leading-none opacity-90\">(40算力)</span>",
-      "detail": "工具页只保留功能字段与必要文案，不搬原站计费/运营/学习中心文案"
-    },
     {
       "rule": "tool-copy:billing",
       "severity": "error",
@@ -276,262 +191,6 @@
       "line": 439,
       "excerpt": "title={source ? \"填表向导待接入（PARTIAL）\" : \"先上传商品图\"}",
       "detail": "原站有优秀案例的工具，本地不应以占位文案收尾"
-    },
-    {
-      "rule": "design:original-brand-hex",
-      "severity": "warning",
-      "file": "web/src/components/tools/workspaces/color-v2.tsx",
-      "line": 783,
-      "excerpt": "#723cf9",
-      "detail": "使用设计系统 token / 组件，不搬原站像素值与 !important"
-    },
-    {
-      "rule": "design:original-brand-hex",
-      "severity": "warning",
-      "file": "web/src/components/tools/workspaces/color-v2.tsx",
-      "line": 811,
-      "excerpt": "#723cf9",
-      "detail": "使用设计系统 token / 组件，不搬原站像素值与 !important"
-    },
-    {
-      "rule": "design:original-brand-hex",
-      "severity": "warning",
-      "file": "web/src/components/tools/workspaces/color-v2.tsx",
-      "line": 856,
-      "excerpt": "linear-gradient(90deg, #3B7AF9 0%, #723CF9 100%)",
-      "detail": "使用设计系统 token / 组件，不搬原站像素值与 !important"
-    },
-    {
-      "rule": "design:original-brand-hex",
-      "severity": "warning",
-      "file": "web/src/components/tools/workspaces/scene-fission.tsx",
-      "line": 145,
-      "excerpt": "mt-3 block text-left text-[13px] leading-5 text-[#723cf9] hover:underline",
-      "detail": "使用设计系统 token / 组件，不搬原站像素值与 !important"
-    },
-    {
-      "rule": "design:original-brand-hex",
-      "severity": "warning",
-      "file": "web/src/components/tools/workspaces/scene-fission.tsx",
-      "line": 191,
-      "excerpt": "h-4 w-full accent-[#723cf9] disabled:opacity-50",
-      "detail": "使用设计系统 token / 组件，不搬原站像素值与 !important"
-    },
-    {
-      "rule": "design:original-brand-hex",
-      "severity": "warning",
-      "file": "web/src/components/tools/workspaces/scene-fission.tsx",
-      "line": 572,
-      "excerpt": "min-h-[84px] w-full resize-y rounded-[6px] border border-[#e5e5ea] bg-white p-2 text-[12px] leading-5 text-[#1f2024] out",
-      "detail": "使用设计系统 token / 组件，不搬原站像素值与 !important"
-    },
-    {
-      "rule": "design:original-brand-hex",
-      "severity": "warning",
-      "file": "web/src/components/tools/workspaces/scene-fission.tsx",
-      "line": 586,
-      "excerpt": "mt-1 h-8 w-full rounded-[6px] border border-[#e5e5ea] bg-white px-2 text-[12px] text-[#1f2024] outline-none transition p",
-      "detail": "使用设计系统 token / 组件，不搬原站像素值与 !important"
-    },
-    {
-      "rule": "design:original-brand-hex",
-      "severity": "warning",
-      "file": "web/src/components/tools/workspaces/scene-fission.tsx",
-      "line": 607,
-      "excerpt": "border-[#723cf9]",
-      "detail": "使用设计系统 token / 组件，不搬原站像素值与 !important"
-    },
-    {
-      "rule": "design:original-brand-hex",
-      "severity": "warning",
-      "file": "web/src/components/tools/workspaces/scene-fission.tsx",
-      "line": 618,
-      "excerpt": "text-[#723cf9]",
-      "detail": "使用设计系统 token / 组件，不搬原站像素值与 !important"
-    },
-    {
-      "rule": "design:original-brand-hex",
-      "severity": "warning",
-      "file": "web/src/components/tools/workspaces/scene-fission.tsx",
-      "line": 653,
-      "excerpt": "border-[#723cf9] bg-[#f4f0ff] text-[#723cf9]",
-      "detail": "使用设计系统 token / 组件，不搬原站像素值与 !important"
-    },
-    {
-      "rule": "design:original-brand-hex",
-      "severity": "warning",
-      "file": "web/src/components/tools/workspaces/scene-fission.tsx",
-      "line": 653,
-      "excerpt": "border-[#723cf9] bg-[#f4f0ff] text-[#723cf9]",
-      "detail": "使用设计系统 token / 组件，不搬原站像素值与 !important"
-    },
-    {
-      "rule": "design:original-brand-hex",
-      "severity": "warning",
-      "file": "web/src/components/tools/workspaces/scene-fission.tsx",
-      "line": 675,
-      "excerpt": "mt-1 h-8 w-full rounded-[6px] border border-[#e5e5ea] bg-white px-2 text-[12px] tabular-nums text-[#1f2024] outline-none",
-      "detail": "使用设计系统 token / 组件，不搬原站像素值与 !important"
-    },
-    {
-      "rule": "design:original-brand-hex",
-      "severity": "warning",
-      "file": "web/src/components/tools/workspaces/scene-fission.tsx",
-      "line": 688,
-      "excerpt": "mt-1 h-8 w-full rounded-[6px] border border-[#e5e5ea] bg-white px-2 text-[12px] tabular-nums text-[#1f2024] outline-none",
-      "detail": "使用设计系统 token / 组件，不搬原站像素值与 !important"
-    },
-    {
-      "rule": "design:original-brand-hex",
-      "severity": "warning",
-      "file": "web/src/components/tools/workspaces/scene-fission.tsx",
-      "line": 711,
-      "excerpt": "border-[#723cf9] bg-[#f4f0ff] text-[#723cf9]",
-      "detail": "使用设计系统 token / 组件，不搬原站像素值与 !important"
-    },
-    {
-      "rule": "design:original-brand-hex",
-      "severity": "warning",
-      "file": "web/src/components/tools/workspaces/scene-fission.tsx",
-      "line": 711,
-      "excerpt": "border-[#723cf9] bg-[#f4f0ff] text-[#723cf9]",
-      "detail": "使用设计系统 token / 组件，不搬原站像素值与 !important"
-    },
-    {
-      "rule": "design:original-brand-hex",
-      "severity": "warning",
-      "file": "web/src/components/tools/workspaces/scene-fission.tsx",
-      "line": 748,
-      "excerpt": "flex h-8 w-full items-center justify-center gap-1 rounded-[4px] bg-[#723cf9] text-[13px] font-medium leading-none text-w",
-      "detail": "使用设计系统 token / 组件，不搬原站像素值与 !important"
-    },
-    {
-      "rule": "design:original-brand-hex",
-      "severity": "warning",
-      "file": "web/src/components/tools/workspaces/scene-fission.tsx",
-      "line": 778,
-      "excerpt": "font-medium text-[#723cf9]",
-      "detail": "使用设计系统 token / 组件，不搬原站像素值与 !important"
-    },
-    {
-      "rule": "design:original-brand-hex",
-      "severity": "warning",
-      "file": "web/src/components/tools/workspaces/scene-fission.tsx",
-      "line": 808,
-      "excerpt": "#723cf9",
-      "detail": "使用设计系统 token / 组件，不搬原站像素值与 !important"
-    },
-    {
-      "rule": "design:original-brand-hex",
-      "severity": "warning",
-      "file": "web/src/components/tools/workspaces/translate.tsx",
-      "line": 90,
-      "excerpt": "bg-[#723CF9] text-white",
-      "detail": "使用设计系统 token / 组件，不搬原站像素值与 !important"
-    },
-    {
-      "rule": "design:original-brand-hex",
-      "severity": "warning",
-      "file": "web/src/components/tools/workspaces/translate.tsx",
-      "line": 616,
-      "excerpt": "text-sm text-[#723CF9]",
-      "detail": "使用设计系统 token / 组件，不搬原站像素值与 !important"
-    },
-    {
-      "rule": "design:original-brand-hex",
-      "severity": "warning",
-      "file": "web/src/components/tools/workspaces/translate.tsx",
-      "line": 669,
-      "excerpt": "text-[#723CF9]",
-      "detail": "使用设计系统 token / 组件，不搬原站像素值与 !important"
-    },
-    {
-      "rule": "design:original-brand-hex",
-      "severity": "warning",
-      "file": "web/src/components/tools/workspaces/translate.tsx",
-      "line": 683,
-      "excerpt": "ring-1 ring-dashed ring-[#723CF9]/40",
-      "detail": "使用设计系统 token / 组件，不搬原站像素值与 !important"
-    },
-    {
-      "rule": "design:original-brand-hex",
-      "severity": "warning",
-      "file": "web/src/components/tools/workspaces/translate.tsx",
-      "line": 703,
-      "excerpt": "h-9 w-full rounded-md bg-[#723CF9] text-sm font-medium text-white transition hover:bg-[#5F2BD9] disabled:cursor-not-allo",
-      "detail": "使用设计系统 token / 组件，不搬原站像素值与 !important"
-    },
-    {
-      "rule": "design:original-brand-hex",
-      "severity": "warning",
-      "file": "web/src/components/tools/workspaces/translate.tsx",
-      "line": 712,
-      "excerpt": "-mb-px flex h-full items-center border-b-2 border-[#723CF9] font-medium text-[#723CF9]",
-      "detail": "使用设计系统 token / 组件，不搬原站像素值与 !important"
-    },
-    {
-      "rule": "design:original-brand-hex",
-      "severity": "warning",
-      "file": "web/src/components/tools/workspaces/translate.tsx",
-      "line": 712,
-      "excerpt": "-mb-px flex h-full items-center border-b-2 border-[#723CF9] font-medium text-[#723CF9]",
-      "detail": "使用设计系统 token / 组件，不搬原站像素值与 !important"
-    },
-    {
-      "rule": "design:original-brand-hex",
-      "severity": "warning",
-      "file": "web/src/components/tools/workspaces/pod.tsx",
-      "line": 1648,
-      "excerpt": "linear-gradient(90deg, #3A7DF9 0%, #723CF9 100%)",
-      "detail": "使用设计系统 token / 组件，不搬原站像素值与 !important"
-    },
-    {
-      "rule": "design:original-brand-hex",
-      "severity": "warning",
-      "file": "web/src/components/tools/workspaces/pod.tsx",
-      "line": 1699,
-      "excerpt": "border-[#723CF9]",
-      "detail": "使用设计系统 token / 组件，不搬原站像素值与 !important"
-    },
-    {
-      "rule": "design:original-brand-hex",
-      "severity": "warning",
-      "file": "web/src/components/tools/workspaces/pod.tsx",
-      "line": 1743,
-      "excerpt": "linear-gradient(90deg, #3A7DF9 0%, #723CF9 100%)",
-      "detail": "使用设计系统 token / 组件，不搬原站像素值与 !important"
-    },
-    {
-      "rule": "design:original-brand-hex",
-      "severity": "warning",
-      "file": "web/src/components/tools/workspaces/pod.tsx",
-      "line": 1771,
-      "excerpt": "text-[#723CF9]",
-      "detail": "使用设计系统 token / 组件，不搬原站像素值与 !important"
-    },
-    {
-      "rule": "design:original-brand-hex",
-      "severity": "warning",
-      "file": "web/src/components/tools/workspaces/pod.tsx",
-      "line": 1784,
-      "excerpt": "text-[#723CF9]",
-      "detail": "使用设计系统 token / 组件，不搬原站像素值与 !important"
-    },
-    {
-      "rule": "design:original-brand-hex",
-      "severity": "warning",
-      "file": "web/src/components/tools/workspaces/pod.tsx",
-      "line": 1857,
-      "excerpt": "flex min-h-[36px] items-center justify-center gap-2 rounded-[8px] border border-[#723CF9] px-3 text-[13px] text-[#723CF9",
-      "detail": "使用设计系统 token / 组件，不搬原站像素值与 !important"
-    },
-    {
-      "rule": "design:original-brand-hex",
-      "severity": "warning",
-      "file": "web/src/components/tools/workspaces/pod.tsx",
-      "line": 1857,
-      "excerpt": "flex min-h-[36px] items-center justify-center gap-2 rounded-[8px] border border-[#723CF9] px-3 text-[13px] text-[#723CF9",
-      "detail": "使用设计系统 token / 组件，不搬原站像素值与 !important"
     },
     {
       "rule": "design:original-brand-hex",
