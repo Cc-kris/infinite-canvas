@@ -1,0 +1,529 @@
+{
+  "summary": {
+    "generatedAt": "2026-10-29T07:41:30.271Z",
+    "baseUrl": "http://127.0.0.1:3000",
+    "media": "http://127.0.0.1:23298",
+    "tools": [
+      {
+        "toolId": "AREA_REPAIR",
+        "panel": "dock",
+        "ok": true,
+        "issues": [],
+        "bytesMatched": [
+          {
+            "url": "http://127.0.0.1:23298/AREA_REPAIR/result.png",
+            "bytes": 943932,
+            "sha": "3cf14369ab4539a9",
+            "match": true
+          },
+          {
+            "url": "http://127.0.0.1:23298/AREA_REPAIR/result-2.png",
+            "bytes": 907235,
+            "sha": "c1731841bb091051",
+            "match": true
+          }
+        ],
+        "download": {
+          "fileName": "AREA_REPAIR-area-repair-result-1.png",
+          "bytes": 943932,
+          "sha": "3cf14369ab4539a95c2cd43360a1b594bbeb1e7f1ddd2ba3bde7316d7c5ab832"
+        }
+      },
+      {
+        "toolId": "REMOVE_PEN",
+        "panel": "dock",
+        "ok": true,
+        "issues": [],
+        "bytesMatched": [
+          {
+            "url": "http://127.0.0.1:23298/REMOVE_PEN/result.png",
+            "bytes": 850799,
+            "sha": "67d5d6a637518af3",
+            "match": true
+          }
+        ],
+        "download": {
+          "fileName": "REMOVE_PEN-remove-pen-result-1.png",
+          "bytes": 850799,
+          "sha": "67d5d6a637518af3e0aa9147bfc0f855b350a244b3345b93ab05d3faa223f392"
+        }
+      },
+      {
+        "toolId": "CHANGE_COLOR",
+        "panel": "own-history",
+        "ok": true,
+        "issues": [],
+        "bytesMatched": [
+          {
+            "url": "http://127.0.0.1:23298/CHANGE_COLOR/result.png",
+            "bytes": 1231207,
+            "sha": "6f3937c29849f8f7",
+            "match": true
+          }
+        ],
+        "download": {
+          "fileName": "CHANGE_COLOR-change-color-result-1.png",
+          "bytes": 1231207,
+          "sha": "6f3937c29849f8f756a7587574345cc73691a5dfd8fbb3b3bf3bd6ebc34441a9"
+        }
+      },
+      {
+        "toolId": "IMAGE_CROP",
+        "panel": "dock",
+        "ok": true,
+        "issues": [],
+        "bytesMatched": [
+          {
+            "url": "http://127.0.0.1:23298/IMAGE_CROP/result.png",
+            "bytes": 205951,
+            "sha": "c046374eac48b82e",
+            "match": true
+          }
+        ],
+        "download": {
+          "fileName": "IMAGE_CROP-image-crop-result-1.png",
+          "bytes": 205951,
+          "sha": "c046374eac48b82e5a7a76c1ff8c151a9fee60e3257ffe5d10a8912eecaeb708"
+        }
+      }
+    ]
+  },
+  "records": [
+    {
+      "toolId": "AREA_REPAIR",
+      "panel": "dock",
+      "issues": [],
+      "seeded": [
+        {
+          "id": "task-real-AREA_REPAIR-1-1793259669195",
+          "prompt": "把涂抹区域的表盘替换成米色针织纹理，保留原有光影、镜头与背景不变",
+          "items": 2
+        },
+        {
+          "id": "task-real-AREA_REPAIR-2-1793259669195",
+          "prompt": "把涂抹区域的表盘替换成米色针织纹理，保留原有光影、镜头与背景不变",
+          "items": 2
+        }
+      ],
+      "afterReload": {
+        "countText": "2 条",
+        "items": [
+          {
+            "taskId": "task-real-AREA_REPAIR-1-1793259669195",
+            "status": "succeeded",
+            "summary": "gpt-image-2 · image · 2 个结果"
+          },
+          {
+            "taskId": "task-real-AREA_REPAIR-2-1793259669195",
+            "status": "succeeded",
+            "summary": "gpt-image-2 · image · 2 个结果"
+          }
+        ],
+        "thumbs": [
+          {
+            "src": "http://127.0.0.1:23298/AREA_REPAIR/result.png",
+            "width": 1024,
+            "decoded": true
+          },
+          {
+            "src": "http://127.0.0.1:23298/AREA_REPAIR/result-2.png",
+            "width": 1024,
+            "decoded": true
+          },
+          {
+            "src": "http://127.0.0.1:23298/AREA_REPAIR/result.png",
+            "width": 1024,
+            "decoded": true
+          },
+          {
+            "src": "http://127.0.0.1:23298/AREA_REPAIR/result-2.png",
+            "width": 1024,
+            "decoded": true
+          }
+        ]
+      },
+      "detail": {
+        "config": "模型：gpt-image-2比例：1:1数量：2输入素材：src-area_repair-real",
+        "sources": "src-area_repair-real",
+        "results": [
+          {
+            "src": "http://127.0.0.1:23298/AREA_REPAIR/result.png",
+            "width": 1024
+          },
+          {
+            "src": "http://127.0.0.1:23298/AREA_REPAIR/result-2.png",
+            "width": 1024
+          }
+        ],
+        "actions": [
+          2,
+          2,
+          2
+        ]
+      },
+      "bytes": [
+        {
+          "url": "http://127.0.0.1:23298/AREA_REPAIR/result.png",
+          "localBytes": 943932,
+          "localSha": "3cf14369ab4539a95c2cd43360a1b594bbeb1e7f1ddd2ba3bde7316d7c5ab832",
+          "fetched": {
+            "status": 200,
+            "bytes": 943932,
+            "sha": "3cf14369ab4539a95c2cd43360a1b594bbeb1e7f1ddd2ba3bde7316d7c5ab832"
+          },
+          "match": true
+        },
+        {
+          "url": "http://127.0.0.1:23298/AREA_REPAIR/result-2.png",
+          "localBytes": 907235,
+          "localSha": "c1731841bb091051e4f20b5e795fb26dac81feb62b2883924ab313eb5e4ea57c",
+          "fetched": {
+            "status": 200,
+            "bytes": 907235,
+            "sha": "c1731841bb091051e4f20b5e795fb26dac81feb62b2883924ab313eb5e4ea57c"
+          },
+          "match": true
+        }
+      ],
+      "clipboard": {
+        "toolId": "AREA_REPAIR",
+        "hasConfig": true,
+        "hasPrompt": true
+      },
+      "download": {
+        "fileName": "AREA_REPAIR-area-repair-result-1.png",
+        "bytes": 943932,
+        "sha": "3cf14369ab4539a95c2cd43360a1b594bbeb1e7f1ddd2ba3bde7316d7c5ab832"
+      },
+      "saveFeedback": {
+        "text": "已存入资产库（image · ud8Fsua_yJNnO6axHPxml）",
+        "tone": "success"
+      },
+      "assets": {
+        "before": {
+          "count": 0,
+          "latestTitle": null
+        },
+        "after": {
+          "count": 1,
+          "latestTitle": "AREA_REPAIR 结果 1"
+        }
+      },
+      "canvasFeedback": {
+        "text": "已发送到画布（HjHNMtSBM8bGL8ZNhzVRo / image-1793259671785-cpaxg）",
+        "tone": "success"
+      },
+      "canvas": {
+        "before": null
+      },
+      "history": {
+        "openButtons": 2,
+        "restore": {
+          "items": 2,
+          "src": "http://127.0.0.1:23298/AREA_REPAIR/result.png",
+          "naturalWidth": 1024,
+          "naturalHeight": 1024,
+          "actions": [
+            2,
+            2,
+            2
+          ]
+        },
+        "download": {
+          "fileName": "AREA_REPAIR-history-area-repair-result-1.png",
+          "sha": "3cf14369ab4539a95c2cd43360a1b594bbeb1e7f1ddd2ba3bde7316d7c5ab832"
+        }
+      }
+    },
+    {
+      "toolId": "REMOVE_PEN",
+      "panel": "dock",
+      "issues": [],
+      "seeded": [
+        {
+          "id": "task-real-REMOVE_PEN-1-1793259675398",
+          "prompt": "消除蒙版涂抹区域（真实任务：局部消除）",
+          "items": 1
+        },
+        {
+          "id": "task-real-REMOVE_PEN-2-1793259675398",
+          "prompt": "消除蒙版涂抹区域（真实任务：局部消除）",
+          "items": 1
+        }
+      ],
+      "afterReload": {
+        "countText": "2 条",
+        "items": [
+          {
+            "taskId": "task-real-REMOVE_PEN-1-1793259675398",
+            "status": "succeeded",
+            "summary": "gpt-image-2 · image · 1 个结果"
+          },
+          {
+            "taskId": "task-real-REMOVE_PEN-2-1793259675398",
+            "status": "succeeded",
+            "summary": "gpt-image-2 · image · 1 个结果"
+          }
+        ],
+        "thumbs": [
+          {
+            "src": "http://127.0.0.1:23298/REMOVE_PEN/result.png",
+            "width": 1024,
+            "decoded": true
+          },
+          {
+            "src": "http://127.0.0.1:23298/REMOVE_PEN/result.png",
+            "width": 1024,
+            "decoded": true
+          }
+        ]
+      },
+      "detail": {
+        "config": "模型：gpt-image-2比例：1:1数量：1输入素材：src-remove_pen-real",
+        "sources": "src-remove_pen-real",
+        "results": [
+          {
+            "src": "http://127.0.0.1:23298/REMOVE_PEN/result.png",
+            "width": 1024
+          }
+        ],
+        "actions": [
+          1,
+          1,
+          1
+        ]
+      },
+      "bytes": [
+        {
+          "url": "http://127.0.0.1:23298/REMOVE_PEN/result.png",
+          "localBytes": 850799,
+          "localSha": "67d5d6a637518af3e0aa9147bfc0f855b350a244b3345b93ab05d3faa223f392",
+          "fetched": {
+            "status": 200,
+            "bytes": 850799,
+            "sha": "67d5d6a637518af3e0aa9147bfc0f855b350a244b3345b93ab05d3faa223f392"
+          },
+          "match": true
+        }
+      ],
+      "clipboard": {
+        "toolId": "REMOVE_PEN",
+        "hasConfig": true,
+        "hasPrompt": true
+      },
+      "download": {
+        "fileName": "REMOVE_PEN-remove-pen-result-1.png",
+        "bytes": 850799,
+        "sha": "67d5d6a637518af3e0aa9147bfc0f855b350a244b3345b93ab05d3faa223f392"
+      },
+      "saveFeedback": {
+        "text": "已存入资产库（image · GgYykz7bW0-ViXfxWzzJO）",
+        "tone": "success"
+      },
+      "assets": {
+        "before": {
+          "count": 0,
+          "latestTitle": null
+        },
+        "after": {
+          "count": 1,
+          "latestTitle": "REMOVE_PEN 结果 1"
+        }
+      },
+      "canvasFeedback": {
+        "text": "已发送到画布（n5H5jFEVw7-a3HaZ3TvPK / image-1793259678060-4hpkw）",
+        "tone": "success"
+      },
+      "canvas": {
+        "before": null
+      }
+    },
+    {
+      "toolId": "CHANGE_COLOR",
+      "panel": "own-history",
+      "issues": [],
+      "seeded": [
+        {
+          "id": "task-real-CHANGE_COLOR-1-1793259681756",
+          "prompt": "把衣服颜色换成藏青色（真实产物复用）",
+          "items": 1
+        },
+        {
+          "id": "task-real-CHANGE_COLOR-2-1793259681756",
+          "prompt": "把衣服颜色换成藏青色（真实产物复用）",
+          "items": 1
+        }
+      ],
+      "history": {
+        "countText": "2 条",
+        "items": [
+          {
+            "text": "2026-10-29 14:41已完成把衣服颜色换成藏青色（真实产物复用）gpt-image-2 · image · 1 个结果查看结果",
+            "width": 1024
+          },
+          {
+            "text": "2026-10-29 13:41已完成把衣服颜色换成藏青色（真实产物复用）gpt-image-2 · image · 1 个结果查看结果",
+            "width": 1024
+          }
+        ],
+        "openButtons": 2
+      },
+      "restored": {
+        "activeTab": "生成结果",
+        "images": [
+          {
+            "src": "http://127.0.0.1:23298/CHANGE_COLOR/result.png",
+            "width": 1024,
+            "height": 1024
+          }
+        ],
+        "actions": [
+          "tool-result-summary",
+          "tool-result-item-0",
+          "tool-result-image",
+          "tool-result-download-0",
+          "tool-result-save-0",
+          "tool-result-canvas-0"
+        ]
+      },
+      "bytes": [
+        {
+          "url": "http://127.0.0.1:23298/CHANGE_COLOR/result.png",
+          "localBytes": 1231207,
+          "localSha": "6f3937c29849f8f756a7587574345cc73691a5dfd8fbb3b3bf3bd6ebc34441a9",
+          "fetched": {
+            "status": 200,
+            "bytes": 1231207,
+            "sha": "6f3937c29849f8f756a7587574345cc73691a5dfd8fbb3b3bf3bd6ebc34441a9"
+          },
+          "match": true
+        }
+      ],
+      "download": {
+        "fileName": "CHANGE_COLOR-change-color-result-1.png",
+        "bytes": 1231207,
+        "sha": "6f3937c29849f8f756a7587574345cc73691a5dfd8fbb3b3bf3bd6ebc34441a9"
+      },
+      "resultButtons": [
+        {
+          "key": "download",
+          "count": 1,
+          "disabled": false
+        },
+        {
+          "key": "save",
+          "count": 1,
+          "disabled": false
+        },
+        {
+          "key": "canvas",
+          "count": 1,
+          "disabled": false
+        }
+      ]
+    },
+    {
+      "toolId": "IMAGE_CROP",
+      "panel": "dock",
+      "issues": [],
+      "seeded": [
+        {
+          "id": "task-real-IMAGE_CROP-1-1793259687241",
+          "prompt": "本地像素裁剪 1024×744（真实产物复用）",
+          "items": 1
+        },
+        {
+          "id": "task-real-IMAGE_CROP-2-1793259687241",
+          "prompt": "本地像素裁剪 1024×744（真实产物复用）",
+          "items": 1
+        }
+      ],
+      "afterReload": {
+        "countText": "2 条",
+        "items": [
+          {
+            "taskId": "task-real-IMAGE_CROP-1-1793259687241",
+            "status": "succeeded",
+            "summary": "local-canvas · image · 1 个结果"
+          },
+          {
+            "taskId": "task-real-IMAGE_CROP-2-1793259687241",
+            "status": "succeeded",
+            "summary": "local-canvas · image · 1 个结果"
+          }
+        ],
+        "thumbs": [
+          {
+            "src": "http://127.0.0.1:23298/IMAGE_CROP/result.png",
+            "width": 1024,
+            "decoded": true
+          },
+          {
+            "src": "http://127.0.0.1:23298/IMAGE_CROP/result.png",
+            "width": 1024,
+            "decoded": true
+          }
+        ]
+      },
+      "detail": {
+        "config": "模型：local-canvas数量：1输入素材：src-image_crop-real",
+        "sources": "src-image_crop-real",
+        "results": [
+          {
+            "src": "http://127.0.0.1:23298/IMAGE_CROP/result.png",
+            "width": 1024
+          }
+        ],
+        "actions": [
+          1,
+          1,
+          1
+        ]
+      },
+      "bytes": [
+        {
+          "url": "http://127.0.0.1:23298/IMAGE_CROP/result.png",
+          "localBytes": 205951,
+          "localSha": "c046374eac48b82e5a7a76c1ff8c151a9fee60e3257ffe5d10a8912eecaeb708",
+          "fetched": {
+            "status": 200,
+            "bytes": 205951,
+            "sha": "c046374eac48b82e5a7a76c1ff8c151a9fee60e3257ffe5d10a8912eecaeb708"
+          },
+          "match": true
+        }
+      ],
+      "clipboard": {
+        "toolId": "IMAGE_CROP",
+        "hasConfig": true,
+        "hasPrompt": true
+      },
+      "download": {
+        "fileName": "IMAGE_CROP-image-crop-result-1.png",
+        "bytes": 205951,
+        "sha": "c046374eac48b82e5a7a76c1ff8c151a9fee60e3257ffe5d10a8912eecaeb708"
+      },
+      "saveFeedback": {
+        "text": "已存入资产库（image · P9CfKOVaQYTrj04c9f4Xf）",
+        "tone": "success"
+      },
+      "assets": {
+        "before": {
+          "count": 0,
+          "latestTitle": null
+        },
+        "after": {
+          "count": 1,
+          "latestTitle": "IMAGE_CROP 结果 1"
+        }
+      },
+      "canvasFeedback": {
+        "text": "已发送到画布（S_ReaRlBKWmiHViSevcL0 / image-1793259689932-8g4r6）",
+        "tone": "success"
+      },
+      "canvas": {
+        "before": null
+      }
+    }
+  ]
+}

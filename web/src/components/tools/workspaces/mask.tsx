@@ -5,9 +5,9 @@ import { Eraser, Paintbrush, Redo2, RotateCcw, Sparkles, Undo2 } from "lucide-re
 import { ToolAssetInput } from "@/components/tools/tool-asset-input";
 import { ToolShell } from "@/components/tools/tool-shell";
 import { Edit8Canvas, Edit8CanvasCard, Edit8CanvasToolbar, Edit8Chip, Edit8Config, Edit8Page, Edit8Results, Edit8ResultsEmpty, Edit8Section, edit8PrimaryButtonClass } from "@/components/tools/edit8-frame";
-import { ToolTaskHistory } from "@/components/tools/tool-task-history";
+import { ToolTaskHistory, formatTaskTime } from "@/components/tools/tool-task-history";
 import { TaskStatusPanel } from "@/components/tools/task-status";
-import { saveResultItemToAssets, sendResultItemToCanvas } from "@/components/tools/tool-result-actions";
+import { downloadResultItem, saveResultItemToAssets, sendResultItemToCanvas } from "@/components/tools/tool-result-actions";
 import { buildAreaRepairUnits, createAreaRepairRunPort, renderMaskPng, runAreaRepairUnits, type AreaRepairUnitOutcome } from "@/features/tools/adapters/area-repair";
 import { getToolById, toolSpecs } from "@/features/tools/registry";
 import {
@@ -157,6 +157,103 @@ export function AreaRepairResultCard({ outcome, imageName = "", pending = null, 
                 </span>
             ) : null}
         </li>
+    );
+}
+
+type AreaRepairHistoryResultProps = {
+    task: ToolTask;
+    pending: string | null;
+    feedback: string | null;
+    onBack: () => void;
+    onDownload: (item: ToolTaskResultItem, index: number) => void;
+    onSave: (item: ToolTaskResultItem, index: number) => void;
+    onSend: (item: ToolTaskResultItem, index: number) => void;
+};
+
+/**
+ * 历史任务的结果区回填：只渲染任务快照里真实存在的 result.items。
+ * - 有 url/dataUrl 才给图与动作，字节已被持久化剥离的项显式写「原始文件未保留」；
+ * - 下载/存库/发画布复用当前结果的同一套真实动作，不回退到假数据。
+ */
+export function AreaRepairHistoryResult({ task, pending, feedback, onBack, onDownload, onSave, onSend }: AreaRepairHistoryResultProps) {
+    const items = task.result?.items ?? [];
+    return (
+        <div data-testid="area-repair-history-result">
+            <div className="mb-2 flex items-center justify-between gap-2">
+                <span className="text-[11px] text-muted-foreground">
+                    历史任务 · {formatTaskTime(task.createdAt)} · {task.status}
+                </span>
+                <button
+                    type="button"
+                    data-testid="area-repair-history-back"
+                    onClick={onBack}
+                    className="text-[11px] text-muted-foreground underline-offset-2 hover:underline"
+                >
+                    返回本次结果
+                </button>
+            </div>
+            {items.length === 0 ? (
+                <p data-testid="area-repair-history-empty" className="rounded border border-border p-3 text-[11px] text-muted-foreground">
+                    这条任务没有结果快照
+                </p>
+            ) : (
+                <ul data-testid="area-repair-history-results" className="grid grid-cols-1 gap-2">
+                    {items.map((item, index) => {
+                        const src = item.dataUrl || item.url || "";
+                        return (
+                            <li key={item.id || index} data-testid={`area-repair-history-result-${index + 1}`} className="overflow-hidden rounded border border-border">
+                                {src ? (
+                                    <a href={src} target="_blank" rel="noreferrer" className="block">
+                                        <img src={src} alt={`历史结果 ${index + 1}`} className="block h-auto w-full" />
+                                    </a>
+                                ) : (
+                                    <div className="flex h-20 items-center justify-center px-2 text-center text-[10px] text-muted-foreground">原始文件未保留</div>
+                                )}
+                                <p className="border-t border-border px-1.5 py-1 text-[10px] text-muted-foreground">
+                                    #{index + 1} · {task.status}
+                                </p>
+                                {src ? (
+                                    <span className="flex flex-wrap items-center gap-2 border-t border-border px-1.5 py-1 text-[10px] text-muted-foreground">
+                                        <button
+                                            type="button"
+                                            data-testid={`area-repair-history-download-${index + 1}`}
+                                            disabled={pending !== null}
+                                            onClick={() => onDownload(item, index)}
+                                            className="underline-offset-2 hover:underline disabled:opacity-50"
+                                        >
+                                            下载
+                                        </button>
+                                        <button
+                                            type="button"
+                                            data-testid={`area-repair-history-save-${index + 1}`}
+                                            disabled={pending !== null}
+                                            onClick={() => onSave(item, index)}
+                                            className="underline-offset-2 hover:underline disabled:opacity-50"
+                                        >
+                                            存库
+                                        </button>
+                                        <button
+                                            type="button"
+                                            data-testid={`area-repair-history-send-${index + 1}`}
+                                            disabled={pending !== null}
+                                            onClick={() => onSend(item, index)}
+                                            className="underline-offset-2 hover:underline disabled:opacity-50"
+                                        >
+                                            发画布
+                                        </button>
+                                    </span>
+                                ) : null}
+                            </li>
+                        );
+                    })}
+                </ul>
+            )}
+            {feedback ? (
+                <p data-testid="area-repair-history-feedback" className="mt-2 text-[11px] text-muted-foreground">
+                    {feedback}
+                </p>
+            ) : null}
+        </div>
     );
 }
 
@@ -531,6 +628,8 @@ export function MaskWorkspace({ className }: MaskWorkspaceProps = {}) {
     }, []);
 
     const [resultTab, setResultTab] = useState<"result" | "history">("result");
+    /** 历史记录里点「查看结果」选中的任务：结果区回填它的真实结果项（字节仍在才可下载/存库/发画布）。 */
+    const [restoredTask, setRestoredTask] = useState<ToolTask | null>(null);
 
     return (
         <ToolShell
@@ -803,7 +902,37 @@ export function MaskWorkspace({ className }: MaskWorkspaceProps = {}) {
                     ]}
                 >
                     {resultTab === "result" ? (
-                        outcomes.length === 0 ? (
+                        restoredTask ? (
+                            <AreaRepairHistoryResult
+                                task={restoredTask}
+                                pending={resultPending}
+                                feedback={resultFeedback}
+                                onBack={() => {
+                                    setRestoredTask(null);
+                                    setResultFeedback(null);
+                                }}
+                                onDownload={(item, index) =>
+                                    void runResultAction(`history-download-${index}`, async () => `已下载 ${await downloadResultItem(item, index, { toolId: TOOL_ID })}`)
+                                }
+                                onSave={(item, index) =>
+                                    void runResultAction(`history-save-${index}`, async () => {
+                                        await saveResultItemToAssets(item, index, {
+                                            toolId: TOOL_ID,
+                                            taskId: restoredTask.id,
+                                            title: `历史结果 ${index + 1}`,
+                                            source: "area-repair",
+                                        });
+                                        return `第 ${index + 1} 张已存入资产库`;
+                                    })
+                                }
+                                onSend={(item, index) =>
+                                    void runResultAction(`history-send-${index}`, async () => {
+                                        const sent = await sendResultItemToCanvas(item, { toolId: TOOL_ID });
+                                        return `第 ${index + 1} 张已发到画布 ${sent.projectId}`;
+                                    })
+                                }
+                            />
+                        ) : outcomes.length === 0 ? (
                             <Edit8ResultsEmpty />
                         ) : (
                             <>
@@ -842,7 +971,18 @@ export function MaskWorkspace({ className }: MaskWorkspaceProps = {}) {
                             </>
                         )
                     ) : null}
-                    {resultTab === "history" ? <ToolTaskHistory toolId={TOOL_ID} limit={8} emptyHint="暂无历史记录" /> : null}
+                    {resultTab === "history" ? (
+                        <ToolTaskHistory
+                            toolId={TOOL_ID}
+                            limit={8}
+                            emptyHint="暂无历史记录"
+                            onSelectTask={(task) => {
+                                setRestoredTask(task);
+                                setResultFeedback(null);
+                                setResultTab("result");
+                            }}
+                        />
+                    ) : null}
                 </Edit8Results>
             </Edit8Page>
         </ToolShell>
