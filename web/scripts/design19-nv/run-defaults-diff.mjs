@@ -1,4 +1,9 @@
 /**
+ * @deprecated 2026-10-29 — 本脚本用 Playwright 匿名访问原站，被登录墙拦截（realCtrls=0），
+ * 产生大量 onlyLocal 伪 DIFF。请改用 run-defaults-real.mjs（需 CDP 导出的登录 Cookie）。
+ * 保留仅为记录探测过程。
+ */
+/**
  * design19：10 工具「默认值逐控件」+「案例/同款模块」同口径双端采集与比对。
  * 同一段提取器分别跑 local(127.0.0.1:3000) 与 real(www.linkfox.com/draw)，
  * 产物：defaults/<TOOL>.json（两端控件快照 + diff）。
