@@ -1,0 +1,11 @@
+6:9:07:30 PM POST https://sub2api.1006000.xyz/v1/videos -> 400 8.8s
+7:9:08:33 PM MEDIA upload 2cf24dba5fb0a30e26e83b2ac5b9e29e.bin 5B
+8:9:10:44 PM POST https://sub2api.1006000.xyz/v1/videos -> 400 17.4s
+9:9:10:47 PM MEDIA upload 2d711642b726b04401627ca9fbac32f5.bin 1B
+10:9:11:27 PM MEDIA upload 56226153eb7e1f8b9b8a5db680ffc966.mp4 1297168B
+11:9:11:35 PM POST https://sub2api.1006000.xyz/v1/videos -> 200 7.5s
+28:9:12:52 PM MEDIA upload 8b43d4219e1d783803c5b2575811f155.png 144874B
+75:9:15:55 PM POST https://sub2api.1006000.xyz/v1/videos -> 400 3.3s
+86:9:16:35 PM MEDIA upload 56226153eb7e1f8b9b8a5db680ffc966.mp4 1297168B
+121:9:18:40 PM POST https://sub2api.1006000.xyz/v1/videos -> 502 124.7s
+109
