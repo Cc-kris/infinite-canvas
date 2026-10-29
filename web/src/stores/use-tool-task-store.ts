@@ -21,15 +21,59 @@ import { resolveMediaUrl, uploadMediaFile } from "@/services/file-storage";
 
 export const TOOL_TASK_STORAGE_VERSION = 1 as const;
 export const TASK_INDEX_KEY = "tool-task:v1:index";
-export const TASK_MAX_PERSISTED = 50;
+const TASK_KEY_PREFIX = "tool-task:v1:";
+const TASK_INDEX_ID = "index";
+/**
+ * 保留最近多少条任务。原先 50，实测真实 profile 已累积 53 条（2026-10-29 只读勘察），
+ * 一旦索引自愈把孤儿任务并回来，裁剪就会立刻删掉最老的真实任务（含失败/超时记录），
+ * 因此放宽到 100：快照只有 storageKey/bytes（KB 级），localStorage 5MB 完全够。
+ */
+export const TASK_MAX_PERSISTED = 100;
 
 export type ToolTaskStorage = {
     getItem: (key: string) => string | null;
     setItem: (key: string, value: string) => void;
     removeItem: (key: string) => void;
+    /** 键枚举：用于索引自愈。缺省（纯内存替身）时退回「只信任索引」。 */
+    key?: (index: number) => string | null;
+    readonly length?: number;
 };
 
-export const taskStorageKey = (taskId: string) => `tool-task:v1:${taskId}`;
+export const taskStorageKey = (taskId: string) => `${TASK_KEY_PREFIX}${taskId}`;
+
+/**
+ * 扫描存储里**实际存在**的任务数据键（不看索引）。
+ *
+ * 真实缺陷（2026-10-29 只读勘察）：localStorage 里有 53 个 `tool-task:v1:task-*` 数据键，
+ * 索引却只剩 38 个 id —— 15 条真实任务（PRINT_EXTRACT/HANDHELD_GOODS/AI_POSE_GENERATOR/
+ * FISSION_LINK/SALE_VIDEO/AI_VIDEO_EDITING）因此在历史坞里永久不可见。
+ * 索引与数据键一旦失配（写索引时配额报错、旧版本重置索引等），旧代码只信索引 → 永远不修复。
+ */
+export function scanPersistedTaskIds(storage: ToolTaskStorage = getTaskStorage()): string[] {
+    if (typeof storage.key !== "function" || typeof storage.length !== "number") return [];
+    const ids: string[] = [];
+    for (let i = 0; i < storage.length; i += 1) {
+        const key = storage.key(i);
+        if (!key || !key.startsWith(TASK_KEY_PREFIX)) continue;
+        const id = key.slice(TASK_KEY_PREFIX.length);
+        if (!id || id === TASK_INDEX_ID) continue;
+        ids.push(id);
+    }
+    return ids;
+}
+
+/** 只读索引里的 id 列表；损坏/缺省一律当空表。 */
+export function readTaskIndexIds(storage: ToolTaskStorage = getTaskStorage()): string[] {
+    const rawIndex = storage.getItem(TASK_INDEX_KEY);
+    if (!rawIndex) return [];
+    try {
+        const ids: unknown = JSON.parse(rawIndex);
+        if (!Array.isArray(ids)) return [];
+        return ids.filter((id): id is string => typeof id === "string" && id.length > 0);
+    } catch {
+        return [];
+    }
+}
 
 function memoryStorage(): ToolTaskStorage {
     const map = new Map<string, string>();
@@ -40,6 +84,10 @@ function memoryStorage(): ToolTaskStorage {
         },
         removeItem: (key) => {
             map.delete(key);
+        },
+        key: (index) => Array.from(map.keys())[index] ?? null,
+        get length() {
+            return map.size;
         },
     };
 }
@@ -61,18 +109,16 @@ function isToolTask(value: unknown): value is ToolTask {
 
 /** 读取最近持久化的任务；损坏条目跳过而不是整批丢弃。 */
 export function readPersistedTasks(storage: ToolTaskStorage = getTaskStorage()): ToolTask[] {
-    const rawIndex = storage.getItem(TASK_INDEX_KEY);
-    if (!rawIndex) return [];
-    let ids: unknown;
-    try {
-        ids = JSON.parse(rawIndex);
-    } catch {
-        return [];
+    // 索引 + 实际数据键取并集：索引可能落后（失配）而不是权威。
+    const ids: string[] = [];
+    const seen = new Set<string>();
+    for (const id of [...readTaskIndexIds(storage), ...scanPersistedTaskIds(storage)]) {
+        if (seen.has(id)) continue;
+        seen.add(id);
+        ids.push(id);
     }
-    if (!Array.isArray(ids)) return [];
     const tasks: ToolTask[] = [];
     for (const id of ids) {
-        if (typeof id !== "string") continue;
         const raw = storage.getItem(taskStorageKey(id));
         if (!raw) continue;
         try {
@@ -83,6 +129,31 @@ export function readPersistedTasks(storage: ToolTaskStorage = getTaskStorage()):
         }
     }
     return tasks.sort((a, b) => b.updatedAt - a.updatedAt);
+}
+
+/**
+ * 把索引与真实数据键对齐（幂等；无差异时零写入）。
+ *
+ * - 索引里指向已删除数据键的 id → 剔除；
+ * - 有数据键但索引里没有的任务（孤儿）→ 补回索引，历史坞刷新后即可见。
+ */
+export function healTaskIndex(storage: ToolTaskStorage = getTaskStorage()): { added: string[]; removed: string[] } {
+    const indexed = readTaskIndexIds(storage);
+    const scanned = scanPersistedTaskIds(storage);
+    const scannedSet = new Set(scanned);
+    const indexedSet = new Set(indexed);
+    const added = scanned.filter((id) => !indexedSet.has(id));
+    const removed = indexed.filter((id) => !scannedSet.has(id));
+    if (added.length === 0 && removed.length === 0) return { added, removed };
+    try {
+        const ordered = readPersistedTasks(storage)
+            .slice(0, TASK_MAX_PERSISTED)
+            .map((task) => task.id);
+        storage.setItem(TASK_INDEX_KEY, JSON.stringify(ordered));
+    } catch {
+        // 配额不足：索引保持原样，下一次挂载再试。
+    }
+    return { added, removed };
 }
 
 export function persistTask(task: ToolTask, storage: ToolTaskStorage = getTaskStorage()): void {
@@ -282,7 +353,10 @@ export const useToolTaskStore = create<ToolTaskState>((set, get) => ({
 
     hydrate: (storage) => {
         if (get().hydrated) return;
-        const persisted = readPersistedTasks(storage ?? getTaskStorage());
+        const target = storage ?? getTaskStorage();
+        // 先自愈索引（补回丢索引的真实任务、剔除指向空键的 id），再按索引+实际键取快照。
+        healTaskIndex(target);
+        const persisted = readPersistedTasks(target);
         set((state) => {
             const tasks = { ...state.tasks };
             for (const task of persisted) tasks[task.id] = tasks[task.id] ?? task;
