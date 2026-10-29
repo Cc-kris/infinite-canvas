@@ -1,10 +1,10 @@
 # R11 严格矩阵（39 工具 · H 三腿）
 
 - 审计 HEAD：`6636e1f`（feat/linkfox-v1-real）
-- 生成时间：2026-10-29T19:58:26+08:00
+- 生成时间：2026-10-29T20:15:02+08:00
 - 取代：`reports/independent-audit-20261029-r10/`（`e0608bd`）
-- 吸收提交：`bcafd94`, `c4af102`, `e8da2c7`, `0850ae2`
-- 依据：在 R10 严格三腿口径上吸收 bcafd94、c4af102、e8da2c7、0850ae2 的已提交证据（REPLACE_GOODS 真实生成+reload+三动作+字节 sha；NEW_REPLACE_BG_V2 上游 502 无任务；NEW_DESIGNER 专项三腿；IMAGE_TEXT_EDIT 自然恢复但 payloadDropped）；补 dockAfterReload.items 观测映射与上游 BLOCKED 归因；未生成任何新证据、未改业务源码
+- 吸收提交：`bcafd94`, `c4af102`, `e8da2c7`, `0850ae2`, `6986988`, `6f7ee1c`, `d107ab0`
+- 依据：在 R10 严格三腿口径上吸收 bcafd94、c4af102、e8da2c7、0850ae2、6986988、6f7ee1c、d107ab0 的已提交证据（REPLACE_GOODS 真实生成+reload+三动作+字节 sha；NEW_REPLACE_BG_V2 早期 502 后 d107ab0 复测成功；NEW_DESIGNER 专项三腿；IMAGE_TEXT_EDIT 自然恢复但 payloadDropped）；补 dockAfterReload.items 观测映射与上游 BLOCKED 归因；未生成任何新证据、未改业务源码
 
 ## 统计
 
@@ -42,7 +42,7 @@
 | AI_DRESSING_V2 | PASS | PASS | PASS | PASS | PASS | PASS | ✅ | ✅ | ✅ | 真实 task task-mvtgeodr-5vx7tw + "fresh_reload": { + 字节 sha 对账 2115031B == real-acceptance/AI_DRESSING_V2/result1_live_20261029.png | `real-acceptance/AI_DRESSING_V2/live-ui-run-20261029.json`<br>`real-acceptance/AI_DRESSING_V2/result1_live_20261029.png` |
 | AI_POSTURE | PASS | PASS | PASS | PASS | N/A | PASS | ✅ | ✅ | ✅ | 真实 task task-mvtczxwo-e1d1w0 + "phase": "reload" + 字节 sha 对账 1557308B == r8h-4tools-20261029/AI_POSTURE.png | `r8h-4tools-20261029/AI_POSTURE.json`<br>`r8h-4tools-20261029/AI_POSTURE.png` |
 | AI_WEARABLE | PASS | PASS | PASS | PASS | PASS | PASS | ✅ | ✅ | ✅ | 真实 task task-mvtglxwi-ys0y85 + "fresh_reload": { + 字节 sha 对账 1247574B == real-acceptance/AI_WEARABLE/result1_live_20261029.png | `real-acceptance/AI_WEARABLE/live-ui-run-20261029.json`<br>`real-acceptance/AI_WEARABLE/result1_live_20261029.png` |
-| AI_TEXT | PASS | PASS | PASS | PASS | N/A | PASS | ✅ | ✅ | ✅ | 真实 task task-mvsdhatp-kdyvt6 + "afterReload": { + 字节 sha 对账 1825663B == real-acceptance/B2G1/AI_TEXT/downloaded-ai-text-result-1.png | `real-acceptance/B2G1/AI_TEXT/run-b2g1.json`<br>`real-acceptance/B2G1/AI_TEXT/downloaded-ai-text-result-1.png` |
+| AI_TEXT | PASS | PASS | PASS | PASS | N/A | PASS | ✅ | ✅ | ✅ | 真实 task task-mvthk2pn-kdz7i6 + "navType": "reload" + 字节 sha 对账 1445425B == real-acceptance/AI_TEXT/r10-real-20261029/03-result.png | `real-acceptance/AI_TEXT/r10-real-20261029/receipt.json`<br>`real-acceptance/AI_TEXT/r10-real-20261029/03-result.png` |
 | ORNAMENT_TEXT | PASS | PASS | PASS | PASS | N/A | PASS | ✅ | ✅ | ✅ | 真实 task task-mvsdivlg-6slebs + "afterReload": { + 字节 sha 对账 2439783B == real-acceptance/B2G1/ORNAMENT_TEXT/downloaded-ornament-text-result-1.png | `real-acceptance/B2G1/ORNAMENT_TEXT/run-b2g1.json`<br>`real-acceptance/B2G1/ORNAMENT_TEXT/downloaded-ornament-text-result-1.png` |
 | SDS_DESIGN | PASS | PASS | PASS | PASS | PASS | PASS | ✅ | ✅ | ✅ | 真实 task task-mvsdlqxd-ttx3pl + "afterReload": { + 字节 sha 对账 2081539B == real-acceptance/B2G1/SDS_DESIGN/downloaded-sds-design-result-1.png | `real-acceptance/B2G1/SDS_DESIGN/run-b2g1.json`<br>`real-acceptance/B2G1/SDS_DESIGN/downloaded-sds-design-result-1.png` |
 | PRINT_EXTRACT | PASS | PASS | PASS | PARTIAL | N/A | PASS | ✅ | ❌ | ❌ | PRINT_EXTRACT 有成功真实任务，但回执 r7-d19-history-20261029/orphan-tasks-127-3000-20261029.json 记 payloadDropped=true：结果项无 storageKey/url，字节未入库 → 无字节可下载/存资产/发画布 | `r7-d19-history-20261029/orphan-tasks-127-3000-20261029.json`<br>`r7-d19-history-20261029/tool-print-extract.json` |
@@ -63,9 +63,9 @@
 
 ## 相对 R10（e0608bd）的改判
 
-- **PRODUCT_IMAGE_SUITE** `PARTIAL` → `PASS`（bcafd94）：真实 task task-mvt6vpdo-sc1x8w + call: location.assign( + 字节 sha 对账 2840825B == real-acceptance/PRODUCT_IMAGE_SUITE/r10/result.png
-- **DRESS_WEAR_SET** `PARTIAL` → `PASS`（bcafd94）：真实 task task-mvt74l6q-1vljau + call: location.assign( + 字节 sha 对账 1883817B == real-acceptance/DRESS_WEAR_SET/r10/result.png
-- **NEW_REPLACE_BG_V2** `PARTIAL` → `PASS`（bcafd94）：真实 task task-mvthl08d-06efgs + "persistedAfterReload": { + 字节 sha 对账 837987B == real-acceptance/h4-design-realgen-retry-20261029/NEW_REPLACE_BG_V2-result.png
+- **PRODUCT_IMAGE_SUITE** `PARTIAL` → `PASS`（6986988）：真实 task task-mvt6vpdo-sc1x8w + call: location.assign( + 字节 sha 对账 2840825B == real-acceptance/PRODUCT_IMAGE_SUITE/r10/result.png
+- **DRESS_WEAR_SET** `PARTIAL` → `PASS`（6f7ee1c）：真实 task task-mvt74l6q-1vljau + call: location.assign( + 字节 sha 对账 1883817B == real-acceptance/DRESS_WEAR_SET/r10/result.png
+- **NEW_REPLACE_BG_V2** `PARTIAL` → `PASS`（d107ab0）：真实 task task-mvthl08d-06efgs + "persistedAfterReload": { + 字节 sha 对账 837987B == real-acceptance/h4-design-realgen-retry-20261029/NEW_REPLACE_BG_V2-result.png
 - **REPLACE_GOODS** `PARTIAL` → `PASS`（bcafd94）：真实 task task-mvtgiiu1-hrp6z3 + "persistedAfterReload": { + 字节 sha 对账 1192722B == real-acceptance/h4-design-realgen-20261029/REPLACE_GOODS-result.png
 
 ## H 硬断言（机器复算，回执字段 + 磁盘字节/sha）
@@ -99,14 +99,24 @@
 | IMAGE_TEXT_EDIT | no_storage_key | ✅ | [None] |
 | IMAGE_TEXT_EDIT | task_binding | ✅ | task-mvs8bhu1-hhue24 |
 | IMAGE_TEXT_EDIT | no_bytes_claim | ✅ | None |
-| NEW_REPLACE_BG_V2 | receipt_in_head | ✅ | evidence/real-acceptance/h4-design-realgen-20261029/NEW_REPLACE_BG_V2.json |
-| NEW_REPLACE_BG_V2 | verdict_blocked | ✅ | BLOCKED |
-| NEW_REPLACE_BG_V2 | no_task_created | ✅ | None / no-task-record-after-submit |
-| NEW_REPLACE_BG_V2 | upstream_5xx_recorded | ✅ | 502 |
+| NEW_REPLACE_BG_V2 | receipt_in_head | ✅ | evidence/real-acceptance/h4-design-realgen-retry-20261029/NEW_REPLACE_BG_V2.json |
+| NEW_REPLACE_BG_V2 | task_binding | ✅ | task-mvthl08d-06efgs |
+| NEW_REPLACE_BG_V2 | task_succeeded | ✅ | succeeded |
+| NEW_REPLACE_BG_V2 | no_payload_drop | ✅ | items=1 dropped=0 |
+| NEW_REPLACE_BG_V2 | fresh_reload_navtype | ✅ | reload |
+| NEW_REPLACE_BG_V2 | dock_after_reload_same_task | ✅ | dockItems=1 |
+| NEW_REPLACE_BG_V2 | persisted_after_reload | ✅ | True |
+| NEW_REPLACE_BG_V2 | action_download | ✅ | None |
+| NEW_REPLACE_BG_V2 | action_saveAsset | ✅ | 已保存到资产库（2HGusbdJGgddFxgTAcZml） |
+| NEW_REPLACE_BG_V2 | action_sendCanvas | ✅ | 已发送到画布（OUZvYDSInQ8Zfhl_Ay1EO） |
+| NEW_REPLACE_BG_V2 | declared_bytes | ✅ | 837987 |
+| NEW_REPLACE_BG_V2 | artifact_size_equal | ✅ | 837987 vs 837987 |
+| NEW_REPLACE_BG_V2 | artifact_sha_equal | ✅ | e3646058d0463b4b vs e3646058d0463b4b |
+| NEW_REPLACE_BG_V2 | download_sha_equal | ✅ | e3646058d0463b4b |
 
 ## R11 观察
 
 - **REPLACE_GOODS**：PASS 由 bcafd94 的真实回执支撑：task-mvtgiiu1-hrp6z3 succeeded、payloadDropped=false、1,192,722B、sha256 0ac369c5…；仓库内 REPLACE_GOODS-result.png 与 REPLACE_GOODS-download-1793273153608.png 字节与 sha 逐位相同；harness（h4-realgen-design.mjs）执行真实 page.reload()，reload 后 dockAfterReload.items 命中同一 taskId 且 persistedAfterReload=true；三动作（下载/存资产/发画布）均有 ok 回执。
 - **NEW_DESIGNER**：H 仍 PASS（R10 起），本次新增 c4af102 专项三腿回执作补充证据：同一 task 、411801B/sha 90e28e0f…与已提交产物一致，下载 ok、导出即入库；发送画布本次 Failed to fetch（canvasChanged=false），F 仍为 PASS（>=2 动作），但属可复现风险，已在报告风险节列出。
 - **IMAGE_TEXT_EDIT**：e8da2c7 修复后自然恢复成立（navType=reload + 快照头回填 + 结果卡），task 与 reload 两腿成立；但该真实任务 payloadDropped=true、无 storageKey/url/bytes，三动作如实禁用 → 字节腿不成立，H 保持 PARTIAL（不伪 PASS）。
-- **NEW_REPLACE_BG_V2**：两次真实提交均在上游 /v1/images/edits 得到 502，未创建任务记录（blockedReason=no-task-record-after-submit）→ 三腿不成立，如实 BLOCKED。
+- **NEW_REPLACE_BG_V2**：bcafd94 早期两次真实提交均在上游 /v1/images/edits 得到 502、未创建任务记录（历史 BLOCKED 归因保留）；d107ab0 复测真实成功 task-mvthl08d-06efgs（edits 200、837987B、整页 reload 后同一 task 在 dock）+ 字节 sha 对账 → H=PASS。

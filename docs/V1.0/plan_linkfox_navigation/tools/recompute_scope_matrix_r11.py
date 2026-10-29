@@ -64,7 +64,15 @@ DOCS = r10.DOCS
 OUTDIR = os.path.join(DOCS, "reports/independent-audit-20261029-r11")
 R10DIR = os.path.join(DOCS, "reports/independent-audit-20261029-r10")
 R10_COMMIT = "e0608bd"
-R11_ABSORBED = ["bcafd94", "c4af102", "e8da2c7", "0850ae2"]
+R11_ABSORBED = ["bcafd94", "c4af102", "e8da2c7", "0850ae2", "6986988", "6f7ee1c", "d107ab0"]
+# crosscheck fix: per-tool evidence commit that actually carried the H upgrade
+H_COMMITS = {
+    "REPLACE_GOODS": "bcafd94",
+    "NEW_DESIGNER": "c4af102",
+    "PRODUCT_IMAGE_SUITE": "6986988",
+    "DRESS_WEAR_SET": "6f7ee1c",
+    "NEW_REPLACE_BG_V2": "d107ab0",
+}
 EVID = "evidence/real-acceptance"
 
 # ---- A. mapping: the h4 harness dock node after Page.reload ----
@@ -121,8 +129,13 @@ class Audit11(r10.Audit10):
             "IMAGE_TEXT_EDIT": self._assert_no_bytes(
                 f"{EVID}/H4-real-20261029/IMAGE_TEXT_EDIT-natural-20261029.json",
                 expect_task="task-mvs8bhu1-hhue24"),
-            "NEW_REPLACE_BG_V2": self._assert_no_task(
-                f"{EVID}/h4-design-realgen-20261029/NEW_REPLACE_BG_V2.json"),
+            # crosscheck fix: H=PASS is produced by the d107ab0 retry receipt, not by the
+            # earlier bcafd94 502 receipt; assert the PASS source (502 history kept as note).
+            "NEW_REPLACE_BG_V2": self._assert_receipt(
+                f"{EVID}/h4-design-realgen-retry-20261029/NEW_REPLACE_BG_V2.json",
+                artifact=f"{EVID}/h4-design-realgen-retry-20261029/NEW_REPLACE_BG_V2-result.png",
+                expect_task="task-mvthl08d-06efgs",
+                expect_actions=("download", "saveAsset", "sendCanvas")),
         }
 
     def _abs(self, rel: str) -> str:
@@ -236,7 +249,7 @@ class Audit11(r10.Audit10):
             if o.get("H") != t["H"]:
                 changes.append({"id": t["id"], "H": [o.get("H"), t["H"]],
                                 "H_was": (o.get("H_note") or "")[:240], "H_now": t["H_note"],
-                                "commit": "bcafd94"})
+                                "commit": H_COMMITS.get(t["id"], "bcafd94")})
         rep["generatedAt"] = __import__("datetime").datetime.now().astimezone().isoformat(
             timespec="seconds")
         rep["supersedes"] = {
@@ -245,7 +258,7 @@ class Audit11(r10.Audit10):
             "crosscheck": "reports/independent-audit-20261029-r9-crosscheck/ (434bc44)",
             "reason": "在 R10 严格三腿口径上吸收 " + "、".join(R11_ABSORBED) +
                       " 的已提交证据（REPLACE_GOODS 真实生成+reload+三动作+字节 sha；"
-                      "NEW_REPLACE_BG_V2 上游 502 无任务；NEW_DESIGNER 专项三腿；"
+                      "NEW_REPLACE_BG_V2 早期 502 后 d107ab0 复测成功；NEW_DESIGNER 专项三腿；"
                       "IMAGE_TEXT_EDIT 自然恢复但 payloadDropped）；补 dockAfterReload.items 观测映射"
                       "与上游 BLOCKED 归因；未生成任何新证据、未改业务源码",
         }
@@ -272,7 +285,7 @@ class Audit11(r10.Audit10):
         # evidence addendum: new committed receipt for NEW_DESIGNER (same grade)
         for t in rep["tools"]:
             if t["id"] == "NEW_DESIGNER":
-                extra = f"{EVID}/H4-real-20261029/NEW_DESIGNER-three-legs-20261029.json"
+                extra = "real-acceptance/H4-real-20261029/NEW_DESIGNER-three-legs-20261029.json"  # crosscheck fix: H_evidence is evidence-relative
                 if extra not in (t.get("H_evidence") or []):
                     t["H_evidence"] = (t.get("H_evidence") or []) + [extra]
         rep["r11_notes"] = [
@@ -293,8 +306,9 @@ class Audit11(r10.Audit10):
                 "task 与 reload 两腿成立；但该真实任务 payloadDropped=true、无 storageKey/url/bytes，"
                 "三动作如实禁用 → 字节腿不成立，H 保持 PARTIAL（不伪 PASS）。"},
             {"tool": "NEW_REPLACE_BG_V2", "note":
-                "两次真实提交均在上游 /v1/images/edits 得到 502，未创建任务记录"
-                "（blockedReason=no-task-record-after-submit）→ 三腿不成立，如实 BLOCKED。"},
+                "bcafd94 早期两次真实提交均在上游 /v1/images/edits 得到 502、未创建任务记录"
+                "（历史 BLOCKED 归因保留）；d107ab0 复测真实成功 task-mvthl08d-06efgs"
+                "（edits 200、837987B、整页 reload 后同一 task 在 dock）+ 字节 sha 对账 → H=PASS。"},
         ]
         return rep
 

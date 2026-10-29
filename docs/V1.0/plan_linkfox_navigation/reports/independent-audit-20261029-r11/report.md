@@ -42,9 +42,17 @@ H 由 R10 的 22 项升到 **26 项 PASS**，全部来自**已提交回执 + 已
 ## 5. 风险与未完成（如实标注，未修）
 
 1. **DRESS_WEAR_SET `r10/actions.json` 自述 UNVERIFIED**（"dock 三动作点击已执行但脚本超时未回收回执"）：H 三腿不受影响（本维度不要求动作回执），但其 F 腿的强证据仍偏薄，建议下一轮补一次三动作回执。
-2. **NEW_DESIGNER**：`c4af102` 专项回执里"发送画布"本次 `Failed to fetch`（canvasChanged=false），F 仍成立（≥2 动作：下载 ok + 导出即入库），但属可复现风险。
+2. **NEW_DESIGNER**：`c4af102` 专项回执里"发送画布"本次 `Failed to fetch`（canvasChanged=false）。F **仍为 PARTIAL**（矩阵口径：F 需 ≥2 项机器动作回执，本工具仅本地导出 + 画布截图，无资产/画布机器回执）；H=PASS 不受影响（下载 ok、411801B/sha 90e28e0f… 与产物一致）。
 3. **IMAGE_TEXT_EDIT**：`e8da2c7` 修复后自然恢复成立（task + reload 两腿），但该真实任务 payloadDropped=true、无 storageKey/bytes，三动作如实禁用 → 字节腿不成立，**保持 PARTIAL，不伪 PASS**。
-4. **HEAD 漂移**：本矩阵生成于 `6636e1f`，审计期间仓库仍被并发提交推进（提交后 HEAD 已前进），复现时请以 `6636e1f` 为准。
+4. **HEAD 漂移**：本矩阵生成于 `6636e1f`，审计期间仓库仍被并发提交推进（提交后 HEAD 已前进），复现时请以 `6636e1f` 为准。当前 HEAD 为 `5c25200`（r12 三闸），其后 `7664498`（DRESS_WEAR_SET 三动作回执）等提交**不属于本矩阵审计范围**，未计入、未改判。
+5. **DRESS_WEAR_SET 动作补证（跨 HEAD）**：`7664498` 已提交 DRESS_WEAR_SET 整页 reload + 下载/存资产/发画布真实回执，可解风险 1；但该提交晚于 `6636e1f`，按「未提交不计」口径本轮不据此改判，留待下一轮复核。
+
+## 5.1 crosscheck（2026-10-29，独立复核 `3c9d81a`）
+
+- 独立复跑：在 `6636e1f` 临时 worktree 上用本修订版审计器重算，tally 与 `h_pass=26`、`h_asserts failures: []` 完全一致；统计**零变更**
+- 已修映射错误（仅映射/归属，不改阈值）：① `NEW_REPLACE_BG_V2` 的 `h_asserts` 原断言 `bcafd94` 的 502 回执，与 H=PASS 源不符 → 改为断言 `d107ab0` retry 回执（14 项全绿）；② `NEW_DESIGNER` 的 `H_evidence` 追加项多带了 `evidence/` 前缀（该列表本就相对 evidence/）→ 去重；③ `h_changes_vs_r10.commit` 原对 4 项统一写 `bcafd94` → 改为逐工具真实提交（6986988 / 6f7ee1c / d107ab0 / bcafd94）；④ `r11_notes`/`supersedes` 里 NEW_REPLACE_BG_V2 仍是 BLOCKED 文案 → 改为 d107ab0 复测 PASS；⑤ 吸收提交清单补 6986988、6f7ee1c、d107ab0
+- 字节复核（实算）：REPLACE_GOODS 1192722B/0ac369c5、NEW_REPLACE_BG_V2 837987B/e3646058、PRODUCT_IMAGE_SUITE 2840825B/4047edd5、DRESS_WEAR_SET 1883817B/9b7e62da、NEW_DESIGNER 411801B/90e28e0f，全部与回执一致
+- 未做：未新增任何 PASS、未改业务源码、未生成新证据、未派 worker
 
 ## 6. 复现
 

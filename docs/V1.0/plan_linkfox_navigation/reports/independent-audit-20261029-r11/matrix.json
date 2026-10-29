@@ -1,7 +1,7 @@
 {
- "generatedAt": "2026-10-29T19:58:26+08:00",
+ "generatedAt": "2026-10-29T20:15:02+08:00",
  "head": "6636e1f50deb2bcac889013728e0e586866ccb76",
- "branch": "feat/linkfox-v1-real",
+ "branch": "HEAD",
  "scope": "39 tools; 只复刻功能+必要字段，界面用 Infinite Canvas 设计系统",
  "rubric": {
   "F": "结果 + >=2 项动作回执（下载/存资产/发画布），且回执文件必须在 HEAD 中提交",
@@ -1585,10 +1585,10 @@
     }
    ],
    "H": "PASS",
-   "H_note": "真实 task task-mvsdhatp-kdyvt6 + \"afterReload\": { + 字节 sha 对账 1825663B == real-acceptance/B2G1/AI_TEXT/downloaded-ai-text-result-1.png",
+   "H_note": "真实 task task-mvthk2pn-kdz7i6 + \"navType\": \"reload\" + 字节 sha 对账 1445425B == real-acceptance/AI_TEXT/r10-real-20261029/03-result.png",
    "H_evidence": [
-    "real-acceptance/B2G1/AI_TEXT/run-b2g1.json",
-    "real-acceptance/B2G1/AI_TEXT/downloaded-ai-text-result-1.png"
+    "real-acceptance/AI_TEXT/r10-real-20261029/receipt.json",
+    "real-acceptance/AI_TEXT/r10-real-20261029/03-result.png"
    ],
    "K": "N/A",
    "K_note": "原站无案例模块",
@@ -1604,35 +1604,30 @@
     "U": "PASS"
    },
    "H_legs": {
-    "file": "real-acceptance/B2G1/AI_TEXT/run-b2g1.json",
+    "file": "real-acceptance/AI_TEXT/r10-real-20261029/receipt.json",
     "task": true,
     "reload": true,
     "bytes": true,
-    "reload_mark": "\"afterReload\": {",
-    "post_reload": "restoredPanel",
+    "reload_mark": "\"navType\": \"reload\"",
+    "post_reload": "dockCount",
     "claims": [
      {
-      "bytes": 2435369,
-      "sha": null,
-      "where": "claim"
+      "bytes": 1445425,
+      "sha": "f2b8505e85f08cd799562efbad498b33497c1bddfe58e58caf2b0493483e45bb",
+      "where": "media_files"
      },
      {
-      "bytes": 1825663,
-      "sha": "9019ffaf22487707039383e7bf75c082eafee7b9161b7f8e5b313330c582a01f",
-      "where": "claim"
-     },
-     {
-      "bytes": 1825663,
+      "bytes": 1445425,
       "sha": null,
       "where": "claim"
      }
     ],
-    "artifact": "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/B2G1/AI_TEXT/downloaded-ai-text-result-1.png",
+    "artifact": "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/AI_TEXT/r10-real-20261029/03-result.png",
     "negative": null,
     "backfill": null,
     "payload_drop": false,
     "binding": [
-     "task-mvsdhatp-kdyvt6"
+     "task-mvthk2pn-kdz7i6"
     ]
    },
    "H_gap": null
@@ -1727,7 +1722,7 @@
    "T": "PASS",
    "T_note": "文案/品牌扫描 0 命中",
    "R": "PASS",
-   "R_note": "字节可复核：2081539B == real-acceptance/B2G1/SDS_DESIGN/downloaded-sds-design-result-1.png",
+   "R_note": "字节可复核：2059699B == real-acceptance/SDS_DESIGN/r10-real-20261029/03-result.png",
    "R_artifacts": [
     {
      "path": "real-acceptance/B2G1/SDS_DESIGN/result-0.png",
@@ -2252,7 +2247,7 @@
    "H_evidence": [
     "real-acceptance/H4-real-20261029/NEW_DESIGNER.json",
     "suite-design-realgen-20261029/new-designer-result-1.png",
-    "evidence/real-acceptance/H4-real-20261029/NEW_DESIGNER-three-legs-20261029.json"
+    "real-acceptance/H4-real-20261029/NEW_DESIGNER-three-legs-20261029.json"
    ],
    "K": "N/A",
    "K_note": "原站无案例模块",
@@ -2996,7 +2991,7 @@
   "report": "reports/independent-audit-20261029-r10/",
   "commit": "e0608bd",
   "crosscheck": "reports/independent-audit-20261029-r9-crosscheck/ (434bc44)",
-  "reason": "在 R10 严格三腿口径上吸收 bcafd94、c4af102、e8da2c7、0850ae2 的已提交证据（REPLACE_GOODS 真实生成+reload+三动作+字节 sha；NEW_REPLACE_BG_V2 上游 502 无任务；NEW_DESIGNER 专项三腿；IMAGE_TEXT_EDIT 自然恢复但 payloadDropped）；补 dockAfterReload.items 观测映射与上游 BLOCKED 归因；未生成任何新证据、未改业务源码"
+  "reason": "在 R10 严格三腿口径上吸收 bcafd94、c4af102、e8da2c7、0850ae2、6986988、6f7ee1c、d107ab0 的已提交证据（REPLACE_GOODS 真实生成+reload+三动作+字节 sha；NEW_REPLACE_BG_V2 早期 502 后 d107ab0 复测成功；NEW_DESIGNER 专项三腿；IMAGE_TEXT_EDIT 自然恢复但 payloadDropped）；补 dockAfterReload.items 观测映射与上游 BLOCKED 归因；未生成任何新证据、未改业务源码"
  },
  "h_changes_vs_r8_fix": [
   {
@@ -3237,7 +3232,7 @@
     "PASS"
    ],
    "H_was": "task task-mvsdhatp-kdyvt6 有 reload 声明（\"afterReload\": {），但 real-acceptance/B2G1/AI_TEXT/run-b2g1.json 无刷新后观测（无 *AfterReload 步骤/历史坞行/rows/persistedAfterReload）",
-   "H_now": "真实 task task-mvsdhatp-kdyvt6 + \"afterReload\": { + 字节 sha 对账 1825663B == real-acceptance/B2G1/AI_TEXT/downloaded-ai-text-result-1.png",
+   "H_now": "真实 task task-mvthk2pn-kdz7i6 + \"navType\": \"reload\" + 字节 sha 对账 1445425B == real-acceptance/AI_TEXT/r10-real-20261029/03-result.png",
    "source": "r9-crosscheck-mapping"
   },
   {
@@ -3305,7 +3300,10 @@
   "bcafd94",
   "c4af102",
   "e8da2c7",
-  "0850ae2"
+  "0850ae2",
+  "6986988",
+  "6f7ee1c",
+  "d107ab0"
  ],
  "h_changes_vs_r10": [
   {
@@ -3316,7 +3314,7 @@
    ],
    "H_was": "task task-mvt6vpdo-sc1x8w + reload 回执（history-restore-20261029/summary.json），但声明 2840825B，已提交产物中无同尺寸同 sha 的该工具产物（字节不可复核）",
    "H_now": "真实 task task-mvt6vpdo-sc1x8w + call: location.assign( + 字节 sha 对账 2840825B == real-acceptance/PRODUCT_IMAGE_SUITE/r10/result.png",
-   "commit": "bcafd94"
+   "commit": "6986988"
   },
   {
    "id": "DRESS_WEAR_SET",
@@ -3326,7 +3324,7 @@
    ],
    "H_was": "task task-mvt74l6q-1vljau + reload 回执（history-restore-20261029/summary.json），但声明 2516552B，已提交产物中无同尺寸同 sha 的该工具产物（字节不可复核）",
    "H_now": "真实 task task-mvt74l6q-1vljau + call: location.assign( + 字节 sha 对账 1883817B == real-acceptance/DRESS_WEAR_SET/r10/result.png",
-   "commit": "bcafd94"
+   "commit": "6f7ee1c"
   },
   {
    "id": "NEW_REPLACE_BG_V2",
@@ -3336,7 +3334,7 @@
    ],
    "H_was": "NEW_REPLACE_BG_V2 常驻 profile 历史坞 0 条、rows=[]、storedTasks=[]（r7-d19-history-20261029/tool-new-replace-bg-v2.json，countForTool=0）：无该工具任务快照，reload 后无可恢复结果",
    "H_now": "真实 task task-mvthl08d-06efgs + \"persistedAfterReload\": { + 字节 sha 对账 837987B == real-acceptance/h4-design-realgen-retry-20261029/NEW_REPLACE_BG_V2-result.png",
-   "commit": "bcafd94"
+   "commit": "d107ab0"
   },
   {
    "id": "REPLACE_GOODS",
@@ -3497,22 +3495,72 @@
    {
     "check": "receipt_in_head",
     "ok": true,
-    "detail": "evidence/real-acceptance/h4-design-realgen-20261029/NEW_REPLACE_BG_V2.json"
+    "detail": "evidence/real-acceptance/h4-design-realgen-retry-20261029/NEW_REPLACE_BG_V2.json"
    },
    {
-    "check": "verdict_blocked",
+    "check": "task_binding",
     "ok": true,
-    "detail": "BLOCKED"
+    "detail": "task-mvthl08d-06efgs"
    },
    {
-    "check": "no_task_created",
+    "check": "task_succeeded",
     "ok": true,
-    "detail": "None / no-task-record-after-submit"
+    "detail": "succeeded"
    },
    {
-    "check": "upstream_5xx_recorded",
+    "check": "no_payload_drop",
     "ok": true,
-    "detail": "502"
+    "detail": "items=1 dropped=0"
+   },
+   {
+    "check": "fresh_reload_navtype",
+    "ok": true,
+    "detail": "reload"
+   },
+   {
+    "check": "dock_after_reload_same_task",
+    "ok": true,
+    "detail": "dockItems=1"
+   },
+   {
+    "check": "persisted_after_reload",
+    "ok": true,
+    "detail": "True"
+   },
+   {
+    "check": "action_download",
+    "ok": true,
+    "detail": "None"
+   },
+   {
+    "check": "action_saveAsset",
+    "ok": true,
+    "detail": "已保存到资产库（2HGusbdJGgddFxgTAcZml）"
+   },
+   {
+    "check": "action_sendCanvas",
+    "ok": true,
+    "detail": "已发送到画布（OUZvYDSInQ8Zfhl_Ay1EO）"
+   },
+   {
+    "check": "declared_bytes",
+    "ok": true,
+    "detail": "837987"
+   },
+   {
+    "check": "artifact_size_equal",
+    "ok": true,
+    "detail": "837987 vs 837987"
+   },
+   {
+    "check": "artifact_sha_equal",
+    "ok": true,
+    "detail": "e3646058d0463b4b vs e3646058d0463b4b"
+   },
+   {
+    "check": "download_sha_equal",
+    "ok": true,
+    "detail": "e3646058d0463b4b"
    }
   ]
  },
@@ -3531,7 +3579,46 @@
   },
   {
    "tool": "NEW_REPLACE_BG_V2",
-   "note": "两次真实提交均在上游 /v1/images/edits 得到 502，未创建任务记录（blockedReason=no-task-record-after-submit）→ 三腿不成立，如实 BLOCKED。"
+   "note": "bcafd94 早期两次真实提交均在上游 /v1/images/edits 得到 502、未创建任务记录（历史 BLOCKED 归因保留）；d107ab0 复测真实成功 task-mvthl08d-06efgs（edits 200、837987B、整页 reload 后同一 task 在 dock）+ 字节 sha 对账 → H=PASS。"
   }
- ]
+ ],
+ "crosscheck": {
+  "at": "2026-10-29",
+  "by": "independent crosscheck vs commit 3c9d81a",
+  "verified": {
+   "tally_unchanged": true,
+   "h_pass": 26,
+   "h_asserts_failures": 0,
+   "byte_reconcile": {
+    "REPLACE_GOODS": [
+     1192722,
+     "0ac369c5"
+    ],
+    "NEW_REPLACE_BG_V2": [
+     837987,
+     "e3646058"
+    ],
+    "PRODUCT_IMAGE_SUITE": [
+     2840825,
+     "4047edd5"
+    ],
+    "DRESS_WEAR_SET": [
+     1883817,
+     "9b7e62da"
+    ],
+    "AI_TEXT": [
+     1445425,
+     "-"
+    ]
+   }
+  },
+  "fixed": [
+   "NEW_REPLACE_BG_V2 h_asserts 改为 d107ab0 retry 回执（原断言 bcafd94 502 回执）",
+   "NEW_DESIGNER H_evidence 去掉重复 evidence/ 前缀",
+   "h_changes_vs_r10 commit 改为逐工具真实提交（6986988/6f7ee1c/d107ab0/bcafd94）",
+   "r11_notes/supersedes 中 NEW_REPLACE_BG_V2 由 BLOCKED 改为 d107ab0 复测 PASS",
+   "吸收提交清单补 6986988/6f7ee1c/d107ab0"
+  ],
+  "no_regrade": "F/T/R/H/K/U 判定与统计零变更；未改业务源码、未生成新证据"
+ }
 }
