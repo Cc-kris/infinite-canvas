@@ -80,11 +80,10 @@ function ToolIcon({ id }: { id: string }) {
  * Canonical tool navigation. Width and scroll behaviour are owned by ToolShell so the
  * same markup can be reused inside the mobile drawer.
  *
- * Reference layout (linkfox tool page, 1908x781, verified live): the rail lists only the
- * tools of the active category — 40px rows, 16px labels starting 46px from the left edge
- * (18px inset + 16px icon + 10px gap), rgba(0,0,0,.6) text, active row in brand purple
- * #723CF9 over a rgba(141,52,249,.05) tint, 1px rgba(5,5,5,.06) dividers between groups
- * and a 12px #D0D2D6 「免责声明」 footer pinned to the bottom.
+ * Visual language follows the Infinite Canvas design system: the rail lists the tools of the
+ * active category as rounded rows (40px) with muted labels, an accent hover surface and an
+ * accent-filled active row, grouped by hairline dividers, with a muted 「免责声明」 footer
+ * pinned to the bottom.
  */
 export function ToolSidebar({
     categories,
@@ -104,13 +103,13 @@ export function ToolSidebar({
         <nav aria-label="工具" className={cn("flex h-full flex-col overflow-y-auto", className)}>
             {visibleCategories.map((category, index) => {
                 return (
-                    <div key={category.slug} className="min-w-0">
-                        {index > 0 ? <div aria-hidden="true" className="my-2 h-px bg-[rgba(5,5,5,0.06)] dark:bg-white/10" /> : null}
+                    <div key={category.slug} className="min-w-0 px-2">
+                        {index > 0 ? <div aria-hidden="true" className="my-1.5 h-px bg-hairline" /> : null}
                         <Link to={`/tools/${category.slug}`} onClick={onNavigate} className="sr-only">
                             {category.label}
                         </Link>
                         {category.tools.length > 0 ? (
-                            <ul className="flex flex-col">
+                            <ul className="flex flex-col gap-0.5 py-1">
                                 {category.tools.map((tool) => {
                                     const active = tool.slug === activeToolSlug;
                                     return (
@@ -121,20 +120,18 @@ export function ToolSidebar({
                                             onClick={onNavigate}
                                             data-tool-id={tool.id}
                                             data-active={active ? "true" : undefined}
-                                            style={
-                                                active
-                                                    ? { color: "var(--brand)", backgroundColor: "rgba(141, 52, 249, 0.05)" }
-                                                    : { color: "var(--tool-row, rgba(0, 0, 0, 0.6))" }
-                                            }
                                             className={cn(
-                                                "flex h-10 items-center gap-2.5 pl-[18px] pr-3 text-base leading-5 transition-colors hover:opacity-80 dark:text-white/60",
+                                                "flex h-10 items-center gap-2.5 rounded-lg px-2.5 text-sm leading-5 outline-none transition-colors focus-visible:ring-2 focus-visible:ring-ring",
+                                                active
+                                                    ? "bg-accent font-medium text-accent-foreground"
+                                                    : "text-muted-foreground hover:bg-accent/70 hover:text-accent-foreground",
                                                 tool.enabled === false && "opacity-60",
                                             )}
                                         >
                                             <ToolIcon id={tool.id} />
                                             <span className="truncate">{tool.title}</span>
                                             {tool.origin === "supplemental" ? (
-                                                <span className="ml-auto shrink-0 rounded border border-hairline px-1 text-[10px] leading-4 text-black/45 dark:border-white/15 dark:text-white/45">
+                                                <span className="ml-auto shrink-0 rounded border border-hairline px-1 text-[10px] leading-4 text-muted-foreground">
                                                     {supplementalLabel}
                                                 </span>
                                             ) : null}
@@ -144,12 +141,12 @@ export function ToolSidebar({
                                 })}
                             </ul>
                         ) : (
-                            <p className="px-[18px] py-2 text-xs leading-5 text-black/45 dark:text-white/45">{emptyLabel}</p>
+                            <p className="px-2.5 py-2 text-xs leading-5 text-muted-foreground">{emptyLabel}</p>
                         )}
                     </div>
                 );
             })}
-            <div className="mt-auto select-none pb-3 pt-6 text-center text-xs leading-4 text-[#D0D2D6] dark:text-white/25">{disclaimerLabel}</div>
+            <div className="mt-auto select-none px-3 pb-3 pt-6 text-center text-[11px] leading-4 text-muted-foreground/60">{disclaimerLabel}</div>
         </nav>
     );
 }

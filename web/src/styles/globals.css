@@ -9,7 +9,7 @@
     --color-background: var(--background);
     --color-foreground: var(--foreground);
     --color-border: var(--border);
-    /* 原站（linkfox）工具页框架色板：内容画布 / 分隔线 / 品牌色 */
+    /* 共享壳框架色板：内容画布 / 分隔线 / 品牌色 / 卡片（与画布页面同一套 token） */
     --color-canvas: var(--canvas);
     --color-hairline: var(--hairline);
     --color-brand: var(--brand);
@@ -56,21 +56,15 @@
 
 :root {
     --radius: 0.625rem;
-    /* 原站实测（1908x781）：内容画布 #F4F6F8、分隔线 #E6E6E7、品牌紫 #723CF9、卡片/导航 #FFFFFF */
+    /* 内容画布 / 分隔线 / 卡片与画布页面一致的关键色（顶栏、工具壳共用） */
     --canvas: #f4f6f8;
     --hairline: #e7e7e7;
     --shell-body: #f5f7fa;
     --brand: #723cf9;
     --brand-soft: #f2edff;
-    /* 工具侧栏行文字色：浅色 原站 rgba(0,0,0,.6)；暗色 需反相（白 62%），故下沉为变量 */
+    /* 工具侧栏行文字色：浅色沿用正文 60% 灰，暗色为白 62%，故下沉为变量 */
     --tool-row: rgba(0, 0, 0, 0.6);
     --surface: #ffffff;
-    /* 共享框架顶栏节奏（原站实测）：1908 → 左右 24/35、导航项间距 30、导航左偏移 50；
-       1280 → 16/20、20、0。见 docs/V1.0/plan_linkfox_navigation/evidence/b12-shell-final-20261029/BASELINE.md */
-    --shell-pad-left: 24px;
-    --shell-pad-right: 35px;
-    --shell-nav-gap: 30px;
-    --shell-nav-offset: 50px;
     --border: oklch(0.922 0 0);
     --ring: oklch(0.708 0 0);
     --background: oklch(1 0 0);
@@ -102,16 +96,6 @@
     --sidebar-accent-foreground: oklch(0.205 0 0);
     --sidebar-border: oklch(0.922 0 0);
     --sidebar-ring: oklch(0.708 0 0);
-}
-
-/* 原站 1280 实测：顶栏内边距 16/20、导航项间距 20、导航相对品牌区偏移 0 */
-@media (max-width: 1439px) {
-    :root {
-        --shell-pad-left: 16px;
-        --shell-pad-right: 20px;
-        --shell-nav-gap: 20px;
-        --shell-nav-offset: 0px;
-    }
 }
 
 .dark {
@@ -153,6 +137,17 @@
     --sidebar-accent-foreground: oklch(0.985 0 0);
     --sidebar-border: oklch(1 0 0 / 10%);
     --sidebar-ring: oklch(0.556 0 0);
+}
+
+/*
+ * antd v5 在 `.ant-app` 里注入未分层的 `a { color: inherit; background-color: transparent }`。
+ * 未分层样式永远压过 Tailwind v4 的分层工具类，导致壳内链接的选中底色/次要文字色全部失效。
+ * 用更高特异性把这两条属性回落到 utilities 层，范围限定在共享壳内，避免影响 antd 自身组件。
+ */
+[data-testid="shell-top-nav"] a,
+[data-testid="tool-sidebar"] a {
+    color: revert-layer;
+    background-color: revert-layer;
 }
 
 @layer base {

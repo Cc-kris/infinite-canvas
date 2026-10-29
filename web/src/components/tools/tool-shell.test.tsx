@@ -77,7 +77,8 @@ describe("ToolShell", () => {
         );
         expect(html).toContain('data-testid="tool-sidebar"');
         expect(html).toContain("w-[180px]");
-        expect(html).toContain("hidden w-[180px] shrink-0 overflow-y-auto border-r border-hairline bg-surface lg:block");
+        // Infinite Canvas card language: rounded surface card, hidden below lg.
+        expect(html).toContain("hidden w-[180px] shrink-0 overflow-y-auto rounded-xl border border-hairline bg-surface shadow-sm lg:block");
         expect(html).toContain("sidebar-body");
         expect(html).toContain("workspace-body");
         // mobile entry point for the drawer instead of an unusable sliver of sidebar
@@ -113,10 +114,11 @@ describe("ToolSidebar", () => {
         );
         expect(html).toContain('href="/tools/ecommerce-suite/scale-up"');
         expect(html).toContain('aria-current="page"');
-        // 原站侧栏选中态：品牌紫文字 + rgba(141,52,249,.05) 浅紫底
-        expect(html).toContain("color:var(--brand)");
-        expect(html).toContain("background-color:rgba(141, 52, 249, 0.05)");
-        // 原站侧栏只列当前分类（实测 change-color/product-image-suite/ai-outpainting 三页一致）
+        // 画布设计系统选中态：accent 底 + accent-foreground 文字
+        expect(html).toContain("bg-accent font-medium text-accent-foreground");
+        expect(html).toContain("rounded-lg");
+        expect(html).toContain("h-10");
+        // 侧栏只列当前分类，避免跨分类噪声
         expect(html).not.toContain('href="/tools/product-design/ai-text"');
         // 底部免责声明页脚
         expect(html).toContain("免责声明");

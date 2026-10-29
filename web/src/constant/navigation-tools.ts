@@ -148,7 +148,7 @@ export type ToolNavigationItem = {
 
 /**
  * 主项右上角小徽标，取值对齐原站实测的两种：`智能修图` 的「新模型」与 `AI视频` 的「HOT」。
- * 原站样式：9px/700/白字/135deg 渐变(#FF4D6D→#FF7A45)/r5/pad 0 5px/h16/translate(4px,-7px)。
+ * 角标沿用画布品牌色：品牌色半透明底 + 品牌色文字，10px/600。
  */
 export type ToolNavigationBadge = "newModel" | "hot";
 
@@ -681,20 +681,6 @@ export const toolNavigationCategories: readonly ToolNavigationCategory[] = [
         labelKey: "toolsNav.categories.product-design",
         descriptionKey: "toolsNav.categoryDescriptions.product-design",
     },
-];
-
-/**
- * 顶部导航末尾「更多」汇总下拉的条目，取自原站实测（168px 面板 / 32px 行高 / 14px 文案）。
- * `LinkFox Claw` 属品牌专属入口，按「仅去 LinkFox 品牌」要求移除。
- * `localRoute` 为空表示原站入口在本仓库还没有对应页面：保留原站文案与版式，但不做跳转，
- * 避免把用户送到 404（见 REMAINING 清单 PARTIAL 说明）。
- */
-export const shellMoreMenuItems: readonly { key: string; href: string; localRoute: string | null }[] = [
-    { key: "aiChat", href: "/aiChat/template", localRoute: null },
-    { key: "brandCompliance", href: "/brandLibrary", localRoute: null },
-    { key: "assetLibrary", href: "/picturelibrary", localRoute: "/assets" },
-    { key: "history", href: "/draw/history", localRoute: null },
-    { key: "downloadCenter", href: "/downloadCenter", localRoute: null },
 ];
 
 export const TOOL_NAVIGATION_COUNT = 39;
