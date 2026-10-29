@@ -361,6 +361,34 @@ export async function createPrintingRepairRunPort(): Promise<PrintingRepairGatew
     };
 }
 
+/* ------------------------------------------------------------------ *
+ * 刷新回填
+ * ------------------------------------------------------------------ */
+
+/**
+ * 从已落盘任务还原 run：刷新/重进页面后结果区不该空着（任务与结果字节都在库里）。
+ * unit 只用于标识（unitId/snapshotHash），真正的结果一律来自 task.result.items。
+ */
+export function printingRepairRunFromStoredTask(task: ToolTask): PrintingRepairRun {
+    const unit = {
+        id: task.id,
+        snapshotHash: String((task as { snapshotHash?: string }).snapshotHash ?? ""),
+    } as unknown as PrintingRepairUnit;
+    return printingRepairRunFromTask(unit, task);
+}
+
+/** 该工具最近一条落盘任务（按提交时间），用于刷新后回填。 */
+export function latestPrintingRepairTask(tasks: Record<string, ToolTask>, toolId: string): ToolTask | null {
+    let latest: ToolTask | null = null;
+    for (const task of Object.values(tasks)) {
+        if (task.toolId !== toolId) continue;
+        const at = task.submittedAt ?? task.createdAt ?? 0;
+        const best = latest ? (latest.submittedAt ?? latest.createdAt ?? 0) : -1;
+        if (at > best) latest = task;
+    }
+    return latest;
+}
+
 export type RunPrintingRepairOptions = {
     unit: PrintingRepairUnit;
     port: PrintingRepairGatewayLike;

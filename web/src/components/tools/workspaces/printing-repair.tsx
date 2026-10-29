@@ -23,6 +23,7 @@ import { cn, randomId } from "@/lib/utils";
 import type { ToolAssetRecord } from "@/services/api/tools/assets";
 import type { ToolTask, ToolTaskResultItem } from "@/services/api/tools/task-machine";
 import { useToolDraftStore } from "@/stores/use-tool-draft-store";
+import { useToolTaskStore } from "@/stores/use-tool-task-store";
 
 import {
     buildPrintingRepairUnit,
@@ -30,6 +31,8 @@ import {
     derivePrintSegPng,
     printingRepairPreflightIssues,
     printingRepairResultView,
+    printingRepairRunFromStoredTask,
+    latestPrintingRepairTask,
     retryPrintingRepair,
     runPrintingRepair,
     toPrintingRepairReference,
@@ -477,6 +480,31 @@ export function PrintingRepairWorkspace({ className }: PrintingRepairWorkspacePr
             alive = false;
         };
     }, [hydrateDraft]);
+
+    /* 结果回填：任务与结果字节都在库里，刷新/重进后按最近一条落盘任务还原结果区，
+     * 否则「生成成功 → 刷新 → 结果空白」，下载/存资产/发画布全部点不到。 */
+    const storeTasks = useToolTaskStore((state) => state.tasks);
+    const tasksHydrated = useToolTaskStore((state) => state.hydrated);
+    const hydrateTasks = useToolTaskStore((state) => state.hydrate);
+    const restoredRun = useRef(false);
+    useEffect(() => {
+        if (!tasksHydrated) hydrateTasks();
+    }, [tasksHydrated, hydrateTasks]);
+    useEffect(() => {
+        if (!draftReady || !tasksHydrated || restoredRun.current) return;
+        if (run && run.task) {
+            restoredRun.current = true;
+            return;
+        }
+        const latest = latestPrintingRepairTask(storeTasks, PRINTING_REPAIR_TOOL_ID);
+        if (!latest) return;
+        restoredRun.current = true;
+        const restored = printingRepairRunFromStoredTask(latest);
+        setRun(restored);
+        if (restored.status !== "succeeded") {
+            setNotice(restored.error?.message ?? "上游没有返回可用结果，请重试");
+        }
+    }, [draftReady, run, storeTasks, tasksHydrated]);
 
     useEffect(() => {
         if (!draftReady) return;

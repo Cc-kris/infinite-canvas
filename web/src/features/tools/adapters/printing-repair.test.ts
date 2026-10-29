@@ -51,6 +51,8 @@ import {
     printingRepairPreflightIssues,
     printingRepairResultView,
     printingRepairRunFromTask,
+    printingRepairRunFromStoredTask,
+    latestPrintingRepairTask,
     segAnalysisSize,
     toPrintingRepairReference,
 } from "./printing-repair";
@@ -479,3 +481,51 @@ async function renderWorkspace(): Promise<string> {
     const { default: Workspace } = await import("@/components/tools/workspaces/printing-repair");
     return renderToStaticMarkup(React.createElement(MemoryRouter, null, React.createElement(Workspace)) as never);
 }
+
+describe("刷新后结果回填（任务落库 → run）", () => {
+    test("取该工具最近一条任务，别的工具不参与；成功任务还原出结果图", () => {
+        const older = {
+            id: "task-old",
+            toolId: PRINTING_REPAIR_TOOL_ID,
+            status: "succeeded",
+            submittedAt: 10,
+            result: { items: [{ id: "i1", kind: "image", url: "https://x/old.png" }] },
+        } as unknown as ToolTask;
+        const newer = {
+            id: "task-new",
+            toolId: PRINTING_REPAIR_TOOL_ID,
+            status: "succeeded",
+            submittedAt: 20,
+            result: { items: [{ id: "i2", kind: "image", url: "https://x/new.png" }] },
+        } as unknown as ToolTask;
+        const other = {
+            id: "task-other",
+            toolId: "FIX_COLOR",
+            status: "succeeded",
+            submittedAt: 30,
+            result: { items: [{ id: "i3", kind: "image", url: "https://x/other.png" }] },
+        } as unknown as ToolTask;
+
+        const latest = latestPrintingRepairTask({ a: older, b: newer, c: other }, PRINTING_REPAIR_TOOL_ID);
+        expect(latest?.id).toBe("task-new");
+
+        const run = printingRepairRunFromStoredTask(newer);
+        expect(run.status).toBe("succeeded");
+        expect(run.task.id).toBe("task-new");
+        expect(run.image?.url).toBe("https://x/new.png");
+    });
+
+    test("落库的「成功但没图」按失败回填，不补造结果", () => {
+        const empty = {
+            id: "task-empty",
+            toolId: PRINTING_REPAIR_TOOL_ID,
+            status: "succeeded",
+            submittedAt: 1,
+            result: { items: [] },
+        } as unknown as ToolTask;
+        const run = printingRepairRunFromStoredTask(empty);
+        expect(run.status).toBe("failed");
+        expect(run.image).toBeUndefined();
+        expect(run.error?.code).toBe("empty-result");
+    });
+});
