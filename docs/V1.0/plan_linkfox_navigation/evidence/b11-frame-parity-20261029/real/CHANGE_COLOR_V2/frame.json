@@ -1,0 +1,579 @@
+{
+ "landmarks": {
+  "aside": {
+   "css": {
+    "bg": "rgb(255, 255, 255)",
+    "border": "0px rgba(0, 0, 0, 0.88)",
+    "borderRight": "1px rgb(230, 230, 231)",
+    "br": "0px",
+    "color": "rgba(0, 0, 0, 0.88)",
+    "disp": "block",
+    "ff": "-apple-system",
+    "fs": "14px",
+    "overflow": "visible",
+    "pad": "0px",
+    "pos": "relative",
+    "shadow": "",
+    "z": "2"
+   },
+   "r": {
+    "h": 671,
+    "w": 180,
+    "x": 0,
+    "y": 110
+   }
+  },
+  "header": null,
+  "main": null,
+  "nav": null
+ },
+ "nodes": [
+  {
+   "css": {
+    "bg": "rgb(245, 247, 250)",
+    "border": "0px rgb(0, 0, 0)",
+    "borderRight": "0px rgb(0, 0, 0)",
+    "br": "0px",
+    "color": "rgb(0, 0, 0)",
+    "disp": "block",
+    "ff": "\"Microsoft YaHei-Regular\"",
+    "fs": "16px",
+    "overflow": "auto hidden",
+    "pad": "0px",
+    "pos": "static",
+    "shadow": "",
+    "z": "auto"
+   },
+   "d": 0,
+   "p": "",
+   "r": {
+    "h": 781,
+    "w": 1908,
+    "x": 0,
+    "y": 0
+   },
+   "sel": "",
+   "tag": "body",
+   "text": "首页 电商套图 智能修图 新模型 AI视频 HOT 批量生图 商品图设计 Skills Agen"
+  },
+  {
+   "css": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "border": "0px rgb(0, 0, 0)",
+    "borderRight": "0px rgb(0, 0, 0)",
+    "br": "0px",
+    "color": "rgb(0, 0, 0)",
+    "disp": "block",
+    "ff": "\"Microsoft YaHei-Regular\"",
+    "fs": "16px",
+    "overflow": "visible",
+    "pad": "0px",
+    "pos": "static",
+    "shadow": "",
+    "z": "auto"
+   },
+   "d": 1,
+   "p": "/0",
+   "r": {
+    "h": 781,
+    "w": 1908,
+    "x": 0,
+    "y": 0
+   },
+   "sel": "#root",
+   "tag": "div",
+   "text": "首页 电商套图 智能修图 新模型 AI视频 HOT 批量生图 商品图设计 Skills Agen"
+  },
+  {
+   "css": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "border": "0px rgba(0, 0, 0, 0.88)",
+    "borderRight": "0px rgba(0, 0, 0, 0.88)",
+    "br": "0px",
+    "color": "rgba(0, 0, 0, 0.88)",
+    "disp": "block",
+    "ff": "-apple-system",
+    "fs": "14px",
+    "overflow": "visible",
+    "pad": "0px",
+    "pos": "static",
+    "shadow": "",
+    "z": "auto"
+   },
+   "d": 2,
+   "p": "/0/0",
+   "r": {
+    "h": 781,
+    "w": 1908,
+    "x": 0,
+    "y": 0
+   },
+   "sel": ".css-1d18km6.ant-app",
+   "tag": "div",
+   "text": "首页 电商套图 智能修图 新模型 AI视频 HOT 批量生图 商品图设计 Skills Agen"
+  },
+  {
+   "css": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "border": "0px rgba(0, 0, 0, 0.88)",
+    "borderRight": "0px rgba(0, 0, 0, 0.88)",
+    "br": "0px",
+    "color": "rgba(0, 0, 0, 0.88)",
+    "disp": "block",
+    "ff": "-apple-system",
+    "fs": "14px",
+    "overflow": "hidden",
+    "pad": "0px",
+    "pos": "static",
+    "shadow": "",
+    "z": "auto"
+   },
+   "d": 3,
+   "p": "/0/0/0",
+   "r": {
+    "h": 781,
+    "w": 1908,
+    "x": 0,
+    "y": 0
+   },
+   "sel": "._box_1sq7k_31",
+   "tag": "div",
+   "text": "首页 电商套图 智能修图 新模型 AI视频 HOT 批量生图 商品图设计 Skills Agen"
+  },
+  {
+   "css": {
+    "bg": "rgb(245, 245, 245)",
+    "border": "0px rgba(0, 0, 0, 0.88)",
+    "borderRight": "0px rgba(0, 0, 0, 0.88)",
+    "br": "0px",
+    "color": "rgba(0, 0, 0, 0.88)",
+    "disp": "flex",
+    "ff": "-apple-system",
+    "fs": "14px",
+    "overflow": "visible",
+    "pad": "0px",
+    "pos": "static",
+    "shadow": "",
+    "z": "auto"
+   },
+   "d": 4,
+   "p": "/0/0/0/0",
+   "r": {
+    "h": 781,
+    "w": 1908,
+    "x": 0,
+    "y": 0
+   },
+   "sel": ".ant-layout.css-1d18km6",
+   "tag": "div",
+   "text": "首页 电商套图 智能修图 新模型 AI视频 HOT 批量生图 商品图设计 Skills Agen"
+  },
+  {
+   "css": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "border": "0px rgba(0, 0, 0, 0.88)",
+    "borderRight": "0px rgba(0, 0, 0, 0.88)",
+    "br": "0px",
+    "color": "rgba(0, 0, 0, 0.88)",
+    "disp": "block",
+    "ff": "-apple-system",
+    "fs": "14px",
+    "overflow": "visible",
+    "pad": "0px",
+    "pos": "relative",
+    "shadow": "",
+    "z": "8"
+   },
+   "d": 5,
+   "p": "/0/0/0/0/0",
+   "r": {
+    "h": 50,
+    "w": 1908,
+    "x": 0,
+    "y": 0
+   },
+   "sel": "._wrap_scegn_1",
+   "tag": "div",
+   "text": ""
+  },
+  {
+   "css": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "border": "0px rgba(0, 0, 0, 0.88)",
+    "borderRight": "0px rgba(0, 0, 0, 0.88)",
+    "br": "0px",
+    "color": "rgba(0, 0, 0, 0.88)",
+    "disp": "block",
+    "ff": "-apple-system",
+    "fs": "14px",
+    "overflow": "visible",
+    "pad": "0px",
+    "pos": "static",
+    "shadow": "",
+    "z": "auto"
+   },
+   "d": 6,
+   "p": "/0/0/0/0/0/0",
+   "r": {
+    "h": 50,
+    "w": 1908,
+    "x": 0,
+    "y": 0
+   },
+   "sel": ".ant-carousel.ant-carousel-vertical.css-1d18km6",
+   "tag": "div",
+   "text": ""
+  },
+  {
+   "css": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "border": "0px rgba(0, 0, 0, 0.88)",
+    "borderRight": "0px rgba(0, 0, 0, 0.88)",
+    "br": "0px",
+    "color": "rgba(0, 0, 0, 0.88)",
+    "disp": "block",
+    "ff": "-apple-system",
+    "fs": "14px",
+    "overflow": "visible",
+    "pad": "0px",
+    "pos": "relative",
+    "shadow": "",
+    "z": "auto"
+   },
+   "d": 7,
+   "p": "/0/0/0/0/0/0/0",
+   "r": {
+    "h": 50,
+    "w": 1908,
+    "x": 0,
+    "y": 0
+   },
+   "sel": ".slick-slider.slick-vertical.slick-initialized",
+   "tag": "div",
+   "text": ""
+  },
+  {
+   "css": {
+    "bg": "rgb(255, 255, 255)",
+    "border": "0px rgba(0, 0, 0, 0.88)",
+    "borderRight": "0px rgba(0, 0, 0, 0.88)",
+    "br": "0px",
+    "color": "rgba(0, 0, 0, 0.88)",
+    "disp": "block",
+    "ff": "-apple-system",
+    "fs": "14px",
+    "overflow": "visible",
+    "pad": "0px 35px 0px 24px",
+    "pos": "relative",
+    "shadow": "",
+    "z": "7"
+   },
+   "d": 5,
+   "p": "/0/0/0/0/1",
+   "r": {
+    "h": 60,
+    "w": 1908,
+    "x": 0,
+    "y": 50
+   },
+   "sel": "._box_139v7_5",
+   "tag": "div",
+   "text": "首页 电商套图 智能修图 新模型 AI视频 HOT 批量生图 商品图设计 Skills Agen"
+  },
+  {
+   "css": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "border": "0px rgba(0, 0, 0, 0.88)",
+    "borderRight": "0px rgba(0, 0, 0, 0.88)",
+    "br": "0px",
+    "color": "rgba(0, 0, 0, 0.88)",
+    "disp": "flex",
+    "ff": "-apple-system",
+    "fs": "14px",
+    "overflow": "visible",
+    "pad": "0px",
+    "pos": "static",
+    "shadow": "",
+    "z": "auto"
+   },
+   "d": 6,
+   "p": "/0/0/0/0/1/0",
+   "r": {
+    "h": 60,
+    "w": 1849,
+    "x": 24,
+    "y": 50
+   },
+   "sel": "._head_139v7_55",
+   "tag": "div",
+   "text": "首页 电商套图 智能修图 新模型 AI视频 HOT 批量生图 商品图设计 Skills Agen"
+  },
+  {
+   "css": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "border": "0px rgba(0, 0, 0, 0.88)",
+    "borderRight": "0px rgba(0, 0, 0, 0.88)",
+    "br": "0px",
+    "color": "rgba(0, 0, 0, 0.88)",
+    "disp": "flex",
+    "ff": "-apple-system",
+    "fs": "14px",
+    "overflow": "visible",
+    "pad": "0px",
+    "pos": "static",
+    "shadow": "",
+    "z": "auto"
+   },
+   "d": 7,
+   "p": "/0/0/0/0/1/0/0",
+   "r": {
+    "h": 60,
+    "w": 1026,
+    "x": 24,
+    "y": 50
+   },
+   "sel": "._menu_139v7_27",
+   "tag": "div",
+   "text": "首页 电商套图 智能修图 新模型 AI视频 HOT 批量生图 商品图设计 Skills Agen"
+  },
+  {
+   "css": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "border": "0px rgba(0, 0, 0, 0.88)",
+    "borderRight": "0px rgba(0, 0, 0, 0.88)",
+    "br": "0px",
+    "color": "rgba(0, 0, 0, 0.88)",
+    "disp": "flex",
+    "ff": "-apple-system",
+    "fs": "14px",
+    "overflow": "visible",
+    "pad": "0px",
+    "pos": "static",
+    "shadow": "",
+    "z": "auto"
+   },
+   "d": 7,
+   "p": "/0/0/0/0/1/0/1",
+   "r": {
+    "h": 60,
+    "w": 448,
+    "x": 1425,
+    "y": 50
+   },
+   "sel": "._user_139v7_249",
+   "tag": "div",
+   "text": "学习中心 免费得算力 250 购 买 用 用户6991 个人账号"
+  },
+  {
+   "css": {
+    "bg": "rgb(245, 245, 245)",
+    "border": "0px rgba(0, 0, 0, 0.88)",
+    "borderRight": "0px rgba(0, 0, 0, 0.88)",
+    "br": "0px",
+    "color": "rgba(0, 0, 0, 0.88)",
+    "disp": "flex",
+    "ff": "-apple-system",
+    "fs": "14px",
+    "overflow": "visible",
+    "pad": "0px",
+    "pos": "static",
+    "shadow": "",
+    "z": "auto"
+   },
+   "d": 5,
+   "p": "/0/0/0/0/2",
+   "r": {
+    "h": 671,
+    "w": 1908,
+    "x": 0,
+    "y": 110
+   },
+   "sel": ".ant-layout.ant-layout-has-sider._layoutWapper_1sq7k_69.css-1d18km6",
+   "tag": "div",
+   "text": "商品套图 服装套图 爆款图复刻 NEW 套图换色 NEW 批量翻译 高清放大 批量抠图 智能扩图"
+  },
+  {
+   "css": {
+    "bg": "rgb(255, 255, 255)",
+    "border": "0px rgba(0, 0, 0, 0.88)",
+    "borderRight": "1px rgb(230, 230, 231)",
+    "br": "0px",
+    "color": "rgba(0, 0, 0, 0.88)",
+    "disp": "block",
+    "ff": "-apple-system",
+    "fs": "14px",
+    "overflow": "visible",
+    "pad": "0px",
+    "pos": "relative",
+    "shadow": "",
+    "z": "2"
+   },
+   "d": 6,
+   "p": "/0/0/0/0/2/0",
+   "r": {
+    "h": 671,
+    "w": 180,
+    "x": 0,
+    "y": 110
+   },
+   "sel": ".ant-layout-sider.ant-layout-sider-dark._leftSider_1k85n_3.css-1d18km6",
+   "tag": "aside",
+   "text": "商品套图 服装套图 爆款图复刻 NEW 套图换色 NEW 批量翻译 高清放大 批量抠图 智能扩图"
+  },
+  {
+   "css": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "border": "0px rgba(0, 0, 0, 0.88)",
+    "borderRight": "0px rgba(0, 0, 0, 0.88)",
+    "br": "0px",
+    "color": "rgba(0, 0, 0, 0.88)",
+    "disp": "block",
+    "ff": "-apple-system",
+    "fs": "14px",
+    "overflow": "visible",
+    "pad": "0.1px 0px 0px",
+    "pos": "static",
+    "shadow": "",
+    "z": "auto"
+   },
+   "d": 7,
+   "p": "/0/0/0/0/2/0/0",
+   "r": {
+    "h": 671,
+    "w": 179,
+    "x": 0,
+    "y": 110
+   },
+   "sel": ".ant-layout-sider-children",
+   "tag": "div",
+   "text": "商品套图 服装套图 爆款图复刻 NEW 套图换色 NEW 批量翻译 高清放大 批量抠图 智能扩图"
+  },
+  {
+   "css": {
+    "bg": "rgb(244, 246, 248)",
+    "border": "0px rgba(0, 0, 0, 0.88)",
+    "borderRight": "0px rgba(0, 0, 0, 0.88)",
+    "br": "0px",
+    "color": "rgba(0, 0, 0, 0.88)",
+    "disp": "flex",
+    "ff": "-apple-system",
+    "fs": "14px",
+    "overflow": "auto",
+    "pad": "0px 10px",
+    "pos": "static",
+    "shadow": "",
+    "z": "auto"
+   },
+   "d": 6,
+   "p": "/0/0/0/0/2/1",
+   "r": {
+    "h": 671,
+    "w": 1728,
+    "x": 180,
+    "y": 110
+   },
+   "sel": "#scrollBox.ant-layout._bodyLayout_1sq7k_81.css-1d18km6",
+   "tag": "div",
+   "text": "上传图片 从本地上传 从作品库选择 从商品库选择 10M以内，分辨率：384*384 ~ 409"
+  },
+  {
+   "css": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "border": "0px rgba(0, 0, 0, 0.88)",
+    "borderRight": "0px rgba(0, 0, 0, 0.88)",
+    "br": "0px",
+    "color": "rgba(0, 0, 0, 0.88)",
+    "disp": "flex",
+    "ff": "-apple-system",
+    "fs": "14px",
+    "overflow": "visible",
+    "pad": "0px",
+    "pos": "static",
+    "shadow": "",
+    "z": "auto"
+   },
+   "d": 7,
+   "p": "/0/0/0/0/2/1/0",
+   "r": {
+    "h": 671,
+    "w": 1708,
+    "x": 190,
+    "y": 110
+   },
+   "sel": "._body_1sq7k_81",
+   "tag": "div",
+   "text": "上传图片 从本地上传 从作品库选择 从商品库选择 10M以内，分辨率：384*384 ~ 409"
+  },
+  {
+   "css": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "border": "0px rgba(0, 0, 0, 0.88)",
+    "borderRight": "0px rgba(0, 0, 0, 0.88)",
+    "br": "0px",
+    "color": "rgba(0, 0, 0, 0.88)",
+    "disp": "block",
+    "ff": "-apple-system",
+    "fs": "14px",
+    "overflow": "visible",
+    "pad": "0px",
+    "pos": "fixed",
+    "shadow": "",
+    "z": "1101"
+   },
+   "d": 3,
+   "p": "/0/0/1",
+   "r": {
+    "h": 90,
+    "w": 101,
+    "x": 1797,
+    "y": 481
+   },
+   "sel": "",
+   "tag": "div",
+   "text": "操作咨询 产品教程"
+  },
+  {
+   "css": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "border": "0px rgba(0, 0, 0, 0.88)",
+    "borderRight": "0px rgba(0, 0, 0, 0.88)",
+    "br": "0px",
+    "color": "rgba(0, 0, 0, 0.88)",
+    "disp": "flex",
+    "ff": "-apple-system",
+    "fs": "14px",
+    "overflow": "visible",
+    "pad": "0px",
+    "pos": "static",
+    "shadow": "",
+    "z": "auto"
+   },
+   "d": 4,
+   "p": "/0/0/1/0",
+   "r": {
+    "h": 90,
+    "w": 101,
+    "x": 1797,
+    "y": 481
+   },
+   "sel": "._container_ai70q_1",
+   "tag": "div",
+   "text": "操作咨询 产品教程"
+  }
+ ],
+ "ready": "complete",
+ "theme": {
+  "bodyBg": "rgb(245, 247, 250)",
+  "colorScheme": "normal",
+  "htmlBg": "rgba(0, 0, 0, 0)",
+  "htmlCls": ""
+ },
+ "title": "LinkFox官网 - 跨境电商AI运营助手 - AI选品AI作图AI视频AI Agent OS",
+ "url": "https://www.linkfox.com/draw/change-color-v2",
+ "viewport": {
+  "dpr": 1,
+  "h": 781,
+  "scrollH": 781,
+  "w": 1908
+ }
+}

@@ -1,0 +1,449 @@
+{
+ "landmarks": {
+  "aside": {
+   "css": {
+    "bg": "oklch(0.205 0 0)",
+    "border": "0px oklch(1 0 0 / 0.1)",
+    "borderRight": "1px oklch(1 0 0 / 0.1)",
+    "br": "0px",
+    "color": "oklch(0.985 0 0)",
+    "disp": "block",
+    "ff": "-apple-system",
+    "fs": "14px",
+    "overflow": "auto",
+    "pad": "0px",
+    "pos": "static",
+    "shadow": "",
+    "z": "auto"
+   },
+   "r": {
+    "h": 725,
+    "w": 180,
+    "x": 0,
+    "y": 56
+   }
+  },
+  "header": {
+   "css": {
+    "bg": "oklab(0.145 0 0 / 0.9)",
+    "border": "0px oklch(0.268 0.007 34.298)",
+    "borderRight": "0px oklch(0.268 0.007 34.298)",
+    "br": "0px",
+    "color": "oklch(0.985 0 0)",
+    "disp": "block",
+    "ff": "-apple-system",
+    "fs": "14px",
+    "overflow": "visible",
+    "pad": "0px",
+    "pos": "sticky",
+    "shadow": "",
+    "z": "20"
+   },
+   "r": {
+    "h": 56,
+    "w": 1908,
+    "x": 0,
+    "y": 0
+   }
+  },
+  "main": {
+   "css": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "border": "0px oklch(1 0 0 / 0.1)",
+    "borderRight": "0px oklch(1 0 0 / 0.1)",
+    "br": "0px",
+    "color": "oklch(0.985 0 0)",
+    "disp": "block",
+    "ff": "-apple-system",
+    "fs": "14px",
+    "overflow": "hidden",
+    "pad": "0px",
+    "pos": "static",
+    "shadow": "",
+    "z": "auto"
+   },
+   "r": {
+    "h": 725,
+    "w": 1728,
+    "x": 180,
+    "y": 56
+   }
+  },
+  "nav": {
+   "css": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "border": "0px oklch(1 0 0 / 0.1)",
+    "borderRight": "0px oklch(1 0 0 / 0.1)",
+    "br": "0px",
+    "color": "oklch(0.985 0 0)",
+    "disp": "flex",
+    "ff": "-apple-system",
+    "fs": "14px",
+    "overflow": "auto",
+    "pad": "0px",
+    "pos": "static",
+    "shadow": "",
+    "z": "auto"
+   },
+   "r": {
+    "h": 55,
+    "w": 585,
+    "x": 453,
+    "y": 0
+   }
+  }
+ },
+ "nodes": [
+  {
+   "css": {
+    "bg": "oklch(0.145 0 0)",
+    "border": "0px oklch(1 0 0 / 0.1)",
+    "borderRight": "0px oklch(1 0 0 / 0.1)",
+    "br": "0px",
+    "color": "oklch(0.985 0 0)",
+    "disp": "block",
+    "ff": "\"SF Pro Display\"",
+    "fs": "16px",
+    "overflow": "hidden",
+    "pad": "0px",
+    "pos": "static",
+    "shadow": "",
+    "z": "auto"
+   },
+   "d": 0,
+   "p": "",
+   "r": {
+    "h": 781,
+    "w": 1908,
+    "x": 0,
+    "y": 0
+   },
+   "sel": ".bg-background.text-foreground.antialiased",
+   "tag": "body",
+   "text": "无限画布 电商套图 智能修图 批量生图 商品图设计 AI视频 中 切换到浅色主题 v0.27.0"
+  },
+  {
+   "css": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "border": "0px oklch(1 0 0 / 0.1)",
+    "borderRight": "0px oklch(1 0 0 / 0.1)",
+    "br": "0px",
+    "color": "oklch(0.985 0 0)",
+    "disp": "block",
+    "ff": "\"SF Pro Display\"",
+    "fs": "16px",
+    "overflow": "visible",
+    "pad": "0px",
+    "pos": "static",
+    "shadow": "",
+    "z": "auto"
+   },
+   "d": 1,
+   "p": "/0",
+   "r": {
+    "h": 781,
+    "w": 1908,
+    "x": 0,
+    "y": 0
+   },
+   "sel": "#root",
+   "tag": "div",
+   "text": "无限画布 电商套图 智能修图 批量生图 商品图设计 AI视频 中 切换到浅色主题 v0.27.0"
+  },
+  {
+   "css": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "border": "0px oklch(1 0 0 / 0.1)",
+    "borderRight": "0px oklch(1 0 0 / 0.1)",
+    "br": "0px",
+    "color": "rgba(255, 255, 255, 0.85)",
+    "disp": "block",
+    "ff": "-apple-system",
+    "fs": "14px",
+    "overflow": "visible",
+    "pad": "0px",
+    "pos": "static",
+    "shadow": "",
+    "z": "auto"
+   },
+   "d": 2,
+   "p": "/0/0",
+   "r": {
+    "h": 781,
+    "w": 1908,
+    "x": 0,
+    "y": 0
+   },
+   "sel": ".css-dev-only-do-not-override-oc1rc0.ant-app.infinite-canvas-dark",
+   "tag": "div",
+   "text": "无限画布 电商套图 智能修图 批量生图 商品图设计 AI视频 中 切换到浅色主题 v0.27.0"
+  },
+  {
+   "css": {
+    "bg": "oklch(0.145 0 0)",
+    "border": "0px oklch(1 0 0 / 0.1)",
+    "borderRight": "0px oklch(1 0 0 / 0.1)",
+    "br": "0px",
+    "color": "oklch(0.985 0 0)",
+    "disp": "flex",
+    "ff": "-apple-system",
+    "fs": "14px",
+    "overflow": "hidden",
+    "pad": "0px",
+    "pos": "static",
+    "shadow": "",
+    "z": "auto"
+   },
+   "d": 3,
+   "p": "/0/0/0",
+   "r": {
+    "h": 781,
+    "w": 1908,
+    "x": 0,
+    "y": 0
+   },
+   "sel": ".flex.h-dvh.overflow-hidden.bg-background",
+   "tag": "div",
+   "text": "无限画布 电商套图 智能修图 批量生图 商品图设计 AI视频 中 切换到浅色主题 v0.27.0"
+  },
+  {
+   "css": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "border": "0px oklch(1 0 0 / 0.1)",
+    "borderRight": "0px oklch(1 0 0 / 0.1)",
+    "br": "0px",
+    "color": "oklch(0.985 0 0)",
+    "disp": "flex",
+    "ff": "-apple-system",
+    "fs": "14px",
+    "overflow": "hidden",
+    "pad": "0px",
+    "pos": "static",
+    "shadow": "",
+    "z": "auto"
+   },
+   "d": 4,
+   "p": "/0/0/0/0",
+   "r": {
+    "h": 781,
+    "w": 1908,
+    "x": 0,
+    "y": 0
+   },
+   "sel": ".flex.min-w-0.flex-1.flex-col",
+   "tag": "div",
+   "text": "无限画布 电商套图 智能修图 批量生图 商品图设计 AI视频 中 切换到浅色主题 v0.27.0"
+  },
+  {
+   "css": {
+    "bg": "oklab(0.145 0 0 / 0.9)",
+    "border": "0px oklch(0.268 0.007 34.298)",
+    "borderRight": "0px oklch(0.268 0.007 34.298)",
+    "br": "0px",
+    "color": "oklch(0.985 0 0)",
+    "disp": "block",
+    "ff": "-apple-system",
+    "fs": "14px",
+    "overflow": "visible",
+    "pad": "0px",
+    "pos": "sticky",
+    "shadow": "",
+    "z": "20"
+   },
+   "d": 5,
+   "p": "/0/0/0/0/0",
+   "r": {
+    "h": 56,
+    "w": 1908,
+    "x": 0,
+    "y": 0
+   },
+   "sel": ".sticky.top-0.z-20.h-14",
+   "tag": "header",
+   "text": "无限画布 电商套图 智能修图 批量生图 商品图设计 AI视频 中 切换到浅色主题 v0.27.0"
+  },
+  {
+   "css": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "border": "0px oklch(1 0 0 / 0.1)",
+    "borderRight": "0px oklch(1 0 0 / 0.1)",
+    "br": "0px",
+    "color": "oklch(0.985 0 0)",
+    "disp": "flex",
+    "ff": "-apple-system",
+    "fs": "14px",
+    "overflow": "visible",
+    "pad": "0px 24px",
+    "pos": "static",
+    "shadow": "",
+    "z": "auto"
+   },
+   "d": 6,
+   "p": "/0/0/0/0/0/0",
+   "r": {
+    "h": 55,
+    "w": 1280,
+    "x": 314,
+    "y": 0
+   },
+   "sel": ".mx-auto.flex.h-full.max-w-7xl",
+   "tag": "div",
+   "text": "无限画布 电商套图 智能修图 批量生图 商品图设计 AI视频 中 切换到浅色主题 v0.27.0"
+  },
+  {
+   "css": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "border": "0px oklch(1 0 0 / 0.1)",
+    "borderRight": "0px oklch(1 0 0 / 0.1)",
+    "br": "0px",
+    "color": "oklch(0.985 0 0)",
+    "disp": "flex",
+    "ff": "-apple-system",
+    "fs": "14px",
+    "overflow": "visible",
+    "pad": "0px",
+    "pos": "static",
+    "shadow": "",
+    "z": "auto"
+   },
+   "d": 7,
+   "p": "/0/0/0/0/0/0/0",
+   "r": {
+    "h": 55,
+    "w": 700,
+    "x": 338,
+    "y": 0
+   },
+   "sel": ".flex.min-w-0.items-center",
+   "tag": "div",
+   "text": "无限画布 电商套图 智能修图 批量生图 商品图设计 AI视频"
+  },
+  {
+   "css": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "border": "0px oklch(1 0 0 / 0.1)",
+    "borderRight": "0px oklch(1 0 0 / 0.1)",
+    "br": "0px",
+    "color": "oklch(0.985 0 0)",
+    "disp": "flex",
+    "ff": "-apple-system",
+    "fs": "14px",
+    "overflow": "visible",
+    "pad": "0px",
+    "pos": "static",
+    "shadow": "",
+    "z": "auto"
+   },
+   "d": 7,
+   "p": "/0/0/0/0/0/0/1",
+   "r": {
+    "h": 36,
+    "w": 453,
+    "x": 1117,
+    "y": 10
+   },
+   "sel": ".my-auto.flex.h-9.min-w-0",
+   "tag": "div",
+   "text": "中 切换到浅色主题 v0.27.0"
+  },
+  {
+   "css": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "border": "0px oklch(1 0 0 / 0.1)",
+    "borderRight": "0px oklch(1 0 0 / 0.1)",
+    "br": "0px",
+    "color": "oklch(0.985 0 0)",
+    "disp": "block",
+    "ff": "-apple-system",
+    "fs": "14px",
+    "overflow": "hidden",
+    "pad": "0px",
+    "pos": "static",
+    "shadow": "",
+    "z": "auto"
+   },
+   "d": 5,
+   "p": "/0/0/0/0/1",
+   "r": {
+    "h": 725,
+    "w": 1908,
+    "x": 0,
+    "y": 56
+   },
+   "sel": ".min-h-0.flex-1.overflow-hidden",
+   "tag": "div",
+   "text": "电商套图 6 商品套图 服装套图 套图换色 批量翻译 高清放大 智能扩图 智能修图 8 批量生图"
+  },
+  {
+   "css": {
+    "bg": "oklch(0.145 0 0)",
+    "border": "0px oklch(1 0 0 / 0.1)",
+    "borderRight": "0px oklch(1 0 0 / 0.1)",
+    "br": "0px",
+    "color": "oklch(0.985 0 0)",
+    "disp": "flex",
+    "ff": "-apple-system",
+    "fs": "14px",
+    "overflow": "visible",
+    "pad": "0px",
+    "pos": "static",
+    "shadow": "",
+    "z": "auto"
+   },
+   "d": 6,
+   "p": "/0/0/0/0/1/0",
+   "r": {
+    "h": 725,
+    "w": 1908,
+    "x": 0,
+    "y": 56
+   },
+   "sel": ".flex.h-full.min-h-0.flex-col",
+   "tag": "div",
+   "text": "电商套图 6 商品套图 服装套图 套图换色 批量翻译 高清放大 智能扩图 智能修图 8 批量生图"
+  },
+  {
+   "css": {
+    "bg": "rgba(0, 0, 0, 0)",
+    "border": "0px oklch(1 0 0 / 0.1)",
+    "borderRight": "0px oklch(1 0 0 / 0.1)",
+    "br": "0px",
+    "color": "oklch(0.985 0 0)",
+    "disp": "flex",
+    "ff": "-apple-system",
+    "fs": "14px",
+    "overflow": "visible",
+    "pad": "0px",
+    "pos": "static",
+    "shadow": "",
+    "z": "auto"
+   },
+   "d": 7,
+   "p": "/0/0/0/0/1/0/1",
+   "r": {
+    "h": 725,
+    "w": 1908,
+    "x": 0,
+    "y": 56
+   },
+   "sel": ".flex.min-h-0.flex-1",
+   "tag": "div",
+   "text": "电商套图 6 商品套图 服装套图 套图换色 批量翻译 高清放大 智能扩图 智能修图 8 批量生图"
+  }
+ ],
+ "ready": "complete",
+ "theme": {
+  "bodyBg": "oklch(0.145 0 0)",
+  "colorScheme": "dark",
+  "htmlBg": "rgba(0, 0, 0, 0)",
+  "htmlCls": "font-sans dark"
+ },
+ "title": "无限画布",
+ "url": "http://127.0.0.1:3000/tools/ecommerce-suite/change-color-v2",
+ "viewport": {
+  "dpr": 1,
+  "h": 781,
+  "scrollH": 781,
+  "w": 1908
+ }
+}

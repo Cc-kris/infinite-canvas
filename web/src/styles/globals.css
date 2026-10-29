@@ -9,6 +9,12 @@
     --color-background: var(--background);
     --color-foreground: var(--foreground);
     --color-border: var(--border);
+    /* 原站（linkfox）工具页框架色板：内容画布 / 分隔线 / 品牌色 */
+    --color-canvas: var(--canvas);
+    --color-hairline: var(--hairline);
+    --color-brand: var(--brand);
+    --color-brand-soft: var(--brand-soft);
+    --color-surface: var(--surface);
     --color-ring: var(--ring);
     --radius-sm: calc(var(--radius) - 4px);
     --radius-md: calc(var(--radius) - 2px);
@@ -50,6 +56,12 @@
 
 :root {
     --radius: 0.625rem;
+    /* 原站实测（1908x781）：内容画布 #F4F6F8、分隔线 #E6E6E7、品牌紫 #723CF9、卡片/导航 #FFFFFF */
+    --canvas: #f4f6f8;
+    --hairline: #e6e6e7;
+    --brand: #723cf9;
+    --brand-soft: #f2edff;
+    --surface: #ffffff;
     --border: oklch(0.922 0 0);
     --ring: oklch(0.708 0 0);
     --background: oklch(1 0 0);
@@ -85,6 +97,11 @@
 
 .dark {
     --background: oklch(0.145 0 0);
+    --canvas: oklch(0.163 0 0);
+    --hairline: oklch(1 0 0 / 12%);
+    --brand: #8b5cff;
+    --brand-soft: oklch(0.28 0.07 300);
+    --surface: oklch(0.205 0 0);
     --foreground: oklch(0.985 0 0);
     --border: oklch(1 0 0 / 10%);
     --ring: oklch(0.556 0 0);

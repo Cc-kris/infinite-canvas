@@ -377,8 +377,8 @@ export function AppTopNav() {
     return (
         <>
             {!hideHeader ? (
-                <header className="sticky top-0 z-20 h-14 shrink-0 border-b border-stone-200 bg-background/90 backdrop-blur-xl dark:border-stone-800">
-                    <div className="mx-auto flex h-full max-w-7xl items-stretch justify-between gap-4 px-6">
+                <header className="sticky top-0 z-20 h-[60px] shrink-0 border-b border-hairline bg-surface dark:border-white/10">
+                    <div className="flex h-full w-full items-stretch justify-between gap-4 pl-6 pr-[35px]">
                         <div className="flex min-w-0 items-center">
                             <Link to="/" className="flex h-full shrink-0 items-center gap-2 text-sm font-semibold leading-none tracking-tight text-stone-950 transition hover:text-stone-600 dark:text-stone-100 dark:hover:text-stone-300">
                                 <img src="/logo.png" alt="" className="size-5 shrink-0 select-none" draggable={false} />

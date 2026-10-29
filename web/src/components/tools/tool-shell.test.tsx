@@ -77,7 +77,7 @@ describe("ToolShell", () => {
         );
         expect(html).toContain('data-testid="tool-sidebar"');
         expect(html).toContain("w-[180px]");
-        expect(html).toContain("hidden w-[180px] shrink-0 overflow-y-auto border-r border-border bg-card lg:block");
+        expect(html).toContain("hidden w-[180px] shrink-0 overflow-y-auto border-r border-hairline bg-surface lg:block");
         expect(html).toContain("sidebar-body");
         expect(html).toContain("workspace-body");
         // mobile entry point for the drawer instead of an unusable sliver of sidebar
@@ -113,9 +113,11 @@ describe("ToolSidebar", () => {
         );
         expect(html).toContain('href="/tools/ecommerce-suite/scale-up"');
         expect(html).toContain('aria-current="page"');
-        expect(html).toContain("border-primary bg-accent");
-        // inactive categories stay collapsed to a single header link, not duplicated links
-        expect(html).not.toContain('href="/tools/product-design/ai-text"');
+        // 原站侧栏选中态：品牌紫文字、无底色、无左侧竖条
+        expect(html).toContain("color:var(--brand)");
+        expect(html).not.toContain("bg-accent");
+        // 原站侧栏为全量平铺（组间 1px 分隔线，无分类标题），非选中分组同样列出工具
+        expect(html).toContain('href="/tools/product-design/ai-text"');
         expect(html).toContain('href="/tools/product-design"');
     });
 
