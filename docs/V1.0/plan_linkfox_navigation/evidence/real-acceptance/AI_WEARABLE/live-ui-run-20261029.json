@@ -1,0 +1,102 @@
+{
+ "tool": "AI_WEARABLE",
+ "kind": "live-ui-run",
+ "date": "2026-10-29",
+ "note": "常驻浏览器真实点击提交；未注入历史；提交前该 tool 历史条数为 0",
+ "ui": {
+  "url": "http://127.0.0.1:3000/tools/product-design/ai-wearable",
+  "pre_submit_history_count": 0,
+  "uploads": [
+   {
+    "slot": "product",
+    "file": "product-watch.jpg",
+    "px": [
+     1024,
+     744
+    ]
+   },
+   {
+    "slot": "model",
+    "file": "model-portrait.png",
+    "px": [
+     720,
+     960
+    ]
+   }
+  ],
+  "category": "手表",
+  "part": "手腕",
+  "mask_regions": {
+   "product": "0.500,0.500,0.400,0.400",
+   "target": "0.500,0.260,0.090,0.050"
+  },
+  "submit_button": "[data-testid=dress-generate] 立即生成（disabled=false）"
+ },
+ "task": {
+  "taskId": "task-mvtglxwi-ys0y85",
+  "status": "succeeded",
+  "model": "default::gpt-image-2",
+  "capability": "image",
+  "inputAssets": [
+   "9EqeWx-QaGC0wDGsLgFcy",
+   "TFaZygq86KU93usz11yhx"
+  ],
+  "prompt_head": "把参考图中的手表（保持表盘刻度、表带纹理与朝向）佩戴在模特手腕，与模特参考图合成特写级穿戴效果。"
+ },
+ "upstream": {
+  "request": "POST http://127.0.0.1:23210/https://api.cc-ai.xyz/v1/images/edits",
+  "http_status": 200,
+  "response_created": 1793273287,
+  "error": null
+ },
+ "result": {
+  "items": 1,
+  "bytes": 1247574,
+  "mimeType": "image/png",
+  "px": [
+   1024,
+   1024
+  ],
+  "sha256_browser": "0cf9444060e814f82ace190495484d1f0bf9e69c0bc2eedbfe058b969827fa34",
+  "evidence_file": "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/AI_WEARABLE/result1_live_20261029.png",
+  "sha256_on_disk": "0cf9444060e814f82ace190495484d1f0bf9e69c0bc2eedbfe058b969827fa34",
+  "byte_identical": true
+ },
+ "actions": {
+  "download": {
+   "clicked": true,
+   "toast": "已下载 ai-wearable-result-1.png",
+   "file_in_downloads": null,
+   "caveat": "同上：profile 为 Playwright 启动，a[download] 仅产生 toast；字节一致性由 blob 直取 + sha256 校对"
+  },
+  "save_to_assets": {
+   "clicked": true,
+   "toast": "已存入资产库（image · HNI2HIzJwXSDerqA3-IAq）",
+   "assetId": "HNI2HIzJwXSDerqA3-IAq"
+  },
+  "send_to_canvas": {
+   "clicked": true,
+   "toast": "已发送到画布（O-HavpLZann-7fMGa2AbL / image-1793273332166-21ukx）",
+   "projectId": "O-HavpLZann-7fMGa2AbL",
+   "nodeId": "image-1793273332166-21ukx"
+  }
+ },
+ "fresh_reload": {
+  "method": "CDP Page.reload 后重新读取 DOM + localStorage",
+  "history_card_status": "succeeded",
+  "history_task_count": 1,
+  "result_img_in_card": 1,
+  "img_natural": [
+   1024,
+   1024
+  ],
+  "stored_status": "succeeded",
+  "stored_bytes": [
+   1247574
+  ],
+  "workspace_assets_restored": [
+   "product-watch.jpg",
+   "model-portrait.png"
+  ]
+ }
+}

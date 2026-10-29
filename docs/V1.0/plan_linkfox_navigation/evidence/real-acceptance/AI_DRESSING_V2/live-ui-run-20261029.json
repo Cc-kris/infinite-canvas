@@ -1,0 +1,114 @@
+{
+ "tool": "AI_DRESSING_V2",
+ "kind": "live-ui-run",
+ "date": "2026-10-29",
+ "note": "常驻浏览器真实点击提交；未注入历史；taskId 由本次提交产生（提交前该 tool 历史条数为 0）",
+ "ui": {
+  "url": "http://127.0.0.1:3000/tools/product-design/ai-dressing-v2",
+  "profile_note": "浏览器为 playwright_chromiumdev_profile-Yi3cDQ 常驻窗口（扩展驱动，非新建隐身上下文）",
+  "pre_submit_history_count": 0,
+  "uploads": [
+   {
+    "slot": "model",
+    "file": "model-portrait.png",
+    "px": [
+     720,
+     960
+    ],
+    "validated_by_app": "720×960"
+   },
+   {
+    "slot": "upper",
+    "file": "apparel-print.jpg",
+    "px": [
+     1024,
+     1024
+    ]
+   },
+   {
+    "slot": "down",
+    "file": "apparel-print-ref.jpg",
+    "px": [
+     768,
+     768
+    ]
+   }
+  ],
+  "mask": {
+   "upper": "整件 → 蒙版覆盖 100%",
+   "down": "整件 → 蒙版覆盖 100%"
+  },
+  "submit_button": "[data-testid=dressing-submit] 立即生成（点击前 disabled=false，dressing-blocked 已消失）"
+ },
+ "task": {
+  "taskId": "task-mvtgeodr-5vx7tw",
+  "clientOperationId": "cd262fbb-0e7b-4a0a-8870-1b0dc0c8552b",
+  "fingerprint": "37b2ba38db090dd4",
+  "status": "succeeded",
+  "createdAt": 1793272940271,
+  "finishedAt": 1793272982280,
+  "model": "default::gpt-image-2",
+  "capability": "image",
+  "inputAssets": [
+   "pose-aJm5uBX_BHA6r28mhMIQ9",
+   "upper-0",
+   "upper-mask-0",
+   "down-1",
+   "down-mask-1"
+  ]
+ },
+ "upstream": {
+  "request": "POST http://127.0.0.1:23210/https://api.cc-ai.xyz/v1/images/edits",
+  "http_status": 200,
+  "response_created": 1793272953,
+  "response_head": "{\"created\":1793272953,\"data\":[{\"revised_prompt\":\"参考图片编号：图片1、图片2、图片3、图片4、图片5…",
+  "error": null
+ },
+ "result": {
+  "items": 1,
+  "storageKey": "tool-result:q4bPZX5vTN4iHB0rXuXBt",
+  "bytes": 2115031,
+  "mimeType": "image/png",
+  "px": [
+   1024,
+   1024
+  ],
+  "sha256_browser": "860007f212c813591b72c2463d898c99e4517e43479493caac783a1918e5ac38",
+  "evidence_file": "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/AI_DRESSING_V2/result1_live_20261029.png",
+  "sha256_on_disk": "860007f212c813591b72c2463d898c99e4517e43479493caac783a1918e5ac38",
+  "byte_identical": true
+ },
+ "actions": {
+  "download": {
+   "clicked": true,
+   "toast": "已下载 ai-dressing-v2-r…",
+   "file_in_downloads": null,
+   "caveat": "browser 为该 profile 由 Playwright 启动，file-saver 的 a[download] 点击只产生 toast，未在 ~/Downloads 落盘；字节一致性改由 blob 直取 + sha256 校对（见 result）"
+  },
+  "save_to_assets": {
+   "clicked": true,
+   "toast": "已存入资产库（image · 1Jm--vt3Zeq295gSA8JJP）",
+   "assetId": "1Jm--vt3Zeq295gSA8JJP"
+  },
+  "send_to_canvas": {
+   "clicked": true,
+   "toast": "已发送到画布（d-_xIJoqOGKjEAG00skV7 / image-1793273133783-95nt2）",
+   "projectId": "d-_xIJoqOGKjEAG00skV7",
+   "nodeId": "image-1793273133783-95nt2"
+  }
+ },
+ "fresh_reload": {
+  "method": "CDP Page.reload 后重新读取 DOM + localStorage",
+  "history_card_status": "succeeded",
+  "history_task_count": 1,
+  "result_img_in_card": 1,
+  "stored_status": "succeeded",
+  "stored_bytes": [
+   2115031
+  ],
+  "workspace_assets_restored": [
+   "apparel-print-ref.jpg",
+   "蒙版覆盖 100%"
+  ]
+ }
+}
