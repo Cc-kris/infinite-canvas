@@ -1,0 +1,50 @@
+{
+  "toolId": "DESIGN_BATCH",
+  "label": "批量生图（/tools/batch-generate）",
+  "status": "BLOCKED",
+  "reason": "本机（两个 origin）都没有任何真实批量任务记录，无法复用真实任务做 fresh reload 的结果/下载/资产库验收；按约定不伪造、不现场重跑上游生成。",
+  "date": "2026-10-29",
+  "probes": [
+    {
+      "origin": "http://127.0.0.1:3000",
+      "target": "localStorage / IndexedDB",
+      "findings": {
+        "batchTaskKeys": [],
+        "batch_task_v1_index": null,
+        "allLocalStorageKeys": 57,
+        "otherToolTasksPresent": 48,
+        "fissionLinkTasksPresent": 8,
+        "idbDatabases": ["infinite-canvas", "tool-assets", "canvas-assets", "localforage"],
+        "note": "同一 origin 有 48 条其它工具真实任务，唯独没有 batch-task:v1:*，说明不是浏览器数据被整体清空"
+      }
+    },
+    {
+      "origin": "http://localhost:3000",
+      "target": "localStorage",
+      "findings": { "batchTaskKeys": [], "batch_task_v1_index": null, "allLocalStorageKeys": 9 }
+    },
+    {
+      "route": "http://localhost:3000/tools/batch-generate",
+      "target": "页面 DOM",
+      "findings": {
+        "pageRenders": true,
+        "emptyState": "选择可批量工具（引用 12 个支持批量的工具）",
+        "existingBatches": 0
+      }
+    }
+  ],
+  "storeFacts": {
+    "source": "web/src/stores/use-batch-task-store.ts",
+    "indexKey": "batch-task:v1:index",
+    "batchKey": "batch-task:v1:<batchId>",
+    "maxPersisted": 20,
+    "hydrateImplemented": true,
+    "conclusion": "落盘与 hydrate 机制已在代码里，但本机从未产生过真实批次，无法据此声称验收通过"
+  },
+  "notDone": [
+    "未创建新批次去跑真实上游（会消耗额度，且不属于“复用已有真实任务”）",
+    "未注入任何伪造批次数据",
+    "DESIGN_BATCH 的“结果可下载 / 存入资产库 / 刷新恢复”三项未取得真实验收证据"
+  ],
+  "nextStepToUnblock": "在批量生图页真实提交一个小批次（例如 SCALE_UP 1 行）并成功后，按同一套 fresh reload 流程验收结果/下载/资产库"
+}
