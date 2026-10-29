@@ -24,7 +24,7 @@
 
 | 文件 | 改动 |
 | --- | --- |
-| `web/bunfig.toml`（新增） | `[test] pathIgnorePatterns = ["tests/**/*.spec.ts"]`，让 `bun test` 不再收集 Playwright E2E |
+| `web/bunfig.toml`（新增） | `[test] pathIgnorePatterns = ["**/*.spec.ts"]`，让 `bun test` 不再收集 Playwright E2E（初版只排除 `tests/`，后因 `web/temp/regression/probe/zz-probe.spec.ts` 这类临时探针也被收集，收紧为全局；`507729e` 落库内容一致） |
 | `web/src/stores/use-tool-task-store.index-heal.test.ts` | `localStorage` 桩改用 `Object.defineProperty(globalThis, "localStorage", { configurable: true, writable: true, value: {...} })` |
 | `web/src/stores/use-batch-task-store.reconcile.test.ts` | 同上改法 |
 
@@ -55,3 +55,45 @@
 - **未运行 Playwright E2E**（`web/tests/*.spec.ts`）：需要真实浏览器与 `vite` 服务，属 UI 验收范畴，本次未改动其内容，仅将其从 `bun test` 收集范围排除；如需跑：`cd web && bunx playwright test`。
 - `bun test` 全绿只代表单测/集成层；线上真实生成类行为仍以既有 real-acceptance 记录为准，本报告不做功能完整性结论。
 - `web/bunfig.toml` 为仓库新增配置文件，后续若有人用 `bun test tests/xxx.spec.ts` 显式指定仍可运行被排除文件（不影响 E2E 调试）。
+
+## 5. 并发收敛后的最终复跑（HEAD `fd1cb20`，含 `507729e` 的 bunfig 收紧）
+
+并行会话在此期间持续提交，工作区同时存在**他人未提交的 batch 相关 WIP**（`web/src/features/tools/batch-page.tsx`、`web/src/services/api/tools/batch-runner.ts`、`web/src/stores/use-batch-task-store.ts` + 未跟踪的 `use-batch-task-store.restore.test.ts`）。因此分两次取证：
+
+### 5.1 工作区（含他人 WIP）实跑：发现真实失败，非本报告修复范围
+
+在 `fd1cb20` 的工作区直接跑（18:32 前后）：
+
+| 检查 | 结果 |
+| --- | --- |
+| `bun test` | 1449 pass / **2 fail**，1451 tests across 81 files，EXIT 1 |
+| `tsc --noEmit` | **EXIT 2**，1 条错误 |
+| `vite build` | EXIT 0 |
+
+失败明细（均指向同一处未提交改动）：
+
+1. `src/stores/use-batch-task-store.ts(318,27): error TS2339: Property 'startsWith' does not exist on type 'never'`
+   - 根因：`isDurableResultUrl(url): url is string` 作为类型守卫，入参已是 `string` 时，false 分支被收窄成 `never`，随后 `item.url?.startsWith("blob:")` 报错。
+   - 建议改法（未实施，避免与并行会话冲突）：把守卫降级为普通布尔函数 `function isDurableResultUrl(url: string | null | undefined): boolean`，该文件仅 306 行一处调用。
+2. `(fail) DESIGN_BATCH 刷新后行结果恢复 > 任务有结果项但字节取不回来：不伪造地址、不退回死 blob，原样返回`
+3. `(fail) DESIGN_BATCH 刷新后行结果恢复 > fresh reload：hydrate 按任务快照回填并写回本地，索引有历史列表消费`
+   - 这两条属于同一批未提交 WIP 新增的 `use-batch-task-store.restore.test.ts` 与 store 改动，随该 WIP 一起演化，不作跨会话修复。
+
+判断依据（非猜测）：该工作区文件连续 8 分钟未变化、未提交，且 `fd1cb20` **已提交树**上同样三项全绿（见 5.2）；因此上述失败是「未提交 WIP 的中间态」，不是已落库代码的回归。
+
+### 5.2 已提交树（`git archive fd1cb20` 纯净快照）：全绿
+
+为避免工作区 WIP 污染，用 `git archive fd1cb20 | tar -x` 导出只含已提交文件的快照（2815 文件），软链 `web/node_modules` 后运行：
+
+| 检查 | 结果 |
+| --- | --- |
+| `bun test` | **1446 pass / 0 fail**，1446 tests across 80 files，EXIT 0 |
+| `tsc --noEmit` | **0 error**，EXIT 0 |
+| `vite build` | **EXIT 0**，built in 2m47s |
+
+`fd1cb20 → 507729e` 的差异只有 `web/bunfig.toml`（排除规则收紧为 `**/*.spec.ts`）与一份入口复核文档，无 `web/src` 变化，故测试结论对 `507729e` 同样成立。
+
+### 5.3 结论
+
+- 已提交状态（`507729e` / `fd1cb20` 树）：`bun test` 0 fail、`tsc` 0 error、`vite build` 成功。
+- 唯一未收口项是并行会话尚未提交的 batch WIP（1 条 tsc 错误 + 2 条新增用例失败），本报告只记录、不代改，待其自行提交后应重跑一次确认。
