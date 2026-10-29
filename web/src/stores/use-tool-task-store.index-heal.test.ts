@@ -5,22 +5,27 @@
  * SALE_VIDEO / AI_VIDEO_EDITING）在历史坞里永久不可见。旧 readPersistedTasks 只信索引 → 永不自愈。
  */
 // store 的依赖链（gateway → i18n）在模块导入期就会读 localStorage，bun 无 DOM 需先打桩。
+// bun 1.4 自带只读的 localStorage 全局，直接赋值会抛 readonly，必须用 defineProperty 覆盖。
 {
     const map = new Map<string, string>();
-    (globalThis as unknown as { localStorage: unknown }).localStorage = {
-        getItem: (key: string) => map.get(key) ?? null,
-        setItem: (key: string, value: string) => {
-            map.set(key, value);
+    Object.defineProperty(globalThis, "localStorage", {
+        configurable: true,
+        writable: true,
+        value: {
+            getItem: (key: string) => map.get(key) ?? null,
+            setItem: (key: string, value: string) => {
+                map.set(key, value);
+            },
+            removeItem: (key: string) => {
+                map.delete(key);
+            },
+            key: (index: number) => Array.from(map.keys())[index] ?? null,
+            get length() {
+                return map.size;
+            },
+            clear: () => map.clear(),
         },
-        removeItem: (key: string) => {
-            map.delete(key);
-        },
-        key: (index: number) => Array.from(map.keys())[index] ?? null,
-        get length() {
-            return map.size;
-        },
-        clear: () => map.clear(),
-    };
+    });
 }
 
 const { describe, expect, test } = (await import("bun:test" as string)) as {

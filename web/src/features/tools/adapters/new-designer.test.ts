@@ -62,6 +62,8 @@ import {
     createCanvasDesignerCompositor,
     designerInputSnapshot,
     designerResultNotice,
+    designerResultFromStoredTask,
+    latestDesignerTask,
     readDesignerReplaySnapshot,
     runDesigner,
 } from "@/features/tools/adapters/new-designer";
@@ -679,5 +681,61 @@ describe("任务持久化（历史坞读的是真实任务记录，不是本地�
         expect(readDesignerReplaySnapshot({ kind: "new-designer-canvas", document: { ...document, width: 0 } })).toBeNull();
         // 空画布在设计器契约里本就不可导出，回放同样拒绝
         expect(readDesignerReplaySnapshot({ kind: "new-designer-canvas", document: { ...document, layers: [] } })).toBeNull();
+    });
+});
+
+describe("刷新后结果回填（导出任务落库 → 结果区）", () => {
+    test("最近一条成功的导出任务还原出资产引用与 fingerprint；失败任务不冒充结果", () => {
+        const ok = {
+            id: "task-a",
+            toolId: NEW_DESIGNER_TOOL_ID,
+            status: "succeeded",
+            submittedAt: 5,
+            fingerprint: "fp-abc",
+            result: {
+                items: [
+                    {
+                        id: "designer-fpabc123-9f8e7d6c",
+                        kind: "image",
+                        url: "blob:https://app/restored",
+                        bytes: 2048,
+                    },
+                ],
+            },
+        } as unknown as Parameters<typeof latestDesignerTask>[0][string];
+        const failed = {
+            id: "task-b",
+            toolId: NEW_DESIGNER_TOOL_ID,
+            status: "failed",
+            submittedAt: 9,
+            result: { items: [] },
+        } as unknown as Parameters<typeof latestDesignerTask>[0][string];
+        const foreign = {
+            id: "task-c",
+            toolId: "OTHER_TOOL",
+            status: "succeeded",
+            submittedAt: 99,
+            result: { items: [{ id: "x", kind: "image", url: "http://x/y.png" }] },
+        } as unknown as Parameters<typeof latestDesignerTask>[0][string];
+
+        const latest = latestDesignerTask({ a: ok, b: failed, c: foreign }, NEW_DESIGNER_TOOL_ID);
+        // task-c 分数更高但属于别的工具：筛选必须只看本工具
+        expect(latest?.id).toBe("task-b");
+        expect(designerResultFromStoredTask(latest!)).toBeNull();
+
+        const restored = designerResultFromStoredTask(ok);
+        expect(restored?.result).toEqual({ assetId: "9f8e7d6c", url: "blob:https://app/restored", bytes: 2048 });
+        expect(restored?.fingerprint).toBe("fp-abc");
+    });
+
+    test("成功但没结果项时返回 null（不补造结果）", () => {
+        const empty = {
+            id: "task-d",
+            toolId: NEW_DESIGNER_TOOL_ID,
+            status: "succeeded",
+            submittedAt: 1,
+            result: { items: [] },
+        } as unknown as Parameters<typeof latestDesignerTask>[0][string];
+        expect(designerResultFromStoredTask(empty)).toBeNull();
     });
 });

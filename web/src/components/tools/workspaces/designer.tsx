@@ -54,6 +54,8 @@ import {
     createCanvasDesignerCompositor,
     createDesignerSnapshot,
     designerResultNotice,
+    designerResultFromStoredTask,
+    latestDesignerTask,
     DesignerAdapterError,
     readDesignerReplaySnapshot,
     runDesigner,
@@ -206,6 +208,34 @@ export function DesignerWorkspace({
             `已回放历史任务 ${request.taskId.slice(0, 12)} 的画布（${replayed.layers.length} 个图层 · ${replayed.width}×${replayed.height}）`,
         );
     }, [replayRequest, consumeReplay]);
+
+    /* ---------------- 结果回填（上次导出的结果不该因刷新消失） ---------------- *
+     * 导出任务与结果字节都已落盘（use-tool-task-store + media_files/storageKey），
+     * 刷新后按最近一条 NEW_DESIGNER 任务把结果区恢复出来，下载 / 发送画布 / 回传继续可用；
+     * 画布若已改动，stale 会照实提示「结果来自旧版本」。 */
+    const taskRecords = useToolTaskStore((state) => state.tasks);
+    const tasksHydrated = useToolTaskStore((state) => state.hydrated);
+    const hydrateTasks = useToolTaskStore((state) => state.hydrate);
+    const resultRestored = useRef(false);
+    useEffect(() => {
+        if (!tasksHydrated) {
+            hydrateTasks();
+            return;
+        }
+        if (resultRestored.current || result) return;
+        const latest = latestDesignerTask(taskRecords, NEW_DESIGNER_TOOL_ID);
+        resultRestored.current = true;
+        if (!latest) return;
+        const restored = designerResultFromStoredTask(latest);
+        if (!restored) return;
+        setResult(restored.result);
+        setResultFingerprint(restored.fingerprint);
+        setStage("succeeded");
+        setError(undefined);
+        setRestoreNotice(
+            (prev) => prev || `已恢复上次导出的设计稿（资产 #${restored.result.assetId.slice(0, 8)}），来自任务记录。`,
+        );
+    }, [hydrateTasks, result, taskRecords, tasksHydrated]);
 
     /* ---------------- 草稿保存（真实写盘，不静默） ---------------- */
     useEffect(() => {

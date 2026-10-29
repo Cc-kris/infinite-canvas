@@ -294,6 +294,37 @@ export async function runDesigner(options: DesignerRunOptions): Promise<Designer
     return { snapshot, composite, asset, task: succeeded };
 }
 
+/* ============================== 刷新回填 ============================== */
+
+/**
+ * 从落盘任务还原「上次导出结果」：刷新/重进页面后结果区不该空着。
+ * 结果字节由 use-tool-task-store 按 storageKey 从 IndexedDB 复原成可用 URL；
+ * assetId 从结果项 id（designer-<fingerprint>-<assetId>）里取回，取不到就用任务 id 兜底。
+ */
+export function designerResultFromStoredTask(
+    task: ToolTask,
+): { result: DesignerAssetRef; fingerprint?: string } | null {
+    if (task.status !== "succeeded") return null;
+    const item = task.result?.items.find((entry) => entry.kind === "image" && Boolean(entry.url || entry.dataUrl));
+    const url = item?.url ?? item?.dataUrl;
+    if (!item || !url) return null;
+    const matched = /^designer-[^-]+-(.+)$/.exec(item.id ?? "");
+    const assetId = matched?.[1] ?? task.id;
+    return { result: { assetId, url, bytes: item.bytes ?? 0 }, fingerprint: task.fingerprint };
+}
+
+/** 该工具最近一条落盘任务（刷新回填只认最近一次导出）。 */
+export function latestDesignerTask(tasks: Record<string, ToolTask>, toolId: string): ToolTask | null {
+    let latest: ToolTask | null = null;
+    for (const task of Object.values(tasks)) {
+        if (task.toolId !== toolId) continue;
+        const at = task.submittedAt ?? task.createdAt ?? 0;
+        const best = latest ? (latest.submittedAt ?? latest.createdAt ?? 0) : -1;
+        if (at > best) latest = task;
+    }
+    return latest;
+}
+
 /** 同快照重试：重新合成 + 重新入库，复用一个 requestId，便于定位同一稿的多次导出。 */
 export async function retryDesigner(options: DesignerRunOptions & { requestId: string }): Promise<DesignerRun> {
     return runDesigner(options);

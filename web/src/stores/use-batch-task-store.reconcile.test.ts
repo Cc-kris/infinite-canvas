@@ -3,16 +3,21 @@ import { describe, expect, test } from "bun:test";
 import type { BatchRowOutcome } from "@/services/api/tools/batch-runner";
 import type { ToolTask } from "@/services/api/tools/task-machine";
 
-/** store 的依赖链会读 localStorage；bun 测试环境没有 DOM，先补一个最小实现再动态 import。 */
+/** store 的依赖链会读 localStorage；bun 测试环境没有 DOM，先补一个最小实现再动态 import。
+ *  bun 1.4 自带只读的 localStorage 全局，直接赋值会抛 readonly，必须用 defineProperty 覆盖。 */
 const store = new Map<string, string>();
-(globalThis as { localStorage?: Storage }).localStorage = {
-    getItem: (key: string) => store.get(key) ?? null,
-    setItem: (key: string, value: string) => void store.set(key, value),
-    removeItem: (key: string) => void store.delete(key),
-    clear: () => store.clear(),
-    key: () => null,
-    length: 0,
-} as Storage;
+Object.defineProperty(globalThis, "localStorage", {
+    configurable: true,
+    writable: true,
+    value: {
+        getItem: (key: string) => store.get(key) ?? null,
+        setItem: (key: string, value: string) => void store.set(key, value),
+        removeItem: (key: string) => void store.delete(key),
+        clear: () => store.clear(),
+        key: () => null,
+        length: 0,
+    } as Storage,
+});
 
 const { createBatchTask, createBatchTaskRow, reconcileInterruptedBatch } = await import("@/stores/use-batch-task-store");
 
