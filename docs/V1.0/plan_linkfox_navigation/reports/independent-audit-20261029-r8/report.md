@@ -6,6 +6,11 @@
 - 机器可读矩阵：[matrix.json](matrix.json)｜可读矩阵：[matrix.md](matrix.md)
 - 复现：`python3 docs/V1.0/plan_linkfox_navigation/tools/recompute_scope_matrix_r8.py`
 
+> **已被修正版取代**：[reports/independent-audit-20261029-r8-fix/](../independent-audit-20261029-r8-fix/report.md)。
+> 本报告 H 维的「未取证」结论部分为**证据检索缺陷**（路径只在两个前缀下查找 + task id 正则不认通配写法），
+> 修正版按全仓已提交文本重新映射：H PASS 11 → 14（仅 AI_DRESSING_XSY / FISSION_LINK / SALE_VIDEO 三项改判，
+> F/T/R/K/U 逐工具零变化，判定标准未放宽）。以修正版为准。
+
 ## 1. 本轮口径（比 R7 / 旧 recompute 更严）
 
 | 维度 | R8 判据 |
