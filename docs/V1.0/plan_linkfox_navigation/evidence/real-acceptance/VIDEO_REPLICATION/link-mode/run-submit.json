@@ -1,0 +1,17 @@
+{
+  "request": {
+    "model": "MiniMax-H3",
+    "prompt": "keep the product shot, restyle background to a clean studio table, 9:16",
+    "seconds": "6",
+    "videos": [
+      "https://modifications-ant-routing-lyrics.trycloudflare.com/small.mp4"
+    ]
+  },
+  "submit_response": {
+    "id": "task_Ma7egazZrnGPt5BtVr5vW2hfApVxvCIS",
+    "request_id": "task_Ma7egazZrnGPt5BtVr5vW2hfApVxvCIS",
+    "status": "pending",
+    "model": "MiniMax-H3"
+  },
+  "source_url": "https://modifications-ant-routing-lyrics.trycloudflare.com/small.mp4"
+}

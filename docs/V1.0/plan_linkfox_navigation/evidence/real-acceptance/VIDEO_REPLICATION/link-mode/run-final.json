@@ -1,0 +1,17 @@
+{
+  "id": "task_Ma7egazZrnGPt5BtVr5vW2hfApVxvCIS",
+  "model": "MiniMax-H3",
+  "progress": 1,
+  "request_id": "task_Ma7egazZrnGPt5BtVr5vW2hfApVxvCIS",
+  "status": "done",
+  "usage": {
+    "input_image_count": 0,
+    "input_seconds": 3,
+    "output_seconds": 6,
+    "total_seconds": 6
+  },
+  "video": {
+    "duration": 6,
+    "url": "/v1/videos/task_Ma7egazZrnGPt5BtVr5vW2hfApVxvCIS/content"
+  }
+}
