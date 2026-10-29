@@ -238,11 +238,8 @@
   "shot_full": true
  },
  "local:AI_OUTPAINTING": {
-  "url": "http://127.0.0.1:3000/tools/ecommerce-suite/ai-outpainting",
-  "ready": true,
-  "snapshot": true,
-  "shot": true,
-  "shot_full": true
+  "status": "NO_URL",
+  "reason": "real url unknown"
  },
  "local:NEW_REPLACE_BG_V2": {
   "url": "http://127.0.0.1:3000/tools/product-design/new-replace-bg-v2",

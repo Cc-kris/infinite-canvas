@@ -642,302 +642,302 @@ export function OutpaintWorkspace({ className }: OutpaintWorkspaceProps = {}) {
         },
         [busy, commit, sourceRecord, task],
     );
-
     /* ---------------- 渲染 ---------------- */
 
     return (
-        <ToolShell
-            className={className}
-            title={spec?.title ?? "智能扩图"}
-            subtitle="在原图四周扩展画布：原图像素 1:1 保留，拖边/调比例只改画布与保留区域，生成前按当前几何渲染蒙版"
-            badges={
-                <span className="rounded border border-border px-1.5 py-0.5 text-[11px] text-muted-foreground">
-                    {spec ? `makeType ${spec.makeType}` : AI_OUTPAINTING_TOOL_ID}
-                </span>
-            }
-            actions={
-                <button
-                    type="button"
-                    data-testid="outpaint-submit"
-                    disabled={!submitReady}
-                    title={submitBlockedReason}
-                    onClick={() => void submit()}
-                    className="rounded-md bg-primary px-3 py-1.5 text-xs font-medium text-primary-foreground disabled:cursor-not-allowed disabled:opacity-50"
-                >
-                    {busy ? "生成中…" : "开始扩图"}
-                </button>
-            }
-            notices={
-                <>
-                    {conflict ? (
-                        <div className="flex items-center gap-2 rounded border border-amber-500/40 bg-amber-500/10 px-2 py-1.5 text-[11px] text-amber-700 dark:text-amber-400">
-                            <AlertTriangle className="size-3.5" />
-                            草稿在其它标签页被修改，当前以本页为准。
-                        </div>
-                    ) : null}
-                    {notice ? (
-                        <div data-testid="outpaint-notice" className="rounded border border-border bg-muted/40 px-2 py-1.5 text-[11px] text-muted-foreground">
-                            {notice}
-                        </div>
-                    ) : null}
-                    {blocking.length ? (
-                        <div data-testid="outpaint-blocking" className="rounded border border-destructive/40 bg-destructive/5 px-2 py-1.5 text-[11px] text-destructive">
-                            {blocking[0].message}
-                        </div>
-                    ) : null}
-                    {stale ? (
-                        <div className="rounded border border-amber-500/40 bg-amber-500/10 px-2 py-1.5 text-[11px] text-amber-700 dark:text-amber-400">
-                            画布/参数已变更，下方结果为上一次输入的结果（已过期），请重新生成。
-                        </div>
-                    ) : null}
-                </>
-            }
-            sidebar={
-                <div className="space-y-3 p-3">
-                    <p className="text-[11px] font-medium text-muted-foreground">扩图流程</p>
-                    <ol className="space-y-1.5">
-                        {STEPS.map((step) => {
-                            const active = stage === step.key;
-                            return (
-                                <li
-                                    key={step.key}
-                                    className={cn(
-                                        "rounded border px-2 py-1.5 text-[11px]",
-                                        active ? "border-primary/60 bg-primary/5 text-foreground" : "border-border text-muted-foreground",
-                                    )}
-                                >
-                                    <div className="font-medium">{step.label}</div>
-                                    <div className="text-[10px] opacity-80">{step.hint}</div>
-                                </li>
-                            );
-                        })}
-                    </ol>
-                    <div className="space-y-1 rounded border border-border p-2 text-[11px] text-muted-foreground">
-                        <div className="flex justify-between">
-                            <span>最终尺寸</span>
-                            <span className="font-mono text-foreground">
-                                {values.width}×{values.height}
-                            </span>
-                        </div>
-                        <div className="flex justify-between">
-                            <span>新增像素</span>
-                            <span className={expansionTotal(values) > 0 ? "text-foreground" : ""}>{expansionSummary(values)}</span>
-                        </div>
-                        <div className="flex justify-between">
-                            <span>蒙版</span>
-                            <span className={maskState === "synced" ? "text-emerald-600 dark:text-emerald-400" : ""}>
-                                {maskState === "synced" ? "已同步" : maskState === "stale" ? "已过期" : "未生成"}
-                            </span>
-                        </div>
-                        <div className="flex justify-between">
-                            <span>几何 hash</span>
-                            <span className="font-mono">{geometryHash(values).slice(0, 8)}</span>
-                        </div>
-                    </div>
-                    <div className="flex items-center gap-1">
-                        <button
-                            type="button"
-                            disabled={!canUndoOutpaint(history) || busy}
-                            onClick={undo}
-                            title="撤销几何调整（⌘/Ctrl+Z）"
-                            data-testid="outpaint-undo"
-                            className="flex flex-1 items-center justify-center gap-1 rounded border border-border px-2 py-1.5 text-[11px] transition hover:bg-accent disabled:opacity-40"
-                        >
-                            <Undo2 className="size-3" />
-                            撤销
-                        </button>
-                        <button
-                            type="button"
-                            disabled={!canRedoOutpaint(history) || busy}
-                            onClick={redo}
-                            title="重做（⇧⌘/Ctrl+Z）"
-                            data-testid="outpaint-redo"
-                            className="flex flex-1 items-center justify-center gap-1 rounded border border-border px-2 py-1.5 text-[11px] transition hover:bg-accent disabled:opacity-40"
-                        >
-                            <Redo2 className="size-3" />
-                            重做
-                        </button>
-                    </div>
-                    <button
-                        type="button"
-                        disabled={!values.sourceAssetId}
-                        onClick={() => commit(resetOutpaintTransform(valuesRef.current))}
-                        className="flex w-full items-center justify-center gap-1 rounded border border-border px-2 py-1.5 text-[11px] transition hover:bg-accent disabled:opacity-40"
-                    >
-                        <RotateCcw className="size-3" />
-                        恢复默认尺寸
-                    </button>
-                </div>
-            }
+        <div
+            data-tool={AI_OUTPAINTING_TOOL_ID}
+            data-layout="linkfox-outpaint"
+            className={cn("flex h-full min-h-0 min-w-0 gap-[10px] overflow-hidden text-[#1f1f2c]", className)}
         >
-            <div className="grid min-h-0 gap-3 overflow-y-auto p-4 lg:grid-cols-[minmax(0,1fr)_340px]">
-                <div className="min-w-0 space-y-3">
-                    <Section id="source" title="1 · 原图" hint={`≤ 10MB，1 张`}>
-                        <ToolAssetInput
-                            toolId={AI_OUTPAINTING_TOOL_ID}
-                            maxCount={1}
-                            disabled={busy}
-                            title="上传原图"
-                            onChange={(assetIds, records) => void onSourceChange(assetIds, records)}
-                        />
-                        {values.sourceName ? (
-                            <p className="truncate text-[11px] text-muted-foreground" data-testid="outpaint-source-name">
-                                当前原图：{values.sourceName}
-                            </p>
-                        ) : null}
-                    </Section>
-
-                    <Section id="canvas" title="2 · 扩展画布" hint={values.sourceAssetId ? `${values.width}×${values.height}` : "先上传原图"}>
-                        <OutpaintCanvas values={values} sourceUrl={sourceRecord?.url} disabled={busy} onChange={commit} />
-
-                        <div className="space-y-1.5">
-                            <p className="text-[11px] text-muted-foreground">画布比例（只扩画布，不拉伸原图）</p>
-                            <div className="flex flex-wrap gap-1.5">
-                                {OUTPAINT_RATIOS.map((option) => (
-                                    <Chip
-                                        key={option.key}
-                                        active={values.ratio === option.key}
-                                        onClick={() => commit(applyRatio(valuesRef.current, option.key as OutpaintRatioKey))}
-                                        title={option.label}
-                                    >
-                                        {option.label}
-                                    </Chip>
-                                ))}
-                            </div>
-                        </div>
-
-                        <div className="flex flex-wrap items-center gap-1.5">
-                            <span className="text-[11px] text-muted-foreground">尺寸档</span>
-                            {OUTPAINT_SIZE_PRESETS.map((preset) => (
-                                <Chip key={preset.id} active={values.sizePreset === preset.id} onClick={() => commit(applySizePreset(valuesRef.current, preset.id))}>
-                                    {preset.label}
-                                </Chip>
-                            ))}
-                        </div>
-
-                        <div className="flex flex-wrap items-center gap-3">
-                            <NumberField label="宽" value={values.width} min={256} max={4096} step={8} disabled={busy} onChange={(next) => commit(applyWidth(valuesRef.current, next))} />
-                            <NumberField label="高" value={values.height} min={256} max={4096} step={8} disabled={busy} onChange={(next) => commit(applyHeight(valuesRef.current, next))} />
+            {/* 左：白卡 = 画布区（#EDEFF5）+ 底部单条参数条（原站 1083×651 / 画布 601 / 参数条 48） */}
+            <section data-region="canvas" className="flex min-w-0 flex-1 flex-col overflow-hidden rounded-[8px] bg-white">
+                {values.sourceAssetId ? (
+                    <div className="flex shrink-0 flex-wrap items-center gap-1.5 border-b border-[#f0f0f3] px-3 py-1.5 text-[11px]">
+                        <span className="font-mono text-[#1f1f2c]">
+                            {values.width} × {values.height}
+                        </span>
+                        <span className="text-[#8a8a99]">
+                            原图 {values.sourceWidth}×{values.sourceHeight}
+                        </span>
+                        {expansion.left + expansion.top + expansion.right + expansion.bottom > 0 ? (
+                            <span className="text-[#d97706]">新增 {expansionSummary(values)}</span>
+                        ) : (
+                            <span className="text-[#8a8a99]">未扩展</span>
+                        )}
+                        <span className="ml-1 h-4 w-px bg-[#ededf0]" aria-hidden="true" />
+                        {OUTPAINT_RATIOS.map((option) => (
                             <button
+                                key={option.key}
                                 type="button"
-                                onClick={() => commit(toggleLock(valuesRef.current))}
-                                className="inline-flex items-center gap-1 rounded border border-border px-2 py-1 text-[11px] transition hover:bg-accent"
+                                title={option.label}
+                                aria-pressed={values.ratio === option.key}
+                                onClick={() => commit(applyRatio(valuesRef.current, option.key as OutpaintRatioKey))}
+                                className={cn(
+                                    "h-6 rounded-[5px] border px-2 leading-none transition",
+                                    values.ratio === option.key ? "border-[#723cf9] bg-[#723cf9] text-white" : "border-[#ededf0] bg-white text-[#1f1f2c] hover:border-[#723cf9]/50",
+                                )}
                             >
-                                {values.locked ? <Lock className="size-3" /> : <LockOpen className="size-3" />}
-                                {values.locked ? "解锁原图" : "锁定原图"}
-                            </button>
-                        </div>
-                    </Section>
-
-                    <Section id="prompt" title="3 · 新增区域内容（必填）" hint={`${values.prompt.length}/${OUTPAINT_MAX_PROMPT}`}>
-                        <textarea
-                            value={values.prompt}
-                            maxLength={OUTPAINT_MAX_PROMPT}
-                            disabled={busy}
-                            aria-invalid={promptIssue ? true : undefined}
-                            aria-required
-                            onChange={(event) => commit({ ...valuesRef.current, prompt: event.target.value })}
-                            placeholder="描述新增画布区域要出现什么，例如：延续灰色水泥地面与柔和侧光，右侧补出完整的产品阴影"
-                            rows={3}
-                            className="w-full resize-y rounded border border-border bg-background px-2 py-1.5 text-xs text-foreground outline-none focus-visible:ring-2 focus-visible:ring-ring"
-                        />
-                        {promptIssue ? (
-                            <p data-testid="outpaint-prompt-error" id="outpaint-prompt-error" className="text-[11px] leading-4 text-destructive">
-                                {promptIssue.message}
-                            </p>
-                        ) : null}
-                        <details className="rounded border border-border bg-muted/30 px-2 py-1.5 text-[11px] text-muted-foreground">
-                            <summary className="cursor-pointer select-none">查看提交给上游的完整描述（几何自动带入）</summary>
-                            <pre className="mt-1.5 whitespace-pre-wrap break-words font-mono text-[10px] leading-4">{promptPreview}</pre>
-                        </details>
-                    </Section>
-                </div>
-
-                <div className="min-w-0 space-y-3">
-                    <Section id="count" title="4 · 生成数量" hint={`${OUTPAINT_MIN_OUTPUT}-${OUTPAINT_MAX_OUTPUT} 张`}>
-                        <div className="flex flex-wrap gap-1.5">
-                            {Array.from({ length: OUTPAINT_MAX_OUTPUT - OUTPAINT_MIN_OUTPUT + 1 }, (_, index) => OUTPAINT_MIN_OUTPUT + index).map((count) => (
-                                <Chip key={count} active={values.outputNum === count} onClick={() => commit({ ...valuesRef.current, outputNum: count })}>
-                                    {count} 张
-                                </Chip>
-                            ))}
-                        </div>
-                        <button
-                            type="button"
-                            data-testid="outpaint-submit-inline"
-                            disabled={!submitReady}
-                            title={submitBlockedReason}
-                            aria-describedby={promptIssue ? "outpaint-prompt-error" : undefined}
-                            onClick={() => void submit()}
-                            className="flex w-full items-center justify-center gap-1.5 rounded-md bg-primary px-3 py-2 text-xs font-medium text-primary-foreground disabled:cursor-not-allowed disabled:opacity-50"
-                        >
-                            {busy ? <Loader2 className="size-3.5 animate-spin" /> : <Sparkles className="size-3.5" />}
-                            {busy ? "生成中…" : `生成 ${values.outputNum} 张扩图`}
-                        </button>
-                        <p className="flex items-center gap-1 text-[10px] text-muted-foreground">
-                            <Maximize2 className="size-3" />
-                            提交快照 {snapshot.hash.slice(0, 8)} · 默认 {OUTPAINT_DEFAULT_OUTPUT} 张
-                        </p>
-                    </Section>
-
-                    <div className="flex items-center gap-4 border-b border-border pb-1.5" role="tablist" aria-label="右栏页签">
-                        {([
-                            { key: "result", label: "生成结果" },
-                            { key: "cases", label: "优秀案例" },
-                            { key: "history", label: "历史记录" },
-                        ] as const).map((item) => (
-                            <button
-                                key={item.key}
-                                type="button"
-                                role="tab"
-                                aria-selected={rightTab === item.key}
-                                data-testid={`outpaint-tab-${item.key}`}
-                                onClick={() => setRightTab(item.key)}
-                                className={
-                                    rightTab === item.key
-                                        ? "relative text-xs font-medium text-[#723CF9] after:absolute after:-bottom-[7px] after:left-0 after:h-[2px] after:w-full after:rounded-full after:bg-[#723CF9]"
-                                        : "text-xs text-muted-foreground transition-colors hover:text-foreground"
-                                }
-                            >
-                                {item.label}
+                                {option.label}
                             </button>
                         ))}
+                        <span className="ml-1 h-4 w-px bg-[#ededf0]" aria-hidden="true" />
+                        {OUTPAINT_SIZE_PRESETS.map((preset) => (
+                            <button
+                                key={preset.id}
+                                type="button"
+                                aria-pressed={values.sizePreset === preset.id}
+                                onClick={() => commit(applySizePreset(valuesRef.current, preset.id))}
+                                className={cn(
+                                    "h-6 rounded-[5px] border px-2 leading-none transition",
+                                    values.sizePreset === preset.id ? "border-[#723cf9] bg-[#723cf9] text-white" : "border-[#ededf0] bg-white text-[#1f1f2c] hover:border-[#723cf9]/50",
+                                )}
+                            >
+                                {preset.label}
+                            </button>
+                        ))}
+                        <button
+                            type="button"
+                            onClick={() => commit(toggleLock(valuesRef.current))}
+                            className="inline-flex h-6 items-center gap-1 rounded-[5px] border border-[#ededf0] bg-white px-2 leading-none transition hover:border-[#723cf9]/50"
+                        >
+                            {values.locked ? <Lock className="size-3" /> : <LockOpen className="size-3" />}
+                            {values.locked ? "解锁原图" : "锁定原图"}
+                        </button>
+                        <button
+                            type="button"
+                            title="撤销（⌘/Ctrl+Z）"
+                            onClick={undo}
+                            className="inline-flex size-6 items-center justify-center rounded-[5px] border border-[#ededf0] bg-white transition hover:border-[#723cf9]/50"
+                        >
+                            <Undo2 className="size-3" />
+                        </button>
+                        <button
+                            type="button"
+                            title="重做（⇧⌘/Ctrl+Z）"
+                            onClick={redo}
+                            className="inline-flex size-6 items-center justify-center rounded-[5px] border border-[#ededf0] bg-white transition hover:border-[#723cf9]/50"
+                        >
+                            <Redo2 className="size-3" />
+                        </button>
+                        <button
+                            type="button"
+                            onClick={() => commit(resetOutpaintTransform(valuesRef.current))}
+                            className="inline-flex h-6 items-center gap-1 rounded-[5px] border border-[#ededf0] bg-white px-2 leading-none transition hover:border-[#723cf9]/50"
+                        >
+                            <RotateCcw className="size-3" />
+                            恢复默认尺寸
+                        </button>
+                        <span className="ml-auto flex items-center gap-2 text-[#8a8a99]">
+                            <span className="inline-flex items-center gap-1" title={maskState === "synced" ? "蒙版几何与画布一致" : "画布有改动，提交时会按当前几何重渲蒙版"}>
+                                <Maximize2 className="size-3" />
+                                快照 {snapshot.hash.slice(0, 8)}
+                                {maskState === "synced" ? "· 已同步" : "· 待重渲"}
+                            </span>
+                        </span>
                     </div>
+                ) : null}
 
-                    <div role="tabpanel" hidden={rightTab !== "result"} data-testid="outpaint-panel-result">
-                        <ToolResult
-                        task={task}
-                        toolId={AI_OUTPAINTING_TOOL_ID}
-                        title="扩图结果"
-                        onCancel={busy ? cancel : undefined}
-                        onRetry={() => void submit()}
-                        onRetryItem={retryItem}
-                        retryItemHint="只重试这一张：会再向上游发起 1 次生成，其余结果保持不变"
-                    />
-                    </div>
-
-                    <div role="tabpanel" hidden={rightTab !== "cases"} data-testid="outpaint-panel-cases">
-                        <ToolCases cases={AI_OUTPAINTING_CASES} applyingId={applyingCaseId} onApply={applyCase} />
-                    </div>
-
-                    <div role="tabpanel" hidden={rightTab !== "history"} data-testid="outpaint-panel-history">
-                        <ToolTaskHistory
-                        toolId={AI_OUTPAINTING_TOOL_ID}
-                        limit={6}
-                        emptyHint="本工具还没有历史任务；提交一次后会在这里留下记录。"
-                        onSelectTask={(selected) => {
-                            setTask(selected);
-                            setNotice("已载入历史任务结果（几何以当时提交快照为准）");
-                        }}
-                    />
-                    </div>
-
-                    <div className="flex items-start gap-1.5 rounded border border-border bg-muted/30 px-2 py-1.5 text-[10px] leading-4 text-muted-foreground">
-                        <RefreshCw className="mt-0.5 size-3 shrink-0" />
-                        <span>蒙版以第 2 张参考图随请求提交（当前网关未提供独立 mask 通道），字段里同时保留 maskUrl 便于排查。</span>
-                    </div>
+                <div className="relative flex min-h-0 flex-1 items-center justify-center overflow-hidden bg-[#edeff5] p-[10px]">
+                    {values.sourceAssetId ? (
+                        <div className="flex h-full w-full min-h-0 items-center justify-center overflow-auto p-4">
+                            <div className="w-full max-w-[720px]">
+                                <OutpaintCanvas values={values} sourceUrl={sourceRecord?.url} disabled={busy} onChange={commit} />
+                            </div>
+                        </div>
+                    ) : (
+                        <div
+                            data-testid="outpaint-upload-card"
+                            className="flex h-[474px] w-[474px] max-h-full max-w-full flex-col items-center justify-center rounded-[8px] bg-[#f7f7f7] p-[10px] text-center"
+                        >
+                            <div className="flex size-16 items-center justify-center rounded-[18px] bg-[#723cf9]/10">
+                                <ImagePlus className="size-7 text-[#723cf9]" aria-hidden="true" />
+                            </div>
+                            <h2 className="mt-3 text-[20px] font-medium leading-7 text-[#1f1f2c]">智能扩图</h2>
+                            <p className="mt-1 max-w-[400px] text-[12px] leading-5 text-[#8a8a99]">一键无缝扩展，打破视觉边界，释放每一张照片的无限可能~</p>
+                            <div className="mt-4 w-[210px] text-left">
+                                <ToolAssetInput
+                                    toolId={AI_OUTPAINTING_TOOL_ID}
+                                    maxCount={1}
+                                    disabled={busy}
+                                    variant="linkfox"
+                                    title=""
+                                    uploadLabel="从本地上传"
+                                    onChange={(assetIds, records) => void onSourceChange(assetIds, records)}
+                                />
+                            </div>
+                        </div>
+                    )}
                 </div>
-            </div>
-        </ToolShell>
+
+                {/* 底部参数条：默认尺寸 / 提示词 / 生成：N张 / 立即生成（原站 1081×48，左内边距 16） */}
+                <div data-testid="outpaint-param-bar" className="flex h-12 shrink-0 items-center gap-2 border-t border-[#f0f0f3] px-4">
+                    <span className="shrink-0 text-[12px] leading-none text-[#8a8a99]">默认尺寸</span>
+                    <div className="flex h-7 w-[254px] shrink-0 items-center gap-1 rounded-[6px] bg-[#f7f7f7] px-[10px]">
+                        <input
+                            aria-label="画布宽度"
+                            inputMode="numeric"
+                            value={values.width}
+                            disabled={busy}
+                            onChange={(event) => commit(applyWidth(valuesRef.current, Number(event.target.value.replace(/[^\d]/g, ""))))}
+                            className="w-[46px] bg-transparent text-[12px] tabular-nums leading-none text-[#1f1f2c] outline-none"
+                        />
+                        <span className="text-[12px] leading-none text-[#8a8a99]">×</span>
+                        <input
+                            aria-label="画布高度"
+                            inputMode="numeric"
+                            value={values.height}
+                            disabled={busy}
+                            onChange={(event) => commit(applyHeight(valuesRef.current, Number(event.target.value.replace(/[^\d]/g, ""))))}
+                            className="w-[46px] bg-transparent text-[12px] tabular-nums leading-none text-[#1f1f2c] outline-none"
+                        />
+                    </div>
+
+                    <input
+                        data-testid="outpaint-prompt"
+                        value={values.prompt}
+                        maxLength={OUTPAINT_MAX_PROMPT}
+                        disabled={busy}
+                        aria-invalid={promptIssue ? true : undefined}
+                        aria-describedby={promptIssue ? "outpaint-prompt-error" : undefined}
+                        onChange={(event) => commit({ ...valuesRef.current, prompt: event.target.value })}
+                        placeholder="描述想要扩图的内容，不填将基于原图生成"
+                        className="h-7 min-w-0 flex-1 rounded-[6px] bg-[#f7f7f7] px-[10px] text-[12px] leading-none text-[#1f1f2c] outline-none transition placeholder:text-[#b0b0bd] focus:bg-white focus:ring-1 focus:ring-[#723cf9]"
+                    />
+
+                    <label className="flex shrink-0 items-center gap-1 text-[12px] leading-none text-[#8a8a99]">
+                        生成：
+                        <select
+                            aria-label="生成张数"
+                            value={values.outputNum}
+                            disabled={busy}
+                            onChange={(event) => commit({ ...valuesRef.current, outputNum: Number(event.target.value) })}
+                            className="h-7 rounded-[6px] bg-[#f7f7f7] px-1 text-[14px] leading-none text-[#1f1f2c] outline-none"
+                        >
+                            {Array.from({ length: OUTPAINT_MAX_OUTPUT - OUTPAINT_MIN_OUTPUT + 1 }, (_, index) => OUTPAINT_MIN_OUTPUT + index).map((count) => (
+                                <option key={count} value={count}>
+                                    {count}张
+                                </option>
+                            ))}
+                        </select>
+                    </label>
+
+                    <button
+                        type="button"
+                        data-testid="outpaint-submit"
+                        disabled={!submitReady}
+                        title={submitBlockedReason}
+                        onClick={() => void submit()}
+                        className="inline-flex h-8 w-[187px] shrink-0 items-center justify-center gap-1 rounded-[6px] bg-[#723cf9] text-[14px] leading-none text-white transition hover:bg-[#6231e0] disabled:cursor-not-allowed disabled:opacity-50"
+                    >
+                        {busy ? <Loader2 className="size-4 animate-spin" /> : <Sparkles className="size-4" />}
+                        <span>{busy ? "生成中…" : "立即生成"}</span>
+                        <span className="text-[12px] leading-none opacity-90">(40算力)</span>
+                    </button>
+                </div>
+
+                {promptIssue ? (
+                    <p data-testid="outpaint-prompt-error" id="outpaint-prompt-error" className="px-4 pb-1 text-[11px] leading-4 text-[#f5483b]">
+                        {promptIssue.message}
+                    </p>
+                ) : null}
+                {notice ? (
+                    <p data-testid="outpaint-notice" className="truncate px-4 pb-1 text-[11px] leading-4 text-[#8a8a99]">
+                        {notice}
+                    </p>
+                ) : null}
+            </section>
+
+            {/* 右：结果栏（原站 615×651，底色 #EDEFF5，顶部 42px 白条） */}
+            <section data-region="results" className="flex w-[615px] shrink-0 flex-col overflow-hidden rounded-[8px] bg-[#edeff5] max-xl:w-[420px]">
+                <div role="tablist" aria-label="右栏页签" className="flex h-[42px] shrink-0 items-center gap-5 bg-white px-[12px]">
+                    {(
+                        [
+                            { key: "result", label: "生成结果" },
+                            { key: "cases", label: "优秀案例" },
+                        ] as const
+                    ).map((item) => (
+                        <button
+                            key={item.key}
+                            type="button"
+                            role="tab"
+                            aria-selected={rightTab === item.key}
+                            data-testid={`outpaint-tab-${item.key}`}
+                            onClick={() => setRightTab(item.key)}
+                            className={cn(
+                                "h-[42px] text-[14px] leading-none transition",
+                                rightTab === item.key ? "font-medium text-[#723cf9]" : "text-[#6b6b80] hover:text-[#1f1f2c]",
+                            )}
+                        >
+                            {item.label}
+                        </button>
+                    ))}
+                    <button
+                        type="button"
+                        data-testid="outpaint-tab-history"
+                        onClick={() => setRightTab("history")}
+                        className={cn(
+                            "ml-auto text-[12px] leading-none transition",
+                            rightTab === "history" ? "font-medium text-[#723cf9]" : "text-[#6b6b80] hover:text-[#723cf9]",
+                        )}
+                    >
+                        历史记录
+                    </button>
+                </div>
+
+                <div className="min-h-0 flex-1 overflow-y-auto p-3">
+                    {rightTab === "result" ? (
+                        task ? (
+                            <div className="space-y-2">
+                                <ToolResult
+                                    task={task}
+                                    toolId={AI_OUTPAINTING_TOOL_ID}
+                                    title="生成结果"
+                                    onCancel={busy ? cancel : undefined}
+                                    onRetry={() => void submit()}
+                                    onRetryItem={retryItem}
+                                    retryItemHint="只重试这一张：会再向上游发起 1 次生成，其余结果保持不变"
+                                />
+                                {stale ? (
+                                    <p data-testid="outpaint-stale" className="rounded-[6px] bg-white px-2 py-1.5 text-[11px] leading-4 text-[#d97706]">
+                                        画布/提示词已改动，上面是上一次的结果，请重新「立即生成」。
+                                    </p>
+                                ) : null}
+                                <div className="flex items-start gap-1.5 rounded-[6px] bg-white/70 px-2 py-1.5 text-[10px] leading-4 text-[#8a8a99]">
+                                    <RefreshCw className="mt-0.5 size-3 shrink-0" />
+                                    <span>蒙版以第 2 张参考图随请求提交（当前网关未提供独立 mask 通道），字段里同时保留 maskUrl 便于排查。</span>
+                                </div>
+                            </div>
+                        ) : (
+                            <div data-testid="outpaint-panel-result" className="flex h-full min-h-[240px] flex-col items-center justify-center gap-1 text-center">
+                                <p className="text-[12px] leading-5 text-[#8a8a99]">暂无生成结果图</p>
+                                <p className="text-[12px] leading-5 text-[#8a8a99]">快在左侧操作智能扩图吧~</p>
+                            </div>
+                        )
+                    ) : null}
+
+                    {rightTab === "cases" ? (
+                        <div data-testid="outpaint-panel-cases">
+                            <ToolCases cases={AI_OUTPAINTING_CASES} applyingId={applyingCaseId} onApply={applyCase} />
+                        </div>
+                    ) : null}
+
+                    {rightTab === "history" ? (
+                        <div data-testid="outpaint-panel-history">
+                            <ToolTaskHistory
+                                toolId={AI_OUTPAINTING_TOOL_ID}
+                                limit={6}
+                                emptyHint="本工具还没有历史任务；提交一次后会在这里留下记录。"
+                                onSelectTask={(selected) => {
+                                    setTask(selected);
+                                    setRightTab("result");
+                                    setNotice("已载入历史任务结果（几何以当时提交快照为准）");
+                                }}
+                            />
+                        </div>
+                    ) : null}
+                </div>
+            </section>
+        </div>
     );
 }

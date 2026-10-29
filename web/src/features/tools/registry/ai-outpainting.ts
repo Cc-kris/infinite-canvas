@@ -26,6 +26,9 @@ export const OUTPAINT_DRAFT_KEY = `tool-draft:v1:${AI_OUTPAINTING_TOOL_ID}`;
 export const OUTPAINT_MAX_PROMPT = 4000;
 export const OUTPAINT_MIN_OUTPUT = 1;
 export const OUTPAINT_MAX_OUTPUT = 4;
+
+/** 提示词留空时随请求提交的中性续画描述（原站允许不填，几何信息仍完整）。 */
+export const OUTPAINT_EMPTY_PROMPT_FALLBACK = "自然延续原图的场景与质感，接缝处无缝过渡，不新增文字或水印";
 export const OUTPAINT_DEFAULT_OUTPUT = 4;
 
 /** 画布边限制：与共享资产校验（384–4096）兼容，同时留出 8px 对齐余量。 */
@@ -676,10 +679,8 @@ export function validateOutpaint(values: OutpaintValues): OutpaintIssue[] {
     if (!keepRect(values)) {
         issues.push({ field: "canvas", code: "keep-empty", message: "原图已完全移出画布，请把它拖回画布内" });
     }
+    // 提示词与原站一致：可选。留空时由 composeOutpaintPrompt 补一句中性的续画描述（几何仍完整提交）。
     const prompt = values.prompt.trim();
-    if (!prompt) {
-        issues.push({ field: "prompt", code: "prompt-required", message: "请描述扩展区域要补什么（自动文案服务未接入，此项必填）" });
-    }
     if (prompt.length > OUTPAINT_MAX_PROMPT) {
         issues.push({ field: "prompt", code: "prompt-too-long", message: `扩展内容最多 ${OUTPAINT_MAX_PROMPT} 字` });
     }
@@ -715,7 +716,7 @@ export function composeOutpaintPrompt(input: OutpaintPromptInput): string {
             `其覆盖区域${keep ? ` (${keep.x}, ${keep.y}) ${keep.width}×${keep.height}` : "（已移出画布）"} 必须保持像素级不变：不拉伸、不裁切、不改颜色。`,
     );
     lines.push(directions.length ? `新增画布区域：${expansionSummary(values)}。` : "画布当前没有新增区域，请只做无缝补全。");
-    const content = input.userPrompt.trim();
+    const content = input.userPrompt.trim() || OUTPAINT_EMPTY_PROMPT_FALLBACK;
     lines.push(`新增区域内容：${content}`);
     lines.push("接缝处自然过渡，透视、光照、纹理与原图一致；不要添加原图不存在的文字或水印。");
     return lines.join("\n");

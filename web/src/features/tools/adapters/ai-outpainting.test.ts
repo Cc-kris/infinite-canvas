@@ -327,7 +327,7 @@ describe("提交前校验", () => {
         expect(noSource.map((issue) => issue.field)).toContain("imageUrl");
 
         const noPrompt = validateOutpaint(baseValues({ prompt: "   " }));
-        expect(noPrompt.map((issue) => issue.code)).toContain("prompt-required");
+        expect(noPrompt.filter((issue) => issue.field === "prompt")).toEqual([]);
 
         const tooLong = validateOutpaint(baseValues({ prompt: "x".repeat(OUTPAINT_MAX_PROMPT + 5) }));
         expect(tooLong.map((issue) => issue.code)).toContain("prompt-too-long");
@@ -440,7 +440,8 @@ describe("真实请求组装", () => {
     });
 
     test("参数不完整时拒绝提交，不发出半成品请求", () => {
-        const values = withSyncedMask(baseValues({ prompt: "" }));
+        // 提示词在原站是可选的（留空自动补续画描述），所以这里用「缺原图」作为不完整参数
+        const values = withSyncedMask(baseValues({ sourceAssetId: "", prompt: "" }));
         expect(() => buildOutpaintInput({ values, source: sourceOf(values), mask: { url: SYNCED_MASK_URL } })).toThrow(/扩图参数不完整/);
     });
 });

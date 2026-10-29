@@ -50,72 +50,69 @@ function attr(html: string, testId: string): string {
     return match ? match[0] : "";
 }
 
+
+/**
+ * 智能扩图工作台渲染证据（第二轮：对齐原站 linkfox 双栏壳）：
+ *  - 骨架是「左白卡（画布 + 48px 参数条）+ 右 615px 结果栏」，不由 ToolShell 再套一层；
+ *  - 空态上传卡文案与原站一致（智能扩图 / 一键无缝扩展… / 从本地上传）；
+ *  - 提示词可选（原站「不填将基于原图生成」），未上传原图时提交按钮禁用且带原因；
+ *  - 右栏三个入口真实存在（生成结果 / 优秀案例 / 历史记录），空态是真实数据状态。
+ */
 describe("智能扩图工作台渲染", () => {
-    test("本页独有分区齐全：原图 / 扩展画布 / 生成", async () => {
+    test("骨架：左画布卡 + 底部参数条 + 右结果栏（不再嵌套 ToolShell）", async () => {
         const html = await renderWorkspace();
-        expect(html).toContain("1 · 原图");
-        expect(html).toContain("2 · 扩展画布");
-        expect(html).toContain("3 · 生成");
-        expect(html).toContain("画布比例（只扩画布，不拉伸原图）");
-        expect(html).toContain("尺寸档");
+        expect(html).toContain('data-layout="linkfox-outpaint"');
+        expect(html).toContain('data-region="canvas"');
+        expect(html).toContain('data-region="results"');
+        expect(html).toContain('data-testid="outpaint-param-bar"');
+        expect(html).not.toContain("tool-workspace-chrome");
         expect(html).not.toContain("tool-workspace-placeholder");
     });
 
-    test("四条拖拽边界存在，且都是可聚焦的 slider（键盘可达）", async () => {
+    test("参数条：默认尺寸 / 提示词 / 生成张数 / 立即生成（含算力文案）", async () => {
         const html = await renderWorkspace();
-        for (const edge of ["left", "right", "top", "bottom"]) {
-            const handle = attr(html, `outpaint-edge-${edge}`);
-            expect(handle).toContain('role="slider"');
-            expect(handle).toContain("tabindex=\"0\"");
-            expect(handle).toContain("aria-valuenow=");
-            expect(handle).toContain("data-expansion=");
-        }
-        // 40px 热区（命中区域要求 ≥ 40px）
-        expect(html).toContain("w-10");
-        expect(html).toContain("h-10");
+        expect(html).toContain("默认尺寸");
+        expect(html).toContain('aria-label="画布宽度"');
+        expect(html).toContain('aria-label="画布高度"');
+        expect(html).toContain('placeholder="描述想要扩图的内容，不填将基于原图生成"');
+        expect(html).toContain("生成：");
+        expect(html).toContain("立即生成");
+        expect(html).toContain("(40算力)");
+        // 默认 4 张，与原站默认值一致
+        expect(html).toContain('<option value="4" selected="">4张</option>');
     });
 
-    test("原图默认锁定，未上传时提示与禁用态正确", async () => {
+    test("空态上传卡文案与原站一致，且上传入口只有本地上传/作品库", async () => {
         const html = await renderWorkspace();
-        expect(html).toContain("原图已锁定");
-        expect(html).toContain("先上传一张原图");
-        expect(html).toContain("请先上传要扩展的原图");
-        const generate = attr(html, "outpaint-submit");
-        expect(/disabled=""/.test(generate)).toBe(true);
-        expect(html).not.toContain("生成中");
+        expect(html).toContain('data-testid="outpaint-upload-card"');
+        expect(html).toContain("一键无缝扩展，打破视觉边界，释放每一张照片的无限可能~");
+        expect(html).toContain("从本地上传");
+        expect(html).toContain("从作品库选择");
     });
 
-    test("撤销/重做按钮存在且初始禁用（历史栈为空）", async () => {
+    test("未上传原图时提交按钮禁用且带原因（不会静默禁用）", async () => {
         const html = await renderWorkspace();
-        expect(/disabled=""/.test(attr(html, "outpaint-undo"))).toBe(true);
-        expect(/disabled=""/.test(attr(html, "outpaint-redo"))).toBe(true);
-        expect(html).toContain("⌘/Ctrl+Z");
-    });
-
-    test("新增区域内容为空时，必填提示内联可见，且禁用按钮带原因（不会静默禁用）", async () => {
-        const html = await renderWorkspace();
-        expect(html).toContain("新增区域内容（必填）");
-        expect(attr(html, "outpaint-prompt-error")).toContain('data-testid="outpaint-prompt-error"');
-        expect(html).toContain("请描述扩展区域要补什么");
         const generate = attr(html, "outpaint-submit");
         expect(/disabled=""/.test(generate)).toBe(true);
         expect(generate).toContain("title=");
+        expect(generate).toContain("请先上传要扩展的原图");
     });
 
-    test("画布尺寸与蒙版状态同步展示（未生成蒙版时不冒充已同步）", async () => {        const html = await renderWorkspace();
-        const canvas = attr(html, "outpaint-canvas");
-        expect(canvas).toContain("data-width=");
-        expect(canvas).toContain("data-height=");
-        expect(html).toContain("蒙版");
-        expect(html).toContain("未生成");
-        expect(html).not.toContain("已同步");
-    });
-
-    test("结果区下方有本工具历史记录面板（真实任务快照，非原站外链）", async () => {
+    test("提示词可选：空值不报必填错误，长度上限仍生效", async () => {
         const html = await renderWorkspace();
-        expect(html).toContain('data-testid="tool-task-history"');
-        expect(html).toContain("历史记录");
-        // 空态是真实数据状态：没有历史任务时直说，不画占位记录
-        expect(html).toContain('data-testid="tool-task-history-empty"');
+        expect(html).not.toContain('data-testid="outpaint-prompt-error"');
+        const prompt = attr(html, "outpaint-prompt");
+        expect(prompt).toContain('maxLength="4000"');
+        expect(prompt).not.toContain('aria-invalid="true"');
+    });
+
+    test("右栏：生成结果/优秀案例/历史记录三个入口 + 真实空态文案", async () => {
+        const html = await renderWorkspace();
+        expect(attr(html, "outpaint-tab-result")).toContain('aria-selected="true"');
+        expect(html).toContain("优秀案例");
+        expect(html).toContain('data-testid="outpaint-tab-history"');
+        expect(html).toContain('data-testid="outpaint-panel-result"');
+        expect(html).toContain("暂无生成结果图");
+        expect(html).toContain("快在左侧操作智能扩图吧~");
     });
 });
