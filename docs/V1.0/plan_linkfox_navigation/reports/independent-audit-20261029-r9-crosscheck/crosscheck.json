@@ -1,0 +1,857 @@
+{
+ "auditedReport": "reports/independent-audit-20261029-r9/matrix.md",
+ "h_pass": 19,
+ "h_partial": 20,
+ "rows": [
+  {
+   "id": "PRODUCT_IMAGE_SUITE",
+   "H": "PARTIAL",
+   "why": "task task-mvt6vpdo-sc1x8w + reload 回执（history-restore-20261029/summary.json），但声明 2840825B，已提交产物中无同尺寸同 sha 的该工具产物（字节不可复核）",
+   "file": "history-restore-20261029/summary.json",
+   "task": [
+    "task-mvt6vpdo-sc1x8w",
+    "task-mvt6vpdn-17qby2"
+   ],
+   "reload_mark": "call: location.assign(",
+   "post_reload": "items",
+   "legs": {
+    "task": true,
+    "reload": true,
+    "bytes": false
+   },
+   "claim_bytes": 2840825,
+   "claim_sha": null,
+   "artifact": null,
+   "artifact_sha256": null,
+   "artifact_bytes": null,
+   "sha_match": false
+  },
+  {
+   "id": "DRESS_WEAR_SET",
+   "H": "PARTIAL",
+   "why": "task task-mvt74l6q-1vljau + reload 回执（history-restore-20261029/summary.json），但声明 2516552B，已提交产物中无同尺寸同 sha 的该工具产物（字节不可复核）",
+   "file": "history-restore-20261029/summary.json",
+   "task": [
+    "task-mvt74l6q-1vljau",
+    "task-mvt74l6n-y5sie3"
+   ],
+   "reload_mark": "call: location.assign(",
+   "post_reload": "items",
+   "legs": {
+    "task": true,
+    "reload": true,
+    "bytes": false
+   },
+   "claim_bytes": 2516552,
+   "claim_sha": null,
+   "artifact": null,
+   "artifact_sha256": null,
+   "artifact_bytes": null,
+   "sha_match": false
+  },
+  {
+   "id": "CHANGE_COLOR_V2",
+   "H": "PARTIAL",
+   "why": "有真实 task task-mvsb41o4-obzwag（real-acceptance/CHANGE_COLOR_V2/01-task-history.json），但无机器 fresh reload 标记（无 phase/nav=reload、无 reload 对象节点、无 location.reload() 回执）",
+   "file": "real-acceptance/CHANGE_COLOR_V2/01-task-history.json",
+   "task": [
+    "task-mvsb41o4-obzwag",
+    "task-mvsb41o9-hv2vqo"
+   ],
+   "reload_mark": null,
+   "post_reload": null,
+   "legs": {
+    "task": true,
+    "reload": false,
+    "bytes": false
+   },
+   "claim_bytes": null,
+   "claim_sha": null,
+   "artifact": null,
+   "artifact_sha256": null,
+   "artifact_bytes": null,
+   "sha_match": false
+  },
+  {
+   "id": "IMAGE_TRANSLATION",
+   "H": "PASS",
+   "why": null,
+   "file": "real-acceptance/IMAGE_TRANSLATION/b5-history-dock-reload-20261029.json",
+   "task": [
+    "task-mvt9elbs-u4grlv"
+   ],
+   "reload_mark": "\"phase\": \"after-full-reload\"",
+   "post_reload": "dockCount",
+   "legs": {
+    "task": true,
+    "reload": true,
+    "bytes": true
+   },
+   "claim_bytes": 1028256,
+   "claim_sha": null,
+   "artifact": "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/R7-actions-20261029/IMAGE_TRANSLATION/image-translation-result-1.png",
+   "artifact_sha256": "8b600332372fe5e687673203f7cdba6f589acc5ecd68cd66aea1dbe44dbf6652",
+   "artifact_bytes": 1028256,
+   "sha_match": false
+  },
+  {
+   "id": "SCALE_UP",
+   "H": "PASS",
+   "why": null,
+   "file": "real-acceptance/HISTORY_RECOVERY_MINE/SCALE_UP/run.json",
+   "task": [
+    "task-mvta6bty-0rkwm9"
+   ],
+   "reload_mark": "\"afterReload\": {",
+   "post_reload": "dockCount",
+   "legs": {
+    "task": true,
+    "reload": true,
+    "bytes": true
+   },
+   "claim_bytes": 871973,
+   "claim_sha": null,
+   "artifact": "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/HISTORY_RECOVERY_MINE/SCALE_UP/download-1793262552040-scale-up-result-1.png",
+   "artifact_sha256": "21f429573480ec452409b35698b336fb20a6afe4be8827cc12074b9a2c4c3ae9",
+   "artifact_bytes": 871973,
+   "sha_match": false
+  },
+  {
+   "id": "AI_OUTPAINTING",
+   "H": "PASS",
+   "why": null,
+   "file": "edit8-h-real-20261029/AI_OUTPAINTING.json",
+   "task": [
+    "task-mvtbhylv-bmyjus"
+   ],
+   "reload_mark": "\"phase\": \"reload\"",
+   "post_reload": "afterReloadStep",
+   "legs": {
+    "task": true,
+    "reload": true,
+    "bytes": true
+   },
+   "claim_bytes": 1329760,
+   "claim_sha": "2df4c6522acea38b32a69f21e57c90b17317d37b8cf5c0f5312d3c51a281b022",
+   "artifact": "docs/V1.0/plan_linkfox_navigation/evidence/edit8-h-real-20261029/AI_OUTPAINTING-result-1.png",
+   "artifact_sha256": "2df4c6522acea38b32a69f21e57c90b17317d37b8cf5c0f5312d3c51a281b022",
+   "artifact_bytes": 1329760,
+   "sha_match": true
+  },
+  {
+   "id": "AREA_REPAIR",
+   "H": "PASS",
+   "why": null,
+   "file": "edit8-h-real-20261029/AREA_REPAIR.json",
+   "task": [
+    "task-mvtfevy8-rrr2ye"
+   ],
+   "reload_mark": "\"phase\": \"reload\"",
+   "post_reload": "persistedAfterReload",
+   "legs": {
+    "task": true,
+    "reload": true,
+    "bytes": true
+   },
+   "claim_bytes": 2065981,
+   "claim_sha": null,
+   "artifact": "docs/V1.0/plan_linkfox_navigation/evidence/edit8-h-real-20261029/AREA_REPAIR-result-1.png",
+   "artifact_sha256": "8625a56f7832ca3e6b58333c9c02f75a45ad4d4225b51eefc0a447116ebe89d8",
+   "artifact_bytes": 2065981,
+   "sha_match": false
+  },
+  {
+   "id": "REMOVE_PEN",
+   "H": "PARTIAL",
+   "why": "task task-mvs9xe7s-9jmboc 记录为 failed/submit-unconfirmed（edit8-h-real-20261029/REMOVE_PEN.json），无成功结果可恢复",
+   "file": "edit8-h-real-20261029/REMOVE_PEN.json",
+   "task": [
+    "task-mvs9xe7s-9jmboc",
+    "task-mvsa3pt6-4wqy46"
+   ],
+   "reload_mark": "\"phase\": \"reload\"",
+   "post_reload": null,
+   "legs": {
+    "task": true,
+    "reload": false,
+    "bytes": true
+   },
+   "claim_bytes": 850799,
+   "claim_sha": "67d5d6a637518af3e0aa9147bfc0f855b350a244b3345b93ab05d3faa223f392",
+   "artifact": "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/B5_HISTORY_DOCK/recovery4/downloads/REMOVE_PEN-remove-pen-result-1.png",
+   "artifact_sha256": "67d5d6a637518af3e0aa9147bfc0f855b350a244b3345b93ab05d3faa223f392",
+   "artifact_bytes": 850799,
+   "sha_match": true
+  },
+  {
+   "id": "CHANGE_COLOR",
+   "H": "PASS",
+   "why": null,
+   "file": "real-acceptance/HISTORY_RECOVERY_MINE/CHANGE_COLOR/run.json",
+   "task": [
+    "task-mvtafqev-u2yjkh"
+   ],
+   "reload_mark": "\"afterReload\": {",
+   "post_reload": "items",
+   "legs": {
+    "task": true,
+    "reload": true,
+    "bytes": true
+   },
+   "claim_bytes": 919689,
+   "claim_sha": null,
+   "artifact": "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/HISTORY_RECOVERY_MINE/CHANGE_COLOR/download-1793262950492-change-color-result-1.png",
+   "artifact_sha256": "c3a272a6ffeb0c67b25bc9021b3f0e1adeae235c81bcd5a003667a32ce894a26",
+   "artifact_bytes": 919689,
+   "sha_match": false
+  },
+  {
+   "id": "IMAGE_CROP",
+   "H": "PASS",
+   "why": null,
+   "file": "edit8-h-real-20261029/IMAGE_CROP.json",
+   "task": [
+    "task-mvtbmukl-quasjm"
+   ],
+   "reload_mark": "\"phase\": \"reload\"",
+   "post_reload": "afterReloadStep",
+   "legs": {
+    "task": true,
+    "reload": true,
+    "bytes": true
+   },
+   "claim_bytes": 205951,
+   "claim_sha": "c046374eac48b82e5a7a76c1ff8c151a9fee60e3257ffe5d10a8912eecaeb708",
+   "artifact": "docs/V1.0/plan_linkfox_navigation/evidence/edit8-h-real-20261029/IMAGE_CROP-result-1.png",
+   "artifact_sha256": "c046374eac48b82e5a7a76c1ff8c151a9fee60e3257ffe5d10a8912eecaeb708",
+   "artifact_bytes": 205951,
+   "sha_match": true
+  },
+  {
+   "id": "PRODUCT_REFINE",
+   "H": "PASS",
+   "why": null,
+   "file": "edit8-h-real-20261029/PRODUCT_REFINE.json",
+   "task": [
+    "task-mvtb3nuj-3d0mnv"
+   ],
+   "reload_mark": "\"phase\": \"reload\"",
+   "post_reload": "afterReloadStep",
+   "legs": {
+    "task": true,
+    "reload": true,
+    "bytes": true
+   },
+   "claim_bytes": 2827346,
+   "claim_sha": "454f64bbde16b5213da96097a12b67038a8f8ed9b175c492e21e3100bafe264e",
+   "artifact": "docs/V1.0/plan_linkfox_navigation/evidence/edit8-h-real-20261029/PRODUCT_REFINE-result-2048x1488.png",
+   "artifact_sha256": "454f64bbde16b5213da96097a12b67038a8f8ed9b175c492e21e3100bafe264e",
+   "artifact_bytes": 2827346,
+   "sha_match": true
+  },
+  {
+   "id": "FIX_COLOR",
+   "H": "PASS",
+   "why": null,
+   "file": "real-acceptance/FIX_COLOR/result.json",
+   "task": [
+    "task-mvta1kkg-t8y1yo",
+    "task-mvt9r1lg-ab8tqn"
+   ],
+   "reload_mark": "\"historyRecovery\": {",
+   "post_reload": "rows",
+   "legs": {
+    "task": true,
+    "reload": true,
+    "bytes": true
+   },
+   "claim_bytes": 1218527,
+   "claim_sha": "83ef17c23f33eb25593f48aac97db9c4b8797f898fc530c12d80871bbd92d900",
+   "artifact": "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/FIX_COLOR/result-real-20261029.png",
+   "artifact_sha256": "83ef17c23f33eb25593f48aac97db9c4b8797f898fc530c12d80871bbd92d900",
+   "artifact_bytes": 1218527,
+   "sha_match": true
+  },
+  {
+   "id": "PRINTING_REPAIR",
+   "H": "PASS",
+   "why": null,
+   "file": "edit8-h-real-20261029/PRINTING_REPAIR.json",
+   "task": [
+    "task-mvtbawv4-zxcmpv"
+   ],
+   "reload_mark": "\"phase\": \"reload\"",
+   "post_reload": "afterReloadStep",
+   "legs": {
+    "task": true,
+    "reload": true,
+    "bytes": true
+   },
+   "claim_bytes": 1183770,
+   "claim_sha": "d5b52a36ba77196b",
+   "artifact": "docs/V1.0/plan_linkfox_navigation/evidence/edit8-h-real-20261029/PRINTING_REPAIR-result-1.png",
+   "artifact_sha256": "d5b52a36ba77196bd1d93c95e2e05841f42c11d2eecfde2e21d8ae930eca3fb1",
+   "artifact_bytes": 1183770,
+   "sha_match": true
+  },
+  {
+   "id": "HAND_REPAIR",
+   "H": "PASS",
+   "why": null,
+   "file": "edit8-h-real-20261029/HAND_REPAIR.json",
+   "task": [
+    "task-mvtbe5rp-0maafh"
+   ],
+   "reload_mark": "\"phase\": \"reload\"",
+   "post_reload": "afterReloadStep",
+   "legs": {
+    "task": true,
+    "reload": true,
+    "bytes": true
+   },
+   "claim_bytes": 2153466,
+   "claim_sha": "a34cea71ca7da6dec09ee6167367f6c60ba600e4ff44ec0c6441b6f5f3800e20",
+   "artifact": "docs/V1.0/plan_linkfox_navigation/evidence/edit8-h-real-20261029/HAND_REPAIR-result-1024x1024.png",
+   "artifact_sha256": "a34cea71ca7da6dec09ee6167367f6c60ba600e4ff44ec0c6441b6f5f3800e20",
+   "artifact_bytes": 2153466,
+   "sha_match": true
+  },
+  {
+   "id": "NEW_REPLACE_BG_V2",
+   "H": "PARTIAL",
+   "why": "真实 task 仅出现在 r7-d19-history-20261029/tool-new-replace-bg-v2.json 的自由文本/其它工具清单里（task-mvs5dd71-4s35w2），无 taskId/data-task-id 绑定字段",
+   "file": "r7-d19-history-20261029/tool-new-replace-bg-v2.json",
+   "task": [],
+   "reload_mark": null,
+   "post_reload": null,
+   "legs": {
+    "task": true,
+    "reload": false,
+    "bytes": false
+   },
+   "claim_bytes": null,
+   "claim_sha": null,
+   "artifact": null,
+   "artifact_sha256": null,
+   "artifact_bytes": null,
+   "sha_match": false
+  },
+  {
+   "id": "REPLACE_GOODS",
+   "H": "PARTIAL",
+   "why": "真实 task 仅出现在 r7-d19-history-20261029/tool-replace-goods.json 的自由文本/其它工具清单里（task-mvs5dd71-4s35w2），无 taskId/data-task-id 绑定字段",
+   "file": "r7-d19-history-20261029/tool-replace-goods.json",
+   "task": [],
+   "reload_mark": null,
+   "post_reload": null,
+   "legs": {
+    "task": true,
+    "reload": false,
+    "bytes": false
+   },
+   "claim_bytes": null,
+   "claim_sha": null,
+   "artifact": null,
+   "artifact_sha256": null,
+   "artifact_bytes": null,
+   "sha_match": false
+  },
+  {
+   "id": "PRODUCT_SCENE",
+   "H": "PARTIAL",
+   "why": "真实 task 仅出现在 r7-d19-history-20261029/tool-product-scene.json 的自由文本/其它工具清单里（task-mvs5dd71-4s35w2），无 taskId/data-task-id 绑定字段",
+   "file": "r7-d19-history-20261029/tool-product-scene.json",
+   "task": [],
+   "reload_mark": null,
+   "post_reload": null,
+   "legs": {
+    "task": true,
+    "reload": false,
+    "bytes": false
+   },
+   "claim_bytes": null,
+   "claim_sha": null,
+   "artifact": null,
+   "artifact_sha256": null,
+   "artifact_bytes": null,
+   "sha_match": false
+  },
+  {
+   "id": "HANDHELD_GOODS",
+   "H": "PARTIAL",
+   "why": "task task-mvs5p8g8-or3oim 记录为 failed/submit-unconfirmed（real-acceptance/h4-design-a-20261029/HANDHELD_GOODS.json），无成功结果可恢复",
+   "file": "real-acceptance/h4-design-a-20261029/HANDHELD_GOODS.json",
+   "task": [
+    "task-mvs5p8g8-or3oim"
+   ],
+   "reload_mark": "\"phase\": \"reload\"",
+   "post_reload": "items",
+   "legs": {
+    "task": true,
+    "reload": true,
+    "bytes": false
+   },
+   "claim_bytes": null,
+   "claim_sha": null,
+   "artifact": null,
+   "artifact_sha256": null,
+   "artifact_bytes": null,
+   "sha_match": false
+  },
+  {
+   "id": "AI_DRESSING_V2",
+   "H": "PARTIAL",
+   "why": "真实 task 仅出现在 r7-d19-history-20261029/tool-ai-dressing-v2.json 的自由文本/其它工具清单里（task-mvs5dd71-4s35w2），无 taskId/data-task-id 绑定字段",
+   "file": "r7-d19-history-20261029/tool-ai-dressing-v2.json",
+   "task": [],
+   "reload_mark": null,
+   "post_reload": null,
+   "legs": {
+    "task": true,
+    "reload": false,
+    "bytes": false
+   },
+   "claim_bytes": null,
+   "claim_sha": null,
+   "artifact": null,
+   "artifact_sha256": null,
+   "artifact_bytes": null,
+   "sha_match": false
+  },
+  {
+   "id": "AI_POSTURE",
+   "H": "PASS",
+   "why": null,
+   "file": "r8h-4tools-20261029/AI_POSTURE.json",
+   "task": [
+    "task-mvtczxwo-e1d1w0"
+   ],
+   "reload_mark": "\"phase\": \"reload\"",
+   "post_reload": "dockCount",
+   "legs": {
+    "task": true,
+    "reload": true,
+    "bytes": true
+   },
+   "claim_bytes": 1557308,
+   "claim_sha": "03ec4754b62fb2e6bdea6a3d062bf376705071de3c0faac4160958c185a9a1db",
+   "artifact": "docs/V1.0/plan_linkfox_navigation/evidence/r8h-4tools-20261029/AI_POSTURE.png",
+   "artifact_sha256": "03ec4754b62fb2e6bdea6a3d062bf376705071de3c0faac4160958c185a9a1db",
+   "artifact_bytes": 1557308,
+   "sha_match": true
+  },
+  {
+   "id": "AI_WEARABLE",
+   "H": "PARTIAL",
+   "why": "真实 task 仅出现在 r7-d19-history-20261029/tool-ai-wearable.json 的自由文本/其它工具清单里（task-mvs5dd71-4s35w2），无 taskId/data-task-id 绑定字段",
+   "file": "r7-d19-history-20261029/tool-ai-wearable.json",
+   "task": [],
+   "reload_mark": null,
+   "post_reload": null,
+   "legs": {
+    "task": true,
+    "reload": false,
+    "bytes": false
+   },
+   "claim_bytes": null,
+   "claim_sha": null,
+   "artifact": null,
+   "artifact_sha256": null,
+   "artifact_bytes": null,
+   "sha_match": false
+  },
+  {
+   "id": "AI_TEXT",
+   "H": "PASS",
+   "why": null,
+   "file": "real-acceptance/B2G1/AI_TEXT/run-b2g1.json",
+   "task": [
+    "task-mvsdhatp-kdyvt6"
+   ],
+   "reload_mark": "\"afterReload\": {",
+   "post_reload": "restoredPanel",
+   "legs": {
+    "task": true,
+    "reload": true,
+    "bytes": true
+   },
+   "claim_bytes": 1825663,
+   "claim_sha": "9019ffaf22487707039383e7bf75c082eafee7b9161b7f8e5b313330c582a01f",
+   "artifact": "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/B2G1/AI_TEXT/downloaded-ai-text-result-1.png",
+   "artifact_sha256": "9019ffaf22487707039383e7bf75c082eafee7b9161b7f8e5b313330c582a01f",
+   "artifact_bytes": 1825663,
+   "sha_match": true
+  },
+  {
+   "id": "ORNAMENT_TEXT",
+   "H": "PASS",
+   "why": null,
+   "file": "real-acceptance/B2G1/ORNAMENT_TEXT/run-b2g1.json",
+   "task": [
+    "task-mvsdivlg-6slebs"
+   ],
+   "reload_mark": "\"afterReload\": {",
+   "post_reload": "restoredPanel",
+   "legs": {
+    "task": true,
+    "reload": true,
+    "bytes": true
+   },
+   "claim_bytes": 2439783,
+   "claim_sha": "d7a57b9b72c29334eb9fde659bb024b5bff55229188a35a0c66fcb760fe07c90",
+   "artifact": "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/B2G1/ORNAMENT_TEXT/downloaded-ornament-text-result-1.png",
+   "artifact_sha256": "d7a57b9b72c29334eb9fde659bb024b5bff55229188a35a0c66fcb760fe07c90",
+   "artifact_bytes": 2439783,
+   "sha_match": true
+  },
+  {
+   "id": "SDS_DESIGN",
+   "H": "PASS",
+   "why": null,
+   "file": "real-acceptance/B2G1/SDS_DESIGN/run-b2g1.json",
+   "task": [
+    "task-mvsdlqxd-ttx3pl"
+   ],
+   "reload_mark": "\"afterReload\": {",
+   "post_reload": "restoredPanel",
+   "legs": {
+    "task": true,
+    "reload": true,
+    "bytes": true
+   },
+   "claim_bytes": 2081539,
+   "claim_sha": "a119eb6cf4889e2dd5dff69d182c99c6f6283e640cb3d9c3968029bb8b095e23",
+   "artifact": "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/B2G1/SDS_DESIGN/downloaded-sds-design-result-1.png",
+   "artifact_sha256": "a119eb6cf4889e2dd5dff69d182c99c6f6283e640cb3d9c3968029bb8b095e23",
+   "artifact_bytes": 2081539,
+   "sha_match": true
+  },
+  {
+   "id": "PRINT_EXTRACT",
+   "H": "PARTIAL",
+   "why": "有真实 task task-mvs5dd71-4s35w2（r7-d19-history-20261029/orphan-tasks-127-3000-20261029.json），但无机器 fresh reload 标记（无 phase/nav=reload、无 reload 对象节点、无 location.reload() 回执）",
+   "file": "r7-d19-history-20261029/orphan-tasks-127-3000-20261029.json",
+   "task": [
+    "task-mvs5dd71-4s35w2"
+   ],
+   "reload_mark": null,
+   "post_reload": null,
+   "legs": {
+    "task": true,
+    "reload": false,
+    "bytes": false
+   },
+   "claim_bytes": null,
+   "claim_sha": null,
+   "artifact": null,
+   "artifact_sha256": null,
+   "artifact_bytes": null,
+   "sha_match": false
+  },
+  {
+   "id": "AI_POSE_GENERATOR",
+   "H": "PASS",
+   "why": null,
+   "file": "real-acceptance/H4-real-20261029/AI_POSE_GENERATOR.json",
+   "task": [
+    "task-mvtd89f3-9qpix6",
+    "task-mvs73hbe-ak20fw"
+   ],
+   "reload_mark": "\"navType\": \"reload\"",
+   "post_reload": "dockArray",
+   "legs": {
+    "task": true,
+    "reload": true,
+    "bytes": true
+   },
+   "claim_bytes": 1151209,
+   "claim_sha": null,
+   "artifact": "docs/V1.0/plan_linkfox_navigation/evidence/suite-design-realgen-20261029/ai-pose-generator-result-1.png",
+   "artifact_sha256": "19028125bae9618e8e01801480518db186b6ace6cccf0cff7f5ae4c6ec84300d",
+   "artifact_bytes": 1151209,
+   "sha_match": false
+  },
+  {
+   "id": "AI_DRESSING_XSY",
+   "H": "PASS",
+   "why": null,
+   "file": "real-acceptance/AI_DRESSING_XSY_20261029_persist/reload-summary.json",
+   "task": [
+    "task-mvtbf7ue-n28x46"
+   ],
+   "reload_mark": "\"phase\": \"reload\"",
+   "post_reload": "dockCount",
+   "legs": {
+    "task": true,
+    "reload": true,
+    "bytes": true
+   },
+   "claim_bytes": 1576288,
+   "claim_sha": "a52e70d46e31cbc47e307113a6f5592ab6f40c14884483ac527dba173e4a8a94",
+   "artifact": "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/AI_DRESSING_XSY_20261029_persist/downloads/1793264592394-ai-dressing-xsy-result-1.png",
+   "artifact_sha256": "a52e70d46e31cbc47e307113a6f5592ab6f40c14884483ac527dba173e4a8a94",
+   "artifact_bytes": 1576288,
+   "sha_match": true
+  },
+  {
+   "id": "FISSION_LINK",
+   "H": "PARTIAL",
+   "why": "有真实 task task-mvt18lrt-rsnifn（real-acceptance/H2-fission-xsy-20261029/evidence.json），但无机器 fresh reload 标记（无 phase/nav=reload、无 reload 对象节点、无 location.reload() 回执）",
+   "file": "real-acceptance/H2-fission-xsy-20261029/evidence.json",
+   "task": [
+    "task-mvt18lrt-rsnifn"
+   ],
+   "reload_mark": null,
+   "post_reload": null,
+   "legs": {
+    "task": true,
+    "reload": false,
+    "bytes": true
+   },
+   "claim_bytes": 1988694,
+   "claim_sha": "bbc0ca08cfa46feae85b7ee15cea28a1bd709c4171a751c0d8192dd490ff76a4",
+   "artifact": "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/FISSION_LINK/b5-restored-download.png",
+   "artifact_sha256": "bbc0ca08cfa46feae85b7ee15cea28a1bd709c4171a751c0d8192dd490ff76a4",
+   "artifact_bytes": 1988694,
+   "sha_match": true
+  },
+  {
+   "id": "IMAGE_TEXT_EDIT",
+   "H": "PARTIAL",
+   "why": "task task-mvs802af-u9vwye 记录为 failed/submit-unconfirmed（real-acceptance/R7-actions-20261029/task-inventory-127.0.0.1.json），无成功结果可恢复",
+   "file": "real-acceptance/R7-actions-20261029/task-inventory-127.0.0.1.json",
+   "task": [
+    "task-mvs802af-u9vwye",
+    "task-mvs83fc2-dc6b5s"
+   ],
+   "reload_mark": null,
+   "post_reload": "items",
+   "legs": {
+    "task": true,
+    "reload": false,
+    "bytes": false
+   },
+   "claim_bytes": null,
+   "claim_sha": null,
+   "artifact": null,
+   "artifact_sha256": null,
+   "artifact_bytes": null,
+   "sha_match": false
+  },
+  {
+   "id": "MATERIAL_UPPER_BODY",
+   "H": "PASS",
+   "why": null,
+   "file": "r8h-4tools-20261029/MATERIAL_UPPER_BODY.json",
+   "task": [
+    "task-mvtd45nv-y7cum6"
+   ],
+   "reload_mark": "\"phase\": \"reload\"",
+   "post_reload": "dockCount",
+   "legs": {
+    "task": true,
+    "reload": true,
+    "bytes": true
+   },
+   "claim_bytes": 1525374,
+   "claim_sha": "79bddf28c16aa5c792efbf429e084b1f81c98cfe5bc6336081480ef60f0fa5d6",
+   "artifact": "docs/V1.0/plan_linkfox_navigation/evidence/r8h-4tools-20261029/MATERIAL_UPPER_BODY.png",
+   "artifact_sha256": "79bddf28c16aa5c792efbf429e084b1f81c98cfe5bc6336081480ef60f0fa5d6",
+   "artifact_bytes": 1525374,
+   "sha_match": true
+  },
+  {
+   "id": "NEW_DESIGNER",
+   "H": "PASS",
+   "why": null,
+   "file": "real-acceptance/H4-real-20261029/NEW_DESIGNER.json",
+   "task": [
+    "task-mvtdl9v8-165q1n"
+   ],
+   "reload_mark": "\"navType\": \"reload\"",
+   "post_reload": "dockArray",
+   "legs": {
+    "task": true,
+    "reload": true,
+    "bytes": true
+   },
+   "claim_bytes": 411801,
+   "claim_sha": null,
+   "artifact": "docs/V1.0/plan_linkfox_navigation/evidence/suite-design-realgen-20261029/new-designer-result-1.png",
+   "artifact_sha256": "90e28e0f93420bb42270708737760d810d9df1e986566aed60d61a79b4a09d88",
+   "artifact_bytes": 411801,
+   "sha_match": false
+  },
+  {
+   "id": "PRODUCT_MARKET_MATERIAL",
+   "H": "PARTIAL",
+   "why": "真实 task 仅出现在 r7-d19-history-20261029/tool-product-market-material.json 的自由文本/其它工具清单里（task-mvs5dd71-4s35w2），无 taskId/data-task-id 绑定字段",
+   "file": "r7-d19-history-20261029/tool-product-market-material.json",
+   "task": [],
+   "reload_mark": null,
+   "post_reload": null,
+   "legs": {
+    "task": true,
+    "reload": false,
+    "bytes": false
+   },
+   "claim_bytes": null,
+   "claim_sha": null,
+   "artifact": null,
+   "artifact_sha256": null,
+   "artifact_bytes": null,
+   "sha_match": false
+  },
+  {
+   "id": "SCENE_TRANSFER",
+   "H": "PASS",
+   "why": null,
+   "file": "real-acceptance/B2G1/SCENE_TRANSFER/run-b2g1.json",
+   "task": [
+    "task-mvt8c2a6-nsv4pt"
+   ],
+   "reload_mark": "\"afterReload\": {",
+   "post_reload": "restoredPanel",
+   "legs": {
+    "task": true,
+    "reload": true,
+    "bytes": true
+   },
+   "claim_bytes": 839268,
+   "claim_sha": "dfb33c53c727c6fe3eed713fab07192c48e9e8ac09c7da8f689a0483bf822c0e",
+   "artifact": "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/B2G1/SCENE_TRANSFER/downloaded-scene-transfer-result-1.png",
+   "artifact_sha256": "dfb33c53c727c6fe3eed713fab07192c48e9e8ac09c7da8f689a0483bf822c0e",
+   "artifact_bytes": 839268,
+   "sha_match": true
+  },
+  {
+   "id": "IMAGE_TO_VIDEO",
+   "H": "PARTIAL",
+   "why": "task task-mvt71akq-bu2hxh 记录为 failed/submit-unconfirmed（real-acceptance/VIDEO_4TOOLS_HISTORY_20261029/IMAGE_TO_VIDEO.history-after-reload.json），无成功结果可恢复",
+   "file": "real-acceptance/VIDEO_4TOOLS_HISTORY_20261029/IMAGE_TO_VIDEO.history-after-reload.json",
+   "task": [
+    "task-mvt71akq-bu2hxh"
+   ],
+   "reload_mark": "\"nav\": \"reload\"",
+   "post_reload": "rows",
+   "legs": {
+    "task": true,
+    "reload": true,
+    "bytes": false
+   },
+   "claim_bytes": null,
+   "claim_sha": null,
+   "artifact": null,
+   "artifact_sha256": null,
+   "artifact_bytes": null,
+   "sha_match": false
+  },
+  {
+   "id": "SALE_VIDEO",
+   "H": "PARTIAL",
+   "why": "task task-mvt76u6p-7cfnff + reload 回执（real-acceptance/VIDEO_4TOOLS_HISTORY_20261029/SALE_VIDEO.dock-after-reload.json），但回执未声明结果字节（无 artifact 节点 bytes/sha）",
+   "file": "real-acceptance/VIDEO_4TOOLS_HISTORY_20261029/SALE_VIDEO.dock-after-reload.json",
+   "task": [
+    "task-mvt76u6p-7cfnff",
+    "task-mvsbd685-5tzfuw"
+   ],
+   "reload_mark": "\"nav\": \"reload\"",
+   "post_reload": "rows",
+   "legs": {
+    "task": true,
+    "reload": true,
+    "bytes": false
+   },
+   "claim_bytes": null,
+   "claim_sha": null,
+   "artifact": null,
+   "artifact_sha256": null,
+   "artifact_bytes": null,
+   "sha_match": false
+  },
+  {
+   "id": "VIDEO_REPLICATION",
+   "H": "PARTIAL",
+   "why": "task task-mvs9mpoz-e8u2ry 记录为 failed/submit-unconfirmed（real-acceptance/VIDEO_4TOOLS_HISTORY_20261029/VIDEO_REPLICATION.history-after-reload.json），无成功结果可恢复",
+   "file": "real-acceptance/VIDEO_4TOOLS_HISTORY_20261029/VIDEO_REPLICATION.history-after-reload.json",
+   "task": [
+    "task-mvs9mpoz-e8u2ry"
+   ],
+   "reload_mark": "\"nav\": \"reload\"",
+   "post_reload": "rows",
+   "legs": {
+    "task": true,
+    "reload": true,
+    "bytes": false
+   },
+   "claim_bytes": null,
+   "claim_sha": null,
+   "artifact": null,
+   "artifact_sha256": null,
+   "artifact_bytes": null,
+   "sha_match": false
+  },
+  {
+   "id": "AI_VIDEO_EDITING",
+   "H": "PARTIAL",
+   "why": "有真实 task task-mvt42rpv-kfl1ov（real-acceptance/VIDEO_4TOOLS_HISTORY_20261029/AI_VIDEO_EDITING.tasks-localStorage.json），但无机器 fresh reload 标记（无 phase/nav=reload、无 reload 对象节点、无 location.reload() 回执）",
+   "file": "real-acceptance/VIDEO_4TOOLS_HISTORY_20261029/AI_VIDEO_EDITING.tasks-localStorage.json",
+   "task": [
+    "task-mvt42rpv-kfl1ov",
+    "task-mvs802af-u9vwye"
+   ],
+   "reload_mark": null,
+   "post_reload": "items",
+   "legs": {
+    "task": true,
+    "reload": false,
+    "bytes": true
+   },
+   "claim_bytes": 2268656,
+   "claim_sha": null,
+   "artifact": "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/AI_VIDEO_EDITING/receipt-20261029/task_QFvq6WMc_video.mp4",
+   "artifact_sha256": "47573c147325d451f41ffd89ae21b82c895623c682832546c24181b18f92a505",
+   "artifact_bytes": 2268656,
+   "sha_match": false
+  },
+  {
+   "id": "VIDEO_TRANSLATION",
+   "H": "PARTIAL",
+   "why": null,
+   "file": null,
+   "task": [],
+   "reload_mark": null,
+   "post_reload": null,
+   "legs": null,
+   "claim_bytes": null,
+   "claim_sha": null,
+   "artifact": null,
+   "artifact_sha256": null,
+   "artifact_bytes": null,
+   "sha_match": false
+  },
+  {
+   "id": "VIDEO_CONCAT",
+   "H": "PARTIAL",
+   "why": "task task-mvs802af-u9vwye 记录为 failed/submit-unconfirmed（real-acceptance/R7-actions-20261029/task-inventory-127.0.0.1.json），无成功结果可恢复",
+   "file": "real-acceptance/R7-actions-20261029/task-inventory-127.0.0.1.json",
+   "task": [
+    "task-mvs802af-u9vwye",
+    "task-mvs83fc2-dc6b5s"
+   ],
+   "reload_mark": null,
+   "post_reload": "items",
+   "legs": {
+    "task": true,
+    "reload": false,
+    "bytes": false
+   },
+   "claim_bytes": null,
+   "claim_sha": null,
+   "artifact": null,
+   "artifact_sha256": null,
+   "artifact_bytes": null,
+   "sha_match": false
+  }
+ ]
+}

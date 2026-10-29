@@ -102,6 +102,11 @@ OBS_RES = [
     ("persistedAfterReload", re.compile(r'"persistedAfterReload"\s*:\s*[\{\[]', re.I)),
     ("rows", re.compile(r'"(?:rows|historyRows|dockRows)"\s*:\s*\[\s*\{', re.I)),
     ("items", re.compile(r'"items"\s*:\s*\[\s*\{', re.I)),
+    # R9X: 历史坞/结果卡以「数组 + 行内 status」形式记录刷新后观测（H4 回执写法），
+    # dockCount 只认数字形态会整份漏读。
+    ("dockArray", re.compile(
+        r'"(?:dockItems|restoredItems|historyItems|dockItemList)"\s*:\s*\[\s*\{', re.I)),
+    ("restoredPanel", re.compile(r'"(?:restoredPanel|resultCardAfterReload|panelAfterReload)"\s*:\s*\{', re.I)),
 ]
 UI_NOISE = (
     "提交一次后会在这里留下任务、配置与结果，刷新后仍在。",
@@ -125,7 +130,9 @@ BACKFILL_RE = re.compile(
     r"回填任务快照|任务快照回填|快照回填|upsertTask|注入任务记录|backfill(?:ed)?Task", re.I)
 PAYLOAD_DROP_RE = re.compile(r'"resultItemPayloadDropped"\s*:\s*true|"payloadDropped"\s*:\s*true', re.I)
 BYTE_KEYS = ("bytes", "size", "fileBytes", "fetchedBytes", "byteLength", "downloadedBytes",
-             "restoredBytes", "contentLength")
+             "restoredBytes", "contentLength",
+             # R9X: H4 real 回执的字节字段名（task.declaredBytes / imageBytes.renderedBytes）
+             "declaredBytes", "renderedBytes", "resultBytes", "outputBytes", "actualBytes")
 ARTIFACT_HINT = re.compile(r"download|asset|canvas|thumb|persist|result|output|file|store|storage", re.I)
 SHA_STR = re.compile(r"\b([0-9a-f]{16,64})\b")
 
@@ -431,8 +438,15 @@ class Audit9(r8.Audit):
             if INPUT_MEDIA.search(p):          # 输入素材/参考图不算结果产物
                 continue
             base = os.path.basename(p)
+            # R9X: 产物名常按路由 slug 命名（ai-pose-generator-result-1.png），
+            # 与 toolId（AI_POSE_GENERATOR）仅下划线/连字符之差，原逻辑判为跨工具而漏读。
+            slug = tid.lower().replace("_", "-")
+            slug2 = tid.lower().replace("_", "").replace("-", "")
+            name_l = base.lower()
             scoped = (tid.lower() in p.lower()
                       or base.lower().startswith(tid.lower())
+                      or (len(slug) >= 6 and slug in name_l)
+                      or (len(slug2) >= 6 and slug2 in name_l)
                       or (os.path.dirname(p) == os.path.dirname(receipt)
                           and re.search(r"(result|download|output)", base, re.I)))
             if not scoped:
