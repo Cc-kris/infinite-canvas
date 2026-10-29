@@ -1,3 +1,4 @@
+import { modelLabel } from "@/lib/model-label";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 import { Link } from "react-router-dom";
@@ -954,7 +955,7 @@ export function ChangeColorWorkspace({ className }: { className?: string }) {
                         </div>
                     </Section>
 
-                    <Section title="生成" hint={`模型：${imageModel?.trim() || "未配置"} · 1 张`} testId="change-color-submit">
+                    <Section title="生成" hint={`模型：${modelLabel(imageModel)} · 1 张`} testId="change-color-submit">
                         {issues.length > 0 ? (
                             <ul className="mb-2 list-disc pl-4 text-[11px] text-amber-600" data-testid="change-color-issues">
                                 {issues.map((issue) => (

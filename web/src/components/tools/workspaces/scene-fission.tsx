@@ -1,3 +1,4 @@
+import { modelLabel } from "@/lib/model-label";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -636,7 +637,7 @@ export function ProductSceneWorkspace({ className, toolId = PRODUCT_SCENE_TOOL_I
                             {running ? "裂变中…" : `立即生成 · ${sceneOutputOptionLabel(values.outputNum)}`}
                         </button>
                         <p className="mt-2 text-[11px] text-muted-foreground" data-testid="scene-expected">
-                            {describeSceneProduct(output, values.outputNum)} · 模型：{imageModel?.trim() || "未配置"}
+                            {describeSceneProduct(output, values.outputNum)} · 模型：{modelLabel(imageModel)}
                         </p>
                         {issues.length > 0 ? (
                             <ul className="mt-2 list-disc pl-4 text-[11px] text-amber-600" data-testid="scene-issues">

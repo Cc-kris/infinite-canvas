@@ -1,0 +1,136 @@
+无限画布
+电商套图
+智能修图
+批量生图
+商品图设计
+AI视频
+中
+切换到浅色主题
+v0.27.0
+电商套图
+6
+商品套图
+服装套图
+套图换色
+批量翻译
+高清放大
+智能扩图
+智能修图
+8
+批量生图
+0
+商品图设计
+19
+AI 视频
+6
+套图换色
+makeType 93
+整套商品图批量换色：一套方案铺满全部商品图，失败单元单独重试，输入变更后结果自动标记为过期
+开始换色
+1 · 整套商品图
+2/12 张
+上传整套商品图
+2 / 12 个 · PNG / JPG / WebP · ≤ 10 MB
+点击选择本地文件，或拖拽到这里
+校验格式 / 大小 / 像素，入库后可刷新恢复
+apparel-print.jpg
+86 KB · 1024×1024 · image/jpeg
+移除
+product-watch.jpg
+31 KB · 1024×744 · image/jpeg
+移除
+从「apparel-print.jpg」提色
+从「product-watch.jpg」提色
+2 · 换色方案
+1/25 个
+上传参考图
+参考图只提供颜色与材质依据，不参与构图
+apparel-print-ref.jpg
+图
+apparel-print-ref.jpg
+参考图
+×
+3 · 换色部位
+2/50
+全身
+上装
+下装
+鞋面
+鞋底
+包身
+包带
+外壳
+瓶身
+表带
+4 · 品质
+低品质
+low
+中品质
+medium
+高品质
+high
+当前档位：中品质
+5 · 单图微调
+只影响选中的那张商品图
+apparel-print.jpg
+product-watch.jpg
+色相
+0
+饱和度
+100
+明度
+100
+上色强度
+100
+默认（无微调）
+重置
+2 张商品图 × 1 个方案 = 2 张输出
+快照 5aa80e3d
+校验通过，可以开始换色。
+开始换色
+查看本次输入快照
+6 · 整套结果
+尚未生成
+还没有结果：左侧补齐商品图与方案后点「开始换色」，每张图 × 每个方案都会生成一张。
+历史任务
+4 条
+2026-10-29 00:37
+提交中
+对上传商品图「product-watch.jpg」做换色：把上装改成参考图「apparel-print-ref.…
+default::gpt-image-2 · image · 0 个结果
+2026-10-29 00:34
+已完成
+对上传商品图「apparel-print.jpg」做换色：把上装改成参考图「apparel-print-ref.…
+default::gpt-image-2 · image · 1 个结果
+原始文件未保留（历史快照只存元数据），如需文件请重新生成。
+2026-10-29 00:06
+结果未知
+对上传商品图「product-watch.jpg」做换色：把上装改成参考图「apparel-print-ref.…
+default::gpt-image-2 · image · 0 个结果
+2026-10-29 00:06
+结果未知
+对上传商品图「apparel-print.jpg」做换色：把上装改成参考图「apparel-print-ref.…
+default::gpt-image-2 · image · 0 个结果
+1
+连接本地 Agent
+未连接
+点连接会自动启动本地服务、装好插件并接通，无需手动配置。
+Claude Code
+未连接
+·
+CLI · 2.1.285 (Claude Code)
+·
+直接运行
+连接
+Codex
+未连接
+·
+CLI · codex-cli 0.163.0
+·
+插件已装
+连接
+Galley
+未连接
+·
+CLI + 桌面版 · galley 0.6.4
+连接

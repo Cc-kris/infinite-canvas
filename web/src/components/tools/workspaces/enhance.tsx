@@ -1,3 +1,4 @@
+import { modelLabel } from "@/lib/model-label";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 import { ToolAssetInput } from "@/components/tools/tool-asset-input";
@@ -470,7 +471,7 @@ export function ScaleUpWorkspace({ className }: { className?: string }) {
                     </div>
                 </Section>
 
-                <Section title="生成" hint={`模型：${imageModel?.trim() || "未配置"}`}>
+                <Section title="生成" hint={`模型：${modelLabel(imageModel)}`}>
                     {blocking.length > 0 ? (
                         <ul className="mb-2 list-disc pl-4 text-[11px] text-amber-600" data-testid="scale-up-issues">
                             {blocking.map((issue) => (
@@ -880,7 +881,7 @@ export function ProductRefineWorkspace({ className }: { className?: string }) {
                     </div>
                 </Section>
 
-                <Section title="生成" hint={`模型：${imageModel?.trim() || "未配置"}`}>
+                <Section title="生成" hint={`模型：${modelLabel(imageModel)}`}>
                     {blocking.length > 0 ? (
                         <ul className="mb-2 list-disc pl-4 text-[11px] text-amber-600" data-testid="refine-issues">
                             {blocking.map((issue) => (

@@ -1,3 +1,4 @@
+import { modelLabel } from "@/lib/model-label";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 import { ToolAssetInput } from "@/components/tools/tool-asset-input";
@@ -752,7 +753,7 @@ export function SceneWorkspace({ className }: { className?: string }) {
                             {running ? "生成中…" : `生成 ${output.count} 张`}
                         </button>
                         <span className="text-[11px] text-stone-500 dark:text-stone-400">
-                            {restoring ? "正在恢复草稿素材…" : `模型：${imageModel?.trim() || "未配置"}`}
+                            {restoring ? "正在恢复草稿素材…" : `模型：${modelLabel(imageModel)}`}
                         </span>
                     </div>
                 </Section>

@@ -1,0 +1,289 @@
+{
+ "real:PRODUCT_IMAGE_SUITE": {
+  "url": "https://www.linkfox.com/draw/product-image-suite",
+  "ready": true,
+  "snapshot": true,
+  "shot": true,
+  "shot_full": true
+ },
+ "real:PROBE_NEW_BG": {
+  "url": "https://www.linkfox.com/draw/product-replace",
+  "ready": false,
+  "snapshot": true,
+  "shot": true,
+  "shot_full": true
+ },
+ "real:DRESS_WEAR_SET": {
+  "url": "https://www.linkfox.com/draw/clothing-image-suite",
+  "ready": true,
+  "snapshot": true,
+  "shot": true,
+  "shot_full": true
+ },
+ "real:CHANGE_COLOR_V2": {
+  "url": "https://www.linkfox.com/draw/change-color-v2",
+  "ready": true,
+  "snapshot": true,
+  "shot": true,
+  "shot_full": true
+ },
+ "real:IMAGE_TRANSLATION": {
+  "url": "https://www.linkfox.com/draw/image-translation",
+  "ready": true,
+  "snapshot": true,
+  "shot": true,
+  "shot_full": true
+ },
+ "real:SCALE_UP": {
+  "url": "https://www.linkfox.com/draw/quality-increase",
+  "ready": true,
+  "snapshot": true,
+  "shot": true,
+  "shot_full": true
+ },
+ "real:AI_OUTPAINTING": {
+  "url": "https://www.linkfox.com/draw/ai-outpainting",
+  "ready": false,
+  "snapshot": true,
+  "shot": true,
+  "shot_full": true
+ },
+ "real:AREA_REPAIR": {
+  "url": "https://www.linkfox.com/draw/area-repair",
+  "ready": true,
+  "snapshot": true,
+  "shot": true,
+  "shot_full": true
+ },
+ "real:REMOVE_PEN": {
+  "url": "https://www.linkfox.com/draw/remove-pen",
+  "ready": true,
+  "snapshot": true,
+  "shot": true,
+  "shot_full": true
+ },
+ "real:CHANGE_COLOR": {
+  "url": "https://www.linkfox.com/draw/change-color",
+  "ready": true,
+  "snapshot": true,
+  "shot": true,
+  "shot_full": true
+ },
+ "real:IMAGE_CROP": {
+  "url": "https://www.linkfox.com/draw/image-crop",
+  "ready": true,
+  "snapshot": true,
+  "shot": true,
+  "shot_full": true
+ },
+ "real:PRODUCT_REFINE": {
+  "url": "https://www.linkfox.com/draw/product-refine",
+  "ready": true,
+  "snapshot": true,
+  "shot": true,
+  "shot_full": true
+ },
+ "real:FIX_COLOR": {
+  "url": "https://www.linkfox.com/draw/color-diff-repair",
+  "ready": true,
+  "snapshot": true,
+  "shot": true,
+  "shot_full": true
+ },
+ "real:PRINTING_REPAIR": {
+  "url": "https://www.linkfox.com/draw/printing-repair",
+  "ready": true,
+  "snapshot": true,
+  "shot": true,
+  "shot_full": true
+ },
+ "real:HAND_REPAIR": {
+  "url": "https://www.linkfox.com/draw/hand-repair",
+  "ready": true,
+  "snapshot": true,
+  "shot": true,
+  "shot_full": true
+ },
+ "local:PRODUCT_IMAGE_SUITE": {
+  "url": "http://127.0.0.1:3000/tools/ecommerce-suite/product-image-suite",
+  "ready": true,
+  "snapshot": true,
+  "shot": true,
+  "shot_full": true
+ },
+ "local:DRESS_WEAR_SET": {
+  "url": "http://127.0.0.1:3000/tools/ecommerce-suite/dress-wear-set",
+  "ready": true,
+  "snapshot": true,
+  "shot": true,
+  "shot_full": true
+ },
+ "local:IMAGE_TRANSLATION": {
+  "url": "http://127.0.0.1:3000/tools/ecommerce-suite/image-translation",
+  "ready": true,
+  "snapshot": true,
+  "shot": true,
+  "shot_full": true
+ },
+ "local:SCALE_UP": {
+  "url": "http://127.0.0.1:3000/tools/ecommerce-suite/scale-up",
+  "ready": true,
+  "snapshot": true,
+  "shot": true,
+  "shot_full": true
+ },
+ "real:REPLACE_GOODS": {
+  "url": "https://www.linkfox.com/draw/product-replacement",
+  "ready": true,
+  "snapshot": true,
+  "shot": true,
+  "shot_full": true
+ },
+ "real:PRODUCT_SCENE": {
+  "url": "https://www.linkfox.com/draw/product-scene?type=2",
+  "ready": true,
+  "snapshot": true,
+  "shot": true,
+  "shot_full": true
+ },
+ "real:HANDHELD_GOODS": {
+  "url": "https://www.linkfox.com/draw/handheld-goods",
+  "ready": true,
+  "snapshot": true,
+  "shot": true,
+  "shot_full": true
+ },
+ "real:AI_DRESSING_V2": {
+  "url": "https://www.linkfox.com/draw/ai-dressing",
+  "ready": true,
+  "snapshot": true,
+  "shot": true,
+  "shot_full": true
+ },
+ "real:AI_POSTURE": {
+  "url": "https://www.linkfox.com/draw/ai-posture",
+  "ready": true,
+  "snapshot": true,
+  "shot": true,
+  "shot_full": true
+ },
+ "local:AREA_REPAIR": {
+  "url": "http://127.0.0.1:3000/tools/smart-edit/area-repair",
+  "ready": true,
+  "snapshot": true,
+  "shot": true,
+  "shot_full": true
+ },
+ "local:REMOVE_PEN": {
+  "url": "http://127.0.0.1:3000/tools/smart-edit/remove-pen",
+  "ready": true,
+  "snapshot": true,
+  "shot": true,
+  "shot_full": true
+ },
+ "local:CHANGE_COLOR": {
+  "url": "http://127.0.0.1:3000/tools/smart-edit/change-color",
+  "ready": true,
+  "snapshot": true,
+  "shot": true,
+  "shot_full": true
+ },
+ "local:IMAGE_CROP": {
+  "url": "http://127.0.0.1:3000/tools/smart-edit/image-crop",
+  "ready": true,
+  "snapshot": true,
+  "shot": true,
+  "shot_full": true
+ },
+ "local:PRODUCT_REFINE": {
+  "url": "http://127.0.0.1:3000/tools/smart-edit/product-refine",
+  "ready": true,
+  "snapshot": true,
+  "shot": true,
+  "shot_full": true
+ },
+ "local:FIX_COLOR": {
+  "url": "http://127.0.0.1:3000/tools/smart-edit/fix-color",
+  "ready": true,
+  "snapshot": true,
+  "shot": true,
+  "shot_full": true
+ },
+ "local:PRINTING_REPAIR": {
+  "url": "http://127.0.0.1:3000/tools/smart-edit/printing-repair",
+  "ready": true,
+  "snapshot": true,
+  "shot": true,
+  "shot_full": true
+ },
+ "local:HAND_REPAIR": {
+  "url": "http://127.0.0.1:3000/tools/smart-edit/hand-repair",
+  "ready": true,
+  "snapshot": true,
+  "shot": true,
+  "shot_full": true
+ },
+ "real:NEW_REPLACE_BG_V2": {
+  "url": "https://www.linkfox.com/draw/product-home",
+  "ready": true,
+  "snapshot": true,
+  "shot": true,
+  "shot_full": true
+ },
+ "local:CHANGE_COLOR_V2": {
+  "url": "http://127.0.0.1:3000/tools/ecommerce-suite/change-color-v2",
+  "ready": true,
+  "snapshot": true,
+  "shot": true,
+  "shot_full": true
+ },
+ "local:AI_OUTPAINTING": {
+  "url": "http://127.0.0.1:3000/tools/ecommerce-suite/ai-outpainting",
+  "ready": true,
+  "snapshot": true,
+  "shot": true,
+  "shot_full": true
+ },
+ "local:NEW_REPLACE_BG_V2": {
+  "url": "http://127.0.0.1:3000/tools/product-design/new-replace-bg-v2",
+  "ready": true,
+  "snapshot": true,
+  "shot": true,
+  "shot_full": true
+ },
+ "local:REPLACE_GOODS": {
+  "url": "http://127.0.0.1:3000/tools/product-design/replace-goods",
+  "ready": true,
+  "snapshot": true,
+  "shot": true,
+  "shot_full": true
+ },
+ "local:PRODUCT_SCENE": {
+  "url": "http://127.0.0.1:3000/tools/product-design/product-scene",
+  "ready": true,
+  "snapshot": true,
+  "shot": true,
+  "shot_full": true
+ },
+ "local:HANDHELD_GOODS": {
+  "url": "http://127.0.0.1:3000/tools/product-design/handheld-goods",
+  "ready": true,
+  "snapshot": true,
+  "shot": true,
+  "shot_full": true
+ },
+ "local:AI_DRESSING_V2": {
+  "url": "http://127.0.0.1:3000/tools/product-design/ai-dressing-v2",
+  "ready": true,
+  "snapshot": true,
+  "shot": true,
+  "shot_full": true
+ },
+ "local:AI_POSTURE": {
+  "url": "http://127.0.0.1:3000/tools/product-design/ai-posture",
+  "ready": true,
+  "snapshot": true,
+  "shot": true,
+  "shot_full": true
+ }
+}

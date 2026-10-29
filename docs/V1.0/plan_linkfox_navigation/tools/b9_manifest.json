@@ -1,0 +1,162 @@
+[
+ {
+  "id": "PRODUCT_IMAGE_SUITE",
+  "title": "商品套图",
+  "index": 1,
+  "real": "https://www.linkfox.com/draw/product-image-suite",
+  "local": "http://127.0.0.1:3000/tools/ecommerce-suite/product-image-suite",
+  "page_dom_20261028": true
+ },
+ {
+  "id": "DRESS_WEAR_SET",
+  "title": "服装套图",
+  "index": 2,
+  "real": "https://www.linkfox.com/draw/clothing-image-suite",
+  "local": "http://127.0.0.1:3000/tools/ecommerce-suite/dress-wear-set",
+  "page_dom_20261028": true
+ },
+ {
+  "id": "CHANGE_COLOR_V2",
+  "title": "套图换色",
+  "index": 3,
+  "real": "https://www.linkfox.com/draw/change-color-v2",
+  "local": "http://127.0.0.1:3000/tools/ecommerce-suite/change-color-v2",
+  "page_dom_20261028": true
+ },
+ {
+  "id": "IMAGE_TRANSLATION",
+  "title": "批量翻译",
+  "index": 4,
+  "real": "https://www.linkfox.com/draw/image-translation",
+  "local": "http://127.0.0.1:3000/tools/ecommerce-suite/image-translation",
+  "page_dom_20261028": true
+ },
+ {
+  "id": "SCALE_UP",
+  "title": "高清放大",
+  "index": 5,
+  "real": "https://www.linkfox.com/draw/quality-increase",
+  "local": "http://127.0.0.1:3000/tools/ecommerce-suite/scale-up",
+  "page_dom_20261028": true
+ },
+ {
+  "id": "AI_OUTPAINTING",
+  "title": "智能扩图",
+  "index": 6,
+  "real": "https://www.linkfox.com/draw/ai-outpainting",
+  "local": "http://127.0.0.1:3000/tools/ecommerce-suite/ai-outpainting",
+  "page_dom_20261028": true
+ },
+ {
+  "id": "AREA_REPAIR",
+  "title": "局部重绘",
+  "index": 7,
+  "real": "https://www.linkfox.com/draw/area-repair",
+  "local": "http://127.0.0.1:3000/tools/smart-edit/area-repair",
+  "page_dom_20261028": true
+ },
+ {
+  "id": "REMOVE_PEN",
+  "title": "局部消除",
+  "index": 8,
+  "real": "https://www.linkfox.com/draw/remove-pen",
+  "local": "http://127.0.0.1:3000/tools/smart-edit/remove-pen",
+  "page_dom_20261028": true
+ },
+ {
+  "id": "CHANGE_COLOR",
+  "title": "一键换色",
+  "index": 9,
+  "real": "https://www.linkfox.com/draw/change-color",
+  "local": "http://127.0.0.1:3000/tools/smart-edit/change-color",
+  "page_dom_20261028": true
+ },
+ {
+  "id": "IMAGE_CROP",
+  "title": "图片裁剪",
+  "index": 10,
+  "real": "https://www.linkfox.com/draw/image-crop",
+  "local": "http://127.0.0.1:3000/tools/smart-edit/image-crop",
+  "page_dom_20261028": true
+ },
+ {
+  "id": "PRODUCT_REFINE",
+  "title": "商品精修",
+  "index": 11,
+  "real": "https://www.linkfox.com/draw/product-refine",
+  "local": "http://127.0.0.1:3000/tools/smart-edit/product-refine",
+  "page_dom_20261028": true
+ },
+ {
+  "id": "FIX_COLOR",
+  "title": "色差修复",
+  "index": 12,
+  "real": "https://www.linkfox.com/draw/color-diff-repair",
+  "local": "http://127.0.0.1:3000/tools/smart-edit/fix-color",
+  "page_dom_20261028": true
+ },
+ {
+  "id": "PRINTING_REPAIR",
+  "title": "印花修复",
+  "index": 13,
+  "real": "https://www.linkfox.com/draw/printing-repair",
+  "local": "http://127.0.0.1:3000/tools/smart-edit/printing-repair",
+  "page_dom_20261028": true
+ },
+ {
+  "id": "HAND_REPAIR",
+  "title": "手部修复",
+  "index": 14,
+  "real": "https://www.linkfox.com/draw/hand-repair",
+  "local": "http://127.0.0.1:3000/tools/smart-edit/hand-repair",
+  "page_dom_20261028": true
+ },
+ {
+  "id": "NEW_REPLACE_BG_V2",
+  "title": "商品图",
+  "index": 15,
+  "real": "",
+  "local": "http://127.0.0.1:3000/tools/product-design/new-replace-bg-v2",
+  "page_dom_20261028": false
+ },
+ {
+  "id": "REPLACE_GOODS",
+  "title": "商品替换",
+  "index": 16,
+  "real": "https://www.linkfox.com/draw/product-replacement",
+  "local": "http://127.0.0.1:3000/tools/product-design/replace-goods",
+  "page_dom_20261028": true
+ },
+ {
+  "id": "PRODUCT_SCENE",
+  "title": "场景裂变",
+  "index": 17,
+  "real": "https://www.linkfox.com/draw/product-scene?type=2",
+  "local": "http://127.0.0.1:3000/tools/product-design/product-scene",
+  "page_dom_20261028": true
+ },
+ {
+  "id": "HANDHELD_GOODS",
+  "title": "手持商品",
+  "index": 18,
+  "real": "https://www.linkfox.com/draw/handheld-goods",
+  "local": "http://127.0.0.1:3000/tools/product-design/handheld-goods",
+  "page_dom_20261028": true
+ },
+ {
+  "id": "AI_DRESSING_V2",
+  "title": "AI穿衣",
+  "index": 19,
+  "real": "https://www.linkfox.com/draw/ai-dressing",
+  "local": "http://127.0.0.1:3000/tools/product-design/ai-dressing-v2",
+  "page_dom_20261028": true
+ },
+ {
+  "id": "AI_POSTURE",
+  "title": "姿势裂变",
+  "index": 20,
+  "real": "https://www.linkfox.com/draw/ai-posture",
+  "local": "http://127.0.0.1:3000/tools/product-design/ai-posture",
+  "page_dom_20261028": true
+ }
+]

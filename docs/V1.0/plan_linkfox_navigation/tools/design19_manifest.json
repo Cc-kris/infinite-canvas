@@ -1,0 +1,12 @@
+[
+ {"id":"NEW_REPLACE_BG_V2","title":"商品图","index":15,"real":"https://www.linkfox.com/draw/product-home","local":"http://127.0.0.1:3000/tools/product-design/new-replace-bg-v2"},
+ {"id":"REPLACE_GOODS","title":"商品替换","index":16,"real":"https://www.linkfox.com/draw/product-replacement","local":"http://127.0.0.1:3000/tools/product-design/replace-goods"},
+ {"id":"PRODUCT_SCENE","title":"场景裂变","index":17,"real":"https://www.linkfox.com/draw/product-scene?type=2","local":"http://127.0.0.1:3000/tools/product-design/product-scene"},
+ {"id":"HANDHELD_GOODS","title":"手持商品","index":18,"real":"https://www.linkfox.com/draw/handheld-goods","local":"http://127.0.0.1:3000/tools/product-design/handheld-goods"},
+ {"id":"AI_DRESSING_V2","title":"AI穿衣","index":19,"real":"https://www.linkfox.com/draw/ai-dressing","local":"http://127.0.0.1:3000/tools/product-design/ai-dressing-v2"},
+ {"id":"AI_POSTURE","title":"姿势裂变","index":20,"real":"https://www.linkfox.com/draw/ai-posture","local":"http://127.0.0.1:3000/tools/product-design/ai-posture"},
+ {"id":"AI_WEARABLE","title":"AI穿戴","index":21,"real":"https://www.linkfox.com/draw/ai-wearable","local":"http://127.0.0.1:3000/tools/product-design/ai-wearable"},
+ {"id":"AI_TEXT","title":"POD素材","index":22,"real":"https://www.linkfox.com/draw/ai-text","local":"http://127.0.0.1:3000/tools/product-design/ai-text"},
+ {"id":"ORNAMENT_TEXT","title":"饰品文字","index":23,"real":"https://www.linkfox.com/draw/ornament-text","local":"http://127.0.0.1:3000/tools/product-design/ornament-text"},
+ {"id":"SDS_DESIGN","title":"素材贴合","index":24,"real":"https://www.linkfox.com/draw/sds-design","local":"http://127.0.0.1:3000/tools/product-design/sds-design"}
+]
