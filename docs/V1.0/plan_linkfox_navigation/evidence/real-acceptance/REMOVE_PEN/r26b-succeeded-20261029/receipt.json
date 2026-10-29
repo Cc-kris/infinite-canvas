@@ -1,0 +1,166 @@
+{
+ "startedAt": "2026-10-29T15:35:40.890Z",
+ "baseUrl": "http://127.0.0.1:3000",
+ "profile": "/Users/mac/Documents/Dev/infinite-canvas/.acceptance-profile/r26b",
+ "mode": "verify-existing-succeeded-task (no generation submitted)",
+ "expected": {
+  "taskId": "task-mvtp33dv-57nmbx",
+  "bytes": 1831533,
+  "sha256": "2f8f7f112bccc0a67d13bf8fb5a166da715ec85c2ff169f8c147f7e3d3cf415e",
+  "storageKey": "tool-result:task-mvtp33dv-57nmbx:0:3yrrtwJa4FBz7TxtYTf29"
+ },
+ "requests": [],
+ "storeBeforeReload": {
+  "all": [
+   {
+    "id": "task-mvtp33dv-57nmbx",
+    "toolId": "REMOVE_PEN",
+    "status": "succeeded",
+    "createdAt": 1793287516387,
+    "finishedAt": 1793287550143
+   },
+   {
+    "id": "task-mvtoj0nz-0varve",
+    "toolId": "REMOVE_PEN",
+    "status": "failed",
+    "createdAt": 1793286579743,
+    "finishedAt": 1793286581124
+   }
+  ],
+  "task": {
+   "id": "task-mvtp33dv-57nmbx",
+   "toolId": "REMOVE_PEN",
+   "status": "succeeded",
+   "createdAt": 1793287516387,
+   "finishedAt": 1793287550143,
+   "submittedAt": 1793287516387,
+   "attempts": 1,
+   "items": [
+    {
+     "kind": "image",
+     "storageKey": "tool-result:task-mvtp33dv-57nmbx:0:3yrrtwJa4FBz7TxtYTf29",
+     "bytes": 1831533,
+     "dataUrlLen": 0
+    }
+   ]
+  }
+ },
+ "reload": {
+  "beforeType": "navigate",
+  "status": 200,
+  "at": "2026-10-29T15:35:50.400Z"
+ },
+ "afterReload": {
+  "navType": "reload",
+  "resultImg": {
+   "srcScheme": "blob",
+   "naturalW": 1024,
+   "naturalH": 1024,
+   "complete": true
+  },
+  "downloadHrefScheme": "blob",
+  "downloadHrefLen": 63,
+  "saveDisabled": false,
+  "sendDisabled": false,
+  "feedback": null,
+  "submitExists": true
+ },
+ "storeAfterReload": {
+  "all": [
+   {
+    "id": "task-mvtp33dv-57nmbx",
+    "toolId": "REMOVE_PEN",
+    "status": "succeeded",
+    "createdAt": 1793287516387,
+    "finishedAt": 1793287550143
+   },
+   {
+    "id": "task-mvtoj0nz-0varve",
+    "toolId": "REMOVE_PEN",
+    "status": "failed",
+    "createdAt": 1793286579743,
+    "finishedAt": 1793286581124
+   }
+  ],
+  "task": {
+   "id": "task-mvtp33dv-57nmbx",
+   "toolId": "REMOVE_PEN",
+   "status": "succeeded",
+   "createdAt": 1793287516387,
+   "finishedAt": 1793287550143,
+   "submittedAt": 1793287516387,
+   "attempts": 1,
+   "items": [
+    {
+     "kind": "image",
+     "storageKey": "tool-result:task-mvtp33dv-57nmbx:0:3yrrtwJa4FBz7TxtYTf29",
+     "bytes": 1831533,
+     "dataUrlLen": 0
+    }
+   ]
+  }
+ },
+ "resultStorageKey": "tool-result:task-mvtp33dv-57nmbx:0:3yrrtwJa4FBz7TxtYTf29",
+ "resultBytes": {
+  "found": true,
+  "store": "media_files",
+  "size": 1831533,
+  "type": "image/png",
+  "sha256": "2f8f7f112bccc0a67d13bf8fb5a166da715ec85c2ff169f8c147f7e3d3cf415e",
+  "tried": null,
+  "fileBytes": 1831533,
+  "fileSha256": "2f8f7f112bccc0a67d13bf8fb5a166da715ec85c2ff169f8c147f7e3d3cf415e",
+  "matchesExpected": true
+ },
+ "download": {
+  "via": "playwright-download",
+  "suggested": "apple_1024-erased.png",
+  "file": "download.png",
+  "bytes": 1831533,
+  "sha256": "2f8f7f112bccc0a67d13bf8fb5a166da715ec85c2ff169f8c147f7e3d3cf415e",
+  "matchesResultBytes": true
+ },
+ "save": {
+  "feedback": "已存入资产库（wdwqvHbN）",
+  "asset": {
+   "assetId": "wdwqvHbNsra6AtPJ4L5h8",
+   "title": "apple_1024.jpg 消除结果",
+   "kind": "image",
+   "storageKey": "image:W0c3_5mj2XabPdUv-RrFq",
+   "bytes": 1831533,
+   "mimeType": "image/png",
+   "updatedAt": "2026-10-29T15:35:50.918Z",
+   "totalAssets": 1
+  },
+  "assetBytes": {
+   "found": true,
+   "store": "image_files",
+   "size": 1831533,
+   "sha256": "2f8f7f112bccc0a67d13bf8fb5a166da715ec85c2ff169f8c147f7e3d3cf415e",
+   "matchesResult": true
+  }
+ },
+ "send": {
+  "feedback": "已发送画布（项目 APddJ5zO · 节点 image-17）",
+  "canvasStoreMissing": [
+   "infinite-canvas:ai_config_store",
+   "infinite-canvas:asset_store",
+   "infinite-canvas:canvas_store",
+   "tool-draft:v1:REMOVE_PEN"
+  ]
+ },
+ "checks": {
+  "taskSucceeded": true,
+  "freshReload": true,
+  "resultVisibleAfterReload": true,
+  "storedBytesMatch": true,
+  "downloadBytesMatch": true,
+  "assetSaved": true,
+  "assetBytesMatch": true,
+  "canvasSent": false,
+  "canvasBytesMatch": false,
+  "noNewGenerationRequest": true
+ },
+ "verdict": "PARTIAL",
+ "endedAt": "2026-10-29T15:36:03.256Z"
+}

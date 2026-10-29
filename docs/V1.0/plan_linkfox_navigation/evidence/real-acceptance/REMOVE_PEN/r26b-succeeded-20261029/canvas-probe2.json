@@ -1,0 +1,44 @@
+{
+ "found": true,
+ "projId": "APddJ5zOQBDrB_sr6xqO1",
+ "projKeys": [
+  "id",
+  "title",
+  "createdAt",
+  "updatedAt",
+  "nodes",
+  "connections",
+  "chatSessions",
+  "activeChatId",
+  "backgroundMode",
+  "showImageInfo",
+  "viewport"
+ ],
+ "nodeCount": 1,
+ "nodeIds": [
+  "image-1793288157196-3h0q0"
+ ],
+ "node": {
+  "id": "image-1793288157196-3h0q0",
+  "type": "image",
+  "title": "图片",
+  "position": {
+   "x": 150,
+   "y": 120
+  },
+  "width": 340,
+  "height": 240,
+  "metadata": {
+   "content": "blob:http://127.0.0.1:3000/00829e30-c807-4d6f-9c7b-fd96531ebe5b",
+   "status": "success",
+   "storageKey": "image:uha9pfm1R-iq9WvM80SvR",
+   "naturalWidth": 1024,
+   "naturalHeight": 1024,
+   "bytes": 1831533,
+   "mimeType": "image/png"
+  }
+ },
+ "storageKey": null,
+ "media": null,
+ "rawLen": 681
+}

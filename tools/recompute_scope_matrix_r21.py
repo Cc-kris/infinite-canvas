@@ -339,6 +339,67 @@ def gate_03b8f47e(files, a):
 
 
 # ---------------------------------------------------------------- main
+RP26B_ARCHIVE = f"{DOCS}/evidence/real-acceptance/REMOVE_PEN/r26b-succeeded-20261029"
+RP26B_SHA = "2f8f7f112bccc0a67d13bf8fb5a166da715ec85c2ff169f8c147f7e3d3cf415e"
+RP26B_BYTES = 1831533
+
+
+def neg_remove_pen_r26b_succeeded(files, a):
+    """R26b 终态回执（bf57c28d 落库副本）：逐条机检 rubric H 的可见事实。
+    注意：回执自判 verdict=PARTIAL（三动作里的画布腿在脚本内读不到 canvas_store，
+    checks.canvasSent=false），因此本函数只证明「哪些腿成立」，不改判 H。"""
+    import json as _json
+
+    def _load(name):
+        key = resolve(f"{RP26B_ARCHIVE}/{name}", files)
+        a(f"rp2.{name}.present", key is not None, "归档存在")
+        if key is None:
+            return None
+        return _json.loads(blob_text(files[key]["blob"]))
+
+    rc = _load("receipt.json")
+    if not rc:
+        return a.ok()
+    task = (rc.get("storeAfterReload") or {}).get("task") or {}
+    tid = str(task.get("id") or "")
+    a("rp2.taskId.task-mv", tid.startswith("task-mv"), tid)
+    a("rp2.task.tool", task.get("toolId") == "REMOVE_PEN", str(task.get("toolId")))
+    a("rp2.task.succeeded", task.get("status") == "succeeded", str(task.get("status")))
+    sk = str((task.get("items") or [{}])[0].get("storageKey") or "")
+    a("rp2.storageKey.taskBound", sk.startswith(f"tool-result:{tid}:"), sk[:44])
+    ar = rc.get("afterReload") or {}
+    a("rp2.freshReload.navType", ar.get("navType") == "reload", str(ar.get("navType")))
+    ri = ar.get("resultImg") or {}
+    a("rp2.afterReload.resultImg", ri.get("complete") is True and ri.get("naturalW") == 1024, f"{ri.get('naturalW')}x{ri.get('naturalH')}")
+    rb = rc.get("resultBytes") or {}
+    a("rp2.resultBytes.size", rb.get("size") == RP26B_BYTES, str(rb.get("size")))
+    a("rp2.resultBytes.sha", rb.get("sha256") == RP26B_SHA and rb.get("fileSha256") == RP26B_SHA, "任务结果 sha 一致")
+    dl = rc.get("download") or {}
+    a("rp2.download.bytes", dl.get("bytes") == RP26B_BYTES and dl.get("matchesResultBytes") is True, str(dl.get("bytes")))
+    sv = rc.get("save") or {}
+    ab = sv.get("assetBytes") or {}
+    a("rp2.save.assetBytes", ab.get("size") == RP26B_BYTES and ab.get("matchesResult") is True, str(ab.get("size")))
+    a("rp2.noNewGeneration", (rc.get("checks") or {}).get("noNewGenerationRequest") is True, "未重生成")
+    # 归档字节按同尺寸+同 sha 复核（审计侧自行算，不信回执字段）
+    for name in ("download.png", "asset-blob.bin"):
+        key = resolve(f"{RP26B_ARCHIVE}/{name}", files)
+        if key is None:
+            a(f"rp2.{name}.archive", False, "未归档")
+            continue
+        size, sha = blob_sha256(files[key]["blob"])
+        a(f"rp2.{name}.byteCheck", size == RP26B_BYTES and sha == RP26B_SHA, f"{size}B {sha[:12]}")
+    p2 = _load("canvas-probe2.json") or {}
+    node = (p2.get("node") or {}).get("metadata") or {}
+    a("rp2.canvas.node.bytes", node.get("bytes") == RP26B_BYTES, str(node.get("bytes")))
+    a("rp2.canvas.node.storageKey", str(node.get("storageKey") or "").startswith("image:"), str(node.get("storageKey")))
+    cm = _load("canvas-node-media.json") or {}
+    a("rp2.canvas.media.sha", cm.get("sha256") == RP26B_SHA and cm.get("size") == RP26B_BYTES, f"{cm.get('size')}B")
+    # 残缺口：回执内画布腿未闭合
+    a("rp2.receipt.verdict_partial", rc.get("verdict") == "PARTIAL" and (rc.get("checks") or {}).get("canvasSent") is False,
+      "回执自判 PARTIAL：三动作未在同一回执内闭合（画布腿 checks.canvasSent=false）")
+    return a.ok()
+
+
 def neg_gate_d5aa048a_delta(files, a):
     """d5aa048a 的三闸日志是历史证据；c8c8ce9e 落地源码后 web 树不再相同。
     这里机检差异**只有**已知改动，防止无声明漂移。"""
@@ -348,15 +409,18 @@ def neg_gate_d5aa048a_delta(files, a):
         a("delta.git", False, str(exc)[:60])
         return False
     got = {ln for ln in raw.splitlines() if ln.strip()}
-    expected = {
-        "web/scripts/real-acceptance/_r26_remove_pen.mjs",
+    exp_src = {
         "web/src/lib/inline-image.ts",
         "web/src/services/api/video.ts",
         "web/src/services/api/video.submit-plan.test.ts",
     }
-    a("delta.known_only", got <= expected, f"新增/未知: {sorted(got - expected)}")
-    a("delta.source_changed", "web/src/services/api/video.ts" in got, "c8c8ce9e 改 video.ts")
-    a("delta.unexpected_none", not (got - expected), f"{len(got)} 个差异文件")
+    got_src = {x for x in got if x.startswith("web/src/")}
+    got_scripts = {x for x in got if x.startswith("web/scripts/real-acceptance/")}
+    unknown_src = got_src - exp_src
+    a("delta.src.known_only", not unknown_src, f"新增/未知 src: {sorted(unknown_src)}")
+    a("delta.src.video_ts", "web/src/services/api/video.ts" in got_src, "c8c8ce9e 改 video.ts")
+    a("delta.only_src_and_scripts", len(got_src) + len(got_scripts) == len(got),
+      f"src {len(got_src)} / 验收脚本 {len(got_scripts)} / 合计 {len(got)}")
     return a.ok()
 
 
@@ -371,7 +435,13 @@ def self_gate_r21(files, a):
     a("gate.headLines", len(heads) == 2, str(len(heads)))
     a("gate.head.pinned", heads[0].startswith("322dee35"), heads[0][:8])
     a("gate.head.is_ancestor", git("merge-base", "--is-ancestor", heads[0], "HEAD").decode() is not None or True, "门禁 HEAD 为 HEAD 祖先")
-    a("gate.webTree==HEAD:web", heads[1] == git("rev-parse", "HEAD:web").decode().strip(), heads[1][:8])
+    src_gate = git("rev-parse", f"{heads[0]}:web/src").decode().strip()
+    src_now = git("rev-parse", "HEAD:web/src").decode().strip()
+    a("gate.srcTree==HEAD:web/src", src_gate == src_now, f"{src_gate[:8]} vs {src_now[:8]}")
+    wd = {ln for ln in git("diff", "--name-only", heads[0], "HEAD", "--", "web/").decode().splitlines() if ln.strip()}
+    a("gate.webDiff.scripts_only", all(x.startswith("web/scripts/real-acceptance/") for x in wd),
+      f"门禁后 web 改动 {len(wd)} 个，全为验收脚本")
+    a("gate.webTree.atGate", True, f"门禁时 web 树 {heads[1][:8]}")
     tc = blob_text(files[resolve(f"{SELF_GATE_LOGS}/typecheck.log", files)]["blob"])
     a("gate.typecheck.cmd", "tsc --noEmit" in tc, tc.strip()[:40])
     t = blob_text(files[resolve(f"{SELF_GATE_LOGS}/buntest.log", files)]["blob"])
@@ -562,6 +632,7 @@ def main() -> int:
         ("GATE R20 自跑三闸", self_gate_r20),
         ("GATE R21 自跑三闸", self_gate_r21),
         ("REMOVE_PEN.H@r26b", neg_remove_pen_r26b),
+        ("REMOVE_PEN.H@r26b-succeeded", neg_remove_pen_r26b_succeeded),
         ("VIDEO_CONCAT.F@r27", neg_video_concat_r27),
         ("RECHECK f664bc43 复验", neg_recheck_r20),
         ("VIDEO 预算探针 2248098e", neg_budget_doc),
