@@ -1,0 +1,6 @@
+e78f6349b3f2c958e1d120b6b1bc242472589f5f
+e78f6349b3f2c958e1d120b6b1bc242472589f5f (fixed sample, git archive)
+live HEAD at report time: 74aba4beb184d78dd585ca9ab15baf0fe706327f
+run window: 2026-10-29 21:39 - 21:43 CST
+toolchain: bun 1.4.2 / typescript 5.9.3 / vite 7.3.6
+blob verify: 3175 tracked blobs, missing=0, differs=0
