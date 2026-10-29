@@ -1,0 +1,147 @@
+{
+  "head": "f19a784",
+  "branch": "feat/linkfox-v1-real",
+  "baseline_matrix": "reports/independent-audit-20261029-r15-matrix (HEAD 3afe2c2)",
+  "rubric": "R15 unchanged: F=result+>=2 machine action legs; H=task+machine reload marker+post-reload obs+bytes",
+  "artifacts": {
+    "PRODUCT_SCENE": {
+      "path": "docs/V1.0/plan_linkfox_navigation/evidence/r16-scene-real-20261029/PRODUCT_SCENE-result-1.png",
+      "bytes": 2398828,
+      "sha256": "fa5ee380ab79ae8b924e1481136cbcfe4f23473926246c79129fc0c59093f9e2"
+    },
+    "PRINT_EXTRACT": {
+      "path": "evidence/real-acceptance/PRINT_EXTRACT/result.png",
+      "bytes": 2783996,
+      "sha256": "1577dafdcda3797856efcae1c662cdccbc2de0ab94b88acd2b94fe541e51d822"
+    },
+    "HAND_REPAIR": {
+      "path": "docs/V1.0/plan_linkfox_navigation/evidence/edit8-h-real-20261029/HAND_REPAIR-result-1024x1024.png",
+      "bytes": 2153466,
+      "sha256": "a34cea71ca7da6dec09ee6167367f6c60ba600e4ff44ec0c6441b6f5f3800e20"
+    },
+    "NEW_DESIGNER": {
+      "path": "docs/V1.0/plan_linkfox_navigation/evidence/suite-design-realgen-20261029/new-designer-result-1.png",
+      "bytes": 411801,
+      "sha256": "90e28e0f93420bb42270708737760d810d9df1e986566aed60d61a79b4a09d88"
+    }
+  },
+  "downloads": {
+    "PIS-download": {
+      "path": "product-image-suite-result-1 (3).png",
+      "bytes": 2785837,
+      "sha256": "6f9dec2af872e9e97f26830b63f3126fd462a71ff8106bfbc3f67c43ae22c6a4",
+      "mtime": "2026-10-29 21:52:36"
+    },
+    "NEW_DESIGNER-download": {
+      "path": "new-designer-result-1 (2).png",
+      "bytes": 411801,
+      "sha256": "90e28e0f93420bb42270708737760d810d9df1e986566aed60d61a79b4a09d88",
+      "mtime": "2026-10-29 21:53:35"
+    },
+    "HAND_REPAIR-download(claimed)": {
+      "path": "hand-repair-result-1.png",
+      "bytes": 2153466,
+      "sha256": "a34cea71ca7da6dec09ee6167367f6c60ba600e4ff44ec0c6441b6f5f3800e20",
+      "mtime": "2026-10-29 17:49:16"
+    }
+  },
+  "defects": [
+    {
+      "tool": "HAND_REPAIR",
+      "commit": "560a46e",
+      "leg": "download",
+      "issue": "claimed savedTo file mtime 17:49:16/(1)17:52:58, both before freshReload 21:43:20Z and canvas node 21:44:21; no new file in 21:35-21:50 window",
+      "impact": "leg attribution stale; F still PASS via saveAsset+sendCanvas (2 hard legs)",
+      "verdict_changed": false
+    },
+    {
+      "tool": "NEW_DESIGNER",
+      "commit": "c125c62",
+      "leg": "saveToAssets",
+      "issue": "two asset records createdAt 11:00:23Z/10:04:07Z (19:00/18:04 CST), before this round download 21:53:35",
+      "impact": "leg is prior export of same task, not this round click; F still PASS via download+sendCanvas",
+      "verdict_changed": false
+    }
+  ],
+  "verdict_changes": 0,
+  "non_green": [
+    {
+      "n": 1,
+      "tool": "AI_VIDEO_EDITING",
+      "dim": "F",
+      "gap": "仅下载 1 条硬腿；存资产/发画布无结构化回执"
+    },
+    {
+      "n": 2,
+      "tool": "AI_VIDEO_EDITING",
+      "dim": "H",
+      "gap": "task-mvtkgo4b-gaomk5 failed/submit-unconfirmed，无上游产物"
+    },
+    {
+      "n": 3,
+      "tool": "CHANGE_COLOR_V2",
+      "dim": "H",
+      "gap": "BLOCKED_NO_BYTES；字节不可逆丢失窗口"
+    },
+    {
+      "n": 4,
+      "tool": "HANDHELD_GOODS",
+      "dim": "H",
+      "gap": "唯一任务 task-mvs5p8g8-or3oim failed，无成功任务可绑"
+    },
+    {
+      "n": 5,
+      "tool": "IMAGE_TEXT_EDIT",
+      "dim": "H",
+      "gap": "payloadDropped=true，无 storageKey/url/bytes"
+    },
+    {
+      "n": 6,
+      "tool": "PRINT_EXTRACT",
+      "dim": "H",
+      "gap": "缺一条机器 reload 回执（散文不计）+ 存资产 UNVERIFIED"
+    },
+    {
+      "n": 7,
+      "tool": "PRODUCT_SCENE",
+      "dim": "H",
+      "gap": "仅刷新前控制台证据，缺机器 reload 标记+刷新后观测"
+    },
+    {
+      "n": 8,
+      "tool": "REMOVE_PEN",
+      "dim": "H",
+      "gap": "payloadDropped=true ×3，无字节"
+    },
+    {
+      "n": 9,
+      "tool": "VIDEO_CONCAT",
+      "dim": "F",
+      "gap": "仅下载硬腿；无资产/画布落库字节"
+    },
+    {
+      "n": 10,
+      "tool": "VIDEO_REPLICATION",
+      "dim": "F",
+      "gap": "HEAD 内无任何动作回执"
+    },
+    {
+      "n": 11,
+      "tool": "VIDEO_REPLICATION",
+      "dim": "H",
+      "gap": "仅散文抽样 1,963,716B，无机器 reload 与面板观测"
+    },
+    {
+      "n": 12,
+      "tool": "VIDEO_REPLICATION",
+      "dim": "R",
+      "gap": "HEAD 内无 1,963,716B 产物可复算"
+    },
+    {
+      "n": 13,
+      "tool": "VIDEO_TRANSLATION",
+      "dim": "F",
+      "gap": "上游拒上传字节（400），无成功样例"
+    }
+  ]
+}
