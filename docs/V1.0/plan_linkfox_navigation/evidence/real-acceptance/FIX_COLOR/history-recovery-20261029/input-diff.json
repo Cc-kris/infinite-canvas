@@ -1,0 +1,35 @@
+{
+  "fixture": {
+    "file": "web/scripts/real-acceptance/fixtures/fix-color/product-watch.jpg",
+    "sourceCopy": ".worker-scratch-w6/product_watch.jpg",
+    "width": 1024,
+    "height": 744,
+    "bytes": 31860,
+    "sha256": "43ede96e7ce885098df793143b215e2c7d2ea7558af711ec5c46975a0dc19be3"
+  },
+  "method": "PIL 将产物 LANCZOS 还原到输入 1024x744 后逐像素比较 RGB 绝对差",
+  "runs": {
+    "firstRun(task-mvt9r1lg-ab8tqn, size=1:1)": {
+      "file": "result-real-20261029.png",
+      "width": 1024,
+      "height": 1024,
+      "bytes": 1218527,
+      "sha256": "83ef17c23f33eb25593f48aac97db9c4b8797f898fc530c12d80871bbd92d900",
+      "meanAbsDiff": 17.62,
+      "pixelsOver12Pct": 24.32,
+      "pixelsOver30Pct": 19.38,
+      "identicalToInput": false
+    },
+    "run2(task-mvta1kkg-t8y1yo, size=1024x752)": {
+      "file": "result-real-run2-20261029.png",
+      "width": 1024,
+      "height": 752,
+      "bytes": 1003673,
+      "sha256": "a5958a770e8f630649e57a8849858ab2b8c72f72f344673f77e22f2c89339525",
+      "meanAbsDiff": 14.75,
+      "pixelsOver12Pct": 17.8,
+      "pixelsOver30Pct": 16.0,
+      "identicalToInput": false
+    }
+  }
+}

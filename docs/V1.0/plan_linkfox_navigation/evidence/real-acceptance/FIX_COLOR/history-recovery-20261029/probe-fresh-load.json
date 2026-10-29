@@ -1,0 +1,76 @@
+{
+  "expanded": [
+    {
+      "btns": [
+        {
+          "dis": false,
+          "tid": "tool-history-dock-toggle",
+          "title": ""
+        }
+      ],
+      "dropped": false,
+      "taskId": "task-mvta1kkg-t8y1yo"
+    },
+    {
+      "btns": [
+        {
+          "dis": false,
+          "tid": "tool-history-dock-toggle",
+          "title": ""
+        },
+        {
+          "dis": false,
+          "tid": "tool-history-dock-copy-config",
+          "title": ""
+        },
+        {
+          "dis": false,
+          "tid": "tool-history-dock-download",
+          "title": "下载"
+        },
+        {
+          "dis": false,
+          "tid": "tool-history-dock-save",
+          "title": "存入资产"
+        },
+        {
+          "dis": false,
+          "tid": "tool-history-dock-canvas",
+          "title": "发送到画布"
+        }
+      ],
+      "config": "能力：image\n模型：default::gpt-image-2\n接口格式：openai\n尺寸：1:1\n质量：auto\n数量：1\n时长：6\nchannelId：default\n输入素材：s06VIgLr3ZyTauRUNHeRg, FIX_COLOR-mask",
+      "dropped": false,
+      "result": "task-mvt9r1lg-ab8tqn-0",
+      "sources": "s06VIgLr3ZyTauRUNHeRg, FIX_COLOR-mask",
+      "taskId": "task-mvt9r1lg-ab8tqn"
+    }
+  ],
+  "items": {
+    "task-mvt9r1lg-ab8tqn": {
+      "fetchedBytes": 1218527,
+      "height": 1024,
+      "magic": "89504e470d0a1a0a",
+      "mime": "image/png",
+      "sha256": "83ef17c23f33eb25593f48aac97db9c4b8797f898fc530c12d80871bbd92d900",
+      "storageKey": "tool-result:PIvAsueZHgZNHS9_77Fw8",
+      "storedBytes": 1218527,
+      "urlHead": "blob:http://127.0.0.1:3000/f8573df4-c66e-4af6-b62d-71d960b0181d",
+      "width": 1024
+    },
+    "task-mvta1kkg-t8y1yo": {
+      "fetchedBytes": 1003673,
+      "height": 752,
+      "magic": "89504e470d0a1a0a",
+      "mime": "image/png",
+      "sha256": "a5958a770e8f630649e57a8849858ab2b8c72f72f344673f77e22f2c89339525",
+      "storageKey": "tool-result:qQAR2JMo3arS4IRSr9C_i",
+      "storedBytes": 1003673,
+      "urlHead": "blob:http://127.0.0.1:3000/4ff410a9-ffc2-4f3e-884e-7a4f678db225",
+      "width": 1024
+    }
+  },
+  "navType": "navigate",
+  "reloadMark": 1793262943059.8,
+  "url": "http://127.0.0.1:3000/tools/smart-edit/fix-color"
+}

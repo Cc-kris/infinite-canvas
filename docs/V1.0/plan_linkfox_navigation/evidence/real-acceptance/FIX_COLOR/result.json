@@ -44,13 +44,47 @@
     "tests": "web/src/features/tools/adapters/fix-color.test.ts 新增 4 条尺寸用例（23 pass）"
   },
   "historyRecovery": {
-    "method": "整页 reload 后：历史标签 2 条 succeeded（16:15 / 16:24）均带结果缩略图；点『查看结果』→ 结果区显示 1024x752 图，下载/存入资产/发送画布可用。",
-    "limitation": "reload 后结果区默认空态（task 不持久化，需从历史恢复）；历史恢复时前后对比视图不显示（对比视图取 run，历史走 task）。"
+    "testedAt": "2026-10-29T08:36:51Z",
+    "method": "新建标签打开 /tools/smart-edit/fix-color（首次导航 navigate）→ 读历史坞 → 同标签 location.reload()（navigation.type=reload）→ 复验。复用既有任务，未重新生成。",
+    "evidenceDir": "evidence/real-acceptance/FIX_COLOR/history-recovery-20261029/",
+    "rows": [
+      {
+        "taskId": "task-mvt9r1lg-ab8tqn",
+        "dockTime": "2026-10-29 16:15",
+        "status": "succeeded",
+        "thumbnail": "1024x1024",
+        "restoredBytes": 1218527,
+        "restoredWidth": 1024,
+        "restoredHeight": 1024,
+        "restoredSha256": "83ef17c23f33eb25593f48aac97db9c4b8797f898fc530c12d80871bbd92d900",
+        "matchesCommittedArtifact": true,
+        "blobUrlRegeneratedOnReload": true
+      },
+      {
+        "taskId": "task-mvta1kkg-t8y1yo",
+        "dockTime": "2026-10-29 16:24",
+        "status": "succeeded",
+        "thumbnail": "1024x752",
+        "restoredBytes": 1003673,
+        "restoredWidth": 1024,
+        "restoredHeight": 752,
+        "restoredSha256": "a5958a770e8f630649e57a8849858ab2b8c72f72f344673f77e22f2c89339525",
+        "matchesCommittedArtifact": true,
+        "blobUrlRegeneratedOnReload": true
+      }
+    ],
+    "mediaRehydrated": "同一任务在两次加载里生成不同 blob URL：首次加载 f8573df4…（run1）/4ff410a9…（run2），整页 reload 后 b2dfe6cb…/ed63bb8e…，而 fetch 出的字节与 sha256 完全相同 → 媒体按 IndexedDB storageKey 真实还原，不是内存/blob 残留（旧 URL 跨加载不可复用）。",
+    "limitation": "刷新后结果区本身是空态，结果只从历史坞取；fix-color 页历史坞没有『查看结果』按钮（那是 ToolTaskHistory，被套图/场景/扩图/视频翻译等工作区使用）。历史恢复不还原前后对比视图（对比视图取 run，历史走 task）。本机无 CDP 截图通道，证据以 DOM 快照 + 字节/sha 为准。"
   },
   "actions": {
-    "download": "按钮存在且结果图可解码",
-    "saveToAssets": "按钮存在",
-    "sendToCanvas": "按钮存在"
+    "download": "实测：点历史坞『下载』→ 提示『已下载 fix-color-result-1.png』，落盘 ~/Downloads/fix-color-result-1.png = 1,218,527 bytes / sha256 83ef17c2…d900，与产物文件一致（见 actions-download.json）",
+    "saveToAssets": "实测：点『存入资产』→ 提示『已存入资产库（image · OIRBFLPZFZt5hjgOZL3sV）』（见 actions-save-to-assets.json）",
+    "sendToCanvas": "按钮存在且可用（本次未点击，避免改动画布状态）"
+  },
+  "verifiedDiffVsInput": {
+    "method": "产物 LANCZOS 还原到输入 1024x744 后逐像素 RGB 绝对差（本次复算，见 input-diff.json）",
+    "firstRun": { "meanAbsDiff": 17.62, "pixelsOver12Pct": 24.32, "pixelsOver30Pct": 19.38, "identicalToInput": false },
+    "run2": { "meanAbsDiff": 14.75, "pixelsOver12Pct": 17.8, "pixelsOver30Pct": 16.0, "identicalToInput": false }
   },
   "attempts": [
     {

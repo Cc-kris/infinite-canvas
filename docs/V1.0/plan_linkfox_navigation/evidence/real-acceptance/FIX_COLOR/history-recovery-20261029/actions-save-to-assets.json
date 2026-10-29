@@ -1,0 +1,39 @@
+{
+  "checkedAt": "2026-10-29T08:38:10.630Z",
+  "feedback": "已存入资产库（image · OIRBFLPZFZt5hjgOZL3sV）",
+  "rows": [
+    {
+      "actions": [
+        {
+          "disabled": false,
+          "title": "下载"
+        },
+        {
+          "disabled": false,
+          "title": "存入资产"
+        },
+        {
+          "disabled": false,
+          "title": "发送到画布"
+        }
+      ],
+      "config": "能力：image\n模型：default::gpt-image-2\n接口格式：openai\n尺寸：1:1\n质量：auto\n数量：1\n时长：6\nchannelId：default\n输入素材：s06VIgLr3ZyTauRUNHeRg, FIX_COLOR-mask",
+      "expanded": "true",
+      "id": "task-mvt9r1lg-ab8tqn",
+      "resultImg": {
+        "h": 1024,
+        "src": "blob:http://127.0.0.1:3000/b2dfe6cb-1950-4e90-9f5e-60051dea602c",
+        "w": 1024
+      },
+      "sources": "s06VIgLr3ZyTauRUNHeRg, FIX_COLOR-mask"
+    },
+    {
+      "actions": [],
+      "expanded": "false",
+      "id": "task-mvta1kkg-t8y1yo",
+      "resultImg": null
+    }
+  ],
+  "saveDisabled": false,
+  "saveFound": true
+}

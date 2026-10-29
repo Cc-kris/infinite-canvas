@@ -1,0 +1,56 @@
+{
+  "checkedAt": "2026-10-29T08:36:51.537Z",
+  "dockCount": "2 条",
+  "hasEmptyState": false,
+  "items": {
+    "task-mvt9r1lg-ab8tqn": {
+      "fetchedBytes": 1218527,
+      "height": 1024,
+      "sha256": "83ef17c23f33eb25593f48aac97db9c4b8797f898fc530c12d80871bbd92d900",
+      "storageKey": "tool-result:PIvAsueZHgZNHS9_77Fw8",
+      "storedBytes": 1218527,
+      "urlHead": "blob:http://127.0.0.1:3000/b2dfe6cb-1950-4e90-9f5e-60051dea602c",
+      "width": 1024
+    },
+    "task-mvta1kkg-t8y1yo": {
+      "fetchedBytes": 1003673,
+      "height": 752,
+      "sha256": "a5958a770e8f630649e57a8849858ab2b8c72f72f344673f77e22f2c89339525",
+      "storageKey": "tool-result:qQAR2JMo3arS4IRSr9C_i",
+      "storedBytes": 1003673,
+      "urlHead": "blob:http://127.0.0.1:3000/ed63bb8e-3cad-4be5-b65e-6d7e620b5f19",
+      "width": 1024
+    }
+  },
+  "navType": "reload",
+  "persistDisabled": false,
+  "rows": [
+    {
+      "status": "succeeded",
+      "summary": "default::gpt-image-2 · image · 1 个结果",
+      "taskId": "task-mvta1kkg-t8y1yo",
+      "thumb": [
+        {
+          "h": 752,
+          "src": "blob:http://127.0.0.1:3000/ed63bb8e-3cad-4be5-b65e-6d7e620b5f19",
+          "w": 1024
+        }
+      ],
+      "time": "2026-10-29 16:24"
+    },
+    {
+      "status": "succeeded",
+      "summary": "default::gpt-image-2 · image · 1 个结果",
+      "taskId": "task-mvt9r1lg-ab8tqn",
+      "thumb": [
+        {
+          "h": 1024,
+          "src": "blob:http://127.0.0.1:3000/b2dfe6cb-1950-4e90-9f5e-60051dea602c",
+          "w": 1024
+        }
+      ],
+      "time": "2026-10-29 16:15"
+    }
+  ],
+  "url": "http://127.0.0.1:3000/tools/smart-edit/fix-color"
+}
