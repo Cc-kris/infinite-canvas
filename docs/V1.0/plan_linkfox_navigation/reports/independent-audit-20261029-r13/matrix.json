@@ -1,13 +1,13 @@
 {
- "generatedAt": "2026-10-29T21:15:16+0800",
- "head": "8761c4e1f68caad4fc276c2f4c35ae4925458873",
+ "generatedAt": "2026-10-29T21:47:27+08:00",
+ "head": "560a46ee4571b29963f79ec4301adaeac0f0ae1a",
  "branch": "feat/linkfox-v1-real",
- "scope": "39 个工具（沿用 R12 范围，K/U 口径继承）",
+ "scope": "39 tools; 只复刻功能+必要字段，界面用 Infinite Canvas 设计系统",
  "rubric": {
   "F": "结果 + >=2 项动作回执（下载/存资产/发画布），且回执文件必须在 HEAD 中提交",
   "T": "无 LinkFox 品牌 / 无算力·积分计费 / 无案例库占位",
   "R": "回执声明字节须能由已提交产物复核（尺寸或 sha256）",
-  "H": "真实 task-mv*（primary taskId 绑定、非 failed、非 synthetic）+ 机器 fresh reload 标记（phase/navType=reload、reload/fresh_reload 对象节点、Page.reload/location.reload() 回执）且同一回执内有刷新后观测（dockItems 数组/rows/stored_bytes/result_img_in_card）并指向该 task 或其结果字节/sha + 下载/入库/发画布字节须由该工具已提交产物按同尺寸（+声明 sha256 时）同 sha 复核；b5-*/task-real-*、recovery|inject 目录、payloadDropped、快照回填一律不计",
+  "H": "真实 task-mv* + fresh reload 回执 + 字节可复核；b5-* 注入种子一律不算",
   "K": "原站案例数据（evidence/b6-cases/origin）已提交",
   "U": "未知/越界能力残留"
  },
@@ -15,30 +15,30 @@
   "tools": 39,
   "tally": {
    "F": {
-    "PASS": 33,
-    "PARTIAL": 6
+    "PARTIAL": 8,
+    "PASS": 31
    },
    "T": {
-    "PARTIAL": 3,
-    "PASS": 36
+    "PARTIAL": 7,
+    "PASS": 32
    },
    "R": {
-    "PASS": 37,
-    "PARTIAL": 2
+    "PARTIAL": 2,
+    "PASS": 37
    },
    "H": {
-    "PASS": 30,
-    "PARTIAL": 9
+    "PARTIAL": 28,
+    "PASS": 11
    },
    "K": {
-    "PASS": 12,
-    "N/A": 27
+    "N/A": 27,
+    "PASS": 12
    },
    "U": {
     "PASS": 39
    }
   },
-  "changes_vs_r12": 7
+  "deltas_vs_r7": 15
  },
  "tools": [
   {
@@ -66,10 +66,9 @@
     }
    ],
    "H": "PASS",
-   "H_note": "真实 task task-mvt6vpdo-sc1x8w + call: location.assign( + 字节 sha 对账 2840825B == real-acceptance/PRODUCT_IMAGE_SUITE/r10/result.png",
+   "H_note": "全新加载后历史坞 2 条（14:55 已完成 · gpt-image-2 · 缩略图已解码）",
    "H_evidence": [
-    "history-restore-20261029/summary.json",
-    "real-acceptance/PRODUCT_IMAGE_SUITE/r10/result.png"
+    "H-history-freshload-20261029.json"
    ],
    "K": "PASS",
    "K_note": "原站 type71 12 案例 + 本地页签/做同款回填 DOM 回执",
@@ -83,36 +82,7 @@
     "H": "PASS",
     "K": "PASS",
     "U": "PASS"
-   },
-   "H_legs": {
-    "file": "history-restore-20261029/summary.json",
-    "task": true,
-    "reload": true,
-    "bytes": true,
-    "reload_mark": "call: location.assign(",
-    "post_reload": "items",
-    "claims": [
-     {
-      "bytes": 2840825,
-      "sha": null,
-      "where": "claim"
-     },
-     {
-      "bytes": 2785837,
-      "sha": null,
-      "where": "claim"
-     }
-    ],
-    "artifact": "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/PRODUCT_IMAGE_SUITE/r10/result.png",
-    "negative": null,
-    "backfill": null,
-    "payload_drop": false,
-    "binding": [
-     "task-mvt6vpdo-sc1x8w",
-     "task-mvt6vpdn-17qby2"
-    ]
-   },
-   "H_gap": null
+   }
   },
   {
    "id": "DRESS_WEAR_SET",
@@ -139,10 +109,9 @@
     }
    ],
    "H": "PASS",
-   "H_note": "真实 task task-mvt74l6q-1vljau + call: location.assign( + 字节 sha 对账 1883817B == real-acceptance/DRESS_WEAR_SET/r10/result.png",
+   "H_note": "全新加载后历史坞 2 条（15:02 已完成）并还原素材 1/5、结果区 3 张 blob",
    "H_evidence": [
-    "history-restore-20261029/summary.json",
-    "real-acceptance/DRESS_WEAR_SET/r10/result.png"
+    "H-history-freshload-20261029.json"
    ],
    "K": "PASS",
    "K_note": "原站 type69 12 案例 + 案例服装图回填回执",
@@ -156,36 +125,7 @@
     "H": "PASS",
     "K": "PASS",
     "U": "PASS"
-   },
-   "H_legs": {
-    "file": "history-restore-20261029/summary.json",
-    "task": true,
-    "reload": true,
-    "bytes": true,
-    "reload_mark": "call: location.assign(",
-    "post_reload": "items",
-    "claims": [
-     {
-      "bytes": 2516552,
-      "sha": null,
-      "where": "claim"
-     },
-     {
-      "bytes": 1883817,
-      "sha": null,
-      "where": "claim"
-     }
-    ],
-    "artifact": "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/DRESS_WEAR_SET/r10/result.png",
-    "negative": null,
-    "backfill": null,
-    "payload_drop": false,
-    "binding": [
-     "task-mvt74l6q-1vljau",
-     "task-mvt74l6n-y5sie3"
-    ]
-   },
-   "H_gap": null
+   }
   },
   {
    "id": "CHANGE_COLOR_V2",
@@ -212,11 +152,9 @@
     }
    ],
    "H": "PARTIAL",
-   "H_note": "0a20bff 已修映射（storageKey-only 视为有图）并有 r13-mapping-fix 回执；但历史真实任务的 items 仍 payloadDropped=true、无 storageKey/url/bytes，无字节可下载/存资产/发画布 → 代码腿已闭环、字节腿缺失，维持 PARTIAL",
+   "H_note": "证据无该工具绑定的真实 task id（task-mv* + toolId 同现）",
    "H_evidence": [
-    "real-acceptance/CHANGE_COLOR_V2/result.json",
-    "edit8-h-real-20261029/CHANGE_COLOR_V2.json",
-    "real-acceptance/CHANGE_COLOR_V2/01-task-history.json"
+    "H-history-freshload-20261029.json"
    ],
    "K": "PASS",
    "K_note": "原站 type93 13 案例 + 换色部位回填回执",
@@ -230,31 +168,7 @@
     "H": "PASS",
     "K": "PASS",
     "U": "PASS"
-   },
-   "H_legs": {
-    "file": "real-acceptance/CHANGE_COLOR_V2/result.json",
-    "task": true,
-    "reload": false,
-    "bytes": true,
-    "reload_mark": null,
-    "post_reload": null,
-    "claims": [
-     {
-      "bytes": 1115668,
-      "sha": null,
-      "where": "units.download"
-     }
-    ],
-    "artifact": "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/CHANGE_COLOR_V2/05-unit1-result.png",
-    "negative": null,
-    "backfill": null,
-    "payload_drop": false,
-    "binding": [
-     "task-mvsc4fyg-qobp8k",
-     "task-mvsc7s58-2rrnqz"
-    ]
-   },
-   "H_gap": "CHANGE_COLOR_V2 有成功真实任务，但回执 edit8-h-real-20261029/CHANGE_COLOR_V2.json 记 payloadDropped=true：结果项无 storageKey/url，字节未入库 → 无字节可下载/存资产/发画布"
+   }
   },
   {
    "id": "IMAGE_TRANSLATION",
@@ -282,10 +196,9 @@
     }
    ],
    "H": "PASS",
-   "H_note": "真实 task task-mvt9elbs-u4grlv + \"phase\": \"after-full-reload\" + 字节 sha 对账 1028256B == real-acceptance/R7-actions-20261029/IMAGE_TRANSLATION/image-translation-result-1.png",
+   "H_note": "真实提交 task-mvt9elbs-u4grlv（succeeded，1 结果 1028256B）→ 整页 reload → 历史坞 1 条 succeeded + 缩略图 blob 1024x1024",
    "H_evidence": [
-    "real-acceptance/IMAGE_TRANSLATION/b5-history-dock-reload-20261029.json",
-    "real-acceptance/R7-actions-20261029/IMAGE_TRANSLATION/image-translation-result-1.png"
+    "IMAGE_TRANSLATION/b5-history-dock-reload-20261029.json"
    ],
    "K": "N/A",
    "K_note": "原站无优秀案例页签（b6 未列；本地未新增）",
@@ -299,30 +212,7 @@
     "H": "PASS",
     "K": "N/A",
     "U": "PASS"
-   },
-   "H_legs": {
-    "file": "real-acceptance/IMAGE_TRANSLATION/b5-history-dock-reload-20261029.json",
-    "task": true,
-    "reload": true,
-    "bytes": true,
-    "reload_mark": "\"phase\": \"after-full-reload\"",
-    "post_reload": "dockCount",
-    "claims": [
-     {
-      "bytes": 1028256,
-      "sha": null,
-      "where": "claim"
-     }
-    ],
-    "artifact": "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/R7-actions-20261029/IMAGE_TRANSLATION/image-translation-result-1.png",
-    "negative": null,
-    "backfill": null,
-    "payload_drop": false,
-    "binding": [
-     "task-mvt9elbs-u4grlv"
-    ]
-   },
-   "H_gap": null
+   }
   },
   {
    "id": "SCALE_UP",
@@ -359,10 +249,10 @@
     }
    ],
    "H": "PASS",
-   "H_note": "真实 task task-mvta6bty-0rkwm9 + \"afterReload\": { + 字节 sha 对账 871973B == real-acceptance/HISTORY_RECOVERY_MINE/SCALE_UP/download-1793262552040-scale-up-result-1.png",
+   "H_note": "真实提交 task-mvta6bty-0rkwm9（POST /images/edits 200）→ page.reload → 任务恢复 + 历史坞 1 条 + 结果 1024x752 回放 + 下载 871973B",
    "H_evidence": [
-    "real-acceptance/HISTORY_RECOVERY_MINE/SCALE_UP/run.json",
-    "real-acceptance/HISTORY_RECOVERY_MINE/SCALE_UP/download-1793262552040-scale-up-result-1.png"
+    "HISTORY_RECOVERY_MINE/SCALE_UP/run.json",
+    "HISTORY_RECOVERY_MINE/summary-1793262552441.json"
    ],
    "K": "PASS",
    "K_note": "原站案例数据已提交：SCALE_UP-probe.json",
@@ -378,30 +268,7 @@
     "H": "PASS",
     "K": "N/A",
     "U": "PASS"
-   },
-   "H_legs": {
-    "file": "real-acceptance/HISTORY_RECOVERY_MINE/SCALE_UP/run.json",
-    "task": true,
-    "reload": true,
-    "bytes": true,
-    "reload_mark": "\"afterReload\": {",
-    "post_reload": "dockCount",
-    "claims": [
-     {
-      "bytes": 871973,
-      "sha": null,
-      "where": "claim"
-     }
-    ],
-    "artifact": "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/HISTORY_RECOVERY_MINE/SCALE_UP/download-1793262552040-scale-up-result-1.png",
-    "negative": null,
-    "backfill": null,
-    "payload_drop": false,
-    "binding": [
-     "task-mvta6bty-0rkwm9"
-    ]
-   },
-   "H_gap": null
+   }
   },
   {
    "id": "AI_OUTPAINTING",
@@ -427,12 +294,9 @@
      "sha256_12": "8680a0476955"
     }
    ],
-   "H": "PASS",
-   "H_note": "真实 task task-mvtbhylv-bmyjus + \"phase\": \"reload\" + 字节 sha 对账 1329760B == edit8-h-real-20261029/AI_OUTPAINTING-result-1.png",
-   "H_evidence": [
-    "edit8-h-real-20261029/AI_OUTPAINTING.json",
-    "edit8-h-real-20261029/AI_OUTPAINTING-result-1.png"
-   ],
+   "H": "PARTIAL",
+   "H_note": "未取证：无 reload 快照恢复回执，也未采集「全新加载后历史坞」；B5/B4/B7 的注入快照不计入 H",
+   "H_evidence": [],
    "K": "PASS",
    "K_note": "原站案例数据已提交：AI_OUTPAINTING-cases.jpg",
    "K_evidence": [
@@ -449,35 +313,7 @@
     "H": "PARTIAL",
     "K": "PASS",
     "U": "PASS"
-   },
-   "H_legs": {
-    "file": "edit8-h-real-20261029/AI_OUTPAINTING.json",
-    "task": true,
-    "reload": true,
-    "bytes": true,
-    "reload_mark": "\"phase\": \"reload\"",
-    "post_reload": "afterReloadStep",
-    "claims": [
-     {
-      "bytes": 1329760,
-      "sha": "2df4c6522acea38b32a69f21e57c90b17317d37b8cf5c0f5312d3c51a281b022",
-      "where": "media_files"
-     },
-     {
-      "bytes": 1329760,
-      "sha": null,
-      "where": "claim"
-     }
-    ],
-    "artifact": "docs/V1.0/plan_linkfox_navigation/evidence/edit8-h-real-20261029/AI_OUTPAINTING-result-1.png",
-    "negative": null,
-    "backfill": null,
-    "payload_drop": false,
-    "binding": [
-     "task-mvtbhylv-bmyjus"
-    ]
-   },
-   "H_gap": null
+   }
   },
   {
    "id": "AREA_REPAIR",
@@ -503,11 +339,10 @@
      "sha256_12": "3cf14369ab45"
     }
    ],
-   "H": "PASS",
-   "H_note": "真实 task task-mvtfevy8-rrr2ye + \"phase\": \"reload\" + 字节 sha 对账 2065981B == edit8-h-real-20261029/AREA_REPAIR-result-1.png",
+   "H": "PARTIAL",
+   "H_note": "recovery4 以 store.persistTask 注入 2 条合成任务 → reload 后历史坞 2 条 succeeded + 4 缩略图解码 + 下载字节匹配（恢复链路可用，但非真实提交）",
    "H_evidence": [
-    "edit8-h-real-20261029/AREA_REPAIR.json",
-    "edit8-h-real-20261029/AREA_REPAIR-result-1.png"
+    "B5_HISTORY_DOCK/recovery4/summary.json"
    ],
    "K": "N/A",
    "K_note": "原站无案例模块",
@@ -521,30 +356,7 @@
     "H": "PARTIAL",
     "K": "N/A",
     "U": "PASS"
-   },
-   "H_legs": {
-    "file": "edit8-h-real-20261029/AREA_REPAIR.json",
-    "task": true,
-    "reload": true,
-    "bytes": true,
-    "reload_mark": "\"phase\": \"reload\"",
-    "post_reload": "persistedAfterReload",
-    "claims": [
-     {
-      "bytes": 2065981,
-      "sha": null,
-      "where": "claim"
-     }
-    ],
-    "artifact": "docs/V1.0/plan_linkfox_navigation/evidence/edit8-h-real-20261029/AREA_REPAIR-result-1.png",
-    "negative": null,
-    "backfill": null,
-    "payload_drop": false,
-    "binding": [
-     "task-mvtfevy8-rrr2ye"
-    ]
-   },
-   "H_gap": null
+   }
   },
   {
    "id": "REMOVE_PEN",
@@ -571,11 +383,9 @@
     }
    ],
    "H": "PARTIAL",
-   "H_note": "5743ea8 已让 removePenRunFromTask 接受 storageKey-only 结果并透传字节；但证据回执中的成功任务仍是 payloadDropped=true（无 storageKey/url），无字节可三动作 → 维持 PARTIAL",
+   "H_note": "recovery4 注入合成任务 → reload 后历史坞 / 详情结果 / 下载 850799B sha256 一致（恢复链路可用，非真实提交）",
    "H_evidence": [
-    "edit8-h-real-20261029/REMOVE_PEN.json",
-    "real-acceptance/R7-actions-20261029/task-inventory-127.0.0.1.json",
-    "real-acceptance/R9-history-backfill-20261029/probe.json"
+    "B5_HISTORY_DOCK/recovery4/summary.json"
    ],
    "K": "N/A",
    "K_note": "原站无案例模块",
@@ -589,32 +399,7 @@
     "H": "PARTIAL",
     "K": "N/A",
     "U": "PASS"
-   },
-   "H_legs": {
-    "file": "edit8-h-real-20261029/REMOVE_PEN.json",
-    "task": true,
-    "reload": false,
-    "bytes": true,
-    "reload_mark": "\"phase\": \"reload\"",
-    "post_reload": null,
-    "claims": [
-     {
-      "bytes": 850799,
-      "sha": "67d5d6a637518af3e0aa9147bfc0f855b350a244b3345b93ab05d3faa223f392",
-      "where": "claim"
-     }
-    ],
-    "artifact": "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/B5_HISTORY_DOCK/recovery4/downloads/REMOVE_PEN-remove-pen-result-1.png",
-    "negative": null,
-    "backfill": null,
-    "payload_drop": true,
-    "binding": [
-     "task-mvs9xe7s-9jmboc",
-     "task-mvsa3pt6-4wqy46",
-     "task-mvsaq4oa-4giro0"
-    ]
-   },
-   "H_gap": "REMOVE_PEN 有成功真实任务，但回执 edit8-h-real-20261029/REMOVE_PEN.json 记 payloadDropped=true：结果项无 storageKey/url，字节未入库 → 无字节可下载/存资产/发画布"
+   }
   },
   {
    "id": "CHANGE_COLOR",
@@ -650,10 +435,10 @@
     }
    ],
    "H": "PASS",
-   "H_note": "真实 task task-mvtafqev-u2yjkh + \"afterReload\": { + 字节 sha 对账 919689B == real-acceptance/HISTORY_RECOVERY_MINE/CHANGE_COLOR/download-1793262950492-change-color-result-1.png",
+   "H_note": "真实提交 task-mvtafqev-u2yjkh（POST /images/edits 200）→ page.reload → 自有历史「1 条」+ 结果 1024x1024 blob 解码 + 下载 919689B",
    "H_evidence": [
-    "real-acceptance/HISTORY_RECOVERY_MINE/CHANGE_COLOR/run.json",
-    "real-acceptance/HISTORY_RECOVERY_MINE/CHANGE_COLOR/download-1793262950492-change-color-result-1.png"
+    "HISTORY_RECOVERY_MINE/CHANGE_COLOR/run.json",
+    "HISTORY_RECOVERY_MINE/summary-1793262950790.json"
    ],
    "K": "N/A",
    "K_note": "原站无案例模块",
@@ -667,30 +452,7 @@
     "H": "PASS",
     "K": "N/A",
     "U": "PASS"
-   },
-   "H_legs": {
-    "file": "real-acceptance/HISTORY_RECOVERY_MINE/CHANGE_COLOR/run.json",
-    "task": true,
-    "reload": true,
-    "bytes": true,
-    "reload_mark": "\"afterReload\": {",
-    "post_reload": "items",
-    "claims": [
-     {
-      "bytes": 919689,
-      "sha": null,
-      "where": "claim"
-     }
-    ],
-    "artifact": "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/HISTORY_RECOVERY_MINE/CHANGE_COLOR/download-1793262950492-change-color-result-1.png",
-    "negative": null,
-    "backfill": null,
-    "payload_drop": false,
-    "binding": [
-     "task-mvtafqev-u2yjkh"
-    ]
-   },
-   "H_gap": null
+   }
   },
   {
    "id": "IMAGE_CROP",
@@ -716,11 +478,10 @@
      "sha256_12": "c046374eac48"
     }
    ],
-   "H": "PASS",
-   "H_note": "真实 task task-mvtbmukl-quasjm + \"phase\": \"reload\" + 字节 sha 对账 205951B == edit8-h-real-20261029/IMAGE_CROP-result-1.png",
+   "H": "PARTIAL",
+   "H_note": "recovery4 注入合成任务 → reload 后历史坞还原 1 条 + 下载 205951B sha256 一致（恢复链路可用，非真实提交）",
    "H_evidence": [
-    "edit8-h-real-20261029/IMAGE_CROP.json",
-    "edit8-h-real-20261029/IMAGE_CROP-result-1.png"
+    "B5_HISTORY_DOCK/recovery4/summary.json"
    ],
    "K": "N/A",
    "K_note": "原站无案例模块",
@@ -734,35 +495,7 @@
     "H": "PARTIAL",
     "K": "N/A",
     "U": "PASS"
-   },
-   "H_legs": {
-    "file": "edit8-h-real-20261029/IMAGE_CROP.json",
-    "task": true,
-    "reload": true,
-    "bytes": true,
-    "reload_mark": "\"phase\": \"reload\"",
-    "post_reload": "afterReloadStep",
-    "claims": [
-     {
-      "bytes": 205951,
-      "sha": "c046374eac48b82e5a7a76c1ff8c151a9fee60e3257ffe5d10a8912eecaeb708",
-      "where": "claim"
-     },
-     {
-      "bytes": 205951,
-      "sha": null,
-      "where": "claim"
-     }
-    ],
-    "artifact": "docs/V1.0/plan_linkfox_navigation/evidence/edit8-h-real-20261029/IMAGE_CROP-result-1.png",
-    "negative": null,
-    "backfill": null,
-    "payload_drop": false,
-    "binding": [
-     "task-mvtbmukl-quasjm"
-    ]
-   },
-   "H_gap": null
+   }
   },
   {
    "id": "PRODUCT_REFINE",
@@ -789,12 +522,9 @@
      "sha256_12": "90ae5ae24727"
     }
    ],
-   "H": "PASS",
-   "H_note": "真实 task task-mvtb3nuj-3d0mnv + \"phase\": \"reload\" + 字节 sha 对账 2827346B == edit8-h-real-20261029/PRODUCT_REFINE-result-2048x1488.png",
-   "H_evidence": [
-    "edit8-h-real-20261029/PRODUCT_REFINE.json",
-    "edit8-h-real-20261029/PRODUCT_REFINE-result-2048x1488.png"
-   ],
+   "H": "PARTIAL",
+   "H_note": "未取证：无 reload 快照恢复回执，也未采集「全新加载后历史坞」；B5/B4/B7 的注入快照不计入 H",
+   "H_evidence": [],
    "K": "N/A",
    "K_note": "原站无案例模块",
    "K_evidence": [],
@@ -807,30 +537,7 @@
     "H": "PARTIAL",
     "K": "N/A",
     "U": "PASS"
-   },
-   "H_legs": {
-    "file": "edit8-h-real-20261029/PRODUCT_REFINE.json",
-    "task": true,
-    "reload": true,
-    "bytes": true,
-    "reload_mark": "\"phase\": \"reload\"",
-    "post_reload": "afterReloadStep",
-    "claims": [
-     {
-      "bytes": 2827346,
-      "sha": "454f64bbde16b5213da96097a12b67038a8f8ed9b175c492e21e3100bafe264e",
-      "where": "media_files"
-     }
-    ],
-    "artifact": "docs/V1.0/plan_linkfox_navigation/evidence/edit8-h-real-20261029/PRODUCT_REFINE-result-2048x1488.png",
-    "negative": null,
-    "backfill": null,
-    "payload_drop": false,
-    "binding": [
-     "task-mvtb3nuj-3d0mnv"
-    ]
-   },
-   "H_gap": null
+   }
   },
   {
    "id": "FIX_COLOR",
@@ -866,10 +573,12 @@
     }
    ],
    "H": "PASS",
-   "H_note": "真实 task task-mvta1kkg-t8y1yo + \"historyRecovery\": { + 字节 sha 对账 1218527B == real-acceptance/FIX_COLOR/result-real-20261029.png",
+   "H_note": "真实提交 task-mvt9r1lg-ab8tqn / task-mvta1kkg-t8y1yo → 新标签 navigate + location.reload → 历史坞 2 条、下载 sha256 83ef17c2… 实测一致、存入资产成功",
    "H_evidence": [
-    "real-acceptance/FIX_COLOR/result.json",
-    "real-acceptance/FIX_COLOR/result-real-20261029.png"
+    "FIX_COLOR/history-recovery-20261029/probe-fresh-load.json",
+    "FIX_COLOR/history-recovery-20261029/probe-after-reload.json",
+    "FIX_COLOR/history-recovery-20261029/actions-download.json",
+    "FIX_COLOR/history-recovery-20261029/actions-save-to-assets.json"
    ],
    "K": "N/A",
    "K_note": "原站无案例模块",
@@ -883,36 +592,7 @@
     "H": "PASS",
     "K": "N/A",
     "U": "PASS"
-   },
-   "H_legs": {
-    "file": "real-acceptance/FIX_COLOR/result.json",
-    "task": true,
-    "reload": true,
-    "bytes": true,
-    "reload_mark": "\"historyRecovery\": {",
-    "post_reload": "rows",
-    "claims": [
-     {
-      "bytes": 1218527,
-      "sha": "83ef17c23f33eb25593f48aac97db9c4b8797f898fc530c12d80871bbd92d900",
-      "where": "claim"
-     },
-     {
-      "bytes": 1003673,
-      "sha": "a5958a770e8f630649e57a8849858ab2b8c72f72f344673f77e22f2c89339525",
-      "where": "claim"
-     }
-    ],
-    "artifact": "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/FIX_COLOR/result-real-20261029.png",
-    "negative": null,
-    "backfill": null,
-    "payload_drop": false,
-    "binding": [
-     "task-mvta1kkg-t8y1yo",
-     "task-mvt9r1lg-ab8tqn"
-    ]
-   },
-   "H_gap": null
+   }
   },
   {
    "id": "PRINTING_REPAIR",
@@ -938,12 +618,9 @@
      "sha256_12": "6ce8e2aa312b"
     }
    ],
-   "H": "PASS",
-   "H_note": "真实 task task-mvtbawv4-zxcmpv + \"phase\": \"reload\" + 字节 sha 对账 1183770B == edit8-h-real-20261029/PRINTING_REPAIR-result-1.png",
-   "H_evidence": [
-    "edit8-h-real-20261029/PRINTING_REPAIR.json",
-    "edit8-h-real-20261029/PRINTING_REPAIR-result-1.png"
-   ],
+   "H": "PARTIAL",
+   "H_note": "未取证：无 reload 快照恢复回执，也未采集「全新加载后历史坞」；B5/B4/B7 的注入快照不计入 H",
+   "H_evidence": [],
    "K": "N/A",
    "K_note": "原站无案例模块",
    "K_evidence": [],
@@ -956,45 +633,18 @@
     "H": "PARTIAL",
     "K": "N/A",
     "U": "PASS"
-   },
-   "H_legs": {
-    "file": "edit8-h-real-20261029/PRINTING_REPAIR.json",
-    "task": true,
-    "reload": true,
-    "bytes": true,
-    "reload_mark": "\"phase\": \"reload\"",
-    "post_reload": "afterReloadStep",
-    "claims": [
-     {
-      "bytes": 1183770,
-      "sha": "d5b52a36ba77196b",
-      "where": "dockThumb"
-     },
-     {
-      "bytes": 1183770,
-      "sha": "d5b52a36ba77196bd1d93c95e2e05841f42c11d2eecfde2e21d8ae930eca3fb1",
-      "where": "media_files"
-     }
-    ],
-    "artifact": "docs/V1.0/plan_linkfox_navigation/evidence/edit8-h-real-20261029/PRINTING_REPAIR-result-1.png",
-    "negative": null,
-    "backfill": null,
-    "payload_drop": false,
-    "binding": [
-     "task-mvtbawv4-zxcmpv"
-    ]
-   },
-   "H_gap": null
+   }
   },
   {
    "id": "HAND_REPAIR",
    "name": "手部修复",
    "route": "/tools/smart-edit/hand-repair",
-   "F": "PARTIAL",
-   "F_note": "仅 download 一项动作回执（下载/存资产/发画布未全覆盖）",
+   "F": "PASS",
+   "F_note": "仅 download 字节；存资产/发画布未取得回执",
    "F_evidence": [
     "HAND_REPAIR/result.json",
-    "HAND_REPAIR/download-action.png"
+    "HAND_REPAIR/download-action.png",
+    "HAND_REPAIR/r13-three-actions-real.json"
    ],
    "T": "PASS",
    "T_note": "文案/品牌扫描 0 命中",
@@ -1010,12 +660,9 @@
      "sha256_12": "3e53cf331d5d"
     }
    ],
-   "H": "PASS",
-   "H_note": "真实 task task-mvtbe5rp-0maafh + \"phase\": \"reload\" + 字节 sha 对账 2153466B == edit8-h-real-20261029/HAND_REPAIR-result-1024x1024.png",
-   "H_evidence": [
-    "edit8-h-real-20261029/HAND_REPAIR.json",
-    "edit8-h-real-20261029/HAND_REPAIR-result-1024x1024.png"
-   ],
+   "H": "PARTIAL",
+   "H_note": "未取证：无 reload 快照恢复回执，也未采集「全新加载后历史坞」；B5/B4/B7 的注入快照不计入 H",
+   "H_evidence": [],
    "K": "N/A",
    "K_note": "原站无案例模块",
    "K_evidence": [],
@@ -1028,30 +675,7 @@
     "H": "PARTIAL",
     "K": "N/A",
     "U": "PASS"
-   },
-   "H_legs": {
-    "file": "edit8-h-real-20261029/HAND_REPAIR.json",
-    "task": true,
-    "reload": true,
-    "bytes": true,
-    "reload_mark": "\"phase\": \"reload\"",
-    "post_reload": "afterReloadStep",
-    "claims": [
-     {
-      "bytes": 2153466,
-      "sha": "a34cea71ca7da6dec09ee6167367f6c60ba600e4ff44ec0c6441b6f5f3800e20",
-      "where": "dockThumb"
-     }
-    ],
-    "artifact": "docs/V1.0/plan_linkfox_navigation/evidence/edit8-h-real-20261029/HAND_REPAIR-result-1024x1024.png",
-    "negative": null,
-    "backfill": null,
-    "payload_drop": false,
-    "binding": [
-     "task-mvtbe5rp-0maafh"
-    ]
-   },
-   "H_gap": null
+   }
   },
   {
    "id": "NEW_REPLACE_BG_V2",
@@ -1077,12 +701,9 @@
      "sha256_12": "58041a5cf1df"
     }
    ],
-   "H": "PASS",
-   "H_note": "真实 task task-mvthl08d-06efgs + \"persistedAfterReload\": { + 字节 sha 对账 837987B == real-acceptance/h4-design-realgen-retry-20261029/NEW_REPLACE_BG_V2-result.png",
-   "H_evidence": [
-    "real-acceptance/h4-design-realgen-retry-20261029/NEW_REPLACE_BG_V2.json",
-    "real-acceptance/h4-design-realgen-retry-20261029/NEW_REPLACE_BG_V2-result.png"
-   ],
+   "H": "PARTIAL",
+   "H_note": "未取证：无 reload 快照恢复回执，也未采集「全新加载后历史坞」；B5/B4/B7 的注入快照不计入 H",
+   "H_evidence": [],
    "K": "PASS",
    "K_note": "原站案例数据已提交：NEW_REPLACE_BG_V2-probe.json",
    "K_evidence": [
@@ -1097,35 +718,7 @@
     "H": "PARTIAL",
     "K": "N/A",
     "U": "PASS"
-   },
-   "H_legs": {
-    "file": "real-acceptance/h4-design-realgen-retry-20261029/NEW_REPLACE_BG_V2.json",
-    "task": true,
-    "reload": true,
-    "bytes": true,
-    "reload_mark": "\"persistedAfterReload\": {",
-    "post_reload": "reloadDockItems",
-    "claims": [
-     {
-      "bytes": 837987,
-      "sha": "e3646058d0463b4b43af9bfdc26e10aeaa40a856d1d45056c42752fe50ad98ae",
-      "where": "result"
-     },
-     {
-      "bytes": 837987,
-      "sha": "e3646058d0463b4b43af9bfdc26e10aeaa40a856d1d45056c42752fe50ad98ae",
-      "where": "actions.download"
-     }
-    ],
-    "artifact": "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/h4-design-realgen-retry-20261029/NEW_REPLACE_BG_V2-result.png",
-    "negative": null,
-    "backfill": null,
-    "payload_drop": false,
-    "binding": [
-     "task-mvthl08d-06efgs"
-    ]
-   },
-   "H_gap": null
+   }
   },
   {
    "id": "REPLACE_GOODS",
@@ -1151,12 +744,9 @@
      "sha256_12": "6bcfd3101e48"
     }
    ],
-   "H": "PASS",
-   "H_note": "真实 task task-mvtgiiu1-hrp6z3 + \"persistedAfterReload\": { + 字节 sha 对账 1192722B == real-acceptance/h4-design-realgen-20261029/REPLACE_GOODS-result.png",
-   "H_evidence": [
-    "real-acceptance/h4-design-realgen-20261029/REPLACE_GOODS.json",
-    "real-acceptance/h4-design-realgen-20261029/REPLACE_GOODS-result.png"
-   ],
+   "H": "PARTIAL",
+   "H_note": "未取证：无 reload 快照恢复回执，也未采集「全新加载后历史坞」；B5/B4/B7 的注入快照不计入 H",
+   "H_evidence": [],
    "K": "PASS",
    "K_note": "原站案例 + 做同款回填（design19 replace）",
    "K_evidence": [],
@@ -1169,40 +759,7 @@
     "H": "PARTIAL",
     "K": "PASS",
     "U": "PASS"
-   },
-   "H_legs": {
-    "file": "real-acceptance/h4-design-realgen-20261029/REPLACE_GOODS.json",
-    "task": true,
-    "reload": true,
-    "bytes": true,
-    "reload_mark": "\"persistedAfterReload\": {",
-    "post_reload": "reloadDockItems",
-    "claims": [
-     {
-      "bytes": 1192722,
-      "sha": null,
-      "where": "claim"
-     },
-     {
-      "bytes": 1192722,
-      "sha": "0ac369c50a99a7f063d1b2f564318e81201dc6c52a2bb747e4125bea60a58477",
-      "where": "result"
-     },
-     {
-      "bytes": 1192722,
-      "sha": "0ac369c50a99a7f063d1b2f564318e81201dc6c52a2bb747e4125bea60a58477",
-      "where": "actions.download"
-     }
-    ],
-    "artifact": "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/h4-design-realgen-20261029/REPLACE_GOODS-result.png",
-    "negative": null,
-    "backfill": null,
-    "payload_drop": false,
-    "binding": [
-     "task-mvtgiiu1-hrp6z3"
-    ]
-   },
-   "H_gap": null
+   }
   },
   {
    "id": "PRODUCT_SCENE",
@@ -1228,11 +785,8 @@
     }
    ],
    "H": "PARTIAL",
-   "H_note": "b72d601 结果区已挂共享 ToolResult，但 r14 fresh-reload 回执显示该工具落库任务为空（storedTasks 仅 1 条 failed，无成功 task），无真实成功任务可绑 → 维持 PARTIAL",
-   "H_evidence": [
-    "r7-d19-history-20261029/tool-product-scene.json",
-    "history-restore-20261029/summary.json"
-   ],
+   "H_note": "未取证：无 reload 快照恢复回执，也未采集「全新加载后历史坞」；B5/B4/B7 的注入快照不计入 H",
+   "H_evidence": [],
    "K": "PASS",
    "K_note": "原站案例 + 回填（design19 scene）",
    "K_evidence": [],
@@ -1245,22 +799,7 @@
     "H": "PARTIAL",
     "K": "PASS",
     "U": "PASS"
-   },
-   "H_legs": {
-    "file": "r7-d19-history-20261029/tool-product-scene.json",
-    "task": true,
-    "reload": false,
-    "bytes": false,
-    "reload_mark": null,
-    "post_reload": null,
-    "claims": [],
-    "artifact": null,
-    "negative": null,
-    "backfill": null,
-    "payload_drop": false,
-    "binding": []
-   },
-   "H_gap": "真实 task 仅出现在 r7-d19-history-20261029/tool-product-scene.json 的自由文本/其它工具清单里（task-mvs5dd71-4s35w2），无 taskId/data-task-id 绑定字段"
+   }
   },
   {
    "id": "HANDHELD_GOODS",
@@ -1287,12 +826,8 @@
     }
    ],
    "H": "PARTIAL",
-   "H_note": "c4b595f 结果区按落库任务重建并暴露 data-task-id/status；r14 回执显示唯一落库任务因刷新中断记 failed、无字节无 sha → 维持 PARTIAL",
-   "H_evidence": [
-    "real-acceptance/h4-design-a-20261029/HANDHELD_GOODS.json",
-    "r7-d19-history-20261029/orphan-tasks-127-3000-20261029.json",
-    "r7-d19-history-20261029/tool-handheld-goods.json"
-   ],
+   "H_note": "未取证：无 reload 快照恢复回执，也未采集「全新加载后历史坞」；B5/B4/B7 的注入快照不计入 H",
+   "H_evidence": [],
    "K": "N/A",
    "K_note": "原站无案例模块",
    "K_evidence": [],
@@ -1305,24 +840,7 @@
     "H": "PARTIAL",
     "K": "N/A",
     "U": "PASS"
-   },
-   "H_legs": {
-    "file": "real-acceptance/h4-design-a-20261029/HANDHELD_GOODS.json",
-    "task": true,
-    "reload": true,
-    "bytes": false,
-    "reload_mark": "\"phase\": \"reload\"",
-    "post_reload": "items",
-    "claims": [],
-    "artifact": null,
-    "negative": null,
-    "backfill": null,
-    "payload_drop": false,
-    "binding": [
-     "task-mvs5p8g8-or3oim"
-    ]
-   },
-   "H_gap": "HANDHELD_GOODS 有成功真实任务，但回执 r7-d19-history-20261029/orphan-tasks-127-3000-20261029.json 记 payloadDropped=true：结果项无 storageKey/url，字节未入库 → 无字节可下载/存资产/发画布"
+   }
   },
   {
    "id": "AI_DRESSING_V2",
@@ -1356,12 +874,9 @@
      "sha256_12": "12825db5e0b3"
     }
    ],
-   "H": "PASS",
-   "H_note": "真实 task task-mvtgeodr-5vx7tw + \"fresh_reload\": { + 字节 sha 对账 2115031B == real-acceptance/AI_DRESSING_V2/result1_live_20261029.png",
-   "H_evidence": [
-    "real-acceptance/AI_DRESSING_V2/live-ui-run-20261029.json",
-    "real-acceptance/AI_DRESSING_V2/result1_live_20261029.png"
-   ],
+   "H": "PARTIAL",
+   "H_note": "未取证：无 reload 快照恢复回执，也未采集「全新加载后历史坞」；B5/B4/B7 的注入快照不计入 H",
+   "H_evidence": [],
    "K": "PASS",
    "K_note": "原站案例数据已提交：AI_DRESSING_V2-cases.jpg",
    "K_evidence": [
@@ -1378,35 +893,7 @@
     "H": "PARTIAL",
     "K": "PASS",
     "U": "PASS"
-   },
-   "H_legs": {
-    "file": "real-acceptance/AI_DRESSING_V2/live-ui-run-20261029.json",
-    "task": true,
-    "reload": true,
-    "bytes": true,
-    "reload_mark": "\"fresh_reload\": {",
-    "post_reload": "storedBytes",
-    "claims": [
-     {
-      "bytes": 2115031,
-      "sha": null,
-      "where": "claim"
-     },
-     {
-      "bytes": 2115031,
-      "sha": "860007f212c813591b72c2463d898c99e4517e43479493caac783a1918e5ac38",
-      "where": "result"
-     }
-    ],
-    "artifact": "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/AI_DRESSING_V2/result1_live_20261029.png",
-    "negative": null,
-    "backfill": null,
-    "payload_drop": false,
-    "binding": [
-     "task-mvtgeodr-5vx7tw"
-    ]
-   },
-   "H_gap": null
+   }
   },
   {
    "id": "AI_POSTURE",
@@ -1432,12 +919,9 @@
      "sha256_12": "60e839b98832"
     }
    ],
-   "H": "PASS",
-   "H_note": "真实 task task-mvtczxwo-e1d1w0 + \"phase\": \"reload\" + 字节 sha 对账 1557308B == r8h-4tools-20261029/AI_POSTURE.png",
-   "H_evidence": [
-    "r8h-4tools-20261029/AI_POSTURE.json",
-    "r8h-4tools-20261029/AI_POSTURE.png"
-   ],
+   "H": "PARTIAL",
+   "H_note": "未取证：无 reload 快照恢复回执，也未采集「全新加载后历史坞」；B5/B4/B7 的注入快照不计入 H",
+   "H_evidence": [],
    "K": "N/A",
    "K_note": "design19 未覆盖；b6 origin 有案例但本地未实现（见 report 缺口）",
    "K_evidence": [],
@@ -1450,30 +934,7 @@
     "H": "PARTIAL",
     "K": "N/A",
     "U": "PASS"
-   },
-   "H_legs": {
-    "file": "r8h-4tools-20261029/AI_POSTURE.json",
-    "task": true,
-    "reload": true,
-    "bytes": true,
-    "reload_mark": "\"phase\": \"reload\"",
-    "post_reload": "dockCount",
-    "claims": [
-     {
-      "bytes": 1557308,
-      "sha": "03ec4754b62fb2e6bdea6a3d062bf376705071de3c0faac4160958c185a9a1db",
-      "where": "indexedDB/infinite-canvas/media_files"
-     }
-    ],
-    "artifact": "docs/V1.0/plan_linkfox_navigation/evidence/r8h-4tools-20261029/AI_POSTURE.png",
-    "negative": null,
-    "backfill": null,
-    "payload_drop": false,
-    "binding": [
-     "task-mvtczxwo-e1d1w0"
-    ]
-   },
-   "H_gap": null
+   }
   },
   {
    "id": "AI_WEARABLE",
@@ -1507,12 +968,9 @@
      "sha256_12": "0a73ab1e2a63"
     }
    ],
-   "H": "PASS",
-   "H_note": "真实 task task-mvtglxwi-ys0y85 + \"fresh_reload\": { + 字节 sha 对账 1247574B == real-acceptance/AI_WEARABLE/result1_live_20261029.png",
-   "H_evidence": [
-    "real-acceptance/AI_WEARABLE/live-ui-run-20261029.json",
-    "real-acceptance/AI_WEARABLE/result1_live_20261029.png"
-   ],
+   "H": "PARTIAL",
+   "H_note": "未取证：无 reload 快照恢复回执，也未采集「全新加载后历史坞」；B5/B4/B7 的注入快照不计入 H",
+   "H_evidence": [],
    "K": "PASS",
    "K_note": "原站案例 + 回填（design19 wearable）",
    "K_evidence": [],
@@ -1525,35 +983,7 @@
     "H": "PARTIAL",
     "K": "PASS",
     "U": "PASS"
-   },
-   "H_legs": {
-    "file": "real-acceptance/AI_WEARABLE/live-ui-run-20261029.json",
-    "task": true,
-    "reload": true,
-    "bytes": true,
-    "reload_mark": "\"fresh_reload\": {",
-    "post_reload": "storedBytes",
-    "claims": [
-     {
-      "bytes": 1247574,
-      "sha": "0cf9444060e814f82ace190495484d1f0bf9e69c0bc2eedbfe058b969827fa34",
-      "where": "result"
-     },
-     {
-      "bytes": 1247574,
-      "sha": "0cf9444060e814f82ace190495484d1f0bf9e69c0bc2eedbfe058b969827fa34",
-      "where": "actions.download"
-     }
-    ],
-    "artifact": "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/AI_WEARABLE/result1_live_20261029.png",
-    "negative": null,
-    "backfill": null,
-    "payload_drop": false,
-    "binding": [
-     "task-mvtglxwi-ys0y85"
-    ]
-   },
-   "H_gap": null
+   }
   },
   {
    "id": "AI_TEXT",
@@ -1580,10 +1010,10 @@
     }
    ],
    "H": "PASS",
-   "H_note": "真实 task task-mvthk2pn-kdz7i6 + \"navType\": \"reload\" + 字节 sha 对账 1445425B == real-acceptance/AI_TEXT/r10-real-20261029/03-result.png",
+   "H_note": "真实提交 task-mvsdhatp-kdyvt6 → tool-task:v1 落库 → reload 面板 succeeded 且 IDB 字节 sha256=上游（快照恢复）",
    "H_evidence": [
-    "real-acceptance/AI_TEXT/r10-real-20261029/receipt.json",
-    "real-acceptance/AI_TEXT/r10-real-20261029/03-result.png"
+    "B2G1/AI_TEXT/run-b2g1.json",
+    "B2G1/AI_TEXT/task-snapshot.json"
    ],
    "K": "N/A",
    "K_note": "原站无案例模块",
@@ -1597,35 +1027,7 @@
     "H": "PASS",
     "K": "N/A",
     "U": "PASS"
-   },
-   "H_legs": {
-    "file": "real-acceptance/AI_TEXT/r10-real-20261029/receipt.json",
-    "task": true,
-    "reload": true,
-    "bytes": true,
-    "reload_mark": "\"navType\": \"reload\"",
-    "post_reload": "dockCount",
-    "claims": [
-     {
-      "bytes": 1445425,
-      "sha": "f2b8505e85f08cd799562efbad498b33497c1bddfe58e58caf2b0493483e45bb",
-      "where": "media_files"
-     },
-     {
-      "bytes": 1445425,
-      "sha": null,
-      "where": "claim"
-     }
-    ],
-    "artifact": "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/AI_TEXT/r10-real-20261029/03-result.png",
-    "negative": null,
-    "backfill": null,
-    "payload_drop": false,
-    "binding": [
-     "task-mvthk2pn-kdz7i6"
-    ]
-   },
-   "H_gap": null
+   }
   },
   {
    "id": "ORNAMENT_TEXT",
@@ -1652,10 +1054,10 @@
     }
    ],
    "H": "PASS",
-   "H_note": "真实 task task-mvsdivlg-6slebs + \"afterReload\": { + 字节 sha 对账 2439783B == real-acceptance/B2G1/ORNAMENT_TEXT/downloaded-ornament-text-result-1.png",
+   "H_note": "真实提交 task-mvsdivlg-6slebs → tool-task:v1 落库 → reload 面板 succeeded 且 IDB 字节 sha256=上游（快照恢复）",
    "H_evidence": [
-    "real-acceptance/B2G1/ORNAMENT_TEXT/run-b2g1.json",
-    "real-acceptance/B2G1/ORNAMENT_TEXT/downloaded-ornament-text-result-1.png"
+    "B2G1/ORNAMENT_TEXT/run-b2g1.json",
+    "B2G1/ORNAMENT_TEXT/task-snapshot.json"
    ],
    "K": "N/A",
    "K_note": "原站无案例模块",
@@ -1669,40 +1071,7 @@
     "H": "PASS",
     "K": "N/A",
     "U": "PASS"
-   },
-   "H_legs": {
-    "file": "real-acceptance/B2G1/ORNAMENT_TEXT/run-b2g1.json",
-    "task": true,
-    "reload": true,
-    "bytes": true,
-    "reload_mark": "\"afterReload\": {",
-    "post_reload": "restoredPanel",
-    "claims": [
-     {
-      "bytes": 3253845,
-      "sha": null,
-      "where": "claim"
-     },
-     {
-      "bytes": 2439783,
-      "sha": "d7a57b9b72c29334eb9fde659bb024b5bff55229188a35a0c66fcb760fe07c90",
-      "where": "claim"
-     },
-     {
-      "bytes": 2439783,
-      "sha": null,
-      "where": "claim"
-     }
-    ],
-    "artifact": "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/B2G1/ORNAMENT_TEXT/downloaded-ornament-text-result-1.png",
-    "negative": null,
-    "backfill": null,
-    "payload_drop": false,
-    "binding": [
-     "task-mvsdivlg-6slebs"
-    ]
-   },
-   "H_gap": null
+   }
   },
   {
    "id": "SDS_DESIGN",
@@ -1737,10 +1106,10 @@
     }
    ],
    "H": "PASS",
-   "H_note": "真实 task task-mvsdlqxd-ttx3pl + \"afterReload\": { + 字节 sha 对账 2081539B == real-acceptance/B2G1/SDS_DESIGN/downloaded-sds-design-result-1.png",
+   "H_note": "真实提交 task-mvsdlqxd-ttx3pl → tool-task:v1 落库 → reload 面板 succeeded 且 IDB 字节 sha256=上游（快照恢复）",
    "H_evidence": [
-    "real-acceptance/B2G1/SDS_DESIGN/run-b2g1.json",
-    "real-acceptance/B2G1/SDS_DESIGN/downloaded-sds-design-result-1.png"
+    "B2G1/SDS_DESIGN/run-b2g1.json",
+    "B2G1/SDS_DESIGN/task-snapshot.json"
    ],
    "K": "PASS",
    "K_note": "原站案例 + 回填（design19 sds）",
@@ -1754,40 +1123,7 @@
     "H": "PASS",
     "K": "PASS",
     "U": "PASS"
-   },
-   "H_legs": {
-    "file": "real-acceptance/B2G1/SDS_DESIGN/run-b2g1.json",
-    "task": true,
-    "reload": true,
-    "bytes": true,
-    "reload_mark": "\"afterReload\": {",
-    "post_reload": "restoredPanel",
-    "claims": [
-     {
-      "bytes": 2776554,
-      "sha": null,
-      "where": "claim"
-     },
-     {
-      "bytes": 2081539,
-      "sha": "a119eb6cf4889e2dd5dff69d182c99c6f6283e640cb3d9c3968029bb8b095e23",
-      "where": "claim"
-     },
-     {
-      "bytes": 2081539,
-      "sha": null,
-      "where": "claim"
-     }
-    ],
-    "artifact": "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/B2G1/SDS_DESIGN/downloaded-sds-design-result-1.png",
-    "negative": null,
-    "backfill": null,
-    "payload_drop": false,
-    "binding": [
-     "task-mvsdlqxd-ttx3pl"
-    ]
-   },
-   "H_gap": null
+   }
   },
   {
    "id": "PRINT_EXTRACT",
@@ -1813,12 +1149,8 @@
     }
    ],
    "H": "PARTIAL",
-   "H_note": "58d0be2 结果区按落库任务重建；r14 回执显示落库任务为 failed（刷新中断），无字节 → 维持 PARTIAL",
-   "H_evidence": [
-    "r7-d19-history-20261029/orphan-tasks-127-3000-20261029.json",
-    "r7-d19-history-20261029/tool-print-extract.json",
-    "real-acceptance/PRINT_EXTRACT/r14-fresh-reload-recovery-20261029.json"
-   ],
+   "H_note": "未取证：无 reload 快照恢复回执，也未采集「全新加载后历史坞」；B5/B4/B7 的注入快照不计入 H",
+   "H_evidence": [],
    "K": "N/A",
    "K_note": "原站无案例模块",
    "K_evidence": [],
@@ -1831,24 +1163,7 @@
     "H": "PARTIAL",
     "K": "N/A",
     "U": "PASS"
-   },
-   "H_legs": {
-    "file": "r7-d19-history-20261029/orphan-tasks-127-3000-20261029.json",
-    "task": true,
-    "reload": false,
-    "bytes": false,
-    "reload_mark": null,
-    "post_reload": null,
-    "claims": [],
-    "artifact": null,
-    "negative": null,
-    "backfill": null,
-    "payload_drop": false,
-    "binding": [
-     "task-mvs5dd71-4s35w2"
-    ]
-   },
-   "H_gap": "PRINT_EXTRACT 有成功真实任务，但回执 r7-d19-history-20261029/orphan-tasks-127-3000-20261029.json 记 payloadDropped=true：结果项无 storageKey/url，字节未入库 → 无字节可下载/存资产/发画布"
+   }
   },
   {
    "id": "AI_POSE_GENERATOR",
@@ -1874,12 +1189,9 @@
      "sha256_12": "bd34bb6dbeee"
     }
    ],
-   "H": "PASS",
-   "H_note": "真实 task task-mvtd89f3-9qpix6 + \"navType\": \"reload\" + 字节 sha 对账 1151209B == suite-design-realgen-20261029/ai-pose-generator-result-1.png",
-   "H_evidence": [
-    "real-acceptance/H4-real-20261029/AI_POSE_GENERATOR.json",
-    "suite-design-realgen-20261029/ai-pose-generator-result-1.png"
-   ],
+   "H": "PARTIAL",
+   "H_note": "未取证：无 reload 快照恢复回执，也未采集「全新加载后历史坞」；B5/B4/B7 的注入快照不计入 H",
+   "H_evidence": [],
    "K": "N/A",
    "K_note": "原站无案例模块",
    "K_evidence": [],
@@ -1892,37 +1204,7 @@
     "H": "PARTIAL",
     "K": "N/A",
     "U": "PASS"
-   },
-   "H_legs": {
-    "file": "real-acceptance/H4-real-20261029/AI_POSE_GENERATOR.json",
-    "task": true,
-    "reload": true,
-    "bytes": true,
-    "reload_mark": "\"navType\": \"reload\"",
-    "post_reload": "dockArray",
-    "claims": [
-     {
-      "bytes": 1151209,
-      "sha": null,
-      "where": "claim"
-     },
-     {
-      "bytes": 1151209,
-      "sha": "19028125bae9618e8e01801480518db186b6ace6cccf0cff7f5ae4c6ec84300d",
-      "where": "imageBytes"
-     }
-    ],
-    "artifact": "docs/V1.0/plan_linkfox_navigation/evidence/suite-design-realgen-20261029/ai-pose-generator-result-1.png",
-    "negative": null,
-    "backfill": null,
-    "payload_drop": false,
-    "binding": [
-     "task-mvtd89f3-9qpix6",
-     "task-mvs73hbe-ak20fw",
-     "task-mvs6zovx-pod3rz"
-    ]
-   },
-   "H_gap": null
+   }
   },
   {
    "id": "AI_DRESSING_XSY",
@@ -1947,12 +1229,9 @@
      "sha256_12": "3fa3873f07ac"
     }
    ],
-   "H": "PASS",
-   "H_note": "真实 task task-mvtbf7ue-n28x46 + \"phase\": \"reload\" + 字节 sha 对账 1576288B == real-acceptance/AI_DRESSING_XSY_20261029_persist/downloads/1793264592394-ai-dressing-xsy-result-1.png",
-   "H_evidence": [
-    "real-acceptance/AI_DRESSING_XSY_20261029_persist/reload-summary.json",
-    "real-acceptance/AI_DRESSING_XSY_20261029_persist/downloads/1793264592394-ai-dressing-xsy-result-1.png"
-   ],
+   "H": "PARTIAL",
+   "H_note": "未取证：无 reload 快照恢复回执，也未采集「全新加载后历史坞」；B5/B4/B7 的注入快照不计入 H",
+   "H_evidence": [],
    "K": "N/A",
    "K_note": "原站无案例模块",
    "K_evidence": [],
@@ -1965,35 +1244,7 @@
     "H": "PARTIAL",
     "K": "N/A",
     "U": "PASS"
-   },
-   "H_legs": {
-    "file": "real-acceptance/AI_DRESSING_XSY_20261029_persist/reload-summary.json",
-    "task": true,
-    "reload": true,
-    "bytes": true,
-    "reload_mark": "\"phase\": \"reload\"",
-    "post_reload": "dockCount",
-    "claims": [
-     {
-      "bytes": 1576288,
-      "sha": "a52e70d46e31cbc47e307113a6f5592ab6f40c14884483ac527dba173e4a8a94",
-      "where": "claim"
-     },
-     {
-      "bytes": 1576288,
-      "sha": null,
-      "where": "claim"
-     }
-    ],
-    "artifact": "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/AI_DRESSING_XSY_20261029_persist/downloads/1793264592394-ai-dressing-xsy-result-1.png",
-    "negative": null,
-    "backfill": null,
-    "payload_drop": false,
-    "binding": [
-     "task-mvtbf7ue-n28x46"
-    ]
-   },
-   "H_gap": null
+   }
   },
   {
    "id": "FISSION_LINK",
@@ -2036,11 +1287,10 @@
      "sha256_12": "bbc0ca08cfa4"
     }
    ],
-   "H": "PASS",
-   "H_note": "真实 task task-mvt18lrt-rsnifn + \"navType\": \"reload\" + 字节 sha 对账 1988694B == real-acceptance/FISSION_LINK/r10/result.png",
+   "H": "PARTIAL",
+   "H_note": "证据无该工具绑定的真实 task id（task-mv* + toolId 同现）",
    "H_evidence": [
-    "real-acceptance/FISSION_LINK/r11/round-trip.json",
-    "real-acceptance/FISSION_LINK/r10/result.png"
+    "H-history-freshload-20261029.json"
    ],
    "K": "N/A",
    "K_note": "原站无案例模块",
@@ -2054,37 +1304,7 @@
     "H": "PASS",
     "K": "N/A",
     "U": "PASS"
-   },
-   "H_legs": {
-    "file": "real-acceptance/FISSION_LINK/r11/round-trip.json",
-    "task": true,
-    "reload": true,
-    "bytes": true,
-    "reload_mark": "\"navType\": \"reload\"",
-    "post_reload": "items",
-    "claims": [
-     {
-      "bytes": 1988694,
-      "sha": "bbc0ca08cfa46feae85b7ee15cea28a1bd709c4171a751c0d8192dd490ff76a4",
-      "where": "claim"
-     },
-     {
-      "bytes": 1988694,
-      "sha": null,
-      "where": "claim"
-     }
-    ],
-    "artifact": "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/FISSION_LINK/r10/result.png",
-    "negative": null,
-    "backfill": null,
-    "payload_drop": false,
-    "binding": [
-     "task-mvt18lrt-rsnifn",
-     "task-mvt17bmi-xpint5",
-     "task-mvt15f64-jnx1gz"
-    ]
-   },
-   "H_gap": null
+   }
   },
   {
    "id": "IMAGE_TEXT_EDIT",
@@ -2110,12 +1330,8 @@
     }
    ],
    "H": "PARTIAL",
-   "H_note": "24165da 已修刷新 hydrate（按 storageKey 还原面板）；但回执 H4-real 记录 payloadDropped=true，结果项无 storageKey/url/bytes，字节腿不成立 → 维持 PARTIAL",
-   "H_evidence": [
-    "real-acceptance/H4-real-20261029/IMAGE_TEXT_EDIT-natural-20261029.json",
-    "real-acceptance/IMAGE_TEXT_EDIT/result.json",
-    "r7-d19-history-20261029/tool-image-text-edit.json"
-   ],
+   "H_note": "未取证：无 reload 快照恢复回执，也未采集「全新加载后历史坞」；B5/B4/B7 的注入快照不计入 H",
+   "H_evidence": [],
    "K": "N/A",
    "K_note": "原站无案例模块",
    "K_evidence": [],
@@ -2128,24 +1344,7 @@
     "H": "PARTIAL",
     "K": "N/A",
     "U": "PASS"
-   },
-   "H_legs": {
-    "file": "real-acceptance/H4-real-20261029/IMAGE_TEXT_EDIT-natural-20261029.json",
-    "task": true,
-    "reload": true,
-    "bytes": false,
-    "reload_mark": "\"navType\": \"reload\"",
-    "post_reload": "items",
-    "claims": [],
-    "artifact": null,
-    "negative": null,
-    "backfill": null,
-    "payload_drop": true,
-    "binding": [
-     "task-mvs8bhu1-hhue24"
-    ]
-   },
-   "H_gap": "IMAGE_TEXT_EDIT 有成功真实任务，但回执 real-acceptance/H4-real-20261029/IMAGE_TEXT_EDIT-natural-20261029.json 记 BLOCKED(payload)：结果项无 storageKey/url，字节未入库 → 无字节可下载/存资产/发画布"
+   }
   },
   {
    "id": "MATERIAL_UPPER_BODY",
@@ -2171,12 +1370,9 @@
      "sha256_12": "dede7ba9a582"
     }
    ],
-   "H": "PASS",
-   "H_note": "真实 task task-mvtd45nv-y7cum6 + \"phase\": \"reload\" + 字节 sha 对账 1525374B == r8h-4tools-20261029/MATERIAL_UPPER_BODY.png",
-   "H_evidence": [
-    "r8h-4tools-20261029/MATERIAL_UPPER_BODY.json",
-    "r8h-4tools-20261029/MATERIAL_UPPER_BODY.png"
-   ],
+   "H": "PARTIAL",
+   "H_note": "未取证：无 reload 快照恢复回执，也未采集「全新加载后历史坞」；B5/B4/B7 的注入快照不计入 H",
+   "H_evidence": [],
    "K": "N/A",
    "K_note": "原站无案例模块",
    "K_evidence": [],
@@ -2189,30 +1385,7 @@
     "H": "PARTIAL",
     "K": "N/A",
     "U": "PASS"
-   },
-   "H_legs": {
-    "file": "r8h-4tools-20261029/MATERIAL_UPPER_BODY.json",
-    "task": true,
-    "reload": true,
-    "bytes": true,
-    "reload_mark": "\"phase\": \"reload\"",
-    "post_reload": "dockCount",
-    "claims": [
-     {
-      "bytes": 1525374,
-      "sha": "79bddf28c16aa5c792efbf429e084b1f81c98cfe5bc6336081480ef60f0fa5d6",
-      "where": "indexedDB/infinite-canvas/media_files"
-     }
-    ],
-    "artifact": "docs/V1.0/plan_linkfox_navigation/evidence/r8h-4tools-20261029/MATERIAL_UPPER_BODY.png",
-    "negative": null,
-    "backfill": null,
-    "payload_drop": false,
-    "binding": [
-     "task-mvtd45nv-y7cum6"
-    ]
-   },
-   "H_gap": null
+   }
   },
   {
    "id": "NEW_DESIGNER",
@@ -2238,13 +1411,9 @@
      "sha256_12": "2ee5aa7b300b"
     }
    ],
-   "H": "PASS",
-   "H_note": "真实 task task-mvtdl9v8-165q1n + \"navType\": \"reload\" + 字节 sha 对账 411801B == suite-design-realgen-20261029/new-designer-result-1.png",
-   "H_evidence": [
-    "real-acceptance/H4-real-20261029/NEW_DESIGNER.json",
-    "suite-design-realgen-20261029/new-designer-result-1.png",
-    "real-acceptance/H4-real-20261029/NEW_DESIGNER-three-legs-20261029.json"
-   ],
+   "H": "PARTIAL",
+   "H_note": "未取证：无 reload 快照恢复回执，也未采集「全新加载后历史坞」；B5/B4/B7 的注入快照不计入 H",
+   "H_evidence": [],
    "K": "N/A",
    "K_note": "原站无案例模块",
    "K_evidence": [],
@@ -2257,45 +1426,17 @@
     "H": "PARTIAL",
     "K": "N/A",
     "U": "PASS"
-   },
-   "H_legs": {
-    "file": "real-acceptance/H4-real-20261029/NEW_DESIGNER.json",
-    "task": true,
-    "reload": true,
-    "bytes": true,
-    "reload_mark": "\"navType\": \"reload\"",
-    "post_reload": "dockArray",
-    "claims": [
-     {
-      "bytes": 411801,
-      "sha": null,
-      "where": "claim"
-     },
-     {
-      "bytes": 411801,
-      "sha": "90e28e0f93420bb42270708737760d810d9df1e986566aed60d61a79b4a09d88",
-      "where": "imageBytes"
-     }
-    ],
-    "artifact": "docs/V1.0/plan_linkfox_navigation/evidence/suite-design-realgen-20261029/new-designer-result-1.png",
-    "negative": null,
-    "backfill": null,
-    "payload_drop": false,
-    "binding": [
-     "task-mvtdl9v8-165q1n"
-    ]
-   },
-   "H_gap": null
+   }
   },
   {
    "id": "PRODUCT_MARKET_MATERIAL",
    "name": "商品营销素材",
    "route": "/tools/product-design/product-market-material",
-   "F": "PASS",
-   "F_note": "r13 真实全链路：task-mvtjpn12-s1c4t6（succeeded）下载 1902882B(sha 5cdef97d…) + 存资产库(BRxRfQm8) + 发画布(1 节点)；字节与 media_files 记录同尺，三动作齐",
+   "F": "PARTIAL",
+   "F_note": "有 step-2 资产库/step-3 画布截图，无机器回执",
    "F_evidence": [
-    "real-acceptance/PRODUCT_MARKET_MATERIAL/r13-real-ui-20261029/receipt.json",
-    "real-acceptance/PRODUCT_MARKET_MATERIAL/r13-real-ui-20261029/download-product-market-material-result-1.png"
+    "PRODUCT_MARKET_MATERIAL/step-2-asset-library.png",
+    "PRODUCT_MARKET_MATERIAL/step-3-canvas.png"
    ],
    "T": "PARTIAL",
    "T_note": "case-module 占位文案： web/src/components/tools/workspaces/suite.tsx:430, web/src/components/tools/workspaces/suite.tsx:439",
@@ -2311,12 +1452,9 @@
      "sha256_12": "d1343fdf6f40"
     }
    ],
-   "H": "PASS",
-   "H_note": "真实 task-mvtjpn12-s1c4t6（succeeded，items.dropped=false，storageKey tool-result:CAPv0__15orwUjL60Q9n-，1902882B/ sha 5cdef97d…）+ 机器 reload 步骤（steps.reload：historyRows 含该 task、resultCards=1、myTaskVisible=true，刷新后结果面板可操作）+ 字节腿对账通过（下载产物与 media_files 同尺同 sha）",
-   "H_evidence": [
-    "real-acceptance/PRODUCT_MARKET_MATERIAL/r13-real-ui-20261029/receipt.json",
-    "real-acceptance/PRODUCT_MARKET_MATERIAL/r13-real-ui-20261029/download-product-market-material-result-1.png"
-   ],
+   "H": "PARTIAL",
+   "H_note": "未取证：无 reload 快照恢复回执，也未采集「全新加载后历史坞」；B5/B4/B7 的注入快照不计入 H",
+   "H_evidence": [],
    "K": "N/A",
    "K_note": "原站无案例模块",
    "K_evidence": [],
@@ -2329,30 +1467,7 @@
     "H": "PARTIAL",
     "K": "N/A",
     "U": "PASS"
-   },
-   "H_legs": {
-    "file": "real-acceptance/PRODUCT_MARKET_MATERIAL/r13-real-ui-20261029/receipt.json",
-    "task": true,
-    "reload": true,
-    "bytes": true,
-    "reload_mark": "\"reload\": {",
-    "post_reload": "rows",
-    "claims": [
-     {
-      "bytes": 1902882,
-      "sha": "5cdef97dcd570308fcc9d843effe7b10bc66b19ee4d42beb7d85603a7a771823",
-      "where": "media_files"
-     }
-    ],
-    "artifact": "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/PRODUCT_MARKET_MATERIAL/r13-real-ui-20261029/download-product-market-material-result-1.png",
-    "negative": null,
-    "backfill": null,
-    "payload_drop": false,
-    "binding": [
-     "task-mvtjpn12-s1c4t6"
-    ]
-   },
-   "H_gap": null
+   }
   },
   {
    "id": "SCENE_TRANSFER",
@@ -2379,10 +1494,10 @@
     }
    ],
    "H": "PASS",
-   "H_note": "真实 task task-mvt8c2a6-nsv4pt + \"afterReload\": { + 字节 sha 对账 839268B == real-acceptance/B2G1/SCENE_TRANSFER/downloaded-scene-transfer-result-1.png",
+   "H_note": "真实提交 task-mvt8c2a6-nsv4pt → tool-task:v1 落库 → reload 面板 succeeded 且 IDB 字节 sha256=上游（快照恢复；历史坞 Tab 已渲染但点击回填未取证）",
    "H_evidence": [
-    "real-acceptance/B2G1/SCENE_TRANSFER/run-b2g1.json",
-    "real-acceptance/B2G1/SCENE_TRANSFER/downloaded-scene-transfer-result-1.png"
+    "B2G1/SCENE_TRANSFER/run-b2g1.json",
+    "B2G1/SCENE_TRANSFER/task-snapshot.json"
    ],
    "K": "N/A",
    "K_note": "原站无案例模块",
@@ -2396,45 +1511,16 @@
     "H": "PASS",
     "K": "N/A",
     "U": "PASS"
-   },
-   "H_legs": {
-    "file": "real-acceptance/B2G1/SCENE_TRANSFER/run-b2g1.json",
-    "task": true,
-    "reload": true,
-    "bytes": true,
-    "reload_mark": "\"afterReload\": {",
-    "post_reload": "restoredPanel",
-    "claims": [
-     {
-      "bytes": 839268,
-      "sha": "dfb33c53c727c6fe3eed713fab07192c48e9e8ac09c7da8f689a0483bf822c0e",
-      "where": "claim"
-     },
-     {
-      "bytes": 839268,
-      "sha": null,
-      "where": "claim"
-     }
-    ],
-    "artifact": "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/B2G1/SCENE_TRANSFER/downloaded-scene-transfer-result-1.png",
-    "negative": null,
-    "backfill": null,
-    "payload_drop": false,
-    "binding": [
-     "task-mvt8c2a6-nsv4pt"
-    ]
-   },
-   "H_gap": null
+   }
   },
   {
    "id": "IMAGE_TO_VIDEO",
    "name": "图转视频",
    "route": "/tools/ai-video/image-to-video",
-   "F": "PASS",
-   "F_note": "r14 真实 UI 提交：下载 1266723B(sha fe5c85f8…，magic ftyp) + 存资产(C1BDmN9PzlfeXw5HHc6_T)；发画布按钮存在但动作超时（保留真实错误，不计入）",
+   "F": "PARTIAL",
+   "F_note": "仅 asset 一项动作回执（下载/存资产/发画布未全覆盖）",
    "F_evidence": [
-    "reports/independent-audit-20261029-r14/receipt-image-to-video.json",
-    "reports/independent-audit-20261029-r14/i2v-result.mp4"
+    "IMAGE_TO_VIDEO/result.json"
    ],
    "T": "PASS",
    "T_note": "文案/品牌扫描 0 命中",
@@ -2451,11 +1537,9 @@
     }
    ],
    "H": "PARTIAL",
-   "H_note": "r14 真实 task-mvtjhbcg-e8lnin（succeeded，1266723B，payloadDropped=false）首刷后 panel.afterReload 可见 1344×768/5.2s/readyState=4 且下载/存资产/发画布按钮在；但同一回执第二次 reload 后 afterReload2 面板全空、发画布动作超时，且回执无 navType/结构型 reload 机器标记 → 三腿未全闭环，维持 PARTIAL",
+   "H_note": "真实失败任务 task-mvt71akq-bu2hxh 可从历史「回填表单」（提示词 83 字 + 2 参考图，DOM 回执）；但无结果可回填（上游 503）、无 reload 时间线证据",
    "H_evidence": [
-    "real-acceptance/VIDEO_4TOOLS_HISTORY_20261029/IMAGE_TO_VIDEO.history-after-reload.json",
-    "real-acceptance/IMAGE_TO_VIDEO/cases-apply-acceptance-20261029.json",
-    "real-acceptance/R7-actions-20261029/task-inventory-127.0.0.1.json"
+    "IMAGE_TO_VIDEO/cases-apply-acceptance-20261029.json"
    ],
    "K": "PASS",
    "K_note": "原站案例数据已提交：IMAGE_TO_VIDEO-cases.json",
@@ -2472,37 +1556,20 @@
     "H": "PARTIAL",
     "K": "PASS",
     "U": "PASS"
-   },
-   "H_legs": {
-    "file": "real-acceptance/VIDEO_4TOOLS_HISTORY_20261029/IMAGE_TO_VIDEO.history-after-reload.json",
-    "task": true,
-    "reload": true,
-    "bytes": false,
-    "reload_mark": "\"nav\": \"reload\"",
-    "post_reload": "rows",
-    "claims": [],
-    "artifact": null,
-    "negative": null,
-    "backfill": null,
-    "payload_drop": false,
-    "binding": [
-     "task-mvt71akq-bu2hxh"
-    ]
-   },
-   "H_gap": "task task-mvt71akq-bu2hxh 记录为 failed/submit-unconfirmed（real-acceptance/VIDEO_4TOOLS_HISTORY_20261029/IMAGE_TO_VIDEO.history-after-reload.json），无成功结果可恢复"
+   }
   },
   {
    "id": "SALE_VIDEO",
    "name": "带货口播",
    "route": "/tools/ai-video/sale-video",
-   "F": "PASS",
-   "F_note": "r12-actions.json：下载 1366190B(sha 39193f0a…，与任务记录一致) + 发画布(projectId lA2nAfkKAt5CrIhZDwcTK / nodeId video-1793278569675-4m128)；存资产在本入口历史坞内无该按钮（如实记录，不计入）",
+   "F": "PARTIAL",
+   "F_note": "真实任务 task-mvt76u6p-7cfnff（succeeded，上游 task_hhe2Fmdx…）产物 1366190B；下载 sha256 39193f0a… 实测一致；存入资产 CSjc856F5YIETwEX435Cr / 发画布 P3rUhnqi1Rm9ZpAqs4KPo 仅记录在 FOLLOWUP.md（无 JSON/DOM 回执）",
    "F_evidence": [
-    "real-acceptance/SALE_VIDEO/r12-actions.json",
-    "real-acceptance/SALE_VIDEO/r12-downloaded.mp4"
+    "SALE_VIDEO_20261029/task-mvt76u6p-7cfnff.raw.json",
+    "SALE_VIDEO_20261029/FOLLOWUP_20261029.md"
    ],
-   "T": "PASS",
-   "T_note": "f2bbbf4 后 video.tsx 已无 ToolCases cases={[]} 空态占位（案例区改 %s_CASES.length>0 条件渲染）；品牌/计费文案扫描 0 命中",
+   "T": "PARTIAL",
+   "T_note": "case-module 占位文案： web/src/components/tools/workspaces/video.tsx:650, web/src/components/tools/workspaces/video.tsx:650, web/src/components/tools/workspaces/video.tsx:651, web/src/components/tools/workspaces/video.tsx:1366",
    "R": "PASS",
    "R_note": "字节可复核：1366190B == real-acceptance/SALE_VIDEO/r12-downloaded.mp4",
    "R_artifacts": [
@@ -2515,11 +1582,11 @@
      "sha256_12": "39193f0a2c97"
     }
    ],
-   "H": "PASS",
-   "H_note": "真实 task task-mvt76u6p-7cfnff + \"nav\": \"reload\" + 字节 sha 对账 1366190B == real-acceptance/SALE_VIDEO/r12-downloaded.mp4",
+   "H": "PARTIAL",
+   "H_note": "真实任务 succeeded → reload 后 blob 由 IDB 复原（新 blob id 且字节一致）、历史 2 条；但该 reload 仅有人工文字记录，未落机器回执",
    "H_evidence": [
-    "real-acceptance/VIDEO_4TOOLS_HISTORY_20261029/SALE_VIDEO.dock-after-reload.json",
-    "real-acceptance/SALE_VIDEO/r12-downloaded.mp4"
+    "SALE_VIDEO_20261029/task-mvt76u6p-7cfnff.raw.json",
+    "SALE_VIDEO_20261029/FOLLOWUP_20261029.md"
    ],
    "K": "N/A",
    "K_note": "原站无案例模块",
@@ -2533,35 +1600,7 @@
     "H": "PARTIAL",
     "K": "N/A",
     "U": "PASS"
-   },
-   "H_legs": {
-    "file": "real-acceptance/VIDEO_4TOOLS_HISTORY_20261029/SALE_VIDEO.dock-after-reload.json",
-    "task": true,
-    "reload": true,
-    "bytes": true,
-    "reload_mark": "\"nav\": \"reload\"",
-    "post_reload": "rows",
-    "claims": [
-     {
-      "bytes": 1366190,
-      "sha": "39193f0a2c97c24e3a06fd6d38f8c633e6b6a53546d1c235038f4f7cb22bcb73",
-      "where": "rows.results.media"
-     }
-    ],
-    "artifact": "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/SALE_VIDEO/r12-downloaded.mp4",
-    "negative": null,
-    "backfill": null,
-    "payload_drop": false,
-    "binding": [
-     "task-mvt76u6p-7cfnff",
-     "task-mvsbd685-5tzfuw",
-     "task-mvs6m72i-eidjm6"
-    ]
-   },
-   "H_gap": null,
-   "T_evidence": [
-    "web/src/components/tools/workspaces/video.tsx"
-   ]
+   }
   },
   {
    "id": "VIDEO_REPLICATION",
@@ -2573,8 +1612,8 @@
     "VIDEO_HISTORY_RECOVERY_2TOOLS/summary.json",
     "VIDEO_REPLICATION/link-mode/out.mp4"
    ],
-   "T": "PASS",
-   "T_note": "同上：video.tsx 案例区已条件渲染，无空态占位文案",
+   "T": "PARTIAL",
+   "T_note": "case-module 占位文案： web/src/components/tools/workspaces/video.tsx:650, web/src/components/tools/workspaces/video.tsx:650, web/src/components/tools/workspaces/video.tsx:651, web/src/components/tools/workspaces/video.tsx:1366",
    "R": "PARTIAL",
    "R_note": "回执声明 1297168B 无同尺寸已提交产物可复核，落盘产物无法复核（证据链断裂）",
    "R_artifacts": [
@@ -2588,11 +1627,9 @@
     }
    ],
    "H": "PARTIAL",
-   "H_note": "240f49a/后续修复未覆盖该工具；现有回执 task-mvs9mpoz-e8u2ry 为 failed/submit-unconfirmed，MASTER 指令记 BLOCKED 未重跑 → 维持 PARTIAL",
+   "H_note": "真浏览器 reload 后历史坞 1 条 succeeded → 查看结果 readyState=4/1344px → 下载/存资产/二次刷新/上游链接过期全部 sha256=b5e80fde… 一致；但任务记录为 upsertTask 注入（task-real-*），非真实提交落库",
    "H_evidence": [
-    "real-acceptance/VIDEO_4TOOLS_HISTORY_20261029/VIDEO_REPLICATION.history-after-reload.json",
-    "real-acceptance/R7-actions-20261029/task-inventory-127.0.0.1.json",
-    "real-acceptance/R9-history-backfill-20261029/probe.json"
+    "VIDEO_HISTORY_RECOVERY_2TOOLS/summary.json"
    ],
    "K": "N/A",
    "K_note": "原站无案例模块",
@@ -2606,27 +1643,7 @@
     "H": "PARTIAL",
     "K": "N/A",
     "U": "PASS"
-   },
-   "H_legs": {
-    "file": "real-acceptance/VIDEO_4TOOLS_HISTORY_20261029/VIDEO_REPLICATION.history-after-reload.json",
-    "task": true,
-    "reload": true,
-    "bytes": false,
-    "reload_mark": "\"nav\": \"reload\"",
-    "post_reload": "rows",
-    "claims": [],
-    "artifact": null,
-    "negative": null,
-    "backfill": null,
-    "payload_drop": false,
-    "binding": [
-     "task-mvs9mpoz-e8u2ry"
-    ]
-   },
-   "H_gap": "task task-mvs9mpoz-e8u2ry 记录为 failed/submit-unconfirmed（real-acceptance/VIDEO_4TOOLS_HISTORY_20261029/VIDEO_REPLICATION.history-after-reload.json），无成功结果可恢复",
-   "T_evidence": [
-    "web/src/components/tools/workspaces/video.tsx"
-   ]
+   }
   },
   {
    "id": "AI_VIDEO_EDITING",
@@ -2638,8 +1655,8 @@
     "AI_VIDEO_EDITING/receipt-20261029/receipt.json",
     "AI_VIDEO_EDITING/receipt-20261029/task_QFvq6WMc_video.mp4"
    ],
-   "T": "PASS",
-   "T_note": "同上：video.tsx 案例区已条件渲染，无空态占位文案",
+   "T": "PARTIAL",
+   "T_note": "case-module 占位文案： web/src/components/tools/workspaces/video.tsx:650, web/src/components/tools/workspaces/video.tsx:650, web/src/components/tools/workspaces/video.tsx:651, web/src/components/tools/workspaces/video.tsx:1366",
    "R": "PASS",
    "R_note": "字节可复核：2268656B == real-acceptance/AI_VIDEO_EDITING/receipt-20261029/task_QFvq6WMc_video.mp4",
    "R_artifacts": [
@@ -2653,11 +1670,10 @@
     }
    ],
    "H": "PARTIAL",
-   "H_note": "AI_VIDEO_EDITING 有成功真实任务，但回执 r7-d19-history-20261029/orphan-tasks-127-3000-20261029.json 记 payloadDropped=true：结果项无 storageKey/url，字节未入库 → 无字节可下载/存资产/发画布",
+   "H_note": "既有真实任务记录被清空后，用 store 以真实 upstreamTaskId 重建 → recoverAll 只轮询不重提 → succeeded，IDB 2268656B sha256=文件；但未取 reload 面板 DOM，prompt/输入字段为空",
    "H_evidence": [
-    "real-acceptance/AI_VIDEO_EDITING/receipt-20261029/receipt.json",
-    "real-acceptance/VIDEO_4TOOLS_HISTORY_20261029/AI_VIDEO_EDITING.tasks-localStorage.json",
-    "r7-d19-history-20261029/orphan-tasks-127-3000-20261029.json"
+    "AI_VIDEO_EDITING/receipt-20261029/receipt.json",
+    "AI_VIDEO_EDITING/receipt-20261029/REPORT.md"
    ],
    "K": "N/A",
    "K_note": "原站无案例模块",
@@ -2671,35 +1687,7 @@
     "H": "PARTIAL",
     "K": "N/A",
     "U": "PASS"
-   },
-   "H_legs": {
-    "file": "real-acceptance/VIDEO_4TOOLS_HISTORY_20261029/AI_VIDEO_EDITING.tasks-localStorage.json",
-    "task": true,
-    "reload": false,
-    "bytes": true,
-    "reload_mark": null,
-    "post_reload": "items",
-    "claims": [
-     {
-      "bytes": 2268656,
-      "sha": null,
-      "where": "claim"
-     }
-    ],
-    "artifact": "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/AI_VIDEO_EDITING/receipt-20261029/task_QFvq6WMc_video.mp4",
-    "negative": null,
-    "backfill": null,
-    "payload_drop": false,
-    "binding": [
-     "task-mvt42rpv-kfl1ov",
-     "task-mvs802af-u9vwye",
-     "task-mvs83fc2-dc6b5s"
-    ]
-   },
-   "H_gap": "AI_VIDEO_EDITING 有成功真实任务，但回执 r7-d19-history-20261029/orphan-tasks-127-3000-20261029.json 记 payloadDropped=true：结果项无 storageKey/url，字节未入库 → 无字节可下载/存资产/发画布",
-   "T_evidence": [
-    "web/src/components/tools/workspaces/video.tsx"
-   ]
+   }
   },
   {
    "id": "VIDEO_TRANSLATION",
@@ -2715,11 +1703,10 @@
    "R": "PASS",
    "R_note": "字节可复核：1080637B == real-acceptance/VIDEO_TRANSLATION/downloaded.mp4",
    "R_artifacts": [],
-   "H": "PASS",
-   "H_note": "真实 task task-mvth8drs-dk86it + \"reload\": { + 字节 sha 对账 1080637B == real-acceptance/VIDEO_TRANSLATION/downloaded.mp4",
+   "H": "PARTIAL",
+   "H_note": "真浏览器刷新后历史坞 1 条 failed + 完整 400 原文、查看结果按钮 0 个、POST /v1/videos 0 次；但记录由 upsertTask 注入（task-real-*），且无成功任务可验",
    "H_evidence": [
-    "real-acceptance/VIDEO_TRANSLATION/run-resume-translation.json",
-    "real-acceptance/VIDEO_TRANSLATION/downloaded.mp4"
+    "VIDEO_HISTORY_RECOVERY_2TOOLS/summary.json"
    ],
    "K": "N/A",
    "K_note": "原站无案例模块",
@@ -2733,51 +1720,28 @@
     "H": "PARTIAL",
     "K": "N/A",
     "U": "PASS"
-   },
-   "H_legs": {
-    "file": "real-acceptance/VIDEO_TRANSLATION/run-resume-translation.json",
-    "task": true,
-    "reload": true,
-    "bytes": true,
-    "reload_mark": "\"reload\": {",
-    "post_reload": "items",
-    "claims": [
-     {
-      "bytes": 1080637,
-      "sha": null,
-      "where": "claim"
-     }
-    ],
-    "artifact": "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/VIDEO_TRANSLATION/downloaded.mp4",
-    "negative": null,
-    "backfill": null,
-    "payload_drop": false,
-    "binding": [
-     "task-mvth8drs-dk86it"
-    ]
-   },
-   "H_gap": null
+   }
   },
   {
    "id": "VIDEO_CONCAT",
    "name": "视频拼接",
    "route": "/tools/ai-video/video-concat",
    "F": "PARTIAL",
-   "F_note": "39bf486 真实 UI 提交带页内字段，但上游 400（multipart 被当 utf-8 解码）+ HMR 中断；本轮无新增该工具成功回执 → 维持 PARTIAL",
+   "F_note": "39bf486：真实 UI 提交带页内字段（seconds=10&size=720x1280&ratio=9:16&resolution_name=720p），但上游 400（multipart 被当 utf-8 解码）+ HMR 重载中断 → 显式记 failed；无结果区闭环",
    "F_evidence": [
     "VIDEO_CONCAT/request-evidence-20261029.json",
     "VIDEO_CONCAT/task-record-20261029.json"
    ],
-   "T": "PASS",
-   "T_note": "同上：video.tsx 案例区已条件渲染，无空态占位文案（type=52 数据源说明保留在注释中，非可见文案）",
+   "T": "PARTIAL",
+   "T_note": "case-module 占位文案： web/src/components/tools/workspaces/video.tsx:650, web/src/components/tools/workspaces/video.tsx:650, web/src/components/tools/workspaces/video.tsx:651, web/src/components/tools/workspaces/video.tsx:1366",
    "R": "PASS",
    "R_note": "字节可复核：2133234B == real-acceptance/VIDEO_CONCAT/downloaded.mp4",
    "R_artifacts": [],
    "H": "PASS",
-   "H_note": "真实 task task-mvthgaa4-pdg1eq + \"reload\": { + 字节 sha 对账 2133234B == real-acceptance/VIDEO_CONCAT/downloaded.mp4",
+   "H_note": "真实提交 task-mvt94gxs-p0r29t → tool-task:v1 落库 failed（submit-unconfirmed）→ fresh reload 后历史「1 条 · 失败」+ 原因 + 配置快照，草稿 3 clip 恢复",
    "H_evidence": [
-    "real-acceptance/VIDEO_CONCAT/run-resume-concat.json",
-    "real-acceptance/VIDEO_CONCAT/downloaded.mp4"
+    "VIDEO_CONCAT/history-recovery-20261029.json",
+    "VIDEO_CONCAT/task-record-20261029.json"
    ],
    "K": "N/A",
    "K_note": "原站无案例模块",
@@ -2791,33 +1755,7 @@
     "H": "PASS",
     "K": "N/A",
     "U": "PASS"
-   },
-   "H_legs": {
-    "file": "real-acceptance/VIDEO_CONCAT/run-resume-concat.json",
-    "task": true,
-    "reload": true,
-    "bytes": true,
-    "reload_mark": "\"reload\": {",
-    "post_reload": "items",
-    "claims": [
-     {
-      "bytes": 2133234,
-      "sha": null,
-      "where": "claim"
-     }
-    ],
-    "artifact": "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/VIDEO_CONCAT/downloaded.mp4",
-    "negative": null,
-    "backfill": null,
-    "payload_drop": false,
-    "binding": [
-     "task-mvthgaa4-pdg1eq"
-    ]
-   },
-   "H_gap": null,
-   "T_evidence": [
-    "web/src/components/tools/workspaces/video.tsx"
-   ]
+   }
   }
  ],
  "deltas": [
@@ -2847,29 +1785,8 @@
    ]
   },
   {
-   "id": "AI_OUTPAINTING",
-   "H": [
-    "PARTIAL",
-    "PASS"
-   ]
-  },
-  {
-   "id": "AREA_REPAIR",
-   "H": [
-    "PARTIAL",
-    "PASS"
-   ]
-  },
-  {
    "id": "CHANGE_COLOR",
    "F": [
-    "PARTIAL",
-    "PASS"
-   ]
-  },
-  {
-   "id": "IMAGE_CROP",
-   "H": [
     "PARTIAL",
     "PASS"
    ]
@@ -2879,32 +1796,17 @@
    "F": [
     "PARTIAL",
     "PASS"
-   ],
-   "H": [
-    "PARTIAL",
-    "PASS"
-   ]
-  },
-  {
-   "id": "PRINTING_REPAIR",
-   "H": [
-    "PARTIAL",
-    "PASS"
    ]
   },
   {
    "id": "HAND_REPAIR",
-   "H": [
+   "F": [
     "PARTIAL",
     "PASS"
    ]
   },
   {
    "id": "NEW_REPLACE_BG_V2",
-   "H": [
-    "PARTIAL",
-    "PASS"
-   ],
    "K": [
     "N/A",
     "PASS"
@@ -2913,10 +1815,6 @@
   {
    "id": "REPLACE_GOODS",
    "F": [
-    "PARTIAL",
-    "PASS"
-   ],
-   "H": [
     "PARTIAL",
     "PASS"
    ]
@@ -2929,27 +1827,6 @@
    ]
   },
   {
-   "id": "AI_DRESSING_V2",
-   "H": [
-    "PARTIAL",
-    "PASS"
-   ]
-  },
-  {
-   "id": "AI_POSTURE",
-   "H": [
-    "PARTIAL",
-    "PASS"
-   ]
-  },
-  {
-   "id": "AI_WEARABLE",
-   "H": [
-    "PARTIAL",
-    "PASS"
-   ]
-  },
-  {
    "id": "PRINT_EXTRACT",
    "F": [
     "PARTIAL",
@@ -2957,24 +1834,10 @@
    ]
   },
   {
-   "id": "AI_POSE_GENERATOR",
+   "id": "FISSION_LINK",
    "H": [
-    "PARTIAL",
-    "PASS"
-   ]
-  },
-  {
-   "id": "AI_DRESSING_XSY",
-   "H": [
-    "PARTIAL",
-    "PASS"
-   ]
-  },
-  {
-   "id": "MATERIAL_UPPER_BODY",
-   "H": [
-    "PARTIAL",
-    "PASS"
+    "PASS",
+    "PARTIAL"
    ]
   },
   {
@@ -2982,24 +1845,6 @@
    "R": [
     "PASS",
     "PARTIAL"
-   ],
-   "H": [
-    "PARTIAL",
-    "PASS"
-   ]
-  },
-  {
-   "id": "PRODUCT_MARKET_MATERIAL",
-   "H": [
-    "PARTIAL",
-    "PASS"
-   ]
-  },
-  {
-   "id": "SALE_VIDEO",
-   "H": [
-    "PARTIAL",
-    "PASS"
    ]
   },
   {
@@ -3014,10 +1859,6 @@
    "R": [
     "BLOCKED",
     "PASS"
-   ],
-   "H": [
-    "PARTIAL",
-    "PASS"
    ]
   },
   {
@@ -3027,791 +1868,5 @@
     "PASS"
    ]
   }
- ],
- "supersedes": {
-  "report": "reports/independent-audit-20261029-r11/",
-  "commit": "3c9d81a (R11) + 9fae2d6 (R11 crosscheck)",
-  "reason": "以 R11 严格三腿口径（含 crosscheck 的 5 处映射/归属修正）为基线，在同一审计器上只吸收既有提交证据：0e8f9f1、61e86fc、6cb0afc、7ff08bf、7664498、5c25200、097f097、4f7d4af、ff621c3；不放宽任何 PASS 门槛，不把 pending/running/下载未命中 视为 PASS"
- },
- "h_changes_vs_r8_fix": [
-  {
-   "id": "AI_OUTPAINTING",
-   "H": [
-    "PARTIAL",
-    "PASS"
-   ],
-   "H_was": "真实 task task-mvsbp9c8-y8q5vf 历史坞在 fresh reload 后复原（real-acceptance/AI_OUTPAINTING/01-run.json），但结果项 payloadDropped=true：快照只存元数据，无字节可下载/入库/上画布，字节不可复核",
-   "H_now": "真实 task task-mvtbhylv-bmyjus + \"phase\": \"reload\" + 字节 sha 对账 1329760B == edit8-h-real-20261029/AI_OUTPAINTING-result-1.png"
-  },
-  {
-   "id": "AREA_REPAIR",
-   "H": [
-    "PARTIAL",
-    "PASS"
-   ],
-   "H_was": "已全仓检索已提交文本证据：无该工具绑定的真实 task-mv 任务（taskId+toolId 同现）",
-   "H_now": "真实 task task-mvtfevy8-rrr2ye + \"phase\": \"reload\" + 字节 sha 对账 2065981B == edit8-h-real-20261029/AREA_REPAIR-result-1.png"
-  },
-  {
-   "id": "IMAGE_CROP",
-   "H": [
-    "PARTIAL",
-    "PASS"
-   ],
-   "H_was": "真实 task task-mvt0yzj5-nryeif 有 reload 采集（real-acceptance/IMAGE_CROP/result.json），但回执自述 \"resultRestored\": false：结果不回流，仅恢复草稿与源图",
-   "H_now": "真实 task task-mvtbmukl-quasjm + \"phase\": \"reload\" + 字节 sha 对账 205951B == edit8-h-real-20261029/IMAGE_CROP-result-1.png"
-  },
-  {
-   "id": "PRODUCT_REFINE",
-   "H": [
-    "PARTIAL",
-    "PASS"
-   ],
-   "H_was": "有该工具绑定的真实 task task-mvtb3nuj-3d0mnv（real-acceptance/R7-actions-20261029/PRODUCT_REFINE/b4-actions.json），但无机器 fresh reload 回执（仅文字描述或普通页面采集）",
-   "H_now": "真实 task task-mvtb3nuj-3d0mnv + \"phase\": \"reload\" + 字节 sha 对账 2827346B == edit8-h-real-20261029/PRODUCT_REFINE-result-2048x1488.png"
-  },
-  {
-   "id": "PRINTING_REPAIR",
-   "H": [
-    "PARTIAL",
-    "PASS"
-   ],
-   "H_was": "有该工具绑定的真实 task task-mvsamffh-uh79ky（real-acceptance/R7-actions-20261029/task-inventory-127.0.0.1.json），但无机器 fresh reload 回执（仅文字描述或普通页面采集）",
-   "H_now": "真实 task task-mvtbawv4-zxcmpv + \"phase\": \"reload\" + 字节 sha 对账 1183770B == edit8-h-real-20261029/PRINTING_REPAIR-result-1.png"
-  },
-  {
-   "id": "HAND_REPAIR",
-   "H": [
-    "PARTIAL",
-    "PASS"
-   ],
-   "H_was": "有该工具绑定的真实 task task-mvtbe5rp-0maafh（real-acceptance/R7-actions-20261029/HAND_REPAIR/b4-actions.json），但无机器 fresh reload 回执（仅文字描述或普通页面采集）",
-   "H_now": "真实 task task-mvtbe5rp-0maafh + \"phase\": \"reload\" + 字节 sha 对账 2153466B == edit8-h-real-20261029/HAND_REPAIR-result-1024x1024.png"
-  },
-  {
-   "id": "NEW_REPLACE_BG_V2",
-   "H": [
-    "PARTIAL",
-    "PASS"
-   ],
-   "H_was": "有该工具绑定的真实 task task-mvs5dd71-4s35w2（r7-d19-history-20261029/tool-new-replace-bg-v2.json），但无机器 fresh reload 回执（仅文字描述或普通页面采集）",
-   "H_now": "真实 task task-mvthl08d-06efgs + \"persistedAfterReload\": { + 字节 sha 对账 837987B == real-acceptance/h4-design-realgen-retry-20261029/NEW_REPLACE_BG_V2-result.png"
-  },
-  {
-   "id": "REPLACE_GOODS",
-   "H": [
-    "PARTIAL",
-    "PASS"
-   ],
-   "H_was": "有该工具绑定的真实 task task-mvs5dd71-4s35w2（r7-d19-history-20261029/tool-replace-goods.json），但无机器 fresh reload 回执（仅文字描述或普通页面采集）",
-   "H_now": "真实 task task-mvtgiiu1-hrp6z3 + \"persistedAfterReload\": { + 字节 sha 对账 1192722B == real-acceptance/h4-design-realgen-20261029/REPLACE_GOODS-result.png"
-  },
-  {
-   "id": "AI_DRESSING_V2",
-   "H": [
-    "PARTIAL",
-    "PASS"
-   ],
-   "H_was": "有该工具绑定的真实 task task-mvs5dd71-4s35w2（r7-d19-history-20261029/tool-ai-dressing-v2.json），但无机器 fresh reload 回执（仅文字描述或普通页面采集）",
-   "H_now": "真实 task task-mvtgeodr-5vx7tw + \"fresh_reload\": { + 字节 sha 对账 2115031B == real-acceptance/AI_DRESSING_V2/result1_live_20261029.png"
-  },
-  {
-   "id": "AI_POSTURE",
-   "H": [
-    "PARTIAL",
-    "PASS"
-   ],
-   "H_was": "有该工具绑定的真实 task task-mvtczxwo-e1d1w0（independent-verification-20261029/VERIFY_DATA.json），但无机器 fresh reload 回执（仅文字描述或普通页面采集）",
-   "H_now": "真实 task task-mvtczxwo-e1d1w0 + \"phase\": \"reload\" + 字节 sha 对账 1557308B == r8h-4tools-20261029/AI_POSTURE.png"
-  },
-  {
-   "id": "AI_WEARABLE",
-   "H": [
-    "PARTIAL",
-    "PASS"
-   ],
-   "H_was": "有该工具绑定的真实 task task-mvs5dd71-4s35w2（r7-d19-history-20261029/tool-ai-wearable.json），但无机器 fresh reload 回执（仅文字描述或普通页面采集）",
-   "H_now": "真实 task task-mvtglxwi-ys0y85 + \"fresh_reload\": { + 字节 sha 对账 1247574B == real-acceptance/AI_WEARABLE/result1_live_20261029.png"
-  },
-  {
-   "id": "AI_POSE_GENERATOR",
-   "H": [
-    "PARTIAL",
-    "PASS"
-   ],
-   "H_was": "真实 task task-mvs73hbe-ak20fw 历史坞在 fresh reload 后复原（suite-design-history-20261029-b/POSE_UB.AI_POSE_GENERATOR.json），但结果项 payloadDropped=true：快照只存元数据，无字节可下载/入库/上画布，字节不可复核",
-   "H_now": "真实 task task-mvtd89f3-9qpix6 + \"navType\": \"reload\" + 字节 sha 对账 1151209B == suite-design-realgen-20261029/ai-pose-generator-result-1.png"
-  },
-  {
-   "id": "MATERIAL_UPPER_BODY",
-   "H": [
-    "PARTIAL",
-    "PASS"
-   ],
-   "H_was": "有该工具绑定的真实 task task-mvtd45nv-y7cum6（independent-verification-20261029/VERIFY_DATA.json），但无机器 fresh reload 回执（仅文字描述或普通页面采集）",
-   "H_now": "真实 task task-mvtd45nv-y7cum6 + \"phase\": \"reload\" + 字节 sha 对账 1525374B == r8h-4tools-20261029/MATERIAL_UPPER_BODY.png"
-  },
-  {
-   "id": "NEW_DESIGNER",
-   "H": [
-    "PARTIAL",
-    "PASS"
-   ],
-   "H_was": "有该工具绑定的真实 task task-mvtdl9v8-165q1n（independent-verification-20261029/VERIFY_DATA.json），但无机器 fresh reload 回执（仅文字描述或普通页面采集）",
-   "H_now": "真实 task task-mvtdl9v8-165q1n + \"navType\": \"reload\" + 字节 sha 对账 411801B == suite-design-realgen-20261029/new-designer-result-1.png"
-  },
-  {
-   "id": "PRODUCT_MARKET_MATERIAL",
-   "H": [
-    "PARTIAL",
-    "PASS"
-   ],
-   "H_was": "有该工具绑定的真实 task task-mvs5dd71-4s35w2（r7-d19-history-20261029/tool-product-market-material.json），但无机器 fresh reload 回执（仅文字描述或普通页面采集）",
-   "H_now": "真实 task task-mvtjpn12-s1c4t6 + \"reload\": { + 字节 sha 对账 1902882B == real-acceptance/PRODUCT_MARKET_MATERIAL/r13-real-ui-20261029/download-product-market-material-result-1.png"
-  },
-  {
-   "id": "VIDEO_TRANSLATION",
-   "H": [
-    "PARTIAL",
-    "PASS"
-   ],
-   "H_was": "已全仓检索已提交文本证据：无该工具绑定的真实 task-mv 任务（taskId+toolId 同现）",
-   "H_now": "真实 task task-mvth8drs-dk86it + \"reload\": { + 字节 sha 对账 1080637B == real-acceptance/VIDEO_TRANSLATION/downloaded.mp4"
-  }
- ],
- "strictness": {
-  "evidence_source": "git ls-tree HEAD（未提交/工作区文件不参与）",
-  "H_legs": [
-   "taskId binding",
-   "fresh reload marker + post-reload observation bound to same task/bytes/sha",
-   "download/asset/canvas bytes: size AND sha256 vs this tool's committed artifact"
-  ],
-  "inherited_unchanged": [
-   "F",
-   "T",
-   "R",
-   "K",
-   "U"
-  ],
-  "r11_mapping_fixes": [
-   "post-reload obs reloadDockItems（dockAfterReload.items 数组，h4 harness 写法）",
-   "上游 BLOCKED 归因：blockedReason=no-task-record-after-submit + 5xx 原文引用"
-  ],
-  "r11_no_loosening": [
-   "未新增任何 PASS 门槛放宽",
-   "字节仍须同尺寸；声明 sha256 时必须逐位相同",
-   "观测与 reload 标记必须同在一条已提交回执内并绑定同一 task"
-  ],
-  "h_asserts_note": "每个涉及新证据的工具另跑 h_asserts（回执字段 + 磁盘字节/sha 实算）",
-  "r12_no_loosening": [
-   "未新增任何 PASS 门槛放宽；改判全部来自新提交的证据本身落进 HEAD",
-   "pending/running/submit-unconfirmed 一律不算 PASS（assert_no_pending 硬断言）",
-   "下载未命中（FISSION_LINK download UNVERIFIED）不参与任何腿的成立",
-   "字节仍须同尺寸；声明 sha256 时必须逐位相同"
-  ]
- },
- "h_changes_vs_r9": [
-  {
-   "id": "PRODUCT_IMAGE_SUITE",
-   "H": [
-    "PARTIAL",
-    "PASS"
-   ],
-   "H_was": "task task-mvt6vpdo-sc1x8w + reload 回执（history-restore-20261029/summary.json），但声明 2840825B，已提交产物中无同尺寸同 sha 的该工具产物（字节不可复核）",
-   "H_now": "真实 task task-mvt6vpdo-sc1x8w + call: location.assign( + 字节 sha 对账 2840825B == real-acceptance/PRODUCT_IMAGE_SUITE/r10/result.png",
-   "source": "new-committed-evidence"
-  },
-  {
-   "id": "DRESS_WEAR_SET",
-   "H": [
-    "PARTIAL",
-    "PASS"
-   ],
-   "H_was": "task task-mvt74l6q-1vljau + reload 回执（history-restore-20261029/summary.json），但声明 2516552B，已提交产物中无同尺寸同 sha 的该工具产物（字节不可复核）",
-   "H_now": "真实 task task-mvt74l6q-1vljau + call: location.assign( + 字节 sha 对账 1883817B == real-acceptance/DRESS_WEAR_SET/r10/result.png",
-   "source": "new-committed-evidence"
-  },
-  {
-   "id": "NEW_REPLACE_BG_V2",
-   "H": [
-    "PARTIAL",
-    "PASS"
-   ],
-   "H_was": "真实 task 仅出现在 r7-d19-history-20261029/tool-new-replace-bg-v2.json 的自由文本/其它工具清单里（task-mvs5dd71-4s35w2），无 taskId/data-task-id 绑定字段",
-   "H_now": "真实 task task-mvthl08d-06efgs + \"persistedAfterReload\": { + 字节 sha 对账 837987B == real-acceptance/h4-design-realgen-retry-20261029/NEW_REPLACE_BG_V2-result.png",
-   "source": "new-committed-evidence"
-  },
-  {
-   "id": "REPLACE_GOODS",
-   "H": [
-    "PARTIAL",
-    "PASS"
-   ],
-   "H_was": "真实 task 仅出现在 r7-d19-history-20261029/tool-replace-goods.json 的自由文本/其它工具清单里（task-mvs5dd71-4s35w2），无 taskId/data-task-id 绑定字段",
-   "H_now": "真实 task task-mvtgiiu1-hrp6z3 + \"persistedAfterReload\": { + 字节 sha 对账 1192722B == real-acceptance/h4-design-realgen-20261029/REPLACE_GOODS-result.png",
-   "source": "new-committed-evidence"
-  },
-  {
-   "id": "AI_DRESSING_V2",
-   "H": [
-    "PARTIAL",
-    "PASS"
-   ],
-   "H_was": "真实 task 仅出现在 r7-d19-history-20261029/tool-ai-dressing-v2.json 的自由文本/其它工具清单里（task-mvs5dd71-4s35w2），无 taskId/data-task-id 绑定字段",
-   "H_now": "真实 task task-mvtgeodr-5vx7tw + \"fresh_reload\": { + 字节 sha 对账 2115031B == real-acceptance/AI_DRESSING_V2/result1_live_20261029.png",
-   "source": "new-committed-evidence"
-  },
-  {
-   "id": "AI_WEARABLE",
-   "H": [
-    "PARTIAL",
-    "PASS"
-   ],
-   "H_was": "真实 task 仅出现在 r7-d19-history-20261029/tool-ai-wearable.json 的自由文本/其它工具清单里（task-mvs5dd71-4s35w2），无 taskId/data-task-id 绑定字段",
-   "H_now": "真实 task task-mvtglxwi-ys0y85 + \"fresh_reload\": { + 字节 sha 对账 1247574B == real-acceptance/AI_WEARABLE/result1_live_20261029.png",
-   "source": "new-committed-evidence"
-  },
-  {
-   "id": "AI_TEXT",
-   "H": [
-    "PARTIAL",
-    "PASS"
-   ],
-   "H_was": "task task-mvsdhatp-kdyvt6 有 reload 声明（\"afterReload\": {），但 real-acceptance/B2G1/AI_TEXT/run-b2g1.json 无刷新后观测（无 *AfterReload 步骤/历史坞行/rows/persistedAfterReload）",
-   "H_now": "真实 task task-mvthk2pn-kdz7i6 + \"navType\": \"reload\" + 字节 sha 对账 1445425B == real-acceptance/AI_TEXT/r10-real-20261029/03-result.png",
-   "source": "r9-crosscheck-mapping"
-  },
-  {
-   "id": "ORNAMENT_TEXT",
-   "H": [
-    "PARTIAL",
-    "PASS"
-   ],
-   "H_was": "task task-mvsdivlg-6slebs 有 reload 声明（\"afterReload\": {），但 real-acceptance/B2G1/ORNAMENT_TEXT/run-b2g1.json 无刷新后观测（无 *AfterReload 步骤/历史坞行/rows/persistedAfterReload）",
-   "H_now": "真实 task task-mvsdivlg-6slebs + \"afterReload\": { + 字节 sha 对账 2439783B == real-acceptance/B2G1/ORNAMENT_TEXT/downloaded-ornament-text-result-1.png",
-   "source": "r9-crosscheck-mapping"
-  },
-  {
-   "id": "SDS_DESIGN",
-   "H": [
-    "PARTIAL",
-    "PASS"
-   ],
-   "H_was": "task task-mvsdlqxd-ttx3pl 有 reload 声明（\"afterReload\": {），但 real-acceptance/B2G1/SDS_DESIGN/run-b2g1.json 无刷新后观测（无 *AfterReload 步骤/历史坞行/rows/persistedAfterReload）",
-   "H_now": "真实 task task-mvsdlqxd-ttx3pl + \"afterReload\": { + 字节 sha 对账 2081539B == real-acceptance/B2G1/SDS_DESIGN/downloaded-sds-design-result-1.png",
-   "source": "r9-crosscheck-mapping"
-  },
-  {
-   "id": "AI_POSE_GENERATOR",
-   "H": [
-    "PARTIAL",
-    "PASS"
-   ],
-   "H_was": "有真实 task task-mvtd89f3-9qpix6（suite-design-realgen-20261029/RESULTS.json），但无机器 fresh reload 标记（无 phase/nav=reload、无 reload 对象节点、无 location.reload() 回执）",
-   "H_now": "真实 task task-mvtd89f3-9qpix6 + \"navType\": \"reload\" + 字节 sha 对账 1151209B == suite-design-realgen-20261029/ai-pose-generator-result-1.png",
-   "source": "r9-crosscheck-mapping"
-  },
-  {
-   "id": "FISSION_LINK",
-   "H": [
-    "PARTIAL",
-    "PASS"
-   ],
-   "H_was": "有真实 task task-mvt18lrt-rsnifn（real-acceptance/H2-fission-xsy-20261029/evidence.json），但无机器 fresh reload 标记（无 phase/nav=reload、无 reload 对象节点、无 location.reload() 回执）",
-   "H_now": "真实 task task-mvt18lrt-rsnifn + \"navType\": \"reload\" + 字节 sha 对账 1988694B == real-acceptance/FISSION_LINK/r10/result.png",
-   "source": "new-committed-evidence"
-  },
-  {
-   "id": "NEW_DESIGNER",
-   "H": [
-    "PARTIAL",
-    "PASS"
-   ],
-   "H_was": "有真实 task task-mvtdl9v8-165q1n（suite-design-realgen-20261029/RESULTS.json），但无机器 fresh reload 标记（无 phase/nav=reload、无 reload 对象节点、无 location.reload() 回执）",
-   "H_now": "真实 task task-mvtdl9v8-165q1n + \"navType\": \"reload\" + 字节 sha 对账 411801B == suite-design-realgen-20261029/new-designer-result-1.png",
-   "source": "r9-crosscheck-mapping"
-  },
-  {
-   "id": "PRODUCT_MARKET_MATERIAL",
-   "H": [
-    "PARTIAL",
-    "PASS"
-   ],
-   "H_was": "真实 task 仅出现在 r7-d19-history-20261029/tool-product-market-material.json 的自由文本/其它工具清单里（task-mvs5dd71-4s35w2），无 taskId/data-task-id 绑定字段",
-   "H_now": "真实 task task-mvtjpn12-s1c4t6 + \"reload\": { + 字节 sha 对账 1902882B == real-acceptance/PRODUCT_MARKET_MATERIAL/r13-real-ui-20261029/download-product-market-material-result-1.png",
-   "source": "new-committed-evidence"
-  },
-  {
-   "id": "SCENE_TRANSFER",
-   "H": [
-    "PARTIAL",
-    "PASS"
-   ],
-   "H_was": "task task-mvt8c2a6-nsv4pt 有 reload 声明（\"afterReload\": {），但 real-acceptance/B2G1/SCENE_TRANSFER/run-b2g1.json 无刷新后观测（无 *AfterReload 步骤/历史坞行/rows/persistedAfterReload）",
-   "H_now": "真实 task task-mvt8c2a6-nsv4pt + \"afterReload\": { + 字节 sha 对账 839268B == real-acceptance/B2G1/SCENE_TRANSFER/downloaded-scene-transfer-result-1.png",
-   "source": "r9-crosscheck-mapping"
-  },
-  {
-   "id": "SALE_VIDEO",
-   "H": [
-    "PARTIAL",
-    "PASS"
-   ],
-   "H_was": "task task-mvt76u6p-7cfnff + reload 回执（real-acceptance/VIDEO_4TOOLS_HISTORY_20261029/SALE_VIDEO.dock-after-reload.json），但回执未声明结果字节（无 artifact 节点 bytes/sha）",
-   "H_now": "真实 task task-mvt76u6p-7cfnff + \"nav\": \"reload\" + 字节 sha 对账 1366190B == real-acceptance/SALE_VIDEO/r12-downloaded.mp4",
-   "source": "new-committed-evidence"
-  },
-  {
-   "id": "VIDEO_TRANSLATION",
-   "H": [
-    "PARTIAL",
-    "PASS"
-   ],
-   "H_was": "无该工具绑定的真实 task（taskId+toolId 同现）",
-   "H_now": "真实 task task-mvth8drs-dk86it + \"reload\": { + 字节 sha 对账 1080637B == real-acceptance/VIDEO_TRANSLATION/downloaded.mp4",
-   "source": "new-committed-evidence"
-  },
-  {
-   "id": "VIDEO_CONCAT",
-   "H": [
-    "PARTIAL",
-    "PASS"
-   ],
-   "H_was": "task task-mvs802af-u9vwye 记录为 failed/submit-unconfirmed（real-acceptance/R7-actions-20261029/task-inventory-127.0.0.1.json），无成功结果可恢复",
-   "H_now": "真实 task task-mvthgaa4-pdg1eq + \"reload\": { + 字节 sha 对账 2133234B == real-acceptance/VIDEO_CONCAT/downloaded.mp4",
-   "source": "new-committed-evidence"
-  }
- ],
- "absorbed_commits": [
-  {
-   "commit": "0a20bff",
-   "what": "fix(CHANGE_COLOR_V2): 结果映射把 IDB storageKey 视为有图（刷新后不再误判 empty-result）+ r13-mapping-fix 证据"
-  },
-  {
-   "commit": "5743ea8",
-   "what": "fix(REMOVE_PEN): removePenRunFromTask 接受 storageKey-only 结果并透传字节 + r13-mapping-fix 证据"
-  },
-  {
-   "commit": "24165da",
-   "what": "fix(IMAGE_TEXT_EDIT): 刷新后 hydrate 任务库并按 storageKey 还原结果面板 + r13-mapping-fix 证据"
-  },
-  {
-   "commit": "808f52f",
-   "what": "evidence(market-material): R13 真实 UI 全链路（上游 200 / 真实字节 sha / 下载+存资产+发画布 / reload 历史+结果面板）"
-  },
-  {
-   "commit": "f2bbbf4",
-   "what": "fix(t-copy): 视频案例区改为有真实案例才渲染，去掉空态占位文案"
-  },
-  {
-   "commit": "f70452f",
-   "what": "evidence(r12): SALE_VIDEO 复用真实 task 三动作回执（下载 1366190B + 发画布）+ PIS 记录 + 非 H 缺口收口"
-  },
-  {
-   "commit": "240f49a",
-   "what": "fix(ai-dressing-v2): 结果区挂共享 ToolResult + r13-fresh-reload-recovery 证据"
-  },
-  {
-   "commit": "a087ce4",
-   "what": "fix/scene-fission+result-panel: 共享 ToolResult 适配器与测试（结果区重建）"
-  },
-  {
-   "commit": "b72d601",
-   "what": "design-followup fix(product-scene): 结果区挂共享 ToolResult，reload 后按真实字节重建面板"
-  },
-  {
-   "commit": "c4b595f",
-   "what": "design-followup fix(handheld-goods): 结果区挂共享 ToolResult，reload 后按落库任务重建面板"
-  },
-  {
-   "commit": "58d0be2",
-   "what": "design-followup fix(print-extract): 结果区挂共享 ToolResult，reload 后按落库任务重建面板"
-  }
- ],
- "h_changes_vs_r10": [
-  {
-   "id": "PRODUCT_IMAGE_SUITE",
-   "H": [
-    "PARTIAL",
-    "PASS"
-   ],
-   "H_was": "task task-mvt6vpdo-sc1x8w + reload 回执（history-restore-20261029/summary.json），但声明 2840825B，已提交产物中无同尺寸同 sha 的该工具产物（字节不可复核）",
-   "H_now": "真实 task task-mvt6vpdo-sc1x8w + call: location.assign( + 字节 sha 对账 2840825B == real-acceptance/PRODUCT_IMAGE_SUITE/r10/result.png",
-   "commit": "6986988"
-  },
-  {
-   "id": "DRESS_WEAR_SET",
-   "H": [
-    "PARTIAL",
-    "PASS"
-   ],
-   "H_was": "task task-mvt74l6q-1vljau + reload 回执（history-restore-20261029/summary.json），但声明 2516552B，已提交产物中无同尺寸同 sha 的该工具产物（字节不可复核）",
-   "H_now": "真实 task task-mvt74l6q-1vljau + call: location.assign( + 字节 sha 对账 1883817B == real-acceptance/DRESS_WEAR_SET/r10/result.png",
-   "commit": "6f7ee1c"
-  },
-  {
-   "id": "NEW_REPLACE_BG_V2",
-   "H": [
-    "PARTIAL",
-    "PASS"
-   ],
-   "H_was": "NEW_REPLACE_BG_V2 常驻 profile 历史坞 0 条、rows=[]、storedTasks=[]（r7-d19-history-20261029/tool-new-replace-bg-v2.json，countForTool=0）：无该工具任务快照，reload 后无可恢复结果",
-   "H_now": "真实 task task-mvthl08d-06efgs + \"persistedAfterReload\": { + 字节 sha 对账 837987B == real-acceptance/h4-design-realgen-retry-20261029/NEW_REPLACE_BG_V2-result.png",
-   "commit": "d107ab0"
-  },
-  {
-   "id": "REPLACE_GOODS",
-   "H": [
-    "PARTIAL",
-    "PASS"
-   ],
-   "H_was": "REPLACE_GOODS 常驻 profile 历史坞 0 条、rows=[]、storedTasks=[]（r7-d19-history-20261029/tool-replace-goods.json，countForTool=0）：无该工具任务快照，reload 后无可恢复结果",
-   "H_now": "真实 task task-mvtgiiu1-hrp6z3 + \"persistedAfterReload\": { + 字节 sha 对账 1192722B == real-acceptance/h4-design-realgen-20261029/REPLACE_GOODS-result.png",
-   "commit": "bcafd94"
-  },
-  {
-   "id": "FISSION_LINK",
-   "H": [
-    "PARTIAL",
-    "PASS"
-   ],
-   "H_was": "FISSION_LINK 有成功真实任务，但回执 r7-d19-history-20261029/orphan-tasks-127-3000-20261029.json 记 payloadDropped=true：结果项无 storageKey/url，字节未入库 → 无字节可下载/存资产/发画布",
-   "H_now": "真实 task task-mvt18lrt-rsnifn + \"navType\": \"reload\" + 字节 sha 对账 1988694B == real-acceptance/FISSION_LINK/r10/result.png",
-   "commit": "bcafd94"
-  },
-  {
-   "id": "PRODUCT_MARKET_MATERIAL",
-   "H": [
-    "PARTIAL",
-    "PASS"
-   ],
-   "H_was": "PRODUCT_MARKET_MATERIAL 常驻 profile 历史坞 0 条、rows=[]、storedTasks=[]（r7-d19-history-20261029/tool-product-market-material.json，countForTool=0）：无该工具任务快照，reload 后无可恢复结果",
-   "H_now": "真实 task task-mvtjpn12-s1c4t6 + \"reload\": { + 字节 sha 对账 1902882B == real-acceptance/PRODUCT_MARKET_MATERIAL/r13-real-ui-20261029/download-product-market-material-result-1.png",
-   "commit": "bcafd94"
-  },
-  {
-   "id": "VIDEO_TRANSLATION",
-   "H": [
-    "PARTIAL",
-    "PASS"
-   ],
-   "H_was": "无该工具绑定的真实 task（taskId+toolId 同现）",
-   "H_now": "真实 task task-mvth8drs-dk86it + \"reload\": { + 字节 sha 对账 1080637B == real-acceptance/VIDEO_TRANSLATION/downloaded.mp4",
-   "commit": "bcafd94"
-  },
-  {
-   "id": "VIDEO_CONCAT",
-   "H": [
-    "PARTIAL",
-    "PASS"
-   ],
-   "H_was": "task task-mvs802af-u9vwye 记录为 failed/submit-unconfirmed（real-acceptance/R7-actions-20261029/task-inventory-127.0.0.1.json），无成功结果可恢复",
-   "H_now": "真实 task task-mvthgaa4-pdg1eq + \"reload\": { + 字节 sha 对账 2133234B == real-acceptance/VIDEO_CONCAT/downloaded.mp4",
-   "commit": "bcafd94"
-  }
- ],
- "h_asserts": {
-  "PRODUCT_MARKET_MATERIAL": [
-   {
-    "check": "task_succeeded",
-    "ok": true,
-    "detail": "task-mvtjpn12-s1c4t6 / succeeded"
-   },
-   {
-    "check": "payload_not_dropped",
-    "ok": true,
-    "detail": "dropped=False key=tool-result:CAPv0__15orwUjL60Q9n-"
-   },
-   {
-    "check": "receipt_bytes_match_idb",
-    "ok": true,
-    "detail": "[{'taskId': 'task-mvtjpn12-s1c4t6', 'itemId': 'task-mvtjpn12-s1c4t6-0', 'storageKey': 'tool-result:CAPv0__15orwUjL60Q9n-', 'store': 'media_files', 'mime': 'image/png', 'bytes': 1902882, 'sha256': '5cdef97dcd570308fcc9d843effe7b10bc66b19ee4d42beb7d85603a7a771823', 'file': '/Users/mac/Documents/Dev/infinite-canvas/docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/PRODUCT_MARKET_MATERIAL/r13-real-ui-20261029/s1c4t6-c4t6-0.png', 'header': '89504e470d0a1a0a'}]"
-   },
-   {
-    "check": "artifact_bytes_sha_on_disk",
-    "ok": true,
-    "detail": "1902882"
-   },
-   {
-    "check": "reload_rows_bind_same_task",
-    "ok": true,
-    "detail": "rows=1"
-   },
-   {
-    "check": "three_actions",
-    "ok": true,
-    "detail": "save delta=1 canvas delta=1"
-   },
-   {
-    "check": "evidence_committed_clean",
-    "ok": true,
-    "detail": "git status clean"
-   }
-  ],
-  "SALE_VIDEO": [
-   {
-    "check": "download_bytes_match_artifact",
-    "ok": true,
-    "detail": "1366190 vs 1366190"
-   },
-   {
-    "check": "sendCanvas_real_receipt",
-    "ok": true,
-    "detail": "lA2nAfkKAt5CrIhZDwcTK / video-1793278569675-4m128"
-   },
-   {
-    "check": "task_real_not_failed",
-    "ok": true,
-    "detail": "task-mvt76u6p-7cfnff / succeeded"
-   },
-   {
-    "check": "evidence_committed_clean",
-    "ok": true,
-    "detail": "git status clean"
-   },
-   {
-    "check": "t_no_case_placeholder",
-    "ok": true,
-    "detail": "occurrences=0"
-   },
-   {
-    "check": "t_code_committed_clean",
-    "ok": true,
-    "detail": ""
-   }
-  ],
-  "IMAGE_TO_VIDEO": [
-   {
-    "check": "download_bytes_sha_match_artifact",
-    "ok": true,
-    "detail": "1266723 vs 1266723"
-   },
-   {
-    "check": "save_asset_real_feedback",
-    "ok": true,
-    "detail": "已保存到资产库（C1BDmN9PzlfeXw5HHc6_T）"
-   },
-   {
-    "check": "task_succeeded_payload_kept",
-    "ok": true,
-    "detail": "task-mvtjhbcg-e8lnin / succeeded"
-   },
-   {
-    "check": "reload_first_pass_observed",
-    "ok": true,
-    "detail": "4"
-   },
-   {
-    "check": "evidence_committed_clean",
-    "ok": true,
-    "detail": "git status clean"
-   }
-  ],
-  "VIDEO_CONCAT": [
-   {
-    "check": "t_no_case_placeholder",
-    "ok": true,
-    "detail": ""
-   }
-  ],
-  "VIDEO_REPLICATION": [
-   {
-    "check": "t_no_case_placeholder",
-    "ok": true,
-    "detail": ""
-   }
-  ],
-  "AI_VIDEO_EDITING": [
-   {
-    "check": "t_no_case_placeholder",
-    "ok": true,
-    "detail": ""
-   }
-  ]
- },
- "r11_notes": [
-  {
-   "tool": "REPLACE_GOODS",
-   "note": "PASS 由 bcafd94 的真实回执支撑：task-mvtgiiu1-hrp6z3 succeeded、payloadDropped=false、1,192,722B、sha256 0ac369c5…；仓库内 REPLACE_GOODS-result.png 与 REPLACE_GOODS-download-1793273153608.png 字节与 sha 逐位相同；harness（h4-realgen-design.mjs）执行真实 page.reload()，reload 后 dockAfterReload.items 命中同一 taskId 且 persistedAfterReload=true；三动作（下载/存资产/发画布）均有 ok 回执。"
-  },
-  {
-   "tool": "NEW_DESIGNER",
-   "note": "H 仍 PASS（R10 起），本次新增 c4af102 专项三腿回执作补充证据：同一 task 、411801B/sha 90e28e0f…与已提交产物一致，下载 ok、导出即入库；发送画布本次 Failed to fetch（canvasChanged=false），F 仍为 PASS（>=2 动作），但属可复现风险，已在报告风险节列出。"
-  },
-  {
-   "tool": "IMAGE_TEXT_EDIT",
-   "note": "e8da2c7 修复后自然恢复成立（navType=reload + 快照头回填 + 结果卡），task 与 reload 两腿成立；但该真实任务 payloadDropped=true、无 storageKey/url/bytes，三动作如实禁用 → 字节腿不成立，H 保持 PARTIAL（不伪 PASS）。"
-  },
-  {
-   "tool": "NEW_REPLACE_BG_V2",
-   "note": "bcafd94 早期两次真实提交均在上游 /v1/images/edits 得到 502、未创建任务记录（历史 BLOCKED 归因保留）；d107ab0 复测真实成功 task-mvthl08d-06efgs（edits 200、837987B、整页 reload 后同一 task 在 dock）+ 字节 sha 对账 → H=PASS。"
-  }
- ],
- "changes_vs_r11": [
-  {
-   "id": "PRODUCT_IMAGE_SUITE",
-   "dim": "F",
-   "was": "PARTIAL",
-   "now": "PASS",
-   "commit": "0e8f9f1",
-   "note": "b4 三动作回执（字节 2151517 与 02-result.png 一致）"
-  },
-  {
-   "id": "DRESS_WEAR_SET",
-   "dim": "F",
-   "was": "PARTIAL",
-   "now": "PASS",
-   "commit": "0e8f9f1",
-   "note": "b4 三动作回执（字节 1239248 与 result.png 一致）"
-  },
-  {
-   "id": "FISSION_LINK",
-   "dim": "H",
-   "was": "PARTIAL",
-   "now": "PASS",
-   "commit": "6cb0afc",
-   "note": "真实 task task-mvt18lrt-rsnifn + \"navType\": \"reload\" + 字节 sha 对账 1988694B == real-acceptance/FISSION_LINK/r10/result.png"
-  },
-  {
-   "id": "PRODUCT_MARKET_MATERIAL",
-   "dim": "H",
-   "was": "PARTIAL",
-   "now": "PASS",
-   "commit": "",
-   "note": "真实 task task-mvtjpn12-s1c4t6 + \"reload\": { + 字节 sha 对账 1902882B == real-acceptance/PRODUCT_MARKET_MATERIAL/r13-real-ui-20261029/download-product-market-material-result-1.png"
-  },
-  {
-   "id": "VIDEO_TRANSLATION",
-   "dim": "R",
-   "was": "BLOCKED",
-   "now": "PASS",
-   "commit": "0e8f9f1",
-   "note": "字节可复核：1080637B == real-acceptance/VIDEO_TRANSLATION/downloaded.mp4"
-  },
-  {
-   "id": "VIDEO_TRANSLATION",
-   "dim": "H",
-   "was": "PARTIAL",
-   "now": "PASS",
-   "commit": "0e8f9f1",
-   "note": "真实 task task-mvth8drs-dk86it + \"reload\": { + 字节 sha 对账 1080637B == real-acceptance/VIDEO_TRANSLATION/downloaded.mp4"
-  },
-  {
-   "id": "VIDEO_CONCAT",
-   "dim": "R",
-   "was": "BLOCKED",
-   "now": "PASS",
-   "commit": "0e8f9f1",
-   "note": "字节可复核：2133234B == real-acceptance/VIDEO_CONCAT/downloaded.mp4"
-  },
-  {
-   "id": "VIDEO_CONCAT",
-   "dim": "H",
-   "was": "PARTIAL",
-   "now": "PASS",
-   "commit": "0e8f9f1",
-   "note": "真实 task task-mvthgaa4-pdg1eq + \"reload\": { + 字节 sha 对账 2133234B == real-acceptance/VIDEO_CONCAT/downloaded.mp4"
-  }
- ],
- "r12_notes": [
-  {
-   "tool": "VIDEO_TRANSLATION",
-   "note": "0e8f9f1 的真实任务 task-mvth8drs-dk86it 续查到终态 succeeded（上游 task_ye7NHl8fwVr1Roh5ysCKB1C7Nr2lMwZd），结果 1,080,637B MP4（ftyp，readyState=4，768x768）；下载动作字节与结果相等、存资产/发画布均有面板回执；整页新文档加载后历史坞命中同一 taskId 且 status=succeeded；已提交产物 downloaded.mp4 字节/魔数一致 → R、H 同时转 PASS。"
-  },
-  {
-   "tool": "VIDEO_CONCAT",
-   "note": "0e8f9f1 的真实任务 task-mvthgaa4-pdg1eq 续查到终态 succeeded（上游 task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF），2,133,234B MP4（ftyp，7.292s，768x1344）；下载字节与结果相等；刷新后历史坞命中同一 taskId；已提交产物 downloaded.mp4 一致 → R、H 转 PASS。注意：该工具早前那份 submit-unconfirmed 记录（README-20261029-continuation.md）仍是 failed，本次 PASS 依据的是另一笔真实成功任务，两者不得混为一谈。"
-  },
-  {
-   "tool": "FISSION_LINK",
-   "note": "6cb0afc 的 CDP 真实 Page.reload（navType=reload + marker=1793275695.89）后，dock 内同一 task-mvt18lrt-rsnifn 仍为 succeeded，回执字节 1,988,694B / sha bbc0ca08… 与仓库内 FISSION_LINK/r10/result.png 逐位一致 → H 转 PASS。下载按钮本轮未点到（verdict=UNVERIFIED），如实保留，不参与判定；F 的 PASS 仍由存资产/发画布两条回执成立。"
-  },
-  {
-   "tool": "DRESS_WEAR_SET",
-   "note": "7ff08bf / 61e86fc：结果区挂共享 ToolResult 后，fresh reload（navType=reload）面板重建成功（data-testid=tool-result，共 2 个结果，每组三动作按钮齐全），r12 三动作 VERIFIED（下载/存资产/发画布均有反馈）。字节口径：面板声明 2,516,552B 与 1,883,817B，其中 1,883,817B 与提交产物 r10/result.png 一致；2,516,552B 仅落到 Downloads（未入库），故 H 仍由 r10 那对（同 taskId + 同尺寸产物）成立，r12 作补充证据。"
-  },
-  {
-   "tool": "PRODUCT_IMAGE_SUITE",
-   "note": "0e8f9f1 补齐 b4-actions.json：下载/存资产/发画布三条回执字节全为 2,151,517B 且与提交产物 02-result.png 同尺寸，consoleErrors 为空 → F 由 PARTIAL 转 PASS（R11 时该回执未在 HEAD，属证据缺口而非口径问题）。"
-  },
-  {
-   "tool": "DRESS_WEAR_SET",
-   "note_f": "b4-actions.json 三动作字节同为 1,239,248B，与提交产物 DRESS_WEAR_SET/result.png 同尺寸 → F 转 PASS；该 b4 回执与 r10/r12 是不同轮次的真实结果，矩阵按各自维度分别引用，未混用字节。"
-  },
-  {
-   "tool": "IMAGE_TEXT_EDIT",
-   "note": "维持 R11 判定：真实任务 payloadDropped=true、无 storageKey/url/bytes，字节腿不成立 → H 仍 PARTIAL（不伪 PASS）。"
-  },
-  {
-   "tool": "VIDEO_CONCAT",
-   "note_t": "T（画幅/时长透传）与 F 仍受限于：本轮成功任务用的是默认参数路径，页面字段透传证据与本次 task 不属同一条回执，故不放宽。"
-  }
- ],
- "baseline": "R12 ab2c468（F30/9 T32/7 R37/2 H29/10 K12/27 U39）",
- "changes_vs_r12": [
-  {
-   "id": "PRODUCT_MARKET_MATERIAL",
-   "dim": "F",
-   "was": "PARTIAL",
-   "now": "PASS",
-   "commit": "808f52f",
-   "why": "r13 真实全链路：task-mvtjpn12-s1c4t6（succeeded）下载 1902882B(sha 5cdef97d…) + 存资产库(BRxRfQm8) + 发画布(1 节点)；字节与 media_files 记录同尺，三动作齐"
-  },
-  {
-   "id": "SALE_VIDEO",
-   "dim": "F",
-   "was": "PARTIAL",
-   "now": "PASS",
-   "commit": "a087ce4+f70452f",
-   "why": "r12-actions.json：下载 1366190B(sha 39193f0a…，与任务记录一致) + 发画布(projectId lA2nAfkKAt5CrIhZDwcTK / nodeId video-1793278569675-4m128)；存资产在本入口历史坞内无该按钮（如实记录，不计入）"
-  },
-  {
-   "id": "IMAGE_TO_VIDEO",
-   "dim": "F",
-   "was": "PARTIAL",
-   "now": "PASS",
-   "commit": "r14(240f49a后提交证据)",
-   "why": "r14 真实 UI 提交：下载 1266723B(sha fe5c85f8…，magic ftyp) + 存资产(C1BDmN9PzlfeXw5HHc6_T)；发画布按钮存在但动作超时（保留真实错误，不计入）"
-  },
-  {
-   "id": "SALE_VIDEO",
-   "dim": "T",
-   "was": "PARTIAL",
-   "now": "PASS",
-   "commit": "f2bbbf4",
-   "why": "f2bbbf4 后 video.tsx 已无 ToolCases cases={[]} 空态占位（案例区改 %s_CASES.length>0 条件渲染）；品牌/计费文案扫描 0 命中"
-  },
-  {
-   "id": "VIDEO_CONCAT",
-   "dim": "T",
-   "was": "PARTIAL",
-   "now": "PASS",
-   "commit": "f2bbbf4",
-   "why": "同上：video.tsx 案例区已条件渲染，无空态占位文案（type=52 数据源说明保留在注释中，非可见文案）"
-  },
-  {
-   "id": "VIDEO_REPLICATION",
-   "dim": "T",
-   "was": "PARTIAL",
-   "now": "PASS",
-   "commit": "f2bbbf4",
-   "why": "同上：video.tsx 案例区已条件渲染，无空态占位文案"
-  },
-  {
-   "id": "AI_VIDEO_EDITING",
-   "dim": "T",
-   "was": "PARTIAL",
-   "now": "PASS",
-   "commit": "f2bbbf4",
-   "why": "同上：video.tsx 案例区已条件渲染，无空态占位文案"
-  }
- ],
- "r13_notes": [
-  "只吸收 git ls-tree HEAD 内已提交内容；工作树 dirty 文件（web/src 多个未提交适配器/组件）不参与判定。",
-  "F 判据不变：结果 + >=2 项动作回执。SALE_VIDEO 的「存资产」在本入口坞内不存在按钮，故只计下载+发画布两项。",
-  "T 判据不变：无品牌/计费/案例库占位。f2bbbf4 使 video.tsx 案例区条件渲染，占位文案消失 → 视频四工具 T 转 PASS；suite.tsx 仍有 emptyHint=\"暂无优秀案例\"，PIS/MARKET_MATERIAL 的 T 维持 PARTIAL。",
-  "H 判据不变：真实 task + 机器 reload 标记 + 同回执刷新后观测 + 字节可对账。IMAGE_TO_VIDEO 首刷通过但二次 reload 面板为空、发画布超时，维持 PARTIAL。",
-  "CHANGE_COLOR_V2/REMOVE_PEN/IMAGE_TEXT_EDIT 只闭环「代码映射腿」，历史成功任务仍 payloadDropped=true，字节腿缺失 → H 维持 PARTIAL。",
-  "PRODUCT_SCENE/HANDHELD_GOODS/PRINT_EXTRACT 的设计修复已提交，但 r14 落库任务为 failed/空，H 无成功任务可绑 → 维持 PARTIAL。"
  ]
 }
