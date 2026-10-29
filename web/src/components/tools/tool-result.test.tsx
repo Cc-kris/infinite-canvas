@@ -247,6 +247,18 @@ describe("ToolResult states", () => {
         expect(html).toContain('data-testid="tool-result-empty-payload"');
         expect(html).toContain("不会用占位内容冒充结果");
         expect(html).not.toContain('data-testid="tool-result-image"');
+        // 边界：不再顶着「已完成」徽章，改为「无结果」；没有 onRetry 时不渲染假按钮。
+        expect(html).toContain('data-testid="tool-result-empty-badge"');
+        expect(html).not.toContain("已完成");
+        expect(html).not.toContain('data-testid="tool-result-empty-retry"');
+    });
+
+    test("succeeded 但 0 结果时提供重新生成入口", () => {
+        const html = render(
+            <ToolResult task={makeTask({ status: "succeeded", result: { items: [], receivedAt: 1 } })} onRetry={() => undefined} />,
+        );
+        expect(html).toContain('data-testid="tool-result-empty-retry"');
+        expect(html).toContain("重新生成");
     });
 
     test("disables save actions for payload-stripped items and explains why", () => {

@@ -245,6 +245,16 @@ describe("adapter：提交入参与结果视图", () => {
         expect(view.message).toContain("旧配置");
     });
 
+    test("上游自报成功但没返回视频：按失败处理，不显示「已完成」", () => {
+        const task = { id: "t2", toolId: VIDEO_REPLICATION_TOOL_ID, status: "succeeded", result: { items: [] } };
+        const view = videoReplicationResultView({ task: task as never, values: values() });
+        expect(view.status).toBe("failed");
+        expect(view.label).toBe("失败");
+        expect(view.videos).toEqual([]);
+        expect(view.message).toContain("没有返回视频");
+        expect(view.message).toContain("重试");
+    });
+
     test("缺口提示按顺序给出可执行动作", () => {
         const hints = videoReplicationMissingHints({ values: values(), videoReady: false, referenceCount: 0 });
         expect(hints.some((hint) => hint.includes("参考视频"))).toBe(true);

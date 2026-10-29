@@ -991,8 +991,10 @@ export function VideoConcatWorkspace({ className }: VideoConcatWorkspaceProps = 
                     : await runVideoConcatTask({ browserInput, port, draftRevision: revisionRef.current });
                 if (!aliveRef.current) return;
                 setTask(next);
-                if (next.status === "failed" || next.status === "unknown") {
-                    setError(videoConcatResultView(next).failure?.message ?? "任务未成功");
+                const view = videoConcatResultView(next);
+                // succeeded 但拿不到视频 = 没结果，必须报出来，不能只留一句「上游报告完成」。
+                if (next.status === "failed" || next.status === "unknown" || (next.status === "succeeded" && !view.videoUrl)) {
+                    setError(view.failure?.message ?? view.statusText ?? "任务未成功");
                 }
             } catch (cause) {
                 if (!aliveRef.current) return;

@@ -524,15 +524,19 @@ export function videoReplicationResultView(input: {
     const videos = (task.result?.items ?? []).filter((item) => item.kind === "video");
     const stale =
         Boolean(input.submittedFingerprint) && input.submittedFingerprint !== videoReplicationFingerprint(input.values);
-    const message =
-        status === "failed"
-            ? task.error?.message ?? "上游未返回失败原因。"
-            : status === "unknown"
-              ? "上游超时或状态未知：可先重试，不要当成失败结论。"
-              : stale
-                ? "配置已修改，当前结果来自旧配置，需要重新生成。"
-                : "";
-    return { status, label: STATUS_LABELS[status] ?? STATUS_LABELS.unknown, videos, message, stale };
+    // 边界：上游自报成功但一条视频都没返回 → 不是成功。否则结果区会顶着「已完成」却没有任何产物。
+    const emptySuccess = status === "succeeded" && videos.length === 0;
+    const effective = emptySuccess ? "failed" : status;
+    const message = emptySuccess
+        ? `上游报告成功但没有返回视频；不会用占位内容冒充结果。${stale ? "当前结果来自旧配置，需要重新生成。" : "可直接重试。"}`
+        : status === "failed"
+          ? task.error?.message ?? "上游未返回失败原因。"
+          : status === "unknown"
+            ? "上游超时或状态未知：可先重试，不要当成失败结论。"
+            : stale
+              ? "配置已修改，当前结果来自旧配置，需要重新生成。"
+              : "";
+    return { status: effective, label: STATUS_LABELS[effective] ?? STATUS_LABELS.unknown, videos, message, stale };
 }
 
 /** 提交前的缺口提示：按顺序告诉用户「还差什么」，不靠按钮置灰让人猜。 */

@@ -101,7 +101,21 @@ export function ToolResult({ task, toolId = "tool", title = "生成结果", proj
         <section data-testid="tool-result" data-view={view} className={cn("space-y-3 rounded-xl border border-border bg-card p-4", className)}>
             <header className="flex flex-wrap items-center gap-2">
                 <h2 className="text-sm font-semibold">{title}</h2>
-                {task ? <TaskStatusBadge status={task.status} /> : null}
+                {task ? (
+                    view === "succeeded" && summary.total === 0 ? (
+                        // 边界：任务状态成功但没有结果项 = 无结果，不能顶着绿色「已完成」。
+                        <span
+                            data-testid="tool-result-empty-badge"
+                            data-tone="warning"
+                            className="inline-flex items-center gap-1.5 rounded-full border border-amber-300 bg-amber-50 px-2 py-0.5 text-xs font-medium text-amber-900 dark:border-amber-800 dark:bg-amber-950 dark:text-amber-100"
+                        >
+                            <TriangleAlert aria-hidden="true" className="size-3.5" />
+                            无结果
+                        </span>
+                    ) : (
+                        <TaskStatusBadge status={task.status} />
+                    )
+                ) : null}
                 {view === "succeeded" ? (
                     <span className="ml-auto text-xs text-muted-foreground" data-testid="tool-result-summary">
                         共 {summary.total} 个结果{summary.videos > 0 ? ` · 视频 ${summary.videos}` : ""}
@@ -172,9 +186,20 @@ export function ToolResult({ task, toolId = "tool", title = "生成结果", proj
 
             {view === "succeeded" ? (
                 summary.total === 0 ? (
-                    <div data-testid="tool-result-empty-payload" className="flex items-start gap-2 rounded-xl border border-amber-300 bg-amber-50 px-3 py-2 text-xs text-amber-900 dark:border-amber-800 dark:bg-amber-950 dark:text-amber-100">
+                    <div data-testid="tool-result-empty-payload" className="flex flex-wrap items-start gap-2 rounded-xl border border-amber-300 bg-amber-50 px-3 py-2 text-xs text-amber-900 dark:border-amber-800 dark:bg-amber-950 dark:text-amber-100">
                         <TriangleAlert aria-hidden="true" className="mt-0.5 size-4 shrink-0" />
-                        任务标记为成功，但上游没有返回任何结果项；不会用占位内容冒充结果。
+                        <span className="flex-1">任务标记为成功，但上游没有返回任何结果项；不会用占位内容冒充结果。</span>
+                        {onRetry ? (
+                            <button
+                                type="button"
+                                data-testid="tool-result-empty-retry"
+                                onClick={onRetry}
+                                className="inline-flex shrink-0 items-center gap-1 rounded-md border border-amber-400 bg-background px-2 py-1 text-[11px] font-medium text-amber-900 transition hover:bg-amber-100 disabled:cursor-not-allowed disabled:opacity-50 dark:border-amber-700 dark:text-amber-100 dark:hover:bg-amber-900"
+                            >
+                                <RotateCcw aria-hidden="true" className="size-3.5" />
+                                重新生成
+                            </button>
+                        ) : null}
                     </div>
                 ) : (
                     <ul className="grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-3">
