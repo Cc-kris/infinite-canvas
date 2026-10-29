@@ -1,14 +1,14 @@
 {
  "tool": "SCENE_TRANSFER",
  "route": "/tools/product-design/scene-transfer",
- "startedAt": "2026-10-28T17:24:36.549Z",
+ "startedAt": "2026-10-29T07:36:10.817Z",
  "upstream": [
   {
    "file": "/Users/mac/Documents/Dev/infinite-canvas/docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/B2G1/SCENE_TRANSFER/raw-upstream-0.json",
-   "bytes": 2333492,
+   "bytes": 1240,
    "url": "http://127.0.0.1:23210/https://api.cc-ai.xyz/v1/images/edits",
    "status": 200,
-   "requestContentType": "multipart/form-data; boundary=----WebKitFormBoundaryOQB9zSpGWaCnDVTp"
+   "requestContentType": "multipart/form-data; boundary=----WebKitFormBoundaryU69LVmgumD98IwLx"
   }
  ],
  "steps": [
@@ -25,36 +25,66 @@
   },
   {
    "step": "submitted",
-   "at": "2026-10-28T17:24:43.866Z"
+   "at": "2026-10-29T07:36:21.414Z"
   }
  ],
  "g1": {
-  "supported": false,
-  "gap": "SCENE_TRANSFER 的 task 只存在组件 useState（runSceneTransfer onUpdate → setTask），未进 useToolTaskStore，localStorage 无 tool-task:v1:* 快照，刷新即丢结果",
-  "snapshotKeys": [],
-  "afterReloadPanel": {
-   "view": "empty",
-   "text": "场景迁移结果 还没有生成结果 填好参数并提交后，结果会出现在这里，可预览、下载、存入资产库或发送到画布。"
+  "persisted": {
+   "taskId": "task-mvt8c2a6-nsv4pt",
+   "storageKey": "tool-result:59vpQsqMawMsnzugIQRBX",
+   "bytes": 839268,
+   "hasDataUrlInSnapshot": false,
+   "payloadDropped": false,
+   "snapshotChars": 1152
   },
-  "gapConfirmed": true
+  "afterReload": {
+   "storageKey": "tool-result:59vpQsqMawMsnzugIQRBX",
+   "bytes": 839268,
+   "mimeType": "image/png",
+   "sha256": "dfb33c53c727c6fe3eed713fab07192c48e9e8ac09c7da8f689a0483bf822c0e",
+   "matchesUpstream": true
+  },
+  "restoredPanel": {
+   "view": "succeeded",
+   "text": "场景迁移结果 已完成 共 1 个结果 · 图片 1 下载 存入资产 发送画布"
+  },
+  "restoredButtons": {
+   "download": {
+    "exists": true,
+    "disabled": false
+   },
+   "save": {
+    "exists": true,
+    "disabled": false
+   },
+   "canvas": {
+    "exists": true,
+    "disabled": false
+   }
+  }
  },
  "linkfox": {
   "note": "LinkFox 场景迁移：输入=商品图 imageUrl + 场景风格 imageStyleUrl + 可选 segImageUrl + similarity；输出=迁移图。"
  },
  "provider": {
-  "baseUrl": "https://api.cc-ai.xyz",
-  "model": "sf-accept::Qwen/Qwen3-VL-8B-Instruct",
   "imageModel": "ccai-accept::gpt-image-2",
-  "channelCount": 2,
+  "channels": [
+   "ccai-accept",
+   "sf-accept"
+  ],
+  "baseUrl": "https://api.cc-ai.xyz",
   "keyLen": 67,
-  "textKeyLen": 51
+  "proxyEnabled": true,
+  "channelCount": 2,
+  "model": "gpt-image-2"
  },
  "resultView": "succeeded",
- "upstreamForm": "b64_json",
+ "upstreamForm": "url",
+ "upstreamUrl": "https://oss-us.dimenoss.com/images/2026/10/29/1793259406_216d1aac2e70b5b0378ed42d817d13dc.png",
  "result": {
   "file": "result-0.png",
-  "bytes": 1749328,
-  "sha256": "8cbd69fa9e888d9961e34d1569ee1540af4738a5d6c5d0ce2635c7cbf5cecdb5",
+  "bytes": 839268,
+  "sha256": "dfb33c53c727c6fe3eed713fab07192c48e9e8ac09c7da8f689a0483bf822c0e",
   "format": "png",
   "width": 1024,
   "height": 1024
@@ -62,7 +92,12 @@
  "upstreamJson": {
   "keys": [
    "created",
+   "background",
    "data",
+   "model",
+   "output_format",
+   "quality",
+   "size",
    "usage"
   ],
   "dataLen": 1,
@@ -71,14 +106,14 @@
  "actions": {
   "download": {
    "suggestedFilename": "scene-transfer-result-1.png",
-   "bytes": 1749328,
-   "sha256": "8cbd69fa9e888d9961e34d1569ee1540af4738a5d6c5d0ce2635c7cbf5cecdb5",
+   "bytes": 839268,
+   "sha256": "dfb33c53c727c6fe3eed713fab07192c48e9e8ac09c7da8f689a0483bf822c0e",
    "matchesUpstream": true
   },
-  "saveAsset": "已保存到资产库（uyr51AXkHKOlrW1yYyKn1）",
-  "sendCanvas": "已发送到画布（HKaKyYMgARtvy7PT38Ef8）"
+  "saveAsset": "已保存到资产库（kb0gp-E_C3Eqz5FNTvuly）",
+  "sendCanvas": "已发送到画布（XURFCb2xCZsawQkjmLQ7z）"
  },
  "assetsPage": null,
- "finishedAt": "2026-10-28T17:25:59.936Z",
- "verdict": "PARTIAL"
+ "finishedAt": "2026-10-29T07:36:59.239Z",
+ "verdict": "PASS"
 }

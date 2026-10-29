@@ -72,6 +72,8 @@ export const SCENE_TRANSFER_SOURCE_LIMITS: ToolAssetConstraints = {
 };
 
 export const SCENE_TRANSFER_VALUES_SLOT = "sceneTransfer";
+/** 草稿里另存一份「本次提交快照」，刷新后右栏仍能显示提交时锁定的输入，而不是空状态。 */
+export const SCENE_TRANSFER_SNAPSHOT_SLOT = "sceneTransferSnapshot";
 
 export type SceneTransferValues = {
     /** 商品图（字段 imageUrl）— 迁移主体，必须保留商品本体。 */
@@ -336,6 +338,37 @@ export function createSceneTransferSnapshot(input: CreateSceneTransferSnapshotIn
         prompt: buildTransferPrompt(values, input.segmentation),
         fieldKeys: SCENE_TRANSFER_FIELD_KEYS,
         capturedAt: now(),
+    };
+}
+
+/**
+ * 从草稿 slot 恢复提交快照：形状不对直接返回 undefined，
+ * 不让坏数据半真半假地渲染「本次提交快照」。
+ */
+export function restoreSceneTransferSnapshot(raw: unknown): SceneTransferSnapshot | undefined {
+    if (!raw || typeof raw !== "object") return undefined;
+    const source = raw as Partial<SceneTransferSnapshot>;
+    if (source.toolId !== SCENE_TRANSFER_TOOL_ID) return undefined;
+    if (typeof source.capturedAt !== "string" || !source.capturedAt) return undefined;
+    if (typeof source.imageUrl !== "string" || typeof source.imageStyleUrl !== "string") return undefined;
+    if (typeof source.similarity !== "number" || !Number.isFinite(source.similarity)) return undefined;
+    const text = (value: unknown) => (typeof value === "string" ? value : "");
+    return {
+        toolId: SCENE_TRANSFER_TOOL_ID,
+        revision: typeof source.revision === "number" || typeof source.revision === "string" ? source.revision : null,
+        productAssetId: text(source.productAssetId),
+        styleAssetId: text(source.styleAssetId),
+        segAssetId: text(source.segAssetId),
+        imageUrl: source.imageUrl,
+        imageStyleUrl: source.imageStyleUrl,
+        segImageUrl: text(source.segImageUrl),
+        similarity: clampSimilarity(source.similarity),
+        segmentationProvided: source.segmentationProvided === true,
+        prompt: text(source.prompt),
+        fieldKeys: Array.isArray(source.fieldKeys)
+            ? source.fieldKeys.filter((key): key is string => typeof key === "string")
+            : SCENE_TRANSFER_FIELD_KEYS,
+        capturedAt: source.capturedAt,
     };
 }
 

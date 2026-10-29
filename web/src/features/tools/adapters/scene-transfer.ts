@@ -237,6 +237,8 @@ export type SceneTransferGateway = {
     submit: (input: BrowserToolInput, options?: SubmitOptions) => Promise<ToolTask>;
     waitForResult?: (taskId: string, options?: WaitOptions) => Promise<ToolTask>;
     retry?: (taskId: string, input: BrowserToolInput, options?: WaitOptions) => Promise<ToolTask>;
+    /** 取消运行中的任务；共享网关实现（useToolTaskStore 端口），测试端口可不实现。 */
+    cancel?: (taskId: string) => ToolTask;
 };
 
 export type RunSceneTransferOptions = {

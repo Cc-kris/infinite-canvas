@@ -1,1 +1,10 @@
-[]
+[
+ {
+  "key": "tool-task:v1:index",
+  "value": "[\"task-mvt8c2a6-nsv4pt\"]"
+ },
+ {
+  "key": "tool-task:v1:task-mvt8c2a6-nsv4pt",
+  "value": "{\"id\":\"task-mvt8c2a6-nsv4pt\",\"toolId\":\"SCENE_TRANSFER\",\"status\":\"succeeded\",\"clientOperationId\":\"519c7b44-6f08-4781-b073-8bafa873c370\",\"fingerprint\":\"90cc57eef062a109\",\"capability\":\"image\",\"prompt\":\"把商品迁移到参考场景风格中，输出一张可直接商用的商品场景图。 第 1 张参考图 = 商品图：保留商品本体的形态、材质、logo、纹理与颜色，不得改写商品 第 2 张参考图 = 场景风格参考图：只迁移它的场景氛围、光影、背景与配色风格 场景风格保留强度 similarity = 70%（0% 只借一点氛围，100% 几乎完全贴合参考场景）。 没有分割图时不要假设已经分割，只做整图级迁移，并保持商品边界自然。 不要添加参考图里不存在的文字、水印或道具；商品保持可识别的真实外观。\",\"configSnapshot\":{\"capability\":\"image\",\"model\":\"ccai-accept::gpt-image-2\",\"apiFormat\":\"openai\",\"size\":\"1:1\",\"quality\":\"auto\",\"count\":\"1\",\"channelId\":\"ccai-accept\"},\"sourceAssetIds\":[\"MnSvzYVl6R0tXt8I3TxvL\",\"vojIUq9QGNHdES3CvVA0y\"],\"draftRevision\":9,\"createdAt\":1793259381390,\"updatedAt\":1793259406916,\"attempts\":1,\"pollCount\":0,\"transientFailures\":0,\"submittedAt\":1793259381390,\"result\":{\"items\":[{\"id\":\"task-mvt8c2a6-nsv4pt-0\",\"kind\":\"image\",\"url\":\"https://oss-us.dimenoss.com/images/2026/10/29/1793259406_216d1aac2e70b5b0378ed42d817d13dc.png\",\"storageKey\":\"tool-result:59vpQsqMawMsnzugIQRBX\",\"bytes\":839268,\"mimeType\":\"image/png\",\"payloadDropped\":false}],\"receivedAt\":1793259406916},\"finishedAt\":1793259406916}"
+ }
+]

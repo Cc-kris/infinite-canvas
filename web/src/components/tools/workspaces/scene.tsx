@@ -11,6 +11,7 @@ import { getToolGateway } from "@/services/api/tools/gateway";
 import type { ToolTask } from "@/services/api/tools/task-machine";
 import { useConfigStore } from "@/stores/use-config-store";
 import { useToolDraftStore } from "@/stores/use-tool-draft-store";
+import { getPersistedToolGateway, useToolTaskStore } from "@/stores/use-tool-task-store";
 
 import {
     DEFAULT_NEW_REPLACE_BG_VALUES,
@@ -1381,6 +1382,7 @@ import {
     SCENE_TRANSFER_TOOL_ID,
     SCENE_TRANSFER_TITLE,
     SCENE_TRANSFER_VALUES_SLOT,
+    SCENE_TRANSFER_SNAPSHOT_SLOT,
     DEFAULT_SCENE_TRANSFER_VALUES,
     clampSimilarity,
     createSceneTransferSnapshot,
@@ -1388,6 +1390,7 @@ import {
     describeTransferSource,
     readSceneTransferValues,
     resolveTransferSegmentation,
+    restoreSceneTransferSnapshot,
     serializeSceneTransferValues,
     similarityLabel,
     validateSceneTransferState,
@@ -1454,6 +1457,10 @@ export function SceneTransferWorkspace({ className, toolId = SCENE_TRANSFER_TOOL
     const [error, setError] = useState("");
     const hydratedRef = useRef(false);
     const abortRef = useRef<AbortController | null>(null);
+    /** 任务落库（G1）：刷新后从 localStorage/IndexedDB 取回任务与结果字节。 */
+    const storedTasks = useToolTaskStore((store) => store.tasks);
+    const upsertStoredTask = useToolTaskStore((store) => store.upsertTask);
+    const hydrateTasks = useToolTaskStore((store) => store.hydrate);
 
     /** 草稿只恢复输入与资产引用；资产解析不到就明确标“丢失”，不假装已恢复。 */
     useEffect(() => {
@@ -1487,6 +1494,34 @@ export function SceneTransferWorkspace({ className, toolId = SCENE_TRANSFER_TOOL
         })();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [hydrate, toolId]);
+
+    /**
+     * G1 刷新恢复：任务本身落 `useToolTaskStore`（localStorage + IndexedDB 产物字节），
+     * 挂载时 hydrate 一次；刷新后即使组件 state 清空，也能从持久化任务里把结果取回来。
+     */
+    useEffect(() => {
+        hydrateTasks();
+    }, [hydrateTasks]);
+
+    /** 本次会话没有新任务时，回落到最近一条已持久化的同工具任务（不伪造、只读回填）。 */
+    const storedTask = useMemo(() => {
+        if (port) return undefined;
+        return Object.values(storedTasks)
+            .filter((item) => item.toolId === toolId)
+            .sort((a, b) => (b.updatedAt ?? 0) - (a.updatedAt ?? 0))[0];
+    }, [storedTasks, port, toolId]);
+
+    const activeTask = task ?? storedTask;
+
+    /** 提交快照写进草稿：刷新后「本次提交快照」不空，且能提示输入是否已漂移。 */
+    const snapshotRestoredRef = useRef(false);
+    useEffect(() => {
+        if (snapshotRestoredRef.current || snapshot) return;
+        const restored = restoreSceneTransferSnapshot(draft?.values?.[SCENE_TRANSFER_SNAPSHOT_SLOT]);
+        if (!restored) return;
+        snapshotRestoredRef.current = true;
+        setSnapshot(restored);
+    }, [draft?.values, snapshot]);
 
     const update = useCallback(
         (next: Partial<SceneTransferValues>) => {
@@ -1538,8 +1573,8 @@ export function SceneTransferWorkspace({ className, toolId = SCENE_TRANSFER_TOOL
     }, [values, product, style, segmentation, draft?.revision]);
 
     const view = useMemo(
-        () => sceneTransferResultFromTask(task, snapshot, currentSnapshot),
-        [task, snapshot, currentSnapshot],
+        () => sceneTransferResultFromTask(activeTask, snapshot, currentSnapshot),
+        [activeTask, snapshot, currentSnapshot],
     );
 
     const submit = useCallback(async () => {
@@ -1550,7 +1585,7 @@ export function SceneTransferWorkspace({ className, toolId = SCENE_TRANSFER_TOOL
         abortRef.current = controller;
         try {
             const run = await runSceneTransfer({
-                gateway: port ?? getToolGateway(),
+                gateway: port ?? getPersistedToolGateway(),
                 values,
                 product,
                 style,
@@ -1559,24 +1594,36 @@ export function SceneTransferWorkspace({ className, toolId = SCENE_TRANSFER_TOOL
                 descriptor,
                 revision: draft?.revision ?? null,
                 signal: controller.signal,
-                onUpdate: (next) => setTask(next),
+                onUpdate: (next) => {
+                    setTask(next);
+                    if (!port) upsertStoredTask(next);
+                },
             });
             setTask(run.task);
+            if (!port) upsertStoredTask(run.task);
             setSnapshot(run.snapshot);
+            if (run.snapshot) {
+                patchDraft(toolId, { values: { [SCENE_TRANSFER_SNAPSHOT_SLOT]: run.snapshot } });
+            }
         } catch (cause) {
             setError(cause instanceof Error ? cause.message : "提交失败");
         } finally {
             setRunning(false);
             abortRef.current = null;
         }
-    }, [product, style, seg, values, issues, port, imageModel, descriptor, draft?.revision]);
+    }, [product, style, seg, values, issues, port, imageModel, descriptor, draft?.revision, patchDraft, toolId, upsertStoredTask]);
 
     const cancel = useCallback(() => {
         abortRef.current?.abort();
-        if (task && task.status === "running") {
-            setTask(getToolGateway().cancel(task.id));
+        const current = activeTask;
+        if (current && current.status === "running") {
+            const cancelled = (port ?? getPersistedToolGateway()).cancel?.(current.id);
+            if (cancelled) {
+                setTask(cancelled);
+                if (!port) upsertStoredTask(cancelled);
+            }
         }
-    }, [task]);
+    }, [activeTask, port, upsertStoredTask]);
 
     return (
         <div className={cn("flex flex-col gap-2.5 lg:flex-row lg:items-start", className)} data-testid="scene-transfer-workspace">
@@ -1739,7 +1786,13 @@ export function SceneTransferWorkspace({ className, toolId = SCENE_TRANSFER_TOOL
                 onTabChange={setResultTab}
             >
                 <div className={resultTab === "result" ? "space-y-3" : "hidden"} data-testid="scene-transfer-result">
-                <ToolResult task={task} toolId={toolId} title={`${SCENE_TRANSFER_TITLE}结果`} onCancel={running ? cancel : undefined} onRetry={undefined} />
+                <ToolResult task={activeTask} toolId={toolId} title={`${SCENE_TRANSFER_TITLE}结果`} onCancel={running ? cancel : undefined} onRetry={undefined} />
+
+                {!task && storedTask ? (
+                    <p className="text-[11px] text-stone-500 dark:text-stone-400" data-testid="scene-transfer-restored-task">
+                        已从本地持久化恢复上次任务（{storedTask.status}）：结果图仍可下载 / 存入资产 / 发送画布。
+                    </p>
+                ) : null}
 
                 {view.cells.length ? (
                     <div className="grid grid-cols-1 gap-2 sm:grid-cols-2" data-testid="scene-transfer-cells">

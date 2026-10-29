@@ -45,9 +45,8 @@ const TOOLS = {
         route: "/tools/product-design/scene-transfer",
         submitText: "开始迁移",
         files: [path.join(FIXTURES, "product-watch.jpg"), path.join(FIXTURES, "color-ref-navy.png")],
-        // scene.tsx 用组件内 useState 持有 task，不进 useToolTaskStore → 结果不落盘（G1 缺口，见 final-gap-audit）
-        persisted: false,
-        gap: "SCENE_TRANSFER 的 task 只存在组件 useState（runSceneTransfer onUpdate → setTask），未进 useToolTaskStore，localStorage 无 tool-task:v1:* 快照，刷新即丢结果",
+        // 2026-10-29 修复：task 走 getPersistedToolGateway() 并 upsert 进 useToolTaskStore，快照落 tool-task:v1:*
+        persisted: true,
         linkfoxNote: "LinkFox 场景迁移：输入=商品图 imageUrl + 场景风格 imageStyleUrl + 可选 segImageUrl + similarity；输出=迁移图。",
     },
 };

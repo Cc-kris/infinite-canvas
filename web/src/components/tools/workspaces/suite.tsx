@@ -937,7 +937,7 @@ export function ProductMarketMaterialWorkspace({ className }: { className?: stri
 
     /**
      * 结果 → 真实资产库：与其它工具一致走 saveResultItemToAssets（落 image-storage + 资产库索引），
-     * 回执直接回显资产 id，便于与原站「存入作品库」1:1 对账。
+     * 回执直接回显资产 id，便于按「存入资产库」的真实结果对账。
      */
     const onSaveItem = useCallback(
         async (unit: MarketUnitResult, item: ToolTaskResultItem) => {
@@ -1005,7 +1005,7 @@ export function ProductMarketMaterialWorkspace({ className }: { className?: stri
                 {sources.length ? (
                     <div className="mt-2 flex flex-wrap gap-2">
                         {sources.map((source, index) => (
-                            <label key={source.assetId} className="flex items-center gap-1 text-[11px] text-stone-600 dark:text-stone-300">
+                            <label key={source.assetId} className="flex items-center gap-1 text-[11px] text-foreground">
                                 <input
                                     type="radio"
                                     name="market-cover"
@@ -1025,7 +1025,7 @@ export function ProductMarketMaterialWorkspace({ className }: { className?: stri
                     value={config.productInfo}
                     onChange={(event) => update({ productInfo: event.target.value })}
                 />
-                <p className="mt-1 text-right text-[11px] text-stone-500">
+                <p className="mt-1 text-right text-[11px] text-muted-foreground">
                     {config.productInfo.length} / {MARKET_PRODUCT_INFO_MAX_LENGTH}
                 </p>
             </Section>
@@ -1040,7 +1040,7 @@ export function ProductMarketMaterialWorkspace({ className }: { className?: stri
                         <input className={`${inputClass} w-40`} value={config.brandName} onChange={(event) => update({ brandName: event.target.value })} />
                     </Field>
                     <Field label="品牌主色">
-                        <input className={`${inputClass} w-24`} value={config.brandDna.primaryColor} placeholder="#1F2937" onChange={(event) => update({ brandDna: { ...config.brandDna, primaryColor: event.target.value.trim() } })} />
+                        <input className={`${inputClass} w-24`} value={config.brandDna.primaryColor} placeholder="如 #1F2937（留空=不约束）" onChange={(event) => update({ brandDna: { ...config.brandDna, primaryColor: event.target.value.trim() } })} />
                     </Field>
                     <Field label="字体风格">
                         <select
@@ -1071,8 +1071,8 @@ export function ProductMarketMaterialWorkspace({ className }: { className?: stri
                             onClick={() => update({ platform: platform.id })}
                             className={`rounded border px-2 py-0.5 text-[11px] ${
                                 config.platform === platform.id
-                                    ? "border-stone-900 bg-stone-900 text-white dark:bg-stone-100 dark:text-stone-900"
-                                    : "border-stone-200 text-stone-700 dark:border-stone-700 dark:text-stone-200"
+                                    ? "border-primary bg-primary text-primary-foreground"
+                                    : "border-border text-foreground"
                             }`}
                         >
                             {platform.label}
@@ -1106,7 +1106,7 @@ export function ProductMarketMaterialWorkspace({ className }: { className?: stri
                         </select>
                     </Field>
                     {regionDefault && regionDefault !== config.language ? (
-                        <span className="text-[11px] text-stone-500">该地区常用语言：{MARKET_LANGUAGES.find((entry) => entry.id === regionDefault)?.label}</span>
+                        <span className="text-[11px] text-muted-foreground">该地区常用语言：{MARKET_LANGUAGES.find((entry) => entry.id === regionDefault)?.label}</span>
                     ) : null}
                 </div>
             </Section>
@@ -1130,7 +1130,7 @@ export function ProductMarketMaterialWorkspace({ className }: { className?: stri
                                     })
                                 }
                                 className={`rounded border px-2 py-0.5 text-[11px] disabled:opacity-40 ${
-                                    active ? "border-stone-900 bg-stone-900 text-white dark:bg-stone-100 dark:text-stone-900" : "border-stone-200 text-stone-700 dark:border-stone-700 dark:text-stone-200"
+                                    active ? "border-primary bg-primary text-primary-foreground" : "border-border text-foreground"
                                 }`}
                             >
                                 {template.label}
@@ -1152,14 +1152,14 @@ export function ProductMarketMaterialWorkspace({ className }: { className?: stri
                             }
                             className={`rounded border px-2 py-0.5 text-[11px] disabled:opacity-40 ${
                                 config.aplusAspectRatio === ratio.id
-                                    ? "border-stone-900 bg-stone-900 text-white dark:bg-stone-100 dark:text-stone-900"
-                                    : "border-stone-200 text-stone-700 dark:border-stone-700 dark:text-stone-200"
+                                    ? "border-primary bg-primary text-primary-foreground"
+                                    : "border-border text-foreground"
                             }`}
                         >
                             {ratio.label}
                         </button>
                     ))}
-                    {!aplusEnabled ? <span className="text-[11px] text-stone-500">切换回亚马逊后可选择 A+ 比例。</span> : null}
+                    {!aplusEnabled ? <span className="text-[11px] text-muted-foreground">切换回亚马逊后可选择 A+ 比例。</span> : null}
                 </div>
                 {aplusEnabled && config.aplusAspectRatio === "custom" ? (
                     <div className="mt-2 flex items-center gap-2">
@@ -1170,7 +1170,7 @@ export function ProductMarketMaterialWorkspace({ className }: { className?: stri
                             onChange={(event) => update({ customWidth: Number(event.target.value) || 0 })}
                             placeholder="宽 px"
                         />
-                        <span className="text-xs text-stone-500">×</span>
+                        <span className="text-xs text-muted-foreground">×</span>
                         <input
                             type="number"
                             className={`${inputClass} w-24`}
@@ -1227,14 +1227,14 @@ export function ProductMarketMaterialWorkspace({ className }: { className?: stri
                             onClick={() => update({ aspectRatio: ratio, isCustomAspectRatio: false })}
                             className={`rounded border px-2 py-0.5 text-[11px] ${
                                 config.aspectRatio === ratio && !config.isCustomAspectRatio
-                                    ? "border-stone-900 bg-stone-900 text-white dark:bg-stone-100 dark:text-stone-900"
-                                    : "border-stone-200 text-stone-700 dark:border-stone-700 dark:text-stone-200"
+                                    ? "border-primary bg-primary text-primary-foreground"
+                                    : "border-border text-foreground"
                             }`}
                         >
                             {ratio}
                         </button>
                     ))}
-                    <label className="flex items-center gap-1 text-[11px] text-stone-600 dark:text-stone-300">
+                    <label className="flex items-center gap-1 text-[11px] text-foreground">
                         <input type="checkbox" checked={config.isCustomAspectRatio} onChange={(event) => update({ isCustomAspectRatio: event.target.checked })} />
                         自定义画幅
                     </label>
@@ -1242,9 +1242,9 @@ export function ProductMarketMaterialWorkspace({ className }: { className?: stri
             </Section>
 
             {/* 生成条 */}
-            <div className="flex flex-wrap items-center gap-2 rounded-lg border border-stone-200 bg-white/70 p-3 dark:border-stone-800 dark:bg-stone-900/40">
-                <span className="text-xs text-stone-600 dark:text-stone-300">
-                    预计生成 <strong className="text-stone-900 dark:text-stone-100">{expected}</strong> 屏
+            <div className="flex flex-wrap items-center gap-2 rounded-lg border border-border bg-card/70 p-3">
+                <span className="text-xs text-foreground">
+                    预计生成 <strong className="text-foreground">{expected}</strong> 屏
                     {plans.map((plan) => ` · ${plan.label}×${plan.count}`).join("")}
                 </span>
                 <div className="ml-auto flex items-center gap-2">
@@ -1253,7 +1253,7 @@ export function ProductMarketMaterialWorkspace({ className }: { className?: stri
                         disabled={blocked}
                         title={issues[0]?.message}
                         onClick={() => void onGenerate()}
-                        className="rounded-md bg-stone-900 px-3 py-1.5 text-xs font-medium text-white disabled:cursor-not-allowed disabled:opacity-40 dark:bg-stone-100 dark:text-stone-900"
+                        className="rounded-md bg-primary px-3 py-1.5 text-xs font-medium text-primary-foreground disabled:cursor-not-allowed disabled:opacity-40"
                     >
                         {running ? "生成中…" : "开始生成"}
                     </button>
@@ -1266,7 +1266,7 @@ export function ProductMarketMaterialWorkspace({ className }: { className?: stri
                                 setSavedKeys({});
                                 setRunError(undefined);
                             }}
-                            className="rounded-md border border-stone-200 px-3 py-1.5 text-xs text-stone-700 dark:border-stone-700 dark:text-stone-200"
+                            className="rounded-md border border-border px-3 py-1.5 text-xs text-foreground"
                         >
                             清空结果
                         </button>
@@ -1288,14 +1288,14 @@ export function ProductMarketMaterialWorkspace({ className }: { className?: stri
             {/* ④ 结果：按营销模块分组 */}
             {units.length ? (
                 <div className="flex flex-col gap-3">
-                    <p className="text-[11px] text-stone-500">
+                    <p className="text-[11px] text-muted-foreground">
                         共 {summary.total} 屏 · 成功 {summary.succeeded} · 失败 {summary.failed} · 待定 {summary.pending}
                     </p>
                     {groupMarketUnits(units).map((group) => (
-                        <div key={group.moduleId} className="rounded-lg border border-stone-200 p-3 dark:border-stone-800">
+                        <div key={group.moduleId} className="rounded-lg border border-border p-3 ">
                             <header className="mb-2 flex items-baseline gap-2">
-                                <h4 className="text-sm font-medium text-stone-800 dark:text-stone-100">{group.label}</h4>
-                                <span className="text-[11px] text-stone-500">
+                                <h4 className="text-sm font-medium text-foreground">{group.label}</h4>
+                                <span className="text-[11px] text-muted-foreground">
                                     {group.succeeded}/{group.total} 成功
                                     {group.failed ? ` · ${group.failed} 失败` : ""}
                                     {group.pending ? ` · ${group.pending} 待定` : ""}
@@ -1304,7 +1304,7 @@ export function ProductMarketMaterialWorkspace({ className }: { className?: stri
                             <div className="grid grid-cols-2 gap-3 md:grid-cols-3">
                                 {group.units.map((unit) => (
                                     <article key={unit.unitId} className="flex flex-col gap-1">
-                                        <div className="text-[11px] text-stone-500">
+                                        <div className="text-[11px] text-muted-foreground">
                                             {unit.label} · {unit.width > 0 ? `${unit.width}×${unit.height}` : config.aspectRatio}
                                         </div>
                                         {unit.items.length ? (
@@ -1314,9 +1314,9 @@ export function ProductMarketMaterialWorkspace({ className }: { className?: stri
                                                     return (
                                                         <div key={item.id} className="flex flex-col gap-1">
                                                             {item.dataUrl || item.url ? (
-                                                                <img src={item.dataUrl ?? item.url} alt={unit.label} className="w-full rounded border border-stone-200 object-contain dark:border-stone-700" />
+                                                                <img src={item.dataUrl ?? item.url} alt={unit.label} className="w-full rounded border border-border object-contain " />
                                                             ) : (
-                                                                <div className="rounded border border-dashed border-stone-300 p-4 text-center text-[11px] text-stone-500">结果已被持久化策略剥离</div>
+                                                                <div className="rounded border border-dashed border-border p-4 text-center text-[11px] text-muted-foreground">结果已被持久化策略剥离</div>
                                                             )}
                                                             <div className="flex flex-wrap gap-1">
                                                                 <button
@@ -1324,7 +1324,7 @@ export function ProductMarketMaterialWorkspace({ className }: { className?: stri
                                                                     disabled={busyUnit === unit.unitId}
                                                                     onClick={() => void onSaveItem(unit, item)}
                                                                     data-testid={`market-save-${key}`}
-                                                                    className="rounded border border-stone-300 px-2 py-0.5 text-[11px] text-stone-700 disabled:opacity-40 dark:border-stone-700 dark:text-stone-200"
+                                                                    className="rounded border border-border px-2 py-0.5 text-[11px] text-foreground disabled:opacity-40"
                                                                 >
                                                                     {savedKeys[key] ? `已存资产库 ${savedKeys[key].slice(0, 8)}` : "存入资产库"}
                                                                 </button>
@@ -1333,7 +1333,7 @@ export function ProductMarketMaterialWorkspace({ className }: { className?: stri
                                                                     disabled={busyUnit === unit.unitId}
                                                                     onClick={() => void onSendItemToCanvas(unit, item)}
                                                                     data-testid={`market-canvas-${key}`}
-                                                                    className="rounded border border-stone-300 px-2 py-0.5 text-[11px] text-stone-700 disabled:opacity-40 dark:border-stone-700 dark:text-stone-200"
+                                                                    className="rounded border border-border px-2 py-0.5 text-[11px] text-foreground disabled:opacity-40"
                                                                 >
                                                                     {canvasKeys[key] ? "已发送画布" : "发送画布"}
                                                                 </button>
@@ -1343,14 +1343,14 @@ export function ProductMarketMaterialWorkspace({ className }: { className?: stri
                                                 })}
                                             </div>
                                         ) : (
-                                            <p className="text-[11px] text-stone-500">{unit.error?.message ?? (unit.status === "pending" ? "上游结果未知，稍后重试可查询。" : "暂无内容")}</p>
+                                            <p className="text-[11px] text-muted-foreground">{unit.error?.message ?? (unit.status === "pending" ? "上游结果未知，稍后重试可查询。" : "暂无内容")}</p>
                                         )}
                                         {unit.status === "failed" ? (
                                             <button
                                                 type="button"
                                                 disabled={busyUnit === unit.unitId}
                                                 onClick={() => void onRetryUnit(unit)}
-                                                className="mt-1 rounded border border-stone-300 px-2 py-0.5 text-[11px] text-stone-700 disabled:opacity-40 dark:border-stone-700 dark:text-stone-200"
+                                                className="mt-1 rounded border border-border px-2 py-0.5 text-[11px] text-foreground disabled:opacity-40"
                                             >
                                                 {busyUnit === unit.unitId ? "重试中…" : "重试这一屏"}
                                             </button>
@@ -1363,7 +1363,7 @@ export function ProductMarketMaterialWorkspace({ className }: { className?: stri
                 </div>
             ) : null}
 
-            {seeded ? null : <p className="text-[11px] text-stone-500">正在读取草稿…</p>}
+            {seeded ? null : <p className="text-[11px] text-muted-foreground">正在读取草稿…</p>}
         </div>
     );
 }

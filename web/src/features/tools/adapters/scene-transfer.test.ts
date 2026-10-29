@@ -10,12 +10,14 @@ import {
     SCENE_TRANSFER_LAYOUT,
     SCENE_TRANSFER_MAKE_TYPE,
     SCENE_TRANSFER_ROUTE,
+    SCENE_TRANSFER_SNAPSHOT_SLOT,
     SCENE_TRANSFER_TOOL_ID,
     buildTransferPrompt,
     clampSimilarity,
     createSceneTransferSnapshot,
     describeTransferDrift,
     describeTransferReferences,
+    restoreSceneTransferSnapshot,
     readSceneTransferValues,
     resolveTransferSegmentation,
     serializeSceneTransferValues,
@@ -469,5 +471,51 @@ describe("工作区渲染（SSR）", () => {
         const html = await renderWorkspace();
         expect(html).toContain("70%");
         expect(html).toContain("没有分割服务");
+    });
+});
+
+describe("提交快照持久化（刷新恢复）", () => {
+    const values: SceneTransferValues = {
+        ...DEFAULT_SCENE_TRANSFER_VALUES,
+        imageUrl: "asset-product",
+        imageStyleUrl: "asset-style",
+        similarity: 82,
+    };
+
+    const build = () =>
+        createSceneTransferSnapshot({
+            values,
+            product: { assetId: "asset-product" },
+            style: { assetId: "asset-style" },
+            segmentation: resolveTransferSegmentation(values),
+            revision: 7,
+            now: () => "2026-10-29T00:00:00.000Z",
+        });
+
+    test("快照写进草稿槽位后能原样恢复", () => {
+        expect(SCENE_TRANSFER_SNAPSHOT_SLOT).toBe("sceneTransferSnapshot");
+        const snapshot = build();
+        const restored = restoreSceneTransferSnapshot(JSON.parse(JSON.stringify(snapshot)));
+        expect(restored).toEqual(snapshot);
+        expect(restored?.similarity).toBe(80); // 滑杆 step=5，82 收敛到 80
+        expect(restored).toEqual(snapshot);
+        expect(restored?.capturedAt).toBe("2026-10-29T00:00:00.000Z");
+        expect(restored?.fieldKeys).toEqual([...SCENE_TRANSFER_FIELD_KEYS]);
+    });
+
+    test("坏数据直接拒绝，不半真半假地渲染快照", () => {
+        expect(restoreSceneTransferSnapshot(null)).toBeUndefined();
+        expect(restoreSceneTransferSnapshot("sceneTransfer")).toBeUndefined();
+        expect(restoreSceneTransferSnapshot({ ...build(), toolId: "OTHER_TOOL" })).toBeUndefined();
+        expect(restoreSceneTransferSnapshot({ ...build(), capturedAt: "" })).toBeUndefined();
+        expect(restoreSceneTransferSnapshot({ ...build(), similarity: Number.NaN })).toBeUndefined();
+    });
+
+    test("缺字段时按默认值补齐，相似度按上下限收敛", () => {
+        const restored = restoreSceneTransferSnapshot({ ...build(), similarity: 999, fieldKeys: undefined });
+        expect(restored?.similarity).toBe(100);
+        expect(restored?.fieldKeys).toEqual([...SCENE_TRANSFER_FIELD_KEYS]);
+        expect(restored?.segImageUrl).toBe("");
+        expect(restored?.segmentationProvided).toBe(false);
     });
 });
