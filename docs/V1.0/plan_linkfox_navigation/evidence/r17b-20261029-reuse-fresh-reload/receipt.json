@@ -1,0 +1,64 @@
+{
+  "schema": "r17b-fresh-reload-reuse/1",
+  "generatedAt": "2026-10-29T22:20:00+08:00",
+  "repo": "/Users/mac/Documents/Dev/infinite-canvas",
+  "branch": "feat/linkfox-v1-real",
+  "headAtProbe": "73b09be",
+  "fixCommits": ["6ede584", "a565e63"],
+  "origin": "http://127.0.0.1:3000",
+  "runtime": "vite dev (source served directly; /src/stores/use-tool-task-store.ts exposes healResultMediaByProvenance)",
+  "method": "复用 7f64b09 既有真实任务；location.href 整页导航=fresh reload；只读 localStorage/IndexedDB/DOM；未新生成、未注入、未写字节",
+  "verdict": "BLOCKED_NO_LOCATOR",
+  "fixLiveness": { "healResultMediaByProvenance": true },
+  "targets": [
+    {
+      "toolId": "CHANGE_COLOR_V2",
+      "route": "/tools/ecommerce-suite/change-color-v2",
+      "taskId": "task-mvsc4fyg-qobp8k",
+      "finishedAt": 1793205308288,
+      "freshReloadDone": true,
+      "snapshotItem": { "id": "task-mvsc4fyg-qobp8k-0", "kind": "image", "payloadDropped": true },
+      "hasUrl": false, "hasStorageKey": false, "provenanceMediaKeys": [],
+      "uiEvidence": { "historyDock": "原始文件未保留（历史快照只存元数据），如需文件请重新生成。", "downloadButtonDisabled": true },
+      "assetId": null, "canvasNodeId": null, "bytesInStore": null, "sha256InStore": null,
+      "upstreamDurableUrl": "https://oss-us.dimenoss.com/images/2026/10/29/1793205308_f2532a74dca46886316b645a820d05c7.png",
+      "upstreamProbe": { "http": 200, "bytes": 1115668, "sha256": "dd56d50404c37c6ab740919fb31a63186ada6cabd914ed411974c0cb8db1562b" },
+      "recoverable": false,
+      "reason": "落库版本(477a23c)只处理 dataUrl 并把地址一并剥掉；快照无 url/storageKey，IDB 无按 taskId 归属字节，自愈无输入。"
+    },
+    {
+      "toolId": "REMOVE_PEN",
+      "route": "/tools/smart-edit/remove-pen",
+      "taskId": "task-mvsa3pt6-4wqy46",
+      "freshReloadDone": true,
+      "snapshotItem": { "id": "task-mvsa3pt6-4wqy46-0", "kind": "image", "payloadDropped": true },
+      "hasUrl": false, "hasStorageKey": false, "provenanceMediaKeys": [],
+      "uiEvidence": { "historyDockCount": "6 条", "historyDockPayloadDropped": "原始文件未保留（历史快照只存元数据），如需文件请重新生成。", "downloadButton": { "text": "下载图片", "disabled": true } },
+      "assetId": null, "canvasNodeId": null, "bytesInStore": null, "sha256InStore": null,
+      "siblingTasks": [
+        { "taskId": "task-mvsaus49-i7vsmt", "payloadDropped": true, "upstreamDurableUrl": "https://oss-us.dimenoss.com/images/2026/10/28/1793203168_558343828fc0b.png", "upstreamProbe": { "http": 404, "bytes": 0 } },
+        { "taskId": "task-mvsba8fo-iplfjq", "payloadDropped": true, "upstreamDurableUrl": "https://oss-us.dimenoss.com/images/2026/10/29/1793203892_6c7955f59b8ec82c2cc396916a3dffef.png", "upstreamProbe": { "http": 200, "bytes": 850799, "sha256": "67d5d6a637518af3e0aa9147bfc0f855b350a244b3345b93ab05d3faa223f392" } }
+      ],
+      "recoverable": false,
+      "reason": "快照与 IDB 均无定位符；应用内无入口把仍存活的上游地址回灌给已 payloadDropped 的历史项。"
+    }
+  ],
+  "storeInventory": {
+    "toolTaskKeys": 72, "succeeded": 39, "itemsWithStorageKey": 30, "itemsUrlOnly": 0, "itemsPayloadDropped": 9,
+    "droppedTools": ["CHANGE_COLOR_V2","AI_OUTPAINTING","REMOVE_PEN","AI_POSE_GENERATOR","PRINTING_REPAIR","FISSION_LINK","IMAGE_TEXT_EDIT"],
+    "mediaStoreKeys": 107, "mediaSizeHit_1115668": 0, "mediaSizeHit_850799": 0,
+    "keyScheme": "tool-result:<taskId>:<index>:<nanoid>"
+  },
+  "fixVerifiedOnPostFixTasks": [
+    { "taskId": "task-mvtlxua2-kh39uf", "toolId": "PRINT_EXTRACT", "storageKey": "tool-result:task-mvtlxua2-kh39uf:0:jf8VlMsU9spY5W5raRSnO", "bytes": 2783996, "payloadDropped": false, "freshReload": true },
+    { "taskId": "task-mvtly3vu-fdqgy7", "toolId": "PRODUCT_SCENE", "storageKey": "tool-result:task-mvtly3vu-fdqgy7:0:TTlb-VmksNFfPn_GhRyTk", "bytes": 2398828, "payloadDropped": false, "freshReload": true }
+  ],
+  "threeActions": {
+    "download": "BLOCKED（按钮 disabled，无 payload）",
+    "saveAsset": "BLOCKED（无 image 入资产库，assets 未变）",
+    "sendCanvas": "BLOCKED（无 image 可发画布，无新节点）"
+  },
+  "rootCauseStatus": "6ede584 修复运行期已生效（新方案键 + 修复后任务字节持久化双证）；目标两条属修复前不可逆丢字节，非当前代码缺陷，无需新补丁。",
+  "risk": "唯一恢复路径是把仍存活上游产物（CCV2 1115668B/dd56d504…、REMOVE_PEN 850799B/67d5d6a6…）回灌历史项，属向存储写字节，本轮按要求未执行。",
+  "compliance": "未派子 worker、未读调度 SOP、未新生成、未注入、未改源码。"
+}
