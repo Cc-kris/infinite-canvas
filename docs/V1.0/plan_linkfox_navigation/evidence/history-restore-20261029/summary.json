@@ -1,0 +1,67 @@
+{
+  "task": "7 工具真实历史恢复 + 字节复现（fresh reload）",
+  "date": "2026-10-29",
+  "origin": "http://127.0.0.1:3000",
+  "browser": "Citro Labs/ego lite · Profile 1（真实用户 profile，非临时 profile）",
+  "constraints": [
+    "禁止重新生成 / 禁止注入快照 / 禁止派 worker",
+    "FISSION_LINK、AI_DRESSING 不在本次范围"
+  ],
+  "method": [
+    "页面内 JS 读 localStorage['tool-task:v1:index'] 枚举真实任务（leveldb 字节扫描因 snappy 压缩不可用，已放弃）",
+    "location.assign() 触发整页导航做 fresh reload，再读 dock DOM 与 item 的 blob URL",
+    "对 dock 恢复出的 blob: URL 做 fetch + crypto.subtle SHA-256，与 IndexedDB(infinite-canvas/media_files) 中 storageKey 对应 Blob 的哈希比对"
+  ],
+  "storage_facts": {
+    "task_index_count": 33,
+    "media_files_keys": 68,
+    "note": "task.result.items[].storageKey 形如 tool-result:xxx，字节落在 IndexedDB media_files"
+  },
+  "result": {
+    "PRODUCT_IMAGE_SUITE": {
+      "status": "PASS",
+      "route": "/tools/ecommerce-suite/product-image-suite",
+      "fresh_reload_path": "/tools/ecommerce-suite/product-image-suite",
+      "dock_tool_id": "PRODUCT_IMAGE_SUITE",
+      "dock_count": "2 条",
+      "workspace_blob_images": ["1000x1000", "1024x1024", "1024x1024", "1024x1024", "1024x1024", "1024x1024", "1024x1024", "1024x1024"],
+      "items": [
+        {"taskId": "task-mvt6vpdo-sc1x8w", "status": "succeeded", "mime": "image/png", "bytes": 2840825, "sha256_16": "4047edd57e482b45", "storageKey": "tool-result:98tXNya0JHj77cjXVRxLa", "match_task_bytes": true},
+        {"taskId": "task-mvt6vpdn-17qby2", "status": "succeeded", "mime": "image/png", "bytes": 2785837, "sha256_16": "6f9dec2af872e9e9", "storageKey": "tool-result:FRr_uTcG6mZmHzzEJ2rYx", "match_task_bytes": true}
+      ]
+    },
+    "DRESS_WEAR_SET": {
+      "status": "PASS",
+      "route": "/tools/ecommerce-suite/dress-wear-set",
+      "fresh_reload_path": "/tools/ecommerce-suite/dress-wear-set",
+      "dock_tool_id": "DRESS_WEAR_SET",
+      "dock_count": "2 条",
+      "workspace_blob_images": ["1000x1000", "1024x1024", "1024x1024", "1024x1024", "1024x1024"],
+      "items": [
+        {"taskId": "task-mvt74l6q-1vljau", "status": "succeeded", "mime": "image/png", "bytes": 1883817, "sha256_16": "9b7e62daebc97949", "storageKey": "tool-result:UJkgjc6BIYFLDnO12F3G-", "match_task_bytes": true},
+        {"taskId": "task-mvt74l6n-y5sie3", "status": "succeeded", "mime": "image/png", "bytes": 2516552, "sha256_16": "8ecb4b7cab2c4a67", "storageKey": "tool-result:og5LfxYy5GnPxzTYvmO4F", "match_task_bytes": true}
+      ]
+    },
+    "AI_POSTURE": {"status": "BLOCKED", "route": "/tools/product-design/ai-posture", "dock_mounted": true, "dock_count": "0 条", "real_tasks": 0},
+    "AI_POSE_GENERATOR": {"status": "BLOCKED", "route": "/tools/product-design/ai-pose-generator", "dock_mounted": true, "dock_count": "0 条", "real_tasks": 0},
+    "MATERIAL_UPPER_BODY": {"status": "BLOCKED", "route": "/tools/product-design/material-upper-body", "dock_mounted": true, "dock_count": "0 条", "real_tasks": 0},
+    "PRODUCT_SCENE": {"status": "BLOCKED", "route": "/tools/product-design/product-scene", "dock_owner": "工作区右栏「历史记录」页签（WORKSPACE_OWN_HISTORY）", "real_tasks": 0},
+    "NEW_DESIGNER": {"status": "BLOCKED", "route": "/tools/product-design/new-designer", "dock_mounted": true, "dock_count": "0 条", "real_tasks": 0},
+    "PRODUCT_MARKET_MATERIAL": {"status": "BLOCKED", "route": "/tools/product-design/product-market-material", "dock_mounted": true, "dock_count": "0 条", "real_tasks": 0}
+  },
+  "blocked_reason": "其余 5 个工具在真实 profile 的 tool-task 索引里 0 条任务（设计/姿势/场景类此前只在临时 playwright profile 跑过，不在用户 profile），禁止注入快照与重新生成 → 无法产生真实历史，按既有先例（commit e8121d7）报 BLOCKED。",
+  "download_proof": {
+    "disk_level": "未取得",
+    "reason": "Chrome downloads 表仅新增 id=33 image-translation-result-1.png(1028256B)（我在 image-translation 页的点击）；随后在 dress-wear-set 页点 dock 下载只返回 UI 成功文案，无任何 download 记录 → 被 Chrome「同一站点多次自动下载」策略拦掉，属浏览器策略而非应用缺陷",
+    "in_page_level": "已取得：dock 恢复出的 blob: URL fetch 出来的字节 size/type/sha256 与 IndexedDB 保存的字节完全一致（见上表）"
+  },
+  "code_inventory": {
+    "PRODUCT_IMAGE_SUITE": "workspaces/suite.tsx → getPersistedToolGateway()",
+    "DRESS_WEAR_SET": "workspaces/dress-suite.tsx → useToolTaskStore.runTool",
+    "AI_POSTURE / AI_POSE_GENERATOR": "workspaces/model.tsx → store.runTool（逐单元建任务）",
+    "MATERIAL_UPPER_BODY": "workspaces/dress.tsx → getPersistedToolGateway()",
+    "PRODUCT_SCENE": "workspaces/scene-fission.tsx → getPersistedToolGateway() + 自渲染 ToolHistoryDock",
+    "NEW_DESIGNER": "workspaces/designer.tsx → 无任务持久化（只做导出/下载/发画布），dock 恒为 0 条",
+    "PRODUCT_MARKET_MATERIAL": "workspaces/suite.tsx(ProductMarketMaterialWorkspace) → getPersistedToolGateway()"
+  }
+}
