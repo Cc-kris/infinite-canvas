@@ -1,0 +1,137 @@
+{
+  "scope": "共享页面框架（顶部导航 + 左侧工具栏 + 工作区外壳），不含具体工具 workspace",
+  "referenceTool": "AI_OUTPAINTING",
+  "originalUrl": "https://www.linkfox.com/draw/ai-outpainting",
+  "localUrl": "http://127.0.0.1:3000/tools/ecommerce-suite/ai-outpainting",
+  "capturedAt": "2026-10-29T12:20:00+08:00",
+  "viewport": { "width": 1908, "height": 781, "device": "real Chrome tab (TMWebDriver CDP), dpr=1" },
+  "method": "CDP Runtime.evaluate 取 getBoundingClientRect + getComputedStyle；响应式用 Emulation.setDeviceMetricsOverride，每个宽度新开标签只设一次（同标签连续缩放会被 Chrome 窗口下限夹住）",
+  "evidence": {
+    "responsiveProbeScript": "docs/V1.0/plan_linkfox_navigation/tools/probe_responsive.py",
+    "responsiveData": [
+      "evidence/b12-frame-parity-20261029/responsive/real-AI_OUTPAINTING.json",
+      "evidence/b12-frame-parity-20261029/responsive/local-AI_OUTPAINTING.invalid.json"
+    ]
+  },
+  "areas": [
+    {
+      "id": "promoBar",
+      "name": "顶部促销条",
+      "original": {
+        "rect": { "x": 0, "y": 0, "w": 1908, "h": 50 },
+        "dom": "div._wrap_scegn_1 > div.ant-carousel.ant-carousel-vertical > div.ant-carousel-slide > img.ant-image-img",
+        "css": { "height": "50px", "position": "relative", "slides": "vertical carousel, object-fit: cover", "close": "span[role=img][aria-label^=close-ci] 右侧关闭按钮" },
+        "copy": "轮播品牌广告图（无文字节点）",
+        "interaction": "每 3s 竖向轮播；点关闭隐藏整条"
+      },
+      "localBefore": { "status": "missing", "note": "本地无促销条，导航直接从 y=0 开始（real 导航 y=50）" },
+      "localAfter": { "status": "missing", "note": "未实现：原站为品牌广告图（外部 CDN 素材），需产品确认素材来源与轮播组件，故本轮不改，避免伪造品牌内容" },
+      "status": "open"
+    },
+    {
+      "id": "topNav",
+      "name": "顶部主导航",
+      "original": {
+        "rect": { "x": 0, "y": 50, "w": 1908, "h": 60 },
+        "css": { "background": "rgb(255,255,255)", "padding": "0px 35px 0px 24px", "borderBottom": "none", "menuBoxRect": { "x": 184, "y": 67.4, "w": 866.1, "h": 25.1 } },
+        "items": [
+          { "text": "首页", "rect": { "x": 234, "y": 67.4, "w": 32, "h": 25.1 }, "margin": "0px 30px 0px 0px", "fontSize": "16px", "color": "rgba(0, 0, 0, 0.85)", "icon": "none", "chevron": "none", "underline": "none" },
+          { "text": "电商套图", "active": true, "rect": { "x": 296, "y": 67.4, "w": 64, "h": 25.1 }, "color": "rgb(114, 60, 249)", "fontSize": "16px", "underline": "none" },
+          { "text": "更多", "rect": { "x": 973.1, "y": 67.4, "w": 47, "h": 25.1 }, "fontSize": "16px", "note": "末尾带下拉箭头 10px" }
+        ],
+        "badges": [
+          { "text": "新模型", "rect": { "x": 458, "y": 65, "w": 37.5, "h": 16 }, "fontSize": "9px", "color": "rgb(255,255,255)", "padding": "0px 5px", "borderRadius": "5px" },
+          { "text": "HOT", "fontSize": "9px", "color": "rgb(255,255,255)", "borderRadius": "5px" }
+        ],
+        "interaction": "悬停主项展开二级菜单；点击进入分类首页"
+      },
+      "localBefore": {
+        "status": "mismatch",
+        "note": "14px 文字 + 每项左侧 lucide 图标 + 右侧 ChevronDown + 选中项底部 2px 下划线；项目间距 gap-1(4px)；选中色为主题 foreground"
+      },
+      "localAfter": {
+        "status": "fixed",
+        "changes": [
+          "触发器去掉图标与 ChevronDown，去掉 after: 下划线，高度改为 60px 与导航等高",
+          "字号 text-sm(14px) → text-base(16px)，行高 leading-5(20px)",
+          "非选中色 rgba(0,0,0,.85)，选中色 var(--brand)=#723CF9，悬停转品牌紫",
+          "项目间距 gap-1(4px) → 每项 margin-right 30px（末项 0），与原站 30px 一致"
+        ]
+      },
+      "status": "partial",
+      "remaining": [
+        "新模型 / HOT 徽标未挂在导航主项上（原站 9px 白字、圆角 5px、padding 0 5px）",
+        "未做“更多”汇总下拉（原站末尾 更多 47px）",
+        "右侧用户区（免费得算力 / 积分 / 购买 / 头像）结构与尺寸未逐项对齐"
+      ]
+    },
+    {
+      "id": "sidebar",
+      "name": "左侧工具栏",
+      "original": {
+        "rect": { "x": 0, "y": 110, "w": 180, "h": 671 },
+        "css": { "background": "rgb(255,255,255)", "borderRight": "1px solid rgb(230, 230, 231)", "ulWidth": "179px" },
+        "row": { "height": "40px", "padding": "0px 12px 0px 18px", "iconSize": "16px", "iconX": 20, "textX": 46, "fontSize": "16px", "color": "rgba(0, 0, 0, 0.6)" },
+        "activeRow": { "background": "rgba(141, 52, 249, 0.05)", "color": "rgb(114, 60, 249)" },
+        "divider": { "height": "1px", "background": "rgba(5, 5, 5, 0.06)", "margin": "8px 0px" },
+        "footer": { "text": "免责声明", "fontSize": "12px", "color": "rgb(208, 210, 214)", "align": "center", "y": 755 },
+        "content": "只列当前分类的工具：商品套图 / 服装套图 | 爆款图复刻 | 套图换色 | 批量翻译 / 高清放大 / 批量抠图 / 智能扩图（在 ai-outpainting / change-color-v2 / product-image-suite 三页一致）"
+      },
+      "localBefore": {
+        "status": "mismatch",
+        "note": "全 5 个分类 39 个工具平铺；选中项只有紫字无底色；分隔线用 bg-hairline；无底部免责声明"
+      },
+      "localAfter": {
+        "status": "fixed",
+        "changes": [
+          "按 activeCategory 只渲染当前分类（活动分类缺失时回退全量，避免空栏）",
+          "选中行补 backgroundColor rgba(141,52,249,0.05)",
+          "分隔线改为 1px rgba(5,5,5,0.06)（dark: white/10）",
+          "新增底部居中「免责声明」12px #D0D2D6，mt-auto 贴底 pb-3"
+        ]
+      },
+      "status": "fixed",
+      "remaining": ["行内 40px / 18px 缩进 / 16px 图标与 10px 间距、未选色 rgba(0,0,0,.6) 沿用上一轮，未回归验证像素"]
+    },
+    {
+      "id": "workspace",
+      "name": "工作区外壳",
+      "original": {
+        "rect": { "x": 180, "y": 110, "w": 1728, "h": 671 },
+        "css": { "bodyBackground": "rgb(245, 247, 250)", "theme": "light", "shell": "顶部导航 + 左栏 + 单列工作区（页头 → 表单卡片 → 结果 tab）" },
+        "interaction": "参数条固定在结果画布下方，运行后结果 tab 显示 生成结果 / 优秀案例"
+      },
+      "local": {
+        "status": "match-structure",
+        "note": "ToolShell 已是 180px 左栏 + 右侧单列工作区，工作区 bg rgb(244,246,248)，与 #F5F7FA 相近（差 1-2 灰阶）"
+      },
+      "status": "partial",
+      "remaining": ["应用级主题仍为深色默认（bodyBg oklch(0.145 0 0)），与原站浅色工作区不一致；本轮未改主题默认值（影响全站，需单独决策）"]
+    }
+  ],
+  "responsive": {
+    "method": "Emulation.setDeviceMetricsOverride 逐宽度（每宽度新标签）",
+    "original": {
+      "1908": "aside 180 / main 1728 / promo 50",
+      "1440": "aside 180 / main 1260 / promo 50",
+      "1280": "aside 180 / main 1100 / promo 50",
+      "1024": "aside 180 / main 1020 / scrollW 1200",
+      "900": "aside 180 / main 1020 / scrollW 1200",
+      "768": "aside 180 / main 1020 / scrollW 1200",
+      "480": "aside 180 可见但视口外(main 480, 无汉堡)"
+    },
+    "observation": "原站在窄视口不收侧栏，改为整页横向滚动（最小内容宽约 1200px）；无汉堡抽屉。",
+    "local": "本地探针无效：local-AI_OUTPAINTING.invalid.json 各宽度 vw 恒 1908，override 未生效（唯一汉堡为「打开 Agent」，非侧栏抽屉），故本地窄屏数据不可用；代码层 ToolShell 以 lg 断点把左栏切为抽屉 + 顶栏出现「打开工具列表」按钮。",
+    "status": "unmeasured",
+    "decision": "本地侧栏断点策略未改动：ToolShell 既有 lg 抽屉契约有单测覆盖，改 1:1 横向滚动会影响窄屏可用性；如需复刻需产品确认。待重测：本地窄屏数据需在 override 生效的标签重采。"
+  },
+  "copy": {
+    "shell": ["首页", "电商套图", "智能修图", "AI 视频", "商品图设计", "批量生图", "更多", "免责声明"],
+    "note": "导航文案以 toolsNav.* i18n 键为准；本轮未改文案，仅改版式"
+  },
+  "verification": {
+    "unitTests": "web: ~/.bun/bin/bun test src/components/tools/tool-shell.test.tsx → 18 pass / 0 fail",
+    "typecheck": "web: ./node_modules/.bin/tsc --noEmit → 0 error",
+    "notVerified": "改后未重新截图/重新量像素（浏览器连接在探针后断开），像素级回归留给下一轮 UI 验收"
+  }
+}

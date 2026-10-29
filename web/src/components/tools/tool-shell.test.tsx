@@ -113,12 +113,13 @@ describe("ToolSidebar", () => {
         );
         expect(html).toContain('href="/tools/ecommerce-suite/scale-up"');
         expect(html).toContain('aria-current="page"');
-        // 原站侧栏选中态：品牌紫文字、无底色、无左侧竖条
+        // 原站侧栏选中态：品牌紫文字 + rgba(141,52,249,.05) 浅紫底
         expect(html).toContain("color:var(--brand)");
-        expect(html).not.toContain("bg-accent");
-        // 原站侧栏为全量平铺（组间 1px 分隔线，无分类标题），非选中分组同样列出工具
-        expect(html).toContain('href="/tools/product-design/ai-text"');
-        expect(html).toContain('href="/tools/product-design"');
+        expect(html).toContain("background-color:rgba(141, 52, 249, 0.05)");
+        // 原站侧栏只列当前分类（实测 change-color/product-image-suite/ai-outpainting 三页一致）
+        expect(html).not.toContain('href="/tools/product-design/ai-text"');
+        // 底部免责声明页脚
+        expect(html).toContain("免责声明");
     });
 
     test("labels supplemental tools with a neutral badge", () => {

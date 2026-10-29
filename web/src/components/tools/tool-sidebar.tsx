@@ -38,11 +38,12 @@ export interface ToolSidebarCategory {
 
 export interface ToolSidebarProps {
     categories: ToolSidebarCategory[];
-    /** Kept for API compat: the reference layout lists every tool, grouped by hairline dividers. */
+    /** When set, only this category's tools are listed (reference behaviour, verified live). */
     activeCategory?: string;
     activeToolSlug?: string;
     supplementalLabel?: string;
     emptyLabel?: string;
+    disclaimerLabel?: string;
     onNavigate?: () => void;
     className?: string;
 }
@@ -79,34 +80,54 @@ function ToolIcon({ id }: { id: string }) {
  * Canonical tool navigation. Width and scroll behaviour are owned by ToolShell so the
  * same markup can be reused inside the mobile drawer.
  *
- * Reference layout (linkfox tool page, 1908x781): flat list of every tool, 40px rows,
- * 16px labels starting 44px from the left edge (18px inset + 16px icon + 10px gap),
- * rgba(0,0,0,.6) text with the active row in brand purple #723CF9 and 1px #E6E6E7
- * dividers between groups — no group captions.
+ * Reference layout (linkfox tool page, 1908x781, verified live): the rail lists only the
+ * tools of the active category — 40px rows, 16px labels starting 46px from the left edge
+ * (18px inset + 16px icon + 10px gap), rgba(0,0,0,.6) text, active row in brand purple
+ * #723CF9 over a rgba(141,52,249,.05) tint, 1px rgba(5,5,5,.06) dividers between groups
+ * and a 12px #D0D2D6 「免责声明」 footer pinned to the bottom.
  */
-export function ToolSidebar({ categories, activeToolSlug, supplementalLabel = "补充", emptyLabel = "该分类尚无已注册工具", onNavigate, className }: ToolSidebarProps) {
+export function ToolSidebar({
+    categories,
+    activeCategory,
+    activeToolSlug,
+    supplementalLabel = "补充",
+    emptyLabel = "该分类尚无已注册工具",
+    disclaimerLabel = "免责声明",
+    onNavigate,
+    className,
+}: ToolSidebarProps) {
+    // Reference behaviour: the rail is scoped to the active category. Fall back to the
+    // full list only when the active category is unknown (e.g. legacy/unknown routes).
+    const scoped = activeCategory ? categories.filter((category) => category.slug === activeCategory) : [];
+    const visibleCategories = scoped.length > 0 ? scoped : categories;
     return (
         <nav aria-label="工具" className={cn("flex h-full flex-col overflow-y-auto", className)}>
-            {categories.map((category, index) => {
+            {visibleCategories.map((category, index) => {
                 return (
                     <div key={category.slug} className="min-w-0">
-                        {index > 0 ? <div aria-hidden="true" className="my-2 h-px bg-hairline" /> : null}
+                        {index > 0 ? <div aria-hidden="true" className="my-2 h-px bg-[rgba(5,5,5,0.06)] dark:bg-white/10" /> : null}
                         <Link to={`/tools/${category.slug}`} onClick={onNavigate} className="sr-only">
                             {category.label}
                         </Link>
                         {category.tools.length > 0 ? (
                             <ul className="flex flex-col">
-                                {category.tools.map((tool) => (
+                                {category.tools.map((tool) => {
+                                    const active = tool.slug === activeToolSlug;
+                                    return (
                                     <li key={tool.id} className="min-w-0">
                                         <NavLink
                                             to={`/tools/${category.slug}/${tool.slug}`}
                                             end
                                             onClick={onNavigate}
                                             data-tool-id={tool.id}
-                                            data-active={tool.slug === activeToolSlug ? "true" : undefined}
-                                            style={{ color: tool.slug === activeToolSlug ? "var(--brand)" : "rgba(0, 0, 0, 0.6)" }}
+                                            data-active={active ? "true" : undefined}
+                                            style={
+                                                active
+                                                    ? { color: "var(--brand)", backgroundColor: "rgba(141, 52, 249, 0.05)" }
+                                                    : { color: "rgba(0, 0, 0, 0.6)" }
+                                            }
                                             className={cn(
-                                                "flex h-10 items-center gap-2.5 pl-[18px] pr-3 text-base leading-5 transition-colors hover:opacity-80",
+                                                "flex h-10 items-center gap-2.5 pl-[18px] pr-3 text-base leading-5 transition-colors hover:opacity-80 dark:text-white/60",
                                                 tool.enabled === false && "opacity-60",
                                             )}
                                         >
@@ -119,7 +140,8 @@ export function ToolSidebar({ categories, activeToolSlug, supplementalLabel = "�
                                             ) : null}
                                         </NavLink>
                                     </li>
-                                ))}
+                                    );
+                                })}
                             </ul>
                         ) : (
                             <p className="px-[18px] py-2 text-xs leading-5 text-black/45 dark:text-white/45">{emptyLabel}</p>
@@ -127,6 +149,7 @@ export function ToolSidebar({ categories, activeToolSlug, supplementalLabel = "�
                     </div>
                 );
             })}
+            <div className="mt-auto select-none pb-3 pt-6 text-center text-xs leading-4 text-[#D0D2D6] dark:text-white/25">{disclaimerLabel}</div>
         </nav>
     );
 }

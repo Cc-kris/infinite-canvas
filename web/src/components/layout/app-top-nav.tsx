@@ -1,4 +1,4 @@
-import { Bot, ChevronDown, Menu } from "lucide-react";
+import { Bot, Menu } from "lucide-react";
 import { Button, Tooltip } from "antd";
 import { useCallback, useEffect, useId, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -185,13 +185,13 @@ export function ToolsPrimaryNavigation({ className, onNavigate }: ToolsPrimaryNa
     return (
         <div
             ref={containerRef}
-            className={cn("relative flex h-full items-stretch gap-1", className)}
+            className={cn("relative flex h-full items-stretch", className)}
             data-testid="tools-nav-primary"
             onBlur={(event) => {
                 if (!event.currentTarget.contains(event.relatedTarget as Node | null)) setOpenSlug(null);
             }}
         >
-            <nav aria-label={t("toolsNav.primaryNav")} className="hide-scrollbar flex h-full min-w-0 items-stretch gap-1 overflow-x-auto">
+            <nav aria-label={t("toolsNav.primaryNav")} className="hide-scrollbar flex h-full min-w-0 items-stretch overflow-x-auto">
                 {toolNavigationCategories.map((category) => {
                     const Icon = category.icon;
                     const isOpen = openSlug === category.slug;
@@ -199,7 +199,7 @@ export function ToolsPrimaryNavigation({ className, onNavigate }: ToolsPrimaryNa
                     const entries = getCategoryMenuTools(category.slug);
                     const isBatch = category.slug === "batch-generate";
                     return (
-                        <div key={category.slug} className="relative flex h-full items-stretch" onMouseEnter={() => openMenu(category.slug)} onMouseLeave={scheduleClose}>
+                        <div key={category.slug} className="relative mr-[30px] flex h-full items-stretch last:mr-0" onMouseEnter={() => openMenu(category.slug)} onMouseLeave={scheduleClose}>
                             <Link
                                 ref={(node) => {
                                     if (node) triggerRefs.current.set(category.slug, node);
@@ -217,13 +217,12 @@ export function ToolsPrimaryNavigation({ className, onNavigate }: ToolsPrimaryNa
                                 onClick={() => onNavigate?.()}
                                 onKeyDown={(event) => handleTriggerKeyDown(event, category.slug)}
                                 className={cn(
-                                    "relative flex h-14 shrink-0 items-center gap-1.5 rounded-none px-2 text-sm leading-6 outline-none transition after:absolute after:inset-x-2 after:bottom-0 after:h-0.5 after:rounded-full focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
-                                    isActive ? "font-medium text-foreground after:bg-primary" : "text-muted-foreground after:bg-transparent hover:text-foreground dark:text-muted-foreground dark:hover:text-foreground",
+                                    // 原站实测：无图标、无箭头、无下划线；16px、字间距由父级 30px 提供，选中为品牌紫 #723CF9
+                                    "relative flex h-[60px] shrink-0 items-center rounded-none text-base leading-5 outline-none transition-colors focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
+                                    isActive ? "text-[var(--brand)]" : "text-[rgba(0,0,0,0.85)] hover:text-[var(--brand)] dark:text-white/85 dark:hover:text-[var(--brand)]",
                                 )}
                             >
-                                <Icon className="size-4 shrink-0" />
                                 <span className="truncate">{t(category.labelKey)}</span>
-                                <ChevronDown className={cn("size-3.5 shrink-0 text-muted-foreground transition-transform", isOpen && "rotate-180")} aria-hidden />
                             </Link>
 
                             {isOpen ? (
