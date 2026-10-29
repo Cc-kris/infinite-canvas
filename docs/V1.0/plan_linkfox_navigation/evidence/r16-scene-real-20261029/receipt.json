@@ -1,0 +1,41 @@
+{
+  "toolId": "PRODUCT_SCENE",
+  "route": "/tools/product-design/product-scene",
+  "env": "http://127.0.0.1:3000 (vite dev)",
+  "capturedAt": "2026-10-29",
+  "taskId": "task-mvtly3vu-fdqgy7",
+  "status": "succeeded",
+  "createdAt": 1793282244906,
+  "updatedAt": 1793282295219,
+  "finalState": {
+    "ui": "已完成",
+    "persistedKey": "tool-task:v1:task-mvtly3vu-fdqgy7"
+  },
+  "input": {
+    "source": "既有真实商品图字节（IDB media_files 中既往上传的真实图片）",
+    "size": 483818,
+    "ratio": "1200x1200"
+  },
+  "result": {
+    "storageKey": "tool-result:task-mvtly3vu-fdqgy7:0:TTlb-VmksNFfPn_GhRyTk",
+    "bytes": 2398828,
+    "mime": "image/png",
+    "sha256": "fa5ee380ab79ae8b924e1481136cbcfe4f23473926246c79129fc0c59093f9e2"
+  },
+  "actions": [
+    {
+      "act": "下载",
+      "feedback": "已下载 product-scene-result-1.png",
+      "verified": "Downloads 真实文件 sha256 与 IDB 字节一致"
+    },
+    {
+      "act": "存入资产",
+      "receipt": "ofbXDtlnY5gFse29gfpuf"
+    },
+    {
+      "act": "发送画布",
+      "receipt": "A6AI_SDmdn8KK1WmaHkg5"
+    }
+  ],
+  "note": "upstreamTaskId 未落盘（提交路径未写入），上游对账以 taskId+结果字节为准；未刷新前的控制台证据。"
+}
