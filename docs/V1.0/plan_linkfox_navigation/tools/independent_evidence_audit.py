@@ -92,8 +92,27 @@ H_RESTORE = {
     "VIDEO_TRANSLATION": ("注入验证（真实失败任务）", "upsertTask 注入 task-real-video_translation-20261029；reload 后 failed + 真实 400 原文、无查看结果、0 次重提；无成功任务"),
     "AREA_REPAIR": ("注入验证", "recovery4 persistTask 注入 2 条合成任务 → reload 历史坞还原 + 缩略图解码"),
     "REMOVE_PEN": ("注入验证", "recovery4 注入 → reload 历史坞/详情/下载字节 sha256 一致"),
-    "CHANGE_COLOR": ("注入验证", "recovery4 注入 → 自有 history 面板 reload 还原 + 下载字节一致"),
     "IMAGE_CROP": ("注入验证", "recovery4 注入 → reload 历史坞还原 + 下载字节一致"),
+    # ---- 第 7 轮新增：真实提交 → persist → fresh reload（r7） ----
+    "FIX_COLOR": ("历史回填",
+                  "6d9bd86/7a56082：两次真实 gpt-image-2 提交（task-mvt9r1lg-ab8tqn 1218527B / task-mvta1kkg-t8y1yo 1003673B，"
+                  "diffVsInput 证明非回传原图）→ 新标签 navigate + location.reload(navType=navigate) → 历史坞 2 条、"
+                  "下载 sha256 83ef17c2… 实测一致、存入资产 OIRBFLPZFZt5hjgOZL3sV"),
+    "SCALE_UP": ("快照恢复",
+                 "0134fb6：真实提交 task-mvta6bty-0rkwm9（POST /images/edits 200，storageKey 入 IDB）→ Playwright page.reload → "
+                 "任务恢复 + 历史坞 1 条 + 结果 1024x752 blob 回放 + 下载 871973B"),
+    "CHANGE_COLOR": ("快照恢复",
+                     "0134fb6：真实提交 task-mvtafqev-u2yjkh（POST /images/edits 200）→ page.reload → 自有历史「1 条」"
+                     "+ 结果 1024x1024 blob 回放 + 下载 919689B（本轮仅取下载，存资产/画布未回执）"),
+    "IMAGE_TRANSLATION": ("历史回填",
+                          "9e8b6cc：真实上传 + 手工文本框 + 开始翻译 task-mvt9elbs-u4grlv（succeeded，1028256B）→ 整页 reload → "
+                          "历史坞 1 条 succeeded + 缩略图 blob 解码 1024x1024"),
+    "VIDEO_CONCAT": ("历史回填（失败任务）",
+                     "39bf486：真实 UI 提交 task-mvt94gxs-p0r29t（9:16/10s 字段正确，上游 400 + HMR 中断）→ 记录落库 failed → "
+                     "reload 后历史「1 条 · 失败」+ 完整原因 + 配置快照，草稿 clipCount=3 恢复；无成功样例"),
+    "SALE_VIDEO": ("人工记录（非机器回执）",
+                   "b43a21d：FOLLOWUP 记录 reload 后 blob 由 IDB 复原（新 blob id）、历史 2 条、查看结果三动作可用、"
+                   "资产 CSjc856F5YIETwEX435Cr / 画布 P3rUhnqi1Rm9ZpAqs4KPo；未落 JSON/DOM 回执"),
 }
 H_RESTORE_DEFAULT = ("未取证", "无真实提交→persist→reload 证据（B5/B4/B7 为注入快照）")
 
@@ -127,16 +146,19 @@ E = {
         H=("PARTIAL", "真实任务（round2 4 单元）因代理 401 全部失败，无结果回填；round3 注入 submitting/unknown 探针 → reload 后收敛为 failed、历史项显示失败原因（收敛链路已验证，非真实产物）", ["CHANGE_COLOR_V2/round2-20261029/round2-06-reload.json", "CHANGE_COLOR_V2/round3-recovery-20261029/recovery-history-tab-evidence.json"]),
     ),
     "IMAGE_TRANSLATION": dict(
-        F=f_partial("b4 三动作通过，但工作台存在控件/校验缺陷（旧矩阵已记录）", ["IMAGE_TRANSLATION/" + B4, "IMAGE_TRANSLATION/result.png"]),
-        R=("PASS", "747KB 本地落盘", ["IMAGE_TRANSLATION/result.png"]),
+        F=f_partial("b4 三动作通过；9e8b6cc 修 OCR/逐框翻译模型路由（textModel），但文本上游当前 503，识别文字仍无成功回执；控件缺陷未复验",
+                    ["IMAGE_TRANSLATION/" + B4, "IMAGE_TRANSLATION/result.png", "IMAGE_TRANSLATION/b5-history-dock-reload-20261029.json"]),
+        R=("PASS", "747KB 本地落盘（另有 b5 真实任务结果 1028256B）", ["IMAGE_TRANSLATION/result.png"]),
         K=("N/A", "原站无优秀案例页签（b6 未列；本地未新增）", []),
-        H=("PARTIAL", "无真实提交→刷新回填证据", []),
+        H=("PASS", "真实提交 task-mvt9elbs-u4grlv（succeeded，1 结果 1028256B）→ 整页 reload → 历史坞 1 条 succeeded + 缩略图 blob 1024x1024",
+           ["IMAGE_TRANSLATION/b5-history-dock-reload-20261029.json"]),
     ),
     "SCALE_UP": dict(
-        F=f_pass("b4 三动作回执（07 verified 字节 1152074）", ["SCALE_UP/b4-actions.json", "SCALE_UP/07-result-actions-verified.json", "SCALE_UP/02-result.png"]),
-        R=("PASS", "1.15MB 本地落盘", ["SCALE_UP/02-result.png"]),
+        F=f_pass("b4 三动作回执（07 verified 字节 1152074）；0134fb6 另一次真实运行下载 871973B", ["SCALE_UP/b4-actions.json", "SCALE_UP/07-result-actions-verified.json", "SCALE_UP/02-result.png", "HISTORY_RECOVERY_MINE/SCALE_UP/run.json"]),
+        R=("PASS", "1.15MB 本地落盘（r7 另存 871973B 回放图）", ["SCALE_UP/02-result.png", "HISTORY_RECOVERY_MINE/SCALE_UP/download-1793262552040-scale-up-result-1.png"]),
         K=("N/A", "b6 明确：原站该页无「优秀案例」页签（origin/SCALE_UP-cases.json 为空），旧矩阵 MISSING 口径错误", ["b6-cases/visual-parity.json", "b6-cases/origin/SCALE_UP-cases.json"]),
-        H=("PARTIAL", "无真实提交→刷新回填证据", []),
+        H=("PASS", "真实提交 task-mvta6bty-0rkwm9（POST /images/edits 200）→ page.reload → 任务恢复 + 历史坞 1 条 + 结果 1024x752 回放 + 下载 871973B",
+           ["HISTORY_RECOVERY_MINE/SCALE_UP/run.json", "HISTORY_RECOVERY_MINE/summary-1793262552441.json"]),
     ),
     # ---------- e-commerce suite ----------
     "AI_OUTPAINTING": dict(
@@ -158,10 +180,12 @@ E = {
         H=("PARTIAL", "recovery4 注入合成任务 → reload 后历史坞 / 详情结果 / 下载 850799B sha256 一致（恢复链路可用，非真实提交）", ["B5_HISTORY_DOCK/recovery4/summary.json"]),
     ),
     "CHANGE_COLOR": dict(
-        F=f_partial("仅有 download 截图 + 资产校验断言，无存资产/发画布回执", ["CHANGE_COLOR/result.json", "CHANGE_COLOR/reuse-actions.png"]),
-        R=("PASS", "1.23MB 本地落盘", ["CHANGE_COLOR/result.png"]),
+        F=f_partial("仅有 download 截图 + 资产校验断言；0134fb6 真实运行取得下载 919689B，但存资产/发画布无回执",
+                    ["CHANGE_COLOR/result.json", "CHANGE_COLOR/reuse-actions.png", "HISTORY_RECOVERY_MINE/CHANGE_COLOR/run.json"]),
+        R=("PASS", "1.23MB 本地落盘（r7 另一次真实运行 919689B）", ["CHANGE_COLOR/result.png", "HISTORY_RECOVERY_MINE/CHANGE_COLOR/download-1793262950492-change-color-result-1.png"]),
         K=("N/A", "原站无案例模块", []),
-        H=("PARTIAL", "recovery4 注入合成任务 → 本工具自有 history 面板 reload 后还原 1 条 + 下载 1231207B sha256 一致（恢复链路可用，非真实提交）", ["B5_HISTORY_DOCK/recovery4/summary.json"]),
+        H=("PASS", "真实提交 task-mvtafqev-u2yjkh（POST /images/edits 200）→ page.reload → 自有历史「1 条」+ 结果 1024x1024 blob 解码 + 下载 919689B",
+           ["HISTORY_RECOVERY_MINE/CHANGE_COLOR/run.json", "HISTORY_RECOVERY_MINE/summary-1793262950790.json"]),
     ),
     "IMAGE_CROP": dict(
         F=f_pass("b7：真实上传→submit→结果→三动作（本地像素裁剪）", ["IMAGE_CROP/run-actions-b7.json", "IMAGE_CROP/run-nv.json"]),
@@ -176,10 +200,12 @@ E = {
         H=("PARTIAL", "无真实提交→刷新回填证据", []),
     ),
     "FIX_COLOR": dict(
-        F=f_partial("提交后无结果区（仅有空态），三动作未执行", ["FIX_COLOR/ui.png"]),
-        R=("BLOCKED", "目录内只有 1440x900 UI 截图，无任何产物字节（旧矩阵 R=PASS 为截图充数）", []),
+        F=f_pass("两次真实提交（7a56082 修尺寸后 1024x752）+ 历史坞下载 sha256 一致 + 存入资产 OIRBFLPZFZt5hjgOZL3sV（2 项回执）",
+                 ["FIX_COLOR/result.json", "FIX_COLOR/history-recovery-20261029/actions-download.json", "FIX_COLOR/history-recovery-20261029/actions-save-to-assets.json"]),
+        R=("PASS", "1218527B 1024x1024 + 1003673B 1024x752 两次真实出图落盘（非截图）", ["FIX_COLOR/result-real-20261029.png", "FIX_COLOR/result-real-run2-20261029.png"]),
         K=("N/A", "原站无案例模块", []),
-        H=("PARTIAL", "无真实提交→刷新回填证据", []),
+        H=("PASS", "真实提交 task-mvt9r1lg-ab8tqn / task-mvta1kkg-t8y1yo → 新标签 navigate + location.reload → 历史坞 2 条、下载 sha256 83ef17c2… 实测一致、存入资产成功",
+           ["FIX_COLOR/history-recovery-20261029/probe-fresh-load.json", "FIX_COLOR/history-recovery-20261029/probe-after-reload.json", "FIX_COLOR/history-recovery-20261029/actions-download.json", "FIX_COLOR/history-recovery-20261029/actions-save-to-assets.json"]),
     ),
     "PRINTING_REPAIR": dict(
         F=f_pass("run-actions-real: 真实出图+存资产+发画布+独立路由回验", ["PRINTING_REPAIR/run-actions-real.json", "PRINTING_REPAIR/result.png"]),
@@ -272,10 +298,13 @@ E = {
         H=("PARTIAL", "无真实提交→刷新回填证据", []),
     ),
     "FISSION_LINK": dict(
-        F=f_pass("b4 下载+存资产回执（无画布回执）", ["FISSION_LINK/b4-actions.json", "FISSION_LINK/01-result.png"]),
-        R=("PASS", "139KB 结果 + 1.67MB 上游原图", ["FISSION_LINK/01-result.png", "FISSION_LINK/03-upstream-result.png"]),
+        F=f_pass("df765ff/b95ff4c 后 reload 恢复结果 → 下载 1988694B sha256=bbc0ca08… 实测一致 → 存入资产 i28CzCpbrBdqVvU_8sKuC → 发画布 4YJKL9Hoq-HRiYvhqIozS / image-1793262996953-ratzx（三动作齐全）",
+                 ["FISSION_LINK/b4-actions.json", "FISSION_LINK/b5-restore-after-reload.json", "H2-fission-xsy-20261029/evidence.json"]),
+        R=("PASS", "b5 真实任务结果 1988694B（r7 实测 sha256 bbc0ca08…）+ 139KB 本地结果 + 1.67MB 上游原图",
+            ["FISSION_LINK/01-result.png", "FISSION_LINK/03-upstream-result.png", "FISSION_LINK/b5-restored-download.png"]),
         K=("N/A", "原站无案例模块", []),
-        H=("PARTIAL", "无真实提交→刷新回填证据", []),
+        H=("PASS", "真实提交 task-mvt9ad4f-6nn22s / 复用 task-mvt9wsfa-fsd2vn → location.reload → 历史坞 5 条 + 4 张缩略图解码 → 选中还原结果 + 下载/存资产回执",
+           ["FISSION_LINK/b5-restore-after-reload.json", "H2-fission-xsy-20261029/evidence.json"]),
     ),
     "IMAGE_TEXT_EDIT": dict(
         F=f_pass("b7：真实 OSS 产物 + 三动作回执", ["IMAGE_TEXT_EDIT/run-actions-b7.json"]),
@@ -314,10 +343,14 @@ E = {
         H=("PARTIAL", "真实失败任务 task-mvt71akq-bu2hxh 可从历史「回填表单」（提示词 83 字 + 2 参考图，DOM 回执）；但无结果可回填（上游 503）、无 reload 时间线证据", ["IMAGE_TO_VIDEO/cases-apply-acceptance-20261029.json"]),
     ),
     "SALE_VIDEO": dict(
-        F=f_blocked("上游端点 404，无自有产物；b4 动作使用 IMAGE_TO_VIDEO 借用 mp4（source=borrowed）", ["SALE_VIDEO/b4-actions.json"]),
-        R=("BLOCKED", "无自有产物；b4 视频字节来自 IMAGE_TO_VIDEO", []),
+        F=f_partial("真实任务 task-mvt76u6p-7cfnff（succeeded，上游 task_hhe2Fmdx…）产物 1366190B；下载 sha256 39193f0a… 实测一致；"
+                    "存入资产 CSjc856F5YIETwEX435Cr / 发画布 P3rUhnqi1Rm9ZpAqs4KPo 仅记录在 FOLLOWUP.md（无 JSON/DOM 回执）",
+                    ["SALE_VIDEO_20261029/task-mvt76u6p-7cfnff.raw.json", "SALE_VIDEO_20261029/FOLLOWUP_20261029.md"]),
+        R=("PASS", "1366190B 768x768 H.264 6.583s（r7 实测 sha256 39193f0a…，ffmpeg 全解码 0 错）",
+            ["SALE_VIDEO_20261029/sale-video-task-mvt76u6p.mp4"]),
         K=("N/A", "原站无案例模块", []),
-        H=("PARTIAL", "无真实提交→刷新回填证据", []),
+        H=("PARTIAL", "真实任务 succeeded → reload 后 blob 由 IDB 复原（新 blob id 且字节一致）、历史 2 条；但该 reload 仅有人工文字记录，未落机器回执",
+           ["SALE_VIDEO_20261029/task-mvt76u6p-7cfnff.raw.json", "SALE_VIDEO_20261029/FOLLOWUP_20261029.md"]),
     ),
     "VIDEO_REPLICATION": dict(
         F=f_partial(
@@ -360,10 +393,12 @@ E = {
            ["VIDEO_HISTORY_RECOVERY_2TOOLS/summary.json"]),
     ),
     "VIDEO_CONCAT": dict(
-        F=f_partial("只验证工作台/校验，未发起真实拼接", ["VIDEO_CONCAT/result.json"]),
-        R=("BLOCKED", "未发起真实生成调用，无产物", []),
+        F=f_partial("39bf486：真实 UI 提交带页内字段（seconds=10&size=720x1280&ratio=9:16&resolution_name=720p），但上游 400（multipart 被当 utf-8 解码）+ HMR 重载中断 → 显式记 failed；无结果区闭环",
+                    ["VIDEO_CONCAT/request-evidence-20261029.json", "VIDEO_CONCAT/task-record-20261029.json"]),
+        R=("BLOCKED", "仍无拼接产物：上游 multipart 400（网关侧编码缺陷），JSON 回退需公网可访问资产 URL，本轮未取得", []),
         K=("N/A", "原站无案例模块", []),
-        H=("PARTIAL", "无真实提交→刷新回填证据", []),
+        H=("PASS", "真实提交 task-mvt94gxs-p0r29t → tool-task:v1 落库 failed（submit-unconfirmed）→ fresh reload 后历史「1 条 · 失败」+ 原因 + 配置快照，草稿 3 clip 恢复",
+           ["VIDEO_CONCAT/history-recovery-20261029.json", "VIDEO_CONCAT/task-record-20261029.json"]),
     ),
 }
 
