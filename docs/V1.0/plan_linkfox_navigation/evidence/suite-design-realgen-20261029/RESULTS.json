@@ -1,0 +1,153 @@
+{
+  "generatedAt": "2026-10-29T18:07:53+08:00",
+  "env": {
+    "app": "http://127.0.0.1:3000 (vite dev)",
+    "browser": "Chrome 155.0.8059.85 via page-scope CDP",
+    "rule": "no history injection, no sub-workers, no tool source changes"
+  },
+  "tools": [
+    {
+      "file": "ai-posture-result-1.png",
+      "bytes": 1557308,
+      "sha256": "03ec4754b62fb2e6bdea6a3d062bf376705071de3c0faac4160958c185a9a1db",
+      "width": 1024,
+      "height": 1024,
+      "mode": "RGB",
+      "mtime": "2026-10-29T18:00:28+08:00",
+      "toolId": "AI_POSTURE",
+      "taskId": "task-mvtczxwo-e1d1w0",
+      "status": "succeeded",
+      "storageKey": "tool-result:rm3NtLVj9Pa2bc1xdc3t1",
+      "taskFinishedAt": "2026-10-29T17:47:44+08:00",
+      "asset": {
+        "assetId": "JBUR9FikfKJ9MKa4mqGNt",
+        "title": "AI_POSTURE 结果 1",
+        "storageKey": "image:vG9ays-gZSwh2lyx4awe9",
+        "source": "工具结果"
+      },
+      "download": {
+        "status": "ok",
+        "file": "ai-posture-result-1.png",
+        "note": "浏览器原生下载落盘"
+      }
+    },
+    {
+      "file": "material-upper-body-result-1.png",
+      "bytes": 1525374,
+      "sha256": "79bddf28c16aa5c792efbf429e084b1f81c98cfe5bc6336081480ef60f0fa5d6",
+      "width": 1024,
+      "height": 1024,
+      "mode": "RGB",
+      "mtime": "2026-10-29T18:00:29+08:00",
+      "toolId": "MATERIAL_UPPER_BODY",
+      "taskId": "task-mvtd45nv-y7cum6",
+      "status": "succeeded",
+      "storageKey": "tool-result:oU0TI--EZsIZ_14iPu4Jp",
+      "taskFinishedAt": "2026-10-29T17:50:39+08:00",
+      "asset": {
+        "assetId": "HF5bgHaqdS4Lo33cIxWIB",
+        "title": "MATERIAL_UPPER_BODY 结果 1",
+        "storageKey": "image:azvnt6PLrC5QBtkJHoAc_",
+        "source": "工具结果"
+      },
+      "download": {
+        "status": "ok",
+        "file": "material-upper-body-result-1.png",
+        "note": "浏览器原生下载落盘"
+      }
+    },
+    {
+      "file": "ai-pose-generator-result-1.png",
+      "bytes": 1151209,
+      "sha256": "19028125bae9618e8e01801480518db186b6ace6cccf0cff7f5ae4c6ec84300d",
+      "width": 1024,
+      "height": 1024,
+      "mode": "RGB",
+      "mtime": "2026-10-29T18:00:23+08:00",
+      "toolId": "AI_POSE_GENERATOR",
+      "taskId": "task-mvtd89f3-9qpix6",
+      "status": "succeeded",
+      "storageKey": "tool-result:G8rkyLhFbZptxmqcCYTet",
+      "taskFinishedAt": "2026-10-29T17:54:07+08:00",
+      "asset": {
+        "assetId": "ScqDTYWu9xr2BohjvgVTK",
+        "title": "AI_POSE_GENERATOR 结果 1",
+        "storageKey": "image:OzKqWDwr-KA9wHuXXZnQy",
+        "source": "工具结果"
+      },
+      "download": {
+        "status": "blocked",
+        "note": "UI toast 报“已下载”，磁盘无文件；4 次重试（含前台标签、CDP 可信鼠标点击、整页 reload 后）均不落盘；已改用页面内 fetch IndexedDB 存储字节直接落盘，sha 与任务记录一致"
+      }
+    },
+    {
+      "file": "new-designer-result-1.png",
+      "bytes": 411801,
+      "sha256": "90e28e0f93420bb42270708737760d810d9df1e986566aed60d61a79b4a09d88",
+      "width": 1200,
+      "height": 1200,
+      "mode": "RGBA",
+      "mtime": "2026-10-29T18:04:31+08:00",
+      "toolId": "NEW_DESIGNER",
+      "taskId": "task-mvtdl9v8-165q1n",
+      "status": "succeeded",
+      "storageKey": "tool-result:vf21IxChoGYqJ9C8z8qMg",
+      "taskFinishedAt": "2026-10-29T18:03:30+08:00",
+      "asset": {
+        "assetId": "8J_BAwI8zxZ4ShWj0fxB7",
+        "title": "NEW_DESIGNER 结果 1",
+        "storageKey": "image:FbBhyfzfpSQUXFkoeCdT9",
+        "source": "工具结果"
+      },
+      "download": {
+        "status": "ok",
+        "file": "new-designer-result-1.png",
+        "note": "浏览器原生下载落盘；sha 与任务记录一致"
+      },
+      "canvas": {
+        "canvasId": "hizF9wCnG20QNBDsnjRM0",
+        "nodeId": "image-1793268249669-dk2gs"
+      },
+      "designerConfig": {
+        "layers": 2,
+        "canvas": "1200x1200",
+        "background": "#ffffff",
+        "text": {
+          "text": "亚马逊商品主图 · 上装实例",
+          "fontSize": 64,
+          "color": "#1f2937",
+          "pos": [
+            80,
+            80
+          ],
+          "size": [
+            640,
+            120
+          ]
+        },
+        "image": {
+          "name": "amazon-product.png",
+          "bytes": 1699450,
+          "pos": [
+            120,
+            120
+          ],
+          "size": [
+            480,
+            480
+          ],
+          "inject": "DataTransfer(File) via CORS static :23311"
+        }
+      }
+    }
+  ],
+  "freshReloadVerified": {
+    "AI_POSE_GENERATOR": {
+      "taskCard": true,
+      "status": "succeeded",
+      "bytes": 1151209,
+      "sha256": "19028125bae9618e8e01801480518db186b6ace6cccf0cff7f5ae4c6ec84300d",
+      "historyCount": 6
+    }
+  }
+}
