@@ -1,7 +1,7 @@
 import type { UploadedFile } from "@/services/file-storage";
 import type { UploadedImage } from "@/services/image-storage";
 import type { ToolTask, ToolTaskResultItem } from "@/services/api/tools/task-machine";
-import { withDerivedKind } from "@/lib/result-item-kind";
+import { hasUsablePayload, withDerivedKind } from "@/lib/result-item-kind";
 import type { Asset } from "@/stores/use-asset-store";
 import type { CanvasNodeMetadata } from "@/types/canvas";
 
@@ -74,7 +74,8 @@ export function summarizeResultItems(items: readonly ToolTaskResultItem[]): Resu
         total: items.length,
         images: items.filter((item) => item.kind === "image").length,
         videos: items.filter((item) => item.kind === "video").length,
-        dropped: items.filter((item) => item.payloadDropped || (!item.dataUrl && !item.url && !item.blob)).length,
+        // 刷新后只剩 storageKey 的结果仍有真实字节（IndexedDB），不算丢。
+        dropped: items.filter((item) => !hasUsablePayload(item)).length,
     };
 }
 
@@ -119,11 +120,14 @@ export class ToolResultActionError extends Error {
     }
 }
 
-export function assertResultPayload(item: Pick<ToolTaskResultItem, "payloadDropped" | "dataUrl" | "url" | "blob">): void {
+export function assertResultPayload(
+    item: Pick<ToolTaskResultItem, "payloadDropped" | "dataUrl" | "url" | "blob" | "storageKey">,
+): void {
     if (item.payloadDropped) {
         throw new ToolResultActionError("payload-dropped", "结果字节已被持久化策略剥离（刷新后不保留原始文件），请重新生成后再保存。");
     }
-    if (!item.dataUrl && !item.url && !item.blob) {
+    // 刷新后的快照只有 storageKey（url 是失效的 blob:）：字节在 IndexedDB 里，不能判「没有结果文件」。
+    if (!hasUsablePayload(item)) {
         throw new ToolResultActionError("payload-missing", "上游没有返回可用的结果文件。");
     }
 }

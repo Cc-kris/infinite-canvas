@@ -1,0 +1,84 @@
+{
+  "kind": "result-recovery-e2e-receipt",
+  "at": "2026-10-29T14:32:16.823386+00:00",
+  "branch": "feat/linkfox-v1-real",
+  "toolId": "VIDEO_REPLICATION",
+  "taskId": "task-mvtk9pu3-sfifnh",
+  "source": {
+    "storageKey": "tool-result:4zwepLZTtpMan11tTGMKR",
+    "bytes": 1963716,
+    "mimeType": "video/mp4",
+    "sha256": "e5cd3158a67c86d6f79e578792f1351ee50c77cc78853113aa97b95564179afd",
+    "sha256RefCommit": "b85b13e"
+  },
+  "freshReload": {
+    "tile": {
+      "dataKind": "video",
+      "dataDropped": "false"
+    },
+    "summary": "共 1 个结果 · 视频 1",
+    "buttons": [
+      {
+        "action": "download",
+        "disabled": false
+      },
+      {
+        "action": "save",
+        "disabled": false
+      },
+      {
+        "action": "canvas",
+        "disabled": false
+      }
+    ]
+  },
+  "actions": {
+    "download": {
+      "pass": true,
+      "feedback": "已下载 video-replication-result-1.mp4",
+      "file": "~/Downloads/video-replication-result-1.mp4",
+      "bytes": 1963716,
+      "sha256": "e5cd3158a67c86d6f79e578792f1351ee50c77cc78853113aa97b95564179afd",
+      "sha256MatchesSource": true
+    },
+    "saveAsset": {
+      "pass": true,
+      "feedback": "已保存到资产库（A3ADQamjcXYza0iIYwuKe）",
+      "assetId": "A3ADQamjcXYza0iIYwuKe",
+      "assetStorageKey": "video:LWRlpmz8Q0pPAFP7K2q8e",
+      "bytes": 1963716,
+      "mimeType": "video/mp4",
+      "assetBlobSha256": "e5cd3158a67c86d6f79e578792f1351ee50c77cc78853113aa97b95564179afd",
+      "metadata": {
+        "taskId": "task-mvtk9pu3-sfifnh",
+        "resultItemId": "task-mvtk9pu3-sfifnh-0",
+        "toolId": "VIDEO_REPLICATION"
+      },
+      "persistedIn": "IndexedDB infinite-canvas/app_state -> infinite-canvas:asset_store"
+    },
+    "sendCanvas": {
+      "pass": true,
+      "feedback": "已发送到画布（Nq-osO1Eadag8X31JLGyL）",
+      "projectId": "Nq-osO1Eadag8X31JLGyL",
+      "projectTitle": "VIDEO_REPLICATION 结果",
+      "canvasNodeId": "video-1793284267434-g6jb5",
+      "nodeType": "video",
+      "nodeStorageKey": "video:mBRNkpOdPhc13pg5InPwj",
+      "nodeBytes": 1963716,
+      "naturalSize": "1280x720",
+      "persistedIn": "IndexedDB infinite-canvas/app_state -> infinite-canvas:canvas_store"
+    }
+  },
+  "verification": {
+    "tsc": "web/node_modules/.bin/tsc --noEmit -> clean",
+    "unit": "bun test src/components/tools/tool-result.test.tsx -> 32 pass / 0 fail / 160 expect()",
+    "noNewGeneration": true,
+    "note": "未新生成素材，未注入结果；三动作均消费 source.storageKey 的既有 1,963,716 字节"
+  },
+  "codeChanges": [
+    "web/src/components/tools/tool-result-actions.ts: assertResultPayload 用 hasUsablePayload（认 storageKey）；summarizeResultItems.dropped 同判据",
+    "web/src/components/tools/tool-result.tsx: useStoredResultUrl(storageKey→resolveMediaUrl) 恢复播放；dropped/downloadableIndexes 走 hasUsablePayload；ToolResult 用 pickRicherTaskSnapshot 合并 prop/store",
+    "web/src/lib/task-snapshot.ts: 新增 pickRicherTaskSnapshot（updatedAt 优先，同刻按 storageKey/url 富度）",
+    "web/src/components/tools/tool-result.test.tsx: storageKey-only 视频三动作 + 快照择优用例"
+  ]
+}

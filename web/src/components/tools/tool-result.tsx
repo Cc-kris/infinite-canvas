@@ -2,7 +2,11 @@ import { useEffect, useState } from "react";
 import { Download, DownloadCloud, FolderPlus, ImageOff, Images, Loader2, RotateCcw, Send, TriangleAlert } from "lucide-react";
 
 import { cn } from "@/lib/utils";
+import { hasUsablePayload } from "@/lib/result-item-kind";
+import { pickRicherTaskSnapshot } from "@/lib/task-snapshot";
+import { resolveMediaUrl } from "@/services/file-storage";
 import type { ToolTask, ToolTaskResultItem } from "@/services/api/tools/task-machine";
+import { useToolTaskStore } from "@/stores/use-tool-task-store";
 
 import {
     downloadResultItem,
@@ -43,6 +47,30 @@ function useBlobUrl(blob?: Blob): string | undefined {
     return url;
 }
 
+/**
+ * 刷新后快照里只剩 `storageKey`（url 是上一次会话的 blob:，早已失效）。
+ * 这里按 key 从 IndexedDB 取真实字节并复原可播放/可预览的地址，绝不构造任何内容。
+ */
+function useStoredResultUrl(storageKey?: string, fallback?: string): string | undefined {
+    const [url, setUrl] = useState<string>();
+    useEffect(() => {
+        if (!storageKey || fallback) {
+            setUrl(undefined);
+            return;
+        }
+        let cancelled = false;
+        void resolveMediaUrl(storageKey)
+            .then((resolved) => {
+                if (!cancelled && resolved) setUrl(resolved);
+            })
+            .catch(() => undefined);
+        return () => {
+            cancelled = true;
+        };
+    }, [storageKey, fallback]);
+    return url;
+}
+
 export type ToolResultActionOverrides = {
     download?: typeof downloadResultItem;
     saveToAssets?: typeof saveResultItemToAssets;
@@ -72,7 +100,11 @@ export type ToolResultProps = {
     emptyHint?: string;
 };
 
-export function ToolResult({ task, toolId = "tool", title = "生成结果", projectId, projectTitle, actions, onCancel, onRetry, onRetryItem, retryItemHint, now, className, emptyTitle = "还没有生成结果", emptyHint = "填好参数并提交后，结果会出现在这里，可预览、下载、存入资产库或发送到画布。" }: ToolResultProps) {
+export function ToolResult({ task: taskProp, toolId = "tool", title = "生成结果", projectId, projectTitle, actions, onCancel, onRetry, onRetryItem, retryItemHint, now, className, emptyTitle = "还没有生成结果", emptyHint = "填好参数并提交后，结果会出现在这里，可预览、下载、存入资产库或发送到画布。" }: ToolResultProps) {
+    // 任务库在 hydrate 后会把 storageKey 复原成新的对象 URL；工作台本地 state 是更早的副本，
+    // 只用它会把「字节在库」误判成「文件丢了」。取更完整的那份快照（不改数据来源）。
+    const liveTask = useToolTaskStore((state) => (taskProp?.id ? state.tasks[taskProp.id] : undefined));
+    const task = pickRicherTaskSnapshot(taskProp, liveTask);
     const view = resolveToolResultView(task);
     const items = resultItems(task);
     const summary = summarizeResultItems(items);
@@ -82,7 +114,7 @@ export function ToolResult({ task, toolId = "tool", title = "生成结果", proj
     const download = actions?.download ?? downloadResultItem;
     const saveToAssets = actions?.saveToAssets ?? saveResultItemToAssets;
     const sendToCanvas = actions?.sendToCanvas ?? sendResultItemToCanvas;
-    const downloadableIndexes = items.map((item, index) => ({ item, index })).filter(({ item }) => !item.payloadDropped && Boolean(item.blob ?? item.dataUrl ?? item.url)).map(({ index }) => index);
+    const downloadableIndexes = items.map((item, index) => ({ item, index })).filter(({ item }) => hasUsablePayload(item)).map(({ index }) => index);
     const canDownloadAll = view === "succeeded" && summary.total > 1 && downloadableIndexes.length > 1;
 
     const run = async (key: string, action: () => Promise<string>) => {
@@ -257,8 +289,10 @@ type ResultTileProps = {
 
 function ResultTile({ item, index, toolId, taskId, projectId, projectTitle, pending, download, saveToAssets, sendToCanvas, onRetryItem, retryItemHint, run }: ResultTileProps) {
     const blobUrl = useBlobUrl(item.blob);
-    const src = item.dataUrl ?? item.url ?? blobUrl;
-    const dropped = !src || item.payloadDropped;
+    const storedUrl = useStoredResultUrl(item.storageKey, item.dataUrl ?? item.url ?? blobUrl);
+    const src = item.dataUrl ?? item.url ?? blobUrl ?? storedUrl;
+    // storageKey 存在＝字节已落 IndexedDB：刷新后没有 url 也照样可下载/存资产/发画布，不能判成「上游未返回文件」。
+    const dropped = !hasUsablePayload(item);
     const busy = isItemPending(pending, index);
 
     return (

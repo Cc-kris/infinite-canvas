@@ -41,6 +41,7 @@ afterAll(() => {
 });
 
 const { ToolResult, resolveToolResultView, resultItems, summarizeResultItems, buildResultFileName, nextCanvasNodePosition, assertResultPayload, saveResultItemToAssets, downloadResultItem, downloadResultItems, sendResultItemToCanvas, ToolResultActionError, parseResultActionKey, isItemPending } = await import("./tool-result");
+const { pickRicherTaskSnapshot } = await import("@/lib/task-snapshot");
 const { TaskStatusPanel, taskStatusMeta, formatElapsed, describeTaskTiming, describeTaskNotice, TASK_STATUS_META } = await import("./task-status");
 const { CapabilityNotice, evaluateToolCapabilities, canSubmitWithCapabilities, TOOL_CAPABILITY_KEYS } = await import("./capability-notice");
 
@@ -266,6 +267,38 @@ describe("ToolResult states", () => {
         expect(html).toContain('data-dropped="true"');
         expect(html).toContain("刷新后原始文件未保留");
         expect(html).toContain('disabled=""');
+    });
+
+    test("刷新后只剩 storageKey 的视频结果仍然可下载/存资产/发画布", () => {
+        const restored = { id: "video-restored", kind: "video" as const, storageKey: "tool-result:4zwepLZTtpMan11tTGMKR", bytes: 1_963_716, mimeType: "video/mp4" };
+        const html = render(<ToolResult task={makeTask({ status: "succeeded", result: { items: [restored], receivedAt: 1 } })} toolId="VIDEO_REPLICATION" />);
+        expect(html).toContain('data-dropped="false"');
+        expect(html).not.toContain("上游未返回该结果的文件");
+        expect(html).not.toContain('disabled=""');
+        expect(summarizeResultItems([restored])).toEqual({ total: 1, images: 0, videos: 1, dropped: 0 });
+        // 真缺失（既无字节也无地址）才禁用
+        const missing = { id: "video-missing", kind: "video" as const, mimeType: "video/mp4", payloadDropped: false };
+        expect(summarizeResultItems([missing]).dropped).toBe(1);
+        assertResultPayload(restored);
+        let reason = "";
+        try {
+            assertResultPayload(missing);
+        } catch (error) {
+            reason = error instanceof ToolResultActionError ? error.reason : "unexpected";
+        }
+        expect(reason).toBe("payload-missing");
+    });
+
+    test("共享结果区优先采用任务库里更完整的快照（heal 后的 storageKey/对象 URL）", () => {
+        const stale = makeTask({ status: "succeeded", result: { items: [{ id: "v", kind: "video", mimeType: "video/mp4" }], receivedAt: 1 } });
+        const healed = makeTask({
+            status: "succeeded",
+            result: { items: [{ id: "v", kind: "video", mimeType: "video/mp4", storageKey: "tool-result:x", url: "blob:http://127.0.0.1:3000/restored", bytes: 10 }], receivedAt: 1 },
+        });
+        expect(pickRicherTaskSnapshot(stale, healed)?.result?.items[0].storageKey).toBe("tool-result:x");
+        expect(pickRicherTaskSnapshot(stale, null)).toEqual(stale);
+        expect(pickRicherTaskSnapshot(null, healed)).toEqual(healed);
+        expect(pickRicherTaskSnapshot(stale, { ...healed, id: "other" })).toEqual(stale);
     });
 
     test("surfaces failures with diagnostics and retry", () => {
