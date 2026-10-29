@@ -238,8 +238,18 @@ function withRequestDiagnosis(message: string, status: number | undefined, baseU
  */
 export type VideoSubmitSlot = "json" | "multipart";
 
+/**
+ * 参考图能否内联进 JSON。
+ * 实测 2026-10-29（sub2api / MiniMax-H3）：`images[]` 里的 data URL 会被上游采纳
+ * （usage.input_image_count=1），且与是否同时带源视频无关；源视频只能以公网 http(s) URL
+ * 走 `videos[]`。所以「有源视频就丢掉参考图」是错的，这里显式写成恒等判定并单测锁住。
+ */
+export function canInlineImagesToJson(imageCount: number): boolean {
+    return imageCount > 0;
+}
+
 export function planVideoSubmitPayloads(input: {
-    /** 参考图能否内联进 JSON（有 videos/audios 时为 false）。 */
+    /** 参考图能否内联进 JSON（由 canInlineImagesToJson 决定，与是否有源视频无关）。 */
     inlineImages: boolean;
     /** 本次请求是否带只存在于 multipart 的素材（源视频/音频）。 */
     mediaOnlyInMultipart: boolean;
@@ -321,8 +331,10 @@ async function createOpenAIVideoTask(config: AiConfig, model: string, prompt: st
     // 「'utf-8' codec can't decode byte 0x89」（后者即 multipart 的 PNG 二进制被当文本解码）。
     // 官方 OpenAI 只认 multipart，因此保持 multipart 优先；被 400/415 拒绝时再用 JSON 重发一次。
     // 图片可用 data URL 内联进 JSON（实测 sub2api 的 images[] 字段会被采用，usage.input_image_count=1），
-    // 视频/音频无法内联 —— 顺序由 planVideoSubmitPayloads 统一裁决，带源视频时只发 multipart。
-    const inlineImages = !videos.length && !audios.length && imageDataUrls.length > 0;
+    // 视频/音频无法内联 —— 顺序由 planVideoSubmitPayloads 统一裁决。
+    // 关键：参考图与源视频无关。旧实现写成「有视频就不内联图片」，导致源视频走 JSON 时参考图
+    // 被整包丢掉（VIDEO_REPLICATION 这类「商品图 + 参考视频」会静默退化成只用视频）。
+    const inlineImages = canInlineImagesToJson(imageDataUrls.length);
     const jsonFields: Record<string, unknown> = {
         model: modelOptionName(model),
         prompt,

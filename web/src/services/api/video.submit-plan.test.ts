@@ -22,9 +22,8 @@ if (!("localStorage" in globalThis)) {
     });
 }
 
-const { collectPublicVideoUrls, planVideoSubmitPayloads, relayMultipartRejectionHint } = await import(
-    "./video"
-);
+const { canInlineImagesToJson, collectPublicVideoUrls, planVideoSubmitPayloads, relayMultipartRejectionHint } =
+    await import("./video");
 
 const SUB2API_MULTIPART_400 =
     "'utf-8' codec can't decode byte 0xe8 in position 1614: invalid continuation byte";
@@ -84,5 +83,26 @@ describe("relayMultipartRejectionHint", () => {
     it("其它错误不加提示", () => {
         expect(relayMultipartRejectionHint(500, SUB2API_MULTIPART_400)).toBe("");
         expect(relayMultipartRejectionHint(400, "model not found")).toBe("");
+    });
+});
+
+describe("canInlineImagesToJson · 参考图与源视频解耦", () => {
+    it("有参考图就内联（与是否带源视频无关）——旧实现「带视频就丢图」是 bug", () => {
+        expect(canInlineImagesToJson(1)).toBe(true);
+        expect(canInlineImagesToJson(3)).toBe(true);
+    });
+
+    it("没有参考图时不内联", () => {
+        expect(canInlineImagesToJson(0)).toBe(false);
+    });
+
+    it("商品图 + 公网源视频：先发 JSON，图片和视频都在同一个 JSON 里", () => {
+        const plan = planVideoSubmitPayloads({
+            inlineImages: canInlineImagesToJson(1),
+            mediaOnlyInMultipart: false,
+            relayHost: true,
+            inlineVideos: true,
+        });
+        expect(plan.order[0]).toBe("json");
     });
 });
