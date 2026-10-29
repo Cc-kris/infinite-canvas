@@ -1,0 +1,114 @@
+[
+  {
+    "recvAt": "2026-10-29T21:28:58+0800",
+    "at": "2026-10-29T13:28:54.972Z",
+    "httpStatus": 200,
+    "ms": 3544,
+    "upstreamStatus": "pending",
+    "progress": 0.8333333333333334,
+    "upstreamId": "task_2JtjPzuJuUBegKsPPvQoQWrXCdGt5B9G",
+    "local": {
+      "status": "running",
+      "pollCount": 146,
+      "updatedAt": 1793280536310,
+      "hasResult": false
+    },
+    "raw": "{\"id\":\"task_2JtjPzuJuUBegKsPPvQoQWrXCdGt5B9G\",\"request_id\":\"task_2JtjPzuJuUBegKsPPvQoQWrXCdGt5B9G\",\"model\":\"MiniMax-H3\",\"status\":\"pending\",\"progress\":0.8333333333333334}"
+  },
+  {
+    "recvAt": "2026-10-29T21:29:01+0800",
+    "at": "2026-10-29T13:29:00.464Z",
+    "httpStatus": 200,
+    "ms": 1347,
+    "upstreamStatus": "pending",
+    "progress": 0.8333333333333334,
+    "upstreamId": "task_2JtjPzuJuUBegKsPPvQoQWrXCdGt5B9G",
+    "local": {
+      "status": "running",
+      "pollCount": 146,
+      "updatedAt": 1793280536310,
+      "hasResult": false
+    },
+    "raw": "{\"id\":\"task_2JtjPzuJuUBegKsPPvQoQWrXCdGt5B9G\",\"request_id\":\"task_2JtjPzuJuUBegKsPPvQoQWrXCdGt5B9G\",\"model\":\"MiniMax-H3\",\"status\":\"pending\",\"progress\":0.8333333333333334}"
+  },
+  {
+    "recvAt": "2026-10-29T21:29:07+0800",
+    "at": "2026-10-29T13:29:05.461Z",
+    "httpStatus": 200,
+    "ms": 1742,
+    "upstreamStatus": "pending",
+    "progress": 0.8333333333333334,
+    "upstreamId": "task_2JtjPzuJuUBegKsPPvQoQWrXCdGt5B9G",
+    "local": {
+      "status": "running",
+      "pollCount": 147,
+      "updatedAt": 1793280545152,
+      "hasResult": false
+    },
+    "raw": "{\"id\":\"task_2JtjPzuJuUBegKsPPvQoQWrXCdGt5B9G\",\"request_id\":\"task_2JtjPzuJuUBegKsPPvQoQWrXCdGt5B9G\",\"model\":\"MiniMax-H3\",\"status\":\"pending\",\"progress\":0.8333333333333334}"
+  },
+  {
+    "recvAt": "2026-10-29T21:29:20+0800",
+    "at": "2026-10-29T13:29:10.463Z",
+    "httpStatus": 200,
+    "ms": 9667,
+    "upstreamStatus": "pending",
+    "progress": 0.8333333333333334,
+    "upstreamId": "task_2JtjPzuJuUBegKsPPvQoQWrXCdGt5B9G",
+    "local": {
+      "status": "running",
+      "pollCount": 148,
+      "updatedAt": 1793280555539,
+      "hasResult": false
+    },
+    "raw": "{\"id\":\"task_2JtjPzuJuUBegKsPPvQoQWrXCdGt5B9G\",\"request_id\":\"task_2JtjPzuJuUBegKsPPvQoQWrXCdGt5B9G\",\"model\":\"MiniMax-H3\",\"status\":\"pending\",\"progress\":0.8333333333333334}"
+  },
+  {
+    "recvAt": "2026-10-29T21:29:23+0800",
+    "at": "2026-10-29T13:29:15.463Z",
+    "httpStatus": 200,
+    "ms": 7702,
+    "upstreamStatus": "pending",
+    "progress": 0.8333333333333334,
+    "upstreamId": "task_2JtjPzuJuUBegKsPPvQoQWrXCdGt5B9G",
+    "local": {
+      "status": "running",
+      "pollCount": 149,
+      "updatedAt": 1793280561870,
+      "hasResult": false
+    },
+    "raw": "{\"id\":\"task_2JtjPzuJuUBegKsPPvQoQWrXCdGt5B9G\",\"request_id\":\"task_2JtjPzuJuUBegKsPPvQoQWrXCdGt5B9G\",\"model\":\"MiniMax-H3\",\"status\":\"pending\",\"progress\":0.8333333333333334}"
+  },
+  {
+    "recvAt": "2026-10-29T21:29:24+0800",
+    "at": "2026-10-29T13:29:20.463Z",
+    "httpStatus": 200,
+    "ms": 4079,
+    "upstreamStatus": "pending",
+    "progress": 0.8333333333333334,
+    "upstreamId": "task_2JtjPzuJuUBegKsPPvQoQWrXCdGt5B9G",
+    "local": {
+      "status": "running",
+      "pollCount": 149,
+      "updatedAt": 1793280561870,
+      "hasResult": false
+    },
+    "raw": "{\"id\":\"task_2JtjPzuJuUBegKsPPvQoQWrXCdGt5B9G\",\"request_id\":\"task_2JtjPzuJuUBegKsPPvQoQWrXCdGt5B9G\",\"model\":\"MiniMax-H3\",\"status\":\"pending\",\"progress\":0.8333333333333334}"
+  },
+  {
+    "recvAt": "2026-10-29T21:29:27+0800",
+    "at": "2026-10-29T13:29:25.461Z",
+    "httpStatus": 200,
+    "ms": 1640,
+    "upstreamStatus": "pending",
+    "progress": 0.8333333333333334,
+    "upstreamId": "task_2JtjPzuJuUBegKsPPvQoQWrXCdGt5B9G",
+    "local": {
+      "status": "running",
+      "pollCount": 149,
+      "updatedAt": 1793280565830,
+      "hasResult": false
+    },
+    "raw": "{\"id\":\"task_2JtjPzuJuUBegKsPPvQoQWrXCdGt5B9G\",\"request_id\":\"task_2JtjPzuJuUBegKsPPvQoQWrXCdGt5B9G\",\"model\":\"MiniMax-H3\",\"status\":\"pending\",\"progress\":0.8333333333333334}"
+  }
+]
