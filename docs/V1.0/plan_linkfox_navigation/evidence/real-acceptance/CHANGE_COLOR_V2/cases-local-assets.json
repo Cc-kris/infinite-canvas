@@ -1,0 +1,149 @@
+[
+ {
+  "id": "2069709136760979456",
+  "source": "/__cases/color-v2/2069709136760979456-source.jpg",
+  "result": "/__cases/color-v2/2069709136760979456-r.jpg",
+  "ext": {
+   "colorSubject": "上装",
+   "colors": [
+    "#EB88A0"
+   ]
+  }
+ },
+ {
+  "id": "2069708039199703040",
+  "source": "/__cases/color-v2/2069708039199703040-source.jpg",
+  "result": "/__cases/color-v2/2069708039199703040-r.jpg",
+  "ext": {
+   "colorSubject": "头发",
+   "colors": [
+    "#D1521B"
+   ]
+  }
+ },
+ {
+  "id": "2069701719159521280",
+  "source": "/__cases/color-v2/2069701719159521280-source.jpg",
+  "result": "/__cases/color-v2/2069701719159521280-r.jpg",
+  "ext": {
+   "colorSubject": "包身、包带",
+   "colors": [
+    "#C23E3E"
+   ]
+  }
+ },
+ {
+  "id": "2069701694094360576",
+  "source": "/__cases/color-v2/2069701694094360576-source.jpg",
+  "result": "/__cases/color-v2/2069701694094360576-r.jpg",
+  "ext": {
+   "colorSubject": "电竞椅",
+   "colors": [
+    "#CF8F46"
+   ]
+  }
+ },
+ {
+  "id": "2069701670895665152",
+  "source": "/__cases/color-v2/2069701670895665152-source.jpg",
+  "result": "/__cases/color-v2/2069701670895665152-r.jpg",
+  "ext": {
+   "colorSubject": "上装",
+   "colors": [
+    "#4264C2"
+   ]
+  }
+ },
+ {
+  "id": "2069701649789927424",
+  "source": "/__cases/color-v2/2069701649789927424-source.jpg",
+  "result": "/__cases/color-v2/2069701649789927424-r.jpg",
+  "ext": {
+   "colorSubject": "表带",
+   "colors": [
+    "#FFFFFF"
+   ]
+  }
+ },
+ {
+  "id": "2069702668275990528",
+  "source": "/__cases/color-v2/2069702668275990528-source.jpg",
+  "result": "/__cases/color-v2/2069702668275990528-r.jpg",
+  "ext": {
+   "colorSubject": "上装",
+   "colors": [
+    "#88ACEC",
+    "#EB88A0",
+    "#90CCAF"
+   ]
+  }
+ },
+ {
+  "id": "2069702584540905472",
+  "source": "/__cases/color-v2/2069702584540905472-source.jpg",
+  "result": "/__cases/color-v2/2069702584540905472-r.jpg",
+  "ext": {
+   "colorSubject": "上装、下装",
+   "colors": [
+    "#90CCAF"
+   ]
+  }
+ },
+ {
+  "id": "2069697783476305920",
+  "source": "/__cases/color-v2/2069697783476305920-source.jpg",
+  "result": "/__cases/color-v2/2069697783476305920-r.jpg",
+  "ext": {
+   "colorSubject": "车身",
+   "colors": [
+    "#E48F9E",
+    "#99E38F"
+   ]
+  }
+ },
+ {
+  "id": "2069697726140170240",
+  "source": "/__cases/color-v2/2069697726140170240-source.jpg",
+  "result": "/__cases/color-v2/2069697726140170240-r.jpg",
+  "ext": {
+   "colorSubject": "袖子",
+   "colors": [
+    "#E48F9E",
+    "#99E38F"
+   ]
+  }
+ },
+ {
+  "id": "2069697672071397376",
+  "source": "/__cases/color-v2/2069697672071397376-source.jpg",
+  "result": "/__cases/color-v2/2069697672071397376-r.jpg",
+  "ext": {
+   "colorSubject": "门栏",
+   "colors": [
+    "#4262C2"
+   ]
+  }
+ },
+ {
+  "id": "2069697624348606464",
+  "source": "/__cases/color-v2/2069697624348606464-source.jpg",
+  "result": "/__cases/color-v2/2069697624348606464-r.jpg",
+  "ext": {
+   "colorSubject": "内搭",
+   "colors": [
+    "#D9A330"
+   ]
+  }
+ },
+ {
+  "id": "2068993868619366400",
+  "source": "/__cases/color-v2/2068993868619366400-source.jpg",
+  "result": "/__cases/color-v2/2068993868619366400-r.jpg",
+  "ext": {
+   "colorSubject": "外壳",
+   "colors": [
+    "#15FF00"
+   ]
+  }
+ }
+]

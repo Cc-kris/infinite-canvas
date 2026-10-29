@@ -1,0 +1,1120 @@
+[
+ {
+  "id": "2026855585971982336",
+  "source": "/__cases/product-image-suite/2026855585971982336-source.jpg",
+  "result": "/__cases/product-image-suite/2026855585971982336-r.jpg",
+  "ext": {
+   "APlusNum": 4,
+   "aspectRatio": "3:4",
+   "brandKey": {
+    "brandColor": "",
+    "brandName": "",
+    "customSettings": "",
+    "fontStyle": "",
+    "language": "意大利语",
+    "platform": "亚马逊",
+    "salesRegion": "欧洲"
+   },
+   "brandName": "未命名品牌基因",
+   "configData": {
+    "aPlusConfig": {
+     "sceneType": {
+      "A+": {
+       "checked": true,
+       "num": 4
+      },
+      "APlusHasPhone": {
+       "checked": false,
+       "num": 4
+      },
+      "APlusPro": {
+       "checked": false,
+       "num": 4
+      },
+      "custom": {
+       "checked": false,
+       "num": 4
+      }
+     }
+    },
+    "brandDNA": {
+     "brandColor": "",
+     "brandName": "",
+     "customSettings": "",
+     "fontStyle": "",
+     "language": "意大利语",
+     "platform": "亚马逊",
+     "salesRegion": "欧洲"
+    },
+    "mainConfig": {
+     "aspectRatio": "3:4",
+     "modelType": "pro",
+     "sceneType": {
+      "sellPoint": {
+       "checked": true,
+       "num": 4
+      },
+      "whiteBg": {
+       "checked": false,
+       "num": 4
+      }
+     }
+    }
+   },
+   "imageList": [
+    {
+     "imageUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/PRODUCT_MARKET_MATERIAL_V2/2026855585971982336/image_list_0.jpg"
+    }
+   ],
+   "isPro": true,
+   "sellerPoint": "[产品名称]：自动速开双人户外露营帐篷\n[目标受众]：户外露营新手、家庭亲子野餐、海滩防晒休憩，适用于1-2人快速露营或临时休息。\n[卖点描述]：INSTANT SETUP 设计，实现秒速自动打开，无需复杂安装；双门结构（D-Shaped Doors）和顶部通风帽设计，确保最大化通风透气；内部空间宽敞，可容纳一个双人睡垫。\n[材质描述]：外部面料采用防水耐磨的190T Polyester Taffeta，具有优秀的抗紫外线和PU涂层防水性能；内置高强度弹性纤维杆（Fiberglass Poles），保证弹出结构的稳定性和韧性；采用军绿色和深灰色的双色拼接，时尚且耐脏。\n[使用方式]：1. 从收纳袋中取出帐篷，解开外部捆绑扣。2. 将帐篷平放在地面或轻轻抛向空中，内部张力杆会自动展开形成完整形态。3. 使用地钉（Tent Stakes）固定四个角，并拉紧橙色防风拉绳（Guy Lines）增强抗风性。4. 使用双向拉链打开侧面或前后的D形门。5. 收纳时，需按说明书指示，抓住对角，将弹性支架扭转并交叉对折，放回圆形收纳包。\n[产品类目]：Sports & Outdoors > Outdoor Recreation > Camping & Hiking > Tents & Shelters > Tents",
+   "sellerTypeNum": 4
+  }
+ },
+ {
+  "id": "2026854347385622528",
+  "source": "/__cases/product-image-suite/2026854347385622528-source.jpg",
+  "result": "/__cases/product-image-suite/2026854347385622528-r.jpg",
+  "ext": {
+   "APlusNum": 5,
+   "aPlusStyles": [
+    {
+     "id": "2015990350331543552",
+     "imageThumbUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/c016d5b33e6b4b9fb9c10e2d41046c6e.png?Expires=1793281293&OSSAccessKeyId=LTAI5tQMD3UtDGPmMJRik6JA&Signature=sU2ZNQjtZtHZfPq%2B1LUNtut7%2Fho%3D&x-oss-process=image%2Fresize%2Cm_mfit%2Cw_512%2Ch_512",
+     "imageUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/c016d5b33e6b4b9fb9c10e2d41046c6e.png",
+     "imageUrlThumb": "https://file-ai.linkfox.com/UPLOAD/MANAGE/c016d5b33e6b4b9fb9c10e2d41046c6e.png?Expires=1793281293&OSSAccessKeyId=LTAI5tQMD3UtDGPmMJRik6JA&Signature=sU2ZNQjtZtHZfPq%2B1LUNtut7%2Fho%3D&x-oss-process=image%2Fresize%2Cm_mfit%2Cw_512%2Ch_512",
+     "materialSource": 2,
+     "prompt": "- A7 Type 7: 核心辐射式全景分析\n  - 图形逻辑： 🔴 DISABLED (禁用变量三). 卡片本身即为容器结构。\n  -布局：核心辐射式全景分析 (Central Radial Panoramic Analysis)。背景是一张产品的使用场景图（建议采用上帝视角 Top-Down View 或 45度悬浮视角），产品在画面最中心，作为绝对的视觉锚点。画面四周（左右两侧或四周）分布 2-4 个“信息块”，信息块可以是图片也可以是图片与文字。信息块里的文字必须是简短简约的一句话，这些信息块绝对不能有箭头和指向线条。这些信息块具有极高的兼容性：可以是具象的参照物，也可以是功能模块。\n-文本：居中置顶标题，内容是概括性的标题",
+     "style": "A7",
+     "tabType": "1"
+    },
+    {
+     "id": "2015990512525279232",
+     "imageThumbUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/345cc5e1ef2845f2835f96d37de8c7e6.png?Expires=1793279097&OSSAccessKeyId=LTAI5tQMD3UtDGPmMJRik6JA&Signature=ooCbFag8af%2F0Onq%2BI2X8KZHaKKc%3D&x-oss-process=image%2Fresize%2Cm_mfit%2Cw_512%2Ch_512",
+     "imageUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/345cc5e1ef2845f2835f96d37de8c7e6.png",
+     "imageUrlThumb": "https://file-ai.linkfox.com/UPLOAD/MANAGE/345cc5e1ef2845f2835f96d37de8c7e6.png?Expires=1793279097&OSSAccessKeyId=LTAI5tQMD3UtDGPmMJRik6JA&Signature=ooCbFag8af%2F0Onq%2BI2X8KZHaKKc%3D&x-oss-process=image%2Fresize%2Cm_mfit%2Cw_512%2Ch_512",
+     "materialSource": 2,
+     "prompt": "- A8 Type 8: 沉浸式性能感知全景\n  - 图形逻辑： 🔴 DISABLED (禁用变量三). 卡片本身即为容器结构。\n  -布局：沉浸式性能感知全景 (Immersive Performance Visualization)。采用虚实结合的宽幅电影级构图。背景需构建一个高品质的生活场景，商品主体在画面的一侧 (Cinematic Lifestyle Scene)，利用大光圈制造强烈的景深虚化 (Deep Bokeh)。产品主体以写实状态置于前景的实体平面上（如台面、地面），确保投影真实。文字必须垂直居中。",
+     "style": "A8",
+     "tabType": "1"
+    },
+    {
+     "id": "2019369286763671552",
+     "imageThumbUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/ea4f7329ee5c433facb989719fa6edd0.png?Expires=1793279097&OSSAccessKeyId=LTAI5tQMD3UtDGPmMJRik6JA&Signature=7V%2BxIOlejeswMUmHTJex3Qx8%2Bvw%3D&x-oss-process=image%2Fresize%2Cm_mfit%2Cw_512%2Ch_512",
+     "imageUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/ea4f7329ee5c433facb989719fa6edd0.png",
+     "imageUrlThumb": "https://file-ai.linkfox.com/UPLOAD/MANAGE/ea4f7329ee5c433facb989719fa6edd0.png?Expires=1793279097&OSSAccessKeyId=LTAI5tQMD3UtDGPmMJRik6JA&Signature=7V%2BxIOlejeswMUmHTJex3Qx8%2Bvw%3D&x-oss-process=image%2Fresize%2Cm_mfit%2Cw_512%2Ch_512",
+     "materialSource": 2,
+     "prompt": "【C 模块16: Lifestyle Application / 生活化场景展示】 \n对标卖点: [引用最能体现服装风格或整体穿着体验的卖点] \n视觉构图描述: ② 不规则艺术拼贴: 【由2-3张不同尺寸的图片构成，图片之间有轻微重叠或留白，形成动态感和层次感。】 图中必须为[明确指出性别，如“欧美男模特”或“欧美女模特”】\nText on Image ****(Must be in Target Language): \nHeadline: \"[根据目标语言撰写吸引人的标题]\" \nBody: \"[根据目标语言撰写利益点文案]\" \n... (根据所选版式调整) \n背景与颜色建议: [优先采用用户定义的字体和主色调。若无，则根据服装风格建议字体和主色调。背景建议: 展示穿搭的生活方式图]\nC模块17",
+     "style": "A商品-C16",
+     "tabType": "1"
+    },
+    {
+     "id": "2019369079099486208",
+     "imageThumbUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/9f8e997b7e6b4c548c0f6899d5d1faa1.png?Expires=1793281293&OSSAccessKeyId=LTAI5tQMD3UtDGPmMJRik6JA&Signature=Bpat6xrDWZx53jcIPDHFSwmEiuk%3D&x-oss-process=image%2Fresize%2Cm_mfit%2Cw_512%2Ch_512",
+     "imageUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/9f8e997b7e6b4c548c0f6899d5d1faa1.png",
+     "imageUrlThumb": "https://file-ai.linkfox.com/UPLOAD/MANAGE/9f8e997b7e6b4c548c0f6899d5d1faa1.png?Expires=1793281293&OSSAccessKeyId=LTAI5tQMD3UtDGPmMJRik6JA&Signature=Bpat6xrDWZx53jcIPDHFSwmEiuk%3D&x-oss-process=image%2Fresize%2Cm_mfit%2Cw_512%2Ch_512",
+     "materialSource": 2,
+     "prompt": "【C 模块15: Lifestyle Application / 生活化场景展示】\n对标卖点: [引用最能体现服装风格或整体穿着体验的卖点] \n视觉构图描述:  全宽高清横幅图: 一张充满故事感的单场景大图，模特自然融入其中。 图中必须为[明确指出性别，如“欧美男模特”或“欧美女模特”】 \nText on Image ****(Must be in Target Language): \nHeadline: \"[根据目标语言撰写吸引人的标题]\" \nBody: \"[根据目标语言撰写利益点文案]\" \n... (根据所选版式调整) \n背景与颜色建议: [优先采用用户定义的字体和主色调。若无，则根据服装风格建议字体和主色调。背景建议: 展示穿搭的生活方式图]",
+     "style": "A商品-C15",
+     "tabType": "1"
+    },
+    {
+     "id": "2019367809265561600",
+     "imageThumbUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/2ea892f104a64b1ebb16fe0d96fb0ce3.png?Expires=1793281293&OSSAccessKeyId=LTAI5tQMD3UtDGPmMJRik6JA&Signature=bN2FqXQnltk5ztonH0H7XUw3AxM%3D&x-oss-process=image%2Fresize%2Cm_mfit%2Cw_512%2Ch_512",
+     "imageUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/2ea892f104a64b1ebb16fe0d96fb0ce3.png",
+     "imageUrlThumb": "https://file-ai.linkfox.com/UPLOAD/MANAGE/2ea892f104a64b1ebb16fe0d96fb0ce3.png?Expires=1793281293&OSSAccessKeyId=LTAI5tQMD3UtDGPmMJRik6JA&Signature=bN2FqXQnltk5ztonH0H7XUw3AxM%3D&x-oss-process=image%2Fresize%2Cm_mfit%2Cw_512%2Ch_512",
+     "materialSource": 2,
+     "prompt": "[无缝隐式分区]\n非对称垂直二分网格，通过右侧情景图和左侧模块化细节图形成高对比度的视觉布局。\n[空间分割]\n右侧情景主图采用Full Bleed（满版出血）设计，占据约60%的版面；左侧为纯白背景的功能细节展示区，占据约40%的版面。左侧细节区内部再使用三块矩形模块进行垂直布局。\n[视觉层级]: 视觉重心首先落在右侧高情绪价值的全身情景图，然后被引导至左侧的垂直细节模块进行产品特征的深入展示。顶部和底部的文字信息作为辅助点缀。\n[负空间逻辑]negative_space_logic: 右侧主图采用沉浸式满版设计，几乎无留白。左侧模块区域则通过背景色与细节图之间的隔离，营造干净、清晰的信息展示空间。\n[占位容器]:\n右侧60%：模特穿着[PRODUCT_TYPE]在户外休闲场景中坐姿全身展示。\n左侧40%：在左上象限叠加大型复古衬线字体作为主标题，主标题必须包裹在空白背景中，严禁叠加遮挡右侧图片，左侧 40% 区域是一个简洁的白色模块化网格面板，其中包含三张垂直堆叠的 [PRODUCT_TYPE] 的紧凑裁剪细节图，重点突出 [PRODUCT_DETAILS] 和 [INSERT_PRODUCT_TEXTURE]。\n底部：横跨左右两侧的页脚条，页脚文本为简洁的要点式功能列表，文本单排严禁换行。\n[字体]:主标题使用大型衬线字体（Serif Font）强调品质和复古感；信息摘要使用简洁的【字体风格】。\n [全局限制]: Strictly NO borders, NO grid lines, NO frames, NO divider lines. (严格无边框、无网格线、无画框、无分割线)。所有元素通过留白和构图自然分隔。",
+     "style": "A商品-M9",
+     "tabType": "1"
+    }
+   ],
+   "aspectRatio": "3:4",
+   "brandKey": {
+    "brandColor": "",
+    "brandName": "",
+    "customSettings": "",
+    "fontStyle": "",
+    "language": "意大利语",
+    "platform": "亚马逊",
+    "salesRegion": "欧洲"
+   },
+   "brandName": "未命名品牌基因",
+   "configData": {
+    "aPlusConfig": {
+     "sceneType": {
+      "A+": {
+       "checked": true,
+       "num": 5
+      },
+      "APlusHasPhone": {
+       "checked": false,
+       "num": 5
+      },
+      "APlusPro": {
+       "checked": false,
+       "num": 5
+      },
+      "custom": {
+       "checked": false,
+       "num": 5
+      }
+     }
+    },
+    "brandDNA": {
+     "brandColor": "",
+     "brandName": "",
+     "customSettings": "",
+     "fontStyle": "",
+     "language": "意大利语",
+     "platform": "亚马逊",
+     "salesRegion": "欧洲"
+    },
+    "mainConfig": {
+     "aspectRatio": "3:4",
+     "modelType": "pro",
+     "sceneType": {
+      "sellPoint": {
+       "checked": true,
+       "num": 4
+      },
+      "whiteBg": {
+       "checked": false,
+       "num": 4
+      }
+     }
+    }
+   },
+   "imageList": [
+    {
+     "imageUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/PRODUCT_MARKET_MATERIAL_V2/2026854347385622528/image_list_0.jpg"
+    }
+   ],
+   "isPro": true,
+   "pointStyles": [
+    {
+     "id": "2015992349181640704",
+     "imageThumbUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/5655ba4580bb469f9a060e3b2312df15.jpg?Expires=1793279097&OSSAccessKeyId=LTAI5tQMD3UtDGPmMJRik6JA&Signature=7nggu%2BQInEKu9R8FPSMK9eJTaUI%3D&x-oss-process=image%2Fresize%2Cm_mfit%2Cw_512%2Ch_512",
+     "imageUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/5655ba4580bb469f9a060e3b2312df15.jpg",
+     "imageUrlThumb": "https://file-ai.linkfox.com/UPLOAD/MANAGE/5655ba4580bb469f9a060e3b2312df15.jpg?Expires=1793279097&OSSAccessKeyId=LTAI5tQMD3UtDGPmMJRik6JA&Signature=7nggu%2BQInEKu9R8FPSMK9eJTaUI%3D&x-oss-process=image%2Fresize%2Cm_mfit%2Cw_512%2Ch_512",
+     "materialSource": 2,
+     "prompt": "- L6 结构分层解析 (Stratified Structural Analysis)\n\n-图形逻辑： 创造出多层悬浮的 3D 结构分解效果；🔴 DISABLED (禁用变量三)。\n\n-布局：极度写实。 采用严格的等距或 3/4 高角度俯视。主体产品材料分解为 3-5 个清晰分离的结构层次。每个层次必须精确展示商品内部材料、结构或关键技术点，严禁出现抽象或概念性图形，所有层次需保持在清晰、静态的垂直对齐关系上。光线必须是精确、均匀的摄影棚照明，用于突出材料的质感和边缘细节。 排版要求：为文本留出空间，产品位于视觉中心 整体视觉要求：高级产品渲染的质感（不能有卡通元素的）。\n\n-内容细节：每个层次必须无损地展现内部结构、材料剖面、核心技术元件（如：定制电路板、精密机械部件、芯片布局或特定合金材质）。通过逻辑推理，基于输入的图片进行和信息进行克制的推理，分配爆炸层次。要求细节达到工程图纸级别，不可有任何抽象图形、概念化元素或模糊处理。",
+     "style": "L6",
+     "tabType": "1"
+    },
+    {
+     "id": "2015992441892536320",
+     "imageThumbUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/6191ad2e348443a7a13198828e15c45b.png?Expires=1793279097&OSSAccessKeyId=LTAI5tQMD3UtDGPmMJRik6JA&Signature=hp0QCWfBNTRDDQtTVjbO7fdWusk%3D&x-oss-process=image%2Fresize%2Cm_mfit%2Cw_512%2Ch_512",
+     "imageUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/6191ad2e348443a7a13198828e15c45b.png",
+     "imageUrlThumb": "https://file-ai.linkfox.com/UPLOAD/MANAGE/6191ad2e348443a7a13198828e15c45b.png?Expires=1793279097&OSSAccessKeyId=LTAI5tQMD3UtDGPmMJRik6JA&Signature=hp0QCWfBNTRDDQtTVjbO7fdWusk%3D&x-oss-process=image%2Fresize%2Cm_mfit%2Cw_512%2Ch_512",
+     "materialSource": 2,
+     "prompt": "- L7 使用场景搭配\n -图形逻辑： 🔴 DISABLED (禁用变量三)。\n-视觉构图描述:采用\\\\\\*\\\\\\*Flat Lay（垂直俯拍）\\\\\\*\\\\\\*构图。\n-主体: 商品主体自然摆放，占据画面中心视觉点，要更加自然，符合常理；配角: 周围搭配与商品互补的其他生活用品或商品，互补物品不出现重复；--背景: 根据商品的使用场景，使用有质感的背景底纹，如做旧的白色木纹（White Distressed Wood）或浅灰水泥纹等待；光线: 柔和的顶光，模拟自然日光，投影柔和。文本只需要主标题即可。",
+     "style": "L7",
+     "tabType": "1"
+    },
+    {
+     "id": "2015991624410103808",
+     "imageThumbUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/a2c3082f238b4fbbb75035b5d12a1afe.jpg?Expires=1793281293&OSSAccessKeyId=LTAI5tQMD3UtDGPmMJRik6JA&Signature=s4GnPT2PvloCcXrsjwHPn7VIlTk%3D&x-oss-process=image%2Fresize%2Cm_mfit%2Cw_512%2Ch_512",
+     "imageUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/a2c3082f238b4fbbb75035b5d12a1afe.jpg",
+     "imageUrlThumb": "https://file-ai.linkfox.com/UPLOAD/MANAGE/a2c3082f238b4fbbb75035b5d12a1afe.jpg?Expires=1793281293&OSSAccessKeyId=LTAI5tQMD3UtDGPmMJRik6JA&Signature=s4GnPT2PvloCcXrsjwHPn7VIlTk%3D&x-oss-process=image%2Fresize%2Cm_mfit%2Cw_512%2Ch_512",
+     "materialSource": 2,
+     "prompt": "- L4 元素衍生物形态布局 (Element Derivative Shape Layout):\n  -图形逻辑： 🔴 DISABLED (禁用变量三).\n  - 色块的形状直接源于产品本身的形态或功能特性。例如，对于一款风扇，色块可以是吹出的“气流”形状；对于一款香水，色块可以是挥发出的“香氛轨迹”，色块的起点可以考虑和商品的使用方式有关联。卖点文字沿着此衍生物形态的走向进行排版，实现产品、创意与信息的完美融合，极具巧思，不要强加这个效果，只有当商品能产生气体时可以用。如果不契合的商品使用这个效果，一定要以画面合理、具有美感优先布局。图片为使用场景图。",
+     "style": "L4",
+     "tabType": "1"
+    },
+    {
+     "id": "2019366458022195200",
+     "imageThumbUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/b02827e016c54bcfbd961c0671863443.png?Expires=1793279097&OSSAccessKeyId=LTAI5tQMD3UtDGPmMJRik6JA&Signature=Fi%2FNIXQBpTNPcr8vXuLz8x%2BKQlI%3D&x-oss-process=image%2Fresize%2Cm_mfit%2Cw_512%2Ch_512",
+     "imageUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/b02827e016c54bcfbd961c0671863443.png",
+     "imageUrlThumb": "https://file-ai.linkfox.com/UPLOAD/MANAGE/b02827e016c54bcfbd961c0671863443.png?Expires=1793279097&OSSAccessKeyId=LTAI5tQMD3UtDGPmMJRik6JA&Signature=Fi%2FNIXQBpTNPcr8vXuLz8x%2BKQlI%3D&x-oss-process=image%2Fresize%2Cm_mfit%2Cw_512%2Ch_512",
+     "materialSource": 2,
+     "prompt": "[核心构图]： 智能采用非对称的60-40分割布局 / 中心对称的构图。\n主题：沉浸式的主题铺满画布，放置高清的人物主体，背景进行模拟相机焦距虚化（Bokeh）处理，突出人物轮廓。\n字体留白：如选择60-40分割，利用背景的留白（如天空、虚化的草地/墙面）作为文字排版区，如选择中心对称的构图，字体叠加在画面中央\n[排版策略 - 字体混搭]： 必须使用**“信息层级混排”**逻辑来营造高级感：\n信息层（衬线/黑体）：使用庄重的粗衬线体 (Serif) 或 超粗无衬线体 书写产品核心词（如 COAT, BOOTS）。\n氛围层（手写体）：智能使用，飘逸的英文手写体 (Script) / 极细的衬线体 作为装饰，书写形容词或品牌名（如 Vintage, Luxury, Summer）。\n[光影与层次]：\n强调自然光/夕阳光感，避免生硬的抠图感。\n限制：\n1. 必须展示模特上身效果，禁止裁切头部",
+     "style": "L商品-M1",
+     "tabType": "1"
+    }
+   ],
+   "sellerPoint": "[产品名称]：空气净化器 \n[目标受众]：卧室/桌面用户，适用于小型房间（如办公室、宿舍、书房），净化PM2.5、花粉、灰尘和宠物皮屑。\n[卖点描述]：采用3合1过滤系统（初滤网+True HEPA+活性炭），有效捕获99.97%的PM2.5；360°环绕式进风设计，确保高效净化和快速换气；具备低噪音运行模式（Sleep Mode），不干扰睡眠；小巧机身（Space-saving），易于放置在桌面或床头柜。\n[材质描述]：优质哑光白色ABS塑料机身，抗污耐用；底部高密度点阵式进风孔设计，美观且确保充分进风量；顶部采用深灰色涡轮式出风口，风力集中；控制面板集成在顶部，采用触控操作（Touch Control），设计简洁。\n[使用方式]：1. 轻触控制面板中央的电源图标（Power Icon）启动设备。2. 反复轻触风扇图标（Fan Icon）可依次切换风速档位（如：低速/中速/高速/静音模式）。3. 要更换滤芯，需要逆时针旋转并取下净化器底部盖板，取出旧滤芯并放入新滤芯。4. 滤芯寿命指示灯亮起时，更换滤芯后需长按电源键5秒重置指示灯。",
+   "sellerTypeNum": 4
+  }
+ },
+ {
+  "id": "2008849264547028909",
+  "source": "/__cases/product-image-suite/2008849264547028909-source.jpg",
+  "result": "/__cases/product-image-suite/2008849264547028909-r.jpg",
+  "ext": {
+   "APlusNum": 4,
+   "UserSelectedSize": "970*600",
+   "brandKey": {
+    "brandColor": "",
+    "brandName": "",
+    "customSettings": "",
+    "fontStyle": "",
+    "language": "西班牙语",
+    "platform": "亚马逊",
+    "salesRegion": "欧洲"
+   },
+   "brandName": "未命名品牌基因",
+   "configData": {
+    "aPlusConfig": {
+     "sceneType": {
+      "A+": {
+       "checked": true,
+       "num": 4
+      },
+      "APlusPro": {
+       "checked": false,
+       "num": 4
+      }
+     }
+    },
+    "brandDNA": {
+     "brandColor": "",
+     "brandName": "",
+     "customSettings": "",
+     "fontStyle": "",
+     "language": "西班牙语",
+     "platform": "亚马逊",
+     "salesRegion": "欧洲"
+    },
+    "mainConfig": {
+     "aspectRatio": "default",
+     "modelType": "pro",
+     "sceneType": {
+      "closeUp": {
+       "checked": false,
+       "num": 4
+      },
+      "scene": {
+       "checked": true,
+       "num": 4
+      },
+      "sellPoint": {
+       "checked": true,
+       "num": 4
+      }
+     }
+    }
+   },
+   "imageList": [
+    {
+     "imageUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/PRODUCT_MARKET_MATERIAL_V2/2008849264547028909/image_list_0.jpg"
+    },
+    {
+     "imageUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/PRODUCT_MARKET_MATERIAL_V2/2008849264547028909/image_list_1.jpg"
+    }
+   ],
+   "isPro": true,
+   "language": "西班牙语",
+   "platform": "亚马逊",
+   "salesRegion": "欧洲",
+   "sceneTypeNum": 4,
+   "sellerPoint": "COZYS COLLECTION PLUSH COW: This adorable stuffed cow sits at 10 inches tall and features soft, floppy limbs made for hugging and specially rippled, cream-colored plush fur with navy blue spots. The Cozys Cow also features velvety-soft beige horns and a tuft of fluffy navy fur on its tail, with a slightly under-stuffed body that makes hugs feel even sweeter\nSOFT & HUGGABLE: This plush toy is made from soft, huggable materials and features surface-washable construction for easy cleaning. Each Cozys Collection stuffed animal is appropriate for ages 1 and up and ships in a protective poly bag\nGIFT WITH GUND: Our plush dolls, teddy bears, sensory toys and stuffed animals make timeless birthday and baby shower gifts, anniversary gifts, and gifts for every other occasion. GUND kids toys, baby toys, and plushies are cuddly friends for life\nQUALITY CUDDLES: Our award-winning bears and kids toys appeal to animal lovers everywhere, known for unmatched quality and huggably soft designs. From toddler toys to kawaii plush for all ages, GUND toys are perfect for play, collecting and cuddling\nPREMIER PLUSH: As one of America’s first soft toy makers, GUND has crafted unique and classic teddy bears and plush animals for 125 years. Today we proudly carry this legacy and stand by our kids toys, known globally for quality and innovation",
+   "sellerTypeNum": 4
+  }
+ },
+ {
+  "id": "2052656145868357632",
+  "source": "/__cases/product-image-suite/2052656145868357632-source.jpg",
+  "result": "/__cases/product-image-suite/2052656145868357632-r.jpg",
+  "ext": {
+   "APlusProNum": 4,
+   "aPlusStyles": [
+    {
+     "id": "2049695246111072256",
+     "imageThumbUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/21288e91b4e04ec8bbf9e486a09c1f80.jpg?Expires=1793282192&OSSAccessKeyId=LTAI5tQMD3UtDGPmMJRik6JA&Signature=eSxZnwKfijtPA6cgPO76gvUty8M%3D&x-oss-process=image%2Fresize%2Cm_mfit%2Cw_512%2Ch_512",
+     "imageUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/21288e91b4e04ec8bbf9e486a09c1f80.jpg",
+     "imageUrlThumb": "https://file-ai.linkfox.com/UPLOAD/MANAGE/21288e91b4e04ec8bbf9e486a09c1f80.jpg?Expires=1793282192&OSSAccessKeyId=LTAI5tQMD3UtDGPmMJRik6JA&Signature=eSxZnwKfijtPA6cgPO76gvUty8M%3D&x-oss-process=image%2Fresize%2Cm_mfit%2Cw_512%2Ch_512",
+     "materialSource": 2,
+     "prompt": "【可视化分析】: 空间分区: 背景全图贯穿，左上40%为文本区，左下40%为叠加产品静物框，右侧60%为人物实景互动区, 视觉层次: 场景图底层贯穿，左下通过渐变遮罩叠加产品与配件图层形成前后空间透视，顶层为左上文本与全局外发光圆角线框，视觉重心由左上顺延至左下再至右侧场景, 留白逻辑: 文本区外围20%留白，依托背景天空与水面实现自然呼吸感. 【构成元素】: 主题设计: 左侧文本及静物图层叠加，右侧人物实景交互展示, 字体设计: 标题：Large Sans-Serif Bold Headline，文本：Regular Sans-Serif.​\n【语言】：目标语言​\n【注意】：文本简洁",
+     "style": "A29",
+     "tabType": "1"
+    },
+    {
+     "id": "2047579810632732672",
+     "imageThumbUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/0c1d69cea05d4fdabe32327255cd89fb.jpg?Expires=1793282252&OSSAccessKeyId=LTAI5tQMD3UtDGPmMJRik6JA&Signature=me9ebw7PlC2ryFGD2eMjY4MdsGc%3D&x-oss-process=image%2Fresize%2Cm_mfit%2Cw_512%2Ch_512",
+     "imageUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/0c1d69cea05d4fdabe32327255cd89fb.jpg",
+     "imageUrlThumb": "https://file-ai.linkfox.com/UPLOAD/MANAGE/0c1d69cea05d4fdabe32327255cd89fb.jpg?Expires=1793282252&OSSAccessKeyId=LTAI5tQMD3UtDGPmMJRik6JA&Signature=me9ebw7PlC2ryFGD2eMjY4MdsGc%3D&x-oss-process=image%2Fresize%2Cm_mfit%2Cw_512%2Ch_512",
+     "materialSource": 2,
+     "prompt": "【可视化分析】: 空间分区: 左右分割: 左侧40%为图文区, 右侧60%为商品使用场景大图区. 共3张图像, 1张大图满铺右侧, 2张小图在左侧中下方呈1行2列矩阵分布. 主标题居左上, 小标题位于两张小图正上方. 视觉层次: 右侧场景大图占据主视觉重心并平铺到底层, 左侧背景之上叠加主标题与两张圆角小图, 形成清晰的前后图层叠加关系. 留白逻辑: 左侧元素四周保留约20%留白营造呼吸感, 右侧大图满铺边缘不留白. 【构成元素】: 主题设计: Asymmetric split layout with left-grid and right-full-bleed image, 字体设计: 标题：粗体圆润卡通体，文本：无衬线常规体.​\n【语言】：目标语言",
+     "style": "A29",
+     "tabType": "1"
+    },
+    {
+     "id": "2042456685934596096",
+     "imageThumbUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/061be1352396462781d6b1e4b3a09e71.jpg?Expires=1793282188&OSSAccessKeyId=LTAI5tQMD3UtDGPmMJRik6JA&Signature=FySaF%2B0m8hhmQGdn0E4n6sa6tw4%3D&x-oss-process=image%2Fresize%2Cm_mfit%2Cw_512%2Ch_512",
+     "imageUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/061be1352396462781d6b1e4b3a09e71.jpg",
+     "imageUrlThumb": "https://file-ai.linkfox.com/UPLOAD/MANAGE/061be1352396462781d6b1e4b3a09e71.jpg?Expires=1793282188&OSSAccessKeyId=LTAI5tQMD3UtDGPmMJRik6JA&Signature=FySaF%2B0m8hhmQGdn0E4n6sa6tw4%3D&x-oss-process=image%2Fresize%2Cm_mfit%2Cw_512%2Ch_512",
+     "materialSource": 2,
+     "prompt": "【可视化分析】: 空间分区: 垂直布局：顶部30%标题区，中部50%图像展示区，底部20%参数区，全屏背景贯穿。底部文本呈1行4列矩阵分布。\n视觉层次: 背景全图贯穿且远景虚化，产品置于前景。视觉重心由顶部居中标题下移至中心主产品，收束于底部横向参数矩阵。\n留白逻辑: 顶部及左右两侧保留约20%留白，营造视觉呼吸感并聚焦中心主体群。 \n【构成元素】: 主题设计: Center-placed main subject  and bottom 4-column data matrix., 字体设计: 标题：Bold Sans-Serif Headline，副标及参数：Regular Sans-Serif。\n【语言】：目标语言",
+     "style": "A27",
+     "tabType": "1"
+    },
+    {
+     "id": "2039996734943535104",
+     "imageThumbUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/0731b4cb622c429d8c80a11549844c04.jpg?Expires=1793279753&OSSAccessKeyId=LTAI5tQMD3UtDGPmMJRik6JA&Signature=8XENnSZAa2GCD3weXbla%2BGcxHbQ%3D&x-oss-process=image%2Fresize%2Cm_mfit%2Cw_512%2Ch_512",
+     "imageUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/0731b4cb622c429d8c80a11549844c04.jpg",
+     "imageUrlThumb": "https://file-ai.linkfox.com/UPLOAD/MANAGE/0731b4cb622c429d8c80a11549844c04.jpg?Expires=1793279753&OSSAccessKeyId=LTAI5tQMD3UtDGPmMJRik6JA&Signature=8XENnSZAa2GCD3weXbla%2BGcxHbQ%3D&x-oss-process=image%2Fresize%2Cm_mfit%2Cw_512%2Ch_512",
+     "materialSource": 2,
+     "prompt": "【可视化分析】: 空间分区: 全局单图布局，背景场景贯穿全图，左上角约30%叠加圆角文本面板，1个主图像位于中下部。\n视觉层次: 场景图置于底层，主体产品居中下部为视觉重心，文本面板作为浮动图层叠加于左上角前景，形成前后遮挡透视关系。\n留白逻辑: 主体右侧及顶部保留40%场景空间营造呼吸感. \n【构成元素】: 主题设计: 场景融合式布局，左上悬浮文本面板，主体中下沉浸式占位。字体设计: 标题：粗体无衬线大写，文本：常规无衬线小号。\n【语言】：目标语言",
+     "style": "A26",
+     "tabType": "1"
+    }
+   ],
+   "aspectRatio": "1:1",
+   "brandKey": {
+    "language": "英语",
+    "platform": "亚马逊",
+    "salesRegion": "美国"
+   },
+   "brandKeyExtract": "{\"brandColor\":{\"背景策略-风格定义\":\"基于美国（USA）市场的现代居家风格，强调温馨、舒适的育儿室或家庭客厅氛围，融合美式大平层或中产住宅的实木质感与软装元素。\",\"背景策略-光影\":\"清晨或午后的柔和自然光，通过百叶窗或轻薄窗帘投射，营造出富有层次感且柔和的漫反射光影，凸显毛绒质感。\",\"背景策略-场景关键词\":\"美式现代家居, 针织毛毯, 浅色橡木地板, 儿童游戏区, 温暖抱枕\",\"brandColor (品牌主色)\":\"Fox Orange #D97328\",\"Brand Injection（品牌植入）\":\"在场景中的次要道具（如绘本封面、置物架小摆件）中植入 #D97328 品牌色，实现色彩的自然呼应。\"},\"fontStyle\":{\"颜色策略-Body/Sub\":\"[\\\"Body color\\\"：#5D4037]\",\"字体策略\":\"圆润童趣字体\",\"灵活反白\":\"You are authorized to switch to Matte White (#FFFFFF) text whenever using a dark background or a solid brand-color panel.\",\"字体风格\":\"Quicksand\",\"排版\":\"Non-italic, standard leading\",\"颜色策略-Heading\":\"[\\\"Heading Color\\\"：#D97328/灵活反白]\"}}",
+   "brandName": "智能品牌基因",
+   "configData": {
+    "aPlusConfig": {
+     "sceneType": {
+      "A+": {
+       "checked": false,
+       "num": 4
+      },
+      "APlusHasPhone": {
+       "checked": false,
+       "num": 4
+      },
+      "APlusPro": {
+       "checked": true,
+       "num": 4
+      },
+      "custom": {
+       "checked": false,
+       "num": 4
+      }
+     }
+    },
+    "mainConfig": {
+     "aspectRatio": "1:1",
+     "sceneType": {
+      "sellPoint": {
+       "checked": true,
+       "num": 4
+      },
+      "whiteBg": {
+       "checked": false,
+       "num": 4
+      }
+     }
+    }
+   },
+   "imageList": [
+    {
+     "imageUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/PRODUCT_MARKET_MATERIAL_V2/2052656145868357632/image_list_0.jpg"
+    }
+   ],
+   "pointStyles": [
+    {
+     "id": "2049773602693308416",
+     "imageThumbUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/3fb951ddfe5c4e55bdbbe43a227ef542.jpg?Expires=1793282145&OSSAccessKeyId=LTAI5tQMD3UtDGPmMJRik6JA&Signature=%2BuLykHZ7m7IoDbPQLzrcpFIBMg0%3D&x-oss-process=image%2Fresize%2Cm_mfit%2Cw_512%2Ch_512",
+     "imageUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/3fb951ddfe5c4e55bdbbe43a227ef542.jpg",
+     "imageUrlThumb": "https://file-ai.linkfox.com/UPLOAD/MANAGE/3fb951ddfe5c4e55bdbbe43a227ef542.jpg?Expires=1793282145&OSSAccessKeyId=LTAI5tQMD3UtDGPmMJRik6JA&Signature=%2BuLykHZ7m7IoDbPQLzrcpFIBMg0%3D&x-oss-process=image%2Fresize%2Cm_mfit%2Cw_512%2Ch_512",
+     "materialSource": 2,
+     "prompt": "【可视化分析】: 空间分区: 垂直分割: 上半部65%为主视觉区，下半部35%为应用场景区。上下部分别由不同的全幅场景背景贯穿。上半部文字分布于左上角，主商品分布于右侧；下半部文字居中于顶部，下方为1行4列共4个矩形图像的矩阵布局。, 视觉层次: 1.上半部背景采用带景深的场景图，主商品以侧面仰角的透视形态置于右侧前景与背景产生空间交叠，大号文案置于左上角，形成从文案到商品的对角线视觉焦点转移；2.下半部文案居中悬浮于顶端前景，下方4幅场景图呈水平序列叠加排列于背景之上，每幅图底部附带小图标与文字标签，层级清晰且绝对平行。, 留白逻辑: 上半部中心偏左下方保留约30%的空间以突出右侧主体的透视张力，下半部四个图像模块之间及整体四周保持等距的网格规律留白. 【构成元素】: 主题设计: 上半部为'Right-placed angled product with left-aligned floating text'，下半部为'Top-centered text with 1x4 horizontal image matrix', 字体设计: 标题：Large Bold Sans-Serif，文本：Regular Sans-Serif.​\n【语言】：目标语言",
+     "style": "L29",
+     "tabType": "1"
+    },
+    {
+     "id": "2042455529925693440",
+     "imageThumbUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/1641fe8b71c3473c88709df7eca82a3d.jpg?Expires=1793280009&OSSAccessKeyId=LTAI5tQMD3UtDGPmMJRik6JA&Signature=8HWLOucppTwIsww6W6cQjYyihLs%3D&x-oss-process=image%2Fresize%2Cm_mfit%2Cw_512%2Ch_512",
+     "imageUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/1641fe8b71c3473c88709df7eca82a3d.jpg",
+     "imageUrlThumb": "https://file-ai.linkfox.com/UPLOAD/MANAGE/1641fe8b71c3473c88709df7eca82a3d.jpg?Expires=1793280009&OSSAccessKeyId=LTAI5tQMD3UtDGPmMJRik6JA&Signature=8HWLOucppTwIsww6W6cQjYyihLs%3D&x-oss-process=image%2Fresize%2Cm_mfit%2Cw_512%2Ch_512",
+     "materialSource": 2,
+     "prompt": "【可视化分析】: 空间分区: 垂直布局：顶部30%标题区，中部50%图像展示区，底部20%参数区，全屏背景贯穿。底部文本呈1行4列矩阵分布。\n视觉层次: 背景全图贯穿且远景虚化，产品置于前景。视觉重心由顶部居中标题下移至中心主产品，收束于底部横向参数矩阵。\n留白逻辑: 顶部及左右两侧保留约20%留白，营造视觉呼吸感并聚焦中心主体群。 \n【构成元素】: 主题设计: Center-placed main subject  and bottom 4-column data matrix., 字体设计: 标题：Bold Sans-Serif Headline，副标及参数：Regular Sans-Serif。\n【语言】：目标语言",
+     "style": "L26",
+     "tabType": "1"
+    },
+    {
+     "id": "2019369193201332224",
+     "imageThumbUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/9a853cab7d6a490f991d4cedd6878ede.png?Expires=1793282088&OSSAccessKeyId=LTAI5tQMD3UtDGPmMJRik6JA&Signature=7fszmt%2BFa2bS6g6b32zigeJreUo%3D&x-oss-process=image%2Fresize%2Cm_mfit%2Cw_512%2Ch_512",
+     "imageUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/9a853cab7d6a490f991d4cedd6878ede.png",
+     "imageUrlThumb": "https://file-ai.linkfox.com/UPLOAD/MANAGE/9a853cab7d6a490f991d4cedd6878ede.png?Expires=1793282088&OSSAccessKeyId=LTAI5tQMD3UtDGPmMJRik6JA&Signature=7fszmt%2BFa2bS6g6b32zigeJreUo%3D&x-oss-process=image%2Fresize%2Cm_mfit%2Cw_512%2Ch_512",
+     "materialSource": 2,
+     "prompt": "【C 模块15: Lifestyle Application / 生活化场景展示】\n对标卖点: [引用最能体现服装风格或整体穿着体验的卖点] \n视觉构图描述:  全宽高清横幅图: 一张充满故事感的单场景大图，模特自然融入其中。 图中必须为[明确指出性别，如“欧美男模特”或“欧美女模特”】 \nText on Image ****(Must be in Target Language): \nHeadline: \"[根据目标语言撰写吸引人的标题]\" \nBody: \"[根据目标语言撰写利益点文案]\" \n... (根据所选版式调整) \n背景与颜色建议: [优先采用用户定义的字体和主色调。若无，则根据服装风格建议字体和主色调。背景建议: 展示穿搭的生活方式图]",
+     "style": "L21",
+     "tabType": "1"
+    },
+    {
+     "id": "2015991502951448576",
+     "imageThumbUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/6845b74bb4464127a2847724d1ce1cc9.jpg?Expires=1793282252&OSSAccessKeyId=LTAI5tQMD3UtDGPmMJRik6JA&Signature=agwE4VUthfYET%2FkXMTzEet0rDR4%3D&x-oss-process=image%2Fresize%2Cm_mfit%2Cw_512%2Ch_512",
+     "imageUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/6845b74bb4464127a2847724d1ce1cc9.jpg",
+     "imageUrlThumb": "https://file-ai.linkfox.com/UPLOAD/MANAGE/6845b74bb4464127a2847724d1ce1cc9.jpg?Expires=1793282252&OSSAccessKeyId=LTAI5tQMD3UtDGPmMJRik6JA&Signature=agwE4VUthfYET%2FkXMTzEet0rDR4%3D&x-oss-process=image%2Fresize%2Cm_mfit%2Cw_512%2Ch_512",
+     "materialSource": 2,
+     "prompt": "- L3 极简主义布局 (Minimalist Layout):\n  -图形逻辑： 🔴 DISABLED (禁用变量三).\n  - 画面大面积使用场景。一个巨大、醒目的主标题 (Headline) 占据画面顶部或中央（不能挡住商品），传递核心信息。",
+     "style": "L3",
+     "tabType": "1"
+    }
+   ],
+   "provider": "GEMINI_FLASH_PRO",
+   "quality": "medium",
+   "resolution": "2K",
+   "sellerPoint": "[产品名称]：超柔软仿真狐狸毛绒抱枕玩偶\n[目标受众]：儿童、青少年及宠物爱好者，适用于卧室装饰、睡眠安抚、办公靠垫或节日送礼场景\n[卖点描述]：采用仿真狐狸造型，趴姿设计符合人体工程学，适合作为抱枕或午睡枕；超柔长毛绒面料带来云朵般触感，舒缓焦虑；配色活泼治愈，是家居空间的温馨点缀\n[材质描述]：面料采用高密度涤纶纤维（Polyester），表面呈现螺旋卷毛纹理，手感蓬松；内部填充高弹PP棉，挤压不易变形；五官采用环保塑胶扣件，缝合线严密牢固，尾部白尖点缀增加视觉层次感\n[使用方式]：1. 打开包装后轻拍并揉搓玩偶全身，静置24小时使其恢复最佳蓬松状态；2. 睡眠时可作为前抱枕或侧睡靠垫支撑身体；3. 底部平整设计可直接放置于床头或沙发作为装饰；4. 若表面沾染污渍，建议使用温和洗涤剂局部手洗，自然风干后用细齿梳轻轻梳理毛发即可恢复顺滑\n[产品类目]：Toys & Games > Stuffed Animals & Plush Toys > Plush Pillows",
+   "sellerTypeNum": 4
+  }
+ },
+ {
+  "id": "2049791360688578560",
+  "source": "/__cases/product-image-suite/2049791360688578560-source.jpg",
+  "result": "/__cases/product-image-suite/2049791360688578560-r.jpg",
+  "ext": {
+   "APlusProNum": 4,
+   "aPlusStyles": [
+    {
+     "id": "2049695246111072256",
+     "imageThumbUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/21288e91b4e04ec8bbf9e486a09c1f80.jpg?Expires=1793282192&OSSAccessKeyId=LTAI5tQMD3UtDGPmMJRik6JA&Signature=eSxZnwKfijtPA6cgPO76gvUty8M%3D&x-oss-process=image%2Fresize%2Cm_mfit%2Cw_512%2Ch_512",
+     "imageUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/21288e91b4e04ec8bbf9e486a09c1f80.jpg",
+     "imageUrlThumb": "https://file-ai.linkfox.com/UPLOAD/MANAGE/21288e91b4e04ec8bbf9e486a09c1f80.jpg?Expires=1793282192&OSSAccessKeyId=LTAI5tQMD3UtDGPmMJRik6JA&Signature=eSxZnwKfijtPA6cgPO76gvUty8M%3D&x-oss-process=image%2Fresize%2Cm_mfit%2Cw_512%2Ch_512",
+     "materialSource": 2,
+     "prompt": "【可视化分析】: 空间分区: 背景全图贯穿，左上40%为文本区，左下40%为叠加产品静物框，右侧60%为人物实景互动区, 视觉层次: 场景图底层贯穿，左下通过渐变遮罩叠加产品与配件图层形成前后空间透视，顶层为左上文本与全局外发光圆角线框，视觉重心由左上顺延至左下再至右侧场景, 留白逻辑: 文本区外围20%留白，依托背景天空与水面实现自然呼吸感. 【构成元素】: 主题设计: 左侧文本及静物图层叠加，右侧人物实景交互展示, 字体设计: 标题：Large Sans-Serif Bold Headline，文本：Regular Sans-Serif.​\n【语言】：目标语言​\n【注意】：文本简洁",
+     "style": "A29",
+     "tabType": "1"
+    },
+    {
+     "id": "2047579810632732672",
+     "imageThumbUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/0c1d69cea05d4fdabe32327255cd89fb.jpg?Expires=1793282252&OSSAccessKeyId=LTAI5tQMD3UtDGPmMJRik6JA&Signature=me9ebw7PlC2ryFGD2eMjY4MdsGc%3D&x-oss-process=image%2Fresize%2Cm_mfit%2Cw_512%2Ch_512",
+     "imageUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/0c1d69cea05d4fdabe32327255cd89fb.jpg",
+     "imageUrlThumb": "https://file-ai.linkfox.com/UPLOAD/MANAGE/0c1d69cea05d4fdabe32327255cd89fb.jpg?Expires=1793282252&OSSAccessKeyId=LTAI5tQMD3UtDGPmMJRik6JA&Signature=me9ebw7PlC2ryFGD2eMjY4MdsGc%3D&x-oss-process=image%2Fresize%2Cm_mfit%2Cw_512%2Ch_512",
+     "materialSource": 2,
+     "prompt": "【可视化分析】: 空间分区: 左右分割: 左侧40%为图文区, 右侧60%为商品使用场景大图区. 共3张图像, 1张大图满铺右侧, 2张小图在左侧中下方呈1行2列矩阵分布. 主标题居左上, 小标题位于两张小图正上方. 视觉层次: 右侧场景大图占据主视觉重心并平铺到底层, 左侧背景之上叠加主标题与两张圆角小图, 形成清晰的前后图层叠加关系. 留白逻辑: 左侧元素四周保留约20%留白营造呼吸感, 右侧大图满铺边缘不留白. 【构成元素】: 主题设计: Asymmetric split layout with left-grid and right-full-bleed image, 字体设计: 标题：粗体圆润卡通体，文本：无衬线常规体.​\n【语言】：目标语言",
+     "style": "A29",
+     "tabType": "1"
+    },
+    {
+     "id": "2042456685934596096",
+     "imageThumbUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/061be1352396462781d6b1e4b3a09e71.jpg?Expires=1793282188&OSSAccessKeyId=LTAI5tQMD3UtDGPmMJRik6JA&Signature=FySaF%2B0m8hhmQGdn0E4n6sa6tw4%3D&x-oss-process=image%2Fresize%2Cm_mfit%2Cw_512%2Ch_512",
+     "imageUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/061be1352396462781d6b1e4b3a09e71.jpg",
+     "imageUrlThumb": "https://file-ai.linkfox.com/UPLOAD/MANAGE/061be1352396462781d6b1e4b3a09e71.jpg?Expires=1793282188&OSSAccessKeyId=LTAI5tQMD3UtDGPmMJRik6JA&Signature=FySaF%2B0m8hhmQGdn0E4n6sa6tw4%3D&x-oss-process=image%2Fresize%2Cm_mfit%2Cw_512%2Ch_512",
+     "materialSource": 2,
+     "prompt": "【可视化分析】: 空间分区: 垂直布局：顶部30%标题区，中部50%图像展示区，底部20%参数区，全屏背景贯穿。底部文本呈1行4列矩阵分布。\n视觉层次: 背景全图贯穿且远景虚化，产品置于前景。视觉重心由顶部居中标题下移至中心主产品，收束于底部横向参数矩阵。\n留白逻辑: 顶部及左右两侧保留约20%留白，营造视觉呼吸感并聚焦中心主体群。 \n【构成元素】: 主题设计: Center-placed main subject  and bottom 4-column data matrix., 字体设计: 标题：Bold Sans-Serif Headline，副标及参数：Regular Sans-Serif。\n【语言】：目标语言",
+     "style": "A27",
+     "tabType": "1"
+    },
+    {
+     "id": "2039996734943535104",
+     "imageThumbUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/0731b4cb622c429d8c80a11549844c04.jpg?Expires=1793279753&OSSAccessKeyId=LTAI5tQMD3UtDGPmMJRik6JA&Signature=8XENnSZAa2GCD3weXbla%2BGcxHbQ%3D&x-oss-process=image%2Fresize%2Cm_mfit%2Cw_512%2Ch_512",
+     "imageUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/0731b4cb622c429d8c80a11549844c04.jpg",
+     "imageUrlThumb": "https://file-ai.linkfox.com/UPLOAD/MANAGE/0731b4cb622c429d8c80a11549844c04.jpg?Expires=1793279753&OSSAccessKeyId=LTAI5tQMD3UtDGPmMJRik6JA&Signature=8XENnSZAa2GCD3weXbla%2BGcxHbQ%3D&x-oss-process=image%2Fresize%2Cm_mfit%2Cw_512%2Ch_512",
+     "materialSource": 2,
+     "prompt": "【可视化分析】: 空间分区: 全局单图布局，背景场景贯穿全图，左上角约30%叠加圆角文本面板，1个主图像位于中下部。\n视觉层次: 场景图置于底层，主体产品居中下部为视觉重心，文本面板作为浮动图层叠加于左上角前景，形成前后遮挡透视关系。\n留白逻辑: 主体右侧及顶部保留40%场景空间营造呼吸感. \n【构成元素】: 主题设计: 场景融合式布局，左上悬浮文本面板，主体中下沉浸式占位。字体设计: 标题：粗体无衬线大写，文本：常规无衬线小号。\n【语言】：目标语言",
+     "style": "A26",
+     "tabType": "1"
+    }
+   ],
+   "aspectRatio": "1:1",
+   "brandKey": {
+    "language": "英语",
+    "platform": "亚马逊",
+    "salesRegion": "美国"
+   },
+   "brandKeyExtract": "{\"brandColor\":{\"背景策略-风格定义\":\"Rugged American Professional & Outdoors. Focuses on high-end industrial utility and adventure lifestyles prevalent in the US, utilizing realistic settings such as modern American garages, construction sites, and pine-dense National Park campsites.\",\"背景策略-光影\":\"High-contrast cinematic lighting. A balance between deep-blue twilight tones and the crisp, powerful white throw of the LED light, creating realistic volumetric lighting and long shadows.\",\"背景策略-场景关键词\":\"Professional Workshop, Overlanding, Night Construction, Backyard Adventure, Industrial Modernism\",\"brandColor (品牌主色)\":\"Apex Forest Green #3A6629\",\"Brand Injection（品牌植入）\":\"Integration through environmental props like tactical gear and high-end toolsets that echo the Apex Forest Green, ensuring the product feels like the command center of the scene.\"},\"fontStyle\":{\"颜色策略-Body/Sub\":\"[\\\"Body color\\\"：#4A4A4A]\",\"字体策略\":\"硬朗无衬线体\",\"灵活反白\":\"You are authorized to switch to Matte White (#FFFFFF) text whenever using a dark background or a solid brand-color panel.\",\"字体风格\":\"Barlow Condensed\",\"排版\":\"Non-italic, standard leading\",\"颜色策略-Heading\":\"[\\\"Heading Color\\\"：#3A6629/Flexible Reverse]\"}}",
+   "brandName": "智能品牌基因",
+   "configData": {
+    "aPlusConfig": {
+     "sceneType": {
+      "A+": {
+       "checked": false,
+       "num": 4
+      },
+      "APlusHasPhone": {
+       "checked": false,
+       "num": 4
+      },
+      "APlusPro": {
+       "checked": true,
+       "num": 4
+      },
+      "custom": {
+       "checked": false,
+       "num": 4
+      }
+     }
+    },
+    "mainConfig": {
+     "aspectRatio": "1:1",
+     "sceneType": {
+      "sellPoint": {
+       "checked": true,
+       "num": 4
+      },
+      "whiteBg": {
+       "checked": false,
+       "num": 4
+      }
+     }
+    }
+   },
+   "imageList": [
+    {
+     "imageUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/PRODUCT_MARKET_MATERIAL_V2/2049791360688578560/image_list_0.jpg"
+    }
+   ],
+   "pointStyles": [
+    {
+     "id": "2049773602693308416",
+     "imageThumbUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/3fb951ddfe5c4e55bdbbe43a227ef542.jpg?Expires=1793282145&OSSAccessKeyId=LTAI5tQMD3UtDGPmMJRik6JA&Signature=%2BuLykHZ7m7IoDbPQLzrcpFIBMg0%3D&x-oss-process=image%2Fresize%2Cm_mfit%2Cw_512%2Ch_512",
+     "imageUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/3fb951ddfe5c4e55bdbbe43a227ef542.jpg",
+     "imageUrlThumb": "https://file-ai.linkfox.com/UPLOAD/MANAGE/3fb951ddfe5c4e55bdbbe43a227ef542.jpg?Expires=1793282145&OSSAccessKeyId=LTAI5tQMD3UtDGPmMJRik6JA&Signature=%2BuLykHZ7m7IoDbPQLzrcpFIBMg0%3D&x-oss-process=image%2Fresize%2Cm_mfit%2Cw_512%2Ch_512",
+     "materialSource": 2,
+     "prompt": "【可视化分析】: 空间分区: 垂直分割: 上半部65%为主视觉区，下半部35%为应用场景区。上下部分别由不同的全幅场景背景贯穿。上半部文字分布于左上角，主商品分布于右侧；下半部文字居中于顶部，下方为1行4列共4个矩形图像的矩阵布局。, 视觉层次: 1.上半部背景采用带景深的场景图，主商品以侧面仰角的透视形态置于右侧前景与背景产生空间交叠，大号文案置于左上角，形成从文案到商品的对角线视觉焦点转移；2.下半部文案居中悬浮于顶端前景，下方4幅场景图呈水平序列叠加排列于背景之上，每幅图底部附带小图标与文字标签，层级清晰且绝对平行。, 留白逻辑: 上半部中心偏左下方保留约30%的空间以突出右侧主体的透视张力，下半部四个图像模块之间及整体四周保持等距的网格规律留白. 【构成元素】: 主题设计: 上半部为'Right-placed angled product with left-aligned floating text'，下半部为'Top-centered text with 1x4 horizontal image matrix', 字体设计: 标题：Large Bold Sans-Serif，文本：Regular Sans-Serif.​\n【语言】：目标语言",
+     "style": "L29",
+     "tabType": "1"
+    },
+    {
+     "id": "2042455529925693440",
+     "imageThumbUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/1641fe8b71c3473c88709df7eca82a3d.jpg?Expires=1793280009&OSSAccessKeyId=LTAI5tQMD3UtDGPmMJRik6JA&Signature=8HWLOucppTwIsww6W6cQjYyihLs%3D&x-oss-process=image%2Fresize%2Cm_mfit%2Cw_512%2Ch_512",
+     "imageUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/1641fe8b71c3473c88709df7eca82a3d.jpg",
+     "imageUrlThumb": "https://file-ai.linkfox.com/UPLOAD/MANAGE/1641fe8b71c3473c88709df7eca82a3d.jpg?Expires=1793280009&OSSAccessKeyId=LTAI5tQMD3UtDGPmMJRik6JA&Signature=8HWLOucppTwIsww6W6cQjYyihLs%3D&x-oss-process=image%2Fresize%2Cm_mfit%2Cw_512%2Ch_512",
+     "materialSource": 2,
+     "prompt": "【可视化分析】: 空间分区: 垂直布局：顶部30%标题区，中部50%图像展示区，底部20%参数区，全屏背景贯穿。底部文本呈1行4列矩阵分布。\n视觉层次: 背景全图贯穿且远景虚化，产品置于前景。视觉重心由顶部居中标题下移至中心主产品，收束于底部横向参数矩阵。\n留白逻辑: 顶部及左右两侧保留约20%留白，营造视觉呼吸感并聚焦中心主体群。 \n【构成元素】: 主题设计: Center-placed main subject  and bottom 4-column data matrix., 字体设计: 标题：Bold Sans-Serif Headline，副标及参数：Regular Sans-Serif。\n【语言】：目标语言",
+     "style": "L26",
+     "tabType": "1"
+    },
+    {
+     "id": "2019369193201332224",
+     "imageThumbUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/9a853cab7d6a490f991d4cedd6878ede.png?Expires=1793282088&OSSAccessKeyId=LTAI5tQMD3UtDGPmMJRik6JA&Signature=7fszmt%2BFa2bS6g6b32zigeJreUo%3D&x-oss-process=image%2Fresize%2Cm_mfit%2Cw_512%2Ch_512",
+     "imageUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/9a853cab7d6a490f991d4cedd6878ede.png",
+     "imageUrlThumb": "https://file-ai.linkfox.com/UPLOAD/MANAGE/9a853cab7d6a490f991d4cedd6878ede.png?Expires=1793282088&OSSAccessKeyId=LTAI5tQMD3UtDGPmMJRik6JA&Signature=7fszmt%2BFa2bS6g6b32zigeJreUo%3D&x-oss-process=image%2Fresize%2Cm_mfit%2Cw_512%2Ch_512",
+     "materialSource": 2,
+     "prompt": "【C 模块15: Lifestyle Application / 生活化场景展示】\n对标卖点: [引用最能体现服装风格或整体穿着体验的卖点] \n视觉构图描述:  全宽高清横幅图: 一张充满故事感的单场景大图，模特自然融入其中。 图中必须为[明确指出性别，如“欧美男模特”或“欧美女模特”】 \nText on Image ****(Must be in Target Language): \nHeadline: \"[根据目标语言撰写吸引人的标题]\" \nBody: \"[根据目标语言撰写利益点文案]\" \n... (根据所选版式调整) \n背景与颜色建议: [优先采用用户定义的字体和主色调。若无，则根据服装风格建议字体和主色调。背景建议: 展示穿搭的生活方式图]",
+     "style": "L21",
+     "tabType": "1"
+    },
+    {
+     "id": "2015991502951448576",
+     "imageThumbUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/6845b74bb4464127a2847724d1ce1cc9.jpg?Expires=1793282252&OSSAccessKeyId=LTAI5tQMD3UtDGPmMJRik6JA&Signature=agwE4VUthfYET%2FkXMTzEet0rDR4%3D&x-oss-process=image%2Fresize%2Cm_mfit%2Cw_512%2Ch_512",
+     "imageUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/6845b74bb4464127a2847724d1ce1cc9.jpg",
+     "imageUrlThumb": "https://file-ai.linkfox.com/UPLOAD/MANAGE/6845b74bb4464127a2847724d1ce1cc9.jpg?Expires=1793282252&OSSAccessKeyId=LTAI5tQMD3UtDGPmMJRik6JA&Signature=agwE4VUthfYET%2FkXMTzEet0rDR4%3D&x-oss-process=image%2Fresize%2Cm_mfit%2Cw_512%2Ch_512",
+     "materialSource": 2,
+     "prompt": "- L3 极简主义布局 (Minimalist Layout):\n  -图形逻辑： 🔴 DISABLED (禁用变量三).\n  - 画面大面积使用场景。一个巨大、醒目的主标题 (Headline) 占据画面顶部或中央（不能挡住商品），传递核心信息。",
+     "style": "L3",
+     "tabType": "1"
+    }
+   ],
+   "provider": "GEMINI_FLASH_PRO",
+   "quality": "medium",
+   "resolution": "2K",
+   "sellerPoint": "[产品名称]：多功能伸缩式LED露营落地灯\n[目标受众]：精致露营玩家、自驾游爱好者、摄影师及需要大面积应急照明的家庭用户\n[卖点描述]：采用独特的可伸缩三脚架结构，支持手持与落地双模式；四叶灯板可独立调节角度实现360°无死角照明；折叠后体积紧凑自带提手，极其便携且易于收纳\n[材质描述]：机身采用高强度ABS与铝合金伸缩杆，黑绿工业风配色；灯珠覆盖高透光PC扩散板；底部配备防滑脚垫及隐藏式挂钩；Type-C快充接口配备硅胶防尘塞\n[使用方式]：1. 向下展开底部三根支撑腿并锁紧形成稳固三脚架；2. 垂直向上拉伸金属伸缩杆至所需高度（最高可达约1.5米）；3. 将顶部四个LED灯板向外翻转至水平或特定角度；4. 长按顶部圆形电源键3秒开机，短按切换亮度及色温模式；5. 使用侧边Type-C接口进行充电\n[产品类目]：Sports & Outdoors > Outdoor Recreation > Camping & Hiking > Lanterns",
+   "sellerTypeNum": 4
+  }
+ },
+ {
+  "id": "2048645339790995456",
+  "source": "/__cases/product-image-suite/2048645339790995456-source.jpg",
+  "result": "/__cases/product-image-suite/2048645339790995456-r.jpg",
+  "ext": {
+   "APlusProNum": 8,
+   "aspectRatio": "1:1",
+   "brandKey": {
+    "language": "英语",
+    "platform": "亚马逊",
+    "salesRegion": "美国"
+   },
+   "brandKeyExtract": "{\"brandColor\":{\"背景策略-风格定义\":\"Modern American Cozy Home: A bright and inviting suburban interior featuring clean natural wood surfaces, soft textiles, and a contemporary farmhouse aesthetic common in US middle-class households.\",\"背景策略-光影\":\"Warm, natural golden hour sunlight streaming through a window, creating soft, realistic highlights and a gentle emotional glow.\",\"背景策略-场景关键词\":\"Sun-drenched bedside table, rustic wooden mantle, soft-focus living room, knitted blankets, cozy home atmosphere\",\"brandColor (品牌主色)\":\"Blossom Rose #FF85A2\",\"Brand Injection（品牌植入）\":\"Integrate the product into 'moment of connection' scenes, such as a child placing it on a mother's desk or as a centerpiece in a cozy breakfast nook, emphasizing its role as a heartwarming gift.\"},\"fontStyle\":{\"颜色策略-Body/Sub\":\"[\\\"Body color\\\"：#A64B5E]\",\"字体策略\":\"圆润童趣字体\",\"灵活反白\":\"You are authorized to switch to Matte White (#FFFFFF) text whenever using a dark background or a solid brand-color panel.\",\"字体风格\":\"Quicksand\",\"排版\":\"Non-italic, standard leading\",\"颜色策略-Heading\":\"[\\\"Heading Color\\\"：#FF85A2/Flexible White]\"}}",
+   "brandName": "智能品牌基因",
+   "closeUpTypeNum": 8,
+   "configData": {
+    "aPlusConfig": {
+     "sceneType": {
+      "A+": {
+       "checked": false,
+       "num": 4
+      },
+      "APlusHasPhone": {
+       "checked": false,
+       "num": 4
+      },
+      "APlusPro": {
+       "checked": true,
+       "num": 8
+      },
+      "custom": {
+       "checked": false,
+       "num": 4
+      }
+     }
+    },
+    "mainConfig": {
+     "aspectRatio": "1:1",
+     "sceneType": {
+      "closeUp": {
+       "checked": true,
+       "num": 8
+      },
+      "scene": {
+       "checked": true,
+       "num": 8
+      },
+      "sellPoint": {
+       "checked": true,
+       "num": 8
+      },
+      "whiteBg": {
+       "checked": false,
+       "num": 4
+      }
+     }
+    }
+   },
+   "imageList": [
+    {
+     "imageUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/PRODUCT_MARKET_MATERIAL_V2/2048645339790995456/image_list_0.jpg"
+    }
+   ],
+   "provider": "GEMINI_FLASH_PRO",
+   "resolution": "4K",
+   "sceneTypeNum": 8,
+   "sellerPoint": "[产品名称]：手工编织郁金香盆栽母亲节礼物\n[目标受众]：寻求温馨感性礼物的子女，适用于Mother's Day、感恩节、生日以及居家桌面装饰\n[卖点描述]：纯手工Crochet工艺，永不凋谢象征永恒的爱；底座带有Q版表情及温馨寄语卡片，传递情绪价值；小巧精致适合摆放在Home Office或床头柜\n[材质描述]：采用高品质牛奶棉线编织，触感柔软且不易起球；包含紫色、桃红、粉色三朵郁金香，内部填充高弹力PP棉；白色盆体配有手工刺绣笑脸，整体色彩饱满且治愈感十足\n[使用方式]：1. 从包装盒中轻轻取出编织盆栽；2. 根据个人喜好微调内部支撑的铁丝杆，使三朵郁金香呈现自然扩散的姿态；3. 确认识别底座卡片上的寄语内容；4. 放置于光线充足但非直射的干燥平面作为长期摆件装饰\n[产品类目]：Home & Kitchen > Home Décor Products > Artificial Flora > Artificial Flowers",
+   "sellerTypeNum": 8
+  }
+ },
+ {
+  "id": "2048646069000105984",
+  "source": "/__cases/product-image-suite/2048646069000105984-source.jpg",
+  "result": "/__cases/product-image-suite/2048646069000105984-r.jpg",
+  "ext": {
+   "APlusProNum": 8,
+   "aspectRatio": "3:4",
+   "brandKey": {
+    "language": "英语",
+    "platform": "亚马逊",
+    "salesRegion": "美国"
+   },
+   "brandKeyExtract": "{\"brandColor\":{\"背景策略-风格定义\":\"Modern American High-End Minimalist. Reflecting a premium Manhattan penthouse or a luxury boutique atmosphere, utilizing clean lines and organic textures to resonate with the US luxury consumer.\",\"背景策略-光影\":\"Natural cinematic lighting with soft shadows and high-specular highlights to emphasize the diamond's brilliance and the metal's polish.\",\"背景策略-场景关键词\":\"Carrara marble, velvet jewelry box, soft morning sunlight, blurred high-end apartment interior, silk fabric\",\"brandColor (品牌主色)\":\"Imperial Blue #002366\",\"Brand Injection（品牌植入）\":\"Subtle engraving on accessories, brand color used in velvet ribbons or luxury packaging elements integrated within the lifestyle scene.\"},\"fontStyle\":{\"颜色策略-Body/Sub\":\"[\\\"Body color\\\"：#33415C]\",\"字体策略\":\"经典优雅衬线体\",\"灵活反白\":\"You are authorized to switch to Matte White (#FFFFFF) text whenever using a dark background or a solid brand-color panel.\",\"字体风格\":\"Playfair Display\",\"排版\":\"Non-italic, standard leading\",\"颜色策略-Heading\":\"[\\\"Heading Color\\\"：#002366 / 灵活反白]\"}}",
+   "brandName": "智能品牌基因",
+   "closeUpTypeNum": 8,
+   "configData": {
+    "aPlusConfig": {
+     "sceneType": {
+      "A+": {
+       "checked": false,
+       "num": 4
+      },
+      "APlusHasPhone": {
+       "checked": false,
+       "num": 4
+      },
+      "APlusPro": {
+       "checked": true,
+       "num": 8
+      },
+      "custom": {
+       "checked": false,
+       "num": 4
+      }
+     }
+    },
+    "mainConfig": {
+     "aspectRatio": "3:4",
+     "sceneType": {
+      "closeUp": {
+       "checked": true,
+       "num": 8
+      },
+      "scene": {
+       "checked": true,
+       "num": 8
+      },
+      "sellPoint": {
+       "checked": true,
+       "num": 8
+      },
+      "whiteBg": {
+       "checked": false,
+       "num": 4
+      }
+     }
+    }
+   },
+   "imageList": [
+    {
+     "imageUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/PRODUCT_MARKET_MATERIAL_V2/2048646069000105984/image_list_0.jpg"
+    }
+   ],
+   "provider": "GEMINI_FLASH_PRO",
+   "resolution": "4K",
+   "sceneTypeNum": 8,
+   "sellerPoint": "[产品名称]：14K白金莫桑钻V型排钻戒指\n[目标受众]：追求时尚的女性，适用于婚礼配戒、周年纪念礼物、日常叠戴及订婚戒指伴侣\n[卖点描述]：独特的V-Shape曲线设计，能完美贴合梨形或马眼形主戒；采用半圈排钻(Half Eternity)镶嵌工艺，火彩璀璨；纤细戒圈视觉上拉长手指线条\n[材质描述]：优质S925纯银镀14K白金(White Gold Plated)材质，抗氧化且亲肤；手工镶嵌高品质Round Cut莫桑钻或人造钻石；微镶(Pave Setting)工艺确保钻石稳固且边缘平滑不勾衣物\n[使用方式]：1. 单独佩戴：将V型顶点朝向指尖方向佩戴，展现极简主义风格；2. 叠戴组合：将V型缺口对准主钻戒指（如Solitaire Ring）的底座，使其环抱主石，增加层次感；3. 保养建议：洗澡或涂抹护手霜前应取下，存放在干燥的珠宝盒内以保持金属光泽\n[产品类目]：Clothing, Shoes & Jewelry > Women > Jewelry > Rings > Wedding Bands",
+   "sellerTypeNum": 8
+  }
+ },
+ {
+  "id": "2037116582322327552",
+  "source": "/__cases/product-image-suite/2037116582322327552-source.jpg",
+  "result": "/__cases/product-image-suite/2037116582322327552-r.jpg",
+  "ext": {
+   "APlusProNum": 4,
+   "aspectRatio": "1:1",
+   "brandKey": {
+    "language": "英语",
+    "platform": "亚马逊",
+    "salesRegion": "美国"
+   },
+   "brandKeyExtract": "{\"brandColor\":{\"背景策略-风格定义\":\"Authentic American suburban outdoor adventure style, featuring spacious backyards or rugged dirt trails common in US residential or park areas to evoke a sense of freedom and active lifestyle.\",\"背景策略-光影\":\"Cinematic Golden Hour lighting with high-contrast shadows to accentuate the ATV's metallic and matte textures for a premium 3D feel.\",\"背景策略-场景关键词\":\"Sun-drenched backyard, dirt track, pine forest edge, high-end suburban landscape, active play\",\"brandColor (品牌主色)\":\"Adrenaline Orange (#FF5500)\",\"Brand Injection（品牌植入）\":\"Integrating the #FF5500 brand color through lifestyle props like child safety gear, track markers, or environmental highlights to create a cohesive visual anchor.\"},\"fontStyle\":{\"颜色策略-Body/Sub\":\"[\\\"Body color\\\"：#FFB88C]\",\"字体策略\":\"硬朗无衬线体\",\"灵活反白\":\"You are authorized to switch to Matte White (#FFFFFF) text whenever using a dark background or a solid brand-color panel.\",\"字体风格\":\"Bebas Neue\",\"排版\":\"Non-italic, standard leading\",\"颜色策略-Heading\":\"[\\\"Heading Color\\\"：#FF5500 / 灵活反白]\"}}",
+   "brandName": "智能品牌基因",
+   "configData": {
+    "aPlusConfig": {
+     "sceneType": {
+      "A+": {
+       "checked": false,
+       "num": 4
+      },
+      "APlusHasPhone": {
+       "checked": false,
+       "num": 4
+      },
+      "APlusPro": {
+       "checked": true,
+       "num": 4
+      },
+      "custom": {
+       "checked": false,
+       "num": 4
+      }
+     }
+    },
+    "mainConfig": {
+     "aspectRatio": "1:1",
+     "sceneType": {
+      "scene": {
+       "checked": true,
+       "num": 4
+      },
+      "sellPoint": {
+       "checked": true,
+       "num": 4
+      },
+      "whiteBg": {
+       "checked": false,
+       "num": 4
+      }
+     }
+    }
+   },
+   "imageList": [
+    {
+     "imageUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/PRODUCT_MARKET_MATERIAL_V2/2037116582322327552/image_list_0.jpg"
+    }
+   ],
+   "provider": "GEMINI_FLASH_PRO",
+   "resolution": "2K",
+   "sceneTypeNum": 4,
+   "sellerPoint": "[产品名称]：儿童电动四轮越野沙滩车(ATV)\n[目标受众]：3-8岁儿童，适用于后院草地、公园碎石路及家庭室内外娱乐场景\n[卖点描述]：仿真全地形越野设计，配备高韧性大尺寸深纹路轮胎（Tires），抓地力强不打滑；双驱动强劲电机提供稳定动力；具有高低速调节功能，确保驾驶安全；内置LED大灯与音乐播放功能，提升沉浸式驾驶体验\n[材质描述]：采用环保PP材质及加厚钢架结构；表面磨砂哑光黑色质感；仿真格栅前脸及防撞杆设计；符合人体工学的宽大防滑座椅及脚踏板，提高长时间驾驶的舒适性\n[使用方式]：1. 踩下右侧脚踏板控制前进，松开即刹车；2. 操作仪表盘下方的红色电源开关开启设备；3. 拨动方向盘下方的挡位杆切换 Forward（前进）/ Neutral（空挡）/ Reverse（后退）；4. 按压左侧手柄处圆形按钮开启内置音乐或鸣笛；5. 充电时将配套充电器插入车身侧面的DC充电孔，直至指示灯变绿\n[产品类目]：Toys & Games > Tricycles, Scooters & Wagons > Ride-On Toys & Accessories > Electric Vehicles",
+   "sellerTypeNum": 4
+  }
+ },
+ {
+  "id": "2037115898130681856",
+  "source": "/__cases/product-image-suite/2037115898130681856-source.jpg",
+  "result": "/__cases/product-image-suite/2037115898130681856-r.jpg",
+  "ext": {
+   "APlusProNum": 4,
+   "aspectRatio": "3:4",
+   "brandKey": {
+    "language": "英语",
+    "platform": "亚马逊",
+    "salesRegion": "美国"
+   },
+   "brandKeyExtract": "{\"brandColor\":{\"背景策略-风格定义\":\"Modern American luxury residential style, emphasizing spaciousness, organic materials, and high-end comfort suited for US domestic aesthetics.\",\"背景策略-光影\":\"Cinematic natural light; soft morning window glow creating gentle gradients on the velvet texture and deep shadows for depth.\",\"背景策略-场景关键词\":\"Upscale New York apartment, mahogany hardwood floors, floor-to-ceiling windows, designer floor lamp, soft minimalist rug\",\"brandColor (品牌主色)\":\"Deep Forest Green #3A4D43\",\"Brand Injection（品牌植入）\":\"Subtle color-coordinated accessories (throw pillows/books) in secondary brand hues, high-quality material focus, and cohesive metallic hardware accents.\"},\"fontStyle\":{\"颜色策略-Body/Sub\":\"[\\\"Body color\\\"：#5A6D63]\",\"字体策略\":\"经典优雅衬线体\",\"灵活反白\":\"You are authorized to switch to Matte White (#FFFFFF) text whenever using a dark background or a solid brand-color panel.\",\"字体风格\":\"Playfair Display\",\"排版\":\"Non-italic, standard leading\",\"颜色策略-Heading\":\"[\\\"Heading Color\\\"：#3A4D43 / 触发灵活反白]\"}}",
+   "brandName": "智能品牌基因",
+   "configData": {
+    "aPlusConfig": {
+     "sceneType": {
+      "A+": {
+       "checked": false,
+       "num": 4
+      },
+      "APlusHasPhone": {
+       "checked": false,
+       "num": 4
+      },
+      "APlusPro": {
+       "checked": true,
+       "num": 4
+      },
+      "custom": {
+       "checked": false,
+       "num": 4
+      }
+     }
+    },
+    "mainConfig": {
+     "aspectRatio": "3:4",
+     "sceneType": {
+      "scene": {
+       "checked": true,
+       "num": 4
+      },
+      "sellPoint": {
+       "checked": true,
+       "num": 4
+      },
+      "whiteBg": {
+       "checked": false,
+       "num": 4
+      }
+     }
+    }
+   },
+   "imageList": [
+    {
+     "imageUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/PRODUCT_MARKET_MATERIAL_V2/2037115898130681856/image_list_0.jpg"
+    }
+   ],
+   "provider": "GEMINI_FLASH_PRO",
+   "resolution": "2K",
+   "sceneTypeNum": 4,
+   "sellerPoint": "[产品名称]：北欧复古天鹅绒单人沙发椅\n[目标受众]：追求家居品质的中产阶级，适用于客厅休闲角、卧室阅读区、现代办公室接待区\n[卖点描述]：选用高档 Velvet 面料，触感丝滑且富有光泽；符合人体工程学的 Wingback 护翼背靠设计，提供沉浸式包围感；加厚高密度海绵坐垫，回弹有力长坐不塌；墨绿色调彰显 Mid-Century Modern 奢华格调\n[材质描述]：表面覆盖高品质天鹅绒织物，走线平整严密；内部采用实木框架支撑，承重性能优异；底部配备四个斜插式原木色锥形实木腿，增加稳固性的同时提升视觉轻盈感；底部带有防滑静音脚垫，保护地板不受磨损\n[使用方式]：1. 开箱后将沙发主体倒置于干净平面；2. 取出配件包中的四个实木腿，对准底部预埋螺丝孔位；3. 顺时针手动旋转拧紧实木腿，直至完全固定不摇晃；4. 将沙发翻转正放，拍打受压的靠背和扶手使其填充物恢复蓬松状态即可使用\n[产品类目]：Home & Kitchen > Furniture > Living Room Furniture > Chairs",
+   "sellerTypeNum": 4
+  }
+ },
+ {
+  "id": "2035901013554167808",
+  "source": "/__cases/product-image-suite/2035901013554167808-source.jpg",
+  "result": "/__cases/product-image-suite/2035901013554167808-r.jpg",
+  "ext": {
+   "APlusProNum": 4,
+   "aspectRatio": "1:1",
+   "brandKey": {
+    "language": "英语",
+    "platform": "亚马逊",
+    "salesRegion": "美国"
+   },
+   "brandKeyExtract": "{\"brandColor\":{\"背景策略-风格定义\":\"High-end American urban fitness and industrial-chic lifestyle, reflecting the modern, active lifestyle typical of major US metropolitan areas like New York or Los Angeles.\",\"背景策略-光影\":\"Cinematic low-angle sunlight with sharp, high-contrast shadows to highlight the metallic hardware textures and ergonomic curves.\",\"背景策略-场景关键词\":\"Urban rooftop gym, Central Park morning run, minimalist industrial loft, high-performance tech gears\",\"brandColor (品牌主色)\":\"Amber Bronze #D95D2B\",\"Brand Injection（品牌植入）\":\"Integrating the #D95D2B copper accent through premium fitness accessories, high-tech apparel details, or architectural lighting elements within the background.\"},\"fontStyle\":{\"颜色策略-Body/Sub\":\"[\\\"Body color\\\"：#E0E0E0]\",\"字体策略\":\"Geometric Sans-Serif\",\"灵活反白\":\"You are authorized to switch to Matte White (#FFFFFF) text whenever using a dark background or a solid brand-color panel.\",\"字体风格\":\"Montserrat\",\"排版\":\"Non-italic, standard leading\",\"颜色策略-Heading\":\"[\\\"Heading Color\\\"：#D95D2B / Flexible Reverse to #FFFFFF]\"}}",
+   "brandName": "智能品牌基因",
+   "configData": {
+    "aPlusConfig": {
+     "sceneType": {
+      "A+": {
+       "checked": false,
+       "num": 4
+      },
+      "APlusHasPhone": {
+       "checked": false,
+       "num": 4
+      },
+      "APlusPro": {
+       "checked": true,
+       "num": 4
+      },
+      "custom": {
+       "checked": false,
+       "num": 4
+      }
+     }
+    },
+    "mainConfig": {
+     "aspectRatio": "1:1",
+     "sceneType": {
+      "sellPoint": {
+       "checked": true,
+       "num": 4
+      },
+      "whiteBg": {
+       "checked": false,
+       "num": 4
+      }
+     }
+    }
+   },
+   "imageList": [
+    {
+     "imageUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/PRODUCT_MARKET_MATERIAL_V2/2035901013554167808/image_list_0.jpg"
+    }
+   ],
+   "provider": "GEMINI_FLASH_PRO",
+   "resolution": "4K",
+   "sellerPoint": "[产品名称]：不入耳式骨传导概念运动蓝牙耳机\n[目标受众]：跑步、健身等运动爱好者，以及需要保持环境感知的户外骑行者和办公人群\n[卖点描述]：采用Open-Ear开放式设计，不堵塞耳道，保持环境音感知更安全；符合人体工学的后挂式结构，剧烈运动不掉落；具备IPX5级生活防水性能，无惧汗水侵蚀\n[材质描述]：亲肤硅胶材质耳挂，柔韧高回弹记忆钛合金后梁；黑橙撞色金属环点缀设计，外壳采用细磨砂防滑工艺，配备CD纹理多功能实体按键\n[使用方式]：1. 长按右侧耳机外侧圆形多功能键3秒至红蓝灯闪烁进入Pairing模式；2. 短按一次该按键实现播放/暂停或接听/挂断电话；3. 双击右侧按键切换下一曲，三击激活语音助手；4. 使用包装附带的Type-C充电线连接耳机底部隐藏式接口，指示灯由红变蓝即表示充满\n[产品类目]：Electronics > Headphones, Earbuds & Accessories > Headphones > Open-Ear Headphones",
+   "sellerTypeNum": 4
+  }
+ },
+ {
+  "id": "2035911132090269696",
+  "source": "/__cases/product-image-suite/2035911132090269696-source.jpg",
+  "result": "/__cases/product-image-suite/2035911132090269696-r.jpg",
+  "ext": {
+   "APlusProNum": 4,
+   "aspectRatio": "3:4",
+   "brandKey": {
+    "language": "英语",
+    "platform": "亚马逊",
+    "salesRegion": "美国"
+   },
+   "brandKeyExtract": "{\"brandColor\":{\"背景策略-风格定义\":\"Modern American high-performance outdoor lifestyle, capturing the vastness and athletic energy of the Pacific Coast Highway or the Rocky Mountain trails.\",\"背景策略-光影\":\"High-contrast natural sunlight, crisp outdoor shadows, and realistic lens flares reflecting off the iridescent lenses\",\"背景策略-场景关键词\":\"California coastal road, winding asphalt, professional cycling gear, expansive blue sky, motion-blurred background\",\"brandColor (品牌主色)\":\"Electric Hyper Blue #00A3FF\",\"Brand Injection（品牌植入）\":\"Subtle brand color coordination within cycling apparel and professional bike frames to create a holistic athletic ecosystem\"},\"fontStyle\":{\"颜色策略-Body/Sub\":\"[\\\"Body color\\\"：#D1EDFF]\",\"字体策略\":\"硬朗无衬线体\",\"灵活反白\":\"You are authorized to switch to Matte White (#FFFFFF) text whenever using a dark background or a solid brand-color panel.\",\"字体风格\":\"Barlow Condensed\",\"排版\":\"Non-italic, standard leading\",\"颜色策略-Heading\":\"[\\\"Heading Color\\\"：#00A3FF / 灵活反白至 #FFFFFF]\"}}",
+   "brandName": "智能品牌基因",
+   "configData": {
+    "aPlusConfig": {
+     "sceneType": {
+      "A+": {
+       "checked": false,
+       "num": 4
+      },
+      "APlusHasPhone": {
+       "checked": false,
+       "num": 4
+      },
+      "APlusPro": {
+       "checked": true,
+       "num": 4
+      },
+      "custom": {
+       "checked": false,
+       "num": 4
+      }
+     }
+    },
+    "mainConfig": {
+     "aspectRatio": "3:4",
+     "sceneType": {
+      "scene": {
+       "checked": true,
+       "num": 4
+      },
+      "sellPoint": {
+       "checked": true,
+       "num": 4
+      },
+      "whiteBg": {
+       "checked": false,
+       "num": 4
+      }
+     }
+    }
+   },
+   "imageList": [
+    {
+     "imageUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/PRODUCT_MARKET_MATERIAL_V2/2035911132090269696/image_list_0.jpg"
+    }
+   ],
+   "provider": "GEMINI_FLASH_PRO",
+   "resolution": "4K",
+   "sceneTypeNum": 4,
+   "sellerPoint": "[产品名称]：专业偏光运动太阳镜(Polarized)\n[目标受众]：骑行爱好者、马拉松跑者、垂钓者及户外极限运动人群\n[卖点描述]：采用大框全面屏设计，提供超广角视野并有效防风阻；搭载高清Polarized偏光镜片，过滤眩光并具备UV400防紫外线功能；轻量化TR90框架减轻鼻梁负担，适合长时间佩戴\n[材质描述]：流线型空气动力学框架，哑光白色喷涂工艺；镜片采用蓝紫色幻彩镀膜(Revo Coating)，耐刮擦且抗冲击；鼻托处配备防滑橡胶垫，镜腿内侧设有防汗凹槽设计\n[使用方式]：1. 将眼镜架于鼻梁，确保两侧镜腿平稳挂于耳廓；2. 如需更换镜片，先向外轻拉镜框上缘，待卡扣松开后斜向取出镜片；3. 使用附赠的超细纤维布顺着同一方向擦拭镜片指纹；4. 闲置时请折叠镜腿并放入抗压硬壳收纳盒中以防镜面磨损\n[产品类目]：Sports & Outdoors > Outdoor Recreation > Cycling > Clothing > Men > Sunglasses & Eyewear",
+   "sellerTypeNum": 4
+  }
+ },
+ {
+  "id": "2032412870417752064",
+  "source": "/__cases/product-image-suite/2032412870417752064-source.jpg",
+  "result": "/__cases/product-image-suite/2032412870417752064-r.jpg",
+  "ext": {
+   "aspectRatio": "1:1",
+   "brandKey": {
+    "language": "英语",
+    "platform": "亚马逊",
+    "salesRegion": "美国"
+   },
+   "brandName": "智能品牌基因",
+   "configData": {
+    "mainConfig": {
+     "aspectRatio": "1:1",
+     "sceneType": {
+      "sellPoint": {
+       "checked": true,
+       "num": 8
+      },
+      "whiteBg": {
+       "checked": false,
+       "num": 4
+      }
+     }
+    }
+   },
+   "imageList": [
+    {
+     "imageUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/PRODUCT_MARKET_MATERIAL_V2/2032412870417752064/image_list_0.jpg"
+    }
+   ],
+   "pointStyles": [
+    {
+     "id": "2015992441892536320",
+     "imageThumbUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/6191ad2e348443a7a13198828e15c45b.png?Expires=1793279097&OSSAccessKeyId=LTAI5tQMD3UtDGPmMJRik6JA&Signature=hp0QCWfBNTRDDQtTVjbO7fdWusk%3D&x-oss-process=image%2Fresize%2Cm_mfit%2Cw_512%2Ch_512",
+     "imageUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/6191ad2e348443a7a13198828e15c45b.png",
+     "imageUrlThumb": "https://file-ai.linkfox.com/UPLOAD/MANAGE/6191ad2e348443a7a13198828e15c45b.png?Expires=1793279097&OSSAccessKeyId=LTAI5tQMD3UtDGPmMJRik6JA&Signature=hp0QCWfBNTRDDQtTVjbO7fdWusk%3D&x-oss-process=image%2Fresize%2Cm_mfit%2Cw_512%2Ch_512",
+     "materialSource": 2,
+     "prompt": "- L7 使用场景搭配\n -图形逻辑： 🔴 DISABLED (禁用变量三)。\n-视觉构图描述:采用\\\\\\*\\\\\\*Flat Lay（垂直俯拍）\\\\\\*\\\\\\*构图。\n-主体: 商品主体自然摆放，占据画面中心视觉点，要更加自然，符合常理；配角: 周围搭配与商品互补的其他生活用品或商品，互补物品不出现重复；--背景: 根据商品的使用场景，使用有质感的背景底纹，如做旧的白色木纹（White Distressed Wood）或浅灰水泥纹等待；光线: 柔和的顶光，模拟自然日光，投影柔和。文本只需要主标题即可。",
+     "style": "L7",
+     "tabType": "1"
+    },
+    {
+     "id": "2015991502951448576",
+     "imageThumbUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/6845b74bb4464127a2847724d1ce1cc9.jpg?Expires=1793282252&OSSAccessKeyId=LTAI5tQMD3UtDGPmMJRik6JA&Signature=agwE4VUthfYET%2FkXMTzEet0rDR4%3D&x-oss-process=image%2Fresize%2Cm_mfit%2Cw_512%2Ch_512",
+     "imageUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/6845b74bb4464127a2847724d1ce1cc9.jpg",
+     "imageUrlThumb": "https://file-ai.linkfox.com/UPLOAD/MANAGE/6845b74bb4464127a2847724d1ce1cc9.jpg?Expires=1793282252&OSSAccessKeyId=LTAI5tQMD3UtDGPmMJRik6JA&Signature=agwE4VUthfYET%2FkXMTzEet0rDR4%3D&x-oss-process=image%2Fresize%2Cm_mfit%2Cw_512%2Ch_512",
+     "materialSource": 2,
+     "prompt": "- L3 极简主义布局 (Minimalist Layout):\n  -图形逻辑： 🔴 DISABLED (禁用变量三).\n  - 画面大面积使用场景。一个巨大、醒目的主标题 (Headline) 占据画面顶部或中央（不能挡住商品），传递核心信息。",
+     "style": "L3",
+     "tabType": "1"
+    },
+    {
+     "id": "2019366458022195200",
+     "imageThumbUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/b02827e016c54bcfbd961c0671863443.png?Expires=1793279097&OSSAccessKeyId=LTAI5tQMD3UtDGPmMJRik6JA&Signature=Fi%2FNIXQBpTNPcr8vXuLz8x%2BKQlI%3D&x-oss-process=image%2Fresize%2Cm_mfit%2Cw_512%2Ch_512",
+     "imageUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/b02827e016c54bcfbd961c0671863443.png",
+     "imageUrlThumb": "https://file-ai.linkfox.com/UPLOAD/MANAGE/b02827e016c54bcfbd961c0671863443.png?Expires=1793279097&OSSAccessKeyId=LTAI5tQMD3UtDGPmMJRik6JA&Signature=Fi%2FNIXQBpTNPcr8vXuLz8x%2BKQlI%3D&x-oss-process=image%2Fresize%2Cm_mfit%2Cw_512%2Ch_512",
+     "materialSource": 2,
+     "prompt": "[核心构图]： 智能采用非对称的60-40分割布局 / 中心对称的构图。\n主题：沉浸式的主题铺满画布，放置高清的人物主体，背景进行模拟相机焦距虚化（Bokeh）处理，突出人物轮廓。\n字体留白：如选择60-40分割，利用背景的留白（如天空、虚化的草地/墙面）作为文字排版区，如选择中心对称的构图，字体叠加在画面中央\n[排版策略 - 字体混搭]： 必须使用**“信息层级混排”**逻辑来营造高级感：\n信息层（衬线/黑体）：使用庄重的粗衬线体 (Serif) 或 超粗无衬线体 书写产品核心词（如 COAT, BOOTS）。\n氛围层（手写体）：智能使用，飘逸的英文手写体 (Script) / 极细的衬线体 作为装饰，书写形容词或品牌名（如 Vintage, Luxury, Summer）。\n[光影与层次]：\n强调自然光/夕阳光感，避免生硬的抠图感。\n限制：\n1. 必须展示模特上身效果，禁止裁切头部",
+     "style": "L10",
+     "tabType": "1"
+    },
+    {
+     "id": "2019369363506851840",
+     "imageThumbUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/279b166502214e36b483b3829ce7268b.png?Expires=1793282406&OSSAccessKeyId=LTAI5tQMD3UtDGPmMJRik6JA&Signature=ZEFARvo5%2Fz0nD4JwWxZ2ISr2VPI%3D&x-oss-process=image%2Fresize%2Cm_mfit%2Cw_512%2Ch_512",
+     "imageUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/279b166502214e36b483b3829ce7268b.png",
+     "imageUrlThumb": "https://file-ai.linkfox.com/UPLOAD/MANAGE/279b166502214e36b483b3829ce7268b.png?Expires=1793282406&OSSAccessKeyId=LTAI5tQMD3UtDGPmMJRik6JA&Signature=ZEFARvo5%2Fz0nD4JwWxZ2ISr2VPI%3D&x-oss-process=image%2Fresize%2Cm_mfit%2Cw_512%2Ch_512",
+     "materialSource": 2,
+     "prompt": "【C 模块16: Lifestyle Application / 生活化场景展示】 \n对标卖点: [引用最能体现服装风格或整体穿着体验的卖点] \n视觉构图描述: ② 不规则艺术拼贴: 【由2-3张不同尺寸的图片构成，图片之间有轻微重叠或留白，形成动态感和层次感。】 图中必须为[明确指出性别，如“欧美男模特”或“欧美女模特”】\nText on Image ****(Must be in Target Language): \nHeadline: \"[根据目标语言撰写吸引人的标题]\" \nBody: \"[根据目标语言撰写利益点文案]\" \n... (根据所选版式调整) \n背景与颜色建议: [优先采用用户定义的字体和主色调。若无，则根据服装风格建议字体和主色调。背景建议: 展示穿搭的生活方式图]\nC模块17",
+     "style": "L22",
+     "tabType": "1"
+    },
+    {
+     "id": "2019368134835826688",
+     "imageThumbUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/d432f1a91faa4bfb852a361a35c37ddb.png?Expires=1793280067&OSSAccessKeyId=LTAI5tQMD3UtDGPmMJRik6JA&Signature=iYY0q5A9AxINHHYCLpAPR0YbLHs%3D&x-oss-process=image%2Fresize%2Cm_mfit%2Cw_512%2Ch_512",
+     "imageUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/d432f1a91faa4bfb852a361a35c37ddb.png",
+     "imageUrlThumb": "https://file-ai.linkfox.com/UPLOAD/MANAGE/d432f1a91faa4bfb852a361a35c37ddb.png?Expires=1793280067&OSSAccessKeyId=LTAI5tQMD3UtDGPmMJRik6JA&Signature=iYY0q5A9AxINHHYCLpAPR0YbLHs%3D&x-oss-process=image%2Fresize%2Cm_mfit%2Cw_512%2Ch_512",
+     "materialSource": 2,
+     "prompt": "采用非对称网格布局，将“多角度棚拍”（侧面/背面展示版型）与“街拍生活图”混排，配合大面积留白和衬线字体，模拟Lookbook杂志内页，强调高级感",
+     "style": "L18",
+     "tabType": "1"
+    },
+    {
+     "id": "2015992868864294912",
+     "imageThumbUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/613a27a2c30f4ab5815e4922db01fe18.jpg?Expires=1793282345&OSSAccessKeyId=LTAI5tQMD3UtDGPmMJRik6JA&Signature=tGhIQb2eQNs8ZJuDc26wZ%2F4rwhA%3D&x-oss-process=image%2Fresize%2Cm_mfit%2Cw_512%2Ch_512",
+     "imageUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/613a27a2c30f4ab5815e4922db01fe18.jpg",
+     "imageUrlThumb": "https://file-ai.linkfox.com/UPLOAD/MANAGE/613a27a2c30f4ab5815e4922db01fe18.jpg?Expires=1793282345&OSSAccessKeyId=LTAI5tQMD3UtDGPmMJRik6JA&Signature=tGhIQb2eQNs8ZJuDc26wZ%2F4rwhA%3D&x-oss-process=image%2Fresize%2Cm_mfit%2Cw_512%2Ch_512",
+     "materialSource": 2,
+     "prompt": "- A8 Type 8: 沉浸式性能感知全景\n  - 图形逻辑： 🔴 DISABLED (禁用变量三). 卡片本身即为容器结构。\n  -布局：沉浸式性能感知全景 (Immersive Performance Visualization)。采用虚实结合的宽幅电影级构图。背景需构建一个高品质的生活场景，商品主体在画面的一侧 (Cinematic Lifestyle Scene)，利用大光圈制造强烈的景深虚化 (Deep Bokeh)。产品主体以写实状态置于前景的实体平面上（如台面、地面），确保投影真实。文字必须垂直居中。",
+     "style": "L9",
+     "tabType": "1"
+    },
+    {
+     "id": "2015992773431296000",
+     "imageThumbUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/f362c51465c149ea9656187b3e2964b4.jpg?Expires=1793282450&OSSAccessKeyId=LTAI5tQMD3UtDGPmMJRik6JA&Signature=64Z%2BJEbkKT7jb4OLeHppyP9EiYE%3D&x-oss-process=image%2Fresize%2Cm_mfit%2Cw_512%2Ch_512",
+     "imageUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/f362c51465c149ea9656187b3e2964b4.jpg",
+     "imageUrlThumb": "https://file-ai.linkfox.com/UPLOAD/MANAGE/f362c51465c149ea9656187b3e2964b4.jpg?Expires=1793282450&OSSAccessKeyId=LTAI5tQMD3UtDGPmMJRik6JA&Signature=64Z%2BJEbkKT7jb4OLeHppyP9EiYE%3D&x-oss-process=image%2Fresize%2Cm_mfit%2Cw_512%2Ch_512",
+     "materialSource": 2,
+     "prompt": "- A5 Type 5: 结构化拼图 (Bento)\n  - 图形逻辑：🔴 DISABLED (禁用变量三). 拼图板块需要明确的边界。\n  - 构图：专为画面设计的现代拼贴布局。背景是[brandColor]的纯色，在纯色背景上是一个结构为非对称三格分割三个面板，面板不要有描边。主面板为使用场景图，占据 50% 面积，位置视画幅而定。剩余的两个次级面板区展示必须是\"使用场景图-特写\"或者\"使用场景图中的两个\"，平分剩余 50% 面积：。文字内容在面板内，并且在画面上方，与画面构图自然融合，文字必须要十分精简。细节：图片之间留有较宽的间距（行距）。图片都要用使用场景图，带场景。",
+     "style": "L8",
+     "tabType": "1"
+    },
+    {
+     "id": "2015991409091313664",
+     "imageThumbUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/a1f17824fcc341aa8bd029a9171fd6d3.png?Expires=1793282156&OSSAccessKeyId=LTAI5tQMD3UtDGPmMJRik6JA&Signature=1BEV2AKPzDOUFf8IPv1WfkoVc3o%3D&x-oss-process=image%2Fresize%2Cm_mfit%2Cw_512%2Ch_512",
+     "imageUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/a1f17824fcc341aa8bd029a9171fd6d3.png",
+     "imageUrlThumb": "https://file-ai.linkfox.com/UPLOAD/MANAGE/a1f17824fcc341aa8bd029a9171fd6d3.png?Expires=1793282156&OSSAccessKeyId=LTAI5tQMD3UtDGPmMJRik6JA&Signature=1BEV2AKPzDOUFf8IPv1WfkoVc3o%3D&x-oss-process=image%2Fresize%2Cm_mfit%2Cw_512%2Ch_512",
+     "materialSource": 2,
+     "prompt": "- L2卖点特征块布局 (Feature Block Layout):\n -图形逻辑： ✅ ACTIVE (启用变量三).\n画面为一张使用场景图，商品主体在画面的一侧，粗体标题放在合理的位置。另一侧排列若干个独立的卖点模块，卖点文字必须要十分精简，如果有图标，图标不能超过三个而且必须很小。\n  - 对齐： 所有卖点模块内容的基线必须严格对齐，形成一个看不见的水平参考线。\n  - 禁止：如果要展示商品的多个形态，禁止使用半透明重影叠加。需要尝试将商品的不同形态正常展示在图片中",
+     "style": "L2",
+     "tabType": "1"
+    }
+   ],
+   "provider": "GEMINI_FLASH_PRO",
+   "resolution": "4K",
+   "sellerPoint": "[产品名称]：全自动扫拖一体机器人配全能基站\n[目标受众]：追求高品质生活的家庭、养宠人士及忙碌的上班族，适用于硬质地板、地毯等全屋清洁场景\n[卖点描述]：搭载LDS激光导航与AI视觉避障技术；配备全自动集尘与水箱补给基站，实现数周无需手动清理；高吸力配合双旋拖布，支持地毯识别并自动抬升拖布\n[材质描述]：机身采用哑光磨砂黑色ABS材质，极具科技美感；基站配有金属拉丝质感装饰条；顶部凸起为高精度激光传感器；前端嵌入3D结构光与摄像头感应模组\n[使用方式]：1. 将基站靠墙放置于插座旁并接通电源；2. 掀开基站上盖放入集尘袋并向水箱注水；3. 长按扫地机顶部圆形电源键3秒开机；4. 通过手机App连接WiFi，点击'Start Mapping'开启全屋建图；5. 任务完成后机器人自动返回基站进行自动集尘、清洗拖布并烘干\n[产品类目]：Home & Kitchen > Vacuums & Floor Care > Robotic Vacuums",
+   "sellerTypeNum": 8
+  }
+ }
+]

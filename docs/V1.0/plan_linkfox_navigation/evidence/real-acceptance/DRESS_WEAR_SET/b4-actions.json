@@ -1,0 +1,86 @@
+{
+  "toolId": "DRESS_WEAR_SET",
+  "route": "/tools/ecommerce-suite/dress-wear-set",
+  "source": "own",
+  "steps": {
+    "dockMounted": true,
+    "dockItemCount": 1,
+    "detailVisible": 1,
+    "before": {
+      "assetCount": 0,
+      "lastAsset": null,
+      "projectCount": 0,
+      "lastProject": null
+    },
+    "download": {
+      "download": {
+        "suggestedFilename": "dress-wear-set-result-1.png",
+        "bytes": 1239248,
+        "path": "/tmp/b4-DRESS_WEAR_SET-1793246261548-dress-wear-set-result-1.png"
+      },
+      "busy": {
+        "busySeen": true,
+        "spinnerSeen": true,
+        "disabledNow": 0
+      }
+    },
+    "save": {
+      "feedback": "已存入资产库（image · VAzvldYb0I4MTc3Qdd3Va）",
+      "assetCountBefore": 0,
+      "assetCountAfter": 1,
+      "lastAsset": {
+        "id": "VAzvldYb0I4MTc3Qdd3Va",
+        "title": "DRESS_WEAR_SET 结果 1",
+        "kind": "image",
+        "storageKey": "image:2IoptJFeq34W_zacXNz86",
+        "bytes": 1239248,
+        "toolId": "DRESS_WEAR_SET",
+        "count": 1
+      },
+      "busy": {
+        "busySeen": true,
+        "spinnerSeen": true,
+        "disabledNow": 0
+      }
+    },
+    "canvas": {
+      "feedback": "已发送到画布（kBWF-Oo15TNMpXW0s9KSD / image-1793246266388-rqve5）",
+      "projectCountBefore": 0,
+      "projectCountAfter": 1,
+      "lastProject": {
+        "id": "kBWF-Oo15TNMpXW0s9KSD",
+        "title": "DRESS_WEAR_SET 历史结果",
+        "nodeCount": 1,
+        "lastNode": {
+          "id": "image-1793246266388-rqve5",
+          "type": "image",
+          "metadata": {
+            "content": "blob:http://127.0.0.1:3000/347db884-a50c-43d4-93dc-1ff89ec538fc",
+            "status": "success",
+            "storageKey": "image:yvuL5RcfroAHqME3xuRto",
+            "naturalWidth": 1024,
+            "naturalHeight": 1024,
+            "bytes": 1239248,
+            "mimeType": "image/png"
+          }
+        }
+      },
+      "busy": {
+        "busySeen": true,
+        "spinnerSeen": true,
+        "disabledNow": 0
+      }
+    },
+    "title": "无限画布",
+    "consoleErrors": [],
+    "bytesMatch": {
+      "download": 1239248,
+      "asset": 1239248,
+      "node": 1239248,
+      "same": true
+    }
+  },
+  "ok": true,
+  "errors": [],
+  "recordedAt": "2026-10-29T03:57:47.084Z"
+}

@@ -1,0 +1,109 @@
+{
+  "toolId": "VIDEO_TRANSLATION",
+  "route": "/tools/ai-video/video-translation",
+  "mode": "resume-only（不重新提交）",
+  "taskId": "task_ye7NHl8fwVr1Roh5ysCKB1C7Nr2lMwZd",
+  "startedAt": "2026-10-29T12:11:48.785Z",
+  "steps": [
+    "page-opened",
+    "terminal-or-timeout",
+    "fresh-reload-history",
+    "history-restored-result"
+  ],
+  "statusTimeline": [
+    {
+      "at": "2026-10-29T12:11:57.933Z",
+      "status": "succeeded",
+      "progress": null,
+      "items": 1,
+      "error": null
+    }
+  ],
+  "reload": {
+    "count": 1,
+    "matched": true,
+    "items": [
+      {
+        "taskId": "task-mvth8drs-dk86it",
+        "status": "succeeded",
+        "text": "2026-10-29 19:45 已完成 任务：把原视频的语音翻译成目标语言并重新配音，保持原画面、镜头节奏与字幕时间轴不变，输出可直接投… sub2api-real::MiniMax-H3 · video · 1 个结果 查看结果"
+      }
+    ]
+  },
+  "result": {
+    "hasVideo": true,
+    "readyState": 4,
+    "duration": 6.583008,
+    "videoWidth": 768,
+    "videoHeight": 768,
+    "src": "blob:http://127.0.0.1:3000/8761625a-b0a6-4922-81a6-2e36bd6b3720",
+    "bytes": 1080637,
+    "magic": "ftyp",
+    "headHex": "00 00 00 20 66 74 79 70 69 73 6f 6d",
+    "hasDownloadButton": true
+  },
+  "actions": {
+    "download": {
+      "suggested": "video-translation-result-1.mp4",
+      "bytes": 1080637,
+      "magic": "ftyp",
+      "matchesResultBytes": true
+    },
+    "save": {
+      "feedback": "已保存到资产库（B6d0Tr3H2GZ6MNBYXIe09）",
+      "assets": {
+        "count": 0,
+        "videos": []
+      }
+    },
+    "canvas": {
+      "feedback": "已发送到画布（C62Iwwjc0E4NP9TcXH7C_）",
+      "videoNodes": null
+    }
+  },
+  "issues": [],
+  "initial": {
+    "found": true,
+    "id": "task-mvth8drs-dk86it",
+    "status": "succeeded",
+    "upstreamTaskId": "task_ye7NHl8fwVr1Roh5ysCKB1C7Nr2lMwZd",
+    "submittedAt": 1793274326200,
+    "progress": null,
+    "error": null,
+    "items": [
+      {
+        "kind": "video",
+        "storageKey": "tool-result:eUvs37Htd5R-8rWnRufLz",
+        "url": "blob:http://127.0.0.1:3000/2e56de3b-ea39-4215-ba17-10515934dd24",
+        "bytes": 1080637,
+        "mimeType": "video/mp4",
+        "payloadDropped": false
+      }
+    ],
+    "updatedAt": 1793275533199
+  },
+  "localTaskId": "task-mvth8drs-dk86it",
+  "upstreamTaskId": "task_ye7NHl8fwVr1Roh5ysCKB1C7Nr2lMwZd",
+  "final": {
+    "found": true,
+    "id": "task-mvth8drs-dk86it",
+    "status": "succeeded",
+    "upstreamTaskId": "task_ye7NHl8fwVr1Roh5ysCKB1C7Nr2lMwZd",
+    "submittedAt": 1793274326200,
+    "progress": null,
+    "error": null,
+    "items": [
+      {
+        "kind": "video",
+        "storageKey": "tool-result:eUvs37Htd5R-8rWnRufLz",
+        "url": "blob:http://127.0.0.1:3000/2e56de3b-ea39-4215-ba17-10515934dd24",
+        "bytes": 1080637,
+        "mimeType": "video/mp4",
+        "payloadDropped": false
+      }
+    ],
+    "updatedAt": 1793275533199
+  },
+  "finishedAt": "2026-10-29T12:12:07.427Z",
+  "pollReceiptsTail": []
+}

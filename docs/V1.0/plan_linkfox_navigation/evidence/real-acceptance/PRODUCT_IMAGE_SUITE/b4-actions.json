@@ -1,0 +1,86 @@
+{
+  "toolId": "PRODUCT_IMAGE_SUITE",
+  "route": "/tools/ecommerce-suite/product-image-suite",
+  "source": "own",
+  "steps": {
+    "dockMounted": true,
+    "dockItemCount": 1,
+    "detailVisible": 1,
+    "before": {
+      "assetCount": 0,
+      "lastAsset": null,
+      "projectCount": 0,
+      "lastProject": null
+    },
+    "download": {
+      "download": {
+        "suggestedFilename": "product-image-suite-result-1.png",
+        "bytes": 2151517,
+        "path": "/tmp/b4-PRODUCT_IMAGE_SUITE-1793246233835-product-image-suite-result-1.png"
+      },
+      "busy": {
+        "busySeen": true,
+        "spinnerSeen": true,
+        "disabledNow": 0
+      }
+    },
+    "save": {
+      "feedback": "已存入资产库（image · UYp_dv-uc0hSomtg1eSDm）",
+      "assetCountBefore": 0,
+      "assetCountAfter": 1,
+      "lastAsset": {
+        "id": "UYp_dv-uc0hSomtg1eSDm",
+        "title": "PRODUCT_IMAGE_SUITE 结果 1",
+        "kind": "image",
+        "storageKey": "image:JBO_bEihADIq_LAW9mpiN",
+        "bytes": 2151517,
+        "toolId": "PRODUCT_IMAGE_SUITE",
+        "count": 1
+      },
+      "busy": {
+        "busySeen": true,
+        "spinnerSeen": true,
+        "disabledNow": 0
+      }
+    },
+    "canvas": {
+      "feedback": "已发送到画布（65yYmm9rIsyZ39-8AC64- / image-1793246238664-g6ovo）",
+      "projectCountBefore": 0,
+      "projectCountAfter": 1,
+      "lastProject": {
+        "id": "65yYmm9rIsyZ39-8AC64-",
+        "title": "PRODUCT_IMAGE_SUITE 历史结果",
+        "nodeCount": 1,
+        "lastNode": {
+          "id": "image-1793246238664-g6ovo",
+          "type": "image",
+          "metadata": {
+            "content": "blob:http://127.0.0.1:3000/727d48e1-4ff8-44ed-bad4-61dd8b2fa13c",
+            "status": "success",
+            "storageKey": "image:p-dYQAiDe0in49-s30c_0",
+            "naturalWidth": 1024,
+            "naturalHeight": 1024,
+            "bytes": 2151517,
+            "mimeType": "image/png"
+          }
+        }
+      },
+      "busy": {
+        "busySeen": true,
+        "spinnerSeen": true,
+        "disabledNow": 0
+      }
+    },
+    "title": "无限画布",
+    "consoleErrors": [],
+    "bytesMatch": {
+      "download": 2151517,
+      "asset": 2151517,
+      "node": 2151517,
+      "same": true
+    }
+  },
+  "ok": true,
+  "errors": [],
+  "recordedAt": "2026-10-29T03:57:19.346Z"
+}

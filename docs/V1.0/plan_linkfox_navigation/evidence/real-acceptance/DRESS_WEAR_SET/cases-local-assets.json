@@ -1,0 +1,1367 @@
+[
+ {
+  "id": "2026966441820966912",
+  "source": "/__cases/dress-wear-set/2026966441820966912-source.jpg",
+  "result": "/__cases/dress-wear-set/2026966441820966912-r.jpg",
+  "ext": {
+   "aPlusNum": 6,
+   "aPlusStyles": [
+    {
+     "id": "2019366606093709312",
+     "imageThumbUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/0dbde7d711c64ab8a30508743d406441.png?Expires=1793278268&OSSAccessKeyId=LTAI5tQMD3UtDGPmMJRik6JA&Signature=p68RNs8PeYH3UjSpppifRorfLyY%3D&x-oss-process=image%2Fresize%2Cm_mfit%2Cw_512%2Ch_512",
+     "imageUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/0dbde7d711c64ab8a30508743d406441.png",
+     "imageUrlThumb": "https://file-ai.linkfox.com/UPLOAD/MANAGE/0dbde7d711c64ab8a30508743d406441.png?Expires=1793278268&OSSAccessKeyId=LTAI5tQMD3UtDGPmMJRik6JA&Signature=p68RNs8PeYH3UjSpppifRorfLyY%3D&x-oss-process=image%2Fresize%2Cm_mfit%2Cw_512%2Ch_512",
+     "materialSource": 2,
+     "prompt": "双身夹心/门神构图：采用**“人-文-人”**的对称结构。左右两侧放置模特（通常是同一模特的双姿态或双胞胎构图），中间留白放置标题，除标题外的字体采用：【字体风格】。适合展示系列的丰富性（如展示同款不同色，或正侧",
+     "style": "A商品-M2",
+     "tabType": "1"
+    },
+    {
+     "id": "2019369286763671552",
+     "imageThumbUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/ea4f7329ee5c433facb989719fa6edd0.png?Expires=1793279097&OSSAccessKeyId=LTAI5tQMD3UtDGPmMJRik6JA&Signature=7V%2BxIOlejeswMUmHTJex3Qx8%2Bvw%3D&x-oss-process=image%2Fresize%2Cm_mfit%2Cw_512%2Ch_512",
+     "imageUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/ea4f7329ee5c433facb989719fa6edd0.png",
+     "imageUrlThumb": "https://file-ai.linkfox.com/UPLOAD/MANAGE/ea4f7329ee5c433facb989719fa6edd0.png?Expires=1793279097&OSSAccessKeyId=LTAI5tQMD3UtDGPmMJRik6JA&Signature=7V%2BxIOlejeswMUmHTJex3Qx8%2Bvw%3D&x-oss-process=image%2Fresize%2Cm_mfit%2Cw_512%2Ch_512",
+     "materialSource": 2,
+     "prompt": "【C 模块16: Lifestyle Application / 生活化场景展示】 \n对标卖点: [引用最能体现服装风格或整体穿着体验的卖点] \n视觉构图描述: ② 不规则艺术拼贴: 【由2-3张不同尺寸的图片构成，图片之间有轻微重叠或留白，形成动态感和层次感。】 图中必须为[明确指出性别，如“欧美男模特”或“欧美女模特”】\nText on Image ****(Must be in Target Language): \nHeadline: \"[根据目标语言撰写吸引人的标题]\" \nBody: \"[根据目标语言撰写利益点文案]\" \n... (根据所选版式调整) \n背景与颜色建议: [优先采用用户定义的字体和主色调。若无，则根据服装风格建议字体和主色调。背景建议: 展示穿搭的生活方式图]\nC模块17",
+     "style": "A商品-C16",
+     "tabType": "1"
+    },
+    {
+     "id": "2015995533568540672",
+     "imageThumbUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/7527d464ec9d40658190f5511c48a2f4.png?Expires=1793278268&OSSAccessKeyId=LTAI5tQMD3UtDGPmMJRik6JA&Signature=F6ZEVRUGidCJHTaOlzzOGNl%2Bfio%3D&x-oss-process=image%2Fresize%2Cm_mfit%2Cw_512%2Ch_512",
+     "imageUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/7527d464ec9d40658190f5511c48a2f4.png",
+     "imageUrlThumb": "https://file-ai.linkfox.com/UPLOAD/MANAGE/7527d464ec9d40658190f5511c48a2f4.png?Expires=1793278268&OSSAccessKeyId=LTAI5tQMD3UtDGPmMJRik6JA&Signature=F6ZEVRUGidCJHTaOlzzOGNl%2Bfio%3D&x-oss-process=image%2Fresize%2Cm_mfit%2Cw_512%2Ch_512",
+     "materialSource": 2,
+     "prompt": "[M2-SymmetricalFrame]: 对称模特双身夹心/门神构图：采用**“人-文-人”**的对称结构。左右两侧放置模特（通常是同一模特的双姿态或双胞胎构图），中间留白放置标题。适合展示系列的丰富性（如展示同款不同色，或正侧",
+     "style": "M2",
+     "tabType": "1"
+    },
+    {
+     "id": "2015995953107992576",
+     "imageThumbUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/553a745a36f04f4f9558e87ef9cf009a.png?Expires=1793278268&OSSAccessKeyId=LTAI5tQMD3UtDGPmMJRik6JA&Signature=90zmx6RFpjyvv2tUC0Fkf29S7jc%3D&x-oss-process=image%2Fresize%2Cm_mfit%2Cw_512%2Ch_512",
+     "imageUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/553a745a36f04f4f9558e87ef9cf009a.png",
+     "imageUrlThumb": "https://file-ai.linkfox.com/UPLOAD/MANAGE/553a745a36f04f4f9558e87ef9cf009a.png?Expires=1793278268&OSSAccessKeyId=LTAI5tQMD3UtDGPmMJRik6JA&Signature=90zmx6RFpjyvv2tUC0Fkf29S7jc%3D&x-oss-process=image%2Fresize%2Cm_mfit%2Cw_512%2Ch_512",
+     "materialSource": 2,
+     "prompt": "[M4-Magazine]: 杂志拼贴杂志剪贴簿风格，纸张叠加、回形针装饰，Ghost Mannequin排版，充满画面。",
+     "style": "M4",
+     "tabType": "1"
+    },
+    {
+     "id": "2015997484398051328",
+     "imageThumbUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/7884944ef3a84386b7cbad4550a3819c.png?Expires=1793276582&OSSAccessKeyId=LTAI5tQMD3UtDGPmMJRik6JA&Signature=Jjd7jJJgd3B51s%2F%2BpHQdbFA%2BJn0%3D&x-oss-process=image%2Fresize%2Cm_mfit%2Cw_512%2Ch_512",
+     "imageUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/7884944ef3a84386b7cbad4550a3819c.png",
+     "imageUrlThumb": "https://file-ai.linkfox.com/UPLOAD/MANAGE/7884944ef3a84386b7cbad4550a3819c.png?Expires=1793276582&OSSAccessKeyId=LTAI5tQMD3UtDGPmMJRik6JA&Signature=Jjd7jJJgd3B51s%2F%2BpHQdbFA%2BJn0%3D&x-oss-process=image%2Fresize%2Cm_mfit%2Cw_512%2Ch_512",
+     "materialSource": 2,
+     "prompt": "[M12-ModelSquad] 阵列多色\n[核心概念]： 一张充满气场的横向长图，展示3-5位（根据SKU数量分配）模特一字排开。旨在通过“队列感”展示同一产品的多种颜色（SKU）或同一单品的多种穿搭风格（百搭性）。\n[构图层次]：\n背景层：中性色摄影棚背景（浅灰或米白）。\n文字层（背景墙）：\n使用巨型 (Massive) 的浅灰色粗体文字（衬线或无衬线均可），横向撑满整个画面宽度。\n文字内容为产品系列名（如 \"BAGGY JEANS\"）或核心卖点。\n关键点：文字必须位于模特身后，被模特身体部分遮挡，形成前后空间关系，制造“杂志大片”的景深感。\n人物层：\n模特间距适中，形成视觉节奏。\n姿态：拒绝呆板站立。要求姿态各异（有的插兜、有的侧身、有的整理头发），模拟自然的街头或聚会状态。\n穿着：人物穿搭与配饰不同，必须穿着用户输入的产品\n[视觉细节]：\n落地感：仅显示脚底的浅色的真实投影（Drop Shadows），确保人物“站”在地面上。\n影子模拟：模拟太阳角度85°的脚底阴影\n标签（可选）：匹配sku的颜色，居中用极小的字号标注色号（如：复古蓝、水洗黑）。",
+     "style": "M12",
+     "tabType": "1"
+    },
+    {
+     "id": "2015997231842230272",
+     "imageThumbUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/35a12adae81045a1a0784fa6e9a32d1a.jpg?Expires=1793278268&OSSAccessKeyId=LTAI5tQMD3UtDGPmMJRik6JA&Signature=H7yKuYYue9RLCLtnC2Ku%2FKMjsX4%3D&x-oss-process=image%2Fresize%2Cm_mfit%2Cw_512%2Ch_512",
+     "imageUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/35a12adae81045a1a0784fa6e9a32d1a.jpg",
+     "imageUrlThumb": "https://file-ai.linkfox.com/UPLOAD/MANAGE/35a12adae81045a1a0784fa6e9a32d1a.jpg?Expires=1793278268&OSSAccessKeyId=LTAI5tQMD3UtDGPmMJRik6JA&Signature=H7yKuYYue9RLCLtnC2Ku%2FKMjsX4%3D&x-oss-process=image%2Fresize%2Cm_mfit%2Cw_512%2Ch_512",
+     "materialSource": 2,
+     "prompt": "[M10-EditorialGrid]: 合辑网格\n采用非对称网格布局，将“多角度棚拍”（侧面/背面展示版型）与“街拍生活图”混排，配合大面积留白和衬线字体，模拟Lookbook杂志内页，强调高级感。",
+     "style": "M10",
+     "tabType": "1"
+    }
+   ],
+   "aspectRatio": "3:4",
+   "brandKey": {
+    "brandName": "智能品牌基因",
+    "language": "英语",
+    "platform": "亚马逊",
+    "salesRegion": "美国"
+   },
+   "configData": {
+    "aPlusConfig": {
+     "sceneType": {
+      "A+": {
+       "checked": true,
+       "num": 6
+      },
+      "A+Phone": {
+       "checked": false,
+       "num": 6
+      },
+      "A+Pro": {
+       "checked": false,
+       "num": 6
+      },
+      "custom": {
+       "checked": false,
+       "num": 6
+      }
+     }
+    },
+    "mainConfig": {
+     "aspectRatio": "3:4",
+     "modelType": "pro",
+     "sceneType": {
+      "ins": {
+       "checked": true,
+       "num": 4
+      },
+      "point": {
+       "checked": true,
+       "num": 3
+      }
+     }
+    }
+   },
+   "imageList": [
+    {
+     "id": "hudsrser",
+     "imageUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/WEAR_COLLECTION/2026966441820966912/image_list_0.jpg",
+     "name": "7.jpg"
+    }
+   ],
+   "insTypeNum": 4,
+   "pointStyles": [
+    {
+     "id": "2015994698176430080",
+     "imageThumbUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/9c72a8ac9ed94cd7959a5526b48dbae8.png?Expires=1793278268&OSSAccessKeyId=LTAI5tQMD3UtDGPmMJRik6JA&Signature=Jj6tkGWaIECk0DaHgbKMNR6BXi0%3D&x-oss-process=image%2Fresize%2Cm_mfit%2Cw_512%2Ch_512",
+     "imageUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/9c72a8ac9ed94cd7959a5526b48dbae8.png",
+     "imageUrlThumb": "https://file-ai.linkfox.com/UPLOAD/MANAGE/9c72a8ac9ed94cd7959a5526b48dbae8.png?Expires=1793278268&OSSAccessKeyId=LTAI5tQMD3UtDGPmMJRik6JA&Signature=Jj6tkGWaIECk0DaHgbKMNR6BXi0%3D&x-oss-process=image%2Fresize%2Cm_mfit%2Cw_512%2Ch_512",
+     "materialSource": 2,
+     "prompt": "【A+ 模块15: Lifestyle Application / 生活化场景展示】 󰀠对标卖点: [引用最能体现服装风格或整体穿着体验的卖点] 󰀠视觉构图描述:  全宽高清横幅图: 一张充满故事感的单场景大图，模特自然融入其中。 图中必须为[明确指出性别，如“欧美男模特”或“欧美女模特”】 󰀠Text on Image ****(Must be in Target Language): 󰀡Headline: \"[根据目标语言撰写吸引人的标题]\" 󰀡Body: \"[根据目标语言撰写利益点文案]\" 󰀡... (根据所选版式调整) 󰀠背景与颜色建议: [优先采用用户定义的字体和主色调。若无，则根据服装风格建议字体和主色调。背景建议: 展示穿搭的生活方式图]",
+     "style": "C15",
+     "tabType": "1"
+    },
+    {
+     "id": "2015994863398453248",
+     "imageThumbUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/1bd6aa15b0ed45e6a937d1cd63557d03.png?Expires=1793278268&OSSAccessKeyId=LTAI5tQMD3UtDGPmMJRik6JA&Signature=EYYsqv%2F%2F66aXS%2FmLdmM%2Fp2xYUss%3D&x-oss-process=image%2Fresize%2Cm_mfit%2Cw_512%2Ch_512",
+     "imageUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/1bd6aa15b0ed45e6a937d1cd63557d03.png",
+     "imageUrlThumb": "https://file-ai.linkfox.com/UPLOAD/MANAGE/1bd6aa15b0ed45e6a937d1cd63557d03.png?Expires=1793278268&OSSAccessKeyId=LTAI5tQMD3UtDGPmMJRik6JA&Signature=EYYsqv%2F%2F66aXS%2FmLdmM%2Fp2xYUss%3D&x-oss-process=image%2Fresize%2Cm_mfit%2Cw_512%2Ch_512",
+     "materialSource": 2,
+     "prompt": "【A+ 模块17: Lifestyle Application / 生活化场景展示】 󰀠对标卖点: [引用最能体现服装风格或整体穿着体验的卖点] 󰀠视觉构图描述: \n主图+氛围文字: 采用左/右图文结构，文字区域较大，用弧线或波浪线分割，排版类似高端杂志页面。 图中必须为[明确指出性别，如“欧美男模特”或“欧美女模特”】 󰀠Text on Image ****(Must be in Target Language): 󰀡Headline: \"[根据目标语言撰写吸引人的标题]\" 󰀡Body: \"[根据目标语言撰写利益点文案]\" 󰀡... (根据所选版式调整) 󰀠背景与颜色建议: [优先采用用户定义的字体和主色调。若无，则根据服装风格建议字体和主色调。背景建议: 展示穿搭的生活方式图]",
+     "style": "C17",
+     "tabType": "1"
+    },
+    {
+     "id": "2015994352280567808",
+     "imageThumbUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/f04d6636e8444c20a3dc80a0e95f773b.png?Expires=1793278268&OSSAccessKeyId=LTAI5tQMD3UtDGPmMJRik6JA&Signature=qs6OTdbac9PBPhoNMNpK%2BB0Tcy4%3D&x-oss-process=image%2Fresize%2Cm_mfit%2Cw_512%2Ch_512",
+     "imageUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/f04d6636e8444c20a3dc80a0e95f773b.png",
+     "imageUrlThumb": "https://file-ai.linkfox.com/UPLOAD/MANAGE/f04d6636e8444c20a3dc80a0e95f773b.png?Expires=1793278268&OSSAccessKeyId=LTAI5tQMD3UtDGPmMJRik6JA&Signature=qs6OTdbac9PBPhoNMNpK%2BB0Tcy4%3D&x-oss-process=image%2Fresize%2Cm_mfit%2Cw_512%2Ch_512",
+     "materialSource": 2,
+     "prompt": "【A+ 模块12: Key Features & Benefits / 核心卖点与功能性】 󰀠对标卖点: [引用关于服装核心功能（如舒适、显瘦、透气、防晒等）的卖点] 󰀠视觉构图描述:功能性动态演示，通过一个动态瞬间来展示功能。例如： 󰀡防水: 一滴晶莹的水珠正从倾斜的防水面料上滚落，形成荷叶效应的特写。 󰀡弹性: 一只手轻轻拉伸服装，面料的延展性清晰可见，旁边可以用图标箭头表示拉伸与回弹。 󰀡保暖: 将袖口对折，拍摄其厚实的侧面。或用后期效果添加一丝若有若无的暖色光晕或热气。 󰀡防晒: 光线照射在服装表面并被反弹。 󰀠Text on Image ****(Must be in Target Language): 󰀡Feature 1 Title: \"[翻译为目标语言: 功能名称]\" 󰀡Feature 1 Text: \"[翻译为目标语言: 功能带来的好处]\" 󰀡... (根据所选版式调整) 󰀠背景与颜色建议: [优先采用用户定义的字体和主色调。若无，则根据服装风格建议字体和主色调。背景建议: 亚马逊 A+图排版，丰富的内容，海报排版，文字以透明玻璃或圆角色块叠放在画面上]",
+     "style": "C12",
+     "tabType": "1"
+    }
+   ],
+   "productInfo": "[产品名称]：廓形短款复古水洗牛仔夹克\n[目标受众]：追求时尚潮流的年轻女性（18-35岁），偏爱街头休闲风格，注重比例修饰和穿搭层次感。\n[核心营销卖点提炼]：\n1、高腰线法则：重塑黄金比例：极致短款的箱型剪裁，即刻提升视觉腰线，优化身材比例，实现“胸以下全是腿”的摩登穿搭效果。\n2、复古水洗丹宁：经典永不褪色：采用中度靛蓝水洗工艺，面料呈现出自然的微磨白效果，赋予夹克历经岁月沉淀的复古质感与独特的层次美感。\n3、廓形与舒适度完美平衡：适度的落肩设计结合挺括的丹宁面料，在保持经典牛仔结构感的同时，确保了穿着的舒适度和对身材的宽容性。\n\n[服装基础档案]：\n材质：高支纯棉丹宁布料，手感扎实，具备牛仔布特有的粗犷肌理感。厚度适中，结构稳定。\n光泽感：纯正哑光质感，面料表面经过水洗处理，光泽低调自然，符合复古丹宁的视觉要求。\n形态：挺括有型，短款设计突出腰部，整体呈现出利落的箱型廓形，具有极佳的塑形效果。\n\n[工艺细节精解]：\n剪裁结构：高腰短款（Crop Length）设计，强调腰部收束感，搭配略微宽松的衣身和袖筒，打造现代感的上短下长比例。\n走线工艺：采用经典双针明缉线工艺，所有拼接处均使用高强度色线加固，不仅增加了视觉的工业感，更保证了服装的耐穿性。\n五金配件：选用具有做旧感的复古黄铜色金属纽扣，从领口至下摆，每一颗纽扣都精准压铸，细节处理提升了整体的品质感与复古氛围。\n特殊设计：胸前双翻盖口袋设计，延续了经典牛仔夹克的工装基因，兼具实用性和装饰性。\n\n[功能性与穿着体验]：\n面料弹性：经典丹宁面料，弹力微弱或无弹力，依靠宽松的廓形设计提供活动自由度，穿着稳固无束缚感。\n耐用护理：丹宁面料抗磨损性能优秀，经过预水洗处理后色牢度高；具有优秀的抗皱性，日常打理简便，建议反面低温清洗。\n季节适配：理想的春秋季外搭，亦可作为夏夜或早秋的防晒/保暖单品，适穿温度约15°C至25°C。\n\n[场景适配与穿搭方案]：\n最佳场景：街拍、日常休闲、音乐节、春日出游、朋友聚会。\n风格定位：摩登街头风、美式复古、Y2K辣妹风。\n搭配建议：\n下装内搭：高腰直筒牛仔裤（打造套装感）、廓形工装裤、A字短裙、修身打底衫、露脐吊带。\n鞋履配饰：复古切尔西靴、高帮帆布鞋、厚底老爹鞋；搭配棒球帽、简约链条腰包、精致叠戴金属项链。",
+   "sellerTypeNum": 3
+  }
+ },
+ {
+  "id": "2010584971116363776",
+  "source": "/__cases/dress-wear-set/2010584971116363776-source.jpg",
+  "result": "/__cases/dress-wear-set/2010584971116363776-r.jpg",
+  "ext": {
+   "UserSelectedSize": "970*600",
+   "aPlusNum": 4,
+   "aspectRatio": "3:2",
+   "brandKey": {
+    "brandName": "智能品牌基因",
+    "language": "英语",
+    "platform": "亚马逊",
+    "salesRegion": "美国"
+   },
+   "configData": {
+    "aPlusConfig": {
+     "sceneType": {
+      "A+": {
+       "checked": true,
+       "num": 4
+      },
+      "A+Phone": {
+       "checked": false,
+       "num": 4
+      },
+      "A+Pro": {
+       "checked": false,
+       "num": 4
+      }
+     }
+    },
+    "mainConfig": {
+     "aspectRatio": "3:2",
+     "modelType": "pro",
+     "sceneType": {
+      "ins": {
+       "checked": true,
+       "num": 4
+      },
+      "point": {
+       "checked": true,
+       "num": 4
+      }
+     }
+    }
+   },
+   "imageList": [
+    {
+     "id": "la8jbgp1",
+     "imageUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/WEAR_COLLECTION/2010584971116363776/image_list_0.jpeg",
+     "name": "w2000_q80 (4).jpeg"
+    },
+    {
+     "id": "7kfpiool",
+     "imageUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/WEAR_COLLECTION/2010584971116363776/image_list_1.jpeg",
+     "name": "w2000_q80 (5).jpeg"
+    },
+    {
+     "id": "l8678uo5",
+     "imageUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/WEAR_COLLECTION/2010584971116363776/image_list_2.jpeg",
+     "name": "w2000_q60 (2).jpeg"
+    }
+   ],
+   "insTypeNum": 4,
+   "productInfo": "**【服装基础档案】**\n- **款式品类**: 优雅绒面革粗跟踝带凉鞋（Block Heel Ankle Strap Sandals）\n- **材质推测**: 细腻奢华绒面革（Suede/Nubuck Leather）。皮质绒毛均匀短密，手感软糯，呈现出高级的材质深度和光感。\n- **光泽流向**: 极致哑光。绒面革表面吸收光线，色彩饱和且深沉，只有在特定角度和绒毛逆向时，才会泛出极微弱的柔和暗光。\n- **形态表现**: 鞋身结构感强，保持极简线条的挺括。粗跟设计提供卓越的稳定性和视觉力量感。踝带部分具有良好的包裹性和贴合度。\n\n**【工艺细节精解】**\n- **剪裁结构**: 采用经典的一字带鞋面设计，简洁大气，最大限度展现足部线条。重点在于踝带部分，采用多条细致的压线或罗纹结构，使其在视觉上更为立体和服帖。\n- **线迹工艺**: 整体鞋面采用隐形或同色系精细内收线迹，确保皮革边缘的平整和圆润，突显材质的完整性与流畅的轮廓。\n- **辅料五金**: 踝带搭扣采用同色系哑光处理的圆形或定制五金，低调地融合在设计中，兼顾美观与实用性。\n- **特殊设计**: 约6-8cm的圆柱形粗跟设计，提供了比细跟更优秀的受力面积，有效分散体重，提升长时间穿着的舒适性。\n\n**【功能性与穿着体验】**\n- **透气/保暖性**: 开放式结构保证了足部清爽透气。绒面材质在气候宜人的晚春和夏季穿着最为舒适。\n- **面料回弹力**: 鞋面绒面革本身挺括稳定。踝带部分的条纹设计可能内含弹性或采用分段缝合，以适应脚踝活动，提供适度的柔韧包裹，减少束缚感。\n- **耐用与打理**: 粗跟设计坚固耐磨。绒面革材质要求专业护理，需防潮防污，定期使用专用刷和清洁剂打理，以维持其绒面质感。\n- **季节适应性**: 晚春至初秋的温暖季节。尤其适合室内活动、晚宴或干燥气候下的户外场合。\n\n**【场景适配与穿搭方案】**\n- **最佳场景**: 职场通勤（提升气场）、高端商务晚宴、鸡尾酒会、约会、画廊参观等需要精致与稳定并存的场合。\n- **风格定位**: 现代极简主义、都会优雅（Urban Chic）、高定基础款。\n- **搭配建议**:\n    *   **下装/内搭**: 搭配黑色或米白色烟管裤，垂感极佳的丝质连衣长裙，高腰A字半裙，或搭配结构感强烈的西装套装。\n    *   **鞋包配饰**: 选择线条干净、材质挺括的皮革或链条手提包。配饰方面，推荐简约的金色或银色手镯和几何形耳环，通过金属光泽与鞋子的哑光形成对比，点亮造型。\n\n**【核心营销卖点提炼】**\n1.  **高级绒面革的“隐奢”触感**: 采用精选高品质绒面革，呈现出深邃无光的哑光质地，如同黑夜中的丝绒，提供视觉和触觉上的双重奢华体验，低调彰显品味。\n2.  **力量美学的稳定粗跟支撑**: 稳固的几何粗跟设计，完美平衡了高跟鞋的优雅曲线与日常穿着的舒适度。提供卓越的抓地力和行走稳定性，让你自信从容驾驭任何场合。\n3.  **极简踝带对腿部线条的雕塑**: 简约的一字带结合立体的踝带设计，巧妙地勾勒出脚踝和腿部的纤细曲线。视觉拉伸效果显著，是打造修长、优雅下半身比例的利器。",
+   "sellerTypeNum": 4
+  }
+ },
+ {
+  "id": "2010559668042153984",
+  "source": "/__cases/dress-wear-set/2010559668042153984-source.jpg",
+  "result": "/__cases/dress-wear-set/2010559668042153984-r.jpg",
+  "ext": {
+   "UserSelectedSize": "970*600",
+   "aPlusNum": 4,
+   "aspectRatio": "3:2",
+   "brandKey": {
+    "brandName": "智能品牌基因",
+    "language": "英语",
+    "platform": "亚马逊",
+    "salesRegion": "美国"
+   },
+   "configData": {
+    "aPlusConfig": {
+     "sceneType": {
+      "A+": {
+       "checked": true,
+       "num": 4
+      },
+      "A+Pro": {
+       "checked": false,
+       "num": 4
+      }
+     }
+    },
+    "mainConfig": {
+     "aspectRatio": "3:2",
+     "modelType": "pro",
+     "sceneType": {
+      "ins": {
+       "checked": true,
+       "num": 4
+      },
+      "point": {
+       "checked": true,
+       "num": 4
+      }
+     }
+    }
+   },
+   "imageList": [
+    {
+     "id": "1np4lsd5",
+     "imageUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/WEAR_COLLECTION/2010559668042153984/image_list_0.jpg",
+     "name": "81A5VGZ4LaL._AC_SY879_.jpg"
+    }
+   ],
+   "insTypeNum": 4,
+   "productInfo": "**【服装基础档案】**\n- **款式品类**: 宽松高腰阔腿长裤（居家/休闲两穿款）\n- **材质推测**: 轻盈透气型棉质平纹布（如府绸或细棉布），触感干爽舒适，具有天然纤维特有的亲肤属性。\n- **光泽流向**: 典型的天然棉质面料，呈现柔和且内敛的哑光质地，无反光或珠光感，符合居家服饰追求的低调舒适感。\n- **形态表现**: 裤身垂感自然流畅，版型极其宽松，对腿部无任何束缚。高腰设计配合松紧腰头，提供卓越的包容性和穿着自在度。\n\n**【工艺细节精解】**\n- **剪裁结构**: 采用极致宽松的H型直筒阔腿剪裁，从腰部至裤脚自然放量，最大化腿部活动空间。高腰线设计，视觉上优化身材比例。\n- **线迹工艺**: 基础款式的双线平缝工艺，保证结构牢固耐穿。格纹图案的接缝处理平整，强化整体的休闲感。\n- **辅料五金**: 简洁的白色或同色系树脂纽扣（位于门襟处），以及隐藏式的腰部抽绳设计，方便根据个人体型调节松紧。\n- **特殊设计**: 清新甜美的粉白Gingham格纹（小方格），赋予居家服饰年轻活泼的视觉冲击力，突破传统睡裤的沉闷感。\n\n**【功能性与穿着体验】**\n- **透气/保暖性**: 极致透气性。轻薄棉质结构确保空气流通顺畅，快速吸收并排出湿气，提供清爽干适的穿着体验，是夏日和温暖室内环境的理想选择。\n- **面料回弹力**: 天然棉质面料回弹力适中，但由于版型设计极为宽松，完全消除了面料弹力不足带来的束缚感，体感零压力。\n- **耐用与打理**: 易于日常家庭机洗和护理。棉质面料具有良好的耐磨性，但建议低温熨烫以保持格纹的平整度。\n- **季节适应性**: 完美适用于春季、夏季，以及初秋（尤其适合在空调房或暖气房中享受休闲时光）。\n\n**【场景适配与穿搭方案】**\n- **最佳场景**: 宅家自处、周末早午餐、楼下咖啡馆短暂外出、休闲度假。\n- **风格定位**: 清新田园风、美式复古休闲（Cozy Core）、随性慵懒风。\n- **搭配建议**:\n    *   **下装/内搭**: 搭配纯色短款T恤、奶油色针织背心或同格纹/纯白色的轻薄衬衫（打造时尚睡衣套装效果）。\n    *   **鞋包配饰**: 居家时搭配麂皮拖鞋或软木底凉鞋（如模特所示）；外穿可搭配白色运动鞋或平底草编凉鞋；配饰推荐简约金属饰品或帆布托特包，以平衡休闲感。\n\n**【核心营销卖点提炼】**\n1.  **呼吸感棉质，享受零重力家居体验**: 采用轻薄透气的纯棉面料，赋予肌肤丝滑干爽的触感。即使在炎热天气或运动后，也能迅速导湿排汗，如同第二层肌肤般自在，彻底告别粘腻感。\n2.  **宽松阔腿版型，修饰腿部线条的视觉魔法**: 超宽直筒廓形设计，不仅保证了居家时的极致舒适，更能在视觉上完美隐藏腿部赘肉，拉高腰线，营造随性不失时尚的慵懒氛围感。\n3.  **粉白Gingham格纹，注入清甜的夏日活力**: 经典的粉白小方格，自带减龄滤镜和清新活力。将复古田园美学融入日常，让这款裤子不再是单纯的睡裤，而是可以轻松穿出门的时尚休闲单品。",
+   "sellerTypeNum": 4
+  }
+ },
+ {
+  "id": "2052630503189741568",
+  "source": "/__cases/dress-wear-set/2052630503189741568-source.jpg",
+  "result": "/__cases/dress-wear-set/2052630503189741568-r.jpg",
+  "ext": {
+   "aPlusProNum": 4,
+   "aPlusStyles": [
+    {
+     "id": "2049687149204332544",
+     "imageThumbUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/6f3ff26a7e204d31891bc8411cc3acb7.jpg?Expires=1793278276&OSSAccessKeyId=LTAI5tQMD3UtDGPmMJRik6JA&Signature=Yfz%2Fm4ruXQmk0mZJhVRB9iegOsE%3D&x-oss-process=image%2Fresize%2Cm_mfit%2Cw_512%2Ch_512",
+     "imageUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/6f3ff26a7e204d31891bc8411cc3acb7.jpg",
+     "imageUrlThumb": "https://file-ai.linkfox.com/UPLOAD/MANAGE/6f3ff26a7e204d31891bc8411cc3acb7.jpg?Expires=1793278276&OSSAccessKeyId=LTAI5tQMD3UtDGPmMJRik6JA&Signature=Yfz%2Fm4ruXQmk0mZJhVRB9iegOsE%3D&x-oss-process=image%2Fresize%2Cm_mfit%2Cw_512%2Ch_512",
+     "materialSource": 2,
+     "prompt": "【可视化分析】: 空间分区: 垂直三分: 左侧35%图文, 中央35%主体模特图, 右侧30%为3个等分横向场景切片矩阵。\n视觉层次: 虚化背景贯穿左中, 主体模特图居中置于最前景并打破上下边界, 左侧文字与图标悬浮于前景, 右侧切片独立为中景，视觉重心绝对居中。\n留白逻辑: 左侧图文区20%留白, 中央主体模特图四周自然留白, 右侧矩阵紧凑贴边无留白. \n【构成元素】: 主题设计: 中央主体模特图跨界悬浮占位, 右侧三行一列场景图矩阵, 左侧顶部字块加底部一行四列圆形线性图标矩阵, 字体设计: 标题：粗体无衬线大写，文本：常规无衬线体。\n【语言】：目标语言\n【注意】：文本简洁",
+     "style": "M22",
+     "tabType": "1"
+    },
+    {
+     "id": "2047582465010601984",
+     "imageThumbUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/fe949c41438d49c484ab3b69b268f9ee.jpg?Expires=1793279004&OSSAccessKeyId=LTAI5tQMD3UtDGPmMJRik6JA&Signature=YPpu7wd7XdS7Kn39IUmPKtdvl0k%3D&x-oss-process=image%2Fresize%2Cm_mfit%2Cw_512%2Ch_512",
+     "imageUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/fe949c41438d49c484ab3b69b268f9ee.jpg",
+     "imageUrlThumb": "https://file-ai.linkfox.com/UPLOAD/MANAGE/fe949c41438d49c484ab3b69b268f9ee.jpg?Expires=1793279004&OSSAccessKeyId=LTAI5tQMD3UtDGPmMJRik6JA&Signature=YPpu7wd7XdS7Kn39IUmPKtdvl0k%3D&x-oss-process=image%2Fresize%2Cm_mfit%2Cw_512%2Ch_512",
+     "materialSource": 2,
+     "prompt": "【可视化分析】: 空间分区: 水平三分式布局：左侧30%商品平铺展示区，中部35%图文区，右侧35%人物模特展示区，底层纹理贯穿全图并叠加中心圆角卡片作为次级空间。共4个图像元素（3个平铺散件，1个模特），文字居中。视觉层次: 右侧人物模特为视觉重心，突破中心卡片边界与底层背景产生图层穿插重叠，构建前中后透视关系；左侧主商品及配件呈垂直错落平铺；视线由中心标题向两侧动态发散。留白逻辑: 中部文字区四周约30%留白聚焦核心信息，左右两侧元素紧凑形成张弛对比。 \n【构成元素】: 主题设计: 左侧套装组合（主件+配件）垂直平铺，中心文本对称排版，右侧模特破形跨图层叠加（Pop-out效果）。字体设计: 标题：优雅手写连笔字与大号无衬线体混排，文本：常规细体无衬线字。\n【语言】：目标语言",
+     "style": "M21",
+     "tabType": "1"
+    },
+    {
+     "id": "2044330861138071552",
+     "imageThumbUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/b8beaa4d78a740f498960ae51519a1fa.jpg?Expires=1793282643&OSSAccessKeyId=LTAI5tQMD3UtDGPmMJRik6JA&Signature=IQmT4nawURx5umETG8AphBGftL4%3D&x-oss-process=image%2Fresize%2Cm_mfit%2Cw_512%2Ch_512",
+     "imageUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/b8beaa4d78a740f498960ae51519a1fa.jpg",
+     "imageUrlThumb": "https://file-ai.linkfox.com/UPLOAD/MANAGE/b8beaa4d78a740f498960ae51519a1fa.jpg?Expires=1793282643&OSSAccessKeyId=LTAI5tQMD3UtDGPmMJRik6JA&Signature=IQmT4nawURx5umETG8AphBGftL4%3D&x-oss-process=image%2Fresize%2Cm_mfit%2Cw_512%2Ch_512",
+     "materialSource": 2,
+     "prompt": "【可视化分析】: 空间分区: 不规则左右交叠分割，左中部约70%为背景主体与信息区，右边缘约30%为垂直装饰缓冲带。全图共计4张图像：1张暗调景深图作为左中部贯穿背景，2张局部图分别嵌入左下方2个卡片内部，1张竖向带框大图悬浮于右侧。文字分布在左上角顶部及左下角的独立卡片模块右半部分。\n视觉层次: 构建明确的三维图层堆叠空间。底层为铺展于左中部的人物背部特写场景图与最右侧带有圆点元素的垂直边缘区；中层为左上角的高对比度主标题，以及左下方呈2行1列纵向排列的独立圆角悬浮图文卡片（内部左图右文）；顶层为右侧带有实体宽边画框样式的竖向人物正面展示大图，该图强制叠加跨越并遮挡了部分底层的暗光背景与右边缘区，形成强烈的破局感与视觉最高聚焦点。\n留白逻辑: 依托悬浮卡片四周的外部轮廓和纵向卡片间的物理间隙产生内部呼吸感，最右侧垂直区域及顶层悬浮图的画框边距作为全版面的视线透气口，有效平衡左侧密集堆叠的图文信息流. \n【构成元素】: 主题设计: 'Asymmetric overlapping multi-card layout' 采用左侧两行一列圆角图文矩阵搭配右侧单幅画报式悬浮图的占位策略，涵盖背部暗光特写、商品局部拉伸动态、面料微观肌理、正面明亮半身仰视等多维度、多视角的商品与人物姿态展现。字体设计: 标题：Italic Bold Sans-Serif Headline，文本：Clean Light Sans-Serif Text.\n【语言】：目标语言",
+     "style": "M20",
+     "tabType": "1"
+    },
+    {
+     "id": "2039998445795942400",
+     "imageThumbUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/10a7b804a11f45df829bffa0a7ba7699.jpg?Expires=1793279657&OSSAccessKeyId=LTAI5tQMD3UtDGPmMJRik6JA&Signature=eD8Nky0kuPF%2BFZwOZe06PAJVXnU%3D&x-oss-process=image%2Fresize%2Cm_mfit%2Cw_512%2Ch_512",
+     "imageUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/10a7b804a11f45df829bffa0a7ba7699.jpg",
+     "imageUrlThumb": "https://file-ai.linkfox.com/UPLOAD/MANAGE/10a7b804a11f45df829bffa0a7ba7699.jpg?Expires=1793279657&OSSAccessKeyId=LTAI5tQMD3UtDGPmMJRik6JA&Signature=eD8Nky0kuPF%2BFZwOZe06PAJVXnU%3D&x-oss-process=image%2Fresize%2Cm_mfit%2Cw_512%2Ch_512",
+     "materialSource": 2,
+     "prompt": "【可视化分析】: 空间分区: 背景贯穿全图，整体呈非对称布局，左侧约30%为无边框大尺寸人物占位，右侧约70%包含三个带白色描边、略向右倾斜的平行四边形画框，呈1行3列平行矩阵排列，每个画框内部展示不同场景与姿态的图像。 \n视觉层次: 1.底层为贯穿全图的场景图；2.左侧大尺寸无边框人物置于前景并与背景自然融合；3.右侧三个倾斜画框作为独立图层悬浮叠加于背景之上，形成强烈的画中画透视感；4.最顶端图层为左上角主标题、左下角副文本。 \n留白逻辑: 左上角天空与左下角草地利用背景自然留白承载文字信息，右侧三个并列倾斜画框之间保持等距空隙透出底层背景，形成通透且富有动感的视觉节奏。 \n【构成元素】: 主题设计: 左侧去背主体融合站位与右侧多场景倾斜悬浮画框矩阵并置展示。 字体设计: 标题：Large Bold Sans-Serif Headline，文本：Small Regular Sans-Serif。\n【语言】：目标语言",
+     "style": "M19",
+     "tabType": "1"
+    }
+   ],
+   "aspectRatio": "3:4",
+   "brandKey": {
+    "brandName": "智能品牌基因",
+    "language": "英语",
+    "platform": "亚马逊",
+    "salesRegion": "美国"
+   },
+   "brandKeyExtract": "{\"brandColor\":{\"背景策略-风格定义\":\"美国现代波西米亚与加州海岸风。模拟加州马里布（Malibu）或汉普顿（Hamptons）风格的通风阳光房，结合自然原木与极简主义美学，展现高品质的休闲生活方式场景。\",\"背景策略-光影\":\"清晨或黄金时段（Golden Hour）的柔和侧向直射光，带有清晰但柔和的建筑/植物投影。\",\"背景策略-场景关键词\":\"阳光露台, 亚麻纹理, 编织户外家具, 棕榈树影, 复古藤条装饰\",\"brandColor (品牌主色)\":\"Artisanal Tan #C69C6D\",\"Brand Injection（品牌植入）\":\"在场景中的原木边几或亚麻包袋旁的精美品牌标牌上巧妙呈现，或作为随身携带的必备单品自然放置在具有美感的野餐篮旁。\"},\"fontStyle\":{\"颜色策略-Body/Sub\":\"[\\\"Body color\\\"：#5E4B37]\",\"字体策略\":\"经典优雅衬线体 (Classic Elegant Serif)\",\"灵活反白\":\"You are authorized to switch to Matte White (#FFFFFF) text whenever using a dark background or a solid brand-color panel.\",\"字体风格\":\"Bodoni Moda\",\"排版\":\"Non-italic, standard leading\",\"颜色策略-Heading\":\"[\\\"Heading Color\\\"：#C69C6D / 触发反白逻辑]\"}}",
+   "configData": {
+    "aPlusConfig": {
+     "sceneType": {
+      "A+": {
+       "checked": false,
+       "num": 4
+      },
+      "A+Phone": {
+       "checked": false,
+       "num": 4
+      },
+      "A+Pro": {
+       "checked": true,
+       "num": 4
+      },
+      "custom": {
+       "checked": false,
+       "num": 4
+      }
+     }
+    },
+    "mainConfig": {
+     "aspectRatio": "3:4",
+     "sceneType": {
+      "ins": {
+       "checked": true,
+       "num": 4
+      },
+      "point": {
+       "checked": true,
+       "num": 4
+      }
+     }
+    }
+   },
+   "imageList": [
+    {
+     "id": "6rsldn1m",
+     "imageUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/WEAR_COLLECTION/2052630503189741568/image_list_0.jpg",
+     "name": "编织包.jpg"
+    }
+   ],
+   "insTypeNum": 4,
+   "pointStyles": [
+    {
+     "id": "2049695063864369152",
+     "imageThumbUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/5caed64386b741c1b226056eea2ead37.jpg?Expires=1793283153&OSSAccessKeyId=LTAI5tQMD3UtDGPmMJRik6JA&Signature=Ap21sRB4NUvXE2yA2Rl0OntiWUg%3D&x-oss-process=image%2Fresize%2Cm_mfit%2Cw_512%2Ch_512",
+     "imageUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/5caed64386b741c1b226056eea2ead37.jpg",
+     "imageUrlThumb": "https://file-ai.linkfox.com/UPLOAD/MANAGE/5caed64386b741c1b226056eea2ead37.jpg?Expires=1793283153&OSSAccessKeyId=LTAI5tQMD3UtDGPmMJRik6JA&Signature=Ap21sRB4NUvXE2yA2Rl0OntiWUg%3D&x-oss-process=image%2Fresize%2Cm_mfit%2Cw_512%2Ch_512",
+     "materialSource": 2,
+     "prompt": "【可视化分析】: 空间分区: 全图由单一场景背景贯穿。垂直方向上，上方25%为居中对齐的文字排版区，下方75%为主体展示；在下方区域，主体商品居中偏下放置，右下角边缘放置辅助点缀元素。 视觉层次: 1.背景为场景远景图贯穿全图；2.视觉重心为居中放置的前景主体及右下角的堆叠道具，形成明确的前景空间透视关系；3.顶部标题组作为最前端的信息层悬浮叠加于背景之上。 留白逻辑: 画面右侧中部留出空间展现背景远景，顶部文字与主体之间保持匀称间距，营造开阔、清晰的视觉呼吸感。 ​\n【构成元素】:  字体设计: 标题：Large bold sans-serif (粗体无衬线)，副标题：带胶囊型底框的无衬线体，文本：Regular sans-serif (常规无衬线)。​\n【语言】：目标语言​\n【注意】：文本简洁",
+     "style": "C27",
+     "tabType": "1"
+    },
+    {
+     "id": "2039997667505086464",
+     "imageThumbUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/f5e2bb9c239f409f8a24b2ceab743c04.jpg?Expires=1793282473&OSSAccessKeyId=LTAI5tQMD3UtDGPmMJRik6JA&Signature=tGU6ilJNBTqPs%2Fso0XWPBdlkNp8%3D&x-oss-process=image%2Fresize%2Cm_mfit%2Cw_512%2Ch_512",
+     "imageUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/f5e2bb9c239f409f8a24b2ceab743c04.jpg",
+     "imageUrlThumb": "https://file-ai.linkfox.com/UPLOAD/MANAGE/f5e2bb9c239f409f8a24b2ceab743c04.jpg?Expires=1793282473&OSSAccessKeyId=LTAI5tQMD3UtDGPmMJRik6JA&Signature=tGU6ilJNBTqPs%2Fso0XWPBdlkNp8%3D&x-oss-process=image%2Fresize%2Cm_mfit%2Cw_512%2Ch_512",
+     "materialSource": 2,
+     "prompt": "【可视化分析】: 空间分区: 左右分割，左侧40%为文本与图标区，右侧60%为主体与场景道具区。\n视觉层次: 背景为连续场景贯穿全图，前景人物置于右侧，对角线场景道具置于人物后方，文字与图标悬浮于左侧前景图层。\n留白逻辑: 左侧上半部利用场景背景形成约40%留白以承载文字。\n【构成元素】: 主题设计: 右侧主体全身特写满版占位，左上2个图文Icon横向矩阵，左侧中部文本左对齐悬浮排版, 字体设计: 标题：大号加粗无衬线体，文本：常规无衬线体。\n【语言】：目标语言\n【注意】：文本简洁",
+     "style": "C23",
+     "tabType": "1"
+    },
+    {
+     "id": "2047594450125230080",
+     "imageThumbUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/6ab3219c83ef46bdbada233fd4cebc51.jpg?Expires=1793282294&OSSAccessKeyId=LTAI5tQMD3UtDGPmMJRik6JA&Signature=8MqEHcOYUEZQ3J8E7JPtNu%2F9%2FxY%3D&x-oss-process=image%2Fresize%2Cm_mfit%2Cw_512%2Ch_512",
+     "imageUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/6ab3219c83ef46bdbada233fd4cebc51.jpg",
+     "imageUrlThumb": "https://file-ai.linkfox.com/UPLOAD/MANAGE/6ab3219c83ef46bdbada233fd4cebc51.jpg?Expires=1793282294&OSSAccessKeyId=LTAI5tQMD3UtDGPmMJRik6JA&Signature=8MqEHcOYUEZQ3J8E7JPtNu%2F9%2FxY%3D&x-oss-process=image%2Fresize%2Cm_mfit%2Cw_512%2Ch_512",
+     "materialSource": 2,
+     "prompt": "【可视化分析】: 空间分区: 背景贯穿全图，左上侧约30%区域为文本排版区，中心至左下侧约60%区域为主视觉图像，右侧约15%区域垂直分布三个等大的圆形图像构成1列3行矩阵，右下方叠加一张倾斜矩形图像。 视觉层次: 底层为带斜向光影的场景背景，中层为主视觉图像与右侧三个圆形细节图，最前景于右下角叠加带有透视倾斜感的拍立得相框图像，且相框遮挡部分主视觉图像，形成错落的拼贴景深，文字置于左上方中层之上。视觉重心聚焦于中央的人物主体，动线由左上文字顺延至主图，再发散流向右侧细节组与右下场景。 留白逻辑: 整体依靠底层的墙面光影进行自然留白，左上文本下方与四周边缘保持约20%的呼吸空间，以此衬托前景的立体感。 【构成元素】:  字体设计: 标题：Large Bold Serif Headline，文本：Regular Sans-serif body text。​\n【语言】：目标语言",
+     "style": "C26",
+     "tabType": "1"
+    },
+    {
+     "id": "2044331006181298176",
+     "imageThumbUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/d06130ed231540439db627b16eaa9d61.jpg?Expires=1793279304&OSSAccessKeyId=LTAI5tQMD3UtDGPmMJRik6JA&Signature=FY3abCmCTIvf%2B291SkB2%2BO0vPA8%3D&x-oss-process=image%2Fresize%2Cm_mfit%2Cw_512%2Ch_512",
+     "imageUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/d06130ed231540439db627b16eaa9d61.jpg",
+     "imageUrlThumb": "https://file-ai.linkfox.com/UPLOAD/MANAGE/d06130ed231540439db627b16eaa9d61.jpg?Expires=1793279304&OSSAccessKeyId=LTAI5tQMD3UtDGPmMJRik6JA&Signature=FY3abCmCTIvf%2B291SkB2%2BO0vPA8%3D&x-oss-process=image%2Fresize%2Cm_mfit%2Cw_512%2Ch_512",
+     "materialSource": 2,
+     "prompt": "【可视化分析】: 空间分区: 非对称布局：左侧70%主图区，右侧30%为3图纵向矩阵，共4图展示多姿态。\n 视觉层次: 贯穿式背景，底层左上角为巨型标题，主图人物破框居最前景并与标题重叠产生透视，右侧3图居中层，视觉重心由左主图向右侧发散。\n留白逻辑: 布局紧凑，仅依靠图像间隙与边缘保留约10%呼吸空间. \n【构成元素】: 主题设计: 破框主图前景叠加与右侧垂直多图矩阵布局, 字体设计: 标题：超大号无衬线粗体，文本：无衬线常规斜体。\n【语言】：目标语言",
+     "style": "C25",
+     "tabType": "1"
+    }
+   ],
+   "productInfo": "[产品名称]：法式复古手工钩针镂空草编托特包\n[目标受众]：追求文艺复古风格、注重度假感与自然材质的18-45岁女性，适合喜爱法式慵懒风及森系搭配的都市女性。\n[核心营销卖点提炼]：\n1、匠心钩织，复古美学：采用多维立体钩针工艺，镂空菱形花纹交织出丰富的视觉层次，呈现纯手工质感的法式优雅与复古韵味。\n2、轻盈容量，随性切换：包身设计兼顾美感与实用性，柔软的编织材质可轻松收纳日常所需，自重极轻，是出行度假与日常通勤的减压之选。\n\n[服装基础档案]：\n材质：高品质纸草或韧性聚酯纤维模拟草编触感，兼具耐磨性与柔软度。\n光泽感：哑光原色质感，透出植物纤维般的自然光泽，呈现低调的高级感。\n形态：垂坠感自然，包身具有较强的延展性与包容性，装载后呈现饱满的流浪包廓形。\n\n[工艺细节精解]：\n剪裁结构：一体式肩带剪裁，结构稳固且受力均匀，符合人体工程学的腋下包长度设计。\n走线工艺：包底采用细密平铺钩法增强承托力，包身结合镂空编织技术，过渡自然无缝。\n五金配件：无金属硬件设计，保持包袋的纯粹自然属性，减少摩擦与刮碰可能。\n特殊设计：多重纹理拼接设计，底部密致防漏与包身镂空通透形成虚实对比。\n\n[功能性与穿着体验]：\n透气保暖：大孔径镂空结构，透气性极佳，视觉上清爽解暑，非常适合夏季使用。\n面料弹性：编织结构赋予材料适度的物理弹力，能根据内容物形状微调，无束缚硬挺感。\n耐用护理：抗皱易收纳，可随意折叠放入行李箱；建议手洗并平铺晾晒，避免悬挂暴晒导致变形。\n季节适配：主要适用于春夏季节，完美适配25度以上的海滩度假或暖夏日常。\n\n[场景适配与穿搭方案]：\n最佳场景：海滨度假、周末郊游、文艺探店、都市休闲通勤。\n风格定位：法式慵懒、文艺森系、波西米亚度假风。\n搭配建议：\n下装内搭：建议搭配白色棉麻连衣裙、真丝长裙或高腰牛仔阔腿裤。\n鞋履配饰：推荐搭配绑带凉鞋、草编帽或大檐礼帽，配以复古金属项链点缀。",
+   "provider": "GEMINI_FLASH_PRO",
+   "quality": "medium",
+   "resolution": "2K",
+   "sellerTypeNum": 4
+  }
+ },
+ {
+  "id": "2042559549172404224",
+  "source": "/__cases/dress-wear-set/2042559549172404224-source.jpg",
+  "result": "/__cases/dress-wear-set/2042559549172404224-r.jpg",
+  "ext": {
+   "aPlusProNum": 4,
+   "aspectRatio": "3:4",
+   "brandKey": {
+    "brandName": "智能品牌基因",
+    "language": "英语",
+    "platform": "亚马逊",
+    "salesRegion": "美国"
+   },
+   "brandKeyExtract": "{\"brandColor\":{\"背景策略-风格定义\":\"Modern American Classicism: A bright, sun-drenched residential interior typical of upscale US suburban or Hamptons-style homes, featuring high-quality wooden textures and neutral-toned furniture to resonate with the American domestic aesthetic.\",\"背景策略-光影\":\"Natural golden hour sunlight streaming through large windows, creating soft, long shadows and a warm, inviting glow that highlights the knit texture.\",\"背景策略-场景关键词\":\"Sun-lit living room, linen textures, soft morning light, mid-century modern furniture, fresh flowers\",\"brandColor (品牌主色)\":\"Soft Primrose #F2E3A9\",\"Brand Injection（品牌植入）\":\"The brand color is subtly integrated through high-end lifestyle props, such as a silk throw or a ceramic vase in a matching pastel tone, ensuring a cohesive world-view without distracting from the product.\"},\"fontStyle\":{\"颜色策略-Body/Sub\":\"[\\\"Body color\\\"：#8D7A5D]\",\"字体策略\":\"经典优雅衬线体\",\"灵活反白\":\"You are authorized to switch to Matte White (#FFFFFF) text whenever using a dark background or a solid brand-color panel.\",\"字体风格\":\"Playfair Display\",\"排版\":\"Non-italic, standard leading\",\"颜色策略-Heading\":\"[\\\"Heading Color\\\"：#F2E3A9/Flexible Reverse]\"}}",
+   "configData": {
+    "aPlusConfig": {
+     "sceneType": {
+      "A+": {
+       "checked": false,
+       "num": 2
+      },
+      "A+Phone": {
+       "checked": false,
+       "num": 2
+      },
+      "A+Pro": {
+       "checked": true,
+       "num": 4
+      },
+      "custom": {
+       "checked": false,
+       "num": 2
+      }
+     }
+    },
+    "mainConfig": {
+     "aspectRatio": "3:4",
+     "sceneType": {
+      "ins": {
+       "checked": false,
+       "num": 4
+      },
+      "point": {
+       "checked": true,
+       "num": 4
+      },
+      "scene": {
+       "checked": false,
+       "num": 4
+      }
+     }
+    }
+   },
+   "imageList": [
+    {
+     "id": "nl40mmhr",
+     "imageUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/WEAR_COLLECTION/2042559549172404224/image_list_0.png",
+     "name": "黄色针织衫.png"
+    }
+   ],
+   "productInfo": "[产品名称]：法式复古镂空蕾丝边针织开衫女\n[目标受众]：追求法式优雅与浪漫风格的都市女性，适合20-40岁、注重服饰质感与设计感的时尚职场女性及名媛人群。\n[核心营销卖点提炼]：\n1、立体镂空针法，透氧呼吸感：采用精致的条纹状垂直镂空工艺，在视觉上拉长身形比例，同时赋予面料极佳的空气流通性，体感清爽不粘腻。\n2、花边叠搭Peplum下摆，重塑腰臀比：独特的腰部散摆设计配合波浪蕾丝花边，精准修饰腰腹线条，轻松打造迷人的X型曼妙轮廓。\n\n[服装基础档案]：\n材质：高品质精梳棉混纺纱线，纹理清晰且兼具亲肤触感与挺括度。\n光泽感：柔和微哑光泽，呈现低调高级的奶油黄质感，在光线下呈现富有深度的肌理阴影。\n形态：修身剪裁配合高回弹针织结构，下摆呈伞状自然垂坠，兼顾塑形力与包容性。\n\n[工艺细节精解]：\n剪裁结构：立体合体剪裁，收腰设计连接Peplum伞状摆裙，袖口呼应喇叭状微摆，视觉重心更稳稳。\n走线工艺：门襟与边缘采用一体成型波浪花边工艺，走线平整缜密，展现极致匠心。\n五金配件：晶莹璀璨的碎钻装饰纽扣，在门襟处错落有致，如珠宝般点缀整体造型。\n特殊设计：复古小翻领设计增强了针织衫的正式感，赋予其西装般的仪式感与开衫的灵动。\n\n[功能性与穿着体验]：\n透气保暖：通透的镂空肌理带来极佳的吸湿透气性，适合空调房御寒及春夏季节更迭穿着。\n面料弹性：纵向条纹组织提供优异的横向拉伸力，活动自如无束缚感，久穿不易变形。\n耐用护理：纱线紧密抗起球，建议冷水手洗或装入洗衣袋轻柔机洗，平铺晾晒以维持版型。\n季节适配：非常适合春、夏、初秋三季，可作为精致外搭或优雅内搭单品。\n\n[场景适配与穿搭方案]：\n最佳场景：精致通勤、午后下午茶、艺术展览看秀、正式商务约会。\n风格定位：法式优雅、复古名媛、千金风、现代浪漫主义。\n搭配建议：\n下装内搭：建议搭配高腰真丝半裙、白色直筒西裤或同色系微喇长裤。\n鞋履配饰：搭配细带高跟凉鞋、珍珠耳饰及小方包，完善整体名媛质感。",
+   "provider": "GEMINI_FLASH_PRO",
+   "resolution": "2K",
+   "sellerTypeNum": 4
+  }
+ },
+ {
+  "id": "2042550493179334656",
+  "source": "/__cases/dress-wear-set/2042550493179334656-source.jpg",
+  "result": "/__cases/dress-wear-set/2042550493179334656-r.jpg",
+  "ext": {
+   "aPlusProNum": 2,
+   "aPlusStyles": [
+    {
+     "id": "2042469530986401792",
+     "imageThumbUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/9d46a1d17f004a04b33c06ab4d55a444.jpg?Expires=1793279632&OSSAccessKeyId=LTAI5tQMD3UtDGPmMJRik6JA&Signature=3hBqVnBfOeh0%2BuVp1ZM4gWKC%2BYY%3D&x-oss-process=image%2Fresize%2Cm_mfit%2Cw_512%2Ch_512",
+     "imageUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/9d46a1d17f004a04b33c06ab4d55a444.jpg",
+     "imageUrlThumb": "https://file-ai.linkfox.com/UPLOAD/MANAGE/9d46a1d17f004a04b33c06ab4d55a444.jpg?Expires=1793279632&OSSAccessKeyId=LTAI5tQMD3UtDGPmMJRik6JA&Signature=3hBqVnBfOeh0%2BuVp1ZM4gWKC%2BYY%3D&x-oss-process=image%2Fresize%2Cm_mfit%2Cw_512%2Ch_512",
+     "materialSource": 2,
+     "prompt": "【可视化分析】: 空间分区: 水平三分栏矩阵（左33%单纵图，中34%上下分割且下部再次等分为左右两张小图，右33%单纵图），共5张图像拼接布局\n视觉层次: 无全局贯穿背景，各分格内独立呈现。人物主体紧贴前景，多视点并行展示，动线由两侧大图向中栏多色集群聚拢\n留白逻辑: 全局无大面积常规留白，仅依赖图像间等宽的网格间隙分割视口空间. \n【构成元素】: 主题设计: 5格矩阵式拼贴占位，集中展示多姿态视角, 字体设计: 标题：无，文本：无。\n【语言】：目标语言",
+     "style": "M20",
+     "tabType": "1"
+    },
+    {
+     "id": "2039998445795942400",
+     "imageThumbUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/10a7b804a11f45df829bffa0a7ba7699.jpg?Expires=1793279657&OSSAccessKeyId=LTAI5tQMD3UtDGPmMJRik6JA&Signature=eD8Nky0kuPF%2BFZwOZe06PAJVXnU%3D&x-oss-process=image%2Fresize%2Cm_mfit%2Cw_512%2Ch_512",
+     "imageUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/10a7b804a11f45df829bffa0a7ba7699.jpg",
+     "imageUrlThumb": "https://file-ai.linkfox.com/UPLOAD/MANAGE/10a7b804a11f45df829bffa0a7ba7699.jpg?Expires=1793279657&OSSAccessKeyId=LTAI5tQMD3UtDGPmMJRik6JA&Signature=eD8Nky0kuPF%2BFZwOZe06PAJVXnU%3D&x-oss-process=image%2Fresize%2Cm_mfit%2Cw_512%2Ch_512",
+     "materialSource": 2,
+     "prompt": "【可视化分析】: 空间分区: 背景贯穿全图，整体呈非对称布局，左侧约30%为无边框大尺寸人物占位，右侧约70%包含三个带白色描边、略向右倾斜的平行四边形画框，呈1行3列平行矩阵排列，每个画框内部展示不同场景与姿态的图像。 \n视觉层次: 1.底层为贯穿全图的场景图；2.左侧大尺寸无边框人物置于前景并与背景自然融合；3.右侧三个倾斜画框作为独立图层悬浮叠加于背景之上，形成强烈的画中画透视感；4.最顶端图层为左上角主标题、左下角副文本。 \n留白逻辑: 左上角天空与左下角草地利用背景自然留白承载文字信息，右侧三个并列倾斜画框之间保持等距空隙透出底层背景，形成通透且富有动感的视觉节奏。 \n【构成元素】: 主题设计: 左侧去背主体融合站位与右侧多场景倾斜悬浮画框矩阵并置展示。 字体设计: 标题：Large Bold Sans-Serif Headline，文本：Small Regular Sans-Serif。\n【语言】：目标语言",
+     "style": "M19",
+     "tabType": "1"
+    }
+   ],
+   "aspectRatio": "3:4",
+   "brandKey": {
+    "brandName": "智能品牌基因",
+    "language": "英语",
+    "platform": "亚马逊",
+    "salesRegion": "美国"
+   },
+   "brandKeyExtract": "{\"brandColor\":{\"背景策略-风格定义\":\"基于美国市场（SalesRegion: USA）的高端中产阶级生活方式。场景设定为美式阳光房或私人庄园花园，强调自然光影与摄影级真实质感，展现出优雅、梦幻且充满温情的童年庆典氛围。\",\"背景策略-光影\":\"清晨或午后的自然侧逆光，营造边缘柔光（Rim Lighting）效果，突出蕾丝与纱裙的轻盈质感。\",\"背景策略-场景关键词\":\"Sun-drenched Sunroom, White Picket Fence, Blooming Peonies, Natural Oak Flooring, Soft Bokeh Garden\",\"brandColor (品牌主色)\":\"Rose Mauve #D48EB3\",\"Brand Injection（品牌植入）\":\"品牌元素巧妙植入于场景中的高档礼品盒丝带，或是背景中精致的木质挂牌上，色彩与主色相呼应。\"},\"fontStyle\":{\"颜色策略-Body/Sub\":\"[\\\"Body color\\\"：#B07293]\",\"字体策略\":\"经典优雅衬线体\",\"灵活反白\":\"You are authorized to switch to Matte White (#FFFFFF) text whenever using a dark background or a solid brand-color panel.\",\"字体风格\":\"Playfair Display\",\"排版\":\"Non-italic, standard leading\",\"颜色策略-Heading\":\"[\\\"Heading Color\\\"：#D48EB3 / 触发灵活反白时使用 #FFFFFF]\"}}",
+   "configData": {
+    "aPlusConfig": {
+     "sceneType": {
+      "A+": {
+       "checked": false,
+       "num": 2
+      },
+      "A+Phone": {
+       "checked": false,
+       "num": 2
+      },
+      "A+Pro": {
+       "checked": true,
+       "num": 2
+      },
+      "custom": {
+       "checked": false,
+       "num": 2
+      }
+     }
+    },
+    "mainConfig": {
+     "aspectRatio": "3:4",
+     "sceneType": {
+      "ins": {
+       "checked": false,
+       "num": 4
+      },
+      "point": {
+       "checked": true,
+       "num": 4
+      },
+      "scene": {
+       "checked": false,
+       "num": 4
+      }
+     }
+    }
+   },
+   "imageList": [
+    {
+     "id": "pcmqfcqb",
+     "imageUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/WEAR_COLLECTION/2042550493179334656/image_list_0.png",
+     "name": "儿童裙子2.png"
+    }
+   ],
+   "pointStyles": [
+    {
+     "id": "2042192836275134464",
+     "imageThumbUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/67a5ad3e099d47dca19cd8ab6f457a98.jpg?Expires=1793282408&OSSAccessKeyId=LTAI5tQMD3UtDGPmMJRik6JA&Signature=vmKwGq22zeYqtAGeGu64tUH%2BbME%3D&x-oss-process=image%2Fresize%2Cm_mfit%2Cw_512%2Ch_512",
+     "imageUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/67a5ad3e099d47dca19cd8ab6f457a98.jpg",
+     "imageUrlThumb": "https://file-ai.linkfox.com/UPLOAD/MANAGE/67a5ad3e099d47dca19cd8ab6f457a98.jpg?Expires=1793282408&OSSAccessKeyId=LTAI5tQMD3UtDGPmMJRik6JA&Signature=vmKwGq22zeYqtAGeGu64tUH%2BbME%3D&x-oss-process=image%2Fresize%2Cm_mfit%2Cw_512%2Ch_512",
+     "materialSource": 2,
+     "prompt": "【可视化分析】: 空间分区: 左右分割: 左侧35%为文字与细节图区，右侧65%为主展示区，背景呈斜向对角分割\n视觉层次: 主光源聚焦右侧模特。背景斜切垫底，左侧圆角细节图与文字居中层，主半身像置于最前景且肢体遮挡左下细节图，形成前后穿插叠放的立体空间关系\n留白逻辑: 左上角及元素间保持适度呼吸感，利用斜线引导视觉由左上标题自然滑向右侧主体. \n【构成元素】: 主题设计: 右侧大比例前景半身人像占位，左侧上下分布一大一小两个圆角矩形局部插图排版, 字体设计: 标题：大写粗体无衬线字体，文本：常规无衬线字体.\n【语言】：目标语言",
+     "style": "C24",
+     "tabType": "1"
+    },
+    {
+     "id": "2039997667505086464",
+     "imageThumbUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/f5e2bb9c239f409f8a24b2ceab743c04.jpg?Expires=1793282473&OSSAccessKeyId=LTAI5tQMD3UtDGPmMJRik6JA&Signature=tGU6ilJNBTqPs%2Fso0XWPBdlkNp8%3D&x-oss-process=image%2Fresize%2Cm_mfit%2Cw_512%2Ch_512",
+     "imageUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/f5e2bb9c239f409f8a24b2ceab743c04.jpg",
+     "imageUrlThumb": "https://file-ai.linkfox.com/UPLOAD/MANAGE/f5e2bb9c239f409f8a24b2ceab743c04.jpg?Expires=1793282473&OSSAccessKeyId=LTAI5tQMD3UtDGPmMJRik6JA&Signature=tGU6ilJNBTqPs%2Fso0XWPBdlkNp8%3D&x-oss-process=image%2Fresize%2Cm_mfit%2Cw_512%2Ch_512",
+     "materialSource": 2,
+     "prompt": "【可视化分析】: 空间分区: 左右分割，左侧40%为文本与图标区，右侧60%为主体与场景道具区。\n视觉层次: 背景为连续场景贯穿全图，前景人物置于右侧，对角线场景道具置于人物后方，文字与图标悬浮于左侧前景图层。\n留白逻辑: 左侧上半部利用场景背景形成约40%留白以承载文字。\n【构成元素】: 主题设计: 右侧主体全身特写满版占位，左上2个图文Icon横向矩阵，左侧中部文本左对齐悬浮排版, 字体设计: 标题：大号加粗无衬线体，文本：常规无衬线体。\n【语言】：目标语言\n【注意】：文本简洁",
+     "style": "C23",
+     "tabType": "1"
+    },
+    {
+     "id": "2015994698176430080",
+     "imageThumbUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/9c72a8ac9ed94cd7959a5526b48dbae8.png?Expires=1793278268&OSSAccessKeyId=LTAI5tQMD3UtDGPmMJRik6JA&Signature=Jj6tkGWaIECk0DaHgbKMNR6BXi0%3D&x-oss-process=image%2Fresize%2Cm_mfit%2Cw_512%2Ch_512",
+     "imageUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/9c72a8ac9ed94cd7959a5526b48dbae8.png",
+     "imageUrlThumb": "https://file-ai.linkfox.com/UPLOAD/MANAGE/9c72a8ac9ed94cd7959a5526b48dbae8.png?Expires=1793278268&OSSAccessKeyId=LTAI5tQMD3UtDGPmMJRik6JA&Signature=Jj6tkGWaIECk0DaHgbKMNR6BXi0%3D&x-oss-process=image%2Fresize%2Cm_mfit%2Cw_512%2Ch_512",
+     "materialSource": 2,
+     "prompt": "【A+ 模块15: Lifestyle Application / 生活化场景展示】 󰀠对标卖点: [引用最能体现服装风格或整体穿着体验的卖点] 󰀠视觉构图描述:  全宽高清横幅图: 一张充满故事感的单场景大图，模特自然融入其中。 图中必须为[明确指出性别，如“欧美男模特”或“欧美女模特”】 󰀠Text on Image ****(Must be in Target Language): 󰀡Headline: \"[根据目标语言撰写吸引人的标题]\" 󰀡Body: \"[根据目标语言撰写利益点文案]\" 󰀡... (根据所选版式调整) 󰀠背景与颜色建议: [优先采用用户定义的字体和主色调。若无，则根据服装风格建议字体和主色调。背景建议: 展示穿搭的生活方式图]",
+     "style": "C15",
+     "tabType": "1"
+    },
+    {
+     "id": "2015994782360305664",
+     "imageThumbUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/1537bd05d7e14d34a4371f8215817988.png?Expires=1793283435&OSSAccessKeyId=LTAI5tQMD3UtDGPmMJRik6JA&Signature=AHcXaZR487RH%2F9E73AYNTJkjU70%3D&x-oss-process=image%2Fresize%2Cm_mfit%2Cw_512%2Ch_512",
+     "imageUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/1537bd05d7e14d34a4371f8215817988.png",
+     "imageUrlThumb": "https://file-ai.linkfox.com/UPLOAD/MANAGE/1537bd05d7e14d34a4371f8215817988.png?Expires=1793283435&OSSAccessKeyId=LTAI5tQMD3UtDGPmMJRik6JA&Signature=AHcXaZR487RH%2F9E73AYNTJkjU70%3D&x-oss-process=image%2Fresize%2Cm_mfit%2Cw_512%2Ch_512",
+     "materialSource": 2,
+     "prompt": "【A+ 模块16: Lifestyle Application / 生活化场景展示】 󰀠对标卖点: [引用最能体现服装风格或整体穿着体验的卖点] 󰀠视觉构图描述: ② 不规则艺术拼贴: 【由2-3张不同尺寸的图片构成，图片之间有轻微重叠或留白，形成动态感和层次感。】 图中必须为[明确指出性别，如“欧美男模特”或“欧美女模特”】 󰀠Text on Image ****(Must be in Target Language): 󰀡Headline: \"[根据目标语言撰写吸引人的标题]\" 󰀡Body: \"[根据目标语言撰写利益点文案]\" 󰀡... (根据所选版式调整) 󰀠背景与颜色建议: [优先采用用户定义的字体和主色调。若无，则根据服装风格建议字体和主色调。背景建议: 展示穿搭的生活方式图]",
+     "style": "C16",
+     "tabType": "1"
+    }
+   ],
+   "productInfo": "[产品名称]：梦幻樱粉手工繁花亮片公主礼服裙\n[目标受众]：3-12岁追求精致感的小女孩，适用于参加婚礼花童、生日派对、钢琴演奏会等正式场合。\n[核心营销卖点提炼]：\n1、繁花簇拥腰际，绽放灵动仙气：腰间点缀手工立体玫瑰花环，错落有致的色彩叠搭，将童话感与优雅气质完美融合，定格高光时刻。\n2、晶莹亮片点缀，流光溢彩之美：上身纵向排布细密亮片，随光影晃动折射微闪光泽，在舞台或日光下呈现璀璨华丽的视觉效果。\n\n[服装基础档案]：\n材质：采用高品质亲肤网纱结合柔滑缎面里衬，上身点缀工艺亮片。避开了普通廉价网纱的粗糙感，质地轻盈如云朵。\n光泽感：网纱呈现柔和的哑光朦胧感，与上身亮片的细碎璀璨光泽交相辉映，形成极具层次感的视觉流向。\n形态：经典的A字大裙摆结构，多层欧根纱层叠撑起自然的蓬度，垂感极佳且具有良好的空间包容性。\n\n[工艺细节精解]：\n剪裁结构：圆领微落肩剪裁，配合收腰大摆设计，精准修饰身形比例，呈现优雅的小公主仪态。\n走线工艺：采用隐形走线工艺，确保网纱接缝处平整不磨肤，亮片缝缀细密稳固，不易脱落。\n五金配件：后背设有隐形拉链，穿脱便捷且不影响整体美观，内衬触感柔顺，呵护儿童娇嫩肌肤。\n特殊设计：腰间的手工立体花朵装饰是灵魂所在，结合飘逸的喇叭袖口设计，极具艺术感染力。\n\n[功能性与穿着体验]：\n透气保暖：网纱孔隙结构具有优异的透气循环性能，长时间穿着也能保持干爽不闷汗。\n面料弹性：面料整体无弹挺括，确保礼服廓形始终如一，内衬提供适度的活动空间，无束缚感。\n耐用护理：网纱抗皱性能出色，日常放置不易起褶。建议轻柔手洗，避免暴力机洗以保护立体花朵与亮片。\n季节适配：非常适合春、夏、秋季穿着；冬季可在室内搭配保暖小披肩使用。\n\n[场景适配与穿搭方案]：\n最佳场景：婚礼花童、生日宴会、舞台表演、艺术摄影、节庆派对。\n风格定位：梦幻仙女风、精致公主风、高定礼服美学。\n搭配建议：\n下装内搭：内搭建议选择棉质透气打底裤，确保礼服内部穿着的舒适度。\n鞋履配饰：建议搭配银色或粉色亮片玛丽珍鞋，发间配以同色系珍珠发箍或丝缎蝴蝶结。",
+   "provider": "GEMINI_FLASH_PRO",
+   "resolution": "2K",
+   "sellerTypeNum": 4
+  }
+ },
+ {
+  "id": "2042550605402132480",
+  "source": "/__cases/dress-wear-set/2042550605402132480-source.jpg",
+  "result": "/__cases/dress-wear-set/2042550605402132480-r.jpg",
+  "ext": {
+   "aPlusProNum": 2,
+   "aPlusStyles": [
+    {
+     "id": "2042469530986401792",
+     "imageThumbUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/9d46a1d17f004a04b33c06ab4d55a444.jpg?Expires=1793279632&OSSAccessKeyId=LTAI5tQMD3UtDGPmMJRik6JA&Signature=3hBqVnBfOeh0%2BuVp1ZM4gWKC%2BYY%3D&x-oss-process=image%2Fresize%2Cm_mfit%2Cw_512%2Ch_512",
+     "imageUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/9d46a1d17f004a04b33c06ab4d55a444.jpg",
+     "imageUrlThumb": "https://file-ai.linkfox.com/UPLOAD/MANAGE/9d46a1d17f004a04b33c06ab4d55a444.jpg?Expires=1793279632&OSSAccessKeyId=LTAI5tQMD3UtDGPmMJRik6JA&Signature=3hBqVnBfOeh0%2BuVp1ZM4gWKC%2BYY%3D&x-oss-process=image%2Fresize%2Cm_mfit%2Cw_512%2Ch_512",
+     "materialSource": 2,
+     "prompt": "【可视化分析】: 空间分区: 水平三分栏矩阵（左33%单纵图，中34%上下分割且下部再次等分为左右两张小图，右33%单纵图），共5张图像拼接布局\n视觉层次: 无全局贯穿背景，各分格内独立呈现。人物主体紧贴前景，多视点并行展示，动线由两侧大图向中栏多色集群聚拢\n留白逻辑: 全局无大面积常规留白，仅依赖图像间等宽的网格间隙分割视口空间. \n【构成元素】: 主题设计: 5格矩阵式拼贴占位，集中展示多姿态视角, 字体设计: 标题：无，文本：无。\n【语言】：目标语言",
+     "style": "M20",
+     "tabType": "1"
+    },
+    {
+     "id": "2039998445795942400",
+     "imageThumbUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/10a7b804a11f45df829bffa0a7ba7699.jpg?Expires=1793279657&OSSAccessKeyId=LTAI5tQMD3UtDGPmMJRik6JA&Signature=eD8Nky0kuPF%2BFZwOZe06PAJVXnU%3D&x-oss-process=image%2Fresize%2Cm_mfit%2Cw_512%2Ch_512",
+     "imageUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/10a7b804a11f45df829bffa0a7ba7699.jpg",
+     "imageUrlThumb": "https://file-ai.linkfox.com/UPLOAD/MANAGE/10a7b804a11f45df829bffa0a7ba7699.jpg?Expires=1793279657&OSSAccessKeyId=LTAI5tQMD3UtDGPmMJRik6JA&Signature=eD8Nky0kuPF%2BFZwOZe06PAJVXnU%3D&x-oss-process=image%2Fresize%2Cm_mfit%2Cw_512%2Ch_512",
+     "materialSource": 2,
+     "prompt": "【可视化分析】: 空间分区: 背景贯穿全图，整体呈非对称布局，左侧约30%为无边框大尺寸人物占位，右侧约70%包含三个带白色描边、略向右倾斜的平行四边形画框，呈1行3列平行矩阵排列，每个画框内部展示不同场景与姿态的图像。 \n视觉层次: 1.底层为贯穿全图的场景图；2.左侧大尺寸无边框人物置于前景并与背景自然融合；3.右侧三个倾斜画框作为独立图层悬浮叠加于背景之上，形成强烈的画中画透视感；4.最顶端图层为左上角主标题、左下角副文本。 \n留白逻辑: 左上角天空与左下角草地利用背景自然留白承载文字信息，右侧三个并列倾斜画框之间保持等距空隙透出底层背景，形成通透且富有动感的视觉节奏。 \n【构成元素】: 主题设计: 左侧去背主体融合站位与右侧多场景倾斜悬浮画框矩阵并置展示。 字体设计: 标题：Large Bold Sans-Serif Headline，文本：Small Regular Sans-Serif。\n【语言】：目标语言",
+     "style": "M19",
+     "tabType": "1"
+    }
+   ],
+   "aspectRatio": "3:4",
+   "brandKey": {
+    "brandName": "智能品牌基因",
+    "language": "英语",
+    "platform": "亚马逊",
+    "salesRegion": "美国"
+   },
+   "brandKeyExtract": "{\"brandColor\":{\"背景策略-风格定义\":\"American Coastal Chic/Suburban Elegance: A clean, airy, and high-end residential setting reflecting the classic East Coast American lifestyle.\",\"背景策略-光影\":\"Bright natural morning sunlight filtering through sheer curtains, creating soft, realistic shadows and a warm, inviting glow.\",\"背景策略-场景关键词\":\"Sun-drenched patio, white wood paneling, garden hydrangeas, airy sunroom, premium domestic setting\",\"brandColor (品牌主色)\":\"Serene Sky Blue #89CFF0\",\"Brand Injection（品牌植入）\":\"Subtle placement of the brand logo on woven fabric labels within the scene or color-coordinated accessories like a soft white silk ribbon.\"},\"fontStyle\":{\"颜色策略-Body/Sub\":\"[\\\"Body color\\\"：#4A708B]\",\"字体策略\":\"经典优雅衬线体\",\"灵活反白\":\"You are authorized to switch to Matte White (#FFFFFF) text whenever using a dark background or a solid brand-color panel.\",\"字体风格\":\"Playfair Display\",\"排版\":\"Non-italic, standard leading\",\"颜色策略-Heading\":\"[\\\"Heading Color\\\"：#89CFF0/Flexible White]\"}}",
+   "configData": {
+    "aPlusConfig": {
+     "sceneType": {
+      "A+": {
+       "checked": false,
+       "num": 2
+      },
+      "A+Phone": {
+       "checked": false,
+       "num": 2
+      },
+      "A+Pro": {
+       "checked": true,
+       "num": 2
+      },
+      "custom": {
+       "checked": false,
+       "num": 2
+      }
+     }
+    },
+    "mainConfig": {
+     "aspectRatio": "3:4",
+     "sceneType": {
+      "ins": {
+       "checked": false,
+       "num": 4
+      },
+      "point": {
+       "checked": true,
+       "num": 2
+      },
+      "scene": {
+       "checked": false,
+       "num": 4
+      }
+     }
+    }
+   },
+   "imageList": [
+    {
+     "id": "89i6861j",
+     "imageUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/WEAR_COLLECTION/2042550605402132480/image_list_0.png",
+     "name": "儿童裙子.png"
+    }
+   ],
+   "pointStyles": [
+    {
+     "id": "2042192836275134464",
+     "imageThumbUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/67a5ad3e099d47dca19cd8ab6f457a98.jpg?Expires=1793282408&OSSAccessKeyId=LTAI5tQMD3UtDGPmMJRik6JA&Signature=vmKwGq22zeYqtAGeGu64tUH%2BbME%3D&x-oss-process=image%2Fresize%2Cm_mfit%2Cw_512%2Ch_512",
+     "imageUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/67a5ad3e099d47dca19cd8ab6f457a98.jpg",
+     "imageUrlThumb": "https://file-ai.linkfox.com/UPLOAD/MANAGE/67a5ad3e099d47dca19cd8ab6f457a98.jpg?Expires=1793282408&OSSAccessKeyId=LTAI5tQMD3UtDGPmMJRik6JA&Signature=vmKwGq22zeYqtAGeGu64tUH%2BbME%3D&x-oss-process=image%2Fresize%2Cm_mfit%2Cw_512%2Ch_512",
+     "materialSource": 2,
+     "prompt": "【可视化分析】: 空间分区: 左右分割: 左侧35%为文字与细节图区，右侧65%为主展示区，背景呈斜向对角分割\n视觉层次: 主光源聚焦右侧模特。背景斜切垫底，左侧圆角细节图与文字居中层，主半身像置于最前景且肢体遮挡左下细节图，形成前后穿插叠放的立体空间关系\n留白逻辑: 左上角及元素间保持适度呼吸感，利用斜线引导视觉由左上标题自然滑向右侧主体. \n【构成元素】: 主题设计: 右侧大比例前景半身人像占位，左侧上下分布一大一小两个圆角矩形局部插图排版, 字体设计: 标题：大写粗体无衬线字体，文本：常规无衬线字体.\n【语言】：目标语言",
+     "style": "C24",
+     "tabType": "1"
+    },
+    {
+     "id": "2039997667505086464",
+     "imageThumbUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/f5e2bb9c239f409f8a24b2ceab743c04.jpg?Expires=1793282473&OSSAccessKeyId=LTAI5tQMD3UtDGPmMJRik6JA&Signature=tGU6ilJNBTqPs%2Fso0XWPBdlkNp8%3D&x-oss-process=image%2Fresize%2Cm_mfit%2Cw_512%2Ch_512",
+     "imageUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/f5e2bb9c239f409f8a24b2ceab743c04.jpg",
+     "imageUrlThumb": "https://file-ai.linkfox.com/UPLOAD/MANAGE/f5e2bb9c239f409f8a24b2ceab743c04.jpg?Expires=1793282473&OSSAccessKeyId=LTAI5tQMD3UtDGPmMJRik6JA&Signature=tGU6ilJNBTqPs%2Fso0XWPBdlkNp8%3D&x-oss-process=image%2Fresize%2Cm_mfit%2Cw_512%2Ch_512",
+     "materialSource": 2,
+     "prompt": "【可视化分析】: 空间分区: 左右分割，左侧40%为文本与图标区，右侧60%为主体与场景道具区。\n视觉层次: 背景为连续场景贯穿全图，前景人物置于右侧，对角线场景道具置于人物后方，文字与图标悬浮于左侧前景图层。\n留白逻辑: 左侧上半部利用场景背景形成约40%留白以承载文字。\n【构成元素】: 主题设计: 右侧主体全身特写满版占位，左上2个图文Icon横向矩阵，左侧中部文本左对齐悬浮排版, 字体设计: 标题：大号加粗无衬线体，文本：常规无衬线体。\n【语言】：目标语言\n【注意】：文本简洁",
+     "style": "C23",
+     "tabType": "1"
+    }
+   ],
+   "productInfo": "[产品名称]：法式清新蓝白条纹荷叶边无袖连衣裙\n[目标受众]：追求减龄感与设计感的都市女性，适合18-35岁、喜爱法式休闲或度假风的亚裔及高加索人群。\n[核心营销卖点提炼]：\n1、清新视觉美学：经典蓝白细条纹注入沁凉视觉感，结合撞色彼得潘领设计，瞬间唤醒夏日活力，定格法式优雅。\n2、不规则灵动大摆：前短后长的荷叶边裙摆设计，在行走间形成自然的空气流动感，修饰腿部线条，尽显轻盈姿态。\n\n[服装基础档案]：\n材质：精梳高密全棉府绸，手感干爽挺括，带有微微的天然棉质骨感。\n光泽感：哑光质地，呈现出如晨间棉织品般的自然纯净柔和光泽。\n形态：A字型伞状版型，具有极佳的横向支撑力与垂坠度，完美包容各种身材曲线。\n\n[工艺细节精解]：\n剪裁结构：立体削肩剪裁配合前短后长的不规则裙摆，视觉中心上移，拉长身材比例。\n走线工艺：领口及门襟采用细腻平缝工艺，条纹拼接处纹路对齐严密，展现高级成衣的严谨感。\n五金配件：门襟点缀精致莹润的小圆扣，温润如玉，为衣身增添一抹细节亮点。\n特殊设计：对比鲜明的白色翻领与门襟撞色设计，打破条纹单调，构建出强烈的视觉层次感。\n\n[功能性与穿着体验]：\n透气保暖：棉纤维天然的透气吸湿性能，在炎热夏日依然能保持肌肤干爽不黏腻。\n面料弹性：无弹力织物，利用立体版型留出富余空间，确保活动自如，无束缚感。\n耐用护理：结构稳定耐洗涤，建议轻柔手洗或套袋机洗，中温蒸汽熨烫即可恢复平整挺括。\n季节适配：专为盛夏及初秋度假设计，适合25°C-35°C的高温环境穿着。\n\n[场景适配与穿搭方案]：\n最佳场景：海边度假、周末午后露台下午茶、夏日轻职场通勤或约会场景。\n风格定位：法式少女感 (French Chic) / 优雅度假风 (Resort Style)\n搭配建议：\n下装内搭：单穿即可，亦可内搭超薄无痕吊带以增加私密度。\n鞋履配饰：建议搭配白色细带凉鞋、草编遮阳帽及简约的珍珠耳饰，完美契合法式氛围。",
+   "provider": "GEMINI_FLASH_PRO",
+   "resolution": "2K",
+   "sellerTypeNum": 2
+  }
+ },
+ {
+  "id": "2037102697139732480",
+  "source": "/__cases/dress-wear-set/2037102697139732480-source.jpg",
+  "result": "/__cases/dress-wear-set/2037102697139732480-r.jpg",
+  "ext": {
+   "aPlusProNum": 4,
+   "aPlusStyles": [
+    {
+     "id": "2037079322853965824",
+     "imageThumbUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/27d46403bfe74c6cb68cab460381111b.jpg?Expires=1793282726&OSSAccessKeyId=LTAI5tQMD3UtDGPmMJRik6JA&Signature=hJDt6GOgl26WcjEG0WnxB2lMn88%3D&x-oss-process=image%2Fresize%2Cm_mfit%2Cw_512%2Ch_512",
+     "imageUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/27d46403bfe74c6cb68cab460381111b.jpg",
+     "imageUrlThumb": "https://file-ai.linkfox.com/UPLOAD/MANAGE/27d46403bfe74c6cb68cab460381111b.jpg?Expires=1793282726&OSSAccessKeyId=LTAI5tQMD3UtDGPmMJRik6JA&Signature=hJDt6GOgl26WcjEG0WnxB2lMn88%3D&x-oss-process=image%2Fresize%2Cm_mfit%2Cw_512%2Ch_512",
+     "materialSource": 2,
+     "prompt": "【可视化分析】: 空间分区: 横向三段式布局，统一背景贯穿全图。左右各占25%为主体展示，中间50%分为上方文本区与下方横向1行3列的圆角特写图像矩阵。\n视觉层次: 全局背景垫底，所有人物、文字及矩阵图层置于前景平行展示。视觉动线由中心标题发散至两侧主人物，最后收束于中心底部的细节矩阵。\n留白逻辑: 顶部及元素间隙保留20%留白，构建均衡呼吸感. \n【构成元素】: 主题设计: 左右人物多姿态夹击占位，中心上方排版文字，下方并列三个等大圆角矩形细节特写。字体设计: 标题：粗体衬线体(Serif Headline)，文本：胶囊框内的无衬线斜体(Sans-serif Italic).\n【语言】：目标语言",
+     "style": "M18",
+     "tabType": "1"
+    },
+    {
+     "id": "2034937123559243776",
+     "imageThumbUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/92f4c2d558f64d4384c3862546e90588.jpg?Expires=1793282726&OSSAccessKeyId=LTAI5tQMD3UtDGPmMJRik6JA&Signature=iurb7buSuujWKnOWBSzx%2BiTrnto%3D&x-oss-process=image%2Fresize%2Cm_mfit%2Cw_512%2Ch_512",
+     "imageUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/92f4c2d558f64d4384c3862546e90588.jpg",
+     "imageUrlThumb": "https://file-ai.linkfox.com/UPLOAD/MANAGE/92f4c2d558f64d4384c3862546e90588.jpg?Expires=1793282726&OSSAccessKeyId=LTAI5tQMD3UtDGPmMJRik6JA&Signature=iurb7buSuujWKnOWBSzx%2BiTrnto%3D&x-oss-process=image%2Fresize%2Cm_mfit%2Cw_512%2Ch_512",
+     "materialSource": 2,
+     "prompt": "目标语言：英文\n【可视化分析】: 空间分区: 水平分割: 左侧40%为图文排版区，右侧60%为图像展示区，右侧图像区由两张等尺寸的正方形图像横向并排组成（1行2列矩阵），共包含2张图像，文字分布于左侧，整体无贯穿背景,\n视觉层次: 1.视觉重心由左侧加粗大字标题开启，平滑引导至右侧的产品功能动作特写与材质细节图；2.左侧文字与底部三个线性图标平铺，右侧图像区中，产品局部特写作为底图\n留白逻辑: 左侧区域大面积留白以承载核心卖点，右侧图像外围保持等宽的边缘留白，两图之间保留极细的留白间隙进行自然切割，营造清晰理性的网格秩序感. \n【构成元素】: 主题设计: 左侧文本与图标矩阵纵向排布，右侧双图并置平铺展示功能动作特写与材质微观细节，融合信息图表元素, 字体设计: 标题：加粗无衬线大写字体，文本：常规无衬线小号字体.\n【语言】：目标语言",
+     "style": "M17",
+     "tabType": "1"
+    },
+    {
+     "id": "2032403912136351744",
+     "imageThumbUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/3c27a7fed35b4f5e8e3ff3be5cb37283.jpg?Expires=1793282278&OSSAccessKeyId=LTAI5tQMD3UtDGPmMJRik6JA&Signature=YytYf5PY%2FvUL%2Bwdoc0QXhk4tv8I%3D&x-oss-process=image%2Fresize%2Cm_mfit%2Cw_512%2Ch_512",
+     "imageUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/3c27a7fed35b4f5e8e3ff3be5cb37283.jpg",
+     "imageUrlThumb": "https://file-ai.linkfox.com/UPLOAD/MANAGE/3c27a7fed35b4f5e8e3ff3be5cb37283.jpg?Expires=1793282278&OSSAccessKeyId=LTAI5tQMD3UtDGPmMJRik6JA&Signature=YytYf5PY%2FvUL%2Bwdoc0QXhk4tv8I%3D&x-oss-process=image%2Fresize%2Cm_mfit%2Cw_512%2Ch_512",
+     "materialSource": 2,
+     "prompt": "【可视化分析】: 空间分区: 整体呈上下垂直与中部水平结合的布局，顶部20%为横向标题区，中部55%为水平等分三列的图像展示区，底部25%为左下文本说明区；背景中段包含一条水平贯穿全图的宽幅底带, 视觉层次: 1.视觉动线由左上角大标题自然下移至中部的并排图片，最终向右上方与右下方发散，聚焦于右侧最具视觉冲击力的全身人像；2.背景为极简底图叠加中段水平底带，左侧与中间的两张半身商品图镶嵌于底带高度的矩形限制框内构成中景图层，右侧全身商品图采用无边框形式置于最前景，人物主体上下延伸并重叠覆盖于底带边界之外，形成显著的破框立体感与前后空间重叠交错感；文字信息分布在左侧上下留白区域的前景, 留白逻辑: 顶部与底部留出充裕空间，利用右上角和中下部的留白强化右侧全身人像的呼吸感与破界感，左下角小段文本与右侧大面积人物立绘形成左轻右重的对角呼应，营造时尚杂志般的简约高级感. \n【构成元素】: 主题设计: 一行三列多姿态不对称矩阵布局，左中为受限的矩形框半身姿态，右侧为无边框全身破局姿态, 字体设计: 标题：大号优雅衬线体，文本：常规清晰无衬线体。\n【语言】：目标语言",
+     "style": "M16",
+     "tabType": "1"
+    },
+    {
+     "id": "2015995351292477440",
+     "imageThumbUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/e1526dde30bc4d5ab061d8e2685a50ad.png?Expires=1793283435&OSSAccessKeyId=LTAI5tQMD3UtDGPmMJRik6JA&Signature=JC1oUCPOFbrVSiWMDv4rSv%2By%2BAU%3D&x-oss-process=image%2Fresize%2Cm_mfit%2Cw_512%2Ch_512",
+     "imageUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/e1526dde30bc4d5ab061d8e2685a50ad.png",
+     "imageUrlThumb": "https://file-ai.linkfox.com/UPLOAD/MANAGE/e1526dde30bc4d5ab061d8e2685a50ad.png?Expires=1793283435&OSSAccessKeyId=LTAI5tQMD3UtDGPmMJRik6JA&Signature=JC1oUCPOFbrVSiWMDv4rSv%2By%2BAU%3D&x-oss-process=image%2Fresize%2Cm_mfit%2Cw_512%2Ch_512",
+     "materialSource": 2,
+     "prompt": "[核心构图]： 智能采用非对称的60-40分割布局 / 中心对称的构图。\n主题：沉浸式的主题铺满画布，放置高清的人物主体，背景进行模拟相机焦距虚化（Bokeh）处理，突出人物轮廓。\n字体留白：如选择60-40分割，利用背景的留白（如天空、虚化的草地/墙面）作为文字排版区，如选择中心对称的构图，字体叠加在画面中央\n[排版策略 - 字体混搭]： 必须使用**“信息层级混排”**逻辑来营造高级感：\n信息层（衬线/黑体）：使用庄重的粗衬线体 (Serif) 或 超粗无衬线体 书写产品核心词（如 COAT, BOOTS）。\n氛围层（手写体）：智能使用，飘逸的英文手写体 (Script) / 极细的衬线体 作为装饰，书写形容词或品牌名（如 Vintage, Luxury, Summer）。\n[光影与层次]：\n强调自然光/夕阳光感，避免生硬的抠图感。\n限制：\n1. 必须展示模特上身效果，禁止裁切头部",
+     "style": "M1",
+     "tabType": "1"
+    }
+   ],
+   "aspectRatio": "3:4",
+   "brandKey": {
+    "brandName": "智能品牌基因",
+    "language": "英语",
+    "platform": "亚马逊",
+    "salesRegion": "美国"
+   },
+   "brandKeyExtract": "{\"brandColor\":{\"背景策略-风格定义\":\"Based on the US SalesRegion, the background features a high-end Mediterranean-Californian lifestyle aesthetic. It utilizes sun-drenched architectural elements like textured stucco walls, natural linen textiles, and organic clay surfaces to resonate with the American premium boho-chic market.\",\"背景策略-光影\":\"Warm, natural golden hour lighting with soft, cinematic dappled shadows (bokeh) to create a high-fashion, three-dimensional depth.\",\"背景策略-场景关键词\":\"Golden hour sunlight, garden patio, terracotta tiles, dappled leaf shadows, Mediterranean villa, natural linen textures\",\"brandColor (品牌主色)\":\"Terracotta Earth #B25946\",\"Brand Injection（品牌植入）\":\"Brand identity is integrated through color-coordinated props like ceramic vases in #B25946 and subtle embroidery on lifestyle accessories within the scene.\"},\"fontStyle\":{\"颜色策略-Body/Sub\":\"[\\\"Body color\\\"：#7B3F32]\",\"字体策略\":\"经典优雅衬线体 (Classic Elegant Serif)\",\"灵活反白\":\"You are authorized to switch to Matte White (#FFFFFF) text whenever using a dark background or a solid brand-color panel.\",\"字体风格\":\"Playfair Display\",\"排版\":\"Non-italic, standard leading\",\"颜色策略-Heading\":\"[\\\"Heading Color\\\"：#B25946 / Flexible Reverse to #FFFFFF]\"}}",
+   "configData": {
+    "aPlusConfig": {
+     "sceneType": {
+      "A+": {
+       "checked": false,
+       "num": 4
+      },
+      "A+Phone": {
+       "checked": false,
+       "num": 4
+      },
+      "A+Pro": {
+       "checked": true,
+       "num": 4
+      },
+      "custom": {
+       "checked": false,
+       "num": 4
+      }
+     }
+    },
+    "mainConfig": {
+     "aspectRatio": "3:4",
+     "sceneType": {
+      "ins": {
+       "checked": true,
+       "num": 4
+      },
+      "point": {
+       "checked": true,
+       "num": 4
+      }
+     }
+    }
+   },
+   "imageList": [
+    {
+     "id": "3n463888",
+     "imageUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/WEAR_COLLECTION/2037102697139732480/image_list_0.png",
+     "name": "screenshot-20260325-155600.png"
+    }
+   ],
+   "insTypeNum": 4,
+   "pointStyles": [
+    {
+     "id": "2037086793639198720",
+     "imageThumbUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/86aa9526eb60462ca2faa11a8d8ec930.jpg?Expires=1793282311&OSSAccessKeyId=LTAI5tQMD3UtDGPmMJRik6JA&Signature=7sT1B0SqY%2Fh632oAQzQ%2FA%2FXwLPg%3D&x-oss-process=image%2Fresize%2Cm_mfit%2Cw_512%2Ch_512",
+     "imageUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/86aa9526eb60462ca2faa11a8d8ec930.jpg",
+     "imageUrlThumb": "https://file-ai.linkfox.com/UPLOAD/MANAGE/86aa9526eb60462ca2faa11a8d8ec930.jpg?Expires=1793282311&OSSAccessKeyId=LTAI5tQMD3UtDGPmMJRik6JA&Signature=7sT1B0SqY%2Fh632oAQzQ%2FA%2FXwLPg%3D&x-oss-process=image%2Fresize%2Cm_mfit%2Cw_512%2Ch_512",
+     "materialSource": 2,
+     "prompt": "目标语言：英文\n【可视化分析】空间分区: 不规则三分区：左侧50%纵向排布两张图像（左上标准矩形，左下左侧圆角矩形），右侧50%放置单张垂直长矩形图像。背景贯穿全图。文字分布于右上，共3图呈非对称矩阵分布，展示同商品多场景多姿态。\n视觉层次: 贯穿式背景垫底，右侧大图确立视觉重心。\n留白逻辑: 右上区域保留约35%负空间承载文本与标题，平衡左右视觉比重. \n【构成元素】主题设计: 不对称三图错落矩阵，多场景多姿态穿插占位, 字体设计: 标题：正统中等字号衬线体，文本：小号无衬线体\n【语言】：目标语言",
+     "style": "C22",
+     "tabType": "1"
+    },
+    {
+     "id": "2032404805098315776",
+     "imageThumbUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/60acae226796426d975e08847996f9e7.jpg?Expires=1793282542&OSSAccessKeyId=LTAI5tQMD3UtDGPmMJRik6JA&Signature=qW4t3wAJV6pL3UysTv81MekQwWM%3D&x-oss-process=image%2Fresize%2Cm_mfit%2Cw_512%2Ch_512",
+     "imageUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/60acae226796426d975e08847996f9e7.jpg",
+     "imageUrlThumb": "https://file-ai.linkfox.com/UPLOAD/MANAGE/60acae226796426d975e08847996f9e7.jpg?Expires=1793282542&OSSAccessKeyId=LTAI5tQMD3UtDGPmMJRik6JA&Signature=qW4t3wAJV6pL3UysTv81MekQwWM%3D&x-oss-process=image%2Fresize%2Cm_mfit%2Cw_512%2Ch_512",
+     "materialSource": 2,
+     "prompt": "【可视化分析】: 空间分区: 整体呈上下垂直排版，上半部分占全高60%为全宽场景，下半部分占40%为留白基础区域。下半部分内部呈左右布局，左侧约35%区域为贯穿上下的模特立像，右侧约65%区域为图文组合区（包含上方【描述文本】与下方1行3列的矩形细节特写图矩阵）。\n视觉层次: 顶部场景图置于底层，左侧竖版长图作为前景图层向上突破边界，与顶部场景图产生重叠的Z轴前后空间透视关系；视觉动线从左上角主标题出发，顺延至上方场景人物（坐姿），向下牵引至左侧重叠的前景人物（站姿），最终落脚于右下方的细节展示矩阵 \n留白逻辑: 上半部利用左上角环境天然留白承载大标题，下半部利用大面积留白托底，在跨区立像轮廓、文本块与矩形细节特写图之间保留清晰的界限与呼吸感\n【构成元素】: 主题设计: 上部全宽沉浸式场景（人物坐姿）结合左下方垂直悬浮破局画中画（人物站姿），配合右下方1行3列局部细节特写矩阵展现不同特征部位\n字体设计: 大标题：大字号粗体无衬线英文字体，文本：常规清晰无衬线字体\n【语言】：目标语言\n【限制】：【描述文本】保持极简，大主标题置于左上方",
+     "style": "C20",
+     "tabType": "1"
+    },
+    {
+     "id": "2015993604863983616",
+     "imageThumbUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/fc0a5ee8c8ef4ec188884a120a054234.png?Expires=1793282726&OSSAccessKeyId=LTAI5tQMD3UtDGPmMJRik6JA&Signature=ESD79PQ0QY5gMbIlY%2FSzUEIj%2Fdw%3D&x-oss-process=image%2Fresize%2Cm_mfit%2Cw_512%2Ch_512",
+     "imageUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/fc0a5ee8c8ef4ec188884a120a054234.png",
+     "imageUrlThumb": "https://file-ai.linkfox.com/UPLOAD/MANAGE/fc0a5ee8c8ef4ec188884a120a054234.png?Expires=1793282726&OSSAccessKeyId=LTAI5tQMD3UtDGPmMJRik6JA&Signature=ESD79PQ0QY5gMbIlY%2FSzUEIj%2Fdw%3D&x-oss-process=image%2Fresize%2Cm_mfit%2Cw_512%2Ch_512",
+     "materialSource": 2,
+     "prompt": "【A+ 模块三: Styling Suggestions / 搭配建议】 󰀠对标卖点: [引用关于整体穿搭效果、成套购买建议、或是营造特定度假/生活氛围的卖点] 󰀠视觉构图描述: 采用\\\\\\*\\\\\\*“Magazine Scrapbook（杂志剪贴簿）”\\\\\\*\\\\\\*风格构图。 󰀡视觉容器: 画面背景优先采用用户定义的主色调纯色或纹理底色，中间叠加一张浅色长方形“纸张”****（尽量充满画面），边角真实的金属回形针 (Paperclip) 或好看的胶带固定，营造出“时尚剪报”的错视感。 󰀡页面布局: 在纸张区域内采用横向多栏布局。分栏可包含以下内容： 󰀢放置模特的全身/半身穿搭展示图，展示服装上身后的自然垂坠感和动态，像手机拍摄的生活照拥有自然感。 󰀢放置该套搭配中单品的\\\\\\*\\\\\\*“隐形模特图 (Ghost Mannequin)”或“平铺图 (Flat Lay)”\\\\\\*\\\\\\*（如：上衣、裤装、编织包、凉鞋、项链），单品之间留白，排列整齐，形成视觉清单。 󰀡装饰元素: 顶部设计一个黑色长方形刊头 (Header Bar)，内含符合目标语言的杂志风刊头文字（内容需与Text on Image中的标题一致）；底部用虚线分割，列出简短的单品名称。 󰀠图片文字**(Must be in Target Language)**: 󰀡标题栏: \"[翻译为目标语言: 时尚快讯 / 季度精选]\" 󰀡副标签: \"[翻译为目标语言: Vacation Mode / Vol.01]\" 󰀡底部列表: \"[翻译为目标语言: Top / Bottom + Product Name]\" 󰀠背景与颜色建议: 优先采用用户定义的字体和主色调。若无，则外层背景建议使用与服装风格呼应的质感纹理；中间容器采用浅色低饱和背景以凸显产品；文字使用经典的衬线体（如Didot或Bodoni）增强杂志感。",
+     "style": "C3",
+     "tabType": "1"
+    },
+    {
+     "id": "2015994698176430080",
+     "imageThumbUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/9c72a8ac9ed94cd7959a5526b48dbae8.png?Expires=1793278268&OSSAccessKeyId=LTAI5tQMD3UtDGPmMJRik6JA&Signature=Jj6tkGWaIECk0DaHgbKMNR6BXi0%3D&x-oss-process=image%2Fresize%2Cm_mfit%2Cw_512%2Ch_512",
+     "imageUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/9c72a8ac9ed94cd7959a5526b48dbae8.png",
+     "imageUrlThumb": "https://file-ai.linkfox.com/UPLOAD/MANAGE/9c72a8ac9ed94cd7959a5526b48dbae8.png?Expires=1793278268&OSSAccessKeyId=LTAI5tQMD3UtDGPmMJRik6JA&Signature=Jj6tkGWaIECk0DaHgbKMNR6BXi0%3D&x-oss-process=image%2Fresize%2Cm_mfit%2Cw_512%2Ch_512",
+     "materialSource": 2,
+     "prompt": "【A+ 模块15: Lifestyle Application / 生活化场景展示】 󰀠对标卖点: [引用最能体现服装风格或整体穿着体验的卖点] 󰀠视觉构图描述:  全宽高清横幅图: 一张充满故事感的单场景大图，模特自然融入其中。 图中必须为[明确指出性别，如“欧美男模特”或“欧美女模特”】 󰀠Text on Image ****(Must be in Target Language): 󰀡Headline: \"[根据目标语言撰写吸引人的标题]\" 󰀡Body: \"[根据目标语言撰写利益点文案]\" 󰀡... (根据所选版式调整) 󰀠背景与颜色建议: [优先采用用户定义的字体和主色调。若无，则根据服装风格建议字体和主色调。背景建议: 展示穿搭的生活方式图]",
+     "style": "C15",
+     "tabType": "1"
+    }
+   ],
+   "productInfo": "[产品名称]：法式复古田园风碎花吊带大摆连衣裙\n[目标受众]：追求浪漫雅致风格的18-35岁女性，适合喜爱法式度假感及田园美学的都市女性。\n[核心营销卖点提炼]：\n1、繁花入梦：波希米亚印花美学：精选意式田园风格植物图谱，以考究的对称美学排列，将大自然的灵动与几何平衡感完美融合，打造行走间的艺术画卷。\n2、流线塑形：X型立体收腰剪裁：通过精密的黄金分割剪裁与宽封腰设计，自然贴合身形曲线，配合多层伞状大摆，尽显摇曳生姿的曼妙体态。\n\n[服装基础档案]：\n材质：高支精梳棉混纺或高密府绸织物，手感干爽挺括且不失亲肤感。\n光泽感：哑光质地，呈现一种自然本白的棉质微磨砂高级感，不反光但极具质感。\n形态：垂感自然，裙摆部分具有优异的挺括度，即使静止也能保持完美的伞状张力。\n\n[工艺细节精解]：\n剪裁结构：吊带抹胸剪裁搭配高腰收腰设计，结合阶梯式拼接大摆，视觉拉长腿部线条。\n走线工艺：印花拼接缝合处严丝合缝，保持图案的连续性与完整性，边缘走线致密均匀。\n五金配件：隐形后拉链设计，确保整体廓形的顺滑，不破坏背部线条美感。\n特殊设计：富有节奏感的波浪花边勾勒肩带与裙身框架，增强了整体的层次感与复古氛围。\n\n[功能性与穿着体验]：\n透气保暖：天然纤维的高透气性，确保在炎热夏日亦能保持肌肤清爽，体感凉而不透。\n面料弹性：无弹力挺括织物，通过结构性放量提供舒适的活动空间，束缚感低。\n耐用护理：面料紧密抗造，不易起球，建议轻柔手洗或套袋机洗以保护精美印花。\n季节适配：盛夏单穿尽显清凉；春秋季可叠搭针织开衫或西装，跨越三季穿着。\n\n[场景适配与穿搭方案]：\n最佳场景：海边度假、田园野餐、艺术画展观赏或浪漫午后约会。\n风格定位：法式田园复古风格 (French Country Chic)，融合了波希米亚的自由与宫廷的精致。\n搭配建议：\n下装内搭：内搭建议选用无痕肉色内衣或抹胸，以保持领口与肩部线条的极致纯净。\n鞋履配饰：推荐搭配草编坡跟鞋或系带凉鞋，佩戴手工草编帽及珍珠首饰，点亮整体造型。",
+   "provider": "GEMINI_FLASH_PRO",
+   "resolution": "2K",
+   "sellerTypeNum": 4
+  }
+ },
+ {
+  "id": "2037106539239636992",
+  "source": "/__cases/dress-wear-set/2037106539239636992-source.jpg",
+  "result": "/__cases/dress-wear-set/2037106539239636992-r.jpg",
+  "ext": {
+   "aPlusProNum": 2,
+   "aPlusStyles": [
+    {
+     "id": "2037079322853965824",
+     "imageThumbUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/27d46403bfe74c6cb68cab460381111b.jpg?Expires=1793282726&OSSAccessKeyId=LTAI5tQMD3UtDGPmMJRik6JA&Signature=hJDt6GOgl26WcjEG0WnxB2lMn88%3D&x-oss-process=image%2Fresize%2Cm_mfit%2Cw_512%2Ch_512",
+     "imageUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/27d46403bfe74c6cb68cab460381111b.jpg",
+     "imageUrlThumb": "https://file-ai.linkfox.com/UPLOAD/MANAGE/27d46403bfe74c6cb68cab460381111b.jpg?Expires=1793282726&OSSAccessKeyId=LTAI5tQMD3UtDGPmMJRik6JA&Signature=hJDt6GOgl26WcjEG0WnxB2lMn88%3D&x-oss-process=image%2Fresize%2Cm_mfit%2Cw_512%2Ch_512",
+     "materialSource": 2,
+     "prompt": "【可视化分析】: 空间分区: 横向三段式布局，统一背景贯穿全图。左右各占25%为主体展示，中间50%分为上方文本区与下方横向1行3列的圆角特写图像矩阵。\n视觉层次: 全局背景垫底，所有人物、文字及矩阵图层置于前景平行展示。视觉动线由中心标题发散至两侧主人物，最后收束于中心底部的细节矩阵。\n留白逻辑: 顶部及元素间隙保留20%留白，构建均衡呼吸感. \n【构成元素】: 主题设计: 左右人物多姿态夹击占位，中心上方排版文字，下方并列三个等大圆角矩形细节特写。字体设计: 标题：粗体衬线体(Serif Headline)，文本：胶囊框内的无衬线斜体(Sans-serif Italic).\n【语言】：目标语言",
+     "style": "M18",
+     "tabType": "1"
+    },
+    {
+     "id": "2034937123559243776",
+     "imageThumbUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/92f4c2d558f64d4384c3862546e90588.jpg?Expires=1793282726&OSSAccessKeyId=LTAI5tQMD3UtDGPmMJRik6JA&Signature=iurb7buSuujWKnOWBSzx%2BiTrnto%3D&x-oss-process=image%2Fresize%2Cm_mfit%2Cw_512%2Ch_512",
+     "imageUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/92f4c2d558f64d4384c3862546e90588.jpg",
+     "imageUrlThumb": "https://file-ai.linkfox.com/UPLOAD/MANAGE/92f4c2d558f64d4384c3862546e90588.jpg?Expires=1793282726&OSSAccessKeyId=LTAI5tQMD3UtDGPmMJRik6JA&Signature=iurb7buSuujWKnOWBSzx%2BiTrnto%3D&x-oss-process=image%2Fresize%2Cm_mfit%2Cw_512%2Ch_512",
+     "materialSource": 2,
+     "prompt": "目标语言：英文\n【可视化分析】: 空间分区: 水平分割: 左侧40%为图文排版区，右侧60%为图像展示区，右侧图像区由两张等尺寸的正方形图像横向并排组成（1行2列矩阵），共包含2张图像，文字分布于左侧，整体无贯穿背景,\n视觉层次: 1.视觉重心由左侧加粗大字标题开启，平滑引导至右侧的产品功能动作特写与材质细节图；2.左侧文字与底部三个线性图标平铺，右侧图像区中，产品局部特写作为底图\n留白逻辑: 左侧区域大面积留白以承载核心卖点，右侧图像外围保持等宽的边缘留白，两图之间保留极细的留白间隙进行自然切割，营造清晰理性的网格秩序感. \n【构成元素】: 主题设计: 左侧文本与图标矩阵纵向排布，右侧双图并置平铺展示功能动作特写与材质微观细节，融合信息图表元素, 字体设计: 标题：加粗无衬线大写字体，文本：常规无衬线小号字体.\n【语言】：目标语言",
+     "style": "M17",
+     "tabType": "1"
+    }
+   ],
+   "aspectRatio": "3:4",
+   "brandKey": {
+    "brandName": "智能品牌基因",
+    "language": "英语",
+    "platform": "亚马逊",
+    "salesRegion": "美国"
+   },
+   "brandKeyExtract": "{\"brandColor\":{\"背景策略-风格定义\":\"American Coastal Elegance / Hamptons Chic。针对美国市场，采用高端滨海庄园或美式明亮室内设计风格。场景需体现100%摄影级写实，结合高品质棉麻材质家具、大面积落地窗及精致的室内道具，营造出一种美式中产阶层惬意的度假或午后社交氛围。\",\"背景策略-光影\":\"侧逆光自然光影，模拟清晨穿过轻盈白纱窗帘的柔和阳光，形成自然的景深与光斑，增强优雅与高级感。\",\"背景策略-场景关键词\":\"Hamptons estate, Sun-drenched garden, Premium coastal interior, Linen textures, High-end residential patio\",\"brandColor (品牌主色)\":\"Serene Coastal Blue #A4C3D2\",\"Brand Injection（品牌植入）\":\"通过场景内的香氛蜡烛贴标、金属挂钩或背景中的高端生活杂志封面隐约植入品牌元素，确保品牌印记与高品质生活方式自然融合。\"},\"fontStyle\":{\"颜色策略-Body/Sub\":\"[\\\"Body color\\\"：#5F7D8E]\",\"字体策略\":\"经典优雅衬线体 (Classic Elegant Serif)\",\"灵活反白\":\"You are authorized to switch to Matte White (#FFFFFF) text whenever using a dark background or a solid brand-color panel.\",\"字体风格\":\"Playfair Display\",\"排版\":\"Non-italic, standard leading\",\"颜色策略-Heading\":\"[\\\"Heading Color\\\"：#A4C3D2 / 反白逻辑]\"}}",
+   "configData": {
+    "aPlusConfig": {
+     "sceneType": {
+      "A+": {
+       "checked": false,
+       "num": 2
+      },
+      "A+Phone": {
+       "checked": false,
+       "num": 2
+      },
+      "A+Pro": {
+       "checked": true,
+       "num": 2
+      },
+      "custom": {
+       "checked": false,
+       "num": 2
+      }
+     }
+    },
+    "mainConfig": {
+     "aspectRatio": "3:4",
+     "sceneType": {
+      "ins": {
+       "checked": true,
+       "num": 4
+      },
+      "point": {
+       "checked": true,
+       "num": 4
+      }
+     }
+    }
+   },
+   "imageList": [
+    {
+     "id": "ndq164h9",
+     "imageUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/WEAR_COLLECTION/2037106539239636992/image_list_0.png",
+     "name": "screenshot-20260325-170746.png"
+    }
+   ],
+   "insTypeNum": 4,
+   "pointStyles": [
+    {
+     "id": "2037086793639198720",
+     "imageThumbUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/86aa9526eb60462ca2faa11a8d8ec930.jpg?Expires=1793282311&OSSAccessKeyId=LTAI5tQMD3UtDGPmMJRik6JA&Signature=7sT1B0SqY%2Fh632oAQzQ%2FA%2FXwLPg%3D&x-oss-process=image%2Fresize%2Cm_mfit%2Cw_512%2Ch_512",
+     "imageUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/86aa9526eb60462ca2faa11a8d8ec930.jpg",
+     "imageUrlThumb": "https://file-ai.linkfox.com/UPLOAD/MANAGE/86aa9526eb60462ca2faa11a8d8ec930.jpg?Expires=1793282311&OSSAccessKeyId=LTAI5tQMD3UtDGPmMJRik6JA&Signature=7sT1B0SqY%2Fh632oAQzQ%2FA%2FXwLPg%3D&x-oss-process=image%2Fresize%2Cm_mfit%2Cw_512%2Ch_512",
+     "materialSource": 2,
+     "prompt": "目标语言：英文\n【可视化分析】空间分区: 不规则三分区：左侧50%纵向排布两张图像（左上标准矩形，左下左侧圆角矩形），右侧50%放置单张垂直长矩形图像。背景贯穿全图。文字分布于右上，共3图呈非对称矩阵分布，展示同商品多场景多姿态。\n视觉层次: 贯穿式背景垫底，右侧大图确立视觉重心。\n留白逻辑: 右上区域保留约35%负空间承载文本与标题，平衡左右视觉比重. \n【构成元素】主题设计: 不对称三图错落矩阵，多场景多姿态穿插占位, 字体设计: 标题：正统中等字号衬线体，文本：小号无衬线体\n【语言】：目标语言",
+     "style": "C22",
+     "tabType": "1"
+    },
+    {
+     "id": "2032404805098315776",
+     "imageThumbUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/60acae226796426d975e08847996f9e7.jpg?Expires=1793282542&OSSAccessKeyId=LTAI5tQMD3UtDGPmMJRik6JA&Signature=qW4t3wAJV6pL3UysTv81MekQwWM%3D&x-oss-process=image%2Fresize%2Cm_mfit%2Cw_512%2Ch_512",
+     "imageUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/60acae226796426d975e08847996f9e7.jpg",
+     "imageUrlThumb": "https://file-ai.linkfox.com/UPLOAD/MANAGE/60acae226796426d975e08847996f9e7.jpg?Expires=1793282542&OSSAccessKeyId=LTAI5tQMD3UtDGPmMJRik6JA&Signature=qW4t3wAJV6pL3UysTv81MekQwWM%3D&x-oss-process=image%2Fresize%2Cm_mfit%2Cw_512%2Ch_512",
+     "materialSource": 2,
+     "prompt": "【可视化分析】: 空间分区: 整体呈上下垂直排版，上半部分占全高60%为全宽场景，下半部分占40%为留白基础区域。下半部分内部呈左右布局，左侧约35%区域为贯穿上下的模特立像，右侧约65%区域为图文组合区（包含上方【描述文本】与下方1行3列的矩形细节特写图矩阵）。\n视觉层次: 顶部场景图置于底层，左侧竖版长图作为前景图层向上突破边界，与顶部场景图产生重叠的Z轴前后空间透视关系；视觉动线从左上角主标题出发，顺延至上方场景人物（坐姿），向下牵引至左侧重叠的前景人物（站姿），最终落脚于右下方的细节展示矩阵 \n留白逻辑: 上半部利用左上角环境天然留白承载大标题，下半部利用大面积留白托底，在跨区立像轮廓、文本块与矩形细节特写图之间保留清晰的界限与呼吸感\n【构成元素】: 主题设计: 上部全宽沉浸式场景（人物坐姿）结合左下方垂直悬浮破局画中画（人物站姿），配合右下方1行3列局部细节特写矩阵展现不同特征部位\n字体设计: 大标题：大字号粗体无衬线英文字体，文本：常规清晰无衬线字体\n【语言】：目标语言\n【限制】：【描述文本】保持极简，大主标题置于左上方",
+     "style": "C20",
+     "tabType": "1"
+    },
+    {
+     "id": "2015993604863983616",
+     "imageThumbUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/fc0a5ee8c8ef4ec188884a120a054234.png?Expires=1793282726&OSSAccessKeyId=LTAI5tQMD3UtDGPmMJRik6JA&Signature=ESD79PQ0QY5gMbIlY%2FSzUEIj%2Fdw%3D&x-oss-process=image%2Fresize%2Cm_mfit%2Cw_512%2Ch_512",
+     "imageUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/fc0a5ee8c8ef4ec188884a120a054234.png",
+     "imageUrlThumb": "https://file-ai.linkfox.com/UPLOAD/MANAGE/fc0a5ee8c8ef4ec188884a120a054234.png?Expires=1793282726&OSSAccessKeyId=LTAI5tQMD3UtDGPmMJRik6JA&Signature=ESD79PQ0QY5gMbIlY%2FSzUEIj%2Fdw%3D&x-oss-process=image%2Fresize%2Cm_mfit%2Cw_512%2Ch_512",
+     "materialSource": 2,
+     "prompt": "【A+ 模块三: Styling Suggestions / 搭配建议】 󰀠对标卖点: [引用关于整体穿搭效果、成套购买建议、或是营造特定度假/生活氛围的卖点] 󰀠视觉构图描述: 采用\\\\\\*\\\\\\*“Magazine Scrapbook（杂志剪贴簿）”\\\\\\*\\\\\\*风格构图。 󰀡视觉容器: 画面背景优先采用用户定义的主色调纯色或纹理底色，中间叠加一张浅色长方形“纸张”****（尽量充满画面），边角真实的金属回形针 (Paperclip) 或好看的胶带固定，营造出“时尚剪报”的错视感。 󰀡页面布局: 在纸张区域内采用横向多栏布局。分栏可包含以下内容： 󰀢放置模特的全身/半身穿搭展示图，展示服装上身后的自然垂坠感和动态，像手机拍摄的生活照拥有自然感。 󰀢放置该套搭配中单品的\\\\\\*\\\\\\*“隐形模特图 (Ghost Mannequin)”或“平铺图 (Flat Lay)”\\\\\\*\\\\\\*（如：上衣、裤装、编织包、凉鞋、项链），单品之间留白，排列整齐，形成视觉清单。 󰀡装饰元素: 顶部设计一个黑色长方形刊头 (Header Bar)，内含符合目标语言的杂志风刊头文字（内容需与Text on Image中的标题一致）；底部用虚线分割，列出简短的单品名称。 󰀠图片文字**(Must be in Target Language)**: 󰀡标题栏: \"[翻译为目标语言: 时尚快讯 / 季度精选]\" 󰀡副标签: \"[翻译为目标语言: Vacation Mode / Vol.01]\" 󰀡底部列表: \"[翻译为目标语言: Top / Bottom + Product Name]\" 󰀠背景与颜色建议: 优先采用用户定义的字体和主色调。若无，则外层背景建议使用与服装风格呼应的质感纹理；中间容器采用浅色低饱和背景以凸显产品；文字使用经典的衬线体（如Didot或Bodoni）增强杂志感。",
+     "style": "C3",
+     "tabType": "1"
+    },
+    {
+     "id": "2015994698176430080",
+     "imageThumbUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/9c72a8ac9ed94cd7959a5526b48dbae8.png?Expires=1793278268&OSSAccessKeyId=LTAI5tQMD3UtDGPmMJRik6JA&Signature=Jj6tkGWaIECk0DaHgbKMNR6BXi0%3D&x-oss-process=image%2Fresize%2Cm_mfit%2Cw_512%2Ch_512",
+     "imageUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/9c72a8ac9ed94cd7959a5526b48dbae8.png",
+     "imageUrlThumb": "https://file-ai.linkfox.com/UPLOAD/MANAGE/9c72a8ac9ed94cd7959a5526b48dbae8.png?Expires=1793278268&OSSAccessKeyId=LTAI5tQMD3UtDGPmMJRik6JA&Signature=Jj6tkGWaIECk0DaHgbKMNR6BXi0%3D&x-oss-process=image%2Fresize%2Cm_mfit%2Cw_512%2Ch_512",
+     "materialSource": 2,
+     "prompt": "【A+ 模块15: Lifestyle Application / 生活化场景展示】 󰀠对标卖点: [引用最能体现服装风格或整体穿着体验的卖点] 󰀠视觉构图描述:  全宽高清横幅图: 一张充满故事感的单场景大图，模特自然融入其中。 图中必须为[明确指出性别，如“欧美男模特”或“欧美女模特”】 󰀠Text on Image ****(Must be in Target Language): 󰀡Headline: \"[根据目标语言撰写吸引人的标题]\" 󰀡Body: \"[根据目标语言撰写利益点文案]\" 󰀡... (根据所选版式调整) 󰀠背景与颜色建议: [优先采用用户定义的字体和主色调。若无，则根据服装风格建议字体和主色调。背景建议: 展示穿搭的生活方式图]",
+     "style": "C15",
+     "tabType": "1"
+    }
+   ],
+   "productInfo": "[产品名称]：法式宫廷风蕾丝勾花条纹真丝长裙\n[目标受众]：25-45岁追求高智感与浪漫主义风格的都市女性，适合肤色白皙、喜爱度假或参加轻社交场合的人群。\n[核心营销卖点提炼]：\n1、重工蕾丝与条纹的艺术碰撞：精选复古米白蕾丝花卉，手工般细腻地装点于前胸与袖口，与清凉的蓝白竖条纹形成鲜明的视觉层次，将宫廷感与现代感完美交织。\n2、轻盈流动的空气感廓形：采用高支数真丝混纺或雪纺质地，面料轻盈如烟，配合高腰压褶剪裁，随步履摇曳生姿，打造极致的慵懒度假氛围。\n\n[服装基础档案]：\n材质：高级雪纺或真丝乔其纱，具有极佳的透气性与飘逸感，触感丝滑如羽。\n光泽感：柔和的哑光质感辅以微弱的光泽，蕾丝部分呈现温润的复古米色调，整体视觉清爽高级。\n形态：垂坠感极佳的长款裙摆，配合收腰结构，视觉上拉长下半身比例，具有优秀的包容性。\n\n[工艺细节精解]：\n剪裁结构：经典的立领衬衫裙版型结合高腰分割线，X型轮廓完美修饰腰腹线条。\n走线工艺：领口及门襟处采用精密平缝工艺，蕾丝边缘过渡自然，无多余线头，彰显轻奢品质。\n五金配件：珍珠光泽的隐形扣设计，保持了正面视觉的完整性与精致度。\n特殊设计：胸前大面积蕾丝勾花拼贴，结合灯笼袖口蕾丝呼应，营造浪漫的维多利亚时期遗风。\n\n[功能性与穿着体验]：\n透气保暖：极高透气率，即便在湿热环境下也能保持肌肤干爽，无闷热感。\n面料弹性：无弹力面料，通过精准的剪裁提供舒展空间，穿着轻盈无负担。\n耐用护理：建议冷水手洗或专业干洗，悬挂晾晒以保持蕾丝的平整与面料的垂度。\n季节适配：最适合春夏季节，或在初秋作为风衣、针织衫的内搭穿着。\n\n[场景适配与穿搭方案]：\n最佳场景：海滨度假、艺术画展、高端下午茶或充满仪式感的浪漫约会。\n风格定位：法式优雅、浪漫主义、波西米亚轻奢风。\n搭配建议：\n下装内搭：建议内搭肉色无痕内衣或同色系丝质衬裙，防止透光并增加层次感。\n鞋履配饰：推荐搭配细带凉鞋或米色平底草编鞋，佩戴简约珍珠耳饰以呼应蕾丝的高级感。",
+   "provider": "GEMINI_FLASH_PRO",
+   "resolution": "2K",
+   "sellerTypeNum": 4
+  }
+ },
+ {
+  "id": "2037106761474834432",
+  "source": "/__cases/dress-wear-set/2037106761474834432-source.jpg",
+  "result": "/__cases/dress-wear-set/2037106761474834432-r.jpg",
+  "ext": {
+   "aPlusProNum": 2,
+   "aPlusStyles": [
+    {
+     "id": "2037079322853965824",
+     "imageThumbUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/27d46403bfe74c6cb68cab460381111b.jpg?Expires=1793282726&OSSAccessKeyId=LTAI5tQMD3UtDGPmMJRik6JA&Signature=hJDt6GOgl26WcjEG0WnxB2lMn88%3D&x-oss-process=image%2Fresize%2Cm_mfit%2Cw_512%2Ch_512",
+     "imageUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/27d46403bfe74c6cb68cab460381111b.jpg",
+     "imageUrlThumb": "https://file-ai.linkfox.com/UPLOAD/MANAGE/27d46403bfe74c6cb68cab460381111b.jpg?Expires=1793282726&OSSAccessKeyId=LTAI5tQMD3UtDGPmMJRik6JA&Signature=hJDt6GOgl26WcjEG0WnxB2lMn88%3D&x-oss-process=image%2Fresize%2Cm_mfit%2Cw_512%2Ch_512",
+     "materialSource": 2,
+     "prompt": "【可视化分析】: 空间分区: 横向三段式布局，统一背景贯穿全图。左右各占25%为主体展示，中间50%分为上方文本区与下方横向1行3列的圆角特写图像矩阵。\n视觉层次: 全局背景垫底，所有人物、文字及矩阵图层置于前景平行展示。视觉动线由中心标题发散至两侧主人物，最后收束于中心底部的细节矩阵。\n留白逻辑: 顶部及元素间隙保留20%留白，构建均衡呼吸感. \n【构成元素】: 主题设计: 左右人物多姿态夹击占位，中心上方排版文字，下方并列三个等大圆角矩形细节特写。字体设计: 标题：粗体衬线体(Serif Headline)，文本：胶囊框内的无衬线斜体(Sans-serif Italic).\n【语言】：目标语言",
+     "style": "M18",
+     "tabType": "1"
+    },
+    {
+     "id": "2034937123559243776",
+     "imageThumbUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/92f4c2d558f64d4384c3862546e90588.jpg?Expires=1793282726&OSSAccessKeyId=LTAI5tQMD3UtDGPmMJRik6JA&Signature=iurb7buSuujWKnOWBSzx%2BiTrnto%3D&x-oss-process=image%2Fresize%2Cm_mfit%2Cw_512%2Ch_512",
+     "imageUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/92f4c2d558f64d4384c3862546e90588.jpg",
+     "imageUrlThumb": "https://file-ai.linkfox.com/UPLOAD/MANAGE/92f4c2d558f64d4384c3862546e90588.jpg?Expires=1793282726&OSSAccessKeyId=LTAI5tQMD3UtDGPmMJRik6JA&Signature=iurb7buSuujWKnOWBSzx%2BiTrnto%3D&x-oss-process=image%2Fresize%2Cm_mfit%2Cw_512%2Ch_512",
+     "materialSource": 2,
+     "prompt": "目标语言：英文\n【可视化分析】: 空间分区: 水平分割: 左侧40%为图文排版区，右侧60%为图像展示区，右侧图像区由两张等尺寸的正方形图像横向并排组成（1行2列矩阵），共包含2张图像，文字分布于左侧，整体无贯穿背景,\n视觉层次: 1.视觉重心由左侧加粗大字标题开启，平滑引导至右侧的产品功能动作特写与材质细节图；2.左侧文字与底部三个线性图标平铺，右侧图像区中，产品局部特写作为底图\n留白逻辑: 左侧区域大面积留白以承载核心卖点，右侧图像外围保持等宽的边缘留白，两图之间保留极细的留白间隙进行自然切割，营造清晰理性的网格秩序感. \n【构成元素】: 主题设计: 左侧文本与图标矩阵纵向排布，右侧双图并置平铺展示功能动作特写与材质微观细节，融合信息图表元素, 字体设计: 标题：加粗无衬线大写字体，文本：常规无衬线小号字体.\n【语言】：目标语言",
+     "style": "M17",
+     "tabType": "1"
+    }
+   ],
+   "aspectRatio": "3:4",
+   "brandKey": {
+    "brandName": "智能品牌基因",
+    "language": "英语",
+    "platform": "亚马逊",
+    "salesRegion": "美国"
+   },
+   "brandKeyExtract": "{\"brandColor\":{\"背景策略-风格定义\":\"Modern American Suburban Chic. 室内设计应体现美国现代家庭的明亮、通透感，采用极简主义的实木家具（如橡木）与浅色地毯，营造温馨且高品质的居家生活氛围。\",\"背景策略-光影\":\"清晨自然光，透过大落地窗洒下的柔和漫反射光影，避免硬阴影，增加空间的呼吸感与写实深度。\",\"背景策略-场景关键词\":\"Sun-drenched living room, minimalist nursery, oak flooring, soft cotton textiles, morning light\",\"brandColor (品牌主色)\":\"Blossom Pink #F7C8D0\",\"Brand Injection（品牌植入）\":\"场景中的装饰物（如干花或靠枕）微妙呼应产品上的粉色缎带色调；利用景深将品牌气质融入高净值家庭生活片段。\"},\"fontStyle\":{\"颜色策略-Body/Sub\":\"[\\\"Body color\\\"：#5D6D7E]\",\"字体策略\":\"几何无衬线体\",\"灵活反白\":\"You are authorized to switch to Matte White (#FFFFFF) text whenever using a dark background or a solid brand-color panel.\",\"字体风格\":\"Montserrat\",\"排版\":\"Non-italic, standard leading\",\"颜色策略-Heading\":\"[\\\"Heading Color\\\"：#F7C8D0 / 灵活反白]\"}}",
+   "configData": {
+    "aPlusConfig": {
+     "sceneType": {
+      "A+": {
+       "checked": false,
+       "num": 2
+      },
+      "A+Phone": {
+       "checked": false,
+       "num": 2
+      },
+      "A+Pro": {
+       "checked": true,
+       "num": 2
+      },
+      "custom": {
+       "checked": false,
+       "num": 2
+      }
+     }
+    },
+    "mainConfig": {
+     "aspectRatio": "3:4",
+     "sceneType": {
+      "ins": {
+       "checked": true,
+       "num": 4
+      },
+      "point": {
+       "checked": true,
+       "num": 4
+      }
+     }
+    }
+   },
+   "imageList": [
+    {
+     "id": "7u54ke0s",
+     "imageUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/WEAR_COLLECTION/2037106761474834432/image_list_0.png",
+     "name": "screenshot-20260325-170456.png"
+    }
+   ],
+   "insTypeNum": 4,
+   "pointStyles": [
+    {
+     "id": "2037086793639198720",
+     "imageThumbUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/86aa9526eb60462ca2faa11a8d8ec930.jpg?Expires=1793282311&OSSAccessKeyId=LTAI5tQMD3UtDGPmMJRik6JA&Signature=7sT1B0SqY%2Fh632oAQzQ%2FA%2FXwLPg%3D&x-oss-process=image%2Fresize%2Cm_mfit%2Cw_512%2Ch_512",
+     "imageUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/86aa9526eb60462ca2faa11a8d8ec930.jpg",
+     "imageUrlThumb": "https://file-ai.linkfox.com/UPLOAD/MANAGE/86aa9526eb60462ca2faa11a8d8ec930.jpg?Expires=1793282311&OSSAccessKeyId=LTAI5tQMD3UtDGPmMJRik6JA&Signature=7sT1B0SqY%2Fh632oAQzQ%2FA%2FXwLPg%3D&x-oss-process=image%2Fresize%2Cm_mfit%2Cw_512%2Ch_512",
+     "materialSource": 2,
+     "prompt": "目标语言：英文\n【可视化分析】空间分区: 不规则三分区：左侧50%纵向排布两张图像（左上标准矩形，左下左侧圆角矩形），右侧50%放置单张垂直长矩形图像。背景贯穿全图。文字分布于右上，共3图呈非对称矩阵分布，展示同商品多场景多姿态。\n视觉层次: 贯穿式背景垫底，右侧大图确立视觉重心。\n留白逻辑: 右上区域保留约35%负空间承载文本与标题，平衡左右视觉比重. \n【构成元素】主题设计: 不对称三图错落矩阵，多场景多姿态穿插占位, 字体设计: 标题：正统中等字号衬线体，文本：小号无衬线体\n【语言】：目标语言",
+     "style": "C22",
+     "tabType": "1"
+    },
+    {
+     "id": "2032404805098315776",
+     "imageThumbUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/60acae226796426d975e08847996f9e7.jpg?Expires=1793282542&OSSAccessKeyId=LTAI5tQMD3UtDGPmMJRik6JA&Signature=qW4t3wAJV6pL3UysTv81MekQwWM%3D&x-oss-process=image%2Fresize%2Cm_mfit%2Cw_512%2Ch_512",
+     "imageUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/60acae226796426d975e08847996f9e7.jpg",
+     "imageUrlThumb": "https://file-ai.linkfox.com/UPLOAD/MANAGE/60acae226796426d975e08847996f9e7.jpg?Expires=1793282542&OSSAccessKeyId=LTAI5tQMD3UtDGPmMJRik6JA&Signature=qW4t3wAJV6pL3UysTv81MekQwWM%3D&x-oss-process=image%2Fresize%2Cm_mfit%2Cw_512%2Ch_512",
+     "materialSource": 2,
+     "prompt": "【可视化分析】: 空间分区: 整体呈上下垂直排版，上半部分占全高60%为全宽场景，下半部分占40%为留白基础区域。下半部分内部呈左右布局，左侧约35%区域为贯穿上下的模特立像，右侧约65%区域为图文组合区（包含上方【描述文本】与下方1行3列的矩形细节特写图矩阵）。\n视觉层次: 顶部场景图置于底层，左侧竖版长图作为前景图层向上突破边界，与顶部场景图产生重叠的Z轴前后空间透视关系；视觉动线从左上角主标题出发，顺延至上方场景人物（坐姿），向下牵引至左侧重叠的前景人物（站姿），最终落脚于右下方的细节展示矩阵 \n留白逻辑: 上半部利用左上角环境天然留白承载大标题，下半部利用大面积留白托底，在跨区立像轮廓、文本块与矩形细节特写图之间保留清晰的界限与呼吸感\n【构成元素】: 主题设计: 上部全宽沉浸式场景（人物坐姿）结合左下方垂直悬浮破局画中画（人物站姿），配合右下方1行3列局部细节特写矩阵展现不同特征部位\n字体设计: 大标题：大字号粗体无衬线英文字体，文本：常规清晰无衬线字体\n【语言】：目标语言\n【限制】：【描述文本】保持极简，大主标题置于左上方",
+     "style": "C20",
+     "tabType": "1"
+    },
+    {
+     "id": "2015993604863983616",
+     "imageThumbUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/fc0a5ee8c8ef4ec188884a120a054234.png?Expires=1793282726&OSSAccessKeyId=LTAI5tQMD3UtDGPmMJRik6JA&Signature=ESD79PQ0QY5gMbIlY%2FSzUEIj%2Fdw%3D&x-oss-process=image%2Fresize%2Cm_mfit%2Cw_512%2Ch_512",
+     "imageUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/fc0a5ee8c8ef4ec188884a120a054234.png",
+     "imageUrlThumb": "https://file-ai.linkfox.com/UPLOAD/MANAGE/fc0a5ee8c8ef4ec188884a120a054234.png?Expires=1793282726&OSSAccessKeyId=LTAI5tQMD3UtDGPmMJRik6JA&Signature=ESD79PQ0QY5gMbIlY%2FSzUEIj%2Fdw%3D&x-oss-process=image%2Fresize%2Cm_mfit%2Cw_512%2Ch_512",
+     "materialSource": 2,
+     "prompt": "【A+ 模块三: Styling Suggestions / 搭配建议】 󰀠对标卖点: [引用关于整体穿搭效果、成套购买建议、或是营造特定度假/生活氛围的卖点] 󰀠视觉构图描述: 采用\\\\\\*\\\\\\*“Magazine Scrapbook（杂志剪贴簿）”\\\\\\*\\\\\\*风格构图。 󰀡视觉容器: 画面背景优先采用用户定义的主色调纯色或纹理底色，中间叠加一张浅色长方形“纸张”****（尽量充满画面），边角真实的金属回形针 (Paperclip) 或好看的胶带固定，营造出“时尚剪报”的错视感。 󰀡页面布局: 在纸张区域内采用横向多栏布局。分栏可包含以下内容： 󰀢放置模特的全身/半身穿搭展示图，展示服装上身后的自然垂坠感和动态，像手机拍摄的生活照拥有自然感。 󰀢放置该套搭配中单品的\\\\\\*\\\\\\*“隐形模特图 (Ghost Mannequin)”或“平铺图 (Flat Lay)”\\\\\\*\\\\\\*（如：上衣、裤装、编织包、凉鞋、项链），单品之间留白，排列整齐，形成视觉清单。 󰀡装饰元素: 顶部设计一个黑色长方形刊头 (Header Bar)，内含符合目标语言的杂志风刊头文字（内容需与Text on Image中的标题一致）；底部用虚线分割，列出简短的单品名称。 󰀠图片文字**(Must be in Target Language)**: 󰀡标题栏: \"[翻译为目标语言: 时尚快讯 / 季度精选]\" 󰀡副标签: \"[翻译为目标语言: Vacation Mode / Vol.01]\" 󰀡底部列表: \"[翻译为目标语言: Top / Bottom + Product Name]\" 󰀠背景与颜色建议: 优先采用用户定义的字体和主色调。若无，则外层背景建议使用与服装风格呼应的质感纹理；中间容器采用浅色低饱和背景以凸显产品；文字使用经典的衬线体（如Didot或Bodoni）增强杂志感。",
+     "style": "C3",
+     "tabType": "1"
+    },
+    {
+     "id": "2015994698176430080",
+     "imageThumbUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/9c72a8ac9ed94cd7959a5526b48dbae8.png?Expires=1793278268&OSSAccessKeyId=LTAI5tQMD3UtDGPmMJRik6JA&Signature=Jj6tkGWaIECk0DaHgbKMNR6BXi0%3D&x-oss-process=image%2Fresize%2Cm_mfit%2Cw_512%2Ch_512",
+     "imageUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/9c72a8ac9ed94cd7959a5526b48dbae8.png",
+     "imageUrlThumb": "https://file-ai.linkfox.com/UPLOAD/MANAGE/9c72a8ac9ed94cd7959a5526b48dbae8.png?Expires=1793278268&OSSAccessKeyId=LTAI5tQMD3UtDGPmMJRik6JA&Signature=Jj6tkGWaIECk0DaHgbKMNR6BXi0%3D&x-oss-process=image%2Fresize%2Cm_mfit%2Cw_512%2Ch_512",
+     "materialSource": 2,
+     "prompt": "【A+ 模块15: Lifestyle Application / 生活化场景展示】 󰀠对标卖点: [引用最能体现服装风格或整体穿着体验的卖点] 󰀠视觉构图描述:  全宽高清横幅图: 一张充满故事感的单场景大图，模特自然融入其中。 图中必须为[明确指出性别，如“欧美男模特”或“欧美女模特”】 󰀠Text on Image ****(Must be in Target Language): 󰀡Headline: \"[根据目标语言撰写吸引人的标题]\" 󰀡Body: \"[根据目标语言撰写利益点文案]\" 󰀡... (根据所选版式调整) 󰀠背景与颜色建议: [优先采用用户定义的字体和主色调。若无，则根据服装风格建议字体和主色调。背景建议: 展示穿搭的生活方式图]",
+     "style": "C15",
+     "tabType": "1"
+    }
+   ],
+   "productInfo": "[产品名称]：甜美蝴蝶结拼带高腰阔腿牛仔裤\n[目标受众]：追求个性设计、甜美感与时尚感的青少年女孩及年轻女性，适合各色人种，侧重3-14岁及精致小个子群体。\n[核心营销卖点提炼]：\n1、高甜蝴蝶结缎带设计：左侧点缀柔粉色缎面蝴蝶结，配合纵向拼带延伸至裤脚，打破牛仔沉闷，极具视觉辨识度与少女感。\n2、立体剪裁修饰腿型：采用阔腿版型配合中缝压痕设计，垂直拉长腿部线条，包容各种腿型，兼顾穿着舒适度与挺阔美感。\n\n[服装基础档案]：\n材质：优质水洗全棉牛仔布，结合柔软顺滑的聚酯纤维缎面装饰。裤身触感扎实且不失柔软。\n光泽感：牛仔布呈现复古哑光磨白质感；侧边织带及蝴蝶结带有细腻的珍珠般丝绸光泽。\n形态：垂坠感极佳的阔腿结构，高腰设计修身挺括，具有极强的身形包容力。\n\n[工艺细节精解]：\n剪裁结构：经典五袋式高腰阔腿结构，配合前中拉链门襟，利用人体工学剪裁实现收腰扩腿效果。\n走线工艺：严密的双针车线工艺，裤脚采用宽边折缝，针迹均匀，确保缝线处平整且不易变形。\n五金配件：金属工字扣与顺滑金属拉链，极具质感；缎带拼缝处采用加固工艺，防止脱线。\n特殊设计：独具匠心的侧边不对称拼带设计，蝴蝶结系带增添了整体的灵动气息。\n\n[功能性与穿着体验]：\n透气保暖：纯棉材质透气吸汗，适合春秋及夏季室内穿着，保持肌肤干爽不闷热。\n面料弹性：面料紧实微弹，保证版型持久不垮塌，同时给予肢体充分的活动空间，无束缚感。\n耐用护理：牛仔材质耐磨耐穿，建议反面洗涤以保护缎面装饰与蝴蝶结形态，减少暴晒。\n季节适配：四季皆宜的基础单品，特别推荐在15-28℃的温暖季节穿着。\n\n[场景适配与穿搭方案]：\n最佳场景：校园日常、周末出游、生日派对及各类时尚街拍场景。\n风格定位：Balletcore风格与美式复古丹宁的混搭，兼具甜美与率性。\n搭配建议：\n下装内搭：建议搭配简约白色T恤或法式短款针织衫，凸显高腰线设计。\n鞋履配饰：推荐搭配白色板鞋、玛丽珍鞋或精致的粉色发箍，与缎带色彩呼应。",
+   "provider": "GEMINI_FLASH_PRO",
+   "resolution": "2K",
+   "sellerTypeNum": 4
+  }
+ },
+ {
+  "id": "2037108682935828480",
+  "source": "/__cases/dress-wear-set/2037108682935828480-source.jpg",
+  "result": "/__cases/dress-wear-set/2037108682935828480-r.jpg",
+  "ext": {
+   "aPlusProNum": 2,
+   "aPlusStyles": [
+    {
+     "id": "2037079322853965824",
+     "imageThumbUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/27d46403bfe74c6cb68cab460381111b.jpg?Expires=1793282726&OSSAccessKeyId=LTAI5tQMD3UtDGPmMJRik6JA&Signature=hJDt6GOgl26WcjEG0WnxB2lMn88%3D&x-oss-process=image%2Fresize%2Cm_mfit%2Cw_512%2Ch_512",
+     "imageUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/27d46403bfe74c6cb68cab460381111b.jpg",
+     "imageUrlThumb": "https://file-ai.linkfox.com/UPLOAD/MANAGE/27d46403bfe74c6cb68cab460381111b.jpg?Expires=1793282726&OSSAccessKeyId=LTAI5tQMD3UtDGPmMJRik6JA&Signature=hJDt6GOgl26WcjEG0WnxB2lMn88%3D&x-oss-process=image%2Fresize%2Cm_mfit%2Cw_512%2Ch_512",
+     "materialSource": 2,
+     "prompt": "【可视化分析】: 空间分区: 横向三段式布局，统一背景贯穿全图。左右各占25%为主体展示，中间50%分为上方文本区与下方横向1行3列的圆角特写图像矩阵。\n视觉层次: 全局背景垫底，所有人物、文字及矩阵图层置于前景平行展示。视觉动线由中心标题发散至两侧主人物，最后收束于中心底部的细节矩阵。\n留白逻辑: 顶部及元素间隙保留20%留白，构建均衡呼吸感. \n【构成元素】: 主题设计: 左右人物多姿态夹击占位，中心上方排版文字，下方并列三个等大圆角矩形细节特写。字体设计: 标题：粗体衬线体(Serif Headline)，文本：胶囊框内的无衬线斜体(Sans-serif Italic).\n【语言】：目标语言",
+     "style": "M18",
+     "tabType": "1"
+    },
+    {
+     "id": "2034937123559243776",
+     "imageThumbUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/92f4c2d558f64d4384c3862546e90588.jpg?Expires=1793282726&OSSAccessKeyId=LTAI5tQMD3UtDGPmMJRik6JA&Signature=iurb7buSuujWKnOWBSzx%2BiTrnto%3D&x-oss-process=image%2Fresize%2Cm_mfit%2Cw_512%2Ch_512",
+     "imageUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/92f4c2d558f64d4384c3862546e90588.jpg",
+     "imageUrlThumb": "https://file-ai.linkfox.com/UPLOAD/MANAGE/92f4c2d558f64d4384c3862546e90588.jpg?Expires=1793282726&OSSAccessKeyId=LTAI5tQMD3UtDGPmMJRik6JA&Signature=iurb7buSuujWKnOWBSzx%2BiTrnto%3D&x-oss-process=image%2Fresize%2Cm_mfit%2Cw_512%2Ch_512",
+     "materialSource": 2,
+     "prompt": "目标语言：英文\n【可视化分析】: 空间分区: 水平分割: 左侧40%为图文排版区，右侧60%为图像展示区，右侧图像区由两张等尺寸的正方形图像横向并排组成（1行2列矩阵），共包含2张图像，文字分布于左侧，整体无贯穿背景,\n视觉层次: 1.视觉重心由左侧加粗大字标题开启，平滑引导至右侧的产品功能动作特写与材质细节图；2.左侧文字与底部三个线性图标平铺，右侧图像区中，产品局部特写作为底图\n留白逻辑: 左侧区域大面积留白以承载核心卖点，右侧图像外围保持等宽的边缘留白，两图之间保留极细的留白间隙进行自然切割，营造清晰理性的网格秩序感. \n【构成元素】: 主题设计: 左侧文本与图标矩阵纵向排布，右侧双图并置平铺展示功能动作特写与材质微观细节，融合信息图表元素, 字体设计: 标题：加粗无衬线大写字体，文本：常规无衬线小号字体.\n【语言】：目标语言",
+     "style": "M17",
+     "tabType": "1"
+    }
+   ],
+   "aspectRatio": "3:4",
+   "brandKey": {
+    "brandName": "智能品牌基因",
+    "language": "英语",
+    "platform": "亚马逊",
+    "salesRegion": "美国"
+   },
+   "brandKeyExtract": "{\"brandColor\":{\"背景策略-风格定义\":\"Contemporary American high-end residential style, featuring bright, airy interiors with natural wood textures or sun-drenched suburban gardens to reflect a premium lifestyle.\",\"背景策略-光影\":\"Soft, diffused natural sunlight with gentle shadows to enhance the texture of the tulle and lace.\",\"背景策略-场景关键词\":\"Sun-drenched nursery, blooming outdoor garden, soft linen textures, minimalist white molding, warm morning light\",\"brandColor (品牌主色)\":\"Soft Petal Pink #FADADD\",\"Brand Injection（品牌植入）\":\"Subtle logo placement on high-quality wooden hangers or embroidered on soft textile props like plush cushions or picnic blankets.\"},\"fontStyle\":{\"颜色策略-Body/Sub\":\"[\\\"Body color\\\"：#A67B7B]\",\"字体策略\":\"经典优雅衬线体\",\"灵活反白\":\"You are authorized to switch to Matte White (#FFFFFF) text whenever using a dark background or a solid brand-color panel.\",\"字体风格\":\"Playfair Display\",\"排版\":\"Non-italic, standard leading\",\"颜色策略-Heading\":\"[\\\"Heading Color\\\"：#FADADD/Flexible Reverse]\"}}",
+   "configData": {
+    "aPlusConfig": {
+     "sceneType": {
+      "A+": {
+       "checked": false,
+       "num": 2
+      },
+      "A+Phone": {
+       "checked": false,
+       "num": 2
+      },
+      "A+Pro": {
+       "checked": true,
+       "num": 2
+      },
+      "custom": {
+       "checked": false,
+       "num": 2
+      }
+     }
+    },
+    "mainConfig": {
+     "aspectRatio": "3:4",
+     "sceneType": {
+      "ins": {
+       "checked": true,
+       "num": 4
+      },
+      "point": {
+       "checked": true,
+       "num": 4
+      }
+     }
+    }
+   },
+   "imageList": [
+    {
+     "id": "ovq1d8mp",
+     "imageUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/WEAR_COLLECTION/2037108682935828480/image_list_0.png",
+     "name": "screenshot-20260325-170427.png"
+    }
+   ],
+   "insTypeNum": 4,
+   "pointStyles": [
+    {
+     "id": "2037086793639198720",
+     "imageThumbUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/86aa9526eb60462ca2faa11a8d8ec930.jpg?Expires=1793282311&OSSAccessKeyId=LTAI5tQMD3UtDGPmMJRik6JA&Signature=7sT1B0SqY%2Fh632oAQzQ%2FA%2FXwLPg%3D&x-oss-process=image%2Fresize%2Cm_mfit%2Cw_512%2Ch_512",
+     "imageUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/86aa9526eb60462ca2faa11a8d8ec930.jpg",
+     "imageUrlThumb": "https://file-ai.linkfox.com/UPLOAD/MANAGE/86aa9526eb60462ca2faa11a8d8ec930.jpg?Expires=1793282311&OSSAccessKeyId=LTAI5tQMD3UtDGPmMJRik6JA&Signature=7sT1B0SqY%2Fh632oAQzQ%2FA%2FXwLPg%3D&x-oss-process=image%2Fresize%2Cm_mfit%2Cw_512%2Ch_512",
+     "materialSource": 2,
+     "prompt": "目标语言：英文\n【可视化分析】空间分区: 不规则三分区：左侧50%纵向排布两张图像（左上标准矩形，左下左侧圆角矩形），右侧50%放置单张垂直长矩形图像。背景贯穿全图。文字分布于右上，共3图呈非对称矩阵分布，展示同商品多场景多姿态。\n视觉层次: 贯穿式背景垫底，右侧大图确立视觉重心。\n留白逻辑: 右上区域保留约35%负空间承载文本与标题，平衡左右视觉比重. \n【构成元素】主题设计: 不对称三图错落矩阵，多场景多姿态穿插占位, 字体设计: 标题：正统中等字号衬线体，文本：小号无衬线体\n【语言】：目标语言",
+     "style": "C22",
+     "tabType": "1"
+    },
+    {
+     "id": "2032404805098315776",
+     "imageThumbUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/60acae226796426d975e08847996f9e7.jpg?Expires=1793282542&OSSAccessKeyId=LTAI5tQMD3UtDGPmMJRik6JA&Signature=qW4t3wAJV6pL3UysTv81MekQwWM%3D&x-oss-process=image%2Fresize%2Cm_mfit%2Cw_512%2Ch_512",
+     "imageUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/60acae226796426d975e08847996f9e7.jpg",
+     "imageUrlThumb": "https://file-ai.linkfox.com/UPLOAD/MANAGE/60acae226796426d975e08847996f9e7.jpg?Expires=1793282542&OSSAccessKeyId=LTAI5tQMD3UtDGPmMJRik6JA&Signature=qW4t3wAJV6pL3UysTv81MekQwWM%3D&x-oss-process=image%2Fresize%2Cm_mfit%2Cw_512%2Ch_512",
+     "materialSource": 2,
+     "prompt": "【可视化分析】: 空间分区: 整体呈上下垂直排版，上半部分占全高60%为全宽场景，下半部分占40%为留白基础区域。下半部分内部呈左右布局，左侧约35%区域为贯穿上下的模特立像，右侧约65%区域为图文组合区（包含上方【描述文本】与下方1行3列的矩形细节特写图矩阵）。\n视觉层次: 顶部场景图置于底层，左侧竖版长图作为前景图层向上突破边界，与顶部场景图产生重叠的Z轴前后空间透视关系；视觉动线从左上角主标题出发，顺延至上方场景人物（坐姿），向下牵引至左侧重叠的前景人物（站姿），最终落脚于右下方的细节展示矩阵 \n留白逻辑: 上半部利用左上角环境天然留白承载大标题，下半部利用大面积留白托底，在跨区立像轮廓、文本块与矩形细节特写图之间保留清晰的界限与呼吸感\n【构成元素】: 主题设计: 上部全宽沉浸式场景（人物坐姿）结合左下方垂直悬浮破局画中画（人物站姿），配合右下方1行3列局部细节特写矩阵展现不同特征部位\n字体设计: 大标题：大字号粗体无衬线英文字体，文本：常规清晰无衬线字体\n【语言】：目标语言\n【限制】：【描述文本】保持极简，大主标题置于左上方",
+     "style": "C20",
+     "tabType": "1"
+    },
+    {
+     "id": "2015993604863983616",
+     "imageThumbUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/fc0a5ee8c8ef4ec188884a120a054234.png?Expires=1793282726&OSSAccessKeyId=LTAI5tQMD3UtDGPmMJRik6JA&Signature=ESD79PQ0QY5gMbIlY%2FSzUEIj%2Fdw%3D&x-oss-process=image%2Fresize%2Cm_mfit%2Cw_512%2Ch_512",
+     "imageUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/fc0a5ee8c8ef4ec188884a120a054234.png",
+     "imageUrlThumb": "https://file-ai.linkfox.com/UPLOAD/MANAGE/fc0a5ee8c8ef4ec188884a120a054234.png?Expires=1793282726&OSSAccessKeyId=LTAI5tQMD3UtDGPmMJRik6JA&Signature=ESD79PQ0QY5gMbIlY%2FSzUEIj%2Fdw%3D&x-oss-process=image%2Fresize%2Cm_mfit%2Cw_512%2Ch_512",
+     "materialSource": 2,
+     "prompt": "【A+ 模块三: Styling Suggestions / 搭配建议】 󰀠对标卖点: [引用关于整体穿搭效果、成套购买建议、或是营造特定度假/生活氛围的卖点] 󰀠视觉构图描述: 采用\\\\\\*\\\\\\*“Magazine Scrapbook（杂志剪贴簿）”\\\\\\*\\\\\\*风格构图。 󰀡视觉容器: 画面背景优先采用用户定义的主色调纯色或纹理底色，中间叠加一张浅色长方形“纸张”****（尽量充满画面），边角真实的金属回形针 (Paperclip) 或好看的胶带固定，营造出“时尚剪报”的错视感。 󰀡页面布局: 在纸张区域内采用横向多栏布局。分栏可包含以下内容： 󰀢放置模特的全身/半身穿搭展示图，展示服装上身后的自然垂坠感和动态，像手机拍摄的生活照拥有自然感。 󰀢放置该套搭配中单品的\\\\\\*\\\\\\*“隐形模特图 (Ghost Mannequin)”或“平铺图 (Flat Lay)”\\\\\\*\\\\\\*（如：上衣、裤装、编织包、凉鞋、项链），单品之间留白，排列整齐，形成视觉清单。 󰀡装饰元素: 顶部设计一个黑色长方形刊头 (Header Bar)，内含符合目标语言的杂志风刊头文字（内容需与Text on Image中的标题一致）；底部用虚线分割，列出简短的单品名称。 󰀠图片文字**(Must be in Target Language)**: 󰀡标题栏: \"[翻译为目标语言: 时尚快讯 / 季度精选]\" 󰀡副标签: \"[翻译为目标语言: Vacation Mode / Vol.01]\" 󰀡底部列表: \"[翻译为目标语言: Top / Bottom + Product Name]\" 󰀠背景与颜色建议: 优先采用用户定义的字体和主色调。若无，则外层背景建议使用与服装风格呼应的质感纹理；中间容器采用浅色低饱和背景以凸显产品；文字使用经典的衬线体（如Didot或Bodoni）增强杂志感。",
+     "style": "C3",
+     "tabType": "1"
+    },
+    {
+     "id": "2015994698176430080",
+     "imageThumbUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/9c72a8ac9ed94cd7959a5526b48dbae8.png?Expires=1793278268&OSSAccessKeyId=LTAI5tQMD3UtDGPmMJRik6JA&Signature=Jj6tkGWaIECk0DaHgbKMNR6BXi0%3D&x-oss-process=image%2Fresize%2Cm_mfit%2Cw_512%2Ch_512",
+     "imageUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/9c72a8ac9ed94cd7959a5526b48dbae8.png",
+     "imageUrlThumb": "https://file-ai.linkfox.com/UPLOAD/MANAGE/9c72a8ac9ed94cd7959a5526b48dbae8.png?Expires=1793278268&OSSAccessKeyId=LTAI5tQMD3UtDGPmMJRik6JA&Signature=Jj6tkGWaIECk0DaHgbKMNR6BXi0%3D&x-oss-process=image%2Fresize%2Cm_mfit%2Cw_512%2Ch_512",
+     "materialSource": 2,
+     "prompt": "【A+ 模块15: Lifestyle Application / 生活化场景展示】 󰀠对标卖点: [引用最能体现服装风格或整体穿着体验的卖点] 󰀠视觉构图描述:  全宽高清横幅图: 一张充满故事感的单场景大图，模特自然融入其中。 图中必须为[明确指出性别，如“欧美男模特”或“欧美女模特”】 󰀠Text on Image ****(Must be in Target Language): 󰀡Headline: \"[根据目标语言撰写吸引人的标题]\" 󰀡Body: \"[根据目标语言撰写利益点文案]\" 󰀡... (根据所选版式调整) 󰀠背景与颜色建议: [优先采用用户定义的字体和主色调。若无，则根据服装风格建议字体和主色调。背景建议: 展示穿搭的生活方式图]",
+     "style": "C15",
+     "tabType": "1"
+    }
+   ],
+   "productInfo": "[产品名称]：梦幻云端立体刺绣花朵网纱公主裙\n[目标受众]：3-8岁追求精致感与浪漫风格的女童，适用于生日宴、花童婚礼及日常度假场景。\n[核心营销卖点提炼]：\n1、法式立体浮雕绣花：全裙身点缀立体手工感小花刺绣，犹如繁星坠入云端，赋予裙面灵动的呼吸感与高级层次感。\n2、梦幻轻盈飞飞袖设计：加宽双层叠褶网纱袖口，如蝴蝶羽翼般轻盈灵动，修饰肩部线条的同时尽显优雅小公主气质。\n\n[服装基础档案]：\n材质：外层选用高定亲肤超细柔网纱，内里搭配丝滑全棉防透衬里，确保穿着蓬松且不扎肤。\n光泽感：呈现温润柔和的哑光质感，在光线下呈现半透明的梦幻柔光滤镜效果。\n形态：经典的A字大摆廓形，具有极佳的蓬松垂坠感，灵动飘逸且不挑身材。\n\n[工艺细节精解]：\n剪裁结构：高腰线下摆自然散开的伞状结构，拉长腿部比例，营造如云朵般轻盈的包裹感。\n走线工艺：采用隐形内包边工艺，领口处细腻打褶处理，确保走线平整，保护幼童娇嫩肌肤。\n五金配件：后背采用隐形树脂平滑拉链或柔滑纽扣设计，穿脱便捷且不破坏整体美感。\n特殊设计：通体立体花朵刺绣与领口细腻木耳边设计相呼应，打破单一色彩，增加视觉丰富度。\n\n[功能性与穿着体验]：\n透气保暖：多层网纱结构形成自然空气层，透气性极佳，夏日穿着清爽无汗感。\n面料弹性：面料本身无弹，但宽松的娃娃衫版型给予肢体极大的活动空间，无任何束缚感。\n耐用护理：建议手洗或放入洗衣袋机洗，洗后自然悬挂晾干，具有优良的抗皱保持力。\n季节适配：非常适合盛夏穿着，亦可作为春秋内搭搭配针织开衫。\n\n[场景适配与穿搭方案]：\n最佳场景：艺术照拍摄、钢琴独奏会、生日派对、海边度假度假。\n风格定位：仙美浪漫风、甜美小公主风格、法式复古优雅。\n搭配建议：\n下装内搭：自带全棉防透内衬，单穿即可，亦可搭配白色纯棉打底裤。\n鞋履配饰：建议搭配珍珠发箍、浅金色玛丽珍皮鞋或白色蕾丝凉鞋。",
+   "provider": "GEMINI_FLASH_PRO",
+   "resolution": "2K",
+   "sellerTypeNum": 4
+  }
+ },
+ {
+  "id": "2034938374070009856",
+  "source": "/__cases/dress-wear-set/2034938374070009856-source.jpg",
+  "result": "/__cases/dress-wear-set/2034938374070009856-r.jpg",
+  "ext": {
+   "aPlusProNum": 2,
+   "aPlusStyles": [
+    {
+     "id": "2034937123559243776",
+     "imageThumbUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/92f4c2d558f64d4384c3862546e90588.jpg?Expires=1793282726&OSSAccessKeyId=LTAI5tQMD3UtDGPmMJRik6JA&Signature=iurb7buSuujWKnOWBSzx%2BiTrnto%3D&x-oss-process=image%2Fresize%2Cm_mfit%2Cw_512%2Ch_512",
+     "imageUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/92f4c2d558f64d4384c3862546e90588.jpg",
+     "imageUrlThumb": "https://file-ai.linkfox.com/UPLOAD/MANAGE/92f4c2d558f64d4384c3862546e90588.jpg?Expires=1793282726&OSSAccessKeyId=LTAI5tQMD3UtDGPmMJRik6JA&Signature=iurb7buSuujWKnOWBSzx%2BiTrnto%3D&x-oss-process=image%2Fresize%2Cm_mfit%2Cw_512%2Ch_512",
+     "materialSource": 2,
+     "prompt": "目标语言：英文\n【可视化分析】: 空间分区: 水平分割: 左侧40%为图文排版区，右侧60%为图像展示区，右侧图像区由两张等尺寸的正方形图像横向并排组成（1行2列矩阵），共包含2张图像，文字分布于左侧，整体无贯穿背景,\n视觉层次: 1.视觉重心由左侧加粗大字标题开启，平滑引导至右侧的产品功能动作特写与材质细节图；2.左侧文字与底部三个线性图标平铺，右侧图像区中，产品局部特写作为底图\n留白逻辑: 左侧区域大面积留白以承载核心卖点，右侧图像外围保持等宽的边缘留白，两图之间保留极细的留白间隙进行自然切割，营造清晰理性的网格秩序感. \n【构成元素】: 主题设计: 左侧文本与图标矩阵纵向排布，右侧双图并置平铺展示功能动作特写与材质微观细节，融合信息图表元素, 字体设计: 标题：加粗无衬线大写字体，文本：常规无衬线小号字体.\n【语言】：目标语言",
+     "style": "M17",
+     "tabType": "1"
+    },
+    {
+     "id": "2034936804620173312",
+     "imageThumbUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/14968067c7b9463393614023ace24f66.jpg?Expires=1793283435&OSSAccessKeyId=LTAI5tQMD3UtDGPmMJRik6JA&Signature=A7ZNKezFZw9q0t0gTjbXlBMW%2Bjg%3D&x-oss-process=image%2Fresize%2Cm_mfit%2Cw_512%2Ch_512",
+     "imageUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/14968067c7b9463393614023ace24f66.jpg",
+     "imageUrlThumb": "https://file-ai.linkfox.com/UPLOAD/MANAGE/14968067c7b9463393614023ace24f66.jpg?Expires=1793283435&OSSAccessKeyId=LTAI5tQMD3UtDGPmMJRik6JA&Signature=A7ZNKezFZw9q0t0gTjbXlBMW%2Bjg%3D&x-oss-process=image%2Fresize%2Cm_mfit%2Cw_512%2Ch_512",
+     "materialSource": 2,
+     "prompt": "【可视化分析】: 空间分区: 垂直分割: 顶部30%标题区，下部70%为1行3列圆角图像矩阵及对应底置文本标签，背景贯穿全图。\n视觉层次: 背景铺底贯穿，视觉由顶部居中主副标题下延至平行三列场景图卡，前景图像卡片置于背景之上形成清晰图层\n留白逻辑: 上下边缘20%留白，三列图像矩阵间等距留白分割. \n【构成元素】: 主题设计: Top-aligned headline above a 3-column rounded image matrix, 字体设计: 标题：Bold Sans-serif，文本：Regular Sans-serif.\n【语言】：目标语言",
+     "style": "A24",
+     "tabType": "1"
+    }
+   ],
+   "aspectRatio": "3:4",
+   "brandKey": {
+    "brandName": "智能品牌基因",
+    "language": "英语",
+    "platform": "亚马逊",
+    "salesRegion": "美国"
+   },
+   "brandKeyExtract": "{\"brandColor\":{\"背景策略-风格定义\":\"Modern American urban lifestyle with a focus on 'Bright & Airy' aesthetics, reflecting the playful and chic 'Coquette' trend popular in US metropolitan areas like New York or LA.\",\"背景策略-光影\":\"Soft natural morning sunlight filtered through sheer curtains, creating gentle, diffused highlights and high-key atmosphere.\",\"背景策略-场景关键词\":\"Sun-drenched loft, mid-century modern apartment, vintage wooden floor, fresh peony bouquet, minimalist aesthetic props\",\"brandColor (品牌主色)\":\"Sakura Pink #F7B5D1\",\"Brand Injection（品牌植入）\":\"The product is styled as part of a 'clean girl' aesthetic outfit, draped over a designer chair or worn by a model in a candid, high-end cafe setting.\"},\"fontStyle\":{\"颜色策略-Body/Sub\":\"[\\\"Body color\\\"：#D2618A]\",\"字体策略\":\"圆润童趣字体\",\"灵活反白\":\"You are authorized to switch to Matte White (#FFFFFF) text whenever using a dark background or a solid brand-color panel.\",\"字体风格\":\"Nunito\",\"排版\":\"Non-italic, standard leading\",\"颜色策略-Heading\":\"[\\\"Heading Color\\\"：#F7B5D1/Flexible Reverse]\"}}",
+   "configData": {
+    "aPlusConfig": {
+     "sceneType": {
+      "A+": {
+       "checked": false,
+       "num": 2
+      },
+      "A+Phone": {
+       "checked": false,
+       "num": 2
+      },
+      "A+Pro": {
+       "checked": true,
+       "num": 2
+      },
+      "custom": {
+       "checked": false,
+       "num": 2
+      }
+     }
+    },
+    "mainConfig": {
+     "aspectRatio": "3:4",
+     "sceneType": {
+      "ins": {
+       "checked": false,
+       "num": 4
+      },
+      "point": {
+       "checked": true,
+       "num": 2
+      }
+     }
+    }
+   },
+   "imageList": [
+    {
+     "id": "olf8l4jb",
+     "imageUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/WEAR_COLLECTION/2034938374070009856/image_list_0.png",
+     "name": "5.png"
+    }
+   ],
+   "pointStyles": [
+    {
+     "id": "2034933385771679744",
+     "imageThumbUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/2526404a18c84125bfc451fe8c1123f6.jpg?Expires=1793283435&OSSAccessKeyId=LTAI5tQMD3UtDGPmMJRik6JA&Signature=hDK9hjdRIwUyCsD8vSyFNKZAtY0%3D&x-oss-process=image%2Fresize%2Cm_mfit%2Cw_512%2Ch_512",
+     "imageUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/2526404a18c84125bfc451fe8c1123f6.jpg",
+     "imageUrlThumb": "https://file-ai.linkfox.com/UPLOAD/MANAGE/2526404a18c84125bfc451fe8c1123f6.jpg?Expires=1793283435&OSSAccessKeyId=LTAI5tQMD3UtDGPmMJRik6JA&Signature=hDK9hjdRIwUyCsD8vSyFNKZAtY0%3D&x-oss-process=image%2Fresize%2Cm_mfit%2Cw_512%2Ch_512",
+     "materialSource": 2,
+     "prompt": "【可视化分析】: 空间分区: 上下均分的两组模块，每组内部呈左右布局。上半部模块左侧40%为文字区域，右侧60%为人物展示区；下半部模块左侧60%为人物展示区，右侧40%为文字区域。背景场景图贯穿每组模块全局。\n视觉层次: 背景全屏铺底，不同姿态的人物半身像置于前景一侧，文字组无衬底悬浮于对立侧的前景。整体构成了自上而下、由左至右再折返的Z字型交错视觉动线。\n留白逻辑: 文字组周围以及模特视线前方保留约30%的自然背景留白，营造视野开阔的呼吸感并确保文案易读. \n【构成元素】: 主题设计: Z字型交替双区块排版，包含两个不同动态的人物半身特写（上部为正面站立姿态，下部为侧身姿态）分别居右与居左占位。字体设计: 标题：大字号无衬线加粗体，文本：常规无衬线体。\n【语言】：目标语言\n【文本要求】：简洁的一句话介绍",
+     "style": "L23",
+     "tabType": "1"
+    },
+    {
+     "id": "2034932929964081152",
+     "imageThumbUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/457d2298ea714592ad0d6bca33253777.jpg?Expires=1793282473&OSSAccessKeyId=LTAI5tQMD3UtDGPmMJRik6JA&Signature=7WZXjRO%2BhlZcpfjWEsq7kmGzhCA%3D&x-oss-process=image%2Fresize%2Cm_mfit%2Cw_512%2Ch_512",
+     "imageUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/457d2298ea714592ad0d6bca33253777.jpg",
+     "imageUrlThumb": "https://file-ai.linkfox.com/UPLOAD/MANAGE/457d2298ea714592ad0d6bca33253777.jpg?Expires=1793282473&OSSAccessKeyId=LTAI5tQMD3UtDGPmMJRik6JA&Signature=7WZXjRO%2BhlZcpfjWEsq7kmGzhCA%3D&x-oss-process=image%2Fresize%2Cm_mfit%2Cw_512%2Ch_512",
+     "materialSource": 2,
+     "prompt": "【可视化分析】: 空间分区: 整体呈垂直三段式拼贴布局，背景贯穿全图。上部约45%区域放置一张微倾斜的圆角宽幅图像卡片（卡片底部前方散布多个交互面板零件）；中部约30%区域放置一张撕纸边缘效果的宽幅图像卡片，整体偏右排布（内含3个呈多姿态互动展示的主体）；下部约25%区域，左侧放置具有微俯视透视角度的主体，右侧为独立文字排版区。文字主要以贴纸或涂鸦形式散落分布于全图右上角、中部左侧及右下角。\n视觉层次: 底层为统一背景贯穿全图；中层为具有Z轴悬浮感、轻微旋转倾斜的三个独立图像模块（圆角卡片、撕纸卡片、透视设备），形成错落的立体拼贴感；前景为叠加在背景与图像模块之上的厚度贴纸标题、手绘涂鸦符号及散落的小型零件图层。图层间存在强烈的交错与前后遮挡关系（如贴纸文字跨越图层边界、涂鸦符号悬浮），视觉动线由右上角主标题引导，呈Z字形流畅穿梭于三个核心图像模块之间。\n留白逻辑: 采用动态负空间布局，利用卡片的倾斜角度与不规则撕边切割背景，通过模块间的错落错位形成不规则的间隙留白，打破对称死板，营造出活泼且充满张力的手账拼贴呼吸感. \n【构成元素】: 主题设计: 多图层动态拼贴与跨空间叠加展示, 字体设计: 标题：带有厚度边缘的立体手绘风贴纸大写体与不规则倾斜标签字体，文本：随性手绘涂鸦字体与发散状符号.\n【语言】：目标语言",
+     "style": "C21",
+     "tabType": "1"
+    }
+   ],
+   "productInfo": "[产品名称]：Ganni 甜酷粉色覆盆子提花针织背心\n[目标受众]：18-30岁追求个性表达、喜爱北欧时尚及Y2K风格的都市女性。\n[核心营销卖点提炼]：\n1、超现实果实提花：标志性的双生覆盆子提花图案，结合趣味Slogan，打破沉闷，释放鬼马少女感。\n2、软糯蓬松触感：采用高品质混纺针织材质，表层带有微细绒毛感，如云朵般轻盈包裹，亲肤不扎。\n\n[服装基础档案]：\n材质：精选马海毛或羊毛混纺针织，兼具保暖性与呼吸感。\n光泽感：柔和的哑光色泽，透着纱线本身的丰盈雾面质感。\n形态：H型微宽剪裁，挺括而不僵硬，对各种身形具有极佳的包容力。\n\n[工艺细节精解]：\n剪裁结构：经典圆领无袖廓形，领口与袖笼线条圆润，利于叠穿不臃肿。\n走线工艺：高密度嵌花提花工艺，图案边缘清晰且平整，无冗余线头。\n五金配件：领口、袖口及下摆采用加宽罗纹收边，紧致耐穿不易变形。\n特殊设计：趣味蝴蝶结元素与覆盆子图案的艺术化结合，打造独特视觉记忆点。\n\n[功能性与穿着体验]：\n透气保暖：针织孔隙密布，兼顾透气性与锁温性能，适合早春及深秋叠穿。\n面料弹性：具有天然微弹性能，横向拉伸空间大，活动自如无束缚。\n耐用护理：面料扎实抗起球，建议冷水手洗或专业干洗以维持纤维蓬松度。\n季节适配：跨季节穿搭单品，适合15-25℃的气温环境。\n\n[场景适配与穿搭方案]：\n最佳场景：艺术画展、周末野餐、创意工作室通勤及社媒拍照打卡。\n风格定位：北欧斯堪的纳维亚风格（Scandi-style）结合甜酷少女感。\n搭配建议：\n下装内搭：内搭白色泡泡袖衬衫，下装搭配深色直筒牛仔裤或同色系短裙。\n鞋履配饰：搭配黑色玛丽珍鞋及亮色系手提包，点亮整体造型。",
+   "provider": "GEMINI_FLASH_PRO",
+   "resolution": "4K",
+   "sellerTypeNum": 2
+  }
+ }
+]

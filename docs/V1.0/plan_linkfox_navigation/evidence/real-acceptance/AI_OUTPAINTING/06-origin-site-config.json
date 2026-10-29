@@ -1,0 +1,112 @@
+{
+ "capturedAt": "2026-10-29",
+ "url": "https://www.linkfox.com/draw/ai-outpainting",
+ "authState": "未登录（页面按钮为「登录免费生成」，右上角「登录/注册」）",
+ "method": "TMWebDriver 新开独立标签（不触碰用户已有标签）→ 只读 DOM 提取 + 展开下拉；未点击生成、未上传成功（本地载图触发登录弹窗），零付费调用",
+ "config": {
+  "defaultSizeSelect": {
+   "id": "rc_select_0",
+   "defaultText": "默认尺寸 1024 x 1024",
+   "options": [
+    "默认尺寸 / 1024 x 1024",
+    "亚马逊 / 1600 x 1600",
+    "沃尔玛 / 2000 x 2000",
+    "Etsy / 2000 x 2000",
+    "美客多 / 1200 x 1200",
+    "eBay / 1600 x 1600",
+    "Temu / 1200 x 1200",
+    "Shopify 方形 / 2048 x 2048",
+    "Shopify 横板 / 2000 x 1800",
+    "Shopify 竖版 / 1600 x 2000",
+    "SHEIN / 1340 x 1785",
+    "速卖通 / 1200 x 1200",
+    "Shopee / 1080 x 1080",
+    "Lazada / 1080 x 1080",
+    "Tiktok Shop / 1024 x 1024",
+    "抖音小店 / 1024 x 1024",
+    "淘宝/天猫 / 1024 x 1024",
+    "京东 / 1024 x 1024",
+    "Wayfair / 2000 x 2000",
+    "Cdiscount / 2000 x 2000",
+    "Jumia / 1024 x 1024",
+    "Rakuten / 1024 x 1024",
+    "Wish / 1024 x 1024"
+   ],
+   "selected": [
+    "默认尺寸 / 1024 x 1024"
+   ]
+  },
+  "widthHeightInputs": [
+   {
+    "max": "4096",
+    "min": "384",
+    "step": "1",
+    "value": "1024",
+    "w": 46
+   },
+   {
+    "max": "4096",
+    "min": "384",
+    "step": "1",
+    "value": "1024",
+    "w": 46
+   }
+  ],
+  "widthHeightNote": "两个 ant-input-number：min=384 max=4096 step=1，默认 1024 / 1024，中间以 × 分隔（同一行内两个数字框）",
+  "prompt": [
+   {
+    "maxlength": 100,
+    "ph": "描述想要扩图的内容，不填将基于原图生成",
+    "tag": "INPUT",
+    "value": ""
+   }
+  ],
+  "countSelect": {
+   "id": "rc_select_1",
+   "defaultText": "4张",
+   "options": [
+    "1张",
+    "2张",
+    "3张",
+    "4张"
+   ],
+   "selected": [
+    "4张"
+   ]
+  },
+  "footerText": "default\n默认尺寸\n生成：\n4张\n登录免费生成\n新用户免费生图300张\n新用户免费视频80条\n新用户免费生图300张",
+  "costLabel": "(40算力)（来自既有原站快照 AI_OUTPAINTING.json，未登录态按钮被替换为「登录免费生成」）"
+ },
+ "resultArea": {
+  "tabs": [
+   {
+    "name": "生成结果",
+    "panel": "rc-tabs-0-panel-1"
+   },
+   {
+    "name": "优秀案例",
+    "panel": "rc-tabs-0-panel-2"
+   }
+  ],
+  "historyEntry": {
+   "type": "外链",
+   "selector": "a._historyBtn_107ka_1",
+   "href": "/draw/history?type=25",
+   "target": "_blank",
+   "location": "ant-tabs-extra-content（页签右侧）",
+   "text": "历史记录（含 history 图标）"
+  },
+  "emptyState": "暂无生成结果图 / 快在左侧操作智能扩图吧~",
+  "caseCard": {
+   "containerClass": "_imageBox_176zc_23",
+   "previewAction": "遮罩 _mask_176zc_74 内 eye 图标 + 「预览」",
+   "paramInfo": "_paramInfo_176zc_562 显示「原图」+ 64x64 缩略",
+   "action": "「做同款」按钮 (ant-btn)",
+   "caseImageSample": null,
+   "count": null
+  },
+  "resultActionsLoggedIn": "未覆盖：需要登录态真实结果才能出现下载/存资产/发送/重试等按钮；本次未登录，不付费生成，无法复现（保留为未覆盖项）"
+ },
+ "pageText": "首页\n电商套图\n智能修图\n新模型\nAI视频\nHOT\n批量生图\n商品图设计\nSkills\nAgent\n更多\n学习中心\n免费得算力 0/5\n操作咨询\n登录/注册\n商品套图\n服装套图\n爆款图复刻\nNEW\n套图换色\nNEW\n批量翻译\n高清放大\n批量抠图\n智能扩图\n 免责声明\n\n智能扩图\n\n一键无缝扩展，打破视觉边界，释放每一张照片的无限可能~\n从本地上传\n从作品库选择\n默认尺寸\n生成：\n4张\n登录免费生成\n新用户免费生图300张\n新用户免费视频80条\n新用户免费生图300张\n生成结果\n优秀案例\n历史记录\n\n暂无生成结果图\n\n快在左侧操作智能扩图吧~\n\n操作咨询\n产品教程\n管理水印分组\n共 0/20 个\n＋ 新增水印分组",
+ "boundary": "登录墙：本地载图上传触发微信登录弹窗 → 配置面板扩展（比例/画布拖拽）与结果动作均在登录后出现"
+}

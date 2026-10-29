@@ -1,0 +1,113 @@
+{
+  "toolId": "VIDEO_CONCAT",
+  "route": "/tools/ai-video/video-concat",
+  "mode": "resume-only（不重新提交）",
+  "taskId": "task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF",
+  "startedAt": "2026-10-29T12:12:36.652Z",
+  "steps": [
+    "page-opened",
+    "terminal-or-timeout",
+    "fresh-reload-history",
+    "history-restored-result"
+  ],
+  "statusTimeline": [
+    {
+      "at": "2026-10-29T12:12:46.084Z",
+      "status": "running",
+      "progress": null,
+      "items": 0,
+      "error": "The origin web server returned an invalid or incomplete response to Cloudflare. This typically indicates the origin is overloaded or misconfigured."
+    },
+    {
+      "at": "2026-10-29T12:13:01.605Z",
+      "status": "succeeded",
+      "progress": null,
+      "items": 1,
+      "error": null
+    }
+  ],
+  "reload": {
+    "count": 1,
+    "matched": true,
+    "items": [
+      {
+        "taskId": "task-mvthgaa4-pdg1eq",
+        "status": "succeeded",
+        "text": "2026-10-29 19:51 已完成 把 2 段参考视频按给定顺序首尾拼成 1 条连续视频，9:16 画幅，目标时长 7 秒。 片段 … sub2api-real::MiniMax-H3 · video · 1 个结果 查看结果"
+      }
+    ]
+  },
+  "result": {
+    "hasVideo": true,
+    "readyState": 4,
+    "duration": 7.292,
+    "videoWidth": 768,
+    "videoHeight": 1344,
+    "src": "blob:http://127.0.0.1:3000/79af3b4b-a077-4f3b-8f90-ea24216dcca3",
+    "bytes": 2133234,
+    "magic": "ftyp",
+    "headHex": "00 00 00 20 66 74 79 70 69 73 6f 6d",
+    "hasDownloadButton": true
+  },
+  "actions": {
+    "download": {
+      "suggested": "video-concat-result-1.mp4",
+      "bytes": 2133234,
+      "magic": "ftyp",
+      "matchesResultBytes": true
+    },
+    "save": {
+      "feedback": "已保存到资产库（NCM6l4cDKtyL6cz6o67OG）",
+      "assets": {
+        "count": 0,
+        "videos": []
+      }
+    },
+    "canvas": {
+      "feedback": "已发送到画布（ce14D3JIahdvNNuS173zT）",
+      "videoNodes": null
+    }
+  },
+  "issues": [],
+  "initial": {
+    "found": true,
+    "id": "task-mvthgaa4-pdg1eq",
+    "status": "running",
+    "upstreamTaskId": "task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF",
+    "submittedAt": 1793274694924,
+    "progress": null,
+    "error": {
+      "message": "The origin web server returned an invalid or incomplete response to Cloudflare. This typically indicates the origin is overloaded or misconfigured.",
+      "code": "unclassified"
+    },
+    "items": [],
+    "updatedAt": 1793275591688
+  },
+  "localTaskId": "task-mvthgaa4-pdg1eq",
+  "upstreamTaskId": "task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF",
+  "final": {
+    "found": true,
+    "id": "task-mvthgaa4-pdg1eq",
+    "status": "succeeded",
+    "upstreamTaskId": "task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF",
+    "submittedAt": 1793274694924,
+    "progress": null,
+    "error": null,
+    "items": [
+      {
+        "kind": "video",
+        "storageKey": "tool-result:54gWW1bCX8Ywy63CQR-xj",
+        "url": "blob:http://127.0.0.1:3000/f89468f4-52a0-4d69-8c78-433232861bd0",
+        "bytes": 2133234,
+        "mimeType": "video/mp4",
+        "payloadDropped": false
+      }
+    ],
+    "updatedAt": 1793275979387
+  },
+  "finishedAt": "2026-10-29T12:13:10.485Z",
+  "pollReceiptsTail": [
+    "2026-10-29T12:12:46.467Z GET 200 {\"id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"model\":\"MiniMax-H3\",\"progress\":1,\"request_id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"status\":\"done\",\"usage\":{\"input_image_count\":1,\"input_seconds\":7,\"o",
+    "2026-10-29T12:12:59.578Z GET 200 \u0000\u0000\u0000 ftypisom\u0000\u0000\u0002\u0000isomiso2avc1mp41\u0000\u0000\u001a�moov\u0000\u0000\u0000lmvhd\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0003�\u0000\u0000\u001c|\u0000\u0001\u0000\u0000\u0001\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000@\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0003\u0000\u0000\f.trak\u0000\u0000\u0000\\tkhd\u0000\u0000\u0000\u0003\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0001\u0000\u0000\u0000\u0000\u0000\u0000\u001c|\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000"
+  ]
+}

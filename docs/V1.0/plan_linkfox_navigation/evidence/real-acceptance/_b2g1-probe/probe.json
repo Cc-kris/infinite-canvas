@@ -1,0 +1,802 @@
+{
+ "baseUrl": "http://127.0.0.1:3000",
+ "provider": {
+  "baseUrl": "https://api.cc-ai.xyz",
+  "model": "sf-accept::Qwen/Qwen3-VL-8B-Instruct",
+  "imageModel": "ccai-accept::gpt-image-2",
+  "channelCount": 2,
+  "keyLen": 67,
+  "textKeyLen": 51
+ },
+ "tools": {
+  "AI_TEXT": {
+   "url": "http://127.0.0.1:3000/tools/product-design/ai-text",
+   "headings": [
+    "POD素材",
+    "POD 素材",
+    "上传底图（参考图）",
+    "POD 素材结果"
+   ],
+   "buttons": [
+    {
+     "text": "",
+     "testid": null,
+     "disabled": false
+    },
+    {
+     "text": "",
+     "testid": null,
+     "disabled": false
+    },
+    {
+     "text": "中",
+     "testid": null,
+     "disabled": false
+    },
+    {
+     "text": "切换到浅色主题",
+     "testid": null,
+     "disabled": false
+    },
+    {
+     "text": "v0.27.0",
+     "testid": null,
+     "disabled": false
+    },
+    {
+     "text": "简易文字",
+     "testid": null,
+     "disabled": false
+    },
+    {
+     "text": "完整提示词",
+     "testid": null,
+     "disabled": false
+    },
+    {
+     "text": "",
+     "testid": null,
+     "disabled": true
+    },
+    {
+     "text": "",
+     "testid": null,
+     "disabled": true
+    },
+    {
+     "text": "复位",
+     "testid": null,
+     "disabled": false
+    },
+    {
+     "text": "不平铺（单图）",
+     "testid": null,
+     "disabled": false
+    },
+    {
+     "text": "2×2 平铺",
+     "testid": null,
+     "disabled": false
+    },
+    {
+     "text": "2×2 错位平铺",
+     "testid": null,
+     "disabled": false
+    },
+    {
+     "text": "3×3 平铺",
+     "testid": null,
+     "disabled": false
+    },
+    {
+     "text": "生成 POD 素材",
+     "testid": null,
+     "disabled": true
+    },
+    {
+     "text": "",
+     "testid": null,
+     "disabled": false
+    },
+    {
+     "text": "未连接",
+     "testid": null,
+     "disabled": false
+    },
+    {
+     "text": "对话",
+     "testid": null,
+     "disabled": false
+    },
+    {
+     "text": "历史",
+     "testid": null,
+     "disabled": false
+    },
+    {
+     "text": "技能",
+     "testid": null,
+     "disabled": false
+    },
+    {
+     "text": "日志",
+     "testid": null,
+     "disabled": false
+    },
+    {
+     "text": "新对话",
+     "testid": null,
+     "disabled": true
+    },
+    {
+     "text": "",
+     "testid": null,
+     "disabled": false
+    },
+    {
+     "text": "连接",
+     "testid": null,
+     "disabled": false
+    },
+    {
+     "text": "连接",
+     "testid": null,
+     "disabled": false
+    },
+    {
+     "text": "连接",
+     "testid": null,
+     "disabled": false
+    }
+   ],
+   "fields": [
+    {
+     "tag": "select",
+     "type": null,
+     "name": null,
+     "testid": null,
+     "placeholder": null,
+     "label": "素材模式请选择图案素材文字素材图案 + 文字",
+     "value": "",
+     "options": [
+      "=请选择",
+      "pattern=图案素材",
+      "text=文字素材",
+      "pattern-text=图案 + 文字"
+     ],
+     "disabled": false
+    },
+    {
+     "tag": "select",
+     "type": null,
+     "name": null,
+     "testid": null,
+     "placeholder": null,
+     "label": "输出比例请选择1:14:53:42:33:24:316:99:16",
+     "value": "",
+     "options": [
+      "=请选择",
+      "1:1=1:1",
+      "4:5=4:5",
+      "3:4=3:4",
+      "2:3=2:3",
+      "3:2=3:2",
+      "4:3=4:3",
+      "16:9=16:9",
+      "9:16=9:16"
+     ],
+     "disabled": false
+    },
+    {
+     "tag": "select",
+     "type": null,
+     "name": null,
+     "testid": null,
+     "placeholder": null,
+     "label": "风格不指定VintageMinimalFloralGeometricCartoonHand-drawnRetro posterLine art",
+     "value": "",
+     "options": [
+      "=不指定",
+      "vintage=Vintage",
+      "minimal=Minimal",
+      "floral=Floral",
+      "geometric=Geometric",
+      "cartoon=Cartoon",
+      "hand-drawn=Hand-drawn",
+      "retro-poster=Retro poster",
+      "line-art=Line art"
+     ],
+     "disabled": false
+    },
+    {
+     "tag": "select",
+     "type": null,
+     "name": null,
+     "testid": null,
+     "placeholder": null,
+     "label": "中文风格不指定复古极简花卉几何卡通手绘复古海报线稿",
+     "value": "",
+     "options": [
+      "=不指定",
+      "复古=复古",
+      "极简=极简",
+      "花卉=花卉",
+      "几何=几何",
+      "卡通=卡通",
+      "手绘=手绘",
+      "复古海报=复古海报",
+      "线稿=线稿"
+     ],
+     "disabled": false
+    },
+    {
+     "tag": "input",
+     "type": "number",
+     "name": null,
+     "testid": null,
+     "placeholder": null,
+     "label": "输出数量（1–15）",
+     "value": "1",
+     "disabled": false
+    },
+    {
+     "tag": "textarea",
+     "type": null,
+     "name": null,
+     "testid": null,
+     "placeholder": null,
+     "label": "简短提示词 / 文案（≤200 字）0/200",
+     "value": "",
+     "disabled": false
+    },
+    {
+     "tag": "input",
+     "type": "checkbox",
+     "name": null,
+     "testid": null,
+     "placeholder": null,
+     "label": "自动扩写提示词本地确定性扩写，不调用上游；扩写结果会进预览与真实请求。",
+     "value": "on",
+     "disabled": false
+    },
+    {
+     "tag": "input",
+     "type": "checkbox",
+     "name": null,
+     "testid": null,
+     "placeholder": null,
+     "label": "增强变化强度同风格下的构图差异更明显。",
+     "value": "on",
+     "disabled": false
+    },
+    {
+     "tag": "input",
+     "type": "checkbox",
+     "name": null,
+     "testid": null,
+     "placeholder": null,
+     "label": "作为案例变体提交",
+     "value": "on",
+     "disabled": false
+    }
+   ],
+   "resultPanel": {
+    "view": "empty",
+    "text": "POD 素材结果还没有生成结果填好参数并提交后，结果会出现在这里，可预览、下载、存入资产库或发送到画布。"
+   }
+  },
+  "ORNAMENT_TEXT": {
+   "url": "http://127.0.0.1:3000/tools/product-design/ornament-text",
+   "headings": [
+    "饰品文字",
+    "饰品文字",
+    "饰品文字结果"
+   ],
+   "buttons": [
+    {
+     "text": "",
+     "testid": null,
+     "disabled": false
+    },
+    {
+     "text": "",
+     "testid": null,
+     "disabled": false
+    },
+    {
+     "text": "中",
+     "testid": null,
+     "disabled": false
+    },
+    {
+     "text": "切换到浅色主题",
+     "testid": null,
+     "disabled": false
+    },
+    {
+     "text": "v0.27.0",
+     "testid": null,
+     "disabled": false
+    },
+    {
+     "text": "偏左",
+     "testid": null,
+     "disabled": false
+    },
+    {
+     "text": "居中",
+     "testid": null,
+     "disabled": false
+    },
+    {
+     "text": "偏右",
+     "testid": null,
+     "disabled": false
+    },
+    {
+     "text": "",
+     "testid": null,
+     "disabled": true
+    },
+    {
+     "text": "",
+     "testid": null,
+     "disabled": true
+    },
+    {
+     "text": "",
+     "testid": null,
+     "disabled": false
+    },
+    {
+     "text": "生成饰品文字",
+     "testid": null,
+     "disabled": true
+    },
+    {
+     "text": "",
+     "testid": null,
+     "disabled": false
+    },
+    {
+     "text": "未连接",
+     "testid": null,
+     "disabled": false
+    },
+    {
+     "text": "对话",
+     "testid": null,
+     "disabled": false
+    },
+    {
+     "text": "历史",
+     "testid": null,
+     "disabled": false
+    },
+    {
+     "text": "技能",
+     "testid": null,
+     "disabled": false
+    },
+    {
+     "text": "日志",
+     "testid": null,
+     "disabled": false
+    },
+    {
+     "text": "新对话",
+     "testid": null,
+     "disabled": true
+    },
+    {
+     "text": "",
+     "testid": null,
+     "disabled": false
+    },
+    {
+     "text": "连接",
+     "testid": null,
+     "disabled": false
+    },
+    {
+     "text": "连接",
+     "testid": null,
+     "disabled": false
+    },
+    {
+     "text": "连接",
+     "testid": null,
+     "disabled": false
+    }
+   ],
+   "fields": [
+    {
+     "tag": "textarea",
+     "type": null,
+     "name": null,
+     "testid": null,
+     "placeholder": "例如：FOREVER · 永",
+     "label": "饰品文字内容逐字照排，最多 4000 字。",
+     "value": "",
+     "disabled": false
+    },
+    {
+     "tag": "textarea",
+     "type": null,
+     "name": null,
+     "testid": null,
+     "placeholder": "例如：玫瑰金浮雕、宝石边镶嵌碎钻",
+     "label": "效果描述（可选）",
+     "value": "",
+     "disabled": false
+    },
+    {
+     "tag": "select",
+     "type": null,
+     "name": null,
+     "testid": null,
+     "placeholder": null,
+     "label": "字体衬线 Serif无衬线 Sans手写 Script展示 Display圆体 Rounded等宽 Mono",
+     "value": "serif",
+     "options": [
+      "serif=衬线 Serif",
+      "sans-serif=无衬线 Sans",
+      "script=手写 Script",
+      "display=展示 Display",
+      "rounded=圆体 Rounded",
+      "mono=等宽 Mono"
+     ],
+     "disabled": false
+    },
+    {
+     "tag": "input",
+     "type": null,
+     "name": null,
+     "testid": null,
+     "placeholder": null,
+     "label": "自定义字体名（原样透传上游）",
+     "value": "serif",
+     "disabled": false
+    },
+    {
+     "tag": "input",
+     "type": "range",
+     "name": null,
+     "testid": null,
+     "placeholder": null,
+     "label": "字号 96",
+     "value": "96",
+     "disabled": false
+    },
+    {
+     "tag": "input",
+     "type": "number",
+     "name": null,
+     "testid": null,
+     "placeholder": null,
+     "label": "左 (%)",
+     "value": "18",
+     "disabled": false
+    },
+    {
+     "tag": "input",
+     "type": "number",
+     "name": null,
+     "testid": null,
+     "placeholder": null,
+     "label": "右 (%)",
+     "value": "82",
+     "disabled": false
+    }
+   ],
+   "resultPanel": {
+    "view": "empty",
+    "text": "饰品文字结果还没有生成结果填好参数并提交后，结果会出现在这里，可预览、下载、存入资产库或发送到画布。"
+   }
+  },
+  "SDS_DESIGN": {
+   "url": "http://127.0.0.1:3000/tools/product-design/sds-design",
+   "headings": [
+    "素材贴合",
+    "素材",
+    "上传商品图",
+    "上传素材",
+    "素材操作",
+    "结果",
+    "SDS 素材贴合结果"
+   ],
+   "buttons": [
+    {
+     "text": "",
+     "testid": null,
+     "disabled": false
+    },
+    {
+     "text": "",
+     "testid": null,
+     "disabled": false
+    },
+    {
+     "text": "中",
+     "testid": null,
+     "disabled": false
+    },
+    {
+     "text": "切换到浅色主题",
+     "testid": null,
+     "disabled": false
+    },
+    {
+     "text": "v0.27.0",
+     "testid": null,
+     "disabled": false
+    },
+    {
+     "text": "撤销",
+     "testid": null,
+     "disabled": true
+    },
+    {
+     "text": "重做",
+     "testid": null,
+     "disabled": true
+    },
+    {
+     "text": "复位",
+     "testid": null,
+     "disabled": true
+    },
+    {
+     "text": "",
+     "testid": null,
+     "disabled": true
+    },
+    {
+     "text": "",
+     "testid": null,
+     "disabled": true
+    },
+    {
+     "text": "",
+     "testid": null,
+     "disabled": true
+    },
+    {
+     "text": "原色",
+     "testid": null,
+     "disabled": false
+    },
+    {
+     "text": "黑色",
+     "testid": null,
+     "disabled": false
+    },
+    {
+     "text": "白色",
+     "testid": null,
+     "disabled": false
+    },
+    {
+     "text": "藏青",
+     "testid": null,
+     "disabled": false
+    },
+    {
+     "text": "米色",
+     "testid": null,
+     "disabled": false
+    },
+    {
+     "text": "立即生成（1 张）",
+     "testid": null,
+     "disabled": true
+    },
+    {
+     "text": "",
+     "testid": null,
+     "disabled": false
+    },
+    {
+     "text": "未连接",
+     "testid": null,
+     "disabled": false
+    },
+    {
+     "text": "对话",
+     "testid": null,
+     "disabled": false
+    },
+    {
+     "text": "历史",
+     "testid": null,
+     "disabled": false
+    },
+    {
+     "text": "技能",
+     "testid": null,
+     "disabled": false
+    },
+    {
+     "text": "日志",
+     "testid": null,
+     "disabled": false
+    },
+    {
+     "text": "新对话",
+     "testid": null,
+     "disabled": true
+    },
+    {
+     "text": "",
+     "testid": null,
+     "disabled": false
+    },
+    {
+     "text": "连接",
+     "testid": null,
+     "disabled": false
+    },
+    {
+     "text": "连接",
+     "testid": null,
+     "disabled": false
+    },
+    {
+     "text": "连接",
+     "testid": null,
+     "disabled": false
+    }
+   ],
+   "fields": [
+    {
+     "tag": "input",
+     "type": null,
+     "name": null,
+     "testid": null,
+     "placeholder": "默认取第一个素材文件名",
+     "label": "素材名（提交字段 imageName）",
+     "value": "",
+     "disabled": false
+    }
+   ],
+   "resultPanel": {
+    "view": "empty",
+    "text": "SDS 素材贴合结果还没有生成结果填好参数并提交后，结果会出现在这里，可预览、下载、存入资产库或发送到画布。"
+   }
+  },
+  "SCENE_TRANSFER": {
+   "url": "http://127.0.0.1:3000/tools/product-design/scene-transfer",
+   "headings": [
+    "场景迁移",
+    "场景迁移",
+    "商品图 imageUrl",
+    "上传商品图",
+    "场景风格参考图 imageStyleUrl",
+    "上传场景风格参考图",
+    "商品分割图 segImageUrl（可选）",
+    "上传商品分割图",
+    "相似度 similarity",
+    "场景迁移结果",
+    "本次提交快照"
+   ],
+   "buttons": [
+    {
+     "text": "",
+     "testid": null,
+     "disabled": false
+    },
+    {
+     "text": "",
+     "testid": null,
+     "disabled": false
+    },
+    {
+     "text": "中",
+     "testid": null,
+     "disabled": false
+    },
+    {
+     "text": "切换到浅色主题",
+     "testid": null,
+     "disabled": false
+    },
+    {
+     "text": "v0.27.0",
+     "testid": null,
+     "disabled": false
+    },
+    {
+     "text": "轻度 30%",
+     "testid": "scene-transfer-preset-30",
+     "disabled": false
+    },
+    {
+     "text": "平衡 55%",
+     "testid": "scene-transfer-preset-55",
+     "disabled": false
+    },
+    {
+     "text": "强风格 80%",
+     "testid": "scene-transfer-preset-80",
+     "disabled": false
+    },
+    {
+     "text": "开始迁移",
+     "testid": "scene-transfer-submit",
+     "disabled": true
+    },
+    {
+     "text": "",
+     "testid": null,
+     "disabled": false
+    },
+    {
+     "text": "未连接",
+     "testid": null,
+     "disabled": false
+    },
+    {
+     "text": "对话",
+     "testid": null,
+     "disabled": false
+    },
+    {
+     "text": "历史",
+     "testid": null,
+     "disabled": false
+    },
+    {
+     "text": "技能",
+     "testid": null,
+     "disabled": false
+    },
+    {
+     "text": "日志",
+     "testid": null,
+     "disabled": false
+    },
+    {
+     "text": "新对话",
+     "testid": null,
+     "disabled": true
+    },
+    {
+     "text": "",
+     "testid": null,
+     "disabled": false
+    },
+    {
+     "text": "连接",
+     "testid": null,
+     "disabled": false
+    },
+    {
+     "text": "连接",
+     "testid": null,
+     "disabled": false
+    },
+    {
+     "text": "连接",
+     "testid": null,
+     "disabled": false
+    }
+   ],
+   "fields": [
+    {
+     "tag": "input",
+     "type": "range",
+     "name": null,
+     "testid": "scene-transfer-similarity-slider",
+     "placeholder": null,
+     "label": "",
+     "value": "70",
+     "disabled": false
+    }
+   ],
+   "resultPanel": {
+    "view": "empty",
+    "text": "场景迁移结果还没有生成结果填好参数并提交后，结果会出现在这里，可预览、下载、存入资产库或发送到画布。"
+   }
+  }
+ }
+}

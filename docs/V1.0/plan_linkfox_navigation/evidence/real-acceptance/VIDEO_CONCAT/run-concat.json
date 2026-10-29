@@ -1,0 +1,907 @@
+{
+  "toolId": "VIDEO_CONCAT",
+  "route": "/tools/ai-video/video-concat",
+  "startedAt": "2026-10-29T11:51:21.739Z",
+  "config": {
+    "proxyUrl": "http://127.0.0.1:23220",
+    "mediaHostUrl": "https://telephony-affects-borders-wider.trycloudflare.com",
+    "injected": {
+      "channels": [
+        "default",
+        "sub2api-real"
+      ],
+      "videoModel": "sub2api-real::MiniMax-H3",
+      "proxyUrl": "http://127.0.0.1:23220",
+      "mediaHostUrl": "https://telephony-affects-borders-wider.trycloudflare.com"
+    }
+  },
+  "steps": [
+    "config-injected",
+    "uploaded",
+    "submitted",
+    "result-settled"
+  ],
+  "calls": [],
+  "taskId": "task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF",
+  "receipts": [
+    {
+      "at": "2026-10-29T11:51:37.576Z",
+      "method": "POST",
+      "url": "http://127.0.0.1:23220/https://sub2api.1006000.xyz/v1/videos",
+      "status": 400,
+      "body": "{\"error\":{\"message\":\"'utf-8' codec can't decode byte 0xff in position 1400: invalid start byte\",\"type\":\"invalid_request_error\"}}"
+    },
+    {
+      "at": "2026-10-29T11:52:03.440Z",
+      "method": "POST",
+      "url": "http://127.0.0.1:23220/https://sub2api.1006000.xyz/v1/videos",
+      "status": 200,
+      "body": "{\"id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"request_id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"status\":\"pending\",\"model\":\"MiniMax-H3\"}"
+    },
+    {
+      "at": "2026-10-29T11:52:06.663Z",
+      "method": "GET",
+      "url": "http://127.0.0.1:23220/https://sub2api.1006000.xyz/v1/videos/task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF",
+      "status": 200,
+      "body": "{\"id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"request_id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"model\":\"MiniMax-H3\",\"status\":\"pending\",\"progress\":0}"
+    },
+    {
+      "at": "2026-10-29T11:52:10.509Z",
+      "method": "GET",
+      "url": "http://127.0.0.1:23220/https://sub2api.1006000.xyz/v1/videos/task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF",
+      "status": 200,
+      "body": "{\"id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"request_id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"model\":\"MiniMax-H3\",\"status\":\"pending\",\"progress\":0}"
+    },
+    {
+      "at": "2026-10-29T11:52:13.980Z",
+      "method": "GET",
+      "url": "http://127.0.0.1:23220/https://sub2api.1006000.xyz/v1/videos/task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF",
+      "status": 200,
+      "body": "{\"id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"request_id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"model\":\"MiniMax-H3\",\"status\":\"pending\",\"progress\":0}"
+    },
+    {
+      "at": "2026-10-29T11:52:19.987Z",
+      "method": "GET",
+      "url": "http://127.0.0.1:23220/https://sub2api.1006000.xyz/v1/videos/task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF",
+      "status": 200,
+      "body": "{\"id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"request_id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"model\":\"MiniMax-H3\",\"status\":\"pending\",\"progress\":0}"
+    },
+    {
+      "at": "2026-10-29T11:52:22.475Z",
+      "method": "GET",
+      "url": "http://127.0.0.1:23220/https://sub2api.1006000.xyz/v1/videos/task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF",
+      "status": 502,
+      "body": "{\"error\":\"无法连接 sub2api.1006000.xyz：连接超时（ETIMEDOUT）。建议：网络握手超时，通常是代理不通或线路被限制；请检查代理状态与节点\",\"host\":\"sub2api.1006000.xyz\",\"code\":\"ETIMEDOUT\",\"attempts\":[{\"channel\":\"node\",\"code\":\"ETIMEDOUT\",\"message\":\"fetch failed\"}]}"
+    },
+    {
+      "at": "2026-10-29T11:52:26.335Z",
+      "method": "GET",
+      "url": "http://127.0.0.1:23220/https://sub2api.1006000.xyz/v1/videos/task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF",
+      "status": 200,
+      "body": "{\"id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"request_id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"model\":\"MiniMax-H3\",\"status\":\"pending\",\"progress\":0}"
+    },
+    {
+      "at": "2026-10-29T11:52:29.748Z",
+      "method": "GET",
+      "url": "http://127.0.0.1:23220/https://sub2api.1006000.xyz/v1/videos/task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF",
+      "status": 200,
+      "body": "{\"id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"request_id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"model\":\"MiniMax-H3\",\"status\":\"pending\",\"progress\":0}"
+    },
+    {
+      "at": "2026-10-29T11:52:33.840Z",
+      "method": "GET",
+      "url": "http://127.0.0.1:23220/https://sub2api.1006000.xyz/v1/videos/task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF",
+      "status": 200,
+      "body": "{\"id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"request_id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"model\":\"MiniMax-H3\",\"status\":\"pending\",\"progress\":0}"
+    },
+    {
+      "at": "2026-10-29T11:52:37.278Z",
+      "method": "GET",
+      "url": "http://127.0.0.1:23220/https://sub2api.1006000.xyz/v1/videos/task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF",
+      "status": 200,
+      "body": "{\"id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"request_id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"model\":\"MiniMax-H3\",\"status\":\"pending\",\"progress\":0}"
+    },
+    {
+      "at": "2026-10-29T11:52:41.744Z",
+      "method": "GET",
+      "url": "http://127.0.0.1:23220/https://sub2api.1006000.xyz/v1/videos/task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF",
+      "status": 200,
+      "body": "{\"id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"request_id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"model\":\"MiniMax-H3\",\"status\":\"pending\",\"progress\":0}"
+    },
+    {
+      "at": "2026-10-29T11:52:51.123Z",
+      "method": "GET",
+      "url": "http://127.0.0.1:23220/https://sub2api.1006000.xyz/v1/videos/task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF",
+      "status": 200,
+      "body": "{\"id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"request_id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"model\":\"MiniMax-H3\",\"status\":\"pending\",\"progress\":0}"
+    },
+    {
+      "at": "2026-10-29T11:52:57.981Z",
+      "method": "GET",
+      "url": "http://127.0.0.1:23220/https://sub2api.1006000.xyz/v1/videos/task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF",
+      "status": 200,
+      "body": "{\"id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"request_id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"model\":\"MiniMax-H3\",\"status\":\"pending\",\"progress\":0}"
+    },
+    {
+      "at": "2026-10-29T11:53:05.533Z",
+      "method": "GET",
+      "url": "http://127.0.0.1:23220/https://sub2api.1006000.xyz/v1/videos/task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF",
+      "status": 200,
+      "body": "{\"id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"request_id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"model\":\"MiniMax-H3\",\"status\":\"pending\",\"progress\":0}"
+    },
+    {
+      "at": "2026-10-29T11:53:12.451Z",
+      "method": "GET",
+      "url": "http://127.0.0.1:23220/https://sub2api.1006000.xyz/v1/videos/task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF",
+      "status": 200,
+      "body": "{\"id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"request_id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"model\":\"MiniMax-H3\",\"status\":\"pending\",\"progress\":0}"
+    },
+    {
+      "at": "2026-10-29T11:53:20.256Z",
+      "method": "GET",
+      "url": "http://127.0.0.1:23220/https://sub2api.1006000.xyz/v1/videos/task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF",
+      "status": 200,
+      "body": "{\"id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"request_id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"model\":\"MiniMax-H3\",\"status\":\"pending\",\"progress\":0}"
+    },
+    {
+      "at": "2026-10-29T11:53:28.914Z",
+      "method": "GET",
+      "url": "http://127.0.0.1:23220/https://sub2api.1006000.xyz/v1/videos/task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF",
+      "status": 200,
+      "body": "{\"id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"request_id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"model\":\"MiniMax-H3\",\"status\":\"pending\",\"progress\":0}"
+    },
+    {
+      "at": "2026-10-29T11:53:37.123Z",
+      "method": "GET",
+      "url": "http://127.0.0.1:23220/https://sub2api.1006000.xyz/v1/videos/task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF",
+      "status": 200,
+      "body": "{\"id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"request_id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"model\":\"MiniMax-H3\",\"status\":\"pending\",\"progress\":0}"
+    },
+    {
+      "at": "2026-10-29T11:53:44.316Z",
+      "method": "GET",
+      "url": "http://127.0.0.1:23220/https://sub2api.1006000.xyz/v1/videos/task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF",
+      "status": 200,
+      "body": "{\"id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"request_id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"model\":\"MiniMax-H3\",\"status\":\"pending\",\"progress\":0}"
+    },
+    {
+      "at": "2026-10-29T11:53:54.738Z",
+      "method": "GET",
+      "url": "http://127.0.0.1:23220/https://sub2api.1006000.xyz/v1/videos/task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF",
+      "status": 200,
+      "body": "{\"id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"request_id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"model\":\"MiniMax-H3\",\"status\":\"pending\",\"progress\":0}"
+    },
+    {
+      "at": "2026-10-29T11:54:01.250Z",
+      "method": "GET",
+      "url": "http://127.0.0.1:23220/https://sub2api.1006000.xyz/v1/videos/task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF",
+      "status": 200,
+      "body": "{\"id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"request_id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"model\":\"MiniMax-H3\",\"status\":\"pending\",\"progress\":0}"
+    },
+    {
+      "at": "2026-10-29T11:54:08.535Z",
+      "method": "GET",
+      "url": "http://127.0.0.1:23220/https://sub2api.1006000.xyz/v1/videos/task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF",
+      "status": 200,
+      "body": "{\"id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"request_id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"model\":\"MiniMax-H3\",\"status\":\"pending\",\"progress\":0}"
+    },
+    {
+      "at": "2026-10-29T11:54:14.964Z",
+      "method": "GET",
+      "url": "http://127.0.0.1:23220/https://sub2api.1006000.xyz/v1/videos/task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF",
+      "status": 200,
+      "body": "{\"id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"request_id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"model\":\"MiniMax-H3\",\"status\":\"pending\",\"progress\":0}"
+    },
+    {
+      "at": "2026-10-29T11:54:22.147Z",
+      "method": "GET",
+      "url": "http://127.0.0.1:23220/https://sub2api.1006000.xyz/v1/videos/task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF",
+      "status": 200,
+      "body": "{\"id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"request_id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"model\":\"MiniMax-H3\",\"status\":\"pending\",\"progress\":0}"
+    },
+    {
+      "at": "2026-10-29T11:54:33.635Z",
+      "method": "GET",
+      "url": "http://127.0.0.1:23220/https://sub2api.1006000.xyz/v1/videos/task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF",
+      "status": 200,
+      "body": "{\"id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"request_id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"model\":\"MiniMax-H3\",\"status\":\"pending\",\"progress\":0}"
+    },
+    {
+      "at": "2026-10-29T11:54:40.933Z",
+      "method": "GET",
+      "url": "http://127.0.0.1:23220/https://sub2api.1006000.xyz/v1/videos/task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF",
+      "status": 200,
+      "body": "{\"id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"request_id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"model\":\"MiniMax-H3\",\"status\":\"pending\",\"progress\":0}"
+    },
+    {
+      "at": "2026-10-29T11:54:47.420Z",
+      "method": "GET",
+      "url": "http://127.0.0.1:23220/https://sub2api.1006000.xyz/v1/videos/task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF",
+      "status": 200,
+      "body": "{\"id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"request_id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"model\":\"MiniMax-H3\",\"status\":\"pending\",\"progress\":0}"
+    },
+    {
+      "at": "2026-10-29T11:54:54.800Z",
+      "method": "GET",
+      "url": "http://127.0.0.1:23220/https://sub2api.1006000.xyz/v1/videos/task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF",
+      "status": 200,
+      "body": "{\"id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"request_id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"model\":\"MiniMax-H3\",\"status\":\"pending\",\"progress\":0}"
+    },
+    {
+      "at": "2026-10-29T11:55:01.238Z",
+      "method": "GET",
+      "url": "http://127.0.0.1:23220/https://sub2api.1006000.xyz/v1/videos/task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF",
+      "status": 200,
+      "body": "{\"id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"request_id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"model\":\"MiniMax-H3\",\"status\":\"pending\",\"progress\":0}"
+    },
+    {
+      "at": "2026-10-29T11:55:08.095Z",
+      "method": "GET",
+      "url": "http://127.0.0.1:23220/https://sub2api.1006000.xyz/v1/videos/task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF",
+      "status": 200,
+      "body": "{\"id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"request_id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"model\":\"MiniMax-H3\",\"status\":\"pending\",\"progress\":0}"
+    },
+    {
+      "at": "2026-10-29T11:55:16.182Z",
+      "method": "GET",
+      "url": "http://127.0.0.1:23220/https://sub2api.1006000.xyz/v1/videos/task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF",
+      "status": 200,
+      "body": "{\"id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"request_id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"model\":\"MiniMax-H3\",\"status\":\"pending\",\"progress\":0}"
+    },
+    {
+      "at": "2026-10-29T11:55:24.784Z",
+      "method": "GET",
+      "url": "http://127.0.0.1:23220/https://sub2api.1006000.xyz/v1/videos/task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF",
+      "status": 200,
+      "body": "{\"id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"request_id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"model\":\"MiniMax-H3\",\"status\":\"pending\",\"progress\":0}"
+    },
+    {
+      "at": "2026-10-29T11:55:33.105Z",
+      "method": "GET",
+      "url": "http://127.0.0.1:23220/https://sub2api.1006000.xyz/v1/videos/task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF",
+      "status": 200,
+      "body": "{\"id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"request_id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"model\":\"MiniMax-H3\",\"status\":\"pending\",\"progress\":0.16666666666666666}"
+    },
+    {
+      "at": "2026-10-29T11:55:40.772Z",
+      "method": "GET",
+      "url": "http://127.0.0.1:23220/https://sub2api.1006000.xyz/v1/videos/task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF",
+      "status": 200,
+      "body": "{\"id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"request_id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"model\":\"MiniMax-H3\",\"status\":\"pending\",\"progress\":0.16666666666666666}"
+    },
+    {
+      "at": "2026-10-29T11:55:47.960Z",
+      "method": "GET",
+      "url": "http://127.0.0.1:23220/https://sub2api.1006000.xyz/v1/videos/task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF",
+      "status": 200,
+      "body": "{\"id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"request_id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"model\":\"MiniMax-H3\",\"status\":\"pending\",\"progress\":0.16666666666666666}"
+    },
+    {
+      "at": "2026-10-29T11:55:54.876Z",
+      "method": "GET",
+      "url": "http://127.0.0.1:23220/https://sub2api.1006000.xyz/v1/videos/task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF",
+      "status": 200,
+      "body": "{\"id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"request_id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"model\":\"MiniMax-H3\",\"status\":\"pending\",\"progress\":0.16666666666666666}"
+    },
+    {
+      "at": "2026-10-29T11:56:02.016Z",
+      "method": "GET",
+      "url": "http://127.0.0.1:23220/https://sub2api.1006000.xyz/v1/videos/task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF",
+      "status": 200,
+      "body": "{\"id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"request_id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"model\":\"MiniMax-H3\",\"status\":\"pending\",\"progress\":0.16666666666666666}"
+    },
+    {
+      "at": "2026-10-29T11:56:09.968Z",
+      "method": "GET",
+      "url": "http://127.0.0.1:23220/https://sub2api.1006000.xyz/v1/videos/task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF",
+      "status": 200,
+      "body": "{\"id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"request_id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"model\":\"MiniMax-H3\",\"status\":\"pending\",\"progress\":0.16666666666666666}"
+    },
+    {
+      "at": "2026-10-29T11:56:16.875Z",
+      "method": "GET",
+      "url": "http://127.0.0.1:23220/https://sub2api.1006000.xyz/v1/videos/task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF",
+      "status": 200,
+      "body": "{\"id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"request_id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"model\":\"MiniMax-H3\",\"status\":\"pending\",\"progress\":0.16666666666666666}"
+    },
+    {
+      "at": "2026-10-29T11:56:25.016Z",
+      "method": "GET",
+      "url": "http://127.0.0.1:23220/https://sub2api.1006000.xyz/v1/videos/task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF",
+      "status": 200,
+      "body": "{\"id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"request_id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"model\":\"MiniMax-H3\",\"status\":\"pending\",\"progress\":0.16666666666666666}"
+    },
+    {
+      "at": "2026-10-29T11:56:32.230Z",
+      "method": "GET",
+      "url": "http://127.0.0.1:23220/https://sub2api.1006000.xyz/v1/videos/task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF",
+      "status": 200,
+      "body": "{\"id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"request_id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"model\":\"MiniMax-H3\",\"status\":\"pending\",\"progress\":0.16666666666666666}"
+    },
+    {
+      "at": "2026-10-29T11:56:41.037Z",
+      "method": "GET",
+      "url": "http://127.0.0.1:23220/https://sub2api.1006000.xyz/v1/videos/task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF",
+      "status": 200,
+      "body": "{\"id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"request_id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"model\":\"MiniMax-H3\",\"status\":\"pending\",\"progress\":0.16666666666666666}"
+    },
+    {
+      "at": "2026-10-29T11:56:47.873Z",
+      "method": "GET",
+      "url": "http://127.0.0.1:23220/https://sub2api.1006000.xyz/v1/videos/task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF",
+      "status": 200,
+      "body": "{\"id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"request_id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"model\":\"MiniMax-H3\",\"status\":\"pending\",\"progress\":0.16666666666666666}"
+    },
+    {
+      "at": "2026-10-29T11:56:54.762Z",
+      "method": "GET",
+      "url": "http://127.0.0.1:23220/https://sub2api.1006000.xyz/v1/videos/task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF",
+      "status": 200,
+      "body": "{\"id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"request_id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"model\":\"MiniMax-H3\",\"status\":\"pending\",\"progress\":0.16666666666666666}"
+    },
+    {
+      "at": "2026-10-29T11:57:01.244Z",
+      "method": "GET",
+      "url": "http://127.0.0.1:23220/https://sub2api.1006000.xyz/v1/videos/task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF",
+      "status": 200,
+      "body": "{\"id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"request_id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"model\":\"MiniMax-H3\",\"status\":\"pending\",\"progress\":0.16666666666666666}"
+    },
+    {
+      "at": "2026-10-29T11:57:10.310Z",
+      "method": "GET",
+      "url": "http://127.0.0.1:23220/https://sub2api.1006000.xyz/v1/videos/task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF",
+      "status": 200,
+      "body": "{\"id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"request_id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"model\":\"MiniMax-H3\",\"status\":\"pending\",\"progress\":0.16666666666666666}"
+    },
+    {
+      "at": "2026-10-29T11:57:17.281Z",
+      "method": "GET",
+      "url": "http://127.0.0.1:23220/https://sub2api.1006000.xyz/v1/videos/task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF",
+      "status": 200,
+      "body": "{\"id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"request_id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"model\":\"MiniMax-H3\",\"status\":\"pending\",\"progress\":0.16666666666666666}"
+    },
+    {
+      "at": "2026-10-29T11:57:23.741Z",
+      "method": "GET",
+      "url": "http://127.0.0.1:23220/https://sub2api.1006000.xyz/v1/videos/task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF",
+      "status": 200,
+      "body": "{\"id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"request_id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"model\":\"MiniMax-H3\",\"status\":\"pending\",\"progress\":0.3333333333333333}"
+    },
+    {
+      "at": "2026-10-29T11:57:31.570Z",
+      "method": "GET",
+      "url": "http://127.0.0.1:23220/https://sub2api.1006000.xyz/v1/videos/task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF",
+      "status": 200,
+      "body": "{\"id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"request_id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"model\":\"MiniMax-H3\",\"status\":\"pending\",\"progress\":0.3333333333333333}"
+    },
+    {
+      "at": "2026-10-29T11:57:37.982Z",
+      "method": "GET",
+      "url": "http://127.0.0.1:23220/https://sub2api.1006000.xyz/v1/videos/task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF",
+      "status": 200,
+      "body": "{\"id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"request_id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"model\":\"MiniMax-H3\",\"status\":\"pending\",\"progress\":0.3333333333333333}"
+    },
+    {
+      "at": "2026-10-29T11:57:44.481Z",
+      "method": "GET",
+      "url": "http://127.0.0.1:23220/https://sub2api.1006000.xyz/v1/videos/task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF",
+      "status": 200,
+      "body": "{\"id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"request_id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"model\":\"MiniMax-H3\",\"status\":\"pending\",\"progress\":0.3333333333333333}"
+    },
+    {
+      "at": "2026-10-29T11:57:51.190Z",
+      "method": "GET",
+      "url": "http://127.0.0.1:23220/https://sub2api.1006000.xyz/v1/videos/task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF",
+      "status": 200,
+      "body": "{\"id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"request_id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"model\":\"MiniMax-H3\",\"status\":\"pending\",\"progress\":0.3333333333333333}"
+    },
+    {
+      "at": "2026-10-29T11:57:58.317Z",
+      "method": "GET",
+      "url": "http://127.0.0.1:23220/https://sub2api.1006000.xyz/v1/videos/task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF",
+      "status": 200,
+      "body": "{\"id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"request_id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"model\":\"MiniMax-H3\",\"status\":\"pending\",\"progress\":0.3333333333333333}"
+    },
+    {
+      "at": "2026-10-29T11:58:06.478Z",
+      "method": "GET",
+      "url": "http://127.0.0.1:23220/https://sub2api.1006000.xyz/v1/videos/task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF",
+      "status": 200,
+      "body": "{\"id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"request_id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"model\":\"MiniMax-H3\",\"status\":\"pending\",\"progress\":0.3333333333333333}"
+    },
+    {
+      "at": "2026-10-29T11:58:14.442Z",
+      "method": "GET",
+      "url": "http://127.0.0.1:23220/https://sub2api.1006000.xyz/v1/videos/task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF",
+      "status": 200,
+      "body": "{\"id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"request_id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"model\":\"MiniMax-H3\",\"status\":\"pending\",\"progress\":0.3333333333333333}"
+    },
+    {
+      "at": "2026-10-29T11:58:22.019Z",
+      "method": "GET",
+      "url": "http://127.0.0.1:23220/https://sub2api.1006000.xyz/v1/videos/task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF",
+      "status": 200,
+      "body": "{\"id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"request_id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"model\":\"MiniMax-H3\",\"status\":\"pending\",\"progress\":0.3333333333333333}"
+    },
+    {
+      "at": "2026-10-29T11:58:29.826Z",
+      "method": "GET",
+      "url": "http://127.0.0.1:23220/https://sub2api.1006000.xyz/v1/videos/task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF",
+      "status": 200,
+      "body": "{\"id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"request_id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"model\":\"MiniMax-H3\",\"status\":\"pending\",\"progress\":0.3333333333333333}"
+    },
+    {
+      "at": "2026-10-29T11:58:37.206Z",
+      "method": "GET",
+      "url": "http://127.0.0.1:23220/https://sub2api.1006000.xyz/v1/videos/task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF",
+      "status": 200,
+      "body": "{\"id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"request_id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"model\":\"MiniMax-H3\",\"status\":\"pending\",\"progress\":0.3333333333333333}"
+    },
+    {
+      "at": "2026-10-29T11:58:44.499Z",
+      "method": "GET",
+      "url": "http://127.0.0.1:23220/https://sub2api.1006000.xyz/v1/videos/task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF",
+      "status": 200,
+      "body": "{\"id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"request_id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"model\":\"MiniMax-H3\",\"status\":\"pending\",\"progress\":0.3333333333333333}"
+    },
+    {
+      "at": "2026-10-29T11:58:51.713Z",
+      "method": "GET",
+      "url": "http://127.0.0.1:23220/https://sub2api.1006000.xyz/v1/videos/task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF",
+      "status": 200,
+      "body": "{\"id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"request_id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"model\":\"MiniMax-H3\",\"status\":\"pending\",\"progress\":0.3333333333333333}"
+    },
+    {
+      "at": "2026-10-29T11:59:00.323Z",
+      "method": "GET",
+      "url": "http://127.0.0.1:23220/https://sub2api.1006000.xyz/v1/videos/task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF",
+      "status": 200,
+      "body": "{\"id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"request_id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"model\":\"MiniMax-H3\",\"status\":\"pending\",\"progress\":0.3333333333333333}"
+    },
+    {
+      "at": "2026-10-29T11:59:08.605Z",
+      "method": "GET",
+      "url": "http://127.0.0.1:23220/https://sub2api.1006000.xyz/v1/videos/task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF",
+      "status": 200,
+      "body": "{\"id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"request_id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"model\":\"MiniMax-H3\",\"status\":\"pending\",\"progress\":0.3333333333333333}"
+    },
+    {
+      "at": "2026-10-29T11:59:17.045Z",
+      "method": "GET",
+      "url": "http://127.0.0.1:23220/https://sub2api.1006000.xyz/v1/videos/task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF",
+      "status": 200,
+      "body": "{\"id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"request_id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"model\":\"MiniMax-H3\",\"status\":\"pending\",\"progress\":0.3333333333333333}"
+    },
+    {
+      "at": "2026-10-29T11:59:24.521Z",
+      "method": "GET",
+      "url": "http://127.0.0.1:23220/https://sub2api.1006000.xyz/v1/videos/task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF",
+      "status": 200,
+      "body": "{\"id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"request_id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"model\":\"MiniMax-H3\",\"status\":\"pending\",\"progress\":0.3333333333333333}"
+    },
+    {
+      "at": "2026-10-29T11:59:32.988Z",
+      "method": "GET",
+      "url": "http://127.0.0.1:23220/https://sub2api.1006000.xyz/v1/videos/task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF",
+      "status": 200,
+      "body": "{\"id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"request_id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"model\":\"MiniMax-H3\",\"status\":\"pending\",\"progress\":0.3333333333333333}"
+    },
+    {
+      "at": "2026-10-29T11:59:39.498Z",
+      "method": "GET",
+      "url": "http://127.0.0.1:23220/https://sub2api.1006000.xyz/v1/videos/task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF",
+      "status": 200,
+      "body": "{\"id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"request_id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"model\":\"MiniMax-H3\",\"status\":\"pending\",\"progress\":0.3333333333333333}"
+    },
+    {
+      "at": "2026-10-29T11:59:46.853Z",
+      "method": "GET",
+      "url": "http://127.0.0.1:23220/https://sub2api.1006000.xyz/v1/videos/task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF",
+      "status": 200,
+      "body": "{\"id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"request_id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"model\":\"MiniMax-H3\",\"status\":\"pending\",\"progress\":0.3333333333333333}"
+    },
+    {
+      "at": "2026-10-29T11:59:56.136Z",
+      "method": "GET",
+      "url": "http://127.0.0.1:23220/https://sub2api.1006000.xyz/v1/videos/task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF",
+      "status": 200,
+      "body": "{\"id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"request_id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"model\":\"MiniMax-H3\",\"status\":\"pending\",\"progress\":0.3333333333333333}"
+    },
+    {
+      "at": "2026-10-29T12:00:03.171Z",
+      "method": "GET",
+      "url": "http://127.0.0.1:23220/https://sub2api.1006000.xyz/v1/videos/task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF",
+      "status": 200,
+      "body": "{\"id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"request_id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"model\":\"MiniMax-H3\",\"status\":\"pending\",\"progress\":0.3333333333333333}"
+    },
+    {
+      "at": "2026-10-29T12:00:12.754Z",
+      "method": "GET",
+      "url": "http://127.0.0.1:23220/https://sub2api.1006000.xyz/v1/videos/task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF",
+      "status": 502,
+      "body": "{\"type\":\"https://developers.cloudflare.com/support/troubleshooting/http-status-codes/cloudflare-5xx-errors/error-502/\",\"title\":\"Error 502: Bad gateway\",\"status\":502,\"detail\":\"The origin web server returned an invalid or incomplete response to Cloudflare. This typically indicates the origin is overloaded or misconfigured.\",\"instance\":\"a52204a6ac208f37\",\"error_code\":502,\"error_name\":\"origin_bad_gateway\",\"error_category\":\"origin\",\"ray_id\":\"a52204a6ac208f37\",\"timestamp\":\"2026-10-29T12:00:12Z\",\"zone\":\"sub2api.1006000.xyz\",\"cloudflare_error\":true,\"retryable\":true,\"retry_after\":60,\"owner_action_required\":true,\"what_you_should_do\":\"**Wait and retry.** Back off for at least 60 seconds. If the error persists, the website operator should check their origin server health and configuration.\",\"footer\":\"This error was generated by Cloudflare on behalf of the website owner.\"}\n"
+    },
+    {
+      "at": "2026-10-29T12:00:16.208Z",
+      "method": "GET",
+      "url": "http://127.0.0.1:23220/https://sub2api.1006000.xyz/v1/videos/task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF",
+      "status": 200,
+      "body": "{\"id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"request_id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"model\":\"MiniMax-H3\",\"status\":\"pending\",\"progress\":0.3333333333333333}"
+    },
+    {
+      "at": "2026-10-29T12:00:23.094Z",
+      "method": "GET",
+      "url": "http://127.0.0.1:23220/https://sub2api.1006000.xyz/v1/videos/task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF",
+      "status": 200,
+      "body": "{\"id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"request_id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"model\":\"MiniMax-H3\",\"status\":\"pending\",\"progress\":0.3333333333333333}"
+    },
+    {
+      "at": "2026-10-29T12:00:29.561Z",
+      "method": "GET",
+      "url": "http://127.0.0.1:23220/https://sub2api.1006000.xyz/v1/videos/task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF",
+      "status": 200,
+      "body": "{\"id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"request_id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"model\":\"MiniMax-H3\",\"status\":\"pending\",\"progress\":0.3333333333333333}"
+    },
+    {
+      "at": "2026-10-29T12:00:36.244Z",
+      "method": "GET",
+      "url": "http://127.0.0.1:23220/https://sub2api.1006000.xyz/v1/videos/task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF",
+      "status": 200,
+      "body": "{\"id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"request_id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"model\":\"MiniMax-H3\",\"status\":\"pending\",\"progress\":0.3333333333333333}"
+    },
+    {
+      "at": "2026-10-29T12:00:43.980Z",
+      "method": "GET",
+      "url": "http://127.0.0.1:23220/https://sub2api.1006000.xyz/v1/videos/task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF",
+      "status": 200,
+      "body": "{\"id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"request_id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"model\":\"MiniMax-H3\",\"status\":\"pending\",\"progress\":0.3333333333333333}"
+    },
+    {
+      "at": "2026-10-29T12:00:51.293Z",
+      "method": "GET",
+      "url": "http://127.0.0.1:23220/https://sub2api.1006000.xyz/v1/videos/task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF",
+      "status": 200,
+      "body": "{\"id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"request_id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"model\":\"MiniMax-H3\",\"status\":\"pending\",\"progress\":0.3333333333333333}"
+    },
+    {
+      "at": "2026-10-29T12:00:58.370Z",
+      "method": "GET",
+      "url": "http://127.0.0.1:23220/https://sub2api.1006000.xyz/v1/videos/task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF",
+      "status": 200,
+      "body": "{\"id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"request_id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"model\":\"MiniMax-H3\",\"status\":\"pending\",\"progress\":0.3333333333333333}"
+    },
+    {
+      "at": "2026-10-29T12:01:06.901Z",
+      "method": "GET",
+      "url": "http://127.0.0.1:23220/https://sub2api.1006000.xyz/v1/videos/task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF",
+      "status": 200,
+      "body": "{\"id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"request_id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"model\":\"MiniMax-H3\",\"status\":\"pending\",\"progress\":0.3333333333333333}"
+    },
+    {
+      "at": "2026-10-29T12:01:15.129Z",
+      "method": "GET",
+      "url": "http://127.0.0.1:23220/https://sub2api.1006000.xyz/v1/videos/task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF",
+      "status": 200,
+      "body": "{\"id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"request_id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"model\":\"MiniMax-H3\",\"status\":\"pending\",\"progress\":0.3333333333333333}"
+    },
+    {
+      "at": "2026-10-29T12:01:24.408Z",
+      "method": "GET",
+      "url": "http://127.0.0.1:23220/https://sub2api.1006000.xyz/v1/videos/task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF",
+      "status": 200,
+      "body": "{\"id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"request_id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"model\":\"MiniMax-H3\",\"status\":\"pending\",\"progress\":0.3333333333333333}"
+    },
+    {
+      "at": "2026-10-29T12:01:32.812Z",
+      "method": "GET",
+      "url": "http://127.0.0.1:23220/https://sub2api.1006000.xyz/v1/videos/task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF",
+      "status": 200,
+      "body": "{\"id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"request_id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"model\":\"MiniMax-H3\",\"status\":\"pending\",\"progress\":0.3333333333333333}"
+    },
+    {
+      "at": "2026-10-29T12:01:39.919Z",
+      "method": "GET",
+      "url": "http://127.0.0.1:23220/https://sub2api.1006000.xyz/v1/videos/task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF",
+      "status": 200,
+      "body": "{\"id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"request_id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"model\":\"MiniMax-H3\",\"status\":\"pending\",\"progress\":0.3333333333333333}"
+    },
+    {
+      "at": "2026-10-29T12:01:47.368Z",
+      "method": "GET",
+      "url": "http://127.0.0.1:23220/https://sub2api.1006000.xyz/v1/videos/task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF",
+      "status": 200,
+      "body": "{\"id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"request_id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"model\":\"MiniMax-H3\",\"status\":\"pending\",\"progress\":0.3333333333333333}"
+    },
+    {
+      "at": "2026-10-29T12:01:54.596Z",
+      "method": "GET",
+      "url": "http://127.0.0.1:23220/https://sub2api.1006000.xyz/v1/videos/task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF",
+      "status": 200,
+      "body": "{\"id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"request_id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"model\":\"MiniMax-H3\",\"status\":\"pending\",\"progress\":0.3333333333333333}"
+    },
+    {
+      "at": "2026-10-29T12:02:02.034Z",
+      "method": "GET",
+      "url": "http://127.0.0.1:23220/https://sub2api.1006000.xyz/v1/videos/task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF",
+      "status": 200,
+      "body": "{\"id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"request_id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"model\":\"MiniMax-H3\",\"status\":\"pending\",\"progress\":0.3333333333333333}"
+    },
+    {
+      "at": "2026-10-29T12:02:09.980Z",
+      "method": "GET",
+      "url": "http://127.0.0.1:23220/https://sub2api.1006000.xyz/v1/videos/task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF",
+      "status": 200,
+      "body": "{\"id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"request_id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"model\":\"MiniMax-H3\",\"status\":\"pending\",\"progress\":0.3333333333333333}"
+    },
+    {
+      "at": "2026-10-29T12:02:19.569Z",
+      "method": "GET",
+      "url": "http://127.0.0.1:23220/https://sub2api.1006000.xyz/v1/videos/task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF",
+      "status": 200,
+      "body": "{\"id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"request_id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"model\":\"MiniMax-H3\",\"status\":\"pending\",\"progress\":0.5}"
+    },
+    {
+      "at": "2026-10-29T12:02:28.127Z",
+      "method": "GET",
+      "url": "http://127.0.0.1:23220/https://sub2api.1006000.xyz/v1/videos/task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF",
+      "status": 200,
+      "body": "{\"id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"request_id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"model\":\"MiniMax-H3\",\"status\":\"pending\",\"progress\":0.5}"
+    },
+    {
+      "at": "2026-10-29T12:02:35.699Z",
+      "method": "GET",
+      "url": "http://127.0.0.1:23220/https://sub2api.1006000.xyz/v1/videos/task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF",
+      "status": 200,
+      "body": "{\"id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"request_id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"model\":\"MiniMax-H3\",\"status\":\"pending\",\"progress\":0.5}"
+    },
+    {
+      "at": "2026-10-29T12:02:43.188Z",
+      "method": "GET",
+      "url": "http://127.0.0.1:23220/https://sub2api.1006000.xyz/v1/videos/task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF",
+      "status": 200,
+      "body": "{\"id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"request_id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"model\":\"MiniMax-H3\",\"status\":\"pending\",\"progress\":0.5}"
+    },
+    {
+      "at": "2026-10-29T12:02:52.772Z",
+      "method": "GET",
+      "url": "http://127.0.0.1:23220/https://sub2api.1006000.xyz/v1/videos/task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF",
+      "status": 200,
+      "body": "{\"id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"request_id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"model\":\"MiniMax-H3\",\"status\":\"pending\",\"progress\":0.5}"
+    },
+    {
+      "at": "2026-10-29T12:03:00.164Z",
+      "method": "GET",
+      "url": "http://127.0.0.1:23220/https://sub2api.1006000.xyz/v1/videos/task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF",
+      "status": 200,
+      "body": "{\"id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"request_id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"model\":\"MiniMax-H3\",\"status\":\"pending\",\"progress\":0.5}"
+    },
+    {
+      "at": "2026-10-29T12:03:07.017Z",
+      "method": "GET",
+      "url": "http://127.0.0.1:23220/https://sub2api.1006000.xyz/v1/videos/task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF",
+      "status": 200,
+      "body": "{\"id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"request_id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"model\":\"MiniMax-H3\",\"status\":\"pending\",\"progress\":0.5}"
+    },
+    {
+      "at": "2026-10-29T12:03:13.503Z",
+      "method": "GET",
+      "url": "http://127.0.0.1:23220/https://sub2api.1006000.xyz/v1/videos/task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF",
+      "status": 200,
+      "body": "{\"id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"request_id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"model\":\"MiniMax-H3\",\"status\":\"pending\",\"progress\":0.5}"
+    },
+    {
+      "at": "2026-10-29T12:03:21.995Z",
+      "method": "GET",
+      "url": "http://127.0.0.1:23220/https://sub2api.1006000.xyz/v1/videos/task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF",
+      "status": 200,
+      "body": "{\"id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"request_id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"model\":\"MiniMax-H3\",\"status\":\"pending\",\"progress\":0.5}"
+    },
+    {
+      "at": "2026-10-29T12:03:31.606Z",
+      "method": "GET",
+      "url": "http://127.0.0.1:23220/https://sub2api.1006000.xyz/v1/videos/task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF",
+      "status": 200,
+      "body": "{\"id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"request_id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"model\":\"MiniMax-H3\",\"status\":\"pending\",\"progress\":0.5}"
+    },
+    {
+      "at": "2026-10-29T12:03:40.741Z",
+      "method": "GET",
+      "url": "http://127.0.0.1:23220/https://sub2api.1006000.xyz/v1/videos/task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF",
+      "status": 200,
+      "body": "{\"id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"request_id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"model\":\"MiniMax-H3\",\"status\":\"pending\",\"progress\":0.5}"
+    },
+    {
+      "at": "2026-10-29T12:03:48.054Z",
+      "method": "GET",
+      "url": "http://127.0.0.1:23220/https://sub2api.1006000.xyz/v1/videos/task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF",
+      "status": 200,
+      "body": "{\"id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"request_id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"model\":\"MiniMax-H3\",\"status\":\"pending\",\"progress\":0.5}"
+    },
+    {
+      "at": "2026-10-29T12:03:56.569Z",
+      "method": "GET",
+      "url": "http://127.0.0.1:23220/https://sub2api.1006000.xyz/v1/videos/task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF",
+      "status": 200,
+      "body": "{\"id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"request_id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"model\":\"MiniMax-H3\",\"status\":\"pending\",\"progress\":0.5}"
+    },
+    {
+      "at": "2026-10-29T12:04:05.121Z",
+      "method": "GET",
+      "url": "http://127.0.0.1:23220/https://sub2api.1006000.xyz/v1/videos/task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF",
+      "status": 200,
+      "body": "{\"id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"request_id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"model\":\"MiniMax-H3\",\"status\":\"pending\",\"progress\":0.5}"
+    },
+    {
+      "at": "2026-10-29T12:04:12.193Z",
+      "method": "GET",
+      "url": "http://127.0.0.1:23220/https://sub2api.1006000.xyz/v1/videos/task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF",
+      "status": 200,
+      "body": "{\"id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"request_id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"model\":\"MiniMax-H3\",\"status\":\"pending\",\"progress\":0.5}"
+    },
+    {
+      "at": "2026-10-29T12:04:18.615Z",
+      "method": "GET",
+      "url": "http://127.0.0.1:23220/https://sub2api.1006000.xyz/v1/videos/task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF",
+      "status": 200,
+      "body": "{\"id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"request_id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"model\":\"MiniMax-H3\",\"status\":\"pending\",\"progress\":0.5}"
+    },
+    {
+      "at": "2026-10-29T12:04:26.358Z",
+      "method": "GET",
+      "url": "http://127.0.0.1:23220/https://sub2api.1006000.xyz/v1/videos/task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF",
+      "status": 200,
+      "body": "{\"id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"request_id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"model\":\"MiniMax-H3\",\"status\":\"pending\",\"progress\":0.5}"
+    },
+    {
+      "at": "2026-10-29T12:04:35.476Z",
+      "method": "GET",
+      "url": "http://127.0.0.1:23220/https://sub2api.1006000.xyz/v1/videos/task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF",
+      "status": 200,
+      "body": "{\"id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"request_id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"model\":\"MiniMax-H3\",\"status\":\"pending\",\"progress\":0.6666666666666666}"
+    },
+    {
+      "at": "2026-10-29T12:04:42.594Z",
+      "method": "GET",
+      "url": "http://127.0.0.1:23220/https://sub2api.1006000.xyz/v1/videos/task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF",
+      "status": 200,
+      "body": "{\"id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"request_id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"model\":\"MiniMax-H3\",\"status\":\"pending\",\"progress\":0.6666666666666666}"
+    },
+    {
+      "at": "2026-10-29T12:04:49.859Z",
+      "method": "GET",
+      "url": "http://127.0.0.1:23220/https://sub2api.1006000.xyz/v1/videos/task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF",
+      "status": 200,
+      "body": "{\"id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"request_id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"model\":\"MiniMax-H3\",\"status\":\"pending\",\"progress\":0.6666666666666666}"
+    },
+    {
+      "at": "2026-10-29T12:04:57.299Z",
+      "method": "GET",
+      "url": "http://127.0.0.1:23220/https://sub2api.1006000.xyz/v1/videos/task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF",
+      "status": 200,
+      "body": "{\"id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"request_id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"model\":\"MiniMax-H3\",\"status\":\"pending\",\"progress\":0.6666666666666666}"
+    },
+    {
+      "at": "2026-10-29T12:05:05.546Z",
+      "method": "GET",
+      "url": "http://127.0.0.1:23220/https://sub2api.1006000.xyz/v1/videos/task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF",
+      "status": 200,
+      "body": "{\"id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"request_id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"model\":\"MiniMax-H3\",\"status\":\"pending\",\"progress\":0.6666666666666666}"
+    },
+    {
+      "at": "2026-10-29T12:05:13.934Z",
+      "method": "GET",
+      "url": "http://127.0.0.1:23220/https://sub2api.1006000.xyz/v1/videos/task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF",
+      "status": 200,
+      "body": "{\"id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"request_id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"model\":\"MiniMax-H3\",\"status\":\"pending\",\"progress\":0.6666666666666666}"
+    },
+    {
+      "at": "2026-10-29T12:05:22.231Z",
+      "method": "GET",
+      "url": "http://127.0.0.1:23220/https://sub2api.1006000.xyz/v1/videos/task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF",
+      "status": 200,
+      "body": "{\"id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"request_id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"model\":\"MiniMax-H3\",\"status\":\"pending\",\"progress\":0.6666666666666666}"
+    },
+    {
+      "at": "2026-10-29T12:05:29.118Z",
+      "method": "GET",
+      "url": "http://127.0.0.1:23220/https://sub2api.1006000.xyz/v1/videos/task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF",
+      "status": 200,
+      "body": "{\"id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"request_id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"model\":\"MiniMax-H3\",\"status\":\"pending\",\"progress\":0.6666666666666666}"
+    },
+    {
+      "at": "2026-10-29T12:05:35.960Z",
+      "method": "GET",
+      "url": "http://127.0.0.1:23220/https://sub2api.1006000.xyz/v1/videos/task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF",
+      "status": 200,
+      "body": "{\"id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"request_id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"model\":\"MiniMax-H3\",\"status\":\"pending\",\"progress\":0.6666666666666666}"
+    },
+    {
+      "at": "2026-10-29T12:05:44.017Z",
+      "method": "GET",
+      "url": "http://127.0.0.1:23220/https://sub2api.1006000.xyz/v1/videos/task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF",
+      "status": 200,
+      "body": "{\"id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"request_id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"model\":\"MiniMax-H3\",\"status\":\"pending\",\"progress\":0.6666666666666666}"
+    },
+    {
+      "at": "2026-10-29T12:05:52.098Z",
+      "method": "GET",
+      "url": "http://127.0.0.1:23220/https://sub2api.1006000.xyz/v1/videos/task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF",
+      "status": 200,
+      "body": "{\"id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"request_id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"model\":\"MiniMax-H3\",\"status\":\"pending\",\"progress\":0.6666666666666666}"
+    },
+    {
+      "at": "2026-10-29T12:06:00.245Z",
+      "method": "GET",
+      "url": "http://127.0.0.1:23220/https://sub2api.1006000.xyz/v1/videos/task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF",
+      "status": 200,
+      "body": "{\"id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"request_id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"model\":\"MiniMax-H3\",\"status\":\"pending\",\"progress\":0.6666666666666666}"
+    },
+    {
+      "at": "2026-10-29T12:06:06.629Z",
+      "method": "GET",
+      "url": "http://127.0.0.1:23220/https://sub2api.1006000.xyz/v1/videos/task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF",
+      "status": 200,
+      "body": "{\"id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"request_id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"model\":\"MiniMax-H3\",\"status\":\"pending\",\"progress\":0.6666666666666666}"
+    },
+    {
+      "at": "2026-10-29T12:06:14.661Z",
+      "method": "GET",
+      "url": "http://127.0.0.1:23220/https://sub2api.1006000.xyz/v1/videos/task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF",
+      "status": 200,
+      "body": "{\"id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"request_id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"model\":\"MiniMax-H3\",\"status\":\"pending\",\"progress\":0.6666666666666666}"
+    },
+    {
+      "at": "2026-10-29T12:06:24.391Z",
+      "method": "GET",
+      "url": "http://127.0.0.1:23220/https://sub2api.1006000.xyz/v1/videos/task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF",
+      "status": 200,
+      "body": "{\"id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"request_id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"model\":\"MiniMax-H3\",\"status\":\"pending\",\"progress\":0.6666666666666666}"
+    },
+    {
+      "at": "2026-10-29T12:06:31.697Z",
+      "method": "GET",
+      "url": "http://127.0.0.1:23220/https://sub2api.1006000.xyz/v1/videos/task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF",
+      "status": 200,
+      "body": "{\"id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"request_id\":\"task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF\",\"model\":\"MiniMax-H3\",\"status\":\"pending\",\"progress\":0.6666666666666666}"
+    }
+  ],
+  "result": null,
+  "history": {
+    "count": 1,
+    "items": [
+      {
+        "taskId": "task-mvthgaa4-pdg1eq",
+        "status": "running",
+        "text": "2026-10-29 19:51 生成中 把 2 段参考视频按给定顺序首尾拼成 1 条连续视频，9:16 画幅，目标时长 7 秒。 片段 … sub2api-real::MiniMax-H3 · video · 0 个结果"
+      }
+    ],
+    "matched": false
+  },
+  "actions": {
+    "inputs": {
+      "mp4Count": 42,
+      "cover": "small.mp4 封面",
+      "bodyHead": "无限画布\n首页\n电商套图\n智能修图\n新模型\nAI视频\nHOT\n批量生图\n商品图设计\n中\n切换到深色主题\nv0.27.0\nAI 视频\n图转视频\n带货口播\n视频复刻\n视频编辑\n视频翻译\n视频拼接\n补充\n免责声明\nAI 视频 / 视频拼接\n视频拼接\n补充\n\n/tools/ai-video/video-concat\n\n视频拼接\n\n按顺序拼接多段视频 · 逐段裁剪 · 抓帧做封面\n\n视频片段\n2 / 10 段\n上传视频片段\n2 / 10 个 · MP4 / MOV / WebM · ≤ 100 MB\n点击选择本地文件，或拖拽到这里\n校验格式 / 大小 / 像素，入库后可刷新恢复\n\nsmall.mp4\n\n"
+    },
+    "submitDisabled": false,
+    "blocked": [
+      "还没有素材",
+      "还没有生成结果",
+      "还没有视频拼接任务：提交后这里会出现真实任务记录"
+    ],
+    "domAfter": {
+      "hasVideo": false,
+      "readyState": null,
+      "src": null,
+      "feedback": null,
+      "alerts": [],
+      "tail": "不影响封面内容。\n\n生成设置\n\n视频模型\n\nMiniMax-H3（sub2api-real）\n\n视频比例\n\n9:16\n16:9\n1:1\n4:3\n3:4\n21:9\n\n默认 9:16；片段比例不一致时由模型按输出比例统一。\n\n输出时长\n\n自动\n5秒\n10秒\n15秒\n\n自动 = 片段有效时长之和 7s\n\n通道能力\n\n通道 openai · 多段视频 已验证发送\n\nOpenAI /videos 通道会把每段视频作为 video[] 上传；多段是否被上游采用仍取决于中转实现。\n\n拼接中…\n\n2 段 / 最少 2 段 · 素材 7s → 输出 7s\n\n拼接结果\n拼接视频\n\n还没有生成结果\n\n填好参数并提交后，结果会出现在这里，可预览、下载、存入资产库或发送到画布。\n\n尚未提交\n本次输入快照\n优秀案例\n\n暂无优秀案例\n\n历史任务\n点击「查看结果」把历史任务放回上方结果区\n历史记录\n1 条\n2026-10-29 19:51\n生成中\n\n把 2 段参考视频按给定顺序首尾拼成 1 条连续视频，9:16 画幅，目标时长 7 秒。 片段 …\n\nsub2api-real::MiniMax-H3 · video · 0 个结果\n\n连接本地 Agent\n未连接\n点连接会自动启动本地服务、装好插件并接通，无需手动配置。\nClaude Code\n未连接\n·\nCLI · 2.1.285 (Claude Code)\n·\n直接运行\n连接\nCodex\n未连接\n·\nCLI + 桌面版 · codex-cli 0.163.0\n·\n插件已装\n连接\nGalley\n未连接\n·\nCLI + 桌面版 · galley 0.6.4\n连接"
+    }
+  },
+  "issues": [
+    "wait-result timeout",
+    "页面没有结果视频元素（无真实产物）",
+    "fresh reload 后历史里没有 taskId=task_JjRxRSbjgytomlSzPrtLNQPwhIuhLBWF"
+  ],
+  "finishedAt": "2026-10-29T12:06:42.855Z"
+}

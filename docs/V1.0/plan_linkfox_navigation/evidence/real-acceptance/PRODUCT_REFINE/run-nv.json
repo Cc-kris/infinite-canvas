@@ -1,0 +1,145 @@
+{
+  "toolId": "PRODUCT_REFINE",
+  "route": "/tools/smart-edit/product-refine",
+  "at": "2026-10-29T04:15:10.421Z",
+  "issues": [],
+  "localDefaults": [
+    {
+      "testid": "refine-color-toggle",
+      "tag": "input",
+      "type": "checkbox",
+      "role": null,
+      "label": "色彩校正",
+      "value": "on",
+      "checked": false,
+      "ariaChecked": null,
+      "ariaNow": null,
+      "min": null,
+      "max": null,
+      "step": null,
+      "disabled": false
+    },
+    {
+      "testid": "refine-color-picker",
+      "tag": "input",
+      "type": "color",
+      "role": null,
+      "label": "目标颜色",
+      "value": "#ffffff",
+      "checked": false,
+      "ariaChecked": null,
+      "ariaNow": null,
+      "min": null,
+      "max": null,
+      "step": null,
+      "disabled": true
+    },
+    {
+      "testid": "refine-color-text",
+      "tag": "input",
+      "type": "text",
+      "role": null,
+      "label": "色值",
+      "value": "",
+      "checked": false,
+      "ariaChecked": null,
+      "ariaNow": null,
+      "min": null,
+      "max": null,
+      "step": null,
+      "disabled": true
+    }
+  ],
+  "historyEmpty": "本工具还没有历史任务；提交一次后会在这里留下记录。",
+  "historyPersist": {
+    "keys": [
+      "tool-task:v1:task-nv-PRODUCT_REFINE-1793247312321",
+      "tool-task:v1:index"
+    ],
+    "sizes": [
+      {
+        "key": "tool-task:v1:task-nv-PRODUCT_REFINE-1793247312321",
+        "bytes": 550
+      },
+      {
+        "key": "tool-task:v1:index",
+        "bytes": 40
+      }
+    ]
+  },
+  "history": {
+    "count": 1,
+    "firstText": "2026-10-29 12:15已完成商品精修 · 非视觉验收（复用真实产物）gpt-image-2 · image · 1 个结果查看结果",
+    "thumbs": [
+      {
+        "src": "https://oss-us.dimenoss.com/images/2026/10/28/1793198997_cabf4ef587e2a79ab532f97043f5b24e.png",
+        "naturalWidth": 2048,
+        "naturalHeight": 1488
+      }
+    ],
+    "hasOpen": true
+  },
+  "resultImage": {
+    "src": "https://oss-us.dimenoss.com/images/2026/10/28/1793198997_cabf4ef587e2a79ab532f97043f5b24e.png",
+    "naturalWidth": 2048,
+    "naturalHeight": 1488
+  },
+  "download": {
+    "suggestedFilename": "product-refine-result-1.png",
+    "savedAs": "download-action.png",
+    "bytes": 1941138,
+    "sha256": "fa14f2a40c7d236e79a1c12a0e1d199c5b30bd775022a0d29b42772a8937fdf3",
+    "sourceBytes": 1941138,
+    "sameSha256": true
+  },
+  "downloadFeedback": "已下载 product-refine-result-1.png",
+  "saveFeedback": "已保存到资产库（IVO2_kf-bGqFYhZmATHqE）",
+  "assets": {
+    "before": 0,
+    "after": 1,
+    "newAsset": {
+      "id": "IVO2_kf-bGqFYhZmATHqE",
+      "kind": "image",
+      "title": "PRODUCT_REFINE 结果 1",
+      "bytes": 1941138,
+      "width": 2048,
+      "height": 1488,
+      "hasDataUrl": true,
+      "dataUrlLength": 63,
+      "createdAt": "2026-10-29T04:15:23.053Z"
+    },
+    "feedbackAssetId": "IVO2_kf-bGqFYhZmATHqE",
+    "afterReload": true
+  },
+  "canvasFeedback": "已发送到画布（hRvgcYZQs83KjNdPAiMnI）",
+  "canvas": {
+    "projectsBefore": [],
+    "projectsAfter": [
+      {
+        "id": "hRvgcYZQs83KjNdPAiMnI",
+        "title": "PRODUCT_REFINE 结果",
+        "nodeCount": 1,
+        "nodeIds": [
+          "image-1793247328213-7tava"
+        ],
+        "images": [
+          {
+            "id": "image-1793247328213-7tava",
+            "url": null
+          }
+        ]
+      }
+    ],
+    "addedNodeIds": [
+      "image-1793247328213-7tava"
+    ],
+    "feedbackProjectId": "hRvgcYZQs83KjNdPAiMnI",
+    "newImageUrls": [
+      {
+        "id": "image-1793247328213-7tava",
+        "url": null
+      }
+    ]
+  },
+  "screenshot": "nv-actions.png"
+}

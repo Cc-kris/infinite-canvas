@@ -1,0 +1,152 @@
+{
+  "toolId": "PRINTING_REPAIR",
+  "route": "/tools/smart-edit/printing-repair",
+  "at": "2026-10-29T04:21:47.043Z",
+  "issues": [],
+  "localDefaults": [
+    {
+      "testid": "printing-repair-strength",
+      "tag": "input",
+      "type": "range",
+      "role": null,
+      "label": "",
+      "value": "70",
+      "checked": false,
+      "ariaPressed": null,
+      "ariaChecked": null,
+      "ariaNow": null,
+      "min": "0",
+      "max": "100",
+      "step": "5",
+      "disabled": false
+    },
+    {
+      "testid": "printing-repair-version",
+      "tag": "select",
+      "type": "select",
+      "role": null,
+      "label": "标准（结构优先）精细（纹理优先）",
+      "value": "v1",
+      "checked": null,
+      "ariaPressed": null,
+      "ariaChecked": null,
+      "ariaNow": null,
+      "min": null,
+      "max": null,
+      "step": null,
+      "disabled": false
+    },
+    {
+      "testid": "printing-repair-compare-region",
+      "tag": "button",
+      "type": "button",
+      "role": null,
+      "label": "局部对比",
+      "value": "",
+      "checked": null,
+      "ariaPressed": "true",
+      "ariaChecked": null,
+      "ariaNow": null,
+      "min": null,
+      "max": null,
+      "step": null,
+      "disabled": false
+    },
+    {
+      "testid": "printing-repair-compare-side-by-side",
+      "tag": "button",
+      "type": "button",
+      "role": null,
+      "label": "并排对比",
+      "value": "",
+      "checked": null,
+      "ariaPressed": "false",
+      "ariaChecked": null,
+      "ariaNow": null,
+      "min": null,
+      "max": null,
+      "step": null,
+      "disabled": false
+    },
+    {
+      "testid": "printing-repair-compare-slider",
+      "tag": "button",
+      "type": "button",
+      "role": null,
+      "label": "滑动对比",
+      "value": "",
+      "checked": null,
+      "ariaPressed": "false",
+      "ariaChecked": null,
+      "ariaNow": null,
+      "min": null,
+      "max": null,
+      "step": null,
+      "disabled": false
+    },
+    {
+      "testid": "printing-repair-submit",
+      "tag": "button",
+      "type": "button",
+      "role": null,
+      "label": "开始修复",
+      "value": "",
+      "checked": null,
+      "ariaPressed": null,
+      "ariaChecked": null,
+      "ariaNow": null,
+      "min": null,
+      "max": null,
+      "step": null,
+      "disabled": true
+    }
+  ],
+  "dockEmpty": "本工具还没有历史任务；提交一次后会在这里留下任务、配置与结果，刷新后仍在。",
+  "history": {
+    "count": "1 条",
+    "items": [
+      {
+        "taskId": "task-nv-PRINTING_REPAIR-1793247709289",
+        "status": "succeeded"
+      }
+    ]
+  },
+  "resultImage": {
+    "src": "https://oss-us.dimenoss.com/images/2026/10/28/1793202782_9bc88d2ecc63458197b1738",
+    "naturalWidth": 1024,
+    "naturalHeight": 1024
+  },
+  "download": {
+    "suggestedFilename": "printing-repair-result-1.png",
+    "bytes": 1153165,
+    "sha256": "6ce8e2aa312bfb7e879ecab915eac77c058f02d7f138ee3c6eee63bef3bab5c3",
+    "sourceBytes": 1153165,
+    "sameSha256": true
+  },
+  "actionFeedback": null,
+  "saveWaitMs": 4000,
+  "assets": {
+    "before": 0,
+    "after": 1,
+    "newAsset": {
+      "id": "M1SRtPvyF32xoVFcBerIP",
+      "kind": "image",
+      "title": "PRINTING_REPAIR 结果 1",
+      "bytes": null,
+      "createdAt": "2026-10-29T04:22:02.632Z"
+    },
+    "afterReload": true
+  },
+  "canvas": {
+    "projectsBefore": [],
+    "projectsAfter": [
+      {
+        "id": "I1mWR5TSJgtoggyW2-9rE",
+        "nodes": 1
+      }
+    ],
+    "addedNodeIds": [
+      "image-1793247725400-ir3hl"
+    ]
+  }
+}

@@ -1,0 +1,235 @@
+[
+  {
+    "toolId": "ORNAMENT_TEXT",
+    "route": "/tools/product-design/ornament-text",
+    "at": "2026-10-29T04:34:45.615Z",
+    "steps": {
+      "defaults": {
+        "url": "/tools/product-design/ornament-text",
+        "title": "无限画布",
+        "controls": [
+          {
+            "tag": "button",
+            "type": "button",
+            "label": "",
+            "value": "true",
+            "placeholder": null,
+            "disabled": false
+          },
+          {
+            "tag": "button",
+            "type": "button",
+            "label": "",
+            "value": "false",
+            "placeholder": null,
+            "disabled": false
+          },
+          {
+            "tag": "button",
+            "type": "button",
+            "label": "",
+            "value": "false",
+            "placeholder": null,
+            "disabled": false
+          },
+          {
+            "tag": "textarea",
+            "type": "",
+            "label": "饰品文字内容",
+            "value": "",
+            "placeholder": "例如：FOREVER · 永",
+            "disabled": false
+          },
+          {
+            "tag": "textarea",
+            "type": "",
+            "label": "效果描述",
+            "value": "",
+            "placeholder": "例如：玫瑰金浮雕、宝石边镶嵌碎钻",
+            "disabled": false
+          },
+          {
+            "tag": "select",
+            "type": "",
+            "label": "字体",
+            "value": "serif",
+            "placeholder": null,
+            "disabled": false,
+            "options": [
+              {
+                "value": "serif",
+                "label": "衬线 Serif",
+                "selected": true
+              },
+              {
+                "value": "sans-serif",
+                "label": "无衬线 Sans",
+                "selected": false
+              },
+              {
+                "value": "script",
+                "label": "手写 Script",
+                "selected": false
+              },
+              {
+                "value": "display",
+                "label": "展示 Display",
+                "selected": false
+              },
+              {
+                "value": "rounded",
+                "label": "圆体 Rounded",
+                "selected": false
+              },
+              {
+                "value": "mono",
+                "label": "等宽 Mono",
+                "selected": false
+              }
+            ]
+          },
+          {
+            "tag": "input",
+            "type": "",
+            "label": "自定义字体名",
+            "value": "serif",
+            "placeholder": null,
+            "disabled": false
+          },
+          {
+            "tag": "input",
+            "type": "range",
+            "label": "字号",
+            "value": "96",
+            "placeholder": null,
+            "disabled": false
+          },
+          {
+            "tag": "input",
+            "type": "number",
+            "label": "左定位",
+            "value": "18",
+            "placeholder": null,
+            "disabled": false
+          },
+          {
+            "tag": "input",
+            "type": "number",
+            "label": "右定位",
+            "value": "82",
+            "placeholder": null,
+            "disabled": false
+          }
+        ],
+        "buttons": [
+          {
+            "text": "文字与参数",
+            "disabled": false,
+            "aria": null
+          },
+          {
+            "text": "效果预览",
+            "disabled": false,
+            "aria": null
+          },
+          {
+            "text": "结果",
+            "disabled": false,
+            "aria": null
+          },
+          {
+            "text": "偏左",
+            "disabled": false,
+            "aria": null
+          },
+          {
+            "text": "居中",
+            "disabled": false,
+            "aria": null
+          },
+          {
+            "text": "偏右",
+            "disabled": false,
+            "aria": null
+          },
+          {
+            "text": "",
+            "disabled": true,
+            "aria": "撤销定位"
+          },
+          {
+            "text": "",
+            "disabled": true,
+            "aria": "重做定位"
+          },
+          {
+            "text": "",
+            "disabled": false,
+            "aria": "复位定位"
+          },
+          {
+            "text": "生成饰品文字",
+            "disabled": true,
+            "aria": null
+          }
+        ],
+        "tabs": [
+          {
+            "text": "文字与参数",
+            "selected": "true"
+          },
+          {
+            "text": "效果预览",
+            "selected": "false"
+          },
+          {
+            "text": "结果",
+            "selected": "false"
+          },
+          {
+            "text": "对话",
+            "selected": "false"
+          },
+          {
+            "text": "历史",
+            "selected": "false"
+          },
+          {
+            "text": "技能",
+            "selected": "false"
+          },
+          {
+            "text": "日志",
+            "selected": "false"
+          }
+        ],
+        "caseModule": {
+          "has优秀案例": false,
+          "has案例": false,
+          "has历史记录": false,
+          "has生成结果": true,
+          "toolCasesMounted": false
+        },
+        "bodyText": "无限画布 · 39 个电商 AI 工具，一套导航直达\n本地运行 · API Key 只保存在你自己的浏览器\n插件与模型可自定义 · 无需注册账号\n无限画布\n首页\n电商套图\n智能修图\n新模型\nAI视频\nHOT\n批量生图\n商品图设计\nSkills\nAgent\n更多\n学习中心\n免费得算力\n积分\n0\n购买\n用\n本地用户\n个人账号\n商品图设计\n商品图\n商品替换\n场景裂变\n手持商品\nAI穿衣\n姿势裂变\nAI穿戴\nPOD素材\n饰品文字\n素材贴合\n印花提取\nAI姿势生成\n补充\nAI试衣XSY\n补充\n场景裂变链接\n补充\n图片文字编辑\n补充\n上装换料\n补充\n商品图设计器\n补充\n商品营销素材\n补充\n场景迁移\n补充\n免责声明\n商品图设计 / 饰品文字\n饰品文字\n/tools/product-design/ornament-text\n饰品文字\n文字内容、字体、字号与左右定位实时预览；提交后由图片模型生成成品。\ndefault::gpt-image-2\n字数 0/4000\n饰品文字内容\n逐字照排，最多 4000 字。\n效果描述（可选）\n字体与字号\n字体\n衬线 Serif\n无衬线 Sans\n手写 Script\n展示 Display\n圆体 Rounded\n等宽 Mono\n自定义字体名（原样透传上游）\n字号 96\n字体列表是本地可渲染的预览字族（上游字体库未取证），fontname 原样透传；预览随文字、字体、字号、左右定位实时更新，提交后结果以上游返回为准。\n左右定位\n居中 · 18%–82%\n左 (%)\n右 (%)\n偏左\n居中\n偏右\n效果预览\n拖动文字框或方向键微调，实时同步左右定位\n饰品文字\n预览字族：衬线 Serif；上游若替换字族不会回写本地配置。\n文字框列表\n（空文字框）\n衬线 Serif · 96 · 18%–82%\n生成饰品文字\n请先填写饰品文字内容。\n饰品文字结果\n还没有生成结果\n填好参数并提交后，结果会出现在这里，可预览、下载、存入资产库或发送到画布。\n历史任务\n0 条\n本工具还没有历史任务；提交一次后会在这里留下任务、配置与结果，刷新后仍在。\n连接本地 Agent\n未连接\n点连接会自动启动本地服务、装好插件并接通，无需手动配置。\nClaude Code\n未连接\n·\nCLI · 2.1.285 (Claude Code)\n·\n直接运行\n连接\nCodex\n未连接\n·\nCLI · codex-cli 0.163.0\n·\n插件已装\n连接\nGalley\n未连接\n·\nCLI + 桌面版 · galley 0.6.4\n连接"
+      },
+      "config": {
+        "imageModel": "default::gpt-image-2",
+        "proxyEnabled": true,
+        "proxyUrl": "http://127.0.0.1:23210",
+        "channelMode": "local",
+        "channels": [
+          {
+            "id": "default",
+            "name": "默认渠道",
+            "hasKey": false,
+            "models": 4
+          }
+        ],
+        "imageModels": [
+          "default::gpt-image-2"
+        ]
+      }
+    },
+    "errors": []
+  }
+]
