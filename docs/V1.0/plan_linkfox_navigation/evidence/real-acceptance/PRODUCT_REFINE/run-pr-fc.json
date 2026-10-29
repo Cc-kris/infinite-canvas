@@ -3,10 +3,15 @@
   "name": "商品精修",
   "route": "/tools/smart-edit/product-refine",
   "fixture": "product-watch.jpg",
-  "startedAt": "2026-10-28T15:38:11.808Z",
+  "startedAt": "2026-10-28T15:45:16.505Z",
   "urls": {
     "workspace": "/tools/smart-edit/product-refine",
-    "submitted": "/tools/smart-edit/product-refine"
+    "submitted": "/tools/smart-edit/product-refine",
+    "result": "/tools/smart-edit/product-refine",
+    "afterSave": "/tools/smart-edit/product-refine",
+    "afterCanvas": "/tools/smart-edit/product-refine",
+    "assets": "/assets",
+    "canvas": "/canvas/rdYp271E-sBb-YJjdREaA"
   },
   "provider": {
     "baseUrl": "https://api.cc-ai.xyz",
@@ -23,10 +28,10 @@
     ]
   },
   "sourceAfterUpload": {
-    "blobSrc": "blob:http://127.0.0.1:3000/c1807aed-a990-488d-8363-6dc9aab1d37e",
+    "blobSrc": "blob:http://127.0.0.1:3000/908882e6-6a51-45c8-a8e2-14c410498754",
     "all": [
       "http://127.0.0.1:3000/logo.png",
-      "blob:http://127.0.0.1:3000/c1807aed-a990-488d-8363-6dc9aab1d37e"
+      "blob:http://127.0.0.1:3000/908882e6-6a51-45c8-a8e2-14c410498754"
     ]
   },
   "p0BlobAccepted": true,
@@ -38,7 +43,7 @@
     "errors": [],
     "imgs": [
       "http://127.0.0.1:3000/logo.png",
-      "blob:http://127.0.0.1:3000/c18"
+      "blob:http://127.0.0.1:3000/908"
     ],
     "clickAttempts": "ok",
     "after": {
@@ -48,101 +53,180 @@
       "btns": [
         {
           "text": "整图精修",
-          "disabled": true
+          "disabled": false
         },
         {
           "text": "去背景精修",
-          "disabled": true
+          "disabled": false
         },
         {
-          "text": "精修中…",
-          "disabled": true
+          "text": "开始精修（2048×1488）",
+          "disabled": false
         }
       ]
     }
   },
-  "error": "点击后未创建任务：{\"tasks\":[],\"toasts\":[],\"errs\":[],\"btns\":[{\"text\":\"整图精修\",\"disabled\":true},{\"text\":\"去背景精修\",\"disabled\":true},{\"text\":\"精修中…\",\"disabled\":true}]}",
+  "submitEvidence": {
+    "created": 0,
+    "busy": false,
+    "posted": true,
+    "tasksReadable": true
+  },
+  "resultState": {
+    "itemCount": 1,
+    "failure": "",
+    "unknown": "",
+    "actions": [
+      {
+        "id": "tool-result-download-0",
+        "text": "下载",
+        "disabled": false
+      },
+      {
+        "id": "tool-result-save-0",
+        "text": "存入资产",
+        "disabled": false
+      },
+      {
+        "id": "tool-result-canvas-0",
+        "text": "发送画布",
+        "disabled": false
+      }
+    ]
+  },
+  "resultSrcPrefix": "https://oss-us.dimenoss.com/images/2026/10/28/1793202406_f8cf58c",
+  "resultSize": {
+    "w": 2048,
+    "h": 1488
+  },
+  "task": {
+    "taskCount": 0,
+    "allCount": 0,
+    "toolIds": []
+  },
+  "upstream": [
+    {
+      "url": "http://127.0.0.1:23210/https://api.cc-ai.xyz/v1/images/edits",
+      "status": 200,
+      "requestId": "072c8258-d2ec-491e-aab3-58d4eec5d482",
+      "at": "2026-10-28T15:46:55.162Z"
+    }
+  ],
+  "resultSavedBytes": true,
+  "resultSha256": "90ae5ae2472749c9",
+  "fixtureSha256": "43ede96e7ce88509",
+  "resultEqualsFixture": false,
+  "saveToAssets": {
+    "text": "已保存到资产库（sk0yvZJL9z42Ewrlavcs8）",
+    "tone": "success",
+    "id": "sk0yvZJL9z42Ewrlavcs8"
+  },
+  "sendToCanvas": {
+    "text": "已发送到画布（rdYp271E-sBb-YJjdREaA）",
+    "tone": "success",
+    "id": "rdYp271E-sBb-YJjdREaA"
+  },
+  "assetsVerify": {
+    "assetId": "sk0yvZJL9z42Ewrlavcs8",
+    "title": "生成结果",
+    "titleCardCount": 0,
+    "cards": [],
+    "matchByBytes": false,
+    "matchBySize": false,
+    "imageCount": 1
+  },
+  "canvasVerify": {
+    "projectId": "rdYp271E-sBb-YJjdREaA",
+    "projectTitle": "PRODUCT_REFINE 结果",
+    "nodeCount": 1,
+    "nodeTypes": [
+      "image"
+    ],
+    "imageNodes": 1,
+    "bigImages": 2,
+    "titleVisible": true
+  },
   "ok": false,
   "network": [
     {
       "req": "GET",
       "url": "http://127.0.0.1:3000/__canvas-hub/state",
-      "at": "2026-10-28T15:39:53.244Z"
+      "at": "2026-10-28T15:47:26.880Z"
     },
     {
       "req": "GET",
       "url": "http://127.0.0.1:3000/__canvas-hub/state",
-      "at": "2026-10-28T15:39:55.250Z"
+      "at": "2026-10-28T15:47:32.154Z"
     },
     {
       "req": "GET",
       "url": "http://127.0.0.1:3000/__canvas-hub/state",
-      "at": "2026-10-28T15:39:57.255Z"
+      "at": "2026-10-28T15:47:32.154Z"
+    },
+    {
+      "req": "GET",
+      "url": "http://127.0.0.1:23210/https://oss-us.dimenoss.com/images/2026/10/28/1793202406_f8cf58c6dc595be2a2c193b22c9b65c8.png",
+      "at": "2026-10-28T15:47:32.274Z"
     },
     {
       "req": "GET",
       "url": "http://127.0.0.1:3000/__canvas-hub/state",
-      "at": "2026-10-28T15:39:59.259Z"
+      "at": "2026-10-28T15:47:32.893Z"
     },
     {
       "req": "GET",
       "url": "http://127.0.0.1:3000/__canvas-hub/state",
-      "at": "2026-10-28T15:40:01.262Z"
+      "at": "2026-10-28T15:47:34.898Z"
     },
     {
       "req": "GET",
       "url": "http://127.0.0.1:3000/__canvas-hub/state",
-      "at": "2026-10-28T15:40:03.266Z"
+      "at": "2026-10-28T15:47:36.903Z"
     },
     {
       "req": "GET",
       "url": "http://127.0.0.1:3000/__canvas-hub/state",
-      "at": "2026-10-28T15:40:05.270Z"
+      "at": "2026-10-28T15:47:38.908Z"
     },
     {
       "req": "GET",
       "url": "http://127.0.0.1:3000/__canvas-hub/state",
-      "at": "2026-10-28T15:40:07.275Z"
+      "at": "2026-10-28T15:47:40.912Z"
+    },
+    {
+      "req": "GET",
+      "url": "http://127.0.0.1:23210/https://oss-us.dimenoss.com/images/2026/10/28/1793202406_f8cf58c6dc595be2a2c193b22c9b65c8.png",
+      "at": "2026-10-28T15:47:42.756Z"
     },
     {
       "req": "GET",
       "url": "http://127.0.0.1:3000/__canvas-hub/state",
-      "at": "2026-10-28T15:40:09.280Z"
+      "at": "2026-10-28T15:47:42.933Z"
     },
     {
       "req": "GET",
       "url": "http://127.0.0.1:3000/__canvas-hub/state",
-      "at": "2026-10-28T15:40:11.288Z"
+      "at": "2026-10-28T15:47:44.935Z"
     },
     {
       "req": "GET",
       "url": "http://127.0.0.1:3000/__canvas-hub/state",
-      "at": "2026-10-28T15:40:13.292Z"
+      "at": "2026-10-28T15:47:46.940Z"
     },
     {
       "req": "GET",
       "url": "http://127.0.0.1:3000/__canvas-hub/state",
-      "at": "2026-10-28T15:40:15.297Z"
+      "at": "2026-10-28T15:47:48.945Z"
     },
     {
       "req": "GET",
       "url": "http://127.0.0.1:3000/__canvas-hub/state",
-      "at": "2026-10-28T15:40:17.302Z"
-    },
-    {
-      "req": "GET",
-      "url": "http://127.0.0.1:3000/__canvas-hub/state",
-      "at": "2026-10-28T15:40:19.307Z"
-    },
-    {
-      "req": "GET",
-      "url": "http://127.0.0.1:3000/__canvas-hub/state",
-      "at": "2026-10-28T15:40:21.311Z"
+      "at": "2026-10-28T15:47:50.950Z"
     }
   ],
   "console": [
     "error: Cannot update a component (`%s`) while rendering a different component (`%s`). To locate the bad setState() call inside `%s`, follow the stack trace as described in https://react.dev/link/setstate-in-",
     "error: Cannot update a component (`%s`) while rendering a different component (`%s`). To locate the bad setState() call inside `%s`, follow the stack trace as described in https://react.dev/link/setstate-in-"
   ],
-  "finishedAt": "2026-10-28T15:40:22.309Z"
+  "finishedAt": "2026-10-28T15:47:51.567Z"
 }

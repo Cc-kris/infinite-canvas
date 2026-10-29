@@ -20,54 +20,68 @@ function readKey(name, fallback = "") {
     }
 }
 
+/**
+ * 图像渠道：CCAI gpt-image-2（实测 /v1/images/edits 200）。
+ * 文本/视觉渠道：SiliconFlow Qwen3-VL-8B-Instruct（实测 CCAI 的 chat/responses 端点 502/503，
+ * 只有图像能力可用；OCR/逐框翻译必须走能看图的文本渠道）。
+ */
 export function providerConfig() {
     const apiKey = readKey("ccai_image2_api_key");
     const baseUrl = readKey("gpt_image2_base_url", "https://api.cc-ai.xyz");
     const model = readKey("ccai_image2_model", "gpt-image-2");
     if (!apiKey) throw new Error("keychain 未提供 ccai_image2_api_key：无法做真实 provider 调用");
-    return { apiKey, baseUrl, model };
+    const textApiKey = readKey("siliconflow_api_key");
+    const textBaseUrl = readKey("siliconflow_base_url", "https://api.siliconflow.cn/v1");
+    const textModel = process.env.IC_TEXT_MODEL || "Qwen/Qwen3-VL-8B-Instruct";
+    return { apiKey, baseUrl, model, textApiKey, textBaseUrl, textModel };
 }
 
-/** 把渠道写进 zustand 配置（与用户在 /config 里手工填写等价）。 */
+/**
+ * 把渠道写进 zustand 持久化存储（localStorage）后整页 reload。
+ *
+ * 为什么不用 `import("/src/stores/use-config-store.ts").useConfigStore.setState()`：
+ * Vite dev 下应用入口是 `/src/main.tsx?t=xxx`，其内部 import 的 store 模块 URL 带 `?t=`，
+ * 与裸路径 import 得到**两个模块实例**，改前者不影响应用真正使用的那份（实测点击仍打
+ * api.openai.com、Authorization 只有 "Bearer"）。写 localStorage 再 reload 走应用自己的
+ * hydrate 流程，与用户在设置页手填等价。
+ */
 export async function applyProviderConfig(page) {
-    const { apiKey, baseUrl, model } = providerConfig();
-    const info = await page.evaluate(async ({ apiKey, baseUrl, model }) => {
-        const mod = await import("/src/stores/use-config-store.ts");
-        const store = mod.useConfigStore;
-        const prev = store.getState().config;
-        const channelId = "ccai-accept";
-        const channels = [{
-            id: channelId,
-            name: "ccai-tmp (CCAI 临时)",
-            baseUrl,
-            apiKey,
-            apiFormat: "openai",
-            models: [
-                { name: model, capability: "image" },
-                { name: "gpt-5.5", capability: "text" },
-            ],
-        }];
-        store.setState({
-            config: {
-                ...prev,
-                channelMode: "local",
-                baseUrl,
-                apiKey,
+    const { apiKey, baseUrl, model, textApiKey, textBaseUrl, textModel } = providerConfig();
+    const KEY = "infinite-canvas:ai_config_store";
+    await page.evaluate(({ KEY, apiKey, baseUrl, model, textApiKey, textBaseUrl, textModel }) => {
+        const raw = localStorage.getItem(KEY);
+        const parsed = raw ? JSON.parse(raw) : { state: {}, version: 0 };
+        const cfg = { ...((parsed.state && parsed.state.config) || {}) };
+        cfg.channelMode = "local";
+        cfg.baseUrl = baseUrl;
+        cfg.apiKey = apiKey;
+        cfg.apiFormat = "openai";
+        cfg.proxyEnabled = true;
+        cfg.proxyUrl = "http://127.0.0.1:23210";
+        cfg.channels = [
+            { id: "ccai-accept", name: "ccai-tmp (CCAI 图像)", baseUrl, apiKey, apiFormat: "openai", models: [{ name: model, capability: "image" }] },
+            {
+                id: "sf-accept",
+                name: "sf-tmp (SiliconFlow 文本/视觉)",
+                baseUrl: textBaseUrl,
+                apiKey: textApiKey,
                 apiFormat: "openai",
-                channels,
-                model: `${channelId}::${model}`,
-                imageModel: `${channelId}::${model}`,
-                textModel: `${channelId}::gpt-5.5`,
+                models: [{ name: textModel, capability: "text" }, { name: "deepseek-ai/DeepSeek-V3.2", capability: "text" }],
             },
-        });
-        const now = store.getState().config;
-        return {
-            baseUrl: now.baseUrl,
-            imageModel: now.imageModel,
-            channelCount: now.channels.length,
-            keyLen: (now.apiKey || "").length,
-        };
-    }, { apiKey, baseUrl, model });
+        ];
+        cfg.model = `sf-accept::${textModel}`;
+        cfg.imageModel = `ccai-accept::${model}`;
+        cfg.textModel = `sf-accept::${textModel}`;
+        parsed.state = { ...(parsed.state || {}), config: cfg };
+        localStorage.setItem(KEY, JSON.stringify(parsed));
+    }, { KEY, apiKey, baseUrl, model, textApiKey, textBaseUrl, textModel });
+    await page.reload({ waitUntil: "domcontentloaded" });
+    await page.waitForTimeout(2500);
+    const check = await page.evaluate((KEY) => {
+        const raw = JSON.parse(localStorage.getItem(KEY));
+        const c = raw.state.config;
+        return { imageModel: c.imageModel, channels: c.channels.map((x) => x.id), baseUrl: c.baseUrl, keyLen: (c.apiKey || "").length, proxyEnabled: c.proxyEnabled };
+    }, KEY);
     // 只回报长度与地址，不回报密钥本体
-    return info;
+    return { ...check, channelCount: check.channels.length, model: model };
 }

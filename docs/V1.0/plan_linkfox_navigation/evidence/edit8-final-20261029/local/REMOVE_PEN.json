@@ -12,7 +12,7 @@
       "x": 200,
       "y": 227,
       "w": 1688,
-      "h": 636
+      "h": 603
     },
     "css": {
       "bg": "rgba(0, 0, 0, 0)",
@@ -34,7 +34,7 @@
         "x": 200,
         "y": 227,
         "w": 1688,
-        "h": 540
+        "h": 507
       },
       "css": {
         "bg": "rgba(0, 0, 0, 0)",
@@ -46,7 +46,7 @@
       "key": "tool-history-dock",
       "r": {
         "x": 200,
-        "y": 783,
+        "y": 750,
         "w": 1688,
         "h": 80
       },
@@ -211,7 +211,7 @@
         "x": 200,
         "y": 227,
         "w": 1688,
-        "h": 636
+        "h": 603
       },
       "css": {
         "bg": "rgba(0, 0, 0, 0)",
@@ -232,7 +232,7 @@
         "x": 200,
         "y": 227,
         "w": 1688,
-        "h": 540
+        "h": 507
       },
       "css": {
         "bg": "rgba(0, 0, 0, 0)",
@@ -253,7 +253,7 @@
         "x": 200,
         "y": 270,
         "w": 1688,
-        "h": 497
+        "h": 464
       },
       "css": {
         "bg": "rgb(245, 247, 250)",
@@ -274,7 +274,7 @@
         "x": 210,
         "y": 280,
         "w": 1668,
-        "h": 477
+        "h": 444
       },
       "css": {
         "bg": "rgb(237, 239, 245)",
@@ -292,7 +292,7 @@
     {
       "key": "tool-asset-dropzone",
       "r": {
-        "x": 800,
+        "x": 540,
         "y": 431,
         "w": 488,
         "h": 249
@@ -314,7 +314,7 @@
       "key": "tool-history-dock",
       "r": {
         "x": 200,
-        "y": 783,
+        "y": 750,
         "w": 1688,
         "h": 80
       },
@@ -873,7 +873,7 @@
       "disabled": false,
       "ph": null,
       "r": {
-        "x": 800,
+        "x": 540,
         "y": 431,
         "w": 488,
         "h": 249
@@ -905,7 +905,7 @@
       "disabled": true,
       "ph": null,
       "r": {
-        "x": 813,
+        "x": 553,
         "y": 560,
         "w": 100,
         "h": 24
@@ -937,7 +937,7 @@
       "disabled": true,
       "ph": null,
       "r": {
-        "x": 921,
+        "x": 661,
         "y": 560,
         "w": 100,
         "h": 24
@@ -951,70 +951,6 @@
         "fs": "12px",
         "fw": "400",
         "lh": "16px",
-        "pad": "0px",
-        "shadow": "none"
-      }
-    },
-    {
-      "tag": "button",
-      "type": "button",
-      "role": null,
-      "testid": "tool-help-dock-consult",
-      "text": "操作咨询",
-      "value": "",
-      "checked": null,
-      "ariaChecked": null,
-      "ariaSelected": null,
-      "ariaPressed": null,
-      "disabled": false,
-      "ph": null,
-      "r": {
-        "x": 1797,
-        "y": 346,
-        "w": 101,
-        "h": 40
-      },
-      "css": {
-        "bg": "rgb(114, 60, 249)",
-        "color": "oklch(0.145 0 0)",
-        "bc": "oklch(0.922 0 0)",
-        "br": "3.35544e+07px",
-        "bw": "0px",
-        "fs": "14px",
-        "fw": "400",
-        "lh": "22px",
-        "pad": "0px",
-        "shadow": "none"
-      }
-    },
-    {
-      "tag": "button",
-      "type": "button",
-      "role": null,
-      "testid": "tool-help-dock-tutorial",
-      "text": "产品教程",
-      "value": "",
-      "checked": null,
-      "ariaChecked": null,
-      "ariaSelected": null,
-      "ariaPressed": null,
-      "disabled": false,
-      "ph": null,
-      "r": {
-        "x": 1797,
-        "y": 396,
-        "w": 101,
-        "h": 40
-      },
-      "css": {
-        "bg": "rgb(114, 60, 249)",
-        "color": "oklch(0.145 0 0)",
-        "bc": "oklch(0.922 0 0)",
-        "br": "3.35544e+07px",
-        "bw": "0px",
-        "fs": "14px",
-        "fw": "400",
-        "lh": "22px",
         "pad": "0px",
         "shadow": "none"
       }
@@ -2521,7 +2457,7 @@
       "text": "从本地上传 从作品库选择 从商品库选择",
       "cls": "flex w-full cursor-pointer flex-col items-center justify-cen",
       "r": {
-        "x": 800,
+        "x": 540,
         "y": 431,
         "w": 488,
         "h": 249
@@ -2543,7 +2479,7 @@
       "text": "从本地上传",
       "cls": "inline-flex h-6 items-center justify-center rounded-[4px] bg",
       "r": {
-        "x": 813,
+        "x": 553,
         "y": 528,
         "w": 462,
         "h": 24
@@ -2565,7 +2501,7 @@
       "text": "从作品库选择 从商品库选择",
       "cls": "flex items-center gap-2 w-full",
       "r": {
-        "x": 813,
+        "x": 553,
         "y": 560,
         "w": 462,
         "h": 24
@@ -2587,7 +2523,7 @@
       "text": "从作品库选择",
       "cls": "h-6 w-[100px] rounded-[4px] border border-[#e5e5ea] bg-white",
       "r": {
-        "x": 813,
+        "x": 553,
         "y": 560,
         "w": 100,
         "h": 24
@@ -2609,7 +2545,7 @@
       "text": "从商品库选择",
       "cls": "h-6 w-[100px] rounded-[4px] border border-[#e5e5ea] bg-white",
       "r": {
-        "x": 921,
+        "x": 661,
         "y": 560,
         "w": 100,
         "h": 24
@@ -2631,8 +2567,8 @@
       "text": "或试试这些",
       "cls": "text-[12px] font-medium leading-[15px] text-black/30",
       "r": {
-        "x": 1014,
-        "y": 710,
+        "x": 1572,
+        "y": 515,
         "w": 60,
         "h": 15
       },
@@ -2654,7 +2590,7 @@
       "cls": "inline-flex items-center gap-1 text-xs font-medium text-fore",
       "r": {
         "x": 213,
-        "y": 797,
+        "y": 764,
         "w": 66,
         "h": 16
       },
@@ -2676,7 +2612,7 @@
       "cls": "text-[11px] text-muted-foreground",
       "r": {
         "x": 1854,
-        "y": 796,
+        "y": 763,
         "w": 21,
         "h": 17
       },
@@ -2689,72 +2625,6 @@
         "fs": "11px",
         "fw": "400",
         "lh": "17.2857px",
-        "pad": "0px",
-        "shadow": "none"
-      }
-    },
-    {
-      "text": "操作咨询 产品教程",
-      "cls": "fixed right-[10px] top-1/2 flex -translate-y-1/2 flex-col ga",
-      "r": {
-        "x": 1797,
-        "y": 346,
-        "w": 101,
-        "h": 90
-      },
-      "css": {
-        "bg": "rgba(0, 0, 0, 0)",
-        "color": "oklch(0.145 0 0)",
-        "bc": "oklch(0.922 0 0)",
-        "br": "0px",
-        "bw": "0px",
-        "fs": "14px",
-        "fw": "400",
-        "lh": "22px",
-        "pad": "0px",
-        "shadow": "none"
-      }
-    },
-    {
-      "text": "操作咨询",
-      "cls": "h-[40px] w-[101px] rounded-full bg-[#723cf9] text-[14px] fon",
-      "r": {
-        "x": 1797,
-        "y": 346,
-        "w": 101,
-        "h": 40
-      },
-      "css": {
-        "bg": "rgb(114, 60, 249)",
-        "color": "oklch(0.145 0 0)",
-        "bc": "oklch(0.922 0 0)",
-        "br": "3.35544e+07px",
-        "bw": "0px",
-        "fs": "14px",
-        "fw": "400",
-        "lh": "22px",
-        "pad": "0px",
-        "shadow": "none"
-      }
-    },
-    {
-      "text": "产品教程",
-      "cls": "h-[40px] w-[101px] rounded-full bg-[#723cf9] text-[14px] fon",
-      "r": {
-        "x": 1797,
-        "y": 396,
-        "w": 101,
-        "h": 40
-      },
-      "css": {
-        "bg": "rgb(114, 60, 249)",
-        "color": "oklch(0.145 0 0)",
-        "bc": "oklch(0.922 0 0)",
-        "br": "3.35544e+07px",
-        "bw": "0px",
-        "fs": "14px",
-        "fw": "400",
-        "lh": "22px",
         "pad": "0px",
         "shadow": "none"
       }
@@ -3332,7 +3202,7 @@
       }
     }
   ],
-  "bodyText": "无限画布 · 39 个电商 AI 工具，一套导航直达\n本地运行 · API Key 只保存在你自己的浏览器\n插件与模型可自定义 · 无需注册账号\n无限画布\n首页\n电商套图\n智能修图\n新模型\nAI视频\nHOT\n批量生图\n商品图设计\nSkills\nAgent\n更多\n学习中心\n免费得算力\n积分\n0\n购买\n用\n本地用户\n个人账号\n智能修图\n局部重绘\n局部消除\n一键换色\n图片裁剪\n商品精修\n色差修复\n印花修复\n手部修复\n免责声明\n智能修图 / 局部消除\n局部消除\n\n/tools/smart-edit/remove-pen\n\n局部消除\n画笔\n大小：\n像素\n重置\n撤销\n重做\n重新上传\n开始消除\n下载图片\n高清放大\n商品图\n手部修复\n\n局部消除\n\n上传需要消除的图片，使用画笔涂抹即可实现一键消除\n\n从本地上传\n从作品库选择\n从商品库选择\n或试试这些\n历史任务\n0 条\n\n本工具还没有历史任务；提交一次后会在这里留下任务、配置与结果，刷新后仍在。\n\n操作咨询\n产品教程\n连接本地 Agent\n未连接\n点连接会自动启动本地服务、装好插件并接通，无需手动配置。\nClaude Code\n未连接\n·\nCLI · 2.1.285 (Claude Code)\n·\n直接运行\n连接\nCodex\n未连接\n·\nCLI · codex-cli 0.163.0\n·\n插件已装\n连接\nGalley\n未连接\n·\nCLI + 桌面版 · galley 0.6.4\n连接",
+  "bodyText": "无限画布 · 39 个电商 AI 工具，一套导航直达\n本地运行 · API Key 只保存在你自己的浏览器\n插件与模型可自定义 · 无需注册账号\n无限画布\n首页\n电商套图\n智能修图\n新模型\nAI视频\nHOT\n批量生图\n商品图设计\nSkills\nAgent\n更多\n学习中心\n免费得算力\n积分\n0\n购买\n用\n本地用户\n个人账号\n智能修图\n局部重绘\n局部消除\n一键换色\n图片裁剪\n商品精修\n色差修复\n印花修复\n手部修复\n免责声明\n智能修图 / 局部消除\n局部消除\n\n/tools/smart-edit/remove-pen\n\n局部消除\n画笔\n大小：\n像素\n重置\n撤销\n重做\n重新上传\n开始消除\n下载图片\n高清放大\n商品图\n手部修复\n\n局部消除\n\n上传需要消除的图片，使用画笔涂抹即可实现一键消除\n\n从本地上传\n从作品库选择\n从商品库选择\n或试试这些\n历史任务\n0 条\n\n本工具还没有历史任务；提交一次后会在这里留下任务、配置与结果，刷新后仍在。\n\n连接本地 Agent\n未连接\n点连接会自动启动本地服务、装好插件并接通，无需手动配置。\nClaude Code\n未连接\n·\nCLI · 2.1.285 (Claude Code)\n·\n直接运行\n连接\nCodex\n未连接\n·\nCLI · codex-cli 0.163.0\n·\n插件已装\n连接\nGalley\n未连接\n·\nCLI + 桌面版 · galley 0.6.4\n连接",
   "workspaceText": "局部消除 画笔 大小： 像素 重置 撤销 重做 重新上传 开始消除 下载图片 高清放大 商品图 手部修复 局部消除 上传需要消除的图片，使用画笔涂抹即可实现一键消除 从本地上传 从作品库选择 从商品库选择 或试试这些 历史任务 0 条 本工具还没有历史任务；提交一次后会在这里留下任务、配置与结果，刷新后仍在。",
   "errors": []
 }

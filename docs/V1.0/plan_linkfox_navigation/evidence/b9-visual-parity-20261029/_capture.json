@@ -415,5 +415,23 @@
   "snapshot": true,
   "shot": true,
   "shot_full": true
+ },
+ "local:cv2-empty-final": {
+  "status": "NO_URL",
+  "reason": "real url unknown"
+ },
+ "real:cv2-local-final": {
+  "url": "http://127.0.0.1:3000/tools/ecommerce-suite/change-color-v2",
+  "ready": true,
+  "snapshot": true,
+  "shot": true,
+  "shot_full": true
+ },
+ "real:cv2-real-final": {
+  "url": "https://www.linkfox.com/draw/change-color-v2",
+  "ready": true,
+  "snapshot": true,
+  "shot": true,
+  "shot_full": true
  }
 }

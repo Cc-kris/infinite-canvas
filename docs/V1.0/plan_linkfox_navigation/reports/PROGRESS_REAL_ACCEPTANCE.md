@@ -40,6 +40,35 @@
   渠道与密钥取应用自身 `defaultConfig`，脚本内不出现任何密钥。
 - 采集：`web/scripts/real-acceptance/`（`lib.mjs` 公共库、`probe*.mjs` 探针）。
 
+## 3.5 环境实测障碍（2026-10-28 20:0x）
+
+- 本机同时跑 5 个 REAL ACCEPTANCE worker，`uptime` 负载 111–155，
+  Vite dev `/tools` 首字节耗时 21.8s → 67s，多个探针因此被判超时。
+  结论：验收脚本必须 `setDefaultTimeout(180000)`，且一次只开一个浏览器。
+- 建议后续用生产构建 + `vite preview` 跑验收（更快、更贴近真实），
+  dev 服务器在 5 worker 并发下不可用于计时类断言。
+
+## 3.6 AREA_REPAIR 蒙版涂抹：已排除项 + 待定项
+
+已用真实 Chrome（channel=chrome）逐项排除：
+
+| 假设 | 实验结果 | 结论 |
+| --- | --- | --- |
+| 画布未渲染 | 上传后 `[data-testid=mask-canvas]` 1024×744，box 830×603 | 已渲染 |
+| 事件未到达画布 | 捕获阶段监听收到 pointerdown/move，共 33 条 | 到达 |
+| `setPointerCapture` 抛错 | 监听内 `capture-ok id=1` | 正常 |
+| `busy=true` 拦截 | canvas class 为 `cursor-crosshair`（busy 时为 `cursor-wait`）；`setBusy(true)` 只在提交处出现 | 未 busy |
+| `imageRef` 未赋值 | 上传与草稿恢复都走 `adoptImage`，其中 `imageRef.current = next` 在 `setImage` 之前 | 代码上应已赋值 |
+
+实测现象：涂抹后 `mask-coverage` 仍为「0 笔 · 覆盖 尚未涂抹」，
+`area-repair-submit` / `mask-undo` / `mask-invert` 全部 disabled，且无 pageerror。
+
+下一步（决定性实验，脚本已就绪）：`web/scripts/real-acceptance/probe-mask4.mjs`
+- A. 在 canvas 冒泡阶段 + document 各装监听，判断事件是否被中间层 `stopPropagation` 吞掉
+  （React 19 把事件委托在根容器，若被祖先吞掉则处理器根本不会执行）。
+- B. 直接调用 `__reactProps.onPointerDown/Move/Up`，若直接调用能画出笔画，
+  则确证「事件没到 React 根」，属于真实产品缺陷。
+
 ## 4. 待办
 
 - [ ] 8 个工具逐个真实跑通（AREA_REPAIR / REMOVE_PEN / CHANGE_COLOR / IMAGE_CROP /

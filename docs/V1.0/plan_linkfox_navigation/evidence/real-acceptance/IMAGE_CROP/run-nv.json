@@ -1,9 +1,7 @@
 {
   "toolId": "IMAGE_CROP",
-  "at": "2026-10-29T04:10:12.490Z",
-  "issues": [
-    "刷新后裁剪结果未复用（页面无结果项）"
-  ],
+  "at": "2026-10-29T06:14:56.900Z",
+  "issues": [],
   "localDefaults": [
     {
       "testid": "tool-asset-file-input",
@@ -316,7 +314,7 @@
     "after": 1,
     "newest": [
       {
-        "id": "-6MUi2JrzZQ9rYOieAhnL",
+        "id": "aPixM5aCvUo_8KPDe0ww6",
         "kind": "image",
         "title": "IMAGE_CROP 结果 1",
         "bytes": 205951,
@@ -324,23 +322,23 @@
         "height": 744
       }
     ],
-    "feedback": "已保存到资产库（-6MUi2JrzZQ9rYOieAhnL）"
+    "feedback": "已保存到资产库（aPixM5aCvUo_8KPDe0ww6）"
   },
   "canvas": {
     "before": [],
     "after": [
       {
-        "id": "dFJ1Rm2EfEbvVAvrfcWMu",
+        "id": "B4T2ehj1AR9NhQ5qKn6Fj",
         "nodes": 1
       }
     ],
-    "feedback": "已发送到画布（dFJ1Rm2EfEbvVAvrfcWMu）"
+    "feedback": "已发送到画布（B4T2ehj1AR9NhQ5qKn6Fj）"
   },
   "taskStore": {
     "cropTasksBeforeReload": 1,
     "afterReloadCropTasks": [
       {
-        "id": "task-mvt0yzj5-nryeif",
+        "id": "task-mvt5felp-jw688w",
         "status": "succeeded",
         "items": 1
       }
@@ -349,15 +347,15 @@
   "afterReload": {
     "sourceRestored": true,
     "outputSummary": "1024×744 px",
-    "resultVisible": false,
+    "resultVisible": true,
     "resultTabs": [],
     "historyItems": 0,
-    "downloadButtons": 0,
+    "downloadButtons": 1,
     "historyNote": "裁剪页无历史列表 UI（仅恢复草稿+源图，结果任务不回流）"
   },
   "storeAssetsAfterReload": [
     {
-      "id": "-6MUi2JrzZQ9rYOieAhnL",
+      "id": "aPixM5aCvUo_8KPDe0ww6",
       "bytes": 205951,
       "w": 1024,
       "h": 744

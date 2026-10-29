@@ -20,6 +20,24 @@ const TOOLS = {
         resultUrl: "https://oss-us.dimenoss.com/images/2026/10/28/1793201243_a98f4d7594f17eb48ade22f52e2295cb.png",
         prompt: "一键换色 · 非视觉验收（复用真实产物）",
     },
+    PRODUCT_REFINE: {
+        route: "/tools/smart-edit/product-refine",
+        workspace: "no-such-workspace",
+        resultUrl: "https://oss-us.dimenoss.com/images/2026/10/28/1793198997_cabf4ef587e2a79ab532f97043f5b24e.png",
+        prompt: "商品精修 · 非视觉验收（复用真实产物）",
+    },
+    PRINTING_REPAIR: {
+        route: "/tools/smart-edit/printing-repair",
+        workspace: "printing-repair-workspace",
+        resultUrl: "https://oss-us.dimenoss.com/images/2026/10/28/1793202782_9bc88d2ecc63458197b17383e39c7138.png",
+        prompt: "印花修复 · 非视觉验收（复用真实产物）",
+    },
+    HAND_REPAIR: {
+        route: "/tools/smart-edit/hand-repair",
+        workspace: "hand-repair-workspace",
+        resultUrl: "https://oss-us.dimenoss.com/images/2026/10/28/1793199487_1ae76b65bdf7c0c415e9fed0e8025f06.png",
+        prompt: "手部修复 · 非视觉验收（复用真实产物）",
+    },
 };
 
 const sha256 = (buf) => crypto.createHash("sha256").update(buf).digest("hex");

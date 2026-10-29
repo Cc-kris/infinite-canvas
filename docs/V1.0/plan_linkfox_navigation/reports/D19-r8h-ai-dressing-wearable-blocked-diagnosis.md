@@ -61,3 +61,16 @@ Object.keys(localStorage).filter(k=>k.startsWith('tool-task:v1:task-')).map(k=>J
 shasum -a 256 docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/AI_DRESSING_V2/result1.png
 shasum -a 256 docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/AI_WEARABLE/result1.png
 ```
+
+## 6. Fresh reload 现场取证（本轮实读，非历史证据）
+
+`http://127.0.0.1:3000/tools/product-design/ai-dressing-v2`，硬导航后 `readyState=complete` 实读：
+
+```json
+{"url":"http://127.0.0.1:3000/tools/product-design/ai-dressing-v2","wsToolId":"AI_DRESSING_V2","wsState":"ready","dockMounted":true,"countText":"0 条","emptyHint":"本工具还没有历史任务；提交一次后会在这里留下任务、配置与结果，刷新后仍在。","itemCount":0,"indexTotal":64,"tasksForTool":0}
+```
+
+解读：
+- 工作区正常挂载并到达 `ready`（草稿恢复链路在跑，页面无异常）；
+- 历史坞**已挂载**，读的是 store 真实数据：`0 条` + 官方空态文案，`indexTotal=64 / tasksForTool=0`；
+- 即「坞不回填」不成立——坞工作正常，只是该 toolId 在持久层没有记录（空态文案本身就是设计给这种情况的）。

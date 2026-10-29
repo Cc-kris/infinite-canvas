@@ -427,3 +427,61 @@
 - 错误文案现为：「上游网关抖动（自动重试 3 次仍失败），通常是中转/Cloudflare 瞬时故障，稍后重试即可：error code: 502 · host/videos · HTTP 502」（i18n key `apiErrors.videoGatewayRetryHint`）。
 - 验证手法：本地 mock 上游（前 2 次 502 / 恒定 502 两种模式）→ 桌面 dev 实例点生成 → 数 mock 收到几次 POST → 看页面文案。诊断记录 `docs/diagnostics/diag-video-cf520.md`。
 - 发版：`desktop-v0.28.2` 由 CI 自动出 3 个资产（mac arm64/x64 dmg + win exe 95.5MB）；**`v*` 代码 release 没有 workflow 管，要手动 `gh release create`**。注意建完 `v0.28.2` 后 GitHub 会把 Latest 标给它（无安装包），但客户端 `fetchLatestRelease()` 是拉 `releases?per_page=30` 再用 `/^desktop-v?(\d+\.\d+\.\d+)/` 过滤，所以更新检测不受影响（已实测选中的就是 desktop-v0.28.2 + exe）。
+
+## 2026-10-27 全量载荷抓取 + 完整方案（v2）
+
+**大头结论**：图片和视频**共用一个端点** `POST /image/make/create`，靠顶层 `type` 区分；39 个 create 工具（图片 30 + 视频 9）的载荷字段已全部从源码抽出（`schema_clean.json`/`tools_final.json`），**3 个端到端实抓确认**：`SCALE_UP=7`、`PRODUCT_IMAGE_SUITE=71`、`SALE_VIDEO=73`。方案文档：`/Users/mac/Documents/Dev/infinite-canvas/docs/analysis/linkfox-full-replica-plan.md`。
+
+**`type` 枚举千万别信静态提取**：`tools` chunk 里混了两套命名空间（一套 1..99 序号索引，一套真 bizType），所以 `SCALE_UP` 会同时出现 1 和 35，真值是 **7**。凡是候选值扎堆为 `1` 的工具（CHANGE_COLOR / AI_WEARABLE / PRODUCT_SCENE / AI_TEXT / REPLACE_GOODS / MATERIAL_UPPER_BODY）一律标 `?`，必须实抓校准。
+
+**prompt 分两类（决定性）**：12 个工具在客户端明文拼 prompt 直接发（`prompt_tools.json`：SALE_VIDEO、AREA_REPAIR、AI_POSTURE、PRODUCT_SCENE、AI_OUTPAINTING、VIDEO_REPLICATION、AI_DRESSING_V2、AI_VIDEO_EDITING、AI_TEXT、ORNAMENT_TEXT、IMAGE_TO_VIDEO、NEW_DESIGNER）；其
+...[Truncated]...
+2. 坐标必须点击前现取，缓存坐标会点到别的面板（我点到过水印面板）
+3. 上传后 `input.files` 变 0 是 antd 正常重置，看 `__cap` 有没有 `/image/upload/create` 判断成功
+4. contenteditable 填 prompt：`focus()` + `document.execCommand('insertText', false, 文案)` 有效
+5. 算力不足弹窗是**后置**的——请求先发出再弹窗，所以贵功能（645 算力）照样能白嫖到载荷
+6. 视频载荷 prompt 在 `extendFields.prompt`，顶层 `prompt` 是空串；`visiblePrompt`(用户写) + `hiddenPrompt`(AI帮写) 两段拼装，复刻要保留这个二元结构
+
+
+## 2026-10-27 LinkFox 复刻 V1.0 正式基线（覆盖上文旧路径/旧统计）
+
+- 唯一入口是仓库 `docs/V1.0/README.md`：正式方案 `01-replica-plan-v1.0.md`、架构蓝图 `02-architecture-blueprint.md`、16 类资产分册 `assets/`；旧 `docs/analysis/linkfox-full-replica-plan.md` 已 git mv，不要再写回旧路径。提交 `0308890`。
+- 分册已按原始 JSON/GZ 实测核对：584 案例、2029 样式、1153 场景 prompt、77 模板、878 个唯一蒙版 URL（728 个样式条目）、535 首帧、39 契约、79 枚举、24 去重模型；21 个原始证据文件均在分册中有来源链接。
+- 分类以 `schema_final.json.fields_clean` 是否含 prompt 字段为准：`AI_OUTPAINTING=A`、`AREA_REPAIR=A`，五类数量仍 A/B/C/D/E=11/3/2/4/19；`prompt_library_179.json` 实为提示词市场元数据，不是工具内部 prompt 证明。
+- 蓝图基于真实 `web/src/router.tsx + pages + services/api + localforage`，不是 Next.js；新增 `/tools` 与 `/tools/:toolId` 独立页，复用 `requestEdit/requestGeneration`、视频任务、`uploadImage`、资产库，禁止把工具做成画布节点。参考视频/蒙版等能力必须做 provider 准入，不能静默丢参数。
+- 本轮只交付文档，尚未编码或做 39 工具真实生成 A/B；分册生成器在项目私域 `v1_asset_gen.py`，重新生成后必须跑链接与逐项数量校验。
+
+## 2026-10-27 五类导航与 39 工具研发文档包
+- 唯一入口 `docs/V1.0/plan_linkfox_navigation/README.md`：39 工具逐页 PRD/UI/技术规格、64 TC、64 AC、51 个任务行、原站证据和 R1/R2 审核；两份 R2 均 PASS，`validate_documents.py` 实跑 PASS。本轮未改 `web/src`。
+- 菜单证据按 drawType 精确匹配：30 original/9 supplemental；推荐/历史筛选/类型集合不是菜单证据。canonical 分类为 suite6/edit8/design19/video6；batch 仅引用 12 个已有工具，不算第 40 个工具；VIDEO_CONCAT 不得与 MOLI_VIDEO_EDIT 混同。
+
+## 2026-10-29 用户纠偏：只复刻工具功能，不复制 LinkFox 全站壳
+- 后续验收的最高优先口径：仅复刻 39 个工具的必要功能、字段、生成效果、历史与案例同款；不得再复制 LinkFox 的积分、购买、免费额度、个人中心、头像、学习中心、促销条、Skills 或无本地实现的占位外链。共享导航与所有工具页必须使用 Infinite Canvas 既有画布设计系统（项目 token、卡片、按钮、间距、暗色模式），不能以 LinkFox 全局 DOM/像素一致为验收目标；3311195、73166b3 等共享壳提交中相关多余模块需选择性清理，工具功能修复不能一并回退。
+
+## 2026-10-29 39 工具终验续接检查点
+- 主会话只派 5 个 DeepSeek-V4.1-flash 主 worker 并验收，不改源码、禁止 worker 嵌套派工/换模型。用户最终口径：只复刻 39 工具必要布局、字段（去 LinkFox）与功能效果，界面统一 Infinite Canvas；积分、个人中心、学习中心、促销、Skills、HelpDock 等均已移除并浏览器实测不存在。
+- 已提交：6fdd9a5 共享壳；930b477/6528c05 主题去计费；ddba2e6 图转视频落库历史；e990e85 场景迁移落盘；9d55ba5 AREA_REPAIR/REMOVE_PEN 等四工具 B5 历史恢复 4/4。主验 typecheck 与 109 项场景/视频/edit8 测试全绿。
+- 当前运行：lf_suite6_gap_final（CHANGE_COLOR_V2 永久 pending/unknown 缺陷）、lf_video_commit_cases（图转视频真实案例/历史）、lf_matrix_closeout。lf_edit8_history_a 已提交退出；lf_ai_video_receipt_final 到时退出，既有 AI_VIDEO_EDITING 任务 task_QFvq6WMc09jv2kSZzh4fFboNx5ZccHBm 只续查，禁止新建重复扣费。最终按 F/T/R/H/K/U 矩阵，未全绿不宣称完整复刻。
+
+## 2026-10-29 第6轮严格矩阵后续接点
+- `54b0ca9` 独立矩阵：F=22 PASS、R=35 PASS、U=39 PASS，主要剩余是真实历史恢复和 SALE_VIDEO/VIDEO_CONCAT/FIX_COLOR 等真实回执；SCENE_TRANSFER 已真实生成+快照恢复 PASS，勿再重复派生成。AI_VIDEO_EDITING `32a7919` 既有任务真实 done MP4+历史；视频复刻/翻译 `3d66ba2`；VIDEO_CONCAT `39bf486` 真实续查+历史/草稿；IMAGE_TRANSLATION `9e8b6cc` OCR 改 textModel + `dd44be3` 历史。
+- 当前 5 个主 worker：lf_sale_video_real_close、lf_fix_color_real、lf_design19_history_batch、lf_batch_tools_close、lf_edit8_history_remaining。主会话只派工验收，禁止嵌套/换模型；真实 fresh reload 历史不能由注入快照替代。
+
+## 2026-10-29 R7 前真实历史收口
+- 已提交：`b43a21d` SALE_VIDEO 真实 MP4+fresh reload；`0134fb6` SCALE_UP/CHANGE_COLOR 持久化历史；`6d9bd86` FIX_COLOR 真实历史；`b95ff4c`/`df765ff` FISSION_LINK 恢复与三动作；`32ef68e` FISSION/XSY 持久化；`7a56082` FIX_COLOR 原图比例尺寸。
+- 当前实际 5 worker：lf_suite_design_history_b、lf_matrix_r7、lf_edit8_evidence_commit、lf_dressing_history_real、lf_function_text_gaps。AI_DRESSING 旧产物在持久化接线前，无旧任务记录，允许仅新提交一次验证当前历史链；DESIGN_BATCH 无真实任务应 BLOCKED，禁止注入/伪造。主验 tsc 与 119 项 AREA_REPAIR/REMOVE_PEN/VIDEO_TRANSLATION/AI_VIDEO_EDITING 适配器测试全绿。
+
+## 2026-10-29 R8 阶段接续
+- 实际 5 worker：lf_evidence_gap_map、lf_pose_flite_direct、lf_matrix_r8、lf_design19_history_c、lf_design_batch_real。主会话只派工+验收，禁止主会话改源码/嵌套派工/换模型。
+- 新提交：`0a6d2c8` 视频 4 工具历史与视频 kind；`5fc2e69` design19 13 工具真实历史；`9873bb4` 清占位文案/套图自造按钮；`e33c56f` R8 gap-map；`fc38b49` AI_DRESSING 资产/画布；`0b9aecf` 任务索引自愈。主验 tsc、143 视频测试、55 共享测试全绿。
+- DESIGN_BATCH 是最后明确无真实任务工具，lf_design_batch_real 允许用最小 2 行真实素材提交一次，必须真实回执+fresh reload，禁止注入。POSE/FLITE 只复用真实任务。最终必须读 R8 矩阵，未全绿不能宣称完整复刻。
+
+## 2026-10-29 R8 后真实收口接续
+- 实际 4 worker：lf_pose_real_generate、lf_r8_evidence_audit、lf_batch_receipt_only、lf_recover_race_fix；lf_text_fields_exact 已提交 `39fbe9f` 退出。主会话只派工+验收，禁止主会话改源码/嵌套/换模型。
+- `5f3bff5` IMAGE_TRANSLATION/PRODUCT_REFINE/HAND_REPAIR 三动作真实回执；`6c6785d`/`46d05f4` NEW_DESIGNER 字节、fresh reload、三动作；`9e2acd9` 批量行结果落库。主验 tsc、115 项三工具/动作测试全绿。
+- POSE_SUITE task-mvtczxwo-e1d1w0、FLITE task-mvtd45nv-y7cum6、POSE_UB task-mvtd89f3-9qpix6；跨标签 recoverAll 误关 in-flight 竞态由 lf_recover_race_fix 修。DESIGN_BATCH 正填两行素材，尚无真实成功回执。R8=76957dd 漏读新证据，lf_r8_evidence_audit 修正中，未全绿不可宣称完整复刻。
+
+## 2026-10-29 R9 真实历史收口接续
+- 实际 5 worker：lf_h_design_b、lf_h_design_c、lf_matrix_r9、lf_h_design_a2、lf_edit_missing_history。主会话只派工+验收，禁止主会话改源码/嵌套/换模型。
+- edit8 已交付 `aa80270` AREA_REPAIR、`716b308` PRINTING_REPAIR/HAND_REPAIR、`1444175` PRODUCT_REFINE/AI_OUTPAINTING/IMAGE_CROP；CC_V2/REMOVE_PEN 缺真实持久化由 lf_edit_missing_history 修。视频 4 工具刷新修复 `81198e3`/`f618b7f`，H4 回执 `f36e5f4`。
+- DESIGN_BATCH 双行刷新修复 `f32fffa`，主验 tsc+8 测试全绿；真实 2/2 PNG sha 已独立对账。全量已提交树 `338dd4d`：1446 pass/tsc/build 0。R9 矩阵重算中，未全绿不得宣称完整复刻。

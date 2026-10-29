@@ -38,6 +38,9 @@ const TOOLS = [
     { toolId: "MATERIAL_UPPER_BODY", route: "/tools/product-design/material-upper-body", artifacts: ["MATERIAL_UPPER_BODY/real-run-1024.png"] },
     { toolId: "CHANGE_COLOR_V2", route: "/tools/ecommerce-suite/change-color-v2", artifacts: ["CHANGE_COLOR_V2/05-unit1-result.png"] },
     { toolId: "SCALE_UP", route: "/tools/ecommerce-suite/scale-up", artifacts: ["SCALE_UP/05-downloaded.png"] },
+    { toolId: "PRODUCT_IMAGE_SUITE", route: "/tools/ecommerce-suite/product-image-suite", artifacts: ["PRODUCT_IMAGE_SUITE/02-result.png"] },
+    { toolId: "DRESS_WEAR_SET", route: "/tools/ecommerce-suite/dress-wear-set", artifacts: ["DRESS_WEAR_SET/result.png"] },
+    { toolId: "IMAGE_TRANSLATION", route: "/tools/ecommerce-suite/image-translation", artifacts: ["IMAGE_TRANSLATION/result.png"] },
     { toolId: "AI_VIDEO_EDITING", route: "/tools/ai-video/ai-video-editing", artifacts: [VIDEO_ARTIFACT], kind: "video" },
     { toolId: "SALE_VIDEO", route: "/tools/ai-video/sale-video", artifacts: [VIDEO_ARTIFACT], kind: "video" },
 ];

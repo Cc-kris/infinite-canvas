@@ -113,16 +113,34 @@ def wait_ready(driver, tab_id, min_chars=300, tries=14):
     return False
 
 
+def _shot_mean(path):
+    try:
+        from PIL import Image, ImageStat
+        return sum(ImageStat.Stat(Image.open(path).convert('RGB')).mean) / 3
+    except Exception:
+        return 999.0
+
+
 def save_shot(driver, tab_id, path, params):
-    r = cdp(driver, tab_id, "Page.captureScreenshot", params)
-    data = None
-    if isinstance(r, dict):
-        data = r.get('data') or (r.get('result') or {}).get('data')
-    if data:
+    """截图；macOS Chrome 对被遮挡标签会截出纯黑帧，故置顶 + 亮度校验重试。"""
+    for attempt in range(4):
+        try:
+            cdp(driver, tab_id, "Page.bringToFront", {})
+            time.sleep(1.2 + attempt * 1.2)
+        except Exception:
+            pass
+        r = cdp(driver, tab_id, "Page.captureScreenshot", params)
+        data = None
+        if isinstance(r, dict):
+            data = r.get('data') or (r.get('result') or {}).get('data')
+        if not data:
+            continue
         with open(path, 'wb') as f:
             f.write(base64.b64decode(data))
-        return True
-    return False
+        if _shot_mean(path) >= 80:
+            return True
+        print(f'  [warn] black frame, retry {attempt + 1} {os.path.basename(path)}')
+    return os.path.exists(path)
 
 
 def capture(driver, tab_id, out_dir):

@@ -34,6 +34,8 @@ const TOOLS = [
     { toolId: "CHANGE_COLOR_V2", route: "/tools/ecommerce-suite/change-color-v2", file: "CHANGE_COLOR_V2/05-unit1-result.png", kind: "image" },
     { toolId: "SCALE_UP", route: "/tools/ecommerce-suite/scale-up", file: "SCALE_UP/02-result.png", kind: "image" },
     { toolId: "IMAGE_TRANSLATION", route: "/tools/ecommerce-suite/image-translation", file: "IMAGE_TRANSLATION/result.png", kind: "image" },
+    { toolId: "PRODUCT_IMAGE_SUITE", route: "/tools/ecommerce-suite/product-image-suite", file: "PRODUCT_IMAGE_SUITE/02-result.png", kind: "image" },
+    { toolId: "DRESS_WEAR_SET", route: "/tools/ecommerce-suite/dress-wear-set", file: "DRESS_WEAR_SET/result.png", kind: "image" },
     { toolId: "AI_VIDEO_EDITING", route: "/tools/ai-video/ai-video-editing", file: "IMAGE_TO_VIDEO/06-result-video.mp4", kind: "video", source: "borrowed" },
     { toolId: "SALE_VIDEO", route: "/tools/ai-video/sale-video", file: "IMAGE_TO_VIDEO/06-result-video.mp4", kind: "video", source: "borrowed" },
 ];
@@ -160,11 +162,28 @@ async function readStores(page) {
             await new Promise((r) => setTimeout(r, 250));
         }
         let projects = [];
-        try {
-            const canvasStore = await import("/src/stores/canvas/use-canvas-store.ts");
-            projects = canvasStore.useCanvasStore.getState().projects || [];
-        } catch {
-            projects = [];
+        // 画布项目同样读持久化层（zustand persist + localForage，setItem 有 400ms 去抖），
+        // 动态 import store 会拿到另一份 zustand 实例，读不到本页面写入的项目。
+        for (let attempt = 0; attempt < 12; attempt += 1) {
+            const raw = await localForageStorage.getItem("infinite-canvas:canvas_store");
+            if (raw) {
+                try {
+                    const list = JSON.parse(raw)?.state?.projects;
+                    if (Array.isArray(list)) projects = list;
+                } catch {
+                    projects = [];
+                }
+                if (projects.length) break;
+            }
+            await new Promise((r) => setTimeout(r, 250));
+        }
+        if (!projects.length) {
+            try {
+                const canvasStore = await import("/src/stores/canvas/use-canvas-store.ts");
+                projects = canvasStore.useCanvasStore.getState().projects || [];
+            } catch {
+                projects = [];
+            }
         }
         if (!projects.length) {
             for (const key of Object.keys(localStorage)) {

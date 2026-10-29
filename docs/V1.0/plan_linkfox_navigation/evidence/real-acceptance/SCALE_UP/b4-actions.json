@@ -16,7 +16,7 @@
       "download": {
         "suggestedFilename": "scale-up-result-1.png",
         "bytes": 755743,
-        "path": "/tmp/b4-SCALE_UP-1793209192184-scale-up-result-1.png"
+        "path": "/tmp/b4-SCALE_UP-1793246203888-scale-up-result-1.png"
       },
       "busy": {
         "busySeen": false,
@@ -25,14 +25,14 @@
       }
     },
     "save": {
-      "feedback": "已存入资产库（image · Bq1zYQAbJjlXqFzuUiEK3）",
+      "feedback": "已存入资产库（image · SlKZXLN-DZ9RwhQGCAl7s）",
       "assetCountBefore": 0,
       "assetCountAfter": 1,
       "lastAsset": {
-        "id": "Bq1zYQAbJjlXqFzuUiEK3",
+        "id": "SlKZXLN-DZ9RwhQGCAl7s",
         "title": "SCALE_UP 结果 1",
         "kind": "image",
-        "storageKey": "image:Z79cjdfmzuEz4-zxeqaGS",
+        "storageKey": "image:O3heBHfJiUWkPr4qytQyE",
         "bytes": 755743,
         "toolId": "SCALE_UP",
         "count": 1
@@ -44,20 +44,20 @@
       }
     },
     "canvas": {
-      "feedback": "已发送到画布（1tdZpFd4eQMd9C9UfapuW / image-1793209193989-1ccew）",
+      "feedback": "已发送到画布（HiYRMFnQJtD6uHwjOPG8p / image-1793246208801-noguy）",
       "projectCountBefore": 0,
       "projectCountAfter": 1,
       "lastProject": {
-        "id": "1tdZpFd4eQMd9C9UfapuW",
+        "id": "HiYRMFnQJtD6uHwjOPG8p",
         "title": "SCALE_UP 历史结果",
         "nodeCount": 1,
         "lastNode": {
-          "id": "image-1793209193989-1ccew",
+          "id": "image-1793246208801-noguy",
           "type": "image",
           "metadata": {
-            "content": "blob:http://127.0.0.1:3000/3aa15c2a-3c03-499a-b5ad-cac23a4953b2",
+            "content": "blob:http://127.0.0.1:3000/11bc30b8-c9a6-4008-b70c-cc82d87dbf1c",
             "status": "success",
-            "storageKey": "image:1Hu0ETQoLPhGQx8BEtiRr",
+            "storageKey": "image:IVtdlXPtoZRx2tnYtcOJM",
             "naturalWidth": 1024,
             "naturalHeight": 752,
             "bytes": 755743,
@@ -82,5 +82,5 @@
   },
   "ok": true,
   "errors": [],
-  "recordedAt": "2026-10-28T17:39:54.201Z"
+  "recordedAt": "2026-10-29T03:56:49.256Z"
 }
