@@ -1,0 +1,173 @@
+{
+ "tool": "FISSION_LINK",
+ "taskId": "task-mvt18lrt-rsnifn",
+ "route": "/tools/product-design/fission-link",
+ "tabId": 1709629305,
+ "before_reload": {
+  "navType": "navigate",
+  "marker": null,
+  "url": "http://127.0.0.1:3000/tools/product-design/fission-link",
+  "dockItems": [
+   {
+    "id": "task-mvt18lrt-rsnifn",
+    "status": "succeeded"
+   },
+   {
+    "id": "task-mvt17bmi-xpint5",
+    "status": "succeeded"
+   },
+   {
+    "id": "task-mvt15f64-jnx1gz",
+    "status": "failed"
+   },
+   {
+    "id": "task-mvt0ww21-bhl4e9",
+    "status": "succeeded"
+   },
+   {
+    "id": "task-mvt0rvni-ylxhm0",
+    "status": "succeeded"
+   },
+   {
+    "id": "task-mvs7pmey-uxscga",
+    "status": "succeeded"
+   },
+   {
+    "id": "task-mvs7gq30-m78zxu",
+    "status": "failed"
+   },
+   {
+    "id": "task-mvs726zz-lwouyf",
+    "status": "failed"
+   }
+  ]
+ },
+ "counts_before": {
+  "image_files": 84,
+  "image_previews": 84,
+  "tool_assets": 61,
+  "media_files": 97
+ },
+ "task": {
+  "status": "succeeded",
+  "toolId": "FISSION_LINK",
+  "items": [
+   {
+    "id": "task-mvt18lrt-rsnifn-0",
+    "storageKey": "tool-result:SVZBd-stlKJhjHtE0ng8F",
+    "bytes": 1988694,
+    "mimeType": "image/png",
+    "payloadDropped": false
+   }
+  ]
+ },
+ "after_reload": {
+  "navType": "reload",
+  "marker": "1793275695.8909838",
+  "url": "http://127.0.0.1:3000/tools/product-design/fission-link",
+  "dockItems": [
+   {
+    "id": "task-mvt18lrt-rsnifn",
+    "status": "succeeded"
+   },
+   {
+    "id": "task-mvt17bmi-xpint5",
+    "status": "succeeded"
+   },
+   {
+    "id": "task-mvt15f64-jnx1gz",
+    "status": "failed"
+   },
+   {
+    "id": "task-mvt0ww21-bhl4e9",
+    "status": "succeeded"
+   },
+   {
+    "id": "task-mvt0rvni-ylxhm0",
+    "status": "succeeded"
+   },
+   {
+    "id": "task-mvs7pmey-uxscga",
+    "status": "succeeded"
+   },
+   {
+    "id": "task-mvs7gq30-m78zxu",
+    "status": "failed"
+   },
+   {
+    "id": "task-mvs726zz-lwouyf",
+    "status": "failed"
+   }
+  ]
+ },
+ "reload_verdict": "VERIFIED",
+ "bytes": {
+  "key": "tool-result:SVZBd-stlKJhjHtE0ng8F",
+  "mime": "image/png",
+  "bytes": 1988694,
+  "sha256": "bbc0ca08cfa46feae85b7ee15cea28a1bd709c4171a751c0d8192dd490ff76a4",
+  "capture": {
+   "file": "result.png",
+   "bytes": 1988694,
+   "sha256": "bbc0ca08cfa46feae85b7ee15cea28a1bd709c4171a751c0d8192dd490ff76a4"
+  }
+ },
+ "bytes_verdict": "VERIFIED",
+ "actions": {
+  "download": {
+   "clicked": false,
+   "raw": {
+    "error": "button missing",
+    "expanded": false
+   },
+   "verdict": "UNVERIFIED",
+   "receipt": {
+    "error": "no new download file",
+    "prefix": "fission-link"
+   },
+   "feedback": ""
+  },
+  "save": {
+   "clicked": true,
+   "raw": {
+    "clicked": true,
+    "action": "save"
+   },
+   "receipt": {
+    "counts": "{\"image_files\": 84, \"image_previews\": 84, \"media_files\": 97, \"tool_assets\": 61} → {\"image_files\": 85, \"image_previews\": 85, \"media_files\": 97, \"tool_assets\": 61}",
+    "delta": {
+     "image_files": 1,
+     "image_previews": 1,
+     "tool_assets": 0,
+     "media_files": 0
+    }
+   },
+   "verdict": "VERIFIED",
+   "feedback": ""
+  },
+  "canvas": {
+   "clicked": true,
+   "raw": {
+    "clicked": true,
+    "action": "canvas"
+   },
+   "receipt": {
+    "counts": "{\"image_files\": 85, \"image_previews\": 85, \"media_files\": 97, \"tool_assets\": 61} → {\"image_files\": 86, \"image_previews\": 86, \"media_files\": 97, \"tool_assets\": 61}",
+    "delta": {
+     "image_files": 1,
+     "image_previews": 1,
+     "tool_assets": 0,
+     "media_files": 0
+    }
+   },
+   "verdict": "VERIFIED",
+   "feedback": ""
+  }
+ },
+ "counts_after": {
+  "image_files": 86,
+  "image_previews": 86,
+  "tool_assets": 61,
+  "media_files": 97
+ }
+}
