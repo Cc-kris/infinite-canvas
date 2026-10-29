@@ -1,0 +1,83 @@
+{
+  "toolId": "PRINT_EXTRACT",
+  "route": "/tools/product-design/print-extract",
+  "round": "R14-接续前盘点",
+  "date": "2026-10-29",
+  "origin": "http://127.0.0.1:3000",
+  "mode": "只读盘点 + 一次 fresh reload；未生成、未注入、未改写任务库",
+  "taskStore": {
+    "keyPrefix": "tool-task:v1:task-",
+    "totalTasks": 69,
+    "printExtractTasks": [
+      {
+        "taskId": "task-mvs5dd71-4s35w2",
+        "status": "failed",
+        "hasResultItems": false,
+        "createdAt": 1793193937165,
+        "finishedAt": 1793265087681,
+        "error": {
+          "code": "submit-unconfirmed",
+          "message": "页面刷新中断了这次请求，本服务无法反查上游是否已受理。已关闭为失败；重试前请先到服务商后台确认，避免重复计费。",
+          "retryable": true
+        },
+        "sourceAssetIds": ["8I3lM9-V5fu7BXCkvEJ2N"],
+        "clientOperationId": "ac4810bf-93e1-4e3a-80d0-282eeab11d22"
+      }
+    ],
+    "succeededPrintExtractTasks": 0
+  },
+  "idbScan": {
+    "dbs": ["canvas-assets:1", "infinite-canvas:7", "localforage:1", "tool-assets:1"],
+    "infinite-canvas/tool_assets": { "rows": 62, "printExtractHits": 0 },
+    "infinite-canvas/image_files": { "rows": 102, "printExtractHits": 0 },
+    "infinite-canvas/media_files": { "rows": 103, "printExtractHits": 0 },
+    "infinite-canvas/app_state": { "rows": 39, "printExtractHits": 1, "note": "命中来自工具注册表/页面状态文本，非任务产物" }
+  },
+  "freshReload": {
+    "navType": "reload",
+    "reloadAt": "2026-10-29T13:51:51.006Z",
+    "panel": { "taskId": "task-mvs5dd71-4s35w2", "status": "failed" },
+    "resultImages": 0,
+    "actionButtons": [],
+    "actionButtonsMeaning": "结果区无 下载/存入资产/发送到画布 按钮：没有可用结果项，三动作不可执行（这是数据事实，不是按钮缺失缺陷）",
+    "panelText": "提取结果 失败 上游返回失败 任务失败 页面刷新中断了这次请求…诊断码：submit-unconfirmed · 可按原参数重试 需要人工确认 请求可能已被上游受理，为避免重复扣费不会自动重发…"
+  },
+  "realArtifactsOnDisk": [
+    {
+      "path": "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/PRINT_EXTRACT/result_url_download.png",
+      "bytes": 686174,
+      "sha256": "804be5318a8c0b13e1e681ccbaa5be72e6acc6f11e6a43f1635d48de9a06b14b",
+      "origin": "2026-10-28 18:44 上游 api.cc-ai.xyz 200 的 oss 图，代理侧下载留档",
+      "taskBinding": null,
+      "admissibleForH": false,
+      "reason": "无 taskId 绑定，非任务库产物；仅作 R 维字节证据"
+    },
+    {
+      "path": "docs/V1.0/plan_linkfox_navigation/evidence/design19b-nv-final/_runs/run-PRINT_EXTRACT-1793254199616.json",
+      "bytes": 662813,
+      "sha256": "34423454ae6bdb3d9a46dc0d…",
+      "saveAssetId": "4TeztYaVANIEKxLkiuQs-",
+      "canvasNodeId": "OvybpLZ7-wZ5YJsnzBdUC",
+      "taskBinding": null,
+      "admissibleForH": false,
+      "reason": "另一 Chrome profile 的 harness 运行（本 profile IDB 扫描 0 命中该 assetId/canvasNodeId），且记录无 taskId"
+    },
+    {
+      "path": "docs/V1.0/plan_linkfox_navigation/evidence/design19b-nv-final/_runs/run-PRINT_EXTRACT-1793255818347.json",
+      "bytes": 630238,
+      "sha256": "7d95732cc6a7a1ed8d117550…",
+      "saveAssetId": "yU_TPCyuZUfUp3EuALdor",
+      "canvasNodeId": "PZhTU1hJn2X6Eeq41Eqsc",
+      "taskBinding": null,
+      "admissibleForH": false,
+      "reason": "同上：无 taskId，且不在本 profile"
+    }
+  ],
+  "conclusion": {
+    "hStatus": "PARTIAL（不可在本组收口）",
+    "threeActionsVerified": false,
+    "blocker": "本 profile 内 PRINT_EXTRACT 唯一落库任务为刷新中断的 failed，无任何结果字节；在不新生成/不注入的约束下，下载/存资产/发画布三动作没有可作用的结果项",
+    "codeChange": "无（未发现与三动作相关的明确根因：成功任务的 result 面板在刷新后由落库任务重建并挂载共享三动作，代码路径完整）",
+    "handoff": "交接续组用真实生成任务复验"
+  }
+}
