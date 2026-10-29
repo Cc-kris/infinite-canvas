@@ -49,31 +49,70 @@
       "ok": true
     },
     {
-      "item": "存入资产",
-      "expected": "资产库 +1，回执含资产 id",
+      "item": "存入资产（非视觉维度）",
+      "expected": "资产库 +1，回执 id 与库内记录一致，刷新后仍在",
       "actual": {
-        "feedback": "已保存到资产库（QJeDp9dEbuNRpr0SnnACm）",
+        "feedback": "已保存到资产库（0SQDdAuB8BY6nDazj9fAm）",
+        "assetId": "0SQDdAuB8BY6nDazj9fAm",
         "assets": {
           "before": 0,
           "after": 1
-        }
+        },
+        "record": {
+          "id": "0SQDdAuB8BY6nDazj9fAm",
+          "kind": "image",
+          "title": "CHANGE_COLOR 结果 1",
+          "bytes": 930500,
+          "width": 1024,
+          "height": 1024
+        },
+        "afterReload": true
       },
       "ok": true
     },
     {
-      "item": "发送画布",
-      "expected": "画布新增节点",
+      "item": "下载（非视觉维度）",
+      "expected": "真实下载字节数与源图一致",
       "actual": {
-        "feedback": "已发送到画布（yrvCHw8vuswXRsWWW0Rlu）",
-        "canvas": {
-          "before": [],
-          "after": [
-            {
-              "id": "yrvCHw8vuswXRsWWW0Rlu",
-              "nodes": 1
-            }
-          ]
-        }
+        "filename": "change-color-result-1.png",
+        "bytes": 930500,
+        "sourceBytes": 930500,
+        "sha256": "4b659a906d661b0e51dc467b0d8671ba39959d9db4a7f787b01dd5d4152303e3",
+        "sameSha256": true
+      },
+      "ok": true
+    },
+    {
+      "item": "发送画布（非视觉维度）",
+      "expected": "画布新增项目 + 节点，回执 id 与 store 一致",
+      "actual": {
+        "feedback": "已发送到画布（gEEC-5hIDKRGT-J99WofC）",
+        "projectId": "gEEC-5hIDKRGT-J99WofC",
+        "title": "CHANGE_COLOR 结果",
+        "addedNodeIds": [
+          "image-1793246367428-992hs"
+        ],
+        "nodeCount": 1,
+        "images": [
+          {
+            "id": "image-1793246367428-992hs",
+            "url": null
+          }
+        ]
+      },
+      "ok": true
+    },
+    {
+      "item": "默认值与原站一致（逐控件实测）",
+      "expected": "去杂色关、光影优化开、颜色边缘修复开、滑块 0、曲线未调整",
+      "actual": {
+        "items": 11,
+        "matched": 11,
+        "fixedInThisCommit": [
+          "去除杂色默认 true → false",
+          "颜色边缘修复默认 false → true"
+        ],
+        "detail": "default-values.json"
       },
       "ok": true
     },
@@ -104,13 +143,27 @@
   ],
   "issues": [],
   "deviations": [
-    "优秀案例（原站展示位）：无授权样例图，未做占位画廊。"
+    "优秀案例（原站展示位）：无授权样例图，未做占位画廊。",
+    "饱和度/亮度/对比度刻度用 ±100 整数（原站 ±1），默认值均为 0，语义等价；适配器只把数值写进 prompt 文本。",
+    "色彩平衡为单滑块（原站为阴影/中间调/高光 × 青-红/洋红-绿/黄-蓝 9 通道），默认全中性 0 等价；本次非视觉维度不改控件结构。",
+    "本站额外提供「光影强度」滑块与「边缘优化」分组开关（原站无对应控件），默认取中性/与分组一致的取值。",
+    "曲线为预设下拉（linear/soft/sCurve/strongContrast），原站为可拖拽曲线编辑器；默认 linear 等价单位曲线。"
   ],
   "evidence": {
     "run": "run.json",
     "empty": "empty-state.json",
     "screenshots": [
-      "reuse-actions.png"
-    ]
+      "reuse-actions.png",
+      "nv-actions.png"
+    ],
+    "nonVisualRun": "run-nv.json",
+    "defaultValues": "default-values.json",
+    "download": "download-action.png",
+    "originDom": [
+      "dom/orig-controls.json",
+      "dom/orig-switches.json",
+      "dom/orig-collapse-panels.json"
+    ],
+    "script": "web/scripts/real-acceptance/edit8-nv-accept.mjs"
   }
 }

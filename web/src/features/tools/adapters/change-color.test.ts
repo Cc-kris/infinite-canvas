@@ -190,7 +190,7 @@ describe("CHANGE_COLOR 快照与结果归属", () => {
 
     test("旧任务结果如实标记 stale，不冒充当前配置的结果", () => {
         const submitted = createChangeColorSnapshot(values(), { source, maskUrl }, 1);
-        const changed = createChangeColorSnapshot(values({ removeNoise: false }), { source, maskUrl }, 1);
+        const changed = createChangeColorSnapshot(values({ removeNoise: true }), { source, maskUrl }, 1);
         const task = {
             id: "t1",
             status: "succeeded" as const,
@@ -200,6 +200,26 @@ describe("CHANGE_COLOR 快照与结果归属", () => {
         expect(view.image).toBe("data:image/png;base64,RESULT");
         expect(view.stale).toBe(true);
         expect(changeColorResultFromTask(undefined, submitted, changed).status).toBe("idle");
+    });
+});
+
+/* ---------------------- 默认值对齐原站（实测） ---------------------- */
+
+describe("CHANGE_COLOR 默认值对齐原站", () => {
+    // 依据：evidence/real-acceptance/CHANGE_COLOR/default-values.json
+    // 原站 www.linkfox.com/draw/change-color 实测：去除杂色 aria-checked=false、颜色边缘修复 aria-checked=true。
+    test("去除杂色默认关闭、颜色边缘修复默认开启", () => {
+        expect(DEFAULT_CHANGE_COLOR_VALUES.removeNoise).toBe(false);
+        expect(DEFAULT_CHANGE_COLOR_VALUES.light.edgeRepair).toBe(true);
+        expect(DEFAULT_CHANGE_COLOR_VALUES.light.enabled).toBe(true);
+        expect(DEFAULT_CHANGE_COLOR_VALUES.light.curve).toBe("linear");
+        expect(DEFAULT_CHANGE_COLOR_VALUES.adjustment).toEqual({ hue: 0, saturation: 0, brightness: 0, contrast: 0 });
+    });
+
+    test("缺字段的旧草稿回退到同一套默认值", () => {
+        const restored = readChangeColorValues({ targetColor: "" });
+        expect(restored.removeNoise).toBe(false);
+        expect(restored.light.edgeRepair).toBe(true);
     });
 });
 

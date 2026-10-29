@@ -1,0 +1,109 @@
+{
+  "tool": "CHANGE_COLOR",
+  "measuredAt": "2026-10-29",
+  "origin": {
+    "url": "https://www.linkfox.com/draw/change-color",
+    "method": "已登录原站，真实 DOM 探针（.worker-edit8/probe.py，1908x1200），展开三个折叠面板后读取 aria-checked / input[type=range] / radio / canvas",
+    "raw": [
+      "dom/orig-controls.json",
+      "dom/orig-switches.json",
+      "dom/orig-collapse-panels.json"
+    ]
+  },
+  "local": {
+    "url": "http://localhost:3000/tools/smart-edit/change-color",
+    "method": "playwright 真实页面 DOM 快照（默认值未交互），取自 run-nv.json 的 localDefaults",
+    "raw": "run-nv.json"
+  },
+  "items": [
+    {
+      "control": "去除杂色（去杂色）",
+      "origin": { "value": false, "evidence": "aria-checked=false / radio 关闭" },
+      "local": { "value": false, "testid": "change-color-noise-off", "checked": true },
+      "ok": true,
+      "note": "修复前本站默认开启（true），已改为默认关闭；parse 回退同步改为 === true"
+    },
+    {
+      "control": "色调",
+      "origin": { "value": 0, "min": -180, "max": 180 },
+      "local": { "value": 0, "min": -180, "max": 180, "step": 1 },
+      "ok": true
+    },
+    {
+      "control": "饱和度",
+      "origin": { "value": 0, "min": -1, "max": 1, "step": 0.01 },
+      "local": { "value": 0, "min": -100, "max": 100, "step": 1 },
+      "ok": true,
+      "note": "默认值一致（0=0）；刻度单位不同（本站以百分比整数表达），适配器仅把该数值写进 prompt 文本"
+    },
+    {
+      "control": "亮度",
+      "origin": { "value": 0, "min": -1, "max": 1, "step": 0.01 },
+      "local": { "value": 0, "min": -100, "max": 100, "step": 1 },
+      "ok": true,
+      "note": "同上：默认一致，刻度单位差异"
+    },
+    {
+      "control": "对比度",
+      "origin": { "value": 0, "min": -1, "max": 1, "step": 0.01 },
+      "local": { "value": 0, "min": -100, "max": 100, "step": 1 },
+      "ok": true,
+      "note": "同上：默认一致，刻度单位差异"
+    },
+    {
+      "control": "光影优化",
+      "origin": { "value": true, "evidence": "折叠面板标题 aria-checked=true" },
+      "local": { "value": true, "testid": "change-color-light-enabled", "checked": true },
+      "ok": true
+    },
+    {
+      "control": "光影强度",
+      "origin": { "value": null, "evidence": "原站无该控件" },
+      "local": { "value": 50, "min": 0, "max": 100, "testid": "change-color-light-strength" },
+      "ok": true,
+      "note": "本站额外控件（原站仅开关），非默认值冲突"
+    },
+    {
+      "control": "边缘优化（独立分组开关）",
+      "origin": { "value": null, "evidence": "原站为折叠分组，无独立开关" },
+      "local": { "value": true, "testid": "change-color-edge", "checked": true },
+      "ok": true,
+      "note": "本站额外控件"
+    },
+    {
+      "control": "颜色边缘修复",
+      "origin": { "value": true, "evidence": "折叠面板内开关 aria-checked=true" },
+      "local": { "value": true, "testid": "change-color-edgeRepair", "checked": true },
+      "ok": true,
+      "note": "修复前本站默认关闭（false），已改为默认开启；parse 回退同步改为 !== false"
+    },
+    {
+      "control": "色彩平衡",
+      "origin": {
+        "value": { "shadows": { "cyanRed": 0, "magentaGreen": 0, "yellowBlue": 0 }, "midtones": { "cyanRed": 0, "magentaGreen": 0, "yellowBlue": 0 }, "highlights": { "cyanRed": 0, "magentaGreen": 0, "yellowBlue": 0 } },
+        "evidence": "3 组通道（阴影/中间调/高光 × 青-红/洋红-绿/黄-蓝）全部为 0"
+      },
+      "local": { "value": 0, "min": -100, "max": 100, "testid": "change-color-balance" },
+      "ok": true,
+      "note": "默认等价（全中性 0）；本站控制维度少于原站（单滑块 vs 9 通道），属已知差异，本次非视觉维度不改控件结构"
+    },
+    {
+      "control": "曲线",
+      "origin": { "value": "RGB 通道 + 单位曲线（identity）", "evidence": "展开后面板：RGB radio 选中、曲线画布 265x265、重置按钮；画布有网格，无法 DOM 逐点读取" },
+      "local": { "value": "linear", "options": ["linear", "soft", "sCurve", "strongContrast"], "testid": "change-color-curve" },
+      "ok": true,
+      "note": "本站以预设下拉表达，默认 linear 等价原站未调整的单位曲线"
+    }
+  ],
+  "summary": {
+    "items": 11,
+    "matched": 11,
+    "fixedInThisCommit": ["去除杂色默认值", "颜色边缘修复默认值"],
+    "knownDeviations": [
+      "饱和度/亮度/对比度刻度用 ±100 整数，原站为 ±1（默认 0 等价）",
+      "色彩平衡为单滑块，原站为 9 通道（默认全 0 等价）",
+      "本站额外提供光影强度与边缘优化开关（原站无对应控件，默认不改变中性行为）",
+      "曲线为预设下拉，原站为可拖拽曲线编辑器（默认 linear ≈ identity）"
+    ]
+  }
+}

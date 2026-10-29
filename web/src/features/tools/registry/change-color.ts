@@ -222,7 +222,8 @@ export const DEFAULT_LIGHT: ColorLight = {
     enabled: true,
     strength: 50,
     edge: true,
-    edgeRepair: false,
+    /** 原站「颜色边缘修复」默认开启（同上页 DOM aria-checked=true）。 */
+    edgeRepair: true,
     balance: 0,
     curve: "linear",
 };
@@ -307,7 +308,8 @@ export const DEFAULT_CHANGE_COLOR_VALUES: ChangeColorValues = {
     targetColor: "",
     swatches: [...DEFAULT_SWATCHES],
     palette: [],
-    removeNoise: true,
+    /** 原站「去除杂色」默认关闭（www.linkfox.com/draw/change-color，DOM aria-checked=false）。 */
+    removeNoise: false,
     adjustment: { ...DEFAULT_ADJUSTMENT },
     light: { ...DEFAULT_LIGHT },
     doInpaint: false,
@@ -566,7 +568,7 @@ export function readChangeColorValues(raw: unknown): ChangeColorValues {
             .filter((item): item is string => Boolean(item))
             .slice(0, MAX_PALETTE),
         ...(str(record.referenceAssetId) ? { referenceAssetId: str(record.referenceAssetId) } : {}),
-        removeNoise: record.removeNoise !== false,
+        removeNoise: record.removeNoise === true,
         adjustment: {
             hue: clampToRange(adjustmentRaw.hue, ADJUSTMENT_LIMITS.hue, 0),
             saturation: clampToRange(adjustmentRaw.saturation, ADJUSTMENT_LIMITS.saturation, 0),
@@ -577,7 +579,7 @@ export function readChangeColorValues(raw: unknown): ChangeColorValues {
             enabled: lightRaw.enabled !== false,
             strength: clampToRange(lightRaw.strength, LIGHT_STRENGTH_LIMITS, DEFAULT_LIGHT.strength),
             edge: lightRaw.edge !== false,
-            edgeRepair: lightRaw.edgeRepair === true,
+            edgeRepair: lightRaw.edgeRepair !== false,
             balance: clampToRange(lightRaw.balance, BALANCE_LIMITS, 0),
             curve: isCurveId(lightRaw.curve) ? lightRaw.curve : DEFAULT_LIGHT.curve,
         },

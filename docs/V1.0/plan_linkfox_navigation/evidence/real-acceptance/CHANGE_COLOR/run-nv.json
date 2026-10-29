@@ -1,0 +1,325 @@
+{
+  "toolId": "CHANGE_COLOR",
+  "route": "/tools/smart-edit/change-color",
+  "at": "2026-10-29T03:59:16.679Z",
+  "issues": [],
+  "localDefaults": [
+    {
+      "testid": "change-color-task-name",
+      "tag": "input",
+      "type": "input",
+      "role": null,
+      "label": "任务名称",
+      "value": "",
+      "checked": false,
+      "ariaChecked": null,
+      "ariaNow": null,
+      "min": null,
+      "max": null,
+      "step": null,
+      "disabled": false
+    },
+    {
+      "testid": "change-color-input",
+      "tag": "input",
+      "type": "color",
+      "role": null,
+      "label": "选择颜色",
+      "value": "#000000",
+      "checked": false,
+      "ariaChecked": null,
+      "ariaNow": null,
+      "min": null,
+      "max": null,
+      "step": null,
+      "disabled": false
+    },
+    {
+      "testid": "change-color-hex",
+      "tag": "input",
+      "type": "input",
+      "role": null,
+      "label": "",
+      "value": "",
+      "checked": false,
+      "ariaChecked": null,
+      "ariaNow": null,
+      "min": null,
+      "max": null,
+      "step": null,
+      "disabled": false
+    },
+    {
+      "testid": "change-color-noise-on",
+      "tag": "input",
+      "type": "radio",
+      "role": null,
+      "label": "开启",
+      "value": "on",
+      "checked": false,
+      "ariaChecked": null,
+      "ariaNow": null,
+      "min": null,
+      "max": null,
+      "step": null,
+      "disabled": false
+    },
+    {
+      "testid": "change-color-noise-off",
+      "tag": "input",
+      "type": "radio",
+      "role": null,
+      "label": "关闭",
+      "value": "on",
+      "checked": true,
+      "ariaChecked": null,
+      "ariaNow": null,
+      "min": null,
+      "max": null,
+      "step": null,
+      "disabled": false
+    },
+    {
+      "testid": null,
+      "tag": "input",
+      "type": "range",
+      "role": null,
+      "label": "色调0",
+      "value": "0",
+      "checked": false,
+      "ariaChecked": null,
+      "ariaNow": null,
+      "min": "-180",
+      "max": "180",
+      "step": "1",
+      "disabled": false
+    },
+    {
+      "testid": null,
+      "tag": "input",
+      "type": "range",
+      "role": null,
+      "label": "饱和度0",
+      "value": "0",
+      "checked": false,
+      "ariaChecked": null,
+      "ariaNow": null,
+      "min": "-100",
+      "max": "100",
+      "step": "1",
+      "disabled": false
+    },
+    {
+      "testid": null,
+      "tag": "input",
+      "type": "range",
+      "role": null,
+      "label": "亮度0",
+      "value": "0",
+      "checked": false,
+      "ariaChecked": null,
+      "ariaNow": null,
+      "min": "-100",
+      "max": "100",
+      "step": "1",
+      "disabled": false
+    },
+    {
+      "testid": null,
+      "tag": "input",
+      "type": "range",
+      "role": null,
+      "label": "对比度0",
+      "value": "0",
+      "checked": false,
+      "ariaChecked": null,
+      "ariaNow": null,
+      "min": "-100",
+      "max": "100",
+      "step": "1",
+      "disabled": false
+    },
+    {
+      "testid": "change-color-light-enabled",
+      "tag": "input",
+      "type": "checkbox",
+      "role": null,
+      "label": "光影优化",
+      "value": "on",
+      "checked": true,
+      "ariaChecked": null,
+      "ariaNow": null,
+      "min": null,
+      "max": null,
+      "step": null,
+      "disabled": false
+    },
+    {
+      "testid": "change-color-light-strength",
+      "tag": "input",
+      "type": "range",
+      "role": null,
+      "label": "光影强度",
+      "value": "50",
+      "checked": false,
+      "ariaChecked": null,
+      "ariaNow": null,
+      "min": "0",
+      "max": "100",
+      "step": "1",
+      "disabled": false
+    },
+    {
+      "testid": "change-color-edge",
+      "tag": "input",
+      "type": "checkbox",
+      "role": null,
+      "label": "边缘优化",
+      "value": "on",
+      "checked": true,
+      "ariaChecked": null,
+      "ariaNow": null,
+      "min": null,
+      "max": null,
+      "step": null,
+      "disabled": false
+    },
+    {
+      "testid": "change-color-edgeRepair",
+      "tag": "input",
+      "type": "checkbox",
+      "role": null,
+      "label": "颜色边缘修复",
+      "value": "on",
+      "checked": true,
+      "ariaChecked": null,
+      "ariaNow": null,
+      "min": null,
+      "max": null,
+      "step": null,
+      "disabled": false
+    },
+    {
+      "testid": "change-color-balance",
+      "tag": "input",
+      "type": "range",
+      "role": null,
+      "label": "色彩平衡",
+      "value": "0",
+      "checked": false,
+      "ariaChecked": null,
+      "ariaNow": null,
+      "min": "-100",
+      "max": "100",
+      "step": "1",
+      "disabled": false
+    },
+    {
+      "testid": "change-color-curve",
+      "tag": "select",
+      "type": "select",
+      "role": null,
+      "label": "曲线线性柔光S 曲线强对比",
+      "value": "linear",
+      "checked": null,
+      "ariaChecked": null,
+      "ariaNow": null,
+      "min": null,
+      "max": null,
+      "step": null,
+      "disabled": false
+    }
+  ],
+  "historyEmpty": "本工具还没有历史任务；提交一次后会在这里留下记录。",
+  "historyPersist": {
+    "keys": [
+      "tool-task:v1:index",
+      "tool-task:v1:task-nv-CHANGE_COLOR-1793246358507"
+    ],
+    "sizes": [
+      {
+        "key": "tool-task:v1:index",
+        "bytes": 38
+      },
+      {
+        "key": "tool-task:v1:task-nv-CHANGE_COLOR-1793246358507",
+        "bytes": 544
+      }
+    ]
+  },
+  "history": {
+    "count": 1,
+    "firstText": "2026-10-29 11:59已完成一键换色 · 非视觉验收（复用真实产物）gpt-image-2 · image · 1 个结果查看结果",
+    "thumbs": [
+      {
+        "src": "https://oss-us.dimenoss.com/images/2026/10/28/1793201243_a98f4d7594f17eb48ade22f52e2295cb.png",
+        "naturalWidth": 1024,
+        "naturalHeight": 1024
+      }
+    ],
+    "hasOpen": true
+  },
+  "resultImage": {
+    "src": "https://oss-us.dimenoss.com/images/2026/10/28/1793201243_a98f4d7594f17eb48ade22f52e2295cb.png",
+    "naturalWidth": 1024,
+    "naturalHeight": 1024
+  },
+  "download": {
+    "suggestedFilename": "change-color-result-1.png",
+    "savedAs": "download-action.png",
+    "bytes": 930500,
+    "sha256": "4b659a906d661b0e51dc467b0d8671ba39959d9db4a7f787b01dd5d4152303e3",
+    "sourceBytes": 930500,
+    "sameSha256": true
+  },
+  "downloadFeedback": "已下载 change-color-result-1.png",
+  "saveFeedback": "已保存到资产库（0SQDdAuB8BY6nDazj9fAm）",
+  "assets": {
+    "before": 0,
+    "after": 1,
+    "newAsset": {
+      "id": "0SQDdAuB8BY6nDazj9fAm",
+      "kind": "image",
+      "title": "CHANGE_COLOR 结果 1",
+      "bytes": 930500,
+      "width": 1024,
+      "height": 1024,
+      "hasDataUrl": true,
+      "dataUrlLength": 63,
+      "createdAt": "2026-10-29T03:59:24.666Z"
+    },
+    "feedbackAssetId": "0SQDdAuB8BY6nDazj9fAm",
+    "afterReload": true
+  },
+  "canvasFeedback": "已发送到画布（gEEC-5hIDKRGT-J99WofC）",
+  "canvas": {
+    "projectsBefore": [],
+    "projectsAfter": [
+      {
+        "id": "gEEC-5hIDKRGT-J99WofC",
+        "title": "CHANGE_COLOR 结果",
+        "nodeCount": 1,
+        "nodeIds": [
+          "image-1793246367428-992hs"
+        ],
+        "images": [
+          {
+            "id": "image-1793246367428-992hs",
+            "url": null
+          }
+        ]
+      }
+    ],
+    "addedNodeIds": [
+      "image-1793246367428-992hs"
+    ],
+    "feedbackProjectId": "gEEC-5hIDKRGT-J99WofC",
+    "newImageUrls": [
+      {
+        "id": "image-1793246367428-992hs",
+        "url": null
+      }
+    ]
+  },
+  "screenshot": "nv-actions.png"
+}
