@@ -6,8 +6,11 @@ import { Link } from "react-router-dom";
 import { Edit8Canvas, Edit8CanvasToolbar, Edit8Config, Edit8Page, edit8PrimaryButtonClass } from "@/components/tools/edit8-frame";
 import { cn } from "@/lib/utils";
 import { ToolAssetInput } from "@/components/tools/tool-asset-input";
+import { ToolCases, type ToolCase } from "@/components/tools/tool-cases";
 import { ToolResult } from "@/components/tools/tool-result";
 import { ToolTaskHistory } from "@/components/tools/tool-task-history";
+import { uploadCaseFiles } from "@/features/tools/case-apply";
+import { COLOR_V2_CASES } from "@/features/tools/suite6-cases-data";
 import { useRestoredTask } from "@/components/tools/use-restored-task";
 import { loadToolAssetRecords, toolAssetLibraryItemsFromAssets, type ToolAssetConstraints, type ToolAssetRecord } from "@/services/api/tools/assets";
 import { getPersistedToolGateway } from "@/stores/use-tool-task-store";
@@ -465,6 +468,9 @@ export function ChangeColorWorkspace({ className }: { className?: string }) {
     const libraryItems = useMemo(() => assets.filter((asset): asset is ImageAsset | VideoAsset => asset.kind === "image" || asset.kind === "video"), [assets]);
     const library = useMemo(() => toolAssetLibraryItemsFromAssets(libraryItems), [libraryItems]);
     const [resultTab, setResultTab] = useState<"result" | "gallery" | "history">("result");
+    /** 优秀案例「做同款」：正在套用的案例 id 与结果提示（套用失败也要能看见原因）。 */
+    const [applyingCaseId, setApplyingCaseId] = useState<string | null>(null);
+    const [caseNotice, setCaseNotice] = useState("");
 
     const [values, setValues] = useState<ChangeColorValues>(() => ({ ...DEFAULT_CHANGE_COLOR_VALUES }));
     const [source, setSource] = useState<ChangeColorSourceAsset | undefined>();
@@ -482,15 +488,19 @@ export function ChangeColorWorkspace({ className }: { className?: string }) {
     const [showSnapshot, setShowSnapshot] = useState(false);
     const abortRef = useRef<AbortController | null>(null);
 
+    /* valuesRef 保证事件处理器拿到最新值：patchDraft 不能放进 setValues 的更新函数里
+       （更新函数可能被 React 在渲染期执行，从而在渲染另一个组件时更新 draft store，
+       触发 "Cannot update a component while rendering a different component" 告警）。 */
+    const valuesRef = useRef(values);
+    valuesRef.current = values;
     const update = useCallback(
         (next: Partial<ChangeColorValues>) => {
-            setValues((previous) => {
-                const merged: ChangeColorValues = { ...previous, ...next };
-                patchDraft(toolId, {
-                    values: { changeColor: merged },
-                    assetIds: [merged.sourceAssetId, merged.referenceAssetId].filter(Boolean) as string[],
-                });
-                return merged;
+            const merged: ChangeColorValues = { ...valuesRef.current, ...next };
+            valuesRef.current = merged;
+            setValues(merged);
+            patchDraft(toolId, {
+                values: { changeColor: merged },
+                assetIds: [merged.sourceAssetId, merged.referenceAssetId].filter(Boolean) as string[],
             });
         },
         [patchDraft, toolId],
@@ -563,6 +573,38 @@ export function ChangeColorWorkspace({ className }: { className?: string }) {
             update({ sourceAssetId: next.assetId, imageName: next.name ?? "" });
             const check = validateChangeColorSource(next);
             setRunError(check.ok ? undefined : check.message);
+        },
+        [update],
+    );
+
+    /** 「优秀案例」做同款：案例素材真实入库 + 回填源图/目标色，满足“入口必须真实可点”。 */
+    const applyCase = useCallback(
+        async (item: ToolCase) => {
+            setApplyingCaseId(item.id);
+            setCaseNotice("");
+            try {
+                const uploaded = await uploadCaseFiles(item);
+                const record = uploaded.source as ToolAssetRecord | ToolAssetRecord[] | undefined;
+                if (!record || Array.isArray(record)) throw new Error("该案例缺少可用的商品图");
+                const next = sourceFromRecord(record);
+                setSource(next);
+                setStrokes([]);
+                const apply = (item.apply ?? {}) as Record<string, unknown>;
+                const colors = Array.isArray(apply.colors) ? (apply.colors as string[]) : [];
+                const hex = colors[0];
+                update({
+                    sourceAssetId: next.assetId,
+                    imageName: next.name ?? "",
+                    ...(hex ? { targetColor: hex } : {}),
+                });
+                setRunError(undefined);
+                setResultTab("result");
+                setCaseNotice(hex ? `已套用案例商品图，目标色 ${hex} 已回填` : "已套用案例商品图");
+            } catch (error) {
+                setCaseNotice(error instanceof Error ? error.message : "案例套用失败");
+            } finally {
+                setApplyingCaseId(null);
+            }
         },
         [update],
     );
@@ -927,7 +969,7 @@ export function ChangeColorWorkspace({ className }: { className?: string }) {
                     </div>
                 </ConfigSection>
 
-                <ConfigSection title="边缘优化" open={openSections.edge} onToggle={() => toggleSection("edge")} testId="change-color-edge">
+                <ConfigSection title="边缘优化" open={openSections.edge} onToggle={() => toggleSection("edge")} testId="change-color-edge-section">
                     <div className="flex flex-col gap-[8px]">
                         <div className="flex items-center gap-2">
                             <span className="w-[56px] shrink-0 text-[12px] leading-[22px] text-foreground">曲线</span>
@@ -1024,10 +1066,13 @@ export function ChangeColorWorkspace({ className }: { className?: string }) {
                         </div>
                     ) : null}
                     <div className="flex min-h-0 flex-1 flex-col rounded-[8px] bg-card">
+                        {caseNotice ? (
+                            <p className="mx-2 mt-2 rounded-md bg-primary/5 px-2 py-1 text-[11px] leading-4 text-primary" data-testid="change-color-case-notice">{caseNotice}</p>
+                        ) : null}
                         {resultTab === "result" ? <ToolResult task={activeTask} toolId={toolId} title="生成结果" emptyTitle="暂无生成结果图" emptyHint="快在左侧操作物品换色吧~" onCancel={onCancel} onRetry={() => void onRetry()} /> : null}
                         {resultTab === "gallery" ? (
-                            <div className="flex flex-1 items-center justify-center p-4 text-center" data-testid="change-color-gallery">
-                                <p className="text-[12px] leading-5 text-muted-foreground">优秀案例来自社区灵感库，本地暂未接入社区数据。</p>
+                            <div className="min-h-0 flex-1 overflow-y-auto p-2" data-testid="change-color-gallery">
+                                <ToolCases cases={COLOR_V2_CASES} onApply={(item) => void applyCase(item)} applyingId={applyingCaseId ?? undefined} />
                             </div>
                         ) : null}
                         {resultTab === "history" ? (
