@@ -1,0 +1,76 @@
+{
+  "base": "http://127.0.0.1:3020",
+  "tag": "fixed",
+  "pass": true,
+  "lines": [
+    "warm A {\"storageKey\":\"image:fWiGTa9QRPcPxEIu0oSYT\",\"bytes\":111}",
+    "warm B {\"storageKey\":\"image:GL8BJZWNz-CWpFgE_JjkF\",\"bytes\":111}",
+    "initial {\"version\":5,\"stores\":[\"app_state\",\"image_files\",\"image_previews\",\"local-forage-detect-blob-support\",\"prompt_cache\"],\"count\":0,\"titles\":[]}",
+    "  draft attempt 1: ok",
+    "SAVED fixed-TAB-A in 10289ms",
+    "B sees A? true",
+    "  draft attempt 1: ok",
+    "SAVED fixed-TAB-B in 3532ms",
+    "after-save {\"version\":5,\"storeNames\":[\"app_state\",\"image_files\",\"image_previews\",\"local-forage-detect-blob-support\",\"prompt_cache\"],\"persistKeys\":[\"assets\",\"assetTombstones\"],\"count\":2,\"titles\":[\"fixed-TAB-A\",\"fixed-TAB-B\"],\"storageKeys\":[\"image:SV-TxA6q7vs_M1CmvoMTr\",\"image:kRQajlwRzZcu_FITA_2lV\"],\"bytes\":{\"fixed-TAB-A\":124,\"fixed-TAB-B\":124},\"memTitles\":null}",
+    "reload A visible {\"hasA\":true,\"hasB\":true}",
+    "reload B visible {\"hasA\":true,\"hasB\":true}",
+    "after-reload {\"count\":2,\"titles\":[\"fixed-TAB-A\",\"fixed-TAB-B\"],\"bytes\":{\"fixed-TAB-A\":124,\"fixed-TAB-B\":124}}",
+    "RESULT PASS"
+  ],
+  "afterSave": {
+    "version": 5,
+    "storeNames": [
+      "app_state",
+      "image_files",
+      "image_previews",
+      "local-forage-detect-blob-support",
+      "prompt_cache"
+    ],
+    "persistKeys": [
+      "assets",
+      "assetTombstones"
+    ],
+    "count": 2,
+    "titles": [
+      "fixed-TAB-A",
+      "fixed-TAB-B"
+    ],
+    "storageKeys": [
+      "image:SV-TxA6q7vs_M1CmvoMTr",
+      "image:kRQajlwRzZcu_FITA_2lV"
+    ],
+    "bytes": {
+      "fixed-TAB-A": 124,
+      "fixed-TAB-B": 124
+    },
+    "memTitles": null
+  },
+  "afterReload": {
+    "version": 5,
+    "storeNames": [
+      "app_state",
+      "image_files",
+      "image_previews",
+      "local-forage-detect-blob-support",
+      "prompt_cache"
+    ],
+    "persistKeys": [
+      "assets",
+      "assetTombstones"
+    ],
+    "count": 2,
+    "titles": [
+      "fixed-TAB-A",
+      "fixed-TAB-B"
+    ],
+    "storageKeys": [
+      "image:SV-TxA6q7vs_M1CmvoMTr",
+      "image:kRQajlwRzZcu_FITA_2lV"
+    ],
+    "bytes": {
+      "fixed-TAB-A": 124,
+      "fixed-TAB-B": 124
+    },
+    "memTitles": null
+  }
+}

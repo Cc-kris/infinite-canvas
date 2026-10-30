@@ -1,0 +1,68 @@
+{
+  "base": "http://127.0.0.1:3030",
+  "tag": "pristine-v2",
+  "pass": false,
+  "lines": [
+    "warm A {\"storageKey\":\"image:pdozL9cKRBj4tg46SDe8c\",\"bytes\":111}",
+    "warm B {\"storageKey\":\"image:NBcXWzj733ygxLubRqtk-\",\"bytes\":111}",
+    "initial {\"version\":5,\"stores\":[\"app_state\",\"image_files\",\"image_previews\",\"local-forage-detect-blob-support\",\"prompt_cache\"],\"count\":0,\"titles\":[]}",
+    "  draft attempt 1: ok",
+    "SAVED pristine-v2-TAB-A in 2857ms",
+    "B sees A? false",
+    "  draft attempt 1: ok",
+    "SAVED pristine-v2-TAB-B in 2009ms",
+    "after-save {\"version\":5,\"storeNames\":[\"app_state\",\"image_files\",\"image_previews\",\"local-forage-detect-blob-support\",\"prompt_cache\"],\"persistKeys\":[\"assets\"],\"count\":1,\"titles\":[\"pristine-v2-TAB-B\"],\"storageKeys\":[\"image:Kh5xzzNQVq_Nk0t2ZPpVi\"],\"bytes\":{\"pristine-v2-TAB-B\":124},\"memTitles\":null}",
+    "reload A visible {\"hasA\":false,\"hasB\":true}",
+    "reload B visible {\"hasA\":false,\"hasB\":true}",
+    "after-reload {\"count\":1,\"titles\":[\"pristine-v2-TAB-B\"],\"bytes\":{\"pristine-v2-TAB-B\":124}}",
+    "RESULT FAIL"
+  ],
+  "afterSave": {
+    "version": 5,
+    "storeNames": [
+      "app_state",
+      "image_files",
+      "image_previews",
+      "local-forage-detect-blob-support",
+      "prompt_cache"
+    ],
+    "persistKeys": [
+      "assets"
+    ],
+    "count": 1,
+    "titles": [
+      "pristine-v2-TAB-B"
+    ],
+    "storageKeys": [
+      "image:Kh5xzzNQVq_Nk0t2ZPpVi"
+    ],
+    "bytes": {
+      "pristine-v2-TAB-B": 124
+    },
+    "memTitles": null
+  },
+  "afterReload": {
+    "version": 5,
+    "storeNames": [
+      "app_state",
+      "image_files",
+      "image_previews",
+      "local-forage-detect-blob-support",
+      "prompt_cache"
+    ],
+    "persistKeys": [
+      "assets"
+    ],
+    "count": 1,
+    "titles": [
+      "pristine-v2-TAB-B"
+    ],
+    "storageKeys": [
+      "image:Kh5xzzNQVq_Nk0t2ZPpVi"
+    ],
+    "bytes": {
+      "pristine-v2-TAB-B": 124
+    },
+    "memTitles": null
+  }
+}

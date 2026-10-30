@@ -1,0 +1,64 @@
+{
+  "base": "http://127.0.0.1:3030",
+  "tag": "pristine",
+  "pass": false,
+  "lines": [
+    "warm A {\"storageKey\":\"image:Lw23NsC-RmKiLN9KIM1gr\",\"bytes\":111}",
+    "warm B {\"storageKey\":\"image:UC0v5AmOc-jDaQO7zH8jy\",\"bytes\":111}",
+    "initial {\"version\":5,\"stores\":[\"app_state\",\"image_files\",\"image_previews\",\"local-forage-detect-blob-support\",\"prompt_cache\"],\"count\":0,\"titles\":[]}",
+    "  draft attempt 1: ok",
+    "SAVED pristine-TAB-A in 4144ms",
+    "B sees A? false",
+    "  draft attempt 1: ok",
+    "SAVED pristine-TAB-B in 2904ms",
+    "after-save {\"version\":5,\"storeNames\":[\"app_state\",\"image_files\",\"image_previews\",\"local-forage-detect-blob-support\",\"prompt_cache\"],\"persistKeys\":[\"assets\"],\"count\":1,\"titles\":[\"pristine-TAB-B\"],\"storageKeys\":[null],\"bytes\":{},\"memTitles\":null}",
+    "reload A visible {\"hasA\":false,\"hasB\":true}",
+    "reload B visible {\"hasA\":false,\"hasB\":true}",
+    "after-reload {\"count\":1,\"titles\":[\"pristine-TAB-B\"],\"bytes\":{}}",
+    "RESULT FAIL"
+  ],
+  "afterSave": {
+    "version": 5,
+    "storeNames": [
+      "app_state",
+      "image_files",
+      "image_previews",
+      "local-forage-detect-blob-support",
+      "prompt_cache"
+    ],
+    "persistKeys": [
+      "assets"
+    ],
+    "count": 1,
+    "titles": [
+      "pristine-TAB-B"
+    ],
+    "storageKeys": [
+      null
+    ],
+    "bytes": {},
+    "memTitles": null
+  },
+  "afterReload": {
+    "version": 5,
+    "storeNames": [
+      "app_state",
+      "image_files",
+      "image_previews",
+      "local-forage-detect-blob-support",
+      "prompt_cache"
+    ],
+    "persistKeys": [
+      "assets"
+    ],
+    "count": 1,
+    "titles": [
+      "pristine-TAB-B"
+    ],
+    "storageKeys": [
+      null
+    ],
+    "bytes": {},
+    "memTitles": null
+  }
+}

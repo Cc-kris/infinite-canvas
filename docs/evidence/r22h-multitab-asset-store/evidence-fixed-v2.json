@@ -1,0 +1,76 @@
+{
+  "base": "http://127.0.0.1:3020",
+  "tag": "fixed-v2",
+  "pass": true,
+  "lines": [
+    "warm A {\"storageKey\":\"image:3aL-MkaZre5KH3NvCsjoh\",\"bytes\":111}",
+    "warm B {\"storageKey\":\"image:q47Btotlybygtlwr0EZCg\",\"bytes\":111}",
+    "initial {\"version\":5,\"stores\":[\"app_state\",\"image_files\",\"image_previews\",\"local-forage-detect-blob-support\",\"prompt_cache\"],\"count\":0,\"titles\":[]}",
+    "  draft attempt 1: ok",
+    "SAVED fixed-v2-TAB-A in 5979ms",
+    "B sees A? true",
+    "  draft attempt 1: ok",
+    "SAVED fixed-v2-TAB-B in 2394ms",
+    "after-save {\"version\":5,\"storeNames\":[\"app_state\",\"image_files\",\"image_previews\",\"local-forage-detect-blob-support\",\"prompt_cache\"],\"persistKeys\":[\"assets\",\"assetTombstones\"],\"count\":2,\"titles\":[\"fixed-v2-TAB-A\",\"fixed-v2-TAB-B\"],\"storageKeys\":[\"image:5cA9QZ1fP3bWkedqnIEKk\",\"image:XkG8nfztIzlI_3Wl5LbZW\"],\"bytes\":{\"fixed-v2-TAB-A\":124,\"fixed-v2-TAB-B\":124},\"memTitles\":null}",
+    "reload A visible {\"hasA\":true,\"hasB\":true}",
+    "reload B visible {\"hasA\":true,\"hasB\":true}",
+    "after-reload {\"count\":2,\"titles\":[\"fixed-v2-TAB-A\",\"fixed-v2-TAB-B\"],\"bytes\":{\"fixed-v2-TAB-A\":124,\"fixed-v2-TAB-B\":124}}",
+    "RESULT PASS"
+  ],
+  "afterSave": {
+    "version": 5,
+    "storeNames": [
+      "app_state",
+      "image_files",
+      "image_previews",
+      "local-forage-detect-blob-support",
+      "prompt_cache"
+    ],
+    "persistKeys": [
+      "assets",
+      "assetTombstones"
+    ],
+    "count": 2,
+    "titles": [
+      "fixed-v2-TAB-A",
+      "fixed-v2-TAB-B"
+    ],
+    "storageKeys": [
+      "image:5cA9QZ1fP3bWkedqnIEKk",
+      "image:XkG8nfztIzlI_3Wl5LbZW"
+    ],
+    "bytes": {
+      "fixed-v2-TAB-A": 124,
+      "fixed-v2-TAB-B": 124
+    },
+    "memTitles": null
+  },
+  "afterReload": {
+    "version": 5,
+    "storeNames": [
+      "app_state",
+      "image_files",
+      "image_previews",
+      "local-forage-detect-blob-support",
+      "prompt_cache"
+    ],
+    "persistKeys": [
+      "assets",
+      "assetTombstones"
+    ],
+    "count": 2,
+    "titles": [
+      "fixed-v2-TAB-A",
+      "fixed-v2-TAB-B"
+    ],
+    "storageKeys": [
+      "image:5cA9QZ1fP3bWkedqnIEKk",
+      "image:XkG8nfztIzlI_3Wl5LbZW"
+    ],
+    "bytes": {
+      "fixed-v2-TAB-A": 124,
+      "fixed-v2-TAB-B": 124
+    },
+    "memTitles": null
+  }
+}
