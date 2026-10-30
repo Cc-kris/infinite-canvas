@@ -1,0 +1,10 @@
+codec_name=h264
+codec_type=video
+width=1344
+height=768
+nb_frames=124
+codec_name=aac
+codec_type=audio
+nb_frames=163
+duration=5.167000
+size=1297168

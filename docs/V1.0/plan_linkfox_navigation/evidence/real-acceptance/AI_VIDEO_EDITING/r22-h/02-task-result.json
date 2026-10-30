@@ -1,0 +1,52 @@
+{
+  "capturedAt": "2026-10-30T04:29:55.207Z",
+  "draft": {
+    "referenceAssetIds": [
+      "afLYKUJuqCGatqErMRnMu"
+    ],
+    "revision": 205,
+    "slotValues": {
+      "assetSlot:reference-images": [
+        "afLYKUJuqCGatqErMRnMu"
+      ],
+      "assetSlot:source-video": [
+        "mbl52jwzeh82r-8o-AE1w"
+      ]
+    },
+    "sourceAssetId": "mbl52jwzeh82r-8o-AE1w"
+  },
+  "resultSectionText": "视频编辑结果 | 已完成 | 共 1 个结果 · 视频 1 | 下载 | 存入资产 | 发送画布",
+  "resultVideos": [
+    {
+      "bytes": 1297168,
+      "type": "video/mp4"
+    },
+    {
+      "bytes": 1984977,
+      "type": "video/mp4"
+    }
+  ],
+  "slots": [
+    [
+      [
+        "source.mp4",
+        "",
+        "1.2 MB · 1344×768 · video/mp4"
+      ]
+    ],
+    [
+      [
+        "ref.png",
+        "",
+        "141 KB · 1024×744 · image/png"
+      ]
+    ]
+  ],
+  "task": {
+    "id": "task-mvug7gog-h1df2z",
+    "label": "已完成",
+    "model": "sub2::MiniMax-H3",
+    "resultsText": "1 个结果",
+    "status": "succeeded"
+  }
+}
