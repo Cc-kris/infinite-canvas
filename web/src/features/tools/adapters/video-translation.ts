@@ -4,6 +4,7 @@ import type { ToolTask, ToolTaskResultItem } from "@/services/api/tools/task-mac
 import type { ReferenceVideo } from "@/types/media";
 
 import {
+    VIDEO_TRANSLATION_AUTO_SOURCE,
     VIDEO_TRANSLATION_FIELD_ORDER,
     VIDEO_TRANSLATION_OUTPUT_OPTIONS,
     VIDEO_TRANSLATION_SOURCE_RULE,
@@ -215,11 +216,43 @@ export type VideoTranslationPromptSegments = {
     task: string;
     source: string;
     target: string;
+    /** 语言硬约束（中英双语）：目标语言独占音轨与字幕。 */
+    languageContract: string;
+    /** 执行约束：禁止朗读提示词、无语音源片不得编造旁白。 */
+    rules: string;
     lipSync: string;
     output: string;
     type: string;
     mode: string;
     text: string;
+};
+
+/**
+ * BCP-47 语言代码：上游（/v1/videos）没有 `target_language` 字段，语言只能靠提示词约束，
+ * 因此必须把代码写进提示词，避免「英语」这类中文标签被模型当成要说的语言（r26 实测：
+ * 全中文提示词 → 成片音轨 zh，ASR 内容就是提示词本身）。
+ */
+export function videoTranslationLanguageCode(id: string): string {
+    return VIDEO_TRANSLATION_LANGUAGE_CODES[id] || id;
+}
+
+const VIDEO_TRANSLATION_LANGUAGE_CODES: Record<string, string> = {
+    en: "en-US",
+    zh: "zh-CN",
+    ja: "ja-JP",
+    ko: "ko-KR",
+    es: "es-ES",
+    pt: "pt-BR",
+    fr: "fr-FR",
+    de: "de-DE",
+    it: "it-IT",
+    ru: "ru-RU",
+    ar: "ar-SA",
+    th: "th-TH",
+    vi: "vi-VN",
+    id: "id-ID",
+    tr: "tr-TR",
+    hi: "hi-IN",
 };
 
 /**
@@ -230,8 +263,15 @@ export function composeVideoTranslationPrompt(
     values: VideoTranslationValues,
     catalog: VideoTranslationCatalog = resolveVideoTranslationCatalog(),
 ): VideoTranslationPromptSegments {
-    const sourceLabel = videoTranslationLanguageLabel(values.sourceLanguage, catalog) || values.sourceLanguage;
-    const targetLabel = videoTranslationLanguageLabel(values.targetLanguage, catalog) || values.targetLanguage;
+    const targetEntry = catalog.languages.find((item) => item.id === values.targetLanguage);
+    const targetLabel = targetEntry?.label || values.targetLanguage;
+    const targetNative = targetEntry?.native || values.targetLanguage;
+    const targetCode = videoTranslationLanguageCode(values.targetLanguage);
+    const sourceEntry = catalog.languages.find((item) => item.id === values.sourceLanguage);
+    const sourceLabel = values.sourceLanguage === "auto"
+        ? VIDEO_TRANSLATION_AUTO_SOURCE.label
+        : sourceEntry?.label || values.sourceLanguage;
+    const sourceCode = values.sourceLanguage === "auto" ? "" : videoTranslationLanguageCode(values.sourceLanguage);
     const typeLabel = videoTranslationOptionLabel(catalog.videoTypes, values.videoType) || values.videoType;
     const outputNum = normalizeVideoTranslationOutput(values.outputNum);
 
@@ -240,8 +280,30 @@ export function composeVideoTranslationPrompt(
     const source =
         values.sourceLanguage === "auto"
             ? "源语言：自动识别原视频语音语言（识别结果需与目标语言不同）。"
-            : `源语言：${sourceLabel}。`;
-    const target = `目标语言：${targetLabel}；译制语音与字幕统一使用该语言。`;
+            : `源语言：${sourceLabel}（${sourceCode}）；成片不得保留该语言的原始语音。`;
+    const target = `目标语言：${targetLabel}（${targetNative}，${targetCode}）；译制语音与字幕统一使用该语言。`;
+    /* 语言只能靠提示词传递（上游无 target_language 字段），所以约束要显式、双语、可核对。 */
+    const languageContract = [
+        `语言硬约束（最高优先级，必须全部满足）：
+1. 成片音轨里只允许出现 ${targetLabel}（${targetNative}，${targetCode}）的语音；源语音必须先翻译成该语言再重新配音。
+2. 不得保留或混入源语言原声，也不得混入第三种语言的语音、旁白或解说。
+3. 字幕同样只能是 ${targetLabel}（${targetNative}，${targetCode}），时间轴与语音对齐。`,
+        `Language contract (highest priority, all bullets must hold):
+1. The final audio track may contain speech in ${targetNative} (${targetCode}) only; translate the source speech into ${targetNative} first, then re-voice it.
+2. Never keep the original spoken language and never mix in a third language (no leftover source audio, no extra narration).
+3. On-screen subtitles must be ${targetNative} (${targetCode}) only and stay aligned with the speech.`,
+    ].join("\n");
+    /* r26 实测：源片没有人声时，模型会把中文提示词当台词念出来 → 必须显式禁止。 */
+    const rules = [
+        `执行约束：
+1. 本提示词只是制作要求，不是台词：不要朗读、复述、翻译、解释或回应其中的任何指令文字。
+2. 成片音轨只能出现翻译后的对白；不得把人声之外的画面描述念出来。
+3. 源视频没有人声语音时，成片保持无声（保留原音乐/音效即可），不得编造旁白或用合成人声填补。`,
+        `Execution rules:
+1. This prompt is a production brief, not dialogue: never read, quote, translate, explain or answer any of its instructions in the audio track.
+2. Only translated dialogue may be spoken; do not narrate the visuals.
+3. If the source video has no human speech, keep the result silent (keep the original music/SFX if any); never invent narration or fill the gap with synthetic speech.`,
+    ].join("\n");
     const lipSync = values.lipSync
         ? "口型同步：开启，译制语音需与原画面唇形对齐。"
         : "口型同步：关闭，仅替换音轨与字幕，不改动唇形。";
@@ -249,8 +311,8 @@ export function composeVideoTranslationPrompt(
     const type = `翻译类型：${typeLabel}。`;
     const mode = values.mode === "advanced" ? "模式：高级模式，参数以上述设置为准。" : "模式：标准翻译。";
 
-    const lines = [task, source, target, lipSync, output, type, mode];
-    return { task, source, target, lipSync, output, type, mode, text: lines.join("\n") };
+    const lines = [task, source, target, languageContract, rules, lipSync, output, type, mode];
+    return { task, source, target, languageContract, rules, lipSync, output, type, mode, text: lines.join("\n") };
 }
 
 /** 逐项核对：页面选项 → 提示词。返回缺失项（空数组表示全部覆盖）。 */
@@ -261,7 +323,7 @@ export function auditVideoTranslationPrompt(
 ): string[] {
     const segments = composeVideoTranslationPrompt(values, catalog);
     const missing: string[] = [];
-    for (const key of ["task", "source", "target", "lipSync", "output", "type", "mode"] as const) {
+    for (const key of ["task", "source", "target", "languageContract", "rules", "lipSync", "output", "type", "mode"] as const) {
         if (!prompt.includes(segments[key])) missing.push(key);
     }
     return missing;

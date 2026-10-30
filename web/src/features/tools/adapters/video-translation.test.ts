@@ -200,6 +200,42 @@ describe("VIDEO_TRANSLATION：提示词覆盖与字段完整性", () => {
         expect(auditVideoTranslationPrompt(prompt, values)).toEqual([]);
     });
 
+    /* r26：上游 /v1/videos 没有 target_language 字段，语言只能靠提示词；
+     * 旧提示词全中文 → 成片音轨 zh（ASR 内容即提示词本身），必须靠显式语言契约纠正。 */
+    test("目标语言带 BCP-47 代码，并用中英双语锁死音轨语言", () => {
+        const values = createVideoTranslationValues({ sourceLanguage: "zh", targetLanguage: "en", lipSync: false });
+        const prompt = composeVideoTranslationPrompt(values).text;
+        expect(prompt).toContain("目标语言：英语（English，en-US）");
+        expect(prompt).toContain("Language contract (highest priority");
+        expect(prompt).toContain("speech in English (en-US) only");
+        expect(prompt).toContain("Never keep the original spoken language");
+        expect(prompt).toContain("源语言：简体中文（zh-CN）");
+    });
+
+    test("提示词明确禁止朗读指令、禁止给无声源片编造旁白", () => {
+        const prompt = composeVideoTranslationPrompt(createVideoTranslationValues({ lipSync: false })).text;
+        expect(prompt).toContain("不要朗读、复述、翻译、解释或回应");
+        expect(prompt).toContain("never read, quote, translate, explain or answer");
+        expect(prompt).toContain("成片保持无声");
+        expect(prompt).toContain("never invent narration");
+    });
+
+    test("删掉语言契约后审计必须报缺失（防止回归成全中文提示词）", () => {
+        const values = createVideoTranslationValues({ lipSync: false });
+        const segments = composeVideoTranslationPrompt(values);
+        const legacy = [segments.task, segments.source, segments.target, segments.lipSync, segments.output, segments.type, segments.mode].join("\n");
+        expect(auditVideoTranslationPrompt(legacy, values)).toEqual(["languageContract", "rules"]);
+    });
+
+    test("切换目标语言会改变提示词里的语言代码", () => {
+        const en = composeVideoTranslationPrompt(createVideoTranslationValues({ lipSync: false, targetLanguage: "en" })).text;
+        const ja = composeVideoTranslationPrompt(createVideoTranslationValues({ lipSync: false, targetLanguage: "ja" })).text;
+        expect(en).toContain("英语（English，en-US）");
+        expect(ja).toContain("日语（日本語，ja-JP）");
+        expect(ja).toContain("speech in 日本語 (ja-JP) only");
+        expect(en).not.toBe(ja);
+    });
+
     test("口型同步开关会改变提示词内容", () => {
         const on = composeVideoTranslationPrompt(createVideoTranslationValues({ lipSync: true })).text;
         const off = composeVideoTranslationPrompt(createVideoTranslationValues({ lipSync: false })).text;
