@@ -1,0 +1,300 @@
+{
+  "ocr": {
+    "controls-en-US": {
+      "frames": 14,
+      "frames_with_text": 7,
+      "hits": 7,
+      "bottom_band_hits": 7,
+      "samples": [
+        {
+          "file": "ocr-positive-control-en.jpg",
+          "text": "This is a positive control subtitle line.",
+          "conf": 1,
+          "x": 0.18,
+          "y": 0.094,
+          "h": 0.044
+        },
+        {
+          "file": "ocr-sensitivity-en-14px.jpg",
+          "text": "English subtitle sensitivity test at this size",
+          "conf": 1,
+          "x": 0.331,
+          "y": 0.115,
+          "h": 0.026
+        },
+        {
+          "file": "ocr-sensitivity-en-16px.jpg",
+          "text": "English subtitle sensitivity test at this size",
+          "conf": 1,
+          "x": 0.307,
+          "y": 0.112,
+          "h": 0.026
+        },
+        {
+          "file": "ocr-sensitivity-en-18px.jpg",
+          "text": "English subtitle sensitivity test at this size",
+          "conf": 1,
+          "x": 0.281,
+          "y": 0.109,
+          "h": 0.029
+        },
+        {
+          "file": "ocr-sensitivity-en-20px.jpg",
+          "text": "English subtitle sensitivity test at this size",
+          "conf": 1,
+          "x": 0.26,
+          "y": 0.107,
+          "h": 0.031
+        },
+        {
+          "file": "ocr-sensitivity-en-24px.jpg",
+          "text": "English subtitle sensitivity test at this size",
+          "conf": 1,
+          "x": 0.214,
+          "y": 0.102,
+          "h": 0.039
+        },
+        {
+          "file": "ocr-sensitivity-en-28px.jpg",
+          "text": "English subtitle sensitivity test at this size",
+          "conf": 1,
+          "x": 0.166,
+          "y": 0.093,
+          "h": 0.048
+        }
+      ]
+    },
+    "controls-zh-Hans": {
+      "frames": 14,
+      "frames_with_text": 14,
+      "hits": 14,
+      "bottom_band_hits": 14,
+      "samples": [
+        {
+          "file": "ocr-positive-control-en.jpg",
+          "text": "This is a positive control subtitle line.",
+          "conf": 0.5,
+          "x": 0.18,
+          "y": 0.094,
+          "h": 0.044
+        },
+        {
+          "file": "ocr-positive-control-zh.jpg",
+          "text": "这是一条中文阳性对照字幕",
+          "conf": 0.5,
+          "x": 0.263,
+          "y": 0.096,
+          "h": 0.05
+        },
+        {
+          "file": "ocr-sensitivity-en-14px.jpg",
+          "text": "Engish subtitle sensitivity test at this size",
+          "conf": 0.5,
+          "x": 0.331,
+          "y": 0.115,
+          "h": 0.026
+        },
+        {
+          "file": "ocr-sensitivity-en-16px.jpg",
+          "text": "English subtitle sensitivity test at this size",
+          "conf": 0.5,
+          "x": 0.307,
+          "y": 0.112,
+          "h": 0.026
+        },
+        {
+          "file": "ocr-sensitivity-en-18px.jpg",
+          "text": "English subtitle sensitivity test at this size",
+          "conf": 0.5,
+          "x": 0.281,
+          "y": 0.109,
+          "h": 0.029
+        },
+        {
+          "file": "ocr-sensitivity-en-20px.jpg",
+          "text": "English subtitle sensitivity test at this size",
+          "conf": 0.5,
+          "x": 0.26,
+          "y": 0.107,
+          "h": 0.031
+        },
+        {
+          "file": "ocr-sensitivity-en-24px.jpg",
+          "text": "English subtitle sensitivity test at this size",
+          "conf": 0.5,
+          "x": 0.214,
+          "y": 0.102,
+          "h": 0.039
+        },
+        {
+          "file": "ocr-sensitivity-en-28px.jpg",
+          "text": "English subtitle sensitivity test at this size",
+          "conf": 0.5,
+          "x": 0.166,
+          "y": 0.093,
+          "h": 0.048
+        }
+      ]
+    },
+    "result-band-en-US": {
+      "frames": 158,
+      "frames_with_text": 0,
+      "hits": 0,
+      "bottom_band_hits": 0,
+      "samples": []
+    },
+    "result-band-zh-Hans": {
+      "frames": 158,
+      "frames_with_text": 0,
+      "hits": 0,
+      "bottom_band_hits": 0,
+      "samples": []
+    },
+    "result-full-en-US": {
+      "frames": 158,
+      "frames_with_text": 1,
+      "hits": 1,
+      "bottom_band_hits": 0,
+      "samples": [
+        {
+          "file": "r_150.png",
+          "text": "CAT",
+          "conf": 0.5,
+          "x": 0.435,
+          "y": 0.516,
+          "h": 0.013
+        }
+      ]
+    },
+    "result-full-zh-Hans": {
+      "frames": 158,
+      "frames_with_text": 0,
+      "hits": 0,
+      "bottom_band_hits": 0,
+      "samples": []
+    },
+    "source-band-en-US": {
+      "frames": 124,
+      "frames_with_text": 0,
+      "hits": 0,
+      "bottom_band_hits": 0,
+      "samples": []
+    },
+    "source-band-zh-Hans": {
+      "frames": 124,
+      "frames_with_text": 0,
+      "hits": 0,
+      "bottom_band_hits": 0,
+      "samples": []
+    },
+    "source-full-en-US": {
+      "frames": 124,
+      "frames_with_text": 7,
+      "hits": 7,
+      "bottom_band_hits": 0,
+      "samples": [
+        {
+          "file": "s_002.png",
+          "text": "1205",
+          "conf": 0.5,
+          "x": 0.469,
+          "y": 0.523,
+          "h": 0.016
+        },
+        {
+          "file": "s_004.png",
+          "text": "15000",
+          "conf": 1,
+          "x": 0.466,
+          "y": 0.523,
+          "h": 0.016
+        },
+        {
+          "file": "s_006.png",
+          "text": "1273)",
+          "conf": 1,
+          "x": 0.463,
+          "y": 0.526,
+          "h": 0.013
+        },
+        {
+          "file": "s_009.png",
+          "text": "NONT",
+          "conf": 0.5,
+          "x": 0.458,
+          "y": 0.526,
+          "h": 0.013
+        },
+        {
+          "file": "s_010.png",
+          "text": "150x",
+          "conf": 1,
+          "x": 0.457,
+          "y": 0.526,
+          "h": 0.013
+        },
+        {
+          "file": "s_011.png",
+          "text": "MOST",
+          "conf": 0.5,
+          "x": 0.455,
+          "y": 0.529,
+          "h": 0.008
+        },
+        {
+          "file": "s_013.png",
+          "text": "MOET",
+          "conf": 0.5,
+          "x": 0.452,
+          "y": 0.526,
+          "h": 0.013
+        }
+      ]
+    },
+    "source-full-zh-Hans": {
+      "frames": 124,
+      "frames_with_text": 0,
+      "hits": 0,
+      "bottom_band_hits": 0,
+      "samples": []
+    }
+  },
+  "asr": {
+    "{\"language\": \"zh\", \"temperature\": 0.0, \"beam_size\": 5}": {
+      "lang": "zh",
+      "p": 1,
+      "text": "原製動識別原視頻語音成片, 翻譯成譯項度依請程俏,模式、標準能翻譯。",
+      "nospeech": [
+        0.047
+      ],
+      "vad_ratio_max": null
+    },
+    "{\"language\": null, \"temperature\": 0.0, \"beam_size\": 5}": {
+      "lang": "zh",
+      "p": 0.9967,
+      "text": "原製動識別原視頻語音成片, 翻譯成譯項度依請程俏,模式、標準能翻譯。",
+      "nospeech": [
+        0.047
+      ],
+      "vad_ratio_max": null
+    },
+    "{\"language\": \"en\", \"temperature\": 0.0, \"beam_size\": 5}": {
+      "lang": "en",
+      "p": 1,
+      "text": "原智動識別原視頻語音成片翻譯詞役相同一寢成竅模式標準的翻譯",
+      "nospeech": [
+        0.047
+      ],
+      "vad_ratio_max": null
+    },
+    "{\"language\": \"zh\", \"temperature\": 0.0, \"beam_size\": 1}": {
+      "lang": "zh",
+      "p": 1,
+      "text": "原製動識別原視頻語音成片,翻譯成譯相同一啟成竅,模式、標準能翻譯。",
+      "nospeech": [
+        0.047
+      ],
+      "vad_ratio_max": null
+    }
+  }
+}

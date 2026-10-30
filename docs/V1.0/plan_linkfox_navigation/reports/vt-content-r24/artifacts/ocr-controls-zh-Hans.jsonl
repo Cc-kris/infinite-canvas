@@ -1,0 +1,14 @@
+{"file":"ocr-positive-control-en.jpg","langs":["zh-Hans"],"texts":[{"conf":0.5,"h":0.043999999999999997,"text":"This is a positive control subtitle line.","w":0.64300000000000002,"x":0.17999999999999999,"y":0.094}]}
+{"file":"ocr-positive-control-zh.jpg","langs":["zh-Hans"],"texts":[{"conf":0.5,"h":0.050000000000000003,"text":"这是一条中文阳性对照字幕","w":0.47899999999999998,"x":0.26300000000000001,"y":0.096000000000000002}]}
+{"file":"ocr-sensitivity-en-14px.jpg","langs":["zh-Hans"],"texts":[{"conf":0.5,"h":0.025999999999999999,"text":"Engish subtitle sensitivity test at this size","w":0.33900000000000002,"x":0.33100000000000002,"y":0.115}]}
+{"file":"ocr-sensitivity-en-16px.jpg","langs":["zh-Hans"],"texts":[{"conf":0.5,"h":0.025999999999999999,"text":"English subtitle sensitivity test at this size","w":0.38300000000000001,"x":0.307,"y":0.112}]}
+{"file":"ocr-sensitivity-en-18px.jpg","langs":["zh-Hans"],"texts":[{"conf":0.5,"h":0.029000000000000001,"text":"English subtitle sensitivity test at this size","w":0.435,"x":0.28100000000000003,"y":0.109}]}
+{"file":"ocr-sensitivity-en-20px.jpg","langs":["zh-Hans"],"texts":[{"conf":0.5,"h":0.031,"text":"English subtitle sensitivity test at this size","w":0.47899999999999998,"x":0.26000000000000001,"y":0.107}]}
+{"file":"ocr-sensitivity-en-24px.jpg","langs":["zh-Hans"],"texts":[{"conf":0.5,"h":0.039,"text":"English subtitle sensitivity test at this size","w":0.57599999999999996,"x":0.214,"y":0.10199999999999999}]}
+{"file":"ocr-sensitivity-en-28px.jpg","langs":["zh-Hans"],"texts":[{"conf":0.5,"h":0.048000000000000001,"text":"English subtitle sensitivity test at this size","w":0.67000000000000004,"x":0.16600000000000001,"y":0.092999999999999999}]}
+{"file":"ocr-sensitivity-zh-14px.jpg","langs":["zh-Hans"],"texts":[{"conf":1,"h":0.023,"text":"中文敏感度测试字号","w":0.16900000000000001,"x":0.41399999999999998,"y":0.11700000000000001}]}
+{"file":"ocr-sensitivity-zh-16px.jpg","langs":["zh-Hans"],"texts":[{"conf":1,"h":0.025999999999999999,"text":"中文敏感度测试字号","w":0.19,"x":0.40400000000000003,"y":0.115}]}
+{"file":"ocr-sensitivity-zh-18px.jpg","langs":["zh-Hans"],"texts":[{"conf":1,"h":0.031,"text":"中文敏感度测试字号","w":0.214,"x":0.39300000000000002,"y":0.112}]}
+{"file":"ocr-sensitivity-zh-20px.jpg","langs":["zh-Hans"],"texts":[{"conf":1,"h":0.034000000000000002,"text":"中文敏感度测试字号","w":0.25,"x":0.37,"y":0.109}]}
+{"file":"ocr-sensitivity-zh-24px.jpg","langs":["zh-Hans"],"texts":[{"conf":1,"h":0.042000000000000003,"text":"中文敏感度测试字号","w":0.28799999999999998,"x":0.35399999999999998,"y":0.10000000000000001}]}
+{"file":"ocr-sensitivity-zh-28px.jpg","langs":["zh-Hans"],"texts":[{"conf":1,"h":0.043999999999999997,"text":"中文敏感度测试字号","w":0.33300000000000002,"x":0.33300000000000002,"y":0.099000000000000005}]}

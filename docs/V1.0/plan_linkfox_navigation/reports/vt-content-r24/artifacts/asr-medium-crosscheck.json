@@ -1,0 +1,48 @@
+{
+  "source": {
+    "lid": {
+      "lang": "en",
+      "p": 0.6554
+    },
+    "duration": 5.184,
+    "segments": [
+      {
+        "s": 0.0,
+        "e": 5.12,
+        "text": " Thanks for watching!",
+        "logprob": -0.984,
+        "nospeech": 0.4135
+      }
+    ]
+  },
+  "result": {
+    "lid": {
+      "lang": "zh",
+      "p": 0.9873
+    },
+    "duration": 6.592,
+    "segments": [
+      {
+        "s": 0.0,
+        "e": 3.0,
+        "text": "原制动识别原视频语音成片",
+        "logprob": -0.27,
+        "nospeech": 0.7805
+      },
+      {
+        "s": 3.0,
+        "e": 5.0,
+        "text": "翻译成译性能依傾成窍",
+        "logprob": -0.27,
+        "nospeech": 0.7805
+      },
+      {
+        "s": 5.0,
+        "e": 7.0,
+        "text": "模式 标准的翻译",
+        "logprob": -0.27,
+        "nospeech": 0.7805
+      }
+    ]
+  }
+}

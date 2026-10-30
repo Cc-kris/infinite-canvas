@@ -1,0 +1,60 @@
+{
+  "source": {
+    "auto_language": {
+      "detected": "en",
+      "probability": 0.6147,
+      "duration": 5.184
+    },
+    "auto_segments": [
+      {
+        "start": 0.0,
+        "end": 4.78,
+        "text": "Thank you for watching!",
+        "avg_logprob": -1.1497,
+        "no_speech_prob": 0.3766
+      }
+    ],
+    "auto_text": "Thank you for watching!",
+    "forced_en": {
+      "text": "Thank you for watching!",
+      "avg_logprob": -1.1497,
+      "segments": [
+        {
+          "start": 0.0,
+          "end": 5.16,
+          "text": "Thank you for watching!",
+          "avg_logprob": -1.1497
+        }
+      ]
+    }
+  },
+  "result": {
+    "auto_language": {
+      "detected": "zh",
+      "probability": 0.9967,
+      "duration": 6.592
+    },
+    "auto_segments": [
+      {
+        "start": 0.42,
+        "end": 6.3,
+        "text": "原製動識別原視頻語音成片, 翻譯成譯項度依請程俏,模式、標準能翻譯。",
+        "avg_logprob": -0.3989,
+        "no_speech_prob": 0.0469
+      }
+    ],
+    "auto_text": "原製動識別原視頻語音成片, 翻譯成譯項度依請程俏,模式、標準能翻譯。",
+    "forced_en": {
+      "text": "原智動識別原視頻語音成片翻譯詞役相同一寢成竅模式標準的翻譯",
+      "avg_logprob": -0.4039,
+      "segments": [
+        {
+          "start": 0.0,
+          "end": 6.4,
+          "text": "原智動識別原視頻語音成片翻譯詞役相同一寢成竅模式標準的翻譯",
+          "avg_logprob": -0.4039
+        }
+      ]
+    }
+  }
+}

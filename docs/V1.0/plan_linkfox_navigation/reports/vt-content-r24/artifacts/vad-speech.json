@@ -1,0 +1,75 @@
+{
+  "method": "faster_whisper.vad.get_speech_timestamps @16k mono",
+  "thresholds": [
+    0.3,
+    0.5,
+    0.7
+  ],
+  "tracks": {
+    "source": {
+      "duration_s": 5.184,
+      "by_threshold": {
+        "0.3": {
+          "segments": 0,
+          "speech_s": 0.0,
+          "speech_ratio": 0.0,
+          "first": []
+        },
+        "0.5": {
+          "segments": 0,
+          "speech_s": 0.0,
+          "speech_ratio": 0.0,
+          "first": []
+        },
+        "0.7": {
+          "segments": 0,
+          "speech_s": 0.0,
+          "speech_ratio": 0.0,
+          "first": []
+        }
+      }
+    },
+    "result": {
+      "duration_s": 6.592,
+      "by_threshold": {
+        "0.3": {
+          "segments": 1,
+          "speech_s": 6.592,
+          "speech_ratio": 1.0,
+          "first": [
+            [
+              0.0,
+              6.59
+            ]
+          ]
+        },
+        "0.5": {
+          "segments": 1,
+          "speech_s": 6.352,
+          "speech_ratio": 0.9636,
+          "first": [
+            [
+              0.24,
+              6.59
+            ]
+          ]
+        },
+        "0.7": {
+          "segments": 2,
+          "speech_s": 6.352,
+          "speech_ratio": 0.9636,
+          "first": [
+            [
+              0.24,
+              4.78
+            ],
+            [
+              4.78,
+              6.59
+            ]
+          ]
+        }
+      }
+    }
+  }
+}
