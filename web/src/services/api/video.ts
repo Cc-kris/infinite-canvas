@@ -10,6 +10,7 @@ import { getMediaBlob, resolveMediaUrl, uploadMediaFile, type UploadedFile } fro
 import { imageToDataUrl } from "@/services/image-storage";
 import { boolConfig, buildApiUrl, modelOptionName, resolveModelRequestConfig, resolveModelScript, resolveVideoHttpConfig, withLocalProxy, type AiConfig, type VideoHttpConfig } from "@/stores/use-config-store";
 import { channelMediaHeaders } from "@/services/media-auth";
+import { mapUpstreamModelRejection, type SeedV25TranslationPayload } from "@/services/api/video-translation-seed-v25";
 import { runModelPlugin } from "./model-plugin";
 import type { ReferenceImage } from "@/types/image";
 import type { ReferenceAudio, ReferenceVideo } from "@/types/media";
@@ -28,7 +29,12 @@ type VideoResponse = {
 type ApiVideoResponse = VideoResponse | { code?: number | string; data?: VideoResponse | null; msg?: string; message?: string; error?: { message?: string } };
 type ApiEnvelope<T> = T | { code?: number | string; data?: T | null; msg?: string; message?: string; error?: { message?: string } };
 type RequestOptions = { signal?: AbortSignal };
-type VideoMediaOptions = RequestOptions & { videos?: ReferenceVideo[]; audios?: ReferenceAudio[] };
+type VideoMediaOptions = RequestOptions & {
+    videos?: ReferenceVideo[];
+    audios?: ReferenceAudio[];
+    /** VIDEO_TRANSLATION → SEED_V25 翻译请求体（已由协议层校验；存在时只走 JSON）。 */
+    translation?: SeedV25TranslationPayload;
+};
 const apiText = (key: string, options?: Record<string, unknown>) => i18n.t(`apiErrors.${key}`, options);
 
 export type VideoGenerationResult = { blob?: Blob; url?: string; mimeType?: string };
@@ -381,6 +387,22 @@ async function createOpenAIVideoTask(config: AiConfig, model: string, prompt: st
     const publicVideoUrls = collectPublicVideoUrls(videoRefs);
     const inlineVideos = videos.length > 0 && publicVideoUrls.length === videos.length;
     if (inlineVideos) jsonFields.videos = publicVideoUrls;
+    /* SEED_V25 视频翻译：字段只能进 JSON（multipart 承载不了 extendFields / sourceVideoUrl），
+     * 且源视频必须是上游可下载的公网地址（协议层已校验），所以这里不再走 multipart 兜底。 */
+    const translation = options?.translation;
+    if (translation) {
+        jsonFields.model = translation.model;
+        jsonFields.prompt = translation.prompt;
+        jsonFields.videos = translation.videos;
+        jsonFields.type = translation.type;
+        jsonFields.outputNum = translation.outputNum;
+        jsonFields.sourceVideoUrl = translation.sourceVideoUrl;
+        jsonFields.sourceVideoName = translation.sourceVideoName;
+        jsonFields.sourceLanguage = translation.sourceLanguage;
+        jsonFields.targetLanguage = translation.targetLanguage;
+        jsonFields.lipSync = translation.lipSync;
+        jsonFields.extendFields = translation.extendFields;
+    }
     /** 本地素材 → 公网地址，供「只认 JSON 的中转」重试用。失败直接抛错，绝不静默降级成纯文本生成。 */
     let publishedForJson = false;
     const publishVideosForJson = async () => {
@@ -401,7 +423,9 @@ async function createOpenAIVideoTask(config: AiConfig, model: string, prompt: st
         signal: options?.signal,
         timeout: VIDEO_SUBMIT_TIMEOUT_MS,
     });
-    const plan = planVideoSubmitPayloads({
+    // 翻译请求（translation）只允许 JSON：multipart 无法承载 extendFields / sourceVideoUrl，
+    // 也不能靠「发布源视频后重发」补救（那会改掉 sourceVideoUrl 的来源）。
+    const plan = translation ? { order: ["json"] as const } : planVideoSubmitPayloads({
         inlineImages: Boolean(inlineImages),
         mediaOnlyInMultipart: (videos.length > 0 && !inlineVideos) || audios.length > 0,
         relayHost: prefersJsonFirst(config.baseUrl),
@@ -421,7 +445,7 @@ async function createOpenAIVideoTask(config: AiConfig, model: string, prompt: st
                 const message = readAxiosError(error, "");
                 // 该中转只认 JSON（multipart 的二进制被当文本解码）→ 把本地视频发布成公网地址后，
                 // 用 JSON 重发一次。发布失败会抛错，绝不让「视频编辑」静默退化成「文生视频」。
-                if (!publishedForJson && videos.length > 0 && relayMultipartRejectionHint(status, message)) {
+                if (!publishedForJson && !translation && videos.length > 0 && relayMultipartRejectionHint(status, message)) {
                     await publishVideosForJson();
                     created = unwrapVideoResponse((await withGatewayRetry(() => post(jsonFields), 3)).data);
                     break;
@@ -434,6 +458,16 @@ async function createOpenAIVideoTask(config: AiConfig, model: string, prompt: st
         if (!created.id) throw new Error(apiText("noVideoTaskId"));
         return { id: created.id, provider: "openai", model };
     } catch (error) {
+        // 翻译请求被上游按「模型不存在」拒绝（sub2api 实测 404 not available for this group）：
+        // 归一成和本地闸门一致的说法，避免出现「本地说没开通 / 上游说另一个错」两套文案。
+        if (translation) {
+            const rejected = mapUpstreamModelRejection(requestStatus(error), readAxiosError(error, ""));
+            if (rejected) {
+                const normalized = new Error(rejected.message);
+                normalized.name = "SeedV25ModelRejected";
+                throw normalized;
+            }
+        }
         throw new Error(withRequestDiagnosis(readAxiosError(error, apiText("videoTaskCreateFailed")), requestStatus(error), config.baseUrl, "/videos") + relayMultipartRejectionHint(requestStatus(error), readAxiosError(error, "")));
     }
 }

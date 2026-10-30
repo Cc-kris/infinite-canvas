@@ -19,6 +19,12 @@ import {
     type VideoGenerationTaskState,
 } from "@/services/api/video";
 import { clampVideoSeconds, computeVideoSize, parseVideoResolution } from "@/lib/media-size";
+import {
+    buildSeedV25TranslationRoute,
+    isSeedV25Model,
+    SEED_V25_MODEL_ID,
+    type SeedV25TranslationPayload,
+} from "@/services/api/video-translation-seed-v25";
 import { resolveModelChannel, useConfigStore, type AiConfig } from "@/stores/use-config-store";
 import type { ReferenceImage } from "@/types/image";
 import type { ReferenceAudio, ReferenceVideo } from "@/types/media";
@@ -143,6 +149,12 @@ export type VideoInvocation = {
     videos: ReferenceVideo[];
     audios: ReferenceAudio[];
     config: AiConfig;
+    /**
+     * VIDEO_TRANSLATION → SEED_V25 的翻译专用请求体（协议层已校验完）。
+     * 只有「选了 SEED_V25 且字段齐全」时才有值；为 undefined 时表示本次不是 SEED_V25 翻译请求。
+     * 严禁在缺失时让 provider 退回别的模型代跑（下方 resolveInvocation 直接抛错）。
+     */
+    translation?: SeedV25TranslationPayload;
 };
 
 export type ProviderInvocation = ImageInvocation | VideoInvocation;
@@ -196,6 +208,45 @@ export function buildToolConfig(config: AiConfig, kind: ToolAdapterKind, input: 
             ? { size: computeVideoSize(parseVideoResolution(config.vquality), input.videoRatio.trim()) }
             : {}),
     };
+}
+
+/**
+ * VIDEO_TRANSLATION → SEED_V25 的路由解析（默认模型固定 SEED_V25）。
+ *
+ * 为什么默认不用全局 videoModel：全局 videoModel 通常是 MiniMax-H3，沿用它就等于
+ * 「借别的模型代跑却对外标称 SEED_V25」。这里把默认目标钉死在 SEED_V25，
+ * 渠道没开通就在提交前抛 ToolGatewayError，用户能立刻看到真实原因（含渠道可用模型清单）。
+ */
+export function resolveSeedV25Translation(input: ToolAdapterInput, config: AiConfig): {
+    config: AiConfig;
+    translation: SeedV25TranslationPayload;
+} {
+    const fields: Record<string, unknown> = { ...(input.fields ?? {}) };
+    const firstVideo = (input.videos ?? [])[0];
+    // 素材层的公网地址与文件名是权威来源；工具页没显式给时用它们兜底（不猜、不伪造）。
+    if (!fields.sourceVideoUrl && firstVideo?.url) fields.sourceVideoUrl = firstVideo.url;
+    if (!fields.sourceVideoName && firstVideo?.name) fields.sourceVideoName = firstVideo.name;
+
+    const targetModel = (input.model ?? "").trim() || SEED_V25_MODEL_ID;
+    const toolConfig = buildToolConfig(config, "video", { ...input, model: targetModel });
+
+    // 渠道声明 = 用户在设置里真实配置的模型清单；为空表示无法枚举（不乐观放行，交给上游 404 收敛）。
+    let declared: string[] = [];
+    try {
+        declared = (resolveModelChannel(config, toolConfig.model)?.models ?? []).map((item) => item.name).filter(Boolean);
+    } catch {
+        declared = [];
+    }
+
+    const route = buildSeedV25TranslationRoute({
+        selectedModel: targetModel,
+        prompt: normalizePrompt(input.prompt ?? ""),
+        fields: fields as Partial<Record<string, never>> & Record<string, unknown>,
+        availableModels: declared.length > 0 ? declared : null,
+        channelDeclaresModel: declared.length > 0 ? declared.some((name) => isSeedV25Model(name)) : undefined,
+    });
+    if (route.status === "blocked") throw new ToolGatewayError(route.code, route.message);
+    return { config: toolConfig, translation: route.payload };
 }
 
 export function buildConfigSnapshot(config: AiConfig, capability: ToolTaskCapability): ToolTaskConfigSnapshot {
@@ -255,6 +306,21 @@ function createToolAdapter(toolId: ToolId): ToolAdapter {
             if (definition.requiresVideo && videos.length === 0) throw new ToolGatewayError("video-required", `${toolId} needs at least one source video.`);
             const toolConfig = buildToolConfig(config, definition.kind, input);
             if (capability === "video") {
+                /* VIDEO_TRANSLATION 走 SEED_V25 真路由：默认目标就是 doubao-seedance-2-5，
+                 * 不再沿用全局 videoModel（那正是「借 MiniMax 代跑」的入口）。
+                 * 渠道没开通该模型时在这里直接抛错，绝不放行到 provider 后被替换成别的模型。 */
+                if (toolId === "VIDEO_TRANSLATION") {
+                    const route = resolveSeedV25Translation(input, config);
+                    return {
+                        kind: "video",
+                        prompt,
+                        references,
+                        videos,
+                        audios: input.audios ?? [],
+                        config: route.config,
+                        translation: route.translation,
+                    };
+                }
                 return { kind: "video", prompt, references, videos, audios: input.audios ?? [], config: toolConfig };
             }
             return { kind: "image", mode: references.length ? "edit" : "generate", prompt, references, config: toolConfig };
@@ -441,6 +507,8 @@ export function imageResultItems(taskId: string, results: ProviderImageResult[])
     });
 }
 
+export type VideoCallOptions = { translation?: SeedV25TranslationPayload };
+
 /** provider 端口：生产实现直连真实接口；测试只替换此端口，绝不替换业务状态机。 */
 export type ProviderPort = {
     generateImage(config: AiConfig, prompt: string, signal?: AbortSignal): Promise<ProviderImageResult[]>;
@@ -452,6 +520,8 @@ export type ProviderPort = {
         videos: ReferenceVideo[],
         audios: ReferenceAudio[],
         signal?: AbortSignal,
+        /** VIDEO_TRANSLATION → SEED_V25 专用请求体；缺省表示普通视频生成。 */
+        options?: VideoCallOptions,
     ): Promise<VideoGenerationTask>;
     pollVideoTask(config: AiConfig, task: VideoGenerationTask, signal?: AbortSignal): Promise<VideoGenerationTaskState>;
 };
@@ -463,8 +533,13 @@ export const realProviderPort: ProviderPort = {
     async editImage(config, prompt, references, signal) {
         return requestEdit(config, prompt, references, { signal });
     },
-    async createVideoTask(config, prompt, references, videos, audios, signal) {
-        return createVideoGenerationTask(config, prompt, references, { videos, audios, signal });
+    async createVideoTask(config, prompt, references, videos, audios, signal, options) {
+        return createVideoGenerationTask(config, prompt, references, {
+            videos,
+            audios,
+            signal,
+            ...(options?.translation ? { translation: options.translation } : {}),
+        });
     },
     async pollVideoTask(config, task, signal) {
         return pollVideoGenerationTask(config, task, { signal });
@@ -1098,6 +1173,7 @@ export class ToolTaskGateway {
                     invocation.videos,
                     invocation.audios,
                     options.signal,
+                    invocation.translation ? { translation: invocation.translation } : undefined,
                 ),
             );
             if (!upstream?.id) {
@@ -1117,6 +1193,15 @@ export class ToolTaskGateway {
             this.store.set(running);
             return running;
         } catch (error) {
+            // SEED_V25 模型未在渠道开通：这是确定性的配置问题，不是网络抖动。
+            // 判 definitive 且 retryable=false —— 否则用户重试只会重复扣一次失败请求。
+            if (error instanceof Error && error.name === "SeedV25ModelRejected") {
+                return this.recordFailure(
+                    task,
+                    { code: "seed-v25-model-unavailable", message: error.message, retryable: false, definitive: true },
+                    { definitive: true },
+                );
+            }
             const classified = classifyProviderError(error);
             return this.recordFailure(task, classified, { definitive: classified.definitive });
         }
