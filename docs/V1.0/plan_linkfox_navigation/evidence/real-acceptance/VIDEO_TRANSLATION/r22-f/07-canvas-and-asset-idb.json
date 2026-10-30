@@ -1,0 +1,46 @@
+{
+  "note": "从页面 IndexedDB(infinite-canvas/app_state) 实测导出，非伪造；capturedAt=2026-10-30T04:17:06.483Z",
+  "canvas": {
+    "projectCount": 1,
+    "projectId": "XAlXhFqR_ZxWSJMImYk6r",
+    "title": "VIDEO_TRANSLATION 结果",
+    "createdAt": "2026-10-30T04:13:56.936Z",
+    "nodeCount": 1,
+    "node": {
+      "id": "video-1793333636962-aoazu",
+      "type": "video",
+      "title": "视频",
+      "frame": { "w": 420, "h": 420 },
+      "metadata": {
+        "content": "blob:http://localhost:3000/c120b96f-2543-469e-bbb2-0686044bdf49",
+        "status": "success",
+        "storageKey": "video:l_O76YiQrJhKGVKy-Jw5d",
+        "bytes": 1249837,
+        "mimeType": "video/mp4",
+        "durationMs": 6583,
+        "naturalWidth": 768,
+        "naturalHeight": 768
+      }
+    }
+  },
+  "asset": {
+    "count": 1,
+    "id": "M9g-UrvgLtZIYEjMIqrVk",
+    "kind": "video",
+    "title": "VIDEO_TRANSLATION 结果 1",
+    "source": "工具结果",
+    "data": {
+      "storageKey": "video:zgzM_z3Up7vmQEjpY14TJ",
+      "width": 1280,
+      "height": 720,
+      "bytes": 1249837,
+      "mimeType": "video/mp4"
+    },
+    "metadata": {
+      "toolId": "VIDEO_TRANSLATION",
+      "taskId": "task-mvuflf9e-djxprc",
+      "resultItemId": "task-mvuflf9e-djxprc-0",
+      "resultAssetKey": "tool-result:VIDEO_TRANSLATION:task-mvuflf9e-djxprc:task-mvuflf9e-djxprc-0"
+    }
+  }
+}

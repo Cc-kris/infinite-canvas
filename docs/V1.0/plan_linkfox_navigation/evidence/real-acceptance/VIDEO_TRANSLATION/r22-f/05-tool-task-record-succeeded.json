@@ -1,0 +1,47 @@
+{
+ "id": "task-mvuflf9e-djxprc",
+ "toolId": "VIDEO_TRANSLATION",
+ "status": "succeeded",
+ "clientOperationId": "ffce45e2-c3cc-44b0-9fe8-79142c5e2165",
+ "fingerprint": "f67b221c214528f3",
+ "capability": "video",
+ "prompt": "任务：把原视频的语音翻译成目标语言并重新配音，保持原画面、镜头节奏与字幕时间轴不变，输出可直接投放的成片。 源语言：自动识别原视频语音语言（识别结果需与目标语言不同）。 目标语言：英语（English）；译制语音与字幕统一使用该语言。 口型同步：关闭，仅替换音轨与字幕，不改动唇形。 输出数量：1 条；每条均为完整成片。 翻译类型：视频翻译。 模式：标准翻译。",
+ "configSnapshot": {
+  "capability": "video",
+  "model": "sub2api-real::MiniMax-H3",
+  "apiFormat": "openai",
+  "size": "1:1",
+  "quality": "auto",
+  "count": "1",
+  "videoSeconds": "6",
+  "channelId": "sub2api-real"
+ },
+ "sourceAssetIds": [
+  "GOoPYinXKrIeVRkjifFei"
+ ],
+ "draftRevision": 32,
+ "createdAt": 1793332041602,
+ "updatedAt": 1793332931956,
+ "attempts": 1,
+ "pollCount": 127,
+ "transientFailures": 0,
+ "submittedAt": 1793332041602,
+ "upstreamTaskId": "task_dYZmmUVNwbfqKzryL2BbRqR1fHXwMTdK",
+ "upstreamProvider": "openai",
+ "lastHeartbeatAt": 1793332931956,
+ "lastPolledAt": 1793332931956,
+ "result": {
+  "items": [
+   {
+    "id": "task-mvuflf9e-djxprc-0",
+    "kind": "video",
+    "storageKey": "tool-result:task-mvuflf9e-djxprc:0:WPiVUb0sWmR8AnsfZCHKK",
+    "bytes": 1249837,
+    "mimeType": "video/mp4",
+    "payloadDropped": false
+   }
+  ],
+  "receivedAt": 1793332931956
+ },
+ "finishedAt": 1793332931956
+}

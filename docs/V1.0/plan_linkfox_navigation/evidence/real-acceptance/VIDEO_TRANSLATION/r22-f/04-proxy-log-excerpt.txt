@@ -1,0 +1,31 @@
+# proxy 23210 log excerpt around this run (2026-10-30T03:50:24Z)
+692:11:46:58 AM GET https://sub2api.1006000.xyz/v1/videos/task_5EgVjiQVtH6dC3WrOj3pqQyHQUQQ0uYt/content -> 200 5.3s
+693:11:47:03 AM GET https://sub2api.1006000.xyz/v1/videos/task_5EgVjiQVtH6dC3WrOj3pqQyHQUQQ0uYt/content -> 200 5.0s
+694:11:47:07 AM GET https://sub2api.1006000.xyz/v1/videos/task_5EgVjiQVtH6dC3WrOj3pqQyHQUQQ0uYt/content -> 200 4.7s
+695:11:47:12 AM GET https://sub2api.1006000.xyz/v1/videos/task_5EgVjiQVtH6dC3WrOj3pqQyHQUQQ0uYt/content -> 200 4.5s
+696:11:47:25 AM POST https://sub2api.1006000.xyz/v1/videos -> 400 4.1s
+697:11:48:13 AM MEDIA upload 56226153eb7e1f8b9b8a5db680ffc966.mp4 1297168B
+698:11:48:17 AM POST https://sub2api.1006000.xyz/v1/videos -> 200 3.7s
+699:11:48:19 AM GET https://sub2api.1006000.xyz/v1/videos/task_dYZmmUVNwbfqKzryL2BbRqR1fHXwMTdK -> 200 1.2s
+700:11:48:22 AM GET https://sub2api.1006000.xyz/v1/videos/task_dYZmmUVNwbfqKzryL2BbRqR1fHXwMTdK -> 200 1.3s
+701:11:48:25 AM GET https://sub2api.1006000.xyz/v1/videos/task_dYZmmUVNwbfqKzryL2BbRqR1fHXwMTdK -> 200 1.6s
+702:11:48:29 AM GET https://sub2api.1006000.xyz/v1/videos/task_dYZmmUVNwbfqKzryL2BbRqR1fHXwMTdK -> 200 1.2s
+703:11:48:32 AM GET https://sub2api.1006000.xyz/v1/videos/task_dYZmmUVNwbfqKzryL2BbRqR1fHXwMTdK -> 200 1.2s
+704:11:48:36 AM GET https://sub2api.1006000.xyz/v1/videos/task_dYZmmUVNwbfqKzryL2BbRqR1fHXwMTdK -> 200 1.9s
+705:11:48:40 AM GET https://sub2api.1006000.xyz/v1/videos/task_dYZmmUVNwbfqKzryL2BbRqR1fHXwMTdK -> 200 2.0s
+706:11:48:44 AM GET https://sub2api.1006000.xyz/v1/videos/task_dYZmmUVNwbfqKzryL2BbRqR1fHXwMTdK -> 200 1.9s
+707:11:48:47 AM GET https://sub2api.1006000.xyz/v1/videos/task_dYZmmUVNwbfqKzryL2BbRqR1fHXwMTdK -> 200 1.3s
+708:11:48:51 AM GET https://sub2api.1006000.xyz/v1/videos/task_dYZmmUVNwbfqKzryL2BbRqR1fHXwMTdK -> 200 1.3s
+709:11:48:57 AM GET https://sub2api.1006000.xyz/v1/videos/task_dYZmmUVNwbfqKzryL2BbRqR1fHXwMTdK -> 200 1.4s
+710:11:49:04 AM GET https://sub2api.1006000.xyz/v1/videos/task_dYZmmUVNwbfqKzryL2BbRqR1fHXwMTdK -> 200 1.5s
+711:11:49:10 AM GET https://sub2api.1006000.xyz/v1/videos/task_dYZmmUVNwbfqKzryL2BbRqR1fHXwMTdK -> 200 1.3s
+712:11:49:16 AM GET https://sub2api.1006000.xyz/v1/videos/task_dYZmmUVNwbfqKzryL2BbRqR1fHXwMTdK -> 200 1.4s
+713:11:49:23 AM GET https://sub2api.1006000.xyz/v1/videos/task_dYZmmUVNwbfqKzryL2BbRqR1fHXwMTdK -> 200 1.7s
+714:11:49:30 AM GET https://sub2api.1006000.xyz/v1/videos/task_dYZmmUVNwbfqKzryL2BbRqR1fHXwMTdK -> 200 1.7s
+715:11:49:37 AM GET https://sub2api.1006000.xyz/v1/videos/task_dYZmmUVNwbfqKzryL2BbRqR1fHXwMTdK -> 200 1.9s
+716:11:49:44 AM GET https://sub2api.1006000.xyz/v1/videos/task_dYZmmUVNwbfqKzryL2BbRqR1fHXwMTdK -> 200 2.6s
+717:11:49:51 AM GET https://sub2api.1006000.xyz/v1/videos/task_dYZmmUVNwbfqKzryL2BbRqR1fHXwMTdK -> 200 1.3s
+718:11:49:57 AM GET https://sub2api.1006000.xyz/v1/videos/task_dYZmmUVNwbfqKzryL2BbRqR1fHXwMTdK -> 200 1.3s
+719:11:50:09 AM GET https://sub2api.1006000.xyz/v1/videos/task_dYZmmUVNwbfqKzryL2BbRqR1fHXwMTdK -> 200 7.0s
+720:11:50:15 AM GET https://sub2api.1006000.xyz/v1/videos/task_dYZmmUVNwbfqKzryL2BbRqR1fHXwMTdK -> 200 1.4s
+721:11:50:23 AM GET https://sub2api.1006000.xyz/v1/videos/task_dYZmmUVNwbfqKzryL2BbRqR1fHXwMTdK -> 200 2.6s

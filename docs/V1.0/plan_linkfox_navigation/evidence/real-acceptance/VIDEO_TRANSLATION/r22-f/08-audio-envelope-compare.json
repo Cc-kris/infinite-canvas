@@ -1,0 +1,17 @@
+{
+  "source": {
+    "dur": 5.167,
+    "frames": 103,
+    "peakRms": 0.269,
+    "rms": 0.197
+  },
+  "result": {
+    "dur": 6.575,
+    "frames": 131,
+    "peakRms": 0.372,
+    "rms": 0.199
+  },
+  "maxEnvelopeCorr": 0.921,
+  "bestLagFrames50ms": 16,
+  "method": "WebAudio decodeAudioData + 50ms RMS envelope cross-correlation, source=http://127.0.0.1:23301/r22f-source.mp4, result=canvas node blob"
+}

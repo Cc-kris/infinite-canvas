@@ -1,0 +1,122 @@
+[
+ {
+  "at": "2026-10-30T03:49:43.792Z",
+  "method": "GET",
+  "url": "/__canvas-hub/state",
+  "body": null,
+  "status": 200,
+  "resp": "{\"ok\":true,\"localHub\":true,\"server\":{\"running\":false,\"url\":\"\",\"token\":\"\",\"error\":\"\"},\"runtime\":\"\",\"mode\":\"runtime\",\"connecting\":null,\"runtimes\":[{\"id\":\"claude\",\"label\":\"Claude Code\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/claude\",\"path\":\"/opt/homebrew/bin/claude\",\"customPath\":\"\",\"desktop\":false,\"desktopPath\":\"\",\"desktopLabel\":\"Claude 桌面版\",\"version\":\"2.1.285 (Claude Code)\",\"mode\":\"mcp\",\"plugin\":{\"ok\":false,\"at\":\"2026-10-23T10:47:29.778Z\",\"output\":\"插件未注册到 Claude Code\"}},{\"id\":\"codex\",\"label\":\"Codex\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/codex\",\"path\":\"/opt/homebrew/bin/codex\",\"customPath\":\"\",\"desktop\":true,\"desktopPath\":\"/Applications/Codex.app\",\"desktopLabel\":\"Codex 桌面版\",\"version\":\"codex-cli 0.163.0\",\"mode\":\"mcp\",\"plugin\":{\"ok\":true,\"at\":\"2026-10-26T07:32:26.354Z\",\"output\":\"MCP 就绪，工具调用成功\"}},{\"id\":\"galley\",\"label\":\"Galley\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/Applications/Galley-0.6.4-prev.app/Contents/MacOS/galley\",\"path\":\"/Applications/Galley-0.6.4-prev.app/Contents/MacOS/galley\",\"customPath\":\"\",\"desktop\":true,\"desktopPath\":\"/Applications/Galley.app\",\"desktopLabel\":\"Galley 桌面版\",\"version\":\"galley 0.6.4\",\"mode\":\"bridge\",\"plugin\":{\"ok\":false,\"at\":\"2026-10-21T07:08:44.595Z\",\"output\":\"Galley 通过运行时方式连接\"}}]}"
+ },
+ {
+  "at": "2026-10-30T03:49:45.797Z",
+  "method": "GET",
+  "url": "/__canvas-hub/state",
+  "body": null,
+  "status": 200,
+  "resp": "{\"ok\":true,\"localHub\":true,\"server\":{\"running\":false,\"url\":\"\",\"token\":\"\",\"error\":\"\"},\"runtime\":\"\",\"mode\":\"runtime\",\"connecting\":null,\"runtimes\":[{\"id\":\"claude\",\"label\":\"Claude Code\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/claude\",\"path\":\"/opt/homebrew/bin/claude\",\"customPath\":\"\",\"desktop\":false,\"desktopPath\":\"\",\"desktopLabel\":\"Claude 桌面版\",\"version\":\"2.1.285 (Claude Code)\",\"mode\":\"mcp\",\"plugin\":{\"ok\":false,\"at\":\"2026-10-23T10:47:29.778Z\",\"output\":\"插件未注册到 Claude Code\"}},{\"id\":\"codex\",\"label\":\"Codex\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/codex\",\"path\":\"/opt/homebrew/bin/codex\",\"customPath\":\"\",\"desktop\":true,\"desktopPath\":\"/Applications/Codex.app\",\"desktopLabel\":\"Codex 桌面版\",\"version\":\"codex-cli 0.163.0\",\"mode\":\"mcp\",\"plugin\":{\"ok\":true,\"at\":\"2026-10-26T07:32:26.354Z\",\"output\":\"MCP 就绪，工具调用成功\"}},{\"id\":\"galley\",\"label\":\"Galley\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/Applications/Galley-0.6.4-prev.app/Contents/MacOS/galley\",\"path\":\"/Applications/Galley-0.6.4-prev.app/Contents/MacOS/galley\",\"customPath\":\"\",\"desktop\":true,\"desktopPath\":\"/Applications/Galley.app\",\"desktopLabel\":\"Galley 桌面版\",\"version\":\"galley 0.6.4\",\"mode\":\"bridge\",\"plugin\":{\"ok\":false,\"at\":\"2026-10-21T07:08:44.595Z\",\"output\":\"Galley 通过运行时方式连接\"}}]}"
+ },
+ {
+  "at": "2026-10-30T03:49:47.803Z",
+  "method": "GET",
+  "url": "/__canvas-hub/state",
+  "body": null,
+  "status": 200,
+  "resp": "{\"ok\":true,\"localHub\":true,\"server\":{\"running\":false,\"url\":\"\",\"token\":\"\",\"error\":\"\"},\"runtime\":\"\",\"mode\":\"runtime\",\"connecting\":null,\"runtimes\":[{\"id\":\"claude\",\"label\":\"Claude Code\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/claude\",\"path\":\"/opt/homebrew/bin/claude\",\"customPath\":\"\",\"desktop\":false,\"desktopPath\":\"\",\"desktopLabel\":\"Claude 桌面版\",\"version\":\"2.1.285 (Claude Code)\",\"mode\":\"mcp\",\"plugin\":{\"ok\":false,\"at\":\"2026-10-23T10:47:29.778Z\",\"output\":\"插件未注册到 Claude Code\"}},{\"id\":\"codex\",\"label\":\"Codex\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/codex\",\"path\":\"/opt/homebrew/bin/codex\",\"customPath\":\"\",\"desktop\":true,\"desktopPath\":\"/Applications/Codex.app\",\"desktopLabel\":\"Codex 桌面版\",\"version\":\"codex-cli 0.163.0\",\"mode\":\"mcp\",\"plugin\":{\"ok\":true,\"at\":\"2026-10-26T07:32:26.354Z\",\"output\":\"MCP 就绪，工具调用成功\"}},{\"id\":\"galley\",\"label\":\"Galley\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/Applications/Galley-0.6.4-prev.app/Contents/MacOS/galley\",\"path\":\"/Applications/Galley-0.6.4-prev.app/Contents/MacOS/galley\",\"customPath\":\"\",\"desktop\":true,\"desktopPath\":\"/Applications/Galley.app\",\"desktopLabel\":\"Galley 桌面版\",\"version\":\"galley 0.6.4\",\"mode\":\"bridge\",\"plugin\":{\"ok\":false,\"at\":\"2026-10-21T07:08:44.595Z\",\"output\":\"Galley 通过运行时方式连接\"}}]}"
+ },
+ {
+  "at": "2026-10-30T03:49:49.808Z",
+  "method": "GET",
+  "url": "/__canvas-hub/state",
+  "body": null,
+  "status": 200,
+  "resp": "{\"ok\":true,\"localHub\":true,\"server\":{\"running\":false,\"url\":\"\",\"token\":\"\",\"error\":\"\"},\"runtime\":\"\",\"mode\":\"runtime\",\"connecting\":null,\"runtimes\":[{\"id\":\"claude\",\"label\":\"Claude Code\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/claude\",\"path\":\"/opt/homebrew/bin/claude\",\"customPath\":\"\",\"desktop\":false,\"desktopPath\":\"\",\"desktopLabel\":\"Claude 桌面版\",\"version\":\"2.1.285 (Claude Code)\",\"mode\":\"mcp\",\"plugin\":{\"ok\":false,\"at\":\"2026-10-23T10:47:29.778Z\",\"output\":\"插件未注册到 Claude Code\"}},{\"id\":\"codex\",\"label\":\"Codex\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/codex\",\"path\":\"/opt/homebrew/bin/codex\",\"customPath\":\"\",\"desktop\":true,\"desktopPath\":\"/Applications/Codex.app\",\"desktopLabel\":\"Codex 桌面版\",\"version\":\"codex-cli 0.163.0\",\"mode\":\"mcp\",\"plugin\":{\"ok\":true,\"at\":\"2026-10-26T07:32:26.354Z\",\"output\":\"MCP 就绪，工具调用成功\"}},{\"id\":\"galley\",\"label\":\"Galley\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/Applications/Galley-0.6.4-prev.app/Contents/MacOS/galley\",\"path\":\"/Applications/Galley-0.6.4-prev.app/Contents/MacOS/galley\",\"customPath\":\"\",\"desktop\":true,\"desktopPath\":\"/Applications/Galley.app\",\"desktopLabel\":\"Galley 桌面版\",\"version\":\"galley 0.6.4\",\"mode\":\"bridge\",\"plugin\":{\"ok\":false,\"at\":\"2026-10-21T07:08:44.595Z\",\"output\":\"Galley 通过运行时方式连接\"}}]}"
+ },
+ {
+  "at": "2026-10-30T03:49:49.862Z",
+  "method": "GET",
+  "url": "http://127.0.0.1:23210/https://sub2api.1006000.xyz/v1/videos/task_dYZmmUVNwbfqKzryL2BbRqR1fHXwMTdK",
+  "headers": {
+   "Accept": "applicat…",
+   "Authorization": "Bearer s…"
+  },
+  "body": "null",
+  "status": 200,
+  "resp": "{\"id\":\"task_dYZmmUVNwbfqKzryL2BbRqR1fHXwMTdK\",\"request_id\":\"task_dYZmmUVNwbfqKzryL2BbRqR1fHXwMTdK\",\"model\":\"MiniMax-H3\",\"status\":\"pending\",\"progress\":0}"
+ },
+ {
+  "at": "2026-10-30T03:49:51.816Z",
+  "method": "GET",
+  "url": "/__canvas-hub/state",
+  "body": null,
+  "status": 200,
+  "resp": "{\"ok\":true,\"localHub\":true,\"server\":{\"running\":false,\"url\":\"\",\"token\":\"\",\"error\":\"\"},\"runtime\":\"\",\"mode\":\"runtime\",\"connecting\":null,\"runtimes\":[{\"id\":\"claude\",\"label\":\"Claude Code\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/claude\",\"path\":\"/opt/homebrew/bin/claude\",\"customPath\":\"\",\"desktop\":false,\"desktopPath\":\"\",\"desktopLabel\":\"Claude 桌面版\",\"version\":\"2.1.285 (Claude Code)\",\"mode\":\"mcp\",\"plugin\":{\"ok\":false,\"at\":\"2026-10-23T10:47:29.778Z\",\"output\":\"插件未注册到 Claude Code\"}},{\"id\":\"codex\",\"label\":\"Codex\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/codex\",\"path\":\"/opt/homebrew/bin/codex\",\"customPath\":\"\",\"desktop\":true,\"desktopPath\":\"/Applications/Codex.app\",\"desktopLabel\":\"Codex 桌面版\",\"version\":\"codex-cli 0.163.0\",\"mode\":\"mcp\",\"plugin\":{\"ok\":true,\"at\":\"2026-10-26T07:32:26.354Z\",\"output\":\"MCP 就绪，工具调用成功\"}},{\"id\":\"galley\",\"label\":\"Galley\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/Applications/Galley-0.6.4-prev.app/Contents/MacOS/galley\",\"path\":\"/Applications/Galley-0.6.4-prev.app/Contents/MacOS/galley\",\"customPath\":\"\",\"desktop\":true,\"desktopPath\":\"/Applications/Galley.app\",\"desktopLabel\":\"Galley 桌面版\",\"version\":\"galley 0.6.4\",\"mode\":\"bridge\",\"plugin\":{\"ok\":false,\"at\":\"2026-10-21T07:08:44.595Z\",\"output\":\"Galley 通过运行时方式连接\"}}]}"
+ },
+ {
+  "at": "2026-10-30T03:49:53.823Z",
+  "method": "GET",
+  "url": "/__canvas-hub/state",
+  "body": null,
+  "status": 200,
+  "resp": "{\"ok\":true,\"localHub\":true,\"server\":{\"running\":false,\"url\":\"\",\"token\":\"\",\"error\":\"\"},\"runtime\":\"\",\"mode\":\"runtime\",\"connecting\":null,\"runtimes\":[{\"id\":\"claude\",\"label\":\"Claude Code\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/claude\",\"path\":\"/opt/homebrew/bin/claude\",\"customPath\":\"\",\"desktop\":false,\"desktopPath\":\"\",\"desktopLabel\":\"Claude 桌面版\",\"version\":\"2.1.285 (Claude Code)\",\"mode\":\"mcp\",\"plugin\":{\"ok\":false,\"at\":\"2026-10-23T10:47:29.778Z\",\"output\":\"插件未注册到 Claude Code\"}},{\"id\":\"codex\",\"label\":\"Codex\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/codex\",\"path\":\"/opt/homebrew/bin/codex\",\"customPath\":\"\",\"desktop\":true,\"desktopPath\":\"/Applications/Codex.app\",\"desktopLabel\":\"Codex 桌面版\",\"version\":\"codex-cli 0.163.0\",\"mode\":\"mcp\",\"plugin\":{\"ok\":true,\"at\":\"2026-10-26T07:32:26.354Z\",\"output\":\"MCP 就绪，工具调用成功\"}},{\"id\":\"galley\",\"label\":\"Galley\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/Applications/Galley-0.6.4-prev.app/Contents/MacOS/galley\",\"path\":\"/Applications/Galley-0.6.4-prev.app/Contents/MacOS/galley\",\"customPath\":\"\",\"desktop\":true,\"desktopPath\":\"/Applications/Galley.app\",\"desktopLabel\":\"Galley 桌面版\",\"version\":\"galley 0.6.4\",\"mode\":\"bridge\",\"plugin\":{\"ok\":false,\"at\":\"2026-10-21T07:08:44.595Z\",\"output\":\"Galley 通过运行时方式连接\"}}]}"
+ },
+ {
+  "at": "2026-10-30T03:49:55.830Z",
+  "method": "GET",
+  "url": "/__canvas-hub/state",
+  "body": null,
+  "status": 200,
+  "resp": "{\"ok\":true,\"localHub\":true,\"server\":{\"running\":false,\"url\":\"\",\"token\":\"\",\"error\":\"\"},\"runtime\":\"\",\"mode\":\"runtime\",\"connecting\":null,\"runtimes\":[{\"id\":\"claude\",\"label\":\"Claude Code\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/claude\",\"path\":\"/opt/homebrew/bin/claude\",\"customPath\":\"\",\"desktop\":false,\"desktopPath\":\"\",\"desktopLabel\":\"Claude 桌面版\",\"version\":\"2.1.285 (Claude Code)\",\"mode\":\"mcp\",\"plugin\":{\"ok\":false,\"at\":\"2026-10-23T10:47:29.778Z\",\"output\":\"插件未注册到 Claude Code\"}},{\"id\":\"codex\",\"label\":\"Codex\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/codex\",\"path\":\"/opt/homebrew/bin/codex\",\"customPath\":\"\",\"desktop\":true,\"desktopPath\":\"/Applications/Codex.app\",\"desktopLabel\":\"Codex 桌面版\",\"version\":\"codex-cli 0.163.0\",\"mode\":\"mcp\",\"plugin\":{\"ok\":true,\"at\":\"2026-10-26T07:32:26.354Z\",\"output\":\"MCP 就绪，工具调用成功\"}},{\"id\":\"galley\",\"label\":\"Galley\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/Applications/Galley-0.6.4-prev.app/Contents/MacOS/galley\",\"path\":\"/Applications/Galley-0.6.4-prev.app/Contents/MacOS/galley\",\"customPath\":\"\",\"desktop\":true,\"desktopPath\":\"/Applications/Galley.app\",\"desktopLabel\":\"Galley 桌面版\",\"version\":\"galley 0.6.4\",\"mode\":\"bridge\",\"plugin\":{\"ok\":false,\"at\":\"2026-10-21T07:08:44.595Z\",\"output\":\"Galley 通过运行时方式连接\"}}]}"
+ },
+ {
+  "at": "2026-10-30T03:49:56.207Z",
+  "method": "GET",
+  "url": "http://127.0.0.1:23210/https://sub2api.1006000.xyz/v1/videos/task_dYZmmUVNwbfqKzryL2BbRqR1fHXwMTdK",
+  "headers": {
+   "Accept": "applicat…",
+   "Authorization": "Bearer s…"
+  },
+  "body": "null",
+  "status": 200,
+  "resp": "{\"id\":\"task_dYZmmUVNwbfqKzryL2BbRqR1fHXwMTdK\",\"request_id\":\"task_dYZmmUVNwbfqKzryL2BbRqR1fHXwMTdK\",\"model\":\"MiniMax-H3\",\"status\":\"pending\",\"progress\":0}"
+ },
+ {
+  "at": "2026-10-30T03:49:57.840Z",
+  "method": "GET",
+  "url": "/__canvas-hub/state",
+  "body": null,
+  "status": 200,
+  "resp": "{\"ok\":true,\"localHub\":true,\"server\":{\"running\":false,\"url\":\"\",\"token\":\"\",\"error\":\"\"},\"runtime\":\"\",\"mode\":\"runtime\",\"connecting\":null,\"runtimes\":[{\"id\":\"claude\",\"label\":\"Claude Code\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/claude\",\"path\":\"/opt/homebrew/bin/claude\",\"customPath\":\"\",\"desktop\":false,\"desktopPath\":\"\",\"desktopLabel\":\"Claude 桌面版\",\"version\":\"2.1.285 (Claude Code)\",\"mode\":\"mcp\",\"plugin\":{\"ok\":false,\"at\":\"2026-10-23T10:47:29.778Z\",\"output\":\"插件未注册到 Claude Code\"}},{\"id\":\"codex\",\"label\":\"Codex\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/codex\",\"path\":\"/opt/homebrew/bin/codex\",\"customPath\":\"\",\"desktop\":true,\"desktopPath\":\"/Applications/Codex.app\",\"desktopLabel\":\"Codex 桌面版\",\"version\":\"codex-cli 0.163.0\",\"mode\":\"mcp\",\"plugin\":{\"ok\":true,\"at\":\"2026-10-26T07:32:26.354Z\",\"output\":\"MCP 就绪，工具调用成功\"}},{\"id\":\"galley\",\"label\":\"Galley\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/Applications/Galley-0.6.4-prev.app/Contents/MacOS/galley\",\"path\":\"/Applications/Galley-0.6.4-prev.app/Contents/MacOS/galley\",\"customPath\":\"\",\"desktop\":true,\"desktopPath\":\"/Applications/Galley.app\",\"desktopLabel\":\"Galley 桌面版\",\"version\":\"galley 0.6.4\",\"mode\":\"bridge\",\"plugin\":{\"ok\":false,\"at\":\"2026-10-21T07:08:44.595Z\",\"output\":\"Galley 通过运行时方式连接\"}}]}"
+ },
+ {
+  "at": "2026-10-30T03:49:59.847Z",
+  "method": "GET",
+  "url": "/__canvas-hub/state",
+  "body": null,
+  "status": 200,
+  "resp": "{\"ok\":true,\"localHub\":true,\"server\":{\"running\":false,\"url\":\"\",\"token\":\"\",\"error\":\"\"},\"runtime\":\"\",\"mode\":\"runtime\",\"connecting\":null,\"runtimes\":[{\"id\":\"claude\",\"label\":\"Claude Code\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/claude\",\"path\":\"/opt/homebrew/bin/claude\",\"customPath\":\"\",\"desktop\":false,\"desktopPath\":\"\",\"desktopLabel\":\"Claude 桌面版\",\"version\":\"2.1.285 (Claude Code)\",\"mode\":\"mcp\",\"plugin\":{\"ok\":false,\"at\":\"2026-10-23T10:47:29.778Z\",\"output\":\"插件未注册到 Claude Code\"}},{\"id\":\"codex\",\"label\":\"Codex\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/codex\",\"path\":\"/opt/homebrew/bin/codex\",\"customPath\":\"\",\"desktop\":true,\"desktopPath\":\"/Applications/Codex.app\",\"desktopLabel\":\"Codex 桌面版\",\"version\":\"codex-cli 0.163.0\",\"mode\":\"mcp\",\"plugin\":{\"ok\":true,\"at\":\"2026-10-26T07:32:26.354Z\",\"output\":\"MCP 就绪，工具调用成功\"}},{\"id\":\"galley\",\"label\":\"Galley\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/Applications/Galley-0.6.4-prev.app/Contents/MacOS/galley\",\"path\":\"/Applications/Galley-0.6.4-prev.app/Contents/MacOS/galley\",\"customPath\":\"\",\"desktop\":true,\"desktopPath\":\"/Applications/Galley.app\",\"desktopLabel\":\"Galley 桌面版\",\"version\":\"galley 0.6.4\",\"mode\":\"bridge\",\"plugin\":{\"ok\":false,\"at\":\"2026-10-21T07:08:44.595Z\",\"output\":\"Galley 通过运行时方式连接\"}}]}"
+ },
+ {
+  "at": "2026-10-30T03:50:01.855Z",
+  "method": "GET",
+  "url": "/__canvas-hub/state",
+  "body": null,
+  "status": 200,
+  "resp": "{\"ok\":true,\"localHub\":true,\"server\":{\"running\":false,\"url\":\"\",\"token\":\"\",\"error\":\"\"},\"runtime\":\"\",\"mode\":\"runtime\",\"connecting\":null,\"runtimes\":[{\"id\":\"claude\",\"label\":\"Claude Code\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/claude\",\"path\":\"/opt/homebrew/bin/claude\",\"customPath\":\"\",\"desktop\":false,\"desktopPath\":\"\",\"desktopLabel\":\"Claude 桌面版\",\"version\":\"2.1.285 (Claude Code)\",\"mode\":\"mcp\",\"plugin\":{\"ok\":false,\"at\":\"2026-10-23T10:47:29.778Z\",\"output\":\"插件未注册到 Claude Code\"}},{\"id\":\"codex\",\"label\":\"Codex\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/codex\",\"path\":\"/opt/homebrew/bin/codex\",\"customPath\":\"\",\"desktop\":true,\"desktopPath\":\"/Applications/Codex.app\",\"desktopLabel\":\"Codex 桌面版\",\"version\":\"codex-cli 0.163.0\",\"mode\":\"mcp\",\"plugin\":{\"ok\":true,\"at\":\"2026-10-26T07:32:26.354Z\",\"output\":\"MCP 就绪，工具调用成功\"}},{\"id\":\"galley\",\"label\":\"Galley\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/Applications/Galley-0.6.4-prev.app/Contents/MacOS/galley\",\"path\":\"/Applications/Galley-0.6.4-prev.app/Contents/MacOS/galley\",\"customPath\":\"\",\"desktop\":true,\"desktopPath\":\"/Applications/Galley.app\",\"desktopLabel\":\"Galley 桌面版\",\"version\":\"galley 0.6.4\",\"mode\":\"bridge\",\"plugin\":{\"ok\":false,\"at\":\"2026-10-21T07:08:44.595Z\",\"output\":\"Galley 通过运行时方式连接\"}}]}"
+ },
+ {
+  "at": "2026-10-30T03:50:03.863Z",
+  "method": "GET",
+  "url": "/__canvas-hub/state",
+  "body": null,
+  "status": 200,
+  "resp": "{\"ok\":true,\"localHub\":true,\"server\":{\"running\":false,\"url\":\"\",\"token\":\"\",\"error\":\"\"},\"runtime\":\"\",\"mode\":\"runtime\",\"connecting\":null,\"runtimes\":[{\"id\":\"claude\",\"label\":\"Claude Code\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/claude\",\"path\":\"/opt/homebrew/bin/claude\",\"customPath\":\"\",\"desktop\":false,\"desktopPath\":\"\",\"desktopLabel\":\"Claude 桌面版\",\"version\":\"2.1.285 (Claude Code)\",\"mode\":\"mcp\",\"plugin\":{\"ok\":false,\"at\":\"2026-10-23T10:47:29.778Z\",\"output\":\"插件未注册到 Claude Code\"}},{\"id\":\"codex\",\"label\":\"Codex\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/codex\",\"path\":\"/opt/homebrew/bin/codex\",\"customPath\":\"\",\"desktop\":true,\"desktopPath\":\"/Applications/Codex.app\",\"desktopLabel\":\"Codex 桌面版\",\"version\":\"codex-cli 0.163.0\",\"mode\":\"mcp\",\"plugin\":{\"ok\":true,\"at\":\"2026-10-26T07:32:26.354Z\",\"output\":\"MCP 就绪，工具调用成功\"}},{\"id\":\"galley\",\"label\":\"Galley\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/Applications/Galley-0.6.4-prev.app/Contents/MacOS/galley\",\"path\":\"/Applications/Galley-0.6.4-prev.app/Contents/MacOS/galley\",\"customPath\":\"\",\"desktop\":true,\"desktopPath\":\"/Applications/Galley.app\",\"desktopLabel\":\"Galley 桌面版\",\"version\":\"galley 0.6.4\",\"mode\":\"bridge\",\"plugin\":{\"ok\":false,\"at\":\"2026-10-21T07:08:44.595Z\",\"output\":\"Galley 通过运行时方式连接\"}}]}"
+ },
+ {
+  "at": "2026-10-30T03:50:05.869Z",
+  "method": "GET",
+  "url": "/__canvas-hub/state",
+  "body": null,
+  "status": 200,
+  "resp": "{\"ok\":true,\"localHub\":true,\"server\":{\"running\":false,\"url\":\"\",\"token\":\"\",\"error\":\"\"},\"runtime\":\"\",\"mode\":\"runtime\",\"connecting\":null,\"runtimes\":[{\"id\":\"claude\",\"label\":\"Claude Code\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/claude\",\"path\":\"/opt/homebrew/bin/claude\",\"customPath\":\"\",\"desktop\":false,\"desktopPath\":\"\",\"desktopLabel\":\"Claude 桌面版\",\"version\":\"2.1.285 (Claude Code)\",\"mode\":\"mcp\",\"plugin\":{\"ok\":false,\"at\":\"2026-10-23T10:47:29.778Z\",\"output\":\"插件未注册到 Claude Code\"}},{\"id\":\"codex\",\"label\":\"Codex\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/opt/homebrew/bin/codex\",\"path\":\"/opt/homebrew/bin/codex\",\"customPath\":\"\",\"desktop\":true,\"desktopPath\":\"/Applications/Codex.app\",\"desktopLabel\":\"Codex 桌面版\",\"version\":\"codex-cli 0.163.0\",\"mode\":\"mcp\",\"plugin\":{\"ok\":true,\"at\":\"2026-10-26T07:32:26.354Z\",\"output\":\"MCP 就绪，工具调用成功\"}},{\"id\":\"galley\",\"label\":\"Galley\",\"installed\":true,\"cliInstalled\":true,\"cliPath\":\"/Applications/Galley-0.6.4-prev.app/Contents/MacOS/galley\",\"path\":\"/Applications/Galley-0.6.4-prev.app/Contents/MacOS/galley\",\"customPath\":\"\",\"desktop\":true,\"desktopPath\":\"/Applications/Galley.app\",\"desktopLabel\":\"Galley 桌面版\",\"version\":\"galley 0.6.4\",\"mode\":\"bridge\",\"plugin\":{\"ok\":false,\"at\":\"2026-10-21T07:08:44.595Z\",\"output\":\"Galley 通过运行时方式连接\"}}]}"
+ }
+]
