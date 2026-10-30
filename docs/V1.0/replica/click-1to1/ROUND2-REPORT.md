@@ -32,7 +32,17 @@ DOM 实测结果（8 项残留）：
 | VIDEO_REPLICATION | ✅ 全部命中 | 关闭=有 |
 | AI_TEXT | ✅ 全部命中 | 业务咨询=有 |
 | ORNAMENT_TEXT | ✅ 全部命中 | 业务咨询=有 |
-| HANDHELD_GOODS | ⚠️ 部分缺失 | 点击这里裁剪原图尺寸=无 |
+| HANDHELD_GOODS | ✅ 命中（需先点「一键做同款」） | 点击这里裁剪原图尺寸=有（点击后出现，内联按钮；原站为 ant-tooltip 浮层） |
+
+### 补充：全局客服浮窗覆盖核验
+
+用正确路由复测（此前我把 SDS_DESIGN 误配到 `ecommerce-suite` 分类下，导致一次假阴性）：
+
+| 工具页 | 路由 | 操作咨询 | 产品教程 | 需要协助吗？ |
+|---|---|---|---|---|
+| AI_TEXT | /tools/product-design/ai-text | ✅ | ✅ | — |
+| SDS_DESIGN | /tools/product-design/sds-design | ✅ | ✅ | ✅ |
+| HANDHELD_GOODS | /tools/product-design/handheld-goods | ✅ | ✅ | — |
 
 ## 3. 复测结论
 
