@@ -1,0 +1,5 @@
+web/src/features/tools/adapters/video-translation.test.ts | HEAD=68fd0c43cae3f391e7d611fb351be08d101aee78 | snap_sha256=dbb1b38fbb4a | wt_sha256=b5111678ecff | wt_status= M web/src/features/tools/adapters/video-translation.test.ts
+web/src/features/tools/adapters/video-translation.ts | HEAD=3cae58f863ce37453e0585e69bd7f490f758cebd | snap_sha256=d6eb006a9134 | wt_sha256=892013749f3e | wt_status= M web/src/features/tools/adapters/video-translation.ts
+web/src/components/tools/workspaces/video-translation.tsx | HEAD=7180f2f9572f29b5c57f1c806c39a16d9722d61b | snap_sha256=cf52213f0ce4 | wt_sha256=a1ff82366a8a | wt_status=clean
+web/src/stores/use-asset-store.ts | HEAD=102939a57e6d9ed03af1c1985763d150284e61c2 | snap_sha256=064e3f94f236 | wt_sha256=064e3f94f236 | wt_status=clean
+web/src/i18n/locales/zh-CN.ts | HEAD=9e1dbfda4edca9e7066e5165d1b855a74e021885 | snap_sha256=9ce00d19a5f2 | wt_sha256=54cc3be5faac | wt_status=clean

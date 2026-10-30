@@ -1,0 +1,30 @@
+bun test v1.4.2 (744846f84)
+
+src/stores/asset-store-persist.test.ts:
+(pass) mergeAssetSnapshots > 保留只存在于存储快照里的资产（修掉 last-write-wins） [2.14ms]
+(pass) mergeAssetSnapshots > 同一 id 时 updatedAt 更新的胜出 [0.20ms]
+(pass) mergeAssetSnapshots > 时间相同以本次写入为准 [0.03ms]
+(pass) mergeAssetSnapshots > 墓碑阻止已删资产被别的标签复活 [0.04ms]
+(pass) mergeAssetSnapshots > 删除后重新新增的同 id 资产能盖过旧墓碑 [0.03ms]
+(pass) mergeAssetSnapshots > 过期墓碑会被清理 [0.03ms]
+(pass) mergeAssetSnapshots > 没有变化时 changed=false（避免无意义广播） [0.27ms]
+(pass) tombstonesAfterReplace > 被移除的 id 生成墓碑，保留的 id 不生成 [0.14ms]
+(pass) createMergedAssetStorage > 两个标签同时保存各自的资产，最终两份都在（Web Locks 互斥路径） [4.69ms]
+(pass) createMergedAssetStorage > 没有 Web Locks 时，用旧快照写入也不会丢掉已落库的资产（实测覆盖的回归场景） [4.89ms]
+(pass) createMergedAssetStorage > 后一次写入不会覆盖前一次已落库的资产 [4.33ms]
+(pass) createMergedAssetStorage > getItem 返回原始快照，removeItem 清空 [3.56ms]
+
+src/stores/use-asset-store.key.test.ts:
+(pass) assetResultKey > 已有 resultAssetKey 时原样返回 [0.91ms]
+(pass) assetResultKey > 历史资产无 resultAssetKey 时按 resultId 推导同一口径 [0.11ms]
+(pass) assetResultKey > 旧字段 resultItemId 与 taskId 缺省时同样可推导 [0.03ms]
+(pass) assetResultKey > 非工具结果资产不产生 key（不参与去重） [0.05ms]
+
+ 16 pass
+ 0 fail
+ 21 expect() calls
+Ran 16 tests across 2 files. [135.00ms]
+real 0.15
+user 0.04
+sys 0.03
+__EXIT__=0

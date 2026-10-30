@@ -1,0 +1,51 @@
+bun test v1.4.2 (744846f84)
+
+src/features/tools/adapters/video-translation.test.ts:
+(pass) VIDEO_TRANSLATION registry：字段与默认值 > registry 声明 7 个 provider 字段，与适配器字段顺序一致 [0.09ms]
+(pass) VIDEO_TRANSLATION registry：字段与默认值 > 页面默认：源语言自动识别、目标语言英语、口型同步开启、输出 1 条 [0.06ms]
+(pass) VIDEO_TRANSLATION registry：字段与默认值 > 原视频规则：MP4/MOV、100MB、2–30 秒 [0.04ms]
+(pass) VIDEO_TRANSLATION registry：字段与默认值 > 输出数量越界会被夹到 1–4，上游仅支持 1 条原生输出 [0.01ms]
+(pass) VIDEO_TRANSLATION registry：字段与默认值 > 显式源语言与目标语言相同时退回自动识别 [0.03ms]
+(pass) VIDEO_TRANSLATION：语言联动 > 选择与目标相同的源语言时，目标语言自动切换 [0.16ms]
+(pass) VIDEO_TRANSLATION：语言联动 > 切换回自动识别不触发联动 [0.01ms]
+(pass) VIDEO_TRANSLATION：草稿读写 > 草稿往返保持关键配置 [1.43ms]
+(pass) VIDEO_TRANSLATION：草稿读写 > 脏草稿回落到默认值而不是报错 [0.04ms]
+(pass) VIDEO_TRANSLATION：原视频校验 > 未上传时提示先上传 [0.14ms]
+(pass) VIDEO_TRANSLATION：原视频校验 > 合法视频无问题 [0.02ms]
+(pass) VIDEO_TRANSLATION：原视频校验 > 非 MP4/MOV 被拒 [0.03ms]
+(pass) VIDEO_TRANSLATION：原视频校验 > 超过 100MB 被拒 [0.01ms]
+(pass) VIDEO_TRANSLATION：原视频校验 > 时长越界只提示（spec 写的是建议），读不到时长才拦 [0.05ms]
+(pass) VIDEO_TRANSLATION：能力门禁 > 口型同步默认开启且没有能力声明时阻断提交 [0.06ms]
+(pass) VIDEO_TRANSLATION：能力门禁 > 关闭口型同步后不再阻断，只记录降级说明 [0.02ms]
+(pass) VIDEO_TRANSLATION：能力门禁 > 输出数量超过渠道能力时阻断 [0.01ms]
+(pass) VIDEO_TRANSLATION：提示词覆盖与字段完整性 > 提示词逐项覆盖页面选项（审计无缺失） [0.07ms]
+(pass) VIDEO_TRANSLATION：提示词覆盖与字段完整性 > 口型同步开关会改变提示词内容 [0.13ms]
+(pass) VIDEO_TRANSLATION：提示词覆盖与字段完整性 > 7 个 provider 字段都有值，缺一个会被审计出来 [0.19ms]
+(pass) VIDEO_TRANSLATION：构建真实请求 > 缺少模型/原视频直接报错 [0.25ms]
+(pass) VIDEO_TRANSLATION：构建真实请求 > 口型同步开启但无能力声明时拒绝提交（不静默丢参） [0.19ms]
+(pass) VIDEO_TRANSLATION：构建真实请求 > 关闭口型同步后请求携带 7 个字段、1 条参考视频与完整提示词 [0.40ms]
+(pass) VIDEO_TRANSLATION：输出画幅（r26 真实源片 1344×768） > 网关把 videoRatio=16:9 换算成 1280x720（不再沿用全局 1:1 的 720x720） [0.42ms]
+(pass) VIDEO_TRANSLATION：输出画幅（r26 真实源片 1344×768） > 默认画幅是「跟随原视频」，不再落到全局 size=1:1 [0.02ms]
+(pass) VIDEO_TRANSLATION：输出画幅（r26 真实源片 1344×768） > 1344×768 源片：按最接近的上游档位 16:9 申请，并显式说明不是逐像素保持 [0.15ms]
+(pass) VIDEO_TRANSLATION：输出画幅（r26 真实源片 1344×768） > 源比例正好等于上游档位时视为保持（1280×720 / 1080×1920） [0.04ms]
+(pass) VIDEO_TRANSLATION：输出画幅（r26 真实源片 1344×768） > 源尺寸读不到时不猜：退回 16:9 并明确提示无法跟随 [0.03ms]
+(pass) VIDEO_TRANSLATION：输出画幅（r26 真实源片 1344×768） > 用户显式选 1:1：照做，但必须提示源画面不会被完整保留 [0.03ms]
+(pass) VIDEO_TRANSLATION：输出画幅（r26 真实源片 1344×768） > 非法画幅值回落到默认「跟随原视频」 [0.01ms]
+(pass) VIDEO_TRANSLATION：输出画幅（r26 真实源片 1344×768） > 真实请求携带 videoRatio：1344×768 源片 → 16:9（而不是沿用全局 1:1） [0.13ms]
+(pass) VIDEO_TRANSLATION：输出画幅（r26 真实源片 1344×768） > 画幅进草稿与指纹：改画幅会让旧结果变「来自旧版本配置」 [0.10ms]
+(pass) VIDEO_TRANSLATION：提交与重试 > 提交走 dedupe=true，重试走 dedupe=false [0.28ms]
+(pass) VIDEO_TRANSLATION：结果视图 > 未提交时为空态 [0.20ms]
+(pass) VIDEO_TRANSLATION：结果视图 > 运行中显示状态文案 [0.06ms]
+(pass) VIDEO_TRANSLATION：结果视图 > 成功后返回 1 条视频即视为完整 [0.03ms]
+(pass) VIDEO_TRANSLATION：结果视图 > 成功但没有视频按失败处理 [0.02ms]
+(pass) VIDEO_TRANSLATION：结果视图 > 改配置后旧结果标记为 stale [0.02ms]
+(pass) VIDEO_TRANSLATION workspace：页面结构 > 渲染出六个区域与关键控件文案 [227.81ms]
+
+ 39 pass
+ 0 fail
+ 131 expect() calls
+Ran 39 tests across 1 file. [442.00ms]
+real 0.45
+user 0.24
+sys 0.12
+__EXIT__=0

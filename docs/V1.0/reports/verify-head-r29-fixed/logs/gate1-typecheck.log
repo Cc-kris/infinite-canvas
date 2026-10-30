@@ -1,0 +1,5 @@
+$ tsc --noEmit
+real 278.94
+user 70.45
+sys 34.03
+__EXIT__=0

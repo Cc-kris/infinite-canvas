@@ -1,0 +1,5 @@
+    3844
+entries=    3844
+100644 blob 98a0146fa5d504ccc5ef7bd11d8d6f12d08d06de     396	.agents/plugins/marketplace.json
+100644 blob f433b1a53f5b830a205fd2df78e2b34974656c7b   10174	.agents/skills/frontend-design/LICENSE.txt
+100644 blob 5be498e2585843c7137bf9a74e262f57415de5ce    4440	.agents/skills/frontend-design/SKILL.md

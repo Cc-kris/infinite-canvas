@@ -1,0 +1,6 @@
+ M web/src/features/tools/adapters/video-translation.test.ts
+ M web/src/features/tools/adapters/video-translation.ts
+ M web/src/services/api/video.ts
+ M web/src/services/file-storage.ts
+ M web/src/stores/use-tool-task-store.ts
+?? web/src/services/media-auth.ts

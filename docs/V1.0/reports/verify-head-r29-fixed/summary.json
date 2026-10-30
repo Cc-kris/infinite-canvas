@@ -1,0 +1,100 @@
+{
+  "run": "r29",
+  "date": "2026-10-30",
+  "executor": "DeepSeek worker (single process)",
+  "repo": "/Users/mac/Documents/Dev/infinite-canvas",
+  "branch": "feat/linkfox-v1-real",
+  "pin": "454fa580d8f57aee59340e73a672d78b953a42d4",
+  "pin_subject": "test(video-translation): r26 真实上游复验——语言契约压住「朗读提示词」，但 zh 未生效",
+  "tree": "4e88dbf3b1d3a7e006a9d6a95714a3ccb6247d55",
+  "web_tree": "544e02cb1f4f7ea646fe39dd597261bf842c1a07",
+  "web_src_tree": "0d580a572138ccbec13ff76e019076b9058c0fa7",
+  "archive_tar_sha256": "de79d24078c7ede327a2ed4d6c49e67c74fb26f1f010f6fd400c72f9c8926c05",
+  "blob_verify": {
+    "total": 3835,
+    "ok": 3835,
+    "diff": 0,
+    "missing": 0,
+    "web_src_total": 411,
+    "web_src_ok": 411
+  },
+  "gates": {
+    "install": {
+      "cmd": "bun install --frozen-lockfile",
+      "packages": 931,
+      "seconds": 4.97,
+      "exit": 0
+    },
+    "typecheck": {
+      "cmd": "bun run typecheck",
+      "exit": 0,
+      "error_ts": 0,
+      "seconds_cold": 278.94,
+      "program_files": 3443,
+      "web_src_files": 410,
+      "web_src_disk_files": 411,
+      "note": "差 1 = src/styles/globals.css 不在 tsconfig include"
+    },
+    "test": {
+      "cmd": "bun test",
+      "pass": 1535,
+      "fail": 0,
+      "expect_calls": 8520,
+      "files": 89,
+      "seconds": 8.77,
+      "exit": 0
+    },
+    "build": {
+      "cmd": "bun run build",
+      "exit": 0,
+      "vite": "7.3.6",
+      "modules": 8831,
+      "dist_files": 443,
+      "dist_size": "37M",
+      "seconds": 165.9,
+      "built_in": "2m43s"
+    }
+  },
+  "targeted": {
+    "video_translation_test": {
+      "file": "web/src/features/tools/adapters/video-translation.test.ts",
+      "blob": "68fd0c43cae3f391e7d611fb351be08d101aee78",
+      "pass": 39,
+      "fail": 0,
+      "expect": 131,
+      "ms": 442
+    },
+    "asset_store": {
+      "files": [
+        "web/src/stores/asset-store-persist.test.ts",
+        "web/src/stores/use-asset-store.key.test.ts"
+      ],
+      "pass": 16,
+      "fail": 0,
+      "expect": 21,
+      "exit": 0
+    }
+  },
+  "tool_versions": {
+    "bun": "1.4.2",
+    "typescript": "5.9.3",
+    "vite": "7.3.6",
+    "plugin_react": "5.2.0",
+    "bun_types": "1.4.4"
+  },
+  "constraints": {
+    "no_nested_dispatch": true,
+    "no_model_switch": true,
+    "no_secret_read": true,
+    "no_src_edit": true,
+    "no_real_generation": true,
+    "no_shared_worktree_ui_read": true
+  },
+  "head_moved_during_run": {
+    "from": "454fa580",
+    "to": "bd71498f",
+    "web_diff": "empty",
+    "note": "仅新增 9 个 docs r27-aspect 证据文件，结论对当前 HEAD 的 web 同样成立"
+  },
+  "failures": []
+}
