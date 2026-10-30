@@ -1,0 +1,452 @@
+{
+ "meta": {
+  "generatedAt": "2026-10-30T13:12:54+08:00",
+  "repo": "/Users/mac/Documents/Dev/infinite-canvas",
+  "branch": "feat/linkfox-v1-real",
+  "scope": "read-only investigation: 未改 src、未提交任何生成任务、未读取任何密钥",
+  "worker": "deepseek (single, no nesting)"
+ },
+ "verdict": {
+  "status": "BLOCKED",
+  "oneLine": "当前可用上游（sub2api OpenAI 兼容 /v1/videos + MiniMax-H3）没有视频翻译/ASR/TTS/口型协议；LinkFox 的翻译能力是独立契约（type=96/bizType=814 + SEED_V25 + DOUBAO_API），本仓库现有渠道无法签发。",
+  "translationDeliveredToday": false,
+  "languageControlToday": "仅提示词文本，无协议字段；r24 实测输出中文旁白朗读提示词，未换语言",
+  "proofTaskToday": "task-mvuflf9e-djxprc → upstream task_dYZmmUVNwbfqKzryL2BbRqR1fHXwMTdK (MiniMax-H3)"
+ },
+ "linkfoxNativeProtocol": {
+  "entry": "https://www.linkfox.com/draw/video-translation",
+  "makeType": 96,
+  "bizType": 814,
+  "topLevelFields": [
+   "extendFields",
+   "lipSync",
+   "outputNum",
+   "sourceLanguage",
+   "sourceVideoName",
+   "sourceVideoUrl",
+   "targetLanguage",
+   "type",
+   "videoType"
+  ],
+  "extendFields": [
+   "accountTypes",
+   "videoType",
+   "sourceLanguage",
+   "targetLanguage",
+   "lipSync",
+   "duration",
+   "videoTime"
+  ],
+  "requiredForCreate": [
+   "sourceVideoUrl",
+   "sourceVideoName",
+   "sourceLanguage",
+   "targetLanguage",
+   "lipSync",
+   "videoType"
+  ],
+  "samplePayload": {
+   "type": 96,
+   "extendFields": {
+    "accountTypes": "DOUBAO_API",
+    "videoType": "SEED_V25",
+    "sourceLanguage": "auto",
+    "targetLanguage": "en",
+    "lipSync": true,
+    "duration": -1,
+    "videoTime": -1,
+    "sourceVideoUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/VIDEO_TRANSLATION/<caseId>/source_video.mp4"
+   },
+   "sourceLanguageEnum": [
+    "auto"
+   ],
+   "targetLanguageObserved": [
+    "en",
+    "pt",
+    "vi",
+    "ms",
+    "ja",
+    "th",
+    "es",
+    "ko"
+   ],
+   "videoTypeObserved": [
+    "SEED_V25"
+   ],
+   "accountTypesObserved": [
+    "DOUBAO_API"
+   ]
+  },
+  "catalogForType96": [
+   {
+    "code": "HAPPY_HORSE",
+    "id": "2090399499103502336",
+    "description": "商品一键换装换景，纹理细节零失真",
+    "isDefault": false,
+    "supportVoice": false,
+    "supportLastFrame": false,
+    "supportReferenceAudioOnly": false,
+    "supportedDurations": [
+     "5",
+     "10",
+     "15"
+    ],
+    "supportedResolutions": [
+     "720P"
+    ],
+    "pricing": {
+     "points": 39
+    }
+   },
+   {
+    "code": "SEED_V25",
+    "id": "2090399499137056768",
+    "description": "视频翻译：识别→逐句翻译→口型对齐视频编辑生成",
+    "isDefault": true,
+    "supportVoice": true,
+    "supportLastFrame": true,
+    "supportReferenceAudioOnly": false,
+    "supportedDurations": [
+     "5",
+     "10",
+     "15",
+     "20",
+     "25",
+     "30"
+    ],
+    "supportedResolutions": [
+     "480P",
+     "720P",
+     "1080P"
+    ],
+    "pricing": {
+     "points": 71
+    },
+    "extraConfig": {
+     "supportAutoRatio": true,
+     "supportModes": [
+      "refImage",
+      "firstLastFrame"
+     ]
+    }
+   }
+  ],
+  "realCaseSamples": [
+   {
+    "caseId": "2089621186087292928",
+    "type": 96,
+    "status": 1,
+    "extendFields": {
+     "accountTypes": "DOUBAO_API",
+     "videoType": "SEED_V25",
+     "sourceLanguage": "auto",
+     "targetLanguage": "en",
+     "lipSync": true,
+     "duration": -1,
+     "videoTime": -1
+    },
+    "sourceVideoHost": "file-ai.linkfox.com",
+    "turnaroundSec": 28,
+    "hasResult": true
+   },
+   {
+    "caseId": "2089621905838247936",
+    "type": 96,
+    "status": 1,
+    "extendFields": {
+     "accountTypes": "DOUBAO_API",
+     "videoType": "SEED_V25",
+     "sourceLanguage": "auto",
+     "targetLanguage": "pt",
+     "lipSync": true,
+     "duration": -1,
+     "videoTime": -1
+    },
+    "sourceVideoHost": "file-ai.linkfox.com",
+    "turnaroundSec": 19,
+    "hasResult": true
+   },
+   {
+    "caseId": "2089621839601799168",
+    "type": 96,
+    "status": 1,
+    "extendFields": {
+     "accountTypes": "DOUBAO_API",
+     "videoType": "SEED_V25",
+     "sourceLanguage": "auto",
+     "targetLanguage": "vi",
+     "lipSync": true,
+     "duration": -1,
+     "videoTime": -1
+    },
+    "sourceVideoHost": "file-ai.linkfox.com",
+    "turnaroundSec": 20,
+    "hasResult": true
+   },
+   {
+    "caseId": "2089621761814237184",
+    "type": 96,
+    "status": 1,
+    "extendFields": {
+     "accountTypes": "DOUBAO_API",
+     "videoType": "SEED_V25",
+     "sourceLanguage": "auto",
+     "targetLanguage": "ms",
+     "lipSync": true,
+     "duration": -1,
+     "videoTime": -1
+    },
+    "sourceVideoHost": "file-ai.linkfox.com",
+    "turnaroundSec": 22,
+    "hasResult": true
+   },
+   {
+    "caseId": "2089621672542670848",
+    "type": 96,
+    "status": 1,
+    "extendFields": {
+     "accountTypes": "DOUBAO_API",
+     "videoType": "SEED_V25",
+     "sourceLanguage": "auto",
+     "targetLanguage": "ja",
+     "lipSync": true,
+     "duration": -1,
+     "videoTime": -1
+    },
+    "sourceVideoHost": "file-ai.linkfox.com",
+    "turnaroundSec": 24,
+    "hasResult": true
+   },
+   {
+    "caseId": "2089621592431464448",
+    "type": 96,
+    "status": 1,
+    "extendFields": {
+     "accountTypes": "DOUBAO_API",
+     "videoType": "SEED_V25",
+     "sourceLanguage": "auto",
+     "targetLanguage": "th",
+     "lipSync": true,
+     "duration": -1,
+     "videoTime": -1
+    },
+    "sourceVideoHost": "file-ai.linkfox.com",
+    "turnaroundSec": 26,
+    "hasResult": true
+   },
+   {
+    "caseId": "2089621379218214912",
+    "type": 96,
+    "status": 1,
+    "extendFields": {
+     "accountTypes": "DOUBAO_API",
+     "videoType": "SEED_V25",
+     "sourceLanguage": "auto",
+     "targetLanguage": "es",
+     "lipSync": true,
+     "duration": -1,
+     "videoTime": -1
+    },
+    "sourceVideoHost": "file-ai.linkfox.com",
+    "turnaroundSec": 14,
+    "hasResult": true
+   },
+   {
+    "caseId": "2089621297886466048",
+    "type": 96,
+    "status": 1,
+    "extendFields": {
+     "accountTypes": "DOUBAO_API",
+     "videoType": "SEED_V25",
+     "sourceLanguage": "auto",
+     "targetLanguage": "ko",
+     "lipSync": true,
+     "duration": -1,
+     "videoTime": -1
+    },
+    "sourceVideoHost": "file-ai.linkfox.com",
+    "turnaroundSec": 17,
+    "hasResult": true
+   }
+  ],
+  "evidenceFiles": [
+   {
+    "path": "docs/analysis/assets/linkfox/schema_final.json",
+    "sha256": "7345e78d1e35b6a9dc5f18043ffb5e67b337ee4efe5c291488028c64c0445436",
+    "bytes": 26608
+   },
+   {
+    "path": "docs/analysis/assets/linkfox/models_catalog.json",
+    "sha256": "d3d9eabd71bca8869682fcf874a4a53b84b6ed97019e1538d15cf5e45b49f252",
+    "bytes": 170381
+   },
+   {
+    "path": "docs/analysis/assets/linkfox/make_cases.json.gz",
+    "sha256": "965faff6c8ae98b8359a8dafbf14c4dffaf486dc0a5ad432bd11872eb01afe37",
+    "bytes": 349586
+   }
+  ]
+ },
+ "currentChannel": {
+  "provider": "openai-compatible relay",
+  "baseUrl": "https://sub2api.1006000.xyz",
+  "createEndpoint": "POST /v1/videos",
+  "pollEndpoint": "GET /v1/videos/{id}",
+  "contentEndpoint": "GET /v1/videos/{id}/content",
+  "modelOption": "sub2api-real::MiniMax-H3",
+  "upstreamReportedModel": "MiniMax-H3",
+  "acceptedSourceVideoShapes": [
+   "videos:[httpsUrl]",
+   "video_url:httpsUrl",
+   "input_reference:httpsUrl",
+   "content[].video_url.url"
+  ],
+  "sentFields": [
+   "model",
+   "prompt",
+   "seconds",
+   "size",
+   "ratio",
+   "resolution_name",
+   "generate_audio",
+   "watermark",
+   "mode",
+   "videos|video_url|input_reference"
+  ],
+  "absentFields": [
+   "sourceLanguage",
+   "targetLanguage",
+   "lipSync",
+   "asr",
+   "tts",
+   "subtitle",
+   "voice",
+   "dubbing"
+  ],
+  "contentLevelFinding": "r24: 源片为纯音乐(0% 语音)，结果片音轨为中文朗读任务说明（LID zh 0.987~0.997），无字幕；证明输出未做翻译，只是生成",
+  "evidenceRefs": [
+   "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/VIDEO_TRANSLATION/r22-f/02-tool-task-record.json",
+   "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/VIDEO_TRANSLATION/r22-f/04-proxy-log-excerpt.txt",
+   "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/VIDEO_TRANSLATION/result.json",
+   "docs/V1.0/plan_linkfox_navigation/reports/vt-content-r24/REPORT.md"
+  ]
+ },
+ "arkPublicProtocol": {
+  "endpoint": "POST {base}/api/v3/contents/generations/tasks",
+  "contentRoles": [
+   "text",
+   "image_url(reference_image)",
+   "video_url(reference_video)",
+   "audio_url(reference_audio)"
+  ],
+  "topLevelParams": [
+   "model",
+   "ratio",
+   "resolution",
+   "duration",
+   "generate_audio",
+   "watermark"
+  ],
+  "hasTranslationParams": false,
+  "hasLipSyncParam": false,
+  "finding": "公开 Ark 视频生成文档中出现 seedance 210 次、video_url 89 次，\"翻译\" 0 次；video 只作为 reference_video（参考素材），不是待译源片语义",
+  "evidenceFiles": [
+   {
+    "path": "~/Documents/Dev/open-ai-canvas-win/backend/internal/protocol/docs/volcengine-ark-video.md",
+    "note": "external repo, read-only"
+   }
+  ]
+ },
+ "blockingReasons": [
+  "当前渠道 /v1/videos 无任何语言/ASR/TTS/口型字段，目标语言只能写进 prompt；r24 已实测未生效",
+  "LinkFox 的翻译是服务端编排能力（SEED_V25 + DOUBAO_API + source/target language + lipSync），不是 OpenAI /v1/videos 的参数扩展",
+  "本仓库唯一真实渠道为 MiniMax-H3 生成模型；sub2api /v1/models 需鉴权(401)，无法在不读密钥的前提下证明其上架了 SEED_V25/doubao-seedance-2-5",
+  "本地 sub2apis 仓库(v0.3.6)平台枚举无 doubao/ark，视频链只有 seedace 整包转发 /video/generations；即便转发也不会把 prompt 变成翻译",
+  "公开 Ark 视频协议无翻译/口型参数，只有 reference_video 参考素材"
+ ],
+ "unverified": [
+  "sub2api 是否另上架 seedance/SEED_V25（需渠道方提供模型清单或在控制台确认；本轮不读密钥、不建任务）",
+  "LinkFox SEED_V25 的结果是否真为逐句翻译+口型对齐（8 条案例仅证明提交契约与状态 1，未做音频语言复验）",
+  "HAPPY_HORSE 出现在 type 96 目录但描述为换装换景，是否可承担翻译未知（目录项不能当能力证明）"
+ ],
+ "unblockRequirements": [
+  "拿到能签发 LinkFox 等价契约的服务端（type=96/bizType=814，accountTypes=DOUBAO_API），或",
+  "拿到 Ark DOUBAO_API 的 SEED_V25/doubao-seedance-2-5 endpoint，并有官方翻译任务字段（当前公开文档没有），或",
+  "自建链路：ASR(带时间轴) → LLM 逐句翻译 → TTS(目标语言音色) → 口型对齐 → 字幕烧录；链路产物再走现有 /v1/videos 仅作为兜底不合适"
+ ],
+ "uiBoundaryCopy": {
+  "pageBanner": "当前渠道不支持视频翻译协议：可选择目标语言，但只会作为提示词发送，不保证换语言；不会生成译制字幕/口型对齐。",
+  "languageFieldHint": "仅提示词引导 · 上游无 language 字段",
+  "lipSyncFieldHint": "当前渠道不支持口型同步参数，已按不可用处理",
+  "multiOutputHint": "当前渠道一次只返回 1 条结果",
+  "resultBadge": "未验证翻译 · 请人工确认语言/字幕",
+  "mustNotSay": [
+   "翻译完成",
+   "已译制",
+   "已对口型",
+   "已生成字幕"
+  ]
+ },
+ "sources": [
+  {
+   "path": "docs/analysis/assets/linkfox/schema_final.json",
+   "sha256": "7345e78d1e35b6a9dc5f18043ffb5e67b337ee4efe5c291488028c64c0445436",
+   "bytes": 26608
+  },
+  {
+   "path": "docs/analysis/assets/linkfox/models_catalog.json",
+   "sha256": "d3d9eabd71bca8869682fcf874a4a53b84b6ed97019e1538d15cf5e45b49f252",
+   "bytes": 170381
+  },
+  {
+   "path": "docs/analysis/assets/linkfox/make_cases.json.gz",
+   "sha256": "965faff6c8ae98b8359a8dafbf14c4dffaf486dc0a5ad432bd11872eb01afe37",
+   "bytes": 349586
+  },
+  {
+   "path": "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/VIDEO_TRANSLATION/r22-f/02-tool-task-record.json",
+   "sha256": "11b3f9d2ed79e4c9992429da34d677d2daf356219bdffb15dac6e727ddce49ce",
+   "bytes": 1334
+  },
+  {
+   "path": "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/VIDEO_TRANSLATION/r22-f/04-proxy-log-excerpt.txt",
+   "sha256": "521844f18c27e63e7b95f64fe790b68b4d8c916a2d00d871acc9353ce8f02bd0",
+   "bytes": 3230
+  },
+  {
+   "path": "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/VIDEO_TRANSLATION/result.json",
+   "sha256": "8bc9204130888134bc91e86f8d070cab3c5b9bd874df3525bb4d6d50b2a0caab",
+   "bytes": 5209
+  },
+  {
+   "path": "docs/V1.0/plan_linkfox_navigation/reports/vt-content-r24/REPORT.md",
+   "sha256": "facffdbc8ac720dcb5820a2c109d888d14e2b2477bb1ede3811d166f14ee8a96",
+   "bytes": 9860
+  },
+  {
+   "path": "docs/V1.0/plan_linkfox_navigation/reports/vt-language-r26/REPORT.md",
+   "sha256": "ec2e1eaa9ed295e44506eb4e30e1136a37fea52d4dc0cfe8ffed207c79db9629",
+   "bytes": 5049
+  },
+  {
+   "path": "/Users/mac/Documents/Dev/open-ai-canvas-win/backend/internal/protocol/docs/volcengine-ark-video.md",
+   "sha256": "4d132ae7eae3365f8c407cf72b17f9f035a188b8a738b4d8b788763a48c01fd2",
+   "bytes": 3012
+  },
+  {
+   "path": "docs/V1.0/plan_linkfox_navigation/reports/video-translation-protocol-audit-20261029.md",
+   "sha256": "f30fbb503d5d5609c72690fdc4898d31d606a8638ed1ef3546cde935b87f73ff",
+   "bytes": 6978
+  },
+  {
+   "path": "docs/V1.0/assets/08-model-catalog.md",
+   "sha256": "7bceff72a1ea4b3f4c1e9114d25f85fc826b6b0802dd94dadfe6b6f95da1fae2",
+   "bytes": 22769
+  }
+ ],
+ "catalogNotes": {
+  "apiCodeSource": "models_catalog.json 的 video[\"96\"] 条目不含 apiCode；`doubao-seedance-2-5` 来自前序资产 docs/V1.0/assets/08-model-catalog.md（模型级整理）",
+  "type96VsModelLevel": "资产08 描述模型为「原生30秒直出，全模态参考一镜到底」、比例 9:16,16:9,1:1,4:3,3:4,21:9；type-96 目录条目描述为「视频翻译…」、比例仅 9:16,16:9 → 同一底层模型在不同工具下被裁剪，能力以工具级条目为准",
+  "happyHorse": "HAPPY_HORSE 出现在 type-96 目录但描述为「商品一键换装换景」，无 apiCode，supportVoice=false → 不能视作翻译模型"
+ }
+}
