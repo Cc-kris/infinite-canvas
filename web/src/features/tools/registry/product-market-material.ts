@@ -190,6 +190,24 @@ export function platformSupportsAplus(platform: MarketPlatformId): boolean {
 export const MARKET_MARKETING_RATIOS = ["1:1", "4:5", "9:16", "16:9", "3:4", "3:2"] as const;
 export type MarketMarketingRatio = (typeof MARKET_MARKETING_RATIOS)[number];
 
+/** 主副图（营销图）模块：与 A+ 模块并列，逐模块生成，画幅走 marketing 比例。 */
+export const MARKET_MARKETING_MODULES = [
+    { id: "marketing-selling-point", label: "卖点图" },
+    { id: "marketing-white-bg", label: "白底图" },
+    { id: "marketing-scene", label: "场景图" },
+    { id: "marketing-closeup", label: "特写图" },
+    { id: "marketing-closeup-white", label: "特写白底图" },
+] as const;
+export type MarketMarketingModuleId = (typeof MARKET_MARKETING_MODULES)[number]["id"];
+
+/** 排版模式：每种排版生成一张 / 无文字模式。 */
+export const MARKET_LAYOUT_MODES = [
+    { id: "per-layout", label: "每种排版生成一张" },
+    { id: "no-text", label: "无文字模式" },
+] as const;
+export type MarketLayoutMode = (typeof MARKET_LAYOUT_MODES)[number]["id"];
+
+
 export const MARKET_RESOLUTIONS = ["1K", "2K", "4K"] as const;
 export type MarketResolution = (typeof MARKET_RESOLUTIONS)[number];
 
@@ -316,6 +334,10 @@ export type MarketConfig = {
     provider: string;
     /** 空 = 使用当前用户配置的图片模型 */
     model: string;
+    /** 主副图（营销图）模块多选 */
+    marketingModuleIds: string[];
+    /** 排版模式：每种排版生成一张 / 无文字模式 */
+    layoutMode: MarketLayoutMode;
 };
 
 const countSchema = z.number().int().min(1).max(MARKET_MAX_MODULE_COUNT);
@@ -348,6 +370,10 @@ export const marketConfigSchema = z.object({
     resolution: z.enum(MARKET_RESOLUTIONS).default("2K"),
     provider: z.string().default(DEFAULT_PROVIDER),
     model: z.string().default(""),
+    marketingModuleIds: z
+        .array(z.string())
+        .default(["marketing-selling-point", "marketing-white-bg", "marketing-scene", "marketing-closeup"]),
+    layoutMode: z.enum(["per-layout", "no-text"]).default("per-layout"),
 });
 
 export function createDefaultMarketConfig(overrides: Partial<MarketConfig> = {}): MarketConfig {
@@ -525,22 +551,31 @@ export type MarketPlan = {
     width: number;
     height: number;
 };
-
 /** 按模板顺序展开计划：每个 A+ 模板一组，组内 count 张。 */
 export function buildMarketPlan(config: MarketConfig): MarketPlan[] {
     const ratio = MARKET_APLUS_RATIOS.find((entry) => entry.id === config.aplusAspectRatio);
     const width = config.aplusAspectRatio === "custom" ? config.customWidth : (ratio?.width ?? 0);
     const height = config.aplusAspectRatio === "custom" ? config.customHeight : (ratio?.height ?? 0);
-    return config.aplusTemplateIds
+    const aplusPlans: MarketPlan[] = config.aplusTemplateIds
         .map((id) => findAplusTemplate(id))
         .filter((template): template is MarketAplusTemplate => Boolean(template))
         .map((template) => ({
-            moduleId: template.id,
+            moduleId: template.id as string,
             label: template.label,
             count: Math.min(MARKET_MAX_MODULE_COUNT, Math.max(1, Math.round(config.aplusCount))),
             width,
             height,
         }));
+    const marketingPlans: MarketPlan[] = MARKET_MARKETING_MODULES.filter((module) =>
+        config.marketingModuleIds.includes(module.id),
+    ).map((module) => ({
+        moduleId: module.id,
+        label: module.label,
+        count: 1,
+        width: 0,
+        height: 0,
+    }));
+    return [...aplusPlans, ...marketingPlans];
 }
 
 export function marketExpectedCount(config: MarketConfig): number {
@@ -596,6 +631,7 @@ export function buildMarketUnitPrompt(config: MarketConfig, input: { plan: Marke
     );
     if (template) parts.push(template.instruction);
     parts.push(`画面内文案使用${language}，并与${region}本地表达习惯一致；不要出现其他品牌标识或价格。`);
+    parts.push(config.layoutMode === "no-text" ? "无文字模式：画面内不出现任何文字，仅用构图与色彩表达信息。" : "每种排版各生成一张，画面版式彼此保持差异。");
     const info = config.productInfo.trim();
     parts.push(info ? `商品信息：${info}` : "商品信息：未填写。");
     if (config.brandName.trim()) parts.push(`品牌名称：${config.brandName.trim()}。`);

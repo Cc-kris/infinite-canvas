@@ -2,7 +2,9 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 import { cn } from "@/lib/utils";
 import { ToolAssetInput } from "@/components/tools/tool-asset-input";
+import { WatermarkGroupPanel } from "@/components/tools/watermark-group-panel";
 import { ToolCases } from "@/components/tools/tool-cases";
+import { ECOMMERCE_SUITE_RAIL, OrigRail } from "@/components/tools/workspaces/orig-rail";
 import type { ToolCase } from "@/components/tools/tool-cases";
 import { uploadCaseFiles } from "@/features/tools/case-apply";
 import { PRODUCT_SUITE_CASES } from "@/features/tools/suite6-cases-data";
@@ -26,7 +28,6 @@ import {
     SUITE_SOURCE_LIMITS,
     APLUS_MODULES,
     MAIN_SUB_MODULES,
-    buildSuiteModulePlan,
     createDefaultSuiteConfig,
     createSuiteSnapshot,
     readSuiteConfig,
@@ -52,7 +53,10 @@ import {
     MARKET_APLUS_TEMPLATES,
     MARKET_FONT_STYLES,
     MARKET_LANGUAGES,
+    MARKET_LAYOUT_MODES,
+    MARKET_MARKETING_MODULES,
     MARKET_MAX_MODULE_COUNT,
+    MARKET_QUALITIES,
     MARKET_PLATFORMS,
     MARKET_PRODUCT_INFO_MAX_LENGTH,
     MARKET_PROVIDERS,
@@ -106,9 +110,9 @@ const SUITE_ASSET_CONSTRAINTS: Partial<ToolAssetConstraints> = {
 
 function Section({ title, hint, children }: { title: string; hint?: string; children: React.ReactNode }) {
     return (
-        <section className="rounded-lg border border-stone-200 bg-white/60 p-3 dark:border-stone-800 dark:bg-stone-900/40">
-            <header className="mb-2 flex items-baseline gap-2">
-                <h3 className="text-sm font-medium text-stone-800 dark:text-stone-100">{title}</h3>
+        <section className="rounded-md border border-stone-200 bg-white/60 px-2 py-1.5 dark:border-stone-800 dark:bg-stone-900/40">
+            <header className="mb-1 flex items-baseline gap-1.5">
+                <h3 className="text-[12px] font-medium leading-4 text-stone-800 dark:text-stone-100">{title}</h3>
                 {hint ? <span className="text-[11px] text-stone-500 dark:text-stone-400">{hint}</span> : null}
             </header>
             {children}
@@ -135,6 +139,18 @@ const inputClass =
  * 所以对齐只能用空白归一化后的文本比较，不能直接字符串相等。
  */
 const normalizePrompt = (value: string) => value.replace(/\s+/g, " ").trim();
+
+/** 套图单张消耗点数（原站按张计费，A+/主副图同价）。 */
+const SUITE_UNIT_POINTS = 50;
+
+/** 向导里的一键句式（本地文本，点选后追加到商品信息）。 */
+const SUITE_GUIDE_PROMPTS: ReadonlyArray<{ label: string; text: string }> = [
+    { label: "核心卖点", text: "核心卖点：" },
+    { label: "材质工艺", text: "材质工艺：" },
+    { label: "使用场景", text: "使用场景：" },
+    { label: "目标人群", text: "目标人群：" },
+    { label: "尺码规格", text: "尺码规格：" },
+];
 
 /**
  * 已落盘任务 → 结果区单元。
@@ -215,6 +231,7 @@ export function ProductImageSuiteWorkspace({ className }: { className?: string }
     const [seeded, setSeeded] = useState(false);
     const [rightTab, setRightTab] = useState<"result" | "cases" | "history">("result");
     const [applyingCaseId, setApplyingCaseId] = useState<string | null>(null);
+    const [guideOpen, setGuideOpen] = useState(false);
     const [caseApplyNonce, setCaseApplyNonce] = useState(0);
 
     /* 「优秀案例」做同款：真实案例原图入库后回填到商品图上传播槽 */
@@ -240,7 +257,6 @@ export function ProductImageSuiteWorkspace({ className }: { className?: string }
             setApplyingCaseId(null);
         }
     }, []);
-    const [disclaimerOpen, setDisclaimerOpen] = useState(false);
     const abortRef = useRef<AbortController | null>(null);
 
     /* 草稿恢复：值 → 配置；assetIds → 商品图记录（丢失则要求重新选择） */
@@ -327,19 +343,74 @@ export function ProductImageSuiteWorkspace({ className }: { className?: string }
         [config],
     );
 
-    const update = useCallback(
-        (next: Partial<SuiteConfig>) => {
-            setConfig((previous) => {
-                const merged: SuiteConfig = { ...previous, ...next };
-                patchDraft(toolId, {
-                    values: { suiteConfig: merged },
-                    assetIds: merged.sourceAssetId ? [merged.sourceAssetId] : [],
-                });
-                return merged;
+    /* 草稿写入必须在事件里完成，不能放进 setState updater：
+     * updater 在 React 渲染期可能被调用，渲染期写 zustand 会触发
+     * 「Cannot update a component while rendering a different component」。 */
+    const configRef = useRef<SuiteConfig>(config);
+    useEffect(() => {
+        configRef.current = config;
+    }, [config]);
+
+    const commitConfig = useCallback(
+        (merged: SuiteConfig) => {
+            configRef.current = merged;
+            setConfig(merged);
+            patchDraft(toolId, {
+                values: { suiteConfig: merged },
+                assetIds: merged.sourceAssetId ? [merged.sourceAssetId] : [],
             });
         },
         [patchDraft, toolId],
     );
+
+    const update = useCallback(
+        (next: Partial<SuiteConfig>) => {
+            commitConfig({ ...configRef.current, ...next });
+        },
+        [commitConfig],
+    );
+
+    /* 向导：本地预置句式，点一下追加到商品信息（纯本地，不发网络请求）。 */
+    const appendProductInfo = useCallback(
+        (text: string) => {
+            const previous = configRef.current;
+            const mergedInfo = `${previous.productInfo}${previous.productInfo.trim() ? "\n" : ""}${text}`.slice(
+                0,
+                PRODUCT_IMAGE_SUITE_MAX_PRODUCT_INFO,
+            );
+            commitConfig({ ...previous, productInfo: mergedInfo });
+        },
+        [commitConfig],
+    );
+
+    /*
+     * AI分析：按原站交互把商品信息拆成结构化字段（卖点 / 材质 / 场景 / 人群），
+     * 这里用本地规则从已输入文本提取，不发起网络请求，也不伪造模型输出。
+     */
+    const onAnalyzeProductInfo = useCallback(() => {
+        const raw = config.productInfo.trim();
+        if (!raw) {
+            appendProductInfo("请先输入商品卖点，再点 AI分析。");
+            return;
+        }
+        const lines = raw
+            .split(/[\n。；;]+/)
+            .map((line) => line.trim())
+            .filter(Boolean);
+        const pick = (keywords: string[]) =>
+            lines.filter((line) => keywords.some((keyword) => line.includes(keyword))).slice(0, 3);
+        const sections: Array<[string, string[]]> = [
+            ["卖点", pick(["卖点", "卖", "轻", "防水", "耐用", "舒适", "大容量"])],
+            ["材质", pick(["材质", "面料", "棉", "涤", "牛皮", "硅胶", "金属", "塑料"])],
+            ["场景", pick(["场景", "户外", "家居", "办公", "通勤", "旅行", "运动"])],
+            ["人群", pick(["人群", "女", "男", "儿童", "学生", "商务", "宝妈"])],
+        ];
+        const block = sections
+            .filter(([, hits]) => hits.length > 0)
+            .map(([label, hits]) => `${label}：${hits.join("；")}`)
+            .join("\n");
+        appendProductInfo(block || "AI分析：未识别到可结构化字段，请补充卖点、材质、场景。");
+    }, [appendProductInfo, config.productInfo]);
 
     const onSourceChange = useCallback(
         (assetIds: string[], records: ToolAssetRecord[]) => {
@@ -363,7 +434,6 @@ export function ProductImageSuiteWorkspace({ className }: { className?: string }
         [config, source, imageModel],
     );
     const expected = suiteExpectedCount(config);
-    const plans = useMemo(() => buildSuiteModulePlan(config), [config]);
     const summary = summarizeSuiteRun(units);
     const stale = snapshot ? suiteResultsStale({ snapshot }, config) : false;
 
@@ -475,22 +545,21 @@ export function ProductImageSuiteWorkspace({ className }: { className?: string }
     );
 
     return (
-        <div className={cn("flex h-full min-h-0 bg-white", className)} data-tool="product-image-suite" data-layout="linkfox-two-pane">
-            <div className="flex h-full w-[307px] shrink-0 flex-col border-r border-[#EDEDF0]">
-                <div className="min-h-0 flex-1 overflow-y-auto px-6 pb-4 pt-3">
-                    <div className="flex flex-col gap-3">
-                    <div className="flex items-center gap-2 text-[12px] text-muted-foreground">
-                        <span>免责声明</span>
-                        <button type="button" className="text-[12px] text-primary hover:underline" onClick={() => setDisclaimerOpen((v) => !v)}>
-                            {disclaimerOpen ? "收起" : "查看"}
-                        </button>
-                    </div>
-                    {disclaimerOpen ? (
-                        <p className="rounded-[6px] bg-[#faf9ff] px-3 py-2 text-[11px] leading-4 text-[#6b6b7a]">
-                            生成结果由 AI 模型产生，仅作设计参考；商用前请自行确认素材与商标授权，平台不对生成内容的合规性承担连带责任。
-                        </p>
-                    ) : null}
+        <div className={cn("flex h-full min-h-0 flex-col bg-white", className)} data-tool="product-image-suite" data-layout="linkfox-two-pane">
+            <OrigRail
+                items={ECOMMERCE_SUITE_RAIL}
+                active="商品套图"
+                credits={250}
+                driver
+                testId="suite-family-rail"
+                className="shrink-0 border-b border-[#EDEDF0] px-2"
+            />
+            <div className="flex min-h-0 flex-1">
+            <div className="flex min-h-0 w-[760px] shrink-0 flex-col border-r border-[#EDEDF0]">
+                <div className="min-h-0 flex-1 overflow-y-auto px-2 pb-1 pt-1">
+                    <div className="grid auto-rows-max grid-cols-3 gap-1.5">
                 <Section title="多视角白底商品&实拍图">
+                    <p className="mb-1.5 text-[11px] text-muted-foreground">上传商品图</p>
                     <ToolAssetInput
                         key={`case-${caseApplyNonce}`}
                         toolId={toolId}
@@ -511,13 +580,43 @@ export function ProductImageSuiteWorkspace({ className }: { className?: string }
                 </Section>
 
                 <Section title="商品信息">
-                    {/* 原站套图页此处只有文本框 + 字数：origin 控件清单里没有 AI分析 / 向导 这两个按钮，
-                        本地多出来的占位按钮已删除，保持与截图 1:1 对齐。 */}
-                    <div className="mb-1.5 flex items-center justify-end gap-2">
+                    <div className="mb-1.5 flex items-center justify-between gap-2">
+                        <div className="flex items-center gap-1.5">
+                            <button
+                                type="button"
+                                onClick={() => setGuideOpen((value) => !value)}
+                                data-testid="suite-guide"
+                                className="rounded-[4px] border border-[#E6E6EB] px-2 py-[3px] text-[11px] leading-none text-[#5a5a70] hover:border-[#d8d8e0]"
+                            >
+                                向导
+                            </button>
+                            <button
+                                type="button"
+                                onClick={onAnalyzeProductInfo}
+                                data-testid="suite-ai-analyze"
+                                className="rounded-[4px] border border-[#E6E6EB] px-2 py-[3px] text-[11px] leading-none text-[#5a5a70] hover:border-[#d8d8e0]"
+                            >
+                                AI分析
+                            </button>
+                        </div>
                         <span className="text-[11px] text-muted-foreground">
                             {config.productInfo.length} / {PRODUCT_IMAGE_SUITE_MAX_PRODUCT_INFO}
                         </span>
                     </div>
+                    {guideOpen ? (
+                        <div className="mb-2 flex flex-wrap gap-1.5 rounded-[6px] bg-[#faf9ff] p-2">
+                            {SUITE_GUIDE_PROMPTS.map((prompt) => (
+                                <button
+                                    key={prompt.label}
+                                    type="button"
+                                    onClick={() => appendProductInfo(prompt.text)}
+                                    className="rounded-[4px] border border-[#E6E6EB] bg-white px-2 py-[3px] text-[11px] leading-none text-[#5a5a70] hover:border-[#d8d8e0]"
+                                >
+                                    {prompt.label}
+                                </button>
+                            ))}
+                        </div>
+                    ) : null}
                     <textarea
                         value={config.productInfo}
                         onChange={(event) => update({ productInfo: event.target.value.slice(0, PRODUCT_IMAGE_SUITE_MAX_PRODUCT_INFO) })}
@@ -571,88 +670,118 @@ export function ProductImageSuiteWorkspace({ className }: { className?: string }
                 </Section>
 
                 <Section title="模型选择">
-                    <div className="flex flex-col gap-2">
-                        <span className="text-[11px] text-muted-foreground">当前模型：{imageModel?.split("::").pop()?.trim() || "未配置"}</span>
-                        <Field label="分辨率选择">
-                            <select className={inputClass} value={config.resolution} onChange={(event) => update({ resolution: event.target.value as SuiteConfig["resolution"] })}>
+                    <div className="flex flex-col gap-2.5">
+                        {/* 原站模型行：固定 LF智能模型 G-2.5 Sunburst，右侧显示本地实际解析到的模型 */}
+                        <div className="flex items-center justify-between rounded-[6px] border border-[#E6E6EB] px-2 py-[6px]">
+                            <span className="text-[12px] leading-none text-[#2b2b3a] dark:text-stone-100">LF智能模型 G-2.5 Sunburst</span>
+                            <span className="text-[10px] leading-none text-muted-foreground">
+                                {imageModel?.split("::").pop()?.trim() || "未配置"}
+                            </span>
+                        </div>
+                        <div>
+                            <p className="mb-1.5 text-[11px] text-muted-foreground">分辨率选择</p>
+                            <div className="flex gap-1.5">
                                 {SUITE_RESOLUTIONS.map((value) => (
-                                    <option key={value} value={value}>
+                                    <button
+                                        key={value}
+                                        type="button"
+                                        data-testid={`suite-resolution-${value}`}
+                                        onClick={() => update({ resolution: value })}
+                                        className={`h-7 min-w-[46px] rounded-[4px] border text-[12px] leading-none ${
+                                            config.resolution === value
+                                                ? "border-primary bg-primary/10 text-primary"
+                                                : "border-[#E6E6EB] text-[#5a5a70] hover:border-[#d8d8e0]"
+                                        }`}
+                                    >
                                         {value}
-                                    </option>
+                                    </button>
                                 ))}
-                            </select>
-                        </Field>
-                        <Field label="模型品质">
-                            <select className={inputClass} value={config.quality} onChange={(event) => update({ quality: event.target.value as SuiteConfig["quality"] })}>
+                            </div>
+                        </div>
+                        <div>
+                            <p className="mb-1.5 text-[11px] text-muted-foreground">模型品质</p>
+                            <div className="flex flex-wrap gap-1.5">
                                 {SUITE_QUALITIES.map((quality) => (
-                                    <option key={quality.id} value={quality.id}>
+                                    <button
+                                        key={quality.id}
+                                        type="button"
+                                        data-testid={`suite-quality-${quality.id}`}
+                                        aria-pressed={config.quality === quality.id}
+                                        onClick={() => update({ quality: quality.id })}
+                                        className={`h-7 rounded-[4px] border px-2 text-[12px] leading-none ${
+                                            config.quality === quality.id
+                                                ? "border-primary bg-primary/10 text-primary"
+                                                : "border-[#E6E6EB] text-[#5a5a70] hover:border-[#d8d8e0]"
+                                        }`}
+                                    >
                                         {quality.label}
-                                    </option>
+                                    </button>
                                 ))}
-                            </select>
-                        </Field>
-                        <Field label="生成比例">
-                            <select className={inputClass} value={config.ratio} onChange={(event) => update({ ratio: event.target.value as SuiteConfig["ratio"] })}>
-                                {SUITE_RATIOS.map((ratio) => (
-                                    <option key={ratio.id} value={ratio.id}>
-                                        {ratio.label}
-                                    </option>
-                                ))}
-                            </select>
-                        </Field>
+                            </div>
+                        </div>
                     </div>
                 </Section>
 
             <Section title="A+图设置">
-                <p className="mb-1.5 text-[11px] text-muted-foreground">生成类型（单选）</p>
-                <div className="flex flex-wrap gap-2">
+                <p className="mb-1 text-[11px] text-muted-foreground">生成类型（单选）</p>
+                <div className="flex flex-wrap gap-1">
                     {APLUS_MODULES.map((module) => (
-                        <button
+                        <div
                             key={module.id}
-                            type="button"
                             onClick={() => update({ aplusModuleId: config.aplusModuleId === module.id ? "" : module.id })}
-                            className={`rounded-md border px-2 py-1 text-xs ${
+                            className={`flex cursor-pointer items-center gap-1 rounded-[4px] border px-1.5 py-0.5 text-[11px] leading-none ${
                                 config.aplusModuleId === module.id
                                     ? "border-stone-800 bg-stone-800 text-white dark:border-stone-200 dark:bg-stone-200 dark:text-stone-900"
                                     : "border-stone-200 text-stone-700 dark:border-stone-700 dark:text-stone-200"
                             }`}
                         >
-                            {module.label}
+                            <span>{module.label}</span>
+                            <button
+                                type="button"
+                                title="每模块张数"
+                                aria-label={`${module.label}每模块张数`}
+                                onClick={(event) => {
+                                    event.stopPropagation();
+                                    update({ aplusCount: config.aplusCount >= 10 ? 1 : config.aplusCount + 1 });
+                                }}
+                                className="text-[10px] opacity-70 hover:opacity-100"
+                            >
+                                {config.aplusCount}
+                            </button>
+                        </div>
+                    ))}
+                </div>
+                <p className="mt-1.5 mb-1 text-[11px] text-muted-foreground">选择排版</p>
+                <div className="flex flex-wrap gap-1">
+                    {SUITE_LAYOUT_MODES.map((mode) => (
+                        <button
+                            key={mode.id}
+                            type="button"
+                            data-testid={`suite-aplus-layout-${mode.id}`}
+                            onClick={() => update({ aplusLayoutMode: mode.id })}
+                            className={`h-6 rounded-[4px] border px-1.5 text-[11px] leading-none ${
+                                config.aplusLayoutMode === mode.id
+                                    ? "border-primary bg-primary/10 text-primary"
+                                    : "border-[#E6E6EB] text-[#5a5a70] hover:border-[#d8d8e0]"
+                            }`}
+                        >
+                            {mode.label}
                         </button>
                     ))}
                 </div>
-                <div className="mt-2 grid gap-2 sm:grid-cols-3">
-                    <Field label="张数">
-                        <input
-                            type="number"
-                            min={1}
-                            max={10}
-                            className={`${inputClass} w-16`}
-                            value={config.aplusCount}
-                            onChange={(event) => update({ aplusCount: Number(event.target.value) || 1 })}
-                        />
-                    </Field>
-                    <Field label="排版">
-                        <select className={inputClass} value={config.aplusLayoutMode} onChange={(event) => update({ aplusLayoutMode: event.target.value as SuiteConfig["aplusLayoutMode"] })}>
-                            {SUITE_LAYOUT_MODES.map((mode) => (
-                                <option key={mode.id} value={mode.id}>
-                                    {mode.label}
-                                </option>
-                            ))}
-                        </select>
-                    </Field>
-                </div>
+                <p className="mt-1 text-[11px] leading-4 text-muted-foreground">
+                    💡未选择排版时，将根据官方排版随机生成
+                </p>
             </Section>
 
             <Section title="主副图设置">
-                <p className="mb-1.5 text-[11px] text-muted-foreground">生成类型（多选）</p>
-                <div className="flex flex-wrap gap-2">
+                <p className="mb-1 text-[11px] text-muted-foreground">生成类型（多选）</p>
+                <div className="flex flex-wrap gap-1">
                     {MAIN_SUB_MODULES.map((module) => {
                         const checked = config.mainSubModuleIds.includes(module.id);
                         return (
-                            <button
+                            <div
                                 key={module.id}
-                                type="button"
                                 onClick={() =>
                                     update({
                                         mainSubModuleIds: checked
@@ -660,43 +789,89 @@ export function ProductImageSuiteWorkspace({ className }: { className?: string }
                                             : [...config.mainSubModuleIds, module.id],
                                     })
                                 }
-                                className={`rounded-md border px-2 py-1 text-xs ${
+                                className={`flex cursor-pointer items-center gap-1 rounded-[4px] border px-1.5 py-0.5 text-[11px] leading-none ${
                                     checked
                                         ? "border-stone-800 bg-stone-800 text-white dark:border-stone-200 dark:bg-stone-200 dark:text-stone-900"
                                         : "border-stone-200 text-stone-700 dark:border-stone-700 dark:text-stone-200"
                                 }`}
                             >
-                                {module.label}
-                            </button>
+                                <span>{module.label}</span>
+                                <button
+                                    type="button"
+                                    title="每模块张数"
+                                    aria-label={`${module.label}每模块张数`}
+                                    onClick={(event) => {
+                                        event.stopPropagation();
+                                        const current = config.mainSubCounts[module.id] ?? module.defaultCount;
+                                        update({
+                                            mainSubCounts: { ...config.mainSubCounts, [module.id]: current >= 10 ? 1 : current + 1 },
+                                        });
+                                    }}
+                                    className="text-[10px] opacity-70 hover:opacity-100"
+                                >
+                                    {config.mainSubCounts[module.id] ?? module.defaultCount}
+                                </button>
+                            </div>
                         );
                     })}
                 </div>
-                {config.mainSubModuleIds.length ? (
-                    <div className="mt-2 flex flex-wrap gap-3">
-                        {MAIN_SUB_MODULES.filter((module) => config.mainSubModuleIds.includes(module.id)).map((module) => (
-                            <label key={module.id} className="flex items-center gap-1 text-[11px] text-stone-600 dark:text-stone-300">
-                                {module.label}
-                                <input
-                                    type="number"
-                                    min={1}
-                                    max={10}
-                                    className={`${inputClass} w-14`}
-                                    value={config.mainSubCounts[module.id] ?? module.defaultCount}
-                                    onChange={(event) =>
-                                        update({ mainSubCounts: { ...config.mainSubCounts, [module.id]: Number(event.target.value) || 1 } })
-                                    }
-                                />
-                            </label>
-                        ))}
-                    </div>
-                ) : null}
+                <p className="mt-1.5 mb-1 text-[11px] text-muted-foreground">选择排版</p>
+                <div className="flex flex-wrap gap-1">
+                    {SUITE_LAYOUT_MODES.map((mode) => (
+                        <button
+                            key={mode.id}
+                            type="button"
+                            data-testid={`suite-main-sub-layout-${mode.id}`}
+                            onClick={() => update({ mainSubLayoutMode: mode.id })}
+                            className={`h-6 rounded-[4px] border px-1.5 text-[11px] leading-none ${
+                                config.mainSubLayoutMode === mode.id
+                                    ? "border-primary bg-primary/10 text-primary"
+                                    : "border-[#E6E6EB] text-[#5a5a70] hover:border-[#d8d8e0]"
+                            }`}
+                        >
+                            {mode.label}
+                        </button>
+                    ))}
+                </div>
+                <p className="mt-1 text-[11px] leading-4 text-muted-foreground">
+                    💡未选择排版时，将根据官方排版随机生成
+                </p>
             </Section>
+
+            <Section title="生成比例">
+                <div className="flex flex-wrap gap-1">
+                    {SUITE_RATIOS.map((ratio) => (
+                        <button
+                            key={ratio.id}
+                            type="button"
+                            data-testid={`suite-ratio-${ratio.id}`}
+                            onClick={() => update({ ratio: ratio.id })}
+                            className={`h-6 min-w-[38px] rounded-[4px] border text-[11px] leading-none ${
+                                config.ratio === ratio.id
+                                    ? "border-primary bg-primary/10 text-primary"
+                                    : "border-[#E6E6EB] text-[#5a5a70] hover:border-[#d8d8e0]"
+                            }`}
+                        >
+                            {ratio.label}
+                        </button>
+                    ))}
+                    <button
+                        type="button"
+                        onClick={() => update({ ratio: SUITE_RATIOS[0].id })}
+                        className="h-6 rounded-[4px] border border-[#E6E6EB] px-1.5 text-[11px] leading-none text-[#5a5a70] hover:border-[#d8d8e0]"
+                    >
+                        更多
+                    </button>
+                </div>
+            </Section>
+
+            <WatermarkGroupPanel />
 
                     </div>
                 </div>
                 <div className="shrink-0 border-t border-[#EDEDF0] px-6 py-3" data-testid="suite-generate-summary">
                     <p className="text-[11px] leading-4 text-muted-foreground">
-                        A+图{aplusUnits}张 + 主副图{mainSubUnits}张，共 {expected} 张
+                        A+图{aplusUnits}张 * 每张{SUITE_UNIT_POINTS}点 + 主副图{mainSubUnits}张 * 每张{SUITE_UNIT_POINTS}点 = {expected * SUITE_UNIT_POINTS}点
                     </p>
                     <div className="mt-2 flex items-center gap-2">
                         <button
@@ -768,9 +943,7 @@ export function ProductImageSuiteWorkspace({ className }: { className?: string }
                     <ToolTaskHistory toolId={toolId} limit={8} onSelectTask={onSelectHistoryTask} emptyHint="还没有套图任务记录" />
                 </div>
                 <div role="tabpanel" hidden={rightTab !== "result"} data-testid="suite-panel-result" className="flex flex-col gap-3">
-                    <p className="text-[11px] text-[#6b6b80]">
-                        预计生成 {expected} 张{plans.map((plan) => ` · ${plan.label}×${plan.count}`).join("")}
-                    </p>
+                    <p className="text-[11px] text-[#6b6b80]">生成结果</p>
 
             {issues.length || runError ? (
                 <div className="rounded-lg border border-amber-300 bg-amber-50 p-2 text-[11px] text-amber-800 dark:border-amber-700/60 dark:bg-amber-950/40 dark:text-amber-200">
@@ -867,8 +1040,25 @@ export function ProductImageSuiteWorkspace({ className }: { className?: string }
             ) : null}
 
             {seeded ? null : <p className="text-[11px] text-stone-500">正在读取草稿…</p>}
+            <div className="mt-3 flex items-center gap-1" data-testid="suite-result-pager">
+                {[1, 2, 3].map((page) => (
+                    <button
+                        key={page}
+                        type="button"
+                        aria-label={`第 ${page} 页`}
+                        className={`h-6 min-w-[24px] rounded-[4px] border text-[11px] leading-none ${
+                            page === 1
+                                ? "border-primary bg-primary/10 text-primary"
+                                : "border-[#E6E6EB] text-[#5a5a70] hover:border-[#d8d8e0]"
+                        }`}
+                    >
+                        {page}
+                    </button>
+                ))}
+            </div>
                 </div>
                 </div>
+            </div>
             </div>
         </div>
     );
@@ -918,6 +1108,8 @@ export function ProductMarketMaterialWorkspace({ className }: { className?: stri
     const [canvasKeys, setCanvasKeys] = useState<Record<string, string>>({});
     const [seeded, setSeeded] = useState(false);
     const abortRef = useRef<AbortController | null>(null);
+    const [rightTab, setRightTab] = useState<"result" | "cases" | "history">("result");
+    const [advancedOpen, setAdvancedOpen] = useState(false);
 
     /* 草稿恢复：values.marketConfig + 商品图记录（记录缺失则要求重新上传） */
     useEffect(() => {
@@ -987,15 +1179,20 @@ export function ProductMarketMaterialWorkspace({ className }: { className?: stri
         );
     }, [seeded, tasksHydrated, storeTasks, config, toolId, draft?.revision, imageModel]);
 
+    /* 同 Suite：草稿写入只在事件里发生，绝不放进 setState updater（渲染期写 store 会告警）。 */
+    const marketConfigRef = useRef<MarketConfig>(config);
+    useEffect(() => {
+        marketConfigRef.current = config;
+    }, [config]);
+
     const update = useCallback(
         (next: Partial<MarketConfig>) => {
-            setConfig((previous) => {
-                const merged = normalizeConfig({ ...previous, ...next });
-                patchDraft(toolId, {
-                    values: { marketConfig: merged },
-                    assetIds: merged.sourceAssetIds,
-                });
-                return merged;
+            const merged = normalizeConfig({ ...marketConfigRef.current, ...next });
+            marketConfigRef.current = merged;
+            setConfig(merged);
+            patchDraft(toolId, {
+                values: { marketConfig: merged },
+                assetIds: merged.sourceAssetIds,
             });
         },
         [patchDraft, toolId],
@@ -1020,6 +1217,22 @@ export function ProductMarketMaterialWorkspace({ className }: { className?: stri
     const expected = marketExpectedCount(config);
     const summary = summarizeMarketRun(units);
     const stale = snapshot ? marketResultsStale({ snapshot }, config, { images: config.sourceAssetIds, provider }) : false;
+    /* A+ 每模板 aplusCount 张；主副图每模块 1 张。 */
+    const aplusUnits = plans.filter((plan) => plan.width > 0 && plan.height > 0).reduce((total, plan) => total + plan.count, 0);
+    const mainSubUnits = plans.filter((plan) => plan.width === 0 && plan.height === 0).reduce((total, plan) => total + plan.count, 0);
+
+    /* 历史点选：按 prompt 还原该模块最新一条结果为一张图。 */
+    const onSelectHistoryTask = useCallback(
+        (task: ToolTask) => {
+            const target = normalizePrompt(task.prompt);
+            const unit = buildMarketUnits(config).find((item) => normalizePrompt(item.prompt) === target);
+            if (!unit) return;
+            const restored = marketUnitResultFromTask(unit, task);
+            setUnits((previous) => [...previous.filter((item) => item.unitId !== unit.id), restored]);
+            setRightTab("result");
+        },
+        [config],
+    );
     const blocked = running || issues.length > 0;
 
     const sourceIssue = sources.map((source) => validateMarketSourceLimits(source)).find((result) => !result.ok);
@@ -1148,411 +1361,617 @@ export function ProductMarketMaterialWorkspace({ className }: { className?: stri
     const regionDefault = findRegion(config.salesRegion)?.defaultLanguage;
 
     return (
-        <div className={`flex flex-col gap-3 ${className ?? ""}`}>
-            {/* ① 商品多图与商品信息 */}
-            <Section title="商品多图与信息" hint={`1–${MARKET_UPLOAD_LIMITS.maxFiles} 张 · 首张为主图`}>
-                <ToolAssetInput
-                    toolId={toolId}
-                    constraints={{
-                        mimeTypes: [...MARKET_UPLOAD_LIMITS.mimeTypes],
-                        maxBytes: MARKET_UPLOAD_LIMITS.maxBytes,
-                        minWidth: MARKET_UPLOAD_LIMITS.minSide,
-                        minHeight: MARKET_UPLOAD_LIMITS.minSide,
-                        maxWidth: MARKET_UPLOAD_LIMITS.maxSide,
-                        maxHeight: MARKET_UPLOAD_LIMITS.maxSide,
-                    }}
-                    maxCount={MARKET_UPLOAD_LIMITS.maxFiles}
-                    disabled={running}
-                    title="上传商品多图"
-                    onChange={onSourcesChange}
-                />
-                {sources.length ? (
-                    <div className="mt-2 flex flex-wrap gap-2">
-                        {sources.map((source, index) => (
-                            <label key={source.assetId} className="flex items-center gap-1 text-[11px] text-foreground">
-                                <input
-                                    type="radio"
-                                    name="market-cover"
-                                    checked={config.coverList[0] === source.assetId}
-                                    onChange={() => update({ coverList: [source.assetId] })}
+        <div
+            className={cn("flex h-full min-h-0 flex-col bg-white dark:bg-stone-950", className)}
+            data-tool="product-market-material"
+            data-layout="linkfox-two-pane"
+        >
+            <OrigRail
+                items={ECOMMERCE_SUITE_RAIL}
+                active="商品套图"
+                credits={250}
+                testId="suite-family-rail"
+                className="shrink-0 border-b border-[#EDEDF0] px-2"
+            />
+            <div className="flex min-h-0 flex-1">
+                <div className="flex min-h-0 w-[760px] shrink-0 flex-col border-r border-[#EDEDF0]">
+                    <div className="min-h-0 flex-1 overflow-y-auto px-2 pb-1 pt-1">
+                        <div className="grid auto-rows-max grid-cols-3 gap-1.5">
+                            <Section title="多视角白底商品&实拍图">
+                                <p className="mb-1.5 text-[11px] text-muted-foreground">上传商品图</p>
+                                <ToolAssetInput
+                                    toolId={toolId}
+                                    constraints={{
+                                        mimeTypes: [...MARKET_UPLOAD_LIMITS.mimeTypes],
+                                        maxBytes: MARKET_UPLOAD_LIMITS.maxBytes,
+                                        minWidth: MARKET_UPLOAD_LIMITS.minSide,
+                                        minHeight: MARKET_UPLOAD_LIMITS.minSide,
+                                        maxWidth: MARKET_UPLOAD_LIMITS.maxSide,
+                                        maxHeight: MARKET_UPLOAD_LIMITS.maxSide,
+                                    }}
+                                    maxCount={MARKET_UPLOAD_LIMITS.maxFiles}
+                                    disabled={running}
+                                    title=""
+                                    variant="linkfox"
+                                    wide
+                                    hint={`10M以内，${MARKET_UPLOAD_LIMITS.minSide}*${MARKET_UPLOAD_LIMITS.minSide} ~ ${MARKET_UPLOAD_LIMITS.maxSide}*${MARKET_UPLOAD_LIMITS.maxSide}，最大宽高比${MARKET_UPLOAD_LIMITS.maxAspectRatio}`}
+                                    onChange={onSourcesChange}
                                 />
-                                {index === 0 ? "主图" : `图 ${index + 1}`}
-                            </label>
+                                {sources.length ? (
+                                    <div className="mt-1.5 flex flex-wrap gap-2">
+                                        {sources.map((source, index) => (
+                                            <label key={source.assetId} className="flex items-center gap-1 text-[11px] text-foreground">
+                                                <input
+                                                    type="radio"
+                                                    name="market-cover"
+                                                    checked={config.coverList[0] === source.assetId}
+                                                    onChange={() => update({ coverList: [source.assetId] })}
+                                                />
+                                                {index === 0 ? "主图" : `图 ${index + 1}`}
+                                            </label>
+                                        ))}
+                                    </div>
+                                ) : null}
+                                {sourceIssue ? <p className="mt-2 text-[11px] text-amber-600">{sourceIssue.message}</p> : null}
+                            </Section>
+
+                            <Section title="商品信息">
+                                <div className="mb-1.5 flex items-center justify-between gap-2">
+                                    <div className="flex items-center gap-1.5">
+                                        <button
+                                            type="button"
+                                            onClick={() => update({ productInfo: outlineMarketProductInfo(config.productInfo) })}
+                                            data-testid="market-guide"
+                                            className="rounded-[4px] border border-[#E6E6EB] px-2 py-[3px] text-[11px] leading-none text-[#5a5a70] hover:border-[#d8d8e0]"
+                                        >
+                                            向导
+                                        </button>
+                                        <button
+                                            type="button"
+                                            onClick={() => update({ productInfo: analyzeMarketProductInfo(config.productInfo) })}
+                                            data-testid="market-ai-analyze"
+                                            className="rounded-[4px] border border-[#E6E6EB] px-2 py-[3px] text-[11px] leading-none text-[#5a5a70] hover:border-[#d8d8e0]"
+                                        >
+                                            AI分析
+                                        </button>
+                                    </div>
+                                    <span className="text-[11px] text-muted-foreground">
+                                        {config.productInfo.length} / {MARKET_PRODUCT_INFO_MAX_LENGTH}
+                                    </span>
+                                </div>
+                                <textarea
+                                    value={config.productInfo}
+                                    onChange={(event) =>
+                                        update({ productInfo: event.target.value.slice(0, MARKET_PRODUCT_INFO_MAX_LENGTH) })
+                                    }
+                                    rows={6}
+                                    placeholder="商品卖点、材质、尺寸、使用场景…（必填，避免凭空生成）"
+                                    className="w-full resize-y rounded-md border border-stone-200 bg-white p-2 text-xs text-stone-800 outline-none focus:border-stone-400 dark:border-stone-700 dark:bg-stone-900 dark:text-stone-100"
+                                />
+                            </Section>
+
+                            <Section title="品牌与合规（可选）">
+                                <div className="flex flex-col gap-2">
+                                    <div className="flex items-center justify-between gap-2">
+                                        <Field label="智能品牌基因">
+                                            <input
+                                                type="checkbox"
+                                                checked={Boolean(config.brandDna.primaryColor || config.brandDna.fontStyle || config.brandDna.tone)}
+                                                onChange={(event) =>
+                                                    update({
+                                                        brandDna: event.target.checked
+                                                            ? config.brandDna
+                                                            : { ...config.brandDna, primaryColor: "", fontStyle: "", tone: "" },
+                                                    })
+                                                }
+                                            />
+                                        </Field>
+                                        <button
+                                            type="button"
+                                            aria-label="高级设置（项目与品牌名称、平台、销售地区、输出语言、A+ 画幅）"
+                                            aria-expanded={advancedOpen}
+                                            data-testid="market-advanced-toggle"
+                                            onClick={() => setAdvancedOpen((value) => !value)}
+                                            className="rounded-[4px] border border-[#E6E6EB] p-1 text-[#5a5a70] hover:border-[#d8d8e0]"
+                                        >
+                                            <svg viewBox="0 0 16 16" width="12" height="12" fill="none" stroke="currentColor" strokeWidth="1.4">
+                                                <circle cx="8" cy="8" r="2.2" />
+                                                <path d="M8 1.5v2M8 12.5v2M1.5 8h2M12.5 8h2M3.4 3.4l1.4 1.4M11.2 11.2l1.4 1.4M12.6 3.4l-1.4 1.4M4.8 11.2l-1.4 1.4" />
+                                            </svg>
+                                        </button>
+                                    </div>
+                                    <Field label="智能主色、智能字体风格">
+                                        <div className="flex items-center gap-2">
+                                            <input
+                                                type="color"
+                                                aria-label="智能主色"
+                                                value={config.brandDna.primaryColor || "#ffffff"}
+                                                onChange={(event) => update({ brandDna: { ...config.brandDna, primaryColor: event.target.value } })}
+                                                className="h-6 w-10 shrink-0 cursor-pointer rounded border border-stone-200 dark:border-stone-700"
+                                            />
+                                            <select
+                                                className={inputClass}
+                                                value={config.brandDna.fontStyle}
+                                                onChange={(event) =>
+                                                    update({ brandDna: { ...config.brandDna, fontStyle: event.target.value as MarketConfig["brandDna"]["fontStyle"] } })
+                                                }
+                                            >
+                                                <option value="">跟随品牌</option>
+                                                {MARKET_FONT_STYLES.map((style) => (
+                                                    <option key={style.id} value={style.id}>
+                                                        {style.label}
+                                                    </option>
+                                                ))}
+                                            </select>
+                                        </div>
+                                    </Field>
+                                    <div className="flex items-center gap-1.5 text-[11px] text-muted-foreground">
+                                        <span>智能合规检查</span>
+                                        <span>未选择敏感词库</span>
+                                        <span>·</span>
+                                        <span>未选择替换词库</span>
+                                    </div>
+                                    {advancedOpen ? (
+                                        <div data-testid="market-advanced-fields" className="flex flex-col gap-2 rounded-[6px] border border-[#E6E6EB] p-2">
+                                            <Field label="项目名称">
+                                                <input
+                                                    className={`${inputClass} w-full`}
+                                                    value={config.projectName}
+                                                    placeholder="用于资产命名"
+                                                    onChange={(event) => update({ projectName: event.target.value })}
+                                                />
+                                            </Field>
+                                            <Field label="品牌名称">
+                                                <input
+                                                    className={`${inputClass} w-full`}
+                                                    value={config.brandName}
+                                                    onChange={(event) => update({ brandName: event.target.value })}
+                                                />
+                                            </Field>
+                                            <div className="flex flex-wrap gap-1">
+                                                {MARKET_PLATFORMS.map((platform) => (
+                                                    <button
+                                                        key={platform.id}
+                                                        type="button"
+                                                        onClick={() => update({ platform: platform.id })}
+                                                        className={`rounded border px-2 py-0.5 text-[11px] ${
+                                                            config.platform === platform.id
+                                                                ? "border-primary bg-primary text-primary-foreground"
+                                                                : "border-border text-foreground"
+                                                        }`}
+                                                    >
+                                                        {platform.label}
+                                                    </button>
+                                                ))}
+                                            </div>
+                                            <Field label="销售地区">
+                                                <select
+                                                    className={inputClass}
+                                                    value={config.salesRegion}
+                                                    onChange={(event) => {
+                                                        const region = findRegion(event.target.value);
+                                                        update({
+                                                            salesRegion: event.target.value as MarketConfig["salesRegion"],
+                                                            ...(region ? { language: region.defaultLanguage } : {}),
+                                                        });
+                                                    }}
+                                                >
+                                                    {MARKET_SALES_REGIONS.map((region) => (
+                                                        <option key={region.id} value={region.id}>
+                                                            {region.label}
+                                                        </option>
+                                                    ))}
+                                                </select>
+                                            </Field>
+                                            <Field label="输出语言">
+                                                <select
+                                                    className={inputClass}
+                                                    value={config.language}
+                                                    onChange={(event) => update({ language: event.target.value as MarketConfig["language"] })}
+                                                >
+                                                    {MARKET_LANGUAGES.map((language) => (
+                                                        <option key={language.id} value={language.id}>
+                                                            {language.label}
+                                                        </option>
+                                                    ))}
+                                                </select>
+                                            </Field>
+                                            <Field label="A+ 画幅">
+                                                <select
+                                                    className={inputClass}
+                                                    value={config.aplusAspectRatio}
+                                                    onChange={(event) => update({ aplusAspectRatio: event.target.value })}
+                                                >
+                                                    {aplusRatiosForPlatform(config.platform).map((ratio) => (
+                                                        <option key={ratio.id} value={ratio.id}>
+                                                            {ratio.label}
+                                                        </option>
+                                                    ))}
+                                                </select>
+                                            </Field>
+                                        </div>
+                                    ) : null}
+                                </div>
+                            </Section>
+
+                            <Section title="模型选择">
+                                <div className="flex flex-col gap-2.5">
+                                    <div className="flex items-center justify-between rounded-[6px] border border-[#E6E6EB] px-2 py-[6px]">
+                                        <span className="text-[12px] leading-none text-[#2b2b3a] dark:text-stone-100">LF智能模型 G-2.5 Sunburst</span>
+                                        <span className="text-[10px] leading-none text-muted-foreground">
+                                            {imageModel?.split("::").pop()?.trim() || "未配置"}
+                                        </span>
+                                    </div>
+                                    <div>
+                                        <p className="mb-1.5 text-[11px] text-muted-foreground">分辨率选择</p>
+                                        <div className="flex gap-1.5">
+                                            {availableResolutions(config.provider).map((value) => (
+                                                <button
+                                                    key={value}
+                                                    type="button"
+                                                    data-testid={`market-resolution-${value}`}
+                                                    onClick={() => update({ resolution: value })}
+                                                    className={`h-7 min-w-[46px] rounded-[4px] border text-[12px] leading-none ${
+                                                        config.resolution === value
+                                                            ? "border-primary bg-primary/10 text-primary"
+                                                            : "border-[#E6E6EB] text-[#5a5a70] hover:border-[#d8d8e0]"
+                                                    }`}
+                                                >
+                                                    {value}
+                                                </button>
+                                            ))}
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <p className="mb-1.5 text-[11px] text-muted-foreground">模型品质</p>
+                                        <div className="flex flex-wrap gap-1.5">
+                                            {MARKET_QUALITIES.map((quality) => (
+                                                <button
+                                                    key={quality.id}
+                                                    type="button"
+                                                    data-testid={`market-quality-${quality.id}`}
+                                                    onClick={() => update({ quality: quality.id })}
+                                                    className={`h-7 rounded-[4px] border px-2 text-[12px] leading-none ${
+                                                        config.quality === quality.id
+                                                            ? "border-primary bg-primary/10 text-primary"
+                                                            : "border-[#E6E6EB] text-[#5a5a70] hover:border-[#d8d8e0]"
+                                                    }`}
+                                                >
+                                                    {quality.label}
+                                                </button>
+                                            ))}
+                                        </div>
+                                    </div>
+                                </div>
+                            </Section>
+
+                            <Section title="A+图设置">
+                                <p className="mb-1 text-[11px] text-muted-foreground">生成类型（单选）</p>
+                                <div className="flex flex-wrap gap-1">
+                                    {MARKET_APLUS_TEMPLATES.map((template) => {
+                                        const active = config.aplusTemplateIds.includes(template.id);
+                                        return (
+                                            <div
+                                                key={template.id}
+                                                data-testid={`market-aplus-${template.id}`}
+                                                role="radio"
+                                                aria-checked={active}
+                                                aria-label={template.label ?? template.id}
+                                                onClick={() =>
+                                                    update({
+                                                        aplusTemplateIds: active && config.aplusTemplateIds.length === 1 ? config.aplusTemplateIds : [template.id],
+                                                    })
+                                                }
+                                                className={`flex cursor-pointer items-center gap-1 rounded-[4px] border px-1.5 py-0.5 text-[11px] leading-none ${
+                                                    active
+                                                        ? "border-stone-800 bg-stone-800 text-white dark:border-stone-200 dark:bg-stone-200 dark:text-stone-900"
+                                                        : "border-stone-200 text-stone-700 dark:border-stone-700 dark:text-stone-200"
+                                                }`}
+                                            >
+                                                <span>{template.label}</span>
+                                                <button
+                                                    type="button"
+                                                    title="每模块张数"
+                                                    aria-label={`${template.label}每模块张数`}
+                                                    onClick={(event) => {
+                                                        event.stopPropagation();
+                                                        update({ aplusCount: config.aplusCount >= 10 ? 1 : config.aplusCount + 1 });
+                                                    }}
+                                                    className="text-[10px] opacity-70 hover:opacity-100"
+                                                >
+                                                    {config.aplusCount}
+                                                </button>
+                                            </div>
+                                        );
+                                    })}
+                                </div>
+                                <p className="mt-1.5 mb-1 text-[11px] text-muted-foreground">选择排版</p>
+                                <div className="flex flex-wrap gap-1">
+                                    {MARKET_LAYOUT_MODES.map((mode) => (
+                                        <button
+                                            key={mode.id}
+                                            type="button"
+                                            data-testid={`market-layout-${mode.id}`}
+                                            onClick={() => update({ layoutMode: mode.id })}
+                                            className={`h-6 rounded-[4px] border px-1.5 text-[11px] leading-none ${
+                                                config.layoutMode === mode.id
+                                                    ? "border-primary bg-primary/10 text-primary"
+                                                    : "border-[#E6E6EB] text-[#5a5a70] hover:border-[#d8d8e0]"
+                                            }`}
+                                        >
+                                            {mode.label}
+                                        </button>
+                                    ))}
+                                </div>
+                                <p className="mt-1 text-[11px] leading-4 text-muted-foreground">
+                                    💡未选择排版时，将根据官方排版随机生成
+                                </p>
+                            </Section>
+
+                            <Section title="主副图设置">
+                                <p className="mb-1 text-[11px] text-muted-foreground">生成类型（多选）</p>
+                                <div className="flex flex-wrap gap-1">
+                                    {MARKET_MARKETING_MODULES.map((module) => {
+                                        const checked = config.marketingModuleIds.includes(module.id);
+                                        return (
+                                            <div
+                                                key={module.id}
+                                                data-testid={`market-marketing-${module.id}`}
+                                                role="checkbox"
+                                                aria-checked={checked}
+                                                aria-label={module.label}
+                                                onClick={() =>
+                                                    update({
+                                                        marketingModuleIds: checked
+                                                            ? config.marketingModuleIds.filter((id) => id !== module.id)
+                                                            : [...config.marketingModuleIds, module.id],
+                                                    })
+                                                }
+                                                className={`flex cursor-pointer items-center gap-1 rounded-[4px] border px-1.5 py-0.5 text-[11px] leading-none ${
+                                                    checked
+                                                        ? "border-stone-800 bg-stone-800 text-white dark:border-stone-200 dark:bg-stone-200 dark:text-stone-900"
+                                                        : "border-stone-200 text-stone-700 dark:border-stone-700 dark:text-stone-200"
+                                                }`}
+                                            >
+                                                <span>{module.label}</span>
+                                            </div>
+                                        );
+                                    })}
+                                </div>
+                                <p className="mt-1.5 mb-1 text-[11px] text-muted-foreground">生成比例</p>
+                                <div className="flex flex-wrap gap-1">
+                                    {MARKET_RATIO_CHIPS.map((chip) => (
+                                        <button
+                                            key={chip.label}
+                                            type="button"
+                                            data-testid={`market-ratio-${chip.label}`}
+                                            onClick={() =>
+                                                update({
+                                                    aspectRatio: chip.ratio ?? config.aspectRatio,
+                                                    isCustomAspectRatio: !chip.ratio,
+                                                    customWidth: chip.width ?? 0,
+                                                    customHeight: chip.height ?? 0,
+                                                })
+                                            }
+                                            className={`h-6 min-w-[38px] rounded-[4px] border text-[11px] leading-none ${
+                                                activeMarketRatio(config) === chip.label
+                                                    ? "border-primary bg-primary/10 text-primary"
+                                                    : "border-[#E6E6EB] text-[#5a5a70] hover:border-[#d8d8e0]"
+                                            }`}
+                                        >
+                                            {chip.label}
+                                        </button>
+                                    ))}
+                                    <button
+                                        type="button"
+                                        onClick={() => update({ isCustomAspectRatio: false, customWidth: 0, customHeight: 0 })}
+                                        className="h-6 rounded-[4px] border border-[#E6E6EB] px-1.5 text-[11px] leading-none text-[#5a5a70] hover:border-[#d8d8e0]"
+                                    >
+                                        更多
+                                    </button>
+                                </div>
+                            </Section>
+
+                            <WatermarkGroupPanel />
+                        </div>
+                    </div>
+                    <div className="shrink-0 border-t border-[#EDEDF0] px-6 py-3" data-testid="market-generate-summary">
+                        <p className="text-[11px] leading-4 text-muted-foreground">
+                            A+图{aplusUnits}张 * 每张{MARKET_UNIT_POINTS}点 + 主副图{mainSubUnits}张 * 每张{MARKET_UNIT_POINTS}点 = {expected * MARKET_UNIT_POINTS}点
+                        </p>
+                        <div className="mt-2 flex items-center gap-2">
+                            <button
+                                type="button"
+                                disabled={blocked}
+                                title={issues[0]?.message}
+                                onClick={() => void onGenerate()}
+                                data-testid="market-generate"
+                                className="h-8 flex-1 rounded-md bg-primary text-[12px] font-medium leading-none text-primary-foreground hover:bg-primary/90 disabled:cursor-not-allowed disabled:opacity-40"
+                            >
+                                {running ? "生成中…" : "开始生成"}
+                            </button>
+                            <span className="text-[11px] leading-none text-muted-foreground">({expected * MARKET_UNIT_POINTS}算力)</span>
+                            {units.length ? (
+                                <button
+                                    type="button"
+                                    onClick={() => {
+                                        clearedResults.current = true;
+                                        setUnits([]);
+                                        setSnapshot(undefined);
+                                        setSavedKeys({});
+                                        setRunError(undefined);
+                                    }}
+                                    className="h-8 rounded-[4px] border border-[#E6E6EB] px-3 text-[12px] leading-none text-[#5a5a70]"
+                                >
+                                    清空
+                                </button>
+                            ) : null}
+                        </div>
+                    </div>
+                </div>
+
+                <div className="flex min-w-0 flex-1 flex-col">
+                    <div className="flex h-11 shrink-0 items-center gap-6 border-b border-[#EDEDF0] px-6" role="tablist">
+                        {([
+                            ["result", "生成结果"],
+                            ["cases", "优秀案例"],
+                            ["history", "历史记录"],
+                        ] as const).map(([id, label]) => (
+                            <button
+                                key={id}
+                                type="button"
+                                role="tab"
+                                aria-selected={rightTab === id}
+                                data-testid={`market-tab-${id}`}
+                                onClick={() => setRightTab(id)}
+                                className={cn(
+                                    "h-11 text-[13px] leading-none transition",
+                                    rightTab === id
+                                        ? "border-b-2 border-primary font-medium text-foreground"
+                                        : "border-b-2 border-transparent text-muted-foreground hover:text-foreground",
+                                )}
+                            >
+                                {label}
+                            </button>
                         ))}
                     </div>
-                ) : null}
-                {sourceIssue ? <p className="mt-1 text-[11px] text-amber-600">{sourceIssue.message}</p> : null}
-                <textarea
-                    className={`${inputClass} mt-2 h-24 w-full resize-none`}
-                    maxLength={MARKET_PRODUCT_INFO_MAX_LENGTH}
-                    placeholder="商品卖点、材质、尺寸、使用场景…（必填，避免凭空生成）"
-                    value={config.productInfo}
-                    onChange={(event) => update({ productInfo: event.target.value })}
-                />
-                <p className="mt-1 text-right text-[11px] text-muted-foreground">
-                    {config.productInfo.length} / {MARKET_PRODUCT_INFO_MAX_LENGTH}
-                </p>
-            </Section>
-
-            {/* ② 品牌 / 平台 / 语言 */}
-            <Section title="品牌与投放" hint="平台切换会过滤合法 A+ 比例">
-                <div className="grid grid-cols-2 gap-2">
-                    <Field label="项目名称">
-                        <input className={`${inputClass} w-40`} value={config.projectName} placeholder="用于资产命名" onChange={(event) => update({ projectName: event.target.value })} />
-                    </Field>
-                    <Field label="品牌名称">
-                        <input className={`${inputClass} w-40`} value={config.brandName} onChange={(event) => update({ brandName: event.target.value })} />
-                    </Field>
-                    <Field label="品牌主色">
-                        <input className={`${inputClass} w-24`} value={config.brandDna.primaryColor} placeholder="如 #1F2937（留空=不约束）" onChange={(event) => update({ brandDna: { ...config.brandDna, primaryColor: event.target.value.trim() } })} />
-                    </Field>
-                    <Field label="字体风格">
-                        <select
-                            className={inputClass}
-                            value={config.brandDna.fontStyle}
-                            onChange={(event) => update({ brandDna: { ...config.brandDna, fontStyle: event.target.value as MarketConfig["brandDna"]["fontStyle"] } })}
-                        >
-                            <option value="">跟随品牌</option>
-                            {MARKET_FONT_STYLES.map((style) => (
-                                <option key={style.id} value={style.id}>
-                                    {style.label}
-                                </option>
+                    <div className="min-h-0 flex-1 overflow-y-auto px-6 py-4">
+                        <div role="tabpanel" hidden={rightTab !== "history"} data-testid="market-panel-history">
+                            <ToolTaskHistory toolId={toolId} limit={8} onSelectTask={onSelectHistoryTask} emptyHint="还没有营销素材任务记录" />
+                        </div>
+                        <div role="tabpanel" hidden={rightTab !== "cases"} data-testid="market-panel-cases">
+                            <p className="text-[11px] text-stone-500">暂无优秀案例</p>
+                        </div>
+                        <div role="tabpanel" hidden={rightTab !== "result"} data-testid="market-panel-result" className="flex flex-col gap-3">
+                            <p className="text-[11px] text-[#6b6b80]">生成结果</p>
+                            {issues.length || runError ? (
+                                <div className="rounded-lg border border-amber-300 bg-amber-50 p-2 text-[11px] text-amber-800 dark:border-amber-700/60 dark:bg-amber-950/40 dark:text-amber-200">
+                                    {runError ? <p>{runError}</p> : null}
+                                    {issues.map((issue) => (
+                                        <p key={issue.code}>{issue.message}</p>
+                                    ))}
+                                </div>
+                            ) : null}
+                            {stale && units.length ? (
+                                <p className="text-[11px] text-amber-600">配置已变更，下方结果来自旧版本；重新生成可更新。</p>
+                            ) : null}
+                            {units.length ? (
+                                <div className="flex flex-col gap-3">
+                                    <p className="text-[11px] text-stone-500">
+                                        共 {summary.total} 张 · 成功 {summary.succeeded} · 失败 {summary.failed} · 待定 {summary.pending}
+                                    </p>
+                                    {groupMarketUnits(units).map((group) => (
+                                        <div key={group.moduleId} className="rounded-lg border border-stone-200 p-3 dark:border-stone-800">
+                                            <h4 className="mb-2 text-xs font-medium text-stone-700 dark:text-stone-200">
+                                                {group.label}（{group.succeeded}/{group.total}）
+                                            </h4>
+                                            <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
+                                                {group.units.map((unit) => (
+                                                    <article key={unit.unitId} className="rounded-md border border-stone-200 p-2 dark:border-stone-800">
+                                                        <p className="mb-1 text-[11px] text-stone-600 dark:text-stone-300">{unit.label}</p>
+                                                        {unit.items.length ? (
+                                                            <div className="grid grid-cols-2 gap-1">
+                                                                {unit.items.map((item, itemIndex) => (
+                                                                    <img
+                                                                        key={`${unit.unitId}-${itemIndex}`}
+                                                                        src={item.url ?? item.dataUrl}
+                                                                        alt={unit.label}
+                                                                        className="h-24 w-full rounded object-cover"
+                                                                    />
+                                                                ))}
+                                                            </div>
+                                                        ) : (
+                                                            <p className="text-[11px] text-stone-500">
+                                                                {unit.error?.message ?? (unit.status === "pending" ? "上游结果未知，稍后重试可查询。" : "暂无内容")}
+                                                            </p>
+                                                        )}
+                                                        {unit.status === "failed" ? (
+                                                            <button
+                                                                type="button"
+                                                                disabled={busyUnit === unit.unitId}
+                                                                onClick={() => void onRetryUnit(unit)}
+                                                                className="mt-1 rounded border border-border px-2 py-0.5 text-[11px] text-foreground disabled:opacity-40"
+                                                            >
+                                                                {busyUnit === unit.unitId ? "重试中…" : "重试这一屏"}
+                                                            </button>
+                                                        ) : null}
+                                                    </article>
+                                                ))}
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            ) : (
+                                <p className="text-[11px] text-stone-500">上传商品图</p>
+                            )}
+                        </div>
+                        {seeded ? null : <p className="text-[11px] text-stone-500">正在读取草稿…</p>}
+                        <div className="mt-3 flex items-center gap-1" data-testid="market-result-pager">
+                            {[1, 2, 3].map((page) => (
+                                <button
+                                    key={page}
+                                    type="button"
+                                    aria-label={`第 ${page} 页`}
+                                    className={`h-6 min-w-[24px] rounded-[4px] border text-[11px] leading-none ${
+                                        page === 1
+                                            ? "border-primary bg-primary/10 text-primary"
+                                            : "border-[#E6E6EB] text-[#5a5a70] hover:border-[#d8d8e0]"
+                                    }`}
+                                >
+                                    {page}
+                                </button>
                             ))}
-                        </select>
-                    </Field>
-                </div>
-                <input
-                    className={`${inputClass} mt-2 w-full`}
-                    placeholder="品牌风格（可选，如：极简、科技感、暖色调家庭场景）"
-                    value={config.brandDna.tone}
-                    onChange={(event) => update({ brandDna: { ...config.brandDna, tone: event.target.value } })}
-                />
-                <div className="mt-2 flex flex-wrap gap-1">
-                    {MARKET_PLATFORMS.map((platform) => (
-                        <button
-                            key={platform.id}
-                            type="button"
-                            onClick={() => update({ platform: platform.id })}
-                            className={`rounded border px-2 py-0.5 text-[11px] ${
-                                config.platform === platform.id
-                                    ? "border-primary bg-primary text-primary-foreground"
-                                    : "border-border text-foreground"
-                            }`}
-                        >
-                            {platform.label}
-                        </button>
-                    ))}
-                </div>
-                <div className="mt-2 flex flex-wrap gap-2">
-                    <Field label="销售地区">
-                        <select
-                            className={inputClass}
-                            value={config.salesRegion}
-                            onChange={(event) => {
-                                const region = findRegion(event.target.value);
-                                update({ salesRegion: event.target.value as MarketConfig["salesRegion"], ...(region ? { language: region.defaultLanguage } : {}) });
-                            }}
-                        >
-                            {MARKET_SALES_REGIONS.map((region) => (
-                                <option key={region.id} value={region.id}>
-                                    {region.label}
-                                </option>
-                            ))}
-                        </select>
-                    </Field>
-                    <Field label="输出语言">
-                        <select className={inputClass} value={config.language} onChange={(event) => update({ language: event.target.value as MarketConfig["language"] })}>
-                            {MARKET_LANGUAGES.map((language) => (
-                                <option key={language.id} value={language.id}>
-                                    {language.label}
-                                </option>
-                            ))}
-                        </select>
-                    </Field>
-                    {regionDefault && regionDefault !== config.language ? (
-                        <span className="text-[11px] text-muted-foreground">该地区常用语言：{MARKET_LANGUAGES.find((entry) => entry.id === regionDefault)?.label}</span>
-                    ) : null}
-                </div>
-            </Section>
-
-            {/* ③ A+ 模板与营销画幅 */}
-            <Section title="A+ 与营销画幅" hint={aplusEnabled ? "A+ 模板可多选，按模块分组输出" : "该平台无 A+ 模块"}>
-                <div className="flex flex-wrap gap-1">
-                    {MARKET_APLUS_TEMPLATES.map((template) => {
-                        const disabled = !aplusEnabled || running;
-                        const active = config.aplusTemplateIds.includes(template.id);
-                        // validateMarketConfig 要求 aplusTemplateIds 非空（aplus-template-required）。
-                        // 之前允许把最后一个选中项也点掉：页面进入「必然校验失败」的死局，
-                        // 提交按钮永久 disabled，唯一提示落在琥珀框/title 上，容易被当成按钮坏了。
-                        // 这里守住「至少保留一个」的边界。
-                        const lastActive = active && config.aplusTemplateIds.length === 1;
-                        return (
-                            <button
-                                key={template.id}
-                                type="button"
-                                disabled={disabled}
-                                aria-pressed={active}
-                                aria-disabled={disabled || lastActive}
-                                data-testid={`market-aplus-template-${template.id}`}
-                                title={lastActive ? "至少保留一个 A+ 模板" : template.instruction}
-                                onClick={() => {
-                                    if (lastActive) return;
-                                    update({
-                                        aplusTemplateIds: active
-                                            ? config.aplusTemplateIds.filter((id) => id !== template.id)
-                                            : [...config.aplusTemplateIds, template.id],
-                                    });
-                                }}
-                                className={`rounded border px-2 py-0.5 text-[11px] disabled:opacity-40 ${
-                                    active ? "border-primary bg-primary text-primary-foreground" : "border-border text-foreground"
-                                } ${lastActive ? "cursor-not-allowed" : ""}`}
-                            >
-                                {template.label}
-                            </button>
-                        );
-                    })}
-                </div>
-                {aplusEnabled && config.aplusTemplateIds.length === 1 ? (
-                    <span className="mt-1 block text-[11px] text-muted-foreground">至少保留一个 A+ 模板</span>
-                ) : null}
-                <div className="mt-2 flex flex-wrap gap-1">
-                    {aplusRatios.map((ratio) => (
-                        <button
-                            key={ratio.id}
-                            type="button"
-                            disabled={!aplusEnabled || running}
-                            onClick={() =>
-                                update({
-                                    aplusAspectRatio: ratio.id,
-                                    ...(ratio.id === "custom" ? {} : { customWidth: ratio.width, customHeight: ratio.height }),
-                                })
-                            }
-                            className={`rounded border px-2 py-0.5 text-[11px] disabled:opacity-40 ${
-                                config.aplusAspectRatio === ratio.id
-                                    ? "border-primary bg-primary text-primary-foreground"
-                                    : "border-border text-foreground"
-                            }`}
-                        >
-                            {ratio.label}
-                        </button>
-                    ))}
-                    {!aplusEnabled ? <span className="text-[11px] text-muted-foreground">切换回亚马逊后可选择 A+ 比例。</span> : null}
-                </div>
-                {aplusEnabled && config.aplusAspectRatio === "custom" ? (
-                    <div className="mt-2 flex items-center gap-2">
-                        <input
-                            type="number"
-                            className={`${inputClass} w-24`}
-                            value={config.customWidth}
-                            onChange={(event) => update({ customWidth: Number(event.target.value) || 0 })}
-                            placeholder="宽 px"
-                        />
-                        <span className="text-xs text-muted-foreground">×</span>
-                        <input
-                            type="number"
-                            className={`${inputClass} w-24`}
-                            value={config.customHeight}
-                            onChange={(event) => update({ customHeight: Number(event.target.value) || 0 })}
-                            placeholder="高 px"
-                        />
+                        </div>
                     </div>
-                ) : null}
-                <div className="mt-2 flex flex-wrap items-center gap-2">
-                    <Field label="每模块张数">
-                        <input
-                            type="number"
-                            min={1}
-                            max={MARKET_MAX_MODULE_COUNT}
-                            className={`${inputClass} w-16`}
-                            value={config.aplusCount}
-                            onChange={(event) => update({ aplusCount: Number(event.target.value) || 1 })}
-                        />
-                    </Field>
-                    <Field label="模型">
-                        <select className={inputClass} value={config.provider} onChange={(event) => update({ provider: event.target.value })}>
-                            {MARKET_PROVIDERS.map((entry) => (
-                                <option key={entry.code} value={entry.code}>
-                                    {entry.name}
-                                </option>
-                            ))}
-                        </select>
-                    </Field>
-                    <Field label="分辨率">
-                        <select className={inputClass} value={config.resolution} onChange={(event) => update({ resolution: event.target.value as MarketConfig["resolution"] })}>
-                            {availableResolutions(config.provider).map((resolution) => (
-                                <option key={resolution} value={resolution}>
-                                    {resolution}
-                                </option>
-                            ))}
-                        </select>
-                    </Field>
-                    <Field label="品质">
-                        <select className={inputClass} value={config.quality} onChange={(event) => update({ quality: event.target.value as MarketConfig["quality"] })}>
-                            {availableQualities(config.provider).map((quality) => (
-                                <option key={quality.id} value={quality.id}>
-                                    {quality.label}
-                                </option>
-                            ))}
-                        </select>
-                    </Field>
-                </div>
-                <div className="mt-2 flex flex-wrap gap-1">
-                    {availableMarketingRatios(config.provider).map((ratio) => (
-                        <button
-                            key={ratio}
-                            type="button"
-                            onClick={() => update({ aspectRatio: ratio, isCustomAspectRatio: false })}
-                            className={`rounded border px-2 py-0.5 text-[11px] ${
-                                config.aspectRatio === ratio && !config.isCustomAspectRatio
-                                    ? "border-primary bg-primary text-primary-foreground"
-                                    : "border-border text-foreground"
-                            }`}
-                        >
-                            {ratio}
-                        </button>
-                    ))}
-                    <label className="flex items-center gap-1 text-[11px] text-foreground">
-                        <input type="checkbox" checked={config.isCustomAspectRatio} onChange={(event) => update({ isCustomAspectRatio: event.target.checked })} />
-                        自定义画幅
-                    </label>
-                </div>
-            </Section>
-
-            {/* 生成条 */}
-            <div className="flex flex-wrap items-center gap-2 rounded-lg border border-border bg-card/70 p-3">
-                <span className="text-xs text-foreground">
-                    预计生成 <strong className="text-foreground">{expected}</strong> 屏
-                    {plans.map((plan) => ` · ${plan.label}×${plan.count}`).join("")}
-                </span>
-                <div className="ml-auto flex items-center gap-2">
-                    <button
-                        type="button"
-                        disabled={blocked}
-                        title={issues[0]?.message}
-                        onClick={() => void onGenerate()}
-                        className="rounded-md bg-primary px-3 py-1.5 text-xs font-medium text-primary-foreground disabled:cursor-not-allowed disabled:opacity-40"
-                    >
-                        {running ? "生成中…" : "开始生成"}
-                    </button>
-                    {units.length ? (
-                        <button
-                            type="button"
-                            onClick={() => {
-                                clearedResults.current = true;
-                                setUnits([]);
-                                setSnapshot(undefined);
-                                setSavedKeys({});
-                                setRunError(undefined);
-                            }}
-                            className="rounded-md border border-border px-3 py-1.5 text-xs text-foreground"
-                        >
-                            清空结果
-                        </button>
-                    ) : null}
                 </div>
             </div>
-
-            {issues.length || runError ? (
-                <div className="rounded-lg border border-amber-300 bg-amber-50 p-2 text-[11px] text-amber-800 dark:border-amber-700/60 dark:bg-amber-950/40 dark:text-amber-200">
-                    {runError ? <p>{runError}</p> : null}
-                    {issues.map((issue) => (
-                        <p key={`${issue.code}-${issue.field}`}>{issue.message}</p>
-                    ))}
-                </div>
-            ) : null}
-
-            {stale && units.length ? <p className="text-[11px] text-amber-600">配置已变更，下方结果来自旧版本；重新生成可更新。</p> : null}
-
-            {/* ④ 结果：按营销模块分组 */}
-            {units.length ? (
-                <div className="flex flex-col gap-3">
-                    <p className="text-[11px] text-muted-foreground">
-                        共 {summary.total} 屏 · 成功 {summary.succeeded} · 失败 {summary.failed} · 待定 {summary.pending}
-                    </p>
-                    {groupMarketUnits(units).map((group) => (
-                        <div key={group.moduleId} className="rounded-lg border border-border p-3 ">
-                            <header className="mb-2 flex items-baseline gap-2">
-                                <h4 className="text-sm font-medium text-foreground">{group.label}</h4>
-                                <span className="text-[11px] text-muted-foreground">
-                                    {group.succeeded}/{group.total} 成功
-                                    {group.failed ? ` · ${group.failed} 失败` : ""}
-                                    {group.pending ? ` · ${group.pending} 待定` : ""}
-                                </span>
-                            </header>
-                            <div className="grid grid-cols-2 gap-3 md:grid-cols-3">
-                                {group.units.map((unit) => (
-                                    <article key={unit.unitId} className="flex flex-col gap-1">
-                                        <div className="text-[11px] text-muted-foreground">
-                                            {unit.label} · {unit.width > 0 ? `${unit.width}×${unit.height}` : config.aspectRatio}
-                                        </div>
-                                        {unit.items.length ? (
-                                            <div className="flex flex-col gap-1">
-                                                {unit.items.map((item, itemIndex) => {
-                                                    const key = `${unit.unitId}:${item.id}`;
-                                                    return (
-                                                        <div key={item.id} className="flex flex-col gap-1">
-                                                            {item.dataUrl || item.url ? (
-                                                                <img src={item.dataUrl ?? item.url} alt={unit.label} className="w-full rounded border border-border object-contain " />
-                                                            ) : (
-                                                                <div className="rounded border border-dashed border-border p-4 text-center text-[11px] text-muted-foreground">结果已被持久化策略剥离</div>
-                                                            )}
-                                                            <div className="flex flex-wrap gap-1">
-                                                                <button
-                                                                    type="button"
-                                                                    disabled={busyUnit === unit.unitId}
-                                                                    onClick={() => void onSaveItem(unit, item)}
-                                                                    data-testid={`market-save-${key}`}
-                                                                    className="rounded border border-border px-2 py-0.5 text-[11px] text-foreground disabled:opacity-40"
-                                                                >
-                                                                    {savedKeys[key] ? `已存资产库 ${savedKeys[key].slice(0, 8)}` : "存入资产库"}
-                                                                </button>
-                                                                <button
-                                                                    type="button"
-                                                                    disabled={busyUnit === unit.unitId}
-                                                                    onClick={() => void onSendItemToCanvas(unit, item)}
-                                                                    data-testid={`market-canvas-${key}`}
-                                                                    className="rounded border border-border px-2 py-0.5 text-[11px] text-foreground disabled:opacity-40"
-                                                                >
-                                                                    {canvasKeys[key] ? "已发送画布" : "发送画布"}
-                                                                </button>
-                                                                <button
-                                                                    type="button"
-                                                                    disabled={busyUnit === unit.unitId || item.payloadDropped || !(item.blob ?? item.dataUrl ?? item.url)}
-                                                                    onClick={() => void onDownloadItem(unit, item, itemIndex)}
-                                                                    data-testid={`market-download-${key}`}
-                                                                    className="rounded border border-border px-2 py-0.5 text-[11px] text-foreground disabled:opacity-40"
-                                                                >
-                                                                    下载
-                                                                </button>
-                                                            </div>
-                                                        </div>
-                                                    );
-                                                })}
-                                            </div>
-                                        ) : (
-                                            <p className="text-[11px] text-muted-foreground">{unit.error?.message ?? (unit.status === "pending" ? "上游结果未知，稍后重试可查询。" : "暂无内容")}</p>
-                                        )}
-                                        {unit.status === "failed" ? (
-                                            <button
-                                                type="button"
-                                                disabled={busyUnit === unit.unitId}
-                                                onClick={() => void onRetryUnit(unit)}
-                                                className="mt-1 rounded border border-border px-2 py-0.5 text-[11px] text-foreground disabled:opacity-40"
-                                            >
-                                                {busyUnit === unit.unitId ? "重试中…" : "重试这一屏"}
-                                            </button>
-                                        ) : null}
-                                    </article>
-                                ))}
-                            </div>
-                        </div>
-                    ))}
-                </div>
-            ) : null}
-
-            {seeded ? null : <p className="text-[11px] text-muted-foreground">正在读取草稿…</p>}
         </div>
     );
+}
+
+/** 商品图/主副图的单张算力：与原站 400 点（8 张 × 50）一致。 */
+const MARKET_UNIT_POINTS = 50;
+
+/** 生成比例 chip：market 只原生支持 1:1 / 3:4 / 3:2，4:3 与 2:3 走自定义画幅。 */
+const MARKET_RATIO_CHIPS: readonly { label: string; ratio?: "1:1" | "3:4" | "3:2"; width?: number; height?: number }[] = [
+    { label: "1:1", ratio: "1:1" },
+    { label: "3:4", ratio: "3:4" },
+    { label: "4:3", width: 1200, height: 900 },
+    { label: "2:3", width: 800, height: 1200 },
+    { label: "3:2", ratio: "3:2" },
+];
+
+function activeMarketRatio(config: MarketConfig): string {
+    if (!config.isCustomAspectRatio) return config.aspectRatio;
+    if (config.customWidth === 1200 && config.customHeight === 900) return "4:3";
+    if (config.customWidth === 800 && config.customHeight === 1200) return "2:3";
+    return "";
+}
+
+/** 向导：给商品信息铺一份可填骨架（不覆盖已有内容，只追加空栏目）。 */
+function outlineMarketProductInfo(current: string): string {
+    const skeleton = "【商品名称】\n【核心卖点】\n【材质 / 工艺】\n【适用场景】\n【规格尺寸】";
+    const base = current.trim();
+    const next = base ? `${base}\n${skeleton}` : skeleton;
+    return next.slice(0, MARKET_PRODUCT_INFO_MAX_LENGTH);
+}
+
+/** AI分析：把已有商品信息按「卖点 / 材质 / 场景 / 规格」重新归并，未识别项留空待补。 */
+function analyzeMarketProductInfo(current: string): string {
+    const source = current.trim();
+    if (!source) return "";
+    const segments = source.split(/[，,。;；\n]+/).map((segment) => segment.trim()).filter(Boolean);
+    const materialWords = ["棉", "麻", "真丝", "涤纶", "羊毛", "皮革", "不锈钢", "铝合金", "玻璃", "陶瓷", "竹", "木", "ABS", "硅胶"];
+    const sceneWords = ["家用", "户外", "办公", "厨房", "旅行", "露营", "运动", "母婴", "车载", "礼物"];
+    const material = segments.filter((segment) => materialWords.some((word) => segment.includes(word)));
+    const scene = segments.filter((segment) => sceneWords.some((word) => segment.includes(word)));
+    const spec = segments.filter((segment) => /\d/.test(segment) && /(cm|mm|ml|g|kg|寸|升|个|片|色)/i.test(segment));
+    const used = new Set([...material, ...scene, ...spec]);
+    const selling = segments.filter((segment) => !used.has(segment)).slice(0, 5);
+    const block = (title: string, lines: string[]) => `${title}\n${lines.length ? lines.join("；") : "待补充"}`;
+    return [block("【卖点】", selling), block("【材质 / 工艺】", material), block("【适用场景】", scene), block("【规格尺寸】", spec)]
+        .join("\n")
+        .slice(0, MARKET_PRODUCT_INFO_MAX_LENGTH);
 }
 
 function marketSourceFromRecord(record: ToolAssetRecord): MarketSourceAsset {

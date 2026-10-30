@@ -203,8 +203,14 @@ describe("校验", () => {
         const issues = validateSuiteConfig(createDefaultSuiteConfig(), { sourceReady: false, imageModelReady: false });
         const codes = issues.map((issue) => issue.code);
         expect(codes).toContain("source-missing");
-        expect(codes).toContain("module-missing");
         expect(codes).toContain("capability-missing");
+        /* 原站默认已勾选模特图 + 白底图，默认配置不再报 module-missing。 */
+        expect(codes).not.toContain("module-missing");
+        const noModules = validateSuiteConfig(createDefaultSuiteConfig({ mainSubModuleIds: [], aplusModuleId: "" }), {
+            sourceReady: true,
+            imageModelReady: true,
+        });
+        expect(noModules.map((issue) => issue.code)).toContain("module-missing");
 
         const longInfo = validateSuiteConfig(config({ productInfo: "字".repeat(2501) }), { sourceReady: true, imageModelReady: true });
         expect(longInfo.some((issue) => issue.code === "product-info-too-long")).toBe(true);

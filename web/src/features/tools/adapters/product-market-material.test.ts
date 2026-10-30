@@ -138,7 +138,7 @@ describe("PRODUCT_MARKET_MATERIAL registry", () => {
     });
 
     test("单元计划按 A+ 模板 × 数量展开，像素来自模板比例", () => {
-        const config = normalizeConfig(makeConfig({ aplusTemplateIds: ["APlusPro", "A+"], aplusCount: 2 }));
+        const config = normalizeConfig(makeConfig({ aplusTemplateIds: ["APlusPro", "A+"], aplusCount: 2, marketingModuleIds: [] }));
         const expected = marketExpectedCount(config);
         const units = buildMarketUnits(config);
         expect(expected).toBe(4);
@@ -225,7 +225,7 @@ describe("PRODUCT_MARKET_MATERIAL adapter", () => {
     });
 
     test("运行：逐屏真实提交，单屏异常收敛为 failed 且不影响其他屏", async () => {
-        const config = normalizeConfig(makeConfig({ aplusTemplateIds: ["APlusPro"], aplusCount: 2 }));
+        const config = normalizeConfig(makeConfig({ aplusTemplateIds: ["APlusPro"], aplusCount: 2, marketingModuleIds: [] }));
         const gateway = fakeGateway({ failOn: 2 });
         const seen: MarketUnitResult[] = [];
         const run = await runMarketMaterial({
@@ -294,7 +294,7 @@ describe("PRODUCT_MARKET_MATERIAL adapter", () => {
     });
 
     test("分组与过期判定", async () => {
-        const config = normalizeConfig(makeConfig({ aplusTemplateIds: ["APlusPro", "A+"], aplusCount: 1 }));
+        const config = normalizeConfig(makeConfig({ aplusTemplateIds: ["APlusPro", "A+"], aplusCount: 1, marketingModuleIds: [] }));
         const units = buildMarketUnits(config);
         const results = units.map((unit) => marketUnitResultFromTask(unit, makeTask(unit.index === 1 ? "succeeded" : "failed")));
         const groups = groupMarketUnits(results);
@@ -341,10 +341,11 @@ describe("工作区渲染（无网络、无假结果）", () => {
         const { ProductMarketMaterialWorkspace } = await import("@/components/tools/workspaces/suite");
         const tree = React.createElement(MemoryRouter, null, React.createElement(ProductMarketMaterialWorkspace));
         const html = renderToStaticMarkup(tree);
-        expect(html).toContain("商品多图与信息");
-        expect(html).toContain("品牌与投放");
-        expect(html).toContain("A+ 与营销画幅");
-        expect(html).toContain("头图 970×600");
+        expect(html).toContain("多视角白底商品");
+        expect(html).toContain("商品信息");
+        expect(html).toContain("品牌与合规");
+        expect(html).toContain("A+图设置");
+        expect(html).toContain("主副图设置");
         expect(html).toMatch(/<button[^>]*disabled[^>]*title="至少上传 1 张商品图。"[^>]*>开始生成/);
     });
 });
