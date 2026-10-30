@@ -1,0 +1,103 @@
+{
+  "schema": "zh-speech-fixture/v1",
+  "round": "r27",
+  "generated_at": "2026-10-30T13:26:00+08:00",
+  "purpose": "VIDEO_TRANSLATION 真实中文语音测试素材：源视频含真人中文连续语音，替代纯音乐源片（e2529d42 复验证明原源片无法验证翻译）",
+  "fixture": {
+    "path": "docs/V1.0/plan_linkfox_navigation/evidence/fixtures/zh-speech-r27/zh-speech-djibouti-7s.mp4",
+    "abs_path": "/Users/mac/Documents/Dev/infinite-canvas/docs/V1.0/plan_linkfox_navigation/evidence/fixtures/zh-speech-r27/zh-speech-djibouti-7s.mp4",
+    "bytes": 104361,
+    "sha256": "7e4ab7c205efcf37fca50fdc719a919f2745b7ea7d749811df22ccb96f049ec9",
+    "duration_s": 7.4,
+    "container": "mp4",
+    "streams": [
+      {"index": 0, "type": "video", "codec": "h264", "width": 1280, "height": 720, "fps": 25, "duration_s": 7.4},
+      {"index": 1, "type": "audio", "codec": "aac", "sample_rate": 48000, "channels": 1, "duration_s": 7.4}
+    ],
+    "video_track_note": "合成静态纯色帧（0x1b2a41），无文字/无字幕/无烧录文本；1s 与 5s 帧 md5 一致（1f749cee0dd5b9e788f2500cb881e615），证明画面恒定",
+    "audio_track_note": "真实人类中文朗读片段，仅做重采样/编码，未做 TTS、未做变速变调、未替换"
+  },
+  "source": {
+    "title": "File:Djibouti - Chinese spoken article (3 out of 3).ogg",
+    "page": "https://commons.wikimedia.org/wiki/File:Djibouti_-_Chinese_spoken_article_(3_out_of_3).ogg",
+    "file_url": "https://upload.wikimedia.org/wikipedia/commons/9/91/Djibouti_-_Chinese_spoken_article_%283_out_of_3%29.ogg",
+    "repository": "Wikimedia Commons",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
+    "artist": "Carrotkit",
+    "credit": "Own work",
+    "description": "中文维基百科条目「吉布提」有声版第 3/3 段（真人朗读）",
+    "bytes": 4740261,
+    "duration_s": 261.823447,
+    "sha1_commons": "c8dc8c9f970c06654a9ece60973cb406cbbf508c",
+    "sha1_local": "c8dc8c9f970c06654a9ece60973cb406cbbf508c",
+    "sha1_match": true,
+    "sha256_local": "78248635c492cb25e9eb03f7b126fe71ae2c83da8835a606c7a414fc8b34458c",
+    "downloaded_via": "curl -x http://127.0.0.1:7890（本机系统代理；直连 Commons 超时）"
+  },
+  "segment": {
+    "start_s": 140.65,
+    "dur_s": 7.4,
+    "end_s": 148.05,
+    "selection": "在 261.8s 源上做 Silero VAD 分段（95 段 → 51 合并块），筛 5–12s 连续语音块 13 个，逐块 ASR；本块在 beam5/beam1 下转写一致（唯一稳定窗口），且语义为完整句",
+    "method": "解码为 16kHz 单声道 s16le PCM 后按样本精确切片（避免 ffmpeg -ss 关键帧/编码延迟导致的时长漂移）"
+  },
+  "verification": {
+    "vad": {
+      "engine": "faster-whisper 内置 Silero VAD (min_silence_duration_ms=300, speech_pad_ms=60)",
+      "speech_coverage": 0.934,
+      "n_speech_segments": 2,
+      "speech_segments_s": [[0.16, 5.4], [5.73, 7.4]],
+      "conclusion": "连续语音占 93.4%，最大静音间隙 0.33s，符合「连续语音」要求"
+    },
+    "asr": {
+      "engine": "faster-whisper small (int8, CPU)，模型缓存 ~/.cache/huggingface/hub/models--Systran--faster-whisper-small",
+      "params": "language=zh, beam_size=5, vad_filter=false, condition_on_previous_text=false, 无 initial_prompt（避免提示词串扰）",
+      "language": "zh",
+      "language_probability": 1.0,
+      "transcript_zh_hant": "暴震的人類發展指數在全世界186個國家和地區之中外列165位",
+      "transcript_normalized": "吉布提的人类发展指数在全世界186个国家和地区之中位列第165位",
+      "avg_logprob": -0.469,
+      "no_speech_prob": 0.004,
+      "caveat": "开头专名「吉布提」在无上下文条件下被误识为「暴震/德部提」（同一句在 139.0–148.5s 窗口的 beam5/beam1 输出完全一致，误听稳定，属模型专名识别局限，非音频质量问题）；「外列」为「位列」的误认"
+    },
+    "transcript_cross_check": {
+      "source": "zh.wikipedia 条目「吉布提」§医疗 原文（2026-10-30 经 API 拉取 revisions）",
+      "quote": "据《2013年世界人类发展报告》统计，吉人类发展指数在全世界186个国家和地区中列第165位。",
+      "agreement": "186 / 165 两个可核验数字与 ASR 转写完全一致，证明音频内容确为该段真人朗读，属真实中文语音而非合成"
+    },
+    "static_frame_check": {
+      "method": "ffmpeg 抽取 t=1s 与 t=5s 帧做 md5",
+      "md5_t1": "1f749cee0dd5b9e788f2500cb881e615",
+      "md5_t5": "1f749cee0dd5b9e788f2500cb881e615",
+      "identical": true,
+      "no_burned_text": true
+    },
+    "duration_check": {"expected_s": 7.4, "actual_s": 7.4, "within_5_12s": true},
+    "file_size_check": {"bytes": 104361, "note": "104KB，小文件"}
+  },
+  "attribution": {
+    "required": "使用/分发本 fixture 时须保留：来源 File:Djibouti - Chinese spoken article (3 out of 3).ogg（Wikimedia Commons, 作者 Carrotkit, CC BY-SA 4.0），并注明本仓库对其做了「截取 140.65–148.05s 片段 + 重采样 + 与静态帧合成 mp4」的改动",
+    "share_alike": "本 fixture 为改编作品，按 CC BY-SA 4.0 同协议分发"
+  },
+  "constraints_honored": {
+    "no_tts": true,
+    "no_fake_translation": true,
+    "no_src_changes": true,
+    "src_touched": "无（本提交仅新增 evidence/fixtures/zh-speech-r27/ 下文件）",
+    "secrets_read": "无（未读取 Keychain / 浏览器凭据；仅用本机系统代理地址做 HTTP 出网）"
+  },
+  "files": [
+    {"path": "zh-speech-djibouti-7s.mp4", "bytes": 104361, "sha256": "7e4ab7c205efcf37fca50fdc719a919f2745b7ea7d749811df22ccb96f049ec9"},
+    {"path": "fixture-evidence.json", "bytes": 2977, "sha256": "94d2a53c19133ec8048b725497bd59d4a0a9b4b6d201838de70e5e46c459981e"},
+    {"path": "repo-scan.json", "sha256": "8eb01895a83d2efcadca2a7f48cdc0a808c052da3cf77f0481b2318e0d18f12e", "note": "仓库 17 个唯一 mp4 的 VAD+ASR 批量扫描（含本 fixture 自身一行）"},
+    {"path": "REPORT.md", "sha256": "20cb2efecc196292a03ba16ae90807993acfeb0000b116fdb8476788a0b991e7"},
+    {"path": "LANGUAGE_GROUP_NOTICE.md", "sha256": "80116cc9b07a65cdbdb2c311dbca7209ab3f2bbc3cbfd512e14db9ee77e259bc"}
+  ],
+  "reproduce": {
+    "decode": "/opt/homebrew/Cellar/ffmpeg/8.1/bin/ffmpeg -v error -y -i source.ogg -vn -ac 1 -ar 16000 -c:a pcm_s16le full-16k.wav",
+    "slice": "numpy frombuffer(int16)/32768.0，取 [int(140.65*16000):int(148.05*16000)] → slice-16k.wav",
+    "mux": "/opt/homebrew/Cellar/ffmpeg/8.1/bin/ffmpeg -v error -y -f lavfi -i color=c=0x1b2a41:s=1280x720:r=25 -i slice-16k.wav -map 0:v -map 1:a -c:v libx264 -pix_fmt yuv420p -c:a aac -b:a 96k -ar 48000 -ac 1 -shortest -movflags +faststart zh-speech-djibouti-7s.mp4",
+    "verify": "ffprobe 流信息 + Silero VAD 覆盖率 + faster-whisper zh 转写 + 抽帧 md5 对比"
+  }
+}

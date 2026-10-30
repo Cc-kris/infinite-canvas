@@ -1,0 +1,226 @@
+[
+ {
+  "file": "docs/V1.0/plan_linkfox_navigation/evidence/fixtures/zh-speech-r27/zh-speech-djibouti-7s.mp4",
+  "dur": 7.4,
+  "vad_cov": 0.934,
+  "lang": "zh",
+  "lang_p": 0.993,
+  "text": "暴震的人類發展指數在全世界186個國家和地區之中外列165位"
+ },
+ {
+  "file": "docs/V1.0/plan_linkfox_navigation/evidence/r21-video-external-20261029/VIDEO_REPLICATION-result-1.mp4",
+  "dur": 6.59,
+  "vad_cov": 0.999,
+  "lang": "zh",
+  "lang_p": 0.999,
+  "text": "彎,开场者离开的直接入境,一句话点出核心卖点结尾给出一句行动扣号召"
+ },
+ {
+  "file": "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/AI_VIDEO_EDITING/r22-h/result-video.mp4",
+  "dur": 6.59,
+  "vad_cov": 0.902,
+  "lang": "zh",
+  "lang_p": 0.994,
+  "text": "原二二哈,驗收花浪信人已經為直戟線多達四王子亮好物件整體交線生牌蓬拍"
+ },
+ {
+  "file": "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/AI_VIDEO_EDITING/r22-h/source-input.mp4",
+  "dur": 5.18,
+  "vad_cov": 0.0,
+  "lang": "en",
+  "lang_p": 0.615,
+  "text": "Music"
+ },
+ {
+  "file": "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/AI_VIDEO_EDITING/receipt-20261029/task_QFvq6WMc_video.mp4",
+  "dur": 6.59,
+  "vad_cov": 0.0,
+  "lang": "en",
+  "lang_p": 0.801,
+  "text": "Music"
+ },
+ {
+  "file": "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/IMAGE_TO_VIDEO/06-result-video.mp4",
+  "dur": 5.18,
+  "vad_cov": 0.0,
+  "lang": "en",
+  "lang_p": 0.615,
+  "text": "Music"
+ },
+ {
+  "file": "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/SALE_VIDEO/r12-downloaded.mp4",
+  "dur": 6.59,
+  "vad_cov": 0.985,
+  "lang": "en",
+  "lang_p": 0.998,
+  "text": "Meet the watch that tracks your day and night, sapphire glass, 7-day battery, and a band that breathes with you. Grab yours today!"
+ },
+ {
+  "file": "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/SALE_VIDEO_20261029/sale-video-task-mvt76u6p.mp4",
+  "dur": 6.59,
+  "vad_cov": 0.985,
+  "lang": "en",
+  "lang_p": 0.998,
+  "text": "Meet the watch that tracks your day and night, sapphire glass, 7-day battery, and a band that breathes with you. Grab yours today!"
+ },
+ {
+  "file": "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/VIDEO_CONCAT/downloaded.mp4",
+  "dur": 7.3,
+  "vad_cov": 0.0,
+  "lang": "en",
+  "lang_p": 0.75,
+  "text": "Music"
+ },
+ {
+  "file": "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/VIDEO_CONCAT/r22-f/downloaded.mp4",
+  "dur": 13.7,
+  "vad_cov": 0.649,
+  "lang": "zh",
+  "lang_p": 0.999,
+  "text": "最值人獲得原視頻與一言執念之一場一擊墮更貼割記的超音質光裝牌御宏森市重機主價前時超音力設置"
+ },
+ {
+  "file": "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/VIDEO_HISTORY_RECOVERY_2TOOLS/downloads/VIDEO_REPLICATION-expired-link.mp4",
+  "dur": 6.59,
+  "vad_cov": 0.0,
+  "lang": "en",
+  "lang_p": 0.634,
+  "text": "Thanks for watching!"
+ },
+ {
+  "file": "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/VIDEO_HISTORY_RECOVERY_2TOOLS/downloads/VIDEO_REPLICATION-reload2-task_Ma7egazZrnGPt5BtVr5vW2hfApVxvCIS.mp4",
+  "dur": 6.59,
+  "vad_cov": 0.0,
+  "lang": "en",
+  "lang_p": 0.634,
+  "text": "Music"
+ },
+ {
+  "file": "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/VIDEO_REPLICATION/link-mode/out.mp4",
+  "dur": 6.59,
+  "vad_cov": 0.0,
+  "lang": "en",
+  "lang_p": 0.634,
+  "text": "Thanks for watching!"
+ },
+ {
+  "file": "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/VIDEO_TRANSLATION/downloaded.mp4",
+  "dur": 6.59,
+  "vad_cov": 0.882,
+  "lang": "zh",
+  "lang_p": 0.997,
+  "text": "最是人獲得原視頻與一言只列之一場一擊斷翻條割劑掏程式將準翻亞"
+ },
+ {
+  "file": "docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/VIDEO_TRANSLATION/r22-f/06-result-video.mp4",
+  "dur": 6.59,
+  "vad_cov": 0.975,
+  "lang": "zh",
+  "lang_p": 0.997,
+  "text": "原製動識別原視頻語音成片,翻譯成譯相同一啟成竅,模式、標準能翻譯。"
+ },
+ {
+  "file": "docs/V1.0/plan_linkfox_navigation/reports/independent-audit-20261029-r14/i2v-result.mp4",
+  "dur": 5.18,
+  "vad_cov": 1.0,
+  "lang": "en",
+  "lang_p": 0.994,
+  "text": "Maya's most ing-driving erbecter and crudences in Dinkanadal trineal sterding, we re-smoist down."
+ },
+ {
+  "file": "docs/V1.0/plan_linkfox_navigation/reports/vt-language-r26/artifacts/04-result.mp4",
+  "dur": 6.59,
+  "vad_cov": 0.985,
+  "lang": "en",
+  "lang_p": 0.996,
+  "text": "Meet the watch that tracks your day and night. Sapphireles roost with you. Flencher's Eyeglocks. Droger Kloss. Shun yours today."
+ },
+ {
+  "file": "ic-03b8f47e/docs/V1.0/plan_linkfox_navigation/evidence/r21-video-external-20261029/VIDEO_REPLICATION-result-1.mp4",
+  "dur": 6.59,
+  "vad_cov": 0.999,
+  "lang": "zh",
+  "lang_p": 0.999,
+  "text": "彎,开场者离开的直接入境,一句话点出核心卖点结尾给出一句行动扣号召"
+ },
+ {
+  "file": "ic-03b8f47e/docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/AI_VIDEO_EDITING/receipt-20261029/task_QFvq6WMc_video.mp4",
+  "dur": 6.59,
+  "vad_cov": 0.0,
+  "lang": "en",
+  "lang_p": 0.801,
+  "text": "Music"
+ },
+ {
+  "file": "ic-03b8f47e/docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/IMAGE_TO_VIDEO/06-result-video.mp4",
+  "dur": 5.18,
+  "vad_cov": 0.0,
+  "lang": "en",
+  "lang_p": 0.615,
+  "text": "Music"
+ },
+ {
+  "file": "ic-03b8f47e/docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/SALE_VIDEO/r12-downloaded.mp4",
+  "dur": 6.59,
+  "vad_cov": 0.985,
+  "lang": "en",
+  "lang_p": 0.998,
+  "text": "Meet the watch that tracks your day and night, sapphire glass, 7-day battery, and a band that breathes with you. Grab yours today!"
+ },
+ {
+  "file": "ic-03b8f47e/docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/SALE_VIDEO_20261029/sale-video-task-mvt76u6p.mp4",
+  "dur": 6.59,
+  "vad_cov": 0.985,
+  "lang": "en",
+  "lang_p": 0.998,
+  "text": "Meet the watch that tracks your day and night, sapphire glass, 7-day battery, and a band that breathes with you. Grab yours today!"
+ },
+ {
+  "file": "ic-03b8f47e/docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/VIDEO_CONCAT/downloaded.mp4",
+  "dur": 7.3,
+  "vad_cov": 0.0,
+  "lang": "en",
+  "lang_p": 0.75,
+  "text": "Music"
+ },
+ {
+  "file": "ic-03b8f47e/docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/VIDEO_HISTORY_RECOVERY_2TOOLS/downloads/VIDEO_REPLICATION-expired-link.mp4",
+  "dur": 6.59,
+  "vad_cov": 0.0,
+  "lang": "en",
+  "lang_p": 0.634,
+  "text": "You"
+ },
+ {
+  "file": "ic-03b8f47e/docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/VIDEO_HISTORY_RECOVERY_2TOOLS/downloads/VIDEO_REPLICATION-reload2-task_Ma7egazZrnGPt5BtVr5vW2hfApVxvCIS.mp4",
+  "dur": 6.59,
+  "vad_cov": 0.0,
+  "lang": "en",
+  "lang_p": 0.634,
+  "text": "You"
+ },
+ {
+  "file": "ic-03b8f47e/docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/VIDEO_REPLICATION/link-mode/out.mp4",
+  "dur": 6.59,
+  "vad_cov": 0.0,
+  "lang": "en",
+  "lang_p": 0.634,
+  "text": "Music"
+ },
+ {
+  "file": "ic-03b8f47e/docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/VIDEO_TRANSLATION/downloaded.mp4",
+  "dur": 6.59,
+  "vad_cov": 0.882,
+  "lang": "zh",
+  "lang_p": 0.997,
+  "text": "最是人獲得原視頻與一言只列之一場一擊斷翻條割劑掏程式將準翻亞"
+ },
+ {
+  "file": "ic-03b8f47e/docs/V1.0/plan_linkfox_navigation/reports/independent-audit-20261029-r14/i2v-result.mp4",
+  "dur": 5.18,
+  "vad_cov": 1.0,
+  "lang": "en",
+  "lang_p": 0.994,
+  "text": "Maya's most ing-driving erbecter and crudences in Dinkanadal trineal sterding, we re-smoist down."
+ }
+]
