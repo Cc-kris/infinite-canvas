@@ -1,0 +1,9 @@
+# captured 2026-10-30 12:24:37 +0800
+# git rev-parse HEAD: c4b3611aeb708a5236e4a7feefbedded63cd7c7e
+# tracked modifications in main worktree (NOT part of verification):
+ M web/src/components/tools/tool-result-actions.ts
+# untracked entry count: 207
+
+## diffstat of concurrent tracked edits (excluded):
+ web/src/components/tools/tool-result-actions.ts | 136 ++++++++++++++++++++++--
+ 1 file changed, 126 insertions(+), 10 deletions(-)
