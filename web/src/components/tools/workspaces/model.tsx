@@ -1297,9 +1297,10 @@ export function AiPoseGeneratorWorkspace({ className }: AiPoseGeneratorWorkspace
                         data-testid="ai-pose-submit"
                         onClick={() => {
                             setAttempted(true);
+                            if (issues.length > 0) return;
                             void submit();
                         }}
-                        disabled={!canSubmit}
+                        disabled={run.running}
                         className="mt-2 inline-flex h-9 w-full items-center justify-center gap-1.5 rounded-lg bg-primary text-[13px] font-medium text-primary-foreground transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-60"
                     >
                         {run.running ? <Loader2 aria-hidden="true" className="size-3.5 animate-spin" /> : null}
