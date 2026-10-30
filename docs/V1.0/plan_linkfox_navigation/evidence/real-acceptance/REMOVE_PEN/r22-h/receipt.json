@@ -1,0 +1,293 @@
+{
+ "schema": "r22-h-remove-pen-receipt/v1",
+ "startedAt": "2026-10-30T03:46:02.720Z",
+ "baseUrl": "http://127.0.0.1:3000",
+ "profile": "/Users/mac/Documents/Dev/infinite-canvas/.acceptance-profile/r26b",
+ "mode": "verify-existing-succeeded-task (no generation submitted, no injection)",
+ "expected": {
+  "taskId": "task-mvtp33dv-57nmbx",
+  "bytes": 1831533,
+  "sha256": "2f8f7f112bccc0a67d13bf8fb5a166da715ec85c2ff169f8c147f7e3d3cf415e",
+  "storageKey": "tool-result:task-mvtp33dv-57nmbx:0:3yrrtwJa4FBz7TxtYTf29"
+ },
+ "requests": [],
+ "legs": {
+  "result": {
+   "storageKey": "tool-result:task-mvtp33dv-57nmbx:0:3yrrtwJa4FBz7TxtYTf29",
+   "store": "media_files",
+   "bytes": 1831533,
+   "sha256": "2f8f7f112bccc0a67d13bf8fb5a166da715ec85c2ff169f8c147f7e3d3cf415e",
+   "mimeType": "image/png",
+   "found": true,
+   "matchesExpected": true,
+   "file": {
+    "path": "/Users/mac/Documents/Dev/infinite-canvas/docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/REMOVE_PEN/r22-h/result.png",
+    "exists": true,
+    "bytes": 1831533,
+    "mtime": "2026-10-30T03:46:10.216Z",
+    "sha256": "2f8f7f112bccc0a67d13bf8fb5a166da715ec85c2ff169f8c147f7e3d3cf415e"
+   }
+  },
+  "download": {
+   "via": "playwright-download-event",
+   "suggested": "apple_1024-erased.png",
+   "savePath": "/Users/mac/Documents/Dev/infinite-canvas/docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/REMOVE_PEN/r22-h/downloads/apple_1024-erased.png",
+   "file": {
+    "path": "/Users/mac/Documents/Dev/infinite-canvas/docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/REMOVE_PEN/r22-h/downloads/apple_1024-erased.png",
+    "exists": true,
+    "bytes": 1831533,
+    "mtime": "2026-10-30T03:46:10.309Z",
+    "sha256": "2f8f7f112bccc0a67d13bf8fb5a166da715ec85c2ff169f8c147f7e3d3cf415e"
+   },
+   "downloadsCopy": {
+    "path": "/Users/mac/Downloads/r22h-2f8f7f11-apple_1024-erased.png",
+    "exists": true,
+    "bytes": 1831533,
+    "mtime": "2026-10-30T03:46:10.314Z",
+    "sha256": "2f8f7f112bccc0a67d13bf8fb5a166da715ec85c2ff169f8c147f7e3d3cf415e"
+   },
+   "matchesExpected": true
+  },
+  "asset": {
+   "feedback": "已存入资产库（wdwqvHbN）",
+   "assetId": "wdwqvHbNsra6AtPJ4L5h8",
+   "title": "apple_1024.jpg 消除结果",
+   "kind": "image",
+   "storageKey": "image:RnFFtxkXogTK8TT7UiLFs",
+   "declaredBytes": 1831533,
+   "mimeType": "image/png",
+   "metadata": {
+    "toolId": "REMOVE_PEN",
+    "resultItemId": "REMOVE_PEN-task-mvtp33dv-57nmbx",
+    "resultId": "REMOVE_PEN-task-mvtp33dv-57nmbx",
+    "resultAssetKey": "tool-result:REMOVE_PEN:task:REMOVE_PEN-task-mvtp33dv-57nmbx"
+   },
+   "revision": 4,
+   "createdAt": "2026-10-29T15:35:50.918Z",
+   "updatedAt": "2026-10-30T03:46:10.550Z",
+   "existedBefore": true,
+   "prevRevision": 3,
+   "prevUpdatedAt": "2026-10-30T03:45:20.990Z",
+   "writtenThisRun": true,
+   "feedbackOk": true,
+   "totalAssets": 1,
+   "assetStoreKey": "infinite-canvas:asset_store",
+   "store": "image_files",
+   "bytes": 1831533,
+   "sha256": "2f8f7f112bccc0a67d13bf8fb5a166da715ec85c2ff169f8c147f7e3d3cf415e",
+   "matchesExpected": true,
+   "file": {
+    "path": "/Users/mac/Documents/Dev/infinite-canvas/docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/REMOVE_PEN/r22-h/asset-blob.bin",
+    "exists": true,
+    "bytes": 1831533,
+    "mtime": "2026-10-30T03:46:16.610Z",
+    "sha256": "2f8f7f112bccc0a67d13bf8fb5a166da715ec85c2ff169f8c147f7e3d3cf415e"
+   }
+  },
+  "canvas": {
+   "feedback": "已发送画布（项目 3XGEZ9HC · 节点 image-17）",
+   "canvasStoreKey": "infinite-canvas:canvas_store",
+   "projectId": "3XGEZ9HCyBNSi3TpXbJfB",
+   "projectTitle": "REMOVE_PEN 结果",
+   "nodeId": "image-1793331976905-gdoom",
+   "nodeType": "image",
+   "nodeStorageKey": "image:7I43LrlqrtQlC-MV41vJy",
+   "nodeDeclaredBytes": 1831533,
+   "nodeMimeType": "image/png",
+   "nodeNaturalSize": "1024x1024",
+   "nodeToolId": null,
+   "nodeTaskId": null,
+   "nodeResultAssetKey": null,
+   "nodeKeys": [
+    "id",
+    "type",
+    "title",
+    "position",
+    "width",
+    "height",
+    "metadata"
+   ],
+   "metadataKeys": [
+    "content",
+    "status",
+    "storageKey",
+    "naturalWidth",
+    "naturalHeight",
+    "bytes",
+    "mimeType"
+   ],
+   "isFreshNode": true,
+   "freshNodeCount": 1,
+   "feedbackOk": true,
+   "totalProjects": 4,
+   "store": "image_files",
+   "bytes": 1831533,
+   "sha256": "2f8f7f112bccc0a67d13bf8fb5a166da715ec85c2ff169f8c147f7e3d3cf415e",
+   "matchesExpected": true,
+   "file": {
+    "path": "/Users/mac/Documents/Dev/infinite-canvas/docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/REMOVE_PEN/r22-h/canvas-node-blob.bin",
+    "exists": true,
+    "bytes": 1831533,
+    "mtime": "2026-10-30T03:46:23.948Z",
+    "sha256": "2f8f7f112bccc0a67d13bf8fb5a166da715ec85c2ff169f8c147f7e3d3cf415e"
+   }
+  }
+ },
+ "checks": {
+  "taskSucceeded": true,
+  "reloadMarked": true,
+  "resultVisibleAfterReload": true,
+  "resultBytesMatch": true,
+  "downloadLandedMatch": true,
+  "assetSavedReal": true,
+  "assetBytesMatch": true,
+  "canvasSent": true,
+  "canvasBytesMatch": true,
+  "noNewGenerationRequest": true,
+  "fourLegsSameSha": true
+ },
+ "tab": {
+  "tabId": "967838F79EABB243C448BC9D1E1DA7E5",
+  "tabIndex": 0,
+  "pagesInContext": 1,
+  "note": "自有 persistent-context（profile r26b）单标签；未使用用户浏览器既有标签"
+ },
+ "beforeReload": {
+  "task": {
+   "all": [
+    {
+     "id": "task-mvtp33dv-57nmbx",
+     "toolId": "REMOVE_PEN",
+     "status": "succeeded"
+    },
+    {
+     "id": "task-mvtoj0nz-0varve",
+     "toolId": "REMOVE_PEN",
+     "status": "failed"
+    }
+   ],
+   "task": {
+    "id": "task-mvtp33dv-57nmbx",
+    "toolId": "REMOVE_PEN",
+    "status": "succeeded",
+    "createdAt": 1793287516387,
+    "finishedAt": 1793287550143,
+    "items": [
+     {
+      "kind": "image",
+      "storageKey": "tool-result:task-mvtp33dv-57nmbx:0:3yrrtwJa4FBz7TxtYTf29",
+      "bytes": 1831533,
+      "dataUrlLen": 0
+     }
+    ]
+   }
+  }
+ },
+ "beforeReloadTimeOrigin": 1793331964433.4,
+ "reload": {
+  "navType": "reload",
+  "timeOrigin": 1793331967901.4,
+  "navStartTime": 0,
+  "loadEventEnd": 387.5,
+  "documentMarkerLost": true,
+  "resultImg": {
+   "srcScheme": "blob",
+   "naturalW": 1024,
+   "naturalH": 1024,
+   "complete": true
+  },
+  "downloadHrefScheme": "blob",
+  "downloadHrefLen": 63,
+  "saveDisabled": false,
+  "sendDisabled": false,
+  "feedback": null,
+  "cdpResponse": {}
+ },
+ "afterReloadTask": {
+  "all": [
+   {
+    "id": "task-mvtp33dv-57nmbx",
+    "toolId": "REMOVE_PEN",
+    "status": "succeeded"
+   },
+   {
+    "id": "task-mvtoj0nz-0varve",
+    "toolId": "REMOVE_PEN",
+    "status": "failed"
+   }
+  ],
+  "task": {
+   "id": "task-mvtp33dv-57nmbx",
+   "toolId": "REMOVE_PEN",
+   "status": "succeeded",
+   "createdAt": 1793287516387,
+   "finishedAt": 1793287550143,
+   "items": [
+    {
+     "kind": "image",
+     "storageKey": "tool-result:task-mvtp33dv-57nmbx:0:3yrrtwJa4FBz7TxtYTf29",
+     "bytes": 1831533,
+     "dataUrlLen": 0
+    }
+   ]
+  }
+ },
+ "verdict": "PASS",
+ "receipt": {
+  "schema": "r22-h-remove-pen/summary-v1",
+  "tool": "REMOVE_PEN",
+  "taskId": "task-mvtp33dv-57nmbx",
+  "taskStatus": "succeeded",
+  "tabId": "967838F79EABB243C448BC9D1E1DA7E5",
+  "baseUrl": "http://127.0.0.1:3000",
+  "reloaded": true,
+  "reloadMarker": {
+   "navType": "reload",
+   "timeOriginBefore": 1793331964433.4,
+   "timeOriginAfter": 1793331967901.4,
+   "documentMarkerLost": true,
+   "resultAfterReload": "1024x1024"
+  },
+  "legs": {
+   "result": {
+    "storageKey": "tool-result:task-mvtp33dv-57nmbx:0:3yrrtwJa4FBz7TxtYTf29",
+    "store": "media_files",
+    "bytes": 1831533,
+    "sha256": "2f8f7f112bccc0a67d13bf8fb5a166da715ec85c2ff169f8c147f7e3d3cf415e",
+    "file": "/Users/mac/Documents/Dev/infinite-canvas/docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/REMOVE_PEN/r22-h/result.png"
+   },
+   "download": {
+    "storageKey": "tool-result:task-mvtp33dv-57nmbx:0:3yrrtwJa4FBz7TxtYTf29",
+    "store": "browser-download",
+    "bytes": 1831533,
+    "sha256": "2f8f7f112bccc0a67d13bf8fb5a166da715ec85c2ff169f8c147f7e3d3cf415e",
+    "file": "/Users/mac/Documents/Dev/infinite-canvas/docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/REMOVE_PEN/r22-h/downloads/apple_1024-erased.png",
+    "downloadsCopy": "/Users/mac/Downloads/r22h-2f8f7f11-apple_1024-erased.png"
+   },
+   "asset": {
+    "assetId": "wdwqvHbNsra6AtPJ4L5h8",
+    "storageKey": "image:RnFFtxkXogTK8TT7UiLFs",
+    "store": "image_files",
+    "bytes": 1831533,
+    "sha256": "2f8f7f112bccc0a67d13bf8fb5a166da715ec85c2ff169f8c147f7e3d3cf415e"
+   },
+   "canvas": {
+    "projectId": "3XGEZ9HCyBNSi3TpXbJfB",
+    "nodeId": "image-1793331976905-gdoom",
+    "storageKey": "image:7I43LrlqrtQlC-MV41vJy",
+    "store": "image_files",
+    "bytes": 1831533,
+    "sha256": "2f8f7f112bccc0a67d13bf8fb5a166da715ec85c2ff169f8c147f7e3d3cf415e"
+   }
+  },
+  "assetId": "wdwqvHbNsra6AtPJ4L5h8",
+  "nodeId": "image-1793331976905-gdoom",
+  "canvasSent": true,
+  "expected": {
+   "bytes": 1831533,
+   "sha256": "2f8f7f112bccc0a67d13bf8fb5a166da715ec85c2ff169f8c147f7e3d3cf415e"
+  },
+  "requests": []
+ },
+ "endedAt": "2026-10-30T03:46:24.113Z"
+}
