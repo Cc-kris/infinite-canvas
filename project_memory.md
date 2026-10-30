@@ -524,3 +524,25 @@
 - **后台标签是媒体验收的最大坑**：`document.hidden=true` 时 `<video>` 恒 `readyState=0`、`networkState=2`，换同字节新 Blob、换公网 https 源都同样超时（与编码无关）。预览结论只能靠 `web/scripts/real-acceptance/*.mjs`（Playwright 真 Chrome），别用交互标签页的 readyState 下结论。
 - 工具坑：`/__media/upload` 收**原始字节**，`curl -F` 会把 multipart 边界写进文件（本例多 214 字节、sha 全变），必须 `--data-binary` + `x-media-name`。IDB `media_files` 的值本身就是 Blob（不是 `{blob}`），多个 get 必须各开事务否则 `TransactionInactiveError`。本机 `node` 在 `/opt/homebrew/bin`、`bun` 在 `~/.bun/bin`，跑脚本前先补 PATH。
 - 残留风险（未修）：发画布时 `readVideoMeta()` 后台标签超时 → 走 `media-metadata.ts:17` 的 1280×720 兜底，画布节点 `naturalWidth/Height` 与真实 768×1344 不符（16:9 而非 9:16）。建议 timedOut 时不写死尺寸、改二次测量。仓库无 `archiveUrl` 实现，公网回读是用 canvas-proxy 素材通道做的验收手段。
+
+## 2026-10-30 R22-R26 工具终验接续
+- 主会话仍只派 DeepSeek worker + 独立验收，不改源码；模型索引 0 每次先 `ga_worker.py --probe`，禁嵌套派工。仅复刻 39 工具，不做积分/个人中心/学习中心，UI 对齐无限画布。
+- 已真实闭环：REMOVE_PEN.H `5ce5b4b3`（四路 1,831,533B sha 全等）；IMAGE_TEXT_EDIT.H `382cebf6`（五路 1,050,148B）；VIDEO_CONCAT.F `098a19b4`（4,633,118B）；VIDEO_TRANSLATION.F `cd553cc4`（1,249,837B）；AI_VIDEO_EDITING 同会话新任务 `2ecd958d`（1,984,977B、1344x768、6.583s，草稿分槽修复 `a9d66329`）。
+- 画布视频比例修复 `0ac1e48f`，前台实测 768x1344；VT 存资产兜底尺寸修复 `eacc18f7`，真实资产/画布/源文件均 768x768、6583ms、sha 全等。主会话独立复验 typecheck + 47 项相关测试全绿。
+- R23 `c4b3611a` 为 F38/H39（当时 VT.F 未吸收），R24 固定 HEAD 三闸 `6313501f`：1509 tests/87 files、typecheck、build 全绿。后续必须以 R25/R26 新报告为准，不能沿用旧矩阵宣称完成。
+- 当前 5 组：`lf_r23_asset_race`（多标签资产合并，未提交）、`lf_r24_vt_content`（复用 MP4 做 ASR/OCR；已发现源片可能纯音乐，不能用 LID 幻觉判翻译成功）、`lf_r25_matrix`、`lf_r26_vt_aspect`、`lf_r26_gate`。VT 仍有上游时长 +27%、源画幅 1344x768→768x768 与内容验证风险。
+
+## 2026-10-30 r33：VIDEO_TRANSLATION.F 唯一缺口与渠道能力实测
+
+- **语言契约已提交** `c72d6dc6`：`videoTranslationLanguageCode()` 把目标/源语言写成 BCP-47 代码塞进提示词，并显式禁止「朗读提示词/无声源片编造旁白」。43 项 adapter 测试 + typecheck 通过。此前 r26 实测「全中文提示词 → 成片音轨 zh 且内容就是提示词本身」，根因是上游 `/v1/videos` **没有 `target_language` 字段**，语言只能靠提示词。
+- **R31 矩阵结论**（`2b52ba02`，39 工具×六维 = 234 单元）：仅 `VIDEO_TRANSLATION.F` = PARTIAL，其余 233 全 PASS（F38/T39/R39/H39/K12/U39）。
+- **渠道真实模型清单实测**（脚本 `/tmp/probe_models.mjs`，key 只从 Galley keychain 读、绝不落盘）：
+  - CCAI `api.cc-ai.xyz` `/v1/models` → 200，仅 3 个：`gpt-image-2`、`gpt-image-2.5-flare`、`gpt-image-2.5-sunburst`（**无任何视频/翻译模型**）。
+  - SiliconFlow `api.siliconflow.cn/v1` `/v1/models` → 200，98 个，其中可用于「本地兜底译制」的：
+    - ASR：`Qwen/Qwen3-ASR-1.7B`、`FunAudioLLM/SenseVoiceSmall`、`XingChenAGI/XingChenASR-V3.2`
+    - 翻译：`tencent/Hunyuan-MT-7B`
+    - TTS：`FunAudioLLM/CosyVoice2-0.5B`、`fnlp/MOSS-TTSD-v0.5`
+    - 视频生成：`Wan-AI/Wan2.2-I2V-A14B`、`Wan-AI/Wan2.2-T2V-A14B`
+  - 结论：**上游 SEED_V25 视频翻译模型在任何已配置渠道都未开通**（外部能力阻断，非代码缺陷）；但 ASR→MT→TTS 的兜底链路在模型层完全可行。
+- **兜底链路的物理约束**：项目 `web/package.json` **没有 ffmpeg/ffmpeg.wasm/mp4box**；`video-concat` 也是把片段提交给上游网关合成，不是本地编码。所以「换音轨」只能在浏览器内用 `AudioContext.decodeAudioData`（取音轨）+ `OfflineAudioContext`（按段拼译音）+ `canvas.captureStream + MediaRecorder`（重编码画面+新音轨），或新增 ffmpeg.wasm（约 30MB）依赖。
+- **SOP 坑**：`bun run typecheck` 必须在 `web/` 下跑（`tsconfig.app.json` 不存在）；全量 `bun test` 约 12s、1582 例；`bun run build` 约 1-2 分钟，超过 600s 的工具上限时必须用 `nohup ... > log 2>&1 &` 后台跑再轮询日志（前台 `&` + `sleep` 会因管道未分离导致工具超时）。
