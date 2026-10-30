@@ -1,0 +1,127 @@
+{
+  "gate": "fixed-HEAD independent verification (typecheck / full unit tests / build)",
+  "round": "r24-fixed",
+  "repo": "/Users/mac/Documents/Dev/infinite-canvas",
+  "branch_under_test": "feat/linkfox-v1-real",
+  "head_commit": "c4b3611aeb708a5236e4a7feefbedded63cd7c7e",
+  "head_commit_tree": "18a9ad0935ef5ad53e256fb2cc5049aaf42bf496",
+  "head_web_src_tree": "b8d30ac09946fe4ea9891348e7dadde2d2631d01",
+  "head_web_tree": "ede2d0e243d7ec46095108ede4ff7190947af2dd",
+  "head_commit_date": "2026-10-30 12:21:28 +0800",
+  "head_commit_subject": "audit(r23): 独立六维矩阵 R23（PIN a9d66329）——H 37→39，F 38，残留 VT.F",
+  "head_history_note": "HEAD moved 31023507 -> c4b3611a by a concurrent 'commit (amend)' at 12:21:28; web/src identical between the two (git diff --stat 31023507 c4b3611a -- web/src = empty). Pinned c4b3611a for this round.",
+  "focused_commits": {
+    "a9d66329": {
+      "subject": "fix(ai-video-editing): 草稿分槽恢复——两上传区各占槽位、参考图 id 落盘、旧草稿按 mime 归位",
+      "ancestor_of_head": true,
+      "evidence": {
+        "src/features/tools/adapters/ai-video-editing.test.ts": "42 pass / 0 fail"
+      }
+    },
+    "0ac1e48f": {
+      "subject": "fix(canvas): 视频结果发画布不再写入 1280x720 兜底尺寸，按真实比例建框并可后台校正",
+      "ancestor_of_head": true,
+      "evidence": {
+        "src/components/tools/tool-result-actions.video-frame.test.ts": "5 pass / 0 fail",
+        "src/lib/canvas/video-meta-reconcile.test.ts": "10 pass / 0 fail"
+      }
+    },
+    "focused_rerun": "3 target test files run twice: 57 pass / 0 fail / 204 expect() both times (deterministic)"
+  },
+  "isolation": {
+    "method": "git archive HEAD -> tar -x -C /private/tmp/icw-r24-head (no .git, working tree untouched)",
+    "snapshot_files": 3676,
+    "tree_files": 3676,
+    "archive_sha256": "48c97cfb29931249354111918abf2ff85b6e95b61e550afe6e2495992bf94431",
+    "archive_bytes": 439418880,
+    "web_src_blob_check": { "files_checked": 408, "ok": 408, "missing": 0, "mismatch": 0 },
+    "whole_tree_blob_check": { "blobs_checked": 3676, "ok": 3676, "missing": 0, "mismatch": 0 },
+    "deps": "bun install --frozen-lockfile -> 931 packages installed [2.38s], node_modules 701M"
+  },
+  "excluded_from_conclusion": {
+    "reason": "concurrent worker uncommitted edits in the main working tree (do NOT affect the archive snapshot)",
+    "first_observed_at": "2026-10-30 12:24:37 +0800",
+    "entries": ["M web/src/components/tools/tool-result-actions.ts (+126/-10)"],
+    "note": "gates ran 12:22-12:23 on the pinned snapshot, before these edits existed"
+  },
+  "toolchain": {
+    "runner": "bun 1.4.2",
+    "typescript": "5.9.3",
+    "vite": "7.3.6",
+    "node_on_path": false,
+    "test_config": "web/bunfig.toml pathIgnorePatterns = [\"**/*.spec.ts\"]"
+  },
+  "gates": [
+    {
+      "name": "typecheck",
+      "cwd": "snapshot/web",
+      "command": "bun run typecheck (= tsc --noEmit)",
+      "exit_code": 0,
+      "duration_s": 22.26,
+      "error_ts_count": 0,
+      "log": "logs/typecheck.log",
+      "exit_file": "logs/typecheck.exit"
+    },
+    {
+      "name": "typecheck-non-empty-proof",
+      "cwd": "snapshot/web",
+      "command": "./node_modules/.bin/tsc --noEmit --listFiles",
+      "exit_code": 0,
+      "duration_s": 3.64,
+      "files_in_program": 3440,
+      "files_under_web_src": 407,
+      "error_ts_count": 0,
+      "log": "logs/tsc-listfiles.log"
+    },
+    {
+      "name": "unit-tests",
+      "cwd": "snapshot/web",
+      "command": "bun test",
+      "exit_code": 0,
+      "duration_s": 2.55,
+      "tests_run": 1509,
+      "passed": 1509,
+      "failed": 0,
+      "skipped": 0,
+      "todo": 0,
+      "expect_calls": 8431,
+      "test_files": 87,
+      "test_files_with_zero_tests": 0,
+      "playwright_spec_leakage": 0,
+      "log": "logs/buntest.log",
+      "exit_file": "logs/buntest.exit",
+      "test_file_list": "logs/testfiles.txt"
+    },
+    {
+      "name": "build",
+      "cwd": "snapshot/web",
+      "command": "bun run build (= vite build)",
+      "exit_code": 0,
+      "duration_s": 23.99,
+      "modules_transformed": 8830,
+      "result": "built in 23.99s",
+      "dist_size": "42M",
+      "dist_files": 443,
+      "main_js": { "file": "assets/index-BNvVASBg.js", "bytes": 5614227 },
+      "main_css": { "file": "assets/index-Bi0Yw3LF.css", "bytes": 159773 },
+      "index_html_bytes": 1050,
+      "log": "logs/build.log",
+      "exit_file": "logs/build.exit",
+      "dist_file_list": "logs/dist-files.txt"
+    }
+  ],
+  "scope_checks": [
+    { "check": "tool registry is exactly 39", "evidence": "runtime import: TOOLS=39, toolSpecs=39, toolsById=39, toolsByRoute=39, BATCH_TOOL_IDS=12, categories=5" },
+    { "check": "registry integrity test", "evidence": "bun test src/features/tools/registry/registry.test.ts -> 18 pass / 0 fail / 1622 expect" },
+    { "check": "no points / personal-center / learning-center entries", "evidence": "grep -rn 积分|个人中心|学习中心 src -> 7 hits, all negative assertions or 'do not display' comments; app-top-nav.test.tsx asserts absence" },
+    { "check": "shell chrome aligned with infinite canvas", "evidence": "bun test src/components/layout/app-top-nav.test.tsx -> 3 pass / 0 fail (canvas shell chrome instead of pixel-copied metrics)" }
+  ],
+  "not_covered": [
+    "real model calls / any generation (explicitly forbidden)",
+    "Playwright E2E and browser visual acceptance",
+    "uncommitted source edits appearing after 12:24:37 (+0800)"
+  ],
+  "verdict": "PASS (3/3 gates green on pinned commit c4b3611a)",
+  "verdict_scope": "commit c4b3611a content only; concurrent uncommitted edits excluded",
+  "generated_at": "2026-10-30T04:24:37Z"
+}

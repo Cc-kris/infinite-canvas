@@ -1,0 +1,71 @@
+{
+ "source": "docs/V1.0/reports/verify-head-r24-fixed (PIN tree blob)",
+ "commit": "c4b3611aeb708a5236e4a7feefbedded63cd7c7e",
+ "commitTree": "18a9ad0935ef5ad53e256fb2cc5049aaf42bf496",
+ "webTree": "ede2d0e243d7ec46095108ede4ff7190947af2dd",
+ "commitSubject": "audit(r23): 独立六维矩阵 R23（PIN a9d66329）——H 37→39，F 38，残留 VT.F",
+ "verdictOfRecord": "PASS (3/3 gates green on pinned commit c4b3611a)",
+ "isolation": {
+  "method": "git archive HEAD -> tar -x -C /private/tmp/icw-r24-head (no .git, working tree untouched)",
+  "snapshot_files": 3676,
+  "tree_files": 3676,
+  "archive_sha256": "48c97cfb29931249354111918abf2ff85b6e95b61e550afe6e2495992bf94431",
+  "archive_bytes": 439418880,
+  "web_src_blob_check": {
+   "files_checked": 408,
+   "ok": 408,
+   "missing": 0,
+   "mismatch": 0
+  },
+  "whole_tree_blob_check": {
+   "blobs_checked": 3676,
+   "ok": 3676,
+   "missing": 0,
+   "mismatch": 0
+  },
+  "deps": "bun install --frozen-lockfile -> 931 packages installed [2.38s], node_modules 701M"
+ },
+ "toolchain": {
+  "runner": "bun 1.4.2",
+  "typescript": "5.9.3",
+  "vite": "7.3.6",
+  "node_on_path": false,
+  "test_config": "web/bunfig.toml pathIgnorePatterns = [\"**/*.spec.ts\"]"
+ },
+ "exits": {
+  "typecheck": true,
+  "buntest": true,
+  "build": true,
+  "tsc-listfiles": true,
+  "install": false
+ },
+ "install": {
+  "exit0": false,
+  "packages": null
+ },
+ "typecheck": {
+  "exit0": true,
+  "errorTs": 0,
+  "seconds": 22.26
+ },
+ "test": {
+  "exit0": true,
+  "pass": 1509,
+  "fail": 0,
+  "expect": 8431,
+  "total": 1509,
+  "files": 87
+ },
+ "build": {
+  "exit0": true,
+  "seconds": 23.99,
+  "modules": 8830,
+  "entryJs": "index-BNvVASBg.js",
+  "entryJsKb": 5614.23,
+  "distFiles": 443
+ },
+ "tscListFiles": {
+  "lines": 3443,
+  "webSrcEntries": 407
+ }
+}
