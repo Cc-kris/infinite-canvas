@@ -1,0 +1,29 @@
+{
+ "snapshotCommit": "a9d66329abf7f86377f89bd8731e72eace5eb680",
+ "snapshotTree": "c5c68667579d5cff9b23c9489badecf31ebcc8cf",
+ "source": "docs/V1.0/plan_linkfox_navigation/reports/independent-audit-20261030-r23-matrix/evidence/logs",
+ "install": {
+  "packages": 931,
+  "exit0": true
+ },
+ "typecheck": {
+  "exit0": true
+ },
+ "test": {
+  "pass": 1494,
+  "fail": 0,
+  "total": 1494,
+  "files": 85,
+  "exit0": true
+ },
+ "build": {
+  "exit0": true,
+  "seconds": 45.32,
+  "entryJs": "index-DXFpiqIy.js",
+  "entryJsBytes": 5610025
+ },
+ "tscListFiles": {
+  "lines": 3438,
+  "webSrcEntries": 404
+ }
+}
