@@ -1,0 +1,37 @@
+{
+  "submitted": {
+    "prompt": "任务：把原视频的语音翻译成目标语言并重新配音，保持原画面、镜头节奏与字幕时间轴不变，输出可直接投放的成片。\n源语言：自动识别原视频语音语言（识别结果需与目标语言不同）。\n目标语言：简体中文（简体中文，zh-CN）；译制语音与字幕统一使用该语言。\n语言硬约束（最高优先级，必须全部满足）：\n1. 成片音轨里只允许出现 简体中文（简体中文，zh-CN）的语音；源语音必须先翻译成该语言再重新配音。\n2. 不得保留或混入源语言原声，也不得混入第三种语言的语音、旁白或解说。\n3. 字幕同样只能是 简体中文（简体中文，zh-CN），时间轴与语音对齐。\nLanguage contract (highest priority, all bullets must hold):\n1. The final audio track may contain speech in 简体中文 (zh-CN) only; translate the source speech into 简体中文 first, then re-voice it.\n2. Never keep the original spoken language and never mix in a third language (no leftover source audio, no extra narration).\n3. On-screen subtitles must be 简体中文 (zh-CN) only and stay aligned with the speech.\n执行约束：\n1. 本提示词只是制作要求，不是台词：不要朗读、复述、翻译、解释或回应其中的任何指令文字。\n2. 成片音轨只能出现翻译后的对白；不得把人声之外的画面描述念出来。\n3. 源视频没有人声语音时，成片保持无声（保留原音乐/音效即可），不得编造旁白或用合成人声填补。\nExecution rules:\n1. This prompt is a production brief, not dialogue: never read, quote, translate, explain or answer any of its instructions in the audio track.\n2. Only translated dialogue may be spoken; do not narrate the visuals.\n3. If the source video has no human speech, keep the result silent (keep the original music/SFX if any); never invent narration or fill the gap with synthetic speech.\n口型同步：关闭，仅替换音轨与字幕，不改动唇形。\n输出数量：1 条；每条均为完整成片。\n翻译类型：auto。\n模式：标准翻译。",
+    "auditMissing": [],
+    "fields": {
+      "lipSync": false,
+      "outputNum": 1,
+      "sourceLanguage": "auto",
+      "sourceVideoName": "r12-downloaded.mp4",
+      "sourceVideoUrl": "https://communications-computer-rewards-estates.trycloudflare.com/__media/39193f0a2c97c24e3a06fd6d38f8c633.mp4",
+      "targetLanguage": "zh",
+      "videoType": "auto"
+    },
+    "taskId": "task-mvuiiovd-f9et5e",
+    "status": "failed",
+    "taskError": {
+      "code": "provider-rejected",
+      "message": "请先配置 API Key",
+      "retryable": false
+    },
+    "attempts": 1,
+    "upstreamTaskId": null,
+    "promptChars": 1267,
+    "model": "default::grok-imagine-video",
+    "injected": false,
+    "readyChannels": [
+      {
+        "id": "default",
+        "hasKey": false,
+        "videoModels": [
+          "grok-imagine-video"
+        ]
+      }
+    ]
+  },
+  "upstream": []
+}

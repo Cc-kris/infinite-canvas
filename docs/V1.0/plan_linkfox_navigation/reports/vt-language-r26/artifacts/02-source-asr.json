@@ -1,0 +1,6 @@
+{
+  "source": "evidence/real-acceptance/SALE_VIDEO/r12-downloaded.mp4",
+  "durationSec": 6.592,
+  "engine": "whisper.cpp small (ggml-small.bin), -l en",
+  "text": "Meet the watch that tracks your day and night, sapphire glass, 7-day battery, and a band that breathes with you. Grab yours today!"
+}

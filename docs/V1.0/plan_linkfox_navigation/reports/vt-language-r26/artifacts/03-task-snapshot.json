@@ -1,0 +1,19 @@
+{
+  "checkedAt": "2026-10-30T13:17:47",
+  "localTaskId": "task-mvuilah9-v6u5s1",
+  "upstreamTaskId": "task_fnyYPg9WDzJfWzhWzjI9y80mBKUQNmT9",
+  "upstreamProvider": "openai",
+  "configSnapshot": {
+    "capability": "video",
+    "model": "MiniMax-H3",
+    "apiFormat": "openai",
+    "size": "720x720",
+    "quality": "auto",
+    "count": "1",
+    "videoSeconds": "6",
+    "channelId": "sub2"
+  },
+  "status": "running",
+  "submittedAt": "2026-10-30T13:11:14+08:00",
+  "note": "轮询经真实 gateway.poll（createToolGateway 显式 port 绑定页面 store + 持久化快照），无 mock"
+}

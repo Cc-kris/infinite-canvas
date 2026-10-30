@@ -1,0 +1,47 @@
+{
+  "receipt": {
+    "localTaskId": "task-mvuilah9-v6u5s1",
+    "upstreamTaskId": "task_fnyYPg9WDzJfWzhWzjI9y80mBKUQNmT9",
+    "upstreamProvider": "openai",
+    "model": "sub2::MiniMax-H3",
+    "channelId": "sub2",
+    "status": "succeeded",
+    "attempts": 1,
+    "pollCount": 13,
+    "submittedAt": "2026-10-30T13:11:14+08:00",
+    "terminalAt": "2026-10-30T13:22:29+08:00",
+    "wallClockSec": 675,
+    "resultItems": 1
+  },
+  "output": {
+    "file": "04-result.mp4",
+    "bytes": 1199227,
+    "sha256": "a3613615999ab80d38871233c49e5975fadec3be2bb3930f57b0b9089c3a276d",
+    "container": "mp4",
+    "video": {
+      "codec": "h264",
+      "width": 768,
+      "height": 768
+    },
+    "audio": {
+      "codec": "aac",
+      "sampleRate": 32000,
+      "channels": 2
+    },
+    "durationSec": 6.583333
+  },
+  "asr": {
+    "engine": "whisper.cpp small (ggml-small.bin)",
+    "source_en_forced": "Meet the watch that tracks your day and night, sapphire glass, 7-day battery, and a band that breathes with you. Grab yours today!",
+    "result_auto": "Meet the watch that tracks your day and night, sapphireles roost with you, flenches iron glocks, drojure cloche, shun yours today.",
+    "result_en_forced": "Meet the watch that tracks your day and night, sapphireles roost with you, flenches iron glocks, drojure cloche, shun yours today.",
+    "result_zh_forced": "meet the watch that tracks your day and night sapphireles roost with you flencher's iron glocks droger cloche shun yours today",
+    "zh_chars_in_result": 0
+  },
+  "verdict": {
+    "targetLanguage": "zh",
+    "audio_language": "en",
+    "translationApplied": false,
+    "note": "成片音轨仍是英语（首句与源片逐字一致，后半段为上游重生成导致的失真/乱码），零中文字符；强制 -l zh 也无法得到中文。结论：当前通道 /v1/videos(MiniMax-H3) 不做语音翻译，只按提示词重生成视频。"
+  }
+}
