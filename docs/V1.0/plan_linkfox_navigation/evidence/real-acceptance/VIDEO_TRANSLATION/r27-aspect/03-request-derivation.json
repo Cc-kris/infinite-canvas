@@ -1,0 +1,37 @@
+{
+ "plan": {
+  "requested": "source",
+  "ratio": "16:9",
+  "size": "1280x720",
+  "sourceSize": "1344×768",
+  "sourceRatioLabel": "7:4",
+  "preservesSource": false,
+  "notice": "上游只提供固定画幅档位：源画面 7:4（1344×768）→ 本次输出 16:9（1280x720）。这不是逐像素保持，画面会按比例缩放或补边"
+ },
+ "globalSize": "1:1",
+ "vquality": "720",
+ "inferFromSize": "n/a",
+ "deriveSize": "n/a",
+ "adapterInput": {
+  "videoRatio": "16:9",
+  "fieldsKeys": [
+   "lipSync",
+   "outputNum",
+   "sourceLanguage",
+   "sourceVideoName",
+   "sourceVideoUrl",
+   "targetLanguage",
+   "videoType"
+  ]
+ },
+ "builtConfig": {
+  "size": "1280x720",
+  "model": "sub2::MiniMax-H3",
+  "videoSeconds": "6",
+  "quality": "auto"
+ },
+ "task": {
+  "status": "running",
+  "pollCount": 20
+ }
+}

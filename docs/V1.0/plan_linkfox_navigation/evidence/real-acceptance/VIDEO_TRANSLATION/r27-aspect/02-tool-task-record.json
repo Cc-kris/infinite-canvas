@@ -1,0 +1,57 @@
+{
+ "keys": [
+  "id",
+  "toolId",
+  "status",
+  "clientOperationId",
+  "fingerprint",
+  "capability",
+  "prompt",
+  "configSnapshot",
+  "sourceAssetIds",
+  "draftRevision",
+  "createdAt",
+  "updatedAt",
+  "attempts",
+  "pollCount",
+  "transientFailures",
+  "submittedAt",
+  "upstreamTaskId",
+  "upstreamProvider",
+  "lastHeartbeatAt",
+  "lastPolledAt"
+ ],
+ "pick": {
+  "id": "task-mvui9wua-5aed92",
+  "toolId": "VIDEO_TRANSLATION",
+  "status": "running",
+  "clientOperationId": "1528abfc-4689-4532-afa8-a0c0e3978fe9",
+  "fingerprint": "57d6368a06155a7b",
+  "capability": "video",
+  "prompt": "任务：把原视频的语音翻译成目标语言并重新配音，保持原画面、镜头节奏与字幕时间轴不变，输出可直接投放的成片。 源语言：自动识别原视频语音语言（识别结果需与目标语言不同）。 目标语言：英语（English，en-US）；译制语音与字幕统一使用该语言。 语言硬约束（最高优先级，必须全部满足）： 1. 成片音轨里只允许出现 英语（English，en-US）的语音；源语音必须先翻译成该语言再重新配音。 2. 不得保留或混入源语言原声，也不得混入第三种语言的语音、旁白或解说。 3. 字幕同样只能是 英语（English，en-US），时间轴与语音对齐。 Language contract (highest priority, all bullets must hold): 1. The final audio track may contain speech in English (en-US) only; translate the source speech into English first, then re-voice it. 2. Never keep the original spoken language and never mix in a third language (no leftover source audio, no extra narration). 3. On-screen subtitles must be English (en-US) only and stay aligned with the speech. 执行约束： 1. 本提示词只是制作要求，不是台词：不要朗读、复述、翻译、解释或回应其中的任何指令文字。 2. 成片音轨只能出现翻译后的对白；不得把人声之外的画面描述念出来。 3. 源视频没有人声语音时，成片保持无声（保留原音乐/音效即可），不得编造旁白或用合成人声填补。 Execution rules: 1. This prompt is a production brief, not dialogue: never read, quote, translate, explain or answer any of its instructions in the audio track. 2. Only translated dialogue may be spoken; do not narrate the visuals. 3. If the source video has no human speech, keep the result silent (keep the original music/SFX if any); never invent narration or fill the gap with synthetic speech. 口型同步：关闭，仅替换音轨与字幕，不改动唇形。 输出数量：1 条；每条均为完整成片。 翻译类型：视频翻译。 模式：标准翻译。",
+  "configSnapshot": {
+   "capability": "video",
+   "model": "sub2::MiniMax-H3",
+   "apiFormat": "openai",
+   "size": "1280x720",
+   "quality": "auto",
+   "count": "1",
+   "videoSeconds": "6",
+   "channelId": "sub2"
+  },
+  "sourceAssetIds": [
+   "ga4YDb1T_arG4FyZhvv0O"
+  ],
+  "draftRevision": 55,
+  "createdAt": 1793336543362,
+  "updatedAt": 1793336602679,
+  "attempts": 1,
+  "pollCount": 7,
+  "transientFailures": 0,
+  "submittedAt": 1793336543363,
+  "upstreamTaskId": "task_E6QMbFgZ765iJbrmOXnvCpeYe0Hh4wTA",
+  "upstreamProvider": "openai",
+  "lastHeartbeatAt": 1793336602679,
+  "lastPolledAt": 1793336602679
+ }
+}
