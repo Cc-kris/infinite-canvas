@@ -1,0 +1,76 @@
+{
+ "appKeys": [
+  "infinite-canvas:asset_store",
+  "infinite-canvas:canvas_store",
+  "tool-draft:v1:AI_VIDEO_EDITING",
+  "tool-draft:v1:DRESS_WEAR_SET",
+  "tool-draft:v1:IMAGE_TEXT_EDIT",
+  "tool-draft:v1:SDS_DESIGN",
+  "tool-draft:v1:VIDEO_CONCAT",
+  "tool-draft:v1:VIDEO_TRANSLATION"
+ ],
+ "href": "http://localhost:3000/tools/ai-video/video-translation",
+ "assets": [
+  {
+   "id": "M9g-UrvgLtZIYEjMIqrVk",
+   "kind": "video",
+   "revision": 1,
+   "data": {
+    "storageKey": "video:zgzM_z3Up7vmQEjpY14TJ",
+    "url": "blob:http://localhost:3000/78f0246e-1ced-4ea5-aa01-47727c8b8481",
+    "width": 1280,
+    "height": 720,
+    "bytes": 1249837
+   },
+   "metadata": {
+    "toolId": "VIDEO_TRANSLATION",
+    "taskId": "task-mvuflf9e-djxprc",
+    "resultItemId": "task-mvuflf9e-djxprc-0",
+    "resultId": "task-mvuflf9e-djxprc-0",
+    "resultAssetKey": "tool-result:VIDEO_TRANSLATION:task-mvuflf9e-djxprc:task-mvuflf9e-djxprc-0"
+   }
+  }
+ ],
+ "projects": [
+  {
+   "id": "XAlXhFqR_ZxWSJMImYk6r",
+   "title": "VIDEO_TRANSLATION 结果",
+   "nodes": [
+    {
+     "id": "video-1793333636962-aoazu",
+     "type": "video",
+     "width": 420,
+     "height": 420,
+     "metadata": {
+      "content": "blob:http://localhost:3000/c120b96f-2543-469e-bbb2-0686044bdf49",
+      "status": "success",
+      "storageKey": "video:l_O76YiQrJhKGVKy-Jw5d",
+      "bytes": 1249837,
+      "mimeType": "video/mp4",
+      "durationMs": 6583,
+      "naturalWidth": 768,
+      "naturalHeight": 768
+     }
+    }
+   ]
+  }
+ ],
+ "toolAssetKeys": [
+  "asset:Ab7qlW7YL1jqXXq0trGGt",
+  "asset:GOoPYinXKrIeVRkjifFei",
+  "asset:KIvuBfyhutpMXoL2b1Qk0",
+  "asset:SBKFnP-pSYr9P4KAW4vN0",
+  "asset:WR5HViwVXON-C1bnRXa_P",
+  "asset:X0AMD1E4wiFEiF5tA6KXB",
+  "asset:Z6-Od3ssxNTLijwgjzA41",
+  "asset:ZgLGy_V4FVeig9I-E87GQ",
+  "asset:fV5X-MIbWPwvyMgBMHzSq",
+  "asset:l0wtbg8M9lRciULEzFNpX",
+  "asset:l3DJ5wxSDeFMMKeHMv3zF",
+  "asset:nN76cKU9SOxxW-6fYQ0Rc",
+  "asset:p4CPglutKSX924103cIv4",
+  "asset:uHBVEm8KvQhRoX_zVBcGA",
+  "asset:vNyOVVVKW_K9baOtEGMqK",
+  "asset:wtoMOb7jD1eI1EWtFngnO"
+ ]
+}

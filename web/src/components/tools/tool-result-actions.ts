@@ -2,7 +2,7 @@ import type { UploadedFile } from "@/services/file-storage";
 import type { UploadedImage } from "@/services/image-storage";
 import type { ToolTask, ToolTaskResultItem } from "@/services/api/tools/task-machine";
 import { hasUsablePayload, withDerivedKind } from "@/lib/result-item-kind";
-import type { Asset } from "@/stores/use-asset-store";
+import type { Asset, VideoAsset } from "@/stores/use-asset-store";
 import type { CanvasNodeMetadata } from "@/types/canvas";
 import { resultAssetKey } from "@/services/api/tools/result-assets";
 import { fitVideoNodeToNatural } from "@/lib/canvas/video-meta-reconcile";
@@ -267,6 +267,10 @@ export type ResultAssetDeps = {
     storeVideo: (result: { blob?: Blob; url?: string; mimeType?: string }) => Promise<UploadedFile>;
     /** 按 resultAssetKey 幂等写入：同一 toolId+taskId+resultId 重复点击只更新、不新增。 */
     upsertAsset: (asset: Omit<Asset, "id" | "createdAt" | "updatedAt">, options: { key: string }) => { id: string; created: boolean; revision: number };
+    /** 严格测量真实宽高/时长（失败返回 null，绝不返回 1280×720 兜底）。 */
+    measureVideo?: (url: string, timeoutMs?: number) => Promise<{ width: number; height: number; durationMs?: number } | null>;
+    /** 入库后校正资产记录（后台标签测不到时，标签可见后回填真实宽高/时长）。 */
+    updateAsset?: (id: string, patch: Partial<Omit<Asset, "id" | "createdAt">>) => void;
 };
 
 async function loadResultAssetDeps(): Promise<ResultAssetDeps> {
@@ -279,7 +283,108 @@ async function loadResultAssetDeps(): Promise<ResultAssetDeps> {
         uploadImage: imageStorage.uploadImage,
         storeVideo: videoApi.storeGeneratedVideo,
         upsertAsset: (asset, options) => assetStore.useAssetStore.getState().upsertAsset(asset, options),
+        measureVideo: async (url, timeoutMs) => (await import("@/services/media-metadata")).measureVideoMeta(url, timeoutMs),
+        updateAsset: (id, patch) => assetStore.useAssetStore.getState().updateAsset(id, patch),
     };
+}
+
+/* ---------------- 视频资产尺寸终态 ---------------- */
+
+export type StoredVideoMeta = { width: number; height: number; durationMs?: number };
+
+/**
+ * 入库后能写进资产记录的「真实」视频尺寸。
+ *
+ * VIDEO_TRANSLATION r22-f 实测：结果视频真实 768×768 / 6583ms，但存资产时 readVideoMeta
+ * 超时兜底把 1280×720 写进了 asset.data（画布与资产库比例全错）。兜底值只能用于
+ * 「不卡住入库」，绝不能再当事实：这里只认未超时的入库元数据，否则重新严格测量；
+ * 仍然拿不到就返回 null（调用方写 pending，由后台校正回填）。
+ */
+export async function resolveStoredVideoMeta(
+    stored: Pick<UploadedFile, "url" | "width" | "height" | "durationMs" | "timedOut">,
+    measure?: ResultAssetDeps["measureVideo"],
+    timeoutMs?: number,
+): Promise<StoredVideoMeta | null> {
+    const trusted = !stored.timedOut && Number(stored.width) > 0 && Number(stored.height) > 0;
+    if (trusted) {
+        const meta: StoredVideoMeta = { width: Number(stored.width), height: Number(stored.height) };
+        if (stored.durationMs && stored.durationMs > 0) meta.durationMs = stored.durationMs;
+        return meta;
+    }
+    if (!stored.url || typeof measure !== "function") return null;
+    const measured = await Promise.resolve(measure(stored.url, timeoutMs)).catch(() => null);
+    if (!measured || !(measured.width > 0) || !(measured.height > 0)) return null;
+    return { width: measured.width, height: measured.height, ...(measured.durationMs && measured.durationMs > 0 ? { durationMs: measured.durationMs } : {}) };
+}
+
+export type AssetVideoMetaReconcileOptions = {
+    /** 最多尝试次数（每次都在标签可见时进行）。 */
+    attempts?: number;
+    attemptTimeoutMs?: number;
+    retryDelayMs?: number;
+};
+
+/** 等标签可见（或超时）再测——后台标签里 Chrome 会挂起媒体元素加载。 */
+function waitForVisibleOrDelay(ms: number): Promise<void> {
+    if (typeof document === "undefined") return Promise.resolve();
+    if (!document.hidden || typeof document.addEventListener !== "function") {
+        return ms > 0 ? new Promise((resolve) => setTimeout(resolve, ms)) : Promise.resolve();
+    }
+    return new Promise((resolve) => {
+        let done = false;
+        const finish = () => {
+            if (done) return;
+            done = true;
+            clearTimeout(timer);
+            document.removeEventListener?.("visibilitychange", onChange);
+            resolve();
+        };
+        const onChange = () => {
+            if (!document.hidden) finish();
+        };
+        const timer = setTimeout(finish, Math.max(0, ms));
+        document.addEventListener("visibilitychange", onChange);
+    });
+}
+
+/** 校正时写回的基线（保留入库时的溯源 metadata，不能被整体覆盖掉）。 */
+export type AssetVideoMetaBase = {
+    data: VideoAsset["data"];
+    metadata?: Record<string, unknown>;
+};
+
+/**
+ * 资产表里的视频宽高仍是 pending（存资产时标签在后台、测不到真实尺寸）时，
+ * 按可见后重测并把真实宽高/时长回填到资产记录，保证刷新后仍是正确值。
+ * 幂等：只在拿到真实解码结果时 patch；返回状态便于验收断言。
+ */
+export async function reconcileAssetVideoMeta(
+    assetId: string,
+    stored: UploadedFile,
+    base: AssetVideoMetaBase,
+    deps: Pick<ResultAssetDeps, "measureVideo" | "updateAsset">,
+    options: AssetVideoMetaReconcileOptions = {},
+): Promise<"corrected" | "pending" | "skipped"> {
+    const attempts = Math.max(1, options.attempts ?? 3);
+    const attemptTimeoutMs = options.attemptTimeoutMs ?? 5_000;
+    const retryDelayMs = options.retryDelayMs ?? 1_500;
+    if (typeof deps.updateAsset !== "function") return "skipped";
+    for (let i = 0; i < attempts; i += 1) {
+        if (i > 0) await waitForVisibleOrDelay(retryDelayMs);
+        const meta = await resolveStoredVideoMeta({ ...stored, width: undefined, height: undefined, durationMs: undefined, timedOut: true }, deps.measureVideo, attemptTimeoutMs);
+        if (!meta) continue;
+        deps.updateAsset(assetId, {
+            data: {
+                ...base.data,
+                width: meta.width,
+                height: meta.height,
+                ...(meta.durationMs ? { durationMs: meta.durationMs } : {}),
+            },
+            metadata: { ...base.metadata, mediaMetaPending: false, mediaMetaSource: "reconcile" },
+        });
+        return "corrected";
+    }
+    return "pending";
 }
 
 export type SaveToAssetsOptions = {
@@ -311,22 +416,33 @@ export async function saveResultItemToAssets(item: ToolTaskResultItem, index: nu
 
     if (item.kind === "video") {
         const stored = await deps.storeVideo({ blob: item.blob, url: item.url, mimeType: item.mimeType });
+        // 兜底尺寸（1280×720）只是「不卡住入库」的占位，绝不能当事实写进 asset.data：
+        // r22-f 实测真实 768×768 被写成 1280×720。这里先严格测量，拿不到就写 0 并标 pending，
+        // 由 reconcileAssetVideoMeta 在标签可见后回填真实宽高/时长。
+        const real = await resolveStoredVideoMeta(stored, deps.measureVideo);
+        const data: VideoAsset["data"] = {
+            url: stored.url,
+            storageKey: stored.storageKey,
+            width: real?.width ?? 0,
+            height: real?.height ?? 0,
+            bytes: stored.bytes,
+            mimeType: stored.mimeType || item.mimeType || "video/mp4",
+            ...(real?.durationMs ? { durationMs: real.durationMs } : {}),
+        };
+        const assetMetadata = { ...metadata, ...(real ? {} : { mediaMetaPending: true }) };
         const { id: assetId } = deps.upsertAsset({
             kind: "video",
             title,
             coverUrl: stored.url,
             tags: [],
             source: options.source ?? "工具结果",
-            data: {
-                url: stored.url,
-                storageKey: stored.storageKey,
-                width: stored.width ?? 0,
-                height: stored.height ?? 0,
-                bytes: stored.bytes,
-                mimeType: stored.mimeType || item.mimeType || "video/mp4",
-            },
-            metadata,
+            data,
+            metadata: assetMetadata,
         }, { key });
+        if (!real) {
+            // 不阻塞「已存入」反馈：后台标签只能等可见后再测，测到即 patch 资产记录（刷新后依然是真实值）。
+            void Promise.resolve(reconcileAssetVideoMeta(assetId, stored, { data, metadata: assetMetadata }, deps)).catch(() => undefined);
+        }
         return { assetId, kind: "video" };
     }
 

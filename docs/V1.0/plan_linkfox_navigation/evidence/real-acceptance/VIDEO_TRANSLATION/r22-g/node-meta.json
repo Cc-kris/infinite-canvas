@@ -1,0 +1,19 @@
+{
+ "projectTitle": "VIDEO_TRANSLATION 结果",
+ "node": {
+  "id": "video-1793334631959-d3gam",
+  "type": "video",
+  "w": 420,
+  "h": 420,
+  "metadata": {
+   "content": "blob:http://localhost:3000/fa03cd77-ac7f-4111-8ef5-b8d0386cd399",
+   "status": "success",
+   "storageKey": "video:l4Wjrz0IOfX8gwptIVWas",
+   "bytes": 1249837,
+   "mimeType": "video/mp4",
+   "durationMs": 6583,
+   "naturalWidth": 768,
+   "naturalHeight": 768
+  }
+ }
+}

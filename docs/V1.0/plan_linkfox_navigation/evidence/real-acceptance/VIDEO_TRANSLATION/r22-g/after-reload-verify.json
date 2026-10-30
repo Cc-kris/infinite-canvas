@@ -1,0 +1,51 @@
+{
+ "asset": {
+  "id": "M9g-UrvgLtZIYEjMIqrVk",
+  "revision": 3,
+  "w": 768,
+  "h": 768,
+  "dur": 6583,
+  "bytes": 1249837,
+  "storageKey": "video:vASSNe4cJikyTZS2loaDw",
+  "metadata": {
+   "toolId": "VIDEO_TRANSLATION",
+   "taskId": "task-mvuflf9e-djxprc",
+   "resultItemId": "task-mvuflf9e-djxprc-0",
+   "resultId": "task-mvuflf9e-djxprc-0",
+   "resultAssetKey": "tool-result:VIDEO_TRANSLATION:task-mvuflf9e-djxprc:task-mvuflf9e-djxprc-0"
+  }
+ },
+ "node": {
+  "id": "video-1793334631959-d3gam",
+  "w": 420,
+  "h": 420,
+  "storageKey": "video:l4Wjrz0IOfX8gwptIVWas",
+  "dur": 6583,
+  "nw": 768,
+  "nh": 768,
+  "pending": null
+ },
+ "bytes": {
+  "asset": null,
+  "node": {
+   "size": 1249837,
+   "type": "video/mp4",
+   "sha256": "7c15bdb23f0c95630c81a3ed3fb8d244772c17a532394722f41681cad169274c"
+  },
+  "source": {
+   "size": 1249837,
+   "type": "video/mp4",
+   "sha256": "7c15bdb23f0c95630c81a3ed3fb8d244772c17a532394722f41681cad169274c"
+  }
+ },
+ "buttons": [
+  {
+   "t": "存入资产",
+   "d": false
+  },
+  {
+   "t": "发送画布",
+   "d": false
+  }
+ ]
+}

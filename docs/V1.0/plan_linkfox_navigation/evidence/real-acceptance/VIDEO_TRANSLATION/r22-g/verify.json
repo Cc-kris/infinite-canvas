@@ -1,0 +1,83 @@
+{
+ "task_id": "task-mvuflf9e-djxprc",
+ "asset_id": "M9g-UrvgLtZIYEjMIqrVk",
+ "sha256_source_file": "7c15bdb23f0c95630c81a3ed3fb8d244772c17a532394722f41681cad169274c",
+ "before_fix": {
+  "revision": 1,
+  "width": 1280,
+  "height": 720,
+  "durationMs": null,
+  "bytes": 1249837
+ },
+ "after_fix": {
+  "revision": 3,
+  "width": 768,
+  "height": 768,
+  "durationMs": 6583,
+  "bytes": 1249837,
+  "metadata": {
+   "toolId": "VIDEO_TRANSLATION",
+   "taskId": "task-mvuflf9e-djxprc",
+   "resultItemId": "task-mvuflf9e-djxprc-0",
+   "resultId": "task-mvuflf9e-djxprc-0",
+   "resultAssetKey": "tool-result:VIDEO_TRANSLATION:task-mvuflf9e-djxprc:task-mvuflf9e-djxprc-0"
+  }
+ },
+ "canvas_node": {
+  "id": "video-1793334631959-d3gam",
+  "w": 420,
+  "h": 420,
+  "storageKey": "video:l4Wjrz0IOfX8gwptIVWas",
+  "dur": 6583,
+  "nw": 768,
+  "nh": 768,
+  "pending": null
+ },
+ "stored_bytes": {
+  "asset": {
+   "storageKey": "video:vASSNe4cJikyTZS2loaDw",
+   "size": 1249837,
+   "type": "video/mp4",
+   "sha256": "7c15bdb23f0c95630c81a3ed3fb8d244772c17a532394722f41681cad169274c",
+   "note": "首次读取用错 key 得 null，按 asset.data.storageKey 重读成功（同一浏览器会话实测）"
+  },
+  "node": {
+   "size": 1249837,
+   "type": "video/mp4",
+   "sha256": "7c15bdb23f0c95630c81a3ed3fb8d244772c17a532394722f41681cad169274c"
+  },
+  "source": {
+   "size": 1249837,
+   "type": "video/mp4",
+   "sha256": "7c15bdb23f0c95630c81a3ed3fb8d244772c17a532394722f41681cad169274c"
+  },
+  "asset_retry": {
+   "storageKey": "video:vASSNe4cJikyTZS2loaDw",
+   "size": 1249837,
+   "sha256": "7c15bdb23f0c95630c81a3ed3fb8d244772c17a532394722f41681cad169274c"
+  }
+ },
+ "expected": {
+  "width": 768,
+  "height": 768,
+  "durationMs": 6583,
+  "bytes": 1249837
+ },
+ "assertions": {
+  "asset_width_matches_decoded": true,
+  "asset_height_matches_decoded": true,
+  "asset_duration_matches": true,
+  "asset_bytes_match": true,
+  "asset_no_fallback_1280x720": true,
+  "provenance_preserved": true,
+  "canvas_node_natural": true,
+  "canvas_node_duration": true,
+  "canvas_node_no_pending": true,
+  "asset_sha256_match": true,
+  "node_sha256_match": true,
+  "source_sha256_match": true
+ },
+ "partial_notes": [
+  "asset 字节首次按错误 key 读取返回 null；已按 data.storageKey 重读（found=true），size/sha256 与源文件一致"
+ ]
+}
