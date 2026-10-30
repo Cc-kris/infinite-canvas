@@ -9,7 +9,7 @@
  * 所有配置写入规格 §7 的 12 个字段，提交时进 prompt 与输入指纹，杜绝丢参。
  */
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Crop as CropIcon, Download, FlipHorizontal2, FlipVertical2, Lock, Redo2, RotateCcw, RotateCw, Undo2, Unlock, Upload } from "lucide-react";
 
 import { ToolAssetInput } from "@/components/tools/tool-asset-input";
@@ -75,6 +75,7 @@ function decodeSize(url: string): Promise<CropSize> {
 }
 
 export function CropWorkspace() {
+    const navigate = useNavigate();
     const spec = useMemo(() => getToolById(IMAGE_CROP_TOOL_ID), []);
     const siblings = useMemo(() => toolSpecs.filter((tool) => tool.layout === "crop" && tool.id !== IMAGE_CROP_TOOL_ID), []);
     const patchDraft = useToolDraftStore((store) => store.patch);
@@ -263,14 +264,6 @@ export function CropWorkspace() {
             badges={
                 <>
                     <span data-testid="crop-free-badge" className="rounded border border-primary/40 px-2 py-0.5 text-[11px] text-primary">限免</span>
-                    {/* 原站 A#25：裁剪页顶部紧随「限免」的关联能力入口 */}
-                    <Link
-                        to="/tools/smart-edit/ai-dressing"
-                        data-testid="crop-related-dressing"
-                        className="rounded border border-border px-2 py-0.5 text-[11px] text-muted-foreground transition hover:bg-accent hover:text-foreground"
-                    >
-                        真人换模特2.0
-                    </Link>
                 </>
             }
             breadcrumb={<span className="text-[11px] text-muted-foreground">智能修图 / 图片裁剪</span>}
@@ -292,7 +285,10 @@ export function CropWorkspace() {
                     <IconButton testId="crop-reset" label="重置" disabled={!source} onClick={() => commit(createCropState(size))}>
                         <RotateCcw className="size-3.5" aria-hidden />
                     </IconButton>
-                    <IconButton testId="crop-rotate" label="旋转 90°" showLabel={false} disabled={!source} onClick={() => commit((current) => applyRotation(current, ((current.rotation + 90) % 360) as CropRotation, size))}>
+                    <IconButton testId="crop-rotate-ccw" label="逆时针旋转90°" showLabel={false} disabled={!source} onClick={() => commit((current) => applyRotation(current, ((((current.rotation - 90) % 360) + 360) % 360) as CropRotation, size))}>
+                        <RotateCcw className="size-3.5" aria-hidden />
+                    </IconButton>
+                    <IconButton testId="crop-rotate-cw" label="顺时针旋转90°" showLabel={false} disabled={!source} onClick={() => commit((current) => applyRotation(current, ((current.rotation + 90) % 360) as CropRotation, size))}>
                         <RotateCw className="size-3.5" aria-hidden />
                     </IconButton>
                     <IconButton testId="crop-flip-x" label="水平翻转" showLabel={false} disabled={!source} onClick={() => commit(applyFlip(state, "x"))}>
@@ -368,7 +364,18 @@ export function CropWorkspace() {
                     ) : null}
                 </section>
 
-                <aside className="flex min-w-0 flex-col gap-3">
+                <section aria-label="工具操作栏" className="flex min-w-0 flex-col gap-3">
+                    {/* 原站 A#25：右栏顶部「真人换模特2.0」关联能力入口（y≈136，位于内容区而非页头） */}
+                    <div className="flex items-center justify-end">
+                        <button
+                            type="button"
+                            data-testid="crop-related-dressing"
+                            onClick={() => navigate("/tools/smart-edit/ai-dressing")}
+                            className="rounded border border-border px-2 py-0.5 text-[11px] text-muted-foreground transition hover:bg-accent hover:text-foreground"
+                        >
+                            真人换模特2.0
+                        </button>
+                    </div>
                     {/* 尺寸调整 / 比例调整 */}
                     <div className="rounded-lg border border-border bg-card p-2">
                         <div className="flex gap-1" role="tablist" aria-label="裁剪方式">
@@ -521,7 +528,7 @@ export function CropWorkspace() {
                             ))}
                         </ul>
                     ) : null}
-                </aside>
+                </section>
             </div>
         </ToolShell>
     );

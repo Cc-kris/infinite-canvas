@@ -1755,7 +1755,7 @@ export function SdsDesignWorkspace() {
             </section>
 
             {/* 右：生成结果面板 */}
-            <aside
+            <section
                 aria-label="生成结果"
                 className="flex w-full shrink-0 flex-col rounded-[8px] bg-muted xl:w-[300px]"
             >
@@ -1880,7 +1880,7 @@ export function SdsDesignWorkspace() {
                         </div>
                     )}
                 </div>
-            </aside>
+            </section>
 
             <input
                 ref={materialInputRef}

@@ -399,9 +399,22 @@ export function ToolAssetInput({ toolId, draftSlot, constraints, maxCount, libra
                                 {dropLabel}
                             </span>
                         ) : null}
-                        <span className={cn("inline-flex h-6 items-center justify-center rounded-md bg-primary text-xs font-medium leading-none text-primary-foreground", wide ? "w-full" : "w-[210px]")}>
+                        <button
+                            type="button"
+                            data-testid="tool-asset-upload-button"
+                            disabled={disabled || atLimit}
+                            onClick={(event) => {
+                                event.stopPropagation();
+                                event.preventDefault();
+                                if (!disabled && !atLimit) inputRef.current?.click();
+                            }}
+                            className={cn(
+                                "inline-flex h-6 items-center justify-center rounded-md bg-primary text-xs font-medium leading-none text-primary-foreground transition hover:opacity-90 disabled:opacity-50",
+                                wide ? "w-full" : "w-[210px]",
+                            )}
+                        >
                             {uploadLabel ?? t("toolChrome.assetUpload")}
-                        </span>
+                        </button>
                         {actions || linkfox ? (
                             <div
                                 className={cn("flex items-center gap-2", wide ? "w-full" : "w-[210px]")}

@@ -17,6 +17,7 @@ import { Link } from "react-router-dom";
 import { ArrowDown, ArrowUp, Check, ChevronDown, ChevronRight, Download, FolderPlus, Loader2, Plus, Redo2, Save, Send, Sparkles, Tag, Trash2, Undo2, X } from "lucide-react";
 
 import { ToolAssetInput } from "@/components/tools/tool-asset-input";
+import { ToolHistoryDock } from "@/components/tools/tool-history-dock";
 import { ToolShell } from "@/components/tools/tool-shell";
 import { downloadResultItem, saveResultItemToAssets, sendResultItemToCanvas } from "@/components/tools/tool-result-actions";
 import { cn, randomId } from "@/lib/utils";
@@ -134,6 +135,11 @@ const UPLOAD_CONSTRAINTS = {
     maxSide: AI_POSTURE_UPLOAD_LIMITS.maxSide,
 };
 
+/** 原站上传卡下方「或试试这些」的两张示例图（点选后按该构图生成）。 */
+const POSTURE_EXAMPLES = ["完整上身图", "全身模特图"];
+/** 「上传多张图片，开始批量姿势裂变」一次可提交的模特图上限。 */
+const POSTURE_BATCH_MAX = 20;
+
 type RunState = { running: boolean; message: string | null };
 
 /* ------------------------------------------------------------------ *
@@ -143,13 +149,13 @@ type RunState = { running: boolean; message: string | null };
 function Panel({ id, title, hint, children, action }: { id: string; title: string; hint?: string; children: React.ReactNode; action?: React.ReactNode }) {
     return (
         <section data-testid={id} className="rounded-xl border border-border bg-card p-4">
-            <header className="flex items-start justify-between gap-2">
+            <div className="flex items-start justify-between gap-2">
                 <div className="min-w-0">
                     <h2 className="text-sm font-medium">{title}</h2>
                     {hint ? <p className="mt-1 text-xs leading-5 text-muted-foreground">{hint}</p> : null}
                 </div>
                 {action}
-            </header>
+            </div>
             <div className="mt-3">{children}</div>
         </section>
     );
@@ -183,6 +189,55 @@ function SegmentedButton({
 }
 
 /* ------------------------------------------------------------------ *
+ * 图片规则弹窗（原站点「图片规则」后弹出）
+ * ------------------------------------------------------------------ */
+
+function PostureRulesDialog({ open, onClose, onTry }: { open: boolean; onClose: () => void; onTry: (label: string) => void }) {
+    if (!open) return null;
+    return (
+        <div
+            className="fixed inset-0 z-50 grid place-items-center bg-black/40 p-4"
+            role="dialog"
+            aria-modal="true"
+            aria-label="图片规则"
+            data-testid="ai-posture-rules-dialog"
+            onClick={onClose}
+        >
+            <div className="w-full max-w-md rounded-xl border border-border bg-card p-4 shadow-xl" onClick={(event) => event.stopPropagation()}>
+                <div className="flex items-center justify-between gap-2">
+                    <h2 className="text-sm font-medium">图片规则</h2>
+                    <button
+                        type="button"
+                        onClick={onClose}
+                        aria-label="关闭图片规则"
+                        className="grid size-7 place-items-center rounded-md text-muted-foreground transition hover:bg-accent"
+                    >
+                        <X className="size-4" />
+                    </button>
+                </div>
+                <p className="mt-3 text-xs leading-5 text-foreground">请按规则上传模特姿势图，以达到最佳效果</p>
+                <p className="mt-1 text-xs leading-5 text-muted-foreground">支持jpg、jpeg、png、webp，10M以内，图片边长范围：384 ~ 4096，最大宽高比5</p>
+                <div className="mt-3 grid grid-cols-2 gap-2">
+                    {POSTURE_EXAMPLES.map((label) => (
+                        <div key={label} className="rounded-lg border border-border p-2">
+                            <div className="grid h-16 place-items-center rounded-md bg-muted text-[11px] text-muted-foreground">{label}</div>
+                            <button
+                                type="button"
+                                data-testid={`ai-posture-rule-sample-${label}`}
+                                onClick={() => onTry(label)}
+                                className="mt-2 h-7 w-full rounded-md border border-border text-xs text-muted-foreground transition hover:bg-accent"
+                            >
+                                试一试
+                            </button>
+                        </div>
+                    ))}
+                </div>
+            </div>
+        </div>
+    );
+}
+
+/* ------------------------------------------------------------------ *
  * 工作区
  * ------------------------------------------------------------------ */
 
@@ -202,6 +257,14 @@ export function AiPostureWorkspace({ className }: AiPostureWorkspaceProps = {}) 
     const [outcomes, setOutcomes] = useState<AiPostureUnitOutcome[]>([]);
     const [run, setRun] = useState<RunState>({ running: false, message: null });
     const [submitError, setSubmitError] = useState<string | null>(null);
+    /** 「图片规则」弹窗（原站点击图片规则后弹出的上传规则说明）。 */
+    const [rulesOpen, setRulesOpen] = useState(false);
+    /** 结果区页签：生成结果 / 历史记录（原站两个页签）。 */
+    const [resultTab, setResultTab] = useState<"results" | "history">("results");
+    /** 「或试试这些」当前示例构图。 */
+    const [exampleLabel, setExampleLabel] = useState<string | null>(null);
+    /** 「上传多张图片，开始批量姿势裂变」批量模式。 */
+    const [batchMode, setBatchMode] = useState(false);
 
     const revisionRef = useRef<number | null>(null);
     const abortRef = useRef<AbortController | null>(null);
@@ -300,6 +363,17 @@ export function AiPostureWorkspace({ className }: AiPostureWorkspaceProps = {}) 
         () => aiPostureResultView({ units, outcomes, currentHash, running: run.running }),
         [currentHash, outcomes, run.running, units],
     );
+
+    /** 「一键做同款」：把当前结果的姿势回填到姿势库并切回该姿势，方便直接再生成一套。 */
+    const applySameStyle = useCallback(() => {
+        const poseId = resultView.groups[0]?.poseId;
+        setWorkspace((current) => {
+            const cleared = clearAiPosturePoses(current);
+            const withLibrary = setAiPostureMode(cleared, "library");
+            return poseId ? toggleAiPosturePose(withLibrary, poseId) : withLibrary;
+        });
+        setResultTab("results");
+    }, [resultView.groups]);
 
     /* ---------------- 提交 / 重试 ---------------- */
 
@@ -417,65 +491,23 @@ export function AiPostureWorkspace({ className }: AiPostureWorkspaceProps = {}) 
             subtitle="📸 1 张模特图→N 种姿势套图！告别重复拍摄成本，秒变视觉内容高产能手！"
             sidebar={sidebar}
         >
-            <div data-testid="ai-posture-workspace" className="grid gap-4 pb-6 lg:grid-cols-[minmax(0,1fr)_360px]">
-                <div className="flex flex-wrap items-center gap-x-3 gap-y-1 rounded-md border border-dashed border-border bg-card px-3 py-1.5 text-[11px] text-muted-foreground lg:col-span-2" data-testid="tool-align-bar">
-                    <button type="button" className="underline-offset-2 hover:underline">图片规则</button>
-                    <span>从本地上传</span>
-                    <span>从作品库选择</span>
-                    <span>从商品库选择</span>
-                    <span>选择参考图</span>
-                </div>
-                <div className="flex flex-wrap items-center justify-between gap-2 rounded-md border border-dashed px-3 py-1.5 text-[11px] text-muted-foreground lg:col-span-2" data-testid="tool-tour-hint">
-                    <span>第一步：选择示例图或上传模特姿势图片</span>
-                    <button type="button" className="shrink-0 underline-offset-2 hover:underline">我是高手，不再提醒</button>
-                </div>
-                <div className="flex flex-wrap items-center gap-x-2 gap-y-1 text-[11px] text-muted-foreground lg:col-span-2" data-testid="tool-align-extras">
-                    <span className="font-medium text-foreground">或试试这些</span>
-                    <span>生成图片的模特姿势</span>
-                    <span>生成结果</span>
-                </div>
-                <div className="lg:col-span-2"><WatermarkGroupPanel /></div>
-                <div className="lg:col-span-2 flex flex-col gap-2 rounded-lg border border-border bg-card px-3 py-2" data-testid="ai-posture-mirror">
-                    <nav aria-label="商品图设计" className="flex flex-wrap items-center gap-1 text-[11px] text-muted-foreground">
-                        <span className="rounded-md border border-border px-2 py-[3px]" title="可用算力">250</span>
-                        {["真人换模特", "模特换场景", "AI穿衣", "姿势裂变", "AI穿戴", "企业功能", "即将下架", "人台换模特", "下架"].map((label) => (
-                            <span key={label} className={label === "下架" ? "rounded px-1.5 py-0.5 text-primary" : "rounded px-1.5 py-0.5"}>
-                                {label}
-                            </span>
-                        ))}
-                        <span className="ml-auto text-emerald-600 dark:text-emerald-400">ljq_driver: 已连接</span>
-                    </nav>
-                    <p className="text-[11px] text-muted-foreground">拖拽/粘贴 或 上传模特姿势图</p>
-                    <p className="text-[11px] text-muted-foreground">10M以内，384*384 ~ 4096*4096</p>
-                    <p className="text-[11px] text-muted-foreground">上传多张图片，开始批量姿势裂变</p>
-                    <div className="flex flex-wrap items-center gap-1 text-[11px] text-muted-foreground">
-                        <span className="rounded border border-border bg-background px-1.5 py-0.5 text-foreground">姿势库</span>
-                        <span className="rounded border border-border px-1.5 py-0.5">自定义</span>
-                    </div>
-                    <p className="text-[11px] text-muted-foreground">选择姿势（可选）</p>
-                    <p className="text-[11px] text-muted-foreground">上传模特图</p>
-                    <p className="text-[11px] text-muted-foreground">选择生成张数</p>
-                    <div className="flex items-center gap-1 text-[11px]">
-                        {["1", "2", "3", "4"].map((count) => (
-                            <span key={count} className="rounded border border-border px-2 py-0.5">{count}</span>
-                        ))}
-                    </div>
-                    <div className="flex items-center gap-2">
-                        <button type="button" disabled className="rounded-md bg-primary px-3 py-1.5 text-xs font-medium text-primary-foreground opacity-70">立即生成</button>
-                        <span className="text-[11px] text-muted-foreground">(40算力)</span>
-                    </div>
-                </div>
-                <details className="lg:col-span-2 rounded-lg border border-border bg-card px-3 py-1.5">
-                    <summary aria-label="工作区" className="flex cursor-pointer items-center gap-1 text-[11px] text-muted-foreground [&::-webkit-details-marker]:hidden">
-                        <ChevronDown className="size-3.5" aria-hidden />
-                    </summary>
-                    <div className="mt-3 grid gap-4 pb-6 lg:grid-cols-[minmax(0,1fr)_360px]">
+            <div data-testid="ai-posture-workspace" className="grid gap-4 pb-6 lg:grid-cols-[minmax(0,1fr)_420px]">
+                {/* 左栏：上传 / 姿势库 / 张数 / 提交 */}
+                <div className="space-y-4">
                     <Panel
                         id="ai-posture-model-picker"
                         title="模特姿势图"
                         hint="拖拽/粘贴 或 上传模特姿势图；一张图裂变出多种姿势，人物/服装保持一致。"
                         action={
-                            <div className="flex shrink-0 gap-1">
+                            <div className="flex shrink-0 items-center gap-1">
+                                <button
+                                    type="button"
+                                    data-testid="ai-posture-image-rules"
+                                    onClick={() => setRulesOpen(true)}
+                                    className="h-9 shrink-0 rounded-lg border border-border px-2.5 text-xs text-muted-foreground hover:bg-accent"
+                                >
+                                    图片规则
+                                </button>
                                 <button
                                     type="button"
                                     data-testid="ai-posture-undo"
@@ -502,9 +534,12 @@ export function AiPostureWorkspace({ className }: AiPostureWorkspaceProps = {}) 
                         <div className="grid gap-3 md:grid-cols-[minmax(0,220px)_minmax(0,1fr)]">
                             <ToolAssetInput
                                 toolId={MODEL_SLOT_ID}
-                                title="模特图"
-                                maxCount={1}
+                                variant="linkfox"
+                                wide
+                                maxCount={batchMode ? POSTURE_BATCH_MAX : 1}
                                 constraints={UPLOAD_CONSTRAINTS}
+                                dropLabel="拖拽/粘贴 或 上传模特姿势图"
+                                hint="10M以内，384*384 ~ 4096*4096"
                                 onChange={handleModelChange}
                             />
                             <div className="space-y-2">
@@ -562,6 +597,38 @@ export function AiPostureWorkspace({ className }: AiPostureWorkspaceProps = {}) 
                                 </p>
                             </div>
                         </div>
+                        <div className="mt-3 flex flex-wrap items-center gap-2" data-testid="ai-posture-examples">
+                            <span className="text-xs text-muted-foreground">或试试这些</span>
+                            {POSTURE_EXAMPLES.map((label) => (
+                                <button
+                                    key={label}
+                                    type="button"
+                                    data-testid={`ai-posture-example-${label}`}
+                                    aria-pressed={exampleLabel === label}
+                                    onClick={() => setExampleLabel(label)}
+                                    className={cn(
+                                        "h-8 rounded-lg border px-3 text-xs transition",
+                                        exampleLabel === label ? "border-primary text-primary" : "border-border text-muted-foreground hover:bg-accent",
+                                    )}
+                                >
+                                    {label}
+                                </button>
+                            ))}
+                            <button
+                                type="button"
+                                data-testid="ai-posture-batch-upload"
+                                aria-pressed={batchMode}
+                                onClick={() => setBatchMode((current) => !current)}
+                                className="h-8 rounded-lg border border-border px-3 text-xs text-muted-foreground hover:bg-accent"
+                            >
+                                上传多张图片，开始批量姿势裂变
+                            </button>
+                        </div>
+                        {batchMode ? (
+                            <p data-testid="ai-posture-batch-hint" className="mt-2 text-[11px] leading-4 text-muted-foreground">
+                                批量模式：一次最多 {POSTURE_BATCH_MAX} 张模特图，每张图独立生成一套姿势。
+                            </p>
+                        ) : null}
                     </Panel>
 
                     {/* 2. PoseOrCategorySelect */}
@@ -654,95 +721,6 @@ export function AiPostureWorkspace({ className }: AiPostureWorkspaceProps = {}) 
                             </div>
                         )}
                     </Panel>
-
-                    {/* 4. 结果区 */}
-                    <Panel
-                        id="ai-posture-results"
-                        title="生成结果"
-                        hint="按来源姿势分组；单组失败只重试该组，已成功的姿势不会重复生成。"
-                        action={
-                            failedAiPostureUnits(outcomes).length > 0 ? (
-                                <button
-                                    type="button"
-                                    data-testid="ai-posture-retry-failed"
-                                    onClick={() => void retryFailed()}
-                                    disabled={run.running}
-                                    className="h-9 shrink-0 rounded-lg border border-border px-2.5 text-xs hover:bg-accent disabled:opacity-40"
-                                >
-                                    重试失败组（{failedAiPostureUnits(outcomes).length}）
-                                </button>
-                            ) : null
-                        }
-                    >
-                        {resultView.status === "idle" ? (
-                            <div data-testid="ai-posture-result-empty" className="rounded-lg border border-dashed border-border bg-muted/40 px-4 py-8 text-center">
-                                <Sparkles aria-hidden="true" className="mx-auto size-5 text-muted-foreground" />
-                                <p className="mt-2 text-sm">还没有生成结果</p>
-                                <p className="mt-1 text-xs text-muted-foreground">📸 1 张模特图 → N 种姿势套图！告别重复拍摄成本。</p>
-                            </div>
-                        ) : (
-                            <div className="space-y-3">
-                                <div className="flex flex-wrap items-center gap-2 text-xs text-muted-foreground">
-                                    <span data-testid="ai-posture-result-status">状态：{resultView.status}</span>
-                                    <span>共 {resultView.totalImages} 张 / {resultView.groups.length} 个姿势</span>
-                                    {resultView.stale ? (
-                                        <span data-testid="ai-posture-result-stale" className="rounded-full border border-amber-500/40 bg-amber-500/10 px-2 py-0.5 text-amber-600 dark:text-amber-400">
-                                            来自旧版本（配置已修改）
-                                        </span>
-                                    ) : null}
-                                </div>
-                                {resultView.groups.map((group) => (
-                                    <section key={group.unitId} data-testid={`ai-posture-result-group-${group.poseId}`} className="rounded-lg border border-border bg-background p-3">
-                                        <header className="flex flex-wrap items-center justify-between gap-2">
-                                            <div className="flex items-center gap-2">
-                                                <h3 className="text-xs font-medium">{group.label}</h3>
-                                                <span data-testid={`ai-posture-result-group-status-${group.poseId}`} className="text-[11px] text-muted-foreground">
-                                                    {group.status === "succeeded"
-                                                        ? `成功 ${group.items.length} 张`
-                                                        : group.status === "running"
-                                                          ? "生成中…"
-                                                          : group.status === "idle"
-                                                            ? "待生成"
-                                                            : `${group.status}${group.error ? `：${group.error.message}` : ""}`}
-                                                </span>
-                                                {group.stale ? <span className="text-[11px] text-amber-600 dark:text-amber-400">来自旧版本</span> : null}
-                                            </div>
-                                            {group.canRetry ? (
-                                                <button
-                                                    type="button"
-                                                    data-testid={`ai-posture-group-retry-${group.poseId}`}
-                                                    onClick={() => void retryGroup(units.find((unit) => unit.id === group.unitId) ?? units[0]!)}
-                                                    disabled={run.running}
-                                                    className="h-9 rounded-lg border border-border px-2.5 text-xs hover:bg-accent disabled:opacity-40"
-                                                >
-                                                    重试该姿势
-                                                </button>
-                                            ) : null}
-                                        </header>
-                                        {group.items.length > 0 ? (
-                                            <div className="mt-2 grid gap-2 sm:grid-cols-2 xl:grid-cols-4">
-                                                {group.items.map((item, index) => (
-                                                    <figure key={`${group.unitId}-${index}`} className="overflow-hidden rounded-lg border border-border">
-                                                        <img
-                                                            src={item.dataUrl || item.url}
-                                                            alt={`${group.label} 第 ${index + 1} 张`}
-                                                            className="aspect-[3/4] w-full object-cover"
-                                                        />
-                                                    </figure>
-                                                ))}
-                                            </div>
-                                        ) : (
-                                            <p className="mt-2 text-[11px] text-muted-foreground">{group.status === "running" ? "正在生成…" : "该姿势暂无结果"}</p>
-                                        )}
-                                    </section>
-                                ))}
-                            </div>
-                        )}
-                    </Panel>
-                </div>
-
-                {/* 右栏：OutputCountControl + 提交 */}
-                <aside className="space-y-4">
                     <Panel id="ai-posture-output-control" title="选择生成张数" hint="1–4 张，按姿势平均分配；未选姿势时自动从姿势库裂变出互不重复的姿势。">
                         <div className="flex gap-1.5">
                             {AI_POSTURE_OUTPUT_OPTIONS.map((value) => (
@@ -842,8 +820,145 @@ export function AiPostureWorkspace({ className }: AiPostureWorkspaceProps = {}) 
                             </dl>
                         </details>
                     </div>
-                </aside>
-                </details>
+                </div>
+
+                {/* 右栏：生成结果 / 历史记录 + 水印分组 */}
+                <section aria-label="生成结果" className="space-y-4">
+                    <section data-testid="ai-posture-results" className="rounded-xl border border-border bg-card p-4">
+                        <div className="flex flex-wrap items-center justify-between gap-2">
+                            <div role="tablist" aria-label="生成结果 / 历史记录" className="flex gap-1">
+                                <button
+                                    type="button"
+                                    role="tab"
+                                    data-testid="ai-posture-tab-results"
+                                    aria-selected={resultTab === "results"}
+                                    onClick={() => setResultTab("results")}
+                                    className={cn(
+                                        "h-8 rounded-lg border px-3 text-xs transition",
+                                        resultTab === "results" ? "border-primary bg-primary text-primary-foreground" : "border-border bg-card text-muted-foreground hover:bg-accent",
+                                    )}
+                                >
+                                    生成结果
+                                </button>
+                                <button
+                                    type="button"
+                                    role="tab"
+                                    data-testid="ai-posture-tab-history"
+                                    aria-selected={resultTab === "history"}
+                                    onClick={() => setResultTab("history")}
+                                    className={cn(
+                                        "h-8 rounded-lg border px-3 text-xs transition",
+                                        resultTab === "history" ? "border-primary bg-primary text-primary-foreground" : "border-border bg-card text-muted-foreground hover:bg-accent",
+                                    )}
+                                >
+                                    历史记录
+                                </button>
+                            </div>
+                            <div className="flex items-center gap-1">
+                                {failedAiPostureUnits(outcomes).length > 0 ? (
+                                    <button
+                                        type="button"
+                                        data-testid="ai-posture-retry-failed"
+                                        onClick={() => void retryFailed()}
+                                        disabled={run.running}
+                                        className="h-8 shrink-0 rounded-lg border border-border px-2.5 text-xs hover:bg-accent disabled:opacity-40"
+                                    >
+                                        重试失败组（{failedAiPostureUnits(outcomes).length}）
+                                    </button>
+                                ) : null}
+                                <button
+                                    type="button"
+                                    data-testid="ai-posture-apply-same"
+                                    onClick={applySameStyle}
+                                    className="h-8 shrink-0 rounded-lg border border-border px-2.5 text-xs hover:bg-accent"
+                                >
+                                    一键做同款
+                                </button>
+                            </div>
+                        </div>
+                        <div className="mt-3">
+                            {resultTab === "results" ? (
+                                <>
+                        {resultView.status === "idle" ? (
+                            <div data-testid="ai-posture-result-empty" className="rounded-lg border border-dashed border-border bg-muted/40 px-4 py-8 text-center">
+                                <Sparkles aria-hidden="true" className="mx-auto size-5 text-muted-foreground" />
+                                <p className="mt-2 text-sm">还没有生成结果</p>
+                                <p className="mt-1 text-xs text-muted-foreground">📸 1 张模特图 → N 种姿势套图！告别重复拍摄成本。</p>
+                            </div>
+                        ) : (
+                            <div className="space-y-3">
+                                <div className="flex flex-wrap items-center gap-2 text-xs text-muted-foreground">
+                                    <span data-testid="ai-posture-result-status">状态：{resultView.status}</span>
+                                    <span>共 {resultView.totalImages} 张 / {resultView.groups.length} 个姿势</span>
+                                    {resultView.stale ? (
+                                        <span data-testid="ai-posture-result-stale" className="rounded-full border border-amber-500/40 bg-amber-500/10 px-2 py-0.5 text-amber-600 dark:text-amber-400">
+                                            来自旧版本（配置已修改）
+                                        </span>
+                                    ) : null}
+                                </div>
+                                {resultView.groups.map((group) => (
+                                    <section key={group.unitId} data-testid={`ai-posture-result-group-${group.poseId}`} className="rounded-lg border border-border bg-background p-3">
+                                        <div className="flex flex-wrap items-center justify-between gap-2">
+                                            <div className="flex items-center gap-2">
+                                                <h3 className="text-xs font-medium">{group.label}</h3>
+                                                <span data-testid={`ai-posture-result-group-status-${group.poseId}`} className="text-[11px] text-muted-foreground">
+                                                    {group.status === "succeeded"
+                                                        ? `成功 ${group.items.length} 张`
+                                                        : group.status === "running"
+                                                          ? "生成中…"
+                                                          : group.status === "idle"
+                                                            ? "待生成"
+                                                            : `${group.status}${group.error ? `：${group.error.message}` : ""}`}
+                                                </span>
+                                                {group.stale ? <span className="text-[11px] text-amber-600 dark:text-amber-400">来自旧版本</span> : null}
+                                            </div>
+                                            {group.canRetry ? (
+                                                <button
+                                                    type="button"
+                                                    data-testid={`ai-posture-group-retry-${group.poseId}`}
+                                                    onClick={() => void retryGroup(units.find((unit) => unit.id === group.unitId) ?? units[0]!)}
+                                                    disabled={run.running}
+                                                    className="h-9 rounded-lg border border-border px-2.5 text-xs hover:bg-accent disabled:opacity-40"
+                                                >
+                                                    重试该姿势
+                                                </button>
+                                            ) : null}
+                                        </div>
+                                        {group.items.length > 0 ? (
+                                            <div className="mt-2 grid gap-2 sm:grid-cols-2 xl:grid-cols-4">
+                                                {group.items.map((item, index) => (
+                                                    <figure key={`${group.unitId}-${index}`} className="overflow-hidden rounded-lg border border-border">
+                                                        <img
+                                                            src={item.dataUrl || item.url}
+                                                            alt={`${group.label} 第 ${index + 1} 张`}
+                                                            className="aspect-[3/4] w-full object-cover"
+                                                        />
+                                                    </figure>
+                                                ))}
+                                            </div>
+                                        ) : (
+                                            <p className="mt-2 text-[11px] text-muted-foreground">{group.status === "running" ? "正在生成…" : "该姿势暂无结果"}</p>
+                                        )}
+                                    </section>
+                                ))}
+                            </div>
+                        )}
+                                </>
+                            ) : (
+                                <ToolHistoryDock toolId={AI_POSTURE_TOOL_ID} />
+                            )}
+                        </div>
+                    </section>
+                    <WatermarkGroupPanel />
+                    <PostureRulesDialog
+                        open={rulesOpen}
+                        onClose={() => setRulesOpen(false)}
+                        onTry={(label) => {
+                            setExampleLabel(label);
+                            setRulesOpen(false);
+                        }}
+                    />
+                </section>
             </div>
         </ToolShell>
     );
@@ -1365,7 +1480,7 @@ export function AiPoseGeneratorWorkspace({ className }: AiPoseGeneratorWorkspace
                             ) : null}
                             {resultView.groups.map((group, index) => (
                                 <section key={group.unitId} data-testid={`ai-pose-group-${index}`} className="rounded-lg border border-border p-2">
-                                    <header className="flex items-center justify-between gap-2">
+                                    <div className="flex items-center justify-between gap-2">
                                         <span className="truncate text-[12px] font-medium">{group.label}</span>
                                         <span className="flex items-center gap-1">
                                             <span className="text-[11px] text-muted-foreground">
@@ -1390,7 +1505,7 @@ export function AiPoseGeneratorWorkspace({ className }: AiPoseGeneratorWorkspace
                                                 </button>
                                             ) : null}
                                         </span>
-                                    </header>
+                                    </div>
                                     {group.items.length > 0 ? (
                                         <div className="mt-1.5 grid gap-1.5 sm:grid-cols-3 xl:grid-cols-5">
                                             {group.items.map((item, itemIndex) => {
