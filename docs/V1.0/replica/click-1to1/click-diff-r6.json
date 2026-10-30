@@ -1,0 +1,102 @@
+[
+ {
+  "id": "AI_TEXT",
+  "miss": [],
+  "ovm": [
+   {
+    "ctrl": "业务咨询",
+    "orig": "专属客户经理1v1服务 在线时间：09:00-22:00 微信扫码添加"
+   }
+  ],
+  "origCtrl": 2,
+  "localCtrl": 4
+ },
+ {
+  "id": "CHANGE_COLOR",
+  "miss": [
+   "边缘优化",
+   "色彩平衡",
+   "生成结果",
+   "优秀案例",
+   "历史记录",
+   "暂无生成结果图快在左侧操作物品换色吧~"
+  ],
+  "ovm": [],
+  "origCtrl": 18,
+  "localCtrl": 27
+ },
+ {
+  "id": "HANDHELD_GOODS",
+  "miss": [],
+  "ovm": [
+   {
+    "ctrl": "一键做同款",
+    "orig": "点击这里裁剪原图尺寸"
+   }
+  ],
+  "origCtrl": 8,
+  "localCtrl": 12
+ },
+ {
+  "id": "IMAGE_TRANSLATION",
+  "miss": [
+   "快速翻译成多语言，快速上架"
+  ],
+  "ovm": [],
+  "origCtrl": 8,
+  "localCtrl": 14
+ },
+ {
+  "id": "ORNAMENT_TEXT",
+  "miss": [],
+  "ovm": [
+   {
+    "ctrl": "业务咨询",
+    "orig": "专属客户经理1v1服务 在线时间：09:00-22:00 微信扫码添加"
+   }
+  ],
+  "origCtrl": 2,
+  "localCtrl": 4
+ },
+ {
+  "id": "PRODUCT_IMAGE_SUITE",
+  "miss": [],
+  "ovm": [],
+  "origCtrl": 18,
+  "localCtrl": 21
+ },
+ {
+  "id": "PRODUCT_REFINE",
+  "miss": [
+   "拖拽或点击上传需要修复的图20M以内，jpg/jpeg/png/webp"
+  ],
+  "ovm": [],
+  "origCtrl": 7,
+  "localCtrl": 14
+ },
+ {
+  "id": "PRODUCT_SCENE",
+  "miss": [
+   "生图模型"
+  ],
+  "ovm": [],
+  "origCtrl": 12,
+  "localCtrl": 20
+ },
+ {
+  "id": "SDS_DESIGN",
+  "miss": [],
+  "ovm": [],
+  "origCtrl": 6,
+  "localCtrl": 17
+ },
+ {
+  "id": "VIDEO_REPLICATION",
+  "miss": [
+   "关闭"
+  ],
+  "ovm": [],
+  "origCtrl": 19,
+  "localCtrl": 25
+ }
+]

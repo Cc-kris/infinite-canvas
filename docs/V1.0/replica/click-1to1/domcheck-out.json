@@ -1,0 +1,122 @@
+{
+ "CHANGE_COLOR": {
+  "hit": {
+   "边缘优化": "text",
+   "色彩平衡": "text",
+   "生成结果": "text",
+   "优秀案例": "text",
+   "历史记录": "text",
+   "暂无生成结果图": "text",
+   "快在左侧操作物品换色吧~": "text"
+  },
+  "tabs": [
+   "生成结果",
+   "优秀案例",
+   "历史记录",
+   "对话",
+   "历史",
+   "技能",
+   "日志"
+  ],
+  "url": "/tools/smart-edit/change-color"
+ },
+ "IMAGE_TRANSLATION": {
+  "hit": {
+   "快速翻译成多语言，快速上架": "text",
+   "上传多张图片，开始批量翻译": "text"
+  },
+  "tabs": [
+   "生成结果",
+   "历史记录",
+   "对话",
+   "历史",
+   "技能",
+   "日志"
+  ],
+  "url": "/tools/ecommerce-suite/image-translation"
+ },
+ "PRODUCT_REFINE": {
+  "hit": {
+   "拖拽或点击上传需要修复的图20M以内，jpg/jpeg/png/webp": "text"
+  },
+  "tabs": [
+   "精修前",
+   "精修后",
+   "生成结果",
+   "历史记录",
+   "对话",
+   "历史",
+   "技能",
+   "日志"
+  ],
+  "url": "/tools/smart-edit/product-refine"
+ },
+ "PRODUCT_SCENE": {
+  "hit": {
+   "生图模型": "text"
+  },
+  "tabs": [
+   "生成结果",
+   "优秀案例",
+   "历史记录",
+   "对话",
+   "历史",
+   "技能",
+   "日志"
+  ],
+  "url": "/tools/product-design/product-scene"
+ },
+ "VIDEO_REPLICATION": {
+  "hit": {
+   "关闭": "text"
+  },
+  "tabs": [
+   "生成结果",
+   "优秀案例",
+   "历史记录",
+   "对话",
+   "历史",
+   "技能",
+   "日志"
+  ],
+  "url": "/tools/ai-video/video-replication"
+ },
+ "AI_TEXT": {
+  "hit": {
+   "业务咨询": "text"
+  },
+  "tabs": [
+   "对话",
+   "历史",
+   "技能",
+   "日志"
+  ],
+  "url": "/tools/product-design/ai-text"
+ },
+ "ORNAMENT_TEXT": {
+  "hit": {
+   "业务咨询": "text"
+  },
+  "tabs": [
+   "对话",
+   "历史",
+   "技能",
+   "日志"
+  ],
+  "url": "/tools/product-design/ornament-text"
+ },
+ "HANDHELD_GOODS": {
+  "hit": {
+   "点击这里裁剪原图尺寸": null
+  },
+  "tabs": [
+   "生成结果",
+   "历史记录",
+   "对话",
+   "历史",
+   "技能",
+   "日志"
+  ],
+  "url": "/tools/product-design/handheld-goods"
+ }
+}

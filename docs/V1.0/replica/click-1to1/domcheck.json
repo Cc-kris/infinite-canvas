@@ -1,0 +1,57 @@
+{
+ "CHANGE_COLOR": {
+  "route": "/tools/smart-edit/change-color",
+  "needles": [
+   "边缘优化",
+   "色彩平衡",
+   "生成结果",
+   "优秀案例",
+   "历史记录",
+   "暂无生成结果图",
+   "快在左侧操作物品换色吧~"
+  ]
+ },
+ "IMAGE_TRANSLATION": {
+  "route": "/tools/ecommerce-suite/image-translation",
+  "needles": [
+   "快速翻译成多语言，快速上架",
+   "上传多张图片，开始批量翻译"
+  ]
+ },
+ "PRODUCT_REFINE": {
+  "route": "/tools/smart-edit/product-refine",
+  "needles": [
+   "拖拽或点击上传需要修复的图20M以内，jpg/jpeg/png/webp"
+  ]
+ },
+ "PRODUCT_SCENE": {
+  "route": "/tools/product-design/product-scene",
+  "needles": [
+   "生图模型"
+  ]
+ },
+ "VIDEO_REPLICATION": {
+  "route": "/tools/ai-video/video-replication",
+  "needles": [
+   "关闭"
+  ]
+ },
+ "AI_TEXT": {
+  "route": "/tools/product-design/ai-text",
+  "needles": [
+   "业务咨询"
+  ]
+ },
+ "ORNAMENT_TEXT": {
+  "route": "/tools/product-design/ornament-text",
+  "needles": [
+   "业务咨询"
+  ]
+ },
+ "HANDHELD_GOODS": {
+  "route": "/tools/product-design/handheld-goods",
+  "needles": [
+   "点击这里裁剪原图尺寸"
+  ]
+ }
+}
