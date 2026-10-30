@@ -11,7 +11,7 @@
 再从零安装依赖并跑四闸：**install 0 / typecheck 0 error / 全量单测 1556 pass·0 fail / build 0**。
 
 一个 P2 级测试卫生问题（非产品缺陷）见第 6 节：`mock.module` 进程级污染会让「只挑两个文件一起跑」出现 1 条假失败，
-全量套件与单文件运行均 0 fail。
+全量套件与单文件运行均 0 fail。该 P2 **已于事后由源码 owner 提交 `9b208e07` 修复**，我在当前 HEAD 工作树复跑同一条两文件命令得 14 pass / 0 fail（详见 §6.1）。
 
 ## 1. 固定 HEAD 与前置条件
 
@@ -152,6 +152,9 @@ bf19d37ac1e9bee67c8023ccdfe4047480eae1d1  web/src/services/api/tools/result-asse
    **后续（PIN 之后发生，不改变本次结论）**：验证结束时有并发 worker 已在主工作区给出同类修法（工厂里
    `...await import("@/services/file-storage")` 透出真实导出，未提交）。我在 `/tmp/icw-r30-probe`（快照副本 + 该补丁文件，
    node_modules 软链）复跑同一条命令，结果 **14 pass / 0 fail**，反向证明根因判断正确、修法有效。
+   **已闭环**：该修法由源码 owner 于 14:03 提交为 `9b208e07`（`test(media-auth): 修 ingest-auth 替身泄漏致定向跑 media-auth 假红 + 复现报告`）；
+   我在当前 HEAD 工作树（`web/src/stores/use-tool-task-store.ingest-auth.test.ts` blob `eb9d8733`）复跑同一条命令，**14 pass / 0 fail**。
+   本报告记录的是验证时点（PIN `e7826acf`，该文件仍为旧版）的事实，不改写历史。
 2. **E2E 真实上游未跑**：本报告只做 HEAD 四闸 + 定向能力断言，不是验收。401 修复由「本地真 HTTP server + 真
    `fetchMediaBlob`」用例与单测覆盖，**未**对真实 sub2api 生成任务复跑（凭据与上游配额不在本次验证范围，且明确禁读密钥）。
 3. 未提交改动按设计排除：主工作区仍有语言契约 WIP（`adapters/video-translation.{ts,test.ts}` 等），

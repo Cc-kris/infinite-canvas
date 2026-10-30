@@ -138,6 +138,12 @@
       "detail": "use-tool-task-store.ingest-auth.test.ts mock.module('@/services/file-storage') is process-global and partial (no fetchMediaBlob); running media-auth.test.ts + ingest-auth.test.ts in one process yields 1 false failure ('fetchMediaBlob is not a function'); full suite and single-file runs are 0 fail.",
       "probe": "Post-PIN worktree patch (spread real module into mock factory) copied into /tmp/icw-r30-probe: same paired command -> 14 pass / 0 fail.",
       "action": "Not fixed by verifier (no source edits); owner to commit the mock fix."
+    },
+    {
+      "level": "P2-status",
+      "item": "mock.module leak in use-tool-task-store.ingest-auth.test.ts",
+      "status": "fixed after PIN by 9b208e07 (owner commit); re-ran pair command at current worktree -> 14 pass / 0 fail",
+      "note": "Report keeps PIN-time facts; addendum in section 6.1."
     }
   ]
 }
