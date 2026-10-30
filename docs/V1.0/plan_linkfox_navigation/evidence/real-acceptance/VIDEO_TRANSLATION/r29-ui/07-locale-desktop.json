@@ -1,0 +1,53 @@
+{
+ "before": {
+  "locale": null,
+  "htmlLang": "zh-CN",
+  "hasUndefined": false,
+  "rawKeyMatches": [],
+  "notice": "当前为 AI 视频重生成，非逐句翻译 / 口型对齐；真实翻译通道未接入\n\n上游视频接口没有源语言、目标语言与口型同步参数：下面选择的目标语言只会写进提示词，不能保证换语言、换字幕或对齐口型。结果请按「未验证草稿」处理，人工确认后再用于投放。\n\n依据 r27 协议调查（提交 1ef24fba）：sub2api MiniMax 视频接口无翻译字段。",
+  "badge": "未验证翻译 · 请人工确认语言与字幕",
+  "resultTitle": "AI 重生成结果（未验证翻译）\n\n还没有生成结果\n\n填好参数并提交后，结果会出现在这里，可预览、下载、存入资产库或发送到画布。",
+  "head": "无限画布\n首页\n电商套图\n智能修图\n新模型\nAI视频\nHOT\n批量生图\n商品图设计\n中\n切换到深色主题\nv0.27.0\nAI 视频\n图转视频\n带货口播\n视频复刻\n视频编辑\n视频翻译\n视频拼接\n补充\n免责声明\nAI 视频 / 视频翻译\n视频翻译\n\n/tools/ai-video/video-translation\n\n视频翻译\nAI 视频重生成\n目标语言 英语（English）\n视频翻译\n\nAI 视频重生成（实验）· 非逐句翻译 / 口型对齐\n\n当前为 AI 视频重生成，非逐句翻译 / 口型对齐；真实翻译通道未接入\n\n上游视频接口没有源语言、目标语言与口型同步参数：下面选择的目标语言只会写进提示词，不能保证换语言、换字幕或对齐口型。结果请按「未验证草稿」处理，人工确认后再用于投放。\n\n依据 r27 协议调查（提交 1ef24fba）：sub2api MiniMax 视频接口无翻译字段。\n\n原视频\n未上传\n上传原视频\n0 / 1 个 · MP4 / MOV · ≤ 100 MB\n点击选择本地文件，或拖拽到这里\n校验格式 / 大小 / 像素，入库后可刷新恢复\n\n还没有素材\n\n支持 MP4、MO"
+ },
+ "afterEnglish": {
+  "locale": "en-US",
+  "htmlLang": "en-US",
+  "hasUndefined": false,
+  "rawKeyMatches": [],
+  "notice": "This is AI video regeneration, not sentence-level translation or lip sync; no real translation channel is connected\n\nThe upstream video endpoint has no source/target language or lip-sync parameters: the language you pick below is only written into the prompt. It cannot guarantee a language swap, subtitles or lip alignment. Treat every result as an unverified draft and have a human confirm it befor",
+  "badge": "Unverified translation · confirm language and subtitles manually",
+  "resultTitle": "AI 重生成结果（未验证翻译）\n\n还没有生成结果\n\n填好参数并提交后，结果会出现在这里，可预览、下载、存入资产库或发送到画布。",
+  "head": "Infinite Canvas\nHome\nE-commerce Sets\nSmart Retouch\nNew\nAI Video\nHOT\nBatch Generation\nProduct Design\nEN\nSwitch to dark theme\nv0.27.0\nAI video\n图转视频\n带货口播\n视频复刻\n视频编辑\n视频翻译\n视频拼接\n补充\n免责声明\nAI video / 视频翻译\n视频翻译\n\n/tools/ai-video/video-translation\n\n视频翻译\nAI 视频重生成\n目标语言 英语（English）\n视频翻译\n\nAI video regeneration (experimental) · not sentence-level translation or lip sync\n\nThis is AI video regeneration, not sentence-level translation or lip sync; no real translation channel is connected\n\nThe upstream video endpoint"
+ },
+ "enBody": "Infinite Canvas\nHome\nE-commerce Sets\nSmart Retouch\nNew\nAI Video\nHOT\nBatch Generation\nProduct Design\nEN\nSwitch to dark theme\nv0.27.0\nAI video\n图转视频\n带货口播\n视频复刻\n视频编辑\n视频翻译\n视频拼接\n补充\n免责声明\nAI video / 视频翻译\n视频翻译\n\n/tools/ai-video/video-translation\n\n视频翻译\nAI 视频重生成\n目标语言 英语（English）\n视频翻译\n\nAI video regeneration (experimental) · not sentence-level translation or lip sync\n\nThis is AI video regeneration, not sentence-level translation or lip sync; no real translation channel is connected\n\nThe upstream video endpoint has no source/target language or lip-sync parameters: the language you pick below is only written into the prompt. It cannot guarantee a language swap, subtitles or lip alignment. Treat every result as an unverified draft and have a human confirm it before use.\n\nBased on the r27 protocol investigation (commit 1ef24fba): the sub2api MiniMax video endpoint exposes no translation fields.\n\n原视频\n未上传\n上传原视频\n0 / 1 个 · MP4 / MOV · ≤ 100 MB\n点击选择本地文件，或拖拽到这里\n校验格式 / 大小 / 像素，入库后可刷新恢复\n\n还没有素材\n\n支持 MP4、MOV 格式，100MB 以内；建议上传画面清晰、音频完整的视频（2–30 秒）。\n\n请先上传需要翻译的原视频\nSource language → target language (prompt only)\nPrompt guidance only · no language field upstream, not guaranteed\n源语言（默认自动识别）\n自动识别\n英语（English）\n简体中文（简体中文）\n日语（日本語）\n韩语（한국어）\n西班牙语（Español）\n葡萄牙语（Português）\n法语（Français）\n德语（Deutsch）\n意大利语（Italiano）\n俄语（Русский）\n阿拉伯语（العربية）\n泰语（ไทย）\n越南语（Tiếng Việt）\n印尼语（Bahasa Indonesia）\n土耳其语（Türkçe）\n印地语（हिन्दी）\n目标语言\n英语（English）\n日语（日本語）\n韩语（한국어）\n西班牙语（Español）\n葡萄牙语（Português）\n法语（Français）\n德语（Deutsch）\n意大利语（Italiano）\n俄语（Русский）\n阿拉伯语（العربية）\n泰语（ไทย）\n越南语（Tiếng Việt）\n印尼语（Bahasa Indonesia）\n土耳其语（Türkçe）\n印地语（हिन्दी）\n\nThe source language is only written into the prompt; the upstream model does not actually detect it.\n\nLip sync (unsupported by the current channel)\n\nNo lipSync parameter upstream: the switch is disabled, the field is not sent, and no lip alignment is performed.\n\n模式与输出\n标准模式\n高级模式\n输出数量\n1 条\n2 条\n3 条\n4 条\n\nThe current channel returns exactly 1 result per run.\n\n输出画幅\n跟随原视频\n1:1 方形\n3:4 竖版\n4:3 横版\n16:9 横版\n9:16 竖屏\n21:9 宽银幕\n\n本次提交画幅：16:9（1280x720）\n\n读不到原视频分辨率，无法跟随原画幅：本次按 16:9（1280x720）申请，上游实际返回画幅以上游为准\n\n视频模型\ngrok-imagine-video（默认渠道）\n立即生成\n\n请上传需要处理的原视频，再提交生成\n\nAI regeneration result (unverified translation)\nUnverified translation · confirm language and subtitles manually\n\n上传原始视频\n\n上传后在这里预览原视频\n\nRegenerated video\n\nRegenerated videos appear here after you submit; language and subtitles need manual confirmation.\nAI 重生成结果（未验证翻译）\n\n还没有生成结果\n\n填好参数并提交后，结果会出现在这里，可预览、下载、存入资产库或发送到画布。\n\n历史任务\n点击「查看结果」把历史任务放回上方结果区\n历史记录\n0 条\n\n还没有视频重生成任务：提交后这里会出现真实任务记录\n\nHistory may contain older “translation” results; confirm language and subtitles manually as well.\n\nConnect local Agent\nDisconnected\nOne click starts the local service, installs the plugin and connects — no manual setup.\nClaude Code\nNot connected\n·\nCLI · 2.1.285 (Claude Code)\n·\nDirect run\nConnect\nCodex\nNot connected\n·\nCLI + Desktop app · codex-cli 0.163.0\n·\nPlugin installed\nConnect\nGalley\nNot connected\n·\nCLI + Desktop app · galley 0.6.4\nConnect\nSwitch to 简体中文",
+ "afterChinese": {
+  "locale": "zh-CN",
+  "htmlLang": "zh-CN",
+  "hasUndefined": false,
+  "rawKeyMatches": [],
+  "notice": "当前为 AI 视频重生成，非逐句翻译 / 口型对齐；真实翻译通道未接入\n\n上游视频接口没有源语言、目标语言与口型同步参数：下面选择的目标语言只会写进提示词，不能保证换语言、换字幕或对齐口型。结果请按「未验证草稿」处理，人工确认后再用于投放。\n\n依据 r27 协议调查（提交 1ef24fba）：sub2api MiniMax 视频接口无翻译字段。",
+  "badge": "未验证翻译 · 请人工确认语言与字幕",
+  "resultTitle": "AI 重生成结果（未验证翻译）\n\n还没有生成结果\n\n填好参数并提交后，结果会出现在这里，可预览、下载、存入资产库或发送到画布。",
+  "head": "无限画布\n首页\n电商套图\n智能修图\n新模型\nAI视频\nHOT\n批量生图\n商品图设计\n中\n切换到深色主题\nv0.27.0\nAI 视频\n图转视频\n带货口播\n视频复刻\n视频编辑\n视频翻译\n视频拼接\n补充\n免责声明\nAI 视频 / 视频翻译\n视频翻译\n\n/tools/ai-video/video-translation\n\n视频翻译\nAI 视频重生成\n目标语言 英语（English）\n视频翻译\n\nAI 视频重生成（实验）· 非逐句翻译 / 口型对齐\n\n当前为 AI 视频重生成，非逐句翻译 / 口型对齐；真实翻译通道未接入\n\n上游视频接口没有源语言、目标语言与口型同步参数：下面选择的目标语言只会写进提示词，不能保证换语言、换字幕或对齐口型。结果请按「未验证草稿」处理，人工确认后再用于投放。\n\n依据 r27 协议调查（提交 1ef24fba）：sub2api MiniMax 视频接口无翻译字段。\n\n原视频\n未上传\n上传原视频\n0 / 1 个 · MP4 / MOV · ≤ 100 MB\n点击选择本地文件，或拖拽到这里\n校验格式 / 大小 / 像素，入库后可刷新恢复\n\n还没有素材\n\n支持 MP4、MO"
+ },
+ "keyDiff": {
+  "zhCount": 1782,
+  "enCount": 1782,
+  "missingInEn": [],
+  "missingInZh": [],
+  "vtZhCount": 19,
+  "vtEnCount": 19,
+  "vtMissingInEn": [],
+  "vtMissingInZh": []
+ },
+ "consoleErrors": [
+  {
+   "type": "error",
+   "text": "Failed to load resource: net::ERR_CONNECTION_REFUSED"
+  },
+  {
+   "type": "error",
+   "text": "Failed to load resource: net::ERR_CONNECTION_REFUSED"
+  }
+ ]
+}

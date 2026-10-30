@@ -1,0 +1,81 @@
+{
+ "metrics": {
+  "innerWidth": 390,
+  "docScrollWidth": 390,
+  "bodyScrollWidth": 390,
+  "hasHScroll": false,
+  "dpr": 1
+ },
+ "overflowing": [],
+ "notice": {
+  "rect": {
+   "x": 45,
+   "y": 338,
+   "w": 300,
+   "h": 211
+  },
+  "fontSize": "11px",
+  "color": "oklch(0.473 0.137 46.201)",
+  "bg": "oklch(0.987 0.022 95.277)",
+  "bodyFont": "11px",
+  "bodyRight": 332,
+  "clippedX": false,
+  "clippedY": false,
+  "fullyInViewport": true
+ },
+ "switch": {
+  "rect": {
+   "x": 296,
+   "w": 36,
+   "h": 20,
+   "right": 332
+  },
+  "ariaChecked": "false",
+  "disabled": true
+ },
+ "selects": [
+  {
+   "w": 274,
+   "right": 332,
+   "val": "zh"
+  },
+  {
+   "w": 274,
+   "right": 332,
+   "val": "en"
+  },
+  {
+   "w": 274,
+   "right": 332,
+   "val": "1"
+  },
+  {
+   "w": 274,
+   "right": 332,
+   "val": "source"
+  }
+ ],
+ "forbiddenEn": [
+  {
+   "p": "translation complete",
+   "hit": false
+  },
+  {
+   "p": "dubbed",
+   "hit": false
+  },
+  {
+   "p": "lip-synced",
+   "hit": false
+  },
+  {
+   "p": "subtitles generated",
+   "hit": false
+  },
+  {
+   "p": "source language detected",
+   "hit": false
+  }
+ ],
+ "bodySnippet": "无限画布\n中\n切换到深色主题\nv0.27.0\n视频翻译\nAI 视频 / 视频翻译\n视频翻译\n\n/tools/ai-video/video-translation\n\n视频翻译\nAI 视频重生成\n目标语言 英语（English）\n视频翻译\n\nAI 视频重生成（实验）· 非逐句翻译 / 口型对齐\n\n当前为 AI 视频重生成，非逐句翻译 / 口型对齐；真实翻译通道未接入\n\n上游视频接口没有源语言、目标语言与口型同步参数：下面选择的目标语言只会写进提示词，不能保证换语言、换字幕或对齐口型。结果请按「未验证草稿」处理，人工确认后再用于投放。\n\n依据 r27 协议调查（提交 1ef24fba）：sub2api MiniMax 视频接口无翻译字段。\n\n原视频\n未上传\n上传原视频\n0 / 1 个 · MP4 / MOV · ≤ 100 MB\n点击选择本地文件，或拖拽到这里\n校验格式 / 大小 / 像素，入库后可刷新恢复\n\n还没有素材\n\n支持 MP4、MOV 格式，100MB 以内；建议上传画面清晰、音频完整的视频（2–30 秒）。\n\n请先上传需要翻译的原视频\n源语言 → 目标语言（仅影响提示词）\n仅提示词引导 · 上游无 language 字段，不保证生效\n源语言（默认自动识别）\n自动识别\n英语（English）\n简体中文（简体中文）\n日语（日本語）\n韩语（한국어）\n西班牙语（Español）\n葡萄牙语（Português）\n法语（Français）\n德语（Deutsch）\n意大利语（Italiano）\n俄语（Русский）\n阿拉伯语（العربية）\n泰语（ไทย）\n越南语（Tiếng Việt）\n印尼语（Bahasa Indonesia）\n土耳其语（Türkçe）\n印地语（हिन्दी）\n目标语言\n英语（English）\n日语（日本語）\n韩语（한국어）\n西班牙语（Español）\n葡萄牙语（Português）\n法语（Français）\n德语（Deutsch）\n意大利语（Italiano）\n俄语（Русский）\n阿拉伯语（العربية）\n泰语（ไทย）\n越南语（Tiếng Vi"
+}

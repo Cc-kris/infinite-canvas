@@ -1,0 +1,35 @@
+{
+ "web/src/components/tools/workspaces/video-translation.tsx": {
+  "sources": [
+   "video-translation.tsx"
+  ],
+  "hasContent": true,
+  "content_equal_disk": true,
+  "content_sha": "a1ff82366a8a0be2",
+  "disk_sha": "a1ff82366a8a0be2",
+  "content_len": 32622,
+  "disk_len": 32622
+ },
+ "web/src/components/tools/workspaces/video-translation-honesty.tsx": {
+  "sources": [
+   "video-translation-honesty.tsx"
+  ],
+  "hasContent": true,
+  "content_equal_disk": true,
+  "content_sha": "ae702096ce5ab254",
+  "disk_sha": "ae702096ce5ab254",
+  "content_len": 4614,
+  "disk_len": 4614
+ },
+ "web/src/features/tools/adapters/video-translation.ts": {
+  "sources": [
+   "video-translation.ts"
+  ],
+  "hasContent": true,
+  "content_equal_disk": true,
+  "content_sha": "892013749f3e6393",
+  "disk_sha": "892013749f3e6393",
+  "content_len": 21766,
+  "disk_len": 21766
+ }
+}

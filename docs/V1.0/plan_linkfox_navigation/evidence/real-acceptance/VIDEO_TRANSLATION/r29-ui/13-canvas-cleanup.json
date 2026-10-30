@@ -1,0 +1,13 @@
+[
+ "deleting 无限画布 3 (cards=3)",
+ "confirm-fail:Locator.click: Timeout 5000ms exceeded.\nCall log:\n  - waitin",
+ "now at http://localhost:3000/canvas",
+ "deleting 无限画布 2 (cards=2)",
+ "confirm-fail:Locator.click: Timeout 5000ms exceeded.\nCall log:\n  - waitin",
+ "now at http://localhost:3000/canvas",
+ "deleting 无限画布 1 (cards=1)",
+ "confirm-fail:Locator.click: Timeout 5000ms exceeded.\nCall log:\n  - waitin",
+ "now at http://localhost:3000/canvas",
+ "no cards left",
+ "final cards=0"
+]

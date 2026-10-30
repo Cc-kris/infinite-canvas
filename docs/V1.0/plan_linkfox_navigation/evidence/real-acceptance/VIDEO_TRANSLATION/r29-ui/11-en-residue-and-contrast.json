@@ -1,0 +1,374 @@
+{
+ "zh": {
+  "bgOklch": "oklch(0.987 0.022 95.277)",
+  "fgOklch": "oklch(0.473 0.137 46.201)",
+  "bgRGB": [
+   255,
+   251,
+   235
+  ],
+  "fgRGB": [
+   151,
+   60,
+   0
+  ],
+  "contrast": 6.84,
+  "fontSize": "11px",
+  "lineHeight": "20px",
+  "titleFontSize": "11px"
+ },
+ "en": {
+  "bgOklch": "oklch(0.987 0.022 95.277)",
+  "fgOklch": "oklch(0.473 0.137 46.201)",
+  "bgRGB": [
+   255,
+   251,
+   235
+  ],
+  "fgRGB": [
+   151,
+   60,
+   0
+  ],
+  "contrast": 6.84,
+  "fontSize": "11px",
+  "lineHeight": "20px",
+  "titleFontSize": "11px"
+ },
+ "residueCount": 92,
+ "residue": [
+  {
+   "text": "视频翻译",
+   "tag": "SPAN",
+   "cls": "min-w-0 flex-1 truncate text-sm font-semibold tracking-tight",
+   "testid": null,
+   "path": "div>div>div>span"
+  },
+  {
+   "text": "图转视频",
+   "tag": "SPAN",
+   "cls": "truncate",
+   "testid": null,
+   "path": "ul>li>a>span"
+  },
+  {
+   "text": "带货口播",
+   "tag": "SPAN",
+   "cls": "truncate",
+   "testid": null,
+   "path": "ul>li>a>span"
+  },
+  {
+   "text": "视频复刻",
+   "tag": "SPAN",
+   "cls": "truncate",
+   "testid": null,
+   "path": "ul>li>a>span"
+  },
+  {
+   "text": "视频编辑",
+   "tag": "SPAN",
+   "cls": "truncate",
+   "testid": null,
+   "path": "ul>li>a>span"
+  },
+  {
+   "text": "视频翻译",
+   "tag": "SPAN",
+   "cls": "truncate",
+   "testid": null,
+   "path": "ul>li>a>span"
+  },
+  {
+   "text": "视频拼接",
+   "tag": "SPAN",
+   "cls": "truncate",
+   "testid": null,
+   "path": "ul>li>a>span"
+  },
+  {
+   "text": "补充",
+   "tag": "SPAN",
+   "cls": "ml-auto shrink-0 rounded border border-hairline px-1 text-[1",
+   "testid": null,
+   "path": "ul>li>a>span"
+  },
+  {
+   "text": "免责声明",
+   "tag": "DIV",
+   "cls": "mt-auto select-none px-3 pb-3 pt-6 text-center text-[11px] l",
+   "testid": null,
+   "path": "div>aside[tool-sidebar]>nav>div"
+  },
+  {
+   "text": "AI video / 视频翻译",
+   "tag": "DIV",
+   "cls": "truncate text-xs leading-5 text-muted-foreground",
+   "testid": null,
+   "path": "div>header>div>div"
+  },
+  {
+   "text": "视频翻译",
+   "tag": "H1",
+   "cls": "truncate text-sm font-semibold leading-6 tracking-tight sm:t",
+   "testid": null,
+   "path": "header>div>div>h1"
+  },
+  {
+   "text": "视频翻译",
+   "tag": "H2",
+   "cls": "truncate text-sm font-semibold leading-6",
+   "testid": null,
+   "path": "div>div>div>h2"
+  },
+  {
+   "text": "AI 视频重生成",
+   "tag": "SPAN",
+   "cls": "rounded border border-amber-300 bg-amber-50 px-1.5 py-0.5 te",
+   "testid": "video-translation-capability-badge",
+   "path": "div>div>div>span[video-translation-capability-badge]"
+  },
+  {
+   "text": "目标语言",
+   "tag": "SPAN",
+   "cls": "rounded border border-border px-1.5 py-0.5 text-[11px] text-",
+   "testid": null,
+   "path": "div>div>div>span"
+  },
+  {
+   "text": "英语（English）",
+   "tag": "SPAN",
+   "cls": "rounded border border-border px-1.5 py-0.5 text-[11px] text-",
+   "testid": null,
+   "path": "div>div>div>span"
+  },
+  {
+   "text": "视频翻译",
+   "tag": "SPAN",
+   "cls": "rounded border border-border px-1.5 py-0.5 text-[11px] text-",
+   "testid": null,
+   "path": "div>div>div>span"
+  },
+  {
+   "text": "原视频",
+   "tag": "H2",
+   "cls": "text-sm font-medium",
+   "testid": null,
+   "path": "div[video-translation-config]>section>div>h2"
+  },
+  {
+   "text": "未上传",
+   "tag": "SPAN",
+   "cls": "text-[11px] text-muted-foreground",
+   "testid": null,
+   "path": "div[video-translation-config]>section>div>span"
+  },
+  {
+   "text": "上传原视频",
+   "tag": "H3",
+   "cls": "text-sm font-medium text-stone-800 dark:text-stone-100",
+   "testid": null,
+   "path": "section>section>div>h3"
+  },
+  {
+   "text": "个 ·",
+   "tag": "SPAN",
+   "cls": "text-xs text-stone-500",
+   "testid": null,
+   "path": "section>section>div>span"
+  },
+  {
+   "text": "点击选择本地文件，或拖拽到这里",
+   "tag": "SPAN",
+   "cls": "text-stone-700 dark:text-stone-200",
+   "testid": null,
+   "path": "section>section>div[tool-asset-dropzone]>span"
+  },
+  {
+   "text": "校验格式 / 大小 / 像素，入库后可刷新恢复",
+   "tag": "SPAN",
+   "cls": "text-stone-500",
+   "testid": null,
+   "path": "section>section>div[tool-asset-dropzone]>span"
+  },
+  {
+   "text": "还没有素材",
+   "tag": "P",
+   "cls": "text-xs text-stone-500",
+   "testid": null,
+   "path": "div[video-translation-config]>section>section>p"
+  },
+  {
+   "text": "支持 MP4、MOV 格式，100MB 以内；建议上传画面清晰、音频完整的视频（",
+   "tag": "P",
+   "cls": "text-[11px] leading-4 text-muted-foreground",
+   "testid": null,
+   "path": "div>div[video-translation-config]>section>p"
+  },
+  {
+   "text": "2–30 秒",
+   "tag": "P",
+   "cls": "text-[11px] leading-4 text-muted-foreground",
+   "testid": null,
+   "path": "div>div[video-translation-config]>section>p"
+  },
+  {
+   "text": "请先上传需要翻译的原视频",
+   "tag": "LI",
+   "cls": "",
+   "testid": null,
+   "path": "div[video-translation-config]>section>ul>li"
+  },
+  {
+   "text": "源语言（默认自动识别）",
+   "tag": "LABEL",
+   "cls": "block text-[11px] text-muted-foreground",
+   "testid": null,
+   "path": "div>div[video-translation-config]>section[video-translation-language]>label"
+  },
+  {
+   "text": "自动识别",
+   "tag": "OPTION",
+   "cls": "",
+   "testid": null,
+   "path": "section[video-translation-language]>label>select[video-translation-source-language]>option"
+  },
+  {
+   "text": "英语（English）",
+   "tag": "OPTION",
+   "cls": "",
+   "testid": null,
+   "path": "section[video-translation-language]>label>select[video-translation-source-language]>option"
+  },
+  {
+   "text": "简体中文（简体中文）",
+   "tag": "OPTION",
+   "cls": "",
+   "testid": null,
+   "path": "section[video-translation-language]>label>select[video-translation-source-language]>option"
+  },
+  {
+   "text": "日语（日本語）",
+   "tag": "OPTION",
+   "cls": "",
+   "testid": null,
+   "path": "section[video-translation-language]>label>select[video-translation-source-language]>option"
+  },
+  {
+   "text": "韩语（한국어）",
+   "tag": "OPTION",
+   "cls": "",
+   "testid": null,
+   "path": "section[video-translation-language]>label>select[video-translation-source-language]>option"
+  },
+  {
+   "text": "西班牙语（Español）",
+   "tag": "OPTION",
+   "cls": "",
+   "testid": null,
+   "path": "section[video-translation-language]>label>select[video-translation-source-language]>option"
+  },
+  {
+   "text": "葡萄牙语（Português）",
+   "tag": "OPTION",
+   "cls": "",
+   "testid": null,
+   "path": "section[video-translation-language]>label>select[video-translation-source-language]>option"
+  },
+  {
+   "text": "法语（Français）",
+   "tag": "OPTION",
+   "cls": "",
+   "testid": null,
+   "path": "section[video-translation-language]>label>select[video-translation-source-language]>option"
+  },
+  {
+   "text": "德语（Deutsch）",
+   "tag": "OPTION",
+   "cls": "",
+   "testid": null,
+   "path": "section[video-translation-language]>label>select[video-translation-source-language]>option"
+  },
+  {
+   "text": "意大利语（Italiano）",
+   "tag": "OPTION",
+   "cls": "",
+   "testid": null,
+   "path": "section[video-translation-language]>label>select[video-translation-source-language]>option"
+  },
+  {
+   "text": "俄语（Русский）",
+   "tag": "OPTION",
+   "cls": "",
+   "testid": null,
+   "path": "section[video-translation-language]>label>select[video-translation-source-language]>option"
+  },
+  {
+   "text": "阿拉伯语（العربية）",
+   "tag": "OPTION",
+   "cls": "",
+   "testid": null,
+   "path": "section[video-translation-language]>label>select[video-translation-source-language]>option"
+  },
+  {
+   "text": "泰语（ไทย）",
+   "tag": "OPTION",
+   "cls": "",
+   "testid": null,
+   "path": "section[video-translation-language]>label>select[video-translation-source-language]>option"
+  }
+ ],
+ "selectOptionTexts_en": [
+  [
+   "自动识别",
+   "英语（English）",
+   "简体中文（简体中文）",
+   "日语（日本語）",
+   "韩语（한국어）",
+   "西班牙语（Español）",
+   "葡萄牙语（Português）",
+   "法语（Français）",
+   "德语（Deutsch）",
+   "意大利语（Italiano）",
+   "俄语（Русский）",
+   "阿拉伯语（العربية）",
+   "泰语（ไทย）",
+   "越南语（Tiếng Việt）",
+   "印尼语（Bahasa Indonesia）",
+   "土耳其语（Türkçe）",
+   "印地语（हिन्दी）"
+  ],
+  [
+   "英语（English）",
+   "日语（日本語）",
+   "韩语（한국어）",
+   "西班牙语（Español）",
+   "葡萄牙语（Português）",
+   "法语（Français）",
+   "德语（Deutsch）",
+   "意大利语（Italiano）",
+   "俄语（Русский）",
+   "阿拉伯语（العربية）",
+   "泰语（ไทย）",
+   "越南语（Tiếng Việt）",
+   "印尼语（Bahasa Indonesia）",
+   "土耳其语（Türkçe）",
+   "印地语（हिन्दी）"
+  ],
+  [
+   "1 条",
+   "2 条",
+   "3 条",
+   "4 条"
+  ],
+  [
+   "跟随原视频",
+   "1:1 方形",
+   "3:4 竖版",
+   "4:3 横版",
+   "16:9 横版",
+   "9:16 竖屏",
+   "21:9 宽银幕"
+  ]
+ ]
+}

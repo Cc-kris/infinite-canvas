@@ -1,0 +1,50 @@
+{
+ "badges": [
+  {
+   "id": "video-translation-draft-badge",
+   "text": "未验证翻译 · 请人工确认语言与字幕",
+   "rect": {
+    "x": 1182.34375,
+    "y": -46.140625,
+    "w": 204.65625,
+    "h": 23.28125
+   },
+   "bg": "oklch(0.987 0.022 95.277)",
+   "color": "oklch(0.555 0.163 48.998)",
+   "border": "oklch(0.879 0.169 91.605)",
+   "fontSize": "11px"
+  }
+ ],
+ "resultArea": "结果请按「未验证草稿」处理，人工确认后再用于投放。\n\n依据 r27 协议调查（提交 1ef24fba）：sub2api MiniMax 视频接口无翻译字段。\n\n原视频\n未上传\n上传原视频\n0 / 1 个 · MP4 / MOV · ≤ 100 MB\n点击选择本地文件，或拖拽到这里\n校验格式 / 大小 / 像素，入库后可刷新恢复\n\n还没有素材\n\n支持 MP4、MOV 格式，100MB 以内；建议上传画面清晰、音频完整的视频（2–30 秒）。\n\n请先上传需要翻译的原视频\n源语言 → 目标语言（仅影响提示词）\n仅提示词引导 · 上游无 language 字段，不保证生效\n源语言（默认自动识别）\n自动识别\n英语（English）\n简体中文（简体中文）\n日语（日本語）\n韩语（한국어）\n西班牙语（Español）\n葡萄牙语（Português）\n法语（Français）\n德语（Deutsch）\n意大利语（Italiano）\n俄语（Русский）\n阿拉伯语（العربية）\n泰语（ไทย）\n越南语（Tiếng Việt）\n印尼语（Bahasa Indonesia）\n土耳其语（Türkçe）\n印地语（हिन्दी）\n目标语言\n英语（English）\n日语（日本語）\n韩语（한국어）\n西班牙语（Español）\n葡萄牙语（Português）\n法语（Français）\n德语（Deutsch）\n意大利",
+ "historyArea": "历史记录\n0 条\n\n还没有视频重生成任务：提交后这里会出现真实任务记录\n\n历史任务可能包含旧版「翻译」结果，同样需人工确认语言与字幕。\n\n连接本地 Agent\n未连接\n点连接会自动启动本地服务、装好插件并接通，无需手动配置。\nClaude Code\n未连接\n·\nCLI · 2.1.285 (Claude Code)\n·\n直接运行\n连接\nCodex\n未连接\n·\nCLI + 桌面版 · codex-cli 0.163.0\n·\n插件已装\n连接\nGalley\n未连接\n·\nCLI + 桌面版 · galley 0.6.4\n连接",
+ "forbidden_zh": [
+  {
+   "p": "翻译完成",
+   "hit": false
+  },
+  {
+   "p": "已译制",
+   "hit": false
+  },
+  {
+   "p": "已对口型",
+   "hit": false
+  },
+  {
+   "p": "已生成字幕",
+   "hit": false
+  },
+  {
+   "p": "已识别源语言",
+   "hit": false
+  },
+  {
+   "p": "专业翻译",
+   "hit": false
+  },
+  {
+   "p": "准确翻译",
+   "hit": false
+  }
+ ]
+}

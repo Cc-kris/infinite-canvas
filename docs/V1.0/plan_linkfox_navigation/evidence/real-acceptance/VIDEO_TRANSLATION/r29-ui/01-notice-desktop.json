@@ -1,0 +1,97 @@
+{
+ "count": 1,
+ "rect": {
+  "x": 245,
+  "y": 273,
+  "w": 1142,
+  "h": 111
+ },
+ "aria": {
+  "role": "note",
+  "ariaLive": "polite",
+  "tag": "SECTION",
+  "bg": "oklch(0.987 0.022 95.277)",
+  "color": "oklch(0.473 0.137 46.201)",
+  "border": "oklch(0.924 0.12 95.746)",
+  "pos": "static",
+  "display": "block",
+  "vis": "visible",
+  "op": "1",
+  "fontSize": "11px"
+ },
+ "text": "当前为 AI 视频重生成，非逐句翻译 / 口型对齐；真实翻译通道未接入\n\n上游视频接口没有源语言、目标语言与口型同步参数：下面选择的目标语言只会写进提示词，不能保证换语言、换字幕或对齐口型。结果请按「未验证草稿」处理，人工确认后再用于投放。\n\n依据 r27 协议调查（提交 1ef24fba）：sub2api MiniMax 视频接口无翻译字段。",
+ "children": [
+  {
+   "tag": "P",
+   "testid": null,
+   "role": null,
+   "text": "当前为 AI 视频重生成，非逐句翻译 / 口型对齐；真实翻译通道未接入"
+  },
+  {
+   "tag": "svg",
+   "testid": null,
+   "role": null,
+   "text": ""
+  },
+  {
+   "tag": "path",
+   "testid": null,
+   "role": null,
+   "text": ""
+  },
+  {
+   "tag": "path",
+   "testid": null,
+   "role": null,
+   "text": ""
+  },
+  {
+   "tag": "path",
+   "testid": null,
+   "role": null,
+   "text": ""
+  },
+  {
+   "tag": "SPAN",
+   "testid": "video-translation-honesty-title",
+   "role": null,
+   "text": "当前为 AI 视频重生成，非逐句翻译 / 口型对齐；真实翻译通道未接入"
+  },
+  {
+   "tag": "P",
+   "testid": "video-translation-honesty-body",
+   "role": null,
+   "text": "上游视频接口没有源语言、目标语言与口型同步参数：下面选择的目标语言只会写进提示词，不能保证换语言、换字幕或对齐口型。结果"
+  },
+  {
+   "tag": "P",
+   "testid": "video-translation-honesty-basis",
+   "role": null,
+   "text": "依据 r27 协议调查（提交 1ef24fba）：sub2api MiniMax 视频接口无翻译字段。"
+  }
+ ],
+ "buttonsInside": 0,
+ "visible": true,
+ "inViewport": {
+  "top": 273,
+  "bottom": 384,
+  "vh": 900,
+  "fully": true
+ },
+ "draftBadge": {
+  "text": "未验证翻译 · 请人工确认语言与字幕",
+  "rect": {
+   "x": 1182.34375,
+   "y": 397.859375,
+   "w": 204.65625,
+   "h": 23.28125
+  },
+  "bg": "oklch(0.987 0.022 95.277)",
+  "color": "oklch(0.555 0.163 48.998)",
+  "fontSize": "11px"
+ },
+ "header": {
+  "text": "视频翻译",
+  "next": "视频翻译"
+ }
+}

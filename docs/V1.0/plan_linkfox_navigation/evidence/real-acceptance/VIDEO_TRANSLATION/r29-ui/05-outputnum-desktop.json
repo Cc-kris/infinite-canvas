@@ -1,0 +1,40 @@
+{
+ "options": {
+  "value": "1",
+  "opts": [
+   {
+    "v": "1",
+    "t": "1 条"
+   },
+   {
+    "v": "2",
+    "t": "2 条"
+   },
+   {
+    "v": "3",
+    "t": "3 条"
+   },
+   {
+    "v": "4",
+    "t": "4 条"
+   }
+  ]
+ },
+ "hint": "当前渠道一次只返回 1 条结果。",
+ "afterSelect2": {
+  "value": "2",
+  "blocker": "当前视频模型一次只能返回 1 条视频，请把输出数量改成 1",
+  "submit": {
+   "text": "立即生成",
+   "disabled": true
+  }
+ },
+ "afterSelect4": {
+  "value": "4",
+  "blocker": "当前视频模型一次只能返回 1 条视频，请把输出数量改成 1"
+ },
+ "afterBackTo1": {
+  "value": "1",
+  "blocker": null
+ }
+}

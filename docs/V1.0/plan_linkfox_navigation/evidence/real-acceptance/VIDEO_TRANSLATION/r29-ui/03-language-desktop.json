@@ -1,0 +1,414 @@
+{
+ "selects": [
+  {
+   "i": 0,
+   "id": "",
+   "value": "auto",
+   "aria": null,
+   "label": "源语言（默认自动识别） | 自动识别 | 英语（English） | 简体中文（简体中文） | 日语（日本語） | 韩语（한국어） | 西班牙语（Español） | 葡萄牙语（Português） | 法语（Français） | 德语（",
+   "opts": [
+    "auto",
+    "en",
+    "zh",
+    "ja",
+    "ko",
+    "es",
+    "pt",
+    "fr",
+    "de",
+    "it",
+    "ru",
+    "ar",
+    "th",
+    "vi",
+    "id",
+    "tr",
+    "hi"
+   ]
+  },
+  {
+   "i": 1,
+   "id": "",
+   "value": "en",
+   "aria": null,
+   "label": "目标语言 | 英语（English） | 简体中文（简体中文） | 日语（日本語） | 韩语（한국어） | 西班牙语（Español） | 葡萄牙语（Português） | 法语（Français） | 德语（Deutsch） | 意大利",
+   "opts": [
+    "en",
+    "zh",
+    "ja",
+    "ko",
+    "es",
+    "pt",
+    "fr",
+    "de",
+    "it",
+    "ru",
+    "ar",
+    "th",
+    "vi",
+    "id",
+    "tr",
+    "hi"
+   ]
+  },
+  {
+   "i": 2,
+   "id": "",
+   "value": "1",
+   "aria": null,
+   "label": "输出数量 | 1 条 | 2 条 | 3 条 | 4 条",
+   "opts": [
+    "1",
+    "2",
+    "3",
+    "4"
+   ]
+  },
+  {
+   "i": 3,
+   "id": "",
+   "value": "source",
+   "aria": null,
+   "label": "输出画幅 | 跟随原视频 | 1:1 方形 | 3:4 竖版 | 4:3 横版 | 16:9 横版 | 9:16 竖屏 | 21:9 宽银幕",
+   "opts": [
+    "source",
+    "1:1",
+    "3:4",
+    "4:3",
+    "16:9",
+    "9:16",
+    "21:9"
+   ]
+  }
+ ],
+ "hints": [
+  {
+   "id": "shell-top-nav",
+   "text": "无限画布\n首页\n电商套图\n智能修图\n新模型\nAI视频\nHOT\n批量生图\n商品图设计\n中\n切换到深色主题\nv0.27.0",
+   "tag": "HEADER"
+  },
+  {
+   "id": "tools-nav-mobile-trigger",
+   "text": "",
+   "tag": "BUTTON"
+  },
+  {
+   "id": "tools-nav-primary",
+   "text": "首页\n电商套图\n智能修图\n新模型\nAI视频\nHOT\n批量生图\n商品图设计",
+   "tag": "DIV"
+  },
+  {
+   "id": "tools-nav-trigger-home",
+   "text": "首页",
+   "tag": "A"
+  },
+  {
+   "id": "tools-nav-trigger-ecommerce-suite",
+   "text": "电商套图",
+   "tag": "A"
+  },
+  {
+   "id": "tools-nav-trigger-smart-edit",
+   "text": "智能修图\n新模型",
+   "tag": "A"
+  },
+  {
+   "id": "tools-nav-badge-smart-edit",
+   "text": "新模型",
+   "tag": "EM"
+  },
+  {
+   "id": "tools-nav-trigger-ai-video",
+   "text": "AI视频\nHOT",
+   "tag": "A"
+  },
+  {
+   "id": "tools-nav-badge-ai-video",
+   "text": "HOT",
+   "tag": "EM"
+  },
+  {
+   "id": "tools-nav-trigger-batch-generate",
+   "text": "批量生图",
+   "tag": "A"
+  },
+  {
+   "id": "tools-nav-trigger-product-design",
+   "text": "商品图设计",
+   "tag": "A"
+  },
+  {
+   "id": "workspace-link-canvas",
+   "text": "",
+   "tag": "A"
+  },
+  {
+   "id": "workspace-link-image",
+   "text": "",
+   "tag": "A"
+  },
+  {
+   "id": "workspace-link-video",
+   "text": "",
+   "tag": "A"
+  },
+  {
+   "id": "workspace-link-prompts",
+   "text": "",
+   "tag": "A"
+  },
+  {
+   "id": "workspace-link-assets",
+   "text": "",
+   "tag": "A"
+  },
+  {
+   "id": "workspace-link-config",
+   "text": "",
+   "tag": "A"
+  },
+  {
+   "id": "top-nav-agent-toggle",
+   "text": "",
+   "tag": "BUTTON"
+  },
+  {
+   "id": "tool-shell-nav-trigger",
+   "text": "",
+   "tag": "BUTTON"
+  },
+  {
+   "id": "tool-sidebar",
+   "text": "AI 视频\n图转视频\n带货口播\n视频复刻\n视频编辑\n视频翻译\n视频拼接\n补充\n免责声明",
+   "tag": "ASIDE"
+  },
+  {
+   "id": "tool-workspace",
+   "text": "视频翻译\nAI 视频重生成\n目标语言 英语（English）\n视频翻译\n\nAI 视频重生成（实验）· 非逐句翻译 / 口型对齐\n\n当前为 AI 视频重生成，非逐句翻译 / 口型对齐；真实翻译通道未接入\n\n上游视频接口没有源语言、目标语言与口型同步参数：下面选择的目标语言只会写进提示词，不能保证换语言、换字幕或对齐口型。",
+   "tag": "DIV"
+  },
+  {
+   "id": "tool-workspace-chrome",
+   "text": "视频翻译\nAI 视频重生成\n目标语言 英语（English）\n视频翻译\n\nAI 视频重生成（实验）· 非逐句翻译 / 口型对齐\n\n当前为 AI 视频重生成，非逐句翻译 / 口型对齐；真实翻译通道未接入\n\n上游视频接口没有源语言、目标语言与口型同步参数：下面选择的目标语言只会写进提示词，不能保证换语言、换字幕或对齐口型。",
+   "tag": "DIV"
+  },
+  {
+   "id": "video-translation-capability-badge",
+   "text": "AI 视频重生成",
+   "tag": "SPAN"
+  },
+  {
+   "id": "video-translation-honesty-notice",
+   "text": "当前为 AI 视频重生成，非逐句翻译 / 口型对齐；真实翻译通道未接入\n\n上游视频接口没有源语言、目标语言与口型同步参数：下面选择的目标语言只会写进提示词，不能保证换语言、换字幕或对齐口型。结果请按「未验证草稿」处理，人工确认后再用于投放。\n\n依据 r27 协议调查（提交 1ef24fba）：sub2api MiniM",
+   "tag": "SECTION"
+  },
+  {
+   "id": "video-translation-honesty-title",
+   "text": "当前为 AI 视频重生成，非逐句翻译 / 口型对齐；真实翻译通道未接入",
+   "tag": "SPAN"
+  },
+  {
+   "id": "video-translation-honesty-body",
+   "text": "上游视频接口没有源语言、目标语言与口型同步参数：下面选择的目标语言只会写进提示词，不能保证换语言、换字幕或对齐口型。结果请按「未验证草稿」处理，人工确认后再用于投放。",
+   "tag": "P"
+  },
+  {
+   "id": "video-translation-honesty-basis",
+   "text": "依据 r27 协议调查（提交 1ef24fba）：sub2api MiniMax 视频接口无翻译字段。",
+   "tag": "P"
+  },
+  {
+   "id": "video-translation-config",
+   "text": "原视频\n未上传\n上传原视频\n0 / 1 个 · MP4 / MOV · ≤ 100 MB\n点击选择本地文件，或拖拽到这里\n校验格式 / 大小 / 像素，入库后可刷新恢复\n\n还没有素材\n\n支持 MP4、MOV 格式，100MB 以内；建议上传画面清晰、音频完整的视频（2–30 秒）。\n\n请先上传需要翻译的原视频\n源语言 ",
+   "tag": "DIV"
+  },
+  {
+   "id": "tool-asset-dropzone",
+   "text": "点击选择本地文件，或拖拽到这里\n校验格式 / 大小 / 像素，入库后可刷新恢复",
+   "tag": "DIV"
+  },
+  {
+   "id": "tool-asset-file-input",
+   "text": "",
+   "tag": "INPUT"
+  },
+  {
+   "id": "video-translation-language",
+   "text": "源语言 → 目标语言（仅影响提示词）\n仅提示词引导 · 上游无 language 字段，不保证生效\n源语言（默认自动识别）\n自动识别\n英语（English）\n简体中文（简体中文）\n日语（日本語）\n韩语（한국어）\n西班牙语（Español）\n葡萄牙语（Português）\n法语（Français）\n德语（Deutsch）",
+   "tag": "SECTION"
+  },
+  {
+   "id": "video-translation-language-badge",
+   "text": "仅提示词引导 · 上游无 language 字段，不保证生效",
+   "tag": "SPAN"
+  },
+  {
+   "id": "video-translation-source-language",
+   "text": "自动识别\n英语（English）\n简体中文（简体中文）\n日语（日本語）\n韩语（한국어）\n西班牙语（Español）\n葡萄牙语（Português）\n法语（Français）\n德语（Deutsch）\n意大利语（Italiano）\n俄语（Русский）\n阿拉伯语（العربية）\n泰语（ไทย）\n越南语（Tiếng Vi",
+   "tag": "SELECT"
+  },
+  {
+   "id": "video-translation-target-language",
+   "text": "英语（English）\n简体中文（简体中文）\n日语（日本語）\n韩语（한국어）\n西班牙语（Español）\n葡萄牙语（Português）\n法语（Français）\n德语（Deutsch）\n意大利语（Italiano）\n俄语（Русский）\n阿拉伯语（العربية）\n泰语（ไทย）\n越南语（Tiếng Việt）\n印",
+   "tag": "SELECT"
+  },
+  {
+   "id": "video-translation-language-hint",
+   "text": "源语言只写进提示词，不会被上游真实识别。",
+   "tag": "P"
+  },
+  {
+   "id": "video-translation-lipsync",
+   "text": "口型同步（当前渠道不支持）\n\n上游无 lipSync 参数：开关已置灰，提交时不带该字段，也不做逐句口型对齐。",
+   "tag": "SECTION"
+  },
+  {
+   "id": "video-translation-lipsync-switch",
+   "text": "",
+   "tag": "BUTTON"
+  },
+  {
+   "id": "video-translation-lipsync-hint",
+   "text": "上游无 lipSync 参数：开关已置灰，提交时不带该字段，也不做逐句口型对齐。",
+   "tag": "P"
+  },
+  {
+   "id": "video-translation-output-hint",
+   "text": "当前渠道一次只返回 1 条结果。",
+   "tag": "P"
+  },
+  {
+   "id": "video-translation-output-ratio",
+   "text": "跟随原视频\n1:1 方形\n3:4 竖版\n4:3 横版\n16:9 横版\n9:16 竖屏\n21:9 宽银幕",
+   "tag": "SELECT"
+  },
+  {
+   "id": "video-translation-aspect-summary",
+   "text": "本次提交画幅：16:9（1280x720）",
+   "tag": "P"
+  },
+  {
+   "id": "video-translation-aspect-notice",
+   "text": "读不到原视频分辨率，无法跟随原画幅：本次按 16:9（1280x720）申请，上游实际返回画幅以上游为准",
+   "tag": "P"
+  },
+  {
+   "id": "video-translation-submit",
+   "text": "立即生成",
+   "tag": "BUTTON"
+  },
+  {
+   "id": "video-translation-draft-badge",
+   "text": "未验证翻译 · 请人工确认语言与字幕",
+   "tag": "SPAN"
+  },
+  {
+   "id": "tool-result",
+   "text": "AI 重生成结果（未验证翻译）\n\n还没有生成结果\n\n填好参数并提交后，结果会出现在这里，可预览、下载、存入资产库或发送到画布。",
+   "tag": "SECTION"
+  },
+  {
+   "id": "tool-result-empty",
+   "text": "还没有生成结果\n\n填好参数并提交后，结果会出现在这里，可预览、下载、存入资产库或发送到画布。",
+   "tag": "DIV"
+  },
+  {
+   "id": "video-translation-history",
+   "text": "历史任务\n点击「查看结果」把历史任务放回上方结果区\n历史记录\n0 条\n\n还没有视频重生成任务：提交后这里会出现真实任务记录\n\n历史任务可能包含旧版「翻译」结果，同样需人工确认语言与字幕。",
+   "tag": "SECTION"
+  },
+  {
+   "id": "tool-task-history",
+   "text": "历史记录\n0 条\n\n还没有视频重生成任务：提交后这里会出现真实任务记录",
+   "tag": "DIV"
+  },
+  {
+   "id": "tool-task-history-count",
+   "text": "0 条",
+   "tag": "SPAN"
+  },
+  {
+   "id": "tool-task-history-empty",
+   "text": "还没有视频重生成任务：提交后这里会出现真实任务记录",
+   "tag": "P"
+  },
+  {
+   "id": "video-translation-history-hint",
+   "text": "历史任务可能包含旧版「翻译」结果，同样需人工确认语言与字幕。",
+   "tag": "P"
+  }
+ ],
+ "prompts": {
+  "keys": [
+   "task",
+   "source",
+   "target",
+   "languageContract",
+   "rules",
+   "lipSync",
+   "output",
+   "type",
+   "mode",
+   "text"
+  ],
+  "en": {
+   "task": "任务：把原视频的语音翻译成目标语言并重新配音，保持原画面、镜头节奏与字幕时间轴不变，输出可直接投放的成片。",
+   "source": "源语言：自动识别原视频语音语言（识别结果需与目标语言不同）。",
+   "target": "目标语言：英语（English，en-US）；译制语音与字幕统一使用该语言。",
+   "languageContract": "语言硬约束（最高优先级，必须全部满足）：\n1. 成片音轨里只允许出现 英语（English，en-US）的语音；源语音必须先翻译成该语言再重新配音。\n2. 不得保留或混入源语言原声，也不得混入第三种语言的语音、旁白或解说。\n3. 字幕同样只能是 英语（English，en-US），时间轴与语音对齐。\nLanguage contract (highest priority, all bullets must hold):\n1. The final audio track may contain speech in English (en-US) only; translate the source speech into English first, then re-voice it.\n2. Never keep the original spoken language and never mix in a third language (no leftover source audio, no extra narration).\n3. On-screen subtitles must be English (en-US) only and stay aligned with the speech.",
+   "rules": "执行约束：\n1. 本提示词只是制作要求，不是台词：不要朗读、复述、翻译、解释或回应其中的任何指令文字。\n2. 成片音轨只能出现翻译后的对白；不得把人声之外的画面描述念出来。\n3. 源视频没有人声语音时，成片保持无声（保留原音乐/音效即可），不得编造旁白或用合成人声填补。\nExecution rules:\n1. This prompt is a production brief, not dialogue: never read, quote, translate, explain or answer any of its instructions in the audio track.\n2. Only translated dialogue may be spoken; do not narrate the visuals.\n3. If the source video has no human speech, keep the result silent (keep the original music/SFX if any); never invent narration or fill the gap with synthetic speech.",
+   "lipSync": "口型同步：开启，译制语音需与原画面唇形对齐。",
+   "output": "输出数量：1 条；每条均为完整成片。",
+   "type": "翻译类型：视频翻译。",
+   "mode": "模式：标准翻译。",
+   "text": "任务：把原视频的语音翻译成目标语言并重新配音，保持原画面、镜头节奏与字幕时间轴不变，输出可直接投放的成片。\n源语言：自动识别原视频语音语言（识别结果需与目标语言不同）。\n目标语言：英语（English，en-US）；译制语音与字幕统一使用该语言。\n语言硬约束（最高优先级，必须全部满足）：\n1. 成片音轨里只允许出现 英语（English，en-US）的语音；源语音必须先翻译成该语言再重新配音。\n2. 不得保留或混入源语言原声，也不得混入第三种语言的语音、旁白或解说。\n3. 字幕同样只能是 英语（English，en-US），时间轴与语音对齐。\nLanguage contract (highest priority, all bullets must hold):\n1. The final audio track may contain speech in English (en-US) only; translate the source speech into English first, then re-voice it.\n2. Never keep the original spoken language and never mix in a third language (no leftover source audio, no extra narration).\n3. On-screen subtitles must be English (en-US) only and stay aligned with the speech.\n执行约束：\n1. 本提示词只是制作要求，不是台词：不要朗读、复述、翻译、解释或回应其中的任何指令文字。\n2. 成片音轨只能出现翻译后的对白；不得把人声之外的画面描述念出来。\n3. 源视频没有人声语音时，成片保持无声（保留原音乐/音效即可），不得编造旁白或用合成人声填补。\nExecution rules:\n1. This prompt is a production brief, not dialogue: never read, quote, translate, explain or answer any of its instructions in the audio track.\n2. Only translated dialogue may be spoken; do not narrate the visuals.\n3. If the source video has no human speech, keep the result silent (keep the original music/SFX if any); never invent narration or fill the gap with synthetic speech.\n口型同步：开启，译制语音需与原画面唇形对齐。\n输出数量：1 条；每条均为完整成片。\n翻译类型：视频翻译。\n模式：标准翻译。"
+  },
+  "zhSrc": {
+   "task": "任务：把原视频的语音翻译成目标语言并重新配音，保持原画面、镜头节奏与字幕时间轴不变，输出可直接投放的成片。",
+   "source": "源语言：简体中文（zh-CN）；成片不得保留该语言的原始语音。",
+   "target": "目标语言：英语（English，en-US）；译制语音与字幕统一使用该语言。",
+   "languageContract": "语言硬约束（最高优先级，必须全部满足）：\n1. 成片音轨里只允许出现 英语（English，en-US）的语音；源语音必须先翻译成该语言再重新配音。\n2. 不得保留或混入源语言原声，也不得混入第三种语言的语音、旁白或解说。\n3. 字幕同样只能是 英语（English，en-US），时间轴与语音对齐。\nLanguage contract (highest priority, all bullets must hold):\n1. The final audio track may contain speech in English (en-US) only; translate the source speech into English first, then re-voice it.\n2. Never keep the original spoken language and never mix in a third language (no leftover source audio, no extra narration).\n3. On-screen subtitles must be English (en-US) only and stay aligned with the speech.",
+   "rules": "执行约束：\n1. 本提示词只是制作要求，不是台词：不要朗读、复述、翻译、解释或回应其中的任何指令文字。\n2. 成片音轨只能出现翻译后的对白；不得把人声之外的画面描述念出来。\n3. 源视频没有人声语音时，成片保持无声（保留原音乐/音效即可），不得编造旁白或用合成人声填补。\nExecution rules:\n1. This prompt is a production brief, not dialogue: never read, quote, translate, explain or answer any of its instructions in the audio track.\n2. Only translated dialogue may be spoken; do not narrate the visuals.\n3. If the source video has no human speech, keep the result silent (keep the original music/SFX if any); never invent narration or fill the gap with synthetic speech.",
+   "lipSync": "口型同步：开启，译制语音需与原画面唇形对齐。",
+   "output": "输出数量：1 条；每条均为完整成片。",
+   "type": "翻译类型：视频翻译。",
+   "mode": "模式：标准翻译。",
+   "text": "任务：把原视频的语音翻译成目标语言并重新配音，保持原画面、镜头节奏与字幕时间轴不变，输出可直接投放的成片。\n源语言：简体中文（zh-CN）；成片不得保留该语言的原始语音。\n目标语言：英语（English，en-US）；译制语音与字幕统一使用该语言。\n语言硬约束（最高优先级，必须全部满足）：\n1. 成片音轨里只允许出现 英语（English，en-US）的语音；源语音必须先翻译成该语言再重新配音。\n2. 不得保留或混入源语言原声，也不得混入第三种语言的语音、旁白或解说。\n3. 字幕同样只能是 英语（English，en-US），时间轴与语音对齐。\nLanguage contract (highest priority, all bullets must hold):\n1. The final audio track may contain speech in English (en-US) only; translate the source speech into English first, then re-voice it.\n2. Never keep the original spoken language and never mix in a third language (no leftover source audio, no extra narration).\n3. On-screen subtitles must be English (en-US) only and stay aligned with the speech.\n执行约束：\n1. 本提示词只是制作要求，不是台词：不要朗读、复述、翻译、解释或回应其中的任何指令文字。\n2. 成片音轨只能出现翻译后的对白；不得把人声之外的画面描述念出来。\n3. 源视频没有人声语音时，成片保持无声（保留原音乐/音效即可），不得编造旁白或用合成人声填补。\nExecution rules:\n1. This prompt is a production brief, not dialogue: never read, quote, translate, explain or answer any of its instructions in the audio track.\n2. Only translated dialogue may be spoken; do not narrate the visuals.\n3. If the source video has no human speech, keep the result silent (keep the original music/SFX if any); never invent narration or fill the gap with synthetic speech.\n口型同步：开启，译制语音需与原画面唇形对齐。\n输出数量：1 条；每条均为完整成片。\n翻译类型：视频翻译。\n模式：标准翻译。"
+  },
+  "jaTgt": {
+   "task": "任务：把原视频的语音翻译成目标语言并重新配音，保持原画面、镜头节奏与字幕时间轴不变，输出可直接投放的成片。",
+   "source": "源语言：自动识别原视频语音语言（识别结果需与目标语言不同）。",
+   "target": "目标语言：日语（日本語，ja-JP）；译制语音与字幕统一使用该语言。",
+   "languageContract": "语言硬约束（最高优先级，必须全部满足）：\n1. 成片音轨里只允许出现 日语（日本語，ja-JP）的语音；源语音必须先翻译成该语言再重新配音。\n2. 不得保留或混入源语言原声，也不得混入第三种语言的语音、旁白或解说。\n3. 字幕同样只能是 日语（日本語，ja-JP），时间轴与语音对齐。\nLanguage contract (highest priority, all bullets must hold):\n1. The final audio track may contain speech in 日本語 (ja-JP) only; translate the source speech into 日本語 first, then re-voice it.\n2. Never keep the original spoken language and never mix in a third language (no leftover source audio, no extra narration).\n3. On-screen subtitles must be 日本語 (ja-JP) only and stay aligned with the speech.",
+   "rules": "执行约束：\n1. 本提示词只是制作要求，不是台词：不要朗读、复述、翻译、解释或回应其中的任何指令文字。\n2. 成片音轨只能出现翻译后的对白；不得把人声之外的画面描述念出来。\n3. 源视频没有人声语音时，成片保持无声（保留原音乐/音效即可），不得编造旁白或用合成人声填补。\nExecution rules:\n1. This prompt is a production brief, not dialogue: never read, quote, translate, explain or answer any of its instructions in the audio track.\n2. Only translated dialogue may be spoken; do not narrate the visuals.\n3. If the source video has no human speech, keep the result silent (keep the original music/SFX if any); never invent narration or fill the gap with synthetic speech.",
+   "lipSync": "口型同步：开启，译制语音需与原画面唇形对齐。",
+   "output": "输出数量：1 条；每条均为完整成片。",
+   "type": "翻译类型：视频翻译。",
+   "mode": "模式：标准翻译。",
+   "text": "任务：把原视频的语音翻译成目标语言并重新配音，保持原画面、镜头节奏与字幕时间轴不变，输出可直接投放的成片。\n源语言：自动识别原视频语音语言（识别结果需与目标语言不同）。\n目标语言：日语（日本語，ja-JP）；译制语音与字幕统一使用该语言。\n语言硬约束（最高优先级，必须全部满足）：\n1. 成片音轨里只允许出现 日语（日本語，ja-JP）的语音；源语音必须先翻译成该语言再重新配音。\n2. 不得保留或混入源语言原声，也不得混入第三种语言的语音、旁白或解说。\n3. 字幕同样只能是 日语（日本語，ja-JP），时间轴与语音对齐。\nLanguage contract (highest priority, all bullets must hold):\n1. The final audio track may contain speech in 日本語 (ja-JP) only; translate the source speech into 日本語 first, then re-voice it.\n2. Never keep the original spoken language and never mix in a third language (no leftover source audio, no extra narration).\n3. On-screen subtitles must be 日本語 (ja-JP) only and stay aligned with the speech.\n执行约束：\n1. 本提示词只是制作要求，不是台词：不要朗读、复述、翻译、解释或回应其中的任何指令文字。\n2. 成片音轨只能出现翻译后的对白；不得把人声之外的画面描述念出来。\n3. 源视频没有人声语音时，成片保持无声（保留原音乐/音效即可），不得编造旁白或用合成人声填补。\nExecution rules:\n1. This prompt is a production brief, not dialogue: never read, quote, translate, explain or answer any of its instructions in the audio track.\n2. Only translated dialogue may be spoken; do not narrate the visuals.\n3. If the source video has no human speech, keep the result silent (keep the original music/SFX if any); never invent narration or fill the gap with synthetic speech.\n口型同步：开启，译制语音需与原画面唇形对齐。\n输出数量：1 条；每条均为完整成片。\n翻译类型：视频翻译。\n模式：标准翻译。"
+  },
+  "fields": {
+   "lipSync": true,
+   "outputNum": 1,
+   "sourceLanguage": "auto",
+   "sourceVideoName": "demo.mp4",
+   "sourceVideoUrl": "blob:demo",
+   "targetLanguage": "ja",
+   "videoType": "video-translation"
+  },
+  "audit": []
+ },
+ "requestsDuringLanguageChange": [
+  {
+   "m": "GET",
+   "u": "http://localhost:3000/__canvas-hub/state"
+  }
+ ],
+ "selectValuesAfter": [
+  "zh",
+  "en",
+  "1",
+  "source"
+ ],
+ "snapshotTextAfter": null
+}

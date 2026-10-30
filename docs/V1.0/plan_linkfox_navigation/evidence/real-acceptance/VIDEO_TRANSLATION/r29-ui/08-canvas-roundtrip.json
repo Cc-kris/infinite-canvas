@@ -1,0 +1,66 @@
+{
+ "steps": [],
+ "projectUrl": "http://localhost:3000/canvas/A2KkSIG4n5hHCiXzYjBRv",
+ "titleTag": "无限画布",
+ "s0": {
+  "url": "http://localhost:3000/canvas/A2KkSIG4n5hHCiXzYjBRv",
+  "nodeIds": [
+   "text-1793339269433-bquer"
+  ],
+  "nodeCount": 1,
+  "stage": null,
+  "title": "无限画布",
+  "leftPanel": "画布\n资产\n提示词库\n画布元素\n1\n选择\n全部\n文本\n无限画布 3\nCodex 未连接\n中\n切换到深色主题\nv0.27.0\nAgent\n双击编辑文字\n100%\n连接本地 Agent\n未连接\n点连接会自动启动本地服务、装好插件并接通，无需手动"
+ },
+ "bookmarkTitle": "",
+ "afterMenuToLibrary": {
+  "url": "http://localhost:3000/canvas",
+  "nodeIds": [],
+  "nodeCount": 0,
+  "stage": null,
+  "title": "无限画布",
+  "leftPanel": "无限画布\n首页\n电商套图\n智能修图\n新模型\nAI视频\nHOT\n批量生图\n商品图设计\n中\n切换到深色主题\nv0.27.0\n\n画布库\n\n无限画布\n删除全部\n导入画布\n新建画布\n无限画布 3\n\n1 个节点 · 0 条连线\n\n更新于 10/30 1"
+ },
+ "aiVideoUrl": "http://localhost:3000/tools/ai-video/image-to-video",
+ "toolUrl": "http://localhost:3000/tools/ai-video/video-translation",
+ "toolNoticeCount": 1,
+ "backLibraryUrl": "http://localhost:3000/canvas",
+ "s1AfterReturn": {
+  "url": "http://localhost:3000/canvas/A2KkSIG4n5hHCiXzYjBRv",
+  "nodeIds": [
+   "text-1793339269433-bquer"
+  ],
+  "nodeCount": 1,
+  "stage": null,
+  "title": "无限画布",
+  "leftPanel": "画布\n资产\n提示词库\n画布元素\n1\n选择\n全部\n文本\n无限画布 3\nCodex 未连接\n中\n切换到深色主题\nv0.27.0\nAgent\n双击编辑文字\n100%\n连接本地 Agent\n未连接\n点连接会自动启动本地服务、装好插件并接通，无需手动"
+ },
+ "reopenedUrl": "http://localhost:3000/canvas/A2KkSIG4n5hHCiXzYjBRv",
+ "goBack1": "http://localhost:3000/tools/ai-video/image-to-video",
+ "goBack2": "http://localhost:3000/canvas",
+ "s2AfterBrowserBack": {
+  "url": "http://localhost:3000/canvas/A2KkSIG4n5hHCiXzYjBRv",
+  "nodeIds": [
+   "text-1793339269433-bquer"
+  ],
+  "nodeCount": 1,
+  "stage": null,
+  "title": "无限画布",
+  "leftPanel": "画布\n资产\n提示词库\n画布元素\n1\n选择\n全部\n文本\n无限画布 3\nCodex 未连接\n中\n切换到深色主题\nv0.27.0\nAgent\n双击编辑文字\n100%\n连接本地 Agent\n未连接\n点连接会自动启动本地服务、装好插件并接通，无需手动"
+ },
+ "nodePreserved": true,
+ "consoleTail": [
+  {
+   "t": "error",
+   "x": "Failed to load resource: net::ERR_CONNECTION_REFUSED"
+  },
+  {
+   "t": "error",
+   "x": "Failed to load resource: net::ERR_CONNECTION_REFUSED"
+  },
+  {
+   "t": "error",
+   "x": "Failed to load resource: net::ERR_CONNECTION_REFUSED"
+  }
+ ]
+}
