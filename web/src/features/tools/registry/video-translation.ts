@@ -1,5 +1,7 @@
 import { z } from "zod";
 
+import { computeVideoSize, parseAspectRatio, videoRatioOptions } from "@/lib/media-size";
+
 import { getToolById } from "./index";
 import type { ToolSpec } from "../types";
 
@@ -47,6 +49,130 @@ export const VIDEO_TRANSLATION_MODES: ReadonlyArray<{ id: VideoTranslationMode; 
     { id: "standard", label: "标准翻译", hint: "识别源语言 → 译为目标语言，默认开启口型同步" },
     { id: "advanced", label: "高级模式", hint: "可调整输出数量与翻译类型" },
 ];
+
+/**
+ * 输出画幅（r26）：视频翻译是「保持原画面」的工具，画幅不能跟全局出图默认值（size=1:1）走。
+ *
+ * 真实链路（2026-10-29 实测，见 evidence/real-acceptance/VIDEO_TRANSLATION）：
+ * 1344×768 源片 + 全局 size=1:1 → 上游按 720x720 申请 → 返回 768×768（画面被重新构图）。
+ * 上游 `/videos` 只吃 size 像素串 + ratio，且会把像素对齐到自己的网格（720x720 → 768x768），
+ * 因此这里只做「按源画幅选最接近的上游档位」，并把偏差显式告知用户，绝不静默裁切。
+ */
+export const VIDEO_TRANSLATION_RATIO_SOURCE = "source";
+export const VIDEO_TRANSLATION_DEFAULT_RATIO = VIDEO_TRANSLATION_RATIO_SOURCE;
+
+const VIDEO_TRANSLATION_RATIO_LABELS: Record<string, string> = {
+    "1:1": "1:1 方形",
+    "3:4": "3:4 竖版",
+    "4:3": "4:3 横版",
+    "16:9": "16:9 横版",
+    "9:16": "9:16 竖屏",
+    "21:9": "21:9 宽银幕",
+};
+
+/** 「跟随原视频」+ 上游真实支持的固定档位（取自 media-size.videoRatioOptions，去掉 auto）。 */
+export const VIDEO_TRANSLATION_OUTPUT_RATIOS: ReadonlyArray<{ value: string; label: string }> = [
+    { value: VIDEO_TRANSLATION_RATIO_SOURCE, label: "跟随原视频" },
+    ...videoRatioOptions
+        .filter((option) => option.value !== "auto")
+        .map((option) => ({ value: option.value, label: VIDEO_TRANSLATION_RATIO_LABELS[option.value] ?? option.value })),
+];
+
+export function normalizeVideoTranslationOutputRatio(value: unknown): string {
+    const text = typeof value === "string" ? value.trim() : "";
+    return VIDEO_TRANSLATION_OUTPUT_RATIOS.some((option) => option.value === text) ? text : VIDEO_TRANSLATION_DEFAULT_RATIO;
+}
+
+export function videoTranslationOutputRatioLabel(value: string): string {
+    const normalized = normalizeVideoTranslationOutputRatio(value);
+    return VIDEO_TRANSLATION_OUTPUT_RATIOS.find((option) => option.value === normalized)?.label ?? normalized;
+}
+
+export type VideoTranslationOutputPlan = {
+    /** 用户选择（source 或具体档位） */
+    requested: string;
+    /** 真正发给上游的 ratio */
+    ratio: string;
+    /** 发给上游的 size 像素串（随全局清晰度档位推算） */
+    size: string;
+    /** 源画面像素，如 "1344×768"；读不到尺寸时为空串 */
+    sourceSize: string;
+    /** 源画面比例，如 "7:4" */
+    sourceRatioLabel: string;
+    /** 是否逐像素保持源画幅（源比例与上游档位一致） */
+    preservesSource: boolean;
+    /** 偏差提示；空串表示无需提示 */
+    notice: string;
+};
+
+/** 源比例与档位的相对误差容差：超过即视为「画幅会变」，必须提示。 */
+const VIDEO_TRANSLATION_RATIO_TOLERANCE = 0.005;
+
+function gcd(a: number, b: number): number {
+    return b === 0 ? Math.max(1, a) : gcd(b, a % b);
+}
+
+function aspectRatioLabel(width: number, height: number): string {
+    const divisor = gcd(width, height);
+    const w = Math.round(width / divisor);
+    const h = Math.round(height / divisor);
+    if (w <= 64 && h <= 64) return `${w}:${h}`;
+    return `${(width / height).toFixed(2)}:1`;
+}
+
+function ratioGap(aspect: number, ratioValue: string): number {
+    const parsed = parseAspectRatio(ratioValue);
+    if (!parsed) return Number.POSITIVE_INFINITY;
+    return Math.abs(parsed.width / parsed.height - aspect) / aspect;
+}
+
+/**
+ * 计算本次提交的画幅方案。纯函数：不改状态、不猜协议。
+ * - 源画幅已知 → 取误差最小的上游档位；误差 ≤0.5% 视为保持，否则给出显式提示。
+ * - 源画幅未知 → 退回 16:9（上游最常见档位）并明确提示「无法跟随」。
+ */
+export function planVideoTranslationOutput(
+    source: { width?: number; height?: number } | null | undefined,
+    requestedRatio: string = VIDEO_TRANSLATION_DEFAULT_RATIO,
+    resolution: string = "720",
+): VideoTranslationOutputPlan {
+    const requested = normalizeVideoTranslationOutputRatio(requestedRatio);
+    const width = Math.round(Number(source?.width) || 0);
+    const height = Math.round(Number(source?.height) || 0);
+    const known = width > 0 && height > 0;
+    const aspect = known ? width / height : 0;
+    const sourceSize = known ? `${width}×${height}` : "";
+    const sourceRatioLabel = known ? aspectRatioLabel(width, height) : "";
+
+    let ratio: string;
+    if (requested !== VIDEO_TRANSLATION_RATIO_SOURCE) {
+        ratio = requested;
+    } else if (!known) {
+        ratio = "16:9";
+    } else {
+        const buckets = VIDEO_TRANSLATION_OUTPUT_RATIOS.filter((option) => option.value !== VIDEO_TRANSLATION_RATIO_SOURCE);
+        ratio = buckets.reduce(
+            (best, option) => (ratioGap(aspect, option.value) < ratioGap(aspect, best) ? option.value : best),
+            buckets[0].value,
+        );
+    }
+
+    const size = computeVideoSize(resolution, ratio);
+    const preservesSource = known && ratioGap(aspect, ratio) <= VIDEO_TRANSLATION_RATIO_TOLERANCE;
+
+    let notice = "";
+    if (requested === VIDEO_TRANSLATION_RATIO_SOURCE && !known) {
+        notice = `读不到原视频分辨率，无法跟随原画幅：本次按 ${ratio}（${size}）申请，上游实际返回画幅以上游为准`;
+    } else if (!known) {
+        notice = `已选 ${ratio}（${size}）；读不到原视频分辨率，无法核对是否与原画面一致`;
+    } else if (!preservesSource && requested === VIDEO_TRANSLATION_RATIO_SOURCE) {
+        notice = `上游只提供固定画幅档位：源画面 ${sourceRatioLabel}（${sourceSize}）→ 本次输出 ${ratio}（${size}）。这不是逐像素保持，画面会按比例缩放或补边`;
+    } else if (!preservesSource) {
+        notice = `已选 ${ratio}：与源画面 ${sourceRatioLabel}（${sourceSize}）不同，输出构图会按 ${ratio} 重新排布，源画面不会被完整保留`;
+    }
+
+    return { requested, ratio, size, sourceSize, sourceRatioLabel, preservesSource, notice };
+}
 
 /** videoType 属于 model-catalog 枚举；未拿到目录时沿用页面唯一的「视频翻译」。 */
 export type VideoTranslationOption = { id: string; label: string };
@@ -143,6 +269,8 @@ export type VideoTranslationValues = {
     lipSync: boolean;
     /** 输出数量：上游一次只回 1 条，>1 会被能力检查拦下，不静默丢参 */
     outputNum: number;
+    /** 输出画幅：默认跟随原视频（不再落到全局 size=1:1 造成方形重构图） */
+    outputRatio: string;
     /** 标准 / 高级模式 */
     mode: VideoTranslationMode;
     /** videoType（model-catalog 枚举；未接入目录时只有 video-translation） */
@@ -160,6 +288,7 @@ export function createVideoTranslationValues(patch: Partial<VideoTranslationValu
         targetLanguage: VIDEO_TRANSLATION_DEFAULT_TARGET,
         lipSync: true,
         outputNum: VIDEO_TRANSLATION_DEFAULT_OUTPUT,
+        outputRatio: VIDEO_TRANSLATION_DEFAULT_RATIO,
         mode: "standard",
         videoType: VIDEO_TRANSLATION_VIDEO_TYPES[0].id,
         sourceVideoAssetId: "",
@@ -169,6 +298,7 @@ export function createVideoTranslationValues(patch: Partial<VideoTranslationValu
     };
     const merged = { ...base, ...patch };
     merged.outputNum = normalizeVideoTranslationOutput(merged.outputNum);
+    merged.outputRatio = normalizeVideoTranslationOutputRatio(merged.outputRatio);
     merged.mode = normalizeVideoTranslationMode(merged.mode);
     if (merged.sourceLanguage !== VIDEO_TRANSLATION_AUTO_SOURCE.id && merged.sourceLanguage === merged.targetLanguage) {
         // 显式源语言与目标语言相同 → 没有可翻译内容，退回自动识别，避免提交空任务。
@@ -202,6 +332,7 @@ export function serializeVideoTranslationDraftValues(values: VideoTranslationVal
         targetLanguage: values.targetLanguage,
         lipSync: values.lipSync,
         outputNum: values.outputNum,
+        outputRatio: values.outputRatio,
         mode: values.mode,
         videoType: values.videoType,
         sourceVideoName: values.sourceVideoName,
@@ -214,6 +345,7 @@ const draftValuesSchema = z.object({
     targetLanguage: z.string().optional(),
     lipSync: z.boolean().optional(),
     outputNum: z.number().optional(),
+    outputRatio: z.string().optional(),
     mode: z.string().optional(),
     videoType: z.string().optional(),
     sourceVideoName: z.string().optional(),
@@ -234,6 +366,7 @@ export function parseVideoTranslationDraftValues(
         targetLanguage: known ? (data.targetLanguage as string) : VIDEO_TRANSLATION_DEFAULT_TARGET,
         lipSync: data.lipSync ?? true,
         outputNum: data.outputNum ?? VIDEO_TRANSLATION_DEFAULT_OUTPUT,
+        outputRatio: normalizeVideoTranslationOutputRatio(data.outputRatio),
         mode: normalizeVideoTranslationMode(data.mode),
         videoType: videoTypes ? (data.videoType as string) : catalog.videoTypes[0].id,
         sourceVideoName: data.sourceVideoName ?? "",
@@ -277,6 +410,7 @@ export function videoTranslationStableParts(values: VideoTranslationValues): str
         values.targetLanguage,
         String(values.lipSync),
         String(normalizeVideoTranslationOutput(values.outputNum)),
+        normalizeVideoTranslationOutputRatio(values.outputRatio),
         values.mode,
         values.videoType,
         values.sourceVideoAssetId,

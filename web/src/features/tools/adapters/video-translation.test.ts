@@ -15,8 +15,10 @@ import {
 } from "@/features/tools/adapters/video-translation";
 import {
     VIDEO_TRANSLATION_AUTO_SOURCE,
+    VIDEO_TRANSLATION_DEFAULT_RATIO,
     VIDEO_TRANSLATION_DEFAULT_TARGET,
     VIDEO_TRANSLATION_FIELD_ORDER,
+    VIDEO_TRANSLATION_OUTPUT_RATIOS,
     VIDEO_TRANSLATION_OUTPUT_OPTIONS,
     VIDEO_TRANSLATION_SOURCE_RULE,
     VIDEO_TRANSLATION_SUPPORTED_OUTPUT,
@@ -25,10 +27,15 @@ import {
     createVideoTranslationValues,
     getVideoTranslationSpec,
     normalizeVideoTranslationOutput,
+    normalizeVideoTranslationOutputRatio,
     parseVideoTranslationDraftValues,
+    planVideoTranslationOutput,
     serializeVideoTranslationDraftValues,
 } from "@/features/tools/registry/video-translation";
 import type { ToolTask } from "@/services/api/tools/task-machine";
+import { buildToolConfig } from "@/services/api/tools/gateway";
+import { defaultConfig } from "@/stores/use-config-store";
+import { computeVideoSize, inferVideoRatio, parseVideoResolution } from "@/lib/media-size";
 
 const MB = 1024 * 1024;
 
@@ -246,6 +253,128 @@ describe("VIDEO_TRANSLATION：构建真实请求", () => {
         expect(input.videos?.[0]?.url).toBe("blob:demo");
         expect(Object.keys(input.fields ?? {}).sort()).toEqual([...VIDEO_TRANSLATION_FIELD_ORDER].sort());
         expect(auditVideoTranslationPrompt(input.prompt ?? "", values)).toEqual([]);
+    });
+});
+
+describe("VIDEO_TRANSLATION：输出画幅（r26 真实源片 1344×768）", () => {
+    /**
+     * 协议级：adapter 传 videoRatio 后，网关必须把它换算成上游真实吃的像素 size。
+     * 修复前：全局 size=1:1 → computeVideoSize("720","1:1") = "720x720" → 上游返回 768×768。
+     */
+    test("网关把 videoRatio=16:9 换算成 1280x720（不再沿用全局 1:1 的 720x720）", () => {
+        const base = { ...defaultConfig, size: "1:1", vquality: "720" } as Parameters<typeof buildToolConfig>[0];
+        const legacy = buildToolConfig(base, "video", {});
+        const fixed = buildToolConfig(base, "video", { videoRatio: "16:9" });
+        /* 网关对全局 size 原样透传；像素化发生在 provider（video.ts normalizeVideoSize）：
+         * "1:1" → computeVideoSize("720","1:1") = "720x720"，上游再对齐成 768×768（r26 实测）。
+         * 传了 videoRatio 时网关直接给出像素串，"1280x720" 反推出的比例正是 16:9。 */
+        expect(legacy.size).toBe("1:1");
+        expect(computeVideoSize(parseVideoResolution(base.vquality), legacy.size)).toBe("720x720");
+        expect(fixed.size).toBe("1280x720");
+        expect(computeVideoSize(parseVideoResolution(base.vquality), "16:9")).toBe(fixed.size);
+        /* 上游 body 直接吃像素串：video.ts normalizeVideoSize 对 "1280x720" 原样返回，
+         * ratio 再由 inferVideoRatio 反推 —— 两者必须互相对得上，否则上游会按 ratio 重新构图。 */
+        expect(/^\d+x\d+$/.test(fixed.size)).toBe(true);
+        expect(inferVideoRatio(fixed.size)).toBe("16:9");
+    });
+
+    test("默认画幅是「跟随原视频」，不再落到全局 size=1:1", () => {
+        const values = createVideoTranslationValues();
+        expect(values.outputRatio).toBe(VIDEO_TRANSLATION_DEFAULT_RATIO);
+        expect(VIDEO_TRANSLATION_DEFAULT_RATIO).toBe("source");
+        expect(VIDEO_TRANSLATION_OUTPUT_RATIOS.map((item) => item.value)).toEqual([
+            "source",
+            "1:1",
+            "3:4",
+            "4:3",
+            "16:9",
+            "9:16",
+            "21:9",
+        ]);
+    });
+
+    test("1344×768 源片：按最接近的上游档位 16:9 申请，并显式说明不是逐像素保持", () => {
+        const plan = planVideoTranslationOutput({ width: 1344, height: 768 });
+        expect(plan.ratio).toBe("16:9");
+        expect(plan.size).toBe("1280x720");
+        expect(plan.sourceSize).toBe("1344×768");
+        expect(plan.sourceRatioLabel).toBe("7:4");
+        expect(plan.preservesSource).toBe(false);
+        // 关键回归：不能静默裁切，必须出现「不是逐像素保持」的显式提示
+        expect(plan.notice).toContain("不是逐像素保持");
+        expect(plan.notice).toContain("7:4");
+        expect(plan.notice).toContain("1344×768");
+        expect(plan.notice).toContain("16:9");
+    });
+
+    test("源比例正好等于上游档位时视为保持（1280×720 / 1080×1920）", () => {
+        const landscape = planVideoTranslationOutput({ width: 1280, height: 720 });
+        expect(landscape.ratio).toBe("16:9");
+        expect(landscape.preservesSource).toBe(true);
+        expect(landscape.notice).toBe("");
+
+        const portrait = planVideoTranslationOutput({ width: 1080, height: 1920 });
+        expect(portrait.ratio).toBe("9:16");
+        expect(portrait.size).toBe("720x1280");
+        expect(portrait.preservesSource).toBe(true);
+        expect(portrait.notice).toBe("");
+    });
+
+    test("源尺寸读不到时不猜：退回 16:9 并明确提示无法跟随", () => {
+        const plan = planVideoTranslationOutput(null);
+        expect(plan.ratio).toBe("16:9");
+        expect(plan.sourceSize).toBe("");
+        expect(plan.preservesSource).toBe(false);
+        expect(plan.notice).toContain("读不到原视频分辨率");
+        expect(plan.notice).toContain("无法跟随原画幅");
+        /* 显式选档且源尺寸未知时，措辞不能说「无法跟随原画幅」（用户本来就没选跟随）。 */
+        const explicit = planVideoTranslationOutput({ width: 0, height: 0 }, "9:16", "720");
+        expect(explicit.ratio).toBe("9:16");
+        expect(explicit.notice).toContain("无法核对是否与原画面一致");
+        expect(explicit.notice).not.toContain("无法跟随原画幅");
+    });
+
+    test("用户显式选 1:1：照做，但必须提示源画面不会被完整保留", () => {
+        const plan = planVideoTranslationOutput({ width: 1344, height: 768 }, "1:1");
+        expect(plan.ratio).toBe("1:1");
+        expect(plan.size).toBe("720x720");
+        expect(plan.preservesSource).toBe(false);
+        expect(plan.notice).toContain("不会被完整保留");
+    });
+
+    test("非法画幅值回落到默认「跟随原视频」", () => {
+        expect(normalizeVideoTranslationOutputRatio("banana")).toBe("source");
+        expect(normalizeVideoTranslationOutputRatio(undefined)).toBe("source");
+        expect(normalizeVideoTranslationOutputRatio("9:16")).toBe("9:16");
+    });
+
+    test("真实请求携带 videoRatio：1344×768 源片 → 16:9（而不是沿用全局 1:1）", () => {
+        const values = createVideoTranslationValues({ lipSync: false });
+        const input = buildVideoTranslationBrowserInput({
+            values,
+            source: source({ width: 1344, height: 768 }),
+            model: "video-model",
+        });
+        expect(input.videoRatio).toBe("16:9");
+        expect(input.size).toBeUndefined();
+        // 画幅不是 provider 字段：7 个字段的契约不受影响
+        expect(Object.keys(input.fields ?? {}).sort()).toEqual([...VIDEO_TRANSLATION_FIELD_ORDER].sort());
+
+        const square = buildVideoTranslationBrowserInput({
+            values: createVideoTranslationValues({ lipSync: false, outputRatio: "1:1" }),
+            source: source({ width: 1344, height: 768 }),
+            model: "video-model",
+        });
+        expect(square.videoRatio).toBe("1:1");
+    });
+
+    test("画幅进草稿与指纹：改画幅会让旧结果变「来自旧版本配置」", () => {
+        const base = createVideoTranslationValues({ outputRatio: "source" });
+        const restored = parseVideoTranslationDraftValues(serializeVideoTranslationDraftValues(base));
+        expect(restored.outputRatio).toBe("source");
+
+        const changed = createVideoTranslationValues({ outputRatio: "9:16" });
+        expect(createVideoTranslationSnapshot(changed).hash).not.toBe(createVideoTranslationSnapshot(base).hash);
     });
 });
 

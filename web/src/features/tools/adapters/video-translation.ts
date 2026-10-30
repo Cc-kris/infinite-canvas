@@ -12,12 +12,15 @@ import {
     createVideoTranslationSnapshot,
     createVideoTranslationValues,
     normalizeVideoTranslationOutput,
+    normalizeVideoTranslationOutputRatio,
+    planVideoTranslationOutput,
     resolveVideoTranslationCatalog,
     videoTranslationLanguageLabel,
     videoTranslationOptionLabel,
     videoTranslationSourceOptions,
     videoTranslationTargetOptions,
     type VideoTranslationCatalog,
+    type VideoTranslationOutputPlan,
     type VideoTranslationSnapshot,
     type VideoTranslationValues,
 } from "../registry/video-translation";
@@ -273,6 +276,8 @@ export type BuildVideoTranslationInputArgs = {
     catalog?: VideoTranslationCatalog;
     lipSyncSupported?: boolean;
     nativeOutputCount?: number;
+    /** 分辨率档位（全局 videoQuality）：只影响申请给上游的像素尺寸，档位本身由 ratio 推。 */
+    resolution?: string;
 };
 
 /** 页面 7 个 provider 字段：一个都不能缺（gateway 按 fields 声明校验）。 */
@@ -331,13 +336,28 @@ export function buildVideoTranslationBrowserInput(args: BuildVideoTranslationInp
     }
 
     const segments = composeVideoTranslationPrompt(values, catalog);
+    const outputPlan = resolveVideoTranslationOutputPlan(values, args.source, args.resolution);
     return {
         toolId: VIDEO_TRANSLATION_TOOL_ID,
         prompt: segments.text,
         videos: [toVideoTranslationVideoRef(args.source)],
         model,
         fields: buildVideoTranslationFields(values, args.source),
+        // 画幅：默认跟随原视频。不传的话 gateway 会退回全局 config.size=1:1（方形重构图）。
+        videoRatio: outputPlan.ratio,
     };
+}
+
+/**
+ * 本次提交的画幅方案（UI 与请求层共用同一份判断，避免「提示一套、提交另一套」）。
+ * 源比例命中上游档位（误差 ≤0.5%）才算保持，否则带显式 notice。
+ */
+export function resolveVideoTranslationOutputPlan(
+    values: Pick<VideoTranslationValues, "outputRatio">,
+    source: Pick<VideoTranslationSource, "width" | "height"> | null | undefined,
+    resolution: string = "720",
+): VideoTranslationOutputPlan {
+    return planVideoTranslationOutput(source, normalizeVideoTranslationOutputRatio(values.outputRatio), resolution);
 }
 
 /* ============================== 提交 / 重试 ============================== */

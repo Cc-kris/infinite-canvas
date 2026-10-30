@@ -24,6 +24,7 @@ import {
     checkVideoTranslationSource,
     createVideoTranslationRunPort,
     retryVideoTranslationTask,
+    resolveVideoTranslationOutputPlan,
     runVideoTranslationTask,
     videoTranslationResultView,
     videoTranslationSourceFromRecord,
@@ -31,11 +32,13 @@ import {
 } from "@/features/tools/adapters/video-translation";
 import {
     VIDEO_TRANSLATION_OUTPUT_OPTIONS,
+    VIDEO_TRANSLATION_OUTPUT_RATIOS,
     VIDEO_TRANSLATION_SOURCE_RULE,
     VIDEO_TRANSLATION_SUPPORTED_OUTPUT,
     VIDEO_TRANSLATION_TOOL_ID,
     applyVideoTranslationSource,
     createVideoTranslationSnapshot,
+    normalizeVideoTranslationOutputRatio,
     createVideoTranslationValues,
     getVideoTranslationSpec,
     isVideoTranslationSnapshotStale,
@@ -150,6 +153,15 @@ export function VideoTranslationWorkspace({ className }: VideoTranslationWorkspa
     const capability = useMemo(() => checkVideoTranslationCapability(values), [values]);
 
     /**
+     * 输出画幅方案：默认跟随原视频，按上游真实档位换算，偏离源比例时给出显式提示（不静默裁切）。
+     * 与提交时用的是同一个函数，避免「页面提示一套、真实请求另一套」。
+     */
+    const outputPlan = useMemo(
+        () => resolveVideoTranslationOutputPlan(values, source, config.vquality),
+        [config.vquality, source, values],
+    );
+
+    /**
      * 当前通道描述：跨工具共用的能力闸门要按「这次实际会走的传输通道」判定。
      * 静态只看 registry 会把 lipSync 当永久必需能力（所有通道都没有该参数）→ 永久禁用。
      */
@@ -218,7 +230,13 @@ export function VideoTranslationWorkspace({ className }: VideoTranslationWorkspa
                     values: values as unknown as Record<string, unknown>,
                     nativeOutputCount: VIDEO_TRANSLATION_SUPPORTED_OUTPUT,
                 });
-                const browserInput = buildVideoTranslationBrowserInput({ values, source, model, catalog });
+                const browserInput = buildVideoTranslationBrowserInput({
+                    values,
+                    source,
+                    model,
+                    catalog,
+                    resolution: config.vquality,
+                });
                 const port = await createVideoTranslationRunPort();
                 const submitted = createVideoTranslationSnapshot(values, catalog);
                 setSnapshot(submitted);
@@ -235,7 +253,7 @@ export function VideoTranslationWorkspace({ className }: VideoTranslationWorkspa
                 if (aliveRef.current) setRunning(false);
             }
         },
-        [catalog, model, provider, running, source, task, values],
+        [catalog, config.vquality, model, provider, running, source, task, values],
     );
 
     const sidebar = (
@@ -422,6 +440,40 @@ export function VideoTranslationWorkspace({ className }: VideoTranslationWorkspa
                                 ))}
                             </select>
                         </label>
+                        <label className="block text-[11px] text-muted-foreground">
+                            输出画幅
+                            <select
+                                className="mt-1 w-full rounded-md border border-border bg-background px-2 py-1.5 text-sm"
+                                value={values.outputRatio}
+                                disabled={running}
+                                data-testid="video-translation-output-ratio"
+                                onChange={(event) =>
+                                    setValues((previous) => ({
+                                        ...previous,
+                                        outputRatio: normalizeVideoTranslationOutputRatio(event.target.value),
+                                    }))
+                                }
+                            >
+                                {VIDEO_TRANSLATION_OUTPUT_RATIOS.map((option) => (
+                                    <option key={option.value} value={option.value}>
+                                        {option.label}
+                                    </option>
+                                ))}
+                            </select>
+                        </label>
+                        <p className="text-[11px] leading-4 text-muted-foreground" data-testid="video-translation-aspect-summary">
+                            本次提交画幅：{outputPlan.ratio}（{outputPlan.size}）
+                            {outputPlan.sourceSize ? ` · 源画面 ${outputPlan.sourceRatioLabel}（${outputPlan.sourceSize}）` : ""}
+                        </p>
+                        {outputPlan.notice ? (
+                            <p
+                                className="rounded border border-amber-200 bg-amber-50 p-2 text-[11px] leading-4 text-amber-800"
+                                role="alert"
+                                data-testid="video-translation-aspect-notice"
+                            >
+                                {outputPlan.notice}
+                            </p>
+                        ) : null}
                     </section>
 
                     <section className="space-y-2 rounded-lg border border-border p-3">
