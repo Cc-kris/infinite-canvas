@@ -1,0 +1,68 @@
+{
+  "schema": "independent-verify/1.0",
+  "report": "docs/V1.0/reports/verify-head-r32-fixed/REPORT.md",
+  "date": "2026-10-30",
+  "branch": "feat/linkfox-v1-real",
+  "verifier": "lf_r32_gate_recovery (independent worker, DeepSeek)",
+  "pin": {
+    "commit": "f53da52afc2279701e816e9ae43a19ae66f22e63",
+    "tree": "e3cfa171f2d6341f4ef855f93adb08ea8117210e",
+    "web_tree": "61392c0ef360d2a650e950f4d7cf34695926000a",
+    "commit_time": "2026-10-30T14:37:05+08:00",
+    "archive_sha256": "e5798a4d75d82922f68a31679053341fcaa5c4b56e7c39dfdd8a92224ba177a7",
+    "archive_files": 3950,
+    "required_ancestors": {
+      "9b208e07": true,
+      "45fe59a6": true,
+      "f53da52a": true
+    }
+  },
+  "isolation": {
+    "method": "git archive --format=tar <PIN> | tar -x -C fresh-dir",
+    "snapshot": "/tmp/icw-r32f/snap",
+    "fresh_install": true,
+    "blob_verify": { "tree_entries": 3950, "ok": 3950, "diff": 0, "missing": 0, "web_src_ok": 420, "web_src_diff": 0, "result": "PASS" }
+  },
+  "gates": {
+    "gate0_install": { "cmd": "bun install", "exit": 0, "packages": 931, "seconds": 5.9, "node_modules": "582 dirs / 701MB" },
+    "gate1_typecheck": { "cmd": "bun run typecheck (tsc --noEmit)", "exit": 0, "errors": 0, "seconds": 154 },
+    "gate2_test": { "cmd": "bun test", "exit": 0, "pass": 1578, "fail": 0, "expect_calls": 8667, "files": 95, "seconds": 5.99 },
+    "gate3_build": { "cmd": "bun run build (vite)", "exit": 0, "modules": 8834, "seconds": 68, "dist_files": 443, "dist_size": "37MB" }
+  },
+  "targeted": {
+    "auth_both_orders": {
+      "media_first": { "pass": 14, "fail": 0 },
+      "ingest_first": { "pass": 14, "fail": 0 },
+      "single_media_auth": { "pass": 11, "fail": 0 },
+      "single_ingest_auth": { "pass": 3, "fail": 0 },
+      "conclusion": "order-sensitive false-red from r30 is gone at PIN; 9b208e07 fix present (ingest-auth.test.ts:38 realFileStorage spread)"
+    },
+    "vt_group": { "pass": 68, "fail": 0, "files": 5 },
+    "vt_per_file": {
+      "services/api/video-translation-seed-v25.test.ts": { "pass": 12, "fail": 0 },
+      "services/api/tools/gateway.video-translation-seed-v25.test.ts": { "pass": 4, "fail": 0 },
+      "components/tools/workspaces/video-translation-honesty.test.tsx": { "pass": 7, "fail": 0 },
+      "components/tools/workspaces/video-translation-i18n.test.tsx": { "pass": 6, "fail": 0 },
+      "features/tools/adapters/video-translation.test.ts": { "pass": 39, "fail": 0 }
+    },
+    "vt_seed_reversed": { "pass": 16, "fail": 0 }
+  },
+  "cross_checks": [
+    { "item": "r30 self-report 1582 pass vs PIN 1578", "resolution": "diff 4 = uncommitted third-party WIP adds exactly 4 test blocks in adapters/video-translation.test.ts (+36 lines); PIN excludes WIP" },
+    { "item": "r31 self-report 1581 pass / 1 fail + tsc error in video-translation-i18n.test.tsx", "resolution": "both were cross-file contamination from r30's uncommitted UI work; resolved at PIN (1578/0 fail, tsc 0 error)" },
+    { "item": "r30 gate baseline", "resolution": "tests 1556 -> 1578 (+22: seed 16 + i18n component 6); modules 8833 -> 8834 (+1 seed-v25 protocol layer); web/src blobs 416 -> 420 (+4)" }
+  ],
+  "capability": {
+    "video_translation_i18n": "PASS at component/unit level; browser visual evidence is r30's own capture, NOT re-run by this gate",
+    "video_translation_seed_v25_wiring": "PASS (protocol layer + gateway gate + JSON-only submit + 404 normalization, 16 unit tests)",
+    "video_translation_real_generation": "BLOCKED/FAIL - channel only declares MiniMax-H3; upstream rejects doubao-seedance-2-5; no task, no charge, no model substitution",
+    "seed_v25_poll_field_mapping": "UNVERIFIED (no real render to compare against)"
+  },
+  "unverified": [
+    "real generation end-to-end (channel model not provisioned; constraint forbids model switching / nested dispatch / charging)",
+    "browser visual acceptance re-run (recorded as r30 evidence only)",
+    "upstream poll status/videoUrl field mapping"
+  ],
+  "verdict": "PASS for the four gates and targeted suites at PIN f53da52a; VT real-generation capability remains BLOCKED",
+  "artifacts_dir": "docs/V1.0/reports/verify-head-r32-fixed/logs"
+}

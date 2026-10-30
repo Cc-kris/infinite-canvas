@@ -1,0 +1,6 @@
+tree e3cfa171f2d6341f4ef855f93adb08ea8117210e
+parent 45fe59a6545473a6173315fbc7b30d6bf46c655f
+author Cc-kris <krix.weng@gamil.com> 1793342225 +0800
+committer Cc-kris <krix.weng@gamil.com> 1793342225 +0800
+
+fix(video-translation,i18n): EN 态中文残留清零（状态/结果/历史/侧边栏/面包屑）

@@ -1,0 +1,5 @@
+src/services/api/video-translation-seed-v25.test.ts exit=0 ::  12 pass  0 fail 
+src/services/api/tools/gateway.video-translation-seed-v25.test.ts exit=0 ::  4 pass  0 fail 
+src/components/tools/workspaces/video-translation-honesty.test.tsx exit=0 ::  7 pass  0 fail 
+src/components/tools/workspaces/video-translation-i18n.test.tsx exit=0 ::  6 pass  0 fail 
+src/features/tools/adapters/video-translation.test.ts exit=0 ::  39 pass  0 fail 

@@ -1,0 +1,3 @@
+ M project_memory.md
+ M web/src/features/tools/adapters/video-translation.test.ts
+ M web/src/features/tools/adapters/video-translation.ts

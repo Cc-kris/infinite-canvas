@@ -1,0 +1,5 @@
+commit=f53da52afc2279701e816e9ae43a19ae66f22e63
+tree entries: 3950  blobs ok=3950 diff=0 missing=0
+web/src blobs: ok=420 diff=0 missing=0
+non-blob entries: 0
+RESULT: PASS

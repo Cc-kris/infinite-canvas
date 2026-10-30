@@ -1,0 +1,8 @@
+f53da52a fix(video-translation,i18n): EN 态中文残留清零（状态/结果/历史/侧边栏/面包屑）
+45fe59a6 feat(video-translation): SEED_V25 真路由协议层 + 网关闸门 + JSON 提交
+2b52ba02 docs(audit): R31 独立矩阵重算（39 工具×六维），VIDEO_TRANSLATION.F 维持 PARTIAL
+c9a33341 docs(verify-r30): 补记 P2 已由 9b208e07 修复并在当前 HEAD 复核 14/0
+9b208e07 test(media-auth): 修 ingest-auth 替身泄漏致定向跑 media-auth 假红 + 复现报告
+a8a3ec0f docs(media-auth): 记录 R30 定向跑假红复现结论与提交归属（fix 内容随 a773db38 入库）
+f44e1e0c verify(r30): 固定 HEAD e7826acf 独立四闸（install/typecheck/1556 单测/8833 模块）
+442c14d1 docs(vt-r29-ui): 视频翻译诚实降级 UI 机读验收 9/9 PASS（含源码同一性证明与 i18n 缺口量化）

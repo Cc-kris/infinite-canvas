@@ -1,0 +1,8 @@
+START 2026-10-30 14:41:05
+== gate1 typecheck
+typecheck_exit=0 14:43:39
+== gate2 full test
+test_exit=0 14:43:45
+== gate3 build
+build_exit=0 14:44:56
+DONE 14:44:56
