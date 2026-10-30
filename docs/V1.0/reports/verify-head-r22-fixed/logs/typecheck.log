@@ -1,0 +1,5 @@
+$ tsc --noEmit
+
+real	0m36.208s
+user	0m28.720s
+sys	0m5.174s

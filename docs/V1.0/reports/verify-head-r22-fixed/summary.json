@@ -1,0 +1,99 @@
+{
+  "gate": "fixed-HEAD independent verification (typecheck / full unit tests / build)",
+  "round": "r22-fixed",
+  "repo": "/Users/mac/Documents/Dev/infinite-canvas",
+  "branch_under_test": "feat/linkfox-v1-real",
+  "head_commit": "382cebf6485d063284f285e8e9f5b566b5b48088",
+  "head_commit_full": "382cebf6485d063284f285e8e9f5b566b5b48088",
+  "head_commit_tree": "a5671a03fcc02416ade3a4b7f08edc6e2fc084f0",
+  "head_web_src_tree": "79208e3cd1746af049efae4129f66a4dfcf3a5bc",
+  "head_web_tree": "729b29e0743f893f6512e11ce2e310558aeeb655",
+  "head_commit_date": "2026-10-30 12:00:02 +0800",
+  "head_commit_subject": "verify(r22-h): IMAGE_TEXT_EDIT 真实任务五路字节对账 PASS（结果/面板下载/存资产/发画布/资产卡下载同一 sha256）",
+  "isolation": {
+    "method": "git archive <commit> | tar -x -C /private/tmp/icw-r22-head (no .git, working tree untouched)",
+    "snapshot_files": 3638,
+    "tree_files": 3638,
+    "archive_sha256": "78ae6b78ec533a3dac0b63e7436dd124c1e9698e1fddbd0596d095329e76cb03",
+    "archive_bytes": 436879360,
+    "web_src_blob_check": {
+      "files_checked": 405,
+      "missing": 0,
+      "mismatch": 0
+    },
+    "deps": "bun install --frozen-lockfile -> 931 packages, node_modules 701M"
+  },
+  "excluded_from_conclusion": {
+    "reason": "concurrent workers' uncommitted changes in main working tree",
+    "dirty_web_src_entries": [
+      "M web/src/components/tools/workspaces/video.tsx",
+      " M web/src/features/tools/adapters/ai-video-editing.test.ts",
+      " M web/src/features/tools/registry/ai-video-editing.ts"
+    ]
+  },
+  "toolchain": {
+    "runner": "bun 1.4.2",
+    "node": "v24.14.0",
+    "typescript": "5.9.3",
+    "vite": "7.3.6",
+    "install": "bun install --frozen-lockfile (931 packages)"
+  },
+  "gates": [
+    {
+      "name": "typecheck",
+      "cwd": "web",
+      "command": "bun run typecheck (= tsc --noEmit)",
+      "exit_code": 0,
+      "duration_s": 36.2,
+      "result": "no diagnostics",
+      "error_ts_count": 0,
+      "log": "logs/typecheck.log"
+    },
+    {
+      "name": "typecheck-non-empty-proof",
+      "cwd": "web",
+      "command": "./node_modules/.bin/tsc --noEmit --listFiles",
+      "exit_code": 0,
+      "files_in_program": 3437,
+      "files_under_web_src": 404,
+      "error_ts_count": 0,
+      "log": "logs/tsc-listfiles.log"
+    },
+    {
+      "name": "unit-tests",
+      "cwd": "web",
+      "command": "bun test (bunfig pathIgnorePatterns **/*.spec.ts)",
+      "exit_code": 0,
+      "duration_s": 3.4,
+      "tests_run": 1493,
+      "passed": 1493,
+      "failed": 0,
+      "expect_calls": 8374,
+      "test_files": 85,
+      "playwright_spec_leakage": 0,
+      "log": "logs/buntest.log"
+    },
+    {
+      "name": "build",
+      "cwd": "web",
+      "command": "bun run build (= vite build)",
+      "exit_code": 0,
+      "duration_s": 27.13,
+      "result": "built in 27.13s",
+      "dist_size": "42M",
+      "dist_files": 443,
+      "main_js": {
+        "file": "assets/index-BT-ryNDQ.js",
+        "bytes": 5609588
+      },
+      "main_css": {
+        "file": "assets/index-Bi0Yw3LF.css",
+        "bytes": 159773
+      },
+      "index_html_bytes": 1050,
+      "log": "logs/build.log"
+    }
+  ],
+  "verdict": "PASS (3/3 gates green on the fixed HEAD snapshot)",
+  "generated_at": "2026-10-30T04:03:00Z"
+}
