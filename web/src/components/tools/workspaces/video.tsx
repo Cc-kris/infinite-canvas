@@ -1500,12 +1500,23 @@ export function AiVideoEditingWorkspace({ className }: AiVideoEditingWorkspacePr
                 const parsed = parseAiVideoEditingDraftValues(draft.values);
                 revisionRef.current = draft.revision;
                 setState((previous) => ({ ...previous, ...parsed.state }));
-                const ids = [parsed.sourceAssetId, ...parsed.referenceAssetIds].filter(Boolean);
+                /* 旧草稿（分槽字段上线前）只有顶层 assetIds（源视频与参考图的并集）。
+                 * 不迁移就会整块丢掉参考图：这里按 mimeType 归位——视频回源视频位，图片回参考图位。 */
+                const legacyIds = (draft.assetIds ?? []).filter(
+                    (id) => typeof id === "string" && id.length > 0 && id !== parsed.sourceAssetId,
+                );
+                const ids = [...new Set([parsed.sourceAssetId, ...parsed.referenceAssetIds, ...legacyIds].filter(Boolean))];
                 if (!ids.length) return;
                 const restored = await loadToolAssetRecords(ids);
                 if (!alive) return;
                 setSourceRecords(restored.records.filter((record) => record.id === parsed.sourceAssetId));
-                setReferenceRecords(restored.records.filter((record) => parsed.referenceAssetIds.includes(record.id)));
+                const referenceIds = parsed.referenceAssetIds.length
+                    ? parsed.referenceAssetIds
+                    : legacyIds.filter((id) => {
+                          const record = restored.records.find((item) => item.id === id);
+                          return Boolean(record) && !String(record?.mimeType ?? "").startsWith("video/");
+                      });
+                setReferenceRecords(restored.records.filter((record) => referenceIds.includes(record.id)));
                 if (restored.lostIds.length) setNotice(`${restored.lostIds.length} 个素材本地数据已失效，请重新上传`);
             })
             .catch(() => undefined)
@@ -1520,7 +1531,11 @@ export function AiVideoEditingWorkspace({ className }: AiVideoEditingWorkspacePr
     useEffect(() => {
         if (!draftReady) return;
         patchDraft(AI_VIDEO_EDITING_TOOL_ID, {
-            values: serializeAiVideoEditingDraftValues(state, sourceRecords[0]?.id ?? ""),
+            values: serializeAiVideoEditingDraftValues(
+                state,
+                sourceRecords[0]?.id ?? "",
+                referenceRecords.map((record) => record.id),
+            ),
             assetIds: [...sourceRecords, ...referenceRecords].map((record) => record.id),
         });
     }, [draftReady, patchDraft, referenceRecords, sourceRecords, state]);
@@ -1751,6 +1766,10 @@ export function AiVideoEditingWorkspace({ className }: AiVideoEditingWorkspacePr
                         </div>
                         <ToolAssetInput
                             toolId={AI_VIDEO_EDITING_TOOL_ID}
+                            /* 原视频与参考图是两个上传区：必须各自占草稿槽位，否则刷新后两块都按顶层
+                             * assetIds（两槽并集）恢复，源视频位会冒出参考图、参考图位会冒出源视频。 */
+                            draftSlot="source-video"
+                            syncIds={sourceRecords.map((record) => record.id)}
                             title="上传需要编辑的视频"
                             constraints={AI_VIDEO_SOURCE_CONSTRAINTS}
                             maxCount={1}
@@ -1814,6 +1833,8 @@ export function AiVideoEditingWorkspace({ className }: AiVideoEditingWorkspacePr
                         </div>
                         <ToolAssetInput
                             toolId={AI_VIDEO_EDITING_TOOL_ID}
+                            draftSlot="reference-images"
+                            syncIds={referenceRecords.map((record) => record.id)}
                             title="上传参考图"
                             constraints={AI_VIDEO_REFERENCE_CONSTRAINTS}
                             maxCount={AI_VIDEO_EDITING_MAX_REFERENCES}

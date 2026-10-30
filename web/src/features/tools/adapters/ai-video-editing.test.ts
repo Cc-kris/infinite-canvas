@@ -265,6 +265,20 @@ describe("AI_VIDEO_EDITING prompt & snapshot", () => {
         expect(bad.clipDuration).toBeGreaterThan(0);
         expect(parseAiVideoEditingDraftValues("nope").state.prompt).toBe("");
     });
+
+    test("草稿必须带走参考图 id：刷新后参考图位不能清空（两槽不得互相窜）", () => {
+        const state = createAiVideoEditingState({ prompt: "换成夜景" });
+        const serialized = serializeAiVideoEditingDraftValues(state, "asset-video-1", ["asset-image-1", "asset-image-2", ""]);
+        // 空串被剔除，仅保留真实资产 id
+        expect(serialized.referenceAssetIds).toEqual(["asset-image-1", "asset-image-2"]);
+        const round = parseAiVideoEditingDraftValues(serialized);
+        expect(round.sourceAssetId).toBe("asset-video-1");
+        expect(round.referenceAssetIds).toEqual(["asset-image-1", "asset-image-2"]);
+        // 源视频位只认 sourceAssetId，参考图位只认 referenceAssetIds：互不串槽
+        expect(round.referenceAssetIds.includes("asset-video-1")).toBe(false);
+        // 旧草稿（没有 referenceAssetIds 字段）回落空数组，不报错、不猜
+        expect(parseAiVideoEditingDraftValues({ sourceAssetId: "asset-video-1" }).referenceAssetIds).toEqual([]);
+    });
 });
 
 /* ============================== registry：能力判定 ============================== */

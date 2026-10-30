@@ -422,14 +422,20 @@ export function aiVideoEditingOutputLabel(window: AiVideoEditingClipWindow): str
     return `1 条 · ${window.durationSec} 秒`;
 }
 
-/** 草稿序列化：只落 UI 可恢复状态 + 源资产 id；文件本体由资产库管理。 */
-export function serializeAiVideoEditingDraftValues(state: AiVideoEditingState, sourceAssetId: string) {
+/** 草稿序列化：只落 UI 可恢复状态 + 源资产 id + 参考图 id；文件本体由资产库管理。
+ *  参考图 id 必须一起落盘：否则刷新后 parse 永远拿到空数组，参考图位被清空、提交被判缺少必填参考图。 */
+export function serializeAiVideoEditingDraftValues(
+    state: AiVideoEditingState,
+    sourceAssetId: string,
+    referenceAssetIds: readonly string[] = [],
+) {
     return {
         videoType: state.videoType,
         clipStart: state.clipStart,
         clipDuration: state.clipDuration,
         prompt: state.prompt,
         sourceAssetId,
+        referenceAssetIds: referenceAssetIds.filter((id): id is string => typeof id === "string" && id.length > 0),
     };
 }
 
