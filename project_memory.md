@@ -546,3 +546,12 @@
   - 结论：**上游 SEED_V25 视频翻译模型在任何已配置渠道都未开通**（外部能力阻断，非代码缺陷）；但 ASR→MT→TTS 的兜底链路在模型层完全可行。
 - **兜底链路的物理约束**：项目 `web/package.json` **没有 ffmpeg/ffmpeg.wasm/mp4box**；`video-concat` 也是把片段提交给上游网关合成，不是本地编码。所以「换音轨」只能在浏览器内用 `AudioContext.decodeAudioData`（取音轨）+ `OfflineAudioContext`（按段拼译音）+ `canvas.captureStream + MediaRecorder`（重编码画面+新音轨），或新增 ffmpeg.wasm（约 30MB）依赖。
 - **SOP 坑**：`bun run typecheck` 必须在 `web/` 下跑（`tsconfig.app.json` 不存在）；全量 `bun test` 约 12s、1582 例；`bun run build` 约 1-2 分钟，超过 600s 的工具上限时必须用 `nohup ... > log 2>&1 &` 后台跑再轮询日志（前台 `&` + `sleep` 会因管道未分离导致工具超时）。
+
+## 2026-10-30 r33 收口决策：VT.F 保持 PARTIAL（用户选 A）
+
+- **用户已拍板 A**：不做 ASR→翻译→TTS 浏览器兜底，不为最后一格引入 ffmpeg.wasm；`VIDEO_TRANSLATION.F` 以 **PARTIAL** 交付，外部依赖写进正式文档。
+- **正式收口文档**：`docs/V1.0/03-acceptance-closeout-v1.0.md`（结论 / 六维表 / VT.F 根因 / 诚实降级真实文案 / 证据链 / 复现命令 / 残留风险）；`docs/V1.0/README.md` 顶部已加入口。**以后汇报验收结论先看这份，不要再从各轮 verify 报告里拼。**
+- **六维定版数字**：F 38 PASS + 1 PARTIAL；T/R/H/U 各 39 PASS；K 12 PASS + 27 N/A。断言 328/328。
+- **两个方向的真实失败证据**（写文档时必须区分，别混）：r24 目标=英语 → 成片音轨**中文**（LID zh p≈0.99，且内容是朗读提示词）；r26 目标=中文 → 成片音轨**英语**（翻译未发生）。r26 已消除「朗读提示词」缺陷，但跨语言译制仍未发生。
+- **诚实降级真实文案**在 `web/src/i18n/locales/zh-CN.ts` 846-873 行：徽标「AI 视频重生成（实验）· 非逐句翻译 / 口型对齐」、结果标题「AI 重生成结果（未验证翻译）」、口型开关置灰。引用时按这里，不要自己造句。
+- **未来要闭环只需**：换到已开通 `SEED_V25` 视频翻译模型的渠道/key，代码路径（`video-translation-seed-v25.ts` + 网关闸门 + JSON 提交）已就绪，无需改码。
