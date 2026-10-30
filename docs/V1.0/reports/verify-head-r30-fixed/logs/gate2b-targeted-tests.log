@@ -1,0 +1,46 @@
+bun test v1.4.2 (744846f84)
+
+src/stores/use-tool-task-store.ingest-auth.test.ts:
+(pass) ingestResultMedia 鉴权透传 > 渠道 content 地址：入库请求带 Bearer（凭据只在本次请求头里） [1.48ms]
+(pass) ingestResultMedia 鉴权透传 > 公网/CDN 地址：入库请求不带任何鉴权头 [0.46ms]
+(pass) ingestResultMedia 鉴权透传 > 结果面板保存到资产库：同样按原任务渠道带 Bearer [7.04ms]
+
+src/services/media-auth.test.ts:
+(pass) 渠道鉴权判定 > 需鉴权的 content 端点：按原任务渠道带 Bearer（不是默认渠道 key） [6.52ms]
+(pass) 渠道鉴权判定 > baseUrl 自带 /v1：仍命中 content 端点 [0.18ms]
+(pass) 渠道鉴权判定 > 公网/CDN（换域）绝不带凭据 [0.05ms]
+(pass) 渠道鉴权判定 > 同域但不在 API 前缀下的路径（对象存储/静态目录）绝不带凭据 [0.07ms]
+(pass) 渠道鉴权判定 > 渠道没有 API Key：不带头（保留真实 401，不伪装修复） [0.03ms]
+(pass) 渠道鉴权判定 > 渠道非默认：用该渠道自己的 key 与 baseUrl [0.04ms]
+(pass) 渠道鉴权判定 > 快照里的渠道已被删除：不回退默认渠道（宁可报错，不拿错 key 试） [0.02ms]
+(pass) 渠道鉴权判定 > 老快照无 channelId：按 model 名匹配到唯一渠道 [0.12ms]
+(pass) 渠道鉴权判定 > blob:/data: 本地地址不下发任何凭据 [0.12ms]
+(pass) 渠道鉴权判定 > gemini 渠道用 query 鉴权，不附加 Bearer [0.03ms]
+139 |         try {
+140 |             await fetchMediaBlob(url, { timeoutMs: 5_000 });
+141 |         } catch (error) {
+142 |             anonymousError = error instanceof Error ? error.message : String(error);
+143 |         }
+144 |         expect(anonymousError).toContain("401");
+                                     ^
+error: expect(received).toContain(expected)
+
+Expected to contain: "401"
+Received: "fetchMediaBlob is not a function. (In 'fetchMediaBlob(url, { timeoutMs: 5000 })', 'fetchMediaBlob' is undefined)"
+
+      at <anonymous> (/private/tmp/icw-r30-head/web/src/services/media-auth.test.ts:144:32)
+(fail) 真实 HTTP 链路（本地 server，真实 fetchMediaBlob） > 匿名 GET → 401；带任务渠道头 → 200 且字节完整 [2.41ms]
+
+src/components/tools/workspaces/video-translation-honesty.test.tsx:
+(pass) 视频翻译工作台：诚实能力边界 > 面板持续展示「AI 视频重生成，非逐句翻译 / 口型对齐；真实翻译通道未接入」 [0.09ms]
+(pass) 视频翻译工作台：诚实能力边界 > 源语言/目标语言明确标注「仅影响提示词」，不承诺换语言或字幕 [0.04ms]
+(pass) 视频翻译工作台：诚实能力边界 > 口型同步置灰且 aria-checked=false，并解释上游无该参数 [0.05ms]
+(pass) 视频翻译工作台：诚实能力边界 > 输出数量标注当前渠道只返回 1 条，结果区标注未验证翻译 [0.07ms]
+(pass) 视频翻译工作台：诚实能力边界 > 整页不出现「翻译完成 / 已译制 / 已对口型 / 已生成字幕 / 已识别源语言」等承诺 [0.18ms]
+(pass) 视频翻译工作台：诚实能力边界 > 保留工具入口、通用生成能力与历史任务，不把工具藏起来 [0.06ms]
+(pass) 视频翻译工作台：诚实能力边界 > 英文界面同样只讲重生成，不出现 dub / translation finished 之类的承诺 [15.93ms]
+
+ 20 pass
+ 1 fail
+ 62 expect() calls
+Ran 21 tests across 3 files. [1024.00ms]

@@ -1,0 +1,6 @@
+$ tsc --noEmit
+
+real	1m30.181s
+user	0m40.296s
+sys	0m10.680s
+typecheck_exit=0

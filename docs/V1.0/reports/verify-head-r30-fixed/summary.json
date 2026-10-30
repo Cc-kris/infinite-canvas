@@ -1,0 +1,143 @@
+{
+  "gate": "fixed-HEAD independent 4-gate verification (install / typecheck / full-unit-tests / build)",
+  "round": "r30-fixed",
+  "repo": "/Users/mac/Documents/Dev/infinite-canvas",
+  "branch_under_test": "feat/linkfox-v1-real",
+  "head_commit": "e7826acfe4620a91c7651dc160112b1dad13bd1e",
+  "head_commit_tree": "020c4d86e98fe1da4557c129c405c625b6dea2b9",
+  "head_web_tree": "3a03b1786207f3327eb6126a22626c68342863ad",
+  "head_web_src_tree": "c48eca4220a417b31bedacf257998f6211b6a094",
+  "head_commit_subject": "fix(media-auth): 视频结果入库按原任务渠道补鉴权，修 401 API_KEY_REQUIRED",
+  "required_commits_present": {
+    "73075698": "UI 诚实降级",
+    "e7826acf": "媒体鉴权修复"
+  },
+  "waiting_note": "验证开始时 HEAD 仅 73075698；lf_r29_media_auth 于 13:49 提交 e7826acf 后退出，随即以其为 PIN，未验证旧 HEAD",
+  "isolation": {
+    "method": "git archive",
+    "snapshot_dir": "/tmp/icw-r30-head",
+    "tar_bytes": 450078720,
+    "tar_sha256": "f2fb3cd43a737a4c903c75e3ed73254102f3b44d72ac929b77cb4b6519714f6f",
+    "blob_verify": {
+      "total": 3874,
+      "ok": 3874,
+      "diff": 0,
+      "missing": 0,
+      "web_src_ok": 416,
+      "web_src_total": 416,
+      "result": "PASS"
+    }
+  },
+  "gates": [
+    {
+      "gate": 0,
+      "name": "install",
+      "cmd": "bun install --frozen-lockfile",
+      "exit": 0,
+      "result": "931 packages, node_modules 701M",
+      "seconds": 3.93
+    },
+    {
+      "gate": 1,
+      "name": "typecheck",
+      "cmd": "bun run typecheck (tsc --noEmit)",
+      "exit": 0,
+      "result": "0 error",
+      "seconds": 90.2,
+      "non_empty_proof": {
+        "cmd": "tsc --noEmit --listFiles --incremental false",
+        "exit": 0,
+        "program_files": 3449,
+        "web_src_hits": 415
+      }
+    },
+    {
+      "gate": 2,
+      "name": "full-unit-tests",
+      "cmd": "bun test",
+      "exit": 0,
+      "result": "1556 pass / 0 fail / 0 skip",
+      "files": 92,
+      "expect_calls": 8586,
+      "seconds": 9.55,
+      "repeat_run": "1556 pass / 0 fail (12.15s)"
+    },
+    {
+      "gate": 3,
+      "name": "build",
+      "cmd": "bun run build (vite build)",
+      "exit": 0,
+      "result": "8833 modules, 443 files / 37M",
+      "seconds": 157.9,
+      "index_js": "dist/assets/index-n92QGR0f.js 5630976 B"
+    }
+  ],
+  "targeted_tests": {
+    "media-auth.test.ts": "11 pass / 0 fail (2 consecutive runs)",
+    "ingest-auth + honesty + media-auth together": "20 pass / 1 fail",
+    "failure_root_cause": "mock.module('@/services/file-storage') partial mock in ingest-auth.test.ts is process-global; leaks into media-auth.test.ts real-HTTP case -> fetchMediaBlob undefined",
+    "severity": "P2 test-isolation only; full suite and single-file runs are green"
+  },
+  "capability_evidence": {
+    "ui_honest_degradation": {
+      "commit": "73075698",
+      "files": 6,
+      "numstat": "+455/-68",
+      "tests": "7 assertions pass",
+      "bundle_strings": {
+        "AI 视频重生成": 3,
+        "非逐句翻译": 2
+      }
+    },
+    "media_auth_fix": {
+      "commit": "e7826acf",
+      "files": 8,
+      "numstat": "+518/-6",
+      "unit_tests": "11 pass incl real local HTTP server (anon 401 -> task-channel header 200, bytes equal)",
+      "ingest_tests": 3,
+      "bundle_test_key_hits": 0,
+      "note": "minified bundle 无函数名，不以符号 grep 作证据"
+    }
+  },
+  "baseline_r28": {
+    "commit": "c17890c3",
+    "blobs": 3825,
+    "web_src": 411,
+    "tests": 1535,
+    "test_files": 89,
+    "expect": 8520,
+    "modules": 8831,
+    "dist": 443
+  },
+  "delta": {
+    "blobs": 49,
+    "web_src": 5,
+    "tests": 21,
+    "test_files": 3,
+    "expect": 66,
+    "modules": 2
+  },
+  "worker_claim_discrepancy": "lf_r29 自报 1560 pass，含主工作区未提交的 +4 个 adapter 用例；PIN 内真实值为 1556",
+  "excluded_uncommitted_wip": [
+    "web/src/features/tools/adapters/video-translation.ts",
+    "同 .test.ts 等主工作区未提交改动"
+  ],
+  "verdict": "PASS (4/4) — scope = commit e7826acf full tree (3874 blobs byte-verified)",
+  "environment": {
+    "os": "macOS arm64",
+    "bun": "1.4.2",
+    "node": "v26.11.0",
+    "bun_path": "/Users/mac/.bun/bin/bun"
+  },
+  "evidence": "logs/ (archive-sha256, blob-verify-head, gate0..gate3, gate1b listfiles, gate2b targeted, dist-files, working-tree-status)",
+  "head_note": "HEAD moved to verification commit b68c0a00 (docs/V1.0/reports/verify-head-r30-fixed only) after PIN; e7826acf remains an ancestor. All numbers come from the PIN archive snapshot.",
+  "risks": [
+    {
+      "level": "P2",
+      "kind": "test-hygiene (not product)",
+      "detail": "use-tool-task-store.ingest-auth.test.ts mock.module('@/services/file-storage') is process-global and partial (no fetchMediaBlob); running media-auth.test.ts + ingest-auth.test.ts in one process yields 1 false failure ('fetchMediaBlob is not a function'); full suite and single-file runs are 0 fail.",
+      "probe": "Post-PIN worktree patch (spread real module into mock factory) copied into /tmp/icw-r30-probe: same paired command -> 14 pass / 0 fail.",
+      "action": "Not fixed by verifier (no source edits); owner to commit the mock fix."
+    }
+  ]
+}
