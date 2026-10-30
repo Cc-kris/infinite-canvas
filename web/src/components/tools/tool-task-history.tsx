@@ -1,5 +1,6 @@
 import { useEffect, useMemo } from "react";
 import { History } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 import { cn } from "@/lib/utils";
 import type { ToolTask, ToolTaskResultItem } from "@/services/api/tools/task-machine";
@@ -67,6 +68,7 @@ function taskHasRecoverableResult(task: ToolTask): boolean {
 }
 
 export function ToolTaskHistory({ toolId, className, limit = 8, onSelectTask, emptyHint, selectWithoutResult = false, tasks: injectedTasks }: ToolTaskHistoryProps) {
+    const { t } = useTranslation();
     const storeTasks = useToolTaskStore((state) => state.tasks);
     const tasks = injectedTasks ?? storeTasks;
     const hydrated = useToolTaskStore((state) => state.hydrated);
@@ -90,16 +92,16 @@ export function ToolTaskHistory({ toolId, className, limit = 8, onSelectTask, em
             <div className="mb-2 flex items-center justify-between gap-2">
                 <span className="inline-flex items-center gap-1 text-xs font-medium text-foreground">
                     <History aria-hidden="true" className="size-3.5" />
-                    历史记录
+                    {t("toolChrome.historyTitle")}
                 </span>
                 <span className="text-[11px] text-muted-foreground" data-testid="tool-task-history-count">
-                    {rows.length} 条
+                    {t("toolChrome.historyCount", { count: rows.length })}
                 </span>
             </div>
 
             {rows.length === 0 ? (
                 <p className="text-[11px] text-muted-foreground" data-testid="tool-task-history-empty">
-                    {emptyHint ?? "本工具还没有历史任务；提交一次后会在这里留下记录。"}
+                    {emptyHint ?? t("toolChrome.historyEmpty")}
                 </p>
             ) : (
                 <ul className="space-y-2">
@@ -122,10 +124,11 @@ export function ToolTaskHistory({ toolId, className, limit = 8, onSelectTask, em
                                     <TaskStatusBadge status={task.status} />
                                 </div>
                                 <p className="mt-1 truncate text-[11px] text-foreground" title={task.prompt}>
-                                    {promptSummary(task.prompt)}
+                                    {promptSummary(task.prompt) || t("toolChrome.historyNoPrompt")}
                                 </p>
                                 <p className="mt-0.5 truncate text-[11px] text-muted-foreground">
-                                    {task.configSnapshot?.model || "未记录模型"} · {task.capability} · {items.length} 个结果
+                                    {task.configSnapshot?.model || t("toolChrome.historyNoModel")} · {task.capability} ·{" "}
+                                    {t("toolChrome.historyResults", { count: items.length })}
                                 </p>
                                 {task.error && (task.status === "failed" || task.status === "unknown") ? (
                                     <p
@@ -152,7 +155,7 @@ export function ToolTaskHistory({ toolId, className, limit = 8, onSelectTask, em
                                 ) : null}
                                 {dropped && thumbs.length === 0 ? (
                                     <p className="mt-1 text-[11px] text-amber-600" data-testid="tool-task-history-payload-dropped">
-                                        原始文件未保留（历史快照只存元数据），如需文件请重新生成。
+                                        {t("toolChrome.historyDropped")}
                                     </p>
                                 ) : null}
                                 {onSelectTask && (selectWithoutResult || taskHasRecoverableResult(task)) ? (
@@ -162,7 +165,9 @@ export function ToolTaskHistory({ toolId, className, limit = 8, onSelectTask, em
                                         onClick={() => onSelectTask(task)}
                                         data-testid="tool-task-history-open"
                                     >
-                                        {taskHasRecoverableResult(task) ? "查看结果" : "回填表单"}
+                                        {taskHasRecoverableResult(task)
+                                            ? t("toolChrome.historyView")
+                                            : t("toolChrome.historyRefill")}
                                     </button>
                                 ) : null}
                             </li>

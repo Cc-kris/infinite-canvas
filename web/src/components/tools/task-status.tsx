@@ -1,5 +1,7 @@
 import { AlertTriangle, Ban, CheckCircle2, CircleDashed, Clock3, Loader2, RotateCcw, XCircle } from "lucide-react";
 
+import { useTranslation } from "react-i18next";
+
 import { cn } from "@/lib/utils";
 import type { ToolTask, ToolTaskError, ToolTaskStatus } from "@/services/api/tools/task-machine";
 
@@ -133,7 +135,10 @@ const STATUS_ICON: Record<ToolTaskStatus, typeof CircleDashed> = {
 };
 
 export function TaskStatusBadge({ status, className }: { status: ToolTaskStatus; className?: string }) {
+    const { t } = useTranslation();
     const meta = taskStatusMeta(status);
+    const label = t(`toolChrome.taskStatus.${meta.status}.label`, { defaultValue: meta.label });
+    const hint = t(`toolChrome.taskStatus.${meta.status}.hint`, { defaultValue: meta.hint });
     // 与 meta 同样兜底：历史快照可能带非法状态值，缺图标会渲染 undefined 组件直接白屏
     const Icon = (STATUS_ICON as Record<string, typeof AlertTriangle>)[status] ?? AlertTriangle;
     const spinning = status === "validating" || status === "submitting" || status === "running";
@@ -142,11 +147,11 @@ export function TaskStatusBadge({ status, className }: { status: ToolTaskStatus;
             data-testid="tool-task-status"
             data-status={status}
             data-tone={meta.tone}
-            title={meta.hint}
+            title={hint}
             className={cn("inline-flex items-center gap-1.5 rounded-full border px-2 py-0.5 text-xs font-medium", TONE_CLASS[meta.tone], className)}
         >
             <Icon aria-hidden="true" className={cn("size-3.5", spinning && "animate-spin")} />
-            {meta.label}
+            {label}
         </span>
     );
 }
@@ -160,7 +165,9 @@ export type TaskStatusPanelProps = {
 };
 
 export function TaskStatusPanel({ task, now, onCancel, onRetry, className }: TaskStatusPanelProps) {
+    const { t } = useTranslation();
     const meta = taskStatusMeta(task.status);
+    const hint = t(`toolChrome.taskStatus.${meta.status}.hint`, { defaultValue: meta.hint });
     const timing = describeTaskTiming(task, now);
     const error = describeTaskError(task.error);
     const notice = describeTaskNotice(task);
@@ -172,10 +179,10 @@ export function TaskStatusPanel({ task, now, onCancel, onRetry, className }: Tas
         <div data-testid="tool-task-panel" data-status={task.status} className={cn("rounded-xl border border-border bg-card p-3 text-sm", className)}>
             <div className="flex flex-wrap items-center gap-2">
                 <TaskStatusBadge status={task.status} />
-                <span className="text-xs text-muted-foreground">{meta.hint}</span>
+                <span className="text-xs text-muted-foreground">{hint}</span>
                 <span className="ml-auto text-xs tabular-nums text-muted-foreground" data-testid="tool-task-timing">
                     {timing.elapsedLabel}
-                    {timing.pollCount > 0 ? ` · 轮询 ${timing.pollCount} 次` : ""}
+                    {timing.pollCount > 0 ? ` · ${t("toolChrome.taskStatus.pollTimes", { count: timing.pollCount })}` : ""}
                 </span>
             </div>
 

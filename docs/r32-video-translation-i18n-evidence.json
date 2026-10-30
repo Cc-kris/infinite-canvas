@@ -1,0 +1,44 @@
+{
+  "capturedAt": "2026-10-30",
+  "target": "http://127.0.0.1:3000/tools/ai-video/video-translation",
+  "method": "同源 iframe 真实渲染（宽 390 / 1280），读取 iframe 内 documentElement.scrollWidth 与 body.innerText；主标签页直接读 DOM",
+  "runs": [
+    {
+      "viewport": 1280,
+      "locale": "en-US",
+      "horizontalOverflow": false,
+      "beforeFix": {
+        "cjkUniqueLines": 17,
+        "samples": ["已完成", "共", "个结果", "· 视频 1", "下载", "存入资产", "发送画布", "视频翻译", "图转视频", "带货口播", "视频复刻", "视频编辑", "视频拼接", "补充", "免责声明", "AI video / 视频翻译"]
+      },
+      "afterFix": {
+        "cjkUniqueLines": 2,
+        "samples": ["Simplified Chinese (简体中文)", "Japanese (日本語)"],
+        "note": "剩余均为数据：语言下拉的原生语名 + 历史任务里已固化的中文提示词（任务：把原视频的语音翻译成目标语言…）",
+        "enLabelsPresent": ["Video Translation", "Source video", "Target language", "Download", "Send to canvas"]
+      }
+    },
+    {
+      "viewport": 390,
+      "locale": "en-US",
+      "horizontalOverflow": false,
+      "scrollWidth": 390,
+      "clientWidth": 390,
+      "cjkLineCount": 3,
+      "cjkLines": ["Simplified Chinese (简体中文)", "Japanese (日本語)", "任务：把原视频的语音翻译成目标语言并重新配音，保持原画面、镜头节奏与字幕时间轴不变，输出可直接投…"],
+      "enLabelsPresent": ["Video Translation", "Source video", "Target language", "Download", "Send to canvas"]
+    },
+    {
+      "viewport": 390,
+      "locale": "zh-CN",
+      "horizontalOverflow": false,
+      "scrollWidth": 390,
+      "clientWidth": 390,
+      "zhLabelsPresent": ["视频翻译", "目标语言", "模型", "提交"]
+    }
+  ],
+  "staticChecks": {
+    "typecheck": "tsc --noEmit PASS",
+    "tests": "bun test => 1582 pass / 0 fail (95 files)"
+  }
+}

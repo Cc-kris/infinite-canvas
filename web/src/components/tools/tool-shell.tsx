@@ -1,6 +1,8 @@
 import { PanelLeft } from "lucide-react";
 import { createContext, useContext, useState, type ReactNode } from "react";
 
+import { useTranslation } from "react-i18next";
+
 import { cn } from "@/lib/utils";
 
 export interface ToolShellProps {
@@ -37,6 +39,7 @@ const NestedToolShellContext = createContext(false);
  */
 export function ToolShell({ title, subtitle, badges, breadcrumb, actions, notices, sidebar, children, sidebarLabel = "工具", immersive = false, className }: ToolShellProps) {
     const [navigationOpen, setNavigationOpen] = useState(false);
+    const { t } = useTranslation();
     const nested = useContext(NestedToolShellContext);
 
     if (nested) {
@@ -66,7 +69,9 @@ export function ToolShell({ title, subtitle, badges, breadcrumb, actions, notice
                         type="button"
                         data-testid="tool-shell-nav-trigger"
                         onClick={() => setNavigationOpen(true)}
-                        aria-label={`打开${sidebarLabel}列表`}
+                        aria-label={t("toolChrome.shellOpenList", {
+                            label: sidebarLabel === "工具" ? t("toolChrome.shellLabelFallback") : sidebarLabel,
+                        })}
                         aria-expanded={navigationOpen}
                         className="inline-flex size-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                     >
@@ -77,7 +82,9 @@ export function ToolShell({ title, subtitle, badges, breadcrumb, actions, notice
                 </div>
 
                 <div className="flex min-h-0 flex-1 gap-3 px-3 pb-3 lg:px-4 lg:pb-4">
-                    <aside data-testid="tool-sidebar" aria-label={`${sidebarLabel}侧栏`} className="hidden w-[180px] shrink-0 overflow-y-auto rounded-xl border border-hairline bg-surface shadow-sm lg:block">
+                    <aside data-testid="tool-sidebar" aria-label={t("toolChrome.shellSidebar", {
+                        label: sidebarLabel === "工具" ? t("toolChrome.shellLabelFallback") : sidebarLabel,
+                    })} className="hidden w-[180px] shrink-0 overflow-y-auto rounded-xl border border-hairline bg-surface shadow-sm lg:block">
                         {sidebar}
                     </aside>
 
@@ -113,7 +120,7 @@ export function ToolShell({ title, subtitle, badges, breadcrumb, actions, notice
                                     onClick={() => setNavigationOpen(false)}
                                     className="rounded-lg px-2.5 py-1.5 text-xs text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                                 >
-                                    关闭
+                                    {t("toolChrome.shellClose")}
                                 </button>
                             </div>
                             <div className="min-h-0 flex-1 overflow-y-auto" onClick={() => setNavigationOpen(false)}>

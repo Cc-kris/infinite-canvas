@@ -1,5 +1,7 @@
 import { useCallback, useMemo, type ReactNode } from "react";
 import { useTranslation } from "react-i18next";
+
+import i18n from "@/i18n";
 import { Navigate, useParams } from "react-router-dom";
 
 import { ToolShell } from "@/components/tools/tool-shell";
@@ -102,6 +104,14 @@ export type ToolRouteMatch =
     | { type: "batch-detail"; batchId: string }
     | { type: "legacy-redirect"; to: string }
     | { type: "not-found"; reason: "category" | "tool"; value: string };
+
+/**
+ * 工具名在数据层是 registry 里的中文字面量（模块加载即固化），界面这里按 id 取
+ * `toolsNav.tools.<ID>` 译文；缺失时回落到 registry 原文，不会出现空标题。
+ */
+export function toolLabel(entry: { id: string; title: string }, language?: string) {
+    return i18n.t(`toolsNav.tools.${entry.id}`, { defaultValue: entry.title, lng: language });
+}
 
 export function categoryLabel(category: ToolCategorySlug, language?: string) {
     const labels = CATEGORY_LABELS[category];
@@ -286,7 +296,7 @@ function buildSidebarCategories(catalog: ToolCatalog, language: string): ToolSid
         label: categoryLabel(category, language),
         tools: catalog.entries
             .filter((entry) => entry.category === category)
-            .map((entry) => ({ id: entry.id, slug: entry.slug, title: entry.title, origin: entry.origin, enabled: entry.enabled })),
+            .map((entry) => ({ id: entry.id, slug: entry.slug, title: toolLabel(entry, language), origin: entry.origin, enabled: entry.enabled })),
     }));
 }
 
@@ -545,7 +555,7 @@ function CategoryHome({ category, catalog, sidebar }: { category: ToolCategorySl
     const { i18n } = useTranslation();
     const tools = catalog.entries.filter((entry) => entry.category === category);
     return (
-        <ToolShell title={categoryLabel(category, i18n.language)} subtitle={`/tools/${category}`} breadcrumb="工具 / 分类" sidebar={sidebar}>
+        <ToolShell title={categoryLabel(category, i18n.language)} subtitle={`/tools/${category}`} breadcrumb={i18n.t("toolsNav.breadcrumbRoot", { defaultValue: "工具 / 分类" })} sidebar={sidebar}>
             <section className="rounded-lg border border-border bg-card p-4">
                 <h2 className="text-sm font-medium">分类首页</h2>
                 <p className="mt-1 text-sm leading-6 text-muted-foreground">
@@ -596,7 +606,7 @@ export function ToolRouteView({ catalog, category, toolId }: ToolRouteViewProps)
         case "not-found":
             return <NotFound />;
         case "tool": {
-            const title = match.entry?.title ?? match.requestedSlug;
+            const title = match.entry ? toolLabel(match.entry, i18n.language) : match.requestedSlug;
             const workspace = resolveToolWorkspace(match.entry);
             return (
                 <ToolShell
@@ -614,9 +624,9 @@ export function ToolRouteView({ catalog, category, toolId }: ToolRouteViewProps)
                     immersive={IMMERSIVE_TOOL_IDS.has(match.entry?.id ?? "")}
                     badges={
                         match.specPending ? (
-                            <span className="shrink-0 rounded border border-border px-1.5 text-[11px] leading-5 text-muted-foreground">规格未接入</span>
+                            <span className="shrink-0 rounded border border-border px-1.5 text-[11px] leading-5 text-muted-foreground">{i18n.t("toolsNav.badges.specPending", { defaultValue: "规格未接入" })}</span>
                         ) : match.entry?.origin === "supplemental" ? (
-                            <span className="shrink-0 rounded border border-border px-1.5 text-[11px] leading-5 text-muted-foreground">补充</span>
+                            <span className="shrink-0 rounded border border-border px-1.5 text-[11px] leading-5 text-muted-foreground">{i18n.t("toolsNav.badges.supplemental")}</span>
                         ) : null
                     }
                     sidebar={sidebar}

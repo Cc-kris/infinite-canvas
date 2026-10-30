@@ -20,6 +20,8 @@ import {
 import type { LucideIcon } from "lucide-react";
 import { Link, NavLink } from "react-router-dom";
 
+import { useTranslation } from "react-i18next";
+
 import { cn } from "@/lib/utils";
 
 export interface ToolSidebarTool {
@@ -89,12 +91,13 @@ export function ToolSidebar({
     categories,
     activeCategory,
     activeToolSlug,
-    supplementalLabel = "补充",
-    emptyLabel = "该分类尚无已注册工具",
-    disclaimerLabel = "免责声明",
+    supplementalLabel,
+    emptyLabel,
+    disclaimerLabel,
     onNavigate,
     className,
 }: ToolSidebarProps) {
+    const { t } = useTranslation();
     // Reference behaviour: the rail is scoped to the active category. Fall back to the
     // full list only when the active category is unknown (e.g. legacy/unknown routes).
     const scoped = activeCategory ? categories.filter((category) => category.slug === activeCategory) : [];
@@ -132,7 +135,7 @@ export function ToolSidebar({
                                             <span className="truncate">{tool.title}</span>
                                             {tool.origin === "supplemental" ? (
                                                 <span className="ml-auto shrink-0 rounded border border-hairline px-1 text-[10px] leading-4 text-muted-foreground">
-                                                    {supplementalLabel}
+                                                    {supplementalLabel ?? t("toolsNav.badges.supplemental")}
                                                 </span>
                                             ) : null}
                                         </NavLink>
@@ -141,12 +144,12 @@ export function ToolSidebar({
                                 })}
                             </ul>
                         ) : (
-                            <p className="px-2.5 py-2 text-xs leading-5 text-muted-foreground">{emptyLabel}</p>
+                            <p className="px-2.5 py-2 text-xs leading-5 text-muted-foreground">{emptyLabel ?? t("toolsNav.emptyCategory", { defaultValue: "该分类尚无已注册工具" })}</p>
                         )}
                     </div>
                 );
             })}
-            <div className="mt-auto select-none px-3 pb-3 pt-6 text-center text-[11px] leading-4 text-muted-foreground/60">{disclaimerLabel}</div>
+            <div className="mt-auto select-none px-3 pb-3 pt-6 text-center text-[11px] leading-4 text-muted-foreground/60">{disclaimerLabel ?? t("toolsNav.disclaimer")}</div>
         </nav>
     );
 }

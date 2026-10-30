@@ -1,6 +1,8 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { ChevronDown, Copy, Download, Film, FolderPlus, History, Loader2, RotateCcw, Send, TriangleAlert } from "lucide-react";
 
+import { useTranslation } from "react-i18next";
+
 import { cn } from "@/lib/utils";
 import type { ToolTask, ToolTaskResultItem } from "@/services/api/tools/task-machine";
 import { useToolReplayStore } from "@/stores/use-tool-replay-store";
@@ -85,6 +87,7 @@ async function copyText(text: string): Promise<void> {
 type Feedback = { tone: "success" | "error"; text: string } | null;
 
 export function ToolHistoryDock({ toolId, className, limit = 12, tasks: injectedTasks }: ToolHistoryDockProps) {
+    const { t } = useTranslation();
     const storeTasks = useToolTaskStore((state) => state.tasks);
     const hydrated = useToolTaskStore((state) => state.hydrated);
     const hydrate = useToolTaskStore((state) => state.hydrate);
@@ -182,7 +185,8 @@ export function ToolHistoryDock({ toolId, className, limit = 12, tasks: injected
                                             {promptSummary(task.prompt)}
                                         </span>
                                         <span className="mt-0.5 block truncate text-[11px] text-muted-foreground" data-testid="tool-history-dock-summary">
-                                            {task.configSnapshot?.model || "未记录模型"} · {task.capability} · {items.length} 个结果
+                                            {task.configSnapshot?.model || t("toolChrome.historyDock.noModel")} · {task.capability} ·{" "}
+                                            {t("toolChrome.historyDock.itemsCount", { count: items.length })}
                                         </span>
                                     </span>
                                     <ChevronDown
@@ -338,7 +342,7 @@ export function ToolHistoryDock({ toolId, className, limit = 12, tasks: injected
                                                                     <button
                                                                         type="button"
                                                                         className="rounded border border-border p-1 transition hover:bg-accent disabled:opacity-40"
-                                                                        title="存入资产"
+                                                                        title={t("toolChrome.result.saveAsset")}
                                                                         disabled={pending === `${actionKey}:save`}
                                                                         onClick={() =>
                                                                             runAction(`${actionKey}:save`, async () => {

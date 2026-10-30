@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { Download, DownloadCloud, FolderPlus, ImageOff, Images, Loader2, RotateCcw, Send, TriangleAlert } from "lucide-react";
 
+import { useTranslation } from "react-i18next";
+
 import { cn } from "@/lib/utils";
 import { hasUsablePayload } from "@/lib/result-item-kind";
 import { pickRicherTaskSnapshot } from "@/lib/task-snapshot";
@@ -100,7 +102,11 @@ export type ToolResultProps = {
     emptyHint?: string;
 };
 
-export function ToolResult({ task: taskProp, toolId = "tool", title = "生成结果", projectId, projectTitle, actions, onCancel, onRetry, onRetryItem, retryItemHint, now, className, emptyTitle = "还没有生成结果", emptyHint = "填好参数并提交后，结果会出现在这里，可预览、下载、存入资产库或发送到画布。" }: ToolResultProps) {
+export function ToolResult({ task: taskProp, toolId = "tool", title, projectId, projectTitle, actions, onCancel, onRetry, onRetryItem, retryItemHint, now, className, emptyTitle, emptyHint }: ToolResultProps) {
+    const { t } = useTranslation();
+    const resolvedTitle = title ?? t("toolChrome.result.title");
+    const resolvedEmptyTitle = emptyTitle ?? t("toolChrome.result.emptyTitle");
+    const resolvedEmptyHint = emptyHint ?? t("toolChrome.result.emptyHint");
     // 任务库在 hydrate 后会把 storageKey 复原成新的对象 URL；工作台本地 state 是更早的副本，
     // 只用它会把「字节在库」误判成「文件丢了」。取更完整的那份快照（不改数据来源）。
     const liveTask = useToolTaskStore((state) => (taskProp?.id ? state.tasks[taskProp.id] : undefined));
@@ -123,7 +129,7 @@ export function ToolResult({ task: taskProp, toolId = "tool", title = "生成结
         try {
             setFeedback({ tone: "success", text: await action() });
         } catch (error) {
-            setFeedback({ tone: "error", text: error instanceof Error ? error.message : "操作失败，请重试" });
+            setFeedback({ tone: "error", text: error instanceof Error ? error.message : t("toolChrome.result.actionFailed") });
         } finally {
             setPending(null);
         }
@@ -132,7 +138,7 @@ export function ToolResult({ task: taskProp, toolId = "tool", title = "生成结
     return (
         <section data-testid="tool-result" data-view={view} className={cn("space-y-3 rounded-xl border border-border bg-card p-4", className)}>
             <header className="flex flex-wrap items-center gap-2">
-                <h2 className="text-sm font-semibold">{title}</h2>
+                <h2 className="text-sm font-semibold">{resolvedTitle}</h2>
                 {task ? (
                     view === "succeeded" && summary.total === 0 ? (
                         // 边界：任务状态成功但没有结果项 = 无结果，不能顶着绿色「已完成」。
@@ -142,7 +148,7 @@ export function ToolResult({ task: taskProp, toolId = "tool", title = "生成结
                             className="inline-flex items-center gap-1.5 rounded-full border border-amber-300 bg-amber-50 px-2 py-0.5 text-xs font-medium text-amber-900 dark:border-amber-800 dark:bg-amber-950 dark:text-amber-100"
                         >
                             <TriangleAlert aria-hidden="true" className="size-3.5" />
-                            无结果
+                            {t("toolChrome.result.noResult")}
                         </span>
                     ) : (
                         <TaskStatusBadge status={task.status} />
@@ -150,8 +156,9 @@ export function ToolResult({ task: taskProp, toolId = "tool", title = "生成结
                 ) : null}
                 {view === "succeeded" ? (
                     <span className="ml-auto text-xs text-muted-foreground" data-testid="tool-result-summary">
-                        共 {summary.total} 个结果{summary.videos > 0 ? ` · 视频 ${summary.videos}` : ""}
-                        {summary.images > 0 ? ` · 图片 ${summary.images}` : ""}
+                        {t("toolChrome.result.total", { total: summary.total })}
+                        {summary.videos > 0 ? t("toolChrome.result.videos", { count: summary.videos }) : ""}
+                        {summary.images > 0 ? t("toolChrome.result.images", { count: summary.images }) : ""}
                     </span>
                 ) : null}
                 {canDownloadAll ? (
@@ -180,8 +187,8 @@ export function ToolResult({ task: taskProp, toolId = "tool", title = "生成结
             {view === "empty" ? (
                 <div data-testid="tool-result-empty" className="rounded-xl border border-dashed border-border px-4 py-8 text-center text-sm text-muted-foreground">
                     <Images aria-hidden="true" className="mx-auto mb-2 size-6 opacity-60" />
-                    <p>{emptyTitle}</p>
-                    <p className="mt-1 text-xs">{emptyHint}</p>
+                    <p>{resolvedEmptyTitle}</p>
+                    <p className="mt-1 text-xs">{resolvedEmptyHint}</p>
                 </div>
             ) : null}
 
@@ -288,6 +295,7 @@ type ResultTileProps = {
 };
 
 function ResultTile({ item, index, toolId, taskId, projectId, projectTitle, pending, download, saveToAssets, sendToCanvas, onRetryItem, retryItemHint, run }: ResultTileProps) {
+    const { t } = useTranslation();
     const blobUrl = useBlobUrl(item.blob);
     const storedUrl = useStoredResultUrl(item.storageKey, item.dataUrl ?? item.url ?? blobUrl);
     const src = item.dataUrl ?? item.url ?? blobUrl ?? storedUrl;
@@ -313,32 +321,40 @@ function ResultTile({ item, index, toolId, taskId, projectId, projectTitle, pend
                 <button
                     type="button"
                     disabled={dropped || busy}
-                    onClick={() => run(`download-${index}`, async () => `已下载 ${await download(item, index, { toolId })}`)}
+                    onClick={() => run(`download-${index}`, async () => t("toolChrome.result.downloaded", { name: await download(item, index, { toolId }) }))}
                     data-testid={`tool-result-download-${index}`}
                     className="inline-flex items-center gap-1 rounded-md border border-border px-2 py-1 text-[11px] transition hover:bg-accent disabled:cursor-not-allowed disabled:opacity-50"
                 >
                     <Download aria-hidden="true" className="size-3.5" />
-                    下载
+                    {t("toolChrome.result.download")}
                 </button>
                 <button
                     type="button"
                     disabled={dropped || busy}
-                    onClick={() => run(`save-${index}`, async () => `已保存到资产库（${(await saveToAssets(item, index, { toolId, taskId })).assetId}）`)}
+                    onClick={() =>
+                        run(`save-${index}`, async () => t("toolChrome.result.savedToAssets", { id: (await saveToAssets(item, index, { toolId, taskId })).assetId }))
+                    }
                     data-testid={`tool-result-save-${index}`}
                     className="inline-flex items-center gap-1 rounded-md border border-border px-2 py-1 text-[11px] transition hover:bg-accent disabled:cursor-not-allowed disabled:opacity-50"
                 >
                     <FolderPlus aria-hidden="true" className="size-3.5" />
-                    存入资产
+                    {t("toolChrome.result.saveAsset")}
                 </button>
                 <button
                     type="button"
                     disabled={dropped || busy}
-                    onClick={() => run(`canvas-${index}`, async () => `已发送到画布（${(await sendToCanvas(item, { toolId, projectId, projectTitle })).projectId}）`)}
+                    onClick={() =>
+                        run(`canvas-${index}`, async () =>
+                            t("toolChrome.result.sentToCanvas", {
+                                id: (await sendToCanvas(item, { toolId, projectId, projectTitle })).projectId,
+                            }),
+                        )
+                    }
                     data-testid={`tool-result-canvas-${index}`}
                     className="inline-flex items-center gap-1 rounded-md border border-border px-2 py-1 text-[11px] transition hover:bg-accent disabled:cursor-not-allowed disabled:opacity-50"
                 >
                     <Send aria-hidden="true" className="size-3.5" />
-                    发送画布
+                    {t("toolChrome.result.sendCanvas")}
                 </button>
                 {onRetryItem ? (
                     <button
@@ -355,7 +371,7 @@ function ResultTile({ item, index, toolId, taskId, projectId, projectTitle, pend
                         className="inline-flex items-center gap-1 rounded-md border border-border px-2 py-1 text-[11px] transition hover:bg-accent disabled:cursor-not-allowed disabled:opacity-50"
                     >
                         <RotateCcw aria-hidden="true" className="size-3.5" />
-                        {busy ? "重试中…" : "重试这张"}
+                        {busy ? t("toolChrome.result.retrying") : t("toolChrome.result.retryItem")}
                     </button>
                 ) : null}
             </div>

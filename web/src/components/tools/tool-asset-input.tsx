@@ -18,6 +18,7 @@ import {
     type ToolAssetUploadProgress,
 } from "@/services/api/tools/assets";
 import { flushToolDrafts, useToolDraftStore } from "@/stores/use-tool-draft-store";
+import { useTranslation } from "react-i18next";
 
 export type ToolAssetInputProps = {
     toolId: string;
@@ -89,6 +90,7 @@ function phaseLabel(progress: ToolAssetUploadProgress) {
  * → 资产 id 写入草稿（刷新后由草稿 + 资产索引恢复）。
  */
 export function ToolAssetInput({ toolId, draftSlot, constraints, maxCount, library, disabled, title = "上传素材", className, variant = "default", uploadLabel, actions, thirdAction, dropLabel, hint, wide, compact, onChange, syncIds }: ToolAssetInputProps) {
+    const { t } = useTranslation();
     const effectiveConstraints = useMemo(() => resolveToolAssetConstraints(constraints), [constraints]);
     const [items, setItems] = useState<AssetItem[]>([]);
     const [notice, setNotice] = useState("");
@@ -328,7 +330,12 @@ export function ToolAssetInput({ toolId, draftSlot, constraints, maxCount, libra
                 <h3 className="text-sm font-medium text-stone-800 dark:text-stone-100">{title}</h3>
                 <span className="text-xs text-stone-500">
                     {readyCount}
-                    {maxCount ? ` / ${maxCount}` : ""} 个 · {formatMimeList(effectiveConstraints.mimeTypes)} · ≤ {formatBytesLabel(effectiveConstraints.maxBytes)}
+                    {t("toolChrome.quotaLine", {
+                        ready: readyCount,
+                        max: maxCount ? ` / ${maxCount}` : "",
+                        mime: formatMimeList(effectiveConstraints.mimeTypes),
+                        size: formatBytesLabel(effectiveConstraints.maxBytes),
+                    })}
                 </span>
             </div>
             )}
@@ -352,7 +359,7 @@ export function ToolAssetInput({ toolId, draftSlot, constraints, maxCount, libra
                 role="button"
                 tabIndex={disabled ? -1 : 0}
                 aria-disabled={disabled || atLimit}
-                aria-label={atLimit ? "已达数量上限" : "点击或拖拽上传素材"}
+                aria-label={atLimit ? t("toolChrome.dropAtLimitAria") : t("toolChrome.dropAria")}
                 className={cn(
                     linkfox
                         ? wide
@@ -393,7 +400,7 @@ export function ToolAssetInput({ toolId, draftSlot, constraints, maxCount, libra
                             </span>
                         ) : null}
                         <span className={cn("inline-flex h-6 items-center justify-center rounded-md bg-primary text-xs font-medium leading-none text-primary-foreground", wide ? "w-full" : "w-[210px]")}>
-                            {uploadLabel ?? "从本地上传"}
+                            {uploadLabel ?? t("toolChrome.assetUpload")}
                         </span>
                         {actions || linkfox ? (
                             <div
@@ -408,21 +415,21 @@ export function ToolAssetInput({ toolId, draftSlot, constraints, maxCount, libra
                                     type="button"
                                     className="h-6 w-[100px] rounded-md border border-border bg-card text-xs leading-none text-muted-foreground transition hover:border-foreground/30 hover:text-foreground disabled:opacity-50"
                                     disabled={disabled || atLimit || !library?.length}
-                                    title={library?.length ? "从作品库（资产库）选择" : "资产库暂时没有可用图片"}
+                                    title={library?.length ? t("toolChrome.assetFromLibraryTitle") : t("toolChrome.assetLibraryEmptyTitle")}
                                     onClick={() => {
                                         if (libraryRef.current) libraryRef.current.open = true;
                                     }}
                                 >
-                                    从作品库选择
+                                    {t("toolChrome.assetFromLibrary")}
                                 </button>
                                 {thirdAction === undefined ? (
                                 <button
                                     type="button"
                                     className="h-6 w-[100px] rounded-md border border-border bg-card text-xs leading-none text-muted-foreground transition hover:border-foreground/30 hover:text-foreground disabled:opacity-50"
                                     disabled
-                                    title="商品库未接入（PARTIAL）"
+                                    title={t("toolChrome.assetProductsPartial")}
                                 >
-                                    从商品库选择
+                                    {t("toolChrome.assetFromProducts")}
                                 </button>
                                 ) : thirdAction}
                             </>
@@ -433,8 +440,10 @@ export function ToolAssetInput({ toolId, draftSlot, constraints, maxCount, libra
                     </>
                 ) : (
                     <>
-                        <span className="text-stone-700 dark:text-stone-200">{atLimit ? "已达数量上限，先移除一个再上传" : "点击选择本地文件，或拖拽到这里"}</span>
-                        <span className="text-stone-500">校验格式 / 大小 / 像素，入库后可刷新恢复</span>
+                        <span className="text-stone-700 dark:text-stone-200">
+                            {atLimit ? t("toolChrome.dropAtLimit") : t("toolChrome.dropIdle")}
+                        </span>
+                        <span className="text-stone-500">{t("toolChrome.dropMeta")}</span>
                     </>
                 )}
             </div>
@@ -491,25 +500,29 @@ export function ToolAssetInput({ toolId, draftSlot, constraints, maxCount, libra
                                 className="shrink-0 rounded-md border border-stone-300 px-2 py-1 text-[11px] text-stone-600 dark:border-stone-700 dark:text-stone-300"
                                 onClick={() => (item.status === "uploading" ? cancelItem(item.key) : void removeItem(item))}
                             >
-                                {item.status === "uploading" ? "取消" : "移除"}
+                                {item.status === "uploading" ? t("toolChrome.itemCancel") : t("toolChrome.itemRemove")}
                             </button>
                         </li>
                     ))}
                 </ul>
             ) : linkfox && hydratedDraft ? null : (
-                <p className="text-xs text-stone-500">{hydratedDraft ? "还没有素材" : "正在恢复上次的素材…"}</p>
+                <p className="text-xs text-stone-500">
+                    {hydratedDraft ? t("toolChrome.assetsEmpty") : t("toolChrome.assetsRestoring")}
+                </p>
             )}
 
             {library?.length ? (
                 <details ref={libraryRef} className="rounded-lg border border-stone-200 px-3 py-2 dark:border-stone-800">
-                    <summary className="cursor-pointer text-xs text-stone-600 dark:text-stone-300">从资产库选择（{library.length}）</summary>
+                    <summary className="cursor-pointer text-xs text-stone-600 dark:text-stone-300">
+                        {t("toolChrome.librarySummary", { count: library.length })}
+                    </summary>
                     <ul className="mt-2 grid grid-cols-2 gap-2">
                         {library.map((libraryItem) => (
                             <li key={libraryItem.id} className="flex items-center gap-2 rounded-md border border-stone-200 p-1 dark:border-stone-800">
                                 <img src={libraryItem.url} alt={libraryItem.name} className="size-8 rounded object-cover" />
                                 <span className="min-w-0 flex-1 truncate text-[11px]">{libraryItem.name}</span>
                                 <button type="button" className="rounded border border-stone-300 px-1.5 py-0.5 text-[11px]" disabled={disabled || libraryItem.kind !== effectiveConstraints.kind} onClick={() => void addFromLibrary(libraryItem)}>
-                                    使用
+                                    {t("toolChrome.libraryUse")}
                                 </button>
                             </li>
                         ))}

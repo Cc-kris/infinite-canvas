@@ -86,7 +86,7 @@ export function VideoTranslationHonestyNotice({ className, copy }: { className?:
             role="note"
             aria-live="polite"
             className={cn(
-                "rounded-xl border border-amber-200 bg-amber-50 px-3 py-2 text-[11px] leading-5 text-amber-800",
+                "rounded-xl border border-amber-200 bg-amber-50 px-3 py-2.5 text-xs leading-5 text-amber-800",
                 "dark:border-amber-900 dark:bg-amber-950 dark:text-amber-200",
                 className,
             )}
