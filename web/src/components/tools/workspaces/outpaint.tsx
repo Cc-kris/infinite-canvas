@@ -653,8 +653,14 @@ export function OutpaintWorkspace({ className }: OutpaintWorkspaceProps = {}) {
         <div
             data-tool={AI_OUTPAINTING_TOOL_ID}
             data-layout="outpaint"
-            className={cn("flex h-full min-h-0 min-w-0 gap-[10px] overflow-hidden text-foreground", className)}
+            className={cn("flex h-full min-h-0 min-w-0 flex-col overflow-hidden text-foreground", className)}
         >
+            {/* 原站页头：标题 + 一句描述（位于工具区之上，页签随之落到 y≈130） */}
+            <div data-testid="outpaint-page-head" className="flex h-[42px] shrink-0 items-baseline gap-2 px-1">
+                <h2 className="text-[16px] font-medium leading-6 text-foreground">智能扩图</h2>
+                <p className="truncate text-[12px] leading-5 text-muted-foreground">一键无缝扩展，打破视觉边界，释放每一张照片的无限可能~</p>
+            </div>
+            <div className="flex min-h-0 min-w-0 flex-1 gap-[10px] overflow-hidden">
             {/* 左：白卡 = 画布区（#EDEFF5）+ 底部单条参数条（原站 1083×651 / 画布 601 / 参数条 48） */}
             <section data-region="canvas" className="flex min-w-0 flex-1 flex-col overflow-hidden rounded-lg bg-card">
                 <OrigRail items={ECOMMERCE_SUITE_RAIL} active="智能扩图" driver testId="outpaint-rail" className="m-2 shrink-0" />
@@ -945,7 +951,7 @@ export function OutpaintWorkspace({ className }: OutpaintWorkspaceProps = {}) {
                                 </div>
                             </div>
                         ) : (
-                            <div data-testid="outpaint-panel-result" className="flex h-full min-h-[240px] flex-col items-center justify-center gap-1 text-center">
+                            <div data-testid="outpaint-panel-result" className="tab-pane-empty flex h-full min-h-[240px] flex-col items-center justify-center gap-1 text-center">
                                 <p className="text-[12px] leading-5 text-muted-foreground">暂无生成结果图</p>
                                 <p className="text-[12px] leading-5 text-muted-foreground">快在左侧操作智能扩图吧~</p>
                             </div>
@@ -976,6 +982,7 @@ export function OutpaintWorkspace({ className }: OutpaintWorkspaceProps = {}) {
             {/* 原站面板底部：管理水印分组（共 N/20 个 · 默认 · ＋ 新增水印分组） */}
             <WatermarkGroupPanel />
             </section>
+            </div>
         </div>
     );
 }

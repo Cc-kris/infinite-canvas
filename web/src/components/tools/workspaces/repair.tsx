@@ -963,6 +963,9 @@ export function HandRepairWorkspace({ className }: RepairWorkspaceProps = {}) {
     const [runSnapshot, setRunSnapshot] = useState<HandRepairSnapshot | null>(null);
     const [resultPending, setResultPending] = useState<string | null>(null);
     const [resultFeedback, setResultFeedback] = useState<string | null>(null);
+    /** 原站右栏两个页签：生成结果 / 历史记录 */
+    const [resultTab, setResultTab] = useState<"result" | "history">("result");
+    const uploadCardRef = useRef<HTMLDivElement | null>(null);
 
     const commitState = useCallback(
         (next: HandRepairState, asset: UploadedImage | null) => {
@@ -1420,7 +1423,35 @@ export function HandRepairWorkspace({ className }: RepairWorkspaceProps = {}) {
 
                         <section className="rounded-lg border border-border bg-card p-3">
                             <div className="flex flex-wrap items-center justify-between gap-2">
-                                <p className="text-xs font-medium text-foreground">生成结果</p>
+                                {/* 原站右栏页签：生成结果 / 历史记录（历史记录右对齐） */}
+                                <div role="tablist" aria-label="结果页签" className="flex items-center gap-4">
+                                    <button
+                                        type="button"
+                                        role="tab"
+                                        aria-selected={resultTab === "result"}
+                                        data-testid="hand-repair-tab-result"
+                                        onClick={() => setResultTab("result")}
+                                        className={cn(
+                                            "text-xs leading-5 transition",
+                                            resultTab === "result" ? "font-medium text-foreground" : "text-muted-foreground hover:text-foreground",
+                                        )}
+                                    >
+                                        生成结果
+                                    </button>
+                                    <button
+                                        type="button"
+                                        role="tab"
+                                        aria-selected={resultTab === "history"}
+                                        data-testid="hand-repair-tab-history"
+                                        onClick={() => setResultTab("history")}
+                                        className={cn(
+                                            "text-xs leading-5 transition",
+                                            resultTab === "history" ? "font-medium text-foreground" : "text-muted-foreground hover:text-foreground",
+                                        )}
+                                    >
+                                        历史记录
+                                    </button>
+                                </div>
                                 {outcomes.length > 0 || stale ? (
                                     <span data-testid="hand-repair-summary" className="text-[11px] text-muted-foreground">
                                         {outcomes.length > 0 ? summarizeHandRepairOutcomes(outcomes) : ""}
@@ -1428,6 +1459,13 @@ export function HandRepairWorkspace({ className }: RepairWorkspaceProps = {}) {
                                     </span>
                                 ) : null}
                             </div>
+                            {resultTab === "history" ? (
+                                <div className="mt-3" data-testid="hand-repair-history">
+                                    <ToolTaskHistory toolId={HAND_REPAIR_TOOL_ID} limit={8} emptyHint="还没有手部修复任务记录" />
+                                </div>
+                            ) : null}
+                            {resultTab === "result" ? (
+                            <>
                             {view.status === "running" ? (
                                 <p className="mt-3 text-[11px] text-muted-foreground">
                                     正在提交真实请求{progress ? `（${progress.done}/${progress.total}）` : ""}…
@@ -1482,7 +1520,9 @@ export function HandRepairWorkspace({ className }: RepairWorkspaceProps = {}) {
                                     ))}
                                 </div>
                             ) : view.status !== "running" ? (
-                                <p className="mt-3 text-[11px] text-muted-foreground">暂无生成结果图</p>
+                                <div data-testid="hand-repair-empty" className="tab-pane-empty mt-3 flex min-h-[160px] items-center justify-center text-[11px] text-muted-foreground">
+                                    暂无生成结果图
+                                </div>
                             ) : null}
                             {resultFeedback ? (
                                 <p data-testid="hand-repair-result-feedback" className="mt-2 text-[11px] text-muted-foreground">
@@ -1496,12 +1536,26 @@ export function HandRepairWorkspace({ className }: RepairWorkspaceProps = {}) {
                                     ))}
                                 </ul>
                             ) : null}
+                            </>
+                            ) : null}
                         </section>
                     </div>
 
-                    <aside className="flex min-w-0 flex-col gap-3">
+                    <section aria-label="工具操作栏" className="flex min-w-0 flex-col gap-3">
                         <section className="rounded-lg border border-border bg-card p-3">
-                            <p className="text-xs font-medium text-foreground">上传图片</p>
+                            <button
+                                type="button"
+                                data-testid="hand-repair-upload-button"
+                                onClick={() =>
+                                    uploadCardRef.current
+                                        ?.querySelector<HTMLElement>('[data-testid="tool-asset-dropzone"]')
+                                        ?.click()
+                                }
+                                className="text-xs font-medium text-foreground underline-offset-2 hover:underline"
+                            >
+                                上传图片
+                            </button>
+                            <div ref={uploadCardRef}>
                             <ToolAssetInput
                                 toolId={HAND_REPAIR_TOOL_ID}
                                 maxCount={1}
@@ -1515,6 +1569,7 @@ export function HandRepairWorkspace({ className }: RepairWorkspaceProps = {}) {
                                     if (records[0]) void adoptImage(records[0]);
                                 }}
                             />
+                            </div>
                         </section>
 
                         <section className="rounded-lg border border-border bg-card p-3">
@@ -1570,7 +1625,7 @@ export function HandRepairWorkspace({ className }: RepairWorkspaceProps = {}) {
 
                         
                         <WatermarkGroupPanel />
-                    </aside>
+                    </section>
                 </div>
             </ToolShell>
         </div>
