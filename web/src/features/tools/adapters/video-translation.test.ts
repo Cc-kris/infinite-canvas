@@ -463,7 +463,7 @@ describe("VIDEO_TRANSLATION workspace：页面结构", () => {
 
         // 六个区域
         expect(html).toContain("原视频");
-        expect(html).toContain("源语言 → 需要翻译的语言");
+        expect(html).toContain("源语言 → 目标语言（仅影响提示词）");
         expect(html).toContain("口型同步");
         expect(html).toContain("模式与输出");
         expect(html).toContain("视频模型");

@@ -773,4 +773,31 @@ export default {
             VIDEO_CONCAT: "Video Concat",
         },
     },
+    /**
+     * Honest capability boundary for VIDEO_TRANSLATION (r27 protocol investigation, commit 1ef24fba).
+     * The upstream /v1/videos endpoint has no source/target language or lip-sync fields, so the tool can
+     * only regenerate a video from a prompt; it must never claim a finished dub.
+     */
+    videoTranslation: {
+        subtitle: "AI video regeneration (experimental) · not sentence-level translation or lip sync",
+        noticeTitle: "This is AI video regeneration, not sentence-level translation or lip sync; no real translation channel is connected",
+        noticeBody:
+            "The upstream video endpoint has no source/target language or lip-sync parameters: the language you pick below is only written into the prompt. It cannot guarantee a language swap, subtitles or lip alignment. Treat every result as an unverified draft and have a human confirm it before use.",
+        noticeBasis: "Based on the r27 protocol investigation (commit 1ef24fba): the sub2api MiniMax video endpoint exposes no translation fields.",
+        languageTitle: "Source language → target language (prompt only)",
+        languageHint: "Prompt guidance only · no language field upstream, not guaranteed",
+        sourceHint: "The source language is only written into the prompt; the upstream model does not actually detect it.",
+        lipSyncTitle: "Lip sync (unsupported by the current channel)",
+        lipSyncHint: "No lipSync parameter upstream: the switch is disabled, the field is not sent, and no lip alignment is performed.",
+        lipSyncSnapshot: "Unsupported (no such parameter upstream)",
+        outputHint: "The current channel returns exactly 1 result per run.",
+        resultTitle: "AI regeneration result (unverified translation)",
+        resultPanelLabel: "Regenerated video",
+        resultBadge: "Unverified translation · confirm language and subtitles manually",
+        resultEmpty: "Regenerated videos appear here after you submit; language and subtitles need manual confirmation.",
+        submitting: "Generating…",
+        sidebarTitle: "Video translation (experimental)",
+        sidebarHint: "Entry point and history are kept, but the tool can only regenerate a video from a prompt; that is not a finished dub.",
+        historyHint: "History may contain older “translation” results; confirm language and subtitles manually as well.",
+    },
 };

@@ -772,4 +772,31 @@ export default {
             VIDEO_CONCAT: "视频拼接",
         },
     },
+    /**
+     * VIDEO_TRANSLATION 诚实能力边界（r27 协议调查，提交 1ef24fba）。
+     * 上游 /v1/videos 没有源语言/目标语言/口型同步字段 → 当前只能按提示词重生成视频，
+     * 不得出现「翻译完成 / 已译制 / 已对口型 / 已生成字幕 / 已识别源语言」这类承诺。
+     */
+    videoTranslation: {
+        subtitle: "AI 视频重生成（实验）· 非逐句翻译 / 口型对齐",
+        noticeTitle: "当前为 AI 视频重生成，非逐句翻译 / 口型对齐；真实翻译通道未接入",
+        noticeBody:
+            "上游视频接口没有源语言、目标语言与口型同步参数：下面选择的目标语言只会写进提示词，不能保证换语言、换字幕或对齐口型。结果请按「未验证草稿」处理，人工确认后再用于投放。",
+        noticeBasis: "依据 r27 协议调查（提交 1ef24fba）：sub2api MiniMax 视频接口无翻译字段。",
+        languageTitle: "源语言 → 目标语言（仅影响提示词）",
+        languageHint: "仅提示词引导 · 上游无 language 字段，不保证生效",
+        sourceHint: "源语言只写进提示词，不会被上游真实识别。",
+        lipSyncTitle: "口型同步（当前渠道不支持）",
+        lipSyncHint: "上游无 lipSync 参数：开关已置灰，提交时不带该字段，也不做逐句口型对齐。",
+        lipSyncSnapshot: "不支持（上游无该参数）",
+        outputHint: "当前渠道一次只返回 1 条结果。",
+        resultTitle: "AI 重生成结果（未验证翻译）",
+        resultPanelLabel: "重生成结果",
+        resultBadge: "未验证翻译 · 请人工确认语言与字幕",
+        resultEmpty: "提交后在这里查看重生成的视频；语言与字幕需人工确认。",
+        submitting: "生成中…",
+        sidebarTitle: "视频翻译（实验）",
+        sidebarHint: "保留入口与历史任务；当前只能按提示词重生成视频，不代表译制完成。",
+        historyHint: "历史任务可能包含旧版「翻译」结果，同样需人工确认语言与字幕。",
+    },
 };
