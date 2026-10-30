@@ -1,0 +1,14 @@
+# 定向用例（针对三个指定提交覆盖的模块，独立重复运行）
+
+===== bun test src/stores/asset-store-persist.test.ts =====
+ 12 pass
+ 0 fail
+ 16 expect() calls
+Ran 12 tests across 1 file. [125.00ms]
+
+===== bun test src/features/tools/adapters/video-translation.test.ts =====
+ 39 pass
+ 0 fail
+ 131 expect() calls
+Ran 39 tests across 1 file. [1081.00ms]
+

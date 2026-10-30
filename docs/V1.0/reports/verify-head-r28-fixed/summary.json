@@ -1,0 +1,148 @@
+{
+  "gate": "fixed-HEAD independent 4-gate verification (install / typecheck / full-unit-tests / build)",
+  "round": "r28-fixed",
+  "repo": "/Users/mac/Documents/Dev/infinite-canvas",
+  "branch_under_test": "feat/linkfox-v1-real",
+  "head_commit": "c17890c37e8241e5c9716fed5dd4c46ceacda1e0",
+  "head_commit_tree": "cb5123df91fe9aadc6c156089961dea2eb75db4b",
+  "head_web_tree": "717d8a4b1785db20ed7abce2b404972974e9d6fc",
+  "head_web_src_tree": "0d580a572138ccbec13ff76e019076b9058c0fa7",
+  "head_commit_date": "2026-10-30 13:07:57 +0800",
+  "head_commit_subject": "test(audit): R27 独立矩阵重算（e2529d42，39 工具六维，82/82 断言）",
+  "head_history_note": "HEAD moved c17890c3 -> 1ef24fba -> 454fa580 -> bd71498f (13:29:36, concurrent worker, docs/ + web/scripts/real-acceptance/ only). c17890c3 is still an ancestor; 'git log c17890c3..HEAD -- web/src' is empty, so the tested source surface is identical. Conclusion pinned to c17890c3.",
+  "head_tree_files": 3825,
+  "head_web_src_files": 411,
+  "required_commits_present": {
+    "d11e1cd4": {
+      "full": "d11e1cd4448889c24ccccaeec26fb791a2a1dee6",
+      "subject": "fix(assets): 跨标签持久化改为读最新-合并-写回，修掉资产 last-write-wins 覆盖",
+      "ancestor_of_head": true,
+      "touches": ["web/src/stores/asset-store-persist.ts (+214)", "web/src/stores/use-asset-store.ts (+72/-9)"]
+    },
+    "938de5d5": {
+      "full": "938de5d5d1e7178a23c1e79cd9a31861a82d8236",
+      "subject": "test(assets): 覆盖跨标签合并、墓碑与双写竞争",
+      "ancestor_of_head": true,
+      "touches": ["web/src/stores/asset-store-persist.test.ts (+171)"]
+    },
+    "2dd097bb": {
+      "full": "2dd097bba50f49751f3b24e5d0527aa40b20e78b",
+      "subject": "fix(video-translation): 输出画幅默认跟随原视频，不再被全局 size=1:1 重构图",
+      "ancestor_of_head": true,
+      "touches": ["registry/video-translation.ts (+134)", "adapters/video-translation.ts (+20)", "adapters/video-translation.test.ts (+129)", "workspaces/video-translation.tsx (+54/-2)"]
+    }
+  },
+  "isolation": {
+    "method": "git archive c17890c3 -> tar -x -C /tmp/icw-r28-head (no .git, main working tree untouched)",
+    "archive_sha256": "2cb419668e08b132af10cba03dc5e154fe646670a047057a14920d42054ffdc9",
+    "archive_bytes": 448030720,
+    "extracted_files_before_install": 3825,
+    "whole_tree_blob_check": { "blobs_checked": 3825, "ok": 3825, "missing": 0, "mismatch": 0 },
+    "web_src_blob_check": { "files_checked": 411, "ok": 411, "missing": 0, "mismatch": 0 },
+    "git_dir_inside_snapshot": false
+  },
+  "excluded_from_conclusion": {
+    "reason": "git archive only contains the pinned commit; uncommitted worktree edits (language-group adapter WIP) never enter the snapshot",
+    "entries": [
+      "web/src/features/tools/adapters/video-translation.ts (worktree blob 4c3b71c70aa9cc5ea88a0c12c3dc9d353996cbae != HEAD blob 3cae58f863ce37453e0585e69bd7f490f758cebd; snapshot == HEAD)",
+      "web/src/features/tools/adapters/video-translation.test.ts (worktree blob 49963643b5e960b0d1fb5704512bfc96d1916c28 != HEAD blob 68fd0c43cae3f391e7d611fb351be08d101aee78; snapshot == HEAD)",
+      "uncommitted diff size of those two files: +105 / -7 (36 + 69/-7)",
+      "project_memory.md (modified, not used by any gate)",
+      "untracked scratch dirs in the main worktree (.tmp_*, .verify-tools/, .backup-*), never archived"
+    ]
+  },
+  "toolchain": {
+    "runner": "bun 1.4.2 at /Users/mac/.bun/bin/bun",
+    "node_for_tsc_shim": "v24.14.0 (/usr/local/bin/node, needed because node_modules/.bin/tsc is a node shebang shim)",
+    "note": "single worker process; no nested dispatch, no model switch, no secrets read, no src modification, no real generation"
+  },
+  "gates": {
+    "install": {
+      "command": "bun install --frozen-lockfile",
+      "exit_code": 0,
+      "packages_installed": 931,
+      "duration_s": 5.25,
+      "node_modules_size": "701M"
+    },
+    "typecheck": {
+      "command": "bun run typecheck (tsc --noEmit)",
+      "exit_code": 0,
+      "error_count": 0,
+      "real_s": 260,
+      "cold_cache_note": "fresh node_modules + no tsbuildinfo (r24 measured 22s warm)",
+      "non_empty_proof": {
+        "command": "node_modules/.bin/tsc --noEmit --listFiles --incremental false",
+        "exit_code": 0,
+        "duration_s": 171,
+        "program_files": 3443,
+        "web_src_files_in_program": 410,
+        "web_src_tree_files": 411,
+        "accounted_difference": "web/src/styles/globals.css (CSS not matched by tsconfig include src/**/*.ts|tsx)"
+      }
+    },
+    "unit_tests": {
+      "command": "bun test",
+      "exit_code": 0,
+      "pass": 1535,
+      "fail": 0,
+      "skip": 0,
+      "files": 89,
+      "files_breakdown": "84 under web/src/**.test.ts(x) + 5 under web/tests/",
+      "expect_calls": 8520,
+      "duration_s": 13.85,
+      "delta_vs_r26": "+21 tests (r26 1514 -> 1535), of which asset-store-persist.test.ts +12 and video-translation.test.ts 30->39 (+9); arithmetic reconciles exactly"
+    },
+    "build": {
+      "command": "bun run build (vite build)",
+      "exit_code": 0,
+      "modules_transformed": 8831,
+      "built_in": "3m 39s",
+      "real_s": 225,
+      "dist_files": 443,
+      "dist_size": "37M",
+      "entry_html": "dist/index.html (<title>无限画布</title>, /config.js)",
+      "js_bundle": "dist/assets/index-DTgGRCtK.js 5,622,697 B (vite gzip 1,724.89 kB)",
+      "css_bundle": "dist/assets/index-Bi0Yw3LF.css 159,773 B (vite gzip 25.98 kB)",
+      "warnings": "only the pre-existing 'chunks larger than 500 kB' notice",
+      "symbol_occurrences_in_bundle": {
+        "videoRatio": 41,
+        "输出画幅": 1,
+        "planVideoTranslationOutput": 1,
+        "21:9": 30,
+        "AI_VIDEO_EDITING": 20,
+        "VIDEO_TRANSLATION": 26,
+        "IMAGE_TRANSLATION": 27,
+        "measureVideoMeta": 10,
+        "reconcileVideoNodeMeta": 4,
+        "infinite-canvas:asset_store:sync": 1,
+        "infinite-canvas:asset_store:write": 1
+      }
+    }
+  },
+  "focused_modules": {
+    "web/src/stores/asset-store-persist.test.ts": { "pass": 12, "fail": 0, "expect": 16, "covers": "d11e1cd4 + 938de5d5 (跨标签合并 / 墓碑 / 双写竞争)" },
+    "web/src/features/tools/adapters/video-translation.test.ts": { "pass": 39, "fail": 0, "expect": 131, "covers": "2dd097bb (输出画幅默认跟随原视频)" },
+    "combined_rerun": "run twice independently: 12/0/16 and 39/0/131 both times (deterministic)"
+  },
+  "change_scope_vs_r26_pin_eacc18f7": {
+    "numstat_web_src": [
+      { "file": "web/src/components/tools/workspaces/video-translation.tsx", "added": 54, "deleted": 2 },
+      { "file": "web/src/features/tools/adapters/video-translation.test.ts", "added": 129, "deleted": 0 },
+      { "file": "web/src/features/tools/adapters/video-translation.ts", "added": 20, "deleted": 0 },
+      { "file": "web/src/features/tools/registry/video-translation.ts", "added": 134, "deleted": 0 },
+      { "file": "web/src/stores/asset-store-persist.test.ts", "added": 171, "deleted": 0 },
+      { "file": "web/src/stores/asset-store-persist.ts", "added": 214, "deleted": 0 },
+      { "file": "web/src/stores/use-asset-store.ts", "added": 72, "deleted": 9 }
+    ],
+    "commits_touching_web_src_in_range": ["2dd097bb", "d11e1cd4", "938de5d5"],
+    "docs_only_commits_in_range": ["7f656bd5", "9e8024e2", "e2529d42", "1a70a4a3", "c17890c3"]
+  },
+  "not_covered": [
+    "real browser / backend E2E and real generation (explicitly out of scope this round)",
+    "uncommitted working-tree edits (language-group adapter WIP, project_memory.md)",
+    "cross-tab race reproduced in a live browser (covered here only by unit-level tests from 938de5d5)"
+  ],
+  "verdict": "PASS (4/4)",
+  "verdict_scope": "commit c17890c3 full tree, 3825 blobs verified byte-identical to git object ids",
+  "logs": "docs/V1.0/reports/verify-head-r28-fixed/logs/"
+}

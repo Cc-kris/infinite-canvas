@@ -1,0 +1,5 @@
+== snapshot adapter files vs HEAD blobs ==
+src/features/tools/adapters/video-translation.ts snapshot=3cae58f863ce37453e0585e69bd7f490f758cebd head=3cae58f863ce37453e0585e69bd7f490f758cebd MATCH
+src/features/tools/adapters/video-translation.test.ts snapshot=68fd0c43cae3f391e7d611fb351be08d101aee78 head=68fd0c43cae3f391e7d611fb351be08d101aee78 MATCH
+src/stores/asset-store-persist.ts snapshot=e9ebb0a49eb23cf4509aef62413f7a291a3a50bf head=e9ebb0a49eb23cf4509aef62413f7a291a3a50bf MATCH
+src/stores/asset-store-persist.test.ts snapshot=45ba86731fd5c719e546774483e4232607b39923 head=45ba86731fd5c719e546774483e4232607b39923 MATCH
