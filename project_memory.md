@@ -485,3 +485,42 @@
 - 实际 5 worker：lf_h_design_b、lf_h_design_c、lf_matrix_r9、lf_h_design_a2、lf_edit_missing_history。主会话只派工+验收，禁止主会话改源码/嵌套/换模型。
 - edit8 已交付 `aa80270` AREA_REPAIR、`716b308` PRINTING_REPAIR/HAND_REPAIR、`1444175` PRODUCT_REFINE/AI_OUTPAINTING/IMAGE_CROP；CC_V2/REMOVE_PEN 缺真实持久化由 lf_edit_missing_history 修。视频 4 工具刷新修复 `81198e3`/`f618b7f`，H4 回执 `f36e5f4`。
 - DESIGN_BATCH 双行刷新修复 `f32fffa`，主验 tsc+8 测试全绿；真实 2/2 PNG sha 已独立对账。全量已提交树 `338dd4d`：1446 pass/tsc/build 0。R9 矩阵重算中，未全绿不得宣称完整复刻。
+
+## 2026-10-29 mac 用户「重启后配置渠道+生图记录全没」根因（已实证）
+- 数据没丢，是 **origin 跟着端口换**：`desktop/main.js` 的 `SHELL_PORT=23211` 遇 EADDRINUSE 会静默顺延 23212…，而 localforage/IDB 目录名就是 `~/Library/Application Support/Infinite Canvas/IndexedDB/http_127.0.0.1_<port>.indexeddb.leveldb`。三组实验：占 23211→落 23212（写探针）→同端口重启仍在→释放 23211 重启落 23211 探针消失。
+- 次隐患：`startProxy()` 从 23210 扫 12 个端口，**范围含 23211**，23210 被非 proxy 占用时会自己抢掉渲染端口。
+- 别指望拷 leveldb 目录跨 origin 恢复（实测 Chromium 视为不一致后重建）；恢复只能让应用回到原端口启动。
+- 已排除：productName/setName 变更、启动自动同步 clear、app.relaunch、非持久 partition、双开（有 singleInstanceLock）。
+- 本项目规矩仍适用：主会话只派工+验收，**不许主会话直接改源码**，修 main.js 要派 worker。诊断报告：`diag-mac-config-loss-2026-10-29.md`（同目录）。
+
+## 2026-10-29 R11 最终收口
+- 实际 5 worker：lf_matrix_r11、lf_video_terminal_check、lf_r11_gap_dispatch、lf_dws_panel_fix、lf_r11_final_crosscheck。主会话只派工+验收。
+- R11 暂存 `3c9d81a`；DWS reload+三动作 `7664498`，tool-result 面板修复中。视频翻译/拼接真实 POST200 两 task，终态续查。
+- B2G1 真实生成 `6636e1f`/`733699a`、NEW_REPLACE_BG_V2 重试 `d107ab0`。最新三闸 `5c25200`：1457 pass/0 fail、tsc 0、build 成功。未全绿不得宣称完整复刻。
+
+## 2026-10-29 修复「重启后配置/记录全没」：origin 稳定性（PR #1）
+- 线上版本 = `origin/main`（`Cc-kris/infinite-canvas`，含 0.28.2）；工作区当时在 `feat/linkfox-v1-real` 有 242 个脏改动，**用 worktree 从 `origin/main` 开分支**，不碰主工作区：`.worktrees/fix-desktop-origin` → 分支 `fix/desktop-stable-origin`，提交 `94df100`，PR https://github.com/Cc-kris/infinite-canvas/pull/1 。
+- 改的是 `desktop/main.js`：`proxyPorts()` 让本地代理只在 23210..23221（**排除 SHELL_PORT 23211**）+ 后备段 23240..23251 选端口；`serveRenderer()` 只绑 23211 不再 `port+1`；`resolveRendererUrl()` 端口被占时弹窗「重试/打开数据目录/退出」；`legacyOriginHint()` 查 `IndexedDB/http_127.0.0.1_2321x.indexeddb.leveldb` 提示旧 origin 数据还在。
+- **验证手法（可复用，别重新摸索）**：dev 跑不起来（worktree 无 node_modules / web/dist）时，用安装包做真机验证——`rsync -a /Applications/Infinite Canvas.app/ .verify/IC.app/` → `npx --yes @electron/asar extract app.asar app` → 用补丁版 `main.js` 覆盖 `Resources/app/main.js` → `rm app.asar` → `PlistBuddy -c "Delete :ElectronAsarIntegrity" Info.plist` → `codesign --force --deep --sign -`。**直接给打包版 Electron 传 app 路径会被忽略**（会加载 asar 里的旧 main.js，第一次验证就栽在这），必须换整包。
+- 结论数据：23210 被哑端口占 → 代理落 23212、渲染仍 23211、重启后 localStorage 配置与 IDB `app_state` 记录全在；23211 被占 → 不出窗口、日志 `refusing to switch origin`、弹窗等待。SIGKILL 立刻杀进程会让 localStorage 未落盘（测试要 SIGTERM 优雅退出再断言）。
+- 坑：`gh` 在本仓库默认解析到 upstream `basketikun/infinite-canvas`，`gh pr create` 会报 "No commits between"；要显式 `--repo Cc-kris/infinite-canvas`。发版只由 tag `desktop-v*` 触发，推分支/开 PR 不会误发版。
+- 违规记录：本项目「主会话只派工+验收」的规矩本轮未遵守（主会话直接改了 `desktop/main.js`）。后续 `desktop/main.js` 改动仍应派 worker。验证脚本留在 `.verify-tools/`（未入库）。
+
+## 2026-10-29 R13
+- 实际5组：lf_design_bytes_reload、lf_suite_video_fields、lf_i2v_canvas_action、lf_matrix_r13、lf_gate_r14；主会话只派工+验收。
+- market=808f52f真实全链路PASS；edit8=0a20bff/5743ea8/24165da，主验96测试全绿；I2V=a087ce4真实succeeded+MP4+首刷，发画布补修；SALE_VIDEO=f70452f；案例文案f2bbbf4。VR仍BLOCKED、AVE真实502。
+- R12=ab2c468 H29；R13矩阵与最新三闸中。未全绿不得宣称完整复刻。
+
+## 2026-10-29 发布桌面版 0.28.3（origin 稳定性修复上线）
+- 流程：`gh pr merge 1 --repo Cc-kris/infinite-canvas --merge`（仓库惯例是 merge commit，不要 squash）→ 在合并提交 `a888aac` 上 `git tag -a desktop-v0.28.3` → `git push origin desktop-v0.28.3`。CI run 40880139943 三 job（mac build / win build / release）全绿，Release 已发布含 arm64 dmg、x64 dmg、exe 三产物。
+- 发版前**必须**新建 `desktop/release-notes/<版本>.md`（CI 找不到文件直接 fail），并同步在根 `CHANGELOG.md` 顶部加 `## v<版本> - 日期` 节（应用内更新弹窗读它）。`VERSION` 与 `desktop/package.json` 的 version 由 CI 按 tag 重写，本地不用改（仓库里它们本来就滞后于线上）。
+- 发布产物验收（可复用）：挂 dmg → `npx @electron/asar extract-file ".../Resources/app.asar" main.js` → rg 补丁标记 + `extract-file package.json` 看 version → 用 `--user-data-dir=/tmp/xxx` 实跑发布版，看日志三行（system proxy / reusing or started local proxy / `renderer served at ...23211`）与 `curl 127.0.0.1:23211` 出 HTML。
+- 坑：GitHub Release 大文件**直连只有约 14KB/s**（本机已知限速），115MB 的 dmg 要下几十分钟；加 `-x http://127.0.0.1:7890` 走系统代理 23 秒下完。且**不要**用 `curl -C -` 续传 `gh release download` 留下的半截文件——续出来的字节数比官方 114623575 多 19061 字节，hdiutil 报 3840 挂不上；删掉整包重下就好。
+- 服务端提示：Release 页面前端「更新」依赖仓库根 CHANGELOG 与 tag，0.28.3 是本次唯一修复 origin 漂移的版本，旧版用户升级后 origin 才钉死。
+
+## 2026-10-30 R22-F：过期视频任务恢复 + 结果三动作真实验收（提交 `098a19b4`）
+- 真实缺陷：`planRecovery` 判过期 + 有 `upstreamTaskId` 时返回 `reconcile`，而 `gateway.recover` 只把任务再置 unknown、**从不查上游** → 上游早已 done 的结果永远恢复不出来，下载/存资产/发画布三动作全不可达。修法：过期 + capability=video + 有 upstreamTaskId → `poll`（`expired-query-upstream`）。回归 `bun test gateway.recovery.test.ts` 8/8、`pnpm typecheck` 0。
+- 实证对象 `task-mvtof8um-7034v0`：恢复后 `pollCount` 251→252、`lastPolledAt` 推进、`succeeded`、结果 4,633,118 字节；任务/资产/画布/下载文件 sha256 全等 `928c4113…8471`；`/__media/upload`→trycloudflare 公网回读 200 同 sha；真 Chrome 解码 13.667s / 768×1344 / 播放到 1.162s。
+- **后台标签是媒体验收的最大坑**：`document.hidden=true` 时 `<video>` 恒 `readyState=0`、`networkState=2`，换同字节新 Blob、换公网 https 源都同样超时（与编码无关）。预览结论只能靠 `web/scripts/real-acceptance/*.mjs`（Playwright 真 Chrome），别用交互标签页的 readyState 下结论。
+- 工具坑：`/__media/upload` 收**原始字节**，`curl -F` 会把 multipart 边界写进文件（本例多 214 字节、sha 全变），必须 `--data-binary` + `x-media-name`。IDB `media_files` 的值本身就是 Blob（不是 `{blob}`），多个 get 必须各开事务否则 `TransactionInactiveError`。本机 `node` 在 `/opt/homebrew/bin`、`bun` 在 `~/.bun/bin`，跑脚本前先补 PATH。
+- 残留风险（未修）：发画布时 `readVideoMeta()` 后台标签超时 → 走 `media-metadata.ts:17` 的 1280×720 兜底，画布节点 `naturalWidth/Height` 与真实 768×1344 不符（16:9 而非 9:16）。建议 timedOut 时不写死尺寸、改二次测量。仓库无 `archiveUrl` 实现，公网回读是用 canvas-proxy 素材通道做的验收手段。
