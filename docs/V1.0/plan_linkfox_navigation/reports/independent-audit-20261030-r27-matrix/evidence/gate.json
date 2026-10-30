@@ -1,0 +1,66 @@
+{
+ "source": "docs/V1.0/reports/verify-head-r26-fixed (PIN tree blob)",
+ "commit": "eacc18f7cb16d15ed40afaed6beeff13da1c39a9",
+ "commitTree": "3fbda4bac69ca39f92f94f25e6bf74b6a5ef43eb",
+ "webTree": "3722e3cfa871ba792c2f21d0f3d54f677b385655",
+ "commitSubject": "fix(tools): 存入资产不再写 1280x720 视频兜底尺寸，改严格测量+后台校正",
+ "verdictOfRecord": "PASS (4/4)",
+ "isolation": {
+  "method": "git archive eacc18f7 -> tar -x -C /private/tmp/icw-r26-head (no .git, main working tree untouched)",
+  "archive_sha256": "68c4c32023a54ec9b8acfd865ed6be0407978559bc3ab1659da143708de22e94",
+  "archive_bytes": 443822080,
+  "extracted_files_before_install": 3707,
+  "whole_tree_blob_check": {
+   "blobs_checked": 3707,
+   "ok": 3707,
+   "missing": 0,
+   "mismatch": 0
+  },
+  "web_src_blob_check": {
+   "files_checked": 409,
+   "ok": 409,
+   "missing": 0,
+   "mismatch": 0
+  }
+ },
+ "toolchain": {
+  "runner": "bun 1.4.2 at /Users/mac/.bun/bin/bun",
+  "note": "no nested dispatch, no model switch, no secrets read"
+ },
+ "exits": {
+  "typecheck": true,
+  "buntest": true,
+  "build": true,
+  "tsc-listfiles": true,
+  "install": true
+ },
+ "install": {
+  "exit0": true,
+  "packages": 931
+ },
+ "typecheck": {
+  "exit0": true,
+  "errorTs": 0,
+  "seconds": 369.03
+ },
+ "test": {
+  "exit0": true,
+  "pass": 1514,
+  "fail": 0,
+  "expect": 8458,
+  "total": 1514,
+  "files": 88
+ },
+ "build": {
+  "exit0": true,
+  "seconds": 88.0,
+  "modules": 8830,
+  "entryJs": "index-BM1Z8JG7.js",
+  "entryJsKb": 5616.02,
+  "distFiles": 443
+ },
+ "tscListFiles": {
+  "lines": 3441,
+  "webSrcEntries": 408
+ }
+}

@@ -1,0 +1,117 @@
+{
+  "gate": "fixed-HEAD independent 4-gate verification (install / typecheck / full-unit-tests / build)",
+  "round": "r26-fixed",
+  "repo": "/Users/mac/Documents/Dev/infinite-canvas",
+  "branch_under_test": "feat/linkfox-v1-real",
+  "head_commit": "eacc18f7cb16d15ed40afaed6beeff13da1c39a9",
+  "head_commit_tree": "3fbda4bac69ca39f92f94f25e6bf74b6a5ef43eb",
+  "head_web_tree": "3722e3cfa871ba792c2f21d0f3d54f677b385655",
+  "head_web_src_tree": "b099d5c664a2dadb12b1012dc2686319964d0992",
+  "head_commit_date": "2026-10-30 12:33:09 +0800",
+  "head_commit_subject": "fix(tools): 存入资产不再写 1280x720 视频兜底尺寸，改严格测量+后台校正",
+  "head_tree_files": 3707,
+  "head_web_src_files": 409,
+  "head_history_note": "HEAD moved eacc18f7 -> 7f656bd5 'audit(r25): 独立六维矩阵 R25（PIN 2ecd958d）' at 12:44:55 by a concurrent worker (parent = eacc18f7; adds only docs/ + tools/recompute_scope_matrix_r25.py). Conclusion pinned to eacc18f7.",
+  "isolation": {
+    "method": "git archive eacc18f7 -> tar -x -C /private/tmp/icw-r26-head (no .git, main working tree untouched)",
+    "archive_sha256": "68c4c32023a54ec9b8acfd865ed6be0407978559bc3ab1659da143708de22e94",
+    "archive_bytes": 443822080,
+    "extracted_files_before_install": 3707,
+    "whole_tree_blob_check": { "blobs_checked": 3707, "ok": 3707, "missing": 0, "mismatch": 0 },
+    "web_src_blob_check": { "files_checked": 409, "ok": 409, "missing": 0, "mismatch": 0 }
+  },
+  "excluded_from_conclusion": {
+    "reason": "uncommitted / post-pin concurrent edits in the main working tree do not enter the archive",
+    "entries": [
+      "web/src/stores/use-asset-store.ts (worktree blob e7b8ee6b..., HEAD blob 5ea8d741..., snapshot verified = HEAD blob)",
+      "post-pin edits observed at 12:47: project_memory.md, web/src/components/tools/workspaces/video-translation.tsx, web/src/features/tools/adapters/video-translation(.test).ts, web/src/features/tools/registry/video-translation.ts",
+      "commit 7f656bd5 (R25 audit, docs + tools only)"
+    ]
+  },
+  "toolchain": {
+    "runner": "bun 1.4.2 at /Users/mac/.bun/bin/bun",
+    "note": "no nested dispatch, no model switch, no secrets read"
+  },
+  "gates": {
+    "install": {
+      "command": "bun install --frozen-lockfile",
+      "exit_code": 0,
+      "packages_installed": 931,
+      "duration_s": 5.4,
+      "node_modules_size": "701M"
+    },
+    "typecheck": {
+      "command": "bun run typecheck (tsc --noEmit)",
+      "exit_code": 0,
+      "error_count": 0,
+      "real_s": 369.03,
+      "cold_cache_note": "fresh node_modules + no tsbuildinfo; r24 measured 22s with warm cache",
+      "non_empty_proof": {
+        "command": "bun node_modules/typescript/bin/tsc --noEmit --listFiles",
+        "exit_code": 0,
+        "program_files": 3441,
+        "web_src_files_in_program": 408,
+        "web_src_tree_files": 409,
+        "accounted_difference": "web/src/styles/globals.css (CSS not matched by tsconfig include src/**/*.ts|tsx)"
+      }
+    },
+    "unit_tests": {
+      "command": "bun test",
+      "exit_code": 0,
+      "pass": 1514,
+      "fail": 0,
+      "skip": 0,
+      "files": 88,
+      "expect_calls": 8458,
+      "duration_s": 11.51,
+      "delta_vs_r24": "+5 tests = the new tool-result-actions.asset-meta.test.ts"
+    },
+    "build": {
+      "command": "bun run build (vite build)",
+      "exit_code": 0,
+      "modules_transformed": 8830,
+      "built_in": "1m 28s",
+      "real_s": 90.58,
+      "dist_files": 443,
+      "dist_size": "37M",
+      "entry_html": "dist/index.html (<title>无限画布</title>, #root, /config.js)",
+      "js_bundle": "dist/assets/index-BM1Z8JG7.js 5,616.02 kB (gzip 1,733.77 kB)",
+      "css_bundle": "dist/assets/index-Bi0Yw3LF.css 159.77 kB (gzip 26.21 kB)",
+      "symbol_occurrences_in_bundle": {
+        "AI_VIDEO_EDITING": 20,
+        "VIDEO_TRANSLATION": 23,
+        "IMAGE_TRANSLATION": 27,
+        "measureVideoMeta": 10,
+        "reconcileVideoNodeMeta": 4
+      }
+    }
+  },
+  "focused_modules": {
+    "web/src/components/tools/tool-result-actions.asset-meta.test.ts": { "pass": 5, "fail": 0, "expect": 27 },
+    "web/src/lib/canvas/video-meta-reconcile.test.ts": { "pass": 10, "fail": 0, "expect": 27 },
+    "web/src/features/tools/adapters/ai-video-editing.test.ts": { "pass": 42, "fail": 0, "expect": 152 },
+    "combined_rerun": "3 files run twice: 57 pass / 0 fail / 206 expect both times (deterministic)"
+  },
+  "supplementary_tests": {
+    "src/features/tools/adapters/video-translation.test.ts": { "pass": 30, "fail": 0, "expect": 85 },
+    "src/components/tools/tool-result-actions.video-frame.test.ts": { "pass": 5, "fail": 0, "expect": 25 },
+    "src/services/media-metadata.test.ts": { "pass": 5, "fail": 0, "expect": 18 },
+    "src/features/tools/registry/registry.test.ts": { "pass": 18, "fail": 0, "expect": 1622 },
+    "src/services/api/tools/result-assets.test.ts": { "pass": 30, "fail": 0, "expect": 95 }
+  },
+  "change_scope_vs_c4b3611a": {
+    "numstat_web_src": [
+      { "file": "web/src/components/tools/tool-result-actions.asset-meta.test.ts", "added": 136, "deleted": 0 },
+      { "file": "web/src/components/tools/tool-result-actions.ts", "added": 126, "deleted": 10 }
+    ],
+    "commits_touching_web_src_in_range": ["eacc18f7"]
+  },
+  "not_covered": [
+    "real browser / backend E2E (this round is install + typecheck + unit + build)",
+    "uncommitted working-tree edits at/after pin time",
+    "commit 7f656bd5 and anything after eacc18f7"
+  ],
+  "verdict": "PASS (4/4)",
+  "verdict_scope": "commit eacc18f7 full tree, 3707 blobs verified byte-identical to git object ids",
+  "logs": "docs/V1.0/reports/verify-head-r26-fixed/logs/"
+}
