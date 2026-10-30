@@ -9,6 +9,7 @@ import { isPublicMediaUrl, publishReferenceVideos } from "@/services/media-publi
 import { getMediaBlob, resolveMediaUrl, uploadMediaFile, type UploadedFile } from "@/services/file-storage";
 import { imageToDataUrl } from "@/services/image-storage";
 import { boolConfig, buildApiUrl, modelOptionName, resolveModelRequestConfig, resolveModelScript, resolveVideoHttpConfig, withLocalProxy, type AiConfig, type VideoHttpConfig } from "@/stores/use-config-store";
+import { channelMediaHeaders } from "@/services/media-auth";
 import { runModelPlugin } from "./model-plugin";
 import type { ReferenceImage } from "@/types/image";
 import type { ReferenceAudio, ReferenceVideo } from "@/types/media";
@@ -441,7 +442,7 @@ async function pollOpenAIVideoTask(config: AiConfig, task: VideoGenerationTask, 
     try {
         const video = unwrapVideoResponse((await axios.get<ApiVideoResponse>(aiApiUrl(config, `/videos/${task.id}`), { headers: aiHeaders(config), signal: options?.signal, timeout: VIDEO_POLL_TIMEOUT_MS })).data);
         const url = videoResultUrl(video, config);
-        if (url) return { status: "completed", result: await videoResultFromUrl(url, options, aiHeaders(config)) };
+        if (url) return { status: "completed", result: await videoResultFromUrl(url, options, channelMediaHeaders(url, { baseUrl: config.baseUrl, apiKey: config.apiKey, apiFormat: config.apiFormat })) };
         if (isVideoDoneStatus(video.status)) {
             // 已完成却没有 URL：只能靠 /content。这里必须真校验容器，空体/HTML/JSON 一律判失败，
             // 否则会把 Cloudflare 错误页当成“生成成功”写进历史记录。

@@ -10,6 +10,11 @@ export type UploadedFile = { url: string; storageKey: string; bytes: number; mim
 export type StoreMediaOptions = {
     /** 上游声明的 MIME（结果项常常只有 mimeType，没有真实 Blob.type）。 */
     mimeType?: string;
+    /**
+     * 取件请求头。只有「原任务渠道 API 端点」才需要（结果 URL 可能是
+     * `/v1/videos/<id>/content` 这类需鉴权的中转地址）；公网/CDN 由调用方不传。
+     */
+    headers?: Record<string, string>;
     signal?: AbortSignal;
     timeoutMs?: number;
     /** 调用方已探测好的元数据：给定则不再对同一 Blob 二次探测（避免重复等待超时）。 */
@@ -55,14 +60,14 @@ export async function uploadMediaFile(input: string | Blob, prefix = "file", opt
 }
 
 /** 真实下载媒体（带超时/取消）；非 2xx 直接判失败，绝不把错误页当结果入库。 */
-export async function fetchMediaBlob(url: string, options: { timeoutMs?: number; signal?: AbortSignal } = {}): Promise<Blob> {
+export async function fetchMediaBlob(url: string, options: { timeoutMs?: number; signal?: AbortSignal; headers?: Record<string, string> } = {}): Promise<Blob> {
     throwIfAborted(options.signal);
     const controller = new AbortController();
     const timeout = setTimeout(() => controller.abort(), options.timeoutMs ?? DEFAULT_MEDIA_FETCH_TIMEOUT_MS);
     const onAbort = () => controller.abort();
     options.signal?.addEventListener("abort", onAbort, { once: true });
     try {
-        const response = await fetch(withLocalProxy(url), { signal: controller.signal });
+        const response = await fetch(withLocalProxy(url), { signal: controller.signal, headers: options.headers });
         if (!response.ok) throw new MediaStoreError("fetch-failed", `媒体下载失败（HTTP ${response.status}）。`);
         return await response.blob();
     } catch (error) {

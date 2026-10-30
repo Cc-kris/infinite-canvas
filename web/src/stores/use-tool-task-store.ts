@@ -18,6 +18,7 @@ import {
 } from "@/services/api/tools/gateway";
 import { reclaimRecoverableResultItems, isDurableResultUrl, sanitizeTaskForPersist, type ToolTask, type ToolTaskResultItem } from "@/services/api/tools/task-machine";
 import { getMediaBlob, listTaskResultMedia, resolveMediaUrl, setMediaBlob, uploadMediaFile } from "@/services/file-storage";
+import { taskMediaHeaders } from "@/services/media-auth";
 
 export const TOOL_TASK_STORAGE_VERSION = 1 as const;
 export const TASK_INDEX_KEY = "tool-task:v1:index";
@@ -259,7 +260,12 @@ export async function ingestResultMedia(task: ToolTask): Promise<ToolTask> {
             if (!source) return item;
             try {
                 // 键名带任务 id 与结果项序号：入库即留下 provenance，快照被剥/回写丢失后仍能反查真实字节。
-                const stored = await uploadMediaFile(source, `${RESULT_MEDIA_PREFIX}:${task.id}:${index}`, { mimeType: item.mimeType });
+                const stored = await uploadMediaFile(source, `${RESULT_MEDIA_PREFIX}:${task.id}:${index}`, {
+                    mimeType: item.mimeType,
+                    // 结果地址可能是渠道 API 的中转端点（如 `/v1/videos/<id>/content`，匿名 GET 会 401）。
+                    // 只按**原任务渠道**解析凭据：公网/CDN、blob/data 一律不带头；key 不进快照、不进日志。
+                    headers: typeof source === "string" ? taskMediaHeaders(source, task) : undefined,
+                });
                 // 内存态保留原 dataUrl/blob（共享结果动作优先用它们），只额外记住落库键与字节数。
                 return {
                     ...item,

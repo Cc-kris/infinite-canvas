@@ -211,6 +211,16 @@ async function loadAssetDeps(): Promise<ResultAssetDeps> {
 
 const ASSET_DEP_KEYS: (keyof ResultAssetDeps)[] = ["uploadImage", "storeMedia", "findAssetByKey", "upsertAsset", "replaceAsset", "removeAssets"];
 
+/**
+ * 媒体取件鉴权（D1）：结果地址是渠道 API 中转端点时，按原任务渠道补 `Authorization`。
+ * 公网/CDN、blob:/data: 一律不带头；查不到任务则退化为「不带头」（保持原有可读报错）。
+ */
+async function mediaHeadersForUrl(url: string, taskId?: string): Promise<Record<string, string> | undefined> {
+    if (!url || !/^https?:\/\//i.test(url)) return undefined;
+    const { taskMediaHeadersById } = await import("@/services/media-auth");
+    return taskMediaHeadersById(url, taskId);
+}
+
 /** 全量注入时直接使用（测试/嵌入方），避免无谓地拉 zustand/localforage。 */
 async function resolveAssetDeps(input: Partial<ResultAssetDeps>): Promise<ResultAssetDeps> {
     if (ASSET_DEP_KEYS.every((key) => typeof input[key] === "function")) return input as ResultAssetDeps;
@@ -287,7 +297,9 @@ export async function ingestResultAsset(item: ResultItem, ctx: ResultAssetContex
     let uploaded: UploadedImage | UploadedFile;
     try {
         if (kind === "video") {
-            uploaded = await deps.storeMedia(item.blob ?? item.dataUrl ?? item.url ?? "", "video", { mimeType: item.mimeType, signal: ctx.signal });
+            // 结果地址可能是渠道 API 中转端点（需鉴权）；按 taskId 反查原任务渠道，凭据不落盘。
+            const headers = await mediaHeadersForUrl(item.url ?? "", ctx.taskId);
+            uploaded = await deps.storeMedia(item.blob ?? item.dataUrl ?? item.url ?? "", "video", { mimeType: item.mimeType, headers, signal: ctx.signal });
         } else {
             const source = item.dataUrl ?? item.url;
             if (!source) throw new ResultAssetError("payload-missing", STALE_TEXT["media-missing"], { resultId: item.id });
@@ -504,7 +516,8 @@ export async function sendResultToCanvas(item: ResultItem, ctx: ResultAssetConte
     let bytes: number;
     try {
         if (kind === "video") {
-            const stored = await media.storeMedia(item.blob ?? item.dataUrl ?? item.url ?? "", "video", { mimeType: item.mimeType, signal: ctx.signal });
+            const headers = await mediaHeadersForUrl(item.url ?? "", ctx.taskId);
+            const stored = await media.storeMedia(item.blob ?? item.dataUrl ?? item.url ?? "", "video", { mimeType: item.mimeType, headers, signal: ctx.signal });
             bytes = stored.bytes;
             metadata = deps.videoMetadata(stored);
         } else {
