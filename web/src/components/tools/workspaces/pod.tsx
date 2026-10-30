@@ -1,6 +1,8 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { AlertTriangle, Check, ImageOff, ImagePlus, Loader2, Maximize, Minus, Move, Palette, Plus, Redo2, RotateCcw, RotateCw, Sparkles, Trash2, Undo2, Upload } from "lucide-react";
 
+import { HistoryRecordPanel } from "@/components/tools/history-record-panel";
+import { MaterialSourcePanel } from "@/components/tools/material-source-panel";
 import { ToolAssetInput } from "@/components/tools/tool-asset-input";
 import { ToolCases } from "@/components/tools/tool-cases";
 import type { ToolCase } from "@/components/tools/tool-cases";
@@ -1260,7 +1262,10 @@ export function SdsDesignWorkspace() {
     const [stageError, setStageError] = useState("");
     const [applyingCaseId, setApplyingCaseId] = useState<string | null>(null);
     const [casesHint, setCasesHint] = useState("");
-    const materialInputRef = useRef<HTMLInputElement | null>(null);
+    /** 原站「上传素材」弹窗（上传新图 / 传过的图 / 历史作图 / 素材库）。 */
+    const [materialPanelOpen, setMaterialPanelOpen] = useState(false);
+    /** 原站「历史记录」弹窗（场景素材 / 相似图裂变 / AI自由绘图）。 */
+    const [historyPanelOpen, setHistoryPanelOpen] = useState(false);
     const productInputRef = useRef<HTMLInputElement | null>(null);
     const abortRef = useRef<AbortController | null>(null);
 
@@ -1647,7 +1652,8 @@ export function SdsDesignWorkspace() {
                             <button
                                 type="button"
                                 disabled={running || stageBusy}
-                                onClick={() => materialInputRef.current?.click()}
+                                onClick={() => setMaterialPanelOpen(true)}
+                                data-testid="sds-upload-material"
                                 className="flex h-[32px] items-center justify-center gap-[6px] rounded-[6px] bg-primary px-[15px] text-[14px] text-primary-foreground disabled:cursor-not-allowed disabled:opacity-60"
                                 style={{ marginTop: 14 }}
                             >
@@ -1782,7 +1788,11 @@ export function SdsDesignWorkspace() {
                     <button
                         type="button"
                         aria-pressed={resultTab === "history"}
-                        onClick={() => setResultTab("history")}
+                        data-testid="sds-history-entry"
+                        onClick={() => {
+                            setResultTab("history");
+                            setHistoryPanelOpen(true);
+                        }}
                         className={cn(
                             "flex h-[41px] items-center text-[14px] leading-[22px]",
                             resultTab === "history" ? "text-primary" : "text-muted-foreground",
@@ -1882,17 +1892,22 @@ export function SdsDesignWorkspace() {
                 </div>
             </section>
 
-            <input
-                ref={materialInputRef}
-                type="file"
-                hidden
-                multiple
-                accept="image/png,image/jpeg,image/webp"
-                onChange={(event) => {
-                    const files = Array.from(event.target.files ?? []);
-                    event.target.value = "";
-                    void uploadStageFiles(files, "material");
+            <MaterialSourcePanel
+                open={materialPanelOpen}
+                toolId={toolId}
+                disabled={running || stageBusy}
+                onClose={() => setMaterialPanelOpen(false)}
+                onFiles={(files) => uploadStageFiles(files, "material")}
+                onPick={(record) => {
+                    if (materialRecords.some((item) => item.id === record.id)) return;
+                    handleMaterials([...materialRecords, record].slice(0, SDS_MATERIAL_COUNT.max));
                 }}
+            />
+            <HistoryRecordPanel
+                open={historyPanelOpen}
+                toolId={toolId}
+                toolLabel="素材贴合"
+                onClose={() => setHistoryPanelOpen(false)}
             />
             <input
                 ref={productInputRef}

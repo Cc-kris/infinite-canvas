@@ -74,9 +74,10 @@ import {
     type HandheldGoodsRun,
 } from "@/features/tools/adapters/handheld-goods";
 import type { ReferenceImage } from "@/types/image";
-import type { ToolAssetRecord } from "@/services/api/tools/assets";
+import { uploadToolAsset, type ToolAssetRecord } from "@/services/api/tools/assets";
 import { useToolDraftStore } from "@/stores/use-tool-draft-store";
 import { WatermarkGroupPanel } from "@/components/tools/watermark-group-panel";
+import { CropOriginalDialog } from "@/components/tools/crop-original-dialog";
 
 const SOURCE_CONSTRAINTS = {
     kind: "image" as const,
@@ -359,6 +360,9 @@ export function HandheldGoodsWorkspace({ className }: HandheldGoodsWorkspaceProp
 
     const submitDisabled = running || issues.length > 0;
     const [rightTab, setRightTab] = useState<"result" | "history">("result");
+    /** 「一键做同款」之后出现的「点击这里裁剪原图尺寸」入口（原站同位置）。 */
+    const [cropEntryVisible, setCropEntryVisible] = useState(false);
+    const [cropDialogOpen, setCropDialogOpen] = useState(false);
 
     /** 「一键做同款」：套用官方示例配置（首个手持姿势 + 1 张），缺商品图时给出提示。 */
     const applyShowcaseCase = useCallback(() => {
@@ -366,7 +370,16 @@ export function HandheldGoodsWorkspace({ className }: HandheldGoodsWorkspaceProp
         if (!pose) return;
         setState((previous) => ({ ...previous, modelId: pose.id, modelTabType: pose.hand, outputNum: 1 }));
         setNotice(product ? null : "已套用示例配置，请先上传商品图再生成");
+        // 原站做同款后会给出原图裁剪入口；本地同位置露出同一句文案，点击走真实裁剪。
+        setCropEntryVisible(true);
     }, [poses, product]);
+
+    /** 裁剪确认：真实 canvas 居中裁剪 → 重新入库 → 替换商品图。 */
+    const handleCropped = useCallback(async (file: File) => {
+        const record = await uploadToolAsset(file, { constraints: SOURCE_CONSTRAINTS });
+        setProduct(record);
+        setNotice("已按所选比例裁剪原图，并作为商品图使用");
+    }, []);
 
     const sidebar = (
         <div className="space-y-1">
@@ -595,6 +608,16 @@ export function HandheldGoodsWorkspace({ className }: HandheldGoodsWorkspaceProp
                                 >
                                     一键做同款
                                 </button>
+                                {cropEntryVisible ? (
+                                    <button
+                                        type="button"
+                                        data-testid="handheld-crop-original"
+                                        onClick={() => setCropDialogOpen(true)}
+                                        className="text-[12px] leading-[18px] text-primary underline underline-offset-2 transition hover:opacity-80"
+                                    >
+                                        点击这里裁剪原图尺寸
+                                    </button>
+                                ) : null}
                             </div>
                         )}
 
@@ -632,6 +655,13 @@ export function HandheldGoodsWorkspace({ className }: HandheldGoodsWorkspaceProp
                     </div>
                 </Design19Results>
             </Design19Workbench>
+
+            <CropOriginalDialog
+                open={cropDialogOpen}
+                src={product?.url ?? null}
+                onClose={() => setCropDialogOpen(false)}
+                onCropped={handleCropped}
+            />
         </div>
     );
 }

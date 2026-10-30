@@ -850,7 +850,7 @@ export function PrintExtractWorkspace() {
             <WatermarkGroupPanel />
             <div data-testid="print-extract-workspace" className="flex min-h-[596px] overflow-hidden rounded-lg border border-black/[0.08] bg-card">
                 {/* 左栏 300：上传 → 批量 → 透明图 → 底部生成 */}
-                <aside className="flex w-[300px] shrink-0 flex-col border-r border-black/[0.08] bg-card">
+                <div className="flex w-[300px] shrink-0 flex-col border-r border-black/[0.08] bg-card">
                     <div className="flex-1 space-y-3 px-4 py-4">
                         <ExtractUploader disabled={busy} maxCount={batch ? PRINT_EXTRACT_SOURCE_LIMITS.maxBatch : 1} onAssets={handleAssets} />
 
@@ -903,11 +903,11 @@ export function PrintExtractWorkspace() {
                             <span>(10算力)</span>
                         </button>
                                             </div>
-                </aside>
+                </div>
 
                 {/* 右栏：白 header(42) + 结果画布 #EDEFF5 */}
                 <section className="flex min-w-0 flex-1 flex-col bg-card">
-                    <header className="flex h-[42px] shrink-0 items-center gap-5 rounded-tr-lg bg-card px-3">
+                    <div className="flex h-[42px] shrink-0 items-center gap-5 rounded-tr-lg bg-card px-3">
                         <button
                             type="button"
                             data-testid="print-extract-tab-result"
@@ -941,7 +941,7 @@ export function PrintExtractWorkspace() {
                             ) : null}
                             
                         </div>
-                    </header>
+                    </div>
 
                     <div className="min-h-0 flex-1 space-y-3 overflow-auto p-4">
                         <h2 className="sr-only">生成结果</h2>

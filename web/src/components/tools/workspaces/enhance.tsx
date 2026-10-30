@@ -907,8 +907,12 @@ export function ProductRefineWorkspace({ className }: { className?: string }) {
                         variant="linkfox"
                         title="上传待精修的商品图"
                         uploadLabel="上传图片"
-                        dropLabel="拖拽 或 点击上传 需要修复的图"
-                        hint="20M以内，jpg/jpeg/png/webp"
+                        hint={
+                            <>
+                                <span className="block text-xs leading-[15px] text-foreground">拖拽 或 点击上传 需要修复的图</span>
+                                <span className="block">20M以内，jpg/jpeg/png/webp</span>
+                            </>
+                        }
                         thirdAction={null}
                         onChange={onSourceChange}
                     />

@@ -5,6 +5,8 @@ import { useTranslation } from "react-i18next";
 
 import { cn } from "@/lib/utils";
 
+import { ToolHelpDock } from "./tool-help-dock";
+
 export interface ToolShellProps {
     title: string;
     subtitle?: string;
@@ -129,6 +131,8 @@ export function ToolShell({ title, subtitle, badges, breadcrumb, actions, notice
                         </div>
                     </div>
                 ) : null}
+
+                <ToolHelpDock />
             </div>
         </NestedToolShellContext.Provider>
     );

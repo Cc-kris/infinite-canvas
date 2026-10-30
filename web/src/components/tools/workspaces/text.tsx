@@ -78,10 +78,17 @@ function OrnamentSilhouette() {
  */
 export function OrnamentTextWorkspace() {
     return (
-        <div className="flex min-h-0 flex-1 items-center justify-center p-8">
+        <div className="flex min-h-0 flex-1 flex-col items-center justify-center gap-3 p-8">
             <p className="max-w-md text-center text-sm text-muted-foreground" data-testid="ornament-text-unavailable">
                 重定向到 /home 首页，工具未开通；无工具 DOM
             </p>
+            <button
+                type="button"
+                data-testid="ornament-text-business-consult"
+                className="inline-flex h-8 items-center justify-center rounded-lg border border-border px-4 text-[13px] leading-none text-foreground transition hover:border-primary hover:text-primary"
+            >
+                业务咨询
+            </button>
         </div>
     );
 }

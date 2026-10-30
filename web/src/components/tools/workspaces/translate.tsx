@@ -4,6 +4,7 @@ import { ChevronDown } from "lucide-react";
 
 import { ToolAssetInput } from "@/components/tools/tool-asset-input";
 import { ToolShell } from "@/components/tools/tool-shell";
+import { ToolHistoryDock } from "@/components/tools/tool-history-dock";
 import { WatermarkGroupPanel } from "@/components/tools/watermark-group-panel";
 import { saveResultItemToAssets, sendResultItemToCanvas } from "@/components/tools/tool-result-actions";
 import {
@@ -167,6 +168,7 @@ export function TranslateWorkspace({ className }: TranslateWorkspaceProps = {}) 
     const [recognizing, setRecognizing] = useState<string | null>(null);
     const [translating, setTranslating] = useState<string | null>(null);
     const [showSnapshot, setShowSnapshot] = useState(false);
+    const [resultTab, setResultTab] = useState<"result" | "history">("result");
 
     const valuesRef = useRef(values);
     const abortRef = useRef<AbortController | null>(null);
@@ -635,7 +637,17 @@ export function TranslateWorkspace({ className }: TranslateWorkspaceProps = {}) 
                             </ul>
                         ) : (
                             hydrated ? (
-                                <p className="text-sm text-primary">上传多张图片，开始批量翻译</p>
+                                <button
+                                    type="button"
+                                    data-testid="translate-batch-upload-entry"
+                                    onClick={() => {
+                                        const zone = document.querySelector<HTMLElement>('[data-testid="tool-asset-dropzone"]');
+                                        zone?.click();
+                                    }}
+                                    className="text-left text-sm text-primary transition hover:opacity-80"
+                                >
+                                    上传多张图片，开始批量翻译
+                                </button>
                             ) : (
                                 <p className="text-xs text-muted-foreground">正在恢复草稿…</p>
                             )
@@ -647,25 +659,28 @@ export function TranslateWorkspace({ className }: TranslateWorkspaceProps = {}) 
 
                     <Section id="source" title="原文语言">
                         <div className="flex flex-wrap gap-1.5">
-                            {SOURCE_LANGUAGES.map((language) => (
-                                <button
-                                    key={language.code}
-                                    type="button"
-                                    disabled={busy}
-                                    onClick={() =>
-                                        commit(
-                                            setSourceLanguage(
-                                                valuesRef.current,
-                                                valuesRef.current.sourceLanguage === language.code ? "" : language.code,
-                                            ),
-                                        )
-                                    }
-                                    aria-pressed={values.sourceLanguage === language.code}
-                                    className={CHIP_CLASS(values.sourceLanguage === language.code)}
-                                >
-                                    {language.label}
-                                </button>
-                            ))}
+                            {SOURCE_LANGUAGES.map((language) => {
+                                const selected = values.sourceLanguage === language.code;
+                                return (
+                                    <div
+                                        key={language.code}
+                                        role="presentation"
+                                        aria-disabled={busy || undefined}
+                                        onClick={() => {
+                                            if (busy) return;
+                                            commit(
+                                                setSourceLanguage(
+                                                    valuesRef.current,
+                                                    selected ? "" : language.code,
+                                                ),
+                                            );
+                                        }}
+                                        className={cn(CHIP_CLASS(selected), "cursor-pointer select-none", busy && "cursor-not-allowed opacity-50")}
+                                    >
+                                        {language.label}
+                                    </div>
+                                );
+                            })}
                         </div>
                         {activeImage?.detectedLanguage && !values.sourceLanguage ? (
                             <p className="text-[11px] text-muted-foreground">识别图像语言：{languageLabel(activeImage.detectedLanguage)}</p>
@@ -691,18 +706,26 @@ export function TranslateWorkspace({ className }: TranslateWorkspaceProps = {}) 
                                         {group.languages.map((language) => {
                                                 const selected = values.targetLanguages.includes(language.code);
                                                 const sameAsSource = values.sourceLanguage === language.code;
+                                                const capped = !selected && values.targetLanguages.length >= IMAGE_TRANSLATION_MAX_TARGETS;
                                                 return (
-                                                    <button
+                                                    <div
                                                         key={language.code}
-                                                        type="button"
-                                                        disabled={busy || (!selected && values.targetLanguages.length >= IMAGE_TRANSLATION_MAX_TARGETS)}
-                                                        onClick={() => commit(toggleTargetLanguage(valuesRef.current, language.code))}
-                                                        aria-pressed={selected}
+                                                        role="presentation"
+                                                        aria-disabled={busy || capped || undefined}
                                                         title={sameAsSource ? "与原文语言相同：该语言不会重复出图" : undefined}
-                                                        className={cn(CHIP_CLASS(selected), sameAsSource && !selected ? "ring-1 ring-dashed ring-primary/40" : "")}
+                                                        onClick={() => {
+                                                            if (busy || capped) return;
+                                                            commit(toggleTargetLanguage(valuesRef.current, language.code));
+                                                        }}
+                                                        className={cn(
+                                                            CHIP_CLASS(selected),
+                                                            "cursor-pointer select-none",
+                                                            sameAsSource && !selected ? "ring-1 ring-dashed ring-primary/40" : "",
+                                                            (busy || capped) && "cursor-not-allowed opacity-50",
+                                                        )}
                                                     >
                                                         {language.label}
-                                                    </button>
+                                                    </div>
                                                 );
                                             })}
                                     </div>
@@ -729,9 +752,26 @@ export function TranslateWorkspace({ className }: TranslateWorkspaceProps = {}) 
                 </div>
 
                 <div className="flex min-h-0 flex-col gap-3">
-                    <div className="flex h-[41px] shrink-0 items-center gap-6 border-b border-border bg-card px-4 text-sm">
-                        <span className="-mb-px flex h-full items-center border-b-2 border-primary font-medium text-primary">生成结果</span>
+                    <div role="tablist" className="flex h-[41px] shrink-0 items-center gap-6 border-b border-border bg-card px-4 text-sm">
+                        {([["result", "生成结果"], ["history", "历史记录"]] as const).map(([id, label]) => (
+                            <button
+                                key={id}
+                                type="button"
+                                role="tab"
+                                aria-selected={resultTab === id}
+                                data-testid={`translate-tab-${id}`}
+                                onClick={() => setResultTab(id)}
+                                className={cn(
+                                    "-mb-px flex h-full items-center border-b-2 font-medium transition",
+                                    resultTab === id ? "border-primary text-primary" : "border-transparent text-muted-foreground hover:text-foreground",
+                                )}
+                            >
+                                {label}
+                            </button>
+                        ))}
                     </div>
+                    {resultTab === "result" ? (
+                    <>
                     <details className="rounded-md border border-border/70 px-3 py-1.5">
                     <summary aria-label="校对" className="flex cursor-pointer items-center gap-1 text-xs text-muted-foreground [&::-webkit-details-marker]:hidden">
                         <ChevronDown className="size-3.5" aria-hidden />
@@ -1024,6 +1064,12 @@ export function TranslateWorkspace({ className }: TranslateWorkspaceProps = {}) 
                             </div>
                         )}
                     </Section>
+                    </>
+                    ) : (
+                        <div className="min-h-0 flex-1 overflow-auto p-4">
+                            <ToolHistoryDock toolId={TOOL_ID} className="border border-border bg-card" />
+                        </div>
+                    )}
                 </div>
             </div>
         </ToolShell>

@@ -24,7 +24,7 @@ import { AiVideoFamilyNav } from "./video";
 import { WatermarkGroupPanel } from "@/components/tools/watermark-group-panel";
 import { ToolShell } from "@/components/tools/tool-shell";
 import { ToolTaskHistory } from "@/components/tools/tool-task-history";
-import { ToolCases } from "../tool-cases";
+import { ToolCases, type ToolCase } from "../tool-cases";
 import {
     VideoTranslationDraftBadge,
     VideoTranslationHonestyNotice,
@@ -176,6 +176,9 @@ export function VideoTranslationWorkspace({ className }: VideoTranslationWorkspa
     const [notice, setNotice] = useState("");
     const [running, setRunning] = useState(false);
     const [draftReady, setDraftReady] = useState(false);
+    /** 结果区页签：与原站一致的三段（生成结果 / 优秀案例 / 历史记录） */
+    const [rightTab, setRightTab] = useState<"result" | "cases" | "history">("result");
+    const [applyingCaseId, setApplyingCaseId] = useState<string | null>(null);
     const revisionRef = useRef<number | null>(null);
     const aliveRef = useRef(true);
 
@@ -392,6 +395,28 @@ export function VideoTranslationWorkspace({ className }: VideoTranslationWorkspa
         setValues((previous) => (previous.lipSync ? { ...previous, lipSync: false } : previous));
     }, [values.lipSync]);
 
+    /**
+     * 「做同款」回填：只写案例里真实给出的字段（ratio / outputNum），
+     * 不伪造输入素材，也不切走页签——用户仍停在优秀案例，参数已写进表单。
+     */
+    const applyCase = useCallback(async (item: ToolCase) => {
+        setApplyingCaseId(item.id);
+        try {
+            const ratio = typeof item.apply?.ratio === "string" ? item.apply.ratio : "";
+            const outputNum = typeof item.apply?.outputNum === "number" ? item.apply.outputNum : null;
+            setValues((previous) =>
+                createVideoTranslationValues({
+                    ...previous,
+                    ...(ratio ? { outputRatio: ratio } : {}),
+                    ...(outputNum ? { outputNum } : {}),
+                }),
+            );
+            setNotice("已按案例回填参数（做同款）");
+        } finally {
+            setApplyingCaseId(null);
+        }
+    }, []);
+
     const handleSubmit = useCallback(
         async (options?: { retry?: boolean }) => {
             if (running) return;
@@ -554,19 +579,66 @@ export function VideoTranslationWorkspace({ className }: VideoTranslationWorkspa
                 </div>
 
                 <div className="min-w-0 space-y-3" data-testid="video-translation-results">
-                    <h2 className="text-sm font-medium">上传视频并翻译为目标语言，可同步修改口型</h2>
-                    <h2 className="text-sm font-medium">上传原始视频</h2>
-                    <h2 className="text-sm font-medium">翻译结果</h2>
-                    <div className="grid gap-3 sm:grid-cols-2">
-                        <ToolResult
-                            task={task}
-                            toolId={VIDEO_TRANSLATION_TOOL_ID}
-                            now={Date.now()}
-                            onRetry={() => void handleSubmit({ retry: true })}
-                            emptyHint=""
-                            className="min-h-[280px]"
-                        />
-                        <WatermarkGroupPanel />
+                    <div className="flex h-11 items-center gap-6 border-b border-border" role="tablist">
+                        {([
+                            ["result", "生成结果"],
+                            ["cases", "优秀案例"],
+                            ["history", "历史记录"],
+                        ] as const).map(([id, label]) => (
+                            <button
+                                key={id}
+                                type="button"
+                                role="tab"
+                                aria-selected={rightTab === id}
+                                data-testid={`video-translation-tab-${id}`}
+                                onClick={() => setRightTab(id)}
+                                className={cn(
+                                    "-mb-px h-11 pb-0.5 text-sm transition-colors",
+                                    rightTab === id
+                                        ? "border-b-2 border-primary font-medium text-foreground"
+                                        : "border-b-2 border-transparent text-muted-foreground hover:text-foreground",
+                                )}
+                            >
+                                {label}
+                            </button>
+                        ))}
+                    </div>
+                    <div role="tabpanel" hidden={rightTab !== "cases"} data-testid="video-translation-panel-cases" className="flex flex-col gap-2">
+                        {VIDEO_TRANSLATION_CASES.length > 0 ? (
+                            <ToolCases cases={VIDEO_TRANSLATION_CASES} onApply={applyCase} applyingId={applyingCaseId} />
+                        ) : (
+                            <p className="text-[11px] text-muted-foreground">暂无优秀案例</p>
+                        )}
+                    </div>
+                    <div role="tabpanel" hidden={rightTab !== "history"} data-testid="video-translation-panel-history">
+                        <ToolTaskHistory toolId={VIDEO_TRANSLATION_TOOL_ID} limit={8} onSelectTask={() => setRightTab("result")} emptyHint="还没有视频翻译任务记录" />
+                    </div>
+                    <div role="tabpanel" hidden={rightTab !== "result"} data-testid="video-translation-panel-result" className="flex flex-col gap-3">
+                        <h2 className="text-sm font-medium">上传视频并翻译为目标语言，可同步修改口型</h2>
+                        <h2 className="text-sm font-medium">上传原始视频</h2>
+                        <h2 className="text-sm font-medium">翻译结果</h2>
+                        {/* 原站结果卡内的「一键做同款」：切到优秀案例，用案例回填参数（与套图同一交互） */}
+                        <div>
+                            <button
+                                type="button"
+                                data-testid="video-translation-one-click"
+                                onClick={() => setRightTab("cases")}
+                                className="rounded-md border border-border px-2.5 py-1 text-xs text-muted-foreground hover:text-foreground"
+                            >
+                                一键做同款
+                            </button>
+                        </div>
+                        <div className="grid gap-3 sm:grid-cols-2">
+                            <ToolResult
+                                task={task}
+                                toolId={VIDEO_TRANSLATION_TOOL_ID}
+                                now={Date.now()}
+                                onRetry={() => void handleSubmit({ retry: true })}
+                                emptyHint=""
+                                className="min-h-[280px]"
+                            />
+                            <WatermarkGroupPanel />
+                        </div>
                     </div>
                 </div>
             </div>

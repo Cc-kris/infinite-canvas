@@ -446,6 +446,26 @@ export function ProductSceneWorkspace({ className, toolId = PRODUCT_SCENE_TOOL_I
         [update, values.prompt, values.similarity, values.outputNum],
     );
 
+    /**
+     * 「一键做同款」：把上次提交的配置快照真实回填到表单（与案例「做同款」同一类交互）。
+     * 没有快照时明确提示先去裂变，绝不拿案例或空值冒充。
+     */
+    const handleCloneLast = useCallback(() => {
+        if (!snapshot) {
+            setRunError("还没有可复用的结果：请先裂变一次，再一键做同款");
+            return;
+        }
+        setRunError(undefined);
+        update({
+            prompt: snapshot.prompt,
+            similarity: snapshot.strength,
+            sceneKeyword: snapshot.sceneKeyword,
+            sizeType: snapshot.sizeType,
+            outputNum: snapshot.outputNum,
+            modelId: snapshot.modelId,
+        });
+    }, [snapshot, update]);
+
     const onGenerate = useCallback(async () => {
         if (!source) return;
         setRunning(true);
@@ -784,6 +804,14 @@ export function ProductSceneWorkspace({ className, toolId = PRODUCT_SCENE_TOOL_I
                                 </button>
                             );
                         })}
+                        <button
+                            type="button"
+                            data-testid="scene-one-click"
+                            onClick={handleCloneLast}
+                            className="ml-auto rounded-[6px] border border-border px-3 py-1 text-xs text-muted-foreground transition hover:text-foreground"
+                        >
+                            一键做同款
+                        </button>
                     </div>
 
                     <div className="min-h-0 flex-1 overflow-y-auto">
@@ -853,7 +881,7 @@ export function ProductSceneWorkspace({ className, toolId = PRODUCT_SCENE_TOOL_I
                         ) : null}
 
                         {tab === "cases" ? (
-                            <div className="p-4" data-testid="scene-cases">
+                            <div className="flex flex-col gap-2 p-4" data-testid="scene-cases">
                                 <ToolCases
                                     cases={PRODUCT_SCENE_CASES}
                                     applyingId={applyingCaseId}

@@ -2323,14 +2323,13 @@ export function VideoReplicationWorkspace({ className }: VideoReplicationWorkspa
                                 <p className="text-[11px] leading-4 text-muted-foreground">上传后可截取5-30s参考片段</p>
                                 <button
                                     type="button"
+                                    data-testid="video-replication-tip-close"
                                     aria-label="关闭"
                                     title="关闭"
                                     onClick={() => setTipsVisible(false)}
                                     className="shrink-0 rounded border border-border px-1 text-[11px] leading-4 text-muted-foreground"
-                                    data-testid="video-replication-tip-close"
                                 >
-                                    <span aria-hidden="true">✕</span>
-                                    <span className="sr-only">关闭</span>
+                                    关闭
                                 </button>
                             </div>
                         ) : null}

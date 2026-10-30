@@ -108,7 +108,58 @@ const SUITE_ASSET_CONSTRAINTS: Partial<ToolAssetConstraints> = {
 
 /* ------------------------------ 小组件 ------------------------------ */
 
-function Section({ title, hint, children }: { title: string; hint?: string; children: React.ReactNode }) {
+function Section({
+    title,
+    hint,
+    children,
+    output,
+}: {
+    title: string;
+    hint?: string;
+    children: React.ReactNode;
+    /**
+     * 原站「生成内容（可同时选择）」的一行：整行是一个 aria-expanded 折叠按钮
+     * （左侧标签 + 右侧摘要），行尾另有一个只带 aria-label 的配置按钮。
+     * 传入 output 后该区块默认折叠，展开的是同一份生成设置内容。
+     */
+    output?: { label: string; summary: string; configureLabel: string; ariaLabel?: string };
+}) {
+    const [open, setOpen] = useState(false);
+    if (output) {
+        return (
+            <section className="rounded-md border border-stone-200 bg-white/60 px-2 py-1.5 dark:border-stone-800 dark:bg-stone-900/40">
+                <div className="flex items-center gap-1">
+                    <button
+                        type="button"
+                        aria-expanded={open}
+                        aria-label={output.ariaLabel}
+                        onClick={() => setOpen((value) => !value)}
+                        className="flex min-w-0 flex-1 items-baseline gap-1.5 text-left"
+                    >
+                        <span className="text-[12px] font-medium leading-4 text-stone-800 dark:text-stone-100">{output.label}</span>
+                        <span className="truncate text-[11px] text-stone-500 dark:text-stone-400">{output.summary}</span>
+                    </button>
+                    {output.ariaLabel ? null : (
+                    <button
+                        type="button"
+                        aria-label={output.configureLabel}
+                        title={output.configureLabel}
+                        onClick={() => setOpen(true)}
+                        className="rounded-[4px] border border-stone-200 px-1 py-0.5 text-stone-500 hover:border-stone-300 dark:border-stone-700"
+                    >
+                        <svg viewBox="0 0 16 16" aria-hidden className="size-3" fill="none" stroke="currentColor" strokeWidth="1.3">
+                            <path d="M2 4h8M12.5 4H14M2 8h3M7.5 8H14M2 12h6M10.5 12H14" />
+                            <circle cx="11" cy="4" r="1.4" />
+                            <circle cx="6" cy="8" r="1.4" />
+                            <circle cx="9" cy="12" r="1.4" />
+                        </svg>
+                    </button>
+                    )}
+                </div>
+                {open ? <div className="mt-1.5 space-y-1.5">{children}</div> : null}
+            </section>
+        );
+    }
     return (
         <section className="rounded-md border border-stone-200 bg-white/60 px-2 py-1.5 dark:border-stone-800 dark:bg-stone-900/40">
             <header className="mb-1 flex items-baseline gap-1.5">
@@ -142,6 +193,13 @@ const normalizePrompt = (value: string) => value.replace(/\s+/g, " ").trim();
 
 /** 套图单张消耗点数（原站按张计费，A+/主副图同价）。 */
 const SUITE_UNIT_POINTS = 50;
+
+/** 原站 A+ 模块名后的尺寸标注（“高级A+（1464×600）”）。 */
+const APLUS_SIZE_HINTS: Record<string, string> = {
+    "aplus-advanced": "1464×600",
+    "aplus-mobile": "600×450",
+    "aplus-standard": "970×600",
+};
 
 /** 向导里的一键句式（本地文本，点选后追加到商品信息）。 */
 const SUITE_GUIDE_PROMPTS: ReadonlyArray<{ label: string; text: string }> = [
@@ -217,7 +275,8 @@ export function ProductImageSuiteWorkspace({ className }: { className?: string }
     const draft = useToolDraftStore((state) => state.drafts[toolId]);
     const imageModel = useConfigStore((state) => state.config.imageModel);
 
-    const [config, setConfig] = useState<SuiteConfig>(() => createDefaultSuiteConfig());
+    /* 原站默认选中「高级A+（1464×600）」：生成内容摘要行需如实呈现原站文案。 */
+    const [config, setConfig] = useState<SuiteConfig>(() => createDefaultSuiteConfig({ aplusModuleId: "aplus-advanced" }));
     const [source, setSource] = useState<SuiteSourceAsset | undefined>();
     const [restoringSource, setRestoringSource] = useState(false);
     const [units, setUnits] = useState<SuiteUnitResult[]>([]);
@@ -232,6 +291,8 @@ export function ProductImageSuiteWorkspace({ className }: { className?: string }
     const [rightTab, setRightTab] = useState<"result" | "cases" | "history">("result");
     const [applyingCaseId, setApplyingCaseId] = useState<string | null>(null);
     const [guideOpen, setGuideOpen] = useState(false);
+    /* 原站公告位：左列与结果区两张可关闭的提示卡（关闭按钮 aria 分别为「关闭」「关闭提示」）。 */
+    const [promoClosed, setPromoClosed] = useState<{ left: boolean; result: boolean }>({ left: false, result: false });
     const [caseApplyNonce, setCaseApplyNonce] = useState(0);
 
     /* 「优秀案例」做同款：真实案例原图入库后回填到商品图上传播槽 */
@@ -443,6 +504,25 @@ export function ProductImageSuiteWorkspace({ className }: { className?: string }
     const aplusUnits = config.aplusModuleId ? config.aplusCount : 0;
     const mainSubUnits = Math.max(0, expected - aplusUnits);
 
+    /* 原站「生成内容（可同时选择）」两行摘要：模块名（尺寸）+ 张数 */
+    const aplusModule = APLUS_MODULES.find((module) => module.id === config.aplusModuleId);
+    const aplusSizeHint = APLUS_SIZE_HINTS[config.aplusModuleId] ?? "";
+    const aplusOutput = {
+        label: "A+图",
+        summary: `${aplusModule ? aplusModule.label : "高级A+"}${aplusSizeHint ? `（${aplusSizeHint}）` : ""} ${aplusUnits}张`,
+        configureLabel: "配置A+图",
+    };
+    const qualityLabel = SUITE_QUALITIES.find((quality) => quality.id === config.quality)?.label ?? "";
+    const mainSubFirst = MAIN_SUB_MODULES.find((module) => config.mainSubModuleIds.includes(module.id));
+    const mainSubFirstCount = mainSubFirst
+        ? config.mainSubCounts[mainSubFirst.id] ?? mainSubFirst.defaultCount
+        : 0;
+    const mainSubOutput = {
+        label: "主副图",
+        summary: `${mainSubFirst ? mainSubFirst.label : "卖点图"} ${mainSubUnits || mainSubFirstCount}张`,
+        configureLabel: "配置主副图",
+    };
+
     /* 生成：真实逐单元提交，回调增量渲染 */
     const onGenerate = useCallback(async () => {
         if (!source) return;
@@ -558,6 +638,32 @@ export function ProductImageSuiteWorkspace({ className }: { className?: string }
             <div className="flex min-h-0 w-[760px] shrink-0 flex-col border-r border-[#EDEDF0]">
                 <div className="min-h-0 flex-1 overflow-y-auto px-2 pb-1 pt-1">
                     <div className="grid auto-rows-max grid-cols-3 gap-1.5">
+                {/* 原站公告位（左列顶部）：可关闭的提示卡，按钮文案与原站一致：立即体验 / 关闭 */}
+                {promoClosed.left ? null : (
+                    <div
+                        data-testid="suite-promo-left"
+                        className="relative col-span-3 rounded-md border border-[#E9E3FF] bg-[#F6F3FF] px-2 py-1.5 pr-8"
+                    >
+                        <p className="text-[11px] font-medium leading-4 text-[#3b3b4f]">全能模型 2 已升级为 2.1</p>
+                        <p className="mt-0.5 text-[11px] leading-4 text-[#5a5a70]">文字排版更清晰，多轮编辑一致性更强，支持 1K / 2K / 4K 输出。</p>
+                        <button
+                            type="button"
+                            onClick={() => setRightTab("cases")}
+                            className="mt-1 h-6 rounded-full bg-[#6C4CF1] px-2.5 text-[11px] leading-none text-white"
+                        >
+                            立即体验
+                        </button>
+                        <button
+                            type="button"
+                            aria-label="关闭"
+                            title="关闭"
+                            onClick={() => setPromoClosed((previous) => ({ ...previous, left: true }))}
+                            className="absolute right-1 top-1 rounded px-1 text-[11px] leading-[15px] text-[#8a8a9e] hover:text-[#5a5a70]"
+                        >
+                            关闭
+                        </button>
+                    </div>
+                )}
                 <Section title="多视角白底商品&实拍图">
                     <p className="mb-1.5 text-[11px] text-muted-foreground">上传商品图</p>
                     <ToolAssetInput
@@ -669,14 +775,20 @@ export function ProductImageSuiteWorkspace({ className }: { className?: string }
                     </div>
                 </Section>
 
-                <Section title="模型选择">
+                <Section
+                    title="模型选择"
+                    output={{
+                        /* 原站整行是一个按钮：LF智能模型 G-2.5 Sunburst 2K · 中品质 · 50点/张，aria-label=打开模型设置 */
+                        label: "LF智能模型 G-2.5 Sunburst",
+                        summary: `${config.resolution} · ${qualityLabel} · ${SUITE_UNIT_POINTS}点/张`,
+                        configureLabel: "打开模型设置",
+                        ariaLabel: "打开模型设置",
+                    }}
+                >
                     <div className="flex flex-col gap-2.5">
-                        {/* 原站模型行：固定 LF智能模型 G-2.5 Sunburst，右侧显示本地实际解析到的模型 */}
-                        <div className="flex items-center justify-between rounded-[6px] border border-[#E6E6EB] px-2 py-[6px]">
-                            <span className="text-[12px] leading-none text-[#2b2b3a] dark:text-stone-100">LF智能模型 G-2.5 Sunburst</span>
-                            <span className="text-[10px] leading-none text-muted-foreground">
-                                {imageModel?.split("::").pop()?.trim() || "未配置"}
-                            </span>
+                        <div className="flex items-center justify-between text-[10px] leading-none text-muted-foreground">
+                            <span>实际调用模型</span>
+                            <span>{imageModel?.split("::").pop()?.trim() || "未配置"}</span>
                         </div>
                         <div>
                             <p className="mb-1.5 text-[11px] text-muted-foreground">分辨率选择</p>
@@ -722,59 +834,12 @@ export function ProductImageSuiteWorkspace({ className }: { className?: string }
                     </div>
                 </Section>
 
-            <Section title="A+图设置">
-                <p className="mb-1 text-[11px] text-muted-foreground">生成类型（单选）</p>
-                <div className="flex flex-wrap gap-1">
-                    {APLUS_MODULES.map((module) => (
-                        <div
-                            key={module.id}
-                            onClick={() => update({ aplusModuleId: config.aplusModuleId === module.id ? "" : module.id })}
-                            className={`flex cursor-pointer items-center gap-1 rounded-[4px] border px-1.5 py-0.5 text-[11px] leading-none ${
-                                config.aplusModuleId === module.id
-                                    ? "border-stone-800 bg-stone-800 text-white dark:border-stone-200 dark:bg-stone-200 dark:text-stone-900"
-                                    : "border-stone-200 text-stone-700 dark:border-stone-700 dark:text-stone-200"
-                            }`}
-                        >
-                            <span>{module.label}</span>
-                            <button
-                                type="button"
-                                title="每模块张数"
-                                aria-label={`${module.label}每模块张数`}
-                                onClick={(event) => {
-                                    event.stopPropagation();
-                                    update({ aplusCount: config.aplusCount >= 10 ? 1 : config.aplusCount + 1 });
-                                }}
-                                className="text-[10px] opacity-70 hover:opacity-100"
-                            >
-                                {config.aplusCount}
-                            </button>
-                        </div>
-                    ))}
-                </div>
-                <p className="mt-1.5 mb-1 text-[11px] text-muted-foreground">选择排版</p>
-                <div className="flex flex-wrap gap-1">
-                    {SUITE_LAYOUT_MODES.map((mode) => (
-                        <button
-                            key={mode.id}
-                            type="button"
-                            data-testid={`suite-aplus-layout-${mode.id}`}
-                            onClick={() => update({ aplusLayoutMode: mode.id })}
-                            className={`h-6 rounded-[4px] border px-1.5 text-[11px] leading-none ${
-                                config.aplusLayoutMode === mode.id
-                                    ? "border-primary bg-primary/10 text-primary"
-                                    : "border-[#E6E6EB] text-[#5a5a70] hover:border-[#d8d8e0]"
-                            }`}
-                        >
-                            {mode.label}
-                        </button>
-                    ))}
-                </div>
-                <p className="mt-1 text-[11px] leading-4 text-muted-foreground">
-                    💡未选择排版时，将根据官方排版随机生成
-                </p>
-            </Section>
+            <p className="mt-1 flex items-baseline gap-1.5 text-[11px] leading-4 text-stone-500 dark:text-stone-400">
+                <span>生成内容</span>
+                <span className="text-stone-400 dark:text-stone-500">可同时选择</span>
+            </p>
 
-            <Section title="主副图设置">
+            <Section title="主副图设置" output={mainSubOutput}>
                 <p className="mb-1 text-[11px] text-muted-foreground">生成类型（多选）</p>
                 <div className="flex flex-wrap gap-1">
                     {MAIN_SUB_MODULES.map((module) => {
@@ -836,9 +901,8 @@ export function ProductImageSuiteWorkspace({ className }: { className?: string }
                 <p className="mt-1 text-[11px] leading-4 text-muted-foreground">
                     💡未选择排版时，将根据官方排版随机生成
                 </p>
-            </Section>
 
-            <Section title="生成比例">
+                <Section title="生成比例">
                 <div className="flex flex-wrap gap-1">
                     {SUITE_RATIOS.map((ratio) => (
                         <button
@@ -863,6 +927,59 @@ export function ProductImageSuiteWorkspace({ className }: { className?: string }
                         更多
                     </button>
                 </div>
+                </Section>
+            </Section>
+
+            <Section title="A+图设置" output={aplusOutput}>
+                <p className="mb-1 text-[11px] text-muted-foreground">生成类型（单选）</p>
+                <div className="flex flex-wrap gap-1">
+                    {APLUS_MODULES.map((module) => (
+                        <div
+                            key={module.id}
+                            onClick={() => update({ aplusModuleId: config.aplusModuleId === module.id ? "" : module.id })}
+                            className={`flex cursor-pointer items-center gap-1 rounded-[4px] border px-1.5 py-0.5 text-[11px] leading-none ${
+                                config.aplusModuleId === module.id
+                                    ? "border-stone-800 bg-stone-800 text-white dark:border-stone-200 dark:bg-stone-200 dark:text-stone-900"
+                                    : "border-stone-200 text-stone-700 dark:border-stone-700 dark:text-stone-200"
+                            }`}
+                        >
+                            <span>{module.label}</span>
+                            <button
+                                type="button"
+                                title="每模块张数"
+                                aria-label={`${module.label}每模块张数`}
+                                onClick={(event) => {
+                                    event.stopPropagation();
+                                    update({ aplusCount: config.aplusCount >= 10 ? 1 : config.aplusCount + 1 });
+                                }}
+                                className="text-[10px] opacity-70 hover:opacity-100"
+                            >
+                                {config.aplusCount}
+                            </button>
+                        </div>
+                    ))}
+                </div>
+                <p className="mt-1.5 mb-1 text-[11px] text-muted-foreground">选择排版</p>
+                <div className="flex flex-wrap gap-1">
+                    {SUITE_LAYOUT_MODES.map((mode) => (
+                        <button
+                            key={mode.id}
+                            type="button"
+                            data-testid={`suite-aplus-layout-${mode.id}`}
+                            onClick={() => update({ aplusLayoutMode: mode.id })}
+                            className={`h-6 rounded-[4px] border px-1.5 text-[11px] leading-none ${
+                                config.aplusLayoutMode === mode.id
+                                    ? "border-primary bg-primary/10 text-primary"
+                                    : "border-[#E6E6EB] text-[#5a5a70] hover:border-[#d8d8e0]"
+                            }`}
+                        >
+                            {mode.label}
+                        </button>
+                    ))}
+                </div>
+                <p className="mt-1 text-[11px] leading-4 text-muted-foreground">
+                    💡未选择排版时，将根据官方排版随机生成
+                </p>
             </Section>
 
             <WatermarkGroupPanel />
@@ -943,7 +1060,48 @@ export function ProductImageSuiteWorkspace({ className }: { className?: string }
                     <ToolTaskHistory toolId={toolId} limit={8} onSelectTask={onSelectHistoryTask} emptyHint="还没有套图任务记录" />
                 </div>
                 <div role="tabpanel" hidden={rightTab !== "result"} data-testid="suite-panel-result" className="flex flex-col gap-3">
+                    {/* 原站公告位（结果区）：可关闭的提示卡，按钮文案与原站一致：立即体验 / 关闭提示 */}
+                    {promoClosed.result ? null : (
+                        <div
+                            data-testid="suite-promo-result"
+                            className="relative flex items-center justify-between gap-2 rounded-md border border-[#E9E3FF] bg-[#F6F3FF] px-2 py-1.5 pr-8"
+                        >
+                            <p className="text-[11px] font-medium leading-4 text-[#3b3b4f]">白底图精修与裂变已上线！</p>
+                            <p className="mt-0.5 text-[11px] leading-4 text-[#5a5a70]">白底图精修算法升级！精修效果更出彩。白底图裂变支持单品、多件套、自由裂变多种主图裂变方式，最多支持一次裂变 20 张！</p>
+                            <button
+                                type="button"
+                                onClick={() => setRightTab("cases")}
+                                className="h-6 shrink-0 rounded-full bg-[#6C4CF1] px-2.5 text-[11px] leading-none text-white"
+                            >
+                                立即体验
+                            </button>
+                            <button
+                                type="button"
+                                aria-label="关闭提示"
+                                title="关闭提示"
+                                onClick={() => setPromoClosed((previous) => ({ ...previous, result: true }))}
+                                className="absolute right-1 top-1 rounded px-1 text-[11px] leading-[15px] text-[#8a8a9e] hover:text-[#5a5a70]"
+                            >
+                                关闭提示
+                            </button>
+                        </div>
+                    )}
                     <p className="text-[11px] text-[#6b6b80]">生成结果</p>
+                    {/* 原站「一键做同款」：用真实案例回填商品图与参数，走与案例画廊相同的 applyCase */}
+                    <div>
+                        <button
+                            type="button"
+                            data-testid="suite-try-same"
+                            disabled={applyingCaseId !== null || PRODUCT_SUITE_CASES.length === 0}
+                            onClick={() => {
+                                const first = PRODUCT_SUITE_CASES[0];
+                                if (first) void applyCase(first);
+                            }}
+                            className="h-10 w-[110px] rounded-md border border-[#E6E6EB] bg-white text-xs text-[#3b3b4f] hover:border-[#d8d8e0] disabled:opacity-40 dark:border-stone-700 dark:bg-stone-900 dark:text-stone-200"
+                        >
+                            一键做同款
+                        </button>
+                    </div>
 
             {issues.length || runError ? (
                 <div className="rounded-lg border border-amber-300 bg-amber-50 p-2 text-[11px] text-amber-800 dark:border-amber-700/60 dark:bg-amber-950/40 dark:text-amber-200">

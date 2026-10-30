@@ -168,9 +168,9 @@ export const suiteConfigSchema = z.object({
         })
         .default({ sensitiveWordLexiconId: "", replacementWordLexiconId: "" }),
     resolution: z.enum(SUITE_RESOLUTIONS).default("2K"),
-    quality: z.enum(["low", "medium", "high", "ultra", "max"]).default("high"),
+    quality: z.enum(["low", "medium", "high", "ultra", "max"]).default("medium"),
     ratio: z.enum(["1:1", "3:4", "4:3", "2:3", "3:2"]).default("1:1"),
-    aplusModuleId: z.string().default("aplus-standard"),
+    aplusModuleId: z.string().default("aplus-advanced"),
     aplusCount: countSchema.default(PRODUCT_IMAGE_SUITE_DEFAULT_COUNT),
     aplusLayoutMode: z.enum(["per-layout", "no-text"]).default("no-text"),
     aplusLayoutIds: z.array(z.string()).default([]),
