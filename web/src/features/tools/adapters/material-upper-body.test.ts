@@ -452,24 +452,26 @@ describe("工作台渲染（SSR）", () => {
         const html = renderToStaticMarkup(createElement(workspace.DressWorkspace, { toolId: MATERIAL_UPPER_BODY_TOOL_ID }));
 
         // 上装换料自己的脚手架（不是 AI 穿戴那份）
-        expect(html).toContain("material-workspace");
+        expect(html).toContain('data-testid="material-upper-body-workspace"');
         expect(html).not.toContain("dress-workspace");
-        expect(html).toContain("上装换料");
-        expect(html).toContain("上传上装");
-        expect(html).toContain("材质类目");
-        expect(html).toContain("子类");
-        expect(html).toContain("抠图");
-        expect(html).toContain("生成张数");
-        expect(html).toContain("4 张");
-        expect(html).toContain("结果");
-        // 真实控件与首屏阻断项（未上传时按钮禁用）
-        expect(html).toContain("material-category-tree");
-        expect(html).toContain("material-submit");
-        expect(html).toContain("立即生成");
-        expect(html).toContain('data-issue="imageUrl"');
-        expect(html).toContain('data-output="4"');
-        expect(html).toContain("material-result-grid");
-        expect(html).toContain("tool-result");
+        // 第三轮：文案 1:1 对齐原站，面板改为静态复刻（导航 + 上传 + 商品信息 + 品牌合规 + 模型 + 结果）
+        expect(html).toContain("多角度服装图&amp;搭配图");
+        expect(html).toContain("上传服装图");
+        expect(html).toContain("第一步：上传服装配饰及细节图");
+        expect(html).toContain("商品信息");
+        expect(html).toContain("品牌与合规（可选）");
+        expect(html).toContain("模型选择");
+        expect(html).toContain("分辨率选择");
+        expect(html).toContain("模型品质");
+        expect(html).toContain("主副图设置");
+        expect(html).toContain("A+图设置");
+        expect(html).toContain("生成结果");
+        // 提交按钮与算力提示（静态复刻下按钮禁用）
+        expect(html).toContain('data-testid="material-upper-body-submit"');
+        expect(html).toContain("开始生成");
+        expect(html).toContain("(600算力)");
+        expect(html).toMatch(/<button[^>]*disabled[^>]*>[^<]*开始生成/);
+        expect(html).toContain("管理水印分组");
     });
 
     test("默认导出仍然渲染 AI 穿戴（向后兼容，不影响既有测试）", async () => {

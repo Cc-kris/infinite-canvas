@@ -1,0 +1,1045 @@
+{
+ "controls": [
+  {
+   "disabled": false,
+   "rect": {
+    "bottom": 96,
+    "height": 32,
+    "left": 1708.359375,
+    "right": 1752.359375,
+    "top": 64,
+    "width": 44,
+    "x": 1708.359375,
+    "y": 64
+   },
+   "text": "购 买"
+  },
+  {
+   "disabled": false,
+   "rect": {
+    "bottom": 208,
+    "height": 24,
+    "left": 233,
+    "right": 443,
+    "top": 184,
+    "width": 210,
+    "x": 233,
+    "y": 184
+   },
+   "text": "从本地上传"
+  },
+  {
+   "disabled": false,
+   "rect": {
+    "bottom": 242,
+    "height": 24,
+    "left": 233,
+    "right": 333,
+    "top": 218,
+    "width": 100,
+    "x": 233,
+    "y": 218
+   },
+   "text": "从作品库选择"
+  },
+  {
+   "disabled": false,
+   "rect": {
+    "bottom": 242,
+    "height": 24,
+    "left": 343,
+    "right": 443,
+    "top": 218,
+    "width": 100,
+    "x": 343,
+    "y": 218
+   },
+   "text": "从商品库选择"
+  },
+  {
+   "disabled": false,
+   "placeholder": "商品信息包含商品卖点、使用方式、销售地区、发布平台等生图效果将会更好",
+   "rect": {
+    "bottom": 427,
+    "height": 74,
+    "left": 207,
+    "right": 469,
+    "top": 353,
+    "width": 262,
+    "x": 207,
+    "y": 353
+   },
+   "text": ""
+  },
+  {
+   "disabled": true,
+   "rect": {
+    "bottom": 459,
+    "height": 26,
+    "left": 271,
+    "right": 342.296875,
+    "top": 433,
+    "width": 71.296875,
+    "x": 271,
+    "y": 433
+   },
+   "text": "AI分析"
+  },
+  {
+   "disabled": false,
+   "rect": {
+    "bottom": 459,
+    "height": 26,
+    "left": 350.296875,
+    "right": 406.296875,
+    "top": 433,
+    "width": 56,
+    "x": 350.296875,
+    "y": 433
+   },
+   "text": "向导"
+  },
+  {
+   "disabled": false,
+   "placeholder": "",
+   "rect": {
+    "bottom": 714.375,
+    "height": 38,
+    "left": 218,
+    "right": 440,
+    "top": 676.375,
+    "width": 222,
+    "x": 218,
+    "y": 676.375
+   },
+   "text": ""
+  },
+  {
+   "disabled": false,
+   "rect": {
+    "bottom": 791.375,
+    "height": 28,
+    "left": 215,
+    "right": 290.328125,
+    "top": 763.375,
+    "width": 75.328125,
+    "x": 215,
+    "y": 763.375
+   },
+   "text": "1K"
+  },
+  {
+   "disabled": false,
+   "rect": {
+    "bottom": 791.375,
+    "height": 28,
+    "left": 300.328125,
+    "right": 375.65625,
+    "top": 763.375,
+    "width": 75.328125,
+    "x": 300.328125,
+    "y": 763.375
+   },
+   "text": "2K"
+  },
+  {
+   "disabled": false,
+   "rect": {
+    "bottom": 791.375,
+    "height": 28,
+    "left": 385.65625,
+    "right": 461,
+    "top": 763.375,
+    "width": 75.34375,
+    "x": 385.65625,
+    "y": 763.375
+   },
+   "text": "4K"
+  },
+  {
+   "disabled": false,
+   "rect": {
+    "bottom": 876.375,
+    "height": 28,
+    "left": 215,
+    "right": 290.328125,
+    "top": 848.375,
+    "width": 75.328125,
+    "x": 215,
+    "y": 848.375
+   },
+   "text": "低品质"
+  },
+  {
+   "disabled": false,
+   "rect": {
+    "bottom": 876.375,
+    "height": 28,
+    "left": 300.328125,
+    "right": 375.65625,
+    "top": 848.375,
+    "width": 75.328125,
+    "x": 300.328125,
+    "y": 848.375
+   },
+   "text": "中品质"
+  },
+  {
+   "disabled": false,
+   "rect": {
+    "bottom": 876.375,
+    "height": 28,
+    "left": 385.65625,
+    "right": 461,
+    "top": 848.375,
+    "width": 75.34375,
+    "x": 385.65625,
+    "y": 848.375
+   },
+   "text": "高品质"
+  },
+  {
+   "disabled": false,
+   "rect": {
+    "bottom": 914.375,
+    "height": 28,
+    "left": 215,
+    "right": 290.328125,
+    "top": 886.375,
+    "width": 75.328125,
+    "x": 215,
+    "y": 886.375
+   },
+   "text": "超高品质"
+  },
+  {
+   "disabled": false,
+   "rect": {
+    "bottom": 914.375,
+    "height": 28,
+    "left": 300.328125,
+    "right": 375.65625,
+    "top": 886.375,
+    "width": 75.328125,
+    "x": 300.328125,
+    "y": 886.375
+   },
+   "text": "最大品质"
+  },
+  {
+   "disabled": false,
+   "rect": {
+    "bottom": 954.375,
+    "height": 16,
+    "left": 442,
+    "right": 470,
+    "top": 938.375,
+    "width": 28,
+    "x": 442,
+    "y": 938.375
+   },
+   "text": ""
+  },
+  {
+   "disabled": false,
+   "placeholder": "",
+   "rect": {
+    "bottom": 1020.21875,
+    "height": 13,
+    "left": 227,
+    "right": 235,
+    "top": 1007.21875,
+    "width": 8,
+    "x": 227,
+    "y": 1007.21875
+   },
+   "text": "on"
+  },
+  {
+   "disabled": false,
+   "placeholder": "",
+   "rect": {
+    "bottom": 1060.21875,
+    "height": 16,
+    "left": 248,
+    "right": 264,
+    "top": 1044.21875,
+    "width": 16,
+    "x": 248,
+    "y": 1044.21875
+   },
+   "text": "on"
+  },
+  {
+   "disabled": false,
+   "placeholder": "",
+   "rect": {
+    "bottom": 1100.21875,
+    "height": 13,
+    "left": 227,
+    "right": 235,
+    "top": 1087.21875,
+    "width": 8,
+    "x": 227,
+    "y": 1087.21875
+   },
+   "text": "on"
+  },
+  {
+   "disabled": false,
+   "placeholder": "",
+   "rect": {
+    "bottom": 1140.21875,
+    "height": 13,
+    "left": 227,
+    "right": 235,
+    "top": 1127.21875,
+    "width": 8,
+    "x": 227,
+    "y": 1127.21875
+   },
+   "text": "on"
+  },
+  {
+   "disabled": false,
+   "rect": {
+    "bottom": 1266.71875,
+    "height": 16,
+    "left": 436,
+    "right": 464,
+    "top": 1250.71875,
+    "width": 28,
+    "x": 436,
+    "y": 1250.71875
+   },
+   "text": ""
+  },
+  {
+   "disabled": false,
+   "rect": {
+    "bottom": 1338.0625,
+    "height": 16,
+    "left": 442,
+    "right": 470,
+    "top": 1322.0625,
+    "width": 28,
+    "x": 442,
+    "y": 1322.0625
+   },
+   "text": ""
+  },
+  {
+   "disabled": false,
+   "placeholder": "",
+   "rect": {
+    "bottom": 1403.90625,
+    "height": 16,
+    "left": 222,
+    "right": 238,
+    "top": 1387.90625,
+    "width": 16,
+    "x": 222,
+    "y": 1387.90625
+   },
+   "text": "on"
+  },
+  {
+   "disabled": false,
+   "rect": {
+    "bottom": 1526.40625,
+    "height": 16,
+    "left": 428,
+    "right": 456,
+    "top": 1510.40625,
+    "width": 28,
+    "x": 428,
+    "y": 1510.40625
+   },
+   "text": ""
+  },
+  {
+   "disabled": false,
+   "placeholder": "",
+   "rect": {
+    "bottom": 1600.75,
+    "height": 16,
+    "left": 222,
+    "right": 238,
+    "top": 1584.75,
+    "width": 16,
+    "x": 222,
+    "y": 1584.75
+   },
+   "text": "on"
+  },
+  {
+   "disabled": false,
+   "placeholder": "",
+   "rect": {
+    "bottom": 1640.75,
+    "height": 16,
+    "left": 222,
+    "right": 238,
+    "top": 1624.75,
+    "width": 16,
+    "x": 222,
+    "y": 1624.75
+   },
+   "text": "on"
+  },
+  {
+   "disabled": false,
+   "placeholder": "",
+   "rect": {
+    "bottom": 1680.75,
+    "height": 16,
+    "left": 222,
+    "right": 238,
+    "top": 1664.75,
+    "width": 16,
+    "x": 222,
+    "y": 1664.75
+   },
+   "text": "on"
+  },
+  {
+   "disabled": false,
+   "placeholder": "",
+   "rect": {
+    "bottom": 1720.75,
+    "height": 16,
+    "left": 222,
+    "right": 238,
+    "top": 1704.75,
+    "width": 16,
+    "x": 222,
+    "y": 1704.75
+   },
+   "text": "on"
+  },
+  {
+   "disabled": false,
+   "rect": {
+    "bottom": 1794.59375,
+    "height": 32,
+    "left": 214,
+    "right": 292.65625,
+    "top": 1762.59375,
+    "width": 78.65625,
+    "x": 214,
+    "y": 1762.59375
+   },
+   "text": "1:1"
+  },
+  {
+   "disabled": false,
+   "rect": {
+    "bottom": 1794.59375,
+    "height": 32,
+    "left": 298.65625,
+    "right": 377.328125,
+    "top": 1762.59375,
+    "width": 78.671875,
+    "x": 298.65625,
+    "y": 1762.59375
+   },
+   "text": "3:4"
+  },
+  {
+   "disabled": false,
+   "rect": {
+    "bottom": 1794.59375,
+    "height": 32,
+    "left": 383.328125,
+    "right": 461.984375,
+    "top": 1762.59375,
+    "width": 78.65625,
+    "x": 383.328125,
+    "y": 1762.59375
+   },
+   "text": "4:3"
+  },
+  {
+   "disabled": false,
+   "rect": {
+    "bottom": 1832.59375,
+    "height": 32,
+    "left": 214,
+    "right": 292.65625,
+    "top": 1800.59375,
+    "width": 78.65625,
+    "x": 214,
+    "y": 1800.59375
+   },
+   "text": "2:3"
+  },
+  {
+   "disabled": false,
+   "rect": {
+    "bottom": 1832.59375,
+    "height": 32,
+    "left": 298.65625,
+    "right": 377.328125,
+    "top": 1800.59375,
+    "width": 78.671875,
+    "x": 298.65625,
+    "y": 1800.59375
+   },
+   "text": "3:2"
+  },
+  {
+   "disabled": false,
+   "placeholder": "",
+   "rect": {
+    "bottom": 1831.59375,
+    "height": 30,
+    "left": 395.328125,
+    "right": 431.984375,
+    "top": 1801.59375,
+    "width": 36.65625,
+    "x": 395.328125,
+    "y": 1801.59375
+   },
+   "text": ""
+  },
+  {
+   "disabled": false,
+   "rect": {
+    "bottom": 816,
+    "height": 32,
+    "left": 206,
+    "right": 474,
+    "top": 784,
+    "width": 268,
+    "x": 206,
+    "y": 784
+   },
+   "text": "开始生成\n(400算力)"
+  },
+  {
+   "disabled": false,
+   "rect": {
+    "bottom": 151,
+    "height": 31,
+    "left": 517,
+    "right": 562.328125,
+    "top": 120,
+    "width": 45.328125,
+    "x": 517,
+    "y": 120
+   },
+   "text": ""
+  },
+  {
+   "disabled": false,
+   "rect": {
+    "bottom": 744.5,
+    "height": 40,
+    "left": 187,
+    "right": 297,
+    "top": 704.5,
+    "width": 110,
+    "x": 187,
+    "y": 704.5
+   },
+   "text": "一键做同款"
+  },
+  {
+   "disabled": false,
+   "rect": {
+    "bottom": 744.5,
+    "height": 40,
+    "left": 1145,
+    "right": 1255,
+    "top": 704.5,
+    "width": 110,
+    "x": 1145,
+    "y": 704.5
+   },
+   "text": "一键做同款"
+  },
+  {
+   "disabled": false,
+   "rect": {
+    "bottom": 744.5,
+    "height": 40,
+    "left": 2103,
+    "right": 2213,
+    "top": 704.5,
+    "width": 110,
+    "x": 2103,
+    "y": 704.5
+   },
+   "text": "一键做同款"
+  },
+  {
+   "disabled": false,
+   "rect": {
+    "bottom": 744.5,
+    "height": 40,
+    "left": 3061,
+    "right": 3171,
+    "top": 704.5,
+    "width": 110,
+    "x": 3061,
+    "y": 704.5
+   },
+   "text": "一键做同款"
+  },
+  {
+   "disabled": false,
+   "rect": {
+    "bottom": 744.5,
+    "height": 40,
+    "left": 4019,
+    "right": 4129,
+    "top": 704.5,
+    "width": 110,
+    "x": 4019,
+    "y": 704.5
+   },
+   "text": "一键做同款"
+  },
+  {
+   "disabled": false,
+   "rect": {
+    "bottom": 744.5,
+    "height": 40,
+    "left": 4977,
+    "right": 5087,
+    "top": 704.5,
+    "width": 110,
+    "x": 4977,
+    "y": 704.5
+   },
+   "text": "一键做同款"
+  },
+  {
+   "disabled": false,
+   "rect": {
+    "bottom": 744.5,
+    "height": 40,
+    "left": 5935,
+    "right": 6045,
+    "top": 704.5,
+    "width": 110,
+    "x": 5935,
+    "y": 704.5
+   },
+   "text": "一键做同款"
+  },
+  {
+   "disabled": false,
+   "rect": {
+    "bottom": 776.5,
+    "height": 6,
+    "left": 1175,
+    "right": 1197,
+    "top": 770.5,
+    "width": 22,
+    "x": 1175,
+    "y": 770.5
+   },
+   "text": "1"
+  },
+  {
+   "disabled": false,
+   "rect": {
+    "bottom": 776.5,
+    "height": 6,
+    "left": 1205,
+    "right": 1211,
+    "top": 770.5,
+    "width": 6,
+    "x": 1205,
+    "y": 770.5
+   },
+   "text": "2"
+  },
+  {
+   "disabled": false,
+   "rect": {
+    "bottom": 776.5,
+    "height": 6,
+    "left": 1219,
+    "right": 1225,
+    "top": 770.5,
+    "width": 6,
+    "x": 1219,
+    "y": 770.5
+   },
+   "text": "3"
+  },
+  {
+   "rect": {
+    "bottom": 629,
+    "height": 90,
+    "left": 1809,
+    "right": 1910,
+    "top": 539,
+    "width": 101,
+    "x": 1809,
+    "y": 539
+   },
+   "text": "操作咨询\n产品教程"
+  },
+  {
+   "disabled": false,
+   "placeholder": "名称",
+   "rect": {
+    "bottom": 430,
+    "height": 26,
+    "left": 1157,
+    "right": 1231,
+    "top": 404,
+    "width": 74,
+    "x": 1157,
+    "y": 404
+   },
+   "text": "LinkFox 默认"
+  },
+  {
+   "disabled": false,
+   "placeholder": "水印文案",
+   "rect": {
+    "bottom": 430,
+    "height": 26,
+    "left": 1237,
+    "right": 1375,
+    "top": 404,
+    "width": 138,
+    "x": 1237,
+    "y": 404
+   },
+   "text": "本图片由 LinkFox AI 生成"
+  },
+  {
+   "disabled": false,
+   "rect": {
+    "bottom": 429,
+    "height": 24,
+    "left": 1381,
+    "right": 1421,
+    "top": 405,
+    "width": 40,
+    "x": 1381,
+    "y": 405
+   },
+   "text": "默认"
+  },
+  {
+   "disabled": false,
+   "rect": {
+    "bottom": 429,
+    "height": 24,
+    "left": 1427,
+    "right": 1451,
+    "top": 405,
+    "width": 24,
+    "x": 1427,
+    "y": 405
+   },
+   "text": ""
+  },
+  {
+   "disabled": false,
+   "rect": {
+    "bottom": 475,
+    "height": 35,
+    "left": 1157,
+    "right": 1451,
+    "top": 440,
+    "width": 294,
+    "x": 1157,
+    "y": 440
+   },
+   "text": "＋ 新增水印分组"
+  },
+  {
+   "disabled": false,
+   "placeholder": "",
+   "rect": {
+    "bottom": 8,
+    "height": 8,
+    "left": 1658,
+    "right": 1920,
+    "top": 0,
+    "width": 262,
+    "x": 1658,
+    "y": 0
+   },
+   "text": " "
+  }
+ ],
+ "regions": [
+  {
+   "cls": "_content_15na6_1 ",
+   "rect": {
+    "bottom": 98,
+    "height": 36,
+    "left": 1767.359375,
+    "right": 1885,
+    "top": 62,
+    "width": 117.640625,
+    "x": 1767.359375,
+    "y": 62
+   },
+   "text": "用\n用户6991\n个人账号"
+  },
+  {
+   "cls": "ant-layout-sider ant-layout-sider-dark _leftSider_1k85n_3  css-1d18km6",
+   "rect": {
+    "bottom": 839,
+    "height": 729,
+    "left": 0,
+    "right": 180,
+    "top": 110,
+    "width": 180,
+    "x": 0,
+    "y": 110
+   },
+   "text": "商品套图\n服装套图\n爆款图复刻\nNEW\n套图换色\nNEW\n批量翻译\n高清放大\n批量抠图\n智能扩图\n 免责声明"
+  },
+  {
+   "cls": "ant-menu-title-content",
+   "rect": {
+    "bottom": 150,
+    "height": 40,
+    "left": 46,
+    "right": 167,
+    "top": 110,
+    "width": 121,
+    "x": 46,
+    "y": 110
+   },
+   "text": "商品套图"
+  },
+  {
+   "cls": "ant-menu-title-content",
+   "rect": {
+    "bottom": 190,
+    "height": 40,
+    "left": 46,
+    "right": 167,
+    "top": 150,
+    "width": 121,
+    "x": 46,
+    "y": 150
+   },
+   "text": "服装套图"
+  },
+  {
+   "cls": "ant-menu-title-content",
+   "rect": {
+    "bottom": 247,
+    "height": 40,
+    "left": 46,
+    "right": 167,
+    "top": 207,
+    "width": 121,
+    "x": 46,
+    "y": 207
+   },
+   "text": "爆款图复刻\nNEW"
+  },
+  {
+   "cls": "ant-menu-title-content",
+   "rect": {
+    "bottom": 287,
+    "height": 40,
+    "left": 46,
+    "right": 167,
+    "top": 247,
+    "width": 121,
+    "x": 46,
+    "y": 247
+   },
+   "text": "套图换色\nNEW"
+  },
+  {
+   "cls": "ant-menu-title-content",
+   "rect": {
+    "bottom": 344,
+    "height": 40,
+    "left": 46,
+    "right": 167,
+    "top": 304,
+    "width": 121,
+    "x": 46,
+    "y": 304
+   },
+   "text": "批量翻译"
+  },
+  {
+   "cls": "ant-menu-title-content",
+   "rect": {
+    "bottom": 384,
+    "height": 40,
+    "left": 46,
+    "right": 167,
+    "top": 344,
+    "width": 121,
+    "x": 46,
+    "y": 344
+   },
+   "text": "高清放大"
+  },
+  {
+   "cls": "ant-menu-title-content",
+   "rect": {
+    "bottom": 424,
+    "height": 40,
+    "left": 46,
+    "right": 167,
+    "top": 384,
+    "width": 121,
+    "x": 46,
+    "y": 384
+   },
+   "text": "批量抠图"
+  },
+  {
+   "cls": "ant-menu-title-content",
+   "rect": {
+    "bottom": 464,
+    "height": 40,
+    "left": 46,
+    "right": 167,
+    "top": 424,
+    "width": 121,
+    "x": 46,
+    "y": 424
+   },
+   "text": "智能扩图"
+  },
+  {
+   "cls": "_contentWrapper_cv5wu_1",
+   "rect": {
+    "bottom": 1278.21875,
+    "height": 120,
+    "left": 206,
+    "right": 470,
+    "top": 1158.21875,
+    "width": 264,
+    "x": 206,
+    "y": 1158.21875
+   },
+   "text": "选择排版\n\n每种排版生成一张\n\n无文字模式"
+  },
+  {
+   "cls": "_content_cv5wu_1 _contentRow_cv5wu_13",
+   "rect": {
+    "bottom": 1229.21875,
+    "height": 60,
+    "left": 217,
+    "right": 464,
+    "top": 1169.21875,
+    "width": 247,
+    "x": 217,
+    "y": 1169.21875
+   },
+   "text": "选择排版\n\n每种排版生成一张"
+  },
+  {
+   "cls": "anticon anticon-right",
+   "rect": {
+    "bottom": 1206.21875,
+    "height": 14,
+    "left": 439,
+    "right": 453,
+    "top": 1192.21875,
+    "width": 14,
+    "x": 439,
+    "y": 1192.21875
+   },
+   "text": ""
+  },
+  {
+   "cls": "_contentWrapper_cv5wu_1",
+   "rect": {
+    "bottom": 1537.90625,
+    "height": 120,
+    "left": 214,
+    "right": 462,
+    "top": 1417.90625,
+    "width": 248,
+    "x": 214,
+    "y": 1417.90625
+   },
+   "text": "选择排版\n\n每种排版生成一张\n\n无文字模式"
+  },
+  {
+   "cls": "_content_cv5wu_1 _contentRow_cv5wu_13",
+   "rect": {
+    "bottom": 1488.90625,
+    "height": 60,
+    "left": 225,
+    "right": 456,
+    "top": 1428.90625,
+    "width": 231,
+    "x": 225,
+    "y": 1428.90625
+   },
+   "text": "选择排版\n\n每种排版生成一张"
+  },
+  {
+   "cls": "anticon anticon-right",
+   "rect": {
+    "bottom": 1465.90625,
+    "height": 14,
+    "left": 431,
+    "right": 445,
+    "top": 1451.90625,
+    "width": 14,
+    "x": 431,
+    "y": 1451.90625
+   },
+   "text": ""
+  },
+  {
+   "cls": "ant-tabs-extra-content",
+   "rect": {
+    "bottom": 152.84375,
+    "height": 24.6875,
+    "left": 1834,
+    "right": 1898,
+    "top": 128.15625,
+    "width": 64,
+    "x": 1834,
+    "y": 128.15625
+   },
+   "text": "历史记录"
+  },
+  {
+   "cls": "ant-tabs-content-holder",
+   "rect": {
+    "bottom": 829,
+    "height": 667,
+    "left": 490,
+    "right": 1910,
+    "top": 162,
+    "width": 1420,
+    "x": 490,
+    "y": 162
+   },
+   "text": "上传商品图\n生成结果\n一键做同款\n上传商品图\n生成结果\n一键做同款\n上传商品图\n生成结果\n一键做同款\n上传商品图\n生成结果\n一键做同款\n上传商品图\n生成结果\n一键做同款\n上传商品图\n生成结果\n一键做同款\n上传商品图\n生成结果\n一键做同款\n1\n2\n3"
+  },
+  {
+   "cls": "ant-tabs-content ant-tabs-content-top",
+   "rect": {
+    "bottom": 829,
+    "height": 667,
+    "left": 490,
+    "right": 1910,
+    "top": 162,
+    "width": 1420,
+    "x": 490,
+    "y": 162
+   },
+   "text": "上传商品图\n生成结果\n一键做同款\n上传商品图\n生成结果\n一键做同款\n上传商品图\n生成结果\n一键做同款\n上传商品图\n生成结果\n一键做同款\n上传商品图\n生成结果\n一键做同款\n上传商品图\n生成结果\n一键做同款\n上传商品图\n生成结果\n一键做同款\n1\n2\n3"
+  }
+ ],
+ "text": "首页\n电商套图\n智能修图\n新模型\nAI视频\nHOT\n批量生图\n商品图设计\nSkills\nAgent\n更多\n学习中心\n免费得算力\n250\n购 买\n用\n用户6991\n个人账号\n商品套图\n服装套图\n爆款图复刻\nNEW\n套图换色\nNEW\n批量翻译\n高清放大\n批量抠图\n智能扩图\n 免责声明\n\n多视角白底商品&实拍图 \n\n从本地上传\n从作品库选择\n从商品库选择\n\n10M以内，384*384 ~ 4096*4096，最大宽高比5\n\n商品信息 \n\nAI分析\n向导\n0 / 2500\n\n品牌与合规（可选）\n\n智能品牌基因\n智能主色、智能字体风格\n智能合规检查\n未选择敏感词库\n·\n未选择替换词库\n\n模型选择\n\nLF智能模型 G-2.5 Sunburst\nNEW\n\n分辨率选择\n\n1K\n2K\n4K\n\n模型品质\n\n低品质\n中品质\n高品质\n超高品质\n最大品质\n\nA+图设置 \n\n生成类型（单选）\n\n高级A+\n4\n手机A+\n4\n普通A+\n4\n自定比例\n4\n\n选择排版\n\n每种排版生成一张\n\n无文字模式\n💡未选择排版时，将根据官方排版随机生成\n\n主副图设置 \n\n生成类型（多选）\n\n卖点图\n4\n\n选择排版\n\n每种排版生成一张\n\n无文字模式\n💡未选择排版时，将根据官方排版随机生成\n白底图\n4\n场景图\n4\n特写图\n4\n特写白底图\n4\n\n生成比例\n\n1:1\n3:4\n4:3\n2:3\n3:2\n更多\n\nA+图4张 * 每张50点 + 主副图4张 * 每张50点 = 400点\n\n开始生成\n(400算力)\n生成结果\n优秀案例\n历史记录\n\n上传商品图\n生成结果\n一键做同款\n上传商品图\n生成结果\n一键做同款\n上传商品图\n生成结果\n一键做同款\n上传商品图\n生成结果\n一键做同款\n上传商品图\n生成结果\n一键做同款\n上传商品图\n生成结果\n一键做同款\n上传商品图\n生成结果\n一键做同款\n1\n2\n3\n操作咨询\n产品教程\n管理水印分组\n共 1/20 个\n默认\n＋ 新增水印分组\nljq_driver: 已连接",
+ "title": "LinkFox官网 - 跨境电商AI运营助手 - AI选品AI作图AI视频AI Agent OS",
+ "url": "https://www.linkfox.com/draw/product-image-suite"
+}

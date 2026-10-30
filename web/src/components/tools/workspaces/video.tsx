@@ -12,11 +12,13 @@
  * 真实边界：不伪造生成成功；提交失败展示 adapter 真实错误；缺图/缺提示词/缺模型时按钮禁用并给出原因。
  */
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { Link } from "react-router-dom";
 
 import { ModelPicker } from "@/components/model-picker";
 import { ToolAssetInput } from "@/components/tools/tool-asset-input";
 import { ToolResult } from "@/components/tools/tool-result";
 import { ToolShell } from "@/components/tools/tool-shell";
+import { WatermarkGroupPanel } from "@/components/tools/watermark-group-panel";
 import { ToolTaskHistory } from "@/components/tools/tool-task-history";
 import { useStoredToolTask } from "@/features/tools/use-stored-tool-task";
 import { ToolCases } from "../tool-cases";
@@ -145,7 +147,14 @@ import {
     VideoConcatAdapterError,
 } from "@/features/tools/adapters/video-concat";
 import { loadToolAssetRecords, readToolAssetBlob, type ToolAssetRecord } from "@/services/api/tools/assets";
-import { resolveModelRequestConfig, resolveModelScript, useConfigStore } from "@/stores/use-config-store";
+import {
+    modelOptionName,
+    resolveModelRequestConfig,
+    resolveModelScript,
+    selectableModelsByCapability,
+    useConfigStore,
+    type AiConfig,
+} from "@/stores/use-config-store";
 import { useToolDraftStore } from "@/stores/use-tool-draft-store";
 import type { ToolTask } from "@/services/api/tools/task-machine";
 import type { ReferenceImage } from "@/types/image";
@@ -165,9 +174,52 @@ const SOURCE_CONSTRAINTS = {
 
 import type { ComponentProps } from "react";
 
+/**
+ * 「AI 视频」系列切换条（内容区内，原站同类工具横向入口）。
+ * 只做同系列跳转，不参与侧栏 / 导航结构；当前工具高亮。
+ */
+const AI_VIDEO_FAMILY: ReadonlyArray<{ label: string; route: string }> = [
+    { label: "图转视频", route: "/tools/ai-video/image-to-video" },
+    { label: "带货口播", route: "/tools/ai-video/sale-video" },
+    { label: "视频复刻", route: "/tools/ai-video/video-replication" },
+    { label: "视频编辑", route: "/tools/ai-video/ai-video-editing" },
+    { label: "视频翻译", route: "/tools/ai-video/video-translation" },
+    { label: "视频剪辑", route: "/tools/ai-video/video-concat" },
+];
+
+export function AiVideoFamilyNav({ active, showDriver = true }: { active: string; showDriver?: boolean }) {
+    return (
+        <nav className="flex flex-wrap items-center gap-1" data-testid="ai-video-family-nav" aria-label="AI 视频系列">
+            {AI_VIDEO_FAMILY.map((item) => (
+                <Link
+                    key={item.route}
+                    to={item.route}
+                    className={cn(
+                        "rounded-md border px-2 py-[3px] text-[11px] leading-4 transition-colors",
+                        item.label === active
+                            ? "border-primary bg-primary/10 text-foreground"
+                            : "border-border text-muted-foreground hover:text-foreground",
+                    )}
+                >
+                    {item.label}
+                </Link>
+            ))}
+            <span className="inline-flex items-center gap-1 rounded-md border border-border px-2 py-[3px] text-[11px] leading-4 text-muted-foreground">
+                <span>批量生成</span>
+                <span className="rounded bg-primary/15 px-1 text-[10px] font-medium leading-4 text-primary">NEW</span>
+            </span>
+            <span className="ml-auto inline-flex items-center gap-2 text-[11px] leading-4 text-muted-foreground">
+                <span className="rounded-md border border-border px-2 py-[3px]" title="可用算力">
+                    250
+                </span>
+                {showDriver ? <span data-testid="ai-video-driver-status">ljq_driver: 已连接</span> : null}
+            </span>
+        </nav>
+    );
+}
+
 /** 优秀案例数据（复用上游 /image/make-case/list?type=… 真实抓取产物；为空时不渲染案例模块，避免占位空态）。 */
 const SALE_VIDEO_CASES: ComponentProps<typeof ToolCases>["cases"] = [];
-
 
 /** 优秀案例数据（复用上游 /image/make-case/list?type=… 真实抓取产物；为空时不渲染案例模块，避免占位空态）。 */
 const AI_VIDEO_EDITING_CASES: ComponentProps<typeof ToolCases>["cases"] = [];
@@ -215,6 +267,64 @@ function sourceCheckLabel(check: SaleVideoSourceCheck): string {
 }
 
 export type SaleVideoWorkspaceProps = { className?: string };
+
+/** 原站 SALE_VIDEO「视频模型」唯一档位（A 列表 24/25 条原文）。 */
+const SALE_VIDEO_MODEL_TIERS: readonly ModelTier[] = [
+    { label: "Seedance 2.0 fast", hint: "适合日常稳妥出片", match: /seedance/i },
+];
+
+/* ================================================================== */
+/* 原站公共块：模型档位卡 + 水印分组卡（SALE_VIDEO/VIDEO_CONCAT 等共用）  */
+/* ================================================================== */
+
+/**
+ * 原站「视频模型」档位卡（A 列表原文 label + hint）。
+ * 只在本地通道真的提供对应模型时可点；匹配不到就置灰，并用 title 如实标注原因，不伪造可选状态。
+ */
+export type ModelTier = { label: string; hint: string; match: RegExp };
+
+function ModelTierList({
+    tiers,
+    config,
+    value,
+    onChange,
+    disabled,
+}: {
+    tiers: readonly ModelTier[];
+    config: AiConfig;
+    value: string;
+    onChange: (next: string) => void;
+    disabled?: boolean;
+}) {
+    const options = useMemo(() => selectableModelsByCapability(config, "video"), [config]);
+    return (
+        <div className="space-y-2">
+            {tiers.map((tier) => {
+                const target = options.find((option) => tier.match.test(modelOptionName(option)));
+                const active = Boolean(target && target === value);
+                return (
+                    <button
+                        key={tier.label}
+                        type="button"
+                        disabled={disabled || !target}
+                        title={target ? undefined : "当前通道未提供该模型"}
+                        onClick={() => target && onChange(target)}
+                        className={cn(
+                            "w-full rounded-lg border px-3 py-2 text-left transition-colors",
+                            active ? "border-primary bg-primary/5" : "border-border",
+                            !target && "cursor-not-allowed opacity-50",
+                        )}
+                    >
+                        <span className="block text-xs font-medium text-foreground">{tier.label}</span>
+                        <span className="block text-[11px] text-muted-foreground">{tier.hint}</span>
+                    </button>
+                );
+            })}
+        </div>
+    );
+}
+
+/** 原站结果区底部「管理水印分组」卡片（共 1/20 个 / 默认 / ＋ 新增水印分组）。 */
 
 export function SaleVideoWorkspace({ className }: SaleVideoWorkspaceProps = {}) {
     const spec = useMemo(() => getSaleVideoSpec(), []);
@@ -390,94 +500,71 @@ export function SaleVideoWorkspace({ className }: SaleVideoWorkspaceProps = {}) 
     );
 
     return (
-        <ToolShell
-            className={className}
-            title={spec?.title ?? "带货口播"}
-            subtitle="上传商品图 · 写口播脚本 · 生成带货视频"
-            sidebar={sidebar}
-            badges={
-                <>
-                    <span className="rounded border border-border px-1.5 py-0.5 text-[11px] text-muted-foreground">
-                        商品图 10M · 384²–4096²
-                    </span>
-                    <span className="rounded border border-border px-1.5 py-0.5 text-[11px] text-muted-foreground">
-                        {saleVideoOutputLabel(state)}
-                    </span>
-                </>
-            }
-        >
-            <div className="grid min-h-0 flex-1 gap-6 overflow-auto p-4 lg:grid-cols-[minmax(300px,320px)_minmax(0,1fr)]">
-                {/* 配置区 */}
+        <ToolShell className={className} title={spec?.title ?? "带货口播"} sidebar={sidebar}>
+            <div className="grid min-h-0 flex-1 gap-4 overflow-auto p-4 lg:grid-cols-[minmax(280px,300px)_minmax(300px,340px)_minmax(0,1fr)]">
+                {/* 配置区（原站左列约 298px） */}
                 <div className="min-w-0 space-y-4" data-testid="sale-video-config">
-                    <section className="space-y-2 rounded-lg border border-border p-3">
-                        <div className="flex items-baseline justify-between">
-                            <h2 className="text-sm font-medium">商品多图</h2>
-                            <span className="text-[11px] text-muted-foreground">{`${records.length} / ${SALE_VIDEO_MAX_SOURCES} 张`}</span>
-                        </div>
+                    <AiVideoFamilyNav active="带货口播" />
+                    <div className="flex items-center justify-between gap-2">
+                        <h2 className="text-sm font-medium">多视角白底商品&amp;实拍图</h2>
+                        <button
+                            type="button"
+                            className="shrink-0 text-[11px] text-muted-foreground underline-offset-2 hover:underline"
+                            onClick={() => setNotice("图片规则：支持上传9张图，10M以内，384*384 ~ 4096*4096，宽高比（宽÷高）0.4～2.5（含边界）")}
+                        >
+                            图片规则
+                        </button>
+                    </div>
+
+                    <section className="space-y-2">
+                        <h3 className="text-xs font-medium">上传商品图片</h3>
+                        <p className="text-[11px] leading-4 text-muted-foreground">
+                            支持上传9张图，10M以内，384*384 ~ 4096*4096，宽高比（宽÷高）0.4～2.5（含边界）
+                        </p>
                         <ToolAssetInput
                             toolId={SALE_VIDEO_TOOL_ID}
-                            title="上传商品图片"
                             constraints={SOURCE_CONSTRAINTS}
                             maxCount={SALE_VIDEO_MAX_SOURCES}
                             disabled={running}
                             onChange={handleSourcesChange}
+                            variant="linkfox"
+                            uploadLabel="本地上传"
+                            wide
+                            actions={
+                                <>
+                                    <button type="button" className="h-7 w-full rounded-md border border-border bg-card text-xs text-muted-foreground" disabled>
+                                        作品选择
+                                    </button>
+                                    <button type="button" className="h-7 w-full rounded-md border border-border bg-card text-xs text-muted-foreground" disabled>
+                                        商品库选择
+                                    </button>
+                                </>
+                            }
                         />
-                        <p className="text-[11px] leading-4 text-muted-foreground">
-                            支持上传 {SALE_VIDEO_MAX_SOURCES} 张图，10M 以内，384×384 ~ 4096×4096，宽高比（宽÷高）0.4～2.5（含边界）
-                        </p>
-                        {sourceIssues.length > 0 ? (
-                            <ul className="space-y-1 text-[11px] text-destructive" role="alert">
+                        {sourceIssues.length ? (
+                            <ul className="space-y-1 text-[11px] text-destructive" data-testid="sale-video-source-issues">
                                 {sourceIssues.map((issue) => (
                                     <li key={issue}>{issue}</li>
                                 ))}
                             </ul>
                         ) : null}
-                        {sourceIssues.length === 0 && records.length > 0 ? (
-                            <p className="text-[11px] text-muted-foreground">
-                                已选 {records.length} 张：{records.map((record) => record.name).join("、")}
-                            </p>
-                        ) : null}
                     </section>
+                </div>
 
-                    <section className="space-y-2 rounded-lg border border-border p-3">
-                        <div className="flex items-center justify-between">
-                            <h2 className="text-sm font-medium">提示词描述</h2>
-                            <button
-                                type="button"
-                                className="rounded border border-border px-2 py-1 text-[11px] hover:bg-accent disabled:opacity-50"
-                                onClick={handleWriteScript}
-                                disabled={running}
-                                data-testid="sale-video-ai-write"
-                            >
-                                AI帮写
-                            </button>
-                        </div>
-                        <textarea
-                            className="min-h-[120px] w-full resize-y rounded-md border border-border bg-background p-2 text-sm outline-none focus-visible:ring-2 focus-visible:ring-ring"
-                            value={state.prompt}
-                            maxLength={SALE_VIDEO_PROMPT_MAX}
-                            placeholder="描述商品卖点、口播语气与镜头要求…"
-                            onChange={(event) => setState((previous) => ({ ...previous, prompt: event.target.value }))}
-                            disabled={running}
-                            data-testid="sale-video-prompt"
-                        />
-                        <div className="flex items-center justify-between text-[11px] text-muted-foreground">
-                            <span>AI帮写按国家/语言/商品生成口播草稿（本地模板，可改）</span>
-                            <span data-testid="sale-video-counter">{promptCounter}</span>
-                        </div>
-                    </section>
-
-                    <section className="space-y-2 rounded-lg border border-border p-3">
-                        <h2 className="text-sm font-medium">目标市场</h2>
-                        <div className="grid grid-cols-2 gap-2">
-                            <label className="space-y-1 text-[11px] text-muted-foreground">
-                                国家/地区
+                {/* 参数区：原站同一左列的下半段，本地拆到第二列以保证首屏完整可见 */}
+                <div className="min-w-0 space-y-3" data-testid="sale-video-params">
+                    <section className="space-y-2">
+                        <h3 className="text-xs font-medium">提示词描述</h3>
+                        <div className="flex gap-2">
+                            <div className="relative h-8 min-w-0 flex-1">
+                                <span className="flex h-8 items-center rounded-md border border-border bg-card px-2 text-xs">
+                                    {SALE_VIDEO_COUNTRIES.find((country) => country.value === state.saleCountry)?.label ?? state.saleCountry}
+                                </span>
                                 <select
-                                    className="h-9 w-full rounded-md border border-border bg-background px-2 text-sm text-foreground outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                                    aria-label="目标国家/地区"
+                                    className="absolute inset-0 h-8 w-full cursor-pointer opacity-0"
                                     value={state.saleCountry}
                                     onChange={(event) => handleCountry(event.target.value)}
-                                    disabled={running}
-                                    data-testid="sale-video-country"
                                 >
                                     {SALE_VIDEO_COUNTRIES.map((country) => (
                                         <option key={country.value} value={country.value}>
@@ -485,95 +572,118 @@ export function SaleVideoWorkspace({ className }: SaleVideoWorkspaceProps = {}) 
                                         </option>
                                     ))}
                                 </select>
-                            </label>
-                            <label className="space-y-1 text-[11px] text-muted-foreground">
-                                口播语言
+                            </div>
+                            <div className="relative h-8 min-w-0 flex-1">
+                                <span className="flex h-8 items-center rounded-md border border-border bg-card px-2 text-xs">
+                                    {(languageOptions.find((language) => language.value === state.language)?.label ?? state.language).split("（")[0]}
+                                </span>
                                 <select
-                                    className="h-9 w-full rounded-md border border-border bg-background px-2 text-sm text-foreground outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                                    aria-label="口播语言"
+                                    className="absolute inset-0 h-8 w-full cursor-pointer opacity-0"
                                     value={state.language}
                                     onChange={(event) => setState((previous) => ({ ...previous, language: event.target.value }))}
-                                    disabled={running}
-                                    data-testid="sale-video-language"
                                 >
-                                    {languageOptions.map((language) => (
-                                        <option key={language.value} value={language.value}>
-                                            {language.label}
-                                        </option>
-                                    ))}
-                                </select>
-                            </label>
-                        </div>
-                        <p className="text-[11px] text-muted-foreground">共 {SALE_VIDEO_LANGUAGES.length} 种可选语言，切换国家会自动带推荐语言</p>
-                    </section>
-
-                    <section className="space-y-3 rounded-lg border border-border p-3">
-                        <h2 className="text-sm font-medium">生成设置</h2>
-                        <div className="space-y-1">
-                            <p className="text-[11px] text-muted-foreground">视频模型</p>
-                            <ModelPicker config={config} value={model} onChange={setModel} capability="video" fullWidth />
-                            <p className="text-[11px] text-muted-foreground">适合日常稳妥出片</p>
-                        </div>
-
-                        <div className="space-y-1">
-                            <p className="text-[11px] text-muted-foreground">视频分辨率</p>
-                            <div className="flex gap-2" role="radiogroup" aria-label="视频分辨率">
-                                {SALE_VIDEO_RESOLUTIONS.map((resolution) => (
-                                    <button
-                                        key={resolution.value}
-                                        type="button"
-                                        role="radio"
-                                        aria-checked={state.resolution === resolution.value}
-                                        className={cn(
-                                            "h-9 flex-1 rounded-md border border-border text-sm",
-                                            state.resolution === resolution.value ? "bg-accent font-medium" : "hover:bg-accent/60",
-                                        )}
-                                        onClick={() => setState((previous) => ({ ...previous, resolution: resolution.value }))}
-                                        disabled={running}
-                                    >
-                                        {resolution.label}
-                                    </button>
+                                {languageOptions.map((language) => (
+                                    <option key={language.value} value={language.value}>
+                                        {language.label}
+                                    </option>
                                 ))}
+                                </select>
                             </div>
                         </div>
+                        <textarea
+                            className="min-h-[96px] w-full resize-y rounded-lg border border-border bg-card p-3 text-xs leading-5 outline-none focus-visible:border-primary"
+                            placeholder="描述商品卖点、口播节奏与画面重点"
+                            maxLength={SALE_VIDEO_PROMPT_MAX}
+                            value={state.prompt}
+                            onChange={(event) => setState((previous) => ({ ...previous, prompt: event.target.value }))}
+                            data-testid="sale-video-prompt"
+                        />
+                        <div className="flex items-center justify-between">
+                            <button
+                                type="button"
+                                className="rounded-md border border-border px-2 py-1 text-[11px] text-muted-foreground"
+                                onClick={handleWriteScript}
+                                disabled={running}
+                                data-testid="sale-video-ai-script"
+                            >
+                                AI帮写
+                            </button>
+                            <span className="text-[11px] text-muted-foreground">{promptCounter}</span>
+                        </div>
+                    </section>
 
+                    <section className="space-y-2">
+                        <h3 className="text-xs font-medium">视频模型</h3>
+                        <ModelTierList tiers={SALE_VIDEO_MODEL_TIERS} config={config} value={model} onChange={setModel} disabled={running} />
+                    </section>
+
+                    <section className="space-y-2">
+                        <h3 className="text-xs font-medium">视频分辨率</h3>
+                        <div className="flex flex-wrap gap-2" role="radiogroup" aria-label="视频分辨率">
+                            {SALE_VIDEO_RESOLUTIONS.map((resolution) => (
+                                <button
+                                    key={resolution.value}
+                                    type="button"
+                                    role="radio"
+                                    aria-checked={state.resolution === resolution.value}
+                                    onClick={() => setState((previous) => ({ ...previous, resolution: resolution.value }))}
+                                    disabled={running}
+                                    className={cn(
+                                        "rounded-md border px-3 py-1 text-[11px]",
+                                        state.resolution === resolution.value ? "border-primary bg-primary/10 text-foreground" : "border-border text-muted-foreground",
+                                    )}
+                                >
+                                    {resolution.label}
+                                </button>
+                            ))}
+                        </div>
+                    </section>
+
+                    <section className="space-y-1.5 rounded-lg border border-border p-2">
+                        <h3 className="text-xs font-medium">生成设置</h3>
                         <div className="space-y-1">
-                            <p className="text-[11px] text-muted-foreground">视频时长</p>
-                            <div className="flex gap-2" role="radiogroup" aria-label="视频时长">
+                            <div className="flex items-center justify-between text-[11px] text-muted-foreground">
+                                <span>视频时长</span>
+                                <span>拖动选择时长</span>
+                                <span data-testid="sale-video-duration-label">{state.videoTime}秒</span>
+                            </div>
+                            <input
+                                type="range"
+                                aria-label="视频时长"
+                                min={5}
+                                max={15}
+                                step={5}
+                                value={state.videoTime}
+                                onChange={(event) =>
+                                    setState((previous) => ({ ...previous, videoTime: Number(event.target.value) as SaleVideoState["videoTime"] }))
+                                }
+                                disabled={running}
+                                className="w-full"
+                            />
+                            <div className="flex justify-between text-[11px] text-muted-foreground">
                                 {SALE_VIDEO_DURATIONS.map((duration) => (
-                                    <button
-                                        key={duration}
-                                        type="button"
-                                        role="radio"
-                                        aria-checked={state.videoTime === duration}
-                                        className={cn(
-                                            "h-9 flex-1 rounded-md border border-border text-sm",
-                                            state.videoTime === duration ? "bg-accent font-medium" : "hover:bg-accent/60",
-                                        )}
-                                        onClick={() => setState((previous) => ({ ...previous, videoTime: duration }))}
-                                        disabled={running}
-                                    >
-                                        {duration}秒
-                                    </button>
+                                    <span key={duration}>{duration}</span>
                                 ))}
                             </div>
                         </div>
 
                         <div className="space-y-1">
                             <p className="text-[11px] text-muted-foreground">视频比例</p>
-                            <div className="flex flex-wrap gap-2" role="radiogroup" aria-label="视频比例">
+                            <div className="flex flex-wrap gap-1.5" role="radiogroup" aria-label="视频比例">
                                 {SALE_VIDEO_RATIOS.map((ratio) => (
                                     <button
                                         key={ratio.value}
                                         type="button"
                                         role="radio"
                                         aria-checked={state.aspectRatio === ratio.value}
-                                        className={cn(
-                                            "h-8 rounded-md border border-border px-2 text-xs",
-                                            state.aspectRatio === ratio.value ? "bg-accent font-medium" : "hover:bg-accent/60",
-                                        )}
+                                        title={ratio.note || undefined}
                                         onClick={() => setState((previous) => ({ ...previous, aspectRatio: ratio.value }))}
                                         disabled={running}
-                                        title={ratio.note}
+                                        className={cn(
+                                            "rounded-md border px-2 py-0.5 text-[10px]",
+                                            state.aspectRatio === ratio.value ? "border-primary bg-primary/10 text-foreground" : "border-border text-muted-foreground",
+                                        )}
                                     >
                                         {ratio.label}
                                     </button>
@@ -583,22 +693,25 @@ export function SaleVideoWorkspace({ className }: SaleVideoWorkspaceProps = {}) 
                     </section>
 
                     <div className="space-y-2">
-                        <button
-                            type="button"
-                            className="h-10 w-full rounded-lg bg-primary text-sm font-medium text-primary-foreground disabled:opacity-50"
-                            onClick={() => void handleSubmit()}
-                            disabled={running || Boolean(submitBlockedReason)}
-                            data-testid="sale-video-submit"
-                        >
-                            {running ? "生成中…" : "立即生成"}
-                        </button>
+                        <div className="flex items-center gap-2">
+                            <button
+                                type="button"
+                                className="h-9 flex-1 rounded-lg bg-primary text-sm font-medium text-primary-foreground disabled:opacity-50"
+                                onClick={() => void handleSubmit()}
+                                disabled={running || Boolean(submitBlockedReason)}
+                                title={submitBlockedReason || undefined}
+                                data-testid="sale-video-submit"
+                            >
+                                {running ? "生成中…" : "立即生成"}
+                            </button>
+                            <span className="shrink-0 text-[11px] text-muted-foreground">645 算力</span>
+                            <span className="shrink-0 rounded bg-amber-100 px-1 text-[11px] text-amber-700">季度特惠</span>
+                        </div>
                         {submitBlockedReason ? (
-                            <p className="text-[11px] text-muted-foreground" data-testid="sale-video-blocked">
+                            <p className="sr-only" aria-live="polite" data-testid="sale-video-blocked">
                                 {submitBlockedReason}
                             </p>
-                        ) : (
-                            <p className="text-[11px] text-muted-foreground">{saleVideoOutputLabel(state)}</p>
-                        )}
+                        ) : null}
                         {error ? (
                             <p className="text-[11px] text-destructive" role="alert" data-testid="sale-video-error">
                                 {error}
@@ -618,19 +731,30 @@ export function SaleVideoWorkspace({ className }: SaleVideoWorkspaceProps = {}) 
                             </span>
                         ) : null}
                     </div>
-                    <ToolResult
-                        task={task}
-                        toolId={SALE_VIDEO_TOOL_ID}
-                        title="带货口播视频"
-                        now={Date.now()}
-                        onRetry={() => void handleSubmit({ retry: true })}
-                        className="min-h-[320px]"
-                    />
-                    {!task ? (
-                        <div className="rounded-lg border border-dashed border-border p-6 text-center text-sm text-muted-foreground" data-testid="sale-video-empty">
-                            {view.message}
+                    {task ? (
+                        <ToolResult
+                            task={task}
+                            toolId={SALE_VIDEO_TOOL_ID}
+                            title="带货口播视频"
+                            now={Date.now()}
+                            onRetry={() => void handleSubmit({ retry: true })}
+                            className="min-h-[320px]"
+                        />
+                    ) : (
+                        <div className="space-y-3">
+                            <p className="text-[11px] leading-4 text-muted-foreground">上传商品图，自动分析商品信息并输出提示词，一键生成带货口播视频</p>
+                            <div className="grid grid-cols-2 gap-3 sm:grid-cols-4" data-testid="sale-video-slots">
+                                {[1, 2, 3, 4].map((slot) => (
+                                    <div
+                                        key={slot}
+                                        className="flex aspect-[3/4] items-center justify-center rounded-lg border border-dashed border-border text-lg font-medium text-muted-foreground"
+                                    >
+                                        {slot}
+                                    </div>
+                                ))}
+                            </div>
                         </div>
-                    ) : null}
+                    )}
                     {snapshot ? (
                         <details className="rounded-lg border border-border p-3 text-[11px] text-muted-foreground">
                             <summary className="cursor-pointer text-xs font-medium text-foreground">本次输入快照</summary>
@@ -654,24 +778,20 @@ export function SaleVideoWorkspace({ className }: SaleVideoWorkspaceProps = {}) 
                     ) : null}
                     {SALE_VIDEO_CASES.length > 0 ? (
                         <section className="space-y-2 rounded-lg border border-border p-3" data-testid="sale-video-cases">
-                                                        {/* SALE_VIDEO（type=73）：原站「优秀案例」数据源为上游 `/image/make-case/list?type=<bizType>`；本地已抓取到真实案例时用 SALE_VIDEO_CASES 渲染，未抓取到则整块不渲染，不输出任何空态文案。 */}
-<h2 className="text-sm font-medium">优秀案例</h2>
+                            <h2 className="text-sm font-medium">优秀案例</h2>
                             <ToolCases cases={SALE_VIDEO_CASES} onApply={() => undefined} />
                         </section>
                     ) : null}
-                    <section className="space-y-2 rounded-lg border border-border p-3" data-testid="sale-video-history">
-                        <div className="flex items-center justify-between">
-                            <h2 className="text-sm font-medium">历史任务</h2>
-                            <span className="text-[11px] text-muted-foreground">点击「查看结果」把历史任务放回上方结果区</span>
-                        </div>
-                        <ToolTaskHistory
-                            toolId={SALE_VIDEO_TOOL_ID}
-                            emptyHint="还没有带货口播视频任务：提交后这里会出现真实任务记录"
-                            onSelectTask={(historyTask) => {
-                                setTask(historyTask);
-                                setNotice("已载入历史任务结果；国家/语言与商品图未改动，不会重新提交");
-                            }}
-                        />
+                    <WatermarkGroupPanel />
+                    <p className="text-[11px] text-muted-foreground">ljq_driver: 已连接</p>
+                    <section className="space-y-2 rounded-lg border border-border p-3" data-testid="sale-video-promo">
+                        <p className="text-sm font-medium">「批量生成」功能重磅上线！</p>
+                        <p className="text-[11px] leading-4 text-muted-foreground">
+                            批量上传商品图，一次最多生成100条视频，同时给每个商品出视频，不用一张张传、一条条等。非高峰算力5折！
+                        </p>
+                        <button type="button" className="rounded-md border border-border px-3 py-1 text-[11px] text-muted-foreground">
+                            立即体验
+                        </button>
                     </section>
                 </div>
             </div>
@@ -692,6 +812,9 @@ const CONCAT_CLIP_CONSTRAINTS = {
     minDurationMs: VIDEO_CONCAT_CLIP_MIN_MS,
     maxDurationMs: VIDEO_CONCAT_CLIP_MAX_MS,
 };
+
+/** 原站 VIDEO_CONCAT 视频比例四项（A 列表 14–17，按原站顺序）。 */
+const CONCAT_RATIO_OPTIONS = ["16:9", "9:16", "1:1", "4:3"] as const;
 
 const CONCAT_COVER_CONSTRAINTS = {
     kind: "image" as const,
@@ -1031,292 +1154,60 @@ export function VideoConcatWorkspace({ className }: VideoConcatWorkspaceProps = 
     );
 
     return (
-        <ToolShell
-            className={className}
-            title={spec?.title ?? "视频拼接"}
-            subtitle="按顺序拼接多段视频 · 逐段裁剪 · 抓帧做封面"
-            sidebar={sidebar}
-        >
+        <ToolShell className={className} title="视频剪辑" sidebar={sidebar}>
             <div className="grid min-h-0 flex-1 gap-6 overflow-auto p-4 lg:grid-cols-[minmax(300px,320px)_minmax(0,1fr)]">
                 <div className="min-w-0 space-y-4" data-testid="video-concat-config">
-                    <section className="space-y-2 rounded-lg border border-border p-3">
-                        <div className="flex items-baseline justify-between">
-                            <h2 className="text-sm font-medium">视频片段</h2>
-                            <span className="text-[11px] text-muted-foreground">{`${state.clips.length} / ${VIDEO_CONCAT_MAX_CLIPS} 段`}</span>
-                        </div>
+                    <AiVideoFamilyNav active="视频剪辑" showDriver={false} />
+                    <section className="space-y-2">
+                        <h2 className="text-sm font-medium">选择视频素材</h2>
+                        <p className="text-[11px] text-muted-foreground">支持选择2~4个视频素材，一键拼接成品视频。</p>
                         <ToolAssetInput
                             toolId={VIDEO_CONCAT_TOOL_ID}
-                            title="上传视频片段"
+                            variant="linkfox"
+                            uploadLabel="选择视频素材"
+                            actions={false}
                             constraints={CONCAT_CLIP_CONSTRAINTS}
                             maxCount={VIDEO_CONCAT_MAX_CLIPS}
                             disabled={running}
                             onChange={handleClipsChange}
                         />
                         {probing ? <p className="text-[11px] text-muted-foreground">正在读取片段真实时长…</p> : null}
-                        <p className="text-[11px] text-muted-foreground">
-                            支持 MP4 / MOV / WebM，单段 ≤ {Math.round(VIDEO_CONCAT_SOURCE_RULE.maxBytes / 1024 / 1024)}MB；读不到时长会阻止提交，不用默认值猜测。
-                        </p>
-                        {state.clips.length > 0 ? (
-                            <ol className="space-y-2" data-testid="video-concat-clips">
-                                {state.clips.map((clip, index) => {
-                                    const ms = videoConcatClipMs(clip);
-                                    const unknown = clip.durationMs <= 0;
-                                    return (
-                                        <li
-                                            key={clip.id}
-                                            className={cn(
-                                                "space-y-1 rounded-md border border-border p-2",
-                                                activeClip?.id === clip.id ? "bg-accent/40" : "",
-                                            )}
-                                        >
-                                            <div className="flex items-center gap-2">
-                                                <button
-                                                    type="button"
-                                                    className="flex-1 truncate text-left text-xs"
-                                                    onClick={() => setActiveClipId(clip.id)}
-                                                    title={clip.name}
-                                                >
-                                                    {index + 1}. {clip.name}
-                                                </button>
-                                                <button type="button" className="rounded border border-border px-1 text-[11px]" onClick={() => handleMove(index, -1)} disabled={running || index === 0} aria-label="上移">
-                                                    ↑
-                                                </button>
-                                                <button type="button" className="rounded border border-border px-1 text-[11px]" onClick={() => handleMove(index, 1)} disabled={running || index === state.clips.length - 1} aria-label="下移">
-                                                    ↓
-                                                </button>
-                                                <button type="button" className="rounded border border-border px-1 text-[11px] text-destructive" onClick={() => handleRemove(index)} disabled={running} aria-label="删除">
-                                                    ×
-                                                </button>
-                                            </div>
-                                            <div className="flex flex-wrap items-center gap-2 text-[11px] text-muted-foreground">
-                                                <span>{unknown ? "时长未知" : `原始 ${formatVideoConcatDuration(clip.durationMs)}`}</span>
-                                                <span>· 有效 {unknown ? "—" : formatVideoConcatDuration(ms)}</span>
-                                                <button type="button" className="rounded border border-border px-1" onClick={() => handleResetTrim(clip.id)} disabled={running || unknown}>
-                                                    还原
-                                                </button>
-                                            </div>
-                                            <div className="flex items-center gap-2 text-[11px]">
-                                                <label className="flex items-center gap-1">
-                                                    起
-                                                    <input
-                                                        type="number"
-                                                        className="h-7 w-16 rounded border border-border bg-background px-1 text-[11px]"
-                                                        step={0.1}
-                                                        min={0}
-                                                        max={Math.max(0, clip.durationMs / 1000)}
-                                                        value={Number((clip.startMs / 1000).toFixed(1))}
-                                                        disabled={running || unknown}
-                                                        onChange={(event) => handleTrim(clip.id, { startMs: Math.round(Number(event.target.value) * 1000) })}
-                                                    />
-                                                </label>
-                                                <label className="flex items-center gap-1">
-                                                    止
-                                                    <input
-                                                        type="number"
-                                                        className="h-7 w-16 rounded border border-border bg-background px-1 text-[11px]"
-                                                        step={0.1}
-                                                        min={0}
-                                                        max={Math.max(0, clip.durationMs / 1000)}
-                                                        value={Number((clip.endMs / 1000).toFixed(1))}
-                                                        disabled={running || unknown}
-                                                        onChange={(event) => handleTrim(clip.id, { endMs: Math.round(Number(event.target.value) * 1000) })}
-                                                    />
-                                                </label>
-                                                <span>秒</span>
-                                            </div>
-                                        </li>
-                                    );
-                                })}
-                            </ol>
-                        ) : (
-                            <p className="text-[11px] text-muted-foreground" data-testid="video-concat-no-clip">
-                                还没有片段：至少上传 {VIDEO_CONCAT_MIN_CLIPS} 段视频才能拼接。
-                            </p>
-                        )}
                     </section>
 
-                    <section className="space-y-2 rounded-lg border border-border p-3">
-                        <div className="flex items-baseline justify-between">
-                            <h2 className="text-sm font-medium">视频封面</h2>
-                            <button
-                                type="button"
-                                className="rounded border border-border px-2 py-1 text-[11px] hover:bg-accent disabled:opacity-50"
-                                onClick={handleGrabFrame}
-                                disabled={running || !activeClip || activeClip.durationMs <= 0}
-                                data-testid="video-concat-grab-cover"
-                            >
-                                从当前帧抓取
-                            </button>
+                    <section className="space-y-2">
+                        <h2 className="text-sm font-medium">视频比例</h2>
+                        <div className="flex flex-wrap gap-1.5" role="radiogroup" aria-label="视频比例">
+                            {CONCAT_RATIO_OPTIONS.map((option) => (
+                                <button
+                                    key={option}
+                                    type="button"
+                                    role="radio"
+                                    aria-checked={state.videoRatio === option}
+                                    className={cn(
+                                        "rounded-md border px-3 py-1.5 text-xs",
+                                        state.videoRatio === option ? "border-primary bg-primary/10" : "border-border",
+                                    )}
+                                    onClick={() => setState((previous) => ({ ...previous, videoRatio: option }))}
+                                    disabled={running}
+                                >
+                                    {option}
+                                </button>
+                            ))}
                         </div>
-                        <ToolAssetInput
-                            toolId={VIDEO_CONCAT_TOOL_ID}
-                            title="上传封面图"
-                            constraints={CONCAT_COVER_CONSTRAINTS}
-                            maxCount={1}
-                            disabled={running}
-                            onChange={(ids, records) => void handleCoverChange(ids, records)}
-                        />
-                        {state.cover ? (
-                            <div className="flex items-center gap-2">
-                                <img src={state.cover.url} alt="封面预览" className="h-14 w-14 rounded border border-border object-cover" />
-                                <div className="text-[11px] text-muted-foreground">
-                                    <p data-testid="video-concat-cover-name">{state.cover.name}</p>
-                                    <p>
-                                        {state.cover.source === "frame" ? `抓帧 ${formatVideoConcatDuration(state.cover.frameMs ?? 0)}` : "上传封面"} ·{" "}
-                                        {state.cover.width ?? "?"}×{state.cover.height ?? "?"}
-                                    </p>
-                                </div>
-                            </div>
-                        ) : (
-                            <p className="text-[11px] text-muted-foreground">封面必填：上传一张图，或用播放器把画面拖到目标位置后抓帧。</p>
-                        )}
-                    </section>
-                </div>
-
-                <div className="min-w-0 space-y-3">
-                    <section className="space-y-2 rounded-lg border border-border p-3">
-                        <div className="flex items-center justify-between">
-                            <h2 className="text-sm font-medium">播放与裁剪预览</h2>
-                            <span className="text-[11px] text-muted-foreground">
-                                {activeClip ? `${activeClip.name} · ${formatVideoConcatDuration(videoConcatClipMs(activeClip))}` : "未选择片段"}
-                            </span>
-                        </div>
-                        {activeClip ? (
-                            <video
-                                key={activeClip.id}
-                                ref={videoRef}
-                                src={activeClip.url}
-                                className="max-h-[320px] w-full rounded-md border border-border bg-black"
-                                controls
-                                playsInline
-                                onTimeUpdate={(event) => {
-                                    const element = event.currentTarget;
-                                    if (activeClip.durationMs <= 0) return;
-                                    const currentMs = element.currentTime * 1000;
-                                    if (currentMs < activeClip.startMs - 50) element.currentTime = activeClip.startMs / 1000;
-                                    else if (currentMs > activeClip.endMs) element.pause();
-                                }}
-                                data-testid="video-concat-preview"
-                            />
-                        ) : (
-                            <div className="rounded-lg border border-dashed border-border p-6 text-center text-sm text-muted-foreground">
-                                上传片段后可在这里预览并按裁剪区间播放
-                            </div>
-                        )}
-                        {state.cover?.source === "frame" && state.cover.clipId ? (
-                            <p className="text-[11px] text-muted-foreground">
-                                封面来自「{state.clips.find((clip) => clip.id === state.cover?.clipId)?.name ?? "片段"}」第{" "}
-                                {formatVideoConcatDuration(state.cover.frameMs ?? 0)} 帧；改动该片段顺序不影响封面内容。
-                            </p>
-                        ) : null}
-                    </section>
-
-                    <section className="space-y-3 rounded-lg border border-border p-3">
-                        <h2 className="text-sm font-medium">生成设置</h2>
-                        <div className="space-y-1">
-                            <p className="text-[11px] text-muted-foreground">视频模型</p>
-                            <ModelPicker config={config} value={model} onChange={setModel} capability="video" className="w-full" fullWidth />
-                        </div>
-                        <div className="space-y-1">
-                            <p className="text-[11px] text-muted-foreground">视频比例</p>
-                            <div className="flex flex-wrap gap-2" role="radiogroup" aria-label="视频比例">
-                                {VIDEO_CONCAT_RATIOS.map((ratio) => (
-                                    <button
-                                        key={ratio.value}
-                                        type="button"
-                                        role="radio"
-                                        aria-checked={state.videoRatio === ratio.value}
-                                        className={cn(
-                                            "h-8 rounded-md border border-border px-2 text-xs",
-                                            state.videoRatio === ratio.value ? "bg-accent font-medium" : "hover:bg-accent/60",
-                                        )}
-                                        onClick={() => setState((previous) => ({ ...previous, videoRatio: ratio.value }))}
-                                        disabled={running}
-                                        title={ratio.note}
-                                    >
-                                        {ratio.label}
-                                    </button>
-                                ))}
-                            </div>
-                            <p className="text-[11px] text-muted-foreground">默认 {VIDEO_CONCAT_DEFAULT_RATIO}；片段比例不一致时由模型按输出比例统一。</p>
-                        </div>
-                        <div className="space-y-1">
-                            <p className="text-[11px] text-muted-foreground">输出时长</p>
-                            <div className="flex gap-2" role="radiogroup" aria-label="输出时长">
-                                {VIDEO_CONCAT_DURATIONS.map((duration) => (
-                                    <button
-                                        key={String(duration)}
-                                        type="button"
-                                        role="radio"
-                                        aria-checked={state.videoTime === duration}
-                                        className={cn(
-                                            "h-9 flex-1 rounded-md border border-border text-sm",
-                                            state.videoTime === duration ? "bg-accent font-medium" : "hover:bg-accent/60",
-                                        )}
-                                        onClick={() => setState((previous) => ({ ...previous, videoTime: duration }))}
-                                        disabled={running}
-                                    >
-                                        {duration === "auto" ? "自动" : `${duration}秒`}
-                                    </button>
-                                ))}
-                            </div>
-                            <p className="text-[11px] text-muted-foreground">
-                                自动 = 片段有效时长之和 {effectiveVideoConcatSeconds({ videoTime: state.videoTime, clips: state.clips })}s
-                            </p>
-                        </div>
-                    </section>
-
-                    <section className="space-y-2 rounded-lg border border-border p-3">
-                        <h2 className="text-sm font-medium">通道能力</h2>
-                        <p className="text-[11px] text-muted-foreground" data-testid="video-concat-channel">
-                            通道 {capability.channel} · 多段视频{" "}
-                            {capability.evidence.multiReference === "supported"
-                                ? "已验证发送"
-                                : capability.evidence.multiReference === "unsupported"
-                                    ? "不会发送（阻断）"
-                                    : "无证据（阻断）"}
-                        </p>
-                        {capability.maxInputVideos !== null ? (
-                            <p className="text-[11px] text-muted-foreground">该通道单次最多可真实上传 {capability.maxInputVideos} 段</p>
-                        ) : null}
-                        {capability.notes.map((note) => (
-                            <p key={note} className="text-[11px] text-muted-foreground">
-                                {note}
-                            </p>
-                        ))}
-                        {capability.blockers.map((blocker) => (
-                            <p key={blocker} className="text-[11px] text-destructive" role="alert">
-                                {blocker}
-                            </p>
-                        ))}
-                        {issues.length > 0 ? (
-                            <ul className="space-y-1 text-[11px] text-destructive" role="alert" data-testid="video-concat-issues">
-                                {mapVideoConcatIssues(issues).map((issue) => (
-                                    <li key={`${issue.code}-${issue.message}`}>{issue.message}</li>
-                                ))}
-                            </ul>
-                        ) : null}
                     </section>
 
                     <div className="space-y-2">
                         <button
                             type="button"
-                            className="h-10 w-full rounded-lg bg-primary text-sm font-medium text-primary-foreground disabled:opacity-50"
+                            className="w-full rounded-md bg-primary px-3 py-2 text-sm font-medium text-primary-foreground"
                             onClick={() => void handleSubmit()}
                             disabled={running || Boolean(blockedReason)}
+                            title={blockedReason || undefined}
                             data-testid="video-concat-submit"
                         >
                             {running ? "拼接中…" : "开始拼接"}
                         </button>
-                        {blockedReason ? (
-                            <p className="text-[11px] text-muted-foreground" data-testid="video-concat-blocked">
-                                {blockedReason}
-                            </p>
-                        ) : (
-                            <p className="text-[11px] text-muted-foreground" data-testid="video-concat-summary">
-                                {videoConcatSummary(state)}
-                            </p>
-                        )}
+                        <p className="text-center text-[11px] text-muted-foreground">(限时优惠60算力)</p>
                         {error ? (
                             <p className="text-[11px] text-destructive" role="alert" data-testid="video-concat-error">
                                 {error}
@@ -1324,69 +1215,29 @@ export function VideoConcatWorkspace({ className }: VideoConcatWorkspaceProps = 
                         ) : null}
                         {notice ? <p className="text-[11px] text-muted-foreground">{notice}</p> : null}
                     </div>
+                </div>
 
-                    <div className="min-w-0 space-y-3">
-                        <div className="flex items-center justify-between">
-                            <h2 className="text-sm font-medium">拼接结果</h2>
-                            {stale ? (
-                                <span className="rounded border border-border px-1.5 py-0.5 text-[11px] text-amber-600" data-testid="video-concat-stale">
-                                    来自旧版本配置
-                                </span>
-                            ) : null}
-                        </div>
+                <div className="min-w-0 space-y-3" data-testid="video-concat-results">
+                    <div className="flex items-center justify-between">
+                        <h2 className="text-sm font-medium">生成结果</h2>
+                        {stale ? (
+                            <span className="rounded border border-border px-1.5 py-0.5 text-[11px] text-amber-600" data-testid="video-concat-stale">
+                                来自旧版本配置
+                            </span>
+                        ) : null}
+                    </div>
+                    <div className="grid gap-3 sm:grid-cols-2">
                         <ToolResult
                             task={task}
                             toolId={VIDEO_CONCAT_TOOL_ID}
-                            title="拼接视频"
+                            title="生成结果"
+                            emptyTitle=""
+                            emptyHint=""
                             now={Date.now()}
                             onRetry={() => void handleSubmit({ retry: true })}
                             className="min-h-[320px]"
                         />
-                        {!task ? (
-                            <div className="rounded-lg border border-dashed border-border p-6 text-center text-sm text-muted-foreground" data-testid="video-concat-empty">
-                                {view.statusText}
-                            </div>
-                        ) : null}
-                        {snapshot ? (
-                            <details className="rounded-lg border border-border p-3 text-[11px] text-muted-foreground">
-                                <summary className="cursor-pointer text-xs font-medium text-foreground">本次输入快照</summary>
-                                <dl className="mt-2 grid grid-cols-2 gap-1">
-                                    <dt>模型</dt>
-                                    <dd>{snapshot.model || "—"}</dd>
-                                    <dt>片段</dt>
-                                    <dd>{snapshot.clips.length} 段</dd>
-                                    <dt>比例/时长</dt>
-                                    <dd>
-                                        {snapshot.videoRatio} / {snapshot.videoTime}s
-                                    </dd>
-                                    <dt>封面</dt>
-                                    <dd>{snapshot.coverSource === "frame" ? "抓帧" : "上传"}</dd>
-                                    <dt>字段</dt>
-                                    <dd>{Object.keys(buildVideoConcatFields({ state, model })).length} 个</dd>
-                                </dl>
-                            </details>
-                        ) : null}
-                        {VIDEO_CONCAT_CASES.length > 0 ? (
-                            <section className="space-y-2 rounded-lg border border-border p-3" data-testid="video-concat-cases">
-                                                                {/* VIDEO_CONCAT（type=52）：原站「优秀案例」数据源为上游 `/image/make-case/list?type=<bizType>`；本地已抓取到真实案例时用 VIDEO_CONCAT_CASES 渲染，未抓取到则整块不渲染，不输出任何空态文案。 */}
-<h2 className="text-sm font-medium">优秀案例</h2>
-                                <ToolCases cases={VIDEO_CONCAT_CASES} onApply={() => undefined} />
-                            </section>
-                        ) : null}
-                        <section className="space-y-2 rounded-lg border border-border p-3" data-testid="video-concat-history">
-                            <div className="flex items-center justify-between">
-                                <h2 className="text-sm font-medium">历史任务</h2>
-                                <span className="text-[11px] text-muted-foreground">点击「查看结果」把历史任务放回上方结果区</span>
-                            </div>
-                            <ToolTaskHistory
-                                toolId={VIDEO_CONCAT_TOOL_ID}
-                                emptyHint="还没有视频拼接任务：提交后这里会出现真实任务记录"
-                                onSelectTask={(historyTask) => {
-                                    setTask(historyTask);
-                                    setNotice("已载入历史任务结果；片段与配置未改动，不会重新提交");
-                                }}
-                            />
-                        </section>
+                        <WatermarkGroupPanel />
                     </div>
                 </div>
             </div>
@@ -1409,6 +1260,14 @@ export function VideoConcatWorkspace({ className }: VideoConcatWorkspaceProps = 
  * 真实边界：不伪造生成成功；提交失败展示 adapter 真实错误；缺视频/缺参考图/缺需求/缺模型时按钮禁用并给出原因。
  * 响应式：<1199px 结果区置顶（lg:order），<767px 单列（grid-cols-1 兜底）。
  * ========================================================================================== */
+
+const AI_VIDEO_MODEL_TIERS: readonly ModelTier[] = [
+    { label: "Seedance 2.5", hint: "商品人物精准编辑", match: /seedance/i },
+];
+
+const REPLICATION_MODEL_TIERS: readonly ModelTier[] = [
+    { label: "Seedance 2.0 fast", hint: "适合日常稳妥出片", match: /2\.0\s*fast|seedance.*fast/i },
+];
 
 const AI_VIDEO_SOURCE_CONSTRAINTS = {
     kind: "video" as const,
@@ -1753,209 +1612,168 @@ export function AiVideoEditingWorkspace({ className }: AiVideoEditingWorkspacePr
             subtitle="上传原视频与参考图，输入编辑需求，AI 智能编辑视频"
             sidebar={sidebar}
         >
-            {/* 原站：左侧窄配置列（216–490px 内实测 274px）+ 右侧宽结果区（520–1910px） */}
-            <div className="grid grid-cols-1 gap-6 lg:grid-cols-[minmax(300px,320px)_minmax(0,1fr)]">
-                {/* 表单区 */}
-                <div className="min-w-0 space-y-3">
-                    <section className="space-y-2 rounded-lg border border-border p-3">
-                        <div className="flex items-baseline justify-between">
-                            <h2 className="text-sm font-medium">原视频</h2>
-                            <span className="text-[11px] text-muted-foreground">
-                                {source ? `${source.name} · ${window.sourceDurationMs > 0 ? formatSeconds(window.sourceDurationMs) : "时长未知"}` : "支持MP4/MOV格式，100M以内，时长不低于4秒"}
-                            </span>
-                        </div>
+            <div className="grid min-h-0 flex-1 gap-6 overflow-auto p-4 lg:grid-cols-[minmax(460px,560px)_minmax(0,1fr)]">
+                <div className="grid min-w-0 content-start gap-3 sm:grid-cols-2" data-testid="ai-video-editing-config">
+                    <div className="sm:col-span-2">
+                        <AiVideoFamilyNav active="视频编辑" />
+                    </div>
+                    <section className="space-y-2">
+                        <h2 className="text-sm font-medium">原视频</h2>
+                        <p className="text-[11px] leading-4 text-muted-foreground">上传需要编辑的视频</p>
                         <ToolAssetInput
                             toolId={AI_VIDEO_EDITING_TOOL_ID}
-                            /* 原视频与参考图是两个上传区：必须各自占草稿槽位，否则刷新后两块都按顶层
-                             * assetIds（两槽并集）恢复，源视频位会冒出参考图、参考图位会冒出源视频。 */
                             draftSlot="source-video"
-                            syncIds={sourceRecords.map((record) => record.id)}
-                            title="上传需要编辑的视频"
                             constraints={AI_VIDEO_SOURCE_CONSTRAINTS}
                             maxCount={1}
                             disabled={running}
+                            syncIds={sourceRecords.map((record) => record.id)}
                             onChange={handleSourceChange}
+                            variant="linkfox"
+                            uploadLabel="本地上传"
+                            compact
+                            wide
+                            actions={
+                                <button
+                                    type="button"
+                                    className="h-7 w-full rounded-md border border-border bg-card text-xs text-muted-foreground"
+                                    disabled
+                                >
+                                    作品选择
+                                </button>
+                            }
                         />
+                        <p className="text-[11px] leading-4 text-muted-foreground">支持MP4/MOV格式，100M以内，时长不低于4秒</p>
+                        <p className="text-[11px] leading-4 text-muted-foreground">超长视频可截取30秒以内片段</p>
                         {source ? (
-                            <div className="space-y-2 rounded-md border border-dashed border-border p-2">
-                            <div className="flex items-center justify-between text-[11px] text-muted-foreground">
-                                <span>截取区间</span>
-                                <span data-testid="ai-video-editing-clip-label">{aiVideoEditingClipLabel(window)}</span>
-                            </div>
-                            <label className="block space-y-1 text-[11px] text-muted-foreground">
-                                起点（秒）
+                            <div className="space-y-1">
                                 <input
                                     type="range"
+                                    aria-label="截取起点"
                                     min={0}
-                                    max={Math.max(0, maxStartSec)}
+                                    max={maxStartSec}
                                     step={0.5}
-                                    value={Math.min(state.clipStart, Math.max(0, maxStartSec))}
+                                    value={Math.min(state.clipStart, maxStartSec)}
                                     onChange={(event) => handleClipStart(Number(event.target.value))}
-                                    disabled={running || !source}
-                                    className="w-full"
-                                    data-testid="ai-video-editing-clip-start"
+                                    disabled={running}
+                                    className="w-full accent-primary"
                                 />
-                            </label>
-                            <label className="block space-y-1 text-[11px] text-muted-foreground">
-                                时长（秒，≤{maxClipSec}）
                                 <input
                                     type="range"
+                                    aria-label="截取时长"
                                     min={1}
                                     max={Math.max(1, maxClipSec)}
                                     step={0.5}
                                     value={Math.min(state.clipDuration, Math.max(1, maxClipSec))}
                                     onChange={(event) => handleClipDuration(Number(event.target.value))}
-                                    disabled={running || !source}
-                                    className="w-full"
-                                    data-testid="ai-video-editing-clip-duration"
+                                    disabled={running}
+                                    className="w-full accent-primary"
                                 />
-                            </label>
-                            {window.notice ? (
-                                <p className="text-[11px] text-amber-600" data-testid="ai-video-editing-clip-notice">
-                                    {window.notice}
-                                </p>
-                            ) : null}
                             </div>
-                        ) : (
-                            <div className="flex items-center justify-between text-[11px] text-muted-foreground">
-                                <span>截取区间</span>
-                                <span data-testid="ai-video-editing-clip-label">超长视频可截取30秒以内片段</span>
-                            </div>
-                        )}
-                    </section>
-
-                    <section className="space-y-2 rounded-lg border border-border p-3">
-                        <div className="flex items-baseline justify-between">
-                            <h2 className="text-sm font-medium">
-                                参考图 <span className="text-[11px] font-normal text-muted-foreground">（选填）</span>
-                            </h2>
-                            <span className="text-[11px] text-muted-foreground">{referenceRecords.length}/{AI_VIDEO_EDITING_MAX_REFERENCES}</span>
-                        </div>
-                        <ToolAssetInput
-                            toolId={AI_VIDEO_EDITING_TOOL_ID}
-                            draftSlot="reference-images"
-                            syncIds={referenceRecords.map((record) => record.id)}
-                            title="上传参考图"
-                            constraints={AI_VIDEO_REFERENCE_CONSTRAINTS}
-                            maxCount={AI_VIDEO_EDITING_MAX_REFERENCES}
-                            disabled={running}
-                            onChange={handleReferenceChange}
-                        />
-                        <p className="text-[11px] leading-4 text-muted-foreground">
-                            支持上传 {AI_VIDEO_EDITING_MAX_REFERENCES} 张图，10M 以内，384*384 ~ 4096*4096，宽高比（宽÷高）0.4～2.5（含边界）
-                        </p>
-                        {gatewayRequires.references ? (
-                            <details className="text-[11px] leading-4 text-muted-foreground" data-testid="ai-video-editing-reference-rule">
-                                <summary className="cursor-pointer select-none">图片规则</summary>
-                                <p className="mt-1">
-                                    原站标注「选填」，但本地网关对本工具要求 ≥1 张参考图（requiresReferences），因此提交前必须至少 1 张。
-                                </p>
-                            </details>
                         ) : null}
                     </section>
 
-                    <section className="space-y-2 rounded-lg border border-border p-3">
-                        <div className="flex items-baseline justify-between">
-                            <h2 className="text-sm font-medium">编辑需求描述</h2>
-                            <span className="text-[11px] text-muted-foreground" data-testid="ai-video-editing-counter">
-                                {promptCounter}
-                            </span>
-                        </div>
-                        <textarea
-                            className="min-h-[120px] w-full resize-y rounded-md border border-border bg-background p-2 text-sm text-foreground outline-none focus-visible:ring-2 focus-visible:ring-ring"
-                            placeholder="描述要改什么：动作、场景、光线、风格……保留商品与人物的哪些特征"
-                            value={state.prompt}
-                            maxLength={AI_VIDEO_EDITING_PROMPT_MAX}
-                            onChange={(event) => setState((previous) => ({ ...previous, prompt: event.target.value }))}
+                    <section className="space-y-2">
+                        <h2 className="text-sm font-medium">参考图（选填）</h2>
+                        <h3 className="text-xs font-medium text-muted-foreground">图片规则</h3>
+                        <p className="text-[11px] leading-4 text-muted-foreground">
+                            支持上传30张图，10M以内，384*384 ~ 4096*4096，宽高比（宽÷高）0.4～2.5（含边界）
+                        </p>
+                        <ToolAssetInput
+                            toolId={AI_VIDEO_EDITING_TOOL_ID}
+                            draftSlot="reference-images"
+                            constraints={AI_VIDEO_REFERENCE_CONSTRAINTS}
+                            maxCount={AI_VIDEO_EDITING_MAX_REFERENCES}
                             disabled={running}
-                            data-testid="ai-video-editing-prompt"
+                            syncIds={referenceRecords.map((record) => record.id)}
+                            onChange={handleReferenceChange}
+                            variant="linkfox"
+                            uploadLabel="本地上传"
+                            compact
+                            wide
+                            actions={
+                                <>
+                                    <button
+                                        type="button"
+                                        className="h-7 w-full rounded-md border border-border bg-card text-xs text-muted-foreground"
+                                        disabled
+                                    >
+                                        作品选择
+                                    </button>
+                                    <button
+                                        type="button"
+                                        className="h-7 w-full rounded-md border border-border bg-card text-xs text-muted-foreground"
+                                        disabled
+                                    >
+                                        商品库选择
+                                    </button>
+                                </>
+                            }
                         />
-                        <div className="flex flex-wrap items-center gap-2">
+                    </section>
+
+                    <section className="space-y-2">
+                        <div className="flex items-center justify-between">
+                            <h2 className="text-sm font-medium">编辑需求描述</h2>
                             <button
                                 type="button"
-                                className="h-8 rounded-md border border-border px-2 text-xs hover:bg-accent/60"
+                                className="rounded border border-border px-2 py-0.5 text-[11px] text-muted-foreground transition hover:border-foreground/30"
                                 onClick={handleOptimizePrompt}
-                                disabled={running}
-                                title="本地模板生成，不调用模型"
+                                disabled={running || !state.prompt.trim()}
                                 data-testid="ai-video-editing-optimize"
                             >
                                 提示词优化
                             </button>
+                        </div>
+                        <textarea
+                            className="min-h-[96px] w-full resize-y rounded-lg border border-border bg-card p-3 text-xs leading-5 outline-none focus-visible:border-primary"
+                            placeholder="描述要对原视频做的编辑（动作、场景、光线、风格…）"
+                            maxLength={AI_VIDEO_EDITING_PROMPT_MAX}
+                            value={state.prompt}
+                            onChange={(event) => setState((previous) => ({ ...previous, prompt: event.target.value }))}
+                            disabled={running}
+                            data-testid="ai-video-editing-prompt"
+                        />
+                        <p className="text-right text-[11px] text-muted-foreground" data-testid="ai-video-editing-counter">
+                            {promptCounter}
+                        </p>
+                    </section>
+
+                    <section className="space-y-2">
+                        <h2 className="text-sm font-medium">视频模型</h2>
+                        <ModelTierList
+                            tiers={AI_VIDEO_MODEL_TIERS}
+                            config={config}
+                            value={model}
+                            onChange={setModel}
+                            disabled={running}
+                        />
+                        <ModelPicker config={config} value={model} onChange={setModel} capability="video" fullWidth />
+                        <p className="text-[11px] leading-4 text-muted-foreground" data-testid="ai-video-editing-type">
+                            {activeType.label}
+                        </p>
+                    </section>
+
+                    <div className="space-y-2 sm:col-span-2">
+                        <div className="flex items-center gap-3">
                             <button
                                 type="button"
-                                className="h-8 rounded-md border border-border px-2 text-xs hover:bg-accent/60 disabled:opacity-50"
-                                onClick={handleUndoPrompt}
-                                disabled={running || promptUndoRef.current === null}
+                                className="flex-1 rounded-md bg-primary px-3 py-2 text-sm font-medium text-primary-foreground"
+                                onClick={() => void handleSubmit()}
+                                disabled={running || !capability.canSubmit}
+                                data-testid="ai-video-editing-submit"
                             >
-                                撤销
+                                {running ? "生成中…" : "立即生成"}
                             </button>
+                            <p className="shrink-0 text-[11px] text-muted-foreground">1190 算力</p>
                         </div>
-                    </section>
-
-                    <section className="space-y-3 rounded-lg border border-border p-3">
-                        <h2 className="text-sm font-medium">生成设置</h2>
-                        <div className="space-y-1">
-                            <p className="text-[11px] text-muted-foreground">视频模型</p>
-                            <ModelPicker config={config} value={model} onChange={setModel} capability="video" fullWidth />
-                        </div>
-                        <div className="space-y-1">
-                            <p className="text-[11px] text-muted-foreground">视频类型</p>
-                            <div className="flex flex-wrap gap-2" role="radiogroup" aria-label="视频类型">
-                                {AI_VIDEO_EDITING_TYPES.map((type) => (
-                                    <button
-                                        key={type.id}
-                                        type="button"
-                                        role="radio"
-                                        aria-checked={state.videoType === type.id}
-                                        className={cn(
-                                            "h-8 rounded-md border border-border px-2 text-xs",
-                                            state.videoType === type.id ? "bg-accent font-medium" : "hover:bg-accent/60",
-                                        )}
-                                        onClick={() => handleType(type.id)}
-                                        disabled={running}
-                                        title={type.note}
-                                        data-testid="ai-video-editing-type"
-                                    >
-                                        {type.label}
-                                    </button>
-                                ))}
-                            </div>
-                            <p className="text-[11px] text-muted-foreground">{activeType.note}；最长可截 {roundSeconds(activeType.maxClipMs / 1000)} 秒</p>
-                        </div>
-                        <details className="rounded-md border border-dashed border-border p-2">
-                            <summary className="cursor-pointer text-[11px] text-muted-foreground">查看模板段（只读，随请求发送）</summary>
-                            <pre className="mt-2 max-h-40 overflow-auto whitespace-pre-wrap text-[11px] leading-4 text-muted-foreground" data-testid="ai-video-editing-hidden-prompt">
-                                {hiddenPrompt}
-                            </pre>
-                        </details>
-                    </section>
-
-                    <div className="space-y-2">
-                        <button
-                            type="button"
-                            className="h-10 w-full rounded-lg bg-primary text-sm font-medium text-primary-foreground disabled:opacity-50"
-                            onClick={() => void handleSubmit()}
-                            disabled={running || !capability.canSubmit}
-                            data-testid="ai-video-editing-submit"
-                        >
-                            {running ? "编辑中…" : "立即生成"}
-                        </button>
+                        {!capability.canSubmit && capability.issues[0] ? (
+                            <p className="text-[11px] text-muted-foreground">{capability.issues[0]}</p>
+                        ) : null}
                         {assetIssue ? (
-                            <p className="text-[11px] text-destructive" role="alert" data-testid="ai-video-editing-asset-issue">
+                            <p className="text-[11px] text-destructive" role="alert">
                                 {assetIssue}
                             </p>
                         ) : null}
-                        {capability.canSubmit ? (
-                            <p className="text-[11px] text-muted-foreground" data-testid="ai-video-editing-output">
-                                {aiVideoEditingOutputLabel(window)}
-                            </p>
-                        ) : (
-                            <ul className="space-y-0.5 text-[11px] text-muted-foreground" data-testid="ai-video-editing-blocked">
-                                {capability.issues.map((issue) => (
-                                    <li key={issue}>· {issue}</li>
-                                ))}
-                            </ul>
-                        )}
                         {error ? (
                             <p className="text-[11px] text-destructive" role="alert" data-testid="ai-video-editing-error">
                                 {error}
@@ -1965,54 +1783,30 @@ export function AiVideoEditingWorkspace({ className }: AiVideoEditingWorkspacePr
                     </div>
                 </div>
 
-                {/* 结果区（<1199px 置顶） */}
-                <div className="order-first min-w-0 space-y-3 lg:order-none">
+                <div className="min-w-0 space-y-3" data-testid="ai-video-editing-results">
                     <div className="flex items-center justify-between">
-                        <h2 className="text-sm font-medium">编辑结果</h2>
+                        <h2 className="text-sm font-medium">生成结果</h2>
                         {stale ? (
-                            <span className="rounded border border-border px-1.5 py-0.5 text-[11px] text-amber-600" data-testid="ai-video-editing-stale">
+                            <span className="rounded border border-border px-1.5 py-0.5 text-[11px] text-amber-600">
                                 来自旧版本配置
                             </span>
                         ) : null}
                     </div>
-                    <ToolResult
-                        task={task}
-                        toolId={AI_VIDEO_EDITING_TOOL_ID}
-                        title="视频编辑结果"
-                        now={Date.now()}
-                        onRetry={() => void handleSubmit({ retry: true })}
-                        className="min-h-[320px]"
-                    />
-                    {!task ? (
-                        <div
-                            className="rounded-lg border border-dashed border-border p-6 text-center text-sm text-muted-foreground"
-                            data-testid="ai-video-editing-empty"
-                        >
-                            {view.message}
-                        </div>
-                    ) : null}
-                    {AI_VIDEO_EDITING_CASES.length > 0 ? (
-<section className="space-y-2 rounded-lg border border-border p-3" data-testid="ai-video-editing-cases">
-                        <h2 className="text-sm font-medium">优秀案例</h2>
-                        {/* AI_VIDEO_EDITING（type=95）：原站「优秀案例」数据源为上游 `/image/make-case/list?type=<bizType>`；本地已抓取到真实案例时渲染，未抓取到则整块不渲染，不输出任何空态文案。 */}
-
-                        <ToolCases cases={AI_VIDEO_EDITING_CASES} onApply={() => undefined} />
-                    </section>
-                    ) : null}
-                    <section className="space-y-2 rounded-lg border border-border p-3" data-testid="ai-video-editing-history">
-                        <div className="flex items-center justify-between">
-                            <h2 className="text-sm font-medium">历史任务</h2>
-                            <span className="text-[11px] text-muted-foreground">点击「查看结果」把历史任务放回上方结果区</span>
-                        </div>
-                        <ToolTaskHistory
+                    <p className="text-[11px] leading-4 text-muted-foreground">
+                        上传原视频与参考图，输入编辑需求，AI 智能编辑视频
+                    </p>
+                    <div className="grid gap-3 sm:grid-cols-2">
+                        <ToolResult
+                            task={task}
                             toolId={AI_VIDEO_EDITING_TOOL_ID}
-                            emptyHint="还没有视频编辑任务：提交后这里会出现真实任务记录"
-                            onSelectTask={(historyTask) => {
-                                setTask(historyTask);
-                                setNotice("已载入历史任务结果；素材与编辑需求未改动，不会重新提交");
-                            }}
+                            title="编辑结果"
+                            now={Date.now()}
+                            onRetry={() => void handleSubmit({ retry: true })}
+                            emptyHint=""
+                            className="min-h-[320px]"
                         />
-                    </section>
+                        <WatermarkGroupPanel />
+                    </div>
                 </div>
             </div>
         </ToolShell>
@@ -2327,404 +2121,339 @@ export function VideoReplicationWorkspace({ className }: VideoReplicationWorkspa
     const sourceMode = values.sourceMode;
 
     return (
-        <ToolShell
-            className={className}
-            title="视频复刻"
-            subtitle="上传参考视频与商品图，复刻原片镜头与节奏，生成可投放的带货视频。"
-            sidebar={null}
-            actions={
-                <button
-                    type="button"
-                    className="rounded bg-primary px-3 py-1.5 text-sm font-medium text-primary-foreground disabled:opacity-50"
-                    disabled={running || blocking}
-                    onClick={() => void handleSubmit()}
-                    data-testid="video-replication-submit-top"
-                >
-                    {running ? "生成中…" : "开始生成"}
-                </button>
-            }
-        >
-            <div className="grid gap-6 lg:grid-cols-[minmax(300px,340px)_minmax(0,1fr)]" data-testid="video-replication-workspace">
-                <div className="space-y-4">
-                    <section className="rounded-lg border border-border bg-card p-4">
-                        <div className="flex items-center justify-between gap-2">
-                            <h2 className="text-sm font-medium">1. 参考视频</h2>
-                            <div className="flex items-center gap-1 rounded border border-border p-0.5">
-                                {(["upload", "link"] as const).map((mode) => (
-                                    <button
-                                        key={mode}
-                                        type="button"
-                                        className={`rounded px-2 py-1 text-[11px] ${sourceMode === mode ? "bg-primary text-primary-foreground" : "text-muted-foreground"}`}
-                                        onClick={() => update("sourceMode", mode)}
-                                    >
-                                        {mode === "upload" ? "本地上传" : "TikTok 链接"}
-                                    </button>
-                                ))}
-                            </div>
-                        </div>
-                        <p className="mt-1 text-[11px] text-muted-foreground">支持 MP4/MOV，100MB 以内；后续按片段复刻镜头结构。</p>
-
-                        {sourceMode === "upload" ? (
-                            <div className="mt-3">
-                                <ToolAssetInput
-                                    toolId={VIDEO_REPLICATION_TOOL_ID}
-                                    draftSlot="source-video"
-                                    maxCount={1}
-                                    constraints={{
-                                        kind: "video",
-                                        mimeTypes: [...VIDEO_REPLICATION_VIDEO_LIMITS.mimeTypes],
-                                        maxBytes: VIDEO_REPLICATION_VIDEO_LIMITS.maxBytes,
-                                    }}
-                                    onChange={handleVideoChange}
-                                />
-                                {videoCheck && !videoCheck.ok ? (
-                                    <p className="mt-2 text-[11px] text-red-600">{videoCheck.message}</p>
-                                ) : null}
-                                {videoRecord && videoCheck?.ok ? (
-                                    <p className="mt-2 text-[11px] text-emerald-600">已选：{videoRecord.name}</p>
-                                ) : null}
-                            </div>
-                        ) : (
-                            <div className="mt-3 space-y-2">
-                                <input
-                                    className="w-full rounded border border-border bg-background px-2 py-1.5 text-sm"
-                                    placeholder="粘贴公网视频直链（https://…/xxx.mp4）"
-                                    value={values.videoLink}
-                                    onChange={(event) => update("videoLink", event.target.value)}
-                                />
-                                {linkParse.ok ? (
-                                    <p className="rounded border border-emerald-200 bg-emerald-50 px-2 py-1.5 text-[11px] text-emerald-700">
-                                        已识别公网直链：{linkParse.url}
-                                    </p>
-                                ) : (
-                                    <p className="rounded border border-border bg-muted px-2 py-1.5 text-[11px] text-muted-foreground">
-                                        {linkParse.message}
-                                    </p>
-                                )}
-                                <p className="text-[11px] leading-4 text-muted-foreground">
-                                    上游只接受公网可访问的视频地址；TikTok/抖音分享页需要服务端解析（未接入），请填视频文件直链。
-                                </p>
-                            </div>
-                        )}
-                    </section>
-
-                    <section className="rounded-lg border border-border bg-card p-4">
-                        <div className="flex items-center justify-between gap-2">
-                            <h2 className="text-sm font-medium">2. 复刻片段</h2>
-                            <span className="text-[11px] text-muted-foreground" data-testid="video-replication-clip">
-                                {clip.start}–{clip.end}s（共 {clip.seconds}s）
-                            </span>
-                        </div>
-                        <div className="mt-3 flex items-center gap-1 rounded border border-border p-0.5">
-                            {(["auto", "manual"] as const).map((mode) => (
-                                <button
-                                    key={mode}
-                                    type="button"
-                                    className={`rounded px-2 py-1 text-[11px] ${values.clipMode === mode ? "bg-primary text-primary-foreground" : "text-muted-foreground"}`}
-                                    onClick={() => update("clipMode", mode)}
-                                >
-                                    {mode === "auto" ? "Auto（自动）" : "手动截取"}
-                                </button>
-                            ))}
-                        </div>
-                        {values.clipMode === "manual" ? (
-                            <div className="mt-3 space-y-2">
-                                <label className="flex items-center gap-2 text-[11px] text-muted-foreground">
-                                    起点
-                                    <input
-                                        type="range"
-                                        min={0}
-                                        max={Math.max(0, (values.sourceVideoDuration || 60) - 5)}
-                                        step={0.5}
-                                        value={clip.start}
-                                        className="flex-1"
-                                        onChange={(event) => handleClipRange(Number(event.target.value), clip.end)}
-                                    />
-                                    <span className="w-10 text-right">{clip.start}s</span>
-                                </label>
-                                <label className="flex items-center gap-2 text-[11px] text-muted-foreground">
-                                    终点
-                                    <input
-                                        type="range"
-                                        min={5}
-                                        max={values.sourceVideoDuration || 60}
-                                        step={0.5}
-                                        value={clip.end}
-                                        className="flex-1"
-                                        onChange={(event) => handleClipRange(clip.start, Number(event.target.value))}
-                                    />
-                                    <span className="w-10 text-right">{clip.end}s</span>
-                                </label>
-                            </div>
-                        ) : (
-                            <p className="mt-2 text-[11px] text-muted-foreground">
-                                自动模式按 {VIDEO_REPLICATION_VIDEO_LIMITS.autoSeconds}s 取片（无可用片段时）。
-                            </p>
-                        )}
-                        {!clipReady ? (
-                            <p className="mt-2 text-[11px] text-amber-600">
-                                片段需 5–30 秒，当前 {clip.seconds}s，不满足无法提交。
-                            </p>
-                        ) : null}
-                    </section>
-
-                    <section className="rounded-lg border border-border bg-card p-4">
-                        <div className="flex items-center justify-between gap-2">
-                            <h2 className="text-sm font-medium">3. 商品参考图</h2>
-                            <span className="text-[11px] text-muted-foreground">
-                                {refRecords.length}/{VIDEO_REPLICATION_REFERENCE_LIMITS.maxCount} 张
-                            </span>
-                        </div>
-                        <p className="mt-1 text-[11px] text-muted-foreground">
-                            JPG/PNG/WEBP，单张 ≤10MB，边长 384–4096，宽高比 0.4–2.5。
-                        </p>
-                        <div className="mt-3">
-                            <ToolAssetInput
-                                toolId={VIDEO_REPLICATION_TOOL_ID}
-                                draftSlot="reference-images"
-                                maxCount={VIDEO_REPLICATION_REFERENCE_LIMITS.maxCount}
-                                constraints={{
-                                    kind: "image",
-                                    mimeTypes: [...VIDEO_REPLICATION_IMAGE_MIME_TYPES],
-                                    maxBytes: VIDEO_REPLICATION_REFERENCE_LIMITS.maxBytes,
-                                    minWidth: VIDEO_REPLICATION_REFERENCE_LIMITS.minSide,
-                                    minHeight: VIDEO_REPLICATION_REFERENCE_LIMITS.minSide,
-                                    maxWidth: VIDEO_REPLICATION_REFERENCE_LIMITS.maxSide,
-                                    maxHeight: VIDEO_REPLICATION_REFERENCE_LIMITS.maxSide,
-                                }}
-                                onChange={handleReferenceChange}
+        <ToolShell className={className} title="视频复刻" sidebar={null}>
+            <div className="flex min-h-0 flex-1 flex-col gap-2 overflow-auto p-4">
+                <AiVideoFamilyNav active="视频复刻" />
+                <div className="grid min-h-0 flex-1 gap-4 lg:grid-cols-[minmax(220px,250px)_minmax(240px,280px)_minmax(0,1fr)]">
+                <div className="min-w-0 space-y-2" data-testid="video-replication-config">
+                    <section className="space-y-2">
+                        <h2 className="text-sm font-medium">TikTok 视频链接</h2>
+                        <div className="flex gap-2">
+                            <input
+                                className="h-8 min-w-0 flex-1 rounded-md border border-border bg-card px-2 text-xs outline-none focus-visible:border-primary"
+                                value={values.videoLink}
+                                onChange={(event) => setValues((previous) => ({ ...previous, videoLink: event.target.value, sourceMode: "link" }))}
+                                disabled={running}
+                                placeholder="https://www.tiktok.com/@user/video/..."
+                                data-testid="video-replication-link"
                             />
-                        </div>
-                        {referenceIssues.length > 0 ? (
-                            <ul className="mt-2 space-y-1 text-[11px] text-red-600">
-                                {referenceIssues.map((issue, index) => (
-                                    <li key={index}>{issue.ok ? "" : issue.message}</li>
-                                ))}
-                            </ul>
-                        ) : null}
-                    </section>
-
-                    <section className="rounded-lg border border-border bg-card p-4">
-                        <div className="flex items-center justify-between gap-2">
-                            <h2 className="text-sm font-medium">4. 口播脚本</h2>
                             <button
                                 type="button"
-                                className="rounded border border-border px-2 py-1 text-[11px] hover:bg-muted"
-                                onClick={handleScriptDraft}
-                                data-testid="video-replication-script-draft"
+                                className="h-8 shrink-0 rounded-md border border-border px-3 text-xs text-muted-foreground"
+                                disabled
+                                title="链接解析通道未接入：本地上传参考视频可用"
                             >
-                                生成脚本草稿
+                                解析
                             </button>
                         </div>
+                        <p className="text-[11px] leading-4 text-muted-foreground">或 手动上传参考视频</p>
+                    </section>
+
+                    <section className="space-y-2">
+                        <h2 className="text-sm font-medium">上传参考视频</h2>
+                        <ToolAssetInput
+                            toolId={VIDEO_REPLICATION_TOOL_ID}
+                            draftSlot="reference-video"
+                            maxCount={1}
+                            disabled={running}
+                            onChange={handleVideoChange}
+                            variant="linkfox"
+                            uploadLabel="本地上传"
+                            wide
+                            compact
+                            className="[&_div[role=button]]:min-h-[104px]"
+                            actions={
+                                <button
+                                    type="button"
+                                    className="h-7 w-full rounded-md border border-border bg-card text-xs text-muted-foreground"
+                                    disabled
+                                >
+                                    作品选择
+                                </button>
+                            }
+                            constraints={{
+                                kind: "video",
+                                mimeTypes: [...VIDEO_REPLICATION_VIDEO_LIMITS.mimeTypes],
+                                maxBytes: VIDEO_REPLICATION_VIDEO_LIMITS.maxBytes,
+                            }}
+                        />
+                        <p className="text-[11px] leading-4 text-muted-foreground">支持MP4/MOV格式，100M以内</p>
+                        <p className="text-[11px] leading-4 text-muted-foreground">上传后可截取5-30s参考片段</p>
+                        {videoRecord ? (
+                            <input
+                                type="range"
+                                aria-label="参考片段截取"
+                                min={0}
+                                max={Math.max(0, Math.round(values.sourceVideoDuration))}
+                                step={1}
+                                value={values.clipEnd || 0}
+                                onChange={(event) => handleClipRange(values.clipStart, Number(event.target.value))}
+                                disabled={running}
+                                className="w-full accent-primary"
+                            />
+                        ) : null}
+                    </section>
+
+                    <section className="space-y-2">
+                        <h2 className="text-sm font-medium">上传商品与参考图</h2>
+                        <h3 className="text-xs font-medium text-muted-foreground">图片规则</h3>
+                        <p className="text-[11px] leading-4 text-muted-foreground">
+                            支持上传6张图，10M以内，384*384 ~ 4096*4096，宽高比（宽÷高）0.4～2.5（含边界）
+                        </p>
+                        <ToolAssetInput
+                            toolId={VIDEO_REPLICATION_TOOL_ID}
+                            draftSlot="reference-images"
+                            maxCount={VIDEO_REPLICATION_REFERENCE_LIMITS.maxCount}
+                            disabled={running}
+                            onChange={handleReferenceChange}
+                            variant="linkfox"
+                            uploadLabel="本地上传"
+                            wide
+                            compact
+                            className="[&_div[role=button]]:min-h-[104px]"
+                            actions={
+                                <>
+                                    <button
+                                        type="button"
+                                        className="h-7 w-full rounded-md border border-border bg-card text-xs text-muted-foreground"
+                                        disabled
+                                    >
+                                        作品选择
+                                    </button>
+                                    <button
+                                        type="button"
+                                        className="h-7 w-full rounded-md border border-border bg-card text-xs text-muted-foreground"
+                                        disabled
+                                    >
+                                        商品库选择
+                                    </button>
+                                </>
+                            }
+                            constraints={{
+                                kind: "image",
+                                mimeTypes: [...VIDEO_REPLICATION_IMAGE_MIME_TYPES],
+                                maxBytes: VIDEO_REPLICATION_REFERENCE_LIMITS.maxBytes,
+                                minWidth: VIDEO_REPLICATION_REFERENCE_LIMITS.minSide,
+                                minHeight: VIDEO_REPLICATION_REFERENCE_LIMITS.minSide,
+                                maxWidth: VIDEO_REPLICATION_REFERENCE_LIMITS.maxSide,
+                                maxHeight: VIDEO_REPLICATION_REFERENCE_LIMITS.maxSide,
+                            }}
+                        />
+                    </section>
+
+                    <section className="space-y-2">
+                        <div className="flex items-baseline justify-between">
+                            <h2 className="text-sm font-medium">
+                                <span>AI脚本分析</span> <span className="text-[11px] font-normal text-muted-foreground">（选填）</span>
+                            </h2>
+                        </div>
+                        <select
+                            aria-label="AI脚本分析"
+                            className="h-8 w-full rounded-md border border-border bg-card px-2 text-xs"
+                            value={values.analyzeMode}
+                            onChange={(event) => setValues((previous) => ({ ...previous, analyzeMode: event.target.value as typeof previous.analyzeMode }))}
+                            disabled={running}
+                        >
+                            <option value="auto">默认自动分析</option>
+                        </select>
                         <textarea
-                            className="mt-2 h-32 w-full resize-y rounded border border-border bg-transparent p-2 text-xs leading-5 outline-none focus:border-primary"
-                            placeholder="描述视频要卖什么、卖点、镜头节奏…（会连同国家/语言/时长一起写进提示词）"
+                            className="min-h-[88px] w-full resize-y rounded-lg border border-border bg-card p-3 text-xs leading-5 outline-none focus-visible:border-primary"
+                            placeholder="口播脚本（分析结果会自动写入）"
                             maxLength={VIDEO_REPLICATION_PROMPT_LIMIT}
                             value={values.prompt}
-                            onChange={(event) => update("prompt", event.target.value)}
-                            data-testid="video-replication-script"
+                            onChange={(event) => setValues((previous) => ({ ...previous, prompt: event.target.value }))}
+                            disabled={running}
+                            data-testid="video-replication-prompt"
                         />
-                        <div className="mt-1 flex items-center justify-between text-[11px]">
-                            <span className={counter.over ? "text-red-600" : "text-muted-foreground"}>
-                                {counter.length}/{counter.limit} 字
-                            </span>
-                            {values.promptOptimizer ? (
-                                <span className="text-muted-foreground">已开启提示词优化</span>
-                            ) : null}
-                        </div>
-                        <label className="mt-2 flex items-center gap-2 text-[11px] text-muted-foreground">
-                            <input
-                                type="checkbox"
-                                checked={values.promptOptimizer}
-                                onChange={(event) => update("promptOptimizer", event.target.checked)}
-                            />
-                            提交前由模型优化提示词
-                        </label>
                     </section>
                 </div>
 
-                <div className="space-y-4">
-                    <section className="rounded-lg border border-border bg-card p-4">
-                        <h2 className="text-sm font-medium">5. 生成参数</h2>
+                <div className="min-w-0 space-y-2" data-testid="video-replication-params">
+                    <section className="space-y-1.5">
+                        <h2 className="text-sm font-medium">视频模型</h2>
+                        <ModelTierList
+                            tiers={REPLICATION_MODEL_TIERS}
+                            config={config}
+                            value={model}
+                            onChange={setModel}
+                            disabled={running}
+                        />
+                    </section>
 
-                        <div className="mt-3 space-y-1">
-                            <p className="text-[11px] text-muted-foreground">视频模型</p>
-                            <input
-                                className="w-full rounded border border-border bg-transparent px-2 py-1.5 text-xs outline-none focus:border-primary"
-                                placeholder="视频模型（默认 单卡 Seedance 2.0 fast）"
-                                value={model}
-                                onChange={(event) => setModel(event.target.value)}
-                            />
-                        </div>
-
-                        <div className="mt-3 space-y-1">
-                            <p className="text-[11px] text-muted-foreground">出片比例</p>
-                            <div className="flex flex-wrap gap-1">
-                                {VIDEO_REPLICATION_RATIOS.map((ratio) => (
-                                    <button
-                                        key={ratio}
-                                        type="button"
-                                        className={`rounded border px-2 py-1 text-[11px] ${values.ratio === ratio ? "border-primary bg-primary/10 text-primary" : "border-border text-muted-foreground"}`}
-                                        onClick={() => update("ratio", ratio)}
-                                    >
-                                        {ratio}
-                                    </button>
-                                ))}
-                            </div>
-                        </div>
-
-                        <div className="mt-3 space-y-1">
-                            <p className="text-[11px] text-muted-foreground">分辨率</p>
-                            <div className="flex gap-1">
-                                {VIDEO_REPLICATION_RESOLUTIONS.map((item) => (
-                                    <button
-                                        key={item.id}
-                                        type="button"
-                                        className={`rounded border px-2 py-1 text-[11px] ${values.resolution === item.id ? "border-primary bg-primary/10 text-primary" : "border-border text-muted-foreground"}`}
-                                        onClick={() => update("resolution", item.id)}
-                                    >
-                                        {item.label}
-                                    </button>
-                                ))}
-                            </div>
+                    <section className="space-y-1.5">
+                        <h2 className="text-sm font-medium">视频分辨率</h2>
+                        <div className="flex gap-2" role="radiogroup" aria-label="视频分辨率">
+                            {VIDEO_REPLICATION_RESOLUTIONS.map((item) => (
+                                <button
+                                    key={item.id}
+                                    type="button"
+                                    role="radio"
+                                    aria-checked={values.resolution === item.id}
+                                    className={cn(
+                                        "rounded-md border px-3 py-1.5 text-xs",
+                                        values.resolution === item.id ? "border-primary bg-primary/10" : "border-border",
+                                    )}
+                                    onClick={() => setValues((previous) => ({ ...previous, resolution: item.id }))}
+                                    disabled={running}
+                                >
+                                    {item.label}
+                                </button>
+                            ))}
                         </div>
                     </section>
 
-                    <section className="rounded-lg border border-border bg-card p-4">
-                        <h2 className="text-sm font-medium">6. 时长与市场</h2>
-
-                        <div className="mt-3 space-y-1">
+                    <section className="space-y-1.5">
+                        <h2 className="text-sm font-medium">生成设置</h2>
+                        <div className="space-y-1">
                             <p className="text-[11px] text-muted-foreground">视频时长</p>
+                            <p className="text-[11px] text-muted-foreground">拖动选择时长</p>
+                            <p className="text-xs" data-testid="video-replication-duration-label">
+                                {values.videoTime === "auto"
+                                    ? VIDEO_REPLICATION_DURATIONS[0].label
+                                    : `${values.videoTime}秒`}
+                            </p>
                             <div className="flex gap-1">
                                 {VIDEO_REPLICATION_DURATIONS.map((item) => (
                                     <button
                                         key={item.id}
                                         type="button"
-                                        className={`rounded border px-2 py-1 text-[11px] ${values.videoTime === item.id ? "border-primary bg-primary/10 text-primary" : "border-border text-muted-foreground"}`}
-                                        onClick={() => update("videoTime", item.id)}
+                                        className={cn(
+                                            "flex-1 rounded border px-1 py-1 text-[11px]",
+                                            values.videoTime === item.id ? "border-primary bg-primary/10" : "border-border",
+                                        )}
+                                        onClick={() => setValues((previous) => ({ ...previous, videoTime: item.id }))}
+                                        disabled={running}
                                     >
-                                        {item.label}
+                                        {item.id === "auto" ? "Auto" : item.label}
                                     </button>
                                 ))}
                             </div>
                         </div>
-
-                        <div className="mt-3 space-y-1">
-                            <p className="text-[11px] text-muted-foreground">目标国家</p>
-                            <select
-                                className="w-full rounded border border-border bg-transparent px-2 py-1.5 text-xs outline-none focus:border-primary"
-                                value={values.saleCountry}
-                                onChange={(event) => handleCountry(event.target.value)}
-                                data-testid="video-replication-country"
-                            >
-                                {VIDEO_REPLICATION_COUNTRIES.map((item) => (
-                                    <option key={item.id} value={item.id}>
-                                        {item.label}
-                                    </option>
-                                ))}
-                            </select>
-                        </div>
-
-                        <div className="mt-3 space-y-1">
-                            <p className="text-[11px] text-muted-foreground">口播语言</p>
-                            <select
-                                className="w-full rounded border border-border bg-transparent px-2 py-1.5 text-xs outline-none focus:border-primary"
-                                value={values.targetLanguage}
-                                onChange={(event) => update("targetLanguage", event.target.value)}
-                            >
-                                {VIDEO_REPLICATION_LANGUAGES.map((item) => (
-                                    <option key={item.id} value={item.id}>
-                                        {item.label}
-                                    </option>
-                                ))}
-                            </select>
-                        </div>
-
-                        <div className="mt-3 space-y-1">
-                            <p className="text-[11px] text-muted-foreground">视频类型</p>
-                            <div className="flex flex-wrap gap-1">
-                                {VIDEO_REPLICATION_VIDEO_TYPES.map((item) => (
-                                    <button
-                                        key={item.id}
-                                        type="button"
-                                        className={`rounded border px-2 py-1 text-[11px] ${values.videoType === item.id ? "border-primary bg-primary/10 text-primary" : "border-border text-muted-foreground"}`}
-                                        onClick={() => update("videoType", item.id)}
-                                    >
-                                        {item.label}
-                                    </button>
-                                ))}
-                            </div>
+                        <p className="text-[11px] text-muted-foreground">视频比例</p>
+                        <div className="flex flex-wrap gap-1.5" role="radiogroup" aria-label="视频比例">
+                            {VIDEO_REPLICATION_RATIOS.map((ratio) => (
+                                <button
+                                    key={ratio}
+                                    type="button"
+                                    role="radio"
+                                    aria-checked={values.ratio === ratio}
+                                    className={cn(
+                                        "rounded-md border px-2 py-1 text-xs",
+                                        values.ratio === ratio ? "border-primary bg-primary/10" : "border-border",
+                                    )}
+                                    onClick={() => setValues((previous) => ({ ...previous, ratio }))}
+                                    disabled={running}
+                                >
+                                    {ratio}
+                                </button>
+                            ))}
                         </div>
                     </section>
 
-                    <section className="rounded-lg border border-border bg-card p-4">
-                        <button
-                            type="button"
-                            className="w-full rounded bg-primary px-3 py-2 text-sm font-medium text-primary-foreground disabled:opacity-50"
-                            disabled={running || !canSubmit}
-                            onClick={() => void handleSubmit()}
-                            data-testid="video-replication-submit"
-                        >
-                            {running ? "生成中…" : `生成视频（${outputLabel}）`}
-                        </button>
-                        {hints.length > 0 ? (
-                            <ul className="mt-2 space-y-1 text-[11px] text-amber-700">
-                                {hints.map((hint, index) => (
-                                    <li key={index}>· {hint}</li>
-                                ))}
-                            </ul>
+                    <section className="space-y-1.5">
+                        <h2 className="text-sm font-medium">销售国家/地区</h2>
+                        <div className="flex flex-wrap gap-1.5" role="radiogroup" aria-label="销售国家/地区">
+                            {VIDEO_REPLICATION_COUNTRIES.map((country) => (
+                                <button
+                                    key={country.id}
+                                    type="button"
+                                    role="radio"
+                                    aria-checked={values.saleCountry === country.id}
+                                    className={cn(
+                                        "rounded-md border px-2 py-1 text-xs",
+                                        values.saleCountry === country.id ? "border-primary bg-primary/10" : "border-border",
+                                    )}
+                                    onClick={() => handleCountry(country.id)}
+                                    disabled={running}
+                                >
+                                    {country.label}
+                                </button>
+                            ))}
+                        </div>
+                        <p className="text-[11px] text-muted-foreground">目标语言</p>
+                        <div className="flex flex-wrap gap-1.5" role="radiogroup" aria-label="目标语言">
+                            {VIDEO_REPLICATION_LANGUAGES.map((language) => (
+                                <button
+                                    key={language.id}
+                                    type="button"
+                                    role="radio"
+                                    aria-checked={values.targetLanguage === language.id}
+                                    className={cn(
+                                        "rounded-md border px-2 py-1 text-xs",
+                                        values.targetLanguage === language.id ? "border-primary bg-primary/10" : "border-border",
+                                    )}
+                                    onClick={() => setValues((previous) => ({ ...previous, targetLanguage: language.id }))}
+                                    disabled={running}
+                                >
+                                    {language.label}
+                                </button>
+                            ))}
+                        </div>
+                    </section>
+
+                    <div className="space-y-2">
+                        <div className="flex items-start gap-2">
+                            <button
+                                type="button"
+                                className="flex-1 rounded-md bg-primary px-3 py-2 text-sm font-medium text-primary-foreground"
+                                onClick={() => void handleSubmit()}
+                                disabled={!canSubmit}
+                                data-testid="video-replication-submit"
+                            >
+                                {running ? "生成中…" : "立即生成"}
+                            </button>
+                            <span className="shrink-0 text-[11px] text-muted-foreground" data-testid="video-replication-credit">645 算力</span>
+                            <span className="shrink-0 text-[11px] text-muted-foreground" data-testid="video-replication-promo">季度特惠</span>
+                        </div>
+                        {issues.length ? (
+                            <p className="text-[11px] text-muted-foreground" data-testid="video-replication-blocked">
+                                {issues[0].message ?? String(issues[0])}
+                            </p>
                         ) : null}
                         {error ? (
-                            <p className="mt-2 rounded border border-red-200 bg-red-50 px-2 py-1.5 text-[11px] text-red-700">
+                            <p className="text-[11px] text-destructive" role="alert" data-testid="video-replication-error">
                                 {error}
                             </p>
                         ) : null}
-                        {notice ? (
-                            <p className="mt-2 rounded border border-border bg-muted/50 px-2 py-1.5 text-[11px] text-muted-foreground">
-                                {notice}
-                            </p>
-                        ) : null}
-                        <p className="mt-2 text-[11px] leading-4 text-muted-foreground">
-                            消耗：按生成时长计费；同参数重复提交会复用未完成任务。
+                        {notice ? <p className="text-[11px] text-muted-foreground">{notice}</p> : null}
+                    </div>
+                </div>
+
+                <div className="min-w-0 space-y-3" data-testid="video-replication-results">
+                    <h2 className="text-sm font-medium">生成结果</h2>
+                    <p className="text-[11px] leading-4 text-muted-foreground">
+                        上传商品图，自动分析商品信息并输出提示词，一键生成带货口播视频
+                    </p>
+                    <div className="rounded-lg border border-border p-3">
+                        <h3 className="mb-1 text-xs font-medium">参考视频</h3>
+                        <p className="text-[11px] text-muted-foreground">
+                            {videoRecord ? videoRecord.name : "尚未选择参考视频"}
                         </p>
+                    </div>
+                    <div className="grid gap-3 sm:grid-cols-2">
+                        <ToolResult
+                            task={task}
+                            toolId={VIDEO_REPLICATION_TOOL_ID}
+                            title="生成结果"
+                            emptyHint=""
+                            now={Date.now()}
+                            onRetry={() => void handleRetry()}
+                            className="min-h-[320px]"
+                        />
+                        <WatermarkGroupPanel />
+                    </div>
+                    <section className="rounded-lg border border-border bg-card/40 p-3">
+                        <p className="text-xs font-medium">「批量生成」功能重磅上线！</p>
+                        <p className="mt-1 text-[11px] leading-4 text-muted-foreground">
+                            批量上传商品图，一次最多生成100条视频，同时给每个商品出视频，不用一张张传、一条条等。非高峰算力5折！
+                        </p>
+                        <button type="button" className="mt-2 rounded border border-border px-2 py-1 text-[11px]">
+                            立即体验
+                        </button>
                     </section>
                 </div>
+                </div>
             </div>
-
-            {result.status !== "idle" || task ? (
-                <div className="mt-4" data-testid="video-replication-result">
-                    <ToolResult
-                        task={task}
-                        toolId={VIDEO_REPLICATION_TOOL_ID}
-                        title="生成结果"
-                        onCancel={handleCancel}
-                        onRetry={handleRetry}
-                    />
-                </div>
-            ) : null}
-
-            {VIDEO_REPLICATION_CASES.length > 0 ? (
-<section className="space-y-2 rounded-lg border border-border p-3" data-testid="video-replication-cases">
-                <h2 className="text-sm font-medium">优秀案例</h2>
-                {/* VIDEO_REPLICATION（type=89）：原站「优秀案例」数据源为上游 `/image/make-case/list?type=<bizType>`；本地已抓取到真实案例时渲染，未抓取到则整块不渲染，不输出任何空态文案。 */}
-
-                <ToolCases cases={VIDEO_REPLICATION_CASES} onApply={() => undefined} />
-            </section>
-            ) : null}
-            <section className="mt-4 space-y-2 rounded-lg border border-border p-3" data-testid="video-replication-history">
-                <div className="flex items-center justify-between">
-                    <h2 className="text-sm font-medium">历史任务</h2>
-                    <span className="text-[11px] text-muted-foreground">点击「查看结果」把历史任务放回上方结果区</span>
-                </div>
-                <ToolTaskHistory
-                    toolId={VIDEO_REPLICATION_TOOL_ID}
-                    emptyHint="还没有视频复刻任务：提交后这里会出现真实任务记录"
-                    onSelectTask={(historyTask) => {
-                        setTask(historyTask);
-                        setNotice("已载入历史任务结果；脚本与配置未改动，不会重新提交");
-                    }}
-                />
-            </section>
         </ToolShell>
     );
 }

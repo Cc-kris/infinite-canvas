@@ -1,0 +1,633 @@
+{
+ "id": "AI_POSE_GENERATOR",
+ "route": "/tools/product-design/ai-pose-generator",
+ "ok": true,
+ "error": null,
+ "title": "无限画布",
+ "text": "无限画布\n首页\n电商套图\n智能修图\n新模型\nAI视频\nHOT\n批量生图\n商品图设计\n中\nv0.27.0\n商品图\n商品替换\n场景裂变\n手持商品\nAI穿衣\n姿势裂变\nAI穿戴\nPOD素材\n饰品文字\n素材贴合\n印花提取\nAI姿势生成\n补充\nAI试衣XSY\n补充\n场景裂变链接\n补充\n图片文字编辑\n补充\n上装换料\n补充\n商品图设计器\n补充\n商品营销素材\n补充\n场景迁移\n补充\n免责声明\nAI姿势生成\n写姿势提示词 → 逐条加场景 → 预览实际 prompt → 按场景生成姿势参考图\n姿势提示词\n4000 字可用；姿势库是结构化约束，与自定义描述一起送 provider。\n0\n/\n4000\n站姿\n坐姿\n动态\n手部与镜头\n正面站姿\n标准商品图站姿，肩线正对镜头\n3/4 侧身\n显瘦角度，适合连衣裙/外套\n背面回眸\n展示背部剪裁与版型\n倚墙\n城市/街头氛围\n保存当前姿势 + 场景组合（最多 12 条，可撤销）\n保存预设\n场景提示词\n每条场景各自成为一个真实生成请求；最多 6 条，场景只描述环境/光线/道具，不能改写姿势。\n加场景\n还没有场景；不填场景也能生成（按「默认场景」影棚背景出图）。加上场景可一次对比多个环境。\n场景\n1\n/\n6\n· 每场景\n1\n张 · 共\n1\n张请求\n参考预览\n这里展示的是真正发给 provider 的 prompt，不是界面文案。\n默认场景\nCreate a full-body pose reference photo of a single fashion model. Pose: natural, relaxed standing pose, full body visible. Framing: head to toe, 50mm lens, eye level, single subject, no crop. Scene d\n姿势约束：\n自定义描述\n·\n共\n12\n个姿势卡片\n生成结果\n按场景分组；单组失败只重试该组，已成功的场景不会重复生成。\n填好姿势提示词后点「生成姿势参考」，结果会按场景分组出现在这里。\n每场景张数\n1–4 张；总产出 = 场景数 × 张数（上限 24）。\n1\n张\n2\n张\n3\n张\n4\n张\n场景数\n1\n总产出\n1\n张\n请求数\n1\n个（每场景 1 个请求）\n生成姿势参考\n1\n个场景 ×\n1\n张 =\n1\n张\n请先填写姿势描述（无姿势描述不能生成）\n本次输入快照\n草稿键\ntool-draft:v1:AI_POSE_GENERATOR\n快照指纹\nag_4f584c33\n字段\nprompt / scenePrompts\n姿势约束\n自定义描述\n历史任务\n0\n条\n本工具还没有历史任务；提交一次后会在这里留下任务、配置与结果，刷新后仍在。\n连接本地 Agent\n未连接\n点连接会自动启动本地服务、装好插件并接通，无需手动配置。\nClaude Code\n未连接\n·\nCLI · 2.1.285 (Claude Code)\n·\n直接运行\n连接\nCodex\n未连接\n·\nCLI · codex-cli 0.163.0\n·\n插件已装\n连接\nGalley\n未连接\n·\nCLI + 桌面版 · galley 0.6.4\n连接",
+ "lines": [
+  "无限画布",
+  "首页",
+  "电商套图",
+  "智能修图",
+  "新模型",
+  "AI视频",
+  "HOT",
+  "批量生图",
+  "商品图设计",
+  "中",
+  "v0.27.0",
+  "商品图",
+  "商品替换",
+  "场景裂变",
+  "手持商品",
+  "AI穿衣",
+  "姿势裂变",
+  "AI穿戴",
+  "POD素材",
+  "饰品文字",
+  "素材贴合",
+  "印花提取",
+  "AI姿势生成",
+  "补充",
+  "AI试衣XSY",
+  "补充",
+  "场景裂变链接",
+  "补充",
+  "图片文字编辑",
+  "补充",
+  "上装换料",
+  "补充",
+  "商品图设计器",
+  "补充",
+  "商品营销素材",
+  "补充",
+  "场景迁移",
+  "补充",
+  "免责声明",
+  "AI姿势生成",
+  "写姿势提示词 → 逐条加场景 → 预览实际 prompt → 按场景生成姿势参考图",
+  "姿势提示词",
+  "4000 字可用；姿势库是结构化约束，与自定义描述一起送 provider。",
+  "0",
+  "/",
+  "4000",
+  "站姿",
+  "坐姿",
+  "动态",
+  "手部与镜头",
+  "正面站姿",
+  "标准商品图站姿，肩线正对镜头",
+  "3/4 侧身",
+  "显瘦角度，适合连衣裙/外套",
+  "背面回眸",
+  "展示背部剪裁与版型",
+  "倚墙",
+  "城市/街头氛围",
+  "保存当前姿势 + 场景组合（最多 12 条，可撤销）",
+  "保存预设",
+  "场景提示词",
+  "每条场景各自成为一个真实生成请求；最多 6 条，场景只描述环境/光线/道具，不能改写姿势。",
+  "加场景",
+  "还没有场景；不填场景也能生成（按「默认场景」影棚背景出图）。加上场景可一次对比多个环境。",
+  "场景",
+  "1",
+  "/",
+  "6",
+  "· 每场景",
+  "1",
+  "张 · 共",
+  "1",
+  "张请求",
+  "参考预览",
+  "这里展示的是真正发给 provider 的 prompt，不是界面文案。",
+  "默认场景",
+  "Create a full-body pose reference photo of a single fashion model. Pose: natural, relaxed standing pose, full body visible. Framing: head to toe, 50mm lens, eye level, single subject, no crop. Scene d",
+  "姿势约束：",
+  "自定义描述",
+  "·",
+  "共",
+  "12",
+  "个姿势卡片",
+  "生成结果",
+  "按场景分组；单组失败只重试该组，已成功的场景不会重复生成。",
+  "填好姿势提示词后点「生成姿势参考」，结果会按场景分组出现在这里。",
+  "每场景张数",
+  "1–4 张；总产出 = 场景数 × 张数（上限 24）。",
+  "1",
+  "张",
+  "2",
+  "张",
+  "3",
+  "张",
+  "4",
+  "张",
+  "场景数",
+  "1",
+  "总产出",
+  "1",
+  "张",
+  "请求数",
+  "1",
+  "个（每场景 1 个请求）",
+  "生成姿势参考",
+  "1",
+  "个场景 ×",
+  "1",
+  "张 =",
+  "1",
+  "张",
+  "请先填写姿势描述（无姿势描述不能生成）",
+  "本次输入快照",
+  "草稿键",
+  "tool-draft:v1:AI_POSE_GENERATOR",
+  "快照指纹",
+  "ag_4f584c33",
+  "字段",
+  "prompt / scenePrompts",
+  "姿势约束",
+  "自定义描述",
+  "历史任务",
+  "0",
+  "条",
+  "本工具还没有历史任务；提交一次后会在这里留下任务、配置与结果，刷新后仍在。",
+  "连接本地 Agent",
+  "未连接",
+  "点连接会自动启动本地服务、装好插件并接通，无需手动配置。",
+  "Claude Code",
+  "未连接",
+  "·",
+  "CLI · 2.1.285 (Claude Code)",
+  "·",
+  "直接运行",
+  "连接",
+  "Codex",
+  "未连接",
+  "·",
+  "CLI · codex-cli 0.163.0",
+  "·",
+  "插件已装",
+  "连接",
+  "Galley",
+  "未连接",
+  "·",
+  "CLI + 桌面版 · galley 0.6.4",
+  "连接"
+ ],
+ "controls": [
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "中",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1593,
+    "y": 14,
+    "w": 28,
+    "h": 28
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "切换到深色主题",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1625,
+    "y": 14,
+    "w": 28,
+    "h": 28
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "v0.27.0",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1657,
+    "y": 17,
+    "w": 47,
+    "h": 22
+   }
+  },
+  {
+   "tag": "textarea",
+   "type": "",
+   "text": "例：女性模特侧身站立，一手扶腰，重心落在后腿，头部转向镜头，全身入镜",
+   "placeholder": "例：女性模特侧身站立，一手扶腰，重心落在后腿，头部转向镜头，全身入镜",
+   "disabled": false,
+   "rect": {
+    "x": 236,
+    "y": 230,
+    "w": 1264,
+    "h": 106
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "站姿",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 236,
+    "y": 371,
+    "w": 54,
+    "h": 36
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "坐姿",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 296,
+    "y": 371,
+    "w": 54,
+    "h": 36
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "动态",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 356,
+    "y": 371,
+    "w": 54,
+    "h": 36
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "手部与镜头",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 416,
+    "y": 371,
+    "w": 96,
+    "h": 36
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "正面站姿\n标准商品图站姿，肩线正对镜头",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 236,
+    "y": 415,
+    "w": 628,
+    "h": 58
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "3/4 侧身\n显瘦角度，适合连衣裙/外套",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 872,
+    "y": 415,
+    "w": 628,
+    "h": 58
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "背面回眸\n展示背部剪裁与版型",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 236,
+    "y": 481,
+    "w": 628,
+    "h": 58
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "倚墙\n城市/街头氛围",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 872,
+    "y": 481,
+    "w": 628,
+    "h": 58
+   }
+  },
+  {
+   "tag": "input",
+   "type": "",
+   "text": "预设名称，如：通勤正面",
+   "placeholder": "预设名称，如：通勤正面",
+   "disabled": false,
+   "rect": {
+    "x": 249,
+    "y": 593,
+    "w": 1136,
+    "h": 36
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "保存预设",
+   "placeholder": "",
+   "disabled": true,
+   "rect": {
+    "x": 1391,
+    "y": 593,
+    "w": 96,
+    "h": 36
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "加场景",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1418,
+    "y": 692,
+    "w": 82,
+    "h": 36
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "默认场景",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 236,
+    "y": 990,
+    "w": 82,
+    "h": 36
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "1 张",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1550,
+    "y": 230,
+    "w": 50,
+    "h": 36
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "2 张",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1606,
+    "y": 230,
+    "w": 52,
+    "h": 36
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "3 张",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1664,
+    "y": 230,
+    "w": 52,
+    "h": 36
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "4 张",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1723,
+    "y": 230,
+    "w": 53,
+    "h": 36
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "生成姿势参考",
+   "placeholder": "",
+   "disabled": true,
+   "rect": {
+    "x": 1550,
+    "y": 403,
+    "w": 326,
+    "h": 40
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "连接",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 2265,
+    "y": 147,
+    "w": 66,
+    "h": 24
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "连接",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 2265,
+    "y": 215,
+    "w": 66,
+    "h": 24
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "连接",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 2265,
+    "y": 283,
+    "w": 66,
+    "h": 24
+   }
+  }
+ ],
+ "regions": [
+  {
+   "cls": "sticky top-0 z-[7] h-14 shrink-0 border-b border-hairline bg-surface/95 backdrop",
+   "rect": {
+    "x": 0,
+    "y": 0,
+    "w": 1920,
+    "h": 56
+   },
+   "text": "无限画布\n首页\n电商套图\n智能修图\n新模型\nAI视频\nHOT\n批量生图\n商品图设计\n中\n切换到深色主题\nv0.27.0"
+  },
+  {
+   "cls": "hidden w-[180px] shrink-0 overflow-y-auto rounded-xl border border-hairline bg-s",
+   "rect": {
+    "x": 16,
+    "y": 56,
+    "w": 180,
+    "h": 1008
+   },
+   "text": "商品图设计\n商品图\n商品替换\n场景裂变\n手持商品\nAI穿衣\n姿势裂变\nAI穿戴\nPOD素材\n饰品文字\n素材贴合\n印花提取\nAI姿势生成\n补充\nAI试衣XSY\n补充\n场景裂变链接\n补充\n图片文字编辑\n补充\n上装换料\n补充\n商品图设计器\n补充\n商品营销素材\n补充\n场景迁移\n补充\n免责声明"
+  },
+  {
+   "cls": "min-h-0 flex-1 overflow-hidden bg-canvas p-2.5",
+   "rect": {
+    "x": 209,
+    "y": 57,
+    "w": 1694,
+    "h": 1006
+   },
+   "text": "AI姿势生成\n\n写姿势提示词 → 逐条加场景 → 预览实际 prompt → 按场景生成姿势参考图\n\n姿势提示词\n\n4000 字可用；姿势库是结构化约束，与自定义描述一起送 provider。\n\n0/4000\n\n站姿\n坐姿\n动态\n手部与镜头\n正面站姿\n标准商品图站姿，肩线正对镜头\n3/4 侧身\n显瘦角度，适合连衣裙/外套\n背面回眸\n展示背部剪裁与版型\n倚墙\n城市/街头氛围\n\n保存当前姿势 + 场景组合（最多 12 条，可撤销）\n\n保存预设\n场景提示词\n\n每条场景各自成为一个真实生成请求；最多 6 条，场景只描述环境/光线/道具，不能改写姿势。\n\n加场景\n\n还没有场景；不填场景也能生成（按「默认"
+  },
+  {
+   "cls": "rounded-xl border border-border bg-card p-4",
+   "rect": {
+    "x": 219,
+    "y": 142,
+    "w": 1298,
+    "h": 517
+   },
+   "text": "姿势提示词\n\n4000 字可用；姿势库是结构化约束，与自定义描述一起送 provider。\n\n0/4000\n\n站姿\n坐姿\n动态\n手部与镜头\n正面站姿\n标准商品图站姿，肩线正对镜头\n3/4 侧身\n显瘦角度，适合连衣裙/外套\n背面回眸\n展示背部剪裁与版型\n倚墙\n城市/街头氛围\n\n保存当前姿势 + 场景组合（最多 12 条，可撤销）\n\n保存预设"
+  },
+  {
+   "cls": "flex items-start justify-between gap-2",
+   "rect": {
+    "x": 236,
+    "y": 159,
+    "w": 1264,
+    "h": 59
+   },
+   "text": "姿势提示词\n\n4000 字可用；姿势库是结构化约束，与自定义描述一起送 provider。"
+  },
+  {
+   "cls": "rounded-xl border border-border bg-card p-4",
+   "rect": {
+    "x": 219,
+    "y": 675,
+    "w": 1298,
+    "h": 211
+   },
+   "text": "场景提示词\n\n每条场景各自成为一个真实生成请求；最多 6 条，场景只描述环境/光线/道具，不能改写姿势。\n\n加场景\n\n还没有场景；不填场景也能生成（按「默认场景」影棚背景出图）。加上场景可一次对比多个环境。\n\n场景 1/6 · 每场景 1 张 · 共 1 张请求"
+  },
+  {
+   "cls": "flex items-start justify-between gap-2",
+   "rect": {
+    "x": 236,
+    "y": 692,
+    "w": 1264,
+    "h": 59
+   },
+   "text": "场景提示词\n\n每条场景各自成为一个真实生成请求；最多 6 条，场景只描述环境/光线/道具，不能改写姿势。\n\n加场景"
+  },
+  {
+   "cls": "rounded-xl border border-border bg-card p-4",
+   "rect": {
+    "x": 219,
+    "y": 902,
+    "w": 1298,
+    "h": 270
+   },
+   "text": "参考预览\n\n这里展示的是真正发给 provider 的 prompt，不是界面文案。\n\n默认场景\nCreate a full-body pose reference photo of a single fashion model. Pose: natural, relaxed standing pose, full body visible. Framing: head to toe, 50mm lens, eye level, single subject, no crop. Scene directives: plain studio backdrop, soft even lightin"
+  },
+  {
+   "cls": "flex items-start justify-between gap-2",
+   "rect": {
+    "x": 236,
+    "y": 919,
+    "w": 1264,
+    "h": 59
+   },
+   "text": "参考预览\n\n这里展示的是真正发给 provider 的 prompt，不是界面文案。"
+  },
+  {
+   "cls": "rounded-xl border border-border bg-card p-4",
+   "rect": {
+    "x": 219,
+    "y": 1188,
+    "w": 1298,
+    "h": 183
+   },
+   "text": "生成结果\n\n按场景分组；单组失败只重试该组，已成功的场景不会重复生成。\n\n填好姿势提示词后点「生成姿势参考」，结果会按场景分组出现在这里。"
+  },
+  {
+   "cls": "flex items-start justify-between gap-2",
+   "rect": {
+    "x": 236,
+    "y": 1205,
+    "w": 1264,
+    "h": 59
+   },
+   "text": "生成结果\n\n按场景分组；单组失败只重试该组，已成功的场景不会重复生成。"
+  },
+  {
+   "cls": "space-y-4",
+   "rect": {
+    "x": 1533,
+    "y": 142,
+    "w": 360,
+    "h": 1229
+   },
+   "text": "每场景张数\n\n1–4 张；总产出 = 场景数 × 张数（上限 24）。\n\n1 张\n2 张\n3 张\n4 张\n场景数\n1\n总产出\n1 张\n请求数\n1 个（每场景 1 个请求）\n生成姿势参考\n\n1 个场景 × 1 张 = 1 张\n\n请先填写姿势描述（无姿势描述不能生成）\n本次输入快照"
+  },
+  {
+   "cls": "rounded-xl border border-border bg-card p-4",
+   "rect": {
+    "x": 1533,
+    "y": 142,
+    "w": 360,
+    "h": 228
+   },
+   "text": "每场景张数\n\n1–4 张；总产出 = 场景数 × 张数（上限 24）。\n\n1 张\n2 张\n3 张\n4 张\n场景数\n1\n总产出\n1 张\n请求数\n1 个（每场景 1 个请求）"
+  },
+  {
+   "cls": "flex items-start justify-between gap-2",
+   "rect": {
+    "x": 1550,
+    "y": 159,
+    "w": 326,
+    "h": 59
+   },
+   "text": "每场景张数\n\n1–4 张；总产出 = 场景数 × 张数（上限 24）。"
+  },
+  {
+   "cls": "rounded-lg border border-border bg-card/40 p-3 mt-4",
+   "rect": {
+    "x": 219,
+    "y": 1411,
+    "w": 1674,
+    "h": 80
+   },
+   "text": "历史任务\n0 条\n\n本工具还没有历史任务；提交一次后会在这里留下任务、配置与结果，刷新后仍在。"
+  },
+  {
+   "cls": "relative flex h-full shrink-0 flex-col border-l",
+   "rect": {
+    "x": 1920,
+    "y": 0,
+    "w": 440,
+    "h": 1080
+   },
+   "text": "连接本地 Agent\n未连接\n点连接会自动启动本地服务、装好插件并接通，无需手动配置。\nClaude Code\n未连接\n·\nCLI · 2.1.285 (Claude Code)\n·\n直接运行\n连接\nCodex\n未连接\n·\nCLI · codex-cli 0.163.0\n·\n插件已装\n连接\nGalley\n未连接\n·\nCLI + 桌面版 · galley 0.6.4\n连接"
+  }
+ ]
+}

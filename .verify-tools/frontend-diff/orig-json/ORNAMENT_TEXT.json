@@ -1,0 +1,14 @@
+{
+ "tool": "ORNAMENT_TEXT",
+ "label": "饰品文字",
+ "status": "permission_redirect_home",
+ "url": "https://www.linkfox.com/draw/ornament-text",
+ "capturedAt": "2026-10-29",
+ "method": "同源 iframe 注入已登录 Chrome 页面 (CDP Runtime.evaluate), viewport 1600x1000, 等待 9s 后取 body.innerText + 可见 button/input/textarea 的 rect/字号/颜色/圆角",
+ "routeSource": "workbench-BcUrzOPA.js 侧栏菜单表 (text/label/path/drawType/whitelist)",
+ "note": "bundle 菜单表 ORNAMENT_TEXT path=/draw/ornament-text label「饰品文字」Beta whitelist:!0；本账号同样被重定向 /home",
+ "finalUrl": "https://www.linkfox.com/home",
+ "redirectObserved": true,
+ "routeEvidence": "whitelist:!0 in menu table",
+ "text": "重定向到 /home 首页，工具未开通；无工具 DOM"
+}

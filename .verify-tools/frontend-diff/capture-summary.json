@@ -1,0 +1,275 @@
+[
+ {
+  "id": "PRODUCT_IMAGE_SUITE",
+  "ok": true,
+  "lines": 99,
+  "controls": 32,
+  "error": null
+ },
+ {
+  "id": "DRESS_WEAR_SET",
+  "ok": true,
+  "lines": 157,
+  "controls": 65,
+  "error": null
+ },
+ {
+  "id": "CHANGE_COLOR_V2",
+  "ok": true,
+  "lines": 95,
+  "controls": 35,
+  "error": null
+ },
+ {
+  "id": "IMAGE_TRANSLATION",
+  "ok": true,
+  "lines": 147,
+  "controls": 76,
+  "error": null
+ },
+ {
+  "id": "SCALE_UP",
+  "ok": true,
+  "lines": 73,
+  "controls": 17,
+  "error": null
+ },
+ {
+  "id": "AI_OUTPAINTING",
+  "ok": true,
+  "lines": 53,
+  "controls": 16,
+  "error": null
+ },
+ {
+  "id": "AREA_REPAIR",
+  "ok": true,
+  "lines": 84,
+  "controls": 27,
+  "error": null
+ },
+ {
+  "id": "REMOVE_PEN",
+  "ok": true,
+  "lines": 68,
+  "controls": 20,
+  "error": null
+ },
+ {
+  "id": "CHANGE_COLOR",
+  "ok": true,
+  "lines": 99,
+  "controls": 42,
+  "error": null
+ },
+ {
+  "id": "IMAGE_CROP",
+  "ok": true,
+  "lines": 171,
+  "controls": 41,
+  "error": null
+ },
+ {
+  "id": "PRODUCT_REFINE",
+  "ok": true,
+  "lines": 84,
+  "controls": 16,
+  "error": null
+ },
+ {
+  "id": "FIX_COLOR",
+  "ok": true,
+  "lines": 100,
+  "controls": 28,
+  "error": null
+ },
+ {
+  "id": "PRINTING_REPAIR",
+  "ok": true,
+  "lines": 91,
+  "controls": 14,
+  "error": null
+ },
+ {
+  "id": "HAND_REPAIR",
+  "ok": true,
+  "lines": 103,
+  "controls": 24,
+  "error": null
+ },
+ {
+  "id": "NEW_REPLACE_BG_V2",
+  "ok": true,
+  "lines": 226,
+  "controls": 51,
+  "error": null
+ },
+ {
+  "id": "REPLACE_GOODS",
+  "ok": true,
+  "lines": 168,
+  "controls": 33,
+  "error": null
+ },
+ {
+  "id": "PRODUCT_SCENE",
+  "ok": true,
+  "lines": 93,
+  "controls": 26,
+  "error": null
+ },
+ {
+  "id": "HANDHELD_GOODS",
+  "ok": true,
+  "lines": 101,
+  "controls": 28,
+  "error": null
+ },
+ {
+  "id": "AI_DRESSING_V2",
+  "ok": true,
+  "lines": 142,
+  "controls": 35,
+  "error": null
+ },
+ {
+  "id": "AI_POSTURE",
+  "ok": true,
+  "lines": 178,
+  "controls": 35,
+  "error": null
+ },
+ {
+  "id": "AI_WEARABLE",
+  "ok": true,
+  "lines": 188,
+  "controls": 53,
+  "error": null
+ },
+ {
+  "id": "AI_TEXT",
+  "ok": true,
+  "lines": 123,
+  "controls": 23,
+  "error": null
+ },
+ {
+  "id": "ORNAMENT_TEXT",
+  "ok": true,
+  "lines": 114,
+  "controls": 17,
+  "error": null
+ },
+ {
+  "id": "SDS_DESIGN",
+  "ok": true,
+  "lines": 79,
+  "controls": 17,
+  "error": null
+ },
+ {
+  "id": "PRINT_EXTRACT",
+  "ok": true,
+  "lines": 102,
+  "controls": 17,
+  "error": null
+ },
+ {
+  "id": "AI_POSE_GENERATOR",
+  "ok": true,
+  "lines": 147,
+  "controls": 24,
+  "error": null
+ },
+ {
+  "id": "AI_DRESSING_XSY",
+  "ok": true,
+  "lines": 216,
+  "controls": 50,
+  "error": null
+ },
+ {
+  "id": "FISSION_LINK",
+  "ok": true,
+  "lines": 90,
+  "controls": 16,
+  "error": null
+ },
+ {
+  "id": "IMAGE_TEXT_EDIT",
+  "ok": true,
+  "lines": 95,
+  "controls": 15,
+  "error": null
+ },
+ {
+  "id": "MATERIAL_UPPER_BODY",
+  "ok": true,
+  "lines": 152,
+  "controls": 23,
+  "error": null
+ },
+ {
+  "id": "NEW_DESIGNER",
+  "ok": true,
+  "lines": 99,
+  "controls": 16,
+  "error": null
+ },
+ {
+  "id": "PRODUCT_MARKET_MATERIAL",
+  "ok": true,
+  "lines": 117,
+  "controls": 39,
+  "error": null
+ },
+ {
+  "id": "SCENE_TRANSFER",
+  "ok": true,
+  "lines": 120,
+  "controls": 17,
+  "error": null
+ },
+ {
+  "id": "IMAGE_TO_VIDEO",
+  "ok": true,
+  "lines": 167,
+  "controls": 36,
+  "error": null
+ },
+ {
+  "id": "SALE_VIDEO",
+  "ok": true,
+  "lines": 107,
+  "controls": 25,
+  "error": null
+ },
+ {
+  "id": "VIDEO_REPLICATION",
+  "ok": true,
+  "lines": 127,
+  "controls": 33,
+  "error": null
+ },
+ {
+  "id": "AI_VIDEO_EDITING",
+  "ok": true,
+  "lines": 108,
+  "controls": 14,
+  "error": null
+ },
+ {
+  "id": "VIDEO_TRANSLATION",
+  "ok": true,
+  "lines": 96,
+  "controls": 15,
+  "error": null
+ },
+ {
+  "id": "VIDEO_CONCAT",
+  "ok": true,
+  "lines": 114,
+  "controls": 21,
+  "error": null
+ }
+]

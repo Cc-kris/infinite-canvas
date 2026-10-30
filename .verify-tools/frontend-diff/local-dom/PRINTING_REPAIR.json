@@ -1,0 +1,457 @@
+{
+ "id": "PRINTING_REPAIR",
+ "route": "/tools/smart-edit/printing-repair",
+ "ok": true,
+ "error": null,
+ "title": "无限画布",
+ "text": "无限画布\n首页\n电商套图\n智能修图\n新模型\nAI视频\nHOT\n批量生图\n商品图设计\n中\nv0.27.0\n局部重绘\n局部消除\n一键换色\n图片裁剪\n商品精修\n色差修复\n印花修复\n手部修复\n免责声明\n智能修图 / 印花修复\n印花修复\n/tools/smart-edit/printing-repair\n印花修复\nmakeType\n29\n三步完成：商品图 → 正确印花 → 定位，一次真实图像编辑\n1\n上传印花有误的商品图\n这张图是修复底图：商品形状、褶皱、光影都会保留，只替换印花。\nStep 1 · 商品图\n0\n0 / 1 个 · PNG / JPG / WebP · ≤ 20 MB\n点击选择本地文件，或拖拽到这里\n校验格式 / 大小 / 像素，入库后可刷新恢复\n还没有素材\n2\n上传正确的印花\n作为替换来源，本机会先做像素分割（白=印花本体）。\nStep 2 · 印花参考\n0\n0 / 1 个 · PNG / JPG / WebP · ≤ 20 MB\n点击选择本地文件，或拖拽到这里\n校验格式 / 大小 / 像素，入库后可刷新恢复\n还没有素材\n3\n定位印花\n拖动印花层移动；方向键微调（Shift 加速）；滚轮缩放；只有印花层可动。\n先完成 Step 1 与 Step 2，这里会出现可拖动的印花定位画布。\n修复参数\n修复强度\n70\n强度越高，越贴近新的印花纹理；越低越保留原图褶皱。\n版本\n对比方式\n局部对比\n并排对比\n滑动对比\n请先上传印花有误的图片（Step 1）\n请先上传正确的印花参考（Step 2）\n印花分割图尚未生成，请重新上传印花参考\n开始修复\n一次提交 = 一次真实图像编辑（底图 + 印花 + 本机分割图）。上游无结果即判失败，不会补造图片。\n结果对比\n还没有结果。完成三步后点「开始修复」。\n历史任务\n0\n条\n本工具还没有历史任务；提交一次后会在这里留下任务、配置与结果，刷新后仍在。\n连接本地 Agent\n未连接\n点连接会自动启动本地服务、装好插件并接通，无需手动配置。\nClaude Code\n未连接\n·\nCLI · 2.1.285 (Claude Code)\n·\n直接运行\n连接\nCodex\n未连接\n·\nCLI · codex-cli 0.163.0\n·\n插件已装\n连接\nGalley\n未连接\n·\nCLI + 桌面版 · galley 0.6.4\n连接",
+ "lines": [
+  "无限画布",
+  "首页",
+  "电商套图",
+  "智能修图",
+  "新模型",
+  "AI视频",
+  "HOT",
+  "批量生图",
+  "商品图设计",
+  "中",
+  "v0.27.0",
+  "局部重绘",
+  "局部消除",
+  "一键换色",
+  "图片裁剪",
+  "商品精修",
+  "色差修复",
+  "印花修复",
+  "手部修复",
+  "免责声明",
+  "智能修图 / 印花修复",
+  "印花修复",
+  "/tools/smart-edit/printing-repair",
+  "印花修复",
+  "makeType",
+  "29",
+  "三步完成：商品图 → 正确印花 → 定位，一次真实图像编辑",
+  "1",
+  "上传印花有误的商品图",
+  "这张图是修复底图：商品形状、褶皱、光影都会保留，只替换印花。",
+  "Step 1 · 商品图",
+  "0",
+  "0 / 1 个 · PNG / JPG / WebP · ≤ 20 MB",
+  "点击选择本地文件，或拖拽到这里",
+  "校验格式 / 大小 / 像素，入库后可刷新恢复",
+  "还没有素材",
+  "2",
+  "上传正确的印花",
+  "作为替换来源，本机会先做像素分割（白=印花本体）。",
+  "Step 2 · 印花参考",
+  "0",
+  "0 / 1 个 · PNG / JPG / WebP · ≤ 20 MB",
+  "点击选择本地文件，或拖拽到这里",
+  "校验格式 / 大小 / 像素，入库后可刷新恢复",
+  "还没有素材",
+  "3",
+  "定位印花",
+  "拖动印花层移动；方向键微调（Shift 加速）；滚轮缩放；只有印花层可动。",
+  "先完成 Step 1 与 Step 2，这里会出现可拖动的印花定位画布。",
+  "修复参数",
+  "修复强度",
+  "70",
+  "强度越高，越贴近新的印花纹理；越低越保留原图褶皱。",
+  "版本",
+  "对比方式",
+  "局部对比",
+  "并排对比",
+  "滑动对比",
+  "请先上传印花有误的图片（Step 1）",
+  "请先上传正确的印花参考（Step 2）",
+  "印花分割图尚未生成，请重新上传印花参考",
+  "开始修复",
+  "一次提交 = 一次真实图像编辑（底图 + 印花 + 本机分割图）。上游无结果即判失败，不会补造图片。",
+  "结果对比",
+  "还没有结果。完成三步后点「开始修复」。",
+  "历史任务",
+  "0",
+  "条",
+  "本工具还没有历史任务；提交一次后会在这里留下任务、配置与结果，刷新后仍在。",
+  "连接本地 Agent",
+  "未连接",
+  "点连接会自动启动本地服务、装好插件并接通，无需手动配置。",
+  "Claude Code",
+  "未连接",
+  "·",
+  "CLI · 2.1.285 (Claude Code)",
+  "·",
+  "直接运行",
+  "连接",
+  "Codex",
+  "未连接",
+  "·",
+  "CLI · codex-cli 0.163.0",
+  "·",
+  "插件已装",
+  "连接",
+  "Galley",
+  "未连接",
+  "·",
+  "CLI + 桌面版 · galley 0.6.4",
+  "连接"
+ ],
+ "controls": [
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "中",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1593,
+    "y": 14,
+    "w": 28,
+    "h": 28
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "切换到深色主题",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1625,
+    "y": 14,
+    "w": 28,
+    "h": 28
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "v0.27.0",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1657,
+    "y": 17,
+    "w": 47,
+    "h": 22
+   }
+  },
+  {
+   "tag": "div",
+   "type": "",
+   "text": "点击选择本地文件，或拖拽到这里\n校验格式 / 大小 / 像素，入库后可刷新恢复",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 246,
+    "y": 379,
+    "w": 1284,
+    "h": 86
+   }
+  },
+  {
+   "tag": "div",
+   "type": "",
+   "text": "点击选择本地文件，或拖拽到这里\n校验格式 / 大小 / 像素，入库后可刷新恢复",
+   "placeholder": "",
+   "disabled": true,
+   "rect": {
+    "x": 246,
+    "y": 660,
+    "w": 1284,
+    "h": 86
+   }
+  },
+  {
+   "tag": "input",
+   "type": "range",
+   "text": "70",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1580,
+    "y": 322,
+    "w": 286,
+    "h": 16
+   }
+  },
+  {
+   "tag": "select",
+   "type": "",
+   "text": "标准（结构优先）\n精细（纹理优先）",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1580,
+    "y": 389,
+    "w": 286,
+    "h": 25
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "局部对比",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1580,
+    "y": 443,
+    "w": 62,
+    "h": 27
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "并排对比",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1646,
+    "y": 443,
+    "w": 62,
+    "h": 27
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "滑动对比",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1712,
+    "y": 443,
+    "w": 62,
+    "h": 27
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "开始修复",
+   "placeholder": "",
+   "disabled": true,
+   "rect": {
+    "x": 1580,
+    "y": 572,
+    "w": 286,
+    "h": 38
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "连接",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 2265,
+    "y": 147,
+    "w": 66,
+    "h": 24
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "连接",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 2265,
+    "y": 215,
+    "w": 66,
+    "h": 24
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "连接",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 2265,
+    "y": 283,
+    "w": 66,
+    "h": 24
+   }
+  }
+ ],
+ "regions": [
+  {
+   "cls": "sticky top-0 z-[7] h-14 shrink-0 border-b border-hairline bg-surface/95 backdrop",
+   "rect": {
+    "x": 0,
+    "y": 0,
+    "w": 1920,
+    "h": 56
+   },
+   "text": "无限画布\n首页\n电商套图\n智能修图\n新模型\nAI视频\nHOT\n批量生图\n商品图设计\n中\n切换到深色主题\nv0.27.0"
+  },
+  {
+   "cls": "hidden w-[180px] shrink-0 overflow-y-auto rounded-xl border border-hairline bg-s",
+   "rect": {
+    "x": 16,
+    "y": 56,
+    "w": 180,
+    "h": 1008
+   },
+   "text": "智能修图\n局部重绘\n局部消除\n一键换色\n图片裁剪\n商品精修\n色差修复\n印花修复\n手部修复\n免责声明"
+  },
+  {
+   "cls": "flex min-h-14 shrink-0 flex-wrap items-center gap-3 border-b border-hairline px-",
+   "rect": {
+    "x": 209,
+    "y": 57,
+    "w": 1694,
+    "h": 109
+   },
+   "text": "智能修图 / 印花修复\n印花修复\n\n/tools/smart-edit/printing-repair"
+  },
+  {
+   "cls": "min-h-0 flex-1 overflow-y-auto bg-transparent px-4 py-4 sm:px-5",
+   "rect": {
+    "x": 209,
+    "y": 166,
+    "w": 1694,
+    "h": 897
+   },
+   "text": "印花修复\nmakeType 29\n\n三步完成：商品图 → 正确印花 → 定位，一次真实图像编辑\n\n1\n上传印花有误的商品图\n\n这张图是修复底图：商品形状、褶皱、光影都会保留，只替换印花。\n\nStep 1 · 商品图\n00 / 1 个 · PNG / JPG / WebP · ≤ 20 MB\n点击选择本地文件，或拖拽到这里\n校验格式 / 大小 / 像素，入库后可刷新恢复\n\n还没有素材\n\n2\n上传正确的印花\n\n作为替换来源，本机会先做像素分割（白=印花本体）。\n\nStep 2 · 印花参考\n00 / 1 个 · PNG / JPG / WebP · ≤ 20 MB\n点击选择本地文件，或拖拽到这里\n"
+  },
+  {
+   "cls": "rounded-2xl border bg-card p-4 border-primary/60",
+   "rect": {
+    "x": 229,
+    "y": 257,
+    "w": 1318,
+    "h": 265
+   },
+   "text": "1\n上传印花有误的商品图\n\n这张图是修复底图：商品形状、褶皱、光影都会保留，只替换印花。\n\nStep 1 · 商品图\n00 / 1 个 · PNG / JPG / WebP · ≤ 20 MB\n点击选择本地文件，或拖拽到这里\n校验格式 / 大小 / 像素，入库后可刷新恢复\n\n还没有素材"
+  },
+  {
+   "cls": "flex items-start gap-2",
+   "rect": {
+    "x": 246,
+    "y": 274,
+    "w": 1284,
+    "h": 54
+   },
+   "text": "1\n上传印花有误的商品图\n\n这张图是修复底图：商品形状、褶皱、光影都会保留，只替换印花。"
+  },
+  {
+   "cls": "space-y-3",
+   "rect": {
+    "x": 246,
+    "y": 340,
+    "w": 1284,
+    "h": 153
+   },
+   "text": "Step 1 · 商品图\n00 / 1 个 · PNG / JPG / WebP · ≤ 20 MB\n点击选择本地文件，或拖拽到这里\n校验格式 / 大小 / 像素，入库后可刷新恢复\n\n还没有素材"
+  },
+  {
+   "cls": "rounded-2xl border bg-card p-4 border-border",
+   "rect": {
+    "x": 229,
+    "y": 538,
+    "w": 1318,
+    "h": 265
+   },
+   "text": "2\n上传正确的印花\n\n作为替换来源，本机会先做像素分割（白=印花本体）。\n\nStep 2 · 印花参考\n00 / 1 个 · PNG / JPG / WebP · ≤ 20 MB\n点击选择本地文件，或拖拽到这里\n校验格式 / 大小 / 像素，入库后可刷新恢复\n\n还没有素材"
+  },
+  {
+   "cls": "flex items-start gap-2",
+   "rect": {
+    "x": 246,
+    "y": 555,
+    "w": 1284,
+    "h": 54
+   },
+   "text": "2\n上传正确的印花\n\n作为替换来源，本机会先做像素分割（白=印花本体）。"
+  },
+  {
+   "cls": "space-y-3",
+   "rect": {
+    "x": 246,
+    "y": 621,
+    "w": 1284,
+    "h": 153
+   },
+   "text": "Step 2 · 印花参考\n00 / 1 个 · PNG / JPG / WebP · ≤ 20 MB\n点击选择本地文件，或拖拽到这里\n校验格式 / 大小 / 像素，入库后可刷新恢复\n\n还没有素材"
+  },
+  {
+   "cls": "rounded-2xl border bg-card p-4 border-border",
+   "rect": {
+    "x": 229,
+    "y": 819,
+    "w": 1318,
+    "h": 178
+   },
+   "text": "3\n定位印花\n\n拖动印花层移动；方向键微调（Shift 加速）；滚轮缩放；只有印花层可动。\n\n先完成 Step 1 与 Step 2，这里会出现可拖动的印花定位画布。"
+  },
+  {
+   "cls": "flex items-start gap-2",
+   "rect": {
+    "x": 246,
+    "y": 836,
+    "w": 1284,
+    "h": 54
+   },
+   "text": "3\n定位印花\n\n拖动印花层移动；方向键微调（Shift 加速）；滚轮缩放；只有印花层可动。"
+  },
+  {
+   "cls": "space-y-3",
+   "rect": {
+    "x": 1563,
+    "y": 257,
+    "w": 320,
+    "h": 740
+   },
+   "text": "修复参数\n修复强度\n70\n强度越高，越贴近新的印花纹理；越低越保留原图褶皱。\n版本\n标准（结构优先）\n精细（纹理优先）\n对比方式\n局部对比\n并排对比\n滑动对比\n请先上传印花有误的图片（Step 1）\n请先上传正确的印花参考（Step 2）\n印花分割图尚未生成，请重新上传印花参考\n开始修复\n\n一次提交 = 一次真实图像编辑（底图 + 印花 + 本机分割图）。上游无结果即判失败，不会补造图片。\n\n结果对比\n\n还没有结果。完成三步后点「开始修复」。"
+  },
+  {
+   "cls": "space-y-3 rounded-2xl border border-border bg-card p-4",
+   "rect": {
+    "x": 1563,
+    "y": 257,
+    "w": 320,
+    "h": 413
+   },
+   "text": "修复参数\n修复强度\n70\n强度越高，越贴近新的印花纹理；越低越保留原图褶皱。\n版本\n标准（结构优先）\n精细（纹理优先）\n对比方式\n局部对比\n并排对比\n滑动对比\n请先上传印花有误的图片（Step 1）\n请先上传正确的印花参考（Step 2）\n印花分割图尚未生成，请重新上传印花参考\n开始修复\n\n一次提交 = 一次真实图像编辑（底图 + 印花 + 本机分割图）。上游无结果即判失败，不会补造图片。"
+  },
+  {
+   "cls": "space-y-2 rounded-2xl border border-border bg-card p-4",
+   "rect": {
+    "x": 1563,
+    "y": 682,
+    "w": 320,
+    "h": 97
+   },
+   "text": "结果对比\n\n还没有结果。完成三步后点「开始修复」。"
+  },
+  {
+   "cls": "rounded-lg border border-border bg-card/40 p-3 mt-4",
+   "rect": {
+    "x": 229,
+    "y": 1013,
+    "w": 1654,
+    "h": 80
+   },
+   "text": "历史任务\n0 条\n\n本工具还没有历史任务；提交一次后会在这里留下任务、配置与结果，刷新后仍在。"
+  },
+  {
+   "cls": "relative flex h-full shrink-0 flex-col border-l",
+   "rect": {
+    "x": 1920,
+    "y": 0,
+    "w": 440,
+    "h": 1080
+   },
+   "text": "连接本地 Agent\n未连接\n点连接会自动启动本地服务、装好插件并接通，无需手动配置。\nClaude Code\n未连接\n·\nCLI · 2.1.285 (Claude Code)\n·\n直接运行\n连接\nCodex\n未连接\n·\nCLI · codex-cli 0.163.0\n·\n插件已装\n连接\nGalley\n未连接\n·\nCLI + 桌面版 · galley 0.6.4\n连接"
+  }
+ ]
+}

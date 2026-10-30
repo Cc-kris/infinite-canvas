@@ -1,0 +1,21 @@
+{
+ "task": "前端 1:1 对齐：PRODUCT_IMAGE_SUITE, PRODUCT_MARKET_MATERIAL, DRESS_WEAR_SET, CHANGE_COLOR_V2, IMAGE_TRANSLATION",
+ "work_dir": "/Users/mac/Documents/Dev/infinite-canvas",
+ "work_orders": {
+  "PRODUCT_IMAGE_SUITE": "/Users/mac/Documents/Dev/infinite-canvas/docs/V1.0/replica/frontend-1to1/PRODUCT_IMAGE_SUITE.md",
+  "PRODUCT_MARKET_MATERIAL": "/Users/mac/Documents/Dev/infinite-canvas/docs/V1.0/replica/frontend-1to1/PRODUCT_MARKET_MATERIAL.md",
+  "DRESS_WEAR_SET": "/Users/mac/Documents/Dev/infinite-canvas/docs/V1.0/replica/frontend-1to1/DRESS_WEAR_SET.md",
+  "CHANGE_COLOR_V2": "/Users/mac/Documents/Dev/infinite-canvas/docs/V1.0/replica/frontend-1to1/CHANGE_COLOR_V2.md",
+  "IMAGE_TRANSLATION": "/Users/mac/Documents/Dev/infinite-canvas/docs/V1.0/replica/frontend-1to1/IMAGE_TRANSLATION.md"
+ },
+ "index": "/Users/mac/Documents/Dev/infinite-canvas/docs/V1.0/replica/frontend-1to1/00-INDEX.md",
+ "editable_files": [
+  "/Users/mac/Documents/Dev/infinite-canvas/web/src/components/tools/workspaces/suite.tsx",
+  "/Users/mac/Documents/Dev/infinite-canvas/web/src/components/tools/workspaces/dress-suite.tsx",
+  "/Users/mac/Documents/Dev/infinite-canvas/web/src/components/tools/workspaces/color-v2.tsx",
+  "/Users/mac/Documents/Dev/infinite-canvas/web/src/components/tools/workspaces/translate.tsx"
+ ],
+ "registry": "/Users/mac/Documents/Dev/infinite-canvas/web/src/features/tools/registry",
+ "evidence_js": "/Users/mac/Documents/Dev/infinite-canvas/capture_page.js",
+ "output": "/Users/mac/Documents/Dev/infinite-canvas/.verify-tools/frontend-diff/tasks/fx_b1/report.md"
+}

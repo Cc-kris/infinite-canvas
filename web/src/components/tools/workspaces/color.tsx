@@ -53,6 +53,7 @@ import {
     type RegionPresetId,
 } from "@/features/tools/registry/change-color";
 import { ChangeColorAdapterError, changeColorResultFromTask, isChangeColorSourceUsable, retryChangeColor, runChangeColor, samplePaletteFromImage, type ChangeColorSourceAsset } from "@/features/tools/adapters/change-color";
+import { WatermarkGroupPanel } from "@/components/tools/watermark-group-panel";
 
 /**
  * TASK-024：CHANGE_COLOR（一键换色）工作区。
@@ -101,14 +102,14 @@ const referenceUploadCard =
 function ConfigSection({ title, open, onToggle, aside, testId, children }: { title: string; open: boolean; onToggle: () => void; aside?: React.ReactNode; testId?: string; children: React.ReactNode }) {
     return (
         <section className="border-b border-border last:border-b-0" data-testid={testId} data-open={open ? "true" : "false"}>
-            <button type="button" onClick={onToggle} aria-expanded={open} className="flex w-full items-center justify-between gap-2 px-[16px] py-[11px] text-left">
+            <button type="button" onClick={onToggle} aria-expanded={open} className="flex w-full items-center justify-between gap-2 px-[16px] py-[7px] text-left">
                 <span className="text-[12px] font-medium leading-5 text-foreground">{title}</span>
                 <span className="flex items-center gap-2">
                     {aside ? <span className="text-[11px] leading-5 text-muted-foreground">{aside}</span> : null}
                     <ChevronDown className={cn("size-[14px] shrink-0 text-muted-foreground transition-transform", open && "rotate-180")} aria-hidden="true" />
                 </span>
             </button>
-            {open ? <div className="px-[16px] pb-[12px]">{children}</div> : null}
+            {open ? <div className="px-[16px] pb-[8px]">{children}</div> : null}
         </section>
     );
 }
@@ -407,6 +408,51 @@ function CompareSlider({ before, after }: { before: string; after: string }) {
 /* ------------------------------------------------------------------ *
  * 工作区
  * ------------------------------------------------------------------ */
+
+/** 智能修图家族导航：原站左栏工具树（图片编辑 / 局部重绘 / … / 下架）+ 算力 + 驱动状态。 */
+const IMAGE_FAMILY_NAV = [
+    "图片编辑",
+    "局部重绘",
+    "局部消除",
+    "一键换色",
+    "图片裁剪",
+    "质量提升",
+    "商品精修",
+    "图像修复",
+    "色差修复",
+    "印花修复",
+    "抠图工具",
+    "精细抠图",
+    "批量抠图",
+    "企业功能",
+    "即将下架",
+    "手部修复",
+    "下架",
+];
+
+export function ImageFamilyNav({ active }: { active: string }) {
+    return (
+        <nav className="flex flex-wrap items-center gap-1" aria-label="智能修图系列" data-testid="image-family-nav">
+            {IMAGE_FAMILY_NAV.map((label) => (
+                <span
+                    key={label}
+                    className={cn(
+                        "rounded-md border px-1.5 py-[2px] text-[11px] leading-4",
+                        label === active
+                            ? "border-primary bg-primary/10 text-foreground"
+                            : "border-border text-muted-foreground",
+                    )}
+                >
+                    {label}
+                </span>
+            ))}
+            <span className="ml-auto flex items-center gap-2 text-[11px] leading-4 text-muted-foreground">
+                <span className="rounded-md border border-border px-1.5 py-[2px]">250</span>
+                <span>ljq_driver: 已连接</span>
+            </span>
+        </nav>
+    );
+}
 
 export function ChangeColorWorkspace({ className }: { className?: string }) {
     const toolId = TOOL_ID;
@@ -721,7 +767,7 @@ export function ChangeColorWorkspace({ className }: { className?: string }) {
                                     批量一键换色
                                 </button>
                             </div>
-                            <p className="mt-[14px] text-[12px] leading-[17px] text-muted-foreground">10M以内，jpg/jpeg/png/webp</p>
+                            <p className="mt-[14px] text-[12px] leading-[17px] text-muted-foreground">10M以内,jpg/jpeg/png/webp</p>
                         </div>
                     </div>
                 )}
@@ -729,12 +775,13 @@ export function ChangeColorWorkspace({ className }: { className?: string }) {
 
             {/* ---------------- 配置列 ---------------- */}
             <Edit8Config
-                className="w-[307px]"
+                className="w-[600px]"
                 data-testid="change-color-config"
                 footer={
                     <div className="border-t border-border p-[10px]">
                         <button type="button" className={edit8PrimaryButtonClass} disabled={blocked || !sourceReady} onClick={() => void onGenerate()} data-testid="change-color-submit">
-                            {running ? "生成中…" : "立即生成"}
+                            <span>{running ? "生成中…" : "立即生成"}</span>
+                            {!running ? <span className="ml-1 text-[11px] leading-none opacity-80">(10算力)</span> : null}
                         </button>
                         {running ? (
                             <button type="button" className={cn(ghostButton, "mt-1 w-full")} onClick={onCancel} data-testid="change-color-cancel">
@@ -758,14 +805,16 @@ export function ChangeColorWorkspace({ className }: { className?: string }) {
                     </div>
                 }
             >
-                <ConfigSection title="收藏色卡" open={openSections.swatches} onToggle={() => toggleSection("swatches")} aside={`共 ${values.swatches.length}/${MAX_SWATCHES} 个`} testId="change-color-swatches">
+                <div data-testid="change-color-config-grid">
+                    <div className="px-[12px]">
+                        <ImageFamilyNav active="一键换色" />
+                    </div>
+                    <div className="columns-2 gap-x-[8px] px-[12px] [&>*]:mb-[6px] [&>*]:break-inside-avoid">
+                <ConfigSection title="收藏色卡" open={openSections.swatches} onToggle={() => toggleSection("swatches")} testId="change-color-swatches">
                     <div className="flex flex-wrap items-center gap-[6px]">
                         {values.swatches.map((hex) => (
                             <SwatchButton key={hex} hex={hex} active={normalizeHex(hex) === normalizeHex(values.targetColor)} disabled={disabled} onPick={() => pickColor(hex)} onRemove={() => update({ swatches: removeSwatch(values.swatches, hex) })} />
                         ))}
-                        <button type="button" className={ghostButton} disabled={disabled} onClick={() => update({ swatches: addSwatch(values.swatches, values.targetColor) })} data-testid="change-color-swatch-add">
-                            + 收藏当前色
-                        </button>
                     </div>
                 </ConfigSection>
 
@@ -799,7 +848,6 @@ export function ChangeColorWorkspace({ className }: { className?: string }) {
                             library={library}
                             onChange={onReferenceChange}
                             uploadLabel="拖拽 或 点击上传 颜色参考图"
-                            hint="10M以内,jpg/jpeg/png/webp"
                             variant="linkfox"
                             wide
                             className={referenceUploadCard}
@@ -839,7 +887,7 @@ export function ChangeColorWorkspace({ className }: { className?: string }) {
                     <AdjustmentSliderGroup adjustment={values.adjustment} disabled={disabled} onChange={(next) => update({ adjustment: next })} onReset={() => update({ adjustment: { ...DEFAULT_CHANGE_COLOR_VALUES.adjustment } })} />
                 </ConfigSection>
 
-                <ConfigSection title="光影优化" open={openSections.light} onToggle={() => toggleSection("light")} aside={values.light.enabled ? `强度 ${values.light.strength}` : "关闭"} testId="change-color-light">
+                <ConfigSection title="光影优化" open={openSections.light} onToggle={() => toggleSection("light")} testId="change-color-light">
                     <div className="flex flex-col gap-[8px]">
                         <div className="flex items-center justify-between gap-2">
                             <span className="text-[12px] leading-[22px] text-foreground">光影优化</span>
@@ -929,6 +977,10 @@ export function ChangeColorWorkspace({ className }: { className?: string }) {
                         </div>
                     </div>
                 </ConfigSection>
+                    </div>
+                </div>
+            {/* 原站面板底部：管理水印分组（共 N/20 个 · 默认 · ＋ 新增水印分组） */}
+            <WatermarkGroupPanel />
             </Edit8Config>
 
             {/* ---------------- 结果列 ---------------- */}

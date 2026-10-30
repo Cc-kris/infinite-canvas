@@ -1,0 +1,728 @@
+{
+ "id": "PRODUCT_MARKET_MATERIAL",
+ "route": "/tools/product-design/product-market-material",
+ "ok": true,
+ "error": null,
+ "title": "无限画布",
+ "text": "无限画布\n首页\n电商套图\n智能修图\n新模型\nAI视频\nHOT\n批量生图\n商品图设计\n中\nv0.27.0\n商品图\n商品替换\n场景裂变\n手持商品\nAI穿衣\n姿势裂变\nAI穿戴\nPOD素材\n饰品文字\n素材贴合\n印花提取\nAI姿势生成\n补充\nAI试衣XSY\n补充\n场景裂变链接\n补充\n图片文字编辑\n补充\n上装换料\n补充\n商品图设计器\n补充\n商品营销素材\n补充\n场景迁移\n补充\n免责声明\n商品多图与信息\n1–6 张 · 首张为主图\n上传商品多图\n0\n0 / 6 个 · PNG / JPG / WebP · ≤ 10 MB\n点击选择本地文件，或拖拽到这里\n校验格式 / 大小 / 像素，入库后可刷新恢复\n还没有素材\n0\n/\n2500\n品牌与投放\n平台切换会过滤合法 A+ 比例\n项目名称\n品牌名称\n品牌主色\n字体风格\n亚马逊\nShopify 独立站\n沃尔玛\nEtsy\nTemu\n销售地区\n输出语言\nA+ 与营销画幅\nA+ 模板可多选，按模块分组输出\n高级A+\n普通A+\n手机A+\n自定比例\n至少保留一个 A+ 模板\n头图 970×600\n宽屏 1464×600\n手机 600×450\n自定比例\n每模块张数\n模型\n分辨率\n品质\n1:1\n4:5\n9:16\n16:9\n3:4\n3:2\n自定义画幅\n预计生成\n4\n屏\n· 高级A+×4\n开始生成\n至少上传 1 张商品图。\n历史任务\n0\n条\n本工具还没有历史任务；提交一次后会在这里留下任务、配置与结果，刷新后仍在。\n连接本地 Agent\n未连接\n点连接会自动启动本地服务、装好插件并接通，无需手动配置。\nClaude Code\n未连接\n·\nCLI · 2.1.285 (Claude Code)\n·\n直接运行\n连接\nCodex\n未连接\n·\nCLI · codex-cli 0.163.0\n·\n插件已装\n连接\nGalley\n未连接\n·\nCLI + 桌面版 · galley 0.6.4\n连接",
+ "lines": [
+  "无限画布",
+  "首页",
+  "电商套图",
+  "智能修图",
+  "新模型",
+  "AI视频",
+  "HOT",
+  "批量生图",
+  "商品图设计",
+  "中",
+  "v0.27.0",
+  "商品图",
+  "商品替换",
+  "场景裂变",
+  "手持商品",
+  "AI穿衣",
+  "姿势裂变",
+  "AI穿戴",
+  "POD素材",
+  "饰品文字",
+  "素材贴合",
+  "印花提取",
+  "AI姿势生成",
+  "补充",
+  "AI试衣XSY",
+  "补充",
+  "场景裂变链接",
+  "补充",
+  "图片文字编辑",
+  "补充",
+  "上装换料",
+  "补充",
+  "商品图设计器",
+  "补充",
+  "商品营销素材",
+  "补充",
+  "场景迁移",
+  "补充",
+  "免责声明",
+  "商品多图与信息",
+  "1–6 张 · 首张为主图",
+  "上传商品多图",
+  "0",
+  "0 / 6 个 · PNG / JPG / WebP · ≤ 10 MB",
+  "点击选择本地文件，或拖拽到这里",
+  "校验格式 / 大小 / 像素，入库后可刷新恢复",
+  "还没有素材",
+  "0",
+  "/",
+  "2500",
+  "品牌与投放",
+  "平台切换会过滤合法 A+ 比例",
+  "项目名称",
+  "品牌名称",
+  "品牌主色",
+  "字体风格",
+  "亚马逊",
+  "Shopify 独立站",
+  "沃尔玛",
+  "Etsy",
+  "Temu",
+  "销售地区",
+  "输出语言",
+  "A+ 与营销画幅",
+  "A+ 模板可多选，按模块分组输出",
+  "高级A+",
+  "普通A+",
+  "手机A+",
+  "自定比例",
+  "至少保留一个 A+ 模板",
+  "头图 970×600",
+  "宽屏 1464×600",
+  "手机 600×450",
+  "自定比例",
+  "每模块张数",
+  "模型",
+  "分辨率",
+  "品质",
+  "1:1",
+  "4:5",
+  "9:16",
+  "16:9",
+  "3:4",
+  "3:2",
+  "自定义画幅",
+  "预计生成",
+  "4",
+  "屏",
+  "· 高级A+×4",
+  "开始生成",
+  "至少上传 1 张商品图。",
+  "历史任务",
+  "0",
+  "条",
+  "本工具还没有历史任务；提交一次后会在这里留下任务、配置与结果，刷新后仍在。",
+  "连接本地 Agent",
+  "未连接",
+  "点连接会自动启动本地服务、装好插件并接通，无需手动配置。",
+  "Claude Code",
+  "未连接",
+  "·",
+  "CLI · 2.1.285 (Claude Code)",
+  "·",
+  "直接运行",
+  "连接",
+  "Codex",
+  "未连接",
+  "·",
+  "CLI · codex-cli 0.163.0",
+  "·",
+  "插件已装",
+  "连接",
+  "Galley",
+  "未连接",
+  "·",
+  "CLI + 桌面版 · galley 0.6.4",
+  "连接"
+ ],
+ "controls": [
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "中",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1593,
+    "y": 14,
+    "w": 28,
+    "h": 28
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "切换到深色主题",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1625,
+    "y": 14,
+    "w": 28,
+    "h": 28
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "v0.27.0",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1657,
+    "y": 17,
+    "w": 47,
+    "h": 22
+   }
+  },
+  {
+   "tag": "div",
+   "type": "",
+   "text": "点击选择本地文件，或拖拽到这里\n校验格式 / 大小 / 像素，入库后可刷新恢复",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 232,
+    "y": 154,
+    "w": 1648,
+    "h": 86
+   }
+  },
+  {
+   "tag": "textarea",
+   "type": "",
+   "text": "商品卖点、材质、尺寸、使用场景…（必填，避免凭空生成）",
+   "placeholder": "商品卖点、材质、尺寸、使用场景…（必填，避免凭空生成）",
+   "disabled": false,
+   "rect": {
+    "x": 232,
+    "y": 280,
+    "w": 1648,
+    "h": 96
+   }
+  },
+  {
+   "tag": "input",
+   "type": "",
+   "text": "用于资产命名",
+   "placeholder": "用于资产命名",
+   "disabled": false,
+   "rect": {
+    "x": 892,
+    "y": 483,
+    "w": 160,
+    "h": 26
+   }
+  },
+  {
+   "tag": "input",
+   "type": "",
+   "text": "如 #1F2937（留空=不约束）",
+   "placeholder": "如 #1F2937（留空=不约束）",
+   "disabled": false,
+   "rect": {
+    "x": 956,
+    "y": 518,
+    "w": 96,
+    "h": 26
+   }
+  },
+  {
+   "tag": "select",
+   "type": "",
+   "text": "跟随品牌\n现代无衬线\n经典衬线\n粗体强调",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1782,
+    "y": 517,
+    "w": 98,
+    "h": 27
+   }
+  },
+  {
+   "tag": "input",
+   "type": "",
+   "text": "品牌风格（可选，如：极简、科技感、暖色调家庭场景）",
+   "placeholder": "品牌风格（可选，如：极简、科技感、暖色调家庭场景）",
+   "disabled": false,
+   "rect": {
+    "x": 232,
+    "y": 544,
+    "w": 1648,
+    "h": 32
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "亚马逊",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 232,
+    "y": 584,
+    "w": 60,
+    "h": 28
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "Shopify 独立站",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 296,
+    "y": 584,
+    "w": 113,
+    "h": 28
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "沃尔玛",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 413,
+    "y": 584,
+    "w": 60,
+    "h": 28
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "Etsy",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 477,
+    "y": 584,
+    "w": 45,
+    "h": 28
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "Temu",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 526,
+    "y": 584,
+    "w": 53,
+    "h": 28
+   }
+  },
+  {
+   "tag": "select",
+   "type": "",
+   "text": "美国\n英国\n德国\n日本",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 288,
+    "y": 620,
+    "w": 62,
+    "h": 27
+   }
+  },
+  {
+   "tag": "select",
+   "type": "",
+   "text": "英语\n德语\n日语",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 414,
+    "y": 620,
+    "w": 62,
+    "h": 27
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "高级A+",
+   "placeholder": "",
+   "disabled": true,
+   "rect": {
+    "x": 232,
+    "y": 720,
+    "w": 64,
+    "h": 28
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "普通A+",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 300,
+    "y": 720,
+    "w": 64,
+    "h": 28
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "手机A+",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 368,
+    "y": 720,
+    "w": 64,
+    "h": 28
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "自定比例",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 435,
+    "y": 720,
+    "w": 74,
+    "h": 28
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "头图 970×600",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 232,
+    "y": 778,
+    "w": 109,
+    "h": 28
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "宽屏 1464×600",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 345,
+    "y": 778,
+    "w": 117,
+    "h": 28
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "手机 600×450",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 467,
+    "y": 778,
+    "w": 111,
+    "h": 28
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "自定比例",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 581,
+    "y": 778,
+    "w": 74,
+    "h": 28
+   }
+  },
+  {
+   "tag": "input",
+   "type": "number",
+   "text": "4",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 300,
+    "y": 814,
+    "w": 64,
+    "h": 26
+   }
+  },
+  {
+   "tag": "select",
+   "type": "",
+   "text": "LF智能模型 G-2.5 Sunburst\nLF全能模型 2.1\nLF智能模型 G-2.5 Flare",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 404,
+    "y": 814,
+    "w": 190,
+    "h": 27
+   }
+  },
+  {
+   "tag": "select",
+   "type": "",
+   "text": "1K\n2K\n4K",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 646,
+    "y": 814,
+    "w": 54,
+    "h": 27
+   }
+  },
+  {
+   "tag": "select",
+   "type": "",
+   "text": "低品质\n中品质\n高品质\n超高品质\n最大品质",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 740,
+    "y": 814,
+    "w": 86,
+    "h": 27
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "1:1",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 232,
+    "y": 849,
+    "w": 35,
+    "h": 28
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "4:5",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 271,
+    "y": 849,
+    "w": 40,
+    "h": 28
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "9:16",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 314,
+    "y": 849,
+    "w": 46,
+    "h": 28
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "16:9",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 364,
+    "y": 849,
+    "w": 46,
+    "h": 28
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "3:4",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 414,
+    "y": 849,
+    "w": 40,
+    "h": 28
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "3:2",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 458,
+    "y": 849,
+    "w": 39,
+    "h": 28
+   }
+  },
+  {
+   "tag": "input",
+   "type": "checkbox",
+   "text": "on",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 501,
+    "y": 856,
+    "w": 13,
+    "h": 13
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "开始生成",
+   "placeholder": "",
+   "disabled": true,
+   "rect": {
+    "x": 1800,
+    "y": 915,
+    "w": 80,
+    "h": 34
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "连接",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 2265,
+    "y": 147,
+    "w": 66,
+    "h": 24
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "连接",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 2265,
+    "y": 215,
+    "w": 66,
+    "h": 24
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "连接",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 2265,
+    "y": 283,
+    "w": 66,
+    "h": 24
+   }
+  }
+ ],
+ "regions": [
+  {
+   "cls": "sticky top-0 z-[7] h-14 shrink-0 border-b border-hairline bg-surface/95 backdrop",
+   "rect": {
+    "x": 0,
+    "y": 0,
+    "w": 1920,
+    "h": 56
+   },
+   "text": "无限画布\n首页\n电商套图\n智能修图\n新模型\nAI视频\nHOT\n批量生图\n商品图设计\n中\n切换到深色主题\nv0.27.0"
+  },
+  {
+   "cls": "hidden w-[180px] shrink-0 overflow-y-auto rounded-xl border border-hairline bg-s",
+   "rect": {
+    "x": 16,
+    "y": 56,
+    "w": 180,
+    "h": 1008
+   },
+   "text": "商品图设计\n商品图\n商品替换\n场景裂变\n手持商品\nAI穿衣\n姿势裂变\nAI穿戴\nPOD素材\n饰品文字\n素材贴合\n印花提取\nAI姿势生成\n补充\nAI试衣XSY\n补充\n场景裂变链接\n补充\n图片文字编辑\n补充\n上装换料\n补充\n商品图设计器\n补充\n商品营销素材\n补充\n场景迁移\n补充\n免责声明"
+  },
+  {
+   "cls": "min-h-0 flex-1 overflow-hidden bg-canvas p-2.5",
+   "rect": {
+    "x": 209,
+    "y": 57,
+    "w": 1694,
+    "h": 1006
+   },
+   "text": "商品多图与信息\n1–6 张 · 首张为主图\n上传商品多图\n00 / 6 个 · PNG / JPG / WebP · ≤ 10 MB\n点击选择本地文件，或拖拽到这里\n校验格式 / 大小 / 像素，入库后可刷新恢复\n\n还没有素材\n\n0 / 2500\n\n品牌与投放\n平台切换会过滤合法 A+ 比例\n项目名称\n品牌名称\n品牌主色\n字体风格\n跟随品牌\n现代无衬线\n经典衬线\n粗体强调\n亚马逊\nShopify 独立站\n沃尔玛\nEtsy\nTemu\n销售地区\n美国\n英国\n德国\n日本\n输出语言\n英语\n德语\n日语\nA+ 与营销画幅\nA+ 模板可多选，按模块分组输出\n高级A+\n普通A+\n手机A+\n自定比例\n至少保留一"
+  },
+  {
+   "cls": "rounded-lg border border-stone-200 bg-white/60 p-3 dark:border-stone-800 dark:bg",
+   "rect": {
+    "x": 219,
+    "y": 67,
+    "w": 1674,
+    "h": 356
+   },
+   "text": "商品多图与信息\n1–6 张 · 首张为主图\n上传商品多图\n00 / 6 个 · PNG / JPG / WebP · ≤ 10 MB\n点击选择本地文件，或拖拽到这里\n校验格式 / 大小 / 像素，入库后可刷新恢复\n\n还没有素材\n\n0 / 2500"
+  },
+  {
+   "cls": "space-y-3",
+   "rect": {
+    "x": 232,
+    "y": 115,
+    "w": 1648,
+    "h": 153
+   },
+   "text": "上传商品多图\n00 / 6 个 · PNG / JPG / WebP · ≤ 10 MB\n点击选择本地文件，或拖拽到这里\n校验格式 / 大小 / 像素，入库后可刷新恢复\n\n还没有素材"
+  },
+  {
+   "cls": "rounded-lg border border-stone-200 bg-white/60 p-3 dark:border-stone-800 dark:bg",
+   "rect": {
+    "x": 219,
+    "y": 435,
+    "w": 1674,
+    "h": 225
+   },
+   "text": "品牌与投放\n平台切换会过滤合法 A+ 比例\n项目名称\n品牌名称\n品牌主色\n字体风格\n跟随品牌\n现代无衬线\n经典衬线\n粗体强调\n亚马逊\nShopify 独立站\n沃尔玛\nEtsy\nTemu\n销售地区\n美国\n英国\n德国\n日本\n输出语言\n英语\n德语\n日语"
+  },
+  {
+   "cls": "rounded-lg border border-stone-200 bg-white/60 p-3 dark:border-stone-800 dark:bg",
+   "rect": {
+    "x": 219,
+    "y": 672,
+    "w": 1674,
+    "h": 217
+   },
+   "text": "A+ 与营销画幅\nA+ 模板可多选，按模块分组输出\n高级A+\n普通A+\n手机A+\n自定比例\n至少保留一个 A+ 模板\n头图 970×600\n宽屏 1464×600\n手机 600×450\n自定比例\n每模块张数\n模型\nLF智能模型 G-2.5 Sunburst\nLF全能模型 2.1\nLF智能模型 G-2.5 Flare\n分辨率\n1K\n2K\n4K\n品质\n低品质\n中品质\n高品质\n超高品质\n最大品质\n1:1\n4:5\n9:16\n16:9\n3:4\n3:2\n自定义画幅"
+  },
+  {
+   "cls": "rounded-lg border border-border bg-card/40 p-3 mt-4",
+   "rect": {
+    "x": 219,
+    "y": 1036,
+    "w": 1674,
+    "h": 80
+   },
+   "text": "历史任务\n0 条\n\n本工具还没有历史任务；提交一次后会在这里留下任务、配置与结果，刷新后仍在。"
+  },
+  {
+   "cls": "relative flex h-full shrink-0 flex-col border-l",
+   "rect": {
+    "x": 1920,
+    "y": 0,
+    "w": 440,
+    "h": 1080
+   },
+   "text": "连接本地 Agent\n未连接\n点连接会自动启动本地服务、装好插件并接通，无需手动配置。\nClaude Code\n未连接\n·\nCLI · 2.1.285 (Claude Code)\n·\n直接运行\n连接\nCodex\n未连接\n·\nCLI · codex-cli 0.163.0\n·\n插件已装\n连接\nGalley\n未连接\n·\nCLI + 桌面版 · galley 0.6.4\n连接"
+  }
+ ]
+}

@@ -12,7 +12,7 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Link } from "react-router-dom";
-import { ArrowLeftRight, Paintbrush, Pipette, Redo2, RotateCcw, Sparkles, Undo2 } from "lucide-react";
+import { ArrowLeftRight, Eraser, Paintbrush, Pipette, Redo2, RotateCcw, Sparkles, Undo2 } from "lucide-react";
 
 import { ToolAssetInput } from "@/components/tools/tool-asset-input";
 import { ToolResult } from "@/components/tools/tool-result";
@@ -130,6 +130,8 @@ import { loadToolAssetRecords, type ToolAssetRecord } from "@/services/api/tools
 import type { ToolTask, ToolTaskResultItem } from "@/services/api/tools/task-machine";
 import { imageToDataUrl } from "@/services/image-storage";
 import { flushToolDrafts, useToolDraftStore } from "@/stores/use-tool-draft-store";
+import { WatermarkGroupPanel } from "@/components/tools/watermark-group-panel";
+import { ImageFamilyNav } from "./color";
 
 export type RepairWorkspaceProps = { className?: string; toolId?: string };
 
@@ -143,6 +145,46 @@ function pointFromEvent(event: React.PointerEvent<HTMLCanvasElement>, image: Upl
     const x = rect.width > 0 ? ((event.clientX - rect.left) / rect.width) * image.width : 0;
     const y = rect.height > 0 ? ((event.clientY - rect.top) / rect.height) * image.height : 0;
     return { x: Math.max(0, Math.min(image.width, x)), y: Math.max(0, Math.min(image.height, y)) };
+}
+
+/**
+ * 原站 Step 2「颜色矫正参考图」的本地等价物：把参考图采样成平均色，作为目标色。
+ * 只做本地像素统计，不发请求；采样失败返回 null 由调用方忽略。
+ */
+async function averageHexOf(url: string): Promise<string | null> {
+    try {
+        const image = await new Promise<HTMLImageElement>((resolve, reject) => {
+            const element = new Image();
+            element.crossOrigin = "anonymous";
+            element.onload = () => resolve(element);
+            element.onerror = () => reject(new Error("decode-failed"));
+            element.src = url;
+        });
+        const size = 32;
+        const canvas = document.createElement("canvas");
+        canvas.width = size;
+        canvas.height = size;
+        const context = canvas.getContext("2d");
+        if (!context) return null;
+        context.drawImage(image, 0, 0, size, size);
+        const { data } = context.getImageData(0, 0, size, size);
+        let r = 0;
+        let g = 0;
+        let b = 0;
+        let count = 0;
+        for (let i = 0; i < data.length; i += 4) {
+            if (data[i + 3] < 8) continue;
+            r += data[i];
+            g += data[i + 1];
+            b += data[i + 2];
+            count += 1;
+        }
+        if (count === 0) return null;
+        const hex = (value: number) => Math.round(value / count).toString(16).padStart(2, "0").toUpperCase();
+        return `#${hex(r)}${hex(g)}${hex(b)}`;
+    } catch {
+        return null;
+    }
 }
 
 export function FixColorWorkspace({ className }: RepairWorkspaceProps = {}) {
@@ -169,6 +211,7 @@ export function FixColorWorkspace({ className }: RepairWorkspaceProps = {}) {
     const versionRef = useRef(version);
     const [compareMode, setCompareMode] = useState<FixColorCompareMode>("slide");
     const compareModeRef = useRef(compareMode);
+    const [referenceName, setReferenceName] = useState<string | null>(null);
     const [split, setSplit] = useState(50);
     const [run, setRun] = useState<FixColorRun | null>(null);
     const [task, setTask] = useState<ToolTask | null>(null);
@@ -484,38 +527,42 @@ export function FixColorWorkspace({ className }: RepairWorkspaceProps = {}) {
                         <button
                             type="button"
                             aria-pressed={state.tool === "brush"}
+                            aria-label="画笔"
+                            title="画笔"
+                            data-testid="fix-color-brush-mode"
                             onClick={() => setToolMode("brush")}
                             className={cn(
-                                "h-6 rounded-md px-2 text-[12px] leading-none transition",
+                                "inline-flex size-6 items-center justify-center rounded-md leading-none transition",
                                 state.tool === "brush" ? "bg-card text-primary" : "text-muted-foreground hover:text-foreground",
                             )}
                         >
-                            画笔
+                            <Paintbrush className="size-3.5" aria-hidden />
                         </button>
                         <button
                             type="button"
                             aria-pressed={state.tool === "eraser"}
+                            aria-label="橡皮"
+                            title="橡皮"
+                            data-testid="fix-color-eraser-mode"
                             onClick={() => setToolMode("eraser")}
                             className={cn(
-                                "h-6 rounded-md px-2 text-[12px] leading-none transition",
+                                "inline-flex size-6 items-center justify-center rounded-md leading-none transition",
                                 state.tool === "eraser" ? "bg-card text-primary" : "text-muted-foreground hover:text-foreground",
                             )}
                         >
-                            橡皮
+                            <Eraser className="size-3.5" aria-hidden />
                         </button>
                     </div>
-                    <span className="ml-2 text-[12px] text-muted-foreground">笔刷</span>
                     <input
                         type="range"
                         min={FIX_COLOR_BRUSH_MIN}
                         max={FIX_COLOR_BRUSH_MAX}
                         value={state.brushSize}
                         onChange={(event) => setBrush(Number(event.target.value))}
-                        className="h-[22px] w-[112px] accent-primary"
-                        aria-label="笔刷大小"
+                        className="ml-2 h-[22px] w-[112px] accent-primary"
+                        aria-label={`笔刷大小 ${state.brushSize}px`}
+                        title="笔刷大小"
                     />
-                    <span className="w-8 text-[12px] tabular-nums text-foreground">{state.brushSize}px</span>
-                    <span className="ml-2 text-[12px] text-muted-foreground">羽化</span>
                     <input
                         type="range"
                         min={0}
@@ -527,21 +574,10 @@ export function FixColorWorkspace({ className }: RepairWorkspaceProps = {}) {
                             stateRef.current = { ...stateRef.current, feather };
                             persist({ ...stateRef.current, feather }, {});
                         }}
-                        className="h-[22px] w-[80px] accent-primary"
-                        aria-label="羽化"
+                        className="ml-2 h-[22px] w-[80px] accent-primary"
+                        aria-label={`羽化 ${state.feather}`}
+                        title="羽化"
                     />
-                    <div className="ml-2 flex items-center gap-1">
-                        {FIX_COLOR_BRUSH_PRESETS.map((preset) => (
-                            <button
-                                key={preset}
-                                type="button"
-                                onClick={() => setBrush(preset)}
-                                className="h-6 rounded-md border border-border px-1.5 text-[11px] leading-none text-muted-foreground transition hover:border-primary/50"
-                            >
-                                {preset}
-                            </button>
-                        ))}
-                    </div>
                     <div className="ml-auto flex items-center gap-1">
                         <button
                             type="button"
@@ -569,7 +605,6 @@ export function FixColorWorkspace({ className }: RepairWorkspaceProps = {}) {
                         >
                             <RotateCcw className="size-3.5" />
                         </button>
-                        <span className="ml-1 text-[12px] text-muted-foreground">已涂 {fixColorHistoryState(history).strokeCount} 笔</span>
                     </div>
                 </Edit8CanvasToolbar>
                 <div data-testid="fix-color-mask-panel" className="relative flex min-h-0 flex-1 items-center justify-center overflow-hidden p-[10px]">
@@ -608,15 +643,23 @@ export function FixColorWorkspace({ className }: RepairWorkspaceProps = {}) {
             <Edit8Config
                 footer={
                     <div className="border-t border-border px-[16px] py-[10px]">
-                        <button
-                            type="button"
-                            data-testid="fix-color-submit"
-                            disabled={busyBlocked}
-                            onClick={() => void submit()}
-                            className={edit8PrimaryButtonClass}
-                        >
-                            {busy ? "修复中…" : "立即生成"}
-                        </button>
+                        <div className="flex items-center gap-2">
+                            <button
+                                type="button"
+                                data-testid="fix-color-submit"
+                                disabled={busyBlocked}
+                                onClick={() => void submit()}
+                                className={cn(edit8PrimaryButtonClass, "flex-1")}
+                            >
+                                {busy ? "修复中…" : "立即生成"}
+                            </button>
+                            <span
+                                data-testid="fix-color-free-badge"
+                                className="shrink-0 rounded border border-rose-300 bg-rose-50 px-1.5 py-0.5 text-[11px] leading-4 text-rose-600 dark:border-rose-900 dark:bg-rose-950 dark:text-rose-300"
+                            >
+                                限免
+                            </span>
+                        </div>
                         {notice ? (
                             <p className="mt-1.5 text-[11px] leading-4 text-destructive" data-testid="fix-color-notice">
                                 {notice}
@@ -626,13 +669,13 @@ export function FixColorWorkspace({ className }: RepairWorkspaceProps = {}) {
                     </div>
                 }
             >
-                <Edit8Section title="Step 1：上传待修复图" required>
+                <Edit8Section title="Step 1：上传待修复图">
                     <ToolAssetInput
                         toolId={TOOL_ID}
                         maxCount={1}
-                        title="上传色差图"
                         variant="linkfox"
-                        dropLabel="点击上传"
+                        dropLabel="拖拽 或 点击上传 需要修复的图"
+                        hint="10M以内，jpg/jpeg/png/webp"
                         disabled={busy}
                         onChange={(_ids, records) => {
                             void adoptRecord(records[0] ?? null);
@@ -660,8 +703,29 @@ export function FixColorWorkspace({ className }: RepairWorkspaceProps = {}) {
                     ) : null}
                 </Edit8Section>
 
-                <Edit8Section title="Step 2：颜色矫正（区域色 / 目标色）">
-                    <div data-testid="fix-color-color-panel" className="flex flex-col gap-2">
+                <Edit8Section title="Step 2：上传颜色矫正参考图">
+                    <ToolAssetInput
+                        toolId={TOOL_ID}
+                        maxCount={1}
+                        draftSlot="color-reference"
+                        variant="linkfox"
+                        dropLabel="拖拽 或 点击上传 颜色参考"
+                        hint="10M以内，jpg/jpeg/png/webp"
+                        disabled={busy}
+                        onChange={(_ids, records) => {
+                            const record = records[0] ?? null;
+                            setReferenceName(record?.name ?? null);
+                            if (!record) return;
+                            void averageHexOf(record.url).then((hex) => {
+                                if (!hex) return;
+                                setTargetColor(hex);
+                                targetColorRef.current = hex;
+                                persist(stateRef.current, { targetColor: hex });
+                            });
+                        }}
+                    />
+                    {referenceName ? <p className="mt-1.5 truncate text-[11px] leading-4 text-muted-foreground">{referenceName} 已取色</p> : null}
+                    <div data-testid="fix-color-color-panel" className="mt-2 flex flex-col gap-2">
                         <ColorField
                             label="区域颜色"
                             value={regionColor}
@@ -672,8 +736,17 @@ export function FixColorWorkspace({ className }: RepairWorkspaceProps = {}) {
                                 persist(stateRef.current, { regionColor: next });
                             }}
                         />
-                        <div className="flex items-center justify-between">
-                            <span className="text-[11px] leading-4 text-muted-foreground">色差 {describeColorDelta(colorDelta)}</span>
+                        <ColorField
+                            label="目标颜色"
+                            value={targetColor}
+                            disabled={busy}
+                            onChange={(next) => {
+                                setTargetColor(next);
+                                targetColorRef.current = next;
+                                persist(stateRef.current, { targetColor: next });
+                            }}
+                        />
+                        <div className="flex flex-wrap items-center gap-1">
                             <button
                                 type="button"
                                 className="inline-flex items-center gap-1 rounded-md border border-border px-2 text-[11px] leading-5 text-muted-foreground transition hover:border-primary/50"
@@ -690,18 +763,6 @@ export function FixColorWorkspace({ className }: RepairWorkspaceProps = {}) {
                                 <ArrowLeftRight className="size-3" />
                                 交换
                             </button>
-                        </div>
-                        <ColorField
-                            label="目标颜色"
-                            value={targetColor}
-                            disabled={busy}
-                            onChange={(next) => {
-                                setTargetColor(next);
-                                targetColorRef.current = next;
-                                persist(stateRef.current, { targetColor: next });
-                            }}
-                        />
-                        <div className="flex flex-wrap items-center gap-1">
                             {FIX_COLOR_PALETTE.map((color) => (
                                 <button
                                     key={color}
@@ -725,37 +786,12 @@ export function FixColorWorkspace({ className }: RepairWorkspaceProps = {}) {
                     </div>
                 </Edit8Section>
 
-                <Edit8Section title="修复版本">
-                    <div className="flex flex-col gap-1">
-                        {FIX_COLOR_VERSIONS.map((item) => (
-                            <button
-                                key={item.id}
-                                type="button"
-                                aria-pressed={version === item.id}
-                                onClick={() => {
-                                    setVersion(item.id);
-                                    versionRef.current = item.id;
-                                    persist(stateRef.current, { version: item.id });
-                                }}
-                                className={cn(
-                                    "rounded-md border px-2 py-1 text-left transition",
-                                    version === item.id
-                                        ? "border-primary bg-primary/10"
-                                        : "border-border hover:border-primary/40",
-                                )}
-                            >
-                                <span className="block text-[12px] leading-5 text-foreground">{item.label}</span>
-                                <span className="block text-[11px] leading-4 text-muted-foreground">{item.hint}</span>
-                            </button>
-                        ))}
-                    </div>
-                </Edit8Section>
-
                 <Edit8Section title="Step 3：进行AI修复">
                     <p className="text-[11px] leading-4 text-muted-foreground">
-                        请确保在左侧画板中选择了要进行修复的区域，AI将根据原图为您修复。
+                        请确保在左侧画板中选择了要进行修复的区域，AI将根据原图为您进行色差矫正。
                     </p>
                 </Edit8Section>
+
             </Edit8Config>
 
             <Edit8Results
@@ -837,6 +873,7 @@ export function FixColorWorkspace({ className }: RepairWorkspaceProps = {}) {
                         }}
                     />
                 )}
+                <WatermarkGroupPanel className="mt-1" />
             </Edit8Results>
         </Edit8Page>
     );
@@ -1235,12 +1272,11 @@ export function HandRepairWorkspace({ className }: RepairWorkspaceProps = {}) {
             <ToolShell
                 className={className}
                 title={spec?.title ?? "手部修复"}
-                subtitle="涂抹畸形的手部区域，选择人物类型，按真实图像模型重画"
+                subtitle="上传图片，涂抹畸形的手部区域，即可对其畸形矫正与还原"
                 badges={
                     <span className="flex items-center gap-2 text-[11px] text-muted-foreground">
                         <span
                             data-testid="hand-repair-deprecated"
-                            title={HAND_REPAIR_UPSTREAM.note}
                             className="rounded border border-amber-300 bg-amber-50 px-1.5 py-0.5 text-amber-800 dark:border-amber-900 dark:bg-amber-950 dark:text-amber-200"
                         >
                             {HAND_REPAIR_UPSTREAM.badge}
@@ -1250,16 +1286,21 @@ export function HandRepairWorkspace({ className }: RepairWorkspaceProps = {}) {
                 }
                 breadcrumb={<span className="text-[11px] text-muted-foreground">智能修图 / 手部修复</span>}
                 actions={
-                    <button
-                        type="button"
-                        data-testid="hand-repair-submit"
-                        disabled={submitBlocked}
-                        onClick={() => void submit()}
-                        className="inline-flex items-center gap-1.5 rounded-md bg-primary px-3 py-1.5 text-xs font-medium text-primary-foreground transition disabled:cursor-not-allowed disabled:opacity-50"
-                    >
-                        <Sparkles className="size-3.5" aria-hidden />
-                        {busy ? (progress ? `生成中 ${progress.done}/${progress.total}` : "生成中…") : "开始生成"}
-                    </button>
+                    <div className="flex items-center gap-2">
+                        <button
+                            type="button"
+                            data-testid="hand-repair-submit"
+                            disabled={submitBlocked}
+                            onClick={() => void submit()}
+                            className="inline-flex items-center gap-1.5 rounded-md bg-primary px-3 py-1.5 text-xs font-medium text-primary-foreground transition disabled:cursor-not-allowed disabled:opacity-50"
+                        >
+                            <Sparkles className="size-3.5" aria-hidden />
+                            <span>{busy ? (progress ? `生成中 ${progress.done}/${progress.total}` : "生成中…") : "立即生成"}</span>
+                        </button>
+                        <span className="rounded border border-rose-300 bg-rose-50 px-1.5 py-0.5 text-[11px] leading-4 text-rose-600 dark:border-rose-900 dark:bg-rose-950 dark:text-rose-300">
+                            限免
+                        </span>
+                    </div>
                 }
                 notices={
                     <>
@@ -1293,14 +1334,17 @@ export function HandRepairWorkspace({ className }: RepairWorkspaceProps = {}) {
                 }
             >
                 <div className="grid min-h-0 gap-3 overflow-y-auto p-3 xl:grid-cols-[minmax(0,1fr)_340px]">
+                    <div className="xl:col-span-2">
+                        <ImageFamilyNav active="手部修复" />
+                    </div>
                     <div className="flex min-w-0 flex-col gap-3">
                         <section className="rounded-lg border border-border bg-card p-3">
                             <div className="flex flex-wrap items-center justify-between gap-2">
                                 <p className="flex items-center gap-1.5 text-xs font-medium text-foreground">
-                                    <Paintbrush className="size-3.5" aria-hidden /> 涂抹手部区域
+                                    
                                 </p>
-                                <span data-testid="hand-repair-coverage" className="text-[11px] text-muted-foreground">
-                                    {coverageLabel}｜红色覆盖只是预览，导出为白色蒙版
+                                <span data-testid="hand-repair-coverage" className="text-[11px] text-muted-foreground" hidden>
+                                    {coverageLabel}
                                 </span>
                             </div>
                             <div className="mt-2 rounded-md border border-dashed border-border bg-muted/30 p-2">
@@ -1319,15 +1363,16 @@ export function HandRepairWorkspace({ className }: RepairWorkspaceProps = {}) {
                                         />
                                     </div>
                                 ) : (
-                                    <p data-testid="hand-repair-empty-source" className="py-16 text-center text-xs text-muted-foreground">
-                                        先上传一张手部畸形的图片，再把畸形的手涂满。
-                                    </p>
+                                    <div data-testid="hand-repair-empty-source" className="py-16" />
                                 )}
                             </div>
 
                             <div className="mt-2 flex flex-wrap items-center gap-2">
+                                <span className="flex items-center gap-1 text-[11px] text-muted-foreground">
+                                    <Paintbrush className="size-3" aria-hidden /><span>画笔</span>
+                                </span>
                                 <label className="flex items-center gap-2 text-[11px] text-muted-foreground">
-                                    画笔
+                                    <span>大小：</span>
                                     <input
                                         data-testid="hand-repair-brush"
                                         type="range"
@@ -1338,22 +1383,9 @@ export function HandRepairWorkspace({ className }: RepairWorkspaceProps = {}) {
                                         onChange={(event) => commitState({ ...stateRef.current, brushSize: clampHandRepairBrush(event.target.value) }, imageRef.current)}
                                         className="w-28"
                                     />
-                                    <span className="w-8 font-mono text-foreground">{state.brushSize}px</span>
+                                    <input readOnly aria-label="笔刷大小数值" value={state.brushSize} className="w-8 bg-transparent text-center font-mono text-foreground" />
+                                    <span>像素</span>
                                 </label>
-                                {HAND_REPAIR_BRUSH_PRESETS.map((preset) => (
-                                    <button
-                                        key={preset}
-                                        type="button"
-                                        disabled={!image || busy}
-                                        onClick={() => commitState({ ...stateRef.current, brushSize: clampHandRepairBrush(preset) }, imageRef.current)}
-                                        className={cn(
-                                            "rounded border border-border px-1.5 py-0.5 text-[11px]",
-                                            state.brushSize === preset ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:bg-accent",
-                                        )}
-                                    >
-                                        {preset}
-                                    </button>
-                                ))}
                                 <span className="mx-1 h-4 w-px bg-border" aria-hidden />
                                 <button
                                     type="button"
@@ -1362,7 +1394,7 @@ export function HandRepairWorkspace({ className }: RepairWorkspaceProps = {}) {
                                     onClick={undo}
                                     className="inline-flex items-center gap-1 rounded border border-border px-1.5 py-0.5 text-[11px] text-muted-foreground hover:bg-accent disabled:opacity-40"
                                 >
-                                    <Undo2 className="size-3" aria-hidden /> 撤销
+                                    <Undo2 className="size-3" aria-hidden /><span>撤销</span>
                                 </button>
                                 <button
                                     type="button"
@@ -1371,7 +1403,7 @@ export function HandRepairWorkspace({ className }: RepairWorkspaceProps = {}) {
                                     onClick={redo}
                                     className="inline-flex items-center gap-1 rounded border border-border px-1.5 py-0.5 text-[11px] text-muted-foreground hover:bg-accent disabled:opacity-40"
                                 >
-                                    <Redo2 className="size-3" aria-hidden /> 重做
+                                    <Redo2 className="size-3" aria-hidden /><span>重做</span>
                                 </button>
                                 <button
                                     type="button"
@@ -1380,23 +1412,21 @@ export function HandRepairWorkspace({ className }: RepairWorkspaceProps = {}) {
                                     onClick={resetMask}
                                     className="inline-flex items-center gap-1 rounded border border-border px-1.5 py-0.5 text-[11px] text-muted-foreground hover:bg-accent disabled:opacity-40"
                                 >
-                                    <RotateCcw className="size-3" aria-hidden /> 重置
+                                    <RotateCcw className="size-3" aria-hidden /><span>重置</span>
                                 </button>
-                                {maskEmpty ? (
-                                    <span data-testid="hand-repair-mask-empty" className="text-[11px] text-amber-700 dark:text-amber-300">
-                                        蒙版为空：空蒙版无法生成
-                                    </span>
-                                ) : null}
+                                {maskEmpty ? <span data-testid="hand-repair-mask-empty" hidden /> : null}
                             </div>
                         </section>
 
                         <section className="rounded-lg border border-border bg-card p-3">
                             <div className="flex flex-wrap items-center justify-between gap-2">
                                 <p className="text-xs font-medium text-foreground">生成结果</p>
-                                <span data-testid="hand-repair-summary" className="text-[11px] text-muted-foreground">
-                                    {summarizeHandRepairOutcomes(outcomes)}
-                                    {stale ? "｜来自旧版本输入" : ""}
-                                </span>
+                                {outcomes.length > 0 || stale ? (
+                                    <span data-testid="hand-repair-summary" className="text-[11px] text-muted-foreground">
+                                        {outcomes.length > 0 ? summarizeHandRepairOutcomes(outcomes) : ""}
+                                        {stale ? "｜来自旧版本输入" : ""}
+                                    </span>
+                                ) : null}
                             </div>
                             {view.status === "running" ? (
                                 <p className="mt-3 text-[11px] text-muted-foreground">
@@ -1452,7 +1482,7 @@ export function HandRepairWorkspace({ className }: RepairWorkspaceProps = {}) {
                                     ))}
                                 </div>
                             ) : view.status !== "running" ? (
-                                <p className="mt-3 text-[11px] text-muted-foreground">还没有结果。涂好手部并选择人物类型后点「开始生成」。</p>
+                                <p className="mt-3 text-[11px] text-muted-foreground">暂无生成结果图</p>
                             ) : null}
                             {resultFeedback ? (
                                 <p data-testid="hand-repair-result-feedback" className="mt-2 text-[11px] text-muted-foreground">
@@ -1471,22 +1501,24 @@ export function HandRepairWorkspace({ className }: RepairWorkspaceProps = {}) {
 
                     <aside className="flex min-w-0 flex-col gap-3">
                         <section className="rounded-lg border border-border bg-card p-3">
-                            <p className="text-xs font-medium text-foreground">上传原图</p>
-                            <p className="mt-1 text-[11px] text-muted-foreground">JPG / PNG / WebP，手部畸形的原图效果最好。</p>
-                            {image ? (
-                                <div className="mt-2 flex items-center justify-between gap-2 rounded border border-border bg-muted/30 px-2 py-1.5">
-                                    <span className="min-w-0 truncate text-[11px] text-foreground">{image.name}</span>
-                                    <ToolAssetInput toolId={HAND_REPAIR_TOOL_ID} maxCount={1} title="更换图片" disabled={busy} onChange={(_ids, records) => { void adoptImage(records[0]!); }} />
-                                </div>
-                            ) : (
-                                <ToolAssetInput toolId={HAND_REPAIR_TOOL_ID} maxCount={1} title="上传图片" disabled={busy} onChange={(_ids, records) => { void adoptImage(records[0]!); }} />
-                            )}
-                            {image ? <p className="mt-1 text-[11px] text-muted-foreground">换图会清空已涂抹的蒙版。</p> : null}
+                            <p className="text-xs font-medium text-foreground">上传图片</p>
+                            <ToolAssetInput
+                                toolId={HAND_REPAIR_TOOL_ID}
+                                maxCount={1}
+                                variant="linkfox"
+                                dropLabel={image ? image.name : "上传图片"}
+                                uploadLabel="从作品库选择"
+                                thirdAction={null}
+                                hint=""
+                                disabled={busy}
+                                onChange={(_ids, records) => {
+                                    if (records[0]) void adoptImage(records[0]);
+                                }}
+                            />
                         </section>
 
                         <section className="rounded-lg border border-border bg-card p-3">
-                            <p className="text-xs font-medium text-foreground">人物类型</p>
-                            <p className="mt-1 text-[11px] text-muted-foreground">用于约束重画的手部结构与年龄性别特征。</p>
+                            <p className="text-xs font-medium text-foreground">性别与年龄</p>
                             <div className="mt-2 grid grid-cols-2 gap-1.5">
                                 {personTypes.map((option) => (
                                     <button
@@ -1536,16 +1568,8 @@ export function HandRepairWorkspace({ className }: RepairWorkspaceProps = {}) {
                             </p>
                         </section>
 
-                        <section className="rounded-lg border border-border bg-card p-3">
-                            <p className="text-xs font-medium text-foreground">提交前检查</p>
-                            <ul className="mt-1 space-y-1 text-[11px] text-muted-foreground">
-                                <li>{image ? "✓" : "·"} 已上传原图</li>
-                                <li>{maskEmpty ? "·" : "✓"} 已涂抹手部区域</li>
-                                <li>✓ 人物类型：{personTypes.find((option) => option.value === state.personType)?.label ?? state.personType}</li>
-                                <li>✓ 生成张数：{state.outputNum}</li>
-                            </ul>
-                            <p className="mt-2 text-[11px] text-muted-foreground">{HAND_REPAIR_UPSTREAM.note}</p>
-                        </section>
+                        
+                        <WatermarkGroupPanel />
                     </aside>
                 </div>
             </ToolShell>

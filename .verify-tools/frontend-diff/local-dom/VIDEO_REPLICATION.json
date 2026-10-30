@@ -1,0 +1,730 @@
+{
+ "id": "VIDEO_REPLICATION",
+ "route": "/tools/ai-video/video-replication",
+ "ok": true,
+ "error": null,
+ "title": "无限画布",
+ "text": "无限画布\n首页\n电商套图\n智能修图\n新模型\nAI视频\nHOT\n批量生图\n商品图设计\n中\nv0.27.0\n图转视频\n带货口播\n视频复刻\n视频编辑\n视频翻译\n视频拼接\n补充\n免责声明\nAI 视频 / 视频复刻\n视频复刻\n/tools/ai-video/video-replication\n视频复刻\n上传参考视频与商品图，复刻原片镜头与节奏，生成可投放的带货视频。\n开始生成\n1. 参考视频\n本地上传\nTikTok 链接\n支持 MP4/MOV，100MB 以内；后续按片段复刻镜头结构。\n上传素材\n0\n0 / 1 个 · MP4 / MOV · ≤ 100 MB\n点击选择本地文件，或拖拽到这里\n校验格式 / 大小 / 像素，入库后可刷新恢复\n还没有素材\n2. 复刻片段\n0\n–\n5\ns（共\n5\ns）\nAuto（自动）\n手动截取\n自动模式按\n15\ns 取片（无可用片段时）。\n3. 商品参考图\n0\n/\n6\n张\nJPG/PNG/WEBP，单张 ≤10MB，边长 384–4096，宽高比 0.4–2.5。\n上传素材\n0\n0 / 6 个 · PNG / JPG / image/jpg / WebP · ≤ 10 MB\n点击选择本地文件，或拖拽到这里\n校验格式 / 大小 / 像素，入库后可刷新恢复\n还没有素材\n4. 口播脚本\n生成脚本草稿\n0\n/\n4000\n字\n提交前由模型优化提示词\n5. 生成参数\n视频模型\n出片比例\n9:16\n16:9\n1:1\n3:4\n4:3\n21:9\n分辨率\n480P\n720P\n6. 时长与市场\n视频时长\nAuto（15秒）\n5\n10\n15\n目标国家\n口播语言\n视频类型\n带货口播\n生成视频（9:16 · 720P · 约 5 秒 · 英语 · US(美国)）\n·\n请上传参考视频（MP4/MOV，≤100MB）\n·\n请上传至少 1 张商品参考图\n·\n口播脚本为空：请填写或先用 AI 脚本分析\n消耗：按生成时长计费；同参数重复提交会复用未完成任务。\n历史任务\n点击「查看结果」把历史任务放回上方结果区\n历史记录\n0 条\n还没有视频复刻任务：提交后这里会出现真实任务记录\n历史任务\n0\n条\n本工具还没有历史任务；提交一次后会在这里留下任务、配置与结果，刷新后仍在。\n连接本地 Agent\n未连接\n点连接会自动启动本地服务、装好插件并接通，无需手动配置。\nClaude Code\n未连接\n·\nCLI · 2.1.285 (Claude Code)\n·\n直接运行\n连接\nCodex\n未连接\n·\nCLI · codex-cli 0.163.0\n·\n插件已装\n连接\nGalley\n未连接\n·\nCLI + 桌面版 · galley 0.6.4\n连接",
+ "lines": [
+  "无限画布",
+  "首页",
+  "电商套图",
+  "智能修图",
+  "新模型",
+  "AI视频",
+  "HOT",
+  "批量生图",
+  "商品图设计",
+  "中",
+  "v0.27.0",
+  "图转视频",
+  "带货口播",
+  "视频复刻",
+  "视频编辑",
+  "视频翻译",
+  "视频拼接",
+  "补充",
+  "免责声明",
+  "AI 视频 / 视频复刻",
+  "视频复刻",
+  "/tools/ai-video/video-replication",
+  "视频复刻",
+  "上传参考视频与商品图，复刻原片镜头与节奏，生成可投放的带货视频。",
+  "开始生成",
+  "1. 参考视频",
+  "本地上传",
+  "TikTok 链接",
+  "支持 MP4/MOV，100MB 以内；后续按片段复刻镜头结构。",
+  "上传素材",
+  "0",
+  "0 / 1 个 · MP4 / MOV · ≤ 100 MB",
+  "点击选择本地文件，或拖拽到这里",
+  "校验格式 / 大小 / 像素，入库后可刷新恢复",
+  "还没有素材",
+  "2. 复刻片段",
+  "0",
+  "–",
+  "5",
+  "s（共",
+  "5",
+  "s）",
+  "Auto（自动）",
+  "手动截取",
+  "自动模式按",
+  "15",
+  "s 取片（无可用片段时）。",
+  "3. 商品参考图",
+  "0",
+  "/",
+  "6",
+  "张",
+  "JPG/PNG/WEBP，单张 ≤10MB，边长 384–4096，宽高比 0.4–2.5。",
+  "上传素材",
+  "0",
+  "0 / 6 个 · PNG / JPG / image/jpg / WebP · ≤ 10 MB",
+  "点击选择本地文件，或拖拽到这里",
+  "校验格式 / 大小 / 像素，入库后可刷新恢复",
+  "还没有素材",
+  "4. 口播脚本",
+  "生成脚本草稿",
+  "0",
+  "/",
+  "4000",
+  "字",
+  "提交前由模型优化提示词",
+  "5. 生成参数",
+  "视频模型",
+  "出片比例",
+  "9:16",
+  "16:9",
+  "1:1",
+  "3:4",
+  "4:3",
+  "21:9",
+  "分辨率",
+  "480P",
+  "720P",
+  "6. 时长与市场",
+  "视频时长",
+  "Auto（15秒）",
+  "5",
+  "10",
+  "15",
+  "目标国家",
+  "口播语言",
+  "视频类型",
+  "带货口播",
+  "生成视频（9:16 · 720P · 约 5 秒 · 英语 · US(美国)）",
+  "·",
+  "请上传参考视频（MP4/MOV，≤100MB）",
+  "·",
+  "请上传至少 1 张商品参考图",
+  "·",
+  "口播脚本为空：请填写或先用 AI 脚本分析",
+  "消耗：按生成时长计费；同参数重复提交会复用未完成任务。",
+  "历史任务",
+  "点击「查看结果」把历史任务放回上方结果区",
+  "历史记录",
+  "0 条",
+  "还没有视频复刻任务：提交后这里会出现真实任务记录",
+  "历史任务",
+  "0",
+  "条",
+  "本工具还没有历史任务；提交一次后会在这里留下任务、配置与结果，刷新后仍在。",
+  "连接本地 Agent",
+  "未连接",
+  "点连接会自动启动本地服务、装好插件并接通，无需手动配置。",
+  "Claude Code",
+  "未连接",
+  "·",
+  "CLI · 2.1.285 (Claude Code)",
+  "·",
+  "直接运行",
+  "连接",
+  "Codex",
+  "未连接",
+  "·",
+  "CLI · codex-cli 0.163.0",
+  "·",
+  "插件已装",
+  "连接",
+  "Galley",
+  "未连接",
+  "·",
+  "CLI + 桌面版 · galley 0.6.4",
+  "连接"
+ ],
+ "controls": [
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "中",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1593,
+    "y": 14,
+    "w": 28,
+    "h": 28
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "切换到深色主题",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1625,
+    "y": 14,
+    "w": 28,
+    "h": 28
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "v0.27.0",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1657,
+    "y": 17,
+    "w": 47,
+    "h": 22
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "开始生成",
+   "placeholder": "",
+   "disabled": true,
+   "rect": {
+    "x": 1803,
+    "y": 197,
+    "w": 80,
+    "h": 34
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "本地上传",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 384,
+    "y": 277,
+    "w": 72,
+    "h": 30
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "TikTok 链接",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 460,
+    "y": 277,
+    "w": 89,
+    "h": 30
+   }
+  },
+  {
+   "tag": "div",
+   "type": "",
+   "text": "点击选择本地文件，或拖拽到这里\n校验格式 / 大小 / 像素，入库后可刷新恢复",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 246,
+    "y": 378,
+    "w": 306,
+    "h": 86
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "Auto（自动）",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 249,
+    "y": 596,
+    "w": 102,
+    "h": 30
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "手动截取",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 355,
+    "y": 596,
+    "w": 72,
+    "h": 30
+   }
+  },
+  {
+   "tag": "div",
+   "type": "",
+   "text": "点击选择本地文件，或拖拽到这里\n校验格式 / 大小 / 像素，入库后可刷新恢复",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 246,
+    "y": 840,
+    "w": 306,
+    "h": 86
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "生成脚本草稿",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 450,
+    "y": 1016,
+    "w": 102,
+    "h": 32
+   }
+  },
+  {
+   "tag": "textarea",
+   "type": "",
+   "text": "描述视频要卖什么、卖点、镜头节奏…（会连同国家/语言/时长一起写进提示词）",
+   "placeholder": "描述视频要卖什么、卖点、镜头节奏…（会连同国家/语言/时长一起写进提示词）",
+   "disabled": false,
+   "rect": {
+    "x": 246,
+    "y": 1048,
+    "w": 306,
+    "h": 128
+   }
+  },
+  {
+   "tag": "input",
+   "type": "checkbox",
+   "text": "on",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 246,
+    "y": 1214,
+    "w": 13,
+    "h": 13
+   }
+  },
+  {
+   "tag": "input",
+   "type": "",
+   "text": "default::grok-imagine-video",
+   "placeholder": "视频模型（默认 单卡 Seedance 2.0 fast）",
+   "disabled": false,
+   "rect": {
+    "x": 610,
+    "y": 334,
+    "w": 1256,
+    "h": 36
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "9:16",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 610,
+    "y": 411,
+    "w": 46,
+    "h": 32
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "16:9",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 660,
+    "y": 411,
+    "w": 46,
+    "h": 32
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "1:1",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 710,
+    "y": 411,
+    "w": 35,
+    "h": 32
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "3:4",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 748,
+    "y": 411,
+    "w": 40,
+    "h": 32
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "4:3",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 792,
+    "y": 411,
+    "w": 39,
+    "h": 32
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "21:9",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 835,
+    "y": 411,
+    "w": 45,
+    "h": 32
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "480P",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 610,
+    "y": 483,
+    "w": 53,
+    "h": 32
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "720P",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 667,
+    "y": 483,
+    "w": 52,
+    "h": 32
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "Auto（15秒）",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 610,
+    "y": 625,
+    "w": 105,
+    "h": 32
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "5",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 719,
+    "y": 625,
+    "w": 27,
+    "h": 32
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "10",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 749,
+    "y": 625,
+    "w": 33,
+    "h": 32
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "15",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 786,
+    "y": 625,
+    "w": 33,
+    "h": 32
+   }
+  },
+  {
+   "tag": "select",
+   "type": "",
+   "text": "US(美国)",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 610,
+    "y": 697,
+    "w": 1256,
+    "h": 33
+   }
+  },
+  {
+   "tag": "select",
+   "type": "",
+   "text": "英语",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 610,
+    "y": 771,
+    "w": 1256,
+    "h": 33
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "带货口播",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 610,
+    "y": 844,
+    "w": 74,
+    "h": 32
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "生成视频（9:16 · 720P · 约 5 秒 · 英语 · US(美国)）",
+   "placeholder": "",
+   "disabled": true,
+   "rect": {
+    "x": 610,
+    "y": 926,
+    "w": 1256,
+    "h": 38
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "连接",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 2265,
+    "y": 147,
+    "w": 66,
+    "h": 24
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "连接",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 2265,
+    "y": 215,
+    "w": 66,
+    "h": 24
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "连接",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 2265,
+    "y": 283,
+    "w": 66,
+    "h": 24
+   }
+  }
+ ],
+ "regions": [
+  {
+   "cls": "sticky top-0 z-[7] h-14 shrink-0 border-b border-hairline bg-surface/95 backdrop",
+   "rect": {
+    "x": 0,
+    "y": 0,
+    "w": 1920,
+    "h": 56
+   },
+   "text": "无限画布\n首页\n电商套图\n智能修图\n新模型\nAI视频\nHOT\n批量生图\n商品图设计\n中\n切换到深色主题\nv0.27.0"
+  },
+  {
+   "cls": "hidden w-[180px] shrink-0 overflow-y-auto rounded-xl border border-hairline bg-s",
+   "rect": {
+    "x": 16,
+    "y": 56,
+    "w": 180,
+    "h": 1008
+   },
+   "text": "AI 视频\n图转视频\n带货口播\n视频复刻\n视频编辑\n视频翻译\n视频拼接\n补充\n免责声明"
+  },
+  {
+   "cls": "flex min-h-14 shrink-0 flex-wrap items-center gap-3 border-b border-hairline px-",
+   "rect": {
+    "x": 209,
+    "y": 57,
+    "w": 1694,
+    "h": 109
+   },
+   "text": "AI 视频 / 视频复刻\n视频复刻\n\n/tools/ai-video/video-replication"
+  },
+  {
+   "cls": "min-h-0 flex-1 overflow-y-auto bg-transparent px-4 py-4 sm:px-5",
+   "rect": {
+    "x": 209,
+    "y": 166,
+    "w": 1694,
+    "h": 897
+   },
+   "text": "视频复刻\n\n上传参考视频与商品图，复刻原片镜头与节奏，生成可投放的带货视频。\n\n开始生成\n1. 参考视频\n本地上传\nTikTok 链接\n\n支持 MP4/MOV，100MB 以内；后续按片段复刻镜头结构。\n\n上传素材\n00 / 1 个 · MP4 / MOV · ≤ 100 MB\n点击选择本地文件，或拖拽到这里\n校验格式 / 大小 / 像素，入库后可刷新恢复\n\n还没有素材\n\n2. 复刻片段\n0–5s（共 5s）\nAuto（自动）\n手动截取\n\n自动模式按 15s 取片（无可用片段时）。\n\n3. 商品参考图\n0/6 张\n\nJPG/PNG/WEBP，单张 ≤10MB，边长 384–4096，宽高比 0"
+  },
+  {
+   "cls": "rounded-lg border border-border bg-card p-4",
+   "rect": {
+    "x": 229,
+    "y": 257,
+    "w": 340,
+    "h": 264
+   },
+   "text": "1. 参考视频\n本地上传\nTikTok 链接\n\n支持 MP4/MOV，100MB 以内；后续按片段复刻镜头结构。\n\n上传素材\n00 / 1 个 · MP4 / MOV · ≤ 100 MB\n点击选择本地文件，或拖拽到这里\n校验格式 / 大小 / 像素，入库后可刷新恢复\n\n还没有素材"
+  },
+  {
+   "cls": "space-y-3",
+   "rect": {
+    "x": 246,
+    "y": 339,
+    "w": 306,
+    "h": 153
+   },
+   "text": "上传素材\n00 / 1 个 · MP4 / MOV · ≤ 100 MB\n点击选择本地文件，或拖拽到这里\n校验格式 / 大小 / 像素，入库后可刷新恢复\n\n还没有素材"
+  },
+  {
+   "cls": "rounded-lg border border-border bg-card p-4",
+   "rect": {
+    "x": 229,
+    "y": 537,
+    "w": 340,
+    "h": 137
+   },
+   "text": "2. 复刻片段\n0–5s（共 5s）\nAuto（自动）\n手动截取\n\n自动模式按 15s 取片（无可用片段时）。"
+  },
+  {
+   "cls": "rounded-lg border border-border bg-card p-4",
+   "rect": {
+    "x": 229,
+    "y": 691,
+    "w": 340,
+    "h": 293
+   },
+   "text": "3. 商品参考图\n0/6 张\n\nJPG/PNG/WEBP，单张 ≤10MB，边长 384–4096，宽高比 0.4–2.5。\n\n上传素材\n00 / 6 个 · PNG / JPG / image/jpg / WebP · ≤ 10 MB\n点击选择本地文件，或拖拽到这里\n校验格式 / 大小 / 像素，入库后可刷新恢复\n\n还没有素材"
+  },
+  {
+   "cls": "space-y-3",
+   "rect": {
+    "x": 246,
+    "y": 781,
+    "w": 306,
+    "h": 173
+   },
+   "text": "上传素材\n00 / 6 个 · PNG / JPG / image/jpg / WebP · ≤ 10 MB\n点击选择本地文件，或拖拽到这里\n校验格式 / 大小 / 像素，入库后可刷新恢复\n\n还没有素材"
+  },
+  {
+   "cls": "rounded-lg border border-border bg-card p-4",
+   "rect": {
+    "x": 229,
+    "y": 999,
+    "w": 340,
+    "h": 247
+   },
+   "text": "4. 口播脚本\n生成脚本草稿\n0/4000 字\n提交前由模型优化提示词"
+  },
+  {
+   "cls": "rounded-lg border border-border bg-card p-4",
+   "rect": {
+    "x": 593,
+    "y": 257,
+    "w": 1290,
+    "h": 275
+   },
+   "text": "5. 生成参数\n\n视频模型\n\n出片比例\n\n9:16\n16:9\n1:1\n3:4\n4:3\n21:9\n\n分辨率\n\n480P\n720P"
+  },
+  {
+   "cls": "rounded-lg border border-border bg-card p-4",
+   "rect": {
+    "x": 593,
+    "y": 548,
+    "w": 1290,
+    "h": 345
+   },
+   "text": "6. 时长与市场\n\n视频时长\n\nAuto（15秒）\n5\n10\n15\n\n目标国家\n\nUS(美国)\n\n口播语言\n\n英语\n\n视频类型\n\n带货口播"
+  },
+  {
+   "cls": "rounded-lg border border-border bg-card p-4",
+   "rect": {
+    "x": 593,
+    "y": 909,
+    "w": 1290,
+    "h": 170
+   },
+   "text": "生成视频（9:16 · 720P · 约 5 秒 · 英语 · US(美国)）\n· 请上传参考视频（MP4/MOV，≤100MB）\n· 请上传至少 1 张商品参考图\n· 口播脚本为空：请填写或先用 AI 脚本分析\n\n消耗：按生成时长计费；同参数重复提交会复用未完成任务。"
+  },
+  {
+   "cls": "mt-4 space-y-2 rounded-lg border border-border p-3",
+   "rect": {
+    "x": 229,
+    "y": 1274,
+    "w": 1654,
+    "h": 141
+   },
+   "text": "历史任务\n点击「查看结果」把历史任务放回上方结果区\n历史记录\n0 条\n\n还没有视频复刻任务：提交后这里会出现真实任务记录"
+  },
+  {
+   "cls": "rounded-lg border border-border bg-card/40 p-3 mt-4",
+   "rect": {
+    "x": 229,
+    "y": 1430,
+    "w": 1654,
+    "h": 80
+   },
+   "text": "历史任务\n0 条\n\n本工具还没有历史任务；提交一次后会在这里留下任务、配置与结果，刷新后仍在。"
+  },
+  {
+   "cls": "relative flex h-full shrink-0 flex-col border-l",
+   "rect": {
+    "x": 1920,
+    "y": 0,
+    "w": 440,
+    "h": 1080
+   },
+   "text": "连接本地 Agent\n未连接\n点连接会自动启动本地服务、装好插件并接通，无需手动配置。\nClaude Code\n未连接\n·\nCLI · 2.1.285 (Claude Code)\n·\n直接运行\n连接\nCodex\n未连接\n·\nCLI · codex-cli 0.163.0\n·\n插件已装\n连接\nGalley\n未连接\n·\nCLI + 桌面版 · galley 0.6.4\n连接"
+  }
+ ]
+}

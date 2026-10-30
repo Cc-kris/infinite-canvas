@@ -325,7 +325,7 @@ export function ToolAssetInput({ toolId, draftSlot, constraints, maxCount, libra
 
     return (
         <section className={cn("space-y-3", className)} aria-busy={items.some((item) => item.status === "uploading")} data-tool-asset-input={toolId} data-variant={variant}>
-            {linkfox && !title ? null : (
+            {linkfox ? null : (
             <div className="flex items-baseline justify-between gap-3">
                 <h3 className="text-sm font-medium text-stone-800 dark:text-stone-100">{title}</h3>
                 <span className="text-xs text-stone-500">

@@ -117,7 +117,7 @@ function asBool(value: unknown): boolean {
 /** 默认值：场景每项 4 张（页面实测），主副图默认勾选模特图 + 白底图，A+ 单选且默认不选。 */
 export function createDressWearSetValues(): DressWearSetValues {
     const mainScenes = Object.fromEntries(DRESS_MAIN_SCENE_OPTIONS.map((option) => [option.key, { checked: MAIN_DEFAULT_CHECKED.includes(option.key), count: option.defaultCount }]));
-    const aplusScenes = Object.fromEntries(DRESS_APLUS_SCENE_OPTIONS.map((option) => [option.key, { checked: false, count: option.defaultCount }]));
+    const aplusScenes = Object.fromEntries(DRESS_APLUS_SCENE_OPTIONS.map((option, index) => [option.key, { checked: index === 0, count: option.defaultCount }]));
 
     return dressWearSetValuesSchema.parse({
         productInfo: "",

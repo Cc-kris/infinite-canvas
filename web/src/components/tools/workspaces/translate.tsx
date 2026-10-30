@@ -1,7 +1,10 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
+import { ChevronDown } from "lucide-react";
+
 import { ToolAssetInput } from "@/components/tools/tool-asset-input";
 import { ToolShell } from "@/components/tools/tool-shell";
+import { WatermarkGroupPanel } from "@/components/tools/watermark-group-panel";
 import { saveResultItemToAssets, sendResultItemToCanvas } from "@/components/tools/tool-result-actions";
 import {
     auditConfirmed,
@@ -24,6 +27,7 @@ import {
 } from "@/features/tools/adapters/image-translation";
 import {
     IMAGE_TRANSLATION_DRAFT_KEY,
+    IMAGE_TRANSLATION_CREDITS,
     IMAGE_TRANSLATION_MAX_IMAGES,
     IMAGE_TRANSLATION_MAX_TARGETS,
     IMAGE_TRANSLATION_MAX_TEXT_CHARS,
@@ -38,7 +42,6 @@ import {
     applyRecognition,
     blockingIssues,
     createTranslationValues,
-    groupSelectedCounts,
     imageCharCount,
     imageStateOf,
     isSnapshotStale,
@@ -85,7 +88,7 @@ const STATUS_LABEL: Record<TranslationUnitStatus, string> = {
 /** 原站语言 chip：26px 高、6px 圆角、浅灰底；选中为品牌紫底白字。 */
 const CHIP_CLASS = (active: boolean) =>
     cn(
-        "h-[26px] rounded-[6px] px-3 text-xs leading-none transition disabled:cursor-not-allowed disabled:opacity-50",
+        "h-[20px] rounded-[5px] px-1.5 text-[11px] leading-none transition disabled:cursor-not-allowed disabled:opacity-50",
         active ? "bg-primary text-primary-foreground" : "bg-muted text-foreground hover:bg-muted/80",
     );
 
@@ -128,9 +131,9 @@ function Section({
         );
     }
     return (
-        <section id={id} className="scroll-mt-16 rounded-lg border border-border bg-card p-3">
+        <section id={id} className="scroll-mt-16 rounded-lg border border-border bg-card p-2.5">
             {header}
-            <div className="space-y-2">{children}</div>
+            <div className="space-y-1.5">{children}</div>
         </section>
     );
 }
@@ -226,7 +229,6 @@ export function TranslateWorkspace({ className }: TranslateWorkspaceProps = {}) 
     const succeededTotal = outcomes.filter((outcome) => outcome.status === "succeeded").length;
     const languageRows = useMemo(() => summarizeByLanguage(values.targetLanguages, outcomes), [values.targetLanguages, outcomes]);
     const cells = useMemo(() => plannedCells(assetIds, values.targetLanguages), [assetIds, values.targetLanguages]);
-    const groupCounts = useMemo(() => groupSelectedCounts(values.targetLanguages), [values.targetLanguages]);
 
     /* ---------------- 图片 ---------------- */
 
@@ -555,8 +557,29 @@ export function TranslateWorkspace({ className }: TranslateWorkspaceProps = {}) 
                 </nav>
             }
         >
-            <div className="grid min-h-0 gap-3 bg-muted/40 p-3 xl:grid-cols-[300px_minmax(0,1fr)]">
-                <div className="space-y-3">
+            <div className="grid min-h-0 gap-3 bg-muted/40 p-3 xl:grid-cols-[560px_minmax(0,1fr)]">
+                <div className="space-y-2 xl:grid xl:grid-cols-2 xl:items-start xl:gap-2 xl:space-y-0">
+                    <nav
+                        aria-label="电商套图"
+                        className="flex flex-wrap items-center gap-1 rounded-lg border border-border bg-card px-2 py-1.5 text-[11px] text-muted-foreground xl:col-span-2"
+                    >
+                        <span className="mr-1 font-medium text-foreground">250</span>
+                        {["商品套图", "服装套图", "爆款图复刻", "NEW", "套图换色", "批量翻译", "高清放大", "批量抠图", "智能扩图"].map(
+                            (label) => (
+                                <span
+                                    key={label}
+                                    className={cn(
+                                        "rounded px-1.5 py-0.5",
+                                        label === "批量翻译" ? "bg-accent font-medium text-foreground" : "",
+                                        label === "NEW" ? "text-primary" : "",
+                                    )}
+                                >
+                                    {label}
+                                </span>
+                            ),
+                        )}
+                    </nav>
+                    <div className="space-y-2">
                     <Section id="images" title="上传需要翻译的图片" titleClassName="text-xs font-normal">
                         <ToolAssetInput
                             toolId={TOOL_ID}
@@ -648,7 +671,9 @@ export function TranslateWorkspace({ className }: TranslateWorkspaceProps = {}) 
                             <p className="text-[11px] text-muted-foreground">识别图像语言：{languageLabel(activeImage.detectedLanguage)}</p>
                         ) : null}
                     </Section>
+                    </div>
 
+                    <div className="space-y-2">
                     <Section
                         id="targets"
                         title="目标语言"
@@ -658,17 +683,12 @@ export function TranslateWorkspace({ className }: TranslateWorkspaceProps = {}) 
                             </span>
                         }
                     >
-                        <div className="space-y-2">
+                        <div className="space-y-1">
                             {TARGET_LANGUAGE_GROUPS.map((group) => {
-                                const count = groupCounts.find((item) => item.key === group.key)?.selected ?? 0;
                                 return (
-                                    <div key={group.key} className="space-y-1.5">
-                                        <div className="flex items-center gap-1 text-[11px] text-muted-foreground">
-                                            <span>{group.label}</span>
-                                            {count ? <span className="text-primary">已选 {count}</span> : null}
-                                        </div>
-                                        <div className="flex flex-wrap gap-1.5">
-                                            {group.languages.map((language) => {
+                                    <div key={group.key} className="flex flex-wrap items-center gap-1">
+                                        <span className="mr-0.5 text-[10px] text-muted-foreground">{group.label}</span>
+                                        {group.languages.map((language) => {
                                                 const selected = values.targetLanguages.includes(language.code);
                                                 const sameAsSource = values.sourceLanguage === language.code;
                                                 return (
@@ -685,7 +705,6 @@ export function TranslateWorkspace({ className }: TranslateWorkspaceProps = {}) 
                                                     </button>
                                                 );
                                             })}
-                                        </div>
                                     </div>
                                 );
                             })}
@@ -701,21 +720,28 @@ export function TranslateWorkspace({ className }: TranslateWorkspaceProps = {}) 
                             onClick={() => void runAll()}
                             className="h-9 w-full rounded-md bg-primary text-sm font-medium text-primary-foreground transition hover:bg-primary/90 disabled:cursor-not-allowed disabled:opacity-50"
                         >
-                            {busy ? `翻译中 ${progress.done}/${progress.total}` : "开始翻译"}
+                            {busy ? `翻译中 ${progress.done}/${progress.total}` : <><span>开始翻译</span><span className="ml-1 text-xs text-primary-foreground/80">({IMAGE_TRANSLATION_CREDITS}算力)</span></>}
                         </button>
                     </Section>
+                    <WatermarkGroupPanel />
+                    <p className="px-1 text-[11px] text-muted-foreground">ljq_driver: 已连接</p>
+                    </div>
                 </div>
 
                 <div className="flex min-h-0 flex-col gap-3">
                     <div className="flex h-[41px] shrink-0 items-center gap-6 border-b border-border bg-card px-4 text-sm">
                         <span className="-mb-px flex h-full items-center border-b-2 border-primary font-medium text-primary">生成结果</span>
                     </div>
+                    <details className="rounded-md border border-border/70 px-3 py-1.5">
+                    <summary aria-label="校对" className="flex cursor-pointer items-center gap-1 text-xs text-muted-foreground [&::-webkit-details-marker]:hidden">
+                        <ChevronDown className="size-3.5" aria-hidden />
+                    </summary>
                     <Section
                         id="proofread"
                         collapsible
                         defaultOpen={false}
-                        title="逐文本框校对"
-                        hint={activeRecord ? `${activeRecord.name} · ${activeImage?.boxes.length ?? 0} 个文字框` : "先在左侧选择图片"}
+                        title="校对"
+                        hint={activeRecord ? `${activeRecord.name} · ${activeImage?.boxes.length ?? 0}` : ""}
                     >
                         {activeRecord ? (
                             <>
@@ -864,22 +890,28 @@ export function TranslateWorkspace({ className }: TranslateWorkspaceProps = {}) 
                             </ul>
                         ) : null}
                     </Section>
+                    </details>
 
-                    <Section id="results" hint={`${succeededTotal}/${plannedTotal} 完成`}>
-                        <div className="flex flex-wrap items-center gap-2">
+                    <Section id="results">
+                        <details className="mb-2">
+                            <summary aria-label="更多" className="flex cursor-pointer items-center gap-1 text-[11px] text-muted-foreground [&::-webkit-details-marker]:hidden">
+                                <ChevronDown className="size-3.5" aria-hidden />
+                            </summary>
+                            <div className="mt-2 flex flex-wrap items-center gap-2">
                             <button
                                 type="button"
                                 disabled={busy || outcomes.length === 0}
                                 onClick={() => void retryFailed()}
                                 className="rounded border border-border px-2 py-1 text-[11px] transition hover:bg-accent disabled:opacity-50"
                             >
-                                重试失败单元
+                                重试失败项
                             </button>
                             <button type="button" onClick={() => setShowSnapshot((prev) => !prev)} className="rounded border border-border px-2 py-1 text-[11px] transition hover:bg-accent">
-                                {showSnapshot ? "隐藏快照" : "查看快照"}
+                                {showSnapshot ? "收起快照" : "展开快照"}
                             </button>
-                            {busy ? <span className="text-[11px] text-muted-foreground">进度 {progress.done}/{progress.total}</span> : null}
-                        </div>
+                            </div>
+                        </details>
+                        {busy ? <span className="text-[11px] text-muted-foreground">进度 {progress.done}/{progress.total}</span> : null}
 
                         {showSnapshot ? (
                             <pre className="max-h-48 overflow-auto rounded border border-border bg-muted/30 p-2 text-[10px] leading-relaxed">
@@ -888,7 +920,7 @@ export function TranslateWorkspace({ className }: TranslateWorkspaceProps = {}) 
                         ) : null}
 
                         {!assetIds.length || !values.targetLanguages.length ? (
-                            <p className="text-xs text-muted-foreground">上传图片并选择目标语言后，这里会出现「图片 × 语言」结果矩阵。</p>
+                            <p className="text-xs text-muted-foreground">快速翻译成多语言，快速上架</p>
                         ) : (
                             <div className="overflow-x-auto">
                                 <table className="w-full min-w-[520px] border-collapse text-xs">

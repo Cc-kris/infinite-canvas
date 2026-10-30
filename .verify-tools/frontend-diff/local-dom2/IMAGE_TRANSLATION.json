@@ -1,0 +1,4203 @@
+{
+ "url": "http://localhost:3000/tools/ecommerce-suite/image-translation",
+ "title": "无限画布",
+ "viewport": [
+  1920,
+  839
+ ],
+ "text": "无限画布\n首页\n电商套图\n智能修图\n新模型\nAI视频\nHOT\n批量生图\n商品图设计\n中\n切换到深色主题\nv0.27.0\n电商套图\n商品套图\n服装套图\n套图换色\n批量翻译\n高清放大\n智能扩图\n免责声明\n批量翻译\n250\n商品套图\n服装套图\n爆款图复刻\nNEW\n套图换色\n批量翻译\n高清放大\n批量抠图\n智能扩图\n上传需要翻译的图片\n从本地上传\n从作品库选择\n从商品库选择\n20M以内，384*384 ~ 4096*4096\n\n上传多张图片，开始批量翻译\n\n💡当前仅支持单张图内500字以下的内容翻译\n\n原文语言\n中文\n英语\n繁体中文\n西班牙语\n日语\n韩语\n葡萄牙语\n德语\n罗马尼亚语\n俄语\n越南语\n目标语言（可多选，已选 1 个语言）\n欧美\n英语\n俄语\n法语\n德语\n瑞典语\n挪威语\n荷兰语\n丹麦语\n意大利语\n葡萄牙语\n葡萄牙语(巴西)\n西班牙语\n波兰语\n捷克语\n希腊语\n爱沙尼亚语\n芬兰语\n匈牙利语\n立陶宛语\n拉脱维亚语\n罗马尼亚语\n斯洛伐克语\n斯洛文尼亚语\n乌克兰语\n保加利亚语\n克罗地亚语\n亚洲\n简体中文\n繁体中文\n日语\n韩语\n泰语\n越南语\n马来语\n缅甸语\n印度尼西亚语\n老挝语\n孟加拉语\n菲律宾语\n他加禄语\n爪哇语\n南亚\n印地语\n古吉拉特语\n马拉地语\n泰米尔语\n泰卢固语\n乌尔都语\n中东\n阿拉伯语\n波斯语\n希伯来语\n中库尔德语\n塔吉克语\n土耳其语\n非洲\n斯瓦希里语\n开始翻译(20算力)\n管理水印分组\n共 1/20 个\n默认\n＋ 新增水印分组\n\nljq_driver: 已连接\n\n生成结果\n\n快速翻译成多语言，快速上架\n\n连接本地 Agent\n未连接\n点连接会自动启动本地服务、装好插件并接通，无需手动配置。\nClaude Code\n未连接\n·\nCLI · 2.1.285 (Claude Code)\n·\n直接运行\n连接\nCodex\n未连接\n·\nCLI · codex-cli 0.163.0\n·\n插件已装\n连接\nGalley\n未连接\n·\nCLI + 桌面版 · galley 0.6.4\n连接",
+ "textEls": [
+  {
+   "text": "无限画布",
+   "tag": "SPAN",
+   "box": {
+    "x": 220,
+    "y": 18,
+    "w": 55,
+    "h": 20,
+    "display": "block",
+    "position": "static",
+    "bg": "rgba(0, 0, 0, 0)",
+    "color": "oklch(0.145 0 0)",
+    "font": "14px",
+    "radius": "0px"
+   }
+  },
+  {
+   "text": "首页",
+   "tag": "A",
+   "box": {
+    "x": 295,
+    "y": 10,
+    "w": 52,
+    "h": 36,
+    "display": "flex",
+    "position": "relative",
+    "bg": "rgba(0, 0, 0, 0)",
+    "color": "oklch(0.556 0 0)",
+    "font": "14px",
+    "radius": "10px"
+   }
+  },
+  {
+   "text": "电商套图",
+   "tag": "SPAN",
+   "box": {
+    "x": 363,
+    "y": 18,
+    "w": 56,
+    "h": 20,
+    "display": "block",
+    "position": "static",
+    "bg": "rgba(0, 0, 0, 0)",
+    "color": "oklch(0.205 0 0)",
+    "font": "14px",
+    "radius": "0px"
+   }
+  },
+  {
+   "text": "智能修图",
+   "tag": "SPAN",
+   "box": {
+    "x": 447,
+    "y": 18,
+    "w": 56,
+    "h": 20,
+    "display": "block",
+    "position": "static",
+    "bg": "rgba(0, 0, 0, 0)",
+    "color": "oklch(0.556 0 0)",
+    "font": "14px",
+    "radius": "0px"
+   }
+  },
+  {
+   "text": "新模型",
+   "tag": "EM",
+   "box": {
+    "x": 507,
+    "y": 20,
+    "w": 42,
+    "h": 16,
+    "display": "flex",
+    "position": "static",
+    "bg": "oklab(0.544422 0.0774293 -0.245585 / 0.12)",
+    "color": "rgb(114, 60, 249)",
+    "font": "10px",
+    "radius": "3.35544e+07px"
+   }
+  },
+  {
+   "text": "AI视频",
+   "tag": "SPAN",
+   "box": {
+    "x": 577,
+    "y": 18,
+    "w": 41,
+    "h": 20,
+    "display": "block",
+    "position": "static",
+    "bg": "rgba(0, 0, 0, 0)",
+    "color": "oklch(0.556 0 0)",
+    "font": "14px",
+    "radius": "0px"
+   }
+  },
+  {
+   "text": "HOT",
+   "tag": "EM",
+   "box": {
+    "x": 622,
+    "y": 20,
+    "w": 34,
+    "h": 16,
+    "display": "flex",
+    "position": "static",
+    "bg": "oklab(0.544422 0.0774293 -0.245585 / 0.12)",
+    "color": "rgb(114, 60, 249)",
+    "font": "10px",
+    "radius": "3.35544e+07px"
+   }
+  },
+  {
+   "text": "批量生图",
+   "tag": "SPAN",
+   "box": {
+    "x": 684,
+    "y": 18,
+    "w": 56,
+    "h": 20,
+    "display": "block",
+    "position": "static",
+    "bg": "rgba(0, 0, 0, 0)",
+    "color": "oklch(0.556 0 0)",
+    "font": "14px",
+    "radius": "0px"
+   }
+  },
+  {
+   "text": "商品图设计",
+   "tag": "SPAN",
+   "box": {
+    "x": 768,
+    "y": 18,
+    "w": 70,
+    "h": 20,
+    "display": "block",
+    "position": "static",
+    "bg": "rgba(0, 0, 0, 0)",
+    "color": "oklch(0.556 0 0)",
+    "font": "14px",
+    "radius": "0px"
+   }
+  },
+  {
+   "text": "中",
+   "tag": "BUTTON",
+   "box": {
+    "x": 1593,
+    "y": 14,
+    "w": 28,
+    "h": 28,
+    "display": "flex",
+    "position": "static",
+    "bg": "rgba(0, 0, 0, 0)",
+    "color": "oklch(0.145 0 0)",
+    "font": "14px",
+    "radius": "8px"
+   }
+  },
+  {
+   "text": "切换到深色主题",
+   "tag": "SPAN",
+   "box": {
+    "x": 1638,
+    "y": 27,
+    "w": 1,
+    "h": 1,
+    "display": "block",
+    "position": "absolute",
+    "bg": "rgba(0, 0, 0, 0)",
+    "color": "oklch(0.145 0 0)",
+    "font": "14px",
+    "radius": "0px"
+   }
+  },
+  {
+   "text": "电商套图",
+   "tag": "A",
+   "box": {
+    "x": 24,
+    "y": 56,
+    "w": 1,
+    "h": 1,
+    "display": "block",
+    "position": "absolute",
+    "bg": "rgba(0, 0, 0, 0)",
+    "color": "oklch(0.145 0 0)",
+    "font": "14px",
+    "radius": "0px"
+   }
+  },
+  {
+   "text": "商品套图",
+   "tag": "SPAN",
+   "box": {
+    "x": 61,
+    "y": 71,
+    "w": 56,
+    "h": 20,
+    "display": "block",
+    "position": "static",
+    "bg": "rgba(0, 0, 0, 0)",
+    "color": "oklch(0.556 0 0)",
+    "font": "14px",
+    "radius": "0px"
+   }
+  },
+  {
+   "text": "服装套图",
+   "tag": "SPAN",
+   "box": {
+    "x": 61,
+    "y": 113,
+    "w": 56,
+    "h": 20,
+    "display": "block",
+    "position": "static",
+    "bg": "rgba(0, 0, 0, 0)",
+    "color": "oklch(0.556 0 0)",
+    "font": "14px",
+    "radius": "0px"
+   }
+  },
+  {
+   "text": "套图换色",
+   "tag": "SPAN",
+   "box": {
+    "x": 61,
+    "y": 155,
+    "w": 56,
+    "h": 20,
+    "display": "block",
+    "position": "static",
+    "bg": "rgba(0, 0, 0, 0)",
+    "color": "oklch(0.556 0 0)",
+    "font": "14px",
+    "radius": "0px"
+   }
+  },
+  {
+   "text": "批量翻译",
+   "tag": "SPAN",
+   "box": {
+    "x": 61,
+    "y": 197,
+    "w": 56,
+    "h": 20,
+    "display": "block",
+    "position": "static",
+    "bg": "rgba(0, 0, 0, 0)",
+    "color": "oklch(0.205 0 0)",
+    "font": "14px",
+    "radius": "0px"
+   }
+  },
+  {
+   "text": "高清放大",
+   "tag": "SPAN",
+   "box": {
+    "x": 61,
+    "y": 239,
+    "w": 56,
+    "h": 20,
+    "display": "block",
+    "position": "static",
+    "bg": "rgba(0, 0, 0, 0)",
+    "color": "oklch(0.556 0 0)",
+    "font": "14px",
+    "radius": "0px"
+   }
+  },
+  {
+   "text": "智能扩图",
+   "tag": "SPAN",
+   "box": {
+    "x": 61,
+    "y": 281,
+    "w": 56,
+    "h": 20,
+    "display": "block",
+    "position": "static",
+    "bg": "rgba(0, 0, 0, 0)",
+    "color": "oklch(0.556 0 0)",
+    "font": "14px",
+    "radius": "0px"
+   }
+  },
+  {
+   "text": "免责声明",
+   "tag": "DIV",
+   "box": {
+    "x": 17,
+    "y": 770,
+    "w": 178,
+    "h": 52,
+    "display": "block",
+    "position": "static",
+    "bg": "rgba(0, 0, 0, 0)",
+    "color": "oklab(0.556 0 0 / 0.6)",
+    "font": "11px",
+    "radius": "0px"
+   }
+  },
+  {
+   "text": "批量翻译",
+   "tag": "H2",
+   "box": {
+    "x": 219,
+    "y": 67,
+    "w": 56,
+    "h": 24,
+    "display": "block",
+    "position": "static",
+    "bg": "rgba(0, 0, 0, 0)",
+    "color": "oklch(0.145 0 0)",
+    "font": "14px",
+    "radius": "0px"
+   }
+  },
+  {
+   "text": "250",
+   "tag": "SPAN",
+   "box": {
+    "x": 240,
+    "y": 131,
+    "w": 21,
+    "h": 17,
+    "display": "block",
+    "position": "static",
+    "bg": "rgba(0, 0, 0, 0)",
+    "color": "oklch(0.145 0 0)",
+    "font": "11px",
+    "radius": "0px"
+   }
+  },
+  {
+   "text": "商品套图",
+   "tag": "SPAN",
+   "box": {
+    "x": 269,
+    "y": 129,
+    "w": 56,
+    "h": 21,
+    "display": "block",
+    "position": "static",
+    "bg": "rgba(0, 0, 0, 0)",
+    "color": "oklch(0.556 0 0)",
+    "font": "11px",
+    "radius": "4px"
+   }
+  },
+  {
+   "text": "服装套图",
+   "tag": "SPAN",
+   "box": {
+    "x": 329,
+    "y": 129,
+    "w": 56,
+    "h": 21,
+    "display": "block",
+    "position": "static",
+    "bg": "rgba(0, 0, 0, 0)",
+    "color": "oklch(0.556 0 0)",
+    "font": "11px",
+    "radius": "4px"
+   }
+  },
+  {
+   "text": "爆款图复刻",
+   "tag": "SPAN",
+   "box": {
+    "x": 389,
+    "y": 129,
+    "w": 67,
+    "h": 21,
+    "display": "block",
+    "position": "static",
+    "bg": "rgba(0, 0, 0, 0)",
+    "color": "oklch(0.556 0 0)",
+    "font": "11px",
+    "radius": "4px"
+   }
+  },
+  {
+   "text": "NEW",
+   "tag": "SPAN",
+   "box": {
+    "x": 460,
+    "y": 129,
+    "w": 38,
+    "h": 21,
+    "display": "block",
+    "position": "static",
+    "bg": "rgba(0, 0, 0, 0)",
+    "color": "oklch(0.205 0 0)",
+    "font": "11px",
+    "radius": "4px"
+   }
+  },
+  {
+   "text": "套图换色",
+   "tag": "SPAN",
+   "box": {
+    "x": 502,
+    "y": 129,
+    "w": 56,
+    "h": 21,
+    "display": "block",
+    "position": "static",
+    "bg": "rgba(0, 0, 0, 0)",
+    "color": "oklch(0.556 0 0)",
+    "font": "11px",
+    "radius": "4px"
+   }
+  },
+  {
+   "text": "批量翻译",
+   "tag": "SPAN",
+   "box": {
+    "x": 562,
+    "y": 129,
+    "w": 56,
+    "h": 21,
+    "display": "block",
+    "position": "static",
+    "bg": "oklch(0.97 0 0)",
+    "color": "oklch(0.145 0 0)",
+    "font": "11px",
+    "radius": "4px"
+   }
+  },
+  {
+   "text": "高清放大",
+   "tag": "SPAN",
+   "box": {
+    "x": 622,
+    "y": 129,
+    "w": 56,
+    "h": 21,
+    "display": "block",
+    "position": "static",
+    "bg": "rgba(0, 0, 0, 0)",
+    "color": "oklch(0.556 0 0)",
+    "font": "11px",
+    "radius": "4px"
+   }
+  },
+  {
+   "text": "批量抠图",
+   "tag": "SPAN",
+   "box": {
+    "x": 682,
+    "y": 129,
+    "w": 56,
+    "h": 21,
+    "display": "block",
+    "position": "static",
+    "bg": "rgba(0, 0, 0, 0)",
+    "color": "oklch(0.556 0 0)",
+    "font": "11px",
+    "radius": "4px"
+   }
+  },
+  {
+   "text": "智能扩图",
+   "tag": "SPAN",
+   "box": {
+    "x": 240,
+    "y": 154,
+    "w": 56,
+    "h": 21,
+    "display": "block",
+    "position": "static",
+    "bg": "rgba(0, 0, 0, 0)",
+    "color": "oklch(0.556 0 0)",
+    "font": "11px",
+    "radius": "4px"
+   }
+  },
+  {
+   "text": "上传需要翻译的图片",
+   "tag": "H2",
+   "box": {
+    "x": 242,
+    "y": 202,
+    "w": 108,
+    "h": 16,
+    "display": "block",
+    "position": "static",
+    "bg": "rgba(0, 0, 0, 0)",
+    "color": "oklch(0.145 0 0)",
+    "font": "12px",
+    "radius": "0px"
+   }
+  },
+  {
+   "text": "从本地上传",
+   "tag": "SPAN",
+   "box": {
+    "x": 255,
+    "y": 245,
+    "w": 210,
+    "h": 24,
+    "display": "flex",
+    "position": "static",
+    "bg": "oklch(0.205 0 0)",
+    "color": "oklch(0.985 0 0)",
+    "font": "12px",
+    "radius": "8px"
+   }
+  },
+  {
+   "text": "从作品库选择",
+   "tag": "BUTTON",
+   "box": {
+    "x": 255,
+    "y": 277,
+    "w": 100,
+    "h": 24,
+    "display": "block",
+    "position": "static",
+    "bg": "oklch(1 0 0)",
+    "color": "oklch(0.145 0 0)",
+    "font": "12px",
+    "radius": "8px"
+   }
+  },
+  {
+   "text": "从商品库选择",
+   "tag": "BUTTON",
+   "box": {
+    "x": 363,
+    "y": 277,
+    "w": 100,
+    "h": 24,
+    "display": "block",
+    "position": "static",
+    "bg": "oklch(1 0 0)",
+    "color": "oklch(0.145 0 0)",
+    "font": "12px",
+    "radius": "8px"
+   }
+  },
+  {
+   "text": "20M以内，384*384 ~ 4096*4096",
+   "tag": "DIV",
+   "box": {
+    "x": 255,
+    "y": 309,
+    "w": 210,
+    "h": 16,
+    "display": "block",
+    "position": "static",
+    "bg": "rgba(0, 0, 0, 0)",
+    "color": "oklch(0.556 0 0)",
+    "font": "11px",
+    "radius": "0px"
+   }
+  },
+  {
+   "text": "上传多张图片，开始批量翻译",
+   "tag": "P",
+   "box": {
+    "x": 242,
+    "y": 350,
+    "w": 254,
+    "h": 20,
+    "display": "block",
+    "position": "static",
+    "bg": "rgba(0, 0, 0, 0)",
+    "color": "oklch(0.205 0 0)",
+    "font": "14px",
+    "radius": "0px"
+   }
+  },
+  {
+   "text": "💡当前仅支持单张图内500字以下的内容翻译",
+   "tag": "P",
+   "box": {
+    "x": 242,
+    "y": 384,
+    "w": 254,
+    "h": 16,
+    "display": "block",
+    "position": "static",
+    "bg": "rgba(0, 0, 0, 0)",
+    "color": "oklch(0.577 0.245 27.325)",
+    "font": "12px",
+    "radius": "0px"
+   }
+  },
+  {
+   "text": "原文语言",
+   "tag": "H2",
+   "box": {
+    "x": 242,
+    "y": 442,
+    "w": 56,
+    "h": 20,
+    "display": "block",
+    "position": "static",
+    "bg": "rgba(0, 0, 0, 0)",
+    "color": "oklch(0.145 0 0)",
+    "font": "14px",
+    "radius": "0px"
+   }
+  },
+  {
+   "text": "中文",
+   "tag": "BUTTON",
+   "box": {
+    "x": 242,
+    "y": 477,
+    "w": 40,
+    "h": 20,
+    "display": "block",
+    "position": "static",
+    "bg": "oklch(0.97 0 0)",
+    "color": "oklch(0.145 0 0)",
+    "font": "14px",
+    "radius": "5px"
+   }
+  },
+  {
+   "text": "英语",
+   "tag": "BUTTON",
+   "box": {
+    "x": 288,
+    "y": 477,
+    "w": 40,
+    "h": 20,
+    "display": "block",
+    "position": "static",
+    "bg": "oklch(0.97 0 0)",
+    "color": "oklch(0.145 0 0)",
+    "font": "14px",
+    "radius": "5px"
+   }
+  },
+  {
+   "text": "繁体中文",
+   "tag": "BUTTON",
+   "box": {
+    "x": 334,
+    "y": 477,
+    "w": 68,
+    "h": 20,
+    "display": "block",
+    "position": "static",
+    "bg": "oklch(0.97 0 0)",
+    "color": "oklch(0.145 0 0)",
+    "font": "14px",
+    "radius": "5px"
+   }
+  },
+  {
+   "text": "西班牙语",
+   "tag": "BUTTON",
+   "box": {
+    "x": 408,
+    "y": 477,
+    "w": 68,
+    "h": 20,
+    "display": "block",
+    "position": "static",
+    "bg": "oklch(0.97 0 0)",
+    "color": "oklch(0.145 0 0)",
+    "font": "14px",
+    "radius": "5px"
+   }
+  },
+  {
+   "text": "日语",
+   "tag": "BUTTON",
+   "box": {
+    "x": 242,
+    "y": 503,
+    "w": 40,
+    "h": 20,
+    "display": "block",
+    "position": "static",
+    "bg": "oklch(0.97 0 0)",
+    "color": "oklch(0.145 0 0)",
+    "font": "14px",
+    "radius": "5px"
+   }
+  },
+  {
+   "text": "韩语",
+   "tag": "BUTTON",
+   "box": {
+    "x": 288,
+    "y": 503,
+    "w": 40,
+    "h": 20,
+    "display": "block",
+    "position": "static",
+    "bg": "oklch(0.97 0 0)",
+    "color": "oklch(0.145 0 0)",
+    "font": "14px",
+    "radius": "5px"
+   }
+  },
+  {
+   "text": "葡萄牙语",
+   "tag": "BUTTON",
+   "box": {
+    "x": 334,
+    "y": 503,
+    "w": 68,
+    "h": 20,
+    "display": "block",
+    "position": "static",
+    "bg": "oklch(0.97 0 0)",
+    "color": "oklch(0.145 0 0)",
+    "font": "14px",
+    "radius": "5px"
+   }
+  },
+  {
+   "text": "德语",
+   "tag": "BUTTON",
+   "box": {
+    "x": 408,
+    "y": 503,
+    "w": 40,
+    "h": 20,
+    "display": "block",
+    "position": "static",
+    "bg": "oklch(0.97 0 0)",
+    "color": "oklch(0.145 0 0)",
+    "font": "14px",
+    "radius": "5px"
+   }
+  },
+  {
+   "text": "罗马尼亚语",
+   "tag": "BUTTON",
+   "box": {
+    "x": 242,
+    "y": 529,
+    "w": 82,
+    "h": 20,
+    "display": "block",
+    "position": "static",
+    "bg": "oklch(0.97 0 0)",
+    "color": "oklch(0.145 0 0)",
+    "font": "14px",
+    "radius": "5px"
+   }
+  },
+  {
+   "text": "俄语",
+   "tag": "BUTTON",
+   "box": {
+    "x": 330,
+    "y": 529,
+    "w": 40,
+    "h": 20,
+    "display": "block",
+    "position": "static",
+    "bg": "oklch(0.97 0 0)",
+    "color": "oklch(0.145 0 0)",
+    "font": "14px",
+    "radius": "5px"
+   }
+  },
+  {
+   "text": "越南语",
+   "tag": "BUTTON",
+   "box": {
+    "x": 376,
+    "y": 529,
+    "w": 54,
+    "h": 20,
+    "display": "block",
+    "position": "static",
+    "bg": "oklch(0.97 0 0)",
+    "color": "oklch(0.145 0 0)",
+    "font": "14px",
+    "radius": "5px"
+   }
+  },
+  {
+   "text": "（可多选，已选 1 个语言）",
+   "tag": "SPAN",
+   "box": {
+    "x": 586,
+    "y": 203,
+    "w": 168,
+    "h": 17,
+    "display": "inline",
+    "position": "static",
+    "bg": "rgba(0, 0, 0, 0)",
+    "color": "oklch(0.556 0 0)",
+    "font": "14px",
+    "radius": "0px"
+   }
+  },
+  {
+   "text": "欧美",
+   "tag": "SPAN",
+   "box": {
+    "x": 526,
+    "y": 239,
+    "w": 20,
+    "h": 16,
+    "display": "block",
+    "position": "static",
+    "bg": "rgba(0, 0, 0, 0)",
+    "color": "oklch(0.556 0 0)",
+    "font": "10px",
+    "radius": "0px"
+   }
+  },
+  {
+   "text": "英语",
+   "tag": "BUTTON",
+   "box": {
+    "x": 552,
+    "y": 237,
+    "w": 40,
+    "h": 20,
+    "display": "block",
+    "position": "static",
+    "bg": "oklch(0.205 0 0)",
+    "color": "oklch(0.145 0 0)",
+    "font": "14px",
+    "radius": "5px"
+   }
+  },
+  {
+   "text": "俄语",
+   "tag": "BUTTON",
+   "box": {
+    "x": 596,
+    "y": 237,
+    "w": 40,
+    "h": 20,
+    "display": "block",
+    "position": "static",
+    "bg": "oklch(0.97 0 0)",
+    "color": "oklch(0.145 0 0)",
+    "font": "14px",
+    "radius": "5px"
+   }
+  },
+  {
+   "text": "法语",
+   "tag": "BUTTON",
+   "box": {
+    "x": 640,
+    "y": 237,
+    "w": 40,
+    "h": 20,
+    "display": "block",
+    "position": "static",
+    "bg": "oklch(0.97 0 0)",
+    "color": "oklch(0.145 0 0)",
+    "font": "14px",
+    "radius": "5px"
+   }
+  },
+  {
+   "text": "德语",
+   "tag": "BUTTON",
+   "box": {
+    "x": 684,
+    "y": 237,
+    "w": 40,
+    "h": 20,
+    "display": "block",
+    "position": "static",
+    "bg": "oklch(0.97 0 0)",
+    "color": "oklch(0.145 0 0)",
+    "font": "14px",
+    "radius": "5px"
+   }
+  },
+  {
+   "text": "瑞典语",
+   "tag": "BUTTON",
+   "box": {
+    "x": 526,
+    "y": 261,
+    "w": 54,
+    "h": 20,
+    "display": "block",
+    "position": "static",
+    "bg": "oklch(0.97 0 0)",
+    "color": "oklch(0.145 0 0)",
+    "font": "14px",
+    "radius": "5px"
+   }
+  },
+  {
+   "text": "挪威语",
+   "tag": "BUTTON",
+   "box": {
+    "x": 584,
+    "y": 261,
+    "w": 54,
+    "h": 20,
+    "display": "block",
+    "position": "static",
+    "bg": "oklch(0.97 0 0)",
+    "color": "oklch(0.145 0 0)",
+    "font": "14px",
+    "radius": "5px"
+   }
+  },
+  {
+   "text": "荷兰语",
+   "tag": "BUTTON",
+   "box": {
+    "x": 642,
+    "y": 261,
+    "w": 54,
+    "h": 20,
+    "display": "block",
+    "position": "static",
+    "bg": "oklch(0.97 0 0)",
+    "color": "oklch(0.145 0 0)",
+    "font": "14px",
+    "radius": "5px"
+   }
+  },
+  {
+   "text": "丹麦语",
+   "tag": "BUTTON",
+   "box": {
+    "x": 700,
+    "y": 261,
+    "w": 54,
+    "h": 20,
+    "display": "block",
+    "position": "static",
+    "bg": "oklch(0.97 0 0)",
+    "color": "oklch(0.145 0 0)",
+    "font": "14px",
+    "radius": "5px"
+   }
+  },
+  {
+   "text": "意大利语",
+   "tag": "BUTTON",
+   "box": {
+    "x": 526,
+    "y": 285,
+    "w": 68,
+    "h": 20,
+    "display": "block",
+    "position": "static",
+    "bg": "oklch(0.97 0 0)",
+    "color": "oklch(0.145 0 0)",
+    "font": "14px",
+    "radius": "5px"
+   }
+  },
+  {
+   "text": "葡萄牙语",
+   "tag": "BUTTON",
+   "box": {
+    "x": 598,
+    "y": 285,
+    "w": 68,
+    "h": 20,
+    "display": "block",
+    "position": "static",
+    "bg": "oklch(0.97 0 0)",
+    "color": "oklch(0.145 0 0)",
+    "font": "14px",
+    "radius": "5px"
+   }
+  },
+  {
+   "text": "葡萄牙语(巴西)",
+   "tag": "BUTTON",
+   "box": {
+    "x": 670,
+    "y": 285,
+    "w": 106,
+    "h": 20,
+    "display": "block",
+    "position": "static",
+    "bg": "oklch(0.97 0 0)",
+    "color": "oklch(0.145 0 0)",
+    "font": "14px",
+    "radius": "5px"
+   }
+  },
+  {
+   "text": "西班牙语",
+   "tag": "BUTTON",
+   "box": {
+    "x": 526,
+    "y": 309,
+    "w": 68,
+    "h": 20,
+    "display": "block",
+    "position": "static",
+    "bg": "oklch(0.97 0 0)",
+    "color": "oklch(0.145 0 0)",
+    "font": "14px",
+    "radius": "5px"
+   }
+  },
+  {
+   "text": "波兰语",
+   "tag": "BUTTON",
+   "box": {
+    "x": 598,
+    "y": 309,
+    "w": 54,
+    "h": 20,
+    "display": "block",
+    "position": "static",
+    "bg": "oklch(0.97 0 0)",
+    "color": "oklch(0.145 0 0)",
+    "font": "14px",
+    "radius": "5px"
+   }
+  },
+  {
+   "text": "捷克语",
+   "tag": "BUTTON",
+   "box": {
+    "x": 656,
+    "y": 309,
+    "w": 54,
+    "h": 20,
+    "display": "block",
+    "position": "static",
+    "bg": "oklch(0.97 0 0)",
+    "color": "oklch(0.145 0 0)",
+    "font": "14px",
+    "radius": "5px"
+   }
+  },
+  {
+   "text": "希腊语",
+   "tag": "BUTTON",
+   "box": {
+    "x": 714,
+    "y": 309,
+    "w": 54,
+    "h": 20,
+    "display": "block",
+    "position": "static",
+    "bg": "oklch(0.97 0 0)",
+    "color": "oklch(0.145 0 0)",
+    "font": "14px",
+    "radius": "5px"
+   }
+  },
+  {
+   "text": "爱沙尼亚语",
+   "tag": "BUTTON",
+   "box": {
+    "x": 526,
+    "y": 333,
+    "w": 82,
+    "h": 20,
+    "display": "block",
+    "position": "static",
+    "bg": "oklch(0.97 0 0)",
+    "color": "oklch(0.145 0 0)",
+    "font": "14px",
+    "radius": "5px"
+   }
+  },
+  {
+   "text": "芬兰语",
+   "tag": "BUTTON",
+   "box": {
+    "x": 612,
+    "y": 333,
+    "w": 54,
+    "h": 20,
+    "display": "block",
+    "position": "static",
+    "bg": "oklch(0.97 0 0)",
+    "color": "oklch(0.145 0 0)",
+    "font": "14px",
+    "radius": "5px"
+   }
+  },
+  {
+   "text": "匈牙利语",
+   "tag": "BUTTON",
+   "box": {
+    "x": 670,
+    "y": 333,
+    "w": 68,
+    "h": 20,
+    "display": "block",
+    "position": "static",
+    "bg": "oklch(0.97 0 0)",
+    "color": "oklch(0.145 0 0)",
+    "font": "14px",
+    "radius": "5px"
+   }
+  },
+  {
+   "text": "立陶宛语",
+   "tag": "BUTTON",
+   "box": {
+    "x": 526,
+    "y": 357,
+    "w": 68,
+    "h": 20,
+    "display": "block",
+    "position": "static",
+    "bg": "oklch(0.97 0 0)",
+    "color": "oklch(0.145 0 0)",
+    "font": "14px",
+    "radius": "5px"
+   }
+  },
+  {
+   "text": "拉脱维亚语",
+   "tag": "BUTTON",
+   "box": {
+    "x": 598,
+    "y": 357,
+    "w": 82,
+    "h": 20,
+    "display": "block",
+    "position": "static",
+    "bg": "oklch(0.97 0 0)",
+    "color": "oklch(0.145 0 0)",
+    "font": "14px",
+    "radius": "5px"
+   }
+  },
+  {
+   "text": "罗马尼亚语",
+   "tag": "BUTTON",
+   "box": {
+    "x": 684,
+    "y": 357,
+    "w": 82,
+    "h": 20,
+    "display": "block",
+    "position": "static",
+    "bg": "oklch(0.97 0 0)",
+    "color": "oklch(0.145 0 0)",
+    "font": "14px",
+    "radius": "5px"
+   }
+  },
+  {
+   "text": "斯洛伐克语",
+   "tag": "BUTTON",
+   "box": {
+    "x": 526,
+    "y": 381,
+    "w": 82,
+    "h": 20,
+    "display": "block",
+    "position": "static",
+    "bg": "oklch(0.97 0 0)",
+    "color": "oklch(0.145 0 0)",
+    "font": "14px",
+    "radius": "5px"
+   }
+  },
+  {
+   "text": "斯洛文尼亚语",
+   "tag": "BUTTON",
+   "box": {
+    "x": 612,
+    "y": 381,
+    "w": 96,
+    "h": 20,
+    "display": "block",
+    "position": "static",
+    "bg": "oklch(0.97 0 0)",
+    "color": "oklch(0.145 0 0)",
+    "font": "14px",
+    "radius": "5px"
+   }
+  },
+  {
+   "text": "乌克兰语",
+   "tag": "BUTTON",
+   "box": {
+    "x": 712,
+    "y": 381,
+    "w": 68,
+    "h": 20,
+    "display": "block",
+    "position": "static",
+    "bg": "oklch(0.97 0 0)",
+    "color": "oklch(0.145 0 0)",
+    "font": "14px",
+    "radius": "5px"
+   }
+  },
+  {
+   "text": "保加利亚语",
+   "tag": "BUTTON",
+   "box": {
+    "x": 526,
+    "y": 405,
+    "w": 82,
+    "h": 20,
+    "display": "block",
+    "position": "static",
+    "bg": "oklch(0.97 0 0)",
+    "color": "oklch(0.145 0 0)",
+    "font": "14px",
+    "radius": "5px"
+   }
+  },
+  {
+   "text": "克罗地亚语",
+   "tag": "BUTTON",
+   "box": {
+    "x": 612,
+    "y": 405,
+    "w": 82,
+    "h": 20,
+    "display": "block",
+    "position": "static",
+    "bg": "oklch(0.97 0 0)",
+    "color": "oklch(0.145 0 0)",
+    "font": "14px",
+    "radius": "5px"
+   }
+  },
+  {
+   "text": "亚洲",
+   "tag": "SPAN",
+   "box": {
+    "x": 526,
+    "y": 431,
+    "w": 20,
+    "h": 16,
+    "display": "block",
+    "position": "static",
+    "bg": "rgba(0, 0, 0, 0)",
+    "color": "oklch(0.556 0 0)",
+    "font": "10px",
+    "radius": "0px"
+   }
+  },
+  {
+   "text": "简体中文",
+   "tag": "BUTTON",
+   "box": {
+    "x": 552,
+    "y": 429,
+    "w": 68,
+    "h": 20,
+    "display": "block",
+    "position": "static",
+    "bg": "oklch(0.97 0 0)",
+    "color": "oklch(0.145 0 0)",
+    "font": "14px",
+    "radius": "5px"
+   }
+  },
+  {
+   "text": "繁体中文",
+   "tag": "BUTTON",
+   "box": {
+    "x": 624,
+    "y": 429,
+    "w": 68,
+    "h": 20,
+    "display": "block",
+    "position": "static",
+    "bg": "oklch(0.97 0 0)",
+    "color": "oklch(0.145 0 0)",
+    "font": "14px",
+    "radius": "5px"
+   }
+  },
+  {
+   "text": "日语",
+   "tag": "BUTTON",
+   "box": {
+    "x": 696,
+    "y": 429,
+    "w": 40,
+    "h": 20,
+    "display": "block",
+    "position": "static",
+    "bg": "oklch(0.97 0 0)",
+    "color": "oklch(0.145 0 0)",
+    "font": "14px",
+    "radius": "5px"
+   }
+  },
+  {
+   "text": "韩语",
+   "tag": "BUTTON",
+   "box": {
+    "x": 740,
+    "y": 429,
+    "w": 40,
+    "h": 20,
+    "display": "block",
+    "position": "static",
+    "bg": "oklch(0.97 0 0)",
+    "color": "oklch(0.145 0 0)",
+    "font": "14px",
+    "radius": "5px"
+   }
+  },
+  {
+   "text": "泰语",
+   "tag": "BUTTON",
+   "box": {
+    "x": 526,
+    "y": 453,
+    "w": 40,
+    "h": 20,
+    "display": "block",
+    "position": "static",
+    "bg": "oklch(0.97 0 0)",
+    "color": "oklch(0.145 0 0)",
+    "font": "14px",
+    "radius": "5px"
+   }
+  },
+  {
+   "text": "越南语",
+   "tag": "BUTTON",
+   "box": {
+    "x": 570,
+    "y": 453,
+    "w": 54,
+    "h": 20,
+    "display": "block",
+    "position": "static",
+    "bg": "oklch(0.97 0 0)",
+    "color": "oklch(0.145 0 0)",
+    "font": "14px",
+    "radius": "5px"
+   }
+  },
+  {
+   "text": "马来语",
+   "tag": "BUTTON",
+   "box": {
+    "x": 628,
+    "y": 453,
+    "w": 54,
+    "h": 20,
+    "display": "block",
+    "position": "static",
+    "bg": "oklch(0.97 0 0)",
+    "color": "oklch(0.145 0 0)",
+    "font": "14px",
+    "radius": "5px"
+   }
+  },
+  {
+   "text": "缅甸语",
+   "tag": "BUTTON",
+   "box": {
+    "x": 686,
+    "y": 453,
+    "w": 54,
+    "h": 20,
+    "display": "block",
+    "position": "static",
+    "bg": "oklch(0.97 0 0)",
+    "color": "oklch(0.145 0 0)",
+    "font": "14px",
+    "radius": "5px"
+   }
+  },
+  {
+   "text": "印度尼西亚语",
+   "tag": "BUTTON",
+   "box": {
+    "x": 526,
+    "y": 477,
+    "w": 96,
+    "h": 20,
+    "display": "block",
+    "position": "static",
+    "bg": "oklch(0.97 0 0)",
+    "color": "oklch(0.145 0 0)",
+    "font": "14px",
+    "radius": "5px"
+   }
+  },
+  {
+   "text": "老挝语",
+   "tag": "BUTTON",
+   "box": {
+    "x": 626,
+    "y": 477,
+    "w": 54,
+    "h": 20,
+    "display": "block",
+    "position": "static",
+    "bg": "oklch(0.97 0 0)",
+    "color": "oklch(0.145 0 0)",
+    "font": "14px",
+    "radius": "5px"
+   }
+  },
+  {
+   "text": "孟加拉语",
+   "tag": "BUTTON",
+   "box": {
+    "x": 684,
+    "y": 477,
+    "w": 68,
+    "h": 20,
+    "display": "block",
+    "position": "static",
+    "bg": "oklch(0.97 0 0)",
+    "color": "oklch(0.145 0 0)",
+    "font": "14px",
+    "radius": "5px"
+   }
+  },
+  {
+   "text": "菲律宾语",
+   "tag": "BUTTON",
+   "box": {
+    "x": 526,
+    "y": 501,
+    "w": 68,
+    "h": 20,
+    "display": "block",
+    "position": "static",
+    "bg": "oklch(0.97 0 0)",
+    "color": "oklch(0.145 0 0)",
+    "font": "14px",
+    "radius": "5px"
+   }
+  },
+  {
+   "text": "他加禄语",
+   "tag": "BUTTON",
+   "box": {
+    "x": 598,
+    "y": 501,
+    "w": 68,
+    "h": 20,
+    "display": "block",
+    "position": "static",
+    "bg": "oklch(0.97 0 0)",
+    "color": "oklch(0.145 0 0)",
+    "font": "14px",
+    "radius": "5px"
+   }
+  },
+  {
+   "text": "爪哇语",
+   "tag": "BUTTON",
+   "box": {
+    "x": 670,
+    "y": 501,
+    "w": 54,
+    "h": 20,
+    "display": "block",
+    "position": "static",
+    "bg": "oklch(0.97 0 0)",
+    "color": "oklch(0.145 0 0)",
+    "font": "14px",
+    "radius": "5px"
+   }
+  },
+  {
+   "text": "南亚",
+   "tag": "SPAN",
+   "box": {
+    "x": 526,
+    "y": 527,
+    "w": 20,
+    "h": 16,
+    "display": "block",
+    "position": "static",
+    "bg": "rgba(0, 0, 0, 0)",
+    "color": "oklch(0.556 0 0)",
+    "font": "10px",
+    "radius": "0px"
+   }
+  },
+  {
+   "text": "印地语",
+   "tag": "BUTTON",
+   "box": {
+    "x": 552,
+    "y": 525,
+    "w": 54,
+    "h": 20,
+    "display": "block",
+    "position": "static",
+    "bg": "oklch(0.97 0 0)",
+    "color": "oklch(0.145 0 0)",
+    "font": "14px",
+    "radius": "5px"
+   }
+  },
+  {
+   "text": "古吉拉特语",
+   "tag": "BUTTON",
+   "box": {
+    "x": 610,
+    "y": 525,
+    "w": 82,
+    "h": 20,
+    "display": "block",
+    "position": "static",
+    "bg": "oklch(0.97 0 0)",
+    "color": "oklch(0.145 0 0)",
+    "font": "14px",
+    "radius": "5px"
+   }
+  },
+  {
+   "text": "马拉地语",
+   "tag": "BUTTON",
+   "box": {
+    "x": 696,
+    "y": 525,
+    "w": 68,
+    "h": 20,
+    "display": "block",
+    "position": "static",
+    "bg": "oklch(0.97 0 0)",
+    "color": "oklch(0.145 0 0)",
+    "font": "14px",
+    "radius": "5px"
+   }
+  },
+  {
+   "text": "泰米尔语",
+   "tag": "BUTTON",
+   "box": {
+    "x": 526,
+    "y": 549,
+    "w": 68,
+    "h": 20,
+    "display": "block",
+    "position": "static",
+    "bg": "oklch(0.97 0 0)",
+    "color": "oklch(0.145 0 0)",
+    "font": "14px",
+    "radius": "5px"
+   }
+  },
+  {
+   "text": "泰卢固语",
+   "tag": "BUTTON",
+   "box": {
+    "x": 598,
+    "y": 549,
+    "w": 68,
+    "h": 20,
+    "display": "block",
+    "position": "static",
+    "bg": "oklch(0.97 0 0)",
+    "color": "oklch(0.145 0 0)",
+    "font": "14px",
+    "radius": "5px"
+   }
+  },
+  {
+   "text": "乌尔都语",
+   "tag": "BUTTON",
+   "box": {
+    "x": 670,
+    "y": 549,
+    "w": 68,
+    "h": 20,
+    "display": "block",
+    "position": "static",
+    "bg": "oklch(0.97 0 0)",
+    "color": "oklch(0.145 0 0)",
+    "font": "14px",
+    "radius": "5px"
+   }
+  },
+  {
+   "text": "中东",
+   "tag": "SPAN",
+   "box": {
+    "x": 526,
+    "y": 575,
+    "w": 20,
+    "h": 16,
+    "display": "block",
+    "position": "static",
+    "bg": "rgba(0, 0, 0, 0)",
+    "color": "oklch(0.556 0 0)",
+    "font": "10px",
+    "radius": "0px"
+   }
+  },
+  {
+   "text": "阿拉伯语",
+   "tag": "BUTTON",
+   "box": {
+    "x": 552,
+    "y": 573,
+    "w": 68,
+    "h": 20,
+    "display": "block",
+    "position": "static",
+    "bg": "oklch(0.97 0 0)",
+    "color": "oklch(0.145 0 0)",
+    "font": "14px",
+    "radius": "5px"
+   }
+  },
+  {
+   "text": "波斯语",
+   "tag": "BUTTON",
+   "box": {
+    "x": 624,
+    "y": 573,
+    "w": 54,
+    "h": 20,
+    "display": "block",
+    "position": "static",
+    "bg": "oklch(0.97 0 0)",
+    "color": "oklch(0.145 0 0)",
+    "font": "14px",
+    "radius": "5px"
+   }
+  },
+  {
+   "text": "希伯来语",
+   "tag": "BUTTON",
+   "box": {
+    "x": 682,
+    "y": 573,
+    "w": 68,
+    "h": 20,
+    "display": "block",
+    "position": "static",
+    "bg": "oklch(0.97 0 0)",
+    "color": "oklch(0.145 0 0)",
+    "font": "14px",
+    "radius": "5px"
+   }
+  },
+  {
+   "text": "中库尔德语",
+   "tag": "BUTTON",
+   "box": {
+    "x": 526,
+    "y": 597,
+    "w": 82,
+    "h": 20,
+    "display": "block",
+    "position": "static",
+    "bg": "oklch(0.97 0 0)",
+    "color": "oklch(0.145 0 0)",
+    "font": "14px",
+    "radius": "5px"
+   }
+  },
+  {
+   "text": "塔吉克语",
+   "tag": "BUTTON",
+   "box": {
+    "x": 612,
+    "y": 597,
+    "w": 68,
+    "h": 20,
+    "display": "block",
+    "position": "static",
+    "bg": "oklch(0.97 0 0)",
+    "color": "oklch(0.145 0 0)",
+    "font": "14px",
+    "radius": "5px"
+   }
+  },
+  {
+   "text": "土耳其语",
+   "tag": "BUTTON",
+   "box": {
+    "x": 684,
+    "y": 597,
+    "w": 68,
+    "h": 20,
+    "display": "block",
+    "position": "static",
+    "bg": "oklch(0.97 0 0)",
+    "color": "oklch(0.145 0 0)",
+    "font": "14px",
+    "radius": "5px"
+   }
+  },
+  {
+   "text": "非洲",
+   "tag": "SPAN",
+   "box": {
+    "x": 526,
+    "y": 623,
+    "w": 20,
+    "h": 16,
+    "display": "block",
+    "position": "static",
+    "bg": "rgba(0, 0, 0, 0)",
+    "color": "oklch(0.556 0 0)",
+    "font": "10px",
+    "radius": "0px"
+   }
+  },
+  {
+   "text": "斯瓦希里语",
+   "tag": "BUTTON",
+   "box": {
+    "x": 552,
+    "y": 621,
+    "w": 82,
+    "h": 20,
+    "display": "block",
+    "position": "static",
+    "bg": "oklch(0.97 0 0)",
+    "color": "oklch(0.145 0 0)",
+    "font": "14px",
+    "radius": "5px"
+   }
+  },
+  {
+   "text": "开始翻译",
+   "tag": "SPAN",
+   "box": {
+    "x": 599,
+    "y": 656,
+    "w": 56,
+    "h": 17,
+    "display": "inline",
+    "position": "static",
+    "bg": "rgba(0, 0, 0, 0)",
+    "color": "oklch(0.145 0 0)",
+    "font": "14px",
+    "radius": "0px"
+   }
+  },
+  {
+   "text": "(20算力)",
+   "tag": "SPAN",
+   "box": {
+    "x": 659,
+    "y": 658,
+    "w": 49,
+    "h": 15,
+    "display": "inline",
+    "position": "static",
+    "bg": "rgba(0, 0, 0, 0)",
+    "color": "oklab(0.985 0 0 / 0.8)",
+    "font": "12px",
+    "radius": "0px"
+   }
+  },
+  {
+   "text": "管理水印分组",
+   "tag": "SPAN",
+   "box": {
+    "x": 524,
+    "y": 710,
+    "w": 66,
+    "h": 20,
+    "display": "block",
+    "position": "static",
+    "bg": "rgba(0, 0, 0, 0)",
+    "color": "oklch(0.145 0 0)",
+    "font": "11px",
+    "radius": "0px"
+   }
+  },
+  {
+   "text": "共 1/20 个",
+   "tag": "SPAN",
+   "box": {
+    "x": 596,
+    "y": 710,
+    "w": 53,
+    "h": 20,
+    "display": "block",
+    "position": "static",
+    "bg": "rgba(0, 0, 0, 0)",
+    "color": "oklch(0.556 0 0)",
+    "font": "11px",
+    "radius": "0px"
+   }
+  },
+  {
+   "text": "默认",
+   "tag": "SPAN",
+   "box": {
+    "x": 655,
+    "y": 709,
+    "w": 36,
+    "h": 22,
+    "display": "block",
+    "position": "static",
+    "bg": "rgba(0, 0, 0, 0)",
+    "color": "oklch(0.145 0 0)",
+    "font": "11px",
+    "radius": "4px"
+   }
+  },
+  {
+   "text": "＋ 新增水印分组",
+   "tag": "SPAN",
+   "box": {
+    "x": 531,
+    "y": 741,
+    "w": 80,
+    "h": 13,
+    "display": "inline",
+    "position": "static",
+    "bg": "rgba(0, 0, 0, 0)",
+    "color": "oklch(0.145 0 0)",
+    "font": "11px",
+    "radius": "0px"
+   }
+  },
+  {
+   "text": "ljq_driver: 已连接",
+   "tag": "P",
+   "box": {
+    "x": 515,
+    "y": 774,
+    "w": 276,
+    "h": 17,
+    "display": "block",
+    "position": "static",
+    "bg": "rgba(0, 0, 0, 0)",
+    "color": "oklch(0.556 0 0)",
+    "font": "11px",
+    "radius": "0px"
+   }
+  },
+  {
+   "text": "生成结果",
+   "tag": "SPAN",
+   "box": {
+    "x": 819,
+    "y": 123,
+    "w": 56,
+    "h": 40,
+    "display": "flex",
+    "position": "static",
+    "bg": "rgba(0, 0, 0, 0)",
+    "color": "oklch(0.205 0 0)",
+    "font": "14px",
+    "radius": "0px"
+   }
+  },
+  {
+   "text": "快速翻译成多语言，快速上架",
+   "tag": "P",
+   "box": {
+    "x": 814,
+    "y": 289,
+    "w": 1056,
+    "h": 16,
+    "display": "block",
+    "position": "static",
+    "bg": "rgba(0, 0, 0, 0)",
+    "color": "oklch(0.556 0 0)",
+    "font": "12px",
+    "radius": "0px"
+   }
+  },
+  {
+   "text": "连接本地 Agent",
+   "tag": "DIV",
+   "box": {
+    "x": 1937,
+    "y": 65,
+    "w": 113,
+    "h": 24,
+    "display": "block",
+    "position": "static",
+    "bg": "rgba(0, 0, 0, 0)",
+    "color": "rgb(41, 37, 36)",
+    "font": "16px",
+    "radius": "0px"
+   }
+  },
+  {
+   "text": "未连接",
+   "tag": "SPAN",
+   "box": {
+    "x": 2302,
+    "y": 69,
+    "w": 33,
+    "h": 16,
+    "display": "block",
+    "position": "static",
+    "bg": "rgba(0, 0, 0, 0)",
+    "color": "rgb(120, 113, 108)",
+    "font": "11px",
+    "radius": "0px"
+   }
+  },
+  {
+   "text": "点连接会自动启动本地服务、装好插件并接通，无需手动配置。",
+   "tag": "DIV",
+   "box": {
+    "x": 1937,
+    "y": 93,
+    "w": 407,
+    "h": 20,
+    "display": "block",
+    "position": "static",
+    "bg": "rgba(0, 0, 0, 0)",
+    "color": "rgb(120, 113, 108)",
+    "font": "12px",
+    "radius": "0px"
+   }
+  },
+  {
+   "text": "未连接",
+   "tag": "SPAN",
+   "box": {
+    "x": 1950,
+    "y": 162,
+    "w": 33,
+    "h": 16,
+    "display": "block",
+    "position": "static",
+    "bg": "rgba(0, 0, 0, 0)",
+    "color": "rgb(120, 113, 108)",
+    "font": "11px",
+    "radius": "0px"
+   }
+  },
+  {
+   "text": "·",
+   "tag": "SPAN",
+   "box": {
+    "x": 1989,
+    "y": 162,
+    "w": 3,
+    "h": 16,
+    "display": "block",
+    "position": "static",
+    "bg": "rgba(0, 0, 0, 0)",
+    "color": "rgb(120, 113, 108)",
+    "font": "11px",
+    "radius": "0px"
+   }
+  },
+  {
+   "text": "CLI · 2.1.285 (Claude Code)",
+   "tag": "SPAN",
+   "box": {
+    "x": 1998,
+    "y": 162,
+    "w": 144,
+    "h": 16,
+    "display": "block",
+    "position": "static",
+    "bg": "rgba(0, 0, 0, 0)",
+    "color": "rgb(120, 113, 108)",
+    "font": "11px",
+    "radius": "0px"
+   }
+  },
+  {
+   "text": "·",
+   "tag": "SPAN",
+   "box": {
+    "x": 2149,
+    "y": 162,
+    "w": 3,
+    "h": 16,
+    "display": "block",
+    "position": "static",
+    "bg": "rgba(0, 0, 0, 0)",
+    "color": "rgb(120, 113, 108)",
+    "font": "11px",
+    "radius": "0px"
+   }
+  },
+  {
+   "text": "直接运行",
+   "tag": "SPAN",
+   "box": {
+    "x": 2158,
+    "y": 162,
+    "w": 44,
+    "h": 16,
+    "display": "block",
+    "position": "static",
+    "bg": "rgba(0, 0, 0, 0)",
+    "color": "rgb(120, 113, 108)",
+    "font": "11px",
+    "radius": "0px"
+   }
+  },
+  {
+   "text": "连接",
+   "tag": "SPAN",
+   "box": {
+    "x": 2295,
+    "y": 148,
+    "w": 28,
+    "h": 22,
+    "display": "block",
+    "position": "static",
+    "bg": "rgba(0, 0, 0, 0)",
+    "color": "rgb(23, 23, 23)",
+    "font": "14px",
+    "radius": "0px"
+   }
+  },
+  {
+   "text": "未连接",
+   "tag": "SPAN",
+   "box": {
+    "x": 1950,
+    "y": 230,
+    "w": 33,
+    "h": 16,
+    "display": "block",
+    "position": "static",
+    "bg": "rgba(0, 0, 0, 0)",
+    "color": "rgb(120, 113, 108)",
+    "font": "11px",
+    "radius": "0px"
+   }
+  },
+  {
+   "text": "·",
+   "tag": "SPAN",
+   "box": {
+    "x": 1989,
+    "y": 230,
+    "w": 3,
+    "h": 16,
+    "display": "block",
+    "position": "static",
+    "bg": "rgba(0, 0, 0, 0)",
+    "color": "rgb(120, 113, 108)",
+    "font": "11px",
+    "radius": "0px"
+   }
+  },
+  {
+   "text": "CLI · codex-cli 0.163.0",
+   "tag": "SPAN",
+   "box": {
+    "x": 1998,
+    "y": 230,
+    "w": 117,
+    "h": 16,
+    "display": "block",
+    "position": "static",
+    "bg": "rgba(0, 0, 0, 0)",
+    "color": "rgb(120, 113, 108)",
+    "font": "11px",
+    "radius": "0px"
+   }
+  },
+  {
+   "text": "·",
+   "tag": "SPAN",
+   "box": {
+    "x": 2121,
+    "y": 230,
+    "w": 3,
+    "h": 16,
+    "display": "block",
+    "position": "static",
+    "bg": "rgba(0, 0, 0, 0)",
+    "color": "rgb(120, 113, 108)",
+    "font": "11px",
+    "radius": "0px"
+   }
+  },
+  {
+   "text": "插件已装",
+   "tag": "SPAN",
+   "box": {
+    "x": 2131,
+    "y": 230,
+    "w": 44,
+    "h": 16,
+    "display": "block",
+    "position": "static",
+    "bg": "rgba(0, 0, 0, 0)",
+    "color": "rgb(22, 163, 74)",
+    "font": "11px",
+    "radius": "0px"
+   }
+  },
+  {
+   "text": "连接",
+   "tag": "SPAN",
+   "box": {
+    "x": 2295,
+    "y": 216,
+    "w": 28,
+    "h": 22,
+    "display": "block",
+    "position": "static",
+    "bg": "rgba(0, 0, 0, 0)",
+    "color": "rgb(23, 23, 23)",
+    "font": "14px",
+    "radius": "0px"
+   }
+  },
+  {
+   "text": "未连接",
+   "tag": "SPAN",
+   "box": {
+    "x": 1950,
+    "y": 298,
+    "w": 33,
+    "h": 16,
+    "display": "block",
+    "position": "static",
+    "bg": "rgba(0, 0, 0, 0)",
+    "color": "rgb(120, 113, 108)",
+    "font": "11px",
+    "radius": "0px"
+   }
+  },
+  {
+   "text": "·",
+   "tag": "SPAN",
+   "box": {
+    "x": 1989,
+    "y": 298,
+    "w": 3,
+    "h": 16,
+    "display": "block",
+    "position": "static",
+    "bg": "rgba(0, 0, 0, 0)",
+    "color": "rgb(120, 113, 108)",
+    "font": "11px",
+    "radius": "0px"
+   }
+  },
+  {
+   "text": "CLI + 桌面版 · galley 0.6.4",
+   "tag": "SPAN",
+   "box": {
+    "x": 1998,
+    "y": 298,
+    "w": 134,
+    "h": 16,
+    "display": "block",
+    "position": "static",
+    "bg": "rgba(0, 0, 0, 0)",
+    "color": "rgb(120, 113, 108)",
+    "font": "11px",
+    "radius": "0px"
+   }
+  },
+  {
+   "text": "连接",
+   "tag": "SPAN",
+   "box": {
+    "x": 2295,
+    "y": 284,
+    "w": 28,
+    "h": 22,
+    "display": "block",
+    "position": "static",
+    "bg": "rgba(0, 0, 0, 0)",
+    "color": "rgb(23, 23, 23)",
+    "font": "14px",
+    "radius": "0px"
+   }
+  }
+ ],
+ "controls": [
+  {
+   "tag": "BUTTON",
+   "type": "button",
+   "text": "",
+   "disabled": false,
+   "aria": "打开 Agent",
+   "title": "",
+   "box": {
+    "x": 1525,
+    "y": 12,
+    "w": 32,
+    "h": 32,
+    "display": "flex",
+    "position": "static",
+    "bg": "rgba(0, 0, 0, 0)",
+    "color": "oklch(0.145 0 0)",
+    "font": "14px",
+    "radius": "10px"
+   }
+  },
+  {
+   "tag": "BUTTON",
+   "type": "button",
+   "text": "",
+   "disabled": false,
+   "aria": "配置",
+   "title": "配置",
+   "box": {
+    "x": 1561,
+    "y": 14,
+    "w": 28,
+    "h": 28,
+    "display": "flex",
+    "position": "static",
+    "bg": "rgba(0, 0, 0, 0)",
+    "color": "oklch(0.145 0 0)",
+    "font": "14px",
+    "radius": "8px"
+   }
+  },
+  {
+   "tag": "BUTTON",
+   "type": "button",
+   "text": "中",
+   "disabled": false,
+   "aria": "切换到 English",
+   "title": "",
+   "box": {
+    "x": 1593,
+    "y": 14,
+    "w": 28,
+    "h": 28,
+    "display": "flex",
+    "position": "static",
+    "bg": "rgba(0, 0, 0, 0)",
+    "color": "oklch(0.145 0 0)",
+    "font": "14px",
+    "radius": "8px"
+   }
+  },
+  {
+   "tag": "BUTTON",
+   "type": "button",
+   "text": "切换到深色主题",
+   "disabled": false,
+   "aria": "切换到深色主题",
+   "title": "切换到深色主题",
+   "box": {
+    "x": 1625,
+    "y": 14,
+    "w": 28,
+    "h": 28,
+    "display": "flex",
+    "position": "static",
+    "bg": "rgba(0, 0, 0, 0)",
+    "color": "oklch(0.145 0 0)",
+    "font": "14px",
+    "radius": "8px"
+   }
+  },
+  {
+   "tag": "BUTTON",
+   "type": "button",
+   "text": "v0.27.0",
+   "disabled": false,
+   "aria": null,
+   "title": "查看版本更新",
+   "box": {
+    "x": 1657,
+    "y": 17,
+    "w": 47,
+    "h": 22,
+    "display": "block",
+    "position": "static",
+    "bg": "rgba(0, 0, 0, 0)",
+    "color": "oklch(0.145 0 0)",
+    "font": "14px",
+    "radius": "0px"
+   }
+  },
+  {
+   "tag": "DIV",
+   "type": "button",
+   "text": "从本地上传\n从作品库选择\n从商品库选择\n20M以内，384*384 ~ 4096*4096",
+   "aria": "点击或拖拽上传素材",
+   "title": "",
+   "box": {
+    "x": 242,
+    "y": 232,
+    "w": 254,
+    "h": 106,
+    "display": "flex",
+    "position": "static",
+    "bg": "oklch(1 0 0)",
+    "color": "oklch(0.145 0 0)",
+    "font": "12px",
+    "radius": "14px"
+   }
+  },
+  {
+   "tag": "BUTTON",
+   "type": "button",
+   "text": "从作品库选择",
+   "disabled": true,
+   "aria": null,
+   "title": "资产库暂时没有可用图片",
+   "box": {
+    "x": 255,
+    "y": 277,
+    "w": 100,
+    "h": 24,
+    "display": "block",
+    "position": "static",
+    "bg": "oklch(1 0 0)",
+    "color": "oklch(0.145 0 0)",
+    "font": "12px",
+    "radius": "8px"
+   }
+  },
+  {
+   "tag": "BUTTON",
+   "type": "button",
+   "text": "从商品库选择",
+   "disabled": true,
+   "aria": null,
+   "title": "商品库未接入（PARTIAL）",
+   "box": {
+    "x": 363,
+    "y": 277,
+    "w": 100,
+    "h": 24,
+    "display": "block",
+    "position": "static",
+    "bg": "oklch(1 0 0)",
+    "color": "oklch(0.145 0 0)",
+    "font": "12px",
+    "radius": "8px"
+   }
+  },
+  {
+   "tag": "BUTTON",
+   "type": "button",
+   "text": "中文",
+   "disabled": false,
+   "aria": null,
+   "title": "",
+   "box": {
+    "x": 242,
+    "y": 477,
+    "w": 40,
+    "h": 20,
+    "display": "block",
+    "position": "static",
+    "bg": "oklch(0.97 0 0)",
+    "color": "oklch(0.145 0 0)",
+    "font": "14px",
+    "radius": "5px"
+   }
+  },
+  {
+   "tag": "BUTTON",
+   "type": "button",
+   "text": "英语",
+   "disabled": false,
+   "aria": null,
+   "title": "",
+   "box": {
+    "x": 288,
+    "y": 477,
+    "w": 40,
+    "h": 20,
+    "display": "block",
+    "position": "static",
+    "bg": "oklch(0.97 0 0)",
+    "color": "oklch(0.145 0 0)",
+    "font": "14px",
+    "radius": "5px"
+   }
+  },
+  {
+   "tag": "BUTTON",
+   "type": "button",
+   "text": "繁体中文",
+   "disabled": false,
+   "aria": null,
+   "title": "",
+   "box": {
+    "x": 334,
+    "y": 477,
+    "w": 68,
+    "h": 20,
+    "display": "block",
+    "position": "static",
+    "bg": "oklch(0.97 0 0)",
+    "color": "oklch(0.145 0 0)",
+    "font": "14px",
+    "radius": "5px"
+   }
+  },
+  {
+   "tag": "BUTTON",
+   "type": "button",
+   "text": "西班牙语",
+   "disabled": false,
+   "aria": null,
+   "title": "",
+   "box": {
+    "x": 408,
+    "y": 477,
+    "w": 68,
+    "h": 20,
+    "display": "block",
+    "position": "static",
+    "bg": "oklch(0.97 0 0)",
+    "color": "oklch(0.145 0 0)",
+    "font": "14px",
+    "radius": "5px"
+   }
+  },
+  {
+   "tag": "BUTTON",
+   "type": "button",
+   "text": "日语",
+   "disabled": false,
+   "aria": null,
+   "title": "",
+   "box": {
+    "x": 242,
+    "y": 503,
+    "w": 40,
+    "h": 20,
+    "display": "block",
+    "position": "static",
+    "bg": "oklch(0.97 0 0)",
+    "color": "oklch(0.145 0 0)",
+    "font": "14px",
+    "radius": "5px"
+   }
+  },
+  {
+   "tag": "BUTTON",
+   "type": "button",
+   "text": "韩语",
+   "disabled": false,
+   "aria": null,
+   "title": "",
+   "box": {
+    "x": 288,
+    "y": 503,
+    "w": 40,
+    "h": 20,
+    "display": "block",
+    "position": "static",
+    "bg": "oklch(0.97 0 0)",
+    "color": "oklch(0.145 0 0)",
+    "font": "14px",
+    "radius": "5px"
+   }
+  },
+  {
+   "tag": "BUTTON",
+   "type": "button",
+   "text": "葡萄牙语",
+   "disabled": false,
+   "aria": null,
+   "title": "",
+   "box": {
+    "x": 334,
+    "y": 503,
+    "w": 68,
+    "h": 20,
+    "display": "block",
+    "position": "static",
+    "bg": "oklch(0.97 0 0)",
+    "color": "oklch(0.145 0 0)",
+    "font": "14px",
+    "radius": "5px"
+   }
+  },
+  {
+   "tag": "BUTTON",
+   "type": "button",
+   "text": "德语",
+   "disabled": false,
+   "aria": null,
+   "title": "",
+   "box": {
+    "x": 408,
+    "y": 503,
+    "w": 40,
+    "h": 20,
+    "display": "block",
+    "position": "static",
+    "bg": "oklch(0.97 0 0)",
+    "color": "oklch(0.145 0 0)",
+    "font": "14px",
+    "radius": "5px"
+   }
+  },
+  {
+   "tag": "BUTTON",
+   "type": "button",
+   "text": "罗马尼亚语",
+   "disabled": false,
+   "aria": null,
+   "title": "",
+   "box": {
+    "x": 242,
+    "y": 529,
+    "w": 82,
+    "h": 20,
+    "display": "block",
+    "position": "static",
+    "bg": "oklch(0.97 0 0)",
+    "color": "oklch(0.145 0 0)",
+    "font": "14px",
+    "radius": "5px"
+   }
+  },
+  {
+   "tag": "BUTTON",
+   "type": "button",
+   "text": "俄语",
+   "disabled": false,
+   "aria": null,
+   "title": "",
+   "box": {
+    "x": 330,
+    "y": 529,
+    "w": 40,
+    "h": 20,
+    "display": "block",
+    "position": "static",
+    "bg": "oklch(0.97 0 0)",
+    "color": "oklch(0.145 0 0)",
+    "font": "14px",
+    "radius": "5px"
+   }
+  },
+  {
+   "tag": "BUTTON",
+   "type": "button",
+   "text": "越南语",
+   "disabled": false,
+   "aria": null,
+   "title": "",
+   "box": {
+    "x": 376,
+    "y": 529,
+    "w": 54,
+    "h": 20,
+    "display": "block",
+    "position": "static",
+    "bg": "oklch(0.97 0 0)",
+    "color": "oklch(0.145 0 0)",
+    "font": "14px",
+    "radius": "5px"
+   }
+  },
+  {
+   "tag": "BUTTON",
+   "type": "button",
+   "text": "英语",
+   "disabled": false,
+   "aria": null,
+   "title": "",
+   "box": {
+    "x": 552,
+    "y": 237,
+    "w": 40,
+    "h": 20,
+    "display": "block",
+    "position": "static",
+    "bg": "oklch(0.205 0 0)",
+    "color": "oklch(0.145 0 0)",
+    "font": "14px",
+    "radius": "5px"
+   }
+  },
+  {
+   "tag": "BUTTON",
+   "type": "button",
+   "text": "俄语",
+   "disabled": false,
+   "aria": null,
+   "title": "",
+   "box": {
+    "x": 596,
+    "y": 237,
+    "w": 40,
+    "h": 20,
+    "display": "block",
+    "position": "static",
+    "bg": "oklch(0.97 0 0)",
+    "color": "oklch(0.145 0 0)",
+    "font": "14px",
+    "radius": "5px"
+   }
+  },
+  {
+   "tag": "BUTTON",
+   "type": "button",
+   "text": "法语",
+   "disabled": false,
+   "aria": null,
+   "title": "",
+   "box": {
+    "x": 640,
+    "y": 237,
+    "w": 40,
+    "h": 20,
+    "display": "block",
+    "position": "static",
+    "bg": "oklch(0.97 0 0)",
+    "color": "oklch(0.145 0 0)",
+    "font": "14px",
+    "radius": "5px"
+   }
+  },
+  {
+   "tag": "BUTTON",
+   "type": "button",
+   "text": "德语",
+   "disabled": false,
+   "aria": null,
+   "title": "",
+   "box": {
+    "x": 684,
+    "y": 237,
+    "w": 40,
+    "h": 20,
+    "display": "block",
+    "position": "static",
+    "bg": "oklch(0.97 0 0)",
+    "color": "oklch(0.145 0 0)",
+    "font": "14px",
+    "radius": "5px"
+   }
+  },
+  {
+   "tag": "BUTTON",
+   "type": "button",
+   "text": "瑞典语",
+   "disabled": false,
+   "aria": null,
+   "title": "",
+   "box": {
+    "x": 526,
+    "y": 261,
+    "w": 54,
+    "h": 20,
+    "display": "block",
+    "position": "static",
+    "bg": "oklch(0.97 0 0)",
+    "color": "oklch(0.145 0 0)",
+    "font": "14px",
+    "radius": "5px"
+   }
+  },
+  {
+   "tag": "BUTTON",
+   "type": "button",
+   "text": "挪威语",
+   "disabled": false,
+   "aria": null,
+   "title": "",
+   "box": {
+    "x": 584,
+    "y": 261,
+    "w": 54,
+    "h": 20,
+    "display": "block",
+    "position": "static",
+    "bg": "oklch(0.97 0 0)",
+    "color": "oklch(0.145 0 0)",
+    "font": "14px",
+    "radius": "5px"
+   }
+  },
+  {
+   "tag": "BUTTON",
+   "type": "button",
+   "text": "荷兰语",
+   "disabled": false,
+   "aria": null,
+   "title": "",
+   "box": {
+    "x": 642,
+    "y": 261,
+    "w": 54,
+    "h": 20,
+    "display": "block",
+    "position": "static",
+    "bg": "oklch(0.97 0 0)",
+    "color": "oklch(0.145 0 0)",
+    "font": "14px",
+    "radius": "5px"
+   }
+  },
+  {
+   "tag": "BUTTON",
+   "type": "button",
+   "text": "丹麦语",
+   "disabled": false,
+   "aria": null,
+   "title": "",
+   "box": {
+    "x": 700,
+    "y": 261,
+    "w": 54,
+    "h": 20,
+    "display": "block",
+    "position": "static",
+    "bg": "oklch(0.97 0 0)",
+    "color": "oklch(0.145 0 0)",
+    "font": "14px",
+    "radius": "5px"
+   }
+  },
+  {
+   "tag": "BUTTON",
+   "type": "button",
+   "text": "意大利语",
+   "disabled": false,
+   "aria": null,
+   "title": "",
+   "box": {
+    "x": 526,
+    "y": 285,
+    "w": 68,
+    "h": 20,
+    "display": "block",
+    "position": "static",
+    "bg": "oklch(0.97 0 0)",
+    "color": "oklch(0.145 0 0)",
+    "font": "14px",
+    "radius": "5px"
+   }
+  },
+  {
+   "tag": "BUTTON",
+   "type": "button",
+   "text": "葡萄牙语",
+   "disabled": false,
+   "aria": null,
+   "title": "",
+   "box": {
+    "x": 598,
+    "y": 285,
+    "w": 68,
+    "h": 20,
+    "display": "block",
+    "position": "static",
+    "bg": "oklch(0.97 0 0)",
+    "color": "oklch(0.145 0 0)",
+    "font": "14px",
+    "radius": "5px"
+   }
+  },
+  {
+   "tag": "BUTTON",
+   "type": "button",
+   "text": "葡萄牙语(巴西)",
+   "disabled": false,
+   "aria": null,
+   "title": "",
+   "box": {
+    "x": 670,
+    "y": 285,
+    "w": 106,
+    "h": 20,
+    "display": "block",
+    "position": "static",
+    "bg": "oklch(0.97 0 0)",
+    "color": "oklch(0.145 0 0)",
+    "font": "14px",
+    "radius": "5px"
+   }
+  },
+  {
+   "tag": "BUTTON",
+   "type": "button",
+   "text": "西班牙语",
+   "disabled": false,
+   "aria": null,
+   "title": "",
+   "box": {
+    "x": 526,
+    "y": 309,
+    "w": 68,
+    "h": 20,
+    "display": "block",
+    "position": "static",
+    "bg": "oklch(0.97 0 0)",
+    "color": "oklch(0.145 0 0)",
+    "font": "14px",
+    "radius": "5px"
+   }
+  },
+  {
+   "tag": "BUTTON",
+   "type": "button",
+   "text": "波兰语",
+   "disabled": false,
+   "aria": null,
+   "title": "",
+   "box": {
+    "x": 598,
+    "y": 309,
+    "w": 54,
+    "h": 20,
+    "display": "block",
+    "position": "static",
+    "bg": "oklch(0.97 0 0)",
+    "color": "oklch(0.145 0 0)",
+    "font": "14px",
+    "radius": "5px"
+   }
+  },
+  {
+   "tag": "BUTTON",
+   "type": "button",
+   "text": "捷克语",
+   "disabled": false,
+   "aria": null,
+   "title": "",
+   "box": {
+    "x": 656,
+    "y": 309,
+    "w": 54,
+    "h": 20,
+    "display": "block",
+    "position": "static",
+    "bg": "oklch(0.97 0 0)",
+    "color": "oklch(0.145 0 0)",
+    "font": "14px",
+    "radius": "5px"
+   }
+  },
+  {
+   "tag": "BUTTON",
+   "type": "button",
+   "text": "希腊语",
+   "disabled": false,
+   "aria": null,
+   "title": "",
+   "box": {
+    "x": 714,
+    "y": 309,
+    "w": 54,
+    "h": 20,
+    "display": "block",
+    "position": "static",
+    "bg": "oklch(0.97 0 0)",
+    "color": "oklch(0.145 0 0)",
+    "font": "14px",
+    "radius": "5px"
+   }
+  },
+  {
+   "tag": "BUTTON",
+   "type": "button",
+   "text": "爱沙尼亚语",
+   "disabled": false,
+   "aria": null,
+   "title": "",
+   "box": {
+    "x": 526,
+    "y": 333,
+    "w": 82,
+    "h": 20,
+    "display": "block",
+    "position": "static",
+    "bg": "oklch(0.97 0 0)",
+    "color": "oklch(0.145 0 0)",
+    "font": "14px",
+    "radius": "5px"
+   }
+  },
+  {
+   "tag": "BUTTON",
+   "type": "button",
+   "text": "芬兰语",
+   "disabled": false,
+   "aria": null,
+   "title": "",
+   "box": {
+    "x": 612,
+    "y": 333,
+    "w": 54,
+    "h": 20,
+    "display": "block",
+    "position": "static",
+    "bg": "oklch(0.97 0 0)",
+    "color": "oklch(0.145 0 0)",
+    "font": "14px",
+    "radius": "5px"
+   }
+  },
+  {
+   "tag": "BUTTON",
+   "type": "button",
+   "text": "匈牙利语",
+   "disabled": false,
+   "aria": null,
+   "title": "",
+   "box": {
+    "x": 670,
+    "y": 333,
+    "w": 68,
+    "h": 20,
+    "display": "block",
+    "position": "static",
+    "bg": "oklch(0.97 0 0)",
+    "color": "oklch(0.145 0 0)",
+    "font": "14px",
+    "radius": "5px"
+   }
+  },
+  {
+   "tag": "BUTTON",
+   "type": "button",
+   "text": "立陶宛语",
+   "disabled": false,
+   "aria": null,
+   "title": "",
+   "box": {
+    "x": 526,
+    "y": 357,
+    "w": 68,
+    "h": 20,
+    "display": "block",
+    "position": "static",
+    "bg": "oklch(0.97 0 0)",
+    "color": "oklch(0.145 0 0)",
+    "font": "14px",
+    "radius": "5px"
+   }
+  },
+  {
+   "tag": "BUTTON",
+   "type": "button",
+   "text": "拉脱维亚语",
+   "disabled": false,
+   "aria": null,
+   "title": "",
+   "box": {
+    "x": 598,
+    "y": 357,
+    "w": 82,
+    "h": 20,
+    "display": "block",
+    "position": "static",
+    "bg": "oklch(0.97 0 0)",
+    "color": "oklch(0.145 0 0)",
+    "font": "14px",
+    "radius": "5px"
+   }
+  },
+  {
+   "tag": "BUTTON",
+   "type": "button",
+   "text": "罗马尼亚语",
+   "disabled": false,
+   "aria": null,
+   "title": "",
+   "box": {
+    "x": 684,
+    "y": 357,
+    "w": 82,
+    "h": 20,
+    "display": "block",
+    "position": "static",
+    "bg": "oklch(0.97 0 0)",
+    "color": "oklch(0.145 0 0)",
+    "font": "14px",
+    "radius": "5px"
+   }
+  },
+  {
+   "tag": "BUTTON",
+   "type": "button",
+   "text": "斯洛伐克语",
+   "disabled": false,
+   "aria": null,
+   "title": "",
+   "box": {
+    "x": 526,
+    "y": 381,
+    "w": 82,
+    "h": 20,
+    "display": "block",
+    "position": "static",
+    "bg": "oklch(0.97 0 0)",
+    "color": "oklch(0.145 0 0)",
+    "font": "14px",
+    "radius": "5px"
+   }
+  },
+  {
+   "tag": "BUTTON",
+   "type": "button",
+   "text": "斯洛文尼亚语",
+   "disabled": false,
+   "aria": null,
+   "title": "",
+   "box": {
+    "x": 612,
+    "y": 381,
+    "w": 96,
+    "h": 20,
+    "display": "block",
+    "position": "static",
+    "bg": "oklch(0.97 0 0)",
+    "color": "oklch(0.145 0 0)",
+    "font": "14px",
+    "radius": "5px"
+   }
+  },
+  {
+   "tag": "BUTTON",
+   "type": "button",
+   "text": "乌克兰语",
+   "disabled": false,
+   "aria": null,
+   "title": "",
+   "box": {
+    "x": 712,
+    "y": 381,
+    "w": 68,
+    "h": 20,
+    "display": "block",
+    "position": "static",
+    "bg": "oklch(0.97 0 0)",
+    "color": "oklch(0.145 0 0)",
+    "font": "14px",
+    "radius": "5px"
+   }
+  },
+  {
+   "tag": "BUTTON",
+   "type": "button",
+   "text": "保加利亚语",
+   "disabled": false,
+   "aria": null,
+   "title": "",
+   "box": {
+    "x": 526,
+    "y": 405,
+    "w": 82,
+    "h": 20,
+    "display": "block",
+    "position": "static",
+    "bg": "oklch(0.97 0 0)",
+    "color": "oklch(0.145 0 0)",
+    "font": "14px",
+    "radius": "5px"
+   }
+  },
+  {
+   "tag": "BUTTON",
+   "type": "button",
+   "text": "克罗地亚语",
+   "disabled": false,
+   "aria": null,
+   "title": "",
+   "box": {
+    "x": 612,
+    "y": 405,
+    "w": 82,
+    "h": 20,
+    "display": "block",
+    "position": "static",
+    "bg": "oklch(0.97 0 0)",
+    "color": "oklch(0.145 0 0)",
+    "font": "14px",
+    "radius": "5px"
+   }
+  },
+  {
+   "tag": "BUTTON",
+   "type": "button",
+   "text": "简体中文",
+   "disabled": false,
+   "aria": null,
+   "title": "",
+   "box": {
+    "x": 552,
+    "y": 429,
+    "w": 68,
+    "h": 20,
+    "display": "block",
+    "position": "static",
+    "bg": "oklch(0.97 0 0)",
+    "color": "oklch(0.145 0 0)",
+    "font": "14px",
+    "radius": "5px"
+   }
+  },
+  {
+   "tag": "BUTTON",
+   "type": "button",
+   "text": "繁体中文",
+   "disabled": false,
+   "aria": null,
+   "title": "",
+   "box": {
+    "x": 624,
+    "y": 429,
+    "w": 68,
+    "h": 20,
+    "display": "block",
+    "position": "static",
+    "bg": "oklch(0.97 0 0)",
+    "color": "oklch(0.145 0 0)",
+    "font": "14px",
+    "radius": "5px"
+   }
+  },
+  {
+   "tag": "BUTTON",
+   "type": "button",
+   "text": "日语",
+   "disabled": false,
+   "aria": null,
+   "title": "",
+   "box": {
+    "x": 696,
+    "y": 429,
+    "w": 40,
+    "h": 20,
+    "display": "block",
+    "position": "static",
+    "bg": "oklch(0.97 0 0)",
+    "color": "oklch(0.145 0 0)",
+    "font": "14px",
+    "radius": "5px"
+   }
+  },
+  {
+   "tag": "BUTTON",
+   "type": "button",
+   "text": "韩语",
+   "disabled": false,
+   "aria": null,
+   "title": "",
+   "box": {
+    "x": 740,
+    "y": 429,
+    "w": 40,
+    "h": 20,
+    "display": "block",
+    "position": "static",
+    "bg": "oklch(0.97 0 0)",
+    "color": "oklch(0.145 0 0)",
+    "font": "14px",
+    "radius": "5px"
+   }
+  },
+  {
+   "tag": "BUTTON",
+   "type": "button",
+   "text": "泰语",
+   "disabled": false,
+   "aria": null,
+   "title": "",
+   "box": {
+    "x": 526,
+    "y": 453,
+    "w": 40,
+    "h": 20,
+    "display": "block",
+    "position": "static",
+    "bg": "oklch(0.97 0 0)",
+    "color": "oklch(0.145 0 0)",
+    "font": "14px",
+    "radius": "5px"
+   }
+  },
+  {
+   "tag": "BUTTON",
+   "type": "button",
+   "text": "越南语",
+   "disabled": false,
+   "aria": null,
+   "title": "",
+   "box": {
+    "x": 570,
+    "y": 453,
+    "w": 54,
+    "h": 20,
+    "display": "block",
+    "position": "static",
+    "bg": "oklch(0.97 0 0)",
+    "color": "oklch(0.145 0 0)",
+    "font": "14px",
+    "radius": "5px"
+   }
+  },
+  {
+   "tag": "BUTTON",
+   "type": "button",
+   "text": "马来语",
+   "disabled": false,
+   "aria": null,
+   "title": "",
+   "box": {
+    "x": 628,
+    "y": 453,
+    "w": 54,
+    "h": 20,
+    "display": "block",
+    "position": "static",
+    "bg": "oklch(0.97 0 0)",
+    "color": "oklch(0.145 0 0)",
+    "font": "14px",
+    "radius": "5px"
+   }
+  },
+  {
+   "tag": "BUTTON",
+   "type": "button",
+   "text": "缅甸语",
+   "disabled": false,
+   "aria": null,
+   "title": "",
+   "box": {
+    "x": 686,
+    "y": 453,
+    "w": 54,
+    "h": 20,
+    "display": "block",
+    "position": "static",
+    "bg": "oklch(0.97 0 0)",
+    "color": "oklch(0.145 0 0)",
+    "font": "14px",
+    "radius": "5px"
+   }
+  },
+  {
+   "tag": "BUTTON",
+   "type": "button",
+   "text": "印度尼西亚语",
+   "disabled": false,
+   "aria": null,
+   "title": "",
+   "box": {
+    "x": 526,
+    "y": 477,
+    "w": 96,
+    "h": 20,
+    "display": "block",
+    "position": "static",
+    "bg": "oklch(0.97 0 0)",
+    "color": "oklch(0.145 0 0)",
+    "font": "14px",
+    "radius": "5px"
+   }
+  },
+  {
+   "tag": "BUTTON",
+   "type": "button",
+   "text": "老挝语",
+   "disabled": false,
+   "aria": null,
+   "title": "",
+   "box": {
+    "x": 626,
+    "y": 477,
+    "w": 54,
+    "h": 20,
+    "display": "block",
+    "position": "static",
+    "bg": "oklch(0.97 0 0)",
+    "color": "oklch(0.145 0 0)",
+    "font": "14px",
+    "radius": "5px"
+   }
+  },
+  {
+   "tag": "BUTTON",
+   "type": "button",
+   "text": "孟加拉语",
+   "disabled": false,
+   "aria": null,
+   "title": "",
+   "box": {
+    "x": 684,
+    "y": 477,
+    "w": 68,
+    "h": 20,
+    "display": "block",
+    "position": "static",
+    "bg": "oklch(0.97 0 0)",
+    "color": "oklch(0.145 0 0)",
+    "font": "14px",
+    "radius": "5px"
+   }
+  },
+  {
+   "tag": "BUTTON",
+   "type": "button",
+   "text": "菲律宾语",
+   "disabled": false,
+   "aria": null,
+   "title": "",
+   "box": {
+    "x": 526,
+    "y": 501,
+    "w": 68,
+    "h": 20,
+    "display": "block",
+    "position": "static",
+    "bg": "oklch(0.97 0 0)",
+    "color": "oklch(0.145 0 0)",
+    "font": "14px",
+    "radius": "5px"
+   }
+  },
+  {
+   "tag": "BUTTON",
+   "type": "button",
+   "text": "他加禄语",
+   "disabled": false,
+   "aria": null,
+   "title": "",
+   "box": {
+    "x": 598,
+    "y": 501,
+    "w": 68,
+    "h": 20,
+    "display": "block",
+    "position": "static",
+    "bg": "oklch(0.97 0 0)",
+    "color": "oklch(0.145 0 0)",
+    "font": "14px",
+    "radius": "5px"
+   }
+  },
+  {
+   "tag": "BUTTON",
+   "type": "button",
+   "text": "爪哇语",
+   "disabled": false,
+   "aria": null,
+   "title": "",
+   "box": {
+    "x": 670,
+    "y": 501,
+    "w": 54,
+    "h": 20,
+    "display": "block",
+    "position": "static",
+    "bg": "oklch(0.97 0 0)",
+    "color": "oklch(0.145 0 0)",
+    "font": "14px",
+    "radius": "5px"
+   }
+  },
+  {
+   "tag": "BUTTON",
+   "type": "button",
+   "text": "印地语",
+   "disabled": false,
+   "aria": null,
+   "title": "",
+   "box": {
+    "x": 552,
+    "y": 525,
+    "w": 54,
+    "h": 20,
+    "display": "block",
+    "position": "static",
+    "bg": "oklch(0.97 0 0)",
+    "color": "oklch(0.145 0 0)",
+    "font": "14px",
+    "radius": "5px"
+   }
+  },
+  {
+   "tag": "BUTTON",
+   "type": "button",
+   "text": "古吉拉特语",
+   "disabled": false,
+   "aria": null,
+   "title": "",
+   "box": {
+    "x": 610,
+    "y": 525,
+    "w": 82,
+    "h": 20,
+    "display": "block",
+    "position": "static",
+    "bg": "oklch(0.97 0 0)",
+    "color": "oklch(0.145 0 0)",
+    "font": "14px",
+    "radius": "5px"
+   }
+  },
+  {
+   "tag": "BUTTON",
+   "type": "button",
+   "text": "马拉地语",
+   "disabled": false,
+   "aria": null,
+   "title": "",
+   "box": {
+    "x": 696,
+    "y": 525,
+    "w": 68,
+    "h": 20,
+    "display": "block",
+    "position": "static",
+    "bg": "oklch(0.97 0 0)",
+    "color": "oklch(0.145 0 0)",
+    "font": "14px",
+    "radius": "5px"
+   }
+  },
+  {
+   "tag": "BUTTON",
+   "type": "button",
+   "text": "泰米尔语",
+   "disabled": false,
+   "aria": null,
+   "title": "",
+   "box": {
+    "x": 526,
+    "y": 549,
+    "w": 68,
+    "h": 20,
+    "display": "block",
+    "position": "static",
+    "bg": "oklch(0.97 0 0)",
+    "color": "oklch(0.145 0 0)",
+    "font": "14px",
+    "radius": "5px"
+   }
+  },
+  {
+   "tag": "BUTTON",
+   "type": "button",
+   "text": "泰卢固语",
+   "disabled": false,
+   "aria": null,
+   "title": "",
+   "box": {
+    "x": 598,
+    "y": 549,
+    "w": 68,
+    "h": 20,
+    "display": "block",
+    "position": "static",
+    "bg": "oklch(0.97 0 0)",
+    "color": "oklch(0.145 0 0)",
+    "font": "14px",
+    "radius": "5px"
+   }
+  },
+  {
+   "tag": "BUTTON",
+   "type": "button",
+   "text": "乌尔都语",
+   "disabled": false,
+   "aria": null,
+   "title": "",
+   "box": {
+    "x": 670,
+    "y": 549,
+    "w": 68,
+    "h": 20,
+    "display": "block",
+    "position": "static",
+    "bg": "oklch(0.97 0 0)",
+    "color": "oklch(0.145 0 0)",
+    "font": "14px",
+    "radius": "5px"
+   }
+  },
+  {
+   "tag": "BUTTON",
+   "type": "button",
+   "text": "阿拉伯语",
+   "disabled": false,
+   "aria": null,
+   "title": "",
+   "box": {
+    "x": 552,
+    "y": 573,
+    "w": 68,
+    "h": 20,
+    "display": "block",
+    "position": "static",
+    "bg": "oklch(0.97 0 0)",
+    "color": "oklch(0.145 0 0)",
+    "font": "14px",
+    "radius": "5px"
+   }
+  },
+  {
+   "tag": "BUTTON",
+   "type": "button",
+   "text": "波斯语",
+   "disabled": false,
+   "aria": null,
+   "title": "",
+   "box": {
+    "x": 624,
+    "y": 573,
+    "w": 54,
+    "h": 20,
+    "display": "block",
+    "position": "static",
+    "bg": "oklch(0.97 0 0)",
+    "color": "oklch(0.145 0 0)",
+    "font": "14px",
+    "radius": "5px"
+   }
+  },
+  {
+   "tag": "BUTTON",
+   "type": "button",
+   "text": "希伯来语",
+   "disabled": false,
+   "aria": null,
+   "title": "",
+   "box": {
+    "x": 682,
+    "y": 573,
+    "w": 68,
+    "h": 20,
+    "display": "block",
+    "position": "static",
+    "bg": "oklch(0.97 0 0)",
+    "color": "oklch(0.145 0 0)",
+    "font": "14px",
+    "radius": "5px"
+   }
+  },
+  {
+   "tag": "BUTTON",
+   "type": "button",
+   "text": "中库尔德语",
+   "disabled": false,
+   "aria": null,
+   "title": "",
+   "box": {
+    "x": 526,
+    "y": 597,
+    "w": 82,
+    "h": 20,
+    "display": "block",
+    "position": "static",
+    "bg": "oklch(0.97 0 0)",
+    "color": "oklch(0.145 0 0)",
+    "font": "14px",
+    "radius": "5px"
+   }
+  },
+  {
+   "tag": "BUTTON",
+   "type": "button",
+   "text": "塔吉克语",
+   "disabled": false,
+   "aria": null,
+   "title": "",
+   "box": {
+    "x": 612,
+    "y": 597,
+    "w": 68,
+    "h": 20,
+    "display": "block",
+    "position": "static",
+    "bg": "oklch(0.97 0 0)",
+    "color": "oklch(0.145 0 0)",
+    "font": "14px",
+    "radius": "5px"
+   }
+  },
+  {
+   "tag": "BUTTON",
+   "type": "button",
+   "text": "土耳其语",
+   "disabled": false,
+   "aria": null,
+   "title": "",
+   "box": {
+    "x": 684,
+    "y": 597,
+    "w": 68,
+    "h": 20,
+    "display": "block",
+    "position": "static",
+    "bg": "oklch(0.97 0 0)",
+    "color": "oklch(0.145 0 0)",
+    "font": "14px",
+    "radius": "5px"
+   }
+  },
+  {
+   "tag": "BUTTON",
+   "type": "button",
+   "text": "斯瓦希里语",
+   "disabled": false,
+   "aria": null,
+   "title": "",
+   "box": {
+    "x": 552,
+    "y": 621,
+    "w": 82,
+    "h": 20,
+    "display": "block",
+    "position": "static",
+    "bg": "oklch(0.97 0 0)",
+    "color": "oklch(0.145 0 0)",
+    "font": "14px",
+    "radius": "5px"
+   }
+  },
+  {
+   "tag": "BUTTON",
+   "type": "button",
+   "text": "开始翻译(20算力)",
+   "disabled": true,
+   "aria": null,
+   "title": "",
+   "box": {
+    "x": 526,
+    "y": 647,
+    "w": 254,
+    "h": 36,
+    "display": "inline-block",
+    "position": "static",
+    "bg": "oklch(0.205 0 0)",
+    "color": "oklch(0.145 0 0)",
+    "font": "14px",
+    "radius": "8px"
+   }
+  },
+  {
+   "tag": "BUTTON",
+   "type": "button",
+   "text": "＋ 新增水印分组",
+   "disabled": false,
+   "aria": null,
+   "title": "",
+   "box": {
+    "x": 524,
+    "y": 737,
+    "w": 94,
+    "h": 22,
+    "display": "block",
+    "position": "static",
+    "bg": "rgba(0, 0, 0, 0)",
+    "color": "oklch(0.145 0 0)",
+    "font": "11px",
+    "radius": "4px"
+   }
+  },
+  {
+   "tag": "BUTTON",
+   "type": "button",
+   "text": "",
+   "disabled": true,
+   "aria": null,
+   "title": "",
+   "box": {
+    "x": 814,
+    "y": 289,
+    "w": 88,
+    "h": 32,
+    "display": "block",
+    "position": "static",
+    "bg": "rgba(0, 0, 0, 0)",
+    "color": "oklch(0.145 0 0)",
+    "font": "14px",
+    "radius": "4px"
+   }
+  },
+  {
+   "tag": "BUTTON",
+   "type": "button",
+   "text": "",
+   "disabled": false,
+   "aria": null,
+   "title": "",
+   "box": {
+    "x": 910,
+    "y": 289,
+    "w": 74,
+    "h": 32,
+    "display": "block",
+    "position": "static",
+    "bg": "rgba(0, 0, 0, 0)",
+    "color": "oklch(0.145 0 0)",
+    "font": "14px",
+    "radius": "4px"
+   }
+  },
+  {
+   "tag": "BUTTON",
+   "type": "button",
+   "text": "",
+   "disabled": false,
+   "aria": "调整右侧面板宽度",
+   "title": "",
+   "box": {
+    "x": 1913,
+    "y": 0,
+    "w": 16,
+    "h": 839,
+    "display": "block",
+    "position": "absolute",
+    "bg": "rgba(0, 0, 0, 0)",
+    "color": "rgb(41, 37, 36)",
+    "font": "14px",
+    "radius": "0px"
+   }
+  },
+  {
+   "tag": "BUTTON",
+   "type": "button",
+   "text": "",
+   "disabled": false,
+   "aria": "连接设置，当前未连接",
+   "title": "",
+   "box": {
+    "x": 1965,
+    "y": 8,
+    "w": 32,
+    "h": 32,
+    "display": "flex",
+    "position": "relative",
+    "bg": "rgba(0, 0, 0, 0)",
+    "color": "rgba(0, 0, 0, 0.88)",
+    "font": "14px",
+    "radius": "4px"
+   }
+  },
+  {
+   "tag": "BUTTON",
+   "type": "button",
+   "text": "",
+   "disabled": false,
+   "aria": "对话",
+   "title": "",
+   "box": {
+    "x": 2074,
+    "y": 0,
+    "w": 32,
+    "h": 48,
+    "display": "flex",
+    "position": "static",
+    "bg": "rgba(0, 0, 0, 0)",
+    "color": "rgb(120, 113, 108)",
+    "font": "14px",
+    "radius": "0px"
+   }
+  },
+  {
+   "tag": "BUTTON",
+   "type": "button",
+   "text": "",
+   "disabled": false,
+   "aria": "历史",
+   "title": "",
+   "box": {
+    "x": 2108,
+    "y": 0,
+    "w": 32,
+    "h": 48,
+    "display": "flex",
+    "position": "static",
+    "bg": "rgba(0, 0, 0, 0)",
+    "color": "rgb(120, 113, 108)",
+    "font": "14px",
+    "radius": "0px"
+   }
+  },
+  {
+   "tag": "BUTTON",
+   "type": "button",
+   "text": "",
+   "disabled": false,
+   "aria": "技能",
+   "title": "",
+   "box": {
+    "x": 2142,
+    "y": 0,
+    "w": 32,
+    "h": 48,
+    "display": "flex",
+    "position": "static",
+    "bg": "rgba(0, 0, 0, 0)",
+    "color": "rgb(120, 113, 108)",
+    "font": "14px",
+    "radius": "0px"
+   }
+  },
+  {
+   "tag": "BUTTON",
+   "type": "button",
+   "text": "",
+   "disabled": false,
+   "aria": "日志",
+   "title": "",
+   "box": {
+    "x": 2176,
+    "y": 0,
+    "w": 32,
+    "h": 48,
+    "display": "flex",
+    "position": "static",
+    "bg": "rgba(0, 0, 0, 0)",
+    "color": "rgb(120, 113, 108)",
+    "font": "14px",
+    "radius": "0px"
+   }
+  },
+  {
+   "tag": "BUTTON",
+   "type": "button",
+   "text": "",
+   "disabled": true,
+   "aria": "新对话",
+   "title": "",
+   "box": {
+    "x": 2284,
+    "y": 8,
+    "w": 32,
+    "h": 32,
+    "display": "flex",
+    "position": "relative",
+    "bg": "rgba(0, 0, 0, 0)",
+    "color": "rgba(0, 0, 0, 0.25)",
+    "font": "14px",
+    "radius": "4px"
+   }
+  },
+  {
+   "tag": "BUTTON",
+   "type": "button",
+   "text": "",
+   "disabled": false,
+   "aria": "收起 Agent 面板",
+   "title": "",
+   "box": {
+    "x": 2320,
+    "y": 8,
+    "w": 32,
+    "h": 32,
+    "display": "flex",
+    "position": "relative",
+    "bg": "rgba(0, 0, 0, 0)",
+    "color": "rgb(120, 113, 108)",
+    "font": "14px",
+    "radius": "50%"
+   }
+  },
+  {
+   "tag": "BUTTON",
+   "type": "button",
+   "text": "连接",
+   "disabled": false,
+   "aria": null,
+   "title": "",
+   "box": {
+    "x": 2265,
+    "y": 147,
+    "w": 66,
+    "h": 24,
+    "display": "flex",
+    "position": "relative",
+    "bg": "rgba(0, 0, 0, 0)",
+    "color": "rgb(23, 23, 23)",
+    "font": "14px",
+    "radius": "4px"
+   }
+  },
+  {
+   "tag": "BUTTON",
+   "type": "button",
+   "text": "连接",
+   "disabled": false,
+   "aria": null,
+   "title": "",
+   "box": {
+    "x": 2265,
+    "y": 215,
+    "w": 66,
+    "h": 24,
+    "display": "flex",
+    "position": "relative",
+    "bg": "rgba(0, 0, 0, 0)",
+    "color": "rgb(23, 23, 23)",
+    "font": "14px",
+    "radius": "4px"
+   }
+  },
+  {
+   "tag": "BUTTON",
+   "type": "button",
+   "text": "连接",
+   "disabled": false,
+   "aria": null,
+   "title": "",
+   "box": {
+    "x": 2265,
+    "y": 283,
+    "w": 66,
+    "h": 24,
+    "display": "flex",
+    "position": "relative",
+    "bg": "rgba(0, 0, 0, 0)",
+    "color": "rgb(23, 23, 23)",
+    "font": "14px",
+    "radius": "4px"
+   }
+  }
+ ],
+ "regions": [
+  {
+   "tag": "SPAN",
+   "cls": "absolute -right-1.5 -top-1 size-1.5 rounded-full bg-green-500",
+   "text": "",
+   "box": {
+    "x": 1704,
+    "y": 13,
+    "w": 6,
+    "h": 6,
+    "display": "block",
+    "position": "absolute",
+    "bg": "oklch(0.723 0.219 149.579)",
+    "color": "oklch(0.145 0 0)",
+    "font": "14px",
+    "radius": "3.35544e+07px"
+   }
+  },
+  {
+   "tag": "ASIDE",
+   "cls": "hidden w-[180px] shrink-0 overflow-y-auto rounded-xl border border-hairline bg-surface shadow-sm lg:block",
+   "text": "电商套图\n商品套图\n服装套图\n套图换色\n批量翻译\n高清放大\n智能扩图\n免责声明",
+   "box": {
+    "x": 16,
+    "y": 56,
+    "w": 180,
+    "h": 767,
+    "display": "block",
+    "position": "static",
+    "bg": "rgb(255, 255, 255)",
+    "color": "oklch(0.145 0 0)",
+    "font": "14px",
+    "radius": "14px"
+   }
+  },
+  {
+   "tag": "MAIN",
+   "cls": "min-h-0 flex-1 overflow-hidden bg-canvas p-2.5",
+   "text": "批量翻译\n250\n商品套图\n服装套图\n爆款图复刻\nNEW\n套图换色\n批量翻译\n高清放大\n批量抠图\n智能扩图\n上传需要翻译的图片\n从本地上传\n从作品库选择\n从商品库选择\n20M以内，384*384 ~ 4096*4096\n\n上传多张图片，开始批量翻译\n\n💡当前仅支持单张图内500字以下的内容翻译\n\n原文语言\n中文\n英语\n繁体中文\n西班牙语\n日语\n韩语\n葡萄牙语\n德语\n罗马尼亚语\n俄语\n越南语\n目标语言（可多选，已选 1 个语言）\n欧美\n英语\n俄语\n法语\n德语\n瑞典语\n挪威语\n荷兰语\n丹麦语\n意大利语\n葡萄牙语\n葡萄牙语(巴西)\n西班牙语\n波兰语\n捷克语\n希腊语\n爱沙尼亚语\n芬兰语\n匈牙利语\n立陶宛语\n拉脱维亚语\n罗马尼亚语\n斯洛伐克语\n斯洛文尼亚语\n乌克兰语\n保加利亚语\n克罗地亚语\n亚洲\n简体中文\n繁体中文\n日语\n韩语\n泰语\n越南语\n马来语\n缅甸语\n印度尼西亚语\n老挝语\n孟加拉语\n菲律宾语\n他加禄语\n爪哇语\n南亚\n印地语\n古吉拉特语\n马拉地语\n泰米尔语\n泰卢固语\n乌尔都语\n中东\n阿拉伯语\n波斯语\n希伯来语\n中库尔德语\n塔吉克语\n土耳其语\n非洲\n斯瓦希里语\n开始翻译(20算力)\n管理水印",
+   "box": {
+    "x": 209,
+    "y": 57,
+    "w": 1694,
+    "h": 765,
+    "display": "block",
+    "position": "static",
+    "bg": "rgb(244, 246, 248)",
+    "color": "oklch(0.145 0 0)",
+    "font": "14px",
+    "radius": "0px"
+   }
+  },
+  {
+   "tag": "SECTION",
+   "cls": "scroll-mt-16 rounded-lg border border-border bg-card p-2.5",
+   "text": "上传需要翻译的图片\n从本地上传\n从作品库选择\n从商品库选择\n20M以内，384*384 ~ 4096*4096\n\n上传多张图片，开始批量翻译\n\n💡当前仅支持单张图内500字以下的内容翻译",
+   "box": {
+    "x": 231,
+    "y": 191,
+    "w": 276,
+    "h": 232,
+    "display": "block",
+    "position": "static",
+    "bg": "oklch(1 0 0)",
+    "color": "oklch(0.145 0 0)",
+    "font": "14px",
+    "radius": "10px"
+   }
+  },
+  {
+   "tag": "SECTION",
+   "cls": "space-y-3 w-full",
+   "text": "从本地上传\n从作品库选择\n从商品库选择\n20M以内，384*384 ~ 4096*4096",
+   "box": {
+    "x": 242,
+    "y": 232,
+    "w": 254,
+    "h": 106,
+    "display": "block",
+    "position": "static",
+    "bg": "rgba(0, 0, 0, 0)",
+    "color": "oklch(0.145 0 0)",
+    "font": "14px",
+    "radius": "0px"
+   }
+  },
+  {
+   "tag": "SECTION",
+   "cls": "scroll-mt-16 rounded-lg border border-border bg-card p-2.5",
+   "text": "原文语言\n中文\n英语\n繁体中文\n西班牙语\n日语\n韩语\n葡萄牙语\n德语\n罗马尼亚语\n俄语\n越南语",
+   "box": {
+    "x": 231,
+    "y": 431,
+    "w": 276,
+    "h": 129,
+    "display": "block",
+    "position": "static",
+    "bg": "oklch(1 0 0)",
+    "color": "oklch(0.145 0 0)",
+    "font": "14px",
+    "radius": "10px"
+   }
+  },
+  {
+   "tag": "SECTION",
+   "cls": "scroll-mt-16 rounded-lg border border-border bg-card p-2.5",
+   "text": "目标语言（可多选，已选 1 个语言）\n欧美\n英语\n俄语\n法语\n德语\n瑞典语\n挪威语\n荷兰语\n丹麦语\n意大利语\n葡萄牙语\n葡萄牙语(巴西)\n西班牙语\n波兰语\n捷克语\n希腊语\n爱沙尼亚语\n芬兰语\n匈牙利语\n立陶宛语\n拉脱维亚语\n罗马尼亚语\n斯洛伐克语\n斯洛文尼亚语\n乌克兰语\n保加利亚语\n克罗地亚语\n亚洲\n简体中文\n繁体中文\n日语\n韩语\n泰语\n越南语\n马来语\n缅甸语\n印度尼西亚语\n老挝语\n孟加拉语\n菲律宾语\n他加禄语\n爪哇语\n南亚\n印地语\n古吉拉特语\n马拉地语\n泰米尔语\n泰卢固语\n乌尔都语\n中东\n阿拉伯语\n波斯语\n希伯来语\n中库尔德语\n塔吉克语\n土耳其语\n非洲\n斯瓦希里语\n开始翻译(20算力)",
+   "box": {
+    "x": 515,
+    "y": 191,
+    "w": 276,
+    "h": 503,
+    "display": "block",
+    "position": "static",
+    "bg": "oklch(1 0 0)",
+    "color": "oklch(0.145 0 0)",
+    "font": "14px",
+    "radius": "10px"
+   }
+  },
+  {
+   "tag": "SECTION",
+   "cls": "flex flex-wrap items-center gap-1.5 rounded-lg border border-border bg-card px-2 py-1.5 text-[11px] leading-5",
+   "text": "管理水印分组\n共 1/20 个\n默认\n＋ 新增水印分组",
+   "box": {
+    "x": 515,
+    "y": 702,
+    "w": 276,
+    "h": 64,
+    "display": "flex",
+    "position": "static",
+    "bg": "oklch(1 0 0)",
+    "color": "oklch(0.145 0 0)",
+    "font": "11px",
+    "radius": "10px"
+   }
+  },
+  {
+   "tag": "SECTION",
+   "cls": "scroll-mt-16 rounded-lg border border-border bg-card p-2.5",
+   "text": "快速翻译成多语言，快速上架",
+   "box": {
+    "x": 803,
+    "y": 231,
+    "w": 1078,
+    "h": 97,
+    "display": "block",
+    "position": "static",
+    "bg": "oklch(1 0 0)",
+    "color": "oklch(0.145 0 0)",
+    "font": "14px",
+    "radius": "10px"
+   }
+  },
+  {
+   "tag": "ASIDE",
+   "cls": "relative flex h-full shrink-0 flex-col border-l",
+   "text": "连接本地 Agent\n未连接\n点连接会自动启动本地服务、装好插件并接通，无需手动配置。\nClaude Code\n未连接\n·\nCLI · 2.1.285 (Claude Code)\n·\n直接运行\n连接\nCodex\n未连接\n·\nCLI · codex-cli 0.163.0\n·\n插件已装\n连接\nGalley\n未连接\n·\nCLI + 桌面版 · galley 0.6.4\n连接",
+   "box": {
+    "x": 1920,
+    "y": 0,
+    "w": 440,
+    "h": 839,
+    "display": "flex",
+    "position": "relative",
+    "bg": "rgb(251, 250, 247)",
+    "color": "rgb(41, 37, 36)",
+    "font": "14px",
+    "radius": "0px"
+   }
+  },
+  {
+   "tag": "BUTTON",
+   "cls": "absolute inset-y-0 left-0 z-40 w-4 -translate-x-1/2 cursor-col-resize",
+   "text": "",
+   "box": {
+    "x": 1913,
+    "y": 0,
+    "w": 16,
+    "h": 839,
+    "display": "block",
+    "position": "absolute",
+    "bg": "rgba(0, 0, 0, 0)",
+    "color": "rgb(41, 37, 36)",
+    "font": "14px",
+    "radius": "0px"
+   }
+  },
+  {
+   "tag": "SPAN",
+   "cls": "agent-panel-tab-icon",
+   "text": "",
+   "box": {
+    "x": 2083,
+    "y": 16,
+    "w": 14,
+    "h": 14,
+    "display": "block",
+    "position": "static",
+    "bg": "rgba(0, 0, 0, 0)",
+    "color": "rgb(120, 113, 108)",
+    "font": "14px",
+    "radius": "0px"
+   }
+  },
+  {
+   "tag": "SPAN",
+   "cls": "agent-panel-tab-icon",
+   "text": "",
+   "box": {
+    "x": 2117,
+    "y": 16,
+    "w": 14,
+    "h": 14,
+    "display": "block",
+    "position": "static",
+    "bg": "rgba(0, 0, 0, 0)",
+    "color": "rgb(120, 113, 108)",
+    "font": "14px",
+    "radius": "0px"
+   }
+  },
+  {
+   "tag": "SPAN",
+   "cls": "agent-panel-tab-icon",
+   "text": "",
+   "box": {
+    "x": 2151,
+    "y": 16,
+    "w": 14,
+    "h": 14,
+    "display": "block",
+    "position": "static",
+    "bg": "rgba(0, 0, 0, 0)",
+    "color": "rgb(120, 113, 108)",
+    "font": "14px",
+    "radius": "0px"
+   }
+  },
+  {
+   "tag": "SPAN",
+   "cls": "agent-panel-tab-icon",
+   "text": "",
+   "box": {
+    "x": 2185,
+    "y": 16,
+    "w": 14,
+    "h": 14,
+    "display": "block",
+    "position": "static",
+    "bg": "rgba(0, 0, 0, 0)",
+    "color": "rgb(120, 113, 108)",
+    "font": "14px",
+    "radius": "0px"
+   }
+  },
+  {
+   "tag": "svg",
+   "cls": "[object SVGAnimatedString]",
+   "text": "",
+   "box": {
+    "x": 2328,
+    "y": 16,
+    "w": 16,
+    "h": 16,
+    "display": "flex",
+    "position": "static",
+    "bg": "rgba(0, 0, 0, 0)",
+    "color": "rgb(120, 113, 108)",
+    "font": "14px",
+    "radius": "0px"
+   }
+  }
+ ],
+ "ok": true
+}

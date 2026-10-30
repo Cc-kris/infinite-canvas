@@ -1,0 +1,23 @@
+{
+ "task": "前端 1:1 对齐：SALE_VIDEO, VIDEO_CONCAT, AI_VIDEO_EDITING, VIDEO_REPLICATION, VIDEO_TRANSLATION, IMAGE_TO_VIDEO, NEW_REPLACE_BG_V2",
+ "work_dir": "/Users/mac/Documents/Dev/infinite-canvas",
+ "work_orders": {
+  "SALE_VIDEO": "/Users/mac/Documents/Dev/infinite-canvas/docs/V1.0/replica/frontend-1to1/SALE_VIDEO.md",
+  "VIDEO_CONCAT": "/Users/mac/Documents/Dev/infinite-canvas/docs/V1.0/replica/frontend-1to1/VIDEO_CONCAT.md",
+  "AI_VIDEO_EDITING": "/Users/mac/Documents/Dev/infinite-canvas/docs/V1.0/replica/frontend-1to1/AI_VIDEO_EDITING.md",
+  "VIDEO_REPLICATION": "/Users/mac/Documents/Dev/infinite-canvas/docs/V1.0/replica/frontend-1to1/VIDEO_REPLICATION.md",
+  "VIDEO_TRANSLATION": "/Users/mac/Documents/Dev/infinite-canvas/docs/V1.0/replica/frontend-1to1/VIDEO_TRANSLATION.md",
+  "IMAGE_TO_VIDEO": "/Users/mac/Documents/Dev/infinite-canvas/docs/V1.0/replica/frontend-1to1/IMAGE_TO_VIDEO.md",
+  "NEW_REPLACE_BG_V2": "/Users/mac/Documents/Dev/infinite-canvas/docs/V1.0/replica/frontend-1to1/NEW_REPLACE_BG_V2.md"
+ },
+ "index": "/Users/mac/Documents/Dev/infinite-canvas/docs/V1.0/replica/frontend-1to1/00-INDEX.md",
+ "editable_files": [
+  "/Users/mac/Documents/Dev/infinite-canvas/web/src/components/tools/workspaces/video.tsx",
+  "/Users/mac/Documents/Dev/infinite-canvas/web/src/components/tools/workspaces/video-translation.tsx",
+  "/Users/mac/Documents/Dev/infinite-canvas/web/src/components/tools/workspaces/image-to-video.tsx",
+  "/Users/mac/Documents/Dev/infinite-canvas/web/src/components/tools/workspaces/new-replace-bg-v2.tsx"
+ ],
+ "registry": "/Users/mac/Documents/Dev/infinite-canvas/web/src/features/tools/registry",
+ "evidence_js": "/Users/mac/Documents/Dev/infinite-canvas/capture_page.js",
+ "output": "/Users/mac/Documents/Dev/infinite-canvas/.verify-tools/frontend-diff/tasks/fx_b5/report.md"
+}

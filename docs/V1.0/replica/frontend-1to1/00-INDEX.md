@@ -1,0 +1,43 @@
+# 39 工具前端 1:1 对齐工单总表
+
+| 工具 | 原站文本 | 本地文本 | 缺失 | 多余 |
+|---|---|---|---|---|
+| [IMAGE_TEXT_EDIT](./IMAGE_TEXT_EDIT.md) | 3 | 20 | 3 | 20 |
+| [FISSION_LINK](./FISSION_LINK.md) | 0 | 19 | 0 | 19 |
+| [SCENE_TRANSFER](./SCENE_TRANSFER.md) | 1 | 18 | 1 | 18 |
+| [AI_DRESSING_V2](./AI_DRESSING_V2.md) | 41 | 41 | 0 | 0 |
+| [AI_DRESSING_XSY](./AI_DRESSING_XSY.md) | 40 | 41 | 0 | 0 |
+| [AI_OUTPAINTING](./AI_OUTPAINTING.md) | 26 | 26 | 0 | 0 |
+| [AI_POSE_GENERATOR](./AI_POSE_GENERATOR.md) | 39 | 41 | 0 | 0 |
+| [AI_POSTURE](./AI_POSTURE.md) | 40 | 40 | 0 | 0 |
+| [AI_TEXT](./AI_TEXT.md) | 1 | 1 | 0 | 0 |
+| [AI_VIDEO_EDITING](./AI_VIDEO_EDITING.md) | 35 | 37 | 0 | 0 |
+| [AI_WEARABLE](./AI_WEARABLE.md) | 42 | 43 | 0 | 0 |
+| [AREA_REPAIR](./AREA_REPAIR.md) | 47 | 47 | 0 | 0 |
+| [CHANGE_COLOR](./CHANGE_COLOR.md) | 54 | 57 | 0 | 0 |
+| [CHANGE_COLOR_V2](./CHANGE_COLOR_V2.md) | 72 | 74 | 0 | 0 |
+| [DRESS_WEAR_SET](./DRESS_WEAR_SET.md) | 77 | 78 | 0 | 0 |
+| [FIX_COLOR](./FIX_COLOR.md) | 38 | 39 | 0 | 0 |
+| [HANDHELD_GOODS](./HANDHELD_GOODS.md) | 35 | 37 | 0 | 0 |
+| [HAND_REPAIR](./HAND_REPAIR.md) | 46 | 49 | 0 | 0 |
+| [IMAGE_CROP](./IMAGE_CROP.md) | 74 | 74 | 0 | 0 |
+| [IMAGE_TO_VIDEO](./IMAGE_TO_VIDEO.md) | 69 | 69 | 0 | 0 |
+| [IMAGE_TRANSLATION](./IMAGE_TRANSLATION.md) | 87 | 87 | 0 | 0 |
+| [MATERIAL_UPPER_BODY](./MATERIAL_UPPER_BODY.md) | 76 | 77 | 0 | 0 |
+| [NEW_DESIGNER](./NEW_DESIGNER.md) | 20 | 20 | 0 | 0 |
+| [NEW_REPLACE_BG_V2](./NEW_REPLACE_BG_V2.md) | 76 | 76 | 0 | 0 |
+| [ORNAMENT_TEXT](./ORNAMENT_TEXT.md) | 1 | 1 | 0 | 0 |
+| [PRINTING_REPAIR](./PRINTING_REPAIR.md) | 39 | 39 | 0 | 0 |
+| [PRINT_EXTRACT](./PRINT_EXTRACT.md) | 27 | 28 | 0 | 0 |
+| [PRODUCT_IMAGE_SUITE](./PRODUCT_IMAGE_SUITE.md) | 74 | 75 | 0 | 0 |
+| [PRODUCT_MARKET_MATERIAL](./PRODUCT_MARKET_MATERIAL.md) | 73 | 75 | 0 | 0 |
+| [PRODUCT_REFINE](./PRODUCT_REFINE.md) | 44 | 45 | 0 | 0 |
+| [PRODUCT_SCENE](./PRODUCT_SCENE.md) | 43 | 43 | 0 | 0 |
+| [REMOVE_PEN](./REMOVE_PEN.md) | 40 | 40 | 0 | 0 |
+| [REPLACE_GOODS](./REPLACE_GOODS.md) | 39 | 39 | 0 | 0 |
+| [SALE_VIDEO](./SALE_VIDEO.md) | 59 | 59 | 0 | 0 |
+| [SCALE_UP](./SCALE_UP.md) | 37 | 39 | 0 | 0 |
+| [SDS_DESIGN](./SDS_DESIGN.md) | 25 | 25 | 0 | 0 |
+| [VIDEO_CONCAT](./VIDEO_CONCAT.md) | 23 | 23 | 0 | 0 |
+| [VIDEO_REPLICATION](./VIDEO_REPLICATION.md) | 63 | 64 | 0 | 0 |
+| [VIDEO_TRANSLATION](./VIDEO_TRANSLATION.md) | 31 | 32 | 0 | 0 |

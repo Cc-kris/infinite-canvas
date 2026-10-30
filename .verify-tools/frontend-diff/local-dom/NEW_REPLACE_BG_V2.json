@@ -1,0 +1,1103 @@
+{
+ "id": "NEW_REPLACE_BG_V2",
+ "route": "/tools/product-design/new-replace-bg-v2",
+ "ok": true,
+ "error": null,
+ "title": "无限画布",
+ "text": "无限画布\n首页\n电商套图\n智能修图\n新模型\nAI视频\nHOT\n批量生图\n商品图设计\n中\nv0.27.0\n商品图\n商品替换\n场景裂变\n手持商品\nAI穿衣\n姿势裂变\nAI穿戴\nPOD素材\n饰品文字\n素材贴合\n印花提取\nAI姿势生成\n补充\nAI试衣XSY\n补充\n场景裂变链接\n补充\n图片文字编辑\n补充\n上装换料\n补充\n商品图设计器\n补充\n商品营销素材\n补充\n场景迁移\n补充\n免责声明\n流程\n上传 → 抠图确认 → 场景 → 结果\n1\n.\n上传商品\n2\n.\n抠图确认\n3\n.\n场景模板 / 自定义\n4\n.\n结果网格\n商品层（必填）\npng / jpeg / webp · 20M 以内\n上传商品图\n0\n0 / 1 个 · PNG / JPG / WebP · ≤ 20 MB\n点击选择本地文件，或拖拽到这里\n校验格式 / 大小 / 像素，入库后可刷新恢复\n还没有素材\n抠图确认\n先拿素材证据，再点确认\n画主体蒙版\n已是透明底 PNG\n上传主体蒙版（白=主体）\n0\n0 / 1 个 · PNG · ≤ 8.0 MB\n点击选择本地文件，或拖拽到这里\n校验格式 / 大小 / 像素，入库后可刷新恢复\n还没有素材\n请先在商品图上涂出主体，生成蒙版后再确认抠图。\n确认抠图\n场景类型\n推荐模板 / 自定义背景\n推荐场景\n自定义背景\n影棚白底\n干净纯白，适合主图\n大理石台面\n香化 / 饰品常用\n原木桌面\n家居 / 食品\n户外草地\n户外 / 运动\n家居客厅\n大件商品\n浴室台面\n个护 / 洗护\n纯色渐变\n电商海报\n节日氛围\n礼赠场景\n融合强度\n偏强（更融入场景）\n70\n%\n输出规格\n比例 / 数量\n1:1\n4:5\n3:4\n16:9\n9:16\n1\n张\n2\n张\n4\n张\n1024\n×\n1024\n合成画布\n商品层按位置/缩放/旋转叠在场景层上\n干净的纯白影棚背景，柔和顶光与轻微接地阴影，商品居中，商业产品摄影\n位置 50% / 56%，缩放 100%，旋转 0°\n↶\n↷\n无可撤销步骤\n·\n无可重做步骤\n横向位置\n50\n%\n纵向位置\n56\n%\n缩放\n100\n%\n旋转\n0\n°\n复位变换\n锁定抠图边缘\n开\n图层\n可见 / 锁定\n背景层\n场景模板或自定义背景，决定光线与台面\n可见\n未锁\n恢复\n商品层\n抠图后的商品主体，可拖动 / 缩放 / 旋转\n可见\n未锁\n恢复\n材质层\n台面材质与接触阴影，跟着背景走\n可见\n未锁\n恢复\n锁定层\n锁住的区域不参与重绘，保护商品轮廓\n可见\n已锁\n恢复\n默认图层：\n4\n层可见 / 共\n4\n层\n请求参数（真实下发）\ncanvasData / sizeData / imageRecords\n1024\n×\n1024\n@\n1:1\n·\n1\n张 ·\n4\n层可见 ·\npx\n参考图\n0\n张：\n未选择\n展开提示词与 canvasData\n把商品放进新的场景背景里，保持商品本体不变（不改变形状、logo、颜色和材质）。\n场景类型：推荐场景。\n场景描述：干净的纯白影棚背景，柔和顶光与轻微接地阴影，商品居中，商业产品摄影。\n场景模板：影棚白底。\n融合强度 70%（偏强（更融入场景））：强度越高商品越融入场景光线与投影，但商品细节必须保留。\n商品位置：画面横向 50%、纵向 56%；缩放 100%；旋转 0°。\n锁定商品轮廓：商品边缘与主\n提交\n先补齐拦截项\n·\n请先上传商品图。\n·\n请先在商品图上涂出主体，生成蒙版后再确认抠图。\n立即生成\n模型：GPT Image 2\n结果\n按输出数量分格展示\n待生成\n商品图结果\n还没有生成结果\n填好参数并提交后，结果会出现在这里，可预览、下载、存入资产库或发送到画布。\n本次提交快照\n提交时锁定的参数；结果与快照不一致会标记为旧版本\n还没有提交过任务；提交后这里会显示本次锁定的场景 / 强度 / 图层 / 输出规格。\n历史任务\n0\n条\n本工具还没有历史任务；提交一次后会在这里留下任务、配置与结果，刷新后仍在。\n连接本地 Agent\n未连接\n点连接会自动启动本地服务、装好插件并接通，无需手动配置。\nClaude Code\n未连接\n·\nCLI · 2.1.285 (Claude Code)\n·\n直接运行\n连接\nCodex\n未连接\n·\nCLI · codex-cli 0.163.0\n·\n插件已装\n连接\nGalley\n未连接\n·\nCLI + 桌面版 · galley 0.6.4\n连接",
+ "lines": [
+  "无限画布",
+  "首页",
+  "电商套图",
+  "智能修图",
+  "新模型",
+  "AI视频",
+  "HOT",
+  "批量生图",
+  "商品图设计",
+  "中",
+  "v0.27.0",
+  "商品图",
+  "商品替换",
+  "场景裂变",
+  "手持商品",
+  "AI穿衣",
+  "姿势裂变",
+  "AI穿戴",
+  "POD素材",
+  "饰品文字",
+  "素材贴合",
+  "印花提取",
+  "AI姿势生成",
+  "补充",
+  "AI试衣XSY",
+  "补充",
+  "场景裂变链接",
+  "补充",
+  "图片文字编辑",
+  "补充",
+  "上装换料",
+  "补充",
+  "商品图设计器",
+  "补充",
+  "商品营销素材",
+  "补充",
+  "场景迁移",
+  "补充",
+  "免责声明",
+  "流程",
+  "上传 → 抠图确认 → 场景 → 结果",
+  "1",
+  ".",
+  "上传商品",
+  "2",
+  ".",
+  "抠图确认",
+  "3",
+  ".",
+  "场景模板 / 自定义",
+  "4",
+  ".",
+  "结果网格",
+  "商品层（必填）",
+  "png / jpeg / webp · 20M 以内",
+  "上传商品图",
+  "0",
+  "0 / 1 个 · PNG / JPG / WebP · ≤ 20 MB",
+  "点击选择本地文件，或拖拽到这里",
+  "校验格式 / 大小 / 像素，入库后可刷新恢复",
+  "还没有素材",
+  "抠图确认",
+  "先拿素材证据，再点确认",
+  "画主体蒙版",
+  "已是透明底 PNG",
+  "上传主体蒙版（白=主体）",
+  "0",
+  "0 / 1 个 · PNG · ≤ 8.0 MB",
+  "点击选择本地文件，或拖拽到这里",
+  "校验格式 / 大小 / 像素，入库后可刷新恢复",
+  "还没有素材",
+  "请先在商品图上涂出主体，生成蒙版后再确认抠图。",
+  "确认抠图",
+  "场景类型",
+  "推荐模板 / 自定义背景",
+  "推荐场景",
+  "自定义背景",
+  "影棚白底",
+  "干净纯白，适合主图",
+  "大理石台面",
+  "香化 / 饰品常用",
+  "原木桌面",
+  "家居 / 食品",
+  "户外草地",
+  "户外 / 运动",
+  "家居客厅",
+  "大件商品",
+  "浴室台面",
+  "个护 / 洗护",
+  "纯色渐变",
+  "电商海报",
+  "节日氛围",
+  "礼赠场景",
+  "融合强度",
+  "偏强（更融入场景）",
+  "70",
+  "%",
+  "输出规格",
+  "比例 / 数量",
+  "1:1",
+  "4:5",
+  "3:4",
+  "16:9",
+  "9:16",
+  "1",
+  "张",
+  "2",
+  "张",
+  "4",
+  "张",
+  "1024",
+  "×",
+  "1024",
+  "合成画布",
+  "商品层按位置/缩放/旋转叠在场景层上",
+  "干净的纯白影棚背景，柔和顶光与轻微接地阴影，商品居中，商业产品摄影",
+  "位置 50% / 56%，缩放 100%，旋转 0°",
+  "↶",
+  "↷",
+  "无可撤销步骤",
+  "·",
+  "无可重做步骤",
+  "横向位置",
+  "50",
+  "%",
+  "纵向位置",
+  "56",
+  "%",
+  "缩放",
+  "100",
+  "%",
+  "旋转",
+  "0",
+  "°",
+  "复位变换",
+  "锁定抠图边缘",
+  "开",
+  "图层",
+  "可见 / 锁定",
+  "背景层",
+  "场景模板或自定义背景，决定光线与台面",
+  "可见",
+  "未锁",
+  "恢复",
+  "商品层",
+  "抠图后的商品主体，可拖动 / 缩放 / 旋转",
+  "可见",
+  "未锁",
+  "恢复",
+  "材质层",
+  "台面材质与接触阴影，跟着背景走",
+  "可见",
+  "未锁",
+  "恢复",
+  "锁定层",
+  "锁住的区域不参与重绘，保护商品轮廓",
+  "可见",
+  "已锁",
+  "恢复",
+  "默认图层：",
+  "4",
+  "层可见 / 共",
+  "4",
+  "层",
+  "请求参数（真实下发）",
+  "canvasData / sizeData / imageRecords",
+  "1024",
+  "×",
+  "1024",
+  "@",
+  "1:1",
+  "·",
+  "1",
+  "张 ·",
+  "4",
+  "层可见 ·",
+  "px",
+  "参考图",
+  "0",
+  "张：",
+  "未选择",
+  "展开提示词与 canvasData",
+  "把商品放进新的场景背景里，保持商品本体不变（不改变形状、logo、颜色和材质）。\n场景类型：推荐场景。\n场景描述：干净的纯白影棚背景，柔和顶光与轻微接地阴影，商品居中，商业产品摄影。\n场景模板：影棚白底。\n融合强度 70%（偏强（更融入场景））：强度越高商品越融入场景光线与投影，但商品细节必须保留。\n商品位置：画面横向 50%、纵向 56%；缩放 100%；旋转 0°。\n锁定商品轮廓：商品边缘与主",
+  "提交",
+  "先补齐拦截项",
+  "·",
+  "请先上传商品图。",
+  "·",
+  "请先在商品图上涂出主体，生成蒙版后再确认抠图。",
+  "立即生成",
+  "模型：GPT Image 2",
+  "结果",
+  "按输出数量分格展示",
+  "待生成",
+  "商品图结果",
+  "还没有生成结果",
+  "填好参数并提交后，结果会出现在这里，可预览、下载、存入资产库或发送到画布。",
+  "本次提交快照",
+  "提交时锁定的参数；结果与快照不一致会标记为旧版本",
+  "还没有提交过任务；提交后这里会显示本次锁定的场景 / 强度 / 图层 / 输出规格。",
+  "历史任务",
+  "0",
+  "条",
+  "本工具还没有历史任务；提交一次后会在这里留下任务、配置与结果，刷新后仍在。",
+  "连接本地 Agent",
+  "未连接",
+  "点连接会自动启动本地服务、装好插件并接通，无需手动配置。",
+  "Claude Code",
+  "未连接",
+  "·",
+  "CLI · 2.1.285 (Claude Code)",
+  "·",
+  "直接运行",
+  "连接",
+  "Codex",
+  "未连接",
+  "·",
+  "CLI · codex-cli 0.163.0",
+  "·",
+  "插件已装",
+  "连接",
+  "Galley",
+  "未连接",
+  "·",
+  "CLI + 桌面版 · galley 0.6.4",
+  "连接"
+ ],
+ "controls": [
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "中",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1593,
+    "y": 14,
+    "w": 28,
+    "h": 28
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "切换到深色主题",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1625,
+    "y": 14,
+    "w": 28,
+    "h": 28
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "v0.27.0",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1657,
+    "y": 17,
+    "w": 47,
+    "h": 22
+   }
+  },
+  {
+   "tag": "div",
+   "type": "",
+   "text": "点击选择本地文件，或拖拽到这里\n校验格式 / 大小 / 像素，入库后可刷新恢复",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 232,
+    "y": 268,
+    "w": 747,
+    "h": 86
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "画主体蒙版",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 232,
+    "y": 467,
+    "w": 88,
+    "h": 32
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "已是透明底 PNG",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 328,
+    "y": 467,
+    "w": 121,
+    "h": 32
+   }
+  },
+  {
+   "tag": "div",
+   "type": "",
+   "text": "点击选择本地文件，或拖拽到这里\n校验格式 / 大小 / 像素，入库后可刷新恢复",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 232,
+    "y": 546,
+    "w": 747,
+    "h": 86
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "确认抠图",
+   "placeholder": "",
+   "disabled": true,
+   "rect": {
+    "x": 905,
+    "y": 672,
+    "w": 74,
+    "h": 32
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "推荐场景",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 232,
+    "y": 777,
+    "w": 74,
+    "h": 32
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "自定义背景",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 314,
+    "y": 777,
+    "w": 88,
+    "h": 32
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "影棚白底\n干净纯白，适合主图",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 232,
+    "y": 817,
+    "w": 370,
+    "h": 58
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "大理石台面\n香化 / 饰品常用",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 610,
+    "y": 817,
+    "w": 370,
+    "h": 58
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "原木桌面\n家居 / 食品",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 232,
+    "y": 883,
+    "w": 370,
+    "h": 58
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "户外草地\n户外 / 运动",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 610,
+    "y": 883,
+    "w": 370,
+    "h": 58
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "家居客厅\n大件商品",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 232,
+    "y": 949,
+    "w": 370,
+    "h": 58
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "浴室台面\n个护 / 洗护",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 610,
+    "y": 949,
+    "w": 370,
+    "h": 58
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "纯色渐变\n电商海报",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 232,
+    "y": 1015,
+    "w": 370,
+    "h": 58
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "节日氛围\n礼赠场景",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 610,
+    "y": 1015,
+    "w": 370,
+    "h": 58
+   }
+  },
+  {
+   "tag": "input",
+   "type": "range",
+   "text": "0.7",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 232,
+    "y": 1146,
+    "w": 701,
+    "h": 16
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "1:1",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 232,
+    "y": 1235,
+    "w": 35,
+    "h": 32
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "4:5",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 275,
+    "y": 1235,
+    "w": 40,
+    "h": 32
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "3:4",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 322,
+    "y": 1235,
+    "w": 40,
+    "h": 32
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "16:9",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 370,
+    "y": 1235,
+    "w": 46,
+    "h": 32
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "9:16",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 424,
+    "y": 1235,
+    "w": 46,
+    "h": 32
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "1 张",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 232,
+    "y": 1275,
+    "w": 42,
+    "h": 32
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "2 张",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 282,
+    "y": 1275,
+    "w": 44,
+    "h": 32
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "4 张",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 334,
+    "y": 1275,
+    "w": 45,
+    "h": 32
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "↶",
+   "placeholder": "",
+   "disabled": true,
+   "rect": {
+    "x": 1017,
+    "y": 1006,
+    "w": 40,
+    "h": 40
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "↷",
+   "placeholder": "",
+   "disabled": true,
+   "rect": {
+    "x": 1065,
+    "y": 1006,
+    "w": 40,
+    "h": 40
+   }
+  },
+  {
+   "tag": "input",
+   "type": "range",
+   "text": "0.5",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1017,
+    "y": 1072,
+    "w": 427,
+    "h": 16
+   }
+  },
+  {
+   "tag": "input",
+   "type": "range",
+   "text": "0.56",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1453,
+    "y": 1072,
+    "w": 427,
+    "h": 16
+   }
+  },
+  {
+   "tag": "input",
+   "type": "range",
+   "text": "1",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1017,
+    "y": 1117,
+    "w": 427,
+    "h": 16
+   }
+  },
+  {
+   "tag": "input",
+   "type": "range",
+   "text": "0",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1453,
+    "y": 1117,
+    "w": 427,
+    "h": 16
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "复位变换",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1017,
+    "y": 1145,
+    "w": 74,
+    "h": 32
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "锁定抠图边缘 开",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1099,
+    "y": 1145,
+    "w": 120,
+    "h": 32
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "可见",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1735,
+    "y": 1255,
+    "w": 40,
+    "h": 27
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "未锁",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1783,
+    "y": 1255,
+    "w": 40,
+    "h": 27
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "恢复",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1831,
+    "y": 1255,
+    "w": 40,
+    "h": 27
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "可见",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1735,
+    "y": 1297,
+    "w": 40,
+    "h": 27
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "未锁",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1783,
+    "y": 1297,
+    "w": 40,
+    "h": 27
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "恢复",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1831,
+    "y": 1297,
+    "w": 40,
+    "h": 27
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "可见",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1735,
+    "y": 1338,
+    "w": 40,
+    "h": 27
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "未锁",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1783,
+    "y": 1338,
+    "w": 40,
+    "h": 27
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "恢复",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1831,
+    "y": 1338,
+    "w": 40,
+    "h": 27
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "可见",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1735,
+    "y": 1379,
+    "w": 40,
+    "h": 27
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "已锁",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1783,
+    "y": 1379,
+    "w": 40,
+    "h": 27
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "恢复",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1831,
+    "y": 1379,
+    "w": 40,
+    "h": 27
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "立即生成",
+   "placeholder": "",
+   "disabled": true,
+   "rect": {
+    "x": 1017,
+    "y": 1726,
+    "w": 80,
+    "h": 34
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "连接",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 2265,
+    "y": 147,
+    "w": 66,
+    "h": 24
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "连接",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 2265,
+    "y": 215,
+    "w": 66,
+    "h": 24
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "连接",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 2265,
+    "y": 283,
+    "w": 66,
+    "h": 24
+   }
+  }
+ ],
+ "regions": [
+  {
+   "cls": "sticky top-0 z-[7] h-14 shrink-0 border-b border-hairline bg-surface/95 backdrop",
+   "rect": {
+    "x": 0,
+    "y": 0,
+    "w": 1920,
+    "h": 56
+   },
+   "text": "无限画布\n首页\n电商套图\n智能修图\n新模型\nAI视频\nHOT\n批量生图\n商品图设计\n中\n切换到深色主题\nv0.27.0"
+  },
+  {
+   "cls": "hidden w-[180px] shrink-0 overflow-y-auto rounded-xl border border-hairline bg-s",
+   "rect": {
+    "x": 16,
+    "y": 56,
+    "w": 180,
+    "h": 1008
+   },
+   "text": "商品图设计\n商品图\n商品替换\n场景裂变\n手持商品\nAI穿衣\n姿势裂变\nAI穿戴\nPOD素材\n饰品文字\n素材贴合\n印花提取\nAI姿势生成\n补充\nAI试衣XSY\n补充\n场景裂变链接\n补充\n图片文字编辑\n补充\n上装换料\n补充\n商品图设计器\n补充\n商品营销素材\n补充\n场景迁移\n补充\n免责声明"
+  },
+  {
+   "cls": "min-h-0 flex-1 overflow-hidden bg-canvas p-2.5",
+   "rect": {
+    "x": 209,
+    "y": 57,
+    "w": 1694,
+    "h": 1006
+   },
+   "text": "流程\n上传 → 抠图确认 → 场景 → 结果\n1. 上传商品\n2. 抠图确认\n3. 场景模板 / 自定义\n4. 结果网格\n商品层（必填）\npng / jpeg / webp · 20M 以内\n上传商品图\n00 / 1 个 · PNG / JPG / WebP · ≤ 20 MB\n点击选择本地文件，或拖拽到这里\n校验格式 / 大小 / 像素，入库后可刷新恢复\n\n还没有素材\n\n抠图确认\n先拿素材证据，再点确认\n画主体蒙版\n已是透明底 PNG\n上传主体蒙版（白=主体）\n00 / 1 个 · PNG · ≤ 8.0 MB\n点击选择本地文件，或拖拽到这里\n校验格式 / 大小 / 像素，入库后可刷新恢复\n"
+  },
+  {
+   "cls": "rounded-lg border border-stone-200 bg-card/60 p-3 dark:border-stone-800 dark:bg-",
+   "rect": {
+    "x": 219,
+    "y": 67,
+    "w": 773,
+    "h": 102
+   },
+   "text": "流程\n上传 → 抠图确认 → 场景 → 结果\n1. 上传商品\n2. 抠图确认\n3. 场景模板 / 自定义\n4. 结果网格"
+  },
+  {
+   "cls": "rounded-lg border border-stone-200 bg-card/60 p-3 dark:border-stone-800 dark:bg-",
+   "rect": {
+    "x": 219,
+    "y": 181,
+    "w": 773,
+    "h": 226
+   },
+   "text": "商品层（必填）\npng / jpeg / webp · 20M 以内\n上传商品图\n00 / 1 个 · PNG / JPG / WebP · ≤ 20 MB\n点击选择本地文件，或拖拽到这里\n校验格式 / 大小 / 像素，入库后可刷新恢复\n\n还没有素材"
+  },
+  {
+   "cls": "space-y-3",
+   "rect": {
+    "x": 232,
+    "y": 229,
+    "w": 747,
+    "h": 153
+   },
+   "text": "上传商品图\n00 / 1 个 · PNG / JPG / WebP · ≤ 20 MB\n点击选择本地文件，或拖拽到这里\n校验格式 / 大小 / 像素，入库后可刷新恢复\n\n还没有素材"
+  },
+  {
+   "cls": "rounded-lg border border-stone-200 bg-card/60 p-3 dark:border-stone-800 dark:bg-",
+   "rect": {
+    "x": 219,
+    "y": 419,
+    "w": 773,
+    "h": 298
+   },
+   "text": "抠图确认\n先拿素材证据，再点确认\n画主体蒙版\n已是透明底 PNG\n上传主体蒙版（白=主体）\n00 / 1 个 · PNG · ≤ 8.0 MB\n点击选择本地文件，或拖拽到这里\n校验格式 / 大小 / 像素，入库后可刷新恢复\n\n还没有素材\n\n请先在商品图上涂出主体，生成蒙版后再确认抠图。\n确认抠图"
+  },
+  {
+   "cls": "space-y-3",
+   "rect": {
+    "x": 232,
+    "y": 507,
+    "w": 747,
+    "h": 153
+   },
+   "text": "上传主体蒙版（白=主体）\n00 / 1 个 · PNG · ≤ 8.0 MB\n点击选择本地文件，或拖拽到这里\n校验格式 / 大小 / 像素，入库后可刷新恢复\n\n还没有素材"
+  },
+  {
+   "cls": "rounded-lg border border-stone-200 bg-card/60 p-3 dark:border-stone-800 dark:bg-",
+   "rect": {
+    "x": 219,
+    "y": 729,
+    "w": 773,
+    "h": 357
+   },
+   "text": "场景类型\n推荐模板 / 自定义背景\n推荐场景\n自定义背景\n影棚白底\n干净纯白，适合主图\n大理石台面\n香化 / 饰品常用\n原木桌面\n家居 / 食品\n户外草地\n户外 / 运动\n家居客厅\n大件商品\n浴室台面\n个护 / 洗护\n纯色渐变\n电商海报\n节日氛围\n礼赠场景"
+  },
+  {
+   "cls": "rounded-lg border border-stone-200 bg-card/60 p-3 dark:border-stone-800 dark:bg-",
+   "rect": {
+    "x": 219,
+    "y": 1098,
+    "w": 773,
+    "h": 77
+   },
+   "text": "融合强度\n偏强（更融入场景）\n70%"
+  },
+  {
+   "cls": "rounded-lg border border-stone-200 bg-card/60 p-3 dark:border-stone-800 dark:bg-",
+   "rect": {
+    "x": 219,
+    "y": 1187,
+    "w": 773,
+    "h": 133
+   },
+   "text": "输出规格\n比例 / 数量\n1:1\n4:5\n3:4\n16:9\n9:16\n1 张\n2 张\n4 张\n1024×1024"
+  },
+  {
+   "cls": "rounded-lg border border-stone-200 bg-card/60 p-3 dark:border-stone-800 dark:bg-",
+   "rect": {
+    "x": 1004,
+    "y": 67,
+    "w": 889,
+    "h": 1123
+   },
+   "text": "合成画布\n商品层按位置/缩放/旋转叠在场景层上\n干净的纯白影棚背景，柔和顶光与轻微接地阴影，商品居中，商业产品摄影\n\n位置 50% / 56%，缩放 100%，旋转 0°\n\n↶\n↷\n无可撤销步骤 · 无可重做步骤\n横向位置 50%\n纵向位置 56%\n缩放 100%\n旋转 0°\n复位变换\n锁定抠图边缘 开"
+  },
+  {
+   "cls": "rounded-lg border border-stone-200 bg-card/60 p-3 dark:border-stone-800 dark:bg-",
+   "rect": {
+    "x": 1004,
+    "y": 1202,
+    "w": 889,
+    "h": 264
+   },
+   "text": "图层\n可见 / 锁定\n背景层场景模板或自定义背景，决定光线与台面\n可见\n未锁\n恢复\n商品层抠图后的商品主体，可拖动 / 缩放 / 旋转\n可见\n未锁\n恢复\n材质层台面材质与接触阴影，跟着背景走\n可见\n未锁\n恢复\n锁定层锁住的区域不参与重绘，保护商品轮廓\n可见\n已锁\n恢复\n\n默认图层：4 层可见 / 共 4 层"
+  },
+  {
+   "cls": "rounded-lg border border-stone-200 bg-card/60 p-3 dark:border-stone-800 dark:bg-",
+   "rect": {
+    "x": 1004,
+    "y": 1479,
+    "w": 889,
+    "h": 135
+   },
+   "text": "请求参数（真实下发）\ncanvasData / sizeData / imageRecords\n\n1024×1024 @ 1:1 · 1 张 · 4 层可见 · px\n\n参考图 0 张：未选择\n\n展开提示词与 canvasData"
+  },
+  {
+   "cls": "rounded-lg border border-stone-200 bg-card/60 p-3 dark:border-stone-800 dark:bg-",
+   "rect": {
+    "x": 1004,
+    "y": 1626,
+    "w": 889,
+    "h": 148
+   },
+   "text": "提交\n先补齐拦截项\n· 请先上传商品图。\n· 请先在商品图上涂出主体，生成蒙版后再确认抠图。\n立即生成\n模型：GPT Image 2"
+  },
+  {
+   "cls": "rounded-lg border border-stone-200 bg-card/60 p-3 dark:border-stone-800 dark:bg-",
+   "rect": {
+    "x": 1004,
+    "y": 1785,
+    "w": 889,
+    "h": 695
+   },
+   "text": "结果\n按输出数量分格展示\n待生成\n商品图结果\n\n还没有生成结果\n\n填好参数并提交后，结果会出现在这里，可预览、下载、存入资产库或发送到画布。"
+  },
+  {
+   "cls": "space-y-3 rounded-xl border-border mt-2 border-0 bg-transparent p-0",
+   "rect": {
+    "x": 1017,
+    "y": 2269,
+    "w": 863,
+    "h": 199
+   },
+   "text": "商品图结果\n\n还没有生成结果\n\n填好参数并提交后，结果会出现在这里，可预览、下载、存入资产库或发送到画布。"
+  },
+  {
+   "cls": "rounded-lg border border-stone-200 bg-card/60 p-3 dark:border-stone-800 dark:bg-",
+   "rect": {
+    "x": 1004,
+    "y": 2493,
+    "w": 889,
+    "h": 89
+   },
+   "text": "本次提交快照\n提交时锁定的参数；结果与快照不一致会标记为旧版本\n\n还没有提交过任务；提交后这里会显示本次锁定的场景 / 强度 / 图层 / 输出规格。"
+  },
+  {
+   "cls": "rounded-lg border border-border bg-card/40 p-3 mt-4",
+   "rect": {
+    "x": 219,
+    "y": 2598,
+    "w": 1674,
+    "h": 80
+   },
+   "text": "历史任务\n0 条\n\n本工具还没有历史任务；提交一次后会在这里留下任务、配置与结果，刷新后仍在。"
+  },
+  {
+   "cls": "relative flex h-full shrink-0 flex-col border-l",
+   "rect": {
+    "x": 1920,
+    "y": 0,
+    "w": 440,
+    "h": 1080
+   },
+   "text": "连接本地 Agent\n未连接\n点连接会自动启动本地服务、装好插件并接通，无需手动配置。\nClaude Code\n未连接\n·\nCLI · 2.1.285 (Claude Code)\n·\n直接运行\n连接\nCodex\n未连接\n·\nCLI · codex-cli 0.163.0\n·\n插件已装\n连接\nGalley\n未连接\n·\nCLI + 桌面版 · galley 0.6.4\n连接"
+  }
+ ]
+}

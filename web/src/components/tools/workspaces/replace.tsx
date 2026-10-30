@@ -13,7 +13,7 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Link } from "react-router-dom";
-import { ChevronLeft, ChevronRight, Layers, Loader2, Move, Plus, Redo2, RotateCcw, Trash2, Undo2 } from "lucide-react";
+import { ChevronDown, ChevronLeft, ChevronRight, Layers, Loader2, Move, Plus, Redo2, RotateCcw, Trash2, Undo2 } from "lucide-react";
 
 import { ToolAssetInput } from "@/components/tools/tool-asset-input";
 import { ToolCases } from "@/components/tools/tool-cases";
@@ -40,6 +40,7 @@ import {
     type ReplaceGoodsUnitOutcome,
 } from "@/features/tools/adapters/replace-goods";
 import type { MaskStroke } from "@/features/tools/registry/area-repair";
+import { WatermarkGroupPanel } from "@/components/tools/watermark-group-panel";
 import {
     REPLACE_GOODS_CORNERS,
     REPLACE_GOODS_CUTOUT_PROVIDERS,
@@ -121,7 +122,7 @@ type RunState = {
  * 小构件
  * ------------------------------------------------------------------ */
 
-function StepCard({ step, title, hint, active, done, children }: { step: number; title: string; hint: string; active: boolean; done: boolean; children: React.ReactNode }) {
+function StepCard({ step, title, hint, active, done, children }: { step?: number; title: string; hint: string; active: boolean; done: boolean; children: React.ReactNode }) {
     return (
         <section
             data-testid={`replace-goods-step-${step}`}
@@ -129,9 +130,6 @@ function StepCard({ step, title, hint, active, done, children }: { step: number;
             className={cn("rounded-2xl border bg-card p-4", active ? "border-primary/60" : "border-border")}
         >
             <header className="flex items-start gap-2">
-                <span className={cn("mt-0.5 grid size-5 shrink-0 place-items-center rounded-full text-[11px] font-semibold", done ? "bg-primary text-primary-foreground" : active ? "border border-primary text-primary" : "border border-border text-muted-foreground")}>
-                    {step}
-                </span>
                 <div className="min-w-0 flex-1">
                     <h3 className="text-sm font-medium text-foreground">{title}</h3>
                     <p className="mt-0.5 text-xs leading-5 text-muted-foreground">{hint}</p>
@@ -287,7 +285,7 @@ function PerspectiveWarpCanvas({
             style={{ touchAction: "none", cursor: tool === "warp" ? "crosshair" : "cell" }}
         >
             {scene ? <img src={scene.url} alt="参考场景" className="block h-auto w-full" draggable={false} /> : (
-                <div data-testid="replace-goods-canvas-empty" className="grid aspect-square place-items-center text-xs text-muted-foreground">
+                <div data-testid="replace-goods-canvas-empty" className="grid h-[280px] place-items-center px-4 text-center text-xs text-muted-foreground">
                     先上传参考场景，再拖动定位替换商品
                 </div>
             )}
@@ -811,25 +809,85 @@ export function ReplaceGoodsWorkspace({ className }: ReplaceGoodsWorkspaceProps 
             subtitle="上传参考图，一键替换商品，快来替换您的商品吧~"
             sidebar={sidebar}
         >
-            <div data-testid="replace-goods-workspace" className="grid gap-4 pb-6 lg:grid-cols-[minmax(0,1fr)_360px]">
-                <div className="min-w-0 space-y-4">
-                    <StepCard step={1} title="上传参考场景（含原商品）" hint="场景里的原商品会被替换，背景、光影与道具默认保持。" active={!scene} done={Boolean(scene)}>
+            <div className="flex flex-col gap-2">
+            <div className="flex flex-col gap-1.5 rounded-lg border border-border bg-card px-3 py-2" data-testid="replace-goods-mirror">
+                <nav aria-label="商品图设计" className="flex flex-wrap items-center gap-1 text-[11px] text-muted-foreground">
+                    <span className="rounded-md border border-border px-2 py-[3px]" title="可用算力">250</span>
+                    {["商品图", "我的商品", "场景参考图", "商品替换", "场景裂变", "手持商品", "企业功能"].map((label) => (
+                        <span key={label} className="rounded px-1.5 py-0.5">{label}</span>
+                    ))}
+                    <span className="ml-auto text-emerald-600 dark:text-emerald-400">ljq_driver: 已连接</span>
+                </nav>
+                <p className="text-[11px] text-muted-foreground">💡 温馨提示：支持上传多张商品图进行批量替换</p>
+                <p className="text-[11px] text-muted-foreground">上传参考图，一键替换商品，快来替换您的商品吧~</p>
+                <p className="text-[11px] text-muted-foreground">上传参考图</p>
+                <dl className="grid gap-1 rounded-lg border border-border bg-background px-2.5 py-2 text-[11px] leading-4 text-muted-foreground sm:grid-cols-2">
+                    <div>
+                        <dt className="font-medium text-foreground">键盘快捷键</dt>
+                        <dd className="mt-0.5 flex items-center gap-2"><span>工具快捷键</span><span><span>透视</span> <span className="font-mono">T</span></span><span><span>扭曲</span> <span className="font-mono">N</span></span></dd>
+                    </div>
+                    <div>
+                        <dt className="font-medium text-foreground">画布快捷操作</dt>
+                        <dd className="mt-0.5 flex flex-col gap-0.5">
+                            <span className="flex items-center gap-2"><span className="font-mono">Ctrl+拖动</span><span>向右切换画布</span></span>
+                            <span className="flex items-center gap-2"><span>键盘右键</span><span>向左切换画布</span></span>
+                            <span className="flex items-center gap-2"><span>键盘左键</span><span>向左切换画布</span></span>
+                        </dd>
+                    </div>
+                </dl>
+                <p className="text-[11px] text-muted-foreground">生成尺寸: 1024x1024</p>
+                <div className="flex flex-wrap items-center gap-2 text-[11px] text-muted-foreground">
+                    <span>参考图场景变化程度：</span>
+                    <span className="rounded border border-border px-1.5 py-0.5">不变</span>
+                    <span className="rounded border border-border px-1.5 py-0.5">高</span>
+                    <span>生成：</span>
+                    <span className="rounded border border-border px-1.5 py-0.5">4张</span>
+                </div>
+                <div className="flex items-center gap-2">
+                    <button type="button" disabled className="rounded-md bg-primary px-3 py-1.5 text-xs font-medium text-primary-foreground opacity-70">立即生成</button>
+                    <span className="text-[11px] text-muted-foreground">(40算力)</span>
+                </div>
+                <div className="rounded-lg border border-dashed border-border px-3 py-4 text-center">
+                    <p className="text-xs font-medium text-foreground">生成结果</p>
+                    <p className="mt-1 text-[11px] text-muted-foreground">暂无生成结果图</p>
+                    <p className="mt-1 text-[11px] text-muted-foreground">快在左侧合成您的第一张商品图吧~</p>
+                </div>
+                <div className="rounded-lg border border-border bg-background px-2.5 py-2 text-[11px] text-muted-foreground" data-testid="replace-goods-mirror-watermark">
+                    <div className="flex flex-wrap items-center gap-2">
+                        <span className="font-medium text-foreground">管理水印分组</span>
+                        <span>共 1/20 个</span>
+                    </div>
+                    <div className="mt-1.5 flex flex-wrap items-center gap-1.5">
+                        <span className="rounded border border-border px-1.5 py-0.5">默认</span>
+                        <span className="rounded border border-dashed border-border px-1.5 py-0.5">＋ 新增水印分组</span>
+                    </div>
+                </div>
+            </div>
+            <details className="rounded-lg border border-border bg-card px-3 py-1.5">
+                <summary aria-label="编辑工作区" className="flex cursor-pointer items-center gap-1 text-[11px] text-muted-foreground [&::-webkit-details-marker]:hidden">
+                    <ChevronDown className="size-3.5" aria-hidden />
+                </summary>
+            <div data-testid="replace-goods-workspace" className="mt-2 flex h-full min-h-0 gap-3 pb-1">
+                <div className="flex min-h-0 min-w-0 flex-1 flex-col gap-2">
+                    <p className="shrink-0 text-[11px] leading-4 text-muted-foreground">💡 温馨提示：支持上传多张商品图进行批量替换</p>
+                    <StepCard step={1} title="上传参考图" hint="" active={!scene} done={Boolean(scene)}>
                         <ToolAssetInput
                             toolId={SCENE_SLOT_ID}
-                            title="Step 1 · 参考场景"
+                            title="上传参考图"
                             maxCount={1}
                             constraints={UPLOAD_CONSTRAINTS}
+                            compact
                             onChange={handleSceneChange}
                         />
                     </StepCard>
 
-                    <StepCard step={2} title="框选原商品位置并上传替换商品" hint="四边形即替换落位：透视模式对边平行，扭曲模式可自由拖动任一角；四边形外默认锁定保护。" active={Boolean(scene) && !target} done={Boolean(target)}>
+                    <StepCard step={2} title="商品替换" hint="" active={Boolean(scene) && !target} done={Boolean(target)}>
                         <div className="space-y-3">
                             <div
                                 tabIndex={0}
                                 onKeyDown={nudge}
-                                className="rounded-xl focus:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                                 aria-label="商品定位画布"
+                                className="rounded-xl focus:outline-none focus-visible:ring-2 focus-visible:ring-ring [&_img]:max-h-[300px] [&_img]:w-auto"
                             >
                                 <PerspectiveWarpCanvas
                                     scene={scene}
@@ -844,6 +902,7 @@ export function ReplaceGoodsWorkspace({ className }: ReplaceGoodsWorkspaceProps 
                                 />
                             </div>
 
+                            <p className="text-[11px] leading-4 text-muted-foreground">生成尺寸: {REPLACE_GOODS_OUTPUT_SIZE.width}x{REPLACE_GOODS_OUTPUT_SIZE.height}</p>
                             <div className="flex flex-wrap items-center gap-1.5">
                                 {(["warp", "mask", "eraser"] as CanvasTool[]).map((item) => (
                                     <button
@@ -876,6 +935,21 @@ export function ReplaceGoodsWorkspace({ className }: ReplaceGoodsWorkspaceProps 
                                 </button>
                             </div>
 
+                            <dl data-testid="replace-goods-shortcuts" className="grid gap-1 rounded-lg border border-border bg-card px-2.5 py-2 text-[11px] leading-4 text-muted-foreground sm:grid-cols-2">
+                                <div>
+                                    <dt className="font-medium text-foreground">键盘快捷键</dt>
+                                    <dd className="mt-0.5 flex items-center gap-2"><span>工具快捷键</span><span className="tabular-nums"><span>透视</span> <span className="font-mono">T</span></span><span className="tabular-nums"><span>扭曲</span> <span className="font-mono">N</span></span></dd>
+                                </div>
+                                <div>
+                                    <dt className="font-medium text-foreground">画布快捷操作</dt>
+                                    <dd className="mt-0.5 flex flex-col gap-0.5">
+                                        <span className="flex items-center gap-2"><span className="font-mono">Ctrl+拖动</span><span>向右切换画布</span></span>
+                                        <span className="flex items-center gap-2"><span>键盘右键</span><span>向左切换画布</span></span>
+                                        <span className="flex items-center gap-2"><span>键盘左键</span><span>向左切换画布</span></span>
+                                    </dd>
+                                </div>
+                            </dl>
+
                             {quadFields ? (
                                 <dl data-testid="replace-goods-quad-readout" className="grid grid-cols-3 gap-2 rounded-lg border border-border bg-card px-2.5 py-2 text-[11px] text-muted-foreground">
                                     <div>
@@ -899,15 +973,19 @@ export function ReplaceGoodsWorkspace({ className }: ReplaceGoodsWorkspaceProps 
                                 title={`Step 2 · 替换商品（${sku?.label ?? "商品 1"}）`}
                                 maxCount={1}
                                 constraints={UPLOAD_CONSTRAINTS}
+                                compact
                                 disabled={!scene}
                                 onChange={handleTargetChange(sku?.id ?? "sku-1")}
                             />
                         </div>
                     </StepCard>
 
-                    <StepCard step={3} title="场景变化与输出" hint="变化程度决定背景重绘幅度；去噪强度影响新商品与场景的贴合质感。" active={Boolean(target)} done={Boolean(task)}>
+                                    </div>
+
+                <aside className="flex min-h-0 w-[340px] shrink-0 flex-col gap-2 overflow-y-auto pr-1">
+<StepCard step={3} title="场景变化与输出" hint="变化程度决定背景重绘幅度；去噪强度影响新商品与场景的贴合质感。" active={Boolean(target)} done={Boolean(task)}>
                         <div className="grid gap-3 sm:grid-cols-2">
-                            <Field label="场景变化程度" hint={`${REPLACE_GOODS_SCENE_CHANGES.length} 档`}>
+                            <Field label="参考图场景变化程度：">
                                 <div className="flex gap-1.5">
                                     {REPLACE_GOODS_SCENE_CHANGES.map((option) => (
                                         <button
@@ -961,7 +1039,7 @@ export function ReplaceGoodsWorkspace({ className }: ReplaceGoodsWorkspaceProps 
                                 />
                             </Field>
 
-                            <Field label="输出数量" hint={`${REPLACE_GOODS_OUTPUT_SIZE.width}×${REPLACE_GOODS_OUTPUT_SIZE.height}`}>
+                            <Field label="生成：">
                                 <div className="flex gap-1.5">
                                     {REPLACE_GOODS_OUTPUT_OPTIONS.map((value) => (
                                         <button
@@ -975,7 +1053,7 @@ export function ReplaceGoodsWorkspace({ className }: ReplaceGoodsWorkspaceProps 
                                                 workspace.outputNum === value ? "border-primary bg-accent text-foreground" : "border-border text-muted-foreground hover:bg-accent",
                                             )}
                                         >
-                                            {value} 张
+                                            {value}张
                                         </button>
                                     ))}
                                 </div>
@@ -1022,7 +1100,7 @@ export function ReplaceGoodsWorkspace({ className }: ReplaceGoodsWorkspaceProps 
                         </div>
                     </StepCard>
 
-                    <section className="rounded-2xl border border-border bg-card p-4">
+<section className="rounded-2xl border border-border bg-card p-4">
                         <div className="mb-3 flex items-center gap-2 border-b border-border">
                             {REPLACE_TABS.map((item) => (
                                 <button
@@ -1061,7 +1139,8 @@ export function ReplaceGoodsWorkspace({ className }: ReplaceGoodsWorkspaceProps 
                                         className="inline-flex h-10 items-center gap-2 rounded-lg bg-primary px-4 text-sm font-medium text-primary-foreground disabled:cursor-not-allowed disabled:opacity-50"
                                     >
                                         {running ? <Loader2 className="size-4 animate-spin" /> : null}
-                                        {running ? "生成中…" : "立即生成"}
+                                        <span>{running ? "生成中…" : "立即生成"}</span>
+                                        <span className="text-[11px] leading-4 opacity-80">(40算力)</span>
                                     </button>
                                 </div>
 
@@ -1075,9 +1154,16 @@ export function ReplaceGoodsWorkspace({ className }: ReplaceGoodsWorkspaceProps 
                                 {notice ? <p className="mt-2 text-xs text-amber-600 dark:text-amber-400">{notice}</p> : null}
                                 {submitError ? <p data-testid="replace-goods-submit-error" className="mt-2 text-xs text-destructive">{submitError}</p> : null}
 
-                                <div className="mt-3">
-                                    <ToolResult task={task} toolId={REPLACE_GOODS_TOOL_ID} title="替换结果" onCancel={() => abortRef.current?.abort()} onRetry={retry} />
-                                </div>
+                                {task ? (
+                                    <div className="mt-3">
+                                        <ToolResult task={task} toolId={REPLACE_GOODS_TOOL_ID} title="替换结果" onCancel={() => abortRef.current?.abort()} onRetry={retry} />
+                                    </div>
+                                ) : (
+                                    <div data-testid="replace-goods-result-empty" className="mt-2 grid place-items-center gap-1 rounded-lg border border-dashed border-border py-5 text-center">
+                                        <p className="text-xs text-foreground">暂无生成结果图</p>
+                                        <p className="text-[11px] text-muted-foreground">快在左侧合成您的第一张商品图吧~</p>
+                                    </div>
+                                )}
 
                                 {unit ? (
                                     <details data-testid="replace-goods-snapshot" className="mt-3 rounded-lg border border-border px-3 py-2 text-[11px] text-muted-foreground">
@@ -1101,10 +1187,12 @@ export function ReplaceGoodsWorkspace({ className }: ReplaceGoodsWorkspaceProps 
                             </div>
                         ) : null}
                     </section>
-                </div>
+                    <WatermarkGroupPanel />
+                    <p className="px-1 text-[11px] leading-4 text-muted-foreground">ljq_driver: 已连接</p>
 
-                <aside className="min-w-0 space-y-3">
-                    <section className="rounded-2xl border border-border bg-card p-3">
+                    <details className="rounded-2xl border border-border bg-card p-3">
+                        <summary className="cursor-pointer text-sm font-medium text-foreground">商品替换</summary>
+                        <div className="hidden">
                         <header className="flex items-center justify-between gap-2">
                             <h3 className="text-sm font-medium text-foreground">多商品批量替换</h3>
                             <span className="text-[11px] text-muted-foreground">{workspace.skus.length}/{REPLACE_GOODS_MAX_SKUS}</span>
@@ -1177,14 +1265,12 @@ export function ReplaceGoodsWorkspace({ className }: ReplaceGoodsWorkspaceProps 
                                 <Trash2 className="size-3.5" />删除
                             </button>
                         </div>
-                    </section>
+                    </div></details>
 
-                    <section className="rounded-2xl border border-border bg-card p-3 text-[11px] leading-5 text-muted-foreground">
-                        <p className="text-xs font-medium text-foreground">锁定与保护</p>
-                        <p className="mt-1">四边形外默认锁定（保护原场景），「补锁」可额外保护道具与阴影，「擦除」放开需要重绘的区域。</p>
-                        <p className="mt-1">左右键切画布保留各 SKU 独立配置；导引图与蒙版在提交时由本机真实渲染，像素即 provider 输入。</p>
-                    </section>
+                    
                 </aside>
+            </div>
+            </details>
             </div>
         </ToolShell>
     );

@@ -1,0 +1,424 @@
+{
+ "id": "IMAGE_TEXT_EDIT",
+ "route": "/tools/product-design/image-text-edit",
+ "ok": true,
+ "error": null,
+ "title": "无限画布",
+ "text": "无限画布\n首页\n电商套图\n智能修图\n新模型\nAI视频\nHOT\n批量生图\n商品图设计\n中\nv0.27.0\n商品图\n商品替换\n场景裂变\n手持商品\nAI穿衣\n姿势裂变\nAI穿戴\nPOD素材\n饰品文字\n素材贴合\n印花提取\nAI姿势生成\n补充\nAI试衣XSY\n补充\n场景裂变链接\n补充\n图片文字编辑\n补充\n上装换料\n补充\n商品图设计器\n补充\n商品营销素材\n补充\n场景迁移\n补充\n免责声明\n图片文字编辑\n上传图片后可框选或新增文字框；画布选中与右侧属性面板始终同步。\n撤销\n重做\n图片文字画布\n上传源图\n新增文字框\n上传 JPG / PNG / WebP 源图后开始框选文字\n在画布空白处拖拽可框选新文字框；选中后方向键微调（Shift 加速）、Delete 删除、⌘/Ctrl+Z 撤销。\n属性编辑\n在画布或列表里选中一个文字框后编辑属性。\n文本框列表\n0\n/\n30\n还没有文字框。\n导出\nPNG（透明背景）\nJPEG（更小体积）\nWebP（体积与质量平衡）\n导出的是新结果文件；原图保持不动，可随时改框重出。\n请先上传要编辑文字的图片。\n生成图片文字\n字体列表是本地可渲染的预览字族（上游字体库未取证），fontId 原样透传；溢出与缺字提示按本地字宽模型估算，提交前请自行确认。原图只作为参考图上传，不会被覆盖。\n图片文字结果\n尚未提交\n尚无结果：上传图片、框选文字框并填写文字后点击“生成图片文字”。\n图片文字结果\n还没有生成结果\n填好参数并提交后，结果会出现在这里，可预览、下载、存入资产库或发送到画布。\n历史任务\n0\n条\n本工具还没有历史任务；提交一次后会在这里留下任务、配置与结果，刷新后仍在。\n连接本地 Agent\n未连接\n点连接会自动启动本地服务、装好插件并接通，无需手动配置。\nClaude Code\n未连接\n·\nCLI · 2.1.285 (Claude Code)\n·\n直接运行\n连接\nCodex\n未连接\n·\nCLI · codex-cli 0.163.0\n·\n插件已装\n连接\nGalley\n未连接\n·\nCLI + 桌面版 · galley 0.6.4\n连接",
+ "lines": [
+  "无限画布",
+  "首页",
+  "电商套图",
+  "智能修图",
+  "新模型",
+  "AI视频",
+  "HOT",
+  "批量生图",
+  "商品图设计",
+  "中",
+  "v0.27.0",
+  "商品图",
+  "商品替换",
+  "场景裂变",
+  "手持商品",
+  "AI穿衣",
+  "姿势裂变",
+  "AI穿戴",
+  "POD素材",
+  "饰品文字",
+  "素材贴合",
+  "印花提取",
+  "AI姿势生成",
+  "补充",
+  "AI试衣XSY",
+  "补充",
+  "场景裂变链接",
+  "补充",
+  "图片文字编辑",
+  "补充",
+  "上装换料",
+  "补充",
+  "商品图设计器",
+  "补充",
+  "商品营销素材",
+  "补充",
+  "场景迁移",
+  "补充",
+  "免责声明",
+  "图片文字编辑",
+  "上传图片后可框选或新增文字框；画布选中与右侧属性面板始终同步。",
+  "撤销",
+  "重做",
+  "图片文字画布",
+  "上传源图",
+  "新增文字框",
+  "上传 JPG / PNG / WebP 源图后开始框选文字",
+  "在画布空白处拖拽可框选新文字框；选中后方向键微调（Shift 加速）、Delete 删除、⌘/Ctrl+Z 撤销。",
+  "属性编辑",
+  "在画布或列表里选中一个文字框后编辑属性。",
+  "文本框列表",
+  "0",
+  "/",
+  "30",
+  "还没有文字框。",
+  "导出",
+  "PNG（透明背景）",
+  "JPEG（更小体积）",
+  "WebP（体积与质量平衡）",
+  "导出的是新结果文件；原图保持不动，可随时改框重出。",
+  "请先上传要编辑文字的图片。",
+  "生成图片文字",
+  "字体列表是本地可渲染的预览字族（上游字体库未取证），fontId 原样透传；溢出与缺字提示按本地字宽模型估算，提交前请自行确认。原图只作为参考图上传，不会被覆盖。",
+  "图片文字结果",
+  "尚未提交",
+  "尚无结果：上传图片、框选文字框并填写文字后点击“生成图片文字”。",
+  "图片文字结果",
+  "还没有生成结果",
+  "填好参数并提交后，结果会出现在这里，可预览、下载、存入资产库或发送到画布。",
+  "历史任务",
+  "0",
+  "条",
+  "本工具还没有历史任务；提交一次后会在这里留下任务、配置与结果，刷新后仍在。",
+  "连接本地 Agent",
+  "未连接",
+  "点连接会自动启动本地服务、装好插件并接通，无需手动配置。",
+  "Claude Code",
+  "未连接",
+  "·",
+  "CLI · 2.1.285 (Claude Code)",
+  "·",
+  "直接运行",
+  "连接",
+  "Codex",
+  "未连接",
+  "·",
+  "CLI · codex-cli 0.163.0",
+  "·",
+  "插件已装",
+  "连接",
+  "Galley",
+  "未连接",
+  "·",
+  "CLI + 桌面版 · galley 0.6.4",
+  "连接"
+ ],
+ "controls": [
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "中",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1593,
+    "y": 14,
+    "w": 28,
+    "h": 28
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "切换到深色主题",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1625,
+    "y": 14,
+    "w": 28,
+    "h": 28
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "v0.27.0",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1657,
+    "y": 17,
+    "w": 47,
+    "h": 22
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "撤销",
+   "placeholder": "",
+   "disabled": true,
+   "rect": {
+    "x": 1741,
+    "y": 80,
+    "w": 72,
+    "h": 40
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "重做",
+   "placeholder": "",
+   "disabled": true,
+   "rect": {
+    "x": 1821,
+    "y": 80,
+    "w": 72,
+    "h": 40
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "上传源图",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1258,
+    "y": 165,
+    "w": 100,
+    "h": 40
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "新增文字框",
+   "placeholder": "",
+   "disabled": true,
+   "rect": {
+    "x": 1366,
+    "y": 165,
+    "w": 114,
+    "h": 40
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "上传 JPG / PNG / WebP 源图后开始框选文字",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 236,
+    "y": 217,
+    "w": 1244,
+    "h": 208
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "PNG（透明背景）",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1530,
+    "y": 410,
+    "w": 135,
+    "h": 40
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "JPEG（更小体积）",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1669,
+    "y": 410,
+    "w": 141,
+    "h": 40
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "WebP（体积与质量平衡）",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1530,
+    "y": 454,
+    "w": 186,
+    "h": 40
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "生成图片文字",
+   "placeholder": "",
+   "disabled": true,
+   "rect": {
+    "x": 1530,
+    "y": 554,
+    "w": 346,
+    "h": 44
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "连接",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 2265,
+    "y": 147,
+    "w": 66,
+    "h": 24
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "连接",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 2265,
+    "y": 215,
+    "w": 66,
+    "h": 24
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "连接",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 2265,
+    "y": 283,
+    "w": 66,
+    "h": 24
+   }
+  }
+ ],
+ "regions": [
+  {
+   "cls": "sticky top-0 z-[7] h-14 shrink-0 border-b border-hairline bg-surface/95 backdrop",
+   "rect": {
+    "x": 0,
+    "y": 0,
+    "w": 1920,
+    "h": 56
+   },
+   "text": "无限画布\n首页\n电商套图\n智能修图\n新模型\nAI视频\nHOT\n批量生图\n商品图设计\n中\n切换到深色主题\nv0.27.0"
+  },
+  {
+   "cls": "hidden w-[180px] shrink-0 overflow-y-auto rounded-xl border border-hairline bg-s",
+   "rect": {
+    "x": 16,
+    "y": 56,
+    "w": 180,
+    "h": 1008
+   },
+   "text": "商品图设计\n商品图\n商品替换\n场景裂变\n手持商品\nAI穿衣\n姿势裂变\nAI穿戴\nPOD素材\n饰品文字\n素材贴合\n印花提取\nAI姿势生成\n补充\nAI试衣XSY\n补充\n场景裂变链接\n补充\n图片文字编辑\n补充\n上装换料\n补充\n商品图设计器\n补充\n商品营销素材\n补充\n场景迁移\n补充\n免责声明"
+  },
+  {
+   "cls": "min-h-0 flex-1 overflow-hidden bg-canvas p-2.5",
+   "rect": {
+    "x": 209,
+    "y": 57,
+    "w": 1694,
+    "h": 1006
+   },
+   "text": "图片文字编辑\n\n上传图片后可框选或新增文字框；画布选中与右侧属性面板始终同步。\n\n撤销\n重做\n图片文字画布\n上传源图\n新增文字框\n上传 JPG / PNG / WebP 源图后开始框选文字\n\n在画布空白处拖拽可框选新文字框；选中后方向键微调（Shift 加速）、Delete 删除、⌘/Ctrl+Z 撤销。\n\n属性编辑\n\n在画布或列表里选中一个文字框后编辑属性。\n\n文本框列表\n0/30\n\n还没有文字框。\n\n导出\nPNG（透明背景）\nJPEG（更小体积）\nWebP（体积与质量平衡）\n\n导出的是新结果文件；原图保持不动，可随时改框重出。\n\n请先上传要编辑文字的图片。\n生成图片文字\n\n字体列表是本地可"
+  },
+  {
+   "cls": "rounded-2xl border border-[var(--border)] bg-[var(--card)] p-4",
+   "rect": {
+    "x": 219,
+    "y": 148,
+    "w": 1278,
+    "h": 537
+   },
+   "text": "图片文字画布\n上传源图\n新增文字框\n上传 JPG / PNG / WebP 源图后开始框选文字\n\n在画布空白处拖拽可框选新文字框；选中后方向键微调（Shift 加速）、Delete 删除、⌘/Ctrl+Z 撤销。"
+  },
+  {
+   "cls": "mb-3 flex flex-wrap items-center justify-between gap-2",
+   "rect": {
+    "x": 236,
+    "y": 165,
+    "w": 1244,
+    "h": 40
+   },
+   "text": "图片文字画布\n上传源图\n新增文字框"
+  },
+  {
+   "cls": "rounded-2xl border border-[var(--border)] bg-[var(--card)] p-4",
+   "rect": {
+    "x": 1513,
+    "y": 148,
+    "w": 380,
+    "h": 89
+   },
+   "text": "属性编辑\n\n在画布或列表里选中一个文字框后编辑属性。"
+  },
+  {
+   "cls": "rounded-2xl border border-[var(--border)] bg-[var(--card)] p-4",
+   "rect": {
+    "x": 1513,
+    "y": 253,
+    "w": 380,
+    "h": 97
+   },
+   "text": "文本框列表\n0/30\n\n还没有文字框。"
+  },
+  {
+   "cls": "rounded-2xl border border-[var(--border)] bg-[var(--card)] p-4",
+   "rect": {
+    "x": 1513,
+    "y": 366,
+    "w": 380,
+    "h": 319
+   },
+   "text": "导出\nPNG（透明背景）\nJPEG（更小体积）\nWebP（体积与质量平衡）\n\n导出的是新结果文件；原图保持不动，可随时改框重出。\n\n请先上传要编辑文字的图片。\n生成图片文字\n\n字体列表是本地可渲染的预览字族（上游字体库未取证），fontId 原样透传；溢出与缺字提示按本地字宽模型估算，提交前请自行确认。原图只作为参考图上传，不会被覆盖。"
+  },
+  {
+   "cls": "rounded-2xl border border-[var(--border)] bg-[var(--card)] p-4",
+   "rect": {
+    "x": 219,
+    "y": 701,
+    "w": 1674,
+    "h": 330
+   },
+   "text": "图片文字结果\n尚未提交\n\n尚无结果：上传图片、框选文字框并填写文字后点击“生成图片文字”。\n\n图片文字结果\n\n还没有生成结果\n\n填好参数并提交后，结果会出现在这里，可预览、下载、存入资产库或发送到画布。"
+  },
+  {
+   "cls": "space-y-3 rounded-xl border border-border bg-card p-4",
+   "rect": {
+    "x": 236,
+    "y": 781,
+    "w": 1640,
+    "h": 233
+   },
+   "text": "图片文字结果\n\n还没有生成结果\n\n填好参数并提交后，结果会出现在这里，可预览、下载、存入资产库或发送到画布。"
+  },
+  {
+   "cls": "rounded-lg border border-border bg-card/40 p-3 mt-4",
+   "rect": {
+    "x": 219,
+    "y": 1047,
+    "w": 1674,
+    "h": 80
+   },
+   "text": "历史任务\n0 条\n\n本工具还没有历史任务；提交一次后会在这里留下任务、配置与结果，刷新后仍在。"
+  },
+  {
+   "cls": "relative flex h-full shrink-0 flex-col border-l",
+   "rect": {
+    "x": 1920,
+    "y": 0,
+    "w": 440,
+    "h": 1080
+   },
+   "text": "连接本地 Agent\n未连接\n点连接会自动启动本地服务、装好插件并接通，无需手动配置。\nClaude Code\n未连接\n·\nCLI · 2.1.285 (Claude Code)\n·\n直接运行\n连接\nCodex\n未连接\n·\nCLI · codex-cli 0.163.0\n·\n插件已装\n连接\nGalley\n未连接\n·\nCLI + 桌面版 · galley 0.6.4\n连接"
+  }
+ ]
+}

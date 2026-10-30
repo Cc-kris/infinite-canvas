@@ -15,6 +15,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
     AlertTriangle,
     ArrowLeftRight,
+    ChevronDown,
     ImagePlus,
     Loader2,
     Lock,
@@ -28,6 +29,7 @@ import {
     Undo2,
 } from "lucide-react";
 
+import { ECOMMERCE_SUITE_RAIL, OrigRail } from "@/components/tools/workspaces/orig-rail";
 import { cn } from "@/lib/utils";
 import { getToolById } from "@/features/tools/registry";
 import {
@@ -96,6 +98,7 @@ import { ToolCases, type ToolCase } from "../tool-cases";
 import { ToolResult } from "../tool-result";
 import { ToolShell } from "../tool-shell";
 import { ToolTaskHistory } from "../tool-task-history";
+import { WatermarkGroupPanel } from "@/components/tools/watermark-group-panel";
 
 export type OutpaintWorkspaceProps = { className?: string };
 
@@ -378,6 +381,8 @@ export function OutpaintWorkspace({ className }: OutpaintWorkspaceProps = {}) {
     const [hydrated, setHydrated] = useState(false);
     /** B6：右栏与原站一致的三个页签（生成结果 / 优秀案例 / 历史记录）。 */
     const [rightTab, setRightTab] = useState<"result" | "cases" | "history">("result");
+    /** 生成张数下拉：原站是自定义下拉（当前值以文本显示，如「4张」），不是原生 select。 */
+    const [countOpen, setCountOpen] = useState(false);
     const [applyingCaseId, setApplyingCaseId] = useState<string | null>(null);
 
     const historyRef = useRef(history);
@@ -652,6 +657,7 @@ export function OutpaintWorkspace({ className }: OutpaintWorkspaceProps = {}) {
         >
             {/* 左：白卡 = 画布区（#EDEFF5）+ 底部单条参数条（原站 1083×651 / 画布 601 / 参数条 48） */}
             <section data-region="canvas" className="flex min-w-0 flex-1 flex-col overflow-hidden rounded-lg bg-card">
+                <OrigRail items={ECOMMERCE_SUITE_RAIL} active="智能扩图" driver testId="outpaint-rail" className="m-2 shrink-0" />
                 {values.sourceAssetId ? (
                     <div className="flex shrink-0 flex-wrap items-center gap-1.5 border-b border-border px-3 py-1.5 text-[11px]">
                         <span className="font-mono text-foreground">
@@ -783,7 +789,7 @@ export function OutpaintWorkspace({ className }: OutpaintWorkspaceProps = {}) {
                             onChange={(event) => commit(applyWidth(valuesRef.current, Number(event.target.value.replace(/[^\d]/g, ""))))}
                             className="w-[46px] bg-transparent text-[12px] tabular-nums leading-none text-foreground outline-none"
                         />
-                        <span className="text-[12px] leading-none text-muted-foreground">×</span>
+                        <span aria-hidden className="h-3 w-px shrink-0 bg-border" />
                         <input
                             aria-label="画布高度"
                             inputMode="numeric"
@@ -806,22 +812,48 @@ export function OutpaintWorkspace({ className }: OutpaintWorkspaceProps = {}) {
                         className="h-7 min-w-0 flex-1 rounded-lg bg-card px-[10px] text-[12px] leading-none text-foreground outline-none transition placeholder:text-muted-foreground focus:bg-card focus:ring-1 focus:ring-primary"
                     />
 
-                    <label className="flex shrink-0 items-center gap-1 text-[12px] leading-none text-muted-foreground">
-                        生成：
-                        <select
+                    <div className="relative flex shrink-0 items-center gap-1 text-[12px] leading-none text-muted-foreground">
+                        <span>生成：</span>
+                        <button
+                            type="button"
                             aria-label="生成张数"
-                            value={values.outputNum}
+                            aria-expanded={countOpen}
+                            aria-haspopup="listbox"
+                            data-testid="outpaint-output-num"
                             disabled={busy}
-                            onChange={(event) => commit({ ...valuesRef.current, outputNum: Number(event.target.value) })}
-                            className="h-7 rounded-lg bg-card px-1 text-[14px] leading-none text-foreground outline-none"
+                            onClick={() => setCountOpen((open) => !open)}
+                            className="flex h-7 items-center gap-1 rounded-lg bg-card px-2 text-[14px] leading-none text-foreground outline-none disabled:opacity-50"
                         >
-                            {Array.from({ length: OUTPAINT_MAX_OUTPUT - OUTPAINT_MIN_OUTPUT + 1 }, (_, index) => OUTPAINT_MIN_OUTPUT + index).map((count) => (
-                                <option key={count} value={count}>
-                                    {count}张
-                                </option>
-                            ))}
-                        </select>
-                    </label>
+                            <span>{values.outputNum}张</span>
+                            <ChevronDown className="size-3.5 opacity-60" aria-hidden />
+                        </button>
+                        {countOpen ? (
+                            <div
+                                role="listbox"
+                                aria-label="生成张数"
+                                className="absolute bottom-full left-0 z-30 mb-1 w-[76px] overflow-hidden rounded-lg border border-border bg-card py-1 shadow-lg"
+                            >
+                                {Array.from({ length: OUTPAINT_MAX_OUTPUT - OUTPAINT_MIN_OUTPUT + 1 }, (_, index) => OUTPAINT_MIN_OUTPUT + index).map((count) => (
+                                    <button
+                                        key={count}
+                                        type="button"
+                                        role="option"
+                                        aria-selected={values.outputNum === count}
+                                        onClick={() => {
+                                            commit({ ...valuesRef.current, outputNum: count });
+                                            setCountOpen(false);
+                                        }}
+                                        className={cn(
+                                            "block w-full px-2 py-1 text-left text-[14px] leading-5",
+                                            values.outputNum === count ? "bg-primary/10 text-foreground" : "text-foreground hover:bg-accent",
+                                        )}
+                                    >
+                                        {count}张
+                                    </button>
+                                ))}
+                            </div>
+                        ) : null}
+                    </div>
 
                     <button
                         type="button"
@@ -834,6 +866,10 @@ export function OutpaintWorkspace({ className }: OutpaintWorkspaceProps = {}) {
                         {busy ? <Loader2 className="size-4 animate-spin" /> : <Sparkles className="size-4" />}
                         <span>{busy ? "生成中…" : "立即生成"}</span>
                     </button>
+                    {/* 原站按钮右侧紧跟算力消耗标注「(40算力)」 */}
+                    <span data-testid="outpaint-cost" className="shrink-0 text-[11px] leading-none text-muted-foreground">
+                        (40算力)
+                    </span>
                 </div>
 
                 {promptIssue ? (
@@ -937,6 +973,8 @@ export function OutpaintWorkspace({ className }: OutpaintWorkspaceProps = {}) {
                         </div>
                     ) : null}
                 </div>
+            {/* 原站面板底部：管理水印分组（共 N/20 个 · 默认 · ＋ 新增水印分组） */}
+            <WatermarkGroupPanel />
             </section>
         </div>
     );

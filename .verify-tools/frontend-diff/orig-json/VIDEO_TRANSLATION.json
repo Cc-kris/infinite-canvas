@@ -1,0 +1,488 @@
+{
+ "controls": [
+  {
+   "disabled": false,
+   "rect": {
+    "bottom": 96,
+    "height": 32,
+    "left": 1708.359375,
+    "right": 1752.359375,
+    "top": 64,
+    "width": 44,
+    "x": 1708.359375,
+    "y": 64
+   },
+   "text": "购 买"
+  },
+  {
+   "disabled": false,
+   "rect": {
+    "bottom": 499.421875,
+    "height": 24,
+    "left": 268,
+    "right": 362,
+    "top": 475.421875,
+    "width": 94,
+    "x": 268,
+    "y": 475.421875
+   },
+   "text": "本地上传"
+  },
+  {
+   "disabled": false,
+   "rect": {
+    "bottom": 499.421875,
+    "height": 24,
+    "left": 370,
+    "right": 442,
+    "top": 475.421875,
+    "width": 72,
+    "x": 370,
+    "y": 475.421875
+   },
+   "text": "作品选择"
+  },
+  {
+   "disabled": false,
+   "placeholder": "",
+   "rect": {
+    "bottom": 596.421875,
+    "height": 30,
+    "left": 218,
+    "right": 474,
+    "top": 566.421875,
+    "width": 256,
+    "x": 218,
+    "y": 566.421875
+   },
+   "text": ""
+  },
+  {
+   "disabled": false,
+   "placeholder": "",
+   "rect": {
+    "bottom": 666.421875,
+    "height": 30,
+    "left": 218,
+    "right": 474,
+    "top": 636.421875,
+    "width": 256,
+    "x": 218,
+    "y": 636.421875
+   },
+   "text": ""
+  },
+  {
+   "disabled": false,
+   "rect": {
+    "bottom": 821,
+    "height": 44,
+    "left": 206,
+    "right": 504,
+    "top": 777,
+    "width": 298,
+    "x": 206,
+    "y": 777
+   },
+   "text": "立即生成"
+  },
+  {
+   "disabled": false,
+   "rect": {
+    "bottom": 151,
+    "height": 31,
+    "left": 533,
+    "right": 578.328125,
+    "top": 120,
+    "width": 45.328125,
+    "x": 533,
+    "y": 120
+   },
+   "text": ""
+  },
+  {
+   "disabled": false,
+   "rect": {
+    "bottom": 760.203125,
+    "height": 40,
+    "left": 1160,
+    "right": 1270,
+    "top": 720.203125,
+    "width": 110,
+    "x": 1160,
+    "y": 720.203125
+   },
+   "text": "一键做同款"
+  },
+  {
+   "rect": {
+    "bottom": 629,
+    "height": 90,
+    "left": 1809,
+    "right": 1910,
+    "top": 539,
+    "width": 101,
+    "x": 1809,
+    "y": 539
+   },
+   "text": "操作咨询\n产品教程"
+  },
+  {
+   "disabled": false,
+   "placeholder": "名称",
+   "rect": {
+    "bottom": 430,
+    "height": 26,
+    "left": 1157,
+    "right": 1231,
+    "top": 404,
+    "width": 74,
+    "x": 1157,
+    "y": 404
+   },
+   "text": "LinkFox 默认"
+  },
+  {
+   "disabled": false,
+   "placeholder": "水印文案",
+   "rect": {
+    "bottom": 430,
+    "height": 26,
+    "left": 1237,
+    "right": 1375,
+    "top": 404,
+    "width": 138,
+    "x": 1237,
+    "y": 404
+   },
+   "text": "本图片由 LinkFox AI 生成"
+  },
+  {
+   "disabled": false,
+   "rect": {
+    "bottom": 429,
+    "height": 24,
+    "left": 1381,
+    "right": 1421,
+    "top": 405,
+    "width": 40,
+    "x": 1381,
+    "y": 405
+   },
+   "text": "默认"
+  },
+  {
+   "disabled": false,
+   "rect": {
+    "bottom": 429,
+    "height": 24,
+    "left": 1427,
+    "right": 1451,
+    "top": 405,
+    "width": 24,
+    "x": 1427,
+    "y": 405
+   },
+   "text": ""
+  },
+  {
+   "disabled": false,
+   "rect": {
+    "bottom": 475,
+    "height": 35,
+    "left": 1157,
+    "right": 1451,
+    "top": 440,
+    "width": 294,
+    "x": 1157,
+    "y": 440
+   },
+   "text": "＋ 新增水印分组"
+  }
+ ],
+ "regions": [
+  {
+   "cls": "_content_15na6_1 ",
+   "rect": {
+    "bottom": 98,
+    "height": 36,
+    "left": 1767.359375,
+    "right": 1885,
+    "top": 62,
+    "width": 117.640625,
+    "x": 1767.359375,
+    "y": 62
+   },
+   "text": "用\n用户6991\n个人账号"
+  },
+  {
+   "cls": "ant-layout-sider ant-layout-sider-dark _leftSider_1k85n_3  css-1d18km6",
+   "rect": {
+    "bottom": 839,
+    "height": 729,
+    "left": 0,
+    "right": 180,
+    "top": 110,
+    "width": 180,
+    "x": 0,
+    "y": 110
+   },
+   "text": "灵感\n灵感视频\n创作\n图转视频\n批量生成\nNEW\n带货口播\n视频复刻\n视频编辑\n工具\n视频翻译\n视频剪辑\n历史记录\n 免责声明"
+  },
+  {
+   "cls": "ant-menu-title-content",
+   "rect": {
+    "bottom": 148,
+    "height": 34,
+    "left": 18,
+    "right": 145,
+    "top": 114,
+    "width": 127,
+    "x": 18,
+    "y": 114
+   },
+   "text": "灵感"
+  },
+  {
+   "cls": "ant-menu-title-content",
+   "rect": {
+    "bottom": 192,
+    "height": 40,
+    "left": 58,
+    "right": 167,
+    "top": 152,
+    "width": 109,
+    "x": 58,
+    "y": 152
+   },
+   "text": "灵感视频"
+  },
+  {
+   "cls": "ant-menu-title-content",
+   "rect": {
+    "bottom": 240,
+    "height": 34,
+    "left": 18,
+    "right": 145,
+    "top": 206,
+    "width": 127,
+    "x": 18,
+    "y": 206
+   },
+   "text": "创作"
+  },
+  {
+   "cls": "ant-menu-title-content",
+   "rect": {
+    "bottom": 284,
+    "height": 40,
+    "left": 58,
+    "right": 167,
+    "top": 244,
+    "width": 109,
+    "x": 58,
+    "y": 244
+   },
+   "text": "图转视频"
+  },
+  {
+   "cls": "ant-menu-title-content",
+   "rect": {
+    "bottom": 324,
+    "height": 40,
+    "left": 58,
+    "right": 167,
+    "top": 284,
+    "width": 109,
+    "x": 58,
+    "y": 284
+   },
+   "text": "批量生成\nNEW"
+  },
+  {
+   "cls": "ant-menu-title-content",
+   "rect": {
+    "bottom": 364,
+    "height": 40,
+    "left": 58,
+    "right": 167,
+    "top": 324,
+    "width": 109,
+    "x": 58,
+    "y": 324
+   },
+   "text": "带货口播"
+  },
+  {
+   "cls": "ant-menu-title-content",
+   "rect": {
+    "bottom": 404,
+    "height": 40,
+    "left": 58,
+    "right": 167,
+    "top": 364,
+    "width": 109,
+    "x": 58,
+    "y": 364
+   },
+   "text": "视频复刻"
+  },
+  {
+   "cls": "ant-menu-title-content",
+   "rect": {
+    "bottom": 444,
+    "height": 40,
+    "left": 58,
+    "right": 167,
+    "top": 404,
+    "width": 109,
+    "x": 58,
+    "y": 404
+   },
+   "text": "视频编辑"
+  },
+  {
+   "cls": "ant-menu-title-content",
+   "rect": {
+    "bottom": 492,
+    "height": 34,
+    "left": 18,
+    "right": 145,
+    "top": 458,
+    "width": 127,
+    "x": 18,
+    "y": 458
+   },
+   "text": "工具"
+  },
+  {
+   "cls": "ant-menu-title-content",
+   "rect": {
+    "bottom": 536,
+    "height": 40,
+    "left": 58,
+    "right": 167,
+    "top": 496,
+    "width": 109,
+    "x": 58,
+    "y": 496
+   },
+   "text": "视频翻译"
+  },
+  {
+   "cls": "ant-menu-title-content",
+   "rect": {
+    "bottom": 576,
+    "height": 40,
+    "left": 58,
+    "right": 167,
+    "top": 536,
+    "width": 109,
+    "x": 58,
+    "y": 536
+   },
+   "text": "视频剪辑"
+  },
+  {
+   "cls": "ant-menu-title-content",
+   "rect": {
+    "bottom": 641,
+    "height": 40,
+    "left": 58,
+    "right": 167,
+    "top": 601,
+    "width": 109,
+    "x": 58,
+    "y": 601
+   },
+   "text": "历史记录"
+  },
+  {
+   "cls": "_sidePanel_4ck6q_6",
+   "rect": {
+    "bottom": 829,
+    "height": 709,
+    "left": 190,
+    "right": 520,
+    "top": 120,
+    "width": 330,
+    "x": 190,
+    "y": 120
+   },
+   "text": "智能识别源语言，驱动口型与目标语言精准匹配。\n\n原视频\n\n上传需要翻译的视频\n\n本地上传\n作品选择\n\n支持 MP4、MOV 格式，100MB 以内\n建议上传画面清晰、音频完整的视频（2-30 秒）\n\n模式选择\n高级模式\n需要翻译的语言\n英语\n口型同步默认开启\n立即生成"
+  },
+  {
+   "cls": "_panel_18mmg_23",
+   "rect": {
+    "bottom": 517.421875,
+    "height": 140,
+    "left": 216,
+    "right": 494,
+    "top": 377.421875,
+    "width": 278,
+    "x": 216,
+    "y": 377.421875
+   },
+   "text": "上传需要翻译的视频\n\n本地上传\n作品选择\n\n支持 MP4、MOV 格式，100MB 以内\n建议上传画面清晰、音频完整的视频（2-30 秒）"
+  },
+  {
+   "cls": "_resPanel_4ck6q_115",
+   "rect": {
+    "bottom": 829,
+    "height": 709,
+    "left": 520,
+    "right": 1910,
+    "top": 120,
+    "width": 1390,
+    "x": 520,
+    "y": 120
+   },
+   "text": "生成结果\n优秀案例\n历史记录\n\n上传视频并翻译为目标语言，可同步修改口型\n\n上传原始视频\n翻译结果\n一键做同款"
+  },
+  {
+   "cls": "ant-tabs-extra-content",
+   "rect": {
+    "bottom": 152.84375,
+    "height": 24.6875,
+    "left": 1834,
+    "right": 1898,
+    "top": 128.15625,
+    "width": 64,
+    "x": 1834,
+    "y": 128.15625
+   },
+   "text": "历史记录"
+  },
+  {
+   "cls": "ant-tabs-content-holder",
+   "rect": {
+    "bottom": 829,
+    "height": 667,
+    "left": 520,
+    "right": 1910,
+    "top": 162,
+    "width": 1390,
+    "x": 520,
+    "y": 162
+   },
+   "text": "上传视频并翻译为目标语言，可同步修改口型\n\n上传原始视频\n翻译结果\n一键做同款"
+  },
+  {
+   "cls": "ant-tabs-content ant-tabs-content-top",
+   "rect": {
+    "bottom": 829,
+    "height": 667,
+    "left": 520,
+    "right": 1910,
+    "top": 162,
+    "width": 1390,
+    "x": 520,
+    "y": 162
+   },
+   "text": "上传视频并翻译为目标语言，可同步修改口型\n\n上传原始视频\n翻译结果\n一键做同款"
+  }
+ ],
+ "text": "首页\n电商套图\n智能修图\n新模型\nAI视频\nHOT\n批量生图\n商品图设计\nSkills\nAgent\n更多\n学习中心\n免费得算力\n250\n购 买\n用\n用户6991\n个人账号\n灵感\n灵感视频\n创作\n图转视频\n批量生成\nNEW\n带货口播\n视频复刻\n视频编辑\n工具\n视频翻译\n视频剪辑\n历史记录\n 免责声明\n\n智能识别源语言，驱动口型与目标语言精准匹配。\n\n原视频\n\n上传需要翻译的视频\n\n本地上传\n作品选择\n\n支持 MP4、MOV 格式，100MB 以内\n建议上传画面清晰、音频完整的视频（2-30 秒）\n\n模式选择\n高级模式\n需要翻译的语言\n英语\n口型同步默认开启\n立即生成\n生成结果\n优秀案例\n历史记录\n\n上传视频并翻译为目标语言，可同步修改口型\n\n上传原始视频\n翻译结果\n一键做同款\n操作咨询\n产品教程\nljq_driver: 已连接\n管理水印分组\n共 1/20 个\n默认\n＋ 新增水印分组",
+ "title": "LinkFox官网 - 跨境电商AI运营助手 - AI选品AI作图AI视频AI Agent OS",
+ "url": "https://www.linkfox.com/draw/video-translation"
+}

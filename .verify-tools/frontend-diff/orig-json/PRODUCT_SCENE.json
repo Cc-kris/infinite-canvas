@@ -1,0 +1,626 @@
+{
+ "controls": [
+  {
+   "disabled": false,
+   "rect": {
+    "bottom": 96,
+    "height": 32,
+    "left": 1708.359375,
+    "right": 1752.359375,
+    "top": 64,
+    "width": 44,
+    "x": 1708.359375,
+    "y": 64
+   },
+   "text": "购 买"
+  },
+  {
+   "disabled": false,
+   "rect": {
+    "bottom": 258,
+    "height": 24,
+    "left": 233,
+    "right": 443,
+    "top": 234,
+    "width": 210,
+    "x": 233,
+    "y": 234
+   },
+   "text": "从本地上传"
+  },
+  {
+   "disabled": false,
+   "rect": {
+    "bottom": 292,
+    "height": 24,
+    "left": 233,
+    "right": 333,
+    "top": 268,
+    "width": 100,
+    "x": 233,
+    "y": 268
+   },
+   "text": "从作品库选择"
+  },
+  {
+   "disabled": false,
+   "rect": {
+    "bottom": 292,
+    "height": 24,
+    "left": 343,
+    "right": 443,
+    "top": 268,
+    "width": 100,
+    "x": 343,
+    "y": 268
+   },
+   "text": "从商品库选择"
+  },
+  {
+   "disabled": false,
+   "rect": {
+    "bottom": 405,
+    "height": 32,
+    "left": 206,
+    "right": 470,
+    "top": 373,
+    "width": 264,
+    "x": 206,
+    "y": 373
+   },
+   "text": "上传多图，体验新功能商品套图"
+  },
+  {
+   "disabled": false,
+   "placeholder": "描述您想要的场景（在描述语中包含上传的商品），例如：把水壶放在客厅餐桌上。",
+   "rect": {
+    "bottom": 578.84375,
+    "height": 74,
+    "left": 207,
+    "right": 469,
+    "top": 504.84375,
+    "width": 262,
+    "x": 207,
+    "y": 504.84375
+   },
+   "text": ""
+  },
+  {
+   "rect": {
+    "bottom": 631.84375,
+    "height": 22,
+    "left": 206,
+    "right": 470,
+    "top": 609.84375,
+    "width": 264,
+    "x": 206,
+    "y": 609.84375
+   },
+   "text": "生图模型"
+  },
+  {
+   "disabled": false,
+   "rect": {
+    "bottom": 794.6875,
+    "height": 32,
+    "left": 206,
+    "right": 294,
+    "top": 762.6875,
+    "width": 88,
+    "x": 206,
+    "y": 762.6875
+   },
+   "text": "默认尺寸"
+  },
+  {
+   "disabled": false,
+   "rect": {
+    "bottom": 794.6875,
+    "height": 32,
+    "left": 302,
+    "right": 376,
+    "top": 762.6875,
+    "width": 74,
+    "x": 302,
+    "y": 762.6875
+   },
+   "text": "自定义"
+  },
+  {
+   "disabled": false,
+   "rect": {
+    "bottom": 821,
+    "height": 32,
+    "left": 206,
+    "right": 474,
+    "top": 789,
+    "width": 268,
+    "x": 206,
+    "y": 789
+   },
+   "text": "立即生成\n(40算力)"
+  },
+  {
+   "disabled": false,
+   "rect": {
+    "bottom": 151,
+    "height": 31,
+    "left": 517,
+    "right": 562.328125,
+    "top": 120,
+    "width": 45.328125,
+    "x": 517,
+    "y": 120
+   },
+   "text": ""
+  },
+  {
+   "disabled": false,
+   "rect": {
+    "bottom": 775.921875,
+    "height": 40,
+    "left": 603,
+    "right": 713,
+    "top": 735.921875,
+    "width": 110,
+    "x": 603,
+    "y": 735.921875
+   },
+   "text": "一键做同款"
+  },
+  {
+   "disabled": false,
+   "rect": {
+    "bottom": 775.921875,
+    "height": 40,
+    "left": 1145,
+    "right": 1255,
+    "top": 735.921875,
+    "width": 110,
+    "x": 1145,
+    "y": 735.921875
+   },
+   "text": "一键做同款"
+  },
+  {
+   "disabled": false,
+   "rect": {
+    "bottom": 775.921875,
+    "height": 40,
+    "left": 1687,
+    "right": 1797,
+    "top": 735.921875,
+    "width": 110,
+    "x": 1687,
+    "y": 735.921875
+   },
+   "text": "一键做同款"
+  },
+  {
+   "disabled": false,
+   "rect": {
+    "bottom": 775.921875,
+    "height": 40,
+    "left": 2229,
+    "right": 2339,
+    "top": 735.921875,
+    "width": 110,
+    "x": 2229,
+    "y": 735.921875
+   },
+   "text": "一键做同款"
+  },
+  {
+   "disabled": false,
+   "rect": {
+    "bottom": 775.921875,
+    "height": 40,
+    "left": 2771,
+    "right": 2881,
+    "top": 735.921875,
+    "width": 110,
+    "x": 2771,
+    "y": 735.921875
+   },
+   "text": "一键做同款"
+  },
+  {
+   "disabled": false,
+   "rect": {
+    "bottom": 807.921875,
+    "height": 6,
+    "left": 1182,
+    "right": 1204,
+    "top": 801.921875,
+    "width": 22,
+    "x": 1182,
+    "y": 801.921875
+   },
+   "text": "1"
+  },
+  {
+   "disabled": false,
+   "rect": {
+    "bottom": 807.921875,
+    "height": 6,
+    "left": 1212,
+    "right": 1218,
+    "top": 801.921875,
+    "width": 6,
+    "x": 1212,
+    "y": 801.921875
+   },
+   "text": "2"
+  },
+  {
+   "rect": {
+    "bottom": 629,
+    "height": 90,
+    "left": 1809,
+    "right": 1910,
+    "top": 539,
+    "width": 101,
+    "x": 1809,
+    "y": 539
+   },
+   "text": "操作咨询\n产品教程"
+  },
+  {
+   "disabled": false,
+   "placeholder": "名称",
+   "rect": {
+    "bottom": 430,
+    "height": 26,
+    "left": 1157,
+    "right": 1231,
+    "top": 404,
+    "width": 74,
+    "x": 1157,
+    "y": 404
+   },
+   "text": "LinkFox 默认"
+  },
+  {
+   "disabled": false,
+   "placeholder": "水印文案",
+   "rect": {
+    "bottom": 430,
+    "height": 26,
+    "left": 1237,
+    "right": 1375,
+    "top": 404,
+    "width": 138,
+    "x": 1237,
+    "y": 404
+   },
+   "text": "本图片由 LinkFox AI 生成"
+  },
+  {
+   "disabled": false,
+   "rect": {
+    "bottom": 429,
+    "height": 24,
+    "left": 1381,
+    "right": 1421,
+    "top": 405,
+    "width": 40,
+    "x": 1381,
+    "y": 405
+   },
+   "text": "默认"
+  },
+  {
+   "disabled": false,
+   "rect": {
+    "bottom": 429,
+    "height": 24,
+    "left": 1427,
+    "right": 1451,
+    "top": 405,
+    "width": 24,
+    "x": 1427,
+    "y": 405
+   },
+   "text": ""
+  },
+  {
+   "disabled": false,
+   "rect": {
+    "bottom": 475,
+    "height": 35,
+    "left": 1157,
+    "right": 1451,
+    "top": 440,
+    "width": 294,
+    "x": 1157,
+    "y": 440
+   },
+   "text": "＋ 新增水印分组"
+  }
+ ],
+ "regions": [
+  {
+   "cls": "_content_15na6_1 ",
+   "rect": {
+    "bottom": 98,
+    "height": 36,
+    "left": 1767.359375,
+    "right": 1885,
+    "top": 62,
+    "width": 117.640625,
+    "x": 1767.359375,
+    "y": 62
+   },
+   "text": "用\n用户6991\n个人账号"
+  },
+  {
+   "cls": "ant-layout-sider ant-layout-sider-dark _leftSider_1k85n_3  css-1d18km6",
+   "rect": {
+    "bottom": 839,
+    "height": 729,
+    "left": 0,
+    "right": 180,
+    "top": 110,
+    "width": 180,
+    "x": 0,
+    "y": 110
+   },
+   "text": "商品图\n我的商品\n场景参考图\n商品替换\n场景裂变\n手持商品\n历史记录\n企业功能\n批量生图\n 免责声明"
+  },
+  {
+   "cls": "ant-menu-title-content",
+   "rect": {
+    "bottom": 150,
+    "height": 40,
+    "left": 46,
+    "right": 167,
+    "top": 110,
+    "width": 121,
+    "x": 46,
+    "y": 110
+   },
+   "text": "商品图"
+  },
+  {
+   "cls": "ant-menu-title-content",
+   "rect": {
+    "bottom": 190,
+    "height": 40,
+    "left": 46,
+    "right": 167,
+    "top": 150,
+    "width": 121,
+    "x": 46,
+    "y": 150
+   },
+   "text": "我的商品"
+  },
+  {
+   "cls": "ant-menu-title-content",
+   "rect": {
+    "bottom": 230,
+    "height": 40,
+    "left": 46,
+    "right": 167,
+    "top": 190,
+    "width": 121,
+    "x": 46,
+    "y": 190
+   },
+   "text": "场景参考图"
+  },
+  {
+   "cls": "ant-menu-title-content",
+   "rect": {
+    "bottom": 270,
+    "height": 40,
+    "left": 46,
+    "right": 167,
+    "top": 230,
+    "width": 121,
+    "x": 46,
+    "y": 230
+   },
+   "text": "商品替换"
+  },
+  {
+   "cls": "ant-menu-title-content",
+   "rect": {
+    "bottom": 310,
+    "height": 40,
+    "left": 46,
+    "right": 167,
+    "top": 270,
+    "width": 121,
+    "x": 46,
+    "y": 270
+   },
+   "text": "场景裂变"
+  },
+  {
+   "cls": "ant-menu-title-content",
+   "rect": {
+    "bottom": 350,
+    "height": 40,
+    "left": 46,
+    "right": 167,
+    "top": 310,
+    "width": 121,
+    "x": 46,
+    "y": 310
+   },
+   "text": "手持商品"
+  },
+  {
+   "cls": "ant-menu-title-content",
+   "rect": {
+    "bottom": 390,
+    "height": 40,
+    "left": 46,
+    "right": 167,
+    "top": 350,
+    "width": 121,
+    "x": 46,
+    "y": 350
+   },
+   "text": "历史记录"
+  },
+  {
+   "cls": "ant-menu-title-content",
+   "rect": {
+    "bottom": 426,
+    "height": 32,
+    "left": 18,
+    "right": 145,
+    "top": 394,
+    "width": 127,
+    "x": 18,
+    "y": 394
+   },
+   "text": "企业功能"
+  },
+  {
+   "cls": "ant-menu-title-content",
+   "rect": {
+    "bottom": 470,
+    "height": 40,
+    "left": 46,
+    "right": 167,
+    "top": 430,
+    "width": 121,
+    "x": 46,
+    "y": 430
+   },
+   "text": "批量生图"
+  },
+  {
+   "cls": "anticon anticon-arrow-right",
+   "rect": {
+    "bottom": 396,
+    "height": 14,
+    "left": 433,
+    "right": 447,
+    "top": 382,
+    "width": 14,
+    "x": 433,
+    "y": 382
+   },
+   "text": ""
+  },
+  {
+   "cls": "anticon anticon-right ant-collapse-arrow",
+   "rect": {
+    "bottom": 626.84375,
+    "height": 12,
+    "left": 454,
+    "right": 466,
+    "top": 614.84375,
+    "width": 12,
+    "x": 454,
+    "y": 614.84375
+   },
+   "text": ""
+  },
+  {
+   "cls": "ant-collapse-content ant-collapse-content-active",
+   "rect": {
+    "bottom": 720.6875,
+    "height": 88.84375,
+    "left": 206,
+    "right": 470,
+    "top": 631.84375,
+    "width": 264,
+    "x": 206,
+    "y": 631.84375
+   },
+   "text": "写实\n\n简约\n\n智能"
+  },
+  {
+   "cls": "ant-collapse-content-box",
+   "rect": {
+    "bottom": 720.6875,
+    "height": 88.84375,
+    "left": 206,
+    "right": 470,
+    "top": 631.84375,
+    "width": 264,
+    "x": 206,
+    "y": 631.84375
+   },
+   "text": "写实\n\n简约\n\n智能"
+  },
+  {
+   "cls": "ant-tabs-extra-content",
+   "rect": {
+    "bottom": 152.84375,
+    "height": 24.6875,
+    "left": 1834,
+    "right": 1898,
+    "top": 128.15625,
+    "width": 64,
+    "x": 1834,
+    "y": 128.15625
+   },
+   "text": "历史记录"
+  },
+  {
+   "cls": "ant-tabs-content-holder",
+   "rect": {
+    "bottom": 829,
+    "height": 667,
+    "left": 490,
+    "right": 1910,
+    "top": 162,
+    "width": 1420,
+    "x": 490,
+    "y": 162
+   },
+   "text": "上传商品场景参考图，3秒裂变出多张相似的场景图，快来裂变您的场景图吧~\n\n上传商品场景参考图\n生成结果\n一键做同款\n上传商品场景参考图\n生成结果\n一键做同款\n上传商品场景参考图\n生成结果\n一键做同款\n上传商品场景参考图\n生成结果\n一键做同款\n上传商品场景参考图\n生成结果\n一键做同款\n1\n2"
+  },
+  {
+   "cls": "ant-tabs-content ant-tabs-content-top",
+   "rect": {
+    "bottom": 829,
+    "height": 667,
+    "left": 490,
+    "right": 1910,
+    "top": 162,
+    "width": 1420,
+    "x": 490,
+    "y": 162
+   },
+   "text": "上传商品场景参考图，3秒裂变出多张相似的场景图，快来裂变您的场景图吧~\n\n上传商品场景参考图\n生成结果\n一键做同款\n上传商品场景参考图\n生成结果\n一键做同款\n上传商品场景参考图\n生成结果\n一键做同款\n上传商品场景参考图\n生成结果\n一键做同款\n上传商品场景参考图\n生成结果\n一键做同款\n1\n2"
+  },
+  {
+   "cls": "ant-tour css-1d18km6 _tour_1t7u2_1 ant-tour-primary ant-tour-placement-right",
+   "rect": {
+    "bottom": 285.5,
+    "height": 78,
+    "left": 482,
+    "right": 724,
+    "top": 207.5,
+    "width": 242,
+    "x": 482,
+    "y": 207.5
+   },
+   "text": "第一步：选择示例图或上传商品图\n我是高手，不再提醒"
+  },
+  {
+   "cls": "ant-tour-content",
+   "rect": {
+    "bottom": 285.5,
+    "height": 78,
+    "left": 482,
+    "right": 724,
+    "top": 207.5,
+    "width": 242,
+    "x": 482,
+    "y": 207.5
+   },
+   "text": "第一步：选择示例图或上传商品图\n我是高手，不再提醒"
+  }
+ ],
+ "text": "首页\n电商套图\n智能修图\n新模型\nAI视频\nHOT\n批量生图\n商品图设计\nSkills\nAgent\n更多\n学习中心\n免费得算力\n250\n购 买\n用\n用户6991\n个人账号\n商品图\n我的商品\n场景参考图\n商品替换\n场景裂变\n手持商品\n历史记录\n企业功能\n批量生图\n 免责声明\n上传参考图\n从本地上传\n从作品库选择\n从商品库选择\n\n10M以内，分辨率：384*384 ~ 4096*4096，最大宽高比5\n\n上传多图，体验新功能商品套图\n\n背景相似度：\n\n💡已选择智能模式，将根据模型自动生成场景\n\n场景描述（可选）\n💡场景描述怎么写？\n0 / 100\n生图模型\n\n写实\n\n简约\n\n智能\n\n设置生成尺寸\n\n默认尺寸\n自定义\n\n选择生成张数\n\n1\n2\n3\n4\n立即生成\n(40算力)\n生成结果\n优秀案例\n历史记录\n\n上传商品场景参考图，3秒裂变出多张相似的场景图，快来裂变您的场景图吧~\n\n上传商品场景参考图\n生成结果\n一键做同款\n上传商品场景参考图\n生成结果\n一键做同款\n上传商品场景参考图\n生成结果\n一键做同款\n上传商品场景参考图\n生成结果\n一键做同款\n上传商品场景参考图\n生成结果\n一键做同款\n1\n2\n第一步：选择示例图或上传商品图\n我是高手，不再提醒\n操作咨询\n产品教程\nljq_driver: 已连接\n管理水印分组\n共 1/20 个\n默认\n＋ 新增水印分组",
+ "title": "LinkFox官网 - 跨境电商AI运营助手 - AI选品AI作图AI视频AI Agent OS",
+ "url": "https://www.linkfox.com/draw/product-scene?type=2"
+}

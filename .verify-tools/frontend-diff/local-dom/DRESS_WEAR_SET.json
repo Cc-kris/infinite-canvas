@@ -1,0 +1,1266 @@
+{
+ "id": "DRESS_WEAR_SET",
+ "route": "/tools/ecommerce-suite/dress-wear-set",
+ "ok": true,
+ "error": null,
+ "title": "无限画布",
+ "text": "无限画布\n首页\n电商套图\n智能修图\n新模型\nAI视频\nHOT\n批量生图\n商品图设计\n中\nv0.27.0\n商品套图\n服装套图\n套图换色\n批量翻译\n高清放大\n智能扩图\n免责声明\n商品图\njpg / png / webp，单张 ≤ 10MB，长边 ≤ 4096px，最多 5 张。\n上传商品图\n0\n0 / 5 个 · PNG / JPG / WebP · ≤ 10 MB\n点击选择本地文件，或拖拽到这里\n校验格式 / 大小 / 像素，入库后可刷新恢复\n还没有素材\n商品信息\n卖点、材质、尺码等会进入提示词；越具体越稳定。\n0\n/\n2500\n销售设定\n平台 / 地区 / 语言会同时约束文案与合规检查。\n平台\n销售地区\n语言\n品牌基因\n合规检查\n开启后对敏感词库做替换，并产出检查结论。\n启用敏感词与替换词库\n生成参数\n当前模型：LF智能模型 G-2.5 Sunburst；比例与品质按模型目录过滤。\n模型\n比例\n分辨率\n品质\n画面不出现文字\n避免模型生成乱码文案，A+ 长图建议开启。\n每张单独拆分\n关闭时同组多张按一张拼版提交。\n主副图\n可多选；每个场景单独设定数量与版式。\n模特图\n-\n+\n种草图\n-\n+\n卖点图\n-\n+\n尺码图\n-\n+\n白底图\n-\n+\nA+ 图\n单选：一次只生成一种 A+ 版式。\n高级A+\n-\n+\n手机A+\n-\n+\n普通A+\n-\n+\n自定比例\n-\n+\n预计产出\n8\n张 /\n2\n组\n实际以网关返回为准；每组一次真实请求，失败不自动重刷。\n开始生成\n至少上传 1 张服装/配饰/细节图后才能生成\n智能品牌基因需要先选择平台 / 销售地区 / 语言\n套图结果\n按场景分组；组内可单张下载，失败组可单独重试。\n还没有结果。上传商品图并选择场景后点击「开始生成」。\n优秀案例\n真实优秀作品；点「做同款」把案例服装图写入商品图，再自行调整场景与数量。\n预览\n原图\n做同款\n预览\n原图\n做同款\n预览\n原图\n做同款\n预览\n原图\n做同款\n预览\n原图\n做同款\n预览\n原图\n做同款\n预览\n原图\n做同款\n预览\n原图\n做同款\n预览\n原图\n做同款\n预览\n原图\n做同款\n预览\n原图\n做同款\n预览\n原图\n做同款\n历史任务\n0\n条\n本工具还没有历史任务；提交一次后会在这里留下任务、配置与结果，刷新后仍在。\n连接本地 Agent\n未连接\n点连接会自动启动本地服务、装好插件并接通，无需手动配置。\nClaude Code\n未连接\n·\nCLI · 2.1.285 (Claude Code)\n·\n直接运行\n连接\nCodex\n未连接\n·\nCLI · codex-cli 0.163.0\n·\n插件已装\n连接\nGalley\n未连接\n·\nCLI + 桌面版 · galley 0.6.4\n连接",
+ "lines": [
+  "无限画布",
+  "首页",
+  "电商套图",
+  "智能修图",
+  "新模型",
+  "AI视频",
+  "HOT",
+  "批量生图",
+  "商品图设计",
+  "中",
+  "v0.27.0",
+  "商品套图",
+  "服装套图",
+  "套图换色",
+  "批量翻译",
+  "高清放大",
+  "智能扩图",
+  "免责声明",
+  "商品图",
+  "jpg / png / webp，单张 ≤ 10MB，长边 ≤ 4096px，最多 5 张。",
+  "上传商品图",
+  "0",
+  "0 / 5 个 · PNG / JPG / WebP · ≤ 10 MB",
+  "点击选择本地文件，或拖拽到这里",
+  "校验格式 / 大小 / 像素，入库后可刷新恢复",
+  "还没有素材",
+  "商品信息",
+  "卖点、材质、尺码等会进入提示词；越具体越稳定。",
+  "0",
+  "/",
+  "2500",
+  "销售设定",
+  "平台 / 地区 / 语言会同时约束文案与合规检查。",
+  "平台",
+  "销售地区",
+  "语言",
+  "品牌基因",
+  "合规检查",
+  "开启后对敏感词库做替换，并产出检查结论。",
+  "启用敏感词与替换词库",
+  "生成参数",
+  "当前模型：LF智能模型 G-2.5 Sunburst；比例与品质按模型目录过滤。",
+  "模型",
+  "比例",
+  "分辨率",
+  "品质",
+  "画面不出现文字",
+  "避免模型生成乱码文案，A+ 长图建议开启。",
+  "每张单独拆分",
+  "关闭时同组多张按一张拼版提交。",
+  "主副图",
+  "可多选；每个场景单独设定数量与版式。",
+  "模特图",
+  "-",
+  "+",
+  "种草图",
+  "-",
+  "+",
+  "卖点图",
+  "-",
+  "+",
+  "尺码图",
+  "-",
+  "+",
+  "白底图",
+  "-",
+  "+",
+  "A+ 图",
+  "单选：一次只生成一种 A+ 版式。",
+  "高级A+",
+  "-",
+  "+",
+  "手机A+",
+  "-",
+  "+",
+  "普通A+",
+  "-",
+  "+",
+  "自定比例",
+  "-",
+  "+",
+  "预计产出",
+  "8",
+  "张 /",
+  "2",
+  "组",
+  "实际以网关返回为准；每组一次真实请求，失败不自动重刷。",
+  "开始生成",
+  "至少上传 1 张服装/配饰/细节图后才能生成",
+  "智能品牌基因需要先选择平台 / 销售地区 / 语言",
+  "套图结果",
+  "按场景分组；组内可单张下载，失败组可单独重试。",
+  "还没有结果。上传商品图并选择场景后点击「开始生成」。",
+  "优秀案例",
+  "真实优秀作品；点「做同款」把案例服装图写入商品图，再自行调整场景与数量。",
+  "预览",
+  "原图",
+  "做同款",
+  "预览",
+  "原图",
+  "做同款",
+  "预览",
+  "原图",
+  "做同款",
+  "预览",
+  "原图",
+  "做同款",
+  "预览",
+  "原图",
+  "做同款",
+  "预览",
+  "原图",
+  "做同款",
+  "预览",
+  "原图",
+  "做同款",
+  "预览",
+  "原图",
+  "做同款",
+  "预览",
+  "原图",
+  "做同款",
+  "预览",
+  "原图",
+  "做同款",
+  "预览",
+  "原图",
+  "做同款",
+  "预览",
+  "原图",
+  "做同款",
+  "历史任务",
+  "0",
+  "条",
+  "本工具还没有历史任务；提交一次后会在这里留下任务、配置与结果，刷新后仍在。",
+  "连接本地 Agent",
+  "未连接",
+  "点连接会自动启动本地服务、装好插件并接通，无需手动配置。",
+  "Claude Code",
+  "未连接",
+  "·",
+  "CLI · 2.1.285 (Claude Code)",
+  "·",
+  "直接运行",
+  "连接",
+  "Codex",
+  "未连接",
+  "·",
+  "CLI · codex-cli 0.163.0",
+  "·",
+  "插件已装",
+  "连接",
+  "Galley",
+  "未连接",
+  "·",
+  "CLI + 桌面版 · galley 0.6.4",
+  "连接"
+ ],
+ "controls": [
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "中",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1593,
+    "y": 14,
+    "w": 28,
+    "h": 28
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "切换到深色主题",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1625,
+    "y": 14,
+    "w": 28,
+    "h": 28
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "v0.27.0",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1657,
+    "y": 17,
+    "w": 47,
+    "h": 22
+   }
+  },
+  {
+   "tag": "div",
+   "type": "",
+   "text": "点击选择本地文件，或拖拽到这里\n校验格式 / 大小 / 像素，入库后可刷新恢复",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 236,
+    "y": 198,
+    "w": 366,
+    "h": 86
+   }
+  },
+  {
+   "tag": "textarea",
+   "type": "",
+   "text": "例如：100% 新疆长绒棉，宽松直筒版型，落肩袖，适合 155-175cm，机洗不掉色",
+   "placeholder": "例如：100% 新疆长绒棉，宽松直筒版型，落肩袖，适合 155-175cm，机洗不掉色",
+   "disabled": false,
+   "rect": {
+    "x": 236,
+    "y": 449,
+    "w": 366,
+    "h": 96
+   }
+  },
+  {
+   "tag": "select",
+   "type": "",
+   "text": "智能识别\n自定义品牌",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 425,
+    "y": 787,
+    "w": 177,
+    "h": 36
+   }
+  },
+  {
+   "tag": "input",
+   "type": "checkbox",
+   "text": "on",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 236,
+    "y": 948,
+    "w": 16,
+    "h": 16
+   }
+  },
+  {
+   "tag": "select",
+   "type": "",
+   "text": "LF智能模型 G-2.5 Sunburst\nLF全能模型 2.1\nLF智能模型 G-2.5 Flare\nLF智能模型 G-2\nLF全能模型 Pro\nLF全能模型 Lite\nSeedream 5.0 Pro\nWan 2.7",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 236,
+    "y": 1133,
+    "w": 177,
+    "h": 36
+   }
+  },
+  {
+   "tag": "select",
+   "type": "",
+   "text": "1:1\n3:4\n4:3\n2:3\n3:2\n9:16\n16:9\n4:5\n5:4\n21:9\n9:21",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 425,
+    "y": 1133,
+    "w": 177,
+    "h": 36
+   }
+  },
+  {
+   "tag": "select",
+   "type": "",
+   "text": "1K\n2K\n4K",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 236,
+    "y": 1201,
+    "w": 177,
+    "h": 36
+   }
+  },
+  {
+   "tag": "select",
+   "type": "",
+   "text": "低品质\n中品质\n高品质\n超高品质\n最大品质",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 425,
+    "y": 1201,
+    "w": 177,
+    "h": 36
+   }
+  },
+  {
+   "tag": "input",
+   "type": "checkbox",
+   "text": "on",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 236,
+    "y": 1249,
+    "w": 16,
+    "h": 16
+   }
+  },
+  {
+   "tag": "input",
+   "type": "checkbox",
+   "text": "on",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 236,
+    "y": 1293,
+    "w": 16,
+    "h": 16
+   }
+  },
+  {
+   "tag": "input",
+   "type": "checkbox",
+   "text": "on",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 665,
+    "y": 172,
+    "w": 16,
+    "h": 16
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "-",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1759,
+    "y": 168,
+    "w": 28,
+    "h": 28
+   }
+  },
+  {
+   "tag": "input",
+   "type": "",
+   "text": "4",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1791,
+    "y": 168,
+    "w": 40,
+    "h": 28
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "+",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1835,
+    "y": 168,
+    "w": 28,
+    "h": 28
+   }
+  },
+  {
+   "tag": "input",
+   "type": "checkbox",
+   "text": "on",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 665,
+    "y": 226,
+    "w": 16,
+    "h": 16
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "-",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1759,
+    "y": 222,
+    "w": 28,
+    "h": 28
+   }
+  },
+  {
+   "tag": "input",
+   "type": "",
+   "text": "4",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1791,
+    "y": 222,
+    "w": 40,
+    "h": 28
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "+",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1835,
+    "y": 222,
+    "w": 28,
+    "h": 28
+   }
+  },
+  {
+   "tag": "input",
+   "type": "checkbox",
+   "text": "on",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 665,
+    "y": 280,
+    "w": 16,
+    "h": 16
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "-",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1759,
+    "y": 276,
+    "w": 28,
+    "h": 28
+   }
+  },
+  {
+   "tag": "input",
+   "type": "",
+   "text": "4",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1791,
+    "y": 276,
+    "w": 40,
+    "h": 28
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "+",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1835,
+    "y": 276,
+    "w": 28,
+    "h": 28
+   }
+  },
+  {
+   "tag": "input",
+   "type": "checkbox",
+   "text": "on",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 665,
+    "y": 334,
+    "w": 16,
+    "h": 16
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "-",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1759,
+    "y": 330,
+    "w": 28,
+    "h": 28
+   }
+  },
+  {
+   "tag": "input",
+   "type": "",
+   "text": "4",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1791,
+    "y": 330,
+    "w": 40,
+    "h": 28
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "+",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1835,
+    "y": 330,
+    "w": 28,
+    "h": 28
+   }
+  },
+  {
+   "tag": "input",
+   "type": "checkbox",
+   "text": "on",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 665,
+    "y": 388,
+    "w": 16,
+    "h": 16
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "-",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1759,
+    "y": 384,
+    "w": 28,
+    "h": 28
+   }
+  },
+  {
+   "tag": "input",
+   "type": "",
+   "text": "4",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1791,
+    "y": 384,
+    "w": 40,
+    "h": 28
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "+",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1835,
+    "y": 384,
+    "w": 28,
+    "h": 28
+   }
+  },
+  {
+   "tag": "input",
+   "type": "checkbox",
+   "text": "on",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 665,
+    "y": 559,
+    "w": 16,
+    "h": 16
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "-",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1759,
+    "y": 555,
+    "w": 28,
+    "h": 28
+   }
+  },
+  {
+   "tag": "input",
+   "type": "",
+   "text": "4",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1791,
+    "y": 555,
+    "w": 40,
+    "h": 28
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "+",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1835,
+    "y": 555,
+    "w": 28,
+    "h": 28
+   }
+  },
+  {
+   "tag": "input",
+   "type": "checkbox",
+   "text": "on",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 665,
+    "y": 613,
+    "w": 16,
+    "h": 16
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "-",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1759,
+    "y": 609,
+    "w": 28,
+    "h": 28
+   }
+  },
+  {
+   "tag": "input",
+   "type": "",
+   "text": "4",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1791,
+    "y": 609,
+    "w": 40,
+    "h": 28
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "+",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1835,
+    "y": 609,
+    "w": 28,
+    "h": 28
+   }
+  },
+  {
+   "tag": "input",
+   "type": "checkbox",
+   "text": "on",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 665,
+    "y": 667,
+    "w": 16,
+    "h": 16
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "-",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1759,
+    "y": 663,
+    "w": 28,
+    "h": 28
+   }
+  },
+  {
+   "tag": "input",
+   "type": "",
+   "text": "4",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1791,
+    "y": 663,
+    "w": 40,
+    "h": 28
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "+",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1835,
+    "y": 663,
+    "w": 28,
+    "h": 28
+   }
+  },
+  {
+   "tag": "input",
+   "type": "checkbox",
+   "text": "on",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 665,
+    "y": 721,
+    "w": 16,
+    "h": 16
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "-",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1759,
+    "y": 717,
+    "w": 28,
+    "h": 28
+   }
+  },
+  {
+   "tag": "input",
+   "type": "",
+   "text": "4",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1791,
+    "y": 717,
+    "w": 40,
+    "h": 28
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "+",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1835,
+    "y": 717,
+    "w": 28,
+    "h": 28
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "开始生成",
+   "placeholder": "",
+   "disabled": true,
+   "rect": {
+    "x": 1788,
+    "y": 805,
+    "w": 88,
+    "h": 36
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "做同款",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 866,
+    "y": 1414,
+    "w": 74,
+    "h": 32
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "做同款",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 866,
+    "y": 1620,
+    "w": 74,
+    "h": 32
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "做同款",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 866,
+    "y": 1827,
+    "w": 74,
+    "h": 32
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "做同款",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 866,
+    "y": 2229,
+    "w": 74,
+    "h": 32
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "做同款",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1176,
+    "y": 1624,
+    "w": 74,
+    "h": 32
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "做同款",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1176,
+    "y": 2026,
+    "w": 74,
+    "h": 32
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "做同款",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1487,
+    "y": 1624,
+    "w": 74,
+    "h": 32
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "做同款",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1487,
+    "y": 2026,
+    "w": 74,
+    "h": 32
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "做同款",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1797,
+    "y": 1624,
+    "w": 74,
+    "h": 32
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "做同款",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1797,
+    "y": 1754,
+    "w": 74,
+    "h": 32
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "做同款",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1797,
+    "y": 2156,
+    "w": 74,
+    "h": 32
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "做同款",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1797,
+    "y": 2286,
+    "w": 74,
+    "h": 32
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "连接",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 2265,
+    "y": 147,
+    "w": 66,
+    "h": 24
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "连接",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 2265,
+    "y": 215,
+    "w": 66,
+    "h": 24
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "连接",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 2265,
+    "y": 283,
+    "w": 66,
+    "h": 24
+   }
+  }
+ ],
+ "regions": [
+  {
+   "cls": "sticky top-0 z-[7] h-14 shrink-0 border-b border-hairline bg-surface/95 backdrop",
+   "rect": {
+    "x": 0,
+    "y": 0,
+    "w": 1920,
+    "h": 56
+   },
+   "text": "无限画布\n首页\n电商套图\n智能修图\n新模型\nAI视频\nHOT\n批量生图\n商品图设计\n中\n切换到深色主题\nv0.27.0"
+  },
+  {
+   "cls": "hidden w-[180px] shrink-0 overflow-y-auto rounded-xl border border-hairline bg-s",
+   "rect": {
+    "x": 16,
+    "y": 56,
+    "w": 180,
+    "h": 1008
+   },
+   "text": "电商套图\n商品套图\n服装套图\n套图换色\n批量翻译\n高清放大\n智能扩图\n免责声明"
+  },
+  {
+   "cls": "min-h-0 flex-1 overflow-hidden bg-canvas p-2.5",
+   "rect": {
+    "x": 209,
+    "y": 57,
+    "w": 1694,
+    "h": 1006
+   },
+   "text": "商品图\n\njpg / png / webp，单张 ≤ 10MB，长边 ≤ 4096px，最多 5 张。\n\n上传商品图\n00 / 5 个 · PNG / JPG / WebP · ≤ 10 MB\n点击选择本地文件，或拖拽到这里\n校验格式 / 大小 / 像素，入库后可刷新恢复\n\n还没有素材\n\n商品信息\n\n卖点、材质、尺码等会进入提示词；越具体越稳定。\n\n0 / 2500\n销售设定\n\n平台 / 地区 / 语言会同时约束文案与合规检查。\n\n平台\n销售地区\n语言\n品牌基因\n智能识别\n自定义品牌\n合规检查\n\n开启后对敏感词库做替换，并产出检查结论。\n\n启用敏感词与替换词库\n生成参数\n\n当前模型：LF智能模"
+  },
+  {
+   "cls": "flex flex-col gap-3 rounded-lg border border-border bg-card p-4 ",
+   "rect": {
+    "x": 219,
+    "y": 67,
+    "w": 400,
+    "h": 274
+   },
+   "text": "商品图\n\njpg / png / webp，单张 ≤ 10MB，长边 ≤ 4096px，最多 5 张。\n\n上传商品图\n00 / 5 个 · PNG / JPG / WebP · ≤ 10 MB\n点击选择本地文件，或拖拽到这里\n校验格式 / 大小 / 像素，入库后可刷新恢复\n\n还没有素材"
+  },
+  {
+   "cls": "flex flex-col gap-1",
+   "rect": {
+    "x": 236,
+    "y": 84,
+    "w": 366,
+    "h": 63
+   },
+   "text": "商品图\n\njpg / png / webp，单张 ≤ 10MB，长边 ≤ 4096px，最多 5 张。"
+  },
+  {
+   "cls": "space-y-3",
+   "rect": {
+    "x": 236,
+    "y": 159,
+    "w": 366,
+    "h": 165
+   },
+   "text": "上传商品图\n00 / 5 个 · PNG / JPG / WebP · ≤ 10 MB\n点击选择本地文件，或拖拽到这里\n校验格式 / 大小 / 像素，入库后可刷新恢复\n\n还没有素材"
+  },
+  {
+   "cls": "flex flex-col gap-3 rounded-lg border border-border bg-card p-4 ",
+   "rect": {
+    "x": 219,
+    "y": 357,
+    "w": 400,
+    "h": 234
+   },
+   "text": "商品信息\n\n卖点、材质、尺码等会进入提示词；越具体越稳定。\n\n0 / 2500"
+  },
+  {
+   "cls": "flex flex-col gap-1",
+   "rect": {
+    "x": 236,
+    "y": 374,
+    "w": 366,
+    "h": 63
+   },
+   "text": "商品信息\n\n卖点、材质、尺码等会进入提示词；越具体越稳定。"
+  },
+  {
+   "cls": "flex flex-col gap-3 rounded-lg border border-border bg-card p-4 ",
+   "rect": {
+    "x": 219,
+    "y": 607,
+    "w": 400,
+    "h": 233
+   },
+   "text": "销售设定\n\n平台 / 地区 / 语言会同时约束文案与合规检查。\n\n平台\n销售地区\n语言\n品牌基因\n智能识别\n自定义品牌"
+  },
+  {
+   "cls": "flex flex-col gap-1",
+   "rect": {
+    "x": 236,
+    "y": 624,
+    "w": 366,
+    "h": 63
+   },
+   "text": "销售设定\n\n平台 / 地区 / 语言会同时约束文案与合规检查。"
+  },
+  {
+   "cls": "flex flex-col gap-3 rounded-lg border border-border bg-card p-4 ",
+   "rect": {
+    "x": 219,
+    "y": 856,
+    "w": 400,
+    "h": 129
+   },
+   "text": "合规检查\n\n开启后对敏感词库做替换，并产出检查结论。\n\n启用敏感词与替换词库"
+  },
+  {
+   "cls": "flex flex-col gap-1",
+   "rect": {
+    "x": 236,
+    "y": 873,
+    "w": 366,
+    "h": 63
+   },
+   "text": "合规检查\n\n开启后对敏感词库做替换，并产出检查结论。"
+  },
+  {
+   "cls": "flex flex-col gap-3 rounded-lg border border-border bg-card p-4 ",
+   "rect": {
+    "x": 219,
+    "y": 1001,
+    "w": 400,
+    "h": 345
+   },
+   "text": "生成参数\n\n当前模型：LF智能模型 G-2.5 Sunburst；比例与品质按模型目录过滤。\n\n模型\nLF智能模型 G-2.5 Sunburst\nLF全能模型 2.1\nLF智能模型 G-2.5 Flare\nLF智能模型 G-2\nLF全能模型 Pro\nLF全能模型 Lite\nSeedream 5.0 Pro\nWan 2.7\n比例\n1:1\n3:4\n4:3\n2:3\n3:2\n9:16\n16:9\n4:5\n5:4\n21:9\n9:21\n分辨率\n1K\n2K\n4K\n品质\n低品质\n中品质\n高品质\n超高品质\n最大品质\n画面不出现文字\n避免模型生成乱码文案，A+ 长图建议开启。\n每张单独拆分\n关闭时同组多张按一张拼版"
+  },
+  {
+   "cls": "flex flex-col gap-1",
+   "rect": {
+    "x": 236,
+    "y": 1018,
+    "w": 366,
+    "h": 83
+   },
+   "text": "生成参数\n\n当前模型：LF智能模型 G-2.5 Sunburst；比例与品质按模型目录过滤。"
+  },
+  {
+   "cls": "flex flex-col gap-3 rounded-lg border border-border bg-card p-4 ",
+   "rect": {
+    "x": 635,
+    "y": 67,
+    "w": 1258,
+    "h": 371
+   },
+   "text": "主副图\n\n可多选；每个场景单独设定数量与版式。\n\n模特图\n-\n+\n种草图\n-\n+\n卖点图\n-\n+\n尺码图\n-\n+\n白底图\n-\n+"
+  },
+  {
+   "cls": "flex flex-col gap-1",
+   "rect": {
+    "x": 652,
+    "y": 84,
+    "w": 1224,
+    "h": 63
+   },
+   "text": "主副图\n\n可多选；每个场景单独设定数量与版式。"
+  },
+  {
+   "cls": "flex flex-col gap-3 rounded-lg border border-border bg-card p-4 ",
+   "rect": {
+    "x": 635,
+    "y": 454,
+    "w": 1258,
+    "h": 317
+   },
+   "text": "A+ 图\n\n单选：一次只生成一种 A+ 版式。\n\n高级A+\n-\n+\n手机A+\n-\n+\n普通A+\n-\n+\n自定比例\n-\n+"
+  },
+  {
+   "cls": "flex flex-col gap-1",
+   "rect": {
+    "x": 652,
+    "y": 471,
+    "w": 1224,
+    "h": 63
+   },
+   "text": "A+ 图\n\n单选：一次只生成一种 A+ 版式。"
+  },
+  {
+   "cls": "flex flex-col gap-3 rounded-lg border border-border bg-card p-4",
+   "rect": {
+    "x": 635,
+    "y": 787,
+    "w": 1258,
+    "h": 151
+   },
+   "text": "预计产出 8 张 / 2 组\n实际以网关返回为准；每组一次真实请求，失败不自动重刷。\n开始生成\n\n至少上传 1 张服装/配饰/细节图后才能生成\n\n智能品牌基因需要先选择平台 / 销售地区 / 语言"
+  },
+  {
+   "cls": "flex flex-col gap-3 rounded-lg border border-border bg-card p-4 ",
+   "rect": {
+    "x": 635,
+    "y": 954,
+    "w": 1258,
+    "h": 207
+   },
+   "text": "套图结果\n\n按场景分组；组内可单张下载，失败组可单独重试。\n\n还没有结果。上传商品图并选择场景后点击「开始生成」。"
+  },
+  {
+   "cls": "flex flex-col gap-1",
+   "rect": {
+    "x": 652,
+    "y": 971,
+    "w": 1224,
+    "h": 63
+   },
+   "text": "套图结果\n\n按场景分组；组内可单张下载，失败组可单独重试。"
+  },
+  {
+   "cls": "flex flex-col gap-3 rounded-lg border border-border bg-card p-4 ",
+   "rect": {
+    "x": 635,
+    "y": 1177,
+    "w": 1258,
+    "h": 1163
+   },
+   "text": "优秀案例\n\n真实优秀作品；点「做同款」把案例服装图写入商品图，再自行调整场景与数量。\n\n预览\n\n原图\n做同款\n\n预览\n\n原图\n做同款\n\n预览\n\n原图\n做同款\n\n预览\n\n原图\n做同款\n\n预览\n\n原图\n做同款\n\n预览\n\n原图\n做同款\n\n预览\n\n原图\n做同款\n\n预览\n\n原图\n做同款\n\n预览\n\n原图\n做同款\n\n预览\n\n原图\n做同款\n\n预览\n\n原图\n做同款\n\n预览\n\n原图\n做同款"
+  },
+  {
+   "cls": "flex flex-col gap-1",
+   "rect": {
+    "x": 652,
+    "y": 1194,
+    "w": 1224,
+    "h": 63
+   },
+   "text": "优秀案例\n\n真实优秀作品；点「做同款」把案例服装图写入商品图，再自行调整场景与数量。"
+  },
+  {
+   "cls": "rounded-lg border border-border bg-card/40 p-3 mt-4",
+   "rect": {
+    "x": 219,
+    "y": 2356,
+    "w": 1674,
+    "h": 80
+   },
+   "text": "历史任务\n0 条\n\n本工具还没有历史任务；提交一次后会在这里留下任务、配置与结果，刷新后仍在。"
+  },
+  {
+   "cls": "relative flex h-full shrink-0 flex-col border-l",
+   "rect": {
+    "x": 1920,
+    "y": 0,
+    "w": 440,
+    "h": 1080
+   },
+   "text": "连接本地 Agent\n未连接\n点连接会自动启动本地服务、装好插件并接通，无需手动配置。\nClaude Code\n未连接\n·\nCLI · 2.1.285 (Claude Code)\n·\n直接运行\n连接\nCodex\n未连接\n·\nCLI · codex-cli 0.163.0\n·\n插件已装\n连接\nGalley\n未连接\n·\nCLI + 桌面版 · galley 0.6.4\n连接"
+  }
+ ]
+}

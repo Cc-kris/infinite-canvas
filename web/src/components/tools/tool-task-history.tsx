@@ -28,6 +28,8 @@ export type ToolTaskHistoryProps = {
      * 默认关闭：只有明确要在工作区里把历史参数还原成表单的工具才打开。
      */
     selectWithoutResult?: boolean;
+    /** 空态极简：不渲染「N 条」计数与空态提示（原站这两个工具的历史区空态无文案）。默认关闭。 */
+    minimalEmpty?: boolean;
     /**
      * 任务快照来源覆盖。默认读 `useToolTaskStore`；批量任务页等可以把已经拿到的
      * 快照直接传进来（也让本组件能在 SSR/测试里被确定性渲染）。
@@ -67,7 +69,7 @@ function taskHasRecoverableResult(task: ToolTask): boolean {
     return Boolean(task.result?.items.some(hasResultLocator));
 }
 
-export function ToolTaskHistory({ toolId, className, limit = 8, onSelectTask, emptyHint, selectWithoutResult = false, tasks: injectedTasks }: ToolTaskHistoryProps) {
+export function ToolTaskHistory({ toolId, className, limit = 8, onSelectTask, emptyHint, selectWithoutResult = false, minimalEmpty = false, tasks: injectedTasks }: ToolTaskHistoryProps) {
     const { t } = useTranslation();
     const storeTasks = useToolTaskStore((state) => state.tasks);
     const tasks = injectedTasks ?? storeTasks;
@@ -94,15 +96,19 @@ export function ToolTaskHistory({ toolId, className, limit = 8, onSelectTask, em
                     <History aria-hidden="true" className="size-3.5" />
                     {t("toolChrome.historyTitle")}
                 </span>
-                <span className="text-[11px] text-muted-foreground" data-testid="tool-task-history-count">
-                    {t("toolChrome.historyCount", { count: rows.length })}
-                </span>
+                {minimalEmpty && rows.length === 0 ? null : (
+                    <span className="text-[11px] text-muted-foreground" data-testid="tool-task-history-count">
+                        {t("toolChrome.historyCount", { count: rows.length })}
+                    </span>
+                )}
             </div>
 
             {rows.length === 0 ? (
-                <p className="text-[11px] text-muted-foreground" data-testid="tool-task-history-empty">
-                    {emptyHint ?? t("toolChrome.historyEmpty")}
-                </p>
+                minimalEmpty ? null : (
+                    <p className="text-[11px] text-muted-foreground" data-testid="tool-task-history-empty">
+                        {emptyHint ?? t("toolChrome.historyEmpty")}
+                    </p>
+                )
             ) : (
                 <ul className="space-y-2">
                     {rows.map((task) => {

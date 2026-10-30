@@ -1,0 +1,13 @@
+import fs from 'node:fs';
+const { chromium } = await import('/Users/mac/Documents/Dev/infinite-canvas/web/node_modules/playwright/index.mjs');
+const ROUTES = JSON.parse(fs.readFileSync('routes.json','utf8'));
+const id=(process.argv[2]||'DRESS_WEAR_SET').toUpperCase();
+const r=ROUTES.find(x=>x.id===id);
+const b=await chromium.launch({executablePath: `${process.env.HOME}/Library/Caches/ms-playwright/chromium-1234/chrome-mac-arm64/Google Chrome for Testing.app/Contents/MacOS/Google Chrome for Testing`});
+const p=await b.newPage({viewport:{width:1920,height:839}});
+p.on('console',m=>{if(m.type()==='error')console.log('CONSOLE:',m.text().slice(0,500));});
+p.on('pageerror',e=>console.log('PAGEERROR:',String(e).slice(0,800)));
+await p.goto('http://localhost:3000'+r.route,{waitUntil:'networkidle',timeout:40000});
+await p.waitForTimeout(1500);
+console.log('body len', (await p.evaluate(()=>document.body.innerText)).length);
+await b.close();

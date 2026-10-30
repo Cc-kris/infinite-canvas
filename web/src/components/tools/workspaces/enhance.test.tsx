@@ -41,18 +41,20 @@ async function renderWorkspace(): Promise<string> {
 }
 
 describe("高清放大工作台渲染", () => {
-    test("分区齐全：原图 / 放大模式 / 增强选项 / 生成 / 结果", async () => {
+    test("分区齐全：上传 / 模式 / 面部美化 / 输出尺寸 / 生成 / 结果", async () => {
         const html = await renderWorkspace();
-        for (const text of ["原图", "放大模式", "增强选项", "面部美化", "质量增强档位", "输出尺寸", "立即生成"]) {
+        for (const text of ["图片高清放大", "变高清", "面部美化：", "输出尺寸", "立即生成", "高清放大图"]) {
             expect(html).toContain(text);
         }
+        // 原站 2026-10-29 面板无这些小标题（C 列表要求消失）
+        for (const gone of ["放大模式", "增强选项", "质量增强档位", "倍率：1×"]) expect(html).not.toContain(gone);
     });
 
     test("四种模式与三档质量按页面规格渲染，并标注 4096 上限", async () => {
         const html = await renderWorkspace();
         for (const mode of ["变高清", "高清 + 2倍放大", "高清 + 4倍放大", "自定义"]) expect(html).toContain(mode);
-        for (const quality of ["低", "中", "高"]) expect(html).toContain(quality);
-        expect(html).toContain(`JPG/PNG/WEBP · ≤4096×4096`);
+        // 原站无三档质量选择（C 列表），保留 4096 上限提示
+        expect(html).toContain("最大尺寸: 4096*4096");
     });
 
     test("未上传原图时不编造输出尺寸，生成按钮阻塞且没有伪造进行中状态", async () => {

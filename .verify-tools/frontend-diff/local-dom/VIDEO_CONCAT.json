@@ -1,0 +1,541 @@
+{
+ "id": "VIDEO_CONCAT",
+ "route": "/tools/ai-video/video-concat",
+ "ok": true,
+ "error": null,
+ "title": "无限画布",
+ "text": "无限画布\n首页\n电商套图\n智能修图\n新模型\nAI视频\nHOT\n批量生图\n商品图设计\n中\nv0.27.0\n图转视频\n带货口播\n视频复刻\n视频编辑\n视频翻译\n视频拼接\n补充\n免责声明\nAI 视频 / 视频拼接\n视频拼接\n补充\n/tools/ai-video/video-concat\n视频拼接\n按顺序拼接多段视频 · 逐段裁剪 · 抓帧做封面\n视频片段\n0 / 10 段\n上传视频片段\n0\n0 / 10 个 · MP4 / MOV / WebM · ≤ 100 MB\n点击选择本地文件，或拖拽到这里\n校验格式 / 大小 / 像素，入库后可刷新恢复\n还没有素材\n支持 MP4 / MOV / WebM，单段 ≤\n100\nMB；读不到时长会阻止提交，不用默认值猜测。\n还没有片段：至少上传\n2\n段视频才能拼接。\n视频封面\n从当前帧抓取\n上传封面图\n0\n0 / 1 个 · PNG / JPG / WebP · ≤ 10 MB\n点击选择本地文件，或拖拽到这里\n校验格式 / 大小 / 像素，入库后可刷新恢复\n还没有素材\n封面必填：上传一张图，或用播放器把画面拖到目标位置后抓帧。\n播放与裁剪预览\n未选择片段\n上传片段后可在这里预览并按裁剪区间播放\n生成设置\n视频模型\ngrok-imagine-video（默认渠道）\n视频比例\n9:16\n16:9\n1:1\n4:3\n3:4\n21:9\n默认\n9:16\n；片段比例不一致时由模型按输出比例统一。\n输出时长\n自动\n5秒\n10秒\n15秒\n自动 = 片段有效时长之和\n0\ns\n通道能力\n通道\nopenai\n· 多段视频\n已验证发送\nOpenAI /videos 通道会把每段视频作为 video[] 上传；多段是否被上游采用仍取决于中转实现。\n还没有片段：至少需要 2 段视频，当前还没有片段\n缺少封面：还没有封面：请上传封面图或从片段抓取一帧\n开始拼接\n至少需要 2 段视频，当前还没有片段\n拼接结果\n拼接视频\n还没有生成结果\n填好参数并提交后，结果会出现在这里，可预览、下载、存入资产库或发送到画布。\n尚未提交\n历史任务\n点击「查看结果」把历史任务放回上方结果区\n历史记录\n0 条\n还没有视频拼接任务：提交后这里会出现真实任务记录\n连接本地 Agent\n未连接\n点连接会自动启动本地服务、装好插件并接通，无需手动配置。\nClaude Code\n未连接\n·\nCLI · 2.1.285 (Claude Code)\n·\n直接运行\n连接\nCodex\n未连接\n·\nCLI · codex-cli 0.163.0\n·\n插件已装\n连接\nGalley\n未连接\n·\nCLI + 桌面版 · galley 0.6.4\n连接",
+ "lines": [
+  "无限画布",
+  "首页",
+  "电商套图",
+  "智能修图",
+  "新模型",
+  "AI视频",
+  "HOT",
+  "批量生图",
+  "商品图设计",
+  "中",
+  "v0.27.0",
+  "图转视频",
+  "带货口播",
+  "视频复刻",
+  "视频编辑",
+  "视频翻译",
+  "视频拼接",
+  "补充",
+  "免责声明",
+  "AI 视频 / 视频拼接",
+  "视频拼接",
+  "补充",
+  "/tools/ai-video/video-concat",
+  "视频拼接",
+  "按顺序拼接多段视频 · 逐段裁剪 · 抓帧做封面",
+  "视频片段",
+  "0 / 10 段",
+  "上传视频片段",
+  "0",
+  "0 / 10 个 · MP4 / MOV / WebM · ≤ 100 MB",
+  "点击选择本地文件，或拖拽到这里",
+  "校验格式 / 大小 / 像素，入库后可刷新恢复",
+  "还没有素材",
+  "支持 MP4 / MOV / WebM，单段 ≤",
+  "100",
+  "MB；读不到时长会阻止提交，不用默认值猜测。",
+  "还没有片段：至少上传",
+  "2",
+  "段视频才能拼接。",
+  "视频封面",
+  "从当前帧抓取",
+  "上传封面图",
+  "0",
+  "0 / 1 个 · PNG / JPG / WebP · ≤ 10 MB",
+  "点击选择本地文件，或拖拽到这里",
+  "校验格式 / 大小 / 像素，入库后可刷新恢复",
+  "还没有素材",
+  "封面必填：上传一张图，或用播放器把画面拖到目标位置后抓帧。",
+  "播放与裁剪预览",
+  "未选择片段",
+  "上传片段后可在这里预览并按裁剪区间播放",
+  "生成设置",
+  "视频模型",
+  "grok-imagine-video（默认渠道）",
+  "视频比例",
+  "9:16",
+  "16:9",
+  "1:1",
+  "4:3",
+  "3:4",
+  "21:9",
+  "默认",
+  "9:16",
+  "；片段比例不一致时由模型按输出比例统一。",
+  "输出时长",
+  "自动",
+  "5秒",
+  "10秒",
+  "15秒",
+  "自动 = 片段有效时长之和",
+  "0",
+  "s",
+  "通道能力",
+  "通道",
+  "openai",
+  "· 多段视频",
+  "已验证发送",
+  "OpenAI /videos 通道会把每段视频作为 video[] 上传；多段是否被上游采用仍取决于中转实现。",
+  "还没有片段：至少需要 2 段视频，当前还没有片段",
+  "缺少封面：还没有封面：请上传封面图或从片段抓取一帧",
+  "开始拼接",
+  "至少需要 2 段视频，当前还没有片段",
+  "拼接结果",
+  "拼接视频",
+  "还没有生成结果",
+  "填好参数并提交后，结果会出现在这里，可预览、下载、存入资产库或发送到画布。",
+  "尚未提交",
+  "历史任务",
+  "点击「查看结果」把历史任务放回上方结果区",
+  "历史记录",
+  "0 条",
+  "还没有视频拼接任务：提交后这里会出现真实任务记录",
+  "连接本地 Agent",
+  "未连接",
+  "点连接会自动启动本地服务、装好插件并接通，无需手动配置。",
+  "Claude Code",
+  "未连接",
+  "·",
+  "CLI · 2.1.285 (Claude Code)",
+  "·",
+  "直接运行",
+  "连接",
+  "Codex",
+  "未连接",
+  "·",
+  "CLI · codex-cli 0.163.0",
+  "·",
+  "插件已装",
+  "连接",
+  "Galley",
+  "未连接",
+  "·",
+  "CLI + 桌面版 · galley 0.6.4",
+  "连接"
+ ],
+ "controls": [
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "中",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1593,
+    "y": 14,
+    "w": 28,
+    "h": 28
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "切换到深色主题",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1625,
+    "y": 14,
+    "w": 28,
+    "h": 28
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "v0.27.0",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1657,
+    "y": 17,
+    "w": 47,
+    "h": 22
+   }
+  },
+  {
+   "tag": "div",
+   "type": "",
+   "text": "点击选择本地文件，或拖拽到这里\n校验格式 / 大小 / 像素，入库后可刷新恢复",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 258,
+    "y": 380,
+    "w": 294,
+    "h": 86
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "从当前帧抓取",
+   "placeholder": "",
+   "disabled": true,
+   "rect": {
+    "x": 450,
+    "y": 622,
+    "w": 102,
+    "h": 32
+   }
+  },
+  {
+   "tag": "div",
+   "type": "",
+   "text": "点击选择本地文件，或拖拽到这里\n校验格式 / 大小 / 像素，入库后可刷新恢复",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 258,
+    "y": 722,
+    "w": 294,
+    "h": 86
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "grok-imagine-video（默认渠道）",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 602,
+    "y": 484,
+    "w": 1252,
+    "h": 32
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "9:16",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 602,
+    "y": 557,
+    "w": 47,
+    "h": 32
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "16:9",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 657,
+    "y": 557,
+    "w": 46,
+    "h": 32
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "1:1",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 711,
+    "y": 557,
+    "w": 35,
+    "h": 32
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "4:3",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 753,
+    "y": 557,
+    "w": 39,
+    "h": 32
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "3:4",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 801,
+    "y": 557,
+    "w": 40,
+    "h": 32
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "21:9",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 848,
+    "y": 557,
+    "w": 45,
+    "h": 32
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "自动",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 602,
+    "y": 650,
+    "w": 307,
+    "h": 36
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "5秒",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 917,
+    "y": 650,
+    "w": 307,
+    "h": 36
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "10秒",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1232,
+    "y": 650,
+    "w": 307,
+    "h": 36
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "15秒",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1547,
+    "y": 650,
+    "w": 307,
+    "h": 36
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "开始拼接",
+   "placeholder": "",
+   "disabled": true,
+   "rect": {
+    "x": 589,
+    "y": 915,
+    "w": 1278,
+    "h": 40
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "连接",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 2265,
+    "y": 147,
+    "w": 66,
+    "h": 24
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "连接",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 2265,
+    "y": 215,
+    "w": 66,
+    "h": 24
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "连接",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 2265,
+    "y": 283,
+    "w": 66,
+    "h": 24
+   }
+  }
+ ],
+ "regions": [
+  {
+   "cls": "sticky top-0 z-[7] h-14 shrink-0 border-b border-hairline bg-surface/95 backdrop",
+   "rect": {
+    "x": 0,
+    "y": 0,
+    "w": 1920,
+    "h": 56
+   },
+   "text": "无限画布\n首页\n电商套图\n智能修图\n新模型\nAI视频\nHOT\n批量生图\n商品图设计\n中\n切换到深色主题\nv0.27.0"
+  },
+  {
+   "cls": "hidden w-[180px] shrink-0 overflow-y-auto rounded-xl border border-hairline bg-s",
+   "rect": {
+    "x": 16,
+    "y": 56,
+    "w": 180,
+    "h": 1008
+   },
+   "text": "AI 视频\n图转视频\n带货口播\n视频复刻\n视频编辑\n视频翻译\n视频拼接\n补充\n免责声明"
+  },
+  {
+   "cls": "flex min-h-14 shrink-0 flex-wrap items-center gap-3 border-b border-hairline px-",
+   "rect": {
+    "x": 209,
+    "y": 57,
+    "w": 1694,
+    "h": 109
+   },
+   "text": "AI 视频 / 视频拼接\n视频拼接\n补充\n\n/tools/ai-video/video-concat"
+  },
+  {
+   "cls": "min-h-0 flex-1 overflow-y-auto bg-transparent px-4 py-4 sm:px-5",
+   "rect": {
+    "x": 209,
+    "y": 166,
+    "w": 1694,
+    "h": 897
+   },
+   "text": "视频拼接\n\n按顺序拼接多段视频 · 逐段裁剪 · 抓帧做封面\n\n视频片段\n0 / 10 段\n上传视频片段\n00 / 10 个 · MP4 / MOV / WebM · ≤ 100 MB\n点击选择本地文件，或拖拽到这里\n校验格式 / 大小 / 像素，入库后可刷新恢复\n\n还没有素材\n\n支持 MP4 / MOV / WebM，单段 ≤ 100MB；读不到时长会阻止提交，不用默认值猜测。\n\n还没有片段：至少上传 2 段视频才能拼接。\n\n视频封面\n从当前帧抓取\n上传封面图\n00 / 1 个 · PNG / JPG / WebP · ≤ 10 MB\n点击选择本地文件，或拖拽到这里\n校验格式 / 大小 / "
+  },
+  {
+   "cls": "space-y-2 rounded-lg border border-border p-3",
+   "rect": {
+    "x": 245,
+    "y": 273,
+    "w": 320,
+    "h": 320
+   },
+   "text": "视频片段\n0 / 10 段\n上传视频片段\n00 / 10 个 · MP4 / MOV / WebM · ≤ 100 MB\n点击选择本地文件，或拖拽到这里\n校验格式 / 大小 / 像素，入库后可刷新恢复\n\n还没有素材\n\n支持 MP4 / MOV / WebM，单段 ≤ 100MB；读不到时长会阻止提交，不用默认值猜测。\n\n还没有片段：至少上传 2 段视频才能拼接。"
+  },
+  {
+   "cls": "space-y-3",
+   "rect": {
+    "x": 258,
+    "y": 321,
+    "w": 294,
+    "h": 173
+   },
+   "text": "上传视频片段\n00 / 10 个 · MP4 / MOV / WebM · ≤ 100 MB\n点击选择本地文件，或拖拽到这里\n校验格式 / 大小 / 像素，入库后可刷新恢复\n\n还没有素材"
+  },
+  {
+   "cls": "space-y-2 rounded-lg border border-border p-3",
+   "rect": {
+    "x": 245,
+    "y": 609,
+    "w": 320,
+    "h": 298
+   },
+   "text": "视频封面\n从当前帧抓取\n上传封面图\n00 / 1 个 · PNG / JPG / WebP · ≤ 10 MB\n点击选择本地文件，或拖拽到这里\n校验格式 / 大小 / 像素，入库后可刷新恢复\n\n还没有素材\n\n封面必填：上传一张图，或用播放器把画面拖到目标位置后抓帧。"
+  },
+  {
+   "cls": "space-y-3",
+   "rect": {
+    "x": 258,
+    "y": 663,
+    "w": 294,
+    "h": 173
+   },
+   "text": "上传封面图\n00 / 1 个 · PNG / JPG / WebP · ≤ 10 MB\n点击选择本地文件，或拖拽到这里\n校验格式 / 大小 / 像素，入库后可刷新恢复\n\n还没有素材"
+  },
+  {
+   "cls": "space-y-2 rounded-lg border border-border p-3",
+   "rect": {
+    "x": 589,
+    "y": 273,
+    "w": 1278,
+    "h": 131
+   },
+   "text": "播放与裁剪预览\n未选择片段\n上传片段后可在这里预览并按裁剪区间播放"
+  },
+  {
+   "cls": "space-y-3 rounded-lg border border-border p-3",
+   "rect": {
+    "x": 589,
+    "y": 416,
+    "w": 1278,
+    "h": 315
+   },
+   "text": "生成设置\n\n视频模型\n\ngrok-imagine-video（默认渠道）\n\n视频比例\n\n9:16\n16:9\n1:1\n4:3\n3:4\n21:9\n\n默认 9:16；片段比例不一致时由模型按输出比例统一。\n\n输出时长\n\n自动\n5秒\n10秒\n15秒\n\n自动 = 片段有效时长之和 0s"
+  },
+  {
+   "cls": "space-y-2 rounded-lg border border-border p-3",
+   "rect": {
+    "x": 589,
+    "y": 743,
+    "w": 1278,
+    "h": 159
+   },
+   "text": "通道能力\n\n通道 openai · 多段视频 已验证发送\n\nOpenAI /videos 通道会把每段视频作为 video[] 上传；多段是否被上游采用仍取决于中转实现。\n\n还没有片段：至少需要 2 段视频，当前还没有片段\n缺少封面：还没有封面：请上传封面图或从片段抓取一帧"
+  },
+  {
+   "cls": "space-y-3 rounded-xl border border-border bg-card p-4 min-h-[320px]",
+   "rect": {
+    "x": 589,
+    "y": 1023,
+    "w": 1278,
+    "h": 320
+   },
+   "text": "拼接视频\n\n还没有生成结果\n\n填好参数并提交后，结果会出现在这里，可预览、下载、存入资产库或发送到画布。"
+  },
+  {
+   "cls": "space-y-2 rounded-lg border border-border p-3",
+   "rect": {
+    "x": 589,
+    "y": 1437,
+    "w": 1278,
+    "h": 141
+   },
+   "text": "历史任务\n点击「查看结果」把历史任务放回上方结果区\n历史记录\n0 条\n\n还没有视频拼接任务：提交后这里会出现真实任务记录"
+  },
+  {
+   "cls": "relative flex h-full shrink-0 flex-col border-l",
+   "rect": {
+    "x": 1920,
+    "y": 0,
+    "w": 440,
+    "h": 1080
+   },
+   "text": "连接本地 Agent\n未连接\n点连接会自动启动本地服务、装好插件并接通，无需手动配置。\nClaude Code\n未连接\n·\nCLI · 2.1.285 (Claude Code)\n·\n直接运行\n连接\nCodex\n未连接\n·\nCLI · codex-cli 0.163.0\n·\n插件已装\n连接\nGalley\n未连接\n·\nCLI + 桌面版 · galley 0.6.4\n连接"
+  }
+ ]
+}

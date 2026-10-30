@@ -1,0 +1,779 @@
+{
+ "id": "IMAGE_TO_VIDEO",
+ "route": "/tools/ai-video/image-to-video",
+ "ok": true,
+ "error": null,
+ "title": "无限画布",
+ "text": "无限画布\n首页\n电商套图\n智能修图\n新模型\nAI视频\nHOT\n批量生图\n商品图设计\n中\nv0.27.0\n图转视频\n带货口播\n视频复刻\n视频编辑\n视频翻译\n视频拼接\n补充\n免责声明\nAI 视频 / 图转视频\n图转视频\n/tools/ai-video/image-to-video\n图转视频\n参考素材 / 首尾帧 / 商品链接三选一 → 视频类型与模型品质 → 生成（makeType\n30\n，27 字段真实提交）\n1\n.\n素材\n2\n.\n配置\n3\n.\n结果\n1. 素材来源\n支持上传9张图，10M以内，384*384 ~ 4096*4096，宽高比（宽÷高）0.4～2.5（含边界）\n参考素材\n首尾帧\n商品链接\n上传参考图\n0\n0 / 9 个 · PNG / JPG / WebP · ≤ 10 MB\n点击选择本地文件，或拖拽到这里\n校验格式 / 大小 / 像素，入库后可刷新恢复\n还没有素材\n商品信息（选填）\n0\n/\n1600\nAI 分析（未接入解析服务，需手动填写）\n2. 视频类型（必填）\n当前模板：产品展示 · 产品展示·环绕卖点\n产品展示\n产品展示·环绕卖点\nUGC种草\nUGC种草·手持口播\n痛点解决\n痛点解决·前中后对比\n家居场景\n家居场景·空间氛围\n视频模板\n自定义描述\n模板描述（可覆盖）\n0\n/\n4000\n提示词优化（promptOptimizer）\n3. 模型品质 / 时长比例 / 地区语言\n视频模型（未选择时跟随设置里的视频模型）\n清晰度\n时长\n比例\n销售国家\n语言\n发送规格：\n5\ns ·\n自适应\n·\n768P\n·\nUS(美国)\n→\n英语\n生成视频（1 个视频 · 5s · 自适应 · 768P · 产品展示）\n•\n参考素材模式至少需要 1 张图\n•\n模板描述为空，生成时会使用模板骨架文本\n本次提交内容预览\n主体居中，缓慢环绕运镜，依次展示产品正面、侧面与关键细节，光线均匀，背景干净。规格：5 秒，768P，画面比例 自适应，目标语言英语。请在不改变卖点的前提下优化运镜与画面节奏\n快照\n28a91597\n· 参考图\n0\n张\n结果\n还没有生成结果\n配置素材、视频类型和时长后点击生成；结果区只展示真实任务产出。\n视频结果\n还没有生成结果\n填好参数并提交后，结果会出现在这里，可预览、下载、存入资产库或发送到画布。\n历史任务\n点击「查看结果」把历史任务放回上方结果区；不会重新提交、不重复消耗\n历史记录\n0 条\n还没有图转视频任务：提交一次后这里会出现真实任务记录（刷新后仍在）\n优秀案例·做同款\n10\n条来自 LinkFox 原站 /image/make-case/list 的真实案例；点「做同款」会把原图入库并回填原站脚本与规格\n预览\n原图\n做同款\n预览\n原图\n做同款\n预览\n原图\n做同款\n预览\n原图\n做同款\n预览\n原图\n做同款\n预览\n原图\n做同款\n预览\n原图\n做同款\n预览\n原图\n做同款\n预览\n原图\n做同款\n预览\n原图\n做同款\n历史任务\n0\n条\n本工具还没有历史任务；提交一次后会在这里留下任务、配置与结果，刷新后仍在。\n连接本地 Agent\n未连接\n点连接会自动启动本地服务、装好插件并接通，无需手动配置。\nClaude Code\n未连接\n·\nCLI · 2.1.285 (Claude Code)\n·\n直接运行\n连接\nCodex\n未连接\n·\nCLI · codex-cli 0.163.0\n·\n插件已装\n连接\nGalley\n未连接\n·\nCLI + 桌面版 · galley 0.6.4\n连接",
+ "lines": [
+  "无限画布",
+  "首页",
+  "电商套图",
+  "智能修图",
+  "新模型",
+  "AI视频",
+  "HOT",
+  "批量生图",
+  "商品图设计",
+  "中",
+  "v0.27.0",
+  "图转视频",
+  "带货口播",
+  "视频复刻",
+  "视频编辑",
+  "视频翻译",
+  "视频拼接",
+  "补充",
+  "免责声明",
+  "AI 视频 / 图转视频",
+  "图转视频",
+  "/tools/ai-video/image-to-video",
+  "图转视频",
+  "参考素材 / 首尾帧 / 商品链接三选一 → 视频类型与模型品质 → 生成（makeType",
+  "30",
+  "，27 字段真实提交）",
+  "1",
+  ".",
+  "素材",
+  "2",
+  ".",
+  "配置",
+  "3",
+  ".",
+  "结果",
+  "1. 素材来源",
+  "支持上传9张图，10M以内，384*384 ~ 4096*4096，宽高比（宽÷高）0.4～2.5（含边界）",
+  "参考素材",
+  "首尾帧",
+  "商品链接",
+  "上传参考图",
+  "0",
+  "0 / 9 个 · PNG / JPG / WebP · ≤ 10 MB",
+  "点击选择本地文件，或拖拽到这里",
+  "校验格式 / 大小 / 像素，入库后可刷新恢复",
+  "还没有素材",
+  "商品信息（选填）",
+  "0",
+  "/",
+  "1600",
+  "AI 分析（未接入解析服务，需手动填写）",
+  "2. 视频类型（必填）",
+  "当前模板：产品展示 · 产品展示·环绕卖点",
+  "产品展示",
+  "产品展示·环绕卖点",
+  "UGC种草",
+  "UGC种草·手持口播",
+  "痛点解决",
+  "痛点解决·前中后对比",
+  "家居场景",
+  "家居场景·空间氛围",
+  "视频模板",
+  "自定义描述",
+  "模板描述（可覆盖）",
+  "0",
+  "/",
+  "4000",
+  "提示词优化（promptOptimizer）",
+  "3. 模型品质 / 时长比例 / 地区语言",
+  "视频模型（未选择时跟随设置里的视频模型）",
+  "清晰度",
+  "时长",
+  "比例",
+  "销售国家",
+  "语言",
+  "发送规格：",
+  "5",
+  "s ·",
+  "自适应",
+  "·",
+  "768P",
+  "·",
+  "US(美国)",
+  "→",
+  "英语",
+  "生成视频（1 个视频 · 5s · 自适应 · 768P · 产品展示）",
+  "•",
+  "参考素材模式至少需要 1 张图",
+  "•",
+  "模板描述为空，生成时会使用模板骨架文本",
+  "本次提交内容预览",
+  "主体居中，缓慢环绕运镜，依次展示产品正面、侧面与关键细节，光线均匀，背景干净。规格：5 秒，768P，画面比例 自适应，目标语言英语。请在不改变卖点的前提下优化运镜与画面节奏",
+  "快照",
+  "28a91597",
+  "· 参考图",
+  "0",
+  "张",
+  "结果",
+  "还没有生成结果",
+  "配置素材、视频类型和时长后点击生成；结果区只展示真实任务产出。",
+  "视频结果",
+  "还没有生成结果",
+  "填好参数并提交后，结果会出现在这里，可预览、下载、存入资产库或发送到画布。",
+  "历史任务",
+  "点击「查看结果」把历史任务放回上方结果区；不会重新提交、不重复消耗",
+  "历史记录",
+  "0 条",
+  "还没有图转视频任务：提交一次后这里会出现真实任务记录（刷新后仍在）",
+  "优秀案例·做同款",
+  "10",
+  "条来自 LinkFox 原站 /image/make-case/list 的真实案例；点「做同款」会把原图入库并回填原站脚本与规格",
+  "预览",
+  "原图",
+  "做同款",
+  "预览",
+  "原图",
+  "做同款",
+  "预览",
+  "原图",
+  "做同款",
+  "预览",
+  "原图",
+  "做同款",
+  "预览",
+  "原图",
+  "做同款",
+  "预览",
+  "原图",
+  "做同款",
+  "预览",
+  "原图",
+  "做同款",
+  "预览",
+  "原图",
+  "做同款",
+  "预览",
+  "原图",
+  "做同款",
+  "预览",
+  "原图",
+  "做同款",
+  "历史任务",
+  "0",
+  "条",
+  "本工具还没有历史任务；提交一次后会在这里留下任务、配置与结果，刷新后仍在。",
+  "连接本地 Agent",
+  "未连接",
+  "点连接会自动启动本地服务、装好插件并接通，无需手动配置。",
+  "Claude Code",
+  "未连接",
+  "·",
+  "CLI · 2.1.285 (Claude Code)",
+  "·",
+  "直接运行",
+  "连接",
+  "Codex",
+  "未连接",
+  "·",
+  "CLI · codex-cli 0.163.0",
+  "·",
+  "插件已装",
+  "连接",
+  "Galley",
+  "未连接",
+  "·",
+  "CLI + 桌面版 · galley 0.6.4",
+  "连接"
+ ],
+ "controls": [
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "中",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1593,
+    "y": 14,
+    "w": 28,
+    "h": 28
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "切换到深色主题",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1625,
+    "y": 14,
+    "w": 28,
+    "h": 28
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "v0.27.0",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1657,
+    "y": 17,
+    "w": 47,
+    "h": 22
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "参考素材",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 242,
+    "y": 338,
+    "w": 129,
+    "h": 36
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "首尾帧",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 375,
+    "y": 338,
+    "w": 129,
+    "h": 36
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "商品链接",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 507,
+    "y": 338,
+    "w": 129,
+    "h": 36
+   }
+  },
+  {
+   "tag": "div",
+   "type": "",
+   "text": "点击选择本地文件，或拖拽到这里\n校验格式 / 大小 / 像素，入库后可刷新恢复",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 242,
+    "y": 421,
+    "w": 394,
+    "h": 86
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "AI 分析（未接入解析服务，需手动填写）",
+   "placeholder": "",
+   "disabled": true,
+   "rect": {
+    "x": 242,
+    "y": 646,
+    "w": 394,
+    "h": 36
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "产品展示\n产品展示·环绕卖点",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 242,
+    "y": 773,
+    "w": 195,
+    "h": 48
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "UGC种草\nUGC种草·手持口播",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 441,
+    "y": 773,
+    "w": 195,
+    "h": 48
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "痛点解决\n痛点解决·前中后对比",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 242,
+    "y": 825,
+    "w": 195,
+    "h": 48
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "家居场景\n家居场景·空间氛围",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 441,
+    "y": 825,
+    "w": 195,
+    "h": 48
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "视频模板",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 242,
+    "y": 880,
+    "w": 195,
+    "h": 32
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "自定义描述",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 441,
+    "y": 880,
+    "w": 195,
+    "h": 32
+   }
+  },
+  {
+   "tag": "textarea",
+   "type": "",
+   "text": "主体居中，缓慢环绕运镜，依次展示产品正面、侧面与关键细节，光线均匀，背景干净",
+   "placeholder": "主体居中，缓慢环绕运镜，依次展示产品正面、侧面与关键细节，光线均匀，背景干净",
+   "disabled": false,
+   "rect": {
+    "x": 242,
+    "y": 942,
+    "w": 394,
+    "h": 62
+   }
+  },
+  {
+   "tag": "input",
+   "type": "checkbox",
+   "text": "on",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 242,
+    "y": 1014,
+    "w": 13,
+    "h": 13
+   }
+  },
+  {
+   "tag": "select",
+   "type": "",
+   "text": "跟随默认模型（default::grok-imagine-video）\ngrok-imagine-video\ndefault::grok-imagine-video",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 242,
+    "y": 1115,
+    "w": 394,
+    "h": 36
+   }
+  },
+  {
+   "tag": "select",
+   "type": "",
+   "text": "768P\n1080P",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 242,
+    "y": 1180,
+    "w": 193,
+    "h": 36
+   }
+  },
+  {
+   "tag": "select",
+   "type": "",
+   "text": "5 秒\n10 秒\n15 秒",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 443,
+    "y": 1180,
+    "w": 193,
+    "h": 36
+   }
+  },
+  {
+   "tag": "select",
+   "type": "",
+   "text": "自适应\n9:16\n16:9\n1:1\n4:3\n3:4\n21:9",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 242,
+    "y": 1245,
+    "w": 193,
+    "h": 36
+   }
+  },
+  {
+   "tag": "select",
+   "type": "",
+   "text": "US(美国)\nUK(英国)\nDE(德国)\nFR(法国)\nJP(日本)\nBR(巴西)\nMX(墨西哥)",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 443,
+    "y": 1245,
+    "w": 193,
+    "h": 36
+   }
+  },
+  {
+   "tag": "select",
+   "type": "",
+   "text": "英语\n德语\n法语\n日语\n葡萄牙语\n西班牙语",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 242,
+    "y": 1311,
+    "w": 193,
+    "h": 36
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "生成视频（1 个视频 · 5s · 自适应 · 768P · 产品展示）",
+   "placeholder": "",
+   "disabled": true,
+   "rect": {
+    "x": 229,
+    "y": 1405,
+    "w": 420,
+    "h": 44
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "做同款",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 474,
+    "y": 2287,
+    "w": 74,
+    "h": 32
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "做同款",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 474,
+    "y": 2850,
+    "w": 74,
+    "h": 32
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "做同款",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 803,
+    "y": 2287,
+    "w": 74,
+    "h": 32
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "做同款",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 803,
+    "y": 2850,
+    "w": 74,
+    "h": 32
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "做同款",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1133,
+    "y": 2287,
+    "w": 74,
+    "h": 32
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "做同款",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1133,
+    "y": 2850,
+    "w": 74,
+    "h": 32
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "做同款",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1462,
+    "y": 2287,
+    "w": 74,
+    "h": 32
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "做同款",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1462,
+    "y": 2850,
+    "w": 74,
+    "h": 32
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "做同款",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1791,
+    "y": 2287,
+    "w": 74,
+    "h": 32
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "做同款",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1791,
+    "y": 2850,
+    "w": 74,
+    "h": 32
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "连接",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 2265,
+    "y": 147,
+    "w": 66,
+    "h": 24
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "连接",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 2265,
+    "y": 215,
+    "w": 66,
+    "h": 24
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "连接",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 2265,
+    "y": 283,
+    "w": 66,
+    "h": 24
+   }
+  }
+ ],
+ "regions": [
+  {
+   "cls": "sticky top-0 z-[7] h-14 shrink-0 border-b border-hairline bg-surface/95 backdrop",
+   "rect": {
+    "x": 0,
+    "y": 0,
+    "w": 1920,
+    "h": 56
+   },
+   "text": "无限画布\n首页\n电商套图\n智能修图\n新模型\nAI视频\nHOT\n批量生图\n商品图设计\n中\n切换到深色主题\nv0.27.0"
+  },
+  {
+   "cls": "hidden w-[180px] shrink-0 overflow-y-auto rounded-xl border border-hairline bg-s",
+   "rect": {
+    "x": 16,
+    "y": 56,
+    "w": 180,
+    "h": 1008
+   },
+   "text": "AI 视频\n图转视频\n带货口播\n视频复刻\n视频编辑\n视频翻译\n视频拼接\n补充\n免责声明"
+  },
+  {
+   "cls": "flex min-h-14 shrink-0 flex-wrap items-center gap-3 border-b border-hairline px-",
+   "rect": {
+    "x": 209,
+    "y": 57,
+    "w": 1694,
+    "h": 109
+   },
+   "text": "AI 视频 / 图转视频\n图转视频\n\n/tools/ai-video/image-to-video"
+  },
+  {
+   "cls": "min-h-0 flex-1 overflow-y-auto bg-transparent px-4 py-4 sm:px-5",
+   "rect": {
+    "x": 209,
+    "y": 166,
+    "w": 1694,
+    "h": 897
+   },
+   "text": "图转视频\n\n参考素材 / 首尾帧 / 商品链接三选一 → 视频类型与模型品质 → 生成（makeType 30，27 字段真实提交）\n\n1. 素材\n2. 配置\n3. 结果\n1. 素材来源\n\n支持上传9张图，10M以内，384*384 ~ 4096*4096，宽高比（宽÷高）0.4～2.5（含边界）\n\n参考素材\n首尾帧\n商品链接\n上传参考图\n00 / 9 个 · PNG / JPG / WebP · ≤ 10 MB\n点击选择本地文件，或拖拽到这里\n校验格式 / 大小 / 像素，入库后可刷新恢复\n\n还没有素材\n\n商品信息（选填）0 / 1600\nAI 分析（未接入解析服务，需手动填写）\n2. 视频"
+  },
+  {
+   "cls": "rounded-lg border border-border/60 bg-card/40 p-3",
+   "rect": {
+    "x": 229,
+    "y": 254,
+    "w": 420,
+    "h": 441
+   },
+   "text": "1. 素材来源\n\n支持上传9张图，10M以内，384*384 ~ 4096*4096，宽高比（宽÷高）0.4～2.5（含边界）\n\n参考素材\n首尾帧\n商品链接\n上传参考图\n00 / 9 个 · PNG / JPG / WebP · ≤ 10 MB\n点击选择本地文件，或拖拽到这里\n校验格式 / 大小 / 像素，入库后可刷新恢复\n\n还没有素材\n\n商品信息（选填）0 / 1600\nAI 分析（未接入解析服务，需手动填写）"
+  },
+  {
+   "cls": "space-y-3",
+   "rect": {
+    "x": 242,
+    "y": 382,
+    "w": 394,
+    "h": 165
+   },
+   "text": "上传参考图\n00 / 9 个 · PNG / JPG / WebP · ≤ 10 MB\n点击选择本地文件，或拖拽到这里\n校验格式 / 大小 / 像素，入库后可刷新恢复\n\n还没有素材"
+  },
+  {
+   "cls": "rounded-lg border border-border/60 bg-card/40 p-3",
+   "rect": {
+    "x": 229,
+    "y": 707,
+    "w": 420,
+    "h": 335
+   },
+   "text": "2. 视频类型（必填）\n\n当前模板：产品展示 · 产品展示·环绕卖点\n\n产品展示\n产品展示·环绕卖点\nUGC种草\nUGC种草·手持口播\n痛点解决\n痛点解决·前中后对比\n家居场景\n家居场景·空间氛围\n视频模板\n自定义描述\n模板描述（可覆盖）0 / 4000\n提示词优化（promptOptimizer）"
+  },
+  {
+   "cls": "rounded-lg border border-border/60 bg-card/40 p-3",
+   "rect": {
+    "x": 229,
+    "y": 1054,
+    "w": 420,
+    "h": 340
+   },
+   "text": "3. 模型品质 / 时长比例 / 地区语言\n视频模型（未选择时跟随设置里的视频模型）\n跟随默认模型（default::grok-imagine-video）\ngrok-imagine-video\ndefault::grok-imagine-video\n清晰度\n768P\n1080P\n时长\n5 秒\n10 秒\n15 秒\n比例\n自适应\n9:16\n16:9\n1:1\n4:3\n3:4\n21:9\n销售国家\nUS(美国)\nUK(英国)\nDE(德国)\nFR(法国)\nJP(日本)\nBR(巴西)\nMX(墨西哥)\n语言\n英语\n德语\n法语\n日语\n葡萄牙语\n西班牙语\n\n发送规格：5s · 自适应 · 768P · US(美"
+  },
+  {
+   "cls": "space-y-3 rounded-xl border border-border bg-card p-4",
+   "rect": {
+    "x": 661,
+    "y": 323,
+    "w": 1222,
+    "h": 233
+   },
+   "text": "视频结果\n\n还没有生成结果\n\n填好参数并提交后，结果会出现在这里，可预览、下载、存入资产库或发送到画布。"
+  },
+  {
+   "cls": "space-y-2 rounded-lg border border-border p-3",
+   "rect": {
+    "x": 229,
+    "y": 1570,
+    "w": 1654,
+    "h": 141
+   },
+   "text": "历史任务\n点击「查看结果」把历史任务放回上方结果区；不会重新提交、不重复消耗\n历史记录\n0 条\n\n还没有图转视频任务：提交一次后这里会出现真实任务记录（刷新后仍在）"
+  },
+  {
+   "cls": "space-y-2 rounded-lg border border-border p-3",
+   "rect": {
+    "x": 229,
+    "y": 1723,
+    "w": 1654,
+    "h": 1187
+   },
+   "text": "优秀案例·做同款\n10 条来自 LinkFox 原站 /image/make-case/list 的真实案例；点「做同款」会把原图入库并回填原站脚本与规格\n\n预览\n\n原图\n做同款\n\n预览\n\n原图\n做同款\n\n预览\n\n原图\n做同款\n\n预览\n\n原图\n做同款\n\n预览\n\n原图\n做同款\n\n预览\n\n原图\n做同款\n\n预览\n\n原图\n做同款\n\n预览\n\n原图\n做同款\n\n预览\n\n原图\n做同款\n\n预览\n\n原图\n做同款"
+  },
+  {
+   "cls": "rounded-lg border border-border bg-card/40 p-3 mt-4",
+   "rect": {
+    "x": 229,
+    "y": 2926,
+    "w": 1654,
+    "h": 80
+   },
+   "text": "历史任务\n0 条\n\n本工具还没有历史任务；提交一次后会在这里留下任务、配置与结果，刷新后仍在。"
+  },
+  {
+   "cls": "relative flex h-full shrink-0 flex-col border-l",
+   "rect": {
+    "x": 1920,
+    "y": 0,
+    "w": 440,
+    "h": 1080
+   },
+   "text": "连接本地 Agent\n未连接\n点连接会自动启动本地服务、装好插件并接通，无需手动配置。\nClaude Code\n未连接\n·\nCLI · 2.1.285 (Claude Code)\n·\n直接运行\n连接\nCodex\n未连接\n·\nCLI · codex-cli 0.163.0\n·\n插件已装\n连接\nGalley\n未连接\n·\nCLI + 桌面版 · galley 0.6.4\n连接"
+  }
+ ]
+}

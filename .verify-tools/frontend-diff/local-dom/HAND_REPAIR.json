@@ -1,0 +1,569 @@
+{
+ "id": "HAND_REPAIR",
+ "route": "/tools/smart-edit/hand-repair",
+ "ok": true,
+ "error": null,
+ "title": "无限画布",
+ "text": "无限画布\n首页\n电商套图\n智能修图\n新模型\nAI视频\nHOT\n批量生图\n商品图设计\n中\nv0.27.0\n局部重绘\n局部消除\n一键换色\n图片裁剪\n商品精修\n色差修复\n印花修复\n手部修复\n免责声明\n智能修图 / 手部修复\n手部修复\n/tools/smart-edit/hand-repair\n手部修复\n原站即将下架\n智能修图 · 最多 4 张\n涂抹畸形的手部区域，选择人物类型，按真实图像模型重画\n开始生成\n涂抹手部区域\n尚未涂抹\n｜红色覆盖只是预览，导出为白色蒙版\n先上传一张手部畸形的图片，再把畸形的手涂满。\n画笔\n35\npx\n15\n35\n60\n100\n撤销\n重做\n重置\n蒙版为空：空蒙版无法生成\n生成结果\n还没有结果\n还没有结果。涂好手部并选择人物类型后点「开始生成」。\n上传原图\nJPG / PNG / WebP，手部畸形的原图效果最好。\n上传图片\n0\n0 / 1 个 · PNG / JPG / WebP · ≤ 20 MB\n点击选择本地文件，或拖拽到这里\n校验格式 / 大小 / 像素，入库后可刷新恢复\n还没有素材\n人物类型\n用于约束重画的手部结构与年龄性别特征。\n成年男性\n成年女性\n男孩\n女孩\n生成张数\n1\n2\n3\n4\n预计输出 1 张\n（每张都是独立真实请求）\n提交前检查\n·\n已上传原图\n·\n已涂抹手部区域\n✓ 人物类型：\n成年男性\n✓ 生成张数：\n1\n原站菜单已把「手部修复」归入「即将下架」分组；本项目保留该工具的独立工作区与真实生成链路。\n历史任务\n0\n条\n本工具还没有历史任务；提交一次后会在这里留下任务、配置与结果，刷新后仍在。\n连接本地 Agent\n未连接\n点连接会自动启动本地服务、装好插件并接通，无需手动配置。\nClaude Code\n未连接\n·\nCLI · 2.1.285 (Claude Code)\n·\n直接运行\n连接\nCodex\n未连接\n·\nCLI · codex-cli 0.163.0\n·\n插件已装\n连接\nGalley\n未连接\n·\nCLI + 桌面版 · galley 0.6.4\n连接",
+ "lines": [
+  "无限画布",
+  "首页",
+  "电商套图",
+  "智能修图",
+  "新模型",
+  "AI视频",
+  "HOT",
+  "批量生图",
+  "商品图设计",
+  "中",
+  "v0.27.0",
+  "局部重绘",
+  "局部消除",
+  "一键换色",
+  "图片裁剪",
+  "商品精修",
+  "色差修复",
+  "印花修复",
+  "手部修复",
+  "免责声明",
+  "智能修图 / 手部修复",
+  "手部修复",
+  "/tools/smart-edit/hand-repair",
+  "手部修复",
+  "原站即将下架",
+  "智能修图 · 最多 4 张",
+  "涂抹畸形的手部区域，选择人物类型，按真实图像模型重画",
+  "开始生成",
+  "涂抹手部区域",
+  "尚未涂抹",
+  "｜红色覆盖只是预览，导出为白色蒙版",
+  "先上传一张手部畸形的图片，再把畸形的手涂满。",
+  "画笔",
+  "35",
+  "px",
+  "15",
+  "35",
+  "60",
+  "100",
+  "撤销",
+  "重做",
+  "重置",
+  "蒙版为空：空蒙版无法生成",
+  "生成结果",
+  "还没有结果",
+  "还没有结果。涂好手部并选择人物类型后点「开始生成」。",
+  "上传原图",
+  "JPG / PNG / WebP，手部畸形的原图效果最好。",
+  "上传图片",
+  "0",
+  "0 / 1 个 · PNG / JPG / WebP · ≤ 20 MB",
+  "点击选择本地文件，或拖拽到这里",
+  "校验格式 / 大小 / 像素，入库后可刷新恢复",
+  "还没有素材",
+  "人物类型",
+  "用于约束重画的手部结构与年龄性别特征。",
+  "成年男性",
+  "成年女性",
+  "男孩",
+  "女孩",
+  "生成张数",
+  "1",
+  "2",
+  "3",
+  "4",
+  "预计输出 1 张",
+  "（每张都是独立真实请求）",
+  "提交前检查",
+  "·",
+  "已上传原图",
+  "·",
+  "已涂抹手部区域",
+  "✓ 人物类型：",
+  "成年男性",
+  "✓ 生成张数：",
+  "1",
+  "原站菜单已把「手部修复」归入「即将下架」分组；本项目保留该工具的独立工作区与真实生成链路。",
+  "历史任务",
+  "0",
+  "条",
+  "本工具还没有历史任务；提交一次后会在这里留下任务、配置与结果，刷新后仍在。",
+  "连接本地 Agent",
+  "未连接",
+  "点连接会自动启动本地服务、装好插件并接通，无需手动配置。",
+  "Claude Code",
+  "未连接",
+  "·",
+  "CLI · 2.1.285 (Claude Code)",
+  "·",
+  "直接运行",
+  "连接",
+  "Codex",
+  "未连接",
+  "·",
+  "CLI · codex-cli 0.163.0",
+  "·",
+  "插件已装",
+  "连接",
+  "Galley",
+  "未连接",
+  "·",
+  "CLI + 桌面版 · galley 0.6.4",
+  "连接"
+ ],
+ "controls": [
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "中",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1593,
+    "y": 14,
+    "w": 28,
+    "h": 28
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "切换到深色主题",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1625,
+    "y": 14,
+    "w": 28,
+    "h": 28
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "v0.27.0",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1657,
+    "y": 17,
+    "w": 47,
+    "h": 22
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "开始生成",
+   "placeholder": "",
+   "disabled": true,
+   "rect": {
+    "x": 1783,
+    "y": 197,
+    "w": 100,
+    "h": 34
+   }
+  },
+  {
+   "tag": "input",
+   "type": "range",
+   "text": "35",
+   "placeholder": "",
+   "disabled": true,
+   "rect": {
+    "x": 284,
+    "y": 506,
+    "w": 112,
+    "h": 16
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "15",
+   "placeholder": "",
+   "disabled": true,
+   "rect": {
+    "x": 444,
+    "y": 500,
+    "w": 29,
+    "h": 28
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "35",
+   "placeholder": "",
+   "disabled": true,
+   "rect": {
+    "x": 481,
+    "y": 500,
+    "w": 31,
+    "h": 28
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "60",
+   "placeholder": "",
+   "disabled": true,
+   "rect": {
+    "x": 520,
+    "y": 500,
+    "w": 31,
+    "h": 28
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "100",
+   "placeholder": "",
+   "disabled": true,
+   "rect": {
+    "x": 559,
+    "y": 500,
+    "w": 38,
+    "h": 28
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "撤销",
+   "placeholder": "",
+   "disabled": true,
+   "rect": {
+    "x": 622,
+    "y": 500,
+    "w": 58,
+    "h": 28
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "重做",
+   "placeholder": "",
+   "disabled": true,
+   "rect": {
+    "x": 688,
+    "y": 500,
+    "w": 58,
+    "h": 28
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "重置",
+   "placeholder": "",
+   "disabled": true,
+   "rect": {
+    "x": 754,
+    "y": 500,
+    "w": 58,
+    "h": 28
+   }
+  },
+  {
+   "tag": "div",
+   "type": "",
+   "text": "点击选择本地文件，或拖拽到这里\n校验格式 / 大小 / 像素，入库后可刷新恢复",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1544,
+    "y": 377,
+    "w": 314,
+    "h": 86
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "成年男性",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1544,
+    "y": 598,
+    "w": 154,
+    "h": 36
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "成年女性",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1704,
+    "y": 598,
+    "w": 154,
+    "h": 36
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "男孩",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1544,
+    "y": 640,
+    "w": 154,
+    "h": 36
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "女孩",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1704,
+    "y": 640,
+    "w": 154,
+    "h": 36
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "1",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1544,
+    "y": 742,
+    "w": 32,
+    "h": 32
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "2",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1580,
+    "y": 742,
+    "w": 32,
+    "h": 32
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "3",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1616,
+    "y": 742,
+    "w": 32,
+    "h": 32
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "4",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1652,
+    "y": 742,
+    "w": 32,
+    "h": 32
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "连接",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 2265,
+    "y": 147,
+    "w": 66,
+    "h": 24
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "连接",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 2265,
+    "y": 215,
+    "w": 66,
+    "h": 24
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "连接",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 2265,
+    "y": 283,
+    "w": 66,
+    "h": 24
+   }
+  }
+ ],
+ "regions": [
+  {
+   "cls": "sticky top-0 z-[7] h-14 shrink-0 border-b border-hairline bg-surface/95 backdrop",
+   "rect": {
+    "x": 0,
+    "y": 0,
+    "w": 1920,
+    "h": 56
+   },
+   "text": "无限画布\n首页\n电商套图\n智能修图\n新模型\nAI视频\nHOT\n批量生图\n商品图设计\n中\n切换到深色主题\nv0.27.0"
+  },
+  {
+   "cls": "hidden w-[180px] shrink-0 overflow-y-auto rounded-xl border border-hairline bg-s",
+   "rect": {
+    "x": 16,
+    "y": 56,
+    "w": 180,
+    "h": 1008
+   },
+   "text": "智能修图\n局部重绘\n局部消除\n一键换色\n图片裁剪\n商品精修\n色差修复\n印花修复\n手部修复\n免责声明"
+  },
+  {
+   "cls": "flex min-h-14 shrink-0 flex-wrap items-center gap-3 border-b border-hairline px-",
+   "rect": {
+    "x": 209,
+    "y": 57,
+    "w": 1694,
+    "h": 109
+   },
+   "text": "智能修图 / 手部修复\n手部修复\n\n/tools/smart-edit/hand-repair"
+  },
+  {
+   "cls": "min-h-0 flex-1 overflow-y-auto bg-transparent px-4 py-4 sm:px-5",
+   "rect": {
+    "x": 209,
+    "y": 166,
+    "w": 1694,
+    "h": 897
+   },
+   "text": "手部修复\n原站即将下架\n智能修图 · 最多 4 张\n\n涂抹畸形的手部区域，选择人物类型，按真实图像模型重画\n\n开始生成\n\n涂抹手部区域\n\n尚未涂抹｜红色覆盖只是预览，导出为白色蒙版\n\n先上传一张手部畸形的图片，再把畸形的手涂满。\n\n画笔\n35px\n15\n35\n60\n100\n撤销\n重做\n重置\n蒙版为空：空蒙版无法生成\n\n生成结果\n\n还没有结果\n\n还没有结果。涂好手部并选择人物类型后点「开始生成」。\n\n上传原图\n\nJPG / PNG / WebP，手部畸形的原图效果最好。\n\n上传图片\n00 / 1 个 · PNG / JPG / WebP · ≤ 20 MB\n点击选择本地文件，或拖拽到这里\n校验格"
+  },
+  {
+   "cls": "rounded-lg border border-border bg-card p-3",
+   "rect": {
+    "x": 241,
+    "y": 269,
+    "w": 1278,
+    "h": 272
+   },
+   "text": "涂抹手部区域\n\n尚未涂抹｜红色覆盖只是预览，导出为白色蒙版\n\n先上传一张手部畸形的图片，再把畸形的手涂满。\n\n画笔\n35px\n15\n35\n60\n100\n撤销\n重做\n重置\n蒙版为空：空蒙版无法生成"
+  },
+  {
+   "cls": "rounded-lg border border-border bg-card p-3",
+   "rect": {
+    "x": 241,
+    "y": 553,
+    "w": 1278,
+    "h": 82
+   },
+   "text": "生成结果\n\n还没有结果\n\n还没有结果。涂好手部并选择人物类型后点「开始生成」。"
+  },
+  {
+   "cls": "flex min-w-0 flex-col gap-3",
+   "rect": {
+    "x": 1531,
+    "y": 269,
+    "w": 340,
+    "h": 750
+   },
+   "text": "上传原图\n\nJPG / PNG / WebP，手部畸形的原图效果最好。\n\n上传图片\n00 / 1 个 · PNG / JPG / WebP · ≤ 20 MB\n点击选择本地文件，或拖拽到这里\n校验格式 / 大小 / 像素，入库后可刷新恢复\n\n还没有素材\n\n人物类型\n\n用于约束重画的手部结构与年龄性别特征。\n\n成年男性\n成年女性\n男孩\n女孩\n\n生成张数\n\n1\n2\n3\n4\n\n预计输出 1 张（每张都是独立真实请求）\n\n提交前检查\n\n· 已上传原图\n· 已涂抹手部区域\n✓ 人物类型：成年男性\n✓ 生成张数：1\n\n原站菜单已把「手部修复」归入「即将下架」分组；本项目保留该工具的独立工作区与真实生成链路"
+  },
+  {
+   "cls": "rounded-lg border border-border bg-card p-3",
+   "rect": {
+    "x": 1531,
+    "y": 269,
+    "w": 340,
+    "h": 247
+   },
+   "text": "上传原图\n\nJPG / PNG / WebP，手部畸形的原图效果最好。\n\n上传图片\n00 / 1 个 · PNG / JPG / WebP · ≤ 20 MB\n点击选择本地文件，或拖拽到这里\n校验格式 / 大小 / 像素，入库后可刷新恢复\n\n还没有素材"
+  },
+  {
+   "cls": "space-y-3",
+   "rect": {
+    "x": 1544,
+    "y": 338,
+    "w": 314,
+    "h": 153
+   },
+   "text": "上传图片\n00 / 1 个 · PNG / JPG / WebP · ≤ 20 MB\n点击选择本地文件，或拖拽到这里\n校验格式 / 大小 / 像素，入库后可刷新恢复\n\n还没有素材"
+  },
+  {
+   "cls": "rounded-lg border border-border bg-card p-3",
+   "rect": {
+    "x": 1531,
+    "y": 528,
+    "w": 340,
+    "h": 160
+   },
+   "text": "人物类型\n\n用于约束重画的手部结构与年龄性别特征。\n\n成年男性\n成年女性\n男孩\n女孩"
+  },
+  {
+   "cls": "rounded-lg border border-border bg-card p-3",
+   "rect": {
+    "x": 1531,
+    "y": 701,
+    "w": 340,
+    "h": 114
+   },
+   "text": "生成张数\n\n1\n2\n3\n4\n\n预计输出 1 张（每张都是独立真实请求）"
+  },
+  {
+   "cls": "rounded-lg border border-border bg-card p-3",
+   "rect": {
+    "x": 1531,
+    "y": 827,
+    "w": 340,
+    "h": 192
+   },
+   "text": "提交前检查\n\n· 已上传原图\n· 已涂抹手部区域\n✓ 人物类型：成年男性\n✓ 生成张数：1\n\n原站菜单已把「手部修复」归入「即将下架」分组；本项目保留该工具的独立工作区与真实生成链路。"
+  },
+  {
+   "cls": "rounded-lg border border-border bg-card/40 p-3 mt-4",
+   "rect": {
+    "x": 229,
+    "y": 1047,
+    "w": 1654,
+    "h": 80
+   },
+   "text": "历史任务\n0 条\n\n本工具还没有历史任务；提交一次后会在这里留下任务、配置与结果，刷新后仍在。"
+  },
+  {
+   "cls": "relative flex h-full shrink-0 flex-col border-l",
+   "rect": {
+    "x": 1920,
+    "y": 0,
+    "w": 440,
+    "h": 1080
+   },
+   "text": "连接本地 Agent\n未连接\n点连接会自动启动本地服务、装好插件并接通，无需手动配置。\nClaude Code\n未连接\n·\nCLI · 2.1.285 (Claude Code)\n·\n直接运行\n连接\nCodex\n未连接\n·\nCLI · codex-cli 0.163.0\n·\n插件已装\n连接\nGalley\n未连接\n·\nCLI + 桌面版 · galley 0.6.4\n连接"
+  }
+ ]
+}

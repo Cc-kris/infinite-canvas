@@ -1,0 +1,345 @@
+{
+ "id": "AI_OUTPAINTING",
+ "route": "/tools/ecommerce-suite/ai-outpainting",
+ "ok": true,
+ "error": null,
+ "title": "无限画布",
+ "text": "无限画布\n首页\n电商套图\n智能修图\n新模型\nAI视频\nHOT\n批量生图\n商品图设计\n中\nv0.27.0\n商品套图\n服装套图\n套图换色\n批量翻译\n高清放大\n智能扩图\n免责声明\n智能扩图\n一键无缝扩展，打破视觉边界，释放每一张照片的无限可能~\n从本地上传\n从作品库选择\n默认尺寸\n×\n生成：\n立即生成\n生成结果\n优秀案例\n历史记录\n暂无生成结果图\n快在左侧操作智能扩图吧~\n连接本地 Agent\n未连接\n点连接会自动启动本地服务、装好插件并接通，无需手动配置。\nClaude Code\n未连接\n·\nCLI · 2.1.285 (Claude Code)\n·\n直接运行\n连接\nCodex\n未连接\n·\nCLI · codex-cli 0.163.0\n·\n插件已装\n连接\nGalley\n未连接\n·\nCLI + 桌面版 · galley 0.6.4\n连接",
+ "lines": [
+  "无限画布",
+  "首页",
+  "电商套图",
+  "智能修图",
+  "新模型",
+  "AI视频",
+  "HOT",
+  "批量生图",
+  "商品图设计",
+  "中",
+  "v0.27.0",
+  "商品套图",
+  "服装套图",
+  "套图换色",
+  "批量翻译",
+  "高清放大",
+  "智能扩图",
+  "免责声明",
+  "智能扩图",
+  "一键无缝扩展，打破视觉边界，释放每一张照片的无限可能~",
+  "从本地上传",
+  "从作品库选择",
+  "默认尺寸",
+  "×",
+  "生成：",
+  "立即生成",
+  "生成结果",
+  "优秀案例",
+  "历史记录",
+  "暂无生成结果图",
+  "快在左侧操作智能扩图吧~",
+  "连接本地 Agent",
+  "未连接",
+  "点连接会自动启动本地服务、装好插件并接通，无需手动配置。",
+  "Claude Code",
+  "未连接",
+  "·",
+  "CLI · 2.1.285 (Claude Code)",
+  "·",
+  "直接运行",
+  "连接",
+  "Codex",
+  "未连接",
+  "·",
+  "CLI · codex-cli 0.163.0",
+  "·",
+  "插件已装",
+  "连接",
+  "Galley",
+  "未连接",
+  "·",
+  "CLI + 桌面版 · galley 0.6.4",
+  "连接"
+ ],
+ "controls": [
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "中",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1593,
+    "y": 14,
+    "w": 28,
+    "h": 28
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "切换到深色主题",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1625,
+    "y": 14,
+    "w": 28,
+    "h": 28
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "v0.27.0",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1657,
+    "y": 17,
+    "w": 47,
+    "h": 22
+   }
+  },
+  {
+   "tag": "div",
+   "type": "",
+   "text": "从本地上传\n从作品库选择",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 639,
+    "y": 564,
+    "w": 210,
+    "h": 82
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "从作品库选择",
+   "placeholder": "",
+   "disabled": true,
+   "rect": {
+    "x": 652,
+    "y": 609,
+    "w": 100,
+    "h": 24
+   }
+  },
+  {
+   "tag": "input",
+   "type": "",
+   "text": "1024",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 301,
+    "y": 1019,
+    "w": 46,
+    "h": 22
+   }
+  },
+  {
+   "tag": "input",
+   "type": "",
+   "text": "1024",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 363,
+    "y": 1019,
+    "w": 46,
+    "h": 22
+   }
+  },
+  {
+   "tag": "input",
+   "type": "",
+   "text": "描述想要扩图的内容，不填将基于原图生成",
+   "placeholder": "描述想要扩图的内容，不填将基于原图生成",
+   "disabled": false,
+   "rect": {
+    "x": 553,
+    "y": 1016,
+    "w": 408,
+    "h": 28
+   }
+  },
+  {
+   "tag": "select",
+   "type": "",
+   "text": "1张\n2张\n3张\n4张",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1009,
+    "y": 1016,
+    "w": 48,
+    "h": 28
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "立即生成",
+   "placeholder": "",
+   "disabled": true,
+   "rect": {
+    "x": 1065,
+    "y": 1014,
+    "w": 187,
+    "h": 32
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "生成结果",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1290,
+    "y": 67,
+    "w": 56,
+    "h": 42
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "优秀案例",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1366,
+    "y": 67,
+    "w": 56,
+    "h": 42
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "历史记录",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1442,
+    "y": 77,
+    "w": 56,
+    "h": 22
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "连接",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 2265,
+    "y": 147,
+    "w": 66,
+    "h": 24
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "连接",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 2265,
+    "y": 215,
+    "w": 66,
+    "h": 24
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "连接",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 2265,
+    "y": 283,
+    "w": 66,
+    "h": 24
+   }
+  }
+ ],
+ "regions": [
+  {
+   "cls": "sticky top-0 z-[7] h-14 shrink-0 border-b border-hairline bg-surface/95 backdrop",
+   "rect": {
+    "x": 0,
+    "y": 0,
+    "w": 1920,
+    "h": 56
+   },
+   "text": "无限画布\n首页\n电商套图\n智能修图\n新模型\nAI视频\nHOT\n批量生图\n商品图设计\n中\n切换到深色主题\nv0.27.0"
+  },
+  {
+   "cls": "hidden w-[180px] shrink-0 overflow-y-auto rounded-xl border border-hairline bg-s",
+   "rect": {
+    "x": 16,
+    "y": 56,
+    "w": 180,
+    "h": 1008
+   },
+   "text": "电商套图\n商品套图\n服装套图\n套图换色\n批量翻译\n高清放大\n智能扩图\n免责声明"
+  },
+  {
+   "cls": "min-h-0 flex-1 overflow-hidden bg-canvas p-2.5",
+   "rect": {
+    "x": 209,
+    "y": 57,
+    "w": 1694,
+    "h": 1006
+   },
+   "text": "智能扩图\n\n一键无缝扩展，打破视觉边界，释放每一张照片的无限可能~\n\n从本地上传\n从作品库选择\n默认尺寸\n×\n生成：\n1张\n2张\n3张\n4张\n立即生成\n生成结果\n优秀案例\n历史记录\n\n暂无生成结果图\n\n快在左侧操作智能扩图吧~"
+  },
+  {
+   "cls": "flex min-w-0 flex-1 flex-col overflow-hidden rounded-lg bg-card",
+   "rect": {
+    "x": 219,
+    "y": 67,
+    "w": 1049,
+    "h": 986
+   },
+   "text": "智能扩图\n\n一键无缝扩展，打破视觉边界，释放每一张照片的无限可能~\n\n从本地上传\n从作品库选择\n默认尺寸\n×\n生成：\n1张\n2张\n3张\n4张\n立即生成"
+  },
+  {
+   "cls": "space-y-3",
+   "rect": {
+    "x": 639,
+    "y": 564,
+    "w": 210,
+    "h": 82
+   },
+   "text": "从本地上传\n从作品库选择"
+  },
+  {
+   "cls": "flex w-[615px] shrink-0 flex-col overflow-hidden rounded-lg bg-card max-xl:w-[42",
+   "rect": {
+    "x": 1278,
+    "y": 67,
+    "w": 615,
+    "h": 986
+   },
+   "text": "生成结果\n优秀案例\n历史记录\n\n暂无生成结果图\n\n快在左侧操作智能扩图吧~"
+  },
+  {
+   "cls": "relative flex h-full shrink-0 flex-col border-l",
+   "rect": {
+    "x": 1920,
+    "y": 0,
+    "w": 440,
+    "h": 1080
+   },
+   "text": "连接本地 Agent\n未连接\n点连接会自动启动本地服务、装好插件并接通，无需手动配置。\nClaude Code\n未连接\n·\nCLI · 2.1.285 (Claude Code)\n·\n直接运行\n连接\nCodex\n未连接\n·\nCLI · codex-cli 0.163.0\n·\n插件已装\n连接\nGalley\n未连接\n·\nCLI + 桌面版 · galley 0.6.4\n连接"
+  }
+ ]
+}

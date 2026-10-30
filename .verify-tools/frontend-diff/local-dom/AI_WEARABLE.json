@@ -1,0 +1,1031 @@
+{
+ "id": "AI_WEARABLE",
+ "route": "/tools/product-design/ai-wearable",
+ "ok": true,
+ "error": null,
+ "title": "无限画布",
+ "text": "无限画布\n首页\n电商套图\n智能修图\n新模型\nAI视频\nHOT\n批量生图\n商品图设计\n中\nv0.27.0\n商品图\n商品替换\n场景裂变\n手持商品\nAI穿衣\n姿势裂变\nAI穿戴\nPOD素材\n饰品文字\n素材贴合\n印花提取\nAI姿势生成\n补充\nAI试衣XSY\n补充\n场景裂变链接\n补充\n图片文字编辑\n补充\n上装换料\n补充\n商品图设计器\n补充\n商品营销素材\n补充\n场景迁移\n补充\n免责声明\nAI穿戴\n选择穿戴区域，上传穿戴物品，快速将物品穿戴上身生成特写图。\n1\n.\n上传穿戴商品\n›\n2\n.\n商品品类\n›\n3\n.\n穿戴模特\n›\n4\n.\n生成张数\n›\n5\n.\n结果\n1. 上传穿戴商品\n10M以内，384*384 ~ 4096*4096\n上传商品图\n0\n0 / 1 个 · PNG / JPG / WebP · ≤ 10 MB\n点击选择本地文件，或拖拽到这里\n校验格式 / 大小 / 像素，入库后可刷新恢复\n还没有素材\n💡 以模特穿戴效果图作为商品图，会为 AI 提供更好的作图参考。\n商品蒙版\n圈出要穿戴的商品主体，导出 PNG 与商品图同尺寸\n撤销\n重做\n上传后在此框选蒙版\n水平位置\n垂直位置\n横向半径\n纵向半径\n2. 商品品类\n品类改变可选穿戴部位与模特过滤\n穿戴的商品品类\n首饰\n手表\n眼镜\n帽饰\n围巾\n手套\n腰带\n包袋\n穿戴部位与模特参考\n耳部\n颈部\n手腕\n手指\n检测类型\n不检测\n敏感词检测\n合规检测\n主体检测\n3. 穿戴模特\n换模特不会重新上传商品\n模特类型\n真人模特\n手部特写\n半身\n全身\n选择穿戴模特参考图\n0\n0 / 1 个 · PNG / JPG / WebP · ≤ 20 MB\n点击选择本地文件，或拖拽到这里\n校验格式 / 大小 / 像素，入库后可刷新恢复\n还没有素材\nTips：为您的穿戴商品选择与原图角度、部位与画面占比相近的模特参考，生成的效果更好哦！\n目标蒙版\n圈出模特身上的目标穿戴区域，导出 PNG 与模特图同尺寸\n撤销\n重做\n上传后在此框选蒙版\n水平位置\n垂直位置\n横向半径\n纵向半径\n场景类型\n保持原背景\n纯白背景\n影棚\n街拍\n二次操作（沿用上次结果的模特姿态）\n生图模型\n4. 生成张数\n1–4 张\n1\n2\n3\n4\n立即生成（1 张 · 首饰 · 颈部）\n请先上传穿戴商品图（模特穿戴效果图更好）\n请先上传或选择穿戴模特参考图\n品类 / 模特页签 / 场景 / 检测类型为页面目录取值，chunk 枚举未确认，仅接受目录内取值\n生成结果\n优秀案例\n本次提交快照\n真人模特 · 保持原背景\n把参考图中的饰品（保持宝石/金属材质与镶口细节）佩戴在模特颈部，与模特参考图合成特写级穿戴效果。 模特取景：真人模特（默认真人半身，保留原图背景）。 场景：沿用模特参考图的原始背景与光线。 保持商品的颜色、材质、文字与 Logo 完全一致；按目标蒙版区域落位，透视、遮挡、接触阴影与高光随模特姿态变化。 不要改变模特身份、体型与服装，不要新增未提供的商品，不要改变商品数量。\n主体\n1 张 · 首饰 · 颈部\n商品蒙版\nx 50% · y 50% · r 40/40%\n目标蒙版\nx 50% · y 26% · r 9/5%\n模型\n已配置\n生成结果\n本次 1 张 · 已返回 0 张\n第\n1\n张\n待生成\n空\n结果资产\n还没有生成结果\n填好参数并提交后，结果会出现在这里，可预览、下载、存入资产库或发送到画布。\n历史任务\n0\n条\n本工具还没有历史任务；提交一次后会在这里留下任务、配置与结果，刷新后仍在。\n连接本地 Agent\n未连接\n点连接会自动启动本地服务、装好插件并接通，无需手动配置。\nClaude Code\n未连接\n·\nCLI · 2.1.285 (Claude Code)\n·\n直接运行\n连接\nCodex\n未连接\n·\nCLI · codex-cli 0.163.0\n·\n插件已装\n连接\nGalley\n未连接\n·\nCLI + 桌面版 · galley 0.6.4\n连接",
+ "lines": [
+  "无限画布",
+  "首页",
+  "电商套图",
+  "智能修图",
+  "新模型",
+  "AI视频",
+  "HOT",
+  "批量生图",
+  "商品图设计",
+  "中",
+  "v0.27.0",
+  "商品图",
+  "商品替换",
+  "场景裂变",
+  "手持商品",
+  "AI穿衣",
+  "姿势裂变",
+  "AI穿戴",
+  "POD素材",
+  "饰品文字",
+  "素材贴合",
+  "印花提取",
+  "AI姿势生成",
+  "补充",
+  "AI试衣XSY",
+  "补充",
+  "场景裂变链接",
+  "补充",
+  "图片文字编辑",
+  "补充",
+  "上装换料",
+  "补充",
+  "商品图设计器",
+  "补充",
+  "商品营销素材",
+  "补充",
+  "场景迁移",
+  "补充",
+  "免责声明",
+  "AI穿戴",
+  "选择穿戴区域，上传穿戴物品，快速将物品穿戴上身生成特写图。",
+  "1",
+  ".",
+  "上传穿戴商品",
+  "›",
+  "2",
+  ".",
+  "商品品类",
+  "›",
+  "3",
+  ".",
+  "穿戴模特",
+  "›",
+  "4",
+  ".",
+  "生成张数",
+  "›",
+  "5",
+  ".",
+  "结果",
+  "1. 上传穿戴商品",
+  "10M以内，384*384 ~ 4096*4096",
+  "上传商品图",
+  "0",
+  "0 / 1 个 · PNG / JPG / WebP · ≤ 10 MB",
+  "点击选择本地文件，或拖拽到这里",
+  "校验格式 / 大小 / 像素，入库后可刷新恢复",
+  "还没有素材",
+  "💡 以模特穿戴效果图作为商品图，会为 AI 提供更好的作图参考。",
+  "商品蒙版",
+  "圈出要穿戴的商品主体，导出 PNG 与商品图同尺寸",
+  "撤销",
+  "重做",
+  "上传后在此框选蒙版",
+  "水平位置",
+  "垂直位置",
+  "横向半径",
+  "纵向半径",
+  "2. 商品品类",
+  "品类改变可选穿戴部位与模特过滤",
+  "穿戴的商品品类",
+  "首饰",
+  "手表",
+  "眼镜",
+  "帽饰",
+  "围巾",
+  "手套",
+  "腰带",
+  "包袋",
+  "穿戴部位与模特参考",
+  "耳部",
+  "颈部",
+  "手腕",
+  "手指",
+  "检测类型",
+  "不检测",
+  "敏感词检测",
+  "合规检测",
+  "主体检测",
+  "3. 穿戴模特",
+  "换模特不会重新上传商品",
+  "模特类型",
+  "真人模特",
+  "手部特写",
+  "半身",
+  "全身",
+  "选择穿戴模特参考图",
+  "0",
+  "0 / 1 个 · PNG / JPG / WebP · ≤ 20 MB",
+  "点击选择本地文件，或拖拽到这里",
+  "校验格式 / 大小 / 像素，入库后可刷新恢复",
+  "还没有素材",
+  "Tips：为您的穿戴商品选择与原图角度、部位与画面占比相近的模特参考，生成的效果更好哦！",
+  "目标蒙版",
+  "圈出模特身上的目标穿戴区域，导出 PNG 与模特图同尺寸",
+  "撤销",
+  "重做",
+  "上传后在此框选蒙版",
+  "水平位置",
+  "垂直位置",
+  "横向半径",
+  "纵向半径",
+  "场景类型",
+  "保持原背景",
+  "纯白背景",
+  "影棚",
+  "街拍",
+  "二次操作（沿用上次结果的模特姿态）",
+  "生图模型",
+  "4. 生成张数",
+  "1–4 张",
+  "1",
+  "2",
+  "3",
+  "4",
+  "立即生成（1 张 · 首饰 · 颈部）",
+  "请先上传穿戴商品图（模特穿戴效果图更好）",
+  "请先上传或选择穿戴模特参考图",
+  "品类 / 模特页签 / 场景 / 检测类型为页面目录取值，chunk 枚举未确认，仅接受目录内取值",
+  "生成结果",
+  "优秀案例",
+  "本次提交快照",
+  "真人模特 · 保持原背景",
+  "把参考图中的饰品（保持宝石/金属材质与镶口细节）佩戴在模特颈部，与模特参考图合成特写级穿戴效果。 模特取景：真人模特（默认真人半身，保留原图背景）。 场景：沿用模特参考图的原始背景与光线。 保持商品的颜色、材质、文字与 Logo 完全一致；按目标蒙版区域落位，透视、遮挡、接触阴影与高光随模特姿态变化。 不要改变模特身份、体型与服装，不要新增未提供的商品，不要改变商品数量。",
+  "主体",
+  "1 张 · 首饰 · 颈部",
+  "商品蒙版",
+  "x 50% · y 50% · r 40/40%",
+  "目标蒙版",
+  "x 50% · y 26% · r 9/5%",
+  "模型",
+  "已配置",
+  "生成结果",
+  "本次 1 张 · 已返回 0 张",
+  "第",
+  "1",
+  "张",
+  "待生成",
+  "空",
+  "结果资产",
+  "还没有生成结果",
+  "填好参数并提交后，结果会出现在这里，可预览、下载、存入资产库或发送到画布。",
+  "历史任务",
+  "0",
+  "条",
+  "本工具还没有历史任务；提交一次后会在这里留下任务、配置与结果，刷新后仍在。",
+  "连接本地 Agent",
+  "未连接",
+  "点连接会自动启动本地服务、装好插件并接通，无需手动配置。",
+  "Claude Code",
+  "未连接",
+  "·",
+  "CLI · 2.1.285 (Claude Code)",
+  "·",
+  "直接运行",
+  "连接",
+  "Codex",
+  "未连接",
+  "·",
+  "CLI · codex-cli 0.163.0",
+  "·",
+  "插件已装",
+  "连接",
+  "Galley",
+  "未连接",
+  "·",
+  "CLI + 桌面版 · galley 0.6.4",
+  "连接"
+ ],
+ "controls": [
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "中",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1593,
+    "y": 14,
+    "w": 28,
+    "h": 28
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "切换到深色主题",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1625,
+    "y": 14,
+    "w": 28,
+    "h": 28
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "v0.27.0",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1657,
+    "y": 17,
+    "w": 47,
+    "h": 22
+   }
+  },
+  {
+   "tag": "div",
+   "type": "",
+   "text": "点击选择本地文件，或拖拽到这里\n校验格式 / 大小 / 像素，入库后可刷新恢复",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 236,
+    "y": 230,
+    "w": 386,
+    "h": 86
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "撤销",
+   "placeholder": "",
+   "disabled": true,
+   "rect": {
+    "x": 525,
+    "y": 407,
+    "w": 40,
+    "h": 40
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "重做",
+   "placeholder": "",
+   "disabled": true,
+   "rect": {
+    "x": 569,
+    "y": 407,
+    "w": 40,
+    "h": 40
+   }
+  },
+  {
+   "tag": "input",
+   "type": "range",
+   "text": "0.5",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 249,
+    "y": 972,
+    "w": 176,
+    "h": 36
+   }
+  },
+  {
+   "tag": "input",
+   "type": "range",
+   "text": "0.5",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 433,
+    "y": 972,
+    "w": 176,
+    "h": 36
+   }
+  },
+  {
+   "tag": "input",
+   "type": "range",
+   "text": "0.4",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 249,
+    "y": 1038,
+    "w": 176,
+    "h": 36
+   }
+  },
+  {
+   "tag": "input",
+   "type": "range",
+   "text": "0.4",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 433,
+    "y": 1038,
+    "w": 176,
+    "h": 36
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "首饰",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 236,
+    "y": 1200,
+    "w": 54,
+    "h": 40
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "手表",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 294,
+    "y": 1200,
+    "w": 54,
+    "h": 40
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "眼镜",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 352,
+    "y": 1200,
+    "w": 54,
+    "h": 40
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "帽饰",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 410,
+    "y": 1200,
+    "w": 54,
+    "h": 40
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "围巾",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 468,
+    "y": 1200,
+    "w": 54,
+    "h": 40
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "手套",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 526,
+    "y": 1200,
+    "w": 54,
+    "h": 40
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "腰带",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 236,
+    "y": 1244,
+    "w": 54,
+    "h": 40
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "包袋",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 294,
+    "y": 1244,
+    "w": 54,
+    "h": 40
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "耳部",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 236,
+    "y": 1325,
+    "w": 54,
+    "h": 40
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "颈部",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 294,
+    "y": 1325,
+    "w": 54,
+    "h": 40
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "手腕",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 352,
+    "y": 1325,
+    "w": 54,
+    "h": 40
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "手指",
+   "placeholder": "",
+   "disabled": true,
+   "rect": {
+    "x": 410,
+    "y": 1325,
+    "w": 54,
+    "h": 40
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "不检测",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 236,
+    "y": 1405,
+    "w": 68,
+    "h": 40
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "敏感词检测",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 308,
+    "y": 1405,
+    "w": 96,
+    "h": 40
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "合规检测",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 408,
+    "y": 1405,
+    "w": 82,
+    "h": 40
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "主体检测",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 494,
+    "y": 1405,
+    "w": 82,
+    "h": 40
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "真人模特",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 236,
+    "y": 1554,
+    "w": 82,
+    "h": 40
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "手部特写",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 322,
+    "y": 1554,
+    "w": 82,
+    "h": 40
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "半身",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 408,
+    "y": 1554,
+    "w": 54,
+    "h": 40
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "全身",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 466,
+    "y": 1554,
+    "w": 54,
+    "h": 40
+   }
+  },
+  {
+   "tag": "div",
+   "type": "",
+   "text": "点击选择本地文件，或拖拽到这里\n校验格式 / 大小 / 像素，入库后可刷新恢复",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 236,
+    "y": 1645,
+    "w": 386,
+    "h": 86
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "撤销",
+   "placeholder": "",
+   "disabled": true,
+   "rect": {
+    "x": 525,
+    "y": 1847,
+    "w": 40,
+    "h": 40
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "重做",
+   "placeholder": "",
+   "disabled": true,
+   "rect": {
+    "x": 569,
+    "y": 1847,
+    "w": 40,
+    "h": 40
+   }
+  },
+  {
+   "tag": "input",
+   "type": "range",
+   "text": "0.5",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 249,
+    "y": 2422,
+    "w": 176,
+    "h": 36
+   }
+  },
+  {
+   "tag": "input",
+   "type": "range",
+   "text": "0.26",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 433,
+    "y": 2422,
+    "w": 176,
+    "h": 36
+   }
+  },
+  {
+   "tag": "input",
+   "type": "range",
+   "text": "0.09",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 249,
+    "y": 2487,
+    "w": 176,
+    "h": 36
+   }
+  },
+  {
+   "tag": "input",
+   "type": "range",
+   "text": "0.05",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 433,
+    "y": 2487,
+    "w": 176,
+    "h": 36
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "保持原背景",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 236,
+    "y": 2581,
+    "w": 96,
+    "h": 40
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "纯白背景",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 336,
+    "y": 2581,
+    "w": 82,
+    "h": 40
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "影棚",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 422,
+    "y": 2581,
+    "w": 54,
+    "h": 40
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "街拍",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 480,
+    "y": 2581,
+    "w": 54,
+    "h": 40
+   }
+  },
+  {
+   "tag": "input",
+   "type": "checkbox",
+   "text": "on",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 236,
+    "y": 2633,
+    "w": 16,
+    "h": 16
+   }
+  },
+  {
+   "tag": "select",
+   "type": "",
+   "text": "gpt-image-2\ndefault::gpt-image-2",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 236,
+    "y": 2675,
+    "w": 386,
+    "h": 36
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "1",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 236,
+    "y": 2792,
+    "w": 44,
+    "h": 40
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "2",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 288,
+    "y": 2792,
+    "w": 44,
+    "h": 40
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "3",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 340,
+    "y": 2792,
+    "w": 44,
+    "h": 40
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "4",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 392,
+    "y": 2792,
+    "w": 44,
+    "h": 40
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "立即生成（1 张 · 首饰 · 颈部）",
+   "placeholder": "",
+   "disabled": true,
+   "rect": {
+    "x": 236,
+    "y": 2832,
+    "w": 386,
+    "h": 40
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "生成结果",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 664,
+    "y": 139,
+    "w": 64,
+    "h": 40
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "优秀案例",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 744,
+    "y": 139,
+    "w": 64,
+    "h": 40
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "连接",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 2265,
+    "y": 147,
+    "w": 66,
+    "h": 24
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "连接",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 2265,
+    "y": 215,
+    "w": 66,
+    "h": 24
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "连接",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 2265,
+    "y": 283,
+    "w": 66,
+    "h": 24
+   }
+  }
+ ],
+ "regions": [
+  {
+   "cls": "sticky top-0 z-[7] h-14 shrink-0 border-b border-hairline bg-surface/95 backdrop",
+   "rect": {
+    "x": 0,
+    "y": 0,
+    "w": 1920,
+    "h": 56
+   },
+   "text": "无限画布\n首页\n电商套图\n智能修图\n新模型\nAI视频\nHOT\n批量生图\n商品图设计\n中\n切换到深色主题\nv0.27.0"
+  },
+  {
+   "cls": "hidden w-[180px] shrink-0 overflow-y-auto rounded-xl border border-hairline bg-s",
+   "rect": {
+    "x": 16,
+    "y": 56,
+    "w": 180,
+    "h": 1008
+   },
+   "text": "商品图设计\n商品图\n商品替换\n场景裂变\n手持商品\nAI穿衣\n姿势裂变\nAI穿戴\nPOD素材\n饰品文字\n素材贴合\n印花提取\nAI姿势生成\n补充\nAI试衣XSY\n补充\n场景裂变链接\n补充\n图片文字编辑\n补充\n上装换料\n补充\n商品图设计器\n补充\n商品营销素材\n补充\n场景迁移\n补充\n免责声明"
+  },
+  {
+   "cls": "min-h-0 flex-1 overflow-hidden bg-canvas p-2.5",
+   "rect": {
+    "x": 209,
+    "y": 57,
+    "w": 1694,
+    "h": 1006
+   },
+   "text": "AI穿戴\n\n选择穿戴区域，上传穿戴物品，快速将物品穿戴上身生成特写图。\n\n1. 上传穿戴商品\n›\n2. 商品品类\n›\n3. 穿戴模特\n›\n4. 生成张数\n›\n5. 结果\n1. 上传穿戴商品\n10M以内，384*384 ~ 4096*4096\n上传商品图\n00 / 1 个 · PNG / JPG / WebP · ≤ 10 MB\n点击选择本地文件，或拖拽到这里\n校验格式 / 大小 / 像素，入库后可刷新恢复\n\n还没有素材\n\n💡 以模特穿戴效果图作为商品图，会为 AI 提供更好的作图参考。\n\n商品蒙版\n\n圈出要穿戴的商品主体，导出 PNG 与商品图同尺寸\n\n撤销\n重做\n上传后在此框选蒙版\n水平位"
+  },
+  {
+   "cls": "rounded-2xl border border-border bg-card p-4",
+   "rect": {
+    "x": 219,
+    "y": 139,
+    "w": 420,
+    "h": 969
+   },
+   "text": "1. 上传穿戴商品\n10M以内，384*384 ~ 4096*4096\n上传商品图\n00 / 1 个 · PNG / JPG / WebP · ≤ 10 MB\n点击选择本地文件，或拖拽到这里\n校验格式 / 大小 / 像素，入库后可刷新恢复\n\n还没有素材\n\n💡 以模特穿戴效果图作为商品图，会为 AI 提供更好的作图参考。\n\n商品蒙版\n\n圈出要穿戴的商品主体，导出 PNG 与商品图同尺寸\n\n撤销\n重做\n上传后在此框选蒙版\n水平位置\n垂直位置\n横向半径\n纵向半径"
+  },
+  {
+   "cls": "space-y-3",
+   "rect": {
+    "x": 236,
+    "y": 191,
+    "w": 386,
+    "h": 153
+   },
+   "text": "上传商品图\n00 / 1 个 · PNG / JPG / WebP · ≤ 10 MB\n点击选择本地文件，或拖拽到这里\n校验格式 / 大小 / 像素，入库后可刷新恢复\n\n还没有素材"
+  },
+  {
+   "cls": "rounded-2xl border border-border bg-card p-4",
+   "rect": {
+    "x": 219,
+    "y": 1120,
+    "w": 420,
+    "h": 342
+   },
+   "text": "2. 商品品类\n品类改变可选穿戴部位与模特过滤\n\n穿戴的商品品类\n\n首饰\n手表\n眼镜\n帽饰\n围巾\n手套\n腰带\n包袋\n\n穿戴部位与模特参考\n\n耳部\n颈部\n手腕\n手指\n\n检测类型\n\n不检测\n敏感词检测\n合规检测\n主体检测"
+  },
+  {
+   "cls": "rounded-2xl border border-border bg-card p-4",
+   "rect": {
+    "x": 219,
+    "y": 1474,
+    "w": 420,
+    "h": 1254
+   },
+   "text": "3. 穿戴模特\n换模特不会重新上传商品\n\n模特类型\n\n真人模特\n手部特写\n半身\n全身\n选择穿戴模特参考图\n00 / 1 个 · PNG / JPG / WebP · ≤ 20 MB\n点击选择本地文件，或拖拽到这里\n校验格式 / 大小 / 像素，入库后可刷新恢复\n\n还没有素材\n\nTips：为您的穿戴商品选择与原图角度、部位与画面占比相近的模特参考，生成的效果更好哦！\n\n目标蒙版\n\n圈出模特身上的目标穿戴区域，导出 PNG 与模特图同尺寸\n\n撤销\n重做\n上传后在此框选蒙版\n水平位置\n垂直位置\n横向半径\n纵向半径\n\n场景类型\n\n保持原背景\n纯白背景\n影棚\n街拍\n二次操作（沿用上次结果的模特姿态）\n生"
+  },
+  {
+   "cls": "space-y-3",
+   "rect": {
+    "x": 236,
+    "y": 1606,
+    "w": 386,
+    "h": 153
+   },
+   "text": "选择穿戴模特参考图\n00 / 1 个 · PNG / JPG / WebP · ≤ 20 MB\n点击选择本地文件，或拖拽到这里\n校验格式 / 大小 / 像素，入库后可刷新恢复\n\n还没有素材"
+  },
+  {
+   "cls": "rounded-2xl border border-border bg-card p-4",
+   "rect": {
+    "x": 219,
+    "y": 2740,
+    "w": 420,
+    "h": 240
+   },
+   "text": "4. 生成张数\n1–4 张\n1\n2\n3\n4\n立即生成（1 张 · 首饰 · 颈部）\n请先上传穿戴商品图（模特穿戴效果图更好）\n请先上传或选择穿戴模特参考图\n品类 / 模特页签 / 场景 / 检测类型为页面目录取值，chunk 枚举未确认，仅接受目录内取值"
+  },
+  {
+   "cls": "rounded-2xl border border-border bg-card p-4",
+   "rect": {
+    "x": 651,
+    "y": 191,
+    "w": 1242,
+    "h": 181
+   },
+   "text": "本次提交快照\n真人模特 · 保持原背景\n\n把参考图中的饰品（保持宝石/金属材质与镶口细节）佩戴在模特颈部，与模特参考图合成特写级穿戴效果。 模特取景：真人模特（默认真人半身，保留原图背景）。 场景：沿用模特参考图的原始背景与光线。 保持商品的颜色、材质、文字与 Logo 完全一致；按目标蒙版区域落位，透视、遮挡、接触阴影与高光随模特姿态变化。 不要改变模特身份、体型与服装，不要新增未提供的商品，不要改变商品数量。\n\n主体\n1 张 · 首饰 · 颈部\n商品蒙版\nx 50% · y 50% · r 40/40%\n目标蒙版\nx 50% · y 26% · r 9/5%\n模型\n已配置"
+  },
+  {
+   "cls": "rounded-2xl border border-border bg-card p-4",
+   "rect": {
+    "x": 651,
+    "y": 384,
+    "w": 1242,
+    "h": 884
+   },
+   "text": "生成结果\n本次 1 张 · 已返回 0 张\n第 1 张\n待生成\n空"
+  },
+  {
+   "cls": "space-y-3 rounded-xl border border-border bg-card p-4",
+   "rect": {
+    "x": 651,
+    "y": 1280,
+    "w": 1242,
+    "h": 233
+   },
+   "text": "结果资产\n\n还没有生成结果\n\n填好参数并提交后，结果会出现在这里，可预览、下载、存入资产库或发送到画布。"
+  },
+  {
+   "cls": "rounded-lg border border-border bg-card/40 p-3 mt-4",
+   "rect": {
+    "x": 219,
+    "y": 2996,
+    "w": 1674,
+    "h": 80
+   },
+   "text": "历史任务\n0 条\n\n本工具还没有历史任务；提交一次后会在这里留下任务、配置与结果，刷新后仍在。"
+  },
+  {
+   "cls": "relative flex h-full shrink-0 flex-col border-l",
+   "rect": {
+    "x": 1920,
+    "y": 0,
+    "w": 440,
+    "h": 1080
+   },
+   "text": "连接本地 Agent\n未连接\n点连接会自动启动本地服务、装好插件并接通，无需手动配置。\nClaude Code\n未连接\n·\nCLI · 2.1.285 (Claude Code)\n·\n直接运行\n连接\nCodex\n未连接\n·\nCLI · codex-cli 0.163.0\n·\n插件已装\n连接\nGalley\n未连接\n·\nCLI + 桌面版 · galley 0.6.4\n连接"
+  }
+ ]
+}

@@ -18,6 +18,7 @@ import { ArrowRight, CircleAlert, Download, Layers, Loader2, Move, Redo2, Rotate
 import { ToolAssetInput } from "@/components/tools/tool-asset-input";
 import { ToolResult } from "@/components/tools/tool-result";
 import { ToolShell } from "@/components/tools/tool-shell";
+import { OrigRail, SMART_EDIT_RAIL } from "@/components/tools/workspaces/orig-rail";
 import { saveResultItemToAssets, sendResultItemToCanvas } from "@/components/tools/tool-result-actions";
 import { cn, randomId } from "@/lib/utils";
 import type { ToolAssetRecord } from "@/services/api/tools/assets";
@@ -91,6 +92,7 @@ import {
     type PrintingRepairTransform,
     type PrintingRepairVersion,
 } from "@/features/tools/registry/printing-repair";
+import { WatermarkGroupPanel } from "@/components/tools/watermark-group-panel";
 
 /* ------------------------------------------------------------------ *
  * 草稿槽位：两个上传器各自独立落盘，互不覆盖 `assetIds`
@@ -203,7 +205,7 @@ function StepCard({
 }: {
     step: number;
     title: string;
-    hint: string;
+    hint?: string;
     active: boolean;
     done: boolean;
     className?: string;
@@ -216,10 +218,9 @@ function StepCard({
             className={cn("rounded-2xl border bg-card p-4", active ? "border-primary/60" : "border-border", className)}
         >
             <header className="flex items-start gap-2">
-                <StepBadge index={step} active={active || done} />
                 <div className="min-w-0 flex-1">
                     <h2 className="text-sm font-semibold">{title}</h2>
-                    <p className="mt-0.5 text-[11px] leading-4 text-muted-foreground">{hint}</p>
+                    {hint ? <p className="mt-0.5 text-[11px] leading-4 text-muted-foreground">{hint}</p> : null}
                 </div>
                 {done ? <span className="text-[11px] text-emerald-600">已完成</span> : null}
             </header>
@@ -821,30 +822,32 @@ export function PrintingRepairWorkspace({ className }: PrintingRepairWorkspacePr
         <ToolShell
             className={className}
             title={spec?.title ?? "印花修复"}
-            subtitle="三步完成：商品图 → 正确印花 → 定位，一次真实图像编辑"
-            badges={
-                <span data-testid="printing-repair-make-type" className="rounded-full border border-border px-2 py-0.5 text-[11px] text-muted-foreground">
-                    makeType {spec?.makeType ?? 29}
-                </span>
-            }
+            subtitle="上传印花有误的图片，将正确的印花调整并覆盖，即可完成修复"
             sidebar={sidebar}
         >
             <div data-testid="printing-repair-workspace" className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_320px]">
                 <div className="space-y-4">
-                    <StepCard step={1} title="上传印花有误的商品图" hint="这张图是修复底图：商品形状、褶皱、光影都会保留，只替换印花。" active={!base} done={Boolean(base)}>
+                    <p className="rounded-xl border border-amber-300/60 bg-amber-50 px-3 py-2 text-[11px] leading-4 text-amber-900">
+                        💡 小贴士：您可以调整印花的大小并将其置于合适的位置！看看怎么操作？
+                    </p>
+                    <StepCard step={1} title="Step 1：消除错误印花" active={!base} done={Boolean(base)}>
                         <ToolAssetInput
                             toolId={BASE_SLOT_ID}
-                            title="Step 1 · 商品图"
+                            variant="linkfox"
+                            dropLabel="拖拽 或 点击上传 需要修复的图"
+                            hint="10M以内，jpg/jpeg/png/webp"
                             maxCount={1}
                             constraints={UPLOAD_CONSTRAINTS}
                             onChange={handleBaseChange}
                         />
                     </StepCard>
 
-                    <StepCard step={2} title="上传正确的印花" hint="作为替换来源，本机会先做像素分割（白=印花本体）。" active={Boolean(base) && !print} done={Boolean(print)}>
+                    <StepCard step={2} title="Step 2：导入正确印花" active={Boolean(base) && !print} done={Boolean(print)}>
                         <ToolAssetInput
                             toolId={PRINT_SLOT_ID}
-                            title="Step 2 · 印花参考"
+                            variant="linkfox"
+                            dropLabel="拖拽 或 点击上传 印花参考"
+                            hint="10M以内，jpg/jpeg/png/webp"
                             maxCount={1}
                             constraints={UPLOAD_CONSTRAINTS}
                             disabled={!base}
@@ -870,7 +873,7 @@ export function PrintingRepairWorkspace({ className }: PrintingRepairWorkspacePr
                         ) : null}
                     </StepCard>
 
-                    <StepCard step={3} title="定位印花" hint="拖动印花层移动；方向键微调（Shift 加速）；滚轮缩放；只有印花层可动。" active={Boolean(print)} done={false}>
+                    <StepCard step={3} title="Step 3：调整印花位置" hint="在左侧画布中调整印花位置，调整完成点击【开始生成】，即可完成修复" active={Boolean(print)} done={false}>
                         {base && print ? (
                             <div className="space-y-3">
                                 <PrintStage
@@ -928,65 +931,31 @@ export function PrintingRepairWorkspace({ className }: PrintingRepairWorkspacePr
                             </div>
                         ) : (
                             <p data-testid="printing-repair-stage-empty" className="rounded-xl border border-dashed border-border px-3 py-6 text-center text-[11px] text-muted-foreground">
-                                先完成 Step 1 与 Step 2，这里会出现可拖动的印花定位画布。
-                            </p>
+                             </p>
                         )}
                     </StepCard>
                 </div>
 
                 <aside className="space-y-3">
                     <section className="space-y-3 rounded-2xl border border-border bg-card p-4">
-                        <h2 className="text-sm font-semibold">修复参数</h2>
-                        <label className="block space-y-1 text-[11px] text-muted-foreground">
-                            <span className="flex items-center justify-between"><span>修复强度</span><span className="tabular-nums text-foreground">{clampStrength(strength)}</span></span>
-                            <input data-testid="printing-repair-strength" type="range" min={PRINTING_REPAIR_STRENGTH.min} max={PRINTING_REPAIR_STRENGTH.max} step={PRINTING_REPAIR_STRENGTH.step} value={strength} onChange={(event) => setStrength(clampStrength(Number(event.target.value)))} className="w-full accent-primary" />
-                            <span className="text-[11px]">强度越高，越贴近新的印花纹理；越低越保留原图褶皱。</span>
-                        </label>
-                        <label className="block space-y-1 text-[11px] text-muted-foreground">
-                            <span>版本</span>
-                            <select data-testid="printing-repair-version" value={version} onChange={(event) => setVersion(event.target.value as PrintingRepairVersion)} className="w-full rounded-lg border border-border bg-background px-2 py-1 text-xs text-foreground">
-                                {PRINTING_REPAIR_VERSION_OPTIONS.map((option) => (
-                                    <option key={option.id} value={option.id}>{option.label}</option>
-                                ))}
-                            </select>
-                        </label>
-                        <div className="space-y-1 text-[11px] text-muted-foreground">
-                            <span>对比方式</span>
-                            <div className="flex flex-wrap gap-1">
-                                {PRINTING_REPAIR_COMPARE_MODES.map((mode) => (
-                                    <button
-                                        key={mode.id}
-                                        type="button"
-                                        data-testid={`printing-repair-compare-${mode.id}`}
-                                        onClick={() => setCompareMode(mode.id)}
-                                        aria-pressed={compareMode === mode.id}
-                                        className={cn("rounded-lg border px-2 py-1 text-[11px]", compareMode === mode.id ? "border-primary text-foreground" : "border-border text-muted-foreground")}
-                                    >
-                                        {compareModeLabel(mode.id)}
-                                    </button>
-                                ))}
-                            </div>
-                        </div>
-                        <IssueList issues={[...issues, ...(submitError ? [submitError] : []), ...(notice ? [notice] : [])]} />
                         <button
                             type="button"
+                            title={[...issues, ...(submitError ? [submitError] : []), ...(notice ? [notice] : [])].join("；") || undefined}
                             data-testid="printing-repair-submit"
                             onClick={() => void submit()}
                             disabled={blocked || issues.length > 0}
                             className="inline-flex w-full items-center justify-center gap-1.5 rounded-xl bg-primary px-3 py-2 text-sm font-medium text-primary-foreground disabled:opacity-50"
                         >
                             {running ? <Loader2 aria-hidden="true" className="size-4 animate-spin" /> : <Sparkles aria-hidden="true" className="size-4" />}
-                            {running ? "修复中…" : "开始修复"}
+                            <span>{running ? "修复中…" : "立即生成"}</span>
                         </button>
-                        <p className="text-[11px] leading-4 text-muted-foreground">
-                            一次提交 = 一次真实图像编辑（底图 + 印花 + 本机分割图）。上游无结果即判失败，不会补造图片。
-                        </p>
+                        <p className="mt-1.5 text-center text-[11px] text-muted-foreground">限免</p>
                     </section>
 
                     <section data-testid="printing-repair-result" className="space-y-2 rounded-2xl border border-border bg-card p-4">
                         <header className="flex items-center gap-2">
                             <Layers aria-hidden="true" className="size-4" />
-                            <h2 className="text-sm font-semibold">结果对比</h2>
+                            <h2 className="text-sm font-semibold">生成结果</h2>
                             {stale ? (
                                 <span data-testid="printing-repair-stale" className="rounded-full bg-amber-100 px-2 py-0.5 text-[11px] text-amber-900">来自旧版本</span>
                             ) : null}
@@ -1008,7 +977,7 @@ export function PrintingRepairWorkspace({ className }: PrintingRepairWorkspacePr
                             </>
                         ) : (
                             <p data-testid="printing-repair-result-empty" className="text-[11px] text-muted-foreground">
-                                {running ? "正在修复…" : view.status === "failed" ? view.error?.message ?? "上游没有返回结果" : "还没有结果。完成三步后点「开始修复」。"}
+                                {running ? "正在修复…" : view.status === "failed" ? view.error?.message ?? "上游没有返回结果" : "暂无生成结果图"}
                             </p>
                         )}
                         {view.status !== "succeeded" && run ? (
@@ -1017,6 +986,9 @@ export function PrintingRepairWorkspace({ className }: PrintingRepairWorkspacePr
                     </section>
 
                     {run?.task ? <ToolResult task={run.task as ToolTask} toolId={PRINTING_REPAIR_TOOL_ID} title="上游返回" /> : null}
+                    <WatermarkGroupPanel />
+                    {/* 原站族导航在页面最左（x≈61），本地被内容框裁掉：在参数栏底部等价还原，顺序与原站一致 */}
+                    <OrigRail items={SMART_EDIT_RAIL} active="印花修复" driver testId="printing-repair-family-rail" label="图片编辑" />
                 </aside>
             </div>
         </ToolShell>

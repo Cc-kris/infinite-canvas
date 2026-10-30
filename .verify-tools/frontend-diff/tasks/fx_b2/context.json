@@ -1,0 +1,24 @@
+{
+ "task": "前端 1:1 对齐：SCALE_UP, PRODUCT_REFINE, AI_OUTPAINTING, AREA_REPAIR, REMOVE_PEN, CHANGE_COLOR, IMAGE_CROP",
+ "work_dir": "/Users/mac/Documents/Dev/infinite-canvas",
+ "work_orders": {
+  "SCALE_UP": "/Users/mac/Documents/Dev/infinite-canvas/docs/V1.0/replica/frontend-1to1/SCALE_UP.md",
+  "PRODUCT_REFINE": "/Users/mac/Documents/Dev/infinite-canvas/docs/V1.0/replica/frontend-1to1/PRODUCT_REFINE.md",
+  "AI_OUTPAINTING": "/Users/mac/Documents/Dev/infinite-canvas/docs/V1.0/replica/frontend-1to1/AI_OUTPAINTING.md",
+  "AREA_REPAIR": "/Users/mac/Documents/Dev/infinite-canvas/docs/V1.0/replica/frontend-1to1/AREA_REPAIR.md",
+  "REMOVE_PEN": "/Users/mac/Documents/Dev/infinite-canvas/docs/V1.0/replica/frontend-1to1/REMOVE_PEN.md",
+  "CHANGE_COLOR": "/Users/mac/Documents/Dev/infinite-canvas/docs/V1.0/replica/frontend-1to1/CHANGE_COLOR.md",
+  "IMAGE_CROP": "/Users/mac/Documents/Dev/infinite-canvas/docs/V1.0/replica/frontend-1to1/IMAGE_CROP.md"
+ },
+ "index": "/Users/mac/Documents/Dev/infinite-canvas/docs/V1.0/replica/frontend-1to1/00-INDEX.md",
+ "editable_files": [
+  "/Users/mac/Documents/Dev/infinite-canvas/web/src/components/tools/workspaces/enhance.tsx",
+  "/Users/mac/Documents/Dev/infinite-canvas/web/src/components/tools/workspaces/outpaint.tsx",
+  "/Users/mac/Documents/Dev/infinite-canvas/web/src/components/tools/workspaces/mask.tsx",
+  "/Users/mac/Documents/Dev/infinite-canvas/web/src/components/tools/workspaces/color.tsx",
+  "/Users/mac/Documents/Dev/infinite-canvas/web/src/components/tools/workspaces/crop.tsx"
+ ],
+ "registry": "/Users/mac/Documents/Dev/infinite-canvas/web/src/features/tools/registry",
+ "evidence_js": "/Users/mac/Documents/Dev/infinite-canvas/capture_page.js",
+ "output": "/Users/mac/Documents/Dev/infinite-canvas/.verify-tools/frontend-diff/tasks/fx_b2/report.md"
+}

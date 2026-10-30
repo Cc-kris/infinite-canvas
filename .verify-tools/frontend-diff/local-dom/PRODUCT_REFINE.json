@@ -1,0 +1,406 @@
+{
+ "id": "PRODUCT_REFINE",
+ "route": "/tools/smart-edit/product-refine",
+ "ok": true,
+ "error": null,
+ "title": "无限画布",
+ "text": "无限画布\n首页\n电商套图\n智能修图\n新模型\nAI视频\nHOT\n批量生图\n商品图设计\n中\nv0.27.0\n局部重绘\n局部消除\n一键换色\n图片裁剪\n商品精修\n色差修复\n印花修复\n手部修复\n免责声明\n智能修图 / 商品精修\n商品精修\n/tools/smart-edit/product-refine\n商品图\nJPG/PNG/WEBP · 20M 以内\n点击上传\n上传图片\n从作品库选择\n20M以内，jpg/jpeg/png/webp\n精修配置\n输出 待上传原图\n精修模式\n整图精修\n去背景精修\n保留原始场景，只改善轮廓、光泽、材质与颜色。\n精修强度\n轻度\n标准\n强力\n默认档位，平衡质感提升与原图一致性。\n输出尺寸：\n待上传原图\n输出比例：\n待上传原图\n放大倍数：\n1\n×\n去背景精修：\n保留原背景\n💡默认生图尺寸规则：原图尺寸≤512px → 放大 4 倍，513~1024px → 放大 2 倍，＞1024px → 原尺寸\n当前命中：\n待上传原图\n生成\n模型：GPT Image 2\n请先上传待精修的商品图。\n开始精修（待上传原图）\n预计产出 1 张主结果\n生成结果\n历史记录\n生成结果\n暂无生成结果图\n填好参数并提交后，结果会出现在这里，可预览、下载、存入资产库或发送到画布。\n连接本地 Agent\n未连接\n点连接会自动启动本地服务、装好插件并接通，无需手动配置。\nClaude Code\n未连接\n·\nCLI · 2.1.285 (Claude Code)\n·\n直接运行\n连接\nCodex\n未连接\n·\nCLI · codex-cli 0.163.0\n·\n插件已装\n连接\nGalley\n未连接\n·\nCLI + 桌面版 · galley 0.6.4\n连接",
+ "lines": [
+  "无限画布",
+  "首页",
+  "电商套图",
+  "智能修图",
+  "新模型",
+  "AI视频",
+  "HOT",
+  "批量生图",
+  "商品图设计",
+  "中",
+  "v0.27.0",
+  "局部重绘",
+  "局部消除",
+  "一键换色",
+  "图片裁剪",
+  "商品精修",
+  "色差修复",
+  "印花修复",
+  "手部修复",
+  "免责声明",
+  "智能修图 / 商品精修",
+  "商品精修",
+  "/tools/smart-edit/product-refine",
+  "商品图",
+  "JPG/PNG/WEBP · 20M 以内",
+  "点击上传",
+  "上传图片",
+  "从作品库选择",
+  "20M以内，jpg/jpeg/png/webp",
+  "精修配置",
+  "输出 待上传原图",
+  "精修模式",
+  "整图精修",
+  "去背景精修",
+  "保留原始场景，只改善轮廓、光泽、材质与颜色。",
+  "精修强度",
+  "轻度",
+  "标准",
+  "强力",
+  "默认档位，平衡质感提升与原图一致性。",
+  "输出尺寸：",
+  "待上传原图",
+  "输出比例：",
+  "待上传原图",
+  "放大倍数：",
+  "1",
+  "×",
+  "去背景精修：",
+  "保留原背景",
+  "💡默认生图尺寸规则：原图尺寸≤512px → 放大 4 倍，513~1024px → 放大 2 倍，＞1024px → 原尺寸",
+  "当前命中：",
+  "待上传原图",
+  "生成",
+  "模型：GPT Image 2",
+  "请先上传待精修的商品图。",
+  "开始精修（待上传原图）",
+  "预计产出 1 张主结果",
+  "生成结果",
+  "历史记录",
+  "生成结果",
+  "暂无生成结果图",
+  "填好参数并提交后，结果会出现在这里，可预览、下载、存入资产库或发送到画布。",
+  "连接本地 Agent",
+  "未连接",
+  "点连接会自动启动本地服务、装好插件并接通，无需手动配置。",
+  "Claude Code",
+  "未连接",
+  "·",
+  "CLI · 2.1.285 (Claude Code)",
+  "·",
+  "直接运行",
+  "连接",
+  "Codex",
+  "未连接",
+  "·",
+  "CLI · codex-cli 0.163.0",
+  "·",
+  "插件已装",
+  "连接",
+  "Galley",
+  "未连接",
+  "·",
+  "CLI + 桌面版 · galley 0.6.4",
+  "连接"
+ ],
+ "controls": [
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "中",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1593,
+    "y": 14,
+    "w": 28,
+    "h": 28
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "切换到深色主题",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1625,
+    "y": 14,
+    "w": 28,
+    "h": 28
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "v0.27.0",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1657,
+    "y": 17,
+    "w": 47,
+    "h": 22
+   }
+  },
+  {
+   "tag": "div",
+   "type": "",
+   "text": "点击上传\n上传图片\n从作品库选择\n20M以内，jpg/jpeg/png/webp",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 242,
+    "y": 230,
+    "w": 795,
+    "h": 129
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "从作品库选择",
+   "placeholder": "",
+   "disabled": true,
+   "rect": {
+    "x": 255,
+    "y": 298,
+    "w": 100,
+    "h": 24
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "整图精修",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1075,
+    "y": 258,
+    "w": 74,
+    "h": 36
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "去背景精修",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1157,
+    "y": 258,
+    "w": 88,
+    "h": 36
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "轻度",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1075,
+    "y": 351,
+    "w": 46,
+    "h": 36
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "标准",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1129,
+    "y": 351,
+    "w": 46,
+    "h": 36
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "强力",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1183,
+    "y": 351,
+    "w": 46,
+    "h": 36
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "开始精修（待上传原图）",
+   "placeholder": "",
+   "disabled": true,
+   "rect": {
+    "x": 242,
+    "y": 623,
+    "w": 795,
+    "h": 40
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "生成结果",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 229,
+    "y": 716,
+    "w": 72,
+    "h": 32
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "历史记录",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 305,
+    "y": 716,
+    "w": 72,
+    "h": 32
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "连接",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 2265,
+    "y": 147,
+    "w": 66,
+    "h": 24
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "连接",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 2265,
+    "y": 215,
+    "w": 66,
+    "h": 24
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "连接",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 2265,
+    "y": 283,
+    "w": 66,
+    "h": 24
+   }
+  }
+ ],
+ "regions": [
+  {
+   "cls": "sticky top-0 z-[7] h-14 shrink-0 border-b border-hairline bg-surface/95 backdrop",
+   "rect": {
+    "x": 0,
+    "y": 0,
+    "w": 1920,
+    "h": 56
+   },
+   "text": "无限画布\n首页\n电商套图\n智能修图\n新模型\nAI视频\nHOT\n批量生图\n商品图设计\n中\n切换到深色主题\nv0.27.0"
+  },
+  {
+   "cls": "hidden w-[180px] shrink-0 overflow-y-auto rounded-xl border border-hairline bg-s",
+   "rect": {
+    "x": 16,
+    "y": 56,
+    "w": 180,
+    "h": 1008
+   },
+   "text": "智能修图\n局部重绘\n局部消除\n一键换色\n图片裁剪\n商品精修\n色差修复\n印花修复\n手部修复\n免责声明"
+  },
+  {
+   "cls": "flex min-h-14 shrink-0 flex-wrap items-center gap-3 border-b border-hairline px-",
+   "rect": {
+    "x": 209,
+    "y": 57,
+    "w": 1694,
+    "h": 109
+   },
+   "text": "智能修图 / 商品精修\n商品精修\n\n/tools/smart-edit/product-refine"
+  },
+  {
+   "cls": "min-h-0 flex-1 overflow-y-auto bg-transparent px-4 py-4 sm:px-5",
+   "rect": {
+    "x": 209,
+    "y": 166,
+    "w": 1694,
+    "h": 897
+   },
+   "text": "商品图\nJPG/PNG/WEBP · 20M 以内\n点击上传\n上传图片\n从作品库选择\n20M以内，jpg/jpeg/png/webp\n精修配置\n输出 待上传原图\n\n精修模式\n\n整图精修\n去背景精修\n\n保留原始场景，只改善轮廓、光泽、材质与颜色。\n\n精修强度\n\n轻度\n标准\n强力\n\n默认档位，平衡质感提升与原图一致性。\n\n输出尺寸：待上传原图\n输出比例：待上传原图\n放大倍数：1×\n去背景精修：保留原背景\n\n💡默认生图尺寸规则：原图尺寸≤512px → 放大 4 倍，513~1024px → 放大 2 倍，＞1024px → 原尺寸\n\n当前命中：待上传原图\n\n生成\n模型：GPT Image 2\n请"
+  },
+  {
+   "cls": "rounded-lg border border-stone-200 bg-card/60 p-3 dark:border-stone-800 dark:bg-",
+   "rect": {
+    "x": 229,
+    "y": 182,
+    "w": 821,
+    "h": 352
+   },
+   "text": "商品图\nJPG/PNG/WEBP · 20M 以内\n点击上传\n上传图片\n从作品库选择\n20M以内，jpg/jpeg/png/webp"
+  },
+  {
+   "cls": "space-y-3",
+   "rect": {
+    "x": 242,
+    "y": 230,
+    "w": 795,
+    "h": 129
+   },
+   "text": "点击上传\n上传图片\n从作品库选择\n20M以内，jpg/jpeg/png/webp"
+  },
+  {
+   "cls": "rounded-lg border border-stone-200 bg-card/60 p-3 dark:border-stone-800 dark:bg-",
+   "rect": {
+    "x": 1062,
+    "y": 182,
+    "w": 821,
+    "h": 352
+   },
+   "text": "精修配置\n输出 待上传原图\n\n精修模式\n\n整图精修\n去背景精修\n\n保留原始场景，只改善轮廓、光泽、材质与颜色。\n\n精修强度\n\n轻度\n标准\n强力\n\n默认档位，平衡质感提升与原图一致性。\n\n输出尺寸：待上传原图\n输出比例：待上传原图\n放大倍数：1×\n去背景精修：保留原背景\n\n💡默认生图尺寸规则：原图尺寸≤512px → 放大 4 倍，513~1024px → 放大 2 倍，＞1024px → 原尺寸\n\n当前命中：待上传原图"
+  },
+  {
+   "cls": "rounded-lg border border-stone-200 bg-card/60 p-3 dark:border-stone-800 dark:bg-",
+   "rect": {
+    "x": 229,
+    "y": 546,
+    "w": 821,
+    "h": 158
+   },
+   "text": "生成\n模型：GPT Image 2\n请先上传待精修的商品图。\n开始精修（待上传原图）\n\n预计产出 1 张主结果"
+  },
+  {
+   "cls": "space-y-3 rounded-xl border border-border bg-card p-4",
+   "rect": {
+    "x": 229,
+    "y": 761,
+    "w": 1654,
+    "h": 233
+   },
+   "text": "生成结果\n\n暂无生成结果图\n\n填好参数并提交后，结果会出现在这里，可预览、下载、存入资产库或发送到画布。"
+  },
+  {
+   "cls": "relative flex h-full shrink-0 flex-col border-l",
+   "rect": {
+    "x": 1920,
+    "y": 0,
+    "w": 440,
+    "h": 1080
+   },
+   "text": "连接本地 Agent\n未连接\n点连接会自动启动本地服务、装好插件并接通，无需手动配置。\nClaude Code\n未连接\n·\nCLI · 2.1.285 (Claude Code)\n·\n直接运行\n连接\nCodex\n未连接\n·\nCLI · codex-cli 0.163.0\n·\n插件已装\n连接\nGalley\n未连接\n·\nCLI + 桌面版 · galley 0.6.4\n连接"
+  }
+ ]
+}

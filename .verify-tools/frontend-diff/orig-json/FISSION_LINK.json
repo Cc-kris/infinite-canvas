@@ -1,0 +1,11 @@
+{
+ "tool": "FISSION_LINK",
+ "label": "场景裂变链接",
+ "status": "workspace_dom",
+ "url": "https://www.linkfox.com/draw/product-scene?type=2",
+ "capturedAt": "2026-10-29",
+ "method": "同源 iframe 注入已登录 Chrome 页面 (CDP Runtime.evaluate), viewport 1600x1000, 等待 9s 后取 body.innerText + 可见 button/input/textarea 的 rect/字号/颜色/圆角",
+ "routeSource": "workbench-BcUrzOPA.js 侧栏菜单表 (text/label/path/drawType/whitelist)",
+ "note": "场景裂变 tab：上传参考图/背景相似度/场景描述；?type=2 命中场景裂变",
+ "captureMissing": "/draw/product-scene?type=2"
+}

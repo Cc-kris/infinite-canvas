@@ -1,0 +1,649 @@
+{
+ "id": "PRODUCT_IMAGE_SUITE",
+ "route": "/tools/ecommerce-suite/product-image-suite",
+ "ok": true,
+ "error": null,
+ "title": "无限画布",
+ "text": "无限画布\n首页\n电商套图\n智能修图\n新模型\nAI视频\nHOT\n批量生图\n商品图设计\n中\nv0.27.0\n商品套图\n服装套图\n套图换色\n批量翻译\n高清放大\n智能扩图\n免责声明\n免责声明\n查看\n多视角白底商品&实拍图\n从本地上传\n从作品库选择\n从商品库选择\n10M以内，384*384 ~ 4096*4096，最大宽高比5\n商品信息\n0\n/\n2500\n品牌与合规（可选）\n智能品牌基因\n智能主色、智能字体风格\n智能合规检查\n未选择敏感词库\n·\n未选择替换词库\n模型选择\n当前模型：\ngpt-image-2\n分辨率选择\n模型品质\n生成比例\nA+图设置\n生成类型（单选）\n高级A+\n手机A+\n普通A+\n自定比例\n张数\n排版\n主副图设置\n生成类型（多选）\n卖点图\n白底图\n场景图\n特写图\n特写白底图\nA+图\n0\n张 + 主副图\n0\n张，共\n0\n张\n开始生成\n生成结果\n优秀案例\n历史记录\n预计生成\n0\n张\n请先上传商品图（jpg / png / webp，10M 以内）。\n请至少选择一个生成类型：A+ 图或主副图。\n历史任务\n0\n条\n本工具还没有历史任务；提交一次后会在这里留下任务、配置与结果，刷新后仍在。\n连接本地 Agent\n未连接\n点连接会自动启动本地服务、装好插件并接通，无需手动配置。\nClaude Code\n未连接\n·\nCLI · 2.1.285 (Claude Code)\n·\n直接运行\n连接\nCodex\n未连接\n·\nCLI · codex-cli 0.163.0\n·\n插件已装\n连接\nGalley\n未连接\n·\nCLI + 桌面版 · galley 0.6.4\n连接",
+ "lines": [
+  "无限画布",
+  "首页",
+  "电商套图",
+  "智能修图",
+  "新模型",
+  "AI视频",
+  "HOT",
+  "批量生图",
+  "商品图设计",
+  "中",
+  "v0.27.0",
+  "商品套图",
+  "服装套图",
+  "套图换色",
+  "批量翻译",
+  "高清放大",
+  "智能扩图",
+  "免责声明",
+  "免责声明",
+  "查看",
+  "多视角白底商品&实拍图",
+  "从本地上传",
+  "从作品库选择",
+  "从商品库选择",
+  "10M以内，384*384 ~ 4096*4096，最大宽高比5",
+  "商品信息",
+  "0",
+  "/",
+  "2500",
+  "品牌与合规（可选）",
+  "智能品牌基因",
+  "智能主色、智能字体风格",
+  "智能合规检查",
+  "未选择敏感词库",
+  "·",
+  "未选择替换词库",
+  "模型选择",
+  "当前模型：",
+  "gpt-image-2",
+  "分辨率选择",
+  "模型品质",
+  "生成比例",
+  "A+图设置",
+  "生成类型（单选）",
+  "高级A+",
+  "手机A+",
+  "普通A+",
+  "自定比例",
+  "张数",
+  "排版",
+  "主副图设置",
+  "生成类型（多选）",
+  "卖点图",
+  "白底图",
+  "场景图",
+  "特写图",
+  "特写白底图",
+  "A+图",
+  "0",
+  "张 + 主副图",
+  "0",
+  "张，共",
+  "0",
+  "张",
+  "开始生成",
+  "生成结果",
+  "优秀案例",
+  "历史记录",
+  "预计生成",
+  "0",
+  "张",
+  "请先上传商品图（jpg / png / webp，10M 以内）。",
+  "请至少选择一个生成类型：A+ 图或主副图。",
+  "历史任务",
+  "0",
+  "条",
+  "本工具还没有历史任务；提交一次后会在这里留下任务、配置与结果，刷新后仍在。",
+  "连接本地 Agent",
+  "未连接",
+  "点连接会自动启动本地服务、装好插件并接通，无需手动配置。",
+  "Claude Code",
+  "未连接",
+  "·",
+  "CLI · 2.1.285 (Claude Code)",
+  "·",
+  "直接运行",
+  "连接",
+  "Codex",
+  "未连接",
+  "·",
+  "CLI · codex-cli 0.163.0",
+  "·",
+  "插件已装",
+  "连接",
+  "Galley",
+  "未连接",
+  "·",
+  "CLI + 桌面版 · galley 0.6.4",
+  "连接"
+ ],
+ "controls": [
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "中",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1593,
+    "y": 14,
+    "w": 28,
+    "h": 28
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "切换到深色主题",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1625,
+    "y": 14,
+    "w": 28,
+    "h": 28
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "v0.27.0",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1657,
+    "y": 17,
+    "w": 47,
+    "h": 22
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "查看",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 299,
+    "y": 79,
+    "w": 24,
+    "h": 19
+   }
+  },
+  {
+   "tag": "div",
+   "type": "",
+   "text": "从本地上传\n从作品库选择\n从商品库选择\n10M以内，384*384 ~ 4096*4096，最大宽高比5",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 256,
+    "y": 158,
+    "w": 232,
+    "h": 249
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "从作品库选择",
+   "placeholder": "",
+   "disabled": true,
+   "rect": {
+    "x": 269,
+    "y": 266,
+    "w": 99,
+    "h": 24
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "从商品库选择",
+   "placeholder": "",
+   "disabled": true,
+   "rect": {
+    "x": 376,
+    "y": 266,
+    "w": 99,
+    "h": 24
+   }
+  },
+  {
+   "tag": "textarea",
+   "type": "",
+   "text": "商品卖点、材质、适用场景…（用于生成 Prompt，不写入上游任何账户）",
+   "placeholder": "商品卖点、材质、适用场景…（用于生成 Prompt，不写入上游任何账户）",
+   "disabled": false,
+   "rect": {
+    "x": 256,
+    "y": 515,
+    "w": 232,
+    "h": 150
+   }
+  },
+  {
+   "tag": "input",
+   "type": "checkbox",
+   "text": "on",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 475,
+    "y": 746,
+    "w": 13,
+    "h": 13
+   }
+  },
+  {
+   "tag": "input",
+   "type": "color",
+   "text": "#ffffff",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 396,
+    "y": 770,
+    "w": 40,
+    "h": 24
+   }
+  },
+  {
+   "tag": "select",
+   "type": "",
+   "text": "未指定\n现代无衬线\n经典衬线\n粗体强调",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 444,
+    "y": 768,
+    "w": 98,
+    "h": 27
+   }
+  },
+  {
+   "tag": "select",
+   "type": "",
+   "text": "1K\n2K\n4K",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 434,
+    "y": 936,
+    "w": 54,
+    "h": 27
+   }
+  },
+  {
+   "tag": "select",
+   "type": "",
+   "text": "低品质\n中品质\n高品质\n超高品质\n最大品质",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 402,
+    "y": 971,
+    "w": 86,
+    "h": 27
+   }
+  },
+  {
+   "tag": "select",
+   "type": "",
+   "text": "1:1\n3:4\n4:3\n2:3\n3:2",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 431,
+    "y": 1006,
+    "w": 57,
+    "h": 27
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "高级A+",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 256,
+    "y": 1134,
+    "w": 64,
+    "h": 32
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "手机A+",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 328,
+    "y": 1134,
+    "w": 64,
+    "h": 32
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "普通A+",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 400,
+    "y": 1134,
+    "w": 64,
+    "h": 32
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "自定比例",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 256,
+    "y": 1174,
+    "w": 74,
+    "h": 32
+   }
+  },
+  {
+   "tag": "input",
+   "type": "number",
+   "text": "4",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 288,
+    "y": 1215,
+    "w": 52,
+    "h": 26
+   }
+  },
+  {
+   "tag": "select",
+   "type": "",
+   "text": "每种排版生成一张\n无文字模式",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 368,
+    "y": 1214,
+    "w": 134,
+    "h": 27
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "卖点图",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 256,
+    "y": 1343,
+    "w": 60,
+    "h": 32
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "白底图",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 324,
+    "y": 1343,
+    "w": 60,
+    "h": 32
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "场景图",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 392,
+    "y": 1343,
+    "w": 60,
+    "h": 32
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "特写图",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 256,
+    "y": 1383,
+    "w": 60,
+    "h": 32
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "特写白底图",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 324,
+    "y": 1383,
+    "w": 88,
+    "h": 32
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "开始生成",
+   "placeholder": "",
+   "disabled": true,
+   "rect": {
+    "x": 243,
+    "y": 1009,
+    "w": 258,
+    "h": 32
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "生成结果",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 550,
+    "y": 67,
+    "w": 56,
+    "h": 44
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "优秀案例",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 630,
+    "y": 67,
+    "w": 56,
+    "h": 44
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "历史记录",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 710,
+    "y": 67,
+    "w": 56,
+    "h": 44
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "连接",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 2265,
+    "y": 147,
+    "w": 66,
+    "h": 24
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "连接",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 2265,
+    "y": 215,
+    "w": 66,
+    "h": 24
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "连接",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 2265,
+    "y": 283,
+    "w": 66,
+    "h": 24
+   }
+  }
+ ],
+ "regions": [
+  {
+   "cls": "sticky top-0 z-[7] h-14 shrink-0 border-b border-hairline bg-surface/95 backdrop",
+   "rect": {
+    "x": 0,
+    "y": 0,
+    "w": 1920,
+    "h": 56
+   },
+   "text": "无限画布\n首页\n电商套图\n智能修图\n新模型\nAI视频\nHOT\n批量生图\n商品图设计\n中\n切换到深色主题\nv0.27.0"
+  },
+  {
+   "cls": "hidden w-[180px] shrink-0 overflow-y-auto rounded-xl border border-hairline bg-s",
+   "rect": {
+    "x": 16,
+    "y": 56,
+    "w": 180,
+    "h": 1008
+   },
+   "text": "电商套图\n商品套图\n服装套图\n套图换色\n批量翻译\n高清放大\n智能扩图\n免责声明"
+  },
+  {
+   "cls": "min-h-0 flex-1 overflow-hidden bg-canvas p-2.5",
+   "rect": {
+    "x": 209,
+    "y": 57,
+    "w": 1694,
+    "h": 1006
+   },
+   "text": "免责声明\n查看\n多视角白底商品&实拍图\n从本地上传\n从作品库选择\n从商品库选择\n10M以内，384*384 ~ 4096*4096，最大宽高比5\n商品信息\n0 / 2500\n品牌与合规（可选）\n智能品牌基因\n智能主色、智能字体风格\n未指定\n现代无衬线\n经典衬线\n粗体强调\n智能合规检查\n未选择敏感词库\n·\n未选择替换词库\n模型选择\n当前模型：gpt-image-2\n分辨率选择\n1K\n2K\n4K\n模型品质\n低品质\n中品质\n高品质\n超高品质\n最大品质\n生成比例\n1:1\n3:4\n4:3\n2:3\n3:2\nA+图设置\n\n生成类型（单选）\n\n高级A+\n手机A+\n普通A+\n自定比例\n张数\n排版\n每种排版生成一"
+  },
+  {
+   "cls": "rounded-lg border border-stone-200 bg-white/60 p-3 dark:border-stone-800 dark:bg",
+   "rect": {
+    "x": 243,
+    "y": 110,
+    "w": 258,
+    "h": 322
+   },
+   "text": "多视角白底商品&实拍图\n从本地上传\n从作品库选择\n从商品库选择\n10M以内，384*384 ~ 4096*4096，最大宽高比5"
+  },
+  {
+   "cls": "space-y-3",
+   "rect": {
+    "x": 256,
+    "y": 158,
+    "w": 232,
+    "h": 249
+   },
+   "text": "从本地上传\n从作品库选择\n从商品库选择\n10M以内，384*384 ~ 4096*4096，最大宽高比5"
+  },
+  {
+   "cls": "rounded-lg border border-stone-200 bg-white/60 p-3 dark:border-stone-800 dark:bg",
+   "rect": {
+    "x": 243,
+    "y": 444,
+    "w": 258,
+    "h": 240
+   },
+   "text": "商品信息\n0 / 2500"
+  },
+  {
+   "cls": "rounded-lg border border-stone-200 bg-white/60 p-3 dark:border-stone-800 dark:bg",
+   "rect": {
+    "x": 243,
+    "y": 696,
+    "w": 258,
+    "h": 155
+   },
+   "text": "品牌与合规（可选）\n智能品牌基因\n智能主色、智能字体风格\n未指定\n现代无衬线\n经典衬线\n粗体强调\n智能合规检查\n未选择敏感词库\n·\n未选择替换词库"
+  },
+  {
+   "cls": "rounded-lg border border-stone-200 bg-white/60 p-3 dark:border-stone-800 dark:bg",
+   "rect": {
+    "x": 243,
+    "y": 863,
+    "w": 258,
+    "h": 183
+   },
+   "text": "模型选择\n当前模型：gpt-image-2\n分辨率选择\n1K\n2K\n4K\n模型品质\n低品质\n中品质\n高品质\n超高品质\n最大品质\n生成比例\n1:1\n3:4\n4:3\n2:3\n3:2"
+  },
+  {
+   "cls": "rounded-lg border border-stone-200 bg-white/60 p-3 dark:border-stone-800 dark:bg",
+   "rect": {
+    "x": 243,
+    "y": 1058,
+    "w": 258,
+    "h": 196
+   },
+   "text": "A+图设置\n\n生成类型（单选）\n\n高级A+\n手机A+\n普通A+\n自定比例\n张数\n排版\n每种排版生成一张\n无文字模式"
+  },
+  {
+   "cls": "rounded-lg border border-stone-200 bg-white/60 p-3 dark:border-stone-800 dark:bg",
+   "rect": {
+    "x": 243,
+    "y": 1266,
+    "w": 258,
+    "h": 161
+   },
+   "text": "主副图设置\n\n生成类型（多选）\n\n卖点图\n白底图\n场景图\n特写图\n特写白底图"
+  },
+  {
+   "cls": "rounded-lg border border-border bg-card/40 p-3 mt-4",
+   "rect": {
+    "x": 219,
+    "y": 1069,
+    "w": 1674,
+    "h": 80
+   },
+   "text": "历史任务\n0 条\n\n本工具还没有历史任务；提交一次后会在这里留下任务、配置与结果，刷新后仍在。"
+  },
+  {
+   "cls": "relative flex h-full shrink-0 flex-col border-l",
+   "rect": {
+    "x": 1920,
+    "y": 0,
+    "w": 440,
+    "h": 1080
+   },
+   "text": "连接本地 Agent\n未连接\n点连接会自动启动本地服务、装好插件并接通，无需手动配置。\nClaude Code\n未连接\n·\nCLI · 2.1.285 (Claude Code)\n·\n直接运行\n连接\nCodex\n未连接\n·\nCLI · codex-cli 0.163.0\n·\n插件已装\n连接\nGalley\n未连接\n·\nCLI + 桌面版 · galley 0.6.4\n连接"
+  }
+ ]
+}

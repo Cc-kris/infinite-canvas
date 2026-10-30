@@ -1,0 +1,427 @@
+{
+ "id": "PRINT_EXTRACT",
+ "route": "/tools/product-design/print-extract",
+ "ok": true,
+ "error": null,
+ "title": "无限画布",
+ "text": "无限画布\n首页\n电商套图\n智能修图\n新模型\nAI视频\nHOT\n批量生图\n商品图设计\n中\nv0.27.0\n商品图\n商品替换\n场景裂变\n手持商品\nAI穿衣\n姿势裂变\nAI穿戴\nPOD素材\n饰品文字\n素材贴合\n印花提取\nAI姿势生成\n补充\nAI试衣XSY\n补充\n场景裂变链接\n补充\n图片文字编辑\n补充\n上装换料\n补充\n商品图设计器\n补充\n商品营销素材\n补充\n场景迁移\n补充\n免责声明\n印花提取\n真实提取 · 上游出图\n快速提取商品中的印花图案 · 20M / 384–4096 · 尚未上传商品图\n撤销\n重做\n重置\n上传需要提取印花的商品图片\n从本地上传\n从作品库选择\n20M以内，分辨率：\n384\n*\n384\n~\n4096\n*\n4096\n，宽高比小于\n5\n或试试这些\n上传多张图片，开始批量提取\n单张模式：一次处理一张商品图\n生成透明图\n关闭\n预计输出\n0\n张\nPNG\n· 宽高跟随源图\n立即生成\n先上传需要提取印花的商品图片。\n生成结果\n历史记录\n0\n尚未上传商品图\n印花提取\n快速提取商品中的印花图案\n历史任务\n0\n条\n本工具还没有历史任务；提交一次后会在这里留下任务、配置与结果，刷新后仍在。\n连接本地 Agent\n未连接\n点连接会自动启动本地服务、装好插件并接通，无需手动配置。\nClaude Code\n未连接\n·\nCLI · 2.1.285 (Claude Code)\n·\n直接运行\n连接\nCodex\n未连接\n·\nCLI · codex-cli 0.163.0\n·\n插件已装\n连接\nGalley\n未连接\n·\nCLI + 桌面版 · galley 0.6.4\n连接",
+ "lines": [
+  "无限画布",
+  "首页",
+  "电商套图",
+  "智能修图",
+  "新模型",
+  "AI视频",
+  "HOT",
+  "批量生图",
+  "商品图设计",
+  "中",
+  "v0.27.0",
+  "商品图",
+  "商品替换",
+  "场景裂变",
+  "手持商品",
+  "AI穿衣",
+  "姿势裂变",
+  "AI穿戴",
+  "POD素材",
+  "饰品文字",
+  "素材贴合",
+  "印花提取",
+  "AI姿势生成",
+  "补充",
+  "AI试衣XSY",
+  "补充",
+  "场景裂变链接",
+  "补充",
+  "图片文字编辑",
+  "补充",
+  "上装换料",
+  "补充",
+  "商品图设计器",
+  "补充",
+  "商品营销素材",
+  "补充",
+  "场景迁移",
+  "补充",
+  "免责声明",
+  "印花提取",
+  "真实提取 · 上游出图",
+  "快速提取商品中的印花图案 · 20M / 384–4096 · 尚未上传商品图",
+  "撤销",
+  "重做",
+  "重置",
+  "上传需要提取印花的商品图片",
+  "从本地上传",
+  "从作品库选择",
+  "20M以内，分辨率：",
+  "384",
+  "*",
+  "384",
+  "~",
+  "4096",
+  "*",
+  "4096",
+  "，宽高比小于",
+  "5",
+  "或试试这些",
+  "上传多张图片，开始批量提取",
+  "单张模式：一次处理一张商品图",
+  "生成透明图",
+  "关闭",
+  "预计输出",
+  "0",
+  "张",
+  "PNG",
+  "· 宽高跟随源图",
+  "立即生成",
+  "先上传需要提取印花的商品图片。",
+  "生成结果",
+  "历史记录",
+  "0",
+  "尚未上传商品图",
+  "印花提取",
+  "快速提取商品中的印花图案",
+  "历史任务",
+  "0",
+  "条",
+  "本工具还没有历史任务；提交一次后会在这里留下任务、配置与结果，刷新后仍在。",
+  "连接本地 Agent",
+  "未连接",
+  "点连接会自动启动本地服务、装好插件并接通，无需手动配置。",
+  "Claude Code",
+  "未连接",
+  "·",
+  "CLI · 2.1.285 (Claude Code)",
+  "·",
+  "直接运行",
+  "连接",
+  "Codex",
+  "未连接",
+  "·",
+  "CLI · codex-cli 0.163.0",
+  "·",
+  "插件已装",
+  "连接",
+  "Galley",
+  "未连接",
+  "·",
+  "CLI + 桌面版 · galley 0.6.4",
+  "连接"
+ ],
+ "controls": [
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "中",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1593,
+    "y": 14,
+    "w": 28,
+    "h": 28
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "切换到深色主题",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1625,
+    "y": 14,
+    "w": 28,
+    "h": 28
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "v0.27.0",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1657,
+    "y": 17,
+    "w": 47,
+    "h": 22
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "撤销",
+   "placeholder": "",
+   "disabled": true,
+   "rect": {
+    "x": 1703,
+    "y": 81,
+    "w": 64,
+    "h": 36
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "重做",
+   "placeholder": "",
+   "disabled": true,
+   "rect": {
+    "x": 1775,
+    "y": 81,
+    "w": 64,
+    "h": 36
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "重置",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1847,
+    "y": 81,
+    "w": 46,
+    "h": 36
+   }
+  },
+  {
+   "tag": "div",
+   "type": "",
+   "text": "上传需要提取印花的商品图片\n\n从本地上传\n从作品库选择\n\n20M以内，分辨率：384 * 384 ~ 4096 * 4096，宽高比小于5",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 246,
+    "y": 169,
+    "w": 247,
+    "h": 186
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "从本地上传",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 262,
+    "y": 257,
+    "w": 108,
+    "h": 24
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "从作品库选择",
+   "placeholder": "",
+   "disabled": true,
+   "rect": {
+    "x": 378,
+    "y": 257,
+    "w": 100,
+    "h": 24
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "上传多张图片，开始批量提取",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 236,
+    "y": 462,
+    "w": 267,
+    "h": 32
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "关闭",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 446,
+    "y": 532,
+    "w": 57,
+    "h": 22
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "立即生成",
+   "placeholder": "",
+   "disabled": true,
+   "rect": {
+    "x": 236,
+    "y": 723,
+    "w": 267,
+    "h": 32
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "生成结果",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 532,
+    "y": 153,
+    "w": 56,
+    "h": 22
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "历史记录\n0",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 608,
+    "y": 153,
+    "w": 75,
+    "h": 22
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "连接",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 2265,
+    "y": 147,
+    "w": 66,
+    "h": 24
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "连接",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 2265,
+    "y": 215,
+    "w": 66,
+    "h": 24
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "连接",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 2265,
+    "y": 283,
+    "w": 66,
+    "h": 24
+   }
+  }
+ ],
+ "regions": [
+  {
+   "cls": "sticky top-0 z-[7] h-14 shrink-0 border-b border-hairline bg-surface/95 backdrop",
+   "rect": {
+    "x": 0,
+    "y": 0,
+    "w": 1920,
+    "h": 56
+   },
+   "text": "无限画布\n首页\n电商套图\n智能修图\n新模型\nAI视频\nHOT\n批量生图\n商品图设计\n中\n切换到深色主题\nv0.27.0"
+  },
+  {
+   "cls": "hidden w-[180px] shrink-0 overflow-y-auto rounded-xl border border-hairline bg-s",
+   "rect": {
+    "x": 16,
+    "y": 56,
+    "w": 180,
+    "h": 1008
+   },
+   "text": "商品图设计\n商品图\n商品替换\n场景裂变\n手持商品\nAI穿衣\n姿势裂变\nAI穿戴\nPOD素材\n饰品文字\n素材贴合\n印花提取\nAI姿势生成\n补充\nAI试衣XSY\n补充\n场景裂变链接\n补充\n图片文字编辑\n补充\n上装换料\n补充\n商品图设计器\n补充\n商品营销素材\n补充\n场景迁移\n补充\n免责声明"
+  },
+  {
+   "cls": "min-h-0 flex-1 overflow-hidden bg-canvas p-2.5",
+   "rect": {
+    "x": 209,
+    "y": 57,
+    "w": 1694,
+    "h": 1006
+   },
+   "text": "印花提取\n真实提取 · 上游出图\n\n快速提取商品中的印花图案 · 20M / 384–4096 · 尚未上传商品图\n\n撤销\n重做\n重置\n\n上传需要提取印花的商品图片\n\n从本地上传\n从作品库选择\n\n20M以内，分辨率：384 * 384 ~ 4096 * 4096，宽高比小于5\n\n或试试这些\n上传多张图片，开始批量提取\n\n单张模式：一次处理一张商品图\n\n生成透明图\n关闭\n\n预计输出 0 张 PNG · 宽高跟随源图\n\n立即生成\n\n先上传需要提取印花的商品图片。\n\n生成结果\n历史记录\n0\n尚未上传商品图\n提取结果\n\n印花提取\n\n快速提取商品中的印花图案\n\n历史任务\n0 条\n\n本工具还没有历史任务；"
+  },
+  {
+   "cls": "flex w-[300px] shrink-0 flex-col border-r border-black/[0.08] bg-card",
+   "rect": {
+    "x": 220,
+    "y": 143,
+    "w": 300,
+    "h": 647
+   },
+   "text": "上传需要提取印花的商品图片\n\n从本地上传\n从作品库选择\n\n20M以内，分辨率：384 * 384 ~ 4096 * 4096，宽高比小于5\n\n或试试这些\n上传多张图片，开始批量提取\n\n单张模式：一次处理一张商品图\n\n生成透明图\n关闭\n\n预计输出 0 张 PNG · 宽高跟随源图\n\n立即生成\n\n先上传需要提取印花的商品图片。"
+  },
+  {
+   "cls": "rounded-lg bg-card p-[10px]",
+   "rect": {
+    "x": 236,
+    "y": 159,
+    "w": 267,
+    "h": 291
+   },
+   "text": "上传需要提取印花的商品图片\n\n从本地上传\n从作品库选择\n\n20M以内，分辨率：384 * 384 ~ 4096 * 4096，宽高比小于5\n\n或试试这些"
+  },
+  {
+   "cls": "flex min-w-0 flex-1 flex-col bg-card",
+   "rect": {
+    "x": 520,
+    "y": 143,
+    "w": 1372,
+    "h": 647
+   },
+   "text": "生成结果\n历史记录\n0\n尚未上传商品图\n提取结果\n\n印花提取\n\n快速提取商品中的印花图案"
+  },
+  {
+   "cls": "flex h-[42px] shrink-0 items-center gap-5 rounded-tr-lg bg-card px-3",
+   "rect": {
+    "x": 520,
+    "y": 143,
+    "w": 1372,
+    "h": 42
+   },
+   "text": "生成结果\n历史记录\n0\n尚未上传商品图"
+  },
+  {
+   "cls": "rounded-lg border border-border bg-card/40 p-3 mt-4",
+   "rect": {
+    "x": 219,
+    "y": 807,
+    "w": 1674,
+    "h": 80
+   },
+   "text": "历史任务\n0 条\n\n本工具还没有历史任务；提交一次后会在这里留下任务、配置与结果，刷新后仍在。"
+  },
+  {
+   "cls": "relative flex h-full shrink-0 flex-col border-l",
+   "rect": {
+    "x": 1920,
+    "y": 0,
+    "w": 440,
+    "h": 1080
+   },
+   "text": "连接本地 Agent\n未连接\n点连接会自动启动本地服务、装好插件并接通，无需手动配置。\nClaude Code\n未连接\n·\nCLI · 2.1.285 (Claude Code)\n·\n直接运行\n连接\nCodex\n未连接\n·\nCLI · codex-cli 0.163.0\n·\n插件已装\n连接\nGalley\n未连接\n·\nCLI + 桌面版 · galley 0.6.4\n连接"
+  }
+ ]
+}

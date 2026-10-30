@@ -1,0 +1,26 @@
+{
+ "task": "前端 1:1 对齐：FIX_COLOR, HAND_REPAIR, PRINTING_REPAIR, PRODUCT_SCENE, FISSION_LINK, SCENE_TRANSFER, REPLACE_GOODS, HANDHELD_GOODS",
+ "work_dir": "/Users/mac/Documents/Dev/infinite-canvas",
+ "work_orders": {
+  "FIX_COLOR": "/Users/mac/Documents/Dev/infinite-canvas/docs/V1.0/replica/frontend-1to1/FIX_COLOR.md",
+  "HAND_REPAIR": "/Users/mac/Documents/Dev/infinite-canvas/docs/V1.0/replica/frontend-1to1/HAND_REPAIR.md",
+  "PRINTING_REPAIR": "/Users/mac/Documents/Dev/infinite-canvas/docs/V1.0/replica/frontend-1to1/PRINTING_REPAIR.md",
+  "PRODUCT_SCENE": "/Users/mac/Documents/Dev/infinite-canvas/docs/V1.0/replica/frontend-1to1/PRODUCT_SCENE.md",
+  "FISSION_LINK": "/Users/mac/Documents/Dev/infinite-canvas/docs/V1.0/replica/frontend-1to1/FISSION_LINK.md",
+  "SCENE_TRANSFER": "/Users/mac/Documents/Dev/infinite-canvas/docs/V1.0/replica/frontend-1to1/SCENE_TRANSFER.md",
+  "REPLACE_GOODS": "/Users/mac/Documents/Dev/infinite-canvas/docs/V1.0/replica/frontend-1to1/REPLACE_GOODS.md",
+  "HANDHELD_GOODS": "/Users/mac/Documents/Dev/infinite-canvas/docs/V1.0/replica/frontend-1to1/HANDHELD_GOODS.md"
+ },
+ "index": "/Users/mac/Documents/Dev/infinite-canvas/docs/V1.0/replica/frontend-1to1/00-INDEX.md",
+ "editable_files": [
+  "/Users/mac/Documents/Dev/infinite-canvas/web/src/components/tools/workspaces/repair.tsx",
+  "/Users/mac/Documents/Dev/infinite-canvas/web/src/components/tools/workspaces/printing-repair.tsx",
+  "/Users/mac/Documents/Dev/infinite-canvas/web/src/components/tools/workspaces/scene.tsx",
+  "/Users/mac/Documents/Dev/infinite-canvas/web/src/components/tools/workspaces/scene-fission.tsx",
+  "/Users/mac/Documents/Dev/infinite-canvas/web/src/components/tools/workspaces/replace.tsx",
+  "/Users/mac/Documents/Dev/infinite-canvas/web/src/components/tools/workspaces/handheld-goods.tsx"
+ ],
+ "registry": "/Users/mac/Documents/Dev/infinite-canvas/web/src/features/tools/registry",
+ "evidence_js": "/Users/mac/Documents/Dev/infinite-canvas/capture_page.js",
+ "output": "/Users/mac/Documents/Dev/infinite-canvas/.verify-tools/frontend-diff/tasks/fx_b3/report.md"
+}

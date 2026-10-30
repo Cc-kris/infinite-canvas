@@ -1,0 +1,5 @@
+目标：把 AI_DRESSING_V2, AI_DRESSING_XSY, AI_POSTURE, AI_POSE_GENERATOR, AI_WEARABLE, MATERIAL_UPPER_BODY, POD_MATERIAL, SDS_DESIGN, ORNAMENT_TEXT, PRINT_EXTRACT, IMAGE_TEXT_EDIT, NEW_DESIGNER 这些工具页的前端做成与原站 1:1。
+第一步读 /Users/mac/Documents/Dev/infinite-canvas/.verify-tools/frontend-diff/tasks/fx_b4/context.json（全绝对路径）。work_orders 里每个 md：A=原站内容清单(按页面顺序，逐条都要在本地出现且层级/位置一致)，B=缺失(必须补)，C=多余(必须删)。
+只允许改 editable_files 里的文件（registry 必要时可读，尽量不改）。ToolShell/侧栏/导航/主题等外壳不动。不改 adapter 与接口调用逻辑，只改呈现。文案用原站中文原文。
+验收：cd /Users/mac/Documents/Dev/infinite-canvas/web && npx tsc --noEmit 且 npm run build 均通过；每个工具 B 列表项落地、C 列表项移除。
+最后写 /Users/mac/Documents/Dev/infinite-canvas/.verify-tools/frontend-diff/tasks/fx_b4/report.md：逐工具列出补了什么、删了什么、未能落地项与原因。

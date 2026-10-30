@@ -1,0 +1,158 @@
+[
+ {
+  "id": "PRODUCT_IMAGE_SUITE",
+  "route": "/tools/ecommerce-suite/product-image-suite"
+ },
+ {
+  "id": "DRESS_WEAR_SET",
+  "route": "/tools/ecommerce-suite/dress-wear-set"
+ },
+ {
+  "id": "CHANGE_COLOR_V2",
+  "route": "/tools/ecommerce-suite/change-color-v2"
+ },
+ {
+  "id": "IMAGE_TRANSLATION",
+  "route": "/tools/ecommerce-suite/image-translation"
+ },
+ {
+  "id": "SCALE_UP",
+  "route": "/tools/ecommerce-suite/scale-up"
+ },
+ {
+  "id": "AI_OUTPAINTING",
+  "route": "/tools/ecommerce-suite/ai-outpainting"
+ },
+ {
+  "id": "AREA_REPAIR",
+  "route": "/tools/smart-edit/area-repair"
+ },
+ {
+  "id": "REMOVE_PEN",
+  "route": "/tools/smart-edit/remove-pen"
+ },
+ {
+  "id": "CHANGE_COLOR",
+  "route": "/tools/smart-edit/change-color"
+ },
+ {
+  "id": "IMAGE_CROP",
+  "route": "/tools/smart-edit/image-crop"
+ },
+ {
+  "id": "PRODUCT_REFINE",
+  "route": "/tools/smart-edit/product-refine"
+ },
+ {
+  "id": "FIX_COLOR",
+  "route": "/tools/smart-edit/fix-color"
+ },
+ {
+  "id": "PRINTING_REPAIR",
+  "route": "/tools/smart-edit/printing-repair"
+ },
+ {
+  "id": "HAND_REPAIR",
+  "route": "/tools/smart-edit/hand-repair"
+ },
+ {
+  "id": "NEW_REPLACE_BG_V2",
+  "route": "/tools/product-design/new-replace-bg-v2"
+ },
+ {
+  "id": "REPLACE_GOODS",
+  "route": "/tools/product-design/replace-goods"
+ },
+ {
+  "id": "PRODUCT_SCENE",
+  "route": "/tools/product-design/product-scene"
+ },
+ {
+  "id": "HANDHELD_GOODS",
+  "route": "/tools/product-design/handheld-goods"
+ },
+ {
+  "id": "AI_DRESSING_V2",
+  "route": "/tools/product-design/ai-dressing-v2"
+ },
+ {
+  "id": "AI_POSTURE",
+  "route": "/tools/product-design/ai-posture"
+ },
+ {
+  "id": "AI_WEARABLE",
+  "route": "/tools/product-design/ai-wearable"
+ },
+ {
+  "id": "AI_TEXT",
+  "route": "/tools/product-design/ai-text"
+ },
+ {
+  "id": "ORNAMENT_TEXT",
+  "route": "/tools/product-design/ornament-text"
+ },
+ {
+  "id": "SDS_DESIGN",
+  "route": "/tools/product-design/sds-design"
+ },
+ {
+  "id": "PRINT_EXTRACT",
+  "route": "/tools/product-design/print-extract"
+ },
+ {
+  "id": "AI_POSE_GENERATOR",
+  "route": "/tools/product-design/ai-pose-generator"
+ },
+ {
+  "id": "AI_DRESSING_XSY",
+  "route": "/tools/product-design/ai-dressing-xsy"
+ },
+ {
+  "id": "FISSION_LINK",
+  "route": "/tools/product-design/fission-link"
+ },
+ {
+  "id": "IMAGE_TEXT_EDIT",
+  "route": "/tools/product-design/image-text-edit"
+ },
+ {
+  "id": "MATERIAL_UPPER_BODY",
+  "route": "/tools/product-design/material-upper-body"
+ },
+ {
+  "id": "NEW_DESIGNER",
+  "route": "/tools/product-design/new-designer"
+ },
+ {
+  "id": "PRODUCT_MARKET_MATERIAL",
+  "route": "/tools/product-design/product-market-material"
+ },
+ {
+  "id": "SCENE_TRANSFER",
+  "route": "/tools/product-design/scene-transfer"
+ },
+ {
+  "id": "IMAGE_TO_VIDEO",
+  "route": "/tools/ai-video/image-to-video"
+ },
+ {
+  "id": "SALE_VIDEO",
+  "route": "/tools/ai-video/sale-video"
+ },
+ {
+  "id": "VIDEO_REPLICATION",
+  "route": "/tools/ai-video/video-replication"
+ },
+ {
+  "id": "AI_VIDEO_EDITING",
+  "route": "/tools/ai-video/ai-video-editing"
+ },
+ {
+  "id": "VIDEO_TRANSLATION",
+  "route": "/tools/ai-video/video-translation"
+ },
+ {
+  "id": "VIDEO_CONCAT",
+  "route": "/tools/ai-video/video-concat"
+ }
+]

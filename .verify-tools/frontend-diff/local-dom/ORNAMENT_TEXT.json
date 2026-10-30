@@ -1,0 +1,449 @@
+{
+ "id": "ORNAMENT_TEXT",
+ "route": "/tools/product-design/ornament-text",
+ "ok": true,
+ "error": null,
+ "title": "无限画布",
+ "text": "无限画布\n首页\n电商套图\n智能修图\n新模型\nAI视频\nHOT\n批量生图\n商品图设计\n中\nv0.27.0\n商品图\n商品替换\n场景裂变\n手持商品\nAI穿衣\n姿势裂变\nAI穿戴\nPOD素材\n饰品文字\n素材贴合\n印花提取\nAI姿势生成\n补充\nAI试衣XSY\n补充\n场景裂变链接\n补充\n图片文字编辑\n补充\n上装换料\n补充\n商品图设计器\n补充\n商品营销素材\n补充\n场景迁移\n补充\n免责声明\n饰品文字\n文字内容、字体、字号与左右定位实时预览；提交后由图片模型生成成品。\ndefault::gpt-image-2\n字数\n0\n/\n4000\n饰品文字内容\n逐字照排，最多\n4000\n字。\n效果描述（可选）\n字体与字号\n字体\n自定义字体名（原样透传上游）\n字号\n96\n字体列表是本地可渲染的预览字族（上游字体库未取证），fontname 原样透传；预览随文字、字体、字号、左右定位实时更新，提交后结果以上游返回为准。\n左右定位\n居中\n·\n18\n%–\n82\n%\n左 (%)\n右 (%)\n偏左\n居中\n偏右\n效果预览\n拖动文字框或方向键微调，实时同步左右定位\n饰品文字\n预览字族：衬线 Serif；上游若替换字族不会回写本地配置。\n文字框列表\n（空文字框）\n衬线 Serif\n·\n96\n·\n18\n%–\n82\n%\n生成饰品文字\n请先填写饰品文字内容。\n饰品文字结果\n还没有生成结果\n填好参数并提交后，结果会出现在这里，可预览、下载、存入资产库或发送到画布。\n历史任务\n0\n条\n本工具还没有历史任务；提交一次后会在这里留下任务、配置与结果，刷新后仍在。\n连接本地 Agent\n未连接\n点连接会自动启动本地服务、装好插件并接通，无需手动配置。\nClaude Code\n未连接\n·\nCLI · 2.1.285 (Claude Code)\n·\n直接运行\n连接\nCodex\n未连接\n·\nCLI · codex-cli 0.163.0\n·\n插件已装\n连接\nGalley\n未连接\n·\nCLI + 桌面版 · galley 0.6.4\n连接",
+ "lines": [
+  "无限画布",
+  "首页",
+  "电商套图",
+  "智能修图",
+  "新模型",
+  "AI视频",
+  "HOT",
+  "批量生图",
+  "商品图设计",
+  "中",
+  "v0.27.0",
+  "商品图",
+  "商品替换",
+  "场景裂变",
+  "手持商品",
+  "AI穿衣",
+  "姿势裂变",
+  "AI穿戴",
+  "POD素材",
+  "饰品文字",
+  "素材贴合",
+  "印花提取",
+  "AI姿势生成",
+  "补充",
+  "AI试衣XSY",
+  "补充",
+  "场景裂变链接",
+  "补充",
+  "图片文字编辑",
+  "补充",
+  "上装换料",
+  "补充",
+  "商品图设计器",
+  "补充",
+  "商品营销素材",
+  "补充",
+  "场景迁移",
+  "补充",
+  "免责声明",
+  "饰品文字",
+  "文字内容、字体、字号与左右定位实时预览；提交后由图片模型生成成品。",
+  "default::gpt-image-2",
+  "字数",
+  "0",
+  "/",
+  "4000",
+  "饰品文字内容",
+  "逐字照排，最多",
+  "4000",
+  "字。",
+  "效果描述（可选）",
+  "字体与字号",
+  "字体",
+  "自定义字体名（原样透传上游）",
+  "字号",
+  "96",
+  "字体列表是本地可渲染的预览字族（上游字体库未取证），fontname 原样透传；预览随文字、字体、字号、左右定位实时更新，提交后结果以上游返回为准。",
+  "左右定位",
+  "居中",
+  "·",
+  "18",
+  "%–",
+  "82",
+  "%",
+  "左 (%)",
+  "右 (%)",
+  "偏左",
+  "居中",
+  "偏右",
+  "效果预览",
+  "拖动文字框或方向键微调，实时同步左右定位",
+  "饰品文字",
+  "预览字族：衬线 Serif；上游若替换字族不会回写本地配置。",
+  "文字框列表",
+  "（空文字框）",
+  "衬线 Serif",
+  "·",
+  "96",
+  "·",
+  "18",
+  "%–",
+  "82",
+  "%",
+  "生成饰品文字",
+  "请先填写饰品文字内容。",
+  "饰品文字结果",
+  "还没有生成结果",
+  "填好参数并提交后，结果会出现在这里，可预览、下载、存入资产库或发送到画布。",
+  "历史任务",
+  "0",
+  "条",
+  "本工具还没有历史任务；提交一次后会在这里留下任务、配置与结果，刷新后仍在。",
+  "连接本地 Agent",
+  "未连接",
+  "点连接会自动启动本地服务、装好插件并接通，无需手动配置。",
+  "Claude Code",
+  "未连接",
+  "·",
+  "CLI · 2.1.285 (Claude Code)",
+  "·",
+  "直接运行",
+  "连接",
+  "Codex",
+  "未连接",
+  "·",
+  "CLI · codex-cli 0.163.0",
+  "·",
+  "插件已装",
+  "连接",
+  "Galley",
+  "未连接",
+  "·",
+  "CLI + 桌面版 · galley 0.6.4",
+  "连接"
+ ],
+ "controls": [
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "中",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1593,
+    "y": 14,
+    "w": 28,
+    "h": 28
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "切换到深色主题",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1625,
+    "y": 14,
+    "w": 28,
+    "h": 28
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "v0.27.0",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1657,
+    "y": 17,
+    "w": 47,
+    "h": 22
+   }
+  },
+  {
+   "tag": "textarea",
+   "type": "",
+   "text": "例如：FOREVER · 永",
+   "placeholder": "例如：FOREVER · 永",
+   "disabled": false,
+   "rect": {
+    "x": 236,
+    "y": 189,
+    "w": 318,
+    "h": 98
+   }
+  },
+  {
+   "tag": "textarea",
+   "type": "",
+   "text": "例如：玫瑰金浮雕、宝石边镶嵌碎钻",
+   "placeholder": "例如：玫瑰金浮雕、宝石边镶嵌碎钻",
+   "disabled": false,
+   "rect": {
+    "x": 236,
+    "y": 343,
+    "w": 318,
+    "h": 58
+   }
+  },
+  {
+   "tag": "select",
+   "type": "",
+   "text": "衬线 Serif\n无衬线 Sans\n手写 Script\n展示 Display\n圆体 Rounded\n等宽 Mono",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 236,
+    "y": 499,
+    "w": 318,
+    "h": 35
+   }
+  },
+  {
+   "tag": "input",
+   "type": "",
+   "text": "serif",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 236,
+    "y": 566,
+    "w": 318,
+    "h": 34
+   }
+  },
+  {
+   "tag": "input",
+   "type": "range",
+   "text": "96",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 236,
+    "y": 632,
+    "w": 318,
+    "h": 16
+   }
+  },
+  {
+   "tag": "input",
+   "type": "number",
+   "text": "18",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 236,
+    "y": 817,
+    "w": 155,
+    "h": 34
+   }
+  },
+  {
+   "tag": "input",
+   "type": "number",
+   "text": "82",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 399,
+    "y": 817,
+    "w": 155,
+    "h": 34
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "偏左",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 236,
+    "y": 863,
+    "w": 101,
+    "h": 40
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "居中",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 345,
+    "y": 863,
+    "w": 101,
+    "h": 40
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "偏右",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 453,
+    "y": 863,
+    "w": 101,
+    "h": 40
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "生成饰品文字",
+   "placeholder": "",
+   "disabled": true,
+   "rect": {
+    "x": 1590,
+    "y": 165,
+    "w": 286,
+    "h": 40
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "连接",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 2265,
+    "y": 147,
+    "w": 66,
+    "h": 24
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "连接",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 2265,
+    "y": 215,
+    "w": 66,
+    "h": 24
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "连接",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 2265,
+    "y": 283,
+    "w": 66,
+    "h": 24
+   }
+  }
+ ],
+ "regions": [
+  {
+   "cls": "sticky top-0 z-[7] h-14 shrink-0 border-b border-hairline bg-surface/95 backdrop",
+   "rect": {
+    "x": 0,
+    "y": 0,
+    "w": 1920,
+    "h": 56
+   },
+   "text": "无限画布\n首页\n电商套图\n智能修图\n新模型\nAI视频\nHOT\n批量生图\n商品图设计\n中\n切换到深色主题\nv0.27.0"
+  },
+  {
+   "cls": "hidden w-[180px] shrink-0 overflow-y-auto rounded-xl border border-hairline bg-s",
+   "rect": {
+    "x": 16,
+    "y": 56,
+    "w": 180,
+    "h": 1008
+   },
+   "text": "商品图设计\n商品图\n商品替换\n场景裂变\n手持商品\nAI穿衣\n姿势裂变\nAI穿戴\nPOD素材\n饰品文字\n素材贴合\n印花提取\nAI姿势生成\n补充\nAI试衣XSY\n补充\n场景裂变链接\n补充\n图片文字编辑\n补充\n上装换料\n补充\n商品图设计器\n补充\n商品营销素材\n补充\n场景迁移\n补充\n免责声明"
+  },
+  {
+   "cls": "min-h-0 flex-1 overflow-hidden bg-canvas p-2.5",
+   "rect": {
+    "x": 209,
+    "y": 57,
+    "w": 1694,
+    "h": 1006
+   },
+   "text": "饰品文字\n\n文字内容、字体、字号与左右定位实时预览；提交后由图片模型生成成品。\n\ndefault::gpt-image-2\n字数 0/4000\n饰品文字内容\n逐字照排，最多 4000 字。\n效果描述（可选）\n字体与字号\n字体\n衬线 Serif\n无衬线 Sans\n手写 Script\n展示 Display\n圆体 Rounded\n等宽 Mono\n自定义字体名（原样透传上游）\n字号 96\n\n字体列表是本地可渲染的预览字族（上游字体库未取证），fontname 原样透传；预览随文字、字体、字号、左右定位实时更新，提交后结果以上游返回为准。\n\n左右定位\n居中 · 18%–82%\n左 (%)\n右 (%)\n偏"
+  },
+  {
+   "cls": "flex flex-wrap items-center justify-between gap-3",
+   "rect": {
+    "x": 219,
+    "y": 67,
+    "w": 1674,
+    "h": 65
+   },
+   "text": "饰品文字\n\n文字内容、字体、字号与左右定位实时预览；提交后由图片模型生成成品。\n\ndefault::gpt-image-2\n字数 0/4000"
+  },
+  {
+   "cls": "flex flex-col gap-3",
+   "rect": {
+    "x": 219,
+    "y": 148,
+    "w": 352,
+    "h": 1173
+   },
+   "text": "饰品文字内容\n逐字照排，最多 4000 字。\n效果描述（可选）\n字体与字号\n字体\n衬线 Serif\n无衬线 Sans\n手写 Script\n展示 Display\n圆体 Rounded\n等宽 Mono\n自定义字体名（原样透传上游）\n字号 96\n\n字体列表是本地可渲染的预览字族（上游字体库未取证），fontname 原样透传；预览随文字、字体、字号、左右定位实时更新，提交后结果以上游返回为准。\n\n左右定位\n居中 · 18%–82%\n左 (%)\n右 (%)\n偏左\n居中\n偏右"
+  },
+  {
+   "cls": "flex-col gap-3 hidden lg:flex",
+   "rect": {
+    "x": 587,
+    "y": 148,
+    "w": 970,
+    "h": 1173
+   },
+   "text": "效果预览\n拖动文字框或方向键微调，实时同步左右定位\n饰品文字\n\n预览字族：衬线 Serif；上游若替换字族不会回写本地配置。\n\n文字框列表\n（空文字框）\n衬线 Serif · 96 · 18%–82%"
+  },
+  {
+   "cls": "flex-col gap-3 hidden lg:flex",
+   "rect": {
+    "x": 1573,
+    "y": 148,
+    "w": 320,
+    "h": 1173
+   },
+   "text": "生成饰品文字\n\n请先填写饰品文字内容。\n\n饰品文字结果\n\n还没有生成结果\n\n填好参数并提交后，结果会出现在这里，可预览、下载、存入资产库或发送到画布。"
+  },
+  {
+   "cls": "space-y-3 rounded-xl border border-border bg-card p-4",
+   "rect": {
+    "x": 1573,
+    "y": 270,
+    "w": 320,
+    "h": 249
+   },
+   "text": "饰品文字结果\n\n还没有生成结果\n\n填好参数并提交后，结果会出现在这里，可预览、下载、存入资产库或发送到画布。"
+  },
+  {
+   "cls": "rounded-lg border border-border bg-card/40 p-3 mt-4",
+   "rect": {
+    "x": 219,
+    "y": 1337,
+    "w": 1674,
+    "h": 80
+   },
+   "text": "历史任务\n0 条\n\n本工具还没有历史任务；提交一次后会在这里留下任务、配置与结果，刷新后仍在。"
+  },
+  {
+   "cls": "relative flex h-full shrink-0 flex-col border-l",
+   "rect": {
+    "x": 1920,
+    "y": 0,
+    "w": 440,
+    "h": 1080
+   },
+   "text": "连接本地 Agent\n未连接\n点连接会自动启动本地服务、装好插件并接通，无需手动配置。\nClaude Code\n未连接\n·\nCLI · 2.1.285 (Claude Code)\n·\n直接运行\n连接\nCodex\n未连接\n·\nCLI · codex-cli 0.163.0\n·\n插件已装\n连接\nGalley\n未连接\n·\nCLI + 桌面版 · galley 0.6.4\n连接"
+  }
+ ]
+}

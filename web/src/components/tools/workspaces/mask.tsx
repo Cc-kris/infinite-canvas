@@ -4,6 +4,7 @@ import { Eraser, Paintbrush, Redo2, RotateCcw, Sparkles, Undo2 } from "lucide-re
 
 import { ToolAssetInput } from "@/components/tools/tool-asset-input";
 import { ToolShell } from "@/components/tools/tool-shell";
+import { OrigRail, SMART_EDIT_RAIL } from "@/components/tools/workspaces/orig-rail";
 import { Edit8Canvas, Edit8CanvasCard, Edit8CanvasToolbar, Edit8Chip, Edit8Config, Edit8Page, Edit8Results, Edit8ResultsEmpty, Edit8Section, edit8PrimaryButtonClass } from "@/components/tools/edit8-frame";
 import { ToolTaskHistory, formatTaskTime } from "@/components/tools/tool-task-history";
 import { TaskStatusPanel } from "@/components/tools/task-status";
@@ -86,6 +87,7 @@ import { imageToDataUrl } from "@/services/image-storage";
 import { resolveMediaUrl } from "@/services/file-storage";
 import { flushToolDrafts, useToolDraftStore } from "@/stores/use-tool-draft-store";
 import { useToolTaskStore } from "@/stores/use-tool-task-store";
+import { WatermarkGroupPanel } from "@/components/tools/watermark-group-panel";
 
 export type MaskWorkspaceProps = { className?: string };
 
@@ -649,6 +651,9 @@ export function MaskWorkspace({ className }: MaskWorkspaceProps = {}) {
                 </nav>
             }
         >
+            <div className="px-2 pb-1">
+                <OrigRail items={SMART_EDIT_RAIL} active="局部重绘" driver testId="area-repair-rail" />
+            </div>
             <Edit8Page toolId={TOOL_ID} data-testid="area-repair-workspace">
                 <Edit8Canvas>
                     <Edit8CanvasToolbar>
@@ -662,7 +667,7 @@ export function MaskWorkspace({ className }: MaskWorkspaceProps = {}) {
                                     className={cn("inline-flex h-6 items-center gap-1 rounded-md px-2 text-[12px] leading-none", state.tool === "brush" ? "bg-primary text-primary-foreground" : "text-foreground hover:bg-border")}
                                 >
                                     <Paintbrush className="size-3.5" aria-hidden />
-                                    画笔
+                                    <span>画笔</span>
                                 </button>
                                 <button
                                     type="button"
@@ -677,7 +682,7 @@ export function MaskWorkspace({ className }: MaskWorkspaceProps = {}) {
                             </div>
 
                             <label className="flex items-center gap-1.5 text-[12px] text-muted-foreground">
-                                大小：
+                                <span>大小：</span>
                                 <input
                                     type="range"
                                     data-testid="mask-brush-size"
@@ -697,27 +702,13 @@ export function MaskWorkspace({ className }: MaskWorkspaceProps = {}) {
                                     className="h-6 w-[46px] rounded-md border border-border bg-card px-1 text-center text-[12px] text-foreground outline-none"
                                     aria-label="画笔大小像素"
                                 />
-                                像素
+                                <span>像素</span>
                             </label>
 
-                            <label className="flex items-center gap-1.5 text-[12px] text-muted-foreground">
-                                羽化
-                                <input
-                                    type="range"
-                                    data-testid="mask-feather"
-                                    min={MASK_FEATHER_MIN}
-                                    max={MASK_FEATHER_MAX}
-                                    value={state.feather}
-                                    onChange={(event) => commit({ feather: clampFeather(event.target.value) })}
-                                    className="w-[70px] accent-primary"
-                                    aria-label="羽化"
-                                />
-                                <span className="tabular-nums text-foreground">{state.feather}</span>
-                            </label>
 
                             <label className="flex items-center gap-1.5 text-[12px] text-muted-foreground">
                                 <input type="checkbox" data-testid="mask-auto-expand" checked={state.autoExpand} onChange={(event) => commit({ autoExpand: event.target.checked })} className="size-3.5 accent-primary" />
-                                自动扩大选择区域：
+                                <span>自动扩大选择区域：</span>
                             </label>
 
                             <button
@@ -738,7 +729,7 @@ export function MaskWorkspace({ className }: MaskWorkspaceProps = {}) {
                                 className="inline-flex h-6 items-center gap-1 rounded-md px-1.5 text-[12px] leading-none text-foreground transition hover:bg-border disabled:opacity-40"
                             >
                                 <Undo2 className="size-3.5" aria-hidden />
-                                撤销
+                                <span>撤销</span>
                             </button>
                             <button
                                 type="button"
@@ -748,7 +739,7 @@ export function MaskWorkspace({ className }: MaskWorkspaceProps = {}) {
                                 className="inline-flex h-6 items-center gap-1 rounded-md px-1.5 text-[12px] leading-none text-foreground transition hover:bg-border disabled:opacity-40"
                             >
                                 <Redo2 className="size-3.5" aria-hidden />
-                                重做
+                                <span>重做</span>
                             </button>
                             <button
                                 type="button"
@@ -758,11 +749,13 @@ export function MaskWorkspace({ className }: MaskWorkspaceProps = {}) {
                                 className="inline-flex h-6 items-center gap-1 rounded-md px-1.5 text-[12px] leading-none text-foreground transition hover:bg-border disabled:opacity-40"
                             >
                                 <RotateCcw className="size-3.5" aria-hidden />
-                                重置
+                                <span>重置</span>
                             </button>
-                            <span data-testid="mask-coverage" className="ml-1 text-[11px] text-muted-foreground">
-                                {coverageLabel}
-                            </span>
+                            {maskRatio > 0 ? (
+                                <span data-testid="mask-coverage" className="ml-1 text-[11px] text-muted-foreground">
+                                    {coverageLabel}
+                                </span>
+                            ) : null}
                         </div>
                     </Edit8CanvasToolbar>
 
@@ -791,9 +784,9 @@ export function MaskWorkspace({ className }: MaskWorkspaceProps = {}) {
                                 <Edit8CanvasCard data-testid="area-repair-empty">
                                     <p className="text-[14px] font-medium leading-5 text-foreground">局部重绘</p>
                                     <p className="text-[12px] leading-5 text-muted-foreground">
-                                        上传图片，涂抹需要改变的区域并输入想要改变的内容，
+                                        <span>上传图片，涂抹需要改变的区域并输入想要改变的内容，</span>
                                         <br />
-                                        即可重新对该区域进行绘制
+                                        <span>即可重新对该区域进行绘制</span>
                                     </p>
                                     <ToolAssetInput
                                         toolId={TOOL_ID}
@@ -819,19 +812,25 @@ export function MaskWorkspace({ className }: MaskWorkspaceProps = {}) {
                 <Edit8Config
                     data-testid="area-repair-config"
                     footer={
-                        <button
-                            type="button"
-                            data-testid="area-repair-submit"
-                            disabled={busy || issues.length > 0}
-                            onClick={() => void submit()}
-                            className={edit8PrimaryButtonClass}
-                        >
-                            <Sparkles className="mr-1 size-3.5" aria-hidden />
-                            {busy ? "生成中…" : "立即生成"}
-                        </button>
+                        <div className="flex flex-col gap-1">
+                            <button
+                                type="button"
+                                data-testid="area-repair-submit"
+                                disabled={busy || issues.length > 0}
+                                onClick={() => void submit()}
+                                className={edit8PrimaryButtonClass}
+                            >
+                                <Sparkles className="mr-1 size-3.5" aria-hidden />
+                                <span>{busy ? "生成中…" : "立即生成"}</span>
+                            </button>
+                            {/* 原站按钮下方紧跟算力消耗标注「(40算力)」 */}
+                            <span data-testid="area-repair-cost" className="text-center text-[11px] leading-4 text-muted-foreground">
+                                (40算力)
+                            </span>
+                        </div>
                     }
                 >
-                    <Edit8Section title="重绘描述" required aside={`${prompt.length} / ${AREA_REPAIR_PROMPT_MAX}`}>
+                    <Edit8Section title="重绘描述*" aside={`${prompt.length} / ${AREA_REPAIR_PROMPT_MAX}`}>
                         <textarea
                             id="area-repair-prompt"
                             data-testid="area-repair-prompt"
@@ -869,7 +868,7 @@ export function MaskWorkspace({ className }: MaskWorkspaceProps = {}) {
                         </div>
                     </Edit8Section>
 
-                    {issues.length > 0 ? (
+                    {image && issues.length > 0 ? (
                         <div className="px-[16px] py-2">
                             <ul data-testid="area-repair-issues" className="space-y-0.5 text-[11px] leading-4 text-[#d46b08]">
                                 {issues.map((issue) => (
@@ -893,6 +892,8 @@ export function MaskWorkspace({ className }: MaskWorkspaceProps = {}) {
                             <TaskStatusPanel task={latestTask} onRetry={() => void retryUnit()} />
                         </div>
                     ) : null}
+                {/* 原站面板底部：管理水印分组（共 N/20 个 · 默认 · ＋ 新增水印分组） */}
+                <WatermarkGroupPanel />
                 </Edit8Config>
 
                 <Edit8Results
@@ -1468,12 +1469,15 @@ export function RemovePenWorkspace({ className }: RemovePenWorkspaceProps = {}) 
                 </nav>
             }
         >
+            <div className="px-2 pb-1">
+                <OrigRail items={SMART_EDIT_RAIL} active="局部消除" driver testId="remove-pen-rail" />
+            </div>
             <Edit8Page toolId={REMOVE_PEN_ID} data-testid="remove-pen-workspace">
                 <Edit8Canvas>
                     <Edit8CanvasToolbar className="justify-between gap-3">
                         <div className="flex items-center gap-2">
                             <span className="flex items-center gap-1 text-foreground">
-                                <Paintbrush className="size-3.5" aria-hidden /> 画笔
+                                <Paintbrush className="size-3.5" aria-hidden /> <span>画笔</span>
                             </span>
                             <span className="text-muted-foreground">大小：</span>
                             <input
@@ -1503,7 +1507,7 @@ export function RemovePenWorkspace({ className }: RemovePenWorkspaceProps = {}) 
                                 onClick={reset}
                                 className="inline-flex h-[24px] items-center gap-1 rounded-md px-1.5 text-[12px] text-foreground hover:bg-card/70 disabled:opacity-40"
                             >
-                                <RotateCcw className="size-3" aria-hidden /> 重置
+                                <RotateCcw className="size-3" aria-hidden /> <span>重置</span>
                             </button>
                             <button
                                 type="button"
@@ -1512,7 +1516,7 @@ export function RemovePenWorkspace({ className }: RemovePenWorkspaceProps = {}) 
                                 onClick={undo}
                                 className="inline-flex h-[24px] items-center gap-1 rounded-md px-1.5 text-[12px] text-foreground hover:bg-card/70 disabled:opacity-40"
                             >
-                                <Undo2 className="size-3" aria-hidden /> 撤销
+                                <Undo2 className="size-3" aria-hidden /> <span>撤销</span>
                             </button>
                             <button
                                 type="button"
@@ -1521,7 +1525,7 @@ export function RemovePenWorkspace({ className }: RemovePenWorkspaceProps = {}) 
                                 onClick={redo}
                                 className="inline-flex h-[24px] items-center gap-1 rounded-md px-1.5 text-[12px] text-foreground hover:bg-card/70 disabled:opacity-40"
                             >
-                                <Redo2 className="size-3" aria-hidden /> 重做
+                                <Redo2 className="size-3" aria-hidden /> <span>重做</span>
                             </button>
                         </div>
                         <div className="flex items-center gap-2">
@@ -1554,6 +1558,10 @@ export function RemovePenWorkspace({ className }: RemovePenWorkspaceProps = {}) 
                             >
                                 {busy ? "消除中…" : "开始消除"}
                             </button>
+                            {/* 原站「开始消除」旁标有限免角标 */}
+                            <span data-testid="remove-pen-free-badge" className="rounded border border-primary/40 px-1.5 py-0.5 text-[11px] leading-none text-primary">
+                                限免
+                            </span>
                             {["下载图片", "高清放大", "商品图", "手部修复"].map((label) => (
                                 <button
                                     key={label}
@@ -1760,6 +1768,8 @@ export function RemovePenWorkspace({ className }: RemovePenWorkspaceProps = {}) 
                         ) : null}
                     </div>
                 </Edit8Canvas>
+            {/* 原站面板底部：管理水印分组（共 N/20 个 · 默认 · ＋ 新增水印分组） */}
+            <WatermarkGroupPanel />
             </Edit8Page>
         </ToolShell>
     );

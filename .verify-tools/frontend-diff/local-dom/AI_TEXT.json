@@ -1,0 +1,546 @@
+{
+ "id": "AI_TEXT",
+ "route": "/tools/product-design/ai-text",
+ "ok": true,
+ "error": null,
+ "title": "无限画布",
+ "text": "无限画布\n首页\n电商套图\n智能修图\n新模型\nAI视频\nHOT\n批量生图\n商品图设计\n中\nv0.27.0\n商品图\n商品替换\n场景裂变\n手持商品\nAI穿衣\n姿势裂变\nAI穿戴\nPOD素材\n饰品文字\n素材贴合\n印花提取\nAI姿势生成\n补充\nAI试衣XSY\n补充\n场景裂变链接\n补充\n图片文字编辑\n补充\n上装换料\n补充\n商品图设计器\n补充\n商品营销素材\n补充\n场景迁移\n补充\n免责声明\nPOD 素材\n图案 / 文字素材生成，支持平铺规则、案例变体与真实 provider 出图。\n目录：\n模式 / 比例 / 风格 / 中文风格\ndefault::gpt-image-2\n上传底图（参考图）\n0\n0 / 1 个 · PNG / JPG / WebP · ≤ 20 MB\n点击选择本地文件，或拖拽到这里\n校验格式 / 大小 / 像素，入库后可刷新恢复\n还没有素材\n素材模式\n输出比例\n风格\n中文风格\n输出数量（\n1\n–\n15\n）\n简易文字\n完整提示词\n简短提示词 / 文案（≤\n200\n字）\n0\n/\n200\n自动扩写提示词\n本地确定性扩写，不调用上游；扩写结果会进预览与真实请求。\n增强变化强度\n同风格下的构图差异更明显。\n作为案例变体提交\n平铺预览\n不平铺（单图）\n·\n只输出一张独立图案，适合单面印刷。\n复位\n待上传\n文字区\n不平铺（单图）\n2×2 平铺\n2×2 错位平铺\n3×3 平铺\n将进入请求的提示词（\n按模式生成\n）\n生成可直接用于 POD（按需印刷）的素材，比例 待定，输出 1 张，模式 待定。\n平铺规则：不平铺（单图）（1 列 × 1 行无缝重复）。\n视觉风格：按模式默认风格，保持干净的印刷质感。\n变化强度：默认——各张共享同一构图语言，只做轻微变化，保证系列一致性。\n质量要求：透明或纯色底、边缘干净无白边、画面无外部留白、无裁切文字；不得出现第三方商标、版权角色与真实人物肖像。\n输出为单张独立素材，不需要\n请先上传用于生成 POD 素材的参考图或文字底图。\n请选择素材模式。\n请选择输出比例。\n简易文字模式下请填写要生成的文字内容。\n模式 / 风格 / 比例为页面目录取值（POD 素材 chunk 枚举未确认），仅接受目录内取值；provider 目录接入后同名维度自动覆盖。\n生成 POD 素材\n尚无结果：上传素材并完成配置后提交。\nPOD 素材结果\n还没有生成结果\n填好参数并提交后，结果会出现在这里，可预览、下载、存入资产库或发送到画布。\n历史任务\n0\n条\n本工具还没有历史任务；提交一次后会在这里留下任务、配置与结果，刷新后仍在。\n连接本地 Agent\n未连接\n点连接会自动启动本地服务、装好插件并接通，无需手动配置。\nClaude Code\n未连接\n·\nCLI · 2.1.285 (Claude Code)\n·\n直接运行\n连接\nCodex\n未连接\n·\nCLI · codex-cli 0.163.0\n·\n插件已装\n连接\nGalley\n未连接\n·\nCLI + 桌面版 · galley 0.6.4\n连接",
+ "lines": [
+  "无限画布",
+  "首页",
+  "电商套图",
+  "智能修图",
+  "新模型",
+  "AI视频",
+  "HOT",
+  "批量生图",
+  "商品图设计",
+  "中",
+  "v0.27.0",
+  "商品图",
+  "商品替换",
+  "场景裂变",
+  "手持商品",
+  "AI穿衣",
+  "姿势裂变",
+  "AI穿戴",
+  "POD素材",
+  "饰品文字",
+  "素材贴合",
+  "印花提取",
+  "AI姿势生成",
+  "补充",
+  "AI试衣XSY",
+  "补充",
+  "场景裂变链接",
+  "补充",
+  "图片文字编辑",
+  "补充",
+  "上装换料",
+  "补充",
+  "商品图设计器",
+  "补充",
+  "商品营销素材",
+  "补充",
+  "场景迁移",
+  "补充",
+  "免责声明",
+  "POD 素材",
+  "图案 / 文字素材生成，支持平铺规则、案例变体与真实 provider 出图。",
+  "目录：",
+  "模式 / 比例 / 风格 / 中文风格",
+  "default::gpt-image-2",
+  "上传底图（参考图）",
+  "0",
+  "0 / 1 个 · PNG / JPG / WebP · ≤ 20 MB",
+  "点击选择本地文件，或拖拽到这里",
+  "校验格式 / 大小 / 像素，入库后可刷新恢复",
+  "还没有素材",
+  "素材模式",
+  "输出比例",
+  "风格",
+  "中文风格",
+  "输出数量（",
+  "1",
+  "–",
+  "15",
+  "）",
+  "简易文字",
+  "完整提示词",
+  "简短提示词 / 文案（≤",
+  "200",
+  "字）",
+  "0",
+  "/",
+  "200",
+  "自动扩写提示词",
+  "本地确定性扩写，不调用上游；扩写结果会进预览与真实请求。",
+  "增强变化强度",
+  "同风格下的构图差异更明显。",
+  "作为案例变体提交",
+  "平铺预览",
+  "不平铺（单图）",
+  "·",
+  "只输出一张独立图案，适合单面印刷。",
+  "复位",
+  "待上传",
+  "文字区",
+  "不平铺（单图）",
+  "2×2 平铺",
+  "2×2 错位平铺",
+  "3×3 平铺",
+  "将进入请求的提示词（",
+  "按模式生成",
+  "）",
+  "生成可直接用于 POD（按需印刷）的素材，比例 待定，输出 1 张，模式 待定。\n平铺规则：不平铺（单图）（1 列 × 1 行无缝重复）。\n视觉风格：按模式默认风格，保持干净的印刷质感。\n变化强度：默认——各张共享同一构图语言，只做轻微变化，保证系列一致性。\n质量要求：透明或纯色底、边缘干净无白边、画面无外部留白、无裁切文字；不得出现第三方商标、版权角色与真实人物肖像。\n输出为单张独立素材，不需要",
+  "请先上传用于生成 POD 素材的参考图或文字底图。",
+  "请选择素材模式。",
+  "请选择输出比例。",
+  "简易文字模式下请填写要生成的文字内容。",
+  "模式 / 风格 / 比例为页面目录取值（POD 素材 chunk 枚举未确认），仅接受目录内取值；provider 目录接入后同名维度自动覆盖。",
+  "生成 POD 素材",
+  "尚无结果：上传素材并完成配置后提交。",
+  "POD 素材结果",
+  "还没有生成结果",
+  "填好参数并提交后，结果会出现在这里，可预览、下载、存入资产库或发送到画布。",
+  "历史任务",
+  "0",
+  "条",
+  "本工具还没有历史任务；提交一次后会在这里留下任务、配置与结果，刷新后仍在。",
+  "连接本地 Agent",
+  "未连接",
+  "点连接会自动启动本地服务、装好插件并接通，无需手动配置。",
+  "Claude Code",
+  "未连接",
+  "·",
+  "CLI · 2.1.285 (Claude Code)",
+  "·",
+  "直接运行",
+  "连接",
+  "Codex",
+  "未连接",
+  "·",
+  "CLI · codex-cli 0.163.0",
+  "·",
+  "插件已装",
+  "连接",
+  "Galley",
+  "未连接",
+  "·",
+  "CLI + 桌面版 · galley 0.6.4",
+  "连接"
+ ],
+ "controls": [
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "中",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1593,
+    "y": 14,
+    "w": 28,
+    "h": 28
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "切换到深色主题",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1625,
+    "y": 14,
+    "w": 28,
+    "h": 28
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "v0.27.0",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1657,
+    "y": 17,
+    "w": 47,
+    "h": 22
+   }
+  },
+  {
+   "tag": "div",
+   "type": "",
+   "text": "点击选择本地文件，或拖拽到这里\n校验格式 / 大小 / 像素，入库后可刷新恢复",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 232,
+    "y": 220,
+    "w": 294,
+    "h": 86
+   }
+  },
+  {
+   "tag": "select",
+   "type": "",
+   "text": "请选择\n图案素材\n文字素材\n图案 + 文字",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 232,
+    "y": 406,
+    "w": 294,
+    "h": 35
+   }
+  },
+  {
+   "tag": "select",
+   "type": "",
+   "text": "请选择\n1:1\n4:5\n3:4\n2:3\n3:2\n4:3\n16:9\n9:16",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 232,
+    "y": 475,
+    "w": 294,
+    "h": 35
+   }
+  },
+  {
+   "tag": "select",
+   "type": "",
+   "text": "不指定\nVintage\nMinimal\nFloral\nGeometric\nCartoon\nHand-drawn\nRetro poster\nLine art",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 232,
+    "y": 544,
+    "w": 294,
+    "h": 35
+   }
+  },
+  {
+   "tag": "select",
+   "type": "",
+   "text": "不指定\n复古\n极简\n花卉\n几何\n卡通\n手绘\n复古海报\n线稿",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 232,
+    "y": 613,
+    "w": 294,
+    "h": 35
+   }
+  },
+  {
+   "tag": "input",
+   "type": "number",
+   "text": "1",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 232,
+    "y": 682,
+    "w": 294,
+    "h": 34
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "简易文字",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 237,
+    "y": 759,
+    "w": 140,
+    "h": 40
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "完整提示词",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 381,
+    "y": 759,
+    "w": 140,
+    "h": 40
+   }
+  },
+  {
+   "tag": "input",
+   "type": "checkbox",
+   "text": "on",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 241,
+    "y": 960,
+    "w": 13,
+    "h": 16
+   }
+  },
+  {
+   "tag": "input",
+   "type": "checkbox",
+   "text": "on",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 232,
+    "y": 1035,
+    "w": 16,
+    "h": 16
+   }
+  },
+  {
+   "tag": "input",
+   "type": "checkbox",
+   "text": "on",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 232,
+    "y": 1085,
+    "w": 16,
+    "h": 16
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "复位",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1410,
+    "y": 161,
+    "w": 74,
+    "h": 40
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "不平铺（单图）",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 568,
+    "y": 1141,
+    "w": 124,
+    "h": 40
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "2×2 平铺",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 696,
+    "y": 1141,
+    "w": 83,
+    "h": 40
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "2×2 错位平铺",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 783,
+    "y": 1141,
+    "w": 111,
+    "h": 40
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "3×3 平铺",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 898,
+    "y": 1141,
+    "w": 84,
+    "h": 40
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "生成 POD 素材",
+   "placeholder": "",
+   "disabled": true,
+   "rect": {
+    "x": 1526,
+    "y": 308,
+    "w": 354,
+    "h": 44
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "连接",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 2265,
+    "y": 147,
+    "w": 66,
+    "h": 24
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "连接",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 2265,
+    "y": 215,
+    "w": 66,
+    "h": 24
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "连接",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 2265,
+    "y": 283,
+    "w": 66,
+    "h": 24
+   }
+  }
+ ],
+ "regions": [
+  {
+   "cls": "sticky top-0 z-[7] h-14 shrink-0 border-b border-hairline bg-surface/95 backdrop",
+   "rect": {
+    "x": 0,
+    "y": 0,
+    "w": 1920,
+    "h": 56
+   },
+   "text": "无限画布\n首页\n电商套图\n智能修图\n新模型\nAI视频\nHOT\n批量生图\n商品图设计\n中\n切换到深色主题\nv0.27.0"
+  },
+  {
+   "cls": "hidden w-[180px] shrink-0 overflow-y-auto rounded-xl border border-hairline bg-s",
+   "rect": {
+    "x": 16,
+    "y": 56,
+    "w": 180,
+    "h": 1008
+   },
+   "text": "商品图设计\n商品图\n商品替换\n场景裂变\n手持商品\nAI穿衣\n姿势裂变\nAI穿戴\nPOD素材\n饰品文字\n素材贴合\n印花提取\nAI姿势生成\n补充\nAI试衣XSY\n补充\n场景裂变链接\n补充\n图片文字编辑\n补充\n上装换料\n补充\n商品图设计器\n补充\n商品营销素材\n补充\n场景迁移\n补充\n免责声明"
+  },
+  {
+   "cls": "min-h-0 flex-1 overflow-hidden bg-canvas p-2.5",
+   "rect": {
+    "x": 209,
+    "y": 57,
+    "w": 1694,
+    "h": 1006
+   },
+   "text": "POD 素材\n\n图案 / 文字素材生成，支持平铺规则、案例变体与真实 provider 出图。\n\n目录：模式 / 比例 / 风格 / 中文风格\ndefault::gpt-image-2\n上传底图（参考图）\n00 / 1 个 · PNG / JPG / WebP · ≤ 20 MB\n点击选择本地文件，或拖拽到这里\n校验格式 / 大小 / 像素，入库后可刷新恢复\n\n还没有素材\n\n素材模式\n请选择\n图案素材\n文字素材\n图案 + 文字\n输出比例\n请选择\n1:1\n4:5\n3:4\n2:3\n3:2\n4:3\n16:9\n9:16\n风格\n不指定\nVintage\nMinimal\nFloral\nGeometric\nC"
+  },
+  {
+   "cls": "flex flex-wrap items-end justify-between gap-3",
+   "rect": {
+    "x": 219,
+    "y": 67,
+    "w": 1674,
+    "h": 65
+   },
+   "text": "POD 素材\n\n图案 / 文字素材生成，支持平铺规则、案例变体与真实 provider 出图。\n\n目录：模式 / 比例 / 风格 / 中文风格\ndefault::gpt-image-2"
+  },
+  {
+   "cls": "flex flex-col gap-3",
+   "rect": {
+    "x": 219,
+    "y": 148,
+    "w": 320,
+    "h": 1092
+   },
+   "text": "上传底图（参考图）\n00 / 1 个 · PNG / JPG / WebP · ≤ 20 MB\n点击选择本地文件，或拖拽到这里\n校验格式 / 大小 / 像素，入库后可刷新恢复\n\n还没有素材\n\n素材模式\n请选择\n图案素材\n文字素材\n图案 + 文字\n输出比例\n请选择\n1:1\n4:5\n3:4\n2:3\n3:2\n4:3\n16:9\n9:16\n风格\n不指定\nVintage\nMinimal\nFloral\nGeometric\nCartoon\nHand-drawn\nRetro poster\nLine art\n中文风格\n不指定\n复古\n极简\n花卉\n几何\n卡通\n手绘\n复古海报\n线稿\n输出数量（1–15）\n简易文字\n完整"
+  },
+  {
+   "cls": "space-y-3",
+   "rect": {
+    "x": 232,
+    "y": 161,
+    "w": 294,
+    "h": 173
+   },
+   "text": "上传底图（参考图）\n00 / 1 个 · PNG / JPG / WebP · ≤ 20 MB\n点击选择本地文件，或拖拽到这里\n校验格式 / 大小 / 像素，入库后可刷新恢复\n\n还没有素材"
+  },
+  {
+   "cls": "flex-col gap-3 hidden md:flex",
+   "rect": {
+    "x": 555,
+    "y": 148,
+    "w": 942,
+    "h": 1092
+   },
+   "text": "平铺预览\n不平铺（单图） · 只输出一张独立图案，适合单面印刷。\n复位\n待上传\n文字区\n不平铺（单图）\n2×2 平铺\n2×2 错位平铺\n3×3 平铺\n将进入请求的提示词（按模式生成）"
+  },
+  {
+   "cls": "flex-col gap-3 hidden md:flex",
+   "rect": {
+    "x": 1513,
+    "y": 148,
+    "w": 380,
+    "h": 1092
+   },
+   "text": "请先上传用于生成 POD 素材的参考图或文字底图。\n请选择素材模式。\n请选择输出比例。\n简易文字模式下请填写要生成的文字内容。\n\n模式 / 风格 / 比例为页面目录取值（POD 素材 chunk 枚举未确认），仅接受目录内取值；provider 目录接入后同名维度自动覆盖。\n\n生成 POD 素材\n\n尚无结果：上传素材并完成配置后提交。\n\nPOD 素材结果\n\n还没有生成结果\n\n填好参数并提交后，结果会出现在这里，可预览、下载、存入资产库或发送到画布。"
+  },
+  {
+   "cls": "space-y-3 rounded-xl border border-border bg-card p-4",
+   "rect": {
+    "x": 1513,
+    "y": 413,
+    "w": 380,
+    "h": 249
+   },
+   "text": "POD 素材结果\n\n还没有生成结果\n\n填好参数并提交后，结果会出现在这里，可预览、下载、存入资产库或发送到画布。"
+  },
+  {
+   "cls": "rounded-lg border border-border bg-card/40 p-3 mt-4",
+   "rect": {
+    "x": 219,
+    "y": 1256,
+    "w": 1674,
+    "h": 80
+   },
+   "text": "历史任务\n0 条\n\n本工具还没有历史任务；提交一次后会在这里留下任务、配置与结果，刷新后仍在。"
+  },
+  {
+   "cls": "relative flex h-full shrink-0 flex-col border-l",
+   "rect": {
+    "x": 1920,
+    "y": 0,
+    "w": 440,
+    "h": 1080
+   },
+   "text": "连接本地 Agent\n未连接\n点连接会自动启动本地服务、装好插件并接通，无需手动配置。\nClaude Code\n未连接\n·\nCLI · 2.1.285 (Claude Code)\n·\n直接运行\n连接\nCodex\n未连接\n·\nCLI · codex-cli 0.163.0\n·\n插件已装\n连接\nGalley\n未连接\n·\nCLI + 桌面版 · galley 0.6.4\n连接"
+  }
+ ]
+}

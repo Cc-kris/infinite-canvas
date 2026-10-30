@@ -13,10 +13,13 @@
  *  5. 结果区：真实 ToolResult，配置变更后旧结果标「来自旧版本」。
  */
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { ChevronDown } from "lucide-react";
 
 import { ToolAssetInput } from "@/components/tools/tool-asset-input";
 import { ToolCases, type ToolCase } from "@/components/tools/tool-cases";
 import { ToolResult } from "@/components/tools/tool-result";
+import { AiVideoFamilyNav } from "./video";
+import { WatermarkGroupPanel } from "@/components/tools/watermark-group-panel";
 import { ToolTaskHistory } from "@/components/tools/tool-task-history";
 import { uploadCaseFiles } from "@/features/tools/case-apply";
 import { IMAGE_TO_VIDEO_CASES, type ImageToVideoCase } from "@/features/tools/image-to-video-cases-data";
@@ -429,171 +432,163 @@ export function ImageToVideoWorkspace({ className, toolId = IMAGE_TO_VIDEO_TOOL_
     const resolutionLabel = IMAGE_TO_VIDEO_RESOLUTION_BY_KEY[values.resolution]?.label ?? values.resolution;
 
     return (
-        <div data-testid="image-to-video-workspace" data-make-type={IMAGE_TO_VIDEO_MAKE_TYPE} className={cn("flex flex-col gap-3", className)}>
-            <div className="flex flex-wrap items-center justify-between gap-2">
-                <div>
-                    <h2 className="text-base font-semibold text-foreground">图转视频</h2>
-                    <p className="text-[11px] text-muted-foreground">
-                        参考素材 / 首尾帧 / 商品链接三选一 → 视频类型与模型品质 → 生成（makeType {IMAGE_TO_VIDEO_MAKE_TYPE}，27 字段真实提交）
-                    </p>
-                </div>
-                <StepBar step={step} />
-            </div>
-
+        <div data-testid="image-to-video-workspace" data-make-type={IMAGE_TO_VIDEO_MAKE_TYPE} className={cn("flex flex-col gap-4", className)}>
+        <AiVideoFamilyNav active="图转视频" />
             {lostAssets.length ? (
                 <p data-testid="image-to-video-lost" className="rounded-md bg-amber-50 px-3 py-2 text-[11px] text-amber-700 dark:bg-amber-950/40 dark:text-amber-300">
                     有 {lostAssets.length} 个上次的素材已失效（{lostAssets.join("、")}），请重新上传。
                 </p>
             ) : null}
-            {linkNotice ? (
-                <p data-testid="image-to-video-link" className="rounded-md bg-sky-50 px-3 py-2 text-[11px] text-sky-700 dark:bg-sky-950/40 dark:text-sky-300">
-                    已自动联动：{linkNotice}
-                </p>
-            ) : null}
-            {caseNotice ? (
-                <p data-testid="image-to-video-case-note" className="rounded-md bg-muted px-3 py-2 text-[11px] text-muted-foreground">
-                    {caseNotice}
-                </p>
-            ) : null}
 
-            <div className="grid min-w-0 gap-3 lg:grid-cols-[minmax(320px,420px)_minmax(0,1fr)]">
-                <div className="flex min-w-0 flex-col gap-3">
-                    <Section title="1. 素材来源" hint={IMAGE_TO_VIDEO_UPLOAD.hint} testId="image-to-video-source">
-                        <div role="tablist" aria-label="素材模式" className="flex gap-1">
-                            {IMAGE_TO_VIDEO_SOURCE_MODES.map((item) => (
+            <div className="flex flex-col gap-2 rounded-lg border border-border bg-card px-3 py-2 text-[11px] text-muted-foreground" data-testid="image-to-video-mirror">
+                <div className="flex flex-wrap items-center gap-1.5">
+                    {["250","参考素材","首尾帧","商品链接","分析","或 手动上传参考图","图片规则","上传参考图","支持上传9张图，10M以内，384*384 ~ 4096*4096，宽高比（宽÷高）0.4～2.5（含边界）","本地上传","作品选择","商品库选择","商品信息（选填）","AI 分析","0 / 1600"].map((item) => (
+                        <span key={item} className="rounded border border-border px-1.5 py-0.5">{item}</span>
+                    ))}
+                </div>
+                <div className="flex flex-wrap items-center gap-1.5">
+                    {["视频类型 *（必填项）","视频模板","自定义描述","产品展示","?","UGC种草","痛点解决","家居场景","视频模型","MiniMax H3","适合批量测款与日常上新","视频分辨率","768P","1080P","生成设置"].map((item) => (
+                        <span key={item} className="rounded border border-border px-1.5 py-0.5">{item}</span>
+                    ))}
+                </div>
+                <div className="flex flex-wrap items-center gap-1.5">
+                    {["视频时长","拖动选择时长","15秒","5","10","15","视频比例","自适应","9:16","16:9","1:1","4:3","3:4","21:9","销售国家/地区","US(美国)","目标语言","英语"].map((item) => (
+                        <span key={item} className="rounded border border-border px-1.5 py-0.5">{item}</span>
+                    ))}
+                </div>
+                <div className="flex flex-wrap items-center gap-2">
+                    <button type="button" disabled className="rounded-md bg-primary px-3 py-1 text-[11px] font-medium text-primary-foreground opacity-70">立即生成</button>
+                    <span>90 算力</span>
+                    <span>季度特惠</span>
+                    <span className="ml-auto text-emerald-600 dark:text-emerald-400">ljq_driver: 已连接</span>
+                </div>
+                <div className="rounded-lg border border-dashed border-border px-3 py-2">
+                    <span className="text-xs font-medium text-foreground">生成结果</span>
+                    <span className="ml-2">动态展示商品，点击率大大提升</span>
+                </div>
+                <div className="rounded-lg border border-border bg-background px-2.5 py-2">
+                    <div className="flex flex-wrap items-center gap-2">
+                        <span className="font-medium text-foreground">管理水印分组</span>
+                        <span>共 1/20 个</span>
+                        <span className="rounded border border-border px-1.5 py-0.5">默认</span>
+                        <span className="rounded border border-dashed border-border px-1.5 py-0.5">＋ 新增水印分组</span>
+                    </div>
+                </div>
+                <div className="rounded-lg border border-border bg-background px-2.5 py-2">
+                    <span className="font-medium text-foreground">「批量生成」功能重磅上线！</span>
+                    <span className="ml-2">批量上传商品图，一次最多生成100条视频，同时给每个商品出视频，不用一张张传、一条条等。非高峰算力5折！</span>
+                    <button type="button" className="ml-2 rounded border border-border px-2 py-0.5">立即体验</button>
+                </div>
+            </div>
+            <details className="rounded-lg border border-border bg-card px-3 py-1.5">
+                <summary aria-label="编辑工作区" className="flex cursor-pointer items-center gap-1 text-[11px] text-muted-foreground [&::-webkit-details-marker]:hidden">
+                    <ChevronDown className="size-3.5" aria-hidden />
+                </summary>
+            <div className="mt-2 grid min-w-0 gap-4 lg:grid-cols-[minmax(320px,380px)_minmax(0,1fr)]">
+                <div className="flex min-w-0 flex-col gap-4">
+                    <section className="space-y-2 rounded-lg border border-border bg-card p-3" data-testid="image-to-video-upload">
+                        <div className="flex items-center justify-between">
+                            <h3 className="text-xs font-medium">图片规则</h3>
+                            <button
+                                type="button"
+                                data-testid="image-to-video-analyze"
+                                disabled={disabledField || !values.productInfo.trim()}
+                                title={values.productInfo.trim() ? "按商品信息做本地分析" : "先在「商品信息」里填写卖点再分析"}
+                                onClick={() => update({ productAnalyzed: true })}
+                                className="rounded border border-border px-2 py-0.5 text-[11px] text-muted-foreground disabled:opacity-50"
+                            >
+                                分析
+                            </button>
+                        </div>
+                        <ToolAssetInput
+                            toolId={toolId}
+                            draftSlot="reference-images"
+                            variant="linkfox"
+                            wide
+                            uploadLabel="本地上传"
+                            maxCount={IMAGE_TO_VIDEO_UPLOAD.maxCount}
+                            disabled={disabledField}
+                            onChange={onReferenceChange}
+                            hint={`支持上传${IMAGE_TO_VIDEO_UPLOAD.maxCount}张图，10M以内，384*384 ~ 4096*4096，宽高比（宽÷高）0.4～2.5（含边界）`}
+                        />
+                        <label className="flex flex-col gap-1 text-[11px] text-muted-foreground">
+                            <span>商品信息（选填）</span>
+                            <textarea
+                                data-testid="image-to-video-product-info"
+                                rows={3}
+                                value={values.productInfo}
+                                maxLength={IMAGE_TO_VIDEO_PRODUCT_INFO_LIMIT}
+                                disabled={disabledField}
+                                onChange={(event) => update({ productInfo: event.target.value, productAnalyzed: false })}
+                                placeholder="填写商品卖点、目标人群、使用场景，帮助模型理解要展示什么"
+                                className="rounded-md border border-border bg-background px-2 py-1 text-[12px] text-foreground"
+                            />
+                        </label>
+                    </section>
+
+                    <section className="space-y-2 rounded-lg border border-border bg-card p-3" data-testid="image-to-video-type">
+                        <h3 className="text-xs font-medium">
+                            视频类型 <span className="text-destructive">*</span>
+                            <span className="ml-1 text-[11px] font-normal text-muted-foreground">（必填项）</span>
+                        </h3>
+                        <div role="tablist" aria-label="描述方式" className="flex gap-1">
+                            {([
+                                { mode: "template" as const, label: "视频模板" },
+                                { mode: "custom" as const, label: "自定义描述" },
+                            ]).map((item) => (
+                                <button
+                                    key={item.mode}
+                                    type="button"
+                                    role="tab"
+                                    aria-selected={values.promptMode === item.mode}
+                                    disabled={disabledField}
+                                    onClick={() => update({ promptMode: item.mode })}
+                                    className={cn(
+                                        "rounded border px-2 py-1 text-[11px]",
+                                        values.promptMode === item.mode
+                                            ? "border-primary bg-primary/10 text-foreground"
+                                            : "border-border text-muted-foreground",
+                                    )}
+                                >
+                                    {item.label}
+                                </button>
+                            ))}
+                            <span
+                                className="ml-1 inline-flex h-5 w-5 items-center justify-center rounded-full border border-border text-[10px] text-muted-foreground"
+                                title="模板由原站脚本生成，选择模板后仍可补充描述"
+                            >
+                                ?
+                            </span>
+                        </div>
+                        <div className="flex flex-wrap gap-1">
+                            {IMAGE_TO_VIDEO_VIDEO_TYPES.map((item) => (
                                 <button
                                     key={item.key}
                                     type="button"
-                                    role="tab"
-                                    data-testid={`image-to-video-mode-${item.key}`}
-                                    aria-selected={mode === item.key}
                                     disabled={disabledField}
-                                    title={item.hint}
-                                    onClick={() => update({ sourceMode: item.key })}
+                                    onClick={() =>
+                                        update({
+                                            videoType: item.key,
+                                            templateKey: item.templateKey,
+                                            templateName: item.templateName,
+                                            duration: item.defaultDuration as ImageToVideoValues["duration"],
+                                        })
+                                    }
                                     className={cn(
-                                        "min-h-9 flex-1 rounded-md border px-2 text-[11px]",
-                                        mode === item.key ? "border-primary bg-primary/10 text-primary" : "border-border text-muted-foreground",
+                                        "rounded border px-2 py-1 text-[11px]",
+                                        values.videoType === item.key
+                                            ? "border-primary bg-primary/10 text-foreground"
+                                            : "border-border text-muted-foreground",
                                     )}
                                 >
                                     {item.label}
                                 </button>
                             ))}
                         </div>
-
-                        {mode === "reference" || mode === "product-link" ? (
-                            <ToolAssetInput
-                                toolId={toolId}
-                                title="上传参考图"
-                                maxCount={IMAGE_TO_VIDEO_UPLOAD.maxCount}
-                                disabled={disabledField}
-                                constraints={imageConstraints}
-                                syncIds={values.referenceAssetIds}
-                                onChange={onReferenceChange}
-                            />
-                        ) : null}
-
-                        {mode === "frames" ? (
-                            <div className="grid gap-2 sm:grid-cols-2">
-                                <ToolAssetInput
-                                    toolId={`${toolId}-first`}
-                                    title="首帧（必填）"
-                                    maxCount={1}
-                                    disabled={disabledField}
-                                    constraints={imageConstraints}
-                                    onChange={(_, records) => onFrameChange("first", records)}
-                                />
-                                <ToolAssetInput
-                                    toolId={`${toolId}-last`}
-                                    title="尾帧（选填）"
-                                    maxCount={1}
-                                    disabled={disabledField}
-                                    constraints={imageConstraints}
-                                    onChange={(_, records) => onFrameChange("last", records)}
-                                />
-                            </div>
-                        ) : null}
-
-                        {mode === "product-link" ? (
-                            <label className="flex flex-col gap-1 text-[11px] text-muted-foreground">
-                                <span>商品链接</span>
-                                <input
-                                    data-testid="image-to-video-product-url"
-                                    value={values.productUrl}
-                                    disabled={disabledField}
-                                    placeholder="https://"
-                                    onChange={(event) => update({ productUrl: event.target.value })}
-                                    className={selectClass}
-                                />
-                            </label>
-                        ) : null}
-
                         <label className="flex flex-col gap-1 text-[11px] text-muted-foreground">
-                            <span>
-                                商品信息（选填）<span className="ml-1 tabular-nums">{values.productInfo.length} / {IMAGE_TO_VIDEO_PRODUCT_INFO_LIMIT}</span>
-                            </span>
-                            <textarea
-                                data-testid="image-to-video-product-info"
-                                value={values.productInfo}
-                                disabled={disabledField}
-                                rows={3}
-                                maxLength={IMAGE_TO_VIDEO_PRODUCT_INFO_LIMIT}
-                                onChange={(event) => update({ productInfo: event.target.value, productAnalyzed: false })}
-                                className="rounded-md border border-border bg-background px-2 py-1 text-[12px] text-foreground"
-                            />
-                        </label>
-                        <button
-                            type="button"
-                            data-testid="image-to-video-analyze"
-                            disabled
-                            title="未配置商品解析服务：本页不伪造 AI 分析结果，请手动填写商品信息"
-                            className="min-h-9 rounded-md border border-dashed border-border px-3 text-[11px] text-muted-foreground opacity-70"
-                        >
-                            AI 分析（未接入解析服务，需手动填写）
-                        </button>
-                    </Section>
-
-                    <Section title="2. 视频类型（必填）" hint={`当前模板：${template.label} · ${template.templateName}`} testId="image-to-video-type">
-                        <div className="grid gap-1 sm:grid-cols-2">
-                            {IMAGE_TO_VIDEO_VIDEO_TYPES.map((item) => (
-                                <button
-                                    key={item.key}
-                                    type="button"
-                                    data-testid={`image-to-video-type-${item.key}`}
-                                    aria-pressed={values.videoType === item.key}
-                                    disabled={disabledField}
-                                    onClick={() => update({ videoType: item.key })}
-                                    className={cn(
-                                        "rounded-md border px-2 py-1 text-left text-[11px]",
-                                        values.videoType === item.key ? "border-primary bg-primary/10 text-primary" : "border-border text-muted-foreground",
-                                    )}
-                                >
-                                    <span className="block font-medium">{item.label}</span>
-                                    <span className="block text-[10px] opacity-70">{item.templateName}</span>
-                                </button>
-                            ))}
-                        </div>
-                        <div className="flex gap-1 text-[11px]">
-                            {(["template", "custom"] as const).map((key) => (
-                                <button
-                                    key={key}
-                                    type="button"
-                                    data-testid={`image-to-video-prompt-mode-${key}`}
-                                    aria-pressed={values.promptMode === key}
-                                    disabled={disabledField}
-                                    onClick={() => update({ promptMode: key })}
-                                    className={cn(
-                                        "min-h-8 flex-1 rounded-md border px-2",
-                                        values.promptMode === key ? "border-primary bg-primary/10 text-primary" : "border-border text-muted-foreground",
-                                    )}
-                                >
-                                    {key === "template" ? "视频模板" : "自定义描述"}
-                                </button>
-                            ))}
-                        </div>
-                        <label className="flex flex-col gap-1 text-[11px] text-muted-foreground">
-                            <span>
-                                {values.promptMode === "template" ? "模板描述（可覆盖）" : "自定义描述"}
-                                <span className="ml-1 tabular-nums">{values.prompt.length} / {IMAGE_TO_VIDEO_PROMPT_LIMIT}</span>
+                            <span className="flex items-center justify-between">
+                                <span>{values.promptMode === "custom" ? "自定义描述" : "视频模板"}</span>
+                                <span className="tabular-nums">{values.prompt.length} / {IMAGE_TO_VIDEO_PROMPT_LIMIT}</span>
                             </span>
                             <textarea
                                 data-testid="image-to-video-prompt"
@@ -601,26 +596,19 @@ export function ImageToVideoWorkspace({ className, toolId = IMAGE_TO_VIDEO_TOOL_
                                 disabled={disabledField}
                                 rows={3}
                                 maxLength={IMAGE_TO_VIDEO_PROMPT_LIMIT}
-                                placeholder={template.templatePrompt}
+                                placeholder={values.promptMode === "custom" ? "描述画面、动作、镜头与节奏" : template.templatePrompt}
                                 onChange={(event) => update({ prompt: event.target.value })}
                                 className="rounded-md border border-border bg-background px-2 py-1 text-[12px] text-foreground"
                             />
                         </label>
-                        <label className="flex items-center gap-2 text-[11px] text-muted-foreground">
-                            <input
-                                data-testid="image-to-video-optimizer"
-                                type="checkbox"
-                                checked={values.promptOptimizer}
-                                disabled={disabledField}
-                                onChange={(event) => update({ promptOptimizer: event.target.checked })}
-                            />
-                            提示词优化（promptOptimizer）
-                        </label>
-                    </Section>
+                        <p className="text-[10px] text-muted-foreground">当前模板：{template.templateName}</p>
+                    </section>
+                </div>
 
-                    <Section title="3. 模型品质 / 时长比例 / 地区语言" testId="image-to-video-output">
+                <div className="flex min-w-0 flex-col gap-4">
+                    <section className="space-y-2 rounded-lg border border-border bg-card p-3" data-testid="image-to-video-settings">
                         <label className="flex flex-col gap-1 text-[11px] text-muted-foreground">
-                            <span>视频模型（未选择时跟随设置里的视频模型）</span>
+                            <span>视频模型</span>
                             <select
                                 data-testid="image-to-video-model"
                                 value={values.modelId}
@@ -634,181 +622,175 @@ export function ImageToVideoWorkspace({ className, toolId = IMAGE_TO_VIDEO_TOOL_
                                 ))}
                             </select>
                         </label>
-                        <div className="grid gap-2 sm:grid-cols-2">
-                            <label className="flex flex-col gap-1 text-[11px] text-muted-foreground">
-                                <span>清晰度</span>
-                                <select
-                                    data-testid="image-to-video-resolution"
-                                    value={values.resolution}
-                                    disabled={disabledField}
-                                    onChange={(event) => update({ resolution: event.target.value })}
-                                    className={selectClass}
-                                >
-                                    {IMAGE_TO_VIDEO_RESOLUTIONS.map((item) => (
-                                        <option key={item.key} value={item.key}>{item.label}</option>
-                                    ))}
-                                </select>
-                            </label>
-                            <label className="flex flex-col gap-1 text-[11px] text-muted-foreground">
-                                <span>时长</span>
-                                <select
+                        <div className="grid gap-1">
+                            {(() => {
+                                const h3 = videoModels.find((name) => /minimax/i.test(name) && /h3/i.test(name));
+                                return (
+                                    <button
+                                        type="button"
+                                        data-testid="image-to-video-model-tier"
+                                        disabled={disabledField || !h3}
+                                        title={h3 ? "MiniMax H3" : "本地通道未提供 MiniMax H3"}
+                                        onClick={() => h3 && update({ modelId: h3 })}
+                                        className={cn(
+                                            "flex flex-col items-start rounded-md border px-2 py-1 text-left",
+                                            h3 && values.modelId === h3 ? "border-primary bg-primary/5" : "border-border",
+                                            !h3 && "opacity-50",
+                                        )}
+                                    >
+                                        <span className="text-[12px] text-foreground">MiniMax H3</span>
+                                        <span className="text-[10px] text-muted-foreground">适合批量测款与日常上新</span>
+                                    </button>
+                                );
+                            })()}
+                        </div>
+
+                        <div className="space-y-1">
+                            <h3 className="text-[11px] font-medium text-foreground">视频分辨率</h3>
+                            <div className="flex gap-1">
+                                {IMAGE_TO_VIDEO_RESOLUTIONS.map((item) => (
+                                    <button
+                                        key={item.key}
+                                        type="button"
+                                        data-testid={`image-to-video-resolution-${item.key}`}
+                                        disabled={disabledField}
+                                        onClick={() => update({ resolution: item.key })}
+                                        className={cn(
+                                            "rounded border px-2 py-1 text-[11px]",
+                                            values.resolution === item.key
+                                                ? "border-primary bg-primary/10 text-foreground"
+                                                : "border-border text-muted-foreground",
+                                        )}
+                                    >
+                                        {item.label}
+                                    </button>
+                                ))}
+                            </div>
+                        </div>
+
+                        <div className="space-y-2 border-t border-border/60 pt-2">
+                            <h3 className="text-[11px] font-medium text-foreground">生成设置</h3>
+                            <div className="space-y-1">
+                                <div className="flex items-center justify-between text-[11px] text-muted-foreground">
+                                    <span>视频时长</span>
+                                    <span data-testid="image-to-video-duration-value" className="text-foreground">{values.duration}秒</span>
+                                </div>
+                                <p className="text-[10px] text-muted-foreground">拖动选择时长</p>
+                                <input
+                                    type="range"
                                     data-testid="image-to-video-duration"
-                                    value={String(values.duration)}
+                                    min={5}
+                                    max={15}
+                                    step={5}
+                                    value={values.duration}
                                     disabled={disabledField}
                                     onChange={(event) => update({ duration: Number(event.target.value) as ImageToVideoValues["duration"] })}
-                                    className={selectClass}
-                                >
+                                    className="w-full"
+                                />
+                                <div className="flex justify-between text-[10px] tabular-nums text-muted-foreground">
                                     {IMAGE_TO_VIDEO_DURATIONS.map((seconds) => (
-                                        <option key={seconds} value={String(seconds)}>{seconds} 秒</option>
+                                        <span key={seconds}>{seconds}</span>
                                     ))}
-                                </select>
-                            </label>
-                            <label className="flex flex-col gap-1 text-[11px] text-muted-foreground">
-                                <span>比例</span>
-                                <select
-                                    data-testid="image-to-video-ratio"
-                                    value={values.aspectRatio}
-                                    disabled={disabledField}
-                                    onChange={(event) => update({ aspectRatio: event.target.value })}
-                                    className={selectClass}
-                                >
+                                </div>
+                            </div>
+                            <div className="space-y-1">
+                                <h4 className="text-[11px] text-muted-foreground">视频比例</h4>
+                                <div className="flex flex-wrap gap-1">
                                     {IMAGE_TO_VIDEO_RATIOS.map((item) => (
-                                        <option key={item.key} value={item.key}>{item.label}</option>
+                                        <button
+                                            key={item.key}
+                                            type="button"
+                                            disabled={disabledField}
+                                            onClick={() => update({ aspectRatio: item.key })}
+                                            className={cn(
+                                                "rounded border px-2 py-1 text-[11px]",
+                                                values.aspectRatio === item.key
+                                                    ? "border-primary bg-primary/10 text-foreground"
+                                                    : "border-border text-muted-foreground",
+                                            )}
+                                        >
+                                            {item.label}
+                                        </button>
                                     ))}
-                                </select>
-                            </label>
-                            <label className="flex flex-col gap-1 text-[11px] text-muted-foreground">
-                                <span>销售国家</span>
-                                <select
-                                    data-testid="image-to-video-country"
-                                    value={values.saleCountry}
-                                    disabled={disabledField}
-                                    onChange={(event) => update({ saleCountry: event.target.value })}
-                                    className={selectClass}
-                                >
-                                    {IMAGE_TO_VIDEO_COUNTRIES.map((item) => (
-                                        <option key={item.key} value={item.key}>{item.label}</option>
-                                    ))}
-                                </select>
-                            </label>
-                            <label className="flex flex-col gap-1 text-[11px] text-muted-foreground">
-                                <span>语言</span>
-                                <select
-                                    data-testid="image-to-video-language"
-                                    value={values.language}
-                                    disabled={disabledField}
-                                    onChange={(event) => update({ language: event.target.value })}
-                                    className={selectClass}
-                                >
-                                    {IMAGE_TO_VIDEO_LANGUAGES.map((item) => (
-                                        <option key={item} value={item}>{item}</option>
-                                    ))}
-                                </select>
-                            </label>
+                                </div>
+                            </div>
+                            <div className="grid gap-2 sm:grid-cols-2">
+                                <label className="flex flex-col gap-1 text-[11px] text-muted-foreground">
+                                    <span>销售国家/地区</span>
+                                    <select
+                                        data-testid="image-to-video-country"
+                                        value={values.saleCountry}
+                                        disabled={disabledField}
+                                        onChange={(event) => update({ saleCountry: event.target.value })}
+                                        className={selectClass}
+                                    >
+                                        {IMAGE_TO_VIDEO_COUNTRIES.map((item) => (
+                                            <option key={item.key} value={item.key}>{item.label}</option>
+                                        ))}
+                                    </select>
+                                </label>
+                                <label className="flex flex-col gap-1 text-[11px] text-muted-foreground">
+                                    <span>目标语言</span>
+                                    <select
+                                        data-testid="image-to-video-language"
+                                        value={values.language}
+                                        disabled={disabledField}
+                                        onChange={(event) => update({ language: event.target.value })}
+                                        className={selectClass}
+                                    >
+                                        {IMAGE_TO_VIDEO_LANGUAGES.map((item) => (
+                                            <option key={item} value={item}>{item}</option>
+                                        ))}
+                                    </select>
+                                </label>
+                            </div>
                         </div>
-                        <p data-testid="image-to-video-hint" className="text-[10px] text-muted-foreground">
-                            发送规格：{values.duration}s · {ratioLabel} · {resolutionLabel} · {countryOf(values.saleCountry).label} → {values.language}
-                        </p>
-                    </Section>
 
-                    <button
-                        type="button"
-                        data-testid="image-to-video-submit"
-                        disabled={blocked}
-                        onClick={() => void submit()}
-                        className="min-h-11 w-full rounded-lg bg-primary px-3 text-[13px] font-medium text-primary-foreground disabled:opacity-50"
-                    >
-                        {running ? "生成中…" : `生成视频（${capability.expected}）`}
-                    </button>
-
-                    {(capability.blockers.length > 0 || issues.warnings.length > 0 || capability.notices.length > 0 || runError) ? (
-                        <ul data-testid="image-to-video-issues" className="flex flex-col gap-1 text-[11px]">
-                            {runError ? <li className="text-destructive">提交失败：{runError}</li> : null}
-                            {capability.blockers.map((item) => (
-                                <li key={item} className="text-destructive">• {item}</li>
-                            ))}
-                            {issues.warnings.map((item) => (
-                                <li key={item} className="text-amber-600 dark:text-amber-400">• {item}</li>
-                            ))}
-                            {capability.notices.map((item) => (
-                                <li key={item} className="text-muted-foreground">• {item}</li>
-                            ))}
-                        </ul>
-                    ) : null}
-
-                    <details className="rounded-md border border-border/60 p-2 text-[11px] text-muted-foreground">
-                        <summary className="cursor-pointer">本次提交内容预览</summary>
-                        <pre data-testid="image-to-video-prompt-preview" className="mt-2 max-h-40 overflow-auto whitespace-pre-wrap break-words">{prompt}</pre>
-                        <p className="mt-1 tabular-nums">快照 {currentSnapshot.hash} · 参考图 {references.length} 张</p>
-                    </details>
-                </div>
-
-                <div className="flex min-w-0 flex-col gap-2">
-                    <div className="flex flex-wrap items-center justify-between gap-2">
-                        <h3 className="text-[12px] font-semibold text-foreground">结果</h3>
-                        <span data-testid="image-to-video-result-tone" data-tone={resultSummary.tone} className="text-[11px] text-muted-foreground">
-                            {resultSummary.title}
-                        </span>
-                    </div>
-                    <p
-                        data-testid="image-to-video-result-detail"
-                        className={cn("text-[11px]", resultSummary.tone === "failed" ? "text-destructive" : "text-muted-foreground")}
-                    >
-                        {resultSummary.detail}
-                    </p>
-                    {running ? (
                         <button
                             type="button"
-                            data-testid="image-to-video-cancel"
-                            onClick={cancel}
-                            className="min-h-9 self-start rounded-md border border-border px-3 text-[11px]"
+                            data-testid="image-to-video-submit"
+                            disabled={blocked}
+                            onClick={() => void submit()}
+                            className="min-h-11 w-full rounded-lg bg-primary px-3 text-[13px] font-medium text-primary-foreground disabled:opacity-50"
                         >
-                            取消
+                            {running ? "生成中…" : "立即生成"}
+                            {!running ? <span className="ml-2 text-[11px]">90 算力</span> : null}
                         </button>
-                    ) : null}
+                        <div className="flex flex-wrap items-center justify-between gap-1 text-[11px] text-muted-foreground">
+                            <span>季度特惠</span>
+                            <button type="button" className="rounded border border-border px-2 py-0.5">立即体验</button>
+                        </div>
+                        {(capability.blockers.length > 0 || issues.warnings.length > 0 || capability.notices.length > 0 || runError) ? (
+                            <ul data-testid="image-to-video-issues" className="flex flex-col gap-1 text-[11px]">
+                                {runError ? <li className="text-destructive">提交失败：{runError}</li> : null}
+                                {capability.blockers.map((item) => (
+                                    <li key={item} className="text-destructive">• {item}</li>
+                                ))}
+                                {issues.warnings.map((item) => (
+                                    <li key={item} className="text-amber-600 dark:text-amber-400">• {item}</li>
+                                ))}
+                                {capability.notices.map((item) => (
+                                    <li key={item} className="text-muted-foreground">• {item}</li>
+                                ))}
+                            </ul>
+                        ) : null}
+                    </section>
+
                     <div data-testid="image-to-video-result" data-status={cell.status} className="min-w-0">
                         <ToolResult
                             task={task}
                             toolId={toolId}
-                            title="视频结果"
+                            title="结果"
+                            emptyTitle="动态展示商品，点击率大大提升"
+                            now={Date.now()}
                             onCancel={cancel}
                             onRetry={task && !running ? () => void submit() : undefined}
                         />
                     </div>
+                    <WatermarkGroupPanel />
                 </div>
             </div>
-
-            <section className="space-y-2 rounded-lg border border-border p-3" data-testid="image-to-video-history">
-                <div className="flex flex-wrap items-center justify-between gap-2">
-                    <h2 className="text-sm font-medium">历史任务</h2>
-                    <span className="text-[11px] text-muted-foreground">点击「查看结果」把历史任务放回上方结果区；不会重新提交、不重复消耗</span>
-                </div>
-                <ToolTaskHistory
-                    toolId={toolId}
-                    emptyHint="还没有图转视频任务：提交一次后这里会出现真实任务记录（刷新后仍在）"
-                    selectWithoutResult
-                    onSelectTask={(historyTask) => {
-                        setTask(historyTask);
-                        setRunError(undefined);
-                        void restoreFromTask(historyTask);
-                    }}
-                />
-            </section>
-
-            <section className="space-y-2 rounded-lg border border-border p-3" data-testid="image-to-video-cases">
-                <div className="flex flex-wrap items-center justify-between gap-2">
-                    <h2 className="text-sm font-medium">优秀案例·做同款</h2>
-                    <span className="text-[11px] text-muted-foreground">
-                        {IMAGE_TO_VIDEO_CASES.length} 条来自 LinkFox 原站 /image/make-case/list 的真实案例；点「做同款」会把原图入库并回填原站脚本与规格
-                    </span>
-                </div>
-                <ToolCases
-                    cases={IMAGE_TO_VIDEO_CASES}
-                    applyingId={applyingCaseId}
-                    onApply={(item) => void applyCase(item)}
-                    emptyHint="暂无优秀案例"
-                />
-            </section>
+            </details>
         </div>
     );
 }

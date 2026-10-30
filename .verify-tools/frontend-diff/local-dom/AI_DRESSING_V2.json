@@ -1,0 +1,721 @@
+{
+ "id": "AI_DRESSING_V2",
+ "route": "/tools/product-design/ai-dressing-v2",
+ "ok": true,
+ "error": null,
+ "title": "无限画布",
+ "text": "无限画布\n首页\n电商套图\n智能修图\n新模型\nAI视频\nHOT\n批量生图\n商品图设计\n中\nv0.27.0\n商品图\n商品替换\n场景裂变\n手持商品\nAI穿衣\n姿势裂变\nAI穿戴\nPOD素材\n饰品文字\n素材贴合\n印花提取\nAI姿势生成\n补充\nAI试衣XSY\n补充\n场景裂变链接\n补充\n图片文字编辑\n补充\n上装换料\n补充\n商品图设计器\n补充\n商品营销素材\n补充\n场景迁移\n补充\n免责声明\nAI 穿衣\n图片限制：\n10M以内，384*384 ~ 4096*4096\n上下装衣服\n连体衣服\n当前模式：\n上下装衣服\n｜参与生成：\n上装 + 下装\n模特参考（最多\n4\n张，当前\n0\n张）\n上传模特图\n0\n0 / 4 个 · PNG / JPG / WebP · ≤ 10 MB\n点击选择本地文件，或拖拽到这里\n校验格式 / 大小 / 像素，入库后可刷新恢复\n还没有素材\n还没有模特参考图，先上传才能生成。\n请先上传穿衣的模特参考图\n上装\n蒙版覆盖\n0\n%\n（未标记）\n上传上装图\n0\n0 / 1 个 · PNG / JPG / WebP · ≤ 10 MB\n点击选择本地文件，或拖拽到这里\n校验格式 / 大小 / 像素，入库后可刷新恢复\n还没有素材\n上传上装正面图，平铺或穿着实拍均可\n整件\n撤销\n重做\n清空\n反向\n扩边\n下装\n蒙版覆盖\n0\n%\n（未标记）\n上传下装图\n0\n0 / 1 个 · PNG / JPG / WebP · ≤ 10 MB\n点击选择本地文件，或拖拽到这里\n校验格式 / 大小 / 像素，入库后可刷新恢复\n还没有素材\n上传下装正面图，裤装/裙装均可\n整件\n撤销\n重做\n清空\n反向\n扩边\n生成张数\n1\n张\n2\n张\n3\n张\n4\n张\n模型类型\n版本\n任务名称\n服务商\n保持原分辨率\n二次操作\n提交前请先处理：\n上下装模式至少要上传上装或下装中的一件正面图\n立即生成\n优秀案例\n历史任务\n0\n条\n本工具还没有历史任务；提交一次后会在这里留下任务、配置与结果，刷新后仍在。\n连接本地 Agent\n未连接\n点连接会自动启动本地服务、装好插件并接通，无需手动配置。\nClaude Code\n未连接\n·\nCLI · 2.1.285 (Claude Code)\n·\n直接运行\n连接\nCodex\n未连接\n·\nCLI · codex-cli 0.163.0\n·\n插件已装\n连接\nGalley\n未连接\n·\nCLI + 桌面版 · galley 0.6.4\n连接",
+ "lines": [
+  "无限画布",
+  "首页",
+  "电商套图",
+  "智能修图",
+  "新模型",
+  "AI视频",
+  "HOT",
+  "批量生图",
+  "商品图设计",
+  "中",
+  "v0.27.0",
+  "商品图",
+  "商品替换",
+  "场景裂变",
+  "手持商品",
+  "AI穿衣",
+  "姿势裂变",
+  "AI穿戴",
+  "POD素材",
+  "饰品文字",
+  "素材贴合",
+  "印花提取",
+  "AI姿势生成",
+  "补充",
+  "AI试衣XSY",
+  "补充",
+  "场景裂变链接",
+  "补充",
+  "图片文字编辑",
+  "补充",
+  "上装换料",
+  "补充",
+  "商品图设计器",
+  "补充",
+  "商品营销素材",
+  "补充",
+  "场景迁移",
+  "补充",
+  "免责声明",
+  "AI 穿衣",
+  "图片限制：",
+  "10M以内，384*384 ~ 4096*4096",
+  "上下装衣服",
+  "连体衣服",
+  "当前模式：",
+  "上下装衣服",
+  "｜参与生成：",
+  "上装 + 下装",
+  "模特参考（最多",
+  "4",
+  "张，当前",
+  "0",
+  "张）",
+  "上传模特图",
+  "0",
+  "0 / 4 个 · PNG / JPG / WebP · ≤ 10 MB",
+  "点击选择本地文件，或拖拽到这里",
+  "校验格式 / 大小 / 像素，入库后可刷新恢复",
+  "还没有素材",
+  "还没有模特参考图，先上传才能生成。",
+  "请先上传穿衣的模特参考图",
+  "上装",
+  "蒙版覆盖",
+  "0",
+  "%",
+  "（未标记）",
+  "上传上装图",
+  "0",
+  "0 / 1 个 · PNG / JPG / WebP · ≤ 10 MB",
+  "点击选择本地文件，或拖拽到这里",
+  "校验格式 / 大小 / 像素，入库后可刷新恢复",
+  "还没有素材",
+  "上传上装正面图，平铺或穿着实拍均可",
+  "整件",
+  "撤销",
+  "重做",
+  "清空",
+  "反向",
+  "扩边",
+  "下装",
+  "蒙版覆盖",
+  "0",
+  "%",
+  "（未标记）",
+  "上传下装图",
+  "0",
+  "0 / 1 个 · PNG / JPG / WebP · ≤ 10 MB",
+  "点击选择本地文件，或拖拽到这里",
+  "校验格式 / 大小 / 像素，入库后可刷新恢复",
+  "还没有素材",
+  "上传下装正面图，裤装/裙装均可",
+  "整件",
+  "撤销",
+  "重做",
+  "清空",
+  "反向",
+  "扩边",
+  "生成张数",
+  "1",
+  "张",
+  "2",
+  "张",
+  "3",
+  "张",
+  "4",
+  "张",
+  "模型类型",
+  "版本",
+  "任务名称",
+  "服务商",
+  "保持原分辨率",
+  "二次操作",
+  "提交前请先处理：",
+  "上下装模式至少要上传上装或下装中的一件正面图",
+  "立即生成",
+  "优秀案例",
+  "历史任务",
+  "0",
+  "条",
+  "本工具还没有历史任务；提交一次后会在这里留下任务、配置与结果，刷新后仍在。",
+  "连接本地 Agent",
+  "未连接",
+  "点连接会自动启动本地服务、装好插件并接通，无需手动配置。",
+  "Claude Code",
+  "未连接",
+  "·",
+  "CLI · 2.1.285 (Claude Code)",
+  "·",
+  "直接运行",
+  "连接",
+  "Codex",
+  "未连接",
+  "·",
+  "CLI · codex-cli 0.163.0",
+  "·",
+  "插件已装",
+  "连接",
+  "Galley",
+  "未连接",
+  "·",
+  "CLI + 桌面版 · galley 0.6.4",
+  "连接"
+ ],
+ "controls": [
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "中",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1593,
+    "y": 14,
+    "w": 28,
+    "h": 28
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "切换到深色主题",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1625,
+    "y": 14,
+    "w": 28,
+    "h": 28
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "v0.27.0",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1657,
+    "y": 17,
+    "w": 47,
+    "h": 22
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "上下装衣服",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 219,
+    "y": 112,
+    "w": 94,
+    "h": 34
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "连体衣服",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 321,
+    "y": 112,
+    "w": 80,
+    "h": 34
+   }
+  },
+  {
+   "tag": "div",
+   "type": "",
+   "text": "点击选择本地文件，或拖拽到这里\n校验格式 / 大小 / 像素，入库后可刷新恢复",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 219,
+    "y": 256,
+    "w": 1294,
+    "h": 86
+   }
+  },
+  {
+   "tag": "div",
+   "type": "",
+   "text": "点击选择本地文件，或拖拽到这里\n校验格式 / 大小 / 像素，入库后可刷新恢复",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 232,
+    "y": 533,
+    "w": 1268,
+    "h": 86
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "整件",
+   "placeholder": "",
+   "disabled": true,
+   "rect": {
+    "x": 232,
+    "y": 687,
+    "w": 42,
+    "h": 26
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "撤销",
+   "placeholder": "",
+   "disabled": true,
+   "rect": {
+    "x": 282,
+    "y": 687,
+    "w": 42,
+    "h": 26
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "重做",
+   "placeholder": "",
+   "disabled": true,
+   "rect": {
+    "x": 332,
+    "y": 687,
+    "w": 42,
+    "h": 26
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "清空",
+   "placeholder": "",
+   "disabled": true,
+   "rect": {
+    "x": 382,
+    "y": 687,
+    "w": 42,
+    "h": 26
+   }
+  },
+  {
+   "tag": "input",
+   "type": "checkbox",
+   "text": "on",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 432,
+    "y": 694,
+    "w": 13,
+    "h": 13
+   }
+  },
+  {
+   "tag": "input",
+   "type": "checkbox",
+   "text": "on",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 481,
+    "y": 694,
+    "w": 13,
+    "h": 13
+   }
+  },
+  {
+   "tag": "div",
+   "type": "",
+   "text": "点击选择本地文件，或拖拽到这里\n校验格式 / 大小 / 像素，入库后可刷新恢复",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 232,
+    "y": 833,
+    "w": 1268,
+    "h": 86
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "整件",
+   "placeholder": "",
+   "disabled": true,
+   "rect": {
+    "x": 232,
+    "y": 987,
+    "w": 42,
+    "h": 26
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "撤销",
+   "placeholder": "",
+   "disabled": true,
+   "rect": {
+    "x": 282,
+    "y": 987,
+    "w": 42,
+    "h": 26
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "重做",
+   "placeholder": "",
+   "disabled": true,
+   "rect": {
+    "x": 332,
+    "y": 987,
+    "w": 42,
+    "h": 26
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "清空",
+   "placeholder": "",
+   "disabled": true,
+   "rect": {
+    "x": 382,
+    "y": 987,
+    "w": 42,
+    "h": 26
+   }
+  },
+  {
+   "tag": "input",
+   "type": "checkbox",
+   "text": "on",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 432,
+    "y": 994,
+    "w": 13,
+    "h": 13
+   }
+  },
+  {
+   "tag": "input",
+   "type": "checkbox",
+   "text": "on",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 481,
+    "y": 994,
+    "w": 13,
+    "h": 13
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "1 张",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 296,
+    "y": 1059,
+    "w": 42,
+    "h": 30
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "2 张",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 346,
+    "y": 1059,
+    "w": 44,
+    "h": 30
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "3 张",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 398,
+    "y": 1059,
+    "w": 44,
+    "h": 30
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "4 张",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 451,
+    "y": 1059,
+    "w": 45,
+    "h": 30
+   }
+  },
+  {
+   "tag": "select",
+   "type": "",
+   "text": "成人模特\n儿童模特",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 232,
+    "y": 1117,
+    "w": 630,
+    "h": 27
+   }
+  },
+  {
+   "tag": "select",
+   "type": "",
+   "text": "V2（本页）",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 870,
+    "y": 1117,
+    "w": 630,
+    "h": 27
+   }
+  },
+  {
+   "tag": "input",
+   "type": "",
+   "text": "可选，便于在历史里辨认",
+   "placeholder": "可选，便于在历史里辨认",
+   "disabled": false,
+   "rect": {
+    "x": 232,
+    "y": 1168,
+    "w": 630,
+    "h": 26
+   }
+  },
+  {
+   "tag": "input",
+   "type": "",
+   "text": "留空跟随当前配置",
+   "placeholder": "留空跟随当前配置",
+   "disabled": false,
+   "rect": {
+    "x": 870,
+    "y": 1168,
+    "w": 630,
+    "h": 26
+   }
+  },
+  {
+   "tag": "input",
+   "type": "checkbox",
+   "text": "on",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 232,
+    "y": 1208,
+    "w": 13,
+    "h": 13
+   }
+  },
+  {
+   "tag": "input",
+   "type": "checkbox",
+   "text": "on",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 337,
+    "y": 1208,
+    "w": 13,
+    "h": 13
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "立即生成",
+   "placeholder": "",
+   "disabled": true,
+   "rect": {
+    "x": 219,
+    "y": 1283,
+    "w": 1294,
+    "h": 38
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "优秀案例",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1542,
+    "y": 199,
+    "w": 80,
+    "h": 34
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "连接",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 2265,
+    "y": 147,
+    "w": 66,
+    "h": 24
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "连接",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 2265,
+    "y": 215,
+    "w": 66,
+    "h": 24
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "连接",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 2265,
+    "y": 283,
+    "w": 66,
+    "h": 24
+   }
+  }
+ ],
+ "regions": [
+  {
+   "cls": "sticky top-0 z-[7] h-14 shrink-0 border-b border-hairline bg-surface/95 backdrop",
+   "rect": {
+    "x": 0,
+    "y": 0,
+    "w": 1920,
+    "h": 56
+   },
+   "text": "无限画布\n首页\n电商套图\n智能修图\n新模型\nAI视频\nHOT\n批量生图\n商品图设计\n中\n切换到深色主题\nv0.27.0"
+  },
+  {
+   "cls": "hidden w-[180px] shrink-0 overflow-y-auto rounded-xl border border-hairline bg-s",
+   "rect": {
+    "x": 16,
+    "y": 56,
+    "w": 180,
+    "h": 1008
+   },
+   "text": "商品图设计\n商品图\n商品替换\n场景裂变\n手持商品\nAI穿衣\n姿势裂变\nAI穿戴\nPOD素材\n饰品文字\n素材贴合\n印花提取\nAI姿势生成\n补充\nAI试衣XSY\n补充\n场景裂变链接\n补充\n图片文字编辑\n补充\n上装换料\n补充\n商品图设计器\n补充\n商品营销素材\n补充\n场景迁移\n补充\n免责声明"
+  },
+  {
+   "cls": "min-h-0 flex-1 overflow-hidden bg-canvas p-2.5",
+   "rect": {
+    "x": 209,
+    "y": 57,
+    "w": 1694,
+    "h": 1006
+   },
+   "text": "AI 穿衣\n图片限制：10M以内，384*384 ~ 4096*4096\n上下装衣服\n连体衣服\n\n当前模式：上下装衣服｜参与生成：上装 + 下装\n\n模特参考（最多 4 张，当前 0 张）\n上传模特图\n00 / 4 个 · PNG / JPG / WebP · ≤ 10 MB\n点击选择本地文件，或拖拽到这里\n校验格式 / 大小 / 像素，入库后可刷新恢复\n\n还没有素材\n\n还没有模特参考图，先上传才能生成。\n\n请先上传穿衣的模特参考图\n\n上装\n蒙版覆盖 0%（未标记）\n上传上装图\n00 / 1 个 · PNG / JPG / WebP · ≤ 10 MB\n点击选择本地文件，或拖拽到这里\n校验格式 "
+  },
+  {
+   "cls": "space-y-5",
+   "rect": {
+    "x": 219,
+    "y": 67,
+    "w": 1674,
+    "h": 1254
+   },
+   "text": "AI 穿衣\n图片限制：10M以内，384*384 ~ 4096*4096\n上下装衣服\n连体衣服\n\n当前模式：上下装衣服｜参与生成：上装 + 下装\n\n模特参考（最多 4 张，当前 0 张）\n上传模特图\n00 / 4 个 · PNG / JPG / WebP · ≤ 10 MB\n点击选择本地文件，或拖拽到这里\n校验格式 / 大小 / 像素，入库后可刷新恢复\n\n还没有素材\n\n还没有模特参考图，先上传才能生成。\n\n请先上传穿衣的模特参考图\n\n上装\n蒙版覆盖 0%（未标记）\n上传上装图\n00 / 1 个 · PNG / JPG / WebP · ≤ 10 MB\n点击选择本地文件，或拖拽到这里\n校验格式 "
+  },
+  {
+   "cls": "space-y-2",
+   "rect": {
+    "x": 219,
+    "y": 67,
+    "w": 1674,
+    "h": 103
+   },
+   "text": "AI 穿衣\n图片限制：10M以内，384*384 ~ 4096*4096\n上下装衣服\n连体衣服\n\n当前模式：上下装衣服｜参与生成：上装 + 下装"
+  },
+  {
+   "cls": "space-y-3",
+   "rect": {
+    "x": 219,
+    "y": 217,
+    "w": 1294,
+    "h": 153
+   },
+   "text": "上传模特图\n00 / 4 个 · PNG / JPG / WebP · ≤ 10 MB\n点击选择本地文件，或拖拽到这里\n校验格式 / 大小 / 像素，入库后可刷新恢复\n\n还没有素材"
+  },
+  {
+   "cls": "space-y-3",
+   "rect": {
+    "x": 232,
+    "y": 494,
+    "w": 1268,
+    "h": 153
+   },
+   "text": "上传上装图\n00 / 1 个 · PNG / JPG / WebP · ≤ 10 MB\n点击选择本地文件，或拖拽到这里\n校验格式 / 大小 / 像素，入库后可刷新恢复\n\n还没有素材"
+  },
+  {
+   "cls": "space-y-3",
+   "rect": {
+    "x": 232,
+    "y": 794,
+    "w": 1268,
+    "h": 153
+   },
+   "text": "上传下装图\n00 / 1 个 · PNG / JPG / WebP · ≤ 10 MB\n点击选择本地文件，或拖拽到这里\n校验格式 / 大小 / 像素，入库后可刷新恢复\n\n还没有素材"
+  },
+  {
+   "cls": "min-w-0 rounded-lg border",
+   "rect": {
+    "x": 1533,
+    "y": 190,
+    "w": 360,
+    "h": 53
+   },
+   "text": "优秀案例"
+  },
+  {
+   "cls": "rounded-lg border border-border bg-card/40 p-3 mt-4",
+   "rect": {
+    "x": 219,
+    "y": 1337,
+    "w": 1674,
+    "h": 80
+   },
+   "text": "历史任务\n0 条\n\n本工具还没有历史任务；提交一次后会在这里留下任务、配置与结果，刷新后仍在。"
+  },
+  {
+   "cls": "relative flex h-full shrink-0 flex-col border-l",
+   "rect": {
+    "x": 1920,
+    "y": 0,
+    "w": 440,
+    "h": 1080
+   },
+   "text": "连接本地 Agent\n未连接\n点连接会自动启动本地服务、装好插件并接通，无需手动配置。\nClaude Code\n未连接\n·\nCLI · 2.1.285 (Claude Code)\n·\n直接运行\n连接\nCodex\n未连接\n·\nCLI · codex-cli 0.163.0\n·\n插件已装\n连接\nGalley\n未连接\n·\nCLI + 桌面版 · galley 0.6.4\n连接"
+  }
+ ]
+}

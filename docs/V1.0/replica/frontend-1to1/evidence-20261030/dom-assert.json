@@ -1,0 +1,78 @@
+{
+ "PRODUCT_IMAGE_SUITE.md": {
+  "path": "/tools/ecommerce-suite/product-image-suite",
+  "textLen": 909,
+  "B_total": 56,
+  "B_missing": [
+   "爆款图复刻",
+   "NEW",
+   "批量抠图",
+   "💡未选择排版时，将根据官方排版随机生成",
+   "(400算力)",
+   "ljq_driver: 已连接"
+  ],
+  "C_total": 2,
+  "C_hit_exact": [],
+  "C_hit_substr": [],
+  "pageerrors": []
+ },
+ "DRESS_WEAR_SET.md": {
+  "path": "/tools/ecommerce-suite/dress-wear-set",
+  "textLen": 1509,
+  "B_total": 47,
+  "B_missing": [
+   "230",
+   "爆款图复刻",
+   "NEW",
+   "批量抠图",
+   "从本地上传",
+   "从作品库选择",
+   "从商品库选择",
+   "ljq_driver: 已连接"
+  ],
+  "C_total": 9,
+  "C_hit_exact": [
+   "点击选择本地文件，或拖拽到这里",
+   "校验格式 / 大小 / 像素，入库后可刷新恢复",
+   "还没有素材",
+   "+"
+  ],
+  "C_hit_substr": [
+   "点击选择本地文件，或拖拽到这里",
+   "校验格式 / 大小 / 像素，入库后可刷新恢复",
+   "还没有素材",
+   "+"
+  ],
+  "pageerrors": []
+ },
+ "CHANGE_COLOR_V2.md": {
+  "path": "/tools/ecommerce-suite/change-color-v2",
+  "textLen": 911,
+  "B_total": 46,
+  "B_missing": [
+   "爆款图复刻",
+   "NEW",
+   "批量抠图",
+   "ljq_driver: 已连接"
+  ],
+  "C_total": 1,
+  "C_hit_exact": [],
+  "C_hit_substr": [],
+  "pageerrors": []
+ },
+ "IMAGE_TRANSLATION.md": {
+  "path": "/tools/ecommerce-suite/image-translation",
+  "textLen": 861,
+  "B_total": 48,
+  "B_missing": [
+   "爆款图复刻",
+   "NEW",
+   "批量抠图",
+   "ljq_driver: 已连接"
+  ],
+  "C_total": 4,
+  "C_hit_exact": [],
+  "C_hit_substr": [],
+  "pageerrors": []
+ }
+}

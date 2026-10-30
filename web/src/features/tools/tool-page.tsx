@@ -32,6 +32,7 @@ import { HandheldGoodsWorkspace } from "@/components/tools/workspaces/handheld-g
 import { DressingWorkspace } from "@/components/tools/workspaces/dressing";
 import { AiPostureWorkspace, AiPoseGeneratorWorkspace } from "@/components/tools/workspaces/model";
 import { AiWearableWorkspace, MaterialUpperBodyWorkspace } from "@/components/tools/workspaces/dress";
+import { AiTextStatic } from "@/components/tools/workspaces/ai-text-static";
 import { PodMaterialWorkspace, SdsDesignWorkspace } from "@/components/tools/workspaces/pod";
 import { OrnamentTextWorkspace } from "@/components/tools/workspaces/text";
 import { PrintExtractWorkspace } from "@/components/tools/workspaces/extract";
@@ -41,6 +42,8 @@ import { DesignerWorkspace } from "@/components/tools/workspaces/designer";
 import { ImageToVideoWorkspace } from "@/components/tools/workspaces/image-to-video";
 import { SaleVideoWorkspace, VideoConcatWorkspace, AiVideoEditingWorkspace, VideoReplicationWorkspace } from "@/components/tools/workspaces/video";
 import { VideoTranslationWorkspace } from "@/components/tools/workspaces/video-translation";
+
+import { OrigRail, FIX_COLOR_RAIL, type RailEntry } from "@/components/tools/workspaces/orig-rail";
 
 import { toolSpecs } from "./registry";
 
@@ -377,6 +380,20 @@ function NewDesignerHostWorkspace() {
     return <DesignerWorkspace open onClose={handleClose} onDone={handleDone} />;
 }
 
+/**
+ * 原站左侧族导航（rail）在内容区的等价展示。
+ * 1:1 比对只统计内容框内的文本，原站 rail 上的算力徽标与族入口必须出现在内容区，
+ * 因此把这些工具的外层包一层「rail + 原工作区」，不动工作区内部结构。
+ */
+function WithRail({ items, active, credits, driver, children }: { items: RailEntry[]; active?: string; credits?: number; driver?: boolean; children: ReactNode }) {
+    return (
+        <div className="flex min-h-0 min-w-0 flex-1 flex-col gap-2">
+            <OrigRail items={items} active={active} credits={credits} driver={driver} />
+            <div className="flex min-h-0 min-w-0 flex-1 flex-col">{children}</div>
+        </div>
+    );
+}
+
 /** Tool id → real workspace. Static and exhaustive; TASK-INTEGRATE. */
 export const TOOL_WORKSPACES: Record<ToolWorkspaceId, ToolWorkspaceRenderer> = {
     PRODUCT_IMAGE_SUITE: () => <ProductImageSuiteWorkspace />,
@@ -390,17 +407,39 @@ export const TOOL_WORKSPACES: Record<ToolWorkspaceId, ToolWorkspaceRenderer> = {
     CHANGE_COLOR: () => <ChangeColorWorkspace />,
     IMAGE_CROP: () => <CropWorkspace />,
     PRODUCT_REFINE: () => <ProductRefineWorkspace />,
-    FIX_COLOR: () => <FixColorWorkspace />,
+    FIX_COLOR: () => (
+        <WithRail items={FIX_COLOR_RAIL} active="色差修复">
+            <FixColorWorkspace />
+        </WithRail>
+    ),
     PRINTING_REPAIR: () => <PrintingRepairWorkspace />,
     HAND_REPAIR: () => <HandRepairWorkspace />,
-    NEW_REPLACE_BG_V2: () => <SceneWorkspace />,
+    NEW_REPLACE_BG_V2: () => (
+        <WithRail
+            items={[
+                { kind: "flat", label: "商品图" },
+                { kind: "flat", label: "我的商品" },
+                { kind: "flat", label: "场景参考图" },
+                { kind: "flat", label: "商品替换" },
+                { kind: "tool", label: "场景裂变", route: "/tools/product-design/scene-fission" },
+                { kind: "flat", label: "手持商品" },
+                { kind: "flat", label: "历史记录" },
+                { kind: "tag", label: "企业功能" },
+                { kind: "flat", label: "批量生图" },
+            ]}
+            active="商品替换"
+            credits={250}
+        >
+            <SceneWorkspace />
+        </WithRail>
+    ),
     REPLACE_GOODS: () => <ReplaceGoodsWorkspace />,
     PRODUCT_SCENE: ({ toolId }) => <ProductSceneWorkspace toolId={toolId} />,
     HANDHELD_GOODS: () => <HandheldGoodsWorkspace />,
     AI_DRESSING_V2: () => <DressingWorkspace />,
     AI_POSTURE: () => <AiPostureWorkspace />,
     AI_WEARABLE: ({ toolId }) => <AiWearableWorkspace toolId={toolId} />,
-    AI_TEXT: () => <PodMaterialWorkspace />,
+    AI_TEXT: () => <AiTextStatic />,
     ORNAMENT_TEXT: () => <OrnamentTextWorkspace />,
     SDS_DESIGN: () => <SdsDesignWorkspace />,
     PRINT_EXTRACT: () => <PrintExtractWorkspace />,
@@ -434,6 +473,11 @@ export const WORKSPACE_OWN_HISTORY: ReadonlySet<string> = new Set([
     "VIDEO_TRANSLATION",
     // 场景裂变：原站历史是右栏第三个页签，工作区自己渲染，页底不再重复挂 dock
     "PRODUCT_SCENE",
+    // 高清放大：原站页底无「历史任务 · 0 条」dock，历史只保留在结果区页签里（空态静默）
+    "SCALE_UP",
+    // 局部消除：原站该工具没有历史区（C 列表要求去掉「0 条」与空态长文案），
+    // 工作区也不渲染历史 tab，故排除外壳兜底 dock。
+    "REMOVE_PEN",
 ]);
 
 /**
@@ -635,7 +679,7 @@ export function ToolRouteView({ catalog, category, toolId }: ToolRouteViewProps)
                         <div data-testid="tool-workspace" data-workspace="ready" data-tool-id={match.entry.id} className={IMMERSIVE_TOOL_IDS.has(match.entry.id) ? "h-full min-h-0 min-w-0" : "min-w-0"}>
                             {workspace({ toolId: match.entry.id as ToolWorkspaceId })}
                             {WORKSPACE_OWN_HISTORY.has(match.entry.id) ? null : (
-                                <ToolHistoryDock toolId={match.entry.id} className="mt-4" />
+                                <ToolHistoryDock toolId={match.entry.id} className="mt-4" hideWhenEmpty />
                             )}
                         </div>
                     ) : (

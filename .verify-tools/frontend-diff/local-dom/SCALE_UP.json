@@ -1,0 +1,418 @@
+{
+ "id": "SCALE_UP",
+ "route": "/tools/ecommerce-suite/scale-up",
+ "ok": true,
+ "error": null,
+ "title": "无限画布",
+ "text": "无限画布\n首页\n电商套图\n智能修图\n新模型\nAI视频\nHOT\n批量生图\n商品图设计\n中\nv0.27.0\n商品套图\n服装套图\n套图换色\n批量翻译\n高清放大\n智能扩图\n免责声明\n原图\nJPG/PNG/WEBP · ≤4096×4096\n从本地上传\n从作品库选择\n批量高清放大\n放大模式\n输出 待上传原图\n变高清\n高清 + 2倍放大\n高清 + 4倍放大\n自定义\n只增强清晰度，输出尺寸与原图一致\n输出尺寸：\n待上传原图\n倍率：\n1×\n增强选项\n面部美化\n当前浏览器不支持人脸检测，是否处理人脸由模型自行判断。\n质量增强档位\n细节最丰富，耗时最长\n生成\n模型：GPT Image 2\n请先上传原图。\n立即生成\n下载图片\n放大结果\n暂无生成结果图\n填好参数并提交后，结果会出现在这里，可预览、下载、存入资产库或发送到画布。\n历史任务\n0\n条\n本工具还没有历史任务；提交一次后会在这里留下任务、配置与结果，刷新后仍在。\n连接本地 Agent\n未连接\n点连接会自动启动本地服务、装好插件并接通，无需手动配置。\nClaude Code\n未连接\n·\nCLI · 2.1.285 (Claude Code)\n·\n直接运行\n连接\nCodex\n未连接\n·\nCLI · codex-cli 0.163.0\n·\n插件已装\n连接\nGalley\n未连接\n·\nCLI + 桌面版 · galley 0.6.4\n连接",
+ "lines": [
+  "无限画布",
+  "首页",
+  "电商套图",
+  "智能修图",
+  "新模型",
+  "AI视频",
+  "HOT",
+  "批量生图",
+  "商品图设计",
+  "中",
+  "v0.27.0",
+  "商品套图",
+  "服装套图",
+  "套图换色",
+  "批量翻译",
+  "高清放大",
+  "智能扩图",
+  "免责声明",
+  "原图",
+  "JPG/PNG/WEBP · ≤4096×4096",
+  "从本地上传",
+  "从作品库选择",
+  "批量高清放大",
+  "放大模式",
+  "输出 待上传原图",
+  "变高清",
+  "高清 + 2倍放大",
+  "高清 + 4倍放大",
+  "自定义",
+  "只增强清晰度，输出尺寸与原图一致",
+  "输出尺寸：",
+  "待上传原图",
+  "倍率：",
+  "1×",
+  "增强选项",
+  "面部美化",
+  "当前浏览器不支持人脸检测，是否处理人脸由模型自行判断。",
+  "质量增强档位",
+  "细节最丰富，耗时最长",
+  "生成",
+  "模型：GPT Image 2",
+  "请先上传原图。",
+  "立即生成",
+  "下载图片",
+  "放大结果",
+  "暂无生成结果图",
+  "填好参数并提交后，结果会出现在这里，可预览、下载、存入资产库或发送到画布。",
+  "历史任务",
+  "0",
+  "条",
+  "本工具还没有历史任务；提交一次后会在这里留下任务、配置与结果，刷新后仍在。",
+  "连接本地 Agent",
+  "未连接",
+  "点连接会自动启动本地服务、装好插件并接通，无需手动配置。",
+  "Claude Code",
+  "未连接",
+  "·",
+  "CLI · 2.1.285 (Claude Code)",
+  "·",
+  "直接运行",
+  "连接",
+  "Codex",
+  "未连接",
+  "·",
+  "CLI · codex-cli 0.163.0",
+  "·",
+  "插件已装",
+  "连接",
+  "Galley",
+  "未连接",
+  "·",
+  "CLI + 桌面版 · galley 0.6.4",
+  "连接"
+ ],
+ "controls": [
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "中",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1593,
+    "y": 14,
+    "w": 28,
+    "h": 28
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "切换到深色主题",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1625,
+    "y": 14,
+    "w": 28,
+    "h": 28
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "v0.27.0",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1657,
+    "y": 17,
+    "w": 47,
+    "h": 22
+   }
+  },
+  {
+   "tag": "div",
+   "type": "",
+   "text": "从本地上传\n从作品库选择\n批量高清放大",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 232,
+    "y": 115,
+    "w": 805,
+    "h": 82
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "从作品库选择",
+   "placeholder": "",
+   "disabled": true,
+   "rect": {
+    "x": 245,
+    "y": 160,
+    "w": 100,
+    "h": 24
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "批量高清放大",
+   "placeholder": "",
+   "disabled": true,
+   "rect": {
+    "x": 353,
+    "y": 160,
+    "w": 100,
+    "h": 24
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "变高清",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1075,
+    "y": 115,
+    "w": 60,
+    "h": 32
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "高清 + 2倍放大",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1143,
+    "y": 115,
+    "w": 113,
+    "h": 32
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "高清 + 4倍放大",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1264,
+    "y": 115,
+    "w": 113,
+    "h": 32
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "自定义",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1385,
+    "y": 115,
+    "w": 60,
+    "h": 32
+   }
+  },
+  {
+   "tag": "input",
+   "type": "checkbox",
+   "text": "on",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1024,
+    "y": 284,
+    "w": 13,
+    "h": 13
+   }
+  },
+  {
+   "tag": "select",
+   "type": "",
+   "text": "低\n中\n高",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 987,
+    "y": 340,
+    "w": 50,
+    "h": 27
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "立即生成",
+   "placeholder": "",
+   "disabled": true,
+   "rect": {
+    "x": 1075,
+    "y": 310,
+    "w": 805,
+    "h": 38
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "下载图片",
+   "placeholder": "",
+   "disabled": true,
+   "rect": {
+    "x": 1075,
+    "y": 348,
+    "w": 805,
+    "h": 28
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "连接",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 2265,
+    "y": 147,
+    "w": 66,
+    "h": 24
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "连接",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 2265,
+    "y": 215,
+    "w": 66,
+    "h": 24
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "连接",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 2265,
+    "y": 283,
+    "w": 66,
+    "h": 24
+   }
+  }
+ ],
+ "regions": [
+  {
+   "cls": "sticky top-0 z-[7] h-14 shrink-0 border-b border-hairline bg-surface/95 backdrop",
+   "rect": {
+    "x": 0,
+    "y": 0,
+    "w": 1920,
+    "h": 56
+   },
+   "text": "无限画布\n首页\n电商套图\n智能修图\n新模型\nAI视频\nHOT\n批量生图\n商品图设计\n中\n切换到深色主题\nv0.27.0"
+  },
+  {
+   "cls": "hidden w-[180px] shrink-0 overflow-y-auto rounded-xl border border-hairline bg-s",
+   "rect": {
+    "x": 16,
+    "y": 56,
+    "w": 180,
+    "h": 1008
+   },
+   "text": "电商套图\n商品套图\n服装套图\n套图换色\n批量翻译\n高清放大\n智能扩图\n免责声明"
+  },
+  {
+   "cls": "min-h-0 flex-1 overflow-hidden bg-canvas p-2.5",
+   "rect": {
+    "x": 209,
+    "y": 57,
+    "w": 1694,
+    "h": 1006
+   },
+   "text": "原图\nJPG/PNG/WEBP · ≤4096×4096\n从本地上传\n从作品库选择\n批量高清放大\n放大模式\n输出 待上传原图\n变高清\n高清 + 2倍放大\n高清 + 4倍放大\n自定义\n\n只增强清晰度，输出尺寸与原图一致\n\n输出尺寸：待上传原图\n倍率：1×\n增强选项\n面部美化\n\n当前浏览器不支持人脸检测，是否处理人脸由模型自行判断。\n\n质量增强档位\n低\n中\n高\n\n细节最丰富，耗时最长\n\n生成\n模型：GPT Image 2\n请先上传原图。\n立即生成\n下载图片\n放大结果\n\n暂无生成结果图\n\n填好参数并提交后，结果会出现在这里，可预览、下载、存入资产库或发送到画布。\n\n历史任务\n0 条\n\n本工具还没有历"
+  },
+  {
+   "cls": "rounded-lg border border-stone-200 bg-card/60 p-3 dark:border-stone-800 dark:bg-",
+   "rect": {
+    "x": 219,
+    "y": 67,
+    "w": 831,
+    "h": 155
+   },
+   "text": "原图\nJPG/PNG/WEBP · ≤4096×4096\n从本地上传\n从作品库选择\n批量高清放大"
+  },
+  {
+   "cls": "space-y-3",
+   "rect": {
+    "x": 232,
+    "y": 115,
+    "w": 805,
+    "h": 82
+   },
+   "text": "从本地上传\n从作品库选择\n批量高清放大"
+  },
+  {
+   "cls": "rounded-lg border border-stone-200 bg-card/60 p-3 dark:border-stone-800 dark:bg-",
+   "rect": {
+    "x": 1062,
+    "y": 67,
+    "w": 831,
+    "h": 155
+   },
+   "text": "放大模式\n输出 待上传原图\n变高清\n高清 + 2倍放大\n高清 + 4倍放大\n自定义\n\n只增强清晰度，输出尺寸与原图一致\n\n输出尺寸：待上传原图\n倍率：1×"
+  },
+  {
+   "cls": "rounded-lg border border-stone-200 bg-card/60 p-3 dark:border-stone-800 dark:bg-",
+   "rect": {
+    "x": 219,
+    "y": 234,
+    "w": 831,
+    "h": 179
+   },
+   "text": "增强选项\n面部美化\n\n当前浏览器不支持人脸检测，是否处理人脸由模型自行判断。\n\n质量增强档位\n低\n中\n高\n\n细节最丰富，耗时最长"
+  },
+  {
+   "cls": "rounded-lg border border-stone-200 bg-card/60 p-3 dark:border-stone-800 dark:bg-",
+   "rect": {
+    "x": 1062,
+    "y": 234,
+    "w": 831,
+    "h": 179
+   },
+   "text": "生成\n模型：GPT Image 2\n请先上传原图。\n立即生成\n下载图片"
+  },
+  {
+   "cls": "space-y-3 rounded-xl border border-border bg-card p-4",
+   "rect": {
+    "x": 219,
+    "y": 425,
+    "w": 1674,
+    "h": 233
+   },
+   "text": "放大结果\n\n暂无生成结果图\n\n填好参数并提交后，结果会出现在这里，可预览、下载、存入资产库或发送到画布。"
+  },
+  {
+   "cls": "rounded-lg border border-border bg-card/40 p-3 mt-4",
+   "rect": {
+    "x": 219,
+    "y": 674,
+    "w": 1674,
+    "h": 80
+   },
+   "text": "历史任务\n0 条\n\n本工具还没有历史任务；提交一次后会在这里留下任务、配置与结果，刷新后仍在。"
+  },
+  {
+   "cls": "relative flex h-full shrink-0 flex-col border-l",
+   "rect": {
+    "x": 1920,
+    "y": 0,
+    "w": 440,
+    "h": 1080
+   },
+   "text": "连接本地 Agent\n未连接\n点连接会自动启动本地服务、装好插件并接通，无需手动配置。\nClaude Code\n未连接\n·\nCLI · 2.1.285 (Claude Code)\n·\n直接运行\n连接\nCodex\n未连接\n·\nCLI · codex-cli 0.163.0\n·\n插件已装\n连接\nGalley\n未连接\n·\nCLI + 桌面版 · galley 0.6.4\n连接"
+  }
+ ]
+}

@@ -1,0 +1,569 @@
+{
+ "id": "AREA_REPAIR",
+ "route": "/tools/smart-edit/area-repair",
+ "ok": true,
+ "error": null,
+ "title": "无限画布",
+ "text": "无限画布\n首页\n电商套图\n智能修图\n新模型\nAI视频\nHOT\n批量生图\n商品图设计\n中\nv0.27.0\n局部重绘\n局部消除\n一键换色\n图片裁剪\n商品精修\n色差修复\n印花修复\n手部修复\n免责声明\n智能修图 / 局部重绘\n局部重绘\n/tools/smart-edit/area-repair\n局部重绘\n画笔\n橡皮\n大小：\n像素\n羽化\n0\n自动扩大选择区域：\n反选\n撤销\n重做\n重置\n尚未涂抹\n局部重绘\n上传图片，涂抹需要改变的区域并输入想要改变的内容，\n即可重新对该区域进行绘制\n从本地上传\n从作品库选择\n从商品库选择\n支持 JPG / PNG / WEBP，单张不超过 20MB\n重绘描述\n*\n0 / 600\n生成张数\n1\n2\n3\n4\n请先上传要重绘的图片\n请先在图片上涂抹需要重绘的区域\n请填写重绘描述\n立即生成\n生成结果\n历史记录\n暂无生成结果图\n历史任务\n0\n条\n本工具还没有历史任务；提交一次后会在这里留下任务、配置与结果，刷新后仍在。\n连接本地 Agent\n未连接\n点连接会自动启动本地服务、装好插件并接通，无需手动配置。\nClaude Code\n未连接\n·\nCLI · 2.1.285 (Claude Code)\n·\n直接运行\n连接\nCodex\n未连接\n·\nCLI · codex-cli 0.163.0\n·\n插件已装\n连接\nGalley\n未连接\n·\nCLI + 桌面版 · galley 0.6.4\n连接",
+ "lines": [
+  "无限画布",
+  "首页",
+  "电商套图",
+  "智能修图",
+  "新模型",
+  "AI视频",
+  "HOT",
+  "批量生图",
+  "商品图设计",
+  "中",
+  "v0.27.0",
+  "局部重绘",
+  "局部消除",
+  "一键换色",
+  "图片裁剪",
+  "商品精修",
+  "色差修复",
+  "印花修复",
+  "手部修复",
+  "免责声明",
+  "智能修图 / 局部重绘",
+  "局部重绘",
+  "/tools/smart-edit/area-repair",
+  "局部重绘",
+  "画笔",
+  "橡皮",
+  "大小：",
+  "像素",
+  "羽化",
+  "0",
+  "自动扩大选择区域：",
+  "反选",
+  "撤销",
+  "重做",
+  "重置",
+  "尚未涂抹",
+  "局部重绘",
+  "上传图片，涂抹需要改变的区域并输入想要改变的内容，",
+  "即可重新对该区域进行绘制",
+  "从本地上传",
+  "从作品库选择",
+  "从商品库选择",
+  "支持 JPG / PNG / WEBP，单张不超过 20MB",
+  "重绘描述",
+  "*",
+  "0 / 600",
+  "生成张数",
+  "1",
+  "2",
+  "3",
+  "4",
+  "请先上传要重绘的图片",
+  "请先在图片上涂抹需要重绘的区域",
+  "请填写重绘描述",
+  "立即生成",
+  "生成结果",
+  "历史记录",
+  "暂无生成结果图",
+  "历史任务",
+  "0",
+  "条",
+  "本工具还没有历史任务；提交一次后会在这里留下任务、配置与结果，刷新后仍在。",
+  "连接本地 Agent",
+  "未连接",
+  "点连接会自动启动本地服务、装好插件并接通，无需手动配置。",
+  "Claude Code",
+  "未连接",
+  "·",
+  "CLI · 2.1.285 (Claude Code)",
+  "·",
+  "直接运行",
+  "连接",
+  "Codex",
+  "未连接",
+  "·",
+  "CLI · codex-cli 0.163.0",
+  "·",
+  "插件已装",
+  "连接",
+  "Galley",
+  "未连接",
+  "·",
+  "CLI + 桌面版 · galley 0.6.4",
+  "连接"
+ ],
+ "controls": [
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "中",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1593,
+    "y": 14,
+    "w": 28,
+    "h": 28
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "切换到深色主题",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1625,
+    "y": 14,
+    "w": 28,
+    "h": 28
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "v0.27.0",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1657,
+    "y": 17,
+    "w": 47,
+    "h": 22
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "画笔",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 256,
+    "y": 245,
+    "w": 58,
+    "h": 24
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "橡皮",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 318,
+    "y": 245,
+    "w": 58,
+    "h": 24
+   }
+  },
+  {
+   "tag": "input",
+   "type": "range",
+   "text": "35",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 426,
+    "y": 249,
+    "w": 86,
+    "h": 16
+   }
+  },
+  {
+   "tag": "input",
+   "type": "number",
+   "text": "35",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 518,
+    "y": 245,
+    "w": 46,
+    "h": 24
+   }
+  },
+  {
+   "tag": "input",
+   "type": "range",
+   "text": "0",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 632,
+    "y": 249,
+    "w": 70,
+    "h": 16
+   }
+  },
+  {
+   "tag": "input",
+   "type": "checkbox",
+   "text": "on",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 724,
+    "y": 250,
+    "w": 14,
+    "h": 14
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "反选",
+   "placeholder": "",
+   "disabled": true,
+   "rect": {
+    "x": 860,
+    "y": 245,
+    "w": 40,
+    "h": 24
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "撤销",
+   "placeholder": "",
+   "disabled": true,
+   "rect": {
+    "x": 908,
+    "y": 245,
+    "w": 54,
+    "h": 24
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "重做",
+   "placeholder": "",
+   "disabled": true,
+   "rect": {
+    "x": 970,
+    "y": 245,
+    "w": 54,
+    "h": 24
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "重置",
+   "placeholder": "",
+   "disabled": true,
+   "rect": {
+    "x": 1032,
+    "y": 245,
+    "w": 54,
+    "h": 24
+   }
+  },
+  {
+   "tag": "div",
+   "type": "",
+   "text": "从本地上传\n从作品库选择\n从商品库选择\n支持 JPG / PNG / WEBP，单张不超过 20MB",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 522,
+    "y": 450,
+    "w": 508,
+    "h": 249
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "从作品库选择",
+   "placeholder": "",
+   "disabled": true,
+   "rect": {
+    "x": 535,
+    "y": 566,
+    "w": 100,
+    "h": 24
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "从商品库选择",
+   "placeholder": "",
+   "disabled": true,
+   "rect": {
+    "x": 643,
+    "y": 566,
+    "w": 100,
+    "h": 24
+   }
+  },
+  {
+   "tag": "textarea",
+   "type": "",
+   "text": "例如：把涂抹区域换成米色针织沙发，保留原有光影和地面阴影",
+   "placeholder": "例如：把涂抹区域换成米色针织沙发，保留原有光影和地面阴影",
+   "disabled": false,
+   "rect": {
+    "x": 1340,
+    "y": 272,
+    "w": 206,
+    "h": 118
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "1",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1340,
+    "y": 443,
+    "w": 24,
+    "h": 24
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "2",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1370,
+    "y": 443,
+    "w": 26,
+    "h": 24
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "3",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1403,
+    "y": 443,
+    "w": 27,
+    "h": 24
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "4",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1435,
+    "y": 443,
+    "w": 27,
+    "h": 24
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "立即生成",
+   "placeholder": "",
+   "disabled": true,
+   "rect": {
+    "x": 1324,
+    "y": 761,
+    "w": 238,
+    "h": 32
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "生成结果",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1587,
+    "y": 236,
+    "w": 56,
+    "h": 42
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "历史记录",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1663,
+    "y": 236,
+    "w": 56,
+    "h": 42
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "连接",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 2265,
+    "y": 147,
+    "w": 66,
+    "h": 24
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "连接",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 2265,
+    "y": 215,
+    "w": 66,
+    "h": 24
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "连接",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 2265,
+    "y": 283,
+    "w": 66,
+    "h": 24
+   }
+  }
+ ],
+ "regions": [
+  {
+   "cls": "sticky top-0 z-[7] h-14 shrink-0 border-b border-hairline bg-surface/95 backdrop",
+   "rect": {
+    "x": 0,
+    "y": 0,
+    "w": 1920,
+    "h": 56
+   },
+   "text": "无限画布\n首页\n电商套图\n智能修图\n新模型\nAI视频\nHOT\n批量生图\n商品图设计\n中\n切换到深色主题\nv0.27.0"
+  },
+  {
+   "cls": "hidden w-[180px] shrink-0 overflow-y-auto rounded-xl border border-hairline bg-s",
+   "rect": {
+    "x": 16,
+    "y": 56,
+    "w": 180,
+    "h": 1008
+   },
+   "text": "智能修图\n局部重绘\n局部消除\n一键换色\n图片裁剪\n商品精修\n色差修复\n印花修复\n手部修复\n免责声明"
+  },
+  {
+   "cls": "flex min-h-14 shrink-0 flex-wrap items-center gap-3 border-b border-hairline px-",
+   "rect": {
+    "x": 209,
+    "y": 57,
+    "w": 1694,
+    "h": 109
+   },
+   "text": "智能修图 / 局部重绘\n局部重绘\n\n/tools/smart-edit/area-repair"
+  },
+  {
+   "cls": "min-h-0 flex-1 overflow-y-auto bg-transparent px-4 py-4 sm:px-5",
+   "rect": {
+    "x": 209,
+    "y": 166,
+    "w": 1694,
+    "h": 897
+   },
+   "text": "局部重绘\n画笔\n橡皮\n大小：\n像素\n羽化\n0\n自动扩大选择区域：\n反选\n撤销\n重做\n重置\n尚未涂抹\n\n局部重绘\n\n上传图片，涂抹需要改变的区域并输入想要改变的内容，\n即可重新对该区域进行绘制\n\n从本地上传\n从作品库选择\n从商品库选择\n支持 JPG / PNG / WEBP，单张不超过 20MB\n重绘描述*\n0 / 600\n生成张数\n1\n2\n3\n4\n请先上传要重绘的图片\n请先在图片上涂抹需要重绘的区域\n请填写重绘描述\n立即生成\n生成结果\n历史记录\n\n暂无生成结果图\n\n历史任务\n0 条\n\n本工具还没有历史任务；提交一次后会在这里留下任务、配置与结果，刷新后仍在。"
+  },
+  {
+   "cls": "flex min-w-0 flex-1 flex-col overflow-hidden rounded-xl border border-border bg-",
+   "rect": {
+    "x": 239,
+    "y": 235,
+    "w": 1074,
+    "h": 559
+   },
+   "text": "画笔\n橡皮\n大小：\n像素\n羽化\n0\n自动扩大选择区域：\n反选\n撤销\n重做\n重置\n尚未涂抹\n\n局部重绘\n\n上传图片，涂抹需要改变的区域并输入想要改变的内容，\n即可重新对该区域进行绘制\n\n从本地上传\n从作品库选择\n从商品库选择\n支持 JPG / PNG / WEBP，单张不超过 20MB"
+  },
+  {
+   "cls": "space-y-3 gap-0",
+   "rect": {
+    "x": 522,
+    "y": 450,
+    "w": 508,
+    "h": 261
+   },
+   "text": "从本地上传\n从作品库选择\n从商品库选择\n支持 JPG / PNG / WEBP，单张不超过 20MB"
+  },
+  {
+   "cls": "flex w-[240px] shrink-0 flex-col overflow-hidden rounded-xl border border-border",
+   "rect": {
+    "x": 1323,
+    "y": 235,
+    "w": 240,
+    "h": 559
+   },
+   "text": "重绘描述*\n0 / 600\n生成张数\n1\n2\n3\n4\n请先上传要重绘的图片\n请先在图片上涂抹需要重绘的区域\n请填写重绘描述\n立即生成"
+  },
+  {
+   "cls": "border-b border-border px-[16px] py-[10px] last:border-b-0",
+   "rect": {
+    "x": 1324,
+    "y": 236,
+    "w": 238,
+    "h": 171
+   },
+   "text": "重绘描述*\n0 / 600"
+  },
+  {
+   "cls": "border-b border-border px-[16px] py-[10px] last:border-b-0",
+   "rect": {
+    "x": 1324,
+    "y": 407,
+    "w": 238,
+    "h": 71
+   },
+   "text": "生成张数\n1\n2\n3\n4"
+  },
+  {
+   "cls": "flex w-[300px] shrink-0 flex-col overflow-hidden rounded-xl border border-border",
+   "rect": {
+    "x": 1573,
+    "y": 235,
+    "w": 300,
+    "h": 559
+   },
+   "text": "生成结果\n历史记录\n\n暂无生成结果图"
+  },
+  {
+   "cls": "rounded-lg border border-border bg-card/40 p-3 mt-4",
+   "rect": {
+    "x": 229,
+    "y": 820,
+    "w": 1654,
+    "h": 80
+   },
+   "text": "历史任务\n0 条\n\n本工具还没有历史任务；提交一次后会在这里留下任务、配置与结果，刷新后仍在。"
+  },
+  {
+   "cls": "relative flex h-full shrink-0 flex-col border-l",
+   "rect": {
+    "x": 1920,
+    "y": 0,
+    "w": 440,
+    "h": 1080
+   },
+   "text": "连接本地 Agent\n未连接\n点连接会自动启动本地服务、装好插件并接通，无需手动配置。\nClaude Code\n未连接\n·\nCLI · 2.1.285 (Claude Code)\n·\n直接运行\n连接\nCodex\n未连接\n·\nCLI · codex-cli 0.163.0\n·\n插件已装\n连接\nGalley\n未连接\n·\nCLI + 桌面版 · galley 0.6.4\n连接"
+  }
+ ]
+}

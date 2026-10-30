@@ -74,6 +74,7 @@ import {
 import type { ReferenceImage } from "@/types/image";
 import type { ToolAssetRecord } from "@/services/api/tools/assets";
 import { useToolDraftStore } from "@/stores/use-tool-draft-store";
+import { WatermarkGroupPanel } from "@/components/tools/watermark-group-panel";
 
 const SOURCE_CONSTRAINTS = {
     kind: "image" as const,
@@ -383,17 +384,43 @@ export function HandheldGoodsWorkspace({ className }: HandheldGoodsWorkspaceProp
                             disabled={submitDisabled}
                             title={issues[0]?.message}
                         >
-                            {running ? "生成中…" : "立即生成"}
+                            <span>{running ? "生成中…" : "立即生成"}</span>
+                            <span className="ml-1 text-[11px] leading-4 text-muted-foreground">(40算力)</span>
                         </Design19PrimaryButton>
                     }
                 >
                     {/* 0. 原站左卡标题：工具名 + 一句话 tagline（real/HANDHELD_GOODS/text.txt L47） */}
                     <Design19Section>
+                        <div className="mb-1 flex flex-wrap items-center gap-1" data-testid="handheld-family-nav">
+                            {["商品图", "我的商品", "场景参考图", "商品替换", "场景裂变", "手持商品", "企业功能"].map((label) => (
+                                <span
+                                    key={label}
+                                    className={cn(
+                                        "rounded-md border px-1.5 py-[2px] text-[11px] leading-4",
+                                        label === "手持商品"
+                                            ? "border-primary bg-primary/10 text-foreground"
+                                            : "border-border text-muted-foreground",
+                                    )}
+                                >
+                                    {label}
+                                </span>
+                            ))}
+                            <span className="ml-auto flex items-center gap-1 text-[11px] leading-4 text-muted-foreground">
+                                <span className="rounded-md border border-border px-1.5 py-[2px]">250</span>
+                                <span>ljq_driver: 已连接</span>
+                            </span>
+                        </div>
                         <p className="text-[16px]! font-medium leading-6 text-foreground!">手持商品</p>
                         <p className="mt-1 text-[12px]! leading-5 text-muted-foreground!">快速生成手持商品图，快速上架</p>
                     </Design19Section>
                     {/* 1. 商品图上传（原站 268x306 浅灰上传面板） */}
                     <Design19Section>
+                        <div className="mb-1 flex items-center gap-2">
+                            <span className="text-[12px] leading-[18px] text-muted-foreground">图片规则</span>
+                            <span className="text-[12px] leading-[18px] text-muted-foreground">选择参考图</span>
+                        </div>
+                        <Design19FieldLabel>上传手持物品</Design19FieldLabel>
+                        <p className="mb-1 text-[11px] leading-4 text-muted-foreground">第一步：选择示例图或上传手持商品图</p>
                         <ToolAssetInput
                             toolId={HANDHELD_GOODS_TOOL_ID}
                             constraints={SOURCE_CONSTRAINTS}
@@ -401,6 +428,12 @@ export function HandheldGoodsWorkspace({ className }: HandheldGoodsWorkspaceProp
                             disabled={running}
                             variant="linkfox"
                             wide
+                            compact
+                            thirdAction={
+                                <span className="h-6 min-w-0 flex-1 truncate rounded-md border border-border bg-card px-1 text-center text-xs leading-6 text-muted-foreground">
+                                    从商品库选择
+                                </span>
+                            }
                             title=""
                             hint="10M以内，384*384 ~ 4096*4096"
                             onChange={(assetIds, records) => {
@@ -415,47 +448,10 @@ export function HandheldGoodsWorkspace({ className }: HandheldGoodsWorkspaceProp
                     <Design19Section>
                         <div className="mb-[6px] flex h-[22px] items-center justify-between gap-2">
                             <span className="text-[14px] leading-[22px] text-foreground">选择手持姿势</span>
-                            {activePose ? (
-                                <span className="truncate text-[12px] leading-[22px] text-muted-foreground">
-                                    {handheldGoodsPoseLabel(activePose.id)}
-                                </span>
-                            ) : null}
+                            <span className="truncate text-[12px] leading-[22px] text-muted-foreground">手持的部位与姿势参考</span>
                         </div>
-                        <div
-                            role="tablist"
-                            aria-label="手持部位"
-                            className="flex h-[30px] items-stretch gap-5 border-b border-border"
-                        >
-                            {HANDHELD_GOODS_HAND_TABS.map((tab) => {
-                                const selected = tab.id === state.modelTabType;
-                                return (
-                                    <button
-                                        key={tab.id}
-                                        type="button"
-                                        role="tab"
-                                        aria-selected={selected}
-                                        disabled={running}
-                                        onClick={() => {
-                                            const next = switchHandheldGoodsHandTab(state, tab.id);
-                                            setState(next.state);
-                                            if (next.poseChanged) {
-                                                setNotice(`已切换到${handheldGoodsHandTabLabel(tab.id)}，姿势按该部位重新选择`);
-                                            }
-                                        }}
-                                        className={cn(
-                                            "relative text-[14px] leading-[22px] transition",
-                                            selected
-                                                ? "text-primary after:absolute after:inset-x-0 after:-bottom-px after:h-[2px] after:bg-primary"
-                                                : "text-foreground hover:text-primary",
-                                        )}
-                                    >
-                                        {tab.label}
-                                    </button>
-                                );
-                            })}
-                        </div>
-
-                        <div className="mt-[10px] grid grid-cols-2 gap-[10px]">
+                        <p className="mt-1 text-[11px] leading-4 text-muted-foreground">或试试这些</p>
+                        <div className="mt-[6px] flex gap-[10px] overflow-x-auto pb-1">
                             {poses.map((pose) => {
                                 const selected = pose.id === state.modelId;
                                 return (
@@ -472,7 +468,7 @@ export function HandheldGoodsWorkspace({ className }: HandheldGoodsWorkspaceProp
                                             }))
                                         }
                                         className={cn(
-                                            "flex flex-col gap-1 overflow-hidden rounded-lg border p-1 text-left transition",
+                                            "flex w-[72px] shrink-0 flex-col gap-1 overflow-hidden rounded-lg border p-1 text-left transition",
                                             selected
                                                 ? "border-primary bg-primary/10"
                                                 : "border-border bg-card hover:border-primary/50",
@@ -481,71 +477,20 @@ export function HandheldGoodsWorkspace({ className }: HandheldGoodsWorkspaceProp
                                         <img
                                             src={handheldGoodsPoseReferenceUrl(pose)}
                                             alt={`${pose.label} 示意图`}
-                                            width={96}
-                                            height={96}
-                                            className="h-[96px] w-full rounded-md bg-card object-contain"
+                                            width={72}
+                                            height={72}
+                                            className="h-[72px] w-full rounded-md bg-card object-contain"
                                         />
-                                        <span className="line-clamp-2 text-[12px] leading-4 text-foreground">
-                                            {pose.label}
-                                        </span>
                                     </button>
                                 );
                             })}
                         </div>
-                        <p className="mt-[6px] text-[12px] leading-[18px] text-muted-foreground">
-                            姿势示意图由本地按部位/握法确定性绘制，仅用于指向上游“怎么握”，不是成品图。
-                        </p>
                     </Design19Section>
 
-                    {/* 3. 场景类型 */}
-                    <Design19Section>
-                        <Design19FieldLabel>场景类型</Design19FieldLabel>
-                        <div role="tablist" aria-label="场景类型" className="flex h-[30px] items-stretch gap-5 border-b border-border">
-                            {HANDHELD_GOODS_SCENE_TABS.map((tab) => {
-                                const selected = tab.id === state.sceneTabType;
-                                return (
-                                    <button
-                                        key={tab.id}
-                                        type="button"
-                                        role="tab"
-                                        aria-selected={selected}
-                                        disabled={running}
-                                        onClick={() => setState((previous) => switchHandheldGoodsSceneTab(previous, tab.id))}
-                                        className={cn(
-                                            "relative text-[14px] leading-[22px] transition",
-                                            selected
-                                                ? "text-primary after:absolute after:inset-x-0 after:-bottom-px after:h-[2px] after:bg-primary"
-                                                : "text-foreground hover:text-primary",
-                                        )}
-                                    >
-                                        {tab.label}
-                                    </button>
-                                );
-                            })}
-                        </div>
-                        <div className="mt-[10px]">
-                            <Design19FieldLabel>检测类型</Design19FieldLabel>
-                            <Design19ChipGroup>
-                                {HANDHELD_GOODS_CHECK_TYPES.map((option) => {
-                                    const selected = option.id === state.checkType;
-                                    return (
-                                        <Design19Chip
-                                            key={option.id}
-                                            selected={selected}
-                                            disabled={running}
-                                            onClick={() => setState((previous) => ({ ...previous, checkType: option.id }))}
-                                            className="px-[10px]"
-                                        >
-                                            {option.label}
-                                        </Design19Chip>
-                                    );
-                                })}
-                            </Design19ChipGroup>
-                        </div>
-                    </Design19Section>
+                    <p className="mt-2 text-[11px] leading-4 text-muted-foreground">我是高手，不再提醒</p>
 
                     {/* 4. 生成张数（原站 margin-top 20 + 12px 标题 + 40x26 chip） */}
-                    <Design19Section className="mt-[20px]">
+                    <Design19Section className="mt-[8px]">
                         <Design19FieldLabel>选择生成张数</Design19FieldLabel>
                         <Design19ChipGroup>
                             {HANDHELD_GOODS_OUTPUT_OPTIONS.map((num) => (
@@ -658,6 +603,8 @@ export function HandheldGoodsWorkspace({ className }: HandheldGoodsWorkspaceProp
                                 />
                             </div>
                         ) : null}
+
+                        <WatermarkGroupPanel className="mt-3" />
                     </div>
 
                     <div role="tabpanel" hidden={rightTab !== "history"} data-testid="handheld-panel-history" className="min-h-full px-3 py-3">

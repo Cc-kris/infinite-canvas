@@ -1,0 +1,445 @@
+{
+ "controls": [
+  {
+   "disabled": false,
+   "rect": {
+    "bottom": 96,
+    "height": 32,
+    "left": 1708.359375,
+    "right": 1752.359375,
+    "top": 64,
+    "width": 44,
+    "x": 1708.359375,
+    "y": 64
+   },
+   "text": "购 买"
+  },
+  {
+   "disabled": false,
+   "rect": {
+    "bottom": 663.671875,
+    "height": 32,
+    "left": 674.375,
+    "right": 796.375,
+    "top": 631.671875,
+    "width": 122,
+    "x": 674.375,
+    "y": 631.671875
+   },
+   "text": "上传参考图"
+  },
+  {
+   "disabled": false,
+   "placeholder": "",
+   "rect": {
+    "bottom": 804.5,
+    "height": 14,
+    "left": 1020.9375,
+    "right": 1037.796875,
+    "top": 790.5,
+    "width": 16.859375,
+    "x": 1020.9375,
+    "y": 790.5
+   },
+   "text": ""
+  },
+  {
+   "disabled": false,
+   "rect": {
+    "bottom": 821.5,
+    "height": 32,
+    "left": 1076.796875,
+    "right": 1263.796875,
+    "top": 789.5,
+    "width": 187,
+    "x": 1076.796875,
+    "y": 789.5
+   },
+   "text": "立即生成\n(40算力)"
+  },
+  {
+   "disabled": false,
+   "rect": {
+    "bottom": 151,
+    "height": 31,
+    "left": 1317.8125,
+    "right": 1363.140625,
+    "top": 120,
+    "width": 45.328125,
+    "x": 1317.8125,
+    "y": 120
+   },
+   "text": ""
+  },
+  {
+   "rect": {
+    "bottom": 629,
+    "height": 90,
+    "left": 1809,
+    "right": 1910,
+    "top": 539,
+    "width": 101,
+    "x": 1809,
+    "y": 539
+   },
+   "text": "操作咨询\n产品教程"
+  },
+  {
+   "disabled": false,
+   "placeholder": "名称",
+   "rect": {
+    "bottom": 430,
+    "height": 26,
+    "left": 1157,
+    "right": 1231,
+    "top": 404,
+    "width": 74,
+    "x": 1157,
+    "y": 404
+   },
+   "text": "LinkFox 默认"
+  },
+  {
+   "disabled": false,
+   "placeholder": "水印文案",
+   "rect": {
+    "bottom": 430,
+    "height": 26,
+    "left": 1237,
+    "right": 1375,
+    "top": 404,
+    "width": 138,
+    "x": 1237,
+    "y": 404
+   },
+   "text": "本图片由 LinkFox AI 生成"
+  },
+  {
+   "disabled": false,
+   "rect": {
+    "bottom": 429,
+    "height": 24,
+    "left": 1381,
+    "right": 1421,
+    "top": 405,
+    "width": 40,
+    "x": 1381,
+    "y": 405
+   },
+   "text": "默认"
+  },
+  {
+   "disabled": false,
+   "rect": {
+    "bottom": 429,
+    "height": 24,
+    "left": 1427,
+    "right": 1451,
+    "top": 405,
+    "width": 24,
+    "x": 1427,
+    "y": 405
+   },
+   "text": ""
+  },
+  {
+   "disabled": false,
+   "rect": {
+    "bottom": 475,
+    "height": 35,
+    "left": 1157,
+    "right": 1451,
+    "top": 440,
+    "width": 294,
+    "x": 1157,
+    "y": 440
+   },
+   "text": "＋ 新增水印分组"
+  }
+ ],
+ "regions": [
+  {
+   "cls": "_content_15na6_1 ",
+   "rect": {
+    "bottom": 98,
+    "height": 36,
+    "left": 1767.359375,
+    "right": 1885,
+    "top": 62,
+    "width": 117.640625,
+    "x": 1767.359375,
+    "y": 62
+   },
+   "text": "用\n用户6991\n个人账号"
+  },
+  {
+   "cls": "ant-layout-sider ant-layout-sider-dark _leftSider_1k85n_3  css-1d18km6",
+   "rect": {
+    "bottom": 839,
+    "height": 729,
+    "left": 0,
+    "right": 180,
+    "top": 110,
+    "width": 180,
+    "x": 0,
+    "y": 110
+   },
+   "text": "商品图\n我的商品\n场景参考图\n商品替换\n场景裂变\n手持商品\n历史记录\n企业功能\n批量生图\n 免责声明"
+  },
+  {
+   "cls": "ant-menu-title-content",
+   "rect": {
+    "bottom": 150,
+    "height": 40,
+    "left": 46,
+    "right": 167,
+    "top": 110,
+    "width": 121,
+    "x": 46,
+    "y": 110
+   },
+   "text": "商品图"
+  },
+  {
+   "cls": "ant-menu-title-content",
+   "rect": {
+    "bottom": 190,
+    "height": 40,
+    "left": 46,
+    "right": 167,
+    "top": 150,
+    "width": 121,
+    "x": 46,
+    "y": 150
+   },
+   "text": "我的商品"
+  },
+  {
+   "cls": "ant-menu-title-content",
+   "rect": {
+    "bottom": 230,
+    "height": 40,
+    "left": 46,
+    "right": 167,
+    "top": 190,
+    "width": 121,
+    "x": 46,
+    "y": 190
+   },
+   "text": "场景参考图"
+  },
+  {
+   "cls": "ant-menu-title-content",
+   "rect": {
+    "bottom": 270,
+    "height": 40,
+    "left": 46,
+    "right": 167,
+    "top": 230,
+    "width": 121,
+    "x": 46,
+    "y": 230
+   },
+   "text": "商品替换"
+  },
+  {
+   "cls": "ant-menu-title-content",
+   "rect": {
+    "bottom": 310,
+    "height": 40,
+    "left": 46,
+    "right": 167,
+    "top": 270,
+    "width": 121,
+    "x": 46,
+    "y": 270
+   },
+   "text": "场景裂变"
+  },
+  {
+   "cls": "ant-menu-title-content",
+   "rect": {
+    "bottom": 350,
+    "height": 40,
+    "left": 46,
+    "right": 167,
+    "top": 310,
+    "width": 121,
+    "x": 46,
+    "y": 310
+   },
+   "text": "手持商品"
+  },
+  {
+   "cls": "ant-menu-title-content",
+   "rect": {
+    "bottom": 390,
+    "height": 40,
+    "left": 46,
+    "right": 167,
+    "top": 350,
+    "width": 121,
+    "x": 46,
+    "y": 350
+   },
+   "text": "历史记录"
+  },
+  {
+   "cls": "ant-menu-title-content",
+   "rect": {
+    "bottom": 426,
+    "height": 32,
+    "left": 18,
+    "right": 145,
+    "top": 394,
+    "width": 127,
+    "x": 18,
+    "y": 394
+   },
+   "text": "企业功能"
+  },
+  {
+   "cls": "ant-menu-title-content",
+   "rect": {
+    "bottom": 470,
+    "height": 40,
+    "left": 46,
+    "right": 167,
+    "top": 430,
+    "width": 121,
+    "x": 46,
+    "y": 430
+   },
+   "text": "批量生图"
+  },
+  {
+   "cls": "_left_1q5v9_7",
+   "rect": {
+    "bottom": 829,
+    "height": 709,
+    "left": 190,
+    "right": 1280.796875,
+    "top": 120,
+    "width": 1090.796875,
+    "x": 190,
+    "y": 120
+   },
+   "text": "💡 温馨提示：支持上传多张商品图进行批量替换\n\n商品替换\n\n上传参考图，一键替换商品，快来替换您的商品吧~\n上传参考图\n键盘快捷键\n工具快捷键\n透视\nT\n扭曲\nN\n画布快捷操作\n扭曲\nCtrl+拖动\n向右切换画布\n键盘右键\n向左切换画布\n键盘左键\n生成尺寸: 1024x1024\n\n参考图场景变化程度：\n\n不变\n高\n生成：\n4张\n立即生成\n(40算力)"
+  },
+  {
+   "cls": "_content_124f2_86",
+   "rect": {
+    "bottom": 780,
+    "height": 659,
+    "left": 191,
+    "right": 1279.796875,
+    "top": 121,
+    "width": 1088.796875,
+    "x": 191,
+    "y": 121
+   },
+   "text": "💡 温馨提示：支持上传多张商品图进行批量替换\n\n商品替换\n\n上传参考图，一键替换商品，快来替换您的商品吧~\n上传参考图\n键盘快捷键\n工具快捷键\n透视\nT\n扭曲\nN\n画布快捷操作\n扭曲\nCtrl+拖动\n向右切换画布\n键盘右键\n向左切换画布\n键盘左键"
+  },
+  {
+   "cls": "konvajs-content",
+   "rect": {
+    "bottom": 720,
+    "height": 539,
+    "left": 465.890625,
+    "right": 1004.890625,
+    "top": 181,
+    "width": 539,
+    "x": 465.890625,
+    "y": 181
+   },
+   "text": ""
+  },
+  {
+   "cls": "ant-popover-content",
+   "rect": {
+    "bottom": 726,
+    "height": 200.53125,
+    "left": 201,
+    "right": 921,
+    "top": 525.46875,
+    "width": 720,
+    "x": 201,
+    "y": 525.46875
+   },
+   "text": "键盘快捷键\n工具快捷键\n透视\nT\n扭曲\nN\n画布快捷操作\n扭曲\nCtrl+拖动\n向右切换画布\n键盘右键\n向左切换画布\n键盘左键"
+  },
+  {
+   "cls": "ant-popover-inner-content",
+   "rect": {
+    "bottom": 726,
+    "height": 200.53125,
+    "left": 201,
+    "right": 921,
+    "top": 525.46875,
+    "width": 720,
+    "x": 201,
+    "y": 525.46875
+   },
+   "text": "键盘快捷键\n工具快捷键\n透视\nT\n扭曲\nN\n画布快捷操作\n扭曲\nCtrl+拖动\n向右切换画布\n键盘右键\n向左切换画布\n键盘左键"
+  },
+  {
+   "cls": "_content_edudt_19",
+   "rect": {
+    "bottom": 726,
+    "height": 200.53125,
+    "left": 201,
+    "right": 921,
+    "top": 525.46875,
+    "width": 720,
+    "x": 201,
+    "y": 525.46875
+   },
+   "text": "键盘快捷键\n工具快捷键\n透视\nT\n扭曲\nN\n画布快捷操作\n扭曲\nCtrl+拖动\n向右切换画布\n键盘右键\n向左切换画布\n键盘左键"
+  },
+  {
+   "cls": "ant-tabs-extra-content",
+   "rect": {
+    "bottom": 152.84375,
+    "height": 24.6875,
+    "left": 1834,
+    "right": 1898,
+    "top": 128.15625,
+    "width": 64,
+    "x": 1834,
+    "y": 128.15625
+   },
+   "text": "历史记录"
+  },
+  {
+   "cls": "ant-tabs-content-holder",
+   "rect": {
+    "bottom": 829,
+    "height": 667,
+    "left": 1290.8125,
+    "right": 1910,
+    "top": 162,
+    "width": 619.1875,
+    "x": 1290.8125,
+    "y": 162
+   },
+   "text": "暂无生成结果图\n\n快在左侧合成您的第一张商品图吧~"
+  },
+  {
+   "cls": "ant-tabs-content ant-tabs-content-top",
+   "rect": {
+    "bottom": 829,
+    "height": 667,
+    "left": 1290.8125,
+    "right": 1910,
+    "top": 162,
+    "width": 619.1875,
+    "x": 1290.8125,
+    "y": 162
+   },
+   "text": "暂无生成结果图\n\n快在左侧合成您的第一张商品图吧~"
+  }
+ ],
+ "text": "首页\n电商套图\n智能修图\n新模型\nAI视频\nHOT\n批量生图\n商品图设计\nSkills\nAgent\n更多\n学习中心\n免费得算力\n250\n购 买\n用\n用户6991\n个人账号\n商品图\n我的商品\n场景参考图\n商品替换\n场景裂变\n手持商品\n历史记录\n企业功能\n批量生图\n 免责声明\n💡 温馨提示：支持上传多张商品图进行批量替换\n\n商品替换\n\n上传参考图，一键替换商品，快来替换您的商品吧~\n上传参考图\n键盘快捷键\n工具快捷键\n透视\nT\n扭曲\nN\n画布快捷操作\n扭曲\nCtrl+拖动\n向右切换画布\n键盘右键\n向左切换画布\n键盘左键\n生成尺寸: 1024x1024\n\n参考图场景变化程度：\n\n不变\n高\n生成：\n4张\n立即生成\n(40算力)\n生成结果\n优秀案例\n历史记录\n\n暂无生成结果图\n\n快在左侧合成您的第一张商品图吧~\n\n操作咨询\n产品教程\nljq_driver: 已连接\n管理水印分组\n共 1/20 个\n默认\n＋ 新增水印分组",
+ "title": "LinkFox官网 - 跨境电商AI运营助手 - AI选品AI作图AI视频AI Agent OS",
+ "url": "https://www.linkfox.com/draw/product-replacement"
+}

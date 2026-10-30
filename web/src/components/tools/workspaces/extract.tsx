@@ -18,6 +18,7 @@ import { TaskStatusPanel } from "@/components/tools/task-status";
 import { ToolResult } from "@/components/tools/tool-result";
 import { printExtractResultPanelTask } from "@/features/tools/adapters/print-extract";
 import { ToolShell } from "@/components/tools/tool-shell";
+import { OrigRail, PRINT_EXTRACT_RAIL } from "@/components/tools/workspaces/orig-rail";
 import { buildPrintExtractUnit, printExtractPreflightIssues, printExtractSourceReference, runPrintExtract } from "@/features/tools/adapters/print-extract";
 import { getToolById, toolSpecs } from "@/features/tools/registry";
 import {
@@ -48,6 +49,7 @@ import type { ToolTask } from "@/services/api/tools/task-machine";
 import { useAssetStore, type ImageAsset, type VideoAsset } from "@/stores/use-asset-store";
 import { flushToolDrafts, useToolDraftStore } from "@/stores/use-tool-draft-store";
 import { useToolTaskStore } from "@/stores/use-tool-task-store";
+import { WatermarkGroupPanel } from "@/components/tools/watermark-group-panel";
 
 export type ExtractConfig = { isTransparent: boolean; format: PrintExtractOutputFormat };
 
@@ -215,7 +217,7 @@ export function ExtractUploader({ disabled, maxCount, onAssets }: { disabled: bo
                     void pickFiles(Array.from(event.dataTransfer?.files ?? []));
                 }}
                 className={cn(
-                    "flex h-[186px] w-full cursor-pointer flex-col items-center justify-center gap-[6px] rounded-lg border border-dashed px-3 text-center transition",
+                    "flex h-[148px] w-full cursor-pointer flex-col items-center justify-center gap-[6px] rounded-lg border border-dashed px-3 text-center transition",
                     dragging ? "border-primary bg-primary/5" : "border-border bg-black/[0.02]",
                     disabled && "cursor-not-allowed opacity-60",
                 )}
@@ -561,7 +563,7 @@ export function PrintExtractWorkspace() {
 
     const [items, setItems] = useState<PrintExtractItem[]>([]);
     const [cfg, setCfg] = useState<{ current: ExtractConfig; past: ExtractConfig[]; future: ExtractConfig[] }>({
-        current: { isTransparent: false, format: "png" },
+        current: { isTransparent: true, format: "png" },
         past: [],
         future: [],
     });
@@ -798,13 +800,8 @@ export function PrintExtractWorkspace() {
     return (
         <ToolShell
             title={spec?.title ?? "印花提取"}
-            subtitle={`快速提取商品中的印花图案 · 20M / ${PRINT_EXTRACT_SOURCE_LIMITS.minSide}–${PRINT_EXTRACT_SOURCE_LIMITS.maxSide} · ${progress}`}
+            subtitle={`快速提取商品中的印花图案 · 20M / ${PRINT_EXTRACT_SOURCE_LIMITS.minSide}–${PRINT_EXTRACT_SOURCE_LIMITS.maxSide}${progress ? ` · ${progress}` : ""}`}
             breadcrumb={<span className="text-[11px] text-muted-foreground">商品图设计 / 印花提取</span>}
-            badges={
-                <span data-testid="print-extract-real-badge" className="rounded border border-border px-2 py-0.5 text-[11px] text-muted-foreground">
-                    真实提取 · 上游出图
-                </span>
-            }
             notices={
                 <>
                     {notice ? (
@@ -844,29 +841,14 @@ export function PrintExtractWorkspace() {
                     >
                         <RotateCw className="size-3.5" aria-hidden /> 重做
                     </button>
-                    <button
-                        type="button"
-                        data-testid="print-extract-reset"
-                        onClick={() => {
-                            applyConfig({ isTransparent: false, format: "png" });
-                            setItems([]);
-                            setTasks({});
-                            setSnapshots({});
-                            setBatch(false);
-                            setActiveId(null);
-                            setSelectedId(null);
-                            setNotice(null);
-                        }}
-                        className="inline-flex min-h-9 items-center gap-1 rounded-md border border-border px-2 text-xs text-muted-foreground hover:bg-accent"
-                    >
-                        重置
-                    </button>
                 </>
             }
             sidebar={sidebar}
             sidebarLabel="商品图设计"
         >
-            <div data-testid="print-extract-workspace" className="flex min-h-[649px] overflow-hidden rounded-lg border border-black/[0.08] bg-card">
+            <OrigRail items={PRINT_EXTRACT_RAIL} active="印花提取" credits={250} driver testId="print-extract-rail" label="商品图设计" />
+            <WatermarkGroupPanel />
+            <div data-testid="print-extract-workspace" className="flex min-h-[596px] overflow-hidden rounded-lg border border-black/[0.08] bg-card">
                 {/* 左栏 300：上传 → 批量 → 透明图 → 底部生成 */}
                 <aside className="flex w-[300px] shrink-0 flex-col border-r border-black/[0.08] bg-card">
                     <div className="flex-1 space-y-3 px-4 py-4">
@@ -883,11 +865,9 @@ export function PrintExtractWorkspace() {
                                 batch ? "bg-primary text-primary-foreground" : "bg-card text-primary hover:bg-primary/10",
                             )}
                         >
-                            <ImagePlus className="size-3.5" aria-hidden /> 上传多张图片，开始批量提取
+                            <ImagePlus className="size-3.5" aria-hidden />
+                            <span>上传多张图片，开始批量提取</span>
                         </button>
-                        <p data-testid="print-extract-batch-hint" className="text-[11px] leading-4 text-muted-foreground">
-                            {batch ? `批量模式：最多 ${PRINT_EXTRACT_SOURCE_LIMITS.maxBatch} 张，每张独立提交与独立状态` : "单张模式：一次处理一张商品图"}
-                        </p>
 
                         <div className="flex h-9 items-center justify-between border-t border-black/[0.06] pt-2">
                             <span className="text-xs text-muted-foreground">生成透明图</span>
@@ -900,19 +880,17 @@ export function PrintExtractWorkspace() {
                                 disabled={busy}
                                 onClick={() => applyConfig({ isTransparent: !config.isTransparent, format: !config.isTransparent ? "png" : config.format })}
                                 className={cn(
-                                    "flex h-[22px] w-[57px] items-center justify-center rounded-full text-[10px] leading-none transition disabled:opacity-50",
+                                    "flex h-[22px] w-[86px] items-center justify-center gap-1.5 rounded-full text-[10px] leading-none transition disabled:opacity-50",
                                     config.isTransparent ? "bg-primary text-primary-foreground" : "bg-black/25 text-primary-foreground",
                                 )}
                             >
-                                {config.isTransparent ? "开启" : "关闭"}
+                                <span className={config.isTransparent ? "font-medium" : "opacity-60"}>开启</span>
+                                <span className={config.isTransparent ? "opacity-60" : "font-medium"}>关闭</span>
                             </button>
                         </div>
                     </div>
 
                     <div className="border-t-[3px] border-border bg-card px-4 py-2">
-                        <p data-testid="print-extract-estimate" className="mb-1.5 text-[11px] leading-4 text-muted-foreground">
-                            预计输出 {batch ? summary.idle + summary.failed : Math.min(1, items.length)} 张 {FORMAT_LABEL[config.format]} · 宽高跟随源图
-                        </p>
                         <button
                             type="button"
                             data-testid="print-extract-generate"
@@ -921,10 +899,10 @@ export function PrintExtractWorkspace() {
                             className="inline-flex h-8 w-full items-center justify-center gap-1 rounded-md bg-primary text-[13px] font-medium text-primary-foreground transition hover:bg-primary/90 disabled:cursor-not-allowed disabled:opacity-40"
                         >
                             {busy ? <Loader2 className="size-3.5 animate-spin" aria-hidden /> : null}
-                            立即生成
+                            <span>立即生成</span>
+                            <span>(10算力)</span>
                         </button>
-                        {items.length === 0 ? <p className="mt-1.5 text-[11px] leading-4 text-muted-foreground">先上传需要提取印花的商品图片。</p> : null}
-                    </div>
+                                            </div>
                 </aside>
 
                 {/* 右栏：白 header(42) + 结果画布 #EDEFF5 */}
@@ -947,7 +925,7 @@ export function PrintExtractWorkspace() {
                             className={cn("flex items-center gap-1 text-xs transition", tab === "history" ? "text-primary" : "text-muted-foreground hover:text-foreground")}
                         >
                             历史记录
-                            <span className="rounded bg-primary/10 px-1 text-[11px] text-primary">{items.filter((item) => item.status === "succeeded").length}</span>
+                            {items.some((item) => item.status === "succeeded") ? <span className="rounded bg-primary/10 px-1 text-[11px] text-primary">{items.filter((item) => item.status === "succeeded").length}</span> : null}
                         </button>
                         <div className="ml-auto flex items-center gap-2">
                             {summary.failed > 0 ? (
@@ -961,12 +939,12 @@ export function PrintExtractWorkspace() {
                                     <RotateCw className="size-3" aria-hidden /> 只重试失败的 {summary.failed} 张
                                 </button>
                             ) : null}
-                            <span className="text-[11px] text-muted-foreground">{progress}</span>
+                            
                         </div>
                     </header>
 
                     <div className="min-h-0 flex-1 space-y-3 overflow-auto p-4">
-                        <h2 className="sr-only">提取结果</h2>
+                        <h2 className="sr-only">生成结果</h2>
                         {tab === "result" ? (
                             items.length === 0 && !persistedPanelTask ? (
                                 <div data-testid="print-extract-empty" className="flex h-full min-h-[420px] items-center justify-center">
@@ -1027,7 +1005,7 @@ export function PrintExtractWorkspace() {
                                             <ToolResult
                                                 task={(activeTask ?? persistedPanelTask)!}
                                                 toolId={PRINT_EXTRACT_TOOL_ID}
-                                                title="提取结果"
+                                                title="生成结果"
                                                 onRetry={() => (activeItem ? void submit([activeItem]) : undefined)}
                                             />
                                         </div>

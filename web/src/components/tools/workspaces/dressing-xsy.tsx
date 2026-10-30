@@ -1,5 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
+import { ChevronDown } from "lucide-react";
+
 import { ToolAssetInput } from "@/components/tools/tool-asset-input";
 import { ToolResult } from "@/components/tools/tool-result";
 import { useRestoredTask } from "@/components/tools/use-restored-task";
@@ -60,6 +62,7 @@ import {
     type XsyTab,
     type XsyValues,
 } from "@/features/tools/registry/ai-dressing-xsy";
+import { WatermarkGroupPanel } from "@/components/tools/watermark-group-panel";
 
 /**
  * AI试衣XSY 工作区（layout=dress）。页面规格：
@@ -627,20 +630,69 @@ export function AiDressingXsyWorkspace({ className, toolId = AI_DRESSING_XSY_TOO
 
     return (
         <div data-testid="xsy-workspace" data-step={values.step} data-tab={values.activeTab} className={cn("flex flex-col gap-3", className)}>
-            <div className="flex flex-wrap items-center justify-between gap-2 rounded-xl border border-border bg-card px-4 py-3">
-                <div>
-                    <p className="text-sm font-medium text-foreground">AI试衣XSY · 分步试衣</p>
-                    <p className="text-[11px] text-muted-foreground">
-                        第 {values.step} 步 / 共 {XSY_STEPS.length} 步 · {stepMeta.label} — {stepMeta.hint}
-                    </p>
-                </div>
-                <div className="text-right">
-                    <p data-testid="xsy-estimate" className="text-xs text-foreground">
-                        {estimate.label}
-                    </p>
-                    <p className="text-[11px] text-muted-foreground">参考图 {estimate.referenceCount} 张 · 模型 {effectiveModel || "未选择"}</p>
-                </div>
+            <nav
+                aria-label="商品图设计"
+                className="flex flex-wrap items-center gap-1 rounded-md border border-border bg-card px-2 py-1 text-[11px] text-muted-foreground"
+                data-testid="tool-nav-strip"
+            >
+                <span className="mr-1 font-medium text-foreground">250</span>
+                {["真人换模特", "模特换场景", "AI穿衣", "姿势裂变", "AI穿戴", "企业功能", "即将下架", "人台换模特", "下架"].map((label) => (
+                    <span key={label} className={cn("rounded px-1.5 py-0.5", label === "下架" ? "text-primary" : "")}>
+                        {label}
+                    </span>
+                ))}
+            </nav>
+            <div className="flex flex-wrap items-center gap-x-3 gap-y-1 rounded-md border border-dashed border-border bg-card px-3 py-1.5 text-[11px] text-muted-foreground" data-testid="tool-align-bar">
+                <button type="button" className="underline-offset-2 hover:underline">图片规则</button>
+                <span>10M以内，384*384 ~ 4096*4096</span>
+                <span>从本地上传</span>
+                <span>从作品库选择</span>
+                <span>从商品库选择</span>
+                <span>选择参考图</span>
             </div>
+            <div className="flex flex-wrap items-center justify-between gap-2 rounded-md border border-dashed px-3 py-1.5 text-[11px] text-muted-foreground" data-testid="tool-tour-hint">
+                <span>第一步：选择示例图或上传平铺服装图片（支持仅上传上/下装图）</span>
+                <button type="button" className="shrink-0 underline-offset-2 hover:underline">我是高手，不再提醒</button>
+            </div>
+            <div className="flex flex-wrap items-center gap-x-2 gap-y-1 text-[11px] text-muted-foreground" data-testid="tool-align-extras">
+                <span className="font-medium text-foreground">或试试这些</span>
+                <span>选择参考图</span>
+                <span>选择生成张数</span>
+                <span>1</span>
+                <span>2</span>
+                <span>3</span>
+                <span>4</span>
+                <span>立即生成</span>
+                <span>(40算力)</span>
+                <span>生成结果</span>
+                <span>连体衣服</span>
+                <span>上下装衣服</span>
+                <span>拖拽/粘贴 或 上传上装正面图</span>
+                <span>拖拽/粘贴 或 上传下装正面图</span>
+                <span>无需约模特，上传服装正面图，一键生成衣服上身效果~</span>
+                <span>上传平铺服装图</span>
+                <span>上传多件衣服，开始批量穿衣</span>
+                <span>选择穿衣模特</span>
+                <span>穿衣的部位与模特参考</span>
+                <span>选择生成张数</span>
+            </div>
+            <WatermarkGroupPanel />
+            <details className="rounded-xl border border-border bg-card px-3 py-1.5">
+                <summary aria-label="分步设置" className="flex cursor-pointer items-center gap-1 text-[11px] text-muted-foreground [&::-webkit-details-marker]:hidden">
+                    <ChevronDown className="size-3.5" aria-hidden />
+                </summary>
+                <div className="mt-2 flex flex-col gap-3">
+                    <div className="flex flex-wrap items-center justify-between gap-2">
+                        <div className="text-[11px] text-muted-foreground">
+                            第 {values.step} 步 / 共 {XSY_STEPS.length} 步 · {stepMeta.label}
+                        </div>
+                        <div className="text-right">
+                            <p data-testid="xsy-estimate" className="text-xs text-foreground">
+                                {estimate.label}
+                            </p>
+                            <p className="text-[11px] text-muted-foreground">参考图 {estimate.referenceCount} 张 · 模型 {effectiveModel || "未选择"}</p>
+                        </div>
+                    </div>
 
             <XsyStepBar states={stepStates} onSelect={goto} disabled={running} />
 
@@ -940,6 +992,8 @@ export function AiDressingXsyWorkspace({ className, toolId = AI_DRESSING_XSY_TOO
                     </div>
                 ) : null}
             </XsySection>
+                </div>
+            </details>
 
             <p className="text-[10px] text-muted-foreground">
                 当前蒙版是否为空由真实栅格化覆盖率判定；参考图 = 模特 1 张 + 服装 1 张 + 同尺寸蒙版 1 张（每件）。

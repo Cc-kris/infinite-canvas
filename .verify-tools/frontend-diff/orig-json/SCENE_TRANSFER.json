@@ -1,0 +1,12 @@
+{
+ "tool": "SCENE_TRANSFER",
+ "label": "场景迁移",
+ "status": "private_b2b_route",
+ "url": "https://www.linkfox.com/draw/",
+ "capturedAt": "2026-10-29",
+ "method": "同源 iframe 注入已登录 Chrome 页面 (CDP Runtime.evaluate), viewport 1600x1000, 等待 9s 后取 body.innerText + 可见 button/input/textarea 的 rect/字号/颜色/圆角",
+ "routeSource": "workbench-BcUrzOPA.js 侧栏菜单表 (text/label/path/drawType/whitelist)",
+ "note": "bundle 仅见自定义路由 M.custom.bsqSceneTransfer（倍思奇 B2B），公共站无菜单入口，无 DOM",
+ "finalUrl": null,
+ "text": "bundle 仅见自定义路由 M.custom.bsqSceneTransfer（倍思奇 B2B），公共站无菜单入口，无 DOM"
+}

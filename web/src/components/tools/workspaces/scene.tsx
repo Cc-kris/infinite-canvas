@@ -2,6 +2,7 @@ import { modelLabel } from "@/lib/model-label";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 import { ToolAssetInput } from "@/components/tools/tool-asset-input";
+import { WatermarkGroupPanel } from "@/components/tools/watermark-group-panel";
 import { ToolResult } from "@/components/tools/tool-result";
 import { Design19LeftColumn, Design19Results, Design19Workbench, type Design19TabId } from "@/components/tools/design19-frame";
 import { ToolTaskHistory } from "@/components/tools/tool-task-history";
@@ -416,391 +417,92 @@ export function SceneWorkspace({ className }: { className?: string }) {
     );
     const template = sceneTemplate(values.templateId);
 
+    const [sceneSort, setSceneSort] = useState("smart");
+    const [activeScene, setActiveScene] = useState<string>();
+
     return (
-        <div data-testid="scene-workspace" className={["grid gap-3 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.15fr)]", className ?? ""].join(" ")}>
-            {/* ---------------- 左：素材与场景配置 ---------------- */}
-            <div className="space-y-3">
-                <Section title="流程" hint="上传 → 抠图确认 → 场景 → 结果" testId="scene-steps">
-                    <ol className="flex flex-wrap gap-2">
-                        {steps.map((step, index) => (
-                            <li
-                                key={step.id}
-                                data-testid={`scene-step-${step.id}`}
-                                data-status={step.status}
-                                className={[
-                                    "rounded-md border px-2 py-1 text-[11px]",
-                                    step.status === "done"
-                                        ? "border-emerald-300 bg-emerald-50 text-emerald-800"
-                                        : step.status === "active"
-                                          ? "border-stone-800 bg-stone-100 text-stone-900"
-                                          : "border-stone-200 bg-card text-stone-500",
-                                ].join(" ")}
-                                title={step.hint}
-                            >
-                                {index + 1}. {step.label}
-                            </li>
-                        ))}
-                    </ol>
-                </Section>
-
-                <Section title="商品层（必填）" hint={`${SCENE_SOURCE_LIMITS.mimeTypes.map((mime) => mime.replace("image/", "")).join(" / ")} · 20M 以内`} testId="scene-goods">
-                    <ToolAssetInput toolId={toolId} constraints={GOODS_CONSTRAINTS} maxCount={1} title="上传商品图" onChange={onGoodsChange} disabled={running} />
-                    {goods ? (
-                        <p className="mt-2 text-[11px] text-stone-500 dark:text-stone-400" data-testid="scene-goods-meta">
-                            {goods.name ?? "商品图"} · {goods.width ?? "?"}×{goods.height ?? "?"} · {goodsHasAlpha ? "检测到透明通道" : "无透明通道"}
-                        </p>
-                    ) : null}
-                </Section>
-
-                <Section title="抠图确认" hint="先拿素材证据，再点确认" testId="scene-cutout">
-                    <div className="space-y-2">
-                        <div className="flex flex-wrap gap-2">
-                            {SCENE_CUTOUT_MODES.map((mode) => (
-                                <button
-                                    key={mode.id}
-                                    type="button"
-                                    data-testid={`scene-cutout-mode-${mode.id}`}
-                                    aria-pressed={values.cutoutMode === mode.id}
-                                    className={chipClass(values.cutoutMode === mode.id)}
-                                    onClick={() => update({ cutoutMode: mode.id, cutoutConfirmed: false })}
-                                    disabled={running}
-                                    title={mode.hint}
-                                >
-                                    {mode.label}
+        <div data-testid="scene-workspace" className={cn("flex flex-col gap-4", className)}>
+            <div className="grid gap-4 lg:grid-cols-[minmax(300px,380px)_minmax(0,1fr)]">
+                <section className="flex min-w-0 flex-col gap-3 rounded-lg border border-border bg-card p-3">
+                    <h2 className="text-sm font-medium text-foreground">上传商品图</h2>
+                    <ToolAssetInput toolId={toolId} maxCount={1} variant="linkfox" wide uploadLabel="上传商品图" dropLabel="或拖拽/粘贴图片到此处" actions={<></>} disabled={running} onChange={onGoodsChange} />
+                </section>
+                <section className="flex min-w-0 flex-col gap-3 rounded-lg border border-border bg-card p-3">
+                    <div className="flex flex-wrap items-center justify-between gap-2">
+                        <h2 className="text-sm font-medium text-foreground">或试试这些</h2>
+                        <div className="flex flex-wrap items-center gap-1 text-[11px] text-muted-foreground">
+                            <span>排序：</span>
+                            {([["smart", "智能推荐"], ["favorite", "按收藏时间"], ["hot", "按素材热度"]] as const).map(([value, label]) => (
+                                <button key={value} type="button" data-testid={`scene-sort-${value}`} onClick={() => setSceneSort(value)} className={cn("rounded-md border px-1.5 py-0.5 text-[11px] leading-4", sceneSort === value ? "border-primary bg-primary/10 text-foreground" : "border-border text-muted-foreground hover:border-primary/60")}>
+                                    {label}
                                 </button>
                             ))}
                         </div>
-                        {values.cutoutMode === "mask" ? (
-                            <ToolAssetInput toolId={`${toolId}:mask`} constraints={MASK_CONSTRAINTS} maxCount={1} title="上传主体蒙版（白=主体）" onChange={onMaskChange} disabled={running} />
-                        ) : (
-                            <p className="text-[11px] text-stone-500 dark:text-stone-400">
-                                透明底模式：已对商品图做真实像素检测，{goodsHasAlpha ? "检测到 alpha 通道" : "未检测到 alpha 通道，无法通过门禁"}
-                            </p>
-                        )}
-                        <div className="flex items-center justify-between gap-2">
-                            <span className="text-[11px] text-stone-500 dark:text-stone-400" data-testid="scene-cutout-state">
-                                {cutout.ready ? "抠图已确认" : cutout.reason}
-                            </span>
-                            <button
-                                type="button"
-                                data-testid="scene-cutout-confirm"
-                                className={chipClass(values.cutoutConfirmed)}
-                                disabled={running || cutout.code === "cutout-mask-missing" || cutout.code === "cutout-transparent-required"}
-                                onClick={() => update({ cutoutConfirmed: !values.cutoutConfirmed })}
-                            >
-                                {values.cutoutConfirmed ? "取消确认" : "确认抠图"}
-                            </button>
-                        </div>
                     </div>
-                </Section>
-
-                <Section title="场景类型" hint="推荐模板 / 自定义背景" testId="scene-type">
-                    <div className="flex flex-wrap gap-2">
-                        {SCENE_TYPES.map((option) => (
-                            <button
-                                key={option.id}
-                                type="button"
-                                data-testid={`scene-type-${option.id}`}
-                                aria-pressed={values.sceneType === option.id}
-                                className={chipClass(values.sceneType === option.id)}
-                                onClick={() => update({ sceneType: option.id })}
-                                disabled={running}
-                                title={option.hint}
-                            >
-                                {option.label}
-                            </button>
-                        ))}
+                    <div className="flex flex-wrap gap-1.5">
+                    <button key="日用百货" type="button" onClick={() => { setActiveScene("日用百货"); update({ customPrompt: "日用百货 场景，商品居中，光影自然，商业产品摄影" }); }} className={cn("rounded-md border px-2 py-1 text-[11px] leading-4", activeScene === "日用百货" ? "border-primary bg-primary/10 text-foreground" : "border-border text-muted-foreground hover:border-primary/60")}>日用百货</button>
+                    <button key="家居家装" type="button" onClick={() => { setActiveScene("家居家装"); update({ customPrompt: "家居家装 场景，商品居中，光影自然，商业产品摄影" }); }} className={cn("rounded-md border px-2 py-1 text-[11px] leading-4", activeScene === "家居家装" ? "border-primary bg-primary/10 text-foreground" : "border-border text-muted-foreground hover:border-primary/60")}>家居家装</button>
+                    <button key="服饰箱包" type="button" onClick={() => { setActiveScene("服饰箱包"); update({ customPrompt: "服饰箱包 场景，商品居中，光影自然，商业产品摄影" }); }} className={cn("rounded-md border px-2 py-1 text-[11px] leading-4", activeScene === "服饰箱包" ? "border-primary bg-primary/10 text-foreground" : "border-border text-muted-foreground hover:border-primary/60")}>服饰箱包</button>
+                    <button key="美妆个护" type="button" onClick={() => { setActiveScene("美妆个护"); update({ customPrompt: "美妆个护 场景，商品居中，光影自然，商业产品摄影" }); }} className={cn("rounded-md border px-2 py-1 text-[11px] leading-4", activeScene === "美妆个护" ? "border-primary bg-primary/10 text-foreground" : "border-border text-muted-foreground hover:border-primary/60")}>美妆个护</button>
+                    <button key="家用电器" type="button" onClick={() => { setActiveScene("家用电器"); update({ customPrompt: "家用电器 场景，商品居中，光影自然，商业产品摄影" }); }} className={cn("rounded-md border px-2 py-1 text-[11px] leading-4", activeScene === "家用电器" ? "border-primary bg-primary/10 text-foreground" : "border-border text-muted-foreground hover:border-primary/60")}>家用电器</button>
+                    <button key="玩具类目" type="button" onClick={() => { setActiveScene("玩具类目"); update({ customPrompt: "玩具类目 场景，商品居中，光影自然，商业产品摄影" }); }} className={cn("rounded-md border px-2 py-1 text-[11px] leading-4", activeScene === "玩具类目" ? "border-primary bg-primary/10 text-foreground" : "border-border text-muted-foreground hover:border-primary/60")}>玩具类目</button>
+                    <button key="儿童 & 母婴" type="button" onClick={() => { setActiveScene("儿童 & 母婴"); update({ customPrompt: "儿童 & 母婴 场景，商品居中，光影自然，商业产品摄影" }); }} className={cn("rounded-md border px-2 py-1 text-[11px] leading-4", activeScene === "儿童 & 母婴" ? "border-primary bg-primary/10 text-foreground" : "border-border text-muted-foreground hover:border-primary/60")}>儿童 & 母婴</button>
+                    <button key="3C数码" type="button" onClick={() => { setActiveScene("3C数码"); update({ customPrompt: "3C数码 场景，商品居中，光影自然，商业产品摄影" }); }} className={cn("rounded-md border px-2 py-1 text-[11px] leading-4", activeScene === "3C数码" ? "border-primary bg-primary/10 text-foreground" : "border-border text-muted-foreground hover:border-primary/60")}>3C数码</button>
+                    <button key="办公用品" type="button" onClick={() => { setActiveScene("办公用品"); update({ customPrompt: "办公用品 场景，商品居中，光影自然，商业产品摄影" }); }} className={cn("rounded-md border px-2 py-1 text-[11px] leading-4", activeScene === "办公用品" ? "border-primary bg-primary/10 text-foreground" : "border-border text-muted-foreground hover:border-primary/60")}>办公用品</button>
+                    <button key="运动户外" type="button" onClick={() => { setActiveScene("运动户外"); update({ customPrompt: "运动户外 场景，商品居中，光影自然，商业产品摄影" }); }} className={cn("rounded-md border px-2 py-1 text-[11px] leading-4", activeScene === "运动户外" ? "border-primary bg-primary/10 text-foreground" : "border-border text-muted-foreground hover:border-primary/60")}>运动户外</button>
+                    <button key="工艺/艺术品" type="button" onClick={() => { setActiveScene("工艺/艺术品"); update({ customPrompt: "工艺/艺术品 场景，商品居中，光影自然，商业产品摄影" }); }} className={cn("rounded-md border px-2 py-1 text-[11px] leading-4", activeScene === "工艺/艺术品" ? "border-primary bg-primary/10 text-foreground" : "border-border text-muted-foreground hover:border-primary/60")}>工艺/艺术品</button>
+                    <button key="宠物用品" type="button" onClick={() => { setActiveScene("宠物用品"); update({ customPrompt: "宠物用品 场景，商品居中，光影自然，商业产品摄影" }); }} className={cn("rounded-md border px-2 py-1 text-[11px] leading-4", activeScene === "宠物用品" ? "border-primary bg-primary/10 text-foreground" : "border-border text-muted-foreground hover:border-primary/60")}>宠物用品</button>
+                    <button key="食品饮料" type="button" onClick={() => { setActiveScene("食品饮料"); update({ customPrompt: "食品饮料 场景，商品居中，光影自然，商业产品摄影" }); }} className={cn("rounded-md border px-2 py-1 text-[11px] leading-4", activeScene === "食品饮料" ? "border-primary bg-primary/10 text-foreground" : "border-border text-muted-foreground hover:border-primary/60")}>食品饮料</button>
+                    <button key="医药保健/护理" type="button" onClick={() => { setActiveScene("医药保健/护理"); update({ customPrompt: "医药保健/护理 场景，商品居中，光影自然，商业产品摄影" }); }} className={cn("rounded-md border px-2 py-1 text-[11px] leading-4", activeScene === "医药保健/护理" ? "border-primary bg-primary/10 text-foreground" : "border-border text-muted-foreground hover:border-primary/60")}>医药保健/护理</button>
+                    <button key="汽车用品" type="button" onClick={() => { setActiveScene("汽车用品"); update({ customPrompt: "汽车用品 场景，商品居中，光影自然，商业产品摄影" }); }} className={cn("rounded-md border px-2 py-1 text-[11px] leading-4", activeScene === "汽车用品" ? "border-primary bg-primary/10 text-foreground" : "border-border text-muted-foreground hover:border-primary/60")}>汽车用品</button>
+                    <button key="其他" type="button" onClick={() => { setActiveScene("其他"); update({ customPrompt: "其他 场景，商品居中，光影自然，商业产品摄影" }); }} className={cn("rounded-md border px-2 py-1 text-[11px] leading-4", activeScene === "其他" ? "border-primary bg-primary/10 text-foreground" : "border-border text-muted-foreground hover:border-primary/60")}>其他</button>
                     </div>
-                    {values.sceneType === "recommend" ? (
-                        <div className="mt-2 grid grid-cols-2 gap-2" data-testid="scene-templates">
-                            {SCENE_TEMPLATES.map((item) => (
-                                <button
-                                    key={item.id}
-                                    type="button"
-                                    data-testid={`scene-template-${item.id}`}
-                                    aria-pressed={values.templateId === item.id}
-                                    className={[
-                                        "rounded-md border px-2 py-1.5 text-left text-[11px] transition",
-                                        values.templateId === item.id
-                                            ? "border-stone-800 bg-stone-800 text-white dark:border-stone-200 dark:bg-stone-200 dark:text-stone-900"
-                                            : "border-stone-200 bg-card text-stone-700 hover:border-stone-400 dark:border-stone-700 dark:bg-stone-900 dark:text-stone-200",
-                                    ].join(" ")}
-                                    onClick={() => update({ templateId: item.id })}
-                                    disabled={running}
-                                >
-                                    <span className="block font-medium">{item.label}</span>
-                                    <span className="block opacity-70">{item.hint}</span>
-                                </button>
-                            ))}
-                        </div>
-                    ) : (
-                        <div className="mt-2 space-y-2">
-                            <ToolAssetInput toolId={`${toolId}:bg`} constraints={BG_CONSTRAINTS} maxCount={1} title="上传自定义背景图（可选）" onChange={onBgChange} disabled={running} />
-                            <textarea
-                                data-testid="scene-custom-prompt"
-                                className="w-full rounded-md border border-stone-200 bg-card px-2 py-1 text-xs text-stone-800 outline-none focus:border-stone-400 dark:border-stone-700 dark:bg-stone-900 dark:text-stone-100"
-                                rows={3}
-                                maxLength={200}
-                                placeholder="描述背景与光线，例如：露营木桌上，早晨侧逆光，背景有薄雾"
-                                value={values.customPrompt}
-                                onChange={(event) => update({ customPrompt: event.target.value })}
-                                disabled={running}
-                            />
-                        </div>
-                    )}
-                </Section>
-
-                <Section title="融合强度" hint={sceneWeightLabel(values.weight)} testId="scene-weight">
-                    <div data-testid="scene-similarity-control" hidden />
-                    <div className="flex items-center gap-2">
-                        <input
-                            data-testid="scene-weight-range"
-                            type="range"
-                            min={SCENE_WEIGHT_LIMITS.min}
-                            max={SCENE_WEIGHT_LIMITS.max}
-                            step={SCENE_WEIGHT_LIMITS.step}
-                            value={values.weight}
-                            onChange={(event) => update({ weight: Number(event.target.value) })}
-                            disabled={running}
-                            className="w-full"
-                        />
-                        <span className="w-10 text-right text-xs tabular-nums text-stone-700 dark:text-stone-200">{Math.round(values.weight * 100)}%</span>
+                    <div className="flex flex-wrap gap-1.5">
+                    <button key="桌面-保温杯" type="button" onClick={() => { setActiveScene("桌面-保温杯"); update({ customPrompt: "桌面-保温杯 场景，商品居中，光影自然，商业产品摄影" }); }} className={cn("rounded-md border px-2 py-1 text-[11px] leading-4", activeScene === "桌面-保温杯" ? "border-primary bg-primary/10 text-foreground" : "border-border text-muted-foreground hover:border-primary/60")}>桌面-保温杯</button>
+                    <button key="厨房-搅拌器" type="button" onClick={() => { setActiveScene("厨房-搅拌器"); update({ customPrompt: "厨房-搅拌器 场景，商品居中，光影自然，商业产品摄影" }); }} className={cn("rounded-md border px-2 py-1 text-[11px] leading-4", activeScene === "厨房-搅拌器" ? "border-primary bg-primary/10 text-foreground" : "border-border text-muted-foreground hover:border-primary/60")}>厨房-搅拌器</button>
+                    <button key="客厅-毯子" type="button" onClick={() => { setActiveScene("客厅-毯子"); update({ customPrompt: "客厅-毯子 场景，商品居中，光影自然，商业产品摄影" }); }} className={cn("rounded-md border px-2 py-1 text-[11px] leading-4", activeScene === "客厅-毯子" ? "border-primary bg-primary/10 text-foreground" : "border-border text-muted-foreground hover:border-primary/60")}>客厅-毯子</button>
+                    <button key="厨房-电子秤" type="button" onClick={() => { setActiveScene("厨房-电子秤"); update({ customPrompt: "厨房-电子秤 场景，商品居中，光影自然，商业产品摄影" }); }} className={cn("rounded-md border px-2 py-1 text-[11px] leading-4", activeScene === "厨房-电子秤" ? "border-primary bg-primary/10 text-foreground" : "border-border text-muted-foreground hover:border-primary/60")}>厨房-电子秤</button>
+                    <button key="草地-篮子" type="button" onClick={() => { setActiveScene("草地-篮子"); update({ customPrompt: "草地-篮子 场景，商品居中，光影自然，商业产品摄影" }); }} className={cn("rounded-md border px-2 py-1 text-[11px] leading-4", activeScene === "草地-篮子" ? "border-primary bg-primary/10 text-foreground" : "border-border text-muted-foreground hover:border-primary/60")}>草地-篮子</button>
+                    <button key="餐桌-杯子" type="button" onClick={() => { setActiveScene("餐桌-杯子"); update({ customPrompt: "餐桌-杯子 场景，商品居中，光影自然，商业产品摄影" }); }} className={cn("rounded-md border px-2 py-1 text-[11px] leading-4", activeScene === "餐桌-杯子" ? "border-primary bg-primary/10 text-foreground" : "border-border text-muted-foreground hover:border-primary/60")}>餐桌-杯子</button>
+                    <button key="餐桌-水壶" type="button" onClick={() => { setActiveScene("餐桌-水壶"); update({ customPrompt: "餐桌-水壶 场景，商品居中，光影自然，商业产品摄影" }); }} className={cn("rounded-md border px-2 py-1 text-[11px] leading-4", activeScene === "餐桌-水壶" ? "border-primary bg-primary/10 text-foreground" : "border-border text-muted-foreground hover:border-primary/60")}>餐桌-水壶</button>
+                    <button key="客厅-书柜" type="button" onClick={() => { setActiveScene("客厅-书柜"); update({ customPrompt: "客厅-书柜 场景，商品居中，光影自然，商业产品摄影" }); }} className={cn("rounded-md border px-2 py-1 text-[11px] leading-4", activeScene === "客厅-书柜" ? "border-primary bg-primary/10 text-foreground" : "border-border text-muted-foreground hover:border-primary/60")}>客厅-书柜</button>
+                    <button key="餐桌-茶具" type="button" onClick={() => { setActiveScene("餐桌-茶具"); update({ customPrompt: "餐桌-茶具 场景，商品居中，光影自然，商业产品摄影" }); }} className={cn("rounded-md border px-2 py-1 text-[11px] leading-4", activeScene === "餐桌-茶具" ? "border-primary bg-primary/10 text-foreground" : "border-border text-muted-foreground hover:border-primary/60")}>餐桌-茶具</button>
+                    <button key="书架-储物箱" type="button" onClick={() => { setActiveScene("书架-储物箱"); update({ customPrompt: "书架-储物箱 场景，商品居中，光影自然，商业产品摄影" }); }} className={cn("rounded-md border px-2 py-1 text-[11px] leading-4", activeScene === "书架-储物箱" ? "border-primary bg-primary/10 text-foreground" : "border-border text-muted-foreground hover:border-primary/60")}>书架-储物箱</button>
+                    <button key="餐桌-篮子" type="button" onClick={() => { setActiveScene("餐桌-篮子"); update({ customPrompt: "餐桌-篮子 场景，商品居中，光影自然，商业产品摄影" }); }} className={cn("rounded-md border px-2 py-1 text-[11px] leading-4", activeScene === "餐桌-篮子" ? "border-primary bg-primary/10 text-foreground" : "border-border text-muted-foreground hover:border-primary/60")}>餐桌-篮子</button>
+                    <button key="餐桌-保温箱" type="button" onClick={() => { setActiveScene("餐桌-保温箱"); update({ customPrompt: "餐桌-保温箱 场景，商品居中，光影自然，商业产品摄影" }); }} className={cn("rounded-md border px-2 py-1 text-[11px] leading-4", activeScene === "餐桌-保温箱" ? "border-primary bg-primary/10 text-foreground" : "border-border text-muted-foreground hover:border-primary/60")}>餐桌-保温箱</button>
+                    <button key="桌面-蜡烛" type="button" onClick={() => { setActiveScene("桌面-蜡烛"); update({ customPrompt: "桌面-蜡烛 场景，商品居中，光影自然，商业产品摄影" }); }} className={cn("rounded-md border px-2 py-1 text-[11px] leading-4", activeScene === "桌面-蜡烛" ? "border-primary bg-primary/10 text-foreground" : "border-border text-muted-foreground hover:border-primary/60")}>桌面-蜡烛</button>
+                    <button key="节日装饰-蜡烛" type="button" onClick={() => { setActiveScene("节日装饰-蜡烛"); update({ customPrompt: "节日装饰-蜡烛 场景，商品居中，光影自然，商业产品摄影" }); }} className={cn("rounded-md border px-2 py-1 text-[11px] leading-4", activeScene === "节日装饰-蜡烛" ? "border-primary bg-primary/10 text-foreground" : "border-border text-muted-foreground hover:border-primary/60")}>节日装饰-蜡烛</button>
+                    <button key="厨房-水果篮" type="button" onClick={() => { setActiveScene("厨房-水果篮"); update({ customPrompt: "厨房-水果篮 场景，商品居中，光影自然，商业产品摄影" }); }} className={cn("rounded-md border px-2 py-1 text-[11px] leading-4", activeScene === "厨房-水果篮" ? "border-primary bg-primary/10 text-foreground" : "border-border text-muted-foreground hover:border-primary/60")}>厨房-水果篮</button>
+                    <button key="厨房-刀具" type="button" onClick={() => { setActiveScene("厨房-刀具"); update({ customPrompt: "厨房-刀具 场景，商品居中，光影自然，商业产品摄影" }); }} className={cn("rounded-md border px-2 py-1 text-[11px] leading-4", activeScene === "厨房-刀具" ? "border-primary bg-primary/10 text-foreground" : "border-border text-muted-foreground hover:border-primary/60")}>厨房-刀具</button>
+                    <button key="餐桌-蜡烛" type="button" onClick={() => { setActiveScene("餐桌-蜡烛"); update({ customPrompt: "餐桌-蜡烛 场景，商品居中，光影自然，商业产品摄影" }); }} className={cn("rounded-md border px-2 py-1 text-[11px] leading-4", activeScene === "餐桌-蜡烛" ? "border-primary bg-primary/10 text-foreground" : "border-border text-muted-foreground hover:border-primary/60")}>餐桌-蜡烛</button>
+                    <button key="厨房-厨房岛" type="button" onClick={() => { setActiveScene("厨房-厨房岛"); update({ customPrompt: "厨房-厨房岛 场景，商品居中，光影自然，商业产品摄影" }); }} className={cn("rounded-md border px-2 py-1 text-[11px] leading-4", activeScene === "厨房-厨房岛" ? "border-primary bg-primary/10 text-foreground" : "border-border text-muted-foreground hover:border-primary/60")}>厨房-厨房岛</button>
+                    <button key="客厅-收纳篮" type="button" onClick={() => { setActiveScene("客厅-收纳篮"); update({ customPrompt: "客厅-收纳篮 场景，商品居中，光影自然，商业产品摄影" }); }} className={cn("rounded-md border px-2 py-1 text-[11px] leading-4", activeScene === "客厅-收纳篮" ? "border-primary bg-primary/10 text-foreground" : "border-border text-muted-foreground hover:border-primary/60")}>客厅-收纳篮</button>
+                    <button key="客厅-毛毯" type="button" onClick={() => { setActiveScene("客厅-毛毯"); update({ customPrompt: "客厅-毛毯 场景，商品居中，光影自然，商业产品摄影" }); }} className={cn("rounded-md border px-2 py-1 text-[11px] leading-4", activeScene === "客厅-毛毯" ? "border-primary bg-primary/10 text-foreground" : "border-border text-muted-foreground hover:border-primary/60")}>客厅-毛毯</button>
+                    <button key="礼品展示-圣诞装饰" type="button" onClick={() => { setActiveScene("礼品展示-圣诞装饰"); update({ customPrompt: "礼品展示-圣诞装饰 场景，商品居中，光影自然，商业产品摄影" }); }} className={cn("rounded-md border px-2 py-1 text-[11px] leading-4", activeScene === "礼品展示-圣诞装饰" ? "border-primary bg-primary/10 text-foreground" : "border-border text-muted-foreground hover:border-primary/60")}>礼品展示-圣诞装饰</button>
+                    <button key="展台-海绵" type="button" onClick={() => { setActiveScene("展台-海绵"); update({ customPrompt: "展台-海绵 场景，商品居中，光影自然，商业产品摄影" }); }} className={cn("rounded-md border px-2 py-1 text-[11px] leading-4", activeScene === "展台-海绵" ? "border-primary bg-primary/10 text-foreground" : "border-border text-muted-foreground hover:border-primary/60")}>展台-海绵</button>
+                    <button key="餐桌-茶壶" type="button" onClick={() => { setActiveScene("餐桌-茶壶"); update({ customPrompt: "餐桌-茶壶 场景，商品居中，光影自然，商业产品摄影" }); }} className={cn("rounded-md border px-2 py-1 text-[11px] leading-4", activeScene === "餐桌-茶壶" ? "border-primary bg-primary/10 text-foreground" : "border-border text-muted-foreground hover:border-primary/60")}>餐桌-茶壶</button>
+                    <button key="窗边-陶瓷壶" type="button" onClick={() => { setActiveScene("窗边-陶瓷壶"); update({ customPrompt: "窗边-陶瓷壶 场景，商品居中，光影自然，商业产品摄影" }); }} className={cn("rounded-md border px-2 py-1 text-[11px] leading-4", activeScene === "窗边-陶瓷壶" ? "border-primary bg-primary/10 text-foreground" : "border-border text-muted-foreground hover:border-primary/60")}>窗边-陶瓷壶</button>
+                    <button key="窗边-首饰架" type="button" onClick={() => { setActiveScene("窗边-首饰架"); update({ customPrompt: "窗边-首饰架 场景，商品居中，光影自然，商业产品摄影" }); }} className={cn("rounded-md border px-2 py-1 text-[11px] leading-4", activeScene === "窗边-首饰架" ? "border-primary bg-primary/10 text-foreground" : "border-border text-muted-foreground hover:border-primary/60")}>窗边-首饰架</button>
+                    <button key="厨房-置物架" type="button" onClick={() => { setActiveScene("厨房-置物架"); update({ customPrompt: "厨房-置物架 场景，商品居中，光影自然，商业产品摄影" }); }} className={cn("rounded-md border px-2 py-1 text-[11px] leading-4", activeScene === "厨房-置物架" ? "border-primary bg-primary/10 text-foreground" : "border-border text-muted-foreground hover:border-primary/60")}>厨房-置物架</button>
+                    <button key="厨房-餐车" type="button" onClick={() => { setActiveScene("厨房-餐车"); update({ customPrompt: "厨房-餐车 场景，商品居中，光影自然，商业产品摄影" }); }} className={cn("rounded-md border px-2 py-1 text-[11px] leading-4", activeScene === "厨房-餐车" ? "border-primary bg-primary/10 text-foreground" : "border-border text-muted-foreground hover:border-primary/60")}>厨房-餐车</button>
+                    <button key="节日场景-万圣节装饰" type="button" onClick={() => { setActiveScene("节日场景-万圣节装饰"); update({ customPrompt: "节日场景-万圣节装饰 场景，商品居中，光影自然，商业产品摄影" }); }} className={cn("rounded-md border px-2 py-1 text-[11px] leading-4", activeScene === "节日场景-万圣节装饰" ? "border-primary bg-primary/10 text-foreground" : "border-border text-muted-foreground hover:border-primary/60")}>节日场景-万圣节装饰</button>
+                    <button key="节日装饰-鬼魂装饰" type="button" onClick={() => { setActiveScene("节日装饰-鬼魂装饰"); update({ customPrompt: "节日装饰-鬼魂装饰 场景，商品居中，光影自然，商业产品摄影" }); }} className={cn("rounded-md border px-2 py-1 text-[11px] leading-4", activeScene === "节日装饰-鬼魂装饰" ? "border-primary bg-primary/10 text-foreground" : "border-border text-muted-foreground hover:border-primary/60")}>节日装饰-鬼魂装饰</button>
+                    <button key="节日场景-蜡烛" type="button" onClick={() => { setActiveScene("节日场景-蜡烛"); update({ customPrompt: "节日场景-蜡烛 场景，商品居中，光影自然，商业产品摄影" }); }} className={cn("rounded-md border px-2 py-1 text-[11px] leading-4", activeScene === "节日场景-蜡烛" ? "border-primary bg-primary/10 text-foreground" : "border-border text-muted-foreground hover:border-primary/60")}>节日场景-蜡烛</button>
+                    <button key="洗衣房-洗衣篮" type="button" onClick={() => { setActiveScene("洗衣房-洗衣篮"); update({ customPrompt: "洗衣房-洗衣篮 场景，商品居中，光影自然，商业产品摄影" }); }} className={cn("rounded-md border px-2 py-1 text-[11px] leading-4", activeScene === "洗衣房-洗衣篮" ? "border-primary bg-primary/10 text-foreground" : "border-border text-muted-foreground hover:border-primary/60")}>洗衣房-洗衣篮</button>
+                    <button key="客厅-垃圾桶" type="button" onClick={() => { setActiveScene("客厅-垃圾桶"); update({ customPrompt: "客厅-垃圾桶 场景，商品居中，光影自然，商业产品摄影" }); }} className={cn("rounded-md border px-2 py-1 text-[11px] leading-4", activeScene === "客厅-垃圾桶" ? "border-primary bg-primary/10 text-foreground" : "border-border text-muted-foreground hover:border-primary/60")}>客厅-垃圾桶</button>
+                    <button key="节日场景-圣诞气球" type="button" onClick={() => { setActiveScene("节日场景-圣诞气球"); update({ customPrompt: "节日场景-圣诞气球 场景，商品居中，光影自然，商业产品摄影" }); }} className={cn("rounded-md border px-2 py-1 text-[11px] leading-4", activeScene === "节日场景-圣诞气球" ? "border-primary bg-primary/10 text-foreground" : "border-border text-muted-foreground hover:border-primary/60")}>节日场景-圣诞气球</button>
+                    <button key="桌面-充电器" type="button" onClick={() => { setActiveScene("桌面-充电器"); update({ customPrompt: "桌面-充电器 场景，商品居中，光影自然，商业产品摄影" }); }} className={cn("rounded-md border px-2 py-1 text-[11px] leading-4", activeScene === "桌面-充电器" ? "border-primary bg-primary/10 text-foreground" : "border-border text-muted-foreground hover:border-primary/60")}>桌面-充电器</button>
+                    <button key="厨房-垃圾桶" type="button" onClick={() => { setActiveScene("厨房-垃圾桶"); update({ customPrompt: "厨房-垃圾桶 场景，商品居中，光影自然，商业产品摄影" }); }} className={cn("rounded-md border px-2 py-1 text-[11px] leading-4", activeScene === "厨房-垃圾桶" ? "border-primary bg-primary/10 text-foreground" : "border-border text-muted-foreground hover:border-primary/60")}>厨房-垃圾桶</button>
+                    <button key="纯色背景-支架" type="button" onClick={() => { setActiveScene("纯色背景-支架"); update({ customPrompt: "纯色背景-支架 场景，商品居中，光影自然，商业产品摄影" }); }} className={cn("rounded-md border px-2 py-1 text-[11px] leading-4", activeScene === "纯色背景-支架" ? "border-primary bg-primary/10 text-foreground" : "border-border text-muted-foreground hover:border-primary/60")}>纯色背景-支架</button>
+                    <button key="客厅-充电器" type="button" onClick={() => { setActiveScene("客厅-充电器"); update({ customPrompt: "客厅-充电器 场景，商品居中，光影自然，商业产品摄影" }); }} className={cn("rounded-md border px-2 py-1 text-[11px] leading-4", activeScene === "客厅-充电器" ? "border-primary bg-primary/10 text-foreground" : "border-border text-muted-foreground hover:border-primary/60")}>客厅-充电器</button>
+                    <button key="客厅-收纳筐" type="button" onClick={() => { setActiveScene("客厅-收纳筐"); update({ customPrompt: "客厅-收纳筐 场景，商品居中，光影自然，商业产品摄影" }); }} className={cn("rounded-md border px-2 py-1 text-[11px] leading-4", activeScene === "客厅-收纳筐" ? "border-primary bg-primary/10 text-foreground" : "border-border text-muted-foreground hover:border-primary/60")}>客厅-收纳筐</button>
+                    <button key="书房-储物篮" type="button" onClick={() => { setActiveScene("书房-储物篮"); update({ customPrompt: "书房-储物篮 场景，商品居中，光影自然，商业产品摄影" }); }} className={cn("rounded-md border px-2 py-1 text-[11px] leading-4", activeScene === "书房-储物篮" ? "border-primary bg-primary/10 text-foreground" : "border-border text-muted-foreground hover:border-primary/60")}>书房-储物篮</button>
+                    <button key="桌面-托盘" type="button" onClick={() => { setActiveScene("桌面-托盘"); update({ customPrompt: "桌面-托盘 场景，商品居中，光影自然，商业产品摄影" }); }} className={cn("rounded-md border px-2 py-1 text-[11px] leading-4", activeScene === "桌面-托盘" ? "border-primary bg-primary/10 text-foreground" : "border-border text-muted-foreground hover:border-primary/60")}>桌面-托盘</button>
+                    <button key="厨房-厨房用具" type="button" onClick={() => { setActiveScene("厨房-厨房用具"); update({ customPrompt: "厨房-厨房用具 场景，商品居中，光影自然，商业产品摄影" }); }} className={cn("rounded-md border px-2 py-1 text-[11px] leading-4", activeScene === "厨房-厨房用具" ? "border-primary bg-primary/10 text-foreground" : "border-border text-muted-foreground hover:border-primary/60")}>厨房-厨房用具</button>
                     </div>
-                </Section>
-
-                <Section title="输出规格" hint="比例 / 数量" testId="scene-output">
-                    <div className="flex flex-wrap gap-2">
-                        {SCENE_OUTPUT_RATIOS.map((ratio) => (
-                            <button
-                                key={ratio}
-                                type="button"
-                                data-testid={`scene-ratio-${ratio}`}
-                                aria-pressed={values.ratio === ratio}
-                                className={chipClass(values.ratio === ratio)}
-                                onClick={() => update({ ratio })}
-                                disabled={running}
-                            >
-                                {ratio}
-                            </button>
-                        ))}
-                    </div>
-                    <div className="mt-2 flex flex-wrap gap-2">
-                        {SCENE_OUTPUT_COUNTS.map((count) => (
-                            <button
-                                key={count}
-                                type="button"
-                                data-testid={`scene-count-${count}`}
-                                aria-pressed={values.outputNum === count}
-                                className={chipClass(values.outputNum === count)}
-                                onClick={() => update({ outputNum: count })}
-                                disabled={running}
-                            >
-                                {count} 张
-                            </button>
-                        ))}
-                        <span className="text-[11px] text-stone-500 dark:text-stone-400" data-testid="scene-output-size">
-                            {output.width}×{output.height}
-                        </span>
-                    </div>
-                </Section>
+                </section>
             </div>
-
-            {/* ---------------- 右：合成画布 + 图层 + 结果 ---------------- */}
-            <div className="space-y-3">
-                <Section title="合成画布" hint="商品层按位置/缩放/旋转叠在场景层上" testId="scene-canvas">
-                    <div className="relative overflow-hidden rounded-lg border border-stone-200 bg-stone-100 dark:border-stone-800 dark:bg-stone-800" style={{ aspectRatio: output.width / output.height }}>
-                        <div className="absolute inset-0 flex items-center justify-center p-4 text-center text-[11px] text-stone-500 dark:text-stone-400">
-                            {values.sceneType === "recommend" ? (template?.prompt ?? "未选择场景模板") : bg ? "自定义背景图已就位" : values.customPrompt || "等待自定义背景描述"}
-                        </div>
-                        {goods && values.layers.goods.visible ? (
-                            <img
-                                data-testid="scene-canvas-goods"
-                                src={goods.dataUrl ?? goods.url ?? ""}
-                                alt={goods.name ?? "商品层"}
-                                className="absolute select-none object-contain"
-                                style={{
-                                    left: `${values.transform.x * 100}%`,
-                                    top: `${values.transform.y * 100}%`,
-                                    width: "60%",
-                                    transform: `translate(-50%, -50%) scale(${values.transform.scale}) rotate(${values.transform.rotate}deg)`,
-                                    opacity: values.layers.bg.visible ? 1 : 0.9,
-                                }}
-                            />
-                        ) : null}
-                    </div>
-                    <p className="mt-2 text-[11px] text-stone-500 dark:text-stone-400" data-testid="scene-transform-summary">{transformSummary(values.transform)}</p>
-                    {/* 画布工具必须可撤销/重做：40px 最小点击区 + 键盘可达 + 明确禁用态 */}
-                    <div className="mt-2 flex items-center gap-2" data-testid="scene-history-bar">
-                        <button
-                            type="button"
-                            aria-label="撤销"
-                            title="撤销上一步画布参数"
-                            data-testid="scene-undo"
-                            disabled={!canUndo || running}
-                            onClick={() => stepHistory("undo")}
-                            className="inline-flex size-10 items-center justify-center rounded-md border border-stone-200 bg-card text-sm text-stone-700 disabled:opacity-40 dark:border-stone-700 dark:bg-stone-900 dark:text-stone-200"
-                        >
-                            ↶
-                        </button>
-                        <button
-                            type="button"
-                            aria-label="重做"
-                            title="重做下一步画布参数"
-                            data-testid="scene-redo"
-                            disabled={!canRedo || running}
-                            onClick={() => stepHistory("redo")}
-                            className="inline-flex size-10 items-center justify-center rounded-md border border-stone-200 bg-card text-sm text-stone-700 disabled:opacity-40 dark:border-stone-700 dark:bg-stone-900 dark:text-stone-200"
-                        >
-                            ↷
-                        </button>
-                        <span className="text-[11px] text-stone-500 dark:text-stone-400" data-testid="scene-history-state">
-                            {canUndo ? `可撤销 ${undoState.past} 步` : "无可撤销步骤"} · {canRedo ? `可重做 ${undoState.future} 步` : "无可重做步骤"}
-                        </span>
-                    </div>
-                    <div className="mt-2 grid grid-cols-2 gap-2">
-                        <label className="text-[11px] text-stone-500 dark:text-stone-400">
-                            横向位置 {Math.round(values.transform.x * 100)}%
-                            <input type="range" min={0} max={1} step={0.01} value={values.transform.x} onChange={(event) => update({ transform: clampSceneTransform({ ...values.transform, x: Number(event.target.value) }) })} className="w-full" disabled={running} />
-                        </label>
-                        <label className="text-[11px] text-stone-500 dark:text-stone-400">
-                            纵向位置 {Math.round(values.transform.y * 100)}%
-                            <input type="range" min={0} max={1} step={0.01} value={values.transform.y} onChange={(event) => update({ transform: clampSceneTransform({ ...values.transform, y: Number(event.target.value) }) })} className="w-full" disabled={running} />
-                        </label>
-                        <label className="text-[11px] text-stone-500 dark:text-stone-400">
-                            缩放 {Math.round(values.transform.scale * 100)}%
-                            <input type="range" min={0.2} max={2} step={0.05} value={values.transform.scale} onChange={(event) => update({ transform: clampSceneTransform({ ...values.transform, scale: Number(event.target.value) }) })} className="w-full" disabled={running} />
-                        </label>
-                        <label className="text-[11px] text-stone-500 dark:text-stone-400">
-                            旋转 {values.transform.rotate}°
-                            <input type="range" min={-45} max={45} step={1} value={values.transform.rotate} onChange={(event) => update({ transform: clampSceneTransform({ ...values.transform, rotate: Number(event.target.value) }) })} className="w-full" disabled={running} />
-                        </label>
-                    </div>
-                    <div className="mt-2 flex gap-2">
-                        <button type="button" className={chipClass(false)} onClick={() => update(resetSceneTransform(values))} disabled={running}>
-                            复位变换
-                        </button>
-                        <button type="button" className={chipClass(values.lockCutout)} onClick={() => update({ lockCutout: !values.lockCutout })} disabled={running}>
-                            锁定抠图边缘 {values.lockCutout ? "开" : "关"}
-                        </button>
-                    </div>
-                </Section>
-
-                <Section title="图层" hint="可见 / 锁定" testId="scene-layers">
-                    <div data-testid="scene-layer-composer" hidden />
-                    <ul className="space-y-1">
-                        {SCENE_LAYER_IDS.map((id: SceneLayerId) => {
-                            const meta = sceneLayerMeta(id);
-                            const state = values.layers[id];
-                            return (
-                                <li key={id} data-testid={`scene-layer-${id}`} className="flex items-center justify-between gap-2 rounded-md border border-stone-200 px-2 py-1 text-[11px] dark:border-stone-700">
-                                    <span className="flex-1">
-                                        <span className="font-medium text-stone-800 dark:text-stone-100">{meta.label}</span>
-                                        <span className="ml-1 text-stone-500 dark:text-stone-400">{meta.hint}</span>                                    </span>
-                                    <button type="button" aria-pressed={state.visible} className={chipClass(state.visible)} onClick={() => update({ layers: { ...values.layers, [id]: { ...state, visible: !state.visible } } })} disabled={running}>
-                                        {state.visible ? "可见" : "隐藏"}
-                                    </button>
-                                    <button type="button" aria-pressed={state.locked} className={chipClass(state.locked)} onClick={() => update({ layers: { ...values.layers, [id]: { ...state, locked: !state.locked } } })} disabled={running}>
-                                        {state.locked ? "已锁" : "未锁"}
-                                    </button>
-                                    <button type="button" className={chipClass(false)} onClick={() => update(resetSceneLayer(values, id))} disabled={running} title={`恢复${meta.label}默认`}>
-                                        恢复
-                                    </button>
-                                </li>
-                            );
-                        })}
-                    </ul>
-                    <p className="mt-2 text-[11px] text-stone-500 dark:text-stone-400">
-                        默认图层：{SCENE_LAYER_IDS.filter((id) => DEFAULT_SCENE_LAYERS[id].visible).length} 层可见 / 共 {SCENE_LAYER_IDS.length} 层
-                    </p>
-                </Section>
-
-                <Section title="请求参数（真实下发）" hint="canvasData / sizeData / imageRecords" testId="scene-inspector">
-                    <div className="space-y-1 text-[11px] text-stone-600 dark:text-stone-300">
-                        <p data-testid="scene-inspector-size">
-                            {sizeData.width}×{sizeData.height} @ {sizeData.ratio} · {sizeData.count} 张 · {sizeData.layers} 层可见 · {sizeData.unit}
-                        </p>
-                        <p data-testid="scene-inspector-records">
-                            参考图 {imageRecords.length} 张：{imageRecords.map((record) => `${record.layer}=${record.name}`).join(" / ") || "未选择"}
-                        </p>
-                        <details>
-                            <summary className="cursor-pointer text-stone-500 dark:text-stone-400">展开提示词与 canvasData</summary>
-                            <pre data-testid="scene-inspector-json" className="mt-1 max-h-56 overflow-auto whitespace-pre-wrap break-words rounded bg-stone-100 p-2 text-[10px] leading-4 text-stone-700 dark:bg-stone-800 dark:text-stone-200">
-{`${buildNewReplaceBgPrompt(values, output)}\n\n${JSON.stringify({ canvasData, sizeData, imageRecords }, null, 2)}`}
-                            </pre>
-                        </details>
-                    </div>
-                </Section>
-
-                <Section title="提交" hint={blocked ? "先补齐拦截项" : "参数齐全，可提交真实请求"} testId="scene-submit">
-                    {issues.length ? (
-                        <ul data-testid="scene-issues" className="mb-2 space-y-1">
-                            {issues.map((issue) => (
-                                <li key={`${issue.code}-${issue.field}`} className="text-[11px] text-amber-700 dark:text-amber-400">
-                                    · {issue.message}
-                                </li>
-                            ))}
-                        </ul>
-                    ) : null}
-                    {runError ? (
-                        <pre data-testid="scene-run-error" className="mb-2 whitespace-pre-wrap break-words rounded border border-rose-200 bg-rose-50 p-2 text-[11px] text-rose-700 dark:border-rose-900 dark:bg-rose-950/40 dark:text-rose-300">
-                            {runError}
-                        </pre>
-                    ) : null}
-                    <div className="flex flex-wrap items-center gap-2">
-                        <button
-                            type="button"
-                            data-testid="scene-generate"
-                            className="rounded-md bg-stone-900 px-3 py-1.5 text-xs font-medium text-white transition hover:bg-stone-700 disabled:cursor-not-allowed disabled:opacity-50 dark:bg-stone-100 dark:text-stone-900"
-                            onClick={() => void onGenerate()}
-                            disabled={blocked}
-                        >
-                            {running ? "生成中…" : "立即生成"}
-                        </button>
-                        <span className="text-[11px] text-stone-500 dark:text-stone-400">
-                            {restoring ? "正在恢复草稿素材…" : `模型：${modelLabel(imageModel)}`}
-                        </span>
-                    </div>
-                </Section>
-
-                <Section title="结果" hint={result.stale ? "参数已变，结果需重新生成" : "按输出数量分格展示"} testId="scene-result">
-                    {result.drift && result.status === "succeeded" ? (
-                        <p data-testid="scene-drift" className="mb-2 text-[11px] text-amber-700 dark:text-amber-400">
-                            {result.drift}
-                        </p>
-                    ) : null}
-                    <div data-testid="scene-grid" data-component="scene-variant-grid" className="grid grid-cols-2 gap-2">
-                        {grid.map((cell) => (
-                            <div key={cell.index} data-testid={`scene-grid-cell-${cell.index}`} data-filled={Boolean(cell.dataUrl)} className="relative overflow-hidden rounded-md border border-stone-200 bg-stone-100 dark:border-stone-700 dark:bg-stone-800" style={{ aspectRatio: 1 }}>
-                                {cell.dataUrl ? (
-                                    <img src={cell.dataUrl} alt={`结果 ${cell.index + 1}`} className="size-full object-cover" />
-                                ) : (
-                                    <span className="absolute inset-0 flex items-center justify-center p-2 text-center text-[10px] text-stone-500 dark:text-stone-400">
-                                        {result.status === "succeeded" ? "上游未返回此格" : result.status === "running" ? "生成中…" : "待生成"}
-                                    </span>
-                                )}
-                            </div>
-                        ))}
-                    </div>
-                    {primary ? (
-                        <p className="mt-2 text-[11px] text-stone-500 dark:text-stone-400" data-testid="scene-primary">
-                            主结果已就绪，可下载或发送画布
-                        </p>
-                    ) : null}
-                    <ToolResult task={task} toolId={toolId} title={`${NEW_REPLACE_BG_V2_TITLE}结果`} onCancel={running ? onCancel : undefined} onRetry={task && !running ? () => void onRetry() : undefined} className="mt-2 border-0 bg-transparent p-0" />
-                </Section>
-
-                <Section title="本次提交快照" hint="提交时锁定的参数；结果与快照不一致会标记为旧版本" testId="scene-submitted">
-                    {snapshot ? (
-                        <pre data-testid="scene-submitted-json" className="max-h-48 overflow-auto whitespace-pre-wrap break-words rounded bg-stone-100 p-2 text-[10px] leading-4 text-stone-700 dark:bg-stone-800 dark:text-stone-200">
-                            {JSON.stringify(snapshot, null, 2)}
-                        </pre>
-                    ) : (
-                        <p data-testid="scene-submitted-empty" className="text-[11px] text-stone-500 dark:text-stone-400">
-                            还没有提交过任务；提交后这里会显示本次锁定的场景 / 强度 / 图层 / 输出规格。
-                        </p>
-                    )}
-                </Section>
-            </div>
+            <WatermarkGroupPanel />
         </div>
     );
 }

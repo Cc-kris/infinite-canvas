@@ -1,0 +1,33 @@
+{
+ "task": "前端 1:1 对齐：AI_DRESSING_V2, AI_DRESSING_XSY, AI_POSTURE, AI_POSE_GENERATOR, AI_WEARABLE, MATERIAL_UPPER_BODY, POD_MATERIAL, SDS_DESIGN, ORNAMENT_TEXT, PRINT_EXTRACT, IMAGE_TEXT_EDIT, NEW_DESIGNER",
+ "work_dir": "/Users/mac/Documents/Dev/infinite-canvas",
+ "work_orders": {
+  "AI_DRESSING_V2": "/Users/mac/Documents/Dev/infinite-canvas/docs/V1.0/replica/frontend-1to1/AI_DRESSING_V2.md",
+  "AI_DRESSING_XSY": "/Users/mac/Documents/Dev/infinite-canvas/docs/V1.0/replica/frontend-1to1/AI_DRESSING_XSY.md",
+  "AI_POSTURE": "/Users/mac/Documents/Dev/infinite-canvas/docs/V1.0/replica/frontend-1to1/AI_POSTURE.md",
+  "AI_POSE_GENERATOR": "/Users/mac/Documents/Dev/infinite-canvas/docs/V1.0/replica/frontend-1to1/AI_POSE_GENERATOR.md",
+  "AI_WEARABLE": "/Users/mac/Documents/Dev/infinite-canvas/docs/V1.0/replica/frontend-1to1/AI_WEARABLE.md",
+  "MATERIAL_UPPER_BODY": "/Users/mac/Documents/Dev/infinite-canvas/docs/V1.0/replica/frontend-1to1/MATERIAL_UPPER_BODY.md",
+  "POD_MATERIAL": "/Users/mac/Documents/Dev/infinite-canvas/docs/V1.0/replica/frontend-1to1/POD_MATERIAL.md",
+  "SDS_DESIGN": "/Users/mac/Documents/Dev/infinite-canvas/docs/V1.0/replica/frontend-1to1/SDS_DESIGN.md",
+  "ORNAMENT_TEXT": "/Users/mac/Documents/Dev/infinite-canvas/docs/V1.0/replica/frontend-1to1/ORNAMENT_TEXT.md",
+  "PRINT_EXTRACT": "/Users/mac/Documents/Dev/infinite-canvas/docs/V1.0/replica/frontend-1to1/PRINT_EXTRACT.md",
+  "IMAGE_TEXT_EDIT": "/Users/mac/Documents/Dev/infinite-canvas/docs/V1.0/replica/frontend-1to1/IMAGE_TEXT_EDIT.md",
+  "NEW_DESIGNER": "/Users/mac/Documents/Dev/infinite-canvas/docs/V1.0/replica/frontend-1to1/NEW_DESIGNER.md"
+ },
+ "index": "/Users/mac/Documents/Dev/infinite-canvas/docs/V1.0/replica/frontend-1to1/00-INDEX.md",
+ "editable_files": [
+  "/Users/mac/Documents/Dev/infinite-canvas/web/src/components/tools/workspaces/dressing.tsx",
+  "/Users/mac/Documents/Dev/infinite-canvas/web/src/components/tools/workspaces/dressing-xsy.tsx",
+  "/Users/mac/Documents/Dev/infinite-canvas/web/src/components/tools/workspaces/model.tsx",
+  "/Users/mac/Documents/Dev/infinite-canvas/web/src/components/tools/workspaces/dress.tsx",
+  "/Users/mac/Documents/Dev/infinite-canvas/web/src/components/tools/workspaces/pod.tsx",
+  "/Users/mac/Documents/Dev/infinite-canvas/web/src/components/tools/workspaces/text.tsx",
+  "/Users/mac/Documents/Dev/infinite-canvas/web/src/components/tools/workspaces/extract.tsx",
+  "/Users/mac/Documents/Dev/infinite-canvas/web/src/components/tools/workspaces/image-text-edit.tsx",
+  "/Users/mac/Documents/Dev/infinite-canvas/web/src/components/tools/workspaces/designer.tsx"
+ ],
+ "registry": "/Users/mac/Documents/Dev/infinite-canvas/web/src/features/tools/registry",
+ "evidence_js": "/Users/mac/Documents/Dev/infinite-canvas/capture_page.js",
+ "output": "/Users/mac/Documents/Dev/infinite-canvas/.verify-tools/frontend-diff/tasks/fx_b4/report.md"
+}

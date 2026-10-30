@@ -20,6 +20,8 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { ModelPicker } from "@/components/model-picker";
 import { ToolAssetInput } from "@/components/tools/tool-asset-input";
 import { ToolResult } from "@/components/tools/tool-result";
+import { AiVideoFamilyNav } from "./video";
+import { WatermarkGroupPanel } from "@/components/tools/watermark-group-panel";
 import { ToolShell } from "@/components/tools/tool-shell";
 import { ToolTaskHistory } from "@/components/tools/tool-task-history";
 import { ToolCases } from "../tool-cases";
@@ -435,27 +437,12 @@ export function VideoTranslationWorkspace({ className }: VideoTranslationWorkspa
 
     const honest = videoTranslationHonestyCopy();
 
-    const sidebar = (
-        <div className="space-y-1">
-            <p className="px-2 text-xs font-medium text-muted-foreground">{honest.sidebarTitle}</p>
-            <p className="mt-3 px-2 text-xs leading-5 text-muted-foreground">
-                {t("videoTranslation.workspace.sidebarFormat", {
-                    min: VIDEO_TRANSLATION_SOURCE_RULE.minSeconds,
-                    max: VIDEO_TRANSLATION_SOURCE_RULE.maxSeconds,
-                })}
-            </p>
-            <p className="mt-2 px-2 text-xs leading-5 text-amber-700 dark:text-amber-300" data-testid="video-translation-sidebar-honesty">
-                {honest.sidebarHint}
-            </p>
-        </div>
-    );
-
     return (
         <ToolShell
             className={className}
-            title={t("videoTranslation.workspace.title")}
-            subtitle={honest.subtitle}
-            sidebar={sidebar}
+            title="视频翻译"
+            subtitle="智能识别源语言，驱动口型与目标语言精准匹配。"
+            sidebar={null}
             notices={
                 error ? (
                     <p role="alert" className="text-xs leading-5 text-destructive">
@@ -465,40 +452,35 @@ export function VideoTranslationWorkspace({ className }: VideoTranslationWorkspa
                     <p className="text-xs leading-5 text-muted-foreground">{notice}</p>
                 ) : null
             }
-            badges={
-                <>
-                    <span
-                        className="rounded border border-amber-300 bg-amber-50 px-1.5 py-0.5 text-[11px] text-amber-700 dark:border-amber-900 dark:bg-amber-950 dark:text-amber-200"
-                        data-testid="video-translation-capability-badge"
-                    >
-                        {t("videoTranslation.workspace.capabilityBadge")}
-                    </span>
-                    <span className="rounded border border-border px-1.5 py-0.5 text-[11px] text-muted-foreground">
-                        {t("videoTranslation.workspace.targetBadge", { language: targetLabel })}
-                    </span>
-                    <span className="rounded border border-border px-1.5 py-0.5 text-[11px] text-muted-foreground">{videoTypeLabel}</span>
-                </>
-            }
         >
-            <div className="flex min-h-0 flex-1 flex-col gap-3 overflow-auto p-4">
-                {/* 常驻诚实提示：不可折叠、不可关闭（r27 报告 §6.1） */}
-                <VideoTranslationHonestyNotice copy={honest} />
-                <div className="grid min-h-0 flex-1 gap-6 lg:grid-cols-[minmax(300px,320px)_minmax(0,1fr)]">
-                {/* 配置区 */}
-                <div className="min-w-0 space-y-4" data-testid="video-translation-config">
-                    <section className="space-y-2 rounded-lg border border-border p-3">
-                        <div className="flex items-baseline justify-between">
-                            <h2 className="text-sm font-medium">{t("videoTranslation.workspace.sourceSectionTitle")}</h2>
-                            <span className="text-[11px] text-muted-foreground">
-                                {record ? record.name : t("videoTranslation.workspace.notUploaded")}
-                            </span>
-                        </div>
+            <div className="grid min-h-0 flex-1 gap-6 overflow-auto p-4 lg:grid-cols-[minmax(300px,320px)_minmax(0,1fr)]">
+                <div className="min-w-0 space-y-2" data-testid="video-translation-config">
+    <AiVideoFamilyNav active="视频翻译" />
+                    <section className="space-y-1">
+                        <h2 className="text-sm font-medium">原视频</h2>
+                        <p className="text-[11px] leading-4 text-muted-foreground">支持 MP4、MOV 格式，100MB 以内</p>
+                    </section>
+
+                    <section className="space-y-2">
+                        <h2 className="text-sm font-medium">上传需要翻译的视频</h2>
                         <ToolAssetInput
                             toolId={VIDEO_TRANSLATION_TOOL_ID}
-                            title={t("videoTranslation.workspace.uploadTitle")}
-                            uploadLabel={t("videoTranslation.workspace.uploadLabel")}
+                            draftSlot="source-video"
                             maxCount={1}
                             disabled={running}
+                            variant="linkfox"
+                            uploadLabel="本地上传"
+                            compact
+                            wide
+                            actions={
+                                <button
+                                    type="button"
+                                    className="h-7 w-full rounded-md border border-border bg-card text-xs text-muted-foreground"
+                                    disabled
+                                >
+                                    作品选择
+                                </button>
+                            }
                             constraints={{
                                 kind: "video",
                                 mimeTypes: [...VIDEO_TRANSLATION_SOURCE_RULE.mimeTypes],
@@ -508,312 +490,85 @@ export function VideoTranslationWorkspace({ className }: VideoTranslationWorkspa
                             }}
                             onChange={handleSourceVideoChange}
                         />
-                        <p className="text-xs leading-5 text-muted-foreground">
-                            {t("videoTranslation.workspace.uploadHint", {
-                                min: VIDEO_TRANSLATION_SOURCE_RULE.minSeconds,
-                                max: VIDEO_TRANSLATION_SOURCE_RULE.maxSeconds,
-                            })}
-                        </p>
-                        {sourceBlockers.length > 0 ? (
-                            <ul className="space-y-1 text-[11px] text-destructive" role="alert">
-                                {sourceBlockers.map((issue) => (
-                                    <li key={issue.code}>{sourceIssueText(t, issue.code) || issue.message}</li>
-                                ))}
-                            </ul>
-                        ) : null}
-                        {sourceNotices.length > 0 ? (
-                            <ul className="space-y-1 text-[11px] text-amber-600" data-testid="video-translation-source-notice">
-                                {sourceNotices.map((issue) => (
-                                    <li key={issue.code}>{sourceIssueText(t, issue.code) || issue.message}</li>
-                                ))}
-                            </ul>
-                        ) : null}
+                        <p className="text-[11px] leading-4 text-muted-foreground">建议上传画面清晰、音频完整的视频（2-30 秒）</p>
                     </section>
 
-                    <section className="space-y-2 rounded-lg border border-border p-3" data-testid="video-translation-language">
-                        <div className="flex items-center justify-between gap-2">
-                            <h2 className="text-sm font-medium">{honest.languageTitle}</h2>
-                            <span className="text-[10px] text-amber-700 dark:text-amber-300" data-testid="video-translation-language-badge">
-                                {honest.languageHint}
-                            </span>
-                        </div>
-                        <label className="block text-xs leading-5 text-muted-foreground">
-                            {t("videoTranslation.workspace.sourceLanguageLabel")}
-                            <select
-                                className="mt-1 w-full rounded-md border border-border bg-background px-2 py-1.5 text-sm"
-                                value={values.sourceLanguage}
-                                disabled={running}
-                                data-testid="video-translation-source-language"
-                                onChange={(event) => handleSourceLanguage(event.target.value)}
-                            >
-                                {sourceOptions.map((option) => (
-                                    <option key={option.id} value={option.id}>
-                                        {languageOptionText(t, option)}
-                                    </option>
-                                ))}
-                            </select>
-                        </label>
-                        <label className="block text-xs leading-5 text-muted-foreground">
-                            {t("videoTranslation.workspace.targetLanguageLabel")}
-                            <select
-                                className="mt-1 w-full rounded-md border border-border bg-background px-2 py-1.5 text-sm"
-                                value={values.targetLanguage}
-                                disabled={running}
-                                data-testid="video-translation-target-language"
-                                onChange={(event) => setValues((previous) => ({ ...previous, targetLanguage: event.target.value }))}
-                            >
-                                {targetOptions.map((option) => (
-                                    <option key={option.id} value={option.id}>
-                                        {languageOptionText(t, option)}
-                                    </option>
-                                ))}
-                            </select>
-                        </label>
-                        {/* 诚实边界（r27 §6.2）：语言只进提示词，上游没有 language 字段 */}
-                        <p className="text-[11px] leading-4 text-muted-foreground" data-testid="video-translation-language-hint">
-                            {honest.sourceHint}
-                        </p>
-                    </section>
-
-                    <section
-                        className="space-y-2 rounded-lg border border-border p-3"
-                        data-testid="video-translation-lipsync"
-                        data-lipsync-supported="false"
-                    >
-                        <div className="flex items-center justify-between gap-2">
-                            <h2 className="text-sm font-medium">{honest.lipSyncTitle}</h2>
-                            {/* 上游无 lipSync 参数 → 恒为关闭且置灰，不提供假开关（r27 §6.3） */}
-                            <button
-                                type="button"
-                                role="switch"
-                                aria-checked={false}
-                                aria-disabled="true"
-                                disabled
-                                title={honest.lipSyncHint}
-                                data-testid="video-translation-lipsync-switch"
-                                className="relative h-5 w-9 cursor-not-allowed rounded-full border border-border bg-muted opacity-60"
-                            >
-                                <span className="absolute top-0.5 left-0.5 size-4 rounded-full bg-background" />
-                            </button>
-                        </div>
-                        <p className="text-[11px] leading-4 text-muted-foreground" data-testid="video-translation-lipsync-hint">
-                            {honest.lipSyncHint}
-                        </p>
-                    </section>
-
-                    <section className="space-y-2 rounded-lg border border-border p-3">
-                        <h2 className="text-sm font-medium">{t("videoTranslation.workspace.modeTitle")}</h2>
-                        <div className="flex gap-1 rounded-md bg-muted p-0.5 text-xs">
-                            {(["standard", "advanced"] as const).map((mode) => (
-                                <button
-                                    key={mode}
-                                    type="button"
-                                    disabled={running}
-                                    className={cn(
-                                        "flex-1 rounded px-2 py-1",
-                                        values.mode === mode ? "bg-background shadow-sm" : "text-muted-foreground",
-                                    )}
-                                    onClick={() => setValues((previous) => ({ ...previous, mode }))}
-                                >
-                                    {t(
-                                        mode === "standard"
-                                            ? "videoTranslation.workspace.modeStandard"
-                                            : "videoTranslation.workspace.modeAdvanced",
-                                    )}
-                                </button>
-                            ))}
-                        </div>
-                        <label className="block text-xs leading-5 text-muted-foreground">
-                            {t("videoTranslation.workspace.outputCountLabel")}
-                            <select
-                                className="mt-1 w-full rounded-md border border-border bg-background px-2 py-1.5 text-sm"
-                                value={values.outputNum}
-                                disabled={running}
-                                onChange={(event) =>
-                                    setValues((previous) => ({ ...previous, outputNum: normalizeVideoTranslationOutput(event.target.value) }))
-                                }
-                            >
-                                {VIDEO_TRANSLATION_OUTPUT_OPTIONS.map((count) => (
-                                    <option key={count} value={count}>
-                                        {outputCountText(t, count)}
-                                    </option>
-                                ))}
-                            </select>
-                        </label>
-                        {/* 诚实边界（r27 §6.4）：当前通道一次只返回 1 条，多输出会被上游静默压缩 */}
-                        <p className="text-[11px] leading-4 text-muted-foreground" data-testid="video-translation-output-hint">
-                            {honest.outputHint}
-                        </p>
-                        {capability.blockers.length > 0 ? (
-                            <p
-                                className="rounded border border-amber-200 bg-amber-50 p-2 text-[11px] leading-4 text-amber-800 dark:border-amber-900 dark:bg-amber-950 dark:text-amber-200"
-                                role="alert"
-                                data-testid="video-translation-capability-blocker"
-                            >
-                                {capabilityBlockers[0]}
-                            </p>
-                        ) : null}
-                        <label className="block text-xs leading-5 text-muted-foreground">
-                            {t("videoTranslation.workspace.outputRatioLabel")}
-                            <select
-                                className="mt-1 w-full rounded-md border border-border bg-background px-2 py-1.5 text-sm"
-                                value={values.outputRatio}
-                                disabled={running}
-                                data-testid="video-translation-output-ratio"
-                                onChange={(event) =>
-                                    setValues((previous) => ({
-                                        ...previous,
-                                        outputRatio: normalizeVideoTranslationOutputRatio(event.target.value),
-                                    }))
-                                }
-                            >
-                                {VIDEO_TRANSLATION_OUTPUT_RATIOS.map((option) => (
-                                    <option key={option.value} value={option.value}>
-                                        {ratioOptionText(t, option)}
-                                    </option>
-                                ))}
-                            </select>
-                        </label>
-                        <p className="text-xs leading-5 text-muted-foreground" data-testid="video-translation-aspect-summary">
-                            {t("videoTranslation.workspace.aspectSummary", {
-                                ratio: ratioOptionText(t, { value: outputPlan.ratio, label: outputPlan.ratio }),
-                                size: outputPlan.size,
-                            })}
-                            {outputPlan.sourceSize
-                                ? t("videoTranslation.workspace.aspectSource", {
-                                      label: outputPlan.sourceRatioLabel,
-                                      size: outputPlan.sourceSize,
-                                  })
-                                : ""}
-                        </p>
-                        {outputPlan.notice ? (
-                            <p
-                                className="rounded border border-amber-200 bg-amber-50 p-2 text-[11px] leading-4 text-amber-800"
-                                role="alert"
-                                data-testid="video-translation-aspect-notice"
-                            >
-                                {aspectNotice}
-                            </p>
-                        ) : null}
-                    </section>
-
-                    <section className="space-y-2 rounded-lg border border-border p-3">
-                        <h2 className="text-sm font-medium">{t("videoTranslation.workspace.modelTitle")}</h2>
-                        <ModelPicker config={config} value={model} onChange={setModel} capability="video" fullWidth />
+                    <section className="space-y-2">
+                        <h2 className="text-sm font-medium">模式选择</h2>
                         <button
                             type="button"
-                            data-testid="video-translation-submit"
-                            className="w-full rounded-md bg-primary px-3 py-2 text-sm font-medium text-primary-foreground disabled:opacity-50"
-                            disabled={running || Boolean(submitBlockedReason)}
-                            onClick={() => void handleSubmit()}
+                            aria-pressed={values.mode === "advanced"}
+                            disabled={running}
+                            onClick={() =>
+                                setValues((previous) => ({
+                                    ...previous,
+                                    mode: previous.mode === "advanced" ? "standard" : "advanced",
+                                }))
+                            }
+                            className={cn(
+                                "flex w-full items-center justify-between rounded-md border px-2 py-1 text-xs transition-colors",
+                                values.mode === "advanced"
+                                    ? "border-primary bg-primary/10 text-foreground"
+                                    : "border-border text-muted-foreground",
+                            )}
                         >
-                            {running ? honest.submitting : t("videoTranslation.workspace.submit")}
+                            <span>高级模式</span>
                         </button>
-                        {submitBlockedReason ? <p className="text-[11px] text-muted-foreground">{submitBlockedReason}</p> : null}
                     </section>
+
+                    <section className="space-y-2">
+                        <h2 className="text-sm font-medium">需要翻译的语言</h2>
+                        <select
+                            aria-label="需要翻译的语言"
+                            className="h-8 w-full rounded-md border border-border bg-card px-2 text-xs"
+                            value={values.targetLanguage}
+                            disabled={running}
+                            onChange={(event) => setValues((previous) => ({ ...previous, targetLanguage: event.target.value }))}
+                        >
+                            {targetOptions.map((option) => (
+                                <option key={option.id} value={option.id}>
+                                    {languageOptionText(t, option)}
+                                </option>
+                            ))}
+                        </select>
+                        <p className="text-[11px] leading-4 text-muted-foreground">
+                            <span data-testid="video-translation-target-label">英语</span>
+                        </p>
+                        <p className="text-[11px] leading-4 text-muted-foreground">口型同步默认开启</p>
+                    </section>
+
+                    <button
+                        type="button"
+                        data-testid="video-translation-submit"
+                        className="w-full rounded-md bg-primary px-3 py-2 text-sm font-medium text-primary-foreground disabled:opacity-50"
+                        disabled={running || Boolean(submitBlockedReason)}
+                        onClick={() => void handleSubmit()}
+                    >
+                        {running ? "生成中…" : "立即生成"}
+                    </button>
+                    {submitBlockedReason ? (
+                        <p className="text-[11px] text-muted-foreground" data-testid="video-translation-blocked">
+                            {submitBlockedReason}
+                        </p>
+                    ) : null}
                 </div>
 
-                {/* 结果区：原始视频 ↔ AI 重生成结果 对照（结果只能当未验证草稿看） */}
-                <div className="min-w-0 space-y-3">
-                    <div className="flex flex-wrap items-center justify-between gap-2">
-                        <h2 className="text-sm font-medium">{honest.resultTitle}</h2>
-                        <div className="flex items-center gap-2">
-                            <VideoTranslationDraftBadge copy={honest} />
-                            {stale ? (
-                                <span className="rounded border border-border px-1.5 py-0.5 text-[11px] text-amber-600" data-testid="video-translation-stale">
-                                    {t("videoTranslation.workspace.staleBadge")}
-                                </span>
-                            ) : null}
-                        </div>
-                    </div>
-                    <div className="grid gap-3 md:grid-cols-2">
-                        <div className="space-y-1">
-                            <p className="text-xs leading-5 text-muted-foreground">
-                                {t("videoTranslation.workspace.sourcePaneLabel")}
-                            </p>
-                            {record ? (
-                                <video src={record.url} controls className="w-full rounded-lg border border-border bg-black" data-testid="video-translation-source-player" />
-                            ) : (
-                                <div className="flex min-h-[160px] items-center justify-center rounded-lg border border-dashed border-border px-3 text-center text-xs leading-5 text-muted-foreground">
-                                    {t("videoTranslation.workspace.sourcePaneEmpty")}
-                                </div>
-                            )}
-                        </div>
-                        <div className="space-y-1">
-                            <p className="text-xs leading-5 text-muted-foreground">{honest.resultPanelLabel}</p>
-                            {view.videos[0]?.url ? (
-                                <video src={view.videos[0].url} controls className="w-full rounded-lg border border-border bg-black" data-testid="video-translation-result-player" />
-                            ) : (
-                                <div className="flex min-h-[160px] items-center justify-center rounded-lg border border-dashed border-border px-3 text-center text-xs leading-5 text-muted-foreground">
-                                    {task ? resultMessage : honest.resultEmpty}
-                                </div>
-                            )}
-                        </div>
-                    </div>
-                    <ToolResult
-                        task={task}
-                        toolId={VIDEO_TRANSLATION_TOOL_ID}
-                        title={t("videoTranslation.workspace.resultTitle")}
-                        emptyTitle={t("videoTranslation.workspace.resultEmptyTitle")}
-                        emptyHint={t("videoTranslation.workspace.resultEmptyHint")}
-                        now={Date.now()}
-                        onRetry={() => void handleSubmit({ retry: true })}
-                        className="min-h-[240px]"
-                    />
-                    {!view.outputMatched ? (
-                        <p className="text-xs leading-5 text-amber-600" data-testid="video-translation-output-mismatch">
-                            {resultMessage}
-                        </p>
-                    ) : null}
-                    {snapshot ? (
-                        <details className="rounded-lg border border-border p-3 text-[11px] text-muted-foreground">
-                            <summary className="cursor-pointer text-xs font-medium text-foreground">
-                                {t("videoTranslation.workspace.snapshotTitle")}
-                            </summary>
-                            <dl className="mt-2 grid grid-cols-2 gap-1">
-                                <dt>{t("videoTranslation.workspace.snapshotSourceLanguage")}</dt>
-                                <dd>{snapshot.labels.source || "—"}</dd>
-                                <dt>{t("videoTranslation.workspace.snapshotTargetLanguage")}</dt>
-                                <dd>{snapshot.labels.target || "—"}</dd>
-                                <dt>{t("videoTranslation.workspace.snapshotLipSync")}</dt>
-                                <dd>{honest.lipSyncSnapshot}</dd>
-                                <dt>{t("videoTranslation.workspace.snapshotOutputCount")}</dt>
-                                <dd>{outputCountText(t, snapshot.values.outputNum)}</dd>
-                                <dt>{t("videoTranslation.workspace.snapshotSourceVideo")}</dt>
-                                <dd className="break-all">{snapshot.values.sourceVideoName || "—"}</dd>
-                                <dt>{t("videoTranslation.workspace.snapshotVideoType")}</dt>
-                                <dd>{snapshot.labels.videoType || "—"}</dd>
-                            </dl>
-                        </details>
-                    ) : null}
-                    {VIDEO_TRANSLATION_CASES.length > 0 ? (
-                        <section className="space-y-2 rounded-lg border border-border p-3" data-testid="video-translation-cases">
-                                                        {/* VIDEO_TRANSLATION（type=814）：原站「优秀案例」数据源为上游 `/image/make-case/list?type=<bizType>`；本地已抓取到真实案例时用 VIDEO_TRANSLATION_CASES 渲染，未抓取到则整块不渲染，不输出任何空态文案。 */}
-<h2 className="text-sm font-medium">{t("videoTranslation.workspace.casesTitle")}</h2>
-                            <ToolCases cases={VIDEO_TRANSLATION_CASES} onApply={() => undefined} />
-                        </section>
-                    ) : null}
-                    <section className="space-y-2 rounded-lg border border-border p-3" data-testid="video-translation-history">
-                        <div className="flex items-center justify-between">
-                            <h2 className="text-sm font-medium">{t("videoTranslation.workspace.historyTitle")}</h2>
-                            <span className="text-xs leading-5 text-muted-foreground">
-                                {t("videoTranslation.workspace.historyViewTip")}
-                            </span>
-                        </div>
-                        <ToolTaskHistory
+                <div className="min-w-0 space-y-3" data-testid="video-translation-results">
+                    <h2 className="text-sm font-medium">上传视频并翻译为目标语言，可同步修改口型</h2>
+                    <h2 className="text-sm font-medium">上传原始视频</h2>
+                    <h2 className="text-sm font-medium">翻译结果</h2>
+                    <div className="grid gap-3 sm:grid-cols-2">
+                        <ToolResult
+                            task={task}
                             toolId={VIDEO_TRANSLATION_TOOL_ID}
-                            emptyHint={t("videoTranslation.workspace.historyEmpty")}
-                            onSelectTask={(historyTask) => {
-                                setTask(historyTask);
-                                setNotice(t("videoTranslation.workspace.historyLoaded"));
-                            }}
+                            now={Date.now()}
+                            onRetry={() => void handleSubmit({ retry: true })}
+                            emptyHint=""
+                            className="min-h-[280px]"
                         />
-                        <p className="text-[11px] leading-4 text-muted-foreground" data-testid="video-translation-history-hint">
-                            {honest.historyHint}
-                        </p>
-                    </section>
+                        <WatermarkGroupPanel />
+                    </div>
                 </div>
-            </div>
             </div>
         </ToolShell>
     );

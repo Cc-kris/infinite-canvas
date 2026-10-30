@@ -1,0 +1,576 @@
+{
+ "id": "SALE_VIDEO",
+ "route": "/tools/ai-video/sale-video",
+ "ok": true,
+ "error": null,
+ "title": "无限画布",
+ "text": "无限画布\n首页\n电商套图\n智能修图\n新模型\nAI视频\nHOT\n批量生图\n商品图设计\n中\nv0.27.0\n图转视频\n带货口播\n视频复刻\n视频编辑\n视频翻译\n视频拼接\n补充\n免责声明\nAI 视频 / 带货口播\n带货口播\n/tools/ai-video/sale-video\n带货口播\n商品图 10M · 384²–4096²\n1 条 · 15 秒 · 720P\n上传商品图 · 写口播脚本 · 生成带货视频\n商品多图\n0 / 9 张\n上传商品图片\n0\n0 / 9 个 · PNG / JPG / WebP · ≤ 10 MB\n点击选择本地文件，或拖拽到这里\n校验格式 / 大小 / 像素，入库后可刷新恢复\n还没有素材\n支持上传\n9\n张图，10M 以内，384×384 ~ 4096×4096，宽高比（宽÷高）0.4～2.5（含边界）\n提示词描述\nAI帮写\nAI帮写按国家/语言/商品生成口播草稿（本地模板，可改）\n0 / 4000\n目标市场\n国家/地区\n口播语言\n共\n19\n种可选语言，切换国家会自动带推荐语言\n生成设置\n视频模型\ngrok-imagine-video（默认渠道）\n适合日常稳妥出片\n视频分辨率\n480P\n720P\n视频时长\n5\n秒\n10\n秒\n15\n秒\n视频比例\n自适应\n9:16\n16:9\n1:1\n4:3\n3:4\n21:9\n立即生成\n请上传至少 1 张商品图\n生成结果\n带货口播视频\n还没有生成结果\n填好参数并提交后，结果会出现在这里，可预览、下载、存入资产库或发送到画布。\n生成结果会出现在这里\n历史任务\n点击「查看结果」把历史任务放回上方结果区\n历史记录\n0 条\n还没有带货口播视频任务：提交后这里会出现真实任务记录\n历史任务\n0\n条\n本工具还没有历史任务；提交一次后会在这里留下任务、配置与结果，刷新后仍在。\n连接本地 Agent\n未连接\n点连接会自动启动本地服务、装好插件并接通，无需手动配置。\nClaude Code\n未连接\n·\nCLI · 2.1.285 (Claude Code)\n·\n直接运行\n连接\nCodex\n未连接\n·\nCLI · codex-cli 0.163.0\n·\n插件已装\n连接\nGalley\n未连接\n·\nCLI + 桌面版 · galley 0.6.4\n连接",
+ "lines": [
+  "无限画布",
+  "首页",
+  "电商套图",
+  "智能修图",
+  "新模型",
+  "AI视频",
+  "HOT",
+  "批量生图",
+  "商品图设计",
+  "中",
+  "v0.27.0",
+  "图转视频",
+  "带货口播",
+  "视频复刻",
+  "视频编辑",
+  "视频翻译",
+  "视频拼接",
+  "补充",
+  "免责声明",
+  "AI 视频 / 带货口播",
+  "带货口播",
+  "/tools/ai-video/sale-video",
+  "带货口播",
+  "商品图 10M · 384²–4096²",
+  "1 条 · 15 秒 · 720P",
+  "上传商品图 · 写口播脚本 · 生成带货视频",
+  "商品多图",
+  "0 / 9 张",
+  "上传商品图片",
+  "0",
+  "0 / 9 个 · PNG / JPG / WebP · ≤ 10 MB",
+  "点击选择本地文件，或拖拽到这里",
+  "校验格式 / 大小 / 像素，入库后可刷新恢复",
+  "还没有素材",
+  "支持上传",
+  "9",
+  "张图，10M 以内，384×384 ~ 4096×4096，宽高比（宽÷高）0.4～2.5（含边界）",
+  "提示词描述",
+  "AI帮写",
+  "AI帮写按国家/语言/商品生成口播草稿（本地模板，可改）",
+  "0 / 4000",
+  "目标市场",
+  "国家/地区",
+  "口播语言",
+  "共",
+  "19",
+  "种可选语言，切换国家会自动带推荐语言",
+  "生成设置",
+  "视频模型",
+  "grok-imagine-video（默认渠道）",
+  "适合日常稳妥出片",
+  "视频分辨率",
+  "480P",
+  "720P",
+  "视频时长",
+  "5",
+  "秒",
+  "10",
+  "秒",
+  "15",
+  "秒",
+  "视频比例",
+  "自适应",
+  "9:16",
+  "16:9",
+  "1:1",
+  "4:3",
+  "3:4",
+  "21:9",
+  "立即生成",
+  "请上传至少 1 张商品图",
+  "生成结果",
+  "带货口播视频",
+  "还没有生成结果",
+  "填好参数并提交后，结果会出现在这里，可预览、下载、存入资产库或发送到画布。",
+  "生成结果会出现在这里",
+  "历史任务",
+  "点击「查看结果」把历史任务放回上方结果区",
+  "历史记录",
+  "0 条",
+  "还没有带货口播视频任务：提交后这里会出现真实任务记录",
+  "历史任务",
+  "0",
+  "条",
+  "本工具还没有历史任务；提交一次后会在这里留下任务、配置与结果，刷新后仍在。",
+  "连接本地 Agent",
+  "未连接",
+  "点连接会自动启动本地服务、装好插件并接通，无需手动配置。",
+  "Claude Code",
+  "未连接",
+  "·",
+  "CLI · 2.1.285 (Claude Code)",
+  "·",
+  "直接运行",
+  "连接",
+  "Codex",
+  "未连接",
+  "·",
+  "CLI · codex-cli 0.163.0",
+  "·",
+  "插件已装",
+  "连接",
+  "Galley",
+  "未连接",
+  "·",
+  "CLI + 桌面版 · galley 0.6.4",
+  "连接"
+ ],
+ "controls": [
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "中",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1593,
+    "y": 14,
+    "w": 28,
+    "h": 28
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "切换到深色主题",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1625,
+    "y": 14,
+    "w": 28,
+    "h": 28
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "v0.27.0",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1657,
+    "y": 17,
+    "w": 47,
+    "h": 22
+   }
+  },
+  {
+   "tag": "div",
+   "type": "",
+   "text": "点击选择本地文件，或拖拽到这里\n校验格式 / 大小 / 像素，入库后可刷新恢复",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 258,
+    "y": 380,
+    "w": 294,
+    "h": 86
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "AI帮写",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 493,
+    "y": 591,
+    "w": 59,
+    "h": 32
+   }
+  },
+  {
+   "tag": "textarea",
+   "type": "",
+   "text": "描述商品卖点、口播语气与镜头要求…",
+   "placeholder": "描述商品卖点、口播语气与镜头要求…",
+   "disabled": false,
+   "rect": {
+    "x": 258,
+    "y": 631,
+    "w": 294,
+    "h": 120
+   }
+  },
+  {
+   "tag": "select",
+   "type": "",
+   "text": "US（美国）\nGB（英国）\nDE（德国）\nFR（法国）\nES（西班牙）\nIT（意大利）\nBR（巴西）\nMX（墨西哥）\nJP（日本）\nKR（韩国）\nNL（荷兰）\nPL（波兰）\nTR（土耳其）\nSA（沙特阿拉伯）\nAE（阿联酋）\nTH（泰国）\n",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 258,
+    "y": 878,
+    "w": 143,
+    "h": 36
+   }
+  },
+  {
+   "tag": "select",
+   "type": "",
+   "text": "英语（English）\n英语 · 英国（English UK）\n德语（Deutsch）\n法语（Français）\n西班牙语（Español）\n意大利语（Italiano）\n葡萄牙语（Português）\n日语（日本語）\n韩语（한국어）\n荷兰",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 409,
+    "y": 878,
+    "w": 143,
+    "h": 36
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "grok-imagine-video（默认渠道）",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 258,
+    "y": 1047,
+    "w": 294,
+    "h": 32
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "480P",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 258,
+    "y": 1137,
+    "w": 143,
+    "h": 36
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "720P",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 409,
+    "y": 1137,
+    "w": 143,
+    "h": 36
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "5秒",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 258,
+    "y": 1213,
+    "w": 93,
+    "h": 36
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "10秒",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 359,
+    "y": 1213,
+    "w": 93,
+    "h": 36
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "15秒",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 459,
+    "y": 1213,
+    "w": 93,
+    "h": 36
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "自适应",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 258,
+    "y": 1290,
+    "w": 60,
+    "h": 32
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "9:16",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 326,
+    "y": 1290,
+    "w": 46,
+    "h": 32
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "16:9",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 380,
+    "y": 1290,
+    "w": 46,
+    "h": 32
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "1:1",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 434,
+    "y": 1290,
+    "w": 35,
+    "h": 32
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "4:3",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 476,
+    "y": 1290,
+    "w": 39,
+    "h": 32
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "3:4",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 258,
+    "y": 1330,
+    "w": 40,
+    "h": 32
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "21:9",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 306,
+    "y": 1330,
+    "w": 45,
+    "h": 32
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "立即生成",
+   "placeholder": "",
+   "disabled": true,
+   "rect": {
+    "x": 245,
+    "y": 1391,
+    "w": 320,
+    "h": 40
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "连接",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 2265,
+    "y": 147,
+    "w": 66,
+    "h": 24
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "连接",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 2265,
+    "y": 215,
+    "w": 66,
+    "h": 24
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "连接",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 2265,
+    "y": 283,
+    "w": 66,
+    "h": 24
+   }
+  }
+ ],
+ "regions": [
+  {
+   "cls": "sticky top-0 z-[7] h-14 shrink-0 border-b border-hairline bg-surface/95 backdrop",
+   "rect": {
+    "x": 0,
+    "y": 0,
+    "w": 1920,
+    "h": 56
+   },
+   "text": "无限画布\n首页\n电商套图\n智能修图\n新模型\nAI视频\nHOT\n批量生图\n商品图设计\n中\n切换到深色主题\nv0.27.0"
+  },
+  {
+   "cls": "hidden w-[180px] shrink-0 overflow-y-auto rounded-xl border border-hairline bg-s",
+   "rect": {
+    "x": 16,
+    "y": 56,
+    "w": 180,
+    "h": 1008
+   },
+   "text": "AI 视频\n图转视频\n带货口播\n视频复刻\n视频编辑\n视频翻译\n视频拼接\n补充\n免责声明"
+  },
+  {
+   "cls": "flex min-h-14 shrink-0 flex-wrap items-center gap-3 border-b border-hairline px-",
+   "rect": {
+    "x": 209,
+    "y": 57,
+    "w": 1694,
+    "h": 109
+   },
+   "text": "AI 视频 / 带货口播\n带货口播\n\n/tools/ai-video/sale-video"
+  },
+  {
+   "cls": "min-h-0 flex-1 overflow-y-auto bg-transparent px-4 py-4 sm:px-5",
+   "rect": {
+    "x": 209,
+    "y": 166,
+    "w": 1694,
+    "h": 897
+   },
+   "text": "带货口播\n商品图 10M · 384²–4096²\n1 条 · 15 秒 · 720P\n\n上传商品图 · 写口播脚本 · 生成带货视频\n\n商品多图\n0 / 9 张\n上传商品图片\n00 / 9 个 · PNG / JPG / WebP · ≤ 10 MB\n点击选择本地文件，或拖拽到这里\n校验格式 / 大小 / 像素，入库后可刷新恢复\n\n还没有素材\n\n支持上传 9 张图，10M 以内，384×384 ~ 4096×4096，宽高比（宽÷高）0.4～2.5（含边界）\n\n提示词描述\nAI帮写\nAI帮写按国家/语言/商品生成口播草稿（本地模板，可改）\n0 / 4000\n目标市场\n国家/地区\nUS（美国）"
+  },
+  {
+   "cls": "space-y-2 rounded-lg border border-border p-3",
+   "rect": {
+    "x": 245,
+    "y": 273,
+    "w": 320,
+    "h": 289
+   },
+   "text": "商品多图\n0 / 9 张\n上传商品图片\n00 / 9 个 · PNG / JPG / WebP · ≤ 10 MB\n点击选择本地文件，或拖拽到这里\n校验格式 / 大小 / 像素，入库后可刷新恢复\n\n还没有素材\n\n支持上传 9 张图，10M 以内，384×384 ~ 4096×4096，宽高比（宽÷高）0.4～2.5（含边界）"
+  },
+  {
+   "cls": "space-y-3",
+   "rect": {
+    "x": 258,
+    "y": 321,
+    "w": 294,
+    "h": 173
+   },
+   "text": "上传商品图片\n00 / 9 个 · PNG / JPG / WebP · ≤ 10 MB\n点击选择本地文件，或拖拽到这里\n校验格式 / 大小 / 像素，入库后可刷新恢复\n\n还没有素材"
+  },
+  {
+   "cls": "space-y-2 rounded-lg border border-border p-3",
+   "rect": {
+    "x": 245,
+    "y": 578,
+    "w": 320,
+    "h": 227
+   },
+   "text": "提示词描述\nAI帮写\nAI帮写按国家/语言/商品生成口播草稿（本地模板，可改）\n0 / 4000"
+  },
+  {
+   "cls": "space-y-2 rounded-lg border border-border p-3",
+   "rect": {
+    "x": 245,
+    "y": 821,
+    "w": 320,
+    "h": 143
+   },
+   "text": "目标市场\n国家/地区\nUS（美国）\nGB（英国）\nDE（德国）\nFR（法国）\nES（西班牙）\nIT（意大利）\nBR（巴西）\nMX（墨西哥）\nJP（日本）\nKR（韩国）\nNL（荷兰）\nPL（波兰）\nTR（土耳其）\nSA（沙特阿拉伯）\nAE（阿联酋）\nTH（泰国）\nVN（越南）\nID（印尼）\nMY（马来西亚）\nIN（印度）\nCN（中国大陆）\n口播语言\n英语（English）\n英语 · 英国（English UK）\n德语（Deutsch）\n法语（Français）\n西班牙语（Español）\n意大利语（Italiano）\n葡萄牙语（Português）\n日语（日本語）\n韩语（한국어）\n荷兰语（Ned"
+  },
+  {
+   "cls": "space-y-3 rounded-lg border border-border p-3",
+   "rect": {
+    "x": 245,
+    "y": 979,
+    "w": 320,
+    "h": 395
+   },
+   "text": "生成设置\n\n视频模型\n\ngrok-imagine-video（默认渠道）\n\n适合日常稳妥出片\n\n视频分辨率\n\n480P\n720P\n\n视频时长\n\n5秒\n10秒\n15秒\n\n视频比例\n\n自适应\n9:16\n16:9\n1:1\n4:3\n3:4\n21:9"
+  },
+  {
+   "cls": "space-y-3 rounded-xl border border-border bg-card p-4 min-h-[320px]",
+   "rect": {
+    "x": 589,
+    "y": 312,
+    "w": 1278,
+    "h": 320
+   },
+   "text": "带货口播视频\n\n还没有生成结果\n\n填好参数并提交后，结果会出现在这里，可预览、下载、存入资产库或发送到画布。"
+  },
+  {
+   "cls": "space-y-2 rounded-lg border border-border p-3",
+   "rect": {
+    "x": 589,
+    "y": 726,
+    "w": 1278,
+    "h": 141
+   },
+   "text": "历史任务\n点击「查看结果」把历史任务放回上方结果区\n历史记录\n0 条\n\n还没有带货口播视频任务：提交后这里会出现真实任务记录"
+  },
+  {
+   "cls": "rounded-lg border border-border bg-card/40 p-3 mt-4",
+   "rect": {
+    "x": 229,
+    "y": 1491,
+    "w": 1654,
+    "h": 80
+   },
+   "text": "历史任务\n0 条\n\n本工具还没有历史任务；提交一次后会在这里留下任务、配置与结果，刷新后仍在。"
+  },
+  {
+   "cls": "relative flex h-full shrink-0 flex-col border-l",
+   "rect": {
+    "x": 1920,
+    "y": 0,
+    "w": 440,
+    "h": 1080
+   },
+   "text": "连接本地 Agent\n未连接\n点连接会自动启动本地服务、装好插件并接通，无需手动配置。\nClaude Code\n未连接\n·\nCLI · 2.1.285 (Claude Code)\n·\n直接运行\n连接\nCodex\n未连接\n·\nCLI · codex-cli 0.163.0\n·\n插件已装\n连接\nGalley\n未连接\n·\nCLI + 桌面版 · galley 0.6.4\n连接"
+  }
+ ]
+}

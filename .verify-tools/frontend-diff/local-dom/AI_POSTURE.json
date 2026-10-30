@@ -1,0 +1,817 @@
+{
+ "id": "AI_POSTURE",
+ "route": "/tools/product-design/ai-posture",
+ "ok": true,
+ "error": null,
+ "title": "无限画布",
+ "text": "无限画布\n首页\n电商套图\n智能修图\n新模型\nAI视频\nHOT\n批量生图\n商品图设计\n中\nv0.27.0\n商品图\n商品替换\n场景裂变\n手持商品\nAI穿衣\n姿势裂变\nAI穿戴\nPOD素材\n饰品文字\n素材贴合\n印花提取\nAI姿势生成\n补充\nAI试衣XSY\n补充\n场景裂变链接\n补充\n图片文字编辑\n补充\n上装换料\n补充\n商品图设计器\n补充\n商品营销素材\n补充\n场景迁移\n补充\n免责声明\n姿势裂变\n📸 1 张模特图→N 种姿势套图！告别重复拍摄成本，秒变视觉内容高产能手！\n模特姿势图\n拖拽/粘贴 或 上传模特姿势图；一张图裂变出多种姿势，人物/服装保持一致。\n模特图\n0\n0 / 1 个 · JPG / PNG / WebP · ≤ 10 MB\n点击选择本地文件，或拖拽到这里\n校验格式 / 大小 / 像素，入库后可刷新恢复\n还没有素材\n图片标签（imageTags，可增删，≤\n12\n）\n还没有标签；点选姿势卡片会自动带出建议标签。\n添加\n图片规则：10M以内，384×384 ~ 4096×4096\n姿势库 / 自定义\n选择姿势（可选）：不选则按张数自动裂变；姿势库与自定义各自保存，来回切换不会互相覆盖。\n姿势库\n自定义\n已选 0 个姿势（将自动裂变）\n全部\n站姿\n角度\n动态\n坐姿\n正面站姿\nstanding straight and facing the camera, arms relaxed naturally at the sides, feet shoulder-width apart\n标签：\n站姿 / 正面 / 全身\n单手叉腰\nstanding with one hand on the hip and the other arm relaxed, weight shifted onto one leg\n标签：\n站姿 / 叉腰\n双手插兜\nstanding casually with both hands in pockets, shoulders relaxed\n标签：\n站姿 / 插兜\n双臂交叉\nstanding with arms crossed over the chest in a confident posture\n标签：\n站姿 / 交叉\n侧身站立\nstanding in a three-quarter side profile with the head turned toward the camera\n标签：\n侧身 / 回眸\n背身回眸\nback to the camera with the head turned over the shoulder, looking back at the viewer\n标签：\n背身 / 回眸\n低机位仰拍\na low camera angle looking up at the model while standing tall\n标签：\n低机位 / 仰拍\n行走抓拍\ncaught mid-stride walking toward the camera with a natural arm swing\n标签：\n动态 / 行走\n转身瞬间\ncaught mid-turn with hair and clothing following the motion\n标签：\n动态 / 转身\n轻跳\na light jump with both feet off the ground and arms slightly raised\n标签：\n动态 / 跳跃\n高脚凳坐姿\nsitting on a tall stool with one leg crossed over the other, back straight\n标签：\n坐姿 / 高脚凳\n坐地\nsitting on the floor with legs folded to one side, hands resting on the knee\n标签：\n坐姿 / 坐地\n清空选择（改为自动裂变）\n生成结果\n按来源姿势分组；单组失败只重试该组，已成功的姿势不会重复生成。\n还没有生成结果\n📸 1 张模特图 → N 种姿势套图！告别重复拍摄成本。\n选择生成张数\n1–4 张，按姿势平均分配；未选姿势时自动从姿势库裂变出互不重复的姿势。\n1\n2\n3\n4\n裂变方式\n自动裂变\n姿势 / 张数\n正面站姿\n×\n1\n预计输出\n1\n张 /\n1\n个请求\n补充描述\n可选：光线、场景、气质等；姿势本身由上面的选择决定。\n立即生成\n1\n张 ·\n1\n个姿势请求\n请先上传模特姿势图（拖拽/粘贴或从本地选择）\n本次输入快照\n草稿键\ntool-draft:v1:AI_POSTURE\n快照指纹\nap_1d22690b\n字段\nimageTags / imageUrl / outputNum / prompt\n源资产\n未上传\n历史任务\n0\n条\n本工具还没有历史任务；提交一次后会在这里留下任务、配置与结果，刷新后仍在。\n连接本地 Agent\n未连接\n点连接会自动启动本地服务、装好插件并接通，无需手动配置。\nClaude Code\n未连接\n·\nCLI · 2.1.285 (Claude Code)\n·\n直接运行\n连接\nCodex\n未连接\n·\nCLI · codex-cli 0.163.0\n·\n插件已装\n连接\nGalley\n未连接\n·\nCLI + 桌面版 · galley 0.6.4\n连接",
+ "lines": [
+  "无限画布",
+  "首页",
+  "电商套图",
+  "智能修图",
+  "新模型",
+  "AI视频",
+  "HOT",
+  "批量生图",
+  "商品图设计",
+  "中",
+  "v0.27.0",
+  "商品图",
+  "商品替换",
+  "场景裂变",
+  "手持商品",
+  "AI穿衣",
+  "姿势裂变",
+  "AI穿戴",
+  "POD素材",
+  "饰品文字",
+  "素材贴合",
+  "印花提取",
+  "AI姿势生成",
+  "补充",
+  "AI试衣XSY",
+  "补充",
+  "场景裂变链接",
+  "补充",
+  "图片文字编辑",
+  "补充",
+  "上装换料",
+  "补充",
+  "商品图设计器",
+  "补充",
+  "商品营销素材",
+  "补充",
+  "场景迁移",
+  "补充",
+  "免责声明",
+  "姿势裂变",
+  "📸 1 张模特图→N 种姿势套图！告别重复拍摄成本，秒变视觉内容高产能手！",
+  "模特姿势图",
+  "拖拽/粘贴 或 上传模特姿势图；一张图裂变出多种姿势，人物/服装保持一致。",
+  "模特图",
+  "0",
+  "0 / 1 个 · JPG / PNG / WebP · ≤ 10 MB",
+  "点击选择本地文件，或拖拽到这里",
+  "校验格式 / 大小 / 像素，入库后可刷新恢复",
+  "还没有素材",
+  "图片标签（imageTags，可增删，≤",
+  "12",
+  "）",
+  "还没有标签；点选姿势卡片会自动带出建议标签。",
+  "添加",
+  "图片规则：10M以内，384×384 ~ 4096×4096",
+  "姿势库 / 自定义",
+  "选择姿势（可选）：不选则按张数自动裂变；姿势库与自定义各自保存，来回切换不会互相覆盖。",
+  "姿势库",
+  "自定义",
+  "已选 0 个姿势（将自动裂变）",
+  "全部",
+  "站姿",
+  "角度",
+  "动态",
+  "坐姿",
+  "正面站姿",
+  "standing straight and facing the camera, arms relaxed naturally at the sides, feet shoulder-width apart",
+  "标签：",
+  "站姿 / 正面 / 全身",
+  "单手叉腰",
+  "standing with one hand on the hip and the other arm relaxed, weight shifted onto one leg",
+  "标签：",
+  "站姿 / 叉腰",
+  "双手插兜",
+  "standing casually with both hands in pockets, shoulders relaxed",
+  "标签：",
+  "站姿 / 插兜",
+  "双臂交叉",
+  "standing with arms crossed over the chest in a confident posture",
+  "标签：",
+  "站姿 / 交叉",
+  "侧身站立",
+  "standing in a three-quarter side profile with the head turned toward the camera",
+  "标签：",
+  "侧身 / 回眸",
+  "背身回眸",
+  "back to the camera with the head turned over the shoulder, looking back at the viewer",
+  "标签：",
+  "背身 / 回眸",
+  "低机位仰拍",
+  "a low camera angle looking up at the model while standing tall",
+  "标签：",
+  "低机位 / 仰拍",
+  "行走抓拍",
+  "caught mid-stride walking toward the camera with a natural arm swing",
+  "标签：",
+  "动态 / 行走",
+  "转身瞬间",
+  "caught mid-turn with hair and clothing following the motion",
+  "标签：",
+  "动态 / 转身",
+  "轻跳",
+  "a light jump with both feet off the ground and arms slightly raised",
+  "标签：",
+  "动态 / 跳跃",
+  "高脚凳坐姿",
+  "sitting on a tall stool with one leg crossed over the other, back straight",
+  "标签：",
+  "坐姿 / 高脚凳",
+  "坐地",
+  "sitting on the floor with legs folded to one side, hands resting on the knee",
+  "标签：",
+  "坐姿 / 坐地",
+  "清空选择（改为自动裂变）",
+  "生成结果",
+  "按来源姿势分组；单组失败只重试该组，已成功的姿势不会重复生成。",
+  "还没有生成结果",
+  "📸 1 张模特图 → N 种姿势套图！告别重复拍摄成本。",
+  "选择生成张数",
+  "1–4 张，按姿势平均分配；未选姿势时自动从姿势库裂变出互不重复的姿势。",
+  "1",
+  "2",
+  "3",
+  "4",
+  "裂变方式",
+  "自动裂变",
+  "姿势 / 张数",
+  "正面站姿",
+  "×",
+  "1",
+  "预计输出",
+  "1",
+  "张 /",
+  "1",
+  "个请求",
+  "补充描述",
+  "可选：光线、场景、气质等；姿势本身由上面的选择决定。",
+  "立即生成",
+  "1",
+  "张 ·",
+  "1",
+  "个姿势请求",
+  "请先上传模特姿势图（拖拽/粘贴或从本地选择）",
+  "本次输入快照",
+  "草稿键",
+  "tool-draft:v1:AI_POSTURE",
+  "快照指纹",
+  "ap_1d22690b",
+  "字段",
+  "imageTags / imageUrl / outputNum / prompt",
+  "源资产",
+  "未上传",
+  "历史任务",
+  "0",
+  "条",
+  "本工具还没有历史任务；提交一次后会在这里留下任务、配置与结果，刷新后仍在。",
+  "连接本地 Agent",
+  "未连接",
+  "点连接会自动启动本地服务、装好插件并接通，无需手动配置。",
+  "Claude Code",
+  "未连接",
+  "·",
+  "CLI · 2.1.285 (Claude Code)",
+  "·",
+  "直接运行",
+  "连接",
+  "Codex",
+  "未连接",
+  "·",
+  "CLI · codex-cli 0.163.0",
+  "·",
+  "插件已装",
+  "连接",
+  "Galley",
+  "未连接",
+  "·",
+  "CLI + 桌面版 · galley 0.6.4",
+  "连接"
+ ],
+ "controls": [
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "中",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1593,
+    "y": 14,
+    "w": 28,
+    "h": 28
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "切换到深色主题",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1625,
+    "y": 14,
+    "w": 28,
+    "h": 28
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "v0.27.0",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1657,
+    "y": 17,
+    "w": 47,
+    "h": 22
+   }
+  },
+  {
+   "tag": "div",
+   "type": "",
+   "text": "点击选择本地文件，或拖拽到这里\n校验格式 / 大小 / 像素，入库后可刷新恢复",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 236,
+    "y": 289,
+    "w": 220,
+    "h": 102
+   }
+  },
+  {
+   "tag": "input",
+   "type": "",
+   "text": "新增标签后回车",
+   "placeholder": "新增标签后回车",
+   "disabled": false,
+   "rect": {
+    "x": 481,
+    "y": 291,
+    "w": 950,
+    "h": 36
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "添加",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1437,
+    "y": 291,
+    "w": 50,
+    "h": 36
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "姿势库",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 236,
+    "y": 552,
+    "w": 68,
+    "h": 36
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "自定义",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 310,
+    "y": 552,
+    "w": 68,
+    "h": 36
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "全部",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 236,
+    "y": 600,
+    "w": 54,
+    "h": 36
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "站姿",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 296,
+    "y": 600,
+    "w": 54,
+    "h": 36
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "角度",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 356,
+    "y": 600,
+    "w": 54,
+    "h": 36
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "动态",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 416,
+    "y": 600,
+    "w": 54,
+    "h": 36
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "坐姿",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 476,
+    "y": 600,
+    "w": 54,
+    "h": 36
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "正面站姿\nstanding straight and facing the camera, arms relaxed naturally at the sides, feet shoulder-width apart\n标签：站姿 / 正面 ",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 236,
+    "y": 644,
+    "w": 416,
+    "h": 95
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "单手叉腰\nstanding with one hand on the hip and the other arm relaxed, weight shifted onto one leg\n标签：站姿 / 叉腰",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 660,
+    "y": 644,
+    "w": 416,
+    "h": 95
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "双手插兜\nstanding casually with both hands in pockets, shoulders relaxed\n标签：站姿 / 插兜",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1084,
+    "y": 644,
+    "w": 416,
+    "h": 95
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "双臂交叉\nstanding with arms crossed over the chest in a confident posture\n标签：站姿 / 交叉",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 236,
+    "y": 747,
+    "w": 416,
+    "h": 95
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "侧身站立\nstanding in a three-quarter side profile with the head turned toward the camera\n标签：侧身 / 回眸",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 660,
+    "y": 747,
+    "w": 416,
+    "h": 95
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "背身回眸\nback to the camera with the head turned over the shoulder, looking back at the viewer\n标签：背身 / 回眸",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1084,
+    "y": 747,
+    "w": 416,
+    "h": 95
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "低机位仰拍\na low camera angle looking up at the model while standing tall\n标签：低机位 / 仰拍",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 236,
+    "y": 851,
+    "w": 416,
+    "h": 79
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "行走抓拍\ncaught mid-stride walking toward the camera with a natural arm swing\n标签：动态 / 行走",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 660,
+    "y": 851,
+    "w": 416,
+    "h": 79
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "转身瞬间\ncaught mid-turn with hair and clothing following the motion\n标签：动态 / 转身",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1084,
+    "y": 851,
+    "w": 416,
+    "h": 79
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "轻跳\na light jump with both feet off the ground and arms slightly raised\n标签：动态 / 跳跃",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 236,
+    "y": 938,
+    "w": 416,
+    "h": 79
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "高脚凳坐姿\nsitting on a tall stool with one leg crossed over the other, back straight\n标签：坐姿 / 高脚凳",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 660,
+    "y": 938,
+    "w": 416,
+    "h": 79
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "坐地\nsitting on the floor with legs folded to one side, hands resting on the knee\n标签：坐姿 / 坐地",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1084,
+    "y": 938,
+    "w": 416,
+    "h": 79
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "清空选择（改为自动裂变）",
+   "placeholder": "",
+   "disabled": true,
+   "rect": {
+    "x": 236,
+    "y": 1025,
+    "w": 190,
+    "h": 36
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "1",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1550,
+    "y": 250,
+    "w": 40,
+    "h": 36
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "2",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1596,
+    "y": 250,
+    "w": 40,
+    "h": 36
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "3",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1642,
+    "y": 250,
+    "w": 40,
+    "h": 36
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "4",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1688,
+    "y": 250,
+    "w": 40,
+    "h": 36
+   }
+  },
+  {
+   "tag": "textarea",
+   "type": "",
+   "text": "例如：室内柔光，浅灰背景，全身构图",
+   "placeholder": "例如：室内柔光，浅灰背景，全身构图",
+   "disabled": false,
+   "rect": {
+    "x": 1550,
+    "y": 512,
+    "w": 326,
+    "h": 84
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "立即生成",
+   "placeholder": "",
+   "disabled": true,
+   "rect": {
+    "x": 1550,
+    "y": 652,
+    "w": 326,
+    "h": 40
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "连接",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 2265,
+    "y": 147,
+    "w": 66,
+    "h": 24
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "连接",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 2265,
+    "y": 215,
+    "w": 66,
+    "h": 24
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "连接",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 2265,
+    "y": 283,
+    "w": 66,
+    "h": 24
+   }
+  }
+ ],
+ "regions": [
+  {
+   "cls": "sticky top-0 z-[7] h-14 shrink-0 border-b border-hairline bg-surface/95 backdrop",
+   "rect": {
+    "x": 0,
+    "y": 0,
+    "w": 1920,
+    "h": 56
+   },
+   "text": "无限画布\n首页\n电商套图\n智能修图\n新模型\nAI视频\nHOT\n批量生图\n商品图设计\n中\n切换到深色主题\nv0.27.0"
+  },
+  {
+   "cls": "hidden w-[180px] shrink-0 overflow-y-auto rounded-xl border border-hairline bg-s",
+   "rect": {
+    "x": 16,
+    "y": 56,
+    "w": 180,
+    "h": 1008
+   },
+   "text": "商品图设计\n商品图\n商品替换\n场景裂变\n手持商品\nAI穿衣\n姿势裂变\nAI穿戴\nPOD素材\n饰品文字\n素材贴合\n印花提取\nAI姿势生成\n补充\nAI试衣XSY\n补充\n场景裂变链接\n补充\n图片文字编辑\n补充\n上装换料\n补充\n商品图设计器\n补充\n商品营销素材\n补充\n场景迁移\n补充\n免责声明"
+  },
+  {
+   "cls": "min-h-0 flex-1 overflow-hidden bg-canvas p-2.5",
+   "rect": {
+    "x": 209,
+    "y": 57,
+    "w": 1694,
+    "h": 1006
+   },
+   "text": "姿势裂变\n\n📸 1 张模特图→N 种姿势套图！告别重复拍摄成本，秒变视觉内容高产能手！\n\n模特姿势图\n\n拖拽/粘贴 或 上传模特姿势图；一张图裂变出多种姿势，人物/服装保持一致。\n\n模特图\n00 / 1 个 · JPG / PNG / WebP · ≤ 10 MB\n点击选择本地文件，或拖拽到这里\n校验格式 / 大小 / 像素，入库后可刷新恢复\n\n还没有素材\n\n图片标签（imageTags，可增删，≤12）\n\n还没有标签；点选姿势卡片会自动带出建议标签。\n添加\n\n图片规则：10M以内，384×384 ~ 4096×4096\n\n姿势库 / 自定义\n\n选择姿势（可选）：不选则按张数自动裂变；姿势库"
+  },
+  {
+   "cls": "rounded-xl border border-border bg-card p-4",
+   "rect": {
+    "x": 219,
+    "y": 142,
+    "w": 1298,
+    "h": 306
+   },
+   "text": "模特姿势图\n\n拖拽/粘贴 或 上传模特姿势图；一张图裂变出多种姿势，人物/服装保持一致。\n\n模特图\n00 / 1 个 · JPG / PNG / WebP · ≤ 10 MB\n点击选择本地文件，或拖拽到这里\n校验格式 / 大小 / 像素，入库后可刷新恢复\n\n还没有素材\n\n图片标签（imageTags，可增删，≤12）\n\n还没有标签；点选姿势卡片会自动带出建议标签。\n添加\n\n图片规则：10M以内，384×384 ~ 4096×4096"
+  },
+  {
+   "cls": "flex items-start justify-between gap-2",
+   "rect": {
+    "x": 236,
+    "y": 159,
+    "w": 1264,
+    "h": 59
+   },
+   "text": "模特姿势图\n\n拖拽/粘贴 或 上传模特姿势图；一张图裂变出多种姿势，人物/服装保持一致。"
+  },
+  {
+   "cls": "space-y-3",
+   "rect": {
+    "x": 236,
+    "y": 230,
+    "w": 220,
+    "h": 201
+   },
+   "text": "模特图\n00 / 1 个 · JPG / PNG / WebP · ≤ 10 MB\n点击选择本地文件，或拖拽到这里\n校验格式 / 大小 / 像素，入库后可刷新恢复\n\n还没有素材"
+  },
+  {
+   "cls": "rounded-xl border border-border bg-card p-4",
+   "rect": {
+    "x": 219,
+    "y": 464,
+    "w": 1298,
+    "h": 614
+   },
+   "text": "姿势库 / 自定义\n\n选择姿势（可选）：不选则按张数自动裂变；姿势库与自定义各自保存，来回切换不会互相覆盖。\n\n姿势库\n自定义\n已选 0 个姿势（将自动裂变）\n全部\n站姿\n角度\n动态\n坐姿\n正面站姿\nstanding straight and facing the camera, arms relaxed naturally at the sides, feet shoulder-width apart\n标签：站姿 / 正面 / 全身\n单手叉腰\nstanding with one hand on the hip and the other arm relaxed, weight shifted"
+  },
+  {
+   "cls": "flex items-start justify-between gap-2",
+   "rect": {
+    "x": 236,
+    "y": 481,
+    "w": 1264,
+    "h": 59
+   },
+   "text": "姿势库 / 自定义\n\n选择姿势（可选）：不选则按张数自动裂变；姿势库与自定义各自保存，来回切换不会互相覆盖。"
+  },
+  {
+   "cls": "rounded-xl border border-border bg-card p-4",
+   "rect": {
+    "x": 219,
+    "y": 1094,
+    "w": 1298,
+    "h": 253
+   },
+   "text": "生成结果\n\n按来源姿势分组；单组失败只重试该组，已成功的姿势不会重复生成。\n\n还没有生成结果\n\n📸 1 张模特图 → N 种姿势套图！告别重复拍摄成本。"
+  },
+  {
+   "cls": "flex items-start justify-between gap-2",
+   "rect": {
+    "x": 236,
+    "y": 1111,
+    "w": 1264,
+    "h": 59
+   },
+   "text": "生成结果\n\n按来源姿势分组；单组失败只重试该组，已成功的姿势不会重复生成。"
+  },
+  {
+   "cls": "space-y-4",
+   "rect": {
+    "x": 1533,
+    "y": 142,
+    "w": 360,
+    "h": 1205
+   },
+   "text": "选择生成张数\n\n1–4 张，按姿势平均分配；未选姿势时自动从姿势库裂变出互不重复的姿势。\n\n1\n2\n3\n4\n裂变方式\n自动裂变\n姿势 / 张数\n正面站姿×1\n预计输出\n1 张 / 1 个请求\n补充描述\n\n可选：光线、场景、气质等；姿势本身由上面的选择决定。\n\n立即生成\n\n1 张 · 1 个姿势请求\n\n请先上传模特姿势图（拖拽/粘贴或从本地选择）\n本次输入快照"
+  },
+  {
+   "cls": "rounded-xl border border-border bg-card p-4",
+   "rect": {
+    "x": 1533,
+    "y": 142,
+    "w": 360,
+    "h": 266
+   },
+   "text": "选择生成张数\n\n1–4 张，按姿势平均分配；未选姿势时自动从姿势库裂变出互不重复的姿势。\n\n1\n2\n3\n4\n裂变方式\n自动裂变\n姿势 / 张数\n正面站姿×1\n预计输出\n1 张 / 1 个请求"
+  },
+  {
+   "cls": "flex items-start justify-between gap-2",
+   "rect": {
+    "x": 1550,
+    "y": 159,
+    "w": 326,
+    "h": 79
+   },
+   "text": "选择生成张数\n\n1–4 张，按姿势平均分配；未选姿势时自动从姿势库裂变出互不重复的姿势。"
+  },
+  {
+   "cls": "rounded-xl border border-border bg-card p-4",
+   "rect": {
+    "x": 1533,
+    "y": 424,
+    "w": 360,
+    "h": 195
+   },
+   "text": "补充描述\n\n可选：光线、场景、气质等；姿势本身由上面的选择决定。"
+  },
+  {
+   "cls": "flex items-start justify-between gap-2",
+   "rect": {
+    "x": 1550,
+    "y": 441,
+    "w": 326,
+    "h": 59
+   },
+   "text": "补充描述\n\n可选：光线、场景、气质等；姿势本身由上面的选择决定。"
+  },
+  {
+   "cls": "rounded-lg border border-border bg-card/40 p-3 mt-4",
+   "rect": {
+    "x": 219,
+    "y": 1387,
+    "w": 1674,
+    "h": 80
+   },
+   "text": "历史任务\n0 条\n\n本工具还没有历史任务；提交一次后会在这里留下任务、配置与结果，刷新后仍在。"
+  },
+  {
+   "cls": "relative flex h-full shrink-0 flex-col border-l",
+   "rect": {
+    "x": 1920,
+    "y": 0,
+    "w": 440,
+    "h": 1080
+   },
+   "text": "连接本地 Agent\n未连接\n点连接会自动启动本地服务、装好插件并接通，无需手动配置。\nClaude Code\n未连接\n·\nCLI · 2.1.285 (Claude Code)\n·\n直接运行\n连接\nCodex\n未连接\n·\nCLI · codex-cli 0.163.0\n·\n插件已装\n连接\nGalley\n未连接\n·\nCLI + 桌面版 · galley 0.6.4\n连接"
+  }
+ ]
+}

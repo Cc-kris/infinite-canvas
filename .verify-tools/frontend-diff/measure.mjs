@@ -1,0 +1,23 @@
+import fs from 'node:fs';
+const { chromium } = await import('/Users/mac/Documents/Dev/infinite-canvas/web/node_modules/playwright/index.mjs');
+const ROUTES = JSON.parse(fs.readFileSync('routes.json','utf8'));
+const id = (process.argv[2]||'DRESS_WEAR_SET').toUpperCase();
+const tid = process.argv[3] || 'dress-suite-workspace';
+const r = ROUTES.find(x=>x.id.toUpperCase()===id);
+const browser = await chromium.launch({ executablePath: `${process.env.HOME}/Library/Caches/ms-playwright/chromium-1234/chrome-mac-arm64/Google Chrome for Testing.app/Contents/MacOS/Google Chrome for Testing` });
+const page = await browser.newPage({ viewport:{width:1920,height:839} });
+await page.goto('http://localhost:3000'+r.route,{waitUntil:'domcontentloaded'});
+await page.waitForTimeout(1500);
+const out = await page.evaluate((tid) => {
+  const root = document.querySelector(`[data-testid="${tid}"]`);
+  if (!root) return 'NOT FOUND';
+  const res=[];
+  const walk=(el,d)=>{const b=el.getBoundingClientRect();
+    const t=(el.textContent||'').trim().slice(0,20).replace(/\s+/g,' ');
+    if(b.height>16&&b.width>40) res.push(`${'  '.repeat(d)}y=${Math.round(b.y)} h=${Math.round(b.height)} x=${Math.round(b.x)} w=${Math.round(b.width)} ${el.tagName} ${t}`);
+    if(d<5)[...el.children].forEach(c=>walk(c,d+1));};
+  walk(root,0);
+  return res.join('\n');
+}, tid);
+console.log(out);
+await browser.close();

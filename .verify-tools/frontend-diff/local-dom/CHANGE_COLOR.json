@@ -1,0 +1,819 @@
+{
+ "id": "CHANGE_COLOR",
+ "route": "/tools/smart-edit/change-color",
+ "ok": true,
+ "error": null,
+ "title": "无限画布",
+ "text": "无限画布\n首页\n电商套图\n智能修图\n新模型\nAI视频\nHOT\n批量生图\n商品图设计\n中\nv0.27.0\n局部重绘\n局部消除\n一键换色\n图片裁剪\n商品精修\n色差修复\n印花修复\n手部修复\n免责声明\n智能修图 / 一键换色\n一键换色\n/tools/smart-edit/change-color\n一键快速上色\n立即改变照片中任何物品的颜色，无论是衣服、商品、配饰还是假发！\n从本地上传\n从作品库选择\n从商品库选择\n批量一键换色\n10M以内，jpg/jpeg/png/webp\n收藏色卡\n共 12/24 个\n+ 收藏当前色\n选择颜色\n上传素材\n0\n0 / 1 个 · JPG / PNG / WebP · ≤ 10 MB\n拖拽 或 点击上传 颜色参考图\n从作品库选择\n从商品库选择\n10M以内,jpg/jpeg/png/webp\n去除杂色\n开启\n关闭\n关闭：保留原色噪点\n重置\n细调颜色效果\n色调\n饱和度\n亮度\n对比度\n默认（无微调）\n重置\n光影优化\n强度 50\n光影优化\n边缘优化\n颜色边缘修复\n光影优化 50 · 边缘优化 开 · 颜色边缘修复 开\n重置\n边缘优化\n色彩平衡\n曲线\n立即生成\n请先上传需要换色的图片。\n请选择颜色或上传颜色参考图提色。\n生成结果\n优秀案例\n历史记录\n支持上传颜色参考图，生成效果色差更小\n知道了\n生成结果\n暂无生成结果图\n快在左侧操作物品换色吧~\n本次提交\n查看参数\n上传图片后可查看\n连接本地 Agent\n未连接\n点连接会自动启动本地服务、装好插件并接通，无需手动配置。\nClaude Code\n未连接\n·\nCLI · 2.1.285 (Claude Code)\n·\n直接运行\n连接\nCodex\n未连接\n·\nCLI · codex-cli 0.163.0\n·\n插件已装\n连接\nGalley\n未连接\n·\nCLI + 桌面版 · galley 0.6.4\n连接",
+ "lines": [
+  "无限画布",
+  "首页",
+  "电商套图",
+  "智能修图",
+  "新模型",
+  "AI视频",
+  "HOT",
+  "批量生图",
+  "商品图设计",
+  "中",
+  "v0.27.0",
+  "局部重绘",
+  "局部消除",
+  "一键换色",
+  "图片裁剪",
+  "商品精修",
+  "色差修复",
+  "印花修复",
+  "手部修复",
+  "免责声明",
+  "智能修图 / 一键换色",
+  "一键换色",
+  "/tools/smart-edit/change-color",
+  "一键快速上色",
+  "立即改变照片中任何物品的颜色，无论是衣服、商品、配饰还是假发！",
+  "从本地上传",
+  "从作品库选择",
+  "从商品库选择",
+  "批量一键换色",
+  "10M以内，jpg/jpeg/png/webp",
+  "收藏色卡",
+  "共 12/24 个",
+  "+ 收藏当前色",
+  "选择颜色",
+  "上传素材",
+  "0",
+  "0 / 1 个 · JPG / PNG / WebP · ≤ 10 MB",
+  "拖拽 或 点击上传 颜色参考图",
+  "从作品库选择",
+  "从商品库选择",
+  "10M以内,jpg/jpeg/png/webp",
+  "去除杂色",
+  "开启",
+  "关闭",
+  "关闭：保留原色噪点",
+  "重置",
+  "细调颜色效果",
+  "色调",
+  "饱和度",
+  "亮度",
+  "对比度",
+  "默认（无微调）",
+  "重置",
+  "光影优化",
+  "强度 50",
+  "光影优化",
+  "边缘优化",
+  "颜色边缘修复",
+  "光影优化 50 · 边缘优化 开 · 颜色边缘修复 开",
+  "重置",
+  "边缘优化",
+  "色彩平衡",
+  "曲线",
+  "立即生成",
+  "请先上传需要换色的图片。",
+  "请选择颜色或上传颜色参考图提色。",
+  "生成结果",
+  "优秀案例",
+  "历史记录",
+  "支持上传颜色参考图，生成效果色差更小",
+  "知道了",
+  "生成结果",
+  "暂无生成结果图",
+  "快在左侧操作物品换色吧~",
+  "本次提交",
+  "查看参数",
+  "上传图片后可查看",
+  "连接本地 Agent",
+  "未连接",
+  "点连接会自动启动本地服务、装好插件并接通，无需手动配置。",
+  "Claude Code",
+  "未连接",
+  "·",
+  "CLI · 2.1.285 (Claude Code)",
+  "·",
+  "直接运行",
+  "连接",
+  "Codex",
+  "未连接",
+  "·",
+  "CLI · codex-cli 0.163.0",
+  "·",
+  "插件已装",
+  "连接",
+  "Galley",
+  "未连接",
+  "·",
+  "CLI + 桌面版 · galley 0.6.4",
+  "连接"
+ ],
+ "controls": [
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "中",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1593,
+    "y": 14,
+    "w": 28,
+    "h": 28
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "切换到深色主题",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1625,
+    "y": 14,
+    "w": 28,
+    "h": 28
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "v0.27.0",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1657,
+    "y": 17,
+    "w": 47,
+    "h": 22
+   }
+  },
+  {
+   "tag": "div",
+   "type": "",
+   "text": "从本地上传\n从作品库选择\n从商品库选择",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 463,
+    "y": 741,
+    "w": 378,
+    "h": 32
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "从作品库选择",
+   "placeholder": "",
+   "disabled": true,
+   "rect": {
+    "x": 597,
+    "y": 741,
+    "w": 116,
+    "h": 32
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "从商品库选择",
+   "placeholder": "",
+   "disabled": true,
+   "rect": {
+    "x": 725,
+    "y": 741,
+    "w": 116,
+    "h": 32
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "批量一键换色",
+   "placeholder": "",
+   "disabled": true,
+   "rect": {
+    "x": 853,
+    "y": 741,
+    "w": 138,
+    "h": 32
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "收藏色卡\n共 12/24 个",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1225,
+    "y": 193,
+    "w": 305,
+    "h": 42
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "+ 收藏当前色",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1331,
+    "y": 265,
+    "w": 98,
+    "h": 24
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "选择颜色",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1225,
+    "y": 302,
+    "w": 305,
+    "h": 42
+   }
+  },
+  {
+   "tag": "input",
+   "type": "color",
+   "text": "#000000",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1241,
+    "y": 344,
+    "w": 40,
+    "h": 26
+   }
+  },
+  {
+   "tag": "div",
+   "type": "",
+   "text": "拖拽 或 点击上传 颜色参考图\n从作品库选择\n从商品库选择\n10M以内,jpg/jpeg/png/webp",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1241,
+    "y": 439,
+    "w": 273,
+    "h": 120
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "从作品库选择",
+   "placeholder": "",
+   "disabled": true,
+   "rect": {
+    "x": 1250,
+    "y": 491,
+    "w": 100,
+    "h": 24
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "从商品库选择",
+   "placeholder": "",
+   "disabled": true,
+   "rect": {
+    "x": 1358,
+    "y": 491,
+    "w": 100,
+    "h": 24
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "开启\n关闭",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1457,
+    "y": 581,
+    "w": 57,
+    "h": 22
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "重置",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1426,
+    "y": 613,
+    "w": 88,
+    "h": 28
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "细调颜色效果",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1225,
+    "y": 654,
+    "w": 305,
+    "h": 42
+   }
+  },
+  {
+   "tag": "input",
+   "type": "range",
+   "text": "0",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1305,
+    "y": 696,
+    "w": 153,
+    "h": 22
+   }
+  },
+  {
+   "tag": "input",
+   "type": "number",
+   "text": "0",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1466,
+    "y": 696,
+    "w": 48,
+    "h": 22
+   }
+  },
+  {
+   "tag": "input",
+   "type": "range",
+   "text": "0",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1305,
+    "y": 724,
+    "w": 153,
+    "h": 22
+   }
+  },
+  {
+   "tag": "input",
+   "type": "number",
+   "text": "0",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1466,
+    "y": 724,
+    "w": 48,
+    "h": 22
+   }
+  },
+  {
+   "tag": "input",
+   "type": "range",
+   "text": "0",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1305,
+    "y": 752,
+    "w": 153,
+    "h": 22
+   }
+  },
+  {
+   "tag": "input",
+   "type": "number",
+   "text": "0",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1466,
+    "y": 752,
+    "w": 48,
+    "h": 22
+   }
+  },
+  {
+   "tag": "input",
+   "type": "range",
+   "text": "0",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1305,
+    "y": 780,
+    "w": 153,
+    "h": 22
+   }
+  },
+  {
+   "tag": "input",
+   "type": "number",
+   "text": "0",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1466,
+    "y": 780,
+    "w": 48,
+    "h": 22
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "重置",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1470,
+    "y": 810,
+    "w": 44,
+    "h": 24
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "光影优化\n强度 50",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1225,
+    "y": 847,
+    "w": 305,
+    "h": 42
+   }
+  },
+  {
+   "tag": "input",
+   "type": "range",
+   "text": "50",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1241,
+    "y": 919,
+    "w": 273,
+    "h": 22
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "重置",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1470,
+    "y": 1009,
+    "w": 44,
+    "h": 24
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "边缘优化",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1225,
+    "y": 1046,
+    "w": 305,
+    "h": 42
+   }
+  },
+  {
+   "tag": "input",
+   "type": "range",
+   "text": "0",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1305,
+    "y": 1088,
+    "w": 153,
+    "h": 22
+   }
+  },
+  {
+   "tag": "input",
+   "type": "number",
+   "text": "0",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1466,
+    "y": 1088,
+    "w": 48,
+    "h": 22
+   }
+  },
+  {
+   "tag": "select",
+   "type": "",
+   "text": "线性\n柔光\nS 曲线\n强对比",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1305,
+    "y": 1118,
+    "w": 209,
+    "h": 26
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "立即生成",
+   "placeholder": "",
+   "disabled": true,
+   "rect": {
+    "x": 1235,
+    "y": 1167,
+    "w": 285,
+    "h": 32
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "生成结果",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1554,
+    "y": 192,
+    "w": 56,
+    "h": 42
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "优秀案例",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1630,
+    "y": 192,
+    "w": 56,
+    "h": 42
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "历史记录",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1706,
+    "y": 192,
+    "w": 56,
+    "h": 42
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "知道了",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1793,
+    "y": 282,
+    "w": 58,
+    "h": 24
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "本次提交\n查看参数",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1561,
+    "y": 1189,
+    "w": 292,
+    "h": 22
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "连接",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 2265,
+    "y": 147,
+    "w": 66,
+    "h": 24
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "连接",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 2265,
+    "y": 215,
+    "w": 66,
+    "h": 24
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "连接",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 2265,
+    "y": 283,
+    "w": 66,
+    "h": 24
+   }
+  }
+ ],
+ "regions": [
+  {
+   "cls": "sticky top-0 z-[7] h-14 shrink-0 border-b border-hairline bg-surface/95 backdrop",
+   "rect": {
+    "x": 0,
+    "y": 0,
+    "w": 1920,
+    "h": 56
+   },
+   "text": "无限画布\n首页\n电商套图\n智能修图\n新模型\nAI视频\nHOT\n批量生图\n商品图设计\n中\n切换到深色主题\nv0.27.0"
+  },
+  {
+   "cls": "hidden w-[180px] shrink-0 overflow-y-auto rounded-xl border border-hairline bg-s",
+   "rect": {
+    "x": 16,
+    "y": 56,
+    "w": 180,
+    "h": 1008
+   },
+   "text": "智能修图\n局部重绘\n局部消除\n一键换色\n图片裁剪\n商品精修\n色差修复\n印花修复\n手部修复\n免责声明"
+  },
+  {
+   "cls": "flex min-h-14 shrink-0 flex-wrap items-center gap-3 border-b border-hairline px-",
+   "rect": {
+    "x": 209,
+    "y": 57,
+    "w": 1694,
+    "h": 109
+   },
+   "text": "智能修图 / 一键换色\n一键换色\n\n/tools/smart-edit/change-color"
+  },
+  {
+   "cls": "min-h-0 flex-1 overflow-y-auto bg-transparent px-4 py-4 sm:px-5",
+   "rect": {
+    "x": 209,
+    "y": 166,
+    "w": 1694,
+    "h": 897
+   },
+   "text": "一键快速上色\n\n立即改变照片中任何物品的颜色，无论是衣服、商品、配饰还是假发！\n\n从本地上传\n从作品库选择\n从商品库选择\n批量一键换色\n\n10M以内，jpg/jpeg/png/webp\n\n收藏色卡\n共 12/24 个\n+ 收藏当前色\n选择颜色\n上传素材\n00 / 1 个 · JPG / PNG / WebP · ≤ 10 MB\n拖拽 或 点击上传 颜色参考图\n从作品库选择\n从商品库选择\n10M以内,jpg/jpeg/png/webp\n去除杂色\n开启\n关闭\n关闭：保留原色噪点\n重置\n细调颜色效果\n色调\n饱和度\n亮度\n对比度\n默认（无微调）\n重置\n光影优化\n强度 50\n光影优化\n边缘优化\n颜色边缘"
+  },
+  {
+   "cls": "flex min-w-0 flex-1 flex-col overflow-hidden rounded-xl border border-border bg-",
+   "rect": {
+    "x": 239,
+    "y": 192,
+    "w": 975,
+    "h": 1066
+   },
+   "text": "一键快速上色\n\n立即改变照片中任何物品的颜色，无论是衣服、商品、配饰还是假发！\n\n从本地上传\n从作品库选择\n从商品库选择\n批量一键换色\n\n10M以内，jpg/jpeg/png/webp"
+  },
+  {
+   "cls": "space-y-3 w-auto shrink-0 [&_[data-testid=tool-asset-dropzone]]:min-h-0 [&_[data",
+   "rect": {
+    "x": 463,
+    "y": 741,
+    "w": 378,
+    "h": 44
+   },
+   "text": "从本地上传\n从作品库选择\n从商品库选择"
+  },
+  {
+   "cls": "flex shrink-0 flex-col overflow-hidden rounded-xl border border-border bg-card w",
+   "rect": {
+    "x": 1224,
+    "y": 192,
+    "w": 307,
+    "h": 1066
+   },
+   "text": "收藏色卡\n共 12/24 个\n+ 收藏当前色\n选择颜色\n上传素材\n00 / 1 个 · JPG / PNG / WebP · ≤ 10 MB\n拖拽 或 点击上传 颜色参考图\n从作品库选择\n从商品库选择\n10M以内,jpg/jpeg/png/webp\n去除杂色\n开启\n关闭\n关闭：保留原色噪点\n重置\n细调颜色效果\n色调\n饱和度\n亮度\n对比度\n默认（无微调）\n重置\n光影优化\n强度 50\n光影优化\n边缘优化\n颜色边缘修复\n光影优化 50 · 边缘优化 开 · 颜色边缘修复 开\n重置\n边缘优化\n色彩平衡\n曲线\n线性\n柔光\nS 曲线\n强对比\n立即生成\n请先上传需要换色的图片。\n请选择颜色或上传颜色参考图提"
+  },
+  {
+   "cls": "border-b border-border last:border-b-0",
+   "rect": {
+    "x": 1225,
+    "y": 193,
+    "w": 305,
+    "h": 109
+   },
+   "text": "收藏色卡\n共 12/24 个\n+ 收藏当前色"
+  },
+  {
+   "cls": "border-b border-border last:border-b-0",
+   "rect": {
+    "x": 1225,
+    "y": 302,
+    "w": 305,
+    "h": 352
+   },
+   "text": "选择颜色\n上传素材\n00 / 1 个 · JPG / PNG / WebP · ≤ 10 MB\n拖拽 或 点击上传 颜色参考图\n从作品库选择\n从商品库选择\n10M以内,jpg/jpeg/png/webp\n去除杂色\n开启\n关闭\n关闭：保留原色噪点\n重置"
+  },
+  {
+   "cls": "space-y-3 [&_[data-testid=tool-asset-dropzone]]:min-h-[120px] [&_[data-testid=to",
+   "rect": {
+    "x": 1241,
+    "y": 380,
+    "w": 273,
+    "h": 191
+   },
+   "text": "上传素材\n00 / 1 个 · JPG / PNG / WebP · ≤ 10 MB\n拖拽 或 点击上传 颜色参考图\n从作品库选择\n从商品库选择\n10M以内,jpg/jpeg/png/webp"
+  },
+  {
+   "cls": "border-b border-border last:border-b-0",
+   "rect": {
+    "x": 1225,
+    "y": 654,
+    "w": 305,
+    "h": 193
+   },
+   "text": "细调颜色效果\n色调\n饱和度\n亮度\n对比度\n默认（无微调）\n重置"
+  },
+  {
+   "cls": "border-b border-border last:border-b-0",
+   "rect": {
+    "x": 1225,
+    "y": 847,
+    "w": 305,
+    "h": 199
+   },
+   "text": "光影优化\n强度 50\n光影优化\n边缘优化\n颜色边缘修复\n光影优化 50 · 边缘优化 开 · 颜色边缘修复 开\n重置"
+  },
+  {
+   "cls": "border-b border-border last:border-b-0",
+   "rect": {
+    "x": 1225,
+    "y": 1046,
+    "w": 305,
+    "h": 110
+   },
+   "text": "边缘优化\n色彩平衡\n曲线\n线性\n柔光\nS 曲线\n强对比"
+  },
+  {
+   "cls": "flex w-[332px] shrink-0 flex-col overflow-hidden rounded-[8px] bg-muted",
+   "rect": {
+    "x": 1541,
+    "y": 192,
+    "w": 332,
+    "h": 1066
+   },
+   "text": "生成结果\n优秀案例\n历史记录\n\n支持上传颜色参考图，生成效果色差更小\n\n知道了\n生成结果\n\n暂无生成结果图\n\n快在左侧操作物品换色吧~\n\n本次提交\n查看参数\n\n上传图片后可查看"
+  },
+  {
+   "cls": "space-y-3 rounded-xl border border-border bg-card p-4",
+   "rect": {
+    "x": 1551,
+    "y": 326,
+    "w": 312,
+    "h": 233
+   },
+   "text": "生成结果\n\n暂无生成结果图\n\n快在左侧操作物品换色吧~"
+  },
+  {
+   "cls": "relative flex h-full shrink-0 flex-col border-l",
+   "rect": {
+    "x": 1920,
+    "y": 0,
+    "w": 440,
+    "h": 1080
+   },
+   "text": "连接本地 Agent\n未连接\n点连接会自动启动本地服务、装好插件并接通，无需手动配置。\nClaude Code\n未连接\n·\nCLI · 2.1.285 (Claude Code)\n·\n直接运行\n连接\nCodex\n未连接\n·\nCLI · codex-cli 0.163.0\n·\n插件已装\n连接\nGalley\n未连接\n·\nCLI + 桌面版 · galley 0.6.4\n连接"
+  }
+ ]
+}

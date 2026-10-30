@@ -1,0 +1,411 @@
+{
+ "id": "NEW_DESIGNER",
+ "route": "/tools/product-design/new-designer",
+ "ok": true,
+ "error": null,
+ "title": "无限画布",
+ "text": "无限画布\n首页\n电商套图\n智能修图\n新模型\nAI视频\nHOT\n批量生图\n商品图设计\n中\nv0.27.0\n商品图\n商品替换\n场景裂变\n手持商品\nAI穿衣\n姿势裂变\nAI穿戴\nPOD素材\n饰品文字\n素材贴合\n印花提取\nAI姿势生成\n补充\nAI试衣XSY\n补充\n场景裂变链接\n补充\n图片文字编辑\n补充\n上装换料\n补充\n商品图设计器\n补充\n商品营销素材\n补充\n场景迁移\n补充\n免责声明\n商品图设计器\n商品图\n·\n1200\n×\n1200\n设计器宿主\n预览\n关闭\n完成回传\n已恢复草稿：2026-10-30T10:23:30.133Z（0 个图层）\n素材与图层\n0\n层\n添加文字\n添加图片\n1:1 方形\n3:4 竖版\n4:3 横版\n画布为空：上传商品图或添加文字图层开始设计\n方向键微调 8px（Shift 32px），[ / ] 旋转 1°，撤销 Ctrl/Cmd+Z 之外请用顶部按钮\n在左侧添加图层、在画布上编辑，然后点“导出设计稿”。\n草稿已保存\n导出设计稿\n属性\n未选中图层：在左侧列表或画布上点选。\n画布背景\n#ffffff\n· 导出合成与预览使用同一底色（对应 LinkFox 设计器「背景」面板）。\n画布为空：至少保留一个图层再完成。\n工具\nNEW_DESIGNER\n· 草稿键 tool-draft:v1:\nNEW_DESIGNER\n历史任务\n0\n条\n本工具还没有历史任务；提交一次后会在这里留下任务、配置与结果，刷新后仍在。\n连接本地 Agent\n未连接\n点连接会自动启动本地服务、装好插件并接通，无需手动配置。\nClaude Code\n未连接\n·\nCLI · 2.1.285 (Claude Code)\n·\n直接运行\n连接\nCodex\n未连接\n·\nCLI · codex-cli 0.163.0\n·\n插件已装\n连接\nGalley\n未连接\n·\nCLI + 桌面版 · galley 0.6.4\n连接",
+ "lines": [
+  "无限画布",
+  "首页",
+  "电商套图",
+  "智能修图",
+  "新模型",
+  "AI视频",
+  "HOT",
+  "批量生图",
+  "商品图设计",
+  "中",
+  "v0.27.0",
+  "商品图",
+  "商品替换",
+  "场景裂变",
+  "手持商品",
+  "AI穿衣",
+  "姿势裂变",
+  "AI穿戴",
+  "POD素材",
+  "饰品文字",
+  "素材贴合",
+  "印花提取",
+  "AI姿势生成",
+  "补充",
+  "AI试衣XSY",
+  "补充",
+  "场景裂变链接",
+  "补充",
+  "图片文字编辑",
+  "补充",
+  "上装换料",
+  "补充",
+  "商品图设计器",
+  "补充",
+  "商品营销素材",
+  "补充",
+  "场景迁移",
+  "补充",
+  "免责声明",
+  "商品图设计器",
+  "商品图",
+  "·",
+  "1200",
+  "×",
+  "1200",
+  "设计器宿主",
+  "预览",
+  "关闭",
+  "完成回传",
+  "已恢复草稿：2026-10-30T10:23:30.133Z（0 个图层）",
+  "素材与图层",
+  "0",
+  "层",
+  "添加文字",
+  "添加图片",
+  "1:1 方形",
+  "3:4 竖版",
+  "4:3 横版",
+  "画布为空：上传商品图或添加文字图层开始设计",
+  "方向键微调 8px（Shift 32px），[ / ] 旋转 1°，撤销 Ctrl/Cmd+Z 之外请用顶部按钮",
+  "在左侧添加图层、在画布上编辑，然后点“导出设计稿”。",
+  "草稿已保存",
+  "导出设计稿",
+  "属性",
+  "未选中图层：在左侧列表或画布上点选。",
+  "画布背景",
+  "#ffffff",
+  "· 导出合成与预览使用同一底色（对应 LinkFox 设计器「背景」面板）。",
+  "画布为空：至少保留一个图层再完成。",
+  "工具",
+  "NEW_DESIGNER",
+  "· 草稿键 tool-draft:v1:",
+  "NEW_DESIGNER",
+  "历史任务",
+  "0",
+  "条",
+  "本工具还没有历史任务；提交一次后会在这里留下任务、配置与结果，刷新后仍在。",
+  "连接本地 Agent",
+  "未连接",
+  "点连接会自动启动本地服务、装好插件并接通，无需手动配置。",
+  "Claude Code",
+  "未连接",
+  "·",
+  "CLI · 2.1.285 (Claude Code)",
+  "·",
+  "直接运行",
+  "连接",
+  "Codex",
+  "未连接",
+  "·",
+  "CLI · codex-cli 0.163.0",
+  "·",
+  "插件已装",
+  "连接",
+  "Galley",
+  "未连接",
+  "·",
+  "CLI + 桌面版 · galley 0.6.4",
+  "连接"
+ ],
+ "controls": [
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "中",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1593,
+    "y": 14,
+    "w": 28,
+    "h": 28
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "切换到深色主题",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1625,
+    "y": 14,
+    "w": 28,
+    "h": 28
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "v0.27.0",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1657,
+    "y": 17,
+    "w": 47,
+    "h": 22
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "预览",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1628,
+    "y": 76,
+    "w": 76,
+    "h": 40
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "关闭",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1710,
+    "y": 76,
+    "w": 76,
+    "h": 40
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "完成回传",
+   "placeholder": "",
+   "disabled": true,
+   "rect": {
+    "x": 1792,
+    "y": 76,
+    "w": 88,
+    "h": 40
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "添加文字",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 245,
+    "y": 226,
+    "w": 124,
+    "h": 36
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "添加图片",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 375,
+    "y": 226,
+    "w": 124,
+    "h": 36
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "1:1 方形",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 245,
+    "y": 962,
+    "w": 81,
+    "h": 32
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "3:4 竖版",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 332,
+    "y": 962,
+    "w": 81,
+    "h": 32
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "4:3 横版",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 418,
+    "y": 962,
+    "w": 81,
+    "h": 32
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "导出设计稿",
+   "placeholder": "",
+   "disabled": true,
+   "rect": {
+    "x": 1411,
+    "y": 954,
+    "w": 124,
+    "h": 40
+   }
+  },
+  {
+   "tag": "input",
+   "type": "color",
+   "text": "#ffffff",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1811,
+    "y": 830,
+    "w": 56,
+    "h": 36
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "连接",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 2265,
+    "y": 147,
+    "w": 66,
+    "h": 24
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "连接",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 2265,
+    "y": 215,
+    "w": 66,
+    "h": 24
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "连接",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 2265,
+    "y": 283,
+    "w": 66,
+    "h": 24
+   }
+  }
+ ],
+ "regions": [
+  {
+   "cls": "sticky top-0 z-[7] h-14 shrink-0 border-b border-hairline bg-surface/95 backdrop",
+   "rect": {
+    "x": 0,
+    "y": 0,
+    "w": 1920,
+    "h": 56
+   },
+   "text": "无限画布\n首页\n电商套图\n智能修图\n新模型\nAI视频\nHOT\n批量生图\n商品图设计\n中\n切换到深色主题\nv0.27.0"
+  },
+  {
+   "cls": "hidden w-[180px] shrink-0 overflow-y-auto rounded-xl border border-hairline bg-s",
+   "rect": {
+    "x": 16,
+    "y": 56,
+    "w": 180,
+    "h": 1008
+   },
+   "text": "商品图设计\n商品图\n商品替换\n场景裂变\n手持商品\nAI穿衣\n姿势裂变\nAI穿戴\nPOD素材\n饰品文字\n素材贴合\n印花提取\nAI姿势生成\n补充\nAI试衣XSY\n补充\n场景裂变链接\n补充\n图片文字编辑\n补充\n上装换料\n补充\n商品图设计器\n补充\n商品营销素材\n补充\n场景迁移\n补充\n免责声明"
+  },
+  {
+   "cls": "min-h-0 flex-1 overflow-hidden bg-canvas p-2.5",
+   "rect": {
+    "x": 209,
+    "y": 57,
+    "w": 1694,
+    "h": 1006
+   },
+   "text": "商品图设计器\n商品图 · 1200×1200\n设计器宿主\n预览\n关闭\n完成回传\n\n已恢复草稿：2026-10-30T10:23:30.133Z（0 个图层）\n\n素材与图层\n0 层\n添加文字\n添加图片\n1:1 方形\n3:4 竖版\n4:3 横版\n画布为空：上传商品图或添加文字图层开始设计\n\n方向键微调 8px（Shift 32px），[ / ] 旋转 1°，撤销 Ctrl/Cmd+Z 之外请用顶部按钮\n\n在左侧添加图层、在画布上编辑，然后点“导出设计稿”。\n草稿已保存\n导出设计稿\n属性\n\n未选中图层：在左侧列表或画布上点选。\n\n画布背景\n#ffffff · 导出合成与预览使用同一底色（对应 Lin"
+  },
+  {
+   "cls": "flex min-h-[640px] flex-col overflow-hidden rounded-lg border border-border bg-b",
+   "rect": {
+    "x": 219,
+    "y": 67,
+    "w": 1674,
+    "h": 953
+   },
+   "text": "商品图设计器\n商品图 · 1200×1200\n设计器宿主\n预览\n关闭\n完成回传\n\n已恢复草稿：2026-10-30T10:23:30.133Z（0 个图层）\n\n素材与图层\n0 层\n添加文字\n添加图片\n1:1 方形\n3:4 竖版\n4:3 横版\n画布为空：上传商品图或添加文字图层开始设计\n\n方向键微调 8px（Shift 32px），[ / ] 旋转 1°，撤销 Ctrl/Cmd+Z 之外请用顶部按钮\n\n在左侧添加图层、在画布上编辑，然后点“导出设计稿”。\n草稿已保存\n导出设计稿\n属性\n\n未选中图层：在左侧列表或画布上点选。\n\n画布背景\n#ffffff · 导出合成与预览使用同一底色（对应 Lin"
+  },
+  {
+   "cls": "flex flex-wrap items-center justify-between gap-2 border-b border-border bg-card",
+   "rect": {
+    "x": 220,
+    "y": 68,
+    "w": 1672,
+    "h": 57
+   },
+   "text": "商品图设计器\n商品图 · 1200×1200\n设计器宿主\n预览\n关闭\n完成回传"
+  },
+  {
+   "cls": "flex min-h-0 flex-col gap-2 rounded-lg border border-border bg-card p-3",
+   "rect": {
+    "x": 232,
+    "y": 178,
+    "w": 280,
+    "h": 829
+   },
+   "text": "素材与图层\n0 层\n添加文字\n添加图片\n1:1 方形\n3:4 竖版\n4:3 横版"
+  },
+  {
+   "cls": "flex min-h-0 flex-col gap-2 rounded-lg border border-border bg-card p-3",
+   "rect": {
+    "x": 1560,
+    "y": 178,
+    "w": 320,
+    "h": 829
+   },
+   "text": "属性\n\n未选中图层：在左侧列表或画布上点选。\n\n画布背景\n#ffffff · 导出合成与预览使用同一底色（对应 LinkFox 设计器「背景」面板）。\n画布为空：至少保留一个图层再完成。\n\n工具 NEW_DESIGNER · 草稿键 tool-draft:v1:NEW_DESIGNER"
+  },
+  {
+   "cls": "rounded-lg border border-border bg-card/40 p-3 mt-4",
+   "rect": {
+    "x": 219,
+    "y": 1036,
+    "w": 1674,
+    "h": 80
+   },
+   "text": "历史任务\n0 条\n\n本工具还没有历史任务；提交一次后会在这里留下任务、配置与结果，刷新后仍在。"
+  },
+  {
+   "cls": "relative flex h-full shrink-0 flex-col border-l",
+   "rect": {
+    "x": 1920,
+    "y": 0,
+    "w": 440,
+    "h": 1080
+   },
+   "text": "连接本地 Agent\n未连接\n点连接会自动启动本地服务、装好插件并接通，无需手动配置。\nClaude Code\n未连接\n·\nCLI · 2.1.285 (Claude Code)\n·\n直接运行\n连接\nCodex\n未连接\n·\nCLI · codex-cli 0.163.0\n·\n插件已装\n连接\nGalley\n未连接\n·\nCLI + 桌面版 · galley 0.6.4\n连接"
+  }
+ ]
+}

@@ -25,6 +25,8 @@ export type ToolHistoryDockProps = {
     toolId: string;
     className?: string;
     limit?: number;
+    /** 无历史任务时整块不渲染（原站无此面板，空态不占位）。 */
+    hideWhenEmpty?: boolean;
     /** 任务快照覆盖（测试/SSR 注入点）；生产路径不传，默认读 store。 */
     tasks?: Record<string, ToolTask>;
 };
@@ -86,7 +88,7 @@ async function copyText(text: string): Promise<void> {
 
 type Feedback = { tone: "success" | "error"; text: string } | null;
 
-export function ToolHistoryDock({ toolId, className, limit = 12, tasks: injectedTasks }: ToolHistoryDockProps) {
+export function ToolHistoryDock({ toolId, className, limit = 12, hideWhenEmpty = false, tasks: injectedTasks }: ToolHistoryDockProps) {
     const { t } = useTranslation();
     const storeTasks = useToolTaskStore((state) => state.tasks);
     const hydrated = useToolTaskStore((state) => state.hydrated);
@@ -129,6 +131,8 @@ export function ToolHistoryDock({ toolId, className, limit = 12, tasks: injected
         },
         [],
     );
+
+    if (hideWhenEmpty && rows.length === 0) return null;
 
     return (
         <section

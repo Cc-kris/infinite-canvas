@@ -1,0 +1,415 @@
+{
+ "controls": [
+  {
+   "disabled": false,
+   "rect": {
+    "bottom": 96,
+    "height": 32,
+    "left": 1708.359375,
+    "right": 1752.359375,
+    "top": 64,
+    "width": 44,
+    "x": 1708.359375,
+    "y": 64
+   },
+   "text": "购 买"
+  },
+  {
+   "rect": {
+    "bottom": 335.6875,
+    "height": 183.6875,
+    "left": 218,
+    "right": 464,
+    "top": 152,
+    "width": 246,
+    "x": 218,
+    "y": 152
+   },
+   "text": "上传需要提取印花的商品图片\n从本地上传\n从作品库选择\n\n20M以内，分辨率：384 * 384 ~ 4096 * 4096，宽高比小于5"
+  },
+  {
+   "disabled": false,
+   "rect": {
+    "bottom": 266,
+    "height": 24,
+    "left": 233,
+    "right": 341,
+    "top": 242,
+    "width": 108,
+    "x": 233,
+    "y": 242
+   },
+   "text": "从本地上传"
+  },
+  {
+   "disabled": false,
+   "rect": {
+    "bottom": 266,
+    "height": 24,
+    "left": 349,
+    "right": 449,
+    "top": 242,
+    "width": 100,
+    "x": 349,
+    "y": 242
+   },
+   "text": "从作品库选择"
+  },
+  {
+   "disabled": false,
+   "rect": {
+    "bottom": 472.53125,
+    "height": 32,
+    "left": 207,
+    "right": 475,
+    "top": 440.53125,
+    "width": 268,
+    "x": 207,
+    "y": 440.53125
+   },
+   "text": "上传多张图片，开始批量提取"
+  },
+  {
+   "disabled": false,
+   "rect": {
+    "bottom": 505.84375,
+    "height": 22,
+    "left": 418,
+    "right": 475,
+    "top": 483.84375,
+    "width": 57,
+    "x": 418,
+    "y": 483.84375
+   },
+   "text": "开启\n关闭"
+  },
+  {
+   "disabled": false,
+   "rect": {
+    "bottom": 821,
+    "height": 32,
+    "left": 207,
+    "right": 475,
+    "top": 789,
+    "width": 268,
+    "x": 207,
+    "y": 789
+   },
+   "text": "立即生成\n(10算力)"
+  },
+  {
+   "disabled": false,
+   "rect": {
+    "bottom": 151.5,
+    "height": 31,
+    "left": 518,
+    "right": 563.328125,
+    "top": 120.5,
+    "width": 45.328125,
+    "x": 518,
+    "y": 120.5
+   },
+   "text": ""
+  },
+  {
+   "rect": {
+    "bottom": 629,
+    "height": 90,
+    "left": 1809,
+    "right": 1910,
+    "top": 539,
+    "width": 101,
+    "x": 1809,
+    "y": 539
+   },
+   "text": "操作咨询\n产品教程"
+  },
+  {
+   "disabled": false,
+   "placeholder": "名称",
+   "rect": {
+    "bottom": 430,
+    "height": 26,
+    "left": 1157,
+    "right": 1231,
+    "top": 404,
+    "width": 74,
+    "x": 1157,
+    "y": 404
+   },
+   "text": "LinkFox 默认"
+  },
+  {
+   "disabled": false,
+   "placeholder": "水印文案",
+   "rect": {
+    "bottom": 430,
+    "height": 26,
+    "left": 1237,
+    "right": 1375,
+    "top": 404,
+    "width": 138,
+    "x": 1237,
+    "y": 404
+   },
+   "text": "本图片由 LinkFox AI 生成"
+  },
+  {
+   "disabled": false,
+   "rect": {
+    "bottom": 429,
+    "height": 24,
+    "left": 1381,
+    "right": 1421,
+    "top": 405,
+    "width": 40,
+    "x": 1381,
+    "y": 405
+   },
+   "text": "默认"
+  },
+  {
+   "disabled": false,
+   "rect": {
+    "bottom": 429,
+    "height": 24,
+    "left": 1427,
+    "right": 1451,
+    "top": 405,
+    "width": 24,
+    "x": 1427,
+    "y": 405
+   },
+   "text": ""
+  },
+  {
+   "disabled": false,
+   "rect": {
+    "bottom": 475,
+    "height": 35,
+    "left": 1157,
+    "right": 1451,
+    "top": 440,
+    "width": 294,
+    "x": 1157,
+    "y": 440
+   },
+   "text": "＋ 新增水印分组"
+  }
+ ],
+ "regions": [
+  {
+   "cls": "_content_15na6_1 ",
+   "rect": {
+    "bottom": 98,
+    "height": 36,
+    "left": 1767.359375,
+    "right": 1885,
+    "top": 62,
+    "width": 117.640625,
+    "x": 1767.359375,
+    "y": 62
+   },
+   "text": "用\n用户6991\n个人账号"
+  },
+  {
+   "cls": "ant-layout-sider ant-layout-sider-dark _leftSider_1k85n_3  css-1d18km6",
+   "rect": {
+    "bottom": 839,
+    "height": 729,
+    "left": 0,
+    "right": 180,
+    "top": 110,
+    "width": 180,
+    "x": 0,
+    "y": 110
+   },
+   "text": "素材和灵感\n场景素材\n相似图裂变\nAI自由绘图\nPOD素材\n素材贴合\n印花提取\n企业功能\n批量生图\n 免责声明"
+  },
+  {
+   "cls": "ant-menu-title-content",
+   "rect": {
+    "bottom": 146,
+    "height": 32,
+    "left": 18,
+    "right": 145,
+    "top": 114,
+    "width": 127,
+    "x": 18,
+    "y": 114
+   },
+   "text": "素材和灵感"
+  },
+  {
+   "cls": "ant-menu-title-content",
+   "rect": {
+    "bottom": 190,
+    "height": 40,
+    "left": 46,
+    "right": 167,
+    "top": 150,
+    "width": 121,
+    "x": 46,
+    "y": 150
+   },
+   "text": "场景素材"
+  },
+  {
+   "cls": "ant-menu-title-content",
+   "rect": {
+    "bottom": 230,
+    "height": 40,
+    "left": 46,
+    "right": 167,
+    "top": 190,
+    "width": 121,
+    "x": 46,
+    "y": 190
+   },
+   "text": "相似图裂变"
+  },
+  {
+   "cls": "ant-menu-title-content",
+   "rect": {
+    "bottom": 270,
+    "height": 40,
+    "left": 46,
+    "right": 167,
+    "top": 230,
+    "width": 121,
+    "x": 46,
+    "y": 230
+   },
+   "text": "AI自由绘图"
+  },
+  {
+   "cls": "ant-menu-title-content",
+   "rect": {
+    "bottom": 306,
+    "height": 32,
+    "left": 18,
+    "right": 145,
+    "top": 274,
+    "width": 127,
+    "x": 18,
+    "y": 274
+   },
+   "text": "POD素材"
+  },
+  {
+   "cls": "ant-menu-title-content",
+   "rect": {
+    "bottom": 350,
+    "height": 40,
+    "left": 46,
+    "right": 167,
+    "top": 310,
+    "width": 121,
+    "x": 46,
+    "y": 310
+   },
+   "text": "素材贴合"
+  },
+  {
+   "cls": "ant-menu-title-content",
+   "rect": {
+    "bottom": 390,
+    "height": 40,
+    "left": 46,
+    "right": 167,
+    "top": 350,
+    "width": 121,
+    "x": 46,
+    "y": 350
+   },
+   "text": "印花提取"
+  },
+  {
+   "cls": "ant-menu-title-content",
+   "rect": {
+    "bottom": 426,
+    "height": 32,
+    "left": 18,
+    "right": 145,
+    "top": 394,
+    "width": 127,
+    "x": 18,
+    "y": 394
+   },
+   "text": "企业功能"
+  },
+  {
+   "cls": "ant-menu-title-content",
+   "rect": {
+    "bottom": 470,
+    "height": 40,
+    "left": 46,
+    "right": 167,
+    "top": 430,
+    "width": 121,
+    "x": 46,
+    "y": 430
+   },
+   "text": "批量生图"
+  },
+  {
+   "cls": "_left_1iktn_9",
+   "rect": {
+    "bottom": 828,
+    "height": 707,
+    "left": 191,
+    "right": 491,
+    "top": 121,
+    "width": 300,
+    "x": 191,
+    "y": 121
+   },
+   "text": "上传需要提取印花的商品图片\n从本地上传\n从作品库选择\n\n20M以内，分辨率：384 * 384 ~ 4096 * 4096，宽高比小于5\n\n或试试这些\n上传多张图片，开始批量提取\n生成透明图 \n开启\n关闭\n立即生成\n(10算力)"
+  },
+  {
+   "cls": "anticon anticon-arrow-right",
+   "rect": {
+    "bottom": 463.53125,
+    "height": 14,
+    "left": 429,
+    "right": 443,
+    "top": 449.53125,
+    "width": 14,
+    "x": 429,
+    "y": 449.53125
+   },
+   "text": ""
+  },
+  {
+   "cls": "_right_1iktn_188",
+   "rect": {
+    "bottom": 828,
+    "height": 707,
+    "left": 491,
+    "right": 1909,
+    "top": 121,
+    "width": 1418,
+    "x": 491,
+    "y": 121
+   },
+   "text": "生成结果\n历史记录\n\n印花提取\n\n快速提取商品中的印花图案"
+  },
+  {
+   "cls": "_result_1iktn_240",
+   "rect": {
+    "bottom": 828,
+    "height": 665,
+    "left": 492,
+    "right": 1909,
+    "top": 163,
+    "width": 1417,
+    "x": 492,
+    "y": 163
+   },
+   "text": "印花提取\n\n快速提取商品中的印花图案"
+  }
+ ],
+ "text": "首页\n电商套图\n智能修图\n新模型\nAI视频\nHOT\n批量生图\n商品图设计\nSkills\nAgent\n更多\n学习中心\n免费得算力\n250\n购 买\n用\n用户6991\n个人账号\n素材和灵感\n场景素材\n相似图裂变\nAI自由绘图\nPOD素材\n素材贴合\n印花提取\n企业功能\n批量生图\n 免责声明\n上传需要提取印花的商品图片\n从本地上传\n从作品库选择\n\n20M以内，分辨率：384 * 384 ~ 4096 * 4096，宽高比小于5\n\n或试试这些\n上传多张图片，开始批量提取\n生成透明图 \n开启\n关闭\n立即生成\n(10算力)\n生成结果\n历史记录\n\n印花提取\n\n快速提取商品中的印花图案\n操作咨询\n产品教程\nljq_driver: 已连接\n管理水印分组\n共 1/20 个\n默认\n＋ 新增水印分组",
+ "title": "LinkFox官网 - 跨境电商AI运营助手 - AI选品AI作图AI视频AI Agent OS",
+ "url": "https://www.linkfox.com/draw/print-extract"
+}

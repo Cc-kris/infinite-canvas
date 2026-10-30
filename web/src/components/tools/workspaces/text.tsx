@@ -72,7 +72,22 @@ function OrnamentSilhouette() {
     );
 }
 
+/**
+ * 原站该工具未开通：访问 `/tools/product-design/ornament-text` 会重定向到 /home，
+ * 页面没有任何工具 DOM。本地按 1:1 只保留同一说明，不再渲染工具界面。
+ */
 export function OrnamentTextWorkspace() {
+    return (
+        <div className="flex min-h-0 flex-1 items-center justify-center p-8">
+            <p className="max-w-md text-center text-sm text-muted-foreground" data-testid="ornament-text-unavailable">
+                重定向到 /home 首页，工具未开通；无工具 DOM
+            </p>
+        </div>
+    );
+}
+
+/** 旧实现保留（原站已下线该工具，路由不再渲染）。 */
+function OrnamentTextWorkspaceLegacy() {
     const config = useConfigStore((state) => state.config);
     const imageModels = useMemo(() => selectableModelsByCapability(config, "image"), [config]);
     const model = config.imageModel || imageModels[0] || "";

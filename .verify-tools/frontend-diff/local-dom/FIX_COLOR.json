@@ -1,0 +1,628 @@
+{
+ "id": "FIX_COLOR",
+ "route": "/tools/smart-edit/fix-color",
+ "ok": true,
+ "error": null,
+ "title": "无限画布",
+ "text": "无限画布\n首页\n电商套图\n智能修图\n新模型\nAI视频\nHOT\n批量生图\n商品图设计\n中\nv0.27.0\n局部重绘\n局部消除\n一键换色\n图片裁剪\n商品精修\n色差修复\n印花修复\n手部修复\n免责声明\n智能修图 / 色差修复\n色差修复\n/tools/smart-edit/fix-color\n画笔\n橡皮\n笔刷\n35\npx\n羽化\n15\n35\n60\n100\n已涂\n0\n笔\n色差修复\n上传偏色服装图片\nAI将以服装原图为依据修复偏色\n尚未涂抹\n· 覆盖率\n0\n%\nStep 1：上传待修复图\n*\n上传色差图\n0\n0 / 1 个 · PNG / JPG / WebP · ≤ 20 MB\n点击上传\n从本地上传\n从作品库选择\n从商品库选择\nStep 2：颜色矫正（区域色 / 目标色）\n区域颜色\n色差\nΔE 6.5 · 明显差异\n交换\n目标颜色\n点色块设为目标色\n修复版本\n参考匹配\n只把涂抹区域的颜色对齐到目标色，保留原明暗与材质\n色偏中和\n按区域平均偏色做整体中和，适合整片偏黄/偏蓝的拍摄色差\n局部补色\n只修补局部色彩异常（反光、污点引起的异色），边界自然过渡\nStep 3：进行AI修复\n请确保在左侧画板中选择了要进行修复的区域，AI将根据原图为您修复。\n立即生成\n生成结果\n历史记录\n色差修复结果\n暂无生成结果图\n上传偏色图并涂抹区域后，点立即生成。\n历史任务\n0\n条\n本工具还没有历史任务；提交一次后会在这里留下任务、配置与结果，刷新后仍在。\n连接本地 Agent\n未连接\n点连接会自动启动本地服务、装好插件并接通，无需手动配置。\nClaude Code\n未连接\n·\nCLI · 2.1.285 (Claude Code)\n·\n直接运行\n连接\nCodex\n未连接\n·\nCLI · codex-cli 0.163.0\n·\n插件已装\n连接\nGalley\n未连接\n·\nCLI + 桌面版 · galley 0.6.4\n连接",
+ "lines": [
+  "无限画布",
+  "首页",
+  "电商套图",
+  "智能修图",
+  "新模型",
+  "AI视频",
+  "HOT",
+  "批量生图",
+  "商品图设计",
+  "中",
+  "v0.27.0",
+  "局部重绘",
+  "局部消除",
+  "一键换色",
+  "图片裁剪",
+  "商品精修",
+  "色差修复",
+  "印花修复",
+  "手部修复",
+  "免责声明",
+  "智能修图 / 色差修复",
+  "色差修复",
+  "/tools/smart-edit/fix-color",
+  "画笔",
+  "橡皮",
+  "笔刷",
+  "35",
+  "px",
+  "羽化",
+  "15",
+  "35",
+  "60",
+  "100",
+  "已涂",
+  "0",
+  "笔",
+  "色差修复",
+  "上传偏色服装图片",
+  "AI将以服装原图为依据修复偏色",
+  "尚未涂抹",
+  "· 覆盖率",
+  "0",
+  "%",
+  "Step 1：上传待修复图",
+  "*",
+  "上传色差图",
+  "0",
+  "0 / 1 个 · PNG / JPG / WebP · ≤ 20 MB",
+  "点击上传",
+  "从本地上传",
+  "从作品库选择",
+  "从商品库选择",
+  "Step 2：颜色矫正（区域色 / 目标色）",
+  "区域颜色",
+  "色差",
+  "ΔE 6.5 · 明显差异",
+  "交换",
+  "目标颜色",
+  "点色块设为目标色",
+  "修复版本",
+  "参考匹配",
+  "只把涂抹区域的颜色对齐到目标色，保留原明暗与材质",
+  "色偏中和",
+  "按区域平均偏色做整体中和，适合整片偏黄/偏蓝的拍摄色差",
+  "局部补色",
+  "只修补局部色彩异常（反光、污点引起的异色），边界自然过渡",
+  "Step 3：进行AI修复",
+  "请确保在左侧画板中选择了要进行修复的区域，AI将根据原图为您修复。",
+  "立即生成",
+  "生成结果",
+  "历史记录",
+  "色差修复结果",
+  "暂无生成结果图",
+  "上传偏色图并涂抹区域后，点立即生成。",
+  "历史任务",
+  "0",
+  "条",
+  "本工具还没有历史任务；提交一次后会在这里留下任务、配置与结果，刷新后仍在。",
+  "连接本地 Agent",
+  "未连接",
+  "点连接会自动启动本地服务、装好插件并接通，无需手动配置。",
+  "Claude Code",
+  "未连接",
+  "·",
+  "CLI · 2.1.285 (Claude Code)",
+  "·",
+  "直接运行",
+  "连接",
+  "Codex",
+  "未连接",
+  "·",
+  "CLI · codex-cli 0.163.0",
+  "·",
+  "插件已装",
+  "连接",
+  "Galley",
+  "未连接",
+  "·",
+  "CLI + 桌面版 · galley 0.6.4",
+  "连接"
+ ],
+ "controls": [
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "中",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1593,
+    "y": 14,
+    "w": 28,
+    "h": 28
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "切换到深色主题",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1625,
+    "y": 14,
+    "w": 28,
+    "h": 28
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "v0.27.0",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1657,
+    "y": 17,
+    "w": 47,
+    "h": 22
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "画笔",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 256,
+    "y": 202,
+    "w": 40,
+    "h": 24
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "橡皮",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 300,
+    "y": 202,
+    "w": 40,
+    "h": 24
+   }
+  },
+  {
+   "tag": "input",
+   "type": "range",
+   "text": "35",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 388,
+    "y": 203,
+    "w": 112,
+    "h": 22
+   }
+  },
+  {
+   "tag": "input",
+   "type": "range",
+   "text": "0",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 588,
+    "y": 203,
+    "w": 80,
+    "h": 22
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "15",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 684,
+    "y": 202,
+    "w": 27,
+    "h": 24
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "35",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 715,
+    "y": 202,
+    "w": 29,
+    "h": 24
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "60",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 748,
+    "y": 202,
+    "w": 29,
+    "h": 24
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "100",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 781,
+    "y": 202,
+    "w": 35,
+    "h": 24
+   }
+  },
+  {
+   "tag": "div",
+   "type": "",
+   "text": "点击上传\n从本地上传\n从作品库选择\n从商品库选择",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1340,
+    "y": 288,
+    "w": 206,
+    "h": 105
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "从作品库选择",
+   "placeholder": "",
+   "disabled": true,
+   "rect": {
+    "x": 1353,
+    "y": 356,
+    "w": 100,
+    "h": 24
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "从商品库选择",
+   "placeholder": "",
+   "disabled": true,
+   "rect": {
+    "x": 1461,
+    "y": 356,
+    "w": 100,
+    "h": 24
+   }
+  },
+  {
+   "tag": "input",
+   "type": "color",
+   "text": "#b79a7c",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1340,
+    "y": 473,
+    "w": 27,
+    "h": 32
+   }
+  },
+  {
+   "tag": "input",
+   "type": "text",
+   "text": "#B79A7C",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1375,
+    "y": 476,
+    "w": 171,
+    "h": 27
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "交换",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1484,
+    "y": 513,
+    "w": 62,
+    "h": 24
+   }
+  },
+  {
+   "tag": "input",
+   "type": "color",
+   "text": "#a8896a",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1340,
+    "y": 567,
+    "w": 27,
+    "h": 32
+   }
+  },
+  {
+   "tag": "input",
+   "type": "text",
+   "text": "#A8896A",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1375,
+    "y": 569,
+    "w": 171,
+    "h": 27
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "参考匹配\n只把涂抹区域的颜色对齐到目标色，保留原明暗与材质",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1340,
+    "y": 694,
+    "w": 206,
+    "h": 62
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "色偏中和\n按区域平均偏色做整体中和，适合整片偏黄/偏蓝的拍摄色差",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1340,
+    "y": 760,
+    "w": 206,
+    "h": 62
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "局部补色\n只修补局部色彩异常（反光、污点引起的异色），边界自然过渡",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1340,
+    "y": 826,
+    "w": 206,
+    "h": 62
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "立即生成",
+   "placeholder": "",
+   "disabled": true,
+   "rect": {
+    "x": 1340,
+    "y": 999,
+    "w": 206,
+    "h": 32
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "生成结果",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1587,
+    "y": 193,
+    "w": 56,
+    "h": 42
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "历史记录",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1663,
+    "y": 193,
+    "w": 56,
+    "h": 42
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "连接",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 2265,
+    "y": 147,
+    "w": 66,
+    "h": 24
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "连接",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 2265,
+    "y": 215,
+    "w": 66,
+    "h": 24
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "连接",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 2265,
+    "y": 283,
+    "w": 66,
+    "h": 24
+   }
+  }
+ ],
+ "regions": [
+  {
+   "cls": "sticky top-0 z-[7] h-14 shrink-0 border-b border-hairline bg-surface/95 backdrop",
+   "rect": {
+    "x": 0,
+    "y": 0,
+    "w": 1920,
+    "h": 56
+   },
+   "text": "无限画布\n首页\n电商套图\n智能修图\n新模型\nAI视频\nHOT\n批量生图\n商品图设计\n中\n切换到深色主题\nv0.27.0"
+  },
+  {
+   "cls": "hidden w-[180px] shrink-0 overflow-y-auto rounded-xl border border-hairline bg-s",
+   "rect": {
+    "x": 16,
+    "y": 56,
+    "w": 180,
+    "h": 1008
+   },
+   "text": "智能修图\n局部重绘\n局部消除\n一键换色\n图片裁剪\n商品精修\n色差修复\n印花修复\n手部修复\n免责声明"
+  },
+  {
+   "cls": "flex min-h-14 shrink-0 flex-wrap items-center gap-3 border-b border-hairline px-",
+   "rect": {
+    "x": 209,
+    "y": 57,
+    "w": 1694,
+    "h": 109
+   },
+   "text": "智能修图 / 色差修复\n色差修复\n\n/tools/smart-edit/fix-color"
+  },
+  {
+   "cls": "min-h-0 flex-1 overflow-y-auto bg-transparent px-4 py-4 sm:px-5",
+   "rect": {
+    "x": 209,
+    "y": 166,
+    "w": 1694,
+    "h": 897
+   },
+   "text": "画笔\n橡皮\n笔刷\n35px\n羽化\n15\n35\n60\n100\n已涂 0 笔\n色差修复\n\n上传偏色服装图片\n\nAI将以服装原图为依据修复偏色\n\n尚未涂抹 · 覆盖率 0%\n\nStep 1：上传待修复图*\n上传色差图\n00 / 1 个 · PNG / JPG / WebP · ≤ 20 MB\n点击上传\n从本地上传\n从作品库选择\n从商品库选择\nStep 2：颜色矫正（区域色 / 目标色）\n区域颜色\n色差 ΔE 6.5 · 明显差异\n交换\n目标颜色\n点色块设为目标色\n修复版本\n参考匹配\n只把涂抹区域的颜色对齐到目标色，保留原明暗与材质\n色偏中和\n按区域平均偏色做整体中和，适合整片偏黄/偏蓝的拍摄色差\n局"
+  },
+  {
+   "cls": "flex min-w-0 flex-1 flex-col overflow-hidden rounded-xl border border-border bg-",
+   "rect": {
+    "x": 239,
+    "y": 192,
+    "w": 1074,
+    "h": 850
+   },
+   "text": "画笔\n橡皮\n笔刷\n35px\n羽化\n15\n35\n60\n100\n已涂 0 笔\n色差修复\n\n上传偏色服装图片\n\nAI将以服装原图为依据修复偏色\n\n尚未涂抹 · 覆盖率 0%"
+  },
+  {
+   "cls": "flex w-[240px] shrink-0 flex-col overflow-hidden rounded-xl border border-border",
+   "rect": {
+    "x": 1323,
+    "y": 192,
+    "w": 240,
+    "h": 850
+   },
+   "text": "Step 1：上传待修复图*\n上传色差图\n00 / 1 个 · PNG / JPG / WebP · ≤ 20 MB\n点击上传\n从本地上传\n从作品库选择\n从商品库选择\nStep 2：颜色矫正（区域色 / 目标色）\n区域颜色\n色差 ΔE 6.5 · 明显差异\n交换\n目标颜色\n点色块设为目标色\n修复版本\n参考匹配\n只把涂抹区域的颜色对齐到目标色，保留原明暗与材质\n色偏中和\n按区域平均偏色做整体中和，适合整片偏黄/偏蓝的拍摄色差\n局部补色\n只修补局部色彩异常（反光、污点引起的异色），边界自然过渡\nStep 3：进行AI修复\n\n请确保在左侧画板中选择了要进行修复的区域，AI将根据原图为您修复。\n\n立即"
+  },
+  {
+   "cls": "border-b border-border px-[16px] py-[10px] last:border-b-0",
+   "rect": {
+    "x": 1324,
+    "y": 193,
+    "w": 238,
+    "h": 223
+   },
+   "text": "Step 1：上传待修复图*\n上传色差图\n00 / 1 个 · PNG / JPG / WebP · ≤ 20 MB\n点击上传\n从本地上传\n从作品库选择\n从商品库选择"
+  },
+  {
+   "cls": "space-y-3",
+   "rect": {
+    "x": 1340,
+    "y": 229,
+    "w": 206,
+    "h": 164
+   },
+   "text": "上传色差图\n00 / 1 个 · PNG / JPG / WebP · ≤ 20 MB\n点击上传\n从本地上传\n从作品库选择\n从商品库选择"
+  },
+  {
+   "cls": "border-b border-border px-[16px] py-[10px] last:border-b-0",
+   "rect": {
+    "x": 1324,
+    "y": 416,
+    "w": 238,
+    "h": 242
+   },
+   "text": "Step 2：颜色矫正（区域色 / 目标色）\n区域颜色\n色差 ΔE 6.5 · 明显差异\n交换\n目标颜色\n点色块设为目标色"
+  },
+  {
+   "cls": "border-b border-border px-[16px] py-[10px] last:border-b-0",
+   "rect": {
+    "x": 1324,
+    "y": 658,
+    "w": 238,
+    "h": 241
+   },
+   "text": "修复版本\n参考匹配\n只把涂抹区域的颜色对齐到目标色，保留原明暗与材质\n色偏中和\n按区域平均偏色做整体中和，适合整片偏黄/偏蓝的拍摄色差\n局部补色\n只修补局部色彩异常（反光、污点引起的异色），边界自然过渡"
+  },
+  {
+   "cls": "border-b border-border px-[16px] py-[10px] last:border-b-0",
+   "rect": {
+    "x": 1324,
+    "y": 899,
+    "w": 238,
+    "h": 89
+   },
+   "text": "Step 3：进行AI修复\n\n请确保在左侧画板中选择了要进行修复的区域，AI将根据原图为您修复。"
+  },
+  {
+   "cls": "flex w-[300px] shrink-0 flex-col overflow-hidden rounded-xl border border-border",
+   "rect": {
+    "x": 1573,
+    "y": 192,
+    "w": 300,
+    "h": 850
+   },
+   "text": "生成结果\n历史记录\n色差修复结果\n\n暂无生成结果图\n\n上传偏色图并涂抹区域后，点立即生成。"
+  },
+  {
+   "cls": "space-y-3 rounded-xl border border-border bg-card p-4",
+   "rect": {
+    "x": 1586,
+    "y": 243,
+    "w": 274,
+    "h": 249
+   },
+   "text": "色差修复结果\n\n暂无生成结果图\n\n上传偏色图并涂抹区域后，点立即生成。"
+  },
+  {
+   "cls": "rounded-lg border border-border bg-card/40 p-3 mt-4",
+   "rect": {
+    "x": 229,
+    "y": 1068,
+    "w": 1654,
+    "h": 80
+   },
+   "text": "历史任务\n0 条\n\n本工具还没有历史任务；提交一次后会在这里留下任务、配置与结果，刷新后仍在。"
+  },
+  {
+   "cls": "relative flex h-full shrink-0 flex-col border-l",
+   "rect": {
+    "x": 1920,
+    "y": 0,
+    "w": 440,
+    "h": 1080
+   },
+   "text": "连接本地 Agent\n未连接\n点连接会自动启动本地服务、装好插件并接通，无需手动配置。\nClaude Code\n未连接\n·\nCLI · 2.1.285 (Claude Code)\n·\n直接运行\n连接\nCodex\n未连接\n·\nCLI · codex-cli 0.163.0\n·\n插件已装\n连接\nGalley\n未连接\n·\nCLI + 桌面版 · galley 0.6.4\n连接"
+  }
+ ]
+}

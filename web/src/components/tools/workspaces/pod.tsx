@@ -6,6 +6,7 @@ import { ToolCases } from "@/components/tools/tool-cases";
 import type { ToolCase } from "@/components/tools/tool-cases";
 import { ToolResult } from "@/components/tools/tool-result";
 import { cn } from "@/lib/utils";
+import { OrigRail, PRODUCT_DESIGN_RAIL } from "@/components/tools/workspaces/orig-rail";
 import { loadToolAssetRecords, uploadToolAsset, type ToolAssetRecord } from "@/services/api/tools/assets";
 import type { ToolTask } from "@/services/api/tools/task-machine";
 import { resolveModelChannel, selectableModelsByCapability, useConfigStore } from "@/stores/use-config-store";
@@ -116,6 +117,7 @@ import {
 } from "@/features/tools/registry/sds-design";
 import { uploadCaseFiles } from "@/features/tools/case-apply";
 import { SDS_DESIGN_CASES } from "@/features/tools/tool-cases-data";
+import { WatermarkGroupPanel } from "@/components/tools/watermark-group-panel";
 
 /**
  * TASK-029：AI_TEXT（POD素材）工作区。
@@ -1608,6 +1610,8 @@ export function SdsDesignWorkspace() {
 
     return (
         <div className="flex flex-col gap-[10px] xl:flex-row" data-tool-workspace="sds-design" data-variant="sds-1to1">
+            <OrigRail items={PRODUCT_DESIGN_RAIL} active="素材贴合" driver testId="sds-family-rail" label="素材和灵感" className="order-first w-full" />
+            <WatermarkGroupPanel />
             {/* 左：素材贴合主面板（舞台 + 右栏参数卡） */}
             <section
                 aria-label="素材贴合"
@@ -1693,6 +1697,7 @@ export function SdsDesignWorkspace() {
                                         aria-pressed={active}
                                         disabled={running}
                                         title={option.label}
+                                        aria-label={option.label}
                                         onClick={() => update((previous) => ({ ...previous, colorId: option.id }))}
                                         className={cn(
                                             "flex h-[26px] w-[26px] items-center justify-center rounded-full border transition",
@@ -1705,7 +1710,6 @@ export function SdsDesignWorkspace() {
                                             className="block h-[20px] w-[20px] rounded-full border border-black/10"
                                             style={{ backgroundColor: option.hex || "transparent" }}
                                         />
-                                        <span className="sr-only">{option.label}</span>
                                     </button>
                                 );
                             })}
@@ -1744,6 +1748,7 @@ export function SdsDesignWorkspace() {
                                 {running ? <Loader2 className="h-4 w-4 animate-spin" /> : null}
                                 {submitLabel}
                             </button>
+                            <span className="text-[12px] text-muted-foreground">(20算力)</span>
                         </div>
                     </div>
                 </div>

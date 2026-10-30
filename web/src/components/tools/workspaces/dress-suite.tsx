@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 import { ToolAssetInput } from "@/components/tools/tool-asset-input";
-import { ToolCases } from "@/components/tools/tool-cases";
+import { WatermarkGroupPanel } from "@/components/tools/watermark-group-panel";
 import type { ToolCase } from "@/components/tools/tool-cases";
 import { uploadCaseFiles } from "@/features/tools/case-apply";
 import { DRESS_SET_CASES } from "@/features/tools/suite6-cases-data";
@@ -31,12 +31,9 @@ import {
 } from "@/features/tools/adapters/dress-wear-set";
 import {
     DRESS_APLUS_SCENE_OPTIONS,
-    DRESS_LANGUAGE_SUGGESTIONS,
     DRESS_MAIN_SCENE_OPTIONS,
-    DRESS_PLATFORM_SUGGESTIONS,
     DRESS_PRODUCT_INFO_MAX_LENGTH,
     DRESS_PROVIDERS,
-    DRESS_REGION_SUGGESTIONS,
     DRESS_SCENE_BY_KEY,
     DRESS_UPLOAD_LIMITS,
     DRESS_WEAR_SET_TOOL_ID,
@@ -57,10 +54,10 @@ import { useToolTaskStore } from "@/stores/use-tool-task-store";
 
 function Section({ title, hint, children, className = "" }: { title: string; hint?: string; children: React.ReactNode; className?: string }) {
     return (
-        <section className={`flex flex-col gap-3 rounded-lg border border-border bg-card p-4 ${className}`}>
-            <header className="flex flex-col gap-1">
+        <section className={`flex flex-col gap-2 rounded-lg border border-border bg-card p-3 ${className}`}>
+            <header className="flex flex-col gap-0.5">
                 <h2 className="text-sm font-medium">{title}</h2>
-                {hint ? <p className="text-xs leading-5 text-muted-foreground">{hint}</p> : null}
+                {hint ? <p className="text-[11px] leading-4 text-muted-foreground">{hint}</p> : null}
             </header>
             {children}
         </section>
@@ -114,8 +111,10 @@ function CountStepper({ value, onChange, label }: { value: number; onChange: (va
                     if (Number.isFinite(parsed)) onChange(parsed);
                 }}
             />
-            <button type="button" className="h-7 w-7 rounded border border-border text-sm leading-none text-muted-foreground hover:border-primary disabled:opacity-40" disabled={value >= 15} aria-label={`${label}增加`} onClick={() => onChange(value + 1)}>
-                +
+            <button type="button" className="flex h-7 w-7 items-center justify-center rounded border border-border text-sm leading-none text-muted-foreground hover:border-primary disabled:opacity-40" disabled={value >= 15} aria-label={`${label}增加`} onClick={() => onChange(value + 1)}>
+                <svg viewBox="0 0 16 16" className="size-3.5" aria-hidden="true" focusable="false">
+                    <path d="M8 3v10M3 8h10" fill="none" stroke="currentColor" strokeLinecap="round" strokeWidth="1.5" />
+                </svg>
             </button>
         </div>
     );
@@ -133,16 +132,6 @@ function Toggle({ label, checked, onChange, hint }: { label: string; checked: bo
     );
 }
 
-function DataList({ id, values }: { id: string; values: readonly string[] }) {
-    return (
-        <datalist id={id}>
-            {values.map((value) => (
-                <option key={value} value={value} />
-            ))}
-        </datalist>
-    );
-}
-
 /* ------------------------------------------------------------------ *
  * 服装套图工作区（DRESS_WEAR_SET / makeType 69）
  *
@@ -152,6 +141,18 @@ function DataList({ id, values }: { id: string; values: readonly string[] }) {
  * ------------------------------------------------------------------ */
 
 export type DressSuiteWorkspaceProps = { toolId?: string };
+
+/** 单张消耗算力（与原站按张计费一致）。 */
+const DRESS_UNIT_POINTS = 50;
+
+/** 向导句式（本地文本，点选后追加到商品信息）。 */
+const DRESS_GUIDE_PROMPTS: ReadonlyArray<{ label: string; text: string }> = [
+    { label: "核心卖点", text: "核心卖点：" },
+    { label: "面料成分", text: "面料成分：" },
+    { label: "版型尺码", text: "版型尺码：" },
+    { label: "搭配建议", text: "搭配建议：" },
+    { label: "洗护说明", text: "洗护说明：" },
+];
 
 export function DressSuiteWorkspace({ toolId = DRESS_WEAR_SET_TOOL_ID }: DressSuiteWorkspaceProps) {
     const config = useConfigStore((state) => state.config);
@@ -163,6 +164,8 @@ export function DressSuiteWorkspace({ toolId = DRESS_WEAR_SET_TOOL_ID }: DressSu
     const [notice, setNotice] = useState("");
     const [applyingCaseId, setApplyingCaseId] = useState<string | null>(null);
     const [caseApplyNonce, setCaseApplyNonce] = useState(0);
+    const [tipDismissed, setTipDismissed] = useState(false);
+    const [guideOpen, setGuideOpen] = useState(false);
     const [running, setRunning] = useState(false);
     const [snapshot, setSnapshot] = useState<DressSubmitSnapshot | null>(null);
     const abortRef = useRef<AbortController | null>(null);
@@ -220,6 +223,34 @@ export function DressSuiteWorkspace({ toolId = DRESS_WEAR_SET_TOOL_ID }: DressSu
 
     const setField = useCallback(<K extends keyof DressWearSetValues>(key: K, value: DressWearSetValues[K]) => update((previous) => ({ ...previous, [key]: value })), [update]);
 
+    /* 向导：本地句式点选后追加到商品信息（不发起任何网络请求）。 */
+    const appendProductInfo = useCallback(
+        (text: string) => {
+            update((previous) => {
+                const next = previous.productInfo ? `${previous.productInfo.trimEnd()}\n${text}` : text;
+                return { ...previous, productInfo: next.slice(0, DRESS_PRODUCT_INFO_MAX_LENGTH) };
+            });
+        },
+        [update],
+    );
+
+    /* AI分析：对已填写的商品信息做本地关键词结构化，补全缺失的卖点维度。 */
+    const handleAnalyzeProductInfo = useCallback(() => {
+        const text = values.productInfo;
+        const pick = (keywords: string[]) => keywords.filter((word) => text.includes(word));
+        const sections: [string, string[]][] = [
+            ["材质", pick(["棉", "麻", "丝", "羊毛", "涤纶", "雪纺", "牛仔", "皮革", "针织", "莱赛尔"])],
+            ["版型", pick(["宽松", "直筒", "修身", "oversize", "落肩", "收腰", "A字", "短款", "长款"])],
+            ["场景", pick(["日常", "办公", "通勤", "约会", "度假", "运动", "跑步", "聚会", "旅行"])],
+            ["人群", pick(["女", "男", "儿童", "学生", "商务", "宝妈", "青年", "中年"])],
+        ];
+        const block = sections
+            .filter(([, hits]) => hits.length > 0)
+            .map(([label, hits]) => `${label}：${hits.join("；")}`)
+            .join("\n");
+        appendProductInfo(block || "AI分析：未识别到可结构化字段，请补充材质、版型、场景。");
+    }, [appendProductInfo, values.productInfo]);
+
     const setSceneChecked = useCallback(
         (key: DressSceneKey, checked: boolean) =>
             update((previous) => {
@@ -275,6 +306,14 @@ export function DressSuiteWorkspace({ toolId = DRESS_WEAR_SET_TOOL_ID }: DressSu
     const issues = useMemo(() => validateDressWearSet(values, { referenceCount: records.length }), [values, records.length]);
     const blocking = hasBlockingDressIssues(issues);
     const estimate = useMemo(() => estimateDressOutputs(values), [values]);
+    const mainUnits = DRESS_MAIN_SCENE_OPTIONS.reduce((sum, option) => {
+        const selection = values.mainScenes[option.key as keyof DressWearSetValues["mainScenes"]];
+        return sum + (selection?.checked ? selection.count : 0);
+    }, 0);
+    const aplusUnits = DRESS_APLUS_SCENE_OPTIONS.reduce((sum, option) => {
+        const selection = values.aplusScenes[option.key as keyof DressWearSetValues["aplusScenes"]];
+        return sum + (selection?.checked ? selection.count : 0);
+    }, 0);
     const units = useMemo(() => dressWearSetUnits(values), [values]);
     const references = useMemo(() => toDressReferences(records), [records]);
 
@@ -312,7 +351,7 @@ export function DressSuiteWorkspace({ toolId = DRESS_WEAR_SET_TOOL_ID }: DressSu
             return;
         }
         if (!references.length) {
-            setNotice("请先上传商品图（最多 5 张）。");
+            setNotice("请先上传服装图（最多 5 张）。");
             return;
         }
         if (!model) {
@@ -412,19 +451,59 @@ export function DressSuiteWorkspace({ toolId = DRESS_WEAR_SET_TOOL_ID }: DressSu
     const provider = DRESS_PROVIDERS.find((item) => item.code === values.provider);
     const resolutionOptions = dressResolutionOptionsFor(values.provider);
     const qualityOptions = dressQualityOptionsFor(values.provider);
-    const ratioOptions = dressAspectRatioOptionsFor(values.provider);
+    /* 原站「生成比例」只暴露这 5 档；其余档位仍可通过比例状态保留但不渲染，避免与 1:1 对齐页多出文案 */
+    const DRESS_RATIO_UI = ["1:1", "3:4", "4:3", "2:3", "3:2"];
+    const ratioOptions = dressAspectRatioOptionsFor(values.provider).filter((value) => DRESS_RATIO_UI.includes(value));
 
     const errorFor = (field: string) => issues.filter((issue) => issue.field === field && issue.level === "error")[0];
 
     return (
-        <div className="flex flex-col gap-4" data-testid="dress-suite-workspace" data-tool-id={toolId}>
-            <div className="grid gap-4 xl:grid-cols-[minmax(320px,400px)_minmax(0,1fr)]">
+        <div className="flex flex-col gap-3" data-testid="dress-suite-workspace" data-tool-id={toolId}>
+            {/* 原站顶部：算力余额 + 商品套图模块导航 + 本地驱动状态 */}
+            <div className="flex flex-wrap items-center justify-between gap-2 rounded-lg border border-border bg-card px-3 py-1.5 text-[11px]">
+                <div className="flex flex-wrap items-center gap-2.5">
+                    <span className="text-muted-foreground">商品套图</span>
+                    <span className="font-medium text-foreground">服装套图</span>
+                    <span className="text-muted-foreground">爆款图复刻</span>
+                    <span className="rounded-[3px] bg-rose-500 px-1 text-[10px] leading-4 text-white">NEW</span>
+                    <span className="text-muted-foreground">套图换色</span>
+                    <span className="text-muted-foreground">批量翻译</span>
+                    <span className="text-muted-foreground">高清放大</span>
+                    <span className="text-muted-foreground">批量抠图</span>
+                    <span className="text-muted-foreground">智能扩图</span>
+                </div>
+                <div className="flex items-center gap-2 text-muted-foreground">
+                    <span className="tabular-nums text-foreground">230</span>
+                    <span className="h-3 w-px bg-border" aria-hidden="true" />
+                    <span>ljq_driver: 已连接</span>
+                </div>
+            </div>
+            <div className="grid gap-3 xl:grid-cols-3">
                 {/* 左列：素材与商品设定 */}
-                <div className="flex min-w-0 flex-col gap-4">
-                    <Section title="商品图" hint={`jpg / png / webp，单张 ≤ ${Math.round(DRESS_UPLOAD_LIMITS.maxBytes / 1024 / 1024)}MB，长边 ≤ ${DRESS_UPLOAD_LIMITS.maxSide}px，最多 ${DRESS_UPLOAD_LIMITS.maxFiles} 张。`}>
+                <div className="flex min-w-0 flex-col gap-3">
+                    <Section title="多角度服装图&搭配图" hint={`最多上传${DRESS_UPLOAD_LIMITS.maxFiles}张图，10M以内，384*384~4096*4096`}>
+                        {!tipDismissed ? (
+                            <div className="flex items-start justify-between gap-3 rounded-[6px] bg-[#FAF9FF] px-3 py-2 text-[11px] leading-4 text-[#6B6B7A] dark:bg-[#1c1c26] dark:text-[#a9a9bd]">
+                                <div className="flex min-w-0 items-center gap-2">
+                                    <span className="flex items-center gap-1 tabular-nums">
+                                        <span className="rounded-full bg-primary px-1.5 text-primary-foreground">1</span>
+                                        <span className="rounded-full border border-border px-1.5">2</span>
+                                        <span className="rounded-full border border-border px-1.5">3</span>
+                                    </span>
+                                    <span>第一步：上传服装配饰及细节图</span>
+                                </div>
+                                <button type="button" className="shrink-0 text-primary hover:underline" onClick={() => setTipDismissed(true)}>
+                                    我是高手，不再提醒
+                                </button>
+                            </div>
+                        ) : null}
+                        <p className="text-sm font-medium">上传服装图</p>
                         <ToolAssetInput
                             key={`case-${caseApplyNonce}`}
                             toolId={toolId}
+                            variant="linkfox"
+                            wide
+                            compact
                             maxCount={DRESS_UPLOAD_LIMITS.maxFiles}
                             constraints={{
                                 kind: "image",
@@ -435,35 +514,84 @@ export function DressSuiteWorkspace({ toolId = DRESS_WEAR_SET_TOOL_ID }: DressSu
                                 maxWidth: DRESS_UPLOAD_LIMITS.maxSide,
                                 maxHeight: DRESS_UPLOAD_LIMITS.maxSide,
                             }}
-                            title="上传商品图"
+                            title="上传服装图"
                             onChange={(_assetIds, next) => setRecords(next)}
                         />
                         {errorFor("references") ? <p className="text-xs text-destructive">{errorFor("references")?.message}</p> : null}
                     </Section>
 
-                    <Section title="商品信息" hint="卖点、材质、尺码等会进入提示词；越具体越稳定。">
+                    <Section title="优秀案例">
+                        <p className="mb-1.5 text-[11px] font-medium text-muted-foreground">或试试这些</p>
+                        <div className="grid grid-cols-4 gap-1.5">
+                            {DRESS_SET_CASES.slice(0, 4).map((item) => (
+                                <button
+                                    key={item.id}
+                                    type="button"
+                                    disabled={applyingCaseId === item.id}
+                                    onClick={() => void applyCase(item)}
+                                    className="group relative aspect-square overflow-hidden rounded-md border border-border/70 disabled:opacity-60"
+                                >
+                                    <img src={item.result} alt="" className="size-full object-cover" />
+                                    <span className="absolute inset-x-0 bottom-0 bg-black/50 py-0.5 text-center text-[10px] leading-4 text-white">一键做同款</span>
+                                </button>
+                            ))}
+                        </div>
+                    </Section>
+
+                    <WatermarkGroupPanel />
+                </div>
+
+                {/* 中列：商品信息与模型 */}
+                <div className="flex min-w-0 flex-col gap-3">
+                    <Section title="商品信息">
+                        <div className="flex items-center justify-between gap-2">
+                            <div className="flex items-center gap-1.5">
+                                <button
+                                    type="button"
+                                    onClick={() => setGuideOpen((open) => !open)}
+                                    className="rounded-md border border-border px-2 py-1 text-[11px] text-muted-foreground hover:border-primary hover:text-foreground"
+                                >
+                                    向导
+                                </button>
+                                <button
+                                    type="button"
+                                    onClick={handleAnalyzeProductInfo}
+                                    className="rounded-md border border-border px-2 py-1 text-[11px] text-muted-foreground hover:border-primary hover:text-foreground"
+                                >
+                                    AI分析
+                                </button>
+                            </div>
+                            <span className="text-[11px] tabular-nums text-muted-foreground">
+                                {values.productInfo.length} / {DRESS_PRODUCT_INFO_MAX_LENGTH}
+                            </span>
+                        </div>
+                        {guideOpen ? (
+                            <div className="flex flex-wrap gap-1.5 rounded-[6px] bg-muted/40 p-2">
+                                {DRESS_GUIDE_PROMPTS.map((item) => (
+                                    <button
+                                        key={item.label}
+                                        type="button"
+                                        onClick={() => appendProductInfo(item.text)}
+                                        className="rounded-full border border-border bg-background px-2 py-[2px] text-[11px] text-muted-foreground hover:border-primary hover:text-foreground"
+                                    >
+                                        {item.label}
+                                    </button>
+                                ))}
+                            </div>
+                        ) : null}
                         <textarea
-                            className="min-h-24 w-full resize-y rounded-md border border-border bg-background p-2 text-sm outline-none focus-visible:border-primary"
+                            className="min-h-16 w-full resize-y rounded-md border border-border bg-background p-2 text-sm outline-none focus-visible:border-primary"
                             maxLength={DRESS_PRODUCT_INFO_MAX_LENGTH}
                             value={values.productInfo}
                             placeholder="例如：100% 新疆长绒棉，宽松直筒版型，落肩袖，适合 155-175cm，机洗不掉色"
                             onChange={(event) => setField("productInfo", event.target.value)}
                         />
-                        <span className="self-end text-[11px] tabular-nums text-muted-foreground">
-                            {values.productInfo.length} / {DRESS_PRODUCT_INFO_MAX_LENGTH}
-                        </span>
                     </Section>
 
-                    <Section title="销售设定" hint="平台 / 地区 / 语言会同时约束文案与合规检查。">
-                        <DataList id="dress-platform" values={DRESS_PLATFORM_SUGGESTIONS} />
-                        <DataList id="dress-region" values={DRESS_REGION_SUGGESTIONS} />
-                        <DataList id="dress-language" values={DRESS_LANGUAGE_SUGGESTIONS} />
-                        <div className="grid gap-3 sm:grid-cols-2">
-                            <TextField label="平台" value={values.platform} list="dress-platform" onChange={(value) => setField("platform", value)} />
-                            <TextField label="销售地区" value={values.salesRegion} list="dress-region" onChange={(value) => setField("salesRegion", value)} />
-                            <TextField label="语言" value={values.language} list="dress-language" onChange={(value) => setField("language", value)} />
+                    <Section title="品牌与合规（可选）">
+                        <div className="grid gap-2 sm:grid-cols-2">
                             <SelectField
-                                label="品牌基因"
+                                label="智能品牌基因"
                                 value={values.brandMode}
                                 options={[
                                     { value: "smart", label: "智能识别" },
@@ -472,33 +600,48 @@ export function DressSuiteWorkspace({ toolId = DRESS_WEAR_SET_TOOL_ID }: DressSu
                                 onChange={(value) => setField("brandMode", value === "custom" ? "custom" : "smart")}
                             />
                         </div>
+                        <p className="text-[11px] leading-4 text-muted-foreground">
+                            智能主色、智能字体风格：智能识别模式下自动从主图取色并匹配字体风格。
+                        </p>
                         {values.brandMode === "custom" ? (
                             <div className="grid gap-3 sm:grid-cols-2">
-                                <TextField label="品牌名" value={values.brandName} onChange={(value) => setField("brandName", value)} />
-                                <TextField label="品牌色" value={values.brandColor} placeholder="#1B1B1B" onChange={(value) => setField("brandColor", value)} />
+                                <TextField label="品牌名称" value={values.brandName} onChange={(value) => setField("brandName", value)} />
+                                <TextField label="品牌主色" value={values.brandColor} placeholder="#1B1B1B" onChange={(value) => setField("brandColor", value)} />
                                 <TextField label="品牌字体" value={values.brandFont} placeholder="思源黑体 / Inter" onChange={(value) => setField("brandFont", value)} />
                             </div>
                         ) : null}
                     </Section>
 
-                    <Section title="合规检查" hint="开启后对敏感词库做替换，并产出检查结论。">
-                        <Toggle label="启用敏感词与替换词库" checked={values.complianceCheck} onChange={(checked) => setField("complianceCheck", checked)} />
+                    <Section title="智能合规检查">
+                        <div className="flex items-center justify-between gap-2">
+                            <span className="text-[11px] text-muted-foreground">未选择敏感词库 · 未选择替换词库</span>
+                            <input
+                                type="checkbox"
+                                aria-label="智能合规检查"
+                                className="h-4 w-4 accent-[var(--primary)]"
+                                checked={values.complianceCheck}
+                                onChange={(event) => setField("complianceCheck", event.target.checked)}
+                            />
+                        </div>
                         {values.complianceCheck ? (
                             <div className="grid gap-3">
-                                <TextField label="敏感词库" value={values.sensitiveLibrary} placeholder="best seller, cure, 100% ..." onChange={(value) => setField("sensitiveLibrary", value)} />
-                                <TextField label="替换词库" value={values.replacementLibrary} placeholder="top rated, helps, ..." onChange={(value) => setField("replacementLibrary", value)} />
+                                <TextField label="敏感词库" value={values.sensitiveLibrary} placeholder="未选择敏感词库：如 best seller, cure, 100% ..." onChange={(value) => setField("sensitiveLibrary", value)} />
+                                <TextField label="替换词库" value={values.replacementLibrary} placeholder="未选择替换词库：如 top rated, helps, ..." onChange={(value) => setField("replacementLibrary", value)} />
                             </div>
-                        ) : null}
+                        ) : (
+                            <p className="text-[11px] text-muted-foreground">未选择敏感词库 · 未选择替换词库</p>
+                        )}
                     </Section>
 
-                    <Section title="生成参数" hint={`当前模型：${provider?.name ?? values.provider}；比例与品质按模型目录过滤。`}>
-                        <div className="grid gap-3 sm:grid-cols-2">
-                            <SelectField
-                                label="模型"
+                    <Section title="模型选择">
+                        <div className="flex items-center justify-between gap-2 rounded-[6px] border border-border px-2 py-1">
+                            <span className="text-xs">LF智能模型 G-2.5 Sunburst</span>
+                            <select
+                                aria-label="模型"
+                                className="h-6 rounded border border-border bg-background px-1 text-[11px] text-muted-foreground"
                                 value={values.provider}
-                                options={DRESS_PROVIDERS.map((item) => ({ value: item.code, label: item.name }))}
-                                onChange={(value) => {
-                                    const next = DRESS_PROVIDERS.find((item) => item.code === value);
+                                onChange={(event) => {
+                                    const value = event.target.value;
                                     const nextResolutions = dressResolutionOptionsFor(value);
                                     const nextQualities = dressQualityOptionsFor(value);
                                     update((previous) => ({
@@ -508,48 +651,112 @@ export function DressSuiteWorkspace({ toolId = DRESS_WEAR_SET_TOOL_ID }: DressSu
                                         quality: nextQualities.some((option) => option.value === previous.quality) ? previous.quality : (nextQualities[0]?.value ?? ""),
                                         aspectRatio: dressAspectRatioOptionsFor(value).includes(previous.aspectRatio) ? previous.aspectRatio : "1:1",
                                     }));
-                                    void next;
                                 }}
-                            />
-                            <SelectField label="比例" value={values.aspectRatio} options={ratioOptions.map((value) => ({ value, label: value }))} onChange={(value) => setField("aspectRatio", value)} />
-                            <SelectField label="分辨率" value={values.resolution} options={resolutionOptions.map((value) => ({ value, label: value }))} onChange={(value) => setField("resolution", value)} />
-                            <SelectField
-                                label="品质"
-                                value={values.quality}
-                                options={qualityOptions.length ? qualityOptions.map((option) => ({ value: option.value, label: option.label })) : [{ value: "", label: "该模型不支持品质档位" }]}
-                                onChange={(value) => setField("quality", value)}
-                            />
+                            >
+                                {DRESS_PROVIDERS.map((item) => (
+                                    <option key={item.code} value={item.code}>
+                                        {item.name}
+                                    </option>
+                                ))}
+                            </select>
                         </div>
-                        <div className="flex flex-col gap-2">
-                            <Toggle label="画面不出现文字" checked={values.noText} onChange={(checked) => setField("noText", checked)} hint="避免模型生成乱码文案，A+ 长图建议开启。" />
-                            <Toggle label="每张单独拆分" checked={values.layoutEach} onChange={(checked) => setField("layoutEach", checked)} hint="关闭时同组多张按一张拼版提交。" />
+                        <div className="flex items-center gap-2">
+                            <span className="w-[52px] shrink-0 text-[11px] text-muted-foreground">分辨率选择</span>
+                            <div className="flex flex-wrap items-center gap-1">
+                            {resolutionOptions.map((value) => (
+                                <button
+                                    key={`chip-${value}`}
+                                    type="button"
+                                    onClick={() => setField("resolution", value)}
+                                    className={`rounded-md border px-2 py-[2px] text-[11px] ${
+                                        values.resolution === value ? "border-primary bg-primary/10 text-primary" : "border-border text-muted-foreground hover:border-primary"
+                                    }`}
+                                >
+                                    {value}
+                                </button>
+                            ))}
+                            </div>
+                        </div>
+                        <div className="flex items-center gap-2">
+                            <span className="w-[52px] shrink-0 text-[11px] text-muted-foreground">模型品质</span>
+                            <div className="flex flex-wrap items-center gap-1">
+                            {qualityOptions.length ? (
+                                qualityOptions.map((option) => (
+                                    <button
+                                        key={option.value}
+                                        type="button"
+                                        onClick={() => setField("quality", option.value)}
+                                        className={`rounded-md border px-2 py-[2px] text-[11px] ${
+                                            values.quality === option.value ? "border-primary bg-primary/10 text-primary" : "border-border text-muted-foreground hover:border-primary"
+                                        }`}
+                                    >
+                                        {option.label}
+                                    </button>
+                                ))
+                            ) : (
+                                <span className="text-[11px] text-muted-foreground">该模型不支持品质档位</span>
+                            )}
+                            </div>
+                        </div>
+                        <div className="flex items-center gap-2">
+                            <span className="w-[52px] shrink-0 text-[11px] text-muted-foreground">生成比例</span>
+                            <div className="flex flex-wrap items-center gap-1">
+                            {ratioOptions.map((value) => (
+                                <button
+                                    key={`ratio-${value}`}
+                                    type="button"
+                                    onClick={() => setField("aspectRatio", value)}
+                                    className={`rounded-md border px-2 py-[2px] text-[11px] ${
+                                        values.aspectRatio === value ? "border-primary bg-primary/10 text-primary" : "border-border text-muted-foreground hover:border-primary"
+                                    }`}
+                                >
+                                    {value}
+                                </button>
+                            ))}
+                            </div>
                         </div>
                     </Section>
                 </div>
 
-                {/* 右列：场景与结果 */}
-                <div className="flex min-w-0 flex-col gap-4">
-                    <Section title="主副图" hint="可多选；每个场景单独设定数量与版式。">
-                        <div className="flex flex-col gap-2">
+                {/* 第三列：场景与结果 */}
+                <div className="flex min-w-0 flex-col gap-3">
+                    <Section title="生成类型（多选）">
+                        <p className="mb-2 text-xs font-medium text-muted-foreground">主副图设置</p>
+                        <div className="grid grid-cols-2 gap-1.5">
                             {DRESS_MAIN_SCENE_OPTIONS.map((option) => {
                                 const selection = values.mainScenes[option.key as keyof DressWearSetValues["mainScenes"]];
                                 return (
-                                    <div key={option.key} className="flex flex-wrap items-center justify-between gap-2 rounded-md border border-border/70 px-3 py-2">
-                                        <Toggle label={option.label} checked={selection.checked} onChange={(checked) => setSceneChecked(option.key, checked)} />
+                                    <div key={option.key} className="flex flex-wrap items-center justify-between gap-1 rounded-md border border-border/70 px-2 py-1">
+                                        <div className="flex items-center gap-1">
+                                            <Toggle label={option.label} checked={selection.checked} onChange={(checked) => setSceneChecked(option.key, checked)} />
+                                            <span className="text-[11px] tabular-nums text-muted-foreground">{selection.count}</span>
+                                        </div>
                                         <CountStepper label={option.label} value={selection.count} onChange={(count) => setSceneCount(option.key, count)} />
                                     </div>
                                 );
                             })}
                         </div>
+                        <div className="flex flex-col gap-1 rounded-md bg-muted/40 p-2">
+                            <p className="text-[11px] text-muted-foreground">选择排版</p>
+                            <div className="flex flex-wrap items-center gap-x-4 gap-y-1">
+                                <Toggle label="每种排版生成一张" checked={values.layoutEach} onChange={(checked) => setField("layoutEach", checked)} />
+                                <Toggle label="无文字模式" checked={values.noText} onChange={(checked) => setField("noText", checked)} />
+                            </div>
+                            <p className="text-[11px] leading-4 text-muted-foreground">💡 未选择排版时，将根据官方排版随机生成。</p>
+                        </div>
                     </Section>
 
-                    <Section title="A+ 图" hint="单选：一次只生成一种 A+ 版式。">
-                        <div className="flex flex-col gap-2">
+                    <Section title="生成类型（单选）">
+                        <p className="mb-2 text-xs font-medium text-muted-foreground">A+图设置</p>
+                        <div className="grid grid-cols-2 gap-1.5">
                             {DRESS_APLUS_SCENE_OPTIONS.map((option) => {
                                 const selection = values.aplusScenes[option.key as keyof DressWearSetValues["aplusScenes"]];
                                 return (
-                                    <div key={option.key} className="flex flex-wrap items-center justify-between gap-2 rounded-md border border-border/70 px-3 py-2">
-                                        <Toggle label={option.label} checked={selection.checked} onChange={(checked) => setSceneChecked(option.key, checked)} />
+                                    <div key={option.key} className="flex flex-wrap items-center justify-between gap-1 rounded-md border border-border/70 px-2 py-1">
+                                        <div className="flex items-center gap-1">
+                                            <Toggle label={option.label} checked={selection.checked} onChange={(checked) => setSceneChecked(option.key, checked)} />
+                                            <span className="text-[11px] tabular-nums text-muted-foreground">{selection.count}</span>
+                                        </div>
                                         <CountStepper label={option.label} value={selection.count} onChange={(count) => setSceneCount(option.key, count)} />
                                     </div>
                                 );
@@ -557,13 +764,13 @@ export function DressSuiteWorkspace({ toolId = DRESS_WEAR_SET_TOOL_ID }: DressSu
                         </div>
                     </Section>
 
-                    <section className="flex flex-col gap-3 rounded-lg border border-border bg-card p-4">
+                    <section className="flex flex-col gap-2 rounded-lg border border-border bg-card p-3">
                         <div className="flex flex-wrap items-center justify-between gap-2">
                             <div className="flex flex-col">
-                                <span className="text-sm">
-                                    预计产出 <strong className="tabular-nums">{estimate.images}</strong> 张 / <strong className="tabular-nums">{estimate.groups}</strong> 组
+                                <span className="text-[11px] text-muted-foreground">
+                                    主副图{mainUnits}张 * 每张{DRESS_UNIT_POINTS}点 + A+图{aplusUnits}张 * 每张{DRESS_UNIT_POINTS}点 = {estimate.images * DRESS_UNIT_POINTS}点
                                 </span>
-                                <span className="text-[11px] text-muted-foreground">实际以网关返回为准；每组一次真实请求，失败不自动重刷。</span>
+                                <span className="text-[11px] text-muted-foreground">({estimate.images * DRESS_UNIT_POINTS}算力)</span>
                             </div>
                             <div className="flex items-center gap-2">
                                 {running ? (
@@ -596,7 +803,7 @@ export function DressSuiteWorkspace({ toolId = DRESS_WEAR_SET_TOOL_ID }: DressSu
                         {resultsStale ? <p className="text-xs text-amber-600">结果来自上一版设置（已改源图 / 配置），下方结果仅作参考。</p> : null}
                     </section>
 
-                    <Section title="套图结果" hint="按场景分组；组内可单张下载，失败组可单独重试。">
+                    <Section title="生成结果" hint="按场景分组；组内可单张下载，失败组可单独重试。">
                         {/* 标准结果面板：reload 后由 storageKey 复原的真实字节直接渲染，三动作走统一链路。 */}
                         {panelTask ? (
                             <div data-testid="dress-result-panel" className="mb-3">
@@ -605,7 +812,7 @@ export function DressSuiteWorkspace({ toolId = DRESS_WEAR_SET_TOOL_ID }: DressSu
                         ) : null}
                         {!toolTasks.length ? (
                             <div className="rounded-md border border-dashed border-border px-4 py-10 text-center text-xs text-muted-foreground" data-testid="dress-suite-empty">
-                                还没有结果。上传商品图并选择场景后点击「开始生成」。
+                                还没有结果。上传服装图并选择场景后点击「开始生成」。
                             </div>
                         ) : (
                             <div className="flex flex-col gap-3">
@@ -670,15 +877,6 @@ export function DressSuiteWorkspace({ toolId = DRESS_WEAR_SET_TOOL_ID }: DressSu
                                 {untagged.length ? <p className="text-[11px] text-muted-foreground">另有 {untagged.length} 个任务未带场景标签（历史数据），已保留不丢弃。</p> : null}
                             </div>
                         )}
-                    </Section>
-
-                    <Section title="优秀案例" hint="真实优秀作品；点「做同款」把案例服装图写入商品图，再自行调整场景与数量。">
-                        <ToolCases
-                            cases={DRESS_SET_CASES}
-                            onApply={applyCase}
-                            applyingId={applyingCaseId}
-                            emptyHint="暂无优秀案例"
-                        />
                     </Section>
                 </div>
             </div>

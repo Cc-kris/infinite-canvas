@@ -53,12 +53,15 @@ describe("局部重绘工作台渲染", () => {
         expect(html).toContain("涂抹需要改变的区域");
     });
 
-    test("涂抹工具齐全：画笔 / 橡皮 / 羽化 / 自动扩边 / 反选 / 撤销 / 重做 / 重置", async () => {
+    test("涂抹工具齐全：画笔 / 橡皮 / 大小 / 自动扩边 / 反选 / 撤销 / 重做 / 重置", async () => {
         const html = await renderWorkspace();
-        for (const testId of ["mask-tool-brush", "mask-tool-eraser", "mask-brush-size", "mask-feather", "mask-auto-expand", "mask-invert", "mask-undo", "mask-redo", "mask-reset"]) {
+        for (const testId of ["mask-tool-brush", "mask-tool-eraser", "mask-brush-size", "mask-auto-expand", "mask-invert", "mask-undo", "mask-redo", "mask-reset"]) {
             expect(html).toContain(`data-testid="${testId}"`);
         }
-        for (const text of ["画笔", "橡皮", "羽化", "撤销", "重做", "重置"]) expect(html).toContain(text);
+        for (const text of ["画笔", "橡皮", "撤销", "重做", "重置"]) expect(html).toContain(text);
+        // 原站 2026-10-29 面板无「羽化」控件（A 列表无此项，C 列表要求其默认值 0 不出现）
+        expect(html).not.toContain("mask-feather");
+        expect(html).not.toContain("羽化");
     });
 
     test("未上传原图 / 未涂抹时不编造可提交状态：按钮阻塞、无结果、无进行中", async () => {
@@ -70,9 +73,10 @@ describe("局部重绘工作台渲染", () => {
         expect(html).not.toContain('data-testid="area-repair-results"');
         // 原站 2026-10-29 文案：「暂无生成结果图」（real/AREA_REPAIR/text.txt）
         expect(html).toContain("暂无生成结果图");
-        expect(html).toContain("请先上传要重绘的图片");
-        expect(html).toContain("请先在图片上涂抹需要重绘的区域");
-        expect(html).toContain("请填写重绘描述");
+        // 原站空态不展示校验清单（C 列表要求这三句不出现），提示改由上传卡引导承担
+        expect(html).not.toContain("请先上传要重绘的图片");
+        expect(html).not.toContain("请先在图片上涂抹需要重绘的区域");
+        expect(html).not.toContain("请填写重绘描述");
     });
 
     test("空蒙版给出涂抹指引与覆盖率，而不是空白画布", async () => {
@@ -80,8 +84,9 @@ describe("局部重绘工作台渲染", () => {
         // 原站 2026-10-29 两行引导（real/AREA_REPAIR/text.txt 第 48-49 行），旧断言已下线
         expect(html).toContain("上传图片，涂抹需要改变的区域并输入想要改变的内容");
         expect(html).toContain("即可重新对该区域进行绘制");
-        expect(html).toContain('data-testid="mask-coverage"');
-        expect(html).toContain("尚未涂抹");
+        // 覆盖率标签仅在已涂抹（maskRatio > 0）时渲染，空蒙版不出现「尚未涂抹」
+        expect(html).not.toContain('data-testid="mask-coverage"');
+        expect(html).not.toContain("尚未涂抹");
         // 没有原图时不应出现蒙版画布（画布依赖真实尺寸）
         expect(html).not.toContain('data-testid="mask-canvas"');
     });

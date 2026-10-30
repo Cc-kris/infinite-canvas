@@ -1,0 +1,1020 @@
+{
+ "id": "AI_DRESSING_XSY",
+ "route": "/tools/product-design/ai-dressing-xsy",
+ "ok": true,
+ "error": null,
+ "title": "无限画布",
+ "text": "无限画布\n首页\n电商套图\n智能修图\n新模型\nAI视频\nHOT\n批量生图\n商品图设计\n中\nv0.27.0\n商品图\n商品替换\n场景裂变\n手持商品\nAI穿衣\n姿势裂变\nAI穿戴\nPOD素材\n饰品文字\n素材贴合\n印花提取\nAI姿势生成\n补充\nAI试衣XSY\n补充\n场景裂变链接\n补充\n图片文字编辑\n补充\n上装换料\n补充\n商品图设计器\n补充\n商品营销素材\n补充\n场景迁移\n补充\n免责声明\nAI试衣XSY · 分步试衣\n第\n1\n步 / 共\n4\n步 ·\n模特\n—\n上传模特图，选定模特类型与风格\n上下装衣服 · 预计输出 1 张\n参考图\n1\n张 · 模型\ndefault::gpt-image-2\n1\n.\n模特\n进行中\n2\n.\n服装\n2 项待补\n3\n.\n蒙版/姿势\n已就绪\n4\n.\n生成\n已就绪\n· 第\n1\n步：\n请先上传模特图（第 1 步）\n· 第\n2\n步：\n请上传上装图（第 2 步）\n· 第\n2\n步：\n请上传下装图（第 2 步）\n1\n.\n模特图\n模特图决定身份、姿态与光照；之后只替换服装部位\n选择模特图\n0\n0 / 1 个 · PNG / JPG / WebP · ≤ 20 MB\n点击选择本地文件，或拖拽到这里\n校验格式 / 大小 / 像素，入库后可刷新恢复\n还没有素材\n模特类型\n棚拍模特\n街拍模特\n自定义模特\n模特风格\n干净通勤\n杂志大片\n日常休闲\n运动机能\n下一步：服装\n2\n.\n分步服装上传\n上下装模式需要上装与下装；连体模式只看一件套装\n上下装衣服\n连体衣服\n上装\n上传上装正面图，平铺或穿着实拍均可\n选择上装图\n0\n0 / 1 个 · PNG / JPG / WebP · ≤ 20 MB\n点击选择本地文件，或拖拽到这里\n校验格式 / 大小 / 像素，入库后可刷新恢复\n还没有素材\n下装\n上传下装正面图，裤装/裙装均可\n选择下装图\n0\n0 / 1 个 · PNG / JPG / WebP · ≤ 20 MB\n点击选择本地文件，或拖拽到这里\n校验格式 / 大小 / 像素，入库后可刷新恢复\n还没有素材\n下一步：蒙版/姿势\n3\n.\n蒙版与姿势\n涂出该件服装在模特图上的区域；白=替换，黑=保持原样\n上装\n蒙版\n覆盖\n0.0%\n·\n0\n笔\n撤销\n重做\n画笔/橡皮\n涂抹\n橡皮\n整件\n清空\n笔刷粗细\n35\npx\n下装\n蒙版\n覆盖\n0.0%\n·\n0\n笔\n撤销\n重做\n画笔/橡皮\n涂抹\n橡皮\n整件\n清空\n笔刷粗细\n35\npx\n模特姿势\n正面站立\n侧身 3/4\n行走动势\n坐姿\n下一步：生成\n4\n.\n生成设置\n张数与算法版本只影响本次提交，不会删除历史结果\n生成张数\n1 张\n2 张\n3 张\n4 张\n算法/修复版本\n标准试衣 v1\n细节修复 v2\n按分步试衣流程生成试穿效果：模特图 缺失；模特类型 棚拍模特；风格 干净通勤；姿势 正面站立。服装：未提供。每个服装槽位附一张同尺寸蒙版（白=该部位穿戴区域），只在蒙版区域替换为上传服装，保持模特身份、姿态、光照与画面构图不变；服装纹理、褶皱与版型需与上传图一致，不要新增图案或改变颜色。算法版本 标准试衣 v1；输出 1 张。[AI_DRESSING_XSY/tab:upper-lower/ste\n生成 1 张试穿图\n提交被拦下：请先上传模特图（第 1 步）\n试穿结果\n结果显示在下方；结果与提交快照不一致时会标注旧配置\n还没有结果：完成前 4 步后点「生成」\n试衣结果操作\n还没有生成结果\n填好参数并提交后，结果会出现在这里，可预览、下载、存入资产库或发送到画布。\n当前蒙版是否为空由真实栅格化覆盖率判定；参考图 = 模特 1 张 + 服装 1 张 + 同尺寸蒙版 1 张（每件）。\n历史任务\n0\n条\n本工具还没有历史任务；提交一次后会在这里留下任务、配置与结果，刷新后仍在。\n连接本地 Agent\n未连接\n点连接会自动启动本地服务、装好插件并接通，无需手动配置。\nClaude Code\n未连接\n·\nCLI · 2.1.285 (Claude Code)\n·\n直接运行\n连接\nCodex\n未连接\n·\nCLI · codex-cli 0.163.0\n·\n插件已装\n连接\nGalley\n未连接\n·\nCLI + 桌面版 · galley 0.6.4\n连接",
+ "lines": [
+  "无限画布",
+  "首页",
+  "电商套图",
+  "智能修图",
+  "新模型",
+  "AI视频",
+  "HOT",
+  "批量生图",
+  "商品图设计",
+  "中",
+  "v0.27.0",
+  "商品图",
+  "商品替换",
+  "场景裂变",
+  "手持商品",
+  "AI穿衣",
+  "姿势裂变",
+  "AI穿戴",
+  "POD素材",
+  "饰品文字",
+  "素材贴合",
+  "印花提取",
+  "AI姿势生成",
+  "补充",
+  "AI试衣XSY",
+  "补充",
+  "场景裂变链接",
+  "补充",
+  "图片文字编辑",
+  "补充",
+  "上装换料",
+  "补充",
+  "商品图设计器",
+  "补充",
+  "商品营销素材",
+  "补充",
+  "场景迁移",
+  "补充",
+  "免责声明",
+  "AI试衣XSY · 分步试衣",
+  "第",
+  "1",
+  "步 / 共",
+  "4",
+  "步 ·",
+  "模特",
+  "—",
+  "上传模特图，选定模特类型与风格",
+  "上下装衣服 · 预计输出 1 张",
+  "参考图",
+  "1",
+  "张 · 模型",
+  "default::gpt-image-2",
+  "1",
+  ".",
+  "模特",
+  "进行中",
+  "2",
+  ".",
+  "服装",
+  "2 项待补",
+  "3",
+  ".",
+  "蒙版/姿势",
+  "已就绪",
+  "4",
+  ".",
+  "生成",
+  "已就绪",
+  "· 第",
+  "1",
+  "步：",
+  "请先上传模特图（第 1 步）",
+  "· 第",
+  "2",
+  "步：",
+  "请上传上装图（第 2 步）",
+  "· 第",
+  "2",
+  "步：",
+  "请上传下装图（第 2 步）",
+  "1",
+  ".",
+  "模特图",
+  "模特图决定身份、姿态与光照；之后只替换服装部位",
+  "选择模特图",
+  "0",
+  "0 / 1 个 · PNG / JPG / WebP · ≤ 20 MB",
+  "点击选择本地文件，或拖拽到这里",
+  "校验格式 / 大小 / 像素，入库后可刷新恢复",
+  "还没有素材",
+  "模特类型",
+  "棚拍模特",
+  "街拍模特",
+  "自定义模特",
+  "模特风格",
+  "干净通勤",
+  "杂志大片",
+  "日常休闲",
+  "运动机能",
+  "下一步：服装",
+  "2",
+  ".",
+  "分步服装上传",
+  "上下装模式需要上装与下装；连体模式只看一件套装",
+  "上下装衣服",
+  "连体衣服",
+  "上装",
+  "上传上装正面图，平铺或穿着实拍均可",
+  "选择上装图",
+  "0",
+  "0 / 1 个 · PNG / JPG / WebP · ≤ 20 MB",
+  "点击选择本地文件，或拖拽到这里",
+  "校验格式 / 大小 / 像素，入库后可刷新恢复",
+  "还没有素材",
+  "下装",
+  "上传下装正面图，裤装/裙装均可",
+  "选择下装图",
+  "0",
+  "0 / 1 个 · PNG / JPG / WebP · ≤ 20 MB",
+  "点击选择本地文件，或拖拽到这里",
+  "校验格式 / 大小 / 像素，入库后可刷新恢复",
+  "还没有素材",
+  "下一步：蒙版/姿势",
+  "3",
+  ".",
+  "蒙版与姿势",
+  "涂出该件服装在模特图上的区域；白=替换，黑=保持原样",
+  "上装",
+  "蒙版",
+  "覆盖",
+  "0.0%",
+  "·",
+  "0",
+  "笔",
+  "撤销",
+  "重做",
+  "画笔/橡皮",
+  "涂抹",
+  "橡皮",
+  "整件",
+  "清空",
+  "笔刷粗细",
+  "35",
+  "px",
+  "下装",
+  "蒙版",
+  "覆盖",
+  "0.0%",
+  "·",
+  "0",
+  "笔",
+  "撤销",
+  "重做",
+  "画笔/橡皮",
+  "涂抹",
+  "橡皮",
+  "整件",
+  "清空",
+  "笔刷粗细",
+  "35",
+  "px",
+  "模特姿势",
+  "正面站立",
+  "侧身 3/4",
+  "行走动势",
+  "坐姿",
+  "下一步：生成",
+  "4",
+  ".",
+  "生成设置",
+  "张数与算法版本只影响本次提交，不会删除历史结果",
+  "生成张数",
+  "1 张",
+  "2 张",
+  "3 张",
+  "4 张",
+  "算法/修复版本",
+  "标准试衣 v1",
+  "细节修复 v2",
+  "按分步试衣流程生成试穿效果：模特图 缺失；模特类型 棚拍模特；风格 干净通勤；姿势 正面站立。服装：未提供。每个服装槽位附一张同尺寸蒙版（白=该部位穿戴区域），只在蒙版区域替换为上传服装，保持模特身份、姿态、光照与画面构图不变；服装纹理、褶皱与版型需与上传图一致，不要新增图案或改变颜色。算法版本 标准试衣 v1；输出 1 张。[AI_DRESSING_XSY/tab:upper-lower/ste",
+  "生成 1 张试穿图",
+  "提交被拦下：请先上传模特图（第 1 步）",
+  "试穿结果",
+  "结果显示在下方；结果与提交快照不一致时会标注旧配置",
+  "还没有结果：完成前 4 步后点「生成」",
+  "试衣结果操作",
+  "还没有生成结果",
+  "填好参数并提交后，结果会出现在这里，可预览、下载、存入资产库或发送到画布。",
+  "当前蒙版是否为空由真实栅格化覆盖率判定；参考图 = 模特 1 张 + 服装 1 张 + 同尺寸蒙版 1 张（每件）。",
+  "历史任务",
+  "0",
+  "条",
+  "本工具还没有历史任务；提交一次后会在这里留下任务、配置与结果，刷新后仍在。",
+  "连接本地 Agent",
+  "未连接",
+  "点连接会自动启动本地服务、装好插件并接通，无需手动配置。",
+  "Claude Code",
+  "未连接",
+  "·",
+  "CLI · 2.1.285 (Claude Code)",
+  "·",
+  "直接运行",
+  "连接",
+  "Codex",
+  "未连接",
+  "·",
+  "CLI · codex-cli 0.163.0",
+  "·",
+  "插件已装",
+  "连接",
+  "Galley",
+  "未连接",
+  "·",
+  "CLI + 桌面版 · galley 0.6.4",
+  "连接"
+ ],
+ "controls": [
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "中",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1593,
+    "y": 14,
+    "w": 28,
+    "h": 28
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "切换到深色主题",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1625,
+    "y": 14,
+    "w": 28,
+    "h": 28
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "v0.27.0",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1657,
+    "y": 17,
+    "w": 47,
+    "h": 22
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "1. 模特\n进行中",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 232,
+    "y": 180,
+    "w": 406,
+    "h": 58
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "2. 服装\n2 项待补",
+   "placeholder": "",
+   "disabled": true,
+   "rect": {
+    "x": 646,
+    "y": 180,
+    "w": 406,
+    "h": 58
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "3. 蒙版/姿势\n已就绪",
+   "placeholder": "",
+   "disabled": true,
+   "rect": {
+    "x": 1060,
+    "y": 180,
+    "w": 406,
+    "h": 58
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "4. 生成\n已就绪",
+   "placeholder": "",
+   "disabled": true,
+   "rect": {
+    "x": 1474,
+    "y": 180,
+    "w": 406,
+    "h": 58
+   }
+  },
+  {
+   "tag": "div",
+   "type": "",
+   "text": "点击选择本地文件，或拖拽到这里\n校验格式 / 大小 / 像素，入库后可刷新恢复",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 236,
+    "y": 490,
+    "w": 1640,
+    "h": 86
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "棚拍模特",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 236,
+    "y": 644,
+    "w": 82,
+    "h": 40
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "街拍模特",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 322,
+    "y": 644,
+    "w": 82,
+    "h": 40
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "自定义模特",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 408,
+    "y": 644,
+    "w": 96,
+    "h": 40
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "干净通勤",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 236,
+    "y": 725,
+    "w": 82,
+    "h": 40
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "杂志大片",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 322,
+    "y": 725,
+    "w": 82,
+    "h": 40
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "日常休闲",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 408,
+    "y": 725,
+    "w": 82,
+    "h": 40
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "运动机能",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 494,
+    "y": 725,
+    "w": 82,
+    "h": 40
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "下一步：服装",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 236,
+    "y": 777,
+    "w": 118,
+    "h": 40
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "上下装衣服",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 236,
+    "y": 919,
+    "w": 96,
+    "h": 40
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "连体衣服",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 336,
+    "y": 919,
+    "w": 82,
+    "h": 40
+   }
+  },
+  {
+   "tag": "div",
+   "type": "",
+   "text": "点击选择本地文件，或拖拽到这里\n校验格式 / 大小 / 像素，入库后可刷新恢复",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 249,
+    "y": 1079,
+    "w": 1614,
+    "h": 86
+   }
+  },
+  {
+   "tag": "div",
+   "type": "",
+   "text": "点击选择本地文件，或拖拽到这里\n校验格式 / 大小 / 像素，入库后可刷新恢复",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 249,
+    "y": 1339,
+    "w": 1614,
+    "h": 86
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "下一步：蒙版/姿势",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 236,
+    "y": 1490,
+    "w": 150,
+    "h": 40
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "撤销",
+   "placeholder": "",
+   "disabled": true,
+   "rect": {
+    "x": 1779,
+    "y": 1653,
+    "w": 40,
+    "h": 40
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "重做",
+   "placeholder": "",
+   "disabled": true,
+   "rect": {
+    "x": 1823,
+    "y": 1653,
+    "w": 40,
+    "h": 40
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "涂抹",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 249,
+    "y": 3897,
+    "w": 54,
+    "h": 40
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "橡皮",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 307,
+    "y": 3897,
+    "w": 54,
+    "h": 40
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "整件",
+   "placeholder": "",
+   "disabled": true,
+   "rect": {
+    "x": 369,
+    "y": 3883,
+    "w": 54,
+    "h": 40
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "清空",
+   "placeholder": "",
+   "disabled": true,
+   "rect": {
+    "x": 431,
+    "y": 3883,
+    "w": 54,
+    "h": 40
+   }
+  },
+  {
+   "tag": "input",
+   "type": "range",
+   "text": "36",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 249,
+    "y": 3963,
+    "w": 1614,
+    "h": 36
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "撤销",
+   "placeholder": "",
+   "disabled": true,
+   "rect": {
+    "x": 1779,
+    "y": 4049,
+    "w": 40,
+    "h": 40
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "重做",
+   "placeholder": "",
+   "disabled": true,
+   "rect": {
+    "x": 1823,
+    "y": 4049,
+    "w": 40,
+    "h": 40
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "涂抹",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 249,
+    "y": 6293,
+    "w": 54,
+    "h": 40
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "橡皮",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 307,
+    "y": 6293,
+    "w": 54,
+    "h": 40
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "整件",
+   "placeholder": "",
+   "disabled": true,
+   "rect": {
+    "x": 369,
+    "y": 6279,
+    "w": 54,
+    "h": 40
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "清空",
+   "placeholder": "",
+   "disabled": true,
+   "rect": {
+    "x": 431,
+    "y": 6279,
+    "w": 54,
+    "h": 40
+   }
+  },
+  {
+   "tag": "input",
+   "type": "range",
+   "text": "36",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 249,
+    "y": 6359,
+    "w": 1614,
+    "h": 36
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "正面站立",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 236,
+    "y": 6452,
+    "w": 82,
+    "h": 40
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "侧身 3/4",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 322,
+    "y": 6452,
+    "w": 79,
+    "h": 40
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "行走动势",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 405,
+    "y": 6452,
+    "w": 82,
+    "h": 40
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "坐姿",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 491,
+    "y": 6452,
+    "w": 54,
+    "h": 40
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "下一步：生成",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 236,
+    "y": 6504,
+    "w": 118,
+    "h": 40
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "1 张",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 236,
+    "y": 6675,
+    "w": 50,
+    "h": 40
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "2 张",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 290,
+    "y": 6675,
+    "w": 52,
+    "h": 40
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "3 张",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 346,
+    "y": 6675,
+    "w": 52,
+    "h": 40
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "4 张",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 403,
+    "y": 6675,
+    "w": 53,
+    "h": 40
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "标准试衣 v1",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 236,
+    "y": 6755,
+    "w": 100,
+    "h": 40
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "细节修复 v2",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 340,
+    "y": 6755,
+    "w": 102,
+    "h": 40
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "生成 1 张试穿图",
+   "placeholder": "",
+   "disabled": true,
+   "rect": {
+    "x": 236,
+    "y": 6873,
+    "w": 130,
+    "h": 40
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "连接",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 2265,
+    "y": 147,
+    "w": 66,
+    "h": 24
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "连接",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 2265,
+    "y": 215,
+    "w": 66,
+    "h": 24
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "连接",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 2265,
+    "y": 283,
+    "w": 66,
+    "h": 24
+   }
+  }
+ ],
+ "regions": [
+  {
+   "cls": "sticky top-0 z-[7] h-14 shrink-0 border-b border-hairline bg-surface/95 backdrop",
+   "rect": {
+    "x": 0,
+    "y": 0,
+    "w": 1920,
+    "h": 56
+   },
+   "text": "无限画布\n首页\n电商套图\n智能修图\n新模型\nAI视频\nHOT\n批量生图\n商品图设计\n中\n切换到深色主题\nv0.27.0"
+  },
+  {
+   "cls": "hidden w-[180px] shrink-0 overflow-y-auto rounded-xl border border-hairline bg-s",
+   "rect": {
+    "x": 16,
+    "y": 56,
+    "w": 180,
+    "h": 1008
+   },
+   "text": "商品图设计\n商品图\n商品替换\n场景裂变\n手持商品\nAI穿衣\n姿势裂变\nAI穿戴\nPOD素材\n饰品文字\n素材贴合\n印花提取\nAI姿势生成\n补充\nAI试衣XSY\n补充\n场景裂变链接\n补充\n图片文字编辑\n补充\n上装换料\n补充\n商品图设计器\n补充\n商品营销素材\n补充\n场景迁移\n补充\n免责声明"
+  },
+  {
+   "cls": "min-h-0 flex-1 overflow-hidden bg-canvas p-2.5",
+   "rect": {
+    "x": 209,
+    "y": 57,
+    "w": 1694,
+    "h": 1006
+   },
+   "text": "AI试衣XSY · 分步试衣\n\n第 1 步 / 共 4 步 · 模特 — 上传模特图，选定模特类型与风格\n\n上下装衣服 · 预计输出 1 张\n\n参考图 1 张 · 模型 default::gpt-image-2\n\n1. 模特\n进行中\n2. 服装\n2 项待补\n3. 蒙版/姿势\n已就绪\n4. 生成\n已就绪\n· 第 1 步：请先上传模特图（第 1 步）\n· 第 2 步：请上传上装图（第 2 步）\n· 第 2 步：请上传下装图（第 2 步）\n1.模特图\n\n模特图决定身份、姿态与光照；之后只替换服装部位\n\n选择模特图\n00 / 1 个 · PNG / JPG / WebP · ≤ 20 MB\n点击选择本"
+  },
+  {
+   "cls": "rounded-xl border border-border bg-card p-4",
+   "rect": {
+    "x": 219,
+    "y": 378,
+    "w": 1674,
+    "h": 456
+   },
+   "text": "1.模特图\n\n模特图决定身份、姿态与光照；之后只替换服装部位\n\n选择模特图\n00 / 1 个 · PNG / JPG / WebP · ≤ 20 MB\n点击选择本地文件，或拖拽到这里\n校验格式 / 大小 / 像素，入库后可刷新恢复\n\n还没有素材\n\n模特类型\n\n棚拍模特\n街拍模特\n自定义模特\n\n模特风格\n\n干净通勤\n杂志大片\n日常休闲\n运动机能\n下一步：服装"
+  },
+  {
+   "cls": "space-y-3",
+   "rect": {
+    "x": 236,
+    "y": 451,
+    "w": 1640,
+    "h": 153
+   },
+   "text": "选择模特图\n00 / 1 个 · PNG / JPG / WebP · ≤ 20 MB\n点击选择本地文件，或拖拽到这里\n校验格式 / 大小 / 像素，入库后可刷新恢复\n\n还没有素材"
+  },
+  {
+   "cls": "rounded-xl border border-border bg-card p-4",
+   "rect": {
+    "x": 219,
+    "y": 846,
+    "w": 1674,
+    "h": 701
+   },
+   "text": "2.分步服装上传\n\n上下装模式需要上装与下装；连体模式只看一件套装\n\n上下装衣服\n连体衣服\n\n上装\n\n上传上装正面图，平铺或穿着实拍均可\n\n选择上装图\n00 / 1 个 · PNG / JPG / WebP · ≤ 20 MB\n点击选择本地文件，或拖拽到这里\n校验格式 / 大小 / 像素，入库后可刷新恢复\n\n还没有素材\n\n下装\n\n上传下装正面图，裤装/裙装均可\n\n选择下装图\n00 / 1 个 · PNG / JPG / WebP · ≤ 20 MB\n点击选择本地文件，或拖拽到这里\n校验格式 / 大小 / 像素，入库后可刷新恢复\n\n还没有素材\n\n下一步：蒙版/姿势"
+  },
+  {
+   "cls": "space-y-3",
+   "rect": {
+    "x": 249,
+    "y": 1040,
+    "w": 1614,
+    "h": 153
+   },
+   "text": "选择上装图\n00 / 1 个 · PNG / JPG / WebP · ≤ 20 MB\n点击选择本地文件，或拖拽到这里\n校验格式 / 大小 / 像素，入库后可刷新恢复\n\n还没有素材"
+  },
+  {
+   "cls": "space-y-3",
+   "rect": {
+    "x": 249,
+    "y": 1300,
+    "w": 1614,
+    "h": 153
+   },
+   "text": "选择下装图\n00 / 1 个 · PNG / JPG / WebP · ≤ 20 MB\n点击选择本地文件，或拖拽到这里\n校验格式 / 大小 / 像素，入库后可刷新恢复\n\n还没有素材"
+  },
+  {
+   "cls": "rounded-xl border border-border bg-card p-4",
+   "rect": {
+    "x": 219,
+    "y": 1559,
+    "w": 1674,
+    "h": 5003
+   },
+   "text": "3.蒙版与姿势\n\n涂出该件服装在模特图上的区域；白=替换，黑=保持原样\n\n上装蒙版\n\n覆盖 0.0% · 0 笔\n\n撤销\n重做\n\n画笔/橡皮\n\n涂抹\n橡皮\n整件\n清空\n笔刷粗细 35px\n\n下装蒙版\n\n覆盖 0.0% · 0 笔\n\n撤销\n重做\n\n画笔/橡皮\n\n涂抹\n橡皮\n整件\n清空\n笔刷粗细 35px\n\n模特姿势\n\n正面站立\n侧身 3/4\n行走动势\n坐姿\n下一步：生成"
+  },
+  {
+   "cls": "rounded-xl border border-border bg-card p-4",
+   "rect": {
+    "x": 219,
+    "y": 6573,
+    "w": 1674,
+    "h": 357
+   },
+   "text": "4.生成设置\n\n张数与算法版本只影响本次提交，不会删除历史结果\n\n生成张数\n\n1 张\n2 张\n3 张\n4 张\n\n算法/修复版本\n\n标准试衣 v1\n细节修复 v2\n按分步试衣流程生成试穿效果：模特图 缺失；模特类型 棚拍模特；风格 干净通勤；姿势 正面站立。服装：未提供。每个服装槽位附一张同尺寸蒙版（白=该部位穿戴区域），只在蒙版区域替换为上传服装，保持模特身份、姿态、光照与画面构图不变；服装纹理、褶皱与版型需与上传图一致，不要新增图案或改变颜色。算法版本 标准试衣 v1；输出 1 张。[AI_DRESSING_XSY/tab:upper-lower/step:1]\n生成 1 张试穿图\n提交被拦"
+  },
+  {
+   "cls": "rounded-xl border border-border bg-card p-4",
+   "rect": {
+    "x": 219,
+    "y": 6942,
+    "w": 1674,
+    "h": 402
+   },
+   "text": "试穿结果\n\n结果显示在下方；结果与提交快照不一致时会标注旧配置\n\n还没有结果：完成前 4 步后点「生成」\n\n试衣结果操作\n\n还没有生成结果\n\n填好参数并提交后，结果会出现在这里，可预览、下载、存入资产库或发送到画布。"
+  },
+  {
+   "cls": "space-y-3 rounded-xl border border-border bg-card p-4",
+   "rect": {
+    "x": 236,
+    "y": 7093,
+    "w": 1640,
+    "h": 233
+   },
+   "text": "试衣结果操作\n\n还没有生成结果\n\n填好参数并提交后，结果会出现在这里，可预览、下载、存入资产库或发送到画布。"
+  },
+  {
+   "cls": "rounded-lg border border-border bg-card/40 p-3 mt-4",
+   "rect": {
+    "x": 219,
+    "y": 7397,
+    "w": 1674,
+    "h": 80
+   },
+   "text": "历史任务\n0 条\n\n本工具还没有历史任务；提交一次后会在这里留下任务、配置与结果，刷新后仍在。"
+  },
+  {
+   "cls": "relative flex h-full shrink-0 flex-col border-l",
+   "rect": {
+    "x": 1920,
+    "y": 0,
+    "w": 440,
+    "h": 1080
+   },
+   "text": "连接本地 Agent\n未连接\n点连接会自动启动本地服务、装好插件并接通，无需手动配置。\nClaude Code\n未连接\n·\nCLI · 2.1.285 (Claude Code)\n·\n直接运行\n连接\nCodex\n未连接\n·\nCLI · codex-cli 0.163.0\n·\n插件已装\n连接\nGalley\n未连接\n·\nCLI + 桌面版 · galley 0.6.4\n连接"
+  }
+ ]
+}

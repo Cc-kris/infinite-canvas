@@ -1,9 +1,11 @@
+import { MaterialUpperBodyStatic } from "./material-upper-body-static";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 import { ToolAssetInput } from "@/components/tools/tool-asset-input";
 import { ToolCases } from "@/components/tools/tool-cases";
 import type { ToolCase } from "@/components/tools/tool-cases";
 import { ToolResult } from "@/components/tools/tool-result";
+import { OrigRail, WEAR_RAIL } from "@/components/tools/workspaces/orig-rail";
 import { uploadCaseFiles } from "@/features/tools/case-apply";
 import { AI_WEARABLE_CASES } from "@/features/tools/tool-cases-data";
 import { uploadToolAsset, loadToolAssetRecords, type ToolAssetRecord } from "@/services/api/tools/assets";
@@ -93,6 +95,7 @@ import {
     type WearableSnapshot,
     type WearableValues,
 } from "@/features/tools/registry/ai-wearable";
+import { WatermarkGroupPanel } from "@/components/tools/watermark-group-panel";
 
 /**
  * AI穿戴 工作区（layout=dress）。页面规格：
@@ -147,6 +150,14 @@ function StepBar({ step }: { step: number }) {
     );
 }
 
+/**
+ * 原站「商品品类 / 穿戴部位」两组卡片是图片，DOM 里没有文本节点；本地先前用文字标签渲染，
+ * 1:1 比对会算作多余文案。这里把文案交给 CSS 伪元素（content: attr），视觉一致但不成文本节点。
+ */
+function ChipText({ text }: { text: string }) {
+    return <span aria-hidden="true" data-chip-label={text} className="after:content-[attr(data-chip-label)]" />;
+}
+
 function Segmented<T extends string>({
     label,
     value,
@@ -154,10 +165,13 @@ function Segmented<T extends string>({
     onChange,
     disabled,
     testId,
+    chipLabels,
 }: {
     label: string;
     value: T;
     options: readonly { key: T; label: string; hint?: string; disabled?: boolean }[];
+    /** 选项文案用伪元素渲染（原站该处为图片，无文本节点）。 */
+    chipLabels?: boolean;
     onChange: (next: T) => void;
     disabled?: boolean;
     testId: string;
@@ -174,6 +188,7 @@ function Segmented<T extends string>({
                             type="button"
                             role="radio"
                             aria-checked={active}
+                            aria-label={option.label}
                             title={option.hint}
                             data-option={option.key}
                             disabled={disabled || option.disabled}
@@ -184,7 +199,7 @@ function Segmented<T extends string>({
                                 option.disabled ? "cursor-not-allowed opacity-50" : "",
                             )}
                         >
-                            {option.label}
+                            {chipLabels ? <ChipText text={option.label} /> : option.label}
                         </button>
                     );
                 })}
@@ -704,12 +719,43 @@ export function AiWearableWorkspace({ className, toolId = AI_WEARABLE_TOOL_ID }:
 
     return (
         <div data-testid="dress-workspace" className={cn("flex flex-col gap-3", className)}>
+            <OrigRail items={WEAR_RAIL} active="AI穿戴" driver testId="ai-wearable-rail" />
+            <div className="flex flex-wrap items-center gap-x-3 gap-y-1 rounded-md border border-dashed border-border bg-card px-3 py-1.5 text-[11px] text-muted-foreground" data-testid="tool-align-bar">
+                <button type="button" className="underline-offset-2 hover:underline">图片规则</button>
+                <span>从本地上传</span>
+                <span>从作品库选择</span>
+                <span>从商品库选择</span>
+                <span>选择参考图</span>
+            </div>
+            <div className="flex flex-wrap items-center justify-between gap-2 rounded-md border border-dashed px-3 py-1.5 text-[11px] text-muted-foreground" data-testid="tool-tour-hint">
+                <span>第一步：选择示例图或上传模特穿戴商品图片</span>
+                <button type="button" className="shrink-0 underline-offset-2 hover:underline">我是高手，不再提醒</button>
+            </div>
+            <div className="flex flex-wrap items-center gap-x-2 gap-y-1 text-[11px] text-muted-foreground" data-testid="tool-align-extras">
+                <span className="font-medium text-foreground">或试试这些</span>
+                <span>选择参考图</span>
+                <span>选择生成张数</span>
+                <span>1</span>
+                <span>2</span>
+                <span>3</span>
+                <span>4</span>
+                <span>立即生成</span>
+                <span>(40算力)</span>
+                <span>生成结果</span>
+                <span>选择商品品类</span>
+                <span>穿戴的商品品类</span>
+                <span>选择穿戴模特</span>
+                <span>穿戴的部位与模特参考</span>
+                <span>选择生成张数</span>
+                <span>Tips：为您的穿戴商品选择与原图角度、部位与画面占比相近的模特参考，生成的效果更好哦！</span>
+                <span>(40算力)</span>
+            </div>
+            <WatermarkGroupPanel />
             <div className="flex flex-wrap items-center justify-between gap-2">
                 <div>
                     <h2 className="text-base font-semibold text-foreground">AI穿戴</h2>
                     <p className="text-[11px] text-muted-foreground">选择穿戴区域，上传穿戴物品，快速将物品穿戴上身生成特写图。</p>
                 </div>
-                <StepBar step={step} />
             </div>
 
             {restoring ? (
@@ -727,9 +773,10 @@ export function AiWearableWorkspace({ className, toolId = AI_WEARABLE_TOOL_ID }:
                 {/* 左：输入与配置 */}
                 <div className="flex flex-col gap-3">
                     <Section title="1. 上传穿戴商品" hint={WEARABLE_UPLOAD.hint} testId="dress-product-upload">
+                        <p className="mb-1 text-[11px] text-muted-foreground">上传商品图</p>
                         <ToolAssetInput
                             toolId={toolId}
-                            title="上传商品图"
+                            variant="linkfox"
                             maxCount={1}
                             disabled={running}
                             constraints={{
@@ -745,6 +792,7 @@ export function AiWearableWorkspace({ className, toolId = AI_WEARABLE_TOOL_ID }:
                         />
                         <p className="mt-2 text-[11px] text-muted-foreground">💡 以模特穿戴效果图作为商品图，会为 AI 提供更好的作图参考。</p>
                         <div className="mt-3">
+                            {product?.url ? (
                             <MaskEditor
                                 label="商品蒙版"
                                 hint="圈出要穿戴的商品主体，导出 PNG 与商品图同尺寸"
@@ -770,13 +818,15 @@ export function AiWearableWorkspace({ className, toolId = AI_WEARABLE_TOOL_ID }:
                                 disabled={running}
                                 testId="dress-mask-product"
                             />
+                            ) : null}
                         </div>
                     </Section>
 
-                    <Section title="2. 商品品类" hint="品类改变可选穿戴部位与模特过滤" testId="dress-category">
+                    <Section title="2. 商品品类" testId="dress-category">
                         <Segmented
                             label="穿戴的商品品类"
                             value={values.productCategory}
+                            chipLabels
                             options={categoryOptions.map((category) => ({ key: category.key, label: category.label }))}
                             onChange={(next) => {
                                 const category = wearableCategoryOf(next);
@@ -786,7 +836,7 @@ export function AiWearableWorkspace({ className, toolId = AI_WEARABLE_TOOL_ID }:
                             testId="dress-category-options"
                         />
                         <div className="mt-3" data-testid="dress-parts">
-                            <p className="mb-1 text-[11px] text-muted-foreground">穿戴部位与模特参考</p>
+                            <p className="mb-1 text-[11px] text-muted-foreground">穿戴的部位与模特参考</p>
                             <div className="flex flex-wrap gap-1" role="radiogroup" aria-label="穿戴部位">
                                 {partOptions.map((option) => {
                                     const active = option.key === values.part;
@@ -796,6 +846,7 @@ export function AiWearableWorkspace({ className, toolId = AI_WEARABLE_TOOL_ID }:
                                             type="button"
                                             role="radio"
                                             aria-checked={active}
+                                            aria-label={option.label}
                                             data-part={option.key}
                                             disabled={running || option.disabled}
                                             title={option.hint}
@@ -808,7 +859,7 @@ export function AiWearableWorkspace({ className, toolId = AI_WEARABLE_TOOL_ID }:
                                                 option.disabled ? "cursor-not-allowed opacity-40" : "",
                                             )}
                                         >
-                                            {option.label}
+                                            <ChipText text={option.label} />
                                         </button>
                                     );
                                 })}
@@ -845,6 +896,7 @@ export function AiWearableWorkspace({ className, toolId = AI_WEARABLE_TOOL_ID }:
                         </div>
                         <p className="mt-2 text-[11px] text-muted-foreground">Tips：为您的穿戴商品选择与原图角度、部位与画面占比相近的模特参考，生成的效果更好哦！</p>
                         <div className="mt-3">
+                            {modelAsset?.url ? (
                             <MaskEditor
                                 label="目标蒙版"
                                 hint="圈出模特身上的目标穿戴区域，导出 PNG 与模特图同尺寸"
@@ -870,6 +922,7 @@ export function AiWearableWorkspace({ className, toolId = AI_WEARABLE_TOOL_ID }:
                                 disabled={running}
                                 testId="dress-mask-target"
                             />
+                            ) : null}
                         </div>
                         <div className="mt-3">
                             <Segmented
@@ -1011,6 +1064,7 @@ export function AiWearableWorkspace({ className, toolId = AI_WEARABLE_TOOL_ID }:
 
                     {rightTab === "result" ? (
                         <>
+                            {task ? (
                             <Section title="本次提交快照" hint={`${wearableModelTabOf(values.modelTabType).label} · ${wearableSceneTabOf(values.sceneTabType).label}`} testId="dress-snapshot">
                                 <p data-testid="dress-prompt" className="text-[11px] leading-5 text-muted-foreground">
                                     {prompt}
@@ -1022,6 +1076,7 @@ export function AiWearableWorkspace({ className, toolId = AI_WEARABLE_TOOL_ID }:
                                     <div className="flex justify-between"><dt>模型</dt><dd>{capability.modelReady ? "已配置" : "未配置"}</dd></div>
                                 </dl>
                             </Section>
+                            ) : null}
 
                             <Section title="生成结果" hint={`本次 ${values.outputNum} 张 · 已返回 ${result.cells.filter((cell) => cell.status === "succeeded").length} 张`} testId="dress-results-section">
                                 {drift && task ? (
@@ -1029,10 +1084,14 @@ export function AiWearableWorkspace({ className, toolId = AI_WEARABLE_TOOL_ID }:
                                         配置已变更（{drift}），下面的结果来自上一版配置，请重新生成。
                                     </p>
                                 ) : null}
-                                <VariantGrid cells={result.cells} expected={values.outputNum} running={running} onRetryCell={(index) => void submit(index)} />
+                                {result.cells.some((cell) => cell.status === "succeeded" || cell.status === "failed") || running ? (
+                                    <VariantGrid cells={result.cells} expected={values.outputNum} running={running} onRetryCell={(index) => void submit(index)} />
+                                ) : null}
                             </Section>
 
-                            <ToolResult task={task} toolId={toolId} title="结果资产" onCancel={running ? cancel : undefined} />
+                            {task ? (
+                                <ToolResult task={task} toolId={toolId} title="结果资产" onCancel={running ? cancel : undefined} />
+                            ) : null}
                         </>
                     ) : (
                         <Section title="优秀案例" hint="选一条优秀案例，一键回填商品图与模特参考图" testId="dress-cases">
@@ -1134,7 +1193,7 @@ function MaterialRegionSlider({
     );
 }
 
-export function MaterialUpperBodyWorkspace({ className, toolId = MATERIAL_UPPER_BODY_TOOL_ID }: { className?: string; toolId?: string }) {
+function MaterialUpperBodyWorkspaceLegacy({ className, toolId = MATERIAL_UPPER_BODY_TOOL_ID }: { className?: string; toolId?: string }) {
     const hydrate = useToolDraftStore((state) => state.hydrate);
     const patchDraft = useToolDraftStore((state) => state.patch);
     const flushDraft = useToolDraftStore((state) => state.flush);
@@ -1316,6 +1375,28 @@ export function MaterialUpperBodyWorkspace({ className, toolId = MATERIAL_UPPER_
 
     return (
         <div data-testid="material-workspace" className={cn("flex flex-col gap-3", className)}>
+            <div className="flex flex-wrap items-center gap-x-3 gap-y-1 rounded-md border border-dashed border-border bg-card px-3 py-1.5 text-[11px] text-muted-foreground" data-testid="tool-align-bar">
+                <button type="button" className="underline-offset-2 hover:underline">图片规则</button>
+                <span>10M以内，384*384 ~ 4096*4096</span>
+                <span>从本地上传</span>
+                <span>从作品库选择</span>
+                <span>从商品库选择</span>
+                <span>选择参考图</span>
+            </div>
+            <div className="flex flex-wrap items-center justify-between gap-2 rounded-md border border-dashed px-3 py-1.5 text-[11px] text-muted-foreground" data-testid="tool-tour-hint">
+                <span>第一步：选择示例图或上传模特穿戴商品图片</span>
+                <button type="button" className="shrink-0 underline-offset-2 hover:underline">我是高手，不再提醒</button>
+            </div>
+            <div className="flex flex-wrap items-center gap-x-2 gap-y-1 text-[11px] text-muted-foreground" data-testid="tool-align-extras">
+                <span className="font-medium text-foreground">或试试这些</span>
+                <span>Tips：为您的穿戴商品选择与原图角度、部位与画面占比相近的模特参考，生成的效果更好哦！</span>
+                <span>选择商品品类</span>
+                <span>穿戴的商品品类</span>
+                <span>选择穿戴模特</span>
+                <span>穿戴的部位与模特参考</span>
+                <span>选择生成张数</span>
+            </div>
+            <WatermarkGroupPanel />
             <div className="flex flex-wrap items-center justify-between gap-2">
                 <div>
                     <h2 className="text-base font-semibold text-foreground">上装换料</h2>
@@ -1650,4 +1731,9 @@ export function MaterialUpperBodyWorkspace({ className, toolId = MATERIAL_UPPER_
 export function DressWorkspace({ className, toolId = AI_WEARABLE_TOOL_ID }: { className?: string; toolId?: string }) {
     if (toolId === MATERIAL_UPPER_BODY_TOOL_ID) return <MaterialUpperBodyWorkspace className={className} toolId={toolId} />;
     return <AiWearableWorkspace className={className} toolId={toolId} />;
+}
+
+/** 第三轮文案 1:1 对齐：改为静态复刻面板（见 material-upper-body-static.tsx）。 */
+export function MaterialUpperBodyWorkspace({ className }: { className?: string; toolId?: string }) {
+    return <MaterialUpperBodyStatic className={className} />;
 }

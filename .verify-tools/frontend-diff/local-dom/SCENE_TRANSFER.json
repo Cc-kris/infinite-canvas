@@ -1,0 +1,475 @@
+{
+ "id": "SCENE_TRANSFER",
+ "route": "/tools/product-design/scene-transfer",
+ "ok": true,
+ "error": null,
+ "title": "无限画布",
+ "text": "无限画布\n首页\n电商套图\n智能修图\n新模型\nAI视频\nHOT\n批量生图\n商品图设计\n中\nv0.27.0\n商品图\n商品替换\n场景裂变\n手持商品\nAI穿衣\n姿势裂变\nAI穿戴\nPOD素材\n饰品文字\n素材贴合\n印花提取\nAI姿势生成\n补充\nAI试衣XSY\n补充\n场景裂变链接\n补充\n图片文字编辑\n补充\n上装换料\n补充\n商品图设计器\n补充\n商品营销素材\n补充\n场景迁移\n补充\n免责声明\n场景迁移\n商品图 + 场景风格参考图，按相似度把商品迁移进参考场景；提交即一次真实图像请求。\n商品图\nimageUrl\n上传商品图\n0\n0 / 1 个 · PNG / JPG / WebP · ≤ 10 MB\n点击选择本地文件，或拖拽到这里\n校验格式 / 大小 / 像素，入库后可刷新恢复\n还没有素材\n未选择\n场景风格参考图\nimageStyleUrl\n上传场景风格参考图\n0\n0 / 1 个 · PNG / JPG / WebP · ≤ 10 MB\n点击选择本地文件，或拖拽到这里\n校验格式 / 大小 / 像素，入库后可刷新恢复\n还没有素材\n未选择\n商品分割图\nsegImageUrl（可选）\n上传商品分割图\n0\n0 / 1 个 · PNG / JPG / WebP · ≤ 10 MB\n点击选择本地文件，或拖拽到这里\n校验格式 / 大小 / 像素，入库后可刷新恢复\n还没有素材\n未提供商品分割图：本地没有分割服务，不会用商品原图冒充 segImageUrl\n相似度\nsimilarity\n70\n%\n轻度\n30\n%\n平衡\n55\n%\n强风格\n80\n%\n70% · 强保留参考场景的光影与背景风格\n产物 1 张 · 相似度 70% · 整图迁移（未提供分割图）\n请上传或选择商品图（字段 imageUrl）\n请上传或选择场景风格参考图（字段 imageStyleUrl）\n开始迁移\n生成结果\n优秀案例\n历史记录\n场景迁移结果\n还没有生成结果\n填好参数并提交后，结果会出现在这里，可预览、下载、存入资产库或发送到画布。\n本次提交快照\n还没有提交过任务；提交后这里会显示锁定的商品图 / 风格图 / 分割图 / 相似度。\n历史任务\n0\n条\n本工具还没有历史任务；提交一次后会在这里留下任务、配置与结果，刷新后仍在。\n连接本地 Agent\n未连接\n点连接会自动启动本地服务、装好插件并接通，无需手动配置。\nClaude Code\n未连接\n·\nCLI · 2.1.285 (Claude Code)\n·\n直接运行\n连接\nCodex\n未连接\n·\nCLI · codex-cli 0.163.0\n·\n插件已装\n连接\nGalley\n未连接\n·\nCLI + 桌面版 · galley 0.6.4\n连接",
+ "lines": [
+  "无限画布",
+  "首页",
+  "电商套图",
+  "智能修图",
+  "新模型",
+  "AI视频",
+  "HOT",
+  "批量生图",
+  "商品图设计",
+  "中",
+  "v0.27.0",
+  "商品图",
+  "商品替换",
+  "场景裂变",
+  "手持商品",
+  "AI穿衣",
+  "姿势裂变",
+  "AI穿戴",
+  "POD素材",
+  "饰品文字",
+  "素材贴合",
+  "印花提取",
+  "AI姿势生成",
+  "补充",
+  "AI试衣XSY",
+  "补充",
+  "场景裂变链接",
+  "补充",
+  "图片文字编辑",
+  "补充",
+  "上装换料",
+  "补充",
+  "商品图设计器",
+  "补充",
+  "商品营销素材",
+  "补充",
+  "场景迁移",
+  "补充",
+  "免责声明",
+  "场景迁移",
+  "商品图 + 场景风格参考图，按相似度把商品迁移进参考场景；提交即一次真实图像请求。",
+  "商品图",
+  "imageUrl",
+  "上传商品图",
+  "0",
+  "0 / 1 个 · PNG / JPG / WebP · ≤ 10 MB",
+  "点击选择本地文件，或拖拽到这里",
+  "校验格式 / 大小 / 像素，入库后可刷新恢复",
+  "还没有素材",
+  "未选择",
+  "场景风格参考图",
+  "imageStyleUrl",
+  "上传场景风格参考图",
+  "0",
+  "0 / 1 个 · PNG / JPG / WebP · ≤ 10 MB",
+  "点击选择本地文件，或拖拽到这里",
+  "校验格式 / 大小 / 像素，入库后可刷新恢复",
+  "还没有素材",
+  "未选择",
+  "商品分割图",
+  "segImageUrl（可选）",
+  "上传商品分割图",
+  "0",
+  "0 / 1 个 · PNG / JPG / WebP · ≤ 10 MB",
+  "点击选择本地文件，或拖拽到这里",
+  "校验格式 / 大小 / 像素，入库后可刷新恢复",
+  "还没有素材",
+  "未提供商品分割图：本地没有分割服务，不会用商品原图冒充 segImageUrl",
+  "相似度",
+  "similarity",
+  "70",
+  "%",
+  "轻度",
+  "30",
+  "%",
+  "平衡",
+  "55",
+  "%",
+  "强风格",
+  "80",
+  "%",
+  "70% · 强保留参考场景的光影与背景风格",
+  "产物 1 张 · 相似度 70% · 整图迁移（未提供分割图）",
+  "请上传或选择商品图（字段 imageUrl）",
+  "请上传或选择场景风格参考图（字段 imageStyleUrl）",
+  "开始迁移",
+  "生成结果",
+  "优秀案例",
+  "历史记录",
+  "场景迁移结果",
+  "还没有生成结果",
+  "填好参数并提交后，结果会出现在这里，可预览、下载、存入资产库或发送到画布。",
+  "本次提交快照",
+  "还没有提交过任务；提交后这里会显示锁定的商品图 / 风格图 / 分割图 / 相似度。",
+  "历史任务",
+  "0",
+  "条",
+  "本工具还没有历史任务；提交一次后会在这里留下任务、配置与结果，刷新后仍在。",
+  "连接本地 Agent",
+  "未连接",
+  "点连接会自动启动本地服务、装好插件并接通，无需手动配置。",
+  "Claude Code",
+  "未连接",
+  "·",
+  "CLI · 2.1.285 (Claude Code)",
+  "·",
+  "直接运行",
+  "连接",
+  "Codex",
+  "未连接",
+  "·",
+  "CLI · codex-cli 0.163.0",
+  "·",
+  "插件已装",
+  "连接",
+  "Galley",
+  "未连接",
+  "·",
+  "CLI + 桌面版 · galley 0.6.4",
+  "连接"
+ ],
+ "controls": [
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "中",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1593,
+    "y": 14,
+    "w": 28,
+    "h": 28
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "切换到深色主题",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1625,
+    "y": 14,
+    "w": 28,
+    "h": 28
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "v0.27.0",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1657,
+    "y": 17,
+    "w": 47,
+    "h": 22
+   }
+  },
+  {
+   "tag": "div",
+   "type": "",
+   "text": "点击选择本地文件，或拖拽到这里\n校验格式 / 大小 / 像素，入库后可刷新恢复",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 248,
+    "y": 244,
+    "w": 245,
+    "h": 102
+   }
+  },
+  {
+   "tag": "div",
+   "type": "",
+   "text": "点击选择本地文件，或拖拽到这里\n校验格式 / 大小 / 像素，入库后可刷新恢复",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 248,
+    "y": 521,
+    "w": 245,
+    "h": 102
+   }
+  },
+  {
+   "tag": "div",
+   "type": "",
+   "text": "点击选择本地文件，或拖拽到这里\n校验格式 / 大小 / 像素，入库后可刷新恢复",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 248,
+    "y": 798,
+    "w": 245,
+    "h": 102
+   }
+  },
+  {
+   "tag": "input",
+   "type": "range",
+   "text": "70",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 248,
+    "y": 1042,
+    "w": 245,
+    "h": 16
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "轻度 30%",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 248,
+    "y": 1072,
+    "w": 80,
+    "h": 32
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "平衡 55%",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 336,
+    "y": 1072,
+    "w": 80,
+    "h": 32
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "强风格 80%",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 248,
+    "y": 1112,
+    "w": 94,
+    "h": 32
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "开始迁移",
+   "placeholder": "",
+   "disabled": true,
+   "rect": {
+    "x": 235,
+    "y": 1270,
+    "w": 80,
+    "h": 34
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "生成结果",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 541,
+    "y": 67,
+    "w": 56,
+    "h": 42
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "优秀案例",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 611,
+    "y": 67,
+    "w": 56,
+    "h": 42
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "历史记录",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 1829,
+    "y": 67,
+    "w": 52,
+    "h": 42
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "连接",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 2265,
+    "y": 147,
+    "w": 66,
+    "h": 24
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "连接",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 2265,
+    "y": 215,
+    "w": 66,
+    "h": 24
+   }
+  },
+  {
+   "tag": "button",
+   "type": "button",
+   "text": "连接",
+   "placeholder": "",
+   "disabled": false,
+   "rect": {
+    "x": 2265,
+    "y": 283,
+    "w": 66,
+    "h": 24
+   }
+  }
+ ],
+ "regions": [
+  {
+   "cls": "sticky top-0 z-[7] h-14 shrink-0 border-b border-hairline bg-surface/95 backdrop",
+   "rect": {
+    "x": 0,
+    "y": 0,
+    "w": 1920,
+    "h": 56
+   },
+   "text": "无限画布\n首页\n电商套图\n智能修图\n新模型\nAI视频\nHOT\n批量生图\n商品图设计\n中\n切换到深色主题\nv0.27.0"
+  },
+  {
+   "cls": "hidden w-[180px] shrink-0 overflow-y-auto rounded-xl border border-hairline bg-s",
+   "rect": {
+    "x": 16,
+    "y": 56,
+    "w": 180,
+    "h": 1008
+   },
+   "text": "商品图设计\n商品图\n商品替换\n场景裂变\n手持商品\nAI穿衣\n姿势裂变\nAI穿戴\nPOD素材\n饰品文字\n素材贴合\n印花提取\nAI姿势生成\n补充\nAI试衣XSY\n补充\n场景裂变链接\n补充\n图片文字编辑\n补充\n上装换料\n补充\n商品图设计器\n补充\n商品营销素材\n补充\n场景迁移\n补充\n免责声明"
+  },
+  {
+   "cls": "min-h-0 flex-1 overflow-hidden bg-canvas p-2.5",
+   "rect": {
+    "x": 209,
+    "y": 57,
+    "w": 1694,
+    "h": 1006
+   },
+   "text": "场景迁移\n\n商品图 + 场景风格参考图，按相似度把商品迁移进参考场景；提交即一次真实图像请求。\n\n商品图 imageUrl\n上传商品图\n00 / 1 个 · PNG / JPG / WebP · ≤ 10 MB\n点击选择本地文件，或拖拽到这里\n校验格式 / 大小 / 像素，入库后可刷新恢复\n\n还没有素材\n\n未选择\n\n场景风格参考图 imageStyleUrl\n上传场景风格参考图\n00 / 1 个 · PNG / JPG / WebP · ≤ 10 MB\n点击选择本地文件，或拖拽到这里\n校验格式 / 大小 / 像素，入库后可刷新恢复\n\n还没有素材\n\n未选择\n\n商品分割图 segImageUrl（"
+  },
+  {
+   "cls": "flex w-[300px] shrink-0 flex-col border-r border-border bg-card",
+   "rect": {
+    "x": 219,
+    "y": 67,
+    "w": 300,
+    "h": 1247
+   },
+   "text": "场景迁移\n\n商品图 + 场景风格参考图，按相似度把商品迁移进参考场景；提交即一次真实图像请求。\n\n商品图 imageUrl\n上传商品图\n00 / 1 个 · PNG / JPG / WebP · ≤ 10 MB\n点击选择本地文件，或拖拽到这里\n校验格式 / 大小 / 像素，入库后可刷新恢复\n\n还没有素材\n\n未选择\n\n场景风格参考图 imageStyleUrl\n上传场景风格参考图\n00 / 1 个 · PNG / JPG / WebP · ≤ 10 MB\n点击选择本地文件，或拖拽到这里\n校验格式 / 大小 / 像素，入库后可刷新恢复\n\n还没有素材\n\n未选择\n\n商品分割图 segImageUrl（"
+  },
+  {
+   "cls": "header",
+   "rect": {
+    "x": 235,
+    "y": 77,
+    "w": 271,
+    "h": 62
+   },
+   "text": "场景迁移\n\n商品图 + 场景风格参考图，按相似度把商品迁移进参考场景；提交即一次真实图像请求。"
+  },
+  {
+   "cls": "space-y-3",
+   "rect": {
+    "x": 248,
+    "y": 185,
+    "w": 245,
+    "h": 189
+   },
+   "text": "上传商品图\n00 / 1 个 · PNG / JPG / WebP · ≤ 10 MB\n点击选择本地文件，或拖拽到这里\n校验格式 / 大小 / 像素，入库后可刷新恢复\n\n还没有素材"
+  },
+  {
+   "cls": "space-y-3",
+   "rect": {
+    "x": 248,
+    "y": 462,
+    "w": 245,
+    "h": 189
+   },
+   "text": "上传场景风格参考图\n00 / 1 个 · PNG / JPG / WebP · ≤ 10 MB\n点击选择本地文件，或拖拽到这里\n校验格式 / 大小 / 像素，入库后可刷新恢复\n\n还没有素材"
+  },
+  {
+   "cls": "space-y-3",
+   "rect": {
+    "x": 248,
+    "y": 739,
+    "w": 245,
+    "h": 189
+   },
+   "text": "上传商品分割图\n00 / 1 个 · PNG / JPG / WebP · ≤ 10 MB\n点击选择本地文件，或拖拽到这里\n校验格式 / 大小 / 像素，入库后可刷新恢复\n\n还没有素材"
+  },
+  {
+   "cls": "flex min-w-0 flex-1 flex-col",
+   "rect": {
+    "x": 529,
+    "y": 67,
+    "w": 1364,
+    "h": 337
+   },
+   "text": "生成结果\n优秀案例\n历史记录\n场景迁移结果\n\n还没有生成结果\n\n填好参数并提交后，结果会出现在这里，可预览、下载、存入资产库或发送到画布。\n\n本次提交快照\n\n还没有提交过任务；提交后这里会显示锁定的商品图 / 风格图 / 分割图 / 相似度。"
+  },
+  {
+   "cls": "space-y-3 rounded-xl border border-border bg-card p-4",
+   "rect": {
+    "x": 529,
+    "y": 109,
+    "w": 1364,
+    "h": 233
+   },
+   "text": "场景迁移结果\n\n还没有生成结果\n\n填好参数并提交后，结果会出现在这里，可预览、下载、存入资产库或发送到画布。"
+  },
+  {
+   "cls": "rounded-lg border border-border bg-card/40 p-3 mt-4",
+   "rect": {
+    "x": 219,
+    "y": 1330,
+    "w": 1674,
+    "h": 80
+   },
+   "text": "历史任务\n0 条\n\n本工具还没有历史任务；提交一次后会在这里留下任务、配置与结果，刷新后仍在。"
+  },
+  {
+   "cls": "relative flex h-full shrink-0 flex-col border-l",
+   "rect": {
+    "x": 1920,
+    "y": 0,
+    "w": 440,
+    "h": 1080
+   },
+   "text": "连接本地 Agent\n未连接\n点连接会自动启动本地服务、装好插件并接通，无需手动配置。\nClaude Code\n未连接\n·\nCLI · 2.1.285 (Claude Code)\n·\n直接运行\n连接\nCodex\n未连接\n·\nCLI · codex-cli 0.163.0\n·\n插件已装\n连接\nGalley\n未连接\n·\nCLI + 桌面版 · galley 0.6.4\n连接"
+  }
+ ]
+}
