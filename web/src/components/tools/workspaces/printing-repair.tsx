@@ -13,7 +13,7 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Link } from "react-router-dom";
-import { ArrowRight, CircleAlert, Download, Layers, Loader2, Move, Redo2, RotateCcw, RotateCw, Sparkles, TriangleAlert, Undo2, ZoomIn, ZoomOut } from "lucide-react";
+import { ArrowRight, CircleAlert, Download, Loader2, Move, Redo2, RotateCcw, RotateCw, Sparkles, TriangleAlert, Undo2, ZoomIn, ZoomOut } from "lucide-react";
 
 import { ToolAssetInput } from "@/components/tools/tool-asset-input";
 import { ToolResult } from "@/components/tools/tool-result";
@@ -92,7 +92,6 @@ import {
     type PrintingRepairTransform,
     type PrintingRepairVersion,
 } from "@/features/tools/registry/printing-repair";
-import { WatermarkGroupPanel } from "@/components/tools/watermark-group-panel";
 
 /* ------------------------------------------------------------------ *
  * 草稿槽位：两个上传器各自独立落盘，互不覆盖 `assetIds`
@@ -457,6 +456,8 @@ export function PrintingRepairWorkspace({ className }: PrintingRepairWorkspacePr
     /** 结果动作（存入资产 / 发送画布）进行中与结果提示，避免连点重复入库/重复建项目。 */
     const [resultPending, setResultPending] = useState(false);
     const [resultNotice, setResultNotice] = useState<string | null>(null);
+    /** 原站结果区顶部两个页签（生成结果 / 历史记录）。 */
+    const [resultTab, setResultTab] = useState<"result" | "history">("result");
 
     const revisionRef = useRef<number | null>(null);
     const abortRef = useRef<AbortController | null>(null);
@@ -936,7 +937,7 @@ export function PrintingRepairWorkspace({ className }: PrintingRepairWorkspacePr
                     </StepCard>
                 </div>
 
-                <aside className="space-y-3">
+                <div data-region="config" className="space-y-3">
                     <section className="space-y-3 rounded-2xl border border-border bg-card p-4">
                         <button
                             type="button"
@@ -953,14 +954,44 @@ export function PrintingRepairWorkspace({ className }: PrintingRepairWorkspacePr
                     </section>
 
                     <section data-testid="printing-repair-result" className="space-y-2 rounded-2xl border border-border bg-card p-4">
-                        <header className="flex items-center gap-2">
-                            <Layers aria-hidden="true" className="size-4" />
-                            <h2 className="text-sm font-semibold">生成结果</h2>
+                        <div className="flex items-center gap-1 border-b border-border pb-1">
+                            <button
+                                type="button"
+                                role="tab"
+                                aria-selected={resultTab === "result"}
+                                data-testid="printing-repair-tab-result"
+                                onClick={() => setResultTab("result")}
+                                className={
+                                    resultTab === "result"
+                                        ? "rounded-md px-2 py-1 text-sm font-semibold text-foreground"
+                                        : "rounded-md px-2 py-1 text-sm text-muted-foreground transition hover:text-foreground"
+                                }
+                            >
+                                生成结果
+                            </button>
+                            <button
+                                type="button"
+                                role="tab"
+                                aria-selected={resultTab === "history"}
+                                data-testid="printing-repair-tab-history"
+                                onClick={() => setResultTab("history")}
+                                className={
+                                    resultTab === "history"
+                                        ? "rounded-md px-2 py-1 text-sm font-semibold text-foreground"
+                                        : "rounded-md px-2 py-1 text-sm text-muted-foreground transition hover:text-foreground"
+                                }
+                            >
+                                历史记录
+                            </button>
                             {stale ? (
-                                <span data-testid="printing-repair-stale" className="rounded-full bg-amber-100 px-2 py-0.5 text-[11px] text-amber-900">来自旧版本</span>
+                                <span data-testid="printing-repair-stale" className="ml-auto rounded-full bg-amber-100 px-2 py-0.5 text-[11px] text-amber-900">来自旧版本</span>
                             ) : null}
-                        </header>
-                        {view.imageUrl && base?.url ? (
+                        </div>
+                        {resultTab === "history" ? (
+                            <p data-testid="printing-repair-history-empty" className="text-[11px] text-muted-foreground">
+                                暂无历史记录
+                            </p>
+                        ) : view.imageUrl && base?.url ? (
                             <>
                                 <RegionCompare baseUrl={base.url} resultUrl={view.imageUrl} split={split} mode={compareMode} region={compareRegion(transform)} onSplit={(next) => setSplit(clampSplit01(next))} />
                                 <p data-testid="printing-repair-region" className="text-[11px] text-muted-foreground">
@@ -976,9 +1007,14 @@ export function PrintingRepairWorkspace({ className }: PrintingRepairWorkspacePr
                                 />
                             </>
                         ) : (
-                            <p data-testid="printing-repair-result-empty" className="text-[11px] text-muted-foreground">
+                            <button
+                                type="button"
+                                data-testid="printing-repair-result-empty"
+                                onClick={() => setResultTab("result")}
+                                className="w-full rounded-lg px-1 py-6 text-left text-[11px] leading-5 text-muted-foreground transition hover:text-foreground"
+                            >
                                 {running ? "正在修复…" : view.status === "failed" ? view.error?.message ?? "上游没有返回结果" : "暂无生成结果图"}
-                            </p>
+                            </button>
                         )}
                         {view.status !== "succeeded" && run ? (
                             <button type="button" data-testid="printing-repair-retry" onClick={() => void retry()} disabled={running} className="rounded-lg border border-border px-2 py-1 text-[11px] disabled:opacity-50">重试</button>
@@ -986,10 +1022,9 @@ export function PrintingRepairWorkspace({ className }: PrintingRepairWorkspacePr
                     </section>
 
                     {run?.task ? <ToolResult task={run.task as ToolTask} toolId={PRINTING_REPAIR_TOOL_ID} title="上游返回" /> : null}
-                    <WatermarkGroupPanel />
                     {/* 原站族导航在页面最左（x≈61），本地被内容框裁掉：在参数栏底部等价还原，顺序与原站一致 */}
                     <OrigRail items={SMART_EDIT_RAIL} active="印花修复" driver testId="printing-repair-family-rail" label="图片编辑" />
-                </aside>
+                </div>
             </div>
         </ToolShell>
     );

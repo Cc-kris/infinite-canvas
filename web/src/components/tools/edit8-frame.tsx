@@ -73,14 +73,14 @@ export function Edit8Config({
     ...rest
 }: { className?: string; footer?: ReactNode; children: ReactNode } & Record<string, unknown>) {
     return (
-        <aside
+        <div
             data-region="config"
             {...rest}
             className={cn("flex w-[240px] shrink-0 flex-col overflow-hidden rounded-xl border border-border bg-card", className)}
         >
             <div className="min-h-0 flex-1 overflow-y-auto">{children}</div>
             {footer ? <div className="shrink-0">{footer}</div> : null}
-        </aside>
+        </div>
     );
 }
 

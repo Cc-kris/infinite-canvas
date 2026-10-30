@@ -77,14 +77,23 @@ export interface ColorV2WorkspaceProps {
  * 小部件（对齐原站：46px 分区标题条 / 12px 标题 / #723cf9 主色）
  * ------------------------------------------------------------------ */
 
-function PanelSection({ id, title, hint, children }: { id?: string; title: string; hint?: string; children: React.ReactNode }) {
+function PanelSection({ id, title, hint, defaultOpen = true, children }: { id?: string; title: string; hint?: string; defaultOpen?: boolean; children: React.ReactNode }) {
+    // 原站每个分区标题是可点的折叠头（上传图片 / 颜色选择 / 换色部位 / 模型设置）
+    // 换色部位、模型设置原站默认收起，故可点入口只有标题
+    const [open, setOpen] = useState(defaultOpen);
     return (
         <section id={id} data-section={id} className="border-b border-border">
-            <header className="flex h-[46px] items-center justify-between gap-2 px-4">
+            <button
+                type="button"
+                onClick={() => setOpen((value) => !value)}
+                aria-expanded={open}
+                data-testid={id ? `color-v2-section-${id}` : undefined}
+                className="flex h-[46px] w-full items-center justify-between gap-2 px-4 text-left"
+            >
                 <h2 style={{ fontSize: 12, fontWeight: 600, lineHeight: 1 }} className="text-foreground">{title}</h2>
                 {hint ? <span style={{ fontSize: 12, lineHeight: 1 }} className="text-muted-foreground">{hint}</span> : null}
-            </header>
-            <div className="pb-4">{children}</div>
+            </button>
+            {open ? <div className="pb-4">{children}</div> : null}
         </section>
     );
 }
@@ -478,7 +487,6 @@ export function ColorV2Workspace({ className }: ColorV2WorkspaceProps = {}) {
     const [rightTab, setRightTab] = useState<"result" | "cases" | "history">("result");
     /** 结果区分页（原站底部 1~6 页码）。 */
     const [resultPage, setResultPage] = useState(1);
-    const [stepDismissed, setStepDismissed] = useState(false);
     const qualityLevel = getQualityLevel(values.quality);
 
     /* ---------------- 刷新恢复：落盘任务 → 结果区（G1 遗留缺口） ----------------
@@ -841,7 +849,7 @@ export function ColorV2Workspace({ className }: ColorV2WorkspaceProps = {}) {
                         </div>
                     </PanelSection>
 
-                    <PanelSection id="region" title="换色部位">
+                    <PanelSection id="region" title="换色部位" defaultOpen={false}>
                         <div className="px-4">
                             <div className="relative">
                                 <textarea
@@ -895,7 +903,7 @@ export function ColorV2Workspace({ className }: ColorV2WorkspaceProps = {}) {
                         </div>
                     </PanelSection>
 
-                    <PanelSection id="quality" title="模型设置">
+                    <PanelSection id="quality" title="模型设置" defaultOpen={false}>
                         <div className="px-4">
                             <p style={{ fontSize: 12, lineHeight: "20px" }} className="text-foreground">模型品质</p>
                             <div className="mt-0.5 flex gap-[10px] rounded-md bg-card p-0.5">
@@ -1223,19 +1231,9 @@ export function ColorV2Workspace({ className }: ColorV2WorkspaceProps = {}) {
                             </div>
                         ) : (
                             <div className="mx-auto flex h-full w-full max-w-[1000px] flex-col justify-center px-6 py-4">
-                                {stepDismissed ? null : (
-                                    <div className="flex items-center gap-3">
-                                        <span className="text-[14px] leading-5 text-foreground">第一步：上传 1 张需要换色的商品图片</span>
-                                        <button
-                                            type="button"
-                                            data-testid="color-v2-dismiss-step"
-                                            onClick={() => setStepDismissed(true)}
-                                            className="text-[12px] leading-4 text-primary transition hover:underline"
-                                        >
-                                            我是高手，不再提醒
-                                        </button>
-                                    </div>
-                                )}
+                                <div className="flex items-center gap-3">
+                                    <span className="text-[14px] leading-5 text-foreground">第一步：上传 1 张需要换色的商品图片</span>
+                                </div>
                                 <h2 className="mt-1 text-center text-[20px] font-medium leading-7 text-foreground">上传整套商品图，批量生成多色变体结果</h2>
                                 <div className="mt-5 flex justify-center">
                                     <div className="flex w-[474px] max-w-full flex-col items-center rounded-lg bg-card px-10 py-8 text-center">
@@ -1261,6 +1259,36 @@ export function ColorV2Workspace({ className }: ColorV2WorkspaceProps = {}) {
                                             />
                                         </div>
                                     </div>
+                                </div>
+                                {/* 原站「生成结果」空态：横向滚动演示条（上传商品图 → 生成结果 → 一键做同款） */}
+                                <div
+                                    data-testid="color-v2-empty-demo"
+                                    className="mt-6 flex justify-start gap-4 overflow-x-auto pb-1 sm:justify-center"
+                                >
+                                    {[0, 1, 2].map((index) => (
+                                        <div
+                                            key={index}
+                                            data-testid="color-v2-empty-demo-card"
+                                            className="flex w-[240px] shrink-0 flex-col items-center gap-3 rounded-lg border border-border bg-card px-4 py-4"
+                                        >
+                                            <div className="flex items-center gap-2">
+                                                <span className="inline-flex h-7 items-center rounded-[13px] bg-black/60 px-3 text-[14px] leading-4 text-white">
+                                                    上传商品图
+                                                </span>
+                                                <span className="inline-flex h-7 items-center rounded-[13px] bg-black/60 px-3 text-[14px] leading-4 text-white">
+                                                    生成结果
+                                                </span>
+                                            </div>
+                                            <div className="h-[96px] w-full rounded-md bg-muted" aria-hidden="true" />
+                                            <button
+                                                type="button"
+                                                data-testid="color-v2-empty-demo-cta"
+                                                className="inline-flex h-10 w-[110px] items-center justify-center rounded-lg border border-border text-[16px] leading-none text-foreground transition hover:border-primary hover:text-primary"
+                                            >
+                                                一键做同款
+                                            </button>
+                                        </div>
+                                    ))}
                                 </div>
                             </div>
                         )

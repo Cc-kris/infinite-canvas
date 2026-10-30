@@ -930,33 +930,6 @@ export function ChangeColorWorkspace({ className }: { className?: string }) {
                 <ConfigSection title="边缘优化" open={openSections.edge} onToggle={() => toggleSection("edge")} testId="change-color-edge">
                     <div className="flex flex-col gap-[8px]">
                         <div className="flex items-center gap-2">
-                            <span className="w-[56px] shrink-0 text-[12px] leading-[22px] text-foreground">色彩平衡</span>
-                            <input
-                                type="range"
-                                min={BALANCE_LIMITS.min}
-                                max={BALANCE_LIMITS.max}
-                                step={BALANCE_LIMITS.step}
-                                value={values.light.balance}
-                                disabled={disabled}
-                                aria-label="色彩平衡"
-                                onChange={(event) => update({ light: { ...values.light, balance: clampToRange(event.target.value, BALANCE_LIMITS, values.light.balance) } })}
-                                className="h-[22px] min-w-0 flex-1 accent-primary"
-                                data-testid="change-color-balance"
-                            />
-                            <input
-                                type="number"
-                                min={BALANCE_LIMITS.min}
-                                max={BALANCE_LIMITS.max}
-                                step={BALANCE_LIMITS.step}
-                                value={values.light.balance}
-                                disabled={disabled}
-                                aria-label="色彩平衡数值"
-                                onChange={(event) => update({ light: { ...values.light, balance: clampToRange(event.target.value, BALANCE_LIMITS, values.light.balance) } })}
-                                className={numClass}
-                                data-testid="change-color-balance-value"
-                            />
-                        </div>
-                        <div className="flex items-center gap-2">
                             <span className="w-[56px] shrink-0 text-[12px] leading-[22px] text-foreground">曲线</span>
                             <select
                                 className={cn(fieldClass, "min-w-0 flex-1")}
@@ -977,10 +950,38 @@ export function ChangeColorWorkspace({ className }: { className?: string }) {
                         </div>
                     </div>
                 </ConfigSection>
+
+                <ConfigSection title="色彩平衡" open={openSections.balance} onToggle={() => toggleSection("balance")} testId="change-color-balance-section">
+                    <div className="flex items-center gap-2">
+                        <span className="w-[56px] shrink-0 text-[12px] leading-[22px] text-foreground">色彩平衡</span>
+                        <input
+                            type="range"
+                            min={BALANCE_LIMITS.min}
+                            max={BALANCE_LIMITS.max}
+                            step={BALANCE_LIMITS.step}
+                            value={values.light.balance}
+                            disabled={disabled}
+                            aria-label="色彩平衡"
+                            onChange={(event) => update({ light: { ...values.light, balance: clampToRange(event.target.value, BALANCE_LIMITS, values.light.balance) } })}
+                            className="h-[22px] min-w-0 flex-1 accent-primary"
+                            data-testid="change-color-balance"
+                        />
+                        <input
+                            type="number"
+                            min={BALANCE_LIMITS.min}
+                            max={BALANCE_LIMITS.max}
+                            step={BALANCE_LIMITS.step}
+                            value={values.light.balance}
+                            disabled={disabled}
+                            aria-label="色彩平衡数值"
+                            onChange={(event) => update({ light: { ...values.light, balance: clampToRange(event.target.value, BALANCE_LIMITS, values.light.balance) } })}
+                            className={numClass}
+                            data-testid="change-color-balance-value"
+                        />
+                    </div>
+                </ConfigSection>
                     </div>
                 </div>
-            {/* 原站面板底部：管理水印分组（共 N/20 个 · 默认 · ＋ 新增水印分组） */}
-            <WatermarkGroupPanel />
             </Edit8Config>
 
             {/* ---------------- 结果列 ---------------- */}

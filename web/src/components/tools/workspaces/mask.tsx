@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Link } from "react-router-dom";
-import { Eraser, Paintbrush, Redo2, RotateCcw, Sparkles, Undo2 } from "lucide-react";
+import { Paintbrush, Redo2, RotateCcw, Sparkles, Undo2 } from "lucide-react";
 
 import { ToolAssetInput } from "@/components/tools/tool-asset-input";
 import { ToolShell } from "@/components/tools/tool-shell";
@@ -659,26 +659,11 @@ export function MaskWorkspace({ className }: MaskWorkspaceProps = {}) {
                     <Edit8CanvasToolbar>
                         <div className="flex items-center gap-2" data-testid="mask-toolbar">
                             <div className="flex items-center gap-1">
-                                <button
-                                    type="button"
-                                    data-testid="mask-tool-brush"
-                                    aria-pressed={state.tool === "brush"}
-                                    onClick={() => commit({ tool: "brush" })}
-                                    className={cn("inline-flex h-6 items-center gap-1 rounded-md px-2 text-[12px] leading-none", state.tool === "brush" ? "bg-primary text-primary-foreground" : "text-foreground hover:bg-border")}
-                                >
+                                {/* 原站只有「画笔」文字标签（无橡皮切换），此处对齐为静态标签，绘制工具固定为画笔。 */}
+                                <span className="inline-flex h-6 items-center gap-1 text-[12px] leading-none text-muted-foreground" data-testid="mask-tool-label">
                                     <Paintbrush className="size-3.5" aria-hidden />
                                     <span>画笔</span>
-                                </button>
-                                <button
-                                    type="button"
-                                    data-testid="mask-tool-eraser"
-                                    aria-pressed={state.tool === "eraser"}
-                                    onClick={() => commit({ tool: "eraser" })}
-                                    className={cn("inline-flex h-6 items-center gap-1 rounded-md px-2 text-[12px] leading-none", state.tool === "eraser" ? "bg-primary text-primary-foreground" : "text-foreground hover:bg-border")}
-                                >
-                                    <Eraser className="size-3.5" aria-hidden />
-                                    橡皮
-                                </button>
+                                </span>
                             </div>
 
                             <label className="flex items-center gap-1.5 text-[12px] text-muted-foreground">
@@ -1549,20 +1534,25 @@ export function RemovePenWorkspace({ className }: RemovePenWorkspaceProps = {}) 
                             >
                                 重新上传
                             </button>
-                            <button
-                                type="button"
-                                data-testid="remove-pen-submit"
-                                disabled={busy || issues.length > 0}
-                                onClick={() => void submit()}
-                                className="inline-flex h-[28px] items-center gap-1 rounded-lg bg-primary px-[15px] text-[12px] leading-none text-primary-foreground transition hover:bg-primary/90 disabled:cursor-not-allowed disabled:opacity-50"
-                            >
-                                {busy ? "消除中…" : "开始消除"}
-                            </button>
-                            {/* 原站「开始消除」旁标有限免角标 */}
-                            <span data-testid="remove-pen-free-badge" className="rounded border border-primary/40 px-1.5 py-0.5 text-[11px] leading-none text-primary">
-                                限免
-                            </span>
-                            {["下载图片", "高清放大", "商品图", "手部修复"].map((label) => (
+                            {/* 原站空态工具栏没有「开始消除」：仅在已涂抹时出现 */}
+                            {state.strokes.length > 0 ? (
+                                <>
+                                    <button
+                                        type="button"
+                                        data-testid="remove-pen-submit"
+                                        disabled={busy || issues.length > 0}
+                                        onClick={() => void submit()}
+                                        className="inline-flex h-[28px] items-center gap-1 rounded-lg bg-primary px-[15px] text-[12px] leading-none text-primary-foreground transition hover:bg-primary/90 disabled:cursor-not-allowed disabled:opacity-50"
+                                    >
+                                        {busy ? "消除中…" : "开始消除"}
+                                    </button>
+                                    {/* 原站「开始消除」旁标有限免角标 */}
+                                    <span data-testid="remove-pen-free-badge" className="rounded border border-primary/40 px-1.5 py-0.5 text-[11px] leading-none text-primary">
+                                        限免
+                                    </span>
+                                </>
+                            ) : null}
+                            {["高清放大", "商品图", "手部修复"].map((label) => (
                                 <button
                                     key={label}
                                     type="button"
@@ -1768,8 +1758,6 @@ export function RemovePenWorkspace({ className }: RemovePenWorkspaceProps = {}) 
                         ) : null}
                     </div>
                 </Edit8Canvas>
-            {/* 原站面板底部：管理水印分组（共 N/20 个 · 默认 · ＋ 新增水印分组） */}
-            <WatermarkGroupPanel />
             </Edit8Page>
         </ToolShell>
     );
