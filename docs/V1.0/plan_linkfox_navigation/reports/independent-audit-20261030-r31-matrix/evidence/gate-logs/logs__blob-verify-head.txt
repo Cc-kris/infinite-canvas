@@ -1,0 +1,5 @@
+blob verify: total=3825 ok=3825 diff=0 missing=0
+web/src blobs: ok=411 diff=0 missing=0
+tree entries (all types): 3825 ; non-blob (submodule/symlink-mode) entries: 0
+
+all blobs match HEAD tree object ids

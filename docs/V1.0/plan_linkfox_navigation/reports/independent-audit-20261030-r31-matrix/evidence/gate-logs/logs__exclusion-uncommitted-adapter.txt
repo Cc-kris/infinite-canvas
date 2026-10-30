@@ -1,0 +1,43 @@
+# 未提交改动排除证据 (2026-10-30)
+
+## 工作树中与本次验证相关的未提交文件
+ M project_memory.md
+ M web/src/features/tools/adapters/video-translation.test.ts
+ M web/src/features/tools/adapters/video-translation.ts
+
+## 工作树 diff 摘要（语言组 adapter，不进入快照）
+ .../tools/adapters/video-translation.test.ts       | 36 ++++++++++
+ .../features/tools/adapters/video-translation.ts   | 76 ++++++++++++++++++++--
+ 2 files changed, 105 insertions(+), 7 deletions(-)
+
+## diff 行级摘要（仅 +/- 计数，不贴内容）
+36	0	web/src/features/tools/adapters/video-translation.test.ts
+69	7	web/src/features/tools/adapters/video-translation.ts
+
+## blob 对比：工作树 vs HEAD vs 快照
+web/src/features/tools/adapters/video-translation.ts
+  worktree=4c3b71c70aa9cc5ea88a0c12c3dc9d353996cbae
+  HEAD    =3cae58f863ce37453e0585e69bd7f490f758cebd
+  snapshot=3cae58f863ce37453e0585e69bd7f490f758cebd
+web/src/features/tools/adapters/video-translation.test.ts
+  worktree=49963643b5e960b0d1fb5704512bfc96d1916c28
+  HEAD    =68fd0c43cae3f391e7d611fb351be08d101aee78
+  snapshot=68fd0c43cae3f391e7d611fb351be08d101aee78
+
+## 结论
+快照 = git archive HEAD；工作树 adapter 改动 sha1 与 HEAD/snapshot 不同 => 未被混入（快照取的是已提交 2dd097bb 版本）。
+
+## 收尾时刻（2026-10-30 13:30:44）主工作树 web/src 状态 —— 并行 worker 持续改动，但全部未进入快照
+ M web/src/components/tools/workspaces/video-translation.tsx
+MM web/src/features/tools/adapters/video-translation.test.ts
+ M web/src/features/tools/adapters/video-translation.ts
+ M web/src/i18n/locales/en-US.ts
+ M web/src/i18n/locales/zh-CN.ts
+?? web/src/components/tools/workspaces/video-translation-honesty.test.tsx
+?? web/src/components/tools/workspaces/video-translation-honesty.tsx
+
+HEAD 已迁移: 收尾时 HEAD = bd71498f334126312ac6255b60053d09151801c3
+  被测 pin 仍为 c17890c3（其祖先关系成立: c17890c3 ancestor of HEAD = YES）
+  迁移区间 c17890c3..bd71498f 共 3 个提交（1ef24fba / 454fa580 / bd71498f），全部只动 docs/ 与 web/scripts/real-acceptance/
+  git log --oneline c17890c3..HEAD -- web/src 输出为空 => 被测源码面与本轮快照完全一致，结论不受影响
+本 worker 对 web/src 的写入: 0 —— 所有闸都在 /tmp/icw-r28-head 快照内执行；唯一写入路径是 docs/V1.0/reports/verify-head-r28-fixed/。

@@ -1,0 +1,15 @@
+# bundle 特征串核对（dist/assets/index-DTgGRCtK.js，5,622,697 B）
+
+videoRatio                         41
+输出画幅                       1
+21:9                               30
+planVideoTranslationOutput         1
+AI_VIDEO_EDITING                   20
+VIDEO_TRANSLATION                  26
+IMAGE_TRANSLATION                  27
+measureVideoMeta                   10
+reconcileVideoNodeMeta             4
+infinite-canvas:asset_store:sync   1
+infinite-canvas:asset_store:write  1
+
+# 说明：函数名经 terser 压缩后不可见，故用源码里的字面量（BroadcastChannel 频道名 / 锁名）与 UI 文案作为存在性证据。
