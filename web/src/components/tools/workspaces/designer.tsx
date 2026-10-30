@@ -64,6 +64,7 @@ import {
     type DesignerCompositorPort,
     type DesignerStageState,
 } from "@/features/tools/adapters/new-designer";
+import { WatermarkGroupPanel } from "@/components/tools/watermark-group-panel";
 
 /* ============================== 草稿存储 ============================== */
 
@@ -104,6 +105,27 @@ export type DesignerWorkspaceProps = {
     onClose?: (payload: { designerId: string; saved: boolean }) => void;
     onDone?: (payload: ReturnType<typeof buildDesignerDonePayload>, document: DesignerDocument) => void;
 };
+
+const DESIGNER_HOME_TABS = ["创建设计", "我的设计", "我的模板", "团队空间"];
+
+const HOME_GRADIENTS = [
+    "linear-gradient(135deg,#f5d0c5,#f9f3ee)",
+    "linear-gradient(135deg,#cfe3f7,#eef4fb)",
+    "linear-gradient(135deg,#d8e8d4,#f2f7f1)",
+    "linear-gradient(135deg,#f3e0c8,#fbf6ee)",
+    "linear-gradient(135deg,#e2d8f5,#f5f1fb)",
+    "linear-gradient(135deg,#f8dcae,#fdf6ea)",
+];
+
+const DESIGNER_HOME_SAMPLES = Array.from({ length: 6 }, (_, index) => ({
+    id: `sample-${index + 1}`,
+    cover: HOME_GRADIENTS[index % HOME_GRADIENTS.length],
+}));
+
+const DESIGNER_HOME_TEMPLATES = Array.from({ length: 5 }, (_, index) => ({
+    id: `template-${index + 1}`,
+    cover: HOME_GRADIENTS[(index + 2) % HOME_GRADIENTS.length],
+}));
 
 export function DesignerWorkspace({
     open = true,
@@ -406,9 +428,96 @@ export function DesignerWorkspace({
     }, [document.designerId, onClose]);
 
     const notice = designerResultNotice(stage, error, { stale });
+    const [homeOpen, setHomeOpen] = useState(true);
+    const [homeTab, setHomeTab] = useState(DESIGNER_HOME_TABS[0]);
+    const [selectedTemplates, setSelectedTemplates] = useState<string[]>([]);
+    const startFromHome = useCallback(
+        (file?: File | null) => {
+            if (!file) return;
+            setHomeOpen(false);
+            void handleUploadLayer(file);
+        },
+        [handleUploadLayer],
+    );
 
     return (
         <section aria-label="商品图设计器" className="flex min-h-[640px] flex-col overflow-hidden rounded-lg border border-border bg-background text-sm text-foreground">
+            {/* 原站 designer-home：创建设计 / 上传商品图 / 或试试这些 / 模板推荐（1:1 文案） */}
+            <div className={cn("min-h-0 flex-1 flex-col gap-3 overflow-y-auto p-3", homeOpen ? "flex" : "hidden")} data-testid="designer-home">
+                <div className="flex flex-wrap items-center justify-between gap-2">
+                    <div role="tablist" aria-label="设计入口" className="flex flex-wrap items-center gap-1.5" data-testid="designer-home-tabs">
+                        {DESIGNER_HOME_TABS.map((tab) => (
+                            <button
+                                key={tab}
+                                type="button"
+                                role="tab"
+                                aria-selected={homeTab === tab}
+                                onClick={() => setHomeTab(tab)}
+                                className={cn("h-8 rounded-md border px-3 text-xs", homeTab === tab ? "border-primary bg-primary/10 text-primary" : "border-border text-muted-foreground hover:bg-accent")}
+                            >
+                                {tab}
+                            </button>
+                        ))}
+                    </div>
+                    <span className="rounded-md bg-accent px-2 py-1 text-[11px] tabular-nums text-muted-foreground" data-testid="designer-home-credits">250</span>
+                </div>
+
+                <label className="flex h-[188px] w-full cursor-pointer flex-col items-center justify-center gap-1.5 rounded-lg border border-dashed border-border bg-card text-center hover:border-primary/60" data-testid="designer-home-upload">
+                    <ImagePlus className="h-6 w-6 text-muted-foreground" />
+                    <span className="text-sm font-medium">上传商品图</span>
+                    <span className="text-[11px] text-muted-foreground">或拖拽图片到此处</span>
+                    <input type="file" accept="image/png,image/jpeg,image/webp" className="hidden" onChange={(event) => startFromHome(event.target.files?.[0])} />
+                </label>
+
+                <div className="flex items-center justify-between">
+                    <h3 className="text-xs font-medium">或试试这些</h3>
+                </div>
+                <div className="grid grid-cols-6 gap-2">
+                    {DESIGNER_HOME_SAMPLES.map((sample, index) => (
+                        <button key={sample.id} type="button" onClick={() => setHomeTab("创建设计")} className="h-[78px] overflow-hidden rounded-md border border-border" aria-label={`示例 ${index + 1}`} data-testid="designer-home-sample">
+                            <span className="block h-full w-full" style={{ backgroundImage: sample.cover }} />
+                        </button>
+                    ))}
+                </div>
+
+                <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-[11px] text-muted-foreground" data-testid="designer-home-filters">
+                    <span>类型：</span>
+                    <button type="button" className="rounded border border-primary/60 bg-primary/10 px-2 py-0.5 text-primary">全部</button>
+                    <span>适合品类：</span>
+                    <button type="button" className="rounded border border-border px-2 py-0.5">全部</button>
+                    <span>版式：</span>
+                    <button type="button" className="rounded border border-border px-2 py-0.5">全部</button>
+                </div>
+
+                <div className="flex flex-wrap items-center gap-2 text-[11px]">
+                    <span className="text-muted-foreground" data-testid="designer-home-selected">已选中 {selectedTemplates.length} 个</span>
+                    <button type="button" onClick={() => setSelectedTemplates(DESIGNER_HOME_TEMPLATES.map((item) => item.id))} className="rounded border border-border px-2 py-0.5 hover:bg-accent">全 选</button>
+                    <button type="button" onClick={() => setSelectedTemplates([])} disabled={selectedTemplates.length === 0} className="rounded border border-border px-2 py-0.5 hover:bg-accent disabled:opacity-40" data-testid="designer-home-delete">删除已选项</button>
+                </div>
+
+                <h3 className="text-xs font-medium">模板推荐</h3>
+                <div className="grid grid-cols-5 gap-2" data-testid="designer-home-templates" style={{ gridAutoRows: 150 }}>
+                    {DESIGNER_HOME_TEMPLATES.map((template, index) => {
+                        const active = selectedTemplates.includes(template.id);
+                        return (
+                            <button
+                                key={template.id}
+                                type="button"
+                                onClick={() => setSelectedTemplates((current) => (current.includes(template.id) ? current.filter((id) => id !== template.id) : [...current, template.id]))}
+                                aria-pressed={active}
+                                aria-label={`模板 ${index + 1}`}
+                                className={cn("h-[150px] overflow-hidden rounded-md border", active ? "border-primary ring-1 ring-primary" : "border-border hover:border-primary/50")}
+                            >
+                                <span className="block h-full w-full" style={{ backgroundImage: template.cover }} />
+                            </button>
+                        );
+                    })}
+                </div>
+
+                <WatermarkGroupPanel />
+            </div>
+
+            <div className={cn("min-h-0 flex-1 flex-col", homeOpen ? "hidden" : "flex")} data-testid="designer-editor">
             {/* 顶部：撤销 / 重做 / 预览 / 完成 */}
             <header className="flex flex-wrap items-center justify-between gap-2 border-b border-border bg-card px-3 py-2">
                 <div className="flex min-w-0 items-center gap-2">
@@ -694,6 +803,7 @@ export function DesignerWorkspace({
                         <p className="mt-auto text-[11px] text-muted-foreground">工具 {NEW_DESIGNER_TOOL_ID} · 草稿键 tool-draft:v1:{NEW_DESIGNER_TOOL_ID}</p>
                     </aside>
                 )}
+            </div>
             </div>
         </section>
     );

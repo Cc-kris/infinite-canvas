@@ -482,7 +482,8 @@ describe("场景裂变工作区渲染", () => {
 
     test("默认写实模式显示手调相似度，智能模式给出自动提示", async () => {
         const html = await renderWorkspace();
-        expect(html).toContain('data-testid="scene-similarity-value"');
+        /* 1:1 对齐：原站该处只有「背景相似度：」滑块，无本地自造的提示文案/数值节点（real/PRODUCT_SCENE/text.txt） */
+        expect(html).toContain('data-testid="scene-similarity"');
         expect(html).toContain("写实");
         expect(html).toContain("简约");
         expect(html).toContain("智能");

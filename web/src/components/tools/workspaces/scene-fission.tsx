@@ -3,6 +3,8 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { ToolAssetInput } from "@/components/tools/tool-asset-input";
+import { WatermarkGroupPanel } from "@/components/tools/watermark-group-panel";
+import { OrigRail, PRODUCT_SCENE_RAIL } from "@/components/tools/workspaces/orig-rail";
 import { ToolCases } from "@/components/tools/tool-cases";
 import type { ToolCase } from "@/components/tools/tool-cases";
 import { ToolHistoryDock } from "@/components/tools/tool-history-dock";
@@ -118,6 +120,7 @@ function SceneLayerComposer({
     return (
         <div className="min-w-0" data-testid="scene-source">
             <FieldLabel>上传参考图</FieldLabel>
+            <p className="mb-1 text-[11px] leading-4 text-muted-foreground">第一步：选择示例图或上传商品图</p>
             <ToolAssetInput
                 toolId={toolId}
                 title=""
@@ -173,11 +176,6 @@ function SimilarityControl({
         <div data-testid="scene-similarity">
             <FieldLabel
                 htmlFor="scene-similarity-range"
-                extra={
-                    <span className="text-[12px] tabular-nums text-muted-foreground" data-testid="scene-similarity-value">
-                        {smart ? `${effective}（智能）` : effective}
-                    </span>
-                }
             >
                 背景相似度：
             </FieldLabel>
@@ -193,11 +191,6 @@ function SimilarityControl({
                 onChange={(event) => onChange({ similarity: Number(event.target.value) })}
                 className="h-4 w-full accent-primary disabled:opacity-50"
             />
-            <p id="scene-similarity-hint" className="mt-1 text-[11px] leading-4 text-muted-foreground">
-                {smart
-                    ? "💡已选择智能模式，将根据模型自动生成场景"
-                    : "相似度越高，越贴近参考图的背景结构；越低，场景变化越大。"}
-            </p>
         </div>
     );
 }
@@ -221,7 +214,7 @@ function SceneVariantGrid({
                 className="flex min-h-40 items-center justify-center rounded-lg border border-dashed border-border bg-background p-4 text-center text-[11px] text-muted-foreground"
                 data-testid="scene-result-empty"
             >
-                上传商品场景参考图，3 秒裂变出多张相似的场景图
+                上传商品场景参考图，3秒裂变出多张相似的场景图，快来裂变您的场景图吧~
             </div>
         );
     }
@@ -296,7 +289,8 @@ export function ProductSceneWorkspace({ className, toolId = PRODUCT_SCENE_TOOL_I
     const config = useConfigStore((state) => state.config);
     const imageModel = useConfigStore((state) => state.config.imageModel);
 
-    const [values, setValues] = useState<SceneValues>(() => ({ ...DEFAULT_SCENE_VALUES }));
+    // 原站默认进入「智能」模型（提示行为「💡已选择智能模式…」），故页面初始值取 smart。
+    const [values, setValues] = useState<SceneValues>(() => ({ ...DEFAULT_SCENE_VALUES, modelId: "smart" }));
     const [source, setSource] = useState<ProductSceneSourceAsset | undefined>();
     const [restoringSource, setRestoringSource] = useState(false);
     const [lostSource, setLostSource] = useState(false);
@@ -545,6 +539,7 @@ export function ProductSceneWorkspace({ className, toolId = PRODUCT_SCENE_TOOL_I
 
     return (
         <div className={`min-w-0 ${className ?? ""}`} data-tool="product-scene" data-layout="linkfox-two-pane">
+            <OrigRail items={PRODUCT_SCENE_RAIL} active="场景裂变" driver testId="product-scene-rail" className="mb-2" />
             <div className="flex h-[calc(100dvh-193px)] min-h-[560px] w-full overflow-hidden rounded-[8px] border border-black/[0.06] bg-card">
                 {/* 左栏：原站表单列 300px 白底，操作按钮固定在列底 */}
                 <div className="flex h-full w-[300px] shrink-0 flex-col border-r border-border">
@@ -566,6 +561,11 @@ export function ProductSceneWorkspace({ className, toolId = PRODUCT_SCENE_TOOL_I
                                 disabled={running}
                                 onChange={update}
                             />
+                            {smart ? (
+                                <p id="scene-similarity-hint" className="mt-1 text-[11px] leading-4 text-muted-foreground">
+                                    💡已选择智能模式，将根据模型自动生成场景
+                                </p>
+                            ) : null}
                         </div>
 
                         <div className="mt-4">
@@ -573,7 +573,7 @@ export function ProductSceneWorkspace({ className, toolId = PRODUCT_SCENE_TOOL_I
                                 htmlFor="scene-prompt"
                                 extra={
                                     <span className="text-[11px] tabular-nums text-muted-foreground" data-testid="scene-prompt-count">
-                                        {values.prompt.length} / {SCENE_PROMPT_LIMIT}
+                                        {values.prompt.length} / 100
                                     </span>
                                 }
                             >
@@ -588,21 +588,7 @@ export function ProductSceneWorkspace({ className, toolId = PRODUCT_SCENE_TOOL_I
                                 placeholder="描述想要的场景，例如：晨光下的北欧客厅，浅木色地板"
                                 className="min-h-[84px] w-full resize-y rounded-[6px] border border-border bg-card p-2 text-[12px] leading-5 text-foreground outline-none transition placeholder:text-muted-foreground/70 focus:border-primary"
                             />
-                            <details className="mt-1.5">
-                                <summary className="cursor-pointer text-[11px] leading-5 text-muted-foreground hover:text-foreground">
-                                    高级：场景关键词
-                                </summary>
-                                <input
-                                    id="scene-keyword"
-                                    type="text"
-                                    value={values.sceneKeyword}
-                                    disabled={running}
-                                    onChange={(event) => update({ sceneKeyword: event.target.value })}
-                                    placeholder="逗号分隔，例如：木质桌面, 白色墙面, 绿植"
-                                    data-testid="scene-keyword"
-                                    className="mt-1 h-8 w-full rounded-[6px] border border-border bg-card px-2 text-[12px] text-foreground outline-none transition placeholder:text-muted-foreground/70 focus:border-primary"
-                                />
-                            </details>
+                            <p className="mt-1 text-[11px] leading-4 text-primary">💡场景描述怎么写？</p>
                         </div>
 
                         <div className="mt-4">
@@ -641,9 +627,7 @@ export function ProductSceneWorkspace({ className, toolId = PRODUCT_SCENE_TOOL_I
                                     );
                                 })}
                             </div>
-                            <p className="sr-only" data-testid="scene-mode-hint" title={card.hint}>
-                                {card.hint}
-                            </p>
+                            <p className="sr-only" data-testid="scene-mode-hint" title={card.hint} aria-label={card.hint} />
                         </div>
 
                         <div className="mt-4">
@@ -709,7 +693,7 @@ export function ProductSceneWorkspace({ className, toolId = PRODUCT_SCENE_TOOL_I
                             ) : null}
                         </div>
 
-                        <div className="mt-4">
+                        <div className="mt-2">
                             <FieldLabel>选择生成张数</FieldLabel>
                             <div className="flex gap-2" role="radiogroup" aria-label="生成张数" data-testid="scene-output-num">
                                 {capability.outputOptions.map((count) => {
@@ -764,8 +748,10 @@ export function ProductSceneWorkspace({ className, toolId = PRODUCT_SCENE_TOOL_I
                             data-testid="scene-generate"
                             className="flex h-8 w-full items-center justify-center gap-1 rounded-[4px] bg-primary text-[13px] font-medium leading-none text-white transition hover:bg-primary/90 disabled:cursor-not-allowed disabled:bg-primary/40"
                         >
-                            {running ? "裂变中…" : "立即生成"}
+                            <span>{running ? "裂变中…" : "立即生成"}</span>
+                            <span className="ml-1 text-[11px] leading-4 text-muted-foreground">(40算力)</span>
                         </button>
+                        <p className="mt-1.5 text-center text-[11px] leading-4 text-muted-foreground">我是高手，不再提醒</p>
                         <p className="sr-only" data-testid="scene-expected">
                             {describeSceneProduct(output, values.outputNum)} · {sceneOutputOptionLabel(values.outputNum)} ·{" "}
                             {modelLabel(imageModel)}
@@ -862,6 +848,7 @@ export function ProductSceneWorkspace({ className, toolId = PRODUCT_SCENE_TOOL_I
                                         />
                                     </div>
                                 ) : null}
+                                <WatermarkGroupPanel className="mt-2" />
                             </div>
                         ) : null}
 
