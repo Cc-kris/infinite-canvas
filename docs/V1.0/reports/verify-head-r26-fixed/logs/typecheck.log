@@ -1,0 +1,4 @@
+$ tsc --noEmit
+real 369.03
+user 65.73
+sys 34.50

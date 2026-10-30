@@ -1,0 +1,36 @@
+# 快照 pin 时刻（2026-10-30 12:36 +0800）工作树状态
+## git rev-parse HEAD（当时）= eacc18f7cb16d15ed40afaed6beeff13da1c39a9
+## git status --short（当时，节选）
+ M web/src/stores/use-asset-store.ts
+?? .acceptance-profile/ ...（大量其他 worker 的临时目录）
+
+# 本次提交前（2026-10-30 12:47 +0800）工作树状态（其他人并行修改，均未纳入本报告）
+ M project_memory.md
+ M web/src/components/tools/workspaces/video-translation.tsx
+ M web/src/features/tools/adapters/video-translation.test.ts
+ M web/src/features/tools/adapters/video-translation.ts
+ M web/src/features/tools/registry/video-translation.ts
+ M web/src/stores/use-asset-store.ts
+?? .acceptance-profile/
+?? .backup-image-translation-20261029/
+?? .backup-wip-20261029/
+?? .tmp_assetrace/
+?? .tmp_d19/
+?? .tmp_r10/
+?? .tmp_r11/
+?? .tmp_r13/
+?? .tmp_r14bg/
+?? .tmp_r19/
+?? .tmp_r22/
+?? .verify-tools/
+?? .worker-accept-flite/
+?? .worker-accept-pose-ub/
+
+# HEAD 迁移记录
+12:33:09 eacc18f7  fix(tools): 存入资产不再写 1280x720 ...
+12:44:55 7f656bd5  audit(r25): 独立六维矩阵 R25（PIN 2ecd958d），父提交 = eacc18f7
+
+# 未提交的 use-asset-store.ts 隔离证据（快照内 = commit 版本）
+commit blob sha1 : 5ea8d741a39421c4fe8b52efea5207fbc35b58e3
+工作树(12:36 时) : e7b8ee6b0d503a0291765018bc43622c6c188de4
+快照内实测      : 5ea8d741a39421c4fe8b52efea5207fbc35b58e3
