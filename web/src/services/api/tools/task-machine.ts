@@ -364,6 +364,20 @@ export function planRecovery(task: ToolTask, now: number = Date.now(), timeoutMs
     if (task.status === "draft" || task.status === "validating") return { ...base, action: "none", reason: "not-submitted", requiresServerLookup: false };
 
     if (isTaskExpired(task, now, timeoutMs)) {
+        /**
+         * 过期任务也必须按 upstreamTaskId 真查一次上游。
+         *
+         * 真实缺陷（2026-10-29 23:06 提交的 VIDEO_CONCAT 任务 task-mvtof8um-7034v0，证据见
+         * docs/V1.0/plan_linkfox_navigation/evidence/real-acceptance/VIDEO_CONCAT/r22-f/）：
+         * 上游早已 done、视频就绪，本地超过 30 分钟被判过期后 planRecovery 返回 reconcile，
+         * gateway.recover 只是把任务再 transitionTask 成 unknown 一遍，**从不查上游**；
+         * 于是刷新多少次都恢复不出结果，下载/存资产/发画布三动作全部不可达。
+         * 有 upstreamTaskId 的 video 通道本来就有查询接口（poll 支持），过期只说明「本地等待超时」，
+         * 不是「上游不可查」，所以这里返回 poll，把恢复交给真正的查询。
+         */
+        if (task.upstreamTaskId && task.capability === "video") {
+            return { ...base, action: "poll", reason: "expired-query-upstream", requiresServerLookup: false };
+        }
         return task.upstreamTaskId
             ? { ...base, action: "reconcile", reason: "expired-query-upstream", requiresServerLookup: false }
             : { ...base, action: "reconcile", reason: "manual-retry-required", requiresServerLookup: true };

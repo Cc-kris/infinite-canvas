@@ -1,0 +1,26 @@
+{
+  "capturedAt": "2026-10-30T03:55:38.241Z",
+  "asset": [
+    {
+      "id": "uhEi4hRZ6FQm_BZP6D3kC",
+      "title": "VIDEO_CONCAT 结果 1",
+      "kind": "video",
+      "source": "工具结果",
+      "storageKey": "video:iFfp2GEznAPvk1RTkbEn2",
+      "bytes": 4633118,
+      "mimeType": "video/mp4",
+      "createdAt": "2026-10-30T03:49:01.187Z"
+    }
+  ],
+  "project": {
+    "id": "BQaQ6fu-w5wv8NRshhLvQ",
+    "nodeCount": 1
+  },
+  "node": {
+    "id": "video-1793332164186-6guwp",
+    "type": "video",
+    "width": 420,
+    "height": 236,
+    "dataKeys": []
+  }
+}

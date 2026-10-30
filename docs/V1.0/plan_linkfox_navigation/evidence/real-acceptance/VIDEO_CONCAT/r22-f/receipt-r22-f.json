@@ -1,0 +1,116 @@
+{
+  "round": "r22-f",
+  "date": "2026-10-30",
+  "scope": "VIDEO_CONCAT 过期任务恢复 + 结果三动作（下载/存资产/发画布）+ 公网回读 + 可预览",
+  "head_commit_before": "5ce5b4b3",
+  "code_change": {
+    "file": "web/src/services/api/tools/task-machine.ts",
+    "fn": "planRecovery",
+    "before": "isTaskExpired + upstreamTaskId → action=reconcile（gateway.recover 只把任务再置 unknown，从不查上游）",
+    "after": "isTaskExpired 且 capability=video 且 upstreamTaskId → action=poll（reason=expired-query-upstream）",
+    "test": "web/src/services/api/tools/gateway.recovery.test.ts 新增 2 例；视频工具回归 8/8 通过；pnpm typecheck 通过"
+  },
+  "real_task": {
+    "taskId": "task-mvtof8um-7034v0",
+    "upstreamTaskId": "task_5EgVjiQVtH6dC3WrOj3pqQyHQUQQ0uYt",
+    "channel": "sub2::MiniMax-H3",
+    "createdAt": "2026-10-29T23:06:43.726+08:00 (ms=1793286403726)",
+    "lastPolledAt_ms": 1793332038285,
+    "pollCount": 252,
+    "status_after_recovery": "succeeded",
+    "note": "轮询计数由 251→252、lastPolledAt 由 2026-10-29T23:22 前推进到 2026-10-30T03:47，证明恢复路径真的打到了上游查询接口，不是本地伪造"
+  },
+  "result_item": {
+    "kind": "video",
+    "bytes": 4633118,
+    "storageKey": "tool-result:task-mvtof8um-7034v0:0:Wf40bLxHKoT_BI_XHDBUT",
+    "sha256": "928c4113c960de0c5ffd1c31bc84d047b3e38e5978813f4bf278d9f93fe98471"
+  },
+  "ui_actions": {
+    "history_open": {
+      "testid": "tool-task-history-open",
+      "toast": "已载入历史任务结果"
+    },
+    "download": {
+      "testid": "tool-result-download-0",
+      "feedback": "已下载 video-concat-result-1.mp4",
+      "file": "downloaded.mp4",
+      "bytes": 4633118,
+      "sha256": "928c4113c960de0c5ffd1c31bc84d047b3e38e5978813f4bf278d9f93fe98471"
+    },
+    "save_asset": {
+      "testid": "tool-result-save-0",
+      "feedback": "已保存到资产库（uhEi4hRZ6FQm_BZP6D3kC）",
+      "assetId": "uhEi4hRZ6FQm_BZP6D3kC",
+      "storageKey": "video:iFfp2GEznAPvk1RTkbEn2",
+      "bytes": 4633118,
+      "mimeType": "video/mp4"
+    },
+    "send_canvas": {
+      "testid": "tool-result-canvas-0",
+      "feedback": "已发送到画布（BQaQ6fu-w5wv8NRshhLvQ）",
+      "projectId": "BQaQ6fu-w5wv8NRshhLvQ",
+      "nodeId": "video-1793332164186-6guwp",
+      "storageKey": "video:OTSViJSpUaDhQHjJUMQa6",
+      "bytes": 4633118,
+      "mimeType": "video/mp4"
+    }
+  },
+  "byte_identity": {
+    "method": "IndexedDB media_files 取 Blob → crypto.subtle.digest('SHA-256')；下载文件用 shasum -a 256",
+    "task_result_sha256": "928c4113c960de0c5ffd1c31bc84d047b3e38e5978813f4bf278d9f93fe98471",
+    "asset_sha256": "928c4113c960de0c5ffd1c31bc84d047b3e38e5978813f4bf278d9f93fe98471",
+    "canvas_sha256": "928c4113c960de0c5ffd1c31bc84d047b3e38e5978813f4bf278d9f93fe98471",
+    "download_sha256": "928c4113c960de0c5ffd1c31bc84d047b3e38e5978813f4bf278d9f93fe98471",
+    "all_equal": true
+  },
+  "public_readback": {
+    "publish_endpoint": "POST http://127.0.0.1:23210/__media/upload（raw body + x-media-name；用 -F multipart 会多出 214 字节边界，必须 --data-binary）",
+    "published_path": "/__media/928c4113c960de0c5ffd1c31bc84d047.mp4",
+    "published_bytes": 4633118,
+    "published_sha256": "928c4113c960de0c5ffd1c31bc84d047b3e38e5978813f4bf278d9f93fe98471",
+    "public_url": "https://telephony-affects-borders-wider.trycloudflare.com/__media/928c4113c960de0c5ffd1c31bc84d047.mp4",
+    "readback_http": 200,
+    "readback_content_type": "video/mp4",
+    "readback_bytes": 4633118,
+    "readback_sha256": "928c4113c960de0c5ffd1c31bc84d047b3e38e5978813f4bf278d9f93fe98471",
+    "match": true
+  },
+  "preview": {
+    "in_product_tab": "readyState=0 / networkState=2 / 8~9s 超时（document.hidden=true 后台标签节流）",
+    "probe_same_bytes_network_source": "同样超时 → 与字节无关",
+    "real_chrome_playwright_public_url": {
+      "metadata": "loaded",
+      "duration_s": 13.667,
+      "width": 768,
+      "height": 1344,
+      "readyState": 4,
+      "played_currentTime": 1.162,
+      "paused": false,
+      "conclusion": "可解码、可播放，9:16 竖屏符合要求"
+    },
+    "codec": {
+      "container": "isom/iso2/avc1/mp41",
+      "video": "avc1",
+      "audio": "mp4a",
+      "moov": "at 32..10452 (faststart)",
+      "mdat": "10460..4633118 完整，stsz/stco 自洽"
+    },
+    "verdict": "可预览成立；后台标签下 <video> 不加载元数据是浏览器节流，不是产品缺陷"
+  },
+  "residual_risks": [
+    "画布节点 metadata.naturalWidth/Height = 1280x720，与真实 768x1344 不符：发送画布时 readVideoMeta 在后台标签超时 → 走 FALLBACK_VIDEO_WIDTH/HEIGHT（media-metadata.ts:17，timedOut 标记设计如此）。后果：后台标签里发画布会得到 16:9 尺寸。建议（未做）：超时后置 timedOut 时不写死尺寸，改为按 storageKey 二次测量或用内容真实比例。",
+    "本仓库无 archiveUrl 字段实现（rg 'archiveUrl' src 为空），公网回读是用项目自带 /__media/upload 通道完成，非产品内建归档能力。",
+    "任务结果区在后台标签下 video 不显示画面（同上节流），用户切到该标签即恢复，属浏览器行为。"
+  ],
+  "evidence_files": [
+    "downloaded.mp4",
+    "public-publish.json",
+    "dom-snapshot.json",
+    "store-records.json",
+    "preview-file.png",
+    "preview-public.png",
+    "receipt-r22-f.json",
+    "report-r22-f.md"
+  ]
+}

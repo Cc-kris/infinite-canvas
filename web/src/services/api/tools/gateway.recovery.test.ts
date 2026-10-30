@@ -186,6 +186,53 @@ test("刷新后仍在跑的视频任务：探测一次后接力等待到终态�
     expect(calls.create).toBe(0);
 });
 
+test("过期（>30 分钟）的「结果未知」视频任务：必须按 upstreamTaskId 真查上游，而不是再标一次 unknown", async () => {
+    const store = createMemoryTaskStore();
+    const calls = { create: 0, poll: 0 };
+    const provider = {
+        createVideoTask: async () => {
+            calls.create += 1;
+            throw new Error("recovery must not resubmit");
+        },
+        pollVideoTask: async () => {
+            calls.poll += 1;
+            return { status: "completed" as const, result: { url: "https://cdn.example.com/expired.mp4", mimeType: "video/mp4" } };
+        },
+    };
+    const gateway = new ToolTaskGateway({
+        getConfig: () => ({ model: "MiniMax-H3", apiFormat: "openai", count: "1" }) as never,
+        provider: provider as never,
+        store,
+    });
+
+    // 真实缺陷复现条件：提交时间已超过 DEFAULT_TASK_TIMEOUT_MS(30min)，任务状态 unknown、有 upstreamTaskId
+    const stale = Date.now() - 14 * 60 * 60 * 1000;
+    const draft = createTaskRecord({
+        toolId: "VIDEO_CONCAT",
+        capability: "video",
+        prompt: "concat 2 clips",
+        configSnapshot: { capability: "video", model: "MiniMax-H3", apiFormat: "openai", count: "1", size: "720x1280", videoSeconds: "13" },
+        at: stale,
+    });
+    const running = transitionTask(
+        transitionTask(transitionTask(draft, "validating", { at: stale }), "submitting", { at: stale }),
+        "running",
+        { at: stale, upstreamTaskId: "up-stale-1", upstreamProvider: "http", lastHeartbeatAt: stale },
+    );
+    const unknown = transitionTask(running, "unknown", { at: stale });
+    store.set(unknown);
+
+    const { plan, task } = await gateway.recover(unknown.id);
+
+    expect(plan.action).toBe("poll");
+    expect(plan.reason).toBe("expired-query-upstream");
+    expect(calls.poll).toBe(1);
+    expect(calls.create).toBe(0);
+    expect(task.status).toBe("succeeded");
+    expect(task.result?.items?.[0]?.url).toBe("https://cdn.example.com/expired.mp4");
+    expect(store.get(unknown.id)?.status).toBe("succeeded");
+});
+
 test("已终态任务不会被 recover 改动", async () => {
     const { gateway, store } = makeGateway();
     const seeded = seed(store, "submitting");
