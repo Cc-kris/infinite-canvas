@@ -1,0 +1,144 @@
+{
+  "report": "R22-H IMAGE_TEXT_EDIT 真实浏览器验收：结果字节 → 面板下载 → 存入资产 → 发送画布 → 刷新持久化 全链路对账",
+  "date": "2026-10-30",
+  "origin": "http://127.0.0.1:3000",
+  "tabId": "1709629368",
+  "branch": "feat/linkfox-v1-real",
+  "no_new_generation": true,
+  "no_injection": true,
+  "how_verified": "全部通过真实 UI 点击 + Chrome IndexedDB 实读 + 磁盘文件 sha256 三方对账；未使用接口直写或事件伪造。",
+  "task": {
+    "taskId": "task-mvufj9u8-wefie4",
+    "toolId": "IMAGE_TEXT_EDIT",
+    "status": "succeeded",
+    "resultItems": 1,
+    "panelText": "图片文字结果 | 快照 1 框｜1200×1200 | 已完成 | 共 1 个结果 · 图片 1 | 下载 | 存入资产 | 发送画布"
+  },
+  "canonical_bytes": {
+    "bytes": 1050148,
+    "mimeType": "image/png",
+    "width": 1024,
+    "height": 1024,
+    "sha256": "5665d2900a368cb5a1705969f102e8d3ce611d697b44763dc18f2403af3975d0"
+  },
+  "legs": [
+    {
+      "leg": "1. 结果字节（media_files 位图）",
+      "idb": {
+        "store": "media_files",
+        "key": "tool-result:task-mvufj9u8-wefie4:0:gnSkfmpmjijI5cCFQJGS0"
+      },
+      "bytes": 1050148,
+      "sha256": "5665d2900a368cb5a1705969f102e8d3ce611d697b44763dc18f2403af3975d0",
+      "width": 1024,
+      "height": 1024,
+      "verdict": "PASS"
+    },
+    {
+      "leg": "2. 工具面板「下载」",
+      "ui_action": "点击结果面板 下载 按钮（真实点击）",
+      "file": "~/Downloads/image-text-edit-result-1 (2).png",
+      "artifact": "artifacts/tool-download-1050148-5665d290.png",
+      "bytes": 1050148,
+      "sha256": "5665d2900a368cb5a1705969f102e8d3ce611d697b44763dc18f2403af3975d0",
+      "verdict": "PASS（与结果字节逐字节相等）"
+    },
+    {
+      "leg": "3. 「存入资产」→ asset_store 落库",
+      "ui_action": "点击 存入资产；toast=已保存到资产库（9RxX8ji3nn80hmtgbq-Ph）",
+      "assetId": "9RxX8ji3nn80hmtgbq-Ph",
+      "store": "app_state:infinite-canvas:asset_store",
+      "assetCount": "62 → 63",
+      "assetRecord": {
+        "title": "IMAGE_TEXT_EDIT 结果 1",
+        "kind": "image",
+        "source": "工具结果",
+        "createdAt": "2026-10-30T03:54:16.727Z",
+        "data.storageKey": "image:94vpOfstmK6HXUe37yoYG",
+        "data.bytes": 1050148,
+        "data.mimeType": "image/png"
+      },
+      "blob": {
+        "store": "image_files",
+        "key": "image:94vpOfstmK6HXUe37yoYG",
+        "type": "image/png",
+        "size": 1050148,
+        "sha256": "5665d2900a368cb5a1705969f102e8d3ce611d697b44763dc18f2403af3975d0",
+        "width": 1024,
+        "height": 1024
+      },
+      "stability": "点击后 ~1s 与 ~4s 两次读取均存在；刷新页面后（navType=reload）仍存在",
+      "verdict": "PASS"
+    },
+    {
+      "leg": "4. 「发送画布」→ canvas_store 节点",
+      "ui_action": "点击 发送画布",
+      "project": {
+        "id": "Epr65m3gtsi2nEcf-Z5Qu",
+        "title": "IMAGE_TEXT_EDIT 结果",
+        "createdAt": "2026-10-30T03:50:27.330Z"
+      },
+      "node": {
+        "id": "image-1793332227385-qf9gq",
+        "type": "image",
+        "title": "图片",
+        "metadata": {
+          "storageKey": "image:LnKmlw15v4qAf18WRNZrY",
+          "status": "success",
+          "naturalWidth": 1024,
+          "naturalHeight": 1024,
+          "bytes": 1050148,
+          "mimeType": "image/png"
+        }
+      },
+      "blob": {
+        "store": "image_files",
+        "key": "image:LnKmlw15v4qAf18WRNZrY",
+        "size": 1050148,
+        "sha256": "5665d2900a368cb5a1705969f102e8d3ce611d697b44763dc18f2403af3975d0",
+        "width": 1024,
+        "height": 1024
+      },
+      "verdict": "PASS"
+    },
+    {
+      "leg": "5. /assets 资产卡 UI + 卡片「下载」",
+      "ui_card_text": "IMAGE_TEXT_EDIT 结果 1 | 工具结果 | 图片 | 1024x1024 · 1.0 MB · image/png | 无标签 | 查 看 | 编辑 | 下载 | 删除",
+      "ui_card_thumb": "blob thumb 768x768 webp，仅列表缩略图，非原始字节",
+      "ui_action": "刷新页面后单次点击卡片 下载",
+      "file": "~/Downloads/IMAGE_TEXT_EDIT 结果 1 (1).png",
+      "artifact": "artifacts/asset-card-download-1050148-5665d290.png",
+      "bytes": 1050148,
+      "sha256": "5665d2900a368cb5a1705969f102e8d3ce611d697b44763dc18f2403af3975d0",
+      "verdict": "PASS（资产卡导出即原始字节，未重编码）"
+    }
+  ],
+  "reload_marker": {
+    "navType": "reload",
+    "how": "CDP Page.reload 后读 performance.getEntriesByType('navigation')[0].type",
+    "url": "http://127.0.0.1:3000/assets",
+    "capturedAt": "2026-10-30T03:59:11.140Z",
+    "verified": "刷新后 asset_store=63 条、画布工程与节点 image:LnKmlw15v4qAf18WRNZrY 均仍在，字节 sha 仍全等"
+  },
+  "anomaly_reported": {
+    "title": "首次「存入资产」返回的资产 id 在持久化 store 中缺失（疑似跨标签 last-write-wins 覆盖）",
+    "observed": {
+      "first_save_at": "2026-10-30T03:48:28Z",
+      "first_toast_id": "FlN6q3WKSxazLNSDb1hrj",
+      "store_state_when_checked": "asset_store 共 62 条；idInRaw=-1（含该 id 的原始 JSON 检索为空）；无任何 bytes=1050148 的资产",
+      "newest_asset_at_check": "视频 'VIDEO_CONCAT 结果 1' createdAt=2026-10-30T03:49:01.187Z（来自另一标签/worker，晚于我的保存 33s）"
+    },
+    "hypothesis": "同一 origin 多标签各自持有 asset_store 快照，另一标签在自己的旧快照上写回，覆盖掉我刚写入的资产（last-write-wins，无合并/无冲突检测）。",
+    "not_proven": "未构造受控双标签实验，故仅记为风险假设，不作为定论。",
+    "retest_result": "同页重试保存成功且刷新后仍在（leg 3 PASS），说明写入链路本身可用；问题是并发写冲突导致的数据丢失可能。",
+    "severity": "non-blocking for this acceptance；建议后续单独立项修复（写入前 re-read + merge 或 BroadcastChannel 同步）。"
+  },
+  "false_alarm_note": "早期一条点击未产生下载文件，判定为 Chrome 对连续自动下载的拦截（无 toast、无 .crdownload）；刷新后单次点击成功落盘且 sha 相等，非产品缺陷。另：资产卡尺寸文本 1050148B 显示为「1.0 MB」，旧资产 844613B 显示为「825 KB」，曾据此误点同名旧卡，已在证据中区分并保留旧卡下载件（older-asset-card-844613-e7b260e7.png）作为对照。",
+  "artifacts": [
+    "artifacts/tool-download-1050148-5665d290.png",
+    "artifacts/asset-card-download-1050148-5665d290.png",
+    "artifacts/older-asset-card-844613-e7b260e7.png",
+    "dom-asset-cards.json"
+  ],
+  "overall": "PASS（5 条链路字节完全一致；1 条并发写风险另记）"
+}

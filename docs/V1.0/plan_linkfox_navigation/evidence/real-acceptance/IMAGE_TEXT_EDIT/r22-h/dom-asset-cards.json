@@ -1,0 +1,20 @@
+{
+  "url": "http://127.0.0.1:3000/assets",
+  "capturedAt": "2026-10-30T03:59:11.140Z",
+  "cardCount": 3,
+  "cards": [
+    {
+      "text": "IMAGE_TEXT_EDIT 结果 1 | 工具结果 | 图片 | 1024x1024 · 1.0 MB · image/png | 无标签 | 查 看 | 编辑 | 下载 | 删除",
+      "tag": "DIV"
+    },
+    {
+      "text": "IMAGE_TEXT_EDIT 结果 1 | 工具结果 | 图片 | 1024x1024 · 825 KB · image/png | 无标签 | 查 看 | 编辑 | 下载 | 删除",
+      "tag": "DIV"
+    },
+    {
+      "text": "IMAGE_TEXT_EDIT 结果 1 | 工具结果 | 图片 | 1024x1024 · 825 KB · image/png | 无标签 | 查 看 | 编辑 | 下载 | 删除",
+      "tag": "DIV"
+    }
+  ],
+  "bodyHead": "无限画布\n首页\n电商套图\n智能修图\n新模型\nAI视频\nHOT\n批量生图\n商品图设计\n中\n切换到深色主题\nv0.27.0\n我的资产\n\n收藏常用文本和图片，按类型、标题和标签快速查找。\n\n类型\n全部\n文本\n图片\n视频\n导出资产\n导入资产\n新增资产\nIMAGE_TEXT_EDIT 结果 1\n工具结果\n图片\n1024x1024 · 1.0 MB · image/png\n无标签\n查 看\n编辑\n下载\n删除\nVIDEO_CONCAT 结果 1\n工具结果\n视频\n1280x720 · 4.4 MB · video/mp4\n无标签\n查 看\n下载\n删除\nAI_VIDEO_EDITING 结果 1\n工具结果\n视频\n1"
+}
