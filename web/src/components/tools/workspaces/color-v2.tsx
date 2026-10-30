@@ -2,6 +2,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { ImagePlus, Loader2, Sparkles } from "lucide-react";
 
 import { ToolAssetInput } from "@/components/tools/tool-asset-input";
+import { WatermarkGroupPanel } from "@/components/tools/watermark-group-panel";
 import { ToolCases } from "@/components/tools/tool-cases";
 import type { ToolCase } from "@/components/tools/tool-cases";
 import { ToolTaskHistory } from "@/components/tools/tool-task-history";
@@ -49,6 +50,7 @@ import {
     type ColorV2Values,
 } from "@/features/tools/registry/change-color-v2";
 import { getToolById } from "@/features/tools/registry";
+import { ECOMMERCE_SUITE_RAIL, OrigRail } from "@/components/tools/workspaces/orig-rail";
 import { cn } from "@/lib/utils";
 import {
     DEFAULT_IMAGE_CONSTRAINTS,
@@ -63,6 +65,9 @@ import type { ToolTask, ToolTaskResultItem } from "@/services/api/tools/task-mac
 
 const TOOL_ID = CHANGE_COLOR_V2_TOOL_ID;
 const SUITE_CONSTRAINTS = { maxBytes: COLOR_V2_MAX_BYTES } as const;
+
+/** 单张结果消耗算力（原站「开始生成（50算力）」按方案×图计）。 */
+const COLOR_V2_UNIT_POINTS = 50;
 
 export interface ColorV2WorkspaceProps {
     className?: string;
@@ -118,6 +123,8 @@ export function ColorV2Workspace({ className }: ColorV2WorkspaceProps = {}) {
     const [hydrated, setHydrated] = useState(false);
     const [notice, setNotice] = useState("");
     const [busy, setBusy] = useState(false);
+    // A:69-72 节日主题横幅（可关闭），A:1-11 登录签到条
+    const [holidayDismissed, setHolidayDismissed] = useState(false);
     const [actingUnit, setActingUnit] = useState<string | null>(null);
     const [actionNotice, setActionNotice] = useState("");
     const [progress, setProgress] = useState({ done: 0, total: 0 });
@@ -469,6 +476,8 @@ export function ColorV2Workspace({ className }: ColorV2WorkspaceProps = {}) {
 
     const [colorMode, setColorMode] = useState<"extract" | "history">("extract");
     const [rightTab, setRightTab] = useState<"result" | "cases" | "history">("result");
+    /** 结果区分页（原站底部 1~6 页码）。 */
+    const [resultPage, setResultPage] = useState(1);
     const [stepDismissed, setStepDismissed] = useState(false);
     const qualityLevel = getQualityLevel(values.quality);
 
@@ -575,6 +584,7 @@ export function ColorV2Workspace({ className }: ColorV2WorkspaceProps = {}) {
             style={{ fontFamily: '"Microsoft YaHei", "PingFang SC", "Hiragino Sans GB", sans-serif' }}
             className={cn("flex h-full min-h-0 min-w-0 gap-[6px] overflow-hidden bg-card text-[13px] text-foreground", className)}
         >
+            <OrigRail items={ECOMMERCE_SUITE_RAIL} active="套图换色" driver testId="change-color-rail" className="m-1 shrink-0" />
             {/* 左：300px 参数面板（原站 x190 w300；提交条固定在面板底部） */}
             <section data-region="params" className="flex h-full w-[300px] shrink-0 flex-col overflow-hidden">
                 <div className="flex min-h-0 flex-1 flex-col overflow-hidden rounded-lg border border-border bg-card">
@@ -591,7 +601,7 @@ export function ColorV2Workspace({ className }: ColorV2WorkspaceProps = {}) {
                                 variant="linkfox"
                                 wide
                                 compact
-                                className="[&>[data-testid=tool-asset-dropzone]]:min-h-[156px] [&>[data-testid=tool-asset-dropzone]]:gap-[10px] [&>[data-testid=tool-asset-dropzone]]:rounded-lg [&>[data-testid=tool-asset-dropzone]]:border-0 [&>[data-testid=tool-asset-dropzone]]:bg-card [&>[data-testid=tool-asset-dropzone]]:px-3 [&>[data-testid=tool-asset-dropzone]]:py-[10px]"
+                                className="[&>[data-testid=tool-asset-dropzone]]:min-h-[88px] [&>[data-testid=tool-asset-dropzone]]:gap-[10px] [&>[data-testid=tool-asset-dropzone]]:rounded-lg [&>[data-testid=tool-asset-dropzone]]:border-0 [&>[data-testid=tool-asset-dropzone]]:bg-card [&>[data-testid=tool-asset-dropzone]]:px-3 [&>[data-testid=tool-asset-dropzone]]:py-[10px]"
                                 uploadLabel="从本地上传"
                                 hint={
                                     <span style={{ fontSize: 12, lineHeight: "17px" }} className="block w-full text-center text-muted-foreground">
@@ -695,7 +705,7 @@ export function ColorV2Workspace({ className }: ColorV2WorkspaceProps = {}) {
                                             if (files.length) void addReferenceFiles(files);
                                         }}
                                         className={cn(
-                                            "flex min-h-[170px] w-full cursor-pointer flex-col items-center justify-center gap-[6px] rounded-lg bg-card px-3 py-[10px] transition",
+                                            "flex min-h-[72px] w-full cursor-pointer flex-col items-center justify-center gap-[6px] rounded-lg bg-card px-3 py-[10px] transition",
                                             busy ? "cursor-not-allowed opacity-60" : "hover:bg-border",
                                         )}
                                     >
@@ -713,7 +723,7 @@ export function ColorV2Workspace({ className }: ColorV2WorkspaceProps = {}) {
                                     <p
                                         data-testid="color-v2-plan-count"
                                         style={{ fontSize: 12, fontWeight: 500, lineHeight: "19px" }}
-                                        className="mt-4 text-foreground"
+                                        className="mt-2 text-foreground"
                                     >
                                         本次换色方案 · {referenceRecords.length} 张参考图
                                     </p>
@@ -836,7 +846,7 @@ export function ColorV2Workspace({ className }: ColorV2WorkspaceProps = {}) {
                             <div className="relative">
                                 <textarea
                                     data-testid="color-v2-region"
-                                    style={{ height: 54, fontSize: 14, lineHeight: "20px" }}
+                                    style={{ height: 34, fontSize: 14, lineHeight: "18px" }}
                                     value={values.region}
                                     disabled={busy}
                                     rows={2}
@@ -853,7 +863,7 @@ export function ColorV2Workspace({ className }: ColorV2WorkspaceProps = {}) {
                                     {values.region.length} / {COLOR_V2_MAX_REGION_LENGTH}
                                 </span>
                             </div>
-                            <div className="mt-3 flex flex-wrap items-center gap-[6px]">
+                            <div className="mt-2 flex flex-wrap items-center gap-[6px]">
                                 <span style={{ fontSize: 12, lineHeight: "19px" }} className="text-muted-foreground">
                                     常用
                                 </span>
@@ -888,7 +898,7 @@ export function ColorV2Workspace({ className }: ColorV2WorkspaceProps = {}) {
                     <PanelSection id="quality" title="模型设置">
                         <div className="px-4">
                             <p style={{ fontSize: 12, lineHeight: "20px" }} className="text-foreground">模型品质</p>
-                            <div className="mt-2 flex gap-[10px] rounded-md bg-card p-2">
+                            <div className="mt-0.5 flex gap-[10px] rounded-md bg-card p-0.5">
                                 {COLOR_QUALITY_LEVELS.map((level) => {
                                     const active = values.quality === level.key;
                                     return (
@@ -917,6 +927,7 @@ export function ColorV2Workspace({ className }: ColorV2WorkspaceProps = {}) {
                             ) : null}
                         </div>
                     </PanelSection>
+
                 </div>
                 </div>
 
@@ -951,7 +962,9 @@ export function ColorV2Workspace({ className }: ColorV2WorkspaceProps = {}) {
                         className="inline-flex h-8 w-full items-center justify-center gap-1 rounded-lg bg-primary leading-none text-primary-foreground transition hover:bg-primary/90 disabled:cursor-not-allowed disabled:opacity-50"
                     >
                         {busy ? <Loader2 className="size-3.5 animate-spin" aria-hidden="true" /> : <Sparkles className="size-3.5" aria-hidden="true" />}
-                        <span>{busy ? `生成中 ${progress.done}/${progress.total}` : "开始生成"}</span>
+                                <span className="text-center">{busy ? `生成中 ${progress.done}/${progress.total}` : "开始生成"}</span>
+                                <span className="ml-1 text-[11px] text-primary-foreground/80">({Math.max(1, plannedCount) * COLOR_V2_UNIT_POINTS}算力)</span>
+
                     </button>
                 </div>
             </section>
@@ -1230,7 +1243,7 @@ export function ColorV2Workspace({ className }: ColorV2WorkspaceProps = {}) {
                                             <ImagePlus className="size-7 text-primary" aria-hidden="true" />
                                         </div>
                                         <p data-testid="color-v2-empty-hint" className="mt-3 text-[12px] leading-5 text-muted-foreground">
-                                            拖拽图片到此处或点击上传，支持一次多张
+                                            上传商品图
                                         </p>
                                         <div className="mt-4 w-[210px] text-left">
                                             <ToolAssetInput
@@ -1273,7 +1286,68 @@ export function ColorV2Workspace({ className }: ColorV2WorkspaceProps = {}) {
                         </div>
                     )}
                 </div>
+                <div data-testid="color-v2-pagination" className="flex h-[42px] shrink-0 items-center justify-center gap-2 border-t border-border text-[12px]">
+                    {[1, 2, 3, 4, 5, 6].map((page) => (
+                        <button
+                            key={page}
+                            type="button"
+                            onClick={() => setResultPage(page)}
+                            className={cn(
+                                "size-6 rounded-md leading-none transition",
+                                resultPage === page ? "bg-primary/10 text-primary" : "text-muted-foreground hover:text-foreground",
+                            )}
+                        >
+                            {page}
+                        </button>
+                    ))}
+                </div>
             </section>
+            {/* 右：辅助栏（原站右侧：登录签到 / 水印分组 / 节日横幅） */}
+            <aside data-region="aside" className="flex w-[318px] shrink-0 flex-col gap-2 overflow-y-auto py-1 pr-1">
+                        {/* A:1-11 登录签到条（1:1 呈现层） */}
+                        <div data-testid="color-v2-signin-strip" className="mx-3 mt-2 rounded-lg border border-border bg-card p-3">
+                            <div className="flex items-center justify-between">
+                                <span style={{ fontSize: 12, fontWeight: 600 }}>已连续登录2天</span>
+                                <div className="flex items-center gap-2">
+                                    <span className="text-[11px] text-primary">查看详情</span>
+                                    <span className="text-[11px] text-muted-foreground">250</span>
+                                </div>
+                            </div>
+                            <p className="mt-1 text-[11px] leading-4 text-muted-foreground">再登录3天可获得「100点免费算力」！</p>
+                            <div className="mt-2 flex items-center justify-between gap-1 text-[11px]">
+                                <span className="flex flex-col items-center gap-[2px]"><span className="text-muted-foreground">+50</span><span>第1天</span></span>
+                                <span className="flex flex-col items-center gap-[2px]"><span className="text-primary">今天</span></span>
+                                <span className="flex flex-col items-center gap-[2px]"><span className="text-muted-foreground">+50</span><span className="text-muted-foreground">第3天</span></span>
+                                <span className="flex flex-col items-center gap-[2px]"><span className="text-muted-foreground">+100</span><span className="text-muted-foreground">第4天</span></span>
+                                <span className="flex flex-col items-center gap-[2px]"><span className="text-muted-foreground">+100</span><span className="text-muted-foreground">第5天</span></span>
+                            </div>
+                        </div>
+
+                        {/* A:69-72 节日主题横幅 */}
+                        {holidayDismissed ? null : (
+                            <div data-testid="color-v2-holiday-banner" className="mx-3 mt-2 rounded-lg border border-primary/30 bg-primary/5 p-3 text-center">
+                                <p style={{ fontSize: 12, fontWeight: 600 }} className="text-primary">⬆ 扫码免费领「500算力」⬆</p>
+                                <p className="mt-1 text-[12px]">🎄圣诞、🎃万圣节日主题已上线</p>
+                                <p className="mt-1 text-[11px] text-muted-foreground">限时开放🕙10月28日23:59:59截止🕙</p>
+                                <button
+                                    type="button"
+                                    data-testid="color-v2-holiday-dismiss"
+                                    onClick={() => setHolidayDismissed(true)}
+                                    className="mt-2 h-7 w-full rounded-md border border-border text-[12px] hover:text-primary"
+                                >
+                                    我知道了
+                                </button>
+                            </div>
+                        )}
+                <section className="rounded-lg border border-border bg-card p-2">
+                    <WatermarkGroupPanel />
+                </section>
+                        <PanelSection id="watermark" title="管理水印分组">
+                            <div className="px-4 pb-3">
+                                <WatermarkGroupPanel />
+                            </div>
+                        </PanelSection>
+            </aside>
         </div>
     );
 }

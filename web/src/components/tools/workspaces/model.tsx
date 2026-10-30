@@ -14,7 +14,7 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Link } from "react-router-dom";
-import { ArrowDown, ArrowUp, Check, ChevronRight, Download, FolderPlus, Loader2, Plus, Redo2, Save, Send, Sparkles, Tag, Trash2, Undo2, X } from "lucide-react";
+import { ArrowDown, ArrowUp, Check, ChevronDown, ChevronRight, Download, FolderPlus, Loader2, Plus, Redo2, Save, Send, Sparkles, Tag, Trash2, Undo2, X } from "lucide-react";
 
 import { ToolAssetInput } from "@/components/tools/tool-asset-input";
 import { ToolShell } from "@/components/tools/tool-shell";
@@ -123,6 +123,8 @@ import {
     type AiPoseGeneratorIssue,
     type AiPoseGeneratorWorkspace as AiPoseGeneratorState,
 } from "@/features/tools/registry/ai-pose-generator";
+import { WatermarkGroupPanel } from "@/components/tools/watermark-group-panel";
+import { OrigRail, WEAR_RAIL } from "@/components/tools/workspaces/orig-rail";
 
 const MODEL_SLOT_ID = `${AI_POSTURE_TOOL_ID}-model`;
 const UPLOAD_CONSTRAINTS = {
@@ -416,8 +418,58 @@ export function AiPostureWorkspace({ className }: AiPostureWorkspaceProps = {}) 
             sidebar={sidebar}
         >
             <div data-testid="ai-posture-workspace" className="grid gap-4 pb-6 lg:grid-cols-[minmax(0,1fr)_360px]">
-                <div className="min-w-0 space-y-4">
-                    {/* 1. ReferenceModelPicker */}
+                <div className="flex flex-wrap items-center gap-x-3 gap-y-1 rounded-md border border-dashed border-border bg-card px-3 py-1.5 text-[11px] text-muted-foreground lg:col-span-2" data-testid="tool-align-bar">
+                    <button type="button" className="underline-offset-2 hover:underline">图片规则</button>
+                    <span>从本地上传</span>
+                    <span>从作品库选择</span>
+                    <span>从商品库选择</span>
+                    <span>选择参考图</span>
+                </div>
+                <div className="flex flex-wrap items-center justify-between gap-2 rounded-md border border-dashed px-3 py-1.5 text-[11px] text-muted-foreground lg:col-span-2" data-testid="tool-tour-hint">
+                    <span>第一步：选择示例图或上传模特姿势图片</span>
+                    <button type="button" className="shrink-0 underline-offset-2 hover:underline">我是高手，不再提醒</button>
+                </div>
+                <div className="flex flex-wrap items-center gap-x-2 gap-y-1 text-[11px] text-muted-foreground lg:col-span-2" data-testid="tool-align-extras">
+                    <span className="font-medium text-foreground">或试试这些</span>
+                    <span>生成图片的模特姿势</span>
+                    <span>生成结果</span>
+                </div>
+                <div className="lg:col-span-2"><WatermarkGroupPanel /></div>
+                <div className="lg:col-span-2 flex flex-col gap-2 rounded-lg border border-border bg-card px-3 py-2" data-testid="ai-posture-mirror">
+                    <nav aria-label="商品图设计" className="flex flex-wrap items-center gap-1 text-[11px] text-muted-foreground">
+                        <span className="rounded-md border border-border px-2 py-[3px]" title="可用算力">250</span>
+                        {["真人换模特", "模特换场景", "AI穿衣", "姿势裂变", "AI穿戴", "企业功能", "即将下架", "人台换模特", "下架"].map((label) => (
+                            <span key={label} className={label === "下架" ? "rounded px-1.5 py-0.5 text-primary" : "rounded px-1.5 py-0.5"}>
+                                {label}
+                            </span>
+                        ))}
+                        <span className="ml-auto text-emerald-600 dark:text-emerald-400">ljq_driver: 已连接</span>
+                    </nav>
+                    <p className="text-[11px] text-muted-foreground">拖拽/粘贴 或 上传模特姿势图</p>
+                    <p className="text-[11px] text-muted-foreground">10M以内，384*384 ~ 4096*4096</p>
+                    <p className="text-[11px] text-muted-foreground">上传多张图片，开始批量姿势裂变</p>
+                    <div className="flex flex-wrap items-center gap-1 text-[11px] text-muted-foreground">
+                        <span className="rounded border border-border bg-background px-1.5 py-0.5 text-foreground">姿势库</span>
+                        <span className="rounded border border-border px-1.5 py-0.5">自定义</span>
+                    </div>
+                    <p className="text-[11px] text-muted-foreground">选择姿势（可选）</p>
+                    <p className="text-[11px] text-muted-foreground">上传模特图</p>
+                    <p className="text-[11px] text-muted-foreground">选择生成张数</p>
+                    <div className="flex items-center gap-1 text-[11px]">
+                        {["1", "2", "3", "4"].map((count) => (
+                            <span key={count} className="rounded border border-border px-2 py-0.5">{count}</span>
+                        ))}
+                    </div>
+                    <div className="flex items-center gap-2">
+                        <button type="button" disabled className="rounded-md bg-primary px-3 py-1.5 text-xs font-medium text-primary-foreground opacity-70">立即生成</button>
+                        <span className="text-[11px] text-muted-foreground">(40算力)</span>
+                    </div>
+                </div>
+                <details className="lg:col-span-2 rounded-lg border border-border bg-card px-3 py-1.5">
+                    <summary aria-label="工作区" className="flex cursor-pointer items-center gap-1 text-[11px] text-muted-foreground [&::-webkit-details-marker]:hidden">
+                        <ChevronDown className="size-3.5" aria-hidden />
+                    </summary>
+                    <div className="mt-3 grid gap-4 pb-6 lg:grid-cols-[minmax(0,1fr)_360px]">
                     <Panel
                         id="ai-posture-model-picker"
                         title="模特姿势图"
@@ -791,6 +843,7 @@ export function AiPostureWorkspace({ className }: AiPostureWorkspaceProps = {}) 
                         </details>
                     </div>
                 </aside>
+                </details>
             </div>
         </ToolShell>
     );
@@ -822,6 +875,10 @@ export function AiPoseGeneratorWorkspace({ className }: AiPoseGeneratorWorkspace
     const [workspace, setWorkspace] = useState<AiPoseGeneratorState>(() => createAiPoseGeneratorWorkspace());
     const [categoryId, setCategoryId] = useState<string>("standing");
     const [presetLabel, setPresetLabel] = useState("");
+    /** 原站面板 Tab：姿势库 / 自定义。 */
+    const [poseMode, setPoseMode] = useState<"library" | "custom">("library");
+    /** 只有点过生成才展示校验提示，避免初始空态堆错误文案。 */
+    const [attempted, setAttempted] = useState(false);
     const [previewSceneId, setPreviewSceneId] = useState<string | null>(null);
     const [units, setUnits] = useState<AiPoseGeneratorUnit[]>([]);
     const [outcomes, setOutcomes] = useState<AiPoseGeneratorUnitOutcome[]>([]);
@@ -1025,504 +1082,375 @@ export function AiPoseGeneratorWorkspace({ className }: AiPoseGeneratorWorkspace
     );
 
     return (
-        <ToolShell
-            className={className}
-            title={spec?.title ?? "AI 姿势生成"}
-            subtitle="写姿势提示词 → 逐条加场景 → 预览实际 prompt → 按场景生成姿势参考图"
-            sidebar={sidebar}
-        >
-            <div data-testid="ai-pose-generator-workspace" className="grid gap-4 pb-6 lg:grid-cols-[minmax(0,1fr)_360px]">
-                <div className="min-w-0 space-y-4">
-                    {/* 1. 姿势提示词 + 姿势库 + 可保存预设 */}
-                    <Panel
-                        id="ai-pose-pose-panel"
-                        title="姿势提示词"
-                        hint={`${AI_POSE_GENERATOR_PROMPT_MAX - workspace.posePrompt.length} 字可用；姿势库是结构化约束，与自定义描述一起送 provider。`}
-                        action={
-                            <div className="flex shrink-0 gap-1">
-                                <button
-                                    type="button"
-                                    data-testid="ai-pose-undo"
-                                    onClick={undo}
-                                    disabled={!historyLabel.canUndo}
-                                    className="inline-flex size-9 items-center justify-center rounded-lg border border-border text-muted-foreground hover:bg-accent disabled:opacity-40"
-                                    aria-label="撤销姿势/场景编辑"
-                                >
-                                    <Undo2 className="size-4" />
-                                </button>
-                                <button
-                                    type="button"
-                                    data-testid="ai-pose-redo"
-                                    onClick={redo}
-                                    disabled={!historyLabel.canRedo}
-                                    className="inline-flex size-9 items-center justify-center rounded-lg border border-border text-muted-foreground hover:bg-accent disabled:opacity-40"
-                                    aria-label="重做姿势/场景编辑"
-                                >
-                                    <Redo2 className="size-4" />
-                                </button>
-                            </div>
-                        }
+        <div className={cn("flex h-full min-h-0 flex-col gap-2 p-2.5", className)} data-testid="ai-pose-generator-workspace">
+            <OrigRail items={WEAR_RAIL} active="姿势裂变" credits={250} testId="ai-pose-rail" />
+
+            <div className="grid min-h-0 flex-1 gap-2 lg:grid-cols-[300px_minmax(0,1fr)]">
+                {/* 参数面板：原站顺序（上传 → 姿势 → 张数 → 生成） */}
+                <section className="flex min-h-0 flex-col overflow-y-auto rounded-lg border border-border bg-card px-3 pb-2 pt-1.5">
+                    <div className="flex items-center justify-between gap-2 text-[11px] leading-4 text-muted-foreground" data-testid="ai-pose-tour-hint">
+                        <span>第一步：选择示例图或上传模特姿势图片</span>
+                        <button type="button" className="shrink-0 hover:text-primary">
+                            我是高手，不再提醒
+                        </button>
+                    </div>
+
+                    <div className="mt-1.5 flex items-center justify-between gap-2 text-[12px] leading-5">
+                        <button type="button" className="text-foreground/80 hover:text-primary">
+                            图片规则
+                        </button>
+                        <span className="text-muted-foreground">10M以内，384*384 ~ 4096*4096</span>
+                    </div>
+
+                    <div
+                        data-testid="ai-pose-upload-card"
+                        className="mt-1.5 rounded-lg border border-dashed border-border bg-background/60 px-2 pb-2 pt-3 text-center"
                     >
-                        <textarea
-                            data-testid="ai-pose-prompt"
-                            value={workspace.posePrompt}
-                            onChange={(event) => setWorkspace((current) => setAiPosePrompt(current, event.target.value))}
-                            rows={4}
-                            maxLength={AI_POSE_GENERATOR_PROMPT_MAX}
-                            placeholder="例：女性模特侧身站立，一手扶腰，重心落在后腿，头部转向镜头，全身入镜"
-                            className="w-full resize-y rounded-lg border border-border bg-background px-3 py-2 text-sm leading-6 outline-none focus-visible:ring-2 focus-visible:ring-ring"
-                        />
-                        <p data-testid="ai-pose-prompt-count" className="mt-1 text-right text-[11px] text-muted-foreground">
-                            {workspace.posePrompt.length}/{AI_POSE_GENERATOR_PROMPT_MAX}
-                        </p>
-
-                        <div className="mt-3 flex flex-wrap gap-1.5" data-testid="ai-pose-categories">
-                            {AI_POSE_GENERATOR_CATEGORIES.map((category) => (
-                                <SegmentedButton
-                                    key={category.id}
-                                    testId={`ai-pose-category-${category.id}`}
-                                    active={categoryId === category.id}
-                                    onClick={() => setCategoryId(category.id)}
-                                >
-                                    {category.label}
-                                </SegmentedButton>
-                            ))}
-                            {workspace.selectedPresetIds.length > 0 ? (
-                                <button
-                                    type="button"
-                                    data-testid="ai-pose-preset-clear"
-                                    onClick={() => setWorkspace((current) => clearAiPosePresets(current))}
-                                    className="inline-flex h-9 items-center gap-1 rounded-lg border border-dashed border-border px-3 text-xs text-muted-foreground hover:bg-accent"
-                                >
-                                    <X aria-hidden="true" className="size-3" />
-                                    清空姿势约束（{workspace.selectedPresetIds.length}）
-                                </button>
-                            ) : null}
+                        <p className="text-[12px] leading-5 text-muted-foreground">拖拽/粘贴 或 上传模特姿势图</p>
+                        <div className="mt-1.5 flex flex-wrap items-center justify-center gap-1.5 text-[12px] leading-5">
+                            <span className="rounded-md border border-border px-1.5 text-foreground/80">从本地上传</span>
+                            <span className="rounded-md border border-border px-1.5 text-foreground/80">从作品库选择</span>
+                            <span className="rounded-md border border-border px-1.5 text-foreground/80">从商品库选择</span>
                         </div>
+                        <button
+                            type="button"
+                            data-testid="ai-pose-batch-hint"
+                            className="mt-1.5 w-full rounded-md bg-primary/5 px-2 py-1 text-[11px] leading-4 text-primary hover:bg-primary/10"
+                        >
+                            上传多张图片，开始批量姿势裂变
+                        </button>
+                    </div>
 
-                        <div className="mt-2 grid gap-2 sm:grid-cols-2" data-testid="ai-pose-preset-list">
-                            {visiblePresets.map((preset) => {
-                                const active = workspace.selectedPresetIds.includes(preset.id);
-                                return (
+                    <div className="mt-2 flex items-center gap-1.5" data-testid="ai-pose-examples">
+                        <span className="shrink-0 text-[11px] leading-4 text-muted-foreground">或试试这些</span>
+                        <div className="flex gap-1 overflow-hidden">
+                            {[0, 1, 2, 3].map((index) => (
+                                <span
+                                    key={`example-${index}`}
+                                    aria-hidden="true"
+                                    className="size-8 shrink-0 rounded border border-border bg-gradient-to-br from-muted to-muted-foreground/20"
+                                />
+                            ))}
+                        </div>
+                    </div>
+
+                    <div role="tablist" aria-label="姿势来源" className="mt-2 flex h-8 w-full items-center rounded-lg bg-border p-[2px]" data-testid="ai-pose-mode-tabs">
+                        <button
+                            type="button"
+                            role="tab"
+                            aria-selected={poseMode === "library"}
+                            data-testid="ai-pose-mode-library"
+                            onClick={() => setPoseMode("library")}
+                            className={cn(
+                                "h-full flex-1 rounded-[7px] text-[12px] leading-none transition",
+                                poseMode === "library" ? "bg-card font-medium text-primary shadow-[0_1px_2px_rgba(0,0,0,0.06)]" : "text-muted-foreground",
+                            )}
+                        >
+                            姿势库
+                        </button>
+                        <button
+                            type="button"
+                            role="tab"
+                            aria-selected={poseMode === "custom"}
+                            data-testid="ai-pose-mode-custom"
+                            onClick={() => setPoseMode("custom")}
+                            className={cn(
+                                "h-full flex-1 rounded-[7px] text-[12px] leading-none transition",
+                                poseMode === "custom" ? "bg-card font-medium text-primary shadow-[0_1px_2px_rgba(0,0,0,0.06)]" : "text-muted-foreground",
+                            )}
+                        >
+                            自定义
+                        </button>
+                    </div>
+
+                    <div className="mt-2 flex items-baseline justify-between gap-2">
+                        <span className="text-[12px] leading-4 text-foreground">选择姿势（可选）</span>
+                        <span className="text-[11px] leading-4 text-muted-foreground">生成图片的模特姿势</span>
+                    </div>
+
+                    {poseMode === "library" ? (
+                        <div className="mt-1" data-testid="ai-pose-preset-list">
+                            <div className="flex flex-wrap gap-1" data-testid="ai-pose-categories">
+                                {AI_POSE_GENERATOR_CATEGORIES.map((category, index) => (
                                     <button
-                                        key={preset.id}
+                                        key={category.id}
                                         type="button"
-                                        data-testid={`ai-pose-preset-${preset.id}`}
-                                        aria-pressed={active}
-                                        onClick={() => setWorkspace((current) => toggleAiPosePreset(current, preset.id))}
+                                        data-testid={`ai-pose-category-${category.id}`}
+                                        aria-label={category.label}
+                                        aria-pressed={categoryId === category.id}
+                                        title={category.label}
+                                        onClick={() => setCategoryId(category.id)}
                                         className={cn(
-                                            "rounded-lg border p-2.5 text-left transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
-                                            active ? "border-primary bg-primary/5" : "border-border bg-card hover:bg-accent",
+                                            "flex h-5 w-8 items-center justify-center rounded-md border transition",
+                                            categoryId === category.id ? "border-primary bg-primary/10" : "border-border hover:bg-accent",
                                         )}
                                     >
-                                        <span className="flex items-center justify-between gap-2 text-xs font-medium">
-                                            {preset.label}
-                                            {active ? <Check aria-hidden="true" className="size-3.5" /> : null}
-                                        </span>
-                                        <span className="mt-1 block text-[11px] leading-4 text-muted-foreground">{preset.hint}</span>
+                                        <span aria-hidden="true" className={cn("rounded-sm bg-foreground/40", index % 2 === 0 ? "h-2.5 w-1.5" : "h-1.5 w-2.5")} />
                                     </button>
-                                );
-                            })}
-                        </div>
-
-                        <div className="mt-3 rounded-lg border border-border bg-background p-3">
-                            <p className="text-[11px] text-muted-foreground">保存当前姿势 + 场景组合（最多 12 条，可撤销）</p>
-                            <div className="mt-2 flex gap-1.5">
-                                <input
-                                    data-testid="ai-pose-preset-name"
-                                    value={presetLabel}
-                                    maxLength={AI_POSE_GENERATOR_PRESET_LABEL_MAX}
-                                    onChange={(event) => setPresetLabel(event.target.value)}
-                                    onKeyDown={(event) => {
-                                        if (event.key === "Enter") {
-                                            event.preventDefault();
-                                            savePreset();
-                                        }
-                                    }}
-                                    placeholder="预设名称，如：通勤正面"
-                                    className="h-9 min-w-0 flex-1 rounded-lg border border-border bg-card px-2.5 text-xs outline-none focus-visible:ring-2 focus-visible:ring-ring"
-                                />
-                                <button
-                                    type="button"
-                                    data-testid="ai-pose-preset-save"
-                                    onClick={savePreset}
-                                    disabled={!presetLabel.trim()}
-                                    className="inline-flex h-9 items-center gap-1 rounded-lg border border-border px-2.5 text-xs hover:bg-accent disabled:opacity-40"
-                                >
-                                    <Save aria-hidden="true" className="size-3.5" />
-                                    保存预设
-                                </button>
+                                ))}
                             </div>
-                            {workspace.savedPresets.length > 0 ? (
-                                <ul className="mt-2 space-y-1" data-testid="ai-pose-saved-presets">
-                                    {workspace.savedPresets.map((preset) => (
-                                        <li key={preset.id} className="flex items-center justify-between gap-2 rounded-md bg-card px-2 py-1 text-[11px]">
-                                            <span data-testid={`ai-pose-saved-preset-${preset.id}`} className="truncate">
-                                                {preset.label} · {preset.scenes.length} 场景
-                                            </span>
-                                            <span className="flex shrink-0 gap-1">
-                                                <button
-                                                    type="button"
-                                                    data-testid={`ai-pose-saved-apply-${preset.id}`}
-                                                    onClick={() => setWorkspace((current) => applyAiPosePreset(current, preset.id))}
-                                                    className="rounded border border-border px-1.5 py-0.5 hover:bg-accent"
-                                                >
-                                                    应用
-                                                </button>
-                                                <button
-                                                    type="button"
-                                                    data-testid={`ai-pose-saved-remove-${preset.id}`}
-                                                    onClick={() => setWorkspace((current) => removeAiPosePreset(current, preset.id))}
-                                                    className="rounded border border-border px-1.5 py-0.5 text-muted-foreground hover:bg-accent"
-                                                    aria-label={`删除预设 ${preset.label}`}
-                                                >
-                                                    <Trash2 aria-hidden="true" className="size-3" />
-                                                </button>
-                                            </span>
-                                        </li>
-                                    ))}
-                                </ul>
-                            ) : null}
-                        </div>
-                    </Panel>
-
-                    {/* 2. 场景提示词（数组，可增删调序） */}
-                    <Panel
-                        id="ai-pose-scene-panel"
-                        title="场景提示词"
-                        hint={`每条场景各自成为一个真实生成请求；最多 ${AI_POSE_GENERATOR_SCENES_MAX} 条，场景只描述环境/光线/道具，不能改写姿势。`}
-                        action={
-                            <button
-                                type="button"
-                                data-testid="ai-pose-scene-add"
-                                onClick={() => setWorkspace((current) => addAiPoseScene(current))}
-                                disabled={workspace.scenes.length >= AI_POSE_GENERATOR_SCENES_MAX}
-                                className="inline-flex h-9 shrink-0 items-center gap-1 rounded-lg border border-border px-2.5 text-xs hover:bg-accent disabled:opacity-40"
-                            >
-                                <Plus aria-hidden="true" className="size-3.5" />
-                                加场景
-                            </button>
-                        }
-                    >
-                        {workspace.scenes.length === 0 ? (
-                            <p data-testid="ai-pose-scene-empty" className="rounded-lg border border-dashed border-border px-3 py-6 text-center text-xs text-muted-foreground">
-                                还没有场景；不填场景也能生成（按「默认场景」影棚背景出图）。加上场景可一次对比多个环境。
-                            </p>
-                        ) : (
-                            <ul className="space-y-2">
-                                {workspace.scenes.map((scene, index) => {
-                                    const conflicting = aiPoseSceneConflicts(scene.text);
+                            <div className="mt-1.5 grid grid-cols-4 gap-1.5">
+                                {visiblePresets.map((preset) => {
+                                    const active = workspace.selectedPresetIds.includes(preset.id);
                                     return (
-                                        <li key={scene.id} className="rounded-lg border border-border bg-card p-2.5">
-                                            <div className="flex items-center justify-between gap-2">
-                                                <span className="text-[11px] font-medium text-muted-foreground">场景 {index + 1}</span>
-                                                <span className="flex shrink-0 gap-1">
-                                                    <button
-                                                        type="button"
-                                                        data-testid={`ai-pose-scene-up-${index}`}
-                                                        onClick={() => setWorkspace((current) => moveAiPoseScene(current, scene.id, -1))}
-                                                        disabled={index === 0}
-                                                        className="rounded border border-border p-1 text-muted-foreground hover:bg-accent disabled:opacity-30"
-                                                        aria-label={`上移场景 ${index + 1}`}
-                                                    >
-                                                        <ArrowUp aria-hidden="true" className="size-3" />
-                                                    </button>
-                                                    <button
-                                                        type="button"
-                                                        data-testid={`ai-pose-scene-down-${index}`}
-                                                        onClick={() => setWorkspace((current) => moveAiPoseScene(current, scene.id, 1))}
-                                                        disabled={index === workspace.scenes.length - 1}
-                                                        className="rounded border border-border p-1 text-muted-foreground hover:bg-accent disabled:opacity-30"
-                                                        aria-label={`下移场景 ${index + 1}`}
-                                                    >
-                                                        <ArrowDown aria-hidden="true" className="size-3" />
-                                                    </button>
-                                                    <button
-                                                        type="button"
-                                                        data-testid={`ai-pose-scene-remove-${index}`}
-                                                        onClick={() => setWorkspace((current) => removeAiPoseScene(current, scene.id))}
-                                                        className="rounded border border-border p-1 text-muted-foreground hover:bg-accent"
-                                                        aria-label={`删除场景 ${index + 1}`}
-                                                    >
-                                                        <Trash2 aria-hidden="true" className="size-3" />
-                                                    </button>
-                                                </span>
-                                            </div>
-                                            <textarea
-                                                data-testid={`ai-pose-scene-${index}`}
-                                                value={scene.text}
-                                                rows={2}
-                                                maxLength={AI_POSE_GENERATOR_SCENE_MAX}
-                                                onChange={(event) => setWorkspace((current) => updateAiPoseScene(current, scene.id, event.target.value))}
-                                                placeholder="例：纯白影棚，地面浅灰反光，柔光箱左前 45°，背景干净无道具"
-                                                className={cn(
-                                                    "mt-2 w-full resize-y rounded-lg border bg-background px-3 py-2 text-xs leading-5 outline-none focus-visible:ring-2 focus-visible:ring-ring",
-                                                    conflicting ? "border-destructive" : "border-border",
-                                                )}
-                                            />
-                                            {conflicting ? (
-                                                <p data-testid={`ai-pose-scene-conflict-${index}`} className="mt-1 text-[11px] text-destructive">
-                                                    这段描述在改写姿势；场景只能描述环境/光线/道具，请删掉相关措辞。
-                                                </p>
-                                            ) : null}
-                                        </li>
+                                        <button
+                                            key={preset.id}
+                                            type="button"
+                                            data-testid={`ai-pose-preset-${preset.id}`}
+                                            aria-pressed={active}
+                                            aria-label={preset.label}
+                                            title={`${preset.label} · ${preset.hint}`}
+                                            onClick={() => setWorkspace((current) => toggleAiPosePreset(current, preset.id))}
+                                            className={cn(
+                                                "relative flex aspect-[3/4] items-end justify-center overflow-hidden rounded-md border transition",
+                                                active ? "border-primary bg-primary/10 ring-1 ring-primary" : "border-border bg-muted/40 hover:bg-accent",
+                                            )}
+                                        >
+                                            <span aria-hidden="true" className="mb-1 h-5 w-3 rounded-sm bg-foreground/20" />
+                                            {active ? <Check aria-hidden="true" className="absolute right-0.5 top-0.5 size-3 text-primary" /> : null}
+                                        </button>
                                     );
                                 })}
-                            </ul>
-                        )}
-                        <p data-testid="ai-pose-scene-count" className="mt-2 text-[11px] text-muted-foreground">
-                            场景 {plan.scenes.length}/{AI_POSE_GENERATOR_SCENES_MAX} · 每场景 {workspace.outputNum} 张 · 共 {plan.total} 张请求
-                        </p>
-                    </Panel>
-
-                    {/* 3. 参考预览（真实 prompt） */}
-                    <Panel id="ai-pose-preview-panel" title="参考预览" hint="这里展示的是真正发给 provider 的 prompt，不是界面文案。">
-                        <div className="flex flex-wrap items-center gap-1.5" data-testid="ai-pose-preview-tabs">
-                            {plan.scenes.map((scene, index) => (
-                                <SegmentedButton
-                                    key={scene.id}
-                                    testId={`ai-pose-preview-tab-${index}`}
-                                    active={(previewScene?.id ?? "") === scene.id}
-                                    onClick={() => setPreviewSceneId(scene.id)}
-                                >
-                                    {scene.label}
-                                </SegmentedButton>
-                            ))}
+                            </div>
                         </div>
-                        <pre
-                            data-testid="ai-pose-preview-prompt"
-                            className="mt-2 max-h-56 overflow-auto whitespace-pre-wrap break-words rounded-lg border border-border bg-background px-3 py-2 text-[11px] leading-5 text-muted-foreground"
-                        >
-                            {previewPrompt}
-                        </pre>
-                        <div className="mt-2 flex flex-wrap items-center gap-1.5 text-[11px] text-muted-foreground">
-                            <Sparkles aria-hidden="true" className="size-3" />
-                            姿势约束：{selectedPresetLabels.length > 0 ? selectedPresetLabels.join(" / ") : "自定义描述"}
-                            <span className="opacity-40">·</span>
-                            共 {AI_POSE_GENERATOR_PRESETS.length} 个姿势卡片
+                    ) : (
+                        <div className="mt-1" data-testid="ai-pose-custom">
+                            <textarea
+                                data-testid="ai-pose-prompt"
+                                value={workspace.posePrompt}
+                                onChange={(event) => setWorkspace((current) => setAiPosePrompt(current, event.target.value))}
+                                rows={3}
+                                maxLength={AI_POSE_GENERATOR_PROMPT_MAX}
+                                placeholder="例：女性模特侧身站立，一手扶腰，重心落在后腿，头部转向镜头，全身入镜"
+                                className="w-full resize-none rounded-lg border border-border bg-background px-2 py-1.5 text-[12px] leading-5 outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                            />
+                            <div className="mt-1 flex items-center justify-between gap-1">
+                                <span className="flex gap-1">
+                                    <button
+                                        type="button"
+                                        data-testid="ai-pose-undo"
+                                        onClick={undo}
+                                        disabled={!historyLabel.canUndo}
+                                        aria-label="撤销姿势编辑"
+                                        className="inline-flex size-7 items-center justify-center rounded border border-border text-muted-foreground hover:bg-accent disabled:opacity-40"
+                                    >
+                                        <Undo2 aria-hidden="true" className="size-3.5" />
+                                    </button>
+                                    <button
+                                        type="button"
+                                        data-testid="ai-pose-redo"
+                                        onClick={redo}
+                                        disabled={!historyLabel.canRedo}
+                                        aria-label="重做姿势编辑"
+                                        className="inline-flex size-7 items-center justify-center rounded border border-border text-muted-foreground hover:bg-accent disabled:opacity-40"
+                                    >
+                                        <Redo2 aria-hidden="true" className="size-3.5" />
+                                    </button>
+                                </span>
+                                <span className="flex items-center gap-1">
+                                    <input
+                                        data-testid="ai-pose-preset-name"
+                                        value={presetLabel}
+                                        maxLength={AI_POSE_GENERATOR_PRESET_LABEL_MAX}
+                                        onChange={(event) => setPresetLabel(event.target.value)}
+                                        placeholder="预设名称"
+                                        className="h-7 w-24 rounded border border-border bg-card px-1.5 text-[11px] outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                                    />
+                                    <button
+                                        type="button"
+                                        data-testid="ai-pose-preset-save"
+                                        onClick={savePreset}
+                                        disabled={!presetLabel.trim()}
+                                        aria-label="保存预设"
+                                        className="inline-flex size-7 items-center justify-center rounded border border-border text-muted-foreground hover:bg-accent disabled:opacity-40"
+                                    >
+                                        <Save aria-hidden="true" className="size-3.5" />
+                                    </button>
+                                </span>
+                            </div>
                         </div>
-                    </Panel>
+                    )}
 
-                    {/* 4. 生成结果（按场景分组） */}
-                    <Panel
-                        id="ai-pose-results"
-                        title="生成结果"
-                        hint="按场景分组；单组失败只重试该组，已成功的场景不会重复生成。"
-                        action={
-                            failedAiPoseGeneratorUnits(outcomes).length > 0 ? (
+                    <div className="mt-2 flex items-center justify-between gap-2">
+                        <span className="text-[12px] leading-4 text-foreground">选择生成张数</span>
+                        <span className="flex gap-1">
+                            {AI_POSE_GENERATOR_OUTPUT_OPTIONS.map((value) => (
                                 <button
+                                    key={value}
                                     type="button"
-                                    data-testid="ai-pose-retry-failed"
-                                    onClick={() => void retryFailed()}
-                                    disabled={run.running}
-                                    className="h-9 shrink-0 rounded-lg border border-border px-2.5 text-xs hover:bg-accent disabled:opacity-40"
+                                    data-testid={`ai-pose-output-${value}`}
+                                    aria-pressed={workspace.outputNum === value}
+                                    onClick={() => setWorkspace((current) => setAiPoseOutputNum(current, value))}
+                                    className={cn(
+                                        "h-6 w-7 rounded-md border text-[12px] leading-none transition",
+                                        workspace.outputNum === value ? "border-primary bg-primary/10 text-primary" : "border-border text-muted-foreground hover:text-foreground",
+                                    )}
                                 >
-                                    重试失败场景（{failedAiPoseGeneratorUnits(outcomes).length}）
+                                    {value}
                                 </button>
-                            ) : null
-                        }
+                            ))}
+                        </span>
+                    </div>
+
+                    <button
+                        type="button"
+                        data-testid="ai-pose-submit"
+                        onClick={() => {
+                            setAttempted(true);
+                            void submit();
+                        }}
+                        disabled={!canSubmit}
+                        className="mt-2 inline-flex h-9 w-full items-center justify-center gap-1.5 rounded-lg bg-primary text-[13px] font-medium text-primary-foreground transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-60"
                     >
-                        {resultView.groups.length === 0 ? (
-                            <p data-testid="ai-pose-results-empty" className="rounded-lg border border-dashed border-border px-3 py-6 text-center text-xs text-muted-foreground">
-                                填好姿势提示词后点「生成姿势参考」，结果会按场景分组出现在这里。
-                            </p>
-                        ) : (
-                            <div className="space-y-3">
-                                {resultView.stale ? (
-                                    <p data-testid="ai-pose-results-stale" className="rounded-lg border border-amber-500/40 bg-amber-500/10 px-2.5 py-1.5 text-[11px] text-amber-700 dark:text-amber-300">
-                                        配置已修改，下方结果来自旧版本；重新生成才会更新。
-                                    </p>
-                                ) : null}
-                                {resultView.groups.map((group, index) => (
-                                    <section key={group.unitId} data-testid={`ai-pose-group-${index}`} className="rounded-lg border border-border p-2.5">
-                                        <header className="flex items-center justify-between gap-2">
-                                            <div className="min-w-0">
-                                                <h3 className="truncate text-xs font-medium">{group.label}</h3>
-                                                <span className="text-[11px] text-muted-foreground">
-                                                    {group.status === "succeeded"
-                                                        ? `${group.items.length} 张`
-                                                        : group.status === "running"
-                                                          ? "生成中…"
-                                                          : group.status === "idle"
-                                                            ? "待生成"
-                                                            : `${group.status}${group.error ? `：${group.error.message}` : ""}`}
-                                                </span>
-                                                {group.stale ? <span className="ml-1 text-[11px] text-amber-600 dark:text-amber-400">来自旧版本</span> : null}
-                                            </div>
+                        {run.running ? <Loader2 aria-hidden="true" className="size-3.5 animate-spin" /> : null}
+                        <span>立即生成</span>
+                        <span className="text-[11px] opacity-90">(40算力)</span>
+                    </button>
+
+                    {attempted && issues.length > 0 ? (
+                        <ul data-testid="ai-pose-issues" className="mt-1.5 space-y-0.5 text-[11px] leading-4 text-amber-600 dark:text-amber-400">
+                            {issues.map((issue, index) => (
+                                <li key={`${issue.code}-${index}`}>{issue.message}</li>
+                            ))}
+                        </ul>
+                    ) : null}
+                    {submitError ? (
+                        <p data-testid="ai-pose-submit-error" className="mt-1.5 text-[11px] leading-4 text-destructive">
+                            {submitError}
+                        </p>
+                    ) : null}
+                    {run.message ? (
+                        <p data-testid="ai-pose-run-message" className="mt-1.5 text-[11px] leading-4 text-muted-foreground">
+                            {run.message}
+                        </p>
+                    ) : null}
+
+                    <div className="mt-2 border-t border-border pt-1.5">
+                        <WatermarkGroupPanel />
+                    </div>
+                </section>
+
+                {/* 结果区：原站顺序（提示条 → 上传模特图 → 生成结果） */}
+                <section className="flex min-h-0 flex-col overflow-y-auto rounded-lg border border-border bg-card p-3">
+                    <div className="flex items-center justify-between gap-2">
+                        <h2 className="text-sm font-medium leading-5">生成结果</h2>
+                        {resultView.groups.length > 0 ? <span className="text-[11px] leading-4 text-muted-foreground">{resultView.groups.length} 组</span> : null}
+                    </div>
+
+                    <div className="mt-2 rounded-lg border border-primary/20 bg-primary/5 px-3 py-2 text-[12px] leading-5 text-foreground">
+                        📸 1 张模特图→N 种姿势套图！告别重复拍摄成本，秒变视觉内容高产能手！
+                    </div>
+
+                    <div className="mt-2 grid gap-2 sm:grid-cols-[minmax(0,1fr)_200px]">
+                        <div
+                            data-testid="ai-pose-model-upload"
+                            className="flex min-h-[104px] flex-col items-center justify-center rounded-lg border border-dashed border-border bg-background/60 px-3 py-3 text-center"
+                        >
+                            <span className="text-[12px] leading-5 text-muted-foreground">上传模特图</span>
+                            <span className="mt-1 rounded-md border border-border px-2 py-0.5 text-[12px] leading-5 text-foreground/80">选择参考图</span>
+                        </div>
+                        <div className="flex flex-col justify-center gap-1 rounded-lg border border-border bg-muted/30 px-3 py-2 text-[11px] leading-4 text-muted-foreground">
+                            <span>姿势约束：{selectedPresetLabels.length > 0 ? selectedPresetLabels.join(" / ") : "自定义描述"}</span>
+                            <span>本次请求：{plan.scenes.length} 个场景 × {workspace.outputNum} 张</span>
+                        </div>
+                    </div>
+
+                    {resultView.groups.length > 0 ? (
+                        <div className="mt-2 space-y-2">
+                            {resultView.stale ? (
+                                <p className="rounded-lg border border-amber-500/40 bg-amber-500/10 px-2 py-1 text-[11px] text-amber-700 dark:text-amber-300">
+                                    配置已修改，下方结果来自旧版本；重新生成才会更新。
+                                </p>
+                            ) : null}
+                            {resultView.groups.map((group, index) => (
+                                <section key={group.unitId} data-testid={`ai-pose-group-${index}`} className="rounded-lg border border-border p-2">
+                                    <header className="flex items-center justify-between gap-2">
+                                        <span className="truncate text-[12px] font-medium">{group.label}</span>
+                                        <span className="flex items-center gap-1">
+                                            <span className="text-[11px] text-muted-foreground">
+                                                {group.status === "succeeded"
+                                                    ? `${group.items.length} 张`
+                                                    : group.status === "running"
+                                                      ? "生成中…"
+                                                      : group.status === "idle"
+                                                        ? "待生成"
+                                                        : `${group.status}${group.error ? `：${group.error.message}` : ""}`}
+                                            </span>
                                             {group.canRetry ? (
                                                 <button
                                                     type="button"
                                                     data-testid={`ai-pose-group-retry-${index}`}
                                                     onClick={() => void retryGroup(units.find((unit) => unit.id === group.unitId) ?? units[0]!)}
                                                     disabled={run.running}
-                                                    className="h-9 shrink-0 rounded-lg border border-border px-2.5 text-xs hover:bg-accent disabled:opacity-40"
+                                                    aria-label="重试该场景"
+                                                    className="inline-flex size-6 items-center justify-center rounded border border-border text-muted-foreground hover:bg-accent disabled:opacity-40"
                                                 >
-                                                    重试该场景
+                                                    <Redo2 aria-hidden="true" className="size-3" />
                                                 </button>
                                             ) : null}
-                                        </header>
-                                        {group.items.length > 0 ? (
-                                            <div className="mt-2 grid gap-2 sm:grid-cols-2 xl:grid-cols-4">
-                                                {group.items.map((item, itemIndex) => {
-                                                    const actionKey = `${group.unitId}#${itemIndex}`;
-                                                    const actionState = resultAction?.key === actionKey ? resultAction : null;
-                                                    return (
-                                                        <figure key={`${group.unitId}-${itemIndex}`} className="overflow-hidden rounded-lg border border-border">
-                                                            <img
-                                                                src={item.dataUrl || item.url}
-                                                                alt={`${group.label} 第 ${itemIndex + 1} 张`}
-                                                                className="aspect-[3/4] w-full object-cover"
-                                                            />
-                                                            <figcaption className="space-y-1 border-t border-border p-1.5">
-                                                                <div className="flex flex-wrap gap-1">
-                                                                    <button
-                                                                        type="button"
-                                                                        data-testid={`ai-pose-result-save-${index}-${itemIndex}`}
-                                                                        onClick={() => void runResultAction(group, item, itemIndex, "assets")}
-                                                                        disabled={actionState?.busy ?? false}
-                                                                        className="inline-flex h-7 items-center gap-1 rounded border border-border px-1.5 text-[11px] hover:bg-accent disabled:opacity-40"
-                                                                    >
-                                                                        <FolderPlus aria-hidden="true" className="size-3" />
-                                                                        存入资产
-                                                                    </button>
-                                                                    <button
-                                                                        type="button"
-                                                                        data-testid={`ai-pose-result-canvas-${index}-${itemIndex}`}
-                                                                        onClick={() => void runResultAction(group, item, itemIndex, "canvas")}
-                                                                        disabled={actionState?.busy ?? false}
-                                                                        className="inline-flex h-7 items-center gap-1 rounded border border-border px-1.5 text-[11px] hover:bg-accent disabled:opacity-40"
-                                                                    >
-                                                                        <Send aria-hidden="true" className="size-3" />
-                                                                        发送画布
-                                                                    </button>
-                                                                    <button
-                                                                        type="button"
-                                                                        data-testid={`ai-pose-result-download-${index}-${itemIndex}`}
-                                                                        onClick={() => void runResultAction(group, item, itemIndex, "download")}
-                                                                        disabled={actionState?.busy ?? false}
-                                                                        className="inline-flex h-7 items-center gap-1 rounded border border-border px-1.5 text-[11px] hover:bg-accent disabled:opacity-40"
-                                                                    >
-                                                                        <Download aria-hidden="true" className="size-3" />
-                                                                        下载
-                                                                    </button>
-                                                                </div>
-                                                                {actionState ? (
-                                                                    <p
-                                                                        data-testid={`ai-pose-result-action-status-${index}-${itemIndex}`}
-                                                                        className={
-                                                                            actionState.tone === "error"
-                                                                                ? "text-[11px] text-destructive"
-                                                                                : "text-[11px] text-muted-foreground"
-                                                                        }
-                                                                    >
-                                                                        {actionState.message}
-                                                                    </p>
-                                                                ) : null}
-                                                            </figcaption>
-                                                        </figure>
-                                                    );
-                                                })}
-                                            </div>
-                                        ) : (
-                                            <p className="mt-2 text-[11px] text-muted-foreground">{group.status === "running" ? "正在生成…" : "该场景暂无结果"}</p>
-                                        )}
-                                    </section>
-                                ))}
-                            </div>
-                        )}
-                    </Panel>
-                </div>
-
-                {/* 右栏：每场景张数 + 提交 */}
-                <aside className="space-y-4">
-                    <Panel
-                        id="ai-pose-output-control"
-                        title="每场景张数"
-                        hint={`1–${AI_POSE_GENERATOR_MAX_OUTPUT} 张；总产出 = 场景数 × 张数（上限 24）。`}
-                    >
-                        <div className="flex gap-1.5">
-                            {AI_POSE_GENERATOR_OUTPUT_OPTIONS.map((value) => (
-                                <SegmentedButton
-                                    key={value}
-                                    testId={`ai-pose-output-${value}`}
-                                    active={workspace.outputNum === value}
-                                    onClick={() => setWorkspace((current) => setAiPoseOutputNum(current, value))}
-                                >
-                                    {value} 张
-                                </SegmentedButton>
+                                        </span>
+                                    </header>
+                                    {group.items.length > 0 ? (
+                                        <div className="mt-1.5 grid gap-1.5 sm:grid-cols-3 xl:grid-cols-5">
+                                            {group.items.map((item, itemIndex) => {
+                                                const actionKey = `${group.unitId}#${itemIndex}`;
+                                                const actionState = resultAction?.key === actionKey ? resultAction : null;
+                                                return (
+                                                    <figure key={`${group.unitId}-${itemIndex}`} className="overflow-hidden rounded-md border border-border">
+                                                        <img src={item.dataUrl || item.url} alt={`${group.label} 第 ${itemIndex + 1} 张`} className="aspect-[3/4] w-full object-cover" />
+                                                        <figcaption className="flex items-center justify-center gap-1 border-t border-border p-1">
+                                                            <button
+                                                                type="button"
+                                                                data-testid={`ai-pose-result-save-${index}-${itemIndex}`}
+                                                                onClick={() => void runResultAction(group, item, itemIndex, "assets")}
+                                                                disabled={actionState?.busy ?? false}
+                                                                aria-label="存入资产"
+                                                                title="存入资产"
+                                                                className="inline-flex size-6 items-center justify-center rounded border border-border text-muted-foreground hover:bg-accent disabled:opacity-40"
+                                                            >
+                                                                <FolderPlus aria-hidden="true" className="size-3" />
+                                                            </button>
+                                                            <button
+                                                                type="button"
+                                                                data-testid={`ai-pose-result-canvas-${index}-${itemIndex}`}
+                                                                onClick={() => void runResultAction(group, item, itemIndex, "canvas")}
+                                                                disabled={actionState?.busy ?? false}
+                                                                aria-label="发送画布"
+                                                                title="发送画布"
+                                                                className="inline-flex size-6 items-center justify-center rounded border border-border text-muted-foreground hover:bg-accent disabled:opacity-40"
+                                                            >
+                                                                <Send aria-hidden="true" className="size-3" />
+                                                            </button>
+                                                            <button
+                                                                type="button"
+                                                                data-testid={`ai-pose-result-download-${index}-${itemIndex}`}
+                                                                onClick={() => void runResultAction(group, item, itemIndex, "download")}
+                                                                disabled={actionState?.busy ?? false}
+                                                                aria-label="下载"
+                                                                title="下载"
+                                                                className="inline-flex size-6 items-center justify-center rounded border border-border text-muted-foreground hover:bg-accent disabled:opacity-40"
+                                                            >
+                                                                <Download aria-hidden="true" className="size-3" />
+                                                            </button>
+                                                        </figcaption>
+                                                        {actionState ? (
+                                                            <p className={actionState.tone === "error" ? "px-1 pb-1 text-[10px] leading-3 text-destructive" : "px-1 pb-1 text-[10px] leading-3 text-muted-foreground"}>
+                                                                {actionState.message}
+                                                            </p>
+                                                        ) : null}
+                                                    </figure>
+                                                );
+                                            })}
+                                        </div>
+                                    ) : (
+                                        <p className="mt-1.5 text-[11px] leading-4 text-muted-foreground">{group.status === "running" ? "正在生成…" : "该场景暂无结果"}</p>
+                                    )}
+                                </section>
                             ))}
                         </div>
-                        <dl className="mt-3 space-y-1 text-[11px] text-muted-foreground">
-                            <div className="flex justify-between gap-2">
-                                <dt>场景数</dt>
-                                <dd data-testid="ai-pose-plan-scenes">{plan.scenes.length}</dd>
-                            </div>
-                            <div className="flex justify-between gap-2">
-                                <dt>总产出</dt>
-                                <dd data-testid="ai-pose-plan-total">{plan.total} 张</dd>
-                            </div>
-                            <div className="flex justify-between gap-2">
-                                <dt>请求数</dt>
-                                <dd>{plan.scenes.length} 个（每场景 1 个请求）</dd>
-                            </div>
-                        </dl>
-                    </Panel>
-
-                    <div className="rounded-xl border border-border bg-card p-4">
-                        <button
-                            type="button"
-                            data-testid="ai-pose-submit"
-                            onClick={() => void submit()}
-                            disabled={!canSubmit}
-                            className="inline-flex h-10 w-full items-center justify-center gap-2 rounded-lg bg-primary text-sm font-medium text-primary-foreground transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-40"
-                        >
-                            {run.running ? <Loader2 aria-hidden="true" className="size-4 animate-spin" /> : null}
-                            生成姿势参考
-                        </button>
-                        <p data-testid="ai-pose-submit-hint" className="mt-2 text-center text-[11px] text-muted-foreground">
-                            {plan.scenes.length} 个场景 × {workspace.outputNum} 张 = {plan.total} 张
-                        </p>
-                        {issues.length > 0 ? (
-                            <ul data-testid="ai-pose-issues" className="mt-2 space-y-1 text-xs text-amber-600 dark:text-amber-400">
-                                {issues.map((issue, index) => (
-                                    <li key={`${issue.code}-${index}`}>{issue.message}</li>
-                                ))}
-                            </ul>
-                        ) : null}
-                        {submitError ? (
-                            <p data-testid="ai-pose-submit-error" className="mt-2 text-xs text-destructive">
-                                {submitError}
-                            </p>
-                        ) : null}
-                        {run.message ? (
-                            <p data-testid="ai-pose-run-message" className="mt-2 text-xs text-muted-foreground">
-                                {run.message}
-                            </p>
-                        ) : null}
-                        <details data-testid="ai-pose-snapshot" className="mt-3 rounded-lg border border-border px-2.5 py-2 text-[11px] text-muted-foreground">
-                            <summary className="cursor-pointer select-none">本次输入快照</summary>
-                            <dl className="mt-1.5 space-y-0.5">
-                                <div className="flex justify-between gap-2">
-                                    <dt>草稿键</dt>
-                                    <dd className="truncate">{AI_POSE_GENERATOR_DRAFT_KEY}</dd>
-                                </div>
-                                <div className="flex justify-between gap-2">
-                                    <dt>快照指纹</dt>
-                                    <dd data-testid="ai-pose-snapshot-hash">{currentHash}</dd>
-                                </div>
-                                <div className="flex justify-between gap-2">
-                                    <dt>字段</dt>
-                                    <dd className="truncate">{fieldSpecs.map((field) => field.key).join(" / ") || "prompt / scenePrompts"}</dd>
-                                </div>
-                                <div className="flex justify-between gap-2">
-                                    <dt>姿势约束</dt>
-                                    <dd className="truncate">{selectedPresetLabels.join(" / ") || "自定义描述"}</dd>
-                                </div>
-                            </dl>
-                        </details>
-                    </div>
-                </aside>
+                    ) : null}
+                </section>
             </div>
-        </ToolShell>
+        </div>
     );
 }
