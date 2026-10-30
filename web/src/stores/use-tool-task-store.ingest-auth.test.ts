@@ -32,7 +32,13 @@ const { describe, expect, mock, test } = await import("bun:test");
 type Captured = { input: string | Blob; prefix?: string; options?: { headers?: Record<string, string> } };
 const captured: Captured[] = [];
 
+// bun 的 mock.module 是进程级、跨测试文件生效的：工厂里只写 5 个桩会让同一进程里
+// 其它测试文件 import 到的 file-storage 缺 export（media-auth.test.ts 的 fetchMediaBlob
+// 会变成 undefined）。所以先取真实模块，只覆盖需要桩的函数，其余导出原样透出。
+const realFileStorage = await import("@/services/file-storage");
+
 mock.module("@/services/file-storage", () => ({
+    ...realFileStorage,
     uploadMediaFile: async (input: string | Blob, prefix?: string, options?: Captured["options"]) => {
         captured.push({ input, prefix, options });
         return { url: "blob:stored", storageKey: `${prefix ?? "file"}:test`, bytes: 12, mimeType: "video/mp4" };
