@@ -1,0 +1,798 @@
+{
+ "locale": "en-US",
+ "htmlLang": "en-US",
+ "docTitle": "Infinite Canvas",
+ "url": "http://127.0.0.1:3000/tools/ai-video/video-translation",
+ "innerWidth": 375,
+ "innerHeight": 812,
+ "scrollWidth": 375,
+ "scrollHeight": 812,
+ "bodyText": "Infinite Canvas\nEN\nSwitch to dark theme\nv0.27.0\nVideo Translation\nAI video / Video Translation\nVideo Translation\n\n/tools/ai-video/video-translation\n\nVideo translation\nAI video regeneration\nTarget language: English\nVideo translation\n\nAI video regeneration (experimental) · not sentence-level translation or lip sync\n\nThis is AI video regeneration, not sentence-level translation or lip sync; no real translation channel is connected\n\nThe upstream video endpoint has no source/target language or lip-sync parameters: the language you pick below is only written into the prompt. It cannot guarantee a language swap, subtitles or lip alignment. Treat every result as an unverified draft and have a human confirm it before use.\n\nBased on the r27 protocol investigation (commit 1ef24fba): the sub2api MiniMax video endpoint exposes no translation fields.\n\nSource video\nNot uploaded\nUpload source video\n00 / 1 items · MP4 / MOV · ≤ 100 MB\nClick to choose a local file, or drop it here\nValidates format / size / pixels; saved to the asset library and restored after refresh\n\nNo assets yet\n\nMP4 or MOV, up to 100MB. Use a clip with a clear picture and complete audio (2–30 seconds recommended).\n\nUpload the source video first.\nSource language → target language (prompt only)\nPrompt guidance only · no language field upstream, not guaranteed\nSource language (auto-detect by default)\nAuto-detect\nEnglish\nSimplified Chinese (简体中文)\nJapanese (日本語)\nKorean (한국어)\nSpanish (Español)\nPortuguese (Português)\nFrench (Français)\nGerman (Deutsch)\nItalian (Italiano)\nRussian (Русский)\nArabic (العربية)\nThai (ไทย)\nVietnamese (Tiếng Việt)\nIndonesian (Bahasa Indonesia)\nTurkish (Türkçe)\nHindi (हिन्दी)\nTarget language\nEnglish\nSimplified Chinese (简体中文)\nJapanese (日本語)\nKorean (한국어)\nSpanish (Español)\nPortuguese (Português)\nFrench (Français)\nGerman (Deutsch)\nItalian (Italiano)\nRussian (Русский)\nArabic (العربية)\nThai (ไทย)\nVietnamese (Tiếng Việt)\nIndonesian (Bahasa Indonesia)\nTurkish (Türkçe)\nHindi (हिन्दी)\n\nThe source language is only written into the prompt; the upstream model does not actually detect it.\n\nLip sync (unsupported by the current channel)\n\nNo lipSync parameter upstream: the switch is disabled, the field is not sent, and no lip alignment is performed.\n\nMode and output\nStandard\nAdvanced\nOutput count\n1 video\n2 videos\n3 videos\n4 videos\n\nThe current channel returns exactly 1 result per run.\n\nOutput aspect\nFollow source video\n1:1 square\n3:4 portrait\n4:3 landscape\n16:9 landscape\n9:16 vertical\n21:9 ultrawide\n\nOutput aspect for this run: 16:9 landscape (1280x720)\n\nSource resolution is unavailable, so the source aspect cannot be followed: requesting 16:9 landscape (1280x720); the final aspect is up to the upstream.\n\nVideo model\ngrok-imagine-video（Default provider）\nGenerate now\n\nUpload the source video before generating.\n\nAI regeneration result (unverified translation)\nUnverified translation · confirm language and subtitles manually\n\nSource video\n\nPreview the source video here after you upload it\n\nRegenerated video\n\nRegenerated videos appear here after you submit; language and subtitles need manual confirmation.\nAI regeneration result (unverified translation)\n\nNo results yet\n\nFill in the settings and submit; results appear here for preview, download, saving to assets, or sending to the canvas.\n\nTask history\nSelect a past task to load it into the result pane above.\nHistory\n0 records\n\nNo regeneration tasks yet; real task records appear here after you submit.\n\nHistory may contain older “translation” results; confirm language and subtitles manually as well.\n\nConnect local Agent\nDisconnected\nOne click starts the local service, installs the plugin and connects — no manual setup.\nClaude Code\nNot connected\n·\nCLI · 2.1.285 (Claude Code)\n·\nDirect run\nConnect\nCodex\nNot connected\n·\nCLI · codex-cli 0.163.0\n·\nPlugin installed\nConnect\nGalley\nNot connected\n·\nCLI + Desktop app · galley 0.6.4\nConnect",
+ "blocks": {
+  "h1": {
+   "text": "Video Translation",
+   "rect": [
+    29,
+    145,
+    109,
+    24
+   ]
+  },
+  "breadcrumb": "Infinite Canvas\nEN\nSwitch to dark theme\nv0.27.0",
+  "aside": "AI videoImage to VideoSales Talk VideoVideo ReplicationVideo EditingVideo TranslationVideo ConcatSupplementalDisclaimer",
+  "notice": {
+   "testid": "[data-testid=\"video-translation-honesty-notice\"]",
+   "exists": true,
+   "text": "This is AI video regeneration, not sentence-level translation or lip sync; no real translation channel is connected\n\nThe upstream video endpoint has no source/target language or lip-sync parameters: the language you pick below is only written into the prompt. It cannot guarantee a language swap, subtitles or lip alignment. Treat every result as an unverified draft and have a human confirm it before use.\n\nBased on the r27 protocol investigation (commit 1ef24fba): the sub2api MiniMax video endpoint exposes no translation fields.",
+   "rect": [
+    45,
+    355,
+    285,
+    318
+   ],
+   "visible": true,
+   "fontSize": "12px",
+   "lineHeight": "20px",
+   "color": "oklch(0.473 0.137 46.201)",
+   "bg": "oklch(0.987 0.022 95.277)"
+  },
+  "noticeTitle": {
+   "testid": "[data-testid=\"video-translation-honesty-title\"]",
+   "exists": true,
+   "text": "This is AI video regeneration, not sentence-level translation or lip sync; no real translation channel is connected",
+   "rect": [
+    82,
+    366,
+    235,
+    60
+   ],
+   "visible": true,
+   "fontSize": "12px",
+   "lineHeight": "20px",
+   "color": "oklch(0.473 0.137 46.201)",
+   "bg": "rgba(0, 0, 0, 0)"
+  },
+  "noticeBody": {
+   "testid": "[data-testid=\"video-translation-honesty-body\"]",
+   "exists": true,
+   "text": "The upstream video endpoint has no source/target language or lip-sync parameters: the language you pick below is only written into the prompt. It cannot guarantee a language swap, subtitles or lip alignment. Treat every result as an unverified draft and have a human confirm it before use.",
+   "rect": [
+    58,
+    438,
+    259,
+    140
+   ],
+   "visible": true,
+   "fontSize": "12px",
+   "lineHeight": "20px",
+   "color": "oklch(0.473 0.137 46.201)",
+   "bg": "rgba(0, 0, 0, 0)"
+  },
+  "badge": {
+   "testid": "[data-testid=\"video-translation-capability-badge\"]",
+   "exists": true,
+   "text": "AI video regeneration",
+   "rect": [
+    97,
+    246,
+    81,
+    41
+   ],
+   "visible": true,
+   "fontSize": "11px",
+   "lineHeight": "17.2857px",
+   "color": "oklch(0.555 0.163 48.998)",
+   "bg": "oklch(0.987 0.022 95.277)"
+  },
+  "draftBadge": {
+   "testid": "[data-testid=\"video-translation-draft-badge\"]",
+   "exists": true,
+   "text": "Unverified translation · confirm language and subtitles manually",
+   "rect": [
+    45,
+    2186,
+    285,
+    41
+   ],
+   "visible": true,
+   "fontSize": "11px",
+   "lineHeight": "17.2857px",
+   "color": "oklch(0.555 0.163 48.998)",
+   "bg": "oklch(0.987 0.022 95.277)"
+  },
+  "dropzone": {
+   "testid": "[data-testid=\"tool-asset-dropzone\"]",
+   "exists": true,
+   "text": "Click to choose a local file, or drop it here\nValidates format / size / pixels; saved to the asset library and restored after refresh",
+   "rect": [
+    58,
+    792,
+    259,
+    134
+   ],
+   "visible": true,
+   "fontSize": "12px",
+   "lineHeight": "16px",
+   "color": "oklch(0.145 0 0)",
+   "bg": "rgba(0, 0, 0, 0)"
+  },
+  "uploadSection": {
+   "testid": "[data-testid=\"video-translation-config\"]",
+   "exists": true,
+   "text": "Source video\nNot uploaded\nUpload source video\n00 / 1 items · MP4 / MOV · ≤ 100 MB\nClick to choose a local file, or drop it here\nValidates format / size / pixels; saved to the asset library and restored after refresh\n\nNo assets yet\n\nMP4 or MOV, up to 100MB. Use a clip with a clear picture and complete audio (2–30 seconds recommended).\n\nUpload the source video first.\nSource language → target language (prompt only)\nPrompt guidance only · no language field upstream, not guaranteed\nSource language (auto-detect by default)\nAuto-detect\nEnglish\nSimplified Chinese (简体中文)\nJapanese (日本語)\nKorean (한국어)\nSpanish (Español)\nPortuguese (Português)\nFrench (Français)\nGerman (Deutsch)\nItalian (Italiano)\nRussian (Русский)\nArabic (العربية)\nThai (ไทย)\nVietnamese (Tiếng Việt)\nIndonesian (Bahasa Indonesia)\nTurkish (Türkçe)\nHindi (हिन्दी)\nTarget language\nEnglish\nSimplified Chinese (简体中文)\nJapanese (日本語)\nKorean (한국어)\nSpanish (Español)\nPortuguese (Português)\nFrench (Français)\nGerman (Deutsch)\nItalian (Italiano)\nRussian (Русский)\nArabic (العربية)\nThai (ไทย)\nVietnamese (Tiếng Việt)\nIndonesian (Bahasa Indonesia)\nTurkish (Türkçe)\nHindi (हिन्दी)\n\nThe source language is only written into the prompt; the upstream mode",
+   "rect": [
+    45,
+    685,
+    285,
+    1423
+   ],
+   "visible": true,
+   "fontSize": "14px",
+   "lineHeight": "22px",
+   "color": "oklch(0.145 0 0)",
+   "bg": "rgba(0, 0, 0, 0)"
+  },
+  "language": {
+   "testid": "[data-testid=\"video-translation-language\"]",
+   "exists": true,
+   "text": "Source language → target language (prompt only)\nPrompt guidance only · no language field upstream, not guaranteed\nSource language (auto-detect by default)\nAuto-detect\nEnglish\nSimplified Chinese (简体中文)\nJapanese (日本語)\nKorean (한국어)\nSpanish (Español)\nPortuguese (Português)\nFrench (Français)\nGerman (Deutsch)\nItalian (Italiano)\nRussian (Русский)\nArabic (العربية)\nThai (ไทย)\nVietnamese (Tiếng Việt)\nIndonesian (Bahasa Indonesia)\nTurkish (Türkçe)\nHindi (हिन्दी)\nTarget language\nEnglish\nSimplified Chinese (简体中文)\nJapanese (日本語)\nKorean (한국어)\nSpanish (Español)\nPortuguese (Português)\nFrench (Français)\nGerman (Deutsch)\nItalian (Italiano)\nRussian (Русский)\nArabic (العربية)\nThai (ไทย)\nVietnamese (Tiếng Việt)\nIndonesian (Bahasa Indonesia)\nTurkish (Türkçe)\nHindi (हिन्दी)\n\nThe source language is only written into the prompt; the upstream model does not actually detect it.",
+   "rect": [
+    45,
+    1095,
+    285,
+    278
+   ],
+   "visible": true,
+   "fontSize": "14px",
+   "lineHeight": "22px",
+   "color": "oklch(0.145 0 0)",
+   "bg": "rgba(0, 0, 0, 0)"
+  },
+  "languageBadge": {
+   "testid": "[data-testid=\"video-translation-language-badge\"]",
+   "exists": true,
+   "text": "Prompt guidance only · no language field upstream, not guaranteed",
+   "rect": [
+    192,
+    1110,
+    125,
+    63
+   ],
+   "visible": true,
+   "fontSize": "10px",
+   "lineHeight": "15.7143px",
+   "color": "oklch(0.555 0.163 48.998)",
+   "bg": "rgba(0, 0, 0, 0)"
+  },
+  "languageHint": {
+   "testid": "[data-testid=\"video-translation-language-hint\"]",
+   "exists": true,
+   "text": "The source language is only written into the prompt; the upstream model does not actually detect it.",
+   "rect": [
+    58,
+    1301,
+    259,
+    48
+   ],
+   "visible": true,
+   "fontSize": "11px",
+   "lineHeight": "16px",
+   "color": "oklch(0.556 0 0)",
+   "bg": "rgba(0, 0, 0, 0)"
+  },
+  "lipsync": {
+   "testid": "[data-testid=\"video-translation-lipsync\"]",
+   "exists": true,
+   "text": "Lip sync (unsupported by the current channel)\n\nNo lipSync parameter upstream: the switch is disabled, the field is not sent, and no lip alignment is performed.",
+   "rect": [
+    45,
+    1389,
+    285,
+    140
+   ],
+   "visible": true,
+   "fontSize": "14px",
+   "lineHeight": "22px",
+   "color": "oklch(0.145 0 0)",
+   "bg": "rgba(0, 0, 0, 0)"
+  },
+  "lipsyncHint": {
+   "testid": "[data-testid=\"video-translation-lipsync-hint\"]",
+   "exists": true,
+   "text": "No lipSync parameter upstream: the switch is disabled, the field is not sent, and no lip alignment is performed.",
+   "rect": [
+    58,
+    1457,
+    259,
+    48
+   ],
+   "visible": true,
+   "fontSize": "11px",
+   "lineHeight": "16px",
+   "color": "oklch(0.556 0 0)",
+   "bg": "rgba(0, 0, 0, 0)"
+  },
+  "outputHint": {
+   "testid": "[data-testid=\"video-translation-output-hint\"]",
+   "exists": true,
+   "text": "The current channel returns exactly 1 result per run.",
+   "rect": [
+    58,
+    1680,
+    259,
+    32
+   ],
+   "visible": true,
+   "fontSize": "11px",
+   "lineHeight": "16px",
+   "color": "oklch(0.556 0 0)",
+   "bg": "rgba(0, 0, 0, 0)"
+  },
+  "aspectSummary": {
+   "testid": "[data-testid=\"video-translation-aspect-summary\"]",
+   "exists": true,
+   "text": "Output aspect for this run: 16:9 landscape (1280x720)",
+   "rect": [
+    58,
+    1782,
+    259,
+    40
+   ],
+   "visible": true,
+   "fontSize": "12px",
+   "lineHeight": "20px",
+   "color": "oklch(0.556 0 0)",
+   "bg": "rgba(0, 0, 0, 0)"
+  },
+  "aspectNotice": {
+   "testid": "[data-testid=\"video-translation-aspect-notice\"]",
+   "exists": true,
+   "text": "Source resolution is unavailable, so the source aspect cannot be followed: requesting 16:9 landscape (1280x720); the final aspect is up to the upstream.",
+   "rect": [
+    58,
+    1834,
+    259,
+    82
+   ],
+   "visible": true,
+   "fontSize": "11px",
+   "lineHeight": "16px",
+   "color": "oklch(0.473 0.137 46.201)",
+   "bg": "oklch(0.987 0.022 95.277)"
+  },
+  "result": {
+   "testid": "[data-testid=\"tool-result\"]",
+   "exists": true,
+   "text": "AI regeneration result (unverified translation)\n\nNo results yet\n\nFill in the settings and submit; results appear here for preview, download, saving to assets, or sending to the canvas.",
+   "rect": [
+    45,
+    2647,
+    285,
+    301
+   ],
+   "visible": true,
+   "fontSize": "14px",
+   "lineHeight": "22px",
+   "color": "oklch(0.145 0 0)",
+   "bg": "oklch(1 0 0)"
+  },
+  "resultEmpty": {
+   "testid": "[data-testid=\"tool-result-empty\"]",
+   "exists": true,
+   "text": "No results yet\n\nFill in the settings and submit; results appear here for preview, download, saving to assets, or sending to the canvas.",
+   "rect": [
+    62,
+    2723,
+    251,
+    208
+   ],
+   "visible": true,
+   "fontSize": "14px",
+   "lineHeight": "20px",
+   "color": "oklch(0.556 0 0)",
+   "bg": "rgba(0, 0, 0, 0)"
+  },
+  "history": {
+   "testid": "[data-testid=\"video-translation-history\"]",
+   "exists": true,
+   "text": "Task history\nSelect a past task to load it into the result pane above.\nHistory\n0 records\n\nNo regeneration tasks yet; real task records appear here after you submit.\n\nHistory may contain older “translation” results; confirm language and subtitles manually as well.",
+   "rect": [
+    45,
+    2960,
+    285,
+    229
+   ],
+   "visible": true,
+   "fontSize": "14px",
+   "lineHeight": "22px",
+   "color": "oklch(0.145 0 0)",
+   "bg": "rgba(0, 0, 0, 0)"
+  },
+  "historyCount": {
+   "testid": "[data-testid=\"tool-task-history-count\"]",
+   "exists": true,
+   "text": "0 records",
+   "rect": [
+    254,
+    3041,
+    50,
+    17
+   ],
+   "visible": true,
+   "fontSize": "11px",
+   "lineHeight": "17.2857px",
+   "color": "oklch(0.556 0 0)",
+   "bg": "rgba(0, 0, 0, 0)"
+  },
+  "historyEmpty": {
+   "testid": "[data-testid=\"tool-task-history-empty\"]",
+   "exists": true,
+   "text": "No regeneration tasks yet; real task records appear here after you submit.",
+   "rect": [
+    71,
+    3066,
+    233,
+    35
+   ],
+   "visible": true,
+   "fontSize": "11px",
+   "lineHeight": "17.2857px",
+   "color": "oklch(0.556 0 0)",
+   "bg": "rgba(0, 0, 0, 0)"
+  },
+  "historyHint": {
+   "testid": "[data-testid=\"video-translation-history-hint\"]",
+   "exists": true,
+   "text": "History may contain older “translation” results; confirm language and subtitles manually as well.",
+   "rect": [
+    58,
+    3133,
+    259,
+    32
+   ],
+   "visible": true,
+   "fontSize": "11px",
+   "lineHeight": "16px",
+   "color": "oklch(0.556 0 0)",
+   "bg": "rgba(0, 0, 0, 0)"
+  },
+  "workspace": {
+   "testid": "[data-testid=\"tool-workspace\"]",
+   "exists": true,
+   "text": "Video translation\nAI video regeneration\nTarget language: English\nVideo translation\n\nAI video regeneration (experimental) · not sentence-level translation or lip sync\n\nThis is AI video regeneration, not sentence-level translation or lip sync; no real translation channel is connected\n\nThe upstream video endpoint has no source/target language or lip-sync parameters: the language you pick below is only written into the prompt. It cannot guarantee a language swap, subtitles or lip alignment. Treat every result as an unverified draft and have a human confirm it before use.\n\nBased on the r27 protocol investigation (commit 1ef24fba): the sub2api MiniMax video endpoint exposes no translation fields.\n\nSource video\nNot uploaded\nUpload source video\n00 / 1 items · MP4 / MOV · ≤ 100 MB\nClick to choose a local file, or drop it here\nValidates format / size / pixels; saved to the asset library and restored after refresh\n\nNo assets yet\n\nMP4 or MOV, up to 100MB. Use a clip with a clear picture and complete audio (2–30 seconds recommended).\n\nUpload the source video first.\nSource language → target language (prompt only)\nPrompt guidance only · no language field upstream, not guaranteed\nSource language (",
+   "rect": [
+    29,
+    237,
+    317,
+    2968
+   ],
+   "visible": true,
+   "fontSize": "14px",
+   "lineHeight": "22px",
+   "color": "oklch(0.145 0 0)",
+   "bg": "rgba(0, 0, 0, 0)"
+  }
+ },
+ "emptyStates": [
+  {
+   "id": "tool-result-empty",
+   "text": "No results yet\n\nFill in the settings and submit; results appear here for preview, download, saving to assets, or sending to the canvas."
+  },
+  {
+   "id": "tool-task-history-empty",
+   "text": "No regeneration tasks yet; real task records appear here after you submit."
+  },
+  {
+   "id": "video-translation-empty",
+   "missing": true
+  }
+ ],
+ "controls": {
+  "lipsync": {
+   "ariaChecked": "false",
+   "disabled": true,
+   "ariaDisabled": "true",
+   "role": "switch",
+   "cursor": "not-allowed",
+   "opacity": "0.6",
+   "text": ""
+  },
+  "submit": {
+   "text": "Generate now",
+   "disabled": true
+  },
+  "outputSelect": {
+   "id": "video-translation-output-ratio",
+   "value": "source",
+   "count": 7,
+   "texts": [
+    "Follow source video",
+    "1:1 square",
+    "3:4 portrait",
+    "4:3 landscape",
+    "16:9 landscape",
+    "9:16 vertical",
+    "21:9 ultrawide"
+   ]
+  }
+ },
+ "residue": [],
+ "attrResidue": [
+  {
+   "attr": "aria-label",
+   "value": "Switch to 简体中文",
+   "tag": "BUTTON",
+   "testid": null,
+   "region": "shell-top-nav"
+  }
+ ],
+ "options": [
+  {
+   "id": "video-translation-source-language",
+   "value": "auto",
+   "options": [
+    {
+     "text": "Auto-detect",
+     "value": "auto"
+    },
+    {
+     "text": "English",
+     "value": "en"
+    },
+    {
+     "text": "Simplified Chinese (简体中文)",
+     "value": "zh"
+    },
+    {
+     "text": "Japanese (日本語)",
+     "value": "ja"
+    },
+    {
+     "text": "Korean (한국어)",
+     "value": "ko"
+    },
+    {
+     "text": "Spanish (Español)",
+     "value": "es"
+    },
+    {
+     "text": "Portuguese (Português)",
+     "value": "pt"
+    },
+    {
+     "text": "French (Français)",
+     "value": "fr"
+    },
+    {
+     "text": "German (Deutsch)",
+     "value": "de"
+    },
+    {
+     "text": "Italian (Italiano)",
+     "value": "it"
+    },
+    {
+     "text": "Russian (Русский)",
+     "value": "ru"
+    },
+    {
+     "text": "Arabic (العربية)",
+     "value": "ar"
+    },
+    {
+     "text": "Thai (ไทย)",
+     "value": "th"
+    },
+    {
+     "text": "Vietnamese (Tiếng Việt)",
+     "value": "vi"
+    },
+    {
+     "text": "Indonesian (Bahasa Indonesia)",
+     "value": "id"
+    },
+    {
+     "text": "Turkish (Türkçe)",
+     "value": "tr"
+    },
+    {
+     "text": "Hindi (हिन्दी)",
+     "value": "hi"
+    }
+   ]
+  },
+  {
+   "id": "video-translation-target-language",
+   "value": "en",
+   "options": [
+    {
+     "text": "English",
+     "value": "en"
+    },
+    {
+     "text": "Simplified Chinese (简体中文)",
+     "value": "zh"
+    },
+    {
+     "text": "Japanese (日本語)",
+     "value": "ja"
+    },
+    {
+     "text": "Korean (한국어)",
+     "value": "ko"
+    },
+    {
+     "text": "Spanish (Español)",
+     "value": "es"
+    },
+    {
+     "text": "Portuguese (Português)",
+     "value": "pt"
+    },
+    {
+     "text": "French (Français)",
+     "value": "fr"
+    },
+    {
+     "text": "German (Deutsch)",
+     "value": "de"
+    },
+    {
+     "text": "Italian (Italiano)",
+     "value": "it"
+    },
+    {
+     "text": "Russian (Русский)",
+     "value": "ru"
+    },
+    {
+     "text": "Arabic (العربية)",
+     "value": "ar"
+    },
+    {
+     "text": "Thai (ไทย)",
+     "value": "th"
+    },
+    {
+     "text": "Vietnamese (Tiếng Việt)",
+     "value": "vi"
+    },
+    {
+     "text": "Indonesian (Bahasa Indonesia)",
+     "value": "id"
+    },
+    {
+     "text": "Turkish (Türkçe)",
+     "value": "tr"
+    },
+    {
+     "text": "Hindi (हिन्दी)",
+     "value": "hi"
+    }
+   ]
+  },
+  {
+   "id": null,
+   "value": "1",
+   "options": [
+    {
+     "text": "1 video",
+     "value": "1"
+    },
+    {
+     "text": "2 videos",
+     "value": "2"
+    },
+    {
+     "text": "3 videos",
+     "value": "3"
+    },
+    {
+     "text": "4 videos",
+     "value": "4"
+    }
+   ]
+  },
+  {
+   "id": "video-translation-output-ratio",
+   "value": "source",
+   "options": [
+    {
+     "text": "Follow source video",
+     "value": "source"
+    },
+    {
+     "text": "1:1 square",
+     "value": "1:1"
+    },
+    {
+     "text": "3:4 portrait",
+     "value": "3:4"
+    },
+    {
+     "text": "4:3 landscape",
+     "value": "4:3"
+    },
+    {
+     "text": "16:9 landscape",
+     "value": "16:9"
+    },
+    {
+     "text": "9:16 vertical",
+     "value": "9:16"
+    },
+    {
+     "text": "21:9 ultrawide",
+     "value": "21:9"
+    }
+   ]
+  }
+ ],
+ "overflow": {
+  "vw": 375,
+  "docScrollWidth": 375,
+  "bad": [
+   {
+    "tag": "ASIDE",
+    "testid": null,
+    "left": 375,
+    "right": 815,
+    "w": 440,
+    "text": "Connect local Agent\nDisconnected\nOne click starts "
+   },
+   {
+    "tag": "BUTTON",
+    "testid": null,
+    "left": 368,
+    "right": 384,
+    "w": 16,
+    "text": ""
+   },
+   {
+    "tag": "DIV",
+    "testid": null,
+    "left": 376,
+    "right": 815,
+    "w": 439,
+    "text": ""
+   },
+   {
+    "tag": "DIV",
+    "testid": null,
+    "left": 384,
+    "right": 807,
+    "w": 423,
+    "text": ""
+   },
+   {
+    "tag": "DIV",
+    "testid": null,
+    "left": 384,
+    "right": 452,
+    "w": 68,
+    "text": ""
+   },
+   {
+    "tag": "DIV",
+    "testid": null,
+    "left": 384,
+    "right": 452,
+    "w": 68,
+    "text": ""
+   },
+   {
+    "tag": "SPAN",
+    "testid": null,
+    "left": 384,
+    "right": 416,
+    "w": 32,
+    "text": ""
+   },
+   {
+    "tag": "svg",
+    "testid": null,
+    "left": 392,
+    "right": 408,
+    "w": 16,
+    "text": ""
+   },
+   {
+    "tag": "path",
+    "testid": null,
+    "left": 397,
+    "right": 400,
+    "w": 3,
+    "text": ""
+   },
+   {
+    "tag": "rect",
+    "testid": null,
+    "left": 395,
+    "right": 405,
+    "w": 11,
+    "text": ""
+   },
+   {
+    "tag": "path",
+    "testid": null,
+    "left": 393,
+    "right": 395,
+    "w": 1,
+    "text": ""
+   },
+   {
+    "tag": "path",
+    "testid": null,
+    "left": 405,
+    "right": 407,
+    "w": 1,
+    "text": ""
+   },
+   {
+    "tag": "BUTTON",
+    "testid": null,
+    "left": 420,
+    "right": 452,
+    "w": 32,
+    "text": ""
+   },
+   {
+    "tag": "SPAN",
+    "testid": null,
+    "left": 429,
+    "right": 443,
+    "w": 14,
+    "text": ""
+   },
+   {
+    "tag": "svg",
+    "testid": null,
+    "left": 429,
+    "right": 443,
+    "w": 14,
+    "text": ""
+   },
+   {
+    "tag": "path",
+    "testid": null,
+    "left": 431,
+    "right": 436,
+    "w": 5,
+    "text": ""
+   },
+   {
+    "tag": "path",
+    "testid": null,
+    "left": 430,
+    "right": 432,
+    "w": 2,
+    "text": ""
+   },
+   {
+    "tag": "path",
+    "testid": null,
+    "left": 433,
+    "right": 435,
+    "w": 1,
+    "text": ""
+   },
+   {
+    "tag": "path",
+    "testid": null,
+    "left": 435,
+    "right": 437,
+    "w": 1,
+    "text": ""
+   },
+   {
+    "tag": "path",
+    "testid": null,
+    "left": 437,
+    "right": 441,
+    "w": 4,
+    "text": ""
+   }
+  ],
+  "badCount": 126
+ }
+}

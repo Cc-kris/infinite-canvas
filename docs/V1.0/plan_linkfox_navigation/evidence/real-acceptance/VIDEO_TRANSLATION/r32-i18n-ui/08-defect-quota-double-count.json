@@ -1,0 +1,25 @@
+{
+ "id": "D1",
+ "severity": "P2 (visible text regression, both locales)",
+ "symptom": "upload quota line renders duplicated leading count: '00 / 1 items' (EN) / '00 / 1 个' (ZH)",
+ "dom": {
+  "EN": {
+   "span_text": "00 / 1 items · MP4 / MOV · ≤ 100 MB",
+   "child_text_nodes": [
+    "0",
+    "0 / 1 items · MP4 / MOV · ≤ 100 MB"
+   ]
+  },
+  "ZH": {
+   "span_text": "00 / 1 个 · MP4 / MOV · ≤ 100 MB",
+   "child_text_nodes": [
+    "0",
+    "0 / 1 个 · MP4 / MOV · ≤ 100 MB"
+   ]
+  }
+ },
+ "cause": "web/src/components/tools/tool-asset-input.tsx keeps a bare {readyCount} child AND the new t('toolChrome.quotaLine') whose value interpolates {{ready}} -> count printed twice",
+ "pre_commit_behaviour": "before f53da52a the JSX was {readyCount}{maxCount ? ' / '+maxCount : ''} 个 … -> '0 / 1 个' (single zero)",
+ "introduced_by": "f53da52a (diff hunk @@ -328,7 +330,12 @@ tool-asset-input.tsx)",
+ "not_fixed_here": "read-only acceptance: source untouched (per task constraint)"
+}

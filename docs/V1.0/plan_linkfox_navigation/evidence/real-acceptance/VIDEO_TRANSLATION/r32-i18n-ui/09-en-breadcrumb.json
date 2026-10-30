@@ -1,0 +1,59 @@
+{
+ "htmlLang": "en-US",
+ "locale": "en-US",
+ "headerTexts": [
+  "Infinite Canvas / Home / E-commerce Sets / Smart Retouch",
+  "AI video / Video Translation / Video Translation /  / /tools/ai-video/video-translation",
+  "AI regeneration result (unverified translation)"
+ ],
+ "breadcrumbCandidates": [
+  {
+   "t": "HEADER",
+   "cls": "sticky top-0 z-[7] h-14 shrink-0 border-b border-hairline bg-surface/95 backdrop-blur supports-[backdrop-filter]:bg-surface/80",
+   "text": "Infinite Canvas / Home / E-commerce Sets / Smart Retouch / New / AI Video"
+  },
+  {
+   "t": "NAV",
+   "cls": "hide-scrollbar flex h-full min-w-0 items-center gap-1 overflow-x-auto",
+   "text": "Home / E-commerce Sets / Smart Retouch / New / AI Video / HOT"
+  },
+  {
+   "t": "NAV",
+   "cls": "hidden items-center gap-1 lg:flex",
+   "text": ""
+  },
+  {
+   "t": "NAV",
+   "cls": "flex h-full flex-col overflow-y-auto",
+   "text": "AI video / Image to Video / Sales Talk Video / Video Replication / Video Editing / Video Translation"
+  },
+  {
+   "t": "HEADER",
+   "cls": "flex min-h-14 shrink-0 flex-wrap items-center gap-3 border-b border-hairline px-4 py-3 sm:px-5",
+   "text": "AI video / Video Translation / Video Translation /  / /tools/ai-video/video-translation"
+  },
+  {
+   "t": "MAIN",
+   "cls": "min-h-0 flex-1 overflow-y-auto bg-transparent px-4 py-4 sm:px-5",
+   "text": "Video translation / AI video regeneration / Target language: English / Video translation /  / AI video regeneration (experimental) · not sentence-level translation or lip sync"
+  },
+  {
+   "t": "HEADER",
+   "cls": "flex flex-wrap items-center gap-2",
+   "text": "AI regeneration result (unverified translation)"
+  },
+  {
+   "t": "NAV",
+   "cls": "@container flex min-w-0 flex-1 items-center justify-center gap-0.5 overflow-hidden text-sm @min-[560px]:gap-3",
+   "text": ""
+  }
+ ],
+ "workspaceTop": [
+  "Video translation",
+  "AI video regeneration",
+  "Target language: English",
+  "Video translation",
+  "",
+  "AI video regeneration (experimental) · not sentence-level translation or lip sync"
+ ]
+}

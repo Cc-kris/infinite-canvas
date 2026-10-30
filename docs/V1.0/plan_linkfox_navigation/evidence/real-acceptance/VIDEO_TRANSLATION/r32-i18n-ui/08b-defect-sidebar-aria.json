@@ -1,0 +1,17 @@
+{
+ "id": "D2",
+ "severity": "P3 (ARIA i18n gap, EN)",
+ "symptom": "EN page: tool sidebar nav keeps Chinese aria-label=\"工具\"",
+ "evidence": {
+  "attrResidue_en": [
+   {
+    "attr": "aria-label",
+    "value": "工具",
+    "region": "aside",
+    "selector": "nav[aria-label] inside [data-testid=tool-sidebar]"
+   }
+  ]
+ },
+ "source": "web/src/components/tools/tool-sidebar.tsx:106 <nav aria-label=\"工具\" …> (hardcoded)",
+ "note": "visible text is fully English; only the accessibility name is untranslated"
+}

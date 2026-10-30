@@ -1,0 +1,239 @@
+{
+ "home": {
+  "url": "http://127.0.0.1:3000/",
+  "title": "无限画布",
+  "h1": "无限画布",
+  "links": [
+   {
+    "href": "/",
+    "text": "无限画布"
+   },
+   {
+    "href": "/",
+    "text": "首页"
+   },
+   {
+    "href": "/tools/ecommerce-suite",
+    "text": "电商套图"
+   },
+   {
+    "href": "/tools/smart-edit",
+    "text": "智能修图\n新模型"
+   },
+   {
+    "href": "/tools/ai-video",
+    "text": "AI视频\nHOT"
+   },
+   {
+    "href": "/tools/batch-generate",
+    "text": "批量生图"
+   },
+   {
+    "href": "/tools/product-design",
+    "text": "商品图设计"
+   },
+   {
+    "href": "/canvas",
+    "text": ""
+   },
+   {
+    "href": "/image",
+    "text": ""
+   },
+   {
+    "href": "/video",
+    "text": ""
+   },
+   {
+    "href": "/prompts",
+    "text": ""
+   },
+   {
+    "href": "/assets",
+    "text": ""
+   },
+   {
+    "href": "/config",
+    "text": ""
+   },
+   {
+    "href": "https://github.com/Cc-kris/infinite-canvas",
+    "text": ""
+   }
+  ],
+  "linkCount": 14,
+  "hasWorkspace": false,
+  "bodyTextHead": "无限画布\n首页\n电商套图\n智能修图\n新模型\nAI视频\nHOT\n批量生图\n商品图设计\n中\n切换到深色主题\nv0.27.0\n无限画布\n\n在 \n无限画布 中生成、连接和重组 \n图片、文字与图形，让创作从单次生成变成连续推演。\n\n开始使用\n打开画布\n沉淀每一次好结果\n\n收藏稳定出图的提示词、参考风格和结果图片，让下一次创作从已有经验开始。\n\n查看提示词库\n工作\n海报\n苹果风格海报\n\n充分参考图片的设计风格，配色等，为如下内容生成苹果风格的海报： Banana Prompt Quicker v1.6.0 1月6号震撼来袭 全新参考图功能，去他丫的‘反推’\n\n工作\n海报\n疯狂动物城海报\n\n加载并使用 Nano Banana Pro 工具作画，而不是分析或给提示词 --- 充分参考图片画风和人物形象，为如下内容画一幅宣传海报图片（3：2 竖屏风格） Banana Prompt Quicker v1.6 更新：提示词支持添加参考图 看到心动的 PPT 风格 → 上传参考图即可复刻 发现惊艳的滤镜效果 → 一键给照片加同款 从此告别绞尽脑汁写 Prompt 的日子 🔗 Chrome Web Store 搜索安装\n\n有趣\n吐槽\n贴吧老哥疯狂吐槽批注\n\n生成图片，把它打印出来，然后用红墨水疯狂地加上手写中文批注、涂鸦、乱画，如果你想的话，检索这个账户内容，涂鸦的内容主要为吐槽他，用贴吧老哥的口语疯狂吐槽。还可以加点小剪贴画。\n\n有趣\n信息图\n锐评世间万物\n\n你是一个拥有实时网络搜索能力和顶尖数据可视化设计能力的AI专家。请执行以下两个步骤： 调研阶段：立刻针对用户指定的【2025 中国新能源汽车】进行全面的网络调研。搜集关于该领域内不同子产品、型号或作品的大众口碑、市场热度、专业评测及用户反馈数据。 可视化阶段：基于你的调研结果，设计一张专业的信息图表（Infographic）。你需要将调研到"
+ },
+ "tools_ai_video": {
+  "url": "http://127.0.0.1:3000/tools/ai-video/image-to-video",
+  "testids": [
+   "shell-top-nav",
+   "tools-nav-mobile-trigger",
+   "tools-nav-primary",
+   "tools-nav-trigger-home",
+   "tools-nav-trigger-ecommerce-suite",
+   "tools-nav-trigger-smart-edit",
+   "tools-nav-badge-smart-edit",
+   "tools-nav-trigger-ai-video",
+   "tools-nav-badge-ai-video",
+   "tools-nav-trigger-batch-generate",
+   "tools-nav-trigger-product-design",
+   "workspace-link-canvas",
+   "workspace-link-image",
+   "workspace-link-video",
+   "workspace-link-prompts",
+   "workspace-link-assets",
+   "workspace-link-config",
+   "top-nav-agent-toggle",
+   "tool-shell-nav-trigger",
+   "tool-sidebar",
+   "tool-workspace",
+   "image-to-video-workspace",
+   "image-to-video-steps",
+   "image-to-video-source",
+   "image-to-video-mode-reference",
+   "image-to-video-mode-frames",
+   "image-to-video-mode-product-link",
+   "tool-asset-dropzone",
+   "tool-asset-file-input",
+   "image-to-video-product-info",
+   "image-to-video-analyze",
+   "image-to-video-type",
+   "image-to-video-type-product-showcase",
+   "image-to-video-type-ugc-seed",
+   "image-to-video-type-pain-point",
+   "image-to-video-type-home-scene",
+   "image-to-video-prompt-mode-template",
+   "image-to-video-prompt-mode-custom",
+   "image-to-video-prompt",
+   "image-to-video-optimizer"
+  ],
+  "links": [
+   {
+    "href": "/tools/ai-video/video-translation",
+    "text": "视频翻译"
+   }
+  ]
+ },
+ "tools_list": {
+  "url": "http://127.0.0.1:3000/tools/ai-video/image-to-video",
+  "h1": "图转视频",
+  "entries": [
+   {
+    "href": "/tools/ai-video/image-to-video",
+    "text": "图转视频"
+   },
+   {
+    "href": "/tools/ai-video/sale-video",
+    "text": "带货口播"
+   },
+   {
+    "href": "/tools/ai-video/video-replication",
+    "text": "视频复刻"
+   },
+   {
+    "href": "/tools/ai-video/ai-video-editing",
+    "text": "视频编辑"
+   },
+   {
+    "href": "/tools/ai-video/video-translation",
+    "text": "视频翻译"
+   },
+   {
+    "href": "/tools/ai-video/video-concat",
+    "text": "视频拼接\n补充"
+   }
+  ]
+ },
+ "entry_from_list": {
+  "url": "http://127.0.0.1:3000/tools/ai-video/video-translation",
+  "h1": "视频翻译",
+  "notice": "当前为 AI 视频重生成，非逐句翻译 / 口型对齐；真实翻译通道未接入\n\n上游视频接口没有源语言、目标语言与口型同步参数：下面选择的目标语言只会写进提示词，不能保证换语言、换字幕或对齐口型。结果请按「未验证草稿」处理，人工确认后再用于投放。\n\n依据 r27 协议调查（提交 1ef24fba）：sub2api MiniMax 视频接口无翻译字段。",
+  "workspace": true
+ },
+ "canvas": {
+  "url": "http://127.0.0.1:3000/canvas",
+  "title": "无限画布",
+  "hasCanvas": true,
+  "testids": [
+   "shell-top-nav",
+   "tools-nav-mobile-trigger",
+   "tools-nav-primary",
+   "tools-nav-trigger-home",
+   "tools-nav-trigger-ecommerce-suite",
+   "tools-nav-trigger-smart-edit",
+   "tools-nav-badge-smart-edit",
+   "tools-nav-trigger-ai-video",
+   "tools-nav-badge-ai-video",
+   "tools-nav-trigger-batch-generate",
+   "tools-nav-trigger-product-design",
+   "workspace-link-canvas",
+   "workspace-link-image",
+   "workspace-link-video",
+   "workspace-link-prompts",
+   "workspace-link-assets",
+   "workspace-link-config",
+   "top-nav-agent-toggle"
+  ],
+  "links": [
+   {
+    "href": "/",
+    "text": "无限画布"
+   },
+   {
+    "href": "/",
+    "text": "首页"
+   },
+   {
+    "href": "/tools/ecommerce-suite",
+    "text": "电商套图"
+   },
+   {
+    "href": "/tools/smart-edit",
+    "text": "智能修图\n新模型"
+   },
+   {
+    "href": "/tools/ai-video",
+    "text": "AI视频\nHOT"
+   },
+   {
+    "href": "/tools/batch-generate",
+    "text": "批量生图"
+   },
+   {
+    "href": "/tools/product-design",
+    "text": "商品图设计"
+   },
+   {
+    "href": "/canvas",
+    "text": ""
+   },
+   {
+    "href": "/image",
+    "text": ""
+   },
+   {
+    "href": "/video",
+    "text": ""
+   },
+   {
+    "href": "/prompts",
+    "text": ""
+   },
+   {
+    "href": "/assets",
+    "text": ""
+   },
+   {
+    "href": "/config",
+    "text": ""
+   },
+   {
+    "href": "https://github.com/Cc-kris/infinite-canvas",
+    "text": ""
+   }
+  ],
+  "bodyTextHead": "无限画布\n首页\n电商套图\n智能修图\n新模型\nAI视频\nHOT\n批量生图\n商品图设计\n中\n切换到深色主题\nv0.27.0\n\n画布库\n\n无限画布\n导入画布\n新建画布\n还没有画布\n\n新建一个画布后，就可以独立保存节点、连线和画布外观。\n\n新建画布\n连接本地 Agent\n未连接\n点连接会自动启动本地服务、装好插件并接通，无需手动配置。\nClaude Code\n未连接\n·\nCLI · 2.1.285 (Claude Code)\n·\n直接运行\n连接\nCodex\n未连接\n·\nCLI · codex-cli 0.163.0\n·\n插件已装\n连接\nGalley\n未连接\n·\nCLI + 桌面版 · galley 0.6.4\n连接"
+ }
+}

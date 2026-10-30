@@ -1,0 +1,34 @@
+{
+ "vw": 375,
+ "docScroll": 375,
+ "bodyScroll": 375,
+ "badCount": 0,
+ "bad": [],
+ "asideRects": [
+  {
+   "l": 0,
+   "w": 0
+  },
+  {
+   "l": 375,
+   "w": 440
+  }
+ ],
+ "ws": {
+  "l": 29,
+  "r": 346,
+  "w": 317
+ },
+ "submit": {
+  "l": 58,
+  "r": 317,
+  "w": 259
+ },
+ "notice": {
+  "l": 45,
+  "r": 330,
+  "w": 285
+ },
+ "noticeFont": "12px",
+ "noticeLH": "20px"
+}

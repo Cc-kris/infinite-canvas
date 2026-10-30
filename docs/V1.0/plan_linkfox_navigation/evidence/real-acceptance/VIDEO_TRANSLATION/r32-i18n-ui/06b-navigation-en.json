@@ -1,0 +1,109 @@
+{
+ "home_en": {
+  "url": "http://127.0.0.1:3000/",
+  "title": "Infinite Canvas",
+  "h1": "Infinite Canvas",
+  "nav": "Home\nE-commerce Sets\nSmart Retouch\nNew\nAI Video\nHOT\nBatch Generation\nProduct Design",
+  "links": [
+   {
+    "href": "/",
+    "text": "Infinite Canvas"
+   },
+   {
+    "href": "/",
+    "text": "Home"
+   },
+   {
+    "href": "/tools/ecommerce-suite",
+    "text": "E-commerce Sets"
+   },
+   {
+    "href": "/tools/smart-edit",
+    "text": "Smart Retouch\nNew"
+   },
+   {
+    "href": "/tools/ai-video",
+    "text": "AI Video\nHOT"
+   },
+   {
+    "href": "/tools/batch-generate",
+    "text": "Batch Generation"
+   },
+   {
+    "href": "/tools/product-design",
+    "text": "Product Design"
+   },
+   {
+    "href": "/canvas",
+    "text": ""
+   },
+   {
+    "href": "/image",
+    "text": ""
+   },
+   {
+    "href": "/video",
+    "text": ""
+   },
+   {
+    "href": "/prompts",
+    "text": ""
+   },
+   {
+    "href": "/assets",
+    "text": ""
+   },
+   {
+    "href": "/config",
+    "text": ""
+   },
+   {
+    "href": "https://github.com/Cc-kris/infinite-canvas",
+    "text": ""
+   }
+  ]
+ },
+ "canvas_en": {
+  "url": "http://127.0.0.1:3000/canvas",
+  "title": "Infinite Canvas",
+  "hasCanvas": true,
+  "body": "Infinite Canvas\nHome\nE-commerce Sets\nSmart Retouch\nNew\nAI Video\nHOT\nBatch Generation\nProduct Design\nEN\nSwitch to dark theme\nv0.27.0\n\nCanvas library\n\nInfinite Canvas\nImport canvas\nNew canvas\nNo canvases yet\n\nCreate a canvas to save its nodes, connections, and appearance independently.\n\nNew canvas\nConnect local Agent\nDisconnected\nOne click starts the local service, installs the plugin and connects —"
+ },
+ "list_en": {
+  "url": "http://127.0.0.1:3000/tools/ai-video/image-to-video",
+  "h1": "Image to Video",
+  "entries": [
+   {
+    "href": "/tools/ai-video/image-to-video",
+    "text": "Image to Video"
+   },
+   {
+    "href": "/tools/ai-video/sale-video",
+    "text": "Sales Talk Video"
+   },
+   {
+    "href": "/tools/ai-video/video-replication",
+    "text": "Video Replication"
+   },
+   {
+    "href": "/tools/ai-video/ai-video-editing",
+    "text": "Video Editing"
+   },
+   {
+    "href": "/tools/ai-video/video-translation",
+    "text": "Video Translation"
+   },
+   {
+    "href": "/tools/ai-video/video-concat",
+    "text": "Video Concat\nSupplemental"
+   }
+  ]
+ },
+ "vt_from_list_en": {
+  "url": "http://127.0.0.1:3000/tools/ai-video/video-translation",
+  "h1": "Video Translation",
+  "crumb": "Infinite Canvas\nHome\nE-commerce Sets\nSmart Retouch\nNew\nAI Video\nHOT\nBatch Generation\nProduct Design\nEN\nSwitch to dark theme\nv0.27.0",
+  "workspace": true,
+  "notice": "This is AI video regeneration, not sentence-level translation or lip sync; no real translation channel is connected\n\nThe upstream video endpoint has no source/target language or lip-sync parameters: the language you pick below is only written into the prompt. It cannot guarantee a language swap, subtitles or lip alignment. Treat every result as an unverified draft and have a human confirm it before use.\n\nBased on the r27 protocol investigation (commit 1ef24fba): the sub2api MiniMax video endpoint exposes no translation fields."
+ }
+}

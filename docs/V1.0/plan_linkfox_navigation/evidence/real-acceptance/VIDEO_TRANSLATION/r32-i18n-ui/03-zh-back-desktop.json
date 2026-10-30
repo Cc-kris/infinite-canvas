@@ -1,0 +1,1689 @@
+{
+ "locale": "zh-CN",
+ "htmlLang": "zh-CN",
+ "docTitle": "无限画布",
+ "url": "http://127.0.0.1:3000/tools/ai-video/video-translation",
+ "innerWidth": 1440,
+ "innerHeight": 900,
+ "scrollWidth": 1440,
+ "scrollHeight": 900,
+ "bodyText": "无限画布\n首页\n电商套图\n智能修图\n新模型\nAI视频\nHOT\n批量生图\n商品图设计\n中\n切换到深色主题\nv0.27.0\nAI 视频\n图转视频\n带货口播\n视频复刻\n视频编辑\n视频翻译\n视频拼接\n补充\n免责声明\nAI 视频 / 视频翻译\n视频翻译\n\n/tools/ai-video/video-translation\n\n视频翻译\nAI 视频重生成\n目标语言 英语\n视频翻译\n\nAI 视频重生成（实验）· 非逐句翻译 / 口型对齐\n\n当前为 AI 视频重生成，非逐句翻译 / 口型对齐；真实翻译通道未接入\n\n上游视频接口没有源语言、目标语言与口型同步参数：下面选择的目标语言只会写进提示词，不能保证换语言、换字幕或对齐口型。结果请按「未验证草稿」处理，人工确认后再用于投放。\n\n依据 r27 协议调查（提交 1ef24fba）：sub2api MiniMax 视频接口无翻译字段。\n\n原视频\n未上传\n上传原视频\n00 / 1 个 · MP4 / MOV · ≤ 100 MB\n点击选择本地文件，或拖拽到这里\n校验格式 / 大小 / 像素，入库后可刷新恢复\n\n还没有素材\n\n支持 MP4、MOV 格式，100MB 以内；建议上传画面清晰、音频完整的视频（建议时长 2–30 秒）。\n\n请先上传需要翻译的原视频\n源语言 → 目标语言（仅影响提示词）\n仅提示词引导 · 上游无 language 字段，不保证生效\n源语言（默认自动识别）\n自动识别\n英语（English）\n简体中文\n日语（日本語）\n韩语（한국어）\n西班牙语（Español）\n葡萄牙语（Português）\n法语（Français）\n德语（Deutsch）\n意大利语（Italiano）\n俄语（Русский）\n阿拉伯语（العربية）\n泰语（ไทย）\n越南语（Tiếng Việt）\n印尼语（Bahasa Indonesia）\n土耳其语（Türkçe）\n印地语（हिन्दी）\n目标语言\n英语（English）\n简体中文\n日语（日本語）\n韩语（한국어）\n西班牙语（Español）\n葡萄牙语（Português）\n法语（Français）\n德语（Deutsch）\n意大利语（Italiano）\n俄语（Русский）\n阿拉伯语（العربية）\n泰语（ไทย）\n越南语（Tiếng Việt）\n印尼语（Bahasa Indonesia）\n土耳其语（Türkçe）\n印地语（हिन्दी）\n\n源语言只写进提示词，不会被上游真实识别。\n\n口型同步（当前渠道不支持）\n\n上游无 lipSync 参数：开关已置灰，提交时不带该字段，也不做逐句口型对齐。\n\n模式与输出\n标准模式\n高级模式\n输出数量\n1 条\n2 条\n3 条\n4 条\n\n当前渠道一次只返回 1 条结果。\n\n输出画幅\n跟随原视频\n1:1 方形\n3:4 竖版\n4:3 横版\n16:9 横版\n9:16 竖屏\n21:9 宽银幕\n\n本次提交画幅：16:9 横版（1280x720）\n\n读不到原视频分辨率，无法跟随原画幅：本次按 16:9 横版（1280x720）申请，上游实际返回画幅以上游为准\n\n视频模型\ngrok-imagine-video（默认渠道）\n立即生成\n\n请上传需要处理的原视频，再提交生成\n\nAI 重生成结果（未验证翻译）\n未验证翻译 · 请人工确认语言与字幕\n\n上传原始视频\n\n上传后在这里预览原视频\n\n重生成结果\n\n提交后在这里查看重生成的视频；语言与字幕需人工确认。\nAI 重生成结果（未验证翻译）\n\n还没有生成结果\n\n填好参数并提交后，结果会出现在这里，可预览、下载、存入资产库或发送到画布。\n\n历史任务\n点击「查看结果」把历史任务放回上方结果区\n历史记录\n0 条\n\n还没有视频重生成任务：提交后这里会出现真实任务记录\n\n历史任务可能包含旧版「翻译」结果，同样需人工确认语言与字幕。\n\n连接本地 Agent\n未连接\n点连接会自动启动本地服务、装好插件并接通，无需手动配置。\nClaude Code\n未连接\n·\nCLI · 2.1.285 (Claude Code)\n·\n直接运行\n连接\nCodex\n未连接\n·\nCLI + 桌面版 · codex-cli 0.163.0\n·\n插件已装\n连接\nGalley\n未连接\n·\nCLI + 桌面版 · galley 0.6.4\n连接\n切换到 English",
+ "blocks": {
+  "h1": {
+   "text": "视频翻译",
+   "rect": [
+    229,
+    89,
+    62,
+    24
+   ]
+  },
+  "breadcrumb": "无限画布\n首页\n电商套图\n智能修图\n新模型\nAI视频\nHOT\n批量生图\n商品图设计\n中\n切换到深色主题\nv0.27.0",
+  "aside": "AI 视频\n图转视频\n带货口播\n视频复刻\n视频编辑\n视频翻译\n视频拼接\n补充\n免责声明",
+  "notice": {
+   "testid": "[data-testid=\"video-translation-honesty-notice\"]",
+   "exists": true,
+   "text": "当前为 AI 视频重生成，非逐句翻译 / 口型对齐；真实翻译通道未接入\n\n上游视频接口没有源语言、目标语言与口型同步参数：下面选择的目标语言只会写进提示词，不能保证换语言、换字幕或对齐口型。结果请按「未验证草稿」处理，人工确认后再用于投放。\n\n依据 r27 协议调查（提交 1ef24fba）：sub2api MiniMax 视频接口无翻译字段。",
+   "rect": [
+    245,
+    273,
+    1142,
+    118
+   ],
+   "visible": true,
+   "fontSize": "12px",
+   "lineHeight": "20px",
+   "color": "oklch(0.473 0.137 46.201)",
+   "bg": "oklch(0.987 0.022 95.277)"
+  },
+  "noticeTitle": {
+   "testid": "[data-testid=\"video-translation-honesty-title\"]",
+   "exists": true,
+   "text": "当前为 AI 视频重生成，非逐句翻译 / 口型对齐；真实翻译通道未接入",
+   "rect": [
+    282,
+    284,
+    365,
+    20
+   ],
+   "visible": true,
+   "fontSize": "12px",
+   "lineHeight": "20px",
+   "color": "oklch(0.473 0.137 46.201)",
+   "bg": "rgba(0, 0, 0, 0)"
+  },
+  "noticeBody": {
+   "testid": "[data-testid=\"video-translation-honesty-body\"]",
+   "exists": true,
+   "text": "上游视频接口没有源语言、目标语言与口型同步参数：下面选择的目标语言只会写进提示词，不能保证换语言、换字幕或对齐口型。结果请按「未验证草稿」处理，人工确认后再用于投放。",
+   "rect": [
+    258,
+    316,
+    1116,
+    20
+   ],
+   "visible": true,
+   "fontSize": "12px",
+   "lineHeight": "20px",
+   "color": "oklch(0.473 0.137 46.201)",
+   "bg": "rgba(0, 0, 0, 0)"
+  },
+  "badge": {
+   "testid": "[data-testid=\"video-translation-capability-badge\"]",
+   "exists": true,
+   "text": "AI 视频重生成",
+   "rect": [
+    293,
+    186,
+    83,
+    23
+   ],
+   "visible": true,
+   "fontSize": "11px",
+   "lineHeight": "17.2857px",
+   "color": "oklch(0.555 0.163 48.998)",
+   "bg": "oklch(0.987 0.022 95.277)"
+  },
+  "draftBadge": {
+   "testid": "[data-testid=\"video-translation-draft-badge\"]",
+   "exists": true,
+   "text": "未验证翻译 · 请人工确认语言与字幕",
+   "rect": [
+    1182,
+    405,
+    205,
+    23
+   ],
+   "visible": true,
+   "fontSize": "11px",
+   "lineHeight": "17.2857px",
+   "color": "oklch(0.555 0.163 48.998)",
+   "bg": "oklch(0.987 0.022 95.277)"
+  },
+  "dropzone": {
+   "testid": "[data-testid=\"tool-asset-dropzone\"]",
+   "exists": true,
+   "text": "点击选择本地文件，或拖拽到这里\n校验格式 / 大小 / 像素，入库后可刷新恢复",
+   "rect": [
+    258,
+    490,
+    294,
+    86
+   ],
+   "visible": true,
+   "fontSize": "12px",
+   "lineHeight": "16px",
+   "color": "oklch(0.145 0 0)",
+   "bg": "rgba(0, 0, 0, 0)"
+  },
+  "uploadSection": {
+   "testid": "[data-testid=\"video-translation-config\"]",
+   "exists": true,
+   "text": "原视频\n未上传\n上传原视频\n00 / 1 个 · MP4 / MOV · ≤ 100 MB\n点击选择本地文件，或拖拽到这里\n校验格式 / 大小 / 像素，入库后可刷新恢复\n\n还没有素材\n\n支持 MP4、MOV 格式，100MB 以内；建议上传画面清晰、音频完整的视频（建议时长 2–30 秒）。\n\n请先上传需要翻译的原视频\n源语言 → 目标语言（仅影响提示词）\n仅提示词引导 · 上游无 language 字段，不保证生效\n源语言（默认自动识别）\n自动识别\n英语（English）\n简体中文\n日语（日本語）\n韩语（한국어）\n西班牙语（Español）\n葡萄牙语（Português）\n法语（Français）\n德语（Deutsch）\n意大利语（Italiano）\n俄语（Русский）\n阿拉伯语（العربية）\n泰语（ไทย）\n越南语（Tiếng Việt）\n印尼语（Bahasa Indonesia）\n土耳其语（Türkçe）\n印地语（हिन्दी）\n目标语言\n英语（English）\n简体中文\n日语（日本語）\n韩语（한국어）\n西班牙语（Español）\n葡萄牙语（Português）\n法语（Français）\n德语（Deutsch）\n意大利语（Italiano）\n俄语（Русский）\n阿拉伯语（العربية）\n泰语（ไทย）\n越南语（Tiếng Việt）\n印尼语（Bahasa Indonesia）\n土耳其语（Türkçe）\n印地语（हिन्दी）\n\n源语言只写进提示词，不会被上游真实识别。\n\n口型同步（当前渠道不支持）\n\n上游无 lipSync 参数：开关已置灰，提交时不带该字段，也不做逐句口型对齐。\n\n模式与输出\n标准模式\n高级模式\n输出数量\n1 条\n2 条\n3 条\n4 条\n\n当前渠道一次只返回 1 条结果。\n\n输出画幅\n跟随原视频\n1:1 方形\n3:4 竖版\n4:3 横版\n16:9 横版\n9:16 竖屏\n21:9 宽银幕\n\n本次提交画幅：16:9 横版（1280x720）\n\n读不到原视频分辨率，无法跟随原画幅：本次按 16:9 横版（1280x720）申请，上游实际返回画幅以上游为准\n\n视频模型\ngrok-imagine-video（默认渠道）\n立即生成\n\n请上传需要处理的原视频，再提交生成",
+   "rect": [
+    245,
+    403,
+    320,
+    1179
+   ],
+   "visible": true,
+   "fontSize": "14px",
+   "lineHeight": "22px",
+   "color": "oklch(0.145 0 0)",
+   "bg": "rgba(0, 0, 0, 0)"
+  },
+  "language": {
+   "testid": "[data-testid=\"video-translation-language\"]",
+   "exists": true,
+   "text": "源语言 → 目标语言（仅影响提示词）\n仅提示词引导 · 上游无 language 字段，不保证生效\n源语言（默认自动识别）\n自动识别\n英语（English）\n简体中文\n日语（日本語）\n韩语（한국어）\n西班牙语（Español）\n葡萄牙语（Português）\n法语（Français）\n德语（Deutsch）\n意大利语（Italiano）\n俄语（Русский）\n阿拉伯语（العربية）\n泰语（ไทย）\n越南语（Tiếng Việt）\n印尼语（Bahasa Indonesia）\n土耳其语（Türkçe）\n印地语（हिन्दी）\n目标语言\n英语（English）\n简体中文\n日语（日本語）\n韩语（한국어）\n西班牙语（Español）\n葡萄牙语（Português）\n法语（Français）\n德语（Deutsch）\n意大利语（Italiano）\n俄语（Русский）\n阿拉伯语（العربية）\n泰语（ไทย）\n越南语（Tiếng Việt）\n印尼语（Bahasa Indonesia）\n土耳其语（Türkçe）\n印地语（हिन्दी）\n\n源语言只写进提示词，不会被上游真实识别。",
+   "rect": [
+    245,
+    725,
+    320,
+    226
+   ],
+   "visible": true,
+   "fontSize": "14px",
+   "lineHeight": "22px",
+   "color": "oklch(0.145 0 0)",
+   "bg": "rgba(0, 0, 0, 0)"
+  },
+  "languageBadge": {
+   "testid": "[data-testid=\"video-translation-language-badge\"]",
+   "exists": true,
+   "text": "仅提示词引导 · 上游无 language 字段，不保证生效",
+   "rect": [
+    409,
+    746,
+    143,
+    31
+   ],
+   "visible": true,
+   "fontSize": "10px",
+   "lineHeight": "15.7143px",
+   "color": "oklch(0.555 0.163 48.998)",
+   "bg": "rgba(0, 0, 0, 0)"
+  },
+  "languageHint": {
+   "testid": "[data-testid=\"video-translation-language-hint\"]",
+   "exists": true,
+   "text": "源语言只写进提示词，不会被上游真实识别。",
+   "rect": [
+    258,
+    911,
+    294,
+    16
+   ],
+   "visible": true,
+   "fontSize": "11px",
+   "lineHeight": "16px",
+   "color": "oklch(0.556 0 0)",
+   "bg": "rgba(0, 0, 0, 0)"
+  },
+  "lipsync": {
+   "testid": "[data-testid=\"video-translation-lipsync\"]",
+   "exists": true,
+   "text": "口型同步（当前渠道不支持）\n\n上游无 lipSync 参数：开关已置灰，提交时不带该字段，也不做逐句口型对齐。",
+   "rect": [
+    245,
+    967,
+    320,
+    104
+   ],
+   "visible": true,
+   "fontSize": "14px",
+   "lineHeight": "22px",
+   "color": "oklch(0.145 0 0)",
+   "bg": "rgba(0, 0, 0, 0)"
+  },
+  "lipsyncHint": {
+   "testid": "[data-testid=\"video-translation-lipsync-hint\"]",
+   "exists": true,
+   "text": "上游无 lipSync 参数：开关已置灰，提交时不带该字段，也不做逐句口型对齐。",
+   "rect": [
+    258,
+    1015,
+    294,
+    32
+   ],
+   "visible": true,
+   "fontSize": "11px",
+   "lineHeight": "16px",
+   "color": "oklch(0.556 0 0)",
+   "bg": "rgba(0, 0, 0, 0)"
+  },
+  "outputHint": {
+   "testid": "[data-testid=\"video-translation-output-hint\"]",
+   "exists": true,
+   "text": "当前渠道一次只返回 1 条结果。",
+   "rect": [
+    258,
+    1222,
+    294,
+    16
+   ],
+   "visible": true,
+   "fontSize": "11px",
+   "lineHeight": "16px",
+   "color": "oklch(0.556 0 0)",
+   "bg": "rgba(0, 0, 0, 0)"
+  },
+  "aspectSummary": {
+   "testid": "[data-testid=\"video-translation-aspect-summary\"]",
+   "exists": true,
+   "text": "本次提交画幅：16:9 横版（1280x720）",
+   "rect": [
+    258,
+    1308,
+    294,
+    20
+   ],
+   "visible": true,
+   "fontSize": "12px",
+   "lineHeight": "20px",
+   "color": "oklch(0.556 0 0)",
+   "bg": "rgba(0, 0, 0, 0)"
+  },
+  "aspectNotice": {
+   "testid": "[data-testid=\"video-translation-aspect-notice\"]",
+   "exists": true,
+   "text": "读不到原视频分辨率，无法跟随原画幅：本次按 16:9 横版（1280x720）申请，上游实际返回画幅以上游为准",
+   "rect": [
+    258,
+    1340,
+    294,
+    50
+   ],
+   "visible": true,
+   "fontSize": "11px",
+   "lineHeight": "16px",
+   "color": "oklch(0.473 0.137 46.201)",
+   "bg": "oklch(0.987 0.022 95.277)"
+  },
+  "result": {
+   "testid": "[data-testid=\"tool-result\"]",
+   "exists": true,
+   "text": "AI 重生成结果（未验证翻译）\n\n还没有生成结果\n\n填好参数并提交后，结果会出现在这里，可预览、下载、存入资产库或发送到画布。",
+   "rect": [
+    589,
+    646,
+    798,
+    240
+   ],
+   "visible": true,
+   "fontSize": "14px",
+   "lineHeight": "22px",
+   "color": "oklch(0.145 0 0)",
+   "bg": "oklch(1 0 0)"
+  },
+  "resultEmpty": {
+   "testid": "[data-testid=\"tool-result-empty\"]",
+   "exists": true,
+   "text": "还没有生成结果\n\n填好参数并提交后，结果会出现在这里，可预览、下载、存入资产库或发送到画布。",
+   "rect": [
+    606,
+    702,
+    764,
+    160
+   ],
+   "visible": true,
+   "fontSize": "14px",
+   "lineHeight": "20px",
+   "color": "oklch(0.556 0 0)",
+   "bg": "rgba(0, 0, 0, 0)"
+  },
+  "history": {
+   "testid": "[data-testid=\"video-translation-history\"]",
+   "exists": true,
+   "text": "历史任务\n点击「查看结果」把历史任务放回上方结果区\n历史记录\n0 条\n\n还没有视频重生成任务：提交后这里会出现真实任务记录\n\n历史任务可能包含旧版「翻译」结果，同样需人工确认语言与字幕。",
+   "rect": [
+    589,
+    898,
+    798,
+    176
+   ],
+   "visible": true,
+   "fontSize": "14px",
+   "lineHeight": "22px",
+   "color": "oklch(0.145 0 0)",
+   "bg": "rgba(0, 0, 0, 0)"
+  },
+  "historyCount": {
+   "testid": "[data-testid=\"tool-task-history-count\"]",
+   "exists": true,
+   "text": "0 条",
+   "rect": [
+    1340,
+    959,
+    21,
+    17
+   ],
+   "visible": true,
+   "fontSize": "11px",
+   "lineHeight": "17.2857px",
+   "color": "oklch(0.556 0 0)",
+   "bg": "rgba(0, 0, 0, 0)"
+  },
+  "historyEmpty": {
+   "testid": "[data-testid=\"tool-task-history-empty\"]",
+   "exists": true,
+   "text": "还没有视频重生成任务：提交后这里会出现真实任务记录",
+   "rect": [
+    615,
+    984,
+    746,
+    17
+   ],
+   "visible": true,
+   "fontSize": "11px",
+   "lineHeight": "17.2857px",
+   "color": "oklch(0.556 0 0)",
+   "bg": "rgba(0, 0, 0, 0)"
+  },
+  "historyHint": {
+   "testid": "[data-testid=\"video-translation-history-hint\"]",
+   "exists": true,
+   "text": "历史任务可能包含旧版「翻译」结果，同样需人工确认语言与字幕。",
+   "rect": [
+    602,
+    1034,
+    772,
+    16
+   ],
+   "visible": true,
+   "fontSize": "11px",
+   "lineHeight": "16px",
+   "color": "oklch(0.556 0 0)",
+   "bg": "rgba(0, 0, 0, 0)"
+  },
+  "workspace": {
+   "testid": "[data-testid=\"tool-workspace\"]",
+   "exists": true,
+   "text": "视频翻译\nAI 视频重生成\n目标语言 英语\n视频翻译\n\nAI 视频重生成（实验）· 非逐句翻译 / 口型对齐\n\n当前为 AI 视频重生成，非逐句翻译 / 口型对齐；真实翻译通道未接入\n\n上游视频接口没有源语言、目标语言与口型同步参数：下面选择的目标语言只会写进提示词，不能保证换语言、换字幕或对齐口型。结果请按「未验证草稿」处理，人工确认后再用于投放。\n\n依据 r27 协议调查（提交 1ef24fba）：sub2api MiniMax 视频接口无翻译字段。\n\n原视频\n未上传\n上传原视频\n00 / 1 个 · MP4 / MOV · ≤ 100 MB\n点击选择本地文件，或拖拽到这里\n校验格式 / 大小 / 像素，入库后可刷新恢复\n\n还没有素材\n\n支持 MP4、MOV 格式，100MB 以内；建议上传画面清晰、音频完整的视频（建议时长 2–30 秒）。\n\n请先上传需要翻译的原视频\n源语言 → 目标语言（仅影响提示词）\n仅提示词引导 · 上游无 language 字段，不保证生效\n源语言（默认自动识别）\n自动识别\n英语（English）\n简体中文\n日语（日本語）\n韩语（한국어）\n西班牙语（Español）\n葡萄牙语（Português）\n法语（Français）\n德语（Deutsch）\n意大利语（Italiano）\n俄语（Русский）\n阿拉伯语（العربية）\n泰语（ไทย）\n越南语（Tiếng Việt）\n印尼语（Bahasa Indonesia）\n土耳其语（Türkçe）\n印地语（हिन्दी）\n目标语言\n英语（English）\n简体中文\n日语（日本語）\n韩语（한국어）\n西班牙语（Español）\n葡萄牙语（Português）\n法语（Français）\n德语（Deutsch）\n意大利语（Italiano）\n俄语（Русский）\n阿拉伯语（العربية）\n泰语（ไทย）\n越南语（Tiếng Việt）\n印尼语（Bahasa Indonesia）\n土耳其语（Türkçe）\n印地语（हिन्दी）\n\n源语言只写进提示词，不会被上游真实识别。\n\n口型同步（当前渠道不支持）\n\n上游无 lipSync 参数：开关已置灰，提交时不带该字段，也不做逐句口型对齐。\n\n模式与输出\n标准模式\n高级模式\n输出数量\n1 条\n2 条\n3 条\n4 条\n\n当前渠道一次只返回 1 条结果。\n\n输出画幅\n跟随原视频\n1:1 方形\n3:4 竖版\n4:3 横版\n16:9 横版\n9:16 竖屏\n21:9 宽银幕\n\n本次提交画幅：16:9 横版（1280x720）\n\n读不到原视频分辨率，无法跟随原画幅：本次按 16:9 横版（1280x720）申请，上游实际返回画幅以上游为准\n\n视频模型\ngrok-imagine-video（默认渠道）\n立即生成\n\n请上传需要处理的原视频，再提交生成\n\nAI ",
+   "rect": [
+    229,
+    182,
+    1174,
+    1416
+   ],
+   "visible": true,
+   "fontSize": "14px",
+   "lineHeight": "22px",
+   "color": "oklch(0.145 0 0)",
+   "bg": "rgba(0, 0, 0, 0)"
+  }
+ },
+ "emptyStates": [
+  {
+   "id": "tool-result-empty",
+   "text": "还没有生成结果\n\n填好参数并提交后，结果会出现在这里，可预览、下载、存入资产库或发送到画布。"
+  },
+  {
+   "id": "tool-task-history-empty",
+   "text": "还没有视频重生成任务：提交后这里会出现真实任务记录"
+  },
+  {
+   "id": "video-translation-empty",
+   "missing": true
+  }
+ ],
+ "controls": {
+  "lipsync": {
+   "ariaChecked": "false",
+   "disabled": true,
+   "ariaDisabled": "true",
+   "role": "switch",
+   "cursor": "not-allowed",
+   "opacity": "0.6",
+   "text": ""
+  },
+  "submit": {
+   "text": "立即生成",
+   "disabled": true
+  },
+  "outputSelect": {
+   "id": "video-translation-output-ratio",
+   "value": "source",
+   "count": 7,
+   "texts": [
+    "跟随原视频",
+    "1:1 方形",
+    "3:4 竖版",
+    "4:3 横版",
+    "16:9 横版",
+    "9:16 竖屏",
+    "21:9 宽银幕"
+   ]
+  }
+ },
+ "residue": [
+  {
+   "text": "无限画布",
+   "tag": "SPAN",
+   "testid": null,
+   "region": "shell-top-nav",
+   "inOption": false,
+   "inSelect": false,
+   "role": null,
+   "cls": "text-sm font-semibold"
+  },
+  {
+   "text": "首页",
+   "tag": "A",
+   "testid": "tools-nav-trigger-home",
+   "region": "tools-nav-trigger-home",
+   "inOption": false,
+   "inSelect": false,
+   "role": null,
+   "cls": "relative flex h-9 shrink-0 items-center rounded-lg px-3 text-sm font-medium outl"
+  },
+  {
+   "text": "电商套图",
+   "tag": "SPAN",
+   "testid": null,
+   "region": "tools-nav-trigger-ecommerce-suite",
+   "inOption": false,
+   "inSelect": false,
+   "role": null,
+   "cls": "truncate"
+  },
+  {
+   "text": "智能修图",
+   "tag": "SPAN",
+   "testid": null,
+   "region": "tools-nav-trigger-smart-edit",
+   "inOption": false,
+   "inSelect": false,
+   "role": null,
+   "cls": "truncate"
+  },
+  {
+   "text": "新模型",
+   "tag": "EM",
+   "testid": "tools-nav-badge-smart-edit",
+   "region": "tools-nav-badge-smart-edit",
+   "inOption": false,
+   "inSelect": false,
+   "role": null,
+   "cls": "ml-1 inline-flex h-4 shrink-0 items-center rounded-full bg-brand/12 px-1.5 text-"
+  },
+  {
+   "text": "AI视频",
+   "tag": "SPAN",
+   "testid": null,
+   "region": "tools-nav-trigger-ai-video",
+   "inOption": false,
+   "inSelect": false,
+   "role": null,
+   "cls": "truncate"
+  },
+  {
+   "text": "批量生图",
+   "tag": "SPAN",
+   "testid": null,
+   "region": "tools-nav-trigger-batch-generate",
+   "inOption": false,
+   "inSelect": false,
+   "role": null,
+   "cls": "truncate"
+  },
+  {
+   "text": "商品图设计",
+   "tag": "SPAN",
+   "testid": null,
+   "region": "tools-nav-trigger-product-design",
+   "inOption": false,
+   "inSelect": false,
+   "role": null,
+   "cls": "truncate"
+  },
+  {
+   "text": "中",
+   "tag": "BUTTON",
+   "testid": null,
+   "region": "shell-top-nav",
+   "inOption": false,
+   "inSelect": false,
+   "role": null,
+   "cls": "inline-flex size-7 shrink-0 cursor-pointer items-center justify-center rounded-m"
+  },
+  {
+   "text": "切换到深色主题",
+   "tag": "SPAN",
+   "testid": null,
+   "region": "shell-top-nav",
+   "inOption": false,
+   "inSelect": false,
+   "role": null,
+   "cls": "sr-only"
+  },
+  {
+   "text": "AI 视频",
+   "tag": "A",
+   "testid": null,
+   "region": "tool-sidebar",
+   "inOption": false,
+   "inSelect": false,
+   "role": null,
+   "cls": "sr-only"
+  },
+  {
+   "text": "图转视频",
+   "tag": "SPAN",
+   "testid": null,
+   "region": "tool-sidebar",
+   "inOption": false,
+   "inSelect": false,
+   "role": null,
+   "cls": "truncate"
+  },
+  {
+   "text": "带货口播",
+   "tag": "SPAN",
+   "testid": null,
+   "region": "tool-sidebar",
+   "inOption": false,
+   "inSelect": false,
+   "role": null,
+   "cls": "truncate"
+  },
+  {
+   "text": "视频复刻",
+   "tag": "SPAN",
+   "testid": null,
+   "region": "tool-sidebar",
+   "inOption": false,
+   "inSelect": false,
+   "role": null,
+   "cls": "truncate"
+  },
+  {
+   "text": "视频编辑",
+   "tag": "SPAN",
+   "testid": null,
+   "region": "tool-sidebar",
+   "inOption": false,
+   "inSelect": false,
+   "role": null,
+   "cls": "truncate"
+  },
+  {
+   "text": "视频翻译",
+   "tag": "SPAN",
+   "testid": null,
+   "region": "tool-sidebar",
+   "inOption": false,
+   "inSelect": false,
+   "role": null,
+   "cls": "truncate"
+  },
+  {
+   "text": "视频拼接",
+   "tag": "SPAN",
+   "testid": null,
+   "region": "tool-sidebar",
+   "inOption": false,
+   "inSelect": false,
+   "role": null,
+   "cls": "truncate"
+  },
+  {
+   "text": "补充",
+   "tag": "SPAN",
+   "testid": null,
+   "region": "tool-sidebar",
+   "inOption": false,
+   "inSelect": false,
+   "role": null,
+   "cls": "ml-auto shrink-0 rounded border border-hairline px-1 text-[10px] leading-4 text-"
+  },
+  {
+   "text": "免责声明",
+   "tag": "DIV",
+   "testid": null,
+   "region": "tool-sidebar",
+   "inOption": false,
+   "inSelect": false,
+   "role": null,
+   "cls": "mt-auto select-none px-3 pb-3 pt-6 text-center text-[11px] leading-4 text-muted-"
+  },
+  {
+   "text": "AI 视频 / 视频翻译",
+   "tag": "DIV",
+   "testid": null,
+   "region": "header",
+   "inOption": false,
+   "inSelect": false,
+   "role": null,
+   "cls": "truncate text-xs leading-5 text-muted-foreground"
+  },
+  {
+   "text": "视频翻译",
+   "tag": "H1",
+   "testid": null,
+   "region": "h1",
+   "inOption": false,
+   "inSelect": false,
+   "role": null,
+   "cls": "truncate text-sm font-semibold leading-6 tracking-tight sm:text-base"
+  },
+  {
+   "text": "视频翻译",
+   "tag": "H2",
+   "testid": null,
+   "region": "tool-workspace-chrome",
+   "inOption": false,
+   "inSelect": false,
+   "role": null,
+   "cls": "truncate text-sm font-semibold leading-6"
+  },
+  {
+   "text": "AI 视频重生成",
+   "tag": "SPAN",
+   "testid": "video-translation-capability-badge",
+   "region": "video-translation-capability-badge",
+   "inOption": false,
+   "inSelect": false,
+   "role": null,
+   "cls": "rounded border border-amber-300 bg-amber-50 px-1.5 py-0.5 text-[11px] text-amber"
+  },
+  {
+   "text": "目标语言 英语",
+   "tag": "SPAN",
+   "testid": null,
+   "region": "tool-workspace-chrome",
+   "inOption": false,
+   "inSelect": false,
+   "role": null,
+   "cls": "rounded border border-border px-1.5 py-0.5 text-[11px] text-muted-foreground"
+  },
+  {
+   "text": "视频翻译",
+   "tag": "SPAN",
+   "testid": null,
+   "region": "tool-workspace-chrome",
+   "inOption": false,
+   "inSelect": false,
+   "role": null,
+   "cls": "rounded border border-border px-1.5 py-0.5 text-[11px] text-muted-foreground"
+  },
+  {
+   "text": "AI 视频重生成（实验）· 非逐句翻译 / 口型对齐",
+   "tag": "P",
+   "testid": null,
+   "region": "tool-workspace-chrome",
+   "inOption": false,
+   "inSelect": false,
+   "role": null,
+   "cls": "truncate text-xs leading-5 text-muted-foreground"
+  },
+  {
+   "text": "当前为 AI 视频重生成，非逐句翻译 / 口型对齐；真实翻译通道未接入",
+   "tag": "SPAN",
+   "testid": "video-translation-honesty-title",
+   "region": "video-translation-honesty-title",
+   "inOption": false,
+   "inSelect": false,
+   "role": null,
+   "cls": ""
+  },
+  {
+   "text": "上游视频接口没有源语言、目标语言与口型同步参数：下面选择的目标语言只会写进提示词，不能保证换语言、换字幕或对齐口型。结果请按「未验证草稿」处理，人工确认后再用于投放。",
+   "tag": "P",
+   "testid": "video-translation-honesty-body",
+   "region": "video-translation-honesty-body",
+   "inOption": false,
+   "inSelect": false,
+   "role": null,
+   "cls": "mt-1 opacity-90"
+  },
+  {
+   "text": "依据 r27 协议调查（提交 1ef24fba）：sub2api MiniMax 视频接口无翻译字段。",
+   "tag": "P",
+   "testid": "video-translation-honesty-basis",
+   "region": "video-translation-honesty-basis",
+   "inOption": false,
+   "inSelect": false,
+   "role": null,
+   "cls": "mt-1 opacity-75"
+  },
+  {
+   "text": "原视频",
+   "tag": "H2",
+   "testid": null,
+   "region": "video-translation-config",
+   "inOption": false,
+   "inSelect": false,
+   "role": null,
+   "cls": "text-sm font-medium"
+  },
+  {
+   "text": "未上传",
+   "tag": "SPAN",
+   "testid": null,
+   "region": "video-translation-config",
+   "inOption": false,
+   "inSelect": false,
+   "role": null,
+   "cls": "text-[11px] text-muted-foreground"
+  },
+  {
+   "text": "上传原视频",
+   "tag": "H3",
+   "testid": null,
+   "region": "video-translation-config",
+   "inOption": false,
+   "inSelect": false,
+   "role": null,
+   "cls": "text-sm font-medium text-stone-800 dark:text-stone-100"
+  },
+  {
+   "text": "0 / 1 个 · MP4 / MOV · ≤ 100 MB",
+   "tag": "SPAN",
+   "testid": null,
+   "region": "video-translation-config",
+   "inOption": false,
+   "inSelect": false,
+   "role": null,
+   "cls": "text-xs text-stone-500"
+  },
+  {
+   "text": "点击选择本地文件，或拖拽到这里",
+   "tag": "SPAN",
+   "testid": null,
+   "region": "tool-asset-dropzone",
+   "inOption": false,
+   "inSelect": false,
+   "role": null,
+   "cls": "text-stone-700 dark:text-stone-200"
+  },
+  {
+   "text": "校验格式 / 大小 / 像素，入库后可刷新恢复",
+   "tag": "SPAN",
+   "testid": null,
+   "region": "tool-asset-dropzone",
+   "inOption": false,
+   "inSelect": false,
+   "role": null,
+   "cls": "text-stone-500"
+  },
+  {
+   "text": "还没有素材",
+   "tag": "P",
+   "testid": null,
+   "region": "video-translation-config",
+   "inOption": false,
+   "inSelect": false,
+   "role": null,
+   "cls": "text-xs text-stone-500"
+  },
+  {
+   "text": "支持 MP4、MOV 格式，100MB 以内；建议上传画面清晰、音频完整的视频（建议时长 2–30 秒）。",
+   "tag": "P",
+   "testid": null,
+   "region": "video-translation-config",
+   "inOption": false,
+   "inSelect": false,
+   "role": null,
+   "cls": "text-xs leading-5 text-muted-foreground"
+  },
+  {
+   "text": "请先上传需要翻译的原视频",
+   "tag": "LI",
+   "testid": null,
+   "region": "video-translation-config",
+   "inOption": false,
+   "inSelect": false,
+   "role": null,
+   "cls": ""
+  },
+  {
+   "text": "源语言 → 目标语言（仅影响提示词）",
+   "tag": "H2",
+   "testid": null,
+   "region": "video-translation-language",
+   "inOption": false,
+   "inSelect": false,
+   "role": null,
+   "cls": "text-sm font-medium"
+  },
+  {
+   "text": "仅提示词引导 · 上游无 language 字段，不保证生效",
+   "tag": "SPAN",
+   "testid": "video-translation-language-badge",
+   "region": "video-translation-language-badge",
+   "inOption": false,
+   "inSelect": false,
+   "role": null,
+   "cls": "text-[10px] text-amber-700 dark:text-amber-300"
+  },
+  {
+   "text": "源语言（默认自动识别）",
+   "tag": "LABEL",
+   "testid": null,
+   "region": "video-translation-language",
+   "inOption": false,
+   "inSelect": false,
+   "role": null,
+   "cls": "block text-xs leading-5 text-muted-foreground"
+  },
+  {
+   "text": "目标语言",
+   "tag": "LABEL",
+   "testid": null,
+   "region": "video-translation-language",
+   "inOption": false,
+   "inSelect": false,
+   "role": null,
+   "cls": "block text-xs leading-5 text-muted-foreground"
+  },
+  {
+   "text": "源语言只写进提示词，不会被上游真实识别。",
+   "tag": "P",
+   "testid": "video-translation-language-hint",
+   "region": "video-translation-language-hint",
+   "inOption": false,
+   "inSelect": false,
+   "role": null,
+   "cls": "text-[11px] leading-4 text-muted-foreground"
+  },
+  {
+   "text": "口型同步（当前渠道不支持）",
+   "tag": "H2",
+   "testid": null,
+   "region": "video-translation-lipsync",
+   "inOption": false,
+   "inSelect": false,
+   "role": null,
+   "cls": "text-sm font-medium"
+  },
+  {
+   "text": "上游无 lipSync 参数：开关已置灰，提交时不带该字段，也不做逐句口型对齐。",
+   "tag": "P",
+   "testid": "video-translation-lipsync-hint",
+   "region": "video-translation-lipsync-hint",
+   "inOption": false,
+   "inSelect": false,
+   "role": null,
+   "cls": "text-[11px] leading-4 text-muted-foreground"
+  },
+  {
+   "text": "模式与输出",
+   "tag": "H2",
+   "testid": null,
+   "region": "video-translation-config",
+   "inOption": false,
+   "inSelect": false,
+   "role": null,
+   "cls": "text-sm font-medium"
+  },
+  {
+   "text": "标准模式",
+   "tag": "BUTTON",
+   "testid": null,
+   "region": "video-translation-config",
+   "inOption": false,
+   "inSelect": false,
+   "role": null,
+   "cls": "flex-1 rounded px-2 py-1 bg-background shadow-sm"
+  },
+  {
+   "text": "高级模式",
+   "tag": "BUTTON",
+   "testid": null,
+   "region": "video-translation-config",
+   "inOption": false,
+   "inSelect": false,
+   "role": null,
+   "cls": "flex-1 rounded px-2 py-1 text-muted-foreground"
+  },
+  {
+   "text": "输出数量",
+   "tag": "LABEL",
+   "testid": null,
+   "region": "video-translation-config",
+   "inOption": false,
+   "inSelect": false,
+   "role": null,
+   "cls": "block text-xs leading-5 text-muted-foreground"
+  },
+  {
+   "text": "当前渠道一次只返回 1 条结果。",
+   "tag": "P",
+   "testid": "video-translation-output-hint",
+   "region": "video-translation-output-hint",
+   "inOption": false,
+   "inSelect": false,
+   "role": null,
+   "cls": "text-[11px] leading-4 text-muted-foreground"
+  },
+  {
+   "text": "输出画幅",
+   "tag": "LABEL",
+   "testid": null,
+   "region": "video-translation-config",
+   "inOption": false,
+   "inSelect": false,
+   "role": null,
+   "cls": "block text-xs leading-5 text-muted-foreground"
+  },
+  {
+   "text": "本次提交画幅：16:9 横版（1280x720）",
+   "tag": "P",
+   "testid": "video-translation-aspect-summary",
+   "region": "video-translation-aspect-summary",
+   "inOption": false,
+   "inSelect": false,
+   "role": null,
+   "cls": "text-xs leading-5 text-muted-foreground"
+  },
+  {
+   "text": "读不到原视频分辨率，无法跟随原画幅：本次按 16:9 横版（1280x720）申请，上游实际返回画幅以上游为准",
+   "tag": "P",
+   "testid": "video-translation-aspect-notice",
+   "region": "video-translation-aspect-notice",
+   "inOption": false,
+   "inSelect": false,
+   "role": "alert",
+   "cls": "rounded border border-amber-200 bg-amber-50 p-2 text-[11px] leading-4 text-amber"
+  },
+  {
+   "text": "视频模型",
+   "tag": "H2",
+   "testid": null,
+   "region": "video-translation-config",
+   "inOption": false,
+   "inSelect": false,
+   "role": null,
+   "cls": "text-sm font-medium"
+  },
+  {
+   "text": "grok-imagine-video（默认渠道）",
+   "tag": "SPAN",
+   "testid": null,
+   "region": "video-translation-config",
+   "inOption": false,
+   "inSelect": false,
+   "role": null,
+   "cls": "canvas-model-picker-text min-w-0 flex-1 truncate text-left"
+  },
+  {
+   "text": "立即生成",
+   "tag": "BUTTON",
+   "testid": "video-translation-submit",
+   "region": "video-translation-submit",
+   "inOption": false,
+   "inSelect": false,
+   "role": null,
+   "cls": "w-full rounded-md bg-primary px-3 py-2 text-sm font-medium text-primary-foregrou"
+  },
+  {
+   "text": "请上传需要处理的原视频，再提交生成",
+   "tag": "P",
+   "testid": null,
+   "region": "video-translation-config",
+   "inOption": false,
+   "inSelect": false,
+   "role": null,
+   "cls": "text-[11px] text-muted-foreground"
+  },
+  {
+   "text": "AI 重生成结果（未验证翻译）",
+   "tag": "H2",
+   "testid": null,
+   "region": "tool-workspace-chrome",
+   "inOption": false,
+   "inSelect": false,
+   "role": null,
+   "cls": "text-sm font-medium"
+  },
+  {
+   "text": "未验证翻译 · 请人工确认语言与字幕",
+   "tag": "SPAN",
+   "testid": "video-translation-draft-badge",
+   "region": "video-translation-draft-badge",
+   "inOption": false,
+   "inSelect": false,
+   "role": null,
+   "cls": "inline-flex items-center gap-1 rounded border border-amber-300 bg-amber-50 px-1."
+  },
+  {
+   "text": "上传原始视频",
+   "tag": "P",
+   "testid": null,
+   "region": "tool-workspace-chrome",
+   "inOption": false,
+   "inSelect": false,
+   "role": null,
+   "cls": "text-xs leading-5 text-muted-foreground"
+  },
+  {
+   "text": "上传后在这里预览原视频",
+   "tag": "DIV",
+   "testid": null,
+   "region": "tool-workspace-chrome",
+   "inOption": false,
+   "inSelect": false,
+   "role": null,
+   "cls": "flex min-h-[160px] items-center justify-center rounded-lg border border-dashed b"
+  },
+  {
+   "text": "重生成结果",
+   "tag": "P",
+   "testid": null,
+   "region": "tool-workspace-chrome",
+   "inOption": false,
+   "inSelect": false,
+   "role": null,
+   "cls": "text-xs leading-5 text-muted-foreground"
+  },
+  {
+   "text": "提交后在这里查看重生成的视频；语言与字幕需人工确认。",
+   "tag": "DIV",
+   "testid": null,
+   "region": "tool-workspace-chrome",
+   "inOption": false,
+   "inSelect": false,
+   "role": null,
+   "cls": "flex min-h-[160px] items-center justify-center rounded-lg border border-dashed b"
+  },
+  {
+   "text": "AI 重生成结果（未验证翻译）",
+   "tag": "H2",
+   "testid": null,
+   "region": "header",
+   "inOption": false,
+   "inSelect": false,
+   "role": null,
+   "cls": "text-sm font-semibold"
+  },
+  {
+   "text": "还没有生成结果",
+   "tag": "P",
+   "testid": null,
+   "region": "tool-result-empty",
+   "inOption": false,
+   "inSelect": false,
+   "role": null,
+   "cls": ""
+  },
+  {
+   "text": "填好参数并提交后，结果会出现在这里，可预览、下载、存入资产库或发送到画布。",
+   "tag": "P",
+   "testid": null,
+   "region": "tool-result-empty",
+   "inOption": false,
+   "inSelect": false,
+   "role": null,
+   "cls": "mt-1 text-xs"
+  },
+  {
+   "text": "历史任务",
+   "tag": "H2",
+   "testid": null,
+   "region": "video-translation-history",
+   "inOption": false,
+   "inSelect": false,
+   "role": null,
+   "cls": "text-sm font-medium"
+  },
+  {
+   "text": "点击「查看结果」把历史任务放回上方结果区",
+   "tag": "SPAN",
+   "testid": null,
+   "region": "video-translation-history",
+   "inOption": false,
+   "inSelect": false,
+   "role": null,
+   "cls": "text-xs leading-5 text-muted-foreground"
+  },
+  {
+   "text": "历史记录",
+   "tag": "SPAN",
+   "testid": null,
+   "region": "tool-task-history",
+   "inOption": false,
+   "inSelect": false,
+   "role": null,
+   "cls": "inline-flex items-center gap-1 text-xs font-medium text-foreground"
+  },
+  {
+   "text": "0 条",
+   "tag": "SPAN",
+   "testid": "tool-task-history-count",
+   "region": "tool-task-history-count",
+   "inOption": false,
+   "inSelect": false,
+   "role": null,
+   "cls": "text-[11px] text-muted-foreground"
+  },
+  {
+   "text": "还没有视频重生成任务：提交后这里会出现真实任务记录",
+   "tag": "P",
+   "testid": "tool-task-history-empty",
+   "region": "tool-task-history-empty",
+   "inOption": false,
+   "inSelect": false,
+   "role": null,
+   "cls": "text-[11px] text-muted-foreground"
+  },
+  {
+   "text": "历史任务可能包含旧版「翻译」结果，同样需人工确认语言与字幕。",
+   "tag": "P",
+   "testid": "video-translation-history-hint",
+   "region": "video-translation-history-hint",
+   "inOption": false,
+   "inSelect": false,
+   "role": null,
+   "cls": "text-[11px] leading-4 text-muted-foreground"
+  },
+  {
+   "text": "连接本地 Agent",
+   "tag": "DIV",
+   "testid": null,
+   "region": "aside",
+   "inOption": false,
+   "inSelect": false,
+   "role": null,
+   "cls": "text-base font-semibold leading-6"
+  },
+  {
+   "text": "未连接",
+   "tag": "SPAN",
+   "testid": null,
+   "region": "aside",
+   "inOption": false,
+   "inSelect": false,
+   "role": null,
+   "cls": "truncate"
+  },
+  {
+   "text": "点连接会自动启动本地服务、装好插件并接通，无需手动配置。",
+   "tag": "DIV",
+   "testid": null,
+   "region": "aside",
+   "inOption": false,
+   "inSelect": false,
+   "role": null,
+   "cls": "mt-1 text-xs leading-5"
+  },
+  {
+   "text": "未连接",
+   "tag": "SPAN",
+   "testid": null,
+   "region": "aside",
+   "inOption": false,
+   "inSelect": false,
+   "role": null,
+   "cls": ""
+  },
+  {
+   "text": "直接运行",
+   "tag": "SPAN",
+   "testid": null,
+   "region": "aside",
+   "inOption": false,
+   "inSelect": false,
+   "role": null,
+   "cls": "truncate"
+  },
+  {
+   "text": "连接",
+   "tag": "SPAN",
+   "testid": null,
+   "region": "aside",
+   "inOption": false,
+   "inSelect": false,
+   "role": null,
+   "cls": ""
+  },
+  {
+   "text": "未连接",
+   "tag": "SPAN",
+   "testid": null,
+   "region": "aside",
+   "inOption": false,
+   "inSelect": false,
+   "role": null,
+   "cls": ""
+  },
+  {
+   "text": "CLI + 桌面版 · codex-cli 0.163.0",
+   "tag": "SPAN",
+   "testid": null,
+   "region": "aside",
+   "inOption": false,
+   "inSelect": false,
+   "role": null,
+   "cls": "truncate"
+  },
+  {
+   "text": "插件已装",
+   "tag": "SPAN",
+   "testid": null,
+   "region": "aside",
+   "inOption": false,
+   "inSelect": false,
+   "role": null,
+   "cls": "truncate"
+  },
+  {
+   "text": "连接",
+   "tag": "SPAN",
+   "testid": null,
+   "region": "aside",
+   "inOption": false,
+   "inSelect": false,
+   "role": null,
+   "cls": ""
+  },
+  {
+   "text": "未连接",
+   "tag": "SPAN",
+   "testid": null,
+   "region": "aside",
+   "inOption": false,
+   "inSelect": false,
+   "role": null,
+   "cls": ""
+  },
+  {
+   "text": "CLI + 桌面版 · galley 0.6.4",
+   "tag": "SPAN",
+   "testid": null,
+   "region": "aside",
+   "inOption": false,
+   "inSelect": false,
+   "role": null,
+   "cls": "truncate"
+  },
+  {
+   "text": "连接",
+   "tag": "SPAN",
+   "testid": null,
+   "region": "aside",
+   "inOption": false,
+   "inSelect": false,
+   "role": null,
+   "cls": ""
+  },
+  {
+   "text": "切换到 English",
+   "tag": "DIV",
+   "testid": null,
+   "region": "body",
+   "inOption": false,
+   "inSelect": false,
+   "role": "tooltip",
+   "cls": "ant-tooltip-container"
+  }
+ ],
+ "attrResidue": [
+  {
+   "attr": "aria-label",
+   "value": "工具分类",
+   "tag": "NAV",
+   "testid": null,
+   "region": "tools-nav-primary"
+  },
+  {
+   "attr": "aria-label",
+   "value": "工作台",
+   "tag": "NAV",
+   "testid": null,
+   "region": "shell-top-nav"
+  },
+  {
+   "attr": "aria-label",
+   "value": "我的画布",
+   "tag": "A",
+   "testid": "workspace-link-canvas",
+   "region": "workspace-link-canvas"
+  },
+  {
+   "attr": "aria-label",
+   "value": "生图工作台",
+   "tag": "A",
+   "testid": "workspace-link-image",
+   "region": "workspace-link-image"
+  },
+  {
+   "attr": "aria-label",
+   "value": "视频创作台",
+   "tag": "A",
+   "testid": "workspace-link-video",
+   "region": "workspace-link-video"
+  },
+  {
+   "attr": "aria-label",
+   "value": "提示词库",
+   "tag": "A",
+   "testid": "workspace-link-prompts",
+   "region": "workspace-link-prompts"
+  },
+  {
+   "attr": "aria-label",
+   "value": "我的资产",
+   "tag": "A",
+   "testid": "workspace-link-assets",
+   "region": "workspace-link-assets"
+  },
+  {
+   "attr": "aria-label",
+   "value": "配置",
+   "tag": "A",
+   "testid": "workspace-link-config",
+   "region": "workspace-link-config"
+  },
+  {
+   "attr": "aria-label",
+   "value": "打开 Agent",
+   "tag": "BUTTON",
+   "testid": "top-nav-agent-toggle",
+   "region": "top-nav-agent-toggle"
+  },
+  {
+   "attr": "aria-label",
+   "value": "配置",
+   "tag": "BUTTON",
+   "testid": null,
+   "region": "shell-top-nav"
+  },
+  {
+   "attr": "title",
+   "value": "配置",
+   "tag": "BUTTON",
+   "testid": null,
+   "region": "shell-top-nav"
+  },
+  {
+   "attr": "aria-label",
+   "value": "切换到 English",
+   "tag": "BUTTON",
+   "testid": null,
+   "region": "shell-top-nav"
+  },
+  {
+   "attr": "aria-label",
+   "value": "切换到深色主题",
+   "tag": "BUTTON",
+   "testid": null,
+   "region": "shell-top-nav"
+  },
+  {
+   "attr": "title",
+   "value": "切换到深色主题",
+   "tag": "BUTTON",
+   "testid": null,
+   "region": "shell-top-nav"
+  },
+  {
+   "attr": "title",
+   "value": "查看版本更新",
+   "tag": "BUTTON",
+   "testid": null,
+   "region": "shell-top-nav"
+  },
+  {
+   "attr": "aria-label",
+   "value": "工具侧栏",
+   "tag": "ASIDE",
+   "testid": "tool-sidebar",
+   "region": "tool-sidebar"
+  },
+  {
+   "attr": "aria-label",
+   "value": "工具",
+   "tag": "NAV",
+   "testid": null,
+   "region": "tool-sidebar"
+  },
+  {
+   "attr": "aria-label",
+   "value": "点击或拖拽上传素材",
+   "tag": "DIV",
+   "testid": "tool-asset-dropzone",
+   "region": "tool-asset-dropzone"
+  },
+  {
+   "attr": "title",
+   "value": "上游无 lipSync 参数：开关已置灰，提交时不带该字段，也不做逐句口型对齐。",
+   "tag": "BUTTON",
+   "testid": "video-translation-lipsync-switch",
+   "region": "video-translation-lipsync-switch"
+  },
+  {
+   "attr": "title",
+   "value": "grok-imagine-video（默认渠道）",
+   "tag": "BUTTON",
+   "testid": null,
+   "region": "video-translation-config"
+  },
+  {
+   "attr": "aria-label",
+   "value": "调整右侧面板宽度",
+   "tag": "BUTTON",
+   "testid": null,
+   "region": "aside"
+  },
+  {
+   "attr": "aria-label",
+   "value": "连接设置，当前未连接",
+   "tag": "BUTTON",
+   "testid": null,
+   "region": "aside"
+  },
+  {
+   "attr": "aria-label",
+   "value": "Agent 内容",
+   "tag": "NAV",
+   "testid": null,
+   "region": "aside"
+  },
+  {
+   "attr": "aria-label",
+   "value": "对话",
+   "tag": "BUTTON",
+   "testid": null,
+   "region": "aside"
+  },
+  {
+   "attr": "aria-label",
+   "value": "历史",
+   "tag": "BUTTON",
+   "testid": null,
+   "region": "aside"
+  },
+  {
+   "attr": "aria-label",
+   "value": "技能",
+   "tag": "BUTTON",
+   "testid": null,
+   "region": "aside"
+  },
+  {
+   "attr": "aria-label",
+   "value": "日志",
+   "tag": "BUTTON",
+   "testid": null,
+   "region": "aside"
+  },
+  {
+   "attr": "aria-label",
+   "value": "新对话",
+   "tag": "BUTTON",
+   "testid": null,
+   "region": "aside"
+  },
+  {
+   "attr": "aria-label",
+   "value": "收起 Agent 面板",
+   "tag": "BUTTON",
+   "testid": null,
+   "region": "aside"
+  }
+ ],
+ "options": [
+  {
+   "id": "video-translation-source-language",
+   "value": "auto",
+   "options": [
+    {
+     "text": "自动识别",
+     "value": "auto"
+    },
+    {
+     "text": "英语（English）",
+     "value": "en"
+    },
+    {
+     "text": "简体中文",
+     "value": "zh"
+    },
+    {
+     "text": "日语（日本語）",
+     "value": "ja"
+    },
+    {
+     "text": "韩语（한국어）",
+     "value": "ko"
+    },
+    {
+     "text": "西班牙语（Español）",
+     "value": "es"
+    },
+    {
+     "text": "葡萄牙语（Português）",
+     "value": "pt"
+    },
+    {
+     "text": "法语（Français）",
+     "value": "fr"
+    },
+    {
+     "text": "德语（Deutsch）",
+     "value": "de"
+    },
+    {
+     "text": "意大利语（Italiano）",
+     "value": "it"
+    },
+    {
+     "text": "俄语（Русский）",
+     "value": "ru"
+    },
+    {
+     "text": "阿拉伯语（العربية）",
+     "value": "ar"
+    },
+    {
+     "text": "泰语（ไทย）",
+     "value": "th"
+    },
+    {
+     "text": "越南语（Tiếng Việt）",
+     "value": "vi"
+    },
+    {
+     "text": "印尼语（Bahasa Indonesia）",
+     "value": "id"
+    },
+    {
+     "text": "土耳其语（Türkçe）",
+     "value": "tr"
+    },
+    {
+     "text": "印地语（हिन्दी）",
+     "value": "hi"
+    }
+   ]
+  },
+  {
+   "id": "video-translation-target-language",
+   "value": "en",
+   "options": [
+    {
+     "text": "英语（English）",
+     "value": "en"
+    },
+    {
+     "text": "简体中文",
+     "value": "zh"
+    },
+    {
+     "text": "日语（日本語）",
+     "value": "ja"
+    },
+    {
+     "text": "韩语（한국어）",
+     "value": "ko"
+    },
+    {
+     "text": "西班牙语（Español）",
+     "value": "es"
+    },
+    {
+     "text": "葡萄牙语（Português）",
+     "value": "pt"
+    },
+    {
+     "text": "法语（Français）",
+     "value": "fr"
+    },
+    {
+     "text": "德语（Deutsch）",
+     "value": "de"
+    },
+    {
+     "text": "意大利语（Italiano）",
+     "value": "it"
+    },
+    {
+     "text": "俄语（Русский）",
+     "value": "ru"
+    },
+    {
+     "text": "阿拉伯语（العربية）",
+     "value": "ar"
+    },
+    {
+     "text": "泰语（ไทย）",
+     "value": "th"
+    },
+    {
+     "text": "越南语（Tiếng Việt）",
+     "value": "vi"
+    },
+    {
+     "text": "印尼语（Bahasa Indonesia）",
+     "value": "id"
+    },
+    {
+     "text": "土耳其语（Türkçe）",
+     "value": "tr"
+    },
+    {
+     "text": "印地语（हिन्दी）",
+     "value": "hi"
+    }
+   ]
+  },
+  {
+   "id": null,
+   "value": "1",
+   "options": [
+    {
+     "text": "1 条",
+     "value": "1"
+    },
+    {
+     "text": "2 条",
+     "value": "2"
+    },
+    {
+     "text": "3 条",
+     "value": "3"
+    },
+    {
+     "text": "4 条",
+     "value": "4"
+    }
+   ]
+  },
+  {
+   "id": "video-translation-output-ratio",
+   "value": "source",
+   "options": [
+    {
+     "text": "跟随原视频",
+     "value": "source"
+    },
+    {
+     "text": "1:1 方形",
+     "value": "1:1"
+    },
+    {
+     "text": "3:4 竖版",
+     "value": "3:4"
+    },
+    {
+     "text": "4:3 横版",
+     "value": "4:3"
+    },
+    {
+     "text": "16:9 横版",
+     "value": "16:9"
+    },
+    {
+     "text": "9:16 竖屏",
+     "value": "9:16"
+    },
+    {
+     "text": "21:9 宽银幕",
+     "value": "21:9"
+    }
+   ]
+  }
+ ],
+ "_switch": "topnav back {'aria': 'Switch to 简体中文', 'text': 'EN'}"
+}
