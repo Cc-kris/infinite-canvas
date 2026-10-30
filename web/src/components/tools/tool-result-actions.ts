@@ -5,6 +5,7 @@ import { hasUsablePayload, withDerivedKind } from "@/lib/result-item-kind";
 import type { Asset } from "@/stores/use-asset-store";
 import type { CanvasNodeMetadata } from "@/types/canvas";
 import { resultAssetKey } from "@/services/api/tools/result-assets";
+import { fitVideoNodeToNatural } from "@/lib/canvas/video-meta-reconcile";
 
 /**
  * TASK-006：工具结果区的纯逻辑与真实副作用（无 React）。
@@ -100,7 +101,7 @@ export function buildResultFileName(toolId: string, item: Pick<ToolTaskResultIte
     return `${prefix}-result-${index + 1}.${extension}`;
 }
 
-export type ResultCanvasNode = { id: string; type: string; title: string; position: { x: number; y: number }; width: number; height: number };
+export type ResultCanvasNode = { id: string; type: string; title: string; position: { x: number; y: number }; width: number; height: number; metadata?: CanvasNodeMetadata };
 
 /** 新节点放在已有节点右侧，保持 160px 间距；画布为空时放在原点附近。 */
 export function nextCanvasNodePosition(nodes: readonly ResultCanvasNode[]): { x: number; y: number } {
@@ -362,6 +363,10 @@ export type ResultCanvasDeps = {
     createNode: (type: "image" | "video", position: { x: number; y: number }, metadata: CanvasNodeMetadata) => ResultCanvasNode;
     imageMetadata: (image: UploadedImage) => CanvasNodeMetadata;
     videoMetadata: (video: UploadedFile) => CanvasNodeMetadata;
+    /** 后台标签拿不到视频宽高时，节点标 mediaMetaPending；这里在标签可见后再校正。 */
+    reconcileVideoMeta?: (projectId: string, nodeId: string) => Promise<unknown>;
+    /** 发画布时先用严格测量拿真实宽高（失败不写假值，交给 reconcile）。 */
+    measureVideo?: (url: string, timeoutMs?: number) => Promise<{ width: number; height: number; durationMs?: number } | null>;
 };
 
 /** 默认装配所需的四个模块，抽成类型便于单测注入替身（真实模块依赖 IndexedDB/axios，纯 Node 下不可直接加载）。 */
@@ -419,6 +424,23 @@ export async function loadResultCanvasDeps(loadModules: () => Promise<ResultCanv
         createNode: factory.createCanvasNode,
         imageMetadata: factory.imageMetadata,
         videoMetadata: factory.videoMetadata,
+        measureVideo: async (url, timeoutMs) => (await import("@/services/media-metadata")).measureVideoMeta(url, timeoutMs),
+        reconcileVideoMeta: async (projectId, nodeId) => {
+            const { reconcileVideoNodeMeta } = await import("@/lib/canvas/video-meta-reconcile");
+            const state = () => canvasStore.useCanvasStore.getState();
+            const findNode = () => state().projects.find((project) => project.id === projectId)?.nodes.find((node) => node.id === nodeId);
+            return reconcileVideoNodeMeta(projectId, nodeId, {
+                readNode: () => {
+                    const node = findNode();
+                    return node ? { width: node.width, height: node.height, position: node.position, metadata: node.metadata } : undefined;
+                },
+                patchNode: (pid, nid, patch) => {
+                    const project = state().projects.find((item) => item.id === pid);
+                    if (!project) return;
+                    state().updateProject(pid, { nodes: project.nodes.map((node) => (node.id === nid ? { ...node, ...patch } : node)) });
+                },
+            });
+        },
     };
 }
 
@@ -455,11 +477,28 @@ export async function sendResultItemToCanvas(item: ToolTaskResultItem, options: 
     if (missing.length > 0) throw new Error(`画布依赖不可用：${missing.join(", ")}`);
 
     const position = nextCanvasNodePosition(nodes);
-    const node =
-        item.kind === "video"
-            ? deps.createNode!("video", position, deps.videoMetadata!(await deps.storeVideo!({ blob: item.blob, url: item.url, mimeType: item.mimeType })))
-            : deps.createNode!("image", position, deps.imageMetadata!(await deps.uploadImage!(await resolveResultUploadSource(item))));
+    let node: ResultCanvasNode;
+    if (item.kind === "video") {
+        const stored = await deps.storeVideo!({ blob: item.blob, url: item.url, mimeType: item.mimeType });
+        let metadata = deps.videoMetadata!(stored);
+        // 发画布是「终态写入点」：metadata 若还是兜底/pending，这里用严格测量补一次真实宽高，
+        // 拿到就按真实比例建框；拿不到才留给 reconcile 在标签可见后校正（绝不写 1280×720）。
+        if (metadata.mediaMetaPending && stored.url) {
+            const measure = deps.measureVideo ?? (await import("@/services/media-metadata")).measureVideoMeta;
+            const meta = await measure(stored.url).catch(() => null);
+            if (meta && meta.width > 0 && meta.height > 0) {
+                metadata = { ...metadata, naturalWidth: meta.width, naturalHeight: meta.height, mediaMetaPending: false, ...(meta.durationMs ? { durationMs: meta.durationMs } : {}) };
+            }
+        }
+        node = fitVideoNodeToNatural(deps.createNode!("video", position, metadata), position);
+    } else {
+        node = deps.createNode!("image", position, deps.imageMetadata!(await deps.uploadImage!(await resolveResultUploadSource(item))));
+    }
 
     deps.updateProject!(projectId, [...nodes, node]);
+    if (item.kind === "video" && node.metadata?.mediaMetaPending && typeof deps.reconcileVideoMeta === "function") {
+        // 不阻塞「已发送」反馈：后台标签只能等可见后再测，校正结果直接 patch 节点。
+        void Promise.resolve(deps.reconcileVideoMeta(projectId, node.id)).catch(() => undefined);
+    }
     return { projectId, nodeId: node.id };
 }

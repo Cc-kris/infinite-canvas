@@ -75,6 +75,8 @@ export type CanvasNodeMetadata = {
     references?: string[];
     naturalWidth?: number;
     naturalHeight?: number;
+    /** true = 宽高还没测到（后台标签媒体被挂起），画布节点暂用占位框，等元数据可用时二次校正。 */
+    mediaMetaPending?: boolean;
     freeResize?: boolean;
     images?: CanvasNodeImage[];
     primaryImageId?: string;

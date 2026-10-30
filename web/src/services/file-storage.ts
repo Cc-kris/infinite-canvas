@@ -5,7 +5,7 @@ import { withLocalProxy } from "@/stores/use-config-store";
 
 import { readAudioMeta, readVideoMeta } from "./media-metadata";
 
-export type UploadedFile = { url: string; storageKey: string; bytes: number; mimeType: string; width?: number; height?: number; durationMs?: number };
+export type UploadedFile = { url: string; storageKey: string; bytes: number; mimeType: string; width?: number; height?: number; durationMs?: number; /** true = 宽高来自超时兜底而非真实解码（发画布时必须二次校正，见 lib/canvas/video-meta-reconcile）。 */ timedOut?: boolean };
 
 export type StoreMediaOptions = {
     /** 上游声明的 MIME（结果项常常只有 mimeType，没有真实 Blob.type）。 */

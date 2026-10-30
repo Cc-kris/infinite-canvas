@@ -29,7 +29,20 @@ export function imageMetadata(image: UploadedImage): CanvasNodeMetadata {
 }
 
 export function videoMetadata(video: UploadedFile): CanvasNodeMetadata {
-    return { content: video.url, storageKey: video.storageKey, status: "success", naturalWidth: video.width, naturalHeight: video.height, bytes: video.bytes, mimeType: video.mimeType || "video/mp4", durationMs: video.durationMs };
+    // 超时兜底（1280×720）只用于「不卡住入库」，绝不写进画布节点：
+    // 标记 mediaMetaPending，由 lib/canvas/video-meta-reconcile 拿到真实宽高后再校正。
+    const width = video.width;
+    const height = video.height;
+    const measured = !video.timedOut && width && height ? { naturalWidth: width, naturalHeight: height } : { mediaMetaPending: true };
+    return {
+        content: video.url,
+        storageKey: video.storageKey,
+        status: "success",
+        bytes: video.bytes,
+        mimeType: video.mimeType || "video/mp4",
+        durationMs: video.durationMs,
+        ...measured,
+    };
 }
 
 export function audioMetadata(audio: UploadedFile): CanvasNodeMetadata {
