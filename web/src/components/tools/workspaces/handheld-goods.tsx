@@ -16,6 +16,8 @@ import { ArrowRight } from "lucide-react";
 import { Link } from "react-router";
 import { listToolsByCategory } from "@/features/tools/registry";
 import { ToolAssetInput } from "@/components/tools/tool-asset-input";
+import { ImageRulesPopover } from "@/components/tools/image-rules-popover";
+import { OrigRail, type RailEntry } from "@/components/tools/workspaces/orig-rail";
 import { ToolTaskHistory } from "@/components/tools/tool-task-history";
 import {
     Design19Chip,
@@ -89,6 +91,19 @@ const SOURCE_CONSTRAINTS = {
 };
 
 export type HandheldGoodsWorkspaceProps = { className?: string };
+
+/** 原站左 rail（商品图设计族）在内容区的等价展示，顺序取自原站 HANDHELD_GOODS 页。 */
+const HANDHELD_GOODS_RAIL: RailEntry[] = [
+    { kind: "flat", label: "商品图" },
+    { kind: "flat", label: "我的商品" },
+    { kind: "flat", label: "场景参考图" },
+    { kind: "flat", label: "商品替换" },
+    { kind: "flat", label: "场景裂变" },
+    { kind: "tool", label: "手持商品", route: "/tools/product-design/handheld-goods" },
+    { kind: "flat", label: "历史记录" },
+    { kind: "tag", label: "企业功能" },
+    { kind: "flat", label: "批量生图" },
+];
 
 export function HandheldGoodsWorkspace({ className }: HandheldGoodsWorkspaceProps = {}) {
     const spec = useMemo(() => getHandheldGoodsSpec(), []);
@@ -345,6 +360,14 @@ export function HandheldGoodsWorkspace({ className }: HandheldGoodsWorkspaceProp
     const submitDisabled = running || issues.length > 0;
     const [rightTab, setRightTab] = useState<"result" | "history">("result");
 
+    /** 「一键做同款」：套用官方示例配置（首个手持姿势 + 1 张），缺商品图时给出提示。 */
+    const applyShowcaseCase = useCallback(() => {
+        const pose = poses[0];
+        if (!pose) return;
+        setState((previous) => ({ ...previous, modelId: pose.id, modelTabType: pose.hand, outputNum: 1 }));
+        setNotice(product ? null : "已套用示例配置，请先上传商品图再生成");
+    }, [poses, product]);
+
     const sidebar = (
         <div className="space-y-1">
             <p className="px-2 text-xs font-medium text-muted-foreground">同类工具</p>
@@ -375,6 +398,7 @@ export function HandheldGoodsWorkspace({ className }: HandheldGoodsWorkspaceProp
                     {notice}
                 </div>
             ) : null}
+            <OrigRail items={HANDHELD_GOODS_RAIL} active="手持商品" driver className="mb-2" testId="handheld-family-rail" />
             <Design19Workbench data-testid="handheld-goods-workspace">
                 <Design19LeftColumn
                     footer={
@@ -391,32 +415,13 @@ export function HandheldGoodsWorkspace({ className }: HandheldGoodsWorkspaceProp
                 >
                     {/* 0. 原站左卡标题：工具名 + 一句话 tagline（real/HANDHELD_GOODS/text.txt L47） */}
                     <Design19Section>
-                        <div className="mb-1 flex flex-wrap items-center gap-1" data-testid="handheld-family-nav">
-                            {["商品图", "我的商品", "场景参考图", "商品替换", "场景裂变", "手持商品", "企业功能"].map((label) => (
-                                <span
-                                    key={label}
-                                    className={cn(
-                                        "rounded-md border px-1.5 py-[2px] text-[11px] leading-4",
-                                        label === "手持商品"
-                                            ? "border-primary bg-primary/10 text-foreground"
-                                            : "border-border text-muted-foreground",
-                                    )}
-                                >
-                                    {label}
-                                </span>
-                            ))}
-                            <span className="ml-auto flex items-center gap-1 text-[11px] leading-4 text-muted-foreground">
-                                <span className="rounded-md border border-border px-1.5 py-[2px]">250</span>
-                                <span>ljq_driver: 已连接</span>
-                            </span>
-                        </div>
                         <p className="text-[16px]! font-medium leading-6 text-foreground!">手持商品</p>
                         <p className="mt-1 text-[12px]! leading-5 text-muted-foreground!">快速生成手持商品图，快速上架</p>
                     </Design19Section>
                     {/* 1. 商品图上传（原站 268x306 浅灰上传面板） */}
                     <Design19Section>
                         <div className="mb-1 flex items-center gap-2">
-                            <span className="text-[12px] leading-[18px] text-muted-foreground">图片规则</span>
+                            <ImageRulesPopover kind="goods" testId="handheld-rules" />
                             <span className="text-[12px] leading-[18px] text-muted-foreground">选择参考图</span>
                         </div>
                         <Design19FieldLabel>上传手持物品</Design19FieldLabel>
@@ -430,9 +435,14 @@ export function HandheldGoodsWorkspace({ className }: HandheldGoodsWorkspaceProp
                             wide
                             compact
                             thirdAction={
-                                <span className="h-6 min-w-0 flex-1 truncate rounded-md border border-border bg-card px-1 text-center text-xs leading-6 text-muted-foreground">
+                                <button
+                                    type="button"
+                                    disabled={running}
+                                    data-testid="handheld-product-library"
+                                    className="h-6 min-w-0 flex-1 truncate rounded-md border border-border bg-card px-1 text-center text-xs leading-6 text-muted-foreground transition hover:text-foreground disabled:opacity-50"
+                                >
                                     从商品库选择
-                                </span>
+                                </button>
                             }
                             title=""
                             hint="10M以内，384*384 ~ 4096*4096"
@@ -575,7 +585,17 @@ export function HandheldGoodsWorkspace({ className }: HandheldGoodsWorkspaceProp
                                 ))}
                             </div>
                         ) : (
-                            <Design19Empty title="暂无生成结果图" hint="快在左侧上传商品图并选择手持姿势吧~" />
+                            <div className="flex flex-col items-center gap-2">
+                                <Design19Empty title="暂无生成结果图" hint="快在左侧上传商品图并选择手持姿势吧~" />
+                                <button
+                                    type="button"
+                                    data-testid="handheld-apply-case"
+                                    onClick={applyShowcaseCase}
+                                    className="rounded-lg border border-border px-4 py-2 text-[12px] leading-[18px] transition hover:bg-primary/10"
+                                >
+                                    一键做同款
+                                </button>
+                            </div>
                         )}
 
                         {running ? (

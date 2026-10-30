@@ -5,6 +5,8 @@ import { ToolAssetInput } from "@/components/tools/tool-asset-input";
 import { ToolCases } from "@/components/tools/tool-cases";
 import type { ToolCase } from "@/components/tools/tool-cases";
 import { ToolResult } from "@/components/tools/tool-result";
+import { ToolTaskHistory } from "@/components/tools/tool-task-history";
+import { ImageRulesPopover } from "@/components/tools/image-rules-popover";
 import { OrigRail, WEAR_RAIL } from "@/components/tools/workspaces/orig-rail";
 import { uploadCaseFiles } from "@/features/tools/case-apply";
 import { AI_WEARABLE_CASES } from "@/features/tools/tool-cases-data";
@@ -365,6 +367,7 @@ function VariantGrid({
 const WEARABLE_RIGHT_TABS = [
     { id: "result", label: "生成结果" },
     { id: "cases", label: "优秀案例" },
+    { id: "history", label: "历史记录" },
 ] as const;
 type WearableRightTabId = (typeof WEARABLE_RIGHT_TABS)[number]["id"];
 
@@ -721,10 +724,7 @@ export function AiWearableWorkspace({ className, toolId = AI_WEARABLE_TOOL_ID }:
         <div data-testid="dress-workspace" className={cn("flex flex-col gap-3", className)}>
             <OrigRail items={WEAR_RAIL} active="AI穿戴" driver testId="ai-wearable-rail" />
             <div className="flex flex-wrap items-center gap-x-3 gap-y-1 rounded-md border border-dashed border-border bg-card px-3 py-1.5 text-[11px] text-muted-foreground" data-testid="tool-align-bar">
-                <button type="button" className="underline-offset-2 hover:underline">图片规则</button>
-                <span>从本地上传</span>
-                <span>从作品库选择</span>
-                <span>从商品库选择</span>
+                <ImageRulesPopover kind="wearable" testId="ai-wearable-rules" />
                 <span>选择参考图</span>
             </div>
             <div className="flex flex-wrap items-center justify-between gap-2 rounded-md border border-dashed px-3 py-1.5 text-[11px] text-muted-foreground" data-testid="tool-tour-hint">
@@ -1086,14 +1086,30 @@ export function AiWearableWorkspace({ className, toolId = AI_WEARABLE_TOOL_ID }:
                                 ) : null}
                                 {result.cells.some((cell) => cell.status === "succeeded" || cell.status === "failed") || running ? (
                                     <VariantGrid cells={result.cells} expected={values.outputNum} running={running} onRetryCell={(index) => void submit(index)} />
-                                ) : null}
+                                ) : (
+                                    <div className="flex flex-col items-center gap-2 py-4">
+                                        <p className="text-[11px] text-muted-foreground">快在左侧上传商品图并选择穿戴区域吧~</p>
+                                        <button
+                                            type="button"
+                                            data-testid="ai-wearable-apply-case"
+                                            disabled={applyingCaseId !== null}
+                                            onClick={() => {
+                                                const showcase = AI_WEARABLE_CASES[0];
+                                                if (showcase) void applyCase(showcase);
+                                            }}
+                                            className="rounded-lg border border-border px-4 py-2 text-[12px] leading-[18px] transition hover:bg-primary/10 disabled:opacity-50"
+                                        >
+                                            一键做同款
+                                        </button>
+                                    </div>
+                                )}
                             </Section>
 
                             {task ? (
                                 <ToolResult task={task} toolId={toolId} title="结果资产" onCancel={running ? cancel : undefined} />
                             ) : null}
                         </>
-                    ) : (
+                    ) : rightTab === "cases" ? (
                         <Section title="优秀案例" hint="选一条优秀案例，一键回填商品图与模特参考图" testId="dress-cases">
                             <ToolCases
                                 cases={AI_WEARABLE_CASES}
@@ -1101,6 +1117,10 @@ export function AiWearableWorkspace({ className, toolId = AI_WEARABLE_TOOL_ID }:
                                 onApply={applyCase}
                                 emptyHint="暂无优秀案例"
                             />
+                        </Section>
+                    ) : (
+                        <Section title="历史记录" hint="本工具最近的提交与结果" testId="dress-history">
+                            <ToolTaskHistory toolId={toolId} limit={8} emptyHint="还没有 AI 穿戴任务记录" />
                         </Section>
                     )}
                 </div>
