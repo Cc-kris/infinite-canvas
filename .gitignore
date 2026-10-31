@@ -32,3 +32,6 @@ web/.playwright/
 .verify-tools/
 .worktrees/
 web/public/__acc/
+.backup-*/
+.tmp_*/
+.worker-accept-*/
