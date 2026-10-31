@@ -82,13 +82,6 @@ export function OrnamentTextWorkspace() {
             <p className="max-w-md text-center text-sm text-muted-foreground" data-testid="ornament-text-unavailable">
                 重定向到 /home 首页，工具未开通；无工具 DOM
             </p>
-            <button
-                type="button"
-                data-testid="ornament-text-business-consult"
-                className="inline-flex h-8 items-center justify-center rounded-lg border border-border px-4 text-[13px] leading-none text-foreground transition hover:border-primary hover:text-primary"
-            >
-                业务咨询
-            </button>
         </div>
     );
 }

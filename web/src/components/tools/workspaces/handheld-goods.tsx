@@ -78,6 +78,7 @@ import { uploadToolAsset, type ToolAssetRecord } from "@/services/api/tools/asse
 import { useToolDraftStore } from "@/stores/use-tool-draft-store";
 import { WatermarkGroupPanel } from "@/components/tools/watermark-group-panel";
 import { CropOriginalDialog } from "@/components/tools/crop-original-dialog";
+import { ProductImageEditDialog, type ProductImageEditMode, type ProductImageEditSource } from "@/components/tools/product-image-edit-dialog";
 
 const SOURCE_CONSTRAINTS = {
     kind: "image" as const,
@@ -125,6 +126,8 @@ export function HandheldGoodsWorkspace({ className }: HandheldGoodsWorkspaceProp
 
     const [state, setState] = useState<HandheldGoodsState>(() => createHandheldGoodsState());
     const [product, setProduct] = useState<ToolAssetRecord | null>(null);
+    /** 外部回填（裁剪/消除/抠图）后要同步给上传区的资产 id；上传区自管选中态，只改 product 不会刷新预览。 */
+    const [productSyncIds, setProductSyncIds] = useState<string[] | undefined>(undefined);
     const [draftReady, setDraftReady] = useState(false);
     const [running, setRunning] = useState(false);
     const [runs, setRuns] = useState<HandheldGoodsRun[]>([]);
@@ -363,6 +366,9 @@ export function HandheldGoodsWorkspace({ className }: HandheldGoodsWorkspaceProp
     /** 「一键做同款」之后出现的「点击这里裁剪原图尺寸」入口（原站同位置）。 */
     const [cropEntryVisible, setCropEntryVisible] = useState(false);
     const [cropDialogOpen, setCropDialogOpen] = useState(false);
+    /** 「消除 / 抠图」弹窗：真实上游能力，结果回流为新的商品图。 */
+    const [editMode, setEditMode] = useState<ProductImageEditMode | null>(null);
+    const [editSource, setEditSource] = useState<ProductImageEditSource | null>(null);
 
     /** 「一键做同款」：套用官方示例配置（首个手持姿势 + 1 张），缺商品图时给出提示。 */
     const applyShowcaseCase = useCallback(() => {
@@ -379,6 +385,43 @@ export function HandheldGoodsWorkspace({ className }: HandheldGoodsWorkspaceProp
         const record = await uploadToolAsset(file, { constraints: SOURCE_CONSTRAINTS });
         setProduct(record);
         setNotice("已按所选比例裁剪原图，并作为商品图使用");
+    }, []);
+
+    /** 打开消除 / 抠图：先把已上传的商品图转成 dataUrl（上游只认 data/http URL）。 */
+    const openEdit = useCallback(async (mode: ProductImageEditMode) => {
+        if (!product) {
+            setNotice("请先上传商品图，再做消除或抠图");
+            return;
+        }
+        try {
+            const response = await fetch(product.url);
+            const blob = await response.blob();
+            const dataUrl = await new Promise<string>((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onload = () => resolve(String(reader.result ?? ""));
+                reader.onerror = () => reject(reader.error ?? new Error("读取原图失败"));
+                reader.readAsDataURL(blob);
+            });
+            setEditSource({
+                id: product.id,
+                name: product.name,
+                dataUrl,
+                width: product.width ?? 1024,
+                height: product.height ?? 1024,
+            });
+            setEditMode(mode);
+        } catch (error) {
+            setNotice(error instanceof Error ? `读取原图失败：${error.message}` : "读取原图失败");
+        }
+    }, [product]);
+
+    /** 消除 / 抠图结果：按普通上传的同一套校验重新入库，替换商品图。 */
+    const handleEdited = useCallback(async (file: File) => {
+        const record = await uploadToolAsset(file, { constraints: SOURCE_CONSTRAINTS });
+        setProduct(record);
+        setProductSyncIds([record.id]);
+        setEditMode(null);
+        setNotice("已用处理后的图替换商品图");
     }, []);
 
     const sidebar = (
@@ -459,9 +502,11 @@ export function HandheldGoodsWorkspace({ className }: HandheldGoodsWorkspaceProp
                             }
                             title=""
                             hint="10M以内，384*384 ~ 4096*4096"
+                            syncIds={productSyncIds}
                             onChange={(assetIds, records) => {
                                 const record = records[0] ?? null;
                                 setProduct(record);
+                                setProductSyncIds(assetIds.length ? assetIds : undefined);
                                 if (assetIds.length) setNotice(null);
                             }}
                         />
@@ -609,14 +654,32 @@ export function HandheldGoodsWorkspace({ className }: HandheldGoodsWorkspaceProp
                                     一键做同款
                                 </button>
                                 {cropEntryVisible ? (
-                                    <button
-                                        type="button"
-                                        data-testid="handheld-crop-original"
-                                        onClick={() => setCropDialogOpen(true)}
-                                        className="text-[12px] leading-[18px] text-primary underline underline-offset-2 transition hover:opacity-80"
-                                    >
-                                        点击这里裁剪原图尺寸
-                                    </button>
+                                    <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-1">
+                                        <button
+                                            type="button"
+                                            data-testid="handheld-crop-original"
+                                            onClick={() => setCropDialogOpen(true)}
+                                            className="text-[12px] leading-[18px] text-primary underline underline-offset-2 transition hover:opacity-80"
+                                        >
+                                            点击这里裁剪原图尺寸
+                                        </button>
+                                        <button
+                                            type="button"
+                                            data-testid="handheld-erase-original"
+                                            onClick={() => void openEdit("erase")}
+                                            className="text-[12px] leading-[18px] text-primary underline underline-offset-2 transition hover:opacity-80"
+                                        >
+                                            点击这里消除原图瑕疵
+                                        </button>
+                                        <button
+                                            type="button"
+                                            data-testid="handheld-cutout-original"
+                                            onClick={() => void openEdit("cutout")}
+                                            className="text-[12px] leading-[18px] text-primary underline underline-offset-2 transition hover:opacity-80"
+                                        >
+                                            点击这里继续抠图
+                                        </button>
+                                    </div>
                                 ) : null}
                             </div>
                         )}
@@ -661,6 +724,14 @@ export function HandheldGoodsWorkspace({ className }: HandheldGoodsWorkspaceProp
                 src={product?.url ?? null}
                 onClose={() => setCropDialogOpen(false)}
                 onCropped={handleCropped}
+            />
+
+            <ProductImageEditDialog
+                open={editMode !== null}
+                mode={editMode ?? "erase"}
+                source={editSource}
+                onClose={() => setEditMode(null)}
+                onApply={handleEdited}
             />
         </div>
     );
