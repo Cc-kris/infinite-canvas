@@ -468,7 +468,12 @@ export function ImageToVideoWorkspace({ className, toolId = IMAGE_TO_VIDEO_TOOL_
                             hint={`支持上传${IMAGE_TO_VIDEO_UPLOAD.maxCount}张图，10M以内，384*384 ~ 4096*4096，宽高比（宽÷高）0.4～2.5（含边界）`}
                         />
                         <label className="flex flex-col gap-1 text-[11px] text-muted-foreground">
-                            <span>商品信息（选填）</span>
+                            <span className="flex items-center justify-between">
+                                <span>商品信息（选填）</span>
+                                <span className="tabular-nums text-[11px] text-muted-foreground">
+                                    {values.productInfo.length} / {IMAGE_TO_VIDEO_PRODUCT_INFO_LIMIT}
+                                </span>
+                            </span>
                             <textarea
                                 data-testid="image-to-video-product-info"
                                 rows={3}

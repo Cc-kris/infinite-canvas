@@ -26,3 +26,9 @@ desktop/build/icon.iconset
 web/test-results/
 web/playwright-report/
 web/.playwright/
+
+# 验收/探针临时产物（勿入库）
+.acceptance-profile/
+.verify-tools/
+.worktrees/
+web/public/__acc/

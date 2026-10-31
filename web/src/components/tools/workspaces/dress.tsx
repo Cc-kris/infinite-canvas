@@ -794,7 +794,7 @@ export function AiWearableWorkspace({ className, toolId = AI_WEARABLE_TOOL_ID }:
                         </div>
                     </Section>
 
-                    <Section title="2. 商品品类" testId="dress-category">
+                    <Section title="2. 选择商品品类" testId="dress-category">
                         <Segmented
                             label="穿戴的商品品类"
                             value={values.productCategory}
