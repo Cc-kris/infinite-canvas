@@ -24,11 +24,9 @@ import {
     Design19ChipGroup,
     Design19Empty,
     Design19FieldLabel,
-    Design19LeftColumn,
     Design19PrimaryButton,
     Design19Results,
     Design19Section,
-    Design19Workbench,
 } from "@/components/tools/design19-frame";
 import { cn } from "@/lib/utils";
 import { useToolTaskStore } from "@/stores/use-tool-task-store";
@@ -76,7 +74,7 @@ import {
 import type { ReferenceImage } from "@/types/image";
 import { uploadToolAsset, type ToolAssetRecord } from "@/services/api/tools/assets";
 import { useToolDraftStore } from "@/stores/use-tool-draft-store";
-import { WatermarkGroupPanel } from "@/components/tools/watermark-group-panel";
+import { ToolWorkspaceColumns } from "@/components/tools/tool-workspace-columns";
 import { CropOriginalDialog } from "@/components/tools/crop-original-dialog";
 import { ProductImageEditDialog, type ProductImageEditMode, type ProductImageEditSource } from "@/components/tools/product-image-edit-dialog";
 
@@ -455,20 +453,10 @@ export function HandheldGoodsWorkspace({ className }: HandheldGoodsWorkspaceProp
                 </div>
             ) : null}
             <OrigRail items={HANDHELD_GOODS_RAIL} active="手持商品" driver className="mb-2" testId="handheld-family-rail" />
-            <Design19Workbench data-testid="handheld-goods-workspace">
-                <Design19LeftColumn
-                    footer={
-                        <Design19PrimaryButton
-                            data-testid="handheld-submit"
-                            onClick={() => void submit()}
-                            disabled={submitDisabled}
-                            title={issues[0]?.message}
-                        >
-                            <span>{running ? "生成中…" : "立即生成"}</span>
-                            <span className="ml-1 text-[11px] leading-4 text-muted-foreground">(40算力)</span>
-                        </Design19PrimaryButton>
-                    }
-                >
+            <ToolWorkspaceColumns
+                data-testid="handheld-goods-workspace"
+                config={(
+                    <div className="flex min-h-0 flex-col gap-2">
                     {/* 0. 原站左卡标题：工具名 + 一句话 tagline（real/HANDHELD_GOODS/text.txt L47） */}
                     <Design19Section>
                         <p className="text-[16px]! font-medium leading-6 text-foreground!">手持商品</p>
@@ -583,8 +571,20 @@ export function HandheldGoodsWorkspace({ className }: HandheldGoodsWorkspaceProp
                             </ul>
                         ) : null}
                     </Design19Section>
-                </Design19LeftColumn>
-
+                        <div className="shrink-0 pt-2">
+                        <Design19PrimaryButton
+                            data-testid="handheld-submit"
+                            onClick={() => void submit()}
+                            disabled={submitDisabled}
+                            title={issues[0]?.message}
+                        >
+                            <span>{running ? "生成中…" : "立即生成"}</span>
+                        </Design19PrimaryButton>
+                        </div>
+                    </div>
+                )}
+            >
+                <section data-region="results" className="flex min-h-[480px] min-w-0 flex-1 flex-col overflow-hidden rounded-lg bg-card">
                 <Design19Results
                     tabs={[{ id: "result", label: "生成结果" }]}
                     active={rightTab}
@@ -710,14 +710,14 @@ export function HandheldGoodsWorkspace({ className }: HandheldGoodsWorkspaceProp
                             </div>
                         ) : null}
 
-                        <WatermarkGroupPanel className="mt-3" />
                     </div>
 
                     <div role="tabpanel" hidden={rightTab !== "history"} data-testid="handheld-panel-history" className="min-h-full px-3 py-3">
                         <ToolTaskHistory toolId={HANDHELD_GOODS_TOOL_ID} limit={8} emptyHint="还没有手持商品任务记录" />
                     </div>
                 </Design19Results>
-            </Design19Workbench>
+                </section>
+            </ToolWorkspaceColumns>
 
             <CropOriginalDialog
                 open={cropDialogOpen}

@@ -14,6 +14,7 @@ import { useCallback, useEffect, useMemo, useRef, useState, type KeyboardEvent, 
 import { AlertTriangle, ArrowDown, ArrowUp, Copy, ImagePlus, Loader2, Plus, Redo2, Trash2, Undo2 } from "lucide-react";
 
 import { ToolResult } from "@/components/tools/tool-result";
+import { ToolWorkspaceColumns } from "@/components/tools/tool-workspace-columns";
 import { cn } from "@/lib/utils";
 import { DEFAULT_IMAGE_CONSTRAINTS, uploadToolAsset } from "@/services/api/tools/assets";
 import {
@@ -471,128 +472,10 @@ export function ImageTextEditWorkspace() {
                 </div>
             </div>
 
-            <div className="grid gap-4 xl:grid-cols-[minmax(0,1fr)_minmax(0,380px)]">
-                {/* 图片文字画布 */}
-                <section className={cardClass} aria-label="图片文字画布">
-                    <header className="mb-3 flex flex-wrap items-center justify-between gap-2">
-                        <h2 className="text-sm font-medium">图片文字画布</h2>
-                        <div className="flex flex-wrap items-center gap-2">
-                            <button type="button" className={smallButton} onClick={() => fileRef.current?.click()} disabled={uploading}>
-                                {uploading ? <Loader2 className="h-4 w-4 animate-spin" /> : <ImagePlus className="h-4 w-4" />}
-                                {values.imageUrl ? "更换源图" : "上传源图"}
-                            </button>
-                            <button
-                                type="button"
-                                className={smallButton}
-                                onClick={() => {
-                                    const next = addImageTextBox(values.boxes);
-                                    if (next === values.boxes) return;
-                                    commitBoxes(next);
-                                    setSelectedId(next[next.length - 1]?.id ?? "");
-                                }}
-                                disabled={!values.imageUrl || values.boxes.length >= IMAGE_TEXT_EDIT_MAX_BOXES}
-                            >
-                                <Plus className="h-4 w-4" /> 新增文字框
-                            </button>
-                        </div>
-                    </header>
-                    <input
-                        ref={fileRef}
-                        type="file"
-                        accept="image/png,image/jpeg,image/webp"
-                        className="hidden"
-                        data-testid="image-text-edit-file"
-                        onChange={(event) => {
-                            const file = event.target.files?.[0];
-                            event.target.value = "";
-                            if (file) void applyAsset(file);
-                        }}
-                    />
-
-                    {values.imageUrl ? (
-                        <div
-                            ref={canvasRef}
-                            role="group"
-                            aria-label="文字框画布"
-                            tabIndex={0}
-                            className="relative w-full overflow-hidden rounded-xl border border-[var(--border)] bg-[var(--muted)] outline-none focus-visible:ring-2 focus-visible:ring-[var(--primary)]"
-                            style={{ aspectRatio: `${values.imageWidth || 1} / ${values.imageHeight || 1}` }}
-                            onPointerDown={(event) => {
-                                createRef.current = { startX: event.clientX, startY: event.clientY };
-                                setSelectedId("");
-                            }}
-                            onPointerMove={onCanvasPointerMove}
-                            onPointerUp={endCanvasPointer}
-                            onPointerCancel={endCanvasPointer}
-                            onKeyDown={onCanvasKeyDown}
-                        >
-                            {/* 源图只作为底图显示，导出走新结果，永不覆盖原图 */}
-                            <img src={values.imageUrl} alt={values.imageName || "源图"} className="pointer-events-none absolute inset-0 h-full w-full select-none object-contain" draggable={false} />
-                            {values.boxes.map((box, index) => {
-                                const layout = measureImageTextBox(box, values.imageWidth, values.imageHeight);
-                                const overflow = layout.overflowX || layout.overflowY;
-                                const missing = layout.missingGlyphs.length > 0;
-                                return (
-                                    <div
-                                        key={box.id}
-                                        role="button"
-                                        tabIndex={0}
-                                        aria-label={imageTextEditBoxLabel(box, index)}
-                                        data-testid={`image-text-edit-box-${box.id}`}
-                                        onPointerDown={(event) => startBoxDrag(event, box)}
-                                        onKeyDown={(event) => {
-                                            if (event.key === "Enter" || event.key === " ") {
-                                                event.preventDefault();
-                                                setSelectedId(box.id);
-                                            }
-                                        }}
-                                        className={cn(
-                                            "absolute cursor-move rounded-[3px] border-2 text-left",
-                                            selectedId === box.id ? "border-[var(--primary)] ring-2 ring-[var(--primary)]/40" : "border-white/70",
-                                            overflow ? "bg-amber-400/10" : missing ? "bg-rose-500/10" : "bg-emerald-400/10",
-                                        )}
-                                        style={{ left: `${box.x * 100}%`, top: `${box.y * 100}%`, width: `${box.width * 100}%`, height: `${box.height * 100}%` }}
-                                    >
-                                        <span
-                                            className="pointer-events-none block h-full w-full overflow-hidden whitespace-pre-wrap"
-                                            style={{
-                                                color: box.color,
-                                                fontFamily: imageTextEditFontStack(box.fontId),
-                                                fontSize: `${Math.max(6, box.fontSize * scale)}px`,
-                                                fontWeight: box.fontWeight,
-                                                lineHeight: 1.25,
-                                                textAlign: box.align,
-                                            }}
-                                        >
-                                            {box.text || "（空文本）"}
-                                        </span>
-                                    </div>
-                                );
-                            })}
-                            {draftRect ? (
-                                <div
-                                    aria-hidden="true"
-                                    className="pointer-events-none absolute border-2 border-dashed border-[var(--primary)] bg-[var(--primary)]/10"
-                                    style={{ left: `${draftRect.x * 100}%`, top: `${draftRect.y * 100}%`, width: `${draftRect.width * 100}%`, height: `${draftRect.height * 100}%` }}
-                                />
-                            ) : null}
-                        </div>
-                    ) : (
-                        <button
-                            type="button"
-                            onClick={() => fileRef.current?.click()}
-                            className="flex min-h-52 w-full flex-col items-center justify-center gap-2 rounded-xl border border-dashed border-[var(--border)] bg-[var(--background)] text-sm text-[var(--muted-foreground)] hover:border-[var(--primary)]"
-                        >
-                            <ImagePlus className="h-6 w-6" />
-                            上传 JPG / PNG / WebP 源图后开始框选文字
-                        </button>
-                    )}
-
-                    <p className="mt-2 text-[11px] text-[var(--muted-foreground)]">在画布空白处拖拽可框选新文字框；选中后方向键微调（Shift 加速）、Delete 删除、⌘/Ctrl+Z 撤销。</p>
-                    {uploadNote ? <p className="mt-1 text-xs text-[var(--muted-foreground)]">{uploadNote}</p> : null}
-                </section>
-
-                <div className="flex flex-col gap-4">
+            <ToolWorkspaceColumns
+                configSide="right"
+                config={(
+                    <>
                     {/* 属性编辑 */}
                     <section className={cardClass} aria-label="属性编辑">
                         <h2 className="mb-3 text-sm font-medium">属性编辑</h2>
@@ -677,7 +560,7 @@ export function ImageTextEditWorkspace() {
                                     </button>
                                     <button
                                         type="button"
-                                        className={cn(smallButton, "text-rose-500")}
+                                        className={cn(smallButton, "text-destructive")}
                                         onClick={() => {
                                             commitBoxes(removeImageTextBox(values.boxes, selected.id));
                                             setSelectedId("");
@@ -710,8 +593,8 @@ export function ImageTextEditWorkspace() {
                                             <button type="button" className="min-h-10 flex-1 truncate text-left text-xs" onClick={() => setSelectedId(box.id)}>
                                                 {imageTextEditBoxLabel(box, index)}
                                             </button>
-                                            {layout.overflowX || layout.overflowY ? <AlertTriangle className="h-3.5 w-3.5 shrink-0 text-amber-500" aria-label="预计溢出" /> : null}
-                                            {layout.missingGlyphs.length ? <span className="shrink-0 text-[10px] text-rose-500">缺字</span> : null}
+                                            {layout.overflowX || layout.overflowY ? <AlertTriangle className="h-3.5 w-3.5 shrink-0 text-destructive" aria-label="预计溢出" /> : null}
+                                            {layout.missingGlyphs.length ? <span className="shrink-0 text-[10px] text-destructive">缺字</span> : null}
                                             <button
                                                 type="button"
                                                 className="min-h-10 min-w-8 text-[var(--muted-foreground)] hover:text-[var(--foreground)]"
@@ -740,7 +623,7 @@ export function ImageTextEditWorkspace() {
                                             </button>
                                             <button
                                                 type="button"
-                                                className="min-h-10 min-w-8 text-rose-500"
+                                                className="min-h-10 min-w-8 text-destructive"
                                                 aria-label={`删除 ${index + 1}`}
                                                 onClick={() => {
                                                     commitBoxes(removeImageTextBox(values.boxes, box.id));
@@ -778,7 +661,7 @@ export function ImageTextEditWorkspace() {
                         {issues.length ? (
                             <ul className="mt-3 flex flex-col gap-1">
                                 {issues.map((issue) => (
-                                    <li key={`${issue.code}-${issue.boxId ?? ""}`} className={cn("flex items-start gap-1.5 text-[11px]", isBlockingImageTextEditIssue(issue) ? "text-rose-500" : "text-amber-500")}>
+                                    <li key={`${issue.code}-${issue.boxId ?? ""}`} className={cn("flex items-start gap-1.5 text-[11px]", isBlockingImageTextEditIssue(issue) ? "text-destructive" : "text-destructive")}>
                                         <AlertTriangle className="mt-0.5 h-3.5 w-3.5 shrink-0" />
                                         <span>{issue.message}</span>
                                     </li>
@@ -798,11 +681,131 @@ export function ImageTextEditWorkspace() {
                                 生成图片文字
                             </button>
                             <p className="text-[11px] text-[var(--muted-foreground)]">{IMAGE_TEXT_EDIT_NOTICE}</p>
-                            {errorText ? <p className="text-xs text-rose-500">{errorText}</p> : null}
+                            {errorText ? <p className="text-xs text-destructive">{errorText}</p> : null}
                         </div>
                     </section>
-                </div>
-            </div>
+                    </>
+                )}
+            >
+                {/* 图片文字画布 */}
+                <section className={cardClass} aria-label="图片文字画布">
+                    <header className="mb-3 flex flex-wrap items-center justify-between gap-2">
+                        <h2 className="text-sm font-medium">图片文字画布</h2>
+                        <div className="flex flex-wrap items-center gap-2">
+                            <button type="button" className={smallButton} onClick={() => fileRef.current?.click()} disabled={uploading}>
+                                {uploading ? <Loader2 className="h-4 w-4 animate-spin" /> : <ImagePlus className="h-4 w-4" />}
+                                {values.imageUrl ? "更换源图" : "上传源图"}
+                            </button>
+                            <button
+                                type="button"
+                                className={smallButton}
+                                onClick={() => {
+                                    const next = addImageTextBox(values.boxes);
+                                    if (next === values.boxes) return;
+                                    commitBoxes(next);
+                                    setSelectedId(next[next.length - 1]?.id ?? "");
+                                }}
+                                disabled={!values.imageUrl || values.boxes.length >= IMAGE_TEXT_EDIT_MAX_BOXES}
+                            >
+                                <Plus className="h-4 w-4" /> 新增文字框
+                            </button>
+                        </div>
+                    </header>
+                    <input
+                        ref={fileRef}
+                        type="file"
+                        accept="image/png,image/jpeg,image/webp"
+                        className="hidden"
+                        data-testid="image-text-edit-file"
+                        onChange={(event) => {
+                            const file = event.target.files?.[0];
+                            event.target.value = "";
+                            if (file) void applyAsset(file);
+                        }}
+                    />
+
+                    {values.imageUrl ? (
+                        <div
+                            ref={canvasRef}
+                            role="group"
+                            aria-label="文字框画布"
+                            tabIndex={0}
+                            className="relative w-full overflow-hidden rounded-xl border border-[var(--border)] bg-[var(--muted)] outline-none focus-visible:ring-2 focus-visible:ring-[var(--primary)]"
+                            style={{ aspectRatio: `${values.imageWidth || 1} / ${values.imageHeight || 1}` }}
+                            onPointerDown={(event) => {
+                                createRef.current = { startX: event.clientX, startY: event.clientY };
+                                setSelectedId("");
+                            }}
+                            onPointerMove={onCanvasPointerMove}
+                            onPointerUp={endCanvasPointer}
+                            onPointerCancel={endCanvasPointer}
+                            onKeyDown={onCanvasKeyDown}
+                        >
+                            {/* 源图只作为底图显示，导出走新结果，永不覆盖原图 */}
+                            <img src={values.imageUrl} alt={values.imageName || "源图"} className="pointer-events-none absolute inset-0 h-full w-full select-none object-contain" draggable={false} />
+                            {values.boxes.map((box, index) => {
+                                const layout = measureImageTextBox(box, values.imageWidth, values.imageHeight);
+                                const overflow = layout.overflowX || layout.overflowY;
+                                const missing = layout.missingGlyphs.length > 0;
+                                return (
+                                    <div
+                                        key={box.id}
+                                        role="button"
+                                        tabIndex={0}
+                                        aria-label={imageTextEditBoxLabel(box, index)}
+                                        data-testid={`image-text-edit-box-${box.id}`}
+                                        onPointerDown={(event) => startBoxDrag(event, box)}
+                                        onKeyDown={(event) => {
+                                            if (event.key === "Enter" || event.key === " ") {
+                                                event.preventDefault();
+                                                setSelectedId(box.id);
+                                            }
+                                        }}
+                                        className={cn(
+                                            "absolute cursor-move rounded-[3px] border-2 text-left",
+                                            selectedId === box.id ? "border-[var(--primary)] ring-2 ring-[var(--primary)]/40" : "border-white/70",
+                                            overflow ? "bg-accent" : missing ? "bg-destructive/10" : "bg-primary/10",
+                                        )}
+                                        style={{ left: `${box.x * 100}%`, top: `${box.y * 100}%`, width: `${box.width * 100}%`, height: `${box.height * 100}%` }}
+                                    >
+                                        <span
+                                            className="pointer-events-none block h-full w-full overflow-hidden whitespace-pre-wrap"
+                                            style={{
+                                                color: box.color,
+                                                fontFamily: imageTextEditFontStack(box.fontId),
+                                                fontSize: `${Math.max(6, box.fontSize * scale)}px`,
+                                                fontWeight: box.fontWeight,
+                                                lineHeight: 1.25,
+                                                textAlign: box.align,
+                                            }}
+                                        >
+                                            {box.text || "（空文本）"}
+                                        </span>
+                                    </div>
+                                );
+                            })}
+                            {draftRect ? (
+                                <div
+                                    aria-hidden="true"
+                                    className="pointer-events-none absolute border-2 border-dashed border-[var(--primary)] bg-[var(--primary)]/10"
+                                    style={{ left: `${draftRect.x * 100}%`, top: `${draftRect.y * 100}%`, width: `${draftRect.width * 100}%`, height: `${draftRect.height * 100}%` }}
+                                />
+                            ) : null}
+                        </div>
+                    ) : (
+                        <button
+                            type="button"
+                            onClick={() => fileRef.current?.click()}
+                            className="flex min-h-52 w-full flex-col items-center justify-center gap-2 rounded-xl border border-dashed border-[var(--border)] bg-[var(--background)] text-sm text-[var(--muted-foreground)] hover:border-[var(--primary)]"
+                        >
+                            <ImagePlus className="h-6 w-6" />
+                            上传 JPG / PNG / WebP 源图后开始框选文字
+                        </button>
+                    )}
+
+                    <p className="mt-2 text-[11px] text-[var(--muted-foreground)]">在画布空白处拖拽可框选新文字框；选中后方向键微调（Shift 加速）、Delete 删除、⌘/Ctrl+Z 撤销。</p>
+                    {uploadNote ? <p className="mt-1 text-xs text-[var(--muted-foreground)]">{uploadNote}</p> : null}
+                </section>
 
             {/* 结果 */}
             <section className={cardClass} aria-label="图片文字结果">
@@ -814,9 +817,10 @@ export function ImageTextEditWorkspace() {
                     </span>
                 </header>
                 {resultNotice ? <p className="mb-2 text-xs text-[var(--muted-foreground)]">{resultNotice}</p> : null}
-                {staleNotice ? <p className="mb-2 text-xs text-amber-500">{staleNotice}</p> : null}
+                {staleNotice ? <p className="mb-2 text-xs text-destructive">{staleNotice}</p> : null}
                 <ToolResult task={latest ?? null} toolId={toolId} title="图片文字结果" onRetry={handleRetry} />
             </section>
+            </ToolWorkspaceColumns>
         </div>
     );
 }

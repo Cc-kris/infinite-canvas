@@ -81,13 +81,13 @@ import {
     type RemovePenSnapshot,
 } from "@/features/tools/registry/remove-pen";
 import { cn, randomId } from "@/lib/utils";
+import { ToolWorkspaceColumns } from "@/components/tools/tool-workspace-columns";
 import { loadToolAssetRecords, type ToolAssetRecord } from "@/services/api/tools/assets";
 import type { ToolTask, ToolTaskResultItem } from "@/services/api/tools/task-machine";
 import { imageToDataUrl } from "@/services/image-storage";
 import { resolveMediaUrl } from "@/services/file-storage";
 import { flushToolDrafts, useToolDraftStore } from "@/stores/use-tool-draft-store";
 import { useToolTaskStore } from "@/stores/use-tool-task-store";
-import { WatermarkGroupPanel } from "@/components/tools/watermark-group-panel";
 
 export type MaskWorkspaceProps = { className?: string };
 
@@ -654,7 +654,95 @@ export function MaskWorkspace({ className }: MaskWorkspaceProps = {}) {
             <div className="px-2 pb-1">
                 <OrigRail items={SMART_EDIT_RAIL} active="局部重绘" driver testId="area-repair-rail" />
             </div>
-            <Edit8Page toolId={TOOL_ID} data-testid="area-repair-workspace">
+            <div data-tool={TOOL_ID} data-layout="linkfox-edit8" data-testid="area-repair-workspace" className="h-full min-h-0 overflow-y-auto bg-background p-4 text-foreground">
+                <ToolWorkspaceColumns
+                    canvas
+                    configSide="right"
+                    className="min-h-0"
+                    config={(
+                <Edit8Config
+                        className="w-full"
+                    data-testid="area-repair-config"
+                    footer={
+                        <div className="flex flex-col gap-1">
+                            <button
+                                type="button"
+                                data-testid="area-repair-submit"
+                                disabled={busy || issues.length > 0}
+                                onClick={() => void submit()}
+                                className={edit8PrimaryButtonClass}
+                            >
+                                <Sparkles className="mr-1 size-3.5" aria-hidden />
+                                <span>{busy ? "生成中…" : "立即生成"}</span>
+                            </button>
+                        </div>
+                    }
+                >
+                    <Edit8Section title="重绘描述*" aside={`${prompt.length} / ${AREA_REPAIR_PROMPT_MAX}`}>
+                        <textarea
+                            id="area-repair-prompt"
+                            data-testid="area-repair-prompt"
+                            value={prompt}
+                            maxLength={AREA_REPAIR_PROMPT_MAX}
+                            disabled={busy}
+                            onChange={(event) => {
+                                const next = event.target.value.slice(0, AREA_REPAIR_PROMPT_MAX);
+                                promptRef.current = next;
+                                setPrompt(next);
+                                persist(stateRef.current);
+                            }}
+                            placeholder="例如：把涂抹区域换成米色针织沙发，保留原有光影和地面阴影"
+                            className="h-[118px] w-full resize-none rounded-lg border border-border bg-card p-[10px] text-[13px] leading-5 text-foreground outline-none transition focus:border-primary"
+                        />
+                    </Edit8Section>
+
+                    <Edit8Section title="生成张数">
+                        <div className="flex items-center gap-1.5" data-testid="area-repair-output-num">
+                            {AREA_REPAIR_OUTPUT_OPTIONS.map((option) => (
+                                <Edit8Chip
+                                    key={option}
+                                    selected={outputNum === option}
+                                    disabled={busy}
+                                    onClick={() => {
+                                        const next = normalizeOutputNum(option);
+                                        outputRef.current = next;
+                                        setOutputNum(next);
+                                        persist(stateRef.current);
+                                    }}
+                                >
+                                    {option}
+                                </Edit8Chip>
+                            ))}
+                        </div>
+                    </Edit8Section>
+
+                    {image && issues.length > 0 ? (
+                        <div className="px-[16px] py-2">
+                            <ul data-testid="area-repair-issues" className="space-y-0.5 text-[11px] leading-4 text-[#d46b08]">
+                                {issues.map((issue) => (
+                                    <li key={issue.field}>{issue.message}</li>
+                                ))}
+                            </ul>
+                        </div>
+                    ) : null}
+
+                    {conflict ? (
+                        <p className="mx-[16px] my-2 rounded-lg bg-[#fff7e6] px-2 py-1.5 text-[11px] leading-4 text-[#ad6800]">草稿在其他标签页被修改，本页未覆盖；刷新可载入最新草稿。</p>
+                    ) : null}
+                    {notice ? (
+                        <p data-testid="area-repair-notice" className="mx-[16px] my-2 rounded-lg bg-[#fff7e6] px-2 py-1.5 text-[11px] leading-4 text-[#ad6800]">
+                            {notice}
+                        </p>
+                    ) : null}
+
+                    {latestTask ? (
+                        <div className="px-[16px] py-2">
+                            <TaskStatusPanel task={latestTask} onRetry={() => void retryUnit()} />
+                        </div>
+                    ) : null}
+                </Edit8Config>
+                    )}
+                >
                 <Edit8Canvas>
                     <Edit8CanvasToolbar>
                         <div className="flex items-center gap-2" data-testid="mask-toolbar">
@@ -793,95 +881,8 @@ export function MaskWorkspace({ className }: MaskWorkspaceProps = {}) {
                         )}
                     </div>
                 </Edit8Canvas>
-
-                <Edit8Config
-                    data-testid="area-repair-config"
-                    footer={
-                        <div className="flex flex-col gap-1">
-                            <button
-                                type="button"
-                                data-testid="area-repair-submit"
-                                disabled={busy || issues.length > 0}
-                                onClick={() => void submit()}
-                                className={edit8PrimaryButtonClass}
-                            >
-                                <Sparkles className="mr-1 size-3.5" aria-hidden />
-                                <span>{busy ? "生成中…" : "立即生成"}</span>
-                            </button>
-                            {/* 原站按钮下方紧跟算力消耗标注「(40算力)」 */}
-                            <span data-testid="area-repair-cost" className="text-center text-[11px] leading-4 text-muted-foreground">
-                                (40算力)
-                            </span>
-                        </div>
-                    }
-                >
-                    <Edit8Section title="重绘描述*" aside={`${prompt.length} / ${AREA_REPAIR_PROMPT_MAX}`}>
-                        <textarea
-                            id="area-repair-prompt"
-                            data-testid="area-repair-prompt"
-                            value={prompt}
-                            maxLength={AREA_REPAIR_PROMPT_MAX}
-                            disabled={busy}
-                            onChange={(event) => {
-                                const next = event.target.value.slice(0, AREA_REPAIR_PROMPT_MAX);
-                                promptRef.current = next;
-                                setPrompt(next);
-                                persist(stateRef.current);
-                            }}
-                            placeholder="例如：把涂抹区域换成米色针织沙发，保留原有光影和地面阴影"
-                            className="h-[118px] w-full resize-none rounded-lg border border-border bg-card p-[10px] text-[13px] leading-5 text-foreground outline-none transition focus:border-primary"
-                        />
-                    </Edit8Section>
-
-                    <Edit8Section title="生成张数">
-                        <div className="flex items-center gap-1.5" data-testid="area-repair-output-num">
-                            {AREA_REPAIR_OUTPUT_OPTIONS.map((option) => (
-                                <Edit8Chip
-                                    key={option}
-                                    selected={outputNum === option}
-                                    disabled={busy}
-                                    onClick={() => {
-                                        const next = normalizeOutputNum(option);
-                                        outputRef.current = next;
-                                        setOutputNum(next);
-                                        persist(stateRef.current);
-                                    }}
-                                >
-                                    {option}
-                                </Edit8Chip>
-                            ))}
-                        </div>
-                    </Edit8Section>
-
-                    {image && issues.length > 0 ? (
-                        <div className="px-[16px] py-2">
-                            <ul data-testid="area-repair-issues" className="space-y-0.5 text-[11px] leading-4 text-[#d46b08]">
-                                {issues.map((issue) => (
-                                    <li key={issue.field}>{issue.message}</li>
-                                ))}
-                            </ul>
-                        </div>
-                    ) : null}
-
-                    {conflict ? (
-                        <p className="mx-[16px] my-2 rounded-lg bg-[#fff7e6] px-2 py-1.5 text-[11px] leading-4 text-[#ad6800]">草稿在其他标签页被修改，本页未覆盖；刷新可载入最新草稿。</p>
-                    ) : null}
-                    {notice ? (
-                        <p data-testid="area-repair-notice" className="mx-[16px] my-2 rounded-lg bg-[#fff7e6] px-2 py-1.5 text-[11px] leading-4 text-[#ad6800]">
-                            {notice}
-                        </p>
-                    ) : null}
-
-                    {latestTask ? (
-                        <div className="px-[16px] py-2">
-                            <TaskStatusPanel task={latestTask} onRetry={() => void retryUnit()} />
-                        </div>
-                    ) : null}
-                {/* 原站面板底部：管理水印分组（共 N/20 个 · 默认 · ＋ 新增水印分组） */}
-                <WatermarkGroupPanel />
-                </Edit8Config>
-
                 <Edit8Results
+                    className="w-full"
                     active={resultTab}
                     onTabChange={(id) => setResultTab(id as "result" | "history")}
                     tabs={[
@@ -972,7 +973,8 @@ export function MaskWorkspace({ className }: MaskWorkspaceProps = {}) {
                         />
                     ) : null}
                 </Edit8Results>
-            </Edit8Page>
+                </ToolWorkspaceColumns>
+            </div>
         </ToolShell>
     );
 }
@@ -1457,10 +1459,14 @@ export function RemovePenWorkspace({ className }: RemovePenWorkspaceProps = {}) 
             <div className="px-2 pb-1">
                 <OrigRail items={SMART_EDIT_RAIL} active="局部消除" driver testId="remove-pen-rail" />
             </div>
-            <Edit8Page toolId={REMOVE_PEN_ID} data-testid="remove-pen-workspace">
-                <Edit8Canvas>
-                    <Edit8CanvasToolbar className="justify-between gap-3">
-                        <div className="flex items-center gap-2">
+            <div data-tool={REMOVE_PEN_ID} data-layout="linkfox-edit8" data-testid="remove-pen-workspace" className="h-full min-h-0 overflow-y-auto bg-background p-4 text-foreground">
+                <ToolWorkspaceColumns
+                    canvas
+                    configSide="right"
+                    className="min-h-0"
+                    config={(
+                        <section aria-label="画笔与历史" className="flex min-w-0 flex-col gap-3 rounded-xl border border-border bg-card p-3 text-xs text-foreground">
+                        <div className="flex flex-wrap items-center gap-2">
                             <span className="flex items-center gap-1 text-foreground">
                                 <Paintbrush className="size-3.5" aria-hidden /> <span>画笔</span>
                             </span>
@@ -1513,7 +1519,7 @@ export function RemovePenWorkspace({ className }: RemovePenWorkspaceProps = {}) 
                                 <Redo2 className="size-3" aria-hidden /> <span>重做</span>
                             </button>
                         </div>
-                        <div className="flex items-center gap-2">
+                        <div className="flex flex-wrap items-center gap-2">
                             <button
                                 type="button"
                                 onClick={() => {
@@ -1546,10 +1552,6 @@ export function RemovePenWorkspace({ className }: RemovePenWorkspaceProps = {}) 
                                     >
                                         {busy ? "消除中…" : "开始消除"}
                                     </button>
-                                    {/* 原站「开始消除」旁标有限免角标 */}
-                                    <span data-testid="remove-pen-free-badge" className="rounded border border-primary/40 px-1.5 py-0.5 text-[11px] leading-none text-primary">
-                                        限免
-                                    </span>
                                 </>
                             ) : null}
                             {["高清放大", "商品图", "手部修复"].map((label) => (
@@ -1563,8 +1565,10 @@ export function RemovePenWorkspace({ className }: RemovePenWorkspaceProps = {}) 
                                 </button>
                             ))}
                         </div>
-                    </Edit8CanvasToolbar>
-
+                        </section>
+                    )}
+                >
+                    <section data-region="canvas" className="flex min-w-0 flex-1 flex-col overflow-hidden rounded-xl border border-border bg-surface">
                     {conflict || notice || stale ? (
                         <div className="flex shrink-0 flex-col gap-1 px-4 pb-2 text-[11px]">
                             {conflict ? <p className="rounded-md bg-[#fff7e6] px-2 py-1 text-[#b26b00]">草稿在其他标签页被修改，本页未覆盖；刷新可载入最新草稿。</p> : null}
@@ -1757,8 +1761,9 @@ export function RemovePenWorkspace({ className }: RemovePenWorkspaceProps = {}) 
                             </div>
                         ) : null}
                     </div>
-                </Edit8Canvas>
-            </Edit8Page>
+                    </section>
+                </ToolWorkspaceColumns>
+            </div>
         </ToolShell>
     );
 }

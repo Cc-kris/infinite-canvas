@@ -21,7 +21,6 @@ import { ModelPicker } from "@/components/model-picker";
 import { ToolAssetInput } from "@/components/tools/tool-asset-input";
 import { ToolResult } from "@/components/tools/tool-result";
 import { AiVideoFamilyNav } from "./video";
-import { WatermarkGroupPanel } from "@/components/tools/watermark-group-panel";
 import { ToolShell } from "@/components/tools/tool-shell";
 import { ToolTaskHistory } from "@/components/tools/tool-task-history";
 import { ToolCases, type ToolCase } from "../tool-cases";
@@ -68,6 +67,7 @@ import {
 import { useTranslation } from "react-i18next";
 
 import { cn } from "@/lib/utils";
+import { ToolWorkspaceColumns } from "@/components/tools/tool-workspace-columns";
 import { assertToolProvider, providerDescriptorFromChannel } from "@/features/tools/capabilities";
 import { useStoredToolTask } from "@/features/tools/use-stored-tool-task";
 import type { ToolAssetRecord } from "@/services/api/tools/assets";
@@ -478,7 +478,9 @@ export function VideoTranslationWorkspace({ className }: VideoTranslationWorkspa
                 ) : null
             }
         >
-            <div className="grid min-h-0 flex-1 gap-6 overflow-auto p-4 lg:grid-cols-[minmax(300px,320px)_minmax(0,1fr)]">
+            <ToolWorkspaceColumns
+                className="min-h-0 flex-1 overflow-y-auto p-4"
+                config={
                 <div className="min-w-0 space-y-2" data-testid="video-translation-config">
     <AiVideoFamilyNav active="视频翻译" />
                     <section className="space-y-1">
@@ -577,6 +579,7 @@ export function VideoTranslationWorkspace({ className }: VideoTranslationWorkspa
                         </p>
                     ) : null}
                 </div>
+                }>
 
                 <div className="min-w-0 space-y-3" data-testid="video-translation-results">
                     <div className="flex h-11 items-center gap-6 border-b border-border" role="tablist">
@@ -628,7 +631,7 @@ export function VideoTranslationWorkspace({ className }: VideoTranslationWorkspa
                                 一键做同款
                             </button>
                         </div>
-                        <div className="grid gap-3 sm:grid-cols-2">
+                        <div className="grid gap-3">
                             <ToolResult
                                 task={task}
                                 toolId={VIDEO_TRANSLATION_TOOL_ID}
@@ -637,11 +640,10 @@ export function VideoTranslationWorkspace({ className }: VideoTranslationWorkspa
                                 emptyHint=""
                                 className="min-h-[280px]"
                             />
-                            <WatermarkGroupPanel />
                         </div>
                     </div>
                 </div>
-            </div>
+            </ToolWorkspaceColumns>
         </ToolShell>
     );
 }

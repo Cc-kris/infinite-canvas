@@ -149,7 +149,7 @@ export function ToolSidebar({
                     </div>
                 );
             })}
-            <div className="mt-auto select-none px-3 pb-3 pt-6 text-center text-[11px] leading-4 text-muted-foreground/60">{disclaimerLabel ?? t("toolsNav.disclaimer")}</div>
+            {/* PRD scope_boundary：不复刻原站的「免责声明」入口，侧栏到此结束。 */}
         </nav>
     );
 }

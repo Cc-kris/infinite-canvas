@@ -1,5 +1,6 @@
 import { modelLabel } from "@/lib/model-label";
-import { OrigRail, SMART_EDIT_RAIL } from "@/components/tools/workspaces/orig-rail";
+import { ECOMMERCE_SUITE_RAIL, OrigRail, SMART_EDIT_RAIL } from "@/components/tools/workspaces/orig-rail";
+import { ToolWorkspaceColumns } from "@/components/tools/tool-workspace-columns";
 import { cn } from "@/lib/utils";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
@@ -75,7 +76,6 @@ import {
     validateProductRefineSource,
     type ProductRefineSourceAsset,
 } from "@/features/tools/adapters/product-refine";
-import { WatermarkGroupPanel } from "@/components/tools/watermark-group-panel";
 
 /**
  * TASK-012：SCALE_UP（高清放大）工作区。
@@ -412,34 +412,13 @@ export function ScaleUpWorkspace({ className }: { className?: string }) {
 
     /* ------------------------------ 视图 ------------------------------ */
     return (
-        <div className={`flex flex-col gap-3 ${className ?? ""}`} data-tool="scale-up">
-            <div className="grid gap-3 lg:grid-cols-[minmax(0,420px)_minmax(0,1fr)]">
-                {/* 左栏：配置（上传 / 参数 / 生成动作 / 水印分组） */}
-                <div className="flex flex-col gap-2">
-                <nav
-                    aria-label="电商套图"
-                    className="flex flex-wrap items-center gap-1 rounded-md border border-stone-200 bg-card/60 px-2 py-1 text-[11px] text-stone-500 dark:border-stone-800 dark:bg-stone-900/40 dark:text-stone-400"
-                    data-testid="scale-up-nav-strip"
-                >
-                    <span className="mr-1 font-medium text-stone-700 dark:text-stone-200">250</span>
-                    {["商品套图", "服装套图", "爆款图复刻", "NEW", "套图换色", "批量翻译", "批量抠图", "智能扩图"].map((label) => (
-                        <span key={label} className={cn("rounded px-1.5 py-0.5", label === "NEW" ? "text-primary" : "")}>
-                            {label}
-                        </span>
-                    ))}
-                    <span className="ml-auto text-[11px] text-emerald-600 dark:text-emerald-400" data-testid="scale-up-driver">ljq_driver: 已连接</span>
-                </nav>
+        <div className={cn("flex min-h-0 flex-col gap-3", className)} data-tool="scale-up">
+            <ToolWorkspaceColumns
+                className="min-h-0 flex-1"
+                config={
+                    <>
                 <Section>
-                    {/* 原站左栏顶部：原图 / 高清放大后 前后对比卡（无结果时为空槽位） */}
-                    <div className="mb-1.5 grid grid-cols-2 gap-2" data-testid="scale-up-mirror-slots">
-                        <div className="flex h-10 items-center justify-center rounded-md border border-dashed border-stone-300 text-[11px] text-stone-500 dark:border-stone-700 dark:text-stone-400">
-                            <span>原图</span>
-                        </div>
-                        <div className="flex h-10 items-center justify-center rounded-md border border-dashed border-stone-300 text-[11px] text-stone-500 dark:border-stone-700 dark:text-stone-400">
-                            <span>高清放大后</span>
-                        </div>
-                    </div>
-                    {/* 原站空态：图片高清放大（H2，420 宽居中）+ 副标题 + 三个上传入口 + 拖拽/格式/尺寸提示 */}
+                    {/* 原站左栏顶部：原图上传（原站 H2 + 副标题 + 上传入口 + 拖拽/格式/尺寸提示） */}
                     <header className="mb-2 text-center">
                         <h2 className="text-[15px] font-semibold text-stone-800 dark:text-stone-100">图片高清放大</h2>
                         <h3 className="mt-1 text-xs text-stone-500 dark:text-stone-400">放大清晰不失真，细节更丰富</h3>
@@ -612,9 +591,8 @@ export function ScaleUpWorkspace({ className }: { className?: string }) {
                         >
                             {running ? "生成中…" : "立即生成"}
                         </button>
-                        <span className="text-[11px] text-stone-500 dark:text-stone-400">(20算力)</span>
                     </div>
-                    {/* 原站「立即生成」下方紧跟同宽「下载图片」按钮（319×28，outlined，无结果时 disabled，#d9d9d9 边框 + rgba(0,0,0,0.04) 底） */}
+                    {/* 原站「立即生成」下方紧跟同宽「下载图片」按钮（无结果时 disabled） */}
                     <button
                         type="button"
                         disabled={!resultImage || running}
@@ -625,21 +603,30 @@ export function ScaleUpWorkspace({ className }: { className?: string }) {
                         下载图片
                     </button>
                     {runError ? (
-                        <p className="mt-2 text-[11px] text-red-600" data-testid="scale-up-run-error">
+                        <p className="mt-2 text-[11px] text-destructive" data-testid="scale-up-run-error">
                             {runError}
                         </p>
                     ) : null}
                 </Section>
-                    {/* 原站左栏底部：管理水印分组（共 N/20 个 · 默认 · ＋ 新增水印分组） */}
-                    <WatermarkGroupPanel />
-                </div>
-
-                {/* 右栏：结果（原站在右侧画布区，不与配置纵向堆叠） */}
-                <div className="flex flex-col gap-3">
+                    </>
+                }
+            >
+                <section className="flex min-w-0 flex-col gap-3" aria-label="结果区">
                     {result.stale ? (
-                        <p className="rounded-md bg-amber-50 px-2 py-1 text-[11px] text-amber-700 dark:bg-amber-950/40 dark:text-amber-300" data-testid="scale-up-stale">
+                        <p className="rounded-md bg-amber-500/10 px-2 py-1 text-[11px] text-amber-700 dark:text-amber-300" data-testid="scale-up-stale">
                             原图或参数已变更，下面的结果来自上一版配置，请重新生成。
                         </p>
+                    ) : null}
+
+                    {/* 前后对比：原站在右侧画布区顶部，先于结果与历史 */}
+                    {resultImage && (source?.dataUrl || source?.url) ? (
+                        <Section title="前后对比" hint="拖动滑块对比原图与高清放大后的细节">
+                            <CompareSlider
+                                before={source.dataUrl ?? source.url ?? ""}
+                                after={resultImage}
+                                labels={{ before: "原图", after: "高清放大后" }}
+                            />
+                        </Section>
                     ) : null}
 
                     <ToolResult
@@ -652,17 +639,20 @@ export function ScaleUpWorkspace({ className }: { className?: string }) {
                         onRetry={onRetry}
                     />
 
-            {resultImage && (source?.dataUrl || source?.url) ? (
-                <Section>
-                    <CompareSlider
-                        before={source.dataUrl ?? source.url ?? ""}
-                        after={resultImage}
-                        labels={{ before: "原图", after: "高清放大后" }}
-                    />
-                </Section>
-            ) : null}
-                </div>
-            </div>
+                    <Section title="历史" hint="选择历史任务可恢复其参数与结果">
+                        <ToolTaskHistory
+                            toolId={toolId}
+                            minimalEmpty
+                            onSelectTask={(historyTask) => {
+                                setTask(historyTask);
+                            }}
+                        />
+                    </Section>
+
+                    {/* 原站族导航在页面最左（x≈61），本地被内容框裁掉：在内容区下方等价还原，顺序与原站一致 */}
+                    <OrigRail items={ECOMMERCE_SUITE_RAIL} active="高清放大" driver testId="scale-up-family-rail" />
+                </section>
+            </ToolWorkspaceColumns>
         </div>
     );
 }
@@ -887,11 +877,12 @@ export function ProductRefineWorkspace({ className }: { className?: string }) {
 
     /* ------------------------------ 视图 ------------------------------ */
     return (
-        <div className={`flex flex-col gap-3 ${className ?? ""}`} data-tool="product-refine">
+        <div className={cn("flex min-h-0 flex-col gap-3", className)} data-tool="product-refine">
             <OrigRail items={SMART_EDIT_RAIL} active="商品精修" driver testId="product-refine-rail" />
-            <div className="grid gap-3 lg:grid-cols-[minmax(0,420px)_minmax(0,1fr)]">
-                {/* 左栏：配置（上传 / 参数 / 精修动作 / 水印分组） */}
-                <div className="flex flex-col gap-3">
+            <ToolWorkspaceColumns
+                className="min-h-0 flex-1"
+                config={
+                    <>
                 <Section>
                     {/* 原站空态：一键提升商品质感（H2）+ 副标题 + 上传区 + 尺寸规则提示 */}
                     <header className="mb-2 text-center">
@@ -971,12 +962,6 @@ export function ProductRefineWorkspace({ className }: { className?: string }) {
                         >
                             {running ? "精修中…" : "开始精修"}
                         </button>
-                        <span
-                            className="rounded border border-red-300 px-1 text-[11px] leading-5 text-red-500 dark:border-red-800"
-                            data-testid="refine-free-badge"
-                        >
-                            限免
-                        </span>
                     </div>
                     <p className="mt-2 text-[11px] text-stone-500" data-testid="refine-expected-count">
                         预计产出 1 张主结果{mode.producesAlpha ? "，并附带透明底/分段结果" : ""}
@@ -987,13 +972,11 @@ export function ProductRefineWorkspace({ className }: { className?: string }) {
                         </p>
                     ) : null}
                 </Section>
-                    {/* 原站面板底部：管理水印分组（共 N/20 个 · 默认 · ＋ 新增水印分组） */}
-                    <WatermarkGroupPanel />
-                </div>
-
-                {/* 右栏：结果（原站在右侧画布区，不与配置纵向堆叠） */}
-                <div className="flex flex-col gap-3">
-                    {/* 原站结果区顶部：精修前 / 精修后 切换 + 1~4 槽位 */}
+                    </>
+                }
+            >
+                <section className="flex min-w-0 flex-col gap-3" aria-label="结果区">
+                    {/* 原站结果区顶部：精修案例对比（精修前 / 精修后 切换 + 1~4 槽位） */}
                     <ComparePreviewCard
                         testId="refine-compare-preview"
                         beforeLabel="精修前"
@@ -1069,8 +1052,8 @@ export function ProductRefineWorkspace({ className }: { className?: string }) {
                     />
                 </Section>
             ) : null}
-                </div>
-            </div>
+                </section>
+            </ToolWorkspaceColumns>
         </div>
     );
 }

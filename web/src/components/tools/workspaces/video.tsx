@@ -1,3 +1,4 @@
+import { ToolWorkspaceColumns } from "@/components/tools/tool-workspace-columns";
 /**
  * TASK-042：「带货口播」SALE_VIDEO 工作区（layout = video）。
  *
@@ -18,7 +19,6 @@ import { ModelPicker } from "@/components/model-picker";
 import { ToolAssetInput } from "@/components/tools/tool-asset-input";
 import { ToolResult } from "@/components/tools/tool-result";
 import { ToolShell } from "@/components/tools/tool-shell";
-import { WatermarkGroupPanel } from "@/components/tools/watermark-group-panel";
 import { ToolTaskHistory } from "@/components/tools/tool-task-history";
 import { ImageRulesPopover } from "@/components/tools/image-rules-popover";
 import { useStoredToolTask } from "@/features/tools/use-stored-tool-task";
@@ -212,9 +212,6 @@ export function AiVideoFamilyNav({ active, showDriver = true }: { active: string
                 <span className="rounded bg-primary/15 px-1 text-[10px] font-medium leading-4 text-primary">NEW</span>
             </span>
             <span className="ml-auto inline-flex items-center gap-2 text-[11px] leading-4 text-muted-foreground">
-                <span className="rounded-md border border-border px-2 py-[3px]" title="可用算力">
-                    250
-                </span>
                 {showDriver ? <span data-testid="ai-video-driver-status">ljq_driver: 已连接</span> : null}
             </span>
         </nav>
@@ -551,9 +548,10 @@ export function SaleVideoWorkspace({ className }: SaleVideoWorkspaceProps = {}) 
 
     return (
         <ToolShell className={className} title={spec?.title ?? "带货口播"} sidebar={sidebar}>
-            <div className="grid min-h-0 flex-1 gap-4 overflow-auto p-4 lg:grid-cols-[minmax(280px,300px)_minmax(300px,340px)_minmax(0,1fr)]">
-                {/* 配置区（原站左列约 298px） */}
-                <div className="min-w-0 space-y-4" data-testid="sale-video-config">
+            <ToolWorkspaceColumns
+                configSide="left"
+                config={
+<div className="min-w-0 space-y-4" data-testid="sale-video-config">
                     <AiVideoFamilyNav active="带货口播" />
                     <div className="flex items-center gap-2" data-testid="sale-video-link-row">
                         <input
@@ -614,9 +612,9 @@ export function SaleVideoWorkspace({ className }: SaleVideoWorkspaceProps = {}) 
                         ) : null}
                     </section>
                 </div>
-
-                {/* 参数区：原站同一左列的下半段，本地拆到第二列以保证首屏完整可见 */}
-                <div className="min-w-0 space-y-3" data-testid="sale-video-params">
+                }>
+<div className="grid min-h-0 min-w-0 gap-4 lg:grid-cols-[minmax(280px,320px)_minmax(0,1fr)]">
+<div className="min-w-0 space-y-3" data-testid="sale-video-params">
                     <section className="space-y-2">
                         <h3 className="text-xs font-medium">提示词描述</h3>
                         <div className="flex gap-2">
@@ -794,7 +792,6 @@ export function SaleVideoWorkspace({ className }: SaleVideoWorkspaceProps = {}) 
                             >
                                 {running ? "生成中…" : "立即生成"}
                             </button>
-                            <span className="shrink-0 text-[11px] text-muted-foreground">645 算力</span>
                             <span className="shrink-0 rounded bg-amber-100 px-1 text-[11px] text-amber-700">季度特惠</span>
                         </div>
                         {submitBlockedReason ? (
@@ -810,9 +807,7 @@ export function SaleVideoWorkspace({ className }: SaleVideoWorkspaceProps = {}) 
                         {notice ? <p className="text-[11px] text-muted-foreground">{notice}</p> : null}
                     </div>
                 </div>
-
-                {/* 结果区：原站三页签（生成结果 / 优秀案例 / 历史记录） */}
-                <Design19ResultPanel
+<Design19ResultPanel
                     tabs={["result", "case", "history"]}
                     active={resultTab}
                     onChange={setResultTab}
@@ -883,12 +878,11 @@ export function SaleVideoWorkspace({ className }: SaleVideoWorkspaceProps = {}) 
                                     </dl>
                                 </details>
                             ) : null}
-                            <WatermarkGroupPanel />
                             <p className="text-[11px] text-muted-foreground">ljq_driver: 已连接</p>
                             <section className="space-y-2 rounded-lg border border-border p-3" data-testid="sale-video-promo">
                                 <p className="text-sm font-medium">「批量生成」功能重磅上线！</p>
                                 <p className="text-[11px] leading-4 text-muted-foreground">
-                                    批量上传商品图，一次最多生成100条视频，同时给每个商品出视频，不用一张张传、一条条等。非高峰算力5折！
+                                    批量上传商品图，一次最多生成100条视频，同时给每个商品出视频，不用一张张传、一条条等。
                                 </p>
                                 <button type="button" className="rounded-md border border-border px-3 py-1 text-[11px] text-muted-foreground">
                                     立即体验
@@ -905,7 +899,8 @@ export function SaleVideoWorkspace({ className }: SaleVideoWorkspaceProps = {}) 
                         </div>
                     )}
                 </Design19ResultPanel>
-            </div>
+                    </div>
+            </ToolWorkspaceColumns>
         </ToolShell>
     );
 }
@@ -1267,8 +1262,10 @@ export function VideoConcatWorkspace({ className }: VideoConcatWorkspaceProps = 
 
     return (
         <ToolShell className={className} title="视频剪辑" sidebar={sidebar}>
-            <div className="grid min-h-0 flex-1 gap-6 overflow-auto p-4 lg:grid-cols-[minmax(300px,320px)_minmax(0,1fr)]">
-                <div className="min-w-0 space-y-4" data-testid="video-concat-config">
+            <ToolWorkspaceColumns
+                configSide="left"
+                config={
+<div className="min-w-0 space-y-4" data-testid="video-concat-config">
                     <AiVideoFamilyNav active="视频剪辑" showDriver={false} />
                     <section className="space-y-2">
                         <h2 className="text-sm font-medium">选择视频素材</h2>
@@ -1319,7 +1316,6 @@ export function VideoConcatWorkspace({ className }: VideoConcatWorkspaceProps = 
                         >
                             {running ? "拼接中…" : "开始拼接"}
                         </button>
-                        <p className="text-center text-[11px] text-muted-foreground">(限时优惠60算力)</p>
                         {error ? (
                             <p className="text-[11px] text-destructive" role="alert" data-testid="video-concat-error">
                                 {error}
@@ -1328,8 +1324,8 @@ export function VideoConcatWorkspace({ className }: VideoConcatWorkspaceProps = 
                         {notice ? <p className="text-[11px] text-muted-foreground">{notice}</p> : null}
                     </div>
                 </div>
-
-                <Design19ResultPanel
+                }>
+<Design19ResultPanel
                     tabs={["result", "history"]}
                     active={resultTab}
                     onChange={setResultTab}
@@ -1354,7 +1350,6 @@ export function VideoConcatWorkspace({ className }: VideoConcatWorkspaceProps = 
                                     onRetry={() => void handleSubmit({ retry: true })}
                                     className="min-h-[320px]"
                                 />
-                                <WatermarkGroupPanel />
                             </div>
                         </div>
                     ) : (
@@ -1363,7 +1358,7 @@ export function VideoConcatWorkspace({ className }: VideoConcatWorkspaceProps = 
                         </div>
                     )}
                 </Design19ResultPanel>
-            </div>
+            </ToolWorkspaceColumns>
         </ToolShell>
     );
 }
@@ -1735,8 +1730,10 @@ export function AiVideoEditingWorkspace({ className }: AiVideoEditingWorkspacePr
             subtitle="上传原视频与参考图，输入编辑需求，AI 智能编辑视频"
             sidebar={sidebar}
         >
-            <div className="grid min-h-0 flex-1 gap-6 overflow-auto p-4 lg:grid-cols-[minmax(460px,560px)_minmax(0,1fr)]">
-                <div className="grid min-w-0 content-start gap-3 sm:grid-cols-2" data-testid="ai-video-editing-config">
+            <ToolWorkspaceColumns
+                configSide="left"
+                config={
+<div className="grid min-w-0 content-start gap-3 sm:grid-cols-2" data-testid="ai-video-editing-config">
                     <div className="sm:col-span-2">
                         <AiVideoFamilyNav active="视频编辑" />
                     </div>
@@ -1887,7 +1884,6 @@ export function AiVideoEditingWorkspace({ className }: AiVideoEditingWorkspacePr
                             >
                                 {running ? "生成中…" : "立即生成"}
                             </button>
-                            <p className="shrink-0 text-[11px] text-muted-foreground">1190 算力</p>
                         </div>
                         {!capability.canSubmit && capability.issues[0] ? (
                             <p className="text-[11px] text-muted-foreground">{capability.issues[0]}</p>
@@ -1905,8 +1901,8 @@ export function AiVideoEditingWorkspace({ className }: AiVideoEditingWorkspacePr
                         {notice ? <p className="text-[11px] text-muted-foreground">{notice}</p> : null}
                     </div>
                 </div>
-
-                <div className="min-w-0 space-y-3" data-testid="ai-video-editing-results">
+                }>
+<div className="min-w-0 space-y-3" data-testid="ai-video-editing-results">
                     <div className="flex items-center justify-between">
                         <h2 className="text-sm font-medium">生成结果</h2>
                         {stale ? (
@@ -1928,10 +1924,9 @@ export function AiVideoEditingWorkspace({ className }: AiVideoEditingWorkspacePr
                             emptyHint=""
                             className="min-h-[320px]"
                         />
-                        <WatermarkGroupPanel />
                     </div>
                 </div>
-            </div>
+            </ToolWorkspaceColumns>
         </ToolShell>
     );
 }
@@ -2264,8 +2259,10 @@ export function VideoReplicationWorkspace({ className }: VideoReplicationWorkspa
         <ToolShell className={className} title="视频复刻" sidebar={null}>
             <div className="flex min-h-0 flex-1 flex-col gap-2 overflow-auto p-4">
                 <AiVideoFamilyNav active="视频复刻" />
-                <div className="grid min-h-0 flex-1 gap-4 lg:grid-cols-[minmax(220px,250px)_minmax(240px,280px)_minmax(0,1fr)]">
-                <div className="min-w-0 space-y-2" data-testid="video-replication-config">
+                <ToolWorkspaceColumns
+                    configSide="left"
+                    config={
+<div className="min-w-0 space-y-2" data-testid="video-replication-config">
                     <section className="space-y-2">
                         <h2 className="text-sm font-medium">TikTok 视频链接</h2>
                         <div className="flex gap-2">
@@ -2508,8 +2505,9 @@ export function VideoReplicationWorkspace({ className }: VideoReplicationWorkspa
                         />
                     </section>
                 </div>
-
-                <div className="min-w-0 space-y-2" data-testid="video-replication-params">
+                    }>
+<div className="grid min-h-0 min-w-0 gap-4 lg:grid-cols-[minmax(280px,320px)_minmax(0,1fr)]">
+<div className="min-w-0 space-y-2" data-testid="video-replication-params">
                     <section className="space-y-1.5">
                         <h2 className="text-sm font-medium">视频模型</h2>
                         <ModelTierList
@@ -2643,7 +2641,6 @@ export function VideoReplicationWorkspace({ className }: VideoReplicationWorkspa
                             >
                                 {running ? "生成中…" : "立即生成"}
                             </button>
-                            <span className="shrink-0 text-[11px] text-muted-foreground" data-testid="video-replication-credit">645 算力</span>
                             <span className="shrink-0 text-[11px] text-muted-foreground" data-testid="video-replication-promo">季度特惠</span>
                         </div>
                         {issues.length ? (
@@ -2659,8 +2656,7 @@ export function VideoReplicationWorkspace({ className }: VideoReplicationWorkspa
                         {notice ? <p className="text-[11px] text-muted-foreground">{notice}</p> : null}
                     </div>
                 </div>
-
-                <Design19ResultPanel
+<Design19ResultPanel
                     tabs={["result", "case", "history"]}
                     active={resultTab}
                     onChange={setResultTab}
@@ -2698,12 +2694,11 @@ export function VideoReplicationWorkspace({ className }: VideoReplicationWorkspa
                                     onRetry={() => void handleRetry()}
                                     className="min-h-[320px]"
                                 />
-                                <WatermarkGroupPanel />
                             </div>
                             <section className="rounded-lg border border-border bg-card/40 p-3">
                                 <p className="text-xs font-medium">「批量生成」功能重磅上线！</p>
                                 <p className="mt-1 text-[11px] leading-4 text-muted-foreground">
-                                    批量上传商品图，一次最多生成100条视频，同时给每个商品出视频，不用一张张传、一条条等。非高峰算力5折！
+                                    批量上传商品图，一次最多生成100条视频，同时给每个商品出视频，不用一张张传、一条条等。
                                 </p>
                                 <button type="button" className="mt-2 rounded border border-border px-2 py-1 text-[11px]">
                                     立即体验
@@ -2720,7 +2715,8 @@ export function VideoReplicationWorkspace({ className }: VideoReplicationWorkspa
                         </div>
                     )}
                 </Design19ResultPanel>
-                </div>
+                    </div>
+                </ToolWorkspaceColumns>
             </div>
         </ToolShell>
     );

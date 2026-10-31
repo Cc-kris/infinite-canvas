@@ -57,9 +57,9 @@ import {
 import { loadToolAssetRecords, type ToolAssetRecord } from "@/services/api/tools/assets";
 import type { ToolTask } from "@/services/api/tools/task-machine";
 import { cn } from "@/lib/utils";
+import { ToolWorkspaceColumns } from "@/components/tools/tool-workspace-columns";
 import { flushToolDrafts, useToolDraftStore } from "@/stores/use-tool-draft-store";
 import { useToolTaskStore } from "@/stores/use-tool-task-store";
-import { WatermarkGroupPanel } from "@/components/tools/watermark-group-panel";
 
 type SourceImage = { assetId: string; name: string; url: string; bytes: number; mimeType: string; size: CropSize };
 
@@ -327,7 +327,178 @@ export function CropWorkspace() {
                 </nav>
             }
         >
-            <div data-testid="crop-workspace" className="grid min-h-0 flex-1 grid-cols-1 gap-4 overflow-y-auto p-4 xl:grid-cols-[minmax(0,1fr)_340px]">
+            <ToolWorkspaceColumns
+                canvas
+                configSide="right"
+                className="min-h-0 flex-1 overflow-y-auto p-4"
+                config={(
+                    <section aria-label="工具操作栏" className="flex min-w-0 flex-col gap-3">
+                        {/* 原站 A#25：右栏顶部「真人换模特2.0」关联能力入口（y≈136，位于内容区而非页头） */}
+                        <div className="flex items-center justify-end">
+                            <button
+                                type="button"
+                                data-testid="crop-related-dressing"
+                                onClick={() => navigate("/tools/smart-edit/ai-dressing")}
+                                className="rounded border border-border px-2 py-0.5 text-[11px] text-muted-foreground transition hover:bg-accent hover:text-foreground"
+                            >
+                                真人换模特2.0
+                            </button>
+                        </div>
+                        {/* 尺寸调整 / 比例调整 */}
+                        <div className="rounded-lg border border-border bg-card p-2">
+                            <div className="flex gap-1" role="tablist" aria-label="裁剪方式">
+                                {(["size", "ratio"] as const).map((tab) => (
+                                    <button
+                                        key={tab}
+                                        type="button"
+                                        role="tab"
+                                        data-testid={`crop-tab-${tab}`}
+                                        aria-selected={state.activeTab === tab}
+                                        onClick={() => commit({ ...state, activeTab: tab })}
+                                        className={cn("flex-1 rounded px-2 py-1 text-[11px]", state.activeTab === tab ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:bg-accent")}
+                                    >
+                                        {tab === "size" ? "尺寸调整" : "比例调整"}
+                                    </button>
+                                ))}
+                            </div>
+    
+                            {state.activeTab === "size" ? (
+                                <div className="mt-2 space-y-2">
+                                    {/* 原站「尺寸调整」页签首位就是「自由裁剪」尺寸卡（236×40，默认选中）；点它=按原图比例自由框选 */}
+                                    <button
+                                        type="button"
+                                        data-testid="crop-size-free"
+                                        aria-pressed={state.ratioId === FREE_RATIO_ID}
+                                        onClick={() => commit(applyRatioPreset(state, FREE_RATIO_ID, size))}
+                                        className={cn(
+                                            "flex h-10 w-full items-center justify-between gap-2 rounded-md border px-3 text-left text-xs transition",
+                                            state.ratioId === FREE_RATIO_ID ? "border-primary bg-primary/5 text-foreground" : "border-border text-muted-foreground hover:bg-accent",
+                                        )}
+                                    >
+                                        <span>自由裁剪</span>
+                                        <span className="text-[11px] text-muted-foreground">{state.ratioId === FREE_RATIO_ID ? `${state.outputWidth}×${state.outputHeight}` : "自由裁剪"}</span>
+                                    </button>
+                                    <div className="flex items-center justify-between">
+                                        <span className="text-[11px] font-medium text-foreground">目标尺寸</span>
+                                        <span className="text-[11px] text-muted-foreground" data-testid="crop-output-summary">
+                                            {source ? `${state.outputWidth}×${state.outputHeight}` : ""}
+                                        </span>
+                                    </div>
+                                    <div className="grid grid-cols-2 gap-2">
+                                        <PixelField label="宽" testId="crop-output-width" value={state.outputWidth} onChange={(value) => commit(applyOutputSize(state, "width", value, size))} />
+                                        <PixelField label="高" testId="crop-output-height" value={state.outputHeight} onChange={(value) => commit(applyOutputSize(state, "height", value, size))} />
+                                    </div>
+                                    <div className="flex items-center gap-2">
+                                        <button
+                                            type="button"
+                                            data-testid="crop-save-custom"
+                                            onClick={() => commit(saveCustomSize(state))}
+                                            className="flex-1 rounded border border-border px-2 py-1 text-[11px] text-muted-foreground transition hover:bg-accent hover:text-foreground"
+                                        >
+                                            保存自定义尺寸
+                                        </button>
+                                        <button
+                                            type="button"
+                                            data-testid="crop-lock-ratio"
+                                            aria-pressed={state.locked}
+                                            onClick={() => commit({ ...state, locked: !state.locked })}
+                                            className={cn("inline-flex items-center gap-1 rounded border border-border px-2 py-1 text-[11px]", state.locked ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:bg-accent")}
+                                        >
+                                            {state.locked ? <Lock className="size-3" aria-hidden /> : <Unlock className="size-3" aria-hidden />}
+                                            锁定比例
+                                        </button>
+                                    </div>
+                                    <div className="flex flex-wrap gap-1" data-testid="crop-custom-sizes">
+                                        {state.customSizes.length === 0 ? null : (
+                                            state.customSizes.map((item) => (
+                                                <button
+                                                    key={item.id}
+                                                    type="button"
+                                                    onClick={() => commit(applyCustomSize(state, item.id, size))}
+                                                    className="rounded border border-border px-2 py-0.5 text-[11px] text-muted-foreground hover:bg-accent hover:text-foreground"
+                                                >
+                                                    {item.width}×{item.height}
+                                                </button>
+                                            ))
+                                        )}
+                                    </div>
+                                    <label className="flex items-center gap-2 text-[11px] text-muted-foreground">
+                                        输出格式
+                                        <select
+                                            data-testid="crop-format"
+                                            value={state.format}
+                                            onChange={(event) => commit({ ...state, format: event.target.value as CropOutputFormat })}
+                                            className="rounded border border-border bg-background px-1.5 py-0.5 text-[11px] text-foreground"
+                                        >
+                                            {IMAGE_CROP_FORMATS.map((format) => (
+                                                <option key={format} value={format}>
+                                                    {FORMAT_LABEL[format]}
+                                                </option>
+                                            ))}
+                                        </select>
+                                    </label>
+                                </div>
+                            ) : (
+                                <div className="mt-2 grid grid-cols-3 gap-1" data-testid="crop-ratios">
+                                    <RatioCard active={state.ratioId === FREE_RATIO_ID} label="自由裁剪" onClick={() => commit(applyRatioPreset(state, FREE_RATIO_ID, size))} testId="crop-ratio-free" />
+                                    {RATIO_PRESETS.map((preset) => (
+                                        <RatioCard
+                                            key={preset.id}
+                                            active={state.ratioId === preset.id}
+                                            label={preset.title}
+                                            ratio={{ width: preset.width, height: preset.height }}
+                                            testId={`crop-ratio-${preset.id}`}
+                                            onClick={() => commit(applyRatioPreset(state, preset.id, size))}
+                                        />
+                                    ))}
+                                </div>
+                            )}
+                        </div>
+    
+                        {/* 平台预设 */}
+                        <div className="rounded-lg border border-border bg-card p-2">
+                            <div className="mt-2 grid grid-cols-3 gap-1" data-testid="crop-platforms">
+                                {PLATFORM_PRESETS.map((preset) => (
+                                    <button
+                                        key={preset.key}
+                                        type="button"
+                                        data-testid={`crop-platform-${preset.key}`}
+                                        aria-pressed={state.platformKey === preset.key}
+                                        onClick={() => commit(applyPlatformPreset(state, preset.key, size))}
+                                        className={cn(
+                                            "flex items-center justify-between gap-1 rounded border px-1.5 py-0.5 text-left text-[11px] transition",
+                                            state.platformKey === preset.key ? "border-primary bg-primary/10 text-foreground" : "border-border text-muted-foreground hover:bg-accent hover:text-foreground",
+                                        )}
+                                    >
+                                        <span className="block truncate">{preset.title}</span>
+                                        <span className="block shrink-0 text-[10px] text-muted-foreground">
+                                            {preset.width} × {preset.height}
+                                        </span>
+                                    </button>
+                                ))}
+                            </div>
+                        </div>
+    
+                        <button
+                            type="button"
+                            data-testid="crop-submit"
+                            disabled={!canSubmit}
+                            onClick={() => void submit()}
+                            className="inline-flex items-center justify-center gap-2 rounded-md bg-primary px-3 py-2 text-sm font-medium text-primary-foreground transition disabled:cursor-not-allowed disabled:opacity-40"
+                        >
+                            <Download className="size-4" aria-hidden />
+                            {busy ? "裁剪中…" : "开始裁剪"}
+                        </button>
+                        {issues.length > 0 ? (
+                            <ul data-testid="crop-issues" className="space-y-1 text-[11px] text-amber-700 dark:text-amber-300">
+                                {issues.map((issue) => (
+                                    <li key={issue.code}>· {issue.message}</li>
+                                ))}
+                            </ul>
+                        ) : null}
+                    </section>
+                )}
+            >
                 <section className="flex min-w-0 flex-col gap-3">
                     {source ? (
                         <CropCanvas
@@ -348,8 +519,6 @@ export function CropWorkspace() {
                     <ToolAssetInput toolId={IMAGE_CROP_TOOL_ID} maxCount={1} title="上传图片" variant="linkfox" uploadLabel="从本地上传" onChange={onAssetChange} disabled={busy} />
                     {/* 原站族导航在页面最左（x≈61），本地被内容框裁掉：在画布下方等价还原，顺序与原站一致 */}
                     <OrigRail items={SMART_EDIT_RAIL} active="图片裁剪" driver testId="crop-family-rail" label="图片编辑" />
-                    {/* 原站面板底部：管理水印分组（共 N/20 个 · 默认 · ＋ 新增水印分组） */}
-                    <WatermarkGroupPanel />
                     {source ? (
                         <p className="text-[11px] text-muted-foreground">
                             {source.name} · {size.width}×{size.height} · 裁剪区 {cropPixels.width}×{cropPixels.height} → 输出 {state.outputWidth}×{state.outputHeight}
@@ -363,173 +532,7 @@ export function CropWorkspace() {
                         </>
                     ) : null}
                 </section>
-
-                <section aria-label="工具操作栏" className="flex min-w-0 flex-col gap-3">
-                    {/* 原站 A#25：右栏顶部「真人换模特2.0」关联能力入口（y≈136，位于内容区而非页头） */}
-                    <div className="flex items-center justify-end">
-                        <button
-                            type="button"
-                            data-testid="crop-related-dressing"
-                            onClick={() => navigate("/tools/smart-edit/ai-dressing")}
-                            className="rounded border border-border px-2 py-0.5 text-[11px] text-muted-foreground transition hover:bg-accent hover:text-foreground"
-                        >
-                            真人换模特2.0
-                        </button>
-                    </div>
-                    {/* 尺寸调整 / 比例调整 */}
-                    <div className="rounded-lg border border-border bg-card p-2">
-                        <div className="flex gap-1" role="tablist" aria-label="裁剪方式">
-                            {(["size", "ratio"] as const).map((tab) => (
-                                <button
-                                    key={tab}
-                                    type="button"
-                                    role="tab"
-                                    data-testid={`crop-tab-${tab}`}
-                                    aria-selected={state.activeTab === tab}
-                                    onClick={() => commit({ ...state, activeTab: tab })}
-                                    className={cn("flex-1 rounded px-2 py-1 text-[11px]", state.activeTab === tab ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:bg-accent")}
-                                >
-                                    {tab === "size" ? "尺寸调整" : "比例调整"}
-                                </button>
-                            ))}
-                        </div>
-
-                        {state.activeTab === "size" ? (
-                            <div className="mt-2 space-y-2">
-                                {/* 原站「尺寸调整」页签首位就是「自由裁剪」尺寸卡（236×40，默认选中）；点它=按原图比例自由框选 */}
-                                <button
-                                    type="button"
-                                    data-testid="crop-size-free"
-                                    aria-pressed={state.ratioId === FREE_RATIO_ID}
-                                    onClick={() => commit(applyRatioPreset(state, FREE_RATIO_ID, size))}
-                                    className={cn(
-                                        "flex h-10 w-full items-center justify-between gap-2 rounded-md border px-3 text-left text-xs transition",
-                                        state.ratioId === FREE_RATIO_ID ? "border-primary bg-primary/5 text-foreground" : "border-border text-muted-foreground hover:bg-accent",
-                                    )}
-                                >
-                                    <span>自由裁剪</span>
-                                    <span className="text-[11px] text-muted-foreground">{state.ratioId === FREE_RATIO_ID ? `${state.outputWidth}×${state.outputHeight}` : "自由裁剪"}</span>
-                                </button>
-                                <div className="flex items-center justify-between">
-                                    <span className="text-[11px] font-medium text-foreground">目标尺寸</span>
-                                    <span className="text-[11px] text-muted-foreground" data-testid="crop-output-summary">
-                                        {source ? `${state.outputWidth}×${state.outputHeight}` : ""}
-                                    </span>
-                                </div>
-                                <div className="grid grid-cols-2 gap-2">
-                                    <PixelField label="宽" testId="crop-output-width" value={state.outputWidth} onChange={(value) => commit(applyOutputSize(state, "width", value, size))} />
-                                    <PixelField label="高" testId="crop-output-height" value={state.outputHeight} onChange={(value) => commit(applyOutputSize(state, "height", value, size))} />
-                                </div>
-                                <div className="flex items-center gap-2">
-                                    <button
-                                        type="button"
-                                        data-testid="crop-save-custom"
-                                        onClick={() => commit(saveCustomSize(state))}
-                                        className="flex-1 rounded border border-border px-2 py-1 text-[11px] text-muted-foreground transition hover:bg-accent hover:text-foreground"
-                                    >
-                                        保存自定义尺寸
-                                    </button>
-                                    <button
-                                        type="button"
-                                        data-testid="crop-lock-ratio"
-                                        aria-pressed={state.locked}
-                                        onClick={() => commit({ ...state, locked: !state.locked })}
-                                        className={cn("inline-flex items-center gap-1 rounded border border-border px-2 py-1 text-[11px]", state.locked ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:bg-accent")}
-                                    >
-                                        {state.locked ? <Lock className="size-3" aria-hidden /> : <Unlock className="size-3" aria-hidden />}
-                                        锁定比例
-                                    </button>
-                                </div>
-                                <div className="flex flex-wrap gap-1" data-testid="crop-custom-sizes">
-                                    {state.customSizes.length === 0 ? null : (
-                                        state.customSizes.map((item) => (
-                                            <button
-                                                key={item.id}
-                                                type="button"
-                                                onClick={() => commit(applyCustomSize(state, item.id, size))}
-                                                className="rounded border border-border px-2 py-0.5 text-[11px] text-muted-foreground hover:bg-accent hover:text-foreground"
-                                            >
-                                                {item.width}×{item.height}
-                                            </button>
-                                        ))
-                                    )}
-                                </div>
-                                <label className="flex items-center gap-2 text-[11px] text-muted-foreground">
-                                    输出格式
-                                    <select
-                                        data-testid="crop-format"
-                                        value={state.format}
-                                        onChange={(event) => commit({ ...state, format: event.target.value as CropOutputFormat })}
-                                        className="rounded border border-border bg-background px-1.5 py-0.5 text-[11px] text-foreground"
-                                    >
-                                        {IMAGE_CROP_FORMATS.map((format) => (
-                                            <option key={format} value={format}>
-                                                {FORMAT_LABEL[format]}
-                                            </option>
-                                        ))}
-                                    </select>
-                                </label>
-                            </div>
-                        ) : (
-                            <div className="mt-2 grid grid-cols-3 gap-1" data-testid="crop-ratios">
-                                <RatioCard active={state.ratioId === FREE_RATIO_ID} label="自由裁剪" onClick={() => commit(applyRatioPreset(state, FREE_RATIO_ID, size))} testId="crop-ratio-free" />
-                                {RATIO_PRESETS.map((preset) => (
-                                    <RatioCard
-                                        key={preset.id}
-                                        active={state.ratioId === preset.id}
-                                        label={preset.title}
-                                        ratio={{ width: preset.width, height: preset.height }}
-                                        testId={`crop-ratio-${preset.id}`}
-                                        onClick={() => commit(applyRatioPreset(state, preset.id, size))}
-                                    />
-                                ))}
-                            </div>
-                        )}
-                    </div>
-
-                    {/* 平台预设 */}
-                    <div className="rounded-lg border border-border bg-card p-2">
-                        <div className="mt-2 grid grid-cols-3 gap-1" data-testid="crop-platforms">
-                            {PLATFORM_PRESETS.map((preset) => (
-                                <button
-                                    key={preset.key}
-                                    type="button"
-                                    data-testid={`crop-platform-${preset.key}`}
-                                    aria-pressed={state.platformKey === preset.key}
-                                    onClick={() => commit(applyPlatformPreset(state, preset.key, size))}
-                                    className={cn(
-                                        "flex items-center justify-between gap-1 rounded border px-1.5 py-0.5 text-left text-[11px] transition",
-                                        state.platformKey === preset.key ? "border-primary bg-primary/10 text-foreground" : "border-border text-muted-foreground hover:bg-accent hover:text-foreground",
-                                    )}
-                                >
-                                    <span className="block truncate">{preset.title}</span>
-                                    <span className="block shrink-0 text-[10px] text-muted-foreground">
-                                        {preset.width} × {preset.height}
-                                    </span>
-                                </button>
-                            ))}
-                        </div>
-                    </div>
-
-                    <button
-                        type="button"
-                        data-testid="crop-submit"
-                        disabled={!canSubmit}
-                        onClick={() => void submit()}
-                        className="inline-flex items-center justify-center gap-2 rounded-md bg-primary px-3 py-2 text-sm font-medium text-primary-foreground transition disabled:cursor-not-allowed disabled:opacity-40"
-                    >
-                        <Download className="size-4" aria-hidden />
-                        {busy ? "裁剪中…" : "开始裁剪"}
-                    </button>
-                    {issues.length > 0 ? (
-                        <ul data-testid="crop-issues" className="space-y-1 text-[11px] text-amber-700 dark:text-amber-300">
-                            {issues.map((issue) => (
-                                <li key={issue.code}>· {issue.message}</li>
-                            ))}
-                        </ul>
-                    ) : null}
-                </section>
-            </div>
+            </ToolWorkspaceColumns>
         </ToolShell>
     );
 }

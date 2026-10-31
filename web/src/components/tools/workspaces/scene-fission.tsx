@@ -3,7 +3,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { ToolAssetInput } from "@/components/tools/tool-asset-input";
-import { WatermarkGroupPanel } from "@/components/tools/watermark-group-panel";
+import { ToolWorkspaceColumns } from "@/components/tools/tool-workspace-columns";
 import { OrigRail, PRODUCT_SCENE_RAIL } from "@/components/tools/workspaces/orig-rail";
 import { ToolCases } from "@/components/tools/tool-cases";
 import type { ToolCase } from "@/components/tools/tool-cases";
@@ -560,9 +560,11 @@ export function ProductSceneWorkspace({ className, toolId = PRODUCT_SCENE_TOOL_I
     return (
         <div className={`min-w-0 ${className ?? ""}`} data-tool="product-scene" data-layout="linkfox-two-pane">
             <OrigRail items={PRODUCT_SCENE_RAIL} active="场景裂变" driver testId="product-scene-rail" className="mb-2" />
-            <div className="flex h-[calc(100dvh-193px)] min-h-[560px] w-full overflow-hidden rounded-[8px] border border-black/[0.06] bg-card">
-                {/* 左栏：原站表单列 300px 白底，操作按钮固定在列底 */}
-                <div className="flex h-full w-[300px] shrink-0 flex-col border-r border-border">
+            <ToolWorkspaceColumns
+                configSide="left"
+                className="h-[calc(100dvh-193px)] min-h-[560px] overflow-hidden rounded-[8px] border border-black/[0.06]"
+                config={
+                    <div className="flex h-full flex-col">
                     <div className="min-h-0 flex-1 overflow-y-auto px-4 pb-4 pt-3" data-testid="scene-form">
                         <SceneLayerComposer
                             toolId={toolId}
@@ -769,7 +771,6 @@ export function ProductSceneWorkspace({ className, toolId = PRODUCT_SCENE_TOOL_I
                             className="flex h-8 w-full items-center justify-center gap-1 rounded-[4px] bg-primary text-[13px] font-medium leading-none text-white transition hover:bg-primary/90 disabled:cursor-not-allowed disabled:bg-primary/40"
                         >
                             <span>{running ? "裂变中…" : "立即生成"}</span>
-                            <span className="ml-1 text-[11px] leading-4 text-muted-foreground">(40算力)</span>
                         </button>
                         <p className="mt-1.5 text-center text-[11px] leading-4 text-muted-foreground">我是高手，不再提醒</p>
                         <p className="sr-only" data-testid="scene-expected">
@@ -778,7 +779,8 @@ export function ProductSceneWorkspace({ className, toolId = PRODUCT_SCENE_TOOL_I
                         </p>
                     </div>
                 </div>
-
+                }
+            >
                 {/* 右栏：结果页签 + 浅灰画布 */}
                 <div className="flex min-w-0 flex-1 flex-col bg-muted">
                     <div
@@ -876,7 +878,6 @@ export function ProductSceneWorkspace({ className, toolId = PRODUCT_SCENE_TOOL_I
                                         />
                                     </div>
                                 ) : null}
-                                <WatermarkGroupPanel className="mt-2" />
                             </div>
                         ) : null}
 
@@ -898,7 +899,7 @@ export function ProductSceneWorkspace({ className, toolId = PRODUCT_SCENE_TOOL_I
                         ) : null}
                     </div>
                 </div>
-            </div>
+            </ToolWorkspaceColumns>
         </div>
     );
 }

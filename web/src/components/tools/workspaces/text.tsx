@@ -3,6 +3,7 @@ import { AlertTriangle, Check, Loader2, Redo2, RotateCcw, Undo2 } from "lucide-r
 
 import { ToolResult } from "@/components/tools/tool-result";
 import { cn } from "@/lib/utils";
+import { ToolWorkspaceColumns } from "@/components/tools/tool-workspace-columns";
 import {
     ORNAMENT_TEXT_CATALOG_NOTICE,
     ORNAMENT_TEXT_EFFECT_LIMIT,
@@ -73,21 +74,10 @@ function OrnamentSilhouette() {
 }
 
 /**
- * 原站该工具未开通：访问 `/tools/product-design/ornament-text` 会重定向到 /home，
- * 页面没有任何工具 DOM。本地按 1:1 只保留同一说明，不再渲染工具界面。
+ * 饰品文字工作台：账号侧原站 /draw/ornament-text 会重定向首页，
+ * 本地按 PRD 实现文字样式编辑 + 预览（字段 prompt/fontname/fontSize/left/right）。
  */
 export function OrnamentTextWorkspace() {
-    return (
-        <div className="flex min-h-0 flex-1 flex-col items-center justify-center gap-3 p-8">
-            <p className="max-w-md text-center text-sm text-muted-foreground" data-testid="ornament-text-unavailable">
-                重定向到 /home 首页，工具未开通；无工具 DOM
-            </p>
-        </div>
-    );
-}
-
-/** 旧实现保留（原站已下线该工具，路由不再渲染）。 */
-function OrnamentTextWorkspaceLegacy() {
     const config = useConfigStore((state) => state.config);
     const imageModels = useMemo(() => selectableModelsByCapability(config, "image"), [config]);
     const model = config.imageModel || imageModels[0] || "";
@@ -314,7 +304,9 @@ function OrnamentTextWorkspaceLegacy() {
                 ))}
             </div>
 
-            <div className="grid gap-4 lg:grid-cols-[minmax(0,22rem)_minmax(0,1fr)_minmax(0,20rem)]">
+            <ToolWorkspaceColumns
+                className="min-h-0 flex-1"
+                config={(
                 <section className={cn("flex flex-col gap-3", tab === "params" ? "" : "hidden lg:flex")} aria-label="饰品文字内容">
                     <div className={cn(cardClass, "flex flex-col gap-3")}>
                         <label className="flex flex-col gap-1 text-sm font-medium">
@@ -436,6 +428,8 @@ function OrnamentTextWorkspaceLegacy() {
                         </div>
                     </div>
                 </section>
+                )}
+            >
 
                 <section className={cn("flex flex-col gap-3", tab === "preview" ? "" : "hidden lg:flex")} aria-label="效果预览">
                     <div className={cn(cardClass, "flex flex-col gap-3")}>
@@ -515,7 +509,7 @@ function OrnamentTextWorkspaceLegacy() {
                     </div>
                     <ToolResult task={latest ?? null} toolId={toolId} title="饰品文字结果" onRetry={handleRetry} />
                 </section>
-            </div>
+            </ToolWorkspaceColumns>
         </div>
     );
 }

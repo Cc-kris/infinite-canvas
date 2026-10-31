@@ -7,6 +7,7 @@ import type { ToolTaskResultItem } from "@/services/api/tools/task-machine";
 import { useToolReplayStore } from "@/stores/use-tool-replay-store";
 import { useToolTaskStore } from "@/stores/use-tool-task-store";
 import { cn } from "@/lib/utils";
+import { ToolWorkspaceColumns } from "@/components/tools/tool-workspace-columns";
 
 import {
     addDesignerLayer,
@@ -64,7 +65,6 @@ import {
     type DesignerCompositorPort,
     type DesignerStageState,
 } from "@/features/tools/adapters/new-designer";
-import { WatermarkGroupPanel } from "@/components/tools/watermark-group-panel";
 
 /* ============================== 草稿存储 ============================== */
 
@@ -428,7 +428,7 @@ export function DesignerWorkspace({
     }, [document.designerId, onClose]);
 
     const notice = designerResultNotice(stage, error, { stale });
-    const [homeOpen, setHomeOpen] = useState(true);
+    const [homeOpen, setHomeOpen] = useState(false);
     const [homeTab, setHomeTab] = useState(DESIGNER_HOME_TABS[0]);
     const [selectedTemplates, setSelectedTemplates] = useState<string[]>([]);
     const startFromHome = useCallback(
@@ -513,8 +513,6 @@ export function DesignerWorkspace({
                         );
                     })}
                 </div>
-
-                <WatermarkGroupPanel />
             </div>
 
             <div className={cn("min-h-0 flex-1 flex-col", homeOpen ? "hidden" : "flex")} data-testid="designer-editor">
@@ -532,7 +530,7 @@ export function DesignerWorkspace({
                     <button type="button" aria-label="重做" title="重做" disabled={!canRedoDesigner(history)} onClick={() => setHistory((current) => redoDesignerDocument(current))} className="flex h-10 w-10 items-center justify-center rounded-lg border border-border text-muted-foreground hover:bg-accent disabled:opacity-40">
                         <Redo2 className="h-4 w-4" />
                     </button>
-                    <button type="button" aria-pressed={preview} onClick={() => setPreview((value) => !value)} className={cn("flex h-10 items-center gap-1.5 rounded-lg border px-3", preview ? "border-primary bg-primary/10 text-primary" : "border-border text-muted-foreground hover:bg-accent")}>
+                    <button type="button" onClick={() => setPreview(!preview)} className="flex h-10 items-center gap-1.5 rounded-lg border border-border px-3 text-muted-foreground hover:bg-accent">
                         <Play className="h-4 w-4" />
                         预览
                     </button>
@@ -562,9 +560,12 @@ export function DesignerWorkspace({
                 </div>
             ) : null}
 
-            <div className={cn("grid min-h-0 flex-1 gap-3 p-3", preview ? "grid-cols-1" : "grid-cols-1 lg:grid-cols-[280px_minmax(0,1fr)_320px]")}>
-                {/* 左：素材与图层 */}
-                {preview ? null : (
+            <ToolWorkspaceColumns
+                canvas
+                configSide="left"
+                className="min-h-0 flex-1 gap-3 p-3"
+                config={
+                    preview ? null : (
                     <aside aria-label="素材与图层" className="flex min-h-0 flex-col gap-2 rounded-lg border border-border bg-card p-3">
                         <div className="flex items-center justify-between">
                             <h2 className="font-medium">素材与图层</h2>
@@ -624,10 +625,12 @@ export function DesignerWorkspace({
                             ))}
                         </div>
                     </aside>
-                )}
-
-                {/* 中：画布 */}
-                <div className="flex min-h-0 flex-col gap-2">
+                    )
+                }
+            >
+                <div className={cn("flex min-h-0 flex-1", preview ? "items-center justify-center" : "gap-3")}>
+                {/* 画布 */}
+                <div className="flex min-h-0 flex-1 flex-col gap-2">
                     <div
                         role="application"
                         aria-label="设计画布"
@@ -803,7 +806,8 @@ export function DesignerWorkspace({
                         <p className="mt-auto text-[11px] text-muted-foreground">工具 {NEW_DESIGNER_TOOL_ID} · 草稿键 tool-draft:v1:{NEW_DESIGNER_TOOL_ID}</p>
                     </aside>
                 )}
-            </div>
+                </div>
+            </ToolWorkspaceColumns>
             </div>
         </section>
     );

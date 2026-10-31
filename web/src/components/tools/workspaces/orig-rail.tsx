@@ -118,12 +118,10 @@ export interface OrigRailProps {
  * 同类工具条：算力徽标 + 族标题 + 工具入口 + 状态标签，右端挂驱动连接态。
  * 只做导航/展示，不发起任何请求。
  */
-export function OrigRail({ items, active, credits = 250, driver = false, testId = "orig-rail", label = "同类工具", className }: OrigRailProps) {
+export function OrigRail({ items, active, driver = false, testId = "orig-rail", label = "同类工具", className }: OrigRailProps) {
     return (
         <nav data-testid={testId} aria-label={label} className={cn("flex flex-wrap items-center gap-1 rounded-lg border border-border/70 bg-muted/30 px-2 py-1.5", className)}>
-            <span title="可用算力" className="rounded-md border border-border bg-background px-2 py-[3px] text-[11px] leading-4 tabular-nums text-muted-foreground">
-                {credits}
-            </span>
+            {/* PRD prd.md L470：不显示原站算力。原站 rail 顶部的算力徽标已移除。 */}
             {items.map((item, index) => {
                 if (item.kind === "group") {
                     return (

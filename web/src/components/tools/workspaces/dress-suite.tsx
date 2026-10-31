@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 import { ToolAssetInput } from "@/components/tools/tool-asset-input";
-import { WatermarkGroupPanel } from "@/components/tools/watermark-group-panel";
+import { ToolWorkspaceColumns } from "@/components/tools/tool-workspace-columns";
 import type { ToolCase } from "@/components/tools/tool-cases";
 import { uploadCaseFiles } from "@/features/tools/case-apply";
 import { DRESS_SET_CASES } from "@/features/tools/suite6-cases-data";
@@ -142,8 +142,6 @@ function Toggle({ label, checked, onChange, hint }: { label: string; checked: bo
 
 export type DressSuiteWorkspaceProps = { toolId?: string };
 
-/** 单张消耗算力（与原站按张计费一致）。 */
-const DRESS_UNIT_POINTS = 50;
 
 /** 向导句式（本地文本，点选后追加到商品信息）。 */
 const DRESS_GUIDE_PROMPTS: ReadonlyArray<{ label: string; text: string }> = [
@@ -459,13 +457,13 @@ export function DressSuiteWorkspace({ toolId = DRESS_WEAR_SET_TOOL_ID }: DressSu
 
     return (
         <div className="flex flex-col gap-3" data-testid="dress-suite-workspace" data-tool-id={toolId}>
-            {/* 原站顶部：算力余额 + 商品套图模块导航 + 本地驱动状态 */}
+            {/* 原站顶部：商品套图模块导航 + 本地驱动状态 */}
             <div className="flex flex-wrap items-center justify-between gap-2 rounded-lg border border-border bg-card px-3 py-1.5 text-[11px]">
                 <div className="flex flex-wrap items-center gap-2.5">
                     <span className="text-muted-foreground">商品套图</span>
                     <span className="font-medium text-foreground">服装套图</span>
                     <span className="text-muted-foreground">爆款图复刻</span>
-                    <span className="rounded-[3px] bg-rose-500 px-1 text-[10px] leading-4 text-white">NEW</span>
+                    <span className="rounded-[3px] bg-primary px-1 text-[10px] leading-4 text-primary-foreground">NEW</span>
                     <span className="text-muted-foreground">套图换色</span>
                     <span className="text-muted-foreground">批量翻译</span>
                     <span className="text-muted-foreground">高清放大</span>
@@ -473,17 +471,16 @@ export function DressSuiteWorkspace({ toolId = DRESS_WEAR_SET_TOOL_ID }: DressSu
                     <span className="text-muted-foreground">智能扩图</span>
                 </div>
                 <div className="flex items-center gap-2 text-muted-foreground">
-                    <span className="tabular-nums text-foreground">230</span>
-                    <span className="h-3 w-px bg-border" aria-hidden="true" />
                     <span>ljq_driver: 已连接</span>
                 </div>
             </div>
-            <div className="grid gap-3 xl:grid-cols-3">
+            <ToolWorkspaceColumns
+                config={(
+                    <>
                 {/* 左列：素材与商品设定 */}
-                <div className="flex min-w-0 flex-col gap-3">
                     <Section title="多角度服装图&搭配图" hint={`最多上传${DRESS_UPLOAD_LIMITS.maxFiles}张图，10M以内，384*384~4096*4096`}>
                         {!tipDismissed ? (
-                            <div className="flex items-start justify-between gap-3 rounded-[6px] bg-[#FAF9FF] px-3 py-2 text-[11px] leading-4 text-[#6B6B7A] dark:bg-[#1c1c26] dark:text-[#a9a9bd]">
+                            <div className="flex items-start justify-between gap-3 rounded-[6px] bg-accent px-3 py-2 text-[11px] leading-4 text-muted-foreground">
                                 <div className="flex min-w-0 items-center gap-2">
                                     <span className="flex items-center gap-1 tabular-nums">
                                         <span className="rounded-full bg-primary px-1.5 text-primary-foreground">1</span>
@@ -532,17 +529,14 @@ export function DressSuiteWorkspace({ toolId = DRESS_WEAR_SET_TOOL_ID }: DressSu
                                     className="group relative aspect-square overflow-hidden rounded-md border border-border/70 disabled:opacity-60"
                                 >
                                     <img src={item.result} alt="" className="size-full object-cover" />
-                                    <span className="absolute inset-x-0 bottom-0 bg-black/50 py-0.5 text-center text-[10px] leading-4 text-white">一键做同款</span>
+                                    <span className="absolute inset-x-0 bottom-0 bg-foreground/60 py-0.5 text-center text-[10px] leading-4 text-background">一键做同款</span>
                                 </button>
                             ))}
                         </div>
                     </Section>
 
-                    <WatermarkGroupPanel />
-                </div>
 
                 {/* 中列：商品信息与模型 */}
-                <div className="flex min-w-0 flex-col gap-3">
                     <Section title="商品信息">
                         <div className="flex items-center justify-between gap-2">
                             <div className="flex items-center gap-1.5">
@@ -716,10 +710,8 @@ export function DressSuiteWorkspace({ toolId = DRESS_WEAR_SET_TOOL_ID }: DressSu
                             </div>
                         </div>
                     </Section>
-                </div>
 
                 {/* 第三列：场景与结果 */}
-                <div className="flex min-w-0 flex-col gap-3">
                     <Section title="生成类型（多选）">
                         <p className="mb-2 text-xs font-medium text-muted-foreground">主副图设置</p>
                         <div className="grid grid-cols-2 gap-1.5">
@@ -768,9 +760,8 @@ export function DressSuiteWorkspace({ toolId = DRESS_WEAR_SET_TOOL_ID }: DressSu
                         <div className="flex flex-wrap items-center justify-between gap-2">
                             <div className="flex flex-col">
                                 <span className="text-[11px] text-muted-foreground">
-                                    主副图{mainUnits}张 * 每张{DRESS_UNIT_POINTS}点 + A+图{aplusUnits}张 * 每张{DRESS_UNIT_POINTS}点 = {estimate.images * DRESS_UNIT_POINTS}点
+                                    主副图{mainUnits}张 + A+图{aplusUnits}张 = 共{estimate.images}张
                                 </span>
-                                <span className="text-[11px] text-muted-foreground">({estimate.images * DRESS_UNIT_POINTS}算力)</span>
                             </div>
                             <div className="flex items-center gap-2">
                                 {running ? (
@@ -800,9 +791,11 @@ export function DressSuiteWorkspace({ toolId = DRESS_WEAR_SET_TOOL_ID }: DressSu
                                   ))
                             : null}
                         {notice ? <p className="text-xs text-muted-foreground">{notice}</p> : null}
-                        {resultsStale ? <p className="text-xs text-amber-600">结果来自上一版设置（已改源图 / 配置），下方结果仅作参考。</p> : null}
+                        {resultsStale ? <p className="text-xs text-destructive">结果来自上一版设置（已改源图 / 配置），下方结果仅作参考。</p> : null}
                     </section>
-
+                    </>
+                )}
+            >
                     <Section title="生成结果" hint="按场景分组；组内可单张下载，失败组可单独重试。">
                         {/* 标准结果面板：reload 后由 storageKey 复原的真实字节直接渲染，三动作走统一链路。 */}
                         {panelTask ? (
@@ -821,7 +814,7 @@ export function DressSuiteWorkspace({ toolId = DRESS_WEAR_SET_TOOL_ID }: DressSu
                                         共 {summary.total} 组 · 成功 {summary.succeeded} · 失败 {summary.failed} · 进行中 {summary.running}
                                     </span>
                                     <span>产物 {summary.images} 张</span>
-                                    {staleTasks.length ? <span className="text-amber-600">其中 {staleTasks.length} 组属于旧设置</span> : null}
+                                    {staleTasks.length ? <span className="text-destructive">其中 {staleTasks.length} 组属于旧设置</span> : null}
                                 </div>
                                 {groups.map((group) => (
                                     <div key={`${group.group}:${group.scene}`} className="flex flex-col gap-2 rounded-md border border-border/70 p-3" data-testid={`dress-group-${group.scene}`}>
@@ -878,8 +871,7 @@ export function DressSuiteWorkspace({ toolId = DRESS_WEAR_SET_TOOL_ID }: DressSu
                             </div>
                         )}
                     </Section>
-                </div>
-            </div>
+            </ToolWorkspaceColumns>
         </div>
     );
 }

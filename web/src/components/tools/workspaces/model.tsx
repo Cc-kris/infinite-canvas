@@ -124,8 +124,8 @@ import {
     type AiPoseGeneratorIssue,
     type AiPoseGeneratorWorkspace as AiPoseGeneratorState,
 } from "@/features/tools/registry/ai-pose-generator";
-import { WatermarkGroupPanel } from "@/components/tools/watermark-group-panel";
 import { OrigRail, WEAR_RAIL } from "@/components/tools/workspaces/orig-rail";
+import { ToolWorkspaceColumns } from "@/components/tools/tool-workspace-columns";
 
 const MODEL_SLOT_ID = `${AI_POSTURE_TOOL_ID}-model`;
 const UPLOAD_CONSTRAINTS = {
@@ -491,9 +491,11 @@ export function AiPostureWorkspace({ className }: AiPostureWorkspaceProps = {}) 
             subtitle="📸 1 张模特图→N 种姿势套图！告别重复拍摄成本，秒变视觉内容高产能手！"
             sidebar={sidebar}
         >
-            <div data-testid="ai-posture-workspace" className="grid gap-4 pb-6 lg:grid-cols-[minmax(0,1fr)_420px]">
-                {/* 左栏：上传 / 姿势库 / 张数 / 提交 */}
-                <div className="space-y-4">
+            <ToolWorkspaceColumns
+                configSide="left"
+                className="pb-6"
+                config={
+                    <div className="space-y-4">
                     <Panel
                         id="ai-posture-model-picker"
                         title="模特姿势图"
@@ -821,8 +823,9 @@ export function AiPostureWorkspace({ className }: AiPostureWorkspaceProps = {}) 
                         </details>
                     </div>
                 </div>
-
-                {/* 右栏：生成结果 / 历史记录 + 水印分组 */}
+                }
+            >
+                {/* 右栏：生成结果 / 历史记录 */}
                 <section aria-label="生成结果" className="space-y-4">
                     <section data-testid="ai-posture-results" className="rounded-xl border border-border bg-card p-4">
                         <div className="flex flex-wrap items-center justify-between gap-2">
@@ -949,7 +952,6 @@ export function AiPostureWorkspace({ className }: AiPostureWorkspaceProps = {}) 
                             )}
                         </div>
                     </section>
-                    <WatermarkGroupPanel />
                     <PostureRulesDialog
                         open={rulesOpen}
                         onClose={() => setRulesOpen(false)}
@@ -959,7 +961,7 @@ export function AiPostureWorkspace({ className }: AiPostureWorkspaceProps = {}) 
                         }}
                     />
                 </section>
-            </div>
+            </ToolWorkspaceColumns>
         </ToolShell>
     );
 }
@@ -1200,9 +1202,11 @@ export function AiPoseGeneratorWorkspace({ className }: AiPoseGeneratorWorkspace
         <div className={cn("flex h-full min-h-0 flex-col gap-2 p-2.5", className)} data-testid="ai-pose-generator-workspace">
             <OrigRail items={WEAR_RAIL} active="姿势裂变" credits={250} testId="ai-pose-rail" />
 
-            <div className="grid min-h-0 flex-1 gap-2 lg:grid-cols-[300px_minmax(0,1fr)]">
-                {/* 参数面板：原站顺序（上传 → 姿势 → 张数 → 生成） */}
-                <section className="flex min-h-0 flex-col overflow-y-auto rounded-lg border border-border bg-card px-3 pb-2 pt-1.5">
+            <ToolWorkspaceColumns
+                configSide="left"
+                className="min-h-0 flex-1"
+                config={
+                    <section className="flex min-h-0 flex-col overflow-y-auto rounded-lg border border-border bg-card px-3 pb-2 pt-1.5">
                     <div className="flex items-center justify-between gap-2 text-[11px] leading-4 text-muted-foreground" data-testid="ai-pose-tour-hint">
                         <span>第一步：选择示例图或上传模特姿势图片</span>
                         <button type="button" className="shrink-0 hover:text-primary">
@@ -1420,7 +1424,6 @@ export function AiPoseGeneratorWorkspace({ className }: AiPoseGeneratorWorkspace
                     >
                         {run.running ? <Loader2 aria-hidden="true" className="size-3.5 animate-spin" /> : null}
                         <span>立即生成</span>
-                        <span className="text-[11px] opacity-90">(40算力)</span>
                     </button>
 
                     {attempted && issues.length > 0 ? (
@@ -1441,11 +1444,9 @@ export function AiPoseGeneratorWorkspace({ className }: AiPoseGeneratorWorkspace
                         </p>
                     ) : null}
 
-                    <div className="mt-2 border-t border-border pt-1.5">
-                        <WatermarkGroupPanel />
-                    </div>
                 </section>
-
+                }
+            >
                 {/* 结果区：原站顺序（提示条 → 上传模特图 → 生成结果） */}
                 <section className="flex min-h-0 flex-col overflow-y-auto rounded-lg border border-border bg-card p-3">
                     <div className="flex items-center justify-between gap-2">
@@ -1566,7 +1567,7 @@ export function AiPoseGeneratorWorkspace({ className }: AiPoseGeneratorWorkspace
                         </div>
                     ) : null}
                 </section>
-            </div>
+            </ToolWorkspaceColumns>
         </div>
     );
 }

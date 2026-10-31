@@ -2,7 +2,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { ImagePlus, Loader2, Sparkles } from "lucide-react";
 
 import { ToolAssetInput } from "@/components/tools/tool-asset-input";
-import { WatermarkGroupPanel } from "@/components/tools/watermark-group-panel";
+import { ToolWorkspaceColumns } from "@/components/tools/tool-workspace-columns";
 import { ToolCases } from "@/components/tools/tool-cases";
 import type { ToolCase } from "@/components/tools/tool-cases";
 import { ToolTaskHistory } from "@/components/tools/tool-task-history";
@@ -65,9 +65,6 @@ import type { ToolTask, ToolTaskResultItem } from "@/services/api/tools/task-mac
 
 const TOOL_ID = CHANGE_COLOR_V2_TOOL_ID;
 const SUITE_CONSTRAINTS = { maxBytes: COLOR_V2_MAX_BYTES } as const;
-
-/** 单张结果消耗算力（原站「开始生成（50算力）」按方案×图计）。 */
-const COLOR_V2_UNIT_POINTS = 50;
 
 export interface ColorV2WorkspaceProps {
     className?: string;
@@ -132,8 +129,6 @@ export function ColorV2Workspace({ className }: ColorV2WorkspaceProps = {}) {
     const [hydrated, setHydrated] = useState(false);
     const [notice, setNotice] = useState("");
     const [busy, setBusy] = useState(false);
-    // A:69-72 节日主题横幅（可关闭），A:1-11 登录签到条
-    const [holidayDismissed, setHolidayDismissed] = useState(false);
     const [actingUnit, setActingUnit] = useState<string | null>(null);
     const [actionNotice, setActionNotice] = useState("");
     const [progress, setProgress] = useState({ done: 0, total: 0 });
@@ -590,11 +585,14 @@ export function ColorV2Workspace({ className }: ColorV2WorkspaceProps = {}) {
             data-layout="linkfox-change-color"
             data-spec={spec?.slug ?? CHANGE_COLOR_V2_SLUG}
             style={{ fontFamily: '"Microsoft YaHei", "PingFang SC", "Hiragino Sans GB", sans-serif' }}
-            className={cn("flex h-full min-h-0 min-w-0 gap-[6px] overflow-hidden bg-card text-[13px] text-foreground", className)}
+            className={cn("min-h-0 min-w-0 bg-card text-[13px] text-foreground", className)}
         >
             <OrigRail items={ECOMMERCE_SUITE_RAIL} active="套图换色" driver testId="change-color-rail" className="m-1 shrink-0" />
-            {/* 左：300px 参数面板（原站 x190 w300；提交条固定在面板底部） */}
-            <section data-region="params" className="flex h-full w-[300px] shrink-0 flex-col overflow-hidden">
+            <ToolWorkspaceColumns
+                config={(
+                    <>
+            {/* 左：参数面板（提交条固定在面板底部） */}
+            <section data-region="params" className="flex min-w-0 flex-col overflow-hidden">
                 <div className="flex min-h-0 flex-1 flex-col overflow-hidden rounded-lg border border-border bg-card">
                 <div data-region="params-scroll" className="min-h-0 flex-1 overflow-y-auto">
                     <PanelSection id="upload" title="上传图片">
@@ -941,12 +939,12 @@ export function ColorV2Workspace({ className }: ColorV2WorkspaceProps = {}) {
 
                 <div className="shrink-0 pb-[11px] pt-3">
                     {conflict ? (
-                        <p key="conflict" className="mb-2 rounded-md bg-[#fff1f0] px-2 py-1 text-[11px] leading-4 text-destructive">
+                        <p key="conflict" className="mb-2 rounded-md bg-destructive/10 px-2 py-1 text-[11px] leading-4 text-destructive">
                             其他标签页改过草稿，当前页面可能覆盖远端改动；刷新后再编辑。
                         </p>
                     ) : null}
                     {stale ? (
-                        <p key="stale" data-testid="color-v2-stale" className="mb-2 rounded-md bg-[#fff8e6] px-2 py-1 text-[11px] leading-4 text-[#a86b00]">
+                        <p key="stale" data-testid="color-v2-stale" className="mb-2 rounded-md bg-accent px-2 py-1 text-[11px] leading-4 text-destructive">
                             输入已变更，当前结果来自旧快照 {runHash?.slice(0, 8)}；重新生成才会反映最新设置。
                         </p>
                     ) : null}
@@ -971,11 +969,13 @@ export function ColorV2Workspace({ className }: ColorV2WorkspaceProps = {}) {
                     >
                         {busy ? <Loader2 className="size-3.5 animate-spin" aria-hidden="true" /> : <Sparkles className="size-3.5" aria-hidden="true" />}
                                 <span className="text-center">{busy ? `生成中 ${progress.done}/${progress.total}` : "开始生成"}</span>
-                                <span className="ml-1 text-[11px] text-primary-foreground/80">({Math.max(1, plannedCount) * COLOR_V2_UNIT_POINTS}算力)</span>
 
                     </button>
                 </div>
             </section>
+                    </>
+                )}
+            >
 
             {/* 右：结果区（原站 42px 白条 tab + #f4f6f8 内容） */}
             <section id="results" data-region="results" className="flex min-w-0 flex-1 flex-col overflow-hidden rounded-lg bg-card">
@@ -1057,7 +1057,7 @@ export function ColorV2Workspace({ className }: ColorV2WorkspaceProps = {}) {
                                                 {row.hex ? <span aria-hidden className="inline-block size-3 rounded-[2px] border border-border" style={{ backgroundColor: row.hex }} /> : null}
                                                 {row.planName}：{row.succeeded}/{row.total}
                                                 {row.failed ? <span className="text-destructive">· 失败 {row.failed}</span> : null}
-                                                {row.unknown ? <span className="text-[#a86b00]">· 未定 {row.unknown}</span> : null}
+                                                {row.unknown ? <span className="text-destructive">· 未定 {row.unknown}</span> : null}
                                             </span>
                                         ))}
                                     </div>
@@ -1272,10 +1272,10 @@ export function ColorV2Workspace({ className }: ColorV2WorkspaceProps = {}) {
                                             className="flex w-[240px] shrink-0 flex-col items-center gap-3 rounded-lg border border-border bg-card px-4 py-4"
                                         >
                                             <div className="flex items-center gap-2">
-                                                <span className="inline-flex h-7 items-center rounded-[13px] bg-black/60 px-3 text-[14px] leading-4 text-white">
+                                                <span className="inline-flex h-7 items-center rounded-[13px] bg-foreground/60 px-3 text-[14px] leading-4 text-background">
                                                     上传商品图
                                                 </span>
-                                                <span className="inline-flex h-7 items-center rounded-[13px] bg-black/60 px-3 text-[14px] leading-4 text-white">
+                                                <span className="inline-flex h-7 items-center rounded-[13px] bg-foreground/60 px-3 text-[14px] leading-4 text-background">
                                                     生成结果
                                                 </span>
                                             </div>
@@ -1330,52 +1330,7 @@ export function ColorV2Workspace({ className }: ColorV2WorkspaceProps = {}) {
                     ))}
                 </div>
             </section>
-            {/* 右：辅助栏（原站右侧：登录签到 / 水印分组 / 节日横幅） */}
-            <aside data-region="aside" className="flex w-[318px] shrink-0 flex-col gap-2 overflow-y-auto py-1 pr-1">
-                        {/* A:1-11 登录签到条（1:1 呈现层） */}
-                        <div data-testid="color-v2-signin-strip" className="mx-3 mt-2 rounded-lg border border-border bg-card p-3">
-                            <div className="flex items-center justify-between">
-                                <span style={{ fontSize: 12, fontWeight: 600 }}>已连续登录2天</span>
-                                <div className="flex items-center gap-2">
-                                    <span className="text-[11px] text-primary">查看详情</span>
-                                    <span className="text-[11px] text-muted-foreground">250</span>
-                                </div>
-                            </div>
-                            <p className="mt-1 text-[11px] leading-4 text-muted-foreground">再登录3天可获得「100点免费算力」！</p>
-                            <div className="mt-2 flex items-center justify-between gap-1 text-[11px]">
-                                <span className="flex flex-col items-center gap-[2px]"><span className="text-muted-foreground">+50</span><span>第1天</span></span>
-                                <span className="flex flex-col items-center gap-[2px]"><span className="text-primary">今天</span></span>
-                                <span className="flex flex-col items-center gap-[2px]"><span className="text-muted-foreground">+50</span><span className="text-muted-foreground">第3天</span></span>
-                                <span className="flex flex-col items-center gap-[2px]"><span className="text-muted-foreground">+100</span><span className="text-muted-foreground">第4天</span></span>
-                                <span className="flex flex-col items-center gap-[2px]"><span className="text-muted-foreground">+100</span><span className="text-muted-foreground">第5天</span></span>
-                            </div>
-                        </div>
-
-                        {/* A:69-72 节日主题横幅 */}
-                        {holidayDismissed ? null : (
-                            <div data-testid="color-v2-holiday-banner" className="mx-3 mt-2 rounded-lg border border-primary/30 bg-primary/5 p-3 text-center">
-                                <p style={{ fontSize: 12, fontWeight: 600 }} className="text-primary">⬆ 扫码免费领「500算力」⬆</p>
-                                <p className="mt-1 text-[12px]">🎄圣诞、🎃万圣节日主题已上线</p>
-                                <p className="mt-1 text-[11px] text-muted-foreground">限时开放🕙10月28日23:59:59截止🕙</p>
-                                <button
-                                    type="button"
-                                    data-testid="color-v2-holiday-dismiss"
-                                    onClick={() => setHolidayDismissed(true)}
-                                    className="mt-2 h-7 w-full rounded-md border border-border text-[12px] hover:text-primary"
-                                >
-                                    我知道了
-                                </button>
-                            </div>
-                        )}
-                <section className="rounded-lg border border-border bg-card p-2">
-                    <WatermarkGroupPanel />
-                </section>
-                        <PanelSection id="watermark" title="管理水印分组">
-                            <div className="px-4 pb-3">
-                                <WatermarkGroupPanel />
-                            </div>
-                        </PanelSection>
-            </aside>
+            </ToolWorkspaceColumns>
         </div>
     );
 }

@@ -2,9 +2,9 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 import { cn } from "@/lib/utils";
 import { ToolAssetInput } from "@/components/tools/tool-asset-input";
-import { WatermarkGroupPanel } from "@/components/tools/watermark-group-panel";
 import { ToolCases } from "@/components/tools/tool-cases";
 import { ECOMMERCE_SUITE_RAIL, OrigRail } from "@/components/tools/workspaces/orig-rail";
+import { ToolWorkspaceColumns } from "@/components/tools/tool-workspace-columns";
 import type { ToolCase } from "@/components/tools/tool-cases";
 import { uploadCaseFiles } from "@/features/tools/case-apply";
 import { PRODUCT_SUITE_CASES } from "@/features/tools/suite6-cases-data";
@@ -190,9 +190,6 @@ const inputClass =
  * 所以对齐只能用空白归一化后的文本比较，不能直接字符串相等。
  */
 const normalizePrompt = (value: string) => value.replace(/\s+/g, " ").trim();
-
-/** 套图单张消耗点数（原站按张计费，A+/主副图同价）。 */
-const SUITE_UNIT_POINTS = 50;
 
 /** 原站 A+ 模块名后的尺寸标注（“高级A+（1464×600）”）。 */
 const APLUS_SIZE_HINTS: Record<string, string> = {
@@ -625,24 +622,25 @@ export function ProductImageSuiteWorkspace({ className }: { className?: string }
     );
 
     return (
-        <div className={cn("flex h-full min-h-0 flex-col bg-white", className)} data-tool="product-image-suite" data-layout="linkfox-two-pane">
+        <div className={cn("flex h-full min-h-0 flex-col bg-background", className)} data-tool="product-image-suite" data-layout="linkfox-two-pane">
             <OrigRail
                 items={ECOMMERCE_SUITE_RAIL}
                 active="商品套图"
-                credits={250}
                 driver
                 testId="suite-family-rail"
-                className="shrink-0 border-b border-[#EDEDF0] px-2"
+                className="shrink-0 border-b border-border px-2"
             />
-            <div className="flex min-h-0 flex-1">
-            <div className="flex min-h-0 w-[760px] shrink-0 flex-col border-r border-[#EDEDF0]">
+            <ToolWorkspaceColumns
+                className="min-h-0 flex-1"
+                config={(
+                <div className="flex h-full min-h-0 flex-col">
                 <div className="min-h-0 flex-1 overflow-y-auto px-2 pb-1 pt-1">
-                    <div className="grid auto-rows-max grid-cols-3 gap-1.5">
+                    <div className="grid auto-rows-max grid-cols-1 gap-1.5">
                 {/* 原站公告位（左列顶部）：可关闭的提示卡，按钮文案与原站一致：立即体验 / 关闭 */}
                 {promoClosed.left ? null : (
                     <div
                         data-testid="suite-promo-left"
-                        className="relative col-span-3 rounded-md border border-[#E9E3FF] bg-[#F6F3FF] px-2 py-1.5 pr-8"
+                        className="relative rounded-md border border-[#E9E3FF] bg-[#F6F3FF] px-2 py-1.5 pr-8"
                     >
                         <p className="text-[11px] font-medium leading-4 text-[#3b3b4f]">全能模型 2 已升级为 2.1</p>
                         <p className="mt-0.5 text-[11px] leading-4 text-[#5a5a70]">文字排版更清晰，多轮编辑一致性更强，支持 1K / 2K / 4K 输出。</p>
@@ -780,7 +778,7 @@ export function ProductImageSuiteWorkspace({ className }: { className?: string }
                     output={{
                         /* 原站整行是一个按钮：LF智能模型 G-2.5 Sunburst 2K · 中品质 · 50点/张，aria-label=打开模型设置 */
                         label: "LF智能模型 G-2.5 Sunburst",
-                        summary: `${config.resolution} · ${qualityLabel} · ${SUITE_UNIT_POINTS}点/张`,
+                        summary: `${config.resolution} · ${qualityLabel}`,
                         configureLabel: "打开模型设置",
                         ariaLabel: "打开模型设置",
                     }}
@@ -982,15 +980,8 @@ export function ProductImageSuiteWorkspace({ className }: { className?: string }
                 </p>
             </Section>
 
-            <WatermarkGroupPanel />
-
-                    </div>
                 </div>
                 <div className="shrink-0 border-t border-[#EDEDF0] px-6 py-3" data-testid="suite-generate-summary">
-                    <p className="text-[11px] leading-4 text-muted-foreground">
-                        A+图{aplusUnits}张 * 每张{SUITE_UNIT_POINTS}点 + 主副图{mainSubUnits}张 * 每张{SUITE_UNIT_POINTS}点 = {expected * SUITE_UNIT_POINTS}点
-                    </p>
-                    <div className="mt-2 flex items-center gap-2">
                         <button
                             type="button"
                             disabled={blocked}
@@ -1019,6 +1010,8 @@ export function ProductImageSuiteWorkspace({ className }: { className?: string }
                     </div>
                 </div>
             </div>
+                )}
+            >
 
             <div className="flex min-w-0 flex-1 flex-col">
                 <div className="flex h-11 shrink-0 items-center gap-6 border-b border-[#EDEDF0] px-6" role="tablist">
@@ -1217,7 +1210,7 @@ export function ProductImageSuiteWorkspace({ className }: { className?: string }
                 </div>
                 </div>
             </div>
-            </div>
+            </ToolWorkspaceColumns>
         </div>
     );
 }
@@ -1520,21 +1513,22 @@ export function ProductMarketMaterialWorkspace({ className }: { className?: stri
 
     return (
         <div
-            className={cn("flex h-full min-h-0 flex-col bg-white dark:bg-stone-950", className)}
+            className={cn("flex h-full min-h-0 flex-col bg-background", className)}
             data-tool="product-market-material"
             data-layout="linkfox-two-pane"
         >
             <OrigRail
                 items={ECOMMERCE_SUITE_RAIL}
                 active="商品套图"
-                credits={250}
                 testId="suite-family-rail"
-                className="shrink-0 border-b border-[#EDEDF0] px-2"
+                className="shrink-0 border-b border-border px-2"
             />
-            <div className="flex min-h-0 flex-1">
-                <div className="flex min-h-0 w-[760px] shrink-0 flex-col border-r border-[#EDEDF0]">
+            <ToolWorkspaceColumns
+                className="min-h-0 flex-1"
+                config={(
+                <div className="flex h-full min-h-0 flex-col">
                     <div className="min-h-0 flex-1 overflow-y-auto px-2 pb-1 pt-1">
-                        <div className="grid auto-rows-max grid-cols-3 gap-1.5">
+                        <div className="grid auto-rows-max grid-cols-1 gap-1.5">
                             <Section title="多视角白底商品&实拍图">
                                 <p className="mb-1.5 text-[11px] text-muted-foreground">上传商品图</p>
                                 <ToolAssetInput
@@ -1930,13 +1924,9 @@ export function ProductMarketMaterialWorkspace({ className }: { className?: stri
                                 </div>
                             </Section>
 
-                            <WatermarkGroupPanel />
                         </div>
                     </div>
                     <div className="shrink-0 border-t border-[#EDEDF0] px-6 py-3" data-testid="market-generate-summary">
-                        <p className="text-[11px] leading-4 text-muted-foreground">
-                            A+图{aplusUnits}张 * 每张{MARKET_UNIT_POINTS}点 + 主副图{mainSubUnits}张 * 每张{MARKET_UNIT_POINTS}点 = {expected * MARKET_UNIT_POINTS}点
-                        </p>
                         <div className="mt-2 flex items-center gap-2">
                             <button
                                 type="button"
@@ -1948,7 +1938,6 @@ export function ProductMarketMaterialWorkspace({ className }: { className?: stri
                             >
                                 {running ? "生成中…" : "开始生成"}
                             </button>
-                            <span className="text-[11px] leading-none text-muted-foreground">({expected * MARKET_UNIT_POINTS}算力)</span>
                             {units.length ? (
                                 <button
                                     type="button"
@@ -1967,6 +1956,8 @@ export function ProductMarketMaterialWorkspace({ className }: { className?: stri
                         </div>
                     </div>
                 </div>
+                )}
+            >
 
                 <div className="flex min-w-0 flex-1 flex-col">
                     <div className="flex h-11 shrink-0 items-center gap-6 border-b border-[#EDEDF0] px-6" role="tablist">
@@ -2082,13 +2073,10 @@ export function ProductMarketMaterialWorkspace({ className }: { className?: stri
                         </div>
                     </div>
                 </div>
-            </div>
+            </ToolWorkspaceColumns>
         </div>
     );
 }
-
-/** 商品图/主副图的单张算力：与原站 400 点（8 张 × 50）一致。 */
-const MARKET_UNIT_POINTS = 50;
 
 /** 生成比例 chip：market 只原生支持 1:1 / 3:4 / 3:2，4:3 与 2:3 走自定义画幅。 */
 const MARKET_RATIO_CHIPS: readonly { label: string; ratio?: "1:1" | "3:4" | "3:2"; width?: number; height?: number }[] = [

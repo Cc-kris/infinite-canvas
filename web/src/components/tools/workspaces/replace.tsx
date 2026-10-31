@@ -1,3 +1,4 @@
+import { ToolWorkspaceColumns } from "@/components/tools/tool-workspace-columns";
 /**
  * TASK-023：「商品替换」REPLACE_GOODS 工作区（layout = replace）。
  *
@@ -40,7 +41,6 @@ import {
     type ReplaceGoodsUnitOutcome,
 } from "@/features/tools/adapters/replace-goods";
 import type { MaskStroke } from "@/features/tools/registry/area-repair";
-import { WatermarkGroupPanel } from "@/components/tools/watermark-group-panel";
 import {
     REPLACE_GOODS_CORNERS,
     REPLACE_GOODS_CUTOUT_PROVIDERS,
@@ -812,7 +812,6 @@ export function ReplaceGoodsWorkspace({ className }: ReplaceGoodsWorkspaceProps 
             <div className="flex flex-col gap-2">
             <div className="flex flex-col gap-1.5 rounded-lg border border-border bg-card px-3 py-2" data-testid="replace-goods-mirror">
                 <nav aria-label="商品图设计" className="flex flex-wrap items-center gap-1 text-[11px] text-muted-foreground">
-                    <span className="rounded-md border border-border px-2 py-[3px]" title="可用算力">250</span>
                     {["商品图", "我的商品", "场景参考图", "商品替换", "场景裂变", "手持商品", "企业功能"].map((label) => (
                         <span key={label} className="rounded px-1.5 py-0.5">{label}</span>
                     ))}
@@ -845,144 +844,21 @@ export function ReplaceGoodsWorkspace({ className }: ReplaceGoodsWorkspaceProps 
                 </div>
                 <div className="flex items-center gap-2">
                     <button type="button" disabled className="rounded-md bg-primary px-3 py-1.5 text-xs font-medium text-primary-foreground opacity-70">立即生成</button>
-                    <span className="text-[11px] text-muted-foreground">(40算力)</span>
-                </div>
+                    </div>
                 <div className="rounded-lg border border-dashed border-border px-3 py-4 text-center">
                     <p className="text-xs font-medium text-foreground">生成结果</p>
                     <p className="mt-1 text-[11px] text-muted-foreground">暂无生成结果图</p>
                     <p className="mt-1 text-[11px] text-muted-foreground">快在左侧合成您的第一张商品图吧~</p>
-                </div>
-                <div className="rounded-lg border border-border bg-background px-2.5 py-2 text-[11px] text-muted-foreground" data-testid="replace-goods-mirror-watermark">
-                    <div className="flex flex-wrap items-center gap-2">
-                        <span className="font-medium text-foreground">管理水印分组</span>
-                        <span>共 1/20 个</span>
-                    </div>
-                    <div className="mt-1.5 flex flex-wrap items-center gap-1.5">
-                        <span className="rounded border border-border px-1.5 py-0.5">默认</span>
-                        <span className="rounded border border-dashed border-border px-1.5 py-0.5">＋ 新增水印分组</span>
-                    </div>
                 </div>
             </div>
             <details className="rounded-lg border border-border bg-card px-3 py-1.5">
                 <summary aria-label="编辑工作区" className="flex cursor-pointer items-center gap-1 text-[11px] text-muted-foreground [&::-webkit-details-marker]:hidden">
                     <ChevronDown className="size-3.5" aria-hidden />
                 </summary>
-            <div data-testid="replace-goods-workspace" className="mt-2 flex h-full min-h-0 gap-3 pb-1">
-                <div className="flex min-h-0 min-w-0 flex-1 flex-col gap-2">
-                    <p className="shrink-0 text-[11px] leading-4 text-muted-foreground">💡 温馨提示：支持上传多张商品图进行批量替换</p>
-                    <StepCard step={1} title="上传参考图" hint="" active={!scene} done={Boolean(scene)}>
-                        <ToolAssetInput
-                            toolId={SCENE_SLOT_ID}
-                            title="上传参考图"
-                            maxCount={1}
-                            constraints={UPLOAD_CONSTRAINTS}
-                            compact
-                            onChange={handleSceneChange}
-                        />
-                    </StepCard>
-
-                    <StepCard step={2} title="商品替换" hint="" active={Boolean(scene) && !target} done={Boolean(target)}>
-                        <div className="space-y-3">
-                            <div
-                                tabIndex={0}
-                                onKeyDown={nudge}
-                                aria-label="商品定位画布"
-                                className="rounded-xl focus:outline-none focus-visible:ring-2 focus-visible:ring-ring [&_img]:max-h-[300px] [&_img]:w-auto"
-                            >
-                                <PerspectiveWarpCanvas
-                                    scene={scene}
-                                    quad={sku?.history.present.quad ?? { topLeft: { x: 0.15, y: 0.15 }, topRight: { x: 0.85, y: 0.15 }, bottomRight: { x: 0.85, y: 0.85 }, bottomLeft: { x: 0.15, y: 0.85 } }}
-                                    mask={sku?.mask ?? { mode: "auto", strokes: [], brush: REPLACE_GOODS_MASK_BRUSH.defaultValue }}
-                                    mode={workspace.mode}
-                                    tool={tool}
-                                    brush={sku?.mask.brush ?? REPLACE_GOODS_MASK_BRUSH.defaultValue}
-                                    disabled={!scene}
-                                    onQuad={commitQuad}
-                                    onStroke={addStroke}
-                                />
-                            </div>
-
-                            <p className="text-[11px] leading-4 text-muted-foreground">生成尺寸: {REPLACE_GOODS_OUTPUT_SIZE.width}x{REPLACE_GOODS_OUTPUT_SIZE.height}</p>
-                            <div className="flex flex-wrap items-center gap-1.5">
-                                {(["warp", "mask", "eraser"] as CanvasTool[]).map((item) => (
-                                    <button
-                                        key={item}
-                                        type="button"
-                                        data-testid={`replace-goods-tool-${item}`}
-                                        onClick={() => setTool(item)}
-                                        aria-pressed={tool === item}
-                                        className={cn(
-                                            "inline-flex h-9 items-center gap-1.5 rounded-lg border px-2.5 text-xs transition",
-                                            tool === item ? "border-primary bg-accent text-foreground" : "border-border text-muted-foreground hover:bg-accent",
-                                        )}
-                                    >
-                                        {item === "warp" ? <Move className="size-3.5" /> : item === "mask" ? <Layers className="size-3.5" /> : <Trash2 className="size-3.5" />}
-                                        {item === "warp" ? "定位" : item === "mask" ? "补锁" : "擦除"}
-                                    </button>
-                                ))}
-                                <span className="mx-1 h-5 w-px bg-border" />
-                                <button type="button" data-testid="replace-goods-undo" onClick={undo} disabled={!historyLabel.canUndo} className="inline-flex h-9 items-center gap-1 rounded-lg border border-border px-2.5 text-xs text-muted-foreground disabled:opacity-40 hover:bg-accent">
-                                    <Undo2 className="size-3.5" />撤销
-                                </button>
-                                <button type="button" data-testid="replace-goods-redo" onClick={redo} disabled={!historyLabel.canRedo} className="inline-flex h-9 items-center gap-1 rounded-lg border border-border px-2.5 text-xs text-muted-foreground disabled:opacity-40 hover:bg-accent">
-                                    <Redo2 className="size-3.5" />重做
-                                </button>
-                                <button type="button" data-testid="replace-goods-reset" onClick={resetQuad} className="inline-flex h-9 items-center gap-1 rounded-lg border border-border px-2.5 text-xs text-muted-foreground hover:bg-accent">
-                                    <RotateCcw className="size-3.5" />复位
-                                </button>
-                                <button type="button" data-testid="replace-goods-clear-mask" onClick={clearMask} className="inline-flex h-9 items-center gap-1 rounded-lg border border-border px-2.5 text-xs text-muted-foreground hover:bg-accent">
-                                    清空蒙版
-                                </button>
-                            </div>
-
-                            <dl data-testid="replace-goods-shortcuts" className="grid gap-1 rounded-lg border border-border bg-card px-2.5 py-2 text-[11px] leading-4 text-muted-foreground sm:grid-cols-2">
-                                <div>
-                                    <dt className="font-medium text-foreground">键盘快捷键</dt>
-                                    <dd className="mt-0.5 flex items-center gap-2"><span>工具快捷键</span><span className="tabular-nums"><span>透视</span> <span className="font-mono">T</span></span><span className="tabular-nums"><span>扭曲</span> <span className="font-mono">N</span></span></dd>
-                                </div>
-                                <div>
-                                    <dt className="font-medium text-foreground">画布快捷操作</dt>
-                                    <dd className="mt-0.5 flex flex-col gap-0.5">
-                                        <span className="flex items-center gap-2"><span className="font-mono">Ctrl+拖动</span><span>向右切换画布</span></span>
-                                        <span className="flex items-center gap-2"><span>键盘右键</span><span>向左切换画布</span></span>
-                                        <span className="flex items-center gap-2"><span>键盘左键</span><span>向左切换画布</span></span>
-                                    </dd>
-                                </div>
-                            </dl>
-
-                            {quadFields ? (
-                                <dl data-testid="replace-goods-quad-readout" className="grid grid-cols-3 gap-2 rounded-lg border border-border bg-card px-2.5 py-2 text-[11px] text-muted-foreground">
-                                    <div>
-                                        <dt>中心点</dt>
-                                        <dd className="font-mono text-foreground">{quadFields.point.x.toFixed(3)}, {quadFields.point.y.toFixed(3)}</dd>
-                                    </div>
-                                    <div>
-                                        <dt>缩放</dt>
-                                        <dd className="font-mono text-foreground">{quadFields.scale.toFixed(2)}×</dd>
-                                    </div>
-                                    <div>
-                                        <dt>旋转</dt>
-                                        <dd className="font-mono text-foreground">{quadFields.rotate.toFixed(1)}°</dd>
-                                    </div>
-                                    <div className="col-span-3">锁定覆盖：{(coverage * 100).toFixed(1)}%（四边形外自动保护，可用补锁/擦除微调）</div>
-                                </dl>
-                            ) : null}
-
-                            <ToolAssetInput
-                                toolId={sku ? `${TARGET_SLOT_PREFIX}-${sku.id}` : TARGET_SLOT_PREFIX}
-                                title={`Step 2 · 替换商品（${sku?.label ?? "商品 1"}）`}
-                                maxCount={1}
-                                constraints={UPLOAD_CONSTRAINTS}
-                                compact
-                                disabled={!scene}
-                                onChange={handleTargetChange(sku?.id ?? "sku-1")}
-                            />
-                        </div>
-                    </StepCard>
-
-                                    </div>
-
-                <aside className="flex min-h-0 w-[340px] shrink-0 flex-col gap-2 overflow-y-auto pr-1">
+            <ToolWorkspaceColumns
+                configSide="right"
+                config={
+<aside className="flex min-h-0 w-[340px] shrink-0 flex-col gap-2 overflow-y-auto pr-1">
 <StepCard step={3} title="场景变化与输出" hint="变化程度决定背景重绘幅度；去噪强度影响新商品与场景的贴合质感。" active={Boolean(target)} done={Boolean(task)}>
                         <div className="grid gap-3 sm:grid-cols-2">
                             <Field label="参考图场景变化程度：">
@@ -1140,8 +1016,7 @@ export function ReplaceGoodsWorkspace({ className }: ReplaceGoodsWorkspaceProps 
                                     >
                                         {running ? <Loader2 className="size-4 animate-spin" /> : null}
                                         <span>{running ? "生成中…" : "立即生成"}</span>
-                                        <span className="text-[11px] leading-4 opacity-80">(40算力)</span>
-                                    </button>
+                                        </button>
                                 </div>
 
                                 {issues.length > 0 ? (
@@ -1187,7 +1062,6 @@ export function ReplaceGoodsWorkspace({ className }: ReplaceGoodsWorkspaceProps 
                             </div>
                         ) : null}
                     </section>
-                    <WatermarkGroupPanel />
                     <p className="px-1 text-[11px] leading-4 text-muted-foreground">ljq_driver: 已连接</p>
 
                     <details className="rounded-2xl border border-border bg-card p-3">
@@ -1269,7 +1143,121 @@ export function ReplaceGoodsWorkspace({ className }: ReplaceGoodsWorkspaceProps 
 
                     
                 </aside>
-            </div>
+                }>
+<div className="flex min-h-0 min-w-0 flex-1 flex-col gap-2">
+                    <p className="shrink-0 text-[11px] leading-4 text-muted-foreground">💡 温馨提示：支持上传多张商品图进行批量替换</p>
+                    <StepCard step={1} title="上传参考图" hint="" active={!scene} done={Boolean(scene)}>
+                        <ToolAssetInput
+                            toolId={SCENE_SLOT_ID}
+                            title="上传参考图"
+                            maxCount={1}
+                            constraints={UPLOAD_CONSTRAINTS}
+                            compact
+                            onChange={handleSceneChange}
+                        />
+                    </StepCard>
+
+                    <StepCard step={2} title="商品替换" hint="" active={Boolean(scene) && !target} done={Boolean(target)}>
+                        <div className="space-y-3">
+                            <div
+                                tabIndex={0}
+                                onKeyDown={nudge}
+                                aria-label="商品定位画布"
+                                className="rounded-xl focus:outline-none focus-visible:ring-2 focus-visible:ring-ring [&_img]:max-h-[300px] [&_img]:w-auto"
+                            >
+                                <PerspectiveWarpCanvas
+                                    scene={scene}
+                                    quad={sku?.history.present.quad ?? { topLeft: { x: 0.15, y: 0.15 }, topRight: { x: 0.85, y: 0.15 }, bottomRight: { x: 0.85, y: 0.85 }, bottomLeft: { x: 0.15, y: 0.85 } }}
+                                    mask={sku?.mask ?? { mode: "auto", strokes: [], brush: REPLACE_GOODS_MASK_BRUSH.defaultValue }}
+                                    mode={workspace.mode}
+                                    tool={tool}
+                                    brush={sku?.mask.brush ?? REPLACE_GOODS_MASK_BRUSH.defaultValue}
+                                    disabled={!scene}
+                                    onQuad={commitQuad}
+                                    onStroke={addStroke}
+                                />
+                            </div>
+
+                            <p className="text-[11px] leading-4 text-muted-foreground">生成尺寸: {REPLACE_GOODS_OUTPUT_SIZE.width}x{REPLACE_GOODS_OUTPUT_SIZE.height}</p>
+                            <div className="flex flex-wrap items-center gap-1.5">
+                                {(["warp", "mask", "eraser"] as CanvasTool[]).map((item) => (
+                                    <button
+                                        key={item}
+                                        type="button"
+                                        data-testid={`replace-goods-tool-${item}`}
+                                        onClick={() => setTool(item)}
+                                        aria-pressed={tool === item}
+                                        className={cn(
+                                            "inline-flex h-9 items-center gap-1.5 rounded-lg border px-2.5 text-xs transition",
+                                            tool === item ? "border-primary bg-accent text-foreground" : "border-border text-muted-foreground hover:bg-accent",
+                                        )}
+                                    >
+                                        {item === "warp" ? <Move className="size-3.5" /> : item === "mask" ? <Layers className="size-3.5" /> : <Trash2 className="size-3.5" />}
+                                        {item === "warp" ? "定位" : item === "mask" ? "补锁" : "擦除"}
+                                    </button>
+                                ))}
+                                <span className="mx-1 h-5 w-px bg-border" />
+                                <button type="button" data-testid="replace-goods-undo" onClick={undo} disabled={!historyLabel.canUndo} className="inline-flex h-9 items-center gap-1 rounded-lg border border-border px-2.5 text-xs text-muted-foreground disabled:opacity-40 hover:bg-accent">
+                                    <Undo2 className="size-3.5" />撤销
+                                </button>
+                                <button type="button" data-testid="replace-goods-redo" onClick={redo} disabled={!historyLabel.canRedo} className="inline-flex h-9 items-center gap-1 rounded-lg border border-border px-2.5 text-xs text-muted-foreground disabled:opacity-40 hover:bg-accent">
+                                    <Redo2 className="size-3.5" />重做
+                                </button>
+                                <button type="button" data-testid="replace-goods-reset" onClick={resetQuad} className="inline-flex h-9 items-center gap-1 rounded-lg border border-border px-2.5 text-xs text-muted-foreground hover:bg-accent">
+                                    <RotateCcw className="size-3.5" />复位
+                                </button>
+                                <button type="button" data-testid="replace-goods-clear-mask" onClick={clearMask} className="inline-flex h-9 items-center gap-1 rounded-lg border border-border px-2.5 text-xs text-muted-foreground hover:bg-accent">
+                                    清空蒙版
+                                </button>
+                            </div>
+
+                            <dl data-testid="replace-goods-shortcuts" className="grid gap-1 rounded-lg border border-border bg-card px-2.5 py-2 text-[11px] leading-4 text-muted-foreground sm:grid-cols-2">
+                                <div>
+                                    <dt className="font-medium text-foreground">键盘快捷键</dt>
+                                    <dd className="mt-0.5 flex items-center gap-2"><span>工具快捷键</span><span className="tabular-nums"><span>透视</span> <span className="font-mono">T</span></span><span className="tabular-nums"><span>扭曲</span> <span className="font-mono">N</span></span></dd>
+                                </div>
+                                <div>
+                                    <dt className="font-medium text-foreground">画布快捷操作</dt>
+                                    <dd className="mt-0.5 flex flex-col gap-0.5">
+                                        <span className="flex items-center gap-2"><span className="font-mono">Ctrl+拖动</span><span>向右切换画布</span></span>
+                                        <span className="flex items-center gap-2"><span>键盘右键</span><span>向左切换画布</span></span>
+                                        <span className="flex items-center gap-2"><span>键盘左键</span><span>向左切换画布</span></span>
+                                    </dd>
+                                </div>
+                            </dl>
+
+                            {quadFields ? (
+                                <dl data-testid="replace-goods-quad-readout" className="grid grid-cols-3 gap-2 rounded-lg border border-border bg-card px-2.5 py-2 text-[11px] text-muted-foreground">
+                                    <div>
+                                        <dt>中心点</dt>
+                                        <dd className="font-mono text-foreground">{quadFields.point.x.toFixed(3)}, {quadFields.point.y.toFixed(3)}</dd>
+                                    </div>
+                                    <div>
+                                        <dt>缩放</dt>
+                                        <dd className="font-mono text-foreground">{quadFields.scale.toFixed(2)}×</dd>
+                                    </div>
+                                    <div>
+                                        <dt>旋转</dt>
+                                        <dd className="font-mono text-foreground">{quadFields.rotate.toFixed(1)}°</dd>
+                                    </div>
+                                    <div className="col-span-3">锁定覆盖：{(coverage * 100).toFixed(1)}%（四边形外自动保护，可用补锁/擦除微调）</div>
+                                </dl>
+                            ) : null}
+
+                            <ToolAssetInput
+                                toolId={sku ? `${TARGET_SLOT_PREFIX}-${sku.id}` : TARGET_SLOT_PREFIX}
+                                title={`Step 2 · 替换商品（${sku?.label ?? "商品 1"}）`}
+                                maxCount={1}
+                                constraints={UPLOAD_CONSTRAINTS}
+                                compact
+                                disabled={!scene}
+                                onChange={handleTargetChange(sku?.id ?? "sku-1")}
+                            />
+                        </div>
+                    </StepCard>
+
+                                    </div>
+            </ToolWorkspaceColumns>
             </details>
             </div>
         </ToolShell>

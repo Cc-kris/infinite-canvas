@@ -1,3 +1,4 @@
+import { ToolWorkspaceColumns } from "@/components/tools/tool-workspace-columns";
 /**
  * TASK-020：「印花修复」PRINTING_REPAIR 工作区（layout = repair）。
  *
@@ -826,8 +827,10 @@ export function PrintingRepairWorkspace({ className }: PrintingRepairWorkspacePr
             subtitle="上传印花有误的图片，将正确的印花调整并覆盖，即可完成修复"
             sidebar={sidebar}
         >
-            <div data-testid="printing-repair-workspace" className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_320px]">
-                <div className="space-y-4">
+            <ToolWorkspaceColumns
+                configSide="left"
+                config={
+<div className="space-y-4">
                     <p className="rounded-xl border border-amber-300/60 bg-amber-50 px-3 py-2 text-[11px] leading-4 text-amber-900">
                         💡 小贴士：您可以调整印花的大小并将其置于合适的位置！看看怎么操作？
                     </p>
@@ -936,8 +939,8 @@ export function PrintingRepairWorkspace({ className }: PrintingRepairWorkspacePr
                         )}
                     </StepCard>
                 </div>
-
-                <div data-region="config" className="space-y-3">
+                }>
+<div data-region="config" className="space-y-3">
                     <section className="space-y-3 rounded-2xl border border-border bg-card p-4">
                         <button
                             type="button"
@@ -1025,7 +1028,7 @@ export function PrintingRepairWorkspace({ className }: PrintingRepairWorkspacePr
                     {/* 原站族导航在页面最左（x≈61），本地被内容框裁掉：在参数栏底部等价还原，顺序与原站一致 */}
                     <OrigRail items={SMART_EDIT_RAIL} active="印花修复" driver testId="printing-repair-family-rail" label="图片编辑" />
                 </div>
-            </div>
+            </ToolWorkspaceColumns>
         </ToolShell>
     );
 }

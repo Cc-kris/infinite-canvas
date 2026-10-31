@@ -1,3 +1,4 @@
+import { ToolWorkspaceColumns } from "@/components/tools/tool-workspace-columns";
 /**
  * TASK-026：AI 穿衣工作区（AI_DRESSING_V2）。
  *
@@ -11,7 +12,6 @@ import { useCallback, useEffect, useMemo, useRef, useState, type PointerEvent as
 
 import { ToolAssetInput } from "@/components/tools/tool-asset-input";
 import { ToolCases, type ToolCase } from "@/components/tools/tool-cases";
-import { WatermarkGroupPanel } from "@/components/tools/watermark-group-panel";
 import { OrigRail, WEAR_RAIL } from "@/components/tools/workspaces/orig-rail";
 import { ToolResult } from "@/components/tools/tool-result";
 import { dressingResultPanelTask } from "@/features/tools/adapters/ai-dressing-v2";
@@ -421,9 +421,10 @@ export function DressingWorkspace({ className }: DressingWorkspaceProps) {
         <section className={cn("min-w-0", className)} data-testid="ai-dressing-workspace">
             {/* OrigRail 内部用 react-router Link；SSR 单测无 Router 上下文，故挂载后再渲染 */}
             {railReady ? <OrigRail items={WEAR_RAIL} active="AI穿衣" driver testId="dressing-rail" className="mb-2" /> : null}
-            <div className="flex h-[calc(100dvh-193px)] min-h-[560px] w-full overflow-hidden rounded-[8px] border border-black/[0.06] bg-card">
-                {/* 左栏：原站表单列（图片规则 / Tab / 生成张数 / 立即生成） */}
-                <div className="flex h-full w-[318px] shrink-0 flex-col border-r border-border">
+            <ToolWorkspaceColumns
+                configSide="left"
+                config={
+<div className="flex h-full w-[318px] shrink-0 flex-col border-r border-border">
                     <div className="min-h-0 flex-1 space-y-3 overflow-y-auto px-4 pb-3 pt-3">
                         <div className="flex items-center justify-between gap-2">
                             <h2 className="text-[15px] font-semibold leading-6">AI 穿衣</h2>
@@ -582,13 +583,12 @@ export function DressingWorkspace({ className }: DressingWorkspaceProps) {
                             className="w-full rounded-[6px] bg-primary px-4 py-2 text-[13px] font-medium text-primary-foreground transition disabled:opacity-40"
                         >
                             <span className="mr-1">立即生成</span>
-                            <span className="text-[11px] opacity-80">(40算力)</span>
-                        </button>
+                            </button>
                     </div>
                 </div>
-
-                {/* 中栏：选择穿衣模特 + 服装上传（原站「穿衣的部位与模特参考」） */}
-                <div className="min-h-0 flex-1 overflow-y-auto px-4 pb-4 pt-3" data-testid="dressing-form">
+                }>
+<div className="grid min-h-0 min-w-0 flex-1 gap-4 overflow-hidden lg:grid-cols-[minmax(0,1fr)_minmax(320px,360px)]">
+<div className="min-h-0 flex-1 overflow-y-auto px-4 pb-4 pt-3" data-testid="dressing-form">
                     <div className="grid gap-4 xl:grid-cols-2">
                         <div className="space-y-2" data-field="poses">
                             <h3 className="text-[12px] font-medium leading-5">选择穿衣模特</h3>
@@ -765,9 +765,7 @@ export function DressingWorkspace({ className }: DressingWorkspaceProps) {
                         </div>
                     </div>
                 </div>
-
-                {/* 右栏：生成结果 / 或试试这些 / 管理水印分组 */}
-                <aside className="flex h-full w-[318px] shrink-0 flex-col border-l border-border" aria-label="生成结果与案例">
+<aside className="flex h-full w-[318px] shrink-0 flex-col border-l border-border" aria-label="生成结果与案例">
                     <div className="min-h-0 flex-1 overflow-y-auto px-4 pb-3 pt-3">
                         <h3 className="mb-2 text-[12px] font-medium leading-5">生成结果</h3>
                         {panelTask ? (
@@ -832,10 +830,10 @@ export function DressingWorkspace({ className }: DressingWorkspaceProps) {
                         </div>
                     </div>
                     <div className="border-t border-border p-2">
-                        <WatermarkGroupPanel />
                     </div>
                 </aside>
-            </div>
+                    </div>
+            </ToolWorkspaceColumns>
         </section>
     );
 }

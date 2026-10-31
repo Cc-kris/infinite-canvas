@@ -13,13 +13,11 @@
  *  5. 结果区：真实 ToolResult，配置变更后旧结果标「来自旧版本」。
  */
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { ChevronDown } from "lucide-react";
-
 import { ToolAssetInput } from "@/components/tools/tool-asset-input";
 import { ToolCases, type ToolCase } from "@/components/tools/tool-cases";
 import { ToolResult } from "@/components/tools/tool-result";
+import { ToolWorkspaceColumns } from "@/components/tools/tool-workspace-columns";
 import { AiVideoFamilyNav } from "./video";
-import { WatermarkGroupPanel } from "@/components/tools/watermark-group-panel";
 import { ToolTaskHistory } from "@/components/tools/tool-task-history";
 import { uploadCaseFiles } from "@/features/tools/case-apply";
 import { IMAGE_TO_VIDEO_CASES, type ImageToVideoCase } from "@/features/tools/image-to-video-cases-data";
@@ -440,52 +438,10 @@ export function ImageToVideoWorkspace({ className, toolId = IMAGE_TO_VIDEO_TOOL_
                 </p>
             ) : null}
 
-            <div className="flex flex-col gap-2 rounded-lg border border-border bg-card px-3 py-2 text-[11px] text-muted-foreground" data-testid="image-to-video-mirror">
-                <div className="flex flex-wrap items-center gap-1.5">
-                    {["250","参考素材","首尾帧","商品链接","分析","或 手动上传参考图","图片规则","上传参考图","支持上传9张图，10M以内，384*384 ~ 4096*4096，宽高比（宽÷高）0.4～2.5（含边界）","本地上传","作品选择","商品库选择","商品信息（选填）","AI 分析","0 / 1600"].map((item) => (
-                        <span key={item} className="rounded border border-border px-1.5 py-0.5">{item}</span>
-                    ))}
-                </div>
-                <div className="flex flex-wrap items-center gap-1.5">
-                    {["视频类型 *（必填项）","视频模板","自定义描述","产品展示","?","UGC种草","痛点解决","家居场景","视频模型","MiniMax H3","适合批量测款与日常上新","视频分辨率","768P","1080P","生成设置"].map((item) => (
-                        <span key={item} className="rounded border border-border px-1.5 py-0.5">{item}</span>
-                    ))}
-                </div>
-                <div className="flex flex-wrap items-center gap-1.5">
-                    {["视频时长","拖动选择时长","15秒","5","10","15","视频比例","自适应","9:16","16:9","1:1","4:3","3:4","21:9","销售国家/地区","US(美国)","目标语言","英语"].map((item) => (
-                        <span key={item} className="rounded border border-border px-1.5 py-0.5">{item}</span>
-                    ))}
-                </div>
-                <div className="flex flex-wrap items-center gap-2">
-                    <button type="button" disabled className="rounded-md bg-primary px-3 py-1 text-[11px] font-medium text-primary-foreground opacity-70">立即生成</button>
-                    <span>90 算力</span>
-                    <span>季度特惠</span>
-                    <span className="ml-auto text-emerald-600 dark:text-emerald-400">ljq_driver: 已连接</span>
-                </div>
-                <div className="rounded-lg border border-dashed border-border px-3 py-2">
-                    <span className="text-xs font-medium text-foreground">生成结果</span>
-                    <span className="ml-2">动态展示商品，点击率大大提升</span>
-                </div>
-                <div className="rounded-lg border border-border bg-background px-2.5 py-2">
-                    <div className="flex flex-wrap items-center gap-2">
-                        <span className="font-medium text-foreground">管理水印分组</span>
-                        <span>共 1/20 个</span>
-                        <span className="rounded border border-border px-1.5 py-0.5">默认</span>
-                        <span className="rounded border border-dashed border-border px-1.5 py-0.5">＋ 新增水印分组</span>
-                    </div>
-                </div>
-                <div className="rounded-lg border border-border bg-background px-2.5 py-2">
-                    <span className="font-medium text-foreground">「批量生成」功能重磅上线！</span>
-                    <span className="ml-2">批量上传商品图，一次最多生成100条视频，同时给每个商品出视频，不用一张张传、一条条等。非高峰算力5折！</span>
-                    <button type="button" className="ml-2 rounded border border-border px-2 py-0.5">立即体验</button>
-                </div>
-            </div>
-            <details className="rounded-lg border border-border bg-card px-3 py-1.5">
-                <summary aria-label="编辑工作区" className="flex cursor-pointer items-center gap-1 text-[11px] text-muted-foreground [&::-webkit-details-marker]:hidden">
-                    <ChevronDown className="size-3.5" aria-hidden />
-                </summary>
-            <div className="mt-2 grid min-w-0 gap-4 lg:grid-cols-[minmax(320px,380px)_minmax(0,1fr)]">
-                <div className="flex min-w-0 flex-col gap-4">
+            <ToolWorkspaceColumns
+                className="min-h-0 flex-1"
+                config={
+                    <>
                     <section className="space-y-2 rounded-lg border border-border bg-card p-3" data-testid="image-to-video-upload">
                         <div className="flex items-center justify-between">
                             <h3 className="text-xs font-medium">图片规则</h3>
@@ -603,9 +559,7 @@ export function ImageToVideoWorkspace({ className, toolId = IMAGE_TO_VIDEO_TOOL_
                         </label>
                         <p className="text-[10px] text-muted-foreground">当前模板：{template.templateName}</p>
                     </section>
-                </div>
 
-                <div className="flex min-w-0 flex-col gap-4">
                     <section className="space-y-2 rounded-lg border border-border bg-card p-3" data-testid="image-to-video-settings">
                         <label className="flex flex-col gap-1 text-[11px] text-muted-foreground">
                             <span>视频模型</span>
@@ -754,12 +708,7 @@ export function ImageToVideoWorkspace({ className, toolId = IMAGE_TO_VIDEO_TOOL_
                             className="min-h-11 w-full rounded-lg bg-primary px-3 text-[13px] font-medium text-primary-foreground disabled:opacity-50"
                         >
                             {running ? "生成中…" : "立即生成"}
-                            {!running ? <span className="ml-2 text-[11px]">90 算力</span> : null}
                         </button>
-                        <div className="flex flex-wrap items-center justify-between gap-1 text-[11px] text-muted-foreground">
-                            <span>季度特惠</span>
-                            <button type="button" className="rounded border border-border px-2 py-0.5">立即体验</button>
-                        </div>
                         {(capability.blockers.length > 0 || issues.warnings.length > 0 || capability.notices.length > 0 || runError) ? (
                             <ul data-testid="image-to-video-issues" className="flex flex-col gap-1 text-[11px]">
                                 {runError ? <li className="text-destructive">提交失败：{runError}</li> : null}
@@ -775,7 +724,10 @@ export function ImageToVideoWorkspace({ className, toolId = IMAGE_TO_VIDEO_TOOL_
                             </ul>
                         ) : null}
                     </section>
-
+                    </>
+                }
+            >
+                <section className="flex min-w-0 flex-col gap-4" aria-label="结果区">
                     <div data-testid="image-to-video-result" data-status={cell.status} className="min-w-0">
                         <ToolResult
                             task={task}
@@ -787,10 +739,8 @@ export function ImageToVideoWorkspace({ className, toolId = IMAGE_TO_VIDEO_TOOL_
                             onRetry={task && !running ? () => void submit() : undefined}
                         />
                     </div>
-                    <WatermarkGroupPanel />
-                </div>
-            </div>
-            </details>
+                </section>
+            </ToolWorkspaceColumns>
         </div>
     );
 }

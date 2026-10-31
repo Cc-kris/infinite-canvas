@@ -2,7 +2,7 @@ import { modelLabel } from "@/lib/model-label";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 import { ToolAssetInput } from "@/components/tools/tool-asset-input";
-import { WatermarkGroupPanel } from "@/components/tools/watermark-group-panel";
+import { ToolWorkspaceColumns } from "@/components/tools/tool-workspace-columns";
 import { ToolResult } from "@/components/tools/tool-result";
 import { Design19LeftColumn, Design19Results, Design19Workbench, type Design19TabId } from "@/components/tools/design19-frame";
 import { ToolTaskHistory } from "@/components/tools/tool-task-history";
@@ -422,11 +422,14 @@ export function SceneWorkspace({ className }: { className?: string }) {
 
     return (
         <div data-testid="scene-workspace" className={cn("flex flex-col gap-4", className)}>
-            <div className="grid gap-4 lg:grid-cols-[minmax(300px,380px)_minmax(0,1fr)]">
+            <ToolWorkspaceColumns
+                config={(
                 <section className="flex min-w-0 flex-col gap-3 rounded-lg border border-border bg-card p-3">
                     <h2 className="text-sm font-medium text-foreground">上传商品图</h2>
                     <ToolAssetInput toolId={toolId} maxCount={1} variant="linkfox" wide uploadLabel="上传商品图" dropLabel="或拖拽/粘贴图片到此处" actions={<></>} disabled={running} onChange={onGoodsChange} />
                 </section>
+                )}
+            >
                 <section className="flex min-w-0 flex-col gap-3 rounded-lg border border-border bg-card p-3">
                     <div className="flex flex-wrap items-center justify-between gap-2">
                         <h2 className="text-sm font-medium text-foreground">或试试这些</h2>
@@ -501,8 +504,7 @@ export function SceneWorkspace({ className }: { className?: string }) {
                     <button key="厨房-厨房用具" type="button" onClick={() => { setActiveScene("厨房-厨房用具"); update({ customPrompt: "厨房-厨房用具 场景，商品居中，光影自然，商业产品摄影" }); }} className={cn("rounded-md border px-2 py-1 text-[11px] leading-4", activeScene === "厨房-厨房用具" ? "border-primary bg-primary/10 text-foreground" : "border-border text-muted-foreground hover:border-primary/60")}>厨房-厨房用具</button>
                     </div>
                 </section>
-            </div>
-            <WatermarkGroupPanel />
+            </ToolWorkspaceColumns>
         </div>
     );
 }
@@ -531,7 +533,6 @@ import {
     fissionLinkPlan,
     fissionLinkSnapshotHash,
     fissionLinkSourceKey,
-    fissionLinkSubmitLabel,
     inspectFissionLinkSource,
     parseFissionLinkDraft,
     serializeFissionLinkDraft,
@@ -910,9 +911,12 @@ export function FissionLinkWorkspace({ className, port }: FissionLinkWorkspacePr
     return (
         <div
             data-testid="fission-link-workspace"
-            className={cn("flex h-full min-h-0 overflow-hidden bg-card text-foreground", className)}
+            className={cn("flex h-full min-h-0 flex-col overflow-hidden bg-card text-foreground", className)}
         >
-            <Design19LeftColumn data-testid="fission-link-config">
+            <ToolWorkspaceColumns
+                className="min-h-0 flex-1"
+                config={(
+            <section data-testid="fission-link-config" className="flex min-w-0 flex-col">
                 <h2 className="text-sm font-medium">{FISSION_LINK_TITLE}</h2>
                 <p className="mt-1 text-[11px] leading-relaxed text-muted-foreground">
                     粘贴一张商品/场景图的链接，或直接上传；数量 = 每张一次真实请求。
@@ -933,7 +937,7 @@ export function FissionLinkWorkspace({ className, port }: FissionLinkWorkspacePr
                         setPreview(event.target.value.trim() ? "loading" : "idle");
                         updateState({ imageUrl: event.target.value });
                     }}
-                    className="mt-1 w-full rounded-md border border-stone-300 bg-card p-2 text-xs outline-none focus:border-stone-500 dark:border-stone-700 dark:bg-stone-900"
+                    className="mt-1 w-full rounded-md border border-border bg-background p-2 text-xs outline-none focus:border-primary"
                 />
 
                 {previewUrl ? (
@@ -945,7 +949,7 @@ export function FissionLinkWorkspace({ className, port }: FissionLinkWorkspacePr
                             data-state={preview}
                             onLoad={() => setPreview("ready")}
                             onError={() => setPreview("error")}
-                            className="h-16 w-16 rounded border border-stone-200 object-cover dark:border-stone-700"
+                            className="h-16 w-16 rounded border border-border object-cover"
                         />
                         <span className="text-[11px] text-muted-foreground">
                             {preview === "ready" ? "预览已就绪" : preview === "error" ? "加载失败" : "加载中…"}
@@ -977,8 +981,8 @@ export function FissionLinkWorkspace({ className, port }: FissionLinkWorkspacePr
                                 className={[
                                     "h-7 w-9 rounded border text-xs",
                                     state.outputNum === count
-                                        ? "border-stone-900 bg-stone-900 text-white dark:border-stone-100 dark:bg-stone-100 dark:text-stone-900"
-                                        : "border-stone-300 text-stone-700 dark:border-stone-700 dark:text-stone-300",
+                                        ? "border-primary bg-primary text-primary-foreground"
+                                        : "border-border text-foreground",
                                 ].join(" ")}
                             >
                                 {count}
@@ -993,7 +997,7 @@ export function FissionLinkWorkspace({ className, port }: FissionLinkWorkspacePr
                 {issues.length > 0 ? (
                     <ul data-testid="fission-link-issues" className="mt-2 space-y-1">
                         {issues.map((issue) => (
-                            <li key={issue.code} className="text-[11px] text-amber-700 dark:text-amber-400">
+                            <li key={issue.code} className="text-[11px] text-destructive">
                                 {issue.message}
                             </li>
                         ))}
@@ -1001,7 +1005,7 @@ export function FissionLinkWorkspace({ className, port }: FissionLinkWorkspacePr
                 ) : null}
 
                 {error ? (
-                    <p data-testid="fission-link-error" className="mt-2 text-[11px] text-red-600 dark:text-red-400">
+                    <p data-testid="fission-link-error" className="mt-2 text-[11px] text-destructive">
                         {error}
                     </p>
                 ) : null}
@@ -1012,21 +1016,23 @@ export function FissionLinkWorkspace({ className, port }: FissionLinkWorkspacePr
                         data-testid="fission-link-submit"
                         disabled={!canSubmit}
                         onClick={submit}
-                        className="h-8 flex-1 rounded-md bg-stone-900 text-xs text-white disabled:opacity-40 dark:bg-stone-100 dark:text-stone-900"
+                        className="h-8 flex-1 rounded-md bg-primary text-xs text-primary-foreground disabled:opacity-40"
                     >
-                        {fissionLinkSubmitLabel(state, busy)}
+                        {busy ? "生成中…" : state.outputNum > 1 ? `立即生成 ${state.outputNum} 张` : "立即生成"}
                     </button>
                     {busy ? (
                         <button
                             type="button"
                             onClick={cancel}
-                            className="h-8 rounded-md border border-stone-300 px-3 text-xs dark:border-stone-700"
+                            className="h-8 rounded-md border border-border px-3 text-xs"
                         >
                             取消
                         </button>
                     ) : null}
                 </div>
-            </Design19LeftColumn>
+            </section>
+                )}
+            >
 
             <Design19Results
                 tabs={[
@@ -1062,17 +1068,17 @@ export function FissionLinkWorkspace({ className, port }: FissionLinkWorkspacePr
                 ) : null}
                 <div className={resultTab === "result" ? "min-h-0 flex-1 overflow-auto p-4" : "hidden"}>
                 {lockedHash && lockedHash !== currentHash ? (
-                    <p data-testid="fission-link-stale" className="mt-1 text-[11px] text-amber-700 dark:text-amber-400">
+                    <p data-testid="fission-link-stale" className="mt-1 text-[11px] text-destructive">
                         参数已改动，下面这些结果是上一次配置生成的，需要重新提交
                     </p>
                 ) : null}
                 {actionNotice ? (
-                    <p data-testid="fission-link-action-notice" className="mt-1 text-[11px] text-stone-600 dark:text-stone-300">
+                    <p data-testid="fission-link-action-notice" className="mt-1 text-[11px] text-muted-foreground">
                         {actionNotice}
                     </p>
                 ) : null}
                 {restoredNotice ? (
-                    <p data-testid="fission-link-restored-task" className="mt-1 text-[11px] text-emerald-700 dark:text-emerald-400">
+                    <p data-testid="fission-link-restored-task" className="mt-1 text-[11px] text-muted-foreground">
                         {restoredNotice}
                     </p>
                 ) : null}
@@ -1085,7 +1091,7 @@ export function FissionLinkWorkspace({ className, port }: FissionLinkWorkspacePr
                             <div
                                 key={index}
                                 data-testid={`fission-link-cell-${index + 1}`}
-                                className="rounded border border-stone-200 p-2 dark:border-stone-800"
+                                className="rounded border border-border p-2"
                             >
                                 <p className="text-[11px] text-muted-foreground">第 {index + 1} 张</p>
                                 {image?.url || image?.dataUrl ? (
@@ -1095,7 +1101,7 @@ export function FissionLinkWorkspace({ className, port }: FissionLinkWorkspacePr
                                         className="mt-1 aspect-square w-full rounded object-cover"
                                     />
                                 ) : (
-                                    <div className="mt-1 flex aspect-square w-full items-center justify-center rounded bg-stone-100 text-[11px] text-stone-500 dark:bg-stone-800 dark:text-stone-400">
+                                    <div className="mt-1 flex aspect-square w-full items-center justify-center rounded bg-accent text-[11px] text-muted-foreground">
                                         {fissionLinkCellText(run)}
                                     </div>
                                 )}
@@ -1107,7 +1113,7 @@ export function FissionLinkWorkspace({ className, port }: FissionLinkWorkspacePr
                                             disabled={Boolean(actionPending)}
                                             onClick={() => void runCellAction("download", index)}
                                             data-testid={`fission-link-download-${index + 1}`}
-                                            className="w-full rounded border border-stone-300 py-1 text-[11px] disabled:opacity-60 dark:border-stone-700"
+                                            className="w-full rounded border border-border py-1 text-[11px] disabled:opacity-60"
                                         >
                                             {actionPending === `download-${index}` ? "下载中…" : "下载"}
                                         </button>
@@ -1116,7 +1122,7 @@ export function FissionLinkWorkspace({ className, port }: FissionLinkWorkspacePr
                                             disabled={Boolean(actionPending)}
                                             onClick={() => void runCellAction("save", index)}
                                             data-testid={`fission-link-save-${index + 1}`}
-                                            className="w-full rounded border border-stone-300 py-1 text-[11px] disabled:opacity-60 dark:border-stone-700"
+                                            className="w-full rounded border border-border py-1 text-[11px] disabled:opacity-60"
                                         >
                                             {actionPending === `save-${index}` ? "保存中…" : "存入资产库"}
                                         </button>
@@ -1125,7 +1131,7 @@ export function FissionLinkWorkspace({ className, port }: FissionLinkWorkspacePr
                                             disabled={Boolean(actionPending)}
                                             onClick={() => void runCellAction("canvas", index)}
                                             data-testid={`fission-link-canvas-${index + 1}`}
-                                            className="w-full rounded border border-stone-300 py-1 text-[11px] disabled:opacity-60 dark:border-stone-700"
+                                            className="w-full rounded border border-border py-1 text-[11px] disabled:opacity-60"
                                         >
                                             {actionPending === `canvas-${index}` ? "发送中…" : "发送到画布"}
                                         </button>
@@ -1136,7 +1142,7 @@ export function FissionLinkWorkspace({ className, port }: FissionLinkWorkspacePr
                                         type="button"
                                         disabled={busy}
                                         onClick={() => retryCell(index)}
-                                        className="mt-1 w-full rounded border border-stone-300 py-1 text-[11px] dark:border-stone-700"
+                                        className="mt-1 w-full rounded border border-border py-1 text-[11px]"
                                     >
                                         只重试这一张
                                     </button>
@@ -1148,6 +1154,7 @@ export function FissionLinkWorkspace({ className, port }: FissionLinkWorkspacePr
                 </div>
                 </div>
             </Design19Results>
+            </ToolWorkspaceColumns>
         </div>
     );
 }
@@ -1412,23 +1419,26 @@ export function SceneTransferWorkspace({ className, toolId = SCENE_TRANSFER_TOOL
     }, [activeTask, port, upsertStoredTask]);
 
     return (
-        <div className={cn("flex flex-col gap-2.5 lg:flex-row lg:items-start", className)} data-testid="scene-transfer-workspace">
-            <Design19LeftColumn data-testid="scene-transfer-config">
+        <div className={cn("flex h-full min-h-0 flex-col overflow-hidden bg-card text-foreground", className)} data-testid="scene-transfer-workspace">
+            <ToolWorkspaceColumns
+                className="min-h-0 flex-1"
+                config={(
+            <section data-testid="scene-transfer-config" className="flex min-w-0 flex-col gap-3">
                 <header>
                     <h2 className="text-sm font-medium" data-testid="scene-transfer-title">{SCENE_TRANSFER_TITLE}</h2>
-                    <p className="mt-1 text-[11px] text-stone-500 dark:text-stone-400">
+                    <p className="mt-1 text-[11px] text-muted-foreground">
                         商品图 + 场景风格参考图，按相似度把商品迁移进参考场景；提交即一次真实图像请求。
                     </p>
                 </header>
 
                 {lostAssets.length ? (
-                    <p className="rounded border border-amber-300 bg-amber-50 px-3 py-2 text-[11px] text-amber-800 dark:border-amber-700 dark:bg-amber-950 dark:text-amber-200" data-testid="scene-transfer-lost-assets">
+                    <p className="rounded border border-border bg-accent px-3 py-2 text-[11px] text-foreground" data-testid="scene-transfer-lost-assets">
                         草稿里的这些图在本地已找不到，请重新选择：{lostAssets.join("、")}
                     </p>
                 ) : null}
 
-                <div className="rounded-lg border border-stone-200 p-3 dark:border-stone-700" data-testid="scene-transfer-product">
-                    <h3 className="mb-2 text-xs font-medium">商品图 <span className="text-stone-400">imageUrl</span></h3>
+                <div className="rounded-lg border border-border p-3" data-testid="scene-transfer-product">
+                    <h3 className="mb-2 text-xs font-medium">商品图 <span className="text-muted-foreground">imageUrl</span></h3>
                     <ToolAssetInput
                         toolId={`${toolId}-product`}
                         title="上传商品图"
@@ -1441,13 +1451,13 @@ export function SceneTransferWorkspace({ className, toolId = SCENE_TRANSFER_TOOL
                             update({ imageUrl: record ? transferImageRef(transferAssetFromRecord(record)) || record.id : "" });
                         }}
                     />
-                    <p className="mt-2 text-[11px] text-stone-500 dark:text-stone-400" data-testid="scene-transfer-product-state">
+                    <p className="mt-2 text-[11px] text-muted-foreground" data-testid="scene-transfer-product-state">
                         {describeTransferSource(product)}
                     </p>
                 </div>
 
-                <div className="rounded-lg border border-stone-200 p-3 dark:border-stone-700" data-testid="scene-transfer-style">
-                    <h3 className="mb-2 text-xs font-medium">场景风格参考图 <span className="text-stone-400">imageStyleUrl</span></h3>
+                <div className="rounded-lg border border-border p-3" data-testid="scene-transfer-style">
+                    <h3 className="mb-2 text-xs font-medium">场景风格参考图 <span className="text-muted-foreground">imageStyleUrl</span></h3>
                     <ToolAssetInput
                         toolId={`${toolId}-style`}
                         title="上传场景风格参考图"
@@ -1460,13 +1470,13 @@ export function SceneTransferWorkspace({ className, toolId = SCENE_TRANSFER_TOOL
                             update({ imageStyleUrl: record ? transferImageRef(transferAssetFromRecord(record)) || record.id : "" });
                         }}
                     />
-                    <p className="mt-2 text-[11px] text-stone-500 dark:text-stone-400" data-testid="scene-transfer-style-state">
+                    <p className="mt-2 text-[11px] text-muted-foreground" data-testid="scene-transfer-style-state">
                         {describeTransferSource(style)}
                     </p>
                 </div>
 
-                <div className="rounded-lg border border-stone-200 p-3 dark:border-stone-700" data-testid="scene-transfer-seg">
-                    <h3 className="mb-2 text-xs font-medium">商品分割图 <span className="text-stone-400">segImageUrl（可选）</span></h3>
+                <div className="rounded-lg border border-border p-3" data-testid="scene-transfer-seg">
+                    <h3 className="mb-2 text-xs font-medium">商品分割图 <span className="text-muted-foreground">segImageUrl（可选）</span></h3>
                     <ToolAssetInput
                         toolId={`${toolId}-seg`}
                         title="上传商品分割图"
@@ -1479,14 +1489,14 @@ export function SceneTransferWorkspace({ className, toolId = SCENE_TRANSFER_TOOL
                             update({ segImageUrl: record ? transferImageRef(transferAssetFromRecord(record)) || record.id : "" });
                         }}
                     />
-                    <p className="mt-2 text-[11px] text-stone-500 dark:text-stone-400" data-testid="scene-transfer-seg-notice">
+                    <p className="mt-2 text-[11px] text-muted-foreground" data-testid="scene-transfer-seg-notice">
                         {segmentation.message}
                     </p>
                 </div>
 
-                <div className="rounded-lg border border-stone-200 p-3 dark:border-stone-700" data-testid="scene-transfer-similarity">
+                <div className="rounded-lg border border-border p-3" data-testid="scene-transfer-similarity">
                     <div className="mb-2 flex items-center justify-between">
-                        <h3 className="text-xs font-medium">相似度 <span className="text-stone-400">similarity</span></h3>
+                        <h3 className="text-xs font-medium">相似度 <span className="text-muted-foreground">similarity</span></h3>
                         <span className="text-[11px] font-medium" data-testid="scene-transfer-similarity-value">{clampSimilarity(values.similarity)}%</span>
                     </div>
                     <input
@@ -1498,7 +1508,7 @@ export function SceneTransferWorkspace({ className, toolId = SCENE_TRANSFER_TOOL
                         disabled={running}
                         aria-label="相似度"
                         data-testid="scene-transfer-similarity-slider"
-                        className="w-full accent-stone-900 dark:accent-stone-100"
+                        className="w-full accent-primary"
                         onChange={(event) => update({ similarity: clampSimilarity(event.target.value) })}
                     />
                     <div className="mt-2 flex flex-wrap gap-2">
@@ -1511,8 +1521,8 @@ export function SceneTransferWorkspace({ className, toolId = SCENE_TRANSFER_TOOL
                                 className={cn(
                                     "rounded border px-2 py-1 text-[11px]",
                                     clampSimilarity(values.similarity) === preset.value
-                                        ? "border-stone-900 bg-stone-900 text-white dark:border-stone-100 dark:bg-stone-100 dark:text-stone-900"
-                                        : "border-stone-300 text-stone-600 dark:border-stone-600 dark:text-stone-300",
+                                        ? "border-primary bg-primary text-primary-foreground"
+                                        : "border-border text-muted-foreground",
                                 )}
                                 onClick={() => update({ similarity: preset.value })}
                             >
@@ -1520,30 +1530,30 @@ export function SceneTransferWorkspace({ className, toolId = SCENE_TRANSFER_TOOL
                             </button>
                         ))}
                     </div>
-                    <p className="mt-2 text-[11px] text-stone-500 dark:text-stone-400" data-testid="scene-transfer-similarity-label">
+                    <p className="mt-2 text-[11px] text-muted-foreground" data-testid="scene-transfer-similarity-label">
                         {similarityLabel(values.similarity)}
                     </p>
                 </div>
 
                 <div className="space-y-2">
-                    <p className="text-[11px] text-stone-500 dark:text-stone-400" data-testid="scene-transfer-plan">{plan}</p>
+                    <p className="text-[11px] text-muted-foreground" data-testid="scene-transfer-plan">{plan}</p>
                     {execution.notes.map((note) => (
-                        <p key={note} className="text-[11px] text-amber-700 dark:text-amber-300" data-testid="scene-transfer-capability-note">{note}</p>
+                        <p key={note} className="text-[11px] text-muted-foreground" data-testid="scene-transfer-capability-note">{note}</p>
                     ))}
                     {issues.map((issue) => (
-                        <p key={`${issue.code}-${issue.field}`} className="text-[11px] text-red-600 dark:text-red-400" data-testid="scene-transfer-issue">
+                        <p key={`${issue.code}-${issue.field}`} className="text-[11px] text-destructive" data-testid="scene-transfer-issue">
                             {issue.message}
                         </p>
                     ))}
                     {error ? (
-                        <p className="text-[11px] text-red-600 dark:text-red-400" data-testid="scene-transfer-error">{error}</p>
+                        <p className="text-[11px] text-destructive" data-testid="scene-transfer-error">{error}</p>
                     ) : null}
                     <div className="flex items-center gap-2">
                         <button
                             type="button"
                             disabled={blocked}
                             data-testid="scene-transfer-submit"
-                            className="rounded bg-stone-900 px-3 py-1.5 text-xs font-medium text-white disabled:opacity-50 dark:bg-stone-100 dark:text-stone-900"
+                            className="rounded bg-primary px-3 py-1.5 text-xs font-medium text-primary-foreground disabled:opacity-50"
                             onClick={() => void submit()}
                         >
                             {running ? "生成中…" : "开始迁移"}
@@ -1552,7 +1562,7 @@ export function SceneTransferWorkspace({ className, toolId = SCENE_TRANSFER_TOOL
                             <button
                                 type="button"
                                 data-testid="scene-transfer-cancel"
-                                className="rounded border border-stone-300 px-3 py-1.5 text-xs text-stone-600 dark:border-stone-600 dark:text-stone-300"
+                                className="rounded border border-border px-3 py-1.5 text-xs text-muted-foreground"
                                 onClick={cancel}
                             >
                                 取消
@@ -1560,7 +1570,9 @@ export function SceneTransferWorkspace({ className, toolId = SCENE_TRANSFER_TOOL
                         ) : null}
                     </div>
                 </div>
-            </Design19LeftColumn>
+            </section>
+                )}
+            >
 
             <Design19Results
                 tabs={[
@@ -1575,7 +1587,7 @@ export function SceneTransferWorkspace({ className, toolId = SCENE_TRANSFER_TOOL
                 <ToolResult task={activeTask} toolId={toolId} title={`${SCENE_TRANSFER_TITLE}结果`} onCancel={running ? cancel : undefined} onRetry={undefined} />
 
                 {!task && storedTask ? (
-                    <p className="text-[11px] text-stone-500 dark:text-stone-400" data-testid="scene-transfer-restored-task">
+                    <p className="text-[11px] text-muted-foreground" data-testid="scene-transfer-restored-task">
                         已从本地持久化恢复上次任务（{storedTask.status}）：结果图仍可下载 / 存入资产 / 发送画布。
                     </p>
                 ) : null}
@@ -1583,11 +1595,11 @@ export function SceneTransferWorkspace({ className, toolId = SCENE_TRANSFER_TOOL
                 {view.cells.length ? (
                     <div className="grid grid-cols-1 gap-2 sm:grid-cols-2" data-testid="scene-transfer-cells">
                         {view.cells.map((cell) => (
-                            <figure key={cell.index} className="overflow-hidden rounded border border-stone-200 dark:border-stone-700" data-testid={`scene-transfer-cell-${cell.index}`}>
+                            <figure key={cell.index} className="overflow-hidden rounded border border-border" data-testid={`scene-transfer-cell-${cell.index}`}>
                                 {cell.url ? (
                                     <img src={cell.url} alt={`场景迁移结果 ${cell.index + 1}`} className="aspect-square w-full object-cover" />
                                 ) : (
-                                    <div className="flex aspect-square w-full items-center justify-center bg-stone-100 px-2 text-center text-[11px] text-stone-500 dark:bg-stone-800 dark:text-stone-400">
+                                    <div className="flex aspect-square w-full items-center justify-center bg-accent px-2 text-center text-[11px] text-muted-foreground">
                                         {cell.message ?? "暂无结果"}
                                     </div>
                                 )}
@@ -1597,13 +1609,13 @@ export function SceneTransferWorkspace({ className, toolId = SCENE_TRANSFER_TOOL
                 ) : null}
 
                 {view.stale ? (
-                    <p className="rounded border border-amber-300 bg-amber-50 px-3 py-2 text-[11px] text-amber-800 dark:border-amber-700 dark:bg-amber-950 dark:text-amber-200" data-testid="scene-transfer-stale">
+                    <p className="rounded border border-border bg-accent px-3 py-2 text-[11px] text-foreground" data-testid="scene-transfer-stale">
                         {view.stale}
                     </p>
                 ) : null}
 
                 {view.segmentationNotice ? (
-                    <p className="text-[11px] text-stone-500 dark:text-stone-400" data-testid="scene-transfer-result-seg-notice">
+                    <p className="text-[11px] text-muted-foreground" data-testid="scene-transfer-result-seg-notice">
                         {view.segmentationNotice}
                     </p>
                 ) : null}
@@ -1611,11 +1623,11 @@ export function SceneTransferWorkspace({ className, toolId = SCENE_TRANSFER_TOOL
                 <div>
                     <h3 className="mb-1 text-xs font-medium">本次提交快照</h3>
                     {snapshot ? (
-                        <pre data-testid="scene-transfer-snapshot" className="max-h-56 overflow-auto whitespace-pre-wrap break-words rounded bg-stone-100 p-2 text-[10px] leading-4 text-stone-700 dark:bg-stone-800 dark:text-stone-200">
+                        <pre data-testid="scene-transfer-snapshot" className="max-h-56 overflow-auto whitespace-pre-wrap break-words rounded bg-accent p-2 text-[10px] leading-4 text-foreground">
                             {JSON.stringify(snapshot, null, 2)}
                         </pre>
                     ) : (
-                        <p className="text-[11px] text-stone-500 dark:text-stone-400" data-testid="scene-transfer-snapshot-empty">
+                        <p className="text-[11px] text-muted-foreground" data-testid="scene-transfer-snapshot-empty">
                             还没有提交过任务；提交后这里会显示锁定的商品图 / 风格图 / 分割图 / 相似度。
                         </p>
                     )}
@@ -1630,6 +1642,7 @@ export function SceneTransferWorkspace({ className, toolId = SCENE_TRANSFER_TOOL
                     <ToolTaskHistory toolId={toolId} emptyHint="还没有历史任务；提交一次后会在这里留下任务与结果。" />
                 ) : null}
             </Design19Results>
+            </ToolWorkspaceColumns>
         </div>
     );
 }

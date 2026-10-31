@@ -3,7 +3,8 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 import { Link } from "react-router-dom";
 
-import { Edit8Canvas, Edit8CanvasToolbar, Edit8Config, Edit8Page, edit8PrimaryButtonClass } from "@/components/tools/edit8-frame";
+import { Edit8CanvasToolbar, Edit8Config, edit8PrimaryButtonClass } from "@/components/tools/edit8-frame";
+import { ToolWorkspaceColumns } from "@/components/tools/tool-workspace-columns";
 import { cn } from "@/lib/utils";
 import { ToolAssetInput } from "@/components/tools/tool-asset-input";
 import { ToolCases, type ToolCase } from "@/components/tools/tool-cases";
@@ -56,7 +57,6 @@ import {
     type RegionPresetId,
 } from "@/features/tools/registry/change-color";
 import { ChangeColorAdapterError, changeColorResultFromTask, isChangeColorSourceUsable, retryChangeColor, runChangeColor, samplePaletteFromImage, type ChangeColorSourceAsset } from "@/features/tools/adapters/change-color";
-import { WatermarkGroupPanel } from "@/components/tools/watermark-group-panel";
 
 /**
  * TASK-024：CHANGE_COLOR（一键换色）工作区。
@@ -748,82 +748,17 @@ export function ChangeColorWorkspace({ className }: { className?: string }) {
     }, []);
 
     return (
-        <Edit8Page toolId={toolId} className={className} data-testid="change-color-workspace">
-            {/* ---------------- 画布列 ---------------- */}
-            <Edit8Canvas>
-                {beforeImage ? (
-                    <>
-                        <Edit8CanvasToolbar>
-                            <span className="text-[12px] text-muted-foreground">画笔</span>
-                            <input
-                                type="range"
-                                min={4}
-                                max={80}
-                                value={brush}
-                                disabled={disabled}
-                                aria-label="画笔大小"
-                                onChange={(event) => setBrush(Number(event.target.value))}
-                                className="h-[22px] w-[112px] accent-primary"
-                                data-testid="change-color-brush"
-                            />
-                            <span className="w-6 text-[12px] tabular-nums text-foreground">{brush}</span>
-                            <span className="ml-2 text-[12px] text-muted-foreground" data-testid="change-color-mask-state">
-                                {strokes.length > 0 ? `已涂 ${strokes.length} 笔选区` : "未涂选区：按整图换色"}
-                            </span>
-                            <div className="ml-auto flex items-center gap-2">
-                                <button type="button" className={ghostButton} disabled={disabled || strokes.length === 0} onClick={() => setStrokes((previous) => previous.slice(0, -1))} data-testid="change-color-mask-undo">
-                                    撤销
-                                </button>
-                                <button type="button" className={ghostButton} disabled={disabled || strokes.length === 0} onClick={() => setStrokes([])} data-testid="change-color-mask-clear">
-                                    清空选区
-                                </button>
-                            </div>
-                        </Edit8CanvasToolbar>
-                        <div className="relative flex min-h-0 flex-1 items-center justify-center overflow-hidden p-[10px]">
-                            {result.image ? (
-                                <div className="flex h-full w-full min-h-0 flex-col gap-2">
-                                    <div className="relative flex min-h-0 flex-1 items-center justify-center overflow-hidden rounded-[8px] bg-card/60">
-                                        <img src={result.image} alt="换色结果" className="max-h-full max-w-full object-contain" data-testid="change-color-result-image" />
-                                    </div>
-                                    <CompareSlider before={beforeImage} after={result.image} />
-                                </div>
-                            ) : (
-                                <MaskCanvas src={beforeImage} strokes={strokes} brush={brush} disabled={disabled} onChange={setStrokes} />
-                            )}
-                        </div>
-                    </>
-                ) : (
-                    <div className="flex h-full items-center justify-center p-[10px]">
-                        <div className="flex w-[660px] max-w-full flex-col items-center rounded-[8px] bg-card px-[30px] py-[38px] text-center shadow-[0_2px_12px_rgba(31,31,44,0.06)]" data-testid="change-color-source">
-                            <h2 className="text-[24px] font-semibold leading-[31px] text-foreground">一键快速上色</h2>
-                            <p className="mt-[8px] max-w-[600px] text-[15px] leading-[25px] text-muted-foreground">立即改变照片中任何物品的颜色，无论是衣服、商品、配饰还是假发！</p>
-                            <div className="mt-[22px] flex flex-wrap items-start justify-center gap-3">
-                                <ToolAssetInput toolId={toolId} constraints={SOURCE_CONSTRAINTS} maxCount={1} disabled={disabled || restoringSource} library={library} onChange={onSourceChange} className={canvasUploadRow} variant="linkfox" title="" uploadLabel="从本地上传" />
-                                <button
-                                    type="button"
-                                    disabled
-                                    title="批量一键换色：本地暂未接入批量队列"
-                                    className="h-8 w-[138px] shrink-0 rounded-md border border-border bg-card text-[14px] leading-none text-muted-foreground disabled:cursor-not-allowed disabled:opacity-60"
-                                    data-testid="change-color-batch-entry"
-                                >
-                                    批量一键换色
-                                </button>
-                            </div>
-                            <p className="mt-[14px] text-[12px] leading-[17px] text-muted-foreground">10M以内,jpg/jpeg/png/webp</p>
-                        </div>
-                    </div>
-                )}
-            </Edit8Canvas>
-
-            {/* ---------------- 配置列 ---------------- */}
+        <div data-testid="change-color-workspace" className={cn("flex min-h-0 flex-col", className)}>
+            <ToolWorkspaceColumns
+                className="min-h-0"
+                config={(
             <Edit8Config
-                className="w-[600px]"
+                className="w-full"
                 data-testid="change-color-config"
                 footer={
                     <div className="border-t border-border p-[10px]">
                         <button type="button" className={edit8PrimaryButtonClass} disabled={blocked || !sourceReady} onClick={() => void onGenerate()} data-testid="change-color-submit">
                             <span>{running ? "生成中…" : "立即生成"}</span>
-                            {!running ? <span className="ml-1 text-[11px] leading-none opacity-80">(10算力)</span> : null}
                         </button>
                         {running ? (
                             <button type="button" className={cn(ghostButton, "mt-1 w-full")} onClick={onCancel} data-testid="change-color-cancel">
@@ -1025,9 +960,73 @@ export function ChangeColorWorkspace({ className }: { className?: string }) {
                     </div>
                 </div>
             </Edit8Config>
-
-            {/* ---------------- 结果列 ---------------- */}
-            <section data-region="results" data-testid="change-color-results" className="flex w-[332px] shrink-0 flex-col overflow-hidden rounded-[8px] bg-muted">
+                )}
+            >
+            <section data-region="canvas" className="flex min-h-[480px] min-w-0 flex-1 flex-col overflow-hidden rounded-xl border border-border bg-surface">
+                {beforeImage ? (
+                    <>
+                        <Edit8CanvasToolbar>
+                            <span className="text-[12px] text-muted-foreground">画笔</span>
+                            <input
+                                type="range"
+                                min={4}
+                                max={80}
+                                value={brush}
+                                disabled={disabled}
+                                aria-label="画笔大小"
+                                onChange={(event) => setBrush(Number(event.target.value))}
+                                className="h-[22px] w-[112px] accent-primary"
+                                data-testid="change-color-brush"
+                            />
+                            <span className="w-6 text-[12px] tabular-nums text-foreground">{brush}</span>
+                            <span className="ml-2 text-[12px] text-muted-foreground" data-testid="change-color-mask-state">
+                                {strokes.length > 0 ? `已涂 ${strokes.length} 笔选区` : "未涂选区：按整图换色"}
+                            </span>
+                            <div className="ml-auto flex items-center gap-2">
+                                <button type="button" className={ghostButton} disabled={disabled || strokes.length === 0} onClick={() => setStrokes((previous) => previous.slice(0, -1))} data-testid="change-color-mask-undo">
+                                    撤销
+                                </button>
+                                <button type="button" className={ghostButton} disabled={disabled || strokes.length === 0} onClick={() => setStrokes([])} data-testid="change-color-mask-clear">
+                                    清空选区
+                                </button>
+                            </div>
+                        </Edit8CanvasToolbar>
+                        <div className="relative flex min-h-0 flex-1 items-center justify-center overflow-hidden p-[10px]">
+                            {result.image ? (
+                                <div className="flex h-full w-full min-h-0 flex-col gap-2">
+                                    <div className="relative flex min-h-0 flex-1 items-center justify-center overflow-hidden rounded-[8px] bg-card/60">
+                                        <img src={result.image} alt="换色结果" className="max-h-full max-w-full object-contain" data-testid="change-color-result-image" />
+                                    </div>
+                                    <CompareSlider before={beforeImage} after={result.image} />
+                                </div>
+                            ) : (
+                                <MaskCanvas src={beforeImage} strokes={strokes} brush={brush} disabled={disabled} onChange={setStrokes} />
+                            )}
+                        </div>
+                    </>
+                ) : (
+                    <div className="flex h-full items-center justify-center p-[10px]">
+                        <div className="flex w-[660px] max-w-full flex-col items-center rounded-[8px] bg-card px-[30px] py-[38px] text-center shadow-[0_2px_12px_rgba(31,31,44,0.06)]" data-testid="change-color-source">
+                            <h2 className="text-[24px] font-semibold leading-[31px] text-foreground">一键快速上色</h2>
+                            <p className="mt-[8px] max-w-[600px] text-[15px] leading-[25px] text-muted-foreground">立即改变照片中任何物品的颜色，无论是衣服、商品、配饰还是假发！</p>
+                            <div className="mt-[22px] flex flex-wrap items-start justify-center gap-3">
+                                <ToolAssetInput toolId={toolId} constraints={SOURCE_CONSTRAINTS} maxCount={1} disabled={disabled || restoringSource} library={library} onChange={onSourceChange} className={canvasUploadRow} variant="linkfox" title="" uploadLabel="从本地上传" />
+                                <button
+                                    type="button"
+                                    disabled
+                                    title="批量一键换色：本地暂未接入批量队列"
+                                    className="h-8 w-[138px] shrink-0 rounded-md border border-border bg-card text-[14px] leading-none text-muted-foreground disabled:cursor-not-allowed disabled:opacity-60"
+                                    data-testid="change-color-batch-entry"
+                                >
+                                    批量一键换色
+                                </button>
+                            </div>
+                            <p className="mt-[14px] text-[12px] leading-[17px] text-muted-foreground">10M以内,jpg/jpeg/png/webp</p>
+                        </div>
+                    </div>
+                )}
+            </section>
+            <section data-region="results" data-testid="change-color-results" className="flex w-full shrink-0 flex-col overflow-hidden rounded-[8px] bg-muted">
                 <div role="tablist" className="flex h-[42px] shrink-0 items-center gap-5 px-[13px]">
                     {[
                         { id: "result", label: "生成结果" },
@@ -1104,7 +1103,8 @@ export function ChangeColorWorkspace({ className }: { className?: string }) {
                     </div>
                 </div>
             </section>
-        </Edit8Page>
+            </ToolWorkspaceColumns>
+        </div>
     );
 }
 

@@ -1,3 +1,4 @@
+import { ToolWorkspaceColumns } from "@/components/tools/tool-workspace-columns";
 /**
  * TASK-019：「色差修复」FIX_COLOR 工作区（layout = repair）。
  *
@@ -130,7 +131,6 @@ import { loadToolAssetRecords, type ToolAssetRecord } from "@/services/api/tools
 import type { ToolTask, ToolTaskResultItem } from "@/services/api/tools/task-machine";
 import { imageToDataUrl } from "@/services/image-storage";
 import { flushToolDrafts, useToolDraftStore } from "@/stores/use-tool-draft-store";
-import { WatermarkGroupPanel } from "@/components/tools/watermark-group-panel";
 import { ImageFamilyNav } from "./color";
 
 export type RepairWorkspaceProps = { className?: string; toolId?: string };
@@ -521,126 +521,9 @@ export function FixColorWorkspace({ className }: RepairWorkspaceProps = {}) {
 
     return (
         <Edit8Page toolId={TOOL_ID} className={className} data-testid="fix-color-workspace">
-            <Edit8Canvas>
-                <Edit8CanvasToolbar>
-                    <div className="flex items-center gap-1">
-                        <button
-                            type="button"
-                            aria-pressed={state.tool === "brush"}
-                            aria-label="画笔"
-                            title="画笔"
-                            data-testid="fix-color-brush-mode"
-                            onClick={() => setToolMode("brush")}
-                            className={cn(
-                                "inline-flex size-6 items-center justify-center rounded-md leading-none transition",
-                                state.tool === "brush" ? "bg-card text-primary" : "text-muted-foreground hover:text-foreground",
-                            )}
-                        >
-                            <Paintbrush className="size-3.5" aria-hidden />
-                        </button>
-                        <button
-                            type="button"
-                            aria-pressed={state.tool === "eraser"}
-                            aria-label="橡皮"
-                            title="橡皮"
-                            data-testid="fix-color-eraser-mode"
-                            onClick={() => setToolMode("eraser")}
-                            className={cn(
-                                "inline-flex size-6 items-center justify-center rounded-md leading-none transition",
-                                state.tool === "eraser" ? "bg-card text-primary" : "text-muted-foreground hover:text-foreground",
-                            )}
-                        >
-                            <Eraser className="size-3.5" aria-hidden />
-                        </button>
-                    </div>
-                    <input
-                        type="range"
-                        min={FIX_COLOR_BRUSH_MIN}
-                        max={FIX_COLOR_BRUSH_MAX}
-                        value={state.brushSize}
-                        onChange={(event) => setBrush(Number(event.target.value))}
-                        className="ml-2 h-[22px] w-[112px] accent-primary"
-                        aria-label={`笔刷大小 ${state.brushSize}px`}
-                        title="笔刷大小"
-                    />
-                    <input
-                        type="range"
-                        min={0}
-                        max={30}
-                        value={state.feather}
-                        onChange={(event) => {
-                            const feather = clampFixColorFeather(Number(event.target.value));
-                            setState((prev) => ({ ...prev, feather }));
-                            stateRef.current = { ...stateRef.current, feather };
-                            persist({ ...stateRef.current, feather }, {});
-                        }}
-                        className="ml-2 h-[22px] w-[80px] accent-primary"
-                        aria-label={`羽化 ${state.feather}`}
-                        title="羽化"
-                    />
-                    <div className="ml-auto flex items-center gap-1">
-                        <button
-                            type="button"
-                            onClick={undo}
-                            disabled={history.past.length === 0}
-                            className="inline-flex size-6 items-center justify-center rounded-md text-muted-foreground transition hover:bg-card disabled:opacity-40"
-                            aria-label="撤销"
-                        >
-                            <Undo2 className="size-3.5" />
-                        </button>
-                        <button
-                            type="button"
-                            onClick={redo}
-                            disabled={history.future.length === 0}
-                            className="inline-flex size-6 items-center justify-center rounded-md text-muted-foreground transition hover:bg-card disabled:opacity-40"
-                            aria-label="重做"
-                        >
-                            <Redo2 className="size-3.5" />
-                        </button>
-                        <button
-                            type="button"
-                            onClick={resetMask}
-                            className="inline-flex size-6 items-center justify-center rounded-md text-muted-foreground transition hover:bg-card"
-                            aria-label="清空涂抹"
-                        >
-                            <RotateCcw className="size-3.5" />
-                        </button>
-                    </div>
-                </Edit8CanvasToolbar>
-                <div data-testid="fix-color-mask-panel" className="relative flex min-h-0 flex-1 items-center justify-center overflow-hidden p-[10px]">
-                    {image ? (
-                        <div className="relative mx-auto w-fit max-w-full">
-                            <img
-                                src={image.dataUrl}
-                                alt="色差源图"
-                                className="block max-h-[calc(100vh-220px)] w-auto max-w-full select-none"
-                                draggable={false}
-                            />
-                            <canvas
-                                ref={canvasRef}
-                                data-testid="fix-color-mask-canvas"
-                                className="absolute inset-0 h-full w-full cursor-crosshair touch-none"
-                                onPointerDown={onPointerDown}
-                                onPointerMove={onPointerMove}
-                                onPointerUp={finishStroke}
-                                onPointerCancel={finishStroke}
-                                onPointerLeave={finishStroke}
-                            />
-                        </div>
-                    ) : (
-                        <div className="mx-auto flex w-[542px] max-w-full flex-col items-center gap-[10px] rounded-xl bg-card p-6 text-center shadow-[0_2px_12px_rgba(31,31,44,0.04)]">
-                            <h2 className="text-[16px] font-medium leading-6 text-foreground">色差修复</h2>
-                            <p className="text-[13px] leading-5 text-muted-foreground">上传偏色服装图片</p>
-                            <p className="text-[12px] leading-5 text-muted-foreground">AI将以服装原图为依据修复偏色</p>
-                        </div>
-                    )}
-                </div>
-                <p className="shrink-0 px-4 pb-2 text-[11px] leading-5 text-muted-foreground" data-testid="fix-color-coverage">
-                    {describeFixColorCoverage(state)} · 覆盖率 {Math.round(fixColorCoverage(state) * 100)}%
-                </p>
-            </Edit8Canvas>
-
+            <ToolWorkspaceColumns configSide="right" className="min-h-0 flex-1" config={
             <Edit8Config
+                className="w-[320px] min-h-0"
                 footer={
                     <div className="border-t border-border px-[16px] py-[10px]">
                         <div className="flex items-center gap-2">
@@ -793,7 +676,126 @@ export function FixColorWorkspace({ className }: RepairWorkspaceProps = {}) {
                 </Edit8Section>
 
             </Edit8Config>
-
+            }>
+                <div className="flex min-h-0 min-w-0 flex-1 gap-[10px]">
+            <Edit8Canvas>
+                <Edit8CanvasToolbar>
+                    <div className="flex items-center gap-1">
+                        <button
+                            type="button"
+                            aria-pressed={state.tool === "brush"}
+                            aria-label="画笔"
+                            title="画笔"
+                            data-testid="fix-color-brush-mode"
+                            onClick={() => setToolMode("brush")}
+                            className={cn(
+                                "inline-flex size-6 items-center justify-center rounded-md leading-none transition",
+                                state.tool === "brush" ? "bg-card text-primary" : "text-muted-foreground hover:text-foreground",
+                            )}
+                        >
+                            <Paintbrush className="size-3.5" aria-hidden />
+                        </button>
+                        <button
+                            type="button"
+                            aria-pressed={state.tool === "eraser"}
+                            aria-label="橡皮"
+                            title="橡皮"
+                            data-testid="fix-color-eraser-mode"
+                            onClick={() => setToolMode("eraser")}
+                            className={cn(
+                                "inline-flex size-6 items-center justify-center rounded-md leading-none transition",
+                                state.tool === "eraser" ? "bg-card text-primary" : "text-muted-foreground hover:text-foreground",
+                            )}
+                        >
+                            <Eraser className="size-3.5" aria-hidden />
+                        </button>
+                    </div>
+                    <input
+                        type="range"
+                        min={FIX_COLOR_BRUSH_MIN}
+                        max={FIX_COLOR_BRUSH_MAX}
+                        value={state.brushSize}
+                        onChange={(event) => setBrush(Number(event.target.value))}
+                        className="ml-2 h-[22px] w-[112px] accent-primary"
+                        aria-label={`笔刷大小 ${state.brushSize}px`}
+                        title="笔刷大小"
+                    />
+                    <input
+                        type="range"
+                        min={0}
+                        max={30}
+                        value={state.feather}
+                        onChange={(event) => {
+                            const feather = clampFixColorFeather(Number(event.target.value));
+                            setState((prev) => ({ ...prev, feather }));
+                            stateRef.current = { ...stateRef.current, feather };
+                            persist({ ...stateRef.current, feather }, {});
+                        }}
+                        className="ml-2 h-[22px] w-[80px] accent-primary"
+                        aria-label={`羽化 ${state.feather}`}
+                        title="羽化"
+                    />
+                    <div className="ml-auto flex items-center gap-1">
+                        <button
+                            type="button"
+                            onClick={undo}
+                            disabled={history.past.length === 0}
+                            className="inline-flex size-6 items-center justify-center rounded-md text-muted-foreground transition hover:bg-card disabled:opacity-40"
+                            aria-label="撤销"
+                        >
+                            <Undo2 className="size-3.5" />
+                        </button>
+                        <button
+                            type="button"
+                            onClick={redo}
+                            disabled={history.future.length === 0}
+                            className="inline-flex size-6 items-center justify-center rounded-md text-muted-foreground transition hover:bg-card disabled:opacity-40"
+                            aria-label="重做"
+                        >
+                            <Redo2 className="size-3.5" />
+                        </button>
+                        <button
+                            type="button"
+                            onClick={resetMask}
+                            className="inline-flex size-6 items-center justify-center rounded-md text-muted-foreground transition hover:bg-card"
+                            aria-label="清空涂抹"
+                        >
+                            <RotateCcw className="size-3.5" />
+                        </button>
+                    </div>
+                </Edit8CanvasToolbar>
+                <div data-testid="fix-color-mask-panel" className="relative flex min-h-0 flex-1 items-center justify-center overflow-hidden p-[10px]">
+                    {image ? (
+                        <div className="relative mx-auto w-fit max-w-full">
+                            <img
+                                src={image.dataUrl}
+                                alt="色差源图"
+                                className="block max-h-[calc(100vh-220px)] w-auto max-w-full select-none"
+                                draggable={false}
+                            />
+                            <canvas
+                                ref={canvasRef}
+                                data-testid="fix-color-mask-canvas"
+                                className="absolute inset-0 h-full w-full cursor-crosshair touch-none"
+                                onPointerDown={onPointerDown}
+                                onPointerMove={onPointerMove}
+                                onPointerUp={finishStroke}
+                                onPointerCancel={finishStroke}
+                                onPointerLeave={finishStroke}
+                            />
+                        </div>
+                    ) : (
+                        <div className="mx-auto flex w-[542px] max-w-full flex-col items-center gap-[10px] rounded-xl bg-card p-6 text-center shadow-[0_2px_12px_rgba(31,31,44,0.04)]">
+                            <h2 className="text-[16px] font-medium leading-6 text-foreground">色差修复</h2>
+                            <p className="text-[13px] leading-5 text-muted-foreground">上传偏色服装图片</p>
+                            <p className="text-[12px] leading-5 text-muted-foreground">AI将以服装原图为依据修复偏色</p>
+                        </div>
+                    )}
+                </div>
+                <p className="shrink-0 px-4 pb-2 text-[11px] leading-5 text-muted-foreground" data-testid="fix-color-coverage">
+                    {describeFixColorCoverage(state)} · 覆盖率 {Math.round(fixColorCoverage(state) * 100)}%
+                </p>
+            </Edit8Canvas>
             <Edit8Results
                 tabs={[
                     { id: "result", label: "生成结果" },
@@ -873,8 +875,9 @@ export function FixColorWorkspace({ className }: RepairWorkspaceProps = {}) {
                         }}
                     />
                 )}
-                <WatermarkGroupPanel className="mt-1" />
             </Edit8Results>
+                </div>
+            </ToolWorkspaceColumns>
         </Edit8Page>
     );
 }
@@ -1336,10 +1339,93 @@ export function HandRepairWorkspace({ className }: RepairWorkspaceProps = {}) {
                     </nav>
                 }
             >
-                <div className="grid min-h-0 gap-3 overflow-y-auto p-3 xl:grid-cols-[minmax(0,1fr)_340px]">
-                    <div className="xl:col-span-2">
-                        <ImageFamilyNav active="手部修复" />
-                    </div>
+                <div className="flex min-h-0 flex-col gap-3 overflow-y-auto p-3">
+                    <ImageFamilyNav active="手部修复" />
+                    <ToolWorkspaceColumns configSide="right" className="min-h-0 flex-1" config={
+                    <section aria-label="工具操作栏" className="w-[320px] shrink-0 flex flex-col gap-3">
+                        <section className="rounded-lg border border-border bg-card p-3">
+                            <button
+                                type="button"
+                                data-testid="hand-repair-upload-button"
+                                onClick={() =>
+                                    uploadCardRef.current
+                                        ?.querySelector<HTMLElement>('[data-testid="tool-asset-dropzone"]')
+                                        ?.click()
+                                }
+                                className="text-xs font-medium text-foreground underline-offset-2 hover:underline"
+                            >
+                                上传图片
+                            </button>
+                            <div ref={uploadCardRef}>
+                            <ToolAssetInput
+                                toolId={HAND_REPAIR_TOOL_ID}
+                                maxCount={1}
+                                variant="linkfox"
+                                dropLabel={image ? image.name : "上传图片"}
+                                uploadLabel="从作品库选择"
+                                thirdAction={null}
+                                hint=""
+                                disabled={busy}
+                                onChange={(_ids, records) => {
+                                    if (records[0]) void adoptImage(records[0]);
+                                }}
+                            />
+                            </div>
+                        </section>
+
+                        <section className="rounded-lg border border-border bg-card p-3">
+                            <p className="text-xs font-medium text-foreground">性别与年龄</p>
+                            <div className="mt-2 grid grid-cols-2 gap-1.5">
+                                {personTypes.map((option) => (
+                                    <button
+                                        key={option.value}
+                                        type="button"
+                                        data-testid="hand-repair-person-type"
+                                        data-value={option.value}
+                                        disabled={option.disabled || busy}
+                                        aria-pressed={state.personType === option.value}
+                                        title={option.reason}
+                                        onClick={() => commitState({ ...stateRef.current, personType: option.value }, imageRef.current)}
+                                        className={cn(
+                                            "rounded border px-2 py-1.5 text-[11px]",
+                                            state.personType === option.value ? "border-primary bg-primary/10 font-medium text-foreground" : "border-border text-muted-foreground hover:bg-accent",
+                                            option.disabled ? "opacity-40" : "",
+                                        )}
+                                    >
+                                        {option.label}
+                                    </button>
+                                ))}
+                            </div>
+                        </section>
+
+                        <section className="rounded-lg border border-border bg-card p-3">
+                            <p className="text-xs font-medium text-foreground">生成张数</p>
+                            <div className="mt-2 flex items-center gap-1">
+                                {HAND_REPAIR_OUTPUT_OPTIONS.map((count) => (
+                                    <button
+                                        key={count}
+                                        type="button"
+                                        data-testid="hand-repair-output-num"
+                                        data-value={count}
+                                        disabled={busy}
+                                        aria-pressed={state.outputNum === count}
+                                        onClick={() => commitState({ ...stateRef.current, outputNum: count }, imageRef.current)}
+                                        className={cn(
+                                            "min-w-8 rounded border border-border px-2 py-1 text-[11px]",
+                                            state.outputNum === count ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:bg-accent",
+                                        )}
+                                    >
+                                        {count}
+                                    </button>
+                                ))}
+                            </div>
+                            <p data-testid="hand-repair-output-label" className="mt-2 text-[11px] text-muted-foreground">
+                                {handRepairOutputLabel(state.outputNum)}（每张都是独立真实请求）
+                            </p>
+                        </section>
+
+                                            </section>
+                    }>
                     <div className="flex min-w-0 flex-col gap-3">
                         <section className="rounded-lg border border-border bg-card p-3">
                             <div className="flex flex-wrap items-center justify-between gap-2">
@@ -1540,92 +1626,7 @@ export function HandRepairWorkspace({ className }: RepairWorkspaceProps = {}) {
                             ) : null}
                         </section>
                     </div>
-
-                    <section aria-label="工具操作栏" className="flex min-w-0 flex-col gap-3">
-                        <section className="rounded-lg border border-border bg-card p-3">
-                            <button
-                                type="button"
-                                data-testid="hand-repair-upload-button"
-                                onClick={() =>
-                                    uploadCardRef.current
-                                        ?.querySelector<HTMLElement>('[data-testid="tool-asset-dropzone"]')
-                                        ?.click()
-                                }
-                                className="text-xs font-medium text-foreground underline-offset-2 hover:underline"
-                            >
-                                上传图片
-                            </button>
-                            <div ref={uploadCardRef}>
-                            <ToolAssetInput
-                                toolId={HAND_REPAIR_TOOL_ID}
-                                maxCount={1}
-                                variant="linkfox"
-                                dropLabel={image ? image.name : "上传图片"}
-                                uploadLabel="从作品库选择"
-                                thirdAction={null}
-                                hint=""
-                                disabled={busy}
-                                onChange={(_ids, records) => {
-                                    if (records[0]) void adoptImage(records[0]);
-                                }}
-                            />
-                            </div>
-                        </section>
-
-                        <section className="rounded-lg border border-border bg-card p-3">
-                            <p className="text-xs font-medium text-foreground">性别与年龄</p>
-                            <div className="mt-2 grid grid-cols-2 gap-1.5">
-                                {personTypes.map((option) => (
-                                    <button
-                                        key={option.value}
-                                        type="button"
-                                        data-testid="hand-repair-person-type"
-                                        data-value={option.value}
-                                        disabled={option.disabled || busy}
-                                        aria-pressed={state.personType === option.value}
-                                        title={option.reason}
-                                        onClick={() => commitState({ ...stateRef.current, personType: option.value }, imageRef.current)}
-                                        className={cn(
-                                            "rounded border px-2 py-1.5 text-[11px]",
-                                            state.personType === option.value ? "border-primary bg-primary/10 font-medium text-foreground" : "border-border text-muted-foreground hover:bg-accent",
-                                            option.disabled ? "opacity-40" : "",
-                                        )}
-                                    >
-                                        {option.label}
-                                    </button>
-                                ))}
-                            </div>
-                        </section>
-
-                        <section className="rounded-lg border border-border bg-card p-3">
-                            <p className="text-xs font-medium text-foreground">生成张数</p>
-                            <div className="mt-2 flex items-center gap-1">
-                                {HAND_REPAIR_OUTPUT_OPTIONS.map((count) => (
-                                    <button
-                                        key={count}
-                                        type="button"
-                                        data-testid="hand-repair-output-num"
-                                        data-value={count}
-                                        disabled={busy}
-                                        aria-pressed={state.outputNum === count}
-                                        onClick={() => commitState({ ...stateRef.current, outputNum: count }, imageRef.current)}
-                                        className={cn(
-                                            "min-w-8 rounded border border-border px-2 py-1 text-[11px]",
-                                            state.outputNum === count ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:bg-accent",
-                                        )}
-                                    >
-                                        {count}
-                                    </button>
-                                ))}
-                            </div>
-                            <p data-testid="hand-repair-output-label" className="mt-2 text-[11px] text-muted-foreground">
-                                {handRepairOutputLabel(state.outputNum)}（每张都是独立真实请求）
-                            </p>
-                        </section>
-
-                        
-                        <WatermarkGroupPanel />
-                    </section>
+                    </ToolWorkspaceColumns>
                 </div>
             </ToolShell>
         </div>

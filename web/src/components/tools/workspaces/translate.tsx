@@ -5,7 +5,7 @@ import { ChevronDown } from "lucide-react";
 import { ToolAssetInput } from "@/components/tools/tool-asset-input";
 import { ToolShell } from "@/components/tools/tool-shell";
 import { ToolHistoryDock } from "@/components/tools/tool-history-dock";
-import { WatermarkGroupPanel } from "@/components/tools/watermark-group-panel";
+import { ToolWorkspaceColumns } from "@/components/tools/tool-workspace-columns";
 import { saveResultItemToAssets, sendResultItemToCanvas } from "@/components/tools/tool-result-actions";
 import {
     auditConfirmed,
@@ -559,8 +559,11 @@ export function TranslateWorkspace({ className }: TranslateWorkspaceProps = {}) 
                 </nav>
             }
         >
-            <div className="grid min-h-0 gap-3 bg-muted/40 p-3 xl:grid-cols-[560px_minmax(0,1fr)]">
-                <div className="space-y-2 xl:grid xl:grid-cols-2 xl:items-start xl:gap-2 xl:space-y-0">
+            <ToolWorkspaceColumns
+                configSide="left"
+                className="min-h-0 bg-muted/40 p-3"
+                config={
+                    <div className="space-y-2 xl:grid xl:grid-cols-2 xl:items-start xl:gap-2 xl:space-y-0">
                     <nav
                         aria-label="电商套图"
                         className="flex flex-wrap items-center gap-1 rounded-lg border border-border bg-card px-2 py-1.5 text-[11px] text-muted-foreground xl:col-span-2"
@@ -743,14 +746,14 @@ export function TranslateWorkspace({ className }: TranslateWorkspaceProps = {}) 
                             onClick={() => void runAll()}
                             className="h-9 w-full rounded-md bg-primary text-sm font-medium text-primary-foreground transition hover:bg-primary/90 disabled:cursor-not-allowed disabled:opacity-50"
                         >
-                            {busy ? `翻译中 ${progress.done}/${progress.total}` : <><span>开始翻译</span><span className="ml-1 text-xs text-primary-foreground/80">({IMAGE_TRANSLATION_CREDITS}算力)</span></>}
+                            {busy ? `翻译中 ${progress.done}/${progress.total}` : "开始翻译"}
                         </button>
                     </Section>
-                    <WatermarkGroupPanel />
                     <p className="px-1 text-[11px] text-muted-foreground">ljq_driver: 已连接</p>
                     </div>
                 </div>
-
+                }
+            >
                 <div className="flex min-h-0 flex-col gap-3">
                     <div role="tablist" className="flex h-[41px] shrink-0 items-center gap-6 border-b border-border bg-card px-4 text-sm">
                         {([["result", "生成结果"], ["history", "历史记录"]] as const).map(([id, label]) => (
@@ -1071,7 +1074,7 @@ export function TranslateWorkspace({ className }: TranslateWorkspaceProps = {}) 
                         </div>
                     )}
                 </div>
-            </div>
+            </ToolWorkspaceColumns>
         </ToolShell>
     );
 }

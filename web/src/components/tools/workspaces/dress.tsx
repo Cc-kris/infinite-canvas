@@ -1,4 +1,4 @@
-import { MaterialUpperBodyStatic } from "./material-upper-body-static";
+import { ToolWorkspaceColumns } from "@/components/tools/tool-workspace-columns";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 import { ToolAssetInput } from "@/components/tools/tool-asset-input";
@@ -97,7 +97,6 @@ import {
     type WearableSnapshot,
     type WearableValues,
 } from "@/features/tools/registry/ai-wearable";
-import { WatermarkGroupPanel } from "@/components/tools/watermark-group-panel";
 
 /**
  * AI穿戴 工作区（layout=dress）。页面规格：
@@ -723,34 +722,6 @@ export function AiWearableWorkspace({ className, toolId = AI_WEARABLE_TOOL_ID }:
     return (
         <div data-testid="dress-workspace" className={cn("flex flex-col gap-3", className)}>
             <OrigRail items={WEAR_RAIL} active="AI穿戴" driver testId="ai-wearable-rail" />
-            <div className="flex flex-wrap items-center gap-x-3 gap-y-1 rounded-md border border-dashed border-border bg-card px-3 py-1.5 text-[11px] text-muted-foreground" data-testid="tool-align-bar">
-                <ImageRulesPopover kind="wearable" testId="ai-wearable-rules" />
-                <span>选择参考图</span>
-            </div>
-            <div className="flex flex-wrap items-center justify-between gap-2 rounded-md border border-dashed px-3 py-1.5 text-[11px] text-muted-foreground" data-testid="tool-tour-hint">
-                <span>第一步：选择示例图或上传模特穿戴商品图片</span>
-                <button type="button" className="shrink-0 underline-offset-2 hover:underline">我是高手，不再提醒</button>
-            </div>
-            <div className="flex flex-wrap items-center gap-x-2 gap-y-1 text-[11px] text-muted-foreground" data-testid="tool-align-extras">
-                <span className="font-medium text-foreground">或试试这些</span>
-                <span>选择参考图</span>
-                <span>选择生成张数</span>
-                <span>1</span>
-                <span>2</span>
-                <span>3</span>
-                <span>4</span>
-                <span>立即生成</span>
-                <span>(40算力)</span>
-                <span>生成结果</span>
-                <span>选择商品品类</span>
-                <span>穿戴的商品品类</span>
-                <span>选择穿戴模特</span>
-                <span>穿戴的部位与模特参考</span>
-                <span>选择生成张数</span>
-                <span>Tips：为您的穿戴商品选择与原图角度、部位与画面占比相近的模特参考，生成的效果更好哦！</span>
-                <span>(40算力)</span>
-            </div>
-            <WatermarkGroupPanel />
             <div className="flex flex-wrap items-center justify-between gap-2">
                 <div>
                     <h2 className="text-base font-semibold text-foreground">AI穿戴</h2>
@@ -769,9 +740,10 @@ export function AiWearableWorkspace({ className, toolId = AI_WEARABLE_TOOL_ID }:
                 </p>
             ) : null}
 
-            <div className="grid gap-3 lg:grid-cols-[minmax(320px,420px)_minmax(0,1fr)]">
-                {/* 左：输入与配置 */}
-                <div className="flex flex-col gap-3">
+            <ToolWorkspaceColumns
+                config={
+                    <>
+
                     <Section title="1. 上传穿戴商品" hint={WEARABLE_UPLOAD.hint} testId="dress-product-upload">
                         <p className="mb-1 text-[11px] text-muted-foreground">上传商品图</p>
                         <ToolAssetInput
@@ -1023,10 +995,10 @@ export function AiWearableWorkspace({ className, toolId = AI_WEARABLE_TOOL_ID }:
                             </p>
                         ) : null}
                     </Section>
-                </div>
-
-                {/* 右：独立面板页签（生成结果 / 优秀案例） */}
-                <div className="flex min-w-0 flex-col gap-3">
+                    </>
+                }
+            >
+                <section className="flex min-w-0 flex-col gap-3" aria-label="结果区">
                     <div
                         className="flex h-10 shrink-0 items-center gap-4 rounded-xl border border-border bg-card px-3"
                         role="tablist"
@@ -1123,8 +1095,8 @@ export function AiWearableWorkspace({ className, toolId = AI_WEARABLE_TOOL_ID }:
                             <ToolTaskHistory toolId={toolId} limit={8} emptyHint="还没有 AI 穿戴任务记录" />
                         </Section>
                     )}
-                </div>
-            </div>
+                </section>
+            </ToolWorkspaceColumns>
         </div>
     );
 }
@@ -1395,28 +1367,6 @@ function MaterialUpperBodyWorkspaceLegacy({ className, toolId = MATERIAL_UPPER_B
 
     return (
         <div data-testid="material-workspace" className={cn("flex flex-col gap-3", className)}>
-            <div className="flex flex-wrap items-center gap-x-3 gap-y-1 rounded-md border border-dashed border-border bg-card px-3 py-1.5 text-[11px] text-muted-foreground" data-testid="tool-align-bar">
-                <button type="button" className="underline-offset-2 hover:underline">图片规则</button>
-                <span>10M以内，384*384 ~ 4096*4096</span>
-                <span>从本地上传</span>
-                <span>从作品库选择</span>
-                <span>从商品库选择</span>
-                <span>选择参考图</span>
-            </div>
-            <div className="flex flex-wrap items-center justify-between gap-2 rounded-md border border-dashed px-3 py-1.5 text-[11px] text-muted-foreground" data-testid="tool-tour-hint">
-                <span>第一步：选择示例图或上传模特穿戴商品图片</span>
-                <button type="button" className="shrink-0 underline-offset-2 hover:underline">我是高手，不再提醒</button>
-            </div>
-            <div className="flex flex-wrap items-center gap-x-2 gap-y-1 text-[11px] text-muted-foreground" data-testid="tool-align-extras">
-                <span className="font-medium text-foreground">或试试这些</span>
-                <span>Tips：为您的穿戴商品选择与原图角度、部位与画面占比相近的模特参考，生成的效果更好哦！</span>
-                <span>选择商品品类</span>
-                <span>穿戴的商品品类</span>
-                <span>选择穿戴模特</span>
-                <span>穿戴的部位与模特参考</span>
-                <span>选择生成张数</span>
-            </div>
-            <WatermarkGroupPanel />
             <div className="flex flex-wrap items-center justify-between gap-2">
                 <div>
                     <h2 className="text-base font-semibold text-foreground">上装换料</h2>
@@ -1433,9 +1383,10 @@ function MaterialUpperBodyWorkspaceLegacy({ className, toolId = MATERIAL_UPPER_B
                 </p>
             ) : null}
 
-            <div className="grid min-w-0 gap-3 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)]">
-                {/* 左：输入与配置 */}
-                <div className="flex min-w-0 flex-col gap-3">
+            <ToolWorkspaceColumns
+                config={
+                    <>
+
                     <Section title="1. 上传上装图片" hint={MATERIAL_UPLOAD.hint} testId="material-upload">
                         <ToolAssetInput
                             toolId={toolId}
@@ -1674,10 +1625,10 @@ function MaterialUpperBodyWorkspaceLegacy({ className, toolId = MATERIAL_UPPER_B
                             </p>
                         ) : null}
                     </Section>
-                </div>
-
-                {/* 右：快照与结果 */}
-                <div className="flex min-w-0 flex-col gap-3">
+                    </>
+                }
+            >
+                <section className="flex min-w-0 flex-col gap-3" aria-label="结果区">
                     <Section title="本次提交快照" hint={`${materialCategoryNameOf(values) || "未选材"} · ${values.outputNum} 张`} testId="material-snapshot">
                         <p data-testid="material-prompt" className="whitespace-pre-wrap text-[11px] leading-5 text-muted-foreground">
                             {prompt}
@@ -1738,8 +1689,8 @@ function MaterialUpperBodyWorkspaceLegacy({ className, toolId = MATERIAL_UPPER_B
                     </Section>
 
                     <ToolResult task={task} toolId={toolId} title="结果资产" onCancel={running ? cancel : undefined} />
-                </div>
-            </div>
+                </section>
+            </ToolWorkspaceColumns>
         </div>
     );
 }
@@ -1753,7 +1704,7 @@ export function DressWorkspace({ className, toolId = AI_WEARABLE_TOOL_ID }: { cl
     return <AiWearableWorkspace className={className} toolId={toolId} />;
 }
 
-/** 第三轮文案 1:1 对齐：改为静态复刻面板（见 material-upper-body-static.tsx）。 */
-export function MaterialUpperBodyWorkspace({ className }: { className?: string; toolId?: string }) {
-    return <MaterialUpperBodyStatic className={className} />;
+/** PRD 布局：两列工作区（配置栏 320–360px + 结果区 1fr），复用可交互实现。 */
+export function MaterialUpperBodyWorkspace({ className, toolId = MATERIAL_UPPER_BODY_TOOL_ID }: { className?: string; toolId?: string }) {
+    return <MaterialUpperBodyWorkspaceLegacy className={className} toolId={toolId} />;
 }

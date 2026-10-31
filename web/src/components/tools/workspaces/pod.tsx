@@ -119,7 +119,7 @@ import {
 } from "@/features/tools/registry/sds-design";
 import { uploadCaseFiles } from "@/features/tools/case-apply";
 import { SDS_DESIGN_CASES } from "@/features/tools/tool-cases-data";
-import { WatermarkGroupPanel } from "@/components/tools/watermark-group-panel";
+import { ToolWorkspaceColumns } from "@/components/tools/tool-workspace-columns";
 
 /**
  * TASK-029：AI_TEXT（POD素材）工作区。
@@ -1614,14 +1614,16 @@ export function SdsDesignWorkspace() {
     const submitLabel = running ? "生成中…" : "立即生成";
 
     return (
-        <div className="flex flex-col gap-[10px] xl:flex-row" data-tool-workspace="sds-design" data-variant="sds-1to1">
+        <div className="flex flex-col gap-[10px]" data-tool-workspace="sds-design" data-variant="sds-1to1">
             <OrigRail items={PRODUCT_DESIGN_RAIL} active="素材贴合" driver testId="sds-family-rail" label="素材和灵感" className="order-first w-full" />
-            <WatermarkGroupPanel />
-            {/* 左：素材贴合主面板（舞台 + 右栏参数卡） */}
-            <section
-                aria-label="素材贴合"
-                className="flex min-w-0 flex-1 flex-col gap-[10px] rounded-[8px] border border-border bg-muted p-[10px] lg:flex-row"
-            >
+            <ToolWorkspaceColumns
+                configSide="left"
+                className="min-h-0 flex-1 overflow-y-auto"
+                config={
+                    <section
+                        aria-label="素材贴合"
+                        className="flex min-w-0 flex-1 flex-col gap-[10px] rounded-[8px] border border-border bg-muted p-[10px] lg:flex-row"
+                    >
                 <div className="flex min-w-0 flex-1 flex-col items-center justify-center px-[10px] pb-[10px] pt-[50px]">
                     {stageHasContent ? (
                         <div className="w-full max-w-[560px]">
@@ -1754,17 +1756,17 @@ export function SdsDesignWorkspace() {
                                 {running ? <Loader2 className="h-4 w-4 animate-spin" /> : null}
                                 {submitLabel}
                             </button>
-                            <span className="text-[12px] text-muted-foreground">(20算力)</span>
                         </div>
                     </div>
                 </div>
             </section>
-
-            {/* 右：生成结果面板 */}
-            <section
-                aria-label="生成结果"
-                className="flex w-full shrink-0 flex-col rounded-[8px] bg-muted xl:w-[300px]"
+                }
             >
+                {/* 右：生成结果面板 */}
+                <section
+                    aria-label="生成结果"
+                    className="flex w-full shrink-0 flex-col rounded-[8px] bg-muted"
+                >
                 <div className="flex h-[42px] shrink-0 items-center justify-between rounded-t-[8px] bg-card px-[12px]">
                     <div className="flex items-center gap-[14px]">
                         {([
@@ -1891,6 +1893,7 @@ export function SdsDesignWorkspace() {
                     )}
                 </div>
             </section>
+            </ToolWorkspaceColumns>
 
             <MaterialSourcePanel
                 open={materialPanelOpen}
