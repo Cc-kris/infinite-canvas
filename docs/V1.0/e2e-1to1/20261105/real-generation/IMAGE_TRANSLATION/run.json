@@ -1,0 +1,105 @@
+{
+  "toolId": "IMAGE_TRANSLATION",
+  "route": "/tools/ecommerce-suite/image-translation",
+  "fixture": "translate-source.png",
+  "startedAt": "2026-11-05T13:22:47.034Z",
+  "provider": {
+    "imageModel": "ccai-accept::gpt-image-2",
+    "channels": [
+      "ccai-accept",
+      "sf-accept"
+    ],
+    "baseUrl": "https://api.cc-ai.xyz",
+    "keyLen": 67,
+    "proxyEnabled": true,
+    "channelCount": 2,
+    "model": "gpt-image-2"
+  },
+  "before": {
+    "images": [],
+    "issues": []
+  },
+  "submitBefore": null,
+  "gate": {
+    "found": true,
+    "disabled": false,
+    "text": "开始翻译",
+    "countText": ""
+  },
+  "finishedAt": "2026-11-05T13:23:38.450Z",
+  "after": {
+    "submitButtons": [
+      {
+        "id": "",
+        "text": "开始翻译",
+        "disabled": false
+      },
+      {
+        "id": "translate-tab-result",
+        "text": "生成结果",
+        "disabled": false
+      }
+    ],
+    "issues": [],
+    "images": [
+      {
+        "src": "blob:http://127.0.0.1:3310/f29f5721-4dfa-4549-9867-a9f93587b",
+        "w": 1200,
+        "h": 1200
+      },
+      {
+        "src": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABAAAAAQACAIAAA",
+        "w": 1024,
+        "h": 1024
+      },
+      {
+        "src": "blob:http://127.0.0.1:3310/89cd4acc-485e-489e-8062-96d135b0a",
+        "w": 1024,
+        "h": 1024
+      }
+    ],
+    "bodyText": "无限画布\n首页\n电商套图\n智能修图\n新模型\nAI视频\nHOT\n批量生图\n商品图设计\n中\n切换到深色主题\nv0.27.0\n商品套图\n服装套图\n白底图\nNEW\n爆款图复刻\n套图换色\n批量翻译\n高清放大\n批量抠图\n智能扩图\n免责声明\n批量翻译\n全部 1 张已完成\n输入已变更，下面的结果是旧快照的产物（快照 a28b675b），重新生成才会反映当前设置。\n上传需要翻译的图片\n从本地上传\n从作品库选择\n从商品库选择\n20M以内，384*384 ~ 4096*4096\ntranslate-source.png\n76 KB · 1200×1200 · image/png\n移除\ntranslate-source.png\n4 框 · 29 字 · 已确认\n识别文字\n💡当前仅支持单张图内500字以下的内容翻译\n原文语言\n中文\n英语\n繁体中文\n西班牙语\n日语\n韩语\n葡萄牙语\n德语\n罗马尼亚语\n俄语\n越南语\n识别图像语言：简体中文\n目标语言（可多选，已选 1 个语言）\n欧美\n英语\n俄语\n法语\n德语\n瑞典语\n挪威语\n荷兰语\n丹麦语\n意大利语\n葡萄牙语\n葡萄牙语(巴西)\n西班牙语\n波兰语\n捷克语\n希腊语\n爱沙尼亚语\n芬兰语\n匈牙利语\n立陶宛语\n拉脱维亚语\n罗马尼亚语\n斯洛伐克语\n斯洛文尼亚语\n乌克兰语\n保加利亚语\n克罗地亚语\n亚洲\n简体中文\n繁体中文\n日语\n韩语\n泰语\n越南语\n马来语\n缅甸语\n印度尼西亚语\n老挝语\n孟加拉语\n菲律宾语\n他加禄语\n爪哇语\n南亚\n印地语\n古吉拉特语\n马拉地语\n泰米尔语\n泰卢固语\n乌尔都语\n中东\n阿拉伯语\n波斯语\n希伯来语\n中库尔德语\n塔吉克语\n土耳其语\n非洲\n斯瓦希里语\n预计输出 1 张（1 张图片 × 1 个语言）\n开始翻译\n生成结果\n历史记录\n校对\ntranslate-source.png · 4\n识别文字（视觉模型）\n添加文本框\n翻译全部目标语言\n重新确认\n已确认 · 识别字符 29/500\n校对语言：\n英语\n#1 · 识别 · 位置 7%,12% · 置信 99%\n×\n原文\n英语\n#2 · 识别 · 位置 7%,31% · 置信 99%\n×\n原文\n英语\n#3 "
+  },
+  "resultSrcPrefix": "data:image/png;base64,iVBORw0KGgoAAAANSU",
+  "resultCount": 1,
+  "resultSaved": true,
+  "network": [
+    {
+      "method": "POST",
+      "url": "http://127.0.0.1:23210/https://api.siliconflow.cn/v1/responses",
+      "status": 404,
+      "ms": 176,
+      "at": "2026-11-05T13:22:54.004Z"
+    },
+    {
+      "method": "POST",
+      "url": "http://127.0.0.1:23210/https://api.siliconflow.cn/v1/chat/completions",
+      "status": 200,
+      "ms": 14592,
+      "at": "2026-11-05T13:23:08.649Z"
+    },
+    {
+      "method": "POST",
+      "url": "http://127.0.0.1:23210/https://api.siliconflow.cn/v1/chat/completions",
+      "status": 200,
+      "ms": 1561,
+      "at": "2026-11-05T13:23:10.350Z"
+    },
+    {
+      "method": "POST",
+      "url": "http://127.0.0.1:23210/https://api.cc-ai.xyz/v1/images/edits",
+      "status": 200,
+      "ms": 21638,
+      "at": "2026-11-05T13:23:33.596Z"
+    }
+  ],
+  "fixtureSha256": "915a94d3f0fa7ade",
+  "resultSha256": "38c4cbda07cbb400",
+  "ok": true,
+  "download": {
+    "file": "download-translate-source-en.png",
+    "bytes": 1034716,
+    "sha256": "38c4cbda07cbb400",
+    "differsFromSource": true
+  }
+}

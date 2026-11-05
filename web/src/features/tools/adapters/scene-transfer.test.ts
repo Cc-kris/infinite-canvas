@@ -222,7 +222,8 @@ describe("请求构造与守卫", () => {
         expect(input.references?.[0].url).toBe(PRODUCT.url);
         expect(input.references?.[1].url).toBe(STYLE.url);
         expect(input.count).toBe(1);
-        expect(input.prompt).toContain("similarity = 70%");
+        expect(input.prompt).toContain("similarity = 65%");
+        expect((input.fields as Record<string, unknown>).similarity).toBe(0.65);
     });
 
     test("没有分割图时字段里不出现 segImageUrl", () => {
@@ -437,40 +438,36 @@ describe("工作区渲染（SSR）", () => {
         return renderToStaticMarkup(tree as Parameters<typeof renderToStaticMarkup>[0]);
     }
 
-    test("分区齐全：商品图 / 风格图 / 分割图 / 相似度 / 结果 / 快照", async () => {
+    test("分区与原站一致：商品图 / 风格图 / 风格相似度 / 立即生成 / 生成结果", async () => {
         const html = await renderWorkspace();
         expect(html).toContain('data-testid="scene-transfer-workspace"');
-        expect(html).toContain("场景迁移");
         for (const id of [
             "scene-transfer-product",
             "scene-transfer-style",
-            "scene-transfer-seg",
             "scene-transfer-similarity",
             "scene-transfer-similarity-slider",
-            "scene-transfer-plan",
             "scene-transfer-submit",
             "scene-transfer-result",
             "scene-transfer-snapshot-empty",
         ]) {
             expect(html).toContain(`data-testid="${id}"`);
         }
-        for (const slot of ["product", "style", "seg"]) {
+        expect(html).toContain("风格相似度：");
+        expect(html).toContain("立即生成");
+        expect(html).not.toContain("SCENE_TRANSFER-seg");
+        for (const slot of ["product", "style"]) {
             expect(html).toContain(`data-tool-asset-input="SCENE_TRANSFER-${slot}"`);
         }
     });
 
-    test("未上传商品图与风格图时生成按钮禁用，并给出真实拦截原因", async () => {
+    test("未上传商品图与风格图时生成按钮禁用（原站 disabled = !商品图 || !风格图）", async () => {
         const html = await renderWorkspace();
         expect(html).toMatch(/data-testid="scene-transfer-submit"[^>]*disabled/);
-        expect(html).toContain('data-testid="scene-transfer-issue"');
-        expect(html).toContain("imageStyleUrl");
-        expect(html).toContain("imageUrl");
     });
 
-    test("默认相似度 70% 且说明没有分割服务", async () => {
+    test("默认风格相似度 0.65（原站 Slider 0–1）", async () => {
         const html = await renderWorkspace();
-        expect(html).toContain("70%");
-        expect(html).toContain("没有分割服务");
+        expect(html).toContain(">0.65<");
     });
 });
 

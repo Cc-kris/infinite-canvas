@@ -32,25 +32,17 @@ import {
     AI_DRESSING_XSY_FIELD_KEYS,
     AI_DRESSING_XSY_TOOL_ID,
     XSY_DRAFT_SLOT,
-    XSY_MODEL_POSES,
-    XSY_MODEL_STYLES,
-    XSY_MODEL_TYPES,
     XSY_OUTPUT_OPTIONS,
     XSY_RULES,
     XSY_SLOTS,
-    XSY_STEPS,
     XSY_TABS,
     XSY_UPLOAD_LIMITS,
-    XSY_VERSIONS,
     applyXsyEdit,
-    buildXsyPrompt,
-    buildXsySnapshot,
     clearXsyMask,
     createXsyValues,
     fillXsyMask,
     normalizeXsyValues,
     resolveXsyCapability,
-    revisitXsyStep,
     serializeXsyValues,
     switchXsyTab,
     validateXsy,
@@ -60,8 +52,7 @@ import {
     xsySlotActive,
     xsySlotMeta,
     xsySnapshotHash,
-    xsyStepMeta,
-    xsyStepStates,
+    XSY_STEP_LENGTH,
     xsyTabMeta,
     xsyTabSlots,
     type GarmentSlotKey,
@@ -156,51 +147,6 @@ function XsySegmented<T extends string>({
                     );
                 })}
             </div>
-        </div>
-    );
-}
-
-function XsyStepBar({ states, onSelect, disabled }: { states: ReturnType<typeof xsyStepStates>; onSelect: (step: XsyStepId) => void; disabled: boolean }) {
-    return (
-        <div data-testid="xsy-steps" className="rounded-xl border border-border bg-card p-3">
-            <ol className="flex flex-wrap gap-2">
-                {states.map((state) => (
-                    <li key={state.step} className="flex-1">
-                        <button
-                            type="button"
-                            data-step={state.step}
-                            data-status={state.status}
-                            disabled={disabled || state.locked}
-                            title={state.hint}
-                            onClick={() => onSelect(state.step)}
-                            className={cn(
-                                "w-full rounded-lg border px-3 py-2 text-left text-xs transition-colors disabled:opacity-40",
-                                state.status === "active" && "border-primary bg-primary/10 text-primary",
-                                state.status === "done" && "border-emerald-500/50 bg-emerald-500/5 text-emerald-600",
-                                state.status === "stale" && "border-amber-500/60 bg-amber-500/5 text-amber-600",
-                                state.status === "pending" && "border-border text-muted-foreground",
-                            )}
-                        >
-                            <span className="block font-medium">
-                                {state.step}. {state.label}
-                            </span>
-                            <span className="mt-0.5 block text-[10px] opacity-80">
-                                {state.status === "done"
-                                    ? "已就绪"
-                                    : state.status === "stale"
-                                      ? "需重确认"
-                                      : state.status === "active"
-                                        ? "进行中"
-                                        : state.errors > 0
-                                          ? `${state.errors} 项待补`
-                                          : state.locked
-                                            ? "先完成前序步骤"
-                                            : "未开始"}
-                            </span>
-                        </button>
-                    </li>
-                ))}
-            </ol>
         </div>
     );
 }
@@ -566,9 +512,7 @@ export function AiDressingXsyWorkspace({ className, toolId = AI_DRESSING_XSY_TOO
 
     const issues = useMemo(() => validateXsy(values, capability), [values, capability]);
     const errors = useMemo(() => xsyErrors(issues), [issues]);
-    const stepStates = useMemo(() => xsyStepStates(values, capability), [values, capability]);
     const estimate = useMemo(() => xsyEstimate(values), [values]);
-    const prompt = useMemo(() => buildXsyPrompt(buildXsySnapshot(values, { provider })), [values, provider]);
     const currentFingerprint = useMemo(() => JSON.stringify(serializeXsyValues(values)) + `|${provider}`, [values, provider]);
     const stale = Boolean(submittedFingerprint) && submittedFingerprint !== currentFingerprint;
     const blocked = running || errors.length > 0;
@@ -594,32 +538,6 @@ export function AiDressingXsyWorkspace({ className, toolId = AI_DRESSING_XSY_TOO
         },
         [persist],
     );
-
-    const goto = useCallback(
-        (step: XsyStepId) => {
-            setValues((previous) => {
-                const next = revisitXsyStep(previous, step);
-                persist(next);
-                return next;
-            });
-        },
-        [persist],
-    );
-
-    const next = useCallback(() => {
-        setValues((previous) => {
-            const currentErrors = xsyErrors(validateXsy(previous, capability)).filter((issue) => issue.step === previous.step);
-            if (currentErrors.length > 0) {
-                setRunError(currentErrors[0]!.message);
-                return previous;
-            }
-            setRunError(undefined);
-            const target = Math.min(4, previous.step + 1) as XsyStepId;
-            const advanced = revisitXsyStep(previous, target);
-            persist(advanced);
-            return advanced;
-        });
-    }, [capability, persist]);
 
     const setMask = useCallback(
         (slot: GarmentSlotKey, mutate: (garment: XsyValues["garments"][GarmentSlotKey]) => XsyValues["garments"][GarmentSlotKey]) => {
@@ -823,7 +741,6 @@ export function AiDressingXsyWorkspace({ className, toolId = AI_DRESSING_XSY_TOO
     }, []);
 
     const activeSlots = xsyTabSlots(values.activeTab);
-    const stepMeta = xsyStepMeta(values.step);
     /**
      * 刷新恢复：任务快照由 store 从 localStorage/IndexedDB 还原（storageKey → 新的对象 URL），
      * 但本工作区的 outcome 只活在内存里，所以结果区必须以恢复出来任务的为准，
@@ -847,9 +764,6 @@ export function AiDressingXsyWorkspace({ className, toolId = AI_DRESSING_XSY_TOO
                 config={
                     <>
                     <div className="flex flex-wrap items-center justify-between gap-2">
-                        <div className="text-[11px] text-muted-foreground">
-                            第 {values.step} 步 / 共 {XSY_STEPS.length} 步 · {stepMeta.label}
-                        </div>
                         <div className="flex items-center gap-3">
                             <p data-testid="xsy-estimate" className="text-xs text-foreground">
                                 {estimate.label}
@@ -879,7 +793,6 @@ export function AiDressingXsyWorkspace({ className, toolId = AI_DRESSING_XSY_TOO
                         </div>
                     ) : null}
 
-            <XsyStepBar states={stepStates} onSelect={goto} disabled={running} />
 
             {lostAssets.length > 0 ? (
                 <p data-testid="xsy-lost-assets" className="rounded-lg border border-amber-500/50 bg-amber-500/5 px-3 py-2 text-[11px] text-amber-600">
@@ -893,62 +806,11 @@ export function AiDressingXsyWorkspace({ className, toolId = AI_DRESSING_XSY_TOO
                 <ul data-testid="xsy-issues" className="space-y-1 rounded-lg border border-border bg-muted/30 px-3 py-2 text-[11px] text-muted-foreground">
                     {errors.slice(0, 4).map((issue) => (
                         <li key={`${issue.code}-${issue.field}`} data-issue={issue.code}>
-                            · 第 {issue.step} 步：{issue.message}
+                            · {issue.message}
                         </li>
                     ))}
                 </ul>
             ) : null}
-
-            {/* 1. 模特图 + 类型/风格 */}
-            <XsySection title="模特图" hint="模特图决定身份、姿态与光照；之后只替换服装部位" step={1} testId="xsy-step-model" current={values.step} onOpen={() => goto(1)}>
-                <p className="text-[11px] leading-4 text-muted-foreground">上传我的穿衣模特图</p>
-                <ToolAssetInput
-                    toolId={toolId}
-                    title="选择模特图"
-                    maxCount={1}
-                    disabled={running}
-                    constraints={XSY_UPLOAD_CONSTRAINTS}
-                    hint={XSY_UPLOAD_LIMITS.label}
-                    library={library}
-                    onChange={onModelChange}
-                />
-                {values.model.imageUrl ? (
-                    <div className="flex gap-2">
-                        <img src={values.model.imageUrl} alt="模特图" className="h-28 w-20 rounded-md border border-border object-cover" />
-                        <div className="text-[11px] text-muted-foreground">
-                            <p data-testid="xsy-model-size">
-                                尺寸 {values.model.width || "?"}×{values.model.height || "?"}
-                            </p>
-                            <p>{values.model.name || "未命名素材"}</p>
-                        </div>
-                    </div>
-                ) : null}
-                <XsySegmented
-                    label="模特类型"
-                    value={values.modelType}
-                    options={XSY_MODEL_TYPES}
-                    onChange={(next) => edit({ modelType: next }, 1)}
-                    disabled={running}
-                    testId="xsy-model-types"
-                />
-                <XsySegmented
-                    label="模特风格"
-                    value={values.modelStyle}
-                    options={XSY_MODEL_STYLES}
-                    onChange={(next) => edit({ modelStyle: next }, 1)}
-                    disabled={running}
-                    testId="xsy-model-styles"
-                />
-                <button
-                    type="button"
-                    data-testid="xsy-next-model"
-                    disabled={running}
-                    onClick={next}
-                    className="min-h-10 rounded-md border border-border px-4 text-xs"
-                >
-                    下一步：服装
-                </button>
-            </XsySection>
 
             {/* 2. 分步服装上传 */}
             <div role="tablist" aria-label="服装模式" className="flex gap-1">
@@ -977,7 +839,7 @@ export function AiDressingXsyWorkspace({ className, toolId = AI_DRESSING_XSY_TOO
                 ))}
             </div>
 
-            <XsySection title="分步服装上传" hint="上下装模式需要上装与下装；连体模式只看一件套装" step={2} testId="xsy-step-garment" current={values.step} onOpen={() => goto(2)}>
+            <XsySection title="上传服装" testId="xsy-step-garment">
                 {activeSlots.map((slot) => {
                     const meta = xsySlotMeta(slot);
                     const garment = values.garments[slot];
@@ -1004,13 +866,36 @@ export function AiDressingXsyWorkspace({ className, toolId = AI_DRESSING_XSY_TOO
                         </div>
                     );
                 })}
-                <button type="button" data-testid="xsy-next-garment" disabled={running} onClick={next} className="min-h-10 rounded-md border border-border px-4 text-xs">
-                    下一步：蒙版/姿势
-                </button>
+            </XsySection>
+
+            {/* 1. 模特图 + 类型/风格 */}
+            <XsySection title="选择穿衣模特" hint="穿衣的部位与模特参考" testId="xsy-step-model">
+                <p className="text-[11px] leading-4 text-muted-foreground">上传我的穿衣模特图</p>
+                <ToolAssetInput
+                    toolId={toolId}
+                    title="选择模特图"
+                    maxCount={1}
+                    disabled={running}
+                    constraints={XSY_UPLOAD_CONSTRAINTS}
+                    hint={XSY_UPLOAD_LIMITS.label}
+                    library={library}
+                    onChange={onModelChange}
+                />
+                {values.model.imageUrl ? (
+                    <div className="flex gap-2">
+                        <img src={values.model.imageUrl} alt="模特图" className="h-28 w-20 rounded-md border border-border object-cover" />
+                        <div className="text-[11px] text-muted-foreground">
+                            <p data-testid="xsy-model-size">
+                                尺寸 {values.model.width || "?"}×{values.model.height || "?"}
+                            </p>
+                            <p>{values.model.name || "未命名素材"}</p>
+                        </div>
+                    </div>
+                ) : null}
             </XsySection>
 
             {/* 3. 蒙版 + 姿势 */}
-            <XsySection title="蒙版与姿势" hint="涂出该件服装在模特图上的区域；白=替换，黑=保持原样" step={3} testId="xsy-step-mask" current={values.step} onOpen={() => goto(3)}>
+            <XsySection title="编辑穿衣区域" hint="涂出该件服装在模特图上的区域；白=替换，黑=保持原样" testId="xsy-step-mask">
                 <p className="text-[11px] leading-4 text-muted-foreground" data-testid="xsy-part-reference">
                     穿衣的部位与模特参考
                 </p>
@@ -1087,21 +972,33 @@ export function AiDressingXsyWorkspace({ className, toolId = AI_DRESSING_XSY_TOO
                         </div>
                     );
                 })}
-                <XsySegmented
-                    label="模特姿势"
-                    value={values.modelPose}
-                    options={XSY_MODEL_POSES}
-                    onChange={(next) => edit({ modelPose: next }, 3)}
-                    disabled={running}
-                    testId="xsy-model-poses"
-                />
-                <button type="button" data-testid="xsy-next-mask" disabled={running} onClick={next} className="min-h-10 rounded-md border border-border px-4 text-xs">
-                    下一步：生成
-                </button>
             </XsySection>
 
             {/* 4. 生成 */}
-            <XsySection title="生成设置" hint="张数与算法版本只影响本次提交，不会删除历史结果" step={4} testId="xsy-step-generate" current={values.step} onOpen={() => goto(4)}>
+            <XsySection title="步长" testId="xsy-step-generate">
+                <div data-testid="xsy-step-length">
+                    <input
+                        type="range"
+                        aria-label="步长"
+                        min={XSY_STEP_LENGTH.min}
+                        max={XSY_STEP_LENGTH.max}
+                        value={values.stepLength}
+                        disabled={running}
+                        onChange={(event) => edit({ stepLength: Number(event.target.value) }, 4)}
+                        className="w-full accent-[#723cf9]"
+                    />
+                    <div className="relative h-4 text-[12px]">
+                        {XSY_STEP_LENGTH.marks.map((mark) => (
+                            <span
+                                key={mark}
+                                className={cn("absolute -translate-x-1/2", values.stepLength === mark ? "text-black" : "text-black/30")}
+                                style={{ left: `${((mark - XSY_STEP_LENGTH.min) / (XSY_STEP_LENGTH.max - XSY_STEP_LENGTH.min)) * 100}%` }}
+                            >
+                                {mark}
+                            </span>
+                        ))}
+                    </div>
+                </div>
                 <XsySegmented
                     label="生成张数"
                     value={String(values.outputNum)}
@@ -1110,17 +1007,6 @@ export function AiDressingXsyWorkspace({ className, toolId = AI_DRESSING_XSY_TOO
                     disabled={running}
                     testId="xsy-output"
                 />
-                <XsySegmented
-                    label="算法/修复版本"
-                    value={values.version}
-                    options={XSY_VERSIONS}
-                    onChange={(next) => edit({ version: next }, 4)}
-                    disabled={running}
-                    testId="xsy-version"
-                />
-                <div data-testid="xsy-prompt" className="max-h-32 overflow-auto rounded-lg border border-border bg-muted/30 px-3 py-2 text-[11px] leading-relaxed text-muted-foreground">
-                    {prompt}
-                </div>
             </XsySection>
 
                     {/* 原站：生成按钮常驻配置列底部，不随步骤折叠隐藏 */}
@@ -1133,7 +1019,7 @@ export function AiDressingXsyWorkspace({ className, toolId = AI_DRESSING_XSY_TOO
                                 onClick={() => void submit()}
                                 className="min-h-10 rounded-md bg-primary px-4 text-xs font-medium text-primary-foreground disabled:opacity-40"
                             >
-                                {running ? "正在生成…" : `生成 ${estimate.count} 张试穿图`}
+                                {running ? "正在生成…" : "立即生成"}
                             </button>
                             {running ? (
                                 <button type="button" data-testid="xsy-cancel" onClick={cancel} className="min-h-10 rounded-md border border-border px-3 text-xs">
@@ -1144,6 +1030,7 @@ export function AiDressingXsyWorkspace({ className, toolId = AI_DRESSING_XSY_TOO
                                 {blocked ? `提交被拦下：${errors[0]?.message ?? capability.blockedReason ?? "配置不完整"}` : "自检通过，可提交"}
                             </span>
                         </div>
+                        {runError ? <p data-testid="xsy-run-error" role="alert" className="mt-1 text-[11px] text-destructive">{runError}</p> : null}
                     </div>
 
                     </>
@@ -1179,7 +1066,7 @@ export function AiDressingXsyWorkspace({ className, toolId = AI_DRESSING_XSY_TOO
                     </div>
                 ) : (
                     <p data-testid="xsy-result-empty" className="rounded-lg border border-dashed border-border px-3 py-6 text-center text-[11px] text-muted-foreground">
-                        {running ? "正在生成，结果会出现在这里…" : "还没有结果：完成前 4 步后点「生成」"}
+                        {running ? "正在生成，结果会出现在这里…" : "暂无生成结果图"}
                     </p>
                 )}
 

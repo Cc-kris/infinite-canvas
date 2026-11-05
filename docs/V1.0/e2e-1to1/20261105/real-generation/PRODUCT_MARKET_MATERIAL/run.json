@@ -1,0 +1,91 @@
+{
+  "toolId": "PRODUCT_MARKET_MATERIAL",
+  "route": "/tools/product-design/product-market-material",
+  "fixture": "product-watch.jpg",
+  "startedAt": "2026-11-05T16:25:51.647Z",
+  "provider": {
+    "imageModel": "ccai-accept::gpt-image-2",
+    "channels": [
+      "ccai-accept",
+      "sf-accept"
+    ],
+    "baseUrl": "https://api.cc-ai.xyz",
+    "keyLen": 67,
+    "proxyEnabled": true,
+    "channelCount": 2,
+    "model": "gpt-image-2"
+  },
+  "before": {
+    "images": [],
+    "issues": []
+  },
+  "submitBefore": {
+    "id": "market-generate",
+    "text": "开始生成",
+    "disabled": true
+  },
+  "gate": {
+    "found": true,
+    "disabled": false,
+    "text": "开始生成",
+    "countText": "预计生成 1 张"
+  },
+  "finishedAt": "2026-11-05T16:31:01.521Z",
+  "after": {
+    "submitButtons": [
+      {
+        "id": "market-layout-per-layout",
+        "text": "每种排版生成一张",
+        "disabled": false
+      },
+      {
+        "id": "market-generate",
+        "text": "开始生成",
+        "disabled": false
+      },
+      {
+        "id": "market-tab-result",
+        "text": "生成结果",
+        "disabled": false
+      },
+      {
+        "id": "tool-history-dock-toggle",
+        "text": "2026-11-06 00:",
+        "disabled": false
+      }
+    ],
+    "issues": [],
+    "images": [
+      {
+        "src": "blob:http://127.0.0.1:3310/45aa21e3-41de-4633-8bbe-f8143829e",
+        "w": 1024,
+        "h": 744
+      },
+      {
+        "src": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABAAAAAQACAIAAA",
+        "w": 1024,
+        "h": 1024
+      },
+      {
+        "src": "blob:http://127.0.0.1:3310/27b3b7ab-b2d5-4f53-9813-b9cd698af",
+        "w": 1024,
+        "h": 1024
+      }
+    ],
+    "bodyText": "无限画布\n首页\n电商套图\n智能修图\n新模型\nAI视频\nHOT\n批量生图\n商品图设计\n中\n切换到深色主题\nv0.27.0\n商品套图\n服装套图\n白底图\nNEW\n爆款图复刻\n套图换色\n批量翻译\n高清放大\n批量抠图\n智能扩图\n免责声明\n多视角白底商品&实拍图\n从本地上传\n从作品库选择\n从商品库选择\n最多上传6张图，10M以内，384*384~4096*4096，最大宽高比5\nproduct-watch.jpg\n31 KB · 1024×744 · image/jpeg\n移除\n主图\n商品类目\n请选择商品类目\n商品信息\nAI分析\n向导\n31 / 2500\n品牌与合规（可选）\n智能品牌基因\n未启用\n智能合规检查\n未选择词库\n项目名称\n品牌名称\n亚马逊\nShopify 独立站\n沃尔玛\nEtsy\nTemu\n销售地区\n美国\n英国\n德国\n日本\n输出语言\n英语\n德语\n日语\nA+ 画幅\n模型选择\nLF智能模型 G-2.5 Sunburst\n2K · 高品质\n分辨率选择\n1K\n2K\n4K\n模型品质\n低品质\n中品质\n高品质\n超高品质\n最大品质\nA+图设置\n该平台无 A+ 模块\n生成类型（可多选）\n高级A+\n普通A+\n手机A+\n自定比例\n每模块 4 张\nA+ 画幅（按平台过滤）\n切换回亚马逊后可选择 A+ 比例。\n选择排版\n每种排版生成一张\n无文字模式\n💡未选择排版时，将根据官方排版随机生成\n主副图设置\n生成类型（多选）\n卖点图\n白底图\n场景图\n商品尺寸图\n特写图\n特写白底图\n生成比例\n1:1\n4:5\n9:16\n16:9\n3:4\n3:2\n自定义画幅\n预计生成 1 张\n开始生成\n清空\n生成结果\n优秀案例\n历史记录 ↗\n生成结果\n共 1 张 · 成功 1 · 失败 0 · 待定 0\n卖点图（1/1）\n卖点图 1/1 · 1:1\n存入资产库\n发送画布\n下载\n历史任务\n1 条\n2026-11-06 00:25\n已完成\n基于上传的商品图生成 卖点图 营销素材第 1/1 屏，投放平台：Shopify 独立站，销售地区：美国。 保持商…\nccai-accept::gpt-image-2 · image · 1 个"
+  },
+  "resultSrcPrefix": "",
+  "resultCount": 0,
+  "resultSaved": false,
+  "network": [
+    {
+      "method": "POST",
+      "url": "http://127.0.0.1:23210/https://api.cc-ai.xyz/v1/images/edits",
+      "status": 200,
+      "ms": 26569,
+      "at": "2026-11-05T16:26:26.296Z"
+    }
+  ],
+  "fixtureSha256": "43ede96e7ce88509",
+  "ok": false
+}

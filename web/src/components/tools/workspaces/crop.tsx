@@ -86,8 +86,8 @@ type SourceImage = { assetId: string; name: string; url: string; bytes: number; 
 
 const FORMAT_LABEL: Record<CropOutputFormat, string> = { "image/png": "PNG", "image/jpeg": "JPG", "image/webp": "WebP" };
 
-/** 空态示例图：仓库内本地案例素材（不联网、不生成）。 */
-const CROP_SAMPLE_IMAGE = "/__cases/product-scene/1740339005955035136-source.webp";
+/** 空态示例图：原站 cdn.linkfox.com/ai-site/workbench/image-crop-upload-tour.jpg 原样落盘（自带四角裁剪框）。 */
+const CROP_SAMPLE_IMAGE = "/__cases/image-crop/upload-tour.jpg";
 
 /** 原站右上「比例调整」页签的 7 行比例 + 中文场景说明（original-ratio-tab.png）。 */
 export const CROP_RATIO_ROWS = [
@@ -391,7 +391,7 @@ export function CropWorkspace() {
     const canRedo = redoStack.length > 0;
 
     return (
-        <div data-testid="crop-workspace" data-tool={IMAGE_CROP_TOOL_ID} className="relative flex h-full min-h-0 flex-col bg-white text-foreground">
+        <div data-testid="crop-workspace" data-tool={IMAGE_CROP_TOOL_ID} className="relative flex h-full min-h-0 flex-col bg-[#f6f7fa] text-foreground">
             <input
                 ref={fileRef}
                 type="file"
@@ -404,16 +404,16 @@ export function CropWorkspace() {
                     void pickFiles(files);
                 }}
             />
-            {/* 原站唯一的列布局在这里就位：画布列（顶部工具条 + 画布/空态卡）+ 右侧 250px 配置栏 */}
+            {/* 原站 1600×1000：页面 #f6f7fa 内边距 10；画布列 1100（顶部 44 高白色操作条 + 画布/空态卡）+ 右侧 270 白色参数面板 */}
             <div
                 data-testid="tool-workspace-columns"
                 data-canvas="true"
                 data-config-side="right"
-                className="grid min-h-0 w-full grid-cols-1 gap-4 overflow-y-auto p-4 lg:grid-cols-[minmax(0,1fr)_250px]"
+                className="grid min-h-0 w-full flex-1 grid-cols-1 gap-[10px] overflow-y-auto p-[10px] lg:grid-cols-[minmax(0,1fr)_270px]"
             >
-                <div data-testid="tool-main-column" className="flex min-h-0 min-w-0 flex-col gap-3">
+                <div data-testid="tool-main-column" className="flex min-h-0 min-w-0 flex-col gap-3 bg-transparent!">
                     {/* 画布顶部通栏单行工具条：左 重置/撤销/重做/重新上传，右 下载图片/真人换模特2.0/更多/历史记录 */}
-                    <div data-testid="crop-toolbar" className="flex shrink-0 flex-wrap items-center gap-1 text-[13px] leading-none">
+                    <div data-testid="crop-toolbar" className="flex min-h-11 shrink-0 flex-wrap items-center gap-1 rounded-lg bg-card px-2.5 py-1 text-[13px] leading-none">
                         <ToolButton testId="crop-reset" label="重置" icon={RotateCcw} disabled={!source} onClick={() => commit(createCropState(source?.size ?? undefined))} />
                         <ToolButton
                             testId="crop-undo"
@@ -555,7 +555,7 @@ export function CropWorkspace() {
                             </p>
                         </section>
                     ) : (
-                        // 空态：居中 535 卡（示例图 + 四角裁剪框 + 标题/副标题 + 437×30 紫主按钮 + 作品库/商品库 + 拖拽粘贴与格式提示）
+                        // 空态：原站 `_uploadPanel_` 灰底 + 内层 1px 描边框（内边距 50）；示例图是原站 image-crop-upload-tour.jpg（自带四角裁剪框）
                         <div
                             data-testid="crop-empty"
                             data-dragging={dragging ? "true" : "false"}
@@ -569,41 +569,23 @@ export function CropWorkspace() {
                                 setDragging(false);
                                 void pickFiles(Array.from(event.dataTransfer?.files ?? []));
                             }}
-                            className={cn(
-                                "mx-auto flex w-full max-w-[535px] flex-col items-center gap-3 rounded-xl border border-dashed bg-card px-6 py-6 transition",
-                                dragging ? "border-primary bg-primary/5" : "border-border",
-                            )}
+                            className="mx-auto my-auto w-full max-w-[559px] rounded-lg bg-muted p-[10px]"
                         >
-                            <div className="relative w-full overflow-hidden rounded-md">
-                                <img src={CROP_SAMPLE_IMAGE} alt="示例图片" className="block h-[300px] w-full object-cover" draggable={false} />
-                                <span data-testid="crop-empty-frame" aria-hidden className="pointer-events-none absolute inset-[16%]">
-                                    {(["tl", "tr", "bl", "br"] as const).map((corner) => (
-                                        <span
-                                            key={corner}
-                                            className={cn(
-                                                "absolute size-6 border-white",
-                                                corner === "tl" && "left-0 top-0 border-l-2 border-t-2",
-                                                corner === "tr" && "right-0 top-0 border-r-2 border-t-2",
-                                                corner === "bl" && "bottom-0 left-0 border-b-2 border-l-2",
-                                                corner === "br" && "bottom-0 right-0 border-b-2 border-r-2",
-                                            )}
-                                        />
-                                    ))}
-                                </span>
-                            </div>
-                            <h2 className="text-[20px] font-semibold leading-7 text-foreground">图片裁剪</h2>
-                            <p className="text-sm leading-5 text-muted-foreground">上传图片，裁剪图片为任意尺寸/比例</p>
+                            <div className={cn("flex flex-col items-center rounded-lg border px-[50px] py-[50px] transition", dragging ? "border-primary bg-primary/5" : "border-border bg-card/60")}>
+                            <img src={CROP_SAMPLE_IMAGE} alt="示例图片" data-testid="crop-empty-sample" className="block h-[300px] w-[437px] max-w-full rounded-md object-contain" draggable={false} />
+                            <h2 className="mt-5 text-[20px] font-medium leading-7 text-foreground">图片裁剪</h2>
+                            <p className="mt-2.5 text-sm leading-[22px] text-muted-foreground">上传图片，裁剪图片为任意尺寸/比例</p>
                             <button
                                 type="button"
                                 data-testid="crop-upload-local"
                                 disabled={uploading || busy}
                                 onClick={() => fileRef.current?.click()}
-                                className="inline-flex h-[30px] w-full max-w-[437px] items-center justify-center gap-1.5 rounded-md bg-primary text-[13px] font-medium leading-none text-primary-foreground transition hover:bg-primary/90 disabled:cursor-progress disabled:opacity-60"
+                                className="mt-5 inline-flex h-[30px] w-full max-w-[437px] items-center justify-center gap-1.5 rounded bg-primary text-sm leading-none text-primary-foreground transition hover:bg-primary/90 disabled:cursor-progress disabled:opacity-60"
                             >
                                 <Upload className="size-3.5" aria-hidden />
                                 {uploading ? "上传中…" : "从本地上传"}
                             </button>
-                            <div className="grid w-full max-w-[437px] grid-cols-2 gap-3">
+                            <div className="mt-2.5 grid w-full max-w-[437px] grid-cols-2 gap-[9px]">
                                 <div className="relative">
                                     <button
                                         type="button"
@@ -612,7 +594,7 @@ export function CropWorkspace() {
                                         disabled={library.length === 0}
                                         title={library.length ? "从作品库选择" : "作品库暂无图片"}
                                         onClick={() => setLibraryOpen((open) => !open)}
-                                        className="h-[30px] w-full rounded-md border border-border bg-card text-[13px] leading-none text-muted-foreground transition hover:border-primary/50 hover:text-foreground disabled:cursor-not-allowed disabled:opacity-50"
+                                        className="h-[30px] w-full rounded border border-primary bg-card text-sm leading-none text-primary transition hover:bg-primary/5 disabled:cursor-not-allowed disabled:opacity-50"
                                     >
                                         从作品库选择
                                     </button>
@@ -638,17 +620,18 @@ export function CropWorkspace() {
                                     data-testid="crop-from-products"
                                     disabled
                                     title="商品库暂未接入"
-                                    className="h-[30px] w-full rounded-md border border-border bg-card text-[13px] leading-none text-muted-foreground transition disabled:cursor-not-allowed disabled:opacity-50"
+                                    className="h-[30px] w-full rounded border border-primary bg-card text-sm leading-none text-primary transition disabled:cursor-not-allowed disabled:opacity-50"
                                 >
                                     从商品库选择
                                 </button>
                             </div>
-                            <p className="text-center text-[12px] leading-[18px] text-muted-foreground">
-                                或 <span className="underline decoration-dotted underline-offset-2">拖拽/粘贴</span> 图片到此处（免费限单张，付费解锁 100 张批量上传）
+                            <p className="mt-2.5 text-center text-[12px] leading-[18px] text-foreground">
+                                或 <span className="text-primary">拖拽/粘贴</span> 图片到此处（免费限单张，付费解锁 100 张批量上传）
                             </p>
                             <p className="text-center text-[12px] leading-[18px] text-muted-foreground">
                                 支持jpg、jpeg、png、webp，{Math.round(IMAGE_CROP_MAX_BYTES / 1024 / 1024)}M以内，{IMAGE_CROP_MIN_SIDE}*{IMAGE_CROP_MIN_SIDE} ~ {IMAGE_CROP_MAX_SIDE}*{IMAGE_CROP_MAX_SIDE}
                             </p>
+                            </div>
                         </div>
                     )}
 
@@ -665,9 +648,9 @@ export function CropWorkspace() {
                     ) : null}
                 </div>
 
-                {/* 右侧配置栏：原站 250px（x1320..1570） */}
-                <aside data-testid="tool-config-column" className="flex min-w-0 flex-col self-start overflow-hidden rounded-lg border border-border bg-white">
-                    <div className="flex shrink-0 border-b border-border" role="tablist" aria-label="裁剪方式">
+                {/* 右侧参数面板：原站 270 宽白卡、内边距 10、撑满列高（x1310..1580） */}
+                <aside data-testid="tool-config-column" className="flex min-h-0 min-w-0 flex-col gap-2.5 overflow-y-auto rounded-lg bg-card p-2.5">
+                    <div className="flex h-[22px] shrink-0 rounded-md bg-[#f6f7fa]" role="tablist" aria-label="裁剪方式">
                         {(["size", "ratio"] as const).map((tab) => (
                             <button
                                 key={tab}
@@ -677,8 +660,8 @@ export function CropWorkspace() {
                                 aria-selected={state.activeTab === tab}
                                 onClick={() => commit({ ...state, activeTab: tab })}
                                 className={cn(
-                                    "h-[38px] flex-1 border-b-2 text-[13px] leading-none transition",
-                                    state.activeTab === tab ? "border-primary bg-primary/5 font-medium text-primary" : "border-transparent text-muted-foreground hover:text-foreground",
+                                    "h-[22px] flex-1 rounded text-sm leading-none transition",
+                                    state.activeTab === tab ? "bg-primary/15 font-medium text-primary" : "text-muted-foreground hover:text-foreground",
                                 )}
                             >
                                 {tab === "size" ? "尺寸调整" : "比例调整"}
@@ -686,21 +669,20 @@ export function CropWorkspace() {
                         ))}
                     </div>
 
-                    <div className="flex flex-col gap-2 p-3">
+                    <div className="flex flex-col gap-[5px]">
                         {state.activeTab === "size" ? (
                             <>
-                                <p className="text-[12px] font-medium leading-5 text-foreground">平台预设</p>
                                 <SearchField testId="crop-platform-search" value={platformQuery} onChange={setPlatformQuery} placeholder="搜索平台名称" />
                                 {/* 单列可滚动平台列表（原站 scrollHeight 1020 / clientHeight 346） */}
-                                <div data-testid="crop-platforms" className="max-h-[346px] overflow-y-auto">
+                                <div data-testid="crop-platforms" aria-label="平台预设" className="max-h-[346px] overflow-y-auto rounded-lg bg-black/[0.04] px-[5px] py-1.5">
                                     <button
                                         type="button"
                                         data-testid="crop-size-free"
                                         aria-pressed={state.platformKey === null && state.ratioId === FREE_RATIO_ID}
                                         onClick={() => commit(applyRatioPreset({ ...state, platformKey: null, platformTitle: "" }, FREE_RATIO_ID, size))}
                                         className={cn(
-                                            "flex h-[44px] w-full items-center gap-2 rounded-md px-2 text-left text-[13px] transition",
-                                            state.platformKey === null && state.ratioId === FREE_RATIO_ID ? "bg-primary/10 text-primary" : "text-foreground hover:bg-accent",
+                                            "flex h-10 w-full items-center gap-3 rounded-md px-2 text-left text-[12px] transition",
+                                            state.platformKey === null && state.ratioId === FREE_RATIO_ID ? "bg-primary/15 text-foreground" : "text-foreground hover:bg-black/[0.04]",
                                         )}
                                     >
                                         <MediaIcon color="#7c3aed" />
@@ -714,8 +696,8 @@ export function CropWorkspace() {
                                             aria-pressed={state.platformKey === preset.key}
                                             onClick={() => commit(applyPlatformPreset(state, preset.key, size))}
                                             className={cn(
-                                                "flex h-[44px] w-full items-center gap-2 rounded-md px-2 text-left text-[13px] transition",
-                                                state.platformKey === preset.key ? "bg-primary/10 text-primary" : "text-foreground hover:bg-accent",
+                                                "flex h-10 w-full items-center gap-3 rounded-md px-2 text-left text-[12px] transition",
+                                                state.platformKey === preset.key ? "bg-primary/15 text-foreground" : "text-foreground hover:bg-black/[0.04]",
                                             )}
                                         >
                                             <MediaIcon color={PLATFORM_COLORS[preset.key] ?? "#94a3b8"} />
@@ -731,15 +713,15 @@ export function CropWorkspace() {
                         ) : (
                             <>
                                 <SearchField testId="crop-ratio-search" value={ratioQuery} onChange={setRatioQuery} placeholder="搜索比例" />
-                                <div data-testid="crop-ratios" className="max-h-[346px] overflow-y-auto">
+                                <div data-testid="crop-ratios" className="max-h-[346px] overflow-y-auto rounded-lg bg-black/[0.04] px-[5px] py-1.5">
                                     <button
                                         type="button"
                                         data-testid="crop-ratio-original"
                                         aria-pressed={state.ratioId === FREE_RATIO_ID}
                                         onClick={() => commit(applyRatioPreset({ ...state, platformKey: null, platformTitle: "" }, FREE_RATIO_ID, size))}
                                         className={cn(
-                                            "flex h-[44px] w-full items-center gap-2 rounded-md px-2 text-left text-[13px] transition",
-                                            state.ratioId === FREE_RATIO_ID ? "bg-primary/10 text-primary" : "text-foreground hover:bg-accent",
+                                            "flex h-10 w-full items-center gap-3 rounded-md px-2 text-left text-[12px] transition",
+                                            state.ratioId === FREE_RATIO_ID ? "bg-primary/15 text-foreground" : "text-foreground hover:bg-black/[0.04]",
                                         )}
                                     >
                                         <span className="flex-1 truncate">原图比例</span>
@@ -754,8 +736,8 @@ export function CropWorkspace() {
                                             aria-label={`${row.id} ${row.note}`}
                                             onClick={() => commit(applyRatioPreset({ ...state, platformKey: null, platformTitle: "" }, row.id, size))}
                                             className={cn(
-                                                "flex h-[44px] w-full items-center gap-2 rounded-md px-2 text-left text-[13px] transition",
-                                                state.ratioId === row.id ? "bg-primary/10 text-primary" : "text-foreground hover:bg-accent",
+                                                "flex h-10 w-full items-center gap-3 rounded-md px-2 text-left text-[12px] transition",
+                                                state.ratioId === row.id ? "bg-primary/15 text-foreground" : "text-foreground hover:bg-black/[0.04]",
                                             )}
                                         >
                                             <span className="shrink-0 tabular-nums">{row.id}</span>
@@ -769,10 +751,10 @@ export function CropWorkspace() {
                     </div>
 
                     {/* 目标尺寸：原站默认 1024×1024 + 链接（锁定比例）+ 保存自定义尺寸 + 四角旋转/翻转 */}
-                    <div className="mt-auto flex shrink-0 flex-col gap-2 border-t border-border p-3">
+                    <div className="flex shrink-0 flex-col gap-2.5">
                         <div className="flex items-center justify-between">
-                            <span className="text-[12px] text-muted-foreground">目标尺寸</span>
-                            <span data-testid="crop-output-summary" className="text-[12px] text-muted-foreground tabular-nums">
+                            <span className="text-[12px] leading-[22px] text-muted-foreground/70">目标尺寸</span>
+                            <span data-testid="crop-output-summary" className="sr-only">
                                 {state.outputWidth}×{state.outputHeight}
                             </span>
                         </div>
@@ -784,7 +766,7 @@ export function CropWorkspace() {
                                 aria-pressed={state.locked}
                                 aria-label={state.locked ? "解除锁定比例" : "锁定比例"}
                                 onClick={() => commit({ ...state, locked: !state.locked })}
-                                className={cn("inline-flex size-8 shrink-0 items-center justify-center rounded border transition", state.locked ? "border-primary text-primary" : "border-border text-muted-foreground hover:bg-accent")}
+                                className={cn("inline-flex size-8 shrink-0 items-center justify-center rounded-md border transition", state.locked ? "border-primary text-primary" : "border-transparent text-foreground hover:bg-black/5")}
                             >
                                 <Link2 className="size-3.5" aria-hidden />
                             </button>
@@ -794,7 +776,7 @@ export function CropWorkspace() {
                             type="button"
                             data-testid="crop-save-custom"
                             onClick={() => commit(saveCustomSize(state))}
-                            className="h-[28px] w-full rounded border border-border text-[12px] leading-none text-muted-foreground transition hover:bg-accent hover:text-foreground"
+                            className="h-6 w-full rounded-md border border-border text-[12px] leading-none text-muted-foreground transition hover:border-primary/50 hover:text-foreground"
                         >
                             保存自定义尺寸
                         </button>
@@ -812,7 +794,7 @@ export function CropWorkspace() {
                                 ))}
                             </div>
                         ) : null}
-                        <div className="grid grid-cols-4 gap-1">
+                        <div className="grid grid-cols-4 gap-2.5 border-t border-border pt-5">
                             <QuadButton testId="crop-rotate-ccw" label="逆时针旋转90°" disabled={!source} onClick={() => rotate(-90)}>
                                 <RotateCcw className="size-4" aria-hidden />
                             </QuadButton>
@@ -896,7 +878,7 @@ function QuadButton({ label, testId, disabled, onClick, children }: { label: str
             aria-label={label}
             disabled={disabled}
             onClick={onClick}
-            className="inline-flex h-12 items-center justify-center rounded border border-border text-muted-foreground transition hover:bg-accent hover:text-foreground disabled:cursor-not-allowed disabled:opacity-40"
+            className="inline-flex h-[46px] items-center justify-center rounded-lg bg-[#f5f5f5] text-foreground transition hover:bg-[#ebebeb] disabled:cursor-not-allowed disabled:opacity-60"
         >
             {children}
         </button>
@@ -914,7 +896,7 @@ function SearchField({ testId, value, onChange, placeholder }: { testId: string;
                 placeholder={placeholder}
                 aria-label={placeholder}
                 onChange={(event) => onChange(event.target.value)}
-                className="h-[30px] w-full rounded border border-border bg-background pl-7 pr-6 text-[12px] text-foreground outline-none placeholder:text-muted-foreground focus:border-primary"
+                className="h-8 w-full rounded-md border border-border bg-card pl-7 pr-6 text-sm text-foreground outline-none placeholder:text-muted-foreground focus:border-primary"
             />
             {value ? (
                 <button type="button" aria-label="清除搜索" onClick={() => onChange("")} className="absolute right-1 top-1/2 -translate-y-1/2 rounded p-0.5 text-muted-foreground hover:text-foreground">
@@ -931,7 +913,7 @@ function MediaIcon({ color }: { color: string }) {
 
 function PixelField({ label, testId, value, onChange }: { label: string; testId: string; value: number; onChange: (value: number) => void }) {
     return (
-        <label className="flex h-8 min-w-0 flex-1 items-center gap-1 rounded border border-border px-1.5 text-[12px] text-muted-foreground">
+        <label className="flex h-8 min-w-0 flex-1 items-center gap-1 rounded-md border border-border px-3 text-sm text-foreground">
             <span className="shrink-0">{label}</span>
             <input
                 type="number"

@@ -51,9 +51,14 @@ export function ToolCaseGuide({
                     <figure className="relative m-0 min-w-0 flex-1">
                         <span className="absolute -top-[38px] left-1/2 -translate-x-1/2 whitespace-nowrap rounded-[13px] bg-black/60 px-[10px] py-[3px] text-[14px] leading-[22px] text-white">{resultLabel}</span>
                         {item.params.length ? (
-                            <ArrowRight aria-hidden="true" className="absolute -left-[34px] top-1/2 size-7 -translate-y-1/2 text-white drop-shadow" />
+                            <ArrowRight aria-hidden="true" className="absolute -left-[34px] top-1/2 size-7 -translate-y-1/2 text-black/25" />
                         ) : null}
-                        <img src={item.result} alt={`优秀案例-${item.id}`} className="h-[352px] w-full rounded-[4px] object-cover" draggable={false} />
+                        {item.video && item.videoSrc ? (
+                            /* 原站卡内直接播放案例视频，封面用抽帧图。 */
+                            <video key={item.id} src={item.videoSrc} poster={item.result} muted loop autoPlay playsInline aria-label={`优秀案例-${item.id}`} className="h-[352px] w-full rounded-[4px] object-cover" />
+                        ) : (
+                            <img src={item.result} alt={`优秀案例-${item.id}`} className="h-[352px] w-full rounded-[4px] object-cover" draggable={false} />
+                        )}
                     </figure>
                 </div>
                 <button

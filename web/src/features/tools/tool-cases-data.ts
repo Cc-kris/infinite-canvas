@@ -160,3 +160,128 @@ export const AI_OUTPAINTING_CASES: ToolCase[] = [
         },
     },
 ];
+
+/**
+ * 电商套图「或试试这些」示例组（原站上传卡 `_tryDemo` 真实下发，2026-11-05 只读实抓）。
+ * 原站一组 = 一次点击即把组内全部图片作为商品图载入；图片同源落盘到 `web/public/__cases/<tool>/samples/`。
+ * `result` 取组内首图仅为满足 ToolCase 结构（缩略图展示用 params）。
+ */
+const sampleGroup = (id: string, srcs: string[]): ToolCase => ({ id, result: srcs[0], params: srcs.map((src, i) => ({ label: `示例${i + 1}`, src })), apply: { files: { source: srcs } } });
+
+export const PRODUCT_SUITE_SAMPLES: ToolCase[] = [
+    sampleGroup("product-suit-sample-1", [1, 2, 3].map((n) => `/__cases/product-image-suite/samples/product-suit-sample-1-${n}.jpg`)),
+    sampleGroup("product-suit-sample-2", [1, 2].map((n) => `/__cases/product-image-suite/samples/product-suit-sample-2-${n}.jpg`)),
+];
+
+export const DRESS_SET_SAMPLES: ToolCase[] = [
+    sampleGroup("clothing-suite-sample-1", [1, 2].map((n) => `/__cases/dress-wear-set/samples/clothing-suite-sample-1-${n}.webp`)),
+    sampleGroup("clothing-suite-sample-2", [1, 2, 3].map((n) => `/__cases/dress-wear-set/samples/clothing-suite-sample-2-${n}.webp`)),
+];
+
+/** 批量翻译「生成结果」空态示意图（原站 `_guide > _imageBox` 静态海报，无做同款）。 */
+export const IMAGE_TRANSLATION_GUIDE_POSTER = "/__cases/image-translation/poster-translation.png";
+
+/*
+ * 商品图设计 / 模特族「生成结果」空态案例轮播（原站 `_caseGuide` / `_caseSwiper`，标签照抄原站）。
+ * 素材与原站轮播同源：场景裂变 / AI穿衣复用上方已落盘案例；手持商品 / 姿势裂变从原站轮播下载到 `__cases/<slug>/`；
+ * AI穿戴原站轮播首张商品图 403（原站自身也显示「图片加载失败」），改用上方已落盘的同工具案例。
+ */
+const guideCase = (list: ToolCase[], id: string, labels: string[]): ToolCase => {
+    const item = list.find((entry) => entry.id === id)!;
+    return { ...item, params: item.params.map((param, index) => ({ ...param, label: labels[index] ?? param.label })) };
+};
+
+export const PRODUCT_SCENE_GUIDE_CASES: ToolCase[] = ["1983831220118597632", "1984091344636719104"].map((id) => guideCase(PRODUCT_SCENE_CASES, id, ["上传商品场景参考图"]));
+
+export const AI_DRESSING_GUIDE_CASES: ToolCase[] = ["1940370107691995136", "1940369738240921600"].map((id) => guideCase(AI_DRESSING_V2_CASES, id, ["上传平铺服装图", "选择参考图"]));
+
+export const AI_WEARABLE_GUIDE_CASES: ToolCase[] = [AI_WEARABLE_CASES[0]].map((item) => ({
+    ...item,
+    params: [
+        { label: "上传穿戴物品", src: item.params[0].src },
+        { label: "选择参考图", src: String((item.apply?.files as Record<string, string>).model) },
+    ],
+}));
+
+export const HANDHELD_GOODS_GUIDE_CASES: ToolCase[] = [
+    {
+        id: "2026596900150464512",
+        result: "/__cases/handheld-goods/2026596900150464512-r.webp",
+        params: [
+            { label: "上传手持物品", src: "/__cases/handheld-goods/2026596900150464512-product.webp" },
+            { label: "选择参考图", src: "/__cases/handheld-goods/2026596900150464512-pose.webp" },
+        ],
+        apply: { outputNum: 1, files: { product: "/__cases/handheld-goods/2026596900150464512-product.webp" } },
+    },
+];
+
+export const AI_POSTURE_GUIDE_CASES: ToolCase[] = [
+    {
+        id: "1999440008972206080",
+        result: "/__cases/ai-posture/1999440008972206080-r.webp",
+        params: [
+            { label: "上传模特图", src: "/__cases/ai-posture/1999440008972206080-model.webp" },
+            { label: "选择参考图", src: "/__cases/ai-posture/1999440008972206080-pose.webp" },
+        ],
+        apply: { outputNum: 1, files: { model: "/__cases/ai-posture/1999440008972206080-model.webp" } },
+    },
+];
+
+/** 上传卡「或试试这些」示例图（原站 cdn.linkfox.com/ai-site/workbench 同源下载），alt 照抄原站。 */
+export const DESIGN_TRY_DEMOS = {
+    handheld: [1, 2, 3, 4].map((n) => ({ src: `/__cases/handheld-goods/try-${n}.${n === 3 ? "png" : "webp"}`, alt: "完整主体的商品图" })),
+    posture: [
+        { src: "/__cases/ai-posture/try-5.png", alt: "完整上身图" },
+        { src: "/__cases/ai-posture/try-6.png", alt: "全身模特图" },
+        { src: "/__cases/ai-posture/try-7.png", alt: "全身模特图" },
+        { src: "/__cases/ai-posture/try-8.png", alt: "完整上身图" },
+    ],
+    dressing: [
+        { src: "/__cases/ai-dressing/try-upper6.webp", alt: "上装平铺图", slot: "upper" },
+        { src: "/__cases/ai-dressing/try-down1.jpg", alt: "下装平铺图", slot: "lower" },
+        { src: "/__cases/ai-dressing/try-upper5.webp", alt: "上装平铺图", slot: "upper" },
+        { src: "/__cases/ai-dressing/try-down2.jpg", alt: "下装平铺图", slot: "lower" },
+    ],
+    wearable: [
+        { src: "/__cases/ai-wearable/try-0.jpg", alt: "模特穿戴图" },
+        { src: "/__cases/ai-wearable/try-6.jpg", alt: "主体清晰的简约场景图" },
+        { src: "/__cases/ai-wearable/try-5.jpg", alt: "模特穿戴图" },
+        { src: "/__cases/ai-wearable/try-4.jpg", alt: "清晰的单一商品图" },
+    ],
+    printExtract: [1, 2, 3, 4].map((n) => ({ src: `/__cases/print-extract/try-${n}.png`, alt: "印花商品图" })),
+};
+
+/** 印花提取 / 素材贴合空态引导视频（原站 `_videoBox` / `_emptyImg` 同源 mp4）。 */
+export const PRINT_EXTRACT_GUIDE_VIDEO = "/__cases/print-extract/guide.mp4";
+export const SDS_DESIGN_GUIDE_VIDEO = "/__cases/sds-design/guide.mp4";
+
+/**
+ * AI 视频族空态引导卡（原站「生成结果」空态 `_caseGuide` 轮播，只取原站 sort=1000 的引导案例，顺序同原站）。
+ * 来源：`docs/analysis/assets/linkfox/make_cases.json.gz`（type 73 / 89 / 95 / 96）。
+ * 封面 `result` / 参数图：从原站同一条案例的真实 mp4 抽 0.5s 帧落盘（`web/public/__cases/<tool>/<id>/`），不合成。
+ * `apply.files`：原站公网 CDN 原始输入（实测 HTTP 200、CORS *），做同款时真实下载入库；签名会过期的地址不收录。
+ */
+export const SALE_VIDEO_GUIDE_CASES: ToolCase[] = [
+    {"id": "2100165491226886144", "result": "/__cases/sale-video/2100165491226886144/result.jpg", "video": true, "videoSrc": "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/SALES_VIDEO/2100165491226886144/main_result_c47038d70f52498ba85620302704bcf3.mp4", "params": [], "apply": {"prompt": "【全局设定】\n@图片1、2锁定SOJOS太阳镜的琥珀深棕玳瑁纹、微上扬方形镜框、棕色渐变镜片和镜腿金色装饰；@图片3—6锁定同一成年女性、长发、浅黄色衬衫及配饰。\n场景为海边街道与露天咖啡馆。采用手机前置自拍视频与桌面支架自拍，保留自然日光和轻微手持感。\n人物是正在对着手机说话的带货博主。每个镜头的英文台词都由画面中的女性亲口说出，全程使用同期口播，不使用画外音。 每句开始时就出现与发音同步的张嘴、唇形及下颌运动；句中持续自然说话，只在句尾短暂微笑。所有镜头均保留完整嘴部，产品和手不得遮嘴，不用闭嘴摆拍替代讲话。\n英文语速约170–180词/分钟，清晰明快，重点强调产品外观，结尾促单干脆。无字幕及额外屏幕文字。\n【视频脚本】\n镜头1｜00–03秒｜自拍开口，吸引注意\n人物戴着太阳镜坐在露天咖啡馆，伸臂自拍，脸部占画面主要位置。第一帧即开始看着镜头讲话，说话过程中轻微侧头，空闲手触碰镜框外缘，嘴部始终无遮挡。\n人物当镜口播：\n“Want your everyday outfit to look more put together?”\n镜头2｜03–07秒｜脸与产品同框，边讲边展示\n切到桌面支架自拍，眼镜已拿在手里。人物直视手机讲话，将眼镜举到脸颊旁，与脸保持接近的焦平面，镜框正面朝向观众。保留完整脸部，通过轻转手腕展示玳瑁纹和镜片，不切纯产品特写。\n人物当镜口播：\n“These SOJOS pair warm tortoiseshell frames with gorgeous brown gradient lenses.”\n镜头3｜07–10秒｜口播展示镜腿细节\n保持桌面自拍中近景。人物边讲话边将眼镜转至侧面，金色装饰朝向镜头，产品停在下巴侧方。眼神短暂看向装饰，再回到镜头，嘴唇持续与台词同步运动。\n人物当镜口播：\n“And look at that little gold side detail.”\n镜头4｜10–14秒｜佩戴后讲解，展示脸部轮廓\n直接切到眼镜已戴好的状态。人物面对固定手机立即讲话，缓慢转头约二十度，再回正，空闲手把头发拨到耳后。保留正面或四分之三脸部，嘴部清晰可见。\n人物当镜口播：\n“The subtle upswept shape gives this simple shirt a polished finish.”\n镜头5｜14–18秒｜街头行走自拍，持续口播\n人物在咖啡馆外的人行道缓步自拍，手机保持眼睛高度，脸部与衬衫领口入镜。她边走边看镜头说话，背景经过遮阳伞与店面，不切背影或远景。步伐轻缓，不影响发音。\n人物当镜口播：\n“Coffee runs, lunch outside—these work with so many everyday looks.”\n镜头6｜18–21秒｜自拍微侧头，边说边展示\n人物停在海边步道，保持手机稳定。说话时微侧头，露出镜腿金色装饰，再回看镜头；维持四分之三面部角度，避免转成看不到嘴部的纯侧脸。\n人物当镜口播：\n“Here's the side view. Such an easy finishing touch.”\n镜头7｜21–25秒｜正面讲话，完成促单\n自拍构图略收紧至头肩。人物看着镜头完整说出台词，轻扶镜框后放下手，在“shop”和“now”上自然加重语气。说完最后一个词后才微笑点头收尾。\n人物当镜口播：\n“Love this look? Tap to shop your SOJOS pair now.”\n【红线约束】\n每镜必须呈现人物可见的同步讲话，禁止配音响起但人物闭嘴、持续抿嘴微笑或只做展示动作。禁止旁白替代、纯产品空镜、饮用饮料、手或产品遮嘴；不通过循环开合嘴模拟口型。\n产品形状、玳瑁纹、渐变镜片与金色装饰保持一致。人物身份、发型、服装和声音连续，不因强调口型而夸张张嘴或扭曲脸部。不添加未经确认的性能、折扣或库存信息。全片无字幕、贴纸及水印。", "ratio": "9:16", "resolution": "720P", "videoTime": 25, "saleCountry": "US", "language": "en-US", "files": {"products": ["https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/SALES_VIDEO/2100165491226886144/product_0.png", "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/SALES_VIDEO/2100165491226886144/product_1.png", "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/SALES_VIDEO/2100165491226886144/product_2.png", "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/SALES_VIDEO/2100165491226886144/product_3.png", "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/SALES_VIDEO/2100165491226886144/product_4.png", "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/SALES_VIDEO/2100165491226886144/product_5.png"]}}},
+    {"id": "2100165301518516224", "result": "/__cases/sale-video/2100165301518516224/result.jpg", "video": true, "videoSrc": "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/SALES_VIDEO/2100165301518516224/main_result_7a7c74eb82c84a86bc60b2194f53f040.mp4", "params": [], "apply": {"prompt": "【全局设定】\n@图片1锁定Native Union黑色编织挂绳、绳结、调节件及挂扣；@图片2、3锁定手机壳内夹片、底部连接耳与挂扣关系；@图片4参考白T恤、蓝色牛仔裤及斜挎状态。\n同一成年女性，从家中玄关切至街角咖啡店。以手持前置自拍、全身镜自拍为主，连接操作使用提前架好的手机。拍摄手机与挂绳连接的展示手机为两部设备。自然侧光突出编织纹理，保留轻微手持晃动。英文女声150–165词/分钟，明快、有促单感；正脸口型同步，细节段用画外音，短停不拖音。全片无字幕。\n【视频脚本】\n镜头1｜00–03s｜自拍吸引\n手持前置胸上近景。人物用空闲手将已连接展示手机的挂绳举到肩旁，手机下缘入画；先看一眼产品，再转向镜头，轻挑眉。\n口播：“Phone always in your hand? Try this instead.”\n镜头2｜03–07s｜连接实拍\n切桌面支架固定特写。夹片已放在展示手机壳内，连接耳从底部开口伸出。人物一手托稳手机，另一手按开挂扣、扣入连接耳，松开后扣门闭合。\n画外音：“Clip the strap onto the tab beneath your phone case.”\n镜头3｜07–10s｜编织细节自拍\n切手持产品视角。展示手机放在台面，空闲手托起一段挂绳靠近镜头，清楚呈现编织纹路、绳结和黑色连接件，焦点锁定产品。\n画外音：“Braided cord, black hardware—a clean, simple look.”\n镜头4｜10–14s｜镜前斜挎展示\n切全身镜自拍。挂绳已按图4方式斜跨身体，展示手机垂在髋侧。人物用拍摄手机对镜取景，身体缓慢侧转约45°，空闲手示意手机位置，展示肩部至髋侧的完整绳路。\n画外音：“Wear it crossbody and keep your phone within easy reach.”\n镜头5｜14–17s｜街头取用\n咖啡店外，拍摄手机架于窗边，固定腰上侧面构图。人物停步，用手托住髋侧展示手机，翻转至屏幕朝自己并抬至胸前；挂扣保持连接，绳子自然松弛。\n画外音：“Need to check something? Just lift your phone.”\n镜头6｜17–20s｜自拍促单\n切手持前置自拍，人物已将展示手机缓缓放回髋侧。拍摄角度略向下，面部与斜挎绳路同框；她看向镜头，利落微笑。\n口播：“Want one? Tap to shop. Check case compatibility.”\n【红线约束】\n挂绳粗细、绳结、调节件与挂扣不变；夹片位于壳内，挂扣连接底部连接耳，不插入充电口。手机不凭空吸附，挂绳不穿身、不自动伸长，取用时挂扣不断开。明确区分拍摄手机与展示手机，双手操作使用支架机位；镜面反射与动作一致。不虚构通用适配、防盗、防摔、承重或优惠。保留原有产品标识，无字幕、贴纸、水印。", "ratio": "9:16", "resolution": "1080P", "videoTime": 20, "saleCountry": "US", "language": "en-US", "files": {"products": ["https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/SALES_VIDEO/2100165301518516224/product_0.png", "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/SALES_VIDEO/2100165301518516224/product_1.png", "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/SALES_VIDEO/2100165301518516224/product_2.png", "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/SALES_VIDEO/2100165301518516224/product_3.png"]}}},
+    {"id": "2100165008420552704", "result": "/__cases/sale-video/2100165008420552704/result.jpg", "video": true, "videoSrc": "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/SALES_VIDEO/2100165008420552704/main_result_82b5953089fd4e6ab855aff549933216.mp4", "params": [], "apply": {"prompt": "【全局设定】\n30秒，9:16竖屏，居家UGC种草视频。@参考图1锁定Briogeo珊瑚橙瓶身、白色植物纹样、透明瓶盖及150ml规格；@参考图2参考泵头与泡沫；@参考图3参考涂抹和圆梳吹整；@参考图4、5参考人物及正背面造型效果；@参考图6辅助校准包装。\n人物沿用图4长黑发、白色上衣，置于真实卧室梳妆台前。侧窗自然光，保留肤质与发丝，手机拍摄感。全程同一自然英文女声，像向朋友分享；正脸口播口型同步，操作镜头用画外音。英文字幕逐句对应台词，不遮挡产品和操作区域。\n【视频脚本】\n镜头1｜0–3s｜困扰开场\n固定半身近景。人物先看镜中发根，再转向镜头，轻提一侧贴头皮的头发，松开后自然落回，微挑眉。\n口播：“Flat roots? Try this styling routine.”\n节奏：“Flat roots?”后短停，再接下一句。\n镜头2｜3–6s｜产品介绍\n固定胸前近景。人物将带盖产品举至脸旁，标签朝前，手指避开品牌字，轻侧头介绍。\n口播：“This is Briogeo’s styling foam.”\n节奏：品牌名完整读清，句末留出产品展示时间。\n镜头3｜6–9s｜泡沫质地\n切固定手部特写，瓶盖已在台面。右手竖直持瓶，泵嘴对准左掌心，按压一次，白色泡沫落入掌心；最后短暂停留展示气泡。\n画外音：“One pump gives you this airy foam.”\n节奏：重音落在“airy foam”，不刻意拉长。\n镜头4｜9–13s｜涂抹演示\n固定侧前方近景，剪辑进入头发已打湿、毛巾吸去余水的阶段。指腹沾取掌心泡沫，分开顶部发束，薄薄涂在发根附近的发丝上。\n画外音：“On damp hair, work it through near the roots.”\n节奏：“On damp hair”后轻停，后半句配合涂抹。\n镜头5｜13–18s｜圆梳吹整\n固定侧面近景。圆梳从下方托起顶部一束头发，缓慢向上带出弧度；吹风机风嘴与头发保持距离，沿发束从根部向外移动，不贴头皮。\n画外音：“Lift with a round brush, then blow-dry along the section.”\n节奏：两段动作对应两段台词，吹风声压低，不盖住人声。\n镜头6｜18–22s｜正面效果\n硬切交代完整吹整已完成。回到与开场相同光线、距离的近景；人物轻转头约20°，手指松松穿过一侧发束，展示发根支撑与自然摆动。\n口播：“See that lift? The hair still moves naturally.”\n节奏：问句后短停，“moves naturally”配合发束落回。\n镜头7｜22–25s｜背面展示\n固定背面中近景，参考图5整理后状态。人物小幅转肩，发尾轻摆后落稳，展现层次与弧度。\n画外音：“And here’s the shape from behind.”\n节奏：自然承接上一句，末尾留出观察时间。\n镜头8｜25–30s｜购买引导\n固定正面半身近景。人物持产品于肩旁，标签朝前，另一手轻指画面下方一次，随后微笑；最后约半秒保留人物与产品同框。\n口播：“ If you want this look, please tap to shop the foam and try it.”\n节奏：问句后短停，购买引导清晰连贯，不突然加速。\n【红线约束】\n包装、泵头、人物、发色与发长一致。泡沫只从泵嘴挤出，不变喷雾；湿发准备和完整吹整通过剪辑交代，不一抹即卷、不瞬间吹干。前后光线、机位一致，不增加发量或替换假发。无手指畸形、工具穿模；不虚构折扣、库存、长期使用经历或功效数据。全片仅英文口播，无中文、无字幕、额外宣传字或水印。", "ratio": "9:16", "resolution": "720P", "videoTime": 30, "saleCountry": "US", "language": "en-US", "files": {"products": ["https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/SALES_VIDEO/2100165008420552704/product_0.png", "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/SALES_VIDEO/2100165008420552704/product_1.png", "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/SALES_VIDEO/2100165008420552704/product_2.png", "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/SALES_VIDEO/2100165008420552704/product_3.png", "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/SALES_VIDEO/2100165008420552704/product_4.png", "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/SALES_VIDEO/2100165008420552704/product_5.png"]}}},
+    {"id": "2100165421043597312", "result": "/__cases/sale-video/2100165421043597312/result.jpg", "video": true, "videoSrc": "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/SALES_VIDEO/2100165421043597312/main_result_e45916ee03e243d087095d8706bfa31f.mp4", "params": [], "apply": {"prompt": "【全局设定】\n以@参考图1锁定蓝色Wild One遛狗包的外形、织物纹理、同色宽肩带、调节扣及两侧挂扣；@参考图2、3参考佩戴比例、取零食动作和侧边拾便袋出口；@参考图4锁定深色内衬及内部隔层；@参考图5参考人物穿搭、花斑腊肠犬和蓝色胸背。\n同一成年女性穿白色背心、浅蓝牛仔裤，场景从家中玄关衔接至街边公园。以手持手机自拍、自拍俯拍和架好手机后的自主展示为主，保留轻微手持晃动与自然光变化。开头有侧头、低头看包、回看镜头的自然变化。\n英文口播约69词，语速约170–180词/分钟，轻快清晰，像向朋友分享实用好物；卖点有重音，结尾促单干脆。露脸讲话口型同步，产品细节镜头延续同一人的画外音。保留轻微环境声，音乐低于人声。全片无字幕及额外文字。\n【视频脚本】\n镜头1｜00–03秒｜自拍开场，提出需求\n玄关手持前置自拍，构图包含脸部和斜挎在腰侧的蓝色包。人物先侧头看向门边的小狗，再回看镜头，微微挑眉，空闲手轻拍包体，开口即进入推荐。\n英文口播：\n“Dog parents, stop stuffing every pocket before your walk.”\n镜头2｜03–06秒｜自拍下移，展示上身外观\n拍摄手机顺势向下倾斜，画面落到肩带与包体。人物用空闲手将包轻轻转向镜头，展示蓝色织纹、正面品牌字样与同色挂扣，包体保持真实大小。\n英文口播：\n“This Wild One bag keeps everything right here.”\n镜头3｜06–10秒｜架机俯拍，展示内部收纳\n手机提前固定在玄关桌面上方。包口已经打开，人物双手轻轻撑开，让镜头看清零食区与旁边放钥匙、卡夹的区域。手指沿隔层边缘示意，物品不混放、不凭空增加。\n英文口播：\n“Treats get their own section, with room for your essentials alongside.”\n镜头4｜10–13秒｜公园自拍俯拍，随手取零食\n切到公园长椅旁。人物坐着，手机由胸前自拍角度向下倾斜，展示斜挎包与腿边的小狗。空闲手从已打开的零食区取出一枚环形零食，动作直接流畅。\n英文口播：\n“Need a reward? Your treats are right there.”\n镜头5｜13–17秒｜架机互动，让卖点进入场景\n手机提前放在长椅上的支架，平视拍摄人物与小狗。人物蹲在包旁，小狗自然坐下，她将零食递到狗嘴边，随后侧头对镜头笑一下。蓝色包始终清晰可见。\n英文口播：\n“A quick sit, a little treat, and we're moving again.”\n镜头6｜17–21秒｜侧边细节，展示拾便袋取用\n固定手机拍摄腰部近景。人物一手扶住包，另一手从侧边出口缓缓抽出一截桃色拾便袋，展示明确的取用路径。抽出后短暂停留，包体和出口保持可见。\n英文口播：\n“And cleanup bags pull from the side. No rummaging around.”\n镜头7｜21–25秒｜回到自拍，明确促单\n人物坐回长椅，伸手拿起手机自拍，脸部、肩带与包体同时入镜。她先低头看一眼身旁的小狗，再看向镜头，空闲手托起包体，轻点头收尾。\n英文口播：\n“Make your next dog walk simpler. Tap to shop yours.”\n【红线约束】\n产品颜色、品牌字样、肩带宽度、挂扣、隔层及拾便袋出口与参考图一致；不新增口袋或闭合结构。自拍镜头只使用一只空闲手，双手展示必须采用固定机位。人物、服装、小狗花色与胸背保持一致，互动动作自然。不给出未验证的防水、容量、耐用性承诺，不暗示牵引绳、胸背或零食随包附赠。无字幕、贴纸、价格文字及水印。", "ratio": "9:16", "resolution": "720P", "videoTime": 25, "saleCountry": "US", "language": "en-US", "files": {"products": ["https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/SALES_VIDEO/2100165421043597312/product_0.png", "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/SALES_VIDEO/2100165421043597312/product_1.png", "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/SALES_VIDEO/2100165421043597312/product_2.png", "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/SALES_VIDEO/2100165421043597312/product_3.png", "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/SALES_VIDEO/2100165421043597312/product_4.png"]}}},
+];
+
+/** 视频复刻引导案例：参考视频是原站 OSS 签名地址（会过期），只落盘抽帧封面，做同款回填脚本与参数。 */
+export const VIDEO_REPLICATION_GUIDE_CASES: ToolCase[] = [
+    {"id": "2077742382737195008", "result": "/__cases/video-replication/2077742382737195008/result.jpg", "video": true, "videoSrc": "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/VIDEO_RECLONE/2077742382737195008/main_result_4394d3ffac624229b00cac5615da9a62.mp4", "params": [{"label": "参考视频", "src": "/__cases/video-replication/2077742382737195008/reference.jpg"}], "apply": {"prompt": "[00:00~00:02] 在明亮、简约的纯白居家风格空间中，演示者身着素色服饰，仅露出上半身。镜头聚焦于白色餐桌，演示者正从容地拆除 32oz 蓝青渐变励志水瓶上的气泡膜，随着包装撤去，瓶身磨砂的质感与半透明光泽显露出来，黑色的翻盖显得格外醒目。桌角点缀的一抹绿植与背景的纯白墙面形成和谐对比。顶部居中处醒目地显示着白色粗体字幕：“for the FITNESS and HYDRATION fans”。\n[00:02~00:08] 镜头跟随演示者的节奏转换，动作流畅且专业。演示者先是灵巧地拾起较高的水瓶，侧转瓶身向镜头展示其独特的轮廓与线条；随后将其轻巧地并排摆放于桌面，双手顺势轻扶瓶身两侧，彰显产品的稳重质感。紧接着，节奏微微加快，演示者将两瓶迅速聚拢，伴随着轻微的碰撞声，展现出产品坚固的品质与运动活力。演示过程动作干净利落，全程配合着顶部不变的字幕提示。\n[00:08~00:10] 演示进入收尾阶段，演示者双手稳稳地托举起两个水瓶并移至胸前，面对镜头展现出自信、亲和的微笑，画面定格在这一专业的呈现姿态。随后，演示者动作沉稳而优雅地将水瓶放回桌面上，动作干脆利落，整个演示过程在这一刻圆满结束，整体画面简约、高级且富有感染力。", "ratio": "9:16", "resolution": "720P", "videoTime": "15"}},
+];
+
+export const AI_VIDEO_EDITING_GUIDE_CASES: ToolCase[] = [
+    {"id": "2082065985074851840", "result": "/__cases/ai-video-editing/2082065985074851840/result.jpg", "video": true, "videoSrc": "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/AI_VIDEO_EDITING/2082065985074851840/main_result_db12a5509fe7423f92816240f5e6d25a.mp4", "params": [{"label": "原视频", "src": "/__cases/ai-video-editing/2082065985074851840/source.jpg"}], "apply": {"prompt": "将视频中的手表替换成参考图中的手表样式", "files": {"source": "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/AI_VIDEO_EDITING/2082065985074851840/source_video.mp4", "references": ["https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/AI_VIDEO_EDITING/2082065985074851840/ref_image_0.png"]}}},
+];
+
+export const VIDEO_TRANSLATION_GUIDE_CASES: ToolCase[] = [
+    {"id": "2089621186087292928", "result": "/__cases/video-translation/2089621186087292928/result.jpg", "video": true, "videoSrc": "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/VIDEO_TRANSLATION/2089621186087292928/main_result_61ba5a8d67454854bc002a91af910727.mp4", "params": [{"label": "上传原始视频", "src": "/__cases/video-translation/2089621186087292928/source.jpg"}], "apply": {"targetLanguage": "en", "files": {"source": "https://file-ai.linkfox.com/UPLOAD/MANAGE/CASE/VIDEO_TRANSLATION/2089621186087292928/source_video.mp4"}}},
+];
+
+/** 图转视频 / 视频拼接空态插画、视频翻译配置列顶部示意图（原站同源下载）。 */
+export const IMAGE_TO_VIDEO_EMPTY_IMAGE = "/__cases/image-to-video/empty-guide.png";
+export const VIDEO_CONCAT_EMPTY_IMAGE = "/__cases/video-concat/empty-guide.webp";
+export const VIDEO_TRANSLATION_PROMO_IMAGE = "/__cases/video-translation/promo.png";

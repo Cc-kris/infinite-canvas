@@ -439,7 +439,7 @@ export const toolSpecs: readonly ToolSpec[] = [
     {
         id: "FISSION_LINK",
         index: 28,
-        title: "场景裂变链接",
+        title: "链接裂变",
         category: "product-design" as ToolOwnerCategory,
         slug: "fission-link",
         route: "/tools/product-design/fission-link",
@@ -469,7 +469,7 @@ export const toolSpecs: readonly ToolSpec[] = [
     {
         id: "MATERIAL_UPPER_BODY",
         index: 30,
-        title: "上装换料",
+        title: "商品预览效果",
         category: "product-design" as ToolOwnerCategory,
         slug: "material-upper-body",
         route: "/tools/product-design/material-upper-body",

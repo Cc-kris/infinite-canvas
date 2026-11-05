@@ -397,45 +397,21 @@ describe("AI 姿势生成 · 工作区渲染", () => {
         const React = await import("react");
         const { renderToStaticMarkup } = await import("react-dom/server");
         const { MemoryRouter } = await import("react-router-dom");
-        const { AiPoseGeneratorWorkspace } = await import("@/components/tools/workspaces/model");
+        const { AiPoseGeneratorWorkspace, stripPosePlaceholders } = await import("@/components/tools/workspaces/ai-pose-generator");
         const html = renderToStaticMarkup(
             React.createElement(MemoryRouter, null, React.createElement(AiPoseGeneratorWorkspace)) as Parameters<typeof renderToStaticMarkup>[0],
         );
 
-        for (const id of [
-            "ai-pose-generator-workspace",
-            "ai-pose-pose-panel",
-            "ai-pose-prompt",
-            "ai-pose-prompt-count",
-            "ai-pose-categories",
-            "ai-pose-preset-list",
-            "ai-pose-preset-name",
-            "ai-pose-preset-save",
-            "ai-pose-scene-panel",
-            "ai-pose-scene-add",
-            "ai-pose-scene-count",
-            "ai-pose-preview-panel",
-            "ai-pose-preview-prompt",
-            "ai-pose-output-control",
-            "ai-pose-plan-total",
-            "ai-pose-submit",
-            "ai-pose-issues",
-            "ai-pose-results",
-            "ai-pose-results-empty",
-            "ai-pose-snapshot",
-            "ai-pose-undo",
-            "ai-pose-redo",
-        ]) {
+        // 结构对齐 rea 还原的原站「生成参考图」面板
+        for (const id of ["ai-pose-generator-workspace", "ai-pose-panel", "ai-pose-template-btn", "ai-pose-prompt", "ai-pose-expand", "ai-pose-submit", "ai-pose-results-empty"]) {
             expect(html).toContain(`data-testid="${id}"`);
         }
-
-        // 默认态：1 张选中、无场景时提示默认场景、空姿势 → 提交拦截
-        expect(html).toMatch(/data-testid="ai-pose-output-1"[^>]*aria-pressed="true"/);
-        expect(html).toContain("默认场景");
+        expect(html).toContain("模板库");
+        expect(html).toContain("[模特外貌]，穿着[衣服描述]，戴着[配饰描述]，[环境及其他细节]，[姿势和景别描述]");
         expect(html).toMatch(/data-testid="ai-pose-submit"[^>]*disabled/);
-        expect(html).toContain("请先填写姿势描述");
-        expect(html).toContain(`data-testid="ai-pose-preset-${AI_POSE_GENERATOR_PRESETS[0]!.id}"`);
-        expect(html).toContain(AI_POSE_GENERATOR_DRAFT_KEY);
+        // 原站提交前剔除仍带 [占位] 的分句
+        expect(stripPosePlaceholders("[模特外貌]，穿着白裙，[环境及其他细节]")).toBe("穿着白裙");
+        expect(stripPosePlaceholders("[模特外貌]，[姿势和景别描述]")).toBe("");
     });
 });
 

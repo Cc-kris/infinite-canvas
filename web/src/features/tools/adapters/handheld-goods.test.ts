@@ -299,9 +299,15 @@ describe("workspace / 渲染", () => {
     test("首屏渲染出姿势库、张数控制与禁用的提交按钮", async () => {
         const markup = await renderWorkspace();
         expect(markup).toContain("手持商品");
-        expect(markup).toContain("左手");
-        // 原站左卡副标题就是这句（evidence/design19-visual-parity-20261029/real/HANDHELD_GOODS/text.txt）
+        // 原站首屏姿势是一张「选择手持姿势 / 手持的部位与姿势参考」行卡，点开才选左手/右手/双手
+        expect(markup).toContain('data-testid="handheld-pose-card"');
+        expect(markup).toContain("选择手持姿势");
+        // 原站结果区空态标题（案例轮播 `_caseGuide`）
         expect(markup).toContain("快速生成手持商品图，快速上架");
+        expect(markup).toContain('data-testid="tool-case-guide"');
+        // 场景类型 / 检测类型是真实提交字段，收进「更多设置」折叠，不删
+        expect(markup).toContain('data-testid="handheld-more-settings"');
+        expect(markup).toContain("检测类型");
         expect(markup).toContain("disabled");
     });
 });

@@ -358,7 +358,9 @@ describe("SALE_VIDEO workspace：页面结构", () => {
         const { default: Workspace } = await import("@/components/tools/workspaces/video");
         const html = renderToStaticMarkup(React.createElement(MemoryRouter, null, React.createElement(Workspace)) as never);
 
-        expect(html).toContain("带货口播");
+        // 空态结果区是原站引导卡标题（「带货口播视频」结果标题只在有任务后出现）
+        expect(html).toContain("一键生成带货视频");
+        expect(html).toContain('data-testid="sale-video-guide"');
         expect(html).toContain("商品多图");
         expect(html).toContain("提示词描述");
         expect(html).toContain("AI帮写");

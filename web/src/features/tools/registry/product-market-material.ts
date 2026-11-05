@@ -195,6 +195,8 @@ export const MARKET_MARKETING_MODULES = [
     { id: "marketing-selling-point", label: "卖点图" },
     { id: "marketing-white-bg", label: "白底图" },
     { id: "marketing-scene", label: "场景图" },
+    /** 原站历史记录 type=size_chart「商品尺寸图」。 */
+    { id: "marketing-size-chart", label: "商品尺寸图" },
     { id: "marketing-closeup", label: "特写图" },
     { id: "marketing-closeup-white", label: "特写白底图" },
 ] as const;

@@ -217,7 +217,8 @@ describe("AI_DRESSING_XSY 注册表", () => {
         expect(fields.modelImageUrl).toBe(MODEL_URL);
         expect(fields.upperImageUrl).toBe(UPPER_URL);
         expect(fields.upperOriginUrl).toBe(UPPER_URL);
-        expect(fields.step).toBe(4);
+        // 原站 step 是「步长」（30–120，默认 60），与向导步骤无关
+        expect(fields.step).toBe(60);
         expect(fields.provider).toBe("openai");
         // 快照哈希是仓库统一的 base36 短哈希（djb2），不是 sha256；只要求稳定且非空。
         const hash = xsySnapshotHash(snapshot);
@@ -324,7 +325,7 @@ describe("AI_DRESSING_XSY 适配器", () => {
 });
 
 describe("AI_DRESSING_XSY 工作区", () => {
-    test("首屏可服务端渲染：步骤条/两个 Tab/17 字段自检位存在，条件不足时提交禁用", async () => {
+    test("首屏可服务端渲染：两个 Tab / 步长 / 立即生成，条件不足时提交禁用", async () => {
         // i18n 初始化会读 localStorage；bun 环境没有，按真实浏览器行为补一个最小实现。
         const store = new Map<string, string>();
         (globalThis as unknown as { localStorage: Storage }).localStorage = {
@@ -345,10 +346,10 @@ describe("AI_DRESSING_XSY 工作区", () => {
         const html = renderToStaticMarkup(React.createElement(workspace.AiDressingXsyWorkspace));
         expect(html).toContain("上下装衣服");
         expect(html).toContain("连体衣服");
-        expect(html).toContain('data-testid="xsy-steps"');
+        expect(html).toContain('data-testid="xsy-step-length"');
+        expect(html).toContain("立即生成");
         expect(html).toContain('data-testid="xsy-submit"');
         expect(html).toContain('data-testid="xsy-estimate"');
-        expect(html).toContain("1. 模特");
         expect(html).toContain("disabled");
         expect(html).toContain("提交被拦下");
     });

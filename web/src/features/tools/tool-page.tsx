@@ -25,15 +25,18 @@ import { ChangeColorWorkspace } from "@/components/tools/workspaces/color";
 import { CropWorkspace } from "@/components/tools/workspaces/crop";
 import { FixColorWorkspace, HandRepairWorkspace } from "@/components/tools/workspaces/repair";
 import { PrintingRepairWorkspace } from "@/components/tools/workspaces/printing-repair";
-import { SceneWorkspace, FissionLinkWorkspace, SceneTransferWorkspace } from "@/components/tools/workspaces/scene";
+import { SceneWorkspace, SceneTransferWorkspace } from "@/components/tools/workspaces/scene";
+import { ListingFissionWorkspace } from "@/components/tools/workspaces/listing-fission";
 import { ProductSceneWorkspace } from "@/components/tools/workspaces/scene-fission";
 import { ReplaceGoodsWorkspace } from "@/components/tools/workspaces/replace";
 import { HandheldGoodsWorkspace } from "@/components/tools/workspaces/handheld-goods";
 import { DressingWorkspace } from "@/components/tools/workspaces/dressing";
-import { AiPostureWorkspace, AiPoseGeneratorWorkspace } from "@/components/tools/workspaces/model";
-import { AiWearableWorkspace, MaterialUpperBodyWorkspace } from "@/components/tools/workspaces/dress";
+import { AiPostureWorkspace } from "@/components/tools/workspaces/model";
+import { AiPoseGeneratorWorkspace } from "@/components/tools/workspaces/ai-pose-generator";
+import { AiWearableWorkspace } from "@/components/tools/workspaces/dress";
+import { MaterialPreviewWorkspace } from "@/components/tools/workspaces/material-preview";
 import { AiTextStatic } from "@/components/tools/workspaces/ai-text-static";
-import { PodMaterialWorkspace, SdsDesignWorkspace } from "@/components/tools/workspaces/pod";
+import { SdsDesignWorkspace } from "@/components/tools/workspaces/pod";
 import { OrnamentTextWorkspace } from "@/components/tools/workspaces/text";
 import { PrintExtractWorkspace } from "@/components/tools/workspaces/extract";
 import { AiDressingXsyWorkspace } from "@/components/tools/workspaces/dressing-xsy";
@@ -387,7 +390,7 @@ function NewDesignerHostWorkspace() {
  */
 function WithRail({ items, active, credits, driver, children }: { items: RailEntry[]; active?: string; credits?: number; driver?: boolean; children: ReactNode }) {
     return (
-        <div className="flex min-h-0 min-w-0 flex-1 flex-col gap-2">
+        <div className="flex h-full min-h-0 min-w-0 flex-1 flex-col gap-2">
             <OrigRail items={items} active={active} credits={credits} driver={driver} />
             <div className="flex min-h-0 min-w-0 flex-1 flex-col">{children}</div>
         </div>
@@ -427,7 +430,7 @@ export const TOOL_WORKSPACES: Record<ToolWorkspaceId, ToolWorkspaceRenderer> = {
                 { kind: "tag", label: "企业功能" },
                 { kind: "flat", label: "批量生图" },
             ]}
-            active="商品替换"
+            active="商品图"
             credits={250}
         >
             <SceneWorkspace />
@@ -445,9 +448,9 @@ export const TOOL_WORKSPACES: Record<ToolWorkspaceId, ToolWorkspaceRenderer> = {
     PRINT_EXTRACT: () => <PrintExtractWorkspace />,
     AI_POSE_GENERATOR: () => <AiPoseGeneratorWorkspace />,
     AI_DRESSING_XSY: ({ toolId }) => <AiDressingXsyWorkspace toolId={toolId} />,
-    FISSION_LINK: () => <FissionLinkWorkspace />,
+    FISSION_LINK: () => <ListingFissionWorkspace />,
     IMAGE_TEXT_EDIT: () => <ImageTextEditWorkspace />,
-    MATERIAL_UPPER_BODY: ({ toolId }) => <MaterialUpperBodyWorkspace toolId={toolId} />,
+    MATERIAL_UPPER_BODY: () => <MaterialPreviewWorkspace />,
     NEW_DESIGNER: () => <NewDesignerHostWorkspace />,
     PRODUCT_MARKET_MATERIAL: () => <ProductMarketMaterialWorkspace />,
     SCENE_TRANSFER: ({ toolId }) => <SceneTransferWorkspace toolId={toolId} />,

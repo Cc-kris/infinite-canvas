@@ -827,9 +827,9 @@ export default {
             PRINT_EXTRACT: "印花提取",
             AI_POSE_GENERATOR: "AI姿势生成",
             AI_DRESSING_XSY: "AI试衣XSY",
-            FISSION_LINK: "场景裂变链接",
+            FISSION_LINK: "链接裂变",
             IMAGE_TEXT_EDIT: "图片文字编辑",
-            MATERIAL_UPPER_BODY: "上装换料",
+            MATERIAL_UPPER_BODY: "商品预览效果",
             NEW_DESIGNER: "商品图设计器",
             PRODUCT_MARKET_MATERIAL: "商品营销素材",
             SCENE_TRANSFER: "场景迁移",
@@ -870,6 +870,10 @@ export default {
         /* ---------- 工作台 UI（r30：EN 态中文残留治理，键位与 en-US 一一对应） ---------- */
         workspace: {
             title: "视频翻译",
+            promoCopy: "按目标语言提示词重新生成视频，语言与口型需人工确认。",
+            honestyToggle: "能力说明：当前为 AI 视频重生成，非逐句翻译（点击展开）",
+            guideResultLabel: "翻译结果",
+            moreSettings: "输出与模型设置",
             capabilityBadge: "AI 视频重生成",
             targetBadge: "目标语言 {{language}}",
             sidebarFormat: "原视频 MP4 / MOV，100MB 以内，建议时长 {{min}}–{{max}} 秒。",

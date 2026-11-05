@@ -1,0 +1,162 @@
+{
+  "toolId": "AI_DRESSING_XSY",
+  "route": "/tools/product-design/ai-dressing-xsy",
+  "fixture": "apparel-print.jpg",
+  "startedAt": "2026-11-05T15:42:36.991Z",
+  "provider": {
+    "imageModel": "ccai-accept::gpt-image-2",
+    "channels": [
+      "ccai-accept",
+      "sf-accept"
+    ],
+    "baseUrl": "https://api.cc-ai.xyz",
+    "keyLen": 67,
+    "proxyEnabled": true,
+    "channelCount": 2,
+    "model": "gpt-image-2"
+  },
+  "before": {
+    "images": [
+      "http://127.0.0.1:3310/__cases/ai-dressing/194037010769199513",
+      "http://127.0.0.1:3310/__cases/ai-dressing/194036973824092160",
+      "http://127.0.0.1:3310/__cases/ai-dressing/195558351515816345",
+      "http://127.0.0.1:3310/__cases/ai-dressing/195558326987945984",
+      "http://127.0.0.1:3310/__cases/ai-dressing/194036979683115417",
+      "http://127.0.0.1:3310/__cases/ai-dressing/194036977080549785"
+    ],
+    "issues": [
+      "xsy-issues=· 请先上传模特图（第 1 步）\n· 请上传上装图（第 2 步）\n· 请上传下装图（第 2 步）"
+    ]
+  },
+  "submitBefore": {
+    "id": "xsy-submit",
+    "text": "立即生成",
+    "disabled": true
+  },
+  "gate": {
+    "found": true,
+    "disabled": false,
+    "text": "立即生成",
+    "countText": ""
+  },
+  "finishedAt": "2026-11-05T15:43:36.857Z",
+  "after": {
+    "submitButtons": [
+      {
+        "id": "xsy-submit",
+        "text": "立即生成",
+        "disabled": false
+      },
+      {
+        "id": "tool-history-dock-toggle",
+        "text": "2026-11-05 23:",
+        "disabled": false
+      }
+    ],
+    "issues": [],
+    "images": [
+      {
+        "src": "blob:http://127.0.0.1:3310/501fee2a-f76d-4022-8ff9-e1a0f476f",
+        "w": 1024,
+        "h": 1024
+      },
+      {
+        "src": "blob:http://127.0.0.1:3310/c7deb97b-5025-4ae3-9f2e-3fa2fb255",
+        "w": 768,
+        "h": 768
+      },
+      {
+        "src": "blob:http://127.0.0.1:3310/41bede12-bb57-4fdc-9e11-a3bb83fba",
+        "w": 720,
+        "h": 960
+      },
+      {
+        "src": "blob:http://127.0.0.1:3310/41bede12-bb57-4fdc-9e11-a3bb83fba",
+        "w": 720,
+        "h": 960
+      },
+      {
+        "src": "blob:http://127.0.0.1:3310/41bede12-bb57-4fdc-9e11-a3bb83fba",
+        "w": 720,
+        "h": 960
+      },
+      {
+        "src": "blob:http://127.0.0.1:3310/501fee2a-f76d-4022-8ff9-e1a0f476f",
+        "w": 1024,
+        "h": 1024
+      },
+      {
+        "src": "blob:http://127.0.0.1:3310/c7deb97b-5025-4ae3-9f2e-3fa2fb255",
+        "w": 768,
+        "h": 768
+      },
+      {
+        "src": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABAAAAAQACAIAAA",
+        "w": 1024,
+        "h": 1024
+      },
+      {
+        "src": "http://127.0.0.1:3310/__cases/ai-dressing/194037010769199513",
+        "w": 512,
+        "h": 682
+      },
+      {
+        "src": "http://127.0.0.1:3310/__cases/ai-dressing/194036973824092160",
+        "w": 512,
+        "h": 683
+      },
+      {
+        "src": "http://127.0.0.1:3310/__cases/ai-dressing/195558351515816345",
+        "w": 512,
+        "h": 768
+      },
+      {
+        "src": "http://127.0.0.1:3310/__cases/ai-dressing/195558326987945984",
+        "w": 512,
+        "h": 768
+      },
+      {
+        "src": "http://127.0.0.1:3310/__cases/ai-dressing/194036979683115417",
+        "w": 512,
+        "h": 684
+      },
+      {
+        "src": "http://127.0.0.1:3310/__cases/ai-dressing/194036977080549785",
+        "w": 512,
+        "h": 684
+      },
+      {
+        "src": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABAAAAAQACAIAAA",
+        "w": 1024,
+        "h": 1024
+      },
+      {
+        "src": "blob:http://127.0.0.1:3310/7e2a3c4a-828b-4ea1-9573-7ff4bc581",
+        "w": 1024,
+        "h": 1024
+      }
+    ],
+    "bodyText": "无限画布\n首页\n电商套图\n智能修图\n新模型\nAI视频\nHOT\n批量生图\n商品图设计\n中\n切换到深色主题\nv0.27.0\n真人换模特\n模特换场景\nAI穿衣\n姿势裂变\nAI穿戴\n历史记录\n企业功能\n批量生图\n即将下架\n人台换模特\n下架\n免责声明\n上下装衣服 · 预计输出 1 张\n图片规则\n无需约模特，上传服装正面图，一键生成衣服上身效果~\n第一步：选择示例图或上传平铺服装图片（支持仅上传上/下装图）\n我是高手，不再提醒\n上下装衣服\n连体衣服\n上传服装\n上装\n上传上装正面图，平铺或穿着实拍均可\n选择上装图\n11 / 1 个 · PNG / JPG / WebP · ≤ 10 MB\n已达数量上限，先移除一个再上传\n校验格式 / 大小 / 像素，入库后可刷新恢复\napparel-print.jpg\n86 KB · 1024×1024 · image/jpeg\n移除\n尺寸 1024×1024 · 蒙版覆盖 100.0%\n下装\n上传下装正面图，裤装/裙装均可\n选择下装图\n11 / 1 个 · PNG / JPG / WebP · ≤ 10 MB\n已达数量上限，先移除一个再上传\n校验格式 / 大小 / 像素，入库后可刷新恢复\napparel-print-ref.jpg\n41 KB · 768×768 · image/jpeg\n移除\n尺寸 768×768 · 蒙版覆盖 100.0%\n选择穿衣模特\n穿衣的部位与模特参考\n上传我的穿衣模特图\n选择模特图\n11 / 1 个 · PNG / JPG / WebP · ≤ 10 MB\n已达数量上限，先移除一个再上传\n校验格式 / 大小 / 像素，入库后可刷新恢复\nmodel-portrait.png\n800 KB · 720×960 · image/png\n移除\n尺寸 720×960\nmodel-portrait.png\n编辑穿衣区域\n涂出该件服装在模特图上的区域；白=替换，黑=保持原样\n穿衣的部位与模特参考\n以第 1 步的模特图为准，蒙版区域会被替换为上传服装\n上装蒙版\n覆盖 100.0% · 1 笔\n撤销\n重做\n画笔/橡皮\n涂抹\n橡皮\n整件\n清"
+  },
+  "resultSrcPrefix": "data:image/png;base64,iVBORw0KGgoAAAANSU",
+  "resultCount": 2,
+  "resultSaved": true,
+  "network": [
+    {
+      "method": "POST",
+      "url": "http://127.0.0.1:23210/https://api.cc-ai.xyz/v1/images/edits",
+      "status": 200,
+      "ms": 38649,
+      "at": "2026-11-05T15:43:33.081Z"
+    }
+  ],
+  "fixtureSha256": "5c80a61e9271298d",
+  "resultSha256": "2057680ac66ed477",
+  "ok": true,
+  "download": {
+    "file": "download-ai-dressing-xsy-result-1.png",
+    "bytes": 2096144,
+    "sha256": "2057680ac66ed477",
+    "differsFromSource": true
+  }
+}

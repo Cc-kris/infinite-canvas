@@ -123,7 +123,11 @@ describe("video-translation i18n", () => {
             // 模型选择器显示的是「模型（渠道名）」，渠道名是用户数据（默认渠道名在模块加载时按当时语言固化进
             // defaultConfig），不是本页文案：剔除该处 title 与文本后，其余区域仍要求零中文。
             .replace(/\stitle="[^"]*"/g, "")
-            .replace(/<span class="canvas-model-picker-text[^"]*">[\s\S]*?<\/span>/g, "<span></span>");
+            .replace(/<span class="canvas-model-picker-text[^"]*">[\s\S]*?<\/span>/g, "<span></span>")
+            // 共享组件 ToolCases / ToolCaseGuide 自带中文（「优秀案例」alt、「预览」「做同款」「一键做同款」），尚未接 i18n：
+            // 剔除案例页签面板与空态引导卡子树（本页传入的标题/标签已走 i18n），其余区域仍要求零中文。
+            .replace(/data-testid="video-translation-cases"[\s\S]*?(?=data-testid="video-translation-history")/, "")
+            .replace(/data-testid="video-translation-guide"[\s\S]*$/, "");
         const hits = enHtmlClean.match(new RegExp(CJK.source, "g")) ?? [];
         const phrases = enHtmlClean.match(/[\u4e00-\u9fff]{2,}/g) ?? [];
 

@@ -50,18 +50,32 @@ async function renderWorkspace(): Promise<string> {
 describe("商品套图工作台渲染", () => {
     test("分区齐全：商品图 / 商品信息 / 品牌与合规行卡 / 模型行 / 生成内容 / 提交区", async () => {
         const html = await renderWorkspace();
-        for (const text of ["多视角白底商品", "商品类目", "商品信息", "品牌与合规", "智能品牌基因", "智能合规检查", "LF智能模型 G-2.5 Sunburst", "A+图", "主副图", "生成比例", "开始生成"]) {
+        for (const text of ["多视角白底商品", "商品类目", "商品信息", "品牌与合规", "智能品牌基因", "智能合规检查", "LF智能模型 G-2.5 Sunburst", "A+图", "主副图", "开始生成"]) {
             expect(html).toContain(text);
         }
     });
 
-    test("枚举与限制按原站文案渲染（最多16张、10M、384–4096px、5 比例、3 档分辨率）", async () => {
+    test("空态与原站一致：上传卡内「或试试这些」两组示例 + 结果区案例轮播（上传商品图 → 生成结果 → 一键做同款）", async () => {
+        const html = await renderWorkspace();
+        expect(html).toContain("或试试这些");
+        expect(html).toContain('data-testid="suite-sample-product-suit-sample-1"');
+        expect(html).toContain('data-testid="suite-sample-product-suit-sample-2"');
+        expect(html).toContain("/__cases/product-image-suite/samples/product-suit-sample-1-1.jpg");
+        expect(html).toContain('data-testid="tool-case-guide"');
+        expect(html).toContain("上传商品图");
+        expect(html).toContain("一键做同款");
+        // 原站 3 个案例 → 3 个分页点
+        expect(html.split('data-testid="tool-case-guide-dot"').length - 1).toBe(3);
+        // 生成比例在主副图弹层里（默认折叠），不是独立区块
+        expect(html).not.toContain("生成比例");
+    });
+
+    test("枚举与限制按原站文案渲染（最多16张、10M、384–4096px、3 档分辨率）", async () => {
         const html = await renderWorkspace();
         // 原站 2026-11-02 上传卡限制行逐字（report.md 实测）
         expect(html).toContain("最多上传16张图，10M以内，384*384~4096*4096，最大宽高比5");
         // 16 张 与 multiple 一起生效（原站 input[type=file] multiple=true）
         expect(html).toContain('multiple=""');
-        for (const ratio of ["1:1", "3:4", "4:3", "2:3", "3:2"]) expect(html).toContain(ratio);
         // 模型行与原站一致默认折叠：行内只显示「2K · 中品质」，1K/2K/4K 在弹层里（展开才渲染）。
         expect(html).toContain("2K · 中品质");
         expect(html).toContain("LF智能模型 G-2.5 Sunburst");

@@ -40,9 +40,16 @@ export async function prepareContext(browser, { viewport = { width: 1440, height
             at: new Date().toISOString(),
         });
     });
+    // 连接被重置 / 代理重启等失败请求不会触发 requestfinished，单独记下来
+    page.on("requestfailed", (req) => {
+        const url = req.url();
+        if (!url.includes(PROXY_URL.replace(/^https?:\/\//, "")) && !url.includes("/v1/")) return;
+        network.push({ method: req.method(), url, status: null, failure: (req.failure() || {}).errorText || "failed", at: new Date().toISOString() });
+    });
     page.on("pageerror", (err) => network.push({ pageerror: String(err).slice(0, 400), at: new Date().toISOString() }));
     await page.goto(`${BASE_URL}/`, { waitUntil: "domcontentloaded" });
-    await applyProxyConfig(page);
+    // vite preview（构建产物）里没有 /src 模块可 import；此时由 provider.mjs 写 localStorage 生效
+    await applyProxyConfig(page).catch(() => null);
     return { context, page, network };
 }
 

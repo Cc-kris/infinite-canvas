@@ -1,0 +1,174 @@
+{
+  "toolId": "AI_TEXT",
+  "route": "/tools/product-design/ai-text",
+  "fixture": "product-watch.jpg",
+  "startedAt": "2026-11-05T15:40:13.401Z",
+  "provider": {
+    "imageModel": "ccai-accept::gpt-image-2",
+    "channels": [
+      "ccai-accept",
+      "sf-accept"
+    ],
+    "baseUrl": "https://api.cc-ai.xyz",
+    "keyLen": 67,
+    "proxyEnabled": true,
+    "channelCount": 2,
+    "model": "gpt-image-2"
+  },
+  "before": {
+    "images": [
+      "http://127.0.0.1:3310/__cases/ai-text/templates/773.webp",
+      "http://127.0.0.1:3310/__cases/ai-text/templates/764.webp",
+      "http://127.0.0.1:3310/__cases/ai-text/templates/765.webp",
+      "http://127.0.0.1:3310/__cases/ai-text/templates/767.webp",
+      "http://127.0.0.1:3310/__cases/ai-text/templates/770.webp",
+      "http://127.0.0.1:3310/__cases/ai-text/templates/771.webp",
+      "http://127.0.0.1:3310/__cases/ai-text/templates/775.webp",
+      "http://127.0.0.1:3310/__cases/ai-text/templates/776.webp",
+      "http://127.0.0.1:3310/__cases/ai-text/templates/777.webp",
+      "http://127.0.0.1:3310/__cases/ai-text/templates/766.webp",
+      "http://127.0.0.1:3310/__cases/ai-text/templates/768.webp",
+      "http://127.0.0.1:3310/__cases/ai-text/templates/769.webp",
+      "http://127.0.0.1:3310/__cases/ai-text/templates/772.webp",
+      "http://127.0.0.1:3310/__cases/ai-text/templates/774.webp",
+      "http://127.0.0.1:3310/__cases/ai-text/templates/778.webp"
+    ],
+    "issues": []
+  },
+  "submitBefore": {
+    "id": "ai-text-submit",
+    "text": "立即生成",
+    "disabled": true
+  },
+  "gate": {
+    "found": true,
+    "disabled": false,
+    "text": "立即生成",
+    "countText": ""
+  },
+  "finishedAt": "2026-11-05T15:40:45.520Z",
+  "after": {
+    "submitButtons": [
+      {
+        "id": "ai-text-submit",
+        "text": "立即生成",
+        "disabled": false
+      },
+      {
+        "id": "",
+        "text": "生成结果",
+        "disabled": false
+      }
+    ],
+    "issues": [],
+    "images": [
+      {
+        "src": "http://127.0.0.1:3310/__cases/ai-text/templates/773.webp",
+        "w": 360,
+        "h": 357
+      },
+      {
+        "src": "http://127.0.0.1:3310/__cases/ai-text/templates/764.webp",
+        "w": 360,
+        "h": 356
+      },
+      {
+        "src": "http://127.0.0.1:3310/__cases/ai-text/templates/765.webp",
+        "w": 360,
+        "h": 322
+      },
+      {
+        "src": "http://127.0.0.1:3310/__cases/ai-text/templates/767.webp",
+        "w": 360,
+        "h": 349
+      },
+      {
+        "src": "http://127.0.0.1:3310/__cases/ai-text/templates/770.webp",
+        "w": 355,
+        "h": 360
+      },
+      {
+        "src": "http://127.0.0.1:3310/__cases/ai-text/templates/771.webp",
+        "w": 354,
+        "h": 360
+      },
+      {
+        "src": "http://127.0.0.1:3310/__cases/ai-text/templates/775.webp",
+        "w": 360,
+        "h": 347
+      },
+      {
+        "src": "http://127.0.0.1:3310/__cases/ai-text/templates/776.webp",
+        "w": 360,
+        "h": 354
+      },
+      {
+        "src": "http://127.0.0.1:3310/__cases/ai-text/templates/777.webp",
+        "w": 358,
+        "h": 360
+      },
+      {
+        "src": "http://127.0.0.1:3310/__cases/ai-text/templates/766.webp",
+        "w": 360,
+        "h": 359
+      },
+      {
+        "src": "http://127.0.0.1:3310/__cases/ai-text/templates/768.webp",
+        "w": 360,
+        "h": 359
+      },
+      {
+        "src": "http://127.0.0.1:3310/__cases/ai-text/templates/769.webp",
+        "w": 290,
+        "h": 278
+      },
+      {
+        "src": "http://127.0.0.1:3310/__cases/ai-text/templates/772.webp",
+        "w": 360,
+        "h": 350
+      },
+      {
+        "src": "http://127.0.0.1:3310/__cases/ai-text/templates/774.webp",
+        "w": 356,
+        "h": 360
+      },
+      {
+        "src": "http://127.0.0.1:3310/__cases/ai-text/templates/778.webp",
+        "w": 290,
+        "h": 294
+      },
+      {
+        "src": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABAAAAAQACAIAAA",
+        "w": 1024,
+        "h": 1024
+      },
+      {
+        "src": "blob:http://127.0.0.1:3310/c57700e9-a6d3-43a0-8d1d-658d8931a",
+        "w": 1024,
+        "h": 1024
+      }
+    ],
+    "bodyText": "无限画布\n首页\n电商套图\n智能修图\n新模型\nAI视频\nHOT\n批量生图\n商品图设计\n中\n切换到深色主题\nv0.27.0\n素材和灵感\n场景素材\n相似图裂变\nAI自由绘图\nPOD素材\n素材贴合\n印花提取\n企业功能\n免责声明\n简易模式\n高阶模式\n文字内容和创意方向\n尝试示例\n10 / 200\n提示词优化\n自动\n开启\n关闭\n创意风格模板\n印刷标志\n花卉插画\n极简线条\n悦动活力\n金色典雅\n经典复古\n霓虹灯\n徽章贴纸\nQ版卡通\n方块像素\n纺织艺术\nLOGO设计\n涂鸦插图\n彩色波纹\n头像设计\n图片比例\n1:1\n9:16\n16:9\n10:16\n16:10\n2:3\n3:2\n3:4\n4:3\n立即生成\n生成\n1张\n2张\n3张\n4张\n生成结果\n优秀案例\n历史记录\n生成结果\n已完成\n共 1 个结果 · 图片 1\n下载\n存入资产\n发送画布\n相似裂变\n历史任务\n1 条\n2026-11-05 23:40\n已完成\na vector type Text \"I love you\" , typography. Expand the…\nccai-accept::gpt-image-2 · image · 1 个结果\n连接本地 Agent\n未连接\n点连接会自动启动本地服务、装好插件并接通，无需手动配置。\nClaude Code\n未连接\n·\nCLI · 2.1.318 (Claude Code)\n·\n直接运行\n连接\nCodex\n未连接\n·\nCLI · codex-cli 0.166.0\n·\n插件已装\n连接\nGalley\n未连接\n·\nCLI + 桌面版 · galley 0.6.4\n连接"
+  },
+  "resultSrcPrefix": "data:image/png;base64,iVBORw0KGgoAAAANSU",
+  "resultCount": 1,
+  "resultSaved": true,
+  "network": [
+    {
+      "method": "POST",
+      "url": "http://127.0.0.1:23210/https://api.cc-ai.xyz/v1/images/generations",
+      "status": 200,
+      "ms": 26221,
+      "at": "2026-11-05T15:40:45.043Z"
+    }
+  ],
+  "fixtureSha256": "43ede96e7ce88509",
+  "resultSha256": "d073aa92b56146f9",
+  "ok": true,
+  "download": {
+    "file": "download-ai-text-result-1.png",
+    "bytes": 1221061,
+    "sha256": "d073aa92b56146f9",
+    "differsFromSource": true
+  }
+}

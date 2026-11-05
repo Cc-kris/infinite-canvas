@@ -1,12 +1,9 @@
-import { History } from "lucide-react";
+import { ArrowRight, Download, History, MoveDownLeft, MoveDownRight, Upload, WandSparkles } from "lucide-react";
 
-import { modelLabel } from "@/lib/model-label";
-import { ECOMMERCE_SUITE_RAIL, OrigRail, SMART_EDIT_RAIL } from "@/components/tools/workspaces/orig-rail";
-import { ToolWorkspaceColumns } from "@/components/tools/tool-workspace-columns";
 import { cn } from "@/lib/utils";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
-import { ToolAssetInput } from "@/components/tools/tool-asset-input";
+import { Edit8Dropzone, Edit8Empty, Edit8ResultTabs, Edit8Switch, Edit8UploadCard, edit8GradientButtonClass, edit8OutlineButtonClass } from "@/components/tools/edit8-frame";
 import { ToolResult } from "@/components/tools/tool-result";
 import { downloadResultItem } from "@/components/tools/tool-result-actions";
 import { ToolTaskHistory } from "@/components/tools/tool-task-history";
@@ -61,9 +58,7 @@ import {
     computeProductRefineOutput,
     createProductRefineSnapshot,
     describeProductRefineDrift,
-    productRefineMode,
     productRefineOutputLabel,
-    productRefineStrength,
     readProductRefineValues,
     validateProductRefineState,
     type ProductRefineValues,
@@ -97,18 +92,47 @@ const ASSET_CONSTRAINTS: Partial<ToolAssetConstraints> = {
     maxHeight: SCALE_UP_SOURCE_LIMITS.maxSide,
 };
 
-/** 原站面板里的分区没有标题行（如放大模式、增强选项、生成），title 可省略。 */
-function Section({ title, hint, children }: { title?: string; hint?: string; children: React.ReactNode }) {
+/** 原站高清放大顶部工具条按钮（antd small default 28 高、圆角 4、12px）。 */
+const toolbarButton =
+    "inline-flex h-7 shrink-0 items-center justify-center gap-1 rounded-[4px] border px-[7px] text-[12px] leading-none transition disabled:cursor-not-allowed disabled:border-[#d9d9d9] disabled:bg-black/[0.04] disabled:text-black/25";
+
+/** 原站浮在两栏顶端的灰色标签（↙ 原图 / 高清放大图 ↘）。 */
+const halfTag = "absolute top-[7px] z-10 inline-flex h-[23px] items-center gap-1 rounded-[12px] bg-black/30 px-[10px] text-[12px] leading-none text-white";
+
+/** 商品精修空态示例：原站 slick 轮播「精修前 | 精修后」各 271×300，图片为原站同源文件。 */
+const REFINE_EXAMPLES = [1, 2, 3, 4].map((index) => ({
+    before: `/__cases/product-refine/product-refine-before-${index}.jpg`,
+    after: `/__cases/product-refine/product-refine-after-${index}.jpg`,
+}));
+
+function RefineExampleCarousel() {
+    const [index, setIndex] = useState(0);
+    const item = REFINE_EXAMPLES[index];
     return (
-        <section className="rounded-lg border border-stone-200 bg-card/60 p-2 dark:border-stone-800 dark:bg-stone-900/40">
-            {title || hint ? (
-                <header className="mb-2 flex items-baseline gap-2">
-                    {title ? <h3 className="text-sm font-medium text-stone-800 dark:text-stone-100">{title}</h3> : null}
-                    {hint ? <span className="text-[11px] text-stone-500 dark:text-stone-400">{hint}</span> : null}
-                </header>
-            ) : null}
-            {children}
-        </section>
+        <div data-testid="refine-example" className="relative grid h-[300px] w-full shrink-0 grid-cols-2">
+            {[
+                { src: item.before, label: "精修前", tag: "bg-[rgba(45,45,51,0.5)]" },
+                { src: item.after, label: "精修后", tag: "bg-primary" },
+            ].map((side) => (
+                <figure key={side.label} className="relative m-0 h-full overflow-hidden">
+                    <img src={side.src} alt={side.label} className="size-full object-cover" draggable={false} />
+                    <span className={cn("absolute left-3 top-3 rounded-full px-3 py-1 text-[14px] leading-5 text-white shadow-[0_0_4px_rgba(0,0,0,0.1)]", side.tag)}>{side.label}</span>
+                </figure>
+            ))}
+            <div className="absolute inset-x-0 bottom-[5px] flex justify-center gap-[10px]" role="tablist" aria-label="示例分页">
+                {REFINE_EXAMPLES.map((example, i) => (
+                    <button
+                        key={example.before}
+                        type="button"
+                        role="tab"
+                        aria-selected={i === index}
+                        aria-label={`示例 ${i + 1}`}
+                        onClick={() => setIndex(i)}
+                        className={cn("h-[6px] rounded-full transition-all", i === index ? "w-[22px] bg-primary" : "w-[6px] bg-[#d1d1ff]")}
+                    />
+                ))}
+            </div>
+        </div>
     );
 }
 
@@ -129,66 +153,6 @@ function sourceFromRecord(record: ToolAssetRecord): ScaleUpSourceAsset {
 }
 
 /** 前后对比：拖动滑块裁切“处理后”，左边是原图。 */
-/** 原站左栏顶部的前后对比卡：原图/高清放大后（商品精修为 精修前/精修后）+ 结果槽位 1..N。 */
-function ComparePreviewCard({
-    beforeLabel,
-    afterLabel,
-    beforeUrl,
-    slots = 1,
-    testId,
-}: {
-    beforeLabel: string;
-    afterLabel: string;
-    beforeUrl?: string;
-    slots?: number;
-    testId: string;
-}) {
-    const [tab, setTab] = useState<"before" | "after">("before");
-    return (
-        <div className="rounded-lg border border-stone-200 bg-card p-2 dark:border-stone-800 dark:bg-stone-900/40" data-testid={testId}>
-            <div className="flex items-center gap-1" role="tablist" aria-label="前后对比">
-                {[
-                    { id: "before" as const, label: beforeLabel },
-                    { id: "after" as const, label: afterLabel },
-                ].map((item) => (
-                    <button
-                        key={item.id}
-                        type="button"
-                        role="tab"
-                        aria-selected={tab === item.id}
-                        data-testid={`${testId}-tab-${item.id}`}
-                        onClick={() => setTab(item.id)}
-                        className={`rounded px-2 py-1 text-[11px] leading-none transition ${
-                            tab === item.id
-                                ? "bg-stone-800 text-white dark:bg-stone-200 dark:text-stone-900"
-                                : "text-stone-500 hover:text-stone-800 dark:hover:text-stone-200"
-                        }`}
-                    >
-                        {item.label}
-                    </button>
-                ))}
-            </div>
-            <div className="mt-2 grid gap-1.5" style={{ gridTemplateColumns: `repeat(${slots}, minmax(0, 1fr))` }}>
-                {Array.from({ length: slots }, (_, index) => (
-                    <div
-                        key={index}
-                        className="relative flex aspect-square items-center justify-center overflow-hidden rounded border border-dashed border-stone-300 bg-stone-50 dark:border-stone-700 dark:bg-stone-900"
-                    >
-                        {tab === "before" && beforeUrl ? (
-                            <img src={beforeUrl} alt={`${beforeLabel} ${index + 1}`} className="size-full object-cover" />
-                        ) : (
-                            <span aria-hidden className="size-4 rounded-[2px] bg-stone-200 dark:bg-stone-700" />
-                        )}
-                        {slots > 1 ? (
-                            <span className="absolute left-1 top-1 rounded bg-black/50 px-1 text-[10px] leading-4 text-white">{index + 1}</span>
-                        ) : null}
-                    </div>
-                ))}
-            </div>
-        </div>
-    );
-}
-
 function CompareSlider({ before, after, testIdPrefix = "scale-up", labels }: { before: string; after: string; testIdPrefix?: string; labels?: { before: string; after: string } }) {
     const [position, setPosition] = useState(50);
     const afterLabel = labels?.after ?? "放大后";
@@ -421,10 +385,11 @@ export function ScaleUpWorkspace({ className }: { className?: string }) {
 
     /* ------------------------------ 视图 ------------------------------ */
     return (
-        <div className={cn("relative flex h-full min-h-0 min-w-0 flex-col bg-white", className)} data-tool="scale-up" data-layout="scale-up-toolbar">
-            {/* 原站高清放大：顶部通栏工具条，下方左原图 / 右高清放大图。 */}
-            <div data-testid="scale-up-toolbar" className="flex min-h-[48px] shrink-0 flex-wrap items-center gap-2 border-b border-[#ececec] bg-white px-4 py-2">
-                <div className="flex flex-wrap items-center gap-1" data-testid="scale-up-modes">
+        <div className={cn("relative flex h-full min-h-0 min-w-0 flex-col bg-[#f4f6f8] p-[10px]", className)} data-tool="scale-up" data-layout="scale-up-toolbar">
+            {/* 原站高清放大（1600×1000）：#edeff5 圆角 8 主区 = 40px 白色工具条 + 左原图 / 右高清放大图两栏等宽。 */}
+            <div data-testid="tool-main-column" className="flex min-h-0 flex-1 flex-col overflow-hidden shadow-[0_0_4px_#ccc]">
+            <div data-testid="scale-up-toolbar" className="flex h-10 shrink-0 items-center gap-[10px] bg-card pl-[10px] pr-5">
+                <div className="flex min-w-0 flex-1 items-center gap-[10px]" data-testid="scale-up-modes">
                     {SCALE_UP_MODES.map((mode) => {
                         const active = values.mode === mode.id;
                         return (
@@ -435,46 +400,44 @@ export function ScaleUpWorkspace({ className }: { className?: string }) {
                                 aria-pressed={active}
                                 disabled={running || !source}
                                 onClick={() => onModeChange(mode.id)}
-                                className={cn(
-                                    "h-[26px] rounded-[3px] border px-2.5 text-[11px] leading-none",
-                                    active
-                                        ? "border-[#e4d9ff] bg-[#f3edff] text-[#723cf9]"
-                                        : "border-[#e5e7eb] bg-white text-[#4b5563] hover:border-[#c4b5fd] disabled:cursor-not-allowed disabled:opacity-50",
-                                )}
+                                className={cn(toolbarButton, mode.id === "custom" && "w-[112px]", active ? "border-primary text-primary" : "border-[#d9d9d9] bg-card text-foreground hover:border-primary hover:text-primary")}
                             >
                                 {mode.label}
                             </button>
                         );
                     })}
+                    <label className={cn("flex items-center gap-0 text-[12px] leading-[19px] text-foreground/60", (!source || running) && "text-black/25")}>
+                        面部美化：
+                        <Edit8Switch
+                            checked={values.enhanceFace}
+                            disabled={running || faceAvailability === "absent" || !source}
+                            onChange={(next) => update({ enhanceFace: next })}
+                            label="面部美化"
+                            testId="scale-up-enhance-face"
+                        />
+                    </label>
+                    <span className="h-4 w-px bg-[#ececec]" aria-hidden />
+                    <button
+                        type="button"
+                        disabled={running || !source}
+                        onClick={() => onSourceChange([], [])}
+                        data-testid="scale-up-reupload"
+                        className={cn(toolbarButton, "border-transparent text-foreground hover:bg-black/5 disabled:border-transparent disabled:bg-transparent")}
+                    >
+                        <Upload className="size-3" aria-hidden />
+                        重新上传
+                    </button>
                 </div>
-                <span className="mx-1 h-4 w-px bg-[#ececec]" aria-hidden />
-                <label className="flex items-center gap-1.5 text-[11px] text-[#4b5563]">
-                    面部美化：
-                    <input
-                        type="checkbox"
-                        checked={values.enhanceFace}
-                        disabled={running || faceAvailability === "absent" || !source}
-                        onChange={(event) => update({ enhanceFace: event.target.checked })}
-                        data-testid="scale-up-enhance-face"
-                    />
-                </label>
-                <button
-                    type="button"
-                    disabled={running || !source}
-                    onClick={() => onSourceChange([], [])}
-                    data-testid="scale-up-reupload"
-                    className="inline-flex h-[26px] items-center gap-1 rounded-[3px] px-2 text-[11px] text-[#4b5563] hover:bg-black/5 disabled:cursor-not-allowed disabled:opacity-40"
-                >
-                    重新上传
-                </button>
-                <div className="ml-auto flex flex-wrap items-center gap-2">
+                <div className="flex w-[43%] shrink-0 items-center gap-[10px] pl-5">
                     <button
                         type="button"
                         disabled={blocked}
+                        title={blocking[0]?.message}
                         onClick={() => void onGenerate()}
                         data-testid="scale-up-generate"
-                        className="h-[28px] rounded-[3px] bg-[#723cf9] px-4 text-[11px] font-medium text-white disabled:cursor-not-allowed disabled:opacity-50"
+                        className={cn(edit8GradientButtonClass, "h-7 min-w-0 flex-[225] gap-1 text-[12px]")}
                     >
+                        <WandSparkles className="size-3.5" aria-hidden />
                         {running ? "生成中…" : "立即生成"}
                     </button>
                     <button
@@ -482,84 +445,109 @@ export function ScaleUpWorkspace({ className }: { className?: string }) {
                         disabled={!resultImage || running}
                         onClick={() => void onDownloadImage()}
                         data-testid="scale-up-download-image"
-                        className="h-[28px] rounded-[3px] border border-[#e5e7eb] px-4 text-[11px] text-[#4b5563] disabled:cursor-not-allowed disabled:opacity-40"
+                        className={cn(toolbarButton, "min-w-0 flex-[241] border-[#d9d9d9] bg-card text-foreground hover:border-primary hover:text-primary")}
                     >
+                        <Download className="size-3" aria-hidden />
                         下载图片
                     </button>
                     <button
                         type="button"
                         data-testid="scale-up-history"
                         onClick={() => setHistoryOpen((open) => !open)}
-                        className="inline-flex h-[28px] items-center gap-1 rounded-[3px] px-2 text-[11px] text-[#723cf9]"
+                        className="inline-flex shrink-0 items-center gap-1 text-[12px] leading-[19px] text-primary hover:opacity-80"
                     >
-                        <History className="size-3.5" aria-hidden /> 历史记录
+                        <History className="size-3" aria-hidden /> 历史记录
                     </button>
                 </div>
             </div>
+            {runError ? <p className="shrink-0 bg-card px-[10px] pb-1 text-[12px] text-destructive" data-testid="scale-up-run-error">{runError}</p> : null}
 
             <div data-testid="tool-workspace-columns" data-canvas="true" className="flex min-h-0 flex-1">
-                <section data-testid="tool-main-column" data-region="before" className="flex min-h-0 min-w-0 flex-1 flex-col border-r border-[#ececec] bg-[#f7f7f9]">
-                    <div className="flex h-[38px] shrink-0 items-center justify-between px-4 text-[12px] text-[#6b7280]">
-                        <span className="font-medium text-[#374151]">原图</span>
-                        <span data-testid="scale-up-expected-count">原图 {source ? `${source.width ?? "?"}×${source.height ?? "?"}` : "待上传原图"}</span>
-                    </div>
-                    <div className="min-h-0 flex-1 overflow-y-auto p-4">
-                        <div className="mx-auto flex h-full w-full max-w-[540px] flex-col items-center justify-center">
-                            {source ? (
-                                <div className="relative flex w-full items-center justify-center">
-                                    <img src={source.dataUrl ?? source.url} alt="原图" className="max-h-[680px] w-auto max-w-full object-contain" />
-                                    <span className="absolute left-2 top-2 rounded bg-black/55 px-2 py-1 text-[11px] text-white">原图</span>
-                                </div>
-                            ) : (
-                                <div data-testid="scale-up-upload-card" className="w-full rounded-md border border-[#ececec] bg-white p-6">
-                                    <header className="mb-3 text-center">
-                                        <h2 className="text-[16px] font-semibold text-[#1f2329]">图片高清放大</h2>
-                                        <h3 className="mt-1 text-[12px] text-[#6b7280]">放大清晰不失真，细节更丰富</h3>
-                                    </header>
-                                    <ToolAssetInput
-                                        toolId={toolId}
-                                        constraints={ASSET_CONSTRAINTS}
-                                        maxCount={1}
-                                        disabled={running}
-                                        library={library}
-                                        variant="linkfox"
-                                        title=""
-                                        wide
-                                        dropLabel="拖拽图片到此处"
-                                        uploadLabel="从本地上传"
-                                        hint={<>支持jpg、jpeg、png、webp格式，最大尺寸: {SCALE_UP_SOURCE_LIMITS.maxSide}*{SCALE_UP_SOURCE_LIMITS.maxSide}</>}
-                                        onChange={onSourceChange}
-                                    />
-                                </div>
-                            )}
-                            {values.mode === "custom" ? (
-                                <div className="mt-3 flex items-center justify-center gap-2 text-xs" data-testid="scale-up-custom-size">
-                                    <input type="number" aria-label="输出宽度" value={values.customWidth || ""} disabled={!source || running} onChange={(event) => update(linkedCustomSize(values, source, "width", Number(event.target.value)))} className={`${inputClass} w-20`} />
-                                    <span className="text-[#6b7280]">×</span>
-                                    <input type="number" aria-label="输出高度" value={values.customHeight || ""} disabled={!source || running} onChange={(event) => update(linkedCustomSize(values, source, "height", Number(event.target.value)))} className={`${inputClass} w-20`} />
-                                </div>
-                            ) : null}
-                            {blocking.length > 0 ? (
-                                <ul className="mt-3 w-full list-disc pl-4 text-[11px] text-amber-600" data-testid="scale-up-issues">
-                                    {blocking.map((issue) => (
-                                        <li key={`${issue.code}-${issue.field}`}>{issue.message}</li>
-                                    ))}
-                                </ul>
-                            ) : null}
-                        </div>
+                <section data-region="before" className="relative flex min-h-0 min-w-0 flex-1 flex-col border-r border-[#e1e1e8]">
+                    <span className={cn(halfTag, "right-3")}>
+                        <MoveDownLeft className="size-3" aria-hidden /> 原图
+                    </span>
+                    <div className="flex min-h-0 flex-1 flex-col items-center justify-center overflow-y-auto p-5">
+                        {source ? (
+                            <>
+                                <img src={source.dataUrl ?? source.url} alt="原图" className="max-h-full w-auto max-w-full object-contain" />
+                                <p className="mt-2 text-[12px] text-foreground/60" data-testid="scale-up-expected-count">原图 {`${source.width ?? "?"}×${source.height ?? "?"}`}</p>
+                            </>
+                        ) : (
+                            <Edit8UploadCard
+                                testId="scale-up-upload-card"
+                                className="w-[420px] pb-5 shadow-[0_4px_4px_rgba(0,0,0,0.063)]"
+                                constraints={ASSET_CONSTRAINTS}
+                                library={library}
+                                disabled={running || restoringSource}
+                                onPick={(record) => onSourceChange([record.id], [record])}
+                                media={
+                                    <div className="relative h-[288px] w-full shrink-0">
+                                        <img src="/__cases/scale-up/upscale-after.png" alt="高清放大后" className="size-full" draggable={false} />
+                                        <span className="absolute right-[6px] top-[6px] rounded-[12px] bg-black/80 px-[10px] text-[12px] leading-5 text-white">高清放大后</span>
+                                        <div className="absolute left-px top-px h-[81px] w-[100px] overflow-hidden rounded-[12px] border-[3px] border-white">
+                                            <img src="/__cases/scale-up/upscale-before.png" alt="原图" className="size-full" draggable={false} />
+                                            <span className="absolute right-[3px] top-[3px] rounded-[12px] bg-black/80 px-[10px] text-[12px] leading-5 text-white">原图</span>
+                                        </div>
+                                    </div>
+                                }
+                                heading={
+                                    <>
+                                        <h2 className="m-0! pt-5 text-[26px] font-semibold leading-[41px] text-foreground">图片高清放大</h2>
+                                        <p className="m-0! mb-3! text-[20px] leading-[31px] text-[#939599]">放大清晰不失真，细节更丰富</p>
+                                    </>
+                                }
+                                extraActions={
+                                    <button type="button" disabled title="批量高清放大：本地暂未接入批量队列" className={edit8OutlineButtonClass} data-testid="scale-up-batch-entry">
+                                        批量高清放大 <ArrowRight className="size-3.5" aria-hidden />
+                                    </button>
+                                }
+                                hint={
+                                    <div className="mt-3 text-[14px] leading-[22px] text-black/45 [&>p]:m-0!">
+                                        <p>拖拽图片到此处</p>
+                                        <p>支持jpg、jpeg、png、webp格式，</p>
+                                        <p>最大尺寸: {SCALE_UP_SOURCE_LIMITS.maxSide}*{SCALE_UP_SOURCE_LIMITS.maxSide}</p>
+                                    </div>
+                                }
+                            />
+                        )}
+                        {restoringSource ? <p className="mt-2 text-[12px] text-foreground/60">正在恢复上次的原图…</p> : null}
+                        {source && values.mode === "custom" ? (
+                            <div className="mt-3 flex items-center justify-center gap-2 text-xs" data-testid="scale-up-custom-size">
+                                <input type="number" aria-label="输出宽度" value={values.customWidth || ""} disabled={running} onChange={(event) => update(linkedCustomSize(values, source, "width", Number(event.target.value)))} className={`${inputClass} w-20`} />
+                                <span className="text-foreground/60">×</span>
+                                <input type="number" aria-label="输出高度" value={values.customHeight || ""} disabled={running} onChange={(event) => update(linkedCustomSize(values, source, "height", Number(event.target.value)))} className={`${inputClass} w-20`} />
+                            </div>
+                        ) : null}
+                        {source && blocking.length > 0 ? (
+                            <ul className="mt-3 list-disc pl-4 text-[12px] text-[#d46b08]" data-testid="scale-up-issues">
+                                {blocking.map((issue) => (
+                                    <li key={`${issue.code}-${issue.field}`}>{issue.message}</li>
+                                ))}
+                            </ul>
+                        ) : null}
                     </div>
                 </section>
 
-                <aside data-testid="scale-up-result-column" data-region="after" className="flex w-[620px] shrink-0 flex-col bg-white max-[1100px]:w-[48%]">
-                    <div className="flex h-[38px] shrink-0 items-center justify-between border-b border-[#ececec] px-4 text-[12px] text-[#6b7280]">
-                        <span className="font-medium text-[#374151]">高清放大图</span>
-                        <span>输出尺寸：<span className="font-medium text-foreground" data-testid="scale-up-output-size">{outputSizeLabel(output)}</span></span>
-                    </div>
-                    <div className="min-h-0 flex-1 overflow-y-auto p-4">
-                        <ToolResult task={activeTask} toolId={toolId} title="高清放大图" emptyTitle="暂无结果图" emptyHint="请在左侧上传图片后，进行图片高清放大操作" onCancel={onCancel} onRetry={onRetry} />
-                        {result.stale ? <p className="mt-2 text-[11px] text-amber-700" data-testid="scale-up-stale">原图或参数已变更，下面的结果来自上一版配置，请重新生成。</p> : null}
+                <aside data-testid="scale-up-result-column" data-region="after" className="relative flex min-h-0 min-w-0 flex-1 flex-col">
+                    <span className={cn(halfTag, "left-[13px]")}>
+                        高清放大图 <MoveDownRight className="size-3" aria-hidden />
+                    </span>
+                    <div className="flex min-h-0 flex-1 flex-col overflow-y-auto p-5">
+                        {activeTask ? (
+                            <>
+                                <p className="m-0! mb-2! pt-6 text-[12px] text-foreground/60">
+                                    输出尺寸：<span className="text-foreground" data-testid="scale-up-output-size">{outputSizeLabel(output)}</span>
+                                </p>
+                                <ToolResult task={activeTask} toolId={toolId} title="高清放大图" onCancel={onCancel} onRetry={onRetry} />
+                                {result.stale ? <p className="mt-2 text-[11px] text-[#d46b08]" data-testid="scale-up-stale">原图或参数已变更，下面的结果来自上一版配置，请重新生成。</p> : null}
+                            </>
+                        ) : (
+                            <Edit8Empty large lines={source ? [`输出尺寸：${outputSizeLabel(output)}`, "点击「立即生成」进行图片高清放大"] : ["暂无结果图", "请在左侧上传图片后，进行图片高清放大操作"]} />
+                        )}
                     </div>
                 </aside>
+            </div>
             </div>
 
             {historyOpen ? (
@@ -709,8 +697,6 @@ export function ProductRefineWorkspace({ className }: { className?: string }) {
     const activeTask = useRestoredTask(toolId, task);
     const result = productRefineResultFromTask(activeTask, snapshot, currentSnapshot, drift);
     const resultImage = firstProductRefineImage(activeTask);
-    const mode = productRefineMode(values.mode);
-    const strength = productRefineStrength(values.strength);
 
     const onSourceChange = useCallback(
         (assetIds: string[], records: ToolAssetRecord[]) => {
@@ -797,85 +783,47 @@ export function ProductRefineWorkspace({ className }: { className?: string }) {
 
     /* ------------------------------ 视图 ------------------------------ */
     return (
-        <div className={cn("flex h-full min-h-0 flex-col overflow-hidden bg-white", className)} data-tool="product-refine" data-layout="refine-three-column">
-            <div data-testid="tool-workspace-columns" data-canvas="true" className="grid min-h-0 flex-1 grid-cols-1 gap-0 lg:grid-cols-[minmax(0,1fr)_240px_300px]">
-                <section data-region="canvas" data-testid="tool-main-column" className="order-1 flex min-h-0 min-w-0 flex-col overflow-y-auto bg-[#f7f7f9] p-6">
-                    <div className="mx-auto flex w-full max-w-[560px] flex-col gap-3">
-                        <div className="overflow-hidden rounded-md bg-white">
-                            <ComparePreviewCard testId="refine-compare-preview" beforeLabel="精修前" afterLabel="精修后" beforeUrl={source?.dataUrl ?? source?.url} slots={4} />
+        <div className={cn("flex h-full min-h-0 flex-col overflow-hidden bg-[#f4f6f8] p-[10px]", className)} data-tool="product-refine" data-layout="refine-three-column">
+            {/* 原站商品精修（1600×1000）：画布 #edeff5 | 配置 240（白卡 + 卡外「开始精修」）| 结果 300，列间距 10。 */}
+            <div data-testid="tool-workspace-columns" data-canvas="true" className="grid min-h-0 flex-1 grid-cols-1 gap-[10px] lg:grid-cols-[minmax(0,1fr)_240px_300px]">
+                <section data-region="canvas" data-testid="tool-main-column" className="flex min-h-0 min-w-0 flex-col items-center justify-center overflow-y-auto border border-black/[0.08] p-5">
+                    {source ? (
+                        <div className="flex max-h-full flex-col items-center gap-3">
+                            <img src={source.dataUrl ?? source.url} alt="待精修商品图" className="max-h-[640px] w-auto max-w-full rounded-[8px] object-contain" />
+                            <button type="button" disabled={running} onClick={() => onSourceChange([], [])} className={edit8OutlineButtonClass} data-testid="refine-reupload">
+                                重新上传
+                            </button>
                         </div>
-                        <div className="rounded-md bg-white p-4">
-                            <header className="mb-2 text-center">
-                                <h2 className="text-[16px] font-semibold text-[#1f2329]">商品精修</h2>
-                                <h3 className="mt-1 text-[12px] text-[#6b7280]">一键提升商品质感，改善商品的轮廓、光泽、材质与颜色等</h3>
-                            </header>
-                            <ToolAssetInput
-                                toolId={toolId}
-                                constraints={REFINE_ASSET_CONSTRAINTS}
-                                maxCount={1}
-                                disabled={running}
-                                library={library}
-                                variant="linkfox"
-                                title=""
-                                uploadLabel="上传图片"
-                                hint={<>20M以内，jpg/jpeg/png/webp</>}
-                                onChange={onSourceChange}
-                            />
-                            {sourceIssue && !sourceIssue.ok ? <p className="mt-2 text-[11px] text-red-600">{sourceIssue.message}</p> : null}
-                        </div>
-                    </div>
+                    ) : (
+                        <Edit8UploadCard
+                            testId="refine-upload-card"
+                            className="w-[542px] pb-6"
+                            constraints={REFINE_ASSET_CONSTRAINTS}
+                            library={library}
+                            disabled={running || restoringSource}
+                            uploadLabel="上传图片"
+                            onPick={(record) => onSourceChange([record.id], [record])}
+                            media={<RefineExampleCarousel />}
+                            heading={
+                                <>
+                                    <h2 className="m-0! mt-[10px]! text-[20px] font-normal leading-[31px] text-foreground">商品精修</h2>
+                                    <p className="m-0! mb-5! mt-[10px]! px-10 text-[16px] leading-[19px] text-[#939599]">
+                                        一键提升商品质感
+                                        <br />
+                                        改善商品的轮廓，光泽、材质与颜色等
+                                    </p>
+                                </>
+                            }
+                        />
+                    )}
                 </section>
-                <aside data-region="config" data-testid="tool-config-column" className="order-2 flex min-h-0 w-[240px] min-w-0 shrink-0 flex-col border-l border-[#ececec] bg-white">
-                    <div className="min-h-0 flex-1 overflow-y-auto p-3">
-                    <>
-                <Section>
-                    {/* 原站空态：一键提升商品质感（H2）+ 副标题 + 上传区 + 尺寸规则提示 */}
-                    <header className="mb-2 text-center">
-                        <h2 className="text-[15px] font-semibold text-stone-800 dark:text-stone-100">一键提升商品质感</h2>
-                        <h3 className="mt-1 text-xs text-stone-500 dark:text-stone-400">改善商品的轮廓，光泽、材质与颜色等</h3>
-                    </header>
-                    <ToolAssetInput
-                        toolId={toolId}
-                        constraints={REFINE_ASSET_CONSTRAINTS}
-                        maxCount={1}
-                        disabled={running}
-                        library={library}
-                        variant="linkfox"
-                        title="上传待精修的商品图"
-                        uploadLabel="上传图片"
-                        hint={
-                            <>
-                                <span className="block text-xs leading-[15px] text-foreground">拖拽 或 点击上传 需要修复的图</span>
-                                <span className="block">20M以内，jpg/jpeg/png/webp</span>
-                            </>
-                        }
-                        thirdAction={null}
-                        onChange={onSourceChange}
-                    />
-                    {restoringSource ? <p className="mt-2 text-[11px] text-stone-500">正在恢复上次的商品图…</p> : null}
-                    {!source && values.sourceAssetId && !restoringSource ? (
-                        <p className="mt-2 text-[11px] text-amber-600">上次的商品图已失效，请重新选择。</p>
-                    ) : null}
-                    {sourceIssue && !sourceIssue.ok ? <p className="mt-2 text-[11px] text-red-600">{sourceIssue.message}</p> : null}
-                    {source?.width && source?.height ? (
-                        <p className="mt-2 text-[11px] text-stone-500" data-testid="refine-source-size">
-                            原图 {source.width}×{source.height}
-                        </p>
-                    ) : null}
-                    {/* §3/§4：上传后按自动规则显示预计输出尺寸，供用户核对后再提交 */}
-                    <p className="mt-2 text-[11px] text-stone-500" data-testid="refine-output-size">
-                        预计输出尺寸：
-                        <span className="font-medium">{productRefineOutputLabel(output)}</span>
-                        <span className="ml-2">
-                            {output.ruleLabel}
-                            {output.width > 0 ? ` · 比例 ${output.ratio}` : ""}
-                        </span>
-                    </p>
-                </Section>
-
-                <Section title="精修模式">
-                    <div className="flex flex-wrap gap-2" data-testid="refine-modes" role="radiogroup" aria-label="精修模式">
-                        {PRODUCT_REFINE_MODES.map((item) => {
+                <aside data-region="config" data-testid="tool-config-column" className="flex min-h-0 w-[240px] min-w-0 shrink-0 flex-col">
+                    <div className="flex min-h-0 flex-1 flex-col overflow-y-auto rounded-[8px] bg-card">
+                        <div className="flex flex-1 flex-col">
+                <div className="px-3 py-[10px]">
+                    <p className="m-0! text-[12px] leading-[22px] text-black/30">精修模式</p>
+                    <div className="mt-[10px] flex" data-testid="refine-modes" role="radiogroup" aria-label="精修模式">
+                        {PRODUCT_REFINE_MODES.map((item, index) => {
                             const active = values.mode === item.id;
                             return (
                                 <button
@@ -886,137 +834,81 @@ export function ProductRefineWorkspace({ className }: { className?: string }) {
                                     data-mode={item.id}
                                     disabled={running}
                                     onClick={() => update({ mode: item.id })}
-                                    className={`min-h-9 rounded-md border px-2 py-1 text-xs ${
-                                        active
-                                            ? "border-stone-800 bg-stone-800 text-white dark:border-stone-200 dark:bg-stone-200 dark:text-stone-900"
-                                            : "border-stone-200 text-stone-700 hover:border-stone-400 dark:border-stone-700 dark:text-stone-200"
-                                    }`}
+                                    className={cn(
+                                        "relative h-8 flex-1 border bg-card px-[15px] text-[14px] leading-[30px] transition disabled:opacity-50",
+                                        index === 0 ? "rounded-l-[6px]" : "-ml-px rounded-r-[6px]",
+                                        active ? "z-10 border-primary text-primary" : "border-[#d9d9d9] text-foreground hover:text-primary",
+                                    )}
                                 >
                                     {item.label}
                                 </button>
                             );
                         })}
                     </div>
-                    <p className="mt-2 text-[11px] text-stone-500">💡默认生图尺寸规则：原图尺寸≤512px → 放大 4 倍，513~1024px → 放大 2 倍，＞1024px → 原尺寸</p>
-
-                    {blocking.length > 0 ? (
-                        <ul className="mt-2 list-disc pl-4 text-[11px] text-amber-600" data-testid="refine-issues">
-                            {blocking.map((issue) => (
-                                <li key={`${issue.code}-${issue.field}`}>{issue.message}</li>
-                            ))}
-                        </ul>
-                    ) : null}
-                    <div className="mt-2 flex items-center gap-2">
-                        <button
-                            type="button"
-                            disabled={blocked}
-                            onClick={() => void onGenerate()}
-                            data-testid="refine-generate"
-                            className="h-8 flex-1 rounded-md bg-stone-800 px-3 text-xs font-medium text-white disabled:cursor-not-allowed disabled:opacity-50 dark:bg-stone-200 dark:text-stone-900"
-                        >
-                            {running ? "精修中…" : "开始精修"}
-                        </button>
-                    </div>
-                    <p className="mt-2 text-[11px] text-stone-500" data-testid="refine-expected-count">
-                        预计产出 1 张主结果{mode.producesAlpha ? "，并附带透明底/分段结果" : ""}
-                    </p>
-                    {runError ? (
-                        <p className="mt-2 text-[11px] text-red-600" data-testid="refine-run-error">
-                            {runError}
+                </div>
+                <div className="px-3 py-[10px]">
+                    <p className="m-0! mb-[10px]! text-[12px] leading-[22px] text-black/30">上传待精修的商品图</p>
+                    <Edit8Dropzone target="需要修复的图" hint="20M以内，jpg/jpeg/png/webp" constraints={REFINE_ASSET_CONSTRAINTS} disabled={running} onPick={(record) => onSourceChange([record.id], [record])} testId="refine-dropzone" />
+                    {restoringSource ? <p className="mt-2 text-[11px] text-foreground/60">正在恢复上次的商品图…</p> : null}
+                    {!source && values.sourceAssetId && !restoringSource ? <p className="mt-2 text-[11px] text-[#d46b08]">上次的商品图已失效，请重新选择。</p> : null}
+                    {sourceIssue && !sourceIssue.ok ? <p className="mt-2 text-[11px] text-destructive">{sourceIssue.message}</p> : null}
+                    {source?.width && source?.height ? (
+                        <p className="m-0! mt-2! text-[11px] leading-4 text-foreground/60" data-testid="refine-output-size">
+                            原图 {source.width}×{source.height} · 预计输出 {productRefineOutputLabel(output)}（{output.ruleLabel}）
                         </p>
                     ) : null}
-                </Section>
-                    </>
+                </div>
+                <p className="m-0! mt-auto! px-2 pb-[10px] text-center text-[12px] leading-[19px] text-[#939599]">💡默认生图尺寸规则：原图尺寸≤512px → 放大 4 倍，513~1024px → 放大 2 倍，＞1024px → 原尺寸</p>
+                        </div>
                     </div>
-                    <div className="shrink-0 border-t border-[#ececec] p-3">
-                        {blocking.length > 0 ? (
-                            <ul className="mb-2 list-disc pl-4 text-[11px] text-amber-600" data-testid="refine-issues">
+                    <div className="mt-2 shrink-0">
+                        {source && blocking.length > 0 ? (
+                            <ul className="mb-2 list-disc pl-4 text-[11px] text-[#d46b08]" data-testid="refine-issues">
                                 {blocking.map((issue) => (<li key={`${issue.code}-${issue.field}`}>{issue.message}</li>))}
                             </ul>
                         ) : null}
-                        <button type="button" disabled={blocked} onClick={() => void onGenerate()} data-testid="refine-generate" className="h-8 w-full rounded-[3px] bg-[#723cf9] px-3 text-[12px] font-medium text-white disabled:cursor-not-allowed disabled:opacity-50">
+                        <button type="button" disabled={blocked} title={blocking[0]?.message} onClick={() => void onGenerate()} data-testid="refine-generate" className={cn(edit8GradientButtonClass, "w-full gap-1 text-[12px]")}>
+                            <WandSparkles className="size-3.5" aria-hidden />
                             {running ? "精修中…" : "开始精修"}
                         </button>
-                        {runError ? <p className="mt-2 text-[11px] text-red-600" data-testid="refine-run-error">{runError}</p> : null}
+                        {runError ? <p className="mt-2 text-[11px] text-destructive" data-testid="refine-run-error">{runError}</p> : null}
                     </div>
                 </aside>
-                <section data-testid="change-color-results" data-region="results" className="order-3 flex min-h-0 w-[300px] shrink-0 flex-col border-l border-[#ececec] bg-white">
-                    {/* 原站结果区顶部：精修案例对比（精修前 / 精修后 切换 + 1~4 槽位） */}
-                    <ComparePreviewCard
-                        testId="refine-compare-preview"
-                        beforeLabel="精修前"
-                        afterLabel="精修后"
-                        beforeUrl={source?.dataUrl ?? source?.url}
-                        slots={4}
+                <section data-testid="change-color-results" data-region="results" className="flex min-h-0 w-[300px] min-w-0 shrink-0 flex-col overflow-hidden rounded-[8px] bg-[#edeff5]">
+                    <Edit8ResultTabs
+                        tabs={[{ id: "result", label: "生成结果", testId: "refine-tab-result" }]}
+                        active={resultTab === "history" ? "" : "result"}
+                        onTabChange={() => setResultTab("result")}
+                        onHistory={() => setResultTab((tab) => (tab === "history" ? "result" : "history"))}
+                        historyActive={resultTab === "history"}
+                        historyTestId="refine-tab-history"
                     />
-
-                    {result.stale ? (
-                <p
-                    className="rounded-md bg-amber-50 px-2 py-1 text-[11px] text-amber-700 dark:bg-amber-950/40 dark:text-amber-300"
-                    data-testid="refine-stale"
-                >
-                    原图或配置已变更（{result.drift || "参数"}），下面的结果来自上一版配置，请重新精修。
-                </p>
-            ) : null}
-
-            <div className="flex items-center gap-1 border-b border-stone-200 dark:border-stone-700" role="tablist" aria-label="结果区">
-                <button
-                    type="button"
-                    role="tab"
-                    aria-selected={resultTab === "result"}
-                    className={`-mb-px border-b-2 px-2 py-1 text-xs transition ${
-                        resultTab === "result" ? "border-stone-900 font-medium text-stone-900 dark:border-stone-100 dark:text-stone-100" : "border-transparent text-stone-500 hover:text-stone-800"
-                    }`}
-                    onClick={() => setResultTab("result")}
-                    data-testid="refine-tab-result"
-                >
-                    生成结果
-                </button>
-                <button
-                    type="button"
-                    role="tab"
-                    aria-selected={resultTab === "history"}
-                    className={`-mb-px border-b-2 px-2 py-1 text-xs transition ${
-                        resultTab === "history" ? "border-stone-900 font-medium text-stone-900 dark:border-stone-100 dark:text-stone-100" : "border-transparent text-stone-500 hover:text-stone-800"
-                    }`}
-                    onClick={() => setResultTab("history")}
-                    data-testid="refine-tab-history"
-                >
-                    历史记录
-                </button>
-            </div>
-
-            {resultTab === "result" ? (
-                <ToolResult
-                    task={activeTask}
-                    toolId={toolId}
-                    title="生成结果"
-                    emptyTitle="暂无生成结果图"
-                    emptyHint=""
-                    onCancel={onCancel}
-                    onRetry={onRetry}
-                />
-            ) : (
-                <ToolTaskHistory
-                    toolId={toolId}
-                    minimalEmpty
-                    onSelectTask={(historyTask) => {
-                        setTask(historyTask);
-                        setResultTab("result");
-                    }}
-                />
-            )}
-
-            {resultImage && (source?.dataUrl || source?.url) ? (
-                <Section title="前后对比" hint="拖动滑块查看细节">
-                    <CompareSlider
-                        before={source.dataUrl ?? source.url ?? ""}
-                        after={resultImage}
-                        testIdPrefix="refine"
-                        labels={{ before: "精修前", after: "精修后" }}
-                    />
-                </Section>
-            ) : null}
+                    <div className="flex min-h-0 flex-1 flex-col gap-2 overflow-y-auto py-4 pl-4 pr-3">
+                        {result.stale ? (
+                            <p className="rounded-md bg-[#fff7e6] px-2 py-1 text-[11px] text-[#ad6800]" data-testid="refine-stale">
+                                原图或配置已变更（{result.drift || "参数"}），下面的结果来自上一版配置，请重新精修。
+                            </p>
+                        ) : null}
+                        {resultTab === "history" ? (
+                            <ToolTaskHistory
+                                toolId={toolId}
+                                minimalEmpty
+                                onSelectTask={(historyTask) => {
+                                    setTask(historyTask);
+                                    setResultTab("result");
+                                }}
+                            />
+                        ) : activeTask ? (
+                            <ToolResult task={activeTask} toolId={toolId} title="生成结果" onCancel={onCancel} onRetry={onRetry} />
+                        ) : (
+                            <Edit8Empty lines={["暂无生成结果图"]} />
+                        )}
+                        {resultTab === "result" && resultImage && (source?.dataUrl || source?.url) ? (
+                            <div className="rounded-[8px] bg-card p-2">
+                                <CompareSlider before={source.dataUrl ?? source.url ?? ""} after={resultImage} testIdPrefix="refine" labels={{ before: "精修前", after: "精修后" }} />
+                            </div>
+                        ) : null}
+                    </div>
                 </section>
             </div>
         </div>

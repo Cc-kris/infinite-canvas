@@ -56,7 +56,8 @@ describe("素材贴合工作台渲染（SDS_DESIGN）", () => {
         const html = await renderSds();
         expect(html).toContain("暂无生成结果图");
         expect(html).toContain("快在左侧操作素材贴合吧");
-        expect(html).toContain("上传素材后在这里预览贴合效果");
+        // 原站舞台空态是引导视频（guide-sdsdesign.mp4 同源），不是一行占位文案
+        expect(html).toContain("/__cases/sds-design/guide.mp4");
         // 未提交时不应出现结果标题之外的假数据
         expect(html).not.toContain("生成中");
     });

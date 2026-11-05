@@ -1,0 +1,88 @@
+{
+  "toolId": "PRODUCT_SCENE",
+  "route": "/tools/product-design/product-scene",
+  "fixture": "product-watch.jpg",
+  "startedAt": "2026-11-05T13:01:14.961Z",
+  "provider": {
+    "imageModel": "ccai-accept::gpt-image-2",
+    "channels": [
+      "ccai-accept",
+      "sf-accept"
+    ],
+    "baseUrl": "https://api.cc-ai.xyz",
+    "keyLen": 67,
+    "proxyEnabled": true,
+    "channelCount": 2,
+    "model": "gpt-image-2"
+  },
+  "before": {
+    "images": [],
+    "issues": []
+  },
+  "submitBefore": {
+    "id": "scene-generate",
+    "text": "立即生成",
+    "disabled": true
+  },
+  "gate": {
+    "found": true,
+    "disabled": false,
+    "text": "立即生成",
+    "countText": "将生成 1 张 1360×1024（4:3）场景变体 · 1 张 · GPT Image 2"
+  },
+  "finishedAt": "2026-11-05T13:02:25.130Z",
+  "after": {
+    "submitButtons": [
+      {
+        "id": "scene-generate",
+        "text": "立即生成",
+        "disabled": false
+      },
+      {
+        "id": "scene-tab-result",
+        "text": "生成结果",
+        "disabled": false
+      }
+    ],
+    "issues": [],
+    "images": [
+      {
+        "src": "blob:http://127.0.0.1:3310/c787d994-924a-49ec-b22e-43b2ec410",
+        "w": 1024,
+        "h": 744
+      },
+      {
+        "src": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABVAAAAQACAIAAA",
+        "w": 1360,
+        "h": 1024
+      },
+      {
+        "src": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABVAAAAQACAIAAA",
+        "w": 1360,
+        "h": 1024
+      }
+    ],
+    "bodyText": "无限画布\n首页\n电商套图\n智能修图\n新模型\nAI视频\nHOT\n批量生图\n商品图设计\n中\n切换到深色主题\nv0.27.0\n商品图\n我的商品\n场景参考图\n商品替换\n场景裂变\n手持商品\n企业功能\n免责声明\n上传参考图\n第一步：选择示例图或上传商品图\n从本地上传\n从作品库选择\n从商品库选择\n10M以内，分辨率：384*384 ~ 4096*4096，最大宽高比5\nproduct-watch.jpg\n31 KB · 1024×744 · image/jpeg\n移除\n参考图 1024×744\n上传多图，体验新功能商品套图\n背景相似度：\n场景描述（可选）\n0 / 100\n💡场景描述怎么写？\n生图模型\n写实\n简约\n智能\n设置生成尺寸\n默认尺寸\n自定义\n选择生成张数\n1\n2\n3\n4\n立即生成\n我是高手，不再提醒\n将生成 1 张 1360×1024（4:3）场景变体 · 1 张 · GPT Image 2\n生成结果\n优秀案例\n历史记录\n一键做同款\n生成结果\n本次 1 张 · 已返回 1 张\n1/1\n结果资产\n已完成\n共 1 个结果 · 图片 1\n下载\n存入资产\n发送画布\n连接本地 Agent\n未连接\n点连接会自动启动本地服务、装好插件并接通，无需手动配置。\nClaude Code\n未连接\n·\nCLI · 2.1.318 (Claude Code)\n·\n直接运行\n连接\nCodex\n未连接\n·\nCLI · codex-cli 0.166.0\n·\n插件已装\n连接\nGalley\n未连接\n·\nCLI + 桌面版 · galley 0.6.4\n连接"
+  },
+  "resultSrcPrefix": "data:image/png;base64,iVBORw0KGgoAAAANSU",
+  "resultCount": 1,
+  "resultSaved": true,
+  "network": [
+    {
+      "method": "POST",
+      "url": "http://127.0.0.1:23210/https://api.cc-ai.xyz/v1/images/edits",
+      "status": 200,
+      "ms": 57101,
+      "at": "2026-11-05T13:02:20.603Z"
+    }
+  ],
+  "fixtureSha256": "43ede96e7ce88509",
+  "resultSha256": "3e6b4364c861b07f",
+  "ok": true,
+  "download": {
+    "file": "download-product-scene-result-1.png",
+    "bytes": 2490502,
+    "sha256": "3e6b4364c861b07f",
+    "differsFromSource": true
+  }
+}

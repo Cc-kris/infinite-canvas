@@ -1,0 +1,95 @@
+{
+  "toolId": "AI_POSTURE",
+  "route": "/tools/product-design/ai-posture",
+  "fixture": "model-portrait.png",
+  "startedAt": "2026-11-05T13:04:50.913Z",
+  "provider": {
+    "imageModel": "ccai-accept::gpt-image-2",
+    "channels": [
+      "ccai-accept",
+      "sf-accept"
+    ],
+    "baseUrl": "https://api.cc-ai.xyz",
+    "keyLen": 67,
+    "proxyEnabled": true,
+    "channelCount": 2,
+    "model": "gpt-image-2"
+  },
+  "before": {
+    "images": [],
+    "issues": [
+      "ai-posture-issues=请先上传模特姿势图（拖拽/粘贴或从本地选择）"
+    ]
+  },
+  "submitBefore": {
+    "id": "ai-posture-submit",
+    "text": "立即生成",
+    "disabled": true
+  },
+  "gate": {
+    "found": true,
+    "disabled": false,
+    "text": "立即生成",
+    "countText": "1 张 · 1 个姿势请求"
+  },
+  "finishedAt": "2026-11-05T13:05:25.114Z",
+  "after": {
+    "submitButtons": [
+      {
+        "id": "ai-posture-batch-upload",
+        "text": "上传多张图片，开始批量姿势裂",
+        "disabled": true
+      },
+      {
+        "id": "ai-posture-submit",
+        "text": "立即生成",
+        "disabled": false
+      },
+      {
+        "id": "ai-posture-tab-results",
+        "text": "生成结果",
+        "disabled": false
+      }
+    ],
+    "issues": [],
+    "images": [
+      {
+        "src": "blob:http://127.0.0.1:3310/4b4a8eae-6d42-4e0c-9924-e02795a64",
+        "w": 720,
+        "h": 960
+      },
+      {
+        "src": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABAAAAAQACAIAAA",
+        "w": 1024,
+        "h": 1024
+      },
+      {
+        "src": "blob:http://127.0.0.1:3310/ab1c00a3-d047-4959-bd16-fba60ffe9",
+        "w": 1024,
+        "h": 1024
+      }
+    ],
+    "bodyText": "无限画布\n首页\n电商套图\n智能修图\n新模型\nAI视频\nHOT\n批量生图\n商品图设计\n中\n切换到深色主题\nv0.27.0\n真人换模特\n模特换场景\nAI穿衣\n姿势裂变\nAI穿戴\n历史记录\n企业功能\n批量生图\n即将下架\n人台换模特\n下架\n免责声明\n姿势裂变\n模特姿势图\n图片规则\n拖拽/粘贴 或 上传模特姿势图\n从本地上传\n从作品库选择\n从商品库选择\n10M以内，384*384 ~ 4096*4096\nmodel-portrait.png\n800 KB · 720×960 · image/png\n移除\n图片标签（可增删，≤12）\n站姿\n叉腰\n添加\n已选择：model-portrait.png · 720×960\n或试试这些\n完整上身图\n全身模特图\n上传多张图片，开始批量姿势裂变\n批量入口暂未开放：本页当前只支持上传 1 张模特图，按钮保持禁用。\n选择姿势（可选）\n已选：单手叉腰\n姿势库\n自定义\n已选 1 个姿势\n全部\n站姿\n角度\n动态\n坐姿\n正面站姿\nstanding straight and facing the camera, arms relaxed naturally at the sides, feet shoulder-width apart\n标签：站姿 / 正面 / 全身\n单手叉腰\nstanding with one hand on the hip and the other arm relaxed, weight shifted onto one leg\n标签：站姿 / 叉腰\n双手插兜\nstanding casually with both hands in pockets, shoulders relaxed\n标签：站姿 / 插兜\n双臂交叉\nstanding with arms crossed over the chest in a confident posture\n标签：站姿 / 交叉\n侧身站立\nstanding in a three-quarter side profile with the head turned toward the camera\n标"
+  },
+  "resultSrcPrefix": "data:image/png;base64,iVBORw0KGgoAAAANSU",
+  "resultCount": 1,
+  "resultSaved": true,
+  "network": [
+    {
+      "method": "POST",
+      "url": "http://127.0.0.1:23210/https://api.cc-ai.xyz/v1/images/edits",
+      "status": 200,
+      "ms": 24295,
+      "at": "2026-11-05T13:05:22.985Z"
+    }
+  ],
+  "fixtureSha256": "446d9ffe39f94d70",
+  "resultSha256": "cc56b946d63b4da1",
+  "ok": true,
+  "download": {
+    "file": "download-ai-posture-result-1.png",
+    "bytes": 2114529,
+    "sha256": "cc56b946d63b4da1",
+    "differsFromSource": true
+  }
+}

@@ -175,6 +175,9 @@ export const XSY_VERSIONS = [
 
 export type XsyVersion = (typeof XSY_VERSIONS)[number]["id"];
 
+/** 原站「步长」Slider：30–120，刻度 30/60/120，默认 60；提交字段 step（rea 还原 AIDressingV2-CPsiT8qo.js）。 */
+export const XSY_STEP_LENGTH = { min: 30, max: 120, default: 60, marks: [30, 60, 120] } as const;
+
 export const XSY_OUTPUT_OPTIONS = [1, 2, 3, 4] as const;
 export const XSY_DEFAULT_OUTPUT = 1;
 
@@ -251,6 +254,8 @@ export type XsyValues = {
     modelPose: XsyModelPose;
     garments: Record<GarmentSlotKey, XsyGarment>;
     outputNum: number;
+    /** 原站「步长」（字段 step）。 */
+    stepLength: number;
     /** 页面上的 provider 覆盖值；空串 = 跟随当前模型配置。 */
     provider: string;
     version: XsyVersion;
@@ -280,7 +285,7 @@ export function createXsyValues(): XsyValues {
         staleSteps: [],
         activeTab: "upper-lower",
         model: { assetId: "", name: "", imageUrl: "", width: 0, height: 0 },
-        modelType: "studio",
+        modelType: "custom",
         modelStyle: "clean",
         modelPose: "front",
         garments: {
@@ -289,8 +294,9 @@ export function createXsyValues(): XsyValues {
             suit: createXsyGarment("suit"),
         },
         outputNum: XSY_DEFAULT_OUTPUT,
+        stepLength: XSY_STEP_LENGTH.default,
         provider: "",
-        version: "v1",
+        version: "v2",
     };
 }
 
@@ -348,7 +354,7 @@ export function normalizeXsyValues(raw: unknown): XsyValues {
             width: numberOr(modelRaw.width, 0),
             height: numberOr(modelRaw.height, 0),
         },
-        modelType: (xsyModelTypeOf(stringOr(record.modelType))?.id ?? "studio") as XsyModelType,
+        modelType: (xsyModelTypeOf(stringOr(record.modelType))?.id ?? "custom") as XsyModelType,
         modelStyle: (xsyStyleOf(stringOr(record.modelStyle))?.id ?? "clean") as XsyModelStyle,
         modelPose: (xsyPoseOf(stringOr(record.modelPose))?.id ?? "front") as XsyModelPose,
         garments: {
@@ -357,8 +363,9 @@ export function normalizeXsyValues(raw: unknown): XsyValues {
             suit: normalizeGarment(garmentsRaw.suit, "suit"),
         },
         outputNum: Math.min(XSY_OUTPUT_OPTIONS[XSY_OUTPUT_OPTIONS.length - 1]!, Math.max(1, Math.round(outputNum))),
+        stepLength: Math.min(XSY_STEP_LENGTH.max, Math.max(XSY_STEP_LENGTH.min, Math.round(numberOr(record.stepLength, XSY_STEP_LENGTH.default)))),
         provider: stringOr(record.provider),
-        version: (xsyVersionOf(stringOr(record.version))?.id ?? "v1") as XsyVersion,
+        version: (xsyVersionOf(stringOr(record.version))?.id ?? "v2") as XsyVersion,
     };
 }
 
@@ -378,6 +385,7 @@ export function serializeXsyValues(values: XsyValues): Record<string, unknown> {
             suit: { ...values.garments.suit, mask: { ...values.garments.suit.mask } },
         },
         outputNum: values.outputNum,
+        stepLength: values.stepLength,
         provider: values.provider,
         version: values.version,
     };
@@ -732,6 +740,7 @@ export type XsySnapshot = {
     version: string;
     provider: string;
     outputNum: number;
+    stepLength: number;
     garments: XsySnapshotGarment[];
 };
 
@@ -752,6 +761,7 @@ export function buildXsySnapshot(values: XsyValues, options: { provider?: string
         version: values.version,
         provider: options.provider ?? values.provider,
         outputNum: values.outputNum,
+        stepLength: values.stepLength,
         garments: xsyTabSlots(values.activeTab).map((slot) => {
             const garment = values.garments[slot];
             return {
@@ -781,6 +791,7 @@ export function xsySnapshotHash(snapshot: XsySnapshot): string {
         version: snapshot.version,
         provider: snapshot.provider,
         outputNum: snapshot.outputNum,
+        stepLength: snapshot.stepLength,
         garments: snapshot.garments.map((garment) => ({
             slot: garment.slot,
             image: garment.imageUrl,
@@ -816,7 +827,7 @@ export function composeXsyFields(snapshot: XsySnapshot): Record<XsyFieldKey, unk
         modelType: snapshot.modelType,
         outputNum: snapshot.outputNum,
         provider: snapshot.provider,
-        step: snapshot.step,
+        step: snapshot.stepLength,
         suitImageUrl: slotField(snapshot, "suit", (garment) => garment.imageUrl),
         suitMaskUrl: slotField(snapshot, "suit", (garment) => garment.maskUrl),
         suitOriginUrl: slotField(snapshot, "suit", (garment) => garment.originUrl),

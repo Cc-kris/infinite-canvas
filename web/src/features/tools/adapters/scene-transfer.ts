@@ -8,6 +8,7 @@ import {
     SCENE_TRANSFER_TOOL_ID,
     buildTransferPrompt,
     clampSimilarity,
+    similarityField,
     createSceneTransferSnapshot,
     describeTransferDrift,
     hasTransferSource,
@@ -124,7 +125,7 @@ export function buildTransferFields(args: {
     const fields: TransferFields = {
         imageUrl: transferImageRef(args.product),
         imageStyleUrl: transferImageRef(args.style),
-        similarity: clampSimilarity(args.values.similarity),
+        similarity: similarityField(args.values.similarity),
     };
     if (args.segmentation.provided) {
         const segRef = (args.segRef ?? "").trim() || (args.segmentation.segImageUrl ?? "");
@@ -208,7 +209,7 @@ export function assertTransferInput(
     if (input.count !== 1) problems.push("本页只提交 1 张，count 必须为 1");
 
     const fields = (input.fields ?? {}) as TransferFields;
-    if (fields.similarity !== similarity) problems.push("fields.similarity 与页面相似度不一致");
+    if (fields.similarity !== similarity / 100) problems.push("fields.similarity 与页面相似度不一致");
     if (!fields.imageUrl) problems.push("fields.imageUrl 缺失（商品图没有进入请求字段）");
     if (!fields.imageStyleUrl) problems.push("fields.imageStyleUrl 缺失（场景风格参考图没有进入请求字段）");
     if (args.segmentation.provided) {

@@ -12,7 +12,7 @@
  */
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Link } from "react-router-dom";
-import { Download, ImagePlus, Loader2, RotateCcw, RotateCw, Sparkles, Trash2 } from "lucide-react";
+import { ArrowRight, Download, ImagePlus, Loader2, RotateCcw, RotateCw, Sparkles, Trash2, Upload } from "lucide-react";
 
 import { TaskStatusPanel } from "@/components/tools/task-status";
 import { ToolResult } from "@/components/tools/tool-result";
@@ -50,6 +50,8 @@ import { useAssetStore, type ImageAsset, type VideoAsset } from "@/stores/use-as
 import { flushToolDrafts, useToolDraftStore } from "@/stores/use-tool-draft-store";
 import { useToolTaskStore } from "@/stores/use-tool-task-store";
 import { ToolWorkspaceColumns } from "@/components/tools/tool-workspace-columns";
+import { DESIGN_OUTLINE_BUTTON, TryDemoStrip } from "@/components/tools/workspaces/design-demo";
+import { DESIGN_TRY_DEMOS, PRINT_EXTRACT_GUIDE_VIDEO } from "@/features/tools/tool-cases-data";
 
 export type ExtractConfig = { isTransparent: boolean; format: PrintExtractOutputFormat };
 
@@ -191,10 +193,28 @@ export function ExtractUploader({ disabled, maxCount, onAssets }: { disabled: bo
         [emit],
     );
 
+    const [demoBusy, setDemoBusy] = useState<string | null>(null);
+    const pickDemo = useCallback(
+        async (src: string) => {
+            setDemoBusy(src);
+            try {
+                const response = await fetch(src);
+                if (!response.ok) throw new Error(`示例图读取失败（HTTP ${response.status}）`);
+                const blob = await response.blob();
+                await pickFiles([new File([blob], src.split("/").pop() ?? "print-extract-demo.png", { type: blob.type || "image/png" })]);
+            } catch (error) {
+                setNotice(error instanceof Error ? error.message : "示例图读取失败");
+            } finally {
+                setDemoBusy(null);
+            }
+        },
+        [pickFiles],
+    );
+
     const thumbs = records.length ? records : [];
 
     return (
-        <section data-testid="print-extract-uploader" className="rounded-lg bg-card p-[10px]">
+        <section data-testid="print-extract-uploader" className="rounded-[8px] bg-muted p-[10px]">
             <div
                 role="button"
                 tabIndex={disabled ? -1 : 0}
@@ -217,20 +237,21 @@ export function ExtractUploader({ disabled, maxCount, onAssets }: { disabled: bo
                     void pickFiles(Array.from(event.dataTransfer?.files ?? []));
                 }}
                 className={cn(
-                    "flex h-[148px] w-full cursor-pointer flex-col items-center justify-center gap-[6px] rounded-lg border border-dashed px-3 text-center transition",
-                    dragging ? "border-primary bg-primary/5" : "border-border bg-black/[0.02]",
+                    "flex h-[186px] w-full cursor-pointer flex-col items-center justify-center gap-[10px] rounded-[8px] border border-dashed px-2 text-center transition",
+                    dragging ? "border-primary bg-primary/5" : "border-border bg-card/60",
                     disabled && "cursor-not-allowed opacity-60",
                 )}
             >
                 <ImagePlus className="size-[22px] text-muted-foreground" aria-hidden />
-                <p className="text-[14px] leading-[22px] text-[rgba(0,0,0,0.88)]">上传需要提取印花的商品图片</p>
+                <p className="text-[14px] leading-[22px] text-foreground/60">上传需要提取印花的商品图片</p>
                 <div className="flex items-center gap-2" onClick={(event) => event.stopPropagation()} onKeyDown={(event) => event.stopPropagation()}>
                     <button
                         type="button"
                         disabled={disabled}
                         onClick={() => inputRef.current?.click()}
-                        className="h-6 w-[108px] rounded-md bg-primary text-[12px] leading-none text-primary-foreground transition hover:bg-primary/90 disabled:opacity-50"
+                        className="inline-flex h-7 items-center gap-1 rounded-[4px] bg-primary px-[8px] text-[14px] leading-none text-primary-foreground transition hover:bg-primary/90 disabled:opacity-50"
                     >
+                        <Upload className="size-3.5" aria-hidden />
                         从本地上传
                     </button>
                     <button
@@ -238,12 +259,12 @@ export function ExtractUploader({ disabled, maxCount, onAssets }: { disabled: bo
                         disabled={disabled || !library.length}
                         title={library.length ? "从作品库（资产库）选择" : "资产库暂时没有可用图片"}
                         onClick={() => setLibraryOpen((open) => !open)}
-                        className="h-6 w-[100px] rounded-md border border-border bg-card text-[12px] leading-none text-muted-foreground transition hover:border-border disabled:opacity-50"
+                        className="h-7 rounded-[4px] border border-primary bg-card px-[8px] text-[14px] leading-none text-primary transition hover:bg-primary/5 disabled:border-border disabled:text-muted-foreground disabled:opacity-60"
                     >
                         从作品库选择
                     </button>
                 </div>
-                <p className="text-[12px] leading-[19px] text-muted-foreground">
+                <p className="px-2 text-[12px] leading-[19px] text-muted-foreground">
                     20M以内，分辨率：{PRINT_EXTRACT_SOURCE_LIMITS.minSide} * {PRINT_EXTRACT_SOURCE_LIMITS.minSide} ~ {PRINT_EXTRACT_SOURCE_LIMITS.maxSide} * {PRINT_EXTRACT_SOURCE_LIMITS.maxSide}，宽高比小于{PRINT_EXTRACT_SOURCE_LIMITS.maxAspect}
                 </p>
             </div>
@@ -298,27 +319,7 @@ export function ExtractUploader({ disabled, maxCount, onAssets }: { disabled: bo
                     ))}
                 </div>
             ) : (
-                <div className="mt-2">
-                    <div className="flex items-center gap-2 text-[12px] text-[rgba(0,0,0,0.3)]">
-                        <span className="h-px flex-1 bg-border" />
-                        <span>或试试这些</span>
-                        <span className="h-px flex-1 bg-border" />
-                    </div>
-                    <div className="mt-2 flex gap-[10px]">
-                        {[0, 1, 2, 3].map((index) => (
-                            <button
-                                key={index}
-                                type="button"
-                                disabled={disabled}
-                                aria-label={`示例图 ${index + 1}`}
-                                onClick={() => inputRef.current?.click()}
-                                className="flex size-[50px] items-center justify-center rounded-lg border border-border bg-card p-[5px] text-muted-foreground transition hover:border-border disabled:opacity-50"
-                            >
-                                <ImagePlus className="size-[22px]" aria-hidden />
-                            </button>
-                        ))}
-                    </div>
-                </div>
+                <TryDemoStrip demos={DESIGN_TRY_DEMOS.printExtract} busySrc={demoBusy} disabled={disabled} onPick={(src) => void pickDemo(src)} />
             )}
 
             {pending.length ? (
@@ -851,9 +852,10 @@ export function PrintExtractWorkspace() {
             <OrigRail items={PRINT_EXTRACT_RAIL} active="印花提取" driver testId="print-extract-rail" label="商品图设计" />
             <div data-testid="print-extract-workspace" className="min-h-[596px]">
                 <ToolWorkspaceColumns
+                    className="lg:h-[calc(100dvh-110px)]"
                     config={(
-                        <div data-testid="print-extract-config" className="flex flex-col rounded-lg border border-border bg-card">
-                    <div className="flex-1 space-y-3 px-4 py-4">
+                        <div data-testid="print-extract-config" className="flex h-full flex-col rounded-[8px] bg-card">
+                    <div className="min-h-0 flex-1 overflow-y-auto px-4 py-[10px]">
                         <ExtractUploader disabled={busy} maxCount={batch ? PRINT_EXTRACT_SOURCE_LIMITS.maxBatch : 1} onAssets={handleAssets} />
 
                         <button
@@ -862,17 +864,14 @@ export function PrintExtractWorkspace() {
                             aria-pressed={batch}
                             disabled={busy}
                             onClick={() => setBatch((value) => !value)}
-                            className={cn(
-                                "flex h-8 w-full items-center justify-center gap-1 rounded-md border border-primary text-xs transition disabled:opacity-50",
-                                batch ? "bg-primary text-primary-foreground" : "bg-card text-primary hover:bg-primary/10",
-                            )}
+                            className={cn(DESIGN_OUTLINE_BUTTON, batch && "bg-primary text-primary-foreground hover:bg-primary/90")}
                         >
-                            <ImagePlus className="size-3.5" aria-hidden />
                             <span>上传多张图片，开始批量提取</span>
+                            <ArrowRight className="size-3.5" aria-hidden />
                         </button>
 
-                        <div className="flex h-9 items-center justify-between border-t border-border pt-2">
-                            <span className="text-xs text-muted-foreground">生成透明图</span>
+                        <div className="mt-[10px] flex h-[23px] items-center justify-between">
+                            <span className="text-[14px] leading-[22px] text-foreground">生成透明图</span>
                             <button
                                 type="button"
                                 role="switch"
@@ -882,17 +881,17 @@ export function PrintExtractWorkspace() {
                                 disabled={busy}
                                 onClick={() => applyConfig({ isTransparent: !config.isTransparent, format: !config.isTransparent ? "png" : config.format })}
                                 className={cn(
-                                    "flex h-[22px] w-[86px] items-center justify-center gap-1.5 rounded-full text-[10px] leading-none transition disabled:opacity-50",
-                                    config.isTransparent ? "bg-primary text-primary-foreground" : "bg-muted-foreground/50 text-primary-foreground",
+                                    "relative flex h-[22px] w-[52px] items-center rounded-full px-[7px] text-[12px] leading-none text-white transition disabled:opacity-50",
+                                    config.isTransparent ? "justify-start bg-primary" : "justify-end bg-black/25 dark:bg-white/25",
                                 )}
                             >
-                                <span className={config.isTransparent ? "font-medium" : "opacity-60"}>开启</span>
-                                <span className={config.isTransparent ? "opacity-60" : "font-medium"}>关闭</span>
+                                <span>{config.isTransparent ? "开启" : "关闭"}</span>
+                                <span aria-hidden className={cn("absolute top-[2px] size-[18px] rounded-full bg-white shadow transition-all", config.isTransparent ? "left-[32px]" : "left-[2px]")} />
                             </button>
                         </div>
                     </div>
 
-                    <div className="border-t-[3px] border-border bg-card px-4 py-2">
+                    <div className="bg-card px-4 pb-[10px] pt-2">
                         <button
                             type="button"
                             data-testid="print-extract-generate"
@@ -907,8 +906,8 @@ export function PrintExtractWorkspace() {
                         </div>
                     )}
                 >
-                    <section className="flex min-w-0 flex-col rounded-lg border border-border bg-card">
-                    <div className="flex h-[42px] shrink-0 items-center gap-5 rounded-tr-lg bg-card px-3">
+                    <section className="flex h-full min-w-0 flex-col overflow-hidden rounded-[8px]">
+                    <div className="flex h-[42px] shrink-0 items-center gap-5 border-b border-border bg-card px-3">
                         <button
                             type="button"
                             data-testid="print-extract-tab-result"
@@ -923,7 +922,7 @@ export function PrintExtractWorkspace() {
                             data-testid="print-extract-tab-history"
                             aria-pressed={tab === "history"}
                             onClick={() => setTab("history")}
-                            className={cn("flex items-center gap-1 text-xs transition", tab === "history" ? "text-primary" : "text-muted-foreground hover:text-foreground")}
+                            className={cn("order-last flex items-center gap-1 text-xs transition", tab === "history" ? "text-primary" : "text-muted-foreground hover:text-foreground")}
                         >
                             历史记录
                             {items.some((item) => item.status === "succeeded") ? <span className="rounded bg-primary/10 px-1 text-[11px] text-primary">{items.filter((item) => item.status === "succeeded").length}</span> : null}
@@ -948,12 +947,12 @@ export function PrintExtractWorkspace() {
                         <h2 className="sr-only">提取结果</h2>
                         {tab === "result" ? (
                             items.length === 0 && !persistedPanelTask ? (
-                                <div data-testid="print-extract-empty" className="flex h-full min-h-[420px] items-center justify-center">
-                                    <div className="flex h-[300px] w-[460px] max-w-full flex-col items-center justify-center gap-2 rounded-xl bg-card text-center shadow-[0_2px_8px_rgba(0,0,0,0.04)]">
-                                        <ImagePlus className="size-9 text-primary" aria-hidden />
-                                        <p className="text-xl font-medium text-foreground">印花提取</p>
-                                        <p className="text-base text-muted-foreground">快速提取商品中的印花图案</p>
+                                <div data-testid="print-extract-empty" className="flex h-full min-h-[calc(100dvh-160px)] pt-[42px] flex-col items-center justify-center text-center">
+                                    <div className="h-[300px] w-[460px] max-w-full overflow-hidden rounded-[12px] bg-card">
+                                        <video src={PRINT_EXTRACT_GUIDE_VIDEO} className="size-full object-cover" autoPlay muted loop playsInline aria-label="印花提取示例：卫衣 → 提取出的印花" />
                                     </div>
+                                    <p className="mt-[10px] text-[20px] font-medium leading-[31px] text-foreground">印花提取</p>
+                                    <p className="mt-[10px] text-[16px] leading-[25px] text-muted-foreground">快速提取商品中的印花图案</p>
                                 </div>
                             ) : (
                                 <section className="space-y-3">

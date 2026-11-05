@@ -1,0 +1,54 @@
+{
+ "list": [
+  {
+   "id": 3,
+   "name": "感恩节",
+   "autoMatch": "Thanksgiving",
+   "status": 1,
+   "sort": 90,
+   "createTime": 1698909103
+  },
+  {
+   "id": 2,
+   "name": "圣诞节",
+   "autoMatch": "Christmas",
+   "status": 1,
+   "sort": 89,
+   "createTime": 1698909063
+  },
+  {
+   "id": 6,
+   "name": "T-Shirt",
+   "autoMatch": "T-Shirt",
+   "status": 1,
+   "sort": 87,
+   "createTime": 1698910829
+  },
+  {
+   "id": 5,
+   "name": "Cup",
+   "autoMatch": "cup",
+   "status": 1,
+   "sort": 86,
+   "createTime": 1698910795
+  },
+  {
+   "id": 1,
+   "name": "万圣节",
+   "autoMatch": "Halloween",
+   "status": 1,
+   "sort": 70,
+   "createTime": 1698909051
+  },
+  {
+   "id": 4,
+   "name": "热门",
+   "autoMatch": "",
+   "status": 1,
+   "sort": 60,
+   "createTime": 1698909152
+  }
+ ],
+ "total": 6,
+ "hasMore": false
+}

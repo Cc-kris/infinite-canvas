@@ -8,11 +8,13 @@ import { ToolResult } from "@/components/tools/tool-result";
 import { ToolTaskHistory } from "@/components/tools/tool-task-history";
 import { ImageRulesPopover } from "@/components/tools/image-rules-popover";
 import { OrigRail, WEAR_RAIL } from "@/components/tools/workspaces/orig-rail";
-import { uploadCaseFiles } from "@/features/tools/case-apply";
-import { AI_WEARABLE_CASES } from "@/features/tools/tool-cases-data";
+import { uploadCaseFile, uploadCaseFiles } from "@/features/tools/case-apply";
+import { AI_WEARABLE_CASES, AI_WEARABLE_GUIDE_CASES, DESIGN_TRY_DEMOS } from "@/features/tools/tool-cases-data";
+import { ToolCaseGuide } from "@/components/tools/tool-case-guide";
+import { DESIGN_GUIDE_PORTRAIT, DESIGN_ICON_FEATURE, DESIGN_UPLOAD_DROPZONE, DESIGN_UPLOAD_PANEL, TryDemoStrip, UploadPanelIcon } from "@/components/tools/workspaces/design-demo";
 import { adoptLibraryAsset, toolAssetLibraryItemsFromAssets, uploadToolAsset, loadToolAssetRecords, type ToolAssetLibraryItem, type ToolAssetRecord } from "@/services/api/tools/assets";
 import { useAssetStore, type ImageAsset } from "@/stores/use-asset-store";
-import { ArrowRight, Footprints, Gem, Glasses, History as HistoryIcon, ImageIcon, ShoppingBag, Watch, X } from "lucide-react";
+import { ChevronRight, Footprints, Gem, Glasses, History as HistoryIcon, ImageIcon, ShoppingBag, Watch, X } from "lucide-react";
 import { describeToolExecution } from "@/services/api/tools/gateway";
 import { getPersistedToolGateway } from "@/stores/use-tool-task-store";
 import type { ToolTask } from "@/services/api/tools/task-machine";
@@ -35,43 +37,6 @@ import {
     type WearableResultCell,
     type WearableSourceAsset,
 } from "@/features/tools/adapters/ai-wearable";
-import {
-    MaterialUpperBodyAdapterError,
-    isMaterialSourceReady,
-    materialMaskSizeFor,
-    materialResultCells,
-    materialSourceFromRecord,
-    mergeMaterialVariant,
-    renderMaterialMaskBlob,
-    runMaterialUpperBody,
-    validateMaterialSourceSize,
-    type MaterialSourceAsset,
-} from "@/features/tools/adapters/material-upper-body";
-import {
-    MATERIAL_CATALOG_NOTICE,
-    MATERIAL_CATEGORIES,
-    MATERIAL_DEFAULT_REGION,
-    MATERIAL_OUTPUT_OPTIONS,
-    MATERIAL_UPLOAD,
-    MATERIAL_UPPER_BODY_DRAFT_SLOT,
-    MATERIAL_UPPER_BODY_TOOL_ID,
-    buildMaterialPrompt,
-    computeMaterialOutput,
-    createMaterialSnapshot,
-    describeMaterialDrift,
-    isMaterialRegionUsable,
-    linkMaterialValues,
-    materialCategoryNameOf,
-    materialCategoryOf,
-    materialLeavesOf,
-    materialSubTypeOf,
-    readMaterialValues,
-    resolveMaterialCapability,
-    validateMaterialState,
-    type MaterialRegion,
-    type MaterialSnapshot,
-    type MaterialValues,
-} from "@/features/tools/registry/material-upper-body";
 import {
     AI_WEARABLE_DRAFT_SLOT,
     AI_WEARABLE_TOOL_ID,
@@ -360,21 +325,21 @@ function PickerCard({
             disabled={disabled}
             onClick={onClick}
             className={cn(
-                "flex h-20 w-[268px] max-w-full items-center gap-2 rounded-lg border bg-card px-2 text-left transition",
+                "flex w-[268px] max-w-full items-center gap-[10px] rounded-[6px] border bg-muted p-[10px] text-left transition",
                 open ? "border-primary" : "border-border hover:border-foreground/30",
                 disabled ? "cursor-not-allowed opacity-60" : "",
             )}
         >
-            <span className="flex size-12 shrink-0 items-center justify-center overflow-hidden rounded-md bg-muted text-muted-foreground">
-                {thumbnail ? <img src={thumbnail} alt="" className="size-full object-cover" /> : icon}
+            <span className="flex h-[58px] w-[58px] shrink-0 items-center justify-center overflow-hidden rounded-[4px] text-muted-foreground">
+                {thumbnail ? <img src={thumbnail} alt="" className="size-full object-contain" /> : icon}
             </span>
             <span className="min-w-0 flex-1">
                 {/* 原站两张选择卡的文案是固定占位（「选择商品品类 / 穿戴的商品品类」），选中值只体现在左侧缩略图 */}
-                <span className="block truncate text-[13px] leading-5 text-foreground">{title}</span>
+                <span className="block truncate text-[14px] leading-[22px] text-foreground/70">{title}</span>
                 <span className="block truncate text-[12px] leading-[18px] text-muted-foreground">{subtitle}</span>
                 {value ? <span data-testid={`${testId}-value`} className="sr-only">{value}</span> : null}
             </span>
-            <ArrowRight aria-hidden className="size-3.5 shrink-0 text-muted-foreground" />
+            <ChevronRight aria-hidden className="size-4 shrink-0 text-muted-foreground" />
         </button>
     );
 }
@@ -557,16 +522,6 @@ export function AiWearableWorkspace({ className, toolId = AI_WEARABLE_TOOL_ID }:
     const goodsTriggerRef = useRef<HTMLButtonElement | null>(null);
     const [applyingCaseId, setApplyingCaseId] = useState<string | null>(null);
     const [caseNotice, setCaseNotice] = useState<string | undefined>();
-    /** 原站 ant-tour 新手引导：可关闭（「我是高手，不再提醒」），会话内不再出现。 */
-    const [tourVisible, setTourVisible] = useState(() => (typeof sessionStorage !== "undefined" ? sessionStorage.getItem("ai-wearable-tour-dismissed") !== "1" : true));
-    const dismissTour = useCallback(() => {
-        setTourVisible(false);
-        try {
-            sessionStorage.setItem("ai-wearable-tour-dismissed", "1");
-        } catch {
-            /* 隐私模式等场景下写入失败只影响本次会话记忆，不阻塞关闭 */
-        }
-    }, []);
     const abortRef = useRef<AbortController | null>(null);
 
     const [productMask, setProductMask] = useState<RegionHistory>(() => ({ past: [], present: readWearableValues().productRegion, future: [] }));
@@ -830,6 +785,24 @@ export function AiWearableWorkspace({ className, toolId = AI_WEARABLE_TOOL_ID }:
         [applyProductMask, applyTargetMask, onModelChange, onProductChange, update, values.modelTabType, values.part],
     );
 
+    /** 「或试试这些」：原站示例图真实入库，作为穿戴商品图。 */
+    const [demoBusy, setDemoBusy] = useState<string | null>(null);
+    const pickDemo = useCallback(
+        async (src: string) => {
+            setDemoBusy(src);
+            setRunError(undefined);
+            try {
+                const record = await uploadCaseFile(src, "linkfox-demo-wearable");
+                onProductChange([record.id], [record]);
+            } catch (error) {
+                setRunError(error instanceof Error ? error.message : "示例图载入失败");
+            } finally {
+                setDemoBusy(null);
+            }
+        },
+        [onProductChange],
+    );
+
     /** 蒙版 → 同尺寸 PNG → 真实入库 → 字段引用（HTTPS 优先，否则本地资产 id）。 */
     const uploadMask = useCallback(async (region: WearableRegion, size: { width: number; height: number }, name: string) => {
         const blob = await renderWearableMaskBlob(region, size);
@@ -924,34 +897,25 @@ export function AiWearableWorkspace({ className, toolId = AI_WEARABLE_TOOL_ID }:
             ) : null}
 
             <ToolWorkspaceColumns
+                className="lg:h-[calc(100dvh-76px)]"
                 config={
-                    <>
-                        <Section title="上传穿戴商品" testId="dress-product-upload" extra={<ImageRulesPopover kind="wearable" testId="dress-rules" />}>
-                            <p className="mb-2 text-[11px] leading-4 text-muted-foreground">💡 以模特穿戴效果图作为商品图，会为AI提供更好的作图参考</p>
-                            {tourVisible ? (
-                                <div
-                                    data-testid="dress-tour"
-                                    className="mb-2 flex items-start justify-between gap-2 rounded-md border border-dashed border-border px-2 py-1.5"
-                                >
-                                    <span className="text-[11px] leading-4 text-foreground">第一步：选择示例图或上传模特穿戴商品图片</span>
-                                    <button
-                                        type="button"
-                                        data-testid="dress-tour-dismiss"
-                                        onClick={dismissTour}
-                                        className="shrink-0 text-[11px] leading-4 text-muted-foreground hover:text-foreground"
-                                    >
-                                        我是高手，不再提醒
-                                    </button>
-                                </div>
-                            ) : null}
+                    <div className="flex h-full min-h-0 flex-col overflow-y-auto rounded-[8px] bg-card px-4 pt-[10px]">
+                        <section data-testid="dress-product-upload">
+                            <p className="text-[12px] leading-[19px] text-muted-foreground">上传穿戴商品</p>
+                            <p className="mt-[10px] text-[12px] leading-[19px] text-muted-foreground">💡 以<span className="text-primary">模特穿戴效果图</span>作为商品图，会为AI提供更好的作图参考</p>
+                            <div className={cn(DESIGN_UPLOAD_PANEL, "mt-[10px]")}>
+                            <UploadPanelIcon />
+                            <div className="absolute right-[18px] top-[14px] z-30">
+                                <ImageRulesPopover kind="wearable" testId="dress-rules" />
+                            </div>
                             <ToolAssetInput
                                 toolId={toolId}
                                 variant="linkfox"
                                 wide
                                 maxCount={1}
                                 disabled={running}
-                                /* 原站上传卡：主按钮 214×24，居中于 268 内容宽（左右各 27px 内缩） */
-                                className="[&_[data-testid=tool-asset-upload-button]]:w-[214px]"
+                                /* 原站上传卡：虚线框 196 高，主按钮 214×24，居中于 268 内容宽（左右各 27px 内缩） */
+                                className={cn(DESIGN_UPLOAD_DROPZONE, "[&_[data-testid=tool-asset-upload-button]]:w-[214px]")}
                                 dropLabel="上传商品图"
                                 hint="10M以内，384*384 ~ 4096*4096"
                                 syncIds={values.productAssetId ? [values.productAssetId] : undefined}
@@ -992,6 +956,8 @@ export function AiWearableWorkspace({ className, toolId = AI_WEARABLE_TOOL_ID }:
                                 }}
                                 onChange={onProductChange}
                             />
+                            <TryDemoStrip demos={DESIGN_TRY_DEMOS.wearable} busySrc={demoBusy} disabled={running} onPick={(src) => void pickDemo(src)} />
+                            </div>
                             {libraryOpen === "works" ? (
                                 <PickerPanel anchor={worksTriggerRef.current} testId="dress-works-picker" title="从作品库选择" hint="作品库 = 本机作品库真实资产；空态即为真实状态。" onClose={() => setLibraryOpen(null)}>
                                     {library.length ? (
@@ -1026,65 +992,17 @@ export function AiWearableWorkspace({ className, toolId = AI_WEARABLE_TOOL_ID }:
                                     </p>
                                 </PickerPanel>
                             ) : null}
-                            {/* 原站上传卡下方「或试试这些」示例入口：点缩略图走 applyCase 真实入库回填，不是静态按钮 */}
-                            {AI_WEARABLE_CASES.length ? (
-                                <div className="mt-3" data-testid="dress-try-cases">
-                                    <p className="mb-1.5 text-center text-[11px] font-medium text-muted-foreground">或试试这些</p>
-                                    <div className="flex gap-2 overflow-x-auto pb-1">
-                                        {AI_WEARABLE_CASES.slice(0, 4).map((item) => (
-                                            <button
-                                                key={item.id}
-                                                type="button"
-                                                data-testid={`dress-try-case-${item.id}`}
-                                                aria-label={`使用示例 ${item.id} 做同款`}
-                                                disabled={applyingCaseId !== null}
-                                                onClick={() => void applyCase(item)}
-                                                className="shrink-0 overflow-hidden rounded-lg border border-border bg-card transition hover:border-primary/50 disabled:opacity-50"
-                                            >
-                                                <img src={item.result} alt={`穿戴示例 ${item.id}`} className="h-16 w-16 object-cover" loading="lazy" />
-                                            </button>
-                                        ))}
-                                    </div>
-                                </div>
-                            ) : null}
-                            <details className="mt-3 rounded-lg border border-border bg-background px-2 py-1.5" data-testid="dress-product-mask">
-                                <summary className="cursor-pointer text-[11px] leading-4 text-muted-foreground">穿戴区域微调（商品蒙版）</summary>
-                                <div className="mt-2">
-                                    <MaskEditor
-                                        label="商品蒙版"
-                                        hint="圈出要穿戴的商品主体，导出 PNG 与商品图同尺寸"
-                                        imageUrl={product?.url}
-                                        history={productMask}
-                                        onSet={applyProductMask}
-                                        onUndo={() =>
-                                            setProductMask((history) => {
-                                                const previous = history.past[history.past.length - 1];
-                                                if (!previous) return history;
-                                                update({ productRegion: previous });
-                                                return { past: history.past.slice(0, -1), present: previous, future: [history.present, ...history.future] };
-                                            })
-                                        }
-                                        onRedo={() =>
-                                            setProductMask((history) => {
-                                                const next = history.future[0];
-                                                if (!next) return history;
-                                                update({ productRegion: next });
-                                                return { past: [...history.past, history.present], present: next, future: history.future.slice(1) };
-                                            })
-                                        }
-                                        disabled={running}
-                                        testId="dress-mask-product"
-                                    />
-                                </div>
-                            </details>
-                        </Section>
+                        </section>
 
-                        <Section title="选择商品品类" testId="dress-category">
+                        {/* 原站「选择商品品类」：12px 标题 + 灰底行卡（缩略图 58×58） */}
+                        <section data-testid="dress-category" className="space-y-[10px] pt-[15px]">
+                            <p className="text-[12px] leading-[19px] text-muted-foreground">选择商品品类</p>
                             <PickerCard
                                 testId="dress-category-card"
                                 title="选择商品品类"
                                 subtitle="穿戴的商品品类"
                                 value={activeCategory.label}
+                                thumbnail="/__cases/design-common/image_general.webp"
                                 icon={categoryIcon(activeCategory.key)}
                                 disabled={running}
                                 open={picker === "category"}
@@ -1129,15 +1047,16 @@ export function AiWearableWorkspace({ className, toolId = AI_WEARABLE_TOOL_ID }:
                                     </ul>
                                 </PickerPanel>
                             ) : null}
-                        </Section>
+                        </section>
 
-                        <Section title="选择穿戴模特" testId="dress-model">
+                        <section data-testid="dress-model" className="space-y-[10px] pt-[15px]">
+                            <p className="text-[12px] leading-[19px] text-muted-foreground">选择穿戴模特</p>
                             <PickerCard
                                 testId="dress-model-card"
                                 title="选择穿戴模特"
                                 subtitle="穿戴的部位与模特参考"
                                 value={modelAsset?.name}
-                                thumbnail={modelAsset?.url}
+                                thumbnail={modelAsset?.url ?? DESIGN_ICON_FEATURE}
                                 icon={<ImageIcon aria-hidden className="size-6" />}
                                 disabled={running}
                                 open={picker === "model"}
@@ -1169,7 +1088,78 @@ export function AiWearableWorkspace({ className, toolId = AI_WEARABLE_TOOL_ID }:
                                     />
                                 </PickerPanel>
                             ) : null}
-                            <details className="mt-3 rounded-lg border border-border bg-background px-2 py-1.5" data-testid="dress-target-mask">
+                        </section>
+
+                        <section data-testid="dress-output" className="pt-[15px]">
+                            <p className="mb-[10px] text-[12px] leading-[22px] text-muted-foreground">选择生成张数</p>
+                            <div className="flex gap-[10px]" role="radiogroup" aria-label="生成张数" data-testid="dress-output-num">
+                                {WEARABLE_OUTPUT_OPTIONS.map((count) => {
+                                    const active = values.outputNum === count;
+                                    return (
+                                        <button
+                                            key={count}
+                                            type="button"
+                                            role="radio"
+                                            aria-checked={active}
+                                            data-output-num={count}
+                                            data-active={active ? "true" : undefined}
+                                            disabled={running || !capability.outputOptions.includes(count)}
+                                            onClick={() => update({ outputNum: count })}
+                                            className={cn(
+                                                "h-[26px] w-10 rounded-md border text-xs tabular-nums transition",
+                                                active ? "border-primary bg-primary/10 text-foreground" : "border-border bg-card text-foreground/80 hover:border-foreground/30",
+                                            )}
+                                        >
+                                            {count}
+                                        </button>
+                                    );
+                                })}
+                            </div>
+                            <p className="mt-[10px] px-1 text-[12px] leading-[19px] text-muted-foreground">
+                                Tips：为您的穿戴商品选择与原图<span className="text-primary">角度、部位与画面占比</span>相近的模特参考，生成的效果更好哦！
+                            </p>
+                        </section>
+
+                        {/* 原站首屏没有的蒙版微调（真实提交 productMask / targetMask），收进「更多设置」默认折叠 */}
+                        <details data-testid="dress-more-settings" className="group/more mt-[10px] text-[12px] leading-[18px] text-muted-foreground">
+                            <summary className="cursor-pointer list-none py-1 hover:text-foreground [&::-webkit-details-marker]:hidden">
+                                <span className="inline-flex items-center gap-1">
+                                    <ChevronRight aria-hidden="true" className="size-3.5 transition group-open/more:rotate-90" />
+                                    更多设置
+                                </span>
+                            </summary>
+                            <div className="mt-[6px] space-y-2">
+                            <details className="rounded-[6px] border border-border bg-background px-2 py-1.5" data-testid="dress-product-mask">
+                                <summary className="cursor-pointer text-[11px] leading-4 text-muted-foreground">穿戴区域微调（商品蒙版）</summary>
+                                <div className="mt-2">
+                                    <MaskEditor
+                                        label="商品蒙版"
+                                        hint="圈出要穿戴的商品主体，导出 PNG 与商品图同尺寸"
+                                        imageUrl={product?.url}
+                                        history={productMask}
+                                        onSet={applyProductMask}
+                                        onUndo={() =>
+                                            setProductMask((history) => {
+                                                const previous = history.past[history.past.length - 1];
+                                                if (!previous) return history;
+                                                update({ productRegion: previous });
+                                                return { past: history.past.slice(0, -1), present: previous, future: [history.present, ...history.future] };
+                                            })
+                                        }
+                                        onRedo={() =>
+                                            setProductMask((history) => {
+                                                const next = history.future[0];
+                                                if (!next) return history;
+                                                update({ productRegion: next });
+                                                return { past: [...history.past, history.present], present: next, future: history.future.slice(1) };
+                                            })
+                                        }
+                                        disabled={running}
+                                        testId="dress-mask-product"
+                                    />
+                                </div>
+                            </details>
+                            <details className="rounded-[6px] border border-border bg-background px-2 py-1.5" data-testid="dress-target-mask">
                                 <summary className="cursor-pointer text-[11px] leading-4 text-muted-foreground">穿戴区域微调（模特蒙版）</summary>
                                 <div className="mt-2">
                                     <MaskEditor
@@ -1199,37 +1189,11 @@ export function AiWearableWorkspace({ className, toolId = AI_WEARABLE_TOOL_ID }:
                                     />
                                 </div>
                             </details>
-                        </Section>
-
-                        <Section title="选择生成张数" testId="dress-output">
-                            <div className="flex gap-2" role="radiogroup" aria-label="生成张数" data-testid="dress-output-num">
-                                {WEARABLE_OUTPUT_OPTIONS.map((count) => {
-                                    const active = values.outputNum === count;
-                                    return (
-                                        <button
-                                            key={count}
-                                            type="button"
-                                            role="radio"
-                                            aria-checked={active}
-                                            data-output-num={count}
-                                            data-active={active ? "true" : undefined}
-                                            disabled={running || !capability.outputOptions.includes(count)}
-                                            onClick={() => update({ outputNum: count })}
-                                            className={cn(
-                                                "h-[26px] w-10 rounded-md border text-xs tabular-nums transition",
-                                                active ? "border-primary bg-primary/10 text-foreground" : "border-border bg-card text-foreground/80 hover:border-foreground/30",
-                                            )}
-                                        >
-                                            {count}
-                                        </button>
-                                    );
-                                })}
                             </div>
-                            <p className="mt-3 text-[11px] leading-4 text-muted-foreground">Tips：为您的穿戴商品选择与原图角度、部位与画面占比相近的模特参考，生成的效果更好哦！</p>
-                        </Section>
+                        </details>
 
                         {/* 原站主按钮吸底 268×32：sticky 保证在滚动末端可达，不被父级裁切 */}
-                        <div className="sticky bottom-0 z-10 mt-1 flex w-[268px] flex-col gap-1.5 bg-white/95 pb-1 pt-2 backdrop-blur">
+                        <div className="sticky bottom-0 z-10 mt-auto flex w-[268px] flex-col gap-1.5 bg-card pb-1 pt-2">
                             {issues.length ? (
                                 <ul className="list-disc pl-4 text-[11px] leading-4 text-amber-600" data-testid="dress-issues">
                                     {issues.map((issue) => (
@@ -1259,12 +1223,12 @@ export function AiWearableWorkspace({ className, toolId = AI_WEARABLE_TOOL_ID }:
                                 </button>
                             ) : null}
                         </div>
-                    </>
+                    </div>
                 }
             >
                 {/* 原站结果区整列固定不动：整页滚动时右列贴顶，只有左配置列滚动 */}
-                <section className="flex min-w-0 flex-col gap-3 lg:sticky lg:top-0 lg:self-start" aria-label="结果区">
-                    <div className="flex h-10 shrink-0 items-center gap-4 border-b border-border" data-testid="dress-right-tabs">
+                <section className="flex h-full min-h-0 min-w-0 flex-col gap-3 overflow-y-auto rounded-[8px]" aria-label="结果区">
+                    <div className="flex h-10 shrink-0 items-center gap-4 border-b border-border bg-card px-4" data-testid="dress-right-tabs">
                         <div role="tablist" aria-label="右栏面板" className="flex h-10 items-stretch gap-4">
                             {WEARABLE_RIGHT_TABS.map((item) => {
                                 const active = !historyOpen && rightTab === item.id;
@@ -1325,10 +1289,12 @@ export function AiWearableWorkspace({ className, toolId = AI_WEARABLE_TOOL_ID }:
                     ) : rightTab === "result" ? (
                         <>
                             {/* 原站结果区没有二级「生成结果」标题：Tab 即标题，空态是三步引导卡 + 一键做同款 */}
-                            <section data-testid="dress-results-section" className="flex flex-col gap-2">
-                                <p className="text-right text-[11px] text-muted-foreground">
-                                    本次 {values.outputNum} 张 · 已返回 {result.cells.filter((cell) => cell.status === "succeeded").length} 张
-                                </p>
+                            <section data-testid="dress-results-section" className="flex flex-1 flex-col gap-2 px-4 pb-4">
+                                {task || running ? (
+                                    <p className="text-right text-[11px] text-muted-foreground">
+                                        本次 {values.outputNum} 张 · 已返回 {result.cells.filter((cell) => cell.status === "succeeded").length} 张
+                                    </p>
+                                ) : null}
                                 {drift && task ? (
                                     <p data-testid="dress-stale" className="rounded-md bg-amber-50 px-2 py-1 text-[11px] text-amber-700 dark:bg-amber-950/40 dark:text-amber-300">
                                         配置已变更（{drift}），下面的结果来自上一版配置，请重新生成。
@@ -1337,27 +1303,14 @@ export function AiWearableWorkspace({ className, toolId = AI_WEARABLE_TOOL_ID }:
                                 {result.cells.some((cell) => cell.status === "succeeded" || cell.status === "failed") || running ? (
                                     <VariantGrid cells={result.cells} expected={values.outputNum} running={running} onRetryCell={(index) => void submit(index)} />
                                 ) : (
-                                    <div className="flex flex-col items-center gap-3 py-12" data-testid="dress-empty">
-                                        <div className="flex items-center gap-3 text-[12px] text-muted-foreground">
-                                            <span className="rounded-full bg-muted px-3 py-1">上传穿戴物品</span>
-                                            <span>→</span>
-                                            <span className="rounded-full bg-muted px-3 py-1">选择参考图</span>
-                                            <span>→</span>
-                                            <span className="rounded-full bg-muted px-3 py-1">生成结果</span>
-                                        </div>
-                                        <p className="text-[11px] text-muted-foreground">快在左侧上传商品图并选择穿戴区域吧~</p>
-                                        <button
-                                            type="button"
-                                            data-testid="ai-wearable-apply-case"
-                                            disabled={applyingCaseId !== null}
-                                            onClick={() => {
-                                                const showcase = AI_WEARABLE_CASES[0];
-                                                if (showcase) void applyCase(showcase);
-                                            }}
-                                            className="h-10 w-[110px] rounded-md bg-primary text-[12px] leading-[18px] text-primary-foreground transition hover:bg-primary/90 disabled:opacity-50"
-                                        >
-                                            一键做同款
-                                        </button>
+                                    <div className="flex min-h-[calc(100dvh-160px)] pt-[42px] flex-1 flex-col items-center justify-center" data-testid="dress-empty">
+                                        <ToolCaseGuide
+                                            className={DESIGN_GUIDE_PORTRAIT}
+                                            title="选择穿戴区域，上传穿戴物品，快速将物品穿戴上身生成特写图"
+                                            cases={AI_WEARABLE_GUIDE_CASES}
+                                            applyingId={applyingCaseId}
+                                            onApply={applyCase}
+                                        />
                                     </div>
                                 )}
                             </section>
@@ -1385,626 +1338,7 @@ const fmt = (region: WearableRegion) =>
 
 export default DressWorkspace;
 
-/* ======================================================================= */
-/* MATERIAL_UPPER_BODY（上装换料，makeType 16）                             */
-/* 页面规格：docs/V1.0/plan_linkfox_navigation/page-specs/30-material-upper-body.md */
-/* ======================================================================= */
-
-const MATERIAL_DRAFT_SLOT = MATERIAL_UPPER_BODY_DRAFT_SLOT;
-
-/** 蒙版椭圆的真实可调参数：拖动等价物（range），改动即写草稿并重算 prompt。 */
-function MaterialRegionSlider({
-    label,
-    value,
-    min = 0,
-    max = 100,
-    onChange,
-    disabled,
-    testId,
-}: {
-    label: string;
-    value: number;
-    min?: number;
-    max?: number;
-    onChange: (next: number) => void;
-    disabled?: boolean;
-    testId: string;
-}) {
-    return (
-        <label className="flex items-center gap-2 text-[11px] text-muted-foreground">
-            <span className="w-16 shrink-0">{label}</span>
-            <input
-                data-testid={testId}
-                type="range"
-                min={min}
-                max={max}
-                step={1}
-                value={Math.round(value * 100)}
-                disabled={disabled}
-                onChange={(event) => onChange(Number(event.target.value) / 100)}
-                className="h-4 min-w-0 flex-1 accent-primary"
-            />
-            <span data-testid={`${testId}-value`} className="w-9 shrink-0 text-right tabular-nums">
-                {Math.round(value * 100)}%
-            </span>
-        </label>
-    );
-}
-
-function MaterialUpperBodyWorkspaceLegacy({ className, toolId = MATERIAL_UPPER_BODY_TOOL_ID }: { className?: string; toolId?: string }) {
-    const hydrate = useToolDraftStore((state) => state.hydrate);
-    const patchDraft = useToolDraftStore((state) => state.patch);
-    const flushDraft = useToolDraftStore((state) => state.flush);
-    const draft = useToolDraftStore((state) => state.drafts[toolId]);
-    const config = useConfigStore((state) => state.config);
-    const imageModel = useConfigStore((state) => state.config.imageModel);
-
-    const [values, setValues] = useState<MaterialValues>(() => readMaterialValues());
-    const [source, setSource] = useState<MaterialSourceAsset | undefined>();
-    const [restoring, setRestoring] = useState(false);
-    const [lostAssets, setLostAssets] = useState<string[]>([]);
-    const [task, setTask] = useState<ToolTask | undefined>();
-    const [snapshot, setSnapshot] = useState<MaterialSnapshot | undefined>();
-    const [running, setRunning] = useState(false);
-    const [runError, setRunError] = useState<string | undefined>();
-    const [linkNotice, setLinkNotice] = useState<string | undefined>();
-    const [materialLibrary, setMaterialLibrary] = useState<"works" | "goods" | null>(null);
-    const [materialHistoryOpen, setMaterialHistoryOpen] = useState(false);
-    const materialWorksRef = useRef<HTMLButtonElement | null>(null);
-    const materialGoodsRef = useRef<HTMLButtonElement | null>(null);
-    const assets = useAssetStore((state) => state.assets);
-    const materialLibraryItems = useMemo(
-        () => toolAssetLibraryItemsFromAssets(assets.filter((asset): asset is ImageAsset => asset.kind === "image")),
-        [assets],
-    );
-
-    const abortRef = useRef<AbortController | null>(null);
-
-    useEffect(() => {
-        let cancelled = false;
-        void (async () => {
-            const restored = await hydrate(toolId);
-            if (cancelled) return;
-            const parsed = readMaterialValues(restored?.values?.[MATERIAL_DRAFT_SLOT] as Record<string, unknown> | undefined);
-            setValues(parsed);
-            if (!parsed.imageAssetId) return;
-            setRestoring(true);
-            try {
-                const { records, lostIds } = await loadToolAssetRecords([parsed.imageAssetId]);
-                if (cancelled) return;
-                const record = records.find((item) => item.id === parsed.imageAssetId);
-                if (record) setSource(materialSourceFromRecord(record));
-                const lost = [...lostIds];
-                if (!record) lost.push(parsed.imageAssetId);
-                setLostAssets(Array.from(new Set(lost)));
-            } finally {
-                if (!cancelled) setRestoring(false);
-            }
-        })();
-        return () => {
-            cancelled = true;
-            void flushDraft(toolId);
-        };
-    }, [toolId, hydrate, flushDraft]);
-
-    const update = useCallback(
-        (next: Partial<MaterialValues>) => {
-            setValues((previous) => {
-                const linked = linkMaterialValues({ ...previous, ...next });
-                patchDraft(toolId, { values: { [MATERIAL_DRAFT_SLOT]: linked.values }, assetIds: [linked.values.imageAssetId].filter(Boolean) });
-                if (linked.changes.length) setLinkNotice(linked.changes.join("；"));
-                return linked.values;
-            });
-        },
-        [patchDraft, toolId],
-    );
-
-    const descriptor = useMemo(() => describeToolExecution(MATERIAL_UPPER_BODY_TOOL_ID), []);
-    const provider = useMemo(() => {
-        const effective = values.modelId || imageModel;
-        if (!effective?.trim()) return "";
-        try {
-            return resolveModelChannel(config, effective).apiFormat;
-        } catch {
-            return "";
-        }
-    }, [config, imageModel, values.modelId]);
-
-
-    const capability = useMemo(
-        () =>
-            resolveMaterialCapability({
-                modelId: values.modelId || imageModel,
-                modelReady: Boolean((values.modelId || imageModel)?.trim()),
-                provider,
-                descriptor,
-            }),
-        [values.modelId, imageModel, provider, descriptor],
-    );
-
-    const issues = useMemo(
-        () => validateMaterialState({ values, capability, sourceReady: isMaterialSourceReady(source), sourceSize: source }),
-        [values, capability, source],
-    );
-    const blocked = running || issues.length > 0;
-    const output = computeMaterialOutput(values, capability);
-    const prompt = useMemo(() => buildMaterialPrompt(values, capability), [values, capability]);
-    const currentSnapshot = useMemo(() => createMaterialSnapshot(values, capability, draft?.revision ?? null), [values, capability, draft?.revision]);
-    const drift = useMemo(() => describeMaterialDrift(snapshot, currentSnapshot), [snapshot, currentSnapshot]);
-    const cells = useMemo(() => materialResultCells(task, values.outputNum), [task, values.outputNum]);
-    const driftText = useMemo(() => (task ? drift : undefined), [task, drift]);
-
-    const onUpload = useCallback(
-        async (ids: string[], records: ToolAssetRecord[]) => {
-            const record = records.find((item) => item.id === ids[0]);
-            if (!record) {
-                setSource(undefined);
-                update({ imageAssetId: "", imageName: "" });
-                return;
-            }
-            const next = materialSourceFromRecord(record);
-            const sizeCheck = validateMaterialSourceSize(next);
-            if (!sizeCheck.ok) {
-                setRunError(sizeCheck.message);
-                setSource(undefined);
-                update({ imageAssetId: "", imageName: "" });
-                return;
-            }
-            setRunError(undefined);
-            setSource(next);
-            update({ imageAssetId: next.assetId, imageName: values.imageName.trim() || next.name });
-        },
-        [update, values.imageName],
-    );
-
-    /** 作品库条目 → 工具资产记录（同一份字节）→ 复用上传回调回填源图。 */
-    const pickMaterialFromLibrary = useCallback(
-        async (item: ToolAssetLibraryItem) => {
-            try {
-                const record = await adoptLibraryAsset(item);
-                await onUpload([record.id], [record]);
-                setMaterialLibrary(null);
-            } catch (error) {
-                setRunError(error instanceof Error ? error.message : "作品库素材读取失败，请换一张");
-            }
-        },
-        [onUpload],
-    );
-
-    const uploadMaskBlob = useCallback(async (region: MaterialRegion, size: { width: number; height: number }) => {
-        const blob = await renderMaterialMaskBlob(region, size);
-        const record = await uploadToolAsset(blob, { name: `material-upper-body-mask-${Date.now()}.png` });
-        return { assetId: record.id, name: record.name, mimeType: record.mimeType, url: record.url, dataUrl: record.url, width: record.width, height: record.height };
-    }, []);
-
-    const submit = useCallback(
-        async (variantIndex?: number) => {
-            if (!source) return;
-            setRunning(true);
-            setRunError(undefined);
-            const controller = new AbortController();
-            abortRef.current = controller;
-            try {
-                await flushDraft(toolId);
-                const maskRef = values.isMatting ? await uploadMaskBlob(values.mattingRegion, materialMaskSizeFor(source)) : null;
-                const runValues: MaterialValues = variantIndex === undefined ? values : { ...values, outputNum: 1 };
-                const run = await runMaterialUpperBody({
-                    gateway: getPersistedToolGateway(),
-                    values: runValues,
-                    capability,
-                    source,
-                    mask: maskRef,
-                    modelOverride: values.modelId || imageModel,
-                    revision: draft?.revision ?? null,
-                    signal: controller.signal,
-                    onUpdate: (next) => setTask((previous) => (variantIndex === undefined || !previous ? next : previous)),
-                });
-                setSnapshot(run.snapshot);
-                if (variantIndex === undefined) setTask(run.task);
-                else setTask((previous) => (previous ? mergeMaterialVariant(previous, run.task, variantIndex) : run.task));
-                if (run.changes.length) setLinkNotice(`已自动联动：${run.changes.join("；")}`);
-            } catch (error) {
-                const message = error instanceof MaterialUpperBodyAdapterError || error instanceof Error ? error.message : "生成失败。";
-                setRunError(message);
-            } finally {
-                setRunning(false);
-                abortRef.current = null;
-            }
-        },
-        [source, flushDraft, toolId, values, capability, uploadMaskBlob, imageModel, draft?.revision],
-    );
-
-    const cancel = useCallback(() => {
-        abortRef.current?.abort();
-        abortRef.current = null;
-    }, []);
-
-    const category = materialCategoryOf(values.categoryKey);
-    const leaves = materialLeavesOf(values.categoryKey);
-
-    const disabledField = running || restoring;
-
-    return (
-        <div data-testid="material-workspace" className={cn("flex flex-col gap-3", className)}>
-            <div className="flex flex-wrap items-center justify-between gap-2">
-                <div>
-                    <h2 className="text-base font-semibold text-foreground">上装换料</h2>
-                    <p className="text-[11px] text-muted-foreground">上传一件上装，选择材质类目与子类，生成换料成片</p>
-                </div>
-            </div>
-
-            {lostAssets.length ? (
-                <p data-testid="material-lost" className="rounded-md bg-amber-50 px-3 py-2 text-[11px] text-amber-700 dark:bg-amber-950/40 dark:text-amber-300">
-                    有 {lostAssets.length} 个上次的图片资产已失效（{lostAssets.join("、")}），请重新上传。
-                </p>
-            ) : null}
-
-            <ToolWorkspaceColumns
-                config={
-                    <>
-
-                    <Section title="上传上装图片" hint="10M以内，384*384 ~ 4096*4096" testId="material-upload">
-                        <ToolAssetInput
-                            toolId={toolId}
-                            variant="linkfox"
-                            wide
-                            maxCount={1}
-                            disabled={disabledField}
-                            dropLabel="上传上装图"
-                            hint="10M以内，384*384 ~ 4096*4096"
-                            syncIds={values.imageAssetId ? [values.imageAssetId] : undefined}
-                            actions={
-                                <div className="flex w-full items-center gap-2">
-                                    <button
-                                        ref={materialWorksRef}
-                                        type="button"
-                                        data-testid="material-from-works"
-                                        disabled={disabledField}
-                                        onClick={() => setMaterialLibrary("works")}
-                                        className="h-6 w-[100px] rounded border border-primary bg-card text-[12px] leading-none text-primary transition hover:bg-primary/10 disabled:opacity-50"
-                                    >
-                                        从作品库选择
-                                    </button>
-                                    <button
-                                        ref={materialGoodsRef}
-                                        type="button"
-                                        data-testid="material-from-goods"
-                                        disabled={disabledField}
-                                        onClick={() => setMaterialLibrary("goods")}
-                                        className="h-6 w-[100px] rounded border border-primary bg-card text-[12px] leading-none text-primary transition hover:bg-primary/10 disabled:opacity-50"
-                                    >
-                                        从商品库选择
-                                    </button>
-                                </div>
-                            }
-                            constraints={{ kind: "image", mimeTypes: [...MATERIAL_UPLOAD.mimeTypes], maxBytes: MATERIAL_UPLOAD.maxBytes }}
-                            onChange={onUpload}
-                        />
-                        {/* 素材名不进 UI：提交时由上传资产名兜底（adapter 已实现） */}
-                        {source ? (
-                            <p data-testid="material-source-meta" className="mt-2 text-[11px] text-muted-foreground">
-                                已就绪：{source.name} · {source.width ?? "?"}×{source.height ?? "?"}
-                            </p>
-                        ) : null}
-                        {materialLibrary === "works" ? (
-                            <PickerPanel anchor={materialWorksRef.current} testId="material-works-picker" title="从作品库选择" hint="作品库 = 本机作品库真实资产。" onClose={() => setMaterialLibrary(null)}>
-                                {materialLibraryItems.length ? (
-                                    <ul className="grid max-h-64 grid-cols-3 gap-2 overflow-y-auto">
-                                        {materialLibraryItems.map((item) => (
-                                            <li key={item.id}>
-                                                <button
-                                                    type="button"
-                                                    data-testid={`material-work-${item.id}`}
-                                                    onClick={() => void pickMaterialFromLibrary(item)}
-                                                    className="w-full overflow-hidden rounded-md border border-border text-left transition hover:border-primary"
-                                                >
-                                                    <img src={item.url} alt={item.name} className="h-16 w-full object-cover" />
-                                                    <span className="block truncate px-1 py-1 text-[11px] text-muted-foreground">{item.name}</span>
-                                                </button>
-                                            </li>
-                                        ))}
-                                    </ul>
-                                ) : (
-                                    <p data-testid="material-works-empty" className="py-6 text-center text-[12px] text-muted-foreground">作品库还没有图片，先在画布/图片页生成或上传吧。</p>
-                                )}
-                            </PickerPanel>
-                        ) : null}
-                        {materialLibrary === "goods" ? (
-                            <PickerPanel anchor={materialGoodsRef.current} testId="material-goods-picker" title="从商品库选择" hint="原站弹层：排序规则：更新时间 ↓ / 暂无商品。" onClose={() => setMaterialLibrary(null)}>
-                                <p data-testid="material-goods-empty" className="py-6 text-center text-[12px] leading-5 text-muted-foreground">
-                                    本机没有接入账号级商品库，这里没有可选的商品。
-                                    <br />
-                                    需要上装图请用「从本地上传」或「从作品库选择」。
-                                </p>
-                            </PickerPanel>
-                        ) : null}
-                    </Section>
-
-                    <Section title="材质类目" hint={MATERIAL_CATALOG_NOTICE} testId="material-categories">
-                        <div data-testid="material-category-tree" className="flex flex-wrap gap-1">
-                            {MATERIAL_CATEGORIES.map((item) => {
-                                const active = values.categoryKey === item.key;
-                                return (
-                                    <button
-                                        key={item.key}
-                                        type="button"
-                                        data-category={item.key}
-                                        data-active={active ? "true" : undefined}
-                                        disabled={disabledField}
-                                        aria-pressed={active}
-                                        title={item.hint}
-                                        onClick={() => update({ categoryKey: item.key, leafKeys: [] })}
-                                        className={cn(
-                                            "min-h-9 rounded-md border px-2 text-xs",
-                                            active ? "border-primary bg-primary text-primary-foreground" : "border-border text-foreground",
-                                        )}
-                                    >
-                                        {item.label}
-                                    </button>
-                                );
-                            })}
-                        </div>
-
-                        {category ? (
-                            <div data-testid="material-leaves" className="mt-2 flex flex-wrap gap-1">
-                                {leaves.map((leaf) => {
-                                    const active = values.leafKeys.includes(leaf.key);
-                                    return (
-                                        <button
-                                            key={leaf.key}
-                                            type="button"
-                                            data-leaf={`${category.key}.${leaf.key}`}
-                                            data-active={active ? "true" : undefined}
-                                            disabled={disabledField}
-                                            aria-pressed={active}
-                                            title={leaf.texture}
-                                            onClick={() =>
-                                                update({
-                                                    leafKeys: active ? values.leafKeys.filter((key) => key !== leaf.key) : [...values.leafKeys, leaf.key],
-                                                })
-                                            }
-                                            className={cn(
-                                                "min-h-9 rounded-md border px-2 text-xs",
-                                                active ? "border-primary/60 bg-primary/10 text-foreground" : "border-border text-muted-foreground",
-                                            )}
-                                        >
-                                            {leaf.label}
-                                        </button>
-                                    );
-                                })}
-                            </div>
-                        ) : (
-                            <p data-testid="material-leaves-empty" className="mt-2 text-[11px] text-muted-foreground">
-                                先选择材质大类，子类会自动联动出现。
-                            </p>
-                        )}
-
-                        <p className="mt-3 text-[11px] text-muted-foreground" data-testid="material-category-summary">
-                            {materialCategoryNameOf(values) ? `${materialCategoryNameOf(values)}${materialSubTypeOf(values) ? ` · ${materialSubTypeOf(values)}` : ""}` : "未选择材质类目"}
-                        </p>
-                    </Section>
-
-                    <Section title="抠图与上装蒙版" hint="开启后会额外提交一张与原图同尺寸的蒙版参考图" testId="material-matting">
-                        <label className="flex items-center gap-2 text-xs text-foreground">
-                            <input
-                                data-testid="material-is-matting"
-                                type="checkbox"
-                                checked={values.isMatting}
-                                disabled={disabledField}
-                                onChange={(event) => update({ isMatting: event.target.checked })}
-                                className="h-4 w-4 accent-primary"
-                            />
-                            抠图上装（仅保留上装区域参与换料）
-                        </label>
-
-                        {values.isMatting ? (
-                            <div className="mt-3 flex flex-col gap-2">
-                                <div data-testid="material-mask-preview" className="relative overflow-hidden rounded-lg border border-border bg-muted">
-                                    {source?.url ? (
-                                        <img src={source.url} alt="上装预览" className="h-56 w-full object-contain" />
-                                    ) : (
-                                        <div className="flex h-56 items-center justify-center text-[11px] text-muted-foreground">上传后可预览蒙版位置</div>
-                                    )}
-                                    <div
-                                        data-mask-overlay="true"
-                                        className="pointer-events-none absolute rounded-[50%] border-2 border-primary bg-primary/20"
-                                        style={{
-                                            left: `${(values.mattingRegion.cx - values.mattingRegion.rx) * 100}%`,
-                                            top: `${(values.mattingRegion.cy - values.mattingRegion.ry) * 100}%`,
-                                            width: `${values.mattingRegion.rx * 200}%`,
-                                            height: `${values.mattingRegion.ry * 200}%`,
-                                        }}
-                                    />
-                                </div>
-                                <div className="flex flex-col gap-1">
-                                    <MaterialRegionSlider label="水平" value={values.mattingRegion.cx} onChange={(cx) => update({ mattingRegion: { ...values.mattingRegion, cx } })} disabled={disabledField} testId="material-region-cx" />
-                                    <MaterialRegionSlider label="垂直" value={values.mattingRegion.cy} onChange={(cy) => update({ mattingRegion: { ...values.mattingRegion, cy } })} disabled={disabledField} testId="material-region-cy" />
-                                    <MaterialRegionSlider label="半宽" value={values.mattingRegion.rx} onChange={(rx) => update({ mattingRegion: { ...values.mattingRegion, rx } })} disabled={disabledField} testId="material-region-rx" />
-                                    <MaterialRegionSlider label="半高" value={values.mattingRegion.ry} onChange={(ry) => update({ mattingRegion: { ...values.mattingRegion, ry } })} disabled={disabledField} testId="material-region-ry" />
-                                </div>
-                                <div className="flex items-center justify-between text-[11px] text-muted-foreground">
-                                    <span data-testid="material-region-state" data-usable={isMaterialRegionUsable(values.mattingRegion) ? "true" : "false"}>
-                                        {isMaterialRegionUsable(values.mattingRegion) ? "蒙版区域可用" : "蒙版区域太小，请放大"}
-                                    </span>
-                                    <button
-                                        type="button"
-                                        data-testid="material-region-reset"
-                                        disabled={disabledField}
-                                        onClick={() => update({ mattingRegion: { ...MATERIAL_DEFAULT_REGION } })}
-                                        className="min-h-8 rounded-md border border-border px-2 text-[11px]"
-                                    >
-                                        重置蒙版
-                                    </button>
-                                </div>
-                            </div>
-                        ) : null}
-                    </Section>
-
-                    <Section title="选择生成张数" hint={`1–${capability.maxOutput} 张`} testId="material-output">
-                        <div data-testid="material-output-options" role="radiogroup" aria-label="生成张数" className="flex flex-wrap gap-1">
-                            {MATERIAL_OUTPUT_OPTIONS.filter((option) => option <= capability.maxOutput).map((option) => {
-                                const active = values.outputNum === option;
-                                return (
-                                    <button
-                                        key={option}
-                                        type="button"
-                                        role="radio"
-                                        aria-checked={active}
-                                        data-output={option}
-                                        data-active={active ? "true" : undefined}
-                                        disabled={disabledField}
-                                        onClick={() => update({ outputNum: option })}
-                                        className={cn(
-                                            "min-h-9 min-w-12 rounded-md border px-2 text-xs",
-                                            active ? "border-primary bg-primary text-primary-foreground" : "border-border text-foreground",
-                                        )}
-                                    >
-                                        {option} 张
-                                    </button>
-                                );
-                            })}
-                        </div>
-
-                        {issues.length ? (
-                            <ul className="mt-2 list-disc pl-4 text-[11px] text-amber-600" data-testid="material-issues">
-                                {issues.map((issue) => (
-                                    <li key={`${issue.field}-${issue.message}`} data-issue={issue.field}>
-                                        {issue.message}
-                                    </li>
-                                ))}
-                            </ul>
-                        ) : null}
-                        {capability.notices.length ? (
-                            <ul className="mt-2 list-disc pl-4 text-[11px] text-muted-foreground" data-testid="material-notices">
-                                {capability.notices.map((notice) => (
-                                    <li key={notice}>{notice}</li>
-                                ))}
-                            </ul>
-                        ) : null}
-                        {linkNotice ? (
-                            <p className="mt-2 text-[11px] text-muted-foreground" data-testid="material-link-notice">
-                                {linkNotice}
-                            </p>
-                        ) : null}
-                        {runError ? (
-                            <p className="mt-2 text-[11px] text-red-600" data-testid="material-run-error">
-                                {runError}
-                            </p>
-                        ) : null}
-                    </Section>
-
-                    {/* 原站主按钮吸底 268×32：sticky 保证滚动末端可达，不被父级裁切 */}
-                    <div className="sticky bottom-0 z-10 flex w-[268px] flex-col gap-1.5 bg-white/95 pb-1 pt-2 backdrop-blur">
-                        <button
-                            type="button"
-                            data-testid="material-submit"
-                            disabled={blocked}
-                            onClick={() => void submit()}
-                            className="h-8 w-full rounded-md bg-primary text-sm font-medium text-primary-foreground shadow-sm transition hover:bg-primary/90 disabled:cursor-not-allowed disabled:opacity-50"
-                        >
-                            {running ? "生成中…" : `立即生成 (${values.outputNum}张)`}
-                        </button>
-                        {running ? (
-                            <button type="button" onClick={cancel} data-testid="material-cancel" className="h-7 w-full rounded-md border border-border text-xs">
-                                取消本次生成
-                            </button>
-                        ) : null}
-                    </div>
-                    </>
-                }
-            >
-                <section className="flex min-w-0 flex-col gap-3 lg:sticky lg:top-0 lg:self-start" aria-label="结果区">
-                    {/* 原站结果区：左侧「生成结果」页签 + 右上「历史记录」入口，没有自造的提交快照卡 */}
-                    <div className="flex h-10 shrink-0 items-center gap-4 border-b border-border" data-testid="material-right-tabs">
-                        <div role="tablist" aria-label="右栏面板" className="flex h-10 items-stretch">
-                            <button
-                                type="button"
-                                role="tab"
-                                aria-selected={!materialHistoryOpen}
-                                data-testid="material-tab-result"
-                                onClick={() => setMaterialHistoryOpen(false)}
-                                className={cn(
-                                    "relative flex h-10 items-center text-sm transition-colors",
-                                    materialHistoryOpen ? "text-muted-foreground hover:text-foreground" : "font-medium text-foreground",
-                                )}
-                            >
-                                生成结果
-                                {materialHistoryOpen ? null : <span className="absolute bottom-0 left-0 h-[2px] w-full rounded-full bg-foreground" />}
-                            </button>
-                        </div>
-                        <button
-                            type="button"
-                            data-testid="material-history-entry"
-                            aria-pressed={materialHistoryOpen}
-                            onClick={() => setMaterialHistoryOpen((open) => !open)}
-                            className={cn("ml-auto flex h-10 items-center gap-1 text-xs", materialHistoryOpen ? "text-foreground" : "text-muted-foreground hover:text-foreground")}
-                        >
-                            <HistoryIcon aria-hidden className="size-3.5" />
-                            历史记录
-                        </button>
-                    </div>
-
-                    {materialHistoryOpen ? (
-                        <Section title="历史记录" hint="本机真实落盘的任务快照" testId="material-history">
-                            <ToolTaskHistory toolId={toolId} limit={8} emptyHint="还没有上装换料任务记录" />
-                        </Section>
-                    ) : null}
-
-                    {materialHistoryOpen ? null : (
-                    <section data-testid="material-results-section" className="flex flex-col gap-2">
-                        <p className="text-right text-[11px] text-muted-foreground">本次 {values.outputNum} 张 · 已返回 {cells.filter((cell) => cell.status === "filled").length} 张</p>
-                        {driftText ? (
-                            <p data-testid="material-stale" className="mb-2 rounded-md bg-amber-50 px-2 py-1 text-[11px] text-amber-700 dark:bg-amber-950/40 dark:text-amber-300">
-                                配置已变更（{driftText}），下面的结果来自上一版配置，请重新生成。
-                            </p>
-                        ) : null}
-                        <div data-testid="material-result-grid" className="grid grid-cols-2 gap-2">
-                            {cells.map((cell) => {
-                                const src = cell.item?.url ?? cell.item?.dataUrl ?? "";
-                                return (
-                                    <div key={cell.index} data-cell={cell.index} data-status={cell.status} className="rounded-xl border border-border bg-background p-2">
-                                        <div className="mb-1 flex items-center justify-between text-[11px] text-muted-foreground">
-                                            <span>第 {cell.index + 1} 张</span>
-                                            <span>{cell.status === "filled" ? "已完成" : cell.status === "failed" ? "失败" : running ? "生成中…" : "待生成"}</span>
-                                        </div>
-                                        <div className="flex aspect-[3/4] items-center justify-center overflow-hidden rounded-lg bg-muted">
-                                            {src ? <img src={src} alt={`上装换料结果 ${cell.index + 1}`} className="h-full w-full object-contain" /> : <span className="text-[11px] text-muted-foreground">空</span>}
-                                        </div>
-                                        {cell.status === "failed" && values.outputNum > 1 ? (
-                                            <button
-                                                type="button"
-                                                data-retry-cell={cell.index}
-                                                disabled={running}
-                                                onClick={() => void submit(cell.index)}
-                                                className="mt-2 min-h-10 w-full rounded-md border border-border text-xs"
-                                            >
-                                                只重试这张
-                                            </button>
-                                        ) : null}
-                                    </div>
-                                );
-                            })}
-                        </div>
-                    </section>
-                    )}
-
-                    {task ? <ToolResult task={task} toolId={toolId} title="结果资产" onCancel={running ? cancel : undefined} /> : null}
-                </section>
-            </ToolWorkspaceColumns>
-        </div>
-    );
-}
-
-/**
- * layout=dress 的入口：AI 穿戴与上装换料共用同一工作区外壳，按 toolId 分发。
- * 两个工具的字段、蒙版语义、参考图数量都不同，因此各自独立实现，不共用表单状态。
- */
+/** layout=dress 的入口：AI 穿戴。 */
 export function DressWorkspace({ className, toolId = AI_WEARABLE_TOOL_ID }: { className?: string; toolId?: string }) {
-    if (toolId === MATERIAL_UPPER_BODY_TOOL_ID) return <MaterialUpperBodyWorkspace className={className} toolId={toolId} />;
     return <AiWearableWorkspace className={className} toolId={toolId} />;
-}
-
-/** PRD 布局：两列工作区（配置栏 320–360px + 结果区 1fr），复用可交互实现。 */
-export function MaterialUpperBodyWorkspace({ className, toolId = MATERIAL_UPPER_BODY_TOOL_ID }: { className?: string; toolId?: string }) {
-    return <MaterialUpperBodyWorkspaceLegacy className={className} toolId={toolId} />;
 }

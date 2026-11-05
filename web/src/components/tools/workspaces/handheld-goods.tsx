@@ -12,7 +12,7 @@
  * `runHandheldGoods` 返回的 `run.image`，上游没给图就是失败。
  */
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, ChevronRight } from "lucide-react";
 import { Link } from "react-router";
 import { listToolsByCategory } from "@/features/tools/registry";
 import { ToolAssetInput } from "@/components/tools/tool-asset-input";
@@ -22,11 +22,9 @@ import { ToolTaskHistory } from "@/components/tools/tool-task-history";
 import {
     Design19Chip,
     Design19ChipGroup,
-    Design19Empty,
     Design19FieldLabel,
     Design19PrimaryButton,
     Design19Results,
-    Design19Section,
 } from "@/components/tools/design19-frame";
 import { cn } from "@/lib/utils";
 import { useToolTaskStore } from "@/stores/use-tool-task-store";
@@ -76,6 +74,11 @@ import { useToolDraftStore } from "@/stores/use-tool-draft-store";
 import { ToolWorkspaceColumns } from "@/components/tools/tool-workspace-columns";
 import { CropOriginalDialog } from "@/components/tools/crop-original-dialog";
 import { ProductImageEditDialog, type ProductImageEditMode, type ProductImageEditSource } from "@/components/tools/product-image-edit-dialog";
+import { ToolCaseGuide } from "@/components/tools/tool-case-guide";
+import type { ToolCase } from "@/components/tools/tool-cases";
+import { uploadCaseFile, uploadCaseFiles } from "@/features/tools/case-apply";
+import { DESIGN_TRY_DEMOS, HANDHELD_GOODS_GUIDE_CASES } from "@/features/tools/tool-cases-data";
+import { DESIGN_GUIDE_PORTRAIT, DESIGN_ICON_FEATURE, DESIGN_UPLOAD_DROPZONE, DESIGN_UPLOAD_PANEL, DesignRowCard, TryDemoStrip, UploadPanelIcon } from "@/components/tools/workspaces/design-demo";
 
 const SOURCE_CONSTRAINTS = {
     kind: "image" as const,
@@ -374,15 +377,42 @@ export function HandheldGoodsWorkspace({ className }: HandheldGoodsWorkspaceProp
     const [editMode, setEditMode] = useState<ProductImageEditMode | null>(null);
     const [editSource, setEditSource] = useState<ProductImageEditSource | null>(null);
 
-    /** 「一键做同款」：套用官方示例配置（首个手持姿势 + 1 张），缺商品图时给出提示。 */
-    const applyShowcaseCase = useCallback(() => {
-        const pose = poses[0];
-        if (!pose) return;
-        setState((previous) => ({ ...previous, modelId: pose.id, modelTabType: pose.hand, outputNum: 1 }));
-        setNotice(product ? null : "已套用示例配置，请先上传商品图再生成");
-        // 原站做同款后会给出原图裁剪入口；本地同位置露出同一句文案，点击走真实裁剪。
-        setCropEntryVisible(true);
-    }, [poses, product]);
+    /** 「一键做同款」：案例商品图真实入库替换商品图，再套用首个手持姿势 + 案例张数。 */
+    const [applyingCaseId, setApplyingCaseId] = useState<string | null>(null);
+    const applyCase = useCallback(async (item: ToolCase) => {
+        setApplyingCaseId(item.id);
+        try {
+            const record = (await uploadCaseFiles(item)).product;
+            if (!record) throw new Error("该案例缺少商品图");
+            setProduct(record);
+            setProductSyncIds([record.id]);
+            const pose = poses[0];
+            const num = HANDHELD_GOODS_OUTPUT_OPTIONS.find((option) => option === Number(item.apply?.outputNum));
+            if (pose) setState((previous) => ({ ...previous, modelId: pose.id, modelTabType: pose.hand, outputNum: num ?? previous.outputNum }));
+            setNotice(null);
+            // 原站做同款后会给出原图裁剪入口；本地同位置露出同一句文案，点击走真实裁剪。
+            setCropEntryVisible(true);
+        } finally {
+            setApplyingCaseId(null);
+        }
+    }, [poses]);
+
+    /** 「或试试这些」：示例商品图真实入库作为商品图。 */
+    const [demoBusy, setDemoBusy] = useState<string | null>(null);
+    const pickDemo = useCallback(async (src: string) => {
+        setDemoBusy(src);
+        try {
+            const record = await uploadCaseFile(src, "linkfox-demo-handheld");
+            setProduct(record);
+            setProductSyncIds([record.id]);
+            setNotice(null);
+        } catch (error) {
+            setNotice(error instanceof Error ? error.message : "示例图载入失败");
+        } finally {
+            setDemoBusy(null);
+        }
+    }, []);
+    const [poseOpen, setPoseOpen] = useState(false);
 
     /** 裁剪确认：真实 canvas 居中裁剪 → 重新入库 → 替换商品图。 */
     const handleCropped = useCallback(async (file: File) => {
@@ -461,22 +491,16 @@ export function HandheldGoodsWorkspace({ className }: HandheldGoodsWorkspaceProp
             <OrigRail items={HANDHELD_GOODS_RAIL} active="手持商品" driver className="mb-2" testId="handheld-family-rail" />
             <ToolWorkspaceColumns
                 data-testid="handheld-goods-workspace"
+                className="lg:h-[calc(100dvh-76px)]"
                 config={(
-                    <div className="flex h-full min-h-0 flex-col gap-2">
-                    <div data-testid="handheld-config-scroll" className="min-h-0 flex-1 space-y-2 overflow-y-auto">
-                    {/* 0. 原站左卡标题：工具名 + 一句话 tagline（real/HANDHELD_GOODS/text.txt L47） */}
-                    <Design19Section>
-                        <p className="text-[16px]! font-medium leading-6 text-foreground!">手持商品</p>
-                        <p className="mt-1 text-[12px]! leading-5 text-muted-foreground!">快速生成手持商品图，快速上架</p>
-                    </Design19Section>
-                    {/* 1. 商品图上传（原站 268x306 浅灰上传面板） */}
-                    <Design19Section>
-                        <div className="mb-1 flex items-center gap-2">
+                    <div className="flex h-full min-h-0 flex-col gap-2 rounded-[8px] bg-card px-3 py-[10px]">
+                    <div data-testid="handheld-config-scroll" className="min-h-0 flex-1 space-y-[10px] overflow-y-auto">
+                    {/* 1. 商品图上传：原站 `_uploadPanel` 268×306 灰底，右上「图片规则」，卡内「或试试这些」4 张示例 */}
+                    <div className={DESIGN_UPLOAD_PANEL}>
+                        <UploadPanelIcon />
+                        <div className="absolute right-[18px] top-[14px] z-10">
                             <ImageRulesPopover kind="goods" testId="handheld-rules" />
-                            <span className="text-[12px] leading-[18px] text-muted-foreground">选择参考图</span>
                         </div>
-                        <Design19FieldLabel>上传商品图</Design19FieldLabel>
-                        <p className="mb-1 text-[11px] leading-4 text-muted-foreground">第一步：选择示例图或上传手持商品图</p>
                         <ToolAssetInput
                             toolId={HANDHELD_GOODS_TOOL_ID}
                             constraints={SOURCE_CONSTRAINTS}
@@ -484,8 +508,8 @@ export function HandheldGoodsWorkspace({ className }: HandheldGoodsWorkspaceProp
                             disabled={running}
                             variant="linkfox"
                             wide
-                            compact
-                            thirdAction={null}
+                            className={DESIGN_UPLOAD_DROPZONE}
+                            dropLabel="上传商品图"
                             library={library}
                             title=""
                             hint="10M以内，384*384 ~ 4096*4096"
@@ -497,14 +521,19 @@ export function HandheldGoodsWorkspace({ className }: HandheldGoodsWorkspaceProp
                                 if (assetIds.length) setNotice(null);
                             }}
                         />
-                    </Design19Section>
+                        <TryDemoStrip demos={DESIGN_TRY_DEMOS.handheld} busySrc={demoBusy} disabled={running} onPick={(src) => void pickDemo(src)} />
+                    </div>
 
-                    {/* 2. 手持姿势（部位页签 + 姿势库）：切页签只换姿势候选，不动商品图（规格 §3） */}
-                    <Design19Section>
-                        <div className="mb-[6px] flex h-[22px] items-center justify-between gap-2">
-                            <span className="text-[14px] leading-[22px] text-foreground">选择手持姿势</span>
-                            <span className="truncate text-[12px] leading-[22px] text-muted-foreground">手持的部位与姿势参考</span>
-                        </div>
+                    {/* 2. 选择手持姿势：原站行卡（缩略图 + 标题 + 说明 + 右箭头），点开选部位与姿势；切页签不动商品图（规格 §3） */}
+                    <DesignRowCard
+                        testId="handheld-pose-card"
+                        image={activePose ? handheldGoodsPoseReferenceUrl(activePose) : DESIGN_ICON_FEATURE}
+                        imageClassName="h-[100px] w-[88px] object-contain"
+                        title="选择手持姿势"
+                        desc="手持的部位与姿势参考"
+                        open={poseOpen}
+                        onClick={() => setPoseOpen((open) => !open)}
+                    >
                         <Design19ChipGroup>
                             {HANDHELD_GOODS_HAND_TABS.map((tab) => (
                                 <Design19Chip
@@ -519,8 +548,7 @@ export function HandheldGoodsWorkspace({ className }: HandheldGoodsWorkspaceProp
                                 </Design19Chip>
                             ))}
                         </Design19ChipGroup>
-                        <p className="mt-1 text-[11px] leading-4 text-muted-foreground">或试试这些</p>
-                        <div className="mt-[6px] flex gap-[10px] overflow-x-auto pb-1">
+                        <div className="mt-[8px] grid grid-cols-4 gap-[6px]">
                             {poses.map((pose) => {
                                 const selected = pose.id === state.modelId;
                                 return (
@@ -537,59 +565,23 @@ export function HandheldGoodsWorkspace({ className }: HandheldGoodsWorkspaceProp
                                             }))
                                         }
                                         className={cn(
-                                            "flex w-[72px] shrink-0 flex-col gap-1 overflow-hidden rounded-lg border p-1 text-left transition",
-                                            selected
-                                                ? "border-primary bg-primary/10"
-                                                : "border-border bg-card hover:border-primary/50",
+                                            "overflow-hidden rounded-[4px] border bg-card p-0.5 transition",
+                                            selected ? "border-primary" : "border-border hover:border-primary/50",
                                         )}
                                     >
                                         <img
                                             src={handheldGoodsPoseReferenceUrl(pose)}
                                             alt={`${pose.label} 示意图`}
-                                            width={72}
-                                            height={72}
-                                            className="h-[72px] w-full rounded-md bg-card object-contain"
+                                            className="aspect-square w-full object-contain"
                                         />
                                     </button>
                                 );
                             })}
                         </div>
-                    </Design19Section>
+                    </DesignRowCard>
 
-                    <p className="mt-2 text-[11px] leading-4 text-muted-foreground">我是高手，不再提醒</p>
-
-                    {/* 3. 场景类型页签 + 检测类型（绑定 sceneTabType / checkType，切页签不重置商品图与姿势） */}
-                    <Design19Section>
-                        <Design19FieldLabel>场景类型</Design19FieldLabel>
-                        <Design19ChipGroup>
-                            {HANDHELD_GOODS_SCENE_TABS.map((tab) => (
-                                <Design19Chip
-                                    key={tab.id}
-                                    selected={tab.id === state.sceneTabType}
-                                    disabled={running}
-                                    onClick={() => setState((previous) => switchHandheldGoodsSceneTab(previous, tab.id))}
-                                >
-                                    {tab.label}
-                                </Design19Chip>
-                            ))}
-                        </Design19ChipGroup>
-                        <p className="mb-[6px] mt-2 text-xs leading-[22px] text-muted-foreground">检测类型</p>
-                        <Design19ChipGroup>
-                            {HANDHELD_GOODS_CHECK_TYPES.map((option) => (
-                                <Design19Chip
-                                    key={option.id}
-                                    selected={option.id === state.checkType}
-                                    disabled={running}
-                                    onClick={() => setState((previous) => ({ ...previous, checkType: option.id }))}
-                                >
-                                    {option.label}
-                                </Design19Chip>
-                            ))}
-                        </Design19ChipGroup>
-                    </Design19Section>
-
-                    {/* 4. 生成张数（原站 margin-top 20 + 12px 标题 + 40x26 chip） */}
-                    <Design19Section className="mt-[8px]">
+                    {/* 3. 选择生成张数（原站 margin-top 20 + 12px 标题 + 40x26 chip） */}
+                    <div className="pt-[10px]">
                         <Design19FieldLabel>选择生成张数</Design19FieldLabel>
                         <Design19ChipGroup>
                             {HANDHELD_GOODS_OUTPUT_OPTIONS.map((num) => (
@@ -603,19 +595,59 @@ export function HandheldGoodsWorkspace({ className }: HandheldGoodsWorkspaceProp
                                 </Design19Chip>
                             ))}
                         </Design19ChipGroup>
-                        <p className="mt-[6px] text-[12px] leading-[18px] text-muted-foreground">
-                            {handheldGoodsOutputLabel(state.outputNum)}；每张单独发一次真实请求（并发生效上限 2），失败张可单独重试。
-                        </p>
-                        {issues.length ? (
-                            <ul className="mt-2 space-y-1 text-[12px] leading-[18px] text-[#d46b08]">
+                    </div>
+
+                    {/* 4. 原站首屏没有的场景类型 / 检测类型：真实提交字段（sceneTabType / checkType），收进折叠，默认收起 */}
+                    <details data-testid="handheld-more-settings" className="group text-[12px] leading-[18px] text-muted-foreground">
+                        <summary className="cursor-pointer list-none py-1 hover:text-foreground [&::-webkit-details-marker]:hidden">
+                            <span className="inline-flex items-center gap-1">
+                                <ChevronRight aria-hidden="true" className="size-3.5 transition group-open:rotate-90" />
+                                更多设置
+                            </span>
+                        </summary>
+                        <div className="mt-[6px] space-y-[10px]">
+                            <div>
+                                <Design19FieldLabel>场景类型</Design19FieldLabel>
+                                <Design19ChipGroup>
+                                    {HANDHELD_GOODS_SCENE_TABS.map((tab) => (
+                                        <Design19Chip
+                                            key={tab.id}
+                                            selected={tab.id === state.sceneTabType}
+                                            disabled={running}
+                                            onClick={() => setState((previous) => switchHandheldGoodsSceneTab(previous, tab.id))}
+                                        >
+                                            {tab.label}
+                                        </Design19Chip>
+                                    ))}
+                                </Design19ChipGroup>
+                            </div>
+                            <div>
+                                <Design19FieldLabel>检测类型</Design19FieldLabel>
+                                <Design19ChipGroup>
+                                    {HANDHELD_GOODS_CHECK_TYPES.map((option) => (
+                                        <Design19Chip
+                                            key={option.id}
+                                            selected={option.id === state.checkType}
+                                            disabled={running}
+                                            onClick={() => setState((previous) => ({ ...previous, checkType: option.id }))}
+                                        >
+                                            {option.label}
+                                        </Design19Chip>
+                                    ))}
+                                </Design19ChipGroup>
+                            </div>
+                            <p>{handheldGoodsOutputLabel(state.outputNum)}；每张单独发一次真实请求（并发生效上限 2），失败张可单独重试。</p>
+                        </div>
+                    </details>
+                    </div>
+                        <div className="shrink-0 pt-2">
+                        {issues.length && product ? (
+                            <ul className="mb-2 space-y-1 text-[12px] leading-[18px] text-[#d46b08]">
                                 {issues.map((issue) => (
                                     <li key={`${issue.code}-${issue.field}`}>· {issue.message}</li>
                                 ))}
                             </ul>
                         ) : null}
-                    </Design19Section>
-                    </div>
-                        <div className="shrink-0 border-t border-border pt-2">
                         <Design19PrimaryButton
                             data-testid="handheld-submit"
                             onClick={() => void submit()}
@@ -628,7 +660,7 @@ export function HandheldGoodsWorkspace({ className }: HandheldGoodsWorkspaceProp
                     </div>
                 )}
             >
-                <section data-region="results" className="flex min-h-[480px] min-w-0 flex-1 flex-col overflow-hidden rounded-lg bg-card">
+                <section data-region="results" className="flex min-h-[480px] min-w-0 flex-1 flex-col overflow-hidden rounded-lg">
                 <Design19Results
                     tabs={[{ id: "result", label: "生成结果" }]}
                     active={rightTab}
@@ -690,16 +722,14 @@ export function HandheldGoodsWorkspace({ className }: HandheldGoodsWorkspaceProp
                                 ))}
                             </div>
                         ) : (
-                            <div className="flex flex-col items-center gap-2">
-                                <Design19Empty title="暂无生成结果图" hint="快在左侧上传商品图并选择手持姿势吧~" />
-                                <button
-                                    type="button"
-                                    data-testid="handheld-apply-case"
-                                    onClick={applyShowcaseCase}
-                                    className="rounded-lg border border-border px-4 py-2 text-[12px] leading-[18px] transition hover:bg-primary/10"
-                                >
-                                    一键做同款
-                                </button>
+                            <div className="flex min-h-[calc(100dvh-160px)] pt-[42px] flex-1 flex-col items-center justify-center gap-2" data-testid="handheld-empty">
+                                <ToolCaseGuide
+                                    className={DESIGN_GUIDE_PORTRAIT}
+                                    title="快速生成手持商品图，快速上架"
+                                    cases={HANDHELD_GOODS_GUIDE_CASES}
+                                    applyingId={applyingCaseId}
+                                    onApply={applyCase}
+                                />
                                 {cropEntryVisible ? (
                                     <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-1">
                                         <button

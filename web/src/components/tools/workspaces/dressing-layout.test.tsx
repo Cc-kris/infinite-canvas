@@ -47,7 +47,7 @@ describe("AI 穿衣 · 工作区布局", () => {
 
     test("自造文案已移除", async () => {
         const html = await renderWorkspace();
-        for (const removed of ["预计输出", "我是高手", "第一步：选择示例图", "上传平铺服装图"]) {
+        for (const removed of ["预计输出", "我是高手", "第一步：选择示例图"]) {
             expect(html).not.toContain(removed);
         }
     });

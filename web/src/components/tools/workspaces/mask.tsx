@@ -1,8 +1,8 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Link } from "react-router-dom";
-import { ChevronDown, History, ImagePlus, Paintbrush, Redo2, RotateCcw, Sparkles, Undo2 } from "lucide-react";
+import { ChevronDown, Download, Hand, History, Image as ImageIcon, Paintbrush, Redo2, RotateCcw, Scaling, Undo2, Upload, WandSparkles } from "lucide-react";
 
-import { Edit8Chip, Edit8Config, Edit8ResultsEmpty, Edit8Section, edit8PrimaryButtonClass } from "@/components/tools/edit8-frame";
+import { Edit8Chip, Edit8Empty, Edit8ResultTabs, Edit8Switch, Edit8UploadCard, edit8GradientButtonClass } from "@/components/tools/edit8-frame";
 import { ToolTaskHistory, formatTaskTime } from "@/components/tools/tool-task-history";
 import { TaskStatusPanel } from "@/components/tools/task-status";
 import { downloadResultItem, saveResultItemToAssets, sendResultItemToCanvas } from "@/components/tools/tool-result-actions";
@@ -90,13 +90,20 @@ const TOOL_ID = AREA_REPAIR_TOOL_ID;
 /** 原站「大小：35 像素 ⌄」下拉里的预设档位（外观 1:1，选值仍写回真实 brushSize）。 */
 const MASK_BRUSH_PRESETS = [15, 35, 60, 100] as const;
 
-/** 局部消除「或试试这些」：复用仓库内真实存在的案例素材，点击后真实入库并载入画布。 */
+/** 局部消除「或试试这些」：原站同源 4 张示例（cdn uploadExample29~32），点击后真实入库并载入画布。 */
 const REMOVE_PEN_SAMPLES = [
-    { id: "scene", name: "街头行人", src: "/__cases/product-scene/1740339005955035136-source.webp" },
-    { id: "street", name: "路面杂物", src: "/__cases/color-v2/2068993868619366400-source.jpg" },
-    { id: "goods", name: "桌面商品", src: "/__acc/product-watch.jpg" },
-    { id: "print", name: "印花衣物", src: "/__acc/apparel-print.jpg" },
+    { id: "scene", name: "示例 1", src: "/__cases/remove-pen/uploadExample29.jpg" },
+    { id: "street", name: "示例 2", src: "/__cases/remove-pen/uploadExample30.jpg" },
+    { id: "goods", name: "示例 3", src: "/__cases/remove-pen/uploadExample31.jpg" },
+    { id: "print", name: "示例 4", src: "/__cases/remove-pen/uploadExample32.jpg" },
 ] as const;
+
+/** 原站局部消除工具条接力按钮的图标（高清放大 / 商品图 / 手部修复）。 */
+const HANDOFF_ICONS = { "scale-up": Scaling, "product-image": ImageIcon, "hand-repair": Hand } as const;
+function HandoffIcon({ id }: { id: string }) {
+    const Icon = HANDOFF_ICONS[id as keyof typeof HANDOFF_ICONS];
+    return Icon ? <Icon className="size-3" aria-hidden /> : null;
+}
 
 /**
  * AREA_REPAIR 局部重绘工作区。
@@ -111,157 +118,6 @@ export type AreaRepairResultCardProps = {
     onSave?: (outcome: AreaRepairUnitOutcome) => void;
     onSend?: (outcome: AreaRepairUnitOutcome) => void;
 };
-
-export type MaskUploadCardProps = {
-    title: string;
-    description: string;
-    /** 「从作品库选择」面板的真实条目（本地资产库）。 */
-    library: ToolAssetLibraryItem[];
-    busy: boolean;
-    /** 预览区高度：原站局部消除是 500×333 的媒体位，局部重绘是两张 265×155 的对比位。 */
-    mediaClassName?: string;
-    onPick: (record: ToolAssetRecord) => void;
-};
-
-/**
- * 蒙版类工具共用的上传卡（原站 `_uploadBox_`）：
- * 顶部媒体位（点击/拖拽上传）→ 标题 → 一句话 → 紫色「从本地上传」→「从作品库选择 / 从商品库选择」。
- * 作品库是点击弹出的选择面板，不是本地自造的 `<details>` 折叠区（E2E 报告差异 10 / 9）；
- * 上传与作品库复用都写真实资产库，再交给调用方读取字节。
- */
-export function MaskUploadCard({ title, description, library, busy, mediaClassName, onPick }: MaskUploadCardProps) {
-    const [open, setOpen] = useState(false);
-    const [picking, setPicking] = useState(false);
-    const [dragging, setDragging] = useState(false);
-    const inputRef = useRef<HTMLInputElement | null>(null);
-
-    const accept = useCallback(
-        (file: File | undefined) => {
-            if (!file) return;
-            setPicking(true);
-            void (async () => {
-                try {
-                    onPick(await uploadToolAsset(file));
-                } finally {
-                    setPicking(false);
-                }
-            })();
-        },
-        [onPick],
-    );
-
-    const adopt = async (item: ToolAssetLibraryItem) => {
-        setPicking(true);
-        try {
-            onPick(await adoptLibraryAsset(item));
-            setOpen(false);
-        } finally {
-            setPicking(false);
-        }
-    };
-
-    return (
-        <div className="flex w-full flex-col gap-[10px] text-center">
-            <div
-                role="button"
-                tabIndex={busy ? -1 : 0}
-                aria-label="上传图片"
-                data-testid="mask-upload-dropzone"
-                onClick={() => !busy && inputRef.current?.click()}
-                onKeyDown={(event) => {
-                    if (event.key === "Enter" || event.key === " ") {
-                        event.preventDefault();
-                        if (!busy) inputRef.current?.click();
-                    }
-                }}
-                onDragOver={(event) => {
-                    event.preventDefault();
-                    if (!busy) setDragging(true);
-                }}
-                onDragLeave={() => setDragging(false)}
-                onDrop={(event) => {
-                    event.preventDefault();
-                    setDragging(false);
-                    if (!busy) accept(event.dataTransfer?.files?.[0]);
-                }}
-                className={cn(
-                    "flex w-full cursor-pointer flex-col items-center justify-center gap-1 rounded-lg border border-dashed border-border bg-muted/30 text-[12px] text-muted-foreground transition hover:border-foreground/25",
-                    dragging && "border-primary bg-primary/5",
-                    mediaClassName ?? "min-h-[200px]",
-                )}
-            >
-                <ImagePlus className="size-5" aria-hidden />
-                <span>点击或拖拽图片到此处上传</span>
-            </div>
-            <p className="text-[22px] font-medium leading-8 text-foreground">{title}</p>
-            <p className="text-[14px] leading-5 text-muted-foreground">{description}</p>
-            <button
-                type="button"
-                data-testid="mask-upload-local"
-                disabled={busy}
-                onClick={() => inputRef.current?.click()}
-                className="inline-flex h-[30px] w-full items-center justify-center rounded bg-primary text-[14px] leading-none text-primary-foreground transition hover:bg-primary/90 disabled:opacity-50"
-            >
-                从本地上传
-            </button>
-            <div className="grid w-full grid-cols-2 gap-2">
-                <button
-                    type="button"
-                    data-testid="mask-upload-library"
-                    disabled={busy || !library.length}
-                    title={library.length ? "从作品库（本地资产库）选择" : "作品库暂时没有可用的图片"}
-                    onClick={() => setOpen((value) => !value)}
-                    className="h-[30px] w-full rounded border border-border bg-card text-[14px] leading-none text-muted-foreground transition hover:border-foreground/30 hover:text-foreground disabled:opacity-50"
-                >
-                    从作品库选择
-                </button>
-                <button
-                    type="button"
-                    data-testid="mask-upload-products"
-                    disabled
-                    title="商品库未接入（PARTIAL）"
-                    className="h-[30px] w-full rounded border border-border bg-card text-[14px] leading-none text-muted-foreground transition hover:border-foreground/30 hover:text-foreground disabled:opacity-50"
-                >
-                    从商品库选择
-                </button>
-            </div>
-            <input
-                ref={inputRef}
-                type="file"
-                accept="image/jpeg,image/png,image/webp"
-                className="hidden"
-                disabled={busy}
-                data-testid="tool-asset-file-input"
-                onChange={(event) => {
-                    const file = event.target.files?.[0];
-                    event.target.value = "";
-                    accept(file);
-                }}
-            />
-            {open ? (
-                <div data-testid="mask-upload-library-panel" className="max-h-48 overflow-auto rounded-lg border border-border bg-card p-1 text-left">
-                    {library.length ? (
-                        library.map((item) => (
-                            <button
-                                key={item.id}
-                                type="button"
-                                disabled={picking}
-                                onClick={() => void adopt(item)}
-                                className="flex w-full items-center gap-2 rounded px-1 py-1 text-left text-[11px] text-muted-foreground hover:bg-border disabled:opacity-50"
-                            >
-                                <img src={item.url} alt="" className="size-8 shrink-0 rounded object-cover" />
-                                <span className="min-w-0 flex-1 truncate">{item.name}</span>
-                            </button>
-                        ))
-                    ) : (
-                        <p className="px-2 py-2 text-[11px] text-muted-foreground">作品库还没有可用图片</p>
-                    )}
-                </div>
-            ) : null}
-            {picking ? <p className="text-[11px] text-muted-foreground">正在读取素材…</p> : null}
-        </div>
-    );
-}
 
 /**
  * 单张结果卡片：图片 + 存库 / 发画布 / 下载。
@@ -834,20 +690,21 @@ export function MaskWorkspace({ className }: MaskWorkspaceProps = {}) {
             data-layout="linkfox-edit8"
             data-testid="area-repair-workspace"
             data-workspace-columns="area-repair"
-            className={cn("flex h-full min-h-0 flex-col gap-[10px] bg-background p-2.5 text-foreground", className)}
+            className={cn("flex h-full min-h-0 flex-col gap-[10px] bg-[#f4f6f8] p-2.5 text-foreground", className)}
         >
-            {/* 原站（1600×1000 实测）：画布 | 配置 240 | 结果 300 三列同一行；配置栏 240 宽，结果栏 300 宽常驻。 */}
+            {/* 原站（1600×1000 实测）：画布 #edeff5（40px 白色工具条）| 配置 240（白卡 + 卡外「立即生成」）| 结果 300，间距 10。 */}
             <div data-testid="tool-workspace-columns" data-canvas="true" data-config-side="right" className="grid min-h-0 min-w-0 flex-1 grid-cols-1 gap-[10px] lg:grid-cols-[minmax(0,1fr)_240px_300px]">
-                <section data-region="canvas" data-testid="tool-main-column" className="flex min-h-0 min-w-0 flex-col overflow-hidden rounded-xl border border-border bg-surface">
-                    <div className="flex h-[41px] shrink-0 flex-wrap items-center gap-2 px-4 text-xs text-foreground" data-testid="mask-toolbar">
-                        <span className="inline-flex h-6 items-center gap-1 text-[12px] leading-none text-muted-foreground" data-testid="mask-tool-label">
+                <section data-region="canvas" data-testid="tool-main-column" className="flex min-h-0 min-w-0 flex-col overflow-hidden border border-black/[0.08]">
+                    <div className="flex h-10 shrink-0 flex-wrap items-center gap-[10px] bg-card px-5 text-xs text-foreground" data-testid="mask-toolbar">
+                        <span className="inline-flex h-6 items-center gap-1 text-[14px] leading-[22px] text-foreground/85" data-testid="mask-tool-label">
                             <Paintbrush className="size-3.5" aria-hidden />
                             <span>画笔</span>
                         </span>
 
                         {/* 原站「大小：InputNumber + 下拉预设 + 像素」：不铺长滑杆，只保留 number 输入与预设下拉。 */}
-                        <label className="flex items-center gap-1.5 text-[12px] text-muted-foreground">
+                        <label className="flex items-center gap-1 text-[12px] text-foreground/60">
                             <span>大小：</span>
+                            <span className="inline-flex h-6 items-center gap-1 rounded-[4px] border border-[#d9d9d9] bg-card pl-[7px] pr-1">
                             <input
                                 type="number"
                                 data-testid="mask-brush-size"
@@ -855,12 +712,12 @@ export function MaskWorkspace({ className }: MaskWorkspaceProps = {}) {
                                 max={MASK_BRUSH_MAX}
                                 value={state.brushSize}
                                 onChange={(event) => commit({ brushSize: clampBrushSize(event.target.value) })}
-                                className="h-[22px] w-[30px] rounded border border-transparent bg-transparent px-0 text-center text-[12px] tabular-nums text-foreground outline-none transition hover:border-border focus:border-primary"
+                                className="h-[22px] w-[22px] appearance-none bg-transparent px-0 text-[12px] tabular-nums text-foreground outline-none [&::-webkit-inner-spin-button]:appearance-none"
                                 aria-label="画笔大小像素"
                             />
-                            <span>像素</span>
-                            <span className="relative inline-flex size-4 items-center justify-center" data-testid="mask-brush-presets">
-                                <ChevronDown className="pointer-events-none size-4 text-muted-foreground" aria-hidden />
+                            <span className="text-black/30">像素</span>
+                            <span className="relative inline-flex size-3 items-center justify-center" data-testid="mask-brush-presets">
+                                <ChevronDown className="pointer-events-none size-3 text-black/25" aria-hidden />
                                 <select
                                     value={state.brushSize}
                                     disabled={busy}
@@ -875,11 +732,12 @@ export function MaskWorkspace({ className }: MaskWorkspaceProps = {}) {
                                     ))}
                                 </select>
                             </span>
+                            </span>
                         </label>
 
-                        <label className="flex items-center gap-1.5 text-[12px] text-muted-foreground">
+                        <label className="flex items-center gap-0 text-[12px] leading-[19px] text-foreground/60">
                             <span>自动扩大选择区域：</span>
-                            <input type="checkbox" data-testid="mask-auto-expand" checked={state.autoExpand} onChange={(event) => commit({ autoExpand: event.target.checked })} className="size-3.5 accent-primary" />
+                            <Edit8Switch testId="mask-auto-expand" label="自动扩大选择区域" checked={state.autoExpand} onChange={(next) => commit({ autoExpand: next })} />
                         </label>
 
                         <button
@@ -888,7 +746,7 @@ export function MaskWorkspace({ className }: MaskWorkspaceProps = {}) {
                             aria-pressed={state.inverted}
                             disabled={historyLabel.strokeCount === 0}
                             onClick={() => commit({ inverted: !state.inverted })}
-                            className={cn("h-6 rounded-md px-2 text-[12px] leading-none disabled:opacity-40", state.inverted ? "bg-primary text-primary-foreground" : "text-foreground hover:bg-border")}
+                            className={cn("h-7 rounded-[4px] px-[7px] text-[12px] leading-none disabled:text-black/25!", state.inverted ? "bg-primary text-primary-foreground!" : "text-foreground hover:bg-black/5")}
                         >
                             反选
                         </button>
@@ -897,7 +755,7 @@ export function MaskWorkspace({ className }: MaskWorkspaceProps = {}) {
                             data-testid="mask-undo"
                             disabled={!historyLabel.canUndo}
                             onClick={() => applyHistory(undoMaskStroke(historyRef.current))}
-                            className="inline-flex h-6 items-center gap-1 rounded-md px-1.5 text-[12px] leading-none text-foreground transition hover:bg-border disabled:opacity-40"
+                            className="inline-flex h-7 items-center gap-1 rounded-[4px] px-[7px] text-[12px] leading-none text-foreground transition hover:bg-black/5 disabled:text-black/25!"
                         >
                             <Undo2 className="size-3.5" aria-hidden />
                             <span>撤销</span>
@@ -907,7 +765,7 @@ export function MaskWorkspace({ className }: MaskWorkspaceProps = {}) {
                             data-testid="mask-redo"
                             disabled={!historyLabel.canRedo}
                             onClick={() => applyHistory(redoMaskStroke(historyRef.current))}
-                            className="inline-flex h-6 items-center gap-1 rounded-md px-1.5 text-[12px] leading-none text-foreground transition hover:bg-border disabled:opacity-40"
+                            className="inline-flex h-7 items-center gap-1 rounded-[4px] px-[7px] text-[12px] leading-none text-foreground transition hover:bg-black/5 disabled:text-black/25!"
                         >
                             <Redo2 className="size-3.5" aria-hidden />
                             <span>重做</span>
@@ -917,11 +775,29 @@ export function MaskWorkspace({ className }: MaskWorkspaceProps = {}) {
                             data-testid="mask-reset"
                             disabled={historyLabel.strokeCount === 0}
                             onClick={() => applyHistory(resetMaskHistory(historyRef.current))}
-                            className="inline-flex h-6 items-center gap-1 rounded-md px-1.5 text-[12px] leading-none text-foreground transition hover:bg-border disabled:opacity-40"
+                            className="inline-flex h-7 items-center gap-1 rounded-[4px] px-[7px] text-[12px] leading-none text-foreground transition hover:bg-black/5 disabled:text-black/25!"
                         >
                             <RotateCcw className="size-3.5" aria-hidden />
                             <span>重置</span>
                         </button>
+                        {image ? (
+                            <button
+                                type="button"
+                                data-testid="mask-reupload"
+                                disabled={busy}
+                                onClick={() => {
+                                    imageRef.current = null;
+                                    setImage(null);
+                                    setOutcomes([]);
+                                    setRunSnapshot(null);
+                                    applyHistory(createMaskHistory());
+                                }}
+                                className="inline-flex h-7 items-center gap-1 rounded-[4px] px-[7px] text-[12px] leading-none text-foreground transition hover:bg-black/5 disabled:text-black/25!"
+                            >
+                                <Upload className="size-3.5" aria-hidden />
+                                <span>重新上传</span>
+                            </button>
+                        ) : null}
                         {maskRatio > 0 ? (
                             <span data-testid="mask-coverage" className="ml-1 text-[11px] text-muted-foreground">
                                 {coverageLabel}
@@ -951,14 +827,25 @@ export function MaskWorkspace({ className }: MaskWorkspaceProps = {}) {
                             </div>
                         ) : (
                             <div className="flex h-full min-h-[500px] items-center justify-center">
-                                <div data-testid="area-repair-empty" className="mx-auto w-[542px] max-w-full rounded-xl border border-border bg-card p-4 shadow-sm">
-                                    <MaskUploadCard
-                                        mediaClassName="h-[160px]"
-                                        title="局部重绘"
-                                        description="上传图片，涂抹需要改变的区域并输入想要改变的内容，即可重新对该区域进行绘制"
+                                <div data-testid="area-repair-empty" className="w-[542px] max-w-full rounded-[8px] bg-[#f7f7f7] p-[10px]">
+                                    <Edit8UploadCard
+                                        layout="stacked"
+                                        products
+                                        className="gap-[10px] bg-[#fafafa] p-4"
                                         library={library}
-                                        busy={busy}
+                                        disabled={busy}
                                         onPick={(record) => void adoptImage(record)}
+                                        media={<video src="/__cases/area-repair/guide-area-repair.mp4" poster="/__cases/area-repair/guide-area-repair.jpg" autoPlay muted loop playsInline className="h-[249px] w-full object-cover" />}
+                                        heading={
+                                            <>
+                                                <h2 className="m-0! text-[22px] font-normal leading-[30px] text-foreground/85">局部重绘</h2>
+                                                <p className="m-0! mb-[10px]! text-[14px] leading-[22px] text-[#939599]">
+                                                    上传图片，涂抹需要改变的区域并输入想要改变的内容，
+                                                    <br />
+                                                    即可重新对该区域进行绘制
+                                                </p>
+                                            </>
+                                        }
                                     />
                                 </div>
                             </div>
@@ -967,8 +854,11 @@ export function MaskWorkspace({ className }: MaskWorkspaceProps = {}) {
                 </section>
 
                 <div data-testid="tool-config-column" className="flex min-h-0 min-w-0 flex-col">
-                <Edit8Config data-testid="area-repair-config" className="w-full">
-                    <Edit8Section title="重绘描述*" aside={`${prompt.length} / ${AREA_REPAIR_PROMPT_MAX}`}>
+                <div data-testid="area-repair-config" className="flex min-h-0 w-full flex-1 flex-col overflow-y-auto rounded-[8px] bg-card">
+                    <div className="px-4 py-[10px]">
+                        <p className="m-0! mb-[10px]! text-[12px] leading-[22px] text-black/30">
+                            重绘描述<span className="text-destructive">*</span>
+                        </p>
                         <textarea
                             id="area-repair-prompt"
                             data-testid="area-repair-prompt"
@@ -981,17 +871,22 @@ export function MaskWorkspace({ className }: MaskWorkspaceProps = {}) {
                                 setPrompt(next);
                                 persist(stateRef.current);
                             }}
-                            placeholder="例如：把涂抹区域换成米色针织沙发，保留原有光影和地面阴影"
-                            className="h-[118px] w-full resize-none rounded-lg border border-border bg-card p-[10px] text-[13px] leading-5 text-foreground outline-none transition focus:border-primary"
+                            placeholder="请补充重绘画面中想要出现的内容，支持中英文，例如：加一个包，卷发，微笑，眼睛睁大等。"
+                            className="h-[120px] w-full resize-y rounded-[6px] border border-[#d9d9d9] bg-card px-[11px] py-1 text-[14px] leading-[22px] text-foreground outline-none transition placeholder:text-black/25 hover:border-primary focus:border-primary"
                         />
-                    </Edit8Section>
+                        <p className="m-0! text-right text-[14px] leading-[22px] tabular-nums text-black/45">
+                            {prompt.length} / {AREA_REPAIR_PROMPT_MAX}
+                        </p>
+                    </div>
 
-                    <Edit8Section title="生成张数">
-                        <div className="flex items-center gap-1.5" data-testid="area-repair-output-num">
+                    <div className="px-4 py-[10px]">
+                        <p className="m-0! mb-[6px]! text-[12px] leading-[22px] text-black/30">生成张数</p>
+                        <div className="flex items-center gap-[10px]" data-testid="area-repair-output-num">
                             {AREA_REPAIR_OUTPUT_OPTIONS.map((option) => (
-                                <Edit8Chip
+                                <button
                                     key={option}
-                                    selected={outputNum === option}
+                                    type="button"
+                                    aria-pressed={outputNum === option}
                                     disabled={busy}
                                     onClick={() => {
                                         const next = normalizeOutputNum(option);
@@ -999,12 +894,13 @@ export function MaskWorkspace({ className }: MaskWorkspaceProps = {}) {
                                         setOutputNum(next);
                                         persist(stateRef.current);
                                     }}
+                                    className={cn("h-[26px] rounded-[6px] border px-4 text-[12px] leading-none transition disabled:opacity-50", outputNum === option ? "border-primary bg-[#f9f0ff] text-primary!" : "border-[#ccc] bg-card text-black/80! hover:border-primary")}
                                 >
                                     {option}
-                                </Edit8Chip>
+                                </button>
                             ))}
                         </div>
-                    </Edit8Section>
+                    </div>
 
                     {image && issues.length > 0 ? (
                         <div className="px-[16px] py-2">
@@ -1037,58 +933,40 @@ export function MaskWorkspace({ className }: MaskWorkspaceProps = {}) {
                     ) : null}
 
                     {runSnapshot ? (
-                        <Edit8Section title="本次输入快照" className="border-b-0">
+                        <div className="px-4 py-[10px]">
+                            <p className="m-0! mb-1! text-[12px] leading-[22px] text-black/30">本次输入快照</p>
                             <ul data-testid="area-repair-snapshot" className="space-y-0.5 text-[11px] leading-4 tabular-nums text-muted-foreground">
                                 <li>源图：{runSnapshot.imageName || "（未命名）"}{runSnapshot.imageWidth ? ` · ${runSnapshot.imageWidth}×${runSnapshot.imageHeight}` : ""}</li>
                                 <li>笔画 {runSnapshot.strokeCount} 笔{runSnapshot.inverted ? " · 已反选" : ""}{runSnapshot.autoExpand ? " · 自动扩边" : ""}</li>
                                 <li>张数 {runSnapshot.outputNum} · 快照 {snapshotHash(runSnapshot).slice(0, 8)}</li>
                             </ul>
-                        </Edit8Section>
+                        </div>
                     ) : null}
-
-                    <div className="flex flex-col gap-1 px-3 pb-3 pt-2">
-                        {/* 规格 §4：提交按钮旁显示预计产物数量，不显示原站算力。 */}
-                        <p className="text-center text-[11px] leading-4 text-muted-foreground" data-testid="area-repair-submit-hint">
-                            将生成 {outputNum} 张{image ? "" : "（上传图片后可生成）"}
-                        </p>
-                        <button
-                            type="button"
-                            data-testid="area-repair-submit"
-                            disabled={busy || issues.length > 0}
-                            onClick={() => void submit()}
-                            className={edit8PrimaryButtonClass}
-                        >
-                            <Sparkles className="mr-1 size-3.5" aria-hidden />
-                            <span>{busy ? "生成中…" : "立即生成"}</span>
-                        </button>
-                    </div>
-                </Edit8Config>
+                </div>
+                <button
+                    type="button"
+                    data-testid="area-repair-submit"
+                    disabled={busy || issues.length > 0}
+                    title={image ? `将生成 ${outputNum} 张` : "上传图片后可生成"}
+                    onClick={() => void submit()}
+                    className={cn(edit8GradientButtonClass, "mt-[10px] w-full gap-1")}
+                >
+                    <WandSparkles className="size-3.5" aria-hidden />
+                    <span>{busy ? "生成中…" : "立即生成"}</span>
+                </button>
                 </div>
 
-                <section data-testid="area-repair-result-column" data-region="results" className="flex min-h-0 min-w-0 flex-col overflow-hidden rounded-xl border border-border bg-card">
-                    <div role="tablist" className="flex h-[42px] shrink-0 items-center justify-between border-b border-border px-[13px]">
-                        <button
-                            type="button"
-                            role="tab"
-                            aria-selected={resultTab === "result"}
-                            data-testid="edit8-tab-result"
-                            onClick={() => setResultTab("result")}
-                            className={cn("h-[42px] text-sm leading-none transition", resultTab === "result" ? "font-medium text-foreground" : "text-muted-foreground hover:text-foreground")}
-                        >
-                            生成结果
-                        </button>
-                        {/* 原站「历史记录」是右上外链（/draw/history?type=32），不是第二个 Tab。 */}
-                        <button
-                            type="button"
-                            data-testid="area-repair-history-entry"
-                            onClick={() => setResultTab("history")}
-                            className="inline-flex items-center gap-1 text-[13px] leading-none text-muted-foreground transition hover:text-foreground"
-                        >
-                            <History className="size-3.5" aria-hidden />
-                            历史记录
-                        </button>
-                    </div>
-                    <div className="min-h-0 flex-1 overflow-y-auto px-3 pb-4 pt-2">
+                <section data-testid="area-repair-result-column" data-region="results" className="flex min-h-0 min-w-0 flex-col overflow-hidden rounded-[8px] bg-[#edeff5]">
+                    {/* 原站「历史记录」是右上外链（/draw/history?type=32），不是第二个 Tab。 */}
+                    <Edit8ResultTabs
+                        tabs={[{ id: "result", label: "生成结果" }]}
+                        active={resultTab === "result" ? "result" : ""}
+                        onTabChange={() => setResultTab("result")}
+                        onHistory={() => setResultTab("history")}
+                        historyActive={resultTab === "history"}
+                        historyTestId="area-repair-history-entry"
+                    />
+                    <div className="min-h-0 flex-1 overflow-y-auto py-4 pl-4 pr-3">
                     {resultTab === "history" ? (
                         <ToolTaskHistory
                             toolId={TOOL_ID}
@@ -1131,7 +1009,7 @@ export function MaskWorkspace({ className }: MaskWorkspaceProps = {}) {
                             }
                         />
                     ) : outcomes.length === 0 ? (
-                        <Edit8ResultsEmpty />
+                        <Edit8Empty lines={["暂无生成结果图"]} />
                     ) : (
                         <>
                             <ul data-testid="area-repair-results" className="grid grid-cols-1 gap-2">
@@ -1663,38 +1541,50 @@ export function RemovePenWorkspace({ className }: RemovePenWorkspaceProps = {}) 
     }, [busy]);
 
     const uploadCard = (
-        <section data-testid="remove-pen-upload-card" className="flex w-full flex-col gap-[10px] rounded-xl border border-border bg-card p-4 shadow-sm">
-            <MaskUploadCard
-                mediaClassName="h-[333px]"
-                title="局部消除"
-                description="上传需要消除的图片，使用画笔涂抹即可实现一键消除"
+        <div className="rounded-[8px] bg-[#f7f7f7] p-[10px]">
+            <Edit8UploadCard
+                testId="remove-pen-upload-card"
+                layout="stacked"
+                products
+                className="gap-[10px] bg-[#fafafa]"
                 library={library}
-                busy={busy}
+                disabled={busy}
                 onPick={(record) => void adoptImage(record)}
+                media={<video src="/__cases/remove-pen/guide-remove-pen.mp4" autoPlay muted loop playsInline className="mt-[10px] h-[333px] w-full object-cover" />}
+                heading={
+                    <>
+                        <h2 className="m-0! text-[22px] font-normal leading-[30px] text-foreground/85">局部消除</h2>
+                        <p className="m-0! mb-[10px]! text-[14px] leading-[22px] text-[#939599]">上传需要消除的图片，使用画笔涂抹即可实现一键消除</p>
+                    </>
+                }
+                footer={
+                    <>
+                        {/* 原站「或试试这些」= 分隔线 + 4 张 40×40 示例缩略图（原站同源），点击即真实载入。 */}
+                        <div className="flex w-[364px] max-w-full items-center gap-4 pt-[10px]" data-testid="remove-pen-try-these">
+                            <span className="h-px flex-1 bg-black/[0.06]" />
+                            <span className="text-[12px] font-medium leading-[15px] text-black/30">或试试这些</span>
+                            <span className="h-px flex-1 bg-black/[0.06]" />
+                        </div>
+                        <div className="flex items-center justify-center gap-5 pb-[15px] pt-[10px]">
+                            {REMOVE_PEN_SAMPLES.map((sample) => (
+                                <button
+                                    key={sample.id}
+                                    type="button"
+                                    data-testid={`remove-pen-sample-${sample.id}`}
+                                    disabled={busy || sampleLoading !== null}
+                                    title={`试用${sample.name}`}
+                                    onClick={() => void applySample(sample)}
+                                    className="size-10 overflow-hidden rounded-[4px] transition hover:ring-2 hover:ring-primary disabled:opacity-50"
+                                >
+                                    <img src={sample.src} alt={sample.name} className="size-full object-cover" draggable={false} />
+                                </button>
+                            ))}
+                        </div>
+                        {sampleLoading ? <p className="m-0! pb-2 text-center text-[11px] text-muted-foreground">正在载入示例素材…</p> : null}
+                    </>
+                }
             />
-            {/* 原站「或试试这些」= 分隔线 + 4 张 50×50 示例缩略图，点击即真实载入（不是装饰）。 */}
-            <div className="mt-1 flex items-center gap-2" data-testid="remove-pen-try-these">
-                <span className="h-px flex-1 bg-border" />
-                <span className="text-[12px] font-medium leading-[15px] text-muted-foreground">或试试这些</span>
-                <span className="h-px flex-1 bg-border" />
-            </div>
-            <div className="flex items-center justify-center gap-[10px]">
-                {REMOVE_PEN_SAMPLES.map((sample) => (
-                    <button
-                        key={sample.id}
-                        type="button"
-                        data-testid={`remove-pen-sample-${sample.id}`}
-                        disabled={busy || sampleLoading !== null}
-                        title={`试用示例：${sample.name}`}
-                        onClick={() => void applySample(sample)}
-                        className="size-[50px] overflow-hidden rounded border border-border bg-card transition hover:border-primary disabled:opacity-50"
-                    >
-                        <img src={sample.src} alt={sample.name} className="size-full object-cover" draggable={false} />
-                    </button>
-                ))}
-            </div>
-            {sampleLoading ? <p className="text-center text-[11px] text-muted-foreground">正在载入示例素材…</p> : null}
-        </section>
+        </div>
     );
 
     return (
@@ -1705,17 +1595,20 @@ export function RemovePenWorkspace({ className }: RemovePenWorkspaceProps = {}) 
             data-workspace-columns="remove-pen"
             data-canvas="true"
             data-config-side="none"
-            className={cn("flex h-full min-h-0 flex-col bg-background text-foreground", className)}
+            className={cn("flex h-full min-h-0 flex-col bg-[#f4f6f8] p-[10px] text-foreground", className)}
         >
-            {/* 原站：工具条在画布顶部通栏单行（右端 历史记录），画布内空态卡 520 宽居中；结果动作常驻工具条。 */}
-            <div className="flex h-[48px] shrink-0 flex-wrap items-center gap-2 border-b border-border px-4 text-xs text-foreground" data-testid="remove-pen-toolbar">
-                <span className="inline-flex h-6 items-center gap-1 text-[12px] leading-none text-muted-foreground">
+            <div className="flex min-h-0 flex-1 flex-col overflow-hidden rounded-[8px]">
+            {/* 原站（1600×1000）：48px 白色工具条（1px #d8d8d8 边、圆角 8 8 0 0）左右各半 + #edeff5 画布；空态卡 520 宽居中；结果动作常驻工具条。 */}
+            <div className="flex h-12 shrink-0 items-center rounded-t-[8px] border border-[#d8d8d8] bg-card px-3 text-xs text-foreground shadow-[0_1px_2px_rgba(0,0,0,0.1)]" data-testid="remove-pen-toolbar">
+                <div className="flex min-w-0 flex-1 items-center gap-[10px] pr-[10px]">
+                <span className="inline-flex h-6 items-center gap-1 text-[14px] leading-[22px] text-foreground/85">
                     <Paintbrush className="size-3.5" aria-hidden />
                     <span>画笔</span>
                 </span>
 
-                <label className="flex items-center gap-1.5 text-[12px] text-muted-foreground">
+                <label className="flex items-center gap-1 text-[12px] text-foreground/60">
                     <span>大小：</span>
+                    <span className="inline-flex h-6 items-center gap-1 rounded-[4px] border border-[#d9d9d9] bg-card pl-[7px] pr-1">
                     <input
                         type="number"
                         data-testid="remove-pen-brush-size"
@@ -1723,12 +1616,12 @@ export function RemovePenWorkspace({ className }: RemovePenWorkspaceProps = {}) 
                         max={REMOVE_PEN_BRUSH_MAX}
                         value={state.brushSize}
                         onChange={(event) => commitBrush(Number(event.target.value))}
-                        className="h-[22px] w-[30px] rounded border border-transparent bg-transparent px-0 text-center text-[12px] tabular-nums text-foreground outline-none transition hover:border-border focus:border-primary"
+                        className="h-[22px] w-[22px] bg-transparent px-0 text-[12px] tabular-nums text-foreground outline-none [&::-webkit-inner-spin-button]:appearance-none"
                         aria-label="画笔大小像素"
                     />
-                    <span>像素</span>
-                    <span className="relative inline-flex size-4 items-center justify-center" data-testid="remove-pen-brush-presets">
-                        <ChevronDown className="pointer-events-none size-4 text-muted-foreground" aria-hidden />
+                    <span className="text-black/30">像素</span>
+                    <span className="relative inline-flex size-3 items-center justify-center" data-testid="remove-pen-brush-presets">
+                        <ChevronDown className="pointer-events-none size-3 text-black/25" aria-hidden />
                         <select
                             value={state.brushSize}
                             disabled={busy}
@@ -1743,6 +1636,7 @@ export function RemovePenWorkspace({ className }: RemovePenWorkspaceProps = {}) 
                             ))}
                         </select>
                     </span>
+                    </span>
                 </label>
 
                 <button
@@ -1750,7 +1644,7 @@ export function RemovePenWorkspace({ className }: RemovePenWorkspaceProps = {}) 
                     data-testid="remove-pen-reset-mask"
                     disabled={historyLabel.strokeCount === 0 || busy}
                     onClick={reset}
-                    className="inline-flex h-[28px] items-center gap-1 rounded-md px-1.5 text-[12px] text-foreground hover:bg-border disabled:opacity-40"
+                    className="inline-flex h-7 items-center gap-1 rounded-[4px] px-[7px] text-[12px] text-foreground hover:bg-black/5 disabled:text-black/25!"
                 >
                     <RotateCcw className="size-3" aria-hidden /> <span>重置</span>
                 </button>
@@ -1759,7 +1653,7 @@ export function RemovePenWorkspace({ className }: RemovePenWorkspaceProps = {}) 
                     data-testid="remove-pen-undo"
                     disabled={!historyLabel.canUndo || busy}
                     onClick={undo}
-                    className="inline-flex h-[28px] items-center gap-1 rounded-md px-1.5 text-[12px] text-foreground hover:bg-border disabled:opacity-40"
+                    className="inline-flex h-7 items-center gap-1 rounded-[4px] px-[7px] text-[12px] text-foreground hover:bg-black/5 disabled:text-black/25!"
                 >
                     <Undo2 className="size-3" aria-hidden /> <span>撤销</span>
                 </button>
@@ -1768,7 +1662,7 @@ export function RemovePenWorkspace({ className }: RemovePenWorkspaceProps = {}) 
                     data-testid="remove-pen-redo"
                     disabled={!historyLabel.canRedo || busy}
                     onClick={redo}
-                    className="inline-flex h-[28px] items-center gap-1 rounded-md px-1.5 text-[12px] text-foreground hover:bg-border disabled:opacity-40"
+                    className="inline-flex h-7 items-center gap-1 rounded-[4px] px-[7px] text-[12px] text-foreground hover:bg-black/5 disabled:text-black/25!"
                 >
                     <Redo2 className="size-3" aria-hidden /> <span>重做</span>
                 </button>
@@ -1789,12 +1683,13 @@ export function RemovePenWorkspace({ className }: RemovePenWorkspaceProps = {}) 
                         setRunSnapshot(null);
                         patchDraft(REMOVE_PEN_ID, { values: serializeRemovePenDraftValues({ state: cleared, imageName: "", compareMode: compareRef.current }), assetIds: [] });
                     }}
-                    className="inline-flex h-[28px] items-center rounded-md px-1.5 text-[12px] text-foreground hover:bg-border disabled:opacity-40"
+                    className="inline-flex h-7 items-center gap-1 rounded-[4px] px-[7px] text-[12px] text-foreground hover:bg-black/5 disabled:text-black/25!"
                 >
-                    重新上传
+                    <Upload className="size-3" aria-hidden /> <span>重新上传</span>
                 </button>
+                </div>
 
-                <span className="mx-1 h-5 w-px shrink-0 bg-border" aria-hidden />
+                <div className="flex min-w-0 flex-1 items-center gap-[10px] pl-[10px]">
 
                 {/* 结果动作常驻工具条：未出结果时「下载图片」等保持原位禁用，不隐藏、不另起区块。 */}
                 <button
@@ -1802,9 +1697,10 @@ export function RemovePenWorkspace({ className }: RemovePenWorkspaceProps = {}) 
                     data-testid="remove-pen-submit"
                     disabled={busy || issues.length > 0}
                     onClick={() => void submit()}
-                    className="inline-flex h-[28px] items-center gap-1 rounded-md bg-primary px-[15px] text-[12px] leading-none text-primary-foreground transition hover:bg-primary/90 disabled:cursor-not-allowed disabled:opacity-50"
+                    title={image ? issues[0]?.message : "请先上传需要消除的图片"}
+                    className={cn(edit8GradientButtonClass, "h-7 gap-1 text-[12px]")}
                 >
-                    <Sparkles className="size-3.5" aria-hidden />
+                    <WandSparkles className="size-3.5" aria-hidden />
                     <span>{busy ? "消除中…" : "开始消除"}</span>
                 </button>
                 {resultUrl ? (
@@ -1812,18 +1708,18 @@ export function RemovePenWorkspace({ className }: RemovePenWorkspaceProps = {}) 
                         data-testid="remove-pen-download"
                         href={resultUrl}
                         download={removePenDownloadName(image?.name ?? "remove-pen")}
-                        className="inline-flex h-[28px] items-center rounded-md px-2 text-[12px] text-muted-foreground hover:bg-border hover:text-foreground"
+                        className="inline-flex h-7 items-center gap-1 rounded-[4px] border border-[#d9d9d9] bg-card px-[7px] text-[12px] text-foreground! hover:border-primary hover:text-primary!"
                     >
-                        下载图片
+                        <Download className="size-3" aria-hidden /> 下载图片
                     </a>
                 ) : (
                     <button
                         type="button"
                         data-testid="remove-pen-download"
                         disabled
-                        className="inline-flex h-[28px] items-center rounded-md px-2 text-[12px] text-muted-foreground disabled:opacity-50"
+                        className="inline-flex h-7 items-center gap-1 rounded-[4px] border border-[#d9d9d9] bg-card px-[7px] text-[12px] text-foreground! hover:border-primary hover:text-primary! disabled:bg-black/[0.04] disabled:text-black/25!"
                     >
-                        下载图片
+                        <Download className="size-3" aria-hidden /> 下载图片
                     </button>
                 )}
                 {REMOVE_PEN_HANDOFFS.map((handoff) =>
@@ -1833,8 +1729,9 @@ export function RemovePenWorkspace({ className }: RemovePenWorkspaceProps = {}) 
                             data-testid={`remove-pen-handoff-${handoff.id}`}
                             to={buildRemovePenHandoff(handoff.id, resultUrl).route}
                             state={{ handoff: { from: REMOVE_PEN_ID, field: handoff.field, value: resultUrl } }}
-                            className="inline-flex h-[28px] items-center rounded-md px-2 text-[12px] text-muted-foreground hover:bg-border hover:text-foreground"
+                            className="inline-flex h-7 items-center gap-1 rounded-[4px] border border-[#d9d9d9] bg-card px-[7px] text-[12px] text-foreground! hover:border-primary hover:text-primary!"
                         >
+                            <HandoffIcon id={handoff.id} />
                             {handoff.label}
                         </Link>
                     ) : (
@@ -1843,8 +1740,9 @@ export function RemovePenWorkspace({ className }: RemovePenWorkspaceProps = {}) 
                             type="button"
                             data-testid={`remove-pen-handoff-${handoff.id}`}
                             disabled
-                            className="inline-flex h-[28px] items-center rounded-md px-2 text-[12px] text-muted-foreground disabled:opacity-50"
+                            className="inline-flex h-7 items-center gap-1 rounded-[4px] border border-[#d9d9d9] bg-card px-[7px] text-[12px] text-foreground! hover:border-primary hover:text-primary! disabled:bg-black/[0.04] disabled:text-black/25!"
                         >
+                            <HandoffIcon id={handoff.id} />
                             {handoff.label}
                         </button>
                     ),
@@ -1856,17 +1754,18 @@ export function RemovePenWorkspace({ className }: RemovePenWorkspaceProps = {}) 
                     aria-pressed={historyOpen}
                     onClick={() => setHistoryOpen((value) => !value)}
                     className={cn(
-                        "ml-auto inline-flex h-[28px] items-center gap-1 rounded-md px-2 text-[13px] text-muted-foreground hover:bg-border hover:text-foreground",
-                        historyOpen && "bg-border text-foreground",
+                        "ml-auto! inline-flex h-7 shrink-0 items-center gap-1 text-[12px] text-primary! hover:opacity-80",
+                        historyOpen && "font-medium",
                     )}
                 >
-                    <History className="size-3.5" aria-hidden />
+                    <History className="size-3" aria-hidden />
                     历史记录
                 </button>
+                </div>
             </div>
 
             {/* 原站局部消除没有配置列（工具条通栏 + 画布内结果），所以这里是单列主区。 */}
-            <div data-testid="tool-main-column" className="min-h-0 flex-1 overflow-y-auto">
+            <div data-testid="tool-main-column" className="min-h-0 flex-1 overflow-y-auto rounded-none!">
                 {historyOpen ? (
                     <div className="p-4" data-testid="remove-pen-history-panel">
                         <ToolTaskHistory
@@ -2016,9 +1915,10 @@ export function RemovePenWorkspace({ className }: RemovePenWorkspaceProps = {}) 
                     </div>
                 ) : (
                     <div className="flex min-h-full flex-col items-center justify-center gap-4 px-4 py-6">
-                        <div className="w-full max-w-[520px]">{uploadCard}</div>
+                        <div className="w-full max-w-[540px] [&_[data-testid=remove-pen-upload-card]]:mx-auto [&_[data-testid=remove-pen-upload-card]]:max-w-[520px]">{uploadCard}</div>
                     </div>
                 )}
+            </div>
             </div>
         </div>
     );

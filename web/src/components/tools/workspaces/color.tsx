@@ -1,12 +1,11 @@
-import { ChevronDown, Palette } from "lucide-react";
+import { ArrowRight, ChevronDown, ChevronUp, CircleQuestionMark, Pipette, RotateCcw, WandSparkles, X } from "lucide-react";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 import { Link } from "react-router-dom";
 
-import { Edit8CanvasToolbar, Edit8Config, edit8PrimaryButtonClass } from "@/components/tools/edit8-frame";
+import { Edit8CanvasToolbar, Edit8Config, Edit8Dropzone, Edit8Empty, Edit8ResultTabs, Edit8UploadCard, edit8GradientButtonClass, edit8OutlineButtonClass } from "@/components/tools/edit8-frame";
 import { ToolWorkspaceColumns } from "@/components/tools/tool-workspace-columns";
 import { cn } from "@/lib/utils";
-import { ToolAssetInput } from "@/components/tools/tool-asset-input";
 import { ToolCases, type ToolCase } from "@/components/tools/tool-cases";
 import { ToolResult } from "@/components/tools/tool-result";
 import { ToolTaskHistory } from "@/components/tools/tool-task-history";
@@ -89,30 +88,33 @@ const REFERENCE_CONSTRAINTS: Partial<ToolAssetConstraints> = {
 /** 原站输入框：白底、圆角 4、1px #EDEDF0、12px 字（数值框 48×22，见 b9 real form.json）。 */
 const fieldClass = "h-[26px] rounded-md border border-border bg-card px-2 text-[12px] leading-none text-foreground outline-none transition focus:border-primary disabled:opacity-60";
 
-const numClass = "h-[22px] w-[48px] shrink-0 rounded-md border border-border bg-card px-1 text-center text-[12px] leading-none tabular-nums text-foreground outline-none transition focus:border-primary disabled:opacity-60";
+const numClass = "h-6 w-[50px] shrink-0 rounded-[4px] border border-[#d9d9d9] bg-card px-[7px] text-[14px] leading-none tabular-nums text-foreground outline-none transition focus:border-primary disabled:bg-black/[0.04] disabled:text-black/25";
 
 const ghostButton = "inline-flex h-6 shrink-0 items-center justify-center rounded-md px-2 text-[12px] leading-none text-foreground transition hover:bg-primary/5 disabled:cursor-not-allowed disabled:opacity-50";
 
-/** 原站「从本地上传 / 从作品库选择 / 从商品库选择」横向 32px 按钮行（122/116/116 宽）。 */
-const canvasUploadRow =
-    "w-auto shrink-0 [&_[data-testid=tool-asset-dropzone]]:min-h-0 [&_[data-testid=tool-asset-dropzone]]:w-auto [&_[data-testid=tool-asset-dropzone]]:flex-row [&_[data-testid=tool-asset-dropzone]]:items-center [&_[data-testid=tool-asset-dropzone]]:gap-3 [&_[data-testid=tool-asset-dropzone]]:rounded-none [&_[data-testid=tool-asset-dropzone]]:border-0 [&_[data-testid=tool-asset-dropzone]]:bg-transparent [&_[data-testid=tool-asset-dropzone]]:p-0 [&_[data-testid=tool-asset-dropzone]>span]:h-8 [&_[data-testid=tool-asset-dropzone]>span]:w-[122px] [&_[data-testid=tool-asset-dropzone]>span]:rounded-md [&_[data-testid=tool-asset-dropzone]>span]:text-[14px] [&_[data-testid=tool-asset-dropzone]>div]:w-auto [&_[data-testid=tool-asset-dropzone]>div]:gap-3 [&_[data-testid=tool-asset-dropzone]>div>button]:h-8 [&_[data-testid=tool-asset-dropzone]>div>button]:w-[116px] [&_[data-testid=tool-asset-dropzone]>div>button]:text-[14px]";
+/** 原站「选择颜色」一行 5 个预设色点（24px 色块 + 32px 白圈），见 linkfox 换色页 DOM。 */
+const PRESET_DOTS = ["#EDB393", "#90CCAF", "#88ACEC", "#9285F4", "#EB88A0"] as const;
 
-/** 配置列「颜色参考图」上传卡：原站 255×120 虚线框。 */
-const referenceUploadCard =
-    "[&_[data-testid=tool-asset-dropzone]]:min-h-[120px] [&_[data-testid=tool-asset-dropzone]]:gap-2 [&_[data-testid=tool-asset-dropzone]]:p-2 [&_[data-testid=tool-asset-dropzone]>span]:h-6 [&_[data-testid=tool-asset-dropzone]>span]:w-full [&_[data-testid=tool-asset-dropzone]>div>button]:w-[100px]";
+/** 原站分区重置：通栏 28 高胶囊按钮（圆角 32）。 */
+const pillReset =
+    "inline-flex h-7 w-full items-center justify-center gap-1 rounded-[32px] border border-[#d9d9d9] bg-card text-[12px] text-foreground! transition hover:border-primary hover:text-primary! disabled:bg-black/[0.04] disabled:text-black/25!";
 
-/** 配置列折叠分区（原站 43px 标题行，展开后带内容）。 */
-function ConfigSection({ title, open, onToggle, aside, testId, children }: { title: string; open: boolean; onToggle: () => void; aside?: React.ReactNode; testId?: string; children: React.ReactNode }) {
+/** 配置列折叠分区：原站 antd Collapse（#f9f9f9 底、圆角 8、标题 12px 30% 黑、右侧 12px 箭头，收起 ∧ / 展开 ∨）。 */
+function ConfigSection({ title, open, onToggle, aside, extra, testId, children }: { title: string; open: boolean; onToggle: () => void; aside?: React.ReactNode; extra?: React.ReactNode; testId?: string; children: React.ReactNode }) {
     return (
-        <section className="border-b border-border last:border-b-0" data-testid={testId} data-open={open ? "true" : "false"}>
-            <button type="button" onClick={onToggle} aria-expanded={open} className="flex w-full items-center justify-between gap-2 px-[16px] py-[7px] text-left">
-                <span className="text-[12px] font-medium leading-5 text-foreground">{title}</span>
+        <section className="rounded-[8px] bg-[#f9f9f9]" data-testid={testId} data-open={open ? "true" : "false"}>
+            <button type="button" onClick={onToggle} aria-expanded={open} className="flex w-full items-center justify-between gap-2 px-4 py-3 text-left">
+                <span className="flex items-center gap-1 text-[12px] leading-[19px] text-black/30!">
+                    {title}
+                    {extra}
+                </span>
                 <span className="flex items-center gap-2">
-                    {aside ? <span className="text-[11px] leading-5 text-muted-foreground">{aside}</span> : null}
-                    <ChevronDown className={cn("size-[14px] shrink-0 text-muted-foreground transition-transform", open && "rotate-180")} aria-hidden="true" />
+                    {aside ? <span className="text-[11px] leading-5 text-black/30">{aside}</span> : null}
+                    {open ? <ChevronDown className="size-3 shrink-0 text-[#444]" aria-hidden="true" /> : <ChevronUp className="size-3 shrink-0 text-[#444]" aria-hidden="true" />}
                 </span>
             </button>
-            {open ? <div className="px-[16px] pb-[8px]">{children}</div> : null}
+            {/* 收起时仍保留 DOM（hidden），保证表单值/测试锚点不随折叠丢失。 */}
+            <div className={cn("px-4 pb-4 pt-1", !open && "hidden")}>{children}</div>
         </section>
     );
 }
@@ -129,15 +131,12 @@ function Switch({ checked, disabled, onChange, label, testId, showText }: { chec
                 aria-label={label}
                 disabled={disabled}
                 onClick={() => onChange(!checked)}
-                className={cn("relative inline-flex h-[22px] w-[57px] shrink-0 items-center rounded-full text-[11px] leading-none text-primary-foreground transition disabled:opacity-50", checked ? "bg-primary" : "bg-border")}
+                className={cn("relative inline-flex h-[22px] w-[57px] shrink-0 items-center overflow-hidden rounded-full text-[12px] leading-none text-white! transition disabled:opacity-50", checked ? "bg-primary" : "bg-black/25")}
                 data-testid={testId}
             >
-                {/* 原站 ant-switch-inner：轨道内同时存在「开启」「关闭」两词，滑块遮住其一 */}
-                <span className="relative z-10 flex w-full items-center justify-between px-[8px]">
-                    <span>开启</span>
-                    <span>关闭</span>
-                </span>
-                <span className={cn("absolute top-[2px] z-20 size-[18px] rounded-full bg-card shadow-sm transition-all", checked ? "right-[2px]" : "left-[2px]")} aria-hidden />
+                {/* 原站 ant-switch-inner：开启时文字在左、关闭时在右，滑块压在另一侧 */}
+                <span className={cn("absolute inset-y-0 flex items-center", checked ? "left-[9px]" : "right-[9px]")}>{checked ? "开启" : "关闭"}</span>
+                <span className={cn("absolute top-[2px] size-[18px] rounded-full bg-white shadow-sm transition-all", checked ? "right-[2px]" : "left-[2px]")} aria-hidden />
             </button>
         );
     }
@@ -346,12 +345,26 @@ function SwatchButton({ hex, active, disabled, onPick, onRemove }: { hex: string
 
 function AdjustmentSliderGroup({ adjustment, disabled, onChange, onReset }: { adjustment: ColorAdjustment; disabled?: boolean; onChange: (next: ColorAdjustment) => void; onReset: () => void }) {
     return (
-        <div className="flex flex-col gap-[6px]" data-testid="change-color-adjustment">
+        <div className="flex flex-col gap-[10px]" data-testid="change-color-adjustment">
             {ADJUSTMENT_CONTROLS.map((control) => {
                 const value = adjustment[control.key];
                 return (
-                    <div key={control.key} className="flex items-center gap-2">
-                        <span className="w-[56px] shrink-0 text-[12px] leading-[22px] text-foreground">{control.label}</span>
+                    <div key={control.key} className="flex flex-col gap-[10px]">
+                        <div className="flex items-center justify-between gap-2">
+                            <span className="text-[14px] leading-[22px] text-foreground/60">{control.label}</span>
+                            <input
+                                type="number"
+                                min={control.min}
+                                max={control.max}
+                                step={control.step}
+                                value={value}
+                                disabled={disabled}
+                                aria-label={`${control.label}数值`}
+                                data-adjust-value={control.key}
+                                onChange={(event) => onChange({ ...adjustment, [control.key]: clampToRange(event.target.value, control, 0) })}
+                                className={numClass}
+                            />
+                        </div>
                         <input
                             type="range"
                             min={control.min}
@@ -362,31 +375,17 @@ function AdjustmentSliderGroup({ adjustment, disabled, onChange, onReset }: { ad
                             aria-label={control.label}
                             data-adjust={control.key}
                             onChange={(event) => onChange({ ...adjustment, [control.key]: clampToRange(event.target.value, control, 0) })}
-                            className="h-[22px] min-w-0 flex-1 accent-primary"
-                        />
-                        <input
-                            type="number"
-                            min={control.min}
-                            max={control.max}
-                            step={control.step}
-                            value={value}
-                            disabled={disabled}
-                            aria-label={`${control.label}数值`}
-                            data-adjust-value={control.key}
-                            onChange={(event) => onChange({ ...adjustment, [control.key]: clampToRange(event.target.value, control, 0) })}
-                            className={numClass}
+                            className="mx-[5px] h-3 min-w-0 accent-primary"
                         />
                     </div>
                 );
             })}
-            <div className="flex items-center justify-between gap-2 pt-[2px]">
-                <span className="text-[11px] leading-5 text-muted-foreground" data-testid="change-color-adjustment-summary">
-                    {adjustmentSummary(adjustment)}
-                </span>
-                <button type="button" className={ghostButton} disabled={disabled} onClick={onReset} data-testid="change-color-reset-adjust">
-                    重置
-                </button>
-            </div>
+            <span className="sr-only" data-testid="change-color-adjustment-summary">
+                {adjustmentSummary(adjustment)}
+            </span>
+            <button type="button" className={pillReset} disabled={disabled} onClick={onReset} data-testid="change-color-reset-adjust">
+                <RotateCcw className="size-3" aria-hidden /> 重置
+            </button>
         </div>
     );
 }
@@ -434,8 +433,6 @@ export function ChangeColorWorkspace({ className }: { className?: string }) {
     const [brush, setBrush] = useState(28);
     const [reference, setReference] = useState<ToolAssetRecord | undefined>();
     const [paletteNote, setPaletteNote] = useState<string | undefined>();
-    /** 原站结果列顶部的「上传颜色参考图」提示卡，点「知道了」后本次会话内不再出现。 */
-    const [tipOpen, setTipOpen] = useState(true);
     const [task, setTask] = useState<ToolTask | undefined>();
     const [snapshot, setSnapshot] = useState<ReturnType<typeof createChangeColorSnapshot> | undefined>();
     const [running, setRunning] = useState(false);
@@ -470,6 +467,10 @@ export function ChangeColorWorkspace({ className }: { className?: string }) {
             const parsed = readChangeColorValues(restored?.values?.changeColor as Record<string, unknown> | undefined);
             setValues(parsed);
             if (parsed.hasMask) setPaletteNote("上次的区域选区不会保存（蒙版是图片），请重新涂抹。");
+            if (parsed.referenceAssetId) {
+                const { records } = await loadToolAssetRecords([parsed.referenceAssetId]);
+                if (!cancelled && records[0]) setReference(records[0]);
+            }
             const assetId = parsed.sourceAssetId;
             if (!assetId) return;
             setRestoringSource(true);
@@ -691,29 +692,33 @@ export function ChangeColorWorkspace({ className }: { className?: string }) {
 
     const disabled = running;
 
+    // 原站默认：收藏色卡 / 光影优化 / 色彩平衡 / 曲线收起，选择颜色 / 细调颜色效果 / 边缘优化展开。
     const [openSections, setOpenSections] = useState<Record<string, boolean>>({
-        swatches: true,
+        swatches: false,
         color: true,
         adjust: true,
-        light: true,
+        light: false,
         edge: true,
-        // 色彩平衡与边缘优化同为独立分区，默认展开（原站首屏可见）。
-        balance: true,
+        balance: false,
+        curve: false,
     });
     const toggleSection = useCallback((key: string) => {
         setOpenSections((previous) => ({ ...previous, [key]: !previous[key] }));
     }, []);
 
     return (
-        <div data-testid="change-color-workspace" className={cn("flex min-h-0 flex-col", className)}>
-            <div data-testid="tool-workspace-columns" data-canvas="true" className="grid min-h-0 flex-1 grid-cols-1 gap-0 lg:grid-cols-[minmax(0,1fr)_307px_330px]">
-            <div data-testid="tool-config-column" className="order-2 min-h-0 min-w-0 border-l border-[#ececec]">
+        <div data-testid="change-color-workspace" className={cn("flex h-full min-h-0 flex-col bg-[#f4f6f8] p-[10px]", className)}>
+            {/* 原站一键换色（1600×1000）：左白卡（#edeff5 画布 + 307 配置列）| 右 330 结果卡，间距 10。 */}
+            <div data-testid="tool-workspace-columns" data-canvas="true" className="grid min-h-0 flex-1 grid-cols-1 gap-[10px] lg:grid-cols-[minmax(0,1fr)_330px]">
+            <div className="flex min-h-0 min-w-0 overflow-hidden rounded-[8px] border border-black/[0.08] bg-card">
+            <div data-testid="tool-config-column" className="order-2 flex min-h-0 w-[307px] shrink-0 flex-col">
             <Edit8Config
-                className="w-full"
+                className="w-full rounded-none! border-0!"
                 data-testid="change-color-config"
                 footer={
-                    <div className="border-t border-border p-[10px]">
-                        <button type="button" className={edit8PrimaryButtonClass} disabled={blocked || !sourceReady} onClick={() => void onGenerate()} data-testid="change-color-submit">
+                    <div className="p-[10px]">
+                        <button type="button" className={cn(edit8GradientButtonClass, "w-full gap-1")} disabled={blocked || !sourceReady} title={issues[0]?.message} onClick={() => void onGenerate()} data-testid="change-color-submit">
+                            <WandSparkles className="size-3.5" aria-hidden />
                             <span>{running ? "生成中…" : "立即生成"}</span>
                         </button>
                         {running ? (
@@ -722,12 +727,12 @@ export function ChangeColorWorkspace({ className }: { className?: string }) {
                             </button>
                         ) : null}
                         {runError ? (
-                            <p className="mt-1 text-[11px] leading-4 text-destructive" role="alert" data-testid="change-color-run-error">
+                            <p className="m-0! mt-1! text-[11px] leading-4 text-destructive" role="alert" data-testid="change-color-run-error">
                                 {runError}
                             </p>
                         ) : null}
                         {!runError && issues.length > 0 ? (
-                            <ul className="mt-1 flex flex-col gap-0.5" data-testid="change-color-issues">
+                            <ul className={cn("mt-1 flex flex-col gap-0.5", !sourceReady && "sr-only")} data-testid="change-color-issues">
                                 {issues.map((issue) => (
                                     <li key={issue.code} className="text-[11px] leading-4 text-muted-foreground">
                                         {issue.message}
@@ -739,7 +744,7 @@ export function ChangeColorWorkspace({ className }: { className?: string }) {
                 }
             >
                 <div data-testid="change-color-config-grid">
-                    <div className="flex flex-col gap-[6px] px-[12px]">
+                    <div className="flex flex-col gap-[10px] px-[10px] pt-[10px]">
                 <ConfigSection title="收藏色卡" open={openSections.swatches} onToggle={() => toggleSection("swatches")} testId="change-color-swatches">
                     <div className="flex flex-wrap items-center gap-[6px]">
                         {values.swatches.map((hex) => (
@@ -750,66 +755,86 @@ export function ChangeColorWorkspace({ className }: { className?: string }) {
 
                 <ConfigSection title="选择颜色" open={openSections.color} onToggle={() => toggleSection("color")} aside={normalizeHex(values.targetColor)?.slice(0, 7).toUpperCase()} testId="change-color-color">
                     <div className="flex flex-col gap-[10px]">
-                        <div className="flex items-center gap-2">
-                            <input
-                                type="color"
-                                aria-label="选择颜色"
-                                value={normalizeHex(values.targetColor)?.slice(0, 7) ?? "#000000"}
-                                disabled={disabled}
-                                onChange={(event) => pickColor(event.target.value)}
-                                className="h-[26px] w-[40px] shrink-0 rounded-md border border-border bg-card"
-                                data-testid="change-color-picker"
-                            />
-                            <input type="text" aria-label="颜色值" value={values.targetColor} disabled={disabled} onChange={(event) => pickColor(event.target.value)} className={cn(fieldClass, "w-[104px] font-mono")} data-testid="change-color-hex" />
-                            {values.palette.length > 0 ? (
-                                <div className="flex flex-wrap items-center gap-[6px]" data-testid="change-color-palette">
-                                    {values.palette.map((hex) => (
-                                        <SwatchButton key={hex} hex={hex} active={normalizeHex(hex) === normalizeHex(values.targetColor)} disabled={disabled} onPick={() => pickColor(hex)} />
-                                    ))}
-                                </div>
-                            ) : null}
+                        {/* 原站：一行 5 个预设色点 + 彩虹取色器 + 吸管（本地吸管未接入，如实禁用）。 */}
+                        <div className="flex items-center gap-1">
+                            {PRESET_DOTS.map((hex) => (
+                                <button
+                                    key={hex}
+                                    type="button"
+                                    aria-label={`使用颜色 ${hex}`}
+                                    aria-pressed={normalizeHex(hex) === normalizeHex(values.targetColor)}
+                                    disabled={disabled}
+                                    onClick={() => pickColor(hex)}
+                                    className={cn("flex size-8 items-center justify-center rounded-full border bg-card shadow-[0_0_1px_rgba(0,0,0,0.3)] transition disabled:opacity-50", normalizeHex(hex) === normalizeHex(values.targetColor) ? "border-primary" : "border-[#f0f0f0] hover:border-primary/60")}
+                                    data-swatch={hex}
+                                >
+                                    <span className="size-6 rounded-full" style={{ backgroundColor: hex }} />
+                                </button>
+                            ))}
+                            <label className="relative flex size-8 cursor-pointer items-center justify-center rounded-full border border-[#f0f0f0] bg-card shadow-[0_0_1px_rgba(0,0,0,0.3)]" title="自定义颜色">
+                                <span className="size-6 rounded-full bg-[conic-gradient(#f00,#ff0,#0f0,#0ff,#00f,#f0f,#f00)]" />
+                                <input
+                                    type="color"
+                                    aria-label="选择颜色"
+                                    value={normalizeHex(values.targetColor)?.slice(0, 7) ?? "#000000"}
+                                    disabled={disabled}
+                                    onChange={(event) => pickColor(event.target.value)}
+                                    className="absolute inset-0 size-full cursor-pointer opacity-0"
+                                    data-testid="change-color-picker"
+                                />
+                            </label>
+                            <button type="button" disabled title="吸管取色：本地暂未接入" className="flex size-8 items-center justify-center rounded-full border border-[#d9d9d9] bg-black/[0.04] text-black/25!">
+                                <Pipette className="size-3.5" aria-hidden />
+                            </button>
                         </div>
+                        <div className="flex items-center gap-2">
+                            <span className="size-4 shrink-0 rounded-[4px] border border-black/10" style={{ backgroundColor: normalizeHex(values.targetColor)?.slice(0, 7) ?? "#000000" }} aria-hidden />
+                            <input type="text" aria-label="颜色值" value={values.targetColor} disabled={disabled} onChange={(event) => pickColor(event.target.value)} className={cn(fieldClass, "h-6 min-w-0 flex-1 font-mono")} data-testid="change-color-hex" />
+                        </div>
+                        {values.palette.length > 0 ? (
+                            <div className="flex flex-wrap items-center gap-[6px]" data-testid="change-color-palette">
+                                {values.palette.map((hex) => (
+                                    <SwatchButton key={hex} hex={hex} active={normalizeHex(hex) === normalizeHex(values.targetColor)} disabled={disabled} onPick={() => pickColor(hex)} />
+                                ))}
+                            </div>
+                        ) : null}
 
-                        <ToolAssetInput
-                            toolId={`${toolId}-reference`}
-                            constraints={REFERENCE_CONSTRAINTS}
-                            maxCount={1}
-                            disabled={disabled}
-                            library={library}
-                            onChange={onReferenceChange}
-                            uploadLabel="拖拽 或 点击上传 颜色参考图"
-                            variant="linkfox"
-                            wide
-                            className={referenceUploadCard}
-                        />
+                        {reference ? (
+                            <div className="flex items-center gap-2 rounded-[8px] border border-dashed border-[#d9d9d9] p-2" data-testid="change-color-reference">
+                                <img src={reference.url} alt="颜色参考图" className="size-12 shrink-0 rounded-[4px] object-cover" />
+                                <span className="min-w-0 flex-1 truncate text-[12px] text-foreground/60">{reference.name}</span>
+                                <button type="button" aria-label="移除颜色参考图" disabled={disabled} onClick={() => onReferenceChange([], [])} className="inline-flex size-6 items-center justify-center rounded text-black/45! hover:bg-black/5">
+                                    <X className="size-3.5" aria-hidden />
+                                </button>
+                            </div>
+                        ) : (
+                            <Edit8Dropzone target="颜色参考图" hint="10M以内,jpg/jpeg/png/webp" constraints={REFERENCE_CONSTRAINTS} disabled={disabled} onPick={(record) => onReferenceChange([record.id], [record])} testId="change-color-reference-dropzone" />
+                        )}
                         {paletteNote ? (
-                            <p className="text-[11px] leading-4 text-muted-foreground" data-testid="change-color-reference-note">
+                            <p className="m-0! text-[11px] leading-4 text-muted-foreground" data-testid="change-color-reference-note">
                                 {paletteNote}
                             </p>
                         ) : null}
 
                         <div className="flex items-center justify-between gap-2">
-                            <span className="text-[12px] leading-[22px] text-foreground">去除杂色</span>
+                            <span className="inline-flex items-center gap-1 text-[14px] leading-[22px] text-foreground/60">
+                                去除杂色 <CircleQuestionMark className="size-3 text-black/30" aria-label="开启后清除原色噪点" />
+                            </span>
                             <Switch checked={values.removeNoise} disabled={disabled} onChange={(next) => update({ removeNoise: next })} label="去除杂色" testId="change-color-noise-switch" showText />
                         </div>
-                        <div className="flex items-center justify-between gap-2">
-                            <span className="text-[11px] leading-[22px] text-muted-foreground" data-testid="change-color-color-summary">
-                                {values.removeNoise ? "已开启：清除原色噪点" : "关闭：保留原色噪点"}
-                            </span>
-                            <button
-                                type="button"
-                                className={cn(ghostButton, "h-[28px] w-[88px] border border-border")}
-                                disabled={disabled}
-                                onClick={() => {
-                                    update({ targetColor: DEFAULT_CHANGE_COLOR_VALUES.targetColor, palette: [], removeNoise: false, referenceAssetId: "" });
-                                    setReference(undefined);
-                                    setPaletteNote(undefined);
-                                }}
-                                data-testid="change-color-color-reset"
-                            >
-                                重置
-                            </button>
-                        </div>
+                        <button
+                            type="button"
+                            className={pillReset}
+                            disabled={disabled}
+                            onClick={() => {
+                                update({ targetColor: DEFAULT_CHANGE_COLOR_VALUES.targetColor, palette: [], removeNoise: false, referenceAssetId: "" });
+                                setReference(undefined);
+                                setPaletteNote(undefined);
+                            }}
+                            data-testid="change-color-color-reset"
+                        >
+                            <RotateCcw className="size-3" aria-hidden /> 重置
+                        </button>
                     </div>
                 </ConfigSection>
 
@@ -818,10 +843,10 @@ export function ChangeColorWorkspace({ className }: { className?: string }) {
                 </ConfigSection>
 
                 <ConfigSection title="光影优化" open={openSections.light} onToggle={() => toggleSection("light")} testId="change-color-light">
-                    <div className="flex flex-col gap-[8px]">
+                    <div className="flex flex-col gap-[10px]">
                         <div className="flex items-center justify-between gap-2">
-                            <span className="text-[12px] leading-[22px] text-foreground">光影优化</span>
-                            <Switch checked={values.light.enabled} disabled={disabled} onChange={(next) => update({ light: { ...values.light, enabled: next } })} label="光影优化" testId="change-color-light-enabled" />
+                            <span className="text-[14px] leading-[22px] text-foreground/60">根据原图优化光影</span>
+                            <Switch checked={values.light.enabled} disabled={disabled} onChange={(next) => update({ light: { ...values.light, enabled: next } })} label="光影优化" testId="change-color-light-enabled" showText />
                         </div>
                         <input
                             type="range"
@@ -832,58 +857,49 @@ export function ChangeColorWorkspace({ className }: { className?: string }) {
                             disabled={disabled || !values.light.enabled}
                             aria-label="光影强度"
                             onChange={(event) => update({ light: { ...values.light, strength: clampToRange(event.target.value, LIGHT_STRENGTH_LIMITS, values.light.strength) } })}
-                            className="h-[22px] w-full accent-primary"
+                            className="mx-[5px] h-3 accent-primary"
                             data-testid="change-color-light-strength"
                         />
-                        <div className="flex flex-col gap-[6px]">
-                            {[
-                                { key: "edge" as const, label: "边缘优化" },
-                                { key: "edgeRepair" as const, label: "颜色边缘修复" },
-                            ].map((item) => (
-                                <div key={item.key} className="flex items-center justify-between gap-2">
-                                    <span className="text-[12px] leading-[22px] text-foreground">{item.label}</span>
-                                    <Switch checked={values.light[item.key]} disabled={disabled} onChange={(next) => update({ light: { ...values.light, [item.key]: next } })} label={item.label} testId={`change-color-${item.key}`} />
-                                </div>
-                            ))}
-                        </div>
-                        <div className="flex items-center justify-between gap-2 pt-[2px]">
-                            <span className="text-[11px] leading-5 text-muted-foreground" data-testid="change-color-light-summary">
-                                {lightSummary(values.light)}
-                            </span>
-                            <button type="button" className={ghostButton} disabled={disabled} onClick={() => update({ light: { ...DEFAULT_CHANGE_COLOR_VALUES.light } })} data-testid="change-color-light-reset">
-                                重置
-                            </button>
-                        </div>
+                        <span className="sr-only" data-testid="change-color-light-summary">
+                            {lightSummary(values.light)}
+                        </span>
+                        <button type="button" className={pillReset} disabled={disabled} onClick={() => update({ light: { ...DEFAULT_CHANGE_COLOR_VALUES.light } })} data-testid="change-color-light-reset">
+                            <RotateCcw className="size-3" aria-hidden /> 重置
+                        </button>
                     </div>
                 </ConfigSection>
 
                 <ConfigSection title="边缘优化" open={openSections.edge} onToggle={() => toggleSection("edge")} testId="change-color-edge-section">
-                    <div className="flex flex-col gap-[8px]">
-                        <div className="flex items-center gap-2">
-                            <span className="w-[56px] shrink-0 text-[12px] leading-[22px] text-foreground">曲线</span>
-                            <select
-                                className={cn(fieldClass, "min-w-0 flex-1")}
-                                value={values.light.curve}
-                                disabled={disabled}
-                                onChange={(event) => {
-                                    const next = event.target.value;
-                                    if (isCurveId(next)) update({ light: { ...values.light, curve: next as ColorCurveId } });
-                                }}
-                                data-testid="change-color-curve"
-                            >
-                                {COLOR_CURVES.map((curve) => (
-                                    <option key={curve.id} value={curve.id}>
-                                        {curve.label}
-                                    </option>
-                                ))}
-                            </select>
-                        </div>
+                    <div className="flex flex-col gap-[10px]">
+                        {[
+                            { key: "edgeRepair" as const, label: "颜色边缘修复" },
+                            { key: "edge" as const, label: "边缘优化" },
+                        ].map((item) => (
+                            <div key={item.key} className="flex items-center justify-between gap-2">
+                                <span className="text-[14px] leading-[22px] text-foreground/60">{item.label}</span>
+                                <Switch checked={values.light[item.key]} disabled={disabled} onChange={(next) => update({ light: { ...values.light, [item.key]: next } })} label={item.label} testId={`change-color-${item.key}`} showText />
+                            </div>
+                        ))}
                     </div>
                 </ConfigSection>
 
                 <ConfigSection title="色彩平衡" open={openSections.balance} onToggle={() => toggleSection("balance")} testId="change-color-balance-section">
-                    <div className="flex items-center gap-2">
-                        <span className="w-[56px] shrink-0 text-[12px] leading-[22px] text-foreground">色彩平衡</span>
+                    <div className="flex flex-col gap-[10px]">
+                        <div className="flex items-center justify-between gap-2">
+                            <span className="text-[14px] leading-[22px] text-foreground/60">色彩平衡</span>
+                            <input
+                                type="number"
+                                min={BALANCE_LIMITS.min}
+                                max={BALANCE_LIMITS.max}
+                                step={BALANCE_LIMITS.step}
+                                value={values.light.balance}
+                                disabled={disabled}
+                                aria-label="色彩平衡数值"
+                                onChange={(event) => update({ light: { ...values.light, balance: clampToRange(event.target.value, BALANCE_LIMITS, values.light.balance) } })}
+                                className={numClass}
+                                data-testid="change-color-balance-value"
+                            />
+                        </div>
                         <input
                             type="range"
                             min={BALANCE_LIMITS.min}
@@ -893,28 +909,36 @@ export function ChangeColorWorkspace({ className }: { className?: string }) {
                             disabled={disabled}
                             aria-label="色彩平衡"
                             onChange={(event) => update({ light: { ...values.light, balance: clampToRange(event.target.value, BALANCE_LIMITS, values.light.balance) } })}
-                            className="h-[22px] min-w-0 flex-1 accent-primary"
+                            className="mx-[5px] h-3 accent-primary"
                             data-testid="change-color-balance"
                         />
-                        <input
-                            type="number"
-                            min={BALANCE_LIMITS.min}
-                            max={BALANCE_LIMITS.max}
-                            step={BALANCE_LIMITS.step}
-                            value={values.light.balance}
-                            disabled={disabled}
-                            aria-label="色彩平衡数值"
-                            onChange={(event) => update({ light: { ...values.light, balance: clampToRange(event.target.value, BALANCE_LIMITS, values.light.balance) } })}
-                            className={numClass}
-                            data-testid="change-color-balance-value"
-                        />
                     </div>
+                </ConfigSection>
+
+                <ConfigSection title="曲线" open={openSections.curve} onToggle={() => toggleSection("curve")} testId="change-color-curve-section">
+                    <select
+                        className={cn(fieldClass, "h-8 w-full")}
+                        value={values.light.curve}
+                        disabled={disabled}
+                        aria-label="曲线"
+                        onChange={(event) => {
+                            const next = event.target.value;
+                            if (isCurveId(next)) update({ light: { ...values.light, curve: next as ColorCurveId } });
+                        }}
+                        data-testid="change-color-curve"
+                    >
+                        {COLOR_CURVES.map((curve) => (
+                            <option key={curve.id} value={curve.id}>
+                                {curve.label}
+                            </option>
+                        ))}
+                    </select>
                 </ConfigSection>
                     </div>
                 </div>
             </Edit8Config>
             </div>
-            <section data-region="canvas" data-testid="tool-main-column" className="order-1 flex min-h-0 min-w-0 flex-col overflow-hidden bg-[#f7f7f9]">
+            <section data-region="canvas" data-testid="tool-main-column" className="order-1 flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden rounded-none!">
                 {beforeImage ? (
                     <>
                         <Edit8CanvasToolbar>
@@ -935,6 +959,9 @@ export function ChangeColorWorkspace({ className }: { className?: string }) {
                                 {strokes.length > 0 ? `已涂 ${strokes.length} 笔选区` : "未涂选区：按整图换色"}
                             </span>
                             <div className="ml-auto flex items-center gap-2">
+                                <button type="button" className={ghostButton} disabled={disabled} onClick={() => onSourceChange([], [])} data-testid="change-color-reupload">
+                                    重新上传
+                                </button>
                                 <button type="button" className={ghostButton} disabled={disabled || strokes.length === 0} onClick={() => setStrokes((previous) => previous.slice(0, -1))} data-testid="change-color-mask-undo">
                                     撤销
                                 </button>
@@ -962,102 +989,91 @@ export function ChangeColorWorkspace({ className }: { className?: string }) {
                         </div>
                     </>
                 ) : (
-                    <div className="flex h-full items-center justify-center p-[10px]">
-                        <div className="flex w-[660px] max-w-full flex-col items-center rounded-[8px] bg-card px-[30px] py-[38px] text-center shadow-[0_2px_12px_rgba(31,31,44,0.06)]" data-testid="change-color-source">
-                            <h2 className="text-[24px] font-semibold leading-[31px] text-foreground">一键快速上色</h2>
-                            <p className="mt-[8px] max-w-[600px] text-[15px] leading-[25px] text-muted-foreground">立即改变照片中任何物品的颜色，无论是衣服、商品、配饰还是假发！</p>
-                            <div className="mt-[22px] flex flex-wrap items-start justify-center gap-3">
-                                <ToolAssetInput toolId={toolId} constraints={SOURCE_CONSTRAINTS} maxCount={1} disabled={disabled || restoringSource} library={library} onChange={onSourceChange} className={canvasUploadRow} variant="linkfox" title="" uploadLabel="从本地上传" />
-                                <button
-                                    type="button"
-                                    disabled
-                                    title="批量一键换色：本地暂未接入批量队列"
-                                    className="h-8 w-[138px] shrink-0 rounded-md border border-border bg-card text-[14px] leading-none text-muted-foreground disabled:cursor-not-allowed disabled:opacity-60"
-                                    data-testid="change-color-batch-entry"
-                                >
-                                    批量一键换色
-                                </button>
-                            </div>
-                            <p className="mt-[14px] text-[12px] leading-[17px] text-muted-foreground">10M以内,jpg/jpeg/png/webp</p>
+                    <div className="flex h-full items-center justify-center py-[44px] pl-[49px] pr-20">
+                        <div className="w-[660px] max-w-full rounded-[8px] bg-[#f7f7f7] p-[10px]">
+                            <Edit8UploadCard
+                                testId="change-color-source"
+                                className="p-5"
+                                constraints={SOURCE_CONSTRAINTS}
+                                library={library}
+                                products
+                                disabled={disabled || restoringSource}
+                                onPick={(record) => onSourceChange([record.id], [record])}
+                                media={<video src="/__cases/change-color/guide-changecolor.mp4" autoPlay muted loop playsInline className="mb-[10px] h-[330px] w-full object-cover" />}
+                                heading={
+                                    <>
+                                        <h2 className="m-0! mb-[10px]! text-[20px] font-normal leading-[31px] text-foreground/85">一键快速上色</h2>
+                                        <p className="m-0! mb-5! text-[16px] leading-[25px] text-[#939599]">立即改变照片中任何物品的颜色，无论是衣服、商品、配饰还是假发！</p>
+                                    </>
+                                }
+                                extraActions={
+                                    <button type="button" disabled title="批量一键换色：原站跳转「批量生图」，本地暂未接入" className={edit8OutlineButtonClass} data-testid="change-color-batch-entry">
+                                        批量一键换色 <ArrowRight className="size-3.5" aria-hidden />
+                                    </button>
+                                }
+                            />
                         </div>
                     </div>
                 )}
             </section>
-            <section data-region="results" data-testid="change-color-results" className="order-3 flex min-h-0 w-[330px] shrink-0 flex-col overflow-hidden border-l border-[#ececec] bg-white">
-                <div role="tablist" className="flex h-[42px] shrink-0 items-center gap-5 px-[13px]">
-                    {[
-                        { id: "result", label: "生成结果" },
-                        { id: "gallery", label: "优秀案例" },
-                        { id: "history", label: "历史记录" },
-                    ].map((tab) => (
-                        <button
-                            key={tab.id}
-                            type="button"
-                            role="tab"
-                            aria-selected={resultTab === tab.id}
-                            onClick={() => setResultTab(tab.id as typeof resultTab)}
-                            className={cn("relative h-[42px] text-[12px] leading-none transition", resultTab === tab.id ? "font-medium text-foreground" : "text-muted-foreground hover:text-foreground")}
-                            data-testid={`change-color-tab-${tab.id}`}
-                        >
-                            {tab.label}
-                            {resultTab === tab.id ? <span className="absolute bottom-[9px] left-1/2 h-[2px] w-[16px] -translate-x-1/2 rounded-full bg-primary" /> : null}
-                        </button>
-                    ))}
-                </div>
-                <div className="flex min-h-0 flex-1 flex-col gap-[10px] overflow-y-auto px-[10px] pb-[10px]">
-                    {/* 原站结果列顶部提示卡：14px 文案 + 右下白底「知道了」(58×24)。原站 254×128，x1541/y271 */}
-                    {tipOpen ? (
-                        <div className="shrink-0 rounded-[8px] bg-card px-[12px] pb-[10px] pt-[12px]" data-testid="change-color-tip">
-                            <p className="text-[14px] leading-[22px] text-foreground">支持上传颜色参考图，生成效果色差更小</p>
-                            <div className="mt-3 flex justify-end">
-                                <button
-                                    type="button"
-                                    onClick={() => setTipOpen(false)}
-                                    data-testid="change-color-tip-dismiss"
-                                    className="flex h-6 items-center justify-center rounded-lg bg-card px-[8px] text-[14px] leading-none text-foreground transition hover:bg-muted"
-                                >
-                                    知道了
-                                </button>
-                            </div>
+            </div>
+            <section data-region="results" data-testid="change-color-results" className="flex min-h-0 min-w-0 flex-col overflow-hidden rounded-[8px] bg-[#edeff5]">
+                <Edit8ResultTabs
+                    tabs={[
+                        { id: "result", label: "生成结果", testId: "change-color-tab-result" },
+                        { id: "gallery", label: "优秀案例", testId: "change-color-tab-gallery" },
+                    ]}
+                    active={resultTab}
+                    onTabChange={(id) => setResultTab(id as typeof resultTab)}
+                    onHistory={() => setResultTab("history")}
+                    historyActive={resultTab === "history"}
+                    historyTestId="change-color-tab-history"
+                />
+                <div className="flex min-h-0 flex-1 flex-col gap-[10px] overflow-y-auto py-4 pl-4 pr-3">
+                    {caseNotice ? (
+                        <p className="m-0! rounded-md bg-primary/5 px-2 py-1 text-[11px] leading-4 text-primary" data-testid="change-color-case-notice">{caseNotice}</p>
+                    ) : null}
+                    {resultTab === "result" ? (
+                        activeTask ? (
+                            <ToolResult task={activeTask} toolId={toolId} title="生成结果" onCancel={onCancel} onRetry={() => void onRetry()} />
+                        ) : (
+                            <Edit8Empty className="flex-1" lines={["暂无生成结果图", "快在左侧操作物品换色吧~"]} />
+                        )
+                    ) : null}
+                    {resultTab === "gallery" ? (
+                        <div className="min-h-0 flex-1 overflow-y-auto" data-testid="change-color-gallery">
+                            <ToolCases cases={COLOR_V2_CASES} onApply={(item) => void applyCase(item)} applyingId={applyingCaseId ?? undefined} />
                         </div>
                     ) : null}
-                    <div className="flex min-h-0 flex-1 flex-col rounded-[8px] bg-card">
-                        {caseNotice ? (
-                            <p className="mx-2 mt-2 rounded-md bg-primary/5 px-2 py-1 text-[11px] leading-4 text-primary" data-testid="change-color-case-notice">{caseNotice}</p>
-                        ) : null}
-                        {resultTab === "result" ? <ToolResult task={activeTask} toolId={toolId} title="生成结果" emptyTitle="暂无生成结果图" emptyHint="快在左侧操作物品换色吧~" onCancel={onCancel} onRetry={() => void onRetry()} /> : null}
-                        {resultTab === "gallery" ? (
-                            <div className="min-h-0 flex-1 overflow-y-auto p-2" data-testid="change-color-gallery">
-                                <ToolCases cases={COLOR_V2_CASES} onApply={(item) => void applyCase(item)} applyingId={applyingCaseId ?? undefined} />
-                            </div>
-                        ) : null}
-                        {resultTab === "history" ? (
-                            <div className="min-h-0 flex-1 overflow-y-auto p-2">
-                                <ToolTaskHistory
-                                    toolId={toolId}
-                                    onSelectTask={(historyTask) => {
-                                        setTask(historyTask);
-                                        setResultTab("result");
-                                    }}
-                                />
-                            </div>
-                        ) : null}
-                    </div>
+                    {resultTab === "history" ? (
+                        <div className="min-h-0 flex-1 overflow-y-auto">
+                            <ToolTaskHistory
+                                toolId={toolId}
+                                onSelectTask={(historyTask) => {
+                                    setTask(historyTask);
+                                    setResultTab("result");
+                                }}
+                            />
+                        </div>
+                    ) : null}
 
+                    {/* 本地附加：上传后可查看本次提交字段（原站无此卡，空态不显示）。 */}
+                    {currentSnapshot ? (
                     <div className="rounded-[8px] bg-card p-[10px]">
-                        <button type="button" className="flex w-full items-center justify-between gap-2 text-[12px] leading-5 text-foreground" onClick={() => setShowSnapshot((previous) => !previous)} data-testid="change-color-snapshot-toggle">
+                        <button type="button" className="flex w-full items-center justify-between gap-2 text-[12px] leading-5 text-foreground!" onClick={() => setShowSnapshot((previous) => !previous)} data-testid="change-color-snapshot-toggle">
                             <span>本次提交</span>
                             <span className="text-[11px] text-muted-foreground">{showSnapshot ? "收起参数" : "查看参数"}</span>
                         </button>
-                        <p className="mt-1 text-[11px] leading-4 text-muted-foreground" data-testid="change-color-snapshot">
-                            {currentSnapshot ? snapshotFieldSummary(currentSnapshot.fields) : "上传图片后可查看"}
+                        <p className="m-0! mt-1! text-[11px] leading-4 text-muted-foreground" data-testid="change-color-snapshot">
+                            {snapshotFieldSummary(currentSnapshot.fields)}
                         </p>
-                        {showSnapshot && currentSnapshot ? (
+                        {showSnapshot ? (
                             <pre className="mt-2 max-h-64 overflow-auto rounded-lg bg-muted/60 p-2 text-[10px] leading-relaxed text-muted-foreground" data-testid="change-color-snapshot-body">
                                 {JSON.stringify(currentSnapshot.fields, null, 2)}
                             </pre>
                         ) : null}
                     </div>
+                    ) : null}
                 </div>
             </section>
             </div>

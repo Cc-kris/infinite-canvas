@@ -1496,7 +1496,7 @@
     {
       "id": "FISSION_LINK",
       "index": 28,
-      "label": "场景裂变链接",
+      "label": "链接裂变",
       "category": "design",
       "categoryLabel": "商品图设计",
       "categorySlug": "product-design",
@@ -1578,7 +1578,7 @@
     {
       "id": "MATERIAL_UPPER_BODY",
       "index": 30,
-      "label": "上装换料",
+      "label": "商品预览效果",
       "category": "design",
       "categoryLabel": "商品图设计",
       "categorySlug": "product-design",

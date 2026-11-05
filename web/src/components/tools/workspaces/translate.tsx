@@ -1,6 +1,8 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
-import { ChevronDown } from "lucide-react";
+import { ArrowRight, History } from "lucide-react";
+
+import { IMAGE_TRANSLATION_GUIDE_POSTER } from "@/features/tools/tool-cases-data";
 
 import { ToolAssetInput } from "@/components/tools/tool-asset-input";
 import { ToolShell } from "@/components/tools/tool-shell";
@@ -632,9 +634,10 @@ export function TranslateWorkspace({ className }: TranslateWorkspaceProps = {}) 
                                         const zone = document.querySelector<HTMLElement>('[data-testid="tool-asset-dropzone"]');
                                         zone?.click();
                                     }}
-                                    className="text-left text-sm text-primary transition hover:opacity-80"
+                                    className="inline-flex h-8 w-full items-center justify-center gap-1 rounded-md border border-primary text-[13px] text-primary transition hover:bg-primary/5"
                                 >
                                     上传多张图片，开始批量翻译
+                                    <ArrowRight className="size-3.5" aria-hidden />
                                 </button>
                             ) : (
                                 <p className="text-xs text-muted-foreground">正在恢复草稿…</p>
@@ -743,31 +746,43 @@ export function TranslateWorkspace({ className }: TranslateWorkspaceProps = {}) 
                 </div>
                 }
             >
-                <div className="flex min-h-0 flex-col gap-3">
+                <div className="flex min-h-0 flex-1 flex-col gap-3">
+                    {/* 原站结果区只有「生成结果」一个页签，历史记录是页签栏右端的小入口。 */}
                     <div role="tablist" className="flex h-[41px] shrink-0 items-center gap-6 border-b border-border bg-card px-4 text-sm">
-                        {([["result", "生成结果"], ["history", "历史记录"]] as const).map(([id, label]) => (
-                            <button
-                                key={id}
-                                type="button"
-                                role="tab"
-                                aria-selected={resultTab === id}
-                                data-testid={`translate-tab-${id}`}
-                                onClick={() => setResultTab(id)}
-                                className={cn(
-                                    "-mb-px flex h-full items-center border-b-2 font-medium transition",
-                                    resultTab === id ? "border-primary text-primary" : "border-transparent text-muted-foreground hover:text-foreground",
-                                )}
-                            >
-                                {label}
-                            </button>
-                        ))}
+                        <button
+                            type="button"
+                            role="tab"
+                            aria-selected={resultTab === "result"}
+                            data-testid="translate-tab-result"
+                            onClick={() => setResultTab("result")}
+                            className={cn(
+                                "-mb-px flex h-full items-center border-b-2 font-medium transition",
+                                resultTab === "result" ? "border-primary text-primary" : "border-transparent text-muted-foreground hover:text-foreground",
+                            )}
+                        >
+                            生成结果
+                        </button>
+                        <button
+                            type="button"
+                            data-testid="translate-history-link"
+                            onClick={() => setResultTab("history")}
+                            style={{ marginLeft: "auto" }}
+                            className={cn("inline-flex items-center gap-1 text-[12px] leading-none transition", resultTab === "history" ? "text-primary" : "text-foreground/50 hover:text-primary")}
+                        >
+                            <History className="size-3" aria-hidden />
+                            历史记录
+                        </button>
                     </div>
-                    {resultTab === "result" ? (
+                    {resultTab === "result" && !assetIds.length ? (
+                        /* 原站空态：白卡（圆角 12、内边距 40）+ 静态示意海报 + 一行说明，无做同款。 */
+                        <div className="flex min-h-0 flex-1 items-center justify-center p-4" data-testid="translate-empty-guide">
+                            <div className="flex w-[850px] max-w-full flex-col items-center gap-5 rounded-[12px] bg-card p-10">
+                                <img src={IMAGE_TRANSLATION_GUIDE_POSTER} alt="批量翻译示意" className="w-full max-w-[770px]" draggable={false} />
+                                <span className="text-[16px] leading-[25px] text-muted-foreground">快速翻译成多语言，快速上架</span>
+                            </div>
+                        </div>
+                    ) : resultTab === "result" ? (
                     <>
-                    <details className="rounded-md border border-border/70 px-3 py-1.5">
-                    <summary aria-label="校对" className="flex cursor-pointer items-center gap-1 text-xs text-muted-foreground [&::-webkit-details-marker]:hidden">
-                        <ChevronDown className="size-3.5" aria-hidden />
-                    </summary>
                     <Section
                         id="proofread"
                         collapsible
@@ -922,17 +937,13 @@ export function TranslateWorkspace({ className }: TranslateWorkspaceProps = {}) 
                             </ul>
                         ) : null}
                     </Section>
-                    </details>
 
-                    <Section id="results">
-                        <details className="mb-2">
-                            <summary aria-label="更多" className="flex cursor-pointer items-center gap-1 text-[11px] text-muted-foreground [&::-webkit-details-marker]:hidden">
-                                <ChevronDown className="size-3.5" aria-hidden />
-                            </summary>
-                            <div className="mt-2 flex flex-wrap items-center gap-2">
+                    <Section id="results" title="生成结果">
+                        {outcomes.length ? (
+                            <div className="mb-2 flex flex-wrap items-center gap-2">
                             <button
                                 type="button"
-                                disabled={busy || outcomes.length === 0}
+                                disabled={busy}
                                 onClick={() => void retryFailed()}
                                 className="rounded border border-border px-2 py-1 text-[11px] transition hover:bg-accent disabled:opacity-50"
                             >
@@ -942,7 +953,7 @@ export function TranslateWorkspace({ className }: TranslateWorkspaceProps = {}) 
                                 {showSnapshot ? "收起快照" : "展开快照"}
                             </button>
                             </div>
-                        </details>
+                        ) : null}
                         {busy ? <span className="text-[11px] text-muted-foreground">进度 {progress.done}/{progress.total}</span> : null}
 
                         {showSnapshot ? (

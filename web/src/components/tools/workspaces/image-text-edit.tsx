@@ -1,7 +1,9 @@
 /**
  * TASK-036：IMAGE_TEXT_EDIT（图片文字编辑）工作区。
  *
- * 区域（page-specs/29）：图片文字画布｜文本框列表｜属性编辑｜导出。
+ * 布局按原站 `/designer?type=78`：顶栏（返回/撤销重做/保存状态/生成）｜左竖向工具栏（文字/素材/背景/模板/标注/图层）｜
+ * 左面板｜中间画布 + 底部缩放｜右面板（选中=文字属性，否则=画布尺寸/导出格式，下方生成检查与结果）。
+ * 原站有、本地没有真实能力的入口（素材 / 模板 / 标注 / AI生成文案）只做禁用 + title 说明。
  * 硬约束：
  * - 画布选中 ↔ 右侧条目 ↔ 属性面板 三处始终指向同一个 boxId；
  * - 文本框只能来自真实框选/新增或（未来）真实识别结果，不生成示例文案；
@@ -11,12 +13,35 @@
  */
 
 import { useCallback, useEffect, useMemo, useRef, useState, type KeyboardEvent, type PointerEvent } from "react";
-import { AlertTriangle, ArrowDown, ArrowUp, Copy, ImagePlus, Loader2, Plus, Redo2, RotateCcw, Trash2, Undo2 } from "lucide-react";
+import { Link } from "react-router-dom";
+import {
+    AlertTriangle,
+    ArrowDown,
+    ArrowLeft,
+    ArrowUp,
+    CircleMinus,
+    CirclePlus,
+    Copy,
+    Frame,
+    Image as ImageIcon,
+    ImagePlus,
+    Layers,
+    LayoutTemplate,
+    Loader2,
+    PencilRuler,
+    Redo2,
+    Search,
+    Shapes,
+    Trash2,
+    Type,
+    Undo2,
+    WandSparkles,
+} from "lucide-react";
 
 import { ToolResult } from "@/components/tools/tool-result";
 import { ToolWorkspaceColumns } from "@/components/tools/tool-workspace-columns";
 import { cn } from "@/lib/utils";
-import { DEFAULT_IMAGE_CONSTRAINTS, uploadToolAsset, type ToolAssetRecord } from "@/services/api/tools/assets";
+import { DEFAULT_IMAGE_CONSTRAINTS, loadToolAssetRecords, uploadToolAsset, type ToolAssetRecord } from "@/services/api/tools/assets";
 import type { ToolTaskResultItem } from "@/services/api/tools/task-machine";
 import {
     IMAGE_TEXT_EDIT_FONTS,
@@ -74,8 +99,6 @@ import { useToolDraftStore } from "@/stores/use-tool-draft-store";
 import { reattachDroppedResultUrl, useToolTaskStore } from "@/stores/use-tool-task-store";
 
 const toolId = IMAGE_TEXT_EDIT_TOOL_ID;
-/** §6：卡片圆角 8–10px、面板 bg-card / 主区 bg-background、边框 border-border（全部取无限画布令牌）。 */
-const cardClass = "rounded-[10px] border border-border bg-card p-4";
 /** §6：控件高 36px、输入圆角 8px。 */
 const fieldClass = "h-9 w-full rounded-lg border border-border bg-background px-3 text-sm text-foreground outline-none focus-visible:border-primary";
 /** §6：最小点击区 40×40px。 */
@@ -113,6 +136,12 @@ export function ImageTextEditWorkspace() {
     const [sourceAssetIds, setSourceAssetIds] = useState<string[]>([]);
     /** §4：结果区提供「查看本次输入快照」——展开只读展示提交时的字段快照。 */
     const [showSnapshot, setShowSnapshot] = useState(false);
+    /** 原站编辑器布局：左竖向工具栏当前面板、画布缩放（null = 自适应）、推荐字体搜索。 */
+    const [panel, setPanel] = useState("文字");
+    const [zoom, setZoom] = useState<number | null>(null);
+    const [fontQuery, setFontQuery] = useState("");
+    const [stageSize, setStageSize] = useState({ width: 0, height: 0 });
+    const stageRef = useRef<HTMLDivElement | null>(null);
 
     const abortRef = useRef<AbortController | null>(null);
     const fileRef = useRef<HTMLInputElement | null>(null);
@@ -143,6 +172,13 @@ export function ImageTextEditWorkspace() {
                 setSelectedId(restored.boxes[0]?.id ?? "");
                 // 源资产 id 从草稿槽位还原（§7），刷新后仍能作为本次任务的 sourceAssetIds。
                 setSourceAssetIds([...draft.assetIds]);
+                // 草稿里的 blob: 地址只在上次会话有效：按资产记录的 storageKey 重新签发源图地址。
+                if (restored.imageUrl) {
+                    const { records } = await loadToolAssetRecords([...draft.assetIds]);
+                    if (!alive) return;
+                    if (records[0]) await applyAssetRecord(records[0]);
+                    else setUploadNote("上次的源图已不在本地，请重新上传。");
+                }
             }
             setDraftRestored(true);
         })();
@@ -171,6 +207,11 @@ export function ImageTextEditWorkspace() {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [values]);
 
+    // 源资产 id 也写进草稿槽位（恢复完成后才写，避免初始空数组覆盖），刷新后据此重新签发源图地址。
+    useEffect(() => {
+        if (draftRestored) patchDraft(toolId, { assetIds: sourceAssetIds });
+    }, [draftRestored, patchDraft, sourceAssetIds]);
+
     useEffect(() => () => abortRef.current?.abort(), []);
 
     /** 画布宽度：字号、拖拽、框选都要用真实像素换算，不靠猜。 */
@@ -185,6 +226,18 @@ export function ImageTextEditWorkspace() {
         setCanvasWidth(element.clientWidth);
         return () => observer.disconnect();
     }, [values.imageUrl]);
+
+    /** 中间画布区尺寸：自适应缩放按它把源图整张放进可视区。 */
+    useEffect(() => {
+        const element = stageRef.current;
+        if (!element) return;
+        const observer = new ResizeObserver((entries) => {
+            const rect = entries[0]?.contentRect;
+            if (rect) setStageSize({ width: rect.width, height: rect.height });
+        });
+        observer.observe(element);
+        return () => observer.disconnect();
+    }, []);
 
     const update = useCallback((updater: (previous: ImageTextEditValues) => ImageTextEditValues) => {
         setValues((previous) => updater(previous));
@@ -306,6 +359,7 @@ export function ImageTextEditWorkspace() {
             setHistory(createImageTextBoxHistory([]));
             setSelectedId("");
             setSnapshot(undefined);
+            setZoom(null);
             setUploadNote(`已上传 ${record.name}（${dimensions.width}×${dimensions.height}，${formatBytesLabel(record.bytes)}）。原图不会被覆盖。`);
         } catch (error) {
             // 失败文件单独点名（§5）：其他输入保留，只有这一行是错误态。
@@ -525,407 +579,514 @@ export function ImageTextEditWorkspace() {
     const scale = values.imageWidth > 0 && canvasWidth > 0 ? canvasWidth / values.imageWidth : 1;
     const staleNotice = snapshot ? imageTextEditStaleNotice(values, snapshot, currentSnapshot) : "";
 
-    return (
-        <div className="flex flex-col gap-4" data-testid="image-text-edit-workspace">
-            <div className="flex flex-wrap items-center justify-between gap-2">
-                <div>
-                    <h1 className="text-lg font-semibold text-[var(--foreground)]">图片文字编辑</h1>
-                    <p className="text-xs text-[var(--muted-foreground)]">{imageTextEditPreviewNotice(values)}</p>
-                </div>
-                <div className="flex flex-wrap items-center gap-2">
-                    <button type="button" className={smallButton} onClick={undo} disabled={!canUndoImageTextBoxHistory(history)}>
-                        <Undo2 className="h-4 w-4" /> 撤销
-                    </button>
-                    <button type="button" className={smallButton} onClick={redo} disabled={!canRedoImageTextBoxHistory(history)}>
-                        <Redo2 className="h-4 w-4" /> 重做
-                    </button>
-                </div>
-            </div>
+    /** 画布显示尺寸：未上传源图时按原站默认 1024×1024 白板；自适应 = 整张放进画布区（四周留 60px）。 */
+    const natural = { width: values.imageWidth || 1024, height: values.imageHeight || 1024 };
+    const fitScale = stageSize.width > 0 ? Math.min((stageSize.width - 120) / natural.width, (stageSize.height - 120) / natural.height) : 0.5;
+    const viewScale = Math.max(0.05, zoom ?? fitScale);
+    const stepZoom = (delta: number) => setZoom(Math.max(0.1, Math.round((viewScale + delta) * 10) / 10));
+    const canAddBox = Boolean(values.imageUrl) && values.boxes.length < IMAGE_TEXT_EDIT_MAX_BOXES;
+    const fontCards = IMAGE_TEXT_EDIT_FONTS.filter((font) => !fontQuery.trim() || font.label.includes(fontQuery.trim()) || font.id.includes(fontQuery.trim().toLowerCase()));
 
-            <ToolWorkspaceColumns
-                canvas
-                configSide="right"
-                config={(
-                    <>
-                    {/* 属性编辑 */}
-                    <section className={cardClass} aria-label="属性编辑">
-                        <h2 className="mb-3 text-sm font-medium">属性编辑</h2>
-                        {selected ? (
-                            <div className="flex flex-col gap-3">
-                                <label className="text-xs text-[var(--muted-foreground)]">
-                                    文字内容（{selected.text.length}/{IMAGE_TEXT_EDIT_TEXT_LIMIT}）
-                                    <textarea
-                                        className={cn(fieldClass, "mt-1 min-h-20 resize-y")}
-                                        value={selected.text}
-                                        maxLength={IMAGE_TEXT_EDIT_TEXT_LIMIT}
-                                        placeholder="输入要在该文字框内显示的文字"
-                                        onChange={(event) => patchSelected({ text: event.target.value })}
-                                    />
-                                </label>
-                                <div className="grid grid-cols-2 gap-2">
-                                    <label className="text-xs text-[var(--muted-foreground)]">
-                                        字体
-                                        <select className={cn(fieldClass, "mt-1")} value={selected.fontId} onChange={(event) => patchSelected({ fontId: event.target.value })}>
-                                            {IMAGE_TEXT_EDIT_FONTS.map((font) => (
-                                                <option key={font.id} value={font.id}>
-                                                    {font.label}
-                                                </option>
-                                            ))}
-                                        </select>
-                                    </label>
-                                    <label className="text-xs text-[var(--muted-foreground)]">
-                                        字号（源图像素）
-                                        <input
-                                            type="number"
-                                            className={cn(fieldClass, "mt-1")}
-                                            min={IMAGE_TEXT_EDIT_FONT_SIZE.min}
-                                            max={IMAGE_TEXT_EDIT_FONT_SIZE.max}
-                                            value={selected.fontSize}
-                                            onChange={(event) => patchSelected({ fontSize: Number(event.target.value) })}
-                                        />
-                                    </label>
-                                </div>
-                                <div className="grid grid-cols-2 gap-2">
-                                    <div className="text-xs text-[var(--muted-foreground)]">
-                                        字重
-                                        <div className="mt-1 flex gap-1">
-                                            {[400, 700].map((weight) => (
-                                                <button
-                                                    key={weight}
-                                                    type="button"
-                                                    className={cn(smallButton, "flex-1", selected.fontWeight === weight && "border-[var(--primary)] bg-[var(--primary)]/10")}
-                                                    onClick={() => patchSelected({ fontWeight: weight as 400 | 700 })}
-                                                >
-                                                    {weight === 700 ? "加粗" : "常规"}
-                                                </button>
-                                            ))}
-                                        </div>
+    /** 新增文字框（添加文字 / 默认字体样式 / 推荐字体）：文字留空等用户填写，不预填示例文案。 */
+    const addBox = (patch: Partial<ImageTextBox> = {}) => {
+        const next = addImageTextBox(values.boxes, patch);
+        if (next === values.boxes) return;
+        commitBoxes(next);
+        setSelectedId(next[next.length - 1]?.id ?? "");
+    };
+    const addStyledBox = (ratio: number, fontWeight: 400 | 700) => {
+        const fontSize = Math.min(IMAGE_TEXT_EDIT_FONT_SIZE.max, Math.max(IMAGE_TEXT_EDIT_FONT_SIZE.min, Math.round(values.imageHeight * ratio)));
+        addBox({ fontSize, fontWeight, height: Math.min(0.5, Math.max(0.05, (fontSize * 1.6) / Math.max(values.imageHeight, 1))) });
+    };
+    const pickFont = (fontId: string) => (selected ? patchSelected({ fontId }) : addBox({ fontId }));
+
+    const railButton = (active: boolean) =>
+        cn("flex h-14 w-14 flex-col items-center justify-center gap-0.5 text-[12px] disabled:cursor-not-allowed disabled:opacity-35", active ? "bg-[rgba(114,60,249,0.05)] text-[#723cf9]! shadow-[inset_2px_0_0_#723cf9]" : "text-black/80! hover:bg-black/[0.03]");
+    const RAIL = [
+        { label: "文字", icon: Type },
+        { label: "素材", icon: Shapes, disabled: "本地没有素材库，暂不支持" },
+        { label: "背景", icon: ImageIcon },
+        { label: "模板", icon: LayoutTemplate, disabled: "本地没有图片文字模板库，暂不支持" },
+        { label: "标注", icon: PencilRuler, disabled: "本地没有标注工具，暂不支持" },
+        { label: "图层", icon: Layers },
+    ];
+    const sectionTitle = "mb-2 text-[14px] leading-[22px] text-black/60";
+
+    return (
+        <div className="flex h-full min-h-[640px] flex-col bg-white text-[14px] text-black/[0.88]" data-testid="image-text-edit-workspace">
+            {/* 顶栏：返回 / 标题 / 撤销重做 / 保存状态 / 生成 */}
+            <header className="flex h-16 shrink-0 items-center gap-4 border-b border-black/20 px-6">
+                <Link to="/tools/product-design" className="inline-flex h-8 items-center gap-1.5 rounded-[6px] bg-black/[0.04] px-3 text-[14px] text-black hover:bg-black/[0.08]">
+                    <ArrowLeft className="size-4" /> 返回
+                </Link>
+                <h1 className="text-[20px] font-semibold text-[#1f1f1f]">图片文字编辑</h1>
+                <span className="h-4 w-px bg-black/10" />
+                <button type="button" aria-label="撤销" title="撤销（⌘/Ctrl+Z）" className="flex size-8 items-center justify-center rounded-[6px] text-black/80 hover:bg-black/[0.04] disabled:opacity-30" onClick={undo} disabled={!canUndoImageTextBoxHistory(history)}>
+                    <Undo2 className="size-4" />
+                </button>
+                <button type="button" aria-label="重做" title="重做（⌘/Ctrl+Shift+Z）" className="flex size-8 items-center justify-center rounded-[6px] text-black/80 hover:bg-black/[0.04] disabled:opacity-30" onClick={redo} disabled={!canRedoImageTextBoxHistory(history)}>
+                    <Redo2 className="size-4" />
+                </button>
+                <span className="text-[14px] text-[#58a919]" title="文字框与源图引用自动保存到浏览器本地草稿">{draftRestored ? "已保存到本地草稿" : "读取草稿中…"}</span>
+                <span className="ml-auto text-[12px] text-black/45">预计输出 {IMAGE_TEXT_EDIT_OUTPUT_NUM} 张</span>
+                <button
+                    type="button"
+                    data-testid="image-text-edit-submit"
+                    title={blocking[0]?.message ?? "按当前文字框真实提交图像模型生成"}
+                    className="inline-flex h-8 items-center gap-1.5 rounded-[6px] bg-black px-4 text-[14px] text-white! disabled:cursor-not-allowed disabled:bg-black/[0.04] disabled:text-black/25!"
+                    disabled={blocking.length > 0 || running}
+                    onClick={() => void handleSubmit()}
+                >
+                    {running ? <Loader2 className="size-4 animate-spin" /> : <WandSparkles className="size-4" />}
+                    生成图片文字
+                </button>
+            </header>
+            <div className="flex min-h-0 flex-1">
+                <nav aria-label="编辑工具" className="flex w-14 shrink-0 flex-col pt-4">
+                    {RAIL.map(({ label, icon: Icon, disabled }) => (
+                        <button key={label} type="button" title={disabled ?? label} disabled={Boolean(disabled)} aria-pressed={panel === label} className={railButton(panel === label)} onClick={() => setPanel(label)}>
+                            <Icon className="size-4" strokeWidth={1.8} />
+                            {label}
+                        </button>
+                    ))}
+                </nav>
+
+                <ToolWorkspaceColumns
+                    canvas
+                    configSide="left"
+                    className="min-h-0 min-w-0 flex-1 gap-0 lg:grid-rows-[minmax(0,1fr)]"
+                    configClassName="gap-0 overflow-y-auto border-x border-black/15 px-4 py-4"
+                    mainClassName="flex-row gap-0"
+                    config={
+                        <>
+                            {panel === "文字" ? (
+                                <section aria-label="文字">
+                                    <div className="grid grid-cols-2 gap-[10px]">
+                                        <button type="button" disabled={!canAddBox} title={values.imageUrl ? "在画布上新增一个文字框" : "请先上传源图"} onClick={() => addBox()} className="inline-flex h-8 items-center justify-center gap-1.5 rounded-[6px] bg-[rgba(114,60,249,0.08)] text-[14px] text-[#723cf9] hover:bg-[rgba(114,60,249,0.14)] disabled:cursor-not-allowed disabled:opacity-40">
+                                            <Type className="size-3.5" /> 添加文字
+                                        </button>
+                                        <button type="button" disabled title="本地未接入文案生成模型，暂不支持 AI 生成文案" className="inline-flex h-8 cursor-not-allowed items-center justify-center gap-1.5 rounded-[6px] bg-[rgba(114,60,249,0.08)] text-[14px] text-[#723cf9] opacity-40">
+                                            <WandSparkles className="size-3.5" /> AI生成文案
+                                        </button>
                                     </div>
-                                    <div className="text-xs text-[var(--muted-foreground)]">
-                                        对齐
-                                        <div className="mt-1 flex gap-1">
-                                            {(["left", "center", "right"] as const).map((align) => (
-                                                <button key={align} type="button" className={cn(smallButton, "flex-1", selected.align === align && "border-[var(--primary)] bg-[var(--primary)]/10")} onClick={() => patchSelected({ align })}>
-                                                    {align === "left" ? "左" : align === "center" ? "中" : "右"}
-                                                </button>
-                                            ))}
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="grid grid-cols-2 gap-2">
-                                    <label className="text-xs text-[var(--muted-foreground)]">
-                                        颜色
-                                        <input type="color" className="mt-1 h-10 w-full rounded-lg border border-[var(--border)] bg-[var(--background)]" value={selected.color} onChange={(event) => patchSelected({ color: event.target.value })} />
+                                    <label className="mt-3 flex h-8 items-center gap-1.5 rounded-[6px] border border-black/15 px-2.5">
+                                        <Search className="size-3.5 text-black/60" />
+                                        <input value={fontQuery} onChange={(event) => setFontQuery(event.target.value)} placeholder="搜索" aria-label="搜索字体风格" className="min-w-0 flex-1 bg-transparent text-[14px] outline-none placeholder:text-black/30" />
                                     </label>
-                                    <div className="text-xs text-[var(--muted-foreground)]">
-                                        缩放（宽/高 %）
-                                        <div className="mt-1 flex gap-1">
-                                            <input type="number" className={fieldClass} step={1} min={3} max={100} value={Math.round(selected.width * 100)} onChange={(event) => patchSelected({ width: Number(event.target.value) / 100 })} />
-                                            <input type="number" className={fieldClass} step={1} min={3} max={100} value={Math.round(selected.height * 100)} onChange={(event) => patchSelected({ height: Number(event.target.value) / 100 })} />
-                                        </div>
+                                    <div className={cn(sectionTitle, "mt-4")}>默认字体样式</div>
+                                    <div className="grid grid-cols-3 gap-4">
+                                        {([["标题", 0.08, 700], ["副标题", 0.05, 400], ["正文", 0.035, 400]] as const).map(([label, ratio, weight]) => (
+                                            <button key={label} type="button" disabled={!canAddBox} title={values.imageUrl ? `新增${label}文字框` : "请先上传源图"} onClick={() => addStyledBox(ratio, weight)} className={cn("h-10 rounded-[5px] border border-dashed border-[#d8d8d8] text-[18px] text-black/[0.85] hover:border-[#723cf9] disabled:cursor-not-allowed disabled:opacity-40", weight === 700 && "font-bold")}>
+                                                {label}
+                                            </button>
+                                        ))}
                                     </div>
-                                </div>
-                                <div className="flex flex-wrap gap-2">
-                                    <button type="button" className={smallButton} onClick={() => commitBoxes(duplicateImageTextBox(values.boxes, selected.id))}>
-                                        <Copy className="h-4 w-4" /> 复制
+                                    <div className={cn(sectionTitle, "mt-4")}>推荐字体风格</div>
+                                    <div className="grid grid-cols-2 gap-[15px]">
+                                        {fontCards.map((font) => (
+                                            <button
+                                                key={font.id}
+                                                type="button"
+                                                disabled={!selected && !canAddBox}
+                                                title={selected ? `把选中文字框改为「${font.label}」` : `用「${font.label}」新增文字框`}
+                                                onClick={() => pickFont(font.id)}
+                                                className={cn("flex h-20 flex-col items-center justify-center gap-1 rounded-[5px] border hover:border-[#723cf9] disabled:cursor-not-allowed disabled:opacity-40", selected?.fontId === font.id ? "border-[#723cf9]" : "border-[#d8d8d8]")}
+                                            >
+                                                <span className="text-[24px] leading-none text-black/[0.85]" style={{ fontFamily: font.cssStack, fontWeight: font.id === "display" ? 400 : 600 }}>
+                                                    {font.monospace ? "¥ 99.00" : "Style 字体"}
+                                                </span>
+                                                <span className="text-[11px] text-black/45">{font.label}</span>
+                                            </button>
+                                        ))}
+                                    </div>
+                                    {!fontCards.length ? <div className="mt-2 text-[12px] text-black/45">没有匹配的字体风格</div> : null}
+                                    <div className="mt-4 text-[12px] leading-5 text-black/45">在画布上拖拽可框选新文字框；选中后方向键微调（Shift 加速）、Delete 删除、⌘/Ctrl+Z 撤销。</div>
+                                </section>
+                            ) : null}
+                            {panel === "背景" ? (
+                                <section aria-label="背景（源图）">
+                                    <div className={sectionTitle}>源图</div>
+                                    {values.imageUrl ? (
+                                        <img src={values.imageUrl} alt={values.imageName || "源图"} className="mb-2 max-h-56 w-full rounded-[6px] border border-black/[0.08] bg-[#f5f6fa] object-contain" />
+                                    ) : null}
+                                    <button type="button" className="inline-flex h-8 w-full items-center justify-center gap-1.5 rounded-[6px] bg-[linear-gradient(90deg,#3a7df9,#723cf9)] text-[14px] text-white disabled:opacity-50" onClick={() => fileRef.current?.click()} disabled={uploading}>
+                                        {uploading ? <Loader2 className="size-4 animate-spin" /> : <ImagePlus className="size-4" />}
+                                        {values.imageUrl ? "更换源图" : "上传源图"}
                                     </button>
-                                    <button
-                                        type="button"
-                                        className={cn(smallButton, "text-destructive")}
-                                        onClick={() => {
-                                            commitBoxes(removeImageTextBox(values.boxes, selected.id));
+                                    <div className="mt-2 text-[12px] leading-5 text-black/45">
+                                        {values.imageUrl ? `${values.imageName || "源图"} · ${values.imageWidth}×${values.imageHeight}` : "支持 JPG / PNG / WebP。"}换源图会清空现有文字框；原图只作参考图上传，不会被覆盖。
+                                    </div>
+                                </section>
+                            ) : null}
+
+                            {panel === "图层" ? (
+                                <section aria-label="文本框列表">
+                                    <header className="mb-2 flex items-center justify-between">
+                                        <div className="text-[14px] leading-[22px] text-black/60">文字图层</div>
+                                        <span className="text-[12px] text-black/45">
+                                            {values.boxes.length}/{IMAGE_TEXT_EDIT_MAX_BOXES}
+                                        </span>
+                                    </header>
+                                    {values.boxes.length ? (
+                                        <ol className="flex flex-col gap-1">
+                                            {values.boxes.map((box, index) => {
+                                                const layout = measureImageTextBox(box, values.imageWidth, values.imageHeight);
+                                                return (
+                                                    <li key={box.id} className={cn("flex items-center gap-1 rounded-[6px] border px-2 py-1", selectedId === box.id ? "border-[#723cf9] bg-[rgba(114,60,249,0.05)]" : "border-black/[0.08]")}>
+                                                        <button type="button" className="min-h-9 flex-1 truncate text-left text-[13px]" onClick={() => setSelectedId(box.id)}>
+                                                            {imageTextEditBoxLabel(box, index)}
+                                                        </button>
+                                                        {layout.overflowX || layout.overflowY ? <AlertTriangle className="size-3.5 shrink-0 text-destructive" aria-label="预计溢出" /> : null}
+                                                        {layout.missingGlyphs.length ? <span className="shrink-0 text-[10px] text-destructive">缺字</span> : null}
+                                                        <button
+                                                            type="button"
+                                                            className="min-h-9 min-w-7 text-black/45 hover:text-black disabled:opacity-30"
+                                                            aria-label={`上移 ${index + 1}`}
+                                                            disabled={index === 0}
+                                                            onClick={() => {
+                                                                const next = [...values.boxes];
+                                                                [next[index - 1], next[index]] = [next[index], next[index - 1]];
+                                                                commitBoxes(next);
+                                                            }}
+                                                        >
+                                                            <ArrowUp className="size-3.5" />
+                                                        </button>
+                                                        <button
+                                                            type="button"
+                                                            className="min-h-9 min-w-7 text-black/45 hover:text-black disabled:opacity-30"
+                                                            aria-label={`下移 ${index + 1}`}
+                                                            disabled={index === values.boxes.length - 1}
+                                                            onClick={() => {
+                                                                const next = [...values.boxes];
+                                                                [next[index + 1], next[index]] = [next[index], next[index + 1]];
+                                                                commitBoxes(next);
+                                                            }}
+                                                        >
+                                                            <ArrowDown className="size-3.5" />
+                                                        </button>
+                                                        <button
+                                                            type="button"
+                                                            className="min-h-9 min-w-7 text-destructive"
+                                                            aria-label={`删除 ${index + 1}`}
+                                                            onClick={() => {
+                                                                commitBoxes(removeImageTextBox(values.boxes, box.id));
+                                                                if (selectedId === box.id) setSelectedId("");
+                                                            }}
+                                                        >
+                                                            <Trash2 className="size-3.5" />
+                                                        </button>
+                                                    </li>
+                                                );
+                                            })}
+                                        </ol>
+                                    ) : (
+                                        <div className="text-[12px] text-black/45">还没有文字框。</div>
+                                    )}
+                                </section>
+                            ) : null}
+                        </>
+                    }
+                >
+                    {/* 中间画布区：灰底 + 居中画布 + 底部缩放 */}
+                    <section aria-label="图片文字画布" className="relative flex min-h-[480px] min-w-0 flex-1 flex-col bg-[#f5f6fa]">
+                        <input
+                            ref={fileRef}
+                            type="file"
+                            accept="image/png,image/jpeg,image/webp"
+                            className="hidden"
+                            data-testid="image-text-edit-file"
+                            onChange={(event) => {
+                                const file = event.target.files?.[0];
+                                event.target.value = "";
+                                if (file) void applyAsset(file);
+                            }}
+                        />
+                        <div ref={stageRef} className="min-h-0 flex-1 overflow-auto">
+                            <div className="flex min-h-full min-w-full items-center justify-center p-[60px]" style={{ width: "max-content", height: "max-content" }}>
+                                {values.imageUrl ? (
+                                    <div
+                                        ref={canvasRef}
+                                        role="group"
+                                        aria-label="文字框画布"
+                                        tabIndex={0}
+                                        className="relative shrink-0 overflow-hidden bg-white outline-none focus-visible:ring-2 focus-visible:ring-[#723cf9]"
+                                        style={{ width: natural.width * viewScale, height: natural.height * viewScale }}
+                                        onPointerDown={(event) => {
+                                            createRef.current = { startX: event.clientX, startY: event.clientY };
                                             setSelectedId("");
                                         }}
+                                        onPointerMove={onCanvasPointerMove}
+                                        onPointerUp={endCanvasPointer}
+                                        onPointerCancel={endCanvasPointer}
+                                        onKeyDown={onCanvasKeyDown}
                                     >
-                                        <Trash2 className="h-4 w-4" /> 删除
+                                        {/* 源图只作为底图显示，导出走新结果，永不覆盖原图 */}
+                                        <img src={values.imageUrl} alt={values.imageName || "源图"} className="pointer-events-none absolute inset-0 h-full w-full select-none object-contain" draggable={false} />
+                                        {values.boxes.map((box, index) => {
+                                            const layout = measureImageTextBox(box, values.imageWidth, values.imageHeight);
+                                            const overflow = layout.overflowX || layout.overflowY;
+                                            const missing = layout.missingGlyphs.length > 0;
+                                            return (
+                                                <div
+                                                    key={box.id}
+                                                    role="button"
+                                                    tabIndex={0}
+                                                    aria-label={imageTextEditBoxLabel(box, index)}
+                                                    data-testid={`image-text-edit-box-${box.id}`}
+                                                    onPointerDown={(event) => startBoxDrag(event, box)}
+                                                    onKeyDown={(event) => {
+                                                        if (event.key === "Enter" || event.key === " ") {
+                                                            event.preventDefault();
+                                                            setSelectedId(box.id);
+                                                        }
+                                                    }}
+                                                    className={cn(
+                                                        "absolute cursor-move rounded-[3px] border-2 text-left",
+                                                        selectedId === box.id ? "border-[#723cf9] ring-2 ring-[#723cf9]/40" : "border-white/70",
+                                                        overflow ? "bg-accent" : missing ? "bg-destructive/10" : "bg-primary/10",
+                                                    )}
+                                                    style={{ left: `${box.x * 100}%`, top: `${box.y * 100}%`, width: `${box.width * 100}%`, height: `${box.height * 100}%` }}
+                                                >
+                                                    <span
+                                                        className="pointer-events-none block h-full w-full overflow-hidden whitespace-pre-wrap"
+                                                        style={{
+                                                            color: box.color,
+                                                            fontFamily: imageTextEditFontStack(box.fontId),
+                                                            fontSize: `${Math.max(6, box.fontSize * scale)}px`,
+                                                            fontWeight: box.fontWeight,
+                                                            lineHeight: 1.25,
+                                                            textAlign: box.align,
+                                                        }}
+                                                    >
+                                                        {box.text || "（空文本）"}
+                                                    </span>
+                                                </div>
+                                            );
+                                        })}
+                                        {draftRect ? (
+                                            <div
+                                                aria-hidden="true"
+                                                className="pointer-events-none absolute border-2 border-dashed border-[#723cf9] bg-[#723cf9]/10"
+                                                style={{ left: `${draftRect.x * 100}%`, top: `${draftRect.y * 100}%`, width: `${draftRect.width * 100}%`, height: `${draftRect.height * 100}%` }}
+                                            />
+                                        ) : null}
+                                    </div>
+                                ) : (
+                                    <button
+                                        type="button"
+                                        onClick={() => fileRef.current?.click()}
+                                        disabled={uploading}
+                                        className="flex shrink-0 flex-col items-center justify-center gap-2 bg-white text-[14px] text-black/45 hover:text-[#723cf9]"
+                                        style={{ width: natural.width * viewScale, height: natural.height * viewScale }}
+                                    >
+                                        {uploading ? <Loader2 className="size-6 animate-spin" /> : <ImagePlus className="size-6" />}
+                                        上传 JPG / PNG / WebP 源图后开始框选文字
                                     </button>
-                                </div>
-                                <p className="text-[11px] text-[var(--muted-foreground)]">预览字族：{imageTextEditFontLabel(selected.fontId)}；上游若替换字族不会回写本地配置。</p>
+                                )}
                             </div>
-                        ) : (
-                            <p className="text-xs text-[var(--muted-foreground)]">在画布或列表里选中一个文字框后编辑属性。</p>
-                        )}
-                    </section>
-
-                    {/* 文本框列表 */}
-                    <section className={cardClass} aria-label="文本框列表">
-                        <header className="mb-2 flex items-center justify-between">
-                            <h2 className="text-sm font-medium">文本框列表</h2>
-                            <span className="text-[11px] text-[var(--muted-foreground)]">
-                                {values.boxes.length}/{IMAGE_TEXT_EDIT_MAX_BOXES}
-                            </span>
-                        </header>
-                        {values.boxes.length ? (
-                            <ol className="flex flex-col gap-1">
-                                {values.boxes.map((box, index) => {
-                                    const layout = measureImageTextBox(box, values.imageWidth, values.imageHeight);
-                                    return (
-                                        <li key={box.id} className={cn("flex items-center gap-1 rounded-lg border px-2 py-1", selectedId === box.id ? "border-[var(--primary)] bg-[var(--primary)]/10" : "border-[var(--border)]")}>
-                                            <button type="button" className="min-h-10 flex-1 truncate text-left text-xs" onClick={() => setSelectedId(box.id)}>
-                                                {imageTextEditBoxLabel(box, index)}
-                                            </button>
-                                            {layout.overflowX || layout.overflowY ? <AlertTriangle className="h-3.5 w-3.5 shrink-0 text-destructive" aria-label="预计溢出" /> : null}
-                                            {layout.missingGlyphs.length ? <span className="shrink-0 text-[10px] text-destructive">缺字</span> : null}
-                                            <button
-                                                type="button"
-                                                className="min-h-10 min-w-8 text-[var(--muted-foreground)] hover:text-[var(--foreground)]"
-                                                aria-label={`上移 ${index + 1}`}
-                                                disabled={index === 0}
-                                                onClick={() => {
-                                                    const next = [...values.boxes];
-                                                    [next[index - 1], next[index]] = [next[index], next[index - 1]];
-                                                    commitBoxes(next);
-                                                }}
-                                            >
-                                                <ArrowUp className="h-3.5 w-3.5" />
-                                            </button>
-                                            <button
-                                                type="button"
-                                                className="min-h-10 min-w-8 text-[var(--muted-foreground)] hover:text-[var(--foreground)]"
-                                                aria-label={`下移 ${index + 1}`}
-                                                disabled={index === values.boxes.length - 1}
-                                                onClick={() => {
-                                                    const next = [...values.boxes];
-                                                    [next[index + 1], next[index]] = [next[index], next[index + 1]];
-                                                    commitBoxes(next);
-                                                }}
-                                            >
-                                                <ArrowDown className="h-3.5 w-3.5" />
-                                            </button>
-                                            <button
-                                                type="button"
-                                                className="min-h-10 min-w-8 text-destructive"
-                                                aria-label={`删除 ${index + 1}`}
-                                                onClick={() => {
-                                                    commitBoxes(removeImageTextBox(values.boxes, box.id));
-                                                    if (selectedId === box.id) setSelectedId("");
-                                                }}
-                                            >
-                                                <Trash2 className="h-3.5 w-3.5" />
-                                            </button>
-                                        </li>
-                                    );
-                                })}
-                            </ol>
-                        ) : (
-                            <p className="text-xs text-[var(--muted-foreground)]">还没有文字框。</p>
-                        )}
-                    </section>
-
-                    {/* 导出 */}
-                    <section className={cardClass} aria-label="导出">
-                        <h2 className="mb-2 text-sm font-medium">导出</h2>
-                        <div className="flex flex-wrap gap-1">
-                            {IMAGE_TEXT_EDIT_FORMATS.map((format) => (
-                                <button
-                                    key={format.id}
-                                    type="button"
-                                    className={cn(smallButton, values.imageFormat === format.id && "border-[var(--primary)] bg-[var(--primary)]/10")}
-                                    onClick={() => update((current) => ({ ...current, imageFormat: format.id as ImageTextEditFormat }))}
-                                >
-                                    {format.label}
+                        </div>
+                        <div className="pointer-events-none absolute inset-x-0 bottom-[10px] flex justify-center">
+                            <div className="pointer-events-auto flex h-9 items-center gap-1 rounded-[8px] bg-white/95 px-2 shadow-[0_2px_8px_rgba(0,0,0,0.08)]">
+                                <button type="button" aria-label="缩小" className="flex size-7 items-center justify-center rounded-[6px] text-black/70 hover:bg-black/[0.04]" onClick={() => stepZoom(-0.1)}>
+                                    <CircleMinus className="size-4" />
                                 </button>
-                            ))}
-                        </div>
-                        <p className="mt-2 text-[11px] text-[var(--muted-foreground)]">导出的是新结果文件；原图保持不动，可随时改框重出。</p>
-
-                        {issues.length ? (
-                            <ul className="mt-3 flex flex-col gap-1">
-                                {issues.map((issue) => (
-                                    <li key={`${issue.code}-${issue.boxId ?? ""}`} className={cn("flex items-start gap-1.5 text-[11px]", isBlockingImageTextEditIssue(issue) ? "text-destructive" : "text-destructive")}>
-                                        <AlertTriangle className="mt-0.5 h-3.5 w-3.5 shrink-0" />
-                                        <span>{issue.message}</span>
-                                    </li>
-                                ))}
-                            </ul>
-                        ) : null}
-
-                        <div className="mt-3 flex flex-col gap-2">
-                            <button
-                                type="button"
-                                data-testid="image-text-edit-submit"
-                                className="inline-flex min-h-11 items-center justify-center gap-2 rounded-lg bg-[var(--primary)] px-3 text-sm font-medium text-[var(--primary-foreground)] disabled:cursor-not-allowed disabled:opacity-40"
-                                disabled={blocking.length > 0 || running}
-                                onClick={() => void handleSubmit()}
-                            >
-                                {running ? <Loader2 className="h-4 w-4 animate-spin" /> : null}
-                                生成图片文字
-                            </button>
-                            {/* §4：提交按钮旁显示产物数量/预计输出（不显示原站算力）。 */}
-                            <p className="text-[11px] text-[var(--muted-foreground)]">预计输出 {IMAGE_TEXT_EDIT_OUTPUT_NUM} 张结果（单次固定，不可改数量）。</p>
-                            <p className="text-[11px] text-[var(--muted-foreground)]">{IMAGE_TEXT_EDIT_NOTICE}</p>
-                            {errorText ? <p className="text-xs text-destructive">{errorText}</p> : null}
+                                <button type="button" title="点击恢复自适应" className="min-w-11 text-center text-[14px] tabular-nums text-black/80" onClick={() => setZoom(null)}>
+                                    {Math.round(viewScale * 100)}%
+                                </button>
+                                <button type="button" aria-label="放大" className="flex size-7 items-center justify-center rounded-[6px] text-black/70 hover:bg-black/[0.04]" onClick={() => stepZoom(0.1)}>
+                                    <CirclePlus className="size-4" />
+                                </button>
+                            </div>
                         </div>
                     </section>
-                    </>
-                )}
-            >
-                {/* 图片文字画布 */}
-                <section className={cardClass} aria-label="图片文字画布">
-                    <header className="mb-3 flex flex-wrap items-center justify-between gap-2">
-                        <h2 className="text-sm font-medium">图片文字画布</h2>
-                        <div className="flex flex-wrap items-center gap-2">
-                            <button type="button" className={smallButton} onClick={() => fileRef.current?.click()} disabled={uploading}>
-                                {uploading ? <Loader2 className="h-4 w-4 animate-spin" /> : <ImagePlus className="h-4 w-4" />}
-                                {values.imageUrl ? "更换源图" : "上传源图"}
-                            </button>
-                            <button
-                                type="button"
-                                className={smallButton}
-                                onClick={() => {
-                                    const next = addImageTextBox(values.boxes);
-                                    if (next === values.boxes) return;
-                                    commitBoxes(next);
-                                    setSelectedId(next[next.length - 1]?.id ?? "");
-                                }}
-                                disabled={!values.imageUrl || values.boxes.length >= IMAGE_TEXT_EDIT_MAX_BOXES}
-                            >
-                                <Plus className="h-4 w-4" /> 新增文字框
-                            </button>
-                        </div>
-                    </header>
-                    <input
-                        ref={fileRef}
-                        type="file"
-                        accept="image/png,image/jpeg,image/webp"
-                        className="hidden"
-                        data-testid="image-text-edit-file"
-                        onChange={(event) => {
-                            const file = event.target.files?.[0];
-                            event.target.value = "";
-                            if (file) void applyAsset(file);
-                        }}
-                    />
-
-                    {values.imageUrl ? (
-                        <div
-                            ref={canvasRef}
-                            role="group"
-                            aria-label="文字框画布"
-                            tabIndex={0}
-                            className="relative w-full overflow-hidden rounded-xl border border-[var(--border)] bg-[var(--muted)] outline-none focus-visible:ring-2 focus-visible:ring-[var(--primary)]"
-                            style={{ aspectRatio: `${values.imageWidth || 1} / ${values.imageHeight || 1}` }}
-                            onPointerDown={(event) => {
-                                createRef.current = { startX: event.clientX, startY: event.clientY };
-                                setSelectedId("");
-                            }}
-                            onPointerMove={onCanvasPointerMove}
-                            onPointerUp={endCanvasPointer}
-                            onPointerCancel={endCanvasPointer}
-                            onKeyDown={onCanvasKeyDown}
-                        >
-                            {/* 源图只作为底图显示，导出走新结果，永不覆盖原图 */}
-                            <img src={values.imageUrl} alt={values.imageName || "源图"} className="pointer-events-none absolute inset-0 h-full w-full select-none object-contain" draggable={false} />
-                            {values.boxes.map((box, index) => {
-                                const layout = measureImageTextBox(box, values.imageWidth, values.imageHeight);
-                                const overflow = layout.overflowX || layout.overflowY;
-                                const missing = layout.missingGlyphs.length > 0;
-                                return (
-                                    <div
-                                        key={box.id}
-                                        role="button"
-                                        tabIndex={0}
-                                        aria-label={imageTextEditBoxLabel(box, index)}
-                                        data-testid={`image-text-edit-box-${box.id}`}
-                                        onPointerDown={(event) => startBoxDrag(event, box)}
-                                        onKeyDown={(event) => {
-                                            if (event.key === "Enter" || event.key === " ") {
-                                                event.preventDefault();
-                                                setSelectedId(box.id);
-                                            }
-                                        }}
-                                        className={cn(
-                                            "absolute cursor-move rounded-[3px] border-2 text-left",
-                                            selectedId === box.id ? "border-[var(--primary)] ring-2 ring-[var(--primary)]/40" : "border-white/70",
-                                            overflow ? "bg-accent" : missing ? "bg-destructive/10" : "bg-primary/10",
-                                        )}
-                                        style={{ left: `${box.x * 100}%`, top: `${box.y * 100}%`, width: `${box.width * 100}%`, height: `${box.height * 100}%` }}
-                                    >
-                                        <span
-                                            className="pointer-events-none block h-full w-full overflow-hidden whitespace-pre-wrap"
-                                            style={{
-                                                color: box.color,
-                                                fontFamily: imageTextEditFontStack(box.fontId),
-                                                fontSize: `${Math.max(6, box.fontSize * scale)}px`,
-                                                fontWeight: box.fontWeight,
-                                                lineHeight: 1.25,
-                                                textAlign: box.align,
+                    {/* 右面板：选中文字框 = 属性；否则 = 画布（尺寸 / 导出格式）；下方固定生成检查与结果 */}
+                    <aside aria-label="属性编辑" className="flex w-[360px] shrink-0 flex-col overflow-y-auto border-l border-black/15 bg-white">
+                        <h2 className="flex h-12 shrink-0 items-center border-b border-black/[0.16] px-4 text-[14px]">{selected ? "文字" : "画布"}</h2>
+                        <div className="flex flex-col gap-4 p-4">
+                            {selected ? (
+                                <div className="flex flex-col gap-3">
+                                    <label className="text-xs text-[var(--muted-foreground)]">
+                                        文字内容（{selected.text.length}/{IMAGE_TEXT_EDIT_TEXT_LIMIT}）
+                                        <textarea
+                                            className={cn(fieldClass, "mt-1 min-h-20 resize-y")}
+                                            value={selected.text}
+                                            maxLength={IMAGE_TEXT_EDIT_TEXT_LIMIT}
+                                            placeholder="输入要在该文字框内显示的文字"
+                                            onChange={(event) => patchSelected({ text: event.target.value })}
+                                        />
+                                    </label>
+                                    <div className="grid grid-cols-2 gap-2">
+                                        <label className="text-xs text-[var(--muted-foreground)]">
+                                            字体
+                                            <select className={cn(fieldClass, "mt-1")} value={selected.fontId} onChange={(event) => patchSelected({ fontId: event.target.value })}>
+                                                {IMAGE_TEXT_EDIT_FONTS.map((font) => (
+                                                    <option key={font.id} value={font.id}>
+                                                        {font.label}
+                                                    </option>
+                                                ))}
+                                            </select>
+                                        </label>
+                                        <label className="text-xs text-[var(--muted-foreground)]">
+                                            字号（源图像素）
+                                            <input
+                                                type="number"
+                                                className={cn(fieldClass, "mt-1")}
+                                                min={IMAGE_TEXT_EDIT_FONT_SIZE.min}
+                                                max={IMAGE_TEXT_EDIT_FONT_SIZE.max}
+                                                value={selected.fontSize}
+                                                onChange={(event) => patchSelected({ fontSize: Number(event.target.value) })}
+                                            />
+                                        </label>
+                                    </div>
+                                    <div className="grid grid-cols-2 gap-2">
+                                        <div className="text-xs text-[var(--muted-foreground)]">
+                                            字重
+                                            <div className="mt-1 flex gap-1">
+                                                {[400, 700].map((weight) => (
+                                                    <button
+                                                        key={weight}
+                                                        type="button"
+                                                        className={cn(smallButton, "flex-1", selected.fontWeight === weight && "border-[var(--primary)] bg-[var(--primary)]/10")}
+                                                        onClick={() => patchSelected({ fontWeight: weight as 400 | 700 })}
+                                                    >
+                                                        {weight === 700 ? "加粗" : "常规"}
+                                                    </button>
+                                                ))}
+                                            </div>
+                                        </div>
+                                        <div className="text-xs text-[var(--muted-foreground)]">
+                                            对齐
+                                            <div className="mt-1 flex gap-1">
+                                                {(["left", "center", "right"] as const).map((align) => (
+                                                    <button key={align} type="button" className={cn(smallButton, "flex-1", selected.align === align && "border-[var(--primary)] bg-[var(--primary)]/10")} onClick={() => patchSelected({ align })}>
+                                                        {align === "left" ? "左" : align === "center" ? "中" : "右"}
+                                                    </button>
+                                                ))}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="grid grid-cols-2 gap-2">
+                                        <label className="text-xs text-[var(--muted-foreground)]">
+                                            颜色
+                                            <input type="color" className="mt-1 h-10 w-full rounded-lg border border-[var(--border)] bg-[var(--background)]" value={selected.color} onChange={(event) => patchSelected({ color: event.target.value })} />
+                                        </label>
+                                        <div className="text-xs text-[var(--muted-foreground)]">
+                                            缩放（宽/高 %）
+                                            <div className="mt-1 flex gap-1">
+                                                <input type="number" className={fieldClass} step={1} min={3} max={100} value={Math.round(selected.width * 100)} onChange={(event) => patchSelected({ width: Number(event.target.value) / 100 })} />
+                                                <input type="number" className={fieldClass} step={1} min={3} max={100} value={Math.round(selected.height * 100)} onChange={(event) => patchSelected({ height: Number(event.target.value) / 100 })} />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="flex flex-wrap gap-2">
+                                        <button type="button" className={smallButton} onClick={() => commitBoxes(duplicateImageTextBox(values.boxes, selected.id))}>
+                                            <Copy className="h-4 w-4" /> 复制
+                                        </button>
+                                        <button
+                                            type="button"
+                                            className={cn(smallButton, "text-destructive")}
+                                            onClick={() => {
+                                                commitBoxes(removeImageTextBox(values.boxes, selected.id));
+                                                setSelectedId("");
                                             }}
                                         >
-                                            {box.text || "（空文本）"}
-                                        </span>
+                                            <Trash2 className="h-4 w-4" /> 删除
+                                        </button>
                                     </div>
-                                );
-                            })}
-                            {draftRect ? (
-                                <div
-                                    aria-hidden="true"
-                                    className="pointer-events-none absolute border-2 border-dashed border-[var(--primary)] bg-[var(--primary)]/10"
-                                    style={{ left: `${draftRect.x * 100}%`, top: `${draftRect.y * 100}%`, width: `${draftRect.width * 100}%`, height: `${draftRect.height * 100}%` }}
-                                />
+                                    <div className="text-[11px] text-[var(--muted-foreground)]">预览字族：{imageTextEditFontLabel(selected.fontId)}；上游若替换字族不会回写本地配置。</div>
+                                </div>
+                            ) : (
+                                <>
+                                    <div>
+                                        <div className="mb-2 text-[14px] text-black/[0.85]">画布尺寸</div>
+                                        <div className="flex h-8 items-center gap-2 rounded-[6px] border border-black/[0.16] px-3 text-[12px]" title="画布尺寸固定等于源图尺寸，结果按源图尺寸输出">
+                                            <Frame className="size-3.5 text-[#3a7df9]" />
+                                            <span className="text-[#202020]">原图尺寸</span>
+                                            <span className="text-black/60">{values.imageWidth ? `${values.imageWidth} x ${values.imageHeight}` : "待上传源图"}</span>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div className="mb-2 text-[14px] text-black/[0.85]">导出格式</div>
+                                        <div className="flex flex-wrap gap-2">
+                                            {IMAGE_TEXT_EDIT_FORMATS.map((format) => (
+                                                <button
+                                                    key={format.id}
+                                                    type="button"
+                                                    className={cn("h-8 rounded-[6px] border px-2.5 text-[12px]", values.imageFormat === format.id ? "border-[#723cf9] bg-[rgba(114,60,249,0.05)] text-[#723cf9]" : "border-black/[0.16] text-black/80 hover:border-[#723cf9]")}
+                                                    onClick={() => update((current) => ({ ...current, imageFormat: format.id as ImageTextEditFormat }))}
+                                                >
+                                                    {format.label}
+                                                </button>
+                                            ))}
+                                        </div>
+                                        <div className="mt-2 text-[12px] leading-5 text-black/45">导出的是新结果文件；原图保持不动，可随时改框重出。</div>
+                                    </div>
+                                </>
+                            )}
+
+                            {uploadNote ? (
+                                <div className={cn("text-[12px]", failedFile ? "text-destructive" : "text-black/45")} role={failedFile ? "alert" : undefined}>
+                                    {failedFile ? <span className="font-medium">失败文件：{failedFile}。</span> : null}
+                                    {uploadNote}
+                                </div>
                             ) : null}
+                            <div className="text-[12px] leading-5 text-black/45">{imageTextEditPreviewNotice(values)}</div>
+                            {issues.length ? (
+                                <ul className="flex flex-col gap-1">
+                                    {issues.map((issue) => (
+                                        <li key={`${issue.code}-${issue.boxId ?? ""}`} className="flex items-start gap-1.5 text-[12px] text-destructive">
+                                            <AlertTriangle className="mt-0.5 size-3.5 shrink-0" />
+                                            <span>{issue.message}</span>
+                                        </li>
+                                    ))}
+                                </ul>
+                            ) : null}
+                            {errorText ? <div className="text-[12px] text-destructive">{errorText}</div> : null}
+                            <div className="text-[12px] leading-5 text-black/45">预计输出 {IMAGE_TEXT_EDIT_OUTPUT_NUM} 张结果（单次固定，不可改数量）。{IMAGE_TEXT_EDIT_NOTICE}</div>
+                            {/* 结果 */}
+                            <section aria-label="图片文字结果" className="border-t border-black/[0.08] pt-4">
+                                <header className="mb-2 flex flex-wrap items-center justify-between gap-2">
+                                    <h3 className="text-[14px] text-black/[0.85]">生成结果</h3>
+                                    <span className="text-[11px] text-black/45">
+                                        {snapshot ? `快照 ${snapshot.boxes.length} 框｜${snapshot.imageWidth}×${snapshot.imageHeight}` : "尚未提交"}
+                                        {result?.responseId ? `｜响应 id：${result.responseId}` : ""}
+                                    </span>
+                                </header>
+                                {resultNotice ? <div className="mb-2 text-[12px] text-black/45">{resultNotice}</div> : null}
+                                {staleNotice ? <div className="mb-2 text-[12px] text-destructive">{staleNotice}</div> : null}
+                                <ToolResult task={latest ?? null} toolId={toolId} title="图片文字结果" onRetry={handleRetry} onRetryItem={retryItem} retryItemHint="按同一快照真实重发一次请求，成功后替换该结果。" />
+                                {/* §4：查看本次输入快照（只读），证明结果与提交快照一致。 */}
+                                {snapshot ? (
+                                    <div className="mt-2 flex flex-col gap-1">
+                                        <button type="button" className={cn(smallButton, "self-start")} aria-expanded={showSnapshot} onClick={() => setShowSnapshot((previous) => !previous)}>
+                                            {showSnapshot ? "收起输入快照" : "查看本次输入快照"}
+                                        </button>
+                                        {showSnapshot ? (
+                                            <pre
+                                                data-testid="image-text-edit-snapshot"
+                                                className="max-h-48 overflow-auto whitespace-pre-wrap break-all rounded-lg border border-[var(--border)] bg-[var(--background)] p-2 text-[11px] leading-5 text-[var(--muted-foreground)]"
+                                            >
+                                                {JSON.stringify(
+                                                    {
+                                                        文件: snapshot.imageName || "（未命名）",
+                                                        尺寸: `${snapshot.imageWidth}×${snapshot.imageHeight}`,
+                                                        导出格式: snapshot.imageFormat,
+                                                        文字框: `${snapshot.boxes.length} 个`,
+                                                        各框: snapshot.boxes.map((box, index) => `${index + 1}.「${box.text}」(${Math.round(box.x * 10000) / 100}%,${Math.round(box.y * 10000) / 100}%,${Math.round(box.width * 10000) / 100}%,${Math.round(box.height * 10000) / 100}%) ${box.fontSize}px`),
+                                                        提交号: snapshot.requestId,
+                                                    },
+                                                    null,
+                                                    2,
+                                                )}
+                                            </pre>
+                                        ) : null}
+                                    </div>
+                                ) : null}
+                            </section>
                         </div>
-                    ) : (
-                        <button
-                            type="button"
-                            onClick={() => fileRef.current?.click()}
-                            className="flex min-h-52 w-full flex-col items-center justify-center gap-2 rounded-xl border border-dashed border-[var(--border)] bg-[var(--background)] text-sm text-[var(--muted-foreground)] hover:border-[var(--primary)]"
-                        >
-                            <ImagePlus className="h-6 w-6" />
-                            上传 JPG / PNG / WebP 源图后开始框选文字
-                        </button>
-                    )}
-
-                    <p className="mt-2 text-[11px] text-[var(--muted-foreground)]">在画布空白处拖拽可框选新文字框；选中后方向键微调（Shift 加速）、Delete 删除、⌘/Ctrl+Z 撤销。</p>
-                    {uploadNote ? (
-                        <p className={cn("mt-1 text-xs", failedFile ? "text-destructive" : "text-[var(--muted-foreground)]")} role={failedFile ? "alert" : undefined}>
-                            {failedFile ? <span className="font-medium">失败文件：{failedFile}。</span> : null}
-                            {uploadNote}
-                        </p>
-                    ) : null}
-                </section>
-
-            {/* 结果 */}
-            <section className={cardClass} aria-label="图片文字结果">
-                <header className="mb-2 flex flex-wrap items-center justify-between gap-2">
-                    <h2 className="text-sm font-medium">图片文字结果</h2>
-                    <span className="text-[11px] text-[var(--muted-foreground)]">
-                        {snapshot ? `快照 ${snapshot.boxes.length} 框｜${snapshot.imageWidth}×${snapshot.imageHeight}` : "尚未提交"}
-                        {result?.responseId ? `｜响应 id：${result.responseId}` : ""}
-                    </span>
-                </header>
-                {resultNotice ? <p className="mb-2 text-xs text-[var(--muted-foreground)]">{resultNotice}</p> : null}
-                {staleNotice ? <p className="mb-2 text-xs text-destructive">{staleNotice}</p> : null}
-                <ToolResult task={latest ?? null} toolId={toolId} title="图片文字结果" onRetry={handleRetry} onRetryItem={retryItem} retryItemHint="按同一快照真实重发一次请求，成功后替换该结果。" />
-                {/* §4：查看本次输入快照（只读），证明结果与提交快照一致。 */}
-                {snapshot ? (
-                    <div className="flex flex-col gap-1">
-                        <button type="button" className={cn(smallButton, "self-start")} aria-expanded={showSnapshot} onClick={() => setShowSnapshot((previous) => !previous)}>
-                            {showSnapshot ? "收起输入快照" : "查看本次输入快照"}
-                        </button>
-                        {showSnapshot ? (
-                            <pre
-                                data-testid="image-text-edit-snapshot"
-                                className="max-h-48 overflow-auto whitespace-pre-wrap break-all rounded-lg border border-[var(--border)] bg-[var(--background)] p-2 text-[11px] leading-5 text-[var(--muted-foreground)]"
-                            >
-                                {JSON.stringify(
-                                    {
-                                        文件: snapshot.imageName || "（未命名）",
-                                        尺寸: `${snapshot.imageWidth}×${snapshot.imageHeight}`,
-                                        导出格式: snapshot.imageFormat,
-                                        文字框: `${snapshot.boxes.length} 个`,
-                                        各框: snapshot.boxes.map((box, index) => `${index + 1}.「${box.text}」(${Math.round(box.x * 10000) / 100}%,${Math.round(box.y * 10000) / 100}%,${Math.round(box.width * 10000) / 100}%,${Math.round(box.height * 10000) / 100}%) ${box.fontSize}px`),
-                                        提交号: snapshot.requestId,
-                                    },
-                                    null,
-                                    2,
-                                )}
-                            </pre>
-                        ) : null}
-                    </div>
-                ) : null}
-            </section>
-            </ToolWorkspaceColumns>
+                    </aside>
+                </ToolWorkspaceColumns>
+            </div>
         </div>
     );
 }

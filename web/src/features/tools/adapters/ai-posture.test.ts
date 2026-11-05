@@ -456,9 +456,9 @@ describe("姿势裂变 · 配置列 1:1 布局（对照原站 draw/ai-posture）
             expect(tag).toBeGreaterThan(-1);
             expect(html.slice(tag, at)).not.toContain(" open");
         }
-        // 上传卡用 linkfox 紧凑变体（原站 249 → 152 高度），标签区单行化。
+        // 上传卡用 linkfox 变体，虚线框按原站 `_uploadBox` 实测高 196；标签区收进「更多设置」。
         expect(html).toContain('data-variant="linkfox"');
-        expect(html).toContain("min-h-[152px]");
+        expect(html).toContain("min-h-[196px]");
         expect(html).toContain('data-testid="ai-posture-tags"');
     });
 

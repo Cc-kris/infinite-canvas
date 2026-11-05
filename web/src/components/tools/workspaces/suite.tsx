@@ -3,10 +3,13 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { cn } from "@/lib/utils";
 import { ToolAssetInput } from "@/components/tools/tool-asset-input";
 import { ToolCases } from "@/components/tools/tool-cases";
+import { ToolCaseGuide } from "@/components/tools/tool-case-guide";
 import { ToolWorkspaceColumns } from "@/components/tools/tool-workspace-columns";
 import type { ToolCase } from "@/components/tools/tool-cases";
 import { uploadCaseFiles } from "@/features/tools/case-apply";
 import { PRODUCT_SUITE_CASES } from "@/features/tools/suite6-cases-data";
+import { PRODUCT_SUITE_SAMPLES } from "@/features/tools/tool-cases-data";
+import { History } from "lucide-react";
 import { downloadResultItem, saveResultItemToAssets, sendResultItemToCanvas } from "@/components/tools/tool-result-actions";
 import { loadToolAssetRecords, toolAssetLibraryItemsFromAssets, type ToolAssetConstraints, type ToolAssetRecord } from "@/services/api/tools/assets";
 import type { ToolTask, ToolTaskResultItem } from "@/services/api/tools/task-machine";
@@ -580,7 +583,9 @@ export function ProductImageSuiteWorkspace({ className }: { className?: string }
         setApplyingCaseId(item.id);
         try {
             const assets = await uploadCaseFiles(item);
-            const record = assets.source as ToolAssetRecord | undefined;
+            /* 「或试试这些」一组多图：全部进上传区，首图作商品图（与原站一致）。 */
+            const records = ([] as (ToolAssetRecord | undefined)[]).concat(assets.source as ToolAssetRecord | ToolAssetRecord[] | undefined).filter((entry): entry is ToolAssetRecord => !!entry);
+            const record = records[0];
             if (!record) throw new Error("该案例缺少可用的商品图");
             setSource({
                 assetId: record.id,
@@ -591,7 +596,7 @@ export function ProductImageSuiteWorkspace({ className }: { className?: string }
                 width: record.width,
                 height: record.height,
             });
-            patchDraft(toolId, { assetIds: [record.id] });
+            patchDraft(toolId, { assetIds: records.map((entry) => entry.id) });
             setCaseApplyNonce((value) => value + 1);
             setRightTab("result");
         } finally {
@@ -923,7 +928,35 @@ export function ProductImageSuiteWorkspace({ className }: { className?: string }
                         wide
                                         uploadLabel="从本地上传"
                                         library={library}
-                                        hint={SUITE_UPLOAD_HINT}
+                                        hint={
+                                            <>
+                                                {SUITE_UPLOAD_HINT}
+                                                {/* 原站上传卡内「或试试这些」：分隔线 + 示例组（一组多图，点击即整组载入为商品图）。 */}
+                                                <div className="mt-2.5 cursor-default" data-testid="suite-try-demo" onClick={(event) => event.stopPropagation()}>
+                                                    <div className="mb-[5px] flex items-center gap-2">
+                                                        <span className="h-px flex-1 bg-border" />
+                                                        <span className="text-[12px] font-medium leading-[15px] text-muted-foreground/60">或试试这些</span>
+                                                        <span className="h-px flex-1 bg-border" />
+                                                    </div>
+                                                    <div className="flex justify-center gap-2">
+                                                        {PRODUCT_SUITE_SAMPLES.map((group) => (
+                                                            <button
+                                                                key={group.id}
+                                                                type="button"
+                                                                data-testid={`suite-sample-${group.id}`}
+                                                                disabled={running || applyingCaseId !== null}
+                                                                onClick={() => void applyCase(group).catch((error) => setRunError(error instanceof Error ? error.message : "示例载入失败"))}
+                                                                className="flex gap-1 rounded-[6px] border border-black/[0.08] bg-card p-1 transition hover:border-primary disabled:opacity-50 dark:border-white/10"
+                                                            >
+                                                                {group.params.map((param) => (
+                                                                    <img key={param.src} src={param.src} alt={param.label} className="size-10 rounded-[4px] object-cover" draggable={false} />
+                                                                ))}
+                                                            </button>
+                                                        ))}
+                                                    </div>
+                                                </div>
+                                            </>
+                                        }
                                         /* 原站第三按钮可用且打开商品库；本地没有商品库数据，点开是诚实空态而不是禁用。 */
                                         thirdAction={
                                             <button
@@ -1099,6 +1132,13 @@ export function ProductImageSuiteWorkspace({ className }: { className?: string }
                     <div className="flex flex-col gap-2.5">
                                         {/* 原站不暴露内部模型名（报告差异 #10），这里不再显示「实际调用模型」。 */}
                         <div>
+                            <p className="mb-1.5 text-[11px] text-muted-foreground">模型选择</p>
+                            <div className="inline-flex h-7 items-center gap-1.5 rounded-[4px] border border-primary bg-primary/10 px-2 text-[12px] leading-none text-primary">
+                                LF智能模型 G-2.5 Sunburst
+                                <span className="rounded-[3px] bg-primary px-1 text-[10px] leading-[14px] text-primary-foreground">NEW</span>
+                            </div>
+                        </div>
+                        <div>
                             <p className="mb-1.5 text-[11px] text-muted-foreground">分辨率选择</p>
                             <div className="flex gap-1.5">
                                 {SUITE_RESOLUTIONS.map((value) => (
@@ -1156,7 +1196,7 @@ export function ProductImageSuiteWorkspace({ className }: { className?: string }
                                         : "border-stone-200 text-stone-700 dark:border-stone-700 dark:text-stone-200"
                                 }`}
                             >
-                                <span>{module.label}</span>
+                                <span>{module.label}{APLUS_SIZE_HINTS[module.id] ? `（${APLUS_SIZE_HINTS[module.id]}）` : ""}</span>
                                 <button
                                     type="button"
                                     title="每模块张数"
@@ -1228,7 +1268,7 @@ export function ProductImageSuiteWorkspace({ className }: { className?: string }
                                             );
                                         })}
                 </div>
-                <p className="mt-1.5 mb-1 text-[11px] text-muted-foreground">选择排版</p>
+                <p className="mt-1.5 mb-1 text-[11px] text-muted-foreground">选择卖点图排版</p>
                 <div className="flex flex-wrap gap-1">
                     {SUITE_LAYOUT_MODES.map((mode) => (
                         <button
@@ -1245,9 +1285,8 @@ export function ProductImageSuiteWorkspace({ className }: { className?: string }
                                         ))}
                                     </div>
                                     <p className="mt-1 text-[11px] leading-4 text-muted-foreground">💡未选择排版时，将根据官方排版随机生成</p>
-                                </Section>
-
-                                <Section title="生成比例">
+                                    {/* 原站「生成比例」在主副图弹层内，不是独立区块。 */}
+                                    <p className="mt-1.5 mb-1 text-[11px] text-muted-foreground">生成比例</p>
                                     <div className="flex flex-wrap gap-1">
                                         {SUITE_RATIOS.map((ratio) => (
                                             <button
@@ -1263,7 +1302,7 @@ export function ProductImageSuiteWorkspace({ className }: { className?: string }
                         </button>
                     ))}
                 </div>
-            </Section>
+                                </Section>
                 </div>
                 </div>
                             <div className="sticky bottom-0 z-10 shrink-0 border-t border-[#EDEDF0] bg-card px-4 py-3" data-testid="suite-generate-summary">
@@ -1325,8 +1364,9 @@ export function ProductImageSuiteWorkspace({ className }: { className?: string }
                         </button>
                     ))}
                         {/* 本地 /tools 下没有独立历史页，这里只保留原站式入口位并如实说明，不伪造可点跳转。 */}
-                        <span data-testid="suite-tab-history-link" title="本地未接入历史记录页；任务记录在页面底部「历史任务」" className="ml-auto text-[12px] leading-none text-primary/60">
-                            历史记录 ↗
+                        <span data-testid="suite-tab-history-link" title="本地未接入历史记录页；任务记录在页面底部「历史任务」" className="ml-auto inline-flex items-center gap-1 text-[12px] leading-none text-foreground/50">
+                            <History className="size-3" aria-hidden />
+                            历史记录
                         </span>
                 </div>
                 <div className="min-h-0 flex-1 overflow-y-auto px-6 py-4">
@@ -1336,28 +1376,12 @@ export function ProductImageSuiteWorkspace({ className }: { className?: string }
                                 <ToolCases cases={PRODUCT_SUITE_CASES} onApply={applyCase} applyingId={applyingCaseId} />
                     </div>
                 ) : null}
-                <div role="tabpanel" hidden={rightTab !== "result"} data-testid="suite-panel-result" className="flex flex-col gap-3">
-                            {/* 原站结果区顶部无公告条（2026-11-02 只读对照），本地不再自造；空态走下面的真实空态文案。 */}
-                    <p className="text-[11px] text-[#6b6b80]">生成结果</p>
-                    {/* 原站「一键做同款」：用真实案例回填商品图与参数，走与案例画廊相同的 applyCase */}
-                    <div>
-                        <button
-                            type="button"
-                            data-testid="suite-try-same"
-                            disabled={applyingCaseId !== null || PRODUCT_SUITE_CASES.length === 0}
-                            onClick={() => {
-                                const first = PRODUCT_SUITE_CASES[0];
-                                if (first) void applyCase(first);
-                            }}
-                            className="h-10 w-[110px] rounded-md border border-[#E6E6EB] bg-white text-xs text-[#3b3b4f] hover:border-[#d8d8e0] disabled:opacity-40 dark:border-stone-700 dark:bg-stone-900 dark:text-stone-200"
-                        >
-                            一键做同款
-                        </button>
-                    </div>
+                <div role="tabpanel" hidden={rightTab !== "result"} data-testid="suite-panel-result" className="flex min-h-full flex-col gap-3">
+                            {/* 原站结果区顶部无公告条（2026-11-02 只读对照），本地不再自造。 */}
 
                             {/* 原站结果区没有常驻的黄色校验横幅：校验原因只在按钮 title 与这行弱提示里出现。 */}
                             {runError ? <div className="rounded-[4px] border border-amber-300 bg-amber-50 p-2 text-[11px] leading-4 text-amber-800">{runError}</div> : null}
-                            {!runError && issues.length ? (
+                            {!runError && source && issues.length ? (
                                 <p className="text-[11px] leading-4 text-muted-foreground" data-testid="suite-result-hints">
                                     {issues.map((issue) => issue.message).join(" ")}
                                 </p>
@@ -1445,7 +1469,16 @@ export function ProductImageSuiteWorkspace({ className }: { className?: string }
             ) : null}
 
             {seeded ? null : <p className="text-[11px] text-stone-500">正在读取草稿…</p>}
-                            {units.length === 0 && seeded && !running ? <p className="text-[11px] leading-4 text-stone-500 dark:text-stone-400">还没有生成结果：上传商品图并配置 A+ 图 / 主副图后，点「开始生成」。</p> : null}
+                            {units.length === 0 && !running ? (
+                                /* 原站空态：958 宽案例轮播（上传商品图 → 生成结果 → 一键做同款），前 3 个案例。 */
+                                <div className="flex flex-1 items-center justify-center py-4">
+                                    <ToolCaseGuide
+                                        cases={PRODUCT_SUITE_CASES.slice(0, 3).map((item) => ({ ...item, params: item.params.map((param) => ({ ...param, label: "上传商品图" })) }))}
+                                        onApply={applyCase}
+                                        applyingId={applyingCaseId}
+                                    />
+                                </div>
+                            ) : null}
                 </div>
                 </div>
             </div>

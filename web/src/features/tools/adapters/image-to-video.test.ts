@@ -142,7 +142,9 @@ describe("工作区真实渲染", () => {
             "image-to-video-mode-product-link",
             "image-to-video-submit",
             "image-to-video-result",
-            "image-to-video-steps",
+            // 原站顶部是「普通模式 / 高级模式」分段 + 右上角首尾帧开关，没有步骤条
+            "image-to-video-pro-off",
+            "image-to-video-mode-frames",
             "image-to-video-hint",
         ]) {
             expect(html).toContain(`data-testid="${id}"`);

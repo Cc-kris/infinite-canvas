@@ -32,7 +32,8 @@ const SPECS = path.join(REPO, "docs/V1.0/plan_linkfox_navigation/tool_specs.json
 const CANVAS_IDS = new Set(["AREA_REPAIR", "REMOVE_PEN", "AI_OUTPAINTING", "IMAGE_CROP", "NEW_DESIGNER", "PRODUCT_REFINE", "IMAGE_TEXT_EDIT"]);
 
 /** 原站个别工具没有独立配置列（工具条 + 画布内结果），不能强求 data-testid=tool-config-column。 */
-const NO_CONFIG_COLUMN = new Set(["REMOVE_PEN", "AI_OUTPAINTING", "SCALE_UP"]);
+/** NEW_DESIGNER / VIDEO_CONCAT：原站首屏是引导页（设计器首页 / 「开始创作」卡），进入编辑后才有配置列。 */
+const NO_CONFIG_COLUMN = new Set(["REMOVE_PEN", "AI_OUTPAINTING", "SCALE_UP", "NEW_DESIGNER", "VIDEO_CONCAT"]);
 const FORBIDDEN = [
     { re: /算力/, why: "原站算力计费" },
     { re: /点\/张/, why: "原站按张计费" },

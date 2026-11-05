@@ -1,0 +1,112 @@
+{
+  "toolId": "CHANGE_COLOR_V2",
+  "route": "/tools/ecommerce-suite/change-color-v2",
+  "fixture": "apparel-print.jpg",
+  "startedAt": "2026-11-05T12:56:38.034Z",
+  "provider": {
+    "imageModel": "ccai-accept::gpt-image-2",
+    "channels": [
+      "ccai-accept",
+      "sf-accept"
+    ],
+    "baseUrl": "https://api.cc-ai.xyz",
+    "keyLen": 67,
+    "proxyEnabled": true,
+    "channelCount": 2,
+    "model": "gpt-image-2"
+  },
+  "before": {
+    "images": [
+      "http://127.0.0.1:3310/__cases/color-v2/2069709136760979456-s",
+      "http://127.0.0.1:3310/__cases/color-v2/2069709136760979456-r",
+      "http://127.0.0.1:3310/__cases/color-v2/2069708039199703040-s",
+      "http://127.0.0.1:3310/__cases/color-v2/2069708039199703040-r",
+      "http://127.0.0.1:3310/__cases/color-v2/2069701719159521280-s",
+      "http://127.0.0.1:3310/__cases/color-v2/2069701719159521280-r"
+    ],
+    "issues": []
+  },
+  "submitBefore": {
+    "id": "color-v2-submit",
+    "text": "开始生成",
+    "disabled": true
+  },
+  "gate": {
+    "found": true,
+    "disabled": false,
+    "text": "开始生成",
+    "countText": "本次将输出 1 张（1 张商品图 × 1 个方案）"
+  },
+  "finishedAt": "2026-11-05T12:57:29.720Z",
+  "after": {
+    "submitButtons": [
+      {
+        "id": "color-v2-suite-upload-batch",
+        "text": "上传多张图片，开始批量套图换",
+        "disabled": false
+      },
+      {
+        "id": "color-v2-submit",
+        "text": "开始生成",
+        "disabled": false
+      },
+      {
+        "id": "color-v2-tab-result",
+        "text": "生成结果",
+        "disabled": false
+      }
+    ],
+    "issues": [
+      "color-v2-notice=全部 1 张已完成"
+    ],
+    "images": [
+      {
+        "src": "blob:http://127.0.0.1:3310/6c657186-784e-448e-8365-d9fa7ca02",
+        "w": 1024,
+        "h": 1024
+      },
+      {
+        "src": "blob:http://127.0.0.1:3310/6c657186-784e-448e-8365-d9fa7ca02",
+        "w": 1024,
+        "h": 1024
+      },
+      {
+        "src": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABAAAAAQACAIAAA",
+        "w": 1024,
+        "h": 1024
+      },
+      {
+        "src": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABAAAAAQACAIAAA",
+        "w": 1024,
+        "h": 1024
+      },
+      {
+        "src": "blob:http://127.0.0.1:3310/4583e1f4-a09b-4c8a-88bc-3dd972b8f",
+        "w": 1024,
+        "h": 1024
+      }
+    ],
+    "bodyText": "无限画布\n首页\n电商套图\n智能修图\n新模型\nAI视频\nHOT\n批量生图\n商品图设计\n中\n切换到深色主题\nv0.27.0\n商品套图\n服装套图\n白底图\nNEW\n爆款图复刻\n套图换色\n批量翻译\n高清放大\n批量抠图\n智能扩图\n免责声明\n上传图片\n从本地上传\n从作品库选择\n从商品库选择\n10M以内，分辨率：384*384 ~ 4096*4096，最大宽高比5\napparel-print.jpg\n86 KB · 1024×1024 · image/jpeg\n移除\n上传多张图片，开始批量套图换色\napparel-print.jpg\n颜色选择\n商品图提色\n历史使用颜色\n拖拽 或 点击批量上传 商品参考图\n整张商品图作为换色参考 · 支持多选 · 最多 25 张 · 单张 10M 以内\n本次换色方案 · 0 张参考图\n从「apparel-print.jpg」提色\napparel-print.jpg · #C5C5CB\n商品提色\n×\n换色部位\n2 / 50\n常用\n全身\n上装\n下装\n鞋面\n鞋底\n包身\n包带\n外壳\n瓶身\n表带\n模型设置\n模型品质\n低品质\n中品质\n高品质\n本次将输出 1 张（1 张商品图 × 1 个方案）\n全部 1 张已完成\n本次将输出 1 张（1 张商品图 × 1 个方案）\n开始生成\n生成结果\n优秀案例\n历史记录\n进度 1/1\n· 已完成 1\n· 快照 ffe97d67\napparel-print.jpg · #C5C5CB：1/1\n一致性：整套矩阵覆盖完整 · 无单图微调\n已从本地恢复上次生成的真实结果（任务 rkedv5 · 1 张），下载/存资产库/发画布均按库内字节执行。\napparel-print-apparel-print.jpg · #C5C5CB\n已完成 · 2007 KB\n下载\n存资产库\n发画布\napparel-print.jpg\napparel-print.jpg · #C5C5CB · 已完成\n下载\n存资产库\n发画布\n查看本次输入快照\n历史任务\n1 条\n2026-11-05 20:56\n已完成\n对上传商品图「apparel-print.jpg」做换色：把上"
+  },
+  "resultSrcPrefix": "data:image/png;base64,iVBORw0KGgoAAAANSU",
+  "resultCount": 1,
+  "resultSaved": true,
+  "network": [
+    {
+      "method": "POST",
+      "url": "http://127.0.0.1:23210/https://api.cc-ai.xyz/v1/images/edits",
+      "status": 200,
+      "ms": 38325,
+      "at": "2026-11-05T12:57:26.562Z"
+    }
+  ],
+  "fixtureSha256": "5c80a61e9271298d",
+  "resultSha256": "5c0d165153744964",
+  "ok": true,
+  "download": {
+    "file": "download-apparel-print-apparel-print.jpg · #C5C5CB.png",
+    "bytes": 2055261,
+    "sha256": "5c0d165153744964",
+    "differsFromSource": true
+  }
+}

@@ -153,8 +153,8 @@ const RATIO_SIZES: Record<SceneOutputRatio, { width: number; height: number }> =
     "9:16": { width: 720, height: 1280 },
 };
 
-/** 结果数量 = 结果网格的格子数；页面按 1 / 2 / 4 排布。 */
-export const SCENE_OUTPUT_COUNTS = [1, 2, 4] as const;
+/** 生成张数：原站第二步「生成张数 1 / 2 / 3 / 4」。 */
+export const SCENE_OUTPUT_COUNTS = [1, 2, 3, 4] as const;
 export const DEFAULT_SCENE_OUTPUT_COUNT = 1;
 
 export type SceneOutput = {
@@ -175,7 +175,7 @@ export function computeSceneOutput(ratio: unknown, count: unknown): SceneOutput 
     const issues: { code: string; message: string }[] = [];
     if (!isSceneOutputRatio(ratio)) issues.push({ code: "ratio-invalid", message: "请选择输出比例。" });
     if (!(SCENE_OUTPUT_COUNTS as readonly number[]).includes(parsed)) {
-        issues.push({ code: "count-invalid", message: "结果数量只能选 1 / 2 / 4。" });
+        issues.push({ code: "count-invalid", message: "生成张数只能选 1 / 2 / 3 / 4。" });
     }
     return {
         ratio: safeRatio,
@@ -257,9 +257,15 @@ export function transformSummary(transform: SceneTransform): string {
     return `位置 ${Math.round(rounded.x * 100)}% / ${Math.round(rounded.y * 100)}%，缩放 ${Math.round(rounded.scale * 100)}%，旋转 ${rounded.rotate}°`;
 }
 
-/* ============================== 融合强度 ============================== */
+/* ============================== 背景相似度 ============================== */
 
-export const SCENE_WEIGHT_LIMITS = { min: 0, max: 1, step: 0.05 };
+/** 原站「背景相似度」slider：min 0.5、max 0.9，刻度 弱相似(0.5) / 强相似(0.7) / 不变(0.9)。 */
+export const SCENE_WEIGHT_LIMITS = { min: 0.5, max: 0.9, step: 0.05 };
+export const SCENE_WEIGHT_MARKS = [
+    { value: 0.5, label: "弱相似" },
+    { value: 0.7, label: "强相似" },
+    { value: 0.9, label: "不变" },
+] as const;
 /** chunk 里的默认 weight=.7。 */
 export const DEFAULT_SCENE_WEIGHT = 0.7;
 
@@ -269,10 +275,9 @@ export function clampSceneWeight(value: unknown): number {
 }
 
 export function sceneWeightLabel(value: number): string {
-    if (value <= 0.25) return "弱（更贴合原图）";
-    if (value <= 0.55) return "中（保留商品细节）";
-    if (value <= 0.8) return "偏强（更融入场景）";
-    return "强（场景主导）";
+    if (value < 0.6) return "弱相似";
+    if (value < 0.8) return "强相似";
+    return "不变";
 }
 
 /* ============================== 抠图确认 ============================== */
@@ -308,13 +313,13 @@ export type CutoutEvidence = {
 export function resolveCutoutReadiness(mode: SceneCutoutMode, evidence: CutoutEvidence): CutoutReadiness {
     const safeMode: SceneCutoutMode = isSceneCutoutMode(mode) ? mode : "mask";
     if (safeMode === "mask" && !evidence.maskReady) {
-        return { mode: safeMode, ready: false, code: "cutout-mask-missing", reason: "请先在商品图上涂出主体，生成蒙版后再确认抠图。" };
+        return { mode: safeMode, ready: false, code: "cutout-mask-missing", reason: "请先上传主体蒙版（白=商品主体），再确认使用。" };
     }
     if (safeMode === "transparent" && !evidence.goodsHasAlpha) {
         return { mode: safeMode, ready: false, code: "cutout-transparent-required", reason: "当前商品图没有透明通道，请换透明底 PNG 或改用蒙版抠图。" };
     }
     if (!evidence.confirmed) {
-        return { mode: safeMode, ready: false, code: "cutout-unconfirmed", reason: "请核对抠图边缘后点击「确认抠图」。" };
+        return { mode: safeMode, ready: false, code: "cutout-unconfirmed", reason: "请核对抠图边缘后点击「确认使用」。" };
     }
     return { mode: safeMode, ready: true };
 }
@@ -466,7 +471,7 @@ export function buildNewReplaceBgPrompt(values: NewReplaceBgValues, output: Scen
         parts.push(`场景模板：${sceneTemplate(values.templateId)?.label ?? values.templateId}。`);
     }
     parts.push(
-        `融合强度 ${Math.round(values.weight * 100)}%（${sceneWeightLabel(values.weight)}）：强度越高商品越融入场景光线与投影，但商品细节必须保留。`,
+        `背景相似度 ${Math.round(values.weight * 100)}%（${sceneWeightLabel(values.weight)}）：数值越高，生成背景越接近参考图，商品细节必须保留。`,
     );
     const rounded = roundSceneTransform(values.transform);
     parts.push(
@@ -685,7 +690,7 @@ export function describeNewReplaceBgDrift(
     if (snapshot.sceneType !== current.sceneType) reasons.push("场景类型");
     if (snapshot.templateId !== current.templateId) reasons.push("场景模板");
     if (snapshot.customPrompt !== current.customPrompt) reasons.push("自定义场景");
-    if (snapshot.weight !== current.weight) reasons.push("融合强度");
+    if (snapshot.weight !== current.weight) reasons.push("背景相似度");
     if (snapshot.ratio !== current.ratio || snapshot.width !== current.width || snapshot.height !== current.height) reasons.push("输出规格");
     if (snapshot.count !== current.count) reasons.push("结果数量");
     if (JSON.stringify(snapshot.goods) !== JSON.stringify(current.goods)) reasons.push("商品位置");

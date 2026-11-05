@@ -1,0 +1,94 @@
+{
+  "toolId": "SDS_DESIGN",
+  "route": "/tools/product-design/sds-design",
+  "fixture": "apparel-print.jpg",
+  "startedAt": "2026-11-05T13:06:51.255Z",
+  "provider": {
+    "imageModel": "ccai-accept::gpt-image-2",
+    "channels": [
+      "ccai-accept",
+      "sf-accept"
+    ],
+    "baseUrl": "https://api.cc-ai.xyz",
+    "keyLen": 67,
+    "proxyEnabled": true,
+    "channelCount": 2,
+    "model": "gpt-image-2"
+  },
+  "before": {
+    "images": [],
+    "issues": []
+  },
+  "submitBefore": null,
+  "gate": {
+    "found": true,
+    "disabled": false,
+    "text": "立即生成",
+    "countText": ""
+  },
+  "finishedAt": "2026-11-05T13:07:30.545Z",
+  "after": {
+    "submitButtons": [
+      {
+        "id": "",
+        "text": "立即生成",
+        "disabled": false
+      },
+      {
+        "id": "",
+        "text": "生成结果",
+        "disabled": false
+      }
+    ],
+    "issues": [],
+    "images": [
+      {
+        "src": "blob:http://127.0.0.1:3310/b1ff52eb-10f8-4c79-ac5e-b6151bd74",
+        "w": 1024,
+        "h": 1024
+      },
+      {
+        "src": "blob:http://127.0.0.1:3310/d9bf9e8c-7670-44d8-9028-8ebeef627",
+        "w": 1200,
+        "h": 1200
+      },
+      {
+        "src": "blob:http://127.0.0.1:3310/b1ff52eb-10f8-4c79-ac5e-b6151bd74",
+        "w": 1024,
+        "h": 1024
+      },
+      {
+        "src": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABAAAAAQACAIAAA",
+        "w": 1024,
+        "h": 1024
+      },
+      {
+        "src": "blob:http://127.0.0.1:3310/6809626c-4038-47b4-84a2-5887d6dbf",
+        "w": 1024,
+        "h": 1024
+      }
+    ],
+    "bodyText": "无限画布\n首页\n电商套图\n智能修图\n新模型\nAI视频\nHOT\n批量生图\n商品图设计\n中\n切换到深色主题\nv0.27.0\n素材和灵感\n场景素材\n相似图裂变\nAI自由绘图\nPOD素材\n素材贴合\n印花提取\n企业功能\n免责声明\n撤销\n重做\n复位\n产品\n已选择商品图，点击可更换\n选择颜色\n素材操作\n立即生成\n预计输出 1 张（与素材一一对应）\n素材名\n平铺方式\n单张居中\n2×2 平铺\n2×2 错位\n3×3 平铺\n生成结果\n优秀案例\n历史记录\n1. translate-source.png\n已生成\n查看本次输入快照\n素材贴合结果\n已完成\n共 1 个结果 · 图片 1\n下载\n存入资产\n发送画布\n历史任务\n1 条\n2026-11-05 21:07\n已完成\n素材贴合任务（SDS_DESIGN） 商品：参考图第 1 张为商品底图，商品 ID：8nEQzUfkMZ0LeJ…\nccai-accept::gpt-image-2 · image · 1 个结果\n连接本地 Agent\n未连接\n点连接会自动启动本地服务、装好插件并接通，无需手动配置。\nClaude Code\n未连接\n·\nCLI · 2.1.318 (Claude Code)\n·\n直接运行\n连接\nCodex\n未连接\n·\nCLI · codex-cli 0.166.0\n·\n插件已装\n连接\nGalley\n未连接\n·\nCLI + 桌面版 · galley 0.6.4\n连接"
+  },
+  "resultSrcPrefix": "data:image/png;base64,iVBORw0KGgoAAAANSU",
+  "resultCount": 1,
+  "resultSaved": true,
+  "network": [
+    {
+      "method": "POST",
+      "url": "http://127.0.0.1:23210/https://api.cc-ai.xyz/v1/images/edits",
+      "status": 200,
+      "ms": 26781,
+      "at": "2026-11-05T13:07:30.198Z"
+    }
+  ],
+  "fixtureSha256": "5c80a61e9271298d",
+  "resultSha256": "d0bb9955e5dbbf25",
+  "ok": true,
+  "download": {
+    "file": "download-sds-design-result-1.png",
+    "bytes": 2118061,
+    "sha256": "d0bb9955e5dbbf25",
+    "differsFromSource": true
+  }
+}

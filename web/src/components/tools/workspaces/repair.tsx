@@ -1,4 +1,3 @@
-import { ToolWorkspaceColumns } from "@/components/tools/tool-workspace-columns";
 /**
  * TASK-019：「色差修复」FIX_COLOR 工作区（layout = repair）。
  *
@@ -13,21 +12,19 @@ import { ToolWorkspaceColumns } from "@/components/tools/tool-workspace-columns"
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Link } from "react-router-dom";
-import { ArrowLeftRight, Eraser, Paintbrush, Pipette, Redo2, RotateCcw, Sparkles, Undo2 } from "lucide-react";
+import { ArrowLeftRight, Eraser, History, Inbox, Paintbrush, Pipette, Redo2, RotateCcw, Sparkles, Undo2, Upload } from "lucide-react";
 
 import { ToolAssetInput } from "@/components/tools/tool-asset-input";
+import { RepairGuideCard } from "@/components/tools/workspaces/repair-guide";
 import { ToolResult } from "@/components/tools/tool-result";
 import { saveResultItemToAssets, sendResultItemToCanvas } from "@/components/tools/tool-result-actions";
 import {
-    Edit8Canvas,
     Edit8CanvasToolbar,
     Edit8Config,
     Edit8Page,
-    Edit8Results,
     Edit8Section,
     edit8PrimaryButtonClass,
 } from "@/components/tools/edit8-frame";
-import { ToolShell } from "@/components/tools/tool-shell";
 import { ToolTaskHistory } from "@/components/tools/tool-task-history";
 import {
     buildFixColorUnit,
@@ -129,9 +126,10 @@ import {
 } from "@/features/tools/registry/hand-repair";
 import type { MaskHistory, MaskStroke } from "@/features/tools/registry/area-repair";
 import { cn, randomId } from "@/lib/utils";
-import { loadToolAssetRecords, type ToolAssetRecord } from "@/services/api/tools/assets";
+import { adoptLibraryAsset, loadToolAssetRecords, toolAssetLibraryItemsFromAssets, uploadToolAsset, type ToolAssetRecord } from "@/services/api/tools/assets";
 import type { ToolTask, ToolTaskResultItem } from "@/services/api/tools/task-machine";
 import { imageToDataUrl } from "@/services/image-storage";
+import { useAssetStore, type ImageAsset } from "@/stores/use-asset-store";
 import { flushToolDrafts, useToolDraftStore } from "@/stores/use-tool-draft-store";
 
 export type RepairWorkspaceProps = { className?: string; toolId?: string };
@@ -561,44 +559,17 @@ export function FixColorWorkspace({ className }: RepairWorkspaceProps = {}) {
 
     const busyBlocked = busy || !image;
 
-    return (
-        <Edit8Page toolId={TOOL_ID} className={className} data-testid="fix-color-workspace">
-            <ToolWorkspaceColumns configSide="right" className="min-h-0 flex-1" config={
-            <Edit8Config
-                className="w-[255px] min-h-0"
-                footer={
-                    <div className="border-t border-border px-[16px] py-[10px]">
-                        <div className="flex items-center gap-2">
-                            <button
-                                type="button"
-                                data-testid="fix-color-submit"
-                                disabled={busyBlocked}
-                                onClick={() => void submit()}
-                                className={cn(edit8PrimaryButtonClass, "flex-1")}
-                            >
-                                {busy ? "修复中…" : "立即生成"}
-                            </button>
-                            <span
-                                data-testid="fix-color-expected-output-badge"
-                                className="shrink-0 text-[11px] leading-4 text-muted-foreground"
-                            >
-                                1 张
-                            </span>
-                        </div>
-                        {notice ? (
-                            <p className="mt-1.5 text-[11px] leading-4 text-destructive" data-testid="fix-color-notice">
-                                {notice}
-                            </p>
-                        ) : null}
-                        {!hydrated ? <p className="mt-1.5 text-[11px] leading-4 text-muted-foreground">正在恢复上次的草稿…</p> : null}
-                    </div>
-                }
-            >
-                <Edit8Section title="Step 1：上传待修复图">
+    // 原站 1600×1000：画布 825 | 配置 255（白卡 820 + 10 间距 + 32 高「立即生成」）| 结果 300 灰底。
+    const configColumn = (
+        <div data-testid="tool-config-column" data-region="config" className="flex min-h-0 min-w-0 flex-col gap-[10px]">
+            <Edit8Config className="min-h-0 w-full flex-1 border-0">
+                <Edit8Section title={<span className="text-primary">Step 1：上传待修复图</span>} className="border-b-0">
                     <ToolAssetInput
                         toolId={TOOL_ID}
                         maxCount={1}
                         variant="linkfox"
+                        wide
+                        compact
                         dropLabel="拖拽 或 点击上传 需要修复的图"
                         hint="10M以内，jpg/jpeg/png/webp"
                         disabled={busy}
@@ -628,15 +599,17 @@ export function FixColorWorkspace({ className }: RepairWorkspaceProps = {}) {
                     ) : null}
                 </Edit8Section>
 
-                <Edit8Section title="Step 2：上传颜色矫正参考图">
+                <Edit8Section title="Step 2：上传颜色矫正参考图" className={cn("border-b-0", image ? "" : "opacity-50")}>
                     <ToolAssetInput
                         toolId={TOOL_ID}
                         maxCount={1}
                         draftSlot="color-reference"
                         variant="linkfox"
+                        wide
+                        compact
                         dropLabel="拖拽 或 点击上传 颜色参考"
                         hint="10M以内，jpg/jpeg/png/webp"
-                        disabled={busy}
+                        disabled={busy || !image}
                         onChange={(_ids, records) => {
                             const record = records[0] ?? null;
                             setReferenceName(record?.name ?? null);
@@ -652,16 +625,36 @@ export function FixColorWorkspace({ className }: RepairWorkspaceProps = {}) {
                     {referenceName ? <p className="mt-1.5 truncate text-[11px] leading-4 text-muted-foreground">{referenceName} 已取色</p> : null}
                 </Edit8Section>
 
-                <Edit8Section title="Step 4：进行AI修复">
-                    <p className="text-[11px] leading-4 text-muted-foreground">
+                <Edit8Section title="Step 3：进行AI修复" className={cn("border-b-0", image ? "" : "opacity-50")}>
+                    <p className="text-[12px] leading-[17px] text-muted-foreground">
                         请确保在左侧画板中选择了要进行修复的区域，AI将根据原图为您进行色差矫正。
                     </p>
                 </Edit8Section>
-
+                {notice ? (
+                    <p className="px-[16px] pb-2 text-[11px] leading-4 text-destructive" data-testid="fix-color-notice">
+                        {notice}
+                    </p>
+                ) : null}
+                {!hydrated ? <p className="px-[16px] pb-2 text-[11px] leading-4 text-muted-foreground">正在恢复上次的草稿…</p> : null}
             </Edit8Config>
-            }>
-                <div className="flex min-h-0 min-w-0 flex-1 gap-[10px]">
-            <Edit8Canvas>
+            <button
+                type="button"
+                data-testid="fix-color-submit"
+                disabled={busyBlocked}
+                onClick={() => void submit()}
+                className={cn(edit8PrimaryButtonClass, "shrink-0 gap-1")}
+            >
+                <Sparkles className="size-3.5" aria-hidden />
+                {busy ? "修复中…" : "立即生成"}
+            </button>
+        </div>
+    );
+
+    return (
+        <Edit8Page toolId={TOOL_ID} className={className} data-testid="fix-color-workspace">
+            <div data-testid="tool-workspace-columns" data-canvas="true" data-config-side="right" className="grid min-h-0 min-w-0 flex-1 grid-cols-1 gap-[10px] lg:grid-cols-[minmax(0,1fr)_255px_300px]">
+            <section data-region="canvas" data-testid="tool-main-column" className="flex min-h-0 min-w-0 flex-col overflow-hidden rounded-lg border border-border bg-surface">
+                {image ? (
                 <Edit8CanvasToolbar>
                     <div className="flex items-center gap-1">
                         <button
@@ -747,6 +740,7 @@ export function FixColorWorkspace({ className }: RepairWorkspaceProps = {}) {
                         </button>
                     </div>
                 </Edit8CanvasToolbar>
+                ) : null}
                 <div data-testid="fix-color-mask-panel" className="relative flex min-h-0 flex-1 items-center justify-center overflow-hidden p-[10px]">
                     {image ? (
                         <div className="relative mx-auto w-fit max-w-full">
@@ -768,29 +762,45 @@ export function FixColorWorkspace({ className }: RepairWorkspaceProps = {}) {
                             />
                         </div>
                     ) : (
-                        <div className="mx-auto flex w-[542px] max-w-full flex-col items-center gap-[10px] rounded-xl bg-card p-6 text-center shadow-[0_2px_12px_rgba(31,31,44,0.04)]">
-                            <h2 className="text-[16px] font-medium leading-6 text-foreground">色差修复</h2>
-                            <p className="text-[13px] leading-5 text-muted-foreground">上传偏色服装图片</p>
-                            <p className="text-[12px] leading-5 text-muted-foreground">AI将以服装原图为依据修复偏色</p>
-                        </div>
+                        <RepairGuideCard
+                            video="/__cases/color-diff-repair/guide.mp4"
+                            title="色差修复"
+                            lines={["上传偏色服装图片", "AI将以服装原图为依据修复偏色"]}
+                        />
                     )}
                 </div>
-                <p className="shrink-0 px-4 pb-2 text-[11px] leading-5 text-muted-foreground" data-testid="fix-color-coverage">
-                    {describeFixColorCoverage(state)} · 覆盖率 {Math.round(fixColorCoverage(state) * 100)}%
-                </p>
-            </Edit8Canvas>
-            <Edit8Results
-                tabs={[
-                    { id: "result", label: "生成结果" },
-                    { id: "history", label: "历史记录" },
-                ]}
-                active={resultTab}
-                onTabChange={(id) => setResultTab(id as "result" | "history")}
-            >
+                {image ? (
+                    <p className="shrink-0 px-4 pb-2 text-[11px] leading-5 text-muted-foreground" data-testid="fix-color-coverage">
+                        {describeFixColorCoverage(state)} · 覆盖率 {Math.round(fixColorCoverage(state) * 100)}%
+                    </p>
+                ) : null}
+            </section>
+            {configColumn}
+            <section data-region="results" data-testid="fix-color-results-column" className="flex min-h-0 min-w-0 flex-col overflow-hidden rounded-lg bg-[#edeff5]">
+                <div role="tablist" className="flex h-[42px] shrink-0 items-center justify-between rounded-t-lg bg-card px-3">
+                    <button
+                        type="button"
+                        role="tab"
+                        aria-selected={resultTab === "result"}
+                        data-testid="edit8-tab-result"
+                        onClick={() => setResultTab("result")}
+                        className={cn("h-[42px] border-b-2 text-sm leading-none transition", resultTab === "result" ? "border-primary text-primary" : "border-transparent text-muted-foreground hover:text-foreground")}
+                    >
+                        生成结果
+                    </button>
+                    <button
+                        type="button"
+                        data-testid="edit8-tab-history"
+                        onClick={() => setResultTab("history")}
+                        className={cn("inline-flex items-center gap-1 text-[13px] leading-none transition", resultTab === "history" ? "text-primary" : "text-primary/80 hover:text-primary")}
+                    >
+                        <History className="size-3.5" aria-hidden />
+                        历史记录
+                    </button>
+                </div>
+                <div className="min-h-0 flex-1 overflow-y-auto px-3 pb-4 pt-2">
                 {resultTab === "result" ? (
-                    <div className="flex flex-col gap-2">
-                        {/* 规格 §4：预计输出 + 查看本次输入快照 */}
-                        <p className="text-[11px] leading-4 text-muted-foreground" data-testid="fix-color-expected-output">预计产出 1 张校正结果图</p>
+                    <div className="flex h-full flex-col gap-2">
                         {lastCommit ? (
                             <>
                                 <button
@@ -877,14 +887,21 @@ export function FixColorWorkspace({ className }: RepairWorkspaceProps = {}) {
                                 ) : null}
                             </div>
                         ) : null}
-                        <ToolResult
-                            task={task}
-                            toolId={TOOL_ID}
-                            title="色差修复结果"
-                            emptyTitle="暂无生成结果图"
-                            emptyHint="上传偏色图并涂抹区域后，点立即生成。"
-                            onRetry={() => void submit()}
-                        />
+                        {task ? (
+                            <ToolResult
+                                task={task}
+                                toolId={TOOL_ID}
+                                title="色差修复结果"
+                                emptyTitle="暂无生成结果图"
+                                emptyHint="上传偏色图并涂抹区域后，点立即生成。"
+                                onRetry={() => void submit()}
+                            />
+                        ) : view.imageUrl ? null : (
+                            <div data-testid="fix-color-result-empty" className="flex flex-1 flex-col items-center justify-center gap-2 text-sm text-muted-foreground">
+                                <Inbox className="size-9 opacity-40" aria-hidden />
+                                暂无生成结果图
+                            </div>
+                        )}
                     </div>
                 ) : (
                     <ToolTaskHistory
@@ -895,9 +912,9 @@ export function FixColorWorkspace({ className }: RepairWorkspaceProps = {}) {
                         }}
                     />
                 )}
-            </Edit8Results>
                 </div>
-            </ToolWorkspaceColumns>
+            </section>
+            </div>
         </Edit8Page>
     );
 }
@@ -988,7 +1005,11 @@ export function HandRepairWorkspace({ className }: RepairWorkspaceProps = {}) {
     const [resultFeedback, setResultFeedback] = useState<string | null>(null);
     /** 原站右栏两个页签：生成结果 / 历史记录 */
     const [resultTab, setResultTab] = useState<"result" | "history">("result");
-    const uploadCardRef = useRef<HTMLDivElement | null>(null);
+    const fileInputRef = useRef<HTMLInputElement | null>(null);
+    const [libraryOpen, setLibraryOpen] = useState(false);
+    // 「从作品库选择」：真实接入本地资产库（与局部重绘上传卡同源）。
+    const assets = useAssetStore((store) => store.assets);
+    const library = useMemo(() => toolAssetLibraryItemsFromAssets(assets.filter((asset): asset is ImageAsset => asset.kind === "image")), [assets]);
 
     const commitState = useCallback(
         (next: HandRepairState, asset: UploadedImage | null) => {
@@ -1290,153 +1311,113 @@ export function HandRepairWorkspace({ className }: RepairWorkspaceProps = {}) {
         }
     }, []);
 
-    const repairSiblings = useMemo(() => toolSpecs.filter((tool) => tool.layout === "repair"), []);
     const personTypes = useMemo(() => handRepairPersonTypeOptions(null), []);
     const submitBlocked = busy || !image || maskEmpty;
     const failedOutcomes = useMemo(() => outcomes.filter((outcome) => outcome.status !== "succeeded"), [outcomes]);
     const [showSnapshot, setShowSnapshot] = useState(false);
 
-    return (
-        <div data-testid="hand-repair-workspace" className="h-full min-h-0">
-            <ToolShell
-                className={className}
-                title={spec?.title ?? "手部修复"}
-                subtitle="上传图片，涂抹畸形的手部区域，即可对其畸形矫正与还原"
-                badges={
-                    <span className="flex items-center gap-2 text-[11px] text-muted-foreground">
-                        <span
-                            data-testid="hand-repair-deprecated"
-                            className="rounded border border-amber-300 bg-amber-50 px-1.5 py-0.5 text-amber-800 dark:border-amber-900 dark:bg-amber-950 dark:text-amber-200"
-                        >
-                            {HAND_REPAIR_UPSTREAM.badge}
-                        </span>
-                        <span>智能修图 · 最多 4 张</span>
-                    </span>
-                }
-                breadcrumb={<span className="text-[11px] text-muted-foreground">智能修图 / 手部修复</span>}
-                actions={
-                    <div className="flex items-center gap-2">
-                        <button
-                            type="button"
-                            data-testid="hand-repair-submit"
-                            disabled={submitBlocked}
-                            onClick={() => void submit()}
-                            className="inline-flex items-center gap-1.5 rounded-md bg-primary px-3 py-1.5 text-xs font-medium text-primary-foreground transition disabled:cursor-not-allowed disabled:opacity-50"
-                        >
-                            <Sparkles className="size-3.5" aria-hidden />
-                            <span>{busy ? (progress ? `生成中 ${progress.done}/${progress.total}` : "生成中…") : "立即生成"}</span>
-                        </button>
-                        <span className="rounded border border-rose-300 bg-rose-50 px-1.5 py-0.5 text-[11px] leading-4 text-rose-600 dark:border-rose-900 dark:bg-rose-950 dark:text-rose-300">
-                            限免
-                        </span>
-                    </div>
-                }
-                notices={
-                    <>
-                        {/* 提交被锁时在控件旁说明原因，不只靠 disabled（规格 §3/§5）。 */}
-                        {submitBlocked && !busy ? (
-                            <p data-testid="hand-repair-blocked-reason" className="mb-2 text-[11px] leading-4 text-muted-foreground">
-                                {!image ? "请先上传图片，再立即生成" : "请先在图片上涂抹畸形的手部区域，空蒙版无法生成"}
-                            </p>
-                        ) : null}
-                        {notice ? (
-                            <p data-testid="hand-repair-notice" className="mb-2 rounded border border-red-300 bg-red-50 px-2 py-1.5 text-[11px] text-red-800 dark:border-red-900 dark:bg-red-950 dark:text-red-200">
-                                {notice}
-                            </p>
-                        ) : null}
-                        {!hydrated ? <p className="mb-2 text-[11px] text-muted-foreground">正在恢复上次的草稿…</p> : null}
-                    </>
-                }
-                sidebar={
-                    <nav className="flex flex-col gap-0.5 p-2" aria-label="修复工具">
-                        {repairSiblings.map((tool) => (
-                            <Link
-                                key={tool.id}
-                                to={tool.route}
-                                aria-current={tool.id === HAND_REPAIR_TOOL_ID ? "page" : undefined}
-                                className={cn(
-                                    "truncate rounded px-2 py-1.5 text-xs",
-                                    tool.id === HAND_REPAIR_TOOL_ID ? "bg-accent font-medium text-foreground" : "text-muted-foreground hover:bg-accent hover:text-foreground",
-                                )}
-                            >
-                                {tool.title}
-                            </Link>
-                        ))}
-                        <Link to={spec?.route ?? HAND_REPAIR_SLUG} className="mt-2 px-2 text-[11px] text-muted-foreground underline-offset-2 hover:underline">
-                            返回工具页
-                        </Link>
-                    </nav>
-                }
-            >
-                <div className="flex h-full min-h-0 flex-col overflow-hidden bg-white">
-                    <div data-testid="tool-workspace-columns" data-canvas="true" className="grid min-h-0 flex-1 grid-cols-1 gap-0 lg:grid-cols-[minmax(0,1fr)_240px_300px]">
-                    <section data-testid="tool-main-column" data-region="canvas" className="order-1 flex min-h-0 min-w-0 flex-col overflow-hidden bg-white">
-                        <div className="flex h-[42px] shrink-0 flex-wrap items-center gap-2 border-b border-[#ececec] px-3 text-[12px]">
-                            <span className="flex items-center gap-1 text-muted-foreground"><Paintbrush className="size-3" aria-hidden />画笔</span>
-                            <label className="flex items-center gap-1.5 text-[11px] text-muted-foreground">
-                                大小：
-                                <input data-testid="hand-repair-brush" type="range" min={HAND_REPAIR_BRUSH_MIN} max={HAND_REPAIR_BRUSH_MAX} value={state.brushSize} disabled={!image || busy} onChange={(event) => commitState({ ...stateRef.current, brushSize: clampHandRepairBrush(event.target.value) }, imageRef.current)} className="w-20" />
-                                <span className="text-foreground">{state.brushSize}</span> 像素
-                            </label>
-                            <button type="button" data-testid="hand-repair-reset" disabled={historyState.strokeCount === 0 || busy} onClick={resetMask} className="inline-flex items-center gap-1 rounded px-1.5 py-0.5 text-[11px] text-muted-foreground hover:bg-black/5 disabled:opacity-40"><RotateCcw className="size-3" aria-hidden />重置</button>
-                            <button type="button" data-testid="hand-repair-undo" disabled={!historyState.canUndo || busy} onClick={undo} className="inline-flex items-center gap-1 rounded px-1.5 py-0.5 text-[11px] text-muted-foreground hover:bg-black/5 disabled:opacity-40"><Undo2 className="size-3" aria-hidden />撤销</button>
-                            <button type="button" data-testid="hand-repair-redo" disabled={!historyState.canRedo || busy} onClick={redo} className="inline-flex items-center gap-1 rounded px-1.5 py-0.5 text-[11px] text-muted-foreground hover:bg-black/5 disabled:opacity-40"><Redo2 className="size-3" aria-hidden />重做</button>
-                            {maskEmpty ? <span data-testid="hand-repair-mask-empty" hidden /> : null}
-                            <span data-testid="hand-repair-coverage" className="ml-auto text-[11px] text-muted-foreground">{coverageLabel}</span>
-                        </div>
-                        <div className="min-h-0 flex-1 overflow-y-auto p-4">
-                            {image ? (
-                                <div className="relative mx-auto w-fit max-w-full">
-                                    <img src={image.dataUrl} alt="待修复原图" className="block max-h-[760px] w-auto max-w-full select-none" draggable={false} />
-                                    <canvas ref={canvasRef} data-testid="hand-repair-canvas" aria-label="手部涂抹画布" onPointerDown={onPointerDown} onPointerMove={onPointerMove} onPointerUp={finishStroke} onPointerCancel={finishStroke} className="absolute inset-0 size-full cursor-crosshair touch-none" />
-                                </div>
-                            ) : (
-                                <div className="mx-auto flex w-[542px] max-w-full flex-col items-center gap-2 rounded-lg bg-[#f7f7f9] p-6 text-center">
-                                    <h2 className="text-[16px] font-medium text-foreground">手部修复</h2>
-                                    <p className="text-[12px] text-muted-foreground">上传图片，涂抹畸形的手部区域，即可对其畸形矫正与还原</p>
-                                    <div ref={uploadCardRef} className="mt-2 w-full">
-                                        <ToolAssetInput toolId={HAND_REPAIR_TOOL_ID} maxCount={1} variant="linkfox" dropLabel="上传图片" uploadLabel="从本地上传" thirdAction={null} hint="" disabled={busy} onChange={(_ids, records) => { if (records[0]) void adoptImage(records[0]); }} />
-                                    </div>
-                                    <div data-testid="hand-repair-empty-source" hidden />
-                                </div>
-                            )}
-                        </div>
-                    </section>
-                    <aside data-testid="tool-config-column" data-region="config" className="order-2 flex min-h-0 w-[240px] min-w-0 shrink-0 flex-col overflow-hidden border-l border-[#ececec] bg-white">
-                    <section aria-label="工具操作栏" className="flex min-h-0 flex-1 flex-col gap-3 overflow-y-auto p-3">
-                        <section className="rounded-lg border border-border bg-card p-3">
-                            <button
-                                type="button"
-                                data-testid="hand-repair-upload-button"
-                                onClick={() =>
-                                    uploadCardRef.current
-                                        ?.querySelector<HTMLElement>('[data-testid="tool-asset-dropzone"]')
-                                        ?.click()
-                                }
-                                className="text-xs font-medium text-foreground underline-offset-2 hover:underline"
-                            >
-                                上传图片
-                            </button>
-                            <div ref={uploadCardRef}>
-                            <ToolAssetInput
-                                toolId={HAND_REPAIR_TOOL_ID}
-                                maxCount={1}
-                                variant="linkfox"
-                                dropLabel={image ? image.name : "上传图片"}
-                                uploadLabel="从作品库选择"
-                                thirdAction={null}
-                                hint=""
-                                disabled={busy}
-                                onChange={(_ids, records) => {
-                                    if (records[0]) void adoptImage(records[0]);
-                                }}
-                            />
-                            </div>
-                        </section>
+    const pickFile = async (file: File | undefined) => {
+        if (!file) return;
+        try {
+            await adoptImage(await uploadToolAsset(file));
+        } catch (error) {
+            setNotice(error instanceof Error ? error.message : "上传失败，请重试");
+        }
+    };
+    const toolButton = "inline-flex h-6 items-center gap-1 rounded-md px-1.5 text-[12px] leading-none text-muted-foreground transition hover:bg-border disabled:opacity-40";
 
-                        <section className="rounded-lg border border-border bg-card p-3">
-                            <p className="text-xs font-medium text-foreground">性别与年龄</p>
-                            <div className="mt-2 grid grid-cols-2 gap-1.5">
+    // 原站 1600×1000：画布 840（顶部 40 白色工具条）| 配置 240（白卡 820 + 10 间距 + 32 高「立即生成」）| 结果 300 灰底。
+    return (
+        <div
+            data-tool={HAND_REPAIR_TOOL_ID}
+            data-layout="linkfox-edit8"
+            data-testid="hand-repair-workspace"
+            className={cn("flex h-full min-h-0 flex-col bg-background p-[10px] text-foreground", className)}
+        >
+            <h1 className="sr-only">{spec?.title ?? "手部修复"}</h1>
+            <input
+                ref={fileInputRef}
+                type="file"
+                accept="image/jpeg,image/png,image/webp"
+                className="hidden"
+                disabled={busy}
+                data-testid="tool-asset-file-input"
+                onChange={(event) => {
+                    const file = event.target.files?.[0];
+                    event.target.value = "";
+                    void pickFile(file);
+                }}
+            />
+            <div data-testid="tool-workspace-columns" data-canvas="true" data-config-side="right" className="grid min-h-0 min-w-0 flex-1 grid-cols-1 gap-[10px] lg:grid-cols-[minmax(0,1fr)_240px_300px]">
+                <section data-testid="tool-main-column" data-region="canvas" className="flex min-h-0 min-w-0 flex-col overflow-hidden rounded-lg border border-border bg-surface">
+                    <div className="flex h-10 shrink-0 flex-wrap items-center gap-3 rounded-t-lg bg-card px-5 text-[12px]">
+                        <span className="flex items-center gap-1 text-foreground"><Paintbrush className="size-3.5" aria-hidden />画笔</span>
+                        <label className="flex items-center gap-1.5 text-muted-foreground">
+                            大小：
+                            <input data-testid="hand-repair-brush" type="range" min={HAND_REPAIR_BRUSH_MIN} max={HAND_REPAIR_BRUSH_MAX} value={state.brushSize} disabled={!image || busy} onChange={(event) => commitState({ ...stateRef.current, brushSize: clampHandRepairBrush(event.target.value) }, imageRef.current)} className="w-20 accent-primary" />
+                            <span className="tabular-nums text-foreground">{state.brushSize}</span> 像素
+                        </label>
+                        <button type="button" data-testid="hand-repair-reset" disabled={historyState.strokeCount === 0 || busy} onClick={resetMask} className={toolButton}><RotateCcw className="size-3.5" aria-hidden />重置</button>
+                        <button type="button" data-testid="hand-repair-undo" disabled={!historyState.canUndo || busy} onClick={undo} className={toolButton}><Undo2 className="size-3.5" aria-hidden />撤销</button>
+                        <button type="button" data-testid="hand-repair-redo" disabled={!historyState.canRedo || busy} onClick={redo} className={toolButton}><Redo2 className="size-3.5" aria-hidden />重做</button>
+                        {maskEmpty ? <span data-testid="hand-repair-mask-empty" hidden /> : null}
+                        {image ? (
+                            <span className="ml-auto flex items-center gap-3">
+                                <span data-testid="hand-repair-coverage" className="text-[11px] text-muted-foreground">{coverageLabel}</span>
+                                <button type="button" data-testid="hand-repair-reupload" disabled={busy} onClick={() => fileInputRef.current?.click()} className={toolButton}><Upload className="size-3.5" aria-hidden />重新上传</button>
+                            </span>
+                        ) : null}
+                    </div>
+                    <div className="flex min-h-0 flex-1 items-center justify-center overflow-y-auto p-4">
+                        {image ? (
+                            <div className="relative mx-auto w-fit max-w-full">
+                                <img src={image.dataUrl} alt="待修复原图" className="block max-h-[calc(100vh-200px)] w-auto max-w-full select-none" draggable={false} />
+                                <canvas ref={canvasRef} data-testid="hand-repair-canvas" aria-label="手部涂抹画布" onPointerDown={onPointerDown} onPointerMove={onPointerMove} onPointerUp={finishStroke} onPointerCancel={finishStroke} className="absolute inset-0 size-full cursor-crosshair touch-none" />
+                            </div>
+                        ) : (
+                            <RepairGuideCard className="pt-0" video="/__cases/hand-repair/guide.mp4" title="手部修复" lines={["上传图片，涂抹畸形的手部区域，即可对其畸形矫正与还原"]}>
+                                <div data-testid="hand-repair-empty-source" className="relative mt-4 flex items-center gap-[10px]">
+                                    <button type="button" data-testid="hand-repair-upload-button" disabled={busy} onClick={() => fileInputRef.current?.click()} className="inline-flex h-8 items-center gap-1.5 rounded-md bg-primary px-[15px] text-sm text-primary-foreground transition hover:bg-primary/90 disabled:opacity-50">
+                                        <Upload className="size-3.5" aria-hidden />上传图片
+                                    </button>
+                                    <button
+                                        type="button"
+                                        data-testid="hand-repair-library-button"
+                                        disabled={busy || !library.length}
+                                        title={library.length ? "从作品库（本地资产库）选择" : "作品库暂时没有可用的图片"}
+                                        onClick={() => setLibraryOpen((open) => !open)}
+                                        className="inline-flex h-8 items-center rounded-md border border-primary px-[15px] text-sm text-primary transition hover:bg-primary/5 disabled:opacity-50"
+                                    >
+                                        从作品库选择
+                                    </button>
+                                    {libraryOpen ? (
+                                        <div data-testid="hand-repair-library-panel" className="absolute left-0 right-0 top-10 z-10 max-h-48 overflow-auto rounded-lg border border-border bg-card p-1 text-left shadow-sm">
+                                            {library.map((item) => (
+                                                <button
+                                                    key={item.id}
+                                                    type="button"
+                                                    onClick={() => {
+                                                        setLibraryOpen(false);
+                                                        void adoptLibraryAsset(item).then(adoptImage, (error: unknown) => setNotice(error instanceof Error ? error.message : "作品库图片不可用"));
+                                                    }}
+                                                    className="flex w-full items-center gap-2 rounded px-1 py-1 text-[11px] text-muted-foreground hover:bg-border"
+                                                >
+                                                    <img src={item.url} alt="" className="size-8 shrink-0 rounded object-cover" />
+                                                    <span className="min-w-0 flex-1 truncate">{item.name}</span>
+                                                </button>
+                                            ))}
+                                        </div>
+                                    ) : null}
+                                </div>
+                            </RepairGuideCard>
+                        )}
+                    </div>
+                </section>
+                <div data-testid="tool-config-column" data-region="config" className="flex min-h-0 min-w-0 flex-col gap-[10px]">
+                    <section aria-label="工具操作栏" className="flex min-h-0 flex-1 flex-col gap-6 overflow-y-auto rounded-lg bg-card px-4 py-[10px]">
+                        <div>
+                            <p className="text-xs leading-[22px] text-muted-foreground">性别与年龄</p>
+                            <div className="mt-2 flex flex-wrap gap-[10px]">
                                 {personTypes.map((option) => (
                                     <button
                                         key={option.value}
@@ -1448,20 +1429,18 @@ export function HandRepairWorkspace({ className }: RepairWorkspaceProps = {}) {
                                         title={option.reason}
                                         onClick={() => commitState({ ...stateRef.current, personType: option.value }, imageRef.current)}
                                         className={cn(
-                                            "rounded border px-2 py-1.5 text-[11px]",
-                                            state.personType === option.value ? "border-primary bg-primary/10 font-medium text-foreground" : "border-border text-muted-foreground hover:bg-accent",
-                                            option.disabled ? "opacity-40" : "",
+                                            "h-[26px] rounded-md border px-[15px] text-xs leading-none transition disabled:opacity-40",
+                                            state.personType === option.value ? "border-primary bg-primary/10 text-primary" : "border-border bg-card text-foreground hover:border-primary/60",
                                         )}
                                     >
                                         {option.label}
                                     </button>
                                 ))}
                             </div>
-                        </section>
-
-                        <section className="rounded-lg border border-border bg-card p-3">
-                            <p className="text-xs font-medium text-foreground">生成张数</p>
-                            <div className="mt-2 flex items-center gap-1">
+                        </div>
+                        <div>
+                            <p className="text-xs leading-[22px] text-muted-foreground">生成张数</p>
+                            <div className="mt-1.5 flex items-center gap-[10px]">
                                 {HAND_REPAIR_OUTPUT_OPTIONS.map((count) => (
                                     <button
                                         key={count}
@@ -1470,61 +1449,64 @@ export function HandRepairWorkspace({ className }: RepairWorkspaceProps = {}) {
                                         data-value={count}
                                         disabled={busy}
                                         aria-pressed={state.outputNum === count}
+                                        title={`${handRepairOutputLabel(count)}（每张都是独立真实请求）`}
                                         onClick={() => commitState({ ...stateRef.current, outputNum: count }, imageRef.current)}
                                         className={cn(
-                                            "min-w-8 rounded border border-border px-2 py-1 text-[11px]",
-                                            state.outputNum === count ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:bg-accent",
+                                            "h-[26px] w-[41px] rounded-md border text-xs leading-none transition",
+                                            state.outputNum === count ? "border-primary bg-primary/10 text-primary" : "border-border bg-card text-foreground hover:border-primary/60",
                                         )}
                                     >
                                         {count}
                                     </button>
                                 ))}
                             </div>
-                            <p data-testid="hand-repair-output-label" className="mt-2 text-[11px] text-muted-foreground">
-                                {handRepairOutputLabel(state.outputNum)}（每张都是独立真实请求）
-                            </p>
-                        </section>
-
-</section>
-                    </aside>
-                    <section data-testid="hand-repair-results-column" data-region="results" className="order-3 flex min-h-0 w-[300px] shrink-0 flex-col overflow-hidden border-l border-[#ececec] bg-white">
-                            <div className="flex h-[42px] shrink-0 flex-wrap items-center justify-between gap-2 border-b border-[#ececec] px-3">
-                                {/* 原站右栏页签：生成结果 / 历史记录（历史记录右对齐） */}
-                                <div role="tablist" aria-label="结果页签" className="flex items-center gap-4">
-                                    <button
-                                        type="button"
-                                        role="tab"
-                                        aria-selected={resultTab === "result"}
-                                        data-testid="hand-repair-tab-result"
-                                        onClick={() => setResultTab("result")}
-                                        className={cn(
-                                            "text-xs leading-5 transition",
-                                            resultTab === "result" ? "font-medium text-foreground" : "text-muted-foreground hover:text-foreground",
-                                        )}
-                                    >
-                                        生成结果
-                                    </button>
-                                    <button
-                                        type="button"
-                                        role="tab"
-                                        aria-selected={resultTab === "history"}
-                                        data-testid="hand-repair-tab-history"
-                                        onClick={() => setResultTab("history")}
-                                        className={cn(
-                                            "text-xs leading-5 transition",
-                                            resultTab === "history" ? "font-medium text-foreground" : "text-muted-foreground hover:text-foreground",
-                                        )}
-                                    >
-                                        历史记录
-                                    </button>
-                                </div>
-                                {outcomes.length > 0 || stale ? (
-                                    <span data-testid="hand-repair-summary" className="text-[11px] text-muted-foreground">
-                                        {outcomes.length > 0 ? summarizeHandRepairOutcomes(outcomes) : ""}
-                                        {stale ? "｜来自旧版本输入" : ""}
-                                    </span>
-                                ) : null}
-                            </div>
+                        </div>
+                        <div className="mt-auto space-y-1.5 text-[11px] leading-4">
+                            {submitBlocked && !busy ? (
+                                <p data-testid="hand-repair-blocked-reason" className="text-muted-foreground">
+                                    {!image ? "请先上传图片，再立即生成" : "请先在图片上涂抹畸形的手部区域，空蒙版无法生成"}
+                                </p>
+                            ) : null}
+                            {notice ? <p data-testid="hand-repair-notice" className="text-destructive">{notice}</p> : null}
+                            {!hydrated ? <p className="text-muted-foreground">正在恢复上次的草稿…</p> : null}
+                        </div>
+                    </section>
+                    <button type="button" data-testid="hand-repair-submit" disabled={submitBlocked} onClick={() => void submit()} className={cn(edit8PrimaryButtonClass, "shrink-0 gap-1")}>
+                        <Sparkles className="size-3.5" aria-hidden />
+                        {busy ? (progress ? `生成中 ${progress.done}/${progress.total}` : "生成中…") : "立即生成"}
+                    </button>
+                </div>
+                    <section data-testid="hand-repair-results-column" data-region="results" className="flex min-h-0 min-w-0 flex-col overflow-hidden rounded-lg bg-[#edeff5]">
+                        <div role="tablist" aria-label="结果页签" className="flex h-[42px] shrink-0 items-center justify-between rounded-t-lg bg-card px-3">
+                            <button
+                                type="button"
+                                role="tab"
+                                aria-selected={resultTab === "result"}
+                                data-testid="hand-repair-tab-result"
+                                onClick={() => setResultTab("result")}
+                                className={cn("h-[42px] border-b-2 text-sm leading-none transition", resultTab === "result" ? "border-primary text-primary" : "border-transparent text-muted-foreground hover:text-foreground")}
+                            >
+                                生成结果
+                            </button>
+                            <button
+                                type="button"
+                                role="tab"
+                                aria-selected={resultTab === "history"}
+                                data-testid="hand-repair-tab-history"
+                                onClick={() => setResultTab("history")}
+                                className={cn("inline-flex items-center gap-1 text-[13px] leading-none transition", resultTab === "history" ? "text-primary" : "text-primary/80 hover:text-primary")}
+                            >
+                                <History className="size-3.5" aria-hidden />
+                                历史记录
+                            </button>
+                        </div>
+                        <div className="flex min-h-0 flex-1 flex-col overflow-y-auto px-3 pb-4 pt-2">
+                            {outcomes.length > 0 || stale ? (
+                                <p data-testid="hand-repair-summary" className="text-[11px] text-muted-foreground">
+                                    {outcomes.length > 0 ? summarizeHandRepairOutcomes(outcomes) : ""}
+                                    {stale ? "｜来自旧版本输入" : ""}
+                                </p>
+                            ) : null}
                             {/* 规格 §4：单结果重试 + 查看本次输入快照；部分失败只重试失败单元（§5） */}
                             {resultTab === "result" && failedOutcomes.length > 0 && !busy && lastCommit ? (
                                 <button
@@ -1570,7 +1552,7 @@ export function HandRepairWorkspace({ className }: RepairWorkspaceProps = {}) {
                                 </p>
                             ) : null}
                             {view.images.length > 0 ? (
-                                <div data-testid="hand-repair-results" className="mt-3 grid grid-cols-2 gap-2 sm:grid-cols-4">
+                                <div data-testid="hand-repair-results" className="mt-3 grid grid-cols-2 gap-2">
                                     {view.images.map((item) => (
                                         <figure key={item.index} className="overflow-hidden rounded border border-border bg-muted/20">
                                             <img src={item.url} alt={`手部修复结果 ${item.index}`} className="block w-full object-contain" />
@@ -1618,7 +1600,8 @@ export function HandRepairWorkspace({ className }: RepairWorkspaceProps = {}) {
                                     ))}
                                 </div>
                             ) : view.status !== "running" ? (
-                                <div data-testid="hand-repair-empty" className="tab-pane-empty mt-3 flex min-h-[160px] items-center justify-center text-[11px] text-muted-foreground">
+                                <div data-testid="hand-repair-empty" className="flex flex-1 flex-col items-center justify-center gap-2 text-sm text-muted-foreground">
+                                    <Inbox className="size-9 opacity-40" aria-hidden />
                                     暂无生成结果图
                                 </div>
                             ) : null}
@@ -1636,10 +1619,9 @@ export function HandRepairWorkspace({ className }: RepairWorkspaceProps = {}) {
                             ) : null}
                             </>
                             ) : null}
-                        </section>
-                    </div>
+                        </div>
+                    </section>
                 </div>
-            </ToolShell>
         </div>
     );
 }

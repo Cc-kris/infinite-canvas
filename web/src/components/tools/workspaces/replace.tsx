@@ -13,7 +13,7 @@ import { ToolWorkspaceColumns } from "@/components/tools/tool-workspace-columns"
  */
 
 import { useCallback, useEffect, useMemo, useRef, useState, type PointerEvent as ReactPointerEvent } from "react";
-import { Loader2, Plus, Trash2, Upload } from "lucide-react";
+import { History, Inbox, Loader2, Plus, Sparkles, Trash2, Upload } from "lucide-react";
 
 import { ToolCases } from "@/components/tools/tool-cases";
 import type { ToolCase } from "@/components/tools/tool-cases";
@@ -265,9 +265,9 @@ function PerspectiveWarpCanvas({
 
     if (!scene) {
         return (
-            <div ref={frameRef} className="flex h-full w-full items-center justify-center p-4" data-testid="replace-goods-canvas">
+            <div ref={frameRef} className="flex h-full w-full items-center justify-center p-[25px]" data-testid="replace-goods-canvas">
                 <div
-                    className="flex h-full w-full flex-col items-center justify-center gap-3 rounded-[8px] border border-dashed border-border px-6 text-center"
+                    className="flex h-full w-full flex-col items-center rounded-xl border border-black/15 text-center"
                     data-testid="replace-goods-canvas-empty"
                     onDragOver={(event) => event.preventDefault()}
                     onDrop={(event) => {
@@ -276,9 +276,13 @@ function PerspectiveWarpCanvas({
                         if (files.length) onPick(files);
                     }}
                 >
-                    <p className="text-[13px] leading-6 text-foreground">商品替换</p>
-                    <p className="text-[12px] leading-5 text-muted-foreground">上传参考图，一键替换商品，快来替换您的商品吧~</p>
-                    <AssetButton label="上传参考图" variant="primary" onPick={onPick} />
+                    {/* 原站示例视频 guide-changegoods.mp4（649×423），原样落盘 */}
+                    <video src="/__cases/product-replacement/guide.mp4" autoPlay muted loop playsInline aria-label="商品替换示例" className="mt-2 aspect-[649/423] w-full rounded-xl object-cover" />
+                    <p className="mt-2.5 text-[20px] leading-[31px] text-foreground">商品替换</p>
+                    <p className="mt-2.5 text-[16px] leading-[18px] text-muted-foreground">上传参考图，一键替换商品，快来替换您的商品吧~</p>
+                    <div className="mt-auto mb-8">
+                        <AssetButton label="上传参考图" variant="primary" onPick={onPick} />
+                    </div>
                 </div>
             </div>
         );
@@ -824,13 +828,13 @@ export function ReplaceGoodsWorkspace({ className }: ReplaceGoodsWorkspaceProps 
         : null;
 
     return (
-        <section className={cn("flex h-full min-h-0 flex-col px-3 py-2", className)} data-testid="replace-goods-workspace">
+        <section className={cn("flex h-full min-h-0 flex-col bg-background p-[10px]", className)} data-testid="replace-goods-workspace">
             <ToolWorkspaceColumns
                 configSide="right"
-                className="min-h-0 flex-1 overflow-hidden"
+                className="min-h-0 flex-1 gap-[10px] overflow-hidden"
                 config={
-                    <aside className="flex h-full min-h-0 flex-col" aria-label="生成结果与案例">
-                        <div role="tablist" aria-label="结果区页签" className="flex h-11 shrink-0 items-center gap-5 border-b border-border bg-card px-3">
+                    <aside className="flex h-full min-h-0 w-full flex-col overflow-hidden rounded-lg bg-[#edeff5]" aria-label="生成结果与案例">
+                        <div role="tablist" aria-label="结果区页签" className="flex h-[42px] shrink-0 items-center gap-3.5 bg-card px-3">
                             {REPLACE_TABS.map((item) => (
                                 <button
                                     key={item.id}
@@ -840,12 +844,12 @@ export function ReplaceGoodsWorkspace({ className }: ReplaceGoodsWorkspaceProps 
                                     data-testid={`replace-goods-tab-${item.id}`}
                                     onClick={() => setTab(item.id)}
                                     className={cn(
-                                        "relative flex h-11 items-center text-[12px] leading-5 transition-colors",
-                                        tab === item.id ? "font-medium text-foreground" : "text-muted-foreground hover:text-foreground",
+                                        "relative flex h-[42px] items-center text-sm leading-[22px] transition-colors",
+                                        tab === item.id ? "text-primary" : "text-foreground hover:text-primary",
                                     )}
                                 >
                                     {item.label}
-                                    {tab === item.id ? <span className="absolute bottom-0 left-0 h-[2px] w-full rounded-full bg-foreground" /> : null}
+                                    {tab === item.id ? <span className="absolute bottom-0 left-0 h-[2px] w-full rounded-full bg-primary" /> : null}
                                 </button>
                             ))}
                             <button
@@ -854,14 +858,15 @@ export function ReplaceGoodsWorkspace({ className }: ReplaceGoodsWorkspaceProps 
                                 aria-selected={tab === "history"}
                                 onClick={() => setTab("history")}
                                 className={cn(
-                                    "ml-auto flex items-center text-[12px] leading-5 transition-colors",
-                                    tab === "history" ? "font-medium text-foreground" : "text-muted-foreground hover:text-foreground",
+                                    "ml-auto flex items-center gap-1 text-[13px] leading-5 transition-colors",
+                                    tab === "history" ? "text-primary" : "text-primary/80 hover:text-primary",
                                 )}
                             >
+                                <History className="size-3.5" aria-hidden />
                                 历史记录
                             </button>
                         </div>
-                        <div className="min-h-0 flex-1 space-y-2 overflow-y-auto px-3 pb-3 pt-3">
+                        <div className="flex min-h-0 flex-1 flex-col gap-2 overflow-y-auto px-3 pb-3 pt-3">
                             {tab === "result" ? (
                                 <>
                                     {notice ? <p className="text-[11px] leading-4 text-amber-600 dark:text-amber-400">{notice}</p> : null}
@@ -873,10 +878,11 @@ export function ReplaceGoodsWorkspace({ className }: ReplaceGoodsWorkspaceProps 
                                     ) : (
                                         <div
                                             data-testid="replace-goods-result-empty"
-                                            className="grid place-items-center gap-1 rounded-[6px] border border-dashed border-border px-3 py-10 text-center"
+                                            className="flex flex-1 flex-col items-center justify-center text-center text-sm leading-[22px] text-muted-foreground"
                                         >
-                                            <p className="text-[12px] leading-5 text-foreground">暂无生成结果图</p>
-                                            <p className="text-[11px] leading-4 text-muted-foreground">快在左侧合成您的第一张商品图吧~</p>
+                                            <Inbox className="mb-2 size-9 opacity-40" aria-hidden />
+                                            <p>暂无生成结果图</p>
+                                            <p>快在左侧合成您的第一张商品图吧~</p>
                                         </div>
                                     )}
 
@@ -932,108 +938,214 @@ export function ReplaceGoodsWorkspace({ className }: ReplaceGoodsWorkspaceProps 
                     </aside>
                 }
             >
-                <p className="shrink-0 self-center rounded-full bg-primary/8 px-3 py-1 text-[11px] leading-5 text-muted-foreground">
-                    💡 温馨提示：支持上传多张商品图进行批量替换
-                </p>
-                <div className="flex min-h-0 flex-1 flex-col overflow-hidden rounded-[10px] border border-border bg-card">
-                    {/* 顶部：多商品（每个 SKU 一份替换商品图）+ 上传入口 */}
-                    <div className="flex h-10 shrink-0 items-center gap-1.5 border-b border-border px-2">
-                        <div data-testid="replace-goods-sku-tabs" className="flex min-w-0 items-center gap-1.5 overflow-x-auto">
-                            {workspace.skus.map((item, index) => (
-                                <button
-                                    key={item.id}
-                                    type="button"
-                                    data-testid={`replace-goods-sku-tab-${index}`}
-                                    aria-pressed={item.id === workspace.activeSkuId}
-                                    onClick={() => setWorkspace((current) => ({ ...current, activeSkuId: item.id }))}
-                                    className={cn(
-                                        "h-7 shrink-0 rounded-[6px] border px-2 text-[12px] transition",
-                                        item.id === workspace.activeSkuId
-                                            ? "border-primary text-primary"
-                                            : "border-border text-muted-foreground hover:border-foreground/30 hover:text-foreground",
-                                    )}
-                                >
-                                    {item.label}
-                                    {targets[item.id] ? " ·已传" : ""}
-                                </button>
-                            ))}
-                        </div>
-                        <button
-                            type="button"
-                            data-testid="replace-goods-sku-add"
-                            title="新增商品"
-                            onClick={() => setWorkspace((current) => addSku(current))}
-                            disabled={workspace.skus.length >= REPLACE_GOODS_MAX_SKUS}
-                            className="grid size-7 shrink-0 place-items-center rounded-[6px] text-muted-foreground transition hover:bg-black/5 disabled:opacity-40 dark:hover:bg-white/10"
-                        >
-                            <Plus className="size-3.5" />
-                        </button>
-                        <button
-                            type="button"
-                            data-testid="replace-goods-sku-remove"
-                            title="删除当前商品"
-                            onClick={() => {
-                                if (!sku) return;
-                                const removed = sku.id;
-                                setTargets((current) => {
-                                    const next = { ...current };
-                                    delete next[removed];
-                                    return next;
-                                });
-                                setWorkspace((current) => removeSku(current, removed));
-                            }}
-                            disabled={workspace.skus.length <= 1}
-                            className="grid size-7 shrink-0 place-items-center rounded-[6px] text-muted-foreground transition hover:bg-black/5 disabled:opacity-40 dark:hover:bg-white/10"
-                        >
-                            <Trash2 className="size-3.5" />
-                        </button>
-                        <span className="mx-1 h-4 w-px bg-border" />
-                        <div className="ml-auto flex shrink-0 items-center gap-1.5">
-                            <AssetButton label="参考图" url={scene?.url} onPick={(files) => void pickScene(files)} />
-                            <AssetButton label="替换商品图" url={target?.url} disabled={!scene} onPick={(files) => void pickTarget(files)} />
-                        </div>
-                    </div>
-
-                    {/* 画布主区 */}
-                    <div
-                        tabIndex={0}
-                        onKeyDown={nudge}
-                        aria-label="商品定位画布"
-                        className="min-h-0 flex-1 bg-muted/30 focus:outline-none"
-                    >
-                        <PerspectiveWarpCanvas
-                            scene={scene}
-                            quad={
-                                sku?.history.present.quad ?? {
-                                    topLeft: { x: 0.15, y: 0.15 },
-                                    topRight: { x: 0.85, y: 0.15 },
-                                    bottomRight: { x: 0.85, y: 0.85 },
-                                    bottomLeft: { x: 0.15, y: 0.85 },
-                                }
-                            }
-                            mode={workspace.mode}
-                            tool={canvasTool}
-                            brush={sku?.mask.brush ?? REPLACE_GOODS_MASK_BRUSH.defaultValue}
-                            mask={sku?.mask ?? { mode: "auto", strokes: [], brush: REPLACE_GOODS_MASK_BRUSH.defaultValue }}
-                            disabled={!scene}
-                            onQuad={commitQuad}
-                            onStroke={commitStroke}
-                            onPick={(files) => void pickScene(files)}
-                        />
-                    </div>
-
-                    {/* 底部参数条：生成尺寸 / 变化程度 / 张数 / 立即生成（与原站同位置） */}
-                    <div className="shrink-0 border-t border-border px-3 py-2" data-testid="replace-goods-param-bar">
-                        <div className="flex flex-wrap items-center justify-between gap-x-4 gap-y-2">
-                            <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
-                            <span className="text-[12px] leading-5 text-muted-foreground">
-                                生成尺寸: {REPLACE_GOODS_OUTPUT_SIZE.width}x{REPLACE_GOODS_OUTPUT_SIZE.height}
-                            </span>
+                {/* 原站 1600×1000：左卡 886 宽白底；内容区 #edeff5（顶部温馨提示胶囊 + 居中 700×700 白色画布卡）；底部 48 高单行参数条。 */}
+                <div className="flex min-h-0 flex-1 flex-col overflow-hidden rounded-lg border border-border bg-card">
+                    <div className="relative flex min-h-0 flex-1 flex-col items-center gap-2.5 bg-[#edeff5] p-4">
+                        <p className="shrink-0 rounded-md bg-primary/15 px-2.5 py-[3px] text-sm leading-[22px] text-foreground">
+                            💡 温馨提示：支持上传多张商品图进行批量替换
+                        </p>
+                        {/* 多商品（每个 SKU 一份替换商品图）+ 定位/蒙版控件：原站上传参考图前不显示 */}
+                        <div hidden={!scene} className="w-full max-w-[700px] shrink-0 space-y-1.5 rounded-lg bg-card px-2 py-1.5">
                             <div className="flex items-center gap-1.5">
-                                <span className="text-[12px] leading-5 text-muted-foreground">参考图场景变化程度：</span>
-                                {REPLACE_GOODS_SCENE_CHANGES.map((option) => (
+                                <div data-testid="replace-goods-sku-tabs" className="flex min-w-0 items-center gap-1.5 overflow-x-auto">
+                                    {workspace.skus.map((item, index) => (
+                                        <button
+                                            key={item.id}
+                                            type="button"
+                                            data-testid={`replace-goods-sku-tab-${index}`}
+                                            aria-pressed={item.id === workspace.activeSkuId}
+                                            onClick={() => setWorkspace((current) => ({ ...current, activeSkuId: item.id }))}
+                                            className={cn(
+                                                "h-7 shrink-0 rounded-[6px] border px-2 text-[12px] transition",
+                                                item.id === workspace.activeSkuId
+                                                    ? "border-primary text-primary"
+                                                    : "border-border text-muted-foreground hover:border-foreground/30 hover:text-foreground",
+                                            )}
+                                        >
+                                            {item.label}
+                                            {targets[item.id] ? " ·已传" : ""}
+                                        </button>
+                                    ))}
+                                </div>
+                                <button
+                                    type="button"
+                                    data-testid="replace-goods-sku-add"
+                                    title="新增商品"
+                                    onClick={() => setWorkspace((current) => addSku(current))}
+                                    disabled={workspace.skus.length >= REPLACE_GOODS_MAX_SKUS}
+                                    className="grid size-7 shrink-0 place-items-center rounded-[6px] text-muted-foreground transition hover:bg-black/5 disabled:opacity-40 dark:hover:bg-white/10"
+                                >
+                                    <Plus className="size-3.5" />
+                                </button>
+                                <button
+                                    type="button"
+                                    data-testid="replace-goods-sku-remove"
+                                    title="删除当前商品"
+                                    onClick={() => {
+                                        if (!sku) return;
+                                        const removed = sku.id;
+                                        setTargets((current) => {
+                                            const next = { ...current };
+                                            delete next[removed];
+                                            return next;
+                                        });
+                                        setWorkspace((current) => removeSku(current, removed));
+                                    }}
+                                    disabled={workspace.skus.length <= 1}
+                                    className="grid size-7 shrink-0 place-items-center rounded-[6px] text-muted-foreground transition hover:bg-black/5 disabled:opacity-40 dark:hover:bg-white/10"
+                                >
+                                    <Trash2 className="size-3.5" />
+                                </button>
+                                <div className="ml-auto flex shrink-0 items-center gap-1.5">
+                                    <AssetButton label="参考图" url={scene?.url} onPick={(files) => void pickScene(files)} />
+                                    <AssetButton label="替换商品图" url={target?.url} disabled={!scene} onPick={(files) => void pickTarget(files)} />
+                                </div>
+                            </div>
+                            <div className="flex flex-wrap items-center gap-x-4 gap-y-1.5 text-[11px] leading-4 text-muted-foreground">
+                                <label className="flex items-center gap-1.5">
+                                    抠图引擎
+                                    <select
+                                        data-testid="replace-goods-cutout"
+                                        value={workspace.cutoutProvider}
+                                        onChange={(event) =>
+                                            setWorkspace((current) => ({
+                                                ...current,
+                                                cutoutProvider: event.target.value as ReplaceGoodsWorkspace["cutoutProvider"],
+                                            }))
+                                        }
+                                        className="h-6 rounded-[4px] border border-border bg-card px-1 text-[11px] text-foreground"
+                                    >
+                                        {REPLACE_GOODS_CUTOUT_PROVIDERS.map((provider) => (
+                                            <option key={provider.id} value={provider.id}>
+                                                {provider.label}
+                                            </option>
+                                        ))}
+                                    </select>
+                                </label>
+                                <label className="flex items-center gap-1.5">
+                                    去噪强度
+                                    <input
+                                        data-testid="replace-goods-denoise"
+                                        type="range"
+                                        min={REPLACE_GOODS_DENOISE.min}
+                                        max={REPLACE_GOODS_DENOISE.max}
+                                        step={REPLACE_GOODS_DENOISE.step}
+                                        value={workspace.denoiseStrength}
+                                        onChange={(event) => setWorkspace((current) => ({ ...current, denoiseStrength: Number(event.target.value) }))}
+                                        className="w-20 accent-primary"
+                                    />
+                                    <span className="w-5 tabular-nums">{workspace.denoiseStrength}</span>
+                                </label>
+                                <span className="flex items-center gap-1.5">
+                                    定位模式
+                                    {REPLACE_GOODS_WARP_MODES.map((mode) => (
+                                        <button
+                                            key={mode.id}
+                                            type="button"
+                                            data-testid={`replace-goods-mode-${mode.id}`}
+                                            title={mode.hint}
+                                            aria-pressed={workspace.mode === mode.id}
+                                            onClick={() => setWorkspace((current) => ({ ...current, mode: mode.id }))}
+                                            className={cn(
+                                                "h-6 rounded-[4px] border px-1.5 text-[11px] transition",
+                                                workspace.mode === mode.id
+                                                    ? "border-primary text-primary"
+                                                    : "border-border text-muted-foreground hover:border-foreground/30 hover:text-foreground",
+                                            )}
+                                        >
+                                            {mode.label}（{mode.shortcut}）
+                                        </button>
+                                    ))}
+                                </span>
+                                <span className="flex items-center gap-1.5">
+                                    蒙版
+                                    {REPLACE_TOOLS.map((item) => (
+                                        <button
+                                            key={item.id}
+                                            type="button"
+                                            data-testid={`replace-goods-tool-${item.id}`}
+                                            aria-pressed={canvasTool === item.id}
+                                            disabled={!scene}
+                                            onClick={() => setCanvasTool(item.id)}
+                                            className={cn(
+                                                "h-6 rounded-[4px] border px-1.5 text-[11px] transition disabled:opacity-40",
+                                                canvasTool === item.id
+                                                    ? "border-primary text-primary"
+                                                    : "border-border text-muted-foreground hover:border-foreground/30 hover:text-foreground",
+                                            )}
+                                        >
+                                            {item.label}
+                                        </button>
+                                    ))}
+                                    <input
+                                        data-testid="replace-goods-brush"
+                                        type="range"
+                                        aria-label="蒙版笔刷"
+                                        min={REPLACE_GOODS_MASK_BRUSH.min}
+                                        max={REPLACE_GOODS_MASK_BRUSH.max}
+                                        step={1}
+                                        value={sku?.mask.brush ?? REPLACE_GOODS_MASK_BRUSH.defaultValue}
+                                        onChange={(event) => {
+                                            const brush = Number(event.target.value);
+                                            setWorkspace((current) => {
+                                                const active = activeSku(current);
+                                                return active ? updateSku(current, active.id, { mask: { ...active.mask, brush } }) : current;
+                                            });
+                                        }}
+                                        className="w-16 accent-primary"
+                                    />
+                                    <span className="w-8 tabular-nums">{sku?.mask.brush ?? REPLACE_GOODS_MASK_BRUSH.defaultValue}px</span>
                                     <button
-                                        key={option.id}
+                                        type="button"
+                                        data-testid="replace-goods-clear-mask"
+                                        onClick={clearMask}
+                                        className="h-6 rounded-[4px] border border-border px-1.5 text-[11px] text-muted-foreground transition hover:border-foreground/30 hover:text-foreground"
+                                    >
+                                        清空蒙版
+                                    </button>
+                                </span>
+                            </div>
+                        </div>
+
+                        {/* 画布：原站 700×700 白色圆角卡 */}
+                        <div
+                            tabIndex={0}
+                            onKeyDown={nudge}
+                            aria-label="商品定位画布"
+                            className="flex aspect-square max-h-[700px] min-h-0 w-full max-w-[700px] flex-1 rounded-xl bg-card focus:outline-none"
+                        >
+                            <PerspectiveWarpCanvas
+                                scene={scene}
+                                quad={
+                                    sku?.history.present.quad ?? {
+                                        topLeft: { x: 0.15, y: 0.15 },
+                                        topRight: { x: 0.85, y: 0.15 },
+                                        bottomRight: { x: 0.85, y: 0.85 },
+                                        bottomLeft: { x: 0.15, y: 0.85 },
+                                    }
+                                }
+                                mode={workspace.mode}
+                                tool={canvasTool}
+                                brush={sku?.mask.brush ?? REPLACE_GOODS_MASK_BRUSH.defaultValue}
+                                mask={sku?.mask ?? { mode: "auto", strokes: [], brush: REPLACE_GOODS_MASK_BRUSH.defaultValue }}
+                                disabled={!scene}
+                                onQuad={commitQuad}
+                                onStroke={commitStroke}
+                                onPick={(files) => void pickScene(files)}
+                            />
+                        </div>
+                    </div>
+
+                    {/* 底部单行参数条：生成尺寸 / 参考图场景变化程度（不变—高）/ 生成张数 / 立即生成（原站 48 高） */}
+                    <div className="flex h-12 shrink-0 items-center gap-4 border-t-[3px] border-[#f5f7fa] px-4" data-testid="replace-goods-param-bar">
+                        <span className="shrink-0 text-[12px] leading-5 text-muted-foreground">
+                            生成尺寸: {REPLACE_GOODS_OUTPUT_SIZE.width}x{REPLACE_GOODS_OUTPUT_SIZE.height}
+                        </span>
+                        <div className="flex min-w-0 flex-1 items-center gap-2 text-[12px] leading-5">
+                            <span className="shrink-0 text-muted-foreground">参考图场景变化程度：</span>
+                            {REPLACE_GOODS_SCENE_CHANGES.map((option, index) => (
+                                <span key={option.id} className={cn("flex items-center gap-2", index === 0 ? "order-1" : "order-3")}>
+                                    <button
                                         type="button"
                                         data-testid={`replace-goods-scene-change-${option.id}`}
                                         title={option.hint}
@@ -1041,158 +1153,62 @@ export function ReplaceGoodsWorkspace({ className }: ReplaceGoodsWorkspaceProps 
                                         onClick={() =>
                                             setWorkspace((current) => {
                                                 const active = activeSku(current);
-                                                return active
-                                                    ? updateSku(current, active.id, { sceneChange: option.id as ReplaceGoodsSceneChange })
-                                                    : current;
+                                                return active ? updateSku(current, active.id, { sceneChange: option.id as ReplaceGoodsSceneChange }) : current;
                                             })
                                         }
-                                        className={cn(
-                                            "h-7 rounded-[6px] border px-3 text-[12px] transition",
-                                            sku?.sceneChange === option.id
-                                                ? "border-primary text-primary"
-                                                : "border-border text-muted-foreground hover:border-foreground/30 hover:text-foreground",
-                                        )}
+                                        className={cn("shrink-0 transition", sku?.sceneChange === option.id ? "text-primary" : "text-foreground hover:text-primary")}
                                     >
                                         {option.label}
                                     </button>
-                                ))}
-                            </div>
-                            <div className="flex items-center gap-1.5">
-                                <span className="text-[12px] leading-5 text-muted-foreground">生成：</span>
-                                {REPLACE_GOODS_OUTPUT_OPTIONS.map((value) => (
-                                    <button
-                                        key={value}
-                                        type="button"
-                                        data-testid={`replace-goods-output-${value}`}
-                                        aria-pressed={workspace.outputNum === value}
-                                        onClick={() => setWorkspace((current) => ({ ...current, outputNum: value }))}
-                                        className={cn(
-                                            "h-7 rounded-[6px] border px-2.5 text-[12px] transition",
-                                            workspace.outputNum === value
-                                                ? "border-primary text-primary"
-                                                : "border-border text-muted-foreground hover:border-foreground/30 hover:text-foreground",
-                                        )}
-                                    >
-                                        {value}张
-                                    </button>
-                                ))}
-                            </div>
-                            </div>
-                            <button
-                                type="button"
-                                data-testid="replace-goods-submit"
-                                aria-disabled={issues.length > 0 || running}
-                                onClick={() => void submit()}
-                                className="inline-flex h-8 shrink-0 items-center gap-2 rounded-[6px] bg-primary px-4 text-[12px] font-medium text-primary-foreground transition hover:opacity-90"
-                            >
-                                {running ? <Loader2 className="size-3.5 animate-spin" /> : null}
-                                <span>{running ? "生成中…" : "立即生成"}</span>
-                            </button>
+                                </span>
+                            ))}
+                            <input
+                                type="range"
+                                aria-hidden
+                                tabIndex={-1}
+                                min={0}
+                                max={REPLACE_GOODS_SCENE_CHANGES.length - 1}
+                                step={1}
+                                value={Math.max(0, REPLACE_GOODS_SCENE_CHANGES.findIndex((option) => option.id === sku?.sceneChange))}
+                                onChange={(event) => {
+                                    const next = REPLACE_GOODS_SCENE_CHANGES[Number(event.target.value)]?.id as ReplaceGoodsSceneChange | undefined;
+                                    if (!next) return;
+                                    setWorkspace((current) => {
+                                        const active = activeSku(current);
+                                        return active ? updateSku(current, active.id, { sceneChange: next }) : current;
+                                    });
+                                }}
+                                className="order-2 w-[200px] min-w-0 accent-primary"
+                            />
                         </div>
-                        <div className="mt-1.5 flex flex-wrap items-center gap-x-4 gap-y-1.5 text-[11px] leading-4 text-muted-foreground">
-                            <label className="flex items-center gap-1.5">
-                                抠图引擎
-                                <select
-                                    data-testid="replace-goods-cutout"
-                                    value={workspace.cutoutProvider}
-                                    onChange={(event) =>
-                                        setWorkspace((current) => ({
-                                            ...current,
-                                            cutoutProvider: event.target.value as ReplaceGoodsWorkspace["cutoutProvider"],
-                                        }))
-                                    }
-                                    className="h-6 rounded-[4px] border border-border bg-card px-1 text-[11px] text-foreground"
-                                >
-                                    {REPLACE_GOODS_CUTOUT_PROVIDERS.map((provider) => (
-                                        <option key={provider.id} value={provider.id}>
-                                            {provider.label}
-                                        </option>
-                                    ))}
-                                </select>
-                            </label>
-                            <label className="flex items-center gap-1.5">
-                                去噪强度
-                                <input
-                                    data-testid="replace-goods-denoise"
-                                    type="range"
-                                    min={REPLACE_GOODS_DENOISE.min}
-                                    max={REPLACE_GOODS_DENOISE.max}
-                                    step={REPLACE_GOODS_DENOISE.step}
-                                    value={workspace.denoiseStrength}
-                                    onChange={(event) => setWorkspace((current) => ({ ...current, denoiseStrength: Number(event.target.value) }))}
-                                    className="w-20 accent-primary"
-                                />
-                                <span className="w-5 tabular-nums">{workspace.denoiseStrength}</span>
-                            </label>
-                            <span className="flex items-center gap-1.5">
-                                定位模式
-                                {REPLACE_GOODS_WARP_MODES.map((mode) => (
-                                    <button
-                                        key={mode.id}
-                                        type="button"
-                                        data-testid={`replace-goods-mode-${mode.id}`}
-                                        title={mode.hint}
-                                        aria-pressed={workspace.mode === mode.id}
-                                        onClick={() => setWorkspace((current) => ({ ...current, mode: mode.id }))}
-                                        className={cn(
-                                            "h-6 rounded-[4px] border px-1.5 text-[11px] transition",
-                                            workspace.mode === mode.id
-                                                ? "border-primary text-primary"
-                                                : "border-border text-muted-foreground hover:border-foreground/30 hover:text-foreground",
-                                        )}
-                                    >
-                                        {mode.label}（{mode.shortcut}）
-                                    </button>
-                                ))}
-                            </span>
-                            <span className="flex items-center gap-1.5">
-                                蒙版
-                                {REPLACE_TOOLS.map((item) => (
-                                    <button
-                                        key={item.id}
-                                        type="button"
-                                        data-testid={`replace-goods-tool-${item.id}`}
-                                        aria-pressed={canvasTool === item.id}
-                                        disabled={!scene}
-                                        onClick={() => setCanvasTool(item.id)}
-                                        className={cn(
-                                            "h-6 rounded-[4px] border px-1.5 text-[11px] transition disabled:opacity-40",
-                                            canvasTool === item.id
-                                                ? "border-primary text-primary"
-                                                : "border-border text-muted-foreground hover:border-foreground/30 hover:text-foreground",
-                                        )}
-                                    >
-                                        {item.label}
-                                    </button>
-                                ))}
-                                <input
-                                    data-testid="replace-goods-brush"
-                                    type="range"
-                                    aria-label="蒙版笔刷"
-                                    min={REPLACE_GOODS_MASK_BRUSH.min}
-                                    max={REPLACE_GOODS_MASK_BRUSH.max}
-                                    step={1}
-                                    value={sku?.mask.brush ?? REPLACE_GOODS_MASK_BRUSH.defaultValue}
-                                    onChange={(event) => {
-                                        const brush = Number(event.target.value);
-                                        setWorkspace((current) => {
-                                            const active = activeSku(current);
-                                            return active ? updateSku(current, active.id, { mask: { ...active.mask, brush } }) : current;
-                                        });
-                                    }}
-                                    className="w-16 accent-primary"
-                                />
-                                <span className="w-8 tabular-nums">{sku?.mask.brush ?? REPLACE_GOODS_MASK_BRUSH.defaultValue}px</span>
+                        <div className="flex shrink-0 items-center gap-1 text-[12px] leading-5">
+                            <span className="text-muted-foreground">生成：</span>
+                            {REPLACE_GOODS_OUTPUT_OPTIONS.map((value) => (
                                 <button
+                                    key={value}
                                     type="button"
-                                    data-testid="replace-goods-clear-mask"
-                                    onClick={clearMask}
-                                    className="h-6 rounded-[4px] border border-border px-1.5 text-[11px] text-muted-foreground transition hover:border-foreground/30 hover:text-foreground"
+                                    data-testid={`replace-goods-output-${value}`}
+                                    aria-pressed={workspace.outputNum === value}
+                                    onClick={() => setWorkspace((current) => ({ ...current, outputNum: value }))}
+                                    className={cn(
+                                        "h-6 rounded-[4px] px-1.5 transition",
+                                        workspace.outputNum === value ? "bg-primary/10 text-primary" : "text-muted-foreground hover:text-foreground",
+                                    )}
                                 >
-                                    清空蒙版
+                                    {value}张
                                 </button>
-                            </span>
+                            ))}
                         </div>
+                        <button
+                            type="button"
+                            data-testid="replace-goods-submit"
+                            aria-disabled={issues.length > 0 || running}
+                            onClick={() => void submit()}
+                            className="inline-flex h-8 w-[187px] shrink-0 items-center justify-center gap-1.5 rounded-md bg-primary text-[12px] text-primary-foreground transition hover:opacity-90"
+                        >
+                            {running ? <Loader2 className="size-3.5 animate-spin" /> : <Sparkles className="size-3.5" aria-hidden />}
+                            <span>{running ? "生成中…" : "立即生成"}</span>
+                        </button>
                     </div>
                 </div>
             </ToolWorkspaceColumns>

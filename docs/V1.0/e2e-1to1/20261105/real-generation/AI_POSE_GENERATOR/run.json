@@ -1,0 +1,83 @@
+{
+  "toolId": "AI_POSE_GENERATOR",
+  "route": "/tools/product-design/ai-pose-generator",
+  "fixture": "model-portrait.png",
+  "startedAt": "2026-11-05T15:43:46.623Z",
+  "provider": {
+    "imageModel": "ccai-accept::gpt-image-2",
+    "channels": [
+      "ccai-accept",
+      "sf-accept"
+    ],
+    "baseUrl": "https://api.cc-ai.xyz",
+    "keyLen": 67,
+    "proxyEnabled": true,
+    "channelCount": 2,
+    "model": "gpt-image-2"
+  },
+  "before": {
+    "images": [],
+    "issues": []
+  },
+  "submitBefore": {
+    "id": "ai-pose-submit",
+    "text": "立即生成",
+    "disabled": true
+  },
+  "gate": {
+    "found": true,
+    "disabled": false,
+    "text": "立即生成",
+    "countText": ""
+  },
+  "finishedAt": "2026-11-05T15:44:15.564Z",
+  "after": {
+    "submitButtons": [
+      {
+        "id": "ai-pose-submit",
+        "text": "立即生成",
+        "disabled": false
+      }
+    ],
+    "issues": [],
+    "images": [
+      {
+        "src": "blob:http://127.0.0.1:3310/abde8f55-82c7-4efa-af73-e0df95937",
+        "w": 1024,
+        "h": 1024
+      },
+      {
+        "src": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABAAAAAQACAIAAA",
+        "w": 1024,
+        "h": 1024
+      },
+      {
+        "src": "blob:http://127.0.0.1:3310/abde8f55-82c7-4efa-af73-e0df95937",
+        "w": 1024,
+        "h": 1024
+      }
+    ],
+    "bodyText": "无限画布\n首页\n电商套图\n智能修图\n新模型\nAI视频\nHOT\n批量生图\n商品图设计\n中\n切换到深色主题\nv0.27.0\n真人换模特\n模特换场景\nAI穿衣\n姿势裂变\nAI穿戴\n历史记录\n企业功能\n批量生图\n即将下架\n人台换模特\n下架\n免责声明\n历史记录\n1 条\n2026-11-05 23:43\n已完成\nCreate a full-body pose reference photo of a sin…\nccai-accept::gpt-image-2 · image · 1 个结果\n生成参考图\n生成结果\n已完成\n共 1 个结果 · 图片 1\n下载\n存入资产\n发送画布\n模板库\n推荐套图场景\n智能扩写\n立即生成\n历史任务\n1 条\n2026-11-05 23:43\n已完成\nCreate a full-body pose reference photo of a single fash…\nccai-accept::gpt-image-2 · image · 1 个结果\n连接本地 Agent\n未连接\n点连接会自动启动本地服务、装好插件并接通，无需手动配置。\nClaude Code\n未连接\n·\nCLI · 2.1.318 (Claude Code)\n·\n直接运行\n连接\nCodex\n未连接\n·\nCLI · codex-cli 0.166.0\n·\n插件已装\n连接\nGalley\n未连接\n·\nCLI + 桌面版 · galley 0.6.4\n连接"
+  },
+  "resultSrcPrefix": "data:image/png;base64,iVBORw0KGgoAAAANSU",
+  "resultCount": 1,
+  "resultSaved": true,
+  "network": [
+    {
+      "method": "POST",
+      "url": "http://127.0.0.1:23210/https://api.cc-ai.xyz/v1/images/generations",
+      "status": 200,
+      "ms": 20844,
+      "at": "2026-11-05T15:44:14.696Z"
+    }
+  ],
+  "fixtureSha256": "446d9ffe39f94d70",
+  "resultSha256": "3aee8cacb5c41ce4",
+  "ok": true,
+  "download": {
+    "file": "download-ai-pose-generator-result-1.png",
+    "bytes": 2114781,
+    "sha256": "3aee8cacb5c41ce4",
+    "differsFromSource": true
+  }
+}

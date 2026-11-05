@@ -1,4 +1,3 @@
-import { ToolWorkspaceColumns } from "@/components/tools/tool-workspace-columns";
 /**
  * TASK-020：「印花修复」PRINTING_REPAIR 工作区（layout = repair）。
  *
@@ -13,13 +12,12 @@ import { ToolWorkspaceColumns } from "@/components/tools/tool-workspace-columns"
  */
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { Link } from "react-router-dom";
-import { ArrowRight, CircleAlert, Download, Loader2, Move, Redo2, RotateCcw, RotateCw, Sparkles, TriangleAlert, Undo2, ZoomIn, ZoomOut } from "lucide-react";
+import { CircleAlert, Download, History, Inbox, Loader2, Move, Redo2, RotateCcw, RotateCw, Sparkles, Undo2, ZoomOut } from "lucide-react";
 
 import { ToolAssetInput } from "@/components/tools/tool-asset-input";
 import { ToolResult } from "@/components/tools/tool-result";
-import { ToolShell } from "@/components/tools/tool-shell";
-import { OrigRail, SMART_EDIT_RAIL } from "@/components/tools/workspaces/orig-rail";
+import { edit8PrimaryButtonClass } from "@/components/tools/edit8-frame";
+import { RepairGuideCard } from "@/components/tools/workspaces/repair-guide";
 import { saveResultItemToAssets, sendResultItemToCanvas } from "@/components/tools/tool-result-actions";
 import { cn, randomId } from "@/lib/utils";
 import type { ToolAssetRecord } from "@/services/api/tools/assets";
@@ -180,24 +178,10 @@ export function PrintingRepairResultActions({ imageUrl, imageName = "", pending 
     );
 }
 
-function StepBadge({ index, active }: { index: number; active: boolean }) {
-    return (
-        <span
-            aria-hidden="true"
-            className={cn(
-                "grid size-6 shrink-0 place-items-center rounded-full border text-[11px] font-semibold",
-                active ? "border-primary bg-primary text-primary-foreground" : "border-border text-muted-foreground",
-            )}
-        >
-            {index}
-        </span>
-    );
-}
-
+/** 配置列里的一段 Step（原站 `_wrapper_1jv19`：12px 标题，当前步紫色、未到的步灰色 30%）。 */
 function StepCard({
     step,
     title,
-    hint,
     active,
     done,
     className,
@@ -205,26 +189,15 @@ function StepCard({
 }: {
     step: number;
     title: string;
-    hint?: string;
     active: boolean;
     done: boolean;
     className?: string;
     children: React.ReactNode;
 }) {
     return (
-        <section
-            data-testid={`printing-repair-step-${step}`}
-            data-state={done ? "done" : active ? "active" : "pending"}
-            className={cn("rounded-2xl border bg-card p-4", active ? "border-primary/60" : "border-border", className)}
-        >
-            <header className="flex items-start gap-2">
-                <div className="min-w-0 flex-1">
-                    <h2 className="text-sm font-semibold">{title}</h2>
-                    {hint ? <p className="mt-0.5 text-[11px] leading-4 text-muted-foreground">{hint}</p> : null}
-                </div>
-                {done ? <span className="text-[11px] text-emerald-600">已完成</span> : null}
-            </header>
-            <div className="mt-3">{children}</div>
+        <section data-testid={`printing-repair-step-${step}`} data-state={done ? "done" : active ? "active" : "pending"} className={className}>
+            <h2 className={cn("text-xs font-normal leading-[25px]", active || done ? "text-primary" : "text-muted-foreground/60")}>{title}</h2>
+            <div className="mt-2.5">{children}</div>
         </section>
     );
 }
@@ -232,12 +205,9 @@ function StepCard({
 function IssueList({ issues, testId = "printing-repair-issues" }: { issues: string[]; testId?: string }) {
     if (!issues.length) return null;
     return (
-        <ul data-testid={testId} className="space-y-1 rounded-xl border border-amber-300/60 bg-amber-50 px-3 py-2 text-[11px] text-amber-900">
+        <ul data-testid={testId} className="space-y-1 text-[11px] leading-4 text-[#d46b08]">
             {issues.map((issue) => (
-                <li key={issue} className="flex items-start gap-1.5">
-                    <TriangleAlert aria-hidden="true" className="mt-0.5 size-3.5 shrink-0" />
-                    <span>{issue}</span>
-                </li>
+                <li key={issue}>{issue}</li>
             ))}
         </ul>
     );
@@ -803,83 +773,29 @@ export function PrintingRepairWorkspace({ className }: PrintingRepairWorkspacePr
 
     /* ---------------- 渲染 ---------------- */
 
-    const sidebar = (
-        <div className="space-y-2 text-sm">
-            <p className="px-2 text-xs font-medium text-muted-foreground">同分类工具</p>
-            <Link to="/tools/smart-edit/area-repair" className="flex items-center justify-between rounded-lg px-2 py-1.5 hover:bg-accent">
-                <span>局部重绘</span>
-                <ArrowRight aria-hidden="true" className="size-3.5 opacity-60" />
-            </Link>
-            <Link to="/tools/smart-edit/fix-color" className="flex items-center justify-between rounded-lg px-2 py-1.5 hover:bg-accent">
-                <span>色差修复</span>
-                <ArrowRight aria-hidden="true" className="size-3.5 opacity-60" />
-            </Link>
-            <p className="mt-3 px-2 text-[11px] leading-4 text-muted-foreground">
-                上传上限：{PRINTING_REPAIR_UPLOAD_LABEL}
-            </p>
-        </div>
-    );
+    const allIssues = [...(base || print ? issues : []), ...(submitError ? [submitError] : []), ...(notice ? [notice] : [])];
+    const ctrlButton = "inline-flex h-6 items-center gap-1 rounded-md px-1.5 text-xs leading-none text-muted-foreground transition hover:bg-border disabled:opacity-40";
 
+    // 原站 1600×1000：画布 840（顶部 32 高白色小贴士条）| 配置 240（白卡 820 + 10 间距 + 32 高「立即生成」）| 结果 300 灰底。
     return (
-        <ToolShell
-            className={className}
-            title={spec?.title ?? "印花修复"}
-            subtitle="上传印花有误的图片，将正确的印花调整并覆盖，即可完成修复"
-            sidebar={sidebar}
+        <div
+            data-tool={PRINTING_REPAIR_TOOL_ID}
+            data-layout="linkfox-edit8"
+            data-testid="printing-repair-workspace"
+            className={cn("flex h-full min-h-0 flex-col bg-background p-[10px] text-foreground", className)}
         >
-            <div data-testid="printing-repair-workspace" className="flex h-full min-h-0 flex-col">
-            <div data-testid="tool-workspace-columns" data-canvas="true" className="grid min-h-0 flex-1 grid-cols-1 gap-0 lg:grid-cols-[minmax(0,1fr)_240px_300px]">
-                <section data-testid="tool-main-column" data-region="canvas" className="order-1 flex min-h-0 min-w-0 flex-col overflow-y-auto bg-[#f7f7f9] p-4">
-                    <div className="mx-auto w-full max-w-[700px] space-y-3">
-                    <p className="rounded-md border border-[#fde68a] bg-[#fffbeb] px-3 py-2 text-[11px] leading-4 text-[#92400e]">
-                        💡 小贴士：您可以调整印花的大小并将其置于合适的位置！看看怎么操作？
+            <h1 className="sr-only">{spec?.title ?? "印花修复"}</h1>
+            <div data-testid="tool-workspace-columns" data-canvas="true" data-config-side="right" className="grid min-h-0 min-w-0 flex-1 grid-cols-1 gap-[10px] lg:grid-cols-[minmax(0,1fr)_240px_300px]">
+                <section data-testid="tool-main-column" data-region="canvas" className="flex min-h-0 min-w-0 flex-col overflow-hidden rounded-lg border border-border p-[11px]">
+                    <p className="shrink-0 rounded-lg bg-card px-2.5 py-[5px] text-sm leading-[22px] text-[#3a7df9]">
+                        💡 小贴士：您可以调整印花的大小并将其置于合适的位置！
+                        <a href="https://yxgb3sicy7.feishu.cn/wiki/U3OmwvnyxiPBtCkB2S3cfjKrnug" target="_blank" rel="noreferrer" className="underline underline-offset-2">
+                            看看怎么操作？
+                        </a>
                     </p>
-                    <StepCard step={1} title="Step 1：消除错误印花" hint="上传印花有误的商品图，作为修复底图" active={!base} done={Boolean(base)}>
-                        <ToolAssetInput
-                            toolId={BASE_SLOT_ID}
-                            variant="linkfox"
-                            dropLabel="拖拽 或 点击上传 需要修复的图"
-                            hint="10M以内，jpg/jpeg/png/webp"
-                            maxCount={1}
-                            constraints={UPLOAD_CONSTRAINTS}
-                            onChange={handleBaseChange}
-                        />
-                    </StepCard>
-
-                    <StepCard step={2} title="Step 2：导入正确印花" active={Boolean(base) && !print} done={Boolean(print)}>
-                        <ToolAssetInput
-                            toolId={PRINT_SLOT_ID}
-                            variant="linkfox"
-                            dropLabel="拖拽 或 点击上传 印花参考"
-                            hint="10M以内，jpg/jpeg/png/webp"
-                            maxCount={1}
-                            constraints={UPLOAD_CONSTRAINTS}
-                            disabled={!base}
-                            onChange={handlePrintChange}
-                        />
-                        {seg.status === "working" ? (
-                            <p className="mt-2 flex items-center gap-1.5 text-[11px] text-muted-foreground">
-                                <Loader2 aria-hidden="true" className="size-3.5 animate-spin" />
-                                正在分析印花分割图…
-                            </p>
-                        ) : null}
-                        {seg.status === "ready" ? (
-                            <p data-testid="printing-repair-seg" className="mt-2 text-[11px] text-muted-foreground">
-                                分割图已生成 · 印花占比 {percent(seg.result.coverage, 1)} · {seg.result.width}×{seg.result.height}
-                                {seg.result.mode === "full-rect" ? "（整图模式：背景透明时自动采用）" : ""}
-                            </p>
-                        ) : null}
-                        {seg.status === "failed" ? (
-                            <p className="mt-2 flex items-center gap-1.5 text-[11px] text-destructive">
-                                <CircleAlert aria-hidden="true" className="size-3.5" />
-                                {seg.message}
-                            </p>
-                        ) : null}
-                    </StepCard>
-
-                    <StepCard step={3} title="Step 3：调整印花位置" hint="在左侧画布中调整印花位置，调整完成点击【开始生成】，即可完成修复" active={Boolean(print)} done={false}>
+                    <div className="flex min-h-0 flex-1 items-center justify-center overflow-y-auto py-3">
                         {base && print ? (
-                            <div className="space-y-3">
+                            <div className="w-full max-w-[640px] space-y-3 rounded-xl bg-card p-4">
                                 <PrintStage
                                     baseUrl={base.url}
                                     printUrl={print.url}
@@ -889,14 +805,14 @@ export function PrintingRepairWorkspace({ className }: PrintingRepairWorkspacePr
                                     onWheelScale={(direction) => applyTransform(stepPrintScale(transform, direction, false))}
                                     onKeyNudge={(direction, fast) => applyTransform(nudgePrint(transform, direction, baseSize, fast))}
                                 />
-                                <div className="flex flex-wrap items-center gap-2">
-                                    <button type="button" onClick={undo} disabled={!canUndoPrintTransform(history)} data-testid="printing-repair-undo" className="inline-flex items-center gap-1 rounded-lg border border-border px-2 py-1 text-xs disabled:opacity-50">
+                                <div className="flex flex-wrap items-center gap-1">
+                                    <button type="button" onClick={undo} disabled={!canUndoPrintTransform(history)} data-testid="printing-repair-undo" className={ctrlButton}>
                                         <Undo2 aria-hidden="true" className="size-3.5" />撤销
                                     </button>
-                                    <button type="button" onClick={redo} disabled={!canRedoPrintTransform(history)} data-testid="printing-repair-redo" className="inline-flex items-center gap-1 rounded-lg border border-border px-2 py-1 text-xs disabled:opacity-50">
+                                    <button type="button" onClick={redo} disabled={!canRedoPrintTransform(history)} data-testid="printing-repair-redo" className={ctrlButton}>
                                         <Redo2 aria-hidden="true" className="size-3.5" />重做
                                     </button>
-                                    <button type="button" onClick={resetTransform} data-testid="printing-repair-reset" className="inline-flex items-center gap-1 rounded-lg border border-border px-2 py-1 text-xs">
+                                    <button type="button" onClick={resetTransform} data-testid="printing-repair-reset" className={ctrlButton}>
                                         <RotateCcw aria-hidden="true" className="size-3.5" />重置
                                     </button>
                                     <span data-testid="printing-repair-transform-label" className="ml-auto text-[11px] text-muted-foreground">{printHistoryLabel(history)}</span>
@@ -927,76 +843,116 @@ export function PrintingRepairWorkspace({ className }: PrintingRepairWorkspacePr
                                     <Move aria-hidden="true" className="size-3.5" />
                                     {describePrintTransform(transform)} · 画面覆盖 {percent(printCoverage(transform, { width: print.width ?? 1, height: print.height ?? 1 }, baseSize.width > 0 ? baseSize : { width: 1, height: 1 }), 1)}
                                 </p>
-                                <div className="flex flex-wrap gap-1.5 text-[11px]">
-                                    {PRINTING_REPAIR_STEPS.map((step) => (
-                                        <span key={step.id} className="rounded-full border border-border px-2 py-0.5 text-muted-foreground">{step.title}</span>
-                                    ))}
-                                </div>
                             </div>
+                        ) : base ? (
+                            <img src={base.url} alt="印花有误的商品图" className="max-h-full max-w-full rounded-lg object-contain" />
                         ) : (
-                            <p data-testid="printing-repair-stage-empty" className="rounded-xl border border-dashed border-border px-3 py-6 text-center text-[11px] text-muted-foreground">
-                                先完成 Step 1 与 Step 2，这里会出现可拖动的印花定位画布。
-                            </p>
+                            <RepairGuideCard video="/__cases/printing-repair/guide.mp4" title="印花修复" lines={["上传印花有误的图片，将正确的印花调整并覆盖，即可完成修复"]}>
+                                <p data-testid="printing-repair-stage-empty" className="sr-only">
+                                    Step 1 上传印花有误的商品图，Step 2 导入正确印花。先完成 Step 1 与 Step 2，这里会出现可拖动的印花定位画布。
+                                </p>
+                            </RepairGuideCard>
                         )}
-                    </StepCard>
                     </div>
                 </section>
-                <aside data-testid="tool-config-column" data-region="config" className="order-2 flex min-h-0 w-[240px] min-w-0 shrink-0 flex-col border-l border-[#ececec] bg-white">
-                    <div className="min-h-0 flex-1 overflow-y-auto p-3">
-                        <IssueList issues={[...issues, ...(submitError ? [submitError] : []), ...(notice ? [notice] : [])]} />
+                <div data-testid="tool-config-column" data-region="config" className="flex min-h-0 min-w-0 flex-col gap-[10px]">
+                    <div className="flex min-h-0 flex-1 flex-col gap-[30px] overflow-y-auto rounded-lg bg-card px-4 py-[10px]">
+                        <StepCard step={1} title="Step 1：消除错误印花" active={!base} done={Boolean(base)}>
+                            <ToolAssetInput
+                                toolId={BASE_SLOT_ID}
+                                variant="linkfox"
+                                wide
+                                compact
+                                dropLabel="拖拽 或 点击上传 需要修复的图"
+                                hint="10M以内，jpg/jpeg/png/webp"
+                                maxCount={1}
+                                constraints={UPLOAD_CONSTRAINTS}
+                                onChange={handleBaseChange}
+                            />
+                        </StepCard>
+                        <StepCard step={2} title="Step 2：导入正确印花" active={Boolean(base) && !print} done={Boolean(print)} className={base ? "" : "opacity-50"}>
+                            <ToolAssetInput
+                                toolId={PRINT_SLOT_ID}
+                                variant="linkfox"
+                                wide
+                                compact
+                                dropLabel="拖拽 或 点击上传 印花参考"
+                                hint="10M以内，jpg/jpeg/png/webp"
+                                maxCount={1}
+                                constraints={UPLOAD_CONSTRAINTS}
+                                disabled={!base}
+                                onChange={handlePrintChange}
+                            />
+                            {seg.status === "working" ? (
+                                <p className="mt-2 flex items-center gap-1.5 text-[11px] text-muted-foreground">
+                                    <Loader2 aria-hidden="true" className="size-3.5 animate-spin" />
+                                    正在分析印花分割图…
+                                </p>
+                            ) : null}
+                            {seg.status === "ready" ? (
+                                <p data-testid="printing-repair-seg" className="mt-2 text-[11px] text-muted-foreground">
+                                    分割图已生成 · 印花占比 {percent(seg.result.coverage, 1)}
+                                    {seg.result.mode === "full-rect" ? "（整图模式）" : ""}
+                                </p>
+                            ) : null}
+                            {seg.status === "failed" ? (
+                                <p className="mt-2 flex items-center gap-1.5 text-[11px] text-destructive">
+                                    <CircleAlert aria-hidden="true" className="size-3.5" />
+                                    {seg.message}
+                                </p>
+                            ) : null}
+                        </StepCard>
+                        <StepCard step={3} title="Step 3：调整印花位置" active={Boolean(base && print)} done={false}>
+                            <p className={cn("text-sm leading-[22px]", base && print ? "text-foreground" : "text-muted-foreground/60")}>
+                                在左侧画布中调整印花位置，调整完成点击【开始生成】，即可完成修复
+                            </p>
+                        </StepCard>
+                        <div className="mt-auto">
+                            <IssueList issues={allIssues} />
+                        </div>
                     </div>
-                    <div className="shrink-0 border-t border-[#ececec] p-3">
+                    <button
+                        type="button"
+                        title={allIssues.join("；") || undefined}
+                        data-testid="printing-repair-submit"
+                        onClick={() => void submit()}
+                        disabled={blocked || issues.length > 0}
+                        className={cn(edit8PrimaryButtonClass, "shrink-0 gap-1")}
+                    >
+                        {running ? <Loader2 aria-hidden="true" className="size-3.5 animate-spin" /> : <Sparkles aria-hidden="true" className="size-3.5" />}
+                        <span>{running ? "修复中…" : "立即生成"}</span>
+                    </button>
+                </div>
+                <section data-testid="printing-repair-result" data-region="results" className="flex min-h-0 min-w-0 flex-col overflow-hidden rounded-lg bg-[#edeff5]">
+                    <div role="tablist" className="flex h-[42px] shrink-0 items-center justify-between rounded-t-lg bg-card px-3">
                         <button
                             type="button"
-                            title={[...issues, ...(submitError ? [submitError] : []), ...(notice ? [notice] : [])].join("；") || undefined}
-                            data-testid="printing-repair-submit"
-                            onClick={() => void submit()}
-                            disabled={blocked || issues.length > 0}
-                            className="inline-flex w-full items-center justify-center gap-1.5 rounded-xl bg-primary px-3 py-2 text-sm font-medium text-primary-foreground disabled:opacity-50"
+                            role="tab"
+                            aria-selected={resultTab === "result"}
+                            data-testid="printing-repair-tab-result"
+                            onClick={() => setResultTab("result")}
+                            className={cn("h-[42px] border-b-2 text-sm leading-none transition", resultTab === "result" ? "border-primary text-primary" : "border-transparent text-muted-foreground hover:text-foreground")}
                         >
-                            {running ? <Loader2 aria-hidden="true" className="size-4 animate-spin" /> : <Sparkles aria-hidden="true" className="size-4" />}
-                            <span>{running ? "修复中…" : "立即生成"}</span>
+                            生成结果
                         </button>
-                        <p className="mt-1 text-center text-[11px] text-muted-foreground">限免</p>
+                        <button
+                            type="button"
+                            role="tab"
+                            aria-selected={resultTab === "history"}
+                            data-testid="printing-repair-tab-history"
+                            onClick={() => setResultTab("history")}
+                            className={cn("inline-flex items-center gap-1 text-[13px] leading-none transition", resultTab === "history" ? "text-primary" : "text-primary/80 hover:text-primary")}
+                        >
+                            <History aria-hidden="true" className="size-3.5" />
+                            历史记录
+                        </button>
                     </div>
-                </aside>
-
-                    <section data-testid="printing-repair-result" data-region="results" className="order-3 flex min-h-0 w-[300px] shrink-0 flex-col overflow-hidden border-l border-[#ececec] bg-white p-3">
-                        <div className="flex items-center gap-1 border-b border-border pb-1">
-                            <button
-                                type="button"
-                                role="tab"
-                                aria-selected={resultTab === "result"}
-                                data-testid="printing-repair-tab-result"
-                                onClick={() => setResultTab("result")}
-                                className={
-                                    resultTab === "result"
-                                        ? "rounded-md px-2 py-1 text-sm font-semibold text-foreground"
-                                        : "rounded-md px-2 py-1 text-sm text-muted-foreground transition hover:text-foreground"
-                                }
-                            >
-                                生成结果
-                            </button>
-                            <button
-                                type="button"
-                                role="tab"
-                                aria-selected={resultTab === "history"}
-                                data-testid="printing-repair-tab-history"
-                                onClick={() => setResultTab("history")}
-                                className={
-                                    resultTab === "history"
-                                        ? "rounded-md px-2 py-1 text-sm font-semibold text-foreground"
-                                        : "rounded-md px-2 py-1 text-sm text-muted-foreground transition hover:text-foreground"
-                                }
-                            >
-                                历史记录
-                            </button>
-                            {stale ? (
-                                <span data-testid="printing-repair-stale" className="ml-auto rounded-full bg-amber-100 px-2 py-0.5 text-[11px] text-amber-900">来自旧版本</span>
-                            ) : null}
-                        </div>
+                    <div className="flex min-h-0 flex-1 flex-col gap-2 overflow-y-auto px-3 pb-4 pt-2">
+                        {stale ? (
+                            <span data-testid="printing-repair-stale" className="w-fit rounded-full bg-amber-100 px-2 py-0.5 text-[11px] text-amber-900">来自旧版本</span>
+                        ) : null}
                         {resultTab === "history" ? (
-                            <p data-testid="printing-repair-history-empty" className="text-[11px] text-muted-foreground">
+                            <p data-testid="printing-repair-history-empty" className="flex flex-1 items-center justify-center text-sm text-muted-foreground">
                                 暂无历史记录
                             </p>
                         ) : view.imageUrl && base?.url ? (
@@ -1019,22 +975,20 @@ export function PrintingRepairWorkspace({ className }: PrintingRepairWorkspacePr
                                 type="button"
                                 data-testid="printing-repair-result-empty"
                                 onClick={() => setResultTab("result")}
-                                className="w-full rounded-lg px-1 py-6 text-left text-[11px] leading-5 text-muted-foreground transition hover:text-foreground"
+                                className="flex flex-1 flex-col items-center justify-center gap-2 text-sm text-muted-foreground"
                             >
+                                <Inbox aria-hidden="true" className="size-9 opacity-40" />
                                 {running ? "正在修复…" : view.status === "failed" ? view.error?.message ?? "上游没有返回结果" : "暂无生成结果图"}
                             </button>
                         )}
                         {view.status !== "succeeded" && run ? (
-                            <button type="button" data-testid="printing-repair-retry" onClick={() => void retry()} disabled={running} className="rounded-lg border border-border px-2 py-1 text-[11px] disabled:opacity-50">重试</button>
+                            <button type="button" data-testid="printing-repair-retry" onClick={() => void retry()} disabled={running} className="w-fit rounded-lg border border-border bg-card px-2 py-1 text-[11px] disabled:opacity-50">重试</button>
                         ) : null}
-                    </section>
-
-                    {run?.task ? <ToolResult task={run.task as ToolTask} toolId={PRINTING_REPAIR_TOOL_ID} title="上游返回" /> : null}
-                    {/* 原站族导航在页面最左（x≈61），本地被内容框裁掉：在参数栏底部等价还原，顺序与原站一致 */}
-                    <OrigRail items={SMART_EDIT_RAIL} active="印花修复" driver testId="printing-repair-family-rail" label="图片编辑" />
-                </div>
+                        {run?.task ? <ToolResult task={run.task as ToolTask} toolId={PRINTING_REPAIR_TOOL_ID} title="上游返回" /> : null}
+                    </div>
+                </section>
             </div>
-        </ToolShell>
+        </div>
     );
 }
 

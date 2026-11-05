@@ -1,0 +1,92 @@
+{
+  "toolId": "PRODUCT_IMAGE_SUITE",
+  "route": "/tools/ecommerce-suite/product-image-suite",
+  "fixture": "product-watch.jpg",
+  "startedAt": "2026-11-05T12:50:20.177Z",
+  "provider": {
+    "imageModel": "ccai-accept::gpt-image-2",
+    "channels": [
+      "ccai-accept",
+      "sf-accept"
+    ],
+    "baseUrl": "https://api.cc-ai.xyz",
+    "keyLen": 67,
+    "proxyEnabled": true,
+    "channelCount": 2,
+    "model": "gpt-image-2"
+  },
+  "before": {
+    "images": [],
+    "issues": []
+  },
+  "submitBefore": {
+    "id": "suite-generate",
+    "text": "开始生成",
+    "disabled": true
+  },
+  "gate": {
+    "found": true,
+    "disabled": false,
+    "text": "开始生成",
+    "countText": "A+图0张 + 主副图1张 = 共 1 张"
+  },
+  "finishedAt": "2026-11-05T12:50:59.141Z",
+  "after": {
+    "submitButtons": [
+      {
+        "id": "suite-main-sub-layout-per-layout",
+        "text": "每种排版生成一张",
+        "disabled": false
+      },
+      {
+        "id": "suite-generate",
+        "text": "开始生成",
+        "disabled": false
+      },
+      {
+        "id": "suite-tab-result",
+        "text": "生成结果",
+        "disabled": false
+      },
+      {
+        "id": "tool-history-dock-toggle",
+        "text": "2026-11-05 20:",
+        "disabled": false
+      }
+    ],
+    "issues": [],
+    "images": [
+      {
+        "src": "blob:http://127.0.0.1:3310/6266bda3-4957-4cca-9f72-0f59ef598",
+        "w": 1024,
+        "h": 744
+      },
+      {
+        "src": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABAAAAAQACAIAAA",
+        "w": 1024,
+        "h": 1024
+      },
+      {
+        "src": "blob:http://127.0.0.1:3310/a5e3bdfa-d17a-4ddf-9cbd-fd264b5b1",
+        "w": 1024,
+        "h": 1024
+      }
+    ],
+    "bodyText": "无限画布\n首页\n电商套图\n智能修图\n新模型\nAI视频\nHOT\n批量生图\n商品图设计\n中\n切换到深色主题\nv0.27.0\n商品套图\n服装套图\n白底图\nNEW\n爆款图复刻\n套图换色\n批量翻译\n高清放大\n批量抠图\n智能扩图\n免责声明\n多视角白底商品&实拍图\n从本地上传\n从作品库选择\n从商品库选择\n最多上传16张图，10M以内，384*384~4096*4096，最大宽高比5\nproduct-watch.jpg\n31 KB · 1024×744 · image/jpeg\n移除\n生成将使用第 1 张作为商品图\n清空\n商品类目\n请选择商品类目\n商品信息\nAI分析\n向导\n0 / 2500\n品牌与合规（可选）\n智能品牌基因\n未启用\n智能合规检查\n未选择词库\nLF智能模型 G-2.5 Sunburst\n2K · 中品质\n生成内容\n可同时选择\nA+图\n高级A+ 0张\n主副图\n卖点图 1张\n生成类型（多选）\n卖点图\n1\n白底图\n4\n场景图\n4\n特写图\n4\n特写白底图\n4\n选择排版\n每种排版生成一张\n无文字模式\n💡未选择排版时，将根据官方排版随机生成\n完成\n生成比例\n1:1\n3:4\n4:3\n2:3\n3:2\nA+图0张 + 主副图1张 = 共 1 张\n开始生成\n清空\n生成结果\n优秀案例\n历史记录 ↗\n生成结果\n一键做同款\n共 1 张 · 成功 1 · 失败 0 · 待定 0\n卖点图（1/1）\n卖点图 1/1\n成功\n保存\n发送画布\n下载\n历史任务\n1 条\n2026-11-05 20:50\n已完成\n基于上传的商品图生成 商品主副图（卖点图）第 1/1 张。 保持商品本体形状、颜色、材质纹理、logo 与文字标…\nccai-accept::gpt-image-2 · image · 1 个结果\n连接本地 Agent\n未连接\n点连接会自动启动本地服务、装好插件并接通，无需手动配置。\nClaude Code\n未连接\n·\nCLI · 2.1.318 (Claude Code)\n·\n直接运行\n连接\nCodex\n未连接\n·\nCLI · codex-cli 0.166.0\n·\n插件已装\n连接\nGalley\n未连"
+  },
+  "resultSrcPrefix": "data:image/png;base64,iVBORw0KGgoAAAANSU",
+  "resultCount": 1,
+  "resultSaved": true,
+  "network": [
+    {
+      "method": "POST",
+      "url": "http://127.0.0.1:23210/https://api.cc-ai.xyz/v1/images/edits",
+      "status": 200,
+      "ms": 22518,
+      "at": "2026-11-05T12:50:54.535Z"
+    }
+  ],
+  "fixtureSha256": "43ede96e7ce88509",
+  "resultSha256": "93a930f76b486678",
+  "ok": true
+}

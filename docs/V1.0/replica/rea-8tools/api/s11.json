@@ -1,0 +1,458 @@
+[
+ {
+  "id": "773",
+  "pId": "0",
+  "type": 11,
+  "status": 1,
+  "sort": 0,
+  "imageKey": "UPLOAD/MANAGE/48c47c72044e425e9accd16dd917fc3d.png",
+  "imageKeySmall": "",
+  "imageUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/48c47c72044e425e9accd16dd917fc3d.png",
+  "style": "印刷标志",
+  "styleName": "",
+  "styleEn": "a vector type Text \"##TEXT##\" , typography.",
+  "extendField": {
+   "maskDownImage": "",
+   "maskDressImage": "",
+   "maskImage": "",
+   "maskUpImage": "",
+   "modelPrompts": []
+  },
+  "showType": 0,
+  "examples": [
+   {
+    "id": "840",
+    "example": "hello world",
+    "exampleEn": "",
+    "imageMakeStyleId": 773,
+    "sort": 0,
+    "createTime": 1721717267,
+    "updateTime": 1721717267
+   }
+  ],
+  "createTime": 1698907288,
+  "updateTime": 1721717267,
+  "pid": 0,
+  "randomModelPrompt": ""
+ },
+ {
+  "id": "764",
+  "pId": "0",
+  "type": 11,
+  "status": 1,
+  "sort": 0,
+  "imageKey": "UPLOAD/MANAGE/4084dfe74acf4f6dbd8982a10582977a.png",
+  "imageKeySmall": "",
+  "imageUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/4084dfe74acf4f6dbd8982a10582977a.png",
+  "style": "花卉插画",
+  "styleName": "",
+  "styleEn": "Text \"##TEXT##\" with flowers, in colorfull madness, ultra realistic, vibrant, photo, poster, 3d render, typography, cinematic, painting, product, illustration",
+  "extendField": {},
+  "showType": 0,
+  "examples": [
+   {
+    "id": "765",
+    "example": "DON'T SAY GOOD BYE",
+    "exampleEn": "",
+    "imageMakeStyleId": 764,
+    "sort": 0,
+    "createTime": 1698907691,
+    "updateTime": 1698907691
+   }
+  ],
+  "createTime": 1698907289,
+  "updateTime": 1698907691,
+  "pid": 0,
+  "randomModelPrompt": ""
+ },
+ {
+  "id": "765",
+  "pId": "0",
+  "type": 11,
+  "status": 1,
+  "sort": 0,
+  "imageKey": "UPLOAD/MANAGE/80137ee833494a9996cd1c4190ce5cd1.png",
+  "imageKeySmall": "",
+  "imageUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/80137ee833494a9996cd1c4190ce5cd1.png",
+  "style": "极简线条",
+  "styleName": "",
+  "styleEn": "Ultra minimalist continuous line drawing of words \"##TEXT##\", colorful, typographic TEXT",
+  "extendField": {},
+  "showType": 0,
+  "examples": [
+   {
+    "id": "764",
+    "example": "good morning",
+    "exampleEn": "",
+    "imageMakeStyleId": 765,
+    "sort": 0,
+    "createTime": 1698907679,
+    "updateTime": 1698907679
+   }
+  ],
+  "createTime": 1698907289,
+  "updateTime": 1698907679,
+  "pid": 0,
+  "randomModelPrompt": ""
+ },
+ {
+  "id": "767",
+  "pId": "0",
+  "type": 11,
+  "status": 1,
+  "sort": 0,
+  "imageKey": "UPLOAD/MANAGE/9f5bb51e16ef49b0ad6ad80d7725565b.png",
+  "imageKeySmall": "",
+  "imageUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/9f5bb51e16ef49b0ad6ad80d7725565b.png",
+  "style": "悦动活力",
+  "styleName": "",
+  "styleEn": "vectorized HD words \"##TEXT##\", handmade lettering, typography,simple",
+  "extendField": {},
+  "showType": 0,
+  "examples": [
+   {
+    "id": "763",
+    "example": "Best Wishes",
+    "exampleEn": "",
+    "imageMakeStyleId": 767,
+    "sort": 0,
+    "createTime": 1698907667,
+    "updateTime": 1698907667
+   }
+  ],
+  "createTime": 1698907289,
+  "updateTime": 1698907667,
+  "pid": 0,
+  "randomModelPrompt": ""
+ },
+ {
+  "id": "770",
+  "pId": "0",
+  "type": 11,
+  "status": 1,
+  "sort": 0,
+  "imageKey": "UPLOAD/MANAGE/ba5b3f4e7fd641a2ad41b70558e57671.png",
+  "imageKeySmall": "",
+  "imageUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/ba5b3f4e7fd641a2ad41b70558e57671.png",
+  "style": "金色典雅",
+  "styleName": "",
+  "styleEn": "gold Word \"##TEXT##\" calligraphy connected, background deep orange. 4k, fashion, cinematic, poster, 3d render",
+  "extendField": {},
+  "showType": 0,
+  "examples": [
+   {
+    "id": "762",
+    "example": "Best Day",
+    "exampleEn": "",
+    "imageMakeStyleId": 770,
+    "sort": 0,
+    "createTime": 1698907655,
+    "updateTime": 1698907655
+   }
+  ],
+  "createTime": 1698907289,
+  "updateTime": 1698907655,
+  "pid": 0,
+  "randomModelPrompt": ""
+ },
+ {
+  "id": "771",
+  "pId": "0",
+  "type": 11,
+  "status": 1,
+  "sort": 0,
+  "imageKey": "UPLOAD/MANAGE/b6e3b2c7bd3f489a8f163ce2c77d8c9d.png",
+  "imageKeySmall": "",
+  "imageUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/b6e3b2c7bd3f489a8f163ce2c77d8c9d.png",
+  "style": "经典复古",
+  "styleName": "",
+  "styleEn": "t-shirt design , text: \"##TEXT##\" in background, retro design, typography",
+  "extendField": {},
+  "showType": 0,
+  "examples": [
+   {
+    "id": "761",
+    "example": "TO THE MOON",
+    "exampleEn": "",
+    "imageMakeStyleId": 771,
+    "sort": 0,
+    "createTime": 1698907643,
+    "updateTime": 1698907643
+   }
+  ],
+  "createTime": 1698907289,
+  "updateTime": 1698907643,
+  "pid": 0,
+  "randomModelPrompt": ""
+ },
+ {
+  "id": "775",
+  "pId": "0",
+  "type": 11,
+  "status": 1,
+  "sort": 0,
+  "imageKey": "UPLOAD/MANAGE/b589dd7dbb2d480ea7720f88afed717c.png",
+  "imageKeySmall": "",
+  "imageUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/b589dd7dbb2d480ea7720f88afed717c.png",
+  "style": "霓虹灯",
+  "styleName": "",
+  "styleEn": "a logo called \"##TEXT##\" , cinematic, high detail, 3d render, product, typography, photo, fashion, Neon lights",
+  "extendField": {},
+  "showType": 0,
+  "examples": [
+   {
+    "id": "760",
+    "example": "Hello world",
+    "exampleEn": "",
+    "imageMakeStyleId": 775,
+    "sort": 0,
+    "createTime": 1698907626,
+    "updateTime": 1698907626
+   }
+  ],
+  "createTime": 1698907289,
+  "updateTime": 1698907626,
+  "pid": 0,
+  "randomModelPrompt": ""
+ },
+ {
+  "id": "776",
+  "pId": "0",
+  "type": 11,
+  "status": 1,
+  "sort": 0,
+  "imageKey": "UPLOAD/MANAGE/e50b726077114d15a8a86594943e1547.png",
+  "imageKeySmall": "",
+  "imageUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/e50b726077114d15a8a86594943e1547.png",
+  "style": "徽章贴纸",
+  "styleName": "",
+  "styleEn": "Realistic design badge logo, with the words \"##TEXT##\" in a bold font.",
+  "extendField": {},
+  "showType": 0,
+  "examples": [
+   {
+    "id": "759",
+    "example": "cui the cat",
+    "exampleEn": "",
+    "imageMakeStyleId": 776,
+    "sort": 0,
+    "createTime": 1698907613,
+    "updateTime": 1698907613
+   }
+  ],
+  "createTime": 1698907289,
+  "updateTime": 1698907613,
+  "pid": 0,
+  "randomModelPrompt": ""
+ },
+ {
+  "id": "777",
+  "pId": "0",
+  "type": 11,
+  "status": 1,
+  "sort": 0,
+  "imageKey": "UPLOAD/MANAGE/8a7192f0ceec4a37aecf2f77c7d43de9.png",
+  "imageKeySmall": "",
+  "imageUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/8a7192f0ceec4a37aecf2f77c7d43de9.png",
+  "style": "Q版卡通",
+  "styleName": "",
+  "styleEn": "a sticker in style of a spray graffity writing saying \"##TEXT##\", colorful, illustration",
+  "extendField": {},
+  "showType": 0,
+  "examples": [
+   {
+    "id": "758",
+    "example": "hello world",
+    "exampleEn": "",
+    "imageMakeStyleId": 777,
+    "sort": 0,
+    "createTime": 1698907595,
+    "updateTime": 1698907595
+   }
+  ],
+  "createTime": 1698907289,
+  "updateTime": 1698907595,
+  "pid": 0,
+  "randomModelPrompt": ""
+ },
+ {
+  "id": "766",
+  "pId": "0",
+  "type": 11,
+  "status": 1,
+  "sort": 0,
+  "imageKey": "UPLOAD/MANAGE/1fcac3dc7bfb47c181da1a38d7ab9697.png",
+  "imageKeySmall": "",
+  "imageUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/1fcac3dc7bfb47c181da1a38d7ab9697.png",
+  "style": "方块像素",
+  "styleName": "",
+  "styleEn": "Pixel Art design, write with the words \"##TEXT##\"",
+  "extendField": {},
+  "showType": 0,
+  "examples": [
+   {
+    "id": "757",
+    "example": "beautiful city",
+    "exampleEn": "",
+    "imageMakeStyleId": 766,
+    "sort": 0,
+    "createTime": 1698907581,
+    "updateTime": 1698907581
+   }
+  ],
+  "createTime": 1698907288,
+  "updateTime": 1698907581,
+  "pid": 0,
+  "randomModelPrompt": ""
+ },
+ {
+  "id": "768",
+  "pId": "0",
+  "type": 11,
+  "status": 1,
+  "sort": 0,
+  "imageKey": "UPLOAD/MANAGE/00aa56ebe56644bf9c80d0af1ee42d63.png",
+  "imageKeySmall": "",
+  "imageUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/00aa56ebe56644bf9c80d0af1ee42d63.png",
+  "style": "纺织艺术",
+  "styleName": "",
+  "styleEn": "An embroidery of the name \"##TEXT##\"  in metallic thread, accented with beads and sequins, beautiful black decorative textile floral pattern accents, black semi-reflective surface,black background, photo, 3d render, poster.",
+  "extendField": {},
+  "showType": 0,
+  "examples": [
+   {
+    "id": "756",
+    "example": "have a nice day",
+    "exampleEn": "",
+    "imageMakeStyleId": 768,
+    "sort": 0,
+    "createTime": 1698907568,
+    "updateTime": 1698907568
+   }
+  ],
+  "createTime": 1698907288,
+  "updateTime": 1698907568,
+  "pid": 0,
+  "randomModelPrompt": ""
+ },
+ {
+  "id": "769",
+  "pId": "0",
+  "type": 11,
+  "status": 1,
+  "sort": 0,
+  "imageKey": "UPLOAD/MANAGE/08f1d860f3674b38928a5bcdd3466106.png",
+  "imageKeySmall": "",
+  "imageUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/08f1d860f3674b38928a5bcdd3466106.png",
+  "style": "LOGO设计",
+  "styleName": "",
+  "styleEn": "Minimalistic and elegant logo , show a handwritten text  \"##TEXT##\"  at below ,golden ratio, The design follows the golden ratio, 3d, colorful.",
+  "extendField": {},
+  "showType": 0,
+  "examples": [
+   {
+    "id": "755",
+    "example": "flower",
+    "exampleEn": "",
+    "imageMakeStyleId": 769,
+    "sort": 0,
+    "createTime": 1698907556,
+    "updateTime": 1698907556
+   }
+  ],
+  "createTime": 1698907288,
+  "updateTime": 1698907556,
+  "pid": 0,
+  "randomModelPrompt": ""
+ },
+ {
+  "id": "772",
+  "pId": "0",
+  "type": 11,
+  "status": 1,
+  "sort": 0,
+  "imageKey": "UPLOAD/MANAGE/bfcb5c9c2b8c4ff5a0a6da65967a1ba1.png",
+  "imageKeySmall": "",
+  "imageUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/bfcb5c9c2b8c4ff5a0a6da65967a1ba1.png",
+  "style": "涂鸦插图",
+  "styleName": "",
+  "styleEn": "t- shirt graphic in black t- shirt graphic in black ink color, vector, Text \"##TEXT##\" , graffitiink color, vector, Text ##TEXT## , graffiti",
+  "extendField": {},
+  "showType": 0,
+  "examples": [
+   {
+    "id": "754",
+    "example": "nice day",
+    "exampleEn": "",
+    "imageMakeStyleId": 772,
+    "sort": 0,
+    "createTime": 1698907543,
+    "updateTime": 1698907543
+   }
+  ],
+  "createTime": 1698907288,
+  "updateTime": 1698907543,
+  "pid": 0,
+  "randomModelPrompt": ""
+ },
+ {
+  "id": "774",
+  "pId": "0",
+  "type": 11,
+  "status": 1,
+  "sort": 0,
+  "imageKey": "UPLOAD/MANAGE/0668e8fb51c94b23a9f21718fee30cd0.png",
+  "imageKeySmall": "",
+  "imageUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/0668e8fb51c94b23a9f21718fee30cd0.png",
+  "style": "彩色波纹",
+  "styleName": "",
+  "styleEn": "the words \"##TEXT##\" with a very colorful and abstract background with a very large wave shape , realistic",
+  "extendField": {},
+  "showType": 0,
+  "examples": [
+   {
+    "id": "752",
+    "example": "hello world",
+    "exampleEn": "",
+    "imageMakeStyleId": 774,
+    "sort": 0,
+    "createTime": 1698907516,
+    "updateTime": 1698907516
+   }
+  ],
+  "createTime": 1698907288,
+  "updateTime": 1698907516,
+  "pid": 0,
+  "randomModelPrompt": ""
+ },
+ {
+  "id": "778",
+  "pId": "0",
+  "type": 11,
+  "status": 1,
+  "sort": 0,
+  "imageKey": "UPLOAD/MANAGE/70a5831cb51447fdb7c13f122ff88997.png",
+  "imageKeySmall": "",
+  "imageUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/70a5831cb51447fdb7c13f122ff88997.png",
+  "style": "头像设计",
+  "styleName": "",
+  "styleEn": "\"##TEXT##\" profile picture, vector ghibli design, simple line",
+  "extendField": {},
+  "showType": 0,
+  "examples": [
+   {
+    "id": "751",
+    "example": "Handsome boy",
+    "exampleEn": "",
+    "imageMakeStyleId": 778,
+    "sort": 0,
+    "createTime": 1698907492,
+    "updateTime": 1698907492
+   }
+  ],
+  "createTime": 1698907288,
+  "updateTime": 1698907492,
+  "pid": 0,
+  "randomModelPrompt": ""
+ }
+]

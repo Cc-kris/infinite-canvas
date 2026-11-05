@@ -127,6 +127,11 @@ import {
 } from "@/features/tools/registry/ai-pose-generator";
 import { OrigRail, WEAR_RAIL } from "@/components/tools/workspaces/orig-rail";
 import { ToolWorkspaceColumns } from "@/components/tools/tool-workspace-columns";
+import { ToolCaseGuide } from "@/components/tools/tool-case-guide";
+import type { ToolCase } from "@/components/tools/tool-cases";
+import { uploadCaseFile, uploadCaseFiles } from "@/features/tools/case-apply";
+import { AI_POSTURE_GUIDE_CASES, DESIGN_TRY_DEMOS } from "@/features/tools/tool-cases-data";
+import { DESIGN_GUIDE_PORTRAIT, DESIGN_ICON_FEATURE, DESIGN_OUTLINE_BUTTON, DESIGN_UPLOAD_DROPZONE, DESIGN_UPLOAD_PANEL, TryDemoStrip, UploadPanelIcon } from "@/components/tools/workspaces/design-demo";
 
 const MODEL_SLOT_ID = `${AI_POSTURE_TOOL_ID}-model`;
 const UPLOAD_CONSTRAINTS = {
@@ -168,7 +173,7 @@ function SegmentedButton({
             aria-pressed={active}
             onClick={onClick}
             className={cn(
-                "inline-flex h-7 min-w-[30px] items-center justify-center rounded-[4px] border px-2 text-[12px] leading-none transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
+                "inline-flex h-[26px] min-w-10 items-center justify-center rounded-[4px] border px-2 text-[12px] leading-none transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
                 active ? "border-primary bg-primary/10 text-primary" : "border-border text-muted-foreground hover:border-foreground/30",
             )}
         >
@@ -255,6 +260,10 @@ export function AiPostureWorkspace({ className }: AiPostureWorkspaceProps = {}) 
     /** 「上传多张图片，开始批量姿势裂变」：批量模式暂未开放，按钮禁用并在下方说明原因。 */
     /** 结果动作（存入资产 / 发送画布 / 下载）按单张结果卡片记录状态。 */
     const [resultAction, setResultAction] = useState<{ key: string; busy: boolean; tone: "ok" | "error"; message: string } | null>(null);
+    /** 做同款 / 示例图回填后同步给上传区的资产 id。 */
+    const [modelSyncIds, setModelSyncIds] = useState<string[] | undefined>(undefined);
+    const [applyingCaseId, setApplyingCaseId] = useState<string | null>(null);
+    const [demoBusy, setDemoBusy] = useState<string | null>(null);
 
     const revisionRef = useRef<number | null>(null);
     const abortRef = useRef<AbortController | null>(null);
@@ -290,6 +299,7 @@ export function AiPostureWorkspace({ className }: AiPostureWorkspaceProps = {}) 
     const handleModelChange = useCallback((_ids: string[], records: ToolAssetRecord[]) => {
         const record = records[0] ?? null;
         setModelRecord(record);
+        setModelSyncIds(record ? [record.id] : undefined);
         setWorkspace((current) =>
             setAiPostureSource(
                 current,
@@ -307,6 +317,31 @@ export function AiPostureWorkspace({ className }: AiPostureWorkspaceProps = {}) 
         // 重新上传源文件：旧结果保留在界面上，但会被标记为「来自旧版本」。
         setSubmitError(null);
     }, []);
+
+    /** 「一键做同款」/「或试试这些」：模特图真实入库后当作上传的模特图（姿势沿用自动裂变，张数取案例值）。 */
+    const applyCase = useCallback(async (item: ToolCase) => {
+        setApplyingCaseId(item.id);
+        try {
+            const record = (await uploadCaseFiles(item)).model;
+            if (!record) throw new Error("该案例缺少模特图");
+            handleModelChange([record.id], [record]);
+            const num = Number(item.apply?.outputNum);
+            if (num) setWorkspace((current) => setAiPostureOutputNum(current, num));
+        } finally {
+            setApplyingCaseId(null);
+        }
+    }, [handleModelChange]);
+    const pickDemo = useCallback(async (src: string) => {
+        setDemoBusy(src);
+        try {
+            const record = await uploadCaseFile(src, "linkfox-demo-posture");
+            handleModelChange([record.id], [record]);
+        } catch (error) {
+            setSubmitError(error instanceof Error ? error.message : String(error));
+        } finally {
+            setDemoBusy(null);
+        }
+    }, [handleModelChange]);
 
     /* ---------------- 姿势 / 标签编辑 ---------------- */
 
@@ -524,7 +559,7 @@ export function AiPostureWorkspace({ className }: AiPostureWorkspaceProps = {}) 
             ? `自定义姿势${workspace.customPose.trim() ? `：${workspace.customPose.trim().slice(0, 18)}` : ""}`
             : workspace.selectedPoseIds.length > 0
               ? `已选：${plan.poses.map((pose) => pose.label).join(" / ")}`
-              : "生成图片的模特姿势（不选则自动裂变）";
+              : "生成图片的模特姿势";
 
     return (
         <ToolShell
@@ -540,129 +575,32 @@ export function AiPostureWorkspace({ className }: AiPostureWorkspaceProps = {}) 
                     config={
                         <div className="flex h-full min-h-0 flex-col">
                             <div data-testid="ai-posture-form" className="min-h-0 flex-1 space-y-2.5 overflow-y-auto px-3 pb-3 pt-3">
-                                {/* 1. 模特姿势图：压缩为原站式上传卡（compact）+ 单行标签 + 示例 + 批量入口（仍明确禁用） */}
-                                <section data-testid="ai-posture-model-picker" className="space-y-2 rounded-[8px] border border-border/70 p-2">
-                                    <div className="flex items-center justify-between gap-2">
-                                        <span className="text-[12px] leading-5">模特姿势图</span>
-                                        <span className="flex shrink-0 items-center gap-1">
-                                            <button
-                                                type="button"
-                                                data-testid="ai-posture-image-rules"
-                                                onClick={() => setRulesOpen(true)}
-                                                className="h-6 shrink-0 rounded border border-border px-1.5 text-[11px] leading-none text-muted-foreground hover:bg-accent"
-                                            >
-                                                图片规则
-                                            </button>
-                                            <button
-                                                type="button"
-                                                data-testid="ai-posture-undo"
-                                                onClick={undo}
-                                                disabled={!historyLabel.canUndo}
-                                                className="inline-flex size-6 items-center justify-center rounded border border-border text-muted-foreground hover:bg-accent disabled:opacity-40"
-                                                aria-label="撤销姿势/标签编辑"
-                                            >
-                                                <Undo2 className="size-3" />
-                                            </button>
-                                            <button
-                                                type="button"
-                                                data-testid="ai-posture-redo"
-                                                onClick={redo}
-                                                disabled={!historyLabel.canRedo}
-                                                className="inline-flex size-6 items-center justify-center rounded border border-border text-muted-foreground hover:bg-accent disabled:opacity-40"
-                                                aria-label="重做姿势/标签编辑"
-                                            >
-                                                <Redo2 className="size-3" />
-                                            </button>
-                                        </span>
-                                    </div>
-                                    <ToolAssetInput
-                                        toolId={MODEL_SLOT_ID}
-                                        variant="linkfox"
-                                        wide
-                                        compact
-                                        maxCount={1}
-                                        constraints={UPLOAD_CONSTRAINTS}
-                                        dropLabel="拖拽/粘贴 或 上传模特姿势图"
-                                        hint="10M以内，384*384 ~ 4096*4096"
-                                        onChange={handleModelChange}
-                                    />
-                                    <div data-testid="ai-posture-tags" className="rounded-[6px] border border-border/70 px-2 py-1.5">
-                                        <p className="flex items-center gap-1 text-[11px] leading-4 text-muted-foreground">
-                                            <Tag aria-hidden="true" className="size-3" />
-                                            图片标签（可增删，≤{AI_POSTURE_TAGS_MAX}）
-                                        </p>
-                                        <div className="mt-1 flex flex-wrap gap-1">
-                                            {workspace.imageTags.length === 0 ? (
-                                                <span className="text-[11px] leading-4 text-muted-foreground">点选姿势会自动带出建议标签。</span>
-                                            ) : (
-                                                workspace.imageTags.map((tag, index) => (
-                                                    <span key={`${tag}-${index}`} data-testid={`ai-posture-tag-${index}`} className="inline-flex items-center gap-1 rounded-full border border-border bg-card px-1.5 text-[11px] leading-4">
-                                                        {tag}
-                                                        <button
-                                                            type="button"
-                                                            data-testid={`ai-posture-tag-remove-${index}`}
-                                                            onClick={() => setWorkspace((current) => removeAiPostureTag(current, index))}
-                                                            className="grid size-3.5 place-items-center rounded-full text-muted-foreground hover:bg-accent"
-                                                            aria-label={`删除标签 ${tag}`}
-                                                        >
-                                                            <X className="size-2.5" />
-                                                        </button>
-                                                    </span>
-                                                ))
-                                            )}
-                                        </div>
-                                        <div className="mt-1 flex gap-1">
-                                            <input
-                                                data-testid="ai-posture-tag-input"
-                                                value={tagDraft}
-                                                onChange={(event) => setTagDraft(event.target.value)}
-                                                onKeyDown={(event) => {
-                                                    if (event.key === "Enter") {
-                                                        event.preventDefault();
-                                                        submitTag();
-                                                    }
-                                                }}
-                                                placeholder="新增标签后回车"
-                                                className="h-7 min-w-0 flex-1 rounded border border-border bg-card px-1.5 text-[11px] outline-none focus-visible:ring-2 focus-visible:ring-ring"
-                                            />
-                                            <button
-                                                type="button"
-                                                data-testid="ai-posture-tag-add"
-                                                onClick={submitTag}
-                                                className="h-7 shrink-0 rounded border border-border px-2 text-[11px] text-muted-foreground hover:bg-accent"
-                                            >
-                                                添加
-                                            </button>
-                                        </div>
-                                    </div>
-                                    {modelRecord ? (
-                                        <p className="truncate text-[11px] leading-4 text-muted-foreground">
-                                            已选择：{modelRecord.name}
-                                            {modelRecord.width ? ` · ${modelRecord.width}×${modelRecord.height}` : ""}
-                                        </p>
-                                    ) : null}
-                                    <div className="flex flex-wrap items-center gap-1.5" data-testid="ai-posture-examples">
-                                        <span className="text-[11px] leading-4 text-muted-foreground">或试试这些</span>
-                                        {POSTURE_EXAMPLES.map((label) => (
-                                            <button
-                                                key={label}
-                                                type="button"
-                                                data-testid={`ai-posture-example-${label}`}
-                                                aria-pressed={exampleLabel === label}
-                                                onClick={() => {
-                                                    setExampleLabel(label);
-                                                    // 示例构图真实落到补充描述：与手动输入同一条 prompt 通道。
-                                                    setWorkspace((current) => setAiPosturePrompt(current, POSTURE_EXAMPLE_HINTS[label] ?? ""));
-                                                    setSubmitError(null);
-                                                }}
-                                                className={cn(
-                                                    "h-7 rounded border px-2 text-[11px] leading-none transition",
-                                                    exampleLabel === label ? "border-primary text-primary" : "border-border text-muted-foreground hover:bg-accent",
-                                                )}
-                                            >
-                                                {label}
-                                            </button>
-                                        ))}
+                                {/* 1. 原站 `_uploadPanel`：灰底卡 + 虚线上传框（右上图片规则）+「或试试这些」4 张示例；下方批量入口（本地未开放，禁用） */}
+                                <section data-testid="ai-posture-model-picker" className="space-y-[10px]">
+                                    <div className={DESIGN_UPLOAD_PANEL}>
+                                        <UploadPanelIcon />
+                                        <button
+                                            type="button"
+                                            data-testid="ai-posture-image-rules"
+                                            onClick={() => setRulesOpen(true)}
+                                            className="absolute right-[18px] top-[14px] z-30 inline-flex items-center text-[12px] leading-6 text-primary hover:opacity-80"
+                                        >
+                                            图片规则
+                                            <ChevronRight aria-hidden="true" className="size-3" />
+                                        </button>
+                                        <ToolAssetInput
+                                            toolId={MODEL_SLOT_ID}
+                                            variant="linkfox"
+                                            wide
+                                            className={DESIGN_UPLOAD_DROPZONE}
+                                            maxCount={1}
+                                            constraints={UPLOAD_CONSTRAINTS}
+                                            dropLabel="拖拽/粘贴 或 上传模特姿势图"
+                                            hint="10M以内，384*384 ~ 4096*4096"
+                                            syncIds={modelSyncIds}
+                                            onChange={handleModelChange}
+                                        />
+                                        <TryDemoStrip demos={DESIGN_TRY_DEMOS.posture} busySrc={demoBusy} disabled={run.running} onPick={(src) => void pickDemo(src)} />
                                     </div>
                                     <button
                                         type="button"
@@ -671,28 +609,46 @@ export function AiPostureWorkspace({ className }: AiPostureWorkspaceProps = {}) 
                                         aria-disabled="true"
                                         disabled
                                         title="批量裂变（一次多张模特图各自成套）尚未接入：当前提交只支持 1 张模特图，多选会被忽略"
-                                        className="h-7 w-full cursor-not-allowed rounded border border-border px-2 text-[11px] text-muted-foreground opacity-60"
+                                        className={cn(DESIGN_OUTLINE_BUTTON, "mt-0 disabled:cursor-not-allowed")}
                                     >
                                         上传多张图片，开始批量姿势裂变
+                                        <ChevronRight aria-hidden="true" className="size-3.5" />
                                     </button>
-                                    <p data-testid="ai-posture-batch-hint" className="text-[11px] leading-4 text-muted-foreground">
+                                    <p data-testid="ai-posture-batch-hint" className="sr-only">
                                         批量入口暂未开放：本页当前只支持上传 1 张模特图，按钮保持禁用。
                                     </p>
                                 </section>
 
-                                {/* 2. 姿势库默认折叠为原站式行卡：展开后才出现分类 chip 与姿势网格 */}
+                                {/* 2. 原站 Tab 行「姿势库 | 自定义」+ 行卡「选择姿势（可选）」（默认折叠，展开才出现分类与姿势网格） */}
+                                <div role="tablist" aria-label="姿势来源" className="flex h-[30px] items-center gap-[14px] border-b border-border">
+                                    {([["library", "姿势库"], ["custom", "自定义"]] as const).map(([mode, label]) => (
+                                        <button
+                                            key={mode}
+                                            type="button"
+                                            role="tab"
+                                            data-testid={`ai-posture-mode-${mode}`}
+                                            aria-pressed={workspace.mode === mode}
+                                            aria-selected={workspace.mode === mode}
+                                            onClick={() => setWorkspace((current) => setAiPostureMode(current, mode))}
+                                            className={cn(
+                                                "relative h-full text-[14px] leading-[22px] transition-colors",
+                                                workspace.mode === mode ? "text-primary after:absolute after:inset-x-0 after:bottom-0 after:h-[2px] after:bg-primary" : "text-muted-foreground hover:text-foreground",
+                                            )}
+                                        >
+                                            {label}
+                                        </button>
+                                    ))}
+                                </div>
                                 <details
                                     data-testid="ai-posture-pose-select"
-                                    className="group rounded-[8px] border border-border/70 px-2 py-1.5"
+                                    className="group -mt-[5px] rounded-[6px] border border-border bg-muted"
                                 >
-                                    <summary className="block cursor-pointer list-none" data-testid="ai-posture-pose-summary-row">
-                                        <span className="flex items-center gap-2">
-                                            <span className="grid size-8 shrink-0 place-items-center rounded-[6px] bg-muted text-muted-foreground">
-                                                <PersonStanding aria-hidden="true" className="size-4" strokeWidth={1.6} />
-                                            </span>
+                                    <summary className="block cursor-pointer list-none p-[10px] [&::-webkit-details-marker]:hidden" data-testid="ai-posture-pose-summary-row">
+                                        <span className="flex items-center gap-[10px]">
+                                            <img src={DESIGN_ICON_FEATURE} alt="" className="size-[60px] shrink-0 rounded-[4px] object-contain" draggable={false} />
                                             <span className="min-w-0 flex-1">
-                                                <span className="block text-[12px] leading-5">选择姿势（可选）</span>
-                                                <span data-testid="ai-posture-pose-summary" className="block truncate text-[11px] leading-4 text-muted-foreground">
+                                                <span className="block text-[14px] leading-[22px] text-foreground/85">选择姿势（可选）</span>
+                                                <span data-testid="ai-posture-pose-summary" className="block truncate text-[12px] leading-[22px] text-muted-foreground">
                                                     {poseSummary}
                                                 </span>
                                             </span>
@@ -702,23 +658,9 @@ export function AiPostureWorkspace({ className }: AiPostureWorkspaceProps = {}) 
                                             />
                                         </span>
                                     </summary>
-                                    <div className="mt-2 space-y-2">
+                                    <div className="space-y-2 border-t border-border bg-card p-[10px]">
                                         <div className="flex flex-wrap items-center gap-1.5">
-                                            <SegmentedButton
-                                                testId="ai-posture-mode-library"
-                                                active={workspace.mode === "library"}
-                                                onClick={() => setWorkspace((current) => setAiPostureMode(current, "library"))}
-                                            >
-                                                姿势库
-                                            </SegmentedButton>
-                                            <SegmentedButton
-                                                testId="ai-posture-mode-custom"
-                                                active={workspace.mode === "custom"}
-                                                onClick={() => setWorkspace((current) => setAiPostureMode(current, "custom"))}
-                                            >
-                                                自定义
-                                            </SegmentedButton>
-                                            <span className="ml-auto text-[11px] text-muted-foreground" data-testid="ai-posture-mode-readout">
+                                            <span className="text-[11px] text-muted-foreground" data-testid="ai-posture-mode-readout">
                                                 {workspace.mode === "library"
                                                     ? `已选 ${workspace.selectedPoseIds.length} 个姿势${workspace.selectedPoseIds.length === 0 ? "（将自动裂变）" : ""}`
                                                     : `自定义描述 ${workspace.customPose.length} 字`}
@@ -800,24 +742,88 @@ export function AiPostureWorkspace({ className }: AiPostureWorkspaceProps = {}) 
                                     </div>
                                 </details>
 
-                                {/* 3. 选择生成张数（原站 1/2/3/4 小方块）+ 裂变计划折叠 */}
-                                <section data-testid="ai-posture-output-control" className="space-y-1.5 rounded-[8px] border border-border/70 p-2">
-                                    <div className="flex items-center justify-between gap-2">
-                                        <span className="text-[12px] leading-5">选择生成张数</span>
-                                        <span className="flex gap-1">
-                                            {AI_POSTURE_OUTPUT_OPTIONS.map((value) => (
-                                                <SegmentedButton
-                                                    key={value}
-                                                    testId={`ai-posture-output-${value}`}
-                                                    active={workspace.outputNum === value}
-                                                    onClick={() => setWorkspace((current) => setAiPostureOutputNum(current, value))}
-                                                >
-                                                    {value}
-                                                </SegmentedButton>
-                                            ))}
-                                        </span>
+                                {/* 3. 选择生成张数（原站 12px 标题 + 40×26 chip） */}
+                                <section data-testid="ai-posture-output-control" className="space-y-[6px] pt-[10px]">
+                                    <p className="text-[12px] leading-[22px] text-muted-foreground">选择生成张数</p>
+                                    <div className="flex gap-[10px]">
+                                        {AI_POSTURE_OUTPUT_OPTIONS.map((value) => (
+                                            <SegmentedButton
+                                                key={value}
+                                                testId={`ai-posture-output-${value}`}
+                                                active={workspace.outputNum === value}
+                                                onClick={() => setWorkspace((current) => setAiPostureOutputNum(current, value))}
+                                            >
+                                                {value}
+                                            </SegmentedButton>
+                                        ))}
                                     </div>
-                                    <details className="rounded border border-border/70 px-2 py-1">
+                                </section>
+
+                                {/* 原站首屏没有的本地能力：图片标签 / 裂变计划 / 补充描述 / 输入快照（都是真实提交字段或只读核对），收进「更多设置」默认折叠 */}
+                                <details data-testid="ai-posture-more" className="group/more text-[12px] leading-[18px] text-muted-foreground">
+                                    <summary className="cursor-pointer list-none py-1 hover:text-foreground [&::-webkit-details-marker]:hidden">
+                                        <span className="inline-flex items-center gap-1">
+                                            <ChevronRight aria-hidden="true" className="size-3.5 transition group-open/more:rotate-90" />
+                                            更多设置
+                                        </span>
+                                    </summary>
+                                    <div className="mt-[6px] space-y-2">
+                                        <div data-testid="ai-posture-tags" className="rounded-[6px] border border-border/70 px-2 py-1.5">
+                                            <p className="flex items-center gap-1 text-[11px] leading-4 text-muted-foreground">
+                                                <Tag aria-hidden="true" className="size-3" />
+                                                图片标签（可增删，≤{AI_POSTURE_TAGS_MAX}）
+                                                <button type="button" data-testid="ai-posture-undo" onClick={undo} disabled={!historyLabel.canUndo} className="ml-auto inline-flex size-5 items-center justify-center rounded text-muted-foreground hover:bg-accent disabled:opacity-40" aria-label="撤销姿势/标签编辑">
+                                                    <Undo2 className="size-3" />
+                                                </button>
+                                                <button type="button" data-testid="ai-posture-redo" onClick={redo} disabled={!historyLabel.canRedo} className="inline-flex size-5 items-center justify-center rounded text-muted-foreground hover:bg-accent disabled:opacity-40" aria-label="重做姿势/标签编辑">
+                                                    <Redo2 className="size-3" />
+                                                </button>
+                                            </p>
+                                            <div className="mt-1 flex flex-wrap gap-1">
+                                                {workspace.imageTags.length === 0 ? (
+                                                    <span className="text-[11px] leading-4 text-muted-foreground">点选姿势会自动带出建议标签。</span>
+                                                ) : (
+                                                    workspace.imageTags.map((tag, index) => (
+                                                        <span key={`${tag}-${index}`} data-testid={`ai-posture-tag-${index}`} className="inline-flex items-center gap-1 rounded-full border border-border bg-card px-1.5 text-[11px] leading-4">
+                                                            {tag}
+                                                            <button
+                                                                type="button"
+                                                                data-testid={`ai-posture-tag-remove-${index}`}
+                                                                onClick={() => setWorkspace((current) => removeAiPostureTag(current, index))}
+                                                                className="grid size-3.5 place-items-center rounded-full text-muted-foreground hover:bg-accent"
+                                                                aria-label={`删除标签 ${tag}`}
+                                                            >
+                                                                <X className="size-2.5" />
+                                                            </button>
+                                                        </span>
+                                                    ))
+                                                )}
+                                            </div>
+                                            <div className="mt-1 flex gap-1">
+                                                <input
+                                                    data-testid="ai-posture-tag-input"
+                                                    value={tagDraft}
+                                                    onChange={(event) => setTagDraft(event.target.value)}
+                                                    onKeyDown={(event) => {
+                                                        if (event.key === "Enter") {
+                                                            event.preventDefault();
+                                                            submitTag();
+                                                        }
+                                                    }}
+                                                    placeholder="新增标签后回车"
+                                                    className="h-7 min-w-0 flex-1 rounded border border-border bg-card px-1.5 text-[11px] outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                                                />
+                                                <button
+                                                    type="button"
+                                                    data-testid="ai-posture-tag-add"
+                                                    onClick={submitTag}
+                                                    className="h-7 shrink-0 rounded border border-border px-2 text-[11px] text-muted-foreground hover:bg-accent"
+                                                >
+                                                    添加
+                                                </button>
+                                            </div>
+                                        </div>
+                                    <details className="rounded-[6px] border border-border/70 px-2 py-1">
                                         <summary className="cursor-pointer list-none text-[11px] leading-4 text-muted-foreground">裂变计划</summary>
                                         <dl data-testid="ai-posture-plan-readout" className="mt-1 space-y-0.5 text-[11px] leading-4 text-muted-foreground">
                                             <div className="flex justify-between gap-2">
@@ -840,8 +846,6 @@ export function AiPostureWorkspace({ className }: AiPostureWorkspaceProps = {}) 
                                             </div>
                                         </dl>
                                     </details>
-                                </section>
-
                                 {/* 4. 补充描述折叠（原站配置栏没有常驻大文本框） */}
                                 <details data-testid="ai-posture-prompt-panel" className="rounded-[8px] border border-border/70 px-2 py-1.5">
                                     <summary className="flex cursor-pointer list-none items-center gap-1.5">
@@ -880,10 +884,12 @@ export function AiPostureWorkspace({ className }: AiPostureWorkspaceProps = {}) 
                                         </div>
                                     </dl>
                                 </details>
+                                    </div>
+                                </details>
                             </div>
 
                             {/* 原站「立即生成」吸在配置栏底部：配置区滚动，按钮始终在首屏可见 */}
-                            <div data-testid="ai-posture-submit-bar" className="shrink-0 border-t border-border p-3">
+                            <div data-testid="ai-posture-submit-bar" className="shrink-0 px-3 pb-[10px] pt-2">
                                 <button
                                     type="button"
                                     data-testid="ai-posture-submit"
@@ -894,7 +900,7 @@ export function AiPostureWorkspace({ className }: AiPostureWorkspaceProps = {}) 
                                     {run.running ? <Loader2 aria-hidden="true" className="size-3.5 animate-spin" /> : null}
                                     立即生成
                                 </button>
-                                <p data-testid="ai-posture-submit-hint" className="mt-1 text-center text-[11px] leading-4 text-muted-foreground">
+                                <p data-testid="ai-posture-submit-hint" className="sr-only">
                                     {workspace.outputNum} 张 · {plan.poses.length} 个姿势请求
                                 </p>
                                 {issues.length > 0 ? (
@@ -920,8 +926,8 @@ export function AiPostureWorkspace({ className }: AiPostureWorkspaceProps = {}) 
                 >
                     {/* 右栏：生成结果 / 历史记录（原站两个页签，结果区独立滚动） */}
                     <section aria-label="生成结果" className="flex h-full min-h-0 flex-col">
-                        <div data-testid="ai-posture-results" className="flex h-full min-h-0 flex-col rounded-xl border border-border bg-card">
-                            <div role="tablist" aria-label="生成结果 / 历史记录" className="flex h-11 shrink-0 items-center gap-4 border-b border-border px-4">
+                        <div data-testid="ai-posture-results" className="flex h-full min-h-0 flex-col overflow-hidden rounded-[8px]">
+                            <div role="tablist" aria-label="生成结果 / 历史记录" className="flex h-11 shrink-0 items-center gap-4 border-b border-border bg-card px-4">
                                 <button
                                     type="button"
                                     role="tab"
@@ -955,18 +961,14 @@ export function AiPostureWorkspace({ className }: AiPostureWorkspaceProps = {}) 
                                 {resultTab === "results" ? (
                                     <>
                                         {resultView.status === "idle" ? (
-                                            <div data-testid="ai-posture-result-empty" className="flex min-h-[420px] flex-col items-center justify-center gap-3 rounded-[8px] border border-dashed border-border px-6 py-10 text-center">
-                                                <Sparkles aria-hidden="true" className="mx-auto size-5 text-muted-foreground" />
-                                                <p className="text-[13px] leading-6">📸 1 张模特图 → N 种姿势套图！告别重复拍摄成本，秒变视觉内容高产能手！</p>
-                                                <p className="text-[11px] leading-4 text-muted-foreground">上传模特图 → 选择参考图 → 生成结果</p>
-                                                <button
-                                                    type="button"
-                                                    data-testid="ai-posture-apply-same"
-                                                    onClick={applySameStyle}
-                                                    className="h-8 rounded-[6px] bg-primary px-5 text-[12px] font-medium text-primary-foreground transition hover:opacity-90"
-                                                >
-                                                    一键做同款
-                                                </button>
+                                            <div data-testid="ai-posture-result-empty" className="flex min-h-[calc(100dvh-160px)] pt-[42px] flex-col items-center justify-center">
+                                                <ToolCaseGuide
+                                                    className={DESIGN_GUIDE_PORTRAIT}
+                                                    title="📸 1 张模特图→N 种姿势套图！告别重复拍摄成本，秒变视觉内容高产能手！"
+                                                    cases={AI_POSTURE_GUIDE_CASES}
+                                                    applyingId={applyingCaseId}
+                                                    onApply={applyCase}
+                                                />
                                             </div>
                                         ) : (
                                             <div className="space-y-3">

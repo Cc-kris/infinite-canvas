@@ -1,0 +1,142 @@
+{
+  "toolId": "AI_DRESSING_V2",
+  "route": "/tools/product-design/ai-dressing-v2",
+  "fixture": "apparel-print.jpg",
+  "startedAt": "2026-11-05T13:03:03.213Z",
+  "provider": {
+    "imageModel": "ccai-accept::gpt-image-2",
+    "channels": [
+      "ccai-accept",
+      "sf-accept"
+    ],
+    "baseUrl": "https://api.cc-ai.xyz",
+    "keyLen": 67,
+    "proxyEnabled": true,
+    "channelCount": 2,
+    "model": "gpt-image-2"
+  },
+  "before": {
+    "images": [
+      "http://127.0.0.1:3310/__cases/ai-dressing/194037010769199513",
+      "http://127.0.0.1:3310/__cases/ai-dressing/194036973824092160",
+      "http://127.0.0.1:3310/__cases/ai-dressing/195558351515816345",
+      "http://127.0.0.1:3310/__cases/ai-dressing/195558326987945984",
+      "http://127.0.0.1:3310/__cases/ai-dressing/194037010769199513",
+      "http://127.0.0.1:3310/__cases/ai-dressing/194036973824092160",
+      "http://127.0.0.1:3310/__cases/ai-dressing/195558351515816345",
+      "http://127.0.0.1:3310/__cases/ai-dressing/195558326987945984"
+    ],
+    "issues": []
+  },
+  "submitBefore": {
+    "id": "dressing-submit",
+    "text": "立即生成",
+    "disabled": true
+  },
+  "gate": {
+    "found": true,
+    "disabled": false,
+    "text": "立即生成",
+    "countText": ""
+  },
+  "finishedAt": "2026-11-05T13:03:41.439Z",
+  "after": {
+    "submitButtons": [
+      {
+        "id": "dressing-submit",
+        "text": "立即生成",
+        "disabled": false
+      },
+      {
+        "id": "dressing-result-tab-result",
+        "text": "生成结果",
+        "disabled": false
+      }
+    ],
+    "issues": [],
+    "images": [
+      {
+        "src": "blob:http://127.0.0.1:3310/adcda874-fbba-4d4b-9900-4324badf2",
+        "w": 1024,
+        "h": 1024
+      },
+      {
+        "src": "blob:http://127.0.0.1:3310/adcda874-fbba-4d4b-9900-4324badf2",
+        "w": 1024,
+        "h": 1024
+      },
+      {
+        "src": "http://127.0.0.1:3310/__cases/ai-dressing/194037010769199513",
+        "w": 512,
+        "h": 683
+      },
+      {
+        "src": "http://127.0.0.1:3310/__cases/ai-dressing/194036973824092160",
+        "w": 512,
+        "h": 683
+      },
+      {
+        "src": "http://127.0.0.1:3310/__cases/ai-dressing/195558351515816345",
+        "w": 512,
+        "h": 512
+      },
+      {
+        "src": "http://127.0.0.1:3310/__cases/ai-dressing/195558326987945984",
+        "w": 512,
+        "h": 682
+      },
+      {
+        "src": "blob:http://127.0.0.1:3310/04b2b8d1-dd2f-4373-9a4e-ecffa750a",
+        "w": 720,
+        "h": 960
+      },
+      {
+        "src": "blob:http://127.0.0.1:3310/04b2b8d1-dd2f-4373-9a4e-ecffa750a",
+        "w": 720,
+        "h": 960
+      },
+      {
+        "src": "blob:http://127.0.0.1:3310/04b2b8d1-dd2f-4373-9a4e-ecffa750a",
+        "w": 720,
+        "h": 960
+      },
+      {
+        "src": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABAAAAAQACAIAAA",
+        "w": 1024,
+        "h": 1024
+      },
+      {
+        "src": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABAAAAAQACAIAAA",
+        "w": 1024,
+        "h": 1024
+      },
+      {
+        "src": "blob:http://127.0.0.1:3310/2d811bc8-c7a2-41b8-bc41-38349c3a1",
+        "w": 1024,
+        "h": 1024
+      }
+    ],
+    "bodyText": "无限画布\n首页\n电商套图\n智能修图\n新模型\nAI视频\nHOT\n批量生图\n商品图设计\n中\n切换到深色主题\nv0.27.0\n真人换模特\n模特换场景\nAI穿衣\n姿势裂变\nAI穿戴\n历史记录\n企业功能\n批量生图\n即将下架\n人台换模特\n下架\n免责声明\nAI 穿衣\n上下装衣服\n连体衣服\n图片规则\n上传多件衣服，开始批量穿衣\n拖拽/粘贴 或 上传上装正面图\n从本地上传\n从作品库选择\n从商品库选择\n10M以内，384*384 ~ 4096*4096\napparel-print.jpg\n86 KB · 1024×1024 · image/jpeg\n移除\n涂抹需贴合的部位，或点「整件」\n整件\n撤销\n重做\n清空\n反向\n扩边\n拖拽/粘贴 或 上传下装正面图\n从本地上传\n从作品库选择\n从商品库选择\n10M以内，384*384 ~ 4096*4096\n或试试这些\n选择穿衣模特\n穿衣的部位与模特参考\n选择参考图\n从本地上传\n从作品库选择\n10M以内，384*384 ~ 4096*4096\nmodel-portrait.png\n800 KB · 720×960 · image/png\n移除\n选择生成张数\n1\n2\n3\n4\n高级参数\n立即生成\n生成结果\n优秀案例\n历史记录\n生成结果\n已完成\n共 1 个结果 · 图片 1\n下载\n存入资产\n发送画布\n查看本次输入快照\n上下装衣服｜[AI_DRESSING v2/pose:WGaxmRBpArV1uXv7Qd-0M/tab:upper-lower]\n已生成 1 张\n历史任务\n1 条\n2026-11-05 21:03\n已完成\n[AI_DRESSING v2/pose:WGaxmRBpArV1uXv7Qd-0M/tab:upper-low…\nccai-accept::gpt-image-2 · image · 1 个结果\n连接本地 Agent\n未连接\n点连接会自动启动本地服务、装好插件并接通，无需手动配置。\nClaude Code\n未连接\n·\nCLI · 2.1.318 (Claude Code)\n·\n直接运行\n连接\nCodex\n未连接\n·\nCLI · codex-"
+  },
+  "resultSrcPrefix": "data:image/png;base64,iVBORw0KGgoAAAANSU",
+  "resultCount": 1,
+  "resultSaved": true,
+  "network": [
+    {
+      "method": "POST",
+      "url": "http://127.0.0.1:23210/https://api.cc-ai.xyz/v1/images/edits",
+      "status": 200,
+      "ms": 24035,
+      "at": "2026-11-05T13:03:38.961Z"
+    }
+  ],
+  "fixtureSha256": "5c80a61e9271298d",
+  "resultSha256": "4bf50f248e9ee226",
+  "ok": true,
+  "download": {
+    "file": "download-ai-dressing-v2-result-1.png",
+    "bytes": 2141837,
+    "sha256": "4bf50f248e9ee226",
+    "differsFromSource": true
+  }
+}

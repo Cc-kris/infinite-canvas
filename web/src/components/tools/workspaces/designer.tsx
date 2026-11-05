@@ -8,6 +8,7 @@ import { useToolReplayStore } from "@/stores/use-tool-replay-store";
 import { useToolTaskStore } from "@/stores/use-tool-task-store";
 import { cn } from "@/lib/utils";
 import { ToolWorkspaceColumns } from "@/components/tools/tool-workspace-columns";
+import { DesignerHome, type DesignerHomeTemplate } from "@/components/tools/workspaces/designer-home";
 
 import {
     addDesignerLayer,
@@ -15,6 +16,7 @@ import {
     canRedoDesigner,
     canUndoDesigner,
     commitDesignerDocument,
+    createBaseImageLayer,
     createDesignerDocument,
     createDesignerHistory,
     createDesignerId,
@@ -106,17 +108,6 @@ export type DesignerWorkspaceProps = {
     onDone?: (payload: ReturnType<typeof buildDesignerDonePayload>, document: DesignerDocument) => void;
 };
 
-const DESIGNER_HOME_TABS = ["创建设计", "我的设计", "我的模板", "团队空间"];
-
-/** 本地内置模板：只有尺寸/背景/标题文案等真实可生成的版式常量，不伪造图片模板内容。 */
-const DESIGNER_HOME_TEMPLATES = [
-    { id: "square-warm", title: "新品上市", width: 1200, height: 1200, background: "#f5d0c5", textColor: "#7c2d12" },
-    { id: "vertical-cool", title: "限时特惠", width: 1080, height: 1440, background: "#cfe3f7", textColor: "#1e3a8a" },
-    { id: "horizontal-fresh", title: "大牌品质", width: 1440, height: 1080, background: "#d8e8d4", textColor: "#14532d" },
-    { id: "square-dark", title: "精选好物", width: 1200, height: 1200, background: "#292524", textColor: "#fafaf9" },
-    { id: "vertical-soft", title: "自然之选", width: 1080, height: 1440, background: "#f3e0c8", textColor: "#713f12" },
-] as const;
-
 export function DesignerWorkspace({
     open = true,
     designerId,
@@ -145,6 +136,8 @@ export function DesignerWorkspace({
     const [closePrompt, setClosePrompt] = useState("");
     const [uploadNote, setUploadNote] = useState("");
     const [uploading, setUploading] = useState(false);
+    /** 原站进入设计器先到首页；宿主带图进来（imageUrl）时直接进编辑器。 */
+    const [homeOpen, setHomeOpen] = useState(!imageUrl);
     const fileRef = useRef<HTMLInputElement | null>(null);
 
     /** 任务持久化端口：每次导出都写进共享任务 store（localStorage 落盘），历史坞/刷新后回放都读它。 */
@@ -216,6 +209,7 @@ export function DesignerWorkspace({
         setResult(undefined);
         setResultFingerprint(undefined);
         setBaselineFingerprint(designerDocumentFingerprint(replayed));
+        setHomeOpen(false);
         setReplayNotice(
             `已回放历史任务 ${request.taskId.slice(0, 12)} 的画布（${replayed.layers.length} 个图层 · ${replayed.width}×${replayed.height}）`,
         );
@@ -418,116 +412,73 @@ export function DesignerWorkspace({
     }, [document.designerId, onClose]);
 
     const notice = designerResultNotice(stage, error, { stale });
-    const [homeOpen, setHomeOpen] = useState(false);
-    const [homeTab, setHomeTab] = useState(DESIGNER_HOME_TABS[0]);
-    const startFromHome = useCallback(
-        (file?: File | null) => {
-            if (!file) return;
-            setHomeOpen(false);
-            void handleUploadLayer(file);
-        },
-        [handleUploadLayer],
-    );
 
-    /** 点击模板即按其尺寸/底色/标题文案生成真实新文档，替换当前编辑（含清空旧导出结果）。 */
-    const startFromTemplate = useCallback((template: (typeof DESIGNER_HOME_TEMPLATES)[number]) => {
-        const textWidth = Math.round(template.width * 0.6);
-        const next = createDesignerDocument({
-            width: template.width,
-            height: template.height,
-            background: template.background,
-            layers: [
-                createTextLayer(0, {
-                    name: "商品标题",
-                    text: template.title,
-                    color: template.textColor,
-                    fontSize: Math.round(template.width * 0.09),
-                    x: Math.round((template.width - textWidth) / 2),
-                    y: Math.round(template.height * 0.42),
-                    width: textWidth,
-                    height: Math.round(template.width * 0.12),
-                }),
-            ],
-        });
+    /** 首页新建：替换当前唯一的本地草稿（含清空旧导出结果），然后进入编辑器。 */
+    const startDocument = useCallback((next: DesignerDocument, selectId?: string) => {
         setHistory(createDesignerHistory(next));
-        setSelectedId(next.layers[0]?.id);
+        setSelectedId(selectId);
         setStage("idle");
         setError(undefined);
         setResult(undefined);
         setResultFingerprint(undefined);
         setBaselineFingerprint(designerDocumentFingerprint(next));
+        setRestoreNotice("");
         setHomeOpen(false);
     }, []);
 
+    /** 上传商品图：真实入库后建新文档，商品图按原比例居中放进画布（长边占 80%）。 */
+    const startFromUpload = useCallback(
+        async (file: File) => {
+            setUploading(true);
+            setUploadNote("");
+            try {
+                const record = await uploadToolAsset(file, { name: file.name });
+                const size = record.width && record.height ? { width: record.width, height: record.height } : await new Promise<{ width: number; height: number }>((resolve) => {
+                    const probe = new Image();
+                    probe.onload = () => resolve({ width: probe.naturalWidth || 1, height: probe.naturalHeight || 1 });
+                    probe.onerror = () => resolve({ width: 1, height: 1 });
+                    probe.src = record.url;
+                });
+                const base = createDesignerDocument();
+                const fit = (Math.min(base.width, base.height) * 0.8) / Math.max(size.width, size.height);
+                const width = Math.round(size.width * fit);
+                const height = Math.round(size.height * fit);
+                const layerId = `layer-image-${record.id.slice(0, 6)}`;
+                startDocument(
+                    { ...base, layers: [{ id: layerId, kind: "image", name: record.name || "商品图", src: record.url, x: Math.round((base.width - width) / 2), y: Math.round((base.height - height) / 2), width, height, rotation: 0, opacity: 1, visible: true, locked: false }] },
+                    layerId,
+                );
+            } catch (uploadError) {
+                setUploadNote(uploadError instanceof Error ? `上传失败：${uploadError.message}` : "上传失败：未知原因");
+            } finally {
+                setUploading(false);
+            }
+        },
+        [startDocument],
+    );
+
+    /** 点模板：按模板宽高比建新文档，模板图作为铺满画布的底图图层（原站模板的分层文字无法取得，文字已在图内）。 */
+    const startFromTemplate = useCallback(
+        (template: DesignerHomeTemplate) => {
+            const next = createDesignerDocument({ width: template.width, height: template.height });
+            next.layers = [{ ...createBaseImageLayer(template.src, next.width, next.height), name: `模板底图（${template.type}）` }];
+            startDocument(next, "layer-base");
+        },
+        [startDocument],
+    );
+
     return (
-        <section aria-label="商品图设计器" className="flex min-h-[640px] flex-col overflow-hidden rounded-lg border border-border bg-background text-sm text-foreground">
-            {/* 原站 designer-home：创建设计 / 上传商品图 / 或试试这些 / 模板推荐（1:1 文案） */}
-            <div className={cn("min-h-0 flex-1 flex-col gap-3 overflow-y-auto p-3", homeOpen ? "flex" : "hidden")} data-testid="designer-home">
-                <div className="flex flex-wrap items-center justify-between gap-2">
-                    <div role="tablist" aria-label="设计入口" className="flex flex-wrap items-center gap-1.5" data-testid="designer-home-tabs">
-                        {DESIGNER_HOME_TABS.map((tab) => (
-                            <button
-                                key={tab}
-                                type="button"
-                                role="tab"
-                                aria-selected={homeTab === tab}
-                                onClick={() => setHomeTab(tab)}
-                                className={cn("h-8 rounded-md border px-3 text-xs", homeTab === tab ? "border-primary bg-primary/10 text-primary" : "border-border text-muted-foreground hover:bg-accent")}
-                            >
-                                {tab}
-                            </button>
-                        ))}
-                    </div>
-                    {document.layers.length || imageUrl ? (
-                        <button type="button" onClick={() => setHomeOpen(false)} className="h-8 rounded-md border border-border px-3 text-xs text-muted-foreground hover:bg-accent" data-testid="designer-home-back">
-                            返回编辑器
-                        </button>
-                    ) : null}
-                </div>
-
-                {homeTab === "创建设计" ? (
-                    <>
-                        <label className="flex h-[188px] w-full cursor-pointer flex-col items-center justify-center gap-1.5 rounded-lg border border-dashed border-border bg-card text-center hover:border-primary/60" data-testid="designer-home-upload">
-                            <ImagePlus className="h-6 w-6 text-muted-foreground" />
-                            <span className="text-sm font-medium">上传商品图</span>
-                            <span className="text-[11px] text-muted-foreground">或拖拽图片到此处</span>
-                            <input type="file" accept="image/png,image/jpeg,image/webp" className="hidden" onChange={(event) => startFromHome(event.target.files?.[0])} />
-                        </label>
-
-                        <h3 className="text-xs font-medium">模板推荐</h3>
-                        <div className="grid grid-cols-5 gap-2" data-testid="designer-home-templates" style={{ gridAutoRows: 150 }}>
-                            {DESIGNER_HOME_TEMPLATES.map((template) => (
-                                <button
-                                    key={template.id}
-                                    type="button"
-                                    onClick={() => startFromTemplate(template)}
-                                    title={`以此版式创建新设计（${template.width}×${template.height}）`}
-                                    aria-label={`以模板「${template.title}」创建新设计`}
-                                    className="group flex h-[150px] flex-col overflow-hidden rounded-md border border-border hover:border-primary/50"
-                                >
-                                    <span className="flex flex-1 items-center justify-center text-base font-medium" style={{ background: template.background, color: template.textColor }}>
-                                        {template.title}
-                                    </span>
-                                    <span className="block bg-card px-1 py-1 text-[10px] tabular-nums text-muted-foreground">
-                                        {template.width}×{template.height}
-                                    </span>
-                                </button>
-                            ))}
-                        </div>
-                    </>
-                ) : null}
-
-                {homeTab === "我的设计" ? (
-                    <p className="flex flex-1 items-center justify-center text-xs text-muted-foreground" data-testid="designer-home-my-designs">
-                        本地草稿仅一份，在编辑器中自动保存；关闭此页重新打开即可继续上次的编辑。
-                    </p>
-                ) : null}
-
-                {homeTab === "我的模板" ? <p className="flex flex-1 items-center justify-center text-xs text-muted-foreground">暂无已保存的自定义模板；上方「创建设计」里是内置的本地版式。</p> : null}
-
-                {homeTab === "团队空间" ? <p className="flex flex-1 items-center justify-center text-xs text-muted-foreground">暂无团队空间，本地模式不支持多人协作。</p> : null}
-            </div>
-
+        <section aria-label="商品图设计器" className={cn("flex flex-col overflow-hidden text-sm text-foreground", homeOpen ? "h-full min-h-[640px]" : "min-h-[640px] rounded-lg border border-border bg-background")}>
+            {homeOpen ? (
+                <DesignerHome
+                    busy={uploading}
+                    note={uploadNote}
+                    draft={document.layers.length ? { layers: document.layers.length, width: document.width, height: document.height } : null}
+                    onUpload={(file) => void startFromUpload(file)}
+                    onTemplate={startFromTemplate}
+                    onResume={() => setHomeOpen(false)}
+                />
+            ) : null}
             <div className={cn("min-h-0 flex-1 flex-col", homeOpen ? "hidden" : "flex")} data-testid="designer-editor">
             {/* 顶部：撤销 / 重做 / 预览 / 完成 */}
             <header className="flex flex-wrap items-center justify-between gap-2 border-b border-border bg-card px-3 py-2">

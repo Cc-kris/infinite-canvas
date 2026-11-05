@@ -43,14 +43,25 @@ async function renderWorkspace(): Promise<string> {
 }
 
 describe("一键换色工作台渲染", () => {
-    test("三列骨架与原站分区齐全：收藏色卡/选择颜色/颜色参考图/去除杂色/细调/光影/边缘/生成/结果标签", async () => {
+    test("三列骨架与原站分区齐全：收藏色卡/选择颜色/颜色参考图/去除杂色/细调/光影/边缘/色彩平衡/曲线/生成/结果标签", async () => {
         const html = await renderWorkspace();
-        for (const text of ["收藏色卡", "选择颜色", "颜色参考图", "去除杂色", "细调颜色效果", "光影优化", "边缘优化", "立即生成", "生成结果", "优秀案例", "历史记录"]) {
+        for (const text of ["收藏色卡", "选择颜色", "颜色参考图", "去除杂色", "细调颜色效果", "光影优化", "边缘优化", "色彩平衡", "曲线", "立即生成", "生成结果", "优秀案例", "历史记录"]) {
             expect(html).toContain(text);
         }
-        for (const testId of ["change-color-workspace", "change-color-config", "change-color-results", "change-color-swatches", "change-color-adjustment", "change-color-submit", "change-color-snapshot"]) {
+        for (const testId of ["change-color-workspace", "change-color-config", "change-color-results", "change-color-swatches", "change-color-adjustment", "change-color-submit", "change-color-hex"]) {
             expect(html).toContain(testId);
         }
+        // 原站分区顺序：收藏色卡 → 选择颜色 → 细调颜色效果 → 光影优化 → 边缘优化 → 色彩平衡 → 曲线
+        const order = ["change-color-swatches", "change-color-color", "change-color-adjust\"", "change-color-light\"", "change-color-edge-section", "change-color-balance-section", "change-color-curve-section"].map((id) => html.indexOf(id));
+        expect(order.every((index, i) => index > 0 && (i === 0 || index > order[i - 1]))).toBe(true);
+        // 「选择颜色」一行 5 个圆形预设色点（原站色值）+ 取色器；原站没有的提示卡与空态「本次提交」不渲染
+        for (const hex of ["#EDB393", "#90CCAF", "#88ACEC", "#9285F4", "#EB88A0"]) expect(html).toContain(`data-swatch="${hex}"`);
+        expect(html).toContain("change-color-picker");
+        expect(html).not.toContain("change-color-tip");
+        expect(html).not.toContain('data-testid="change-color-snapshot"');
+        // 空态示例为原站引导视频
+        expect(html).toContain("/__cases/change-color/guide-changecolor.mp4");
+        for (const text of ["一键快速上色", "从本地上传", "从作品库选择", "从商品库选择", "批量一键换色"]) expect(html).toContain(text);
     });
 
     test("没有原图时不渲染涂选画布与前后对比，画布区如实给出上传入口与空态", async () => {

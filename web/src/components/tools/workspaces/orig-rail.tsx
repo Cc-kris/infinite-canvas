@@ -277,13 +277,15 @@ export function OrigRail({ items, active, testId = "orig-rail", label = "同类�
                     );
                 }
                 if (item.kind === "flat") {
+                    const current = item.label === active;
                     return (
                         <span
                             key={`f-${item.label}-${index}`}
-                            aria-disabled="true"
-                            title="原站入口，本地未开通"
+                            aria-disabled={current ? undefined : "true"}
+                            aria-current={current ? "page" : undefined}
+                            title={current ? undefined : "原站入口，本地未开通"}
                             className={cn(
-                                "cursor-not-allowed text-muted-foreground/70",
+                                current ? (sidebar ? "bg-[#f3edff] font-medium text-[#723cf9]" : "border-primary bg-primary/10 text-foreground") : "cursor-not-allowed text-muted-foreground/70",
                                 sidebar ? "flex h-9 items-center gap-2.5 rounded px-2 text-[13px] leading-5" : "rounded-md border border-dashed border-border px-2 py-[3px] text-[11px] leading-4",
                             )}
                         >

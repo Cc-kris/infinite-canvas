@@ -1,0 +1,93 @@
+{
+  "toolId": "SCENE_TRANSFER",
+  "route": "/tools/product-design/scene-transfer",
+  "fixture": "product-watch.jpg",
+  "startedAt": "2026-11-05T15:41:01.180Z",
+  "provider": {
+    "imageModel": "ccai-accept::gpt-image-2",
+    "channels": [
+      "ccai-accept",
+      "sf-accept"
+    ],
+    "baseUrl": "https://api.cc-ai.xyz",
+    "keyLen": 67,
+    "proxyEnabled": true,
+    "channelCount": 2,
+    "model": "gpt-image-2"
+  },
+  "before": {
+    "images": [],
+    "issues": []
+  },
+  "submitBefore": {
+    "id": "scene-transfer-submit",
+    "text": "立即生成",
+    "disabled": true
+  },
+  "gate": {
+    "found": true,
+    "disabled": false,
+    "text": "立即生成",
+    "countText": ""
+  },
+  "finishedAt": "2026-11-05T15:41:43.808Z",
+  "after": {
+    "submitButtons": [
+      {
+        "id": "scene-transfer-submit",
+        "text": "立即生成",
+        "disabled": false
+      },
+      {
+        "id": "",
+        "text": "生成结果",
+        "disabled": false
+      }
+    ],
+    "issues": [],
+    "images": [
+      {
+        "src": "blob:http://127.0.0.1:3310/51b66ea2-b15f-468b-8c82-0e923b3d4",
+        "w": 1024,
+        "h": 744
+      },
+      {
+        "src": "blob:http://127.0.0.1:3310/90dfcef1-ac76-41f1-8ae0-5e0b3321a",
+        "w": 1024,
+        "h": 683
+      },
+      {
+        "src": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABAAAAAQACAIAAA",
+        "w": 1024,
+        "h": 1024
+      },
+      {
+        "src": "blob:http://127.0.0.1:3310/5a08e218-8c1d-4b7b-8738-0db82f617",
+        "w": 1024,
+        "h": 1024
+      }
+    ],
+    "bodyText": "无限画布\n首页\n电商套图\n智能修图\n新模型\nAI视频\nHOT\n批量生图\n商品图设计\n中\n切换到深色主题\nv0.27.0\n商品图\n我的商品\n场景参考图\n商品替换\n场景裂变\n手持商品\n企业功能\n免责声明\n上传商品图\n从作品库选择\n从商品库选择\n图片格式：支持jpg、jpeg、png、webp格式，10M以内，最小：32*32，最大：8192*8192\nproduct-watch.jpg\n31 KB · 1024×744 · image/jpeg\n移除\n上传风格图\n从作品库选择\n从商品库选择\n图片格式：支持jpg、jpeg、png、webp格式，10M以内，最小：32*32，最大：8192*8192\nhand-product.jpg\n96 KB · 1024×683 · image/jpeg\n移除\n风格相似度：\n0.65\n立即生成\n生成结果\n历史记录\n场景迁移结果\n已完成\n共 1 个结果 · 图片 1\n下载\n存入资产\n发送画布\n历史任务\n1 条\n2026-11-05 23:41\n已完成\n把商品迁移到参考场景风格中，输出一张可直接商用的商品场景图。 第 1 张参考图 = 商品图：保留商品本体的形态、…\nccai-accept::gpt-image-2 · image · 1 个结果\n连接本地 Agent\n未连接\n点连接会自动启动本地服务、装好插件并接通，无需手动配置。\nClaude Code\n未连接\n·\nCLI · 2.1.318 (Claude Code)\n·\n直接运行\n连接\nCodex\n未连接\n·\nCLI · codex-cli 0.166.0\n·\n插件已装\n连接\nGalley\n未连接\n·\nCLI + 桌面版 · galley 0.6.4\n连接"
+  },
+  "resultSrcPrefix": "data:image/png;base64,iVBORw0KGgoAAAANSU",
+  "resultCount": 1,
+  "resultSaved": true,
+  "network": [
+    {
+      "method": "POST",
+      "url": "http://127.0.0.1:23210/https://api.cc-ai.xyz/v1/images/edits",
+      "status": 200,
+      "ms": 29076,
+      "at": "2026-11-05T15:41:41.398Z"
+    }
+  ],
+  "fixtureSha256": "43ede96e7ce88509",
+  "resultSha256": "2de9c83c2e0204b9",
+  "ok": true,
+  "download": {
+    "file": "download-scene-transfer-result-1.png",
+    "bytes": 2482555,
+    "sha256": "2de9c83c2e0204b9",
+    "differsFromSource": true
+  }
+}

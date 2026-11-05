@@ -12,7 +12,7 @@ import { ToolWorkspaceColumns } from "@/components/tools/tool-workspace-columns"
  * - 结果区页签：生成结果 / 优秀案例 / 历史记录（历史读真实落盘任务，不伪造）。
  */
 import { useCallback, useEffect, useMemo, useRef, useState, type PointerEvent as ReactPointerEvent } from "react";
-import { ChevronRight, UserRound } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 
 import { ToolAssetInput } from "@/components/tools/tool-asset-input";
 import { ToolCases, type ToolCase } from "@/components/tools/tool-cases";
@@ -56,7 +56,10 @@ import {
 } from "@/features/tools/registry/ai-dressing-v2";
 import type { MaskPoint, MaskStroke } from "@/features/tools/registry/area-repair";
 import { uploadCaseFiles } from "@/features/tools/case-apply";
-import { AI_DRESSING_V2_CASES } from "@/features/tools/tool-cases-data";
+import { AI_DRESSING_GUIDE_CASES, AI_DRESSING_V2_CASES, DESIGN_TRY_DEMOS } from "@/features/tools/tool-cases-data";
+import { uploadCaseFile } from "@/features/tools/case-apply";
+import { ToolCaseGuide } from "@/components/tools/tool-case-guide";
+import { DESIGN_GUIDE_PORTRAIT, DESIGN_ICON_FEATURE, DESIGN_OUTLINE_BUTTON, DESIGN_UPLOAD_DROPZONE, DesignRowCard, TryDemoStrip, UploadPanelIcon } from "@/components/tools/workspaces/design-demo";
 import type { ToolAssetRecord } from "@/services/api/tools/assets";
 import { toolAssetLibraryItemsFromAssets } from "@/services/api/tools/assets";
 import { useAssetStore, type ImageAsset, type VideoAsset } from "@/stores/use-asset-store";
@@ -435,6 +438,23 @@ export function DressingWorkspace({ className }: DressingWorkspaceProps) {
         }
     }, [flushDraft, patchDraft, values]);
 
+    /** 「或试试这些」：示例平铺图真实入库，按原站 alt（上装/下装）落到对应槽位。 */
+    const [demoBusy, setDemoBusy] = useState<string | null>(null);
+    const pickDemo = useCallback(async (src: string, index: number) => {
+        const slot: GarmentSlotKey = DESIGN_TRY_DEMOS.dressing[index]?.slot === "lower" ? "down" : "upper";
+        setDemoBusy(src);
+        setError(null);
+        try {
+            const record = await uploadCaseFile(src, `linkfox-demo-dressing-${slot}`);
+            setValues((prev) => switchTab(prev, "upper-lower"));
+            onGarmentChange(slot)([record.id], [record]);
+        } catch (cause) {
+            setError(cause instanceof Error ? cause.message : String(cause));
+        } finally {
+            setDemoBusy(null);
+        }
+    }, [onGarmentChange]);
+
     const submit = useCallback(async () => {
         const first = firstDressingError(validateDressing(values));
         if (first) {
@@ -568,8 +588,8 @@ export function DressingWorkspace({ className }: DressingWorkspaceProps) {
                                 </div>
                                 <ImageRulesPopover kind="dressing" testId="dressing-image-rules" />
                             </div>
-                            <p className="text-[11px] leading-4 text-muted-foreground">上传多件衣服，开始批量穿衣</p>
-                            {/* 原站配置栏是单列 268：上装卡 / 下装卡（或连体卡）纵排 */}
+                            {/* 原站 `_uploadCon`：灰底卡内上装 / 下装（或连体）虚线上传框纵排 + 「或试试这些」 */}
+                            <div className="space-y-[10px] rounded-[8px] bg-muted px-[10px] pb-[10px] pt-[10px]">
                             {slots.map((slot) => {
                                 const meta = slotMeta(slot);
                                 const garment = values.garments[slot];
@@ -577,10 +597,11 @@ export function DressingWorkspace({ className }: DressingWorkspaceProps) {
                                 return (
                                     <div
                                         key={slot}
-                                        className="space-y-1.5 rounded-[8px] border border-border/70 p-2"
+                                        className="relative space-y-1.5"
                                         data-field={slot}
                                         data-testid={`dressing-garment-${slot}`}
                                     >
+                                        <UploadPanelIcon className="top-[17px]" />
                                         <ToolAssetInput
                                             toolId={AI_DRESSING_V2_TOOL_ID}
                                             draftSlot={`garment-${slot}`}
@@ -590,7 +611,7 @@ export function DressingWorkspace({ className }: DressingWorkspaceProps) {
                                             library={library}
                                             variant="linkfox"
                                             wide
-                                            compact
+                                            className={cn(DESIGN_UPLOAD_DROPZONE, "[&_[data-testid=tool-asset-dropzone]]:pt-[67px]")}
                                             dropLabel={`拖拽/粘贴 或 上传${meta.label}正面图`}
                                             hint="10M以内，384*384 ~ 4096*4096"
                                             onChange={onGarmentChange(slot)}
@@ -704,57 +725,24 @@ export function DressingWorkspace({ className }: DressingWorkspaceProps) {
                                     </div>
                                 );
                             })}
-                            {/* 原站「或试试这些」：四张服装图缩略，点击即真实做同款 */}
-                            <div className="space-y-1.5">
-                                <p className="text-[11px] leading-4 text-muted-foreground">或试试这些</p>
-                                <div className="grid grid-cols-4 gap-2">
-                                    {AI_DRESSING_V2_CASES.slice(0, 4).map((item) => (
-                                        <button
-                                            key={item.id}
-                                            type="button"
-                                            onClick={() => void applyCase(item)}
-                                            disabled={applyingCaseId !== null}
-                                            className="overflow-hidden rounded-[4px] border border-border/70 transition hover:border-primary/60 disabled:opacity-50"
-                                        >
-                                            <img
-                                                src={item.params[0]?.src ?? item.result}
-                                                alt={`优秀案例-${item.id}`}
-                                                className="aspect-square w-full object-cover"
-                                            />
-                                        </button>
-                                    ))}
-                                </div>
+                            <TryDemoStrip demos={DESIGN_TRY_DEMOS.dressing} busySrc={demoBusy} disabled={busy} onPick={(src, index) => void pickDemo(src, index)} />
                             </div>
+                            {/* 原站「上传多件衣服，开始批量穿衣」入口：本地批量穿衣走模特参考多选（下方行卡），这里不伪造批量服装上传 */}
+                            <button type="button" disabled title="本地暂不支持批量上传多件服装；可在「选择穿衣模特」里一次选多张模特参考批量生成" className={cn(DESIGN_OUTLINE_BUTTON, "disabled:cursor-not-allowed")}>
+                                上传多件衣服，开始批量穿衣
+                                <ArrowRight aria-hidden="true" className="size-3.5" />
+                            </button>
                             {/* 原站「选择穿衣模特」行卡：缩略图 + 标题 + 副标题 + 展开箭头 */}
-                            <div className="rounded-[8px] border border-dashed border-border px-2 py-2" data-field="poses" data-testid="dressing-model-card">
-                                <button
-                                    type="button"
-                                    aria-expanded={modelOpen}
+                            <div data-field="poses" data-testid="dressing-model-card">
+                                <DesignRowCard
+                                    image={values.poses[0]?.imageUrl ?? DESIGN_ICON_FEATURE}
+                                    imageClassName="h-[79px] w-[59px] object-contain"
+                                    title="选择穿衣模特"
+                                    desc="穿衣的部位与模特参考"
+                                    open={modelOpen}
                                     onClick={() => setModelOpen((open) => !open)}
-                                    className="flex w-full items-center gap-2 text-left"
                                 >
-                                    {values.poses[0] ? (
-                                        <img
-                                            src={values.poses[0].imageUrl}
-                                            alt={values.poses[0].name || "模特参考"}
-                                            className="size-9 shrink-0 rounded-[6px] object-cover"
-                                        />
-                                    ) : (
-                                        <span className="grid size-9 shrink-0 place-items-center rounded-[6px] bg-muted text-muted-foreground">
-                                            <UserRound aria-hidden="true" className="size-4" strokeWidth={1.6} />
-                                        </span>
-                                    )}
-                                    <span className="min-w-0 flex-1">
-                                        <span className="block text-[12px] leading-5">选择穿衣模特</span>
-                                        <span className="block truncate text-[11px] leading-4 text-muted-foreground">穿衣的部位与模特参考</span>
-                                    </span>
-                                    <ChevronRight
-                                        aria-hidden="true"
-                                        className={cn("size-4 shrink-0 text-muted-foreground transition-transform", modelOpen && "rotate-90")}
-                                    />
-                                </button>
-                                {modelOpen ? (
-                                    <div className="mt-2 space-y-2">
+                                    <div className="space-y-2">
                                         <ToolAssetInput
                                             toolId={AI_DRESSING_V2_TOOL_ID}
                                             draftSlot="poses"
@@ -790,11 +778,11 @@ export function DressingWorkspace({ className }: DressingWorkspaceProps) {
                                         ) : null}
                                         {poseIssue ? <p className="text-[11px] leading-4 text-destructive">{poseIssue.message}</p> : null}
                                     </div>
-                                ) : null}
+                                </DesignRowCard>
                             </div>
                             {/* 原站「选择生成张数」1/2/3/4，默认选中 4 */}
-                            <div className="space-y-1.5">
-                                <p className="text-[12px] leading-5">选择生成张数</p>
+                            <div className="space-y-1.5 pt-[10px]">
+                                <p className="text-[12px] leading-[22px] text-muted-foreground">选择生成张数</p>
                                 <div className="flex gap-2">
                                     {DRESSING_OUTPUT_OPTIONS.map((num) => (
                                         <button
@@ -806,7 +794,7 @@ export function DressingWorkspace({ className }: DressingWorkspaceProps) {
                                             className={cn(
                                                 "h-[26px] w-10 rounded-[4px] border text-[12px] leading-none transition",
                                                 values.outputNum === num
-                                                    ? "border-primary text-primary"
+                                                    ? "border-primary bg-primary/10 text-primary"
                                                     : "border-border text-muted-foreground hover:border-foreground/30",
                                             )}
                                         >
@@ -948,35 +936,18 @@ export function DressingWorkspace({ className }: DressingWorkspaceProps) {
                                         <ToolResult task={panelTask} toolId={AI_DRESSING_V2_TOOL_ID} title="生成结果" projectTitle="AI穿衣结果" />
                                     </div>
                                 ) : (
-                                    <div
-                                        className="flex min-h-[420px] flex-col items-center justify-center gap-4 rounded-[8px] border border-dashed border-border px-6 py-10 text-center"
-                                        data-testid="dressing-result-empty"
-                                    >
-                                        <p className="text-[13px] leading-6">
-                                            {busy ? "正在生成，结果会出现在这里…" : "无需约模特，上传服装正面图，一键生成衣服上身效果~"}
-                                        </p>
-                                        <div className="grid w-full max-w-[560px] grid-cols-4 gap-2">
-                                            {AI_DRESSING_V2_CASES.slice(0, 4).map((item) => (
-                                                <button
-                                                    key={item.id}
-                                                    type="button"
-                                                    onClick={() => void applyCase(item)}
-                                                    disabled={applyingCaseId !== null}
-                                                    className="overflow-hidden rounded-[6px] border border-border/70 transition hover:border-primary/60 disabled:opacity-50"
-                                                >
-                                                    <img src={item.result} alt={`优秀案例-${item.id}`} className="aspect-[3/4] w-full object-cover" />
-                                                </button>
-                                            ))}
-                                        </div>
-                                        <button
-                                            type="button"
-                                            data-testid="dressing-apply-case"
-                                            disabled={applyingCaseId !== null}
-                                            onClick={() => void applyCase(AI_DRESSING_V2_CASES[0])}
-                                            className="h-8 rounded-[6px] bg-primary px-5 text-[12px] font-medium text-primary-foreground transition disabled:opacity-50"
-                                        >
-                                            {applyingCaseId ? "正在套用…" : "一键做同款"}
-                                        </button>
+                                    <div className="flex min-h-[calc(100dvh-160px)] pt-[42px] flex-col items-center justify-center" data-testid="dressing-result-empty">
+                                        {busy ? (
+                                            <p className="text-[13px] leading-6 text-muted-foreground">正在生成，结果会出现在这里…</p>
+                                        ) : (
+                                            <ToolCaseGuide
+                                                className={DESIGN_GUIDE_PORTRAIT}
+                                                title="无需约模特，上传服装正面图，一键生成衣服上身效果~"
+                                                cases={AI_DRESSING_GUIDE_CASES}
+                                                applyingId={applyingCaseId}
+                                                onApply={applyCase}
+                                            />
+                                        )}
                                     </div>
                                 )}
                                 {outcomes.length > 0 ? (

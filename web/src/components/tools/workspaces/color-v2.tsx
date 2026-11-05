@@ -4,6 +4,7 @@ import { ImagePlus, Loader2, Sparkles } from "lucide-react";
 import { ToolAssetInput } from "@/components/tools/tool-asset-input";
 import { ToolWorkspaceColumns } from "@/components/tools/tool-workspace-columns";
 import { ToolCases } from "@/components/tools/tool-cases";
+import { ToolCaseGuide } from "@/components/tools/tool-case-guide";
 import type { ToolCase } from "@/components/tools/tool-cases";
 import { ToolTaskHistory } from "@/components/tools/tool-task-history";
 import { uploadCaseFiles } from "@/features/tools/case-apply";
@@ -495,20 +496,7 @@ export function ColorV2Workspace({ className }: ColorV2WorkspaceProps = {}) {
 
     const [colorMode, setColorMode] = useState<"extract" | "history">("extract");
     const [rightTab, setRightTab] = useState<"result" | "cases" | "history">("result");
-    /** 结果区分页（原站空态案例条底部的 1~6 页码）。 */
-    const [resultPage, setResultPage] = useState(1);
     const qualityLevel = getQualityLevel(values.quality);
-
-    /** 空态案例分页：每页 3 张（原站 1908 视口一行 3 张）；页码数 = 真实页数，不摆不存在的页码。 */
-    const emptyCasePages = useMemo(() => {
-        const pageSize = 3;
-        if (!COLOR_V2_CASES.length) return [[]] as ToolCase[][];
-        const pages: ToolCase[][] = [];
-        for (let index = 0; index < COLOR_V2_CASES.length; index += pageSize) {
-            pages.push(COLOR_V2_CASES.slice(index, index + pageSize));
-        }
-        return pages;
-    }, []);
 
     /* ---------------- 刷新恢复：落盘任务 → 结果区（G1 遗留缺口） ----------------
      * 结果区原先只认本会话 state，刷新后 outcomes 归零 → 结果空白、三动作点不到。
@@ -1028,7 +1016,7 @@ export function ColorV2Workspace({ className }: ColorV2WorkspaceProps = {}) {
             >
 
             {/* 右：结果区（原站 42px 白条 tab + #f4f6f8 内容） */}
-            <section id="results" data-region="results" className="flex min-w-0 flex-1 flex-col overflow-hidden rounded-lg bg-card">
+            <section id="results" data-region="results" className="flex min-w-0 flex-1 flex-col overflow-hidden rounded-lg">
                 <div role="tablist" aria-label="右栏页签" className="flex h-[42px] shrink-0 items-center gap-[14px] bg-card px-3">
                     {(
                         [
@@ -1280,79 +1268,15 @@ export function ColorV2Workspace({ className }: ColorV2WorkspaceProps = {}) {
                                 ) : null}
                             </div>
                         ) : (
-                            <div className="mx-auto flex h-full w-full max-w-[1000px] flex-col justify-center px-6 py-4">
-                                <div className="flex items-center gap-3">
-                                    <span className="text-[14px] leading-5 text-foreground">第一步：上传 1 张需要换色的商品图片</span>
-                                </div>
-                                <h2 className="mt-1 text-center text-[20px] font-medium leading-7 text-foreground">上传整套商品图，批量生成多色变体结果</h2>
-                                <div className="mt-5 flex justify-center">
-                                    <div className="flex w-[474px] max-w-full flex-col items-center rounded-lg bg-card px-10 py-8 text-center">
-                                        <div className="flex size-16 items-center justify-center rounded-[18px] bg-primary/10">
-                                            <ImagePlus className="size-7 text-primary" aria-hidden="true" />
-                                        </div>
-                                        <p data-testid="color-v2-empty-hint" className="mt-3 text-[12px] leading-5 text-muted-foreground">
-                                            上传商品图
-                                        </p>
-                                        <div className="mt-4 w-[210px] text-left">
-                                            <ToolAssetInput
-                                                toolId={TOOL_ID}
-                                                maxCount={COLOR_V2_MAX_SUITE_IMAGES}
-                                                constraints={SUITE_CONSTRAINTS}
-                                                disabled={busy}
-                                                variant="linkfox"
-                                                title=""
-                                                uploadLabel="从本地上传"
-                                                onChange={(ids, records) => {
-                                                    setSuiteIds(ids);
-                                                    setSuiteRecords(records);
-                                                }}
-                                            />
-                                        </div>
-                                    </div>
-                                </div>
-                                {/* 原站「生成结果」空态：横向滚动案例条（上传商品图 → 生成结果 → 一键做同款）。
-                                    卡片用的是本仓库落盘的真实换色案例，做同款走真实素材入库 + 回填，不是摆设。 */}
-                                <div
-                                    data-testid="color-v2-empty-demo"
-                                    className="mt-6 overflow-x-auto pb-1"
-                                >
-                                    {/* 内层 w-max + mx-auto：内容比容器窄时居中，比容器宽时从第一张开始滚。
-                                        直接在外层用 justify-center 会把溢出的首卡推到可视区左侧外面，点不到。 */}
-                                    <div className="mx-auto flex w-max gap-4">
-                                    {(emptyCasePages[Math.min(resultPage, emptyCasePages.length) - 1] ?? []).map((item) => (
-                                        <div
-                                            key={item.id}
-                                            data-testid="color-v2-empty-demo-card"
-                                            data-case-id={item.id}
-                                            className="flex w-[320px] shrink-0 flex-col items-center gap-3 rounded-lg border border-border bg-card px-4 py-4"
-                                        >
-                                            <div className="flex w-full flex-col gap-2">
-                                                <div className="flex items-center gap-2">
-                                                    <span className="inline-flex h-7 shrink-0 items-center rounded-[13px] bg-foreground/60 px-3 text-[14px] leading-4 text-background">
-                                                        上传商品图
-                                                    </span>
-                                                    {item.params[0] ? (
-                                                        <img src={item.params[0].src} alt={item.params[0].label} className="size-9 rounded-md object-cover" />
-                                                    ) : null}
-                                                </div>
-                                                <span className="inline-flex h-7 w-fit items-center rounded-[13px] bg-foreground/60 px-3 text-[14px] leading-4 text-background">
-                                                    生成结果
-                                                </span>
-                                                <img src={item.result} alt={`优秀案例-${item.id}`} className="h-[132px] w-full rounded-md object-cover" />
-                                            </div>
-                                            <button
-                                                type="button"
-                                                data-testid="color-v2-empty-demo-cta"
-                                                disabled={applyingCaseId === item.id}
-                                                onClick={() => void applyCase(item)}
-                                                className="inline-flex h-10 w-[110px] items-center justify-center rounded-lg border border-border text-[16px] leading-none text-foreground transition hover:border-primary hover:text-primary disabled:opacity-50"
-                                            >
-                                                {applyingCaseId === item.id ? "正在应用…" : "一键做同款"}
-                                            </button>
-                                        </div>
-                                    ))}
-                                    </div>
-                                </div>
+                            /* 原站空态：单张 958 宽案例轮播，卡内标题 + 上传商品图 → 生成结果（352×352 居中）+ 一键做同款，前 6 个案例。 */
+                            <div data-testid="color-v2-empty-demo" className="flex min-h-full items-center justify-center px-4 py-4">
+                                <ToolCaseGuide
+                                    title="上传整套商品图，批量生成多色变体结果"
+                                    cases={COLOR_V2_CASES.slice(0, 6).map((item) => ({ ...item, params: item.params.map((param) => ({ ...param, label: "上传商品图" })) }))}
+                                    onApply={applyCase}
+                                    applyingId={applyingCaseId}
+                                    className="[&_[data-testid=tool-case-guide-card]>div]:justify-center [&_figure]:max-w-[352px] [&_figure]:flex-none [&_figure]:basis-[352px]"
+                                />
                             </div>
                         )
                     ) : rightTab === "cases" ? (
@@ -1377,28 +1301,6 @@ export function ColorV2Workspace({ className }: ColorV2WorkspaceProps = {}) {
                         </div>
                     )}
                 </div>
-                {rightTab === "result" && !showResults && emptyCasePages.length > 1 ? (
-                    <div data-testid="color-v2-pagination" className="flex h-[42px] shrink-0 items-center justify-center gap-2 border-t border-border text-[12px]">
-                        {emptyCasePages.map((_, index) => {
-                            const page = index + 1;
-                            return (
-                                <button
-                                    key={page}
-                                    type="button"
-                                    aria-label={`查看第 ${page} 页案例`}
-                                    aria-current={resultPage === page}
-                                    onClick={() => setResultPage(page)}
-                                    className={cn(
-                                        "size-6 rounded-md leading-none transition",
-                                        resultPage === page ? "bg-primary/10 text-primary" : "text-muted-foreground hover:text-foreground",
-                                    )}
-                                >
-                                    {page}
-                                </button>
-                            );
-                        })}
-                    </div>
-                ) : null}
             </section>
             </ToolWorkspaceColumns>
         </div>

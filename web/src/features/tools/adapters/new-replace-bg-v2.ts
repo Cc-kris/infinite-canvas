@@ -237,7 +237,7 @@ export function assertNewReplaceBgInput(
     if (input.toolId !== NEW_REPLACE_BG_V2_TOOL_ID) problems.push(`toolId 必须是 ${NEW_REPLACE_BG_V2_TOOL_ID}`);
     if (input.size !== `${output.width}x${output.height}`) problems.push(`画布尺寸未进入请求（期望 ${output.width}x${output.height}，实际 ${input.size ?? "空"}）`);
     if (input.count !== output.count) problems.push(`结果数量未进入请求（期望 ${output.count}，实际 ${input.count ?? "空"}）`);
-    if (Number(fields.weight) !== Number(values.weight.toFixed(2))) problems.push("融合强度未进入请求");
+    if (Number(fields.weight) !== Number(values.weight.toFixed(2))) problems.push("背景相似度未进入请求");
     if (String(fields.sceneType ?? "") !== values.sceneType) problems.push("场景类型未进入请求");
     if (!canvas) problems.push("canvasData 未序列化");
     else {
@@ -259,7 +259,7 @@ export function assertNewReplaceBgInput(
     if (!references.some((item) => item.id === values.goodsAssetId)) problems.push("商品图未作为参考图提交");
 
     const prompt = input.prompt ?? "";
-    if (!prompt.includes(`${Math.round(values.weight * 100)}%`)) problems.push("提示词未携带融合强度");
+    if (!prompt.includes(`${Math.round(values.weight * 100)}%`)) problems.push("提示词未携带背景相似度");
     if (!prompt.includes(sceneType(values.sceneType).label)) problems.push("提示词未携带场景类型");
     if (!prompt.includes(`${output.width}×${output.height}`)) problems.push("提示词未携带画布尺寸");
     if (!prompt.includes(`共 ${output.count} 张`)) problems.push("提示词未携带结果数量");

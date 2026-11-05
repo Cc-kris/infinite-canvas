@@ -2,9 +2,13 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 import { ToolAssetInput } from "@/components/tools/tool-asset-input";
 import { ToolWorkspaceColumns } from "@/components/tools/tool-workspace-columns";
-import type { ToolCase } from "@/components/tools/tool-cases";
+import { ToolCases, type ToolCase } from "@/components/tools/tool-cases";
+import { ToolCaseGuide } from "@/components/tools/tool-case-guide";
 import { uploadCaseFiles } from "@/features/tools/case-apply";
 import { DRESS_SET_CASES } from "@/features/tools/suite6-cases-data";
+import { DRESS_SET_SAMPLES } from "@/features/tools/tool-cases-data";
+import { History } from "lucide-react";
+import { cn } from "@/lib/utils";
 import { saveResultItemToAssets, sendResultItemToCanvas } from "@/components/tools/tool-result-actions";
 import { ToolResult } from "@/components/tools/tool-result";
 import {
@@ -171,7 +175,8 @@ export function DressSuiteWorkspace({ toolId = DRESS_WEAR_SET_TOOL_ID }: DressSu
     const [notice, setNotice] = useState("");
     const [applyingCaseId, setApplyingCaseId] = useState<string | null>(null);
     const [caseApplyNonce, setCaseApplyNonce] = useState(0);
-    const [tipDismissed, setTipDismissed] = useState(false);
+    /* 原站结果区页签：生成结果 / 优秀案例（历史是右端外链，本地无对应页，只保留入口位）。 */
+    const [rightTab, setRightTab] = useState<"result" | "cases">("result");
     const [guideOpen, setGuideOpen] = useState(false);
     const [moreRatios, setMoreRatios] = useState(false);
     const [running, setRunning] = useState(false);
@@ -182,18 +187,19 @@ export function DressSuiteWorkspace({ toolId = DRESS_WEAR_SET_TOOL_ID }: DressSu
     const patchDraft = useToolDraftStore((state) => state.patch);
     const draftRevision = useToolDraftStore((state) => state.drafts[toolId]?.revision ?? null);
 
-    /* 「优秀案例」做同款：真实案例原图入库后回填商品图 */
+    /* 「优秀案例」/「或试试这些」做同款：真实素材入库后回填服装图（示例组是一组多图，全部进上传区） */
     const applyCase = useCallback(async (item: ToolCase) => {
         setApplyingCaseId(item.id);
         setNotice("");
         try {
             const assets = await uploadCaseFiles(item);
-            const record = assets.source as ToolAssetRecord | undefined;
-            if (!record) throw new Error("该案例缺少可用的服装图");
-            setRecords([record]);
-            patchDraft(toolId, { assetIds: [record.id] });
+            const picked = ([] as (ToolAssetRecord | undefined)[]).concat(assets.source as ToolAssetRecord | ToolAssetRecord[] | undefined).filter((entry): entry is ToolAssetRecord => !!entry);
+            if (!picked.length) throw new Error("该案例缺少可用的服装图");
+            setRecords(picked);
+            patchDraft(toolId, { assetIds: picked.map((record) => record.id) });
             setCaseApplyNonce((value) => value + 1);
-            setNotice(`已套用案例服装图：${record.name}`);
+            setRightTab("result");
+            setNotice(`已套用案例服装图：${picked.map((record) => record.name).join("、")}`);
         } catch (error) {
             setNotice(error instanceof Error ? error.message : "案例套用失败");
         } finally {
@@ -482,23 +488,7 @@ export function DressSuiteWorkspace({ toolId = DRESS_WEAR_SET_TOOL_ID }: DressSu
                     <div data-testid="dress-suite-config-scroll" className="min-h-0 flex-1 space-y-3 overflow-y-auto pr-1">
                     <>
                 {/* 左列：素材与商品设定 */}
-                    <Section title="多角度服装图&搭配图" hint={`最多上传${DRESS_UPLOAD_LIMITS.maxFiles}张图，10M以内，384*384~4096*4096`}>
-                        {!tipDismissed ? (
-                            <div className="flex items-start justify-between gap-3 rounded-[6px] bg-accent px-3 py-2 text-[11px] leading-4 text-muted-foreground">
-                                <div className="flex min-w-0 items-center gap-2">
-                                    <span className="flex items-center gap-1 tabular-nums">
-                                        <span className="rounded-full bg-primary px-1.5 text-primary-foreground">1</span>
-                                        <span className="rounded-full border border-border px-1.5">2</span>
-                                        <span className="rounded-full border border-border px-1.5">3</span>
-                                    </span>
-                                    <span>第一步：上传服装配饰及细节图</span>
-                                </div>
-                                <button type="button" className="shrink-0 text-primary hover:underline" onClick={() => setTipDismissed(true)}>
-                                    我是高手，不再提醒
-                                </button>
-                            </div>
-                        ) : null}
-                        <p className="text-sm font-medium">上传服装图</p>
+                    <Section title="多角度服装图&搭配图">
                         <ToolAssetInput
                             key={`case-${caseApplyNonce}`}
                             toolId={toolId}
@@ -518,6 +508,36 @@ export function DressSuiteWorkspace({ toolId = DRESS_WEAR_SET_TOOL_ID }: DressSu
                                 maxHeight: DRESS_UPLOAD_LIMITS.maxSide,
                             }}
                             title="上传服装图"
+                            uploadLabel="从本地上传"
+                            hint={
+                                <>
+                                    <span className="block text-center">最多上传{DRESS_UPLOAD_LIMITS.maxFiles}张图，10M以内，384*384~4096*4096</span>
+                                    {/* 原站上传卡内「或试试这些」：分隔线 + 示例组（一组多图，点击即整组载入为服装图）。 */}
+                                    <div className="mt-2.5 cursor-default" data-testid="dress-suite-try-demo" onClick={(event) => event.stopPropagation()}>
+                                        <div className="mb-[5px] flex items-center gap-2">
+                                            <span className="h-px flex-1 bg-border" />
+                                            <span className="text-[12px] font-medium leading-[15px] text-muted-foreground/60">或试试这些</span>
+                                            <span className="h-px flex-1 bg-border" />
+                                        </div>
+                                        <div className="flex justify-center gap-2">
+                                            {DRESS_SET_SAMPLES.map((group) => (
+                                                <button
+                                                    key={group.id}
+                                                    type="button"
+                                                    data-testid={`dress-suite-sample-${group.id}`}
+                                                    disabled={running || applyingCaseId !== null}
+                                                    onClick={() => void applyCase(group)}
+                                                    className="flex gap-1 rounded-[6px] border border-black/[0.08] bg-card p-1 transition hover:border-primary disabled:opacity-50 dark:border-white/10"
+                                                >
+                                                    {group.params.map((param) => (
+                                                        <img key={param.src} src={param.src} alt={param.label} className="size-10 rounded-[4px] object-cover" draggable={false} />
+                                                    ))}
+                                                </button>
+                                            ))}
+                                        </div>
+                                    </div>
+                                </>
+                            }
                             onChange={(_assetIds, next) => setRecords(next)}
                         />
                         {records.length > 1 ? (
@@ -547,25 +567,6 @@ export function DressSuiteWorkspace({ toolId = DRESS_WEAR_SET_TOOL_ID }: DressSu
                         ) : null}
                         {errorFor("references") ? <p className="text-xs text-destructive">{errorFor("references")?.message}</p> : null}
                     </Section>
-
-                    <Section title="优秀案例">
-                        <p className="mb-1.5 text-[11px] font-medium text-muted-foreground">或试试这些</p>
-                        <div className="grid grid-cols-4 gap-1.5">
-                            {DRESS_SET_CASES.slice(0, 4).map((item) => (
-                                <button
-                                    key={item.id}
-                                    type="button"
-                                    disabled={applyingCaseId === item.id}
-                                    onClick={() => void applyCase(item)}
-                                    className="group relative aspect-square overflow-hidden rounded-md border border-border/70 disabled:opacity-60"
-                                >
-                                    <img src={item.result} alt="" className="size-full object-cover" />
-                                    <span className="absolute inset-x-0 bottom-0 bg-foreground/60 py-0.5 text-center text-[10px] leading-4 text-background">一键做同款</span>
-                                </button>
-                            ))}
-                        </div>
-                    </Section>
-
 
                 {/* 中列：商品信息与模型 */}
                     <Section title="商品信息">
@@ -889,18 +890,52 @@ export function DressSuiteWorkspace({ toolId = DRESS_WEAR_SET_TOOL_ID }: DressSu
                     </div>
                 )}
             >
-                    <Section title="生成结果" hint="按场景分组；组内可单张下载，失败组可单独重试。">
+                <div className="flex min-h-0 min-w-0 flex-1 flex-col">
+                    {/* 原站结果区页签栏 42px：「生成结果 / 优秀案例」+ 右端「历史记录」外链位（本地无独立历史页，不伪造跳转）。 */}
+                    <div className="flex h-[42px] shrink-0 items-center gap-4 rounded-t-lg border-b border-border bg-card px-3" role="tablist">
+                        {(
+                            [
+                                ["result", "生成结果"],
+                                ["cases", "优秀案例"],
+                            ] as const
+                        ).map(([id, label]) => (
+                            <button
+                                key={id}
+                                type="button"
+                                role="tab"
+                                aria-selected={rightTab === id}
+                                data-testid={`dress-suite-tab-${id}`}
+                                onClick={() => setRightTab(id)}
+                                className={cn("h-[42px] border-b-2 text-[14px] leading-[22px] transition-colors", rightTab === id ? "border-primary font-medium text-primary" : "border-transparent text-muted-foreground hover:text-foreground")}
+                            >
+                                {label}
+                            </button>
+                        ))}
+                        <span data-testid="dress-suite-history-link" title="本地未接入历史记录页" className="ml-auto inline-flex items-center gap-1 text-[12px] leading-none text-foreground/50">
+                            <History className="size-3" aria-hidden />
+                            历史记录
+                        </span>
+                    </div>
+                    <div className="min-h-0 flex-1 overflow-y-auto px-6 py-4">
+                    {rightTab === "cases" ? (
+                        <ToolCases cases={DRESS_SET_CASES} onApply={applyCase} applyingId={applyingCaseId} />
+                    ) : !toolTasks.length ? (
+                        /* 原站空态：958 宽案例轮播（上传服装图 → 生成结果 → 一键做同款），前 3 个案例。 */
+                        <div className="flex min-h-full items-center justify-center" data-testid="dress-suite-empty">
+                            <ToolCaseGuide
+                                cases={DRESS_SET_CASES.slice(0, 3).map((item) => ({ ...item, params: item.params.map((param) => ({ ...param, label: "上传服装图" })) }))}
+                                onApply={applyCase}
+                                applyingId={applyingCaseId}
+                            />
+                        </div>
+                    ) : (
+                        <>
                         {/* 标准结果面板：reload 后由 storageKey 复原的真实字节直接渲染，三动作走统一链路。 */}
                         {panelTask ? (
                             <div data-testid="dress-result-panel" className="mb-3">
                                 <ToolResult task={panelTask} toolId={toolId} title="生成结果" projectTitle="服装套图结果" />
                             </div>
                         ) : null}
-                        {!toolTasks.length ? (
-                            <div className="rounded-md border border-dashed border-border px-4 py-10 text-center text-xs text-muted-foreground" data-testid="dress-suite-empty">
-                                还没有结果。上传服装图并选择场景后点击「开始生成」。
-                            </div>
-                        ) : (
                             <div className="flex flex-col gap-3">
                                 <div className="flex flex-wrap gap-3 text-xs text-muted-foreground" data-testid="dress-suite-summary">
                                     <span>
@@ -962,8 +997,10 @@ export function DressSuiteWorkspace({ toolId = DRESS_WEAR_SET_TOOL_ID }: DressSu
                                 ))}
                                 {untagged.length ? <p className="text-[11px] text-muted-foreground">另有 {untagged.length} 个任务未带场景标签（历史数据），已保留不丢弃。</p> : null}
                             </div>
-                        )}
-                    </Section>
+                        </>
+                    )}
+                    </div>
+                </div>
             </ToolWorkspaceColumns>
         </div>
     );

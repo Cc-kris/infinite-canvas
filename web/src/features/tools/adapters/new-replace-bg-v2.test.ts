@@ -5,7 +5,6 @@ import type { ToolTask } from "@/services/api/tools/task-machine";
 import {
     DEFAULT_NEW_REPLACE_BG_VALUES,
     NEW_REPLACE_BG_V2_TOOL_ID,
-    SCENE_LAYER_IDS,
     SCENE_TEMPLATES,
     buildNewReplaceBgPrompt,
     buildSceneCanvasData,
@@ -40,6 +39,14 @@ import {
     type NewReplaceBgGatewayLike,
     type SceneSourceAsset,
 } from "./new-replace-bg-v2";
+import {
+    PRODUCT_BG_CATEGORIES,
+    PRODUCT_BG_EXAMPLES,
+    PRODUCT_BG_SCENES,
+    filterProductBgScenes,
+    productBgModeOf,
+    productBgScenePrompt,
+} from "../registry/new-replace-bg-v2-scenes";
 
 const values = (patch: Partial<NewReplaceBgValues> = {}): NewReplaceBgValues => ({
     ...DEFAULT_NEW_REPLACE_BG_VALUES,
@@ -103,10 +110,11 @@ function gatewayOf(sequence: ToolTask[]): NewReplaceBgGatewayLike & { inputs: un
 }
 
 describe("商品图 · 输出规格与结果网格", () => {
-    test("比例 → 画布尺寸，数量只允许 1/2/4", () => {
+    test("比例 → 画布尺寸，生成张数只允许原站 1/2/3/4", () => {
         expect(computeSceneOutput("1:1", 1)).toMatchObject({ width: 1024, height: 1024, count: 1, legal: true });
         expect(computeSceneOutput("9:16", 4)).toMatchObject({ width: 720, height: 1280, count: 4, legal: true });
-        const bad = computeSceneOutput("5:2", 3);
+        expect(computeSceneOutput("1:1", 3)).toMatchObject({ count: 3, legal: true });
+        const bad = computeSceneOutput("5:2", 5);
         expect(bad.legal).toBe(false);
         expect(bad.issues.map((item) => item.code)).toEqual(["ratio-invalid", "count-invalid"]);
         expect(bad.ratio).toBe("1:1");
@@ -129,21 +137,23 @@ describe("商品图 · 输出规格与结果网格", () => {
 });
 
 describe("商品图 · 图层状态与草稿容错", () => {
-    test("越界数值夹取：强度对齐 0.05 步长，变换回到合法区间", () => {
-        expect(clampSceneWeight(1.7)).toBe(1);
-        expect(clampSceneWeight(-3)).toBe(0);
+    test("越界数值夹取：背景相似度限定原站 0.5–0.9 并对齐 0.05 步长，变换回到合法区间", () => {
+        expect(clampSceneWeight(1.7)).toBe(0.9);
+        expect(clampSceneWeight(-3)).toBe(0.5);
         expect(clampSceneWeight("0.63")).toBe(0.65);
         expect(clampSceneWeight(undefined)).toBe(0.7);
         const clamp = clampSceneTransform({ x: -2, y: 9, scale: 50, rotate: -500 });
         expect(clamp).toEqual({ x: 0, y: 1, scale: 2, rotate: -180 });
-        expect(sceneWeightLabel(0.7)).toBe("偏强（更融入场景）");
+        expect(sceneWeightLabel(0.5)).toBe("弱相似");
+        expect(sceneWeightLabel(0.7)).toBe("强相似");
+        expect(sceneWeightLabel(0.9)).toBe("不变");
     });
 
     test("草稿读取：非法枚举回落、蒙版本体不入草稿、图层缺省补齐", () => {
         const parsed = readNewReplaceBgValues({
             sceneType: "unknown",
             templateId: "not-a-template",
-            weight: "0.4",
+            weight: "0.6",
             ratio: "3:4",
             outputNum: 2,
             transform: { x: 0.2, scale: 1.5 },
@@ -154,7 +164,7 @@ describe("商品图 · 图层状态与草稿容错", () => {
         });
         expect(parsed.sceneType).toBe("recommend");
         expect(parsed.templateId).toBe(SCENE_TEMPLATES[0].id);
-        expect(parsed.weight).toBe(0.4);
+        expect(parsed.weight).toBe(0.6);
         expect(parsed.outputNum).toBe(2);
         expect(parsed.transform).toEqual({ x: 0.2, y: DEFAULT_NEW_REPLACE_BG_VALUES.transform.y, scale: 1.5, rotate: 0 });
         expect(parsed.layers.goods.visible).toBe(false);
@@ -230,11 +240,11 @@ describe("商品图 · 画布状态序列化（真实请求字段）", () => {
         expect(buildSceneImageRecords(v).map((item) => item.layer)).toEqual(["goods", "bg", "lock"]);
     });
 
-    test("提示词携带强度 / 场景类型 / 变换 / 数量 / 锁定策略", () => {
+    test("提示词携带背景相似度 / 场景类型 / 变换 / 数量 / 锁定策略", () => {
         const v = values({ weight: 0.7, customPrompt: "", transform: { x: 0.5, y: 0.56, scale: 1, rotate: 0 } });
         const output = computeSceneOutput("16:9", 4);
         const prompt = buildNewReplaceBgPrompt(v, output);
-        expect(prompt).toContain("融合强度 70%");
+        expect(prompt).toContain("背景相似度 70%");
         expect(prompt).toContain("推荐场景");
         expect(prompt).toContain(SCENE_TEMPLATES[0].label);
         expect(prompt).toContain("1280×720");
@@ -281,7 +291,7 @@ describe("商品图 · 请求组装与防丢参", () => {
 
     test("未确认抠图 / 未配模型 / 非法素材直接拒绝提交", () => {
         const output = computeSceneOutput("1:1", 1);
-        expect(() => buildNewReplaceBgInput({ values: values({ cutoutConfirmed: false }), output, goods: goods(), mask, model: "m" })).toThrow(/确认抠图/);
+        expect(() => buildNewReplaceBgInput({ values: values({ cutoutConfirmed: false }), output, goods: goods(), mask, model: "m" })).toThrow(/确认使用/);
         expect(() => buildNewReplaceBgInput({ values: values(), output, goods: goods(), mask, model: "" })).toThrow(/图片模型/);
         expect(validateSceneSource(goods({ mimeType: "image/gif" }))).toMatchObject({ ok: false });
         expect(validateSceneSource(goods({ bytes: 40 * 1024 * 1024 }))).toMatchObject({ ok: false });
@@ -322,10 +332,10 @@ describe("商品图 · 真实执行与结果", () => {
     test("参数变更后结果标记过期并给出原因；失败不产出图", async () => {
         const output = computeSceneOutput("1:1", 1);
         const snapshot = createNewReplaceBgSnapshot(values(), output);
-        const changed = createNewReplaceBgSnapshot(values({ weight: 0.3, transform: { x: 0.2, y: 0.4, scale: 0.8, rotate: 0 } }), output);
+        const changed = createNewReplaceBgSnapshot(values({ weight: 0.5, transform: { x: 0.2, y: 0.4, scale: 0.8, rotate: 0 } }), output);
         expect(isNewReplaceBgSnapshotStale(snapshot, changed)).toBe(true);
         const drift = describeNewReplaceBgDrift(snapshot, changed);
-        expect(drift).toContain("融合强度");
+        expect(drift).toContain("背景相似度");
         expect(drift).toContain("商品位置");
 
         const failed = newReplaceBgResultFromTask(
@@ -379,58 +389,69 @@ async function renderSceneWorkspace(): Promise<string> {
     return renderToStaticMarkup(React.createElement(Workspace) as Parameters<typeof renderToStaticMarkup>[0]);
 }
 
-describe("商品图工作区渲染", () => {
-    test("分区齐全：流程 / 商品层 / 抠图确认 / 场景 / 强度 / 输出 / 画布 / 图层 / 参数 / 结果", async () => {
+describe("商品图工作区渲染（原站 product-home 首屏）", () => {
+    test("首屏：上传白卡 + 或试试这些 6 张示例 + 引导视频 + 场景参考图照片墙", async () => {
         const html = await renderSceneWorkspace();
-        for (const id of [
-            "scene-workspace",
-            "scene-goods",
-            "scene-cutout",
-            "scene-type",
-            "scene-weight",
-            "scene-output",
-            "scene-canvas",
-            "scene-layers",
-            "scene-inspector",
-            "scene-submit",
-            "scene-result",
-        ]) {
+        for (const id of ["scene-workspace", "scene-goods", "scene-goods-dragger", "scene-goods-upload", "scene-examples", "scene-guide-video", "scene-templates", "scene-template-search", "scene-sorts", "scene-categories"]) {
             expect(html).toContain(`data-testid="${id}"`);
         }
+        expect(html).toContain("上传商品图");
+        expect(html).toContain("或拖拽/粘贴图片到此处");
+        expect(html).toContain("或试试这些");
+        for (const example of PRODUCT_BG_EXAMPLES) expect(html).toContain(`data-testid="scene-${example.id}"`);
+        expect(html).toContain('placeholder="搜索标签关键词"');
+        for (const label of ["智能推荐", "按收藏时间", "按素材热度"]) expect(html).toContain(label);
     });
 
-    test("默认态就是 chunk 默认：推荐场景 + weight 70% + 1 张 + 8 个模板", async () => {
+    test("16 个类目页签默认「日用百货」，照片墙只渲染该类目的真实场景图", async () => {
         const html = await renderSceneWorkspace();
-        expect(html).toContain('data-testid="scene-type-recommend"');
-        expect(html).toContain('aria-pressed="true"');
-        expect(html).toContain("70%");
-        expect(html).toContain('data-testid="scene-count-1"');
-        for (const template of SCENE_TEMPLATES) expect(html).toContain(`data-testid="scene-template-${template.id}"`);
+        for (const label of PRODUCT_BG_CATEGORIES) expect(html).toContain(label.replace("&", "&amp;"));
+        expect(html).not.toContain(">全部<");
+        expect(html).toMatch(/aria-pressed="true"[^>]*>日用百货/);
+        const daily = filterProductBgScenes("日用百货", "");
+        for (const scene of daily) expect(html).toContain(`data-testid="scene-template-${scene.id}"`);
+        expect(html).not.toContain('data-testid="scene-template-home-01"');
+        expect(html).toContain("/__cases/new-replace-bg-v2/scenes/daily-01.webp");
+        expect(html).toContain("使用此场景");
     });
 
-    test("未上传商品时给出真实拦截，而不是可点的假按钮", async () => {
+    test("未上传商品时不渲染第二步配置栏，也不显示没有数据源的「我的商品」", async () => {
         const html = await renderSceneWorkspace();
-        expect(html).toContain('data-testid="scene-issues"');
-        expect(html).toMatch(/data-testid="scene-generate"[^>]*disabled/);
-        /* 抠图门禁先卡蒙版：提示语来自真实 readiness，不是占位文案 */
-        expect(html).toContain('data-testid="scene-cutout-state"');
+        expect(html).toContain('data-step="home"');
+        expect(html).not.toContain('data-testid="scene-config"');
+        expect(html).not.toContain('data-testid="scene-generate"');
+        expect(html).not.toContain("我的商品");
+    });
+});
+
+describe("商品图 · 场景数据与请求映射", () => {
+    test("57 张场景覆盖 16 个类目；搜索在当前类目内按标题过滤", () => {
+        expect(PRODUCT_BG_SCENES).toHaveLength(57);
+        expect(new Set(PRODUCT_BG_SCENES.map((item) => item.category)).size).toBe(16);
+        expect(filterProductBgScenes("日用百货", "")).toHaveLength(12);
+        expect(filterProductBgScenes("日用百货", "电子秤").map((item) => item.id)).toEqual(["daily-04", "daily-05"]);
+        expect(filterProductBgScenes("家居家装", "电子秤")).toEqual([]);
+        expect(filterProductBgScenes(null, "展台").length).toBeGreaterThan(3);
     });
 
-    test("图层四个都在，且画布显示默认场景模板描述", async () => {
-        const html = await renderSceneWorkspace();
-        for (const layer of SCENE_LAYER_IDS) expect(html).toContain(`data-testid="scene-layer-${layer}"`);
-        expect(html).toContain(SCENE_TEMPLATES[0].prompt);
-        /* 结果网格默认 1 格，未生成时明确是待生成 */
-        expect(html).toContain('data-testid="scene-grid-cell-0"');
-        expect(html).toContain("待生成");
-        /* page-specs/15 §6 要求画布工具可撤销/重做 + 提交快照可查 */
-        expect(html).toContain('data-testid="scene-history-bar"');
-        expect(html).toContain("无可撤销步骤");
-        expect(html).toContain('data-testid="scene-submitted-empty"');
-        /* spec 里的组件名必须能对上（layer composer / similarity / variant grid） */
-        expect(html).toContain('data-testid="scene-layer-composer"');
-        expect(html).toContain('data-testid="scene-similarity-control"');
-        expect(html).toContain('data-component="scene-variant-grid"');
+    test("商品合成 / 商品替换写进 customPrompt，可从草稿值反推页签", () => {
+        const compose = productBgScenePrompt("湖边-香水", "compose");
+        const replace = productBgScenePrompt("湖边-香水", "replace");
+        expect(productBgModeOf(compose)).toBe("compose");
+        expect(productBgModeOf(replace)).toBe("replace");
+        expect(replace).toContain("湖边-香水");
+    });
+
+    test("选中场景 → 自定义背景参考图 + 透明商品：请求通过防丢参守卫，场景图被点名为目标背景", () => {
+        const v = values({ sceneType: "custom", templateId: "", customPrompt: productBgScenePrompt("湖边-香水", "compose"), bgAssetId: "asset-bg", maskAssetId: "", cutoutMode: "transparent" });
+        const output = computeSceneOutput("1:1", 3);
+        const scene = { ...bg, name: "linkfox-scene-beauty-01-background.webp", mimeType: "image/webp" };
+        const input = buildNewReplaceBgInput({ values: v, output, goods: goods(), bg: scene, model: "img-model", goodsHasAlpha: true });
+        expect(() => assertNewReplaceBgInput(input, v, output, { goodsHasAlpha: true })).not.toThrow();
+        expect(input.references?.map((item) => item.id)).toEqual(["asset-goods", "asset-bg"]);
+        expect(input.prompt).toContain("参考图 2 是目标背景图");
+        expect(input.prompt).toContain("湖边-香水");
+        expect(input.count).toBe(3);
     });
 });
 

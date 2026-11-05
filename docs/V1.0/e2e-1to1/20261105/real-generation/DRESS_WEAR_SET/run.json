@@ -1,0 +1,109 @@
+{
+  "toolId": "DRESS_WEAR_SET",
+  "route": "/tools/ecommerce-suite/dress-wear-set",
+  "fixture": "apparel-print.jpg",
+  "startedAt": "2026-11-05T12:55:44.237Z",
+  "provider": {
+    "imageModel": "ccai-accept::gpt-image-2",
+    "channels": [
+      "ccai-accept",
+      "sf-accept"
+    ],
+    "baseUrl": "https://api.cc-ai.xyz",
+    "keyLen": 67,
+    "proxyEnabled": true,
+    "channelCount": 2,
+    "model": "gpt-image-2"
+  },
+  "before": {
+    "images": [
+      "http://127.0.0.1:3310/__cases/dress-wear-set/202696644182096",
+      "http://127.0.0.1:3310/__cases/dress-wear-set/201058497111636",
+      "http://127.0.0.1:3310/__cases/dress-wear-set/201055966804215",
+      "http://127.0.0.1:3310/__cases/dress-wear-set/205263050318974"
+    ],
+    "issues": []
+  },
+  "submitBefore": null,
+  "gate": {
+    "found": true,
+    "disabled": false,
+    "text": "开始生成",
+    "countText": "主副图1张 + A+图0张 = 共1张"
+  },
+  "finishedAt": "2026-11-05T12:56:35.531Z",
+  "after": {
+    "submitButtons": [
+      {
+        "id": "",
+        "text": "开始生成",
+        "disabled": false
+      }
+    ],
+    "issues": [],
+    "images": [
+      {
+        "src": "blob:http://127.0.0.1:3310/5c61a7b0-80c2-4ea7-baef-ea4d9bdbe",
+        "w": 1024,
+        "h": 1024
+      },
+      {
+        "src": "http://127.0.0.1:3310/__cases/dress-wear-set/202696644182096",
+        "w": 1000,
+        "h": 622
+      },
+      {
+        "src": "http://127.0.0.1:3310/__cases/dress-wear-set/201058497111636",
+        "w": 1000,
+        "h": 671
+      },
+      {
+        "src": "http://127.0.0.1:3310/__cases/dress-wear-set/201055966804215",
+        "w": 1000,
+        "h": 671
+      },
+      {
+        "src": "http://127.0.0.1:3310/__cases/dress-wear-set/205263050318974",
+        "w": 746,
+        "h": 1000
+      },
+      {
+        "src": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABAAAAAQACAIAAA",
+        "w": 1024,
+        "h": 1024
+      },
+      {
+        "src": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABAAAAAQACAIAAA",
+        "w": 1024,
+        "h": 1024
+      },
+      {
+        "src": "blob:http://127.0.0.1:3310/d32e8040-ea48-4866-a71d-d2e23e896",
+        "w": 1024,
+        "h": 1024
+      }
+    ],
+    "bodyText": "无限画布\n首页\n电商套图\n智能修图\n新模型\nAI视频\nHOT\n批量生图\n商品图设计\n中\n切换到深色主题\nv0.27.0\n商品套图\n服装套图\n白底图\nNEW\n爆款图复刻\n套图换色\n批量翻译\n高清放大\n批量抠图\n智能扩图\n免责声明\n多角度服装图&搭配图\n最多上传5张图，10M以内，384*384~4096*4096\n上传服装图\n从本地上传\n从作品库选择\n从商品库选择\napparel-print.jpg\n86 KB · 1024×1024 · image/jpeg\n移除\n优秀案例\n或试试这些\n一键做同款\n一键做同款\n一键做同款\n一键做同款\n商品信息\n向导\nAI分析\n0 / 2500\n品牌与合规（可选）\n智能品牌基因\n智能识别\n自定义品牌\n商品类目\n请选择商品类目\n亚马逊\n独立站\nTikTok Shop\nShopee\n销售地区\n请选择销售地区\n美国\n英国\n德国\n日本\n语言\n请选择语言\n英语\n德语\n日语\n中文\n智能主色、智能字体风格：智能识别模式下自动从主图取色并匹配字体风格。\n智能合规检查\n未选择敏感词库 · 未选择替换词库\n模型选择\nLF智能模型 G-2.5 Sunburst\nLF智能模型 G-2.5 Sunburst\nLF全能模型 2.1\nLF智能模型 G-2.5 Flare\nLF智能模型 G-2\nLF全能模型 Pro\nLF全能模型 Lite\nSeedream 5.0 Pro\nWan 2.7\n分辨率选择\n1K\n2K\n4K\n模型品质\n低品质\n中品质\n高品质\n超高品质\n最大品质\n生成比例\n1:1\n3:4\n4:3\n2:3\n3:2\n更多\n生成类型（多选）\n主副图设置\n模特图\n1\n-\n种草图\n4\n-\n卖点图\n4\n-\n尺码图\n4\n-\n白底图\n4\n-\n选择排版\n每种排版生成一张\n无文字模式\n💡 未选择排版时，将根据官方排版随机生成。\n生成类型（单选）\nA+图设置\n高级A+\n4\n-\n手机A+\n4\n-\n普通A+\n4\n-\n自定比例\n4\n-\n主副图1张 + A+图0张 = 共1张\n开始生成\n生成结果\n按场景分组；组内可单张下载，失败组可单独重试。\n生成结果\n已完成\n共 1 个结果 · 图片 1"
+  },
+  "resultSrcPrefix": "data:image/png;base64,iVBORw0KGgoAAAANSU",
+  "resultCount": 1,
+  "resultSaved": true,
+  "network": [
+    {
+      "method": "POST",
+      "url": "http://127.0.0.1:23210/https://api.cc-ai.xyz/v1/images/edits",
+      "status": 200,
+      "ms": 40193,
+      "at": "2026-11-05T12:56:33.988Z"
+    }
+  ],
+  "fixtureSha256": "5c80a61e9271298d",
+  "resultSha256": "d842cdfa7899d75f",
+  "ok": true,
+  "download": {
+    "file": "download-modelLook-task-mw3jtycv-hnbrx3-0.png",
+    "bytes": 2073242,
+    "sha256": "d842cdfa7899d75f",
+    "differsFromSource": true
+  }
+}

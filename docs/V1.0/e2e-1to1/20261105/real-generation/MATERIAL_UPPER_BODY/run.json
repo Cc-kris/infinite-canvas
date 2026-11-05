@@ -1,0 +1,159 @@
+{
+  "toolId": "MATERIAL_UPPER_BODY",
+  "route": "/tools/product-design/material-upper-body",
+  "fixture": "apparel-print.jpg",
+  "startedAt": "2026-11-05T15:45:54.226Z",
+  "provider": {
+    "imageModel": "ccai-accept::gpt-image-2",
+    "channels": [
+      "ccai-accept",
+      "sf-accept"
+    ],
+    "baseUrl": "https://api.cc-ai.xyz",
+    "keyLen": 67,
+    "proxyEnabled": true,
+    "channelCount": 2,
+    "model": "gpt-image-2"
+  },
+  "before": {
+    "images": [],
+    "issues": []
+  },
+  "submitBefore": {
+    "id": "material-preview-submit",
+    "text": "立即生成",
+    "disabled": true
+  },
+  "gate": {
+    "found": true,
+    "disabled": false,
+    "text": "立即生成",
+    "countText": ""
+  },
+  "finishedAt": "2026-11-05T15:47:13.315Z",
+  "after": {
+    "submitButtons": [
+      {
+        "id": "material-preview-submit",
+        "text": "立即生成",
+        "disabled": false
+      }
+    ],
+    "issues": [],
+    "images": [
+      {
+        "src": "blob:http://127.0.0.1:3310/2fd46849-0cd1-4d6a-a798-2d4feebcb",
+        "w": 1024,
+        "h": 1024
+      },
+      {
+        "src": "blob:http://127.0.0.1:3310/2fd46849-0cd1-4d6a-a798-2d4feebcb",
+        "w": 1024,
+        "h": 1024
+      },
+      {
+        "src": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABAAAAAQACAIAAA",
+        "w": 1024,
+        "h": 1024
+      },
+      {
+        "src": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABAAAAAQACAIAAA",
+        "w": 1024,
+        "h": 1024
+      },
+      {
+        "src": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABAAAAAQACAIAAA",
+        "w": 1024,
+        "h": 1024
+      },
+      {
+        "src": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABAAAAAQACAIAAA",
+        "w": 1024,
+        "h": 1024
+      },
+      {
+        "src": "blob:http://127.0.0.1:3310/4e562218-bfe5-4560-b54a-21e78b1dd",
+        "w": 1024,
+        "h": 1024
+      },
+      {
+        "src": "blob:http://127.0.0.1:3310/df9db4ac-23e4-4e9e-be77-e8c2f124e",
+        "w": 1024,
+        "h": 1024
+      },
+      {
+        "src": "blob:http://127.0.0.1:3310/7b0ffad7-4689-4712-989a-953709d4a",
+        "w": 1024,
+        "h": 1024
+      },
+      {
+        "src": "blob:http://127.0.0.1:3310/c8342050-930b-4d57-973f-7bcd67c7a",
+        "w": 1024,
+        "h": 1024
+      },
+      {
+        "src": "blob:http://127.0.0.1:3310/4e562218-bfe5-4560-b54a-21e78b1dd",
+        "w": 1024,
+        "h": 1024
+      },
+      {
+        "src": "blob:http://127.0.0.1:3310/df9db4ac-23e4-4e9e-be77-e8c2f124e",
+        "w": 1024,
+        "h": 1024
+      },
+      {
+        "src": "blob:http://127.0.0.1:3310/7b0ffad7-4689-4712-989a-953709d4a",
+        "w": 1024,
+        "h": 1024
+      },
+      {
+        "src": "blob:http://127.0.0.1:3310/c8342050-930b-4d57-973f-7bcd67c7a",
+        "w": 1024,
+        "h": 1024
+      }
+    ],
+    "bodyText": "无限画布\n首页\n电商套图\n智能修图\n新模型\nAI视频\nHOT\n批量生图\n商品图设计\n中\n切换到深色主题\nv0.27.0\n真人换模特\n模特换场景\nAI穿衣\n姿势裂变\nAI穿戴\n历史记录\n企业功能\n批量生图\n即将下架\n人台换模特\n下架\n免责声明\n素材图\n上传素材图\n从作品库选择\n从商品库选择\n图片格式：支持jpg、jpeg、png、webp格式，10M以内\napparel-print.jpg\n86 KB · 1024×1024 · image/jpeg\n移除\n立即生成\n素材贴合到商品的效果预览\n使用原图预览\n品类：\n推荐\nt-shirt\n已完成\n共 1 个结果 · 图片 1\n下载\n存入资产\n发送画布\n马克杯\n已完成\n共 1 个结果 · 图片 1\n下载\n存入资产\n发送画布\n手提包\n已完成\n共 1 个结果 · 图片 1\n下载\n存入资产\n发送画布\n毛毯\n已完成\n共 1 个结果 · 图片 1\n下载\n存入资产\n发送画布\n历史记录\n4 条\n2026-11-05 23:46\n已完成\nProduct mockup: print the reference artwork onto…\nccai-accept::gpt-image-2 · image · 1 个结果\n查看结果\n2026-11-05 23:46\n已完成\nProduct mockup: print the reference artwork onto…\nccai-accept::gpt-image-2 · image · 1 个结果\n查看结果\n2026-11-05 23:46\n已完成\nProduct mockup: print the reference artwork onto…\nccai-accept::gpt-image-2 · image · 1 个结果\n查看结果\n2026-11-05 23:46\n已完成\nProduct mockup: print the reference artwork onto…\nccai-accept::gpt-image-2 · image · 1 个结果\n查看结果\n历史任务\n4 条\n2026-"
+  },
+  "resultSrcPrefix": "data:image/png;base64,iVBORw0KGgoAAAANSU",
+  "resultCount": 4,
+  "resultSaved": true,
+  "network": [
+    {
+      "method": "POST",
+      "url": "http://127.0.0.1:23210/https://api.cc-ai.xyz/v1/images/edits",
+      "status": 200,
+      "ms": 30216,
+      "at": "2026-11-05T15:46:31.949Z"
+    },
+    {
+      "method": "POST",
+      "url": "http://127.0.0.1:23210/https://api.cc-ai.xyz/v1/images/edits",
+      "status": 200,
+      "ms": 32373,
+      "at": "2026-11-05T15:46:34.105Z"
+    },
+    {
+      "method": "POST",
+      "url": "http://127.0.0.1:23210/https://api.cc-ai.xyz/v1/images/edits",
+      "status": 200,
+      "ms": 32975,
+      "at": "2026-11-05T15:46:34.707Z"
+    },
+    {
+      "method": "POST",
+      "url": "http://127.0.0.1:23210/https://api.cc-ai.xyz/v1/images/edits",
+      "status": 200,
+      "ms": 68871,
+      "at": "2026-11-05T15:47:10.623Z"
+    }
+  ],
+  "fixtureSha256": "5c80a61e9271298d",
+  "resultSha256": "9f227ba45f4fccd2",
+  "ok": true,
+  "download": {
+    "file": "download-material-upper-body-result-1.png",
+    "bytes": 1897592,
+    "sha256": "5d96bc690e1fa280",
+    "differsFromSource": true
+  }
+}

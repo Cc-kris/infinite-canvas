@@ -83,14 +83,15 @@ describe("图片裁剪 · 画布顶部通栏工具条", () => {
     });
 });
 
-describe("图片裁剪 · 居中 535 空态卡", () => {
-    test("卡 535 宽，含示例图 + 四角裁剪框 + 标题/副标题", async () => {
+describe("图片裁剪 · 居中 559 空态上传面板", () => {
+    test("面板 559 宽，含原站示例图（自带四角裁剪框）+ 标题/副标题", async () => {
         const html = await renderWorkspace();
         expect(html).toContain('data-testid="crop-empty"');
-        expect(html).toContain("max-w-[535px]");
-        // 示例图必须是本地真实案例素材，不是占位色块
-        expect(html).toContain("/__cases/product-scene/1740339005955035136-source.webp");
-        expect(html).toContain('data-testid="crop-empty-frame"');
+        expect(html).toContain("max-w-[559px]");
+        // 示例图是原站 image-crop-upload-tour.jpg 原样落盘，不是占位色块；四角裁剪框画在图里，不再叠一层自造框
+        expect(html).toContain("/__cases/image-crop/upload-tour.jpg");
+        expect(html).toContain('data-testid="crop-empty-sample"');
+        expect(html).not.toContain('data-testid="crop-empty-frame"');
         expect(html).toContain("图片裁剪");
         expect(html).toContain("上传图片，裁剪图片为任意尺寸/比例");
     });
@@ -115,10 +116,10 @@ describe("图片裁剪 · 居中 535 空态卡", () => {
     });
 });
 
-describe("图片裁剪 · 右侧 250 配置栏", () => {
-    test("配置列 250px（布局检查要求 240–360），Tab 尺寸调整/比例调整 齐全", async () => {
+describe("图片裁剪 · 右侧 270 参数面板", () => {
+    test("参数面板 270px（原站实测 x1310..1580，布局检查要求 240–360），Tab 尺寸调整/比例调整 齐全", async () => {
         const html = await renderWorkspace();
-        expect(html).toContain("lg:grid-cols-[minmax(0,1fr)_250px]");
+        expect(html).toContain("lg:grid-cols-[minmax(0,1fr)_270px]");
         expect(html).toContain('data-testid="tool-config-column"');
         expect(html).toContain('data-testid="crop-tab-size"');
         expect(html).toContain('data-testid="crop-tab-ratio"');

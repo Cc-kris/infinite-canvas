@@ -828,9 +828,9 @@ export default {
             PRINT_EXTRACT: "Print Extract",
             AI_POSE_GENERATOR: "AI Pose Generator",
             AI_DRESSING_XSY: "AI Try-on XSY",
-            FISSION_LINK: "Scene Fission Link",
+            FISSION_LINK: "Listing Fission",
             IMAGE_TEXT_EDIT: "Image Text Edit",
-            MATERIAL_UPPER_BODY: "Upper Body Material",
+            MATERIAL_UPPER_BODY: "Product Preview",
             NEW_DESIGNER: "Product Designer",
             PRODUCT_MARKET_MATERIAL: "Product Marketing Material",
             SCENE_TRANSFER: "Scene Transfer",
@@ -871,6 +871,10 @@ export default {
         /* ---------- workspace UI (r30: EN residue cleanup; keys mirror zh-CN) ---------- */
         workspace: {
             title: "Video translation",
+            promoCopy: "Regenerates the video from a target-language prompt; check language and lip movement manually.",
+            honestyToggle: "Capability note: this is AI video regeneration, not sentence-level translation (click to expand)",
+            guideResultLabel: "Translated result",
+            moreSettings: "Output and model settings",
             capabilityBadge: "AI video regeneration",
             targetBadge: "Target language: {{language}}",
             sidebarFormat: "Source video MP4 / MOV, up to 100MB; {{min}}–{{max}} seconds recommended.",

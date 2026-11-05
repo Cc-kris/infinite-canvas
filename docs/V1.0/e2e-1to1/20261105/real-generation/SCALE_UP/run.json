@@ -1,0 +1,80 @@
+{
+  "toolId": "SCALE_UP",
+  "route": "/tools/ecommerce-suite/scale-up",
+  "fixture": "product-watch.jpg",
+  "startedAt": "2026-11-05T12:57:32.068Z",
+  "provider": {
+    "imageModel": "ccai-accept::gpt-image-2",
+    "channels": [
+      "ccai-accept",
+      "sf-accept"
+    ],
+    "baseUrl": "https://api.cc-ai.xyz",
+    "keyLen": 67,
+    "proxyEnabled": true,
+    "channelCount": 2,
+    "model": "gpt-image-2"
+  },
+  "before": {
+    "images": [],
+    "issues": [
+      "scale-up-issues=请先上传原图。"
+    ]
+  },
+  "submitBefore": {
+    "id": "scale-up-generate",
+    "text": "立即生成",
+    "disabled": true
+  },
+  "gate": {
+    "found": true,
+    "disabled": false,
+    "text": "立即生成",
+    "countText": ""
+  },
+  "finishedAt": "2026-11-05T12:58:16.119Z",
+  "after": {
+    "submitButtons": [
+      {
+        "id": "scale-up-generate",
+        "text": "立即生成",
+        "disabled": false
+      }
+    ],
+    "issues": [],
+    "images": [
+      {
+        "src": "blob:http://127.0.0.1:3310/3ed130ec-050d-44e0-865a-59b139875",
+        "w": 1024,
+        "h": 744
+      },
+      {
+        "src": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABAAAAALwCAIAAA",
+        "w": 1024,
+        "h": 752
+      }
+    ],
+    "bodyText": "无限画布\n首页\n电商套图\n智能修图\n新模型\nAI视频\nHOT\n批量生图\n商品图设计\n中\n切换到深色主题\nv0.27.0\n商品套图\n服装套图\n白底图\nNEW\n爆款图复刻\n套图换色\n批量翻译\n高清放大\n批量抠图\n智能扩图\n免责声明\n变高清\n高清 + 2倍放大\n高清 + 4倍放大\n自定义\n面部美化：\n重新上传\n立即生成\n下载图片\n历史记录\n原图\n原图 1024×744\n原图\n高清放大图\n输出尺寸：1024×752\n高清放大图\n已完成\n共 1 个结果 · 图片 1\n下载\n存入资产\n发送画布\n连接本地 Agent\n未连接\n点连接会自动启动本地服务、装好插件并接通，无需手动配置。\nClaude Code\n未连接\n·\nCLI · 2.1.318 (Claude Code)\n·\n直接运行\n连接\nCodex\n未连接\n·\nCLI · codex-cli 0.166.0\n·\n插件已装\n连接\nGalley\n未连接\n·\nCLI + 桌面版 · galley 0.6.4\n连接"
+  },
+  "resultSrcPrefix": "data:image/png;base64,iVBORw0KGgoAAAANSU",
+  "resultCount": 1,
+  "resultSaved": true,
+  "network": [
+    {
+      "method": "POST",
+      "url": "http://127.0.0.1:23210/https://api.cc-ai.xyz/v1/images/edits",
+      "status": 200,
+      "ms": 32692,
+      "at": "2026-11-05T12:58:12.297Z"
+    }
+  ],
+  "fixtureSha256": "43ede96e7ce88509",
+  "resultSha256": "f432b258b8fae38b",
+  "ok": true,
+  "download": {
+    "file": "download-scale-up-result-1.png",
+    "bytes": 936684,
+    "sha256": "f432b258b8fae38b",
+    "differsFromSource": true
+  }
+}

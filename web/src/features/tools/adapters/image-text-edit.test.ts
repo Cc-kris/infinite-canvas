@@ -389,7 +389,7 @@ describe("适配器：真实提交与重试", () => {
 /* ------------------------------ 首屏可操作 ------------------------------ */
 
 describe("工作区首屏", () => {
-    test("四块区域齐全，没有源图时提交禁用", async () => {
+    test("原站编辑器布局齐全，没有源图时提交禁用，无真实能力的入口禁用", async () => {
         const store = new Map<string, string>();
         Object.defineProperty(globalThis, "localStorage", {
             configurable: true,
@@ -409,13 +409,22 @@ describe("工作区首屏", () => {
         expect(html).toContain("图片文字编辑");
         expect(html).toContain("图片文字画布");
         expect(html).toContain("属性编辑");
-        expect(html).toContain("文本框列表");
-        expect(html).toContain("导出");
-        expect(html).toContain("上传源图");
-        expect(html).toContain("新增文字框");
+        expect(html).toContain("画布尺寸");
+        expect(html).toContain("导出格式");
+        expect(html).toContain("上传 JPG / PNG / WebP 源图后开始框选文字");
+        expect(html).toContain("添加文字");
+        expect(html).toContain("默认字体样式");
+        expect(html).toContain("推荐字体风格");
         expect(html).toContain("生成图片文字");
         // 无源图 → 主提交按钮必须禁用
-        expect(html).toMatch(/<button[^>]*disabled[^>]*>[^<]*生成图片文字/);
+        expect(html).toMatch(/<button[^>]*data-testid="image-text-edit-submit"[^>]*disabled/);
+        // 原站有、本地没有真实能力的入口：禁用 + title 说明
+        const buttons = html.match(/<button[^>]*>/g) ?? [];
+        for (const title of ["本地未接入文案生成模型，暂不支持 AI 生成文案", "本地没有素材库，暂不支持", "本地没有图片文字模板库，暂不支持", "本地没有标注工具，暂不支持"]) {
+            const tag = buttons.find((item) => item.includes(`title="${title}"`));
+            expect(tag).toBeDefined();
+            expect(tag).toContain('disabled=""');
+        }
         expect(html).toContain("预览字族");
         expect(imageTextEditPreviewNotice(createImageTextEditValues())).toContain("上传图片");
     });

@@ -50,7 +50,13 @@ export type SceneTransferFieldKey = (typeof SCENE_TRANSFER_FIELD_KEYS)[number];
  * ------------------------------------------------------------------ */
 
 /** 场景风格相似度：0–100，步进 5；默认 70（与原站同类滑杆一致的量纲）。 */
-export const SCENE_TRANSFER_SIMILARITY = { min: 0, max: 100, step: 5, defaultValue: 70 } as const;
+/** 原站「风格相似度」Slider 0–1、step 0.05、默认 0.65（rea 还原 SceneTransfer chunk）；本地按百分比存，提交时 /100。 */
+export const SCENE_TRANSFER_SIMILARITY = { min: 0, max: 100, step: 5, defaultValue: 65 } as const;
+
+/** 提交字段 similarity：原站是 0–1 小数。 */
+export function similarityField(value: unknown): number {
+    return clampSimilarity(value) / 100;
+}
 
 /** 相似度档位（滑杆旁的快捷档，取值仍落在 0–100）。 */
 export const SCENE_TRANSFER_SIMILARITY_PRESETS: readonly { value: number; label: string }[] = [

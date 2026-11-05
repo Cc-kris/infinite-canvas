@@ -542,7 +542,8 @@ describe("AI_VIDEO_EDITING workspace：页面结构", () => {
         expect(html).toContain('data-testid="ai-video-editing-blocked"');
         expect(html).toContain('data-testid="ai-video-editing-hidden-prompt"');
         expect(html).toContain('data-testid="ai-video-editing-output-label"');
-        expect(html).toContain('data-testid="ai-video-editing-clone"');
+        // 空态是原站引导卡（「原视频 → 编辑结果」+ 一键做同款）；复用上次快照的「一键做同款」只在有任务后出现
+        expect(html).toContain('data-testid="ai-video-editing-guide"');
         expect(html).toContain('data-region="design19-results"');
         // 无源视频/参考图/模型时不可提交，且给出真实阻塞原因
         expect(html).toContain('data-testid="ai-video-editing-submit"');

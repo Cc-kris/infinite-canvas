@@ -55,3 +55,35 @@
 手部修复结果区显示「来自旧版本输入」，提交后配置指纹可能漂移，未深查。
 
 其余图像工具（套图、穿衣、穿戴、商品图等）还没有真实生成配方。
+
+## 第二轮（同日）
+
+### 8 个原站无独立页面 / 本账号不可见的工具：按原站前端源码复刻
+
+本地 `rea` 抓取原站懒加载 chunk（`inspect-web-page --include-script-sources` + `export-web-scripts`；`recover-javascript-sources` 依赖 Linux 版 Wakaru，本机不可用，改为 prettier 后人工阅读）。还原的源码与只读 GET 接口数据在 `docs/V1.0/replica/rea-8tools/`。
+
+| 工具 | 原站真实形态（来源 chunk） | 本地处理 |
+|---|---|---|
+| POD素材 `AI_TEXT` | `AiText` 页：简易 / 高阶两种模式、模板、风格、比例、提示词优化、优秀案例、相似裂变弹窗 | 15 模板、18 风格、24 案例取自原站接口；提交字段对齐 |
+| 饰品文字 `ORNAMENT_TEXT` | `OrnamentText` 页：文字、字体弹层、挂环位置、字体大小 | 30 个原站字体 SVG、4 个挂环图 |
+| 场景迁移 `SCENE_TRANSFER` | `SceneTransfer`：商品图 + 风格图 + 风格相似度 | 删掉分割图上传，相似度默认 0.65 |
+| AI试衣XSY `AI_DRESSING_XSY` | AI穿衣页 XSY 分支：服装 → 模特 → 蒙版 → 步长 | 删掉步骤条与自造选择器，补步长 30/60/120 |
+| AI姿势生成 `AI_POSE_GENERATOR` | AI穿衣「生成参考图」页签：模板库、描述、智能扩写 | 3 条原站模板原文照录 |
+| 商品预览效果 `MATERIAL_UPPER_BODY` | `PreviewModal`「商品预览效果」弹窗：素材贴合到商品、使用原图预览、品类（SDS 分类树） | 原「上装换料」是自造页面，整页重做；品类树取自原站 `listSdsClassification` |
+| 链接裂变 `FISSION_LINK` | `LinkCard`「链接裂变」弹窗（自有 Listing 卡片入口） | 原「场景裂变链接」是自造页面，整页重做；本地无 Listing 库，来源图改为上传，只生成图片不生成文案 |
+| 商品营销素材 `PRODUCT_MARKET_MATERIAL` | 只有历史记录展示（`ProductMarketMaterialSection`），创建入口是团队批量建任务 | 现有页面已覆盖历史字段，补「商品尺寸图」类型 |
+
+### 31 页视觉收口（子任务）
+
+各子任务报告在 `agents/`：套图族 4 页（suite）、商品图设计族 7 页（design）、智能修图两组（edit1 / edit2）、AI 视频族 6 页（video）、商品图设计器与图片文字编辑（designer）。商品图（`NEW_REPLACE_BG_V2`）第一次子任务只完成原站调研与素材下载，第二个子任务完成两步结构重做（首屏上传区 + 57 张场景照片墙；第二步参考图抽屉 + 画布 + 300px 配置栏）。
+
+### 真实生成（第二轮）
+
+`real-generation/<TOOL>/run.json`。本轮 23 个工具出图，合计 28 张（上限 30）：
+
+- 子任务 realgen：商品套图、服装套图、套图换色、高清放大、智能扩图、商品图、商品替换、场景裂变、手持商品、AI穿衣、姿势裂变、AI穿戴、印花提取、素材贴合、批量翻译，各 1 张（商品套图第一次请求被代理重启打断，按 1 张计入）。
+- 主代理：饰品文字、POD素材、场景迁移、AI试衣XSY、AI姿势生成、链接裂变各 1 张；商品预览效果 4 张（原站固定 4 张）。
+- 主代理这 7 个工具用当前工作区的独立构建（`vite build` + `vite preview :3310`）跑，避免并行子任务改代码触发 HMR 打断请求。
+- 商品营销素材：选无 A+ 的平台（Shopify）、主副图只留「卖点图」，1 张；上游 `images/edits` 200，页面显示「共 1 张 · 成功 1」（`real-generation/PRODUCT_MARKET_MATERIAL/ui.png`）。脚本当时的结果选择器指向共享结果组件，没抓到页面自绘的结果卡，`run.json` 判定为未通过，已改选择器，为控制费用未重跑。
+- 商品图按新两步结构重跑 1 张（选场景「露台-火盆」），通过，下载与源图不同。
+- 本轮合计 28 张。

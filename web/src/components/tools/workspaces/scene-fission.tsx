@@ -10,7 +10,10 @@ import type { ToolCase } from "@/components/tools/tool-cases";
 import { ToolHistoryDock } from "@/components/tools/tool-history-dock";
 import { ToolResult } from "@/components/tools/tool-result";
 import { uploadCaseFiles } from "@/features/tools/case-apply";
-import { PRODUCT_SCENE_CASES } from "@/features/tools/tool-cases-data";
+import { PRODUCT_SCENE_CASES, PRODUCT_SCENE_GUIDE_CASES } from "@/features/tools/tool-cases-data";
+import { ToolCaseGuide } from "@/components/tools/tool-case-guide";
+import { ArrowRight, Check, ChevronRight } from "lucide-react";
+import { DESIGN_GUIDE_PORTRAIT, DESIGN_OUTLINE_BUTTON, DESIGN_UPLOAD_DROPZONE, DESIGN_UPLOAD_PANEL, UploadPanelIcon } from "@/components/tools/workspaces/design-demo";
 import { useConfigStore, resolveModelChannel } from "@/stores/use-config-store";
 import { useAssetStore, type ImageAsset, type VideoAsset } from "@/stores/use-asset-store";
 import { useToolDraftStore } from "@/stores/use-tool-draft-store";
@@ -77,14 +80,11 @@ const SCENE_TABS = [
 ] as const;
 type SceneTabId = (typeof SCENE_TABS)[number]["id"];
 
-/**
- * 模型卡的缩略图占位：原站用官方示例图，这里不引外部 CDN（去 LinkFox 品牌资产），
- * 只保留同尺寸同圆角的中性渐变块，保证卡片 60×89 的视觉权重一致。
- */
+/** 模型卡缩略图：原站官方示例图（cdn.linkfox.com/ai-site/workbench/style_*.png 同源下载到本地）。 */
 const MODEL_PREVIEW: Record<string, string> = {
-    realistic: "linear-gradient(135deg,#e9e6e1,#cfc9c0)",
-    minimal: "linear-gradient(135deg,#f5f3f0,#dedad4)",
-    smart: "linear-gradient(135deg,#e9e5ff,#d3c9fb)",
+    realistic: "/__cases/design-common/style_realism.png",
+    minimal: "/__cases/design-common/style_simplicity.png",
+    smart: "/__cases/design-common/style_intelligent.png",
 };
 
 /** 原站左栏字段标题：12px / 45% 黑 / 无加粗，行高 16。 */
@@ -108,6 +108,7 @@ function SceneLayerComposer({
     restoring,
     lostSource,
     library,
+    syncIds,
     onChange,
 }: {
     toolId: string;
@@ -116,27 +117,32 @@ function SceneLayerComposer({
     restoring: boolean;
     lostSource: boolean;
     library: ToolAssetLibraryItem[];
+    syncIds?: string[];
     onChange: (assetIds: string[], records: ToolAssetRecord[]) => void;
 }) {
     const navigate = useNavigate();
     const sourceIssue = source ? validateSceneSource(source) : undefined;
     return (
         <div className="min-w-0" data-testid="scene-source">
-            <FieldLabel>上传参考图</FieldLabel>
-            <p className="mb-1 text-[11px] leading-4 text-muted-foreground">第一步：选择示例图或上传商品图</p>
-            <ToolAssetInput
-                toolId={toolId}
-                title=""
-                constraints={SCENE_SOURCE_LIMITS}
-                maxCount={1}
-                disabled={disabled}
-                library={library}
-                variant="linkfox"
-                wide
-                compact
-                hint="10M以内，分辨率：384*384 ~ 4096*4096，最大宽高比5"
-                onChange={onChange}
-            />
+            {/* 原站 `_uploadPanel` 268×233：灰底卡 + 虚线上传框（图标 / 上传参考图 / 按钮组 / 限制） */}
+            <div className={DESIGN_UPLOAD_PANEL}>
+                <UploadPanelIcon />
+                <ToolAssetInput
+                    toolId={toolId}
+                    title=""
+                    constraints={SCENE_SOURCE_LIMITS}
+                    maxCount={1}
+                    disabled={disabled}
+                    library={library}
+                    variant="linkfox"
+                    wide
+                    className={DESIGN_UPLOAD_DROPZONE}
+                    dropLabel="上传参考图"
+                    hint="10M以内，分辨率：384*384 ~ 4096*4096，最大宽高比5"
+                    syncIds={syncIds}
+                    onChange={onChange}
+                />
+            </div>
             {restoring ? <p className="mt-2 text-[11px] text-muted-foreground">正在恢复上次的参考图…</p> : null}
             {lostSource ? <p className="mt-2 text-[11px] text-amber-600">上次的参考图已失效，请重新上传。</p> : null}
             {sourceIssue && !sourceIssue.ok ? (
@@ -152,10 +158,11 @@ function SceneLayerComposer({
             <button
                 type="button"
                 onClick={() => navigate("/tools/ecommerce-suite/product-image-suite")}
-                className="mt-3 block text-left text-[13px] leading-5 text-primary hover:underline"
+                className={DESIGN_OUTLINE_BUTTON}
                 data-testid="scene-to-suite"
             >
                 上传多图，体验新功能商品套图
+                <ArrowRight aria-hidden="true" className="size-3.5" />
             </button>
         </div>
     );
@@ -183,6 +190,11 @@ function SimilarityControl({
             >
                 背景相似度：
             </FieldLabel>
+            {smart ? (
+                <p id="scene-similarity-hint" className="rounded-[4px] bg-amber-50 p-[5px] text-[12px] leading-[22px] text-amber-600 dark:bg-amber-500/10 dark:text-amber-300">
+                    💡已选择智能模式，将根据模型自动生成场景
+                </p>
+            ) : (
             <input
                 id="scene-similarity-range"
                 type="range"
@@ -195,6 +207,7 @@ function SimilarityControl({
                 onChange={(event) => onChange({ similarity: Number(event.target.value) })}
                 className="h-4 w-full accent-primary disabled:opacity-50"
             />
+            )}
         </div>
     );
 }
@@ -310,6 +323,8 @@ export function ProductSceneWorkspace({ className, toolId = PRODUCT_SCENE_TOOL_I
     const [runError, setRunError] = useState<string | undefined>();
     const [tab, setTab] = useState<SceneTabId>("result");
     const [applyingCaseId, setApplyingCaseId] = useState<string | null>(null);
+    /** 做同款回填后同步给上传区的资产 id（上传区自管列表，只改 source 不会刷新预览）。 */
+    const [sourceSyncIds, setSourceSyncIds] = useState<string[] | undefined>(undefined);
     const abortRef = useRef<AbortController | null>(null);
 
     /* 草稿恢复：值 + 参考图资产 id；图丢了明确提示重选，不假装已恢复 */
@@ -318,7 +333,9 @@ export function ProductSceneWorkspace({ className, toolId = PRODUCT_SCENE_TOOL_I
         void (async () => {
             const restored = await hydrate(toolId);
             if (cancelled) return;
-            const parsed = readSceneValues(restored?.values?.[DRAFT_SLOT] as Record<string, unknown> | undefined);
+            const raw = restored?.values?.[DRAFT_SLOT] as Record<string, unknown> | undefined;
+            if (!raw) return;
+            const parsed = readSceneValues(raw);
             setValues(parsed);
             if (!parsed.sourceAssetId) return;
             setRestoringSource(true);
@@ -404,6 +421,7 @@ export function ProductSceneWorkspace({ className, toolId = PRODUCT_SCENE_TOOL_I
     const onSourceChange = useCallback(
         (assetIds: string[], records: ToolAssetRecord[]) => {
             const record = records[0];
+            setSourceSyncIds(assetIds.length ? assetIds : undefined);
             if (!record) {
                 setSource(undefined);
                 setTask(undefined);
@@ -437,6 +455,7 @@ export function ProductSceneWorkspace({ className, toolId = PRODUCT_SCENE_TOOL_I
                 if (!record || Array.isArray(record)) throw new Error("该案例缺少可用的原始素材");
                 const nextSource = sceneSourceFromRecord(record);
                 setSource(nextSource);
+                setSourceSyncIds([record.id]);
                 setLostSource(false);
                 const apply = item.apply ?? {};
                 update({
@@ -455,26 +474,6 @@ export function ProductSceneWorkspace({ className, toolId = PRODUCT_SCENE_TOOL_I
         },
         [update, values.prompt, values.similarity, values.outputNum],
     );
-
-    /**
-     * 「一键做同款」：把上次提交的配置快照真实回填到表单（与案例「做同款」同一类交互）。
-     * 没有快照时明确提示先去裂变，绝不拿案例或空值冒充。
-     */
-    const handleCloneLast = useCallback(() => {
-        if (!snapshot) {
-            setRunError("还没有可复用的结果：请先裂变一次，再一键做同款");
-            return;
-        }
-        setRunError(undefined);
-        update({
-            prompt: snapshot.prompt,
-            similarity: snapshot.strength,
-            sceneKeyword: snapshot.sceneKeyword,
-            sizeType: snapshot.sizeType,
-            outputNum: snapshot.outputNum,
-            modelId: snapshot.modelId,
-        });
-    }, [snapshot, update]);
 
     const onGenerate = useCallback(async () => {
         if (!source) return;
@@ -572,7 +571,7 @@ export function ProductSceneWorkspace({ className, toolId = PRODUCT_SCENE_TOOL_I
             <OrigRail items={PRODUCT_SCENE_RAIL} active="场景裂变" driver testId="product-scene-rail" className="mb-2" />
             <ToolWorkspaceColumns
                 configSide="left"
-                className="h-[calc(100dvh-193px)] min-h-[560px] overflow-hidden rounded-[8px] border border-black/[0.06]"
+                className="h-[calc(100dvh-76px)] min-h-[560px] overflow-hidden rounded-[8px] border border-black/[0.06]"
                 config={
                     <div className="flex h-full flex-col">
                     <div className="min-h-0 flex-1 overflow-y-auto px-4 pb-4 pt-3" data-testid="scene-form">
@@ -583,10 +582,11 @@ export function ProductSceneWorkspace({ className, toolId = PRODUCT_SCENE_TOOL_I
                             restoring={restoringSource}
                             lostSource={lostSource}
                             library={library}
+                            syncIds={sourceSyncIds}
                             onChange={onSourceChange}
                         />
 
-                        <div className="mt-4">
+                        <div className="mt-[10px]">
                             <SimilarityControl
                                 values={values}
                                 smart={smart}
@@ -594,39 +594,34 @@ export function ProductSceneWorkspace({ className, toolId = PRODUCT_SCENE_TOOL_I
                                 disabled={running}
                                 onChange={update}
                             />
-                            {smart ? (
-                                <p id="scene-similarity-hint" className="mt-1 text-[11px] leading-4 text-muted-foreground">
-                                    💡已选择智能模式，将根据模型自动生成场景
-                                </p>
-                            ) : null}
                         </div>
 
-                        <div className="mt-4">
-                            <FieldLabel
-                                htmlFor="scene-prompt"
-                                extra={
-                                    <span className="text-[11px] tabular-nums text-muted-foreground" data-testid="scene-prompt-count">
-                                        {values.prompt.length} / 100
-                                    </span>
-                                }
-                            >
+                        <div className="mt-[10px]">
+                            <FieldLabel htmlFor="scene-prompt" extra={<span className="text-[12px] leading-4 text-[#3a7df9]">💡场景描述怎么写？</span>}>
                                 场景描述（可选）
                             </FieldLabel>
+                            <div className="relative rounded-[6px] border border-border bg-card pb-5 focus-within:border-primary">
                             <textarea
                                 id="scene-prompt"
                                 value={values.prompt}
                                 maxLength={SCENE_PROMPT_LIMIT}
                                 disabled={running}
                                 onChange={(event) => update({ prompt: event.target.value.slice(0, SCENE_PROMPT_LIMIT) })}
-                                placeholder="描述想要的场景，例如：晨光下的北欧客厅，浅木色地板"
-                                className="min-h-[84px] w-full resize-y rounded-[6px] border border-border bg-card p-2 text-[12px] leading-5 text-foreground outline-none transition placeholder:text-muted-foreground/70 focus:border-primary"
+                                placeholder="描述您想要的场景（在描述中包含上传的商品）。例如：把水壶放在客厅桌面上。"
+                                className="block min-h-[74px] w-full resize-none rounded-[6px] bg-transparent px-[11px] py-1 text-[14px] leading-[22px] text-foreground outline-none placeholder:text-muted-foreground/60"
                             />
-                            <p className="mt-1 text-[11px] leading-4 text-primary">💡场景描述怎么写？</p>
+                            <span className="absolute bottom-0.5 right-2 text-[12px] tabular-nums text-muted-foreground" data-testid="scene-prompt-count">
+                                {values.prompt.length} / 100
+                            </span>
+                            </div>
                         </div>
 
-                        <div className="mt-4">
-                            <FieldLabel>生图模型</FieldLabel>
-                            <div className="flex gap-2" role="radiogroup" aria-label="生图模型" data-testid="scene-modes">
+                        <details open className="group mt-[10px]">
+                            <summary className="mb-2 flex cursor-pointer list-none items-center justify-between text-[12px] leading-4 text-muted-foreground [&::-webkit-details-marker]:hidden">
+                                生图模型
+                                <ChevronRight aria-hidden="true" className="size-3 transition group-open:rotate-90" />
+                            </summary>
+                            <div className="flex gap-[10px]" role="radiogroup" aria-label="生图模型" data-testid="scene-modes">
                                 {SCENE_MODELS.map((item) => {
                                     const active = values.modelId === item.id;
                                     return (
@@ -638,19 +633,18 @@ export function ProductSceneWorkspace({ className, toolId = PRODUCT_SCENE_TOOL_I
                                             data-mode={item.id}
                                             disabled={running}
                                             onClick={() => update({ modelId: item.id })}
-                                            className={`w-[60px] shrink-0 overflow-hidden rounded-[6px] border bg-card text-center transition ${
-                                                active
-                                                    ? "border-primary"
-                                                    : "border-border hover:border-primary/40"
-                                            } disabled:opacity-50`}
+                                            className="w-[60px] shrink-0 text-center transition disabled:opacity-50"
                                         >
+                                            <span className={`relative block size-[60px] overflow-hidden rounded-[6px] border-2 ${active ? "border-primary" : "border-transparent hover:border-primary/40"}`}>
+                                                <img src={MODEL_PREVIEW[item.id]} alt="" className="size-full object-cover" draggable={false} />
+                                                {active ? (
+                                                    <span className="absolute inset-0 flex items-center justify-center bg-primary/50">
+                                                        <Check aria-hidden="true" className="size-7 text-white" />
+                                                    </span>
+                                                ) : null}
+                                            </span>
                                             <span
-                                                aria-hidden
-                                                className="block h-[60px] w-full"
-                                                style={{ background: MODEL_PREVIEW[item.id] }}
-                                            />
-                                            <span
-                                                className={`block py-1 text-[12px] leading-4 ${
+                                                className={`mt-1 block text-[12px] leading-[19px] ${
                                                     active ? "text-primary" : "text-muted-foreground"
                                                 }`}
                                             >
@@ -661,9 +655,9 @@ export function ProductSceneWorkspace({ className, toolId = PRODUCT_SCENE_TOOL_I
                                 })}
                             </div>
                             <p className="sr-only" data-testid="scene-mode-hint" title={card.hint} aria-label={card.hint} />
-                        </div>
+                        </details>
 
-                        <div className="mt-4">
+                        <div className="mt-[10px]">
                             <FieldLabel>设置生成尺寸</FieldLabel>
                             <div className="flex gap-2" role="radiogroup" aria-label="尺寸方式" data-testid="scene-size-type">
                                 {(
@@ -682,7 +676,7 @@ export function ProductSceneWorkspace({ className, toolId = PRODUCT_SCENE_TOOL_I
                                             data-size-type={item.id}
                                             disabled={running || (item.id === "custom" && !capability.customSize)}
                                             onClick={() => update({ sizeType: item.id })}
-                                            className={`h-[30px] flex-1 rounded-[6px] border text-[12px] transition ${
+                                            className={`h-8 rounded-[6px] border px-[15px] text-[14px] transition ${
                                                 active
                                                     ? "border-primary bg-primary/10 text-primary"
                                                     : "border-border bg-card text-muted-foreground hover:border-primary/40"
@@ -726,7 +720,7 @@ export function ProductSceneWorkspace({ className, toolId = PRODUCT_SCENE_TOOL_I
                             ) : null}
                         </div>
 
-                        <div className="mt-2">
+                        <div className="mt-[10px]">
                             <FieldLabel>选择生成张数</FieldLabel>
                             <div className="flex gap-2" role="radiogroup" aria-label="生成张数" data-testid="scene-output-num">
                                 {capability.outputOptions.map((count) => {
@@ -783,7 +777,6 @@ export function ProductSceneWorkspace({ className, toolId = PRODUCT_SCENE_TOOL_I
                         >
                             <span>{running ? "裂变中…" : "立即生成"}</span>
                         </button>
-                        <p className="mt-1.5 text-center text-[11px] leading-4 text-muted-foreground">我是高手，不再提醒</p>
                         <p className="sr-only" data-testid="scene-expected">
                             {describeSceneProduct(output, values.outputNum)} · {sceneOutputOptionLabel(values.outputNum)} ·{" "}
                             {modelLabel(imageModel)}
@@ -809,22 +802,15 @@ export function ProductSceneWorkspace({ className, toolId = PRODUCT_SCENE_TOOL_I
                                     aria-selected={active}
                                     data-testid={`scene-tab-${item.id}`}
                                     onClick={() => setTab(item.id)}
-                                    className={`h-full px-3 text-[14px] leading-none transition ${
+                                    className={`relative h-full px-3 leading-none transition ${item.id === "history" ? "ml-auto! text-[12px]" : "text-[14px]"} ${
                                         active ? "font-medium text-primary" : "text-muted-foreground hover:text-foreground"
                                     }`}
                                 >
                                     {item.label}
+                                    {active ? <span className="absolute inset-x-3 bottom-0 h-[2px] rounded-full bg-primary" /> : null}
                                 </button>
                             );
                         })}
-                        <button
-                            type="button"
-                            data-testid="scene-one-click"
-                            onClick={handleCloneLast}
-                            className="ml-auto rounded-[6px] border border-border px-3 py-1 text-xs text-muted-foreground transition hover:text-foreground"
-                        >
-                            一键做同款
-                        </button>
                     </div>
 
                     <div className="min-h-0 flex-1 overflow-y-auto">
@@ -840,21 +826,15 @@ export function ProductSceneWorkspace({ className, toolId = PRODUCT_SCENE_TOOL_I
                                 ) : null}
 
                                 {showEmpty ? (
-                                    <div className="flex flex-1 items-center justify-center">
-                                        <div
-                                            className="flex h-[300px] w-[460px] max-w-full flex-col items-center justify-center gap-2 rounded-[12px] bg-card px-8 text-center shadow-[0_1px_2px_rgba(0,0,0,0.03)]"
-                                            data-testid="scene-result-empty"
-                                        >
-                                            <svg width="40" height="40" viewBox="0 0 40 40" aria-hidden className="mb-1">
-                                                <rect x="4" y="8" width="32" height="24" rx="4" fill="var(--primary)" fillOpacity="0.1" />
-                                                <circle cx="14" cy="17" r="3" fill="var(--primary)" fillOpacity="0.35" />
-                                                <path d="M8 27l7-7 5 5 4-3 8 5" stroke="var(--primary)" strokeWidth="1.6" fill="none" strokeLinecap="round" strokeLinejoin="round" />
-                                            </svg>
-                                            <p className="text-[20px] font-medium leading-7 text-foreground">上传商品场景参考图</p>
-                                            <p className="text-[15px] leading-6 text-muted-foreground">
-                                                3秒裂变出多张相似的场景图，快来裂变您的场景图吧~
-                                            </p>
-                                        </div>
+                                    <div className="flex flex-1 items-center justify-center pt-[26px]" data-testid="scene-result-empty">
+                                        {/* 原站 `_caseGuide`：标题（542px 宽、两行）+ 竖图案例轮播 + 一键做同款（真实入库回填） */}
+                                        <ToolCaseGuide
+                                            className={`${DESIGN_GUIDE_PORTRAIT} [&>h2]:max-w-[542px]`}
+                                            title="上传商品场景参考图，3秒裂变出多张相似的场景图，快来裂变您的场景图吧~"
+                                            cases={PRODUCT_SCENE_GUIDE_CASES}
+                                            applyingId={applyingCaseId}
+                                            onApply={applyCase}
+                                        />
                                     </div>
                                 ) : (
                                     <div className="rounded-[8px] bg-card p-3">

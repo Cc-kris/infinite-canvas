@@ -59,6 +59,8 @@ export const MAIN_SUB_MODULES: readonly SuiteModuleDescriptor[] = [
     { id: "selling-point", kind: "main-sub", label: "卖点图", defaultCount: PRODUCT_IMAGE_SUITE_DEFAULT_COUNT },
     { id: "white-background", kind: "main-sub", label: "白底图", defaultCount: PRODUCT_IMAGE_SUITE_DEFAULT_COUNT },
     { id: "scene", kind: "main-sub", label: "场景图", defaultCount: PRODUCT_IMAGE_SUITE_DEFAULT_COUNT },
+    /** 原站主副图设置弹层「商品尺寸图」（历史 type=size_chart）。 */
+    { id: "size-chart", kind: "main-sub", label: "商品尺寸图", defaultCount: PRODUCT_IMAGE_SUITE_DEFAULT_COUNT },
     { id: "closeup", kind: "main-sub", label: "特写图", defaultCount: PRODUCT_IMAGE_SUITE_DEFAULT_COUNT },
     { id: "closeup-white", kind: "main-sub", label: "特写白底图", defaultCount: PRODUCT_IMAGE_SUITE_DEFAULT_COUNT },
 ] as const;

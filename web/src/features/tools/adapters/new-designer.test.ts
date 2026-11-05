@@ -603,6 +603,12 @@ describe("工作区渲染（无网络、无假结果）", () => {
         expect(isDisabled(buttonTag(html, 'data-testid="designer-done"'))).toBe(true);
         expect(html).toContain("画布为空：上传商品图或添加文字图层开始设计");
         expect(html).toContain(NEW_DESIGNER_DRAFT_KEY);
+
+        // 没带图进来先到原站 designer-home：二级导航 + 上传区 + 原站模板瀑布流
+        for (const text of ["创建设计", "我的设计", "我的模板", "团队空间", "上传商品图", "或拖拽图片到此处", "或试试这些", "模板推荐", "适合品类", "搜索关键词"]) expect(html).toContain(text);
+        // React 19 SSR 会为 <img> 额外输出 preload link，按去重后的路径数断言
+        expect(new Set(html.match(/\/__cases\/new-designer\/templates\/[0-9a-f]+\.webp/g)).size).toBe(40);
+        expect(new Set(html.match(/\/__cases\/new-designer\/examples\/product-\d\.webp/g)).size).toBe(6);
     });
 
     test("带 imageUrl 时底图进入图层列表，导出按钮解除禁用", async () => {
@@ -618,6 +624,8 @@ describe("工作区渲染（无网络、无假结果）", () => {
         expect(isDisabled(buttonTag(html, 'data-testid="designer-export"'))).toBe(false);
         expect(isDisabled(buttonTag(html, 'data-testid="designer-done"'))).toBe(true);
         expect(html).not.toContain("画布为空");
+        // 宿主带图进来直接进编辑器，不显示首页
+        expect(html).not.toContain("模板推荐");
     });
 });
 

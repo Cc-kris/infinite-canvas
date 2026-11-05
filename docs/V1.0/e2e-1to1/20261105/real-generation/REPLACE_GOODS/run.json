@@ -1,0 +1,103 @@
+{
+  "toolId": "REPLACE_GOODS",
+  "route": "/tools/product-design/replace-goods",
+  "fixture": "product-watch.jpg",
+  "startedAt": "2026-11-05T13:00:30.525Z",
+  "provider": {
+    "imageModel": "ccai-accept::gpt-image-2",
+    "channels": [
+      "ccai-accept",
+      "sf-accept"
+    ],
+    "baseUrl": "https://api.cc-ai.xyz",
+    "keyLen": 67,
+    "proxyEnabled": true,
+    "channelCount": 2,
+    "model": "gpt-image-2"
+  },
+  "before": {
+    "images": [],
+    "issues": []
+  },
+  "submitBefore": {
+    "id": "replace-goods-submit",
+    "text": "立即生成",
+    "disabled": false
+  },
+  "gate": {
+    "found": true,
+    "disabled": false,
+    "text": "立即生成",
+    "countText": ""
+  },
+  "finishedAt": "2026-11-05T13:01:12.804Z",
+  "after": {
+    "submitButtons": [
+      {
+        "id": "replace-goods-submit",
+        "text": "立即生成",
+        "disabled": false
+      },
+      {
+        "id": "replace-goods-tab-result",
+        "text": "生成结果",
+        "disabled": false
+      }
+    ],
+    "issues": [],
+    "images": [
+      {
+        "src": "blob:http://127.0.0.1:3310/0b66556c-2cb3-41e7-bc9a-a1f49309d",
+        "w": 1024,
+        "h": 683
+      },
+      {
+        "src": "blob:http://127.0.0.1:3310/955d566b-cff1-4ac1-becc-552742e5a",
+        "w": 1024,
+        "h": 744
+      },
+      {
+        "src": "blob:http://127.0.0.1:3310/0b66556c-2cb3-41e7-bc9a-a1f49309d",
+        "w": 1024,
+        "h": 683
+      },
+      {
+        "src": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABAAAAAQACAIAAA",
+        "w": 1024,
+        "h": 1024
+      },
+      {
+        "src": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABAAAAAQACAIAAA",
+        "w": 1024,
+        "h": 1024
+      },
+      {
+        "src": "blob:http://127.0.0.1:3310/72095c8d-c9eb-457c-af83-29cf05f8b",
+        "w": 1024,
+        "h": 1024
+      }
+    ],
+    "bodyText": "无限画布\n首页\n电商套图\n智能修图\n新模型\nAI视频\nHOT\n批量生图\n商品图设计\n中\n切换到深色主题\nv0.27.0\n商品图\n我的商品\n场景参考图\n商品替换\n场景裂变\n手持商品\n企业功能\n免责声明\n💡 温馨提示：支持上传多张商品图进行批量替换\n商品 1 ·已传\n参考图\n替换商品图\n生成尺寸: 1024x1024\n参考图场景变化程度：\n不变\n高\n生成：\n1张\n2张\n4张\n立即生成\n抠图引擎\n本地轮廓抠图\n上游智能抠图\n去噪强度\n30\n定位模式\n透视（T）\n扭曲（N）\n蒙版\n定位\n补锁\n擦除\n60px\n清空蒙版\n生成结果\n优秀案例\n历史记录\n替换结果\n已完成\n共 1 个结果 · 图片 1\n下载\n存入资产\n发送画布\n本次输入快照\n历史任务\n1 条\n2026-11-05 21:00\n已完成\n第 1 张是参考场景，第 2 张是替换商品。把场景里的原商品整体换成第 2 张图中的商品：保留原商品的透视、朝向…\nccai-accept::gpt-image-2 · image · 1 个结果\n连接本地 Agent\n未连接\n点连接会自动启动本地服务、装好插件并接通，无需手动配置。\nClaude Code\n未连接\n·\nCLI · 2.1.318 (Claude Code)\n·\n直接运行\n连接\nCodex\n未连接\n·\nCLI · codex-cli 0.166.0\n·\n插件已装\n连接\nGalley\n未连接\n·\nCLI + 桌面版 · galley 0.6.4\n连接"
+  },
+  "resultSrcPrefix": "data:image/png;base64,iVBORw0KGgoAAAANSU",
+  "resultCount": 1,
+  "resultSaved": true,
+  "network": [
+    {
+      "method": "POST",
+      "url": "http://127.0.0.1:23210/https://api.cc-ai.xyz/v1/images/edits",
+      "status": 200,
+      "ms": 28802,
+      "at": "2026-11-05T13:01:09.993Z"
+    }
+  ],
+  "fixtureSha256": "43ede96e7ce88509",
+  "resultSha256": "ad150b17f4b9d8fb",
+  "ok": true,
+  "download": {
+    "file": "download-replace-goods-result-1.png",
+    "bytes": 1995265,
+    "sha256": "ad150b17f4b9d8fb",
+    "differsFromSource": true
+  }
+}
