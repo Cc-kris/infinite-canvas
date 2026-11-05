@@ -11,7 +11,8 @@
 - 第一轮报告是**修复前基线**；第二轮已根据 `local-current.png` 复核共享壳层与已修页面。
 - 当前工程状态：39/39 双端报告、39/39 最新截图、39/39 布局检查通过、`tsc` 0 错误、1588 个单测全绿。
 - 字段契约：`FIELD-PARITY.md` 与 `web/scripts/real-acceptance/spec-field-parity.mjs` 把「规格字段表」与「实现字段常量」逐页比对，**18 页一致、0 页差异**（其中 3 页通过运行时调用 `build*Fields` 取得真实请求字段）；另 21 页缺可提取来源，无法自动比对（不等于通过）。
-- **基线可信度**（重要）：`BASELINE-AUDIT.md` 与 `web/scripts/real-acceptance/original-baseline-audit.mjs` 核验后发现，39 页中只有 **20 页**能真正与 LinkFox 原站做 1:1 对照；**17 页的 `original.png` 是错配截图**（9 页原站根本没有该工具、6 页原站无此页面、2 页本账号被重定向首页），另有 3 页缺基线。错配截图已隔离到 `_INVALID-BASELINE/`。这些页此前报告里的「视觉 PASS/FAIL」不能作为 1:1 依据。
+- **基线可达性**（重要）：`BASELINE-AUDIT.md` 与 `web/scripts/real-acceptance/original-baseline-audit.mjs` 在登录态下逐页读页面正文核验：**31/39 页可做 1:1 对照且基线齐备**；3 页本账号不可见（AI_TEXT、ORNAMENT_TEXT、PRODUCT_MARKET_MATERIAL），5 页原站无独立页面（AI姿势生成、AI试衣XSY、场景裂变链接、上装换料、场景迁移）。
+- **一处已更正的误判**：此前用本地 slug 拼 `/draw/<slug>` 探测，把 11 页误判为「原站不存在」并隔离其基线；原站路由与本地 slug 不是同一套命名（如服装套图是 `/draw/clothing-image-suite`）。已在登录态复核更正，恢复 9 张基线，详见 `LOGIN-RECHECK.md`。
 - 真实生成证据：`IMAGE_TO_VIDEO/real-generation.md` 记录了唯一可跑通的真实闭环（本机账号只有视频模型 `MiniMax-H3`）：提交 200 → 上游任务 ID → 轮询 200 → 约 220s 出片（`<video src="blob:...">`）。
 - 环境限制：本机测试账号 `GET /v1/models` 仅返回 1 个视频模型，无图像模型；图像类工具实测被上游拒绝（`404 Model "gpt-image-2" is not available for this group`），因此图像类真实生成在当前环境不可完成，这属于环境能力缺失而非代码缺陷。
 - 功能闭环证据：`IMAGE_CROP/functional-accept.md` 记录了「真实上传 → 平台预设 → 下载真实 PNG 字节（IHDR 校验尺寸）」8/8 通过，脚本 `web/scripts/real-acceptance/crop-functional-accept.mjs` 可复现，且不消耗算力。

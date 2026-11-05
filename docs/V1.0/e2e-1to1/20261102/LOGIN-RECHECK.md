@@ -1,49 +1,64 @@
 # 登录态下原站可达性复核（egolite）
 
-复核时间：使用用户本机已登录 LinkFox 的 egolite 浏览器（账号「用户6991」）实测。
+复核方式：使用用户本机已登录 LinkFox 的 egolite 浏览器（账号「用户6991」）实测。
 
-## 一、为什么要复核
+## 一、本轮结论：此前「17 页不可对照」的判断是错的
 
-此前受「无原站登录态」阻塞，只能用 HTTP 响应体长度做间接判断，并据此把 20/39 定为「可 1:1 对照」。拿到登录态后必须直接复核，不能沿用间接推断。
+**原站路由与本地 slug 不是同一套命名**，例如：
 
-## 二、登录态已确认
+| 本地 slug | 原站真实路由 | 原站页面名 |
+|---|---|---|
+| `dress-wear-set` | `/draw/clothing-image-suite` | 服装套图 |
+| `scale-up` | `/draw/quality-increase` | 高清放大 |
+| `fix-color` | `/draw/color-diff-repair` | 色差修复 |
+| `ai-dressing-v2` | `/draw/ai-dressing` | AI穿衣 |
+| `replace-goods` | `/draw/product-replacement` | 商品替换 |
+| `new-replace-bg-v2` | `/draw/product-home` | 商品图合成 |
+| `image-to-video` | `/draw/video` | 商品视频 |
+| `ai-video-editing` | `/draw/ai-video-edit` | 视频编辑 |
+| `video-concat` | `/draw/video-edit` | 视频剪辑 |
+| `image-text-edit` | `/designer?type=78` | 商品图设计编辑器 |
+| `new-designer` | `/draw/designer-home` | 创建设计 |
 
-egolite 中访问原站，导航栏显示「免费得算力 350」「用户6991」「个人账号」，确认处于登录状态。
+我此前直接用本地 slug 拼 `/draw/<slug>` 去探测，得到「页面不存在」，就把这些页面判成原站不存在。**这个方法是错的**，结论也随之错了。
 
-## 三、逐页实测结果
+## 二、实测验证
 
-对 8 个此前判为「原站无此页面」的路径，登录后直接访问并等待 7 秒充分渲染：
+用 egolite 直接访问上表的真实路由，逐页读取页面正文：
 
-| slug | 跳转路径 | 页面文本 | 判定 |
+| 工具 | 路由 | 页面正文关键内容 | 判定 |
 |---|---|---|---|
-| dress-wear-set | `/draw/dress-wear-set` | 页面不存在 | **确认不存在** |
-| scale-up | `/draw/scale-up` | 页面不存在 | **确认不存在** |
-| fix-color | `/draw/fix-color` | 页面不存在 | **确认不存在** |
-| new-replace-bg-v2 | `/draw/new-replace-bg-v2` | 页面不存在 | **确认不存在** |
-| replace-goods | `/draw/replace-goods` | 页面不存在 | **确认不存在** |
-| ai-dressing-v2 | `/draw/ai-dressing-v2` | 页面不存在 | **确认不存在** |
-| image-to-video | `/draw/image-to-video` | 页面不存在 | **确认不存在** |
-| ai-video-editing | `/draw/ai-video-editing` | 页面不存在 | **确认不存在** |
+| 服装套图 | `/draw/clothing-image-suite` | 多角度服装图&搭配图 / 从本地上传 / 最多上传16张图 / 商品类目 | **真实工具页** |
+| 高清放大 | `/draw/quality-increase` | 变高清 / 高清 + 2倍放大 / 高清 + 4倍放大 / 立即生成 (20算力) | **真实工具页** |
+| AI穿衣 | `/draw/ai-dressing` | 上下装衣服 / 连体衣服 / 图片规则 / 上传上装正面图 | **真实工具页** |
+| 色差修复 | `/draw/color-diff-repair` | 非「页面不存在」 | 存在 |
 
-另有 2 个此前判为「本账号被重定向首页」的路径，登录后行为不变：
+同时复核了两类确实不可用的情况（这两类判断成立）：
 
-| slug | 结果 |
-|---|---|
-| ai-text | 跳转 `/home`，显示首页内容 |
-| ornament-text | 跳转 `/home`，显示首页内容 |
+| 工具 | 现象 | 判定 |
+|---|---|---|
+| AI_TEXT（POD素材） | `/draw/ai-text` → 跳转 `/home` | 本账号重定向 |
+| 饰品文字 | `/draw/ornament-text` → 跳转 `/home` | 本账号重定向 |
+| 商品营销素材 | 仅批量生图 create-task 入口，需团队版账号 | 本账号不可见 |
 
-同时验证 8 个此前判为「可对照」的路径（product-image-suite / change-color-v2 / image-translation / ai-outpainting / area-repair / remove-pen / change-color / image-crop）登录后可正常进入 `/draw/*` 并渲染工具界面（以 image-crop 为例，页面出现「图片裁剪」「上传图片，裁剪图片为任何尺寸/比例」「亚马逊 1600 × 1600」等真实控件）。
+## 三、更正后的数字
 
-## 四、结论
+| 分类 | 数量 | 说明 |
+|---|---|---|
+| 可做 1:1 对照 | **31** | 有真实原站路由 + 有 `original.png` 基线 |
+| 本账号不可见（blocked） | 3 | AI_TEXT、ORNAMENT_TEXT、PRODUCT_MARKET_MATERIAL |
+| 原站无独立页面（no-page） | 5 | AI_POSE_GENERATOR、AI_DRESSING_XSY、FISSION_LINK、MATERIAL_UPPER_BODY、SCENE_TRANSFER |
 
-**此前的「20/39 可 1:1 对照」结论成立，不因登录态改变。**
+「缺基线」为 0：31 个可对照工具全部有 `original.png`。
 
-需要特别说明两点，避免后续误读：
+## 四、隔离区的更正
 
-1. 这 8 个「不存在」的页面，登录后**不重定向**，而是停在原 URL 并渲染「页面不存在」页。仅看 URL 或 HTTP 状态会误判为可用，必须读取页面文本。
-2. `ai-text` / `ornament-text` 是**重定向**回首页，与「页面不存在」是两种不同的失败形态，判据不能混用。
+此前误判导致 17 张基线被移入 `_INVALID-BASELINE/`。现已恢复其中 9 张（服装套图、高清放大、色差修复、商品图、商品替换、AI穿衣、图转视频、商品图设计器、图片文字编辑），并删除对应的 `BASELINE-INVALID.md`。
 
-## 五、仍未完成
+恢复后已抽查确认：`DRESS_WEAR_SET/original.png` 是原站「服装套图」页（含「多角度服装图&搭配图」「开始生成 600算力」），`AI_DRESSING_V2/original.png` 是原站「AI穿衣」页（含「上下装衣服/连体衣服」「立即生成 30算力」）。
 
-- 登录态已具备，但**20 页的双端视觉比对尚未执行**：需要按页采集原站截图并与本地截图配对比较，是一项独立工作。
-- 图像上游账号（`https://api.cc-ai.xyz`）尚未接入验证。**该 key 已在对话中明文出现，建议尽快轮换**；本仓库不保存该 key。
+仍保留隔离的 8 张属正确隔离：5 张 no-page（原站无独立页面）+ 3 张 blocked（本账号看不到）。
+
+## 五、教训
+
+`tool_specs.json` 里的 `slug` 是**本地路由**用的，不是原站路由。任何跨站比对都必须先拿到原站真实路由，不能靠 slug 拼接猜测。这一点已写入审计脚本注释，避免再次踩坑。
