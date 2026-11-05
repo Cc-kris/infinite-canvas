@@ -9,6 +9,7 @@ const { describe, expect, test } = (await import("bun:test" as string)) as {
         toBe: (value: unknown) => void;
         toContain: (value: string) => void;
         toBeGreaterThan: (value: number) => void;
+        not: { toContain: (value: string) => void };
     };
     test: (name: string, fn: () => void) => void;
 };
@@ -48,13 +49,16 @@ type CaseSection = {
 };
 
 const CASE_SECTIONS: CaseSection[] = [
-    { tool: "SALE_VIDEO", source: "video", testId: "sale-video-cases", keeps: ["优秀案例", "type=73", "/image/make-case/list?type=<bizType>"] },
-    { tool: "VIDEO_REPLICATION", source: "video", testId: "video-replication-cases", keeps: ["优秀案例", "type=89", "/image/make-case/list?type=<bizType>"] },
-    { tool: "AI_VIDEO_EDITING", source: "video", testId: "ai-video-editing-cases", keeps: ["优秀案例", "type=95", "/image/make-case/list?type=<bizType>"] },
-    { tool: "VIDEO_CONCAT", source: "video", testId: "video-concat-cases", keeps: ["优秀案例", "type=52", "/image/make-case/list?type=<bizType>"] },
-    { tool: "VIDEO_TRANSLATION", source: "videoTranslation", testId: "video-translation-cases", keeps: ["优秀案例", "type=814", "/image/make-case/list?type=<bizType>"] },
+    { tool: "VIDEO_REPLICATION", source: "video", testId: "video-replication-cases", keeps: ["type=89", "/image/make-case/list?type=<bizType>"] },
+    { tool: "VIDEO_TRANSLATION", source: "videoTranslation", testId: "video-translation-cases", keeps: ["casesTitle", "type=814", "/image/make-case/list?type=<bizType>"] },
     { tool: "PRODUCT_IMAGE_SUITE", source: "suite", testId: "suite-panel-cases", keeps: ["cases={PRODUCT_SUITE_CASES}"] },
 ];
+
+/**
+ * 这三个视频工具本地没有任何真实案例数据，页面也不再渲染空案例区 + `onApply={() => undefined}`：
+ * 用空回调撑出来的「做同款」是假按钮，宁可整块不出现。这里锁住「不新增假案例区」。
+ */
+const NO_CASE_SECTIONS = ["sale-video-cases", "ai-video-editing-cases", "video-concat-cases"];
 
 /** 取 data-testid 对应的区块源码（案例区本身很短，截到最近的闭合标签即可）。 */
 function sliceSection(code: string, testId: string): string {
@@ -65,12 +69,11 @@ function sliceSection(code: string, testId: string): string {
     return end < 0 ? rest : rest.slice(0, end);
 }
 
-describe("案例区文案：7 工具无品牌字样 / 无占位 / 保留原功能字段", () => {
+describe("案例区文案：工具无品牌字样 / 无占位 / 保留原功能字段", () => {
     for (const item of CASE_SECTIONS) {
         test(`${item.tool}：${item.testId} 区块存在且文案合规`, () => {
             const section = sliceSection(SOURCES[item.source], item.testId);
             expect(section.length).toBeGreaterThan(0);
-            expect(section).toContain("优秀案例");
             expect(BRAND.test(section)).toBe(false);
             expect(PLACEHOLDER.test(section)).toBe(false);
             for (const keep of item.keeps) {
@@ -79,6 +82,14 @@ describe("案例区文案：7 工具无品牌字样 / 无占位 / 保留原功�
         });
     }
 
+    test("SALE_VIDEO / AI_VIDEO_EDITING / VIDEO_CONCAT：没有真实案例就不渲染案例区", () => {
+        for (const testId of NO_CASE_SECTIONS) {
+            expect(`video.tsx:${testId}:${SOURCES.video.includes(`data-testid="${testId}"`)}`).toBe(`video.tsx:${testId}:false`);
+        }
+        // 也禁止用空回调假装可做同款（空 cases + onApply 空实现）
+        expect(SOURCES.video).not.toContain("onApply={() => undefined}");
+    });
+
     test("PRODUCT_MARKET_MATERIAL：不新增案例模块，自身也没有品牌/占位文案", () => {
         const code = SOURCES.suite;
         const start = code.indexOf("export function ProductMarketMaterialWorkspace");
@@ -86,7 +97,9 @@ describe("案例区文案：7 工具无品牌字样 / 无占位 / 保留原功�
         const body = code.slice(start);
         // 该页规格（page-specs/32）没有「优秀案例」区，不得为了对齐审计而新造一个
         expect(body.includes('data-testid="product-market-material-cases"')).toBe(false);
-        expect(BRAND.test(body)).toBe(false);
+        // `data-layout="linkfox-two-pane"` / `variant="linkfox"` 是功能标识，不是可见文案。
+        const visibleText = body.replace(/data-layout="linkfox-two-pane"|variant="linkfox"/g, "");
+        expect(BRAND.test(visibleText)).toBe(false);
         expect(PLACEHOLDER.test(body)).toBe(false);
     });
 

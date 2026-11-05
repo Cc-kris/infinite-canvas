@@ -3,28 +3,26 @@ import { ToolWorkspaceColumns } from "@/components/tools/tool-workspace-columns"
  * TASK-023：「商品替换」REPLACE_GOODS 工作区（layout = replace）。
  *
  * 真实边界：
- *  - 参考场景 + 替换商品双输入；每个 SKU 一份独立的四边形（透视/扭曲）、蒙版与场景变化程度；
+ *  - 参考场景 + 替换商品双输入；每个 SKU 一份独立的四边形（透视/扭曲）与场景变化程度；
  *  - 画布拖动会真实改变 `targetConfig/point/scale/rotate`（由 registry 的四边形派生），不是装饰动画；
  *  - 提交前由本机真正渲染「落位导引图」和保护蒙版 PNG（adapters/replace-goods），与两张原图一起发出；
  *  - 结果只来自上游返回，空结果判失败；配置一变即把旧结果标记为「来自旧版本」。
  *
- * 与 PRODUCT_SCENE / NEW_REPLACE_BG_V2 的区别：本页是「场景不变、商品本体被替换」，
- * 因此必须有原商品锁定与替换商品落位，没有场景词/风格词输入。
+ * 布局对照原站 `product-replacement`：主区是画布，参数条固定在画布下方，结果列在右侧；
+ * 不再把参数塞进右侧属性面板，也不在画布下方摆一排自造工具条。
  */
 
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { Link } from "react-router-dom";
-import { ChevronDown, ChevronLeft, ChevronRight, Layers, Loader2, Move, Plus, Redo2, RotateCcw, Trash2, Undo2 } from "lucide-react";
+import { useCallback, useEffect, useMemo, useRef, useState, type PointerEvent as ReactPointerEvent } from "react";
+import { Loader2, Plus, Trash2, Upload } from "lucide-react";
 
-import { ToolAssetInput } from "@/components/tools/tool-asset-input";
 import { ToolCases } from "@/components/tools/tool-cases";
 import type { ToolCase } from "@/components/tools/tool-cases";
 import { ToolResult } from "@/components/tools/tool-result";
-import { ToolShell } from "@/components/tools/tool-shell";
+import { ToolTaskHistory } from "@/components/tools/tool-task-history";
 import { cn, randomId } from "@/lib/utils";
 import { uploadCaseFiles } from "@/features/tools/case-apply";
 import { REPLACE_GOODS_CASES } from "@/features/tools/tool-cases-data";
-import type { ToolAssetRecord } from "@/services/api/tools/assets";
+import { loadToolAssetRecords, uploadToolAsset, type ToolAssetRecord } from "@/services/api/tools/assets";
 import type { ToolTask } from "@/services/api/tools/task-machine";
 import { useToolDraftStore } from "@/stores/use-tool-draft-store";
 
@@ -33,10 +31,6 @@ import {
     buildReplaceGoodsInput,
     buildReplaceGoodsUnit,
     replaceGoodsOutcomeFromTask,
-    renderPlacementGuidePng,
-    renderProtectMaskPng,
-    REPLACE_GOODS_GUIDE_MAX_SIDE,
-    assertReplaceGoodsInput as assertInput,
     type ReplaceGoodsUnit,
     type ReplaceGoodsUnitOutcome,
 } from "@/features/tools/adapters/replace-goods";
@@ -48,115 +42,111 @@ import {
     REPLACE_GOODS_KEY_STEP,
     REPLACE_GOODS_MASK_BRUSH,
     REPLACE_GOODS_MAX_SKUS,
-    REPLACE_GOODS_OUTPUT_NUM,
     REPLACE_GOODS_OUTPUT_OPTIONS,
     REPLACE_GOODS_OUTPUT_SIZE,
     REPLACE_GOODS_SCENE_CHANGES,
     REPLACE_GOODS_TOOL_ID,
     REPLACE_GOODS_UPLOAD_LIMITS,
-    REPLACE_GOODS_UPLOAD_LABEL,
     REPLACE_GOODS_WARP_MODES,
     activeSku,
-    activeSkuIndex,
     addSku,
     applyQuad,
     clamp01,
     createSku,
     createTransformHistory,
     createWorkspace,
-    deriveQuadFields,
     dragQuadCorner,
-    getReplaceGoodsSpec,
     moveQuad,
     parseDraftValues,
-    quadFromCaseShape,
     pointInQuad,
-    protectMaskCoverage,
-    redoTransform,
+    quadFromCaseShape,
     removeSku,
-    resetTransform,
     rotateQuad,
     scaleQuad,
     serializeDraftValues,
-    switchSku,
-    transformHistoryLabel,
-    undoTransform,
     updateSku,
-    validateUnit,
     validateWorkspace,
     type ReplaceGoodsCorner,
     type ReplaceGoodsMask,
     type ReplaceGoodsPoint,
     type ReplaceGoodsQuad,
     type ReplaceGoodsSceneChange,
-    type ReplaceGoodsSize,
     type ReplaceGoodsSku,
     type ReplaceGoodsWarpMode,
     type ReplaceGoodsWorkspace,
 } from "@/features/tools/registry/replace-goods";
 
-const SCENE_SLOT_ID = `${REPLACE_GOODS_TOOL_ID}-scene`;
-const TARGET_SLOT_PREFIX = `${REPLACE_GOODS_TOOL_ID}-target`;
 const UPLOAD_CONSTRAINTS = {
+    kind: "image" as const,
     mimeTypes: [...REPLACE_GOODS_UPLOAD_LIMITS.mimeTypes],
     maxBytes: REPLACE_GOODS_UPLOAD_LIMITS.maxBytes,
     minSide: REPLACE_GOODS_UPLOAD_LIMITS.minSide,
     maxSide: REPLACE_GOODS_UPLOAD_LIMITS.maxSide,
 };
+const UPLOAD_ACCEPT = UPLOAD_CONSTRAINTS.mimeTypes.join(",");
 
 /** 右栏页签 */
 const REPLACE_TABS = [
     { id: "result", label: "生成结果" },
     { id: "cases", label: "优秀案例" },
 ] as const;
-type ReplaceTabId = (typeof REPLACE_TABS)[number]["id"];
+type ReplaceTabId = (typeof REPLACE_TABS)[number]["id"] | "history";
 
-type RunState = {
-    status: "idle" | "running" | "succeeded" | "failed" | "cancelled" | "unknown";
-    skuId?: string;
-    outcome?: ReplaceGoodsUnitOutcome;
-    message?: string;
-};
+/** 画布工具：定位（拖动四边形）/ 补锁 / 擦除 */
+const REPLACE_TOOLS = [
+    { id: "warp", label: "定位" },
+    { id: "mask", label: "补锁" },
+    { id: "eraser", label: "擦除" },
+] as const;
+type CanvasTool = (typeof REPLACE_TOOLS)[number]["id"];
 
 /* ------------------------------------------------------------------ *
- * 小构件
+ * AssetButton：原站画布/参数条里的「上传参考图」按钮（真实 file input）
  * ------------------------------------------------------------------ */
 
-function StepCard({ step, title, hint, active, done, children }: { step?: number; title: string; hint: string; active: boolean; done: boolean; children: React.ReactNode }) {
+function AssetButton({
+    label,
+    url,
+    variant = "chip",
+    disabled,
+    onPick,
+}: {
+    label: string;
+    url?: string | null;
+    variant?: "primary" | "chip";
+    disabled?: boolean;
+    onPick: (files: File[]) => void;
+}) {
     return (
-        <section
-            data-testid={`replace-goods-step-${step}`}
-            data-state={done ? "done" : active ? "active" : "pending"}
-            className={cn("rounded-2xl border bg-card p-4", active ? "border-primary/60" : "border-border")}
+        <label
+            className={cn(
+                "inline-flex cursor-pointer items-center gap-1.5 rounded-[6px] text-[12px] transition",
+                variant === "primary"
+                    ? "h-8 bg-primary px-4 font-medium text-primary-foreground hover:opacity-90"
+                    : "h-7 border border-border bg-card px-2 text-muted-foreground hover:border-foreground/30 hover:text-foreground",
+                disabled && "pointer-events-none opacity-50",
+            )}
         >
-            <header className="flex items-start gap-2">
-                <div className="min-w-0 flex-1">
-                    <h3 className="text-sm font-medium text-foreground">{title}</h3>
-                    <p className="mt-0.5 text-xs leading-5 text-muted-foreground">{hint}</p>
-                </div>
-            </header>
-            <div className="mt-3">{children}</div>
-        </section>
-    );
-}
-
-function Field({ label, hint, children }: { label: string; hint?: string; children: React.ReactNode }) {
-    return (
-        <label className="block space-y-1">
-            <span className="flex items-baseline justify-between gap-2 text-xs font-medium text-foreground">
-                {label}
-                {hint ? <span className="text-[11px] font-normal text-muted-foreground">{hint}</span> : null}
-            </span>
-            {children}
+            {url ? <img src={url} alt={label} className="size-4 rounded object-cover" /> : <Upload aria-hidden="true" className="size-3.5" />}
+            {label}
+            <input
+                type="file"
+                className="hidden"
+                accept={UPLOAD_ACCEPT}
+                disabled={disabled}
+                onChange={(event) => {
+                    const files = Array.from(event.target.files ?? []);
+                    event.target.value = "";
+                    if (files.length) onPick(files);
+                }}
+            />
         </label>
     );
 }
 
 /* ------------------------------------------------------------------ *
- * PerspectiveWarpCanvas：四边形拖动 + 蒙版笔刷（真实坐标，归一化存储）
+ * PerspectiveWarpCanvas：四边形拖动（真实坐标，归一化存储）
  * ------------------------------------------------------------------ */
-
-type CanvasTool = "warp" | "mask" | "eraser";
 
 function PerspectiveWarpCanvas({
     scene,
@@ -168,6 +158,7 @@ function PerspectiveWarpCanvas({
     disabled,
     onQuad,
     onStroke,
+    onPick,
 }: {
     scene: { url: string; width: number; height: number } | null;
     quad: ReplaceGoodsQuad;
@@ -178,53 +169,69 @@ function PerspectiveWarpCanvas({
     disabled?: boolean;
     onQuad: (quad: ReplaceGoodsQuad) => void;
     onStroke: (stroke: MaskStroke) => void;
+    onPick: (files: File[]) => void;
 }) {
+    const frameRef = useRef<HTMLDivElement | null>(null);
     const boxRef = useRef<HTMLDivElement | null>(null);
-    const [box, setBox] = useState({ width: 0, height: 0 });
+    const [frame, setFrame] = useState({ width: 0, height: 0 });
     const [live, setLive] = useState<ReplaceGoodsQuad | null>(null);
-    const [draft, setDraft] = useState<{ x: number; y: number }[] | null>(null);
+    const [draft, setDraft] = useState<ReplaceGoodsPoint[] | null>(null);
     const dragRef = useRef<{ kind: "corner"; corner: ReplaceGoodsCorner } | { kind: "move"; last: ReplaceGoodsPoint } | null>(null);
 
     useEffect(() => {
-        const element = boxRef.current;
+        const element = frameRef.current;
         if (!element || typeof ResizeObserver === "undefined") return;
         const observer = new ResizeObserver((entries) => {
             const rect = entries[0]?.contentRect;
-            if (rect) setBox({ width: Math.round(rect.width), height: Math.round(rect.height) });
+            if (rect) setFrame({ width: Math.round(rect.width), height: Math.round(rect.height) });
         });
         observer.observe(element);
         return () => observer.disconnect();
     }, []);
 
     const current = live ?? quad;
+    const aspect = scene && scene.width > 0 && scene.height > 0 ? scene.width / scene.height : 1;
+    const fitted = useMemo(() => {
+        if (!frame.width || !frame.height) return null;
+        const width = Math.min(frame.width, frame.height * aspect);
+        return { width: Math.round(width), height: Math.round(width / aspect) };
+    }, [aspect, frame.height, frame.width]);
 
-    const toNormalized = useCallback((event: React.PointerEvent): ReplaceGoodsPoint => {
+    const toNormalized = useCallback((event: ReactPointerEvent<HTMLDivElement>): ReplaceGoodsPoint => {
         const rect = boxRef.current?.getBoundingClientRect();
         if (!rect || rect.width === 0 || rect.height === 0) return { x: 0.5, y: 0.5 };
         return { x: clamp01((event.clientX - rect.left) / rect.width), y: clamp01((event.clientY - rect.top) / rect.height) };
     }, []);
 
-    const startCorner = (corner: ReplaceGoodsCorner) => (event: React.PointerEvent) => {
+    const startCorner = (corner: ReplaceGoodsCorner) => (event: ReactPointerEvent<HTMLButtonElement>) => {
         if (disabled) return;
         event.preventDefault();
         (event.target as Element).setPointerCapture?.(event.pointerId);
         dragRef.current = { kind: "corner", corner };
     };
 
-    const startMove = (event: React.PointerEvent) => {
-        if (disabled || tool !== "warp") return;
+    const handleDown = (event: ReactPointerEvent<HTMLDivElement>) => {
+        if (disabled) return;
         const point = toNormalized(event);
-        if (tool === "warp" && !pointInQuad(current, point)) return;
+        if (tool === "warp") {
+            // 与原站一致：只有按在商品四边形内才拖动整体，四角单独拖动改形。
+            if (!pointInQuad(current, point)) return;
+            event.preventDefault();
+            (event.currentTarget as Element).setPointerCapture?.(event.pointerId);
+            dragRef.current = { kind: "move", last: point };
+            return;
+        }
+        // 补锁 / 擦除：画笔轨迹同样落在归一化坐标里，提交时导出成真实蒙版 PNG。
         event.preventDefault();
-        dragRef.current = { kind: "move", last: point };
+        (event.currentTarget as Element).setPointerCapture?.(event.pointerId);
+        setDraft([point]);
     };
 
-    const handleMove = (event: React.PointerEvent) => {
+    const handleMove = (event: ReactPointerEvent<HTMLDivElement>) => {
         if (disabled) return;
         const point = toNormalized(event);
         if (tool !== "warp") {
-            if (!draft) return;
-            setDraft([...draft, point]);
+            setDraft((currentDraft) => (currentDraft ? [...currentDraft, point] : currentDraft));
             return;
         }
         const drag = dragRef.current;
@@ -233,10 +240,8 @@ function PerspectiveWarpCanvas({
             setLive(dragQuadCorner(current, drag.corner, point, mode));
             return;
         }
-        const dx = point.x - drag.last.x;
-        const dy = point.y - drag.last.y;
+        setLive(moveQuad(current, point.x - drag.last.x, point.y - drag.last.y));
         dragRef.current = { kind: "move", last: point };
-        setLive(moveQuad(current, dx, dy));
     };
 
     const handleUp = () => {
@@ -258,83 +263,91 @@ function PerspectiveWarpCanvas({
         }
     };
 
-    const handleDown = (event: React.PointerEvent) => {
-        if (disabled) return;
-        if (tool === "warp") {
-            startMove(event);
-            return;
-        }
-        event.preventDefault();
-        (event.target as Element).setPointerCapture?.(event.pointerId);
-        setDraft([toNormalized(event)]);
-    };
+    if (!scene) {
+        return (
+            <div ref={frameRef} className="flex h-full w-full items-center justify-center p-4" data-testid="replace-goods-canvas">
+                <div
+                    className="flex h-full w-full flex-col items-center justify-center gap-3 rounded-[8px] border border-dashed border-border px-6 text-center"
+                    data-testid="replace-goods-canvas-empty"
+                    onDragOver={(event) => event.preventDefault()}
+                    onDrop={(event) => {
+                        event.preventDefault();
+                        const files = Array.from(event.dataTransfer?.files ?? []);
+                        if (files.length) onPick(files);
+                    }}
+                >
+                    <p className="text-[13px] leading-6 text-foreground">商品替换</p>
+                    <p className="text-[12px] leading-5 text-muted-foreground">上传参考图，一键替换商品，快来替换您的商品吧~</p>
+                    <AssetButton label="上传参考图" variant="primary" onPick={onPick} />
+                </div>
+            </div>
+        );
+    }
 
     const points = REPLACE_GOODS_CORNERS.map((corner) => current[corner]);
-    const scale = box.width > 0 ? box.width : 1;
-    const strokeWidth = (size: number) => Math.max(1, (size * scale) / Math.max(1, scene?.width ?? scale));
 
     return (
-        <div
-            ref={boxRef}
-            data-testid="replace-goods-canvas"
-            className={cn("relative select-none overflow-hidden rounded-xl border border-border bg-muted", disabled && "opacity-70")}
-            onPointerDown={handleDown}
-            onPointerMove={handleMove}
-            onPointerUp={handleUp}
-            onPointerCancel={handleUp}
-            style={{ touchAction: "none", cursor: tool === "warp" ? "crosshair" : "cell" }}
-        >
-            {scene ? <img src={scene.url} alt="参考场景" className="block h-auto w-full" draggable={false} /> : (
-                <div data-testid="replace-goods-canvas-empty" className="grid h-[280px] place-items-center px-4 text-center text-xs text-muted-foreground">
-                    先上传参考场景，再拖动定位替换商品
-                </div>
-            )}
-            {scene ? (
+        <div ref={frameRef} className="flex h-full w-full items-center justify-center overflow-hidden p-3">
+            <div
+                ref={boxRef}
+                data-testid="replace-goods-canvas"
+                className={cn(
+                    "relative select-none overflow-hidden rounded-[8px] border border-border bg-muted",
+                    disabled && "opacity-70",
+                )}
+                style={{ width: fitted?.width, height: fitted?.height, touchAction: "none", cursor: tool === "warp" ? "crosshair" : "cell" }}
+                onPointerDown={handleDown}
+                onPointerMove={handleMove}
+                onPointerUp={handleUp}
+                onPointerCancel={handleUp}
+            >
+                <img src={scene.url} alt="参考场景" className="block h-full w-full object-contain" draggable={false} />
                 <svg className="pointer-events-none absolute inset-0 size-full" viewBox="0 0 100 100" preserveAspectRatio="none">
-                    {mask.mode === "auto" ? (
-                        <path
-                            d={`M0 0 H100 V100 H0 Z ${points.map((point, index) => `${index === 0 ? "M" : "L"}${point.x * 100} ${point.y * 100}`).join(" ")} Z`}
-                            fill="rgba(15,23,42,0.35)"
-                            fillRule="evenodd"
-                        />
-                    ) : null}
+                    <path
+                        d={`M0 0 H100 V100 H0 Z ${points.map((point, index) => `${index === 0 ? "M" : "L"}${point.x * 100} ${point.y * 100}`).join(" ")} Z`}
+                        fill="rgba(15,23,42,0.18)"
+                        fillRule="evenodd"
+                    />
                     {mask.strokes.map((stroke) => (
                         <polyline
                             key={stroke.id}
                             points={stroke.points.map((point) => `${point.x * 100},${point.y * 100}`).join(" ")}
                             fill="none"
-                            stroke={stroke.tool === "eraser" ? "rgba(239,68,68,0.6)" : "rgba(56,189,248,0.65)"}
+                            stroke={stroke.tool === "eraser" ? "rgba(239,68,68,0.55)" : "rgba(56,189,248,0.6)"}
                             strokeWidth={0.6}
                             strokeLinecap="round"
                             strokeDasharray={stroke.tool === "eraser" ? "1.5 1" : undefined}
                         />
                     ))}
                     {draft && draft.length > 1 ? (
-                        <polyline points={draft.map((point) => `${point.x * 100},${point.y * 100}`).join(" ")} fill="none" stroke="rgba(56,189,248,0.9)" strokeWidth={0.8} />
+                        <polyline
+                            points={draft.map((point) => `${point.x * 100},${point.y * 100}`).join(" ")}
+                            fill="none"
+                            stroke="rgba(56,189,248,0.9)"
+                            strokeWidth={0.8}
+                        />
                     ) : null}
                     <polygon points={points.map((point) => `${point.x * 100},${point.y * 100}`).join(" ")} fill="none" stroke="rgba(255,64,64,0.9)" strokeWidth={0.4} />
                 </svg>
-            ) : null}
-            {scene
-                ? REPLACE_GOODS_CORNERS.map((corner) => (
-                      <button
-                          key={corner}
-                          type="button"
-                          aria-label={`拖动 ${corner} 角点`}
-                          data-testid={`replace-goods-handle-${corner}`}
-                          disabled={disabled}
-                          onPointerDown={startCorner(corner)}
-                          className="absolute grid size-10 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full focus:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-                          style={{ left: `${current[corner].x * 100}%`, top: `${current[corner].y * 100}%` }}
-                      >
-                          <span className="size-3 rounded-full border-2 border-white bg-red-500 shadow" />
-                      </button>
-                  ))
-                : null}
-            {draft ? null : null}
+                {REPLACE_GOODS_CORNERS.map((corner) => (
+                    <button
+                        key={corner}
+                        type="button"
+                        aria-label={`拖动 ${corner} 角点`}
+                        data-testid={`replace-goods-handle-${corner}`}
+                        disabled={disabled}
+                        onPointerDown={startCorner(corner)}
+                        className="absolute grid size-8 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full focus:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                        style={{ left: `${current[corner].x * 100}%`, top: `${current[corner].y * 100}%` }}
+                    >
+                        <span className="size-3 rounded-full border-2 border-white bg-red-500 shadow" />
+                    </button>
+                ))}
+            </div>
         </div>
     );
 }
+
 /* ------------------------------------------------------------------ *
  * 主工作区
  * ------------------------------------------------------------------ */
@@ -351,7 +364,6 @@ function loadImageElement(url: string): Promise<HTMLImageElement> {
 export type ReplaceGoodsWorkspaceProps = { className?: string };
 
 export function ReplaceGoodsWorkspace({ className }: ReplaceGoodsWorkspaceProps = {}) {
-    const spec = useMemo(() => getReplaceGoodsSpec(), []);
     const hydrateDraft = useToolDraftStore((state) => state.hydrate);
     const patchDraft = useToolDraftStore((state) => state.patch);
 
@@ -359,7 +371,6 @@ export function ReplaceGoodsWorkspace({ className }: ReplaceGoodsWorkspaceProps 
     const [workspace, setWorkspace] = useState<ReplaceGoodsWorkspace>(() => createWorkspace());
     const [sceneRecord, setSceneRecord] = useState<ToolAssetRecord | null>(null);
     const [targets, setTargets] = useState<Record<string, ToolAssetRecord | null>>({});
-    const [tool, setTool] = useState<CanvasTool>("warp");
     const [task, setTask] = useState<ToolTask | null>(null);
     const [unit, setUnit] = useState<ReplaceGoodsUnit | null>(null);
     const [outcome, setOutcome] = useState<ReplaceGoodsUnitOutcome | null>(null);
@@ -367,6 +378,7 @@ export function ReplaceGoodsWorkspace({ className }: ReplaceGoodsWorkspaceProps 
     const [notice, setNotice] = useState<string | null>(null);
     const [submitError, setSubmitError] = useState<string | null>(null);
     const [tab, setTab] = useState<ReplaceTabId>("result");
+    const [canvasTool, setCanvasTool] = useState<CanvasTool>("warp");
     const [applyingCaseId, setApplyingCaseId] = useState<string | null>(null);
 
     const revisionRef = useRef<number | null>(null);
@@ -375,7 +387,6 @@ export function ReplaceGoodsWorkspace({ className }: ReplaceGoodsWorkspaceProps 
     const submittedKeyRef = useRef<string | null>(null);
 
     const sku = activeSku(workspace);
-    const skuIndex = activeSkuIndex(workspace);
     const target = sku ? targets[sku.id] ?? null : null;
 
     /* ---------------- 草稿：恢复 → 回写 ---------------- */
@@ -399,6 +410,31 @@ export function ReplaceGoodsWorkspace({ className }: ReplaceGoodsWorkspaceProps 
         if (!draftReady) return;
         patchDraft(REPLACE_GOODS_TOOL_ID, { values: serializeDraftValues(workspace) });
     }, [draftReady, patchDraft, workspace]);
+
+    /* 刷新恢复：草稿里只有资产 id/URL，上传按钮的 file input 没有内存里的 File，
+       这里按 id 把真实资产记录取回来，否则「已上传」的图在提交时会被判成没上传。 */
+    useEffect(() => {
+        if (!draftReady) return;
+        const sceneId = workspace.scene?.assetId ?? "";
+        const targetId = sku?.targetAssetId ?? "";
+        const wantScene = Boolean(sceneId) && !sceneRecord;
+        const wantTarget = Boolean(targetId) && Boolean(sku) && !targets[sku!.id];
+        if (!wantScene && !wantTarget) return;
+        let alive = true;
+        void (async () => {
+            const ids = [wantScene ? sceneId : "", wantTarget ? targetId : ""].filter(Boolean);
+            const { records } = await loadToolAssetRecords(ids);
+            if (!alive) return;
+            const byId = new Map(records.map((record) => [record.id, record]));
+            const sceneRestored = byId.get(sceneId);
+            if (wantScene && sceneRestored) setSceneRecord(sceneRestored);
+            const targetRestored = byId.get(targetId);
+            if (wantTarget && sku && targetRestored) setTargets((current) => ({ ...current, [sku.id]: targetRestored }));
+        })();
+        return () => {
+            alive = false;
+        };
+    }, [draftReady, sceneRecord, sku, targets, workspace.scene]);
 
     /* ---------------- 输入：参考场景 / 每个 SKU 的替换商品 ---------------- */
 
@@ -428,7 +464,7 @@ export function ReplaceGoodsWorkspace({ className }: ReplaceGoodsWorkspaceProps 
                 }),
             };
         });
-        setNotice(next ? "已更换参考场景：定位与蒙版已重置，请重新框选商品位置" : null);
+        setNotice(next ? "已更换参考场景：定位已重置，请重新框选商品位置" : null);
     }, []);
 
     const handleTargetChange = useCallback((skuId: string) => (_ids: string[], records: ToolAssetRecord[]) => {
@@ -449,6 +485,33 @@ export function ReplaceGoodsWorkspace({ className }: ReplaceGoodsWorkspaceProps 
             }),
         );
     }, []);
+
+    const pickScene = useCallback(
+        async (files: File[]) => {
+            setSubmitError(null);
+            try {
+                const record = await uploadToolAsset(files[0], { constraints: UPLOAD_CONSTRAINTS });
+                handleSceneChange([], [record]);
+            } catch (error) {
+                setSubmitError(error instanceof Error ? error.message : "参考图上传失败");
+            }
+        },
+        [handleSceneChange],
+    );
+
+    const pickTarget = useCallback(
+        async (files: File[]) => {
+            if (!sku) return;
+            setSubmitError(null);
+            try {
+                const record = await uploadToolAsset(files[0], { constraints: UPLOAD_CONSTRAINTS });
+                handleTargetChange(sku.id)([], [record]);
+            } catch (error) {
+                setSubmitError(error instanceof Error ? error.message : "商品图上传失败");
+            }
+        },
+        [handleTargetChange, sku],
+    );
 
     /* ---------------- 「做同款」：入库案例素材并回填配置 ---------------- */
 
@@ -570,13 +633,19 @@ export function ReplaceGoodsWorkspace({ className }: ReplaceGoodsWorkspaceProps 
         setTask(null);
     }, []);
 
-    const addStroke = useCallback((stroke: MaskStroke) => {
+    const commitStroke = useCallback((stroke: MaskStroke) => {
         setWorkspace((current) => {
             const active = activeSku(current);
             if (!active) return current;
             return updateSku(current, active.id, { mask: { ...active.mask, strokes: [...active.mask.strokes, stroke] } });
         });
-        setTask(null);
+    }, []);
+
+    const clearMask = useCallback(() => {
+        setWorkspace((current) => {
+            const active = activeSku(current);
+            return active ? updateSku(current, active.id, { mask: { ...active.mask, strokes: [] } }) : current;
+        });
     }, []);
 
     const nudge = useCallback(
@@ -636,39 +705,6 @@ export function ReplaceGoodsWorkspace({ className }: ReplaceGoodsWorkspaceProps 
         [workspace],
     );
 
-    const undo = useCallback(() => {
-        setWorkspace((current) => {
-            const active = activeSku(current);
-            if (!active) return current;
-            return updateSku(current, active.id, { history: undoTransform(active.history) });
-        });
-    }, []);
-
-    const redo = useCallback(() => {
-        setWorkspace((current) => {
-            const active = activeSku(current);
-            if (!active) return current;
-            return updateSku(current, active.id, { history: redoTransform(active.history) });
-        });
-    }, []);
-
-    const resetQuad = useCallback(() => {
-        setWorkspace((current) => {
-            const active = activeSku(current);
-            if (!active) return current;
-            const size: ReplaceGoodsSize = active.fit;
-            return updateSku(current, active.id, { history: resetTransform(active.history, size) });
-        });
-    }, []);
-
-    const clearMask = useCallback(() => {
-        setWorkspace((current) => {
-            const active = activeSku(current);
-            if (!active) return current;
-            return updateSku(current, active.id, { mask: { ...active.mask, strokes: [] } });
-        });
-    }, []);
-
     /* ---------------- 校验 ---------------- */
 
     const issues = useMemo(() => {
@@ -679,8 +715,6 @@ export function ReplaceGoodsWorkspace({ className }: ReplaceGoodsWorkspaceProps 
         }
         return list;
     }, [sceneRecord, target, workspace]);
-
-    const canSubmit = Boolean(sceneRecord && target) && issues.length === 0 && !running;
 
     /* ---------------- 提交 / 重试 ---------------- */
 
@@ -724,7 +758,12 @@ export function ReplaceGoodsWorkspace({ className }: ReplaceGoodsWorkspaceProps 
     }, [sceneRecord, targets, workspace]);
 
     const submit = useCallback(async () => {
-        if (!canSubmit) return;
+        if (running) return;
+        // 原站按钮始终可点：缺图/缺定位时把真实拦截原因说清楚，避免「按钮灰着但没有解释」。
+        if (issues.length > 0) {
+            setSubmitError(issues[0].message);
+            return;
+        }
         setRunning(true);
         setSubmitError(null);
         setNotice(null);
@@ -748,7 +787,7 @@ export function ReplaceGoodsWorkspace({ className }: ReplaceGoodsWorkspaceProps 
             abortRef.current = null;
             setRunning(false);
         }
-    }, [buildActiveUnit, canSubmit]);
+    }, [buildActiveUnit, issues, running, workspace]);
 
     const retry = useCallback(async () => {
         if (running || !unit) return;
@@ -772,6 +811,7 @@ export function ReplaceGoodsWorkspace({ className }: ReplaceGoodsWorkspaceProps 
             setRunning(false);
         }
     }, [running, unit]);
+
     /* ---------------- 当前配置是否已偏离提交快照 ---------------- */
 
     const draftKey = useMemo(() => JSON.stringify(serializeDraftValues(workspace)), [workspace]);
@@ -779,299 +819,126 @@ export function ReplaceGoodsWorkspace({ className }: ReplaceGoodsWorkspaceProps 
 
     /* ---------------- 渲染 ---------------- */
 
-    const sidebar = (
-        <div className="space-y-2 text-sm">
-            <p className="px-2 text-xs font-medium text-muted-foreground">同分类工具</p>
-            <Link to="/tools/product-design/scene" className="flex items-center justify-between rounded-lg px-2 py-1.5 hover:bg-accent">
-                <span>场景裂变</span>
-                <ChevronRight aria-hidden="true" className="size-3.5 opacity-60" />
-            </Link>
-            <Link to="/tools/product-design/handheld" className="flex items-center justify-between rounded-lg px-2 py-1.5 hover:bg-accent">
-                <span>手持商品</span>
-                <ChevronRight aria-hidden="true" className="size-3.5 opacity-60" />
-            </Link>
-            <p className="mt-3 px-2 text-[11px] leading-4 text-muted-foreground">上传上限：{REPLACE_GOODS_UPLOAD_LABEL}</p>
-            <p className="px-2 text-[11px] leading-4 text-muted-foreground">快捷键：T 透视 / N 扭曲 / 方向键微调 / [ ] 旋转 / + − 缩放</p>
-        </div>
-    );
-
     const scene = workspace.scene && sceneRecord && sceneRecord.url
         ? { url: sceneRecord.url, width: sceneRecord.width ?? 0, height: sceneRecord.height ?? 0 }
         : null;
-    const quadFields = sku ? deriveQuadFields(sku.history.present.quad, sku.fit) : null;
-    const historyLabel = sku ? transformHistoryLabel(sku.history) : { canUndo: false, canRedo: false };
-    const coverage = sku ? protectMaskCoverage(sku.mask, sku.history.present.quad) : 0;
 
     return (
-        <ToolShell
-            className={className}
-            title={spec?.title ?? "商品替换"}
-            subtitle="上传参考图，一键替换商品，快来替换您的商品吧~"
-            sidebar={sidebar}
-        >
-            <div className="flex flex-col gap-2">
-            <div className="flex flex-col gap-1.5 rounded-lg border border-border bg-card px-3 py-2" data-testid="replace-goods-mirror">
-                <nav aria-label="商品图设计" className="flex flex-wrap items-center gap-1 text-[11px] text-muted-foreground">
-                    {["商品图", "我的商品", "场景参考图", "商品替换", "场景裂变", "手持商品", "企业功能"].map((label) => (
-                        <span key={label} className="rounded px-1.5 py-0.5">{label}</span>
-                    ))}
-                    <span className="ml-auto text-emerald-600 dark:text-emerald-400">ljq_driver: 已连接</span>
-                </nav>
-                <p className="text-[11px] text-muted-foreground">💡 温馨提示：支持上传多张商品图进行批量替换</p>
-                <p className="text-[11px] text-muted-foreground">上传参考图，一键替换商品，快来替换您的商品吧~</p>
-                <p className="text-[11px] text-muted-foreground">上传参考图</p>
-                <dl className="grid gap-1 rounded-lg border border-border bg-background px-2.5 py-2 text-[11px] leading-4 text-muted-foreground sm:grid-cols-2">
-                    <div>
-                        <dt className="font-medium text-foreground">键盘快捷键</dt>
-                        <dd className="mt-0.5 flex items-center gap-2"><span>工具快捷键</span><span><span>透视</span> <span className="font-mono">T</span></span><span><span>扭曲</span> <span className="font-mono">N</span></span></dd>
-                    </div>
-                    <div>
-                        <dt className="font-medium text-foreground">画布快捷操作</dt>
-                        <dd className="mt-0.5 flex flex-col gap-0.5">
-                            <span className="flex items-center gap-2"><span className="font-mono">Ctrl+拖动</span><span>向右切换画布</span></span>
-                            <span className="flex items-center gap-2"><span>键盘右键</span><span>向左切换画布</span></span>
-                            <span className="flex items-center gap-2"><span>键盘左键</span><span>向左切换画布</span></span>
-                        </dd>
-                    </div>
-                </dl>
-                <p className="text-[11px] text-muted-foreground">生成尺寸: 1024x1024</p>
-                <div className="flex flex-wrap items-center gap-2 text-[11px] text-muted-foreground">
-                    <span>参考图场景变化程度：</span>
-                    <span className="rounded border border-border px-1.5 py-0.5">不变</span>
-                    <span className="rounded border border-border px-1.5 py-0.5">高</span>
-                    <span>生成：</span>
-                    <span className="rounded border border-border px-1.5 py-0.5">4张</span>
-                </div>
-                <div className="flex items-center gap-2">
-                    <button type="button" disabled className="rounded-md bg-primary px-3 py-1.5 text-xs font-medium text-primary-foreground opacity-70">立即生成</button>
-                    </div>
-                <div className="rounded-lg border border-dashed border-border px-3 py-4 text-center">
-                    <p className="text-xs font-medium text-foreground">生成结果</p>
-                    <p className="mt-1 text-[11px] text-muted-foreground">暂无生成结果图</p>
-                    <p className="mt-1 text-[11px] text-muted-foreground">快在左侧合成您的第一张商品图吧~</p>
-                </div>
-            </div>
-            <details className="rounded-lg border border-border bg-card px-3 py-1.5">
-                <summary aria-label="编辑工作区" className="flex cursor-pointer items-center gap-1 text-[11px] text-muted-foreground [&::-webkit-details-marker]:hidden">
-                    <ChevronDown className="size-3.5" aria-hidden />
-                </summary>
+        <section className={cn("flex h-full min-h-0 flex-col px-3 py-2", className)} data-testid="replace-goods-workspace">
             <ToolWorkspaceColumns
                 configSide="right"
+                className="min-h-0 flex-1 overflow-hidden"
                 config={
-<aside className="flex min-h-0 w-[340px] shrink-0 flex-col gap-2 overflow-y-auto pr-1">
-<StepCard step={3} title="场景变化与输出" hint="变化程度决定背景重绘幅度；去噪强度影响新商品与场景的贴合质感。" active={Boolean(target)} done={Boolean(task)}>
-                        <div className="grid gap-3 sm:grid-cols-2">
-                            <Field label="参考图场景变化程度：">
-                                <div className="flex gap-1.5">
-                                    {REPLACE_GOODS_SCENE_CHANGES.map((option) => (
-                                        <button
-                                            key={option.id}
-                                            type="button"
-                                            data-testid={`replace-goods-scene-change-${option.id}`}
-                                            title={option.hint}
-                                            aria-pressed={sku?.sceneChange === option.id}
-                                            onClick={() =>
-                                                setWorkspace((current) => {
-                                                    const active = activeSku(current);
-                                                    return active ? updateSku(current, active.id, { sceneChange: option.id as ReplaceGoodsSceneChange }) : current;
-                                                })
-                                            }
-                                            className={cn(
-                                                "h-9 flex-1 rounded-lg border text-xs",
-                                                sku?.sceneChange === option.id ? "border-primary bg-accent text-foreground" : "border-border text-muted-foreground hover:bg-accent",
-                                            )}
-                                        >
-                                            {option.label}
-                                        </button>
-                                    ))}
-                                </div>
-                            </Field>
-
-                            <Field label="抠图引擎">
-                                <select
-                                    data-testid="replace-goods-cutout"
-                                    value={workspace.cutoutProvider}
-                                    onChange={(event) => setWorkspace((current) => ({ ...current, cutoutProvider: event.target.value as ReplaceGoodsWorkspace["cutoutProvider"] }))}
-                                    className="h-9 w-full rounded-lg border border-border bg-background px-2 text-xs text-foreground"
-                                >
-                                    {REPLACE_GOODS_CUTOUT_PROVIDERS.map((provider) => (
-                                        <option key={provider.id} value={provider.id}>
-                                            {provider.label}
-                                        </option>
-                                    ))}
-                                </select>
-                            </Field>
-
-                            <Field label="去噪强度" hint={`${workspace.denoiseStrength}`}>
-                                <input
-                                    data-testid="replace-goods-denoise"
-                                    type="range"
-                                    min={REPLACE_GOODS_DENOISE.min}
-                                    max={REPLACE_GOODS_DENOISE.max}
-                                    step={REPLACE_GOODS_DENOISE.step}
-                                    value={workspace.denoiseStrength}
-                                    onChange={(event) => setWorkspace((current) => ({ ...current, denoiseStrength: Number(event.target.value) }))}
-                                    className="w-full accent-primary"
-                                />
-                            </Field>
-
-                            <Field label="生成：">
-                                <div className="flex gap-1.5">
-                                    {REPLACE_GOODS_OUTPUT_OPTIONS.map((value) => (
-                                        <button
-                                            key={value}
-                                            type="button"
-                                            data-testid={`replace-goods-output-${value}`}
-                                            aria-pressed={workspace.outputNum === value}
-                                            onClick={() => setWorkspace((current) => ({ ...current, outputNum: value }))}
-                                            className={cn(
-                                                "h-9 flex-1 rounded-lg border text-xs",
-                                                workspace.outputNum === value ? "border-primary bg-accent text-foreground" : "border-border text-muted-foreground hover:bg-accent",
-                                            )}
-                                        >
-                                            {value}张
-                                        </button>
-                                    ))}
-                                </div>
-                            </Field>
-
-                            <Field label="定位模式" hint="T / N">
-                                <div className="flex gap-1.5">
-                                    {REPLACE_GOODS_WARP_MODES.map((mode) => (
-                                        <button
-                                            key={mode.id}
-                                            type="button"
-                                            data-testid={`replace-goods-mode-${mode.id}`}
-                                            title={mode.hint}
-                                            aria-pressed={workspace.mode === mode.id}
-                                            onClick={() => setWorkspace((current) => ({ ...current, mode: mode.id }))}
-                                            className={cn(
-                                                "h-9 flex-1 rounded-lg border text-xs",
-                                                workspace.mode === mode.id ? "border-primary bg-accent text-foreground" : "border-border text-muted-foreground hover:bg-accent",
-                                            )}
-                                        >
-                                            {mode.label}（{mode.shortcut}）
-                                        </button>
-                                    ))}
-                                </div>
-                            </Field>
-
-                            <Field label="蒙版笔刷" hint={`${sku?.mask.brush ?? REPLACE_GOODS_MASK_BRUSH.defaultValue}px`}>
-                                <input
-                                    data-testid="replace-goods-brush"
-                                    type="range"
-                                    min={REPLACE_GOODS_MASK_BRUSH.min}
-                                    max={REPLACE_GOODS_MASK_BRUSH.max}
-                                    value={sku?.mask.brush ?? REPLACE_GOODS_MASK_BRUSH.defaultValue}
-                                    onChange={(event) =>
-                                        setWorkspace((current) => {
-                                            const active = activeSku(current);
-                                            if (!active) return current;
-                                            return updateSku(current, active.id, { mask: { ...active.mask, brush: Number(event.target.value) } });
-                                        })
-                                    }
-                                    className="w-full accent-primary"
-                                />
-                            </Field>
-                        </div>
-                    </StepCard>
-
-<section className="rounded-2xl border border-border bg-card p-4">
-                        <div className="mb-3 flex items-center gap-2 border-b border-border">
+                    <aside className="flex h-full min-h-0 flex-col" aria-label="生成结果与案例">
+                        <div role="tablist" aria-label="结果区页签" className="flex h-11 shrink-0 items-center gap-5 border-b border-border bg-card px-3">
                             {REPLACE_TABS.map((item) => (
                                 <button
                                     key={item.id}
                                     type="button"
+                                    role="tab"
+                                    aria-selected={tab === item.id}
                                     data-testid={`replace-goods-tab-${item.id}`}
-                                    aria-pressed={tab === item.id}
                                     onClick={() => setTab(item.id)}
                                     className={cn(
-                                        "relative px-3 pb-2 text-sm transition",
-                                        tab === item.id
-                                            ? "font-medium text-foreground after:absolute after:inset-x-0 after:bottom-0 after:h-0.5 after:bg-primary"
-                                            : "text-muted-foreground hover:text-foreground",
+                                        "relative flex h-11 items-center text-[12px] leading-5 transition-colors",
+                                        tab === item.id ? "font-medium text-foreground" : "text-muted-foreground hover:text-foreground",
                                     )}
                                 >
                                     {item.label}
+                                    {tab === item.id ? <span className="absolute bottom-0 left-0 h-[2px] w-full rounded-full bg-foreground" /> : null}
                                 </button>
                             ))}
-                        </div>
-
-                        {tab === "result" ? (
-                            <>
-                                <div className="flex flex-wrap items-center justify-between gap-2">
-                                    <div>
-                                        <h3 className="text-sm font-medium text-foreground">生成结果</h3>
-                                        <p className="mt-0.5 text-xs text-muted-foreground">
-                                            预计输出 {workspace.outputNum} 张 · {REPLACE_GOODS_OUTPUT_SIZE.width}×{REPLACE_GOODS_OUTPUT_SIZE.height}
-                                            {stale ? " · 当前配置已变更，下面结果来自旧版本" : ""}
-                                        </p>
-                                    </div>
-                                    <button
-                                        type="button"
-                                        data-testid="replace-goods-submit"
-                                        disabled={!canSubmit}
-                                        onClick={submit}
-                                        className="inline-flex h-10 items-center gap-2 rounded-lg bg-primary px-4 text-sm font-medium text-primary-foreground disabled:cursor-not-allowed disabled:opacity-50"
-                                    >
-                                        {running ? <Loader2 className="size-4 animate-spin" /> : null}
-                                        <span>{running ? "生成中…" : "立即生成"}</span>
-                                        </button>
-                                </div>
-
-                                {issues.length > 0 ? (
-                                    <ul data-testid="replace-goods-issues" className="mt-2 space-y-1 text-xs text-amber-600 dark:text-amber-400">
-                                        {issues.map((issue) => (
-                                            <li key={issue.code}>· {issue.message}</li>
-                                        ))}
-                                    </ul>
-                                ) : null}
-                                {notice ? <p className="mt-2 text-xs text-amber-600 dark:text-amber-400">{notice}</p> : null}
-                                {submitError ? <p data-testid="replace-goods-submit-error" className="mt-2 text-xs text-destructive">{submitError}</p> : null}
-
-                                {task ? (
-                                    <div className="mt-3">
-                                        <ToolResult task={task} toolId={REPLACE_GOODS_TOOL_ID} title="替换结果" onCancel={() => abortRef.current?.abort()} onRetry={retry} />
-                                    </div>
-                                ) : (
-                                    <div data-testid="replace-goods-result-empty" className="mt-2 grid place-items-center gap-1 rounded-lg border border-dashed border-border py-5 text-center">
-                                        <p className="text-xs text-foreground">暂无生成结果图</p>
-                                        <p className="text-[11px] text-muted-foreground">快在左侧合成您的第一张商品图吧~</p>
-                                    </div>
+                            <button
+                                type="button"
+                                data-testid="replace-goods-tab-history"
+                                aria-selected={tab === "history"}
+                                onClick={() => setTab("history")}
+                                className={cn(
+                                    "ml-auto flex items-center text-[12px] leading-5 transition-colors",
+                                    tab === "history" ? "font-medium text-foreground" : "text-muted-foreground hover:text-foreground",
                                 )}
+                            >
+                                历史记录
+                            </button>
+                        </div>
+                        <div className="min-h-0 flex-1 space-y-2 overflow-y-auto px-3 pb-3 pt-3">
+                            {tab === "result" ? (
+                                <>
+                                    {notice ? <p className="text-[11px] leading-4 text-amber-600 dark:text-amber-400">{notice}</p> : null}
+                                    {submitError ? <p data-testid="replace-goods-submit-error" className="text-[11px] leading-4 text-destructive">{submitError}</p> : null}
+                                    {stale ? <p className="text-[11px] leading-4 text-amber-600 dark:text-amber-400">当前配置已变更，下面结果来自旧版本。</p> : null}
 
-                                {unit ? (
-                                    <details data-testid="replace-goods-snapshot" className="mt-3 rounded-lg border border-border px-3 py-2 text-[11px] text-muted-foreground">
-                                        <summary className="cursor-pointer text-xs text-foreground">本次输入快照</summary>
-                                        <ul className="mt-2 space-y-0.5">
-                                            <li>SKU：{unit.snapshot.skuLabel}（{unit.id}）</li>
-                                            <li>场景：{unit.snapshot.sceneName || "—"} {unit.snapshot.sceneWidth}×{unit.snapshot.sceneHeight}</li>
-                                            <li>替换商品：{unit.snapshot.targetName || "—"} {unit.snapshot.targetWidth}×{unit.snapshot.targetHeight}</li>
-                                            <li>中心点 {unit.snapshot.point.x.toFixed(3)}, {unit.snapshot.point.y.toFixed(3)} · 缩放 {unit.snapshot.scale.toFixed(2)}× · 旋转 {unit.snapshot.rotate.toFixed(1)}°</li>
-                                            <li>字段 {Object.keys(unit.fields).length} 个 · 保护覆盖 {(unit.maskCoverage * 100).toFixed(1)}% · snapshotHash {unit.snapshotHash}</li>
-                                            <li>参考图 {unit.references.length} 张（场景 / 替换商品 / 落位导引 / 保护蒙版）</li>
-                                        </ul>
-                                    </details>
-                                ) : null}
-                            </>
-                        ) : null}
+                                    {task ? (
+                                        <ToolResult task={task} toolId={REPLACE_GOODS_TOOL_ID} title="替换结果" onCancel={() => abortRef.current?.abort()} onRetry={retry} />
+                                    ) : (
+                                        <div
+                                            data-testid="replace-goods-result-empty"
+                                            className="grid place-items-center gap-1 rounded-[6px] border border-dashed border-border px-3 py-10 text-center"
+                                        >
+                                            <p className="text-[12px] leading-5 text-foreground">暂无生成结果图</p>
+                                            <p className="text-[11px] leading-4 text-muted-foreground">快在左侧合成您的第一张商品图吧~</p>
+                                        </div>
+                                    )}
 
-                        {tab === "cases" ? (
-                            <div className="max-h-[600px] overflow-y-auto">
-                                <ToolCases cases={REPLACE_GOODS_CASES} onApply={applyCase} applyingId={applyingCaseId} emptyHint="暂无优秀案例" />
-                            </div>
-                        ) : null}
-                    </section>
-                    <p className="px-1 text-[11px] leading-4 text-muted-foreground">ljq_driver: 已连接</p>
+                                    {unit ? (
+                                        <details data-testid="replace-goods-snapshot" className="rounded-[6px] border border-border px-2 py-1.5 text-[11px] leading-4 text-muted-foreground">
+                                            <summary className="cursor-pointer text-[11px] text-foreground">本次输入快照</summary>
+                                            <ul className="mt-1.5 space-y-0.5">
+                                                <li>SKU：{unit.snapshot.skuLabel}（{unit.id}）</li>
+                                                <li>场景：{unit.snapshot.sceneName || "—"} {unit.snapshot.sceneWidth}×{unit.snapshot.sceneHeight}</li>
+                                                <li>替换商品：{unit.snapshot.targetName || "—"} {unit.snapshot.targetWidth}×{unit.snapshot.targetHeight}</li>
+                                                <li>中心点 {unit.snapshot.point.x.toFixed(3)}, {unit.snapshot.point.y.toFixed(3)} · 缩放 {unit.snapshot.scale.toFixed(2)}× · 旋转 {unit.snapshot.rotate.toFixed(1)}°</li>
+                                                <li>字段 {Object.keys(unit.fields).length} 个 · snapshotHash {unit.snapshotHash}</li>
+                                                <li>参考图 {unit.references.length} 张（场景 / 替换商品 / 落位导引 / 保护蒙版）</li>
+                                            </ul>
+                                        </details>
+                                    ) : null}
+                                    {outcome && outcome.images.length > 0 ? (
+                                        <div className="grid grid-cols-2 gap-2" data-testid="replace-goods-results">
+                                            {outcome.images.map((image, index) => {
+                                                const href = image.url || image.dataUrl;
+                                                if (!href) return null;
+                                                return (
+                                                    <a key={index} href={href} target="_blank" rel="noreferrer" className="block overflow-hidden rounded border border-border">
+                                                        <img data-testid="tool-result-image" src={href} alt="替换结果" className="w-full" />
+                                                    </a>
+                                                );
+                                            })}
+                                        </div>
+                                    ) : null}
+                                </>
+                            ) : null}
 
-                    <details className="rounded-2xl border border-border bg-card p-3">
-                        <summary className="cursor-pointer text-sm font-medium text-foreground">商品替换</summary>
-                        <div className="hidden">
-                        <header className="flex items-center justify-between gap-2">
-                            <h3 className="text-sm font-medium text-foreground">多商品批量替换</h3>
-                            <span className="text-[11px] text-muted-foreground">{workspace.skus.length}/{REPLACE_GOODS_MAX_SKUS}</span>
-                        </header>
-                        <div data-testid="replace-goods-sku-tabs" className="mt-2 flex flex-wrap gap-1.5">
+                            {tab === "cases" ? (
+                                <div className="max-h-full overflow-y-auto">
+                                    <ToolCases cases={REPLACE_GOODS_CASES} onApply={applyCase} applyingId={applyingCaseId} emptyHint="暂无优秀案例" />
+                                </div>
+                            ) : null}
+
+                            {tab === "history" ? (
+                                <div data-testid="replace-goods-panel-history">
+                                    <ToolTaskHistory
+                                        toolId={REPLACE_GOODS_TOOL_ID}
+                                        emptyHint="暂无历史记录"
+                                        onSelectTask={(next) => {
+                                            setTask(next);
+                                            setOutcome(null);
+                                            setTab("result");
+                                        }}
+                                    />
+                                </div>
+                            ) : null}
+                        </div>
+                    </aside>
+                }
+            >
+                <p className="shrink-0 self-center rounded-full bg-primary/8 px-3 py-1 text-[11px] leading-5 text-muted-foreground">
+                    💡 温馨提示：支持上传多张商品图进行批量替换
+                </p>
+                <div className="flex min-h-0 flex-1 flex-col overflow-hidden rounded-[10px] border border-border bg-card">
+                    {/* 顶部：多商品（每个 SKU 一份替换商品图）+ 上传入口 */}
+                    <div className="flex h-10 shrink-0 items-center gap-1.5 border-b border-border px-2">
+                        <div data-testid="replace-goods-sku-tabs" className="flex min-w-0 items-center gap-1.5 overflow-x-auto">
                             {workspace.skus.map((item, index) => (
                                 <button
                                     key={item.id}
@@ -1080,8 +947,10 @@ export function ReplaceGoodsWorkspace({ className }: ReplaceGoodsWorkspaceProps 
                                     aria-pressed={item.id === workspace.activeSkuId}
                                     onClick={() => setWorkspace((current) => ({ ...current, activeSkuId: item.id }))}
                                     className={cn(
-                                        "h-8 rounded-lg border px-2.5 text-xs",
-                                        item.id === workspace.activeSkuId ? "border-primary bg-accent text-foreground" : "border-border text-muted-foreground hover:bg-accent",
+                                        "h-7 shrink-0 rounded-[6px] border px-2 text-[12px] transition",
+                                        item.id === workspace.activeSkuId
+                                            ? "border-primary text-primary"
+                                            : "border-border text-muted-foreground hover:border-foreground/30 hover:text-foreground",
                                     )}
                                 >
                                     {item.label}
@@ -1089,177 +958,244 @@ export function ReplaceGoodsWorkspace({ className }: ReplaceGoodsWorkspaceProps 
                                 </button>
                             ))}
                         </div>
-                        <div className="mt-2 flex items-center gap-1.5">
-                            <button
-                                type="button"
-                                data-testid="replace-goods-sku-prev"
-                                onClick={() => setWorkspace((current) => switchSku(current, -1))}
-                                disabled={workspace.skus.length <= 1}
-                                className="inline-flex h-8 items-center gap-1 rounded-lg border border-border px-2 text-xs text-muted-foreground disabled:opacity-40 hover:bg-accent"
-                            >
-                                <ChevronLeft className="size-3.5" />上一张
-                            </button>
-                            <span className="text-[11px] text-muted-foreground">{skuIndex + 1} / {workspace.skus.length}</span>
-                            <button
-                                type="button"
-                                data-testid="replace-goods-sku-next"
-                                onClick={() => setWorkspace((current) => switchSku(current, 1))}
-                                disabled={workspace.skus.length <= 1}
-                                className="inline-flex h-8 items-center gap-1 rounded-lg border border-border px-2 text-xs text-muted-foreground disabled:opacity-40 hover:bg-accent"
-                            >
-                                下一张<ChevronRight className="size-3.5" />
-                            </button>
+                        <button
+                            type="button"
+                            data-testid="replace-goods-sku-add"
+                            title="新增商品"
+                            onClick={() => setWorkspace((current) => addSku(current))}
+                            disabled={workspace.skus.length >= REPLACE_GOODS_MAX_SKUS}
+                            className="grid size-7 shrink-0 place-items-center rounded-[6px] text-muted-foreground transition hover:bg-black/5 disabled:opacity-40 dark:hover:bg-white/10"
+                        >
+                            <Plus className="size-3.5" />
+                        </button>
+                        <button
+                            type="button"
+                            data-testid="replace-goods-sku-remove"
+                            title="删除当前商品"
+                            onClick={() => {
+                                if (!sku) return;
+                                const removed = sku.id;
+                                setTargets((current) => {
+                                    const next = { ...current };
+                                    delete next[removed];
+                                    return next;
+                                });
+                                setWorkspace((current) => removeSku(current, removed));
+                            }}
+                            disabled={workspace.skus.length <= 1}
+                            className="grid size-7 shrink-0 place-items-center rounded-[6px] text-muted-foreground transition hover:bg-black/5 disabled:opacity-40 dark:hover:bg-white/10"
+                        >
+                            <Trash2 className="size-3.5" />
+                        </button>
+                        <span className="mx-1 h-4 w-px bg-border" />
+                        <div className="ml-auto flex shrink-0 items-center gap-1.5">
+                            <AssetButton label="参考图" url={scene?.url} onPick={(files) => void pickScene(files)} />
+                            <AssetButton label="替换商品图" url={target?.url} disabled={!scene} onPick={(files) => void pickTarget(files)} />
                         </div>
-                        <div className="mt-2 flex gap-1.5">
-                            <button
-                                type="button"
-                                data-testid="replace-goods-sku-add"
-                                onClick={() => setWorkspace((current) => addSku(current))}
-                                disabled={workspace.skus.length >= REPLACE_GOODS_MAX_SKUS}
-                                className="inline-flex h-8 flex-1 items-center justify-center gap-1 rounded-lg border border-border text-xs text-muted-foreground disabled:opacity-40 hover:bg-accent"
-                            >
-                                <Plus className="size-3.5" />新增商品
-                            </button>
-                            <button
-                                type="button"
-                                data-testid="replace-goods-sku-remove"
-                                onClick={() => {
-                                    if (!sku) return;
-                                    const removed = sku.id;
-                                    setTargets((current) => {
-                                        const next = { ...current };
-                                        delete next[removed];
-                                        return next;
-                                    });
-                                    setWorkspace((current) => removeSku(current, removed));
-                                }}
-                                disabled={workspace.skus.length <= 1}
-                                className="inline-flex h-8 flex-1 items-center justify-center gap-1 rounded-lg border border-border text-xs text-muted-foreground disabled:opacity-40 hover:bg-accent"
-                            >
-                                <Trash2 className="size-3.5" />删除
-                            </button>
-                        </div>
-                    </div></details>
+                    </div>
 
-                    
-                </aside>
-                }>
-<div className="flex min-h-0 min-w-0 flex-1 flex-col gap-2">
-                    <p className="shrink-0 text-[11px] leading-4 text-muted-foreground">💡 温馨提示：支持上传多张商品图进行批量替换</p>
-                    <StepCard step={1} title="上传参考图" hint="" active={!scene} done={Boolean(scene)}>
-                        <ToolAssetInput
-                            toolId={SCENE_SLOT_ID}
-                            title="上传参考图"
-                            maxCount={1}
-                            constraints={UPLOAD_CONSTRAINTS}
-                            compact
-                            onChange={handleSceneChange}
+                    {/* 画布主区 */}
+                    <div
+                        tabIndex={0}
+                        onKeyDown={nudge}
+                        aria-label="商品定位画布"
+                        className="min-h-0 flex-1 bg-muted/30 focus:outline-none"
+                    >
+                        <PerspectiveWarpCanvas
+                            scene={scene}
+                            quad={
+                                sku?.history.present.quad ?? {
+                                    topLeft: { x: 0.15, y: 0.15 },
+                                    topRight: { x: 0.85, y: 0.15 },
+                                    bottomRight: { x: 0.85, y: 0.85 },
+                                    bottomLeft: { x: 0.15, y: 0.85 },
+                                }
+                            }
+                            mode={workspace.mode}
+                            tool={canvasTool}
+                            brush={sku?.mask.brush ?? REPLACE_GOODS_MASK_BRUSH.defaultValue}
+                            mask={sku?.mask ?? { mode: "auto", strokes: [], brush: REPLACE_GOODS_MASK_BRUSH.defaultValue }}
+                            disabled={!scene}
+                            onQuad={commitQuad}
+                            onStroke={commitStroke}
+                            onPick={(files) => void pickScene(files)}
                         />
-                    </StepCard>
+                    </div>
 
-                    <StepCard step={2} title="商品替换" hint="" active={Boolean(scene) && !target} done={Boolean(target)}>
-                        <div className="space-y-3">
-                            <div
-                                tabIndex={0}
-                                onKeyDown={nudge}
-                                aria-label="商品定位画布"
-                                className="rounded-xl focus:outline-none focus-visible:ring-2 focus-visible:ring-ring [&_img]:max-h-[300px] [&_img]:w-auto"
-                            >
-                                <PerspectiveWarpCanvas
-                                    scene={scene}
-                                    quad={sku?.history.present.quad ?? { topLeft: { x: 0.15, y: 0.15 }, topRight: { x: 0.85, y: 0.15 }, bottomRight: { x: 0.85, y: 0.85 }, bottomLeft: { x: 0.15, y: 0.85 } }}
-                                    mask={sku?.mask ?? { mode: "auto", strokes: [], brush: REPLACE_GOODS_MASK_BRUSH.defaultValue }}
-                                    mode={workspace.mode}
-                                    tool={tool}
-                                    brush={sku?.mask.brush ?? REPLACE_GOODS_MASK_BRUSH.defaultValue}
-                                    disabled={!scene}
-                                    onQuad={commitQuad}
-                                    onStroke={addStroke}
-                                />
-                            </div>
-
-                            <p className="text-[11px] leading-4 text-muted-foreground">生成尺寸: {REPLACE_GOODS_OUTPUT_SIZE.width}x{REPLACE_GOODS_OUTPUT_SIZE.height}</p>
-                            <div className="flex flex-wrap items-center gap-1.5">
-                                {(["warp", "mask", "eraser"] as CanvasTool[]).map((item) => (
+                    {/* 底部参数条：生成尺寸 / 变化程度 / 张数 / 立即生成（与原站同位置） */}
+                    <div className="shrink-0 border-t border-border px-3 py-2" data-testid="replace-goods-param-bar">
+                        <div className="flex flex-wrap items-center justify-between gap-x-4 gap-y-2">
+                            <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
+                            <span className="text-[12px] leading-5 text-muted-foreground">
+                                生成尺寸: {REPLACE_GOODS_OUTPUT_SIZE.width}x{REPLACE_GOODS_OUTPUT_SIZE.height}
+                            </span>
+                            <div className="flex items-center gap-1.5">
+                                <span className="text-[12px] leading-5 text-muted-foreground">参考图场景变化程度：</span>
+                                {REPLACE_GOODS_SCENE_CHANGES.map((option) => (
                                     <button
-                                        key={item}
+                                        key={option.id}
                                         type="button"
-                                        data-testid={`replace-goods-tool-${item}`}
-                                        onClick={() => setTool(item)}
-                                        aria-pressed={tool === item}
+                                        data-testid={`replace-goods-scene-change-${option.id}`}
+                                        title={option.hint}
+                                        aria-pressed={sku?.sceneChange === option.id}
+                                        onClick={() =>
+                                            setWorkspace((current) => {
+                                                const active = activeSku(current);
+                                                return active
+                                                    ? updateSku(current, active.id, { sceneChange: option.id as ReplaceGoodsSceneChange })
+                                                    : current;
+                                            })
+                                        }
                                         className={cn(
-                                            "inline-flex h-9 items-center gap-1.5 rounded-lg border px-2.5 text-xs transition",
-                                            tool === item ? "border-primary bg-accent text-foreground" : "border-border text-muted-foreground hover:bg-accent",
+                                            "h-7 rounded-[6px] border px-3 text-[12px] transition",
+                                            sku?.sceneChange === option.id
+                                                ? "border-primary text-primary"
+                                                : "border-border text-muted-foreground hover:border-foreground/30 hover:text-foreground",
                                         )}
                                     >
-                                        {item === "warp" ? <Move className="size-3.5" /> : item === "mask" ? <Layers className="size-3.5" /> : <Trash2 className="size-3.5" />}
-                                        {item === "warp" ? "定位" : item === "mask" ? "补锁" : "擦除"}
+                                        {option.label}
                                     </button>
                                 ))}
-                                <span className="mx-1 h-5 w-px bg-border" />
-                                <button type="button" data-testid="replace-goods-undo" onClick={undo} disabled={!historyLabel.canUndo} className="inline-flex h-9 items-center gap-1 rounded-lg border border-border px-2.5 text-xs text-muted-foreground disabled:opacity-40 hover:bg-accent">
-                                    <Undo2 className="size-3.5" />撤销
-                                </button>
-                                <button type="button" data-testid="replace-goods-redo" onClick={redo} disabled={!historyLabel.canRedo} className="inline-flex h-9 items-center gap-1 rounded-lg border border-border px-2.5 text-xs text-muted-foreground disabled:opacity-40 hover:bg-accent">
-                                    <Redo2 className="size-3.5" />重做
-                                </button>
-                                <button type="button" data-testid="replace-goods-reset" onClick={resetQuad} className="inline-flex h-9 items-center gap-1 rounded-lg border border-border px-2.5 text-xs text-muted-foreground hover:bg-accent">
-                                    <RotateCcw className="size-3.5" />复位
-                                </button>
-                                <button type="button" data-testid="replace-goods-clear-mask" onClick={clearMask} className="inline-flex h-9 items-center gap-1 rounded-lg border border-border px-2.5 text-xs text-muted-foreground hover:bg-accent">
+                            </div>
+                            <div className="flex items-center gap-1.5">
+                                <span className="text-[12px] leading-5 text-muted-foreground">生成：</span>
+                                {REPLACE_GOODS_OUTPUT_OPTIONS.map((value) => (
+                                    <button
+                                        key={value}
+                                        type="button"
+                                        data-testid={`replace-goods-output-${value}`}
+                                        aria-pressed={workspace.outputNum === value}
+                                        onClick={() => setWorkspace((current) => ({ ...current, outputNum: value }))}
+                                        className={cn(
+                                            "h-7 rounded-[6px] border px-2.5 text-[12px] transition",
+                                            workspace.outputNum === value
+                                                ? "border-primary text-primary"
+                                                : "border-border text-muted-foreground hover:border-foreground/30 hover:text-foreground",
+                                        )}
+                                    >
+                                        {value}张
+                                    </button>
+                                ))}
+                            </div>
+                            </div>
+                            <button
+                                type="button"
+                                data-testid="replace-goods-submit"
+                                aria-disabled={issues.length > 0 || running}
+                                onClick={() => void submit()}
+                                className="inline-flex h-8 shrink-0 items-center gap-2 rounded-[6px] bg-primary px-4 text-[12px] font-medium text-primary-foreground transition hover:opacity-90"
+                            >
+                                {running ? <Loader2 className="size-3.5 animate-spin" /> : null}
+                                <span>{running ? "生成中…" : "立即生成"}</span>
+                            </button>
+                        </div>
+                        <div className="mt-1.5 flex flex-wrap items-center gap-x-4 gap-y-1.5 text-[11px] leading-4 text-muted-foreground">
+                            <label className="flex items-center gap-1.5">
+                                抠图引擎
+                                <select
+                                    data-testid="replace-goods-cutout"
+                                    value={workspace.cutoutProvider}
+                                    onChange={(event) =>
+                                        setWorkspace((current) => ({
+                                            ...current,
+                                            cutoutProvider: event.target.value as ReplaceGoodsWorkspace["cutoutProvider"],
+                                        }))
+                                    }
+                                    className="h-6 rounded-[4px] border border-border bg-card px-1 text-[11px] text-foreground"
+                                >
+                                    {REPLACE_GOODS_CUTOUT_PROVIDERS.map((provider) => (
+                                        <option key={provider.id} value={provider.id}>
+                                            {provider.label}
+                                        </option>
+                                    ))}
+                                </select>
+                            </label>
+                            <label className="flex items-center gap-1.5">
+                                去噪强度
+                                <input
+                                    data-testid="replace-goods-denoise"
+                                    type="range"
+                                    min={REPLACE_GOODS_DENOISE.min}
+                                    max={REPLACE_GOODS_DENOISE.max}
+                                    step={REPLACE_GOODS_DENOISE.step}
+                                    value={workspace.denoiseStrength}
+                                    onChange={(event) => setWorkspace((current) => ({ ...current, denoiseStrength: Number(event.target.value) }))}
+                                    className="w-20 accent-primary"
+                                />
+                                <span className="w-5 tabular-nums">{workspace.denoiseStrength}</span>
+                            </label>
+                            <span className="flex items-center gap-1.5">
+                                定位模式
+                                {REPLACE_GOODS_WARP_MODES.map((mode) => (
+                                    <button
+                                        key={mode.id}
+                                        type="button"
+                                        data-testid={`replace-goods-mode-${mode.id}`}
+                                        title={mode.hint}
+                                        aria-pressed={workspace.mode === mode.id}
+                                        onClick={() => setWorkspace((current) => ({ ...current, mode: mode.id }))}
+                                        className={cn(
+                                            "h-6 rounded-[4px] border px-1.5 text-[11px] transition",
+                                            workspace.mode === mode.id
+                                                ? "border-primary text-primary"
+                                                : "border-border text-muted-foreground hover:border-foreground/30 hover:text-foreground",
+                                        )}
+                                    >
+                                        {mode.label}（{mode.shortcut}）
+                                    </button>
+                                ))}
+                            </span>
+                            <span className="flex items-center gap-1.5">
+                                蒙版
+                                {REPLACE_TOOLS.map((item) => (
+                                    <button
+                                        key={item.id}
+                                        type="button"
+                                        data-testid={`replace-goods-tool-${item.id}`}
+                                        aria-pressed={canvasTool === item.id}
+                                        disabled={!scene}
+                                        onClick={() => setCanvasTool(item.id)}
+                                        className={cn(
+                                            "h-6 rounded-[4px] border px-1.5 text-[11px] transition disabled:opacity-40",
+                                            canvasTool === item.id
+                                                ? "border-primary text-primary"
+                                                : "border-border text-muted-foreground hover:border-foreground/30 hover:text-foreground",
+                                        )}
+                                    >
+                                        {item.label}
+                                    </button>
+                                ))}
+                                <input
+                                    data-testid="replace-goods-brush"
+                                    type="range"
+                                    aria-label="蒙版笔刷"
+                                    min={REPLACE_GOODS_MASK_BRUSH.min}
+                                    max={REPLACE_GOODS_MASK_BRUSH.max}
+                                    step={1}
+                                    value={sku?.mask.brush ?? REPLACE_GOODS_MASK_BRUSH.defaultValue}
+                                    onChange={(event) => {
+                                        const brush = Number(event.target.value);
+                                        setWorkspace((current) => {
+                                            const active = activeSku(current);
+                                            return active ? updateSku(current, active.id, { mask: { ...active.mask, brush } }) : current;
+                                        });
+                                    }}
+                                    className="w-16 accent-primary"
+                                />
+                                <span className="w-8 tabular-nums">{sku?.mask.brush ?? REPLACE_GOODS_MASK_BRUSH.defaultValue}px</span>
+                                <button
+                                    type="button"
+                                    data-testid="replace-goods-clear-mask"
+                                    onClick={clearMask}
+                                    className="h-6 rounded-[4px] border border-border px-1.5 text-[11px] text-muted-foreground transition hover:border-foreground/30 hover:text-foreground"
+                                >
                                     清空蒙版
                                 </button>
-                            </div>
-
-                            <dl data-testid="replace-goods-shortcuts" className="grid gap-1 rounded-lg border border-border bg-card px-2.5 py-2 text-[11px] leading-4 text-muted-foreground sm:grid-cols-2">
-                                <div>
-                                    <dt className="font-medium text-foreground">键盘快捷键</dt>
-                                    <dd className="mt-0.5 flex items-center gap-2"><span>工具快捷键</span><span className="tabular-nums"><span>透视</span> <span className="font-mono">T</span></span><span className="tabular-nums"><span>扭曲</span> <span className="font-mono">N</span></span></dd>
-                                </div>
-                                <div>
-                                    <dt className="font-medium text-foreground">画布快捷操作</dt>
-                                    <dd className="mt-0.5 flex flex-col gap-0.5">
-                                        <span className="flex items-center gap-2"><span className="font-mono">Ctrl+拖动</span><span>向右切换画布</span></span>
-                                        <span className="flex items-center gap-2"><span>键盘右键</span><span>向左切换画布</span></span>
-                                        <span className="flex items-center gap-2"><span>键盘左键</span><span>向左切换画布</span></span>
-                                    </dd>
-                                </div>
-                            </dl>
-
-                            {quadFields ? (
-                                <dl data-testid="replace-goods-quad-readout" className="grid grid-cols-3 gap-2 rounded-lg border border-border bg-card px-2.5 py-2 text-[11px] text-muted-foreground">
-                                    <div>
-                                        <dt>中心点</dt>
-                                        <dd className="font-mono text-foreground">{quadFields.point.x.toFixed(3)}, {quadFields.point.y.toFixed(3)}</dd>
-                                    </div>
-                                    <div>
-                                        <dt>缩放</dt>
-                                        <dd className="font-mono text-foreground">{quadFields.scale.toFixed(2)}×</dd>
-                                    </div>
-                                    <div>
-                                        <dt>旋转</dt>
-                                        <dd className="font-mono text-foreground">{quadFields.rotate.toFixed(1)}°</dd>
-                                    </div>
-                                    <div className="col-span-3">锁定覆盖：{(coverage * 100).toFixed(1)}%（四边形外自动保护，可用补锁/擦除微调）</div>
-                                </dl>
-                            ) : null}
-
-                            <ToolAssetInput
-                                toolId={sku ? `${TARGET_SLOT_PREFIX}-${sku.id}` : TARGET_SLOT_PREFIX}
-                                title={`Step 2 · 替换商品（${sku?.label ?? "商品 1"}）`}
-                                maxCount={1}
-                                constraints={UPLOAD_CONSTRAINTS}
-                                compact
-                                disabled={!scene}
-                                onChange={handleTargetChange(sku?.id ?? "sku-1")}
-                            />
+                            </span>
                         </div>
-                    </StepCard>
-
-                                    </div>
+                    </div>
+                </div>
             </ToolWorkspaceColumns>
-            </details>
-            </div>
-        </ToolShell>
+        </section>
     );
 }

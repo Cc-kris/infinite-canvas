@@ -827,14 +827,14 @@ export function PrintingRepairWorkspace({ className }: PrintingRepairWorkspacePr
             subtitle="上传印花有误的图片，将正确的印花调整并覆盖，即可完成修复"
             sidebar={sidebar}
         >
-            <ToolWorkspaceColumns
-                configSide="left"
-                config={
-<div className="space-y-4">
-                    <p className="rounded-xl border border-amber-300/60 bg-amber-50 px-3 py-2 text-[11px] leading-4 text-amber-900">
+            <div data-testid="printing-repair-workspace" className="flex h-full min-h-0 flex-col">
+            <div data-testid="tool-workspace-columns" data-canvas="true" className="grid min-h-0 flex-1 grid-cols-1 gap-0 lg:grid-cols-[minmax(0,1fr)_240px_300px]">
+                <section data-testid="tool-main-column" data-region="canvas" className="order-1 flex min-h-0 min-w-0 flex-col overflow-y-auto bg-[#f7f7f9] p-4">
+                    <div className="mx-auto w-full max-w-[700px] space-y-3">
+                    <p className="rounded-md border border-[#fde68a] bg-[#fffbeb] px-3 py-2 text-[11px] leading-4 text-[#92400e]">
                         💡 小贴士：您可以调整印花的大小并将其置于合适的位置！看看怎么操作？
                     </p>
-                    <StepCard step={1} title="Step 1：消除错误印花" active={!base} done={Boolean(base)}>
+                    <StepCard step={1} title="Step 1：消除错误印花" hint="上传印花有误的商品图，作为修复底图" active={!base} done={Boolean(base)}>
                         <ToolAssetInput
                             toolId={BASE_SLOT_ID}
                             variant="linkfox"
@@ -935,13 +935,17 @@ export function PrintingRepairWorkspace({ className }: PrintingRepairWorkspacePr
                             </div>
                         ) : (
                             <p data-testid="printing-repair-stage-empty" className="rounded-xl border border-dashed border-border px-3 py-6 text-center text-[11px] text-muted-foreground">
-                             </p>
+                                先完成 Step 1 与 Step 2，这里会出现可拖动的印花定位画布。
+                            </p>
                         )}
                     </StepCard>
-                </div>
-                }>
-<div data-region="config" className="space-y-3">
-                    <section className="space-y-3 rounded-2xl border border-border bg-card p-4">
+                    </div>
+                </section>
+                <aside data-testid="tool-config-column" data-region="config" className="order-2 flex min-h-0 w-[240px] min-w-0 shrink-0 flex-col border-l border-[#ececec] bg-white">
+                    <div className="min-h-0 flex-1 overflow-y-auto p-3">
+                        <IssueList issues={[...issues, ...(submitError ? [submitError] : []), ...(notice ? [notice] : [])]} />
+                    </div>
+                    <div className="shrink-0 border-t border-[#ececec] p-3">
                         <button
                             type="button"
                             title={[...issues, ...(submitError ? [submitError] : []), ...(notice ? [notice] : [])].join("；") || undefined}
@@ -953,10 +957,11 @@ export function PrintingRepairWorkspace({ className }: PrintingRepairWorkspacePr
                             {running ? <Loader2 aria-hidden="true" className="size-4 animate-spin" /> : <Sparkles aria-hidden="true" className="size-4" />}
                             <span>{running ? "修复中…" : "立即生成"}</span>
                         </button>
-                        <p className="mt-1.5 text-center text-[11px] text-muted-foreground">限免</p>
-                    </section>
+                        <p className="mt-1 text-center text-[11px] text-muted-foreground">限免</p>
+                    </div>
+                </aside>
 
-                    <section data-testid="printing-repair-result" className="space-y-2 rounded-2xl border border-border bg-card p-4">
+                    <section data-testid="printing-repair-result" data-region="results" className="order-3 flex min-h-0 w-[300px] shrink-0 flex-col overflow-hidden border-l border-[#ececec] bg-white p-3">
                         <div className="flex items-center gap-1 border-b border-border pb-1">
                             <button
                                 type="button"
@@ -1028,7 +1033,7 @@ export function PrintingRepairWorkspace({ className }: PrintingRepairWorkspacePr
                     {/* 原站族导航在页面最左（x≈61），本地被内容框裁掉：在参数栏底部等价还原，顺序与原站一致 */}
                     <OrigRail items={SMART_EDIT_RAIL} active="印花修复" driver testId="printing-repair-family-rail" label="图片编辑" />
                 </div>
-            </ToolWorkspaceColumns>
+            </div>
         </ToolShell>
     );
 }

@@ -216,6 +216,30 @@ describe("buildDressWearSetInput", () => {
         expect(input.fields?.platform).toBe("");
     });
 
+    test("提交键含 brandKey/brandDNA/coverList/name（字段名即提交键，禁改名）", () => {
+        const values = createDressWearSetValues();
+        values.brandMode = "custom";
+        values.brandName = "ACME";
+        values.brandColor = "#1B1B1B";
+        values.brandFont = "思源黑体";
+        values.platform = "亚马逊";
+        values.salesRegion = "美国";
+        values.language = "英语";
+        const unit = dressWearSetUnits(values)[0];
+        const input = buildDressWearSetInput(unit, values, toDressReferences([reference]));
+
+        // brandKey 与真实提交体（create_payload_product_suite.json）同构。
+        expect(input.fields?.brandKey).toEqual({ platform: "亚马逊", salesRegion: "美国", language: "英语" });
+        expect(input.fields?.brandDNA).toEqual({ primaryColor: "#1B1B1B", fontStyle: "思源黑体" });
+        expect(input.fields?.coverList).toEqual([reference.id]);
+        expect(input.fields?.name).toBe(unit.label);
+        // 智能模式固定「智能品牌基因」，与原站提交体一致。
+        const smart = createDressWearSetValues();
+        const smartUnit = dressWearSetUnits(smart)[0];
+        expect(buildDressWearSetInput(smartUnit, smart, []).fields?.brandName).toBe("智能品牌基因");
+        expect(buildDressWearSetInput(smartUnit, smart, []).fields?.needIntelligent).toBe(true);
+    });
+
     test("目录声明无品质档位的模型不下发 quality", () => {
         const values = createDressWearSetValues();
         values.provider = "GEMINI_NANO_BANANA_2_1";

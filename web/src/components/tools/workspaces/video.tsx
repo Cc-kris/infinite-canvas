@@ -22,8 +22,8 @@ import { ToolShell } from "@/components/tools/tool-shell";
 import { ToolTaskHistory } from "@/components/tools/tool-task-history";
 import { ImageRulesPopover } from "@/components/tools/image-rules-popover";
 import { useStoredToolTask } from "@/features/tools/use-stored-tool-task";
-import { Design19ResultPanel, type Design19TabKey } from "../design19-frame";
-import { ToolCases } from "../tool-cases";
+import { Design19ResultPanel, Design19Results, type Design19TabKey } from "../design19-frame";
+import { ToolCases, type ToolCase } from "../tool-cases";
 import {
     SALE_VIDEO_COUNTRIES,
     SALE_VIDEO_DURATIONS,
@@ -55,6 +55,7 @@ import {
     retrySaleVideoTask,
     runSaleVideoTask,
     saleVideoResultView,
+    saleVideoSourceIssues,
     SaleVideoAdapterError,
     toSaleVideoReference,
     type SaleVideoImageEntry,
@@ -73,7 +74,6 @@ import {
     applyAiVideoEditingClipDuration,
     applyAiVideoEditingClipStart,
     applyAiVideoEditingType,
-    buildAiVideoEditingHiddenPrompt,
     composeAiVideoEditingPromptDraft,
     createAiVideoEditingSnapshot,
     createAiVideoEditingState,
@@ -106,14 +106,11 @@ import {
 import {
     VIDEO_CONCAT_CLIP_MAX_MS,
     VIDEO_CONCAT_CLIP_MIN_MS,
-    VIDEO_CONCAT_DEFAULT_RATIO,
     VIDEO_CONCAT_DURATIONS,
     VIDEO_CONCAT_MAX_CLIPS,
     VIDEO_CONCAT_MIN_CLIPS,
-    VIDEO_CONCAT_RATIOS,
     VIDEO_CONCAT_SOURCE_RULE,
     VIDEO_CONCAT_TOOL_ID,
-    applyVideoConcatDraft,
     createVideoConcatSnapshot,
     createVideoConcatState,
     effectiveVideoConcatSeconds,
@@ -138,7 +135,6 @@ import {
 import {
     assertVideoConcatInput,
     buildVideoConcatBrowserInput,
-    buildVideoConcatFields,
     createVideoConcatRunPort,
     mapVideoConcatIssues,
     resolveVideoConcatProviderCapability,
@@ -149,7 +145,9 @@ import {
     videoConcatSummary,
     VideoConcatAdapterError,
 } from "@/features/tools/adapters/video-concat";
-import { loadToolAssetRecords, readToolAssetBlob, type ToolAssetRecord } from "@/services/api/tools/assets";
+import { loadToolAssetRecords, readToolAssetBlob, toolAssetLibraryItemsFromAssets, type ToolAssetRecord } from "@/services/api/tools/assets";
+import { VIDEO_REPLICATION_CASES as VIDEO_REPLICATION_CASE_DATA, type VideoReplicationCase } from "@/features/tools/video-replication-cases-data";
+import { useAssetStore, type ImageAsset, type VideoAsset } from "@/stores/use-asset-store";
 import {
     modelOptionName,
     resolveModelRequestConfig,
@@ -190,7 +188,7 @@ const AI_VIDEO_FAMILY: ReadonlyArray<{ label: string; route: string }> = [
     { label: "视频剪辑", route: "/tools/ai-video/video-concat" },
 ];
 
-export function AiVideoFamilyNav({ active, showDriver = true }: { active: string; showDriver?: boolean }) {
+export function AiVideoFamilyNav({ active, showDriver = true, showBatchBadge = true }: { active: string; showDriver?: boolean; showBatchBadge?: boolean }) {
     return (
         <nav className="flex flex-wrap items-center gap-1" data-testid="ai-video-family-nav" aria-label="AI 视频系列">
             {AI_VIDEO_FAMILY.map((item) => (
@@ -207,10 +205,12 @@ export function AiVideoFamilyNav({ active, showDriver = true }: { active: string
                     {item.label}
                 </Link>
             ))}
-            <span className="inline-flex items-center gap-1 rounded-md border border-border px-2 py-[3px] text-[11px] leading-4 text-muted-foreground">
-                <span>批量生成</span>
-                <span className="rounded bg-primary/15 px-1 text-[10px] font-medium leading-4 text-primary">NEW</span>
-            </span>
+            {showBatchBadge ? (
+                <span className="inline-flex items-center gap-1 rounded-md border border-border px-2 py-[3px] text-[11px] leading-4 text-muted-foreground">
+                    <span>批量生成</span>
+                    <span className="rounded bg-primary/15 px-1 text-[10px] font-medium leading-4 text-primary">NEW</span>
+                </span>
+            ) : null}
             <span className="ml-auto inline-flex items-center gap-2 text-[11px] leading-4 text-muted-foreground">
                 {showDriver ? <span data-testid="ai-video-driver-status">ljq_driver: 已连接</span> : null}
             </span>
@@ -218,13 +218,32 @@ export function AiVideoFamilyNav({ active, showDriver = true }: { active: string
     );
 }
 
-/** 优秀案例数据（复用上游 /image/make-case/list?type=… 真实抓取产物；为空时不渲染案例模块，避免占位空态）。 */
-const SALE_VIDEO_CASES: ComponentProps<typeof ToolCases>["cases"] = [];
+/**
+ * 优秀案例数据（复用上游 /image/make-case/list?type=89 真实抓取产物；见 features/tools/video-replication-cases-data.ts）。
+ * 其余三个视频工具本地没有真实案例数据：不渲染案例页签、也不放「做同款」，避免用空回调假装可做同款。
+ */
+const VIDEO_REPLICATION_CASES: ComponentProps<typeof ToolCases>["cases"] =
+    VIDEO_REPLICATION_CASE_DATA as unknown as ComponentProps<typeof ToolCases>["cases"];
 
-/** 优秀案例数据（复用上游 /image/make-case/list?type=… 真实抓取产物；为空时不渲染案例模块，避免占位空态）。 */
-const AI_VIDEO_EDITING_CASES: ComponentProps<typeof ToolCases>["cases"] = [];
-const VIDEO_REPLICATION_CASES: ComponentProps<typeof ToolCases>["cases"] = [];
-const VIDEO_CONCAT_CASES: ComponentProps<typeof ToolCases>["cases"] = [];
+/** 配置栏底部操作条：左列独立滚动，主按钮常驻列底（原站固定底栏，不压住正文）。 */
+const CONFIG_FOOTER_CLASS = "shrink-0 space-y-2 border-t border-border bg-white pb-1 pt-2";
+
+/**
+ * 配置栏自身滚动：原站左列是独立滚动区，主按钮常驻列底。
+ * 高度由外层壳层（沉浸式 main 已锁视口高）给定，配置再长也只滚内部，
+ * 不会把「立即生成」推出 1 屏，底栏也不会盖住正文。
+ */
+const CONFIG_COLUMN_CLASS = "min-h-0";
+/** 配置栏内部滚动区：只有这部分滚动，底栏固定在它下面。 */
+const CONFIG_SCROLL_CLASS = "min-h-0 flex-1 space-y-4 overflow-y-auto pb-2 pr-1";
+
+/**
+ * 工作区骨架：页面级 ToolShell 已渲染标题栏、面包屑与左侧族导航（OrigRail），
+ * 这里只负责铺满高度，不再嵌套第二个 ToolShell——否则同一页会出现两份工具标题。
+ */
+function VideoWorkspaceFrame({ className, children }: { className?: string; children: React.ReactNode }) {
+    return <div className={cn("flex h-full min-h-0 min-w-0 flex-col overflow-hidden", className)}>{children}</div>;
+}
 
 function newOperationId(): string {
     const cryptoApi = globalThis.crypto as Crypto | undefined;
@@ -331,12 +350,25 @@ export function SaleVideoWorkspace({ className }: SaleVideoWorkspaceProps = {}) 
     const config = useConfigStore((state) => state.config);
     const patchDraft = useToolDraftStore((state) => state.patch);
     const hydrateDraft = useToolDraftStore((state) => state.hydrate);
+    /* 作品库（本地资产库）：上传卡的「从作品库选择」读取真实资产，不伪造商品库入口。 */
+    const assets = useAssetStore((state) => state.assets);
+    const library = useMemo(
+        () =>
+            toolAssetLibraryItemsFromAssets(
+                assets.filter((asset): asset is ImageAsset | VideoAsset => asset.kind === "image" || asset.kind === "video"),
+            ),
+        [assets],
+    );
 
     const [state, setState] = useState<SaleVideoState>(() => createSaleVideoState());
     const [model, setModel] = useState(() => config.videoModel || "");
     const [records, setRecords] = useState<ToolAssetRecord[]>([]);
-    const [sourceIssues, setSourceIssues] = useState<string[]>([]);
     const [task, setTask] = useState<ToolTask | null>(null);
+    /* 任务与结果字节已落库：刷新/重进后按最近一条落盘任务还原结果区（与同文件其余三页一致）。 */
+    const storedTask = useStoredToolTask(SALE_VIDEO_TOOL_ID);
+    useEffect(() => {
+        if (!task && storedTask) setTask(storedTask);
+    }, [storedTask, task]);
     const [snapshot, setSnapshot] = useState<SaleVideoSnapshot | null>(null);
     const [error, setError] = useState("");
     const [notice, setNotice] = useState("");
@@ -344,6 +376,9 @@ export function SaleVideoWorkspace({ className }: SaleVideoWorkspaceProps = {}) 
     const [draftReady, setDraftReady] = useState(false);
     const [productLink, setProductLink] = useState("");
     const [resultTab, setResultTab] = useState<Design19TabKey>("result");
+    /** AI帮写的一次性撤销备份（页面规格 §3：帮写只替换草稿且可撤销）。 */
+    const scriptBackupRef = useRef("");
+    const [scriptUndoable, setScriptUndoable] = useState(false);
     const revisionRef = useRef<number | null>(null);
     const aliveRef = useRef(true);
 
@@ -363,7 +398,6 @@ export function SaleVideoWorkspace({ className }: SaleVideoWorkspaceProps = {}) 
                 const parsed = parseSaleVideoDraftValues(draft.values);
                 revisionRef.current = draft.revision;
                 setState((previous) => ({ ...previous, ...parsed.state }));
-                if (draft.assetIds.length) setSourceIssues([]);
             })
             .finally(() => {
                 if (alive) setDraftReady(true);
@@ -392,8 +426,16 @@ export function SaleVideoWorkspace({ className }: SaleVideoWorkspaceProps = {}) 
 
     const handleSourcesChange = useCallback((_ids: string[], nextRecords: ToolAssetRecord[]) => {
         setRecords(nextRecords);
-        setSourceIssues([]);
     }, []);
+
+    /**
+     * 源图逐项校验：格式/尺寸/数量问题在控件旁说明（页面规格 §5），
+     * 由 adapter 的同一份规则派生，不另写一套判断。
+     */
+    const sourceIssues = useMemo(
+        () => saleVideoSourceIssues(records.map((record) => ({ name: record.name, bytes: record.bytes, width: record.width, height: record.height, mimeType: record.mimeType }))),
+        [records],
+    );
 
     /* ---------- 商品链接「分析」：本地没有链接解析通道，只校验不伪造结果 ---------- */
     const handleAnalyze = useCallback(() => {
@@ -419,37 +461,33 @@ export function SaleVideoWorkspace({ className }: SaleVideoWorkspaceProps = {}) 
         setNotice("已把 UGC 种草风格写入提示词描述");
     }, []);
 
-    /* ---------- 一键做同款：把上次提交的配置回填到表单（真实生效） ---------- */
-    const handleCloneLast = useCallback(() => {
-        if (!snapshot) {
-            setNotice("还没有可复用的结果，请先生成一次");
-            return;
-        }
-        setState((previous) => ({
-            ...previous,
-            prompt: snapshot.prompt,
-            saleCountry: snapshot.saleCountry,
-            language: snapshot.language,
-            resolution: snapshot.resolution,
-            videoTime: SALE_VIDEO_DURATIONS.includes(snapshot.videoTime as SaleVideoDuration)
-                ? (snapshot.videoTime as SaleVideoDuration)
-                : previous.videoTime,
-            aspectRatio: snapshot.aspectRatio,
-        }));
-        if (snapshot.model) setModel(snapshot.model);
-        setNotice("已按上次结果回填配置（一键做同款）");
-    }, [snapshot]);
-
+    /**
+     * 「AI帮写」只替换提示词草稿，并且必须可撤销（页面规格 §3）。
+     * 用一次性的备份保存被替换前的草稿，撤销后清空，避免撤销本身也被记录成一次改写。
+     */
     const handleWriteScript = useCallback(() => {
-        setState((previous) => ({
-            ...previous,
-            prompt: composeSaleVideoScriptDraft({
-                state: previous,
-                sourceCount: records.length,
-            }),
-        }));
-        setNotice("已按国家/语言/商品图生成口播草稿（本地模板，可自行修改）");
+        setState((previous) => {
+            scriptBackupRef.current = previous.prompt;
+            return {
+                ...previous,
+                prompt: composeSaleVideoScriptDraft({
+                    state: previous,
+                    sourceCount: records.length,
+                }),
+            };
+        });
+        setScriptUndoable(true);
+        setNotice("已按国家/语言/商品图生成口播草稿（本地模板，可自行修改，也可撤销）");
     }, [records]);
+
+    /** 撤销 AI帮写：把提示词还原成帮写前的草稿。 */
+    const handleUndoScript = useCallback(() => {
+        if (!scriptUndoable) return;
+        const backup = scriptBackupRef.current;
+        setState((previous) => ({ ...previous, prompt: backup }));
+        setScriptUndoable(false);
+        setNotice("已撤销 AI帮写，提示词恢复为帮写前内容");
+    }, [scriptUndoable]);
 
     const sources: SaleVideoImageEntry[] = useMemo(
         () =>
@@ -537,22 +575,18 @@ export function SaleVideoWorkspace({ className }: SaleVideoWorkspaceProps = {}) 
     const languageOptions = useMemo(() => saleVideoLanguageOptions(state.saleCountry), [state.saleCountry]);
     const promptCounter = saleVideoPromptCounter(state.prompt);
 
-    const sidebar = (
-        <div className="space-y-1">
-            <p className="px-2 text-xs font-medium text-muted-foreground">同类工具</p>
-            <p className="mt-3 px-2 text-[11px] leading-4 text-muted-foreground">
-                商品图 {SALE_VIDEO_MAX_SOURCES} 张内，10MB 内，384²–4096²，png/jpeg/webp
-            </p>
-        </div>
-    );
-
+    /**
+     * 原站左栏族导航由外层 ToolShell + OrigRail 提供（sidebar 已有「灵感/创作/工具」三组），
+     * 内容区不再放自造的横向 chip 条，也不再重复工具标题。
+     */
     return (
-        <ToolShell className={className} title={spec?.title ?? "带货口播"} sidebar={sidebar}>
+        <VideoWorkspaceFrame className={className}>
             <ToolWorkspaceColumns
                 configSide="left"
+                configClassName={CONFIG_COLUMN_CLASS}
                 config={
-<div className="min-w-0 space-y-4" data-testid="sale-video-config">
-                    <AiVideoFamilyNav active="带货口播" />
+<div className="flex min-h-0 min-w-0 flex-col" data-testid="sale-video-config">
+                    <div className={CONFIG_SCROLL_CLASS}>
                     <div className="flex items-center gap-2" data-testid="sale-video-link-row">
                         <input
                             className="h-8 min-w-0 flex-1 rounded-md border border-border bg-card px-2 text-xs outline-none focus-visible:border-primary"
@@ -573,13 +607,16 @@ export function SaleVideoWorkspace({ className }: SaleVideoWorkspaceProps = {}) 
                             分析
                         </button>
                     </div>
+                    {/* 原站实测文案：链接入口下方一行「或 手动上传参考图」，说明两者是并列的素材来源。 */}
+                    <p className="text-[11px] leading-4 text-muted-foreground">或 手动上传参考图</p>
+                    {/* 原站只有一个素材区标题行：左边「商品多图」，右边「图片规则」；不再叠两层同级标题。 */}
                     <div className="flex items-center justify-between gap-2">
-                        <h2 className="text-sm font-medium">多视角白底商品&amp;实拍图</h2>
+                        <h2 className="text-sm font-medium">商品多图</h2>
                         <ImageRulesPopover kind="video" testId="sale-video-rules" />
                     </div>
 
                     <section className="space-y-2">
-                        <h3 className="text-xs font-medium">上传商品图片</h3>
+                        <h3 className="text-xs font-medium">多视角白底商品&amp;实拍图</h3>
                         <p className="text-[11px] leading-4 text-muted-foreground">
                             支持上传9张图，10M以内，384*384 ~ 4096*4096，宽高比（宽÷高）0.4～2.5（含边界）
                         </p>
@@ -592,16 +629,7 @@ export function SaleVideoWorkspace({ className }: SaleVideoWorkspaceProps = {}) 
                             variant="linkfox"
                             uploadLabel="本地上传"
                             wide
-                            actions={
-                                <>
-                                    <button type="button" className="h-7 w-full rounded-md border border-border bg-card text-xs text-muted-foreground" disabled>
-                                        作品选择
-                                    </button>
-                                    <button type="button" className="h-7 w-full rounded-md border border-border bg-card text-xs text-muted-foreground" disabled>
-                                        商品库选择
-                                    </button>
-                                </>
-                            }
+                            library={library}
                         />
                         {sourceIssues.length ? (
                             <ul className="space-y-1 text-[11px] text-destructive" data-testid="sale-video-source-issues">
@@ -611,10 +639,7 @@ export function SaleVideoWorkspace({ className }: SaleVideoWorkspaceProps = {}) 
                             </ul>
                         ) : null}
                     </section>
-                </div>
-                }>
-<div className="grid min-h-0 min-w-0 gap-4 lg:grid-cols-[minmax(280px,320px)_minmax(0,1fr)]">
-<div className="min-w-0 space-y-3" data-testid="sale-video-params">
+                    <div className="min-w-0 space-y-3" data-testid="sale-video-params">
                     <section className="space-y-2">
                         <h3 className="text-xs font-medium">提示词描述</h3>
                         <div className="flex gap-2">
@@ -682,6 +707,18 @@ export function SaleVideoWorkspace({ className }: SaleVideoWorkspaceProps = {}) 
                                 >
                                     UGC种草
                                 </button>
+                                {scriptUndoable ? (
+                                    <button
+                                        type="button"
+                                        aria-label="撤销 AI帮写"
+                                        className="rounded-md border border-border px-2 py-1 text-[11px] text-muted-foreground disabled:opacity-50"
+                                        onClick={handleUndoScript}
+                                        disabled={running}
+                                        data-testid="sale-video-script-undo"
+                                    >
+                                        撤销帮写
+                                    </button>
+                                ) : null}
                             </div>
                             <span className="text-[11px] text-muted-foreground">{promptCounter}</span>
                         </div>
@@ -716,6 +753,18 @@ export function SaleVideoWorkspace({ className }: SaleVideoWorkspaceProps = {}) 
 
                     <section className="space-y-1.5 rounded-lg border border-border p-2">
                         <h3 className="text-xs font-medium">生成设置</h3>
+                        <label className="flex items-center justify-between text-[11px] text-muted-foreground">
+                            <span>专业模式</span>
+                            <input
+                                type="checkbox"
+                                aria-label="专业模式"
+                                checked={state.isPro}
+                                onChange={(event) => setState((previous) => ({ ...previous, isPro: event.target.checked }))}
+                                disabled={running}
+                                className="size-4 accent-primary"
+                                data-testid="sale-video-is-pro"
+                            />
+                        </label>
                         <div className="space-y-1">
                             <div className="flex items-center justify-between text-[11px] text-muted-foreground">
                                 <span>视频时长</span>
@@ -779,12 +828,13 @@ export function SaleVideoWorkspace({ className }: SaleVideoWorkspaceProps = {}) 
                             </div>
                         </div>
                     </section>
-
-                    <div className="space-y-2">
+                    </div>
+                    </div>
+                    <div className={CONFIG_FOOTER_CLASS}>
                         <div className="flex items-center gap-2">
                             <button
                                 type="button"
-                                className="h-9 flex-1 rounded-lg bg-primary text-sm font-medium text-primary-foreground disabled:opacity-50"
+                                className="h-10 flex-1 rounded-lg bg-primary text-sm font-medium text-primary-foreground disabled:opacity-50"
                                 onClick={() => void handleSubmit()}
                                 disabled={running || Boolean(submitBlockedReason)}
                                 title={submitBlockedReason || undefined}
@@ -792,7 +842,9 @@ export function SaleVideoWorkspace({ className }: SaleVideoWorkspaceProps = {}) 
                             >
                                 {running ? "生成中…" : "立即生成"}
                             </button>
-                            <span className="shrink-0 rounded bg-amber-100 px-1 text-[11px] text-amber-700">季度特惠</span>
+                            <span className="shrink-0 text-[11px] tabular-nums text-muted-foreground" data-testid="sale-video-output-label">
+                                {saleVideoOutputLabel(state)}
+                            </span>
                         </div>
                         {submitBlockedReason ? (
                             <p className="sr-only" aria-live="polite" data-testid="sale-video-blocked">
@@ -807,8 +859,11 @@ export function SaleVideoWorkspace({ className }: SaleVideoWorkspaceProps = {}) 
                         {notice ? <p className="text-[11px] text-muted-foreground">{notice}</p> : null}
                     </div>
                 </div>
+                }>
 <Design19ResultPanel
-                    tabs={["result", "case", "history"]}
+                    /* 原站结果区只有「生成结果 / 优秀案例 / 历史记录」；本地没有真实案例数据，
+                       不渲染空的案例页签，也不放「做同款」，避免用空回调假装可套用。 */
+                    tabs={["result", "history"]}
                     active={resultTab}
                     onChange={setResultTab}
                     className="min-w-0"
@@ -816,50 +871,24 @@ export function SaleVideoWorkspace({ className }: SaleVideoWorkspaceProps = {}) 
                 >
                     {resultTab === "result" ? (
                         <div className="space-y-3 px-1 py-3">
-                            <div className="flex items-center justify-between gap-2">
-                                {stale ? (
-                                    <span className="rounded border border-border px-1.5 py-0.5 text-[11px] text-amber-600" data-testid="sale-video-stale">
-                                        来自旧版本配置
-                                    </span>
-                                ) : (
-                                    <span />
-                                )}
-                                <button
-                                    type="button"
-                                    onClick={handleCloneLast}
-                                    className="h-10 shrink-0 rounded-lg border border-border px-4 text-sm font-medium"
-                                    data-testid="sale-video-clone"
-                                >
-                                    一键做同款
-                                </button>
-                            </div>
-                            {task ? (
-                                <ToolResult
-                                    task={task}
-                                    toolId={SALE_VIDEO_TOOL_ID}
-                                    title="带货口播视频"
-                                    now={Date.now()}
-                                    onRetry={() => void handleSubmit({ retry: true })}
-                                    className="min-h-[320px]"
-                                />
-                            ) : (
-                                <div className="space-y-3">
-                                    <p className="text-[11px] leading-4 text-muted-foreground">上传商品图，自动分析商品信息并输出提示词，一键生成带货口播视频</p>
-                                    <div className="grid grid-cols-2 gap-3 sm:grid-cols-4" data-testid="sale-video-slots">
-                                        {[1, 2, 3, 4].map((slot) => (
-                                            <div
-                                                key={slot}
-                                                className="flex aspect-[3/4] items-center justify-center rounded-lg border border-dashed border-border text-lg font-medium text-muted-foreground"
-                                            >
-                                                {slot}
-                                            </div>
-                                        ))}
-                                    </div>
-                                </div>
-                            )}
+                            {stale ? (
+                                <span className="inline-block rounded border border-border px-1.5 py-0.5 text-[11px] text-amber-600" data-testid="sale-video-stale">
+                                    来自旧版本配置
+                                </span>
+                            ) : null}
+                            <ToolResult
+                                task={task}
+                                toolId={SALE_VIDEO_TOOL_ID}
+                                title="带货口播视频"
+                                now={Date.now()}
+                                onRetry={() => void handleSubmit({ retry: true })}
+                                emptyTitle="上传商品图，自动分析商品信息并输出提示词"
+                                emptyHint="填好口播提示词后点「立即生成」，带货口播视频会显示在这里"
+                                className="min-h-[320px]"
+                            />
                             {snapshot ? (
                                 <details className="rounded-lg border border-border p-3 text-[11px] text-muted-foreground">
-                                    <summary className="cursor-pointer text-xs font-medium text-foreground">本次输入快照</summary>
+                                    <summary className="cursor-pointer text-xs font-medium text-foreground">查看本次输入快照</summary>
                                     <dl className="mt-2 grid grid-cols-2 gap-1">
                                         <dt>模型</dt>
                                         <dd>{snapshot.model || "—"}</dd>
@@ -878,20 +907,6 @@ export function SaleVideoWorkspace({ className }: SaleVideoWorkspaceProps = {}) 
                                     </dl>
                                 </details>
                             ) : null}
-                            <p className="text-[11px] text-muted-foreground">ljq_driver: 已连接</p>
-                            <section className="space-y-2 rounded-lg border border-border p-3" data-testid="sale-video-promo">
-                                <p className="text-sm font-medium">「批量生成」功能重磅上线！</p>
-                                <p className="text-[11px] leading-4 text-muted-foreground">
-                                    批量上传商品图，一次最多生成100条视频，同时给每个商品出视频，不用一张张传、一条条等。
-                                </p>
-                                <button type="button" className="rounded-md border border-border px-3 py-1 text-[11px] text-muted-foreground">
-                                    立即体验
-                                </button>
-                            </section>
-                        </div>
-                    ) : resultTab === "case" ? (
-                        <div className="px-1 py-3" data-testid="sale-video-cases">
-                            <ToolCases cases={SALE_VIDEO_CASES} onApply={() => undefined} emptyHint="暂无优秀案例" />
                         </div>
                     ) : (
                         <div className="px-1 py-3" data-testid="sale-video-history">
@@ -899,9 +914,8 @@ export function SaleVideoWorkspace({ className }: SaleVideoWorkspaceProps = {}) 
                         </div>
                     )}
                 </Design19ResultPanel>
-                    </div>
             </ToolWorkspaceColumns>
-        </ToolShell>
+        </VideoWorkspaceFrame>
     );
 }
 
@@ -989,6 +1003,14 @@ export function VideoConcatWorkspace({ className }: VideoConcatWorkspaceProps = 
     const [draftReady, setDraftReady] = useState(false);
     const [probing, setProbing] = useState(false);
     const [resultTab, setResultTab] = useState<Design19TabKey>("result");
+    /**
+     * 结果回填：任务与结果字节都已落库，刷新/重进后按最近一条落盘任务还原结果区；
+     * 只在本会话还没有任务时回填，不覆盖新提交（与同文件 AI_VIDEO_EDITING 等一致）。
+     */
+    const storedTask = useStoredToolTask(VIDEO_CONCAT_TOOL_ID);
+    useEffect(() => {
+        if (!task && storedTask) setTask(storedTask);
+    }, [storedTask, task]);
     const revisionRef = useRef<number | null>(null);
     const aliveRef = useRef(true);
     const videoRef = useRef<HTMLVideoElement | null>(null);
@@ -1182,6 +1204,36 @@ export function VideoConcatWorkspace({ className }: VideoConcatWorkspaceProps = 
         }));
     }, []);
 
+    /* ---------- 历史作品：点击恢复真实任务（结果必回填；配置只在资产仍可取回时回填，不伪造） ---------- */
+    const handleSelectHistoryTask = useCallback((historyTask: ToolTask) => {
+        setTask(historyTask);
+        setResultTab("result");
+        setNotice("");
+        const snap = historyTask.configSnapshot as { model?: string } | undefined;
+        if (snap?.model) setModel(snap.model);
+        const ids = (historyTask.sourceAssetIds ?? []).filter((id) => typeof id === "string" && id.length > 0);
+        if (!ids.length) {
+            setNotice(`已恢复任务结果（${historyTask.status}）；该任务没有记录片段资产，无法回填片段列表`);
+            return;
+        }
+        void (async () => {
+            const { records, lostIds } = await loadToolAssetRecords(ids);
+            if (!aliveRef.current) return;
+            if (!records.length) {
+                setNotice(`已恢复任务结果（${historyTask.status}）；${lostIds.length} 个片段本地数据已失效，请重新上传后再重试`);
+                return;
+            }
+            setClipRecords(records);
+            await syncClips(records);
+            if (!aliveRef.current) return;
+            setNotice(
+                lostIds.length
+                    ? `已恢复任务结果（${historyTask.status}）；已回填 ${records.length} 个片段，${lostIds.length} 个片段本地已失效`
+                    : `已恢复任务结果（${historyTask.status}）并回填 ${records.length} 个片段`,
+            );
+        })();
+    }, [syncClips]);
+
     /* ---------- 派生状态 ---------- */
     const issues = useMemo(() => validateVideoConcatState({ state, model }), [model, state]);
     const capability = useMemo(
@@ -1206,7 +1258,6 @@ export function VideoConcatWorkspace({ className }: VideoConcatWorkspaceProps = 
         [model, state],
     );
     const stale = snapshot ? isVideoConcatSnapshotStale(snapshot, currentSnapshot) : false;
-    const view = videoConcatResultView(task);
     const activeClip = state.clips.find((clip) => clip.id === activeClipId) ?? state.clips[0] ?? null;
 
     /* ---------- 提交 ---------- */
@@ -1250,37 +1301,176 @@ export function VideoConcatWorkspace({ className }: VideoConcatWorkspaceProps = 
         [capability, model, running, state],
     );
 
-    const sidebar = (
-        <div className="space-y-1">
-            <p className="px-2 text-xs font-medium text-muted-foreground">拼接说明</p>
-            <p className="mt-3 px-2 text-[11px] leading-4 text-muted-foreground">
-                片段 {VIDEO_CONCAT_MIN_CLIPS}–{VIDEO_CONCAT_MAX_CLIPS} 段，单段 ≤ {Math.round(VIDEO_CONCAT_SOURCE_RULE.maxBytes / 1024 / 1024)}MB，
-                时长 0.5s–5min。顺序即拼接顺序，裁剪区间会写进提示词。
-            </p>
-        </div>
-    );
-
+    /**
+     * 原站左栏族导航由外层 ToolShell + OrigRail 提供；
+     * 内容区只保留配置本身，不放自造横向 chip、不重复工具标题、不重复内嵌历史。
+     */
     return (
-        <ToolShell className={className} title="视频剪辑" sidebar={sidebar}>
+        <VideoWorkspaceFrame className={className}>
             <ToolWorkspaceColumns
                 configSide="left"
+                configClassName={CONFIG_COLUMN_CLASS}
                 config={
-<div className="min-w-0 space-y-4" data-testid="video-concat-config">
-                    <AiVideoFamilyNav active="视频剪辑" showDriver={false} />
+<div className="flex min-h-0 min-w-0 flex-col" data-testid="video-concat-config">
+                    <div className={CONFIG_SCROLL_CLASS}>
                     <section className="space-y-2">
                         <h2 className="text-sm font-medium">选择视频素材</h2>
-                        <p className="text-[11px] text-muted-foreground">支持选择2~4个视频素材，一键拼接成品视频。</p>
+                        {/* 原站写「2~4个」，本地通道按 registry 支持 2–10 段：如实写本地真实上限。 */}
+                        <p className="text-[11px] text-muted-foreground">
+                            支持选择 {VIDEO_CONCAT_MIN_CLIPS}~{VIDEO_CONCAT_MAX_CLIPS} 个视频素材，一键拼接成品视频。
+                        </p>
                         <ToolAssetInput
                             toolId={VIDEO_CONCAT_TOOL_ID}
                             variant="linkfox"
                             uploadLabel="选择视频素材"
-                            actions={false}
                             constraints={CONCAT_CLIP_CONSTRAINTS}
                             maxCount={VIDEO_CONCAT_MAX_CLIPS}
                             disabled={running}
                             onChange={handleClipsChange}
                         />
                         {probing ? <p className="text-[11px] text-muted-foreground">正在读取片段真实时长…</p> : null}
+                        {state.clips.length > 0 ? (
+                            <ol className="space-y-2" data-testid="video-concat-clips">
+                                {state.clips.map((clip, index) => {
+                                    const ms = videoConcatClipMs(clip);
+                                    const unknown = clip.durationMs <= 0;
+                                    return (
+                                        <li
+                                            key={clip.id}
+                                            className={cn(
+                                                "space-y-1 rounded-md border border-border p-2",
+                                                activeClip?.id === clip.id ? "bg-accent/40" : "",
+                                            )}
+                                        >
+                                            <div className="flex items-center gap-1">
+                                                <button
+                                                    type="button"
+                                                    className="min-w-0 flex-1 truncate text-left text-xs"
+                                                    onClick={() => setActiveClipId(clip.id)}
+                                                    title={clip.name}
+                                                >
+                                                    {index + 1}. {clip.name}
+                                                </button>
+                                                <button
+                                                    type="button"
+                                                    className="rounded border border-border px-1 text-[11px] disabled:opacity-40"
+                                                    onClick={() => handleMove(index, -1)}
+                                                    disabled={running || index === 0}
+                                                    aria-label="上移"
+                                                    data-testid={`video-concat-clip-up-${index}`}
+                                                >
+                                                    ↑
+                                                </button>
+                                                <button
+                                                    type="button"
+                                                    className="rounded border border-border px-1 text-[11px] disabled:opacity-40"
+                                                    onClick={() => handleMove(index, 1)}
+                                                    disabled={running || index === state.clips.length - 1}
+                                                    aria-label="下移"
+                                                    data-testid={`video-concat-clip-down-${index}`}
+                                                >
+                                                    ↓
+                                                </button>
+                                                <button
+                                                    type="button"
+                                                    className="rounded border border-border px-1 text-[11px] text-destructive disabled:opacity-40"
+                                                    onClick={() => handleRemove(index)}
+                                                    disabled={running}
+                                                    aria-label="删除"
+                                                    data-testid={`video-concat-clip-remove-${index}`}
+                                                >
+                                                    ×
+                                                </button>
+                                            </div>
+                                            <div className="flex flex-wrap items-center gap-2 text-[11px] text-muted-foreground">
+                                                <span>{unknown ? "时长未知" : `原始 ${formatVideoConcatDuration(clip.durationMs)}`}</span>
+                                                <span>· 有效 {unknown ? "—" : formatVideoConcatDuration(ms)}</span>
+                                                <button
+                                                    type="button"
+                                                    className="rounded border border-border px-1 disabled:opacity-40"
+                                                    onClick={() => handleResetTrim(clip.id)}
+                                                    disabled={running || unknown}
+                                                >
+                                                    还原
+                                                </button>
+                                            </div>
+                                            <div className="flex items-center gap-2 text-[11px]">
+                                                <label className="flex items-center gap-1">
+                                                    起
+                                                    <input
+                                                        type="number"
+                                                        className="h-7 w-16 rounded border border-border bg-background px-1 text-[11px]"
+                                                        step={0.1}
+                                                        min={0}
+                                                        max={Math.max(0, clip.durationMs / 1000)}
+                                                        value={Number((clip.startMs / 1000).toFixed(1))}
+                                                        disabled={running || unknown}
+                                                        onChange={(event) => handleTrim(clip.id, { startMs: Math.round(Number(event.target.value) * 1000) })}
+                                                    />
+                                                </label>
+                                                <label className="flex items-center gap-1">
+                                                    止
+                                                    <input
+                                                        type="number"
+                                                        className="h-7 w-16 rounded border border-border bg-background px-1 text-[11px]"
+                                                        step={0.1}
+                                                        min={0}
+                                                        max={Math.max(0, clip.durationMs / 1000)}
+                                                        value={Number((clip.endMs / 1000).toFixed(1))}
+                                                        disabled={running || unknown}
+                                                        onChange={(event) => handleTrim(clip.id, { endMs: Math.round(Number(event.target.value) * 1000) })}
+                                                    />
+                                                </label>
+                                                <span>秒</span>
+                                            </div>
+                                        </li>
+                                    );
+                                })}
+                            </ol>
+                        ) : (
+                            <p className="text-[11px] text-muted-foreground" data-testid="video-concat-no-clip">
+                                还没有片段：至少上传 {VIDEO_CONCAT_MIN_CLIPS} 段视频才能拼接。
+                            </p>
+                        )}
+                    </section>
+
+                    <section className="space-y-2">
+                        <h2 className="text-sm font-medium">视频封面</h2>
+                        <div className="flex items-center justify-between gap-2">
+                            <p className="text-[11px] text-muted-foreground">封面必填：上传一张图，或用播放器定位画面后抓帧。</p>
+                            <button
+                                type="button"
+                                className="shrink-0 rounded border border-border px-2 py-1 text-[11px] hover:bg-accent disabled:opacity-50"
+                                onClick={handleGrabFrame}
+                                disabled={running || !activeClip || activeClip.durationMs <= 0}
+                                data-testid="video-concat-grab-cover"
+                            >
+                                从当前帧抓取
+                            </button>
+                        </div>
+                        <ToolAssetInput
+                            toolId={VIDEO_CONCAT_TOOL_ID}
+                            draftSlot="cover-image"
+                            variant="linkfox"
+                            uploadLabel="上传封面图"
+                            actions={false}
+                            constraints={CONCAT_COVER_CONSTRAINTS}
+                            maxCount={1}
+                            disabled={running}
+                            onChange={(ids, records) => void handleCoverChange(ids, records)}
+                        />
+                        {state.cover ? (
+                            <div className="flex items-center gap-2">
+                                <img src={state.cover.url} alt="封面预览" className="h-14 w-14 rounded border border-border object-cover" />
+                                <div className="min-w-0 text-[11px] leading-4 text-muted-foreground">
+                                    <p className="truncate" data-testid="video-concat-cover-name">{state.cover.name}</p>
+                                    <p>
+                                        {state.cover.source === "frame" ? `抓帧 ${formatVideoConcatDuration(state.cover.frameMs ?? 0)}` : "上传封面"} ·{" "}
+                                        {state.cover.width ?? "?"}×{state.cover.height ?? "?"}
+                                    </p>
+                                </div>
+                            </div>
+                        ) : null}
                     </section>
 
                     <section className="space-y-2">
@@ -1305,10 +1495,53 @@ export function VideoConcatWorkspace({ className }: VideoConcatWorkspaceProps = 
                         </div>
                     </section>
 
-                    <div className="space-y-2">
+                    <section className="space-y-2">
+                        <h2 className="text-sm font-medium">输出时长</h2>
+                        <div className="flex gap-2" role="radiogroup" aria-label="输出时长">
+                            {VIDEO_CONCAT_DURATIONS.map((duration) => (
+                                <button
+                                    key={String(duration)}
+                                    type="button"
+                                    role="radio"
+                                    aria-checked={state.videoTime === duration}
+                                    className={cn(
+                                        "h-8 flex-1 rounded-md border text-xs",
+                                        state.videoTime === duration ? "border-primary bg-primary/10 font-medium" : "border-border text-muted-foreground",
+                                    )}
+                                    onClick={() => setState((previous) => ({ ...previous, videoTime: duration }))}
+                                    disabled={running}
+                                >
+                                    {duration === "auto" ? "自动" : `${duration}秒`}
+                                </button>
+                            ))}
+                        </div>
+                        <p className="text-[11px] text-muted-foreground">
+                            自动 = 片段有效时长之和 {effectiveVideoConcatSeconds({ videoTime: state.videoTime, clips: state.clips })}s
+                        </p>
+                    </section>
+
+                    {/* 通道能力说明是只读信息，留在正文里；底部操作条只放按钮与真实阻断原因。 */}
+                    <section className="space-y-1" data-testid="video-concat-channel-block">
+                        <p className="text-[11px] text-muted-foreground" data-testid="video-concat-channel">
+                            通道 {capability.channel} · 多段视频{" "}
+                            {capability.evidence.multiReference === "supported"
+                                ? "已验证发送"
+                                : capability.evidence.multiReference === "unsupported"
+                                    ? "不会发送（阻断）"
+                                    : "无证据（阻断）"}
+                        </p>
+                        {capability.notes.map((note) => (
+                            <p key={note} className="text-[11px] text-muted-foreground">
+                                {note}
+                            </p>
+                        ))}
+                    </section>
+                    </div>
+
+                    <div className={CONFIG_FOOTER_CLASS}>
                         <button
                             type="button"
-                            className="w-full rounded-md bg-primary px-3 py-2 text-sm font-medium text-primary-foreground"
+                            className="w-full rounded-md bg-primary px-3 py-2 text-sm font-medium text-primary-foreground disabled:opacity-50"
                             onClick={() => void handleSubmit()}
                             disabled={running || Boolean(blockedReason)}
                             title={blockedReason || undefined}
@@ -1316,6 +1549,22 @@ export function VideoConcatWorkspace({ className }: VideoConcatWorkspaceProps = 
                         >
                             {running ? "拼接中…" : "开始拼接"}
                         </button>
+                        {blockedReason ? (
+                            <p className="text-[11px] text-muted-foreground" data-testid="video-concat-blocked">
+                                {blockedReason}
+                            </p>
+                        ) : (
+                            <p className="text-[11px] text-muted-foreground" data-testid="video-concat-summary">
+                                {videoConcatSummary(state)}
+                            </p>
+                        )}
+                        {issues.length > 0 ? (
+                            <ul className="space-y-1 text-[11px] text-destructive" role="alert" data-testid="video-concat-issues">
+                                {mapVideoConcatIssues(issues).map((issue) => (
+                                    <li key={`${issue.code}-${issue.message}`}>{issue.message}</li>
+                                ))}
+                            </ul>
+                        ) : null}
                         {error ? (
                             <p className="text-[11px] text-destructive" role="alert" data-testid="video-concat-error">
                                 {error}
@@ -1325,41 +1574,93 @@ export function VideoConcatWorkspace({ className }: VideoConcatWorkspaceProps = 
                     </div>
                 </div>
                 }>
-<Design19ResultPanel
-                    tabs={["result", "history"]}
+<Design19Results
+                    /* 原站右栏：左「生成结果」，最右「历史记录」；历史只在这里出现一次，不再内嵌第二份。 */
+                    tabs={[{ id: "result", label: "生成结果" }]}
                     active={resultTab}
-                    onChange={setResultTab}
+                    onTabChange={(id) => setResultTab(id as Design19TabKey)}
+                    extraTab={{ id: "history", label: "历史记录" }}
                     className="min-w-0"
-                    data-testid="video-concat-results-panel"
                 >
                     {resultTab === "result" ? (
-                        <div className="space-y-3 px-1 py-3">
+                        <div className="space-y-3 px-1 py-3" data-testid="video-concat-results">
                             {stale ? (
-                                <span className="rounded border border-border px-1.5 py-0.5 text-[11px] text-amber-600" data-testid="video-concat-stale">
+                                <span className="inline-block rounded border border-border px-1.5 py-0.5 text-[11px] text-amber-600" data-testid="video-concat-stale">
                                     来自旧版本配置
                                 </span>
                             ) : null}
-                            <div className="grid gap-3 sm:grid-cols-2">
-                                <ToolResult
-                                    task={task}
-                                    toolId={VIDEO_CONCAT_TOOL_ID}
-                                    title="生成结果"
-                                    emptyTitle=""
-                                    emptyHint=""
-                                    now={Date.now()}
-                                    onRetry={() => void handleSubmit({ retry: true })}
-                                    className="min-h-[320px]"
-                                />
-                            </div>
+                            {/* 原站只有一块结果区：有片段时才出现预览，空态交给 ToolResult，不再叠两层空卡片。 */}
+                            {activeClip ? (
+                                <section className="space-y-2">
+                                    <div className="flex items-center justify-between text-[11px] text-muted-foreground">
+                                        <span>片段预览</span>
+                                        <span>{activeClip.name} · 有效 {formatVideoConcatDuration(videoConcatClipMs(activeClip))}</span>
+                                    </div>
+                                    <video
+                                        key={activeClip.id}
+                                        ref={videoRef}
+                                        src={activeClip.url}
+                                        className="max-h-[320px] w-full rounded-md border border-border bg-black object-contain"
+                                        controls
+                                        playsInline
+                                        onTimeUpdate={(event) => {
+                                            const element = event.currentTarget;
+                                            if (activeClip.durationMs <= 0) return;
+                                            const currentMs = element.currentTime * 1000;
+                                            if (currentMs < activeClip.startMs - 50) element.currentTime = activeClip.startMs / 1000;
+                                            else if (currentMs > activeClip.endMs) element.pause();
+                                        }}
+                                        data-testid="video-concat-preview"
+                                    />
+                                    {state.cover?.source === "frame" && state.cover.clipId ? (
+                                        <p className="text-[11px] text-muted-foreground">
+                                            封面来自「{state.clips.find((clip) => clip.id === state.cover?.clipId)?.name ?? "片段"}」第{" "}
+                                            {formatVideoConcatDuration(state.cover.frameMs ?? 0)} 帧。
+                                        </p>
+                                    ) : null}
+                                </section>
+                            ) : null}
+                            <ToolResult
+                                task={task}
+                                toolId={VIDEO_CONCAT_TOOL_ID}
+                                title="拼接结果"
+                                emptyTitle="还没有拼接结果"
+                                emptyHint="在左栏选好素材与封面后点「开始拼接」，成品视频会显示在这里"
+                                now={Date.now()}
+                                onRetry={() => void handleSubmit({ retry: true })}
+                                className="min-h-[320px]"
+                            />
+                            {snapshot ? (
+                                <details className="rounded-lg border border-border p-3 text-[11px] text-muted-foreground" data-testid="video-concat-snapshot">
+                                    <summary className="cursor-pointer text-xs font-medium text-foreground">查看本次输入快照</summary>
+                                    <dl className="mt-2 grid grid-cols-2 gap-1">
+                                        <dt>模型</dt>
+                                        <dd>{snapshot.model || "—"}</dd>
+                                        <dt>片段</dt>
+                                        <dd>{snapshot.clips.length} 段</dd>
+                                        <dt>比例/时长</dt>
+                                        <dd>
+                                            {snapshot.videoRatio} / {snapshot.videoTime}s
+                                        </dd>
+                                        <dt>封面</dt>
+                                        <dd>{snapshot.coverSource === "frame" ? "抓帧" : "上传"}</dd>
+                                    </dl>
+                                </details>
+                            ) : null}
                         </div>
                     ) : (
                         <div className="px-1 py-3" data-testid="video-concat-history">
-                            <ToolTaskHistory toolId={VIDEO_CONCAT_TOOL_ID} limit={8} emptyHint="还没有视频拼接任务记录" />
+                            <ToolTaskHistory
+                                toolId={VIDEO_CONCAT_TOOL_ID}
+                                limit={8}
+                                emptyHint="暂无历史作品，快去拼接一段视频吧"
+                                onSelectTask={handleSelectHistoryTask}
+                            />
                         </div>
                     )}
-                </Design19ResultPanel>
+                </Design19Results>
             </ToolWorkspaceColumns>
-        </ToolShell>
+        </VideoWorkspaceFrame>
     );
 }
 
@@ -1434,6 +1735,15 @@ export function AiVideoEditingWorkspace({ className }: AiVideoEditingWorkspacePr
     const config = useConfigStore((state) => state.config);
     const patchDraft = useToolDraftStore((state) => state.patch);
     const hydrateDraft = useToolDraftStore((state) => state.hydrate);
+    /* 作品库（本地资产库）：上传卡「作品选择」读取真实资产（图片/视频），不伪造商品库。 */
+    const assets = useAssetStore((state) => state.assets);
+    const library = useMemo(
+        () =>
+            toolAssetLibraryItemsFromAssets(
+                assets.filter((asset): asset is ImageAsset | VideoAsset => asset.kind === "image" || asset.kind === "video"),
+            ),
+        [assets],
+    );
 
     const [state, setState] = useState<AiVideoEditingState>(() => createAiVideoEditingState());
     const [model, setModel] = useState(() => config.videoModel || "");
@@ -1441,12 +1751,15 @@ export function AiVideoEditingWorkspace({ className }: AiVideoEditingWorkspacePr
     const [referenceRecords, setReferenceRecords] = useState<ToolAssetRecord[]>([]);
     const [task, setTask] = useState<ToolTask | null>(null);
     const [snapshot, setSnapshot] = useState<AiVideoEditingSnapshot | null>(null);
+    const [resultTab, setResultTab] = useState<Design19TabKey>("result");
     const [error, setError] = useState("");
     const [notice, setNotice] = useState("");
     const [running, setRunning] = useState(false);
     const [draftReady, setDraftReady] = useState(false);
     /** D3：本地 Blob 失效的具体原因（空串 = 素材可用），直接决定按钮是否可点。 */
     const [assetIssue, setAssetIssue] = useState("");
+    /** §3「提示词优化可撤销」：优化前的编辑需求；null = 当前没有可撤销内容。 */
+    const [promptUndoValue, setPromptUndoValue] = useState<string | null>(null);
     /**
      * 结果回填：任务与结果字节都已落库（use-tool-task-store + media_files/storageKey），
      * 刷新/重进后按最近一条落盘任务还原结果区；否则「编辑成功 → 刷新 → 结果空白」，
@@ -1459,7 +1772,6 @@ export function AiVideoEditingWorkspace({ className }: AiVideoEditingWorkspacePr
     const revisionRef = useRef<number | null>(null);
     const aliveRef = useRef(true);
     const lastReferencesRef = useRef<ReferenceImage[]>([]);
-    const promptUndoRef = useRef<string | null>(null);
 
     useEffect(() => {
         aliveRef.current = true;
@@ -1569,17 +1881,6 @@ export function AiVideoEditingWorkspace({ className }: AiVideoEditingWorkspacePr
         [state.videoType],
     );
 
-    const hiddenPrompt = useMemo(
-        () =>
-            buildAiVideoEditingHiddenPrompt({
-                state,
-                model,
-                window,
-                referenceCount: referenceRecords.length,
-            }),
-        [model, referenceRecords.length, state, window],
-    );
-
     const currentSnapshot = useMemo(
         () =>
             createAiVideoEditingSnapshot({
@@ -1635,7 +1936,7 @@ export function AiVideoEditingWorkspace({ className }: AiVideoEditingWorkspacePr
     );
 
     const handleOptimizePrompt = useCallback(() => {
-        promptUndoRef.current = state.prompt;
+        setPromptUndoValue(state.prompt);
         setState((previous) => ({
             ...previous,
             prompt: composeAiVideoEditingPromptDraft({
@@ -1648,10 +1949,55 @@ export function AiVideoEditingWorkspace({ className }: AiVideoEditingWorkspacePr
     }, [referenceRecords.length, state.prompt, window]);
 
     const handleUndoPrompt = useCallback(() => {
-        if (promptUndoRef.current === null) return;
-        setState((previous) => ({ ...previous, prompt: promptUndoRef.current ?? "" }));
-        promptUndoRef.current = null;
+        if (promptUndoValue === null) return;
+        setState((previous) => ({ ...previous, prompt: promptUndoValue }));
+        setPromptUndoValue(null);
         setNotice("已撤销模板优化");
+    }, [promptUndoValue]);
+
+    /* ---------- 一键做同款：把上次提交快照回填到表单（真实生效） ---------- */
+    const handleCloneLast = useCallback(() => {
+        if (!snapshot) {
+            setNotice("还没有可复用的结果，请先生成一次");
+            return;
+        }
+        setState((previous) => ({
+            ...previous,
+            prompt: snapshot.prompt,
+            clipStart: snapshot.clipStartSec,
+            clipDuration: snapshot.durationSec,
+        }));
+        if (snapshot.model) setModel(snapshot.model);
+        if (snapshot.videoType) {
+            const applied = applyAiVideoEditingType({ state, sourceDurationMs: window.sourceDurationMs, videoType: snapshot.videoType });
+            setState(applied);
+        }
+        setNotice("已按上次结果回填配置（一键做同款）");
+    }, [snapshot, state, window.sourceDurationMs]);
+
+    /* ---------- 历史记录：点击恢复真实任务结果（素材可取回时一并回填） ---------- */
+    const handleSelectHistoryTask = useCallback((historyTask: ToolTask) => {
+        setTask(historyTask);
+        setResultTab("result");
+        setNotice("");
+        const snap = historyTask.configSnapshot as { model?: string; prompt?: string } | undefined;
+        if (snap?.model) setModel(snap.model);
+        const ids = (historyTask.sourceAssetIds ?? []).filter((id) => typeof id === "string" && id.length > 0);
+        if (!ids.length) {
+            setNotice(`已恢复任务结果（${historyTask.status}）；该任务没有记录源资产，无法回填素材`);
+            return;
+        }
+        void (async () => {
+            const restored = await loadToolAssetRecords(ids);
+            if (!aliveRef.current) return;
+            setSourceRecords(restored.records.filter((record) => record.mimeType.startsWith("video/")));
+            setReferenceRecords(restored.records.filter((record) => !record.mimeType.startsWith("video/")));
+            setNotice(
+                restored.lostIds.length
+                    ? `已恢复任务结果（${historyTask.status}）；${restored.lostIds.length} 个素材本地已失效，请重新上传后再重试`
+                    : `已恢复任务结果（${historyTask.status}）并回填素材`,
+            );
+        })();
     }, []);
 
     /* ---------- 提交 ---------- */
@@ -1711,32 +2057,27 @@ export function AiVideoEditingWorkspace({ className }: AiVideoEditingWorkspacePr
     const maxClipSec = roundSeconds(window.maxClipMs / 1000);
     const maxStartSec = Math.max(0, roundSeconds((window.sourceDurationMs - window.durationMs) / 1000));
 
-    const sidebar = (
-        <div className="space-y-1">
-            <p className="px-2 text-xs font-medium text-muted-foreground">同类工具</p>
-            <p className="mt-3 px-2 text-[11px] leading-4 text-muted-foreground">
-                源视频 MP4/MOV，100M 内，≥{Math.round(AI_VIDEO_EDITING_VIDEO_RULE.minSourceMs / 1000)} 秒；截取 ≤{maxClipSec} 秒
-            </p>
-            <p className="px-2 text-[11px] leading-4 text-muted-foreground">
-                参考图 ≤{AI_VIDEO_EDITING_MAX_REFERENCES} 张，10M 内，384²–4096²，宽高比 0.4–2.5
-            </p>
-        </div>
-    );
+    /**
+     * 原站「参考图（选填）」：缺参考图不禁用主按钮（不把选填项做成必填阻断）。
+     * 本地网关对本工具确实要求 ≥1 张，所以把这条真实约束写在按钮下方，
+     * 真提交时由 adapter 抛出的通道错误照实显示——既不假装修好，也不提前拦住用户。
+     */
+    const referenceHint = capability.issues.find((issue) => issue.includes("参考图"));
+    const blockingIssues = capability.issues.filter((issue) => issue !== referenceHint);
+    const canSubmit = blockingIssues.length === 0;
 
+    /**
+     * 原站左栏族导航由外层 ToolShell + OrigRail 提供；配置列单列纵向排布（原站 300px 一列到底），
+     * 不再把四个分区挤进两个 140px 窄格，也不重复工具标题。
+     */
     return (
-        <ToolShell
-            className={className}
-            title={spec?.title ?? "视频编辑"}
-            subtitle="上传原视频与参考图，输入编辑需求，AI 智能编辑视频"
-            sidebar={sidebar}
-        >
+        <VideoWorkspaceFrame className={className}>
             <ToolWorkspaceColumns
                 configSide="left"
+                configClassName={CONFIG_COLUMN_CLASS}
                 config={
-<div className="grid min-w-0 content-start gap-3 sm:grid-cols-2" data-testid="ai-video-editing-config">
-                    <div className="sm:col-span-2">
-                        <AiVideoFamilyNav active="视频编辑" />
-                    </div>
+<div className="flex min-h-0 min-w-0 flex-col" data-testid="ai-video-editing-config">
+                    <div className={CONFIG_SCROLL_CLASS}>
                     <section className="space-y-2">
                         <h2 className="text-sm font-medium">原视频</h2>
                         <p className="text-[11px] leading-4 text-muted-foreground">上传需要编辑的视频</p>
@@ -1748,53 +2089,55 @@ export function AiVideoEditingWorkspace({ className }: AiVideoEditingWorkspacePr
                             disabled={running}
                             syncIds={sourceRecords.map((record) => record.id)}
                             onChange={handleSourceChange}
+                            library={library}
                             variant="linkfox"
                             uploadLabel="本地上传"
                             compact
                             wide
-                            actions={
-                                <button
-                                    type="button"
-                                    className="h-7 w-full rounded-md border border-border bg-card text-xs text-muted-foreground"
-                                    disabled
-                                >
-                                    作品选择
-                                </button>
-                            }
                         />
                         <p className="text-[11px] leading-4 text-muted-foreground">支持MP4/MOV格式，100M以内，时长不低于4秒</p>
                         <p className="text-[11px] leading-4 text-muted-foreground">超长视频可截取30秒以内片段</p>
-                        {source ? (
-                            <div className="space-y-1">
-                                <input
-                                    type="range"
-                                    aria-label="截取起点"
-                                    min={0}
-                                    max={maxStartSec}
-                                    step={0.5}
-                                    value={Math.min(state.clipStart, maxStartSec)}
-                                    onChange={(event) => handleClipStart(Number(event.target.value))}
-                                    disabled={running}
-                                    className="w-full accent-primary"
-                                />
-                                <input
-                                    type="range"
-                                    aria-label="截取时长"
-                                    min={1}
-                                    max={Math.max(1, maxClipSec)}
-                                    step={0.5}
-                                    value={Math.min(state.clipDuration, Math.max(1, maxClipSec))}
-                                    onChange={(event) => handleClipDuration(Number(event.target.value))}
-                                    disabled={running}
-                                    className="w-full accent-primary"
-                                />
+                        {/* §3：视频上传后开放片段截取；未上传时展示占位（aiVideoEditingClipLabel 的 no-source 文案），滑杆禁用 */}
+                        <div className="space-y-1" data-testid="ai-video-editing-clip">
+                            <div className="flex items-center justify-between text-[11px] leading-4 text-muted-foreground">
+                                <span>片段截取</span>
+                                <span data-testid="ai-video-editing-clip-label">{aiVideoEditingClipLabel(window)}</span>
                             </div>
-                        ) : null}
+                            <input
+                                type="range"
+                                aria-label="截取起点"
+                                min={0}
+                                max={maxStartSec}
+                                step={0.5}
+                                value={Math.min(state.clipStart, maxStartSec)}
+                                onChange={(event) => handleClipStart(Number(event.target.value))}
+                                disabled={running || !source}
+                                className="w-full accent-primary"
+                            />
+                            <input
+                                type="range"
+                                aria-label="截取时长"
+                                min={1}
+                                max={Math.max(1, maxClipSec)}
+                                step={0.5}
+                                value={Math.min(state.clipDuration, Math.max(1, maxClipSec))}
+                                onChange={(event) => handleClipDuration(Number(event.target.value))}
+                                disabled={running || !source}
+                                className="w-full accent-primary"
+                            />
+                            {source && window.reason !== "none" && window.notice ? (
+                                <p className="text-[11px] leading-4 text-muted-foreground" role="status" data-testid="ai-video-editing-clip-notice">
+                                    {window.notice}
+                                </p>
+                            ) : null}
+                        </div>
                     </section>
 
                     <section className="space-y-2">
-                        <h2 className="text-sm font-medium">参考图（选填）</h2>
-                        <h3 className="text-xs font-medium text-muted-foreground">图片规则</h3>
+                        <div className="flex items-center justify-between gap-2">
+                            <h2 className="text-sm font-medium">参考图（选填）</h2>
+                            <ImageRulesPopover kind="video" testId="ai-video-editing-rules" />
+                        </div>
                         <p className="text-[11px] leading-4 text-muted-foreground">
                             支持上传30张图，10M以内，384*384 ~ 4096*4096，宽高比（宽÷高）0.4～2.5（含边界）
                         </p>
@@ -1806,43 +2149,87 @@ export function AiVideoEditingWorkspace({ className }: AiVideoEditingWorkspacePr
                             disabled={running}
                             syncIds={referenceRecords.map((record) => record.id)}
                             onChange={handleReferenceChange}
+                            library={library}
                             variant="linkfox"
                             uploadLabel="本地上传"
                             compact
                             wide
-                            actions={
-                                <>
-                                    <button
-                                        type="button"
-                                        className="h-7 w-full rounded-md border border-border bg-card text-xs text-muted-foreground"
-                                        disabled
-                                    >
-                                        作品选择
-                                    </button>
-                                    <button
-                                        type="button"
-                                        className="h-7 w-full rounded-md border border-border bg-card text-xs text-muted-foreground"
-                                        disabled
-                                    >
-                                        商品库选择
-                                    </button>
-                                </>
-                            }
                         />
+                        {referenceRecords.length > 1 ? (
+                            <div className="space-y-1" data-testid="ai-video-editing-ref-order">
+                                <p className="text-[11px] leading-4 text-muted-foreground">参考图顺序即提交顺序（主体一致性约束按此排序）：</p>
+                                <ol className="space-y-1">
+                                    {referenceRecords.map((record, index) => (
+                                        <li key={record.id} className="flex items-center gap-2">
+                                            <span className="min-w-0 flex-1 truncate text-[11px] text-foreground">
+                                                {index + 1}. {record.name}
+                                            </span>
+                                            <button
+                                                type="button"
+                                                aria-label={`上移参考图 ${record.name}`}
+                                                data-testid={`ai-video-editing-ref-up-${index}`}
+                                                className="h-6 rounded border border-border px-1.5 text-[11px] text-muted-foreground disabled:opacity-40"
+                                                disabled={running || index === 0}
+                                                onClick={() =>
+                                                    setReferenceRecords((previous) => {
+                                                        const next = [...previous];
+                                                        const [moved] = next.splice(index, 1);
+                                                        next.splice(index - 1, 0, moved);
+                                                        return next;
+                                                    })
+                                                }
+                                            >
+                                                上移
+                                            </button>
+                                            <button
+                                                type="button"
+                                                aria-label={`下移参考图 ${record.name}`}
+                                                data-testid={`ai-video-editing-ref-down-${index}`}
+                                                className="h-6 rounded border border-border px-1.5 text-[11px] text-muted-foreground disabled:opacity-40"
+                                                disabled={running || index === referenceRecords.length - 1}
+                                                onClick={() =>
+                                                    setReferenceRecords((previous) => {
+                                                        const next = [...previous];
+                                                        const [moved] = next.splice(index, 1);
+                                                        next.splice(index + 1, 0, moved);
+                                                        return next;
+                                                    })
+                                                }
+                                            >
+                                                下移
+                                            </button>
+                                        </li>
+                                    ))}
+                                </ol>
+                            </div>
+                        ) : null}
                     </section>
 
                     <section className="space-y-2">
-                        <div className="flex items-center justify-between">
+                        <div className="flex items-center justify-between gap-2">
                             <h2 className="text-sm font-medium">编辑需求描述</h2>
-                            <button
-                                type="button"
-                                className="rounded border border-border px-2 py-0.5 text-[11px] text-muted-foreground transition hover:border-foreground/30"
-                                onClick={handleOptimizePrompt}
-                                disabled={running || !state.prompt.trim()}
-                                data-testid="ai-video-editing-optimize"
-                            >
-                                提示词优化
-                            </button>
+                            <div className="flex shrink-0 items-center gap-1.5">
+                                {promptUndoValue !== null ? (
+                                    <button
+                                        type="button"
+                                        className="rounded border border-border px-2 py-0.5 text-[11px] text-muted-foreground transition hover:border-foreground/30"
+                                        onClick={handleUndoPrompt}
+                                        disabled={running}
+                                        data-testid="ai-video-editing-undo-prompt"
+                                    >
+                                        撤销
+                                    </button>
+                                ) : null}
+                                <button
+                                    type="button"
+                                    className="rounded border border-border px-2 py-0.5 text-[11px] text-muted-foreground transition hover:border-foreground/30"
+                                    onClick={handleOptimizePrompt}
+                                    disabled={running || !state.prompt.trim()}
+                                    data-testid="ai-video-editing-optimize"
+                                >
+                                    提示词优化
+                                </button>
+                            </div>
                         </div>
                         <textarea
                             className="min-h-[96px] w-full resize-y rounded-lg border border-border bg-card p-3 text-xs leading-5 outline-none focus-visible:border-primary"
@@ -1868,25 +2255,43 @@ export function AiVideoEditingWorkspace({ className }: AiVideoEditingWorkspacePr
                             disabled={running}
                         />
                         <ModelPicker config={config} value={model} onChange={setModel} capability="video" fullWidth />
-                        <p className="text-[11px] leading-4 text-muted-foreground" data-testid="ai-video-editing-type">
-                            {activeType.label}
-                        </p>
+                        {/* 视频类型：原站只有这一行只读说明；提交模板属内部实现，不再摊在界面上。 */}
+                        <div className="rounded-lg border border-border p-2" data-testid="ai-video-editing-hidden-prompt">
+                            <p className="text-[11px] font-medium text-foreground">视频类型</p>
+                            <p className="mt-0.5 text-[11px] leading-4 text-muted-foreground" data-testid="ai-video-editing-type">
+                                {activeType.label}：{activeType.note}
+                            </p>
+                        </div>
                     </section>
+                    </div>
 
-                    <div className="space-y-2 sm:col-span-2">
+                    <div className={CONFIG_FOOTER_CLASS}>
                         <div className="flex items-center gap-3">
                             <button
                                 type="button"
-                                className="flex-1 rounded-md bg-primary px-3 py-2 text-sm font-medium text-primary-foreground"
+                                className="flex-1 rounded-md bg-primary px-3 py-2 text-sm font-medium text-primary-foreground disabled:opacity-50"
                                 onClick={() => void handleSubmit()}
-                                disabled={running || !capability.canSubmit}
+                                disabled={running || !canSubmit}
+                                title={canSubmit ? undefined : blockingIssues[0] || undefined}
                                 data-testid="ai-video-editing-submit"
                             >
                                 {running ? "生成中…" : "立即生成"}
                             </button>
+                            <span className="shrink-0 text-[11px] leading-4 text-muted-foreground" data-testid="ai-video-editing-output-label">
+                                {aiVideoEditingOutputLabel(window)}
+                            </span>
                         </div>
-                        {!capability.canSubmit && capability.issues[0] ? (
-                            <p className="text-[11px] text-muted-foreground">{capability.issues[0]}</p>
+                        {referenceHint ? (
+                            <p className="text-[11px] leading-4 text-amber-600" data-testid="ai-video-editing-reference-hint">
+                                {referenceHint}
+                            </p>
+                        ) : null}
+                        {!canSubmit && blockingIssues.length ? (
+                            <ul className="space-y-1 text-[11px] text-muted-foreground" data-testid="ai-video-editing-blocked">
+                                {blockingIssues.map((issue) => (
+                                    <li key={issue}>{issue}</li>
+                                ))}
+                            </ul>
                         ) : null}
                         {assetIssue ? (
                             <p className="text-[11px] text-destructive" role="alert">
@@ -1902,32 +2307,80 @@ export function AiVideoEditingWorkspace({ className }: AiVideoEditingWorkspacePr
                     </div>
                 </div>
                 }>
-<div className="min-w-0 space-y-3" data-testid="ai-video-editing-results">
-                    <div className="flex items-center justify-between">
-                        <h2 className="text-sm font-medium">生成结果</h2>
-                        {stale ? (
-                            <span className="rounded border border-border px-1.5 py-0.5 text-[11px] text-amber-600">
-                                来自旧版本配置
-                            </span>
-                        ) : null}
-                    </div>
-                    <p className="text-[11px] leading-4 text-muted-foreground">
-                        上传原视频与参考图，输入编辑需求，AI 智能编辑视频
-                    </p>
-                    <div className="grid gap-3 sm:grid-cols-2">
-                        <ToolResult
-                            task={task}
-                            toolId={AI_VIDEO_EDITING_TOOL_ID}
-                            title="编辑结果"
-                            now={Date.now()}
-                            onRetry={() => void handleSubmit({ retry: true })}
-                            emptyHint=""
-                            className="min-h-[320px]"
-                        />
-                    </div>
-                </div>
+<Design19Results
+                    /* 原站右栏：左「生成结果」，最右「历史记录」；不重复内嵌第二份历史。 */
+                    tabs={[{ id: "result", label: "生成结果" }]}
+                    active={resultTab}
+                    onTabChange={(id) => setResultTab(id as Design19TabKey)}
+                    extraTab={{ id: "history", label: "历史记录" }}
+                    className="min-w-0"
+                    data-testid="ai-video-editing-results-panel"
+                >
+                    {resultTab === "result" ? (
+                        <div className="min-w-0 space-y-3 px-1 py-3" data-testid="ai-video-editing-results">
+                            <div className="flex flex-wrap items-center justify-between gap-2">
+                                {stale ? (
+                                    <span className="rounded border border-border px-1.5 py-0.5 text-[11px] text-amber-600" data-testid="ai-video-editing-stale">
+                                        来自旧版本配置
+                                    </span>
+                                ) : (
+                                    <span />
+                                )}
+                                {/* 原站结果区右上角「一键做同款」；没有可复用的提交快照时禁用并说明，不做假装可点。 */}
+                                <button
+                                    type="button"
+                                    onClick={handleCloneLast}
+                                    disabled={!snapshot}
+                                    title={snapshot ? undefined : "还没有可复用的生成结果，请先生成一次"}
+                                    className="h-9 shrink-0 rounded-lg border border-border px-4 text-sm font-medium disabled:cursor-not-allowed disabled:opacity-50"
+                                    data-testid="ai-video-editing-clone"
+                                >
+                                    一键做同款
+                                </button>
+                            </div>
+                            <ToolResult
+                                task={task}
+                                toolId={AI_VIDEO_EDITING_TOOL_ID}
+                                title="编辑结果"
+                                now={Date.now()}
+                                onRetry={() => void handleSubmit({ retry: true })}
+                                emptyTitle="上传原视频与参考图，输入编辑需求，AI 智能编辑视频"
+                                emptyHint="填好编辑需求后点「立即生成」，前后对比结果会显示在这里"
+                                className="min-h-[320px]"
+                            />
+                            {snapshot ? (
+                                <details className="rounded-lg border border-border p-3 text-[11px] text-muted-foreground" data-testid="ai-video-editing-snapshot">
+                                    <summary className="cursor-pointer text-xs font-medium text-foreground">查看本次输入快照</summary>
+                                    <dl className="mt-2 grid grid-cols-2 gap-1">
+                                        <dt>模型</dt>
+                                        <dd>{snapshot.model || "—"}</dd>
+                                        <dt>视频类型</dt>
+                                        <dd>{snapshot.videoType}</dd>
+                                        <dt>截取区间</dt>
+                                        <dd>
+                                            {snapshot.clipStartSec}–{snapshot.clipStartSec + snapshot.durationSec} 秒（共 {snapshot.durationSec} 秒）
+                                        </dd>
+                                        <dt>源视频</dt>
+                                        <dd>{snapshot.sourceVideoSec} 秒</dd>
+                                        <dt>参考图</dt>
+                                        <dd>{snapshot.referenceAssetIds.length} 张</dd>
+                                    </dl>
+                                </details>
+                            ) : null}
+                        </div>
+                    ) : (
+                        <div className="px-1 py-3" data-testid="ai-video-editing-history">
+                            <ToolTaskHistory
+                                toolId={AI_VIDEO_EDITING_TOOL_ID}
+                                limit={8}
+                                emptyHint="还没有视频编辑任务记录"
+                                onSelectTask={handleSelectHistoryTask}
+                            />
+                        </div>
+                    )}
+                </Design19Results>
             </ToolWorkspaceColumns>
-        </ToolShell>
+        </VideoWorkspaceFrame>
     );
 }
 
@@ -2017,6 +2470,31 @@ export function VideoReplicationWorkspace({ className }: VideoReplicationWorkspa
     const [scriptOpen, setScriptOpen] = useState(false);
     const [tipsVisible, setTipsVisible] = useState(true);
     const [lastValues, setLastValues] = useState<VideoReplicationValues | null>(null);
+    /** 优秀案例「做同款」正在套用的案例 id（回填是同步的，仅用于按钮反馈）。 */
+    const [applyingCaseId, setApplyingCaseId] = useState<string | null>(null);
+
+    /**
+     * 「做同款」：只回填案例真实提供的脚本/比例/分辨率/时长。
+     * 案例的参考视频与参考图是原站 OSS 签名 URL（已 403 过期），不拿别的素材顶替，
+     * 因此不动 sourceMode / videoRecord / refRecords，由用户自己上传。
+     */
+    const handleApplyCase = useCallback((item: ToolCase) => {
+        const applied = item as VideoReplicationCase;
+        if (!applied.apply?.prompt) return;
+        setApplyingCaseId(item.id);
+        setValues((previous) => ({
+            ...previous,
+            prompt: applied.apply.prompt || previous.prompt,
+            ratio: applied.apply.ratio || previous.ratio,
+            resolution: applied.apply.resolution || previous.resolution,
+            videoTime: applied.apply.videoTime || previous.videoTime,
+        }));
+        setNotice(`已套用案例脚本与参数（${applied.apply.ratio} · ${applied.apply.resolution} · ${applied.apply.videoTime}s）：参考视频与参考图需自行上传`);
+        setError("");
+        setTask(null);
+        setSubmittedFingerprint(null);
+        window.setTimeout(() => setApplyingCaseId(null), 600);
+    }, []);
 
     /* ---------- 草稿：只回填用户填过的参数，视频/图片走资产库 ---------- */
     useEffect(() => {
@@ -2046,6 +2524,10 @@ export function VideoReplicationWorkspace({ className }: VideoReplicationWorkspa
         () => refRecords.map((record) => checkVideoReplicationReference(record)).filter((check) => !check.ok),
         [refRecords],
     );
+    const referenceIssueMessages = useMemo(
+        () => referenceIssues.map((issue) => issue.message).filter(Boolean),
+        [referenceIssues],
+    );
     const clip = useMemo(
         () => normalizeVideoReplicationClip(values.clipStart, values.clipEnd, values.sourceVideoDuration),
         [values.clipEnd, values.clipStart, values.sourceVideoDuration],
@@ -2072,9 +2554,20 @@ export function VideoReplicationWorkspace({ className }: VideoReplicationWorkspa
     const blocking = issues.length > 0;
     const canSubmit = !running && !blocking && values.prompt.trim().length > 0 && model.trim().length > 0;
     const handleCancel = useCallback(() => {
-        setTask((previous) => (previous && previous.status === "running" ? { ...previous, status: "cancelled" } : previous));
+        /* 真实取消：走 useToolTaskStore.cancelTask → gateway.cancel；本地同步标记 cancelled，不等轮询回包。 */
+        if (task && task.status === "running") {
+            void (async () => {
+                try {
+                    const { useToolTaskStore } = await import("@/stores/use-tool-task-store");
+                    useToolTaskStore.getState().cancelTask(task.id);
+                } catch {
+                    /* 取消通道异常时仍保留本地 cancelled 标记，避免按钮点了没反应 */
+                }
+            })();
+            setTask({ ...task, status: "cancelled" });
+        }
         setRunning(false);
-    }, []);
+    }, [task]);
     const outputLabel = videoReplicationOutputLabel(values, catalog);
     const result = videoReplicationResultView({ task, values, submittedFingerprint });
 
@@ -2229,24 +2722,26 @@ export function VideoReplicationWorkspace({ className }: VideoReplicationWorkspa
             return;
         }
         setError("");
-        setValues((previous) => {
-            // 真实源视频时长（秒，一位小数）：留给片段校验/滑杆上限/提示词用；读不到时退回 0（表示未知）。
-            const durationSeconds = record.durationMs && record.durationMs > 0 ? Math.round(record.durationMs / 10) / 100 : 0;
-            const fallbackEnd = Math.min(
-                VIDEO_REPLICATION_VIDEO_LIMITS.autoSeconds,
-                Math.max(VIDEO_REPLICATION_VIDEO_LIMITS.clipMinSeconds, previous.clipEnd || VIDEO_REPLICATION_VIDEO_LIMITS.autoSeconds),
-            );
-            return {
-                ...previous,
-                sourceMode: "upload",
-                refVideoAssetId: record.id,
-                refVideoName: record.name,
-                sourceVideoDuration: durationSeconds,
-                clipStart: 0,
-                clipEnd: durationSeconds > 0 ? Math.min(VIDEO_REPLICATION_VIDEO_LIMITS.autoSeconds, durationSeconds) : fallbackEnd,
-            };
-        });
-    }, [update]);
+        // 真实源视频时长（秒，一位小数）：留给片段校验/滑杆上限/提示词用；读不到时退回 0（表示未知）。
+        const durationSeconds = record.durationMs && record.durationMs > 0 ? Math.round(record.durationMs / 10) / 100 : 0;
+        const fallbackEnd = Math.min(
+            VIDEO_REPLICATION_VIDEO_LIMITS.autoSeconds,
+            Math.max(VIDEO_REPLICATION_VIDEO_LIMITS.clipMinSeconds, values.clipEnd || VIDEO_REPLICATION_VIDEO_LIMITS.autoSeconds),
+        );
+        setValues((previous) => ({
+            ...previous,
+            sourceMode: "upload",
+            refVideoAssetId: record.id,
+            refVideoName: record.name,
+            sourceVideoDuration: durationSeconds,
+            clipStart: 0,
+            clipEnd: durationSeconds > 0 ? Math.min(VIDEO_REPLICATION_VIDEO_LIMITS.autoSeconds, durationSeconds) : fallbackEnd,
+            /* §3 联动：替换参考视频清脚本和截取（analyzeRedisKey 随之失效），商品参考图保留。 */
+            prompt: "",
+            analyzeRedisKey: "",
+            clipMode: "auto",
+        }));
+    }, [update, values.clipEnd]);
 
     const handleReferenceChange = useCallback((ids: string[], records: ToolAssetRecord[]) => {
         setRefRecords(records);
@@ -2256,13 +2751,14 @@ export function VideoReplicationWorkspace({ className }: VideoReplicationWorkspa
     const sourceMode = values.sourceMode;
 
     return (
-        <ToolShell className={className} title="视频复刻" sidebar={null}>
-            <div className="flex min-h-0 flex-1 flex-col gap-2 overflow-auto p-4">
-                <AiVideoFamilyNav active="视频复刻" />
+        <VideoWorkspaceFrame className={className}>
+            <div className="flex min-h-0 flex-1 flex-col overflow-auto">
                 <ToolWorkspaceColumns
                     configSide="left"
+                    configClassName={CONFIG_COLUMN_CLASS}
                     config={
-<div className="min-w-0 space-y-2" data-testid="video-replication-config">
+<div className="flex min-h-0 min-w-0 flex-col" data-testid="video-replication-config">
+                    <div className={cn(CONFIG_SCROLL_CLASS, "space-y-3")}>
                     <section className="space-y-2">
                         <h2 className="text-sm font-medium">TikTok 视频链接</h2>
                         <div className="flex gap-2">
@@ -2274,16 +2770,20 @@ export function VideoReplicationWorkspace({ className }: VideoReplicationWorkspa
                                 placeholder="https://www.tiktok.com/@user/video/..."
                                 data-testid="video-replication-link"
                             />
+                            {/* 原站按钮位置保留；本地没有 TikTok 链接解析通道，禁用并如实说明原因，不假装能解析。 */}
                             <button
                                 type="button"
-                                className="h-8 shrink-0 rounded-md border border-border px-3 text-xs text-muted-foreground"
+                                className="h-8 shrink-0 rounded-md border border-border px-3 text-xs text-muted-foreground disabled:opacity-60"
                                 disabled
-                                title="链接解析通道未接入：本地上传参考视频可用"
+                                title="链接解析通道未接入：请改为本地上传参考视频"
+                                data-testid="video-replication-parse"
                             >
                                 解析
                             </button>
                         </div>
-                        <p className="text-[11px] leading-4 text-muted-foreground">或 手动上传参考视频</p>
+                        <p className="text-[11px] leading-4 text-muted-foreground">
+                            本地未接入 TikTok 链接解析（禁用）；可手动上传参考视频，或直接粘贴公网视频直链
+                        </p>
                     </section>
 
                     <section className="space-y-2">
@@ -2503,11 +3003,27 @@ export function VideoReplicationWorkspace({ className }: VideoReplicationWorkspa
                             disabled={running}
                             data-testid="video-replication-prompt"
                         />
+                        <div className="flex items-center justify-between gap-2 text-[11px] text-muted-foreground">
+                            {/* 本地没有视频理解/脚本分析模型：这里是确定性模板，按钮和说明都不冒充模型输出。 */}
+                            <button
+                                type="button"
+                                onClick={handleScriptDraft}
+                                disabled={running}
+                                title="按当前国家/语言/时长用本地模板拼脚本，不调用模型"
+                                className="rounded-md border border-border px-2 py-0.5 text-[11px] text-muted-foreground disabled:opacity-50"
+                                data-testid="video-replication-script-draft"
+                            >
+                                本地模板生成脚本
+                            </button>
+                            <span data-testid="video-replication-prompt-counter">
+                                {counter.length}/{counter.limit}
+                            </span>
+                        </div>
+                        <p className="text-[11px] leading-4 text-muted-foreground" data-testid="video-replication-script-note">
+                            本地未接入视频脚本分析模型；「本地模板生成脚本」按当前国家/语言/时长拼草稿，写完请自行校对。
+                        </p>
                     </section>
-                </div>
-                    }>
-<div className="grid min-h-0 min-w-0 gap-4 lg:grid-cols-[minmax(280px,320px)_minmax(0,1fr)]">
-<div className="min-w-0 space-y-2" data-testid="video-replication-params">
+
                     <section className="space-y-1.5">
                         <h2 className="text-sm font-medium">视频模型</h2>
                         <ModelTierList
@@ -2543,32 +3059,27 @@ export function VideoReplicationWorkspace({ className }: VideoReplicationWorkspa
 
                     <section className="space-y-1.5">
                         <h2 className="text-sm font-medium">生成设置</h2>
-                        <div className="space-y-1">
-                            <p className="text-[11px] text-muted-foreground">视频时长</p>
-                            <p className="text-[11px] text-muted-foreground">拖动选择时长</p>
-                            <p className="text-xs" data-testid="video-replication-duration-label">
-                                {values.videoTime === "auto"
-                                    ? VIDEO_REPLICATION_DURATIONS[0].label
-                                    : `${values.videoTime}秒`}
-                            </p>
-                            <div className="flex gap-1">
-                                {VIDEO_REPLICATION_DURATIONS.map((item) => (
-                                    <button
-                                        key={item.id}
-                                        type="button"
-                                        className={cn(
-                                            "flex-1 rounded border px-1 py-1 text-[11px]",
-                                            values.videoTime === item.id ? "border-primary bg-primary/10" : "border-border",
-                                        )}
-                                        onClick={() => setValues((previous) => ({ ...previous, videoTime: item.id }))}
-                                        disabled={running}
-                                    >
-                                        {item.id === "auto" ? "Auto" : item.label}
-                                    </button>
-                                ))}
-                            </div>
+                        <p className="text-[11px] text-muted-foreground">视频时长 · 拖动选择时长</p>
+                        <p className="text-xs" data-testid="video-replication-duration-label">
+                            {values.videoTime === "auto" ? VIDEO_REPLICATION_DURATIONS[0].label : `${values.videoTime}秒`}
+                        </p>
+                        <div className="flex gap-1">
+                            {VIDEO_REPLICATION_DURATIONS.map((item) => (
+                                <button
+                                    key={item.id}
+                                    type="button"
+                                    className={cn(
+                                        "flex-1 rounded border px-1 py-1 text-[11px]",
+                                        values.videoTime === item.id ? "border-primary bg-primary/10" : "border-border",
+                                    )}
+                                    onClick={() => setValues((previous) => ({ ...previous, videoTime: item.id }))}
+                                    disabled={running}
+                                >
+                                    {item.id === "auto" ? "Auto" : item.label}
+                                </button>
+                            ))}
                         </div>
-                        <p className="text-[11px] text-muted-foreground">视频比例</p>
+                        <p className="pt-1 text-[11px] text-muted-foreground">视频比例</p>
                         <div className="flex flex-wrap gap-1.5" role="radiogroup" aria-label="视频比例">
                             {VIDEO_REPLICATION_RATIOS.map((ratio) => (
                                 <button
@@ -2629,24 +3140,36 @@ export function VideoReplicationWorkspace({ className }: VideoReplicationWorkspa
                             ))}
                         </div>
                     </section>
+                    </div>
 
-                    <div className="space-y-2">
+                    <div className={CONFIG_FOOTER_CLASS}>
                         <div className="flex items-start gap-2">
                             <button
                                 type="button"
-                                className="flex-1 rounded-md bg-primary px-3 py-2 text-sm font-medium text-primary-foreground"
+                                className="flex-1 rounded-md bg-primary px-3 py-2 text-sm font-medium text-primary-foreground disabled:opacity-50"
                                 onClick={() => void handleSubmit()}
                                 disabled={!canSubmit}
                                 data-testid="video-replication-submit"
                             >
                                 {running ? "生成中…" : "立即生成"}
                             </button>
-                            <span className="shrink-0 text-[11px] text-muted-foreground" data-testid="video-replication-promo">季度特惠</span>
+                            <span className="shrink-0 text-[11px] text-muted-foreground" data-testid="video-replication-output-label">{outputLabel}</span>
                         </div>
                         {issues.length ? (
-                            <p className="text-[11px] text-muted-foreground" data-testid="video-replication-blocked">
-                                {issues[0].message ?? String(issues[0])}
-                            </p>
+                            <ul className="space-y-1" data-testid="video-replication-blocked">
+                                {issues.map((issue, index) => (
+                                    <li key={`${issue.code}-${index}`} className="text-[11px] text-muted-foreground">
+                                        {issue.message}
+                                    </li>
+                                ))}
+                            </ul>
+                        ) : null}
+                        {referenceIssueMessages.length ? (
+                            <ul className="space-y-1" data-testid="video-replication-reference-issues">
+                                {referenceIssueMessages.map((message) => (
+                                    <li key={message} className="text-[11px] text-destructive">{message}</li>
+                                ))}
+                            </ul>
                         ) : null}
                         {error ? (
                             <p className="text-[11px] text-destructive" role="alert" data-testid="video-replication-error">
@@ -2656,6 +3179,7 @@ export function VideoReplicationWorkspace({ className }: VideoReplicationWorkspa
                         {notice ? <p className="text-[11px] text-muted-foreground">{notice}</p> : null}
                     </div>
                 </div>
+                    }>
 <Design19ResultPanel
                     tabs={["result", "case", "history"]}
                     active={resultTab}
@@ -2664,50 +3188,58 @@ export function VideoReplicationWorkspace({ className }: VideoReplicationWorkspa
                     data-testid="video-replication-results-panel"
                 >
                     {resultTab === "result" ? (
-                        <div className="space-y-3 px-1 py-3">
-                            <div className="flex items-center justify-end">
+                        <div className="min-w-0 space-y-3 px-1 py-3" data-testid="video-replication-result">
+                            <div className="flex flex-wrap items-center justify-between gap-2">
+                                <span className="text-[11px] text-muted-foreground">参考视频 {videoRecord ? videoRecord.name : "尚未选择"}</span>
                                 <button
                                     type="button"
                                     onClick={handleCloneLast}
-                                    className="h-10 shrink-0 rounded-lg border border-border px-4 text-sm font-medium"
+                                    disabled={!lastValues}
+                                    title={lastValues ? undefined : "还没有可复用的生成结果，请先生成一次"}
+                                    className="h-9 shrink-0 rounded-lg border border-border px-4 text-sm font-medium disabled:cursor-not-allowed disabled:opacity-50"
                                     data-testid="video-replication-clone"
                                 >
                                     一键做同款
                                 </button>
                             </div>
-                            <p className="text-[11px] leading-4 text-muted-foreground">
-                                上传商品图，自动分析商品信息并输出提示词，一键生成带货口播视频
-                            </p>
-                            <div className="rounded-lg border border-border p-3">
-                                <h3 className="mb-1 text-xs font-medium">参考视频</h3>
-                                <p className="text-[11px] text-muted-foreground">
-                                    {videoRecord ? videoRecord.name : "尚未选择参考视频"}
-                                </p>
-                            </div>
-                            <div className="grid gap-3 sm:grid-cols-2">
-                                <ToolResult
-                                    task={task}
-                                    toolId={VIDEO_REPLICATION_TOOL_ID}
-                                    title="生成结果"
-                                    emptyHint=""
-                                    now={Date.now()}
-                                    onRetry={() => void handleRetry()}
-                                    className="min-h-[320px]"
-                                />
-                            </div>
-                            <section className="rounded-lg border border-border bg-card/40 p-3">
-                                <p className="text-xs font-medium">「批量生成」功能重磅上线！</p>
-                                <p className="mt-1 text-[11px] leading-4 text-muted-foreground">
-                                    批量上传商品图，一次最多生成100条视频，同时给每个商品出视频，不用一张张传、一条条等。
-                                </p>
-                                <button type="button" className="mt-2 rounded border border-border px-2 py-1 text-[11px]">
-                                    立即体验
+                            {result.message ? (
+                                <span className="inline-block rounded border border-border px-1.5 py-0.5 text-[11px] text-amber-600" data-testid="video-replication-status-hint">
+                                    {result.message}
+                                </span>
+                            ) : null}
+                            {running && task ? (
+                                <button
+                                    type="button"
+                                    onClick={handleCancel}
+                                    className="h-8 shrink-0 rounded-lg border border-border px-3 text-xs text-muted-foreground"
+                                    data-testid="video-replication-cancel"
+                                >
+                                    取消生成
                                 </button>
-                            </section>
+                            ) : null}
+                            <ToolResult
+                                task={task}
+                                toolId={VIDEO_REPLICATION_TOOL_ID}
+                                title="复刻结果"
+                                emptyTitle="上传参考视频与商品图，复刻同款带货视频"
+                                emptyHint="填好脚本与参数后点「立即生成」，结果会显示在这里"
+                                now={Date.now()}
+                                onRetry={() => void handleRetry()}
+                                className="min-h-[320px]"
+                            />
                         </div>
                     ) : resultTab === "case" ? (
                         <div className="px-1 py-3" data-testid="video-replication-cases">
-                            <ToolCases cases={VIDEO_REPLICATION_CASES} onApply={() => undefined} emptyHint="暂无优秀案例" />
+                            {/* 优秀案例
+                                案例源：上游案例接口路径 /image/make-case/list?type=<bizType>，本页 type=89（VIDEO_REPLICATION）。
+                                数据：真实抓取产物 8 条（features/tools/video-replication-cases-data.ts）；
+                                做同款回填脚本/比例/分辨率/时长（参考输入素材 OSS 签名已过期，不伪造）。 */}
+                            <ToolCases
+                                cases={VIDEO_REPLICATION_CASES}
+                                applyingId={applyingCaseId}
+                                onApply={(item) => void handleApplyCase(item)}
+                                emptyHint="暂无优秀案例"
+                            />
                         </div>
                     ) : (
                         <div className="px-1 py-3" data-testid="video-replication-history">
@@ -2715,9 +3247,8 @@ export function VideoReplicationWorkspace({ className }: VideoReplicationWorkspa
                         </div>
                     )}
                 </Design19ResultPanel>
-                    </div>
                 </ToolWorkspaceColumns>
             </div>
-        </ToolShell>
+        </VideoWorkspaceFrame>
     );
 }

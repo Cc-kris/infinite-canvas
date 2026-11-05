@@ -5,6 +5,7 @@ import { ChevronDown } from "lucide-react";
 import { ToolAssetInput } from "@/components/tools/tool-asset-input";
 import { ToolShell } from "@/components/tools/tool-shell";
 import { ToolHistoryDock } from "@/components/tools/tool-history-dock";
+import { ECOMMERCE_SUITE_RAIL, OrigRail } from "@/components/tools/workspaces/orig-rail";
 import { ToolWorkspaceColumns } from "@/components/tools/tool-workspace-columns";
 import { saveResultItemToAssets, sendResultItemToCanvas } from "@/components/tools/tool-result-actions";
 import {
@@ -27,14 +28,11 @@ import {
     type TranslationUnitStatus,
 } from "@/features/tools/adapters/image-translation";
 import {
-    IMAGE_TRANSLATION_DRAFT_KEY,
-    IMAGE_TRANSLATION_CREDITS,
     IMAGE_TRANSLATION_MAX_IMAGES,
     IMAGE_TRANSLATION_MAX_TARGETS,
     IMAGE_TRANSLATION_MAX_TEXT_CHARS,
     IMAGE_TRANSLATION_MIN_EDGE,
     IMAGE_TRANSLATION_MAX_EDGE,
-    IMAGE_TRANSLATION_SLUG,
     IMAGE_TRANSLATION_TOOL_ID,
     SOURCE_LANGUAGES,
     TARGET_LANGUAGE_GROUPS,
@@ -563,27 +561,14 @@ export function TranslateWorkspace({ className }: TranslateWorkspaceProps = {}) 
                 configSide="left"
                 className="min-h-0 bg-muted/40 p-3"
                 config={
-                    <div className="space-y-2 xl:grid xl:grid-cols-2 xl:items-start xl:gap-2 xl:space-y-0">
-                    <nav
-                        aria-label="电商套图"
-                        className="flex flex-wrap items-center gap-1 rounded-lg border border-border bg-card px-2 py-1.5 text-[11px] text-muted-foreground xl:col-span-2"
-                    >
-                        <span className="mr-1 font-medium text-foreground">250</span>
-                        {["商品套图", "服装套图", "爆款图复刻", "NEW", "套图换色", "批量翻译", "高清放大", "批量抠图", "智能扩图"].map(
-                            (label) => (
-                                <span
-                                    key={label}
-                                    className={cn(
-                                        "rounded px-1.5 py-0.5",
-                                        label === "批量翻译" ? "bg-accent font-medium text-foreground" : "",
-                                        label === "NEW" ? "text-primary" : "",
-                                    )}
-                                >
-                                    {label}
-                                </span>
-                            ),
-                        )}
-                    </nav>
+                    <div className="space-y-2">
+                    <OrigRail
+                        items={ECOMMERCE_SUITE_RAIL}
+                        active="批量翻译"
+                        driver
+                        testId="translate-family-rail"
+                        label="电商套图"
+                    />
                     <div className="space-y-2">
                     <Section id="images" title="上传需要翻译的图片" titleClassName="text-xs font-normal">
                         <ToolAssetInput
@@ -740,16 +725,20 @@ export function TranslateWorkspace({ className }: TranslateWorkspaceProps = {}) 
                                 目标语言与原文语言相同，该语言不会产生新的翻译图。
                             </p>
                         ) : null}
+                        {plannedTotal ? (
+                            <p className="text-[11px] text-muted-foreground">
+                                预计输出 {plannedTotal} 张（{assetIds.length} 张图片 × {values.targetLanguages.length} 个语言）
+                            </p>
+                        ) : null}
                         <button
                             type="button"
                             disabled={busy || !assetIds.length || !values.targetLanguages.length}
                             onClick={() => void runAll()}
-                            className="h-9 w-full rounded-md bg-primary text-sm font-medium text-primary-foreground transition hover:bg-primary/90 disabled:cursor-not-allowed disabled:opacity-50"
+                            className="h-10 w-full rounded-md bg-primary text-sm font-medium text-primary-foreground transition hover:bg-primary/90 disabled:cursor-not-allowed disabled:opacity-50"
                         >
                             {busy ? `翻译中 ${progress.done}/${progress.total}` : "开始翻译"}
                         </button>
                     </Section>
-                    <p className="px-1 text-[11px] text-muted-foreground">ljq_driver: 已连接</p>
                     </div>
                 </div>
                 }

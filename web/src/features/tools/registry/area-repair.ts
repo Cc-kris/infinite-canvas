@@ -30,14 +30,14 @@ export const MASK_BRUSH_DEFAULT = 35;
 export const MASK_FEATHER_MIN = 0;
 export const MASK_FEATHER_MAX = 60;
 export const MASK_FEATHER_DEFAULT = 0;
-/** 自动扩大选择区域：布尔开关，显式默认 false，绝不 undefined。 */
-export const MASK_AUTO_EXPAND_DEFAULT = false;
+/** 自动扩大选择区域：原站默认开启。 */
+export const MASK_AUTO_EXPAND_DEFAULT = true;
 /** 自动扩边的像素半径（开关打开时用于蒙版导出与覆盖统计）。 */
 export const MASK_AUTO_EXPAND_PX = 4;
 
 export const AREA_REPAIR_PROMPT_MAX = 600;
 export const AREA_REPAIR_OUTPUT_OPTIONS = [1, 2, 3, 4] as const;
-export const AREA_REPAIR_DEFAULT_OUTPUT = 1;
+export const AREA_REPAIR_DEFAULT_OUTPUT = 2;
 /** 覆盖率采样网格（只看比例，不用它导出蒙版字节）。 */
 export const MASK_COVERAGE_GRID = 128;
 

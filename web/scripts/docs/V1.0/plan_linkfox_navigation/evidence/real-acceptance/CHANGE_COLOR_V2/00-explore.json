@@ -1,0 +1,189 @@
+{
+  "url": "http://127.0.0.1:3000/tools/ecommerce-suite/change-color-v2",
+  "title": "无限画布",
+  "fileInputs": [
+    {
+      "i": 0,
+      "testid": "tool-asset-file-input",
+      "accept": "image/png,image/jpeg,image/webp",
+      "multiple": true,
+      "hidden": true
+    },
+    {
+      "i": 1,
+      "testid": null,
+      "accept": "image/png,image/jpeg,image/webp",
+      "multiple": true,
+      "hidden": true
+    }
+  ],
+  "buttons": [
+    {
+      "text": "",
+      "testid": "tools-nav-mobile-trigger",
+      "disabled": false
+    },
+    {
+      "text": "中",
+      "testid": null,
+      "disabled": false
+    },
+    {
+      "text": "切换到浅色主题",
+      "testid": null,
+      "disabled": false
+    },
+    {
+      "text": "v0.27.0",
+      "testid": null,
+      "disabled": false
+    },
+    {
+      "text": "",
+      "testid": "tool-shell-nav-trigger",
+      "disabled": false
+    },
+    {
+      "text": "开始换色",
+      "testid": null,
+      "disabled": false
+    },
+    {
+      "text": "上传参考图",
+      "testid": null,
+      "disabled": false
+    },
+    {
+      "text": "全身",
+      "testid": null,
+      "disabled": false
+    },
+    {
+      "text": "上装",
+      "testid": null,
+      "disabled": false
+    },
+    {
+      "text": "下装",
+      "testid": null,
+      "disabled": false
+    },
+    {
+      "text": "鞋面",
+      "testid": null,
+      "disabled": false
+    },
+    {
+      "text": "鞋底",
+      "testid": null,
+      "disabled": false
+    },
+    {
+      "text": "包身",
+      "testid": null,
+      "disabled": false
+    },
+    {
+      "text": "包带",
+      "testid": null,
+      "disabled": false
+    },
+    {
+      "text": "外壳",
+      "testid": null,
+      "disabled": false
+    },
+    {
+      "text": "瓶身",
+      "testid": null,
+      "disabled": false
+    },
+    {
+      "text": "表带",
+      "testid": null,
+      "disabled": false
+    },
+    {
+      "text": "开始换色",
+      "testid": null,
+      "disabled": true
+    },
+    {
+      "text": "查看本次输入快照",
+      "testid": null,
+      "disabled": false
+    },
+    {
+      "text": "未连接",
+      "testid": null,
+      "disabled": false
+    },
+    {
+      "text": "对话",
+      "testid": null,
+      "disabled": false
+    },
+    {
+      "text": "历史",
+      "testid": null,
+      "disabled": false
+    },
+    {
+      "text": "技能",
+      "testid": null,
+      "disabled": false
+    },
+    {
+      "text": "日志",
+      "testid": null,
+      "disabled": false
+    },
+    {
+      "text": "新对话",
+      "testid": null,
+      "disabled": true
+    },
+    {
+      "text": "连接",
+      "testid": null,
+      "disabled": false
+    },
+    {
+      "text": "连接",
+      "testid": null,
+      "disabled": false
+    },
+    {
+      "text": "连接",
+      "testid": null,
+      "disabled": false
+    }
+  ],
+  "sections": [
+    {
+      "id": "suite",
+      "head": "1 · 整套商品图"
+    },
+    {
+      "id": "plans",
+      "head": "2 · 换色方案"
+    },
+    {
+      "id": "region",
+      "head": "3 · 换色部位"
+    },
+    {
+      "id": "quality",
+      "head": "4 · 品质"
+    },
+    {
+      "id": "adjust",
+      "head": "5 · 单图微调"
+    },
+    {
+      "id": "results",
+      "head": "6 · 整套结果"
+    }
+  ],
+  "text": "无限画布\n电商套图\n智能修图\n批量生图\n商品图设计\nAI视频\n中\n切换到浅色主题\nv0.27.0\n电商套图\n6\n商品套图\n服装套图\n套图换色\n批量翻译\n高清放大\n智能扩图\n智能修图\n8\n批量生图\n0\n商品图设计\n19\nAI 视频\n6\n电商套图 / 套图换色\n套图换色\n\n/tools/ecommerce-suite/change-color-v2\n\n套图换色\nmakeType 93\n\n整套商品图批量换色：一套方案铺满全部商品图，失败单元单独重试，输入变更后结果自动标记为过期\n\n开始换色\n1 · 整套商品图\n0/12 张\n上传整套商品图\n0 / 12 个 · PNG / JPG / WebP · ≤ 10 MB\n点击选择本地文件，或拖拽到这里\n校验格式 / 大小 / 像素，入库后可刷新恢复\n\n还没有素材\n\n2 · 换色方案\n0/25 个\n上传参考图\n参考图只提供颜色与材质依据，不参与构图\n\n还没有换色方案：上传参考图、从商品图提色，或点下面任一历史颜色。\n\n3 · 换色部位\n0/50\n全身\n上装\n下装\n鞋面\n鞋底\n包身\n包带\n外壳\n瓶身\n表带\n4 · 品质\n低品质\nlow\n中品质\nmedium\n高品质\nhigh\n\n当前档位：中品质\n\n5 · 单图微调\n只影响选中的那张商品图\n\n先上传商品图，再按图微调颜色。\n\n0 张商品图 × 0 个方案 = 0 张输出\n快照 487c2942\n· 请先上传整套商品图（至少 1 张）\n· 请选择或添加至少 1 个换色方案\n开始换色\n查看本次输入快照\n6 · 整套结果\n尚未生成\n\n还没有结果：左侧补齐商品图与方案后点「开始换色」，每张图 × 每个方案都会生成一张。\n\n连接本地 Agent\n未连接\n点连接会自动启动本地服务、装好插件并接通，无需手动配置。\nClaude Code\n未连接\n·\nCLI · 2.1.285 (Claude Code)\n·\n直接运行\n连接\nCodex\n未连接\n·\nCLI · codex-cli 0.163.0\n·\n插件已装\n连接\nGalley\n未连接\n·\nCLI + 桌面版 · galley 0.6.4\n连接"
+}

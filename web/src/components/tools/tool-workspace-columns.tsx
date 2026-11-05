@@ -15,9 +15,12 @@ import { cn } from "@/lib/utils";
  * `[data-testid=tool-config-column]` 与 `[data-testid=tool-main-column]` 的实际像素宽，
  * 所以两个 data-testid 不允许改名、不允许只包一层不承载宽度。
  */
-export const TOOL_CONFIG_MIN_WIDTH = 320;
-export const TOOL_CONFIG_MAX_WIDTH = 360;
-export const TOOL_CONFIG_MAX_WIDTH_CANVAS = 420;
+/** LinkFox 原站主流配置列宽：普通工具 300px，画布类工具 360px。 */
+export const TOOL_CONFIG_WIDTH = 300;
+export const TOOL_CONFIG_WIDTH_CANVAS = 360;
+export const TOOL_CONFIG_MIN_WIDTH = 240;
+export const TOOL_CONFIG_MAX_WIDTH = TOOL_CONFIG_WIDTH;
+export const TOOL_CONFIG_MAX_WIDTH_CANVAS = TOOL_CONFIG_WIDTH_CANVAS;
 
 export interface ToolWorkspaceColumnsProps {
     /** 左列：配置/参数面板。必须承载真实控件，不是占位。 */
@@ -50,10 +53,10 @@ export function ToolWorkspaceColumns({
 }: ToolWorkspaceColumnsProps) {
     // ⚠️ Tailwind 只识别静态字面量类名：这里必须是写死的字符串，不能用模板拼接，
     // 否则 JIT 扫不到、CSS 不生成、两列会退化成单列全宽（已实测踩过）。
-    const LEFT_CANVAS = "lg:grid-cols-[minmax(320px,420px)_minmax(0,1fr)]";
-    const LEFT_DEFAULT = "lg:grid-cols-[minmax(320px,360px)_minmax(0,1fr)]";
-    const RIGHT_CANVAS = "lg:grid-cols-[minmax(0,1fr)_minmax(320px,420px)]";
-    const RIGHT_DEFAULT = "lg:grid-cols-[minmax(0,1fr)_minmax(320px,360px)]";
+    const LEFT_CANVAS = "lg:grid-cols-[360px_minmax(0,1fr)]";
+    const LEFT_DEFAULT = "lg:grid-cols-[300px_minmax(0,1fr)]";
+    const RIGHT_CANVAS = "lg:grid-cols-[minmax(0,1fr)_360px]";
+    const RIGHT_DEFAULT = "lg:grid-cols-[minmax(0,1fr)_300px]";
     const reversed = configSide === "right";
     const gridTemplate = reversed ? (canvas ? RIGHT_CANVAS : RIGHT_DEFAULT) : canvas ? LEFT_CANVAS : LEFT_DEFAULT;
 
@@ -81,7 +84,7 @@ export function ToolWorkspaceColumns({
             data-testid="tool-workspace-columns"
             data-canvas={canvas ? "true" : "false"}
             data-config-side={configSide}
-            className={cn("grid min-h-0 min-w-0 grid-cols-1 gap-4", gridTemplate, className)}
+            className={cn("grid min-h-0 min-w-0 grid-cols-1 gap-3", gridTemplate, className)}
         >
             {mainFirstOnMobile && !reversed ? [mainCol, configCol] : ordered}
         </div>

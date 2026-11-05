@@ -43,7 +43,7 @@ import { ImageToVideoWorkspace } from "@/components/tools/workspaces/image-to-vi
 import { SaleVideoWorkspace, VideoConcatWorkspace, AiVideoEditingWorkspace, VideoReplicationWorkspace } from "@/components/tools/workspaces/video";
 import { VideoTranslationWorkspace } from "@/components/tools/workspaces/video-translation";
 
-import { OrigRail, FIX_COLOR_RAIL, type RailEntry } from "@/components/tools/workspaces/orig-rail";
+import { OrigRail, FIX_COLOR_RAIL, linkfoxRailForTool, type RailEntry } from "@/components/tools/workspaces/orig-rail";
 
 import { toolSpecs } from "./registry";
 
@@ -421,7 +421,7 @@ export const TOOL_WORKSPACES: Record<ToolWorkspaceId, ToolWorkspaceRenderer> = {
                 { kind: "flat", label: "我的商品" },
                 { kind: "flat", label: "场景参考图" },
                 { kind: "flat", label: "商品替换" },
-                { kind: "tool", label: "场景裂变", route: "/tools/product-design/scene-fission" },
+                { kind: "tool", label: "场景裂变", route: "/tools/product-design/product-scene" },
                 { kind: "flat", label: "手持商品" },
                 { kind: "flat", label: "历史记录" },
                 { kind: "tag", label: "企业功能" },
@@ -481,40 +481,10 @@ export const WORKSPACE_OWN_HISTORY: ReadonlySet<string> = new Set([
 ]);
 
 /**
- * 电商套图 6 个工具在原站都是「左窄表单列 + 右结果页签」的沉浸式版面：
- * 没有页面标题栏/面包屑，表单列直接从顶部开始。其余工具仍保留现有的外壳标题。
+ * 原站 39 个工具页都没有「无限画布式」页面标题栏、面包屑或 `/tools/...` 路由串；
+ * 标题由各自的配置列/工作区承担。所有工具统一使用沉浸式工作区，避免在每页重复自造页头。
  */
-export const IMMERSIVE_TOOL_IDS: ReadonlySet<string> = new Set([
-    "PRODUCT_IMAGE_SUITE",
-    "DRESS_WEAR_SET",
-    "CHANGE_COLOR_V2",
-    "IMAGE_TRANSLATION",
-    "SCALE_UP",
-    "AI_OUTPAINTING",
-    // design19 前 10：原站同样没有页面标题栏/面包屑/`/tools/...` 路由行，
-    // 表单列直接从顶部开始；工作台自带的紧凑标题（工具名 + 一句话）即原站左卡标题。
-    "NEW_REPLACE_BG_V2",
-    "REPLACE_GOODS",
-    "PRODUCT_SCENE",
-    "HANDHELD_GOODS",
-    "AI_DRESSING_V2",
-    "AI_POSTURE",
-    "AI_WEARABLE",
-    "AI_TEXT",
-    "ORNAMENT_TEXT",
-    "SDS_DESIGN",
-    // design19 后 9：同样没有页面标题栏/面包屑/`/tools/...` 路由行，
-    // 左栏从页面顶部开始（原站 rail y=120 / 本地去掉 dev header 后一致）。
-    "PRINT_EXTRACT",
-    "AI_POSE_GENERATOR",
-    "AI_DRESSING_XSY",
-    "FISSION_LINK",
-    "IMAGE_TEXT_EDIT",
-    "MATERIAL_UPPER_BODY",
-    "NEW_DESIGNER",
-    "PRODUCT_MARKET_MATERIAL",
-    "SCENE_TRANSFER",
-]);
+export const IMMERSIVE_TOOL_IDS: ReadonlySet<string> = new Set<string>(TOOL_WORKSPACE_IDS);
 
 /**
  * A workspace is bound to the registry's canonical ToolSpec, not to a bare id from URL params.
@@ -635,7 +605,19 @@ export function ToolRouteView({ catalog, category, toolId }: ToolRouteViewProps)
     const sidebarCategories = useMemo(() => buildSidebarCategories(catalog, i18n.language), [catalog, i18n.language]);
     const activeCategory = normalizeCategory(category ?? "") ?? TOOL_CATEGORIES[0];
     const activeToolSlug = match.type === "tool" ? match.requestedSlug : undefined;
-    const sidebar = <ToolSidebar categories={sidebarCategories} activeCategory={activeCategory} activeToolSlug={activeToolSlug} />;
+    const familyRail = match.type === "tool" ? linkfoxRailForTool(match.entry?.id) : undefined;
+    const sidebar =
+        familyRail && match.type === "tool" && match.entry ? (
+            <OrigRail
+                variant="sidebar"
+                items={familyRail}
+                active={match.entry.title}
+                testId="tool-family-rail-sidebar"
+                label="同类工具"
+            />
+        ) : (
+            <ToolSidebar categories={sidebarCategories} activeCategory={activeCategory} activeToolSlug={activeToolSlug} />
+        );
 
     switch (match.type) {
         case "legacy-redirect":

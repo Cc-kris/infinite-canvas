@@ -274,7 +274,7 @@ export function rectPixelAspect(rect: CropRect, oriented: CropSize): number {
 }
 
 export function createCropState(source?: CropSize): CropCanvasState {
-    const size = source && source.width > 0 && source.height > 0 ? source : { width: 1, height: 1 };
+    const size = source && source.width > 0 && source.height > 0 ? source : { width: 1024, height: 1024 };
     const full: CropRect = { x: 0, y: 0, width: 1, height: 1 };
     return {
         rect: full,

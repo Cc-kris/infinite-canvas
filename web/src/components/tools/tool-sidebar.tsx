@@ -149,7 +149,8 @@ export function ToolSidebar({
                     </div>
                 );
             })}
-            {/* PRD scope_boundary：不复刻原站的「免责声明」入口，侧栏到此结束。 */}
+            {/* 原站 rail 底部固定「免责声明」入口；本地保留同名说明位，不链接站外。 */}
+            <p className="mt-auto px-2 py-3 text-[11px] leading-4 text-muted-foreground">免责声明</p>
         </nav>
     );
 }

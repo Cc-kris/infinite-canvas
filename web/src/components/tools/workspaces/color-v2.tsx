@@ -34,6 +34,7 @@ import {
     addColorPlan,
     buildColorV2Snapshot,
     createColorPlan,
+    displayImageName,
     estimatedOutputCount,
     getQualityLevel,
     isSnapshotStale,
@@ -66,17 +67,26 @@ import type { ToolTask, ToolTaskResultItem } from "@/services/api/tools/task-mac
 const TOOL_ID = CHANGE_COLOR_V2_TOOL_ID;
 const SUITE_CONSTRAINTS = { maxBytes: COLOR_V2_MAX_BYTES } as const;
 
+/** §7：每次提交一个客户端幂等号，刷新后同一快照重试不会在上游重复建单。 */
+function nextClientOperationId(): string {
+    return typeof crypto !== "undefined" && typeof crypto.randomUUID === "function"
+        ? crypto.randomUUID()
+        : `${Date.now()}-${Math.random().toString(16).slice(2)}`;
+}
+
 export interface ColorV2WorkspaceProps {
     className?: string;
 }
 
 /* ------------------------------------------------------------------ *
- * 小部件（对齐原站：46px 分区标题条 / 12px 标题 / #723cf9 主色）
+ * 小部件（对齐原站几何：46px 分区标题条 / 12px 标题；主色一律取无限画布令牌）
  * ------------------------------------------------------------------ */
 
 function PanelSection({ id, title, hint, defaultOpen = true, children }: { id?: string; title: string; hint?: string; defaultOpen?: boolean; children: React.ReactNode }) {
-    // 原站每个分区标题是可点的折叠头（上传图片 / 颜色选择 / 换色部位 / 模型设置）
-    // 换色部位、模型设置原站默认收起，故可点入口只有标题
+    // 原站每个分区标题是可点的折叠头（上传图片 / 颜色选择 / 换色部位 / 模型设置）。
+    // 原站首屏默认文本里就已经含「0 / 50」「常用」「全身…表带」「模型品质」「低品质/中品质/高品质」
+    // （见 evidence/real-acceptance/CHANGE_COLOR_V2/probe-real-final-20261029/text.txt），
+    // 因此四个分区首屏一律展开，不隐藏必备控件。
     const [open, setOpen] = useState(defaultOpen);
     return (
         <section id={id} data-section={id} className="border-b border-border">
@@ -120,6 +130,7 @@ export function ColorV2Workspace({ className }: ColorV2WorkspaceProps = {}) {
     const spec = useMemo(() => getToolById(TOOL_ID), []);
     const patchDraft = useToolDraftStore((state) => state.patch);
     const hydrateDraft = useToolDraftStore((state) => state.hydrate);
+    const draftRevision = useToolDraftStore((state) => state.drafts[TOOL_ID]?.revision ?? null);
     const conflict = useToolDraftStore((state) => state.conflicts[TOOL_ID]);
 
     const [values, setValues] = useState<ColorV2Values>(() => parseColorV2Values(undefined));
@@ -330,6 +341,7 @@ export function ColorV2Workspace({ className }: ColorV2WorkspaceProps = {}) {
                     quality: valuesRef.current.quality,
                     concurrency: 3,
                     signal: controller.signal,
+                    draftRevision,
                     onOutcome: (outcome, _unit, completed, total) => {
                         setOutcomes((prev) => mergeOutcomes(prev, [outcome]));
                         setProgress({ done: completed, total });
@@ -346,7 +358,7 @@ export function ColorV2Workspace({ className }: ColorV2WorkspaceProps = {}) {
                 abortRef.current = null;
             }
         },
-        [],
+        [draftRevision],
     );
 
     const runSuite = useCallback(async () => {
@@ -360,11 +372,13 @@ export function ColorV2Workspace({ className }: ColorV2WorkspaceProps = {}) {
             Promise.all(suiteRecords.map(toHydrated)),
             Promise.all(referenceRecords.map(toHydrated)),
         ]);
+        // §7：任务带草稿版本 + 客户端幂等号，便于审计与去重。
         const { snapshot, units: built } = buildSuiteFromValues({
             records: hydratedSuite,
             assetIds: suiteIds,
             values: valuesRef.current,
             referenceRecords: hydratedReferences,
+            meta: { draftRevision, clientOperationId: nextClientOperationId() },
         });
         if (!built.length) {
             setNotice("没有可执行的请求单元");
@@ -373,7 +387,7 @@ export function ColorV2Workspace({ className }: ColorV2WorkspaceProps = {}) {
         setUnits(built);
         setOutcomes([]);
         await execute(built, snapshot.hash);
-    }, [execute, referenceRecords, suiteIds, suiteRecords]);
+    }, [draftRevision, execute, referenceRecords, suiteIds, suiteRecords]);
 
     const retryFailed = useCallback(async () => {
         if (busy) return;
@@ -420,7 +434,8 @@ export function ColorV2Workspace({ className }: ColorV2WorkspaceProps = {}) {
     const outcomeTitle = useCallback((outcome: ColorV2UnitOutcome) => {
         const plan = valuesRef.current.plans.find((item) => item.id === outcome.planId);
         const asset = suiteRecords.find((item) => item.id === outcome.assetId);
-        return `${(asset?.name ?? "商品图").replace(/\.[^.]+$/, "")}-${plan?.name ?? outcome.planId}`;
+        const name = displayImageName(outcome.assetId, asset?.name, valuesRef.current.imageNames);
+        return `${name.replace(/\.[^.]+$/, "")}-${plan?.name ?? outcome.planId}`;
     }, [suiteRecords]);
 
     const saveOutcome = useCallback(
@@ -480,9 +495,20 @@ export function ColorV2Workspace({ className }: ColorV2WorkspaceProps = {}) {
 
     const [colorMode, setColorMode] = useState<"extract" | "history">("extract");
     const [rightTab, setRightTab] = useState<"result" | "cases" | "history">("result");
-    /** 结果区分页（原站底部 1~6 页码）。 */
+    /** 结果区分页（原站空态案例条底部的 1~6 页码）。 */
     const [resultPage, setResultPage] = useState(1);
     const qualityLevel = getQualityLevel(values.quality);
+
+    /** 空态案例分页：每页 3 张（原站 1908 视口一行 3 张）；页码数 = 真实页数，不摆不存在的页码。 */
+    const emptyCasePages = useMemo(() => {
+        const pageSize = 3;
+        if (!COLOR_V2_CASES.length) return [[]] as ToolCase[][];
+        const pages: ToolCase[][] = [];
+        for (let index = 0; index < COLOR_V2_CASES.length; index += pageSize) {
+            pages.push(COLOR_V2_CASES.slice(index, index + pageSize));
+        }
+        return pages;
+    }, []);
 
     /* ---------------- 刷新恢复：落盘任务 → 结果区（G1 遗留缺口） ----------------
      * 结果区原先只认本会话 state，刷新后 outcomes 归零 → 结果空白、三动作点不到。
@@ -517,7 +543,7 @@ export function ColorV2Workspace({ className }: ColorV2WorkspaceProps = {}) {
         (item: ToolTaskResultItem, index: number) => {
             const plan = valuesRef.current.plans[index % Math.max(1, valuesRef.current.plans.length)];
             const asset = suiteRecords[0];
-            const base = `${(asset?.name ?? "商品图").replace(/\.[^.]+$/, "")}-${plan?.name ?? `结果${index + 1}`}`;
+            const base = `${displayImageName(asset?.id ?? "", asset?.name, valuesRef.current.imageNames).replace(/\.[^.]+$/, "")}-${plan?.name ?? `结果${index + 1}`}`;
             return base;
         },
         [suiteRecords],
@@ -644,6 +670,24 @@ export function ColorV2Workspace({ className }: ColorV2WorkspaceProps = {}) {
                                             <p className="mt-1 truncate text-[11px] leading-4 text-muted-foreground" title={record.name}>
                                                 {record.name}
                                             </p>
+                                            {/* `imageName` 提交键：上传后自动填文件名，这里可编辑展示名 */}
+                                            <input
+                                                data-testid="color-v2-image-name"
+                                                data-asset-id={record.id}
+                                                aria-label={`商品图展示名（imageName）：${record.name}`}
+                                                value={values.imageNames[record.id] ?? record.name}
+                                                disabled={busy}
+                                                maxLength={COLOR_V2_MAX_REGION_LENGTH}
+                                                onChange={(event) => {
+                                                    const text = event.target.value;
+                                                    commit({
+                                                        ...valuesRef.current,
+                                                        imageNames: { ...valuesRef.current.imageNames, [record.id]: text },
+                                                    });
+                                                }}
+                                                placeholder="上传后自动填入"
+                                                className="mt-1 w-full rounded-md border border-border bg-card px-1.5 py-0.5 text-[11px] leading-4 text-foreground outline-none transition placeholder:text-muted-foreground focus:border-primary disabled:opacity-60"
+                                            />
                                         </li>
                                     ))}
                                 </ul>
@@ -847,7 +891,7 @@ export function ColorV2Workspace({ className }: ColorV2WorkspaceProps = {}) {
                         </div>
                     </PanelSection>
 
-                    <PanelSection id="region" title="换色部位" defaultOpen={false}>
+                    <PanelSection id="region" title="换色部位">
                         <div className="px-4">
                             <div className="relative">
                                 <textarea
@@ -901,7 +945,7 @@ export function ColorV2Workspace({ className }: ColorV2WorkspaceProps = {}) {
                         </div>
                     </PanelSection>
 
-                    <PanelSection id="quality" title="模型设置" defaultOpen={false}>
+                    <PanelSection id="quality" title="模型设置">
                         <div className="px-4">
                             <p style={{ fontSize: 12, lineHeight: "20px" }} className="text-foreground">模型品质</p>
                             <div className="mt-0.5 flex gap-[10px] rounded-md bg-card p-0.5">
@@ -928,7 +972,7 @@ export function ColorV2Workspace({ className }: ColorV2WorkspaceProps = {}) {
                             </div>
                             {plannedCount > 0 ? (
                                 <p style={{ fontSize: 11, lineHeight: "17px" }} className="mt-2 text-muted-foreground">
-                                    预计输出 {plannedCount} 张（{suiteIds.length} 张商品图 × {values.plans.length} 个方案）
+                                    本次将输出 {plannedCount} 张（{suiteIds.length} 张商品图 × {values.plans.length} 个方案）
                                 </p>
                             ) : null}
                         </div>
@@ -956,6 +1000,12 @@ export function ColorV2Workspace({ className }: ColorV2WorkspaceProps = {}) {
                     {issues.length ? (
                         <p data-testid="color-v2-blocked" className="mb-1 text-[11px] leading-4 text-destructive">
                             {issues[0].message}
+                        </p>
+                    ) : null}
+                    {/* §4：提交按钮旁显示产物数量/预计输出（不显示原站算力）。 */}
+                    {plannedCount > 0 ? (
+                        <p data-testid="color-v2-planned-count" className="mb-1 text-[11px] leading-4 text-muted-foreground">
+                            本次将输出 {plannedCount} 张（{suiteIds.length} 张商品图 × {values.plans.length} 个方案）
                         </p>
                     ) : null}
                     <button
@@ -1260,35 +1310,48 @@ export function ColorV2Workspace({ className }: ColorV2WorkspaceProps = {}) {
                                         </div>
                                     </div>
                                 </div>
-                                {/* 原站「生成结果」空态：横向滚动演示条（上传商品图 → 生成结果 → 一键做同款） */}
+                                {/* 原站「生成结果」空态：横向滚动案例条（上传商品图 → 生成结果 → 一键做同款）。
+                                    卡片用的是本仓库落盘的真实换色案例，做同款走真实素材入库 + 回填，不是摆设。 */}
                                 <div
                                     data-testid="color-v2-empty-demo"
-                                    className="mt-6 flex justify-start gap-4 overflow-x-auto pb-1 sm:justify-center"
+                                    className="mt-6 overflow-x-auto pb-1"
                                 >
-                                    {[0, 1, 2].map((index) => (
+                                    {/* 内层 w-max + mx-auto：内容比容器窄时居中，比容器宽时从第一张开始滚。
+                                        直接在外层用 justify-center 会把溢出的首卡推到可视区左侧外面，点不到。 */}
+                                    <div className="mx-auto flex w-max gap-4">
+                                    {(emptyCasePages[Math.min(resultPage, emptyCasePages.length) - 1] ?? []).map((item) => (
                                         <div
-                                            key={index}
+                                            key={item.id}
                                             data-testid="color-v2-empty-demo-card"
-                                            className="flex w-[240px] shrink-0 flex-col items-center gap-3 rounded-lg border border-border bg-card px-4 py-4"
+                                            data-case-id={item.id}
+                                            className="flex w-[320px] shrink-0 flex-col items-center gap-3 rounded-lg border border-border bg-card px-4 py-4"
                                         >
-                                            <div className="flex items-center gap-2">
-                                                <span className="inline-flex h-7 items-center rounded-[13px] bg-foreground/60 px-3 text-[14px] leading-4 text-background">
-                                                    上传商品图
-                                                </span>
-                                                <span className="inline-flex h-7 items-center rounded-[13px] bg-foreground/60 px-3 text-[14px] leading-4 text-background">
+                                            <div className="flex w-full flex-col gap-2">
+                                                <div className="flex items-center gap-2">
+                                                    <span className="inline-flex h-7 shrink-0 items-center rounded-[13px] bg-foreground/60 px-3 text-[14px] leading-4 text-background">
+                                                        上传商品图
+                                                    </span>
+                                                    {item.params[0] ? (
+                                                        <img src={item.params[0].src} alt={item.params[0].label} className="size-9 rounded-md object-cover" />
+                                                    ) : null}
+                                                </div>
+                                                <span className="inline-flex h-7 w-fit items-center rounded-[13px] bg-foreground/60 px-3 text-[14px] leading-4 text-background">
                                                     生成结果
                                                 </span>
+                                                <img src={item.result} alt={`优秀案例-${item.id}`} className="h-[132px] w-full rounded-md object-cover" />
                                             </div>
-                                            <div className="h-[96px] w-full rounded-md bg-muted" aria-hidden="true" />
                                             <button
                                                 type="button"
                                                 data-testid="color-v2-empty-demo-cta"
-                                                className="inline-flex h-10 w-[110px] items-center justify-center rounded-lg border border-border text-[16px] leading-none text-foreground transition hover:border-primary hover:text-primary"
+                                                disabled={applyingCaseId === item.id}
+                                                onClick={() => void applyCase(item)}
+                                                className="inline-flex h-10 w-[110px] items-center justify-center rounded-lg border border-border text-[16px] leading-none text-foreground transition hover:border-primary hover:text-primary disabled:opacity-50"
                                             >
-                                                一键做同款
+                                                {applyingCaseId === item.id ? "正在应用…" : "一键做同款"}
                                             </button>
                                         </div>
                                     ))}
+                                    </div>
                                 </div>
                             </div>
                         )
@@ -1314,21 +1377,28 @@ export function ColorV2Workspace({ className }: ColorV2WorkspaceProps = {}) {
                         </div>
                     )}
                 </div>
-                <div data-testid="color-v2-pagination" className="flex h-[42px] shrink-0 items-center justify-center gap-2 border-t border-border text-[12px]">
-                    {[1, 2, 3, 4, 5, 6].map((page) => (
-                        <button
-                            key={page}
-                            type="button"
-                            onClick={() => setResultPage(page)}
-                            className={cn(
-                                "size-6 rounded-md leading-none transition",
-                                resultPage === page ? "bg-primary/10 text-primary" : "text-muted-foreground hover:text-foreground",
-                            )}
-                        >
-                            {page}
-                        </button>
-                    ))}
-                </div>
+                {rightTab === "result" && !showResults && emptyCasePages.length > 1 ? (
+                    <div data-testid="color-v2-pagination" className="flex h-[42px] shrink-0 items-center justify-center gap-2 border-t border-border text-[12px]">
+                        {emptyCasePages.map((_, index) => {
+                            const page = index + 1;
+                            return (
+                                <button
+                                    key={page}
+                                    type="button"
+                                    aria-label={`查看第 ${page} 页案例`}
+                                    aria-current={resultPage === page}
+                                    onClick={() => setResultPage(page)}
+                                    className={cn(
+                                        "size-6 rounded-md leading-none transition",
+                                        resultPage === page ? "bg-primary/10 text-primary" : "text-muted-foreground hover:text-foreground",
+                                    )}
+                                >
+                                    {page}
+                                </button>
+                            );
+                        })}
+                    </div>
+                ) : null}
             </section>
             </ToolWorkspaceColumns>
         </div>

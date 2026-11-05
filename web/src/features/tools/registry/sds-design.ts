@@ -597,6 +597,23 @@ export function isSdsSnapshotStale(snapshot: SdsSnapshot | undefined, current: S
     return snapshot.fingerprint !== current.fingerprint;
 }
 
+/** 结果区「查看本次输入快照」的摘要：把提交快照压成可读的多行文本（无快照返回空串）。 */
+export function sdsSnapshotSummary(snapshot: SdsSnapshot | undefined): string {
+    if (!snapshot) return "";
+    const lines = [
+        `商品：${snapshot.productName || snapshot.productId || "未选择"}（productId: ${snapshot.productId}）`,
+        `颜色：${sdsColorOption(snapshot.colorId).label}　素材名：${snapshot.imageName || "—"}`,
+        `素材 ${snapshot.count} 个（输出 ${snapshot.count} 张）：`,
+        ...snapshot.materials.map((material, index) => {
+            const tiling = sdsTilingPreset(material.tilingPresetId);
+            const percent = (value: number) => `${(value * 100).toFixed(1)}%`;
+            return `${index + 1}. ${material.name} · 位置 (${percent(material.placement.x)}, ${percent(material.placement.y)}) · 缩放 ${percent(material.placement.scale)} · 旋转 ${material.placement.rotation.toFixed(1)}° · ${tiling.label}`;
+        }),
+        `请求 id：${snapshot.requestId || "—"}　指纹：${snapshot.fingerprint}`,
+    ];
+    return lines.join("\n");
+}
+
 /** “来自旧版本”的具体原因：换素材/换产品/改颜色/挪位置/改平铺/改名称/改数量。 */
 export function describeSdsDrift(snapshot: SdsSnapshot | undefined, current: SdsSnapshot | undefined): string {
     if (!snapshot || !current) return "";

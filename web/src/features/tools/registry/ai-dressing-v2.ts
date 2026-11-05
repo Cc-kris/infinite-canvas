@@ -113,8 +113,8 @@ export const DRESSING_UPLOAD_LIMITS = {
 /** 页面「选择生成张数」1–4；默认 1（不做无证据的默认值推断）。 */
 export const DRESSING_OUTPUT_OPTIONS = [1, 2, 3, 4] as const;
 export const DRESSING_DEFAULT_OUTPUT = 1;
-/** 一次提交的模特参考上限：与生成张数上限一致，避免任务爆炸。 */
-export const DRESSING_MAX_POSES = 4;
+/** 一次提交的模特参考上限：原站批量穿衣提示「最多可选 10 张参考图」。 */
+export const DRESSING_MAX_POSES = 10;
 /** 蒙版覆盖率低于该值视为「几乎没涂」，与 area-repair 的空蒙版判定对齐。 */
 export const DRESSING_MIN_MASK_COVERAGE = 0.005;
 export const DRESSING_PROMPT_MAX = 900;
@@ -651,11 +651,9 @@ export type DressingUnitPlan = {
     outputNum: number;
 };
 
-/** 每个模特参考一个任务单元；输出张数按单元各自计。 */
+/** 每个模特参考一个任务单元（与工作区逐 pose 提交的循环一致）；输出张数按单元各自计。 */
 export function planDressingUnits(values: DressingValues): DressingUnitPlan[] {
-    const pose = activePose(values);
-    if (!pose) return [];
-    return [{ poseId: pose.id, poseName: pose.name, outputNum: normalizeOutputNum(values.outputNum) }];
+    return values.poses.map((pose) => ({ poseId: pose.id, poseName: pose.name, outputNum: normalizeOutputNum(values.outputNum) }));
 }
 
 export function estimateDressingOutput(values: DressingValues): number {

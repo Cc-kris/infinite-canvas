@@ -563,7 +563,7 @@ export function PrintExtractWorkspace() {
 
     const [items, setItems] = useState<PrintExtractItem[]>([]);
     const [cfg, setCfg] = useState<{ current: ExtractConfig; past: ExtractConfig[]; future: ExtractConfig[] }>({
-        current: { isTransparent: true, format: "png" },
+        current: { isTransparent: false, format: "png" },
         past: [],
         future: [],
     });
@@ -654,6 +654,8 @@ export function PrintExtractWorkspace() {
     const upsertTask = useCallback((next: ToolTask) => {
         const key = next.clientOperationId || next.id;
         setTasks((value) => ({ ...value, [key]: next }));
+        // 同时写全局任务库：否则任务只活在组件 state 里，刷新/跨页都查不到，历史记录永远为空。
+        useToolTaskStore.getState().upsertTask(next);
     }, []);
 
     const applyItem = useCallback((id: string, patch: Parameters<typeof applyPrintExtractItemResult>[1]) => {
@@ -943,7 +945,7 @@ export function PrintExtractWorkspace() {
                     </div>
 
                     <div className="min-h-0 flex-1 space-y-3 overflow-auto p-4">
-                        <h2 className="sr-only">生成结果</h2>
+                        <h2 className="sr-only">提取结果</h2>
                         {tab === "result" ? (
                             items.length === 0 && !persistedPanelTask ? (
                                 <div data-testid="print-extract-empty" className="flex h-full min-h-[420px] items-center justify-center">
@@ -1004,7 +1006,7 @@ export function PrintExtractWorkspace() {
                                             <ToolResult
                                                 task={(activeTask ?? persistedPanelTask)!}
                                                 toolId={PRINT_EXTRACT_TOOL_ID}
-                                                title="生成结果"
+                                                title="提取结果"
                                                 onRetry={() => (activeItem ? void submit([activeItem]) : undefined)}
                                             />
                                         </div>

@@ -39,7 +39,7 @@ async function renderWorkspace(): Promise<string> {
     const React = await import("react");
     const { MemoryRouter } = await import("react-router");
     const { default: Workspace } = await import("./mask");
-    // 工作台带「本页路由」链接，需要 Router 上下文；真实页面里由路由树提供，测试里用 MemoryRouter 顶替。
+    // 工作台内仍有 react-router 的 Link（局部消除结果接力），需要 Router 上下文；真实页面里由路由树提供。
     return renderToStaticMarkup(React.createElement(MemoryRouter, null, React.createElement(Workspace)) as ReactElement);
 }
 
@@ -53,12 +53,15 @@ describe("局部重绘工作台渲染", () => {
         expect(html).toContain("涂抹需要改变的区域");
     });
 
-    test("涂抹工具齐全：画笔 / 橡皮 / 大小 / 自动扩边 / 反选 / 撤销 / 重做 / 重置", async () => {
+    test("涂抹工具齐全：画笔 / 大小 / 自动扩边 / 反选 / 撤销 / 重做 / 重置", async () => {
         const html = await renderWorkspace();
-        for (const testId of ["mask-tool-brush", "mask-tool-eraser", "mask-brush-size", "mask-auto-expand", "mask-invert", "mask-undo", "mask-redo", "mask-reset"]) {
+        // 原站工具栏只有「画笔」文字标签（无橡皮切换），实现为静态 mask-tool-label
+        for (const testId of ["mask-tool-label", "mask-brush-size", "mask-auto-expand", "mask-invert", "mask-undo", "mask-redo", "mask-reset", "mask-brush-presets"]) {
             expect(html).toContain(`data-testid="${testId}"`);
         }
-        for (const text of ["画笔", "橡皮", "撤销", "重做", "重置"]) expect(html).toContain(text);
+        // 原站「大小：」是 InputNumber + 预设下箭头，不是长滑杆（差异 7）
+        expect(html).not.toContain('type="range"');
+        for (const text of ["画笔", "大小：", "像素", "自动扩大选择区域", "反选", "撤销", "重做", "重置"]) expect(html).toContain(text);
         // 原站 2026-10-29 面板无「羽化」控件（A 列表无此项，C 列表要求其默认值 0 不出现）
         expect(html).not.toContain("mask-feather");
         expect(html).not.toContain("羽化");
@@ -77,6 +80,18 @@ describe("局部重绘工作台渲染", () => {
         expect(html).not.toContain("请先上传要重绘的图片");
         expect(html).not.toContain("请先在图片上涂抹需要重绘的区域");
         expect(html).not.toContain("请填写重绘描述");
+    });
+
+    test("默认值与结果列同原站：张数默认 2、自动扩大默认开、结果栏是右侧独立列", async () => {
+        const html = await renderWorkspace();
+        // 原站 `_imgCountItem _active_` 在「2」（AREA_REPAIR 差异 5）
+        expect(/<button(?=[^>]*aria-pressed="true")(?=[^>]*>\s*2\s*<)[^>]*>/.test(html)).toBe(true);
+        // 原站 switch 默认 checked（差异 6）
+        expect(/data-testid="mask-auto-expand"[^>]*checked=""/.test(html)).toBe(true);
+        // 结果栏在右侧独立列（300px），不是画布下方通栏（差异 1/3）
+        expect(html).toContain('data-testid="tool-workspace-columns"');
+        expect(html).toContain("lg:grid-cols-[minmax(0,1fr)_240px_300px]");
+        expect(html).toContain('data-testid="area-repair-history-entry"');
     });
 
     test("空蒙版给出涂抹指引与覆盖率，而不是空白画布", async () => {
@@ -171,24 +186,52 @@ async function renderRemovePenWorkspace(): Promise<string> {
 }
 
 describe("局部消除结果动作", () => {
-    test("没有真实结果时不给 存库 / 发画布 / 下载，也不伪造进行中", async () => {
+    test("没有真实结果时不编造结果，但「下载图片」动作位常驻且禁用（原站结果动作不隐藏）", async () => {
         const html = await renderRemovePenWorkspace();
-        for (const testId of ["remove-pen-save", "remove-pen-send", "remove-pen-download"]) {
+        for (const testId of ["remove-pen-save", "remove-pen-send"]) {
             expect(html).not.toContain(`data-testid="${testId}"`);
         }
+        // 原站工具条上「下载图片 / 高清放大 / 商品图 / 手部修复」顺序固定，未出结果时 disabled 而不是消失
+        expect(html).toContain('data-testid="remove-pen-download"');
+        const downloadDisabled =
+            /data-testid="remove-pen-download"[^>]*disabled=""/.test(html) ||
+            /disabled=""[^>]*data-testid="remove-pen-download"/.test(html) ||
+            /<button(?=[^>]*data-testid="remove-pen-download")(?=[^>]*disabled="")[^>]*>/.test(html);
+        expect(downloadDisabled).toBe(true);
         expect(html).not.toContain("已存入资产库");
         expect(html).not.toContain("已发送画布");
-        // 原站未上传原图时只有上传引导，没有结果区（real/REMOVE_PEN/text.txt 第 53-54 行）
         expect(html).toContain("上传需要消除的图片，使用画笔涂抹即可实现一键消除");
-        expect(html).not.toContain("暂无生成结果图");
     });
 
-    test("未上传原图时提交阻塞并给出原因", async () => {
+    test("工具条为画布顶部通栏单行，上传卡居中 520、示例区有真实缩略图", async () => {
+        const html = await renderRemovePenWorkspace();
+        for (const testId of ["remove-pen-toolbar", "remove-pen-upload-card", "remove-pen-brush-size", "remove-pen-brush-presets", "remove-pen-try-these"]) {
+            expect(html).toContain(`data-testid="${testId}"`);
+        }
+        // 画笔大小还原为 number + 预设下拉，不再有长滑杆
+        expect(html).not.toContain('data-testid="remove-pen-brush-range"');
+        // 上传卡 520 宽
+        expect(html).toContain("max-w-[520px]");
+        // 「或试试这些」必须有真实示例图（复用仓库案例素材），不能是空区
+        for (const id of ["remove-pen-sample-scene", "remove-pen-sample-street", "remove-pen-sample-goods", "remove-pen-sample-print"]) {
+            expect(html).toContain(`data-testid="${id}"`);
+        }
+        expect(html).toContain("/__cases/");
+        // 结果动作与历史入口常驻工具条
+        expect(html).toContain("历史记录");
+    });
+
+    test("未上传原图时提交阻塞，且「重新上传」与原站一致保持禁用", async () => {
         const html = await renderRemovePenWorkspace();
         const submitDisabled =
             /data-testid="remove-pen-submit"[^>]*disabled=""/.test(html) ||
             /disabled=""[^>]*data-testid="remove-pen-submit"/.test(html);
         expect(submitDisabled).toBe(true);
+        // 原站初始「重新上传」disabled（REMOVE_PEN 差异 6 的后半段）
+        const resetDisabled =
+            /data-testid="remove-pen-reset-image"[^>]*disabled=""/.test(html) ||
+            /disabled=""[^>]*data-testid="remove-pen-reset-image"/.test(html);
+        expect(resetDisabled).toBe(true);
         // 阻塞原因由原站上传引导承担（组件内不会预先弹「请先上传需要消除的图片」notice）
         expect(html).toContain("上传需要消除的图片，使用画笔涂抹即可实现一键消除");
         expect(html).not.toContain("消除中");

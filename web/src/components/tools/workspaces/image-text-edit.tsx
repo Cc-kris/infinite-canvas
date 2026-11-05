@@ -11,18 +11,21 @@
  */
 
 import { useCallback, useEffect, useMemo, useRef, useState, type KeyboardEvent, type PointerEvent } from "react";
-import { AlertTriangle, ArrowDown, ArrowUp, Copy, ImagePlus, Loader2, Plus, Redo2, Trash2, Undo2 } from "lucide-react";
+import { AlertTriangle, ArrowDown, ArrowUp, Copy, ImagePlus, Loader2, Plus, Redo2, RotateCcw, Trash2, Undo2 } from "lucide-react";
 
 import { ToolResult } from "@/components/tools/tool-result";
 import { ToolWorkspaceColumns } from "@/components/tools/tool-workspace-columns";
 import { cn } from "@/lib/utils";
-import { DEFAULT_IMAGE_CONSTRAINTS, uploadToolAsset } from "@/services/api/tools/assets";
+import { DEFAULT_IMAGE_CONSTRAINTS, uploadToolAsset, type ToolAssetRecord } from "@/services/api/tools/assets";
+import type { ToolTaskResultItem } from "@/services/api/tools/task-machine";
 import {
     IMAGE_TEXT_EDIT_FONTS,
     IMAGE_TEXT_EDIT_FONT_SIZE,
     IMAGE_TEXT_EDIT_FORMATS,
+    IMAGE_TEXT_EDIT_IMAGE,
     IMAGE_TEXT_EDIT_MAX_BOXES,
     IMAGE_TEXT_EDIT_NOTICE,
+    IMAGE_TEXT_EDIT_OUTPUT_NUM,
     IMAGE_TEXT_EDIT_TEXT_LIMIT,
     IMAGE_TEXT_EDIT_TOOL_ID,
     addImageTextBox,
@@ -65,14 +68,28 @@ import {
     toImageTextEditReference,
     type ImageTextEditGatewayLike,
 } from "@/features/tools/adapters/image-text-edit";
+import { formatBytesLabel } from "@/services/api/tools/assets";
 import { resolveModelChannel, selectableModelsByCapability, useConfigStore } from "@/stores/use-config-store";
 import { useToolDraftStore } from "@/stores/use-tool-draft-store";
 import { reattachDroppedResultUrl, useToolTaskStore } from "@/stores/use-tool-task-store";
 
 const toolId = IMAGE_TEXT_EDIT_TOOL_ID;
-const cardClass = "rounded-2xl border border-[var(--border)] bg-[var(--card)] p-4";
-const fieldClass = "w-full rounded-lg border border-[var(--border)] bg-[var(--background)] px-3 py-2 text-sm text-[var(--foreground)] outline-none focus:border-[var(--primary)]";
-const smallButton = "inline-flex min-h-10 min-w-10 items-center justify-center gap-1.5 rounded-lg border border-[var(--border)] px-2.5 text-xs text-[var(--foreground)] hover:bg-[var(--accent)] disabled:cursor-not-allowed disabled:opacity-40";
+/** §6：卡片圆角 8–10px、面板 bg-card / 主区 bg-background、边框 border-border（全部取无限画布令牌）。 */
+const cardClass = "rounded-[10px] border border-border bg-card p-4";
+/** §6：控件高 36px、输入圆角 8px。 */
+const fieldClass = "h-9 w-full rounded-lg border border-border bg-background px-3 text-sm text-foreground outline-none focus-visible:border-primary";
+/** §6：最小点击区 40×40px。 */
+const smallButton = "inline-flex min-h-10 min-w-10 items-center justify-center gap-1.5 rounded-lg border border-border px-2.5 text-xs text-foreground hover:bg-accent disabled:cursor-not-allowed disabled:opacity-40";
+/** 源图限制：与注册表 IMAGE_TEXT_EDIT_IMAGE 同源，上传阶段就把格式/尺寸问题挡在控件旁（§5）。 */
+const uploadConstraints = {
+    kind: "image" as const,
+    mimeTypes: ["image/png", "image/jpeg", "image/webp"],
+    maxBytes: IMAGE_TEXT_EDIT_IMAGE.maxBytes,
+    minWidth: IMAGE_TEXT_EDIT_IMAGE.minSide,
+    minHeight: IMAGE_TEXT_EDIT_IMAGE.minSide,
+    maxWidth: IMAGE_TEXT_EDIT_IMAGE.maxSide,
+    maxHeight: IMAGE_TEXT_EDIT_IMAGE.maxSide,
+};
 
 export function ImageTextEditWorkspace() {
     const config = useConfigStore((state) => state.config);
@@ -92,6 +109,10 @@ export function ImageTextEditWorkspace() {
     const [uploadNote, setUploadNote] = useState("");
     const [canvasWidth, setCanvasWidth] = useState(0);
     const [draftRect, setDraftRect] = useState<{ x: number; y: number; width: number; height: number } | null>(null);
+    /** 源资产 id（§7 任务必须带 sourceAssetIds）：真实入库记录，刷新后按草稿槽位还原。 */
+    const [sourceAssetIds, setSourceAssetIds] = useState<string[]>([]);
+    /** §4：结果区提供「查看本次输入快照」——展开只读展示提交时的字段快照。 */
+    const [showSnapshot, setShowSnapshot] = useState(false);
 
     const abortRef = useRef<AbortController | null>(null);
     const fileRef = useRef<HTMLInputElement | null>(null);
@@ -120,6 +141,8 @@ export function ImageTextEditWorkspace() {
                 setValues(restored);
                 setHistory(createImageTextBoxHistory(restored.boxes));
                 setSelectedId(restored.boxes[0]?.id ?? "");
+                // 源资产 id 从草稿槽位还原（§7），刷新后仍能作为本次任务的 sourceAssetIds。
+                setSourceAssetIds([...draft.assetIds]);
             }
             setDraftRestored(true);
         })();
@@ -246,12 +269,16 @@ export function ImageTextEditWorkspace() {
 
     /* ------------------------------ 源图 ------------------------------ */
 
+    /** 上传失败：问题定位到文件并在控件旁说明（§5），其他输入与配置原样保留。 */
+    const [failedFile, setFailedFile] = useState("");
+
     const applyAsset = useCallback(async (file: File) => {
         setUploadNote("");
         setErrorText("");
+        setFailedFile("");
         setUploading(true);
         try {
-            const record = await uploadToolAsset(file, { name: file.name, constraints: DEFAULT_IMAGE_CONSTRAINTS });
+            const record = await uploadToolAsset(file, { name: file.name, constraints: uploadConstraints });
             const dimensions = await new Promise<{ width: number; height: number }>((resolve) => {
                 if (record.width && record.height) {
                     resolve({ width: record.width, height: record.height });
@@ -275,15 +302,39 @@ export function ImageTextEditWorkspace() {
                 imageWidth: dimensions.width,
                 resultImageUrl: "",
             }));
+            setSourceAssetIds([record.id]);
             setHistory(createImageTextBoxHistory([]));
             setSelectedId("");
             setSnapshot(undefined);
-            setUploadNote(`已上传 ${record.name}（${dimensions.width}×${dimensions.height}，${Math.round(record.bytes / 1024)}KB）。原图不会被覆盖。`);
+            setUploadNote(`已上传 ${record.name}（${dimensions.width}×${dimensions.height}，${formatBytesLabel(record.bytes)}）。原图不会被覆盖。`);
         } catch (error) {
+            // 失败文件单独点名（§5）：其他输入保留，只有这一行是错误态。
+            setFailedFile(file.name);
             setUploadNote(error instanceof Error ? `上传失败：${error.message}` : "上传失败：未知原因");
         } finally {
             setUploading(false);
         }
+    }, []);
+
+    /** 复用已入库资产（草稿恢复 / 资产库回填）：真实记录驱动，不伪造字节。 */
+    const applyAssetRecord = useCallback(async (record: ToolAssetRecord) => {
+        const dimensions = record.width && record.height ? { width: record.width, height: record.height } : await new Promise<{ width: number; height: number }>((resolve) => {
+            const probe = new Image();
+            probe.onload = () => resolve({ width: probe.naturalWidth, height: probe.naturalHeight });
+            probe.onerror = () => resolve({ width: 0, height: 0 });
+            probe.src = record.url;
+        });
+        const format = imageTextEditFormatFromMime(record.mimeType) || imageTextEditFormatFromName(record.name) || "png";
+        setValues((previous) => ({
+            ...previous,
+            imageFormat: format,
+            imageHeight: dimensions.height,
+            imageName: previous.imageName || record.name,
+            imageSize: record.bytes,
+            imageUrl: record.url,
+            imageWidth: dimensions.width,
+        }));
+        setSourceAssetIds([record.id]);
     }, []);
 
     /* ------------------------------ 画布交互 ------------------------------ */
@@ -422,6 +473,11 @@ export function ImageTextEditWorkspace() {
 
     const handleRetry = useCallback(async () => {
         if (!latest || blocking.length) return;
+        // 配置已漂移时拒绝按旧快照重试：结果瓦片会误报「已重新生成并替换」。
+        if (snapshot && imageTextEditStaleNotice(values, snapshot, currentSnapshot)) {
+            setErrorText("当前配置已变化，旧结果不能按原快照重试；请修改后点击「生成图片文字」新建任务。");
+            return;
+        }
         const controller = new AbortController();
         abortRef.current = controller;
         setRunning(true);
@@ -434,7 +490,21 @@ export function ImageTextEditWorkspace() {
         } finally {
             setRunning(false);
         }
-    }, [blocking.length, draftRevision, gateway, latest, model, modelReady, values]);
+    }, [blocking.length, currentSnapshot, draftRevision, gateway, latest, model, modelReady, snapshot, values]);
+
+    /**
+     * 单结果重试（§4）：本工具单次固定输出 1 张，所以「重试这一张」= 按同一快照真实重发一次；
+     * 不复用本地缓存、不伪造新图，成功后由任务库替换该结果项。
+     */
+    const retryItem = useCallback(
+        async (_item: ToolTaskResultItem, index: number) => {
+            if (!latest) throw new Error("当前没有可重试的结果，请先生成。");
+            if (running) throw new Error("当前有任务在跑，等它结束后再重试。");
+            if (index !== 0) throw new Error("本次只有 1 张结果，无法重试该下标。");
+            await handleRetry();
+        },
+        [handleRetry, latest, running],
+    );
 
     // 结果一律走适配器统一出口：漂移维度、空结果、未知状态都由它判定。
     const result = useMemo(() => (snapshot ? imageTextEditResultFromTask(latest ?? null, snapshot, currentSnapshot) : undefined), [currentSnapshot, latest, snapshot]);
@@ -473,6 +543,7 @@ export function ImageTextEditWorkspace() {
             </div>
 
             <ToolWorkspaceColumns
+                canvas
                 configSide="right"
                 config={(
                     <>
@@ -680,6 +751,8 @@ export function ImageTextEditWorkspace() {
                                 {running ? <Loader2 className="h-4 w-4 animate-spin" /> : null}
                                 生成图片文字
                             </button>
+                            {/* §4：提交按钮旁显示产物数量/预计输出（不显示原站算力）。 */}
+                            <p className="text-[11px] text-[var(--muted-foreground)]">预计输出 {IMAGE_TEXT_EDIT_OUTPUT_NUM} 张结果（单次固定，不可改数量）。</p>
                             <p className="text-[11px] text-[var(--muted-foreground)]">{IMAGE_TEXT_EDIT_NOTICE}</p>
                             {errorText ? <p className="text-xs text-destructive">{errorText}</p> : null}
                         </div>
@@ -804,7 +877,12 @@ export function ImageTextEditWorkspace() {
                     )}
 
                     <p className="mt-2 text-[11px] text-[var(--muted-foreground)]">在画布空白处拖拽可框选新文字框；选中后方向键微调（Shift 加速）、Delete 删除、⌘/Ctrl+Z 撤销。</p>
-                    {uploadNote ? <p className="mt-1 text-xs text-[var(--muted-foreground)]">{uploadNote}</p> : null}
+                    {uploadNote ? (
+                        <p className={cn("mt-1 text-xs", failedFile ? "text-destructive" : "text-[var(--muted-foreground)]")} role={failedFile ? "alert" : undefined}>
+                            {failedFile ? <span className="font-medium">失败文件：{failedFile}。</span> : null}
+                            {uploadNote}
+                        </p>
+                    ) : null}
                 </section>
 
             {/* 结果 */}
@@ -818,7 +896,34 @@ export function ImageTextEditWorkspace() {
                 </header>
                 {resultNotice ? <p className="mb-2 text-xs text-[var(--muted-foreground)]">{resultNotice}</p> : null}
                 {staleNotice ? <p className="mb-2 text-xs text-destructive">{staleNotice}</p> : null}
-                <ToolResult task={latest ?? null} toolId={toolId} title="图片文字结果" onRetry={handleRetry} />
+                <ToolResult task={latest ?? null} toolId={toolId} title="图片文字结果" onRetry={handleRetry} onRetryItem={retryItem} retryItemHint="按同一快照真实重发一次请求，成功后替换该结果。" />
+                {/* §4：查看本次输入快照（只读），证明结果与提交快照一致。 */}
+                {snapshot ? (
+                    <div className="flex flex-col gap-1">
+                        <button type="button" className={cn(smallButton, "self-start")} aria-expanded={showSnapshot} onClick={() => setShowSnapshot((previous) => !previous)}>
+                            {showSnapshot ? "收起输入快照" : "查看本次输入快照"}
+                        </button>
+                        {showSnapshot ? (
+                            <pre
+                                data-testid="image-text-edit-snapshot"
+                                className="max-h-48 overflow-auto whitespace-pre-wrap break-all rounded-lg border border-[var(--border)] bg-[var(--background)] p-2 text-[11px] leading-5 text-[var(--muted-foreground)]"
+                            >
+                                {JSON.stringify(
+                                    {
+                                        文件: snapshot.imageName || "（未命名）",
+                                        尺寸: `${snapshot.imageWidth}×${snapshot.imageHeight}`,
+                                        导出格式: snapshot.imageFormat,
+                                        文字框: `${snapshot.boxes.length} 个`,
+                                        各框: snapshot.boxes.map((box, index) => `${index + 1}.「${box.text}」(${Math.round(box.x * 10000) / 100}%,${Math.round(box.y * 10000) / 100}%,${Math.round(box.width * 10000) / 100}%,${Math.round(box.height * 10000) / 100}%) ${box.fontSize}px`),
+                                        提交号: snapshot.requestId,
+                                    },
+                                    null,
+                                    2,
+                                )}
+                            </pre>
+                        ) : null}
+                    </div>
+                ) : null}
             </section>
             </ToolWorkspaceColumns>
         </div>

@@ -307,6 +307,23 @@ export function OrnamentTextWorkspace() {
             <ToolWorkspaceColumns
                 className="min-h-0 flex-1"
                 config={(
+                <div className="flex min-h-0 flex-col gap-2">
+                <div data-testid="ornament-submit-bar" className="shrink-0 rounded-lg border border-[var(--border)] p-2">
+                    <button
+                        type="button"
+                        onClick={handleSubmit}
+                        disabled={blocked || running}
+                        className="inline-flex h-10 items-center justify-center gap-2 rounded-lg bg-[var(--primary)] px-4 text-sm font-medium text-[var(--primary-foreground)] disabled:opacity-50"
+                    >
+                        {running ? <Loader2 className="h-4 w-4 animate-spin" /> : null}
+                        生成饰品文字
+                    </button>
+                    {/* 规格 §4：提交按钮旁显示产物数量（单张），不显示原站算力。 */}
+                    <p className="text-[11px] text-[var(--muted-foreground)]">预计输出 1 张成品图。</p>
+                    {blocked ? <p className="text-[11px] text-amber-500">{issues[0]?.message}</p> : null}
+                    {notice ? <p className="text-[11px] text-[var(--muted-foreground)]">{notice}</p> : null}
+                    {latest ? <p className="text-[11px] text-[var(--muted-foreground)]">响应 id：{ornamentTextResponseId(latest) || "——（上游未回填）"}</p> : null}
+                </div>
                 <section className={cn("flex flex-col gap-3", tab === "params" ? "" : "hidden lg:flex")} aria-label="饰品文字内容">
                     <div className={cn(cardClass, "flex flex-col gap-3")}>
                         <label className="flex flex-col gap-1 text-sm font-medium">
@@ -428,6 +445,7 @@ export function OrnamentTextWorkspace() {
                         </div>
                     </div>
                 </section>
+                </div>
                 )}
             >
 
@@ -493,20 +511,6 @@ export function OrnamentTextWorkspace() {
                 </section>
 
                 <section className={cn("flex flex-col gap-3", tab === "result" ? "" : "hidden lg:flex")} aria-label="结果">
-                    <div className={cn(cardClass, "flex flex-col gap-2")}>
-                        <button
-                            type="button"
-                            onClick={handleSubmit}
-                            disabled={blocked || running}
-                            className="inline-flex h-10 items-center justify-center gap-2 rounded-lg bg-[var(--primary)] px-4 text-sm font-medium text-[var(--primary-foreground)] disabled:opacity-50"
-                        >
-                            {running ? <Loader2 className="h-4 w-4 animate-spin" /> : null}
-                            生成饰品文字
-                        </button>
-                        {blocked ? <p className="text-[11px] text-amber-500">{issues[0]?.message}</p> : null}
-                        {notice ? <p className="text-[11px] text-[var(--muted-foreground)]">{notice}</p> : null}
-                        {latest ? <p className="text-[11px] text-[var(--muted-foreground)]">响应 id：{ornamentTextResponseId(latest) || "——（上游未回填）"}</p> : null}
-                    </div>
                     <ToolResult task={latest ?? null} toolId={toolId} title="饰品文字结果" onRetry={handleRetry} />
                 </section>
             </ToolWorkspaceColumns>

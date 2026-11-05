@@ -30,15 +30,14 @@ export const MATERIAL_UPPER_BODY_DRAFT_SLOT = "materialUpperBody";
 export const MATERIAL_FIELDS = ["categoryIds", "categoryName", "imageName", "imageUrl", "isMatting", "outputNum", "subType"] as const;
 
 /**
- * 上传限制：chunk 未给出本工具的独立限制，沿用通用图片上限（与产品线其他图片工具一致，
- * 见 assets.DEFAULT_IMAGE_CONSTRAINTS 的 20M / png-jpeg-webp）。UI 如实显示该限制文案。
+ * 上传限制：与原站商品类上传卡一致（10M以内，384*384 ~ 4096*4096，png/jpeg/webp）。
  */
 export const MATERIAL_UPLOAD = {
-    maxBytes: 20 * 1024 * 1024,
+    maxBytes: 10 * 1024 * 1024,
     minSide: 384,
     maxSide: 4096,
     mimeTypes: ["image/png", "image/jpeg", "image/webp"] as const,
-    hint: "20M 以内，384×384 ~ 4096×4096，PNG/JPEG/WebP（通用图片上限，chunk 未单列本工具限制）",
+    hint: "10M以内，384*384 ~ 4096*4096",
 } as const;
 
 /** page-specs §7：「outputNum 默认 1」，范围取模型目录/网关 normalizeCount（1–15），本页收敛到 1–4。 */
@@ -190,7 +189,7 @@ export function materialLeafByCategoryId(id: string): { category: MaterialCatego
 }
 
 export const MATERIAL_CATALOG_NOTICE =
-    "材质大类/子类为本地材质目录（chunk 未取证原站枚举），仅用于本页联动与 prompt；提交的 categoryIds 是本地稳定 id，adapter 会显式校验，无法命中目录时拒绝提交。";
+    "材质类目为本地目录：大类 + 子类共同决定换料效果，只接受目录内取值。";
 
 /* ============================== 上装蒙版区域 ============================== */
 
@@ -416,7 +415,7 @@ export function validateMaterialState(input: ValidateMaterialInput): MaterialIss
     const issues: MaterialIssue[] = [];
     const { values, capability, sourceReady } = input;
 
-    if (!sourceReady) issues.push({ field: "imageUrl", message: "请先上传上装图片（PNG/JPEG/WebP，20M 以内）" });
+    if (!sourceReady) issues.push({ field: "imageUrl", message: "请先上传上装图片（10M以内，384*384 ~ 4096*4096）" });
     if (!values.imageName.trim()) issues.push({ field: "imageName", message: "图片名称不能为空（上传后会自动填入，可编辑）" });
     if (!materialCategoryOf(values.categoryKey)) issues.push({ field: "categoryIds", message: "请选择材质大类" });
     else if (!values.leafKeys.length) issues.push({ field: "subType", message: "请选择材质子类" });

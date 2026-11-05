@@ -13,9 +13,11 @@ import { useEffect, useRef, useState } from "react";
 
 import { cn } from "@/lib/utils";
 
-export type ImageRulesKind = "wearable" | "goods" | "video";
+export type ImageRulesKind = "wearable" | "goods" | "video" | "dressing";
 
 interface ImageRulesContent {
+    /** 浮层标题；不填用通用 TITLE。 */
+    title?: string;
     /** 正向样例卡标题（原站每张卡下方带「试一试」）。 */
     samples: string[];
     /** 错误示例项。 */
@@ -34,6 +36,12 @@ const CONTENT: Record<ImageRulesKind, ImageRulesContent> = {
     video: {
         samples: ["完整主体的商品图", "完整主体的商品图", "完整主体的商品图", "完整主体的商品图"],
         errors: ["主体不完整", "模糊图片", "主体太小", "包含多个商品主体", "太多干扰，主体不明确", "主体被遮挡或已有手持"],
+    },
+    // AI穿衣页的规则浮层：原站标题与错误示例逐字来自页面证据（19-ai-dressing-v2.md / DIFF #19）。
+    dressing: {
+        title: "请按规则上传多件服装图，以达到最佳效果",
+        samples: ["上装平铺图", "下装平铺图", "上装平铺图", "下装平铺图"],
+        errors: ["非真人图片（模特参考）", "折叠/挡住的服装图", "重叠服装图", "带人台的侧面图"],
     },
 };
 
@@ -57,6 +65,7 @@ export function ImageRulesPopover({ kind, className, testId = "image-rules", lab
     const [open, setOpen] = useState(false);
     const rootRef = useRef<HTMLSpanElement | null>(null);
     const content = CONTENT[kind];
+    const title = content.title ?? TITLE;
 
     useEffect(() => {
         if (!open) return;
@@ -93,7 +102,7 @@ export function ImageRulesPopover({ kind, className, testId = "image-rules", lab
                     data-testid={`${testId}-popover`}
                     className="popover absolute left-0 top-[22px] z-50 w-[420px] rounded-lg border border-border bg-popover p-3 text-[12px] leading-[18px] text-popover-foreground shadow-lg"
                 >
-                    <p className="font-medium text-foreground">{TITLE}</p>
+                    <p className="font-medium text-foreground">{title}</p>
                     <p className="mt-1 text-muted-foreground">{SPEC}</p>
                     <div className="mt-2 grid grid-cols-4 gap-2">
                         {content.samples.map((sample, index) => (

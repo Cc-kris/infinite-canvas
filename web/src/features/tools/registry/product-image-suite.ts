@@ -110,6 +110,46 @@ export const SUITE_FONT_STYLES = [
 ] as const;
 export type SuiteFontStyle = (typeof SUITE_FONT_STYLES)[number]["id"];
 
+/**
+ * 商品类目：原站「商品类目 · 请选择商品类目」下拉（原站必填）。
+ * 画布侧无类目接口，按电商大类内置目录；id 作为 productCategory 保存值，label 进入 Prompt。
+ */
+export const SUITE_PRODUCT_CATEGORIES: readonly { id: string; label: string }[] = [
+    { id: "apparel", label: "服饰" },
+    { id: "shoes", label: "鞋靴" },
+    { id: "bags", label: "箱包" },
+    { id: "digital", label: "数码3C" },
+    { id: "home", label: "家居日用" },
+    { id: "beauty", label: "美妆个护" },
+    { id: "food", label: "食品饮料" },
+    { id: "other", label: "其他" },
+];
+
+export function suiteProductCategoryOf(id: string): { id: string; label: string } | undefined {
+    return SUITE_PRODUCT_CATEGORIES.find((category) => category.id === id.trim());
+}
+
+/**
+ * 智能合规检查词库：原站「未选择敏感词库 / 未选择替换词库」是从用户词库列表选择的控件。
+ * 画布侧无词库接口，提供内置目录；id 即 compliance.sensitiveWordLexiconId / replacementWordLexiconId 的保存值。
+ */
+export const SUITE_SENSITIVE_LIBRARIES: readonly { id: string; label: string; words: readonly string[] }[] = [
+    { id: "absolute-terms", label: "绝对化用语", words: ["最好", "第一", "顶级", "极致", "独家"] },
+    { id: "medical-claims", label: "医疗功效词", words: ["治疗", "痊愈", "根治", "消炎", "抗菌"] },
+];
+
+export const SUITE_REPLACEMENT_LIBRARIES: readonly { id: string; label: string; pairs: Readonly<Record<string, string>> }[] = [
+    { id: "compliant-soft", label: "合规柔和表述", pairs: { 最好: "更好", 第一: "领先", 顶级: "高档", 极致: "出色", 独家: "特色", 治疗: "呵护", 痊愈: "改善", 根治: "缓解", 消炎: "清爽", 抗菌: "洁净" } },
+];
+
+export function suiteSensitiveLibraryOf(id: string) {
+    return SUITE_SENSITIVE_LIBRARIES.find((lexicon) => lexicon.id === id.trim());
+}
+
+export function suiteReplacementLibraryOf(id: string) {
+    return SUITE_REPLACEMENT_LIBRARIES.find((lexicon) => lexicon.id === id.trim());
+}
+
 /* --------------------------------- 配置 --------------------------------- */
 
 export type SuiteBrandConfig = {
@@ -128,6 +168,8 @@ export type SuiteComplianceConfig = {
 export type SuiteConfig = {
     /** 商品图资产 id（TASK-004 上传返回）。 */
     sourceAssetId: string;
+    /** 商品类目（原站「请选择商品类目」；空 = 未选择，Prompt 里如实说明）。 */
+    productCategory: string;
     /** 商品信息 ≤ 2500 字。 */
     productInfo: string;
     brand: SuiteBrandConfig;
@@ -153,6 +195,7 @@ const countSchema = z.number().int().min(1).max(PRODUCT_IMAGE_SUITE_MAX_UNITS_PE
 
 export const suiteConfigSchema = z.object({
     sourceAssetId: z.string().default(""),
+    productCategory: z.string().default(""),
     productInfo: z.string().max(PRODUCT_IMAGE_SUITE_MAX_PRODUCT_INFO).default(""),
     brand: z
         .object({
@@ -337,6 +380,8 @@ export function buildSuiteUnitPrompt(
     parts.push(layoutInstruction(plan, layoutId));
     const info = config.productInfo.trim();
     parts.push(info ? `商品信息：${info}` : "商品信息：未填写，仅依据商品图推断外观卖点，不编造参数。");
+    const category = suiteProductCategoryOf(config.productCategory);
+    parts.push(category ? `商品类目：${category.label}。` : "商品类目：未选择。");
     if (config.brand.smartBrand) {
         const brandBits: string[] = [];
         if (config.brand.primaryColor.trim()) brandBits.push(`主色 ${config.brand.primaryColor.trim()}`);
@@ -347,7 +392,21 @@ export function buildSuiteUnitPrompt(
         parts.push(brandBits.length ? `品牌基因：${brandBits.join("，")}。` : "品牌基因：已启用，未指定主色与字体。");
     }
     if (config.compliance.sensitiveWordLexiconId || config.compliance.replacementWordLexiconId) {
-        parts.push("合规：命中敏感词时按替换词库改写文案，不出现绝对化用语与医疗功效承诺。");
+        const sensitive = suiteSensitiveLibraryOf(config.compliance.sensitiveWordLexiconId);
+        const replacement = suiteReplacementLibraryOf(config.compliance.replacementWordLexiconId);
+        const sensitiveWords = sensitive ? sensitive.words.join("、") : "";
+        const pairs = replacement
+            ? Object.entries(replacement.pairs)
+                  .slice(0, 10)
+                  .map(([from, to]) => `${from}→${to}`)
+                  .join("、")
+            : "";
+        if (sensitiveWords || pairs) {
+            if (sensitiveWords) parts.push(`合规检查：画面文案命中敏感词（${sensitiveWords}）时必须替换，不出现绝对化用语与医疗功效承诺。`);
+            if (pairs) parts.push(`替换词库：${pairs}。`);
+        } else {
+            parts.push("合规检查：已选择敏感词库与替换词库，命中敏感词时按替换词库改写文案，不出现绝对化用语与医疗功效承诺。");
+        }
     }
     return parts.join("\n");
 }
@@ -423,6 +482,7 @@ export function validateSuiteConfig(config: SuiteConfig, context: SuiteValidatio
 export function suiteGenerationFields(config: SuiteConfig): Record<string, unknown> {
     return {
         sourceAssetId: config.sourceAssetId,
+        productCategory: config.productCategory,
         productInfo: config.productInfo.trim(),
         brand: config.brand,
         compliance: config.compliance,

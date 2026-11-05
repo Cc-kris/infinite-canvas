@@ -529,10 +529,11 @@ describe("AI_VIDEO_EDITING workspace：页面结构", () => {
             React.createElement(MemoryRouter, null, React.createElement(AiVideoEditingWorkspace)) as never,
         );
 
+        // 文案逐字对齐 page-specs/37 §9 原站实测摘录。
         expect(html).toContain("上传需要编辑的视频");
-        expect(html).toContain("上传参考图");
+        expect(html).toContain("参考图（选填）");
         expect(html).toContain("视频类型");
-        expect(html).toContain("视频编辑结果");
+        expect(html).toContain("编辑结果");
         expect(html).toContain(`0 / ${AI_VIDEO_EDITING_PROMPT_MAX}`);
         expect(html).toContain('data-testid="ai-video-editing-clip-label"');
         expect(html).toContain('data-testid="ai-video-editing-prompt"');
@@ -540,6 +541,9 @@ describe("AI_VIDEO_EDITING workspace：页面结构", () => {
         expect(html).toContain('data-testid="ai-video-editing-submit"');
         expect(html).toContain('data-testid="ai-video-editing-blocked"');
         expect(html).toContain('data-testid="ai-video-editing-hidden-prompt"');
+        expect(html).toContain('data-testid="ai-video-editing-output-label"');
+        expect(html).toContain('data-testid="ai-video-editing-clone"');
+        expect(html).toContain('data-region="design19-results"');
         // 无源视频/参考图/模型时不可提交，且给出真实阻塞原因
         expect(html).toContain('data-testid="ai-video-editing-submit"');
         expect(html).toMatch(/<button[^>]*disabled=""[^>]*data-testid="ai-video-editing-submit"/);

@@ -155,7 +155,7 @@ export const AI_OUTPAINTING_CASES: ToolCase[] = [
         apply: {
             prompt: "延续灰色水泥地面与柔和侧光，在下方补出完整的产品阴影与投影，保持商品主体不变",
             ratio: "1:1",
-            sizePreset: "1024",
+            sizePreset: "standard",
             outputNum: 1,
         },
     },

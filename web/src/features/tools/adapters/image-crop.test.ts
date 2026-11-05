@@ -376,9 +376,10 @@ describe("IMAGE_CROP 工作区渲染", () => {
 
     test("平台卡数量与预设一致，且无源图时提交按钮 disabled、不渲染画布", async () => {
         const html = await render();
-        const cards = html.match(/data-testid="crop-platform-/g) ?? [];
+        const cards = html.match(/data-testid="crop-platform-(?!search)[a-z-]+"/g) ?? [];
         expect(cards.length).toBe(PLATFORM_PRESETS.length);
-        expect(/<button(?=[^>]*\bdata-testid="crop-submit")(?=[^>]*\bdisabled="")[^>]*>/.test(html)).toBe(true);
+        // 新布局把「开始裁剪」收进工具条「更多」弹层：默认不渲染，避免主流程常驻自造按钮。
+        expect(html).not.toContain('data-testid="crop-submit"');
         expect(html).not.toContain('data-testid="crop-canvas"');
         expect(html).toContain('data-testid="crop-empty"');
     });

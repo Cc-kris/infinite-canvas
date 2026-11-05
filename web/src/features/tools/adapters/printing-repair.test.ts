@@ -432,13 +432,13 @@ describe("印花修复工作台渲染", () => {
         expect(html).toContain("先完成 Step 1 与 Step 2，这里会出现可拖动的印花定位画布。");
     });
 
-    test("空状态：强度/版本/三种对比已在，缩放旋转等定位控件等素材到位才出现", async () => {
+    test("空状态：不再自造强度/版本/对比参数，定位控件等素材到位才出现", async () => {
         const html = await renderWorkspace();
         for (const id of ["printing-repair-strength", "printing-repair-version"]) {
-            expect(html).toContain(`data-testid="${id}"`);
+            expect(html).not.toContain(`data-testid="${id}"`);
         }
         for (const mode of ["region", "side-by-side", "slider"]) {
-            expect(html).toContain(`data-testid="printing-repair-compare-${mode}"`);
+            expect(html).not.toContain(`data-testid="printing-repair-compare-${mode}"`);
         }
         expect(html).toContain('data-testid="printing-repair-stage-empty"');
         // 没有素材时不渲染定位控件，避免用户对着空画布调参
@@ -451,7 +451,7 @@ describe("印花修复工作台渲染", () => {
         const html = await renderWorkspace();
         const submitDisabled = /data-testid="printing-repair-submit"[^>]*disabled=""/.test(html) || /disabled=""[^>]*data-testid="printing-repair-submit"/.test(html);
         expect(submitDisabled).toBe(true);
-        expect(html).toContain("还没有结果。完成三步后点「开始修复」。");
+        expect(html).toContain("暂无生成结果图");
         expect(html).not.toContain('data-testid="printing-repair-download"');
         expect(html).not.toContain('data-testid="printing-repair-base-image"');
         expect(html).not.toContain("正在修复…");

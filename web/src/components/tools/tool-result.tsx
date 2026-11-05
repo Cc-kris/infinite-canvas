@@ -55,8 +55,11 @@ function useBlobUrl(blob?: Blob): string | undefined {
  */
 function useStoredResultUrl(storageKey?: string, fallback?: string): string | undefined {
     const [url, setUrl] = useState<string>();
+    // 只有远程/data URL 才能直接使用；刷新后残留的 blob: 地址已经失效，
+    // 即使存在也应按 storageKey 从 IndexedDB 取回真实字节。
+    const fallbackUsable = Boolean(fallback && !fallback.startsWith("blob:"));
     useEffect(() => {
-        if (!storageKey || fallback) {
+        if (!storageKey || fallbackUsable) {
             setUrl(undefined);
             return;
         }

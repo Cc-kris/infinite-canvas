@@ -228,6 +228,27 @@ export const DRESS_LANGUAGE_SUGGESTIONS = ["英语", "德语", "日语", "中文
 export const DRESS_BRAND_MODES = ["smart", "custom"] as const;
 export type DressBrandMode = (typeof DRESS_BRAND_MODES)[number];
 
+/**
+ * 智能合规检查词库：原站从用户词库列表选择，画布侧无词库接口，
+ * 提供内置词库目录（id 即 sensitiveLibrary/replacementLibrary 的保存值）。
+ */
+export const DRESS_SENSITIVE_LIBRARIES: readonly { id: string; label: string; words: readonly string[] }[] = [
+    { id: "absolute-terms", label: "绝对化用语", words: ["最好", "第一", "顶级", "极致", "独家"] },
+    { id: "medical-claims", label: "医疗功效词", words: ["治疗", "痊愈", "根治", "消炎", "抗菌"] },
+];
+
+export const DRESS_REPLACEMENT_LIBRARIES: readonly { id: string; label: string; pairs: Readonly<Record<string, string>> }[] = [
+    { id: "compliant-soft", label: "合规柔和表述", pairs: { 最好: "更好", 第一: "领先", 顶级: "高档", 极致: "出色", 独家: "特色", 治疗: "呵护", 痊愈: "改善", 根治: "缓解", 消炎: "清爽", 抗菌: "洁净" } },
+];
+
+export function dressSensitiveLibraryOf(id: string) {
+    return DRESS_SENSITIVE_LIBRARIES.find((lexicon) => lexicon.id === id.trim());
+}
+
+export function dressReplacementLibraryOf(id: string) {
+    return DRESS_REPLACEMENT_LIBRARIES.find((lexicon) => lexicon.id === id.trim());
+}
+
 export const DRESS_LIMITS = {
     maxFiles: DRESS_UPLOAD_LIMITS.maxFiles,
     maxBytes: DRESS_UPLOAD_LIMITS.maxBytes,

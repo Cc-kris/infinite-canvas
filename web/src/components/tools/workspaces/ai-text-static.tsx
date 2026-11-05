@@ -33,6 +33,7 @@ import {
     AI_TEXT_TILING_PRESETS,
     AI_TEXT_TOOL_ID,
     AI_TEXT_UPLOAD_LIMITS,
+    aiTextExpectedOutputs,
     aiTextPageCatalogDimensions,
     aiTextStyleLabelCn,
     aiTextTilingPreset,
@@ -48,6 +49,7 @@ import {
     createAiTextValues,
     describeAiTextDrift,
     hasBlockingAiTextIssue,
+    inheritAiTextCase,
     isAiTextAutopromptActive,
     moveAiTextPlacement,
     placementKeyboardDelta,
@@ -309,7 +311,7 @@ export function AiTextStatic() {
     const showRetry = Boolean(task && (task.status === "failed" || task.status === "unknown" || task.status === "cancelled") && source);
 
     return (
-        <div data-testid="ai-text-workspace" className="flex flex-col gap-4">
+        <div data-testid="ai-text-workspace" className="flex h-full min-h-0 flex-col gap-4">
             <header className="flex flex-wrap items-end justify-between gap-3">
                 <div>
                     <h1 className="text-lg font-semibold text-foreground">POD 素材</h1>
@@ -331,7 +333,8 @@ export function AiTextStatic() {
 
             <ToolWorkspaceColumns
                 config={(
-                    <>
+                    <div className="flex h-full min-h-0 flex-col">
+                    <div data-testid="ai-text-config-scroll" className="min-h-0 flex-1 space-y-3 overflow-y-auto pr-1">
                         <section className={cardClass} aria-label="上传底图">
                             <ToolAssetInput
                                 toolId={toolId}
@@ -496,7 +499,20 @@ export function AiTextStatic() {
                             </div>
 
                             <Toggle checked={values.variationStrength} onChange={(checked) => setField("variationStrength", checked)} label="增强变化强度" hint="同风格下的构图差异更明显。" />
-                            <Toggle checked={values.isCase} onChange={(checked) => setField("isCase", checked)} label="作为案例变体提交" />
+                            {/* 规格 §3：案例变体继承样式/平铺/比例但清空文案、新建任务；注册表 inheritAiTextCase 提供同一实现。 */}
+                            <button
+                                type="button"
+                                onClick={() => {
+                                    const inherited = inheritAiTextCase(values);
+                                    setValues(inherited);
+                                    patchDraft(toolId, { values: inherited as unknown as Record<string, unknown> });
+                                    setNotice("已按当前样式继承出案例变体配置：文案已清空，提交后为新建任务。");
+                                }}
+                                className="inline-flex min-h-9 items-center gap-1 self-start rounded-lg border border-border px-3 text-xs"
+                            >
+                                基于当前配置新建案例变体
+                            </button>
+                            {values.isCase ? <p className="text-[11px] text-muted-foreground">当前配置为案例变体（isCase），提交后不回写本配置。</p> : null}
                         </section>
 
                         <section className={cn(cardClass, "flex flex-col gap-2")} aria-label="提交">
@@ -517,12 +533,16 @@ export function AiTextStatic() {
                             {notice ? <p className="text-xs text-muted-foreground">{notice}</p> : null}
                             {errorText ? <p className="text-xs text-destructive">{errorText}</p> : null}
                             <p className="text-[11px] leading-4 text-muted-foreground">{AI_TEXT_CATALOG_NOTICE}</p>
-
+                        </section>
+                    </div>
+                    <div data-testid="ai-text-submit-bar" className="shrink-0 space-y-2 border-t border-border bg-card pb-1 pt-2">
+                            {/* 规格 §4：提交按钮旁显示产物数量，不显示算力。 */}
+                            <p className="text-xs text-muted-foreground">本次生成 {aiTextExpectedOutputs(values)} 张素材{values.isCase ? " · 案例变体" : ""}</p>
                             <button
                                 type="button"
                                 onClick={handleSubmit}
                                 disabled={running || blocked}
-                                className="inline-flex min-h-11 items-center justify-center gap-2 rounded-lg bg-primary px-4 text-sm font-medium text-primary-foreground disabled:opacity-50"
+                                className="inline-flex h-10 items-center justify-center gap-2 rounded-lg bg-primary px-4 text-sm font-medium text-primary-foreground disabled:opacity-50"
                             >
                                 {running ? <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" /> : null}
                                 {running ? "生成中…" : "生成 POD 素材"}
@@ -537,11 +557,39 @@ export function AiTextStatic() {
                                     <RotateCcw className="h-3.5 w-3.5" aria-hidden="true" /> 同快照重试
                                 </button>
                             ) : null}
+                            {/* 规格 §4：查看本次输入快照——真实取自最近一次提交锁定的 snapshot。 */}
+                            {snapshot ? (
+                                <details className="rounded-lg border border-border px-2 py-1.5 text-xs" data-testid="ai-text-snapshot">
+                                    <summary className="cursor-pointer select-none text-muted-foreground">查看本次输入快照</summary>
+                                    <dl className="mt-1.5 grid grid-cols-2 gap-x-3 gap-y-1 text-[11px] text-muted-foreground">
+                                        <dt>素材模式</dt>
+                                        <dd className="truncate text-foreground">{snapshot.mode || "—"}</dd>
+                                        <dt>提示词模式</dt>
+                                        <dd className="text-foreground">{snapshot.editor === "full" ? "完整提示词" : "简易文字"}{snapshot.useAutopromptOption ? (snapshot.autopromptUnlocked ? " · 自动（已手改）" : " · 自动扩写") : ""}</dd>
+                                        <dt>风格</dt>
+                                        <dd className="truncate text-foreground">{[snapshot.stylesCn, snapshot.styles].filter(Boolean).join(" / ") || "—"}</dd>
+                                        <dt>平铺</dt>
+                                        <dd className="text-foreground">{aiTextTilingPreset(snapshot.tilingPresetId).label}</dd>
+                                        <dt>比例 / 数量</dt>
+                                        <dd className="text-foreground">{snapshot.ratio || "—"} · {snapshot.outputNum} 张</dd>
+                                        <dt>变化强度</dt>
+                                        <dd className="text-foreground">{snapshot.variationStrength ? "增强" : "默认"}</dd>
+                                        <dt>案例变体</dt>
+                                        <dd className="text-foreground">{snapshot.isCase ? "是" : "否"}</dd>
+                                        <dt>源资产</dt>
+                                        <dd className="truncate text-foreground">{snapshot.sourceAssetId}</dd>
+                                        <dt>请求 id</dt>
+                                        <dd className="truncate text-foreground">{snapshot.requestId}</dd>
+                                        <dt>指纹</dt>
+                                        <dd className="truncate text-foreground">{snapshot.fingerprint}</dd>
+                                    </dl>
+                                </details>
+                            ) : null}
                             {result.stale ? <p className="text-xs text-destructive">结果来自旧版本（已修改：{result.drift}），请重新生成。</p> : null}
                             {aiTextResultNotice(result) ? <p className="text-xs text-muted-foreground">{aiTextResultNotice(result)}</p> : null}
                             {task ? <p className="text-[11px] text-muted-foreground">响应 id：{aiTextResponseId(task) || "——（上游未回填）"}</p> : null}
-                        </section>
-                    </>
+                    </div>
+                    </div>
                 )}
             >
                 <section className={cn(cardClass, "flex flex-col gap-3")} aria-label="平铺预览">

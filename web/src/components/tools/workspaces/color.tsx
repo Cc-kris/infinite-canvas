@@ -449,10 +449,6 @@ export function ImageFamilyNav({ active }: { active: string }) {
                     {label}
                 </span>
             ))}
-            <span className="ml-auto flex items-center gap-2 text-[11px] leading-4 text-muted-foreground">
-                <span className="rounded-md border border-border px-1.5 py-[2px]">250</span>
-                <span>ljq_driver: 已连接</span>
-            </span>
         </nav>
     );
 }
@@ -742,6 +738,8 @@ export function ChangeColorWorkspace({ className }: { className?: string }) {
         adjust: true,
         light: true,
         edge: true,
+        // 色彩平衡与边缘优化同为独立分区，默认展开（原站首屏可见）。
+        balance: true,
     });
     const toggleSection = useCallback((key: string) => {
         setOpenSections((previous) => ({ ...previous, [key]: !previous[key] }));
@@ -749,9 +747,8 @@ export function ChangeColorWorkspace({ className }: { className?: string }) {
 
     return (
         <div data-testid="change-color-workspace" className={cn("flex min-h-0 flex-col", className)}>
-            <ToolWorkspaceColumns
-                className="min-h-0"
-                config={(
+            <div data-testid="tool-workspace-columns" data-canvas="true" className="grid min-h-0 flex-1 grid-cols-1 gap-0 lg:grid-cols-[minmax(0,1fr)_307px_330px]">
+            <div data-testid="tool-config-column" className="order-2 min-h-0 min-w-0 border-l border-[#ececec]">
             <Edit8Config
                 className="w-full"
                 data-testid="change-color-config"
@@ -960,9 +957,8 @@ export function ChangeColorWorkspace({ className }: { className?: string }) {
                     </div>
                 </div>
             </Edit8Config>
-                )}
-            >
-            <section data-region="canvas" className="flex min-h-[480px] min-w-0 flex-1 flex-col overflow-hidden rounded-xl border border-border bg-surface">
+            </div>
+            <section data-region="canvas" data-testid="tool-main-column" className="order-1 flex min-h-0 min-w-0 flex-col overflow-hidden bg-[#f7f7f9]">
                 {beforeImage ? (
                     <>
                         <Edit8CanvasToolbar>
@@ -994,6 +990,11 @@ export function ChangeColorWorkspace({ className }: { className?: string }) {
                         <div className="relative flex min-h-0 flex-1 items-center justify-center overflow-hidden p-[10px]">
                             {result.image ? (
                                 <div className="flex h-full w-full min-h-0 flex-col gap-2">
+                                    {result.stale ? (
+                                        <p className="shrink-0 rounded-md bg-muted px-2 py-1 text-[11px] leading-4 text-muted-foreground" data-testid="change-color-stale-note">
+                                            当前结果来自旧版本配置（已换图或改参），点“立即生成”可获得当前配置的结果。
+                                        </p>
+                                    ) : null}
                                     <div className="relative flex min-h-0 flex-1 items-center justify-center overflow-hidden rounded-[8px] bg-card/60">
                                         <img src={result.image} alt="换色结果" className="max-h-full max-w-full object-contain" data-testid="change-color-result-image" />
                                     </div>
@@ -1026,7 +1027,7 @@ export function ChangeColorWorkspace({ className }: { className?: string }) {
                     </div>
                 )}
             </section>
-            <section data-region="results" data-testid="change-color-results" className="flex w-full shrink-0 flex-col overflow-hidden rounded-[8px] bg-muted">
+            <section data-region="results" data-testid="change-color-results" className="order-3 flex min-h-0 w-[330px] shrink-0 flex-col overflow-hidden border-l border-[#ececec] bg-white">
                 <div role="tablist" className="flex h-[42px] shrink-0 items-center gap-5 px-[13px]">
                     {[
                         { id: "result", label: "生成结果" },
@@ -1103,7 +1104,7 @@ export function ChangeColorWorkspace({ className }: { className?: string }) {
                     </div>
                 </div>
             </section>
-            </ToolWorkspaceColumns>
+            </div>
         </div>
     );
 }

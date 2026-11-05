@@ -22,6 +22,7 @@ import {
     adjustmentSummary,
     buildColorV2Snapshot,
     describeAdjustment,
+    displayImageName,
     normalizeAdjustment,
     normalizeHex,
     planSwatch,
@@ -123,9 +124,14 @@ export function buildSuiteUnits(input: {
     values: ColorV2Values;
     snapshotHash: string;
     referenceById?: Map<string, ReferenceImage>;
+    /** §7：任务带草稿版本与客户端幂等号，便于审计与去重。 */
+    meta?: { draftRevision?: number | string | null; clientOperationId?: string | null };
 }): ColorV2Unit[] {
     const units: ColorV2Unit[] = [];
+    const meta = input.meta ?? {};
     for (const image of input.images) {
+        // `imageName` 是提交键：上传后自动填文件名，用户改过展示名则用展示名。
+        const imageName = displayImageName(image.assetId, image.name, input.values.imageNames);
         const adjustment = normalizeAdjustment(input.values.adjustments[image.assetId] ?? DEFAULT_COLOR_ADJUSTMENT);
         for (const plan of input.values.plans) {
             const references: ReferenceImage[] = [image.reference];
@@ -143,11 +149,11 @@ export function buildSuiteUnits(input: {
             units.push({
                 unitId: colorV2UnitId(image.assetId, plan.id),
                 assetId: image.assetId,
-                imageName: image.name,
+                imageName,
                 planId: plan.id,
                 planName: plan.name,
                 prompt: composeColorV2Prompt({
-                    imageName: image.name,
+                    imageName,
                     plan,
                     region: input.values.region,
                     adjustment,
@@ -157,7 +163,7 @@ export function buildSuiteUnits(input: {
                 references,
                 snapshotHash: input.snapshotHash,
                 fields: {
-                    imageName: image.name,
+                    imageName,
                     imageUrl: image.reference.url ?? "",
                     planId: plan.id,
                     planName: plan.name,
@@ -169,6 +175,8 @@ export function buildSuiteUnits(input: {
                     adjustment,
                     adjustmentKey: adjustmentKey(adjustment),
                     snapshotHash: input.snapshotHash,
+                    draftRevision: meta.draftRevision ?? null,
+                    clientOperationId: meta.clientOperationId ?? null,
                 },
             });
         }
@@ -207,13 +215,14 @@ export function buildSuiteFromValues(input: {
     values: ColorV2Values;
     referenceRecords?: ToolAssetRecord[];
     referenceById?: Map<string, ReferenceImage>;
+    meta?: { draftRevision?: number | string | null; clientOperationId?: string | null };
 }): { snapshot: ColorV2Snapshot; units: ColorV2Unit[] } {
     const snapshot = buildColorV2Snapshot({ assetIds: input.assetIds, values: input.values });
     const images = buildSuiteImages(input.records, input.assetIds);
     const referenceById = input.referenceById ?? new Map((input.referenceRecords ?? []).map((record) => [record.id, assetRecordToReference(record)]));
     return {
         snapshot,
-        units: buildSuiteUnits({ images, values: input.values, snapshotHash: snapshot.hash, referenceById }),
+        units: buildSuiteUnits({ images, values: input.values, snapshotHash: snapshot.hash, referenceById, meta: input.meta }),
     };
 }
 
@@ -293,6 +302,8 @@ export interface RunSuiteOptions {
     quality: ColorQualityKey;
     concurrency?: number;
     signal?: AbortSignal;
+    /** §7：写进任务记录的草稿版本（与 unit.fields.draftRevision 同源）。 */
+    draftRevision?: number | string | null;
     onOutcome?: (outcome: ColorV2UnitOutcome, unit: ColorV2Unit, completed: number, total: number) => void;
 }
 
@@ -325,7 +336,7 @@ export async function runColorV2Suite(units: ColorV2Unit[], options: RunSuiteOpt
             }
             let outcome: ColorV2UnitOutcome;
             try {
-                const task = await options.port.run(buildUnitInput(unit, options.quality), { signal: options.signal });
+                const task = await options.port.run(buildUnitInput(unit, options.quality), { signal: options.signal, draftRevision: options.draftRevision ?? null });
                 outcome = mapTaskToOutcome(unit, task);
             } catch (error) {
                 outcome = {

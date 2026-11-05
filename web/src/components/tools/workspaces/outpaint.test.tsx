@@ -40,8 +40,12 @@ Object.defineProperty(globalThis, "localStorage", {
 
 async function renderWorkspace(): Promise<string> {
     const React = await import("react");
+    const { MemoryRouter } = await import("react-router-dom");
     const { OutpaintWorkspace } = await import("./outpaint");
-    return renderToStaticMarkup(React.createElement(OutpaintWorkspace) as ReactElement);
+    // 工作区顶部的 OrigRail 用 react-router Link，需要 Router 上下文（与 mask/color/enhance 测试同法）。
+    return renderToStaticMarkup(
+        React.createElement(MemoryRouter, null, React.createElement(OutpaintWorkspace) as ReactElement) as ReactElement,
+    );
 }
 
 function attr(html: string, testId: string): string {
@@ -77,9 +81,9 @@ describe("智能扩图工作台渲染", () => {
         expect(html).toContain('placeholder="描述想要扩图的内容，不填将基于原图生成"');
         expect(html).toContain("生成：");
         expect(html).toContain("立即生成");
-        expect(html).toContain("立即生成");
-        // 默认 4 张，与原站默认值一致
-        expect(html).toContain('<option value="4" selected="">4张</option>');
+        // 生成张数是自定义下拉按钮，当前值以「4张」文本显示（原站同款交互），默认 4 张。
+        expect(attr(html, "outpaint-output-num")).toContain("aria-label");
+        expect(html).toContain("4张");
     });
 
     test("空态上传卡文案与原站一致，且上传入口只有本地上传/作品库", async () => {

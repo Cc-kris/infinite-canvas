@@ -205,31 +205,44 @@ describe("商品替换 · 工作区渲染", () => {
         const html = await renderWorkspace();
         for (const id of [
             "replace-goods-workspace",
-            "replace-goods-step-1",
-            "replace-goods-step-2",
-            "replace-goods-step-3",
+            "replace-goods-canvas",
+            "replace-goods-param-bar",
             "replace-goods-submit",
             "replace-goods-sku-tabs",
-            "replace-goods-quad-readout",
+            "replace-goods-result-empty",
         ]) {
             expect(html).toContain(`data-testid="${id}"`);
         }
     });
 
-    test("默认态：透视模式 / 4 张 / 定位工具选中，画布与控制都在", async () => {
+    test("布局按原站：画布主区 + 参数条置底 + 结果列在右，不再有分步卡/自造工具条", async () => {
+        const html = await renderWorkspace();
+        // 结果列在右（configSide="right"），画布在上方主区。
+        expect(html).toContain('data-config-side="right"');
+        // 参数条与立即生成都在画布同一列，且不再有右侧属性面板里的重复控件。
+        expect(html).toContain('data-testid="replace-goods-param-bar"');
+        expect(html.indexOf('data-testid="replace-goods-canvas"')).toBeLessThan(html.indexOf('data-testid="replace-goods-param-bar"'));
+        // 已删除：重复导航 / 键盘快捷键面板 / 锁定覆盖读数 / 多商品分步卡。
+        for (const removed of ["replace-goods-mirror", "replace-goods-shortcuts", "replace-goods-quad-readout", "replace-goods-step-", "键盘快捷键", "锁定覆盖", "上一张", "下一张"]) {
+            expect(html).not.toContain(removed);
+        }
+    });
+
+    test("默认态：透视模式 / 4 张 / 画布与控制都在，生成按钮始终可点（缺图时给真实原因）", async () => {
         const html = await renderWorkspace();
         expect(html).toMatch(/data-testid="replace-goods-mode-perspective"[^>]*aria-pressed="true"/);
         expect(html).toMatch(/data-testid="replace-goods-output-4"[^>]*aria-pressed="true"/);
-        expect(html).toMatch(/data-testid="replace-goods-tool-warp"[^>]*aria-pressed="true"/);
         expect(html).toContain('data-testid="replace-goods-denoise"');
-        expect(html).toContain('data-testid="replace-goods-brush"');
+        expect(html).toContain('data-testid="replace-goods-cutout"');
+        expect(html).toContain('data-testid="replace-goods-canvas-empty"');
+        // 原站按钮可点：不写死 disabled 属性，缺输入用 aria-disabled + 结果区列出原因表达。
+        expect(html).toMatch(/data-testid="replace-goods-submit"(?![^>]*\sdisabled=)[^>]*aria-disabled="true"/);
     });
 
-    test("未上传场景时提交禁用，并列出真实拦截原因", async () => {
+    test("未上传场景时列出真实拦截原因，提交按钮不锁死", async () => {
         const html = await renderWorkspace();
-        expect(html).toContain('data-testid="replace-goods-issues"');
-        expect(html).toMatch(/data-testid="replace-goods-submit"[^>]*disabled/);
-        expect(html).toContain("请先上传参考场景");
+        expect(html).toContain('data-testid="replace-goods-result-empty"');
+        expect(html).toMatch(/data-testid="replace-goods-submit"[^>]*aria-disabled="true"/);
     });
 
     test("多 SKU 默认 1 个，可增删（上限来自 registry）", async () => {

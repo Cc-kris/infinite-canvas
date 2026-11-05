@@ -337,11 +337,11 @@ describe("蒙版 PNG 导出", () => {
 
     test("反选时底色为白、笔画为黑；画笔白/橡皮黑（正选）", async () => {
         const log = { ops: [] as string[], widths: [] as number[] };
-        await renderMaskPng(maskedState(), { width: 200, height: 200 }, { createCanvas: fakeCanvas(log) });
+        await renderMaskPng(maskedState({ autoExpand: false }), { width: 200, height: 200 }, { createCanvas: fakeCanvas(log) });
         expect(log.ops.some((op) => op === "stroke:#ffffff:40")).toBe(true);
 
         const invertedLog = { ops: [] as string[], widths: [] as number[] };
-        await renderMaskPng({ ...maskedState(), inverted: true }, { width: 200, height: 200 }, { createCanvas: fakeCanvas(invertedLog) });
+        await renderMaskPng({ ...maskedState({ autoExpand: false }), inverted: true }, { width: 200, height: 200 }, { createCanvas: fakeCanvas(invertedLog) });
         expect(invertedLog.ops.some((op) => op === "stroke:#000000:40")).toBe(true);
     });
 

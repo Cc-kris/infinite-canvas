@@ -1,31 +1,24 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Link } from "react-router-dom";
-import { Paintbrush, Redo2, RotateCcw, Sparkles, Undo2 } from "lucide-react";
+import { ChevronDown, History, ImagePlus, Paintbrush, Redo2, RotateCcw, Sparkles, Undo2 } from "lucide-react";
 
-import { ToolAssetInput } from "@/components/tools/tool-asset-input";
-import { ToolShell } from "@/components/tools/tool-shell";
-import { OrigRail, SMART_EDIT_RAIL } from "@/components/tools/workspaces/orig-rail";
-import { Edit8Canvas, Edit8CanvasCard, Edit8CanvasToolbar, Edit8Chip, Edit8Config, Edit8Page, Edit8Results, Edit8ResultsEmpty, Edit8Section, edit8PrimaryButtonClass } from "@/components/tools/edit8-frame";
+import { Edit8Chip, Edit8Config, Edit8ResultsEmpty, Edit8Section, edit8PrimaryButtonClass } from "@/components/tools/edit8-frame";
 import { ToolTaskHistory, formatTaskTime } from "@/components/tools/tool-task-history";
 import { TaskStatusPanel } from "@/components/tools/task-status";
 import { downloadResultItem, saveResultItemToAssets, sendResultItemToCanvas } from "@/components/tools/tool-result-actions";
-import { buildAreaRepairUnits, createAreaRepairRunPort, renderMaskPng, runAreaRepairUnits, type AreaRepairUnitOutcome } from "@/features/tools/adapters/area-repair";
-import { getToolById, toolSpecs } from "@/features/tools/registry";
+import { buildAreaRepairUnits, createAreaRepairRunPort, renderMaskPng, runAreaRepairUnits, type AreaRepairUnit, type AreaRepairUnitOutcome } from "@/features/tools/adapters/area-repair";
+import { getToolById } from "@/features/tools/registry";
 import {
     AREA_REPAIR_DEFAULT_OUTPUT,
     AREA_REPAIR_OUTPUT_OPTIONS,
     AREA_REPAIR_PROMPT_MAX,
-    AREA_REPAIR_SLUG,
     AREA_REPAIR_TOOL_ID,
     areaRepairDownloadName,
     MASK_BRUSH_MAX,
     MASK_BRUSH_MIN,
-    MASK_FEATHER_MAX,
-    MASK_FEATHER_MIN,
     appendStrokePoint,
     buildAreaRepairSnapshot,
     clampBrushSize,
-    clampFeather,
     createMaskHistory,
     createMaskState,
     createStroke,
@@ -37,6 +30,7 @@ import {
     normalizeOutputNum,
     normalizePoint,
     parseMaskDraftValues,
+    snapshotHash,
     pushMaskStroke,
     redoMaskStroke,
     resetMaskHistory,
@@ -48,19 +42,17 @@ import {
     type MaskState,
     type MaskStroke,
 } from "@/features/tools/registry/area-repair";
-import { clampCompareSplit, exportRemovePenMaskPng, removePenResultItem, removePenResultView, removePenRunFromTask, removePenTaskHasResult, runRemovePen, type RemovePenRun } from "@/features/tools/adapters/remove-pen";
+import { clampCompareSplit, exportRemovePenMaskPng, removePenResultItem, removePenResultView, removePenRunFromTask, removePenTaskHasResult, type RemovePenRun } from "@/features/tools/adapters/remove-pen";
 import {
     REMOVE_PEN_BRUSH_MAX,
     REMOVE_PEN_BRUSH_MIN,
     REMOVE_PEN_BRUSH_PRESETS,
     REMOVE_PEN_COMPARE_MODES,
     REMOVE_PEN_HANDOFFS,
-    REMOVE_PEN_SLUG,
     REMOVE_PEN_TOOL_ID,
     buildRemovePenHandoff,
     buildRemovePenSnapshot,
     clampRemovePenBrush,
-    describeRemovePenCoverage,
     isRemovePenSnapshotStale,
     parseRemovePenDraftValues,
     removePenDownloadName,
@@ -81,11 +73,11 @@ import {
     type RemovePenSnapshot,
 } from "@/features/tools/registry/remove-pen";
 import { cn, randomId } from "@/lib/utils";
-import { ToolWorkspaceColumns } from "@/components/tools/tool-workspace-columns";
-import { loadToolAssetRecords, type ToolAssetRecord } from "@/services/api/tools/assets";
+import { adoptLibraryAsset, loadToolAssetRecords, toolAssetLibraryItemsFromAssets, uploadToolAsset, type ToolAssetLibraryItem, type ToolAssetRecord } from "@/services/api/tools/assets";
 import type { ToolTask, ToolTaskResultItem } from "@/services/api/tools/task-machine";
 import { imageToDataUrl } from "@/services/image-storage";
 import { resolveMediaUrl } from "@/services/file-storage";
+import { useAssetStore, type ImageAsset, type VideoAsset } from "@/stores/use-asset-store";
 import { flushToolDrafts, useToolDraftStore } from "@/stores/use-tool-draft-store";
 import { useToolTaskStore } from "@/stores/use-tool-task-store";
 
@@ -94,6 +86,17 @@ export type MaskWorkspaceProps = { className?: string };
 type UploadedImage = { id: string; name: string; dataUrl: string; width: number; height: number };
 
 const TOOL_ID = AREA_REPAIR_TOOL_ID;
+
+/** 原站「大小：35 像素 ⌄」下拉里的预设档位（外观 1:1，选值仍写回真实 brushSize）。 */
+const MASK_BRUSH_PRESETS = [15, 35, 60, 100] as const;
+
+/** 局部消除「或试试这些」：复用仓库内真实存在的案例素材，点击后真实入库并载入画布。 */
+const REMOVE_PEN_SAMPLES = [
+    { id: "scene", name: "街头行人", src: "/__cases/product-scene/1740339005955035136-source.webp" },
+    { id: "street", name: "路面杂物", src: "/__cases/color-v2/2068993868619366400-source.jpg" },
+    { id: "goods", name: "桌面商品", src: "/__acc/product-watch.jpg" },
+    { id: "print", name: "印花衣物", src: "/__acc/apparel-print.jpg" },
+] as const;
 
 /**
  * AREA_REPAIR 局部重绘工作区。
@@ -108,6 +111,157 @@ export type AreaRepairResultCardProps = {
     onSave?: (outcome: AreaRepairUnitOutcome) => void;
     onSend?: (outcome: AreaRepairUnitOutcome) => void;
 };
+
+export type MaskUploadCardProps = {
+    title: string;
+    description: string;
+    /** 「从作品库选择」面板的真实条目（本地资产库）。 */
+    library: ToolAssetLibraryItem[];
+    busy: boolean;
+    /** 预览区高度：原站局部消除是 500×333 的媒体位，局部重绘是两张 265×155 的对比位。 */
+    mediaClassName?: string;
+    onPick: (record: ToolAssetRecord) => void;
+};
+
+/**
+ * 蒙版类工具共用的上传卡（原站 `_uploadBox_`）：
+ * 顶部媒体位（点击/拖拽上传）→ 标题 → 一句话 → 紫色「从本地上传」→「从作品库选择 / 从商品库选择」。
+ * 作品库是点击弹出的选择面板，不是本地自造的 `<details>` 折叠区（E2E 报告差异 10 / 9）；
+ * 上传与作品库复用都写真实资产库，再交给调用方读取字节。
+ */
+export function MaskUploadCard({ title, description, library, busy, mediaClassName, onPick }: MaskUploadCardProps) {
+    const [open, setOpen] = useState(false);
+    const [picking, setPicking] = useState(false);
+    const [dragging, setDragging] = useState(false);
+    const inputRef = useRef<HTMLInputElement | null>(null);
+
+    const accept = useCallback(
+        (file: File | undefined) => {
+            if (!file) return;
+            setPicking(true);
+            void (async () => {
+                try {
+                    onPick(await uploadToolAsset(file));
+                } finally {
+                    setPicking(false);
+                }
+            })();
+        },
+        [onPick],
+    );
+
+    const adopt = async (item: ToolAssetLibraryItem) => {
+        setPicking(true);
+        try {
+            onPick(await adoptLibraryAsset(item));
+            setOpen(false);
+        } finally {
+            setPicking(false);
+        }
+    };
+
+    return (
+        <div className="flex w-full flex-col gap-[10px] text-center">
+            <div
+                role="button"
+                tabIndex={busy ? -1 : 0}
+                aria-label="上传图片"
+                data-testid="mask-upload-dropzone"
+                onClick={() => !busy && inputRef.current?.click()}
+                onKeyDown={(event) => {
+                    if (event.key === "Enter" || event.key === " ") {
+                        event.preventDefault();
+                        if (!busy) inputRef.current?.click();
+                    }
+                }}
+                onDragOver={(event) => {
+                    event.preventDefault();
+                    if (!busy) setDragging(true);
+                }}
+                onDragLeave={() => setDragging(false)}
+                onDrop={(event) => {
+                    event.preventDefault();
+                    setDragging(false);
+                    if (!busy) accept(event.dataTransfer?.files?.[0]);
+                }}
+                className={cn(
+                    "flex w-full cursor-pointer flex-col items-center justify-center gap-1 rounded-lg border border-dashed border-border bg-muted/30 text-[12px] text-muted-foreground transition hover:border-foreground/25",
+                    dragging && "border-primary bg-primary/5",
+                    mediaClassName ?? "min-h-[200px]",
+                )}
+            >
+                <ImagePlus className="size-5" aria-hidden />
+                <span>点击或拖拽图片到此处上传</span>
+            </div>
+            <p className="text-[22px] font-medium leading-8 text-foreground">{title}</p>
+            <p className="text-[14px] leading-5 text-muted-foreground">{description}</p>
+            <button
+                type="button"
+                data-testid="mask-upload-local"
+                disabled={busy}
+                onClick={() => inputRef.current?.click()}
+                className="inline-flex h-[30px] w-full items-center justify-center rounded bg-primary text-[14px] leading-none text-primary-foreground transition hover:bg-primary/90 disabled:opacity-50"
+            >
+                从本地上传
+            </button>
+            <div className="grid w-full grid-cols-2 gap-2">
+                <button
+                    type="button"
+                    data-testid="mask-upload-library"
+                    disabled={busy || !library.length}
+                    title={library.length ? "从作品库（本地资产库）选择" : "作品库暂时没有可用的图片"}
+                    onClick={() => setOpen((value) => !value)}
+                    className="h-[30px] w-full rounded border border-border bg-card text-[14px] leading-none text-muted-foreground transition hover:border-foreground/30 hover:text-foreground disabled:opacity-50"
+                >
+                    从作品库选择
+                </button>
+                <button
+                    type="button"
+                    data-testid="mask-upload-products"
+                    disabled
+                    title="商品库未接入（PARTIAL）"
+                    className="h-[30px] w-full rounded border border-border bg-card text-[14px] leading-none text-muted-foreground transition hover:border-foreground/30 hover:text-foreground disabled:opacity-50"
+                >
+                    从商品库选择
+                </button>
+            </div>
+            <input
+                ref={inputRef}
+                type="file"
+                accept="image/jpeg,image/png,image/webp"
+                className="hidden"
+                disabled={busy}
+                data-testid="tool-asset-file-input"
+                onChange={(event) => {
+                    const file = event.target.files?.[0];
+                    event.target.value = "";
+                    accept(file);
+                }}
+            />
+            {open ? (
+                <div data-testid="mask-upload-library-panel" className="max-h-48 overflow-auto rounded-lg border border-border bg-card p-1 text-left">
+                    {library.length ? (
+                        library.map((item) => (
+                            <button
+                                key={item.id}
+                                type="button"
+                                disabled={picking}
+                                onClick={() => void adopt(item)}
+                                className="flex w-full items-center gap-2 rounded px-1 py-1 text-left text-[11px] text-muted-foreground hover:bg-border disabled:opacity-50"
+                            >
+                                <img src={item.url} alt="" className="size-8 shrink-0 rounded object-cover" />
+                                <span className="min-w-0 flex-1 truncate">{item.name}</span>
+                            </button>
+                        ))
+                    ) : (
+                        <p className="px-2 py-2 text-[11px] text-muted-foreground">作品库还没有可用图片</p>
+                    )}
+                </div>
+            ) : null}
+            {picking ? <p className="text-[11px] text-muted-foreground">正在读取素材…</p> : null}
+        </div>
+    );
+}
 
 /**
  * 单张结果卡片：图片 + 存库 / 发画布 / 下载。
@@ -263,7 +417,12 @@ export function AreaRepairHistoryResult({ task, pending, feedback, onBack, onDow
 
 export function MaskWorkspace({ className }: MaskWorkspaceProps = {}) {
     const spec = useMemo(() => getToolById(TOOL_ID), []);
-    const siblings = useMemo(() => toolSpecs.filter((tool) => tool.layout === "mask" && tool.id !== TOOL_ID), []);
+    // 作品库：真实接入本地资产库，供上传卡「从作品库选择」（原站文案 §9）。
+    const assets = useAssetStore((store) => store.assets);
+    const library = useMemo(
+        () => toolAssetLibraryItemsFromAssets(assets.filter((asset): asset is ImageAsset | VideoAsset => asset.kind === "image" || asset.kind === "video")),
+        [assets],
+    );
     const patchDraft = useToolDraftStore((state) => state.patch);
     const hydrateDraft = useToolDraftStore((state) => state.hydrate);
     const conflict = useToolDraftStore((state) => state.conflicts[TOOL_ID]);
@@ -508,6 +667,63 @@ export function MaskWorkspace({ className }: MaskWorkspaceProps = {}) {
     const stale = runSnapshot ? isSnapshotStale(runSnapshot, currentSnapshot) : false;
     const latestTask = tasks.length > 0 ? tasks[tasks.length - 1] : null;
 
+    /**
+     * 规格职责：当前提交的请求单元列表（张数拆分后的每一次真实编辑请求）。
+     * 失败单元只重试失败的张，不重复生成已成功结果（规格 §5 部分失败）。
+     */
+    const [pendingUnits, setPendingUnits] = useState<AreaRepairUnit[]>([]);
+
+    const runUnits = useCallback(
+        async (units: AreaRepairUnit[], controller: AbortController) => {
+            const real = createAreaRepairRunPort();
+            const port = {
+                async run(input: Parameters<typeof real.run>[0], options?: Parameters<typeof real.run>[1]) {
+                    const task = await real.run(input, options);
+                    setTasks((prev) => [...prev, task]);
+                    return task;
+                },
+            };
+            return runAreaRepairUnits(units, {
+                port,
+                concurrency: 1,
+                signal: controller.signal,
+                onOutcome: (outcome) => {
+                    setOutcomes((prev) => {
+                        const next = prev.slice();
+                        next[outcome.index - 1] = outcome;
+                        return next.filter((item): item is AreaRepairUnitOutcome => Boolean(item));
+                    });
+                },
+            });
+        },
+        [],
+    );
+
+    /** 部分失败恢复：只重跑失败的单元，已成功结果原样保留，不重复生成。 */
+    const retryFailedUnits = useCallback(async () => {
+        const failed = pendingUnits.filter((unit) => {
+            const outcome = outcomes.find((item) => item.unitId === unit.id);
+            return outcome ? outcome.status === "failed" : false;
+        });
+        if (failed.length === 0 || busy) return;
+        setBusy(true);
+        setNotice("");
+        const controller = new AbortController();
+        abortRef.current = controller;
+        try {
+            const results = await runUnits(failed, controller);
+            const failedCount = results.filter((item) => item.status === "failed").length;
+            setNotice(failedCount === 0 ? `重试完成：${results.length} 张已返回` : `仍有 ${failedCount} 张失败，可再次重试`);
+        } catch (error) {
+            setNotice(error instanceof Error ? error.message : "重试失败，请重试");
+        } finally {
+            setBusy(false);
+            abortRef.current = null;
+        }
+    }, [pendingUnits, outcomes, busy, runUnits]);
+
+    const hasFailedUnits = pendingUnits.some((unit) => outcomes.find((item) => item.unitId === unit.id)?.status === "failed");
+
     /** 提交：导出同尺寸蒙版 → 校验 → 逐单元真实请求。 */
     const submit = useCallback(async () => {
         if (busy) return;
@@ -560,29 +776,11 @@ export function MaskWorkspace({ className }: MaskWorkspaceProps = {}) {
                 setNotice(audit.join("；"));
                 return;
             }
+            setPendingUnits(units);
             setRunSnapshot(snapshot);
-            const real = createAreaRepairRunPort();
-            const port = {
-                async run(input: Parameters<typeof real.run>[0], options?: Parameters<typeof real.run>[1]) {
-                    const task = await real.run(input, options);
-                    setTasks((prev) => [...prev, task]);
-                    return task;
-                },
-            };
             // 同一通道并发提交会互相拖住（实测并发 2 时两个单元都停在 submitting），逐张串行提交；
             // 每张完成就回流到结果区，用户不必等到全部结束才看到图。
-            const results = await runAreaRepairUnits(units, {
-                port,
-                concurrency: 1,
-                signal: controller.signal,
-                onOutcome: (outcome) => {
-                    setOutcomes((prev) => {
-                        const next = prev.slice();
-                        next[outcome.index - 1] = outcome;
-                        return next.filter((item): item is AreaRepairUnitOutcome => Boolean(item));
-                    });
-                },
-            });
+            const results = await runUnits(units, controller);
             setOutcomes(results);
             const ok = results.filter((item) => item.status === "succeeded").length;
             const failed = results.filter((item) => item.status === "failed").length;
@@ -593,7 +791,7 @@ export function MaskWorkspace({ className }: MaskWorkspaceProps = {}) {
             setBusy(false);
             abortRef.current = null;
         }
-    }, [busy]);
+    }, [busy, runUnits]);
 
     function auditFields(units: ReturnType<typeof buildAreaRepairUnits>) {
         const specKeys = spec?.fields.map((field) => field.key) ?? [];
@@ -603,11 +801,6 @@ export function MaskWorkspace({ className }: MaskWorkspaceProps = {}) {
         if (units[0].references.length !== 2) issuesOut.push("蒙版没有作为第二张参考图提交");
         return issuesOut;
     }
-
-    const retryUnit = useCallback(async () => {
-        setNotice("重试会以当前参数重新提交全部张数，避免同一批结果混用不同输入。");
-        await submit();
-    }, [submit]);
 
     const coverageLabel = describeCoverage(maskRatio);
 
@@ -636,48 +829,145 @@ export function MaskWorkspace({ className }: MaskWorkspaceProps = {}) {
     const [restoredTask, setRestoredTask] = useState<ToolTask | null>(null);
 
     return (
-        <ToolShell
-            className={className}
-            immersive
-            title={spec?.title ?? "局部重绘"}
-            sidebar={
-                <nav className="flex flex-col gap-1 p-2 text-xs">
-                    <span className="px-2 py-1 font-medium text-foreground">局部重绘</span>
-                    {siblings.map((tool) => (
-                        <Link key={tool.id} to={tool.route} className="rounded px-2 py-1 text-muted-foreground transition hover:bg-accent hover:text-foreground">
-                            {tool.title}
-                        </Link>
-                    ))}
-                </nav>
-            }
+        <div
+            data-tool={TOOL_ID}
+            data-layout="linkfox-edit8"
+            data-testid="area-repair-workspace"
+            data-workspace-columns="area-repair"
+            className={cn("flex h-full min-h-0 flex-col gap-[10px] bg-background p-2.5 text-foreground", className)}
         >
-            <div className="px-2 pb-1">
-                <OrigRail items={SMART_EDIT_RAIL} active="局部重绘" driver testId="area-repair-rail" />
-            </div>
-            <div data-tool={TOOL_ID} data-layout="linkfox-edit8" data-testid="area-repair-workspace" className="h-full min-h-0 overflow-y-auto bg-background p-4 text-foreground">
-                <ToolWorkspaceColumns
-                    canvas
-                    configSide="right"
-                    className="min-h-0"
-                    config={(
-                <Edit8Config
-                        className="w-full"
-                    data-testid="area-repair-config"
-                    footer={
-                        <div className="flex flex-col gap-1">
-                            <button
-                                type="button"
-                                data-testid="area-repair-submit"
-                                disabled={busy || issues.length > 0}
-                                onClick={() => void submit()}
-                                className={edit8PrimaryButtonClass}
-                            >
-                                <Sparkles className="mr-1 size-3.5" aria-hidden />
-                                <span>{busy ? "生成中…" : "立即生成"}</span>
-                            </button>
-                        </div>
-                    }
-                >
+            {/* 原站（1600×1000 实测）：画布 | 配置 240 | 结果 300 三列同一行；配置栏 240 宽，结果栏 300 宽常驻。 */}
+            <div data-testid="tool-workspace-columns" data-canvas="true" data-config-side="right" className="grid min-h-0 min-w-0 flex-1 grid-cols-1 gap-[10px] lg:grid-cols-[minmax(0,1fr)_240px_300px]">
+                <section data-region="canvas" data-testid="tool-main-column" className="flex min-h-0 min-w-0 flex-col overflow-hidden rounded-xl border border-border bg-surface">
+                    <div className="flex h-[41px] shrink-0 flex-wrap items-center gap-2 px-4 text-xs text-foreground" data-testid="mask-toolbar">
+                        <span className="inline-flex h-6 items-center gap-1 text-[12px] leading-none text-muted-foreground" data-testid="mask-tool-label">
+                            <Paintbrush className="size-3.5" aria-hidden />
+                            <span>画笔</span>
+                        </span>
+
+                        {/* 原站「大小：InputNumber + 下拉预设 + 像素」：不铺长滑杆，只保留 number 输入与预设下拉。 */}
+                        <label className="flex items-center gap-1.5 text-[12px] text-muted-foreground">
+                            <span>大小：</span>
+                            <input
+                                type="number"
+                                data-testid="mask-brush-size"
+                                min={MASK_BRUSH_MIN}
+                                max={MASK_BRUSH_MAX}
+                                value={state.brushSize}
+                                onChange={(event) => commit({ brushSize: clampBrushSize(event.target.value) })}
+                                className="h-[22px] w-[30px] rounded border border-transparent bg-transparent px-0 text-center text-[12px] tabular-nums text-foreground outline-none transition hover:border-border focus:border-primary"
+                                aria-label="画笔大小像素"
+                            />
+                            <span>像素</span>
+                            <span className="relative inline-flex size-4 items-center justify-center" data-testid="mask-brush-presets">
+                                <ChevronDown className="pointer-events-none size-4 text-muted-foreground" aria-hidden />
+                                <select
+                                    value={state.brushSize}
+                                    disabled={busy}
+                                    onChange={(event) => commit({ brushSize: clampBrushSize(event.target.value) })}
+                                    aria-label="画笔大小预设"
+                                    className="absolute inset-0 size-full cursor-pointer appearance-none opacity-0"
+                                >
+                                    {MASK_BRUSH_PRESETS.map((preset) => (
+                                        <option key={preset} value={preset}>
+                                            {preset}
+                                        </option>
+                                    ))}
+                                </select>
+                            </span>
+                        </label>
+
+                        <label className="flex items-center gap-1.5 text-[12px] text-muted-foreground">
+                            <span>自动扩大选择区域：</span>
+                            <input type="checkbox" data-testid="mask-auto-expand" checked={state.autoExpand} onChange={(event) => commit({ autoExpand: event.target.checked })} className="size-3.5 accent-primary" />
+                        </label>
+
+                        <button
+                            type="button"
+                            data-testid="mask-invert"
+                            aria-pressed={state.inverted}
+                            disabled={historyLabel.strokeCount === 0}
+                            onClick={() => commit({ inverted: !state.inverted })}
+                            className={cn("h-6 rounded-md px-2 text-[12px] leading-none disabled:opacity-40", state.inverted ? "bg-primary text-primary-foreground" : "text-foreground hover:bg-border")}
+                        >
+                            反选
+                        </button>
+                        <button
+                            type="button"
+                            data-testid="mask-undo"
+                            disabled={!historyLabel.canUndo}
+                            onClick={() => applyHistory(undoMaskStroke(historyRef.current))}
+                            className="inline-flex h-6 items-center gap-1 rounded-md px-1.5 text-[12px] leading-none text-foreground transition hover:bg-border disabled:opacity-40"
+                        >
+                            <Undo2 className="size-3.5" aria-hidden />
+                            <span>撤销</span>
+                        </button>
+                        <button
+                            type="button"
+                            data-testid="mask-redo"
+                            disabled={!historyLabel.canRedo}
+                            onClick={() => applyHistory(redoMaskStroke(historyRef.current))}
+                            className="inline-flex h-6 items-center gap-1 rounded-md px-1.5 text-[12px] leading-none text-foreground transition hover:bg-border disabled:opacity-40"
+                        >
+                            <Redo2 className="size-3.5" aria-hidden />
+                            <span>重做</span>
+                        </button>
+                        <button
+                            type="button"
+                            data-testid="mask-reset"
+                            disabled={historyLabel.strokeCount === 0}
+                            onClick={() => applyHistory(resetMaskHistory(historyRef.current))}
+                            className="inline-flex h-6 items-center gap-1 rounded-md px-1.5 text-[12px] leading-none text-foreground transition hover:bg-border disabled:opacity-40"
+                        >
+                            <RotateCcw className="size-3.5" aria-hidden />
+                            <span>重置</span>
+                        </button>
+                        {maskRatio > 0 ? (
+                            <span data-testid="mask-coverage" className="ml-1 text-[11px] text-muted-foreground">
+                                {coverageLabel}
+                            </span>
+                        ) : null}
+                    </div>
+
+                    <div className="min-h-0 flex-1 overflow-auto px-4 pb-4">
+                        {image ? (
+                            <div className="mx-auto w-full max-w-[920px] overflow-hidden rounded-lg bg-[repeating-conic-gradient(#00000008_0%_25%,transparent_0%_50%)] bg-[length:16px_16px]">
+                                <div className="relative">
+                                    <img src={image.dataUrl} alt={`待重绘原图 ${image.name}`} className="block h-auto w-full select-none" draggable={false} />
+                                    <canvas
+                                        ref={canvasRef}
+                                        data-testid="mask-canvas"
+                                        onPointerDown={onPointerDown}
+                                        onPointerMove={onPointerMove}
+                                        onPointerUp={endStroke}
+                                        onPointerCancel={endStroke}
+                                        onPointerLeave={(event) => {
+                                            if (event.buttons === 0) endStroke();
+                                        }}
+                                        className={cn("absolute inset-0 size-full touch-none", busy ? "cursor-wait" : "cursor-crosshair")}
+                                        aria-label="蒙版涂抹画布"
+                                    />
+                                </div>
+                            </div>
+                        ) : (
+                            <div className="flex h-full min-h-[500px] items-center justify-center">
+                                <div data-testid="area-repair-empty" className="mx-auto w-[542px] max-w-full rounded-xl border border-border bg-card p-4 shadow-sm">
+                                    <MaskUploadCard
+                                        mediaClassName="h-[160px]"
+                                        title="局部重绘"
+                                        description="上传图片，涂抹需要改变的区域并输入想要改变的内容，即可重新对该区域进行绘制"
+                                        library={library}
+                                        busy={busy}
+                                        onPick={(record) => void adoptImage(record)}
+                                    />
+                                </div>
+                            </div>
+                        )}
+                    </div>
+                </section>
+
+                <div data-testid="tool-config-column" className="flex min-h-0 min-w-0 flex-col">
+                <Edit8Config data-testid="area-repair-config" className="w-full">
                     <Edit8Section title="重绘描述*" aside={`${prompt.length} / ${AREA_REPAIR_PROMPT_MAX}`}>
                         <textarea
                             id="area-repair-prompt"
@@ -729,6 +1019,11 @@ export function MaskWorkspace({ className }: MaskWorkspaceProps = {}) {
                     {conflict ? (
                         <p className="mx-[16px] my-2 rounded-lg bg-[#fff7e6] px-2 py-1.5 text-[11px] leading-4 text-[#ad6800]">草稿在其他标签页被修改，本页未覆盖；刷新可载入最新草稿。</p>
                     ) : null}
+                    {stale ? (
+                        <p data-testid="area-repair-stale" className="mx-[16px] my-2 rounded-lg bg-[#fff7e6] px-2 py-1.5 text-[11px] leading-4 text-[#ad6800]">
+                            图片或涂抹已变更：下面是上一次提交的结果，不代表当前配置。
+                        </p>
+                    ) : null}
                     {notice ? (
                         <p data-testid="area-repair-notice" className="mx-[16px] my-2 rounded-lg bg-[#fff7e6] px-2 py-1.5 text-[11px] leading-4 text-[#ad6800]">
                             {notice}
@@ -737,229 +1032,63 @@ export function MaskWorkspace({ className }: MaskWorkspaceProps = {}) {
 
                     {latestTask ? (
                         <div className="px-[16px] py-2">
-                            <TaskStatusPanel task={latestTask} onRetry={() => void retryUnit()} />
+                            <TaskStatusPanel task={latestTask} onRetry={hasFailedUnits ? () => void retryFailedUnits() : undefined} />
                         </div>
                     ) : null}
-                </Edit8Config>
-                    )}
-                >
-                <Edit8Canvas>
-                    <Edit8CanvasToolbar>
-                        <div className="flex items-center gap-2" data-testid="mask-toolbar">
-                            <div className="flex items-center gap-1">
-                                {/* 原站只有「画笔」文字标签（无橡皮切换），此处对齐为静态标签，绘制工具固定为画笔。 */}
-                                <span className="inline-flex h-6 items-center gap-1 text-[12px] leading-none text-muted-foreground" data-testid="mask-tool-label">
-                                    <Paintbrush className="size-3.5" aria-hidden />
-                                    <span>画笔</span>
-                                </span>
-                            </div>
 
-                            <label className="flex items-center gap-1.5 text-[12px] text-muted-foreground">
-                                <span>大小：</span>
-                                <input
-                                    type="range"
-                                    data-testid="mask-brush-size"
-                                    min={MASK_BRUSH_MIN}
-                                    max={MASK_BRUSH_MAX}
-                                    value={state.brushSize}
-                                    onChange={(event) => commit({ brushSize: clampBrushSize(event.target.value) })}
-                                    className="w-[86px] accent-primary"
-                                    aria-label="画笔大小"
-                                />
-                                <input
-                                    type="number"
-                                    min={MASK_BRUSH_MIN}
-                                    max={MASK_BRUSH_MAX}
-                                    value={state.brushSize}
-                                    onChange={(event) => commit({ brushSize: clampBrushSize(event.target.value) })}
-                                    className="h-6 w-[46px] rounded-md border border-border bg-card px-1 text-center text-[12px] text-foreground outline-none"
-                                    aria-label="画笔大小像素"
-                                />
-                                <span>像素</span>
-                            </label>
+                    {runSnapshot ? (
+                        <Edit8Section title="本次输入快照" className="border-b-0">
+                            <ul data-testid="area-repair-snapshot" className="space-y-0.5 text-[11px] leading-4 tabular-nums text-muted-foreground">
+                                <li>源图：{runSnapshot.imageName || "（未命名）"}{runSnapshot.imageWidth ? ` · ${runSnapshot.imageWidth}×${runSnapshot.imageHeight}` : ""}</li>
+                                <li>笔画 {runSnapshot.strokeCount} 笔{runSnapshot.inverted ? " · 已反选" : ""}{runSnapshot.autoExpand ? " · 自动扩边" : ""}</li>
+                                <li>张数 {runSnapshot.outputNum} · 快照 {snapshotHash(runSnapshot).slice(0, 8)}</li>
+                            </ul>
+                        </Edit8Section>
+                    ) : null}
 
-
-                            <label className="flex items-center gap-1.5 text-[12px] text-muted-foreground">
-                                <input type="checkbox" data-testid="mask-auto-expand" checked={state.autoExpand} onChange={(event) => commit({ autoExpand: event.target.checked })} className="size-3.5 accent-primary" />
-                                <span>自动扩大选择区域：</span>
-                            </label>
-
-                            <button
-                                type="button"
-                                data-testid="mask-invert"
-                                aria-pressed={state.inverted}
-                                disabled={historyLabel.strokeCount === 0}
-                                onClick={() => commit({ inverted: !state.inverted })}
-                                className={cn("h-6 rounded-md px-2 text-[12px] leading-none disabled:opacity-40", state.inverted ? "bg-primary text-primary-foreground" : "text-foreground hover:bg-border")}
-                            >
-                                反选
-                            </button>
-                            <button
-                                type="button"
-                                data-testid="mask-undo"
-                                disabled={!historyLabel.canUndo}
-                                onClick={() => applyHistory(undoMaskStroke(historyRef.current))}
-                                className="inline-flex h-6 items-center gap-1 rounded-md px-1.5 text-[12px] leading-none text-foreground transition hover:bg-border disabled:opacity-40"
-                            >
-                                <Undo2 className="size-3.5" aria-hidden />
-                                <span>撤销</span>
-                            </button>
-                            <button
-                                type="button"
-                                data-testid="mask-redo"
-                                disabled={!historyLabel.canRedo}
-                                onClick={() => applyHistory(redoMaskStroke(historyRef.current))}
-                                className="inline-flex h-6 items-center gap-1 rounded-md px-1.5 text-[12px] leading-none text-foreground transition hover:bg-border disabled:opacity-40"
-                            >
-                                <Redo2 className="size-3.5" aria-hidden />
-                                <span>重做</span>
-                            </button>
-                            <button
-                                type="button"
-                                data-testid="mask-reset"
-                                disabled={historyLabel.strokeCount === 0}
-                                onClick={() => applyHistory(resetMaskHistory(historyRef.current))}
-                                className="inline-flex h-6 items-center gap-1 rounded-md px-1.5 text-[12px] leading-none text-foreground transition hover:bg-border disabled:opacity-40"
-                            >
-                                <RotateCcw className="size-3.5" aria-hidden />
-                                <span>重置</span>
-                            </button>
-                            {maskRatio > 0 ? (
-                                <span data-testid="mask-coverage" className="ml-1 text-[11px] text-muted-foreground">
-                                    {coverageLabel}
-                                </span>
-                            ) : null}
-                        </div>
-                    </Edit8CanvasToolbar>
-
-                    <div className="min-h-0 flex-1 overflow-auto px-4 pb-4">
-                        {image ? (
-                            <div className="mx-auto w-full max-w-[920px] overflow-hidden rounded-lg bg-[repeating-conic-gradient(#00000008_0%_25%,transparent_0%_50%)] bg-[length:16px_16px]">
-                                <div className="relative">
-                                    <img src={image.dataUrl} alt={`待重绘原图 ${image.name}`} className="block h-auto w-full select-none" draggable={false} />
-                                    <canvas
-                                        ref={canvasRef}
-                                        data-testid="mask-canvas"
-                                        onPointerDown={onPointerDown}
-                                        onPointerMove={onPointerMove}
-                                        onPointerUp={endStroke}
-                                        onPointerCancel={endStroke}
-                                        onPointerLeave={(event) => {
-                                            if (event.buttons === 0) endStroke();
-                                        }}
-                                        className={cn("absolute inset-0 size-full touch-none", busy ? "cursor-wait" : "cursor-crosshair")}
-                                        aria-label="蒙版涂抹画布"
-                                    />
-                                </div>
-                            </div>
-                        ) : (
-                            <div className="flex h-full min-h-[500px] items-center justify-center">
-                                <Edit8CanvasCard data-testid="area-repair-empty">
-                                    <p className="text-[14px] font-medium leading-5 text-foreground">局部重绘</p>
-                                    <p className="text-[12px] leading-5 text-muted-foreground">
-                                        <span>上传图片，涂抹需要改变的区域并输入想要改变的内容，</span>
-                                        <br />
-                                        <span>即可重新对该区域进行绘制</span>
-                                    </p>
-                                    <ToolAssetInput
-                                        toolId={TOOL_ID}
-                                        maxCount={1}
-                                        disabled={busy}
-                                        variant="linkfox"
-                                        wide
-                                        uploadLabel="从本地上传"
-                                        title=""
-                                        className="gap-0"
-                                        hint="支持 JPG / PNG / WEBP，单张不超过 20MB"
-                                        onChange={(_ids, records) => {
-                                            const record = records[records.length - 1];
-                                            if (record) void adoptImage(record);
-                                        }}
-                                    />
-                                </Edit8CanvasCard>
-                            </div>
-                        )}
+                    <div className="flex flex-col gap-1 px-3 pb-3 pt-2">
+                        {/* 规格 §4：提交按钮旁显示预计产物数量，不显示原站算力。 */}
+                        <p className="text-center text-[11px] leading-4 text-muted-foreground" data-testid="area-repair-submit-hint">
+                            将生成 {outputNum} 张{image ? "" : "（上传图片后可生成）"}
+                        </p>
+                        <button
+                            type="button"
+                            data-testid="area-repair-submit"
+                            disabled={busy || issues.length > 0}
+                            onClick={() => void submit()}
+                            className={edit8PrimaryButtonClass}
+                        >
+                            <Sparkles className="mr-1 size-3.5" aria-hidden />
+                            <span>{busy ? "生成中…" : "立即生成"}</span>
+                        </button>
                     </div>
-                </Edit8Canvas>
-                <Edit8Results
-                    className="w-full"
-                    active={resultTab}
-                    onTabChange={(id) => setResultTab(id as "result" | "history")}
-                    tabs={[
-                        { id: "result", label: "生成结果" },
-                        { id: "history", label: "历史记录" },
-                    ]}
-                >
-                    {resultTab === "result" ? (
-                        restoredTask ? (
-                            <AreaRepairHistoryResult
-                                task={restoredTask}
-                                pending={resultPending}
-                                feedback={resultFeedback}
-                                onBack={() => {
-                                    setRestoredTask(null);
-                                    setResultFeedback(null);
-                                }}
-                                onDownload={(item, index) =>
-                                    void runResultAction(`history-download-${index}`, async () => `已下载 ${await downloadResultItem(item, index, { toolId: TOOL_ID })}`)
-                                }
-                                onSave={(item, index) =>
-                                    void runResultAction(`history-save-${index}`, async () => {
-                                        await saveResultItemToAssets(item, index, {
-                                            toolId: TOOL_ID,
-                                            taskId: restoredTask.id,
-                                            title: `历史结果 ${index + 1}`,
-                                            source: "area-repair",
-                                        });
-                                        return `第 ${index + 1} 张已存入资产库`;
-                                    })
-                                }
-                                onSend={(item, index) =>
-                                    void runResultAction(`history-send-${index}`, async () => {
-                                        const sent = await sendResultItemToCanvas(item, { toolId: TOOL_ID });
-                                        return `第 ${index + 1} 张已发到画布 ${sent.projectId}`;
-                                    })
-                                }
-                            />
-                        ) : outcomes.length === 0 ? (
-                            <Edit8ResultsEmpty />
-                        ) : (
-                            <>
-                                <ul data-testid="area-repair-results" className="grid grid-cols-1 gap-2">
-                                    {outcomes.map((outcome) => (
-                                        <AreaRepairResultCard
-                                            key={outcome.unitId}
-                                            outcome={outcome}
-                                            imageName={image?.name ?? ""}
-                                            pending={resultPending}
-                                            onSave={(item) => {
-                                                void runResultAction(`save-${item.index}`, async () => {
-                                                    await saveResultItemToAssets(toResultItem(item), item.index - 1, {
-                                                        toolId: TOOL_ID,
-                                                        taskId: item.taskId,
-                                                        title: `${image?.name ?? "局部重绘"} 第 ${item.index} 张`,
-                                                        source: "area-repair",
-                                                    });
-                                                    return `第 ${item.index} 张已存入资产库`;
-                                                });
-                                            }}
-                                            onSend={(item) => {
-                                                void runResultAction(`send-${item.index}`, async () => {
-                                                    const sent = await sendResultItemToCanvas(toResultItem(item), { toolId: TOOL_ID });
-                                                    return `第 ${item.index} 张已发到画布 ${sent.projectId}`;
-                                                });
-                                            }}
-                                        />
-                                    ))}
-                                </ul>
-                                {resultFeedback ? (
-                                    <p data-testid="area-repair-result-feedback" className="mt-2 text-[11px] text-muted-foreground">
-                                        {resultFeedback}
-                                    </p>
-                                ) : null}
-                            </>
-                        )
-                    ) : null}
+                </Edit8Config>
+                </div>
+
+                <section data-testid="area-repair-result-column" data-region="results" className="flex min-h-0 min-w-0 flex-col overflow-hidden rounded-xl border border-border bg-card">
+                    <div role="tablist" className="flex h-[42px] shrink-0 items-center justify-between border-b border-border px-[13px]">
+                        <button
+                            type="button"
+                            role="tab"
+                            aria-selected={resultTab === "result"}
+                            data-testid="edit8-tab-result"
+                            onClick={() => setResultTab("result")}
+                            className={cn("h-[42px] text-sm leading-none transition", resultTab === "result" ? "font-medium text-foreground" : "text-muted-foreground hover:text-foreground")}
+                        >
+                            生成结果
+                        </button>
+                        {/* 原站「历史记录」是右上外链（/draw/history?type=32），不是第二个 Tab。 */}
+                        <button
+                            type="button"
+                            data-testid="area-repair-history-entry"
+                            onClick={() => setResultTab("history")}
+                            className="inline-flex items-center gap-1 text-[13px] leading-none text-muted-foreground transition hover:text-foreground"
+                        >
+                            <History className="size-3.5" aria-hidden />
+                            历史记录
+                        </button>
+                    </div>
+                    <div className="min-h-0 flex-1 overflow-y-auto px-3 pb-4 pt-2">
                     {resultTab === "history" ? (
                         <ToolTaskHistory
                             toolId={TOOL_ID}
@@ -971,11 +1100,78 @@ export function MaskWorkspace({ className }: MaskWorkspaceProps = {}) {
                                 setResultTab("result");
                             }}
                         />
-                    ) : null}
-                </Edit8Results>
-                </ToolWorkspaceColumns>
+                    ) : restoredTask ? (
+                        <AreaRepairHistoryResult
+                            task={restoredTask}
+                            pending={resultPending}
+                            feedback={resultFeedback}
+                            onBack={() => {
+                                setRestoredTask(null);
+                                setResultFeedback(null);
+                            }}
+                            onDownload={(item, index) =>
+                                void runResultAction(`history-download-${index}`, async () => `已下载 ${await downloadResultItem(item, index, { toolId: TOOL_ID })}`)
+                            }
+                            onSave={(item, index) =>
+                                void runResultAction(`history-save-${index}`, async () => {
+                                    await saveResultItemToAssets(item, index, {
+                                        toolId: TOOL_ID,
+                                        taskId: restoredTask.id,
+                                        title: `历史结果 ${index + 1}`,
+                                        source: "area-repair",
+                                    });
+                                    return `第 ${index + 1} 张已存入资产库`;
+                                })
+                            }
+                            onSend={(item, index) =>
+                                void runResultAction(`history-send-${index}`, async () => {
+                                    const sent = await sendResultItemToCanvas(item, { toolId: TOOL_ID });
+                                    return `第 ${index + 1} 张已发到画布 ${sent.projectId}`;
+                                })
+                            }
+                        />
+                    ) : outcomes.length === 0 ? (
+                        <Edit8ResultsEmpty />
+                    ) : (
+                        <>
+                            <ul data-testid="area-repair-results" className="grid grid-cols-1 gap-2">
+                                {outcomes.map((outcome) => (
+                                    <AreaRepairResultCard
+                                        key={outcome.unitId}
+                                        outcome={outcome}
+                                        imageName={image?.name ?? ""}
+                                        pending={resultPending}
+                                        onSave={(item) => {
+                                            void runResultAction(`save-${item.index}`, async () => {
+                                                await saveResultItemToAssets(toResultItem(item), item.index - 1, {
+                                                    toolId: TOOL_ID,
+                                                    taskId: item.taskId,
+                                                    title: `${image?.name ?? "局部重绘"} 第 ${item.index} 张`,
+                                                    source: "area-repair",
+                                                });
+                                                return `第 ${item.index} 张已存入资产库`;
+                                            });
+                                        }}
+                                        onSend={(item) => {
+                                            void runResultAction(`send-${item.index}`, async () => {
+                                                const sent = await sendResultItemToCanvas(toResultItem(item), { toolId: TOOL_ID });
+                                                return `第 ${item.index} 张已发到画布 ${sent.projectId}`;
+                                            });
+                                        }}
+                                    />
+                                ))}
+                            </ul>
+                            {resultFeedback ? (
+                                <p data-testid="area-repair-result-feedback" className="mt-2 text-[11px] text-muted-foreground">
+                                    {resultFeedback}
+                                </p>
+                            ) : null}
+                        </>
+                    )}
+                    </div>
+                </section>
             </div>
-        </ToolShell>
+        </div>
     );
 }
 
@@ -997,8 +1193,12 @@ export type RemovePenWorkspaceProps = { className?: string };
 const REMOVE_PEN_ID = REMOVE_PEN_TOOL_ID;
 
 export function RemovePenWorkspace({ className }: RemovePenWorkspaceProps = {}) {
-    const spec = useMemo(() => getToolById(REMOVE_PEN_ID), []);
-    const siblings = useMemo(() => toolSpecs.filter((tool) => tool.layout === "mask" && tool.id !== REMOVE_PEN_ID), []);
+    // 作品库：真实接入本地资产库，供上传卡「从作品库选择」（原站文案 §9）。
+    const assets = useAssetStore((store) => store.assets);
+    const library = useMemo(
+        () => toolAssetLibraryItemsFromAssets(assets.filter((asset): asset is ImageAsset | VideoAsset => asset.kind === "image" || asset.kind === "video")),
+        [assets],
+    );
     const patchDraft = useToolDraftStore((store) => store.patch);
     const hydrateDraft = useToolDraftStore((store) => store.hydrate);
     const hydrated = useToolDraftStore((store) => store.hydrated[REMOVE_PEN_ID]);
@@ -1015,6 +1215,8 @@ export function RemovePenWorkspace({ className }: RemovePenWorkspaceProps = {}) 
     const [runSnapshot, setRunSnapshot] = useState<RemovePenSnapshot | null>(null);
     const [resultPending, setResultPending] = useState(false);
     const [resultNotice, setResultNotice] = useState("");
+    const [sampleLoading, setSampleLoading] = useState<string | null>(null);
+    const [historyOpen, setHistoryOpen] = useState(false);
 
     /* ---------------- 刷新恢复：落盘任务 → 结果区 ----------------
      * 结果区原先只认本会话 run：整页刷新后 outcomes 归零 → 结果空白，
@@ -1261,7 +1463,30 @@ export function RemovePenWorkspace({ className }: RemovePenWorkspaceProps = {}) 
         [persist],
     );
 
-    const coverageLabel = useMemo(() => describeRemovePenCoverage(state), [state]);
+    /** 「或试试这些」：示例素材是仓库内真实文件，走真实入库再载入，不伪造画布。 */
+    const applySample = useCallback(
+        async (sample: (typeof REMOVE_PEN_SAMPLES)[number]) => {
+            if (busy || sampleLoading) return;
+            setSampleLoading(sample.id);
+            setNotice("");
+            try {
+                const response = await fetch(sample.src);
+                if (!response.ok) throw new Error(`示例素材读取失败（HTTP ${response.status}）`);
+                const blob = await response.blob();
+                const mime = blob.type || "image/png";
+                const file = new File([blob], `remove-pen-sample-${sample.id}.${mime.split("/")[1] || "png"}`, { type: mime });
+                const record = await uploadToolAsset(file);
+                await adoptImage(record);
+                setNotice(`已载入示例「${sample.name}」，涂抹要消除的区域后点「开始消除」`);
+            } catch (error) {
+                setNotice(error instanceof Error ? error.message : "示例素材载入失败");
+            } finally {
+                setSampleLoading(null);
+            }
+        },
+        [adoptImage, busy, sampleLoading],
+    );
+
     const historyLabel = useMemo(() => removePenHistoryState(history), [history]);
     const issues = useMemo(
         () =>
@@ -1437,334 +1662,365 @@ export function RemovePenWorkspace({ className }: RemovePenWorkspaceProps = {}) 
         }
     }, [busy]);
 
-    return (
-        <ToolShell
-            className={className}
-            immersive
-            title={spec?.title ?? "局部消除"}
-            sidebar={
-                <nav className="flex flex-col gap-1 p-2 text-xs">
-                    <span className="px-2 py-1 font-medium text-foreground">局部消除</span>
-                    {siblings.map((tool) => (
-                        <Link key={tool.id} to={tool.route} className="rounded px-2 py-1 text-muted-foreground transition hover:bg-accent hover:text-foreground">
-                            {tool.title}
-                        </Link>
-                    ))}
-                    <Link to={`/tools/smart-edit/${REMOVE_PEN_SLUG}`} className="mt-2 px-2 py-1 text-[11px] text-muted-foreground underline-offset-2 hover:underline">
-                        本页路由
-                    </Link>
-                </nav>
-            }
-        >
-            <div className="px-2 pb-1">
-                <OrigRail items={SMART_EDIT_RAIL} active="局部消除" driver testId="remove-pen-rail" />
+    const uploadCard = (
+        <section data-testid="remove-pen-upload-card" className="flex w-full flex-col gap-[10px] rounded-xl border border-border bg-card p-4 shadow-sm">
+            <MaskUploadCard
+                mediaClassName="h-[333px]"
+                title="局部消除"
+                description="上传需要消除的图片，使用画笔涂抹即可实现一键消除"
+                library={library}
+                busy={busy}
+                onPick={(record) => void adoptImage(record)}
+            />
+            {/* 原站「或试试这些」= 分隔线 + 4 张 50×50 示例缩略图，点击即真实载入（不是装饰）。 */}
+            <div className="mt-1 flex items-center gap-2" data-testid="remove-pen-try-these">
+                <span className="h-px flex-1 bg-border" />
+                <span className="text-[12px] font-medium leading-[15px] text-muted-foreground">或试试这些</span>
+                <span className="h-px flex-1 bg-border" />
             </div>
-            <div data-tool={REMOVE_PEN_ID} data-layout="linkfox-edit8" data-testid="remove-pen-workspace" className="h-full min-h-0 overflow-y-auto bg-background p-4 text-foreground">
-                <ToolWorkspaceColumns
-                    canvas
-                    configSide="right"
-                    className="min-h-0"
-                    config={(
-                        <section aria-label="画笔与历史" className="flex min-w-0 flex-col gap-3 rounded-xl border border-border bg-card p-3 text-xs text-foreground">
-                        <div className="flex flex-wrap items-center gap-2">
-                            <span className="flex items-center gap-1 text-foreground">
-                                <Paintbrush className="size-3.5" aria-hidden /> <span>画笔</span>
-                            </span>
-                            <span className="text-muted-foreground">大小：</span>
-                            <input
-                                type="range"
-                                data-testid="remove-pen-brush-range"
-                                min={REMOVE_PEN_BRUSH_MIN}
-                                max={REMOVE_PEN_BRUSH_MAX}
-                                value={state.brushSize}
-                                onChange={(event) => commitBrush(Number(event.target.value))}
-                                className="w-[88px] accent-primary"
-                                aria-label="画笔大小"
-                            />
-                            <input
-                                type="number"
-                                min={REMOVE_PEN_BRUSH_MIN}
-                                max={REMOVE_PEN_BRUSH_MAX}
-                                value={state.brushSize}
-                                onChange={(event) => commitBrush(Number(event.target.value))}
-                                className="h-[24px] w-[44px] rounded-md border border-border bg-card px-1 text-[11px] text-foreground"
-                                aria-label="画笔大小像素"
-                            />
-                            <span className="text-muted-foreground">像素</span>
-                            <button
-                                type="button"
-                                data-testid="remove-pen-reset-mask"
-                                disabled={historyLabel.strokeCount === 0 || busy}
-                                onClick={reset}
-                                className="inline-flex h-[24px] items-center gap-1 rounded-md px-1.5 text-[12px] text-foreground hover:bg-card/70 disabled:opacity-40"
-                            >
-                                <RotateCcw className="size-3" aria-hidden /> <span>重置</span>
-                            </button>
-                            <button
-                                type="button"
-                                data-testid="remove-pen-undo"
-                                disabled={!historyLabel.canUndo || busy}
-                                onClick={undo}
-                                className="inline-flex h-[24px] items-center gap-1 rounded-md px-1.5 text-[12px] text-foreground hover:bg-card/70 disabled:opacity-40"
-                            >
-                                <Undo2 className="size-3" aria-hidden /> <span>撤销</span>
-                            </button>
-                            <button
-                                type="button"
-                                data-testid="remove-pen-redo"
-                                disabled={!historyLabel.canRedo || busy}
-                                onClick={redo}
-                                className="inline-flex h-[24px] items-center gap-1 rounded-md px-1.5 text-[12px] text-foreground hover:bg-card/70 disabled:opacity-40"
-                            >
-                                <Redo2 className="size-3" aria-hidden /> <span>重做</span>
-                            </button>
-                        </div>
-                        <div className="flex flex-wrap items-center gap-2">
-                            <button
-                                type="button"
-                                onClick={() => {
-                                    imageRef.current = null;
-                                    assetRef.current = null;
-                                    setImage(null);
-                                    const cleared = createRemovePenState({ brushSize: stateRef.current.brushSize });
-                                    historyRef.current = createRemovePenHistory([]);
-                                    stateRef.current = cleared;
-                                    setHistory(historyRef.current);
-                                    setState(cleared);
-                                    setRun(null);
-                                    setRunSnapshot(null);
-                                    patchDraft(REMOVE_PEN_ID, { values: serializeRemovePenDraftValues({ state: cleared, imageName: "", compareMode: compareRef.current }), assetIds: [] });
-                                }}
-                                data-testid="remove-pen-reset-image"
-                                className="h-[28px] rounded-lg px-2 text-[12px] text-foreground hover:bg-card/70"
-                            >
-                                重新上传
-                            </button>
-                            {/* 原站空态工具栏没有「开始消除」：仅在已涂抹时出现 */}
-                            {state.strokes.length > 0 ? (
-                                <>
-                                    <button
-                                        type="button"
-                                        data-testid="remove-pen-submit"
-                                        disabled={busy || issues.length > 0}
-                                        onClick={() => void submit()}
-                                        className="inline-flex h-[28px] items-center gap-1 rounded-lg bg-primary px-[15px] text-[12px] leading-none text-primary-foreground transition hover:bg-primary/90 disabled:cursor-not-allowed disabled:opacity-50"
-                                    >
-                                        {busy ? "消除中…" : "开始消除"}
-                                    </button>
-                                </>
-                            ) : null}
-                            {["高清放大", "商品图", "手部修复"].map((label) => (
-                                <button
-                                    key={label}
-                                    type="button"
-                                    disabled
-                                    className="inline-flex h-[28px] items-center rounded-lg px-2 text-[12px] text-foreground opacity-50"
-                                >
-                                    {label}
-                                </button>
+            <div className="flex items-center justify-center gap-[10px]">
+                {REMOVE_PEN_SAMPLES.map((sample) => (
+                    <button
+                        key={sample.id}
+                        type="button"
+                        data-testid={`remove-pen-sample-${sample.id}`}
+                        disabled={busy || sampleLoading !== null}
+                        title={`试用示例：${sample.name}`}
+                        onClick={() => void applySample(sample)}
+                        className="size-[50px] overflow-hidden rounded border border-border bg-card transition hover:border-primary disabled:opacity-50"
+                    >
+                        <img src={sample.src} alt={sample.name} className="size-full object-cover" draggable={false} />
+                    </button>
+                ))}
+            </div>
+            {sampleLoading ? <p className="text-center text-[11px] text-muted-foreground">正在载入示例素材…</p> : null}
+        </section>
+    );
+
+    return (
+        <div
+            data-tool={REMOVE_PEN_ID}
+            data-layout="linkfox-edit8"
+            data-testid="remove-pen-workspace"
+            data-workspace-columns="remove-pen"
+            data-canvas="true"
+            data-config-side="none"
+            className={cn("flex h-full min-h-0 flex-col bg-background text-foreground", className)}
+        >
+            {/* 原站：工具条在画布顶部通栏单行（右端 历史记录），画布内空态卡 520 宽居中；结果动作常驻工具条。 */}
+            <div className="flex h-[48px] shrink-0 flex-wrap items-center gap-2 border-b border-border px-4 text-xs text-foreground" data-testid="remove-pen-toolbar">
+                <span className="inline-flex h-6 items-center gap-1 text-[12px] leading-none text-muted-foreground">
+                    <Paintbrush className="size-3.5" aria-hidden />
+                    <span>画笔</span>
+                </span>
+
+                <label className="flex items-center gap-1.5 text-[12px] text-muted-foreground">
+                    <span>大小：</span>
+                    <input
+                        type="number"
+                        data-testid="remove-pen-brush-size"
+                        min={REMOVE_PEN_BRUSH_MIN}
+                        max={REMOVE_PEN_BRUSH_MAX}
+                        value={state.brushSize}
+                        onChange={(event) => commitBrush(Number(event.target.value))}
+                        className="h-[22px] w-[30px] rounded border border-transparent bg-transparent px-0 text-center text-[12px] tabular-nums text-foreground outline-none transition hover:border-border focus:border-primary"
+                        aria-label="画笔大小像素"
+                    />
+                    <span>像素</span>
+                    <span className="relative inline-flex size-4 items-center justify-center" data-testid="remove-pen-brush-presets">
+                        <ChevronDown className="pointer-events-none size-4 text-muted-foreground" aria-hidden />
+                        <select
+                            value={state.brushSize}
+                            disabled={busy}
+                            onChange={(event) => commitBrush(Number(event.target.value))}
+                            aria-label="画笔大小预设"
+                            className="absolute inset-0 size-full cursor-pointer appearance-none opacity-0"
+                        >
+                            {REMOVE_PEN_BRUSH_PRESETS.map((preset) => (
+                                <option key={preset} value={preset}>
+                                    {preset}
+                                </option>
                             ))}
-                        </div>
-                        </section>
+                        </select>
+                    </span>
+                </label>
+
+                <button
+                    type="button"
+                    data-testid="remove-pen-reset-mask"
+                    disabled={historyLabel.strokeCount === 0 || busy}
+                    onClick={reset}
+                    className="inline-flex h-[28px] items-center gap-1 rounded-md px-1.5 text-[12px] text-foreground hover:bg-border disabled:opacity-40"
+                >
+                    <RotateCcw className="size-3" aria-hidden /> <span>重置</span>
+                </button>
+                <button
+                    type="button"
+                    data-testid="remove-pen-undo"
+                    disabled={!historyLabel.canUndo || busy}
+                    onClick={undo}
+                    className="inline-flex h-[28px] items-center gap-1 rounded-md px-1.5 text-[12px] text-foreground hover:bg-border disabled:opacity-40"
+                >
+                    <Undo2 className="size-3" aria-hidden /> <span>撤销</span>
+                </button>
+                <button
+                    type="button"
+                    data-testid="remove-pen-redo"
+                    disabled={!historyLabel.canRedo || busy}
+                    onClick={redo}
+                    className="inline-flex h-[28px] items-center gap-1 rounded-md px-1.5 text-[12px] text-foreground hover:bg-border disabled:opacity-40"
+                >
+                    <Redo2 className="size-3" aria-hidden /> <span>重做</span>
+                </button>
+                <button
+                    type="button"
+                    data-testid="remove-pen-reset-image"
+                    disabled={!image || busy}
+                    onClick={() => {
+                        imageRef.current = null;
+                        assetRef.current = null;
+                        setImage(null);
+                        const cleared = createRemovePenState({ brushSize: stateRef.current.brushSize });
+                        historyRef.current = createRemovePenHistory([]);
+                        stateRef.current = cleared;
+                        setHistory(historyRef.current);
+                        setState(cleared);
+                        setRun(null);
+                        setRunSnapshot(null);
+                        patchDraft(REMOVE_PEN_ID, { values: serializeRemovePenDraftValues({ state: cleared, imageName: "", compareMode: compareRef.current }), assetIds: [] });
+                    }}
+                    className="inline-flex h-[28px] items-center rounded-md px-1.5 text-[12px] text-foreground hover:bg-border disabled:opacity-40"
+                >
+                    重新上传
+                </button>
+
+                <span className="mx-1 h-5 w-px shrink-0 bg-border" aria-hidden />
+
+                {/* 结果动作常驻工具条：未出结果时「下载图片」等保持原位禁用，不隐藏、不另起区块。 */}
+                <button
+                    type="button"
+                    data-testid="remove-pen-submit"
+                    disabled={busy || issues.length > 0}
+                    onClick={() => void submit()}
+                    className="inline-flex h-[28px] items-center gap-1 rounded-md bg-primary px-[15px] text-[12px] leading-none text-primary-foreground transition hover:bg-primary/90 disabled:cursor-not-allowed disabled:opacity-50"
+                >
+                    <Sparkles className="size-3.5" aria-hidden />
+                    <span>{busy ? "消除中…" : "开始消除"}</span>
+                </button>
+                {resultUrl ? (
+                    <a
+                        data-testid="remove-pen-download"
+                        href={resultUrl}
+                        download={removePenDownloadName(image?.name ?? "remove-pen")}
+                        className="inline-flex h-[28px] items-center rounded-md px-2 text-[12px] text-muted-foreground hover:bg-border hover:text-foreground"
+                    >
+                        下载图片
+                    </a>
+                ) : (
+                    <button
+                        type="button"
+                        data-testid="remove-pen-download"
+                        disabled
+                        className="inline-flex h-[28px] items-center rounded-md px-2 text-[12px] text-muted-foreground disabled:opacity-50"
+                    >
+                        下载图片
+                    </button>
+                )}
+                {REMOVE_PEN_HANDOFFS.map((handoff) =>
+                    resultUrl ? (
+                        <Link
+                            key={handoff.id}
+                            data-testid={`remove-pen-handoff-${handoff.id}`}
+                            to={buildRemovePenHandoff(handoff.id, resultUrl).route}
+                            state={{ handoff: { from: REMOVE_PEN_ID, field: handoff.field, value: resultUrl } }}
+                            className="inline-flex h-[28px] items-center rounded-md px-2 text-[12px] text-muted-foreground hover:bg-border hover:text-foreground"
+                        >
+                            {handoff.label}
+                        </Link>
+                    ) : (
+                        <button
+                            key={handoff.id}
+                            type="button"
+                            data-testid={`remove-pen-handoff-${handoff.id}`}
+                            disabled
+                            className="inline-flex h-[28px] items-center rounded-md px-2 text-[12px] text-muted-foreground disabled:opacity-50"
+                        >
+                            {handoff.label}
+                        </button>
+                    ),
+                )}
+                {/* 原站「历史记录」在工具条右端；本地没有独立历史页，用同一任务库的真实历史面板承接。 */}
+                <button
+                    type="button"
+                    data-testid="remove-pen-history"
+                    aria-pressed={historyOpen}
+                    onClick={() => setHistoryOpen((value) => !value)}
+                    className={cn(
+                        "ml-auto inline-flex h-[28px] items-center gap-1 rounded-md px-2 text-[13px] text-muted-foreground hover:bg-border hover:text-foreground",
+                        historyOpen && "bg-border text-foreground",
                     )}
                 >
-                    <section data-region="canvas" className="flex min-w-0 flex-1 flex-col overflow-hidden rounded-xl border border-border bg-surface">
-                    {conflict || notice || stale ? (
-                        <div className="flex shrink-0 flex-col gap-1 px-4 pb-2 text-[11px]">
-                            {conflict ? <p className="rounded-md bg-[#fff7e6] px-2 py-1 text-[#b26b00]">草稿在其他标签页被修改，本页未覆盖；刷新可载入最新草稿。</p> : null}
-                            {notice ? (
-                                <p data-testid="remove-pen-notice" className="rounded-md bg-card px-2 py-1 text-muted-foreground">
-                                    {notice}
+                    <History className="size-3.5" aria-hidden />
+                    历史记录
+                </button>
+            </div>
+
+            {/* 原站局部消除没有配置列（工具条通栏 + 画布内结果），所以这里是单列主区。 */}
+            <div data-testid="tool-main-column" className="min-h-0 flex-1 overflow-y-auto">
+                {historyOpen ? (
+                    <div className="p-4" data-testid="remove-pen-history-panel">
+                        <ToolTaskHistory
+                            toolId={REMOVE_PEN_ID}
+                            limit={10}
+                            emptyHint="暂无历史任务"
+                            onSelectTask={(task) => {
+                                setPickedTask(task);
+                                setHistoryOpen(false);
+                            }}
+                        />
+                    </div>
+                ) : null}
+                {!historyOpen && (conflict || notice || stale) ? (
+                    <div className="flex flex-col gap-1 px-4 pt-2 text-[11px]">
+                        {conflict ? <p className="rounded-md bg-[#fff7e6] px-2 py-1 text-[#b26b00]">草稿在其他标签页被修改，本页未覆盖；刷新可载入最新草稿。</p> : null}
+                        {notice ? (
+                            <p data-testid="remove-pen-notice" className="rounded-md bg-card px-2 py-1 text-muted-foreground">
+                                {notice}
+                            </p>
+                        ) : null}
+                        {stale ? <p className="rounded-md bg-[#fff7e6] px-2 py-1 text-[#b26b00]">涂抹或图片已变更：下面是上一次提交的结果，不代表当前涂抹区域。</p> : null}
+                    </div>
+                ) : null}
+
+                {historyOpen ? null : image ? (
+                    <div className="flex flex-col gap-3 p-4">
+                        <div className="relative mx-auto w-fit max-w-full overflow-hidden rounded-lg bg-[repeating-conic-gradient(#00000008_0%_25%,transparent_0%_50%)] bg-[length:16px_16px]">
+                            <img src={image.dataUrl} alt="待消除原图" className="block max-h-[520px] w-auto max-w-full select-none" draggable={false} />
+                            <canvas
+                                ref={canvasRef}
+                                data-testid="remove-pen-canvas"
+                                aria-label="涂抹画布"
+                                onPointerDown={onPointerDown}
+                                onPointerMove={onPointerMove}
+                                onPointerUp={onPointerUp}
+                                onPointerCancel={onPointerUp}
+                                className="absolute inset-0 size-full cursor-crosshair touch-none"
+                            />
+                        </div>
+                        {issues.length > 0 ? (
+                            <ul data-testid="remove-pen-issues" className="mx-auto w-fit rounded-lg bg-card p-2 text-[11px] text-muted-foreground">
+                                {issues.map((issue) => (
+                                    <li key={issue.field}>· {issue.message}</li>
+                                ))}
+                            </ul>
+                        ) : null}
+
+                        {/* 结果区常驻：无结果时保留空态与动作位，不隐藏、不搬到画布下方。 */}
+                        <div data-testid="remove-pen-result" className="mx-auto flex w-fit max-w-full flex-col gap-2 rounded-lg border border-border bg-card p-3">
+                            {view.status === "running" ? <p className="text-[11px] text-muted-foreground">正在等待真实结果…</p> : null}
+                            {view.error && view.status !== "running" ? (
+                                <p data-testid="remove-pen-error" className="rounded-md bg-[#fdecea] px-2 py-1.5 text-[11px] text-destructive">
+                                    {view.error.message}（诊断码：{view.error.code}）
                                 </p>
                             ) : null}
-                            {stale ? <p className="rounded-md bg-[#fff7e6] px-2 py-1 text-[#b26b00]">涂抹或图片已变更：下面是上一次提交的结果，不代表当前涂抹区域。</p> : null}
-                        </div>
-                    ) : null}
-
-                    <div className="min-h-0 flex-1 overflow-y-auto px-4 pb-4">
-                        {image ? (
-                            <div className="mx-auto flex w-fit max-w-full flex-col gap-3">
-                                <div className="relative rounded-lg bg-card p-2">
-                                    <div className="relative mx-auto w-fit max-w-full">
-                                        <img src={image.dataUrl} alt="待消除原图" className="block max-h-[520px] w-auto max-w-full select-none" draggable={false} />
-                                        <canvas
-                                            ref={canvasRef}
-                                            data-testid="remove-pen-canvas"
-                                            aria-label="涂抹画布"
-                                            onPointerDown={onPointerDown}
-                                            onPointerMove={onPointerMove}
-                                            onPointerUp={onPointerUp}
-                                            onPointerCancel={onPointerUp}
-                                            className="absolute inset-0 size-full cursor-crosshair touch-none"
-                                        />
-                                    </div>
-                                </div>
-                                <p className="text-[11px] text-muted-foreground">
-                                    {image.name} · {image.width}×{image.height} · 已涂抹 {historyLabel.strokeCount} 笔 · {coverageLabel}（白色蒙版 = 要消除的区域）
+                            {activeRun?.task ? <TaskStatusPanel task={activeRun.task} /> : null}
+                            {restoredRun ? (
+                                <p data-testid="remove-pen-restored-task" className="text-[11px] text-muted-foreground">
+                                    已按落盘任务 {restoredRun.task.id} 恢复结果：下载/存入资产/发送画布都沿用该任务的真实图片字节。
                                 </p>
-                                {issues.length > 0 ? (
-                                    <ul data-testid="remove-pen-issues" className="rounded-lg bg-card p-2 text-[11px] text-muted-foreground">
-                                        {issues.map((issue) => (
-                                            <li key={issue.field}>· {issue.message}</li>
-                                        ))}
-                                    </ul>
-                                ) : null}
-                            </div>
-                        ) : (
-                            <div className="flex min-h-full items-center justify-center">
-                                <Edit8CanvasCard className="w-[520px]">
-                                    <p className="text-[18px] font-medium leading-6 text-foreground">局部消除</p>
-                                    <p className="text-[12px] leading-5 text-muted-foreground">上传需要消除的图片，使用画笔涂抹即可实现一键消除</p>
-                                    <ToolAssetInput
-                                        toolId={REMOVE_PEN_ID}
-                                        variant="linkfox"
-                                        wide
-                                        maxCount={1}
-                                        disabled={busy}
-                                        title=""
-                                        onChange={(_ids, records) => {
-                                            const record = records[records.length - 1];
-                                            if (record) void adoptImage(record);
-                                        }}
-                                    />
-                                </Edit8CanvasCard>
-                                {/* 原站空态上传卡下方是「或试试这些」ant-divider（12px / rgba(0,0,0,0.3)，居中于 y=595） */}
-                                <div className="mt-4 flex w-[520px] items-center gap-2" data-testid="remove-pen-try-these">
-                                    <span className="h-px flex-1 bg-black/[0.06]" />
-                                    <span className="text-[12px] font-medium leading-[15px] text-muted-foreground">或试试这些</span>
-                                    <span className="h-px flex-1 bg-black/[0.06]" />
-                                </div>
-                            </div>
-                        )}
-
-                        {activeRun?.task || resultUrl ? (
-                            <div className="mx-auto mt-3 flex w-fit max-w-full flex-col gap-2 rounded-lg bg-card p-3">
-                                <div className="flex flex-wrap items-center justify-between gap-2">
-                                    <p className="text-[12px] font-medium text-foreground">前后对比</p>
-                                    <div className="flex items-center gap-1">
-                                        {REMOVE_PEN_COMPARE_MODES.map((mode) => (
-                                            <button
-                                                key={mode.id}
-                                                type="button"
-                                                data-testid={`remove-pen-compare-${mode.id}`}
-                                                aria-pressed={compareMode === mode.id}
-                                                onClick={() => commitCompare(mode.id)}
-                                                className={cn(
-                                                    "h-[24px] rounded-md border px-2 text-[11px] leading-none transition",
-                                                    compareMode === mode.id ? "border-primary bg-primary text-primary-foreground" : "border-border bg-card text-foreground hover:border-primary/50",
-                                                )}
-                                            >
-                                                {mode.label}
-                                            </button>
-                                        ))}
+                            ) : null}
+                            {resultUrl ? (
+                                <>
+                                    <div className="flex flex-wrap items-center justify-between gap-2">
+                                        <p className="text-[12px] font-medium text-foreground">前后对比</p>
+                                        <div className="flex items-center gap-1">
+                                            {REMOVE_PEN_COMPARE_MODES.map((mode) => (
+                                                <button
+                                                    key={mode.id}
+                                                    type="button"
+                                                    data-testid={`remove-pen-compare-${mode.id}`}
+                                                    aria-pressed={compareMode === mode.id}
+                                                    onClick={() => commitCompare(mode.id)}
+                                                    className={cn(
+                                                        "h-[24px] rounded-md border px-2 text-[11px] leading-none transition",
+                                                        compareMode === mode.id ? "border-primary bg-primary text-primary-foreground" : "border-border bg-card text-foreground hover:border-primary/50",
+                                                    )}
+                                                >
+                                                    {mode.label}
+                                                </button>
+                                            ))}
+                                        </div>
                                     </div>
-                                </div>
-                                {view.status === "running" ? <p className="text-[11px] text-muted-foreground">正在提交真实请求并等待结果…</p> : null}
-                                {view.error && view.status !== "running" ? (
-                                    <p data-testid="remove-pen-error" className="rounded-md bg-[#fdecea] px-2 py-1.5 text-[11px] text-destructive">
-                                        {view.error.message}（诊断码：{view.error.code}）
-                                    </p>
-                                ) : null}
-                                {activeRun?.task ? <TaskStatusPanel task={activeRun.task} /> : null}
-                                {restoredRun ? (
-                                    <p data-testid="remove-pen-restored-task" className="text-[11px] text-muted-foreground">
-                                        已按落盘任务 {restoredRun.task.id} 恢复结果：下载/存入资产/发送画布都沿用该任务的真实图片字节。
-                                    </p>
-                                ) : null}
-                        {resultUrl ? (
-                            <div className="mt-1">
-                                {compareMode === "slider" && image ? (
-                                    <div className="relative mx-auto w-fit max-w-full overflow-hidden rounded border border-border">
-                                        <img src={image.dataUrl} alt="原图" className="block max-h-[520px] w-auto max-w-full select-none" draggable={false} />
-                                        <img
-                                            src={resultUrl}
-                                            alt="消除结果"
-                                            className="absolute inset-0 size-full object-fill"
-                                            style={{ clipPath: `inset(0 0 0 ${100 - clampCompareSplit(split)}%)` }}
-                                            draggable={false}
-                                        />
-                                        <input
-                                            type="range"
-                                            min={0}
-                                            max={100}
-                                            value={clampCompareSplit(split)}
-                                            onChange={(event) => setSplit(Number(event.target.value))}
-                                            aria-label="前后对比滑动"
-                                            className="absolute inset-x-2 bottom-2 accent-primary"
-                                        />
-                                    </div>
-                                ) : compareMode === "side-by-side" && image ? (
-                                    <div data-testid="remove-pen-compare" className="grid grid-cols-2 gap-2">
-                                        <figure>
-                                            <img src={image.dataUrl} alt="原图" className="block w-full rounded border border-border object-contain" draggable={false} />
-                                            <figcaption className="mt-1 text-center text-[10px] text-muted-foreground">原图</figcaption>
-                                        </figure>
-                                        <figure>
-                                            <img src={resultUrl} alt="消除结果" className="block w-full rounded border border-border object-contain" draggable={false} />
-                                            <figcaption className="mt-1 text-center text-[10px] text-muted-foreground">消除后</figcaption>
-                                        </figure>
-                                    </div>
-                                ) : (
-                                    <img src={resultUrl} alt="消除结果" className="mx-auto block max-h-[520px] w-auto max-w-full rounded border border-border" draggable={false} />
-                                )}
-
-                                <div className="mt-2 flex flex-wrap items-center gap-2">
-                                    <a
-                                        data-testid="remove-pen-download"
-                                        href={resultUrl}
-                                        download={removePenDownloadName(image?.name ?? "remove-pen")}
-                                        className="rounded border border-border px-2 py-1 text-[11px] text-muted-foreground hover:bg-accent"
-                                    >
-                                        下载图片
-                                    </a>
-                                    {REMOVE_PEN_HANDOFFS.map((handoff) => (
-                                        <Link
-                                            key={handoff.id}
-                                            data-testid={`remove-pen-handoff-${handoff.id}`}
-                                            to={buildRemovePenHandoff(handoff.id, resultUrl).route}
-                                            state={{ handoff: { from: REMOVE_PEN_ID, field: handoff.field, value: resultUrl } }}
-                                            className="rounded border border-border px-2 py-1 text-[11px] text-muted-foreground hover:bg-accent"
+                                    {compareMode === "slider" && image ? (
+                                        <div className="relative mx-auto w-fit max-w-full overflow-hidden rounded border border-border">
+                                            <img src={image.dataUrl} alt="原图" className="block max-h-[520px] w-auto max-w-full select-none" draggable={false} />
+                                            <img
+                                                src={resultUrl}
+                                                alt="消除结果"
+                                                className="absolute inset-0 size-full object-fill"
+                                                style={{ clipPath: `inset(0 0 0 ${100 - clampCompareSplit(split)}%)` }}
+                                                draggable={false}
+                                            />
+                                            <input
+                                                type="range"
+                                                min={0}
+                                                max={100}
+                                                value={clampCompareSplit(split)}
+                                                onChange={(event) => setSplit(Number(event.target.value))}
+                                                aria-label="前后对比滑动"
+                                                className="absolute inset-x-2 bottom-2 accent-primary"
+                                            />
+                                        </div>
+                                    ) : compareMode === "side-by-side" && image ? (
+                                        <div data-testid="remove-pen-compare" className="grid grid-cols-2 gap-2">
+                                            <figure>
+                                                <img src={image.dataUrl} alt="原图" className="block w-full rounded border border-border object-contain" draggable={false} />
+                                                <figcaption className="mt-1 text-center text-[10px] text-muted-foreground">原图</figcaption>
+                                            </figure>
+                                            <figure>
+                                                <img src={resultUrl} alt="消除结果" className="block w-full rounded border border-border object-contain" draggable={false} />
+                                                <figcaption className="mt-1 text-center text-[10px] text-muted-foreground">消除后</figcaption>
+                                            </figure>
+                                        </div>
+                                    ) : (
+                                        <img src={resultUrl} alt="消除结果" className="mx-auto block max-h-[520px] w-auto max-w-full rounded border border-border" draggable={false} />
+                                    )}
+                                    <div className="flex flex-wrap items-center gap-2">
+                                        <button
+                                            type="button"
+                                            data-testid="remove-pen-save"
+                                            disabled={resultPending}
+                                            onClick={() => void saveResult()}
+                                            className="rounded border border-border px-2 py-1 text-[11px] text-muted-foreground hover:bg-accent disabled:cursor-not-allowed disabled:opacity-50"
                                         >
-                                            {handoff.label}
-                                        </Link>
-                                    ))}
-                                </div>
-                                <p className="mt-1 text-[10px] text-muted-foreground">接力会把当前结果作为目标工具的输入（通过路由 handoff state 传递）。</p>
-
-                                <div className="mt-3 flex flex-wrap items-center gap-2 border-t border-border pt-3">
-                                    <button
-                                        type="button"
-                                        data-testid="remove-pen-save"
-                                        disabled={resultPending}
-                                        onClick={() => void saveResult()}
-                                        className="rounded border border-border px-2 py-1 text-[11px] text-muted-foreground hover:bg-accent disabled:cursor-not-allowed disabled:opacity-50"
-                                    >
-                                        {resultPending ? "处理中…" : "存入资产"}
-                                    </button>
-                                    <button
-                                        type="button"
-                                        data-testid="remove-pen-send"
-                                        disabled={resultPending}
-                                        onClick={() => void sendResult()}
-                                        className="rounded border border-border px-2 py-1 text-[11px] text-muted-foreground hover:bg-accent disabled:cursor-not-allowed disabled:opacity-50"
-                                    >
-                                        {resultPending ? "处理中…" : "发送画布"}
-                                    </button>
-                                    {resultNotice ? (
-                                        <p data-testid="remove-pen-result-feedback" className="text-[11px] text-muted-foreground">{resultNotice}</p>
-                                    ) : null}
-                                </div>
-                            </div>
-                        ) : view.status !== "running" ? (
-                            <p className="mt-3 text-[11px] text-muted-foreground">还没有结果。涂抹要消除的区域后点「开始消除」。</p>
-                        ) : null}
-                            </div>
-                        ) : null}
+                                            {resultPending ? "处理中…" : "存入资产"}
+                                        </button>
+                                        <button
+                                            type="button"
+                                            data-testid="remove-pen-send"
+                                            disabled={resultPending}
+                                            onClick={() => void sendResult()}
+                                            className="rounded border border-border px-2 py-1 text-[11px] text-muted-foreground hover:bg-accent disabled:cursor-not-allowed disabled:opacity-50"
+                                        >
+                                            {resultPending ? "处理中…" : "发送画布"}
+                                        </button>
+                                        {resultNotice ? (
+                                            <p data-testid="remove-pen-result-feedback" className="text-[11px] text-muted-foreground">{resultNotice}</p>
+                                        ) : null}
+                                    </div>
+                                </>
+                            ) : (
+                                <p className="text-[11px] text-muted-foreground">暂无消除结果图：涂抹要消除的区域后点「开始消除」。</p>
+                            )}
+                        </div>
                     </div>
-                    </section>
-                </ToolWorkspaceColumns>
+                ) : (
+                    <div className="flex min-h-full flex-col items-center justify-center gap-4 px-4 py-6">
+                        <div className="w-full max-w-[520px]">{uploadCard}</div>
+                    </div>
+                )}
             </div>
-        </ToolShell>
+        </div>
     );
 }
 

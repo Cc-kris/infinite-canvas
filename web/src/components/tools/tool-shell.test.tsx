@@ -77,8 +77,8 @@ describe("ToolShell", () => {
         );
         expect(html).toContain('data-testid="tool-sidebar"');
         expect(html).toContain("w-[180px]");
-        // Infinite Canvas card language: rounded surface card, hidden below lg.
-        expect(html).toContain("hidden w-[180px] shrink-0 overflow-y-auto rounded-xl border border-hairline bg-surface shadow-sm lg:block");
+        // LinkFox 原站工具页：无圆角卡片阴影，侧栏以细右边线与工作区相接。
+        expect(html).toContain("hidden w-[180px] shrink-0 overflow-y-auto border-r border-[#ececec] bg-white lg:block");
         expect(html).toContain("sidebar-body");
         expect(html).toContain("workspace-body");
         // mobile entry point for the drawer instead of an unusable sliver of sidebar

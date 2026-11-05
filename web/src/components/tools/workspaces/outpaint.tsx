@@ -87,8 +87,9 @@ import {
     type OutpaintSource,
 } from "@/features/tools/adapters/ai-outpainting";
 import { AI_OUTPAINTING_CASES } from "@/features/tools/tool-cases-data";
-import { loadToolAssetRecords, uploadToolAsset } from "@/services/api/tools/assets";
+import { loadToolAssetRecords, toolAssetLibraryItemsFromAssets, uploadToolAsset } from "@/services/api/tools/assets";
 import type { ToolAssetRecord } from "@/services/api/tools/assets";
+import { useAssetStore, type ImageAsset, type VideoAsset } from "@/stores/use-asset-store";
 import type { ToolTask, ToolTaskResultItem } from "@/services/api/tools/task-machine";
 import { useToolDraftStore } from "@/stores/use-tool-draft-store";
 import { useToolTaskStore } from "@/stores/use-tool-task-store";
@@ -384,6 +385,12 @@ export function OutpaintWorkspace({ className }: OutpaintWorkspaceProps = {}) {
     /** 生成张数下拉：原站是自定义下拉（当前值以文本显示，如「4张」），不是原生 select。 */
     const [countOpen, setCountOpen] = useState(false);
     const [applyingCaseId, setApplyingCaseId] = useState<string | null>(null);
+    /** 作品库（本地资产库）：「从作品库选择」从真实资产列表读取，不伪造商品库/账号能力。 */
+    const assets = useAssetStore((state) => state.assets);
+    const library = useMemo(
+        () => toolAssetLibraryItemsFromAssets(assets.filter((asset): asset is ImageAsset | VideoAsset => asset.kind === "image" || asset.kind === "video")),
+        [assets],
+    );
 
     const historyRef = useRef(history);
     const valuesRef = useRef(values);
@@ -535,13 +542,16 @@ export function OutpaintWorkspace({ className }: OutpaintWorkspaceProps = {}) {
                         typeof apply.ratio === "string" && OUTPAINT_RATIOS.some((option) => option.key === apply.ratio)
                             ? (apply.ratio as OutpaintRatioKey)
                             : null;
-                    commit({
-                        ...valuesRef.current,
-                        ...(typeof apply.prompt === "string" ? { prompt: apply.prompt } : {}),
-                        ...(ratioKey ? { ratio: ratioKey } : {}),
-                        ...(typeof apply.sizePreset === "string" ? { sizePreset: apply.sizePreset } : {}),
-                        ...(typeof apply.outputNum === "number" ? { outputNum: apply.outputNum } : {}),
-                    });
+                    const presetId = OUTPAINT_SIZE_PRESETS.some((preset) => preset.id === apply.sizePreset)
+                        ? (apply.sizePreset as string)
+                        : null;
+                    // 比例必须走 applyRatio：同步重算宽高并重新安放原图，避免宽高与所选比例不一致被校验拦下。
+                    let next = valuesRef.current;
+                    if (typeof apply.prompt === "string") next = { ...next, prompt: apply.prompt };
+                    if (typeof apply.outputNum === "number") next = { ...next, outputNum: apply.outputNum };
+                    if (presetId) next = applySizePreset(next, presetId);
+                    if (ratioKey) next = applyRatio(next, ratioKey);
+                    commit(next);
                 }
                 setNotice(`已做同款：原图（素材 ${record.id.slice(0, 6)}…）与提示词已回填，可直接生成`);
             } catch (error) {
@@ -655,120 +665,9 @@ export function OutpaintWorkspace({ className }: OutpaintWorkspaceProps = {}) {
             data-layout="outpaint"
             className={cn("flex h-full min-h-0 min-w-0 flex-col overflow-hidden text-foreground", className)}
         >
-            {/* 原站页头：标题 + 一句描述（位于工具区之上，页签随之落到 y≈130） */}
-            <div data-testid="outpaint-page-head" className="flex h-[42px] shrink-0 items-baseline gap-2 px-1">
-                <h2 className="text-[16px] font-medium leading-6 text-foreground">智能扩图</h2>
-                <p className="truncate text-[12px] leading-5 text-muted-foreground">一键无缝扩展，打破视觉边界，释放每一张照片的无限可能~</p>
-            </div>
-            <ToolWorkspaceColumns
-                canvas
-                className="min-h-0 flex-1 overflow-auto"
-                config={(
-                    <div className="flex min-w-0 flex-col gap-2" data-testid="outpaint-config">
-                <div data-testid="outpaint-param-bar" className="flex flex-col items-stretch gap-3 rounded-xl border border-border bg-card p-3">
-                    <span className="shrink-0 text-[12px] leading-none text-muted-foreground">默认尺寸</span>
-                    <div className="flex h-8 w-full shrink-0 items-center gap-1 rounded-lg border border-border bg-card px-[10px]">
-                        <input
-                            aria-label="画布宽度"
-                            inputMode="numeric"
-                            value={values.width}
-                            disabled={busy}
-                            onChange={(event) => commit(applyWidth(valuesRef.current, Number(event.target.value.replace(/[^\d]/g, ""))))}
-                            className="w-[46px] bg-transparent text-[12px] tabular-nums leading-none text-foreground outline-none"
-                        />
-                        <span aria-hidden className="h-3 w-px shrink-0 bg-border" />
-                        <input
-                            aria-label="画布高度"
-                            inputMode="numeric"
-                            value={values.height}
-                            disabled={busy}
-                            onChange={(event) => commit(applyHeight(valuesRef.current, Number(event.target.value.replace(/[^\d]/g, ""))))}
-                            className="w-[46px] bg-transparent text-[12px] tabular-nums leading-none text-foreground outline-none"
-                        />
-                    </div>
-
-                    <input
-                        data-testid="outpaint-prompt"
-                        value={values.prompt}
-                        maxLength={OUTPAINT_MAX_PROMPT}
-                        disabled={busy}
-                        aria-invalid={promptIssue ? true : undefined}
-                        aria-describedby={promptIssue ? "outpaint-prompt-error" : undefined}
-                        onChange={(event) => commit({ ...valuesRef.current, prompt: event.target.value })}
-                        placeholder="描述想要扩图的内容，不填将基于原图生成"
-                        className="h-8 w-full min-w-0 rounded-lg border border-border bg-card px-[10px] text-[12px] leading-none text-foreground outline-none transition placeholder:text-muted-foreground focus:bg-card focus:ring-1 focus:ring-primary"
-                    />
-
-                    <div className="relative flex shrink-0 items-center gap-1 text-[12px] leading-none text-muted-foreground">
-                        <span>生成：</span>
-                        <button
-                            type="button"
-                            aria-label="生成张数"
-                            aria-expanded={countOpen}
-                            aria-haspopup="listbox"
-                            data-testid="outpaint-output-num"
-                            disabled={busy}
-                            onClick={() => setCountOpen((open) => !open)}
-                            className="flex h-7 items-center gap-1 rounded-lg bg-card px-2 text-[14px] leading-none text-foreground outline-none disabled:opacity-50"
-                        >
-                            <span>{values.outputNum}张</span>
-                            <ChevronDown className="size-3.5 opacity-60" aria-hidden />
-                        </button>
-                        {countOpen ? (
-                            <div
-                                role="listbox"
-                                aria-label="生成张数"
-                                className="absolute top-full left-0 z-30 mt-1 w-[76px] overflow-hidden rounded-lg border border-border bg-card py-1 shadow-lg"
-                            >
-                                {Array.from({ length: OUTPAINT_MAX_OUTPUT - OUTPAINT_MIN_OUTPUT + 1 }, (_, index) => OUTPAINT_MIN_OUTPUT + index).map((count) => (
-                                    <button
-                                        key={count}
-                                        type="button"
-                                        role="option"
-                                        aria-selected={values.outputNum === count}
-                                        onClick={() => {
-                                            commit({ ...valuesRef.current, outputNum: count });
-                                            setCountOpen(false);
-                                        }}
-                                        className={cn(
-                                            "block w-full px-2 py-1 text-left text-[14px] leading-5",
-                                            values.outputNum === count ? "bg-primary/10 text-foreground" : "text-foreground hover:bg-accent",
-                                        )}
-                                    >
-                                        {count}张
-                                    </button>
-                                ))}
-                            </div>
-                        ) : null}
-                    </div>
-
-                    <button
-                        type="button"
-                        data-testid="outpaint-submit"
-                        disabled={!submitReady}
-                        title={submitBlockedReason}
-                        onClick={() => void submit()}
-                        className="inline-flex h-9 w-full shrink-0 items-center justify-center gap-1 rounded-lg bg-primary text-[14px] leading-none text-primary-foreground transition hover:bg-primary/90 disabled:cursor-not-allowed disabled:opacity-50"
-                    >
-                        {busy ? <Loader2 className="size-4 animate-spin" /> : <Sparkles className="size-4" />}
-                        <span>{busy ? "生成中…" : "立即生成"}</span>
-                    </button>
-                    
-                </div>
-                {promptIssue ? (
-                    <p data-testid="outpaint-prompt-error" id="outpaint-prompt-error" className="px-4 pb-1 text-[11px] leading-4 text-destructive">
-                        {promptIssue.message}
-                    </p>
-                ) : null}
-                {notice ? (
-                    <p data-testid="outpaint-notice" className="truncate px-4 pb-1 text-[11px] leading-4 text-muted-foreground">
-                        {notice}
-                    </p>
-                ) : null}
-                    </div>
-                )}
-            >
-            <section data-region="canvas" className="flex min-h-[420px] min-w-0 flex-1 flex-col overflow-hidden rounded-lg bg-card">
+            <div data-testid="tool-workspace-columns" data-canvas="true" className="flex min-h-0 flex-1 flex-col">
+            <div data-testid="tool-main-column" className="flex min-h-0 flex-1">
+            <section data-region="canvas" className="flex min-h-[420px] min-w-0 flex-1 flex-col overflow-hidden bg-white">
                 <OrigRail items={ECOMMERCE_SUITE_RAIL} active="智能扩图" driver testId="outpaint-rail" className="m-2 shrink-0" />
                 {values.sourceAssetId ? (
                     <div className="flex shrink-0 flex-wrap items-center gap-1.5 border-b border-border px-3 py-1.5 text-[11px]">
@@ -882,6 +781,7 @@ export function OutpaintWorkspace({ className }: OutpaintWorkspaceProps = {}) {
                                     title=""
                                     uploadLabel="从本地上传"
                                     thirdAction={null}
+                                    library={library}
                                     onChange={(assetIds, records) => void onSourceChange(assetIds, records)}
                                 />
                             </div>
@@ -890,7 +790,7 @@ export function OutpaintWorkspace({ className }: OutpaintWorkspaceProps = {}) {
                 </div>
 
             </section>
-            <section data-region="results" className="flex min-h-[320px] w-full min-w-0 flex-col overflow-hidden rounded-lg bg-card">
+            <section data-region="results" className="flex min-h-[320px] w-[300px] shrink-0 min-w-0 flex-col overflow-hidden border-l border-[#ececec] bg-white">
                 <div role="tablist" aria-label="右栏页签" className="flex h-[42px] shrink-0 items-center gap-5 bg-card px-[12px]">
                     {(
                         [
@@ -979,7 +879,97 @@ export function OutpaintWorkspace({ className }: OutpaintWorkspaceProps = {}) {
                     ) : null}
                 </div>
             </section>
-            </ToolWorkspaceColumns>
+            </div>
+            <div data-testid="outpaint-param-bar" className="flex min-h-[52px] shrink-0 flex-wrap items-center gap-2 border-t border-[#ececec] bg-white px-3 py-2">
+                <span className="shrink-0 text-[12px] leading-none text-muted-foreground">默认尺寸</span>
+                <div className="flex h-8 w-[132px] shrink-0 items-center gap-1 rounded-md border border-border bg-white px-[10px]">
+                    <input
+                        aria-label="画布宽度"
+                        inputMode="numeric"
+                        value={values.width}
+                        disabled={busy}
+                        onChange={(event) => commit(applyWidth(valuesRef.current, Number(event.target.value.replace(/[^\d]/g, ""))))}
+                        className="w-[46px] bg-transparent text-[12px] tabular-nums leading-none text-foreground outline-none"
+                    />
+                    <span aria-hidden className="h-3 w-px shrink-0 bg-border" />
+                    <input
+                        aria-label="画布高度"
+                        inputMode="numeric"
+                        value={values.height}
+                        disabled={busy}
+                        onChange={(event) => commit(applyHeight(valuesRef.current, Number(event.target.value.replace(/[^\d]/g, ""))))}
+                        className="w-[46px] bg-transparent text-[12px] tabular-nums leading-none text-foreground outline-none"
+                    />
+                </div>
+                <input
+                    data-testid="outpaint-prompt"
+                    value={values.prompt}
+                    maxLength={OUTPAINT_MAX_PROMPT}
+                    disabled={busy}
+                    aria-invalid={promptIssue ? true : undefined}
+                    aria-describedby={promptIssue ? "outpaint-prompt-error" : undefined}
+                    onChange={(event) => commit({ ...valuesRef.current, prompt: event.target.value })}
+                    placeholder="描述想要扩图的内容，不填将基于原图生成"
+                    className="h-8 min-w-[180px] flex-1 rounded-md border border-border bg-white px-[10px] text-[12px] leading-none text-foreground outline-none transition placeholder:text-muted-foreground focus:border-primary"
+                />
+                <div className="relative flex shrink-0 items-center gap-1 text-[12px] leading-none text-muted-foreground">
+                    <span>生成：</span>
+                    <button
+                        type="button"
+                        aria-label="生成张数"
+                        aria-expanded={countOpen}
+                        aria-haspopup="listbox"
+                        data-testid="outpaint-output-num"
+                        disabled={busy}
+                        onClick={() => setCountOpen((open) => !open)}
+                        className="flex h-8 items-center gap-1 rounded-md border border-border bg-white px-2 text-[13px] leading-none text-foreground outline-none disabled:opacity-50"
+                    >
+                        <span>{values.outputNum}张</span>
+                        <ChevronDown className="size-3.5 opacity-60" aria-hidden />
+                    </button>
+                    {countOpen ? (
+                        <div role="listbox" aria-label="生成张数" className="absolute bottom-full left-0 z-30 mb-1 w-[76px] overflow-hidden rounded-lg border border-border bg-white py-1 shadow-lg">
+                            {Array.from({ length: OUTPAINT_MAX_OUTPUT - OUTPAINT_MIN_OUTPUT + 1 }, (_, index) => OUTPAINT_MIN_OUTPUT + index).map((count) => (
+                                <button
+                                    key={count}
+                                    type="button"
+                                    role="option"
+                                    aria-selected={values.outputNum === count}
+                                    onClick={() => {
+                                        commit({ ...valuesRef.current, outputNum: count });
+                                        setCountOpen(false);
+                                    }}
+                                    className={cn("block w-full px-2 py-1 text-left text-[13px] leading-5", values.outputNum === count ? "bg-primary/10 text-foreground" : "text-foreground hover:bg-accent")}
+                                >
+                                    {count}张
+                                </button>
+                            ))}
+                        </div>
+                    ) : null}
+                </div>
+                <button
+                    type="button"
+                    data-testid="outpaint-submit"
+                    disabled={!submitReady}
+                    title={submitBlockedReason}
+                    onClick={() => void submit()}
+                    className="inline-flex h-8 shrink-0 items-center justify-center gap-1 rounded-md bg-primary px-5 text-[13px] leading-none text-primary-foreground transition hover:bg-primary/90 disabled:cursor-not-allowed disabled:opacity-50"
+                >
+                    {busy ? <Loader2 className="size-4 animate-spin" /> : <Sparkles className="size-4" />}
+                    <span>{busy ? "生成中…" : "立即生成"}</span>
+                </button>
+                {promptIssue ? (
+                    <p data-testid="outpaint-prompt-error" id="outpaint-prompt-error" className="w-full text-[11px] leading-4 text-destructive">
+                        {promptIssue.message}
+                    </p>
+                ) : null}
+                {notice ? (
+                    <p data-testid="outpaint-notice" className="w-full truncate text-[11px] leading-4 text-muted-foreground">
+                        {notice}
+                    </p>
+                ) : null}
+            </div>
+            </div>
         </div>
     );
 }

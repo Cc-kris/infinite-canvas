@@ -16,7 +16,9 @@ import {
     DRESS_SCENE_COUNT_MIN,
     dressAspectRatioOptionsFor,
     dressQualityOptionsFor,
+    dressReplacementLibraryOf,
     dressResolutionOptionsFor,
+    dressSensitiveLibraryOf,
     dressWearSetValuesSchema,
     type DressSceneGroupKey,
     type DressSceneKey,
@@ -117,7 +119,7 @@ function asBool(value: unknown): boolean {
 /** 默认值：场景每项 4 张（页面实测），主副图默认勾选模特图 + 白底图，A+ 单选且默认不选。 */
 export function createDressWearSetValues(): DressWearSetValues {
     const mainScenes = Object.fromEntries(DRESS_MAIN_SCENE_OPTIONS.map((option) => [option.key, { checked: MAIN_DEFAULT_CHECKED.includes(option.key), count: option.defaultCount }]));
-    const aplusScenes = Object.fromEntries(DRESS_APLUS_SCENE_OPTIONS.map((option, index) => [option.key, { checked: index === 0, count: option.defaultCount }]));
+    const aplusScenes = Object.fromEntries(DRESS_APLUS_SCENE_OPTIONS.map((option) => [option.key, { checked: false, count: option.defaultCount }]));
 
     return dressWearSetValuesSchema.parse({
         productInfo: "",
@@ -364,6 +366,19 @@ export function buildDressPrompt(values: DressWearSetValues, scene: DressSceneKe
     lines.push(`画面要求：${option.instruction}`);
     if (values.layoutEach) lines.push("每种官方排版各生成一张，排版之间不重复。");
     lines.push(values.noText ? "画面不出现任何文字，包括卖点文案、标签与尺码表。" : `允许克制的版式文字，文字使用${values.language.trim() || "目标站点语言"}。`);
+    if (values.complianceCheck) {
+        const sensitive = dressSensitiveLibraryOf(values.sensitiveLibrary);
+        const replacement = dressReplacementLibraryOf(values.replacementLibrary);
+        const sensitiveWords = sensitive ? sensitive.words.join("、") : values.sensitiveLibrary.trim();
+        const pairs = replacement
+            ? Object.entries(replacement.pairs)
+                  .slice(0, 10)
+                  .map(([from, to]) => `${from}→${to}`)
+                  .join("、")
+            : values.replacementLibrary.trim();
+        if (sensitiveWords) lines.push(`合规检查：文案命中敏感词（${sensitiveWords}）时必须替换；`);
+        if (pairs) lines.push(`替换词库：${pairs}。`);
+    }
     lines.push(`比例 ${values.aspectRatio}，本次输出 ${count} 张。`);
     lines.push("严格保持上传图中的服装款式、版型、面料质感、颜色与图案，不得改款、不得替换图案、不得添加未提供的 logo。");
 
@@ -430,12 +445,23 @@ export function buildDressWearSetInput(unit: DressGenerationUnit, values: DressW
             ...unit.fields,
             imageUrl: references[0]?.url ?? "",
             images: references.map((reference) => reference.url ?? reference.dataUrl),
+            // 与真实提交体（create_payload_product_suite.json）对齐：
+            // brandKey = { platform, salesRegion, language }；brandName 智能模式固定「智能品牌基因」。
+            brandKey: {
+                platform: values.platform,
+                salesRegion: values.salesRegion,
+                language: values.language,
+            },
+            brandDNA: {
+                primaryColor: values.brandColor,
+                fontStyle: values.brandFont,
+            },
+            brandName: values.brandMode === "smart" ? "智能品牌基因" : values.brandName,
+            coverList: references.map((reference) => reference.id),
+            name: `${unit.label}`,
             platform: values.platform,
             salesRegion: values.salesRegion,
             language: values.language,
-            brandName: values.brandMode === "smart" ? "智能品牌基因" : values.brandName,
-            brandColor: values.brandColor,
-            brandFont: values.brandFont,
             needIntelligent: values.brandMode === "smart",
             complianceCheck: values.complianceCheck,
             sensitiveLibrary: values.sensitiveLibrary,

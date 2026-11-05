@@ -45,16 +45,9 @@ export function ToolShell({ title, subtitle, badges, breadcrumb, actions, notice
     if (nested) {
         return (
             <div data-testid="tool-workspace-chrome" className={cn("flex min-h-0 min-w-0 flex-1 flex-col gap-3", className)}>
-                <div className="flex min-w-0 flex-wrap items-center gap-x-3 gap-y-1">
-                    <div className="min-w-0 flex-1">
-                        <div className="flex min-w-0 items-center gap-2">
-                            <h2 className="truncate text-sm font-semibold leading-6">{title}</h2>
-                            {badges}
-                        </div>
-                        {subtitle ? <p className="truncate text-xs leading-5 text-muted-foreground">{subtitle}</p> : null}
-                    </div>
-                    {actions ? <div className="flex shrink-0 flex-wrap items-center gap-2">{actions}</div> : null}
-                </div>
+                {/* 原站工具页没有二次页头；标题仅留给读屏，视觉上直接进入配置区。 */}
+                <h2 className="sr-only">{title}</h2>
+                {actions ? <div className="flex shrink-0 flex-wrap items-center gap-2">{actions}</div> : null}
                 {notices}
                 {children}
             </div>
@@ -63,7 +56,7 @@ export function ToolShell({ title, subtitle, badges, breadcrumb, actions, notice
 
     return (
         <NestedToolShellContext.Provider value={true}>
-            <div className={cn("flex h-full min-h-0 flex-col bg-canvas text-foreground", className)}>
+            <div data-tool-skin="linkfox" className={cn("tool-linkfox-surface flex h-full min-h-0 flex-col bg-white text-foreground", className)}>
                 <div className="flex h-14 shrink-0 items-center gap-2 px-3 lg:hidden">
                     <button
                         type="button"
@@ -81,14 +74,14 @@ export function ToolShell({ title, subtitle, badges, breadcrumb, actions, notice
                     <div className="flex shrink-0 items-center gap-2">{actions}</div>
                 </div>
 
-                <div className="flex min-h-0 flex-1 gap-3 px-3 pb-3 lg:px-4 lg:pb-4">
+                <div className="flex min-h-0 flex-1 gap-0">
                     <aside data-testid="tool-sidebar" aria-label={t("toolChrome.shellSidebar", {
                         label: sidebarLabel === "工具" ? t("toolChrome.shellLabelFallback") : sidebarLabel,
-                    })} className="hidden w-[180px] shrink-0 overflow-y-auto rounded-xl border border-hairline bg-surface shadow-sm lg:block">
+                    })} className="hidden w-[180px] shrink-0 overflow-y-auto border-r border-[#ececec] bg-white lg:block">
                         {sidebar}
                     </aside>
 
-                    <div className="flex min-w-0 flex-1 flex-col overflow-hidden rounded-xl border border-hairline bg-surface shadow-sm">
+                    <div className="flex min-w-0 flex-1 flex-col overflow-hidden bg-white">
                         {immersive ? null : (
                             <header className="flex min-h-14 shrink-0 flex-wrap items-center gap-3 border-b border-hairline px-4 py-3 sm:px-5">
                                 <div className="min-w-0 flex-1">
@@ -105,7 +98,7 @@ export function ToolShell({ title, subtitle, badges, breadcrumb, actions, notice
 
                         {immersive ? null : notices}
 
-                        <main className={cn("min-h-0 flex-1", immersive ? "overflow-hidden bg-canvas p-2.5" : "overflow-y-auto bg-transparent px-4 py-4 sm:px-5")}>{children}</main>
+                        <main className={cn("min-h-0 flex-1", immersive ? "overflow-y-auto overflow-x-hidden bg-white p-0" : "overflow-y-auto bg-white px-4 py-4 sm:px-5")}>{children}</main>
                     </div>
                 </div>
 

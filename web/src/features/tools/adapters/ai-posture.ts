@@ -13,7 +13,7 @@
  */
 
 import type { BrowserToolInput, WaitOptions } from "@/services/api/tools/gateway";
-import type { ToolTask } from "@/services/api/tools/task-machine";
+import type { ToolTask, ToolTaskResultItem } from "@/services/api/tools/task-machine";
 import type { ReferenceImage } from "@/types/image";
 
 import {
@@ -471,4 +471,15 @@ export function aiPostureResultView(options: {
         stale: groups.some((group) => group.stale),
         snapshotHash: currentHash ?? undefined,
     };
+}
+
+/**
+ * 结果项 → 通用结果动作载荷（存入资产 / 发送画布 / 下载共用）。
+ * 与 AI_POSE_GENERATOR 的 aiPoseGeneratorResultItem 同一协议：data URL 与远端 URL 只留一个。
+ */
+export function aiPostureResultItem(item: AiPostureResultViewItem, index: number): ToolTaskResultItem {
+    const id = `${AI_POSTURE_TOOL_ID}-result-${index + 1}`;
+    const dataUrl = item.dataUrl ?? (item.url?.startsWith("data:") ? item.url : undefined);
+    const base: ToolTaskResultItem = { id, kind: "image", mimeType: "image/png" };
+    return dataUrl ? { ...base, dataUrl } : { ...base, url: item.url };
 }

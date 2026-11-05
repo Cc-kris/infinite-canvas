@@ -12,12 +12,13 @@ import { ToolResult } from "@/components/tools/tool-result";
 import { uploadCaseFiles } from "@/features/tools/case-apply";
 import { PRODUCT_SCENE_CASES } from "@/features/tools/tool-cases-data";
 import { useConfigStore, resolveModelChannel } from "@/stores/use-config-store";
+import { useAssetStore, type ImageAsset, type VideoAsset } from "@/stores/use-asset-store";
 import { useToolDraftStore } from "@/stores/use-tool-draft-store";
 import { describeToolExecution } from "@/services/api/tools/gateway";
 import { getPersistedToolGateway } from "@/stores/use-tool-task-store";
 import { useToolTaskStore } from "@/stores/use-tool-task-store";
 import { productSceneResultPanelTask } from "@/features/tools/adapters/product-scene";
-import { loadToolAssetRecords, type ToolAssetRecord } from "@/services/api/tools/assets";
+import { loadToolAssetRecords, toolAssetLibraryItemsFromAssets, type ToolAssetLibraryItem, type ToolAssetRecord } from "@/services/api/tools/assets";
 import type { ToolTask } from "@/services/api/tools/task-machine";
 
 import {
@@ -106,6 +107,7 @@ function SceneLayerComposer({
     source,
     restoring,
     lostSource,
+    library,
     onChange,
 }: {
     toolId: string;
@@ -113,6 +115,7 @@ function SceneLayerComposer({
     source?: ProductSceneSourceAsset;
     restoring: boolean;
     lostSource: boolean;
+    library: ToolAssetLibraryItem[];
     onChange: (assetIds: string[], records: ToolAssetRecord[]) => void;
 }) {
     const navigate = useNavigate();
@@ -127,6 +130,7 @@ function SceneLayerComposer({
                 constraints={SCENE_SOURCE_LIMITS}
                 maxCount={1}
                 disabled={disabled}
+                library={library}
                 variant="linkfox"
                 wide
                 compact
@@ -147,7 +151,7 @@ function SceneLayerComposer({
             ) : null}
             <button
                 type="button"
-                onClick={() => navigate("/tools/product-design/product-suite")}
+                onClick={() => navigate("/tools/ecommerce-suite/product-image-suite")}
                 className="mt-3 block text-left text-[13px] leading-5 text-primary hover:underline"
                 data-testid="scene-to-suite"
             >
@@ -288,6 +292,12 @@ export function ProductSceneWorkspace({ className, toolId = PRODUCT_SCENE_TOOL_I
     const draft = useToolDraftStore((state) => state.drafts[toolId]);
     const config = useConfigStore((state) => state.config);
     const imageModel = useConfigStore((state) => state.config.imageModel);
+    // 作品库（本地资产库）：上传卡上的「从作品库选择」从真实资产列表读取，不伪造商品库入口。
+    const assets = useAssetStore((state) => state.assets);
+    const library = useMemo(
+        () => toolAssetLibraryItemsFromAssets(assets.filter((asset): asset is ImageAsset | VideoAsset => asset.kind === "image" || asset.kind === "video")),
+        [assets],
+    );
 
     // 原站默认进入「智能」模型（提示行为「💡已选择智能模式…」），故页面初始值取 smart。
     const [values, setValues] = useState<SceneValues>(() => ({ ...DEFAULT_SCENE_VALUES, modelId: "smart" }));
@@ -572,6 +582,7 @@ export function ProductSceneWorkspace({ className, toolId = PRODUCT_SCENE_TOOL_I
                             source={source}
                             restoring={restoringSource}
                             lostSource={lostSource}
+                            library={library}
                             onChange={onSourceChange}
                         />
 

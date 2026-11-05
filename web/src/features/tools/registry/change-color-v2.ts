@@ -94,6 +94,8 @@ export interface ColorV2Values {
     referenceAssetIds: string[];
     /** 按商品图 assetId 记录微调，未记录 = 默认值。 */
     adjustments: Record<string, ColorAdjustment>;
+    /** 按商品图 assetId 覆盖展示名（`imageName` 字段的展示名部分），未记录 = 用文件名。 */
+    imageNames: Record<string, string>;
     historyColors: string[];
 }
 
@@ -105,6 +107,7 @@ export const DEFAULT_COLOR_V2_VALUES: ColorV2Values = {
     quality: "medium",
     referenceAssetIds: [],
     adjustments: {},
+    imageNames: {},
     historyColors: [],
 };
 
@@ -420,6 +423,13 @@ export function quantizePalette(
  * 状态解析 / 校验 / 快照
  * ------------------------------------------------------------------ */
 
+/** 提交字段 `imageName` 的展示名：优先用户改过的展示名，否则回落文件名（与上传区展示一致）。 */
+export function displayImageName(assetId: string, fallback: string | undefined, imageNames?: Readonly<Record<string, string>>): string {
+    const custom = imageNames?.[assetId];
+    if (custom && custom.trim()) return custom.trim();
+    return fallback ?? "未命名商品图";
+}
+
 function asRecord(value: unknown): Record<string, unknown> {
     return value && typeof value === "object" && !Array.isArray(value) ? (value as Record<string, unknown>) : {};
 }
@@ -461,6 +471,11 @@ export function parseColorV2Values(raw: unknown): ColorV2Values {
               .slice(0, COLOR_V2_MAX_HISTORY_COLORS)
         : [];
     const quality = COLOR_QUALITY_LEVELS.some((item) => item.key === record.quality) ? (record.quality as ColorQualityKey) : "medium";
+    const imageNames: Record<string, string> = {};
+    for (const [key, value] of Object.entries(asRecord(record.imageNames))) {
+        const text = sanityRegion(value);
+        if (key && text) imageNames[key] = text;
+    }
     const referenceAssetIds = Array.isArray(record.referenceAssetIds)
         ? record.referenceAssetIds.filter((item): item is string => typeof item === "string").slice(0, COLOR_V2_MAX_REFERENCE_IMAGES)
         : plans.map((plan) => plan.referenceAssetId).filter((item): item is string => Boolean(item));
@@ -473,6 +488,7 @@ export function parseColorV2Values(raw: unknown): ColorV2Values {
         quality,
         referenceAssetIds,
         adjustments,
+        imageNames,
         historyColors,
     };
 }
@@ -539,6 +555,8 @@ export interface ColorV2Snapshot {
     quality: ColorQualityKey;
     adjustments: Record<string, ColorAdjustment>;
     referenceAssetIds: string[];
+    /** 本次提交使用的展示名（`imageName`）；改了展示名也算配置变更。 */
+    imageNames: Record<string, string>;
     createdAt: number;
 }
 
@@ -552,6 +570,11 @@ export function buildColorV2Snapshot(input: ColorV2StateInput, at: number = Date
     for (const assetId of assetIds) {
         const adjustment = input.values.adjustments[assetId];
         if (adjustment && !isDefaultAdjustment(adjustment)) adjustments[assetId] = normalizeAdjustment(adjustment);
+    }
+    const imageNames: Record<string, string> = {};
+    for (const assetId of assetIds) {
+        const name = input.values.imageNames[assetId]?.trim();
+        if (name) imageNames[assetId] = name;
     }
     const plans = input.values.plans.map((plan) => ({
         id: plan.id,
@@ -574,6 +597,7 @@ export function buildColorV2Snapshot(input: ColorV2StateInput, at: number = Date
             quality,
             adjustments,
             referenceAssetIds,
+            imageNames,
         }),
     );
     return {
@@ -584,6 +608,7 @@ export function buildColorV2Snapshot(input: ColorV2StateInput, at: number = Date
         quality,
         adjustments,
         referenceAssetIds,
+        imageNames,
         createdAt: at,
     };
 }

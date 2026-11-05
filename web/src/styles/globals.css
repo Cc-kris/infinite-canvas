@@ -150,6 +150,23 @@
     background-color: revert-layer;
 }
 
+/*
+ * 同一根因的第二处（2026-11-01 浏览器实测定位）：antd reset.css 给
+ * `input, button, select, optgroup, textarea` 注入未分层的 `color: inherit`，
+ * 压过 Tailwind 分层的 `text-primary-foreground`，导致 39 工具页所有
+ * `bg-primary text-primary-foreground` 按钮呈「深底深字 / 浅底浅字」不可读。
+ * 按 antd reset 的选择器逐项 revert-layer 回落（文本类控件收窄到壳内，避免影响 antd 自身组件）。
+ */
+[data-testid="tool-shell"] button,
+[data-testid="shell-top-nav"] button,
+[data-testid="tool-sidebar"] button,
+[data-testid="tool-config-column"] button,
+[data-testid="tool-main-column"] button,
+[data-testid="tool-history-dock"] button,
+[data-testid="agent-panel"] button {
+    color: revert-layer;
+}
+
 @layer base {
     * {
         @apply border-border outline-ring/50;
@@ -639,4 +656,41 @@
     padding: 0.5rem 0.8rem;
     border-radius: 0.6rem;
     font-size: 0.75rem;
+}
+
+/* LinkFox 工具工作区：原站为浅色、4px 圆角、紫色主操作。作用域只限工具页，站点全局壳不受影响。 */
+.tool-linkfox-surface {
+    --background: #ffffff;
+    --foreground: #1f2329;
+    --card: #ffffff;
+    --card-foreground: #1f2329;
+    --popover: #ffffff;
+    --popover-foreground: #1f2329;
+    --primary: #723cf9;
+    --primary-foreground: #ffffff;
+    --secondary: #f5f6f8;
+    --secondary-foreground: #1f2329;
+    --muted: #f5f6f8;
+    --muted-foreground: #6b7280;
+    --accent: #f3edff;
+    --accent-foreground: #723cf9;
+    --border: #e5e7eb;
+    --input: #e5e7eb;
+    --ring: #723cf9;
+    --radius: 0.25rem;
+    color-scheme: light;
+}
+
+.tool-linkfox-surface .bg-canvas {
+    background-color: #ffffff;
+}
+
+.tool-linkfox-surface [data-testid="tool-config-section"] {
+    border-radius: 4px;
+    box-shadow: none;
+}
+
+/* 原站没有内容区横向族导航；族导航已迁到左侧 rail。旧 workspace 里的 inline 版本仅保留 DOM 作为回滚点，不参与显示。 */
+.tool-linkfox-surface [data-orig-rail="inline"] {
+    display: none !important;
 }

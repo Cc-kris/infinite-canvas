@@ -45,6 +45,9 @@ try {
     // 1) 真实上传
     await page.setInputFiles('[data-testid="tool-asset-file-input"]', FIXTURE);
     await page.waitForSelector('[data-testid="crop-canvas"]', { timeout: 60_000 });
+    // 「开始裁剪」按原站布局收进工具条「更多」弹层（默认不占主流程），先展开再等可用。
+    await page.click('[data-testid="crop-more"]');
+    await page.waitForSelector('[data-testid="crop-more-panel"]', { timeout: 10_000 });
     await page.waitForFunction(() => {
         const b = document.querySelector('[data-testid="crop-submit"]');
         return b && !b.disabled;

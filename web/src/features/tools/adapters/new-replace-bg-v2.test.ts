@@ -384,7 +384,6 @@ describe("商品图工作区渲染", () => {
         const html = await renderSceneWorkspace();
         for (const id of [
             "scene-workspace",
-            "scene-steps",
             "scene-goods",
             "scene-cutout",
             "scene-type",

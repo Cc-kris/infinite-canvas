@@ -35,6 +35,8 @@ export const IMAGE_TEXT_EDIT_MAX_BOXES = 30;
 export const IMAGE_TEXT_EDIT_TEXT_LIMIT = 240;
 export const IMAGE_TEXT_EDIT_MIN_BOX = 0.03;
 export const IMAGE_TEXT_EDIT_FONT_SIZE = { min: 8, max: 240 } as const;
+/** 页面 §4：提交按钮旁显示产物数量；本工具单次固定输出 1 张（适配器的 count 也取这里，避免两处各写一个 1）。 */
+export const IMAGE_TEXT_EDIT_OUTPUT_NUM = 1;
 
 /* ------------------------------ 导出格式 ------------------------------ */
 
@@ -92,7 +94,7 @@ export const IMAGE_TEXT_EDIT_FONTS: ReadonlyArray<ImageTextEditFont> = [
     { id: "serif", label: "衬线（报刊标题）", cssStack: "'Songti SC', 'Times New Roman', Georgia, serif", coverage: "latin-cjk" },
     { id: "display", label: "展示体（粗标题）", cssStack: "Impact, 'Haettenschweiler', 'Arial Narrow Bold', sans-serif", coverage: "latin-symbol" },
     { id: "mono", label: "等宽（价签/参数）", cssStack: "'SF Mono', Menlo, Consolas, 'Courier New', monospace", coverage: "latin-symbol", monospace: true },
-    { id: "hand", label: "手写（促销手牌）", cssStack: "'Bradley Hand', 'Segoe Script', 'Comic Sans MS', cursive", coverage: "latin-symbol" },
+    { id: "hand", label: "手写（手写标注）", cssStack: "'Bradley Hand', 'Segoe Script', 'Comic Sans MS', cursive", coverage: "latin-symbol" },
 ];
 
 export const IMAGE_TEXT_EDIT_DEFAULT_FONT = IMAGE_TEXT_EDIT_FONTS[0].id;

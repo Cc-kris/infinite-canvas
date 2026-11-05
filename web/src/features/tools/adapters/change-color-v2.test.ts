@@ -53,6 +53,7 @@ function baseValues(overrides: Partial<ColorV2Values> = {}): ColorV2Values {
         quality: "medium",
         referenceAssetIds: [],
         adjustments: {},
+        imageNames: {},
         historyColors: ["#CC2222"],
         ...overrides,
     };
@@ -252,6 +253,7 @@ describe("draft parsing", () => {
             quality: "medium",
             referenceAssetIds: [],
             adjustments: {},
+            imageNames: {},
             historyColors: [],
         });
     });
@@ -426,6 +428,48 @@ describe("adapter units", () => {
         expect(plans[0].source).toBe("product");
         expect(plans[0].sourceAssetId).toBe("a1");
         expect(plans[0].id).toBe("product-a1-c81414");
+    });
+
+    test("imageName 自动填文件名；用户改过展示名后提交键与 prompt 都用展示名", () => {
+        const images = buildSuiteImages(records(), ["a1"]);
+        const auto = buildSuiteUnits({ images, values: baseValues(), snapshotHash: "h" });
+        expect(auto[0].fields.imageName).toBe("front.png");
+        expect(auto[0].imageName).toBe("front.png");
+        expect(auto[0].prompt).toContain("front.png");
+
+        const renamed = buildSuiteUnits({
+            images,
+            values: baseValues({ imageNames: { a1: "  主图正面  " } }),
+            snapshotHash: "h",
+        });
+        expect(renamed[0].fields.imageName).toBe("主图正面");
+        expect(renamed[0].prompt).toContain("主图正面");
+
+        // 空白展示名不能覆盖文件名。
+        const blank = buildSuiteUnits({ images, values: baseValues({ imageNames: { a1: "   " } }), snapshotHash: "h" });
+        expect(blank[0].fields.imageName).toBe("front.png");
+    });
+
+    test("展示名进入快照与哈希（改了展示名结果就会标为过期）", () => {
+        const base = buildColorV2Snapshot({ assetIds: ["a1"], values: baseValues() }, 1);
+        const renamed = buildColorV2Snapshot({ assetIds: ["a1"], values: baseValues({ imageNames: { a1: "主图" } }) }, 1);
+        expect(base.imageNames).toEqual({});
+        expect(renamed.imageNames).toEqual({ a1: "主图" });
+        expect(renamed.hash).not.toBe(base.hash);
+    });
+
+    test("§7：单元字段带 draftRevision / clientOperationId", () => {
+        const units = buildSuiteUnits({
+            images: buildSuiteImages(records(), ["a1"]),
+            values: baseValues(),
+            snapshotHash: "h",
+            meta: { draftRevision: 7, clientOperationId: "op-1" },
+        });
+        expect(units[0].fields.draftRevision).toBe(7);
+        expect(units[0].fields.clientOperationId).toBe("op-1");
+        const noMeta = buildSuiteUnits({ images: buildSuiteImages(records(), ["a1"]), values: baseValues(), snapshotHash: "h" });
+        expect(noMeta[0].fields.draftRevision).toBeNull();
+        expect(noMeta[0].fields.clientOperationId).toBeNull();
     });
 });
 

@@ -103,9 +103,12 @@ import {
     redoSdsPlacement,
     sdsColorOption,
     sdsDraftAssetIds,
+    sdsExpectedOutputCount,
     sdsPlacementKeyAction,
     sdsPrintableArea,
     sdsSelectedMaterial,
+    sdsPlacementsForProduct,
+    sdsSnapshotSummary,
     sdsSubmitLabel,
     sdsTilingPreset,
     serializeSdsValues,
@@ -1368,7 +1371,8 @@ export function SdsDesignWorkspace() {
             update((previous) => ({
                 ...previous,
                 product: record ? sdsAssetFields(toSdsAsset(record)) : null,
-                materials: record ? previous.materials : previous.materials,
+                // page-spec 24 §3：产品改变替换承载图层并按新可贴区域重新夹取素材位置；不透传到颜色/平铺。
+                materials: sdsPlacementsForProduct(previous.materials, record ? { width: record.width, height: record.height } : null),
             }));
             if (!record) {
                 setHistory((previous) => ({ ...previous, present: {}, future: [] }));
@@ -1757,7 +1761,43 @@ export function SdsDesignWorkspace() {
                                 {submitLabel}
                             </button>
                         </div>
+                        {/* page-spec 24 §4：提交按钮旁显示预计输出数量（输出与素材一一对应），不显示原站算力。 */}
+                        <p className="mt-[6px] text-[12px] leading-[18px] text-muted-foreground">
+                            预计输出 {sdsExpectedOutputCount(values)} 张（与素材一一对应）
+                        </p>
                     </div>
+
+                    {/* 素材名（提交字段 imageName，可编辑；默认取第一个素材名） */}
+                    <div className="rounded-[8px] bg-muted/50 px-[16px] pb-[10px] pt-[10px]">
+                        <label className="block">
+                            <span className="text-[14px] leading-[22px] text-[rgba(0,0,0,0.85)]">素材名</span>
+                            <input
+                                className="mt-[7px] h-[36px] w-full rounded-[8px] border border-border bg-card px-3 text-[14px] text-foreground outline-none focus:border-primary"
+                                value={values.imageName}
+                                placeholder="默认取第一个素材文件名"
+                                maxLength={60}
+                                disabled={running}
+                                onChange={(event) => update((previous) => ({ ...previous, imageName: event.target.value }))}
+                            />
+                        </label>
+                    </div>
+
+                    {/* 当前选中素材的平铺方式（TilingPresetSelect，page-spec 24 §6） */}
+                    {sdsSelectedMaterial(values) ? (
+                        <div className="rounded-[8px] bg-muted/50 px-[16px] pb-[10px] pt-[10px]">
+                            <p className="text-[14px] leading-[22px] text-[rgba(0,0,0,0.85)]" style={{ margin: 0 }}>平铺方式</p>
+                            <div className="mt-[7px]">
+                                <TilingPresetSelect
+                                    value={sdsTilingPreset(sdsSelectedMaterial(values)?.tilingPresetId).id}
+                                    disabled={running}
+                                    onChange={(presetId) => {
+                                        const assetId = sdsSelectedMaterial(values)?.assetId;
+                                        if (assetId) handleTiling(assetId, presetId);
+                                    }}
+                                />
+                            </div>
+                        </div>
+                    ) : null}
                 </div>
             </section>
                 }
@@ -1859,6 +1899,15 @@ export function SdsDesignWorkspace() {
                                         <p className="rounded-[8px] border border-amber-300 bg-amber-50 px-2 py-1.5 text-[12px] text-amber-700">
                                             结果来自旧版本（改动：{result.drift || "配置已变化"}），需重新生成。
                                         </p>
+                                    ) : null}
+                                    {/* page-spec 24 §4：查看本次输入快照（提交时锁定的配置）。 */}
+                                    {snapshot ? (
+                                        <details className="rounded-[8px] border border-border bg-card px-2 py-1.5">
+                                            <summary className="cursor-pointer text-[12px] text-muted-foreground">查看本次输入快照</summary>
+                                            <pre className="mt-1 max-h-40 overflow-auto whitespace-pre-wrap text-[11px] leading-4 text-foreground">
+                                                {sdsSnapshotSummary(snapshot)}
+                                            </pre>
+                                        </details>
                                     ) : null}
                                     {resultNotice ? (
                                         <p className="rounded-[8px] border border-border bg-card px-2 py-1.5 text-[12px] text-muted-foreground">

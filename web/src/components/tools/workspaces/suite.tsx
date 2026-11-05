@@ -3,15 +3,14 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { cn } from "@/lib/utils";
 import { ToolAssetInput } from "@/components/tools/tool-asset-input";
 import { ToolCases } from "@/components/tools/tool-cases";
-import { ECOMMERCE_SUITE_RAIL, OrigRail } from "@/components/tools/workspaces/orig-rail";
 import { ToolWorkspaceColumns } from "@/components/tools/tool-workspace-columns";
 import type { ToolCase } from "@/components/tools/tool-cases";
 import { uploadCaseFiles } from "@/features/tools/case-apply";
 import { PRODUCT_SUITE_CASES } from "@/features/tools/suite6-cases-data";
-import { ToolTaskHistory } from "@/components/tools/tool-task-history";
 import { downloadResultItem, saveResultItemToAssets, sendResultItemToCanvas } from "@/components/tools/tool-result-actions";
-import { loadToolAssetRecords, type ToolAssetConstraints, type ToolAssetRecord } from "@/services/api/tools/assets";
+import { loadToolAssetRecords, toolAssetLibraryItemsFromAssets, type ToolAssetConstraints, type ToolAssetRecord } from "@/services/api/tools/assets";
 import type { ToolTask, ToolTaskResultItem } from "@/services/api/tools/task-machine";
+import { useAssetStore, type ImageAsset, type VideoAsset } from "@/stores/use-asset-store";
 import { useConfigStore } from "@/stores/use-config-store";
 import { useToolDraftStore } from "@/stores/use-tool-draft-store";
 import { getPersistedToolGateway, useToolTaskStore } from "@/stores/use-tool-task-store";
@@ -22,6 +21,7 @@ import {
     buildSuiteUnits,
     SUITE_FONT_STYLES,
     SUITE_LAYOUT_MODES,
+    SUITE_PRODUCT_CATEGORIES,
     SUITE_QUALITIES,
     SUITE_RATIOS,
     SUITE_RESOLUTIONS,
@@ -49,6 +49,7 @@ import {
     type SuiteSourceAsset,
     type SuiteUnitResult,
 } from "@/features/tools/adapters/product-image-suite";
+import { SUITE_REPLACEMENT_LIBRARIES, SUITE_SENSITIVE_LIBRARIES } from "@/features/tools/registry/product-image-suite";
 import {
     MARKET_APLUS_TEMPLATES,
     MARKET_FONT_STYLES,
@@ -56,16 +57,17 @@ import {
     MARKET_LAYOUT_MODES,
     MARKET_MARKETING_MODULES,
     MARKET_MAX_MODULE_COUNT,
+    MARKET_PRODUCT_CATEGORIES,
     MARKET_QUALITIES,
     MARKET_PLATFORMS,
     MARKET_PRODUCT_INFO_MAX_LENGTH,
-    MARKET_PROVIDERS,
+    MARKET_REPLACEMENT_LIBRARIES,
     MARKET_SALES_REGIONS,
+    MARKET_SENSITIVE_LIBRARIES,
     MARKET_UPLOAD_LIMITS,
     PRODUCT_MARKET_MATERIAL_TOOL_ID,
     aplusRatiosForPlatform,
     availableMarketingRatios,
-    availableQualities,
     availableResolutions,
     buildMarketPlan,
     buildMarketUnits,
@@ -73,6 +75,8 @@ import {
     createMarketSnapshot,
     findRegion,
     marketExpectedCount,
+    marketReplacementLibraryOf,
+    marketSensitiveLibraryOf,
     normalizeConfig,
     platformSupportsAplus,
     readMarketConfig,
@@ -122,29 +126,43 @@ function Section({
      * （左侧标签 + 右侧摘要），行尾另有一个只带 aria-label 的配置按钮。
      * 传入 output 后该区块默认折叠，展开的是同一份生成设置内容。
      */
-    output?: { label: string; summary: string; configureLabel: string; ariaLabel?: string };
+    output?: { label: string; summary: string; configureLabel: string; ariaLabel?: string; enabled?: boolean; onToggle?: () => void };
 }) {
     const [open, setOpen] = useState(false);
     if (output) {
         return (
-            <section className="rounded-md border border-stone-200 bg-white/60 px-2 py-1.5 dark:border-stone-800 dark:bg-stone-900/40">
-                <div className="flex items-center gap-1">
+            /* 原站这两块是「行卡」：上行名称、下行摘要，右侧一个箭头/齿轮，点开是弹层内容。 */
+            <section className="rounded-[4px] border border-stone-200 bg-white px-2 py-1.5">
+                <div className="flex items-center gap-1.5">
+                    <button type="button" aria-expanded={open} aria-label={output.ariaLabel} onClick={() => setOpen((value) => !value)} className="flex min-w-0 flex-1 flex-col items-start gap-0.5 text-left">
+                        <span className="truncate text-[12px] font-medium leading-4 text-stone-800 dark:text-stone-100">{output.label}</span>
+                        <span className="truncate text-[11px] leading-4 text-stone-500 dark:text-stone-400">{output.summary}</span>
+                    </button>
+                    {/* 原站：模型行只有一个箭头；A+图 / 主副图行是齿轮（打开配置）+ 开关，不重复两个图标。 */}
+                    {output.ariaLabel ? (
+                        <svg viewBox="0 0 16 16" aria-hidden className={cn("size-3 shrink-0 text-muted-foreground transition-transform", open && "rotate-90")} fill="none" stroke="currentColor" strokeWidth="1.4">
+                            <path d="M6 3.5L10.5 8L6 12.5" />
+                        </svg>
+                    ) : null}
+                    {output.onToggle ? (
                     <button
                         type="button"
-                        aria-expanded={open}
-                        aria-label={output.ariaLabel}
-                        onClick={() => setOpen((value) => !value)}
-                        className="flex min-w-0 flex-1 items-baseline gap-1.5 text-left"
+                            role="switch"
+                            aria-checked={output.enabled !== false}
+                            aria-label={`${output.label}开关`}
+                            onClick={output.onToggle}
+                            className={cn("relative h-[16px] w-[28px] shrink-0 rounded-full transition-colors", output.enabled === false ? "bg-[#d9d9e0]" : "bg-primary")}
                     >
-                        <span className="text-[12px] font-medium leading-4 text-stone-800 dark:text-stone-100">{output.label}</span>
-                        <span className="truncate text-[11px] text-stone-500 dark:text-stone-400">{output.summary}</span>
+                            <span className={cn("absolute top-[2px] size-3 rounded-full bg-white transition-all", output.enabled === false ? "left-[2px]" : "left-[14px]")} />
                     </button>
+                    ) : null}
                     {output.ariaLabel ? null : (
                     <button
                         type="button"
                         aria-label={output.configureLabel}
                         title={output.configureLabel}
-                        onClick={() => setOpen(true)}
+                            aria-expanded={open}
+                            onClick={() => setOpen((value) => !value)}
                         className="rounded-[4px] border border-stone-200 px-1 py-0.5 text-stone-500 hover:border-stone-300 dark:border-stone-700"
                     >
                         <svg viewBox="0 0 16 16" aria-hidden className="size-3" fill="none" stroke="currentColor" strokeWidth="1.3">
@@ -156,7 +174,17 @@ function Section({
                     </button>
                     )}
                 </div>
-                {open ? <div className="mt-1.5 space-y-1.5">{children}</div> : null}
+                {open ? (
+                    <div className="mt-1.5 space-y-1.5">
+                        {children}
+                        {/* 原站弹层底部有「完成」：本地用它收起同一份设置内容。 */}
+                        <div className="flex justify-end pt-0.5">
+                            <button type="button" onClick={() => setOpen(false)} className="h-[26px] rounded-[4px] bg-primary px-3 text-[11px] leading-none text-primary-foreground hover:bg-primary/90">
+                                完成
+                            </button>
+                        </div>
+                    </div>
+                ) : null}
             </section>
         );
     }
@@ -171,17 +199,225 @@ function Section({
     );
 }
 
-function Field({ label, children }: { label: string; children: React.ReactNode }) {
+function Field({ label, hint, children }: { label: string; hint?: string; children: React.ReactNode }) {
     return (
         <label className="flex items-center justify-between gap-2 text-xs text-stone-600 dark:text-stone-300">
-            <span className="shrink-0">{label}</span>
+            <span className="shrink-0">
+                {label}
+                {hint ? <span className="ml-1 text-[10px] text-stone-400 dark:text-stone-500">{hint}</span> : null}
+            </span>
             {children}
         </label>
     );
 }
 
-const inputClass =
-    "rounded-md border border-stone-200 bg-white px-2 py-1 text-xs text-stone-800 outline-none focus:border-stone-400 dark:border-stone-700 dark:bg-stone-900 dark:text-stone-100";
+const inputClass = "rounded-md border border-stone-200 bg-white px-2 py-1 text-xs text-stone-800 outline-none focus:border-stone-400 dark:border-stone-700 dark:bg-stone-900 dark:text-stone-100";
+
+/**
+ * 原站的下拉/级联在本地统一用「可搜索级联弹层」的交互形态呈现：
+ * 触发条（role=combobox，显示当前值）+ 弹层（搜索框 + 选项列表 + 空态）。
+ * 数据仍是本页现有的真实枚举（不改注册表、不接后端、不搬运原站类目表）。
+ */
+function SuiteSearchSelect({
+    label,
+    value,
+    options,
+    emptyHint,
+    placeholder = "请选择",
+    testId,
+    onChange,
+    className,
+}: {
+    label: string;
+    value: string;
+    options: ReadonlyArray<{ value: string; label: string; group?: string }>;
+    emptyHint?: string;
+    placeholder?: string;
+    testId?: string;
+    onChange: (value: string) => void;
+    className?: string;
+}) {
+    const [open, setOpen] = useState(false);
+    const [query, setQuery] = useState("");
+    const rootRef = useRef<HTMLDivElement | null>(null);
+    const current = options.find((option) => option.value === value);
+    const matched = options.filter((option) => option.label.toLowerCase().includes(query.trim().toLowerCase()));
+
+    useEffect(() => {
+        if (!open) return;
+        const onPointerDown = (event: MouseEvent) => {
+            if (!rootRef.current?.contains(event.target as Node)) setOpen(false);
+        };
+        const onKeyDown = (event: KeyboardEvent) => {
+            if (event.key === "Escape") setOpen(false);
+        };
+        document.addEventListener("mousedown", onPointerDown);
+        document.addEventListener("keydown", onKeyDown);
+        return () => {
+            document.removeEventListener("mousedown", onPointerDown);
+            document.removeEventListener("keydown", onKeyDown);
+        };
+    }, [open]);
+
+    return (
+        <div ref={rootRef} className={cn("relative", className)}>
+            <button
+                type="button"
+                role="combobox"
+                aria-label={label}
+                aria-expanded={open}
+                aria-haspopup="listbox"
+                data-testid={testId}
+                onClick={() => setOpen((previous) => !previous)}
+                className={cn("flex h-[30px] w-full items-center justify-between gap-1 rounded-[4px] border bg-white px-2 text-left text-[12px] leading-none transition-colors", open ? "border-primary" : "border-[#E6E6EB] hover:border-[#d8d8e0]")}
+            >
+                <span className={cn("truncate", current ? "text-foreground" : "text-muted-foreground")}>{current ? current.label : placeholder}</span>
+                <svg viewBox="0 0 16 16" aria-hidden className="size-3 shrink-0 text-muted-foreground" fill="none" stroke="currentColor" strokeWidth="1.4">
+                    <path d="M4 6.5L8 10.5L12 6.5" />
+                </svg>
+            </button>
+            {open ? (
+                <div data-testid={testId ? `${testId}-popup` : undefined} className="absolute left-0 top-[34px] z-30 w-full min-w-[220px] rounded-[6px] border border-[#E6E6EB] bg-white p-1.5 shadow-[0_8px_24px_rgba(15,15,25,0.12)]">
+                    <input
+                        autoFocus
+                        value={query}
+                        onChange={(event) => setQuery(event.target.value)}
+                        placeholder="搜索"
+                        aria-label={`搜索${label}`}
+                        className="mb-1 h-[26px] w-full rounded-[4px] border border-[#E6E6EB] px-2 text-[12px] leading-none outline-none focus:border-primary"
+                    />
+                    <ul role="listbox" aria-label={label} className="max-h-[180px] overflow-y-auto">
+                        {matched.map((option) => (
+                            <li key={option.value}>
+                                <button
+                                    type="button"
+                                    role="option"
+                                    aria-selected={option.value === value}
+                                    onClick={() => {
+                                        onChange(option.value);
+                                        setOpen(false);
+                                        setQuery("");
+                                    }}
+                                    className={cn(
+                                        "flex h-[26px] w-full items-center justify-between gap-2 rounded-[4px] px-2 text-left text-[12px] leading-none",
+                                        option.value === value ? "bg-[#f3edff] text-primary" : "text-foreground hover:bg-[#f7f7f8]",
+                                    )}
+                                >
+                                    <span className="truncate">
+                                        {option.label}
+                                        {option.group ? <span className="ml-1 text-[11px] text-muted-foreground">{option.group}</span> : null}
+                                    </span>
+                                    {option.value === value ? <span aria-hidden>✓</span> : null}
+                                </button>
+                            </li>
+                        ))}
+                        {matched.length === 0 ? <li className="px-2 py-1.5 text-[11px] leading-4 text-muted-foreground">{emptyHint ?? "没有匹配的选项"}</li> : null}
+                    </ul>
+                </div>
+            ) : null}
+        </div>
+    );
+}
+
+/** 商品信息「向导」弹窗：只在点「确定」时把填写内容并入商品信息；AI分析按钮保持禁用（与原站未上传时一致）。 */
+function SuiteWizardDialog({ open, onClose, onApply }: { open: boolean; onClose: () => void; onApply: (draft: SuiteWizardDraft) => void }) {
+    const [draft, setDraft] = useState<SuiteWizardDraft>(EMPTY_SUITE_WIZARD);
+    useEffect(() => {
+        if (open) setDraft(EMPTY_SUITE_WIZARD);
+    }, [open]);
+    if (!open) return null;
+    const field = (key: keyof SuiteWizardDraft, label: string, max: number, multiline = false) => (
+        <label className="flex flex-col gap-1 text-[12px] leading-4 text-[#3b3b4f]">
+            <span className="flex items-baseline justify-between gap-2">
+                <span>{label}</span>
+                <span className="text-[11px] text-muted-foreground">
+                    {draft[key].length} / {max}
+                </span>
+            </span>
+            {multiline ? (
+                <textarea
+                    value={draft[key]}
+                    rows={4}
+                    onChange={(event) => setDraft((previous) => ({ ...previous, [key]: event.target.value.slice(0, max) }))}
+                    className="w-full resize-y rounded-[4px] border border-[#E6E6EB] p-2 text-[12px] leading-5 outline-none focus:border-primary"
+                />
+            ) : (
+                <input
+                    value={draft[key]}
+                    onChange={(event) => setDraft((previous) => ({ ...previous, [key]: event.target.value.slice(0, max) }))}
+                    className="h-[30px] w-full rounded-[4px] border border-[#E6E6EB] px-2 text-[12px] leading-none outline-none focus:border-primary"
+                />
+            )}
+        </label>
+    );
+    return (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 p-4" role="presentation" onMouseDown={onClose}>
+            <div
+                role="dialog"
+                aria-modal="true"
+                aria-label="商品信息"
+                data-testid="suite-wizard-dialog"
+                onMouseDown={(event) => event.stopPropagation()}
+                className="flex max-h-[80vh] w-[484px] max-w-full flex-col rounded-[8px] bg-white shadow-[0_16px_48px_rgba(15,15,25,0.24)]"
+            >
+                <header className="flex h-[46px] shrink-0 items-center justify-between border-b border-[#EDEDF0] px-4">
+                    <h2 className="text-[14px] font-medium leading-none text-foreground">商品信息</h2>
+                    <button type="button" aria-label="关闭商品信息" onClick={onClose} className="text-[12px] leading-none text-muted-foreground hover:text-foreground">
+                        关闭
+                    </button>
+                </header>
+                <div className="min-h-0 flex-1 space-y-3 overflow-y-auto px-4 py-3">
+                    {field("productName", "产品名称", 100)}
+                    {field("productSize", "产品尺寸", 100)}
+                    {field("audience", "目标受众", SUITE_WIZARD_LIMITS.audience)}
+                    {field("sellingPoint", "核心卖点", SUITE_WIZARD_LIMITS.sellingPoint, true)}
+                    {field("infringement", "我的侵权词", SUITE_WIZARD_LIMITS.infringement)}
+                    <p className="text-[11px] leading-4 text-muted-foreground">填写内容只写入本页商品信息（随生成 Prompt 提交），不写入上游任何账户。</p>
+                </div>
+                <footer className="flex shrink-0 items-center justify-end gap-2 border-t border-[#EDEDF0] px-4 py-2.5">
+                    <button type="button" onClick={onClose} className="h-[28px] rounded-[4px] border border-[#E6E6EB] px-3 text-[12px] leading-none text-[#5a5a70] hover:border-[#d8d8e0]">
+                        取消
+                    </button>
+                    <button
+                        type="button"
+                        data-testid="suite-wizard-confirm"
+                        onClick={() => {
+                            onApply(draft);
+                            onClose();
+                        }}
+                        className="h-[28px] rounded-[4px] bg-primary px-4 text-[12px] leading-none text-primary-foreground hover:bg-primary/90"
+                    >
+                        确定
+                    </button>
+                </footer>
+            </div>
+        </div>
+    );
+}
+
+/** 诚实空态弹窗：本地没有该类数据源时如实说明，不伪造列表、不禁用入口。 */
+function SuiteEmptyLibraryDialog({ title, body, onClose }: { title: string; body: string; onClose: () => void }) {
+    return (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 p-4" role="presentation" onMouseDown={onClose}>
+            <div
+                role="dialog"
+                aria-modal="true"
+                aria-label={title}
+                data-testid="suite-empty-library-dialog"
+                onMouseDown={(event) => event.stopPropagation()}
+                className="flex w-[360px] max-w-full flex-col rounded-[8px] bg-white shadow-[0_16px_48px_rgba(15,15,25,0.24)]"
+            >
+                <header className="flex h-[46px] shrink-0 items-center justify-between border-b border-[#EDEDF0] px-4">
+                    <h2 className="text-[14px] font-medium leading-none text-foreground">{title}</h2>
+                    <button type="button" aria-label={`关闭${title}`} onClick={onClose} className="text-[12px] leading-none text-muted-foreground hover:text-foreground">
+                        关闭
+                    </button>
+                </header>
+                <p className="px-4 py-4 text-[12px] leading-5 text-muted-foreground">{body}</p>
+            </div>
+        </div>
+    );
+}
 
 /* ---------------------- 历史回填（UI 刷新后不丢结果） ---------------------- */
 
@@ -198,14 +434,62 @@ const APLUS_SIZE_HINTS: Record<string, string> = {
     "aplus-standard": "970×600",
 };
 
-/** 向导里的一键句式（本地文本，点选后追加到商品信息）。 */
-const SUITE_GUIDE_PROMPTS: ReadonlyArray<{ label: string; text: string }> = [
-    { label: "核心卖点", text: "核心卖点：" },
-    { label: "材质工艺", text: "材质工艺：" },
-    { label: "使用场景", text: "使用场景：" },
-    { label: "目标人群", text: "目标人群：" },
-    { label: "尺码规格", text: "尺码规格：" },
-];
+/**
+ * 上传张数上限 = 16（原站上传卡文案「最多上传16张图」）。
+ * 注册表里的 `SUITE_SOURCE_LIMITS.maxCount` 仍是 1（生成时只用首图作源图），
+ * 这里放宽的是「选择/暂存参考图」的入口，避免为了 16 张去改注册表契约。
+ */
+const SUITE_UPLOAD_MAX = 16;
+
+/** 原站上传卡限制行逐字文案（「最多上传16张图，10M以内，384*384~4096*4096，最大宽高比5」）。 */
+const SUITE_UPLOAD_HINT = `最多上传${SUITE_UPLOAD_MAX}张图，10M以内，${SUITE_SOURCE_LIMITS.minSide}*${SUITE_SOURCE_LIMITS.minSide}~${SUITE_SOURCE_LIMITS.maxSide}*${SUITE_SOURCE_LIMITS.maxSide}，最大宽高比${SUITE_SOURCE_LIMITS.maxAspectRatio}`;
+
+/**
+ * 商品信息「向导」弹窗：原站是 484×648 的本地表单弹窗（产品名称/产品尺寸/目标受众/核心卖点/我的侵权词），
+ * 只在点「确定」时把填写的字段拼进商品信息——不请求网络、不伪造 AI 结论、不预置任何账号数据。
+ */
+const SUITE_WIZARD_LIMITS = { audience: 100, sellingPoint: 2200, infringement: 100 } as const;
+type SuiteWizardDraft = {
+    productName: string;
+    productSize: string;
+    audience: string;
+    sellingPoint: string;
+    infringement: string;
+};
+
+const EMPTY_SUITE_WIZARD: SuiteWizardDraft = { productName: "", productSize: "", audience: "", sellingPoint: "", infringement: "" };
+
+/** 向导填写结果 → 商品信息段落（空字段不落段，避免写进无内容的占位行）。 */
+function composeSuiteProductInfo(draft: SuiteWizardDraft, current: string): string {
+    const lines = [
+        draft.productName.trim() ? `产品名称：${draft.productName.trim()}` : "",
+        draft.productSize.trim() ? `产品尺寸：${draft.productSize.trim()}` : "",
+        draft.audience.trim() ? `目标受众：${draft.audience.trim()}` : "",
+        draft.sellingPoint.trim() ? `核心卖点：${draft.sellingPoint.trim()}` : "",
+        draft.infringement.trim() ? `我的侵权词：${draft.infringement.trim()}` : "",
+    ].filter(Boolean);
+    if (lines.length === 0) return current;
+    const base = current.trim();
+    return `${base ? `${base}\n` : ""}${lines.join("\n")}`.slice(0, PRODUCT_IMAGE_SUITE_MAX_PRODUCT_INFO);
+}
+
+/** 原站「品牌与合规」两行行卡：整行可点，展开的是同一份真实字段（不是第三个自造面板）。 */
+function BrandComplianceRow({ label, summary, testId, open, onToggle, children }: { label: string; summary: string; testId: string; open: boolean; onToggle: () => void; children: React.ReactNode }) {
+    return (
+        <div className="py-1 first:pt-0 last:pb-0">
+            <button type="button" aria-expanded={open} aria-label={label} data-testid={testId} onClick={onToggle} className="flex w-full items-center justify-between gap-2 py-1.5 text-left">
+                <span className="flex min-w-0 flex-col">
+                    <span className="text-[12px] font-medium leading-4 text-foreground">{label}</span>
+                    <span className="truncate text-[11px] leading-4 text-muted-foreground">{summary}</span>
+                </span>
+                <svg viewBox="0 0 16 16" aria-hidden className={cn("size-3 shrink-0 text-muted-foreground transition-transform", open && "rotate-180")} fill="none" stroke="currentColor" strokeWidth="1.4">
+                    <path d="M4 6.5L8 10.5L12 6.5" />
+                </svg>
+            </button>
+            {open ? <div className="mb-1 rounded-[4px] bg-[#fafafa] p-2">{children}</div> : null}
+        </div>
+    );
+}
 
 /**
  * 已落盘任务 → 结果区单元。
@@ -213,11 +497,7 @@ const SUITE_GUIDE_PROMPTS: ReadonlyArray<{ label: string; text: string }> = [
  * 所以用 task.prompt 与 buildSuiteUnits(config).prompt 对齐即可还原（不依赖任务里不存在的 fields）。
  * 同一 prompt 有多条时取最新一条；配置改过（prompt 变化）则不还原，避免张冠李戴。
  */
-export function restoreSuiteUnitsFromTasks(
-    config: SuiteConfig,
-    tasks: Record<string, ToolTask>,
-    toolId: string,
-): SuiteUnitResult[] {
+export function restoreSuiteUnitsFromTasks(config: SuiteConfig, tasks: Record<string, ToolTask>, toolId: string): SuiteUnitResult[] {
     const planned = buildSuiteUnits(config);
     if (planned.length === 0) return [];
     const latest = new Map<string, ToolTask>();
@@ -240,11 +520,7 @@ export function restoreSuiteUnitsFromTasks(
  * 营销素材的任务回填：与套图同构——单元 prompt 由 (模块, index/count, 尺寸/品质/商品信息) 唯一决定，
  * 刷新后按 task.prompt 与 buildMarketUnits(config).prompt 对齐还原（同 prompt 取最新一条）。
  */
-export function restoreMarketUnitsFromTasks(
-    config: MarketConfig,
-    tasks: Record<string, ToolTask>,
-    toolId: string,
-): MarketUnitResult[] {
+export function restoreMarketUnitsFromTasks(config: MarketConfig, tasks: Record<string, ToolTask>, toolId: string): MarketUnitResult[] {
     const planned = buildMarketUnits(config);
     if (planned.length === 0) return [];
     const latest = new Map<string, ToolTask>();
@@ -271,6 +547,9 @@ export function ProductImageSuiteWorkspace({ className }: { className?: string }
     const flushDraft = useToolDraftStore((state) => state.flush);
     const draft = useToolDraftStore((state) => state.drafts[toolId]);
     const imageModel = useConfigStore((state) => state.config.imageModel);
+    /* 真实作品库：原站「从作品库选择」可用；本地只在真有资产时给出可选条目，空库不伪造。 */
+    const assets = useAssetStore((state) => state.assets);
+    const library = useMemo(() => toolAssetLibraryItemsFromAssets(assets.filter((asset): asset is ImageAsset | VideoAsset => asset.kind === "image" || asset.kind === "video")), [assets]);
 
     /* 原站默认选中「高级A+（1464×600）」：生成内容摘要行需如实呈现原站文案。 */
     const [config, setConfig] = useState<SuiteConfig>(() => createDefaultSuiteConfig({ aplusModuleId: "aplus-advanced" }));
@@ -285,11 +564,15 @@ export function ProductImageSuiteWorkspace({ className }: { className?: string }
     /** 发送画布回执：nodeId，供结果面板直接回显真实动作结果。 */
     const [canvasKeys, setCanvasKeys] = useState<Record<string, string>>({});
     const [seeded, setSeeded] = useState(false);
-    const [rightTab, setRightTab] = useState<"result" | "cases" | "history">("result");
+    /* 原站结果区只有「生成结果 / 优秀案例」两个页签，历史是右上角外链（本地无对应页，故不得改成第三个页签）。 */
+    const [rightTab, setRightTab] = useState<"result" | "cases">("result");
     const [applyingCaseId, setApplyingCaseId] = useState<string | null>(null);
-    const [guideOpen, setGuideOpen] = useState(false);
-    /* 原站公告位：左列与结果区两张可关闭的提示卡（关闭按钮 aria 分别为「关闭」「关闭提示」）。 */
-    const [promoClosed, setPromoClosed] = useState<{ left: boolean; result: boolean }>({ left: false, result: false });
+    const [wizardOpen, setWizardOpen] = useState(false);
+    /* 商品库入口：本地没有商品库数据，点开是诚实空态（不禁用入口）。 */
+    const [productLibOpen, setProductLibOpen] = useState(false);
+    /* 品牌与合规：两个可展开行卡（原站形态），不是常驻平铺控件。 */
+    const [brandOpen, setBrandOpen] = useState(false);
+    const [complianceOpen, setComplianceOpen] = useState(false);
     const [caseApplyNonce, setCaseApplyNonce] = useState(0);
 
     /* 「优秀案例」做同款：真实案例原图入库后回填到商品图上传播槽 */
@@ -388,19 +671,6 @@ export function ProductImageSuiteWorkspace({ className }: { className?: string }
         setSnapshot((previous) => previous ?? createSuiteSnapshot(config, draft?.revision ?? 0));
     }, [seeded, tasksHydrated, storeTasks, config, toolId, draft?.revision]);
 
-    /* 历史点选：把该任务还原成一张结果（同一单元取最新）。 */
-    const onSelectHistoryTask = useCallback(
-        (task: ToolTask) => {
-            const target = normalizePrompt(task.prompt);
-            const unit = buildSuiteUnits(config).find((item) => normalizePrompt(item.prompt) === target);
-            if (!unit) return;
-            const restored = suiteUnitResultFromTask(unit, task);
-            setUnits((previous) => [...previous.filter((item) => item.unitId !== unit.id), restored]);
-            setRightTab("result");
-        },
-        [config],
-    );
-
     /* 草稿写入必须在事件里完成，不能放进 setState updater：
      * updater 在 React 渲染期可能被调用，渲染期写 zustand 会触发
      * 「Cannot update a component while rendering a different component」。 */
@@ -413,10 +683,9 @@ export function ProductImageSuiteWorkspace({ className }: { className?: string }
         (merged: SuiteConfig) => {
             configRef.current = merged;
             setConfig(merged);
-            patchDraft(toolId, {
-                values: { suiteConfig: merged },
-                assetIds: merged.sourceAssetId ? [merged.sourceAssetId] : [],
-            });
+            /* 只写配置值：上传区的 assetIds 由 ToolAssetInput 自己维护（最多 16 张），
+               这里再写一次会把它覆盖成单张，刷新后只剩第 1 张。 */
+            patchDraft(toolId, { values: { suiteConfig: merged } });
         },
         [patchDraft, toolId],
     );
@@ -432,10 +701,7 @@ export function ProductImageSuiteWorkspace({ className }: { className?: string }
     const appendProductInfo = useCallback(
         (text: string) => {
             const previous = configRef.current;
-            const mergedInfo = `${previous.productInfo}${previous.productInfo.trim() ? "\n" : ""}${text}`.slice(
-                0,
-                PRODUCT_IMAGE_SUITE_MAX_PRODUCT_INFO,
-            );
+            const mergedInfo = `${previous.productInfo}${previous.productInfo.trim() ? "\n" : ""}${text}`.slice(0, PRODUCT_IMAGE_SUITE_MAX_PRODUCT_INFO);
             commitConfig({ ...previous, productInfo: mergedInfo });
         },
         [commitConfig],
@@ -455,8 +721,7 @@ export function ProductImageSuiteWorkspace({ className }: { className?: string }
             .split(/[\n。；;]+/)
             .map((line) => line.trim())
             .filter(Boolean);
-        const pick = (keywords: string[]) =>
-            lines.filter((line) => keywords.some((keyword) => line.includes(keyword))).slice(0, 3);
+        const pick = (keywords: string[]) => lines.filter((line) => keywords.some((keyword) => line.includes(keyword))).slice(0, 3);
         const sections: Array<[string, string[]]> = [
             ["卖点", pick(["卖点", "卖", "轻", "防水", "耐用", "舒适", "大容量"])],
             ["材质", pick(["材质", "面料", "棉", "涤", "牛皮", "硅胶", "金属", "塑料"])],
@@ -487,10 +752,7 @@ export function ProductImageSuiteWorkspace({ className }: { className?: string }
         [update],
     );
 
-    const issues = useMemo(
-        () => validateSuiteConfig(config, { sourceReady: isSuiteSourceReady(source), imageModelReady: Boolean(imageModel?.trim()) }),
-        [config, source, imageModel],
-    );
+    const issues = useMemo(() => validateSuiteConfig(config, { sourceReady: isSuiteSourceReady(source), imageModelReady: Boolean(imageModel?.trim()) }), [config, source, imageModel]);
     const expected = suiteExpectedCount(config);
     const summary = summarizeSuiteRun(units);
     const stale = snapshot ? suiteResultsStale({ snapshot }, config) : false;
@@ -508,17 +770,40 @@ export function ProductImageSuiteWorkspace({ className }: { className?: string }
         label: "A+图",
         summary: `${aplusModule ? aplusModule.label : "高级A+"}${aplusSizeHint ? `（${aplusSizeHint}）` : ""} ${aplusUnits}张`,
         configureLabel: "配置A+图",
+        /* 原站行内是开关：关掉即不生成该模块（与「生成内容」多选语义一致）。 */
+        enabled: Boolean(config.aplusModuleId),
+        onToggle: () => update({ aplusModuleId: config.aplusModuleId ? "" : "aplus-advanced" }),
     };
     const qualityLabel = SUITE_QUALITIES.find((quality) => quality.id === config.quality)?.label ?? "";
     const mainSubFirst = MAIN_SUB_MODULES.find((module) => config.mainSubModuleIds.includes(module.id));
-    const mainSubFirstCount = mainSubFirst
-        ? config.mainSubCounts[mainSubFirst.id] ?? mainSubFirst.defaultCount
-        : 0;
+    const mainSubFirstCount = mainSubFirst ? (config.mainSubCounts[mainSubFirst.id] ?? mainSubFirst.defaultCount) : 0;
     const mainSubOutput = {
         label: "主副图",
         summary: `${mainSubFirst ? mainSubFirst.label : "卖点图"} ${mainSubUnits || mainSubFirstCount}张`,
         configureLabel: "配置主副图",
+        enabled: config.mainSubModuleIds.length > 0,
+        onToggle: () => update({ mainSubModuleIds: config.mainSubModuleIds.length > 0 ? [] : [MAIN_SUB_MODULES[0].id] }),
     };
+
+    /* 品牌与合规行卡摘要：只回显用户已选的真实值，未选就如实说未选。 */
+    const sensitiveWords = config.compliance.sensitiveWordLexiconId ? (SUITE_SENSITIVE_LIBRARIES.find((lexicon) => lexicon.id === config.compliance.sensitiveWordLexiconId)?.words ?? []) : [];
+    const brandSummary = config.brand.smartBrand ? [config.brand.primaryColor, SUITE_FONT_STYLES.find((style) => style.id === config.brand.fontStyle)?.label].filter(Boolean).join(" · ") || "已启用" : "未启用";
+    const complianceSummary =
+        [config.compliance.sensitiveWordLexiconId, config.compliance.replacementWordLexiconId]
+            .map((id) => SUITE_SENSITIVE_LIBRARIES.find((lexicon) => lexicon.id === id)?.label ?? SUITE_REPLACEMENT_LIBRARIES.find((lexicon) => lexicon.id === id)?.label)
+            .filter(Boolean)
+            .join(" · ") || "未选择词库";
+
+    /* 向导：本地表单弹窗，点「确定」才把填写内容并入商品信息（不发网络请求、不伪造 AI 输出）。 */
+    const applyWizard = useCallback(
+        (draft: SuiteWizardDraft) => {
+            const previous = configRef.current;
+            const next = composeSuiteProductInfo(draft, previous.productInfo);
+            if (next === previous.productInfo) return;
+            commitConfig({ ...previous, productInfo: next });
+        },
+        [commitConfig],
+    );
 
     /* 生成：真实逐单元提交，回调增量渲染 */
     const onGenerate = useCallback(async () => {
@@ -547,10 +832,7 @@ export function ProductImageSuiteWorkspace({ className }: { className?: string }
             setSnapshot(run.snapshot);
             const failed = run.units.filter((unit) => unit.status === "failed").length;
             const pending = run.units.filter((unit) => unit.status === "pending").length;
-            const notes = [
-                failed > 0 ? `${failed} 张失败，可单张重试。` : "",
-                pending > 0 ? `${pending} 张状态未确定：请到历史记录确认，先不要重复提交。` : "",
-            ].filter(Boolean);
+            const notes = [failed > 0 ? `${failed} 张失败，可单张重试。` : "", pending > 0 ? `${pending} 张状态未确定：请到历史记录确认，先不要重复提交。` : ""].filter(Boolean);
             if (notes.length > 0) setRunError(notes.join(" "));
         } catch (error) {
             setRunError(error instanceof SuiteAdapterError || error instanceof Error ? error.message : "生成失败。");
@@ -623,153 +905,184 @@ export function ProductImageSuiteWorkspace({ className }: { className?: string }
 
     return (
         <div className={cn("flex h-full min-h-0 flex-col bg-background", className)} data-tool="product-image-suite" data-layout="linkfox-two-pane">
-            <OrigRail
-                items={ECOMMERCE_SUITE_RAIL}
-                active="商品套图"
-                driver
-                testId="suite-family-rail"
-                className="shrink-0 border-b border-border px-2"
-            />
             <ToolWorkspaceColumns
                 className="min-h-0 flex-1"
-                config={(
+                config={
                 <div className="flex h-full min-h-0 flex-col">
-                <div className="min-h-0 flex-1 overflow-y-auto px-2 pb-1 pt-1">
+                        <div className="min-h-0 flex-1 overflow-y-auto px-4 pb-1 pt-1">
                     <div className="grid auto-rows-max grid-cols-1 gap-1.5">
-                {/* 原站公告位（左列顶部）：可关闭的提示卡，按钮文案与原站一致：立即体验 / 关闭 */}
-                {promoClosed.left ? null : (
-                    <div
-                        data-testid="suite-promo-left"
-                        className="relative rounded-md border border-[#E9E3FF] bg-[#F6F3FF] px-2 py-1.5 pr-8"
-                    >
-                        <p className="text-[11px] font-medium leading-4 text-[#3b3b4f]">全能模型 2 已升级为 2.1</p>
-                        <p className="mt-0.5 text-[11px] leading-4 text-[#5a5a70]">文字排版更清晰，多轮编辑一致性更强，支持 1K / 2K / 4K 输出。</p>
-                        <button
-                            type="button"
-                            onClick={() => setRightTab("cases")}
-                            className="mt-1 h-6 rounded-full bg-[#6C4CF1] px-2.5 text-[11px] leading-none text-white"
-                        >
-                            立即体验
-                        </button>
-                        <button
-                            type="button"
-                            aria-label="关闭"
-                            title="关闭"
-                            onClick={() => setPromoClosed((previous) => ({ ...previous, left: true }))}
-                            className="absolute right-1 top-1 rounded px-1 text-[11px] leading-[15px] text-[#8a8a9e] hover:text-[#5a5a70]"
-                        >
-                            关闭
-                        </button>
-                    </div>
-                )}
+                                {/* 原站工具区顶部无任何公告条（2026-11-02 只读对照：无「全能模型已升级」文案），本地不再自造。 */}
                 <Section title="多视角白底商品&实拍图">
-                    <p className="mb-1.5 text-[11px] text-muted-foreground">上传商品图</p>
                     <ToolAssetInput
                         key={`case-${caseApplyNonce}`}
                         toolId={toolId}
-                        maxCount={1}
+                                        maxCount={SUITE_UPLOAD_MAX}
                         disabled={running}
                         title=""
                         variant="linkfox"
                         wide
-                        hint={`10M以内，${SUITE_SOURCE_LIMITS.minSide}*${SUITE_SOURCE_LIMITS.minSide} ~ ${SUITE_SOURCE_LIMITS.maxSide}*${SUITE_SOURCE_LIMITS.maxSide}，最大宽高比${SUITE_SOURCE_LIMITS.maxAspectRatio}`}
+                                        uploadLabel="从本地上传"
+                                        library={library}
+                                        hint={SUITE_UPLOAD_HINT}
+                                        /* 原站第三按钮可用且打开商品库；本地没有商品库数据，点开是诚实空态而不是禁用。 */
+                                        thirdAction={
+                                            <button
+                                                type="button"
+                                                data-testid="suite-products-entry"
+                                                onClick={() => setProductLibOpen(true)}
+                                                className="h-6 w-[100px] rounded-md border border-border bg-card text-xs leading-none text-muted-foreground transition hover:border-foreground/30 hover:text-foreground"
+                                            >
+                                                从商品库选择
+                                            </button>
+                                        }
                         constraints={SUITE_ASSET_CONSTRAINTS}
                         onChange={onSourceChange}
                     />
-                    {restoringSource ? <p className="mt-2 text-[11px] text-stone-500">正在恢复上次的商品图…</p> : null}
-                    {!source && config.sourceAssetId && !restoringSource ? (
-                        <p className="mt-2 text-[11px] text-amber-600">上次的商品图已失效，请重新选择。</p>
+                                    {source ? (
+                                        <div className="mt-1.5 flex items-center gap-2">
+                                            <span className="text-[11px] leading-4 text-muted-foreground">生成将使用第 1 张作为商品图</span>
+                                            <button
+                                                type="button"
+                                                data-testid="suite-clear-upload"
+                                                onClick={() => {
+                                                    setSource(undefined);
+                                                    setCaseApplyNonce((value) => value + 1);
+                                                    update({ sourceAssetId: "" });
+                                                    setRunError(undefined);
+                                                }}
+                                                className="rounded-[4px] border border-[#E6E6EB] px-2 py-[2px] text-[11px] leading-none text-[#5a5a70] hover:border-[#d8d8e0]"
+                                            >
+                                                清空
+                                            </button>
+                                        </div>
                     ) : null}
+                                    {restoringSource ? <p className="mt-2 text-[11px] text-stone-500">正在恢复上次的商品图…</p> : null}
+                                    {!source && config.sourceAssetId && !restoringSource ? <p className="mt-2 text-[11px] text-amber-600">上次的商品图已失效，请重新选择。</p> : null}
                     {source && sourceIssue && !sourceIssue.ok ? <p className="mt-2 text-[11px] text-red-600">{sourceIssue.message}</p> : null}
                 </Section>
 
+                                {/* 原站顺序：商品类目（独立块）→ 商品信息（文本域在上，AI分析/向导/字数在下）。 */}
+                                <Section title="商品类目">
+                                    <SuiteSearchSelect
+                                        label="商品类目"
+                                        testId="suite-category"
+                                        value={config.productCategory}
+                                        placeholder="请选择商品类目"
+                                        emptyHint="没有匹配的类目"
+                                        options={SUITE_PRODUCT_CATEGORIES.map((category) => ({ value: category.id, label: category.label }))}
+                                        onChange={(next) => update({ productCategory: next })}
+                                    />
+                                </Section>
+
                 <Section title="商品信息">
-                    <div className="mb-1.5 flex items-center justify-between gap-2">
+                                    <textarea
+                                        value={config.productInfo}
+                                        onChange={(event) => update({ productInfo: event.target.value.slice(0, PRODUCT_IMAGE_SUITE_MAX_PRODUCT_INFO) })}
+                                        rows={5}
+                                        placeholder="商品信息包含商品卖点、使用方式、销售地区、发布平台等，生图效果将会更好"
+                                        className="w-full resize-y rounded-md border border-stone-200 bg-white p-2 text-xs text-stone-800 outline-none focus:border-stone-400 dark:border-stone-700 dark:bg-stone-900 dark:text-stone-100"
+                                    />
+                                    <div className="mt-1.5 flex items-center justify-between gap-2">
                         <div className="flex items-center gap-1.5">
                             <button
                                 type="button"
-                                onClick={() => setGuideOpen((value) => !value)}
-                                data-testid="suite-guide"
-                                className="rounded-[4px] border border-[#E6E6EB] px-2 py-[3px] text-[11px] leading-none text-[#5a5a70] hover:border-[#d8d8e0]"
+                                                /* 原站未上传商品图时 AI分析 是禁用态；与源图就绪联动，不再永远可点。 */
+                                                disabled={!source}
+                                                title={source ? undefined : "上传商品图后可分析"}
+                                                onClick={onAnalyzeProductInfo}
+                                                data-testid="suite-ai-analyze"
+                                                className="rounded-[4px] border border-[#E6E6EB] px-2 py-[3px] text-[11px] leading-none text-[#5a5a70] hover:border-[#d8d8e0] disabled:cursor-not-allowed disabled:opacity-40"
                             >
-                                向导
+                                                AI分析
                             </button>
                             <button
                                 type="button"
-                                onClick={onAnalyzeProductInfo}
-                                data-testid="suite-ai-analyze"
-                                className="rounded-[4px] border border-[#E6E6EB] px-2 py-[3px] text-[11px] leading-none text-[#5a5a70] hover:border-[#d8d8e0]"
+                                                onClick={() => setWizardOpen(true)}
+                                                aria-haspopup="dialog"
+                                                data-testid="suite-guide"
+                                                className="inline-flex items-center gap-1 rounded-[4px] border border-[#E6E6EB] px-2 py-[3px] text-[11px] leading-none text-[#5a5a70] hover:border-[#d8d8e0]"
                             >
-                                AI分析
+                                                <svg viewBox="0 0 16 16" aria-hidden className="size-3" fill="none" stroke="currentColor" strokeWidth="1.4">
+                                                    <path d="M8 2.5l1.2 2.6 2.8.4-2 2 .5 2.8-2.5-1.3-2.5 1.3.5-2.8-2-2 2.8-.4z" />
+                                                </svg>
+                                                向导
                             </button>
                         </div>
                         <span className="text-[11px] text-muted-foreground">
                             {config.productInfo.length} / {PRODUCT_IMAGE_SUITE_MAX_PRODUCT_INFO}
                         </span>
                     </div>
-                    {guideOpen ? (
-                        <div className="mb-2 flex flex-wrap gap-1.5 rounded-[6px] bg-[#faf9ff] p-2">
-                            {SUITE_GUIDE_PROMPTS.map((prompt) => (
-                                <button
-                                    key={prompt.label}
-                                    type="button"
-                                    onClick={() => appendProductInfo(prompt.text)}
-                                    className="rounded-[4px] border border-[#E6E6EB] bg-white px-2 py-[3px] text-[11px] leading-none text-[#5a5a70] hover:border-[#d8d8e0]"
-                                >
-                                    {prompt.label}
-                                </button>
-                            ))}
-                        </div>
-                    ) : null}
-                    <textarea
-                        value={config.productInfo}
-                        onChange={(event) => update({ productInfo: event.target.value.slice(0, PRODUCT_IMAGE_SUITE_MAX_PRODUCT_INFO) })}
-                        rows={6}
-                        placeholder="商品卖点、材质、适用场景…（用于生成 Prompt，不写入上游任何账户）"
-                        className="w-full resize-y rounded-md border border-stone-200 bg-white p-2 text-xs text-stone-800 outline-none focus:border-stone-400 dark:border-stone-700 dark:bg-stone-900 dark:text-stone-100"
-                    />
                 </Section>
 
                 <Section title="品牌与合规（可选）">
+                                    {/* 原站是两行可展开的「行卡」（各带箭头）。本地没有品牌库/合规词库服务，
+                        点开是同一份真实字段的弹层；没有库数据时给诚实空态，不禁用入口。 */}
+                                    <div className="flex flex-col divide-y divide-[#EDEDF0]">
+                                        <BrandComplianceRow label="智能品牌基因" summary={brandSummary} testId="suite-brand-row" open={brandOpen} onToggle={() => setBrandOpen((value) => !value)}>
                     <div className="flex flex-col gap-2">
-                        <Field label="智能品牌基因">
-                            <input
-                                type="checkbox"
-                                checked={config.brand.smartBrand}
-                                onChange={(event) => update({ brand: { ...config.brand, smartBrand: event.target.checked } })}
-                            />
+                                                <strong className="text-[11px] font-medium leading-4 text-foreground">品牌基因设置</strong>
+                                                <div className="rounded-[4px] border border-dashed border-[#E6E6EB] px-2 py-1.5 text-[11px] leading-4 text-muted-foreground">
+                                                    未接入品牌库：本地没有你的品牌列表，选择结果只作用于本次生成，不会写入任何账号。
+                                                </div>
+                                                <Field label="启用智能品牌基因">
+                                                    <input type="checkbox" aria-label="启用智能品牌基因" checked={config.brand.smartBrand} onChange={(event) => update({ brand: { ...config.brand, smartBrand: event.target.checked } })} />
                         </Field>
-                        <Field label="智能主色、智能字体风格">
-                            <div className="flex items-center gap-2">
+                                                <Field label="品牌主色">
                                 <input
                                     type="color"
-                                    aria-label="智能主色"
+                                                        aria-label="品牌主色"
                                     value={config.brand.primaryColor || "#ffffff"}
                                     onChange={(event) => update({ brand: { ...config.brand, primaryColor: event.target.value } })}
                                     className="h-6 w-10 shrink-0 cursor-pointer rounded border border-stone-200 dark:border-stone-700"
                                 />
-                                <select
-                                className={inputClass}
+                                                </Field>
+                                                <Field label="字体风格">
+                                                    <div className="w-[130px]">
+                                                        <SuiteSearchSelect
+                                                            label="字体风格"
+                                                            testId="suite-font-style"
                                 value={config.brand.fontStyle}
-                                onChange={(event) =>
-                                    update({ brand: { ...config.brand, fontStyle: event.target.value as typeof config.brand.fontStyle } })
-                                }
-                            >
-                                <option value="">未指定</option>
-                                {SUITE_FONT_STYLES.map((style) => (
-                                    <option key={style.id} value={style.id}>
-                                        {style.label}
-                                    </option>
-                                ))}
-                                </select>
+                                                            placeholder="未指定"
+                                                            options={SUITE_FONT_STYLES.map((style) => ({ value: style.id, label: style.label }))}
+                                                            onChange={(next) => update({ brand: { ...config.brand, fontStyle: next as typeof config.brand.fontStyle } })}
+                                                        />
                             </div>
                         </Field>
-                        <div className="flex items-center gap-1.5 text-[11px] text-muted-foreground">
-                            <span>智能合规检查</span>
-                            <span>未选择敏感词库</span>
-                            <span>·</span>
-                            <span>未选择替换词库</span>
+                                                <p className="text-[11px] leading-4 text-muted-foreground">💡未选择时按商品本身判断风格。</p>
                         </div>
+                                        </BrandComplianceRow>
+                                        <BrandComplianceRow label="智能合规检查" summary={complianceSummary} testId="suite-compliance-row" open={complianceOpen} onToggle={() => setComplianceOpen((value) => !value)}>
+                                            <div className="flex flex-col gap-2">
+                                                <strong className="text-[11px] font-medium leading-4 text-foreground">合规检查设置</strong>
+                                                <Field label="敏感词库">
+                                                    <div className="w-[130px]">
+                                                        <SuiteSearchSelect
+                                                            label="敏感词库"
+                                                            testId="suite-sensitive-lexicon"
+                                                            value={config.compliance.sensitiveWordLexiconId}
+                                                            placeholder="未选择敏感词库"
+                                                            options={SUITE_SENSITIVE_LIBRARIES.map((lexicon) => ({ value: lexicon.id, label: lexicon.label }))}
+                                                            onChange={(next) => update({ compliance: { ...config.compliance, sensitiveWordLexiconId: next } })}
+                                                        />
+                                                    </div>
+                                                </Field>
+                                                <Field label="替换词库">
+                                                    <div className="w-[130px]">
+                                                        <SuiteSearchSelect
+                                                            label="替换词库"
+                                                            testId="suite-replacement-lexicon"
+                                                            value={config.compliance.replacementWordLexiconId}
+                                                            placeholder="未选择替换词库"
+                                                            options={SUITE_REPLACEMENT_LIBRARIES.map((lexicon) => ({ value: lexicon.id, label: lexicon.label }))}
+                                                            onChange={(next) => update({ compliance: { ...config.compliance, replacementWordLexiconId: next } })}
+                                                        />
+                                                    </div>
+                                                </Field>
+                                                <p className="text-[11px] leading-4 text-muted-foreground">
+                                                    {sensitiveWords.length > 0 ? `通用敏感词库 ${sensitiveWords.length} 个词；未接入词库管理，词表为本地内置。` : "未选择敏感词库：本次不做敏感词替换。"}
+                                                </p>
+                                            </div>
+                                        </BrandComplianceRow>
                     </div>
                 </Section>
 
@@ -784,10 +1097,7 @@ export function ProductImageSuiteWorkspace({ className }: { className?: string }
                     }}
                 >
                     <div className="flex flex-col gap-2.5">
-                        <div className="flex items-center justify-between text-[10px] leading-none text-muted-foreground">
-                            <span>实际调用模型</span>
-                            <span>{imageModel?.split("::").pop()?.trim() || "未配置"}</span>
-                        </div>
+                                        {/* 原站不暴露内部模型名（报告差异 #10），这里不再显示「实际调用模型」。 */}
                         <div>
                             <p className="mb-1.5 text-[11px] text-muted-foreground">分辨率选择</p>
                             <div className="flex gap-1.5">
@@ -798,9 +1108,7 @@ export function ProductImageSuiteWorkspace({ className }: { className?: string }
                                         data-testid={`suite-resolution-${value}`}
                                         onClick={() => update({ resolution: value })}
                                         className={`h-7 min-w-[46px] rounded-[4px] border text-[12px] leading-none ${
-                                            config.resolution === value
-                                                ? "border-primary bg-primary/10 text-primary"
-                                                : "border-[#E6E6EB] text-[#5a5a70] hover:border-[#d8d8e0]"
+                                                            config.resolution === value ? "border-primary bg-primary/10 text-primary" : "border-[#E6E6EB] text-[#5a5a70] hover:border-[#d8d8e0]"
                                         }`}
                                     >
                                         {value}
@@ -819,9 +1127,7 @@ export function ProductImageSuiteWorkspace({ className }: { className?: string }
                                         aria-pressed={config.quality === quality.id}
                                         onClick={() => update({ quality: quality.id })}
                                         className={`h-7 rounded-[4px] border px-2 text-[12px] leading-none ${
-                                            config.quality === quality.id
-                                                ? "border-primary bg-primary/10 text-primary"
-                                                : "border-[#E6E6EB] text-[#5a5a70] hover:border-[#d8d8e0]"
+                                                            config.quality === quality.id ? "border-primary bg-primary/10 text-primary" : "border-[#E6E6EB] text-[#5a5a70] hover:border-[#d8d8e0]"
                                         }`}
                                     >
                                         {quality.label}
@@ -837,23 +1143,15 @@ export function ProductImageSuiteWorkspace({ className }: { className?: string }
                 <span className="text-stone-400 dark:text-stone-500">可同时选择</span>
             </p>
 
-            <Section title="主副图设置" output={mainSubOutput}>
-                <p className="mb-1 text-[11px] text-muted-foreground">生成类型（多选）</p>
+                                <Section title="A+图设置" output={aplusOutput}>
+                                    <p className="mb-1 text-[11px] text-muted-foreground">生成类型（单选）</p>
                 <div className="flex flex-wrap gap-1">
-                    {MAIN_SUB_MODULES.map((module) => {
-                        const checked = config.mainSubModuleIds.includes(module.id);
-                        return (
+                                        {APLUS_MODULES.map((module) => (
                             <div
                                 key={module.id}
-                                onClick={() =>
-                                    update({
-                                        mainSubModuleIds: checked
-                                            ? config.mainSubModuleIds.filter((id) => id !== module.id)
-                                            : [...config.mainSubModuleIds, module.id],
-                                    })
-                                }
+                                                onClick={() => update({ aplusModuleId: config.aplusModuleId === module.id ? "" : module.id })}
                                 className={`flex cursor-pointer items-center gap-1 rounded-[4px] border px-1.5 py-0.5 text-[11px] leading-none ${
-                                    checked
+                                                    config.aplusModuleId === module.id
                                         ? "border-stone-800 bg-stone-800 text-white dark:border-stone-200 dark:bg-stone-200 dark:text-stone-900"
                                         : "border-stone-200 text-stone-700 dark:border-stone-700 dark:text-stone-200"
                                 }`}
@@ -865,18 +1163,14 @@ export function ProductImageSuiteWorkspace({ className }: { className?: string }
                                     aria-label={`${module.label}每模块张数`}
                                     onClick={(event) => {
                                         event.stopPropagation();
-                                        const current = config.mainSubCounts[module.id] ?? module.defaultCount;
-                                        update({
-                                            mainSubCounts: { ...config.mainSubCounts, [module.id]: current >= 10 ? 1 : current + 1 },
-                                        });
+                                                        update({ aplusCount: config.aplusCount >= 10 ? 1 : config.aplusCount + 1 });
                                     }}
                                     className="text-[10px] opacity-70 hover:opacity-100"
                                 >
-                                    {config.mainSubCounts[module.id] ?? module.defaultCount}
+                                                    {config.aplusCount}
                                 </button>
                             </div>
-                        );
-                    })}
+                                        ))}
                 </div>
                 <p className="mt-1.5 mb-1 text-[11px] text-muted-foreground">选择排版</p>
                 <div className="flex flex-wrap gap-1">
@@ -884,61 +1178,34 @@ export function ProductImageSuiteWorkspace({ className }: { className?: string }
                         <button
                             key={mode.id}
                             type="button"
-                            data-testid={`suite-main-sub-layout-${mode.id}`}
-                            onClick={() => update({ mainSubLayoutMode: mode.id })}
+                                                data-testid={`suite-aplus-layout-${mode.id}`}
+                                                onClick={() => update({ aplusLayoutMode: mode.id })}
                             className={`h-6 rounded-[4px] border px-1.5 text-[11px] leading-none ${
-                                config.mainSubLayoutMode === mode.id
-                                    ? "border-primary bg-primary/10 text-primary"
-                                    : "border-[#E6E6EB] text-[#5a5a70] hover:border-[#d8d8e0]"
+                                                    config.aplusLayoutMode === mode.id ? "border-primary bg-primary/10 text-primary" : "border-[#E6E6EB] text-[#5a5a70] hover:border-[#d8d8e0]"
                             }`}
                         >
                             {mode.label}
                         </button>
                     ))}
                 </div>
-                <p className="mt-1 text-[11px] leading-4 text-muted-foreground">
-                    💡未选择排版时，将根据官方排版随机生成
-                </p>
-
-                <Section title="生成比例">
-                <div className="flex flex-wrap gap-1">
-                    {SUITE_RATIOS.map((ratio) => (
-                        <button
-                            key={ratio.id}
-                            type="button"
-                            data-testid={`suite-ratio-${ratio.id}`}
-                            onClick={() => update({ ratio: ratio.id })}
-                            className={`h-6 min-w-[38px] rounded-[4px] border text-[11px] leading-none ${
-                                config.ratio === ratio.id
-                                    ? "border-primary bg-primary/10 text-primary"
-                                    : "border-[#E6E6EB] text-[#5a5a70] hover:border-[#d8d8e0]"
-                            }`}
-                        >
-                            {ratio.label}
-                        </button>
-                    ))}
-                    <button
-                        type="button"
-                        onClick={() => update({ ratio: SUITE_RATIOS[0].id })}
-                        className="h-6 rounded-[4px] border border-[#E6E6EB] px-1.5 text-[11px] leading-none text-[#5a5a70] hover:border-[#d8d8e0]"
-                    >
-                        更多
-                    </button>
-                </div>
-                </Section>
+                                    <p className="mt-1 text-[11px] leading-4 text-muted-foreground">💡未选择排版时，将根据官方排版随机生成</p>
             </Section>
 
-            <Section title="A+图设置" output={aplusOutput}>
-                <p className="mb-1 text-[11px] text-muted-foreground">生成类型（单选）</p>
+                                <Section title="主副图设置" output={mainSubOutput}>
+                                    <p className="mb-1 text-[11px] text-muted-foreground">生成类型（多选）</p>
                 <div className="flex flex-wrap gap-1">
-                    {APLUS_MODULES.map((module) => (
+                                        {MAIN_SUB_MODULES.map((module) => {
+                                            const checked = config.mainSubModuleIds.includes(module.id);
+                                            return (
                         <div
                             key={module.id}
-                            onClick={() => update({ aplusModuleId: config.aplusModuleId === module.id ? "" : module.id })}
+                                                    onClick={() =>
+                                                        update({
+                                                            mainSubModuleIds: checked ? config.mainSubModuleIds.filter((id) => id !== module.id) : [...config.mainSubModuleIds, module.id],
+                                                        })
+                                                    }
                             className={`flex cursor-pointer items-center gap-1 rounded-[4px] border px-1.5 py-0.5 text-[11px] leading-none ${
-                                config.aplusModuleId === module.id
-                                    ? "border-stone-800 bg-stone-800 text-white dark:border-stone-200 dark:bg-stone-200 dark:text-stone-900"
-                                    : "border-stone-200 text-stone-700 dark:border-stone-700 dark:text-stone-200"
+                                                        checked ? "border-stone-800 bg-stone-800 text-white dark:border-stone-200 dark:bg-stone-200 dark:text-stone-900" : "border-stone-200 text-stone-700 dark:border-stone-700 dark:text-stone-200"
                             }`}
                         >
                             <span>{module.label}</span>
@@ -948,47 +1215,71 @@ export function ProductImageSuiteWorkspace({ className }: { className?: string }
                                 aria-label={`${module.label}每模块张数`}
                                 onClick={(event) => {
                                     event.stopPropagation();
-                                    update({ aplusCount: config.aplusCount >= 10 ? 1 : config.aplusCount + 1 });
+                                                            const current = config.mainSubCounts[module.id] ?? module.defaultCount;
+                                                            update({
+                                                                mainSubCounts: { ...config.mainSubCounts, [module.id]: current >= 10 ? 1 : current + 1 },
+                                                            });
                                 }}
                                 className="text-[10px] opacity-70 hover:opacity-100"
                             >
-                                {config.aplusCount}
+                                                        {config.mainSubCounts[module.id] ?? module.defaultCount}
                             </button>
                         </div>
-                    ))}
+                                            );
+                                        })}
                 </div>
                 <p className="mt-1.5 mb-1 text-[11px] text-muted-foreground">选择排版</p>
                 <div className="flex flex-wrap gap-1">
                     {SUITE_LAYOUT_MODES.map((mode) => (
                         <button
-                            key={mode.id}
+                                                key={mode.id}
+                                                type="button"
+                                                data-testid={`suite-main-sub-layout-${mode.id}`}
+                                                onClick={() => update({ mainSubLayoutMode: mode.id })}
+                                                className={`h-6 rounded-[4px] border px-1.5 text-[11px] leading-none ${
+                                                    config.mainSubLayoutMode === mode.id ? "border-primary bg-primary/10 text-primary" : "border-[#E6E6EB] text-[#5a5a70] hover:border-[#d8d8e0]"
+                                                }`}
+                                            >
+                                                {mode.label}
+                                            </button>
+                                        ))}
+                                    </div>
+                                    <p className="mt-1 text-[11px] leading-4 text-muted-foreground">💡未选择排版时，将根据官方排版随机生成</p>
+                                </Section>
+
+                                <Section title="生成比例">
+                                    <div className="flex flex-wrap gap-1">
+                                        {SUITE_RATIOS.map((ratio) => (
+                                            <button
+                                                key={ratio.id}
                             type="button"
-                            data-testid={`suite-aplus-layout-${mode.id}`}
-                            onClick={() => update({ aplusLayoutMode: mode.id })}
-                            className={`h-6 rounded-[4px] border px-1.5 text-[11px] leading-none ${
-                                config.aplusLayoutMode === mode.id
-                                    ? "border-primary bg-primary/10 text-primary"
-                                    : "border-[#E6E6EB] text-[#5a5a70] hover:border-[#d8d8e0]"
+                                                data-testid={`suite-ratio-${ratio.id}`}
+                                                onClick={() => update({ ratio: ratio.id })}
+                                                className={`h-6 min-w-[38px] rounded-[4px] border text-[11px] leading-none ${
+                                                    config.ratio === ratio.id ? "border-primary bg-primary/10 text-primary" : "border-[#E6E6EB] text-[#5a5a70] hover:border-[#d8d8e0]"
                             }`}
                         >
-                            {mode.label}
+                                                {ratio.label}
                         </button>
                     ))}
                 </div>
-                <p className="mt-1 text-[11px] leading-4 text-muted-foreground">
-                    💡未选择排版时，将根据官方排版随机生成
-                </p>
             </Section>
-
                 </div>
-                <div className="shrink-0 border-t border-[#EDEDF0] px-6 py-3" data-testid="suite-generate-summary">
+                </div>
+                            <div className="sticky bottom-0 z-10 shrink-0 border-t border-[#EDEDF0] bg-card px-4 py-3" data-testid="suite-generate-summary">
+                                {/* 原站价格行格式「A+图4张 * 每张50点 + 主副图4张 * 每张50点 = 400点」；
+                            本仓库按 V1.0 约定不展示算力/点数，只保留同一句式的张数构成。 */}
+                                <p className="mb-1.5 text-[11px] leading-4 text-stone-500 dark:text-stone-400" data-testid="suite-expected-count">
+                                    A+图{aplusUnits}张 + 主副图{mainSubUnits}张 = 共 {expected} 张
+                                </p>
+                                <div className="flex items-center gap-2">
                         <button
                             type="button"
                             disabled={blocked}
                             title={issues[0]?.message}
                             onClick={() => void onGenerate()}
                             data-testid="suite-generate"
-                            className="h-8 flex-1 rounded-md bg-primary text-[12px] font-medium leading-none text-primary-foreground hover:bg-primary/90 disabled:cursor-not-allowed disabled:opacity-40"
+                                        className="h-8 w-full rounded-[4px] bg-primary text-[12px] font-medium leading-none text-primary-foreground hover:bg-primary/90 disabled:cursor-not-allowed disabled:opacity-40"
                         >
                             {running ? "生成中…" : "开始生成"}
                         </button>
@@ -1002,24 +1293,25 @@ export function ProductImageSuiteWorkspace({ className }: { className?: string }
                                     setSavedKeys({});
                                     setRunError(undefined);
                                 }}
-                                className="h-8 rounded-[4px] border border-[#E6E6EB] px-3 text-[12px] leading-none text-[#5a5a70]"
+                                            className="h-8 shrink-0 rounded-[4px] border border-[#E6E6EB] px-3 text-[12px] leading-none text-[#5a5a70]"
                             >
                                 清空
                             </button>
                         ) : null}
                     </div>
                 </div>
-            </div>
-                )}
+                    </div>
+                }
             >
-
             <div className="flex min-w-0 flex-1 flex-col">
-                <div className="flex h-11 shrink-0 items-center gap-6 border-b border-[#EDEDF0] px-6" role="tablist">
-                    {([
+                    {/* 原站结果区页签栏 42px：「生成结果 / 优秀案例」+ 右端「历史记录 ↗」外链（不是第三个页签）。 */}
+                    <div className="flex h-[42px] shrink-0 items-center gap-4 border-b border-[#EDEDF0] px-3" role="tablist">
+                        {(
+                            [
                         ["result", "生成结果"],
                         ["cases", "优秀案例"],
-                        ["history", "历史记录"],
-                    ] as const).map(([id, label]) => (
+                            ] as const
+                        ).map(([id, label]) => (
                         <button
                             key={id}
                             type="button"
@@ -1027,58 +1319,25 @@ export function ProductImageSuiteWorkspace({ className }: { className?: string }
                             aria-selected={rightTab === id}
                             data-testid={`suite-tab-${id}`}
                             onClick={() => setRightTab(id)}
-                            className={cn(
-                                "h-11 text-[13px] leading-none transition",
-                                rightTab === id
-                                    ? "border-b-2 border-primary font-medium text-foreground"
-                                    : "border-b-2 border-transparent text-muted-foreground hover:text-foreground",
-                            )}
+                                className={cn("h-[42px] text-[14px] leading-[22px] transition-colors", rightTab === id ? "border-b-2 border-primary font-medium text-primary" : "border-b-2 border-transparent text-muted-foreground hover:text-foreground")}
                         >
                             {label}
                         </button>
                     ))}
+                        {/* 本地 /tools 下没有独立历史页，这里只保留原站式入口位并如实说明，不伪造可点跳转。 */}
+                        <span data-testid="suite-tab-history-link" title="本地未接入历史记录页；任务记录在页面底部「历史任务」" className="ml-auto text-[12px] leading-none text-primary/60">
+                            历史记录 ↗
+                        </span>
                 </div>
                 <div className="min-h-0 flex-1 overflow-y-auto px-6 py-4">
                 {PRODUCT_SUITE_CASES.length > 0 ? (
                     <div role="tabpanel" hidden={rightTab !== "cases"} data-testid="suite-panel-cases" className="flex h-full flex-col">
                         <h2 className="mb-2 text-sm font-medium">优秀案例</h2>
-                        <ToolCases
-                            cases={PRODUCT_SUITE_CASES}
-                            onApply={applyCase}
-                            applyingId={applyingCaseId}
-                        />
+                                <ToolCases cases={PRODUCT_SUITE_CASES} onApply={applyCase} applyingId={applyingCaseId} />
                     </div>
                 ) : null}
-                <div role="tabpanel" hidden={rightTab !== "history"} data-testid="suite-panel-history">
-                    <ToolTaskHistory toolId={toolId} limit={8} onSelectTask={onSelectHistoryTask} emptyHint="还没有套图任务记录" />
-                </div>
                 <div role="tabpanel" hidden={rightTab !== "result"} data-testid="suite-panel-result" className="flex flex-col gap-3">
-                    {/* 原站公告位（结果区）：可关闭的提示卡，按钮文案与原站一致：立即体验 / 关闭提示 */}
-                    {promoClosed.result ? null : (
-                        <div
-                            data-testid="suite-promo-result"
-                            className="relative flex items-center justify-between gap-2 rounded-md border border-[#E9E3FF] bg-[#F6F3FF] px-2 py-1.5 pr-8"
-                        >
-                            <p className="text-[11px] font-medium leading-4 text-[#3b3b4f]">白底图精修与裂变已上线！</p>
-                            <p className="mt-0.5 text-[11px] leading-4 text-[#5a5a70]">白底图精修算法升级！精修效果更出彩。白底图裂变支持单品、多件套、自由裂变多种主图裂变方式，最多支持一次裂变 20 张！</p>
-                            <button
-                                type="button"
-                                onClick={() => setRightTab("cases")}
-                                className="h-6 shrink-0 rounded-full bg-[#6C4CF1] px-2.5 text-[11px] leading-none text-white"
-                            >
-                                立即体验
-                            </button>
-                            <button
-                                type="button"
-                                aria-label="关闭提示"
-                                title="关闭提示"
-                                onClick={() => setPromoClosed((previous) => ({ ...previous, result: true }))}
-                                className="absolute right-1 top-1 rounded px-1 text-[11px] leading-[15px] text-[#8a8a9e] hover:text-[#5a5a70]"
-                            >
-                                关闭提示
-                            </button>
-                        </div>
-                    )}
+                            {/* 原站结果区顶部无公告条（2026-11-02 只读对照），本地不再自造；空态走下面的真实空态文案。 */}
                     <p className="text-[11px] text-[#6b6b80]">生成结果</p>
                     {/* 原站「一键做同款」：用真实案例回填商品图与参数，走与案例画廊相同的 applyCase */}
                     <div>
@@ -1096,18 +1355,15 @@ export function ProductImageSuiteWorkspace({ className }: { className?: string }
                         </button>
                     </div>
 
-            {issues.length || runError ? (
-                <div className="rounded-lg border border-amber-300 bg-amber-50 p-2 text-[11px] text-amber-800 dark:border-amber-700/60 dark:bg-amber-950/40 dark:text-amber-200">
-                    {runError ? <p>{runError}</p> : null}
-                    {issues.map((issue) => (
-                        <p key={issue.code}>{issue.message}</p>
-                    ))}
-                </div>
+                            {/* 原站结果区没有常驻的黄色校验横幅：校验原因只在按钮 title 与这行弱提示里出现。 */}
+                            {runError ? <div className="rounded-[4px] border border-amber-300 bg-amber-50 p-2 text-[11px] leading-4 text-amber-800">{runError}</div> : null}
+                            {!runError && issues.length ? (
+                                <p className="text-[11px] leading-4 text-muted-foreground" data-testid="suite-result-hints">
+                                    {issues.map((issue) => issue.message).join(" ")}
+                                </p>
             ) : null}
 
-            {stale && units.length ? (
-                <p className="text-[11px] text-amber-600">配置已变更，下方结果来自旧版本；重新生成可更新。</p>
-            ) : null}
+                            {stale && units.length ? <p className="text-[11px] text-amber-600">配置已变更，下方结果来自旧版本；重新生成可更新。</p> : null}
 
             {units.length ? (
                 <div className="flex flex-col gap-3">
@@ -1138,9 +1394,7 @@ export function ProductImageSuiteWorkspace({ className }: { className?: string }
                                                             {src ? (
                                                                 <img src={src} alt={unit.label} className="size-16 rounded object-cover" />
                                                             ) : (
-                                                                <div className="flex size-16 items-center justify-center rounded border border-dashed border-stone-300 text-center text-[10px] text-stone-400">
-                                                                    已入库
-                                                                </div>
+                                                                                <div className="flex size-16 items-center justify-center rounded border border-dashed border-stone-300 text-center text-[10px] text-stone-400">已入库</div>
                                                             )}
                                                             <div className="flex flex-wrap gap-1">
                                                                 <button
@@ -1191,26 +1445,13 @@ export function ProductImageSuiteWorkspace({ className }: { className?: string }
             ) : null}
 
             {seeded ? null : <p className="text-[11px] text-stone-500">正在读取草稿…</p>}
-            <div className="mt-3 flex items-center gap-1" data-testid="suite-result-pager">
-                {[1, 2, 3].map((page) => (
-                    <button
-                        key={page}
-                        type="button"
-                        aria-label={`第 ${page} 页`}
-                        className={`h-6 min-w-[24px] rounded-[4px] border text-[11px] leading-none ${
-                            page === 1
-                                ? "border-primary bg-primary/10 text-primary"
-                                : "border-[#E6E6EB] text-[#5a5a70] hover:border-[#d8d8e0]"
-                        }`}
-                    >
-                        {page}
-                    </button>
-                ))}
-            </div>
+                            {units.length === 0 && seeded && !running ? <p className="text-[11px] leading-4 text-stone-500 dark:text-stone-400">还没有生成结果：上传商品图并配置 A+ 图 / 主副图后，点「开始生成」。</p> : null}
                 </div>
                 </div>
             </div>
             </ToolWorkspaceColumns>
+            <SuiteWizardDialog open={wizardOpen} onClose={() => setWizardOpen(false)} onApply={applyWizard} />
+            {productLibOpen ? <SuiteEmptyLibraryDialog title="从商品库选择" body="本地没有商品库数据（未接入商品库接口），可用「从本地上传」或「从作品库选择」。" onClose={() => setProductLibOpen(false)} /> : null}
         </div>
     );
 }
@@ -1247,6 +1488,9 @@ export function ProductMarketMaterialWorkspace({ className }: { className?: stri
     const flushDraft = useToolDraftStore((state) => state.flush);
     const draft = useToolDraftStore((state) => state.drafts[toolId]);
     const imageModel = useConfigStore((state) => state.config.imageModel);
+    /* 真实作品库：原站「从作品库选择」可用；本地只在真有资产时给出可选条目，空库不伪造。 */
+    const assets = useAssetStore((state) => state.assets);
+    const library = useMemo(() => toolAssetLibraryItemsFromAssets(assets.filter((asset): asset is ImageAsset | VideoAsset => asset.kind === "image" || asset.kind === "video")), [assets]);
 
     const [config, setConfig] = useState<MarketConfig>(() => createDefaultMarketConfig());
     const [sources, setSources] = useState<MarketSourceAsset[]>([]);
@@ -1259,8 +1503,13 @@ export function ProductMarketMaterialWorkspace({ className }: { className?: stri
     const [canvasKeys, setCanvasKeys] = useState<Record<string, string>>({});
     const [seeded, setSeeded] = useState(false);
     const abortRef = useRef<AbortController | null>(null);
-    const [rightTab, setRightTab] = useState<"result" | "cases" | "history">("result");
+    const [rightTab, setRightTab] = useState<"result" | "cases">("result");
     const [advancedOpen, setAdvancedOpen] = useState(false);
+    /* 向导弹窗与商品库诚实空态（与套图同一套本地组件，不新增后端）。 */
+    const [wizardOpen, setWizardOpen] = useState(false);
+    const [productLibOpen, setProductLibOpen] = useState(false);
+    const [brandOpen, setBrandOpen] = useState(false);
+    const [complianceOpen, setComplianceOpen] = useState(false);
 
     /* 草稿恢复：values.marketConfig + 商品图记录（记录缺失则要求重新上传） */
     useEffect(() => {
@@ -1358,12 +1607,27 @@ export function ProductMarketMaterialWorkspace({ className }: { className?: stri
         [update],
     );
 
+    /* 品牌与合规行卡摘要：只回显真实已选值。 */
+    const marketBrandSummary = [config.brandName, config.brandDna.primaryColor, MARKET_FONT_STYLES.find((style) => style.id === config.brandDna.fontStyle)?.label].filter(Boolean).join(" · ") || "未启用";
+    const marketComplianceSummary =
+        [config.sensitiveLibraryId, config.replacementLibraryId]
+            .map((id) => MARKET_SENSITIVE_LIBRARIES.find((lexicon) => lexicon.id === id)?.label ?? MARKET_REPLACEMENT_LIBRARIES.find((lexicon) => lexicon.id === id)?.label)
+            .filter(Boolean)
+            .join(" · ") || "未选择词库";
+
+    /* 向导（营销素材）：与套图共用同一套弹窗与文案拼装，只写入本页商品信息。 */
+    const applyMarketWizard = useCallback(
+        (draftInfo: SuiteWizardDraft) => {
+            const next = composeSuiteProductInfo(draftInfo, marketConfigRef.current.productInfo);
+            if (next === marketConfigRef.current.productInfo) return;
+            update({ productInfo: next.slice(0, MARKET_PRODUCT_INFO_MAX_LENGTH) });
+        },
+        [update],
+    );
+
     const provider = resolveProviderCode(config, imageModel);
     const readyCount = sources.filter((source) => isMarketSourceReady(source)).length;
-    const issues = useMemo(
-        () => validateMarketConfig(config, { sourceReadyCount: readyCount, imageModelReady: Boolean(imageModel?.trim()) }),
-        [config, readyCount, imageModel],
-    );
+    const issues = useMemo(() => validateMarketConfig(config, { sourceReadyCount: readyCount, imageModelReady: Boolean(imageModel?.trim()) }), [config, readyCount, imageModel]);
     const plans = useMemo(() => buildMarketPlan(config), [config]);
     const expected = marketExpectedCount(config);
     const summary = summarizeMarketRun(units);
@@ -1372,18 +1636,6 @@ export function ProductMarketMaterialWorkspace({ className }: { className?: stri
     const aplusUnits = plans.filter((plan) => plan.width > 0 && plan.height > 0).reduce((total, plan) => total + plan.count, 0);
     const mainSubUnits = plans.filter((plan) => plan.width === 0 && plan.height === 0).reduce((total, plan) => total + plan.count, 0);
 
-    /* 历史点选：按 prompt 还原该模块最新一条结果为一张图。 */
-    const onSelectHistoryTask = useCallback(
-        (task: ToolTask) => {
-            const target = normalizePrompt(task.prompt);
-            const unit = buildMarketUnits(config).find((item) => normalizePrompt(item.prompt) === target);
-            if (!unit) return;
-            const restored = marketUnitResultFromTask(unit, task);
-            setUnits((previous) => [...previous.filter((item) => item.unitId !== unit.id), restored]);
-            setRightTab("result");
-        },
-        [config],
-    );
     const blocked = running || issues.length > 0;
 
     const sourceIssue = sources.map((source) => validateMarketSourceLimits(source)).find((result) => !result.ok);
@@ -1509,28 +1761,17 @@ export function ProductMarketMaterialWorkspace({ className }: { className?: stri
 
     const aplusRatios = aplusRatiosForPlatform(config.platform);
     const aplusEnabled = platformSupportsAplus(config.platform);
-    const regionDefault = findRegion(config.salesRegion)?.defaultLanguage;
+    const marketingRatios = availableMarketingRatios(config.provider);
 
     return (
-        <div
-            className={cn("flex h-full min-h-0 flex-col bg-background", className)}
-            data-tool="product-market-material"
-            data-layout="linkfox-two-pane"
-        >
-            <OrigRail
-                items={ECOMMERCE_SUITE_RAIL}
-                active="商品套图"
-                testId="suite-family-rail"
-                className="shrink-0 border-b border-border px-2"
-            />
+        <div className={cn("flex h-full min-h-0 flex-col bg-background", className)} data-tool="product-market-material" data-layout="linkfox-two-pane">
             <ToolWorkspaceColumns
                 className="min-h-0 flex-1"
-                config={(
+                config={
                 <div className="flex h-full min-h-0 flex-col">
-                    <div className="min-h-0 flex-1 overflow-y-auto px-2 pb-1 pt-1">
+                        <div className="min-h-0 flex-1 overflow-y-auto px-4 pb-1 pt-1">
                         <div className="grid auto-rows-max grid-cols-1 gap-1.5">
                             <Section title="多视角白底商品&实拍图">
-                                <p className="mb-1.5 text-[11px] text-muted-foreground">上传商品图</p>
                                 <ToolAssetInput
                                     toolId={toolId}
                                     constraints={{
@@ -1546,19 +1787,26 @@ export function ProductMarketMaterialWorkspace({ className }: { className?: stri
                                     title=""
                                     variant="linkfox"
                                     wide
-                                    hint={`10M以内，${MARKET_UPLOAD_LIMITS.minSide}*${MARKET_UPLOAD_LIMITS.minSide} ~ ${MARKET_UPLOAD_LIMITS.maxSide}*${MARKET_UPLOAD_LIMITS.maxSide}，最大宽高比${MARKET_UPLOAD_LIMITS.maxAspectRatio}`}
+                                        uploadLabel="从本地上传"
+                                        library={library}
+                                        thirdAction={
+                                            <button
+                                                type="button"
+                                                data-testid="market-products-entry"
+                                                onClick={() => setProductLibOpen(true)}
+                                                className="h-6 w-[100px] rounded-md border border-border bg-card text-xs leading-none text-muted-foreground transition hover:border-foreground/30 hover:text-foreground"
+                                            >
+                                                从商品库选择
+                                            </button>
+                                        }
+                                        hint={`最多上传${MARKET_UPLOAD_LIMITS.maxFiles}张图，10M以内，${MARKET_UPLOAD_LIMITS.minSide}*${MARKET_UPLOAD_LIMITS.minSide}~${MARKET_UPLOAD_LIMITS.maxSide}*${MARKET_UPLOAD_LIMITS.maxSide}，最大宽高比${MARKET_UPLOAD_LIMITS.maxAspectRatio}`}
                                     onChange={onSourcesChange}
                                 />
                                 {sources.length ? (
                                     <div className="mt-1.5 flex flex-wrap gap-2">
                                         {sources.map((source, index) => (
                                             <label key={source.assetId} className="flex items-center gap-1 text-[11px] text-foreground">
-                                                <input
-                                                    type="radio"
-                                                    name="market-cover"
-                                                    checked={config.coverList[0] === source.assetId}
-                                                    onChange={() => update({ coverList: [source.assetId] })}
-                                                />
+                                                    <input type="radio" name="market-cover" checked={config.coverList[0] === source.assetId} onChange={() => update({ coverList: [source.assetId] })} />
                                                 {index === 0 ? "主图" : `图 ${index + 1}`}
                                             </label>
                                         ))}
@@ -1567,57 +1815,61 @@ export function ProductMarketMaterialWorkspace({ className }: { className?: stri
                                 {sourceIssue ? <p className="mt-2 text-[11px] text-amber-600">{sourceIssue.message}</p> : null}
                             </Section>
 
+                                <Section title="商品类目">
+                                    <SuiteSearchSelect
+                                        label="商品类目"
+                                        testId="market-category"
+                                        value={config.productCategory}
+                                        placeholder="请选择商品类目"
+                                        emptyHint="没有匹配的类目"
+                                        options={MARKET_PRODUCT_CATEGORIES.map((category) => ({ value: category.id, label: category.label }))}
+                                        onChange={(next) => update({ productCategory: next })}
+                                    />
+                                </Section>
+
                             <Section title="商品信息">
-                                <div className="mb-1.5 flex items-center justify-between gap-2">
+                                    <textarea
+                                        value={config.productInfo}
+                                        onChange={(event) => update({ productInfo: event.target.value.slice(0, MARKET_PRODUCT_INFO_MAX_LENGTH) })}
+                                        rows={5}
+                                        placeholder="商品信息包含商品卖点、使用方式、销售地区、发布平台等，生图效果将会更好"
+                                        className="w-full resize-y rounded-md border border-stone-200 bg-white p-2 text-xs text-stone-800 outline-none focus:border-stone-400 dark:border-stone-700 dark:bg-stone-900 dark:text-stone-100"
+                                    />
+                                    <div className="mt-1.5 flex items-center justify-between gap-2">
                                     <div className="flex items-center gap-1.5">
                                         <button
                                             type="button"
-                                            onClick={() => update({ productInfo: outlineMarketProductInfo(config.productInfo) })}
-                                            data-testid="market-guide"
-                                            className="rounded-[4px] border border-[#E6E6EB] px-2 py-[3px] text-[11px] leading-none text-[#5a5a70] hover:border-[#d8d8e0]"
+                                                /* 原站未上传商品图时 AI分析 为禁用态。 */
+                                                disabled={sources.length === 0}
+                                                title={sources.length === 0 ? "上传商品图后可分析" : undefined}
+                                                onClick={() => update({ productInfo: analyzeMarketProductInfo(config.productInfo) })}
+                                                data-testid="market-ai-analyze"
+                                                className="rounded-[4px] border border-[#E6E6EB] px-2 py-[3px] text-[11px] leading-none text-[#5a5a70] hover:border-[#d8d8e0] disabled:cursor-not-allowed disabled:opacity-40"
                                         >
-                                            向导
+                                                AI分析
                                         </button>
                                         <button
                                             type="button"
-                                            onClick={() => update({ productInfo: analyzeMarketProductInfo(config.productInfo) })}
-                                            data-testid="market-ai-analyze"
-                                            className="rounded-[4px] border border-[#E6E6EB] px-2 py-[3px] text-[11px] leading-none text-[#5a5a70] hover:border-[#d8d8e0]"
+                                                aria-haspopup="dialog"
+                                                onClick={() => setWizardOpen(true)}
+                                                data-testid="market-guide"
+                                                className="inline-flex items-center gap-1 rounded-[4px] border border-[#E6E6EB] px-2 py-[3px] text-[11px] leading-none text-[#5a5a70] hover:border-[#d8d8e0]"
                                         >
-                                            AI分析
+                                                <svg viewBox="0 0 16 16" aria-hidden className="size-3" fill="none" stroke="currentColor" strokeWidth="1.4">
+                                                    <path d="M8 2.5l1.2 2.6 2.8.4-2 2 .5 2.8-2.5-1.3-2.5 1.3.5-2.8-2-2 2.8-.4z" />
+                                                </svg>
+                                                向导
                                         </button>
                                     </div>
                                     <span className="text-[11px] text-muted-foreground">
                                         {config.productInfo.length} / {MARKET_PRODUCT_INFO_MAX_LENGTH}
                                     </span>
                                 </div>
-                                <textarea
-                                    value={config.productInfo}
-                                    onChange={(event) =>
-                                        update({ productInfo: event.target.value.slice(0, MARKET_PRODUCT_INFO_MAX_LENGTH) })
-                                    }
-                                    rows={6}
-                                    placeholder="商品卖点、材质、尺寸、使用场景…（必填，避免凭空生成）"
-                                    className="w-full resize-y rounded-md border border-stone-200 bg-white p-2 text-xs text-stone-800 outline-none focus:border-stone-400 dark:border-stone-700 dark:bg-stone-900 dark:text-stone-100"
-                                />
                             </Section>
 
                             <Section title="品牌与合规（可选）">
-                                <div className="flex flex-col gap-2">
-                                    <div className="flex items-center justify-between gap-2">
-                                        <Field label="智能品牌基因">
-                                            <input
-                                                type="checkbox"
-                                                checked={Boolean(config.brandDna.primaryColor || config.brandDna.fontStyle || config.brandDna.tone)}
-                                                onChange={(event) =>
-                                                    update({
-                                                        brandDna: event.target.checked
-                                                            ? config.brandDna
-                                                            : { ...config.brandDna, primaryColor: "", fontStyle: "", tone: "" },
-                                                    })
-                                                }
-                                            />
-                                        </Field>
+                                    {/* 与原站同构：两行可展开行卡；品牌库/词库管理未接入时在弹层内如实说明。 */}
+                                    <div className="mb-1 flex justify-end">
                                         <button
                                             type="button"
                                             aria-label="高级设置（项目与品牌名称、平台、销售地区、输出语言、A+ 画幅）"
@@ -1632,8 +1884,17 @@ export function ProductMarketMaterialWorkspace({ className }: { className?: stri
                                             </svg>
                                         </button>
                                     </div>
-                                    <Field label="智能主色、智能字体风格">
-                                        <div className="flex items-center gap-2">
+                                    <div className="flex flex-col divide-y divide-[#EDEDF0]">
+                                        <BrandComplianceRow label="智能品牌基因" summary={marketBrandSummary} testId="market-brand-row" open={brandOpen} onToggle={() => setBrandOpen((value) => !value)}>
+                                            <div className="flex flex-col gap-2">
+                                                <strong className="text-[11px] font-medium leading-4 text-foreground">品牌基因设置</strong>
+                                                <div className="rounded-[4px] border border-dashed border-[#E6E6EB] px-2 py-1.5 text-[11px] leading-4 text-muted-foreground">
+                                                    未接入品牌库：本地没有你的品牌列表，选择结果只作用于本次生成，不会写入任何账号。
+                                                </div>
+                                                <Field label="品牌名称">
+                                                    <input className={`${inputClass} w-[130px]`} value={config.brandName} onChange={(event) => update({ brandName: event.target.value })} placeholder="本次生成的品牌名" />
+                                                </Field>
+                                                <Field label="品牌主色">
                                             <input
                                                 type="color"
                                                 aria-label="智能主色"
@@ -1641,44 +1902,63 @@ export function ProductMarketMaterialWorkspace({ className }: { className?: stri
                                                 onChange={(event) => update({ brandDna: { ...config.brandDna, primaryColor: event.target.value } })}
                                                 className="h-6 w-10 shrink-0 cursor-pointer rounded border border-stone-200 dark:border-stone-700"
                                             />
-                                            <select
-                                                className={inputClass}
+                                                </Field>
+                                                <Field label="字体风格">
+                                                    <div className="w-[130px]">
+                                                        <SuiteSearchSelect
+                                                            label="字体风格"
+                                                            testId="market-font-style"
                                                 value={config.brandDna.fontStyle}
-                                                onChange={(event) =>
-                                                    update({ brandDna: { ...config.brandDna, fontStyle: event.target.value as MarketConfig["brandDna"]["fontStyle"] } })
-                                                }
-                                            >
-                                                <option value="">跟随品牌</option>
-                                                {MARKET_FONT_STYLES.map((style) => (
-                                                    <option key={style.id} value={style.id}>
-                                                        {style.label}
-                                                    </option>
-                                                ))}
-                                            </select>
+                                                            placeholder="跟随品牌"
+                                                            options={MARKET_FONT_STYLES.map((style) => ({ value: style.id, label: style.label }))}
+                                                            onChange={(next) => update({ brandDna: { ...config.brandDna, fontStyle: next as MarketConfig["brandDna"]["fontStyle"] } })}
+                                                        />
                                         </div>
                                     </Field>
-                                    <div className="flex items-center gap-1.5 text-[11px] text-muted-foreground">
-                                        <span>智能合规检查</span>
-                                        <span>未选择敏感词库</span>
-                                        <span>·</span>
-                                        <span>未选择替换词库</span>
+                                            </div>
+                                        </BrandComplianceRow>
+                                        <BrandComplianceRow label="智能合规检查" summary={marketComplianceSummary} testId="market-compliance-row" open={complianceOpen} onToggle={() => setComplianceOpen((value) => !value)}>
+                                            <div className="flex flex-col gap-2">
+                                                <strong className="text-[11px] font-medium leading-4 text-foreground">合规检查设置</strong>
+                                                <Field label="敏感词库">
+                                                    <div className="w-[130px]">
+                                                        <SuiteSearchSelect
+                                                            label="敏感词库"
+                                                            testId="market-sensitive-lexicon"
+                                                            value={config.sensitiveLibraryId}
+                                                            placeholder="未选择敏感词库"
+                                                            options={MARKET_SENSITIVE_LIBRARIES.map((lexicon) => ({ value: lexicon.id, label: lexicon.label }))}
+                                                            onChange={(next) => update({ sensitiveLibraryId: next })}
+                                                        />
+                                                    </div>
+                                                </Field>
+                                                <Field label="替换词库">
+                                                    <div className="w-[130px]">
+                                                        <SuiteSearchSelect
+                                                            label="替换词库"
+                                                            testId="market-replacement-lexicon"
+                                                            value={config.replacementLibraryId}
+                                                            placeholder="未选择替换词库"
+                                                            options={MARKET_REPLACEMENT_LIBRARIES.map((lexicon) => ({ value: lexicon.id, label: lexicon.label }))}
+                                                            onChange={(next) => update({ replacementLibraryId: next })}
+                                                        />
+                                                    </div>
+                                                </Field>
+                                                <p className="text-[11px] leading-4 text-muted-foreground">
+                                                    {marketSensitiveLibraryOf(config.sensitiveLibraryId) || marketReplacementLibraryOf(config.replacementLibraryId)
+                                                        ? "已选词库将随任务快照提交；未接入词库管理，词表为本地内置。"
+                                                        : "未选择词库：本次不做敏感词替换。"}
+                                                </p>
+                                            </div>
+                                        </BrandComplianceRow>
                                     </div>
                                     {advancedOpen ? (
                                         <div data-testid="market-advanced-fields" className="flex flex-col gap-2 rounded-[6px] border border-[#E6E6EB] p-2">
                                             <Field label="项目名称">
-                                                <input
-                                                    className={`${inputClass} w-full`}
-                                                    value={config.projectName}
-                                                    placeholder="用于资产命名"
-                                                    onChange={(event) => update({ projectName: event.target.value })}
-                                                />
+                                                <input className={`${inputClass} w-full`} value={config.projectName} placeholder="用于资产命名" onChange={(event) => update({ projectName: event.target.value })} />
                                             </Field>
                                             <Field label="品牌名称">
-                                                <input
-                                                    className={`${inputClass} w-full`}
-                                                    value={config.brandName}
-                                                    onChange={(event) => update({ brandName: event.target.value })}
-                                                />
+                                                <input className={`${inputClass} w-full`} value={config.brandName} onChange={(event) => update({ brandName: event.target.value })} />
                                             </Field>
                                             <div className="flex flex-wrap gap-1">
                                                 {MARKET_PLATFORMS.map((platform) => (
@@ -1686,11 +1966,7 @@ export function ProductMarketMaterialWorkspace({ className }: { className?: stri
                                                         key={platform.id}
                                                         type="button"
                                                         onClick={() => update({ platform: platform.id })}
-                                                        className={`rounded border px-2 py-0.5 text-[11px] ${
-                                                            config.platform === platform.id
-                                                                ? "border-primary bg-primary text-primary-foreground"
-                                                                : "border-border text-foreground"
-                                                        }`}
+                                                        className={`rounded border px-2 py-0.5 text-[11px] ${config.platform === platform.id ? "border-primary bg-primary text-primary-foreground" : "border-border text-foreground"}`}
                                                     >
                                                         {platform.label}
                                                     </button>
@@ -1716,11 +1992,7 @@ export function ProductMarketMaterialWorkspace({ className }: { className?: stri
                                                 </select>
                                             </Field>
                                             <Field label="输出语言">
-                                                <select
-                                                    className={inputClass}
-                                                    value={config.language}
-                                                    onChange={(event) => update({ language: event.target.value as MarketConfig["language"] })}
-                                                >
+                                                <select className={inputClass} value={config.language} onChange={(event) => update({ language: event.target.value as MarketConfig["language"] })}>
                                                     {MARKET_LANGUAGES.map((language) => (
                                                         <option key={language.id} value={language.id}>
                                                             {language.label}
@@ -1729,11 +2001,7 @@ export function ProductMarketMaterialWorkspace({ className }: { className?: stri
                                                 </select>
                                             </Field>
                                             <Field label="A+ 画幅">
-                                                <select
-                                                    className={inputClass}
-                                                    value={config.aplusAspectRatio}
-                                                    onChange={(event) => update({ aplusAspectRatio: event.target.value })}
-                                                >
+                                                <select className={inputClass} value={config.aplusAspectRatio} onChange={(event) => update({ aplusAspectRatio: event.target.value })}>
                                                     {aplusRatiosForPlatform(config.platform).map((ratio) => (
                                                         <option key={ratio.id} value={ratio.id}>
                                                             {ratio.label}
@@ -1743,15 +2011,15 @@ export function ProductMarketMaterialWorkspace({ className }: { className?: stri
                                             </Field>
                                         </div>
                                     ) : null}
-                                </div>
                             </Section>
 
                             <Section title="模型选择">
                                 <div className="flex flex-col gap-2.5">
+                                        {/* 原站不暴露内部模型名，只显示「LF智能模型 G-2.5 Sunburst」+ 分辨率/品质摘要。 */}
                                     <div className="flex items-center justify-between rounded-[6px] border border-[#E6E6EB] px-2 py-[6px]">
                                         <span className="text-[12px] leading-none text-[#2b2b3a] dark:text-stone-100">LF智能模型 G-2.5 Sunburst</span>
                                         <span className="text-[10px] leading-none text-muted-foreground">
-                                            {imageModel?.split("::").pop()?.trim() || "未配置"}
+                                                {config.resolution} · {MARKET_QUALITIES.find((quality) => quality.id === config.quality)?.label ?? ""}
                                         </span>
                                     </div>
                                     <div>
@@ -1764,9 +2032,7 @@ export function ProductMarketMaterialWorkspace({ className }: { className?: stri
                                                     data-testid={`market-resolution-${value}`}
                                                     onClick={() => update({ resolution: value })}
                                                     className={`h-7 min-w-[46px] rounded-[4px] border text-[12px] leading-none ${
-                                                        config.resolution === value
-                                                            ? "border-primary bg-primary/10 text-primary"
-                                                            : "border-[#E6E6EB] text-[#5a5a70] hover:border-[#d8d8e0]"
+                                                            config.resolution === value ? "border-primary bg-primary/10 text-primary" : "border-[#E6E6EB] text-[#5a5a70] hover:border-[#d8d8e0]"
                                                     }`}
                                                 >
                                                     {value}
@@ -1784,9 +2050,7 @@ export function ProductMarketMaterialWorkspace({ className }: { className?: stri
                                                     data-testid={`market-quality-${quality.id}`}
                                                     onClick={() => update({ quality: quality.id })}
                                                     className={`h-7 rounded-[4px] border px-2 text-[12px] leading-none ${
-                                                        config.quality === quality.id
-                                                            ? "border-primary bg-primary/10 text-primary"
-                                                            : "border-[#E6E6EB] text-[#5a5a70] hover:border-[#d8d8e0]"
+                                                            config.quality === quality.id ? "border-primary bg-primary/10 text-primary" : "border-[#E6E6EB] text-[#5a5a70] hover:border-[#d8d8e0]"
                                                     }`}
                                                 >
                                                     {quality.label}
@@ -1797,46 +2061,90 @@ export function ProductMarketMaterialWorkspace({ className }: { className?: stri
                                 </div>
                             </Section>
 
-                            <Section title="A+图设置">
-                                <p className="mb-1 text-[11px] text-muted-foreground">生成类型（单选）</p>
+                                <Section title="A+图设置" hint={aplusEnabled ? "A+ 模板可多选，按模块分组输出" : "该平台无 A+ 模块"}>
+                                    <p className="mb-1 text-[11px] text-muted-foreground">生成类型（可多选）</p>
                                 <div className="flex flex-wrap gap-1">
                                     {MARKET_APLUS_TEMPLATES.map((template) => {
                                         const active = config.aplusTemplateIds.includes(template.id);
+                                            const lastActive = active && config.aplusTemplateIds.length === 1;
                                         return (
-                                            <div
+                                                <button
                                                 key={template.id}
-                                                data-testid={`market-aplus-${template.id}`}
-                                                role="radio"
-                                                aria-checked={active}
-                                                aria-label={template.label ?? template.id}
-                                                onClick={() =>
+                                                    type="button"
+                                                    disabled={!aplusEnabled || running}
+                                                    aria-pressed={active}
+                                                    aria-disabled={!aplusEnabled || lastActive}
+                                                    data-testid={`market-aplus-template-${template.id}`}
+                                                    title={lastActive ? "至少保留一个 A+ 模板" : template.instruction}
+                                                    onClick={() => {
+                                                        if (lastActive) return;
                                                     update({
-                                                        aplusTemplateIds: active && config.aplusTemplateIds.length === 1 ? config.aplusTemplateIds : [template.id],
-                                                    })
-                                                }
-                                                className={`flex cursor-pointer items-center gap-1 rounded-[4px] border px-1.5 py-0.5 text-[11px] leading-none ${
-                                                    active
-                                                        ? "border-stone-800 bg-stone-800 text-white dark:border-stone-200 dark:bg-stone-200 dark:text-stone-900"
-                                                        : "border-stone-200 text-stone-700 dark:border-stone-700 dark:text-stone-200"
-                                                }`}
+                                                            aplusTemplateIds: active ? config.aplusTemplateIds.filter((id) => id !== template.id) : [...config.aplusTemplateIds, template.id],
+                                                        });
+                                                    }}
+                                                    className={`rounded-[4px] border px-1.5 py-0.5 text-[11px] leading-none disabled:opacity-40 ${
+                                                        active ? "border-stone-800 bg-stone-800 text-white dark:border-stone-200 dark:bg-stone-200 dark:text-stone-900" : "border-stone-200 text-stone-700 dark:border-stone-700 dark:text-stone-200"
+                                                    } ${lastActive ? "cursor-not-allowed" : ""}`}
                                             >
-                                                <span>{template.label}</span>
+                                                    {template.label}
+                                                </button>
+                                            );
+                                        })}
                                                 <button
                                                     type="button"
                                                     title="每模块张数"
-                                                    aria-label={`${template.label}每模块张数`}
-                                                    onClick={(event) => {
-                                                        event.stopPropagation();
-                                                        update({ aplusCount: config.aplusCount >= 10 ? 1 : config.aplusCount + 1 });
-                                                    }}
-                                                    className="text-[10px] opacity-70 hover:opacity-100"
+                                            aria-label="A+ 每模块张数"
+                                            disabled={!aplusEnabled || running}
+                                            onClick={() => update({ aplusCount: config.aplusCount >= MARKET_MAX_MODULE_COUNT ? 1 : config.aplusCount + 1 })}
+                                            className="rounded-[4px] border border-stone-200 px-1.5 py-0.5 text-[11px] leading-none text-stone-700 disabled:opacity-40 dark:border-stone-700 dark:text-stone-200"
                                                 >
-                                                    {config.aplusCount}
+                                            每模块 {config.aplusCount} 张
                                                 </button>
                                             </div>
-                                        );
-                                    })}
+                                    {aplusEnabled && config.aplusTemplateIds.length === 1 ? <p className="mt-1 text-[11px] text-muted-foreground">至少保留一个 A+ 模板</p> : null}
+                                    <p className="mt-1.5 mb-1 text-[11px] text-muted-foreground">A+ 画幅（按平台过滤）</p>
+                                    <div className="flex flex-wrap gap-1">
+                                        {aplusRatios.map((ratio) => (
+                                            <button
+                                                key={ratio.id}
+                                                type="button"
+                                                disabled={!aplusEnabled || running}
+                                                onClick={() =>
+                                                    update({
+                                                        aplusAspectRatio: ratio.id,
+                                                        ...(ratio.id === "custom" ? {} : { customWidth: ratio.width, customHeight: ratio.height }),
+                                                    })
+                                                }
+                                                className={`h-6 rounded-[4px] border px-1.5 text-[11px] leading-none disabled:opacity-40 ${
+                                                    config.aplusAspectRatio === ratio.id ? "border-primary bg-primary/10 text-primary" : "border-[#E6E6EB] text-[#5a5a70] hover:border-[#d8d8e0]"
+                                                }`}
+                                            >
+                                                {ratio.label}
+                                            </button>
+                                        ))}
+                                    </div>
+                                    {!aplusEnabled ? <p className="mt-1 text-[11px] text-muted-foreground">切换回亚马逊后可选择 A+ 比例。</p> : null}
+                                    {aplusEnabled && config.aplusAspectRatio === "custom" ? (
+                                        <div className="mt-1.5 flex items-center gap-2">
+                                            <input
+                                                type="number"
+                                                aria-label="A+ 自定比例宽"
+                                                className={`${inputClass} w-20`}
+                                                value={config.customWidth || ""}
+                                                onChange={(event) => update({ customWidth: Number(event.target.value) || 0 })}
+                                                placeholder="宽 px"
+                                            />
+                                            <span className="text-[11px] text-muted-foreground">×</span>
+                                            <input
+                                                type="number"
+                                                aria-label="A+ 自定比例高"
+                                                className={`${inputClass} w-20`}
+                                                value={config.customHeight || ""}
+                                                onChange={(event) => update({ customHeight: Number(event.target.value) || 0 })}
+                                                placeholder="高 px"
+                                            />
                                 </div>
+                                    ) : null}
                                 <p className="mt-1.5 mb-1 text-[11px] text-muted-foreground">选择排版</p>
                                 <div className="flex flex-wrap gap-1">
                                     {MARKET_LAYOUT_MODES.map((mode) => (
@@ -1846,18 +2154,14 @@ export function ProductMarketMaterialWorkspace({ className }: { className?: stri
                                             data-testid={`market-layout-${mode.id}`}
                                             onClick={() => update({ layoutMode: mode.id })}
                                             className={`h-6 rounded-[4px] border px-1.5 text-[11px] leading-none ${
-                                                config.layoutMode === mode.id
-                                                    ? "border-primary bg-primary/10 text-primary"
-                                                    : "border-[#E6E6EB] text-[#5a5a70] hover:border-[#d8d8e0]"
+                                                    config.layoutMode === mode.id ? "border-primary bg-primary/10 text-primary" : "border-[#E6E6EB] text-[#5a5a70] hover:border-[#d8d8e0]"
                                             }`}
                                         >
                                             {mode.label}
                                         </button>
                                     ))}
                                 </div>
-                                <p className="mt-1 text-[11px] leading-4 text-muted-foreground">
-                                    💡未选择排版时，将根据官方排版随机生成
-                                </p>
+                                    <p className="mt-1 text-[11px] leading-4 text-muted-foreground">💡未选择排版时，将根据官方排版随机生成</p>
                             </Section>
 
                             <Section title="主副图设置">
@@ -1874,15 +2178,11 @@ export function ProductMarketMaterialWorkspace({ className }: { className?: stri
                                                 aria-label={module.label}
                                                 onClick={() =>
                                                     update({
-                                                        marketingModuleIds: checked
-                                                            ? config.marketingModuleIds.filter((id) => id !== module.id)
-                                                            : [...config.marketingModuleIds, module.id],
+                                                            marketingModuleIds: checked ? config.marketingModuleIds.filter((id) => id !== module.id) : [...config.marketingModuleIds, module.id],
                                                     })
                                                 }
                                                 className={`flex cursor-pointer items-center gap-1 rounded-[4px] border px-1.5 py-0.5 text-[11px] leading-none ${
-                                                    checked
-                                                        ? "border-stone-800 bg-stone-800 text-white dark:border-stone-200 dark:bg-stone-200 dark:text-stone-900"
-                                                        : "border-stone-200 text-stone-700 dark:border-stone-700 dark:text-stone-200"
+                                                        checked ? "border-stone-800 bg-stone-800 text-white dark:border-stone-200 dark:bg-stone-200 dark:text-stone-900" : "border-stone-200 text-stone-700 dark:border-stone-700 dark:text-stone-200"
                                                 }`}
                                             >
                                                 <span>{module.label}</span>
@@ -1892,49 +2192,66 @@ export function ProductMarketMaterialWorkspace({ className }: { className?: stri
                                 </div>
                                 <p className="mt-1.5 mb-1 text-[11px] text-muted-foreground">生成比例</p>
                                 <div className="flex flex-wrap gap-1">
-                                    {MARKET_RATIO_CHIPS.map((chip) => (
+                                        {marketingRatios.map((ratio) => (
                                         <button
-                                            key={chip.label}
+                                                key={ratio}
                                             type="button"
-                                            data-testid={`market-ratio-${chip.label}`}
-                                            onClick={() =>
-                                                update({
-                                                    aspectRatio: chip.ratio ?? config.aspectRatio,
-                                                    isCustomAspectRatio: !chip.ratio,
-                                                    customWidth: chip.width ?? 0,
-                                                    customHeight: chip.height ?? 0,
-                                                })
-                                            }
+                                                data-testid={`market-ratio-${ratio}`}
+                                                onClick={() => update({ aspectRatio: ratio, isCustomAspectRatio: false, customWidth: 0, customHeight: 0 })}
                                             className={`h-6 min-w-[38px] rounded-[4px] border text-[11px] leading-none ${
-                                                activeMarketRatio(config) === chip.label
-                                                    ? "border-primary bg-primary/10 text-primary"
-                                                    : "border-[#E6E6EB] text-[#5a5a70] hover:border-[#d8d8e0]"
+                                                    !config.isCustomAspectRatio && config.aspectRatio === ratio ? "border-primary bg-primary/10 text-primary" : "border-[#E6E6EB] text-[#5a5a70] hover:border-[#d8d8e0]"
                                             }`}
                                         >
-                                            {chip.label}
+                                                {ratio}
                                         </button>
                                     ))}
                                     <button
                                         type="button"
-                                        onClick={() => update({ isCustomAspectRatio: false, customWidth: 0, customHeight: 0 })}
-                                        className="h-6 rounded-[4px] border border-[#E6E6EB] px-1.5 text-[11px] leading-none text-[#5a5a70] hover:border-[#d8d8e0]"
+                                            data-testid="market-ratio-custom"
+                                            aria-pressed={config.isCustomAspectRatio}
+                                            onClick={() => update({ isCustomAspectRatio: !config.isCustomAspectRatio })}
+                                            className={`h-6 rounded-[4px] border px-1.5 text-[11px] leading-none ${config.isCustomAspectRatio ? "border-primary bg-primary/10 text-primary" : "border-[#E6E6EB] text-[#5a5a70] hover:border-[#d8d8e0]"}`}
                                     >
-                                        更多
+                                            自定义画幅
                                     </button>
                                 </div>
+                                    {config.isCustomAspectRatio ? (
+                                        <div className="mt-1.5 flex items-center gap-2">
+                                            <input
+                                                type="number"
+                                                aria-label="自定义画幅宽"
+                                                className={`${inputClass} w-20`}
+                                                value={config.customWidth || ""}
+                                                onChange={(event) => update({ customWidth: Number(event.target.value) || 0 })}
+                                                placeholder="宽 px"
+                                            />
+                                            <span className="text-[11px] text-muted-foreground">×</span>
+                                            <input
+                                                type="number"
+                                                aria-label="自定义画幅高"
+                                                className={`${inputClass} w-20`}
+                                                value={config.customHeight || ""}
+                                                onChange={(event) => update({ customHeight: Number(event.target.value) || 0 })}
+                                                placeholder="高 px"
+                                            />
+                                            {config.customWidth > 0 && config.customWidth < 64 ? <span className="text-[11px] text-amber-600">宽高至少 64px</span> : null}
+                                        </div>
+                                    ) : null}
                             </Section>
-
                         </div>
                     </div>
-                    <div className="shrink-0 border-t border-[#EDEDF0] px-6 py-3" data-testid="market-generate-summary">
-                        <div className="mt-2 flex items-center gap-2">
+                        <div className="shrink-0 border-t border-[#EDEDF0] px-4 py-3" data-testid="market-generate-summary">
+                            <p className="mb-1.5 text-[11px] leading-4 text-stone-500 dark:text-stone-400" data-testid="market-expected-count">
+                                预计生成 {expected} 张{aplusUnits > 0 ? `（A+ ${aplusUnits} 张 · 营销图 ${mainSubUnits} 张）` : ""}
+                            </p>
+                            <div className="flex items-center gap-2">
                             <button
                                 type="button"
                                 disabled={blocked}
                                 title={issues[0]?.message}
                                 onClick={() => void onGenerate()}
                                 data-testid="market-generate"
-                                className="h-8 flex-1 rounded-md bg-primary text-[12px] font-medium leading-none text-primary-foreground hover:bg-primary/90 disabled:cursor-not-allowed disabled:opacity-40"
+                                    className="h-8 w-full rounded-[4px] bg-primary text-[12px] font-medium leading-none text-primary-foreground hover:bg-primary/90 disabled:cursor-not-allowed disabled:opacity-40"
                             >
                                 {running ? "生成中…" : "开始生成"}
                             </button>
@@ -1956,16 +2273,17 @@ export function ProductMarketMaterialWorkspace({ className }: { className?: stri
                         </div>
                     </div>
                 </div>
-                )}
+                }
             >
-
                 <div className="flex min-w-0 flex-1 flex-col">
-                    <div className="flex h-11 shrink-0 items-center gap-6 border-b border-[#EDEDF0] px-6" role="tablist">
-                        {([
+                    {/* 原站该页同样只有「生成结果 / 优秀案例」两个页签 + 右端「历史记录 ↗」外链。 */}
+                    <div className="flex h-[42px] shrink-0 items-center gap-4 border-b border-[#EDEDF0] px-3" role="tablist">
+                        {(
+                            [
                             ["result", "生成结果"],
                             ["cases", "优秀案例"],
-                            ["history", "历史记录"],
-                        ] as const).map(([id, label]) => (
+                            ] as const
+                        ).map(([id, label]) => (
                             <button
                                 key={id}
                                 type="button"
@@ -1973,37 +2291,29 @@ export function ProductMarketMaterialWorkspace({ className }: { className?: stri
                                 aria-selected={rightTab === id}
                                 data-testid={`market-tab-${id}`}
                                 onClick={() => setRightTab(id)}
-                                className={cn(
-                                    "h-11 text-[13px] leading-none transition",
-                                    rightTab === id
-                                        ? "border-b-2 border-primary font-medium text-foreground"
-                                        : "border-b-2 border-transparent text-muted-foreground hover:text-foreground",
-                                )}
+                                className={cn("h-[42px] text-[14px] leading-[22px] transition-colors", rightTab === id ? "border-b-2 border-primary font-medium text-primary" : "border-b-2 border-transparent text-muted-foreground hover:text-foreground")}
                             >
                                 {label}
                             </button>
                         ))}
+                        <span data-testid="market-tab-history-link" title="本地未接入历史记录页；任务记录在页面底部「历史任务」" className="ml-auto text-[12px] leading-none text-primary/60">
+                            历史记录 ↗
+                        </span>
                     </div>
                     <div className="min-h-0 flex-1 overflow-y-auto px-6 py-4">
-                        <div role="tabpanel" hidden={rightTab !== "history"} data-testid="market-panel-history">
-                            <ToolTaskHistory toolId={toolId} limit={8} onSelectTask={onSelectHistoryTask} emptyHint="还没有营销素材任务记录" />
-                        </div>
                         <div role="tabpanel" hidden={rightTab !== "cases"} data-testid="market-panel-cases">
                             <p className="text-[11px] text-stone-500">暂无优秀案例</p>
                         </div>
                         <div role="tabpanel" hidden={rightTab !== "result"} data-testid="market-panel-result" className="flex flex-col gap-3">
                             <p className="text-[11px] text-[#6b6b80]">生成结果</p>
-                            {issues.length || runError ? (
-                                <div className="rounded-lg border border-amber-300 bg-amber-50 p-2 text-[11px] text-amber-800 dark:border-amber-700/60 dark:bg-amber-950/40 dark:text-amber-200">
-                                    {runError ? <p>{runError}</p> : null}
-                                    {issues.map((issue) => (
-                                        <p key={issue.code}>{issue.message}</p>
-                                    ))}
-                                </div>
+                            {/* 同套图：原站结果区无常驻校验横幅，校验原因只在按钮 title 与这行弱提示里。 */}
+                            {runError ? <div className="rounded-[4px] border border-amber-300 bg-amber-50 p-2 text-[11px] leading-4 text-amber-800">{runError}</div> : null}
+                            {!runError && issues.length ? (
+                                <p className="text-[11px] leading-4 text-muted-foreground" data-testid="market-result-hints">
+                                    {issues.map((issue) => issue.message).join(" ")}
+                                </p>
                             ) : null}
-                            {stale && units.length ? (
-                                <p className="text-[11px] text-amber-600">配置已变更，下方结果来自旧版本；重新生成可更新。</p>
-                            ) : null}
+                            {stale && units.length ? <p className="text-[11px] text-amber-600">配置已变更，下方结果来自旧版本；重新生成可更新。</p> : null}
                             {units.length ? (
                                 <div className="flex flex-col gap-3">
                                     <p className="text-[11px] text-stone-500">
@@ -2017,22 +2327,58 @@ export function ProductMarketMaterialWorkspace({ className }: { className?: stri
                                             <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
                                                 {group.units.map((unit) => (
                                                     <article key={unit.unitId} className="rounded-md border border-stone-200 p-2 dark:border-stone-800">
-                                                        <p className="mb-1 text-[11px] text-stone-600 dark:text-stone-300">{unit.label}</p>
+                                                        <p className="mb-1 text-[11px] text-stone-600 dark:text-stone-300">
+                                                            {unit.label} · {unit.width > 0 ? `${unit.width}×${unit.height}` : config.isCustomAspectRatio ? `${config.customWidth}×${config.customHeight}` : config.aspectRatio}
+                                                        </p>
                                                         {unit.items.length ? (
-                                                            <div className="grid grid-cols-2 gap-1">
-                                                                {unit.items.map((item, itemIndex) => (
-                                                                    <img
-                                                                        key={`${unit.unitId}-${itemIndex}`}
-                                                                        src={item.url ?? item.dataUrl}
-                                                                        alt={unit.label}
-                                                                        className="h-24 w-full rounded object-cover"
-                                                                    />
-                                                                ))}
+                                                            <div className="flex flex-col gap-1">
+                                                                {unit.items.map((item, itemIndex) => {
+                                                                    const key = `${unit.unitId}:${item.id}`;
+                                                                    const src = item.dataUrl ?? item.url;
+                                                                    return (
+                                                                        <div key={item.id} className="flex flex-col gap-1">
+                                                                            {src ? (
+                                                                                <img src={src} alt={unit.label} className="h-24 w-full rounded object-cover" />
+                                                                            ) : (
+                                                                                <div className="flex h-24 items-center justify-center rounded border border-dashed border-stone-300 text-center text-[10px] text-stone-400 dark:border-stone-700">
+                                                                                    结果已被持久化策略剥离
+                                                                                </div>
+                                                                            )}
+                                                                            <div className="flex flex-wrap gap-1">
+                                                                                <button
+                                                                                    type="button"
+                                                                                    disabled={busyUnit === unit.unitId}
+                                                                                    onClick={() => void onSaveItem(unit, item)}
+                                                                                    data-testid={`market-save-${key}`}
+                                                                                    className="rounded border border-stone-200 px-2 py-0.5 text-[11px] text-stone-700 disabled:opacity-40 dark:border-stone-700 dark:text-stone-200"
+                                                                                >
+                                                                                    {savedKeys[key] ? "已存资产库" : "存入资产库"}
+                                                                                </button>
+                                                                                <button
+                                                                                    type="button"
+                                                                                    disabled={busyUnit === unit.unitId}
+                                                                                    onClick={() => void onSendItemToCanvas(unit, item)}
+                                                                                    data-testid={`market-canvas-${key}`}
+                                                                                    className="rounded border border-stone-200 px-2 py-0.5 text-[11px] text-stone-700 disabled:opacity-40 dark:border-stone-700 dark:text-stone-200"
+                                                                                >
+                                                                                    {canvasKeys[key] ? "已发送画布" : "发送画布"}
+                                                                                </button>
+                                                                                <button
+                                                                                    type="button"
+                                                                                    disabled={busyUnit === unit.unitId || item.payloadDropped || !(item.dataUrl ?? item.url)}
+                                                                                    onClick={() => void onDownloadItem(unit, item, itemIndex)}
+                                                                                    data-testid={`market-download-${key}`}
+                                                                                    className="rounded border border-stone-200 px-2 py-0.5 text-[11px] text-stone-700 disabled:opacity-40 dark:border-stone-700 dark:text-stone-200"
+                                                                                >
+                                                                                    下载
+                                                                                </button>
+                                                                            </div>
+                                                                        </div>
+                                                                    );
+                                                                })}
                                                             </div>
                                                         ) : (
-                                                            <p className="text-[11px] text-stone-500">
-                                                                {unit.error?.message ?? (unit.status === "pending" ? "上游结果未知，稍后重试可查询。" : "暂无内容")}
-                                                            </p>
+                                                            <p className="text-[11px] text-stone-500">{unit.error?.message ?? (unit.status === "pending" ? "上游结果未知，稍后重试可查询。" : "暂无内容")}</p>
                                                         )}
                                                         {unit.status === "failed" ? (
                                                             <button
@@ -2055,58 +2401,24 @@ export function ProductMarketMaterialWorkspace({ className }: { className?: stri
                             )}
                         </div>
                         {seeded ? null : <p className="text-[11px] text-stone-500">正在读取草稿…</p>}
-                        <div className="mt-3 flex items-center gap-1" data-testid="market-result-pager">
-                            {[1, 2, 3].map((page) => (
-                                <button
-                                    key={page}
-                                    type="button"
-                                    aria-label={`第 ${page} 页`}
-                                    className={`h-6 min-w-[24px] rounded-[4px] border text-[11px] leading-none ${
-                                        page === 1
-                                            ? "border-primary bg-primary/10 text-primary"
-                                            : "border-[#E6E6EB] text-[#5a5a70] hover:border-[#d8d8e0]"
-                                    }`}
-                                >
-                                    {page}
-                                </button>
-                            ))}
-                        </div>
+                        {units.length === 0 && seeded && !running ? <p className="text-[11px] leading-4 text-stone-500 dark:text-stone-400">还没有生成结果：上传商品多图并选择营销模块后，点「开始生成」。</p> : null}
                     </div>
                 </div>
             </ToolWorkspaceColumns>
+            <SuiteWizardDialog open={wizardOpen} onClose={() => setWizardOpen(false)} onApply={applyMarketWizard} />
+            {productLibOpen ? <SuiteEmptyLibraryDialog title="从商品库选择" body="本地没有商品库数据（未接入商品库接口），可用「从本地上传」或「从作品库选择」。" onClose={() => setProductLibOpen(false)} /> : null}
         </div>
     );
-}
-
-/** 生成比例 chip：market 只原生支持 1:1 / 3:4 / 3:2，4:3 与 2:3 走自定义画幅。 */
-const MARKET_RATIO_CHIPS: readonly { label: string; ratio?: "1:1" | "3:4" | "3:2"; width?: number; height?: number }[] = [
-    { label: "1:1", ratio: "1:1" },
-    { label: "3:4", ratio: "3:4" },
-    { label: "4:3", width: 1200, height: 900 },
-    { label: "2:3", width: 800, height: 1200 },
-    { label: "3:2", ratio: "3:2" },
-];
-
-function activeMarketRatio(config: MarketConfig): string {
-    if (!config.isCustomAspectRatio) return config.aspectRatio;
-    if (config.customWidth === 1200 && config.customHeight === 900) return "4:3";
-    if (config.customWidth === 800 && config.customHeight === 1200) return "2:3";
-    return "";
-}
-
-/** 向导：给商品信息铺一份可填骨架（不覆盖已有内容，只追加空栏目）。 */
-function outlineMarketProductInfo(current: string): string {
-    const skeleton = "【商品名称】\n【核心卖点】\n【材质 / 工艺】\n【适用场景】\n【规格尺寸】";
-    const base = current.trim();
-    const next = base ? `${base}\n${skeleton}` : skeleton;
-    return next.slice(0, MARKET_PRODUCT_INFO_MAX_LENGTH);
 }
 
 /** AI分析：把已有商品信息按「卖点 / 材质 / 场景 / 规格」重新归并，未识别项留空待补。 */
 function analyzeMarketProductInfo(current: string): string {
     const source = current.trim();
     if (!source) return "";
-    const segments = source.split(/[，,。;；\n]+/).map((segment) => segment.trim()).filter(Boolean);
+    const segments = source
+        .split(/[，,。;；\n]+/)
+        .map((segment) => segment.trim())
+        .filter(Boolean);
     const materialWords = ["棉", "麻", "真丝", "涤纶", "羊毛", "皮革", "不锈钢", "铝合金", "玻璃", "陶瓷", "竹", "木", "ABS", "硅胶"];
     const sceneWords = ["家用", "户外", "办公", "厨房", "旅行", "露营", "运动", "母婴", "车载", "礼物"];
     const material = segments.filter((segment) => materialWords.some((word) => segment.includes(word)));
@@ -2115,9 +2427,7 @@ function analyzeMarketProductInfo(current: string): string {
     const used = new Set([...material, ...scene, ...spec]);
     const selling = segments.filter((segment) => !used.has(segment)).slice(0, 5);
     const block = (title: string, lines: string[]) => `${title}\n${lines.length ? lines.join("；") : "待补充"}`;
-    return [block("【卖点】", selling), block("【材质 / 工艺】", material), block("【适用场景】", scene), block("【规格尺寸】", spec)]
-        .join("\n")
-        .slice(0, MARKET_PRODUCT_INFO_MAX_LENGTH);
+    return [block("【卖点】", selling), block("【材质 / 工艺】", material), block("【适用场景】", scene), block("【规格尺寸】", spec)].join("\n").slice(0, MARKET_PRODUCT_INFO_MAX_LENGTH);
 }
 
 function marketSourceFromRecord(record: ToolAssetRecord): MarketSourceAsset {

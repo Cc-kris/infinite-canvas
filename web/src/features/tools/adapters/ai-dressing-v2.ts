@@ -280,8 +280,8 @@ export function mapDressingTaskToOutcome(unit: DressingUnit, task: ToolTask): Dr
     return { ...base, status: "unknown", images, error: { code: `task-${task.status}`, message: "任务状态未知，只能查询或人工确认", retryable: true } };
 }
 
-export async function runDressingUnit(port: DressingRunPort, unit: DressingUnit, options: WaitOptions = {}): Promise<DressingUnitOutcome> {
-    const input = buildDressingInput(unit);
+export async function runDressingUnit(port: DressingRunPort, unit: DressingUnit, options: WaitOptions = {}, model?: string): Promise<DressingUnitOutcome> {
+    const input = buildDressingInput(unit, { model });
     try {
         const task = await port.run(input, options);
         return mapDressingTaskToOutcome(unit, task);

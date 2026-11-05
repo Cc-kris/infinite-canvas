@@ -31,19 +31,28 @@ import {
 } from "@/features/tools/adapters/dress-wear-set";
 import {
     DRESS_APLUS_SCENE_OPTIONS,
+    DRESS_LANGUAGE_SUGGESTIONS,
     DRESS_MAIN_SCENE_OPTIONS,
     DRESS_PRODUCT_INFO_MAX_LENGTH,
+    DRESS_PLATFORM_SUGGESTIONS,
     DRESS_PROVIDERS,
+    DRESS_REPLACEMENT_LIBRARIES,
+    DRESS_REGION_SUGGESTIONS,
     DRESS_SCENE_BY_KEY,
+    DRESS_SENSITIVE_LIBRARIES,
     DRESS_UPLOAD_LIMITS,
     DRESS_WEAR_SET_TOOL_ID,
     dressAspectRatioOptionsFor,
     dressQualityOptionsFor,
+    dressReplacementLibraryOf,
     dressResolutionOptionsFor,
+    dressSensitiveLibraryOf,
     type DressSceneKey,
 } from "@/features/tools/registry/dress-wear-set";
 import type { ToolAssetRecord } from "@/services/api/tools/assets";
+import { toolAssetLibraryItemsFromAssets } from "@/services/api/tools/assets";
 import type { ToolTask } from "@/services/api/tools/task-machine";
+import { useAssetStore, type ImageAsset, type VideoAsset } from "@/stores/use-asset-store";
 import { selectableModelsByCapability, useConfigStore } from "@/stores/use-config-store";
 import { useToolDraftStore } from "@/stores/use-tool-draft-store";
 import { useToolTaskStore } from "@/stores/use-tool-task-store";
@@ -164,6 +173,7 @@ export function DressSuiteWorkspace({ toolId = DRESS_WEAR_SET_TOOL_ID }: DressSu
     const [caseApplyNonce, setCaseApplyNonce] = useState(0);
     const [tipDismissed, setTipDismissed] = useState(false);
     const [guideOpen, setGuideOpen] = useState(false);
+    const [moreRatios, setMoreRatios] = useState(false);
     const [running, setRunning] = useState(false);
     const [snapshot, setSnapshot] = useState<DressSubmitSnapshot | null>(null);
     const abortRef = useRef<AbortController | null>(null);
@@ -194,6 +204,13 @@ export function DressSuiteWorkspace({ toolId = DRESS_WEAR_SET_TOOL_ID }: DressSu
     const tasks = useToolTaskStore((state) => state.tasks);
     const runTool = useToolTaskStore((state) => state.runTool);
     const retryTask = useToolTaskStore((state) => state.retryTask);
+
+    // 作品库（本地资产库）：上传卡上的「从作品库选择」从真实资产列表读取；不伪造商品库入口。
+    const assets = useAssetStore((state) => state.assets);
+    const library = useMemo(
+        () => toolAssetLibraryItemsFromAssets(assets.filter((asset): asset is ImageAsset | VideoAsset => asset.kind === "image")),
+        [assets],
+    );
 
     // 刷新恢复：草稿里的表单值；素材由 ToolAssetInput 自己按 assetIds 恢复。
     useEffect(() => {
@@ -449,14 +466,16 @@ export function DressSuiteWorkspace({ toolId = DRESS_WEAR_SET_TOOL_ID }: DressSu
     const provider = DRESS_PROVIDERS.find((item) => item.code === values.provider);
     const resolutionOptions = dressResolutionOptionsFor(values.provider);
     const qualityOptions = dressQualityOptionsFor(values.provider);
-    /* 原站「生成比例」只暴露这 5 档；其余档位仍可通过比例状态保留但不渲染，避免与 1:1 对齐页多出文案 */
+    /* 原站「生成比例」默认暴露 5 档 +「更多」展开模型目录里的其余档位。 */
     const DRESS_RATIO_UI = ["1:1", "3:4", "4:3", "2:3", "3:2"];
-    const ratioOptions = dressAspectRatioOptionsFor(values.provider).filter((value) => DRESS_RATIO_UI.includes(value));
+    const allRatioOptions = dressAspectRatioOptionsFor(values.provider);
+    const ratioOptions = allRatioOptions.filter((value) => DRESS_RATIO_UI.includes(value));
+    const extraRatioOptions = allRatioOptions.filter((value) => !DRESS_RATIO_UI.includes(value));
 
     const errorFor = (field: string) => issues.filter((issue) => issue.field === field && issue.level === "error")[0];
 
     return (
-        <div className="flex flex-col gap-3" data-testid="dress-suite-workspace" data-tool-id={toolId}>
+        <div className="flex h-full min-h-0 flex-col gap-3" data-testid="dress-suite-workspace" data-tool-id={toolId}>
             {/* 原站顶部：商品套图模块导航 + 本地驱动状态 */}
             <div className="flex flex-wrap items-center justify-between gap-2 rounded-lg border border-border bg-card px-3 py-1.5 text-[11px]">
                 <div className="flex flex-wrap items-center gap-2.5">
@@ -476,6 +495,8 @@ export function DressSuiteWorkspace({ toolId = DRESS_WEAR_SET_TOOL_ID }: DressSu
             </div>
             <ToolWorkspaceColumns
                 config={(
+                    <div className="flex h-full min-h-0 flex-1 flex-col">
+                    <div data-testid="dress-suite-config-scroll" className="min-h-0 flex-1 space-y-3 overflow-y-auto pr-1">
                     <>
                 {/* 左列：素材与商品设定 */}
                     <Section title="多角度服装图&搭配图" hint={`最多上传${DRESS_UPLOAD_LIMITS.maxFiles}张图，10M以内，384*384~4096*4096`}>
@@ -502,6 +523,8 @@ export function DressSuiteWorkspace({ toolId = DRESS_WEAR_SET_TOOL_ID }: DressSu
                             wide
                             compact
                             maxCount={DRESS_UPLOAD_LIMITS.maxFiles}
+                            library={library}
+                            syncIds={records.map((record) => record.id)}
                             constraints={{
                                 kind: "image",
                                 mimeTypes: [...DRESS_UPLOAD_LIMITS.mimeTypes],
@@ -514,6 +537,31 @@ export function DressSuiteWorkspace({ toolId = DRESS_WEAR_SET_TOOL_ID }: DressSu
                             title="上传服装图"
                             onChange={(_assetIds, next) => setRecords(next)}
                         />
+                        {records.length > 1 ? (
+                            <p className="flex items-center justify-between gap-2 text-[11px] text-muted-foreground">
+                                <span>参考图顺序即生成顺序，可调整：</span>
+                                <span className="flex items-center gap-1.5">
+                                    {records.map((record, index) => (
+                                        <button
+                                            key={record.id}
+                                            type="button"
+                                            aria-label={`将第 ${index + 1} 张前移`}
+                                            disabled={index === 0}
+                                            className="h-7 w-7 rounded border border-border leading-none hover:border-primary disabled:opacity-40"
+                                            onClick={() =>
+                                                setRecords((previous) => {
+                                                    const next = [...previous];
+                                                    [next[index - 1], next[index]] = [next[index], next[index - 1]];
+                                                    return next;
+                                                })
+                                            }
+                                        >
+                                            ↑
+                                        </button>
+                                    ))}
+                                </span>
+                            </p>
+                        ) : null}
                         {errorFor("references") ? <p className="text-xs text-destructive">{errorFor("references")?.message}</p> : null}
                     </Section>
 
@@ -593,6 +641,24 @@ export function DressSuiteWorkspace({ toolId = DRESS_WEAR_SET_TOOL_ID }: DressSu
                                 ]}
                                 onChange={(value) => setField("brandMode", value === "custom" ? "custom" : "smart")}
                             />
+                            <SelectField
+                                label="商品类目"
+                                value={values.platform}
+                                options={[{ value: "", label: "请选择商品类目" }, ...DRESS_PLATFORM_SUGGESTIONS.map((item) => ({ value: item, label: item }))]}
+                                onChange={(value) => setField("platform", value)}
+                            />
+                            <SelectField
+                                label="销售地区"
+                                value={values.salesRegion}
+                                options={[{ value: "", label: "请选择销售地区" }, ...DRESS_REGION_SUGGESTIONS.map((item) => ({ value: item, label: item }))]}
+                                onChange={(value) => setField("salesRegion", value)}
+                            />
+                            <SelectField
+                                label="语言"
+                                value={values.language}
+                                options={[{ value: "", label: "请选择语言" }, ...DRESS_LANGUAGE_SUGGESTIONS.map((item) => ({ value: item, label: item }))]}
+                                onChange={(value) => setField("language", value)}
+                            />
                         </div>
                         <p className="text-[11px] leading-4 text-muted-foreground">
                             智能主色、智能字体风格：智能识别模式下自动从主图取色并匹配字体风格。
@@ -608,7 +674,11 @@ export function DressSuiteWorkspace({ toolId = DRESS_WEAR_SET_TOOL_ID }: DressSu
 
                     <Section title="智能合规检查">
                         <div className="flex items-center justify-between gap-2">
-                            <span className="text-[11px] text-muted-foreground">未选择敏感词库 · 未选择替换词库</span>
+                            <span className="text-[11px] text-muted-foreground">
+                                {values.complianceCheck
+                                    ? `已选：${dressSensitiveLibraryOf(values.sensitiveLibrary)?.label ?? "未选择敏感词库"} · ${dressReplacementLibraryOf(values.replacementLibrary)?.label ?? "未选择替换词库"}`
+                                    : "未选择敏感词库 · 未选择替换词库"}
+                            </span>
                             <input
                                 type="checkbox"
                                 aria-label="智能合规检查"
@@ -619,12 +689,23 @@ export function DressSuiteWorkspace({ toolId = DRESS_WEAR_SET_TOOL_ID }: DressSu
                         </div>
                         {values.complianceCheck ? (
                             <div className="grid gap-3">
-                                <TextField label="敏感词库" value={values.sensitiveLibrary} placeholder="未选择敏感词库：如 best seller, cure, 100% ..." onChange={(value) => setField("sensitiveLibrary", value)} />
-                                <TextField label="替换词库" value={values.replacementLibrary} placeholder="未选择替换词库：如 top rated, helps, ..." onChange={(value) => setField("replacementLibrary", value)} />
+                                <SelectField
+                                    label="敏感词库"
+                                    value={values.sensitiveLibrary}
+                                    options={[{ value: "", label: "未选择敏感词库" }, ...DRESS_SENSITIVE_LIBRARIES.map((lexicon) => ({ value: lexicon.id, label: `${lexicon.label}（${lexicon.words.length}词）` }))]}
+                                    onChange={(value) => setField("sensitiveLibrary", value)}
+                                />
+                                <SelectField
+                                    label="替换词库"
+                                    value={values.replacementLibrary}
+                                    options={[{ value: "", label: "未选择替换词库" }, ...DRESS_REPLACEMENT_LIBRARIES.map((lexicon) => ({ value: lexicon.id, label: lexicon.label }))]}
+                                    onChange={(value) => setField("replacementLibrary", value)}
+                                />
+                                <p className="text-[11px] leading-4 text-muted-foreground">
+                                    选中的词库会随任务快照提交：生成文案命中敏感词时按替换词库改写。
+                                </p>
                             </div>
-                        ) : (
-                            <p className="text-[11px] text-muted-foreground">未选择敏感词库 · 未选择替换词库</p>
-                        )}
+                        ) : null}
                     </Section>
 
                     <Section title="模型选择">
@@ -638,6 +719,7 @@ export function DressSuiteWorkspace({ toolId = DRESS_WEAR_SET_TOOL_ID }: DressSu
                                     const value = event.target.value;
                                     const nextResolutions = dressResolutionOptionsFor(value);
                                     const nextQualities = dressQualityOptionsFor(value);
+                                    setMoreRatios(false);
                                     update((previous) => ({
                                         ...previous,
                                         provider: value,
@@ -707,6 +789,30 @@ export function DressSuiteWorkspace({ toolId = DRESS_WEAR_SET_TOOL_ID }: DressSu
                                     {value}
                                 </button>
                             ))}
+                            {extraRatioOptions.length ? (
+                                <button
+                                    type="button"
+                                    aria-expanded={moreRatios}
+                                    onClick={() => setMoreRatios((open) => !open)}
+                                    className="rounded-md border border-border px-2 py-[2px] text-[11px] text-muted-foreground hover:border-primary"
+                                >
+                                    更多
+                                </button>
+                            ) : null}
+                            {moreRatios
+                                ? extraRatioOptions.map((value) => (
+                                      <button
+                                          key={`ratio-extra-${value}`}
+                                          type="button"
+                                          onClick={() => setField("aspectRatio", value)}
+                                          className={`rounded-md border px-2 py-[2px] text-[11px] ${
+                                              values.aspectRatio === value ? "border-primary bg-primary/10 text-primary" : "border-border text-muted-foreground hover:border-primary"
+                                          }`}
+                                      >
+                                          {value}
+                                      </button>
+                                  ))
+                                : null}
                             </div>
                         </div>
                     </Section>
@@ -756,6 +862,9 @@ export function DressSuiteWorkspace({ toolId = DRESS_WEAR_SET_TOOL_ID }: DressSu
                         </div>
                     </Section>
 
+                    </>
+                    </div>
+                    <div data-testid="dress-suite-submit-bar" className="shrink-0 border-t border-border pt-2">
                     <section className="flex flex-col gap-2 rounded-lg border border-border bg-card p-3">
                         <div className="flex flex-wrap items-center justify-between gap-2">
                             <div className="flex flex-col">
@@ -765,13 +874,13 @@ export function DressSuiteWorkspace({ toolId = DRESS_WEAR_SET_TOOL_ID }: DressSu
                             </div>
                             <div className="flex items-center gap-2">
                                 {running ? (
-                                    <button type="button" className="h-9 rounded-md border border-border px-3 text-sm" onClick={handleCancel}>
+                                    <button type="button" className="h-10 rounded-md border border-border px-3 text-sm" onClick={handleCancel}>
                                         取消等待
                                     </button>
                                 ) : null}
                                 <button
                                     type="button"
-                                    className="h-9 rounded-md bg-primary px-4 text-sm font-medium text-primary-foreground disabled:opacity-50"
+                                    className="h-10 rounded-md bg-primary px-4 text-sm font-medium text-primary-foreground disabled:opacity-50"
                                     disabled={running || blocking || !units.length || !references.length || !model}
                                     onClick={() => void handleGenerate()}
                                 >
@@ -793,7 +902,8 @@ export function DressSuiteWorkspace({ toolId = DRESS_WEAR_SET_TOOL_ID }: DressSu
                         {notice ? <p className="text-xs text-muted-foreground">{notice}</p> : null}
                         {resultsStale ? <p className="text-xs text-destructive">结果来自上一版设置（已改源图 / 配置），下方结果仅作参考。</p> : null}
                     </section>
-                    </>
+                    </div>
+                    </div>
                 )}
             >
                     <Section title="生成结果" hint="按场景分组；组内可单张下载，失败组可单独重试。">

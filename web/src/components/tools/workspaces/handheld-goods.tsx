@@ -44,9 +44,7 @@ import {
     HANDHELD_GOODS_SCENE_TABS,
     HANDHELD_GOODS_SOURCE_RULE,
     HANDHELD_GOODS_TOOL_ID,
-    handheldGoodsHandTabLabel,
     handheldGoodsOutputLabel,
-    handheldGoodsPoseLabel,
     handheldGoodsPoseReferenceUrl,
     handheldGoodsPoseSvg,
     isHandheldGoodsSnapshotStale,
@@ -72,7 +70,8 @@ import {
     type HandheldGoodsRun,
 } from "@/features/tools/adapters/handheld-goods";
 import type { ReferenceImage } from "@/types/image";
-import { uploadToolAsset, type ToolAssetRecord } from "@/services/api/tools/assets";
+import { uploadToolAsset, type ToolAssetRecord, toolAssetLibraryItemsFromAssets } from "@/services/api/tools/assets";
+import { useAssetStore, type ImageAsset, type VideoAsset } from "@/stores/use-asset-store";
 import { useToolDraftStore } from "@/stores/use-tool-draft-store";
 import { ToolWorkspaceColumns } from "@/components/tools/tool-workspace-columns";
 import { CropOriginalDialog } from "@/components/tools/crop-original-dialog";
@@ -141,6 +140,13 @@ export function HandheldGoodsWorkspace({ className }: HandheldGoodsWorkspaceProp
 
     const hydrateDraft = useToolDraftStore((store) => store.hydrate);
     const patchDraft = useToolDraftStore((store) => store.patch);
+
+    // 作品库（本地资产库）：上传卡上的「从作品库选择」从真实资产列表读取，不伪造商品库入口。
+    const assets = useAssetStore((state) => state.assets);
+    const library = useMemo(
+        () => toolAssetLibraryItemsFromAssets(assets.filter((asset): asset is ImageAsset | VideoAsset => asset.kind === "image" || asset.kind === "video")),
+        [assets],
+    );
 
     /* ---------------- 草稿：恢复 → 回写 ---------------- */
 
@@ -456,7 +462,8 @@ export function HandheldGoodsWorkspace({ className }: HandheldGoodsWorkspaceProp
             <ToolWorkspaceColumns
                 data-testid="handheld-goods-workspace"
                 config={(
-                    <div className="flex min-h-0 flex-col gap-2">
+                    <div className="flex h-full min-h-0 flex-col gap-2">
+                    <div data-testid="handheld-config-scroll" className="min-h-0 flex-1 space-y-2 overflow-y-auto">
                     {/* 0. 原站左卡标题：工具名 + 一句话 tagline（real/HANDHELD_GOODS/text.txt L47） */}
                     <Design19Section>
                         <p className="text-[16px]! font-medium leading-6 text-foreground!">手持商品</p>
@@ -468,7 +475,7 @@ export function HandheldGoodsWorkspace({ className }: HandheldGoodsWorkspaceProp
                             <ImageRulesPopover kind="goods" testId="handheld-rules" />
                             <span className="text-[12px] leading-[18px] text-muted-foreground">选择参考图</span>
                         </div>
-                        <Design19FieldLabel>上传手持物品</Design19FieldLabel>
+                        <Design19FieldLabel>上传商品图</Design19FieldLabel>
                         <p className="mb-1 text-[11px] leading-4 text-muted-foreground">第一步：选择示例图或上传手持商品图</p>
                         <ToolAssetInput
                             toolId={HANDHELD_GOODS_TOOL_ID}
@@ -478,16 +485,8 @@ export function HandheldGoodsWorkspace({ className }: HandheldGoodsWorkspaceProp
                             variant="linkfox"
                             wide
                             compact
-                            thirdAction={
-                                <button
-                                    type="button"
-                                    disabled={running}
-                                    data-testid="handheld-product-library"
-                                    className="h-6 min-w-0 flex-1 truncate rounded-md border border-border bg-card px-1 text-center text-xs leading-6 text-muted-foreground transition hover:text-foreground disabled:opacity-50"
-                                >
-                                    从商品库选择
-                                </button>
-                            }
+                            thirdAction={null}
+                            library={library}
                             title=""
                             hint="10M以内，384*384 ~ 4096*4096"
                             syncIds={productSyncIds}
@@ -500,12 +499,26 @@ export function HandheldGoodsWorkspace({ className }: HandheldGoodsWorkspaceProp
                         />
                     </Design19Section>
 
-                    {/* 2. 手持姿势（部位页签 + 姿势库） */}
+                    {/* 2. 手持姿势（部位页签 + 姿势库）：切页签只换姿势候选，不动商品图（规格 §3） */}
                     <Design19Section>
                         <div className="mb-[6px] flex h-[22px] items-center justify-between gap-2">
                             <span className="text-[14px] leading-[22px] text-foreground">选择手持姿势</span>
                             <span className="truncate text-[12px] leading-[22px] text-muted-foreground">手持的部位与姿势参考</span>
                         </div>
+                        <Design19ChipGroup>
+                            {HANDHELD_GOODS_HAND_TABS.map((tab) => (
+                                <Design19Chip
+                                    key={tab.id}
+                                    selected={tab.id === state.modelTabType}
+                                    disabled={running}
+                                    onClick={() =>
+                                        setState((previous) => switchHandheldGoodsHandTab(previous, tab.id).state)
+                                    }
+                                >
+                                    {tab.label}
+                                </Design19Chip>
+                            ))}
+                        </Design19ChipGroup>
                         <p className="mt-1 text-[11px] leading-4 text-muted-foreground">或试试这些</p>
                         <div className="mt-[6px] flex gap-[10px] overflow-x-auto pb-1">
                             {poses.map((pose) => {
@@ -545,6 +558,36 @@ export function HandheldGoodsWorkspace({ className }: HandheldGoodsWorkspaceProp
 
                     <p className="mt-2 text-[11px] leading-4 text-muted-foreground">我是高手，不再提醒</p>
 
+                    {/* 3. 场景类型页签 + 检测类型（绑定 sceneTabType / checkType，切页签不重置商品图与姿势） */}
+                    <Design19Section>
+                        <Design19FieldLabel>场景类型</Design19FieldLabel>
+                        <Design19ChipGroup>
+                            {HANDHELD_GOODS_SCENE_TABS.map((tab) => (
+                                <Design19Chip
+                                    key={tab.id}
+                                    selected={tab.id === state.sceneTabType}
+                                    disabled={running}
+                                    onClick={() => setState((previous) => switchHandheldGoodsSceneTab(previous, tab.id))}
+                                >
+                                    {tab.label}
+                                </Design19Chip>
+                            ))}
+                        </Design19ChipGroup>
+                        <p className="mb-[6px] mt-2 text-xs leading-[22px] text-muted-foreground">检测类型</p>
+                        <Design19ChipGroup>
+                            {HANDHELD_GOODS_CHECK_TYPES.map((option) => (
+                                <Design19Chip
+                                    key={option.id}
+                                    selected={option.id === state.checkType}
+                                    disabled={running}
+                                    onClick={() => setState((previous) => ({ ...previous, checkType: option.id }))}
+                                >
+                                    {option.label}
+                                </Design19Chip>
+                            ))}
+                        </Design19ChipGroup>
+                    </Design19Section>
+
                     {/* 4. 生成张数（原站 margin-top 20 + 12px 标题 + 40x26 chip） */}
                     <Design19Section className="mt-[8px]">
                         <Design19FieldLabel>选择生成张数</Design19FieldLabel>
@@ -561,7 +604,7 @@ export function HandheldGoodsWorkspace({ className }: HandheldGoodsWorkspaceProp
                             ))}
                         </Design19ChipGroup>
                         <p className="mt-[6px] text-[12px] leading-[18px] text-muted-foreground">
-                            每张单独发一次真实请求（并发生效上限 2），失败张可单独重试。
+                            {handheldGoodsOutputLabel(state.outputNum)}；每张单独发一次真实请求（并发生效上限 2），失败张可单独重试。
                         </p>
                         {issues.length ? (
                             <ul className="mt-2 space-y-1 text-[12px] leading-[18px] text-[#d46b08]">
@@ -571,7 +614,8 @@ export function HandheldGoodsWorkspace({ className }: HandheldGoodsWorkspaceProp
                             </ul>
                         ) : null}
                     </Design19Section>
-                        <div className="shrink-0 pt-2">
+                    </div>
+                        <div className="shrink-0 border-t border-border pt-2">
                         <Design19PrimaryButton
                             data-testid="handheld-submit"
                             onClick={() => void submit()}
@@ -592,6 +636,9 @@ export function HandheldGoodsWorkspace({ className }: HandheldGoodsWorkspaceProp
                     extraTab={{ id: "history", label: "历史记录" }}
                 >
                     <div role="tabpanel" hidden={rightTab !== "result"} data-testid="handheld-panel-result" className="flex min-h-full flex-col px-3 py-3">
+                        {view.status !== "idle" ? (
+                            <p className="mb-2 text-[12px] leading-[18px] text-muted-foreground">{handheldGoodsStatusText(view)}</p>
+                        ) : null}
                         {stale ? (
                             <p className="mb-2 rounded-md bg-card px-2 py-1 text-[12px] leading-[18px] text-muted-foreground">
                                 配置已修改，下面的结果来自旧版本（快照指纹不同）。

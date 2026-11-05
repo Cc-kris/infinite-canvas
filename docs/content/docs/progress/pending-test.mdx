@@ -7,6 +7,47 @@ description: Implemented changes that still need manual verification
 
 The current release needs manual verification in these areas:
 
+- LinkFox 39 工具 1:1 第二轮修复：
+  - 工具页统一为白底、紫色主操作、左侧族导航；内容区横向重复 chip 条不再显示，所有工具页不出现 `/tools/...` 路由串和重复页头。
+  - 全 39 页布局检查应保持 39/39：配置列普通 300px、画布类 360px，结果区无横向溢出。
+  - 商品套图：向导弹窗、可搜索类目、品牌/合规行卡、16 张多选上传、无公告条、无第三个历史 Tab；结果区历史链接与案例区可见。
+  - 局部重绘：画布｜配置 240｜结果 300 三栏同排，张数默认 2、自动扩大默认开，立即生成在配置栏底部可见。
+  - 局部消除：工具条通栏单行，上传卡 520 居中，示例图可点，结果动作常驻；无配置列。
+  - AI穿戴/上装换料：配置列可滚动且主按钮吸底，AI穿戴默认 4 张，品类选择卡为 12 项弹层，作品库/商品库空态可打开。
+  - 四个 AI 视频页：配置列内容不被底部操作条覆盖，视频比例/国家/模型等全部可滚动到达，无水平溢出。
+  - 历史结果图：刷新后仅存 `storageKey` 的结果仍能显示，不再图裂。
+  - 本轮已对齐（每页有 `docs/V1.0/e2e-1to1/20261102/<TOOL>/local-fixed.png`）：智能扩图（画布 + 300 结果 + 底部参数条）、高清放大（顶部工具条 + 左原图/右结果）、一键换色（783/307/330 三栏）、商品精修（880/240/300，删除自造精修强度与色彩校正）、色差修复（画布 + 300 结果 + 255 配置，删除自造区域色/目标色/版本）、手部修复（880/240/300，工具条回画布顶部）、印花修复（880/240/300，删除自造强度/版本/对比方式）、商品替换（画布 + 底部参数条 + 300 结果，删除重复导航/键盘面板/锁定读数）、姿势裂变（姿势库与补充描述折叠、生成按钮吸底，首屏可见）。
+  - 本轮新增可复现截图验收：`node scripts/real-acceptance/tools-screenshot-audit.mjs`（只读页面）逐页覆盖 `local-current.png`，结果见 `docs/V1.0/e2e-1to1/20261102/SCREENSHOT-INDEX.md`；39/39 页均 1600×1000、无水平溢出、无整页纵向滚动。
+  - 已修复证据自证错误：局部重绘的画布区原先没有 `tool-main-column`、结果列占用了该标记，导致布局门禁把 300px 结果列当主区而误判通过；修正后画布 840px、配置 240px。
+  - 商品图模板卡由「无缩略图素材」灰块改为按场景色调的渐变示意（不是实拍照片），首屏接近原站照片墙；原站 40+ 实拍缩略图仍未接入。
+  - 图片裁剪已完成真实功能闭环（零算力）：`node scripts/real-acceptance/crop-functional-accept.mjs` 实跑 8/8，上传 1200×800 → 切 amazon 预设 → 下载 `crop-1024x1024.png`（PNG 头 1024×1024，28518 字节）。
+  - 印花提取：修复任务只写组件 state、未写全局任务库导致刷新丢历史的问题（`extract.tsx` 的 `upsertTask` 现同时调用 `useToolTaskStore.upsertTask`）。
+  - **环境阻塞（非代码缺陷）**：本机测试账号 `GET /v1/models` 只返回一个视频模型 `MiniMax-H3`，没有任何图像模型。注入凭据后图像请求真实到达上游并被拒：`404 Model "gpt-image-2" is not available for this group`。页面正确标「任务失败 / 需要人工确认」且不自动重试。因此当前环境下所有图像类工具都无法完成真实生成验收；需要换一个有图像模型权限的账号后才能继续。
+  - AI穿戴历史记录：选中历史任务能回填结果区（此前只能查看）。
+  - **已跑通的真实生成**：图转视频（`IMAGE_TO_VIDEO`）用 `MiniMax-H3` 完成真实闭环——提交 200、拿到上游任务 ID、轮询 200、约 220s 出片；证据 `docs/V1.0/e2e-1to1/20261102/IMAGE_TO_VIDEO/real-generation.md` + `real-generation.png`。结果区空白一说已撤回（空态实测 1108×233、标题/引导/图标齐全，为截图时机造成的假象）；保存/下载/发画布三个动作仍未逐一验证。
+  - 服装套图：配置列可滚动、生成区吸底，按钮首屏可见（y875），不再需要滚到底才能提交。
+  - AI穿衣XSY：步骤卡折叠为当前步，生成按钮常驻列底（y931），服装模式 Tab 常驻。
+  - 首屏可达性全量复扫：39 页中 29 页有明确主操作按钮且全部首屏可见（此前 4 页在首屏外，均已修复）；其余 10 页按钮文案不在扫描匹配范围内（如「开始裁剪」「开始生成」变体），需人工确认而非判定缺失。
+  - 场景迁移：配置列内滚动、生成区吸底，按钮首屏可见（y960）。
+  - AI_TEXT（POD 素材）：已修，配置列内滚动 + 生成按钮吸底，按钮 y928 首屏可见。
+  - **原站基线可信度问题（重要）**：39 页里只有 20 页能真正与 LinkFox 做 1:1 对照。9 个工具原站根本没有（`origin=supplemental`：AI姿势生成/AI试衣XSY/场景裂变链接/图片文字编辑/上装换料/商品图设计器/商品营销素材/场景迁移/视频拼接），6 个工具的原站页面不存在（服装套图/高清放大/色差修复/商品图/商品替换/AI穿衣/图转视频）。这 17 页现有的 `original.png` 是错配截图（含 AI_TEXT、ORNAMENT_TEXT 这类本账号被重定向首页的页面），此前报告的视觉结论不成立。详见 `docs/V1.0/e2e-1to1/20261102/BASELINE-AUDIT.md`。
+  - 另有 3 页可对照但缺基线：带货口播、视频复刻、视频翻译。
+  - 饰品文字：生成按钮从结果分区提到配置列顶部，y1477 → y146 首屏可见（桌面端原本两个分区同时显示，按钮被压在下方）。
+  - 总报告已出：`docs/V1.0/e2e-1to1/20261102/FINAL-REPORT.md`，结论为**目标未达成**，含可复现命令、未完成项清单，以及唯一阻塞条件（原站登录态）的说明。
+  - 当前仍差：视频翻译、拼接、链接解析仍是降级能力；其余 38 页尚未跑真实生成与下载/存资产/发画布闭环。
+
+- LinkFox 工具页差异清单本轮改动（DIFF_39_TOOLS.md 已逐项标记）：
+  - AI穿衣（#19）：图片规则弹层可打开/关闭且标题为「请按规则上传多件服装图…」；「或试试这些」案例卡有预览与做同款，点击后模特图与服装真实入库回填，连体/裙装进套装槽、上装（含上下装组合图）进上装槽且不伪造另一件；模特与服装上传的「从作品库选择」读取本地资产。
+  - AI试衣XSY（#27）：图片规则浮层与「试一试」跳转对应槽位；案例回填先切 Tab 再填图，服装槽不被清空；上传走 10M/384–4096 真实校验；模特参考在蒙版步显示。
+  - AI穿戴（#21）：上传区图片规则弹层与「或试试这些」缩略图，点击走真实案例回填。
+  - 套图族（#01/#02/#32）：商品类目下拉、敏感词库/替换词库下拉可保存草稿并进入真实生成提示；词库为本地内置目录，非原站用户词库。
+  - 图转视频（#34）：参考素材/首尾帧/商品链接三模式切换各自保留草稿且只提交当前模式；首尾帧首帧必填、尾帧可选，移除图片后资产 ID 同步清空；普通/高级透传 isPro；提示词优化开关与「怎么写描述？」帮助可用；商品链接模式仍需至少 1 张参考图（既有 adapter 校验）。
+  - 视频拼接（#39）：「历史作品」页签列出真实任务，空态正确；点击恢复结果，片段仅在本地资产仍存在时回填，失效时明确提示。
+  - 商品图设计器（#31）：新建设计入口可打开宿主页；点模板真实创建对应版式的新文档并进入编辑器；无静态 250 计数；无数据的设计/模板/团队空间页签为诚实空态。
+  - 场景裂变链接（#28）：上传区显示与本页真实约束一致的规格文案（20M，不写别页的 10M/384–4096）。
+  - 手持商品（#18）：「从作品库选择」读取本地真实资产，原无 onClick 的「从商品库选择」占位按钮已移除。
+  - 待复测（非本轮实现）：#17 本地路由 404 需浏览器确认；#22/#23 需原站登录态重测；#29/#33 对照入口待确认。
+
 - Saved model selection: save a canvas node with a model, then remove its provider or remove that model while another video model remains the default. Generation, retry and pending-video recovery should keep the unavailable model selected and open configuration instead of sending a request to the default or first provider. Re-selecting a valid model should allow generation. Changing only the API key on the same provider should preserve the model; switching a config node from a valid image model to video should still use the video default.
 
 - Local storage usage on HTTP deployments: opening the Local storage settings tab at an HTTP origin without `navigator.storage.estimate` should still show IndexedDB content statistics, display an unavailable quota instead of an error, and keep the canvas data unchanged.

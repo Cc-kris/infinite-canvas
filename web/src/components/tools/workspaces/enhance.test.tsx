@@ -36,8 +36,10 @@ Object.defineProperty(globalThis, "localStorage", {
 
 async function renderWorkspace(): Promise<string> {
     const React = await import("react");
+    const { MemoryRouter } = await import("react-router-dom");
     const { default: Workspace } = await import("./enhance");
-    return renderToStaticMarkup(React.createElement(Workspace) as ReactElement);
+    // 工作区底部的 OrigRail 用 react-router Link，需要 Router 上下文（与 mask/color 测试同法）。
+    return renderToStaticMarkup(React.createElement(MemoryRouter, null, React.createElement(Workspace) as ReactElement) as ReactElement);
 }
 
 describe("高清放大工作台渲染", () => {

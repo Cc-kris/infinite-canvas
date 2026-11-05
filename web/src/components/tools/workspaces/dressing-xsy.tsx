@@ -1,14 +1,19 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
-import { ChevronDown } from "lucide-react";
+import { ChevronDown, ChevronRight } from "lucide-react";
 
 import { ToolAssetInput } from "@/components/tools/tool-asset-input";
+import { ToolCases, type ToolCase } from "@/components/tools/tool-cases";
 import { ToolWorkspaceColumns } from "@/components/tools/tool-workspace-columns";
 import { ToolResult } from "@/components/tools/tool-result";
 import { useRestoredTask } from "@/components/tools/use-restored-task";
+import { OrigRail, WEAR_RAIL } from "@/components/tools/workspaces/orig-rail";
+import { uploadCaseFiles } from "@/features/tools/case-apply";
+import { AI_DRESSING_V2_CASES } from "@/features/tools/tool-cases-data";
 import { describeToolExecution } from "@/services/api/tools/gateway";
 import type { ToolTask } from "@/services/api/tools/task-machine";
-import { loadToolAssetRecords, type ToolAssetRecord } from "@/services/api/tools/assets";
+import { loadToolAssetRecords, toolAssetLibraryItemsFromAssets, type ToolAssetRecord } from "@/services/api/tools/assets";
+import { useAssetStore, type ImageAsset, type VideoAsset } from "@/stores/use-asset-store";
 import { cn } from "@/lib/utils";
 import { resolveModelChannel, useConfigStore } from "@/stores/use-config-store";
 import { useToolDraftStore } from "@/stores/use-tool-draft-store";
@@ -31,9 +36,11 @@ import {
     XSY_MODEL_STYLES,
     XSY_MODEL_TYPES,
     XSY_OUTPUT_OPTIONS,
+    XSY_RULES,
     XSY_SLOTS,
     XSY_STEPS,
     XSY_TABS,
+    XSY_UPLOAD_LIMITS,
     XSY_VERSIONS,
     applyXsyEdit,
     buildXsyPrompt,
@@ -75,17 +82,35 @@ import {
 
 /* -------------------------------- 基础块 -------------------------------- */
 
-function XsySection({ title, hint, step, children, testId }: { title: string; hint?: string; step?: XsyStepId; children: React.ReactNode; testId?: string }) {
+function XsySection({ title, hint, step, children, testId, current, onOpen }: { title: string; hint?: string; step?: XsyStepId; children: React.ReactNode; testId?: string; current?: XsyStepId; onOpen?: () => void }) {
+    // 原站是单屏配置：步骤卡默认只展开当前步，其余折叠成一行标题，点击才展开，避免整页被 4 步撑高。
+    const collapsible = Boolean(step && current !== undefined);
+    const open = !collapsible || current === step;
     return (
-        <section data-testid={testId} data-step={step} className="rounded-xl border border-border bg-card p-4">
-            <div className="mb-3">
-                <h3 className="text-sm font-medium text-foreground">
-                    {step ? <span className="mr-1 text-muted-foreground">{step}.</span> : null}
-                    {title}
-                </h3>
-                {hint ? <p className="mt-1 text-[11px] text-muted-foreground">{hint}</p> : null}
+        <section data-testid={testId} data-step={step} data-open={open} className="rounded-xl border border-border bg-card p-4">
+            <div className={open ? "mb-3" : "flex items-center gap-2"}>
+                <button
+                    type="button"
+                    disabled={!collapsible}
+                    aria-expanded={open}
+                    onClick={() => onOpen?.()}
+                    className={cn("flex min-w-0 flex-1 items-center gap-1 text-left", collapsible && "cursor-pointer")}
+                >
+                    <h3 className="text-sm font-medium text-foreground">
+                        {step ? <span className="mr-1 text-muted-foreground">{step}.</span> : null}
+                        {title}
+                    </h3>
+                    {collapsible ? (
+                        <ChevronRight aria-hidden className={cn("ml-auto size-3.5 shrink-0 text-muted-foreground transition-transform", open && "rotate-90")} />
+                    ) : null}
+                </button>
             </div>
-            <div className="space-y-3">{children}</div>
+            {open ? (
+                <>
+                    {hint ? <p className="mb-2 text-[11px] text-muted-foreground">{hint}</p> : null}
+                    <div className="space-y-3">{children}</div>
+                </>
+            ) : null}
         </section>
     );
 }
@@ -322,9 +347,114 @@ function XsyMaskCanvas({
 
 const fmtCoverage = (coverage: number) => `${(coverage * 100).toFixed(1)}%`;
 
+/* -------------------------------- 图片规则浮层 -------------------------------- */
+
+const XSY_RULES_TITLE = "请按规则上传多件服装图，以达到最佳效果";
+const XSY_RULES_SPEC = "支持jpg、jpeg、png、webp，10M以内，图片边长范围：384 ~ 4096，最大宽高比5";
+const XSY_RULES_WARN = "请勿上传以下错误图片，会极大影响生成效果";
+
+/**
+ * 「图片规则」按钮 + 规则浮层（与 image-rules-popover 同一套交互：点击弹出、点外/ESC 关闭）。
+ * 正向示例卡的「试一试」会真实跳到示例对应的槽位/模式；错误示例提示禁止上传的类型。
+ */
+function XsyRulesPopover({
+    disabled,
+    onTrySample,
+    testId = "xsy-rules",
+}: {
+    disabled?: boolean;
+    onTrySample: (target: (typeof XSY_RULES.samples)[number]["target"]) => void;
+    testId?: string;
+}) {
+    const [open, setOpen] = useState(false);
+    const rootRef = useRef<HTMLSpanElement | null>(null);
+
+    useEffect(() => {
+        if (!open) return;
+        const onDown = (event: MouseEvent) => {
+            if (!rootRef.current?.contains(event.target as Node)) setOpen(false);
+        };
+        const onKey = (event: KeyboardEvent) => {
+            if (event.key === "Escape") setOpen(false);
+        };
+        document.addEventListener("mousedown", onDown);
+        document.addEventListener("keydown", onKey);
+        return () => {
+            document.removeEventListener("mousedown", onDown);
+            document.removeEventListener("keydown", onKey);
+        };
+    }, [open]);
+
+    return (
+        <span ref={rootRef} className="relative inline-flex">
+            <button
+                type="button"
+                data-testid={`${testId}-trigger`}
+                aria-expanded={open}
+                disabled={disabled}
+                onClick={() => setOpen((previous) => !previous)}
+                className="text-[12px] leading-[18px] text-muted-foreground underline-offset-2 transition hover:text-foreground hover:underline disabled:opacity-40"
+            >
+                图片规则
+            </button>
+            {open ? (
+                <div
+                    role="dialog"
+                    aria-label="图片规则"
+                    data-state="open"
+                    data-testid={`${testId}-popover`}
+                    className="absolute left-0 top-[22px] z-50 w-[420px] rounded-lg border border-border bg-popover p-3 text-[12px] leading-[18px] text-popover-foreground shadow-lg"
+                >
+                    <p className="font-medium text-foreground">{XSY_RULES_TITLE}</p>
+                    <p className="mt-1 text-muted-foreground">{XSY_RULES_SPEC}</p>
+                    <div className="mt-2 grid grid-cols-4 gap-2">
+                        {XSY_RULES.samples.map((sample) => (
+                            <div key={sample.id} className="flex flex-col items-center gap-1">
+                                <div className="flex h-[58px] w-full items-center justify-center rounded-md border border-border bg-muted/40 px-1 text-center text-[10px] leading-[13px] text-muted-foreground">
+                                    {sample.label}
+                                </div>
+                                <button
+                                    type="button"
+                                    data-testid={`${testId}-try-${sample.target}`}
+                                    onClick={() => {
+                                        onTrySample(sample.target);
+                                        setOpen(false);
+                                    }}
+                                    className="rounded border border-border px-1 text-[10px] leading-[16px] text-muted-foreground transition hover:text-foreground"
+                                >
+                                    试一试
+                                </button>
+                            </div>
+                        ))}
+                    </div>
+                    <p className="mt-3 font-medium text-foreground">{XSY_RULES_WARN}</p>
+                    <div className="mt-1 grid grid-cols-3 gap-x-2 gap-y-1 text-[11px] leading-4 text-muted-foreground">
+                        {XSY_RULES.errors.map((error) => (
+                            <span key={error} data-testid={`${testId}-error`} className="rounded border border-dashed border-border px-1 py-[2px]">
+                                {error}
+                            </span>
+                        ))}
+                    </div>
+                </div>
+            ) : null}
+        </span>
+    );
+}
+
 /* -------------------------------- 工作区 -------------------------------- */
 
 type MaskHistory = { past: MaskStroke[][]; future: MaskStroke[][] };
+
+/** 原站上传约束（XSY_RULES_SPEC 同源）：走 ToolAssetInput constraints 真实校验，不只写文案。 */
+const XSY_UPLOAD_CONSTRAINTS = {
+    kind: "image" as const,
+    mimeTypes: [...XSY_UPLOAD_LIMITS.mimeTypes],
+    maxBytes: XSY_UPLOAD_LIMITS.maxBytes,
+    minWidth: XSY_UPLOAD_LIMITS.minSide,
+    minHeight: XSY_UPLOAD_LIMITS.minSide,
+    maxWidth: XSY_UPLOAD_LIMITS.maxSide,
+    maxHeight: XSY_UPLOAD_LIMITS.maxSide,
+};
 
 export function AiDressingXsyWorkspace({ className, toolId = AI_DRESSING_XSY_TOOL_ID }: { className?: string; toolId?: string }) {
     const hydrate = useToolDraftStore((state) => state.hydrate);
@@ -333,6 +463,12 @@ export function AiDressingXsyWorkspace({ className, toolId = AI_DRESSING_XSY_TOO
     const draft = useToolDraftStore((state) => state.drafts[toolId]);
     const config = useConfigStore((state) => state.config);
     const imageModel = useConfigStore((state) => state.config.imageModel);
+    // 作品库（本地资产库）：上传卡上的「从作品库选择」从真实资产列表读取，不伪造商品库入口。
+    const assets = useAssetStore((state) => state.assets);
+    const library = useMemo(
+        () => toolAssetLibraryItemsFromAssets(assets.filter((asset): asset is ImageAsset | VideoAsset => asset.kind === "image" || asset.kind === "video")),
+        [assets],
+    );
 
     const [values, setValues] = useState<XsyValues>(() => createXsyValues());
     const [histories, setHistories] = useState<Partial<Record<GarmentSlotKey, MaskHistory>>>({});
@@ -344,7 +480,16 @@ export function AiDressingXsyWorkspace({ className, toolId = AI_DRESSING_XSY_TOO
     const [submittedFingerprint, setSubmittedFingerprint] = useState<string>("");
     const [running, setRunning] = useState(false);
     const [runError, setRunError] = useState<string | undefined>();
+    const [tourVisible, setTourVisible] = useState(true);
+    const [applyingCaseId, setApplyingCaseId] = useState<string | null>(null);
+    const [caseNotice, setCaseNotice] = useState<string | undefined>();
     const abortRef = useRef<AbortController | null>(null);
+
+    /* OrigRail 内部用 react-router Link；SSR 单测无 Router 上下文，故挂载后再渲染（同 dressing.tsx） */
+    const [railReady, setRailReady] = useState(false);
+    useEffect(() => {
+        setRailReady(true);
+    }, []);
 
     /* 草稿恢复：值 + 图片资产；资产丢了明确提示，不假装已恢复。 */
     useEffect(() => {
@@ -579,6 +724,72 @@ export function AiDressingXsyWorkspace({ className, toolId = AI_DRESSING_XSY_TOO
     );
 
     /**
+     * 「或试试这些」做同款：案例素材（LinkFox 原站 AI穿衣案例的真实输入图）走
+     * uploadCaseFiles 真实入库后回填本页槽位。槽位映射只用证据能确认的类别：
+     * 连体/裙装/泳衣等 → suit（连体 Tab）；上装语义（含「抹胸-长裤」「短袖-长裤」
+     * 这类组合，案例只有一张服装图时不猜造下装）→ upper 并保留上下装 Tab。
+     * 回填后仍由用户点「生成」，不自动提交。
+     */
+    const applyCase = useCallback(
+        async (item: ToolCase) => {
+            setApplyingCaseId(item.id);
+            setCaseNotice(undefined);
+            setRunError(undefined);
+            try {
+                const assets = await uploadCaseFiles(item);
+                const model = assets.model;
+                const garment = assets.garment;
+                if (!model || Array.isArray(model)) throw new Error("该案例缺少单张模特图，无法适配本页。");
+                if (!garment || Array.isArray(garment)) throw new Error("该案例缺少单张服装图，无法适配本页。");
+                const style = typeof item.apply?.modelStyle === "string" ? item.apply.modelStyle : "";
+                const slot: GarmentSlotKey = /(?:连体|连衣裙|泳衣|吊带)/u.test(style) ? "suit" : "upper";
+                const needTab: XsyTab = slot === "suit" ? "suit" : "upper-lower";
+                // 先切 Tab 再回填：switchXsyTab 会清掉另一个 Tab 的槽位，顺序反了会丢刚回填的图。
+                if (values.activeTab !== needTab) {
+                    setValues((previous) => {
+                        const next = switchXsyTab(previous, needTab);
+                        persist(next);
+                        return next;
+                    });
+                }
+                onModelChange([model.id], [model]);
+                onGarmentChange(slot, [garment]);
+                setCaseNotice(`已应用案例素材（${style || item.id}），请确认蒙版与姿势后点「生成」`);
+            } catch (error) {
+                setRunError(error instanceof Error ? error.message : "做同款失败");
+            } finally {
+                setApplyingCaseId(null);
+            }
+        },
+        [onGarmentChange, onModelChange, persist, values.activeTab],
+    );
+
+    /** 「试一试」：跳到示例对应的槽位所在 Tab（模特示例只滚动到模特区），真实落到本页控件。 */
+    const trySample = useCallback(
+        (target: (typeof XSY_RULES.samples)[number]["target"]) => {
+            if (target === "model") {
+                document.querySelector('[data-testid="xsy-step-model"]')?.scrollIntoView({ behavior: "smooth", block: "start" });
+                return;
+            }
+            const needTab: XsyTab = target === "suit" ? "suit" : "upper-lower";
+            if (values.activeTab !== needTab) {
+                setValues((previous) => {
+                    const next = switchXsyTab(previous, needTab);
+                    persist(next);
+                    return next;
+                });
+            }
+            // 切 Tab 后槽位要等下一帧渲染出来，直接 querySelector 可能扑空。
+            requestAnimationFrame(() => {
+                requestAnimationFrame(() => {
+                    document.querySelector(`[data-testid="xsy-slot-${target}"]`)?.scrollIntoView({ behavior: "smooth", block: "center" });
+                });
+            });
+        },
+        [persist, values.activeTab],
+    );
+
+    /**
      * 真实提交：蒙版同尺寸导出 → 17 字段合成 → 网关执行。
      * 任何一步不成立都直接报错，绝不显示「生成成功」。
      */
@@ -630,6 +841,7 @@ export function AiDressingXsyWorkspace({ className, toolId = AI_DRESSING_XSY_TOO
 
     return (
         <div data-testid="xsy-workspace" data-step={values.step} data-tab={values.activeTab} className={cn("flex flex-col gap-3", className)}>
+            {railReady ? <OrigRail items={WEAR_RAIL} active="AI穿衣" driver testId="xsy-rail" /> : null}
             <ToolWorkspaceColumns
                 className="min-h-0 flex-1"
                 config={
@@ -638,13 +850,34 @@ export function AiDressingXsyWorkspace({ className, toolId = AI_DRESSING_XSY_TOO
                         <div className="text-[11px] text-muted-foreground">
                             第 {values.step} 步 / 共 {XSY_STEPS.length} 步 · {stepMeta.label}
                         </div>
-                        <div className="text-right">
+                        <div className="flex items-center gap-3">
                             <p data-testid="xsy-estimate" className="text-xs text-foreground">
                                 {estimate.label}
                             </p>
-                            <p className="text-[11px] text-muted-foreground">参考图 {estimate.referenceCount} 张 · 模型 {effectiveModel || "未选择"}</p>
+                            <XsyRulesPopover disabled={running} onTrySample={trySample} />
                         </div>
                     </div>
+                    <p data-testid="xsy-slogan" className="text-[11px] leading-4 text-muted-foreground">
+                        无需约模特，上传服装正面图，一键生成衣服上身效果~
+                    </p>
+                    {tourVisible ? (
+                        <div
+                            data-testid="xsy-tour"
+                            className="flex items-start justify-between gap-2 rounded-[6px] border border-dashed border-border px-2 py-1.5"
+                        >
+                            <span className="text-[11px] leading-4 text-muted-foreground">
+                                第一步：选择示例图或上传平铺服装图片（支持仅上传上/下装图）
+                            </span>
+                            <button
+                                type="button"
+                                data-testid="xsy-tour-dismiss"
+                                onClick={() => setTourVisible(false)}
+                                className="shrink-0 text-[11px] leading-4 text-muted-foreground hover:text-foreground"
+                            >
+                                我是高手，不再提醒
+                            </button>
+                        </div>
+                    ) : null}
 
             <XsyStepBar states={stepStates} onSelect={goto} disabled={running} />
 
@@ -667,8 +900,18 @@ export function AiDressingXsyWorkspace({ className, toolId = AI_DRESSING_XSY_TOO
             ) : null}
 
             {/* 1. 模特图 + 类型/风格 */}
-            <XsySection title="模特图" hint="模特图决定身份、姿态与光照；之后只替换服装部位" step={1} testId="xsy-step-model">
-                <ToolAssetInput toolId={toolId} title="选择模特图" maxCount={1} disabled={running} onChange={onModelChange} />
+            <XsySection title="模特图" hint="模特图决定身份、姿态与光照；之后只替换服装部位" step={1} testId="xsy-step-model" current={values.step} onOpen={() => goto(1)}>
+                <p className="text-[11px] leading-4 text-muted-foreground">上传我的穿衣模特图</p>
+                <ToolAssetInput
+                    toolId={toolId}
+                    title="选择模特图"
+                    maxCount={1}
+                    disabled={running}
+                    constraints={XSY_UPLOAD_CONSTRAINTS}
+                    hint={XSY_UPLOAD_LIMITS.label}
+                    library={library}
+                    onChange={onModelChange}
+                />
                 {values.model.imageUrl ? (
                     <div className="flex gap-2">
                         <img src={values.model.imageUrl} alt="模特图" className="h-28 w-20 rounded-md border border-border object-cover" />
@@ -708,33 +951,33 @@ export function AiDressingXsyWorkspace({ className, toolId = AI_DRESSING_XSY_TOO
             </XsySection>
 
             {/* 2. 分步服装上传 */}
-            <XsySection title="分步服装上传" hint="上下装模式需要上装与下装；连体模式只看一件套装" step={2} testId="xsy-step-garment">
-                <div role="tablist" aria-label="服装模式" className="flex gap-1">
-                    {XSY_TABS.map((tab) => (
-                        <button
-                            key={tab.id}
-                            type="button"
-                            role="tab"
-                            data-tab={tab.id}
-                            aria-selected={values.activeTab === tab.id}
-                            disabled={running}
-                            onClick={() =>
-                                setValues((previous) => {
-                                    const nextValues = switchXsyTab(previous, tab.id as XsyTab);
-                                    persist(nextValues);
-                                    return nextValues;
-                                })
-                            }
-                            className={cn(
-                                "min-h-10 rounded-md border px-3 text-xs",
-                                values.activeTab === tab.id ? "border-primary bg-primary/10 text-primary" : "border-border text-muted-foreground",
-                            )}
-                        >
-                            {tab.label}
-                        </button>
-                    ))}
-                </div>
+            <div role="tablist" aria-label="服装模式" className="flex gap-1">
+                {XSY_TABS.map((tab) => (
+                    <button
+                        key={tab.id}
+                        type="button"
+                        role="tab"
+                        data-tab={tab.id}
+                        aria-selected={values.activeTab === tab.id}
+                        disabled={running}
+                        onClick={() =>
+                            setValues((previous) => {
+                                const nextValues = switchXsyTab(previous, tab.id as XsyTab);
+                                persist(nextValues);
+                                return nextValues;
+                            })
+                        }
+                        className={cn(
+                            "min-h-10 rounded-md border px-3 text-xs",
+                            values.activeTab === tab.id ? "border-primary bg-primary/10 text-primary" : "border-border text-muted-foreground",
+                        )}
+                    >
+                        {tab.label}
+                    </button>
+                ))}
+            </div>
 
+            <XsySection title="分步服装上传" hint="上下装模式需要上装与下装；连体模式只看一件套装" step={2} testId="xsy-step-garment" current={values.step} onOpen={() => goto(2)}>
                 {activeSlots.map((slot) => {
                     const meta = xsySlotMeta(slot);
                     const garment = values.garments[slot];
@@ -747,6 +990,10 @@ export function AiDressingXsyWorkspace({ className, toolId = AI_DRESSING_XSY_TOO
                                 title={`选择${meta.label}图`}
                                 maxCount={1}
                                 disabled={running}
+                                constraints={XSY_UPLOAD_CONSTRAINTS}
+                                dropLabel={slot === "down" ? "拖拽/粘贴 或 上传下装正面图" : slot === "upper" ? "拖拽/粘贴 或 上传上装正面图" : undefined}
+                                hint={XSY_UPLOAD_LIMITS.label}
+                                library={library}
                                 onChange={(_ids, records) => onGarmentChange(slot, records)}
                             />
                             {garment.imageUrl ? (
@@ -763,7 +1010,16 @@ export function AiDressingXsyWorkspace({ className, toolId = AI_DRESSING_XSY_TOO
             </XsySection>
 
             {/* 3. 蒙版 + 姿势 */}
-            <XsySection title="蒙版与姿势" hint="涂出该件服装在模特图上的区域；白=替换，黑=保持原样" step={3} testId="xsy-step-mask">
+            <XsySection title="蒙版与姿势" hint="涂出该件服装在模特图上的区域；白=替换，黑=保持原样" step={3} testId="xsy-step-mask" current={values.step} onOpen={() => goto(3)}>
+                <p className="text-[11px] leading-4 text-muted-foreground" data-testid="xsy-part-reference">
+                    穿衣的部位与模特参考
+                </p>
+                {values.model.imageUrl ? (
+                    <div className="flex items-center gap-2">
+                        <img src={values.model.imageUrl} alt="模特参考" className="h-16 w-12 rounded-md border border-border object-cover" />
+                        <p className="text-[11px] leading-4 text-muted-foreground">以第 1 步的模特图为准，蒙版区域会被替换为上传服装</p>
+                    </div>
+                ) : null}
                 {activeSlots.map((slot) => {
                     const meta = xsySlotMeta(slot);
                     const garment = values.garments[slot];
@@ -845,7 +1101,7 @@ export function AiDressingXsyWorkspace({ className, toolId = AI_DRESSING_XSY_TOO
             </XsySection>
 
             {/* 4. 生成 */}
-            <XsySection title="生成设置" hint="张数与算法版本只影响本次提交，不会删除历史结果" step={4} testId="xsy-step-generate">
+            <XsySection title="生成设置" hint="张数与算法版本只影响本次提交，不会删除历史结果" step={4} testId="xsy-step-generate" current={values.step} onOpen={() => goto(4)}>
                 <XsySegmented
                     label="生成张数"
                     value={String(values.outputNum)}
@@ -865,31 +1121,30 @@ export function AiDressingXsyWorkspace({ className, toolId = AI_DRESSING_XSY_TOO
                 <div data-testid="xsy-prompt" className="max-h-32 overflow-auto rounded-lg border border-border bg-muted/30 px-3 py-2 text-[11px] leading-relaxed text-muted-foreground">
                     {prompt}
                 </div>
-                <div className="flex flex-wrap items-center gap-2">
-                    <button
-                        type="button"
-                        data-testid="xsy-submit"
-                        disabled={blocked}
-                        onClick={() => void submit()}
-                        className="min-h-10 rounded-md bg-primary px-4 text-xs font-medium text-primary-foreground disabled:opacity-40"
-                    >
-                        {running ? "正在生成…" : `生成 ${estimate.count} 张试穿图`}
-                    </button>
-                    {running ? (
-                        <button type="button" data-testid="xsy-cancel" onClick={cancel} className="min-h-10 rounded-md border border-border px-3 text-xs">
-                            取消
-                        </button>
-                    ) : null}
-                    <span data-testid="xsy-gate" className="text-[11px] text-muted-foreground">
-                        {blocked ? `提交被拦下：${errors[0]?.message ?? capability.blockedReason ?? "配置不完整"}` : "自检通过，可提交"}
-                    </span>
-                </div>
-                {runError ? (
-                    <p data-testid="xsy-run-error" role="alert" className="rounded-lg border border-destructive/40 bg-destructive/5 px-3 py-2 text-[11px] text-destructive">
-                        {runError}
-                    </p>
-                ) : null}
             </XsySection>
+
+                    {/* 原站：生成按钮常驻配置列底部，不随步骤折叠隐藏 */}
+                    <div data-testid="xsy-submit-bar" className="sticky bottom-0 z-10 mt-auto border-t border-border bg-card/95 pb-1 pt-2 backdrop-blur">
+                        <div className="flex flex-wrap items-center gap-2">
+                            <button
+                                type="button"
+                                data-testid="xsy-submit"
+                                disabled={blocked}
+                                onClick={() => void submit()}
+                                className="min-h-10 rounded-md bg-primary px-4 text-xs font-medium text-primary-foreground disabled:opacity-40"
+                            >
+                                {running ? "正在生成…" : `生成 ${estimate.count} 张试穿图`}
+                            </button>
+                            {running ? (
+                                <button type="button" data-testid="xsy-cancel" onClick={cancel} className="min-h-10 rounded-md border border-border px-3 text-xs">
+                                    取消
+                                </button>
+                            ) : null}
+                            <span data-testid="xsy-gate" className="text-[11px] text-muted-foreground">
+                                {blocked ? `提交被拦下：${errors[0]?.message ?? capability.blockedReason ?? "配置不完整"}` : "自检通过，可提交"}
+                            </span>
+                        </div>
+                    </div>
 
                     </>
                 }
@@ -927,6 +1182,34 @@ export function AiDressingXsyWorkspace({ className, toolId = AI_DRESSING_XSY_TOO
                         {running ? "正在生成，结果会出现在这里…" : "还没有结果：完成前 4 步后点「生成」"}
                     </p>
                 )}
+
+                {caseNotice ? (
+                    <p data-testid="xsy-case-notice" className="rounded-lg border border-border bg-card px-3 py-2 text-xs text-muted-foreground">
+                        {caseNotice}
+                    </p>
+                ) : null}
+
+                {/* 或试试这些：LinkFox 原站 AI穿衣案例（与 AI 穿衣同源素材），做同款真实入库回填 */}
+                <div data-testid="xsy-cases">
+                    <p className="mb-1.5 text-[11px] font-medium text-muted-foreground">或试试这些</p>
+                    <div className="grid grid-cols-3 gap-1.5">
+                        {AI_DRESSING_V2_CASES.slice(0, 6).map((item) => (
+                            <button
+                                key={item.id}
+                                type="button"
+                                data-testid={`xsy-case-${item.id}`}
+                                disabled={applyingCaseId === item.id}
+                                onClick={() => void applyCase(item)}
+                                className="group relative aspect-square overflow-hidden rounded-md border border-border/70 disabled:opacity-60"
+                            >
+                                <img src={item.result} alt={`优秀案例-${item.id}`} className="size-full object-cover" loading="lazy" />
+                                <span className="absolute inset-x-0 bottom-0 bg-foreground/60 py-0.5 text-center text-[10px] leading-4 text-background">
+                                    {applyingCaseId === item.id ? "正在应用…" : "一键做同款"}
+                                </span>
+                            </button>
+                        ))}
+                    </div>
+                </div>
 
                 <ToolResult task={activeTask} toolId={toolId} title="试衣结果操作" onCancel={cancel} />
 

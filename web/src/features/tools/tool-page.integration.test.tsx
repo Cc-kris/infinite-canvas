@@ -133,20 +133,14 @@ describe("TASK-INTEGRATE unchanged route contract", () => {
 
     test("sidebar scopes itself to the active category, like the reference rail", () => {
         /*
-         * 原站工具页左栏（1908x781 实测）只列当前类目的工具，类目切换在上层导航完成。
-         * 这里锁住真实契约：当前类目每个工具都有链接，其它类目的工具不出现在同一栏里。
+         * LinkFox 工具页左栏是该工具所属族的纵向 rail，不是整个分类的注册表列表。
+         * 这里锁住真实契约：当前工具与同族工具可跳转，其它分类工具不出现在同一栏里。
          */
-        for (const category of TOOL_CATEGORIES) {
-            const first = catalog.entries.find((entry) => entry.category === category);
-            if (!first) continue;
-            const html = renderTool(category, first.slug);
-            for (const spec of toolSpecs.filter((item) => item.category === category)) {
-                expect(html).toContain(`/tools/${spec.category}/${spec.slug}`);
-            }
-            for (const spec of toolSpecs.filter((item) => item.category !== category)) {
-                expect(html).not.toContain(`/tools/${spec.category}/${spec.slug}"`);
-            }
-        }
+        const html = renderTool("ecommerce-suite", "product-image-suite");
+        expect(html).toContain('data-testid="tool-family-rail-sidebar"');
+        expect(html).toContain('href="/tools/ecommerce-suite/dress-wear-set"');
+        expect(html).toContain('href="/tools/ecommerce-suite/change-color-v2"');
+        expect(html).not.toContain('href="/tools/product-design/ai-text"');
     });
 
     test("feature flag: a disabled leading tool is skipped by the category default", () => {

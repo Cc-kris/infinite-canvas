@@ -491,11 +491,15 @@ describe("VIDEO_TRANSLATION workspace：页面结构", () => {
 
         const { renderToStaticMarkup } = await import("react-dom/server");
         const { createElement } = await import("react");
+        // 工作台含 react-router Link（AI 视频系列切换条），SSR 渲染必须包 Router。
+        const { MemoryRouter } = await import("react-router-dom");
         const { VideoTranslationWorkspace } = await import(
             "@/components/tools/workspaces/video-translation"
         );
 
-        const html = renderToStaticMarkup(createElement(VideoTranslationWorkspace, {}));
+        const html = renderToStaticMarkup(
+            createElement(MemoryRouter, null, createElement(VideoTranslationWorkspace, {})),
+        );
 
         // 六个区域
         expect(html).toContain("原视频");

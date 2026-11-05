@@ -394,6 +394,90 @@ describe("姿势裂变 · 工作区渲染", () => {
     });
 });
 
+describe("姿势裂变 · 配置列 1:1 布局（对照原站 draw/ai-posture）", () => {
+    const render = async () => {
+        const store = new Map<string, string>();
+        Object.defineProperty(globalThis, "localStorage", {
+            configurable: true,
+            writable: true,
+            value: {
+                getItem: (key: string) => store.get(key) ?? null,
+                setItem: (key: string, value: string) => void store.set(key, value),
+                removeItem: (key: string) => void store.delete(key),
+                clear: () => void store.clear(),
+                key: (index: number) => Array.from(store.keys())[index] ?? null,
+                get length() {
+                    return store.size;
+                },
+            },
+        });
+        const React = await import("react");
+        const { renderToStaticMarkup } = await import("react-dom/server");
+        const { MemoryRouter } = await import("react-router-dom");
+        const { AiPostureWorkspace } = await import("@/components/tools/workspaces/model");
+        return renderToStaticMarkup(
+            React.createElement(MemoryRouter, null, React.createElement(AiPostureWorkspace)) as Parameters<typeof renderToStaticMarkup>[0],
+        );
+    };
+
+    test("配置列自带滚动区，「立即生成」在滚动区之外的吸底条里", async () => {
+        const html = await render();
+        expect(html).toContain('data-testid="ai-posture-form"');
+        expect(html).toContain('data-testid="ai-posture-submit-bar"');
+        // 提交按钮必须落在 form 滚动区之后（吸底），否则又会被 12 张姿势卡顶到首屏外。
+        const formIndex = html.indexOf('data-testid="ai-posture-form"');
+        const barIndex = html.indexOf('data-testid="ai-posture-submit-bar"');
+        const submitIndex = html.indexOf('data-testid="ai-posture-submit"');
+        expect(formIndex).toBeGreaterThan(-1);
+        expect(barIndex).toBeGreaterThan(formIndex);
+        expect(submitIndex).toBeGreaterThan(barIndex);
+    });
+
+    test("姿势库默认折叠为行卡，展开才出现分类与姿势网格", async () => {
+        const html = await render();
+        // 默认折叠：<details> 不带 open，行卡摘要可见。
+        const card = html.slice(html.indexOf('data-testid="ai-posture-pose-select"') - 200, html.indexOf('data-testid="ai-posture-pose-select"') + 600);
+        expect(card).toContain("<details");
+        expect(card).not.toContain("<details open");
+        expect(html).toContain('data-testid="ai-posture-pose-summary-row"');
+        expect(html).toContain("选择姿势（可选）");
+        expect(html).toContain("生成图片的模特姿势");
+        // 分类与 12 张真实姿势仍然在（折叠只是视觉收起，不删数据）。
+        expect(html).toContain('data-testid="ai-posture-pose-grid"');
+        expect(html).toContain(`data-testid="ai-posture-pose-${AI_POSTURE_POSES[0]!.id}"`);
+        expect(html.split('data-testid="ai-posture-pose-').length - 1).toBeGreaterThanOrEqual(AI_POSTURE_POSES.length);
+    });
+
+    test("补充描述与裂变计划默认折叠，上传卡与标签压缩", async () => {
+        const html = await render();
+        for (const testId of ["ai-posture-prompt-panel", "ai-posture-pose-select"]) {
+            const at = html.indexOf(`data-testid="${testId}"`);
+            const tag = html.lastIndexOf("<details", at);
+            expect(tag).toBeGreaterThan(-1);
+            expect(html.slice(tag, at)).not.toContain(" open");
+        }
+        // 上传卡用 linkfox 紧凑变体（原站 249 → 152 高度），标签区单行化。
+        expect(html).toContain('data-variant="linkfox"');
+        expect(html).toContain("min-h-[152px]");
+        expect(html).toContain('data-testid="ai-posture-tags"');
+    });
+
+    test("批量入口仍然明确禁用并给出原因", async () => {
+        const html = await render();
+        expect(html).toMatch(/data-testid="ai-posture-batch-upload"[^>]*disabled/);
+        expect(html).toContain('data-testid="ai-posture-batch-hint"');
+        expect(html).toContain("批量入口暂未开放");
+    });
+
+    test("结果区保留生成结果 / 历史记录两个 Tab", async () => {
+        const html = await render();
+        expect(html).toContain('role="tablist"');
+        expect(html).toContain('data-testid="ai-posture-tab-results"');
+        expect(html).toContain('data-testid="ai-posture-tab-history"');
+        expect(html).toContain("历史记录");
+    });
+});
+
 describe("姿势裂变 · 源图校验", () => {
     test("源图尺寸不足最短边 → 拦截", () => {
         const workspace = setAiPostureSource(workspaceWithSource(), { assetId: "m", name: "s.png", url: "blob:s", width: 128, height: 128 });

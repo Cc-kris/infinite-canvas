@@ -430,7 +430,9 @@ describe("adapter：真实提交链路", () => {
 });
 
 describe("工作台渲染（SSR）", () => {
-    test("上装换料首屏渲染步骤条、类目、子类、抠图、张数与结果区", async () => {
+    // befdd861 恢复了真实交互工作区（MaterialUpperBodyWorkspaceLegacy），静态复刻面板已弃用；
+    // 工作区含 OrigRail/共享组件 → 需要 MemoryRouter 提供 react-router 上下文（i18n 经 use-config-store 已初始化）。
+    const renderWorkspace = async (component?: React.ComponentType<{ toolId?: string }>, props?: { toolId?: string }) => {
         const memory = new Map<string, string>();
         const storage = {
             getItem: (key: string) => memory.get(key) ?? null,
@@ -444,56 +446,60 @@ describe("工作台渲染（SSR）", () => {
         };
         (globalThis as unknown as { localStorage: typeof storage }).localStorage = storage;
 
-        const [{ createElement }, { renderToStaticMarkup }, workspace] = await Promise.all([
+        const [React, { MemoryRouter }, { renderToStaticMarkup }, workspace] = await Promise.all([
             import("react"),
+            import("react-router"),
             import("react-dom/server"),
             import("@/components/tools/workspaces/dress"),
         ]);
-        const html = renderToStaticMarkup(createElement(workspace.DressWorkspace, { toolId: MATERIAL_UPPER_BODY_TOOL_ID }));
+        const Target = component ?? workspace.DressWorkspace;
+        return renderToStaticMarkup(
+            React.createElement(
+                MemoryRouter,
+                null,
+                React.createElement(Target, props ?? { toolId: MATERIAL_UPPER_BODY_TOOL_ID }),
+            ) as Parameters<typeof renderToStaticMarkup>[0],
+        );
+    };
+
+    test("上装换料首屏：原站式三按钮上传卡、材质类目、抠图、张数与结果区，无自造步骤条", async () => {
+        const html = await renderWorkspace();
 
         // 上装换料自己的脚手架（不是 AI 穿戴那份）
-        expect(html).toContain('data-testid="material-upper-body-workspace"');
+        expect(html).toContain('data-testid="material-workspace"');
         expect(html).not.toContain("dress-workspace");
-        // 第三轮：文案 1:1 对齐原站，面板改为静态复刻（导航 + 上传 + 商品信息 + 品牌合规 + 模型 + 结果）
-        expect(html).toContain("多角度服装图&amp;搭配图");
-        expect(html).toContain("上传服装图");
-        expect(html).toContain("第一步：上传服装配饰及细节图");
-        expect(html).toContain("商品信息");
-        expect(html).toContain("品牌与合规（可选）");
-        expect(html).toContain("模型选择");
-        expect(html).toContain("分辨率选择");
-        expect(html).toContain("模型品质");
-        expect(html).toContain("主副图设置");
-        expect(html).toContain("A+图设置");
+        // 自造步骤条已删除（原站没有「1. 上传上装 … 5. 结果」chip 条）
+        expect(html).not.toContain('data-testid="material-steps"');
+        expect(html).toContain('data-testid="material-upload"');
+        // 原站上传卡三按钮
+        expect(html).toContain('data-testid="tool-asset-upload-button"');
+        expect(html).toContain('data-testid="material-from-works"');
+        expect(html).toContain('data-testid="material-from-goods"');
+        expect(html).toContain("从作品库选择");
+        expect(html).toContain("从商品库选择");
+        expect(html).toContain('data-testid="material-categories"');
+        expect(html).toContain('data-testid="material-category-tree"');
+        expect(html).toContain("先选择材质大类，子类会自动联动出现。");
+        expect(html).toContain('data-testid="material-matting"');
+        expect(html).toContain('data-testid="material-output-options"');
+        expect(html).toContain('data-testid="material-submit"');
+        expect(html).toContain('data-testid="material-results-section"');
         expect(html).toContain("生成结果");
-        // 提交按钮与算力提示（静态复刻下按钮禁用）
-        expect(html).toContain('data-testid="material-upper-body-submit"');
-        expect(html).toContain("开始生成");
-        expect(html).toContain("(600算力)");
-        expect(html).toMatch(/<button[^>]*disabled[^>]*>[^<]*开始生成/);
-        expect(html).toContain("管理水印分组");
+        // 缺源图/未配置模型 → 提交禁用且给出字段级原因
+        expect(html).toMatch(/data-testid="material-submit"[^>]*disabled/);
+        expect(html).toContain("请先上传上装图片");
+        // 本地自造的素材名输入/生图模型下拉/字段名直出都已去掉
+        expect(html).not.toContain("图片名称（imageName，可编辑）");
+        expect(html).not.toContain('data-testid="material-model-select"');
+        expect(html).not.toContain("subType");
+        // 通用禁用文案不得出现
+        expect(html).not.toContain("算力");
+        expect(html).not.toContain("积分");
     });
 
     test("默认导出仍然渲染 AI 穿戴（向后兼容，不影响既有测试）", async () => {
-        const memory = new Map<string, string>();
-        const storage = {
-            getItem: (key: string) => memory.get(key) ?? null,
-            setItem: (key: string, value: string) => void memory.set(key, String(value)),
-            removeItem: (key: string) => void memory.delete(key),
-            clear: () => memory.clear(),
-            key: (index: number) => [...memory.keys()][index] ?? null,
-            get length() {
-                return memory.size;
-            },
-        };
-        (globalThis as unknown as { localStorage: typeof storage }).localStorage = storage;
-
-        const [{ createElement }, { renderToStaticMarkup }, workspace] = await Promise.all([
-            import("react"),
-            import("react-dom/server"),
-            import("@/components/tools/workspaces/dress"),
-        ]);
-        const html = renderToStaticMarkup(createElement(workspace.default));
+        const { default: DressWorkspace } = await import("@/components/tools/workspaces/dress");
+        const html = await renderWorkspace(DressWorkspace, {});
         expect(html).toContain("dress-workspace");
         expect(html).not.toContain("material-workspace");
     });

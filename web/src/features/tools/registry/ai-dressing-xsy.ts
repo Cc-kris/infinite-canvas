@@ -187,6 +187,23 @@ export const XSY_UPLOAD_LIMITS = {
     label: "10M以内，384*384 ~ 4096*4096",
 } as const;
 
+/**
+ * 「图片规则」浮层内容（DIFF #27：请按规则上传多件服装图 / 请勿上传…）。
+ * 文案逐字取自原站 DOM（page-dom-20261028/AI_DRESSING_XSY.json + DIFF_39_TOOLS.md #27 条目）。
+ */
+export const XSY_RULES = {
+    /** 正向示例卡（每张卡带「试一试」，点击即套用左侧对应槽位）。 */
+    samples: [
+        { id: "sample-upper", label: "上装平铺图", target: "upper" as const },
+        { id: "sample-down", label: "下装平铺图", target: "down" as const },
+        { id: "sample-suit", label: "连体衣服", target: "suit" as const },
+        { id: "sample-model", label: "上传我的穿衣模特图", target: "model" as const },
+    ],
+    errors: ["折叠/挡住的服装图", "重叠服装图", "非真人图片"],
+} as const;
+
+export type XsyRulesSampleTarget = (typeof XSY_RULES.samples)[number]["target"];
+
 export function xsyModelTypeOf(id: string) {
     return XSY_MODEL_TYPES.find((item) => item.id === id);
 }

@@ -228,6 +228,43 @@ export const MARKET_FONT_STYLES = [
 ] as const;
 export type MarketFontStyle = (typeof MARKET_FONT_STYLES)[number]["id"];
 
+/**
+ * 智能合规检查词库（与商品套图族同一目录来源）：原站「未选择敏感词库 / 未选择替换词库」
+ * 是从用户词库列表选择的控件；画布侧无词库接口，提供内置目录，id 即保存值。
+ */
+export const MARKET_SENSITIVE_LIBRARIES: readonly { id: string; label: string; words: readonly string[] }[] = [
+    { id: "absolute-terms", label: "绝对化用语", words: ["最好", "第一", "顶级", "极致", "独家"] },
+    { id: "medical-claims", label: "医疗功效词", words: ["治疗", "痊愈", "根治", "消炎", "抗菌"] },
+];
+
+export const MARKET_REPLACEMENT_LIBRARIES: readonly { id: string; label: string; pairs: Readonly<Record<string, string>> }[] = [
+    { id: "compliant-soft", label: "合规柔和表述", pairs: { 最好: "更好", 第一: "领先", 顶级: "高档", 极致: "出色", 独家: "特色", 治疗: "呵护", 痊愈: "改善", 根治: "缓解", 消炎: "清爽", 抗菌: "洁净" } },
+];
+
+export function marketSensitiveLibraryOf(id: string) {
+    return MARKET_SENSITIVE_LIBRARIES.find((lexicon) => lexicon.id === id.trim());
+}
+
+export function marketReplacementLibraryOf(id: string) {
+    return MARKET_REPLACEMENT_LIBRARIES.find((lexicon) => lexicon.id === id.trim());
+}
+
+/** 商品类目（与商品套图族同一下拉目录）：营销文案按类目约束表达方式。 */
+export const MARKET_PRODUCT_CATEGORIES: readonly { id: string; label: string }[] = [
+    { id: "apparel", label: "服饰" },
+    { id: "shoes", label: "鞋靴" },
+    { id: "bags", label: "箱包" },
+    { id: "digital", label: "数码3C" },
+    { id: "home", label: "家居日用" },
+    { id: "beauty", label: "美妆个护" },
+    { id: "food", label: "食品饮料" },
+    { id: "other", label: "其他" },
+];
+
+export function marketProductCategoryOf(id: string): { id: string; label: string } | undefined {
+    return MARKET_PRODUCT_CATEGORIES.find((category) => category.id === id.trim());
+}
+
 /* ------------------------------- 模型目录 ------------------------------- */
 
 export type MarketProviderOption = {
@@ -314,6 +351,11 @@ export type MarketConfig = {
     /** 套图封面顺序（coverList）：必须是 sourceAssetIds 子集，不能空引用 */
     coverList: string[];
     productInfo: string;
+    /** 商品类目（与商品套图「请选择商品类目」同目录；空 = 未选择） */
+    productCategory: string;
+    /** 智能合规检查：已选敏感词库 / 替换词库 id（空 = 未选择） */
+    sensitiveLibraryId: string;
+    replacementLibraryId: string;
     /** 项目/资产名称（name） */
     projectName: string;
     brandName: string;
@@ -347,6 +389,9 @@ export const marketConfigSchema = z.object({
     sourceAssetIds: z.array(z.string()).max(MARKET_UPLOAD_LIMITS.maxFiles).default([]),
     coverList: z.array(z.string()).default([]),
     productInfo: z.string().max(MARKET_PRODUCT_INFO_MAX_LENGTH).default(""),
+    productCategory: z.string().default(""),
+    sensitiveLibraryId: z.string().default(""),
+    replacementLibraryId: z.string().default(""),
     projectName: z.string().default(""),
     brandName: z.string().default(""),
     brandDna: z
@@ -634,6 +679,8 @@ export function buildMarketUnitPrompt(config: MarketConfig, input: { plan: Marke
     parts.push(config.layoutMode === "no-text" ? "无文字模式：画面内不出现任何文字，仅用构图与色彩表达信息。" : "每种排版各生成一张，画面版式彼此保持差异。");
     const info = config.productInfo.trim();
     parts.push(info ? `商品信息：${info}` : "商品信息：未填写。");
+    const category = marketProductCategoryOf(config.productCategory);
+    parts.push(category ? `商品类目：${category.label}。` : "商品类目：未选择。");
     if (config.brandName.trim()) parts.push(`品牌名称：${config.brandName.trim()}。`);
     if (config.brandDna.primaryColor || config.brandDna.fontStyle || config.brandDna.tone) {
         const dna: string[] = [];
@@ -641,6 +688,19 @@ export function buildMarketUnitPrompt(config: MarketConfig, input: { plan: Marke
         if (config.brandDna.fontStyle) dna.push(`字体风格 ${MARKET_FONT_STYLES.find((style) => style.id === config.brandDna.fontStyle)?.label ?? config.brandDna.fontStyle}`);
         if (config.brandDna.tone.trim()) dna.push(`风格 ${config.brandDna.tone.trim()}`);
         parts.push(`品牌基因：${dna.join("，")}；文字与色块遵循该规范。`);
+    }
+    if (config.sensitiveLibraryId.trim() || config.replacementLibraryId.trim()) {
+        const sensitive = marketSensitiveLibraryOf(config.sensitiveLibraryId);
+        const replacement = marketReplacementLibraryOf(config.replacementLibraryId);
+        const sensitiveWords = sensitive ? sensitive.words.join("、") : "";
+        const pairs = replacement
+            ? Object.entries(replacement.pairs)
+                  .slice(0, 10)
+                  .map(([from, to]) => `${from}→${to}`)
+                  .join("、")
+            : "";
+        if (sensitiveWords) parts.push(`合规检查：画面文案命中敏感词（${sensitiveWords}）时必须替换，不出现绝对化用语与医疗功效承诺。`);
+        if (pairs) parts.push(`替换词库：${pairs}。`);
     }
     return parts.join("\n");
 }
@@ -684,6 +744,9 @@ export function buildMarketToolFields(config: MarketConfig, context: { images: s
         aplusTemplates: [...config.aplusTemplateIds],
         aplusPixel: ratio && config.aplusAspectRatio !== "custom" ? `${ratio.width}x${ratio.height}` : `${config.customWidth}x${config.customHeight}`,
         aplusCount: config.aplusCount,
+        productCategory: marketProductCategoryOf(config.productCategory)?.id ?? "",
+        sensitiveLibraryId: marketSensitiveLibraryOf(config.sensitiveLibraryId)?.id ?? "",
+        replacementLibraryId: marketReplacementLibraryOf(config.replacementLibraryId)?.id ?? "",
     };
 }
 

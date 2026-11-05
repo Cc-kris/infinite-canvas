@@ -162,7 +162,7 @@ describe("品类 × 部位 × 模特联动", () => {
 
     test("手部页签过滤掉非手部品类，且至少保留一个可用部位", () => {
         const handCategories = wearableCategoriesFor("hand").map((category) => category.key);
-        expect(handCategories).toContain("gloves");
+        expect(handCategories).toContain("ring");
         expect(handCategories).not.toContain("eyewear");
         expect(handCategories.length).toBeGreaterThan(0);
     });
@@ -175,7 +175,7 @@ describe("品类 × 部位 × 模特联动", () => {
     });
 
     test("模特页签切到手部后，不兼容部位被收敛且目标蒙版重算", () => {
-        const linked = linkWearableValues(values({ productCategory: "gloves", part: "hand", modelTabType: "hand" }));
+        const linked = linkWearableValues(values({ productCategory: "bag", part: "shoulder", modelTabType: "hand" }));
         expect(linked.values.part).toBe("hand");
         const target = linked.values.targetRegion;
         expect(isWearableRegionUsable(target)).toBe(true);
@@ -502,7 +502,7 @@ describe("结果与快照", () => {
 });
 
 describe("工作台渲染（SSR）", () => {
-    test("工作台首屏渲染步骤条、品类、部位、模特、张数与结果区", async () => {
+    test("首屏对齐原站形态：上传卡 + 品类选择卡 + 模特选择卡 + 张数默认 4 + 两个结果 Tab", async () => {
         const memory = new Map<string, string>();
         const storage = {
             getItem: (key: string) => memory.get(key) ?? null,
@@ -516,21 +516,36 @@ describe("工作台渲染（SSR）", () => {
         };
         (globalThis as unknown as { localStorage: typeof storage }).localStorage = storage;
 
-        const [{ createElement }, { renderToStaticMarkup }, workspace] = await Promise.all([
+        // OrigRail 用 react-router 的 Link，SSR 渲染必须提供 router 上下文。
+        const [{ createElement }, { MemoryRouter }, { renderToStaticMarkup }, workspace] = await Promise.all([
             import("react"),
+            import("react-router"),
             import("react-dom/server"),
             import("@/components/tools/workspaces/dress"),
         ]);
-        const html = renderToStaticMarkup(createElement(workspace.default));
+        const html = renderToStaticMarkup(createElement(MemoryRouter, null, createElement(workspace.default)) as Parameters<typeof renderToStaticMarkup>[0]);
 
         expect(html).toContain("dress-workspace");
-        expect(html).toContain("商品品类");
-        expect(html).toContain("穿戴部位");
-        expect(html).toContain("模特参考");
-        expect(html).toContain("场景");
-        expect(html).toContain("1 张");
-        expect(html).toContain("4 张");
-        expect(html).toContain("生成");
-        expect(html).toContain("结果资产");
+        // 三张选择卡 + 上传卡
+        expect(html).toContain('data-testid="dress-category-card"');
+        expect(html).toContain('data-testid="dress-model-card"');
+        expect(html).toContain('data-testid="dress-product-upload"');
+        expect(html).toContain("穿戴的商品品类");
+        expect(html).toContain("穿戴的部位与模特参考");
+        // 原站只有两个结果 Tab + 右上历史入口
+        expect(html).toContain('data-testid="dress-tab-result"');
+        expect(html).toContain('data-testid="dress-tab-cases"');
+        expect(html).not.toContain('data-testid="dress-tab-history"');
+        expect(html).toContain('data-testid="dress-history-entry"');
+        // 默认 4 张生效，主按钮文案只带张数（不算力）
+        expect(html).toMatch(/data-output-num="4"[^>]*data-active="true"/);
+        expect(html).toContain("立即生成 (4张)");
+        expect(html).not.toContain("算力");
+        // 原站没有的自造控件不得出现
+        expect(html).not.toContain("检测类型");
+        expect(html).not.toContain("模特类型");
+        expect(html).not.toContain("场景类型");
+        expect(html).not.toContain("二次操作");
+        expect(html).not.toContain("生图模型");
     });
 });

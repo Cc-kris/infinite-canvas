@@ -32,8 +32,11 @@ Object.defineProperty(globalThis, "localStorage", {
 
 async function renderSds(): Promise<string> {
     const React = await import("react");
+    const { MemoryRouter } = await import("react-router-dom");
     const { SdsDesignWorkspace } = await import("./pod");
-    return renderToStaticMarkup(React.createElement(SdsDesignWorkspace) as ReactElement);
+    return renderToStaticMarkup(
+        React.createElement(MemoryRouter, null, React.createElement(SdsDesignWorkspace)) as ReactElement,
+    );
 }
 
 describe("素材贴合工作台渲染（SDS_DESIGN）", () => {
@@ -69,8 +72,9 @@ describe("素材贴合工作台渲染（SDS_DESIGN）", () => {
         const html = await renderSds();
         expect(html).toContain("上传素材");
         expect(html).toContain("选择产品进行素材贴合");
-        // 两个隐藏 file input 分别承接素材与商品图
-        expect((html.match(/type="file"/g) ?? []).length).toBe(2);
+        // 素材库是弹窗，关闭时不渲染第二个 input；页面上常驻的只有商品图 input。
+        expect((html.match(/type="file"/g) ?? []).length).toBe(1);
+        expect(html).toContain("产品");
         expect(html).toContain('accept="image/png,image/jpeg,image/webp"');
     });
 

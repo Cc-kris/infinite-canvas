@@ -99,15 +99,18 @@ export const WEARABLE_PARTS: readonly WearablePart[] = [
 ];
 
 export type WearableCategoryKey =
-    | "jewelry"
-    | "watch"
-    | "eyewear"
-    | "headwear"
-    | "scarf"
-    | "gloves"
-    | "belt"
     | "footwear"
-    | "bag";
+    | "bag"
+    | "eyewear"
+    | "necklace"
+    | "hat"
+    | "earring"
+    | "ring"
+    | "watch"
+    | "bracelet"
+    | "headpiece"
+    | "belt"
+    | "other";
 
 export type WearableCategory = {
     key: WearableCategoryKey;
@@ -121,15 +124,18 @@ export type WearableCategory = {
 };
 
 export const WEARABLE_CATEGORIES: readonly WearableCategory[] = [
-    { key: "jewelry", label: "首饰", parts: ["ear", "neck", "wrist", "finger"], defaultPart: "neck", prompt: "饰品（保持宝石/金属材质与镶口细节）", evidence: "inferred" },
-    { key: "watch", label: "手表", parts: ["wrist"], defaultPart: "wrist", prompt: "手表（保持表盘刻度、表带纹理与朝向）", evidence: "inferred" },
-    { key: "eyewear", label: "眼镜", parts: ["face"], defaultPart: "face", prompt: "眼镜（保持镜片通透与镜腿透视）", evidence: "inferred" },
-    { key: "headwear", label: "帽饰", parts: ["head"], defaultPart: "head", prompt: "帽饰（保持帽型与头围贴合）", evidence: "inferred" },
-    { key: "scarf", label: "围巾", parts: ["neck", "shoulder"], defaultPart: "neck", prompt: "围巾（保持褶皱与面料垂坠）", evidence: "inferred" },
-    { key: "gloves", label: "手套", parts: ["hand", "wrist"], defaultPart: "hand", prompt: "手套（保持指节分线与松紧）", evidence: "inferred" },
-    { key: "belt", label: "腰带", parts: ["waist"], defaultPart: "waist", prompt: "腰带（保持扣件位置与皮革纹理）", evidence: "inferred" },
-    { key: "footwear", label: "鞋履", parts: ["foot"], defaultPart: "foot", prompt: "鞋履（保持着地角度与鞋型）", evidence: "inferred" },
-    { key: "bag", label: "包袋", parts: ["shoulder", "hand"], defaultPart: "shoulder", prompt: "包袋（保持包型、肩带长度与五金）", evidence: "inferred" },
+    { key: "footwear", label: "鞋靴", parts: ["foot"], defaultPart: "foot", prompt: "鞋靴（保持着地角度与鞋型）", evidence: "page-text" },
+    { key: "bag", label: "箱包", parts: ["shoulder", "hand"], defaultPart: "shoulder", prompt: "箱包（保持包型、肩带长度与五金）", evidence: "page-text" },
+    { key: "eyewear", label: "眼镜", parts: ["face"], defaultPart: "face", prompt: "眼镜（保持镜片通透与镜腿透视）", evidence: "page-text" },
+    { key: "necklace", label: "项链", parts: ["neck"], defaultPart: "neck", prompt: "项链（保持吊坠形态与链条垂坠）", evidence: "page-text" },
+    { key: "hat", label: "帽子", parts: ["head"], defaultPart: "head", prompt: "帽子（保持帽型与头围贴合）", evidence: "page-text" },
+    { key: "earring", label: "耳环", parts: ["ear"], defaultPart: "ear", prompt: "耳环（保持耳饰形态与耳垂受力）", evidence: "page-text" },
+    { key: "ring", label: "戒指", parts: ["finger"], defaultPart: "finger", prompt: "戒指（保持戒圈与宝石镶口细节）", evidence: "page-text" },
+    { key: "watch", label: "手表", parts: ["wrist"], defaultPart: "wrist", prompt: "手表（保持表盘刻度、表带纹理与朝向）", evidence: "page-text" },
+    { key: "bracelet", label: "手环手链", parts: ["wrist"], defaultPart: "wrist", prompt: "手环/手链（保持链节间距与手腕贴合）", evidence: "page-text" },
+    { key: "headpiece", label: "头饰", parts: ["head"], defaultPart: "head", prompt: "头饰（保持发箍/发饰的固定方式）", evidence: "page-text" },
+    { key: "belt", label: "皮带", parts: ["waist"], defaultPart: "waist", prompt: "皮带（保持扣件位置与皮革纹理）", evidence: "page-text" },
+    { key: "other", label: "其他", parts: ["neck", "wrist", "head", "ear", "finger"], defaultPart: "neck", prompt: "穿戴物品（保持材质、形态与佩戴方式）", evidence: "page-text" },
 ];
 
 export type WearableModelTabKey = "real" | "upper" | "hand" | "full";
@@ -210,12 +216,12 @@ export type WearableValues = {
 
 export const DEFAULT_WEARABLE_VALUES: WearableValues = {
     checkType: "compliance",
-    productCategory: "jewelry",
+    productCategory: "necklace",
     part: "neck",
     modelTabType: "real",
     sceneTabType: "keep",
     modelId: "",
-    outputNum: 1,
+    outputNum: 4,
     isSecondOperate: false,
     productAssetId: "",
     modelAssetId: "",
@@ -688,7 +694,7 @@ export function readWearableValues(raw?: Record<string, unknown> | null): Wearab
         modelTabType,
         sceneTabType: pick(raw.sceneTabType, sceneTabKeys, DEFAULT_WEARABLE_VALUES.sceneTabType),
         modelId: typeof raw.modelId === "string" ? raw.modelId : "",
-        outputNum: Math.max(1, Math.min(WEARABLE_MAX_OUTPUT, Math.floor(num(raw.outputNum, 1)))),
+        outputNum: Math.max(1, Math.min(WEARABLE_MAX_OUTPUT, Math.floor(num(raw.outputNum, DEFAULT_WEARABLE_VALUES.outputNum)))),
         isSecondOperate: raw.isSecondOperate === true,
         productAssetId: typeof raw.productAssetId === "string" ? raw.productAssetId : "",
         modelAssetId: typeof raw.modelAssetId === "string" ? raw.modelAssetId : "",

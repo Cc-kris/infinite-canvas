@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { ArrowDown, ArrowUp, Check, ChevronsDown, ChevronsUp, Eye, EyeOff, ImagePlus, Loader2, Lock, Maximize2, Play, Redo2, Trash2, Type, Undo2, Unlock, X } from "lucide-react";
+import { ArrowDown, ArrowUp, Check, ChevronsDown, ChevronsUp, Eye, EyeOff, FilePlus2, ImagePlus, Loader2, Lock, Maximize2, Play, Redo2, Trash2, Type, Undo2, Unlock, X } from "lucide-react";
 
 import { uploadToolAsset, resolveToolAssetConstraints } from "@/services/api/tools/assets";
 import { downloadResultItem, sendResultItemToCanvas } from "@/components/tools/tool-result-actions";
@@ -108,24 +108,14 @@ export type DesignerWorkspaceProps = {
 
 const DESIGNER_HOME_TABS = ["创建设计", "我的设计", "我的模板", "团队空间"];
 
-const HOME_GRADIENTS = [
-    "linear-gradient(135deg,#f5d0c5,#f9f3ee)",
-    "linear-gradient(135deg,#cfe3f7,#eef4fb)",
-    "linear-gradient(135deg,#d8e8d4,#f2f7f1)",
-    "linear-gradient(135deg,#f3e0c8,#fbf6ee)",
-    "linear-gradient(135deg,#e2d8f5,#f5f1fb)",
-    "linear-gradient(135deg,#f8dcae,#fdf6ea)",
-];
-
-const DESIGNER_HOME_SAMPLES = Array.from({ length: 6 }, (_, index) => ({
-    id: `sample-${index + 1}`,
-    cover: HOME_GRADIENTS[index % HOME_GRADIENTS.length],
-}));
-
-const DESIGNER_HOME_TEMPLATES = Array.from({ length: 5 }, (_, index) => ({
-    id: `template-${index + 1}`,
-    cover: HOME_GRADIENTS[(index + 2) % HOME_GRADIENTS.length],
-}));
+/** 本地内置模板：只有尺寸/背景/标题文案等真实可生成的版式常量，不伪造图片模板内容。 */
+const DESIGNER_HOME_TEMPLATES = [
+    { id: "square-warm", title: "新品上市", width: 1200, height: 1200, background: "#f5d0c5", textColor: "#7c2d12" },
+    { id: "vertical-cool", title: "限时特惠", width: 1080, height: 1440, background: "#cfe3f7", textColor: "#1e3a8a" },
+    { id: "horizontal-fresh", title: "大牌品质", width: 1440, height: 1080, background: "#d8e8d4", textColor: "#14532d" },
+    { id: "square-dark", title: "精选好物", width: 1200, height: 1200, background: "#292524", textColor: "#fafaf9" },
+    { id: "vertical-soft", title: "自然之选", width: 1080, height: 1440, background: "#f3e0c8", textColor: "#713f12" },
+] as const;
 
 export function DesignerWorkspace({
     open = true,
@@ -430,7 +420,6 @@ export function DesignerWorkspace({
     const notice = designerResultNotice(stage, error, { stale });
     const [homeOpen, setHomeOpen] = useState(false);
     const [homeTab, setHomeTab] = useState(DESIGNER_HOME_TABS[0]);
-    const [selectedTemplates, setSelectedTemplates] = useState<string[]>([]);
     const startFromHome = useCallback(
         (file?: File | null) => {
             if (!file) return;
@@ -439,6 +428,36 @@ export function DesignerWorkspace({
         },
         [handleUploadLayer],
     );
+
+    /** 点击模板即按其尺寸/底色/标题文案生成真实新文档，替换当前编辑（含清空旧导出结果）。 */
+    const startFromTemplate = useCallback((template: (typeof DESIGNER_HOME_TEMPLATES)[number]) => {
+        const textWidth = Math.round(template.width * 0.6);
+        const next = createDesignerDocument({
+            width: template.width,
+            height: template.height,
+            background: template.background,
+            layers: [
+                createTextLayer(0, {
+                    name: "商品标题",
+                    text: template.title,
+                    color: template.textColor,
+                    fontSize: Math.round(template.width * 0.09),
+                    x: Math.round((template.width - textWidth) / 2),
+                    y: Math.round(template.height * 0.42),
+                    width: textWidth,
+                    height: Math.round(template.width * 0.12),
+                }),
+            ],
+        });
+        setHistory(createDesignerHistory(next));
+        setSelectedId(next.layers[0]?.id);
+        setStage("idle");
+        setError(undefined);
+        setResult(undefined);
+        setResultFingerprint(undefined);
+        setBaselineFingerprint(designerDocumentFingerprint(next));
+        setHomeOpen(false);
+    }, []);
 
     return (
         <section aria-label="商品图设计器" className="flex min-h-[640px] flex-col overflow-hidden rounded-lg border border-border bg-background text-sm text-foreground">
@@ -459,60 +478,54 @@ export function DesignerWorkspace({
                             </button>
                         ))}
                     </div>
-                    <span className="rounded-md bg-accent px-2 py-1 text-[11px] tabular-nums text-muted-foreground" data-testid="designer-home-credits">250</span>
-                </div>
-
-                <label className="flex h-[188px] w-full cursor-pointer flex-col items-center justify-center gap-1.5 rounded-lg border border-dashed border-border bg-card text-center hover:border-primary/60" data-testid="designer-home-upload">
-                    <ImagePlus className="h-6 w-6 text-muted-foreground" />
-                    <span className="text-sm font-medium">上传商品图</span>
-                    <span className="text-[11px] text-muted-foreground">或拖拽图片到此处</span>
-                    <input type="file" accept="image/png,image/jpeg,image/webp" className="hidden" onChange={(event) => startFromHome(event.target.files?.[0])} />
-                </label>
-
-                <div className="flex items-center justify-between">
-                    <h3 className="text-xs font-medium">或试试这些</h3>
-                </div>
-                <div className="grid grid-cols-6 gap-2">
-                    {DESIGNER_HOME_SAMPLES.map((sample, index) => (
-                        <button key={sample.id} type="button" onClick={() => setHomeTab("创建设计")} className="h-[78px] overflow-hidden rounded-md border border-border" aria-label={`示例 ${index + 1}`} data-testid="designer-home-sample">
-                            <span className="block h-full w-full" style={{ backgroundImage: sample.cover }} />
+                    {document.layers.length || imageUrl ? (
+                        <button type="button" onClick={() => setHomeOpen(false)} className="h-8 rounded-md border border-border px-3 text-xs text-muted-foreground hover:bg-accent" data-testid="designer-home-back">
+                            返回编辑器
                         </button>
-                    ))}
+                    ) : null}
                 </div>
 
-                <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-[11px] text-muted-foreground" data-testid="designer-home-filters">
-                    <span>类型：</span>
-                    <button type="button" className="rounded border border-primary/60 bg-primary/10 px-2 py-0.5 text-primary">全部</button>
-                    <span>适合品类：</span>
-                    <button type="button" className="rounded border border-border px-2 py-0.5">全部</button>
-                    <span>版式：</span>
-                    <button type="button" className="rounded border border-border px-2 py-0.5">全部</button>
-                </div>
+                {homeTab === "创建设计" ? (
+                    <>
+                        <label className="flex h-[188px] w-full cursor-pointer flex-col items-center justify-center gap-1.5 rounded-lg border border-dashed border-border bg-card text-center hover:border-primary/60" data-testid="designer-home-upload">
+                            <ImagePlus className="h-6 w-6 text-muted-foreground" />
+                            <span className="text-sm font-medium">上传商品图</span>
+                            <span className="text-[11px] text-muted-foreground">或拖拽图片到此处</span>
+                            <input type="file" accept="image/png,image/jpeg,image/webp" className="hidden" onChange={(event) => startFromHome(event.target.files?.[0])} />
+                        </label>
 
-                <div className="flex flex-wrap items-center gap-2 text-[11px]">
-                    <span className="text-muted-foreground" data-testid="designer-home-selected">已选中 {selectedTemplates.length} 个</span>
-                    <button type="button" onClick={() => setSelectedTemplates(DESIGNER_HOME_TEMPLATES.map((item) => item.id))} className="rounded border border-border px-2 py-0.5 hover:bg-accent">全 选</button>
-                    <button type="button" onClick={() => setSelectedTemplates([])} disabled={selectedTemplates.length === 0} className="rounded border border-border px-2 py-0.5 hover:bg-accent disabled:opacity-40" data-testid="designer-home-delete">删除已选项</button>
-                </div>
+                        <h3 className="text-xs font-medium">模板推荐</h3>
+                        <div className="grid grid-cols-5 gap-2" data-testid="designer-home-templates" style={{ gridAutoRows: 150 }}>
+                            {DESIGNER_HOME_TEMPLATES.map((template) => (
+                                <button
+                                    key={template.id}
+                                    type="button"
+                                    onClick={() => startFromTemplate(template)}
+                                    title={`以此版式创建新设计（${template.width}×${template.height}）`}
+                                    aria-label={`以模板「${template.title}」创建新设计`}
+                                    className="group flex h-[150px] flex-col overflow-hidden rounded-md border border-border hover:border-primary/50"
+                                >
+                                    <span className="flex flex-1 items-center justify-center text-base font-medium" style={{ background: template.background, color: template.textColor }}>
+                                        {template.title}
+                                    </span>
+                                    <span className="block bg-card px-1 py-1 text-[10px] tabular-nums text-muted-foreground">
+                                        {template.width}×{template.height}
+                                    </span>
+                                </button>
+                            ))}
+                        </div>
+                    </>
+                ) : null}
 
-                <h3 className="text-xs font-medium">模板推荐</h3>
-                <div className="grid grid-cols-5 gap-2" data-testid="designer-home-templates" style={{ gridAutoRows: 150 }}>
-                    {DESIGNER_HOME_TEMPLATES.map((template, index) => {
-                        const active = selectedTemplates.includes(template.id);
-                        return (
-                            <button
-                                key={template.id}
-                                type="button"
-                                onClick={() => setSelectedTemplates((current) => (current.includes(template.id) ? current.filter((id) => id !== template.id) : [...current, template.id]))}
-                                aria-pressed={active}
-                                aria-label={`模板 ${index + 1}`}
-                                className={cn("h-[150px] overflow-hidden rounded-md border", active ? "border-primary ring-1 ring-primary" : "border-border hover:border-primary/50")}
-                            >
-                                <span className="block h-full w-full" style={{ backgroundImage: template.cover }} />
-                            </button>
-                        );
-                    })}
-                </div>
+                {homeTab === "我的设计" ? (
+                    <p className="flex flex-1 items-center justify-center text-xs text-muted-foreground" data-testid="designer-home-my-designs">
+                        本地草稿仅一份，在编辑器中自动保存；关闭此页重新打开即可继续上次的编辑。
+                    </p>
+                ) : null}
+
+                {homeTab === "我的模板" ? <p className="flex flex-1 items-center justify-center text-xs text-muted-foreground">暂无已保存的自定义模板；上方「创建设计」里是内置的本地版式。</p> : null}
+
+                {homeTab === "团队空间" ? <p className="flex flex-1 items-center justify-center text-xs text-muted-foreground">暂无团队空间，本地模式不支持多人协作。</p> : null}
             </div>
 
             <div className={cn("min-h-0 flex-1 flex-col", homeOpen ? "hidden" : "flex")} data-testid="designer-editor">
@@ -524,6 +537,10 @@ export function DesignerWorkspace({
                     <span className="rounded border border-border px-1.5 text-[11px] leading-5 text-muted-foreground">设计器宿主</span>
                 </div>
                 <div className="flex items-center gap-1.5">
+                    <button type="button" onClick={() => setHomeOpen(true)} className="flex h-10 items-center gap-1.5 rounded-lg border border-border px-3 text-muted-foreground hover:bg-accent" data-testid="designer-new-design" title="从模板或商品图新建设计（当前未导出的修改会先保留在草稿中）">
+                        <FilePlus2 className="h-4 w-4" />
+                        新建设计
+                    </button>
                     <button type="button" aria-label="撤销" title="撤销" disabled={!canUndoDesigner(history)} onClick={() => setHistory((current) => undoDesignerDocument(current))} className="flex h-10 w-10 items-center justify-center rounded-lg border border-border text-muted-foreground hover:bg-accent disabled:opacity-40">
                         <Undo2 className="h-4 w-4" />
                     </button>
@@ -595,22 +612,22 @@ export function DesignerWorkspace({
                                                 <span className="truncate">{layer.name}</span>
                                                 <span className="shrink-0 text-[10px] text-muted-foreground">{layer.kind === "image" ? "图片" : "文字"}</span>
                                             </button>
-                                            <button type="button" aria-label={layer.visible ? `隐藏 ${layer.name}` : `显示 ${layer.name}`} onClick={() => apply(setDesignerLayerVisibility(document, layer.id, !layer.visible))} className="flex h-8 w-8 items-center justify-center rounded-md text-muted-foreground hover:bg-background">
+                                            <button type="button" aria-label={layer.visible ? `隐藏 ${layer.name}` : `显示 ${layer.name}`} onClick={() => apply(setDesignerLayerVisibility(document, layer.id, !layer.visible))} className="flex h-9 w-9 items-center justify-center rounded-md text-muted-foreground hover:bg-background">
                                                 {layer.visible ? <Eye className="h-3.5 w-3.5" /> : <EyeOff className="h-3.5 w-3.5" />}
                                             </button>
-                                            <button type="button" aria-label={layer.locked ? `解锁 ${layer.name}` : `锁定 ${layer.name}`} onClick={() => apply(toggleDesignerLayerLock(document, layer.id))} className="flex h-8 w-8 items-center justify-center rounded-md text-muted-foreground hover:bg-background">
+                                            <button type="button" aria-label={layer.locked ? `解锁 ${layer.name}` : `锁定 ${layer.name}`} onClick={() => apply(toggleDesignerLayerLock(document, layer.id))} className="flex h-9 w-9 items-center justify-center rounded-md text-muted-foreground hover:bg-background">
                                                 {layer.locked ? <Lock className="h-3.5 w-3.5" /> : <Unlock className="h-3.5 w-3.5" />}
                                             </button>
-                                            <button type="button" aria-label={`删除 ${layer.name}`} onClick={() => apply(removeDesignerLayer(document, layer.id))} className="flex h-8 w-8 items-center justify-center rounded-md text-muted-foreground hover:bg-background">
+                                            <button type="button" aria-label={`删除 ${layer.name}`} onClick={() => apply(removeDesignerLayer(document, layer.id))} className="flex h-9 w-9 items-center justify-center rounded-md text-muted-foreground hover:bg-background">
                                                 <Trash2 className="h-3.5 w-3.5" />
                                             </button>
                                         </div>
                                         {active ? (
                                             <div className="mt-1 flex items-center gap-1 pl-6">
-                                                <button type="button" aria-label="上移一层" onClick={() => apply(reorderDesignerLayers(document, layer.id, "up"))} className="flex h-7 w-7 items-center justify-center rounded border border-border text-muted-foreground hover:bg-background"><ArrowUp className="h-3 w-3" /></button>
-                                                <button type="button" aria-label="下移一层" onClick={() => apply(reorderDesignerLayers(document, layer.id, "down"))} className="flex h-7 w-7 items-center justify-center rounded border border-border text-muted-foreground hover:bg-background"><ArrowDown className="h-3 w-3" /></button>
-                                                <button type="button" aria-label="置顶" onClick={() => apply(reorderDesignerLayers(document, layer.id, "front"))} className="flex h-7 w-7 items-center justify-center rounded border border-border text-muted-foreground hover:bg-background"><ChevronsUp className="h-3 w-3" /></button>
-                                                <button type="button" aria-label="置底" onClick={() => apply(reorderDesignerLayers(document, layer.id, "back"))} className="flex h-7 w-7 items-center justify-center rounded border border-border text-muted-foreground hover:bg-background"><ChevronsDown className="h-3 w-3" /></button>
+                                                <button type="button" aria-label="上移一层" onClick={() => apply(reorderDesignerLayers(document, layer.id, "up"))} className="flex h-8 w-8 items-center justify-center rounded border border-border text-muted-foreground hover:bg-background"><ArrowUp className="h-3 w-3" /></button>
+                                                <button type="button" aria-label="下移一层" onClick={() => apply(reorderDesignerLayers(document, layer.id, "down"))} className="flex h-8 w-8 items-center justify-center rounded border border-border text-muted-foreground hover:bg-background"><ArrowDown className="h-3 w-3" /></button>
+                                                <button type="button" aria-label="置顶" onClick={() => apply(reorderDesignerLayers(document, layer.id, "front"))} className="flex h-8 w-8 items-center justify-center rounded border border-border text-muted-foreground hover:bg-background"><ChevronsUp className="h-3 w-3" /></button>
+                                                <button type="button" aria-label="置底" onClick={() => apply(reorderDesignerLayers(document, layer.id, "back"))} className="flex h-8 w-8 items-center justify-center rounded border border-border text-muted-foreground hover:bg-background"><ChevronsDown className="h-3 w-3" /></button>
                                             </div>
                                         ) : null}
                                     </li>
@@ -684,6 +701,7 @@ export function DesignerWorkspace({
                             <span className="text-xs text-muted-foreground">{notice}</span>
                             <div className="flex items-center gap-2">
                                 <span className="text-[11px] text-muted-foreground">{dirty ? "草稿有未保存修改" : "草稿已保存"}</span>
+                                <span className="text-[11px] tabular-nums text-muted-foreground" title="本次导出真实合成 1 张 PNG 设计稿">产物 1 张 · {document.width}×{document.height} PNG</span>
                                 <button type="button" data-testid="designer-export" onClick={() => void handleExport()} disabled={blocked || busy} className="flex h-10 items-center gap-1.5 rounded-lg bg-primary px-4 font-medium text-primary-foreground disabled:opacity-50" title={blocked ? issues[0]?.message : "真实合成并入库"}>
                                     {busy ? <Loader2 className="h-4 w-4 animate-spin" /> : <Check className="h-4 w-4" />}
                                     导出设计稿
