@@ -7,6 +7,8 @@
 const ONLY = [];
 /** SIDES=["local"] 只重采本地（改代码后复核），默认双端。 */
 const SIDES = ["original", "local"];
+/** 并行采集时每个调用方用自己的任务空间名，避免互相抢页面。 */
+const SPACE = "linkfox-1to1-visual-parity";
 const REPO = "/Users/mac/Documents/Dev/infinite-canvas";
 const OUT = `${REPO}/docs/V1.0/e2e-1to1/20261105`;
 const fs = await import("node:fs");
@@ -14,7 +16,7 @@ const specs = JSON.parse(fs.readFileSync(`${REPO}/docs/V1.0/plan_linkfox_navigat
 const src = fs.readFileSync(`${REPO}/web/scripts/real-acceptance/original-baseline-audit.mjs`, "utf8");
 const ROUTES = Object.fromEntries([...src.matchAll(/^\s+([A-Z0-9_]+): \["([^"]+)"/gm)].map((m) => [m[1], m[2]]));
 
-const task = await taskSpace("linkfox-1to1-visual-parity");
+const task = await taskSpace(SPACE);
 const page = task.page("p1");
 await page.cdp("Emulation.setDeviceMetricsOverride", { width: 1600, height: 1000, deviceScaleFactor: 1, mobile: false });
 
@@ -42,5 +44,5 @@ for (const t of specs) {
     result.push(row);
     console.log(t.id, row.originalUrl, row.localUrl, row.originalError ?? "", row.localError ?? "");
 }
-if (SIDES.length === 2) fs.writeFileSync(`${OUT}/capture.json`, JSON.stringify(result, null, 2));
+if (SIDES.length === 2 && !ONLY.length) fs.writeFileSync(`${OUT}/capture.json`, JSON.stringify(result, null, 2));
 console.log("done", result.length, "space", task.spaceId);

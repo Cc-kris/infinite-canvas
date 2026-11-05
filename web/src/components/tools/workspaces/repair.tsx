@@ -188,6 +188,22 @@ async function averageHexOf(url: string): Promise<string | null> {
     }
 }
 
+/**
+ * 「来自旧版本」判定用的输入指纹：只含用户可改的输入。
+ * 提交快照里的 maskDataUrl / draftRevision / clientOperationId 是提交期产物，预览侧拿不到，
+ * 若拿完整提交快照和预览快照比，提交瞬间就会判为过期。
+ */
+export function handRepairInputFingerprint(image: UploadedImage, state: HandRepairState): HandRepairSnapshot {
+    return buildHandRepairSnapshot({
+        imageAssetId: image.id,
+        imageName: image.name,
+        imageWidth: image.width,
+        imageHeight: image.height,
+        state,
+        clientOperationId: "preview",
+    });
+}
+
 export function FixColorWorkspace({ className }: RepairWorkspaceProps = {}) {
     const spec = useMemo(() => getFixColorSpec(), []);
     const siblings = useMemo(
@@ -508,7 +524,20 @@ export function FixColorWorkspace({ className }: RepairWorkspaceProps = {}) {
                 }),
                 mask: { id: `${TOOL_ID}-mask`, name: "mask.png", type: "image/png", dataUrl: mask.dataUrl },
             });
-            setRunSnapshot(snapshot);
+            // 过期判定只比用户输入；提交期产物（蒙版字节 / 草稿版本 / 操作 ID）预览侧没有，比了必判过期。
+            setRunSnapshot(
+                buildFixColorSnapshot({
+                    imageAssetId: current.id,
+                    imageName: current.name,
+                    imageWidth: current.width,
+                    imageHeight: current.height,
+                    state: stateRef.current,
+                    regionColor: regionColorRef.current,
+                    targetColor: targetColorRef.current,
+                    version: versionRef.current,
+                    clientOperationId: "preview",
+                }),
+            );
             setLastCommit({ snapshot, maskDataUrl: mask.dataUrl });
             const port = await createFixColorRunPort();
             const result = await runFixColor({
@@ -1137,17 +1166,7 @@ export function HandRepairWorkspace({ className }: RepairWorkspaceProps = {}) {
 
     /* ---------------- 快照 / 结果视图 ---------------- */
 
-    const currentSnapshot = useMemo(() => {
-        if (!image) return null;
-        return buildHandRepairSnapshot({
-            imageAssetId: image.id,
-            imageName: image.name,
-            imageWidth: image.width,
-            imageHeight: image.height,
-            state,
-            clientOperationId: "preview",
-        });
-    }, [image, state]);
+    const currentSnapshot = useMemo(() => (image ? handRepairInputFingerprint(image, state) : null), [image, state]);
 
     const stale = runSnapshot && currentSnapshot ? isHandRepairSnapshotStale(runSnapshot, currentSnapshot) : false;
     const view = useMemo(
@@ -1215,7 +1234,8 @@ export function HandRepairWorkspace({ className }: RepairWorkspaceProps = {}) {
                 }),
                 mask: { id: `${HAND_REPAIR_TOOL_ID}-mask`, name: "mask.png", type: "image/png", dataUrl: mask.dataUrl },
             });
-            setRunSnapshot(snapshot);
+            // stale 只比输入指纹，不比提交期产物（蒙版字节、草稿版本、操作 ID）。
+            setRunSnapshot(handRepairInputFingerprint(current, stateRef.current));
             setLastCommit({ snapshot, maskDataUrl: mask.dataUrl });
             const port = createHandRepairRunPort();
             const result = await runHandRepairUnits(units, {
