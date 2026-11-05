@@ -1,0 +1,122 @@
+[
+ {
+  "target": "日用百货",
+  "hit": {
+   "tag": "span",
+   "text": "日用百货",
+   "rect": {
+    "x": 190,
+    "y": 420,
+    "w": 56,
+    "h": 22
+   }
+  },
+  "before": {
+   "t": 711,
+   "overlays": 1,
+   "selected": []
+  },
+  "after": {
+   "t": 711,
+   "overlays": 1,
+   "selected": []
+  },
+  "changed": false
+ },
+ {
+  "target": "家居家装",
+  "hit": {
+   "tag": "span",
+   "text": "家居家装",
+   "rect": {
+    "x": 273,
+    "y": 420,
+    "w": 56,
+    "h": 22
+   }
+  },
+  "before": {
+   "t": 711,
+   "overlays": 1,
+   "selected": []
+  },
+  "after": {
+   "t": 678,
+   "overlays": 1,
+   "selected": []
+  },
+  "changed": true
+ },
+ {
+  "target": "服饰箱包",
+  "hit": {
+   "tag": "span",
+   "text": "服饰箱包",
+   "rect": {
+    "x": 357,
+    "y": 420,
+    "w": 56,
+    "h": 22
+   }
+  },
+  "before": {
+   "t": 678,
+   "overlays": 1,
+   "selected": []
+  },
+  "after": {
+   "t": 686,
+   "overlays": 1,
+   "selected": []
+  },
+  "changed": true
+ },
+ {
+  "target": "美妆个护",
+  "hit": {
+   "tag": "span",
+   "text": "美妆个护",
+   "rect": {
+    "x": 440,
+    "y": 420,
+    "w": 56,
+    "h": 22
+   }
+  },
+  "before": {
+   "t": 686,
+   "overlays": 1,
+   "selected": []
+  },
+  "after": {
+   "t": 689,
+   "overlays": 1,
+   "selected": []
+  },
+  "changed": true
+ },
+ {
+  "target": "智能推荐",
+  "hit": {
+   "tag": "div",
+   "text": "智能推荐",
+   "rect": {
+    "x": 1342,
+    "y": 371,
+    "w": 70,
+    "h": 29
+   }
+  },
+  "before": {
+   "t": 689,
+   "overlays": 1,
+   "selected": []
+  },
+  "after": {
+   "t": 689,
+   "overlays": 1,
+   "selected": []
+  },
+  "changed": false
+ }
+]

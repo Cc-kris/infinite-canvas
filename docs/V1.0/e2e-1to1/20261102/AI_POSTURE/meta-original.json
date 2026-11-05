@@ -1,0 +1,639 @@
+{
+ "tours": 0,
+ "meta": {
+  "vw": 1600,
+  "vh": 1000,
+  "docScrollH": 1000,
+  "docClientH": 1000,
+  "bodyBg": "rgb(245, 247, 250)",
+  "title": "姿势裂变 - LinkFox",
+  "url": "https://www.linkfox.com/draw/ai-posture",
+  "text": [
+   "首页",
+   "电商套图",
+   "智能修图",
+   "新模型",
+   "AI视频",
+   "HOT",
+   "批量生图",
+   "商品图设计",
+   "Skills",
+   "Agent",
+   "更多",
+   "学习中心",
+   "免费得算力",
+   "350",
+   "购 买",
+   "用",
+   "用户6991",
+   "个人账号",
+   "真人换模特",
+   "模特换场景",
+   "AI穿衣",
+   "姿势裂变",
+   "AI穿戴",
+   "历史记录",
+   "企业功能",
+   "批量生图",
+   "即将下架",
+   "人台换模特",
+   "下架",
+   "免责声明",
+   "图片规则",
+   "拖拽/粘贴 或 上传模特姿势图",
+   "从本地上传",
+   "从作品库选择",
+   "从商品库选择",
+   "10M以内，384*384 ~ 4096*4096",
+   "或试试这些",
+   "上传多张图片，开始批量姿势裂变",
+   "姿势库",
+   "自定义",
+   "选择姿势（可选）",
+   "生成图片的模特姿势",
+   "选择生成张数",
+   "1",
+   "2",
+   "3",
+   "4",
+   "立即生成",
+   "(40算力)",
+   "生成结果",
+   "历史记录",
+   "📸 1 张模特图→N 种姿势套图！告别重复拍摄成本，秒变视觉内容高产能手！",
+   "上传模特图",
+   "选择参考图",
+   "生成结果",
+   "一键做同款",
+   "第一步：选择示例图或上传模特姿势图片",
+   "我是高手，不再提醒",
+   "操作咨询",
+   "产品教程",
+   "管理水印分组",
+   "共 1/20 个",
+   "默认",
+   "＋ 新增水印分组"
+  ],
+  "controls": [
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "购 买",
+    "r": {
+     "x": 1388,
+     "y": 64,
+     "w": 44,
+     "h": 32
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "图片规则",
+    "r": {
+     "x": 383,
+     "y": 141,
+     "w": 80,
+     "h": 24
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "从本地上传",
+    "r": {
+     "x": 233,
+     "y": 234,
+     "w": 214,
+     "h": 24
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "从作品库选择",
+    "r": {
+     "x": 233,
+     "y": 268,
+     "w": 102,
+     "h": 24
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "从商品库选择",
+    "r": {
+     "x": 345,
+     "y": 268,
+     "w": 102,
+     "h": 24
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "上传多张图片，开始批量姿势裂变",
+    "r": {
+     "x": 206,
+     "y": 451,
+     "w": 268,
+     "h": 32
+    }
+   },
+   {
+    "tag": "div",
+    "role": "tab",
+    "type": null,
+    "checked": "true",
+    "disabled": false,
+    "label": "姿势库",
+    "r": {
+     "x": 208,
+     "y": 497,
+     "w": 42,
+     "h": 22
+    }
+   },
+   {
+    "tag": "div",
+    "role": "tab",
+    "type": null,
+    "checked": "false",
+    "disabled": false,
+    "label": "自定义",
+    "r": {
+     "x": 264,
+     "y": 497,
+     "w": 42,
+     "h": 22
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "立即生成 (40算力)",
+    "r": {
+     "x": 206,
+     "y": 950,
+     "w": 268,
+     "h": 32
+    }
+   },
+   {
+    "tag": "div",
+    "role": "tab",
+    "type": null,
+    "checked": "true",
+    "disabled": false,
+    "label": "生成结果",
+    "r": {
+     "x": 503,
+     "y": 130,
+     "w": 56,
+     "h": 22
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "一键做同款",
+    "r": {
+     "x": 985,
+     "y": 801,
+     "w": 110,
+     "h": 40
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "参加双11年度算力狂欢活动",
+    "r": {
+     "x": 1466,
+     "y": 830,
+     "w": 120,
+     "h": 120
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "关闭双11活动入口",
+    "r": {
+     "x": 1576,
+     "y": 830,
+     "w": 20,
+     "h": 20
+    }
+   },
+   {
+    "tag": "div",
+    "role": "button",
+    "type": null,
+    "checked": null,
+    "disabled": false,
+    "label": "操作咨询 产品教程",
+    "r": {
+     "x": 1489,
+     "y": 700,
+     "w": 101,
+     "h": 90
+    }
+   },
+   {
+    "tag": "input",
+    "role": null,
+    "type": null,
+    "checked": null,
+    "disabled": false,
+    "label": "名称",
+    "r": {
+     "x": 997,
+     "y": 485,
+     "w": 74,
+     "h": 26
+    }
+   },
+   {
+    "tag": "input",
+    "role": null,
+    "type": null,
+    "checked": null,
+    "disabled": false,
+    "label": "水印文案",
+    "r": {
+     "x": 1077,
+     "y": 485,
+     "w": 138,
+     "h": 26
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": null,
+    "checked": null,
+    "disabled": false,
+    "label": "默认",
+    "r": {
+     "x": 1221,
+     "y": 486,
+     "w": 40,
+     "h": 24
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": null,
+    "checked": null,
+    "disabled": false,
+    "label": "",
+    "r": {
+     "x": 1267,
+     "y": 486,
+     "w": 24,
+     "h": 24
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": null,
+    "checked": null,
+    "disabled": false,
+    "label": "＋ 新增水印分组",
+    "r": {
+     "x": 997,
+     "y": 521,
+     "w": 294,
+     "h": 35
+    }
+   }
+  ],
+  "blocks": [
+   {
+    "cls": "",
+    "r": {
+     "x": 0,
+     "y": 0,
+     "w": 1600,
+     "h": 1000
+    },
+    "t": "首页 电商套图 智能修图 新模型 AI视频 HOT 批量生图 商品图设计 Skills Agent "
+   },
+   {
+    "cls": "css-1d18km6 ant-app",
+    "r": {
+     "x": 0,
+     "y": 0,
+     "w": 1600,
+     "h": 1000
+    },
+    "t": "首页 电商套图 智能修图 新模型 AI视频 HOT 批量生图 商品图设计 Skills Agent "
+   },
+   {
+    "cls": "_box_1sq7k_31",
+    "r": {
+     "x": 0,
+     "y": 0,
+     "w": 1600,
+     "h": 1000
+    },
+    "t": "首页 电商套图 智能修图 新模型 AI视频 HOT 批量生图 商品图设计 Skills Agent "
+   },
+   {
+    "cls": "ant-layout css-1d18km6",
+    "r": {
+     "x": 0,
+     "y": 0,
+     "w": 1600,
+     "h": 1000
+    },
+    "t": "首页 电商套图 智能修图 新模型 AI视频 HOT 批量生图 商品图设计 Skills Agent "
+   },
+   {
+    "cls": "ant-layout ant-layout-has-sider _layoutWapper_1sq7k_69 css-1d18km6",
+    "r": {
+     "x": 0,
+     "y": 110,
+     "w": 1600,
+     "h": 890
+    },
+    "t": "真人换模特 模特换场景 AI穿衣 姿势裂变 AI穿戴 历史记录 企业功能 批量生图 即将下架 人台换"
+   },
+   {
+    "cls": "ant-layout _bodyLayout_1sq7k_81 css-1d18km6",
+    "r": {
+     "x": 180,
+     "y": 110,
+     "w": 1420,
+     "h": 890
+    },
+    "t": "图片规则 拖拽/粘贴 或 上传模特姿势图 从本地上传 从作品库选择 从商品库选择 10M以内，384"
+   },
+   {
+    "cls": "_body_1sq7k_81",
+    "r": {
+     "x": 190,
+     "y": 110,
+     "w": 1400,
+     "h": 890
+    },
+    "t": "图片规则 拖拽/粘贴 或 上传模特姿势图 从本地上传 从作品库选择 从商品库选择 10M以内，384"
+   },
+   {
+    "cls": "_container_1sq7k_287",
+    "r": {
+     "x": 190,
+     "y": 110,
+     "w": 1400,
+     "h": 890
+    },
+    "t": "图片规则 拖拽/粘贴 或 上传模特姿势图 从本地上传 从作品库选择 从商品库选择 10M以内，384"
+   },
+   {
+    "cls": "_AIPosture_sww1p_1",
+    "r": {
+     "x": 190,
+     "y": 120,
+     "w": 1400,
+     "h": 870
+    },
+    "t": "图片规则 拖拽/粘贴 或 上传模特姿势图 从本地上传 从作品库选择 从商品库选择 10M以内，384"
+   },
+   {
+    "cls": "_content_sww1p_23",
+    "r": {
+     "x": 190,
+     "y": 120,
+     "w": 1400,
+     "h": 870
+    },
+    "t": "图片规则 拖拽/粘贴 或 上传模特姿势图 从本地上传 从作品库选择 从商品库选择 10M以内，384"
+   },
+   {
+    "cls": "_left_sww1p_28",
+    "r": {
+     "x": 190,
+     "y": 120,
+     "w": 300,
+     "h": 870
+    },
+    "t": "图片规则 拖拽/粘贴 或 上传模特姿势图 从本地上传 从作品库选择 从商品库选择 10M以内，384"
+   },
+   {
+    "cls": "_configContent_sww1p_47",
+    "r": {
+     "x": 190,
+     "y": 120,
+     "w": 300,
+     "h": 819
+    },
+    "t": "图片规则 拖拽/粘贴 或 上传模特姿势图 从本地上传 从作品库选择 从商品库选择 10M以内，384"
+   },
+   {
+    "cls": "_rightWrapper_sww1p_194",
+    "r": {
+     "x": 490,
+     "y": 120,
+     "w": 1100,
+     "h": 870
+    },
+    "t": "生成结果 历史记录 📸 1 张模特图→N 种姿势套图！告别重复拍摄成本，秒变视觉内容高产能手！ 上"
+   },
+   {
+    "cls": "ant-tabs ant-tabs-top css-1d18km6",
+    "r": {
+     "x": 490,
+     "y": 120,
+     "w": 1100,
+     "h": 870
+    },
+    "t": "生成结果 历史记录 📸 1 张模特图→N 种姿势套图！告别重复拍摄成本，秒变视觉内容高产能手！ 上"
+   },
+   {
+    "cls": "ant-tabs-content-holder",
+    "r": {
+     "x": 490,
+     "y": 162,
+     "w": 1100,
+     "h": 828
+    },
+    "t": "📸 1 张模特图→N 种姿势套图！告别重复拍摄成本，秒变视觉内容高产能手！ 上传模特图 选择参考图"
+   },
+   {
+    "cls": "ant-tabs-content ant-tabs-content-top",
+    "r": {
+     "x": 490,
+     "y": 162,
+     "w": 1100,
+     "h": 828
+    },
+    "t": "📸 1 张模特图→N 种姿势套图！告别重复拍摄成本，秒变视觉内容高产能手！ 上传模特图 选择参考图"
+   },
+   {
+    "cls": "ant-tabs-tabpane ant-tabs-tabpane-active",
+    "r": {
+     "x": 490,
+     "y": 162,
+     "w": 1100,
+     "h": 828
+    },
+    "t": "📸 1 张模特图→N 种姿势套图！告别重复拍摄成本，秒变视觉内容高产能手！ 上传模特图 选择参考图"
+   },
+   {
+    "cls": "_body_ymzel_1",
+    "r": {
+     "x": 490,
+     "y": 162,
+     "w": 1100,
+     "h": 828
+    },
+    "t": "📸 1 张模特图→N 种姿势套图！告别重复拍摄成本，秒变视觉内容高产能手！ 上传模特图 选择参考图"
+   },
+   {
+    "cls": "_guide_ymzel_98",
+    "r": {
+     "x": 506,
+     "y": 178,
+     "w": 1068,
+     "h": 796
+    },
+    "t": "📸 1 张模特图→N 种姿势套图！告别重复拍摄成本，秒变视觉内容高产能手！ 上传模特图 选择参考图"
+   },
+   {
+    "cls": "_caseGuide_ymzel_152",
+    "r": {
+     "x": 652,
+     "y": 337,
+     "w": 777,
+     "h": 519
+    },
+    "t": "📸 1 张模特图→N 种姿势套图！告别重复拍摄成本，秒变视觉内容高产能手！ 上传模特图 选择参考图"
+   },
+   {
+    "cls": "ant-carousel css-1d18km6 _caseSwiper_176zc_612",
+    "r": {
+     "x": 652,
+     "y": 385,
+     "w": 777,
+     "h": 472
+    },
+    "t": "上传模特图 选择参考图 生成结果 一键做同款"
+   },
+   {
+    "cls": "slick-slider slick-initialized",
+    "r": {
+     "x": 652,
+     "y": 385,
+     "w": 777,
+     "h": 472
+    },
+    "t": "上传模特图 选择参考图 生成结果 一键做同款"
+   },
+   {
+    "cls": "slick-list",
+    "r": {
+     "x": 652,
+     "y": 385,
+     "w": 777,
+     "h": 472
+    },
+    "t": "上传模特图 选择参考图 生成结果 一键做同款"
+   },
+   {
+    "cls": "slick-track",
+    "r": {
+     "x": 652,
+     "y": 385,
+     "w": 777,
+     "h": 472
+    },
+    "t": "上传模特图 选择参考图 生成结果 一键做同款"
+   },
+   {
+    "cls": "slick-slide slick-active slick-current",
+    "r": {
+     "x": 652,
+     "y": 385,
+     "w": 777,
+     "h": 472
+    },
+    "t": "上传模特图 选择参考图 生成结果 一键做同款"
+   },
+   {
+    "cls": "",
+    "r": {
+     "x": 652,
+     "y": 385,
+     "w": 777,
+     "h": 472
+    },
+    "t": "上传模特图 选择参考图 生成结果 一键做同款"
+   }
+  ],
+  "scrollables": []
+ },
+ "audit": {
+  "vh": 1000,
+  "vw": 1600,
+  "actions": [
+   {
+    "text": "生成",
+    "rect": {
+     "x": 206,
+     "y": 950,
+     "w": 268,
+     "h": 32
+    },
+    "inFirstScreen": true,
+    "disabled": false
+   },
+   {
+    "text": "立即生成",
+    "rect": {
+     "x": 206,
+     "y": 950,
+     "w": 268,
+     "h": 32
+    },
+    "inFirstScreen": true,
+    "disabled": false
+   }
+  ],
+  "scrollables": [],
+  "hiddenBelow": []
+ }
+}

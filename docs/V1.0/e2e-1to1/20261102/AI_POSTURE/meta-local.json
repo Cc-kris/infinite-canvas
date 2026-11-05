@@ -1,0 +1,737 @@
+{
+ "tours": 0,
+ "meta": {
+  "vw": 1600,
+  "vh": 1000,
+  "docScrollH": 1000,
+  "docClientH": 1000,
+  "bodyBg": "rgb(245, 247, 250)",
+  "title": "无限画布",
+  "url": "http://127.0.0.1:3000/tools/product-design/ai-posture",
+  "text": [
+   "无限画布",
+   "首页",
+   "电商套图",
+   "智能修图",
+   "新模型",
+   "AI视频",
+   "HOT",
+   "批量生图",
+   "商品图设计",
+   "中",
+   "切换到深色主题",
+   "v0.27.0",
+   "真人换模特",
+   "模特换场景",
+   "AI穿衣",
+   "姿势裂变",
+   "AI穿戴",
+   "历史记录",
+   "企业功能",
+   "批量生图",
+   "即将下架",
+   "人台换模特",
+   "下架",
+   "姿势裂变",
+   "📸 1 张模特图→N 种姿势套图！告别重复拍摄成本，秒变视觉内容高产能手！",
+   "模特姿势图",
+   "拖拽/粘贴 或 上传模特姿势图；一张图裂变出多种姿势，人物/服装保持一致。",
+   "图片规则",
+   "拖拽/粘贴 或 上传模特姿势图",
+   "从本地上传",
+   "从作品库选择",
+   "从商品库选择",
+   "10M以内，384*384 ~ 4096*4096",
+   "图片标签（imageTags，可增删，≤12）",
+   "还没有标签；点选姿势卡片会自动带出建议标签。",
+   "添加",
+   "图片规则：10M以内，384×384 ~ 4096×4096",
+   "或试试这些",
+   "完整上身图",
+   "全身模特图",
+   "上传多张图片，开始批量姿势裂变",
+   "批量模式暂未开放：本页当前只支持上传 1 张模特图。",
+   "姿势库 / 自定义",
+   "选择姿势（可选）：不选则按张数自动裂变；姿势库与自定义各自保存，来回切换不会互相覆盖。",
+   "姿势库",
+   "自定义",
+   "已选 0 个姿势（将自动裂变）",
+   "全部",
+   "站姿",
+   "角度",
+   "动态",
+   "坐姿",
+   "正面站姿",
+   "standing straight and facing the camera, arms relaxed naturally at the sides, feet shoulder-width apart",
+   "标签：站姿 / 正面 / 全身",
+   "单手叉腰",
+   "standing with one hand on the hip and the other arm relaxed, weight shifted onto one leg",
+   "标签：站姿 / 叉腰",
+   "双手插兜",
+   "standing casually with both hands in pockets, shoulders relaxed",
+   "标签：站姿 / 插兜",
+   "双臂交叉",
+   "standing with arms crossed over the chest in a confident posture",
+   "标签：站姿 / 交叉",
+   "侧身站立",
+   "standing in a three-quarter side profile with the head turned toward the camera",
+   "标签：侧身 / 回眸",
+   "背身回眸",
+   "back to the camera with the head turned over the shoulder, looking back at the viewer",
+   "标签：背身 / 回眸",
+   "低机位仰拍",
+   "a low camera angle looking up at the model while standing tall",
+   "标签：低机位 / 仰拍",
+   "行走抓拍",
+   "caught mid-stride walking toward the camera with a natural arm swing",
+   "标签：动态 / 行走",
+   "转身瞬间",
+   "caught mid-turn with hair and clothing following the motion",
+   "标签：动态 / 转身",
+   "轻跳",
+   "a light jump with both feet off the ground and arms slightly raised",
+   "标签：动态 / 跳跃",
+   "高脚凳坐姿",
+   "sitting on a tall stool with one leg crossed over the other, back straight",
+   "标签：坐姿 / 高脚凳",
+   "坐地",
+   "sitting on the floor with legs folded to one side, hands resting on the knee",
+   "标签：坐姿 / 坐地",
+   "清空选择（改为自动裂变）",
+   "选择生成张数",
+   "1–4 张，按姿势平均分配；未选姿势时自动从姿势库裂变出互不重复的姿势。",
+   "1",
+   "2",
+   "3",
+   "4",
+   "裂变方式",
+   "自动裂变",
+   "姿势 / 张数",
+   "正面站姿×1",
+   "预计输出",
+   "1 张 / 1 个请求",
+   "补充描述",
+   "可选：光线、场景、气质等；姿势本身由上面的选择决定。",
+   "立即生成",
+   "1 张 · 1 个姿势请求",
+   "请先上传模特姿势图（拖拽/粘贴或从本地选择）",
+   "本次输入快照",
+   "生成结果",
+   "历史记录",
+   "一键做同款",
+   "还没有生成结果",
+   "📸 1 张模特图 → N 种姿势套图！告别重复拍摄成本。",
+   "历史任务",
+   "1 条",
+   "2026-10-29 17:46",
+   "已完成",
+   "Keep the same person as the reference model image: ident…",
+   "default::gpt-image-2 · image · 1 个结果",
+   "1",
+   "连接本地 Agent",
+   "未连接",
+   "点连接会自动启动本地服务、装好插件并接通，无需手动配置。",
+   "Claude Code",
+   "未连接",
+   "·",
+   "CLI · 2.1.316 (Claude Code)",
+   "·",
+   "直接运行",
+   "连接",
+   "Codex",
+   "未连接",
+   "·",
+   "CLI · codex-cli 0.166.0",
+   "·",
+   "插件已装",
+   "连接",
+   "Galley",
+   "未连接",
+   "·",
+   "CLI + 桌面版 · galley 0.6.4",
+   "连接"
+  ],
+  "controls": [
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "打开 Agent",
+    "r": {
+     "x": 1365,
+     "y": 12,
+     "w": 32,
+     "h": 32
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "配置",
+    "r": {
+     "x": 1401,
+     "y": 14,
+     "w": 28,
+     "h": 28
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "中",
+    "r": {
+     "x": 1433,
+     "y": 14,
+     "w": 28,
+     "h": 28
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "切换到深色主题",
+    "r": {
+     "x": 1465,
+     "y": 14,
+     "w": 28,
+     "h": 28
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "v0.27.0",
+    "r": {
+     "x": 1497,
+     "y": 17,
+     "w": 47,
+     "h": 22
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "图片规则",
+    "r": {
+     "x": 305,
+     "y": 148,
+     "w": 78,
+     "h": 36
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": true,
+    "label": "撤销姿势/标签编辑",
+    "r": {
+     "x": 387,
+     "y": 148,
+     "w": 36,
+     "h": 36
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": true,
+    "label": "重做姿势/标签编辑",
+    "r": {
+     "x": 427,
+     "y": 148,
+     "w": 36,
+     "h": 36
+    }
+   },
+   {
+    "tag": "div",
+    "role": "button",
+    "type": null,
+    "checked": null,
+    "disabled": false,
+    "label": "拖拽/粘贴 或 上传模特姿势图 从本地上传 从作品库选择 从商品库选择 10M以内，384*384 ~ 4096*409",
+    "r": {
+     "x": 197,
+     "y": 299,
+     "w": 220,
+     "h": 249
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "从本地上传",
+    "r": {
+     "x": 210,
+     "y": 395,
+     "w": 194,
+     "h": 24
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": true,
+    "label": "从作品库选择",
+    "r": {
+     "x": 210,
+     "y": 427,
+     "w": 93,
+     "h": 24
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": true,
+    "label": "从商品库选择",
+    "r": {
+     "x": 311,
+     "y": 427,
+     "w": 93,
+     "h": 24
+    }
+   },
+   {
+    "tag": "input",
+    "role": null,
+    "type": null,
+    "checked": null,
+    "disabled": false,
+    "label": "新增标签后回车",
+    "r": {
+     "x": 442,
+     "y": 555,
+     "w": 18,
+     "h": 36
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "添加",
+    "r": {
+     "x": 466,
+     "y": 555,
+     "w": 50,
+     "h": 36
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "完整上身图",
+    "r": {
+     "x": 265,
+     "y": 743,
+     "w": 96,
+     "h": 32
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "全身模特图",
+    "r": {
+     "x": 197,
+     "y": 783,
+     "w": 96,
+     "h": 32
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": true,
+    "label": "上传多张图片，开始批量姿势裂变",
+    "r": {
+     "x": 197,
+     "y": 823,
+     "w": 236,
+     "h": 32
+    }
+   },
+   {
+    "tag": "button",
+    "role": "tab",
+    "type": "button",
+    "checked": "true",
+    "disabled": false,
+    "label": "生成结果",
+    "r": {
+     "x": 509,
+     "y": 148,
+     "w": 82,
+     "h": 32
+    }
+   },
+   {
+    "tag": "button",
+    "role": "tab",
+    "type": "button",
+    "checked": "false",
+    "disabled": false,
+    "label": "历史记录",
+    "r": {
+     "x": 595,
+     "y": 148,
+     "w": 82,
+     "h": 32
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "一键做同款",
+    "r": {
+     "x": 1491,
+     "y": 148,
+     "w": 92,
+     "h": 32
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "调整右侧面板宽度",
+    "r": {
+     "x": 1593,
+     "y": 0,
+     "w": 16,
+     "h": 1000
+    }
+   }
+  ],
+  "blocks": [
+   {
+    "cls": "",
+    "r": {
+     "x": 0,
+     "y": 0,
+     "w": 1600,
+     "h": 1000
+    },
+    "t": "无限画布 首页 电商套图 智能修图 新模型 AI视频 HOT 批量生图 商品图设计 中 切换到深色主"
+   },
+   {
+    "cls": "css-dev-only-do-not-override-1tzwyuk ant-app infinite-canvas-light",
+    "r": {
+     "x": 0,
+     "y": 0,
+     "w": 1600,
+     "h": 1000
+    },
+    "t": "无限画布 首页 电商套图 智能修图 新模型 AI视频 HOT 批量生图 商品图设计 中 切换到深色主"
+   },
+   {
+    "cls": "flex h-dvh overflow-hidden bg-background text-foreground",
+    "r": {
+     "x": 0,
+     "y": 0,
+     "w": 1600,
+     "h": 1000
+    },
+    "t": "无限画布 首页 电商套图 智能修图 新模型 AI视频 HOT 批量生图 商品图设计 中 切换到深色主"
+   },
+   {
+    "cls": "flex min-w-0 flex-1 flex-col overflow-hidden",
+    "r": {
+     "x": 0,
+     "y": 0,
+     "w": 1600,
+     "h": 1000
+    },
+    "t": "无限画布 首页 电商套图 智能修图 新模型 AI视频 HOT 批量生图 商品图设计 中 切换到深色主"
+   },
+   {
+    "cls": "min-h-0 flex-1 overflow-hidden",
+    "r": {
+     "x": 0,
+     "y": 56,
+     "w": 1600,
+     "h": 944
+    },
+    "t": "真人换模特 模特换场景 AI穿衣 姿势裂变 AI穿戴 历史记录 企业功能 批量生图 即将下架 人台换"
+   },
+   {
+    "cls": "tool-linkfox-surface flex h-full min-h-0 flex-col bg-white text-foregr",
+    "r": {
+     "x": 0,
+     "y": 56,
+     "w": 1600,
+     "h": 944
+    },
+    "t": "真人换模特 模特换场景 AI穿衣 姿势裂变 AI穿戴 历史记录 企业功能 批量生图 即将下架 人台换"
+   },
+   {
+    "cls": "flex min-h-0 flex-1 gap-0",
+    "r": {
+     "x": 0,
+     "y": 56,
+     "w": 1600,
+     "h": 944
+    },
+    "t": "真人换模特 模特换场景 AI穿衣 姿势裂变 AI穿戴 历史记录 企业功能 批量生图 即将下架 人台换"
+   },
+   {
+    "cls": "flex min-w-0 flex-1 flex-col overflow-hidden bg-white",
+    "r": {
+     "x": 180,
+     "y": 56,
+     "w": 1420,
+     "h": 944
+    },
+    "t": "姿势裂变 📸 1 张模特图→N 种姿势套图！告别重复拍摄成本，秒变视觉内容高产能手！ 模特姿势图 "
+   },
+   {
+    "cls": "min-h-0 flex-1 overflow-y-auto overflow-x-hidden bg-white p-0",
+    "r": {
+     "x": 180,
+     "y": 56,
+     "w": 1420,
+     "h": 944
+    },
+    "t": "姿势裂变 📸 1 张模特图→N 种姿势套图！告别重复拍摄成本，秒变视觉内容高产能手！ 模特姿势图 "
+   },
+   {
+    "cls": "h-full min-h-0 min-w-0",
+    "r": {
+     "x": 180,
+     "y": 56,
+     "w": 1420,
+     "h": 944
+    },
+    "t": "姿势裂变 📸 1 张模特图→N 种姿势套图！告别重复拍摄成本，秒变视觉内容高产能手！ 模特姿势图 "
+   },
+   {
+    "cls": "flex min-h-0 min-w-0 flex-1 flex-col gap-3",
+    "r": {
+     "x": 180,
+     "y": 56,
+     "w": 1420,
+     "h": 2874
+    },
+    "t": "姿势裂变 📸 1 张模特图→N 种姿势套图！告别重复拍摄成本，秒变视觉内容高产能手！ 模特姿势图 "
+   },
+   {
+    "cls": "flex min-h-0 flex-col",
+    "r": {
+     "x": 180,
+     "y": 131,
+     "w": 1420,
+     "h": 2799
+    },
+    "t": "模特姿势图 拖拽/粘贴 或 上传模特姿势图；一张图裂变出多种姿势，人物/服装保持一致。 图片规则 拖"
+   },
+   {
+    "cls": "grid min-h-0 min-w-0 grid-cols-1 gap-3 lg:grid-cols-[300px_minmax(0,1f",
+    "r": {
+     "x": 180,
+     "y": 131,
+     "w": 1420,
+     "h": 2799
+    },
+    "t": "模特姿势图 拖拽/粘贴 或 上传模特姿势图；一张图裂变出多种姿势，人物/服装保持一致。 图片规则 拖"
+   },
+   {
+    "cls": "flex min-h-0 min-w-0 flex-col gap-3",
+    "r": {
+     "x": 180,
+     "y": 131,
+     "w": 300,
+     "h": 2775
+    },
+    "t": "模特姿势图 拖拽/粘贴 或 上传模特姿势图；一张图裂变出多种姿势，人物/服装保持一致。 图片规则 拖"
+   },
+   {
+    "cls": "space-y-4",
+    "r": {
+     "x": 180,
+     "y": 131,
+     "w": 300,
+     "h": 2775
+    },
+    "t": "模特姿势图 拖拽/粘贴 或 上传模特姿势图；一张图裂变出多种姿势，人物/服装保持一致。 图片规则 拖"
+   },
+   {
+    "cls": "rounded-xl border border-border bg-card p-4",
+    "r": {
+     "x": 180,
+     "y": 131,
+     "w": 300,
+     "h": 768
+    },
+    "t": "模特姿势图 拖拽/粘贴 或 上传模特姿势图；一张图裂变出多种姿势，人物/服装保持一致。 图片规则 拖"
+   },
+   {
+    "cls": "rounded-xl border border-border bg-card p-4",
+    "r": {
+     "x": 180,
+     "y": 915,
+     "w": 300,
+     "h": 1297
+    },
+    "t": "姿势库 / 自定义 选择姿势（可选）：不选则按张数自动裂变；姿势库与自定义各自保存，来回切换不会互相"
+   },
+   {
+    "cls": "flex min-h-0 min-w-0 flex-col gap-3",
+    "r": {
+     "x": 492,
+     "y": 131,
+     "w": 1108,
+     "h": 2775
+    },
+    "t": "生成结果 历史记录 一键做同款 还没有生成结果 📸 1 张模特图 → N 种姿势套图！告别重复拍摄"
+   },
+   {
+    "cls": "space-y-4",
+    "r": {
+     "x": 492,
+     "y": 131,
+     "w": 1108,
+     "h": 226
+    },
+    "t": "生成结果 历史记录 一键做同款 还没有生成结果 📸 1 张模特图 → N 种姿势套图！告别重复拍摄"
+   },
+   {
+    "cls": "rounded-xl border border-border bg-card p-4",
+    "r": {
+     "x": 492,
+     "y": 131,
+     "w": 1108,
+     "h": 226
+    },
+    "t": "生成结果 历史记录 一键做同款 还没有生成结果 📸 1 张模特图 → N 种姿势套图！告别重复拍摄"
+   }
+  ],
+  "scrollables": [
+   {
+    "cls": "min-h-0 flex-1 overflow-y-auto overflow-x-hidden bg-white p-",
+    "r": {
+     "x": 180,
+     "y": 56,
+     "w": 1420,
+     "h": 944
+    },
+    "ch": 944,
+    "sh": 3036,
+    "canScroll": true
+   }
+  ]
+ },
+ "audit": {
+  "vh": 1000,
+  "vw": 1600,
+  "actions": [
+   {
+    "text": "生成",
+    "rect": {
+     "x": 197,
+     "y": 2758,
+     "w": 266,
+     "h": 40
+    },
+    "inFirstScreen": false,
+    "disabled": true
+   },
+   {
+    "text": "立即生成",
+    "rect": {
+     "x": 197,
+     "y": 2758,
+     "w": 266,
+     "h": 40
+    },
+    "inFirstScreen": false,
+    "disabled": true
+   }
+  ],
+  "scrollables": [
+   {
+    "cls": "min-h-0 flex-1 overflow-y-auto overflow-x-hidden b",
+    "h": 944,
+    "sh": 3036,
+    "scrollable": true
+   }
+  ],
+  "hiddenBelow": [
+   {
+    "t": "姿势库",
+    "y": 1023
+   },
+   {
+    "t": "自定义",
+    "y": 1023
+   },
+   {
+    "t": "全部",
+    "y": 1094
+   },
+   {
+    "t": "站姿",
+    "y": 1094
+   },
+   {
+    "t": "角度",
+    "y": 1094
+   },
+   {
+    "t": "动态",
+    "y": 1094
+   },
+   {
+    "t": "坐姿",
+    "y": 1136
+   },
+   {
+    "t": "正面站姿\nstanding straight a",
+    "y": 1180
+   }
+  ]
+ }
+}

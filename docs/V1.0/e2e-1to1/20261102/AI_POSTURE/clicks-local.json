@@ -1,0 +1,185 @@
+[
+ {
+  "target": "自定义",
+  "hit": {
+   "tag": "button",
+   "text": "自定义",
+   "rect": {
+    "x": 271,
+    "y": 1023,
+    "w": 68,
+    "h": 36
+   }
+  },
+  "before": {
+   "t": 2179,
+   "overlays": 0,
+   "selected": [
+    "姿势库",
+    "全部",
+    "1",
+    "生成结果"
+   ]
+  },
+  "after": {
+   "t": 1103,
+   "overlays": 0,
+   "selected": [
+    "自定义",
+    "1",
+    "生成结果"
+   ]
+  },
+  "changed": true
+ },
+ {
+  "target": "姿势库",
+  "hit": {
+   "tag": "button",
+   "text": "姿势库",
+   "rect": {
+    "x": 197,
+    "y": 510,
+    "w": 68,
+    "h": 36
+   }
+  },
+  "before": {
+   "t": 1103,
+   "overlays": 0,
+   "selected": [
+    "自定义",
+    "1",
+    "生成结果"
+   ]
+  },
+  "after": {
+   "t": 2179,
+   "overlays": 0,
+   "selected": [
+    "姿势库",
+    "全部",
+    "1",
+    "生成结果"
+   ]
+  },
+  "changed": true
+ },
+ {
+  "target": "角度",
+  "hit": {
+   "tag": "button",
+   "text": "角度",
+   "rect": {
+    "x": 317,
+    "y": 581,
+    "w": 54,
+    "h": 36
+   }
+  },
+  "before": {
+   "t": 2179,
+   "overlays": 0,
+   "selected": [
+    "姿势库",
+    "全部",
+    "1",
+    "生成结果"
+   ]
+  },
+  "after": {
+   "t": 1361,
+   "overlays": 0,
+   "selected": [
+    "姿势库",
+    "角度",
+    "1",
+    "生成结果"
+   ]
+  },
+  "changed": true
+ },
+ {
+  "target": "单手叉腰",
+  "ok": false,
+  "reason": "not-found",
+  "before": {
+   "t": 1361,
+   "overlays": 0,
+   "selected": [
+    "姿势库",
+    "角度",
+    "1",
+    "生成结果"
+   ]
+  }
+ },
+ {
+  "target": "图片规则",
+  "hit": {
+   "tag": "button",
+   "text": "图片规则",
+   "rect": {
+    "x": 305,
+    "y": -436,
+    "w": 78,
+    "h": 36
+   }
+  },
+  "before": {
+   "t": 1361,
+   "overlays": 0,
+   "selected": [
+    "姿势库",
+    "角度",
+    "1",
+    "生成结果"
+   ]
+  },
+  "after": {
+   "t": 1460,
+   "overlays": 0,
+   "selected": [
+    "姿势库",
+    "角度",
+    "1",
+    "生成结果"
+   ]
+  },
+  "changed": true
+ },
+ {
+  "target": "清空选择",
+  "hit": {
+   "tag": "button",
+   "text": "清空选择（改为自动裂变）",
+   "rect": {
+    "x": 197,
+    "y": 1429,
+    "w": 190,
+    "h": 36
+   }
+  },
+  "before": {
+   "t": 1460,
+   "overlays": 0,
+   "selected": [
+    "姿势库",
+    "角度",
+    "1",
+    "生成结果"
+   ]
+  },
+  "after": {
+   "t": 1460,
+   "overlays": 0,
+   "selected": [
+    "姿势库",
+    "角度",
+    "1",
+    "生成结果"
+   ]
+  },
+  "changed": false
+ }
+]

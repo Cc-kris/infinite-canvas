@@ -35,3 +35,36 @@ web/public/__acc/
 .backup-*/
 .tmp_*/
 .worker-accept-*/
+
+# 历史协作/探针临时产物（本地保留，不入库）
+.worker-*/
+.worker-*
+*.worker-notes.md
+cdp.py
+cdp_helper.py
+capture_page.js
+mock_video_upstream.py
+generate_linkfox_docs.py
+real_video_run.py
+probe*.py
+
+# 本地工作副本/临时运行时目录（体积大，不入库）
+ic-03b8f47e/
+temp/
+runtime/
+.verify-tools/
+
+# 临时脚本与截图（勿入库）
+web/.tmp-*
+web/_gen*.mjs
+web/tmp_*.mjs
+*.tmp.png
+web/measure*.mjs
+web/probe-*.mjs
+web/*.tmp.mjs
+web/.w5-progress.md
+web/base512.png
+web/print128.png
+
+# 验收截图体积大（约 120MB），按需本地生成，不入库
+docs/V1.0/e2e-1to1/**/*.png

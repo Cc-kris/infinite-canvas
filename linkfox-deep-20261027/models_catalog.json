@@ -1,0 +1,8864 @@
+{
+ "image": {
+  "61": [
+   {
+    "apiCode": "BANANA_2_1",
+    "code": "GEMINI_NANO_BANANA_2_1",
+    "description": "2.0 升级版，文字排版与多轮编辑一致性全面提升",
+    "icon": "https://test-file-ai.linkfox.com/UPLOAD/MANAGE/973c73c0ad8b41fbb63a88b0a6f5206e.svg",
+    "isDefault": false,
+    "isMaintenance": false,
+    "isNew": true,
+    "name": "LF全能模型 2.1",
+    "pricing": {
+     "eco": {
+      "1K": 25,
+      "2K": 30,
+      "4K": 40
+     },
+     "stable": {
+      "1K": 40,
+      "2K": 50,
+      "4K": 60
+     }
+    },
+    "refImageCount": 14,
+    "supportEcoMode": false,
+    "supportPromptExpand": true,
+    "supportedQualities": [],
+    "supportedRatios": [
+     "1:1",
+     "3:2",
+     "2:3",
+     "3:4",
+     "4:3",
+     "4:5",
+     "5:4",
+     "16:9",
+     "9:16",
+     "21:9"
+    ],
+    "supportedResolutions": [
+     "1K",
+     "2K",
+     "4K"
+    ]
+   },
+   {
+    "apiCode": "GPT_2_5_IMAGE",
+    "code": "GPT_2_5_IMAGE",
+    "description": "专为高端视觉生成打造，精准编辑",
+    "icon": "https://file-ai.linkfox.com/UPLOAD/MANAGE/3a539cce8bbd47feb50f1b210806451e.svg",
+    "isDefault": true,
+    "isMaintenance": false,
+    "isNew": false,
+    "name": "LF智能模型 G-2.5 Sunburst",
+    "pricing": {
+     "eco": {},
+     "stable": {
+      "1K": {
+       "high": 120,
+       "low": 4,
+       "max": 200,
+       "medium": 30,
+       "xhigh": 150
+      },
+      "2K": {
+       "high": 150,
+       "low": 15,
+       "max": 280,
+       "medium": 50,
+       "xhigh": 240
+      },
+      "4K": {
+       "high": 300,
+       "low": 20,
+       "max": 360,
+       "medium": 80,
+       "xhigh": 330
+      }
+     }
+    },
+    "refImageCount": 10,
+    "supportEcoMode": false,
+    "supportPromptExpand": false,
+    "supportedQualities": [
+     "low",
+     "medium",
+     "high",
+     "xhigh",
+     "max"
+    ],
+    "supportedRatios": [
+     "1:1",
+     "3:4",
+     "4:3",
+     "2:3",
+     "3:2",
+     "9:16",
+     "16:9",
+     "4:5",
+     "5:4",
+     "21:9",
+     "9:21"
+    ],
+    "supportedResolutions": [
+     "1K",
+     "2K",
+     "4K"
+    ]
+   },
+   {
+    "apiCode": "GPT_2_5_F_IMAGE",
+    "code": "GPT_2_5_F_IMAGE",
+    "description": "日常生图更快出效果",
+    "icon": "https://file-ai.linkfox.com/UPLOAD/MANAGE/512f2ebae2d1488080e0d1414ff3b2c3.svg",
+    "isDefault": false,
+    "isMaintenance": false,
+    "isNew": false,
+    "name": "LF智能模型 G-2.5 Flare",
+    "pricing": {
+     "eco": {},
+     "stable": {
+      "1K": {
+       "high": 120,
+       "low": 4,
+       "max": 200,
+       "medium": 30,
+       "xhigh": 150
+      },
+      "2K": {
+       "high": 150,
+       "low": 15,
+       "max": 280,
+       "medium": 50,
+       "xhigh": 240
+      },
+      "4K": {
+       "high": 300,
+       "low": 20,
+       "max": 360,
+       "medium": 80,
+       "xhigh": 330
+      }
+     }
+    },
+    "refImageCount": 10,
+    "supportEcoMode": false,
+    "supportPromptExpand": false,
+    "supportedQualities": [
+     "low",
+     "medium",
+     "high",
+     "xhigh",
+     "max"
+    ],
+    "supportedRatios": [
+     "1:1",
+     "3:4",
+     "4:3",
+     "2:3",
+     "3:2",
+     "9:16",
+     "16:9",
+     "4:5",
+     "5:4",
+     "21:9",
+     "9:21"
+    ],
+    "supportedResolutions": [
+     "1K",
+     "2K",
+     "4K"
+    ]
+   },
+   {
+    "apiCode": "GPT_2_IMAGE",
+    "code": "GPT_2_IMAGE",
+    "description": "更强的文字生成能力，一句话生成图文排版等复杂内容",
+    "icon": "https://file-ai.linkfox.com/UPLOAD/MANAGE/a14de4d5b9da433c9f0bd1aa21b3b95d.svg",
+    "isDefault": false,
+    "isMaintenance": false,
+    "isNew": false,
+    "name": "LF智能模型 G-2",
+    "pricing": {
+     "eco": {
+      "1K": {
+       "high": 30,
+       "low": 10,
+       "medium": 20
+      },
+      "2K": {
+       "high": 40,
+       "low": 10,
+       "medium": 30
+      },
+      "4K": {
+       "high": 50,
+       "low": 15,
+       "medium": 40
+      }
+     },
+     "stable": {
+      "1K": {
+       "high": 120,
+       "low": 4,
+       "medium": 30
+      },
+      "2K": {
+       "high": 150,
+       "low": 15,
+       "medium": 50
+      },
+      "4K": {
+       "high": 300,
+       "low": 20,
+       "medium": 80
+      }
+     }
+    },
+    "refImageCount": 6,
+    "supportEcoMode": false,
+    "supportPromptExpand": false,
+    "supportedQualities": [
+     "low",
+     "medium",
+     "high"
+    ],
+    "supportedRatios": [
+     "1:1",
+     "3:4",
+     "4:3",
+     "2:3",
+     "3:2",
+     "9:16",
+     "16:9",
+     "4:5",
+     "5:4",
+     "21:9",
+     "9:21"
+    ],
+    "supportedResolutions": [
+     "1K",
+     "2K",
+     "4K"
+    ]
+   },
+   {
+    "apiCode": "BANANA_PRO",
+    "code": "GEMINI_FLASH_PRO",
+    "description": "高质量图片，对指令理解能力更强",
+    "icon": "https://test-file-ai.linkfox.com/UPLOAD/MANAGE/973c73c0ad8b41fbb63a88b0a6f5206e.svg",
+    "isDefault": false,
+    "isMaintenance": false,
+    "isNew": false,
+    "name": "LF全能模型 Pro",
+    "pricing": {
+     "eco": {
+      "1K": 30,
+      "2K": 30,
+      "4K": 60
+     },
+     "stable": {
+      "1K": 50,
+      "2K": 50,
+      "4K": 80
+     }
+    },
+    "refImageCount": 6,
+    "supportEcoMode": true,
+    "supportPromptExpand": true,
+    "supportedQualities": [],
+    "supportedRatios": [
+     "1:1",
+     "16:9",
+     "9:16",
+     "3:4",
+     "4:3",
+     "3:2",
+     "2:3",
+     "4:5",
+     "5:4",
+     "21:9"
+    ],
+    "supportedResolutions": [
+     "1K",
+     "2K",
+     "4K"
+    ]
+   },
+   {
+    "apiCode": "BANANA_2_LITE",
+    "code": "GEMINI_31_FLASH_LITE",
+    "description": "高性价比轻量模型，兼顾速度与成本",
+    "isDefault": false,
+    "isMaintenance": false,
+    "isNew": false,
+    "name": "LF全能模型 Lite",
+    "pricing": {
+     "eco": {},
+     "stable": {
+      "1K": 15
+     }
+    },
+    "refImageCount": 6,
+    "supportEcoMode": false,
+    "supportPromptExpand": false,
+    "supportedQualities": [],
+    "supportedRatios": [
+     "1:1",
+     "3:2",
+     "2:3",
+     "3:4",
+     "4:3",
+     "4:5",
+     "5:4",
+     "9:16",
+     "16:9",
+     "21:9"
+    ],
+    "supportedResolutions": [
+     "1K"
+    ]
+   },
+   {
+    "apiCode": "BANANA",
+    "code": "GEMINI_FLASH",
+    "description": "普通质量图片，适用于想省点的用户使用",
+    "icon": "https://test-file-ai.linkfox.com/UPLOAD/MANAGE/973c73c0ad8b41fbb63a88b0a6f5206e.svg",
+    "isDefault": false,
+    "isMaintenance": false,
+    "isNew": false,
+    "name": "LF全能模型",
+    "pricing": {
+     "eco": {
+      "1K": 20
+     },
+     "stable": {
+      "1K": 30
+     }
+    },
+    "refImageCount": 3,
+    "supportEcoMode": true,
+    "supportPromptExpand": true,
+    "supportedQualities": [],
+    "supportedRatios": [
+     "1:1",
+     "16:9",
+     "9:16",
+     "3:4",
+     "4:3",
+     "3:2",
+     "2:3",
+     "4:5",
+     "5:4",
+     "21:9"
+    ],
+    "supportedResolutions": [
+     "1K"
+    ]
+   },
+   {
+    "apiCode": "WAN2_7",
+    "code": "WAN2_7",
+    "description": "生成速度快，图片排版能力佳，支持生成1K/2K",
+    "icon": "https://test-file-ai.linkfox.com/UPLOAD/MANAGE/fd501713870d486b88b43fc5f55533e8.svg",
+    "isDefault": false,
+    "isMaintenance": false,
+    "isNew": false,
+    "name": "Wan 2.7",
+    "pricing": {
+     "eco": {
+      "1K": 25,
+      "2K": 25
+     },
+     "stable": {
+      "1K": 25,
+      "2K": 25
+     }
+    },
+    "refImageCount": 5,
+    "supportEcoMode": false,
+    "supportPromptExpand": true,
+    "supportedQualities": [],
+    "supportedRatios": [
+     "1:1",
+     "1:4",
+     "4:1",
+     "3:2",
+     "2:3",
+     "3:4",
+     "4:3",
+     "4:5",
+     "5:4",
+     "16:9",
+     "9:16",
+     "21:9"
+    ],
+    "supportedResolutions": [
+     "1K",
+     "2K"
+    ],
+    "whitelistFuncCode": ""
+   },
+   {
+    "apiCode": "SEEDREAM5_PRO",
+    "code": "SEEDREAM5_PRO",
+    "description": "国产高质量模型，画面更出彩",
+    "icon": "https://file-ai.linkfox.com/UPLOAD/MANAGE/7a51bca6e5fd4130812e2b1687152255.svg",
+    "isDefault": false,
+    "isMaintenance": false,
+    "isNew": false,
+    "name": "Seedream 5.0 Pro",
+    "pricing": {
+     "eco": {},
+     "stable": {
+      "1K": 20,
+      "2K": 40
+     }
+    },
+    "refImageCount": 5,
+    "supportEcoMode": false,
+    "supportPromptExpand": false,
+    "supportedQualities": [],
+    "supportedRatios": [
+     "1:1",
+     "3:4",
+     "4:3",
+     "9:16",
+     "16:9",
+     "3:2",
+     "2:3",
+     "21:9"
+    ],
+    "supportedResolutions": [
+     "1K",
+     "2K"
+    ]
+   },
+   {
+    "apiCode": "AIDRAW_EDIT",
+    "code": "AIDRAW_EDIT",
+    "description": "自研图片编辑模型",
+    "icon": "https://file-ai.linkfox.com/UPLOAD/MANAGE/3ed873e68c38471f8d7247e7343f1b24.png",
+    "isDefault": false,
+    "isMaintenance": false,
+    "isNew": false,
+    "name": "Linkfox-Image",
+    "pricing": {
+     "eco": {
+      "1K": 20,
+      "2K": 25
+     },
+     "stable": {
+      "1K": 20,
+      "2K": 20
+     }
+    },
+    "refImageCount": 4,
+    "supportEcoMode": false,
+    "supportPromptExpand": false,
+    "supportedQualities": [],
+    "supportedRatios": [
+     "1:1",
+     "2:3",
+     "3:2",
+     "3:4",
+     "4:3",
+     "9:16",
+     "16:9",
+     "21:9"
+    ],
+    "supportedResolutions": [
+     "1K",
+     "2K"
+    ]
+   },
+   {
+    "code": "QWEN_IMAGE_3_PRO",
+    "description": "生成速度快，图片排版能力佳，限时半价特惠至 9.30",
+    "icon": "https://test-file-ai.linkfox.com/UPLOAD/MANAGE/fd501713870d486b88b43fc5f55533e8.svg",
+    "isDefault": false,
+    "isMaintenance": false,
+    "isNew": true,
+    "name": "Qwen 3.0 Pro",
+    "pricing": {
+     "eco": {},
+     "stable": {
+      "1K": 15,
+      "2K": 30
+     }
+    },
+    "refImageCount": 3,
+    "supportEcoMode": false,
+    "supportPromptExpand": true,
+    "supportedQualities": [],
+    "supportedRatios": [
+     "1:1",
+     "1:4",
+     "4:1",
+     "1:8",
+     "8:1",
+     "3:2",
+     "2:3",
+     "3:4",
+     "4:3",
+     "4:5",
+     "5:4",
+     "16:9",
+     "9:16",
+     "21:9",
+     "9:21"
+    ],
+    "supportedResolutions": [
+     "1K",
+     "2K"
+    ]
+   }
+  ],
+  "62": [
+   {
+    "apiCode": "BANANA_2_1",
+    "code": "GEMINI_NANO_BANANA_2_1",
+    "description": "2.0 升级版，文字排版与多轮编辑一致性全面提升",
+    "icon": "https://test-file-ai.linkfox.com/UPLOAD/MANAGE/973c73c0ad8b41fbb63a88b0a6f5206e.svg",
+    "isDefault": false,
+    "isMaintenance": false,
+    "isNew": true,
+    "name": "LF全能模型 2.1",
+    "openApiRefImageCount": 10,
+    "pricing": {
+     "eco": {
+      "1K": 30,
+      "2K": 40,
+      "4K": 50
+     },
+     "stable": {
+      "1K": 50,
+      "2K": 60,
+      "4K": 70
+     }
+    },
+    "refImageCount": 14,
+    "supportEcoMode": false,
+    "supportPromptExpand": false,
+    "supportedQualities": [],
+    "supportedRatios": [
+     "1:1",
+     "3:2",
+     "2:3",
+     "3:4",
+     "4:3",
+     "4:5",
+     "5:4",
+     "16:9",
+     "9:16",
+     "21:9"
+    ],
+    "supportedResolutions": [
+     "1K",
+     "2K",
+     "4K"
+    ]
+   },
+   {
+    "apiCode": "GPT_2_5_IMAGE",
+    "code": "GPT_2_5_IMAGE",
+    "description": "专为高端视觉生成打造，精准编辑",
+    "icon": "https://file-ai.linkfox.com/UPLOAD/MANAGE/999b1a7ef54d4f3d94e7728f0eb74611.svg",
+    "isDefault": true,
+    "isMaintenance": false,
+    "isNew": false,
+    "name": "LF智能模型 G-2.5 Sunburst",
+    "openApiRefImageCount": 10,
+    "pricing": {
+     "eco": {},
+     "stable": {
+      "1K": {
+       "high": 120,
+       "low": 4,
+       "max": 200,
+       "medium": 30,
+       "xhigh": 150
+      },
+      "2K": {
+       "high": 150,
+       "low": 15,
+       "max": 280,
+       "medium": 50,
+       "xhigh": 240
+      },
+      "4K": {
+       "high": 300,
+       "low": 20,
+       "max": 360,
+       "medium": 80,
+       "xhigh": 330
+      }
+     }
+    },
+    "refImageCount": 10,
+    "supportEcoMode": false,
+    "supportPromptExpand": false,
+    "supportedQualities": [
+     "low",
+     "medium",
+     "high",
+     "xhigh",
+     "max"
+    ],
+    "supportedRatios": [
+     "1:1",
+     "3:4",
+     "4:3",
+     "2:3",
+     "3:2",
+     "9:16",
+     "16:9",
+     "4:5",
+     "5:4",
+     "21:9",
+     "9:21"
+    ],
+    "supportedResolutions": [
+     "1K",
+     "2K",
+     "4K"
+    ]
+   },
+   {
+    "apiCode": "GPT_2_5_F_IMAGE",
+    "code": "GPT_2_5_F_IMAGE",
+    "description": "日常生图更快出效果",
+    "icon": "https://file-ai.linkfox.com/UPLOAD/MANAGE/67145de0318c41bcadf6e8eb6558a4c7.svg",
+    "isDefault": false,
+    "isMaintenance": false,
+    "isNew": false,
+    "name": "LF智能模型 G-2.5 Flare",
+    "openApiRefImageCount": 10,
+    "pricing": {
+     "eco": {},
+     "stable": {
+      "1K": {
+       "high": 120,
+       "low": 4,
+       "max": 200,
+       "medium": 30,
+       "xhigh": 150
+      },
+      "2K": {
+       "high": 150,
+       "low": 15,
+       "max": 280,
+       "medium": 50,
+       "xhigh": 240
+      },
+      "4K": {
+       "high": 300,
+       "low": 20,
+       "max": 360,
+       "medium": 80,
+       "xhigh": 330
+      }
+     }
+    },
+    "refImageCount": 10,
+    "supportEcoMode": false,
+    "supportPromptExpand": false,
+    "supportedQualities": [
+     "low",
+     "medium",
+     "high",
+     "xhigh",
+     "max"
+    ],
+    "supportedRatios": [
+     "1:1",
+     "3:4",
+     "4:3",
+     "2:3",
+     "3:2",
+     "9:16",
+     "16:9",
+     "4:5",
+     "5:4",
+     "21:9",
+     "9:21"
+    ],
+    "supportedResolutions": [
+     "1K",
+     "2K",
+     "4K"
+    ]
+   },
+   {
+    "apiCode": "GPT_2_IMAGE",
+    "code": "GPT_2_IMAGE",
+    "description": "更强的文字生成能力，一句话生成图文排版等复杂内容",
+    "icon": "https://file-ai.linkfox.com/UPLOAD/MANAGE/17cbed6f793f43bfbbf1df77795c45f3.svg",
+    "isDefault": false,
+    "isMaintenance": false,
+    "isNew": false,
+    "name": "LF智能模型 G-2",
+    "openApiRefImageCount": 6,
+    "pricing": {
+     "eco": {
+      "1K": {
+       "high": 30,
+       "low": 10,
+       "medium": 20
+      },
+      "2K": {
+       "high": 40,
+       "low": 20,
+       "medium": 30
+      },
+      "4K": {
+       "high": 60,
+       "low": 30,
+       "medium": 40
+      }
+     },
+     "stable": {
+      "1K": {
+       "high": 120,
+       "low": 4,
+       "medium": 30
+      },
+      "2K": {
+       "high": 150,
+       "low": 15,
+       "medium": 50
+      },
+      "4K": {
+       "high": 300,
+       "low": 20,
+       "medium": 80
+      }
+     }
+    },
+    "refImageCount": 6,
+    "supportEcoMode": false,
+    "supportPromptExpand": false,
+    "supportedQualities": [
+     "low",
+     "medium",
+     "high"
+    ],
+    "supportedRatios": [
+     "1:1",
+     "3:4",
+     "4:3",
+     "2:3",
+     "3:2",
+     "9:16",
+     "16:9",
+     "4:5",
+     "5:4",
+     "21:9",
+     "9:21"
+    ],
+    "supportedResolutions": [
+     "1K",
+     "2K",
+     "4K"
+    ]
+   },
+   {
+    "apiCode": "BANANA_PRO",
+    "code": "GEMINI_FLASH_PRO",
+    "description": "高质量图片，对指令理解能力更强",
+    "icon": "https://test-file-ai.linkfox.com/UPLOAD/MANAGE/973c73c0ad8b41fbb63a88b0a6f5206e.svg",
+    "isDefault": false,
+    "isMaintenance": false,
+    "isNew": false,
+    "name": "LF全能模型 Pro",
+    "openApiRefImageCount": 10,
+    "pricing": {
+     "eco": {
+      "1K": 40,
+      "2K": 40,
+      "4K": 70
+     },
+     "stable": {
+      "1K": 60,
+      "2K": 60,
+      "4K": 90
+     }
+    },
+    "refImageCount": 6,
+    "supportEcoMode": true,
+    "supportPromptExpand": true,
+    "supportedQualities": [],
+    "supportedRatios": [
+     "1:1",
+     "16:9",
+     "9:16",
+     "3:4",
+     "4:3",
+     "3:2",
+     "2:3",
+     "4:5",
+     "5:4",
+     "21:9"
+    ],
+    "supportedResolutions": [
+     "1K",
+     "2K",
+     "4K"
+    ]
+   },
+   {
+    "apiCode": "BANANA_2_LITE",
+    "code": "GEMINI_31_FLASH_LITE",
+    "description": "高性价比轻量模型，兼顾速度与成本，支持生成 1K",
+    "isDefault": false,
+    "isMaintenance": false,
+    "isNew": false,
+    "name": "LF全能模型 Lite",
+    "openApiRefImageCount": 10,
+    "pricing": {
+     "eco": {},
+     "stable": {
+      "1K": 25
+     }
+    },
+    "refImageCount": 6,
+    "supportEcoMode": false,
+    "supportPromptExpand": false,
+    "supportedQualities": [],
+    "supportedRatios": [
+     "1:1",
+     "3:2",
+     "2:3",
+     "3:4",
+     "4:3",
+     "4:5",
+     "5:4",
+     "9:16",
+     "16:9",
+     "21:9"
+    ],
+    "supportedResolutions": [
+     "1K"
+    ]
+   },
+   {
+    "apiCode": "BANANA",
+    "code": "GEMINI_FLASH",
+    "description": "普通质量图片，适用于想省点的用户使用，仅支持生成1K图；多图融合最多支持3张图",
+    "icon": "https://test-file-ai.linkfox.com/UPLOAD/MANAGE/973c73c0ad8b41fbb63a88b0a6f5206e.svg",
+    "isDefault": false,
+    "isMaintenance": false,
+    "isNew": false,
+    "name": "LF全能模型",
+    "openApiRefImageCount": 3,
+    "pricing": {
+     "eco": {
+      "1K": 20
+     },
+     "stable": {
+      "1K": 40
+     }
+    },
+    "refImageCount": 3,
+    "supportEcoMode": true,
+    "supportPromptExpand": false,
+    "supportedQualities": [],
+    "supportedRatios": [
+     "1:1",
+     "16:9",
+     "9:16",
+     "3:4",
+     "4:3",
+     "3:2",
+     "2:3",
+     "4:5",
+     "5:4",
+     "21:9"
+    ],
+    "supportedResolutions": [
+     "1K"
+    ]
+   },
+   {
+    "apiCode": "SEEDREAM5_PRO",
+    "code": "SEEDREAM5_PRO",
+    "description": "国产高质量模型，画面更出彩",
+    "icon": "https://file-ai.linkfox.com/UPLOAD/MANAGE/7a51bca6e5fd4130812e2b1687152255.svg",
+    "isDefault": false,
+    "isMaintenance": false,
+    "isNew": false,
+    "name": "Seedream 5.0 Pro",
+    "openApiRefImageCount": 10,
+    "pricing": {
+     "eco": {},
+     "stable": {
+      "1K": 25,
+      "2K": 50
+     }
+    },
+    "refImageCount": 6,
+    "supportEcoMode": false,
+    "supportPromptExpand": false,
+    "supportedQualities": [],
+    "supportedRatios": [
+     "1:1",
+     "3:4",
+     "4:3",
+     "9:16",
+     "16:9",
+     "3:2",
+     "2:3",
+     "21:9"
+    ],
+    "supportedResolutions": [
+     "1K",
+     "2K"
+    ]
+   },
+   {
+    "apiCode": "AIDRAW_EDIT",
+    "code": "AIDRAW_EDIT",
+    "description": "自研图片编辑模型",
+    "icon": "https://file-ai.linkfox.com/UPLOAD/MANAGE/3ed873e68c38471f8d7247e7343f1b24.png",
+    "isDefault": false,
+    "isMaintenance": false,
+    "isNew": false,
+    "name": "Linkfox-Image",
+    "openApiRefImageCount": 4,
+    "pricing": {
+     "eco": {
+      "1K": 30,
+      "2K": 35
+     },
+     "stable": {
+      "1K": 25,
+      "2K": 25
+     }
+    },
+    "refImageCount": 4,
+    "supportEcoMode": false,
+    "supportPromptExpand": false,
+    "supportedQualities": [],
+    "supportedRatios": [
+     "1:1",
+     "2:3",
+     "3:2",
+     "3:4",
+     "4:3",
+     "9:16",
+     "16:9",
+     "21:9"
+    ],
+    "supportedResolutions": [
+     "1K",
+     "2K"
+    ]
+   },
+   {
+    "code": "QWEN_IMAGE_3_PRO",
+    "description": "生成速度快，图片排版能力佳，限时半价特惠至 9.30",
+    "icon": "https://test-file-ai.linkfox.com/UPLOAD/MANAGE/fd501713870d486b88b43fc5f55533e8.svg",
+    "isDefault": false,
+    "isMaintenance": false,
+    "isNew": true,
+    "name": "Qwen 3.0 Pro",
+    "openApiRefImageCount": 3,
+    "pricing": {
+     "eco": {},
+     "stable": {
+      "1K": 25,
+      "2K": 40
+     }
+    },
+    "refImageCount": 3,
+    "supportEcoMode": false,
+    "supportPromptExpand": false,
+    "supportedQualities": [],
+    "supportedRatios": [
+     "1:1",
+     "1:4",
+     "4:1",
+     "1:8",
+     "8:1",
+     "3:2",
+     "2:3",
+     "3:4",
+     "4:3",
+     "4:5",
+     "5:4",
+     "16:9",
+     "9:16",
+     "21:9",
+     "9:21"
+    ],
+    "supportedResolutions": [
+     "1K",
+     "2K"
+    ]
+   },
+   {
+    "apiCode": "WAN2_7",
+    "code": "WAN2_7",
+    "description": "生成速度快，图片排版能力佳，支持生成1K/2K",
+    "icon": "https://test-file-ai.linkfox.com/UPLOAD/MANAGE/fd501713870d486b88b43fc5f55533e8.svg",
+    "isDefault": false,
+    "isMaintenance": false,
+    "isNew": false,
+    "name": "Wan 2.7",
+    "openApiRefImageCount": 9,
+    "pricing": {
+     "eco": {
+      "1K": 30,
+      "2K": 30
+     },
+     "stable": {
+      "1K": 30,
+      "2K": 30
+     }
+    },
+    "refImageCount": 6,
+    "supportEcoMode": false,
+    "supportPromptExpand": false,
+    "supportedQualities": [],
+    "supportedRatios": [
+     "1:1",
+     "1:4",
+     "4:1",
+     "3:2",
+     "2:3",
+     "3:4",
+     "4:3",
+     "4:5",
+     "5:4",
+     "16:9",
+     "9:16",
+     "21:9"
+    ],
+    "supportedResolutions": [
+     "1K",
+     "2K"
+    ]
+   }
+  ],
+  "69": [
+   {
+    "apiCode": "GPT_2_5_IMAGE",
+    "code": "GPT_2_5_IMAGE",
+    "description": "专为高端视觉生成打造，精准编辑",
+    "icon": "https://file-ai.linkfox.com/UPLOAD/MANAGE/9536173a504d4e91bf333013e30a20a6.png",
+    "isDefault": true,
+    "isMaintenance": false,
+    "isNew": true,
+    "name": "LF智能模型 G-2.5 Sunburst",
+    "pricing": {
+     "eco": {},
+     "stable": {
+      "1K": {
+       "high": 120,
+       "low": 4,
+       "max": 200,
+       "medium": 30,
+       "xhigh": 150
+      },
+      "2K": {
+       "high": 150,
+       "low": 15,
+       "max": 280,
+       "medium": 50,
+       "xhigh": 240
+      },
+      "4K": {
+       "high": 300,
+       "low": 20,
+       "max": 360,
+       "medium": 80,
+       "xhigh": 330
+      }
+     }
+    },
+    "refImageCount": 5,
+    "supportEcoMode": false,
+    "supportPromptExpand": false,
+    "supportedQualities": [
+     "low",
+     "medium",
+     "high",
+     "xhigh",
+     "max"
+    ],
+    "supportedRatios": [
+     "1:1",
+     "3:4",
+     "4:3",
+     "2:3",
+     "3:2",
+     "9:16",
+     "16:9",
+     "4:5",
+     "5:4",
+     "21:9",
+     "9:21"
+    ],
+    "supportedResolutions": [
+     "1K",
+     "2K",
+     "4K"
+    ]
+   },
+   {
+    "apiCode": "BANANA_2_1",
+    "code": "GEMINI_NANO_BANANA_2_1",
+    "description": "2.0 升级版，文字排版与多轮编辑一致性全面提升",
+    "icon": "https://test-file-ai.linkfox.com/UPLOAD/MANAGE/973c73c0ad8b41fbb63a88b0a6f5206e.svg",
+    "isDefault": false,
+    "isMaintenance": false,
+    "isNew": true,
+    "name": "LF全能模型 2.1",
+    "pricing": {
+     "eco": {},
+     "stable": {
+      "1K": 40,
+      "2K": 50,
+      "4K": 60
+     }
+    },
+    "refImageCount": 5,
+    "supportEcoMode": false,
+    "supportPromptExpand": false,
+    "supportedQualities": [],
+    "supportedRatios": [
+     "1:1",
+     "3:2",
+     "2:3",
+     "3:4",
+     "4:3",
+     "4:5",
+     "5:4",
+     "16:9",
+     "9:16",
+     "21:9"
+    ],
+    "supportedResolutions": [
+     "1K",
+     "2K",
+     "4K"
+    ]
+   },
+   {
+    "apiCode": "GPT_2_5_F_IMAGE",
+    "code": "GPT_2_5_F_IMAGE",
+    "description": "日常生图更快出效果",
+    "icon": "https://file-ai.linkfox.com/UPLOAD/MANAGE/9536173a504d4e91bf333013e30a20a6.png",
+    "isDefault": false,
+    "isMaintenance": false,
+    "isNew": true,
+    "name": "LF智能模型 G-2.5 Flare",
+    "pricing": {
+     "eco": {},
+     "stable": {
+      "1K": {
+       "high": 120,
+       "low": 4,
+       "max": 200,
+       "medium": 30,
+       "xhigh": 150
+      },
+      "2K": {
+       "high": 150,
+       "low": 15,
+       "max": 280,
+       "medium": 50,
+       "xhigh": 240
+      },
+      "4K": {
+       "high": 300,
+       "low": 20,
+       "max": 360,
+       "medium": 80,
+       "xhigh": 330
+      }
+     }
+    },
+    "refImageCount": 5,
+    "supportEcoMode": false,
+    "supportPromptExpand": false,
+    "supportedQualities": [
+     "low",
+     "medium",
+     "high",
+     "xhigh",
+     "max"
+    ],
+    "supportedRatios": [
+     "1:1",
+     "3:4",
+     "4:3",
+     "2:3",
+     "3:2",
+     "9:16",
+     "16:9",
+     "4:5",
+     "5:4",
+     "21:9",
+     "9:21"
+    ],
+    "supportedResolutions": [
+     "1K",
+     "2K",
+     "4K"
+    ]
+   },
+   {
+    "apiCode": "GPT_2_IMAGE",
+    "code": "GPT_2_IMAGE",
+    "description": "更适合生成图文排版",
+    "icon": "https://file-ai.linkfox.com/UPLOAD/MANAGE/9536173a504d4e91bf333013e30a20a6.png",
+    "isDefault": false,
+    "isMaintenance": false,
+    "isNew": false,
+    "name": "LF智能模型 G-2",
+    "pricing": {
+     "eco": {},
+     "stable": {
+      "1K": {
+       "high": 120,
+       "low": 4,
+       "medium": 30
+      },
+      "2K": {
+       "high": 150,
+       "low": 15,
+       "medium": 50
+      },
+      "4K": {
+       "high": 300,
+       "low": 20,
+       "medium": 80
+      }
+     }
+    },
+    "refImageCount": 5,
+    "supportEcoMode": false,
+    "supportPromptExpand": false,
+    "supportedQualities": [
+     "low",
+     "medium",
+     "high"
+    ],
+    "supportedRatios": [
+     "1:1",
+     "3:4",
+     "4:3",
+     "2:3",
+     "3:2",
+     "9:16",
+     "16:9",
+     "4:5",
+     "5:4",
+     "21:9",
+     "9:21"
+    ],
+    "supportedResolutions": [
+     "1K",
+     "2K",
+     "4K"
+    ]
+   },
+   {
+    "apiCode": "BANANA_PRO",
+    "code": "GEMINI_FLASH_PRO",
+    "description": "图片生成最强模型，高质量图片，对指令理解能力更强，支持生成2K/4K",
+    "icon": "https://test-file-ai.linkfox.com/UPLOAD/MANAGE/973c73c0ad8b41fbb63a88b0a6f5206e.svg",
+    "isDefault": false,
+    "isMaintenance": false,
+    "isNew": false,
+    "name": "LF全能模型 Pro",
+    "pricing": {
+     "eco": {},
+     "stable": {
+      "1K": 40,
+      "2K": 40,
+      "4K": 50
+     }
+    },
+    "refImageCount": 5,
+    "supportEcoMode": false,
+    "supportPromptExpand": false,
+    "supportedQualities": [],
+    "supportedRatios": [
+     "1:1",
+     "16:9",
+     "9:16",
+     "3:4",
+     "4:3",
+     "3:2",
+     "2:3",
+     "4:5",
+     "5:4",
+     "21:9"
+    ],
+    "supportedResolutions": [
+     "1K",
+     "2K",
+     "4K"
+    ]
+   },
+   {
+    "apiCode": "BANANA_2_LITE",
+    "code": "GEMINI_31_FLASH_LITE",
+    "description": "高性价比轻量模型，兼顾速度与成本，支持生成 1K",
+    "isDefault": false,
+    "isMaintenance": false,
+    "isNew": false,
+    "name": "LF全能模型 Lite",
+    "pricing": {
+     "eco": {},
+     "stable": {
+      "1K": 20
+     }
+    },
+    "refImageCount": 5,
+    "supportEcoMode": false,
+    "supportPromptExpand": false,
+    "supportedQualities": [],
+    "supportedRatios": [
+     "1:1",
+     "3:2",
+     "2:3",
+     "3:4",
+     "4:3",
+     "4:5",
+     "5:4",
+     "9:16",
+     "16:9",
+     "21:9"
+    ],
+    "supportedResolutions": [
+     "1K"
+    ]
+   },
+   {
+    "apiCode": "SEEDREAM5_PRO",
+    "code": "SEEDREAM5_PRO",
+    "description": "国产高质量模型，画面更出彩",
+    "icon": "https://file-ai.linkfox.com/UPLOAD/MANAGE/7a51bca6e5fd4130812e2b1687152255.svg",
+    "isDefault": false,
+    "isMaintenance": false,
+    "isNew": false,
+    "name": "Seedream 5.0 Pro",
+    "pricing": {
+     "eco": {},
+     "stable": {
+      "1K": 25,
+      "2K": 50
+     }
+    },
+    "refImageCount": 5,
+    "supportEcoMode": false,
+    "supportPromptExpand": false,
+    "supportedQualities": [],
+    "supportedRatios": [
+     "1:1",
+     "3:4",
+     "4:3",
+     "9:16",
+     "16:9",
+     "3:2",
+     "2:3",
+     "21:9"
+    ],
+    "supportedResolutions": [
+     "1K",
+     "2K"
+    ]
+   },
+   {
+    "apiCode": "WAN2_7",
+    "code": "WAN2_7",
+    "description": "国产性价比模型",
+    "icon": "https://file-ai.linkfox.com/UPLOAD/MANAGE/739120d8329a41c78e072eaf5c932021.svg",
+    "isDefault": false,
+    "isMaintenance": false,
+    "isNew": false,
+    "name": "Wan 2.7",
+    "pricing": {
+     "eco": {},
+     "stable": {
+      "1K": 25,
+      "2K": 25
+     }
+    },
+    "refImageCount": 5,
+    "supportEcoMode": false,
+    "supportPromptExpand": false,
+    "supportedQualities": [],
+    "supportedRatios": [
+     "1:1",
+     "3:2",
+     "2:3",
+     "3:4",
+     "4:3",
+     "4:5",
+     "5:4",
+     "16:9",
+     "9:16",
+     "21:9"
+    ],
+    "supportedResolutions": [
+     "1K",
+     "2K"
+    ]
+   }
+  ],
+  "71": [
+   {
+    "apiCode": "GPT_2_5_IMAGE",
+    "code": "GPT_2_5_IMAGE",
+    "description": "专为高端视觉生成打造，精准编辑",
+    "icon": "https://file-ai.linkfox.com/UPLOAD/MANAGE/e73fffac20f242c2a2f0936ba535ae7c.svg",
+    "isDefault": true,
+    "isMaintenance": false,
+    "isNew": true,
+    "name": "LF智能模型 G-2.5 Sunburst",
+    "pricing": {
+     "eco": {},
+     "stable": {
+      "1K": {
+       "high": 120,
+       "low": 4,
+       "max": 200,
+       "medium": 30,
+       "xhigh": 150
+      },
+      "2K": {
+       "high": 150,
+       "low": 15,
+       "max": 280,
+       "medium": 50,
+       "xhigh": 240
+      },
+      "4K": {
+       "high": 300,
+       "low": 20,
+       "max": 360,
+       "medium": 80,
+       "xhigh": 330
+      }
+     }
+    },
+    "refImageCount": 5,
+    "supportEcoMode": false,
+    "supportPromptExpand": false,
+    "supportedQualities": [
+     "low",
+     "medium",
+     "high",
+     "xhigh",
+     "max"
+    ],
+    "supportedRatios": [
+     "1:1",
+     "3:4",
+     "4:3",
+     "2:3",
+     "3:2",
+     "9:16",
+     "16:9",
+     "4:5",
+     "5:4",
+     "21:9",
+     "9:21"
+    ],
+    "supportedResolutions": [
+     "1K",
+     "2K",
+     "4K"
+    ]
+   },
+   {
+    "apiCode": "BANANA_2_1",
+    "code": "GEMINI_NANO_BANANA_2_1",
+    "description": "2.0 升级版，文字排版与多轮编辑一致性全面提升",
+    "icon": "https://test-file-ai.linkfox.com/UPLOAD/MANAGE/973c73c0ad8b41fbb63a88b0a6f5206e.svg",
+    "isDefault": false,
+    "isMaintenance": false,
+    "isNew": true,
+    "name": "LF全能模型 2.1",
+    "pricing": {
+     "eco": {},
+     "stable": {
+      "1K": 40,
+      "2K": 50,
+      "4K": 60
+     }
+    },
+    "refImageCount": 5,
+    "supportEcoMode": false,
+    "supportPromptExpand": false,
+    "supportedQualities": [],
+    "supportedRatios": [
+     "1:1",
+     "3:2",
+     "2:3",
+     "3:4",
+     "4:3",
+     "4:5",
+     "5:4",
+     "16:9",
+     "9:16",
+     "21:9"
+    ],
+    "supportedResolutions": [
+     "1K",
+     "2K",
+     "4K"
+    ]
+   },
+   {
+    "apiCode": "GPT_2_5_F_IMAGE",
+    "code": "GPT_2_5_F_IMAGE",
+    "description": "日常生图更快出效果",
+    "icon": "https://file-ai.linkfox.com/UPLOAD/MANAGE/e73fffac20f242c2a2f0936ba535ae7c.svg",
+    "isDefault": false,
+    "isMaintenance": false,
+    "isNew": true,
+    "name": "LF智能模型 G-2.5 Flare",
+    "pricing": {
+     "eco": {},
+     "stable": {
+      "1K": {
+       "high": 120,
+       "low": 4,
+       "max": 200,
+       "medium": 30,
+       "xhigh": 150
+      },
+      "2K": {
+       "high": 150,
+       "low": 15,
+       "max": 280,
+       "medium": 50,
+       "xhigh": 240
+      },
+      "4K": {
+       "high": 300,
+       "low": 20,
+       "max": 360,
+       "medium": 80,
+       "xhigh": 330
+      }
+     }
+    },
+    "refImageCount": 5,
+    "supportEcoMode": false,
+    "supportPromptExpand": false,
+    "supportedQualities": [
+     "low",
+     "medium",
+     "high",
+     "xhigh",
+     "max"
+    ],
+    "supportedRatios": [
+     "1:1",
+     "3:4",
+     "4:3",
+     "2:3",
+     "3:2",
+     "9:16",
+     "16:9",
+     "4:5",
+     "5:4",
+     "21:9",
+     "9:21"
+    ],
+    "supportedResolutions": [
+     "1K",
+     "2K",
+     "4K"
+    ]
+   },
+   {
+    "apiCode": "SEEDREAM5_PRO",
+    "code": "SEEDREAM5_PRO",
+    "description": "国产高质量模型，画面更出彩",
+    "icon": "https://file-ai.linkfox.com/UPLOAD/MANAGE/7a51bca6e5fd4130812e2b1687152255.svg",
+    "isDefault": false,
+    "isMaintenance": false,
+    "isNew": false,
+    "name": "Seedream 5.0 Pro",
+    "pricing": {
+     "eco": {},
+     "stable": {
+      "1K": 25,
+      "2K": 50
+     }
+    },
+    "refImageCount": 5,
+    "supportEcoMode": false,
+    "supportPromptExpand": false,
+    "supportedQualities": [],
+    "supportedRatios": [
+     "1:1",
+     "3:4",
+     "4:3",
+     "9:16",
+     "16:9",
+     "3:2",
+     "2:3",
+     "21:9"
+    ],
+    "supportedResolutions": [
+     "1K",
+     "2K"
+    ]
+   },
+   {
+    "apiCode": "GPT_2_IMAGE",
+    "code": "GPT_2_IMAGE",
+    "description": "更适合生成图文排版",
+    "icon": "https://file-ai.linkfox.com/UPLOAD/MANAGE/e73fffac20f242c2a2f0936ba535ae7c.svg",
+    "isDefault": false,
+    "isMaintenance": false,
+    "isNew": false,
+    "name": "LF智能模型 G-2",
+    "pricing": {
+     "eco": {},
+     "stable": {
+      "1K": {
+       "high": 120,
+       "low": 4,
+       "medium": 30
+      },
+      "2K": {
+       "high": 150,
+       "low": 15,
+       "medium": 50
+      },
+      "4K": {
+       "high": 300,
+       "low": 20,
+       "medium": 80
+      }
+     }
+    },
+    "refImageCount": 5,
+    "supportEcoMode": false,
+    "supportPromptExpand": false,
+    "supportedQualities": [
+     "low",
+     "medium",
+     "high"
+    ],
+    "supportedRatios": [
+     "1:1",
+     "3:4",
+     "4:3",
+     "2:3",
+     "3:2",
+     "9:16",
+     "16:9",
+     "4:5",
+     "5:4",
+     "21:9",
+     "9:21"
+    ],
+    "supportedResolutions": [
+     "1K",
+     "2K",
+     "4K"
+    ]
+   },
+   {
+    "apiCode": "BANANA_PRO",
+    "code": "GEMINI_FLASH_PRO",
+    "description": "图片生成最强模型，高质量图片，对指令理解能力更强",
+    "icon": "https://test-file-ai.linkfox.com/UPLOAD/MANAGE/973c73c0ad8b41fbb63a88b0a6f5206e.svg",
+    "isDefault": false,
+    "isMaintenance": false,
+    "isNew": false,
+    "name": "LF全能模型 Pro",
+    "pricing": {
+     "eco": {},
+     "stable": {
+      "1K": 40,
+      "2K": 40,
+      "4K": 50
+     }
+    },
+    "refImageCount": 5,
+    "supportEcoMode": false,
+    "supportPromptExpand": false,
+    "supportedQualities": [],
+    "supportedRatios": [
+     "1:1",
+     "16:9",
+     "9:16",
+     "3:4",
+     "4:3",
+     "3:2",
+     "2:3",
+     "4:5",
+     "5:4",
+     "21:9"
+    ],
+    "supportedResolutions": [
+     "1K",
+     "2K",
+     "4K"
+    ]
+   },
+   {
+    "apiCode": "BANANA_2_LITE",
+    "code": "GEMINI_31_FLASH_LITE",
+    "description": "高性价比轻量模型，兼顾速度与成本",
+    "isDefault": false,
+    "isMaintenance": false,
+    "isNew": false,
+    "name": "LF全能模型 Lite",
+    "pricing": {
+     "eco": {},
+     "stable": {
+      "1K": 20
+     }
+    },
+    "refImageCount": 5,
+    "supportEcoMode": false,
+    "supportPromptExpand": false,
+    "supportedQualities": [],
+    "supportedRatios": [
+     "1:1",
+     "3:2",
+     "2:3",
+     "3:4",
+     "4:3",
+     "4:5",
+     "5:4",
+     "9:16",
+     "16:9",
+     "21:9"
+    ],
+    "supportedResolutions": [
+     "1K"
+    ]
+   },
+   {
+    "apiCode": "WAN2_7",
+    "code": "WAN2_7",
+    "description": "国产性价比模型",
+    "icon": "https://file-ai.linkfox.com/UPLOAD/MANAGE/cd05fd8c316a4201a553db17b12e1649.svg",
+    "isDefault": false,
+    "isMaintenance": false,
+    "isNew": false,
+    "name": "Wan 2.7",
+    "pricing": {
+     "eco": {},
+     "stable": {
+      "1K": 25,
+      "2K": 25
+     }
+    },
+    "refImageCount": 5,
+    "supportEcoMode": false,
+    "supportPromptExpand": false,
+    "supportedQualities": [],
+    "supportedRatios": [
+     "1:1",
+     "3:2",
+     "2:3",
+     "3:4",
+     "4:3",
+     "4:5",
+     "5:4",
+     "16:9",
+     "9:16",
+     "21:9"
+    ],
+    "supportedResolutions": [
+     "1K",
+     "2K"
+    ]
+   },
+   {
+    "apiCode": "AIDRAW_EDIT",
+    "code": "AIDRAW_EDIT",
+    "description": "自研模型",
+    "icon": "https://file-ai.linkfox.com/UPLOAD/MANAGE/3ed873e68c38471f8d7247e7343f1b24.png",
+    "isDefault": false,
+    "isMaintenance": false,
+    "isNew": false,
+    "name": "Linkfox-Image",
+    "pricing": {
+     "eco": {
+      "1K": 20,
+      "2K": 25
+     },
+     "stable": {
+      "1K": 20,
+      "2K": 20
+     }
+    },
+    "refImageCount": 4,
+    "supportEcoMode": false,
+    "supportPromptExpand": false,
+    "supportedQualities": [],
+    "supportedRatios": [
+     "1:1",
+     "2:3",
+     "3:2",
+     "3:4",
+     "4:3",
+     "9:16",
+     "16:9",
+     "21:9"
+    ],
+    "supportedResolutions": [
+     "2K"
+    ]
+   }
+  ],
+  "77": [
+   {
+    "apiCode": "BANANA_2_1",
+    "code": "GEMINI_NANO_BANANA_2_1",
+    "description": "2.0 升级版，文字排版与多轮编辑一致性全面提升",
+    "icon": "https://test-file-ai.linkfox.com/UPLOAD/MANAGE/973c73c0ad8b41fbb63a88b0a6f5206e.svg",
+    "isDefault": false,
+    "isMaintenance": false,
+    "isNew": true,
+    "name": "LF全能模型 2.1",
+    "pricing": {
+     "eco": {},
+     "stable": {
+      "1K": 40,
+      "2K": 50,
+      "4K": 60
+     }
+    },
+    "refImageCount": 14,
+    "supportEcoMode": false,
+    "supportPromptExpand": false,
+    "supportedQualities": [],
+    "supportedRatios": [
+     "1:1",
+     "16:9",
+     "9:16",
+     "3:4",
+     "4:3",
+     "3:2",
+     "2:3",
+     "4:5",
+     "5:4",
+     "21:9"
+    ],
+    "supportedResolutions": [
+     "1K",
+     "2K",
+     "4K"
+    ]
+   },
+   {
+    "apiCode": "BANANA_2_LITE",
+    "code": "GEMINI_31_FLASH_LITE",
+    "description": "高性价比轻量模型，兼顾速度与成本，支持生成 1K",
+    "isDefault": false,
+    "isMaintenance": false,
+    "isNew": false,
+    "name": "LF全能模型 Lite",
+    "pricing": {
+     "eco": {},
+     "stable": {
+      "1K": 15
+     }
+    },
+    "refImageCount": 0,
+    "supportEcoMode": false,
+    "supportPromptExpand": false,
+    "supportedQualities": [],
+    "supportedRatios": [
+     "1:1",
+     "3:2",
+     "2:3",
+     "3:4",
+     "4:3",
+     "4:5",
+     "5:4",
+     "9:16",
+     "16:9",
+     "21:9"
+    ],
+    "supportedResolutions": [
+     "1K"
+    ]
+   },
+   {
+    "apiCode": "WAN2_7",
+    "code": "WAN2_7",
+    "description": "生成速度快，图片排版能力佳，支持生成1K/2K",
+    "isDefault": false,
+    "isMaintenance": false,
+    "isNew": false,
+    "name": "Wan 2.7",
+    "pricing": {
+     "eco": {},
+     "stable": {
+      "1K": 25,
+      "2K": 25
+     }
+    },
+    "refImageCount": 6,
+    "supportEcoMode": false,
+    "supportPromptExpand": true,
+    "supportedQualities": [],
+    "supportedRatios": [
+     "1:1",
+     "1:4",
+     "4:1",
+     "3:2",
+     "2:3",
+     "3:4",
+     "4:3",
+     "4:5",
+     "5:4",
+     "16:9",
+     "9:16",
+     "21:9"
+    ],
+    "supportedResolutions": [
+     "1K",
+     "2K"
+    ]
+   },
+   {
+    "apiCode": "GPT_2_5_IMAGE",
+    "code": "GPT_2_5_IMAGE",
+    "description": "专为高端视觉生成打造，精准编辑",
+    "isDefault": true,
+    "isMaintenance": false,
+    "isNew": false,
+    "name": "LF智能模型 G-2.5 Sunburst",
+    "pricing": {
+     "eco": {},
+     "stable": {
+      "1K": {
+       "high": 120,
+       "low": 4,
+       "max": 200,
+       "medium": 30,
+       "xhigh": 150
+      },
+      "2K": {
+       "high": 150,
+       "low": 15,
+       "max": 280,
+       "medium": 50,
+       "xhigh": 240
+      },
+      "4K": {
+       "high": 300,
+       "low": 20,
+       "max": 360,
+       "medium": 80,
+       "xhigh": 330
+      }
+     }
+    },
+    "refImageCount": 10,
+    "supportEcoMode": false,
+    "supportPromptExpand": false,
+    "supportedQualities": [
+     "low",
+     "medium",
+     "high",
+     "xhigh",
+     "max"
+    ],
+    "supportedRatios": [
+     "1:1",
+     "3:4",
+     "4:3",
+     "2:3",
+     "3:2",
+     "9:16",
+     "16:9",
+     "4:5",
+     "5:4",
+     "21:9",
+     "9:21"
+    ],
+    "supportedResolutions": [
+     "1K",
+     "2K",
+     "4K"
+    ]
+   },
+   {
+    "apiCode": "BANANA",
+    "code": "GEMINI_FLASH",
+    "isDefault": false,
+    "isMaintenance": false,
+    "isNew": false,
+    "name": "LF全能模型",
+    "pricing": {
+     "stable": {
+      "1K": 30
+     }
+    },
+    "refImageCount": 6,
+    "supportEcoMode": false,
+    "supportPromptExpand": false,
+    "supportedQualities": [],
+    "supportedRatios": [
+     "1:1",
+     "16:9",
+     "9:16",
+     "3:4",
+     "4:3",
+     "3:2",
+     "2:3",
+     "4:5",
+     "5:4",
+     "21:9"
+    ],
+    "supportedResolutions": [
+     "1K"
+    ]
+   },
+   {
+    "apiCode": "GPT_2_5_F_IMAGE",
+    "code": "GPT_2_5_F_IMAGE",
+    "description": "日常生图更快出效果",
+    "icon": "https://file-ai.linkfox.com/UPLOAD/MANAGE/bb15c7a54e404ec18a17c43ff91e9138.svg",
+    "isDefault": false,
+    "isMaintenance": false,
+    "isNew": false,
+    "name": "LF智能模型 G-2.5 Flare",
+    "pricing": {
+     "eco": {},
+     "stable": {
+      "1K": {
+       "high": 120,
+       "low": 4,
+       "max": 200,
+       "medium": 30,
+       "xhigh": 150
+      },
+      "2K": {
+       "high": 150,
+       "low": 15,
+       "max": 280,
+       "medium": 50,
+       "xhigh": 240
+      },
+      "4K": {
+       "high": 300,
+       "low": 20,
+       "max": 360,
+       "medium": 80,
+       "xhigh": 330
+      }
+     }
+    },
+    "refImageCount": 10,
+    "supportEcoMode": false,
+    "supportPromptExpand": false,
+    "supportedQualities": [
+     "low",
+     "medium",
+     "high",
+     "xhigh",
+     "max"
+    ],
+    "supportedRatios": [
+     "1:1",
+     "3:4",
+     "4:3",
+     "2:3",
+     "3:2",
+     "9:16",
+     "16:9",
+     "4:5",
+     "5:4",
+     "21:9",
+     "9:21"
+    ],
+    "supportedResolutions": [
+     "1K",
+     "2K",
+     "4K"
+    ]
+   },
+   {
+    "apiCode": "BANANA_PRO",
+    "code": "GEMINI_FLASH_PRO",
+    "isDefault": false,
+    "isMaintenance": false,
+    "isNew": false,
+    "name": "LF全能模型 Pro",
+    "pricing": {
+     "stable": {
+      "1K": 50,
+      "2K": 50,
+      "4K": 80
+     }
+    },
+    "refImageCount": 10,
+    "supportEcoMode": false,
+    "supportPromptExpand": false,
+    "supportedQualities": [],
+    "supportedRatios": [
+     "1:1",
+     "16:9",
+     "9:16",
+     "3:4",
+     "4:3",
+     "3:2",
+     "2:3",
+     "4:5",
+     "5:4",
+     "21:9"
+    ],
+    "supportedResolutions": [
+     "1K",
+     "2K",
+     "4K"
+    ]
+   },
+   {
+    "apiCode": "AIDRAW_EDIT",
+    "code": "AIDRAW_EDIT",
+    "description": "自研生图模型",
+    "isDefault": false,
+    "isMaintenance": false,
+    "isNew": true,
+    "name": "Linkfox-Image-1",
+    "pricing": {
+     "stable": {
+      "2K": 20
+     }
+    },
+    "refImageCount": 4,
+    "supportEcoMode": false,
+    "supportPromptExpand": false,
+    "supportedQualities": [],
+    "supportedRatios": [
+     "1:1",
+     "2:3",
+     "3:2",
+     "3:4",
+     "4:3",
+     "9:16",
+     "16:9",
+     "21:9"
+    ],
+    "supportedResolutions": [
+     "2K"
+    ]
+   },
+   {
+    "apiCode": "SEEDREAM5_PRO",
+    "code": "SEEDREAM5_PRO",
+    "description": "国产高质量模型，画面更出彩",
+    "isDefault": false,
+    "isMaintenance": false,
+    "isNew": false,
+    "name": "Seedream 5.0 Pro",
+    "pricing": {
+     "eco": {},
+     "stable": {
+      "1K": 20,
+      "2K": 40
+     }
+    },
+    "refImageCount": 6,
+    "supportEcoMode": false,
+    "supportPromptExpand": false,
+    "supportedQualities": [],
+    "supportedRatios": [
+     "1:1",
+     "3:4",
+     "4:3",
+     "9:16",
+     "16:9",
+     "3:2",
+     "2:3",
+     "21:9"
+    ],
+    "supportedResolutions": [
+     "1K",
+     "2K"
+    ]
+   },
+   {
+    "apiCode": "GPT_2_IMAGE",
+    "code": "GPT_2_IMAGE",
+    "isDefault": false,
+    "isMaintenance": false,
+    "isNew": true,
+    "name": "LF智能模型 G-2",
+    "pricing": {
+     "eco": {},
+     "stable": {
+      "1K": {
+       "high": 120,
+       "low": 10,
+       "medium": 30
+      },
+      "2K": {
+       "high": 150,
+       "low": 15,
+       "medium": 50
+      },
+      "4K": {
+       "high": 300,
+       "low": 20,
+       "medium": 80
+      }
+     }
+    },
+    "refImageCount": 10,
+    "supportEcoMode": false,
+    "supportPromptExpand": false,
+    "supportedQualities": [
+     "low",
+     "medium",
+     "high"
+    ],
+    "supportedRatios": [
+     "1:1",
+     "3:4",
+     "4:3",
+     "2:3",
+     "3:2",
+     "9:16",
+     "16:9",
+     "4:5",
+     "5:4",
+     "21:9",
+     "9:21"
+    ],
+    "supportedResolutions": [
+     "1K",
+     "2K",
+     "4K"
+    ]
+   }
+  ],
+  "83": [
+   {
+    "apiCode": "GPT_2_IMAGE",
+    "code": "GPT_2_IMAGE",
+    "description": "更适合生成图文排版",
+    "icon": "https://file-ai.linkfox.com/UPLOAD/MANAGE/9536173a504d4e91bf333013e30a20a6.png",
+    "isDefault": false,
+    "isMaintenance": false,
+    "isNew": true,
+    "name": "LF智能模型 G-2",
+    "pricing": {
+     "eco": {},
+     "stable": {
+      "2K": {
+       "high": 155,
+       "low": 10,
+       "medium": 40
+      },
+      "4K": {
+       "high": 280,
+       "low": 15,
+       "medium": 75
+      }
+     }
+    },
+    "refImageCount": 6,
+    "supportEcoMode": false,
+    "supportPromptExpand": false,
+    "supportedQualities": [
+     "low",
+     "medium",
+     "high"
+    ],
+    "supportedRatios": [
+     "1:1",
+     "3:4",
+     "4:3",
+     "2:3",
+     "3:2",
+     "9:16",
+     "16:9",
+     "4:5",
+     "5:4",
+     "21:9",
+     "9:21"
+    ],
+    "supportedResolutions": [
+     "2K",
+     "4K"
+    ]
+   },
+   {
+    "apiCode": "BANANA_PRO",
+    "code": "GEMINI_FLASH_PRO",
+    "description": "图片生成最强模型，高质量图片，对指令理解能力更强，支持生成2K/4K",
+    "icon": "https://file-ai.linkfox.com/UPLOAD/MANAGE/4fc740a27b2c42ed97918601b897227d.svg",
+    "isDefault": false,
+    "isMaintenance": false,
+    "isNew": false,
+    "name": "LF全能模型 Pro",
+    "pricing": {
+     "eco": {},
+     "stable": {
+      "2K": 60,
+      "4K": 95
+     }
+    },
+    "refImageCount": 0,
+    "supportEcoMode": false,
+    "supportPromptExpand": false,
+    "supportedQualities": [],
+    "supportedRatios": [
+     "1:1",
+     "3:4",
+     "4:3",
+     "9:16",
+     "16:9"
+    ],
+    "supportedResolutions": [
+     "2K",
+     "4K"
+    ]
+   }
+  ],
+  "85": [
+   {
+    "apiCode": "GPT_2_IMAGE",
+    "code": "GPT_2_IMAGE",
+    "description": "更适合生成图文排版",
+    "icon": "https://file-ai.linkfox.com/UPLOAD/MANAGE/9536173a504d4e91bf333013e30a20a6.png",
+    "isDefault": false,
+    "isMaintenance": false,
+    "isNew": true,
+    "name": "LF智能模型 G-2",
+    "pricing": {
+     "eco": {},
+     "stable": {
+      "2K": {
+       "medium": 40
+      }
+     }
+    },
+    "refImageCount": 6,
+    "supportEcoMode": false,
+    "supportPromptExpand": false,
+    "supportedQualities": [
+     "low",
+     "medium",
+     "high"
+    ],
+    "supportedRatios": [
+     "1:1",
+     "3:4",
+     "4:3",
+     "2:3",
+     "3:2",
+     "9:16",
+     "16:9",
+     "4:5",
+     "5:4",
+     "21:9",
+     "9:21"
+    ],
+    "supportedResolutions": [
+     "2K",
+     "4K"
+    ]
+   }
+  ],
+  "86": [
+   {
+    "apiCode": "GPT_2_IMAGE",
+    "code": "GPT_2_IMAGE",
+    "description": "更适合生成图文排版",
+    "icon": "https://file-ai.linkfox.com/UPLOAD/MANAGE/9536173a504d4e91bf333013e30a20a6.png",
+    "isDefault": false,
+    "isMaintenance": false,
+    "isNew": false,
+    "name": "LF智能模型 G-2",
+    "pricing": {
+     "eco": {},
+     "stable": {
+      "2K": {
+       "high": 165,
+       "low": 20,
+       "medium": 50
+      },
+      "4K": {
+       "high": 290,
+       "low": 25,
+       "medium": 85
+      }
+     }
+    },
+    "refImageCount": 6,
+    "supportEcoMode": false,
+    "supportPromptExpand": false,
+    "supportedQualities": [
+     "low",
+     "medium",
+     "high"
+    ],
+    "supportedRatios": [
+     "1:1",
+     "3:4",
+     "4:3",
+     "2:3",
+     "3:2",
+     "9:16",
+     "16:9",
+     "4:5",
+     "5:4",
+     "21:9",
+     "9:21"
+    ],
+    "supportedResolutions": [
+     "2K",
+     "4K"
+    ]
+   },
+   {
+    "apiCode": "BANANA_PRO",
+    "code": "GEMINI_FLASH_PRO",
+    "description": "图片生成最强模型，高质量图片，对指令理解能力更强，支持生成2K/4K",
+    "icon": "https://file-ai.linkfox.com/UPLOAD/MANAGE/4fc740a27b2c42ed97918601b897227d.svg",
+    "isDefault": false,
+    "isMaintenance": false,
+    "isNew": false,
+    "name": "LF全能模型 Pro",
+    "pricing": {
+     "eco": {},
+     "stable": {
+      "2K": 70,
+      "4K": 105
+     }
+    },
+    "refImageCount": 0,
+    "supportEcoMode": false,
+    "supportPromptExpand": false,
+    "supportedQualities": [],
+    "supportedRatios": [
+     "1:1",
+     "3:4",
+     "4:3",
+     "9:16",
+     "16:9"
+    ],
+    "supportedResolutions": [
+     "2K",
+     "4K"
+    ]
+   },
+   {
+    "apiCode": "WAN2_7",
+    "code": "WAN2_7",
+    "description": "国产性价比模型，仅支持2K",
+    "icon": "https://file-ai.linkfox.com/UPLOAD/MANAGE/fc45090faafb4ea8ab50426220d2c837.png",
+    "isDefault": false,
+    "isMaintenance": false,
+    "isNew": false,
+    "name": "Wan 2.7",
+    "pricing": {
+     "eco": {},
+     "stable": {
+      "2K": 25
+     }
+    },
+    "refImageCount": 6,
+    "supportEcoMode": false,
+    "supportPromptExpand": false,
+    "supportedQualities": [],
+    "supportedRatios": [
+     "1:1",
+     "3:4",
+     "4:3",
+     "9:16",
+     "16:9"
+    ],
+    "supportedResolutions": [
+     "2K"
+    ]
+   }
+  ],
+  "87": [
+   {
+    "apiCode": "GPT_2_IMAGE",
+    "code": "GPT_2_IMAGE",
+    "description": "更适合生成图文排版",
+    "icon": "https://file-ai.linkfox.com/UPLOAD/MANAGE/9536173a504d4e91bf333013e30a20a6.png",
+    "isDefault": false,
+    "isMaintenance": false,
+    "isNew": true,
+    "name": "LF智能模型 G-2",
+    "pricing": {
+     "eco": {},
+     "stable": {
+      "2K": {
+       "high": 165,
+       "low": 20,
+       "medium": 50
+      },
+      "4K": {
+       "high": 290,
+       "low": 25,
+       "medium": 85
+      }
+     }
+    },
+    "refImageCount": 6,
+    "supportEcoMode": false,
+    "supportPromptExpand": false,
+    "supportedQualities": [
+     "low",
+     "medium",
+     "high"
+    ],
+    "supportedRatios": [
+     "1:1",
+     "3:4",
+     "4:3",
+     "2:3",
+     "3:2",
+     "9:16",
+     "16:9",
+     "4:5",
+     "5:4",
+     "21:9",
+     "9:21"
+    ],
+    "supportedResolutions": [
+     "2K",
+     "4K"
+    ]
+   },
+   {
+    "apiCode": "BANANA_PRO",
+    "code": "GEMINI_FLASH_PRO",
+    "description": "图片生成最强模型，高质量图片，对指令理解能力更强，支持生成2K/4K",
+    "icon": "https://file-ai.linkfox.com/UPLOAD/MANAGE/4fc740a27b2c42ed97918601b897227d.svg",
+    "isDefault": false,
+    "isMaintenance": false,
+    "isNew": false,
+    "name": "LF全能模型 Pro",
+    "pricing": {
+     "eco": {},
+     "stable": {
+      "2K": 70,
+      "4K": 105
+     }
+    },
+    "refImageCount": 0,
+    "supportEcoMode": false,
+    "supportPromptExpand": false,
+    "supportedQualities": [],
+    "supportedRatios": [
+     "1:1",
+     "3:4",
+     "4:3",
+     "9:16",
+     "16:9"
+    ],
+    "supportedResolutions": [
+     "2K",
+     "4K"
+    ]
+   },
+   {
+    "apiCode": "WAN2_7",
+    "code": "WAN2_7",
+    "description": "国产性价比模型，仅支持2K",
+    "icon": "https://file-ai.linkfox.com/UPLOAD/MANAGE/fc45090faafb4ea8ab50426220d2c837.png",
+    "isDefault": false,
+    "isMaintenance": false,
+    "isNew": true,
+    "name": "Wan 2.7",
+    "pricing": {
+     "eco": {},
+     "stable": {
+      "2K": 25
+     }
+    },
+    "refImageCount": 6,
+    "supportEcoMode": false,
+    "supportPromptExpand": false,
+    "supportedQualities": [],
+    "supportedRatios": [
+     "1:1",
+     "3:4",
+     "4:3",
+     "9:16",
+     "16:9"
+    ],
+    "supportedResolutions": [
+     "2K"
+    ]
+   }
+  ],
+  "100": [
+   {
+    "apiCode": "GPT_2_5_IMAGE",
+    "code": "GPT_2_5_IMAGE",
+    "description": "专为高端视觉生成打造，精准编辑",
+    "icon": "https://file-ai.linkfox.com/UPLOAD/MANAGE/9eb10fde876645d8836ba10d227af39b.png",
+    "isDefault": true,
+    "isMaintenance": false,
+    "isNew": true,
+    "name": "LF智能模型 G-2.5 Sunburst",
+    "pricing": {
+     "eco": {},
+     "stable": {
+      "1K": {
+       "high": 120,
+       "low": 4,
+       "max": 200,
+       "medium": 30,
+       "xhigh": 150
+      },
+      "2K": {
+       "high": 150,
+       "low": 15,
+       "max": 280,
+       "medium": 50,
+       "xhigh": 240
+      },
+      "4K": {
+       "high": 300,
+       "low": 20,
+       "max": 360,
+       "medium": 80,
+       "xhigh": 330
+      }
+     }
+    },
+    "refImageCount": 16,
+    "supportEcoMode": false,
+    "supportPromptExpand": false,
+    "supportedQualities": [
+     "medium"
+    ],
+    "supportedRatios": [
+     "1:1",
+     "3:4",
+     "4:3",
+     "2:3",
+     "3:2",
+     "9:16",
+     "16:9",
+     "4:5",
+     "5:4",
+     "21:9",
+     "9:21"
+    ],
+    "supportedResolutions": [
+     "1K",
+     "2K",
+     "4K"
+    ]
+   },
+   {
+    "apiCode": "BANANA_2_1",
+    "code": "GEMINI_NANO_BANANA_2_1",
+    "description": "2.0 升级版，文字排版与多轮编辑一致性全面提升",
+    "icon": "https://test-file-ai.linkfox.com/UPLOAD/MANAGE/973c73c0ad8b41fbb63a88b0a6f5206e.svg",
+    "isDefault": false,
+    "isMaintenance": false,
+    "isNew": true,
+    "name": "LF全能模型 2.1",
+    "pricing": {
+     "eco": {},
+     "stable": {
+      "1K": 40,
+      "2K": 50,
+      "4K": 60
+     }
+    },
+    "refImageCount": 14,
+    "supportEcoMode": false,
+    "supportPromptExpand": true,
+    "supportedQualities": [],
+    "supportedRatios": [
+     "1:1",
+     "1:4",
+     "4:1",
+     "1:8",
+     "8:1",
+     "3:2",
+     "2:3",
+     "3:4",
+     "4:3",
+     "4:5",
+     "5:4",
+     "16:9",
+     "9:16",
+     "21:9"
+    ],
+    "supportedResolutions": [
+     "1K",
+     "2K",
+     "4K"
+    ]
+   },
+   {
+    "apiCode": "GPT_2_5_F_IMAGE",
+    "code": "GPT_2_5_F_IMAGE",
+    "description": "日常生图更快出效果",
+    "icon": "https://file-ai.linkfox.com/UPLOAD/MANAGE/9eb10fde876645d8836ba10d227af39b.png",
+    "isDefault": false,
+    "isMaintenance": false,
+    "isNew": true,
+    "name": "LF智能模型 G-2.5 Flare",
+    "pricing": {
+     "eco": {},
+     "stable": {
+      "1K": {
+       "high": 120,
+       "low": 4,
+       "max": 200,
+       "medium": 30,
+       "xhigh": 150
+      },
+      "2K": {
+       "high": 150,
+       "low": 15,
+       "max": 280,
+       "medium": 50,
+       "xhigh": 240
+      },
+      "4K": {
+       "high": 300,
+       "low": 20,
+       "max": 360,
+       "medium": 80,
+       "xhigh": 330
+      }
+     }
+    },
+    "refImageCount": 16,
+    "supportEcoMode": false,
+    "supportPromptExpand": false,
+    "supportedQualities": [
+     "medium"
+    ],
+    "supportedRatios": [
+     "1:1",
+     "3:4",
+     "4:3",
+     "2:3",
+     "3:2",
+     "9:16",
+     "16:9",
+     "4:5",
+     "5:4",
+     "21:9",
+     "9:21"
+    ],
+    "supportedResolutions": [
+     "1K",
+     "2K",
+     "4K"
+    ]
+   },
+   {
+    "apiCode": "SEEDREAM5_PRO",
+    "code": "SEEDREAM5_PRO",
+    "description": "国产高质量模型，画面更出彩",
+    "icon": "https://file-ai.linkfox.com/UPLOAD/MANAGE/7a51bca6e5fd4130812e2b1687152255.svg",
+    "isDefault": false,
+    "isMaintenance": false,
+    "isNew": false,
+    "name": "Seedream 5.0 Pro",
+    "pricing": {
+     "eco": {},
+     "stable": {
+      "1K": 20,
+      "2K": 40
+     }
+    },
+    "refImageCount": 10,
+    "supportEcoMode": false,
+    "supportPromptExpand": false,
+    "supportedQualities": [],
+    "supportedRatios": [
+     "1:1",
+     "3:4",
+     "4:3",
+     "9:16",
+     "16:9",
+     "3:2",
+     "2:3",
+     "21:9"
+    ],
+    "supportedResolutions": [
+     "1K",
+     "2K"
+    ]
+   },
+   {
+    "apiCode": "GPT_2_IMAGE",
+    "code": "GPT_2_IMAGE",
+    "description": "更强的文字生成能力，一句话生成图文排版等复杂内容",
+    "icon": "https://file-ai.linkfox.com/UPLOAD/MANAGE/9eb10fde876645d8836ba10d227af39b.png",
+    "isDefault": false,
+    "isMaintenance": false,
+    "isNew": false,
+    "name": "LF智能模型 G-2",
+    "pricing": {
+     "eco": {},
+     "stable": {
+      "1K": {
+       "medium": 30
+      },
+      "2K": {
+       "medium": 50
+      },
+      "4K": {
+       "medium": 80
+      }
+     }
+    },
+    "refImageCount": 16,
+    "supportEcoMode": false,
+    "supportPromptExpand": false,
+    "supportedQualities": [
+     "medium"
+    ],
+    "supportedRatios": [
+     "1:1",
+     "3:4",
+     "4:3",
+     "2:3",
+     "3:2",
+     "9:16",
+     "16:9",
+     "4:5",
+     "5:4",
+     "21:9",
+     "9:21"
+    ],
+    "supportedResolutions": [
+     "1K",
+     "2K",
+     "4K"
+    ]
+   },
+   {
+    "apiCode": "BANANA_PRO",
+    "code": "GEMINI_FLASH_PRO",
+    "description": "高质量图片，对指令理解能力更强",
+    "icon": "https://test-file-ai.linkfox.com/UPLOAD/MANAGE/973c73c0ad8b41fbb63a88b0a6f5206e.svg",
+    "isDefault": false,
+    "isMaintenance": false,
+    "isNew": false,
+    "name": "LF全能模型 Pro",
+    "pricing": {
+     "eco": {},
+     "stable": {
+      "1K": 50,
+      "2K": 60,
+      "4K": 80
+     }
+    },
+    "refImageCount": 14,
+    "supportEcoMode": false,
+    "supportPromptExpand": true,
+    "supportedQualities": [],
+    "supportedRatios": [
+     "1:1",
+     "16:9",
+     "9:16",
+     "3:4",
+     "4:3",
+     "3:2",
+     "2:3",
+     "4:5",
+     "5:4",
+     "21:9"
+    ],
+    "supportedResolutions": [
+     "1K",
+     "2K",
+     "4K"
+    ]
+   },
+   {
+    "apiCode": "BANANA_2_LITE",
+    "code": "GEMINI_31_FLASH_LITE",
+    "description": "高性价比轻量模型，兼顾速度与成本",
+    "isDefault": false,
+    "isMaintenance": false,
+    "isNew": false,
+    "name": "LF全能模型 Lite",
+    "pricing": {
+     "eco": {},
+     "stable": {
+      "1K": 15
+     }
+    },
+    "refImageCount": 14,
+    "supportEcoMode": false,
+    "supportPromptExpand": false,
+    "supportedQualities": [],
+    "supportedRatios": [
+     "1:1",
+     "3:2",
+     "2:3",
+     "3:4",
+     "4:3",
+     "4:5",
+     "5:4",
+     "9:16",
+     "16:9",
+     "21:9"
+    ],
+    "supportedResolutions": [
+     "1K"
+    ]
+   },
+   {
+    "apiCode": "BANANA",
+    "code": "GEMINI_FLASH",
+    "description": "普通质量图片，适用于想省点的用户使用",
+    "icon": "https://test-file-ai.linkfox.com/UPLOAD/MANAGE/973c73c0ad8b41fbb63a88b0a6f5206e.svg",
+    "isDefault": false,
+    "isMaintenance": false,
+    "isNew": false,
+    "name": "LF全能模型",
+    "pricing": {
+     "eco": {},
+     "stable": {
+      "1K": 30
+     }
+    },
+    "refImageCount": 3,
+    "supportEcoMode": false,
+    "supportPromptExpand": true,
+    "supportedQualities": [],
+    "supportedRatios": [
+     "1:1",
+     "16:9",
+     "9:16",
+     "3:4",
+     "4:3",
+     "3:2",
+     "2:3",
+     "4:5",
+     "5:4",
+     "21:9"
+    ],
+    "supportedResolutions": [
+     "1K"
+    ]
+   },
+   {
+    "apiCode": "WAN2_7",
+    "code": "WAN2_7",
+    "description": "生成速度快，图片排版能力佳",
+    "icon": "https://file-ai.linkfox.com/UPLOAD/MANAGE/b18f24f29b214531b990b9abae5f1559.svg",
+    "isDefault": false,
+    "isMaintenance": false,
+    "isNew": false,
+    "name": "Wan 2.7",
+    "pricing": {
+     "eco": {},
+     "stable": {
+      "1K": 25,
+      "2K": 25
+     }
+    },
+    "refImageCount": 9,
+    "supportEcoMode": false,
+    "supportPromptExpand": false,
+    "supportedQualities": [],
+    "supportedRatios": [
+     "1:1",
+     "1:4",
+     "4:1",
+     "3:2",
+     "2:3",
+     "3:4",
+     "4:3",
+     "4:5",
+     "5:4",
+     "16:9",
+     "9:16",
+     "21:9"
+    ],
+    "supportedResolutions": [
+     "1K",
+     "2K"
+    ]
+   }
+  ],
+  "101": [
+   {
+    "apiCode": "GPT_2_5_IMAGE",
+    "code": "GPT_2_5_IMAGE",
+    "description": "专为高端视觉生成打造，精准编辑",
+    "icon": "https://file-ai.linkfox.com/UPLOAD/MANAGE/9e5b6586a4154f7cab9819d13091f74e.png",
+    "isDefault": true,
+    "isMaintenance": false,
+    "isNew": true,
+    "name": "LF智能模型 G-2.5 Sunburst",
+    "pricing": {
+     "eco": {},
+     "stable": {
+      "1K": {
+       "high": 120,
+       "low": 4,
+       "max": 200,
+       "medium": 30,
+       "xhigh": 150
+      },
+      "2K": {
+       "high": 150,
+       "low": 15,
+       "max": 280,
+       "medium": 50,
+       "xhigh": 240
+      },
+      "4K": {
+       "high": 300,
+       "low": 20,
+       "max": 360,
+       "medium": 80,
+       "xhigh": 330
+      }
+     }
+    },
+    "refImageCount": 16,
+    "supportEcoMode": false,
+    "supportPromptExpand": false,
+    "supportedQualities": [
+     "medium"
+    ],
+    "supportedRatios": [
+     "1:1",
+     "3:4",
+     "4:3",
+     "2:3",
+     "3:2",
+     "4:5",
+     "5:4",
+     "9:21",
+     "21:9",
+     "16:9",
+     "9:16"
+    ],
+    "supportedResolutions": [
+     "1K",
+     "2K",
+     "4K"
+    ]
+   },
+   {
+    "apiCode": "BANANA_2_1",
+    "code": "GEMINI_NANO_BANANA_2_1",
+    "description": "2.0 升级版，文字排版与多轮编辑一致性全面提升",
+    "icon": "https://test-file-ai.linkfox.com/UPLOAD/MANAGE/973c73c0ad8b41fbb63a88b0a6f5206e.svg",
+    "isDefault": false,
+    "isMaintenance": false,
+    "isNew": true,
+    "name": "LF全能模型 2.1",
+    "pricing": {
+     "eco": {},
+     "stable": {
+      "1K": 50,
+      "2K": 60,
+      "4K": 70
+     }
+    },
+    "refImageCount": 14,
+    "supportEcoMode": false,
+    "supportPromptExpand": true,
+    "supportedQualities": [],
+    "supportedRatios": [
+     "1:1",
+     "1:4",
+     "4:1",
+     "1:8",
+     "8:1",
+     "3:2",
+     "2:3",
+     "3:4",
+     "4:3",
+     "4:5",
+     "5:4",
+     "16:9",
+     "9:16",
+     "21:9"
+    ],
+    "supportedResolutions": [
+     "1K",
+     "2K",
+     "4K"
+    ]
+   },
+   {
+    "apiCode": "GPT_2_5_F_IMAGE",
+    "code": "GPT_2_5_F_IMAGE",
+    "description": "日常生图更快出效果",
+    "icon": "https://file-ai.linkfox.com/UPLOAD/MANAGE/9e5b6586a4154f7cab9819d13091f74e.png",
+    "isDefault": false,
+    "isMaintenance": false,
+    "isNew": true,
+    "name": "LF智能模型 G-2.5 Flare",
+    "pricing": {
+     "eco": {},
+     "stable": {
+      "1K": {
+       "high": 120,
+       "low": 4,
+       "max": 200,
+       "medium": 30,
+       "xhigh": 150
+      },
+      "2K": {
+       "high": 150,
+       "low": 15,
+       "max": 280,
+       "medium": 50,
+       "xhigh": 240
+      },
+      "4K": {
+       "high": 300,
+       "low": 20,
+       "max": 360,
+       "medium": 80,
+       "xhigh": 330
+      }
+     }
+    },
+    "refImageCount": 16,
+    "supportEcoMode": false,
+    "supportPromptExpand": false,
+    "supportedQualities": [
+     "medium"
+    ],
+    "supportedRatios": [
+     "1:1",
+     "3:4",
+     "4:3",
+     "2:3",
+     "3:2",
+     "4:5",
+     "5:4",
+     "9:21",
+     "21:9",
+     "16:9",
+     "9:16"
+    ],
+    "supportedResolutions": [
+     "1K",
+     "2K",
+     "4K"
+    ]
+   },
+   {
+    "apiCode": "GPT_2_IMAGE",
+    "code": "GPT_2_IMAGE",
+    "description": "更强的文字生成能力，一句话生成图文排版等复杂内容",
+    "icon": "https://file-ai.linkfox.com/UPLOAD/MANAGE/9e5b6586a4154f7cab9819d13091f74e.png",
+    "isDefault": false,
+    "isMaintenance": false,
+    "isNew": false,
+    "name": "LF智能模型 G-2",
+    "pricing": {
+     "eco": {},
+     "stable": {
+      "1K": {
+       "medium": 40
+      },
+      "2K": {
+       "medium": 60
+      },
+      "4K": {
+       "medium": 90
+      }
+     }
+    },
+    "refImageCount": 16,
+    "supportEcoMode": false,
+    "supportPromptExpand": false,
+    "supportedQualities": [
+     "medium"
+    ],
+    "supportedRatios": [
+     "1:1",
+     "3:4",
+     "4:3",
+     "2:3",
+     "3:2",
+     "4:5",
+     "5:4",
+     "9:21",
+     "21:9",
+     "16:9",
+     "9:16"
+    ],
+    "supportedResolutions": [
+     "1K",
+     "2K",
+     "4K"
+    ]
+   },
+   {
+    "apiCode": "BANANA",
+    "code": "GEMINI_FLASH",
+    "description": "普通质量图片，适用于想省点的用户使用，仅支持生成1K图",
+    "icon": "https://test-file-ai.linkfox.com/UPLOAD/MANAGE/973c73c0ad8b41fbb63a88b0a6f5206e.svg",
+    "isDefault": false,
+    "isMaintenance": false,
+    "isNew": false,
+    "name": "LF全能模型",
+    "pricing": {
+     "eco": {},
+     "stable": {
+      "1K": 40
+     }
+    },
+    "refImageCount": 3,
+    "supportEcoMode": false,
+    "supportPromptExpand": true,
+    "supportedQualities": [],
+    "supportedRatios": [
+     "1:1",
+     "16:9",
+     "9:16",
+     "3:4",
+     "4:3",
+     "3:2",
+     "2:3",
+     "4:5",
+     "5:4",
+     "21:9"
+    ],
+    "supportedResolutions": [
+     "1K"
+    ]
+   },
+   {
+    "apiCode": "BANANA_2_LITE",
+    "code": "GEMINI_31_FLASH_LITE",
+    "description": "高性价比轻量模型，兼顾速度与成本",
+    "isDefault": false,
+    "isMaintenance": false,
+    "isNew": false,
+    "name": "LF全能模型 Lite",
+    "pricing": {
+     "eco": {},
+     "stable": {
+      "1K": 25
+     }
+    },
+    "refImageCount": 14,
+    "supportEcoMode": false,
+    "supportPromptExpand": false,
+    "supportedQualities": [],
+    "supportedRatios": [
+     "1:1",
+     "3:2",
+     "2:3",
+     "3:4",
+     "4:3",
+     "4:5",
+     "5:4",
+     "9:16",
+     "16:9",
+     "21:9"
+    ],
+    "supportedResolutions": [
+     "1K"
+    ]
+   },
+   {
+    "apiCode": "BANANA_PRO",
+    "code": "GEMINI_FLASH_PRO",
+    "description": "高质量图片，对指令理解能力更强",
+    "icon": "https://test-file-ai.linkfox.com/UPLOAD/MANAGE/973c73c0ad8b41fbb63a88b0a6f5206e.svg",
+    "isDefault": false,
+    "isMaintenance": false,
+    "isNew": false,
+    "name": "LF全能模型 Pro",
+    "pricing": {
+     "eco": {},
+     "stable": {
+      "1K": 60,
+      "2K": 70,
+      "4K": 90
+     }
+    },
+    "refImageCount": 14,
+    "supportEcoMode": false,
+    "supportPromptExpand": true,
+    "supportedQualities": [],
+    "supportedRatios": [
+     "1:1",
+     "16:9",
+     "9:16",
+     "3:4",
+     "4:3",
+     "3:2",
+     "2:3",
+     "4:5",
+     "5:4",
+     "21:9"
+    ],
+    "supportedResolutions": [
+     "1K",
+     "2K",
+     "4K"
+    ]
+   },
+   {
+    "apiCode": "WAN2_7",
+    "code": "WAN2_7",
+    "description": "生成速度快，图片排版能力佳",
+    "icon": "https://test-file-ai.linkfox.com/UPLOAD/MANAGE/fd501713870d486b88b43fc5f55533e8.svg",
+    "isDefault": false,
+    "isMaintenance": false,
+    "isNew": false,
+    "name": "Wan 2.7",
+    "pricing": {
+     "eco": {},
+     "stable": {
+      "1K": 30,
+      "2K": 30
+     }
+    },
+    "refImageCount": 9,
+    "supportEcoMode": false,
+    "supportPromptExpand": false,
+    "supportedQualities": [],
+    "supportedRatios": [
+     "1:1",
+     "1:4",
+     "4:1",
+     "3:2",
+     "2:3",
+     "3:4",
+     "4:3",
+     "4:5",
+     "5:4",
+     "16:9",
+     "9:16",
+     "21:9"
+    ],
+    "supportedResolutions": [
+     "1K",
+     "2K"
+    ]
+   },
+   {
+    "apiCode": "SEEDREAM5_PRO",
+    "code": "SEEDREAM5_PRO",
+    "description": "国产高质量模型，画面更出彩",
+    "icon": "https://file-ai.linkfox.com/UPLOAD/MANAGE/7a51bca6e5fd4130812e2b1687152255.svg",
+    "isDefault": false,
+    "isMaintenance": false,
+    "isNew": false,
+    "name": "Seedream 5.0 Pro",
+    "pricing": {
+     "eco": {},
+     "stable": {
+      "1K": 25,
+      "2K": 50
+     }
+    },
+    "refImageCount": 10,
+    "supportEcoMode": false,
+    "supportPromptExpand": false,
+    "supportedQualities": [],
+    "supportedRatios": [
+     "1:1",
+     "3:4",
+     "4:3",
+     "9:16",
+     "16:9",
+     "3:2",
+     "2:3",
+     "21:9"
+    ],
+    "supportedResolutions": [
+     "1K",
+     "2K"
+    ]
+   }
+  ],
+  "102": [
+   {
+    "apiCode": "GPT_2_5_IMAGE",
+    "code": "GPT_2_5_IMAGE",
+    "description": "专为高端视觉生成打造，精准编辑",
+    "icon": "https://file-ai.linkfox.com/UPLOAD/MANAGE/9536173a504d4e91bf333013e30a20a6.png",
+    "isDefault": false,
+    "isMaintenance": false,
+    "isNew": true,
+    "name": "LF智能模型 G-2.5 Sunburst",
+    "pricing": {
+     "eco": {},
+     "stable": {
+      "1K": {
+       "high": 120,
+       "low": 4,
+       "max": 200,
+       "medium": 30,
+       "xhigh": 150
+      },
+      "2K": {
+       "high": 150,
+       "low": 15,
+       "max": 280,
+       "medium": 50,
+       "xhigh": 240
+      },
+      "4K": {
+       "high": 300,
+       "low": 20,
+       "max": 360,
+       "medium": 80,
+       "xhigh": 330
+      }
+     }
+    },
+    "refImageCount": 16,
+    "supportEcoMode": false,
+    "supportPromptExpand": false,
+    "supportedQualities": [
+     "medium"
+    ],
+    "supportedRatios": [
+     "1:1",
+     "2:3",
+     "3:4",
+     "4:5",
+     "9:16",
+     "16:9",
+     "5:4",
+     "4:3",
+     "3:2",
+     "21:9",
+     "1464:600",
+     "970:600",
+     "600:450",
+     "9:21"
+    ],
+    "supportedResolutions": [
+     "1K",
+     "2K",
+     "4K"
+    ]
+   },
+   {
+    "apiCode": "BANANA_2_1",
+    "code": "GEMINI_NANO_BANANA_2_1",
+    "description": "2.0 升级版，文字排版与多轮编辑一致性全面提升",
+    "icon": "https://file-ai.linkfox.com/UPLOAD/MANAGE/4fc740a27b2c42ed97918601b897227d.svg",
+    "isDefault": false,
+    "isMaintenance": false,
+    "isNew": true,
+    "name": "LF全能模型 2.1",
+    "pricing": {
+     "eco": {},
+     "stable": {
+      "1K": 40,
+      "2K": 50,
+      "4K": 60
+     }
+    },
+    "refImageCount": 14,
+    "supportEcoMode": false,
+    "supportPromptExpand": false,
+    "supportedQualities": [],
+    "supportedRatios": [
+     "1:1",
+     "2:3",
+     "3:4",
+     "4:5",
+     "9:16",
+     "16:9",
+     "5:4",
+     "4:3",
+     "3:2",
+     "21:9",
+     "1464:600",
+     "970:600",
+     "600:450"
+    ],
+    "supportedResolutions": [
+     "1K",
+     "2K",
+     "4K"
+    ]
+   },
+   {
+    "apiCode": "GPT_2_5_F_IMAGE",
+    "code": "GPT_2_5_F_IMAGE",
+    "description": "日常生图更快出效果",
+    "icon": "https://file-ai.linkfox.com/UPLOAD/MANAGE/9536173a504d4e91bf333013e30a20a6.png",
+    "isDefault": false,
+    "isMaintenance": false,
+    "isNew": true,
+    "name": "LF智能模型 G-2.5 Flare",
+    "pricing": {
+     "eco": {},
+     "stable": {
+      "1K": {
+       "high": 120,
+       "low": 4,
+       "max": 200,
+       "medium": 30,
+       "xhigh": 150
+      },
+      "2K": {
+       "high": 150,
+       "low": 15,
+       "max": 280,
+       "medium": 50,
+       "xhigh": 240
+      },
+      "4K": {
+       "high": 300,
+       "low": 20,
+       "max": 360,
+       "medium": 80,
+       "xhigh": 330
+      }
+     }
+    },
+    "refImageCount": 16,
+    "supportEcoMode": false,
+    "supportPromptExpand": false,
+    "supportedQualities": [
+     "medium"
+    ],
+    "supportedRatios": [
+     "1:1",
+     "2:3",
+     "3:4",
+     "4:5",
+     "9:16",
+     "16:9",
+     "5:4",
+     "4:3",
+     "3:2",
+     "21:9",
+     "1464:600",
+     "970:600",
+     "600:450",
+     "9:21"
+    ],
+    "supportedResolutions": [
+     "1K",
+     "2K",
+     "4K"
+    ]
+   },
+   {
+    "apiCode": "GPT_2_IMAGE",
+    "code": "GPT_2_IMAGE",
+    "description": "更适合生成图文排版",
+    "icon": "https://file-ai.linkfox.com/UPLOAD/MANAGE/9536173a504d4e91bf333013e30a20a6.png",
+    "isDefault": false,
+    "isMaintenance": false,
+    "isNew": false,
+    "name": "LF智能模型 G-2",
+    "pricing": {
+     "eco": {},
+     "stable": {
+      "1K": {
+       "medium": 30
+      },
+      "2K": {
+       "medium": 50
+      },
+      "4K": {
+       "medium": 80
+      }
+     }
+    },
+    "refImageCount": 16,
+    "supportEcoMode": false,
+    "supportPromptExpand": false,
+    "supportedQualities": [
+     "medium"
+    ],
+    "supportedRatios": [
+     "1:1",
+     "2:3",
+     "3:4",
+     "4:5",
+     "9:16",
+     "16:9",
+     "5:4",
+     "4:3",
+     "3:2",
+     "21:9",
+     "1464:600",
+     "970:600",
+     "600:450"
+    ],
+    "supportedResolutions": [
+     "1K",
+     "2K",
+     "4K"
+    ]
+   },
+   {
+    "apiCode": "BANANA_2_LITE",
+    "code": "GEMINI_31_FLASH_LITE",
+    "description": "高性价比轻量模型，兼顾速度与成本",
+    "isDefault": false,
+    "isMaintenance": false,
+    "isNew": false,
+    "name": "LF全能模型 Lite",
+    "pricing": {
+     "eco": {},
+     "stable": {
+      "1K": 15
+     }
+    },
+    "refImageCount": 14,
+    "supportEcoMode": false,
+    "supportPromptExpand": false,
+    "supportedQualities": [],
+    "supportedRatios": [
+     "1:1",
+     "3:2",
+     "2:3",
+     "3:4",
+     "4:3",
+     "4:5",
+     "5:4",
+     "9:16",
+     "16:9",
+     "21:9",
+     "1464:600",
+     "970:600",
+     "600:450"
+    ],
+    "supportedResolutions": [
+     "1K"
+    ]
+   },
+   {
+    "apiCode": "BANANA_PRO",
+    "code": "GEMINI_FLASH_PRO",
+    "description": "图片生成最强模型，高质量图片，对指令理解能力更强",
+    "icon": "https://file-ai.linkfox.com/UPLOAD/MANAGE/4fc740a27b2c42ed97918601b897227d.svg",
+    "isDefault": true,
+    "isMaintenance": false,
+    "isNew": false,
+    "name": "LF全能模型 Pro",
+    "pricing": {
+     "eco": {},
+     "stable": {
+      "1K": 50,
+      "2K": 60,
+      "4K": 80
+     }
+    },
+    "refImageCount": 14,
+    "supportEcoMode": false,
+    "supportPromptExpand": false,
+    "supportedQualities": [],
+    "supportedRatios": [
+     "1:1",
+     "2:3",
+     "3:4",
+     "4:5",
+     "9:16",
+     "16:9",
+     "5:4",
+     "4:3",
+     "3:2",
+     "21:9",
+     "1464:600",
+     "970:600",
+     "600:450"
+    ],
+    "supportedResolutions": [
+     "1K",
+     "2K",
+     "4K"
+    ]
+   },
+   {
+    "apiCode": "SEEDREAM5_PRO",
+    "code": "SEEDREAM5_PRO",
+    "description": "国产高质量模型，画面更出彩",
+    "icon": "https://file-ai.linkfox.com/UPLOAD/MANAGE/7a51bca6e5fd4130812e2b1687152255.svg",
+    "isDefault": false,
+    "isMaintenance": false,
+    "isNew": false,
+    "name": "Seedream 5.0 Pro",
+    "pricing": {
+     "eco": {},
+     "stable": {
+      "1K": 20,
+      "2K": 40
+     }
+    },
+    "refImageCount": 10,
+    "supportEcoMode": false,
+    "supportPromptExpand": false,
+    "supportedQualities": [],
+    "supportedRatios": [
+     "1:1",
+     "3:4",
+     "4:3",
+     "9:16",
+     "16:9",
+     "3:2",
+     "2:3",
+     "21:9",
+     "1464:600",
+     "970:600",
+     "600:450"
+    ],
+    "supportedResolutions": [
+     "1K",
+     "2K"
+    ]
+   }
+  ],
+  "103": [
+   {
+    "apiCode": "GPT_2_5_IMAGE",
+    "code": "GPT_2_5_IMAGE",
+    "description": "专为高端视觉生成打造，精准编辑",
+    "icon": "https://file-ai.linkfox.com/UPLOAD/MANAGE/9536173a504d4e91bf333013e30a20a6.png",
+    "isDefault": true,
+    "isMaintenance": false,
+    "isNew": true,
+    "name": "LF智能模型 G-2.5 Sunburst",
+    "pricing": {
+     "eco": {},
+     "stable": {
+      "1K": {
+       "medium": 30
+      },
+      "2K": {
+       "medium": 50
+      },
+      "4K": {
+       "medium": 80
+      }
+     }
+    },
+    "refImageCount": 16,
+    "supportEcoMode": false,
+    "supportPromptExpand": false,
+    "supportedQualities": [
+     "medium"
+    ],
+    "supportedRatios": [
+     "1:1",
+     "2:3",
+     "3:4",
+     "4:5",
+     "9:16",
+     "16:9",
+     "5:4",
+     "4:3",
+     "3:2",
+     "21:9",
+     "1464:600",
+     "970:600",
+     "600:450",
+     "9:21"
+    ],
+    "supportedResolutions": [
+     "1K",
+     "2K",
+     "4K"
+    ]
+   },
+   {
+    "apiCode": "BANANA_2_1",
+    "code": "GEMINI_NANO_BANANA_2_1",
+    "description": "2.0 升级版，文字排版与多轮编辑一致性全面提升",
+    "icon": "https://file-ai.linkfox.com/UPLOAD/MANAGE/4fc740a27b2c42ed97918601b897227d.svg",
+    "isDefault": false,
+    "isMaintenance": false,
+    "isNew": true,
+    "name": "LF全能模型 2.1",
+    "pricing": {
+     "eco": {},
+     "stable": {
+      "1K": 40,
+      "2K": 50,
+      "4K": 60
+     }
+    },
+    "refImageCount": 14,
+    "supportEcoMode": false,
+    "supportPromptExpand": false,
+    "supportedQualities": [],
+    "supportedRatios": [
+     "1:1",
+     "2:3",
+     "3:4",
+     "4:5",
+     "9:16",
+     "16:9",
+     "5:4",
+     "4:3",
+     "3:2",
+     "21:9",
+     "1464:600",
+     "970:600",
+     "600:450"
+    ],
+    "supportedResolutions": [
+     "1K",
+     "2K",
+     "4K"
+    ]
+   },
+   {
+    "apiCode": "GPT_2_5_F_IMAGE",
+    "code": "GPT_2_5_F_IMAGE",
+    "description": "日常生图更快出效果",
+    "icon": "https://file-ai.linkfox.com/UPLOAD/MANAGE/9536173a504d4e91bf333013e30a20a6.png",
+    "isDefault": false,
+    "isMaintenance": false,
+    "isNew": true,
+    "name": "LF智能模型 G-2.5 Flare",
+    "pricing": {
+     "eco": {},
+     "stable": {
+      "1K": {
+       "medium": 30
+      },
+      "2K": {
+       "medium": 50
+      },
+      "4K": {
+       "medium": 80
+      }
+     }
+    },
+    "refImageCount": 16,
+    "supportEcoMode": false,
+    "supportPromptExpand": false,
+    "supportedQualities": [
+     "medium"
+    ],
+    "supportedRatios": [
+     "1:1",
+     "2:3",
+     "3:4",
+     "4:5",
+     "9:16",
+     "16:9",
+     "5:4",
+     "4:3",
+     "3:2",
+     "21:9",
+     "1464:600",
+     "970:600",
+     "600:450",
+     "9:21"
+    ],
+    "supportedResolutions": [
+     "1K",
+     "2K",
+     "4K"
+    ]
+   },
+   {
+    "apiCode": "GPT_2_IMAGE",
+    "code": "GPT_2_IMAGE",
+    "description": "更适合生成图文排版",
+    "icon": "https://file-ai.linkfox.com/UPLOAD/MANAGE/9536173a504d4e91bf333013e30a20a6.png",
+    "isDefault": false,
+    "isMaintenance": false,
+    "isNew": false,
+    "name": "LF智能模型 G-2",
+    "pricing": {
+     "stable": {
+      "1K": {
+       "medium": 30
+      },
+      "2K": {
+       "medium": 50
+      },
+      "4K": {
+       "medium": 80
+      }
+     }
+    },
+    "refImageCount": 16,
+    "supportEcoMode": false,
+    "supportPromptExpand": false,
+    "supportedQualities": [
+     "medium"
+    ],
+    "supportedRatios": [
+     "1:1",
+     "2:3",
+     "3:4",
+     "4:5",
+     "9:16",
+     "16:9",
+     "5:4",
+     "4:3",
+     "3:2",
+     "21:9",
+     "1464:600",
+     "970:600",
+     "600:450"
+    ],
+    "supportedResolutions": [
+     "1K",
+     "2K",
+     "4K"
+    ]
+   },
+   {
+    "apiCode": "BANANA_2_LITE",
+    "code": "GEMINI_31_FLASH_LITE",
+    "description": "高性价比轻量模型，兼顾速度与成本",
+    "isDefault": false,
+    "isMaintenance": false,
+    "isNew": false,
+    "name": "LF全能模型 Lite",
+    "pricing": {
+     "eco": {},
+     "stable": {
+      "1K": 15
+     }
+    },
+    "refImageCount": 14,
+    "supportEcoMode": false,
+    "supportPromptExpand": false,
+    "supportedQualities": [],
+    "supportedRatios": [
+     "1:1",
+     "3:2",
+     "2:3",
+     "3:4",
+     "4:3",
+     "4:5",
+     "5:4",
+     "9:16",
+     "16:9",
+     "21:9",
+     "1464:600",
+     "970:600",
+     "600:450"
+    ],
+    "supportedResolutions": [
+     "1K"
+    ]
+   },
+   {
+    "apiCode": "BANANA_PRO",
+    "code": "GEMINI_FLASH_PRO",
+    "description": "图片生成最强模型，高质量图片，对指令理解能力更强",
+    "icon": "https://file-ai.linkfox.com/UPLOAD/MANAGE/4fc740a27b2c42ed97918601b897227d.svg",
+    "isDefault": false,
+    "isMaintenance": false,
+    "isNew": false,
+    "name": "LF全能模型 Pro",
+    "pricing": {
+     "eco": {},
+     "stable": {
+      "1K": 50,
+      "2K": 60,
+      "4K": 80
+     }
+    },
+    "refImageCount": 14,
+    "supportEcoMode": false,
+    "supportPromptExpand": false,
+    "supportedQualities": [],
+    "supportedRatios": [
+     "1:1",
+     "2:3",
+     "3:4",
+     "4:5",
+     "9:16",
+     "16:9",
+     "5:4",
+     "4:3",
+     "3:2",
+     "21:9",
+     "1464:600",
+     "970:600",
+     "600:450"
+    ],
+    "supportedResolutions": [
+     "1K",
+     "2K",
+     "4K"
+    ]
+   },
+   {
+    "apiCode": "SEEDREAM5_PRO",
+    "code": "SEEDREAM5_PRO",
+    "description": "国产高质量模型，画面更出彩",
+    "icon": "https://file-ai.linkfox.com/UPLOAD/MANAGE/7a51bca6e5fd4130812e2b1687152255.svg",
+    "isDefault": false,
+    "isMaintenance": false,
+    "isNew": false,
+    "name": "Seedream 5.0 Pro",
+    "pricing": {
+     "eco": {},
+     "stable": {
+      "1K": 20,
+      "2K": 40
+     }
+    },
+    "refImageCount": 10,
+    "supportEcoMode": false,
+    "supportPromptExpand": false,
+    "supportedQualities": [],
+    "supportedRatios": [
+     "1:1",
+     "3:4",
+     "4:3",
+     "9:16",
+     "16:9",
+     "3:2",
+     "2:3",
+     "21:9",
+     "1464:600",
+     "970:600",
+     "600:450"
+    ],
+    "supportedResolutions": [
+     "1K",
+     "2K"
+    ]
+   }
+  ],
+  "107": [
+   {
+    "apiCode": "GPT_2_5_IMAGE",
+    "code": "GPT_2_5_IMAGE",
+    "icon": "https://test-file-ai.linkfox.com/UPLOAD/MANAGE/c35094d568fc4b9e811a3c8998cc662a.svg",
+    "isDefault": true,
+    "isMaintenance": false,
+    "isNew": true,
+    "name": "换色-智能 G-2.5",
+    "pricing": {
+     "eco": {},
+     "stable": {
+      "2K": {
+       "high": 150,
+       "low": 15,
+       "medium": 50
+      }
+     }
+    },
+    "refImageCount": 0,
+    "supportEcoMode": false,
+    "supportPromptExpand": false,
+    "supportedQualities": [
+     "low",
+     "medium",
+     "high"
+    ],
+    "supportedRatios": [],
+    "supportedResolutions": [
+     "2K"
+    ]
+   }
+  ]
+ },
+ "promptProps": {
+  "code": 200,
+  "data": {
+   "angleList": [
+    {
+     "imageUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/sideways.png",
+     "prompt": "sideways",
+     "title": "侧身"
+    },
+    {
+     "imageUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/side+face.png",
+     "prompt": "side face",
+     "title": "侧脸"
+    }
+   ],
+   "faceList": [
+    {
+     "imageUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/smiling.png",
+     "prompt": "(smirking:1.2)",
+     "title": "微笑"
+    },
+    {
+     "imageUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/laughing.png",
+     "prompt": "laughing",
+     "title": "大笑"
+    }
+   ],
+   "otherList": [
+    {
+     "imageUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/back.png",
+     "prompt": "(back:1.5),(photo from behind:1.2)",
+     "title": "背面"
+    },
+    {
+     "imageUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/skinhead.png",
+     "prompt": "(skinhead:1.2)",
+     "title": "光头"
+    }
+   ],
+   "postureList": [
+    {
+     "imageUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/sitting.png",
+     "prompt": "sitting",
+     "title": "坐着"
+    },
+    {
+     "imageUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/lying.png",
+     "prompt": "lying",
+     "title": "躺着"
+    }
+   ],
+   "shapeList": [
+    {
+     "imageUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/fat.png",
+     "prompt": "(very obese:1.3),big head,(double chin:1.2)",
+     "title": "肥胖"
+    },
+    {
+     "imageUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/chubby.png",
+     "prompt": "(chubby,plump:1.3)",
+     "title": "微胖"
+    },
+    {
+     "imageUrl": "https://file-ai.linkfox.com/UPLOAD/MANAGE/slim.png",
+     "prompt": "slim",
+     "title": "苗条"
+    }
+   ]
+  },
+  "msg": "成功",
+  "traceId": "cb9dca75bdfff438b90a569f0f91e433"
+ },
+ "video": {
+  "30": [
+   {
+    "apiCode": "minimax-h3-lite",
+    "cameraModes": [],
+    "code": "AIGC_MINIMAX_H3",
+    "description": "高性价比，适合批量测款与日常上新",
+    "extraConfig": {
+     "aigc_watermark": false,
+     "promptOptimizeKey": "i2vPromptOptimizeMiniMaxH3",
+     "supportAutoRatio": true,
+     "supportModes": [
+      "refImage",
+      "firstLastFrame"
+     ]
+    },
+    "icon": "",
+    "id": "2092207101952098304",
+    "isDefault": true,
+    "isMaintenance": false,
+    "isNew": false,
+    "name": "MiniMax H3",
+    "pricing": {
+     "1080P": {
+      "5": 40,
+      "6": 48,
+      "7": 56,
+      "8": 64,
+      "9": 72,
+      "10": 80,
+      "11": 88,
+      "12": 96,
+      "13": 104,
+      "14": 112,
+      "15": 120
+     },
+     "2K": {
+      "5": 40,
+      "6": 48,
+      "7": 56,
+      "8": 64,
+      "9": 72,
+      "10": 80,
+      "11": 88,
+      "12": 96,
+      "13": 104,
+      "14": 112,
+      "15": 120
+     },
+     "768P": {
+      "5": 30,
+      "6": 36,
+      "7": 42,
+      "8": 48,
+      "9": 54,
+      "10": 60,
+      "11": 66,
+      "12": 72,
+      "13": 78,
+      "14": 84,
+      "15": 90
+     }
+    },
+    "refImageCount": 9,
+    "supportCamera": false,
+    "supportLastFrame": true,
+    "supportReferenceAudioOnly": false,
+    "supportVoice": false,
+    "supportedDurations": [
+     "5",
+     "10",
+     "15"
+    ],
+    "supportedRatios": [
+     "adaptive",
+     "9:16",
+     "16:9",
+     "1:1",
+     "4:3",
+     "3:4",
+     "21:9"
+    ],
+    "supportedResolutions": [
+     "768P",
+     "1080P"
+    ]
+   },
+   {
+    "apiCode": "viduq4-preview",
+    "cameraModes": [],
+    "code": "VIDU_Q4_PREVIEW",
+    "description": "多图参考保持外观一致，适合鞋包配饰等细节展示",
+    "extraConfig": {
+     "defaultDuration": 5,
+     "defaultResolution": "720p",
+     "promptOptimizeKey": "i2vPromptOptimizeSeedance20",
+     "supportAutoRatio": true,
+     "supportLastFrame": false,
+     "supportModes": [
+      "refImage",
+      "firstLastFrame"
+     ]
+    },
+    "id": "2110709964032106496",
+    "isDefault": false,
+    "isMaintenance": false,
+    "isNew": true,
+    "name": "Vidu Q4",
+    "pricing": {
+     "1080P": {
+      "5": 105,
+      "6": 126,
+      "7": 147,
+      "8": 168,
+      "9": 189,
+      "10": 210,
+      "11": 231,
+      "12": 252,
+      "13": 273,
+      "14": 294,
+      "15": 315
+     },
+     "2K": {
+      "5": 165,
+      "6": 198,
+      "7": 231,
+      "8": 264,
+      "9": 297,
+      "10": 330,
+      "11": 363,
+      "12": 396,
+      "13": 429,
+      "14": 462,
+      "15": 495
+     },
+     "720P": {
+      "5": 80,
+      "6": 96,
+      "7": 112,
+      "8": 128,
+      "9": 144,
+      "10": 160,
+      "11": 176,
+      "12": 192,
+      "13": 208,
+      "14": 224,
+      "15": 240
+     }
+    },
+    "refImageCount": 15,
+    "supportCamera": false,
+    "supportLastFrame": true,
+    "supportReferenceAudioOnly": false,
+    "supportVoice": false,
+    "supportedDurations": [
+     "5",
+     "10",
+     "15"
+    ],
+    "supportedRatios": [
+     "9:16",
+     "16:9",
+     "1:1",
+     "3:4",
+     "4:3"
+    ],
+    "supportedResolutions": [
+     "720P",
+     "1080P",
+     "2K"
+    ]
+   },
+   {
+    "apiCode": "wan3",
+    "cameraModes": [],
+    "code": "WAN3",
+    "description": "30秒写实成片，适合服饰美妆等真实质感",
+    "extraConfig": {
+     "defaultDuration": 10,
+     "defaultResolution": "480p",
+     "promptOptimizeKey": "i2vPromptOptimizeWan3.0",
+     "referenceMaterials": {
+      "audio": {
+       "allowOnly": false,
+       "enabled": true,
+       "extensions": [
+        "wav",
+        "mp3"
+       ],
+       "maxCount": 5,
+       "maxDurationSeconds": 15,
+       "maxSizeMb": 15,
+       "maxTotalDurationSeconds": 15,
+       "minDurationSeconds": 1
+      },
+      "document": {
+       "enabled": true,
+       "extensions": [
+        "docx",
+        "doc",
+        "xlsx",
+        "xls",
+        "pptx",
+        "ppt",
+        "pdf",
+        "txt",
+        "key",
+        "pages",
+        "numbers",
+        "md"
+       ],
+       "maxCount": 1,
+       "maxPages": 50,
+       "maxSizeMb": 100
+      },
+      "video": {
+       "enabled": true,
+       "extensions": [
+        "mp4",
+        "mov"
+       ],
+       "maxAspectRatio": 8,
+       "maxCount": 1,
+       "maxDurationSeconds": 15,
+       "maxSide": 4096,
+       "maxSizeMb": 100,
+       "minAspectRatio": 0.125,
+       "minDurationSeconds": 1,
+       "minSide": 240
+      }
+     },
+     "supportAutoRatio": true,
+     "supportModes": [
+      "refImage",
+      "firstLastFrame",
+      "refVideo",
+      "refAudio"
+     ]
+    },
+    "icon": "",
+    "id": "2092207102262476800",
+    "isDefault": false,
+    "isMaintenance": false,
+    "isNew": false,
+    "name": "万相3.0",
+    "pricing": {
+     "1080P": {
+      "5": 355,
+      "6": 426,
+      "7": 497,
+      "8": 568,
+      "9": 639,
+      "10": 710,
+      "11": 781,
+      "12": 852,
+      "13": 923,
+      "14": 994,
+      "15": 1065,
+      "16": 1136,
+      "17": 1207,
+      "18": 1278,
+      "19": 1349,
+      "20": 1420,
+      "21": 1491,
+      "22": 1562,
+      "23": 1633,
+      "24": 1704,
+      "25": 1775,
+      "26": 1846,
+      "27": 1917,
+      "28": 1988,
+      "29": 2059,
+      "30": 2130
+     },
+     "480P": {
+      "5": 90,
+      "6": 108,
+      "7": 126,
+      "8": 144,
+      "9": 162,
+      "10": 180,
+      "11": 198,
+      "12": 216,
+      "13": 234,
+      "14": 252,
+      "15": 270,
+      "16": 288,
+      "17": 306,
+      "18": 324,
+      "19": 342,
+      "20": 360,
+      "21": 378,
+      "22": 396,
+      "23": 414,
+      "24": 432,
+      "25": 450,
+      "26": 468,
+      "27": 486,
+      "28": 504,
+      "29": 522,
+      "30": 540
+     },
+     "720P": {
+      "5": 175,
+      "6": 210,
+      "7": 245,
+      "8": 280,
+      "9": 315,
+      "10": 350,
+      "11": 385,
+      "12": 420,
+      "13": 455,
+      "14": 490,
+      "15": 525,
+      "16": 560,
+      "17": 595,
+      "18": 630,
+      "19": 665,
+      "20": 700,
+      "21": 735,
+      "22": 770,
+      "23": 805,
+      "24": 840,
+      "25": 875,
+      "26": 910,
+      "27": 945,
+      "28": 980,
+      "29": 1015,
+      "30": 1050
+     }
+    },
+    "refImageCount": 10,
+    "supportCamera": false,
+    "supportLastFrame": true,
+    "supportReferenceAudioOnly": false,
+    "supportVoice": false,
+    "supportedDurations": [
+     "5",
+     "10",
+     "15",
+     "20",
+     "25",
+     "30"
+    ],
+    "supportedRatios": [
+     "16:9",
+     "4:3",
+     "1:1",
+     "3:4",
+     "9:16"
+    ],
+    "supportedResolutions": [
+     "480P",
+     "720P",
+     "1080P"
+    ]
+   },
+   {
+    "apiCode": "doubao-seedance-2-5",
+    "cameraModes": [],
+    "code": "SEED_V25",
+    "description": "30秒一次成片，适合多卖点与多镜头叙事",
+    "extraConfig": {
+     "defaultDuration": 10,
+     "defaultResolution": "480p",
+     "promptOptimizeKey": "i2vPromptOptimizeSeedance25",
+     "referenceMaterials": {
+      "audio": {
+       "allowOnly": true,
+       "enabled": true,
+       "extensions": [
+        "wav",
+        "mp3"
+       ],
+       "maxCount": 10,
+       "maxDurationSeconds": 30,
+       "maxSizeMb": 15,
+       "maxTotalDurationSeconds": 30,
+       "minDurationSeconds": 2
+      },
+      "video": {
+       "enabled": true,
+       "extensions": [
+        "mp4",
+        "mov"
+       ],
+       "maxCount": 1,
+       "maxSizeMb": 200
+      }
+     },
+     "supportAutoRatio": true,
+     "supportModes": [
+      "refImage",
+      "firstLastFrame"
+     ]
+    },
+    "icon": "",
+    "id": "2085707802005106688",
+    "isDefault": false,
+    "isMaintenance": false,
+    "isNew": false,
+    "name": "Seedance 2.5",
+    "pricing": {
+     "1080P": {
+      "5": 1620,
+      "6": 1944,
+      "7": 2268,
+      "8": 2592,
+      "9": 2916,
+      "10": 3240,
+      "11": 3564,
+      "12": 3888,
+      "13": 4212,
+      "14": 4536,
+      "15": 4860,
+      "16": 5184,
+      "17": 5508,
+      "18": 5832,
+      "19": 6156,
+      "20": 6480,
+      "21": 6804,
+      "22": 7128,
+      "23": 7452,
+      "24": 7776,
+      "25": 8100,
+      "26": 8424,
+      "27": 8748,
+      "28": 9072,
+      "29": 9396,
+      "30": 9720
+     },
+     "480P": {
+      "5": 265,
+      "6": 318,
+      "7": 371,
+      "8": 424,
+      "9": 477,
+      "10": 530,
+      "11": 583,
+      "12": 636,
+      "13": 689,
+      "14": 742,
+      "15": 795,
+      "16": 848,
+      "17": 901,
+      "18": 954,
+      "19": 1007,
+      "20": 1060,
+      "21": 1113,
+      "22": 1166,
+      "23": 1219,
+      "24": 1272,
+      "25": 1325,
+      "26": 1378,
+      "27": 1431,
+      "28": 1484,
+      "29": 1537,
+      "30": 1590
+     },
+     "720P": {
+      "5": 595,
+      "6": 714,
+      "7": 833,
+      "8": 952,
+      "9": 1071,
+      "10": 1190,
+      "11": 1309,
+      "12": 1428,
+      "13": 1547,
+      "14": 1666,
+      "15": 1785,
+      "16": 1904,
+      "17": 2023,
+      "18": 2142,
+      "19": 2261,
+      "20": 2380,
+      "21": 2499,
+      "22": 2618,
+      "23": 2737,
+      "24": 2856,
+      "25": 2975,
+      "26": 3094,
+      "27": 3213,
+      "28": 3332,
+      "29": 3451,
+      "30": 3570
+     }
+    },
+    "refImageCount": 30,
+    "supportCamera": false,
+    "supportLastFrame": true,
+    "supportReferenceAudioOnly": false,
+    "supportVoice": true,
+    "supportedDurations": [
+     "5",
+     "10",
+     "15",
+     "20",
+     "25",
+     "30"
+    ],
+    "supportedRatios": [
+     "9:16",
+     "16:9",
+     "1:1",
+     "4:3",
+     "3:4",
+     "21:9"
+    ],
+    "supportedResolutions": [
+     "480P",
+     "720P",
+     "1080P"
+    ]
+   },
+   {
+    "apiCode": "happyhorse-v2",
+    "cameraModes": [],
+    "code": "HAPPY_HORSE",
+    "description": "人物与商品多镜头不变形，适合模特出镜",
+    "extraConfig": {
+     "defaultDuration": 15,
+     "defaultResolution": "720p",
+     "promptOptimizeKey": "i2vPromptOptimizeHappyHorse",
+     "supportModes": [
+      "refImage"
+     ]
+    },
+    "icon": "",
+    "id": "1",
+    "isDefault": false,
+    "isMaintenance": false,
+    "isNew": false,
+    "name": "HappyHorse 1.1",
+    "pricing": {
+     "1080P": {
+      "5": 240,
+      "6": 288,
+      "7": 336,
+      "8": 384,
+      "9": 432,
+      "10": 480,
+      "11": 528,
+      "12": 576,
+      "13": 624,
+      "14": 672,
+      "15": 720
+     },
+     "720P": {
+      "5": 185,
+      "6": 222,
+      "7": 259,
+      "8": 296,
+      "9": 333,
+      "10": 370,
+      "11": 407,
+      "12": 444,
+      "13": 481,
+      "14": 518,
+      "15": 555
+     }
+    },
+    "refImageCount": 9,
+    "supportCamera": false,
+    "supportLastFrame": false,
+    "supportReferenceAudioOnly": false,
+    "supportVoice": false,
+    "supportedDurations": [
+     "5",
+     "10",
+     "15"
+    ],
+    "supportedRatios": [
+     "9:16",
+     "16:9",
+     "1:1",
+     "4:3",
+     "3:4",
+     "21:9"
+    ],
+    "supportedResolutions": [
+     "720P",
+     "1080P"
+    ]
+   },
+   {
+    "apiCode": "doubao-seedance-2-0-fast",
+    "cameraModes": [],
+    "code": "SEED_FAST",
+    "description": "画质与成本均衡，适合日常稳妥出片",
+    "extraConfig": {
+     "defaultDuration": 10,
+     "defaultResolution": "480p",
+     "promptOptimizeKey": "i2vPromptOptimizeSeedance20",
+     "referenceMaterials": {
+      "audio": {
+       "allowOnly": false,
+       "enabled": true,
+       "extensions": [
+        "wav",
+        "mp3"
+       ],
+       "maxCount": 3,
+       "maxDurationSeconds": 15,
+       "maxSizeMb": 15,
+       "maxTotalDurationSeconds": 15,
+       "minDurationSeconds": 2
+      },
+      "video": {
+       "enabled": true,
+       "extensions": [
+        "mp4",
+        "mov"
+       ],
+       "maxCount": 1,
+       "maxSizeMb": 200
+      }
+     },
+     "supportAutoRatio": true,
+     "supportModes": [
+      "refImage",
+      "firstLastFrame"
+     ]
+    },
+    "icon": "",
+    "id": "3",
+    "isDefault": false,
+    "isMaintenance": false,
+    "isNew": false,
+    "name": "Seedance 2.0 fast",
+    "pricing": {
+     "480P": {
+      "5": 105,
+      "6": 126,
+      "7": 147,
+      "8": 168,
+      "9": 189,
+      "10": 210,
+      "11": 231,
+      "12": 252,
+      "13": 273,
+      "14": 294,
+      "15": 315
+     },
+     "720P": {
+      "5": 215,
+      "6": 258,
+      "7": 301,
+      "8": 344,
+      "9": 387,
+      "10": 430,
+      "11": 473,
+      "12": 516,
+      "13": 559,
+      "14": 602,
+      "15": 645
+     }
+    },
+    "refImageCount": 9,
+    "supportCamera": false,
+    "supportLastFrame": true,
+    "supportReferenceAudioOnly": false,
+    "supportVoice": true,
+    "supportedDurations": [
+     "5",
+     "10",
+     "15"
+    ],
+    "supportedRatios": [
+     "9:16",
+     "16:9",
+     "1:1",
+     "4:3",
+     "3:4",
+     "21:9"
+    ],
+    "supportedResolutions": [
+     "480P",
+     "720P"
+    ]
+   },
+   {
+    "apiCode": "doubao-seedance-2-0-mini",
+    "cameraModes": [],
+    "code": "SEED_MINI",
+    "description": "出片最快 & 算力更低，适合快速试稿",
+    "extraConfig": {
+     "defaultDuration": 10,
+     "defaultResolution": "480p",
+     "promptOptimizeKey": "i2vPromptOptimizeSeedance20",
+     "referenceMaterials": {
+      "audio": {
+       "allowOnly": false,
+       "enabled": true,
+       "extensions": [
+        "wav",
+        "mp3"
+       ],
+       "maxCount": 3,
+       "maxDurationSeconds": 15,
+       "maxSizeMb": 15,
+       "maxTotalDurationSeconds": 15,
+       "minDurationSeconds": 2
+      },
+      "video": {
+       "enabled": true,
+       "extensions": [
+        "mp4",
+        "mov"
+       ],
+       "maxCount": 1,
+       "maxSizeMb": 200
+      }
+     },
+     "supportAutoRatio": true,
+     "supportModes": [
+      "refImage",
+      "firstLastFrame"
+     ]
+    },
+    "icon": "",
+    "id": "22",
+    "isDefault": false,
+    "isMaintenance": false,
+    "isNew": false,
+    "name": "Seedance 2.0 mini",
+    "pricing": {
+     "480P": {
+      "5": 35,
+      "6": 42,
+      "7": 49,
+      "8": 56,
+      "9": 63,
+      "10": 70,
+      "11": 77,
+      "12": 84,
+      "13": 91,
+      "14": 98,
+      "15": 105
+     },
+     "720P": {
+      "5": 70,
+      "6": 84,
+      "7": 98,
+      "8": 112,
+      "9": 126,
+      "10": 140,
+      "11": 154,
+      "12": 168,
+      "13": 182,
+      "14": 196,
+      "15": 210
+     }
+    },
+    "refImageCount": 9,
+    "supportCamera": false,
+    "supportLastFrame": true,
+    "supportReferenceAudioOnly": false,
+    "supportVoice": true,
+    "supportedDurations": [
+     "5",
+     "10",
+     "15"
+    ],
+    "supportedRatios": [
+     "9:16",
+     "16:9",
+     "1:1",
+     "4:3",
+     "3:4",
+     "21:9"
+    ],
+    "supportedResolutions": [
+     "480P",
+     "720P"
+    ]
+   },
+   {
+    "apiCode": "doubao-seedance-2-0",
+    "cameraModes": [],
+    "code": "SEED",
+    "description": "画面最稳细节拟真，适合精细画面和商品运镜",
+    "extraConfig": {
+     "defaultDuration": 10,
+     "defaultResolution": "480p",
+     "promptOptimizeKey": "i2vPromptOptimizeSeedance20",
+     "referenceMaterials": {
+      "audio": {
+       "allowOnly": false,
+       "enabled": true,
+       "extensions": [
+        "wav",
+        "mp3"
+       ],
+       "maxCount": 3,
+       "maxDurationSeconds": 15,
+       "maxSizeMb": 15,
+       "maxTotalDurationSeconds": 15,
+       "minDurationSeconds": 2
+      },
+      "video": {
+       "enabled": true,
+       "extensions": [
+        "mp4",
+        "mov"
+       ],
+       "maxCount": 1,
+       "maxSizeMb": 200
+      }
+     },
+     "supportAutoRatio": true,
+     "supportModes": [
+      "refImage",
+      "firstLastFrame"
+     ]
+    },
+    "icon": "",
+    "id": "2",
+    "isDefault": false,
+    "isMaintenance": false,
+    "isNew": false,
+    "name": "Seedance 2.0",
+    "pricing": {
+     "1080P": {
+      "5": 1500,
+      "6": 1800,
+      "7": 2100,
+      "8": 2400,
+      "9": 2700,
+      "10": 3000,
+      "11": 3300,
+      "12": 3600,
+      "13": 3900,
+      "14": 4200,
+      "15": 4500
+     },
+     "480P": {
+      "5": 200,
+      "6": 240,
+      "7": 280,
+      "8": 320,
+      "9": 360,
+      "10": 400,
+      "11": 440,
+      "12": 480,
+      "13": 520,
+      "14": 560,
+      "15": 600
+     },
+     "720P": {
+      "5": 400,
+      "6": 480,
+      "7": 560,
+      "8": 640,
+      "9": 720,
+      "10": 800,
+      "11": 880,
+      "12": 960,
+      "13": 1040,
+      "14": 1120,
+      "15": 1200
+     }
+    },
+    "refImageCount": 9,
+    "supportCamera": false,
+    "supportLastFrame": true,
+    "supportReferenceAudioOnly": false,
+    "supportVoice": true,
+    "supportedDurations": [
+     "5",
+     "10",
+     "15"
+    ],
+    "supportedRatios": [
+     "9:16",
+     "16:9",
+     "1:1",
+     "4:3",
+     "3:4",
+     "21:9"
+    ],
+    "supportedResolutions": [
+     "480P",
+     "720P",
+     "1080P"
+    ]
+   },
+   {
+    "cameraModes": [],
+    "code": "GEMINI_OMNI_FLASH_1_1",
+    "description": "理解复杂产品结构，适合3C电子类商品",
+    "id": "2098028989870104576",
+    "isDefault": false,
+    "isMaintenance": false,
+    "isNew": true,
+    "name": "Omni Flash 1.1",
+    "pricing": {
+     "1080P": {
+      "5": 245,
+      "6": 294,
+      "7": 343,
+      "8": 392,
+      "9": 441,
+      "10": 490
+     },
+     "360P": {
+      "5": 50,
+      "6": 60,
+      "7": 70,
+      "8": 80,
+      "9": 90,
+      "10": 100
+     },
+     "4K": {
+      "5": 490,
+      "6": 588,
+      "7": 686,
+      "8": 784,
+      "9": 882,
+      "10": 980
+     },
+     "720P": {
+      "5": 165,
+      "6": 198,
+      "7": 231,
+      "8": 264,
+      "9": 297,
+      "10": 330
+     }
+    },
+    "refImageCount": 10,
+    "supportCamera": false,
+    "supportLastFrame": false,
+    "supportReferenceAudioOnly": false,
+    "supportVoice": false,
+    "supportedDurations": [
+     "5",
+     "10"
+    ],
+    "supportedRatios": [
+     "16:9",
+     "9:16"
+    ],
+    "supportedResolutions": [
+     "720P",
+     "1080P"
+    ]
+   },
+   {
+    "apiCode": "kling-v2-6",
+    "cameraModes": [],
+    "code": "MODEL_V2_6",
+    "description": "适合上传模特图展示，人物动作更丝滑",
+    "extraConfig": {
+     "defaultDuration": 10,
+     "defaultResolution": "720p",
+     "promptOptimizeKey": "i2vPromptOptimizeKling",
+     "supportAutoRatio": true,
+     "supportModes": [
+      "firstLastFrame"
+     ]
+    },
+    "id": "18",
+    "isDefault": false,
+    "isMaintenance": false,
+    "isNew": false,
+    "name": "可灵2.6",
+    "pricing": {
+     "noVoice": {
+      "1080P": {
+       "5": 300,
+       "6": 340,
+       "7": 380,
+       "8": 420,
+       "9": 460,
+       "10": 500,
+       "11": 500,
+       "12": 500,
+       "13": 500,
+       "14": 500,
+       "15": 500
+      },
+      "720P": {
+       "5": 200,
+       "6": 240,
+       "7": 280,
+       "8": 320,
+       "9": 360,
+       "10": 400,
+       "11": 400,
+       "12": 400,
+       "13": 400,
+       "14": 400,
+       "15": 400
+      }
+     },
+     "voice": {
+      "1080P": {
+       "5": 400,
+       "6": 480,
+       "7": 560,
+       "8": 640,
+       "9": 720,
+       "10": 800,
+       "11": 800,
+       "12": 800,
+       "13": 800,
+       "14": 800,
+       "15": 800
+      }
+     }
+    },
+    "refImageCount": 2,
+    "supportCamera": false,
+    "supportLastFrame": true,
+    "supportReferenceAudioOnly": false,
+    "supportVoice": true,
+    "supportedDurations": [
+     "5",
+     "10"
+    ],
+    "supportedRatios": [],
+    "supportedResolutions": [
+     "720P",
+     "1080P"
+    ]
+   },
+   {
+    "apiCode": "kling-v3-omni",
+    "cameraModes": [],
+    "code": "MODEL",
+    "description": "注重外观与镜头一致性，适合商品细节精准还原",
+    "extraConfig": {
+     "defaultDuration": 10,
+     "defaultResolution": "720p",
+     "promptOptimizeKey": "i2vPromptOptimizeKling",
+     "supportModes": [
+      "refImage",
+      "firstLastFrame"
+     ]
+    },
+    "icon": "",
+    "id": "4",
+    "isDefault": false,
+    "isMaintenance": false,
+    "isNew": false,
+    "name": "可灵Omni",
+    "pricing": {
+     "1080P": {
+      "5": 400,
+      "6": 480,
+      "7": 560,
+      "8": 640,
+      "9": 720,
+      "10": 800,
+      "11": 880,
+      "12": 960,
+      "13": 1040,
+      "14": 1120,
+      "15": 1200
+     },
+     "720P": {
+      "5": 300,
+      "6": 360,
+      "7": 420,
+      "8": 480,
+      "9": 540,
+      "10": 600,
+      "11": 660,
+      "12": 720,
+      "13": 780,
+      "14": 840,
+      "15": 900
+     }
+    },
+    "refImageCount": 7,
+    "supportCamera": false,
+    "supportLastFrame": true,
+    "supportReferenceAudioOnly": false,
+    "supportVoice": false,
+    "supportedDurations": [
+     "5",
+     "10",
+     "15"
+    ],
+    "supportedRatios": [
+     "1:1",
+     "9:16",
+     "16:9"
+    ],
+    "supportedResolutions": [
+     "720P",
+     "1080P"
+    ]
+   }
+  ],
+  "73": [
+   {
+    "apiCode": "minimax-h3-lite",
+    "cameraModes": [],
+    "code": "AIGC_MINIMAX_H3",
+    "description": "高性价比，适合批量测款与日常上新",
+    "extraConfig": {
+     "aigc_watermark": false,
+     "promptOptimizeKey": "i2vPromptOptimizeMiniMaxH3",
+     "supportAutoRatio": true
+    },
+    "icon": "",
+    "id": "2095525044967874560",
+    "isDefault": false,
+    "isMaintenance": false,
+    "isNew": false,
+    "name": "MiniMax H3",
+    "pricing": {
+     "1080P": {
+      "5": 40,
+      "10": 80,
+      "15": 120
+     },
+     "2K": {
+      "5": 40,
+      "10": 80,
+      "15": 120
+     },
+     "768P": {
+      "5": 30,
+      "10": 60,
+      "15": 90
+     }
+    },
+    "refImageCount": 9,
+    "supportCamera": false,
+    "supportLastFrame": false,
+    "supportReferenceAudioOnly": false,
+    "supportVoice": false,
+    "supportedDurations": [
+     "5",
+     "10",
+     "15"
+    ],
+    "supportedRatios": [
+     "adaptive",
+     "9:16",
+     "16:9",
+     "1:1",
+     "4:3",
+     "3:4",
+     "21:9"
+    ],
+    "supportedResolutions": [
+     "768P",
+     "1080P"
+    ]
+   },
+   {
+    "apiCode": "viduq4-preview",
+    "cameraModes": [],
+    "code": "VIDU_Q4_PREVIEW",
+    "description": "多图参考保持外观一致，适合鞋包配饰等细节展示",
+    "extraConfig": {
+     "defaultDuration": 5,
+     "defaultResolution": "720p",
+     "promptOptimizeKey": "i2vPromptOptimizeSeedance20",
+     "supportAutoRatio": true,
+     "supportLastFrame": false,
+     "supportModes": [
+      "refImage",
+      "firstLastFrame"
+     ]
+    },
+    "id": "2110709964069855232",
+    "isDefault": false,
+    "isMaintenance": false,
+    "isNew": true,
+    "name": "Vidu Q4",
+    "pricing": {
+     "1080P": {
+      "5": 105,
+      "10": 210,
+      "15": 315
+     },
+     "2K": {
+      "5": 165,
+      "10": 330,
+      "15": 495
+     },
+     "720P": {
+      "5": 80,
+      "10": 160,
+      "15": 240
+     }
+    },
+    "refImageCount": 15,
+    "supportCamera": false,
+    "supportLastFrame": true,
+    "supportReferenceAudioOnly": false,
+    "supportVoice": false,
+    "supportedDurations": [
+     "5",
+     "10",
+     "15"
+    ],
+    "supportedRatios": [
+     "9:16",
+     "16:9",
+     "1:1",
+     "3:4",
+     "4:3"
+    ],
+    "supportedResolutions": [
+     "720P",
+     "1080P",
+     "2K"
+    ]
+   },
+   {
+    "apiCode": "wan3",
+    "cameraModes": [],
+    "code": "WAN3",
+    "description": "30秒写实成片，适合服饰美妆等真实质感",
+    "extraConfig": {
+     "defaultDuration": 10,
+     "defaultResolution": "480p",
+     "supportAutoRatio": true,
+     "supportModes": [
+      "refImage",
+      "firstLastFrame",
+      "refVideo",
+      "refAudio"
+     ]
+    },
+    "icon": "",
+    "id": "2092207786684809216",
+    "isDefault": false,
+    "isMaintenance": false,
+    "isNew": false,
+    "name": "万相3.0",
+    "pricing": {
+     "1080P": {
+      "5": 355,
+      "10": 710,
+      "15": 1065,
+      "20": 1420,
+      "25": 1775,
+      "30": 2130
+     },
+     "480P": {
+      "5": 90,
+      "10": 180,
+      "15": 270,
+      "20": 360,
+      "25": 450,
+      "30": 540
+     },
+     "720P": {
+      "5": 175,
+      "10": 350,
+      "15": 525,
+      "20": 700,
+      "25": 875,
+      "30": 1050
+     }
+    },
+    "refImageCount": 10,
+    "supportCamera": false,
+    "supportLastFrame": true,
+    "supportReferenceAudioOnly": false,
+    "supportVoice": true,
+    "supportedDurations": [
+     "5",
+     "10",
+     "15",
+     "20",
+     "25",
+     "30"
+    ],
+    "supportedRatios": [
+     "16:9",
+     "4:3",
+     "1:1",
+     "3:4",
+     "9:16"
+    ],
+    "supportedResolutions": [
+     "480P",
+     "720P",
+     "1080P"
+    ]
+   },
+   {
+    "apiCode": "doubao-seedance-2-5",
+    "cameraModes": [],
+    "code": "SEED_V25",
+    "description": "30秒一次成片，适合多卖点与多镜头叙事",
+    "extraConfig": {
+     "defaultDuration": 10,
+     "defaultResolution": "480p",
+     "supportAutoRatio": true
+    },
+    "icon": "",
+    "id": "2085707802034466816",
+    "isDefault": false,
+    "isMaintenance": false,
+    "isNew": false,
+    "name": "Seedance 2.5",
+    "pricing": {
+     "1080P": {
+      "5": 1620,
+      "10": 3240,
+      "15": 4860,
+      "20": 6480,
+      "25": 8100,
+      "30": 9720
+     },
+     "480P": {
+      "5": 265,
+      "10": 530,
+      "15": 795,
+      "20": 1060,
+      "25": 1325,
+      "30": 1590
+     },
+     "720P": {
+      "5": 595,
+      "10": 1190,
+      "15": 1785,
+      "20": 2380,
+      "25": 2975,
+      "30": 3570
+     }
+    },
+    "refImageCount": 30,
+    "supportCamera": false,
+    "supportLastFrame": false,
+    "supportReferenceAudioOnly": false,
+    "supportVoice": false,
+    "supportedDurations": [
+     "5",
+     "10",
+     "15",
+     "20",
+     "25",
+     "30"
+    ],
+    "supportedRatios": [
+     "9:16",
+     "16:9",
+     "1:1",
+     "4:3",
+     "3:4",
+     "21:9"
+    ],
+    "supportedResolutions": [
+     "480P",
+     "720P",
+     "1080P"
+    ]
+   },
+   {
+    "apiCode": "doubao-seedance-2-0-fast",
+    "cameraModes": [],
+    "code": "SEED_FAST",
+    "description": "画质与成本均衡，适合日常稳妥出片",
+    "extraConfig": {
+     "supportAutoRatio": true
+    },
+    "icon": "",
+    "id": "13",
+    "isDefault": false,
+    "isMaintenance": false,
+    "isNew": false,
+    "name": "Seedance 2.0 fast",
+    "pricing": {
+     "480P": {
+      "5": 105,
+      "10": 210,
+      "15": 315
+     },
+     "720P": {
+      "5": 215,
+      "10": 430,
+      "15": 645
+     }
+    },
+    "refImageCount": 9,
+    "supportCamera": false,
+    "supportLastFrame": false,
+    "supportReferenceAudioOnly": false,
+    "supportVoice": false,
+    "supportedDurations": [
+     "5",
+     "10",
+     "15"
+    ],
+    "supportedRatios": [
+     "9:16",
+     "16:9",
+     "1:1",
+     "4:3",
+     "3:4",
+     "21:9"
+    ],
+    "supportedResolutions": [
+     "480P",
+     "720P"
+    ]
+   },
+   {
+    "apiCode": "doubao-seedance-2-0-mini",
+    "cameraModes": [],
+    "code": "SEED_MINI",
+    "description": "出片最快 & 算力更低，适合快速试稿",
+    "extraConfig": {
+     "supportAutoRatio": true
+    },
+    "icon": "",
+    "id": "23",
+    "isDefault": false,
+    "isMaintenance": false,
+    "isNew": false,
+    "name": "Seedance 2.0 mini",
+    "pricing": {
+     "480P": {
+      "5": 35,
+      "10": 70,
+      "15": 105
+     },
+     "720P": {
+      "5": 70,
+      "10": 140,
+      "15": 210
+     }
+    },
+    "refImageCount": 9,
+    "supportCamera": false,
+    "supportLastFrame": false,
+    "supportReferenceAudioOnly": false,
+    "supportVoice": false,
+    "supportedDurations": [
+     "5",
+     "10",
+     "15"
+    ],
+    "supportedRatios": [
+     "9:16",
+     "16:9",
+     "1:1",
+     "4:3",
+     "3:4",
+     "21:9"
+    ],
+    "supportedResolutions": [
+     "480P",
+     "720P"
+    ]
+   },
+   {
+    "apiCode": "happyhorse-v2",
+    "cameraModes": [],
+    "code": "HAPPY_HORSE",
+    "description": "人物与商品多镜头不变形，适合模特出镜",
+    "extraConfig": {
+     "defaultDuration": 15,
+     "defaultResolution": "720p"
+    },
+    "icon": "",
+    "id": "10",
+    "isDefault": false,
+    "isMaintenance": false,
+    "isNew": false,
+    "name": "HappyHorse 1.1",
+    "pricing": {
+     "1080P": {
+      "5": 240,
+      "10": 480,
+      "15": 720
+     },
+     "720P": {
+      "5": 185,
+      "10": 370,
+      "15": 555
+     }
+    },
+    "refImageCount": 9,
+    "supportCamera": false,
+    "supportLastFrame": false,
+    "supportReferenceAudioOnly": false,
+    "supportVoice": false,
+    "supportedDurations": [
+     "5",
+     "10",
+     "15"
+    ],
+    "supportedRatios": [
+     "9:16",
+     "16:9",
+     "1:1",
+     "4:3",
+     "3:4",
+     "21:9"
+    ],
+    "supportedResolutions": [
+     "720P",
+     "1080P"
+    ]
+   },
+   {
+    "apiCode": "doubao-seedance-2-0",
+    "cameraModes": [],
+    "code": "SEED",
+    "description": "画面最稳细节拟真，适合精细画面和商品运镜",
+    "extraConfig": {
+     "supportAutoRatio": true
+    },
+    "icon": "",
+    "id": "12",
+    "isDefault": false,
+    "isMaintenance": false,
+    "isNew": false,
+    "name": "Seedance 2.0",
+    "pricing": {
+     "1080P": {
+      "5": 1500,
+      "10": 3000,
+      "15": 4500
+     },
+     "480P": {
+      "5": 200,
+      "10": 400,
+      "15": 600
+     },
+     "720P": {
+      "5": 400,
+      "10": 800,
+      "15": 1200
+     }
+    },
+    "refImageCount": 9,
+    "supportCamera": false,
+    "supportLastFrame": false,
+    "supportReferenceAudioOnly": false,
+    "supportVoice": false,
+    "supportedDurations": [
+     "5",
+     "10",
+     "15"
+    ],
+    "supportedRatios": [
+     "9:16",
+     "16:9",
+     "1:1",
+     "4:3",
+     "3:4",
+     "21:9"
+    ],
+    "supportedResolutions": [
+     "480P",
+     "720P",
+     "1080P"
+    ]
+   }
+  ],
+  "87": [
+   {
+    "cameraModes": [],
+    "code": "SEED",
+    "id": "2073375236523454464",
+    "isDefault": false,
+    "isMaintenance": false,
+    "isNew": false,
+    "name": "Seedance 2.0",
+    "pricing": {},
+    "refImageCount": 0,
+    "supportCamera": false,
+    "supportLastFrame": false,
+    "supportReferenceAudioOnly": false,
+    "supportVoice": false,
+    "supportedDurations": [],
+    "supportedRatios": [],
+    "supportedResolutions": []
+   },
+   {
+    "cameraModes": [],
+    "code": "SEED_FAST",
+    "id": "2073375538941161472",
+    "isDefault": false,
+    "isMaintenance": false,
+    "isNew": false,
+    "name": "Seedance 2.0 fast",
+    "pricing": {},
+    "refImageCount": 0,
+    "supportCamera": false,
+    "supportLastFrame": false,
+    "supportReferenceAudioOnly": false,
+    "supportVoice": false,
+    "supportedDurations": [],
+    "supportedRatios": [],
+    "supportedResolutions": []
+   },
+   {
+    "cameraModes": [],
+    "code": "SEED_MINI",
+    "id": "2073375612911906816",
+    "isDefault": false,
+    "isMaintenance": false,
+    "isNew": false,
+    "name": "Seedance 2.0 mini",
+    "pricing": {},
+    "refImageCount": 0,
+    "supportCamera": false,
+    "supportLastFrame": false,
+    "supportReferenceAudioOnly": false,
+    "supportVoice": false,
+    "supportedDurations": [],
+    "supportedRatios": [],
+    "supportedResolutions": []
+   },
+   {
+    "cameraModes": [],
+    "code": "MODEL",
+    "id": "2073375738770386944",
+    "isDefault": false,
+    "isMaintenance": false,
+    "isNew": false,
+    "name": "可灵Omni",
+    "pricing": {},
+    "refImageCount": 0,
+    "supportCamera": false,
+    "supportLastFrame": false,
+    "supportReferenceAudioOnly": false,
+    "supportVoice": false,
+    "supportedDurations": [],
+    "supportedRatios": [],
+    "supportedResolutions": []
+   },
+   {
+    "cameraModes": [],
+    "code": "HAPPY_HORSE",
+    "id": "2073376029746032640",
+    "isDefault": false,
+    "isMaintenance": false,
+    "isNew": false,
+    "name": "HappyHorse 1.1",
+    "pricing": {},
+    "refImageCount": 0,
+    "supportCamera": false,
+    "supportLastFrame": false,
+    "supportReferenceAudioOnly": false,
+    "supportVoice": false,
+    "supportedDurations": [],
+    "supportedRatios": [],
+    "supportedResolutions": []
+   },
+   {
+    "cameraModes": [],
+    "code": "WAN",
+    "id": "2073376266598379520",
+    "isDefault": false,
+    "isMaintenance": false,
+    "isNew": false,
+    "name": "万相2.6",
+    "pricing": {},
+    "refImageCount": 0,
+    "supportCamera": false,
+    "supportLastFrame": false,
+    "supportReferenceAudioOnly": false,
+    "supportVoice": false,
+    "supportedDurations": [],
+    "supportedRatios": [],
+    "supportedResolutions": []
+   },
+   {
+    "cameraModes": [],
+    "code": "SEED_V25",
+    "description": "原生30秒直出，全模态参考一镜到底",
+    "id": "2087413502775554048",
+    "isDefault": false,
+    "isMaintenance": false,
+    "isNew": true,
+    "name": "Seedance 2.5",
+    "pricing": {
+     "480P": 32,
+     "720P": 71
+    },
+    "refImageCount": 30,
+    "supportCamera": false,
+    "supportLastFrame": false,
+    "supportReferenceAudioOnly": false,
+    "supportVoice": false,
+    "supportedDurations": [
+     "5",
+     "10",
+     "15",
+     "30"
+    ],
+    "supportedRatios": [
+     "9:16",
+     "16:9",
+     "1:1",
+     "3:4",
+     "4:3",
+     "21:9"
+    ],
+    "supportedResolutions": [
+     "480P",
+     "720P"
+    ]
+   }
+  ],
+  "88": [
+   {
+    "apiCode": "doubao-seedance-2-5",
+    "cameraModes": [],
+    "code": "SEED_V25",
+    "description": "原生30秒直出，全模态参考一镜到底",
+    "extraConfig": {
+     "defaultDuration": 10,
+     "defaultResolution": "480p",
+     "promptOptimizeKey": "i2vPromptOptimizeSeedance25",
+     "referenceMaterials": {
+      "video": {
+       "enabled": true,
+       "extensions": [
+        "mp4",
+        "mov"
+       ],
+       "maxCount": 1,
+       "maxSizeMb": 200
+      }
+     },
+     "supportAutoRatio": true,
+     "supportModes": [
+      "refImage",
+      "firstLastFrame"
+     ]
+    },
+    "id": "2087414942009028608",
+    "isDefault": true,
+    "isMaintenance": false,
+    "isNew": true,
+    "name": "Seedance 2.5",
+    "pricing": {
+     "1080P": {
+      "4": 1296,
+      "5": 1620,
+      "6": 1944,
+      "7": 2268,
+      "8": 2592,
+      "9": 2916,
+      "10": 3240,
+      "11": 3564,
+      "12": 3888,
+      "13": 4212,
+      "14": 4536,
+      "15": 4860,
+      "16": 5184,
+      "17": 5508,
+      "18": 5832,
+      "19": 6156,
+      "20": 6480,
+      "21": 6804,
+      "22": 7128,
+      "23": 7452,
+      "24": 7776,
+      "25": 8100,
+      "26": 8424,
+      "27": 8748,
+      "28": 9072,
+      "29": 9396,
+      "30": 9720
+     },
+     "480P": {
+      "4": 212,
+      "5": 265,
+      "6": 318,
+      "7": 371,
+      "8": 424,
+      "9": 477,
+      "10": 530,
+      "11": 583,
+      "12": 636,
+      "13": 689,
+      "14": 742,
+      "15": 795,
+      "16": 848,
+      "17": 901,
+      "18": 954,
+      "19": 1007,
+      "20": 1060,
+      "21": 1113,
+      "22": 1166,
+      "23": 1219,
+      "24": 1272,
+      "25": 1325,
+      "26": 1378,
+      "27": 1431,
+      "28": 1484,
+      "29": 1537,
+      "30": 1590
+     },
+     "720P": {
+      "4": 476,
+      "5": 595,
+      "6": 714,
+      "7": 833,
+      "8": 952,
+      "9": 1071,
+      "10": 1190,
+      "11": 1309,
+      "12": 1428,
+      "13": 1547,
+      "14": 1666,
+      "15": 1785,
+      "16": 1904,
+      "17": 2023,
+      "18": 2142,
+      "19": 2261,
+      "20": 2380,
+      "21": 2499,
+      "22": 2618,
+      "23": 2737,
+      "24": 2856,
+      "25": 2975,
+      "26": 3094,
+      "27": 3213,
+      "28": 3332,
+      "29": 3451,
+      "30": 3570
+     }
+    },
+    "refImageCount": 30,
+    "supportCamera": false,
+    "supportLastFrame": true,
+    "supportReferenceAudioOnly": false,
+    "supportVoice": true,
+    "supportedDurations": [
+     "4",
+     "5",
+     "6",
+     "7",
+     "8",
+     "9",
+     "10",
+     "11",
+     "12",
+     "13",
+     "14",
+     "15",
+     "16",
+     "17",
+     "18",
+     "19",
+     "20",
+     "21",
+     "22",
+     "23",
+     "24",
+     "25",
+     "26",
+     "27",
+     "28",
+     "29",
+     "30"
+    ],
+    "supportedRatios": [
+     "9:16",
+     "16:9",
+     "1:1",
+     "4:3",
+     "3:4",
+     "21:9"
+    ],
+    "supportedResolutions": [
+     "480P",
+     "720P",
+     "1080P"
+    ]
+   },
+   {
+    "apiCode": "wan3",
+    "cameraModes": [],
+    "code": "WAN3",
+    "description": "30秒一键成片，超写实质感直出",
+    "extraConfig": {
+     "defaultDuration": 10,
+     "defaultResolution": "480p",
+     "referenceMaterials": {
+      "document": {
+       "enabled": true,
+       "maxCount": 1,
+       "maxPages": 50,
+       "maxSizeMb": 100
+      },
+      "video": {
+       "enabled": true,
+       "extensions": [
+        "mp4",
+        "mov"
+       ],
+       "maxAspectRatio": 8,
+       "maxCount": 1,
+       "maxDurationSeconds": 15,
+       "maxSide": 4096,
+       "maxSizeMb": 100,
+       "minAspectRatio": 0.125,
+       "minDurationSeconds": 1,
+       "minSide": 240
+      }
+     },
+     "supportAutoRatio": true,
+     "supportModes": [
+      "refImage",
+      "firstLastFrame",
+      "refVideo",
+      "refAudio"
+     ]
+    },
+    "id": "2093698831783305216",
+    "isDefault": false,
+    "isMaintenance": false,
+    "isNew": true,
+    "name": "万相3.0",
+    "pricing": {
+     "1080P": {
+      "5": 355,
+      "10": 710,
+      "15": 1065,
+      "20": 1420,
+      "25": 1775,
+      "30": 2130
+     },
+     "480P": {
+      "5": 90,
+      "10": 180,
+      "15": 270,
+      "20": 360,
+      "25": 450,
+      "30": 540
+     },
+     "720P": {
+      "5": 175,
+      "10": 350,
+      "15": 525,
+      "20": 700,
+      "25": 875,
+      "30": 1050
+     }
+    },
+    "refImageCount": 10,
+    "supportCamera": false,
+    "supportLastFrame": true,
+    "supportReferenceAudioOnly": false,
+    "supportVoice": false,
+    "supportedDurations": [
+     "5",
+     "10",
+     "15",
+     "20",
+     "25",
+     "30"
+    ],
+    "supportedRatios": [
+     "16:9",
+     "4:3",
+     "1:1",
+     "3:4",
+     "9:16"
+    ],
+    "supportedResolutions": [
+     "480P",
+     "720P",
+     "1080P"
+    ]
+   },
+   {
+    "apiCode": "doubao-seedance-2-0-fast",
+    "cameraModes": [],
+    "code": "SEED_FAST",
+    "description": "兼具质量与性价比",
+    "extraConfig": {
+     "defaultDuration": 10,
+     "defaultResolution": "480p",
+     "promptOptimizeKey": "i2vPromptOptimizeSeedance20",
+     "referenceMaterials": {
+      "video": {
+       "enabled": true,
+       "extensions": [
+        "mp4",
+        "mov"
+       ],
+       "maxCount": 1,
+       "maxSizeMb": 200
+      }
+     },
+     "supportAutoRatio": true,
+     "supportModes": [
+      "refImage",
+      "firstLastFrame"
+     ]
+    },
+    "id": "2087414941954502656",
+    "isDefault": false,
+    "isMaintenance": false,
+    "isNew": false,
+    "name": "Seedance 2.0 fast",
+    "pricing": {
+     "480P": {
+      "4": 84,
+      "5": 105,
+      "6": 126,
+      "7": 147,
+      "8": 168,
+      "9": 189,
+      "10": 210,
+      "11": 231,
+      "12": 252,
+      "13": 273,
+      "14": 294,
+      "15": 315
+     },
+     "720P": {
+      "4": 172,
+      "5": 215,
+      "6": 258,
+      "7": 301,
+      "8": 344,
+      "9": 387,
+      "10": 430,
+      "11": 473,
+      "12": 516,
+      "13": 559,
+      "14": 602,
+      "15": 645
+     }
+    },
+    "refImageCount": 9,
+    "supportCamera": false,
+    "supportLastFrame": true,
+    "supportReferenceAudioOnly": false,
+    "supportVoice": true,
+    "supportedDurations": [
+     "4",
+     "5",
+     "6",
+     "7",
+     "8",
+     "9",
+     "10",
+     "11",
+     "12",
+     "13",
+     "14",
+     "15"
+    ],
+    "supportedRatios": [
+     "9:16",
+     "16:9",
+     "1:1",
+     "4:3",
+     "3:4",
+     "21:9"
+    ],
+    "supportedResolutions": [
+     "480P",
+     "720P"
+    ]
+   },
+   {
+    "apiCode": "doubao-seedance-2-0-mini",
+    "cameraModes": [],
+    "code": "SEED_MINI",
+    "description": "极致性价比，比 Fast 更快的推理速度",
+    "extraConfig": {
+     "defaultDuration": 10,
+     "defaultResolution": "480p",
+     "promptOptimizeKey": "i2vPromptOptimizeSeedance20",
+     "referenceMaterials": {
+      "video": {
+       "enabled": true,
+       "extensions": [
+        "mp4",
+        "mov"
+       ],
+       "maxCount": 1,
+       "maxSizeMb": 200
+      }
+     },
+     "supportAutoRatio": true,
+     "supportModes": [
+      "refImage",
+      "firstLastFrame"
+     ]
+    },
+    "id": "2087414941983862784",
+    "isDefault": false,
+    "isMaintenance": false,
+    "isNew": true,
+    "name": "Seedance 2.0 mini",
+    "pricing": {
+     "480P": {
+      "4": 28,
+      "5": 35,
+      "6": 42,
+      "7": 49,
+      "8": 56,
+      "9": 63,
+      "10": 70,
+      "11": 77,
+      "12": 84,
+      "13": 91,
+      "14": 98,
+      "15": 105
+     },
+     "720P": {
+      "4": 56,
+      "5": 70,
+      "6": 84,
+      "7": 98,
+      "8": 112,
+      "9": 126,
+      "10": 140,
+      "11": 154,
+      "12": 168,
+      "13": 182,
+      "14": 196,
+      "15": 210
+     }
+    },
+    "refImageCount": 9,
+    "supportCamera": false,
+    "supportLastFrame": true,
+    "supportReferenceAudioOnly": false,
+    "supportVoice": true,
+    "supportedDurations": [
+     "4",
+     "5",
+     "6",
+     "7",
+     "8",
+     "9",
+     "10",
+     "11",
+     "12",
+     "13",
+     "14",
+     "15"
+    ],
+    "supportedRatios": [
+     "9:16",
+     "16:9",
+     "1:1",
+     "4:3",
+     "3:4",
+     "21:9"
+    ],
+    "supportedResolutions": [
+     "480P",
+     "720P"
+    ]
+   },
+   {
+    "apiCode": "happyhorse-v2",
+    "cameraModes": [],
+    "code": "HAPPY_HORSE",
+    "description": "视觉与动态全面进化，角色一致性大幅提升",
+    "extraConfig": {
+     "defaultDuration": 15,
+     "defaultResolution": "720p",
+     "promptOptimizeKey": "i2vPromptOptimizeHappyHorse",
+     "supportModes": [
+      "refImage"
+     ]
+    },
+    "id": "2087414941874810880",
+    "isDefault": false,
+    "isMaintenance": false,
+    "isNew": false,
+    "name": "HappyHorse 1.1",
+    "pricing": {
+     "1080P": {
+      "5": 240,
+      "10": 480,
+      "15": 720
+     },
+     "720P": {
+      "5": 185,
+      "10": 370,
+      "15": 555
+     }
+    },
+    "refImageCount": 9,
+    "supportCamera": false,
+    "supportLastFrame": false,
+    "supportReferenceAudioOnly": false,
+    "supportVoice": false,
+    "supportedDurations": [
+     "5",
+     "10",
+     "15"
+    ],
+    "supportedRatios": [
+     "9:16",
+     "16:9",
+     "1:1",
+     "4:3",
+     "3:4",
+     "21:9"
+    ],
+    "supportedResolutions": [
+     "720P",
+     "1080P"
+    ]
+   },
+   {
+    "cameraModes": [],
+    "code": "GEMINI_OMNI_FLASH_1_1",
+    "id": "2093698831338708992",
+    "isDefault": false,
+    "isMaintenance": true,
+    "isNew": true,
+    "name": "Omni Flash 1.1",
+    "pricing": {
+     "1080P": {
+      "5": 245,
+      "10": 490
+     },
+     "360P": {
+      "5": 50,
+      "10": 100
+     },
+     "4K": {
+      "5": 490,
+      "10": 980
+     },
+     "720P": {
+      "5": 165,
+      "10": 330
+     }
+    },
+    "refImageCount": 10,
+    "supportCamera": false,
+    "supportLastFrame": false,
+    "supportReferenceAudioOnly": false,
+    "supportVoice": false,
+    "supportedDurations": [
+     "5",
+     "10"
+    ],
+    "supportedRatios": [
+     "16:9",
+     "9:16"
+    ],
+    "supportedResolutions": [
+     "720P",
+     "1080P",
+     "4K"
+    ]
+   },
+   {
+    "apiCode": "doubao-seedance-2-0",
+    "cameraModes": [],
+    "code": "SEED",
+    "description": "极致拟真的视听稳定性，仅支持非真人内容",
+    "extraConfig": {
+     "defaultDuration": 10,
+     "defaultResolution": "480p",
+     "promptOptimizeKey": "i2vPromptOptimizeSeedance20",
+     "referenceMaterials": {
+      "video": {
+       "enabled": true,
+       "extensions": [
+        "mp4",
+        "mov"
+       ],
+       "maxCount": 1,
+       "maxSizeMb": 200
+      }
+     },
+     "supportAutoRatio": true,
+     "supportModes": [
+      "refImage",
+      "firstLastFrame"
+     ]
+    },
+    "id": "2087414941929336832",
+    "isDefault": false,
+    "isMaintenance": false,
+    "isNew": false,
+    "name": "Seedance 2.0",
+    "pricing": {
+     "1080P": {
+      "4": 1200,
+      "5": 1500,
+      "6": 1800,
+      "7": 2100,
+      "8": 2400,
+      "9": 2700,
+      "10": 3000,
+      "11": 3300,
+      "12": 3600,
+      "13": 3900,
+      "14": 4200,
+      "15": 4500
+     },
+     "480P": {
+      "4": 160,
+      "5": 200,
+      "6": 240,
+      "7": 280,
+      "8": 320,
+      "9": 360,
+      "10": 400,
+      "11": 440,
+      "12": 480,
+      "13": 520,
+      "14": 560,
+      "15": 600
+     },
+     "720P": {
+      "4": 320,
+      "5": 400,
+      "6": 480,
+      "7": 560,
+      "8": 640,
+      "9": 720,
+      "10": 800,
+      "11": 880,
+      "12": 960,
+      "13": 1040,
+      "14": 1120,
+      "15": 1200
+     }
+    },
+    "refImageCount": 9,
+    "supportCamera": false,
+    "supportLastFrame": true,
+    "supportReferenceAudioOnly": false,
+    "supportVoice": true,
+    "supportedDurations": [
+     "4",
+     "5",
+     "6",
+     "7",
+     "8",
+     "9",
+     "10",
+     "11",
+     "12",
+     "13",
+     "14",
+     "15"
+    ],
+    "supportedRatios": [
+     "9:16",
+     "16:9",
+     "1:1",
+     "4:3",
+     "3:4",
+     "21:9"
+    ],
+    "supportedResolutions": [
+     "480P",
+     "720P",
+     "1080P"
+    ]
+   },
+   {
+    "apiCode": "minimax-h3-lite",
+    "cameraModes": [],
+    "code": "AIGC_MINIMAX_H3",
+    "description": "高性价比，适合批量测款与日常上新",
+    "extraConfig": {
+     "aigc_watermark": false,
+     "promptOptimizeKey": "i2vPromptOptimizeMiniMaxH3",
+     "supportAutoRatio": true
+    },
+    "icon": "",
+    "id": "2093698831238045696",
+    "isDefault": false,
+    "isMaintenance": false,
+    "isNew": false,
+    "name": "MiniMax H3",
+    "pricing": {
+     "1080P": {
+      "5": 40,
+      "10": 80,
+      "15": 120
+     },
+     "2K": {
+      "5": 40,
+      "10": 80,
+      "15": 120
+     },
+     "768P": {
+      "5": 30,
+      "10": 60,
+      "15": 90
+     }
+    },
+    "refImageCount": 9,
+    "supportCamera": false,
+    "supportLastFrame": false,
+    "supportReferenceAudioOnly": false,
+    "supportVoice": false,
+    "supportedDurations": [
+     "5",
+     "10",
+     "15"
+    ],
+    "supportedRatios": [
+     "adaptive",
+     "9:16",
+     "16:9",
+     "1:1",
+     "4:3",
+     "3:4",
+     "21:9"
+    ],
+    "supportedResolutions": [
+     "768P",
+     "1080P"
+    ]
+   },
+   {
+    "apiCode": "hailuo-2-3",
+    "cameraModes": [],
+    "code": "PRODUCT",
+    "description": "对运镜描述又更强表现力",
+    "extraConfig": {
+     "defaultDuration": 10,
+     "defaultResolution": "768p",
+     "supportAutoRatio": true,
+     "supportModes": [
+      "refImage"
+     ]
+    },
+    "id": "2093698831590367232",
+    "isDefault": false,
+    "isMaintenance": false,
+    "isNew": false,
+    "name": "海螺2.3",
+    "pricing": {
+     "1080P": {
+      "6": 300,
+      "10": 500
+     },
+     "768P": {
+      "6": 200,
+      "10": 400
+     }
+    },
+    "refImageCount": 0,
+    "supportCamera": false,
+    "supportLastFrame": false,
+    "supportReferenceAudioOnly": false,
+    "supportVoice": false,
+    "supportedDurations": [
+     "6",
+     "10"
+    ],
+    "supportedRatios": [],
+    "supportedResolutions": [
+     "768P",
+     "1080P"
+    ]
+   },
+   {
+    "apiCode": "kling-v2-6",
+    "cameraModes": [],
+    "code": "MODEL_V2_6",
+    "description": "适合上传模特图展示，人物动作更丝滑",
+    "extraConfig": {
+     "defaultDuration": 10,
+     "defaultResolution": "720p",
+     "promptOptimizeKey": "i2vPromptOptimizeKling",
+     "supportAutoRatio": true,
+     "supportModes": [
+      "firstLastFrame"
+     ]
+    },
+    "id": "2073375950855368704",
+    "isDefault": false,
+    "isMaintenance": false,
+    "isNew": false,
+    "name": "可灵2.6",
+    "pricing": {
+     "noVoice": {
+      "1080P": {
+       "5": 300,
+       "10": 500,
+       "15": 500
+      },
+      "720P": {
+       "5": 200,
+       "10": 400,
+       "15": 400
+      }
+     },
+     "voice": {
+      "1080P": {
+       "5": 400,
+       "10": 800,
+       "15": 800
+      }
+     }
+    },
+    "refImageCount": 2,
+    "supportCamera": false,
+    "supportLastFrame": true,
+    "supportReferenceAudioOnly": false,
+    "supportVoice": true,
+    "supportedDurations": [
+     "5",
+     "10"
+    ],
+    "supportedRatios": [],
+    "supportedResolutions": [
+     "720P",
+     "1080P"
+    ]
+   },
+   {
+    "apiCode": "kling-v3-omni",
+    "cameraModes": [],
+    "code": "MODEL",
+    "description": "全能参考，超强一致性",
+    "extraConfig": {
+     "defaultDuration": 10,
+     "defaultResolution": "720p",
+     "promptOptimizeKey": "i2vPromptOptimizeKling",
+     "supportModes": [
+      "refImage",
+      "firstLastFrame"
+     ]
+    },
+    "id": "2087414941904171008",
+    "isDefault": false,
+    "isMaintenance": false,
+    "isNew": false,
+    "name": "可灵Omni",
+    "pricing": {
+     "1080P": {
+      "5": 400,
+      "10": 800,
+      "15": 1200
+     },
+     "720P": {
+      "5": 300,
+      "10": 600,
+      "15": 900
+     }
+    },
+    "refImageCount": 7,
+    "supportCamera": false,
+    "supportLastFrame": true,
+    "supportReferenceAudioOnly": false,
+    "supportVoice": false,
+    "supportedDurations": [
+     "5",
+     "10",
+     "15"
+    ],
+    "supportedRatios": [
+     "1:1",
+     "9:16",
+     "16:9"
+    ],
+    "supportedResolutions": [
+     "720P",
+     "1080P"
+    ]
+   },
+   {
+    "apiCode": "wan-2-6",
+    "cameraModes": [
+     "single",
+     "multi"
+    ],
+    "code": "WAN",
+    "description": "支持多分镜视频，比较擅长口播，十分稳定",
+    "extraConfig": {
+     "defaultDuration": 15,
+     "defaultResolution": "720p",
+     "supportAutoRatio": true,
+     "supportModes": [
+      "refImage"
+     ]
+    },
+    "id": "2087414942038388736",
+    "isDefault": false,
+    "isMaintenance": false,
+    "isNew": false,
+    "name": "万相2.6",
+    "pricing": {
+     "1080P": {
+      "5": 300,
+      "10": 600,
+      "15": 800
+     },
+     "720P": {
+      "5": 300,
+      "10": 600,
+      "15": 800
+     }
+    },
+    "refImageCount": 0,
+    "supportCamera": true,
+    "supportLastFrame": false,
+    "supportReferenceAudioOnly": false,
+    "supportVoice": true,
+    "supportedDurations": [
+     "5",
+     "10",
+     "15"
+    ],
+    "supportedRatios": [],
+    "supportedResolutions": [
+     "720P",
+     "1080P"
+    ]
+   }
+  ],
+  "89": [
+   {
+    "apiCode": "minimax-h3-lite",
+    "cameraModes": [],
+    "code": "AIGC_MINIMAX_H3",
+    "description": "高性价比，适合批量测款与日常上新",
+    "extraConfig": {
+     "aigc_watermark": false,
+     "promptOptimizeKey": "i2vPromptOptimizeMiniMaxH3",
+     "supportAutoRatio": true
+    },
+    "icon": "",
+    "id": "2095525074592243712",
+    "isDefault": false,
+    "isMaintenance": false,
+    "isNew": false,
+    "name": "MiniMax H3",
+    "pricing": {
+     "1080P": 8,
+     "768P": 6
+    },
+    "refImageCount": 9,
+    "supportCamera": false,
+    "supportLastFrame": false,
+    "supportReferenceAudioOnly": false,
+    "supportVoice": false,
+    "supportedDurations": [
+     "5",
+     "10",
+     "15"
+    ],
+    "supportedRatios": [
+     "adaptive",
+     "9:16",
+     "16:9",
+     "1:1",
+     "4:3",
+     "3:4",
+     "21:9"
+    ],
+    "supportedResolutions": [
+     "768P",
+     "1080P"
+    ]
+   },
+   {
+    "apiCode": "viduq4-preview",
+    "cameraModes": [],
+    "code": "VIDU_Q4_PREVIEW",
+    "description": "多图参考保持外观一致，适合鞋包配饰等细节展示",
+    "extraConfig": {
+     "defaultDuration": 5,
+     "defaultResolution": "720p",
+     "promptOptimizeKey": "i2vPromptOptimizeSeedance20",
+     "supportAutoRatio": true,
+     "supportLastFrame": false,
+     "supportModes": [
+      "refImage",
+      "firstLastFrame"
+     ]
+    },
+    "id": "2110709964099215360",
+    "isDefault": false,
+    "isMaintenance": false,
+    "isNew": true,
+    "name": "Vidu Q4",
+    "pricing": {
+     "1080P": 21,
+     "2K": 33,
+     "720P": 16
+    },
+    "refImageCount": 15,
+    "supportCamera": false,
+    "supportLastFrame": true,
+    "supportReferenceAudioOnly": false,
+    "supportVoice": false,
+    "supportedDurations": [
+     "5",
+     "10",
+     "15"
+    ],
+    "supportedRatios": [
+     "9:16",
+     "16:9",
+     "1:1",
+     "3:4",
+     "4:3"
+    ],
+    "supportedResolutions": [
+     "720P",
+     "1080P",
+     "2K"
+    ]
+   },
+   {
+    "apiCode": "wan3",
+    "cameraModes": [],
+    "code": "WAN3",
+    "description": "30秒写实成片，适合服饰美妆等真实质感",
+    "extraConfig": {
+     "supportModes": [
+      "refImage",
+      "refVideo"
+     ]
+    },
+    "icon": "",
+    "id": "2092207813691932672",
+    "isDefault": false,
+    "isMaintenance": false,
+    "isNew": false,
+    "name": "万相3.0",
+    "pricing": {
+     "1080P": 71,
+     "480P": 18,
+     "720P": 35
+    },
+    "refImageCount": 10,
+    "supportCamera": false,
+    "supportLastFrame": true,
+    "supportReferenceAudioOnly": false,
+    "supportVoice": true,
+    "supportedDurations": [
+     "5",
+     "10",
+     "15",
+     "20",
+     "25",
+     "30"
+    ],
+    "supportedRatios": [
+     "16:9",
+     "4:3",
+     "1:1",
+     "3:4",
+     "9:16"
+    ],
+    "supportedResolutions": [
+     "480P",
+     "720P",
+     "1080P"
+    ]
+   },
+   {
+    "apiCode": "doubao-seedance-2-5",
+    "cameraModes": [],
+    "code": "SEED_V25",
+    "description": "30秒一次成片，适合多卖点与多镜头叙事",
+    "extraConfig": {},
+    "icon": "",
+    "id": "2085707802059632640",
+    "isDefault": false,
+    "isMaintenance": false,
+    "isNew": false,
+    "name": "Seedance 2.5",
+    "pricing": {
+     "1080P": 324,
+     "480P": 53,
+     "720P": 119
+    },
+    "refImageCount": 30,
+    "supportCamera": false,
+    "supportLastFrame": false,
+    "supportReferenceAudioOnly": false,
+    "supportVoice": false,
+    "supportedDurations": [
+     "5",
+     "10",
+     "15",
+     "20",
+     "25",
+     "30"
+    ],
+    "supportedRatios": [
+     "9:16",
+     "16:9",
+     "1:1",
+     "3:4",
+     "4:3",
+     "21:9"
+    ],
+    "supportedResolutions": [
+     "480P",
+     "720P",
+     "1080P"
+    ]
+   },
+   {
+    "apiCode": "doubao-seedance-2-0-fast",
+    "cameraModes": [],
+    "code": "SEED_FAST",
+    "description": "画质与成本均衡，适合日常稳妥出片",
+    "icon": "",
+    "id": "9",
+    "isDefault": false,
+    "isMaintenance": false,
+    "isNew": false,
+    "name": "Seedance 2.0 fast",
+    "pricing": {
+     "480P": 21,
+     "720P": 43
+    },
+    "refImageCount": 6,
+    "supportCamera": false,
+    "supportLastFrame": false,
+    "supportReferenceAudioOnly": false,
+    "supportVoice": false,
+    "supportedDurations": [
+     "5",
+     "10",
+     "15"
+    ],
+    "supportedRatios": [
+     "9:16",
+     "16:9",
+     "1:1",
+     "3:4",
+     "4:3",
+     "21:9"
+    ],
+    "supportedResolutions": [
+     "480P",
+     "720P"
+    ]
+   },
+   {
+    "apiCode": "doubao-seedance-2-0-mini",
+    "cameraModes": [],
+    "code": "SEED_MINI",
+    "description": "出片最快 & 算力更低，适合快速试稿",
+    "icon": "",
+    "id": "24",
+    "isDefault": false,
+    "isMaintenance": false,
+    "isNew": false,
+    "name": "Seedance 2.0 mini",
+    "pricing": {
+     "480P": 7,
+     "720P": 14
+    },
+    "refImageCount": 6,
+    "supportCamera": false,
+    "supportLastFrame": false,
+    "supportReferenceAudioOnly": false,
+    "supportVoice": false,
+    "supportedDurations": [
+     "5",
+     "10",
+     "15"
+    ],
+    "supportedRatios": [
+     "9:16",
+     "16:9",
+     "1:1",
+     "3:4",
+     "4:3",
+     "21:9"
+    ],
+    "supportedResolutions": [
+     "480P",
+     "720P"
+    ]
+   },
+   {
+    "apiCode": "doubao-seedance-2-0",
+    "cameraModes": [],
+    "code": "SEED",
+    "description": "画面最稳细节拟真，适合精细画面和商品运镜",
+    "icon": "",
+    "id": "8",
+    "isDefault": false,
+    "isMaintenance": false,
+    "isNew": false,
+    "name": "Seedance 2.0",
+    "pricing": {
+     "1080P": 300,
+     "480P": 45,
+     "720P": 85
+    },
+    "refImageCount": 6,
+    "supportCamera": false,
+    "supportLastFrame": false,
+    "supportReferenceAudioOnly": false,
+    "supportVoice": false,
+    "supportedDurations": [
+     "5",
+     "10",
+     "15"
+    ],
+    "supportedRatios": [
+     "9:16",
+     "16:9",
+     "1:1",
+     "3:4",
+     "4:3",
+     "21:9"
+    ],
+    "supportedResolutions": [
+     "480P",
+     "720P",
+     "1080P"
+    ]
+   },
+   {
+    "apiCode": "happyhorse-v2",
+    "cameraModes": [],
+    "code": "HAPPY_HORSE",
+    "description": "人物与商品多镜头不变形，适合模特出镜",
+    "extraConfig": {
+     "supportModes": [
+      "refImage"
+     ]
+    },
+    "icon": "",
+    "id": "2073376266598379527",
+    "isDefault": false,
+    "isMaintenance": false,
+    "isNew": false,
+    "name": "HappyHorse 1.1",
+    "pricing": {
+     "1080P": 48,
+     "720P": 37
+    },
+    "refImageCount": 9,
+    "supportCamera": false,
+    "supportLastFrame": false,
+    "supportReferenceAudioOnly": false,
+    "supportVoice": false,
+    "supportedDurations": [
+     "5",
+     "10",
+     "15"
+    ],
+    "supportedRatios": [
+     "9:16",
+     "16:9",
+     "1:1",
+     "4:3",
+     "3:4",
+     "21:9"
+    ],
+    "supportedResolutions": [
+     "720P",
+     "1080P"
+    ]
+   }
+  ],
+  "94": [
+   {
+    "apiCode": "doubao-seedance-2-0-fast",
+    "cameraModes": [],
+    "code": "SEED_FAST",
+    "description": "兼具质量与性价比",
+    "extraConfig": {
+     "supportAutoRatio": true,
+     "supportModes": [
+      "refImage",
+      "firstLastFrame",
+      "refVideo"
+     ]
+    },
+    "id": "1062",
+    "isDefault": true,
+    "isMaintenance": false,
+    "isNew": false,
+    "maxReferenceAudioCount": 3,
+    "name": "Seedance 2.0 fast",
+    "pricing": {
+     "480P": 21,
+     "720P": 43
+    },
+    "refImageCount": 9,
+    "supportCamera": false,
+    "supportLastFrame": true,
+    "supportReferenceAudioOnly": false,
+    "supportVoice": true,
+    "supportedDurations": [
+     "4",
+     "5",
+     "6",
+     "7",
+     "8",
+     "9",
+     "10",
+     "11",
+     "12",
+     "13",
+     "14",
+     "15"
+    ],
+    "supportedRatios": [
+     "16:9",
+     "4:3",
+     "1:1",
+     "3:4",
+     "9:16",
+     "21:9"
+    ],
+    "supportedResolutions": [
+     "480P",
+     "720P"
+    ]
+   },
+   {
+    "apiCode": "wan3",
+    "cameraModes": [],
+    "code": "WAN3",
+    "description": "30秒一键成片，超写实质感直出",
+    "extraConfig": {
+     "defaultDuration": 10,
+     "defaultResolution": "480p",
+     "supportAutoRatio": true,
+     "supportModes": [
+      "refImage",
+      "firstLastFrame",
+      "refVideo",
+      "refAudio"
+     ]
+    },
+    "id": "2092965675266347008",
+    "isDefault": false,
+    "isMaintenance": false,
+    "isNew": true,
+    "name": "万相3.0",
+    "pricing": {
+     "1080P": 71,
+     "480P": 18,
+     "720P": 35
+    },
+    "refImageCount": 10,
+    "supportCamera": false,
+    "supportLastFrame": true,
+    "supportReferenceAudioOnly": false,
+    "supportVoice": false,
+    "supportedDurations": [
+     "5",
+     "10",
+     "15",
+     "20",
+     "25",
+     "30"
+    ],
+    "supportedRatios": [
+     "16:9",
+     "4:3",
+     "1:1",
+     "3:4",
+     "9:16"
+    ],
+    "supportedResolutions": [
+     "480P",
+     "720P",
+     "1080P"
+    ]
+   },
+   {
+    "apiCode": "doubao-seedance-2-0-mini",
+    "cameraModes": [],
+    "code": "SEED_MINI",
+    "description": "极致性价比，比 Fast 更快的推理速度",
+    "extraConfig": {
+     "supportAutoRatio": true,
+     "supportModes": [
+      "refImage",
+      "firstLastFrame",
+      "refVideo"
+     ]
+    },
+    "id": "1063",
+    "isDefault": false,
+    "isMaintenance": false,
+    "isNew": true,
+    "maxReferenceAudioCount": 3,
+    "name": "Seedance 2.0 mini",
+    "pricing": {
+     "480P": 7,
+     "720P": 14
+    },
+    "refImageCount": 9,
+    "supportCamera": false,
+    "supportLastFrame": true,
+    "supportReferenceAudioOnly": false,
+    "supportVoice": true,
+    "supportedDurations": [
+     "4",
+     "5",
+     "6",
+     "7",
+     "8",
+     "9",
+     "10",
+     "11",
+     "12",
+     "13",
+     "14",
+     "15"
+    ],
+    "supportedRatios": [
+     "16:9",
+     "4:3",
+     "1:1",
+     "3:4",
+     "9:16",
+     "21:9"
+    ],
+    "supportedResolutions": [
+     "480P",
+     "720P"
+    ]
+   },
+   {
+    "apiCode": "doubao-seedance-2-0",
+    "cameraModes": [],
+    "code": "SEED",
+    "description": "极致拟真的视听稳定性，仅支持非真人内容",
+    "extraConfig": {
+     "supportAutoRatio": true,
+     "supportModes": [
+      "refImage",
+      "firstLastFrame",
+      "refVideo"
+     ]
+    },
+    "id": "1061",
+    "isDefault": false,
+    "isMaintenance": false,
+    "isNew": false,
+    "maxReferenceAudioCount": 3,
+    "name": "Seedance 2.0",
+    "pricing": {
+     "1080P": 300,
+     "480P": 45,
+     "720P": 85
+    },
+    "refImageCount": 9,
+    "supportCamera": false,
+    "supportLastFrame": true,
+    "supportReferenceAudioOnly": false,
+    "supportVoice": true,
+    "supportedDurations": [
+     "4",
+     "5",
+     "6",
+     "7",
+     "8",
+     "9",
+     "10",
+     "11",
+     "12",
+     "13",
+     "14",
+     "15"
+    ],
+    "supportedRatios": [
+     "16:9",
+     "4:3",
+     "1:1",
+     "3:4",
+     "9:16",
+     "21:9"
+    ],
+    "supportedResolutions": [
+     "480P",
+     "720P",
+     "1080P"
+    ]
+   },
+   {
+    "apiCode": "doubao-seedance-2-5",
+    "cameraModes": [],
+    "code": "SEED_V25",
+    "description": "原生30秒直出，全模态参考一镜到底",
+    "extraConfig": {
+     "supportAutoRatio": true,
+     "supportModes": [
+      "refImage",
+      "firstLastFrame",
+      "refVideo"
+     ]
+    },
+    "id": "2089690834492289024",
+    "isDefault": false,
+    "isMaintenance": false,
+    "isNew": true,
+    "maxReferenceAudioCount": 10,
+    "name": "Seedance 2.5",
+    "pricing": {
+     "1080P": 324,
+     "480P": 53,
+     "720P": 119
+    },
+    "refImageCount": 30,
+    "supportCamera": false,
+    "supportLastFrame": true,
+    "supportReferenceAudioOnly": true,
+    "supportVoice": true,
+    "supportedDurations": [
+     "4",
+     "5",
+     "6",
+     "7",
+     "8",
+     "9",
+     "10",
+     "11",
+     "12",
+     "13",
+     "14",
+     "15",
+     "16",
+     "17",
+     "18",
+     "19",
+     "20",
+     "21",
+     "22",
+     "23",
+     "24",
+     "25",
+     "26",
+     "27",
+     "28",
+     "29",
+     "30"
+    ],
+    "supportedRatios": [
+     "16:9",
+     "4:3",
+     "1:1",
+     "3:4",
+     "9:16",
+     "21:9",
+     "adaptive"
+    ],
+    "supportedResolutions": [
+     "480P",
+     "720P",
+     "1080P"
+    ]
+   },
+   {
+    "apiCode": "kling-v3-omni",
+    "cameraModes": [],
+    "code": "MODEL",
+    "description": "全能参考，超强一致性",
+    "extraConfig": {
+     "supportModes": [
+      "refImage",
+      "firstLastFrame"
+     ]
+    },
+    "id": "1064",
+    "isDefault": false,
+    "isMaintenance": false,
+    "isNew": false,
+    "name": "可灵Omni",
+    "pricing": {
+     "1080P": 120,
+     "720P": 60
+    },
+    "refImageCount": 7,
+    "supportCamera": false,
+    "supportLastFrame": true,
+    "supportReferenceAudioOnly": false,
+    "supportVoice": false,
+    "supportedDurations": [
+     "5",
+     "10",
+     "15"
+    ],
+    "supportedRatios": [
+     "1:1",
+     "9:16",
+     "16:9"
+    ],
+    "supportedResolutions": [
+     "720P",
+     "1080P"
+    ]
+   },
+   {
+    "apiCode": "minimax-h3-lite",
+    "cameraModes": [],
+    "code": "AIGC_MINIMAX_H3",
+    "description": "高性价比，适合批量测款与日常上新",
+    "extraConfig": {
+     "aigc_watermark": false,
+     "promptOptimizeKey": "i2vPromptOptimizeMiniMaxH3",
+     "supportAutoRatio": true
+    },
+    "icon": "",
+    "id": "2092965675236986880",
+    "isDefault": false,
+    "isMaintenance": false,
+    "isNew": false,
+    "maxReferenceAudioCount": 3,
+    "name": "MiniMax H3",
+    "pricing": {
+     "1080P": 8,
+     "768P": 6
+    },
+    "refImageCount": 9,
+    "supportCamera": false,
+    "supportLastFrame": false,
+    "supportReferenceAudioOnly": false,
+    "supportVoice": false,
+    "supportedDurations": [
+     "4",
+     "5",
+     "6",
+     "7",
+     "8",
+     "9",
+     "10",
+     "11",
+     "12",
+     "13",
+     "14",
+     "15"
+    ],
+    "supportedRatios": [
+     "adaptive",
+     "9:16",
+     "16:9",
+     "1:1",
+     "4:3",
+     "3:4",
+     "21:9"
+    ],
+    "supportedResolutions": [
+     "768P",
+     "1080P"
+    ]
+   },
+   {
+    "apiCode": "kling-v2-6",
+    "cameraModes": [],
+    "code": "MODEL_V2_6",
+    "description": "适合上传模特图展示，人物动作更丝滑",
+    "extraConfig": {
+     "supportAutoRatio": true,
+     "supportModes": [
+      "firstLastFrame"
+     ]
+    },
+    "id": "1065",
+    "isDefault": false,
+    "isMaintenance": false,
+    "isNew": false,
+    "name": "可灵2.6",
+    "pricing": {
+     "1080P": 80,
+     "720P": 40
+    },
+    "refImageCount": 2,
+    "supportCamera": false,
+    "supportLastFrame": true,
+    "supportReferenceAudioOnly": false,
+    "supportVoice": true,
+    "supportedDurations": [
+     "5",
+     "10"
+    ],
+    "supportedRatios": [],
+    "supportedResolutions": [
+     "720P",
+     "1080P"
+    ]
+   },
+   {
+    "apiCode": "happyhorse-v2",
+    "cameraModes": [],
+    "code": "HAPPY_HORSE",
+    "description": "视觉与动态全面进化，角色一致性大幅提升",
+    "extraConfig": {
+     "supportModes": [
+      "refImage"
+     ]
+    },
+    "id": "1069",
+    "isDefault": false,
+    "isMaintenance": false,
+    "isNew": true,
+    "name": "HappyHorse 1.1",
+    "pricing": {
+     "1080P": 70,
+     "720P": 60
+    },
+    "refImageCount": 9,
+    "supportCamera": false,
+    "supportLastFrame": false,
+    "supportReferenceAudioOnly": false,
+    "supportVoice": false,
+    "supportedDurations": [
+     "5",
+     "10",
+     "15"
+    ],
+    "supportedRatios": [
+     "9:16",
+     "16:9"
+    ],
+    "supportedResolutions": [
+     "720P",
+     "1080P"
+    ]
+   },
+   {
+    "apiCode": "wan-2-6",
+    "cameraModes": [
+     "single",
+     "multi"
+    ],
+    "code": "WAN",
+    "description": "支持多分镜视频，比较擅长口播，十分稳定",
+    "extraConfig": {
+     "supportAutoRatio": true,
+     "supportModes": [
+      "refImage"
+     ]
+    },
+    "id": "1066",
+    "isDefault": false,
+    "isMaintenance": false,
+    "isNew": false,
+    "name": "万相2.6",
+    "pricing": {
+     "1080P": 80,
+     "720P": 60
+    },
+    "refImageCount": 0,
+    "supportCamera": true,
+    "supportLastFrame": false,
+    "supportReferenceAudioOnly": false,
+    "supportVoice": true,
+    "supportedDurations": [
+     "5",
+     "10",
+     "15"
+    ],
+    "supportedRatios": [],
+    "supportedResolutions": []
+   },
+   {
+    "apiCode": "hailuo-2-3",
+    "cameraModes": [],
+    "code": "PRODUCT",
+    "description": "对运镜描述又更强表现力",
+    "extraConfig": {
+     "supportAutoRatio": true,
+     "supportModes": [
+      "refImage"
+     ]
+    },
+    "id": "1067",
+    "isDefault": false,
+    "isMaintenance": false,
+    "isNew": false,
+    "name": "海螺2.3",
+    "pricing": {
+     "1080P": 50,
+     "768P": 35
+    },
+    "refImageCount": 0,
+    "supportCamera": false,
+    "supportLastFrame": false,
+    "supportReferenceAudioOnly": false,
+    "supportVoice": false,
+    "supportedDurations": [
+     "6",
+     "10"
+    ],
+    "supportedRatios": [],
+    "supportedResolutions": [
+     "768P",
+     "1080P"
+    ]
+   }
+  ],
+  "95": [
+   {
+    "cameraModes": [],
+    "code": "SEED_V25",
+    "description": "全模态参考，商品人物精准编辑",
+    "extraConfig": {
+     "promptOptimizeKey": "vePromptOptimize",
+     "supportAutoRatio": true,
+     "supportModes": [
+      "refImage",
+      "firstLastFrame"
+     ]
+    },
+    "id": "2085707802084798464",
+    "isDefault": true,
+    "isMaintenance": false,
+    "isNew": false,
+    "name": "Seedance 2.5",
+    "pricing": {
+     "points": 119
+    },
+    "refImageCount": 30,
+    "supportCamera": false,
+    "supportLastFrame": true,
+    "supportReferenceAudioOnly": false,
+    "supportVoice": false,
+    "supportedDurations": [
+     "5",
+     "10",
+     "15",
+     "20",
+     "25",
+     "30"
+    ],
+    "supportedRatios": [
+     "9:16",
+     "16:9",
+     "1:1",
+     "3:4",
+     "4:3",
+     "21:9"
+    ],
+    "supportedResolutions": []
+   },
+   {
+    "cameraModes": [],
+    "code": "GEMINI_OMNI_FLASH_1_1",
+    "description": "一句话改商品视频，参考图精准还原不跑样",
+    "extraConfig": {
+     "promptOptimizeKey": "vePromptOptimize"
+    },
+    "id": "2098029043943071744",
+    "isDefault": false,
+    "isMaintenance": false,
+    "isNew": true,
+    "name": "Omni Flash 1.1",
+    "pricing": {
+     "points": 33
+    },
+    "refImageCount": 10,
+    "supportCamera": false,
+    "supportLastFrame": false,
+    "supportReferenceAudioOnly": false,
+    "supportVoice": false,
+    "supportedDurations": [
+     "5",
+     "10"
+    ],
+    "supportedRatios": [
+     "16:9",
+     "9:16"
+    ],
+    "supportedResolutions": []
+   },
+   {
+    "cameraModes": [],
+    "code": "HAPPY_HORSE",
+    "description": "商品一键换装换景，纹理细节零失真",
+    "extraConfig": {
+     "promptOptimizeKey": "vePromptOptimize"
+    },
+    "id": "2073376266598379525",
+    "isDefault": false,
+    "isMaintenance": false,
+    "isNew": false,
+    "name": "HappyHorse 1.0",
+    "pricing": {
+     "points": 39
+    },
+    "refImageCount": 9,
+    "supportCamera": false,
+    "supportLastFrame": false,
+    "supportReferenceAudioOnly": false,
+    "supportVoice": false,
+    "supportedDurations": [
+     "5",
+     "10",
+     "15"
+    ],
+    "supportedRatios": [],
+    "supportedResolutions": []
+   },
+   {
+    "cameraModes": [],
+    "code": "WAN3",
+    "description": "一句话改视频，精准丝滑编辑",
+    "extraConfig": {
+     "promptOptimizeKey": "vePromptOptimize",
+     "supportAutoRatio": true
+    },
+    "id": "2092207049393274880",
+    "isDefault": false,
+    "isMaintenance": false,
+    "isNew": false,
+    "name": "万相3.0",
+    "pricing": {
+     "points": 35
+    },
+    "refImageCount": 10,
+    "supportCamera": false,
+    "supportLastFrame": true,
+    "supportReferenceAudioOnly": false,
+    "supportVoice": true,
+    "supportedDurations": [
+     "5",
+     "10",
+     "15"
+    ],
+    "supportedRatios": [
+     "16:9",
+     "4:3",
+     "1:1",
+     "3:4",
+     "9:16"
+    ],
+    "supportedResolutions": [
+     "720P"
+    ]
+   },
+   {
+    "cameraModes": [],
+    "code": "MODEL",
+    "description": "商品多镜头换场景，主体锁定精准编辑",
+    "extraConfig": {
+     "promptOptimizeKey": "vePromptOptimize"
+    },
+    "id": "2073376266598379522",
+    "isDefault": false,
+    "isMaintenance": false,
+    "isNew": false,
+    "name": "可灵 3.0 Omni",
+    "pricing": {
+     "points": 64
+    },
+    "refImageCount": 4,
+    "supportCamera": false,
+    "supportLastFrame": false,
+    "supportReferenceAudioOnly": false,
+    "supportVoice": false,
+    "supportedDurations": [
+     "5",
+     "10",
+     "15"
+    ],
+    "supportedRatios": [],
+    "supportedResolutions": []
+   },
+   {
+    "cameraModes": [],
+    "code": "SEED",
+    "description": "一键换主体换动作，商品细节稳稳复刻",
+    "extraConfig": {
+     "promptOptimizeKey": "vePromptOptimize"
+    },
+    "id": "2073376266598379524",
+    "isDefault": false,
+    "isMaintenance": false,
+    "isNew": false,
+    "name": "Seedance 2.0",
+    "pricing": {
+     "points": 41
+    },
+    "refImageCount": 6,
+    "supportCamera": false,
+    "supportLastFrame": false,
+    "supportReferenceAudioOnly": false,
+    "supportVoice": false,
+    "supportedDurations": [
+     "5",
+     "10",
+     "15"
+    ],
+    "supportedRatios": [],
+    "supportedResolutions": []
+   }
+  ],
+  "96": [
+   {
+    "cameraModes": [],
+    "code": "HAPPY_HORSE",
+    "description": "商品一键换装换景，纹理细节零失真",
+    "id": "2090399499103502336",
+    "isDefault": false,
+    "isMaintenance": false,
+    "isNew": false,
+    "name": "HappyHorse 1.0",
+    "pricing": {
+     "points": 39
+    },
+    "refImageCount": 9,
+    "supportCamera": false,
+    "supportLastFrame": false,
+    "supportReferenceAudioOnly": false,
+    "supportVoice": false,
+    "supportedDurations": [
+     "5",
+     "10",
+     "15"
+    ],
+    "supportedRatios": [],
+    "supportedResolutions": [
+     "720P"
+    ]
+   },
+   {
+    "cameraModes": [],
+    "code": "SEED_V25",
+    "description": "视频翻译：识别→逐句翻译→口型对齐视频编辑生成",
+    "extraConfig": {
+     "supportAutoRatio": true,
+     "supportModes": [
+      "refImage",
+      "firstLastFrame"
+     ]
+    },
+    "id": "2090399499137056768",
+    "isDefault": true,
+    "isMaintenance": false,
+    "isNew": false,
+    "name": "Seedance 2.5",
+    "pricing": {
+     "points": 71
+    },
+    "refImageCount": 0,
+    "supportCamera": false,
+    "supportLastFrame": true,
+    "supportReferenceAudioOnly": false,
+    "supportVoice": true,
+    "supportedDurations": [
+     "5",
+     "10",
+     "15",
+     "20",
+     "25",
+     "30"
+    ],
+    "supportedRatios": [
+     "9:16",
+     "16:9"
+    ],
+    "supportedResolutions": [
+     "480P",
+     "720P",
+     "1080P"
+    ]
+   }
+  ],
+  "104": [
+   {
+    "apiCode": "doubao-seedance-2-5",
+    "cameraModes": [],
+    "code": "SEED_V25",
+    "description": "原生30秒直出，全模态参考一镜到底",
+    "extraConfig": {
+     "defaultDuration": 10,
+     "defaultResolution": "480p",
+     "supportAutoRatio": true,
+     "supportModes": [
+      "refImage",
+      "refVideo"
+     ]
+    },
+    "icon": "https://file-ai.linkfox.com/UPLOAD/MANAGE/c0c7e3d25a354dcbb0a8d3ccc1f62d2f.svg",
+    "id": "2089665911698169856",
+    "isDefault": true,
+    "isMaintenance": false,
+    "isNew": true,
+    "name": "Seedance 2.5",
+    "pricing": {
+     "1080P": {
+      "4": 1296,
+      "5": 1620,
+      "6": 1944,
+      "7": 2268,
+      "8": 2592,
+      "9": 2916,
+      "10": 3240,
+      "11": 3564,
+      "12": 3888,
+      "13": 4212,
+      "14": 4536,
+      "15": 4860,
+      "16": 5184,
+      "17": 5508,
+      "18": 5832,
+      "19": 6156,
+      "20": 6480,
+      "21": 6804,
+      "22": 7128,
+      "23": 7452,
+      "24": 7776,
+      "25": 8100,
+      "26": 8424,
+      "27": 8748,
+      "28": 9072,
+      "29": 9396,
+      "30": 9720
+     },
+     "480P": {
+      "4": 212,
+      "5": 265,
+      "6": 318,
+      "7": 371,
+      "8": 424,
+      "9": 477,
+      "10": 530,
+      "11": 583,
+      "12": 636,
+      "13": 689,
+      "14": 742,
+      "15": 795,
+      "16": 848,
+      "17": 901,
+      "18": 954,
+      "19": 1007,
+      "20": 1060,
+      "21": 1113,
+      "22": 1166,
+      "23": 1219,
+      "24": 1272,
+      "25": 1325,
+      "26": 1378,
+      "27": 1431,
+      "28": 1484,
+      "29": 1537,
+      "30": 1590
+     },
+     "720P": {
+      "4": 476,
+      "5": 595,
+      "6": 714,
+      "7": 833,
+      "8": 952,
+      "9": 1071,
+      "10": 1190,
+      "11": 1309,
+      "12": 1428,
+      "13": 1547,
+      "14": 1666,
+      "15": 1785,
+      "16": 1904,
+      "17": 2023,
+      "18": 2142,
+      "19": 2261,
+      "20": 2380,
+      "21": 2499,
+      "22": 2618,
+      "23": 2737,
+      "24": 2856,
+      "25": 2975,
+      "26": 3094,
+      "27": 3213,
+      "28": 3332,
+      "29": 3451,
+      "30": 3570
+     }
+    },
+    "refImageCount": 30,
+    "supportCamera": false,
+    "supportLastFrame": false,
+    "supportReferenceAudioOnly": false,
+    "supportVoice": true,
+    "supportedDurations": [
+     "5",
+     "6",
+     "7",
+     "8",
+     "9",
+     "10",
+     "11",
+     "12",
+     "13",
+     "14",
+     "15",
+     "16",
+     "17",
+     "18",
+     "19",
+     "20",
+     "21",
+     "22",
+     "23",
+     "24",
+     "25",
+     "26",
+     "27",
+     "28",
+     "29",
+     "30"
+    ],
+    "supportedRatios": [
+     "9:16",
+     "16:9",
+     "1:1",
+     "4:3",
+     "3:4",
+     "21:9"
+    ],
+    "supportedResolutions": [
+     "480P",
+     "720P",
+     "1080P"
+    ]
+   },
+   {
+    "apiCode": "doubao-seedance-2-0-mini",
+    "cameraModes": [],
+    "code": "SEED_MINI",
+    "description": "极致性价比，比 Fast 更快的推理速度",
+    "extraConfig": {
+     "supportAutoRatio": true,
+     "supportModes": [
+      "refImage",
+      "firstLastFrame",
+      "refVideo"
+     ]
+    },
+    "icon": "https://file-ai.linkfox.com/UPLOAD/MANAGE/c0c7e3d25a354dcbb0a8d3ccc1f62d2f.svg",
+    "id": "26",
+    "isDefault": false,
+    "isMaintenance": false,
+    "isNew": true,
+    "name": "Seedance 2.0 mini",
+    "pricing": {
+     "480P": {
+      "4": 28,
+      "5": 35,
+      "6": 42,
+      "7": 49,
+      "8": 56,
+      "9": 63,
+      "10": 70,
+      "11": 77,
+      "12": 84,
+      "13": 91,
+      "14": 98,
+      "15": 105
+     },
+     "720P": {
+      "4": 56,
+      "5": 70,
+      "6": 84,
+      "7": 98,
+      "8": 112,
+      "9": 126,
+      "10": 140,
+      "11": 154,
+      "12": 168,
+      "13": 182,
+      "14": 196,
+      "15": 210
+     }
+    },
+    "refImageCount": 9,
+    "supportCamera": false,
+    "supportLastFrame": true,
+    "supportReferenceAudioOnly": false,
+    "supportVoice": true,
+    "supportedDurations": [
+     "5",
+     "6",
+     "7",
+     "8",
+     "9",
+     "10",
+     "11",
+     "12",
+     "13",
+     "14",
+     "15"
+    ],
+    "supportedRatios": [
+     "9:16",
+     "16:9",
+     "1:1",
+     "4:3",
+     "3:4",
+     "21:9"
+    ],
+    "supportedResolutions": [
+     "480P",
+     "720P"
+    ]
+   },
+   {
+    "apiCode": "doubao-seedance-2-0-fast",
+    "cameraModes": [],
+    "code": "SEED_FAST",
+    "description": "兼具质量与性价比",
+    "extraConfig": {
+     "supportAutoRatio": true,
+     "supportModes": [
+      "refImage",
+      "firstLastFrame",
+      "refVideo"
+     ]
+    },
+    "icon": "https://file-ai.linkfox.com/UPLOAD/MANAGE/c0c7e3d25a354dcbb0a8d3ccc1f62d2f.svg",
+    "id": "14",
+    "isDefault": false,
+    "isMaintenance": false,
+    "isNew": false,
+    "name": "Seedance 2.0 fast",
+    "pricing": {
+     "480P": {
+      "4": 84,
+      "5": 105,
+      "6": 126,
+      "7": 147,
+      "8": 168,
+      "9": 189,
+      "10": 210,
+      "11": 231,
+      "12": 252,
+      "13": 273,
+      "14": 294,
+      "15": 315
+     },
+     "720P": {
+      "4": 172,
+      "5": 215,
+      "6": 258,
+      "7": 301,
+      "8": 344,
+      "9": 387,
+      "10": 430,
+      "11": 473,
+      "12": 516,
+      "13": 559,
+      "14": 602,
+      "15": 645
+     }
+    },
+    "refImageCount": 9,
+    "supportCamera": false,
+    "supportLastFrame": true,
+    "supportReferenceAudioOnly": false,
+    "supportVoice": true,
+    "supportedDurations": [
+     "5",
+     "6",
+     "7",
+     "8",
+     "9",
+     "10",
+     "11",
+     "12",
+     "13",
+     "14",
+     "15"
+    ],
+    "supportedRatios": [
+     "9:16",
+     "16:9",
+     "1:1",
+     "4:3",
+     "3:4",
+     "21:9"
+    ],
+    "supportedResolutions": [
+     "480P",
+     "720P"
+    ]
+   },
+   {
+    "cameraModes": [],
+    "code": "SEED",
+    "description": "极致拟真的视听稳定性，仅支持非真人内容",
+    "extraConfig": {
+     "supportAutoRatio": true,
+     "supportModes": [
+      "refImage",
+      "firstLastFrame",
+      "refVideo"
+     ]
+    },
+    "icon": "https://file-ai.linkfox.com/UPLOAD/MANAGE/c0c7e3d25a354dcbb0a8d3ccc1f62d2f.svg",
+    "id": "15",
+    "isDefault": false,
+    "isMaintenance": false,
+    "isNew": false,
+    "name": "Seedance 2.0",
+    "pricing": {
+     "1080P": {
+      "4": 1200,
+      "5": 1500,
+      "6": 1800,
+      "7": 2100,
+      "8": 2400,
+      "9": 2700,
+      "10": 3000,
+      "11": 3300,
+      "12": 3600,
+      "13": 3900,
+      "14": 4200,
+      "15": 4500
+     },
+     "480P": {
+      "4": 160,
+      "5": 200,
+      "6": 240,
+      "7": 280,
+      "8": 320,
+      "9": 360,
+      "10": 400,
+      "11": 440,
+      "12": 480,
+      "13": 520,
+      "14": 560,
+      "15": 600
+     },
+     "720P": {
+      "4": 320,
+      "5": 400,
+      "6": 480,
+      "7": 560,
+      "8": 640,
+      "9": 720,
+      "10": 800,
+      "11": 880,
+      "12": 960,
+      "13": 1040,
+      "14": 1120,
+      "15": 1200
+     }
+    },
+    "refImageCount": 9,
+    "supportCamera": false,
+    "supportLastFrame": true,
+    "supportReferenceAudioOnly": false,
+    "supportVoice": true,
+    "supportedDurations": [
+     "5",
+     "6",
+     "7",
+     "8",
+     "9",
+     "10",
+     "11",
+     "12",
+     "13",
+     "14",
+     "15"
+    ],
+    "supportedRatios": [
+     "9:16",
+     "16:9",
+     "1:1",
+     "4:3",
+     "3:4",
+     "21:9"
+    ],
+    "supportedResolutions": [
+     "480P",
+     "720P",
+     "1080P"
+    ]
+   },
+   {
+    "cameraModes": [],
+    "code": "MODEL",
+    "description": "全能参考，超强一致性",
+    "extraConfig": {
+     "recloneDurationMode": "SOURCE_FOLLOW",
+     "supportModes": [
+      "refImage",
+      "firstLastFrame"
+     ]
+    },
+    "icon": "https://file-ai.linkfox.com/UPLOAD/MANAGE/b6a09028118e42e28675dafae87e727f.svg",
+    "id": "16",
+    "isDefault": false,
+    "isMaintenance": false,
+    "isNew": false,
+    "name": "可灵Omni",
+    "pricing": {
+     "1080P": {
+      "3": 240,
+      "4": 320,
+      "5": 400,
+      "6": 480,
+      "7": 560,
+      "8": 640,
+      "9": 720,
+      "10": 800,
+      "11": 880,
+      "12": 960,
+      "13": 1040,
+      "14": 1120,
+      "15": 1200
+     },
+     "720P": {
+      "3": 180,
+      "4": 240,
+      "5": 300,
+      "6": 360,
+      "7": 420,
+      "8": 480,
+      "9": 540,
+      "10": 600,
+      "11": 660,
+      "12": 720,
+      "13": 780,
+      "14": 840,
+      "15": 900
+     }
+    },
+    "refImageCount": 7,
+    "supportCamera": false,
+    "supportLastFrame": true,
+    "supportReferenceAudioOnly": false,
+    "supportVoice": true,
+    "supportedDurations": [
+     "5",
+     "6",
+     "7",
+     "8",
+     "9",
+     "10",
+     "11",
+     "12",
+     "13",
+     "14",
+     "15"
+    ],
+    "supportedRatios": [
+     "1:1",
+     "9:16",
+     "16:9"
+    ],
+    "supportedResolutions": [
+     "720P",
+     "1080P"
+    ]
+   },
+   {
+    "cameraModes": [],
+    "code": "HAPPY_HORSE",
+    "description": "视觉与动态全面进化，角色一致性大幅提升",
+    "extraConfig": {
+     "recloneDurationMode": "SOURCE_FOLLOW",
+     "supportModes": [
+      "refImage",
+      "refVideo"
+     ]
+    },
+    "icon": "https://file-ai.linkfox.com/UPLOAD/MANAGE/f98289bcc6944740a77d124b2af670aa.svg",
+    "id": "17",
+    "isDefault": false,
+    "isMaintenance": false,
+    "isNew": false,
+    "name": "HappyHorse 1.1",
+    "pricing": {
+     "1080P": {
+      "3": 300,
+      "4": 400,
+      "5": 500,
+      "6": 600,
+      "7": 700,
+      "8": 800,
+      "9": 900,
+      "10": 1000,
+      "11": 1100,
+      "12": 1200,
+      "13": 1300,
+      "14": 1400,
+      "15": 1500
+     },
+     "720P": {
+      "3": 180,
+      "4": 240,
+      "5": 300,
+      "6": 360,
+      "7": 420,
+      "8": 480,
+      "9": 540,
+      "10": 600,
+      "11": 660,
+      "12": 720,
+      "13": 780,
+      "14": 840,
+      "15": 900
+     }
+    },
+    "refImageCount": 9,
+    "supportCamera": false,
+    "supportLastFrame": false,
+    "supportReferenceAudioOnly": false,
+    "supportVoice": true,
+    "supportedDurations": [
+     "5",
+     "6",
+     "7",
+     "8",
+     "9",
+     "10",
+     "11",
+     "12",
+     "13",
+     "14",
+     "15"
+    ],
+    "supportedRatios": [
+     "9:16",
+     "16:9",
+     "1:1",
+     "4:3",
+     "3:4",
+     "21:9"
+    ],
+    "supportedResolutions": [
+     "720P",
+     "1080P"
+    ]
+   }
+  ],
+  "105": [
+   {
+    "cameraModes": [],
+    "code": "SEED_MINI",
+    "description": "极致性价比，比 Fast 更快的推理速度",
+    "extraConfig": {
+     "supportAutoRatio": true,
+     "supportModes": [
+      "refImage",
+      "firstLastFrame"
+     ]
+    },
+    "icon": "https://file-ai.linkfox.com/UPLOAD/MANAGE/c0c7e3d25a354dcbb0a8d3ccc1f62d2f.svg",
+    "id": "28",
+    "isDefault": false,
+    "isMaintenance": false,
+    "isNew": true,
+    "name": "Seedance 2.0 mini",
+    "pricing": {
+     "480P": {
+      "5": 35,
+      "10": 70,
+      "15": 105
+     },
+     "720P": {
+      "5": 70,
+      "10": 140,
+      "15": 210
+     }
+    },
+    "refImageCount": 9,
+    "supportCamera": false,
+    "supportLastFrame": true,
+    "supportReferenceAudioOnly": false,
+    "supportVoice": false,
+    "supportedDurations": [
+     "5",
+     "10",
+     "15"
+    ],
+    "supportedRatios": [
+     "9:16",
+     "16:9",
+     "1:1",
+     "4:3",
+     "3:4",
+     "21:9"
+    ],
+    "supportedResolutions": [
+     "480P",
+     "720P"
+    ]
+   },
+   {
+    "cameraModes": [],
+    "code": "SEED_FAST",
+    "description": "兼具质量与性价比",
+    "extraConfig": {
+     "supportAutoRatio": true,
+     "supportModes": [
+      "refImage",
+      "firstLastFrame"
+     ]
+    },
+    "icon": "https://file-ai.linkfox.com/UPLOAD/MANAGE/c0c7e3d25a354dcbb0a8d3ccc1f62d2f.svg",
+    "id": "19",
+    "isDefault": true,
+    "isMaintenance": false,
+    "isNew": false,
+    "name": "Seedance 2.0 fast",
+    "pricing": {
+     "480P": {
+      "5": 105,
+      "10": 210,
+      "15": 315
+     },
+     "720P": {
+      "5": 215,
+      "10": 430,
+      "15": 645
+     }
+    },
+    "refImageCount": 9,
+    "supportCamera": false,
+    "supportLastFrame": true,
+    "supportReferenceAudioOnly": false,
+    "supportVoice": false,
+    "supportedDurations": [
+     "5",
+     "10",
+     "15"
+    ],
+    "supportedRatios": [
+     "9:16",
+     "16:9",
+     "1:1",
+     "4:3",
+     "3:4",
+     "21:9"
+    ],
+    "supportedResolutions": [
+     "480P",
+     "720P"
+    ]
+   },
+   {
+    "cameraModes": [],
+    "code": "SEED",
+    "description": "极致拟真的视听稳定性，仅支持非真人内容",
+    "extraConfig": {
+     "supportAutoRatio": true,
+     "supportModes": [
+      "refImage",
+      "firstLastFrame"
+     ]
+    },
+    "icon": "https://file-ai.linkfox.com/UPLOAD/MANAGE/c0c7e3d25a354dcbb0a8d3ccc1f62d2f.svg",
+    "id": "20",
+    "isDefault": false,
+    "isMaintenance": false,
+    "isNew": false,
+    "name": "Seedance 2.0",
+    "pricing": {
+     "1080P": {
+      "5": 1500,
+      "10": 3000,
+      "15": 4500
+     },
+     "480P": {
+      "5": 200,
+      "10": 400,
+      "15": 600
+     },
+     "720P": {
+      "5": 400,
+      "10": 800,
+      "15": 1200
+     }
+    },
+    "refImageCount": 9,
+    "supportCamera": false,
+    "supportLastFrame": true,
+    "supportReferenceAudioOnly": false,
+    "supportVoice": false,
+    "supportedDurations": [
+     "5",
+     "10",
+     "15"
+    ],
+    "supportedRatios": [
+     "9:16",
+     "16:9",
+     "1:1",
+     "4:3",
+     "3:4",
+     "21:9"
+    ],
+    "supportedResolutions": [
+     "480P",
+     "720P",
+     "1080P"
+    ]
+   },
+   {
+    "cameraModes": [],
+    "code": "HAPPY_HORSE",
+    "description": "视觉与动态全面进化，角色一致性大幅提升",
+    "extraConfig": {
+     "supportModes": [
+      "refImage"
+     ]
+    },
+    "icon": "https://file-ai.linkfox.com/UPLOAD/MANAGE/f98289bcc6944740a77d124b2af670aa.svg",
+    "id": "21",
+    "isDefault": false,
+    "isMaintenance": false,
+    "isNew": false,
+    "name": "HappyHorse 1.1",
+    "pricing": {
+     "1080P": {
+      "5": 500,
+      "10": 1000,
+      "15": 1500
+     },
+     "720P": {
+      "5": 300,
+      "10": 600,
+      "15": 900
+     }
+    },
+    "refImageCount": 9,
+    "supportCamera": false,
+    "supportLastFrame": false,
+    "supportReferenceAudioOnly": false,
+    "supportVoice": false,
+    "supportedDurations": [
+     "5",
+     "10",
+     "15"
+    ],
+    "supportedRatios": [
+     "9:16",
+     "16:9",
+     "1:1",
+     "4:3",
+     "3:4",
+     "21:9"
+    ],
+    "supportedResolutions": [
+     "720P",
+     "1080P"
+    ]
+   }
+  ],
+  "106": [
+   {
+    "apiCode": "minimax-h3-lite",
+    "cameraModes": [],
+    "code": "AIGC_MINIMAX_H3",
+    "description": "极高性价比，批量生成更划算",
+    "extraConfig": {
+     "aigc_watermark": false,
+     "promptOptimizeKey": "i2vPromptOptimizeMiniMaxH3",
+     "supportAutoRatio": true
+    },
+    "id": "2095462236376838144",
+    "isDefault": false,
+    "isMaintenance": false,
+    "isNew": false,
+    "name": "MiniMax H3",
+    "pricing": {
+     "1080P": {
+      "5": 40,
+      "10": 80,
+      "15": 120
+     },
+     "2K": {
+      "5": 40,
+      "10": 80,
+      "15": 120
+     },
+     "768P": {
+      "5": 30,
+      "10": 60,
+      "15": 90
+     }
+    },
+    "refImageCount": 9,
+    "supportCamera": false,
+    "supportLastFrame": false,
+    "supportReferenceAudioOnly": false,
+    "supportVoice": false,
+    "supportedDurations": [
+     "10",
+     "15"
+    ],
+    "supportedRatios": [
+     "9:16",
+     "16:9",
+     "1:1",
+     "3:4"
+    ],
+    "supportedResolutions": [
+     "768P",
+     "1080P"
+    ]
+   },
+   {
+    "apiCode": "doubao-seedance-2-0-mini",
+    "cameraModes": [],
+    "code": "SEED_MINI",
+    "description": "极速低成本，批量出片更省心",
+    "extraConfig": {
+     "supportAutoRatio": true,
+     "supportModes": [
+      "refImage",
+      "firstLastFrame"
+     ]
+    },
+    "id": "2095462236402003968",
+    "isDefault": false,
+    "isMaintenance": false,
+    "isNew": true,
+    "name": "Seedance 2.0 mini",
+    "pricing": {
+     "480P": {
+      "5": 35,
+      "10": 70,
+      "15": 105
+     },
+     "720P": {
+      "5": 70,
+      "10": 140,
+      "15": 210
+     }
+    },
+    "refImageCount": 9,
+    "supportCamera": false,
+    "supportLastFrame": true,
+    "supportReferenceAudioOnly": false,
+    "supportVoice": true,
+    "supportedDurations": [
+     "10",
+     "15"
+    ],
+    "supportedRatios": [
+     "9:16",
+     "16:9",
+     "1:1"
+    ],
+    "supportedResolutions": [
+     "480P",
+     "720P"
+    ]
+   },
+   {
+    "cameraModes": [],
+    "code": "VIDU_Q4_PREVIEW",
+    "description": "极致一致性，商品还原更精准",
+    "extraConfig": {
+     "defaultDuration": 5,
+     "defaultResolution": "720p",
+     "promptOptimizeKey": "i2vPromptOptimizeSeedance20",
+     "supportAutoRatio": true,
+     "supportLastFrame": false,
+     "supportModes": [
+      "refImage",
+      "firstLastFrame"
+     ]
+    },
+    "id": "2110709964128575488",
+    "isDefault": false,
+    "isMaintenance": false,
+    "isNew": true,
+    "name": "Vidu Q4",
+    "pricing": {
+     "1080P": {
+      "5": 105,
+      "10": 210,
+      "15": 315
+     },
+     "2K": {
+      "5": 165,
+      "10": 330,
+      "15": 495
+     },
+     "720P": {
+      "5": 80,
+      "10": 160,
+      "15": 240
+     }
+    },
+    "refImageCount": 15,
+    "supportCamera": false,
+    "supportLastFrame": true,
+    "supportReferenceAudioOnly": false,
+    "supportVoice": false,
+    "supportedDurations": [
+     "5",
+     "10",
+     "15"
+    ],
+    "supportedRatios": [
+     "9:16",
+     "16:9",
+     "1:1",
+     "3:4",
+     "4:3"
+    ],
+    "supportedResolutions": [
+     "720P",
+     "1080P",
+     "2K"
+    ]
+   }
+  ]
+ }
+}

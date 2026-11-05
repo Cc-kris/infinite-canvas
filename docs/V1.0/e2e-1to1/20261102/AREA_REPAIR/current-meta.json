@@ -1,0 +1,284 @@
+{
+  "url": "http://127.0.0.1:3000/tools/smart-edit/area-repair",
+  "title": "无限画布",
+  "viewport": [
+    1600,
+    1000
+  ],
+  "doc": [
+    1600,
+    1000
+  ],
+  "bodyText": "无限画布 首页 电商套图 智能修图 新模型 AI视频 HOT 批量生图 商品图设计 中 切换到深色主题 v0.27.0 图片编辑 局部重绘 局部消除 一键换色 图片裁剪 质量提升 商品精修 图像修复 色差修复 印花修复 抠图工具 精细抠图 批量抠图 企业功能 即将下架 手部修复 下架 画笔 大小： 像素 15 35 60 100 自动扩大选择区域： 反选 撤销 重做 重置 重绘描述* 20 / 600 生成张数 1 2 3 4 请先在图片上涂抹需要重绘的区域 将生成 2 张 立即生成 生成结果 历史记录 暂无生成结果图 连接本地 Agent 未连接 点连接会自动启动本地服务、装好插件并接通，无需手动配置。 Claude Code 未连接 · CLI · 2.1.316 (Claude Code) · 直接运行 连接 Codex 未连接 · CLI · codex-cli 0.166.0 · 插件已装 连接 Galley 未连接 · CLI + 桌面版 · galley 0.6.4 连接",
+  "main": {
+    "x": 180,
+    "y": 56,
+    "w": 1420,
+    "h": 944,
+    "sh": 944,
+    "ch": 944,
+    "st": 0,
+    "oy": "auto"
+  },
+  "config": {
+    "x": 1040,
+    "y": 66,
+    "w": 240,
+    "h": 924
+  },
+  "result": {
+    "x": 1290,
+    "y": 66,
+    "w": 300,
+    "h": 924
+  },
+  "rail": {
+    "x": 0,
+    "y": 56,
+    "w": 180,
+    "h": 944
+  },
+  "columns": true,
+  "inlineRail": null,
+  "buttons": [
+    {
+      "text": "中",
+      "disabled": false,
+      "rect": {
+        "x": 1433,
+        "y": 14,
+        "w": 28,
+        "h": 28
+      }
+    },
+    {
+      "text": "切换到深色主题",
+      "disabled": false,
+      "rect": {
+        "x": 1465,
+        "y": 14,
+        "w": 28,
+        "h": 28
+      }
+    },
+    {
+      "text": "v0.27.0",
+      "disabled": false,
+      "rect": {
+        "x": 1497,
+        "y": 17,
+        "w": 47,
+        "h": 22
+      }
+    },
+    {
+      "text": "反选",
+      "disabled": true,
+      "rect": {
+        "x": 525,
+        "y": 76,
+        "w": 40,
+        "h": 24
+      }
+    },
+    {
+      "text": "撤销",
+      "disabled": true,
+      "rect": {
+        "x": 573,
+        "y": 76,
+        "w": 54,
+        "h": 24
+      }
+    },
+    {
+      "text": "重做",
+      "disabled": true,
+      "rect": {
+        "x": 635,
+        "y": 76,
+        "w": 54,
+        "h": 24
+      }
+    },
+    {
+      "text": "重置",
+      "disabled": true,
+      "rect": {
+        "x": 697,
+        "y": 76,
+        "w": 54,
+        "h": 24
+      }
+    },
+    {
+      "text": "1",
+      "disabled": false,
+      "rect": {
+        "x": 1057,
+        "y": 274,
+        "w": 24,
+        "h": 24
+      }
+    },
+    {
+      "text": "2",
+      "disabled": false,
+      "rect": {
+        "x": 1087,
+        "y": 274,
+        "w": 26,
+        "h": 24
+      }
+    },
+    {
+      "text": "3",
+      "disabled": false,
+      "rect": {
+        "x": 1120,
+        "y": 274,
+        "w": 27,
+        "h": 24
+      }
+    },
+    {
+      "text": "4",
+      "disabled": false,
+      "rect": {
+        "x": 1152,
+        "y": 274,
+        "w": 27,
+        "h": 24
+      }
+    },
+    {
+      "text": "立即生成",
+      "disabled": true,
+      "rect": {
+        "x": 1053,
+        "y": 391,
+        "w": 214,
+        "h": 32
+      }
+    },
+    {
+      "text": "生成结果",
+      "disabled": false,
+      "rect": {
+        "x": 1304,
+        "y": 67,
+        "w": 56,
+        "h": 42
+      }
+    },
+    {
+      "text": "历史记录",
+      "disabled": false,
+      "rect": {
+        "x": 1502,
+        "y": 77,
+        "w": 74,
+        "h": 22
+      }
+    },
+    {
+      "text": "未连接",
+      "disabled": false,
+      "rect": {
+        "x": 1645,
+        "y": 8,
+        "w": 32,
+        "h": 32
+      }
+    },
+    {
+      "text": "对话",
+      "disabled": false,
+      "rect": {
+        "x": 1754,
+        "y": 0,
+        "w": 32,
+        "h": 48
+      }
+    },
+    {
+      "text": "历史",
+      "disabled": false,
+      "rect": {
+        "x": 1788,
+        "y": 0,
+        "w": 32,
+        "h": 48
+      }
+    },
+    {
+      "text": "技能",
+      "disabled": false,
+      "rect": {
+        "x": 1822,
+        "y": 0,
+        "w": 32,
+        "h": 48
+      }
+    },
+    {
+      "text": "日志",
+      "disabled": false,
+      "rect": {
+        "x": 1856,
+        "y": 0,
+        "w": 32,
+        "h": 48
+      }
+    },
+    {
+      "text": "新对话",
+      "disabled": true,
+      "rect": {
+        "x": 1964,
+        "y": 8,
+        "w": 32,
+        "h": 32
+      }
+    },
+    {
+      "text": "连接",
+      "disabled": false,
+      "rect": {
+        "x": 1945,
+        "y": 147,
+        "w": 66,
+        "h": 24
+      }
+    },
+    {
+      "text": "连接",
+      "disabled": false,
+      "rect": {
+        "x": 1945,
+        "y": 215,
+        "w": 66,
+        "h": 24
+      }
+    },
+    {
+      "text": "连接",
+      "disabled": false,
+      "rect": {
+        "x": 1945,
+        "y": 283,
+        "w": 66,
+        "h": 24
+      }
+    }
+  ],
+  "images": [
+    {
+      "alt": "待重绘原图 product-watch.jpg",
+      "src": "data:image/jpeg;base64,/9j/4AA",
+      "nw": 1024
+    }
+  ],
+  "brokenImages": 0,
+  "horizontalOverflow": 0
+}

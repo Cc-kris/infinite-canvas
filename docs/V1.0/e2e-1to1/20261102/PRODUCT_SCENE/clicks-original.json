@@ -1,0 +1,170 @@
+[
+ {
+  "target": "优秀案例",
+  "hit": {
+   "tag": "div",
+   "text": "优秀案例",
+   "rect": {
+    "x": 573,
+    "y": 130,
+    "w": 56,
+    "h": 22
+   }
+  },
+  "before": {
+   "t": 566,
+   "overlays": 1,
+   "selected": [
+    "生成结果"
+   ]
+  },
+  "after": {
+   "t": 659,
+   "overlays": 1,
+   "selected": [
+    "优秀案例"
+   ]
+  },
+  "changed": true
+ },
+ {
+  "target": "生成结果",
+  "hit": {
+   "tag": "div",
+   "text": "生成结果",
+   "rect": {
+    "x": 503,
+    "y": 130,
+    "w": 56,
+    "h": 22
+   }
+  },
+  "before": {
+   "t": 659,
+   "overlays": 1,
+   "selected": [
+    "优秀案例"
+   ]
+  },
+  "after": {
+   "t": 566,
+   "overlays": 1,
+   "selected": [
+    "生成结果"
+   ]
+  },
+  "changed": true
+ },
+ {
+  "target": "自定义",
+  "hit": {
+   "tag": "span",
+   "text": "自定义",
+   "rect": {
+    "x": 318,
+    "y": 769,
+    "w": 42,
+    "h": 20
+   }
+  },
+  "before": {
+   "t": 566,
+   "overlays": 1,
+   "selected": [
+    "生成结果"
+   ]
+  },
+  "after": {
+   "t": 617,
+   "overlays": 5,
+   "selected": [
+    "生成结果"
+   ]
+  },
+  "changed": true
+ },
+ {
+  "target": "默认尺寸",
+  "hit": {
+   "tag": "span",
+   "text": "默认尺寸",
+   "rect": {
+    "x": 222,
+    "y": 769,
+    "w": 56,
+    "h": 20
+   }
+  },
+  "before": {
+   "t": 617,
+   "overlays": 5,
+   "selected": [
+    "生成结果"
+   ]
+  },
+  "after": {
+   "t": 606,
+   "overlays": 5,
+   "selected": [
+    "生成结果"
+   ]
+  },
+  "changed": true
+ },
+ {
+  "target": "简约",
+  "hit": {
+   "tag": "div",
+   "text": "简约",
+   "rect": {
+    "x": 276,
+    "y": 638,
+    "w": 60,
+    "h": 83
+   }
+  },
+  "before": {
+   "t": 606,
+   "overlays": 5,
+   "selected": [
+    "生成结果"
+   ]
+  },
+  "after": {
+   "t": 591,
+   "overlays": 5,
+   "selected": [
+    "生成结果"
+   ]
+  },
+  "changed": true
+ },
+ {
+  "target": "智能",
+  "hit": {
+   "tag": "a",
+   "text": "智能修图 新模型",
+   "rect": {
+    "x": 390,
+    "y": 67,
+    "w": 102,
+    "h": 25
+   }
+  },
+  "before": {
+   "t": 591,
+   "overlays": 5,
+   "selected": [
+    "生成结果"
+   ]
+  },
+  "after": {
+   "t": 667,
+   "overlays": 1,
+   "selected": [
+    "生成结果"
+   ]
+  },
+  "changed": true
+ }
+]

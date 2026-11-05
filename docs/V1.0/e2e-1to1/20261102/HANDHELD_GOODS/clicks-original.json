@@ -1,0 +1,94 @@
+[
+ {
+  "target": "图片规则",
+  "hit": {
+   "tag": "span",
+   "text": "图片规则",
+   "rect": {
+    "x": 391,
+    "y": 141,
+    "w": 48,
+    "h": 24
+   }
+  },
+  "before": {
+   "t": 367,
+   "overlays": 1,
+   "selected": [
+    "生成结果"
+   ]
+  },
+  "after": {
+   "t": 367,
+   "overlays": 1,
+   "selected": [
+    "生成结果"
+   ]
+  },
+  "changed": false
+ },
+ {
+  "target": "左手",
+  "ok": false,
+  "reason": "not-found",
+  "before": {
+   "t": 367,
+   "overlays": 1,
+   "selected": [
+    "生成结果"
+   ]
+  }
+ },
+ {
+  "target": "右手",
+  "ok": false,
+  "reason": "not-found",
+  "before": {
+   "t": 367,
+   "overlays": 1,
+   "selected": [
+    "生成结果"
+   ]
+  }
+ },
+ {
+  "target": "双手",
+  "ok": false,
+  "reason": "not-found",
+  "before": {
+   "t": 367,
+   "overlays": 1,
+   "selected": [
+    "生成结果"
+   ]
+  }
+ },
+ {
+  "target": "4",
+  "hit": {
+   "tag": "span",
+   "text": "(40算力)",
+   "rect": {
+    "x": 354,
+    "y": 958,
+    "w": 48,
+    "h": 17
+   }
+  },
+  "before": {
+   "t": 367,
+   "overlays": 1,
+   "selected": [
+    "生成结果"
+   ]
+  },
+  "after": {
+   "t": 378,
+   "overlays": 1,
+   "selected": [
+    "生成结果"
+   ]
+  },
+  "changed": true
+ }
+]

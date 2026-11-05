@@ -1,0 +1,268 @@
+{
+  "url": "http://127.0.0.1:3000/tools/product-design/ai-pose-generator",
+  "title": "无限画布",
+  "viewport": [
+    1600,
+    1000
+  ],
+  "doc": [
+    1600,
+    1000
+  ],
+  "bodyText": "无限画布 首页 电商套图 智能修图 新模型 AI视频 HOT 批量生图 商品图设计 中 切换到深色主题 v0.27.0 真人换模特 模特换场景 AI穿衣 姿势裂变 AI穿戴 历史记录 企业功能 批量生图 即将下架 人台换模特 下架 本页从文字生成姿势参考：姿势描述 → 场景（可选）→ 生成 姿势库 自定义 选择姿势（可选） 生成图片的模特姿势 未选姿势：按纯姿势描述生成 清空已选 0/4000 保存预设 选择生成张数 1 2 3 4 默认场景等 1 个场景 × 每场景 1 张 = 共 1 张 场景描述（可选，最多 6 条） 添加场景 场景只描述环境、光线、道具，不能改写姿势约束。 还没有场景：不添加则按默认影棚背景生成。 0/6 条场景 参考预览 Create a full-body pose reference photo of a single fashion model. Pose: natural, relaxed standing pose, full body visible. Framing: head to toe, 50mm lens, eye level, single subject, no crop. Scene directives: plain studio backdrop, soft even lighting, neutral floor. Hard rule: scene directives must never change the body pose, limb positions, head angle or the direction the model faces. Keep wardrobe and body proportions consistent; photorealistic, sharp focus, no text, no watermark, no collage. 立即生成 预计输出 1 张 待填写：请先填写姿势描述 本次输入快照 生成结果 还没有生成结果 先填写姿势描述（无姿势描述不能生成），场景可留空按默认影棚背景生成。 连接本地 Agent 未连接 点连接会自动启动本地服务、装好插件并接通，无需手动配置。 Claude Code 未连接 · CLI · 2.1.316 (Claude Code) · 直接运行 连接 Codex 未连接 · CLI · codex-cli 0.166.0 · 插件已装 连接 Galley 未连接 · CLI + 桌面版 · galley 0.6.4 连接",
+  "main": {
+    "x": 180,
+    "y": 56,
+    "w": 1420,
+    "h": 944,
+    "sh": 944,
+    "ch": 944,
+    "st": 0,
+    "oy": "auto"
+  },
+  "config": {
+    "x": 190,
+    "y": 66,
+    "w": 300,
+    "h": 924
+  },
+  "result": {
+    "x": 502,
+    "y": 66,
+    "w": 1088,
+    "h": 924
+  },
+  "rail": {
+    "x": 0,
+    "y": 56,
+    "w": 180,
+    "h": 944
+  },
+  "columns": true,
+  "inlineRail": "none",
+  "buttons": [
+    {
+      "text": "中",
+      "disabled": false,
+      "rect": {
+        "x": 1433,
+        "y": 14,
+        "w": 28,
+        "h": 28
+      }
+    },
+    {
+      "text": "切换到深色主题",
+      "disabled": false,
+      "rect": {
+        "x": 1465,
+        "y": 14,
+        "w": 28,
+        "h": 28
+      }
+    },
+    {
+      "text": "v0.27.0",
+      "disabled": false,
+      "rect": {
+        "x": 1497,
+        "y": 17,
+        "w": 47,
+        "h": 22
+      }
+    },
+    {
+      "text": "姿势库",
+      "disabled": false,
+      "rect": {
+        "x": 205,
+        "y": 115,
+        "w": 135,
+        "h": 28
+      }
+    },
+    {
+      "text": "自定义",
+      "disabled": false,
+      "rect": {
+        "x": 340,
+        "y": 115,
+        "w": 135,
+        "h": 28
+      }
+    },
+    {
+      "text": "清空已选",
+      "disabled": true,
+      "rect": {
+        "x": 403,
+        "y": 290,
+        "w": 74,
+        "h": 24
+      }
+    },
+    {
+      "text": "保存预设",
+      "disabled": true,
+      "rect": {
+        "x": 391,
+        "y": 444,
+        "w": 86,
+        "h": 28
+      }
+    },
+    {
+      "text": "1",
+      "disabled": false,
+      "rect": {
+        "x": 353,
+        "y": 480,
+        "w": 28,
+        "h": 24
+      }
+    },
+    {
+      "text": "2",
+      "disabled": false,
+      "rect": {
+        "x": 385,
+        "y": 480,
+        "w": 28,
+        "h": 24
+      }
+    },
+    {
+      "text": "3",
+      "disabled": false,
+      "rect": {
+        "x": 417,
+        "y": 480,
+        "w": 28,
+        "h": 24
+      }
+    },
+    {
+      "text": "4",
+      "disabled": false,
+      "rect": {
+        "x": 449,
+        "y": 480,
+        "w": 28,
+        "h": 24
+      }
+    },
+    {
+      "text": "添加场景",
+      "disabled": false,
+      "rect": {
+        "x": 384,
+        "y": 548,
+        "w": 84,
+        "h": 24
+      }
+    },
+    {
+      "text": "立即生成",
+      "disabled": true,
+      "rect": {
+        "x": 203,
+        "y": 839,
+        "w": 274,
+        "h": 40
+      }
+    },
+    {
+      "text": "未连接",
+      "disabled": false,
+      "rect": {
+        "x": 1645,
+        "y": 8,
+        "w": 32,
+        "h": 32
+      }
+    },
+    {
+      "text": "对话",
+      "disabled": false,
+      "rect": {
+        "x": 1754,
+        "y": 0,
+        "w": 32,
+        "h": 48
+      }
+    },
+    {
+      "text": "历史",
+      "disabled": false,
+      "rect": {
+        "x": 1788,
+        "y": 0,
+        "w": 32,
+        "h": 48
+      }
+    },
+    {
+      "text": "技能",
+      "disabled": false,
+      "rect": {
+        "x": 1822,
+        "y": 0,
+        "w": 32,
+        "h": 48
+      }
+    },
+    {
+      "text": "日志",
+      "disabled": false,
+      "rect": {
+        "x": 1856,
+        "y": 0,
+        "w": 32,
+        "h": 48
+      }
+    },
+    {
+      "text": "新对话",
+      "disabled": true,
+      "rect": {
+        "x": 1964,
+        "y": 8,
+        "w": 32,
+        "h": 32
+      }
+    },
+    {
+      "text": "连接",
+      "disabled": false,
+      "rect": {
+        "x": 1945,
+        "y": 147,
+        "w": 66,
+        "h": 24
+      }
+    },
+    {
+      "text": "连接",
+      "disabled": false,
+      "rect": {
+        "x": 1945,
+        "y": 215,
+        "w": 66,
+        "h": 24
+      }
+    },
+    {
+      "text": "连接",
+      "disabled": false,
+      "rect": {
+        "x": 1945,
+        "y": 283,
+        "w": 66,
+        "h": 24
+      }
+    }
+  ],
+  "images": [],
+  "brokenImages": 0,
+  "horizontalOverflow": 0
+}

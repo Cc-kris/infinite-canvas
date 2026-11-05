@@ -1,0 +1,1359 @@
+{
+  "generatedAt": "2026-10-29T09:41:12.593Z",
+  "batch": {
+    "toolId": "SCALE_UP",
+    "status": "completed",
+    "rows": [
+      {
+        "id": "row_h62uZjc2",
+        "prompt": "高清放大，保留主体纹理与边缘细节，输出清晰锐利。",
+        "enabled": true,
+        "refs": 0
+      },
+      {
+        "id": "row_x-p1OJCf",
+        "prompt": "高清放大，强化文字与网格线条，保持原始配色不变。",
+        "enabled": true,
+        "refs": 0
+      }
+    ],
+    "outcomes": [
+      {
+        "rowId": "row_h62uZjc2",
+        "status": "unknown",
+        "attempts": 1,
+        "resultCount": 0,
+        "resultUrls": [],
+        "preflightIssues": [],
+        "duplicates": [],
+        "deduplicated": false,
+        "taskId": "task-mvtcqvmh-ucrp2a",
+        "startedAt": 1793266791064,
+        "finishedAt": 1793266792623,
+        "durationMs": 1559,
+        "error": {
+          "code": "unclassified",
+          "message": "{\"error\":{\"message\":\"Upstream request failed\",\"type\":\"upstream_error\"}}event: error\ndata: {\"error\":{\"type\":\"upstream_error\",\"message\":\"Upstream request failed\"}}\n\n",
+          "retryable": true
+        }
+      },
+      {
+        "rowId": "row_x-p1OJCf",
+        "status": "unknown",
+        "attempts": 1,
+        "resultCount": 0,
+        "resultUrls": [],
+        "preflightIssues": [],
+        "duplicates": [],
+        "deduplicated": false,
+        "taskId": "task-mvtcqvmn-p4kk5n",
+        "startedAt": 1793266791071,
+        "finishedAt": 1793266795698,
+        "durationMs": 4627,
+        "error": {
+          "code": "unclassified",
+          "message": "{\"error\":{\"message\":\"Upstream request failed\",\"type\":\"upstream_error\"}}event: error\ndata: {\"error\":{\"type\":\"upstream_error\",\"message\":\"Upstream request failed\"}}\n\n",
+          "retryable": true
+        }
+      }
+    ],
+    "preflight": {
+      "toolId": "SCALE_UP",
+      "ok": true,
+      "capability": "image",
+      "kind": "image",
+      "issues": [],
+      "rows": {
+        "row_h62uZjc2": {
+          "rowId": "row_h62uZjc2",
+          "runnable": true,
+          "enabled": true,
+          "contentHash": "e3337b6f",
+          "issues": [],
+          "duplicates": []
+        },
+        "row_x-p1OJCf": {
+          "rowId": "row_x-p1OJCf",
+          "runnable": true,
+          "enabled": true,
+          "contentHash": "45943888",
+          "issues": [],
+          "duplicates": []
+        }
+      },
+      "duplicateGroups": [],
+      "totals": {
+        "rows": 2,
+        "runnable": 2,
+        "blocked": 0,
+        "skipped": 0
+      }
+    },
+    "concurrency": 3
+  },
+  "tasks": [
+    {
+      "id": "task-mvs802af-u9vwye",
+      "toolId": "AI_VIDEO_EDITING",
+      "status": "failed",
+      "error": {
+        "code": "submit-unconfirmed",
+        "message": "页面刷新中断了这次请求，本服务无法反查上游是否已受理。已关闭为失败；重试前请先到服务商后台确认，避免重复计费。",
+        "retryable": true
+      },
+      "createdAt": 1793198355351,
+      "attempts": 1,
+      "sourceAssetIds": [
+        "ctiPFnV3yIAtfBGpvwmhM",
+        "WbO89WHK_0xq0Nb5WuTQX"
+      ],
+      "configSnapshot": {
+        "capability": "video",
+        "model": "default::grok-imagine-video",
+        "apiFormat": "openai",
+        "size": "1:1",
+        "quality": "auto",
+        "count": "1",
+        "channelId": "default"
+      },
+      "prompt": "【视频编辑 · 模板 v1】 编辑类型：商品人物精准编辑；编辑意图：保持参考图中商品与人物的一致性，只按需求改写镜头内容、动作、场景与光线 源视频取自 0–5.2 秒（共 5.2 秒，源片 5.2 秒） 参考素材：1 张参考图按上传顺序参与主体一致性约束；商品外观、颜色、logo 与人物身份必须与参考图一致 输出：1 条视频，时长约 5.2 秒；模型：default::grok-imagine-video 约束：不新增未出现在源视频/参考图中的商品、人物与文字；不改变源视频镜头语言之外的事实；不加水印与字幕贴纸 【编辑需求（用户可见，可编辑）】 把视频里的产品替换为参考图中的白色降噪耳机，保持人物动作、镜头运动和背景不变"
+    },
+    {
+      "id": "task-mvsb41o4-obzwag",
+      "toolId": "CHANGE_COLOR_V2",
+      "status": "failed",
+      "error": {
+        "code": "submit-unconfirmed",
+        "message": "页面刷新中断了这次请求，本服务无法反查上游是否已受理。已关闭为失败；重试前请先到服务商后台确认，避免重复计费。",
+        "retryable": true
+      },
+      "createdAt": 1793203580020,
+      "attempts": 1,
+      "sourceAssetIds": [
+        "OGJZbuFlOBKWi9Knvx6Qn",
+        "YYDXTiEdWvLD8Yr_mWgy2"
+      ],
+      "configSnapshot": {
+        "capability": "image",
+        "model": "default::gpt-image-2",
+        "apiFormat": "openai",
+        "size": "1:1",
+        "quality": "medium",
+        "count": "1",
+        "channelId": "default"
+      },
+      "prompt": "对上传商品图「apparel-print.jpg」做换色：把上装改成参考图「apparel-print-ref.jpg」中的颜色与材质。 保持商品轮廓、结构、缝合线、材质纹理、Logo 位置、光照方向、投影与背景不变；不要增加或删除任何部件。 整张图其余区域保持原样，输出一张与原图同构图、同视角的图片。 输出品质：中品质。"
+    },
+    {
+      "id": "task-mvsc4fyg-qobp8k",
+      "toolId": "CHANGE_COLOR_V2",
+      "status": "succeeded",
+      "createdAt": 1793205278152,
+      "attempts": 1,
+      "sourceAssetIds": [
+        "OGJZbuFlOBKWi9Knvx6Qn",
+        "YYDXTiEdWvLD8Yr_mWgy2"
+      ],
+      "configSnapshot": {
+        "capability": "image",
+        "model": "default::gpt-image-2",
+        "apiFormat": "openai",
+        "size": "1:1",
+        "quality": "medium",
+        "count": "1",
+        "channelId": "default"
+      },
+      "prompt": "对上传商品图「apparel-print.jpg」做换色：把上装改成参考图「apparel-print-ref.jpg」中的颜色与材质。 保持商品轮廓、结构、缝合线、材质纹理、Logo 位置、光照方向、投影与背景不变；不要增加或删除任何部件。 整张图其余区域保持原样，输出一张与原图同构图、同视角的图片。 输出品质：中品质。"
+    },
+    {
+      "id": "task-mvt6vpdn-17qby2",
+      "toolId": "PRODUCT_IMAGE_SUITE",
+      "status": "succeeded",
+      "createdAt": 1793256938555,
+      "attempts": 1,
+      "sourceAssetIds": [
+        "70lReR7mxWpud9zm3vzwh"
+      ],
+      "configSnapshot": {
+        "capability": "image",
+        "model": "default::gpt-image-2",
+        "apiFormat": "openai",
+        "size": "1:1",
+        "quality": "auto",
+        "count": "1",
+        "channelId": "default"
+      },
+      "prompt": "基于上传的商品图生成 A+ 详情页模块（高级A+）第 1/1 屏。 保持商品本体形状、颜色、材质纹理、logo 与文字标识不变，不得臆造未出现的配件或赠品。 输出比例 1:1，分辨率 2K，品质 高品质。 无文字模式：画面不出现任何文字、水印或 logo。 商品信息：未填写，仅依据商品图推断外观卖点，不编造参数。"
+    },
+    {
+      "id": "task-mvs83fc2-dc6b5s",
+      "toolId": "AI_VIDEO_EDITING",
+      "status": "failed",
+      "error": {
+        "code": "provider-rejected",
+        "message": "404 page not found · api.cc-ai.xyz/videos · HTTP 404",
+        "retryable": false
+      },
+      "createdAt": 1793198512226,
+      "attempts": 1,
+      "sourceAssetIds": [
+        "r8hzqcGkyLLFuFSH-NKh8",
+        "CLluOsJVPj_bZSWPH_EzC"
+      ],
+      "configSnapshot": {
+        "capability": "video",
+        "model": "default::grok-imagine-video",
+        "apiFormat": "openai",
+        "size": "1:1",
+        "quality": "auto",
+        "count": "1",
+        "channelId": "default"
+      },
+      "prompt": "【视频编辑 · 模板 v1】 编辑类型：商品人物精准编辑；编辑意图：保持参考图中商品与人物的一致性，只按需求改写镜头内容、动作、场景与光线 源视频取自 0–5.2 秒（共 5.2 秒，源片 5.2 秒） 参考素材：1 张参考图按上传顺序参与主体一致性约束；商品外观、颜色、logo 与人物身份必须与参考图一致 输出：1 条视频，时长约 5.2 秒；模型：default::grok-imagine-video 约束：不新增未出现在源视频/参考图中的商品、人物与文字；不改变源视频镜头语言之外的事实；不加水印与字幕贴纸 【编辑需求（用户可见，可编辑）】 把视频里的产品替换为参考图中的白色降噪耳机，保持人物动作、镜头运动和背景不变"
+    },
+    {
+      "id": "task-mvt6vpdo-sc1x8w",
+      "toolId": "PRODUCT_IMAGE_SUITE",
+      "status": "succeeded",
+      "createdAt": 1793256938556,
+      "attempts": 1,
+      "sourceAssetIds": [
+        "70lReR7mxWpud9zm3vzwh"
+      ],
+      "configSnapshot": {
+        "capability": "image",
+        "model": "default::gpt-image-2",
+        "apiFormat": "openai",
+        "size": "1:1",
+        "quality": "auto",
+        "count": "1",
+        "channelId": "default"
+      },
+      "prompt": "基于上传的商品图生成 商品主副图（场景图）第 1/1 张。 保持商品本体形状、颜色、材质纹理、logo 与文字标识不变，不得臆造未出现的配件或赠品。 输出比例 1:1，分辨率 2K，品质 高品质。 无文字模式：画面不出现任何文字、水印或 logo。 商品信息：未填写，仅依据商品图推断外观卖点，不编造参数。"
+    },
+    {
+      "id": "task-mvsbp9c8-y8q5vf",
+      "toolId": "AI_OUTPAINTING",
+      "status": "succeeded",
+      "createdAt": 1793204569736,
+      "attempts": 1,
+      "sourceAssetIds": [
+        "_zBfzDoIAiNdpqWscc4K1",
+        "3GnEychE49HBswp3es3Y1"
+      ],
+      "configSnapshot": {
+        "capability": "image",
+        "model": "default::gpt-image-2",
+        "apiFormat": "openai",
+        "size": "1:1",
+        "quality": "auto",
+        "count": "1",
+        "channelId": "default"
+      },
+      "prompt": "把这张图片向外扩展到 1024×1024（1:1），保持原图内容不变。 原图 1024×744 位于画布 (0, 0)，其覆盖区域 (0, 0) 1024×744 必须保持像素级不变：不拉伸、不裁切、不改颜色。 新增画布区域：下 280px。 新增区域内容：延续灰色水泥地面与柔和侧光，在下方补出完整的产品阴影与投影，保持商品主体不变 接缝处自然过渡，透视、光照、纹理与原图一致；不要添加原图不存在的文字或水印。"
+    },
+    {
+      "id": "task-mvt74l6n-y5sie3",
+      "toolId": "DRESS_WEAR_SET",
+      "status": "succeeded",
+      "createdAt": 1793257353023,
+      "attempts": 1,
+      "sourceAssetIds": [
+        "gwXX96LOX_UhyFhX0fABT"
+      ],
+      "configSnapshot": {
+        "capability": "image",
+        "model": "default::gpt-image-2",
+        "apiFormat": "openai",
+        "size": "1:1",
+        "quality": "medium",
+        "count": "1",
+        "channelId": "default"
+      },
+      "prompt": "[DRESS_SCENE main/modelLook] 投放目标：亚马逊｜美国｜英语 品牌：智能品牌基因 画面要求：生成服装上身效果的主图：真人模特穿着该服装，正面或微侧 3/4 视角，完整呈现版型、长度与面料垂感；保留上传图里的服装颜色、印花、领口与廓形等细节，不得改款。 允许克制的版式文字，文字使用英语。 比例 1:1，本次输出 1 张。 严格保持上传图中的服装款式、版型、面料质感、颜色与图案，不得改款、不得替换图案、不得添加未提供的 logo。"
+    },
+    {
+      "id": "task-mvtb3nuj-3d0mnv",
+      "toolId": "PRODUCT_REFINE",
+      "status": "succeeded",
+      "createdAt": 1793264028283,
+      "attempts": 1,
+      "sourceAssetIds": [
+        "Kx2ayg7FjXRZS_U32sCUj"
+      ],
+      "configSnapshot": {
+        "capability": "image",
+        "model": "default::gpt-image-2",
+        "apiFormat": "openai",
+        "size": "2048x1488",
+        "quality": "auto",
+        "count": "1",
+        "videoSeconds": "6",
+        "channelId": "default"
+      },
+      "prompt": "对给定商品图做精修：输出尺寸 2048×1488（自动规则 513~1024px → 放大 2 倍，比例 128:93）。 只改善商品的轮廓、光泽、材质与颜色：保持商品结构、造型、纹理走向、Logo 与文字内容完全不变，不新增或删除部件。 精修模式：整图精修。保留原始场景，只改善轮廓、光泽、材质与颜色。 背景处理：保留原始背景与场景，不替换、不改色、不虚化。 精修强度：标准：在保持原有构图、明暗关系不变的前提下，提升轮廓清晰度、光泽层次与材质细节。 颜色校正：关闭，仅做自然还原，不主动改变色相。"
+    },
+    {
+      "id": "task-mvtbawv4-zxcmpv",
+      "toolId": "PRINTING_REPAIR",
+      "status": "succeeded",
+      "createdAt": 1793264366560,
+      "attempts": 1,
+      "sourceAssetIds": [
+        "0AoRx0EeBpoR4p_6vcHNA",
+        "v-9N-5cxFg28o5hRlM9fc"
+      ],
+      "configSnapshot": {
+        "capability": "image",
+        "model": "default::gpt-image-2",
+        "apiFormat": "openai",
+        "size": "1:1",
+        "quality": "auto",
+        "count": "1",
+        "videoSeconds": "6",
+        "channelId": "default"
+      },
+      "prompt": "印花修复：参考图 1 是印花有误的商品图（底图，必须保留商品形状、褶皱、光影、透视与文字），参考图 2 是正确印花。 将参考图 2 的印花贴合到参考图 1 的指定位置：中心点 (50.0%, 50.0%)，缩放 100%，旋转 0°。 先移除底图原有的错误印花（按周围布料自然补全），再按上述位置/角度/比例贴上正确印花，边缘贴合、不开裂、不重复。 覆盖强度：高，印花参考为主体，保留商品表面的褶皱、光影与透视。 不要改变商品外形、画幅、背景与镜头；不要新增物体、文字或水印；输出分辨率与底图一致。"
+    },
+    {
+      "id": "task-mvt15f64-jnx1gz",
+      "toolId": "FISSION_LINK",
+      "status": "failed",
+      "error": {
+        "code": "submit-unconfirmed",
+        "message": "页面刷新中断了这次请求，本服务无法反查上游是否已受理。已关闭为失败；重试前请先到服务商后台确认，避免重复计费。",
+        "retryable": true
+      },
+      "createdAt": 1793247314188,
+      "attempts": 1,
+      "sourceAssetIds": [
+        "fission-link-source"
+      ],
+      "configSnapshot": {
+        "capability": "image",
+        "model": "default::gpt-image-2",
+        "apiFormat": "openai",
+        "size": "1:1",
+        "quality": "auto",
+        "count": "1",
+        "channelId": "default"
+      },
+      "prompt": "Keep the product in the reference image \"链接参考图\" exactly as it is: same silhouette, same proportions, same material and surface finish, same logo, same printed text, same packaging. Do not restyle, repaint, recolor, relabel, add or remove any part of the product. The product must stay the hero and fully visible, not cropped or occluded. Change only the surrounding scene: build a new, believable commercial or lifestyle setting with different background, props, floor/surface, light direction and camera distance appropriate to the product. The result must look like a real photograph of the same product shot in that new scene."
+    },
+    {
+      "id": "task-mvsbmg1s-vrn9il",
+      "toolId": "AI_VIDEO_EDITING",
+      "status": "failed",
+      "error": {
+        "code": "provider-rejected",
+        "message": "404 page not found · api.cc-ai.xyz/videos · HTTP 404",
+        "retryable": false
+      },
+      "createdAt": 1793204438464,
+      "attempts": 1,
+      "sourceAssetIds": [
+        "4P8uytaH10Yea9w-8f4bg",
+        "RnMvks4W7Jav54NcOop_t"
+      ],
+      "configSnapshot": {
+        "capability": "video",
+        "model": "default::grok-imagine-video",
+        "apiFormat": "openai",
+        "size": "1:1",
+        "quality": "auto",
+        "count": "1",
+        "channelId": "default"
+      },
+      "prompt": "【视频编辑 · 模板 v1】 编辑类型：商品人物精准编辑；编辑意图：保持参考图中商品与人物的一致性，只按需求改写镜头内容、动作、场景与光线 源视频取自 0–5.2 秒（共 5.2 秒，源片 5.2 秒） 参考素材：1 张参考图按上传顺序参与主体一致性约束；商品外观、颜色、logo 与人物身份必须与参考图一致 输出：1 条视频，时长约 5.2 秒；模型：default::grok-imagine-video 约束：不新增未出现在源视频/参考图中的商品、人物与文字；不改变源视频镜头语言之外的事实；不加水印与字幕贴纸 【编辑需求（用户可见，可编辑）】 把视频里的产品替换为参考图中的白色降噪耳机，保持人物动作、镜头运动和背景不变"
+    },
+    {
+      "id": "task-mvs6m72i-eidjm6",
+      "toolId": "SALE_VIDEO",
+      "status": "failed",
+      "error": {
+        "code": "provider-rejected",
+        "message": "请先配置 API Key",
+        "retryable": false
+      },
+      "createdAt": 1793196028746,
+      "attempts": 1,
+      "sourceAssetIds": [
+        "Q_xXsAv4MdJFz05SMo1lp"
+      ],
+      "configSnapshot": {
+        "capability": "video",
+        "model": "default::grok-imagine-video",
+        "apiFormat": "openai",
+        "size": "1:1",
+        "quality": "auto",
+        "count": "1",
+        "channelId": "default"
+      },
+      "prompt": "【带货口播 · 模板 v1】 目标市场：US（美国）；口播语言：英语（English） 成片：5 秒 / 720P / 画幅 9:16；模型：default::grok-imagine-video 素材：1 张商品图按上传顺序作为主视觉，商品外观、颜色、logo 与包装文字必须与素材一致 口播结构：3 秒钩子（痛点/场景）→ 2–3 个可验证卖点 → 使用场景演示 → 行动号召 约束：不虚构未提供的价格、折扣、认证、功效与参数；不添加水印、字幕贴纸与第三方品牌标识；旁白与画面对齐，不出现数字人口型要求 模式：标准模式（单一场景、稳定镜头） 【口播脚本（用户可见，可编辑）】 White sport smartwatch on a man's wrist, slowly rotating close-up, metal bezel and textured strap catching soft studio light, clean dark gradient background, product-hero lighting, 4s steady camera dolly-in, no text, no watermark. 口播：Meet the watch that tracks your day and night — sapphire glass, 7-day battery, and a band that breathes with you. Grab yours today."
+    },
+    {
+      "id": "task-mvsa3pt6-4wqy46",
+      "toolId": "REMOVE_PEN",
+      "status": "succeeded",
+      "createdAt": 1793201885034,
+      "attempts": 1,
+      "sourceAssetIds": [
+        "ebqeHiEp1V3WoUErBrWxL",
+        "ebqeHiEp1V3WoUErBrWxL-mask"
+      ],
+      "configSnapshot": {
+        "capability": "image",
+        "model": "default::gpt-image-2",
+        "apiFormat": "openai",
+        "size": "1:1",
+        "quality": "auto",
+        "count": "1",
+        "channelId": "default"
+      },
+      "prompt": "局部消除：参考图 1 是原图，参考图 2 是蒙版（白色 = 需要删除的物体/区域，黑色 = 必须保持不变）。 删除蒙版白色区域内的全部内容，并按周围背景自然补全：保持光照、透视、纹理、阴影和边缘一致。 蒙版以外的像素不得改变：主体、文字、Logo、颜色、构图都保持原样。 不要新增物体，不要改变画幅，不要添加水印。"
+    },
+    {
+      "id": "task-mvt9r1lg-ab8tqn",
+      "toolId": "FIX_COLOR",
+      "status": "succeeded",
+      "createdAt": 1793261759956,
+      "attempts": 1,
+      "sourceAssetIds": [
+        "s06VIgLr3ZyTauRUNHeRg",
+        "FIX_COLOR-mask"
+      ],
+      "configSnapshot": {
+        "capability": "image",
+        "model": "default::gpt-image-2",
+        "apiFormat": "openai",
+        "size": "1:1",
+        "quality": "auto",
+        "count": "1",
+        "videoSeconds": "6",
+        "channelId": "default"
+      },
+      "prompt": "参考图 1 是待校正的商品图，参考图 2 中白色区域是需要校正的色彩区域。把参考图 2 白色区域内偏向 #B79A7C 的颜色校正到参考色 #A8896A（ΔE 6.5 · 明显差异）。只把选定区域的颜色对齐到目标参考色，保留原有明暗层次与材质纹理，不动其他区域。只修改白区内的颜色，保持商品轮廓、文字、logo、纹理与背景不变，不新增或删除任何元素，输出与原图相同尺寸。"
+    },
+    {
+      "id": "task-mvs6l55s-fufs7l",
+      "toolId": "AI_POSE_GENERATOR",
+      "status": "failed",
+      "error": {
+        "code": "provider-rejected",
+        "message": "API key is required in Authorization header (Bearer scheme), x-api-key header, or x-goog-api-key header",
+        "retryable": false
+      },
+      "createdAt": 1793195979616,
+      "attempts": 1,
+      "sourceAssetIds": [],
+      "configSnapshot": {
+        "capability": "image",
+        "model": "default::gpt-image-2",
+        "apiFormat": "openai",
+        "size": "1:1",
+        "quality": "auto",
+        "count": "1",
+        "channelId": "default"
+      },
+      "prompt": "Create a full-body pose reference photo of a single fashion model. Pose: 女性模特正面站姿，全身入镜，双手自然下垂，肩线平齐，中性表情 Framing: head to toe, 50mm lens, eye level, single subject, no crop. Scene directives: plain studio backdrop, soft even lighting, neutral floor. Hard rule: scene directives must never change the body pose, limb positions, head angle or the direction the model faces. Keep wardrobe and body proportions consistent; photorealistic, sharp focus, no text, no watermark, no collage."
+    },
+    {
+      "id": "task-mvtcqvmh-ucrp2a",
+      "toolId": "SCALE_UP",
+      "status": "failed",
+      "error": {
+        "code": "submit-unconfirmed",
+        "message": "页面刷新中断了这次请求，本服务无法反查上游是否已受理。已关闭为失败；重试前请先到服务商后台确认，避免重复计费。",
+        "retryable": true
+      },
+      "createdAt": 1793266791065,
+      "attempts": 1,
+      "sourceAssetIds": [
+        "row_h62uZjc2-ref-1793266769132-0"
+      ],
+      "configSnapshot": {
+        "capability": "image",
+        "model": "default::gpt-image-2",
+        "apiFormat": "openai",
+        "size": "1:1",
+        "quality": "auto",
+        "count": "1",
+        "videoSeconds": "6",
+        "channelId": "default"
+      },
+      "prompt": "高清放大，保留主体纹理与边缘细节，输出清晰锐利。"
+    },
+    {
+      "id": "task-mvt0rvni-ylxhm0",
+      "toolId": "FISSION_LINK",
+      "status": "succeeded",
+      "createdAt": 1793246682366,
+      "attempts": 1,
+      "sourceAssetIds": [
+        "fission-link-source"
+      ],
+      "configSnapshot": {
+        "capability": "image",
+        "model": "default::gpt-image-2",
+        "apiFormat": "openai",
+        "size": "1:1",
+        "quality": "auto",
+        "count": "1",
+        "channelId": "default"
+      },
+      "prompt": "Keep the product in the reference image \"链接参考图\" exactly as it is: same silhouette, same proportions, same material and surface finish, same logo, same printed text, same packaging. Do not restyle, repaint, recolor, relabel, add or remove any part of the product. The product must stay the hero and fully visible, not cropped or occluded. Change only the surrounding scene: build a new, believable commercial or lifestyle setting with different background, props, floor/surface, light direction and camera distance appropriate to the product. The result must look like a real photograph of the same product shot in that new scene."
+    },
+    {
+      "id": "task-mvsbm0je-ci8p2w",
+      "toolId": "AI_VIDEO_EDITING",
+      "status": "failed",
+      "error": {
+        "code": "provider-rejected",
+        "message": "404 page not found · api.cc-ai.xyz/videos · HTTP 404",
+        "retryable": false
+      },
+      "createdAt": 1793204418362,
+      "attempts": 1,
+      "sourceAssetIds": [
+        "4P8uytaH10Yea9w-8f4bg",
+        "RnMvks4W7Jav54NcOop_t"
+      ],
+      "configSnapshot": {
+        "capability": "video",
+        "model": "default::grok-imagine-video",
+        "apiFormat": "openai",
+        "size": "1:1",
+        "quality": "auto",
+        "count": "1",
+        "channelId": "default"
+      },
+      "prompt": "【视频编辑 · 模板 v1】 编辑类型：商品人物精准编辑；编辑意图：保持参考图中商品与人物的一致性，只按需求改写镜头内容、动作、场景与光线 源视频取自 0–5.2 秒（共 5.2 秒，源片 5.2 秒） 参考素材：1 张参考图按上传顺序参与主体一致性约束；商品外观、颜色、logo 与人物身份必须与参考图一致 输出：1 条视频，时长约 5.2 秒；模型：default::grok-imagine-video 约束：不新增未出现在源视频/参考图中的商品、人物与文字；不改变源视频镜头语言之外的事实；不加水印与字幕贴纸 【编辑需求（用户可见，可编辑）】 把视频里的产品替换为参考图中的白色降噪耳机，保持人物动作、镜头运动和背景不变"
+    },
+    {
+      "id": "task-mvt42rpv-kfl1ov",
+      "toolId": "AI_VIDEO_EDITING",
+      "status": "succeeded",
+      "createdAt": 1793260465687,
+      "attempts": 1,
+      "sourceAssetIds": [],
+      "configSnapshot": {
+        "capability": "video",
+        "model": "MiniMax-H3",
+        "apiFormat": "http",
+        "count": "1",
+        "channelId": "sub2"
+      },
+      "prompt": ""
+    },
+    {
+      "id": "task-mvs9mpoz-e8u2ry",
+      "toolId": "VIDEO_REPLICATION",
+      "status": "failed",
+      "error": {
+        "code": "provider-rejected",
+        "message": "404 page not found · api.cc-ai.xyz/videos · HTTP 404",
+        "retryable": false
+      },
+      "createdAt": 1793201091731,
+      "attempts": 1,
+      "sourceAssetIds": [
+        "TBO1_P4CZ32M2UR2Gr2K_",
+        "TN8pClbH-6w2jne-QmFT0"
+      ],
+      "configSnapshot": {
+        "capability": "video",
+        "model": "default::grok-imagine-video",
+        "apiFormat": "openai",
+        "size": "9:16",
+        "quality": "auto",
+        "count": "1",
+        "channelId": "default"
+      },
+      "prompt": "【带货口播·US(美国)·英语·约 5 秒】 1. 开场 0–2s：用参考图里的主体直接入镜，一句话点出核心卖点。 2. 中段：按参考视频的镜头节奏复刻动作与运镜，展示 这 1 张参考图中的产品细节。 3. 结尾：给出一句行动号召，画面停在与参考视频一致的收尾构图上。 （以上为本地模板，未调用模型；按需改写后再生成。） 复刻参考视频第 0–5.2 秒（共 5.2 秒）的镜头结构与节奏，商品主体保持稳定、不变形。 商品参考图 1 张；视频类型：带货口播。 输出比例：9:16；输出分辨率：720P；输出时长：5 秒。 口播语言：英语；销售国家/地区：US(美国)。"
+    },
+    {
+      "id": "task-mvt74l6q-1vljau",
+      "toolId": "DRESS_WEAR_SET",
+      "status": "succeeded",
+      "createdAt": 1793257353026,
+      "attempts": 1,
+      "sourceAssetIds": [
+        "gwXX96LOX_UhyFhX0fABT"
+      ],
+      "configSnapshot": {
+        "capability": "image",
+        "model": "default::gpt-image-2",
+        "apiFormat": "openai",
+        "size": "1:1",
+        "quality": "medium",
+        "count": "1",
+        "channelId": "default"
+      },
+      "prompt": "[DRESS_SCENE main/whiteBg] 投放目标：亚马逊｜美国｜英语 品牌：智能品牌基因 画面要求：生成白底主图：纯白背景、无阴影干扰，服装平铺或隐形模特展示，边缘干净、颜色准确，构图居中留白，符合电商主图规范。 允许克制的版式文字，文字使用英语。 比例 1:1，本次输出 1 张。 严格保持上传图中的服装款式、版型、面料质感、颜色与图案，不得改款、不得替换图案、不得添加未提供的 logo。"
+    },
+    {
+      "id": "task-mvs73hbe-ak20fw",
+      "toolId": "AI_POSE_GENERATOR",
+      "status": "succeeded",
+      "createdAt": 1793196835178,
+      "attempts": 1,
+      "sourceAssetIds": [],
+      "configSnapshot": {
+        "capability": "image",
+        "model": "default::gpt-image-2",
+        "apiFormat": "openai",
+        "size": "1:1",
+        "quality": "auto",
+        "count": "1",
+        "channelId": "default"
+      },
+      "prompt": "Create a full-body pose reference photo of a single fashion model. Pose: 女性模特正面站姿，全身入镜，双手自然下垂，肩线平齐，中性表情 Framing: head to toe, 50mm lens, eye level, single subject, no crop. Scene directives: plain studio backdrop, soft even lighting, neutral floor. Hard rule: scene directives must never change the body pose, limb positions, head angle or the direction the model faces. Keep wardrobe and body proportions consistent; photorealistic, sharp focus, no text, no watermark, no collage."
+    },
+    {
+      "id": "task-mvt94gxs-p0r29t",
+      "toolId": "VIDEO_CONCAT",
+      "status": "failed",
+      "error": {
+        "code": "submit-unconfirmed",
+        "message": "页面刷新中断了这次请求，本服务无法反查上游是否已受理。已关闭为失败；重试前请先到服务商后台确认，避免重复计费。",
+        "retryable": true
+      },
+      "createdAt": 1793260706752,
+      "attempts": 1,
+      "sourceAssetIds": [
+        "cover-acc-clip-a.mp4",
+        "Fq7naMKWIUsfie9wKThN6",
+        "CaHanvbqztgK83tUMRhJW"
+      ],
+      "configSnapshot": {
+        "capability": "video",
+        "model": "sub2::MiniMax-H3",
+        "apiFormat": "openai",
+        "size": "720x1280",
+        "quality": "auto",
+        "count": "1",
+        "videoSeconds": "10",
+        "channelId": "sub2"
+      },
+      "prompt": "把 2 段参考视频按给定顺序首尾拼成 1 条连续视频，9:16 画幅，目标时长 10 秒。 片段 1：acc-clip-a.mp4，取 0s–5.2s（有效 5.2s）。 片段 2：acc-clip-b.mp4，取 0s–5.2s（有效 5.2s）。 衔接处保持原始节奏，不加转场特效、不加字幕、不改画面内容与声音。 封面：封面使用上传图「acc-clip-a.mp4」。"
+    },
+    {
+      "id": "task-mvtbmukl-quasjm",
+      "toolId": "IMAGE_CROP",
+      "status": "succeeded",
+      "createdAt": 1793264923461,
+      "attempts": 0,
+      "sourceAssetIds": [
+        "t9Uj1ftzRhOpbtCXNtqdL"
+      ],
+      "configSnapshot": {
+        "capability": "image",
+        "model": "in-process-crop",
+        "count": "1",
+        "size": "1024x744"
+      },
+      "prompt": "图片裁剪｜自定义尺寸 1024×744｜裁剪框 0,0,1024,744｜源图 product-watch.jpg｜配置 activeTab=size;contentUrl=blob:http://127.0.0.1:3000/83f5bee1-d6a0-4f48-a259-86b12847e9f8;imageCropUrl=;imageFormat=image/png;imageHeight=744;imageSize=31860;imageUrl=blob:http://127.0.0.1:3000/83f5bee1-d6a0-4f48-a259-86b12847e9f8;imageWidth=1024;platform=custom;platformTitle=自定义尺寸;ratio=free;selectedMode=size"
+    },
+    {
+      "id": "task-mvsaq4oa-4giro0",
+      "toolId": "REMOVE_PEN",
+      "status": "failed",
+      "error": {
+        "code": "submit-unconfirmed",
+        "message": "页面刷新中断了这次请求，本服务无法反查上游是否已受理。已关闭为失败；重试前请先到服务商后台确认，避免重复计费。",
+        "retryable": true
+      },
+      "createdAt": 1793202930730,
+      "attempts": 1,
+      "sourceAssetIds": [
+        "ebqeHiEp1V3WoUErBrWxL",
+        "ebqeHiEp1V3WoUErBrWxL-mask"
+      ],
+      "configSnapshot": {
+        "capability": "image",
+        "model": "default::gpt-image-2",
+        "apiFormat": "openai",
+        "size": "1:1",
+        "quality": "auto",
+        "count": "1",
+        "channelId": "default"
+      },
+      "prompt": "局部消除：参考图 1 是原图，参考图 2 是蒙版（白色 = 需要删除的物体/区域，黑色 = 必须保持不变）。 删除蒙版白色区域内的全部内容，并按周围背景自然补全：保持光照、透视、纹理、阴影和边缘一致。 蒙版以外的像素不得改变：主体、文字、Logo、颜色、构图都保持原样。 不要新增物体，不要改变画幅，不要添加水印。"
+    },
+    {
+      "id": "task-mvsbd685-5tzfuw",
+      "toolId": "SALE_VIDEO",
+      "status": "failed",
+      "error": {
+        "code": "provider-rejected",
+        "message": "404 page not found · api.cc-ai.xyz/videos · HTTP 404",
+        "retryable": false
+      },
+      "createdAt": 1793204005829,
+      "attempts": 1,
+      "sourceAssetIds": [
+        "Q_xXsAv4MdJFz05SMo1lp"
+      ],
+      "configSnapshot": {
+        "capability": "video",
+        "model": "default::grok-imagine-video",
+        "apiFormat": "openai",
+        "size": "1:1",
+        "quality": "auto",
+        "count": "1",
+        "channelId": "default"
+      },
+      "prompt": "【带货口播 · 模板 v1】 目标市场：US（美国）；口播语言：英语（English） 成片：5 秒 / 720P / 画幅 9:16；模型：default::grok-imagine-video 素材：1 张商品图按上传顺序作为主视觉，商品外观、颜色、logo 与包装文字必须与素材一致 口播结构：3 秒钩子（痛点/场景）→ 2–3 个可验证卖点 → 使用场景演示 → 行动号召 约束：不虚构未提供的价格、折扣、认证、功效与参数；不添加水印、字幕贴纸与第三方品牌标识；旁白与画面对齐，不出现数字人口型要求 模式：标准模式（单一场景、稳定镜头） 【口播脚本（用户可见，可编辑）】 White sport smartwatch on a man's wrist, slowly rotating close-up, metal bezel and textured strap catching soft studio light, clean dark gradient background, product-hero lighting, 4s steady camera dolly-in, no text, no watermark. 口播：Meet the watch that tracks your day and night — sapphire glass, 7-day battery, and a band that breathes with you. Grab yours today."
+    },
+    {
+      "id": "task-mvsb41o9-hv2vqo",
+      "toolId": "CHANGE_COLOR_V2",
+      "status": "failed",
+      "error": {
+        "code": "submit-unconfirmed",
+        "message": "页面刷新中断了这次请求，本服务无法反查上游是否已受理。已关闭为失败；重试前请先到服务商后台确认，避免重复计费。",
+        "retryable": true
+      },
+      "createdAt": 1793203580025,
+      "attempts": 1,
+      "sourceAssetIds": [
+        "UffwprcSG6AhVZNIKDEKf",
+        "YYDXTiEdWvLD8Yr_mWgy2"
+      ],
+      "configSnapshot": {
+        "capability": "image",
+        "model": "default::gpt-image-2",
+        "apiFormat": "openai",
+        "size": "1:1",
+        "quality": "medium",
+        "count": "1",
+        "channelId": "default"
+      },
+      "prompt": "对上传商品图「product-watch.jpg」做换色：把上装改成参考图「apparel-print-ref.jpg」中的颜色与材质。 保持商品轮廓、结构、缝合线、材质纹理、Logo 位置、光照方向、投影与背景不变；不要增加或删除任何部件。 整张图其余区域保持原样，输出一张与原图同构图、同视角的图片。 输出品质：中品质。"
+    },
+    {
+      "id": "task-mvsc7s58-2rrnqz",
+      "toolId": "CHANGE_COLOR_V2",
+      "status": "failed",
+      "error": {
+        "code": "submit-unconfirmed",
+        "message": "页面刷新中断了这次请求，本服务无法反查上游是否已受理。已关闭为失败；重试前请先到服务商后台确认，避免重复计费。",
+        "retryable": true
+      },
+      "createdAt": 1793205433916,
+      "attempts": 1,
+      "sourceAssetIds": [
+        "UffwprcSG6AhVZNIKDEKf",
+        "YYDXTiEdWvLD8Yr_mWgy2"
+      ],
+      "configSnapshot": {
+        "capability": "image",
+        "model": "default::gpt-image-2",
+        "apiFormat": "openai",
+        "size": "1:1",
+        "quality": "medium",
+        "count": "1",
+        "channelId": "default"
+      },
+      "prompt": "对上传商品图「product-watch.jpg」做换色：把上装改成参考图「apparel-print-ref.jpg」中的颜色与材质。 保持商品轮廓、结构、缝合线、材质纹理、Logo 位置、光照方向、投影与背景不变；不要增加或删除任何部件。 整张图其余区域保持原样，输出一张与原图同构图、同视角的图片。 输出品质：中品质。"
+    },
+    {
+      "id": "task-mvsamffh-uh79ky",
+      "toolId": "PRINTING_REPAIR",
+      "status": "succeeded",
+      "createdAt": 1793202758045,
+      "attempts": 1,
+      "sourceAssetIds": [
+        "0AoRx0EeBpoR4p_6vcHNA",
+        "v-9N-5cxFg28o5hRlM9fc"
+      ],
+      "configSnapshot": {
+        "capability": "image",
+        "model": "default::gpt-image-2",
+        "apiFormat": "openai",
+        "size": "1:1",
+        "quality": "auto",
+        "count": "1",
+        "channelId": "default"
+      },
+      "prompt": "印花修复：参考图 1 是印花有误的商品图（底图，必须保留商品形状、褶皱、光影、透视与文字），参考图 2 是正确印花。 将参考图 2 的印花贴合到参考图 1 的指定位置：中心点 (50.0%, 50.0%)，缩放 100%，旋转 0°。 先移除底图原有的错误印花（按周围布料自然补全），再按上述位置/角度/比例贴上正确印花，边缘贴合、不开裂、不重复。 覆盖强度：高，印花参考为主体，保留商品表面的褶皱、光影与透视。 不要改变商品外形、画幅、背景与镜头；不要新增物体、文字或水印；输出分辨率与底图一致。"
+    },
+    {
+      "id": "task-mvs7pmey-uxscga",
+      "toolId": "FISSION_LINK",
+      "status": "succeeded",
+      "createdAt": 1793197868218,
+      "attempts": 1,
+      "sourceAssetIds": [
+        "Qn-xCv4cR4YYVMGl12B_D"
+      ],
+      "configSnapshot": {
+        "capability": "image",
+        "model": "default::gpt-image-2",
+        "apiFormat": "openai",
+        "size": "1:1",
+        "quality": "auto",
+        "count": "1",
+        "channelId": "default"
+      },
+      "prompt": "Keep the product in the reference image \"product_watch.jpg\" exactly as it is: same silhouette, same proportions, same material and surface finish, same logo, same printed text, same packaging. Do not restyle, repaint, recolor, relabel, add or remove any part of the product. The product must stay the hero and fully visible, not cropped or occluded. Change only the surrounding scene: build a new, believable commercial or lifestyle setting with different background, props, floor/surface, light direction and camera distance appropriate to the product. The result must look like a real photograph of the same product shot in that new scene."
+    },
+    {
+      "id": "task-mvsba8fo-iplfjq",
+      "toolId": "REMOVE_PEN",
+      "status": "succeeded",
+      "createdAt": 1793203868724,
+      "attempts": 1,
+      "sourceAssetIds": [
+        "ebqeHiEp1V3WoUErBrWxL",
+        "ebqeHiEp1V3WoUErBrWxL-mask"
+      ],
+      "configSnapshot": {
+        "capability": "image",
+        "model": "default::gpt-image-2",
+        "apiFormat": "openai",
+        "size": "1:1",
+        "quality": "auto",
+        "count": "1",
+        "channelId": "default"
+      },
+      "prompt": "局部消除：参考图 1 是原图，参考图 2 是蒙版（白色 = 需要删除的物体/区域，黑色 = 必须保持不变）。 删除蒙版白色区域内的全部内容，并按周围背景自然补全：保持光照、透视、纹理、阴影和边缘一致。 蒙版以外的像素不得改变：主体、文字、Logo、颜色、构图都保持原样。 不要新增物体，不要改变画幅，不要添加水印。"
+    },
+    {
+      "id": "task-mvt71akq-bu2hxh",
+      "toolId": "IMAGE_TO_VIDEO",
+      "status": "failed",
+      "error": {
+        "code": "provider-failed",
+        "message": "open inline image: operation error S3: GetObject, https response error StatusCode: 404, RequestID: NmFlMmVlZjhfZjRmN2IwYl8xMzdiMl80ZjRlMGQ5, HostID: , NoSuchKey: The specified key does not exist.",
+        "retryable": false
+      },
+      "createdAt": 1793257199306,
+      "attempts": 1,
+      "sourceAssetIds": [
+        "u9-F8H3uLv0nE5RBMv90y",
+        "HsNAWNskFtoPh49lr1kEK"
+      ],
+      "configSnapshot": {
+        "capability": "video",
+        "model": "sub2::MiniMax-H3",
+        "apiFormat": "openai",
+        "size": "auto",
+        "quality": "768P",
+        "count": "1",
+        "channelId": "sub2"
+      },
+      "prompt": "主体居中，缓慢环绕运镜，依次展示产品正面、侧面与背面细节，柔和棚拍光。规格：5 秒，768P，画面比例 自适应，目标语言英语。请在不改变卖点的前提下优化运镜与画面节奏"
+    },
+    {
+      "id": "task-mvs9xe7s-9jmboc",
+      "toolId": "REMOVE_PEN",
+      "status": "failed",
+      "error": {
+        "code": "submit-unconfirmed",
+        "message": "页面刷新中断了这次请求，本服务无法反查上游是否已受理。已关闭为失败；重试前请先到服务商后台确认，避免重复计费。",
+        "retryable": true
+      },
+      "createdAt": 1793201590072,
+      "attempts": 1,
+      "sourceAssetIds": [
+        "ebqeHiEp1V3WoUErBrWxL",
+        "ebqeHiEp1V3WoUErBrWxL-mask"
+      ],
+      "configSnapshot": {
+        "capability": "image",
+        "model": "default::gpt-image-2",
+        "apiFormat": "openai",
+        "size": "1:1",
+        "quality": "auto",
+        "count": "1",
+        "channelId": "default"
+      },
+      "prompt": "局部消除：参考图 1 是原图，参考图 2 是蒙版（白色 = 需要删除的物体/区域，黑色 = 必须保持不变）。 删除蒙版白色区域内的全部内容，并按周围背景自然补全：保持光照、透视、纹理、阴影和边缘一致。 蒙版以外的像素不得改变：主体、文字、Logo、颜色、构图都保持原样。 不要新增物体，不要改变画幅，不要添加水印。"
+    },
+    {
+      "id": "task-mvs7gq30-m78zxu",
+      "toolId": "FISSION_LINK",
+      "status": "failed",
+      "error": {
+        "code": "submit-unconfirmed",
+        "message": "页面刷新中断了这次请求，本服务无法反查上游是否已受理。已关闭为失败；重试前请先到服务商后台确认，避免重复计费。",
+        "retryable": true
+      },
+      "createdAt": 1793197453068,
+      "attempts": 1,
+      "sourceAssetIds": [
+        "Qn-xCv4cR4YYVMGl12B_D"
+      ],
+      "configSnapshot": {
+        "capability": "image",
+        "model": "default::gpt-image-2",
+        "apiFormat": "openai",
+        "size": "1:1",
+        "quality": "auto",
+        "count": "1",
+        "channelId": "default"
+      },
+      "prompt": "Keep the product in the reference image \"product_watch.jpg\" exactly as it is: same silhouette, same proportions, same material and surface finish, same logo, same printed text, same packaging. Do not restyle, repaint, recolor, relabel, add or remove any part of the product. The product must stay the hero and fully visible, not cropped or occluded. Change only the surrounding scene: build a new, believable commercial or lifestyle setting with different background, props, floor/surface, light direction and camera distance appropriate to the product. The result must look like a real photograph of the same product shot in that new scene."
+    },
+    {
+      "id": "task-mvs5dd71-4s35w2",
+      "toolId": "PRINT_EXTRACT",
+      "status": "failed",
+      "error": {
+        "code": "submit-unconfirmed",
+        "message": "页面刷新中断了这次请求，本服务无法反查上游是否已受理。已关闭为失败；重试前请先到服务商后台确认，避免重复计费。",
+        "retryable": true
+      },
+      "createdAt": 1793193937165,
+      "attempts": 1,
+      "sourceAssetIds": [
+        "8I3lM9-V5fu7BXCkvEJ2N"
+      ],
+      "configSnapshot": {
+        "capability": "image",
+        "model": "default::gpt-image-2",
+        "apiFormat": "openai",
+        "size": "1:1",
+        "quality": "auto",
+        "count": "1",
+        "channelId": "default"
+      },
+      "prompt": "Extract the printed artwork (the print/graphic) from the provided product photo. Output a single flat image of the print at 1024x1024 pixels, straightened, with the original colors and no product texture, folds or shadows. Keep the printed artwork on its original neutral background; do not invent new props. Do not add text, logos or decorative elements that are not visible in the source print."
+    },
+    {
+      "id": "task-mvt9elbs-u4grlv",
+      "toolId": "IMAGE_TRANSLATION",
+      "status": "succeeded",
+      "createdAt": 1793261179000,
+      "attempts": 1,
+      "sourceAssetIds": [
+        "_3Lerl2nK3t16DM344lk0"
+      ],
+      "configSnapshot": {
+        "capability": "image",
+        "model": "default::gpt-image-2",
+        "apiFormat": "openai",
+        "size": "1:1",
+        "quality": "auto",
+        "count": "1",
+        "videoSeconds": "6",
+        "channelId": "default"
+      },
+      "prompt": "把这张电商图片内的全部文字翻译为 English（英语），并保持原有版式。 版式要求：文字块位置、字号层级、字重、颜色、对齐与留白保持原样；文字不遮挡商品主体、不溢出画面；不新增、不遗漏任何文字。 逐条替换（原文 → 译文），必须一字不差地使用给定译文： 1. “夏日大促 5折起” → “SUMMER SALE 50% OFF” 若个别文字在原图中不可见，忽略该条；不要臆造新文案，不要改动图片中的商品本身。 图片：sale-banner.png"
+    },
+    {
+      "id": "task-mvt18lrt-rsnifn",
+      "toolId": "FISSION_LINK",
+      "status": "succeeded",
+      "createdAt": 1793247462713,
+      "attempts": 1,
+      "sourceAssetIds": [
+        "fission-link-source"
+      ],
+      "configSnapshot": {
+        "capability": "image",
+        "model": "default::gpt-image-2",
+        "apiFormat": "openai",
+        "size": "1:1",
+        "quality": "auto",
+        "count": "1",
+        "channelId": "default"
+      },
+      "prompt": "Keep the product in the reference image \"链接参考图\" exactly as it is: same silhouette, same proportions, same material and surface finish, same logo, same printed text, same packaging. Do not restyle, repaint, recolor, relabel, add or remove any part of the product. The product must stay the hero and fully visible, not cropped or occluded. Change only the surrounding scene: build a new, believable commercial or lifestyle setting with different background, props, floor/surface, light direction and camera distance appropriate to the product. The result must look like a real photograph of the same product shot in that new scene."
+    },
+    {
+      "id": "task-mvs726zz-lwouyf",
+      "toolId": "FISSION_LINK",
+      "status": "failed",
+      "error": {
+        "code": "provider-rejected",
+        "message": "API key is required in Authorization header (Bearer scheme), x-api-key header, or x-goog-api-key header",
+        "retryable": false
+      },
+      "createdAt": 1793196775151,
+      "attempts": 1,
+      "sourceAssetIds": [
+        "Qn-xCv4cR4YYVMGl12B_D"
+      ],
+      "configSnapshot": {
+        "capability": "image",
+        "model": "default::gpt-image-2",
+        "apiFormat": "openai",
+        "size": "1:1",
+        "quality": "auto",
+        "count": "1",
+        "channelId": "default"
+      },
+      "prompt": "Keep the product in the reference image \"product_watch.jpg\" exactly as it is: same silhouette, same proportions, same material and surface finish, same logo, same printed text, same packaging. Do not restyle, repaint, recolor, relabel, add or remove any part of the product. The product must stay the hero and fully visible, not cropped or occluded. Change only the surrounding scene: build a new, believable commercial or lifestyle setting with different background, props, floor/surface, light direction and camera distance appropriate to the product. The result must look like a real photograph of the same product shot in that new scene."
+    },
+    {
+      "id": "task-mvtbe5rp-0maafh",
+      "toolId": "HAND_REPAIR",
+      "status": "succeeded",
+      "createdAt": 1793264518069,
+      "attempts": 1,
+      "sourceAssetIds": [
+        "2nfBQE4QxDqHVPizALzFi",
+        "HAND_REPAIR-mask"
+      ],
+      "configSnapshot": {
+        "capability": "image",
+        "model": "default::gpt-image-2",
+        "apiFormat": "openai",
+        "size": "1:1",
+        "quality": "auto",
+        "count": "1",
+        "videoSeconds": "6",
+        "channelId": "default"
+      },
+      "prompt": "Repair the hand anatomy inside the white mask region and keep everything else pixel-identical. Reconstruct correct finger count, joints and proportions for adult male hands. Match the existing skin tone, lighting, perspective and image resolution; do not restyle, recolor or crop the photo."
+    },
+    {
+      "id": "task-mvtbhylv-bmyjus",
+      "toolId": "AI_OUTPAINTING",
+      "status": "succeeded",
+      "createdAt": 1793264695411,
+      "attempts": 1,
+      "sourceAssetIds": [
+        "_zBfzDoIAiNdpqWscc4K1",
+        "bA2f8AMQx81tP909YUCMW"
+      ],
+      "configSnapshot": {
+        "capability": "image",
+        "model": "default::gpt-image-2",
+        "apiFormat": "openai",
+        "size": "1:1",
+        "quality": "auto",
+        "count": "1",
+        "videoSeconds": "6",
+        "channelId": "default"
+      },
+      "prompt": "把这张图片向外扩展到 1024×1024（1:1），保持原图内容不变。 原图 1024×744 位于画布 (0, 0)，其覆盖区域 (0, 0) 1024×744 必须保持像素级不变：不拉伸、不裁切、不改颜色。 新增画布区域：下 280px。 新增区域内容：延续灰色水泥地面与柔和侧光，在下方补出完整的产品阴影与投影，保持商品主体不变 接缝处自然过渡，透视、光照、纹理与原图一致；不要添加原图不存在的文字或水印。"
+    },
+    {
+      "id": "task-mvs8bhu1-hhue24",
+      "toolId": "IMAGE_TEXT_EDIT",
+      "status": "succeeded",
+      "createdAt": 1793198888713,
+      "attempts": 1,
+      "sourceAssetIds": [
+        "image-text-edit-source"
+      ],
+      "configSnapshot": {
+        "capability": "image",
+        "model": "default::gpt-image-2",
+        "apiFormat": "openai",
+        "size": "1:1",
+        "quality": "auto",
+        "count": "1",
+        "channelId": "default"
+      },
+      "prompt": "图片文字编辑｜product_watch.jpg｜尺寸 1024×744｜源格式 jpeg｜文字框 1 个｜框1 坐标 8%,12%,50%,12% 文本「春季新品 ¥499」 字体 sans 字号 48 字重 700 对齐 left 颜色 #111111｜原图作为参考图提供，只在上述文字框内替换文字，保持其余像素不变｜本次基于上传原图重新排版｜导出格式 jpeg"
+    },
+    {
+      "id": "task-mvs6zovx-pod3rz",
+      "toolId": "AI_POSE_GENERATOR",
+      "status": "failed",
+      "error": {
+        "code": "submit-unconfirmed",
+        "message": "页面刷新中断了这次请求，本服务无法反查上游是否已受理。已关闭为失败；重试前请先到服务商后台确认，避免重复计费。",
+        "retryable": true
+      },
+      "createdAt": 1793196658365,
+      "attempts": 1,
+      "sourceAssetIds": [],
+      "configSnapshot": {
+        "capability": "image",
+        "model": "default::gpt-image-2",
+        "apiFormat": "openai",
+        "size": "1:1",
+        "quality": "auto",
+        "count": "1",
+        "channelId": "default"
+      },
+      "prompt": "Create a full-body pose reference photo of a single fashion model. Pose: 女性模特正面站姿，全身入镜，双手自然下垂，肩线平齐，中性表情 Framing: head to toe, 50mm lens, eye level, single subject, no crop. Scene directives: plain studio backdrop, soft even lighting, neutral floor. Hard rule: scene directives must never change the body pose, limb positions, head angle or the direction the model faces. Keep wardrobe and body proportions consistent; photorealistic, sharp focus, no text, no watermark, no collage."
+    },
+    {
+      "id": "task-mvt76u6p-7cfnff",
+      "toolId": "SALE_VIDEO",
+      "status": "succeeded",
+      "createdAt": 1793257458001,
+      "attempts": 1,
+      "sourceAssetIds": [
+        "Q_xXsAv4MdJFz05SMo1lp"
+      ],
+      "configSnapshot": {
+        "capability": "video",
+        "model": "sub2::MiniMax-H3",
+        "apiFormat": "openai",
+        "size": "1:1",
+        "quality": "auto",
+        "count": "1",
+        "channelId": "sub2"
+      },
+      "prompt": "【带货口播 · 模板 v1】 目标市场：JP（日本）；口播语言：日语（日本語） 成片：5 秒 / 720P / 画幅 9:16；模型：sub2::MiniMax-H3 素材：1 张商品图按上传顺序作为主视觉，商品外观、颜色、logo 与包装文字必须与素材一致 口播结构：3 秒钩子（痛点/场景）→ 2–3 个可验证卖点 → 使用场景演示 → 行动号召 约束：不虚构未提供的价格、折扣、认证、功效与参数；不添加水印、字幕贴纸与第三方品牌标识；旁白与画面对齐，不出现数字人口型要求 模式：标准模式（单一场景、稳定镜头） 【口播脚本（用户可见，可编辑）】 White sport smartwatch on a man's wrist, slowly rotating close-up, metal bezel and textured strap catching soft studio light, clean dark gradient background, product-hero lighting, 4s steady camera dolly-in, no text, no watermark. 口播：Meet the watch that tracks your day and night — sapphire glass, 7-day battery, and a band that breathes with you. Grab yours today."
+    },
+    {
+      "id": "task-mvs5p8g8-or3oim",
+      "toolId": "HANDHELD_GOODS",
+      "status": "failed",
+      "error": {
+        "code": "submit-unconfirmed",
+        "message": "页面刷新中断了这次请求，本服务无法反查上游是否已受理。已关闭为失败；重试前请先到服务商后台确认，避免重复计费。",
+        "retryable": true
+      },
+      "createdAt": 1793194490888,
+      "attempts": 1,
+      "sourceAssetIds": [
+        "Av-jVHErVHd5JrI1RTwi6",
+        "handheld-pose-left-cradle-front"
+      ],
+      "configSnapshot": {
+        "capability": "image",
+        "model": "default::gpt-image-2",
+        "apiFormat": "openai",
+        "size": "1:1",
+        "quality": "auto",
+        "count": "1",
+        "channelId": "default"
+      },
+      "prompt": "Photorealistic e-commerce product photo: the uploaded product held in the left hand, palm supporting the base, product facing the camera Keep the product's shape, logo, text and colour exactly as in the reference; regenerate only the hand, arm and background. Fingers must wrap the product surface naturally with correct contact shadows, no fused fingers, no floating product. seamless studio backdrop, soft key light, no props Quality check: verify finger contact follows the product surface and the product silhouette is intact. Output 1 image."
+    },
+    {
+      "id": "task-mvs76zzt-c0f9u5",
+      "toolId": "AI_VIDEO_EDITING",
+      "status": "failed",
+      "error": {
+        "code": "provider-rejected",
+        "message": "404 page not found · api.cc-ai.xyz/videos · HTTP 404",
+        "retryable": false
+      },
+      "createdAt": 1793196999353,
+      "attempts": 1,
+      "sourceAssetIds": [
+        "85aa1enwR7Lu5TQjKf8e2",
+        "os_0XhpDLADpvJXTGLjqB"
+      ],
+      "configSnapshot": {
+        "capability": "video",
+        "model": "default::grok-imagine-video",
+        "apiFormat": "openai",
+        "size": "1:1",
+        "quality": "auto",
+        "count": "1",
+        "channelId": "default"
+      },
+      "prompt": "【视频编辑 · 模板 v1】 编辑类型：商品人物精准编辑；编辑意图：保持参考图中商品与人物的一致性，只按需求改写镜头内容、动作、场景与光线 源视频取自 0–5.2 秒（共 5.2 秒，源片 5.2 秒） 参考素材：1 张参考图按上传顺序参与主体一致性约束；商品外观、颜色、logo 与人物身份必须与参考图一致 输出：1 条视频，时长约 5.2 秒；模型：default::grok-imagine-video 约束：不新增未出现在源视频/参考图中的商品、人物与文字；不改变源视频镜头语言之外的事实；不加水印与字幕贴纸 【编辑需求（用户可见，可编辑）】 把视频里的产品替换为参考图中的白色降噪耳机，保持人物动作、镜头运动和背景不变"
+    },
+    {
+      "id": "task-mvsaz6ar-m6osdl",
+      "toolId": "REMOVE_PEN",
+      "status": "failed",
+      "error": {
+        "code": "submit-unconfirmed",
+        "message": "页面刷新中断了这次请求，本服务无法反查上游是否已受理。已关闭为失败；重试前请先到服务商后台确认，避免重复计费。",
+        "retryable": true
+      },
+      "createdAt": 1793203352739,
+      "attempts": 1,
+      "sourceAssetIds": [
+        "ebqeHiEp1V3WoUErBrWxL",
+        "ebqeHiEp1V3WoUErBrWxL-mask"
+      ],
+      "configSnapshot": {
+        "capability": "image",
+        "model": "default::gpt-image-2",
+        "apiFormat": "openai",
+        "size": "1:1",
+        "quality": "auto",
+        "count": "1",
+        "channelId": "default"
+      },
+      "prompt": "局部消除：参考图 1 是原图，参考图 2 是蒙版（白色 = 需要删除的物体/区域，黑色 = 必须保持不变）。 删除蒙版白色区域内的全部内容，并按周围背景自然补全：保持光照、透视、纹理、阴影和边缘一致。 蒙版以外的像素不得改变：主体、文字、Logo、颜色、构图都保持原样。 不要新增物体，不要改变画幅，不要添加水印。"
+    },
+    {
+      "id": "task-mvta1kkg-t8y1yo",
+      "toolId": "FIX_COLOR",
+      "status": "succeeded",
+      "createdAt": 1793262251104,
+      "attempts": 1,
+      "sourceAssetIds": [
+        "s06VIgLr3ZyTauRUNHeRg",
+        "FIX_COLOR-mask"
+      ],
+      "configSnapshot": {
+        "capability": "image",
+        "model": "default::gpt-image-2",
+        "apiFormat": "openai",
+        "size": "1024x752",
+        "quality": "auto",
+        "count": "1",
+        "videoSeconds": "6",
+        "channelId": "default"
+      },
+      "prompt": "参考图 1 是待校正的商品图，参考图 2 中白色区域是需要校正的色彩区域。把参考图 2 白色区域内偏向 #B79A7C 的颜色校正到参考色 #A8896A（ΔE 6.5 · 明显差异）。只把选定区域的颜色对齐到目标参考色，保留原有明暗层次与材质纹理，不动其他区域。只修改白区内的颜色，保持商品轮廓、文字、logo、纹理与背景不变，不新增或删除任何元素，输出与原图相同尺寸。"
+    },
+    {
+      "id": "task-mvt17bmi-xpint5",
+      "toolId": "FISSION_LINK",
+      "status": "succeeded",
+      "createdAt": 1793247402906,
+      "attempts": 1,
+      "sourceAssetIds": [
+        "fission-link-source"
+      ],
+      "configSnapshot": {
+        "capability": "image",
+        "model": "default::gpt-image-2",
+        "apiFormat": "openai",
+        "size": "1:1",
+        "quality": "auto",
+        "count": "1",
+        "channelId": "default"
+      },
+      "prompt": "Keep the product in the reference image \"链接参考图\" exactly as it is: same silhouette, same proportions, same material and surface finish, same logo, same printed text, same packaging. Do not restyle, repaint, recolor, relabel, add or remove any part of the product. The product must stay the hero and fully visible, not cropped or occluded. Change only the surrounding scene: build a new, believable commercial or lifestyle setting with different background, props, floor/surface, light direction and camera distance appropriate to the product. The result must look like a real photograph of the same product shot in that new scene."
+    },
+    {
+      "id": "task-mvsaus49-i7vsmt",
+      "toolId": "REMOVE_PEN",
+      "status": "succeeded",
+      "createdAt": 1793203147737,
+      "attempts": 1,
+      "sourceAssetIds": [
+        "ebqeHiEp1V3WoUErBrWxL",
+        "ebqeHiEp1V3WoUErBrWxL-mask"
+      ],
+      "configSnapshot": {
+        "capability": "image",
+        "model": "default::gpt-image-2",
+        "apiFormat": "openai",
+        "size": "1:1",
+        "quality": "auto",
+        "count": "1",
+        "channelId": "default"
+      },
+      "prompt": "局部消除：参考图 1 是原图，参考图 2 是蒙版（白色 = 需要删除的物体/区域，黑色 = 必须保持不变）。 删除蒙版白色区域内的全部内容，并按周围背景自然补全：保持光照、透视、纹理、阴影和边缘一致。 蒙版以外的像素不得改变：主体、文字、Logo、颜色、构图都保持原样。 不要新增物体，不要改变画幅，不要添加水印。"
+    },
+    {
+      "id": "task-mvt0ww21-bhl4e9",
+      "toolId": "FISSION_LINK",
+      "status": "succeeded",
+      "createdAt": 1793246916169,
+      "attempts": 1,
+      "sourceAssetIds": [
+        "fission-link-source"
+      ],
+      "configSnapshot": {
+        "capability": "image",
+        "model": "default::gpt-image-2",
+        "apiFormat": "openai",
+        "size": "1:1",
+        "quality": "auto",
+        "count": "1",
+        "channelId": "default"
+      },
+      "prompt": "Keep the product in the reference image \"链接参考图\" exactly as it is: same silhouette, same proportions, same material and surface finish, same logo, same printed text, same packaging. Do not restyle, repaint, recolor, relabel, add or remove any part of the product. The product must stay the hero and fully visible, not cropped or occluded. Change only the surrounding scene: build a new, believable commercial or lifestyle setting with different background, props, floor/surface, light direction and camera distance appropriate to the product. The result must look like a real photograph of the same product shot in that new scene."
+    },
+    {
+      "id": "task-mvs6r088-39u8zq",
+      "toolId": "AI_POSE_GENERATOR",
+      "status": "failed",
+      "error": {
+        "code": "provider-rejected",
+        "message": "API key is required in Authorization header (Bearer scheme), x-api-key header, or x-goog-api-key header",
+        "retryable": false
+      },
+      "createdAt": 1793196253160,
+      "attempts": 1,
+      "sourceAssetIds": [],
+      "configSnapshot": {
+        "capability": "image",
+        "model": "default::gpt-image-2",
+        "apiFormat": "openai",
+        "size": "1:1",
+        "quality": "auto",
+        "count": "1",
+        "channelId": "default"
+      },
+      "prompt": "Create a full-body pose reference photo of a single fashion model. Pose: 女性模特正面站姿，全身入镜，双手自然下垂，肩线平齐，中性表情 Framing: head to toe, 50mm lens, eye level, single subject, no crop. Scene directives: plain studio backdrop, soft even lighting, neutral floor. Hard rule: scene directives must never change the body pose, limb positions, head angle or the direction the model faces. Keep wardrobe and body proportions consistent; photorealistic, sharp focus, no text, no watermark, no collage."
+    },
+    {
+      "id": "task-mvtcqvmn-p4kk5n",
+      "toolId": "SCALE_UP",
+      "status": "failed",
+      "error": {
+        "code": "submit-unconfirmed",
+        "message": "页面刷新中断了这次请求，本服务无法反查上游是否已受理。已关闭为失败；重试前请先到服务商后台确认，避免重复计费。",
+        "retryable": true
+      },
+      "createdAt": 1793266791071,
+      "attempts": 1,
+      "sourceAssetIds": [
+        "row_x-p1OJCf-ref-1793266769146-0"
+      ],
+      "configSnapshot": {
+        "capability": "image",
+        "model": "default::gpt-image-2",
+        "apiFormat": "openai",
+        "size": "1:1",
+        "quality": "auto",
+        "count": "1",
+        "videoSeconds": "6",
+        "channelId": "default"
+      },
+      "prompt": "高清放大，强化文字与网格线条，保持原始配色不变。"
+    },
+    {
+      "id": "task-mvs7sk2d-cmr0uf",
+      "toolId": "AI_VIDEO_EDITING",
+      "status": "failed",
+      "error": {
+        "code": "provider-rejected",
+        "message": "404 page not found · api.cc-ai.xyz/videos · HTTP 404",
+        "retryable": false
+      },
+      "createdAt": 1793198005141,
+      "attempts": 1,
+      "sourceAssetIds": [
+        "MruJqcPeM-vxNgFnc1Y1d",
+        "38bN8wqF5Yg9h6_NUUh8L"
+      ],
+      "configSnapshot": {
+        "capability": "video",
+        "model": "default::grok-imagine-video",
+        "apiFormat": "openai",
+        "size": "1:1",
+        "quality": "auto",
+        "count": "1",
+        "channelId": "default"
+      },
+      "prompt": "【视频编辑 · 模板 v1】 编辑类型：商品人物精准编辑；编辑意图：保持参考图中商品与人物的一致性，只按需求改写镜头内容、动作、场景与光线 源视频取自 0–5.2 秒（共 5.2 秒，源片 5.2 秒） 参考素材：1 张参考图按上传顺序参与主体一致性约束；商品外观、颜色、logo 与人物身份必须与参考图一致 输出：1 条视频，时长约 5.2 秒；模型：default::grok-imagine-video 约束：不新增未出现在源视频/参考图中的商品、人物与文字；不改变源视频镜头语言之外的事实；不加水印与字幕贴纸 【编辑需求（用户可见，可编辑）】 把视频里的产品替换为参考图中的白色降噪耳机，保持人物动作、镜头运动和背景不变"
+    },
+    {
+      "id": "task-mvs6fr7b-plo8es",
+      "toolId": "AI_POSE_GENERATOR",
+      "status": "failed",
+      "error": {
+        "code": "submit-unconfirmed",
+        "message": "页面刷新中断了这次请求，本服务无法反查上游是否已受理。已关闭为失败；重试前请先到服务商后台确认，避免重复计费。",
+        "retryable": true
+      },
+      "createdAt": 1793195728247,
+      "attempts": 1,
+      "sourceAssetIds": [],
+      "configSnapshot": {
+        "capability": "image",
+        "model": "default::gpt-image-2",
+        "apiFormat": "openai",
+        "size": "1:1",
+        "quality": "auto",
+        "count": "1",
+        "channelId": "default"
+      },
+      "prompt": "Create a full-body pose reference photo of a single fashion model. Pose: 女性模特正面站姿，全身入镜，双手自然下垂，肩线平齐，中性表情 Framing: head to toe, 50mm lens, eye level, single subject, no crop. Scene directives: plain studio backdrop, soft even lighting, neutral floor. Hard rule: scene directives must never change the body pose, limb positions, head angle or the direction the model faces. Keep wardrobe and body proportions consistent; photorealistic, sharp focus, no text, no watermark, no collage."
+    }
+  ],
+  "batchId": "batch_dPefELopUM",
+  "note": "SCALE_UP 2-row real submission via /tools/batch-generate; both rows hit upstream_error; task records flagged submit-unconfirmed after page reload."
+}

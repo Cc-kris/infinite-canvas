@@ -1,0 +1,528 @@
+{
+  "url": "http://127.0.0.1:3000/tools/product-design/ai-posture",
+  "title": "无限画布",
+  "viewport": [
+    1600,
+    1000
+  ],
+  "doc": [
+    1600,
+    1000
+  ],
+  "bodyText": "无限画布 首页 电商套图 智能修图 新模型 AI视频 HOT 批量生图 商品图设计 中 切换到深色主题 v0.27.0 真人换模特 模特换场景 AI穿衣 姿势裂变 AI穿戴 历史记录 企业功能 批量生图 即将下架 人台换模特 下架 姿势裂变 📸 1 张模特图→N 种姿势套图！告别重复拍摄成本，秒变视觉内容高产能手！ 模特姿势图 拖拽/粘贴 或 上传模特姿势图；一张图裂变出多种姿势，人物/服装保持一致。 图片规则 拖拽/粘贴 或 上传模特姿势图 从本地上传 从作品库选择 从商品库选择 10M以内，384*384 ~ 4096*4096 图片标签（imageTags，可增删，≤12） 还没有标签；点选姿势卡片会自动带出建议标签。 添加 图片规则：10M以内，384×384 ~ 4096×4096 或试试这些 完整上身图 全身模特图 上传多张图片，开始批量姿势裂变 批量模式暂未开放：本页当前只支持上传 1 张模特图。 姿势库 / 自定义 选择姿势（可选）：不选则按张数自动裂变；姿势库与自定义各自保存，来回切换不会互相覆盖。 姿势库 自定义 已选 0 个姿势（将自动裂变） 全部 站姿 角度 动态 坐姿 正面站姿 standing straight and facing the camera, arms relaxed naturally at the sides, feet shoulder-width apart 标签：站姿 / 正面 / 全身 单手叉腰 standing with one hand on the hip and the other arm relaxed, weight shifted onto one leg 标签：站姿 / 叉腰 双手插兜 standing casually with both hands in pockets, shoulders relaxed 标签：站姿 / 插兜 双臂交叉 standing with arms crossed over the chest in a confident posture 标签：站姿 / 交叉 侧身站立 standing in a three-quarter side profile with the head turned toward the camera 标签：侧身 / 回眸 背身回眸 back to the camera with the head turned over the shoulder, looking back at the viewer 标签：背身 / 回眸 低机位仰拍 a low camera angle looking up at the model while standing tall 标签：低机位 / 仰拍 行走抓拍 caught mid-stride walking toward the camera with a natural arm swing 标签：动态 / 行走 转身瞬间 caught mid-turn with hair and clothing following the motion 标签：动态 / 转身 轻跳 a light jump with both feet off the ground and arms slightly raised 标签：动态 / 跳跃 高脚凳坐姿 sitting on a tall stool with one leg crossed over the other, back straight 标签：坐姿 / 高脚凳 坐地 sitting on the floor with legs folded to one side, hands resting on the knee 标签：坐姿 / 坐地 清空选择（改为自动裂变） 选择生成张数 1–4 张，按姿势平均分配；未选姿势时自动从姿势库裂变出互不重复的姿势。 1 2 3 4 裂变方式 自动裂变 姿势 / 张数 正面站姿×1 预计输出 1 张 / 1 个请求 补充描述 可选：光线、场景、气质等；姿势本身由上面的选择决定。 立即生成 1 张 · 1 个姿势请求 请先上传模特姿势图（拖拽/粘贴或从本地选择） 本次输入快照 生成结果 历史记录 一键做同款 还没有生成结果 📸 1 张模特图 → N 种姿势套图！告别重复拍摄成本。 连接本地 Agent 未连接 点连接会自动启动本地服务、装好插件并接通，无需手动配置。 Claude Code 未连接 · CLI · 2.1.316 (Claude Code) · 直接运行 连接 Codex 未连接 · CLI · codex-cli 0.166.0 · 插件已装 连接 Galley 未连接 · CLI + 桌面版 · galley 0.6.4 连接",
+  "main": {
+    "x": 180,
+    "y": 56,
+    "w": 1420,
+    "h": 944,
+    "sh": 2874,
+    "ch": 944,
+    "st": 0,
+    "oy": "auto"
+  },
+  "config": {
+    "x": 180,
+    "y": 131,
+    "w": 300,
+    "h": 2775
+  },
+  "result": {
+    "x": 492,
+    "y": 131,
+    "w": 1108,
+    "h": 2775
+  },
+  "rail": {
+    "x": 0,
+    "y": 56,
+    "w": 180,
+    "h": 944
+  },
+  "columns": true,
+  "inlineRail": null,
+  "buttons": [
+    {
+      "text": "中",
+      "disabled": false,
+      "rect": {
+        "x": 1433,
+        "y": 14,
+        "w": 28,
+        "h": 28
+      }
+    },
+    {
+      "text": "切换到深色主题",
+      "disabled": false,
+      "rect": {
+        "x": 1465,
+        "y": 14,
+        "w": 28,
+        "h": 28
+      }
+    },
+    {
+      "text": "v0.27.0",
+      "disabled": false,
+      "rect": {
+        "x": 1497,
+        "y": 17,
+        "w": 47,
+        "h": 22
+      }
+    },
+    {
+      "text": "图片规则",
+      "disabled": false,
+      "rect": {
+        "x": 305,
+        "y": 148,
+        "w": 78,
+        "h": 36
+      }
+    },
+    {
+      "text": "从本地上传",
+      "disabled": false,
+      "rect": {
+        "x": 210,
+        "y": 395,
+        "w": 194,
+        "h": 24
+      }
+    },
+    {
+      "text": "从作品库选择",
+      "disabled": true,
+      "rect": {
+        "x": 210,
+        "y": 427,
+        "w": 93,
+        "h": 24
+      }
+    },
+    {
+      "text": "从商品库选择",
+      "disabled": true,
+      "rect": {
+        "x": 311,
+        "y": 427,
+        "w": 93,
+        "h": 24
+      }
+    },
+    {
+      "text": "添加",
+      "disabled": false,
+      "rect": {
+        "x": 466,
+        "y": 555,
+        "w": 50,
+        "h": 36
+      }
+    },
+    {
+      "text": "完整上身图",
+      "disabled": false,
+      "rect": {
+        "x": 265,
+        "y": 743,
+        "w": 96,
+        "h": 32
+      }
+    },
+    {
+      "text": "全身模特图",
+      "disabled": false,
+      "rect": {
+        "x": 197,
+        "y": 783,
+        "w": 96,
+        "h": 32
+      }
+    },
+    {
+      "text": "上传多张图片，开始批量姿势裂变",
+      "disabled": true,
+      "rect": {
+        "x": 197,
+        "y": 823,
+        "w": 236,
+        "h": 32
+      }
+    },
+    {
+      "text": "姿势库",
+      "disabled": false,
+      "rect": {
+        "x": 197,
+        "y": 1023,
+        "w": 68,
+        "h": 36
+      }
+    },
+    {
+      "text": "自定义",
+      "disabled": false,
+      "rect": {
+        "x": 271,
+        "y": 1023,
+        "w": 68,
+        "h": 36
+      }
+    },
+    {
+      "text": "全部",
+      "disabled": false,
+      "rect": {
+        "x": 197,
+        "y": 1094,
+        "w": 54,
+        "h": 36
+      }
+    },
+    {
+      "text": "站姿",
+      "disabled": false,
+      "rect": {
+        "x": 257,
+        "y": 1094,
+        "w": 54,
+        "h": 36
+      }
+    },
+    {
+      "text": "角度",
+      "disabled": false,
+      "rect": {
+        "x": 317,
+        "y": 1094,
+        "w": 54,
+        "h": 36
+      }
+    },
+    {
+      "text": "动态",
+      "disabled": false,
+      "rect": {
+        "x": 377,
+        "y": 1094,
+        "w": 54,
+        "h": 36
+      }
+    },
+    {
+      "text": "坐姿",
+      "disabled": false,
+      "rect": {
+        "x": 197,
+        "y": 1136,
+        "w": 54,
+        "h": 36
+      }
+    },
+    {
+      "text": "正面站姿standing straight and facing the camera, arms relaxed naturally at the sides",
+      "disabled": false,
+      "rect": {
+        "x": 197,
+        "y": 1180,
+        "w": 83,
+        "h": 273
+      }
+    },
+    {
+      "text": "单手叉腰standing with one hand on the hip and the other arm relaxed, weight shifted ",
+      "disabled": false,
+      "rect": {
+        "x": 288,
+        "y": 1180,
+        "w": 83,
+        "h": 273
+      }
+    },
+    {
+      "text": "双手插兜standing casually with both hands in pockets, shoulders relaxed标签：站姿 / 插兜",
+      "disabled": false,
+      "rect": {
+        "x": 380,
+        "y": 1180,
+        "w": 83,
+        "h": 273
+      }
+    },
+    {
+      "text": "双臂交叉standing with arms crossed over the chest in a confident posture标签：站姿 / 交叉",
+      "disabled": false,
+      "rect": {
+        "x": 197,
+        "y": 1461,
+        "w": 83,
+        "h": 241
+      }
+    },
+    {
+      "text": "侧身站立standing in a three-quarter side profile with the head turned toward the cam",
+      "disabled": false,
+      "rect": {
+        "x": 288,
+        "y": 1461,
+        "w": 83,
+        "h": 241
+      }
+    },
+    {
+      "text": "背身回眸back to the camera with the head turned over the shoulder, looking back at t",
+      "disabled": false,
+      "rect": {
+        "x": 380,
+        "y": 1461,
+        "w": 83,
+        "h": 241
+      }
+    },
+    {
+      "text": "低机位仰拍a low camera angle looking up at the model while standing tall标签：低机位 / 仰拍",
+      "disabled": false,
+      "rect": {
+        "x": 197,
+        "y": 1709,
+        "w": 83,
+        "h": 225
+      }
+    },
+    {
+      "text": "行走抓拍caught mid-stride walking toward the camera with a natural arm swing标签：动态 / ",
+      "disabled": false,
+      "rect": {
+        "x": 288,
+        "y": 1709,
+        "w": 83,
+        "h": 225
+      }
+    },
+    {
+      "text": "转身瞬间caught mid-turn with hair and clothing following the motion标签：动态 / 转身",
+      "disabled": false,
+      "rect": {
+        "x": 380,
+        "y": 1709,
+        "w": 83,
+        "h": 225
+      }
+    },
+    {
+      "text": "轻跳a light jump with both feet off the ground and arms slightly raised标签：动态 / 跳跃",
+      "disabled": false,
+      "rect": {
+        "x": 197,
+        "y": 1942,
+        "w": 83,
+        "h": 209
+      }
+    },
+    {
+      "text": "高脚凳坐姿sitting on a tall stool with one leg crossed over the other, back straight标",
+      "disabled": false,
+      "rect": {
+        "x": 288,
+        "y": 1942,
+        "w": 83,
+        "h": 209
+      }
+    },
+    {
+      "text": "坐地sitting on the floor with legs folded to one side, hands resting on the knee标签",
+      "disabled": false,
+      "rect": {
+        "x": 380,
+        "y": 1942,
+        "w": 83,
+        "h": 209
+      }
+    },
+    {
+      "text": "清空选择（改为自动裂变）",
+      "disabled": true,
+      "rect": {
+        "x": 197,
+        "y": 2158,
+        "w": 190,
+        "h": 36
+      }
+    },
+    {
+      "text": "1",
+      "disabled": false,
+      "rect": {
+        "x": 197,
+        "y": 2335,
+        "w": 40,
+        "h": 36
+      }
+    },
+    {
+      "text": "2",
+      "disabled": false,
+      "rect": {
+        "x": 243,
+        "y": 2335,
+        "w": 40,
+        "h": 36
+      }
+    },
+    {
+      "text": "3",
+      "disabled": false,
+      "rect": {
+        "x": 289,
+        "y": 2335,
+        "w": 40,
+        "h": 36
+      }
+    },
+    {
+      "text": "4",
+      "disabled": false,
+      "rect": {
+        "x": 335,
+        "y": 2335,
+        "w": 40,
+        "h": 36
+      }
+    },
+    {
+      "text": "立即生成",
+      "disabled": true,
+      "rect": {
+        "x": 197,
+        "y": 2758,
+        "w": 266,
+        "h": 40
+      }
+    },
+    {
+      "text": "生成结果",
+      "disabled": false,
+      "rect": {
+        "x": 509,
+        "y": 148,
+        "w": 82,
+        "h": 32
+      }
+    },
+    {
+      "text": "历史记录",
+      "disabled": false,
+      "rect": {
+        "x": 595,
+        "y": 148,
+        "w": 82,
+        "h": 32
+      }
+    },
+    {
+      "text": "一键做同款",
+      "disabled": false,
+      "rect": {
+        "x": 1491,
+        "y": 148,
+        "w": 92,
+        "h": 32
+      }
+    },
+    {
+      "text": "未连接",
+      "disabled": false,
+      "rect": {
+        "x": 1645,
+        "y": 8,
+        "w": 32,
+        "h": 32
+      }
+    },
+    {
+      "text": "对话",
+      "disabled": false,
+      "rect": {
+        "x": 1754,
+        "y": 0,
+        "w": 32,
+        "h": 48
+      }
+    },
+    {
+      "text": "历史",
+      "disabled": false,
+      "rect": {
+        "x": 1788,
+        "y": 0,
+        "w": 32,
+        "h": 48
+      }
+    },
+    {
+      "text": "技能",
+      "disabled": false,
+      "rect": {
+        "x": 1822,
+        "y": 0,
+        "w": 32,
+        "h": 48
+      }
+    },
+    {
+      "text": "日志",
+      "disabled": false,
+      "rect": {
+        "x": 1856,
+        "y": 0,
+        "w": 32,
+        "h": 48
+      }
+    },
+    {
+      "text": "新对话",
+      "disabled": true,
+      "rect": {
+        "x": 1964,
+        "y": 8,
+        "w": 32,
+        "h": 32
+      }
+    },
+    {
+      "text": "连接",
+      "disabled": false,
+      "rect": {
+        "x": 1945,
+        "y": 147,
+        "w": 66,
+        "h": 24
+      }
+    },
+    {
+      "text": "连接",
+      "disabled": false,
+      "rect": {
+        "x": 1945,
+        "y": 215,
+        "w": 66,
+        "h": 24
+      }
+    },
+    {
+      "text": "连接",
+      "disabled": false,
+      "rect": {
+        "x": 1945,
+        "y": 283,
+        "w": 66,
+        "h": 24
+      }
+    }
+  ],
+  "images": [],
+  "brokenImages": 0,
+  "horizontalOverflow": 0
+}

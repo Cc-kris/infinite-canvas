@@ -1,0 +1,1309 @@
+{
+ "tours": 0,
+ "meta": {
+  "vw": 1600,
+  "vh": 1000,
+  "docScrollH": 1000,
+  "docClientH": 1000,
+  "bodyBg": "rgb(245, 247, 250)",
+  "title": "无限画布",
+  "url": "http://127.0.0.1:3000/tools/product-design/product-scene",
+  "text": [
+   "无限画布",
+   "首页",
+   "电商套图",
+   "智能修图",
+   "新模型",
+   "AI视频",
+   "HOT",
+   "批量生图",
+   "商品图设计",
+   "中",
+   "切换到深色主题",
+   "v0.27.0",
+   "商品图",
+   "我的商品",
+   "场景参考图",
+   "商品替换",
+   "场景裂变",
+   "手持商品",
+   "企业功能",
+   "上传参考图",
+   "第一步：选择示例图或上传商品图",
+   "从本地上传",
+   "从作品库选择",
+   "从商品库选择",
+   "10M以内，分辨率：384*384 ~ 4096*4096，最大宽高比5",
+   "从资产库选择（63）",
+   "上传多图，体验新功能商品套图",
+   "背景相似度：",
+   "场景描述（可选）",
+   "0 / 100",
+   "💡场景描述怎么写？",
+   "生图模型",
+   "写实",
+   "简约",
+   "智能",
+   "设置生成尺寸",
+   "默认尺寸",
+   "自定义",
+   "选择生成张数",
+   "1",
+   "2",
+   "3",
+   "4",
+   "立即生成",
+   "我是高手，不再提醒",
+   "将生成 1 张 1024×1024（1:1）场景变体 · 1 张 · GPT Image 2",
+   "生成结果",
+   "优秀案例",
+   "历史记录",
+   "一键做同款",
+   "上传商品场景参考图",
+   "3秒裂变出多张相似的场景图，快来裂变您的场景图吧~",
+   "结果资产",
+   "已完成",
+   "共 1 个结果 · 图片 1",
+   "下载",
+   "存入资产",
+   "发送画布",
+   "1",
+   "连接本地 Agent",
+   "未连接",
+   "点连接会自动启动本地服务、装好插件并接通，无需手动配置。",
+   "Claude Code",
+   "未连接",
+   "·",
+   "CLI · 2.1.316 (Claude Code)",
+   "·",
+   "直接运行",
+   "连接",
+   "Codex",
+   "未连接",
+   "·",
+   "CLI · codex-cli 0.166.0",
+   "·",
+   "插件已装",
+   "连接",
+   "Galley",
+   "未连接",
+   "·",
+   "CLI + 桌面版 · galley 0.6.4",
+   "连接"
+  ],
+  "controls": [
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "打开 Agent",
+    "r": {
+     "x": 1365,
+     "y": 12,
+     "w": 32,
+     "h": 32
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "配置",
+    "r": {
+     "x": 1401,
+     "y": 14,
+     "w": 28,
+     "h": 28
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "中",
+    "r": {
+     "x": 1433,
+     "y": 14,
+     "w": 28,
+     "h": 28
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "切换到深色主题",
+    "r": {
+     "x": 1465,
+     "y": 14,
+     "w": 28,
+     "h": 28
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "v0.27.0",
+    "r": {
+     "x": 1497,
+     "y": 17,
+     "w": 47,
+     "h": 22
+    }
+   },
+   {
+    "tag": "label",
+    "role": null,
+    "type": null,
+    "checked": null,
+    "disabled": false,
+    "label": "上传参考图",
+    "r": {
+     "x": 197,
+     "y": 69,
+     "w": 60,
+     "h": 16
+    }
+   },
+   {
+    "tag": "div",
+    "role": "button",
+    "type": null,
+    "checked": null,
+    "disabled": false,
+    "label": "从本地上传 从作品库选择 从商品库选择 10M以内，分辨率：384*384 ~ 4096*4096，最大宽高比5",
+    "r": {
+     "x": 197,
+     "y": 120,
+     "w": 268,
+     "h": 152
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "从本地上传",
+    "r": {
+     "x": 210,
+     "y": 148,
+     "w": 242,
+     "h": 24
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "从作品库选择",
+    "r": {
+     "x": 210,
+     "y": 180,
+     "w": 100,
+     "h": 24
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": true,
+    "label": "从商品库选择",
+    "r": {
+     "x": 318,
+     "y": 180,
+     "w": 100,
+     "h": 24
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "",
+    "r": {
+     "x": 280,
+     "y": 316,
+     "w": 42,
+     "h": 28
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": true,
+    "label": "",
+    "r": {
+     "x": 405,
+     "y": 316,
+     "w": 42,
+     "h": 28
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": true,
+    "label": "",
+    "r": {
+     "x": 280,
+     "y": 366,
+     "w": 42,
+     "h": 28
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "",
+    "r": {
+     "x": 405,
+     "y": 366,
+     "w": 42,
+     "h": 28
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": true,
+    "label": "",
+    "r": {
+     "x": 280,
+     "y": 416,
+     "w": 42,
+     "h": 28
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "",
+    "r": {
+     "x": 405,
+     "y": 416,
+     "w": 42,
+     "h": 28
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "",
+    "r": {
+     "x": 280,
+     "y": 466,
+     "w": 42,
+     "h": 28
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "",
+    "r": {
+     "x": 405,
+     "y": 466,
+     "w": 42,
+     "h": 28
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "",
+    "r": {
+     "x": 280,
+     "y": 516,
+     "w": 42,
+     "h": 28
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": true,
+    "label": "",
+    "r": {
+     "x": 405,
+     "y": 516,
+     "w": 42,
+     "h": 28
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "",
+    "r": {
+     "x": 280,
+     "y": 566,
+     "w": 42,
+     "h": 28
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "",
+    "r": {
+     "x": 405,
+     "y": 566,
+     "w": 42,
+     "h": 28
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "",
+    "r": {
+     "x": 280,
+     "y": 616,
+     "w": 42,
+     "h": 28
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "",
+    "r": {
+     "x": 405,
+     "y": 616,
+     "w": 42,
+     "h": 28
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "",
+    "r": {
+     "x": 280,
+     "y": 666,
+     "w": 42,
+     "h": 28
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "",
+    "r": {
+     "x": 405,
+     "y": 666,
+     "w": 42,
+     "h": 28
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "",
+    "r": {
+     "x": 280,
+     "y": 716,
+     "w": 42,
+     "h": 28
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "",
+    "r": {
+     "x": 405,
+     "y": 716,
+     "w": 42,
+     "h": 28
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "",
+    "r": {
+     "x": 280,
+     "y": 766,
+     "w": 42,
+     "h": 28
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "",
+    "r": {
+     "x": 405,
+     "y": 766,
+     "w": 42,
+     "h": 28
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "",
+    "r": {
+     "x": 280,
+     "y": 816,
+     "w": 42,
+     "h": 28
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "",
+    "r": {
+     "x": 405,
+     "y": 816,
+     "w": 42,
+     "h": 28
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "",
+    "r": {
+     "x": 280,
+     "y": 866,
+     "w": 42,
+     "h": 28
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "",
+    "r": {
+     "x": 405,
+     "y": 866,
+     "w": 42,
+     "h": 28
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "",
+    "r": {
+     "x": 280,
+     "y": 916,
+     "w": 42,
+     "h": 28
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "",
+    "r": {
+     "x": 405,
+     "y": 916,
+     "w": 42,
+     "h": 28
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "",
+    "r": {
+     "x": 280,
+     "y": 966,
+     "w": 42,
+     "h": 28
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "",
+    "r": {
+     "x": 405,
+     "y": 966,
+     "w": 42,
+     "h": 28
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "上传多图，体验新功能商品套图",
+    "r": {
+     "x": 197,
+     "y": 318,
+     "w": 196,
+     "h": 22
+    }
+   },
+   {
+    "tag": "label",
+    "role": null,
+    "type": null,
+    "checked": null,
+    "disabled": false,
+    "label": "背景相似度：",
+    "r": {
+     "x": 197,
+     "y": 356,
+     "w": 72,
+     "h": 16
+    }
+   },
+   {
+    "tag": "input",
+    "role": null,
+    "type": "range",
+    "checked": null,
+    "disabled": false,
+    "label": "",
+    "r": {
+     "x": 197,
+     "y": 380,
+     "w": 268,
+     "h": 16
+    }
+   },
+   {
+    "tag": "label",
+    "role": null,
+    "type": null,
+    "checked": null,
+    "disabled": false,
+    "label": "场景描述（可选）",
+    "r": {
+     "x": 197,
+     "y": 419,
+     "w": 96,
+     "h": 16
+    }
+   },
+   {
+    "tag": "textarea",
+    "role": null,
+    "type": null,
+    "checked": null,
+    "disabled": false,
+    "label": "描述想要的场景，例如：晨光下的北欧客厅，浅木色地板",
+    "r": {
+     "x": 197,
+     "y": 443,
+     "w": 268,
+     "h": 84
+    }
+   },
+   {
+    "tag": "label",
+    "role": null,
+    "type": null,
+    "checked": null,
+    "disabled": false,
+    "label": "生图模型",
+    "r": {
+     "x": 197,
+     "y": 565,
+     "w": 48,
+     "h": 16
+    }
+   },
+   {
+    "tag": "button",
+    "role": "radio",
+    "type": "button",
+    "checked": "true",
+    "disabled": false,
+    "label": "写实",
+    "r": {
+     "x": 197,
+     "y": 589,
+     "w": 60,
+     "h": 86
+    }
+   },
+   {
+    "tag": "button",
+    "role": "radio",
+    "type": "button",
+    "checked": "false",
+    "disabled": false,
+    "label": "简约",
+    "r": {
+     "x": 265,
+     "y": 589,
+     "w": 60,
+     "h": 86
+    }
+   },
+   {
+    "tag": "button",
+    "role": "radio",
+    "type": "button",
+    "checked": "false",
+    "disabled": false,
+    "label": "智能",
+    "r": {
+     "x": 333,
+     "y": 589,
+     "w": 60,
+     "h": 86
+    }
+   },
+   {
+    "tag": "label",
+    "role": null,
+    "type": null,
+    "checked": null,
+    "disabled": false,
+    "label": "设置生成尺寸",
+    "r": {
+     "x": 197,
+     "y": 691,
+     "w": 72,
+     "h": 16
+    }
+   },
+   {
+    "tag": "button",
+    "role": "radio",
+    "type": "button",
+    "checked": "true",
+    "disabled": false,
+    "label": "默认尺寸",
+    "r": {
+     "x": 197,
+     "y": 715,
+     "w": 130,
+     "h": 30
+    }
+   },
+   {
+    "tag": "button",
+    "role": "radio",
+    "type": "button",
+    "checked": "false",
+    "disabled": false,
+    "label": "自定义",
+    "r": {
+     "x": 335,
+     "y": 715,
+     "w": 130,
+     "h": 30
+    }
+   },
+   {
+    "tag": "label",
+    "role": null,
+    "type": null,
+    "checked": null,
+    "disabled": false,
+    "label": "选择生成张数",
+    "r": {
+     "x": 197,
+     "y": 753,
+     "w": 72,
+     "h": 16
+    }
+   },
+   {
+    "tag": "button",
+    "role": "radio",
+    "type": "button",
+    "checked": "true",
+    "disabled": false,
+    "label": "1",
+    "r": {
+     "x": 197,
+     "y": 777,
+     "w": 42,
+     "h": 26
+    }
+   },
+   {
+    "tag": "button",
+    "role": "radio",
+    "type": "button",
+    "checked": "false",
+    "disabled": false,
+    "label": "2",
+    "r": {
+     "x": 247,
+     "y": 777,
+     "w": 42,
+     "h": 26
+    }
+   },
+   {
+    "tag": "button",
+    "role": "radio",
+    "type": "button",
+    "checked": "false",
+    "disabled": false,
+    "label": "3",
+    "r": {
+     "x": 297,
+     "y": 777,
+     "w": 42,
+     "h": 26
+    }
+   },
+   {
+    "tag": "button",
+    "role": "radio",
+    "type": "button",
+    "checked": "false",
+    "disabled": false,
+    "label": "4",
+    "r": {
+     "x": 347,
+     "y": 777,
+     "w": 42,
+     "h": 26
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": true,
+    "label": "立即生成",
+    "r": {
+     "x": 197,
+     "y": 791,
+     "w": 268,
+     "h": 32
+    }
+   },
+   {
+    "tag": "button",
+    "role": "tab",
+    "type": "button",
+    "checked": "true",
+    "disabled": false,
+    "label": "生成结果",
+    "r": {
+     "x": 505,
+     "y": 57,
+     "w": 80,
+     "h": 41
+    }
+   },
+   {
+    "tag": "button",
+    "role": "tab",
+    "type": "button",
+    "checked": "false",
+    "disabled": false,
+    "label": "优秀案例",
+    "r": {
+     "x": 589,
+     "y": 57,
+     "w": 80,
+     "h": 41
+    }
+   },
+   {
+    "tag": "button",
+    "role": "tab",
+    "type": "button",
+    "checked": "false",
+    "disabled": false,
+    "label": "历史记录",
+    "r": {
+     "x": 673,
+     "y": 57,
+     "w": 80,
+     "h": 41
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "一键做同款",
+    "r": {
+     "x": 757,
+     "y": 62,
+     "w": 96,
+     "h": 32
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "下载",
+    "r": {
+     "x": 535,
+     "y": 774,
+     "w": 64,
+     "h": 32
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "存入资产",
+    "r": {
+     "x": 605,
+     "y": 774,
+     "w": 92,
+     "h": 32
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "发送画布",
+    "r": {
+     "x": 703,
+     "y": 774,
+     "w": 92,
+     "h": 32
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "调整右侧面板宽度",
+    "r": {
+     "x": 1593,
+     "y": 0,
+     "w": 16,
+     "h": 1000
+    }
+   }
+  ],
+  "blocks": [
+   {
+    "cls": "",
+    "r": {
+     "x": 0,
+     "y": 0,
+     "w": 1600,
+     "h": 1000
+    },
+    "t": "无限画布 首页 电商套图 智能修图 新模型 AI视频 HOT 批量生图 商品图设计 中 切换到深色主"
+   },
+   {
+    "cls": "css-dev-only-do-not-override-1tzwyuk ant-app infinite-canvas-light",
+    "r": {
+     "x": 0,
+     "y": 0,
+     "w": 1600,
+     "h": 1000
+    },
+    "t": "无限画布 首页 电商套图 智能修图 新模型 AI视频 HOT 批量生图 商品图设计 中 切换到深色主"
+   },
+   {
+    "cls": "flex h-dvh overflow-hidden bg-background text-foreground",
+    "r": {
+     "x": 0,
+     "y": 0,
+     "w": 1600,
+     "h": 1000
+    },
+    "t": "无限画布 首页 电商套图 智能修图 新模型 AI视频 HOT 批量生图 商品图设计 中 切换到深色主"
+   },
+   {
+    "cls": "flex min-w-0 flex-1 flex-col overflow-hidden",
+    "r": {
+     "x": 0,
+     "y": 0,
+     "w": 1600,
+     "h": 1000
+    },
+    "t": "无限画布 首页 电商套图 智能修图 新模型 AI视频 HOT 批量生图 商品图设计 中 切换到深色主"
+   },
+   {
+    "cls": "min-h-0 flex-1 overflow-hidden",
+    "r": {
+     "x": 0,
+     "y": 56,
+     "w": 1600,
+     "h": 944
+    },
+    "t": "商品图 我的商品 场景参考图 商品替换 场景裂变 手持商品 企业功能 上传参考图 第一步：选择示例图"
+   },
+   {
+    "cls": "tool-linkfox-surface flex h-full min-h-0 flex-col bg-white text-foregr",
+    "r": {
+     "x": 0,
+     "y": 56,
+     "w": 1600,
+     "h": 944
+    },
+    "t": "商品图 我的商品 场景参考图 商品替换 场景裂变 手持商品 企业功能 上传参考图 第一步：选择示例图"
+   },
+   {
+    "cls": "flex min-h-0 flex-1 gap-0",
+    "r": {
+     "x": 0,
+     "y": 56,
+     "w": 1600,
+     "h": 944
+    },
+    "t": "商品图 我的商品 场景参考图 商品替换 场景裂变 手持商品 企业功能 上传参考图 第一步：选择示例图"
+   },
+   {
+    "cls": "flex min-w-0 flex-1 flex-col overflow-hidden bg-white",
+    "r": {
+     "x": 180,
+     "y": 56,
+     "w": 1420,
+     "h": 944
+    },
+    "t": "上传参考图 第一步：选择示例图或上传商品图 从本地上传 从作品库选择 从商品库选择 10M以内，分辨"
+   },
+   {
+    "cls": "min-h-0 flex-1 overflow-y-auto overflow-x-hidden bg-white p-0",
+    "r": {
+     "x": 180,
+     "y": 56,
+     "w": 1420,
+     "h": 944
+    },
+    "t": "上传参考图 第一步：选择示例图或上传商品图 从本地上传 从作品库选择 从商品库选择 10M以内，分辨"
+   },
+   {
+    "cls": "h-full min-h-0 min-w-0",
+    "r": {
+     "x": 180,
+     "y": 56,
+     "w": 1420,
+     "h": 944
+    },
+    "t": "上传参考图 第一步：选择示例图或上传商品图 从本地上传 从作品库选择 从商品库选择 10M以内，分辨"
+   },
+   {
+    "cls": "min-w-0 ",
+    "r": {
+     "x": 180,
+     "y": 56,
+     "w": 1420,
+     "h": 807
+    },
+    "t": "上传参考图 第一步：选择示例图或上传商品图 从本地上传 从作品库选择 从商品库选择 10M以内，分辨"
+   },
+   {
+    "cls": "grid min-w-0 grid-cols-1 gap-3 lg:grid-cols-[300px_minmax(0,1fr)] h-[c",
+    "r": {
+     "x": 180,
+     "y": 56,
+     "w": 1420,
+     "h": 807
+    },
+    "t": "上传参考图 第一步：选择示例图或上传商品图 从本地上传 从作品库选择 从商品库选择 10M以内，分辨"
+   },
+   {
+    "cls": "flex min-h-0 min-w-0 flex-col gap-3",
+    "r": {
+     "x": 181,
+     "y": 57,
+     "w": 300,
+     "h": 805
+    },
+    "t": "上传参考图 第一步：选择示例图或上传商品图 从本地上传 从作品库选择 从商品库选择 10M以内，分辨"
+   },
+   {
+    "cls": "flex h-full flex-col",
+    "r": {
+     "x": 181,
+     "y": 57,
+     "w": 300,
+     "h": 805
+    },
+    "t": "上传参考图 第一步：选择示例图或上传商品图 从本地上传 从作品库选择 从商品库选择 10M以内，分辨"
+   },
+   {
+    "cls": "min-h-0 flex-1 overflow-y-auto px-4 pb-4 pt-3",
+    "r": {
+     "x": 181,
+     "y": 57,
+     "w": 300,
+     "h": 721
+    },
+    "t": "上传参考图 第一步：选择示例图或上传商品图 从本地上传 从作品库选择 从商品库选择 10M以内，分辨"
+   },
+   {
+    "cls": "flex min-h-0 min-w-0 flex-col gap-3",
+    "r": {
+     "x": 493,
+     "y": 57,
+     "w": 1106,
+     "h": 805
+    },
+    "t": "生成结果 优秀案例 历史记录 一键做同款 上传商品场景参考图 3秒裂变出多张相似的场景图，快来裂变您"
+   },
+   {
+    "cls": "flex min-w-0 flex-1 flex-col bg-muted",
+    "r": {
+     "x": 493,
+     "y": 57,
+     "w": 1106,
+     "h": 805
+    },
+    "t": "生成结果 优秀案例 历史记录 一键做同款 上传商品场景参考图 3秒裂变出多张相似的场景图，快来裂变您"
+   },
+   {
+    "cls": "min-h-0 flex-1 overflow-y-auto",
+    "r": {
+     "x": 493,
+     "y": 99,
+     "w": 1106,
+     "h": 763
+    },
+    "t": "上传商品场景参考图 3秒裂变出多张相似的场景图，快来裂变您的场景图吧~ 结果资产 已完成 共 1 个"
+   },
+   {
+    "cls": "flex min-h-full flex-col gap-3 p-4",
+    "r": {
+     "x": 493,
+     "y": 99,
+     "w": 1106,
+     "h": 763
+    },
+    "t": "上传商品场景参考图 3秒裂变出多张相似的场景图，快来裂变您的场景图吧~ 结果资产 已完成 共 1 个"
+   },
+   {
+    "cls": "flex flex-1 items-center justify-center",
+    "r": {
+     "x": 509,
+     "y": 115,
+     "w": 1074,
+     "h": 393
+    },
+    "t": "上传商品场景参考图 3秒裂变出多张相似的场景图，快来裂变您的场景图吧~"
+   },
+   {
+    "cls": "flex h-[300px] w-[460px] max-w-full flex-col items-center justify-cent",
+    "r": {
+     "x": 816,
+     "y": 161,
+     "w": 460,
+     "h": 300
+    },
+    "t": "上传商品场景参考图 3秒裂变出多张相似的场景图，快来裂变您的场景图吧~"
+   },
+   {
+    "cls": "",
+    "r": {
+     "x": 509,
+     "y": 520,
+     "w": 1074,
+     "h": 326
+    },
+    "t": "结果资产 已完成 共 1 个结果 · 图片 1 下载 存入资产 发送画布"
+   },
+   {
+    "cls": "space-y-3 rounded-xl border border-border bg-card p-4",
+    "r": {
+     "x": 509,
+     "y": 520,
+     "w": 1074,
+     "h": 326
+    },
+    "t": "结果资产 已完成 共 1 个结果 · 图片 1 下载 存入资产 发送画布"
+   }
+  ],
+  "scrollables": [
+   {
+    "cls": "min-h-0 flex-1 overflow-y-auto px-4 pb-4 pt-3",
+    "r": {
+     "x": 181,
+     "y": 57,
+     "w": 300,
+     "h": 721
+    },
+    "ch": 721,
+    "sh": 762,
+    "canScroll": true
+   }
+  ]
+ },
+ "audit": {
+  "vh": 1000,
+  "vw": 1600,
+  "actions": [
+   {
+    "text": "生成",
+    "rect": {
+     "x": 197,
+     "y": 791,
+     "w": 268,
+     "h": 32
+    },
+    "inFirstScreen": true,
+    "disabled": true
+   },
+   {
+    "text": "立即生成",
+    "rect": {
+     "x": 197,
+     "y": 791,
+     "w": 268,
+     "h": 32
+    },
+    "inFirstScreen": true,
+    "disabled": true
+   }
+  ],
+  "scrollables": [
+   {
+    "cls": "min-h-0 flex-1 overflow-y-auto px-4 pb-4 pt-3",
+    "h": 721,
+    "sh": 762,
+    "scrollable": true
+   }
+  ],
+  "hiddenBelow": [
+   {
+    "t": "",
+    "y": 1016
+   },
+   {
+    "t": "",
+    "y": 1016
+   },
+   {
+    "t": "",
+    "y": 1066
+   },
+   {
+    "t": "",
+    "y": 1066
+   },
+   {
+    "t": "",
+    "y": 1116
+   },
+   {
+    "t": "",
+    "y": 1116
+   },
+   {
+    "t": "",
+    "y": 1166
+   },
+   {
+    "t": "",
+    "y": 1166
+   }
+  ]
+ }
+}

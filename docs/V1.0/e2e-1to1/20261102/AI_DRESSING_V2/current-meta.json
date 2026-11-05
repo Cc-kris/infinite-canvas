@@ -1,0 +1,849 @@
+{
+  "url": "http://127.0.0.1:3000/tools/product-design/ai-dressing-v2",
+  "title": "无限画布",
+  "viewport": [
+    1600,
+    1000
+  ],
+  "doc": [
+    1600,
+    1000
+  ],
+  "bodyText": "无限画布 首页 电商套图 智能修图 新模型 AI视频 HOT 批量生图 商品图设计 中 切换到深色主题 v0.27.0 真人换模特 模特换场景 AI穿衣 姿势裂变 AI穿戴 历史记录 企业功能 批量生图 即将下架 人台换模特 下架 AI 穿衣 图片规则 无需约模特，上传服装正面图，一键生成衣服上身效果~ 上下装衣服 连体衣服 拖拽/粘贴 或 上传上/下装正面图 从本地上传 从作品库选择 10M以内，384*384 ~ 4096*4096 probe-600b.png 9.3 KB · 600×600 · image/png 移除 probe-800.png 15 KB · 800×800 · image/png 移除 probe-800.png 15 KB · 800×800 · image/png 移除 probe-800.png 15 KB · 800×800 · image/png 移除 probe-800.png 15 KB · 800×800 · image/png 移除 probe-800.png 15 KB · 800×800 · image/png 移除 第一步：选择示例图或上传平铺服装图片（支持仅上传上/下装图） 我是高手，不再提醒 选择生成张数 1 2 3 4 预计输出 6 张（6 位模特 × 1 张） 立即生成 上装还没标记穿衣区域：请涂抹服装部位，或点「整件」 选择穿衣模特 选择参考图 从本地上传 从作品库选择 10M以内，384*384 ~ 4096*4096 probe-600b.png 9.3 KB · 600×600 · image/png 移除 probe-800.png 15 KB · 800×800 · image/png 移除 probe-800.png 15 KB · 800×800 · image/png 移除 probe-800.png 15 KB · 800×800 · image/png 移除 probe-800.png 15 KB · 800×800 · image/png 移除 probe-800.png 15 KB · 800×800 · image/png 移除 上传模特正面全身图，生成时穿衣部位以服装蒙版为准；模特参考决定身份、体型与姿势，不参与蒙版标记。 穿衣的部位与模特参考 上传多件衣服，开始批量穿衣 上传平铺服装图 拖拽/粘贴 或 上传上装正面图 从本地上传 从作品库选择 10M以内，384*384 ~ 4096*4096 probe-600b.png 9.3 KB · 600×600 · image/png 移除 probe-800.png 15 KB · 800×800 · image/png 移除 probe-800.png 15 KB · 800×800 · image/png 移除 probe-800.png 15 KB · 800×800 · image/png 移除 probe-800.png 15 KB · 800×800 · image/png 移除 probe-800.png 15 KB · 800×800 · image/png 移除 上传上装正面图，平铺或穿着实拍均可 上装还没标记穿衣区域：请涂抹服装部位，或点「整件」 拖拽/粘贴 或 上传下装正面图 从本地上传 从作品库选择 10M以内，384*384 ~ 4096*4096 probe-600b.png 9.3 KB · 600×600 · image/png 移除 probe-800.png 15 KB · 800×800 · image/png 移除 probe-800.png 15 KB · 800×800 · image/png 移除 probe-800.png 15 KB · 800×800 · image/png 移除 probe-800.png 15 KB · 800×800 · image/png 移除 probe-800.png 15 KB · 800×800 · image/png 移除 上传下装正面图，裤装/裙装均可 下装还没标记穿衣区域：请涂抹服装部位，或点「整件」 生成结果 优秀案例 历史记录 暂无生成结果图 连接本地 Agent 未连接 点连接会自动启动本地服务、装好插件并接通，无需手动配置。 Claude Code 未连接 · CLI · 2.1.316 (Claude Code) · 直接运行 连接 Codex 未连接 · CLI · codex-cli 0.166.0 · 插件已装 连接 Galley 未连接 · CLI + 桌面版 · galley 0.6.4 连接",
+  "main": {
+    "x": 180,
+    "y": 56,
+    "w": 1420,
+    "h": 944,
+    "sh": 1098,
+    "ch": 944,
+    "st": 0,
+    "oy": "auto"
+  },
+  "config": {
+    "x": 180,
+    "y": 56,
+    "w": 300,
+    "h": 1098
+  },
+  "result": {
+    "x": 492,
+    "y": 56,
+    "w": 1108,
+    "h": 1098
+  },
+  "rail": {
+    "x": 0,
+    "y": 56,
+    "w": 180,
+    "h": 944
+  },
+  "columns": true,
+  "inlineRail": "none",
+  "buttons": [
+    {
+      "text": "中",
+      "disabled": false,
+      "rect": {
+        "x": 1433,
+        "y": 14,
+        "w": 28,
+        "h": 28
+      }
+    },
+    {
+      "text": "切换到深色主题",
+      "disabled": false,
+      "rect": {
+        "x": 1465,
+        "y": 14,
+        "w": 28,
+        "h": 28
+      }
+    },
+    {
+      "text": "v0.27.0",
+      "disabled": false,
+      "rect": {
+        "x": 1497,
+        "y": 17,
+        "w": 47,
+        "h": 22
+      }
+    },
+    {
+      "text": "图片规则",
+      "disabled": false,
+      "rect": {
+        "x": 427,
+        "y": 73,
+        "w": 56,
+        "h": 22
+      }
+    },
+    {
+      "text": "上下装衣服",
+      "disabled": false,
+      "rect": {
+        "x": 196,
+        "y": 139,
+        "w": 140,
+        "h": 34
+      }
+    },
+    {
+      "text": "连体衣服",
+      "disabled": false,
+      "rect": {
+        "x": 344,
+        "y": 139,
+        "w": 140,
+        "h": 34
+      }
+    },
+    {
+      "text": "从本地上传",
+      "disabled": true,
+      "rect": {
+        "x": 209,
+        "y": 232,
+        "w": 261,
+        "h": 24
+      }
+    },
+    {
+      "text": "从作品库选择",
+      "disabled": true,
+      "rect": {
+        "x": 209,
+        "y": 264,
+        "w": 100,
+        "h": 24
+      }
+    },
+    {
+      "text": "移除",
+      "disabled": false,
+      "rect": {
+        "x": 424,
+        "y": 370,
+        "w": 46,
+        "h": 32
+      }
+    },
+    {
+      "text": "移除",
+      "disabled": false,
+      "rect": {
+        "x": 424,
+        "y": 452,
+        "w": 46,
+        "h": 32
+      }
+    },
+    {
+      "text": "移除",
+      "disabled": false,
+      "rect": {
+        "x": 424,
+        "y": 534,
+        "w": 46,
+        "h": 32
+      }
+    },
+    {
+      "text": "移除",
+      "disabled": false,
+      "rect": {
+        "x": 424,
+        "y": 616,
+        "w": 46,
+        "h": 32
+      }
+    },
+    {
+      "text": "移除",
+      "disabled": false,
+      "rect": {
+        "x": 424,
+        "y": 699,
+        "w": 46,
+        "h": 32
+      }
+    },
+    {
+      "text": "移除",
+      "disabled": false,
+      "rect": {
+        "x": 424,
+        "y": 781,
+        "w": 46,
+        "h": 32
+      }
+    },
+    {
+      "text": "我是高手，不再提醒",
+      "disabled": false,
+      "rect": {
+        "x": 348,
+        "y": 855,
+        "w": 126,
+        "h": 22
+      }
+    },
+    {
+      "text": "1",
+      "disabled": false,
+      "rect": {
+        "x": 196,
+        "y": 954,
+        "w": 36,
+        "h": 36
+      }
+    },
+    {
+      "text": "2",
+      "disabled": false,
+      "rect": {
+        "x": 240,
+        "y": 954,
+        "w": 36,
+        "h": 36
+      }
+    },
+    {
+      "text": "3",
+      "disabled": false,
+      "rect": {
+        "x": 284,
+        "y": 954,
+        "w": 36,
+        "h": 36
+      }
+    },
+    {
+      "text": "4",
+      "disabled": false,
+      "rect": {
+        "x": 328,
+        "y": 954,
+        "w": 36,
+        "h": 36
+      }
+    },
+    {
+      "text": "立即生成",
+      "disabled": true,
+      "rect": {
+        "x": 192,
+        "y": 1075,
+        "w": 295,
+        "h": 40
+      }
+    },
+    {
+      "text": "从本地上传",
+      "disabled": false,
+      "rect": {
+        "x": 521,
+        "y": 142,
+        "w": 316,
+        "h": 24
+      }
+    },
+    {
+      "text": "从作品库选择",
+      "disabled": true,
+      "rect": {
+        "x": 521,
+        "y": 174,
+        "w": 100,
+        "h": 24
+      }
+    },
+    {
+      "text": "移除",
+      "disabled": false,
+      "rect": {
+        "x": 791,
+        "y": 279,
+        "w": 46,
+        "h": 32
+      }
+    },
+    {
+      "text": "移除",
+      "disabled": false,
+      "rect": {
+        "x": 791,
+        "y": 361,
+        "w": 46,
+        "h": 32
+      }
+    },
+    {
+      "text": "移除",
+      "disabled": false,
+      "rect": {
+        "x": 791,
+        "y": 444,
+        "w": 46,
+        "h": 32
+      }
+    },
+    {
+      "text": "移除",
+      "disabled": false,
+      "rect": {
+        "x": 791,
+        "y": 526,
+        "w": 46,
+        "h": 32
+      }
+    },
+    {
+      "text": "移除",
+      "disabled": false,
+      "rect": {
+        "x": 791,
+        "y": 608,
+        "w": 46,
+        "h": 32
+      }
+    },
+    {
+      "text": "移除",
+      "disabled": false,
+      "rect": {
+        "x": 791,
+        "y": 691,
+        "w": 46,
+        "h": 32
+      }
+    },
+    {
+      "text": "从本地上传",
+      "disabled": true,
+      "rect": {
+        "x": 888,
+        "y": 208,
+        "w": 121,
+        "h": 24
+      }
+    },
+    {
+      "text": "从作品库选择",
+      "disabled": true,
+      "rect": {
+        "x": 888,
+        "y": 240,
+        "w": 100,
+        "h": 24
+      }
+    },
+    {
+      "text": "移除",
+      "disabled": false,
+      "rect": {
+        "x": 963,
+        "y": 350,
+        "w": 46,
+        "h": 32
+      }
+    },
+    {
+      "text": "移除",
+      "disabled": false,
+      "rect": {
+        "x": 963,
+        "y": 432,
+        "w": 46,
+        "h": 32
+      }
+    },
+    {
+      "text": "移除",
+      "disabled": false,
+      "rect": {
+        "x": 963,
+        "y": 515,
+        "w": 46,
+        "h": 32
+      }
+    },
+    {
+      "text": "移除",
+      "disabled": false,
+      "rect": {
+        "x": 963,
+        "y": 597,
+        "w": 46,
+        "h": 32
+      }
+    },
+    {
+      "text": "移除",
+      "disabled": false,
+      "rect": {
+        "x": 963,
+        "y": 679,
+        "w": 46,
+        "h": 32
+      }
+    },
+    {
+      "text": "移除",
+      "disabled": false,
+      "rect": {
+        "x": 963,
+        "y": 762,
+        "w": 46,
+        "h": 32
+      }
+    },
+    {
+      "text": "整件",
+      "disabled": false,
+      "rect": {
+        "x": 884,
+        "y": 1041,
+        "w": 40,
+        "h": 22
+      }
+    },
+    {
+      "text": "撤销",
+      "disabled": true,
+      "rect": {
+        "x": 932,
+        "y": 1041,
+        "w": 40,
+        "h": 22
+      }
+    },
+    {
+      "text": "重做",
+      "disabled": true,
+      "rect": {
+        "x": 884,
+        "y": 1071,
+        "w": 40,
+        "h": 22
+      }
+    },
+    {
+      "text": "清空",
+      "disabled": true,
+      "rect": {
+        "x": 932,
+        "y": 1071,
+        "w": 40,
+        "h": 22
+      }
+    },
+    {
+      "text": "从本地上传",
+      "disabled": true,
+      "rect": {
+        "x": 1065,
+        "y": 208,
+        "w": 121,
+        "h": 24
+      }
+    },
+    {
+      "text": "从作品库选择",
+      "disabled": true,
+      "rect": {
+        "x": 1065,
+        "y": 240,
+        "w": 100,
+        "h": 24
+      }
+    },
+    {
+      "text": "移除",
+      "disabled": false,
+      "rect": {
+        "x": 1140,
+        "y": 350,
+        "w": 46,
+        "h": 32
+      }
+    },
+    {
+      "text": "移除",
+      "disabled": false,
+      "rect": {
+        "x": 1140,
+        "y": 432,
+        "w": 46,
+        "h": 32
+      }
+    },
+    {
+      "text": "移除",
+      "disabled": false,
+      "rect": {
+        "x": 1140,
+        "y": 515,
+        "w": 46,
+        "h": 32
+      }
+    },
+    {
+      "text": "移除",
+      "disabled": false,
+      "rect": {
+        "x": 1140,
+        "y": 597,
+        "w": 46,
+        "h": 32
+      }
+    },
+    {
+      "text": "移除",
+      "disabled": false,
+      "rect": {
+        "x": 1140,
+        "y": 679,
+        "w": 46,
+        "h": 32
+      }
+    },
+    {
+      "text": "移除",
+      "disabled": false,
+      "rect": {
+        "x": 1140,
+        "y": 762,
+        "w": 46,
+        "h": 32
+      }
+    },
+    {
+      "text": "整件",
+      "disabled": false,
+      "rect": {
+        "x": 1061,
+        "y": 1041,
+        "w": 40,
+        "h": 22
+      }
+    },
+    {
+      "text": "撤销",
+      "disabled": true,
+      "rect": {
+        "x": 1109,
+        "y": 1041,
+        "w": 40,
+        "h": 22
+      }
+    },
+    {
+      "text": "重做",
+      "disabled": true,
+      "rect": {
+        "x": 1061,
+        "y": 1071,
+        "w": 40,
+        "h": 22
+      }
+    },
+    {
+      "text": "清空",
+      "disabled": true,
+      "rect": {
+        "x": 1109,
+        "y": 1071,
+        "w": 40,
+        "h": 22
+      }
+    },
+    {
+      "text": "生成结果",
+      "disabled": false,
+      "rect": {
+        "x": 1253,
+        "y": 56,
+        "w": 56,
+        "h": 42
+      }
+    },
+    {
+      "text": "优秀案例",
+      "disabled": false,
+      "rect": {
+        "x": 1323,
+        "y": 56,
+        "w": 56,
+        "h": 42
+      }
+    },
+    {
+      "text": "历史记录",
+      "disabled": false,
+      "rect": {
+        "x": 1393,
+        "y": 56,
+        "w": 60,
+        "h": 42
+      }
+    },
+    {
+      "text": "未连接",
+      "disabled": false,
+      "rect": {
+        "x": 1645,
+        "y": 8,
+        "w": 32,
+        "h": 32
+      }
+    },
+    {
+      "text": "对话",
+      "disabled": false,
+      "rect": {
+        "x": 1754,
+        "y": 0,
+        "w": 32,
+        "h": 48
+      }
+    },
+    {
+      "text": "历史",
+      "disabled": false,
+      "rect": {
+        "x": 1788,
+        "y": 0,
+        "w": 32,
+        "h": 48
+      }
+    },
+    {
+      "text": "技能",
+      "disabled": false,
+      "rect": {
+        "x": 1822,
+        "y": 0,
+        "w": 32,
+        "h": 48
+      }
+    },
+    {
+      "text": "日志",
+      "disabled": false,
+      "rect": {
+        "x": 1856,
+        "y": 0,
+        "w": 32,
+        "h": 48
+      }
+    },
+    {
+      "text": "新对话",
+      "disabled": true,
+      "rect": {
+        "x": 1964,
+        "y": 8,
+        "w": 32,
+        "h": 32
+      }
+    },
+    {
+      "text": "连接",
+      "disabled": false,
+      "rect": {
+        "x": 1945,
+        "y": 147,
+        "w": 66,
+        "h": 24
+      }
+    },
+    {
+      "text": "连接",
+      "disabled": false,
+      "rect": {
+        "x": 1945,
+        "y": 215,
+        "w": 66,
+        "h": 24
+      }
+    },
+    {
+      "text": "连接",
+      "disabled": false,
+      "rect": {
+        "x": 1945,
+        "y": 283,
+        "w": 66,
+        "h": 24
+      }
+    }
+  ],
+  "images": [
+    {
+      "alt": "probe-600b.png",
+      "src": "blob:http://127.0.0.1:3000/527",
+      "nw": 600
+    },
+    {
+      "alt": "probe-800.png",
+      "src": "blob:http://127.0.0.1:3000/c8c",
+      "nw": 800
+    },
+    {
+      "alt": "probe-800.png",
+      "src": "blob:http://127.0.0.1:3000/4bb",
+      "nw": 800
+    },
+    {
+      "alt": "probe-800.png",
+      "src": "blob:http://127.0.0.1:3000/93a",
+      "nw": 800
+    },
+    {
+      "alt": "probe-800.png",
+      "src": "blob:http://127.0.0.1:3000/256",
+      "nw": 800
+    },
+    {
+      "alt": "probe-800.png",
+      "src": "blob:http://127.0.0.1:3000/96e",
+      "nw": 800
+    },
+    {
+      "alt": "probe-600b.png",
+      "src": "blob:http://127.0.0.1:3000/5b2",
+      "nw": 600
+    },
+    {
+      "alt": "probe-800.png",
+      "src": "blob:http://127.0.0.1:3000/c8c",
+      "nw": 800
+    },
+    {
+      "alt": "probe-800.png",
+      "src": "blob:http://127.0.0.1:3000/522",
+      "nw": 800
+    },
+    {
+      "alt": "probe-800.png",
+      "src": "blob:http://127.0.0.1:3000/51a",
+      "nw": 800
+    },
+    {
+      "alt": "probe-800.png",
+      "src": "blob:http://127.0.0.1:3000/674",
+      "nw": 800
+    },
+    {
+      "alt": "probe-800.png",
+      "src": "blob:http://127.0.0.1:3000/3ac",
+      "nw": 800
+    },
+    {
+      "alt": "probe-600b.png",
+      "src": "blob:http://127.0.0.1:3000/5b2",
+      "nw": 600
+    },
+    {
+      "alt": "probe-800.png",
+      "src": "blob:http://127.0.0.1:3000/c8c",
+      "nw": 800
+    },
+    {
+      "alt": "probe-800.png",
+      "src": "blob:http://127.0.0.1:3000/522",
+      "nw": 800
+    },
+    {
+      "alt": "probe-800.png",
+      "src": "blob:http://127.0.0.1:3000/51a",
+      "nw": 800
+    },
+    {
+      "alt": "probe-800.png",
+      "src": "blob:http://127.0.0.1:3000/674",
+      "nw": 800
+    },
+    {
+      "alt": "probe-800.png",
+      "src": "blob:http://127.0.0.1:3000/3ac",
+      "nw": 800
+    },
+    {
+      "alt": "probe-600b.png",
+      "src": "blob:http://127.0.0.1:3000/27e",
+      "nw": 600
+    },
+    {
+      "alt": "probe-800.png",
+      "src": "blob:http://127.0.0.1:3000/f29",
+      "nw": 800
+    },
+    {
+      "alt": "probe-800.png",
+      "src": "blob:http://127.0.0.1:3000/77e",
+      "nw": 800
+    },
+    {
+      "alt": "probe-800.png",
+      "src": "blob:http://127.0.0.1:3000/7be",
+      "nw": 800
+    },
+    {
+      "alt": "probe-800.png",
+      "src": "blob:http://127.0.0.1:3000/09a",
+      "nw": 800
+    },
+    {
+      "alt": "probe-800.png",
+      "src": "blob:http://127.0.0.1:3000/bb8",
+      "nw": 800
+    },
+    {
+      "alt": "上装",
+      "src": "blob:http://127.0.0.1:3000/27e",
+      "nw": 600
+    },
+    {
+      "alt": "probe-600b.png",
+      "src": "blob:http://127.0.0.1:3000/245",
+      "nw": 600
+    },
+    {
+      "alt": "probe-800.png",
+      "src": "blob:http://127.0.0.1:3000/61c",
+      "nw": 800
+    },
+    {
+      "alt": "probe-800.png",
+      "src": "blob:http://127.0.0.1:3000/4bb",
+      "nw": 800
+    },
+    {
+      "alt": "probe-800.png",
+      "src": "blob:http://127.0.0.1:3000/988",
+      "nw": 800
+    },
+    {
+      "alt": "probe-800.png",
+      "src": "blob:http://127.0.0.1:3000/212",
+      "nw": 800
+    },
+    {
+      "alt": "probe-800.png",
+      "src": "blob:http://127.0.0.1:3000/bfa",
+      "nw": 800
+    },
+    {
+      "alt": "下装",
+      "src": "blob:http://127.0.0.1:3000/245",
+      "nw": 600
+    }
+  ],
+  "brokenImages": 0,
+  "horizontalOverflow": 0
+}

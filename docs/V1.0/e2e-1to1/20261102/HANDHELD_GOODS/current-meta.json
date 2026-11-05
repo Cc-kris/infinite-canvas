@@ -1,0 +1,379 @@
+{
+  "url": "http://127.0.0.1:3000/tools/product-design/handheld-goods",
+  "title": "无限画布",
+  "viewport": [
+    1600,
+    1000
+  ],
+  "doc": [
+    1600,
+    1000
+  ],
+  "bodyText": "无限画布 首页 电商套图 智能修图 新模型 AI视频 HOT 批量生图 商品图设计 中 切换到深色主题 v0.27.0 商品图 我的商品 场景参考图 商品替换 场景裂变 手持商品 企业功能 手持商品 快速生成手持商品图，快速上架 图片规则 选择参考图 上传商品图 第一步：选择示例图或上传手持商品图 从本地上传 从作品库选择 10M以内，384*384 ~ 4096*4096 选择手持姿势 手持的部位与姿势参考 左手 右手 双手 或试试这些 我是高手，不再提醒 场景类型 纯色棚拍 桌面场景 户外自然光 检测类型 手部接触与商品一致性 仅商品完整性 选择生成张数 1 2 3 4 预计输出 1 张；每张单独发一次真实请求（并发生效上限 2），失败张可单独重试。 · 请先上传手持商品图 立即生成 生成结果 历史记录 暂无生成结果图 快在左侧上传商品图并选择手持姿势吧~ 一键做同款 连接本地 Agent 未连接 点连接会自动启动本地服务、装好插件并接通，无需手动配置。 Claude Code 未连接 · CLI · 2.1.316 (Claude Code) · 直接运行 连接 Codex 未连接 · CLI · codex-cli 0.166.0 · 插件已装 连接 Galley 未连接 · CLI + 桌面版 · galley 0.6.4 连接",
+  "main": {
+    "x": 180,
+    "y": 56,
+    "w": 1420,
+    "h": 944,
+    "sh": 946,
+    "ch": 944,
+    "st": 0,
+    "oy": "auto"
+  },
+  "config": {
+    "x": 180,
+    "y": 56,
+    "w": 300,
+    "h": 946
+  },
+  "result": {
+    "x": 492,
+    "y": 56,
+    "w": 1108,
+    "h": 946
+  },
+  "rail": {
+    "x": 0,
+    "y": 56,
+    "w": 180,
+    "h": 944
+  },
+  "columns": true,
+  "inlineRail": "none",
+  "buttons": [
+    {
+      "text": "中",
+      "disabled": false,
+      "rect": {
+        "x": 1433,
+        "y": 14,
+        "w": 28,
+        "h": 28
+      }
+    },
+    {
+      "text": "切换到深色主题",
+      "disabled": false,
+      "rect": {
+        "x": 1465,
+        "y": 14,
+        "w": 28,
+        "h": 28
+      }
+    },
+    {
+      "text": "v0.27.0",
+      "disabled": false,
+      "rect": {
+        "x": 1497,
+        "y": 17,
+        "w": 47,
+        "h": 22
+      }
+    },
+    {
+      "text": "图片规则",
+      "disabled": false,
+      "rect": {
+        "x": 180,
+        "y": 151,
+        "w": 56,
+        "h": 22
+      }
+    },
+    {
+      "text": "从本地上传",
+      "disabled": false,
+      "rect": {
+        "x": 193,
+        "y": 274,
+        "w": 274,
+        "h": 24
+      }
+    },
+    {
+      "text": "从作品库选择",
+      "disabled": true,
+      "rect": {
+        "x": 193,
+        "y": 306,
+        "w": 100,
+        "h": 24
+      }
+    },
+    {
+      "text": "左手",
+      "disabled": false,
+      "rect": {
+        "x": 180,
+        "y": 453,
+        "w": 58,
+        "h": 26
+      }
+    },
+    {
+      "text": "右手",
+      "disabled": false,
+      "rect": {
+        "x": 248,
+        "y": 453,
+        "w": 58,
+        "h": 26
+      }
+    },
+    {
+      "text": "双手",
+      "disabled": false,
+      "rect": {
+        "x": 316,
+        "y": 453,
+        "w": 58,
+        "h": 26
+      }
+    },
+    {
+      "text": "纯色棚拍",
+      "disabled": false,
+      "rect": {
+        "x": 180,
+        "y": 684,
+        "w": 82,
+        "h": 26
+      }
+    },
+    {
+      "text": "桌面场景",
+      "disabled": false,
+      "rect": {
+        "x": 272,
+        "y": 684,
+        "w": 82,
+        "h": 26
+      }
+    },
+    {
+      "text": "户外自然光",
+      "disabled": false,
+      "rect": {
+        "x": 364,
+        "y": 684,
+        "w": 94,
+        "h": 26
+      }
+    },
+    {
+      "text": "手部接触与商品一致性",
+      "disabled": false,
+      "rect": {
+        "x": 180,
+        "y": 744,
+        "w": 154,
+        "h": 26
+      }
+    },
+    {
+      "text": "仅商品完整性",
+      "disabled": false,
+      "rect": {
+        "x": 344,
+        "y": 744,
+        "w": 106,
+        "h": 26
+      }
+    },
+    {
+      "text": "1",
+      "disabled": false,
+      "rect": {
+        "x": 180,
+        "y": 835,
+        "w": 40,
+        "h": 26
+      }
+    },
+    {
+      "text": "2",
+      "disabled": false,
+      "rect": {
+        "x": 230,
+        "y": 835,
+        "w": 41,
+        "h": 26
+      }
+    },
+    {
+      "text": "3",
+      "disabled": false,
+      "rect": {
+        "x": 281,
+        "y": 835,
+        "w": 42,
+        "h": 26
+      }
+    },
+    {
+      "text": "4",
+      "disabled": false,
+      "rect": {
+        "x": 333,
+        "y": 835,
+        "w": 42,
+        "h": 26
+      }
+    },
+    {
+      "text": "立即生成",
+      "disabled": true,
+      "rect": {
+        "x": 180,
+        "y": 970,
+        "w": 300,
+        "h": 32
+      }
+    },
+    {
+      "text": "生成结果",
+      "disabled": false,
+      "rect": {
+        "x": 504,
+        "y": 56,
+        "w": 56,
+        "h": 42
+      }
+    },
+    {
+      "text": "历史记录",
+      "disabled": false,
+      "rect": {
+        "x": 1536,
+        "y": 56,
+        "w": 52,
+        "h": 42
+      }
+    },
+    {
+      "text": "一键做同款",
+      "disabled": false,
+      "rect": {
+        "x": 994,
+        "y": 358,
+        "w": 104,
+        "h": 40
+      }
+    },
+    {
+      "text": "未连接",
+      "disabled": false,
+      "rect": {
+        "x": 1645,
+        "y": 8,
+        "w": 32,
+        "h": 32
+      }
+    },
+    {
+      "text": "对话",
+      "disabled": false,
+      "rect": {
+        "x": 1754,
+        "y": 0,
+        "w": 32,
+        "h": 48
+      }
+    },
+    {
+      "text": "历史",
+      "disabled": false,
+      "rect": {
+        "x": 1788,
+        "y": 0,
+        "w": 32,
+        "h": 48
+      }
+    },
+    {
+      "text": "技能",
+      "disabled": false,
+      "rect": {
+        "x": 1822,
+        "y": 0,
+        "w": 32,
+        "h": 48
+      }
+    },
+    {
+      "text": "日志",
+      "disabled": false,
+      "rect": {
+        "x": 1856,
+        "y": 0,
+        "w": 32,
+        "h": 48
+      }
+    },
+    {
+      "text": "新对话",
+      "disabled": true,
+      "rect": {
+        "x": 1964,
+        "y": 8,
+        "w": 32,
+        "h": 32
+      }
+    },
+    {
+      "text": "连接",
+      "disabled": false,
+      "rect": {
+        "x": 1945,
+        "y": 147,
+        "w": 66,
+        "h": 24
+      }
+    },
+    {
+      "text": "连接",
+      "disabled": false,
+      "rect": {
+        "x": 1945,
+        "y": 215,
+        "w": 66,
+        "h": 24
+      }
+    },
+    {
+      "text": "连接",
+      "disabled": false,
+      "rect": {
+        "x": 1945,
+        "y": 283,
+        "w": 66,
+        "h": 24
+      }
+    }
+  ],
+  "images": [
+    {
+      "alt": "左手托底正面 示意图",
+      "src": "data:image/svg+xml;charset=utf",
+      "nw": 240
+    },
+    {
+      "alt": "左手捏边 示意图",
+      "src": "data:image/svg+xml;charset=utf",
+      "nw": 240
+    },
+    {
+      "alt": "左手摊掌展示 示意图",
+      "src": "data:image/svg+xml;charset=utf",
+      "nw": 240
+    },
+    {
+      "alt": "左手略仰拍 示意图",
+      "src": "data:image/svg+xml;charset=utf",
+      "nw": 240
+    }
+  ],
+  "brokenImages": 0,
+  "horizontalOverflow": 0
+}

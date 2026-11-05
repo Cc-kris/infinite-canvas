@@ -1,0 +1,398 @@
+{
+  "url": "http://127.0.0.1:3000/tools/ai-video/sale-video",
+  "title": "无限画布",
+  "viewport": [
+    1600,
+    1000
+  ],
+  "doc": [
+    1600,
+    1000
+  ],
+  "bodyText": "无限画布 首页 电商套图 智能修图 新模型 AI视频 HOT 批量生图 商品图设计 中 切换到深色主题 v0.27.0 AI 视频 图转视频 带货口播 视频复刻 视频编辑 视频翻译 视频拼接 补充 免责声明 分析 或 手动上传参考图 商品多图 图片规则 多视角白底商品&实拍图 支持上传9张图，10M以内，384*384 ~ 4096*4096，宽高比（宽÷高）0.4～2.5（含边界） 本地上传 从作品库选择 从商品库选择 提示词描述 US（美国） US（美国） GB（英国） DE（德国） FR（法国） ES（西班牙） IT（意大利） BR（巴西） MX（墨西哥） JP（日本） KR（韩国） NL（荷兰） PL（波兰） TR（土耳其） SA（沙特阿拉伯） AE（阿联酋） TH（泰国） VN（越南） ID（印尼） MY（马来西亚） IN（印度） CN（中国大陆） 英语 英语（English） 英语 · 英国（English UK） 德语（Deutsch） 法语（Français） 西班牙语（Español） 意大利语（Italiano） 葡萄牙语（Português） 日语（日本語） 韩语（한국어） 荷兰语（Nederlands） 波兰语（Polski） 土耳其语（Türkçe） 阿拉伯语（العربية） 泰语（ไทย） 越南语（Tiếng Việt） 印尼语（Bahasa Indonesia） 马来语（Bahasa Melayu） 印地语（हिन्दी） 中文（简体） AI帮写 UGC种草 0 / 4000 视频模型 Seedance 2.0 fast 适合日常稳妥出片 视频分辨率 480P 720P 生成设置 专业模式 视频时长 拖动选择时长 15秒 5 10 15 视频比例 自适应 9:16 16:9 1:1 4:3 3:4 21:9 立即生成 1 条 · 15 秒 · 720P 请上传至少 1 张商品图 生成结果 历史记录 带货口播视频 上传商品图，自动分析商品信息并输出提示词 填好口播提示词后点「立即生成」，带货口播视频会显示在这里 连接本地 Agent 未连接 点连接会自动启动本地服务、装好插件并接通，无需手动配置。 Claude Code 未连接 · CLI · 2.1.316 (Claude Code) · 直接运行 连接 Codex 未连接 · CLI · codex-cli 0.166.0 · 插件已装 连接 Galley 未连接 · CLI + 桌面版 · galley 0.6.4 连接",
+  "main": {
+    "x": 180,
+    "y": 56,
+    "w": 1420,
+    "h": 944,
+    "sh": 944,
+    "ch": 944,
+    "st": 0,
+    "oy": "auto"
+  },
+  "config": {
+    "x": 180,
+    "y": 56,
+    "w": 300,
+    "h": 944
+  },
+  "result": {
+    "x": 492,
+    "y": 56,
+    "w": 1108,
+    "h": 944
+  },
+  "rail": {
+    "x": 0,
+    "y": 56,
+    "w": 180,
+    "h": 944
+  },
+  "columns": true,
+  "inlineRail": null,
+  "buttons": [
+    {
+      "text": "中",
+      "disabled": false,
+      "rect": {
+        "x": 1433,
+        "y": 14,
+        "w": 28,
+        "h": 28
+      }
+    },
+    {
+      "text": "切换到深色主题",
+      "disabled": false,
+      "rect": {
+        "x": 1465,
+        "y": 14,
+        "w": 28,
+        "h": 28
+      }
+    },
+    {
+      "text": "v0.27.0",
+      "disabled": false,
+      "rect": {
+        "x": 1497,
+        "y": 17,
+        "w": 47,
+        "h": 22
+      }
+    },
+    {
+      "text": "分析",
+      "disabled": false,
+      "rect": {
+        "x": 422,
+        "y": 56,
+        "w": 54,
+        "h": 32
+      }
+    },
+    {
+      "text": "图片规则",
+      "disabled": false,
+      "rect": {
+        "x": 420,
+        "y": 134,
+        "w": 56,
+        "h": 22
+      }
+    },
+    {
+      "text": "本地上传",
+      "disabled": false,
+      "rect": {
+        "x": 193,
+        "y": 336,
+        "w": 270,
+        "h": 24
+      }
+    },
+    {
+      "text": "从作品库选择",
+      "disabled": true,
+      "rect": {
+        "x": 193,
+        "y": 368,
+        "w": 100,
+        "h": 24
+      }
+    },
+    {
+      "text": "从商品库选择",
+      "disabled": true,
+      "rect": {
+        "x": 301,
+        "y": 368,
+        "w": 100,
+        "h": 24
+      }
+    },
+    {
+      "text": "AI帮写",
+      "disabled": false,
+      "rect": {
+        "x": 180,
+        "y": 668,
+        "w": 59,
+        "h": 32
+      }
+    },
+    {
+      "text": "UGC种草",
+      "disabled": false,
+      "rect": {
+        "x": 247,
+        "y": 668,
+        "w": 76,
+        "h": 32
+      }
+    },
+    {
+      "text": "Seedance 2.0 fast适合日常稳妥出片",
+      "disabled": true,
+      "rect": {
+        "x": 180,
+        "y": 734,
+        "w": 296,
+        "h": 51
+      }
+    },
+    {
+      "text": "480P",
+      "disabled": false,
+      "rect": {
+        "x": 180,
+        "y": 819,
+        "w": 61,
+        "h": 32
+      }
+    },
+    {
+      "text": "720P",
+      "disabled": false,
+      "rect": {
+        "x": 249,
+        "y": 819,
+        "w": 60,
+        "h": 32
+      }
+    },
+    {
+      "text": "5",
+      "disabled": false,
+      "rect": {
+        "x": 189,
+        "y": 961,
+        "w": 19,
+        "h": 21
+      }
+    },
+    {
+      "text": "10",
+      "disabled": false,
+      "rect": {
+        "x": 313,
+        "y": 961,
+        "w": 24,
+        "h": 21
+      }
+    },
+    {
+      "text": "15",
+      "disabled": false,
+      "rect": {
+        "x": 443,
+        "y": 961,
+        "w": 24,
+        "h": 21
+      }
+    },
+    {
+      "text": "自适应",
+      "disabled": false,
+      "rect": {
+        "x": 189,
+        "y": 1016,
+        "w": 60,
+        "h": 28
+      }
+    },
+    {
+      "text": "9:16",
+      "disabled": false,
+      "rect": {
+        "x": 255,
+        "y": 1016,
+        "w": 46,
+        "h": 28
+      }
+    },
+    {
+      "text": "16:9",
+      "disabled": false,
+      "rect": {
+        "x": 307,
+        "y": 1016,
+        "w": 46,
+        "h": 28
+      }
+    },
+    {
+      "text": "1:1",
+      "disabled": false,
+      "rect": {
+        "x": 359,
+        "y": 1016,
+        "w": 35,
+        "h": 28
+      }
+    },
+    {
+      "text": "4:3",
+      "disabled": false,
+      "rect": {
+        "x": 399,
+        "y": 1016,
+        "w": 39,
+        "h": 28
+      }
+    },
+    {
+      "text": "3:4",
+      "disabled": false,
+      "rect": {
+        "x": 189,
+        "y": 1050,
+        "w": 40,
+        "h": 28
+      }
+    },
+    {
+      "text": "21:9",
+      "disabled": false,
+      "rect": {
+        "x": 235,
+        "y": 1050,
+        "w": 45,
+        "h": 28
+      }
+    },
+    {
+      "text": "立即生成",
+      "disabled": true,
+      "rect": {
+        "x": 180,
+        "y": 948,
+        "w": 195,
+        "h": 40
+      }
+    },
+    {
+      "text": "生成结果",
+      "disabled": false,
+      "rect": {
+        "x": 504,
+        "y": 56,
+        "w": 56,
+        "h": 42
+      }
+    },
+    {
+      "text": "历史记录",
+      "disabled": false,
+      "rect": {
+        "x": 574,
+        "y": 56,
+        "w": 56,
+        "h": 42
+      }
+    },
+    {
+      "text": "未连接",
+      "disabled": false,
+      "rect": {
+        "x": 1645,
+        "y": 8,
+        "w": 32,
+        "h": 32
+      }
+    },
+    {
+      "text": "对话",
+      "disabled": false,
+      "rect": {
+        "x": 1754,
+        "y": 0,
+        "w": 32,
+        "h": 48
+      }
+    },
+    {
+      "text": "历史",
+      "disabled": false,
+      "rect": {
+        "x": 1788,
+        "y": 0,
+        "w": 32,
+        "h": 48
+      }
+    },
+    {
+      "text": "技能",
+      "disabled": false,
+      "rect": {
+        "x": 1822,
+        "y": 0,
+        "w": 32,
+        "h": 48
+      }
+    },
+    {
+      "text": "日志",
+      "disabled": false,
+      "rect": {
+        "x": 1856,
+        "y": 0,
+        "w": 32,
+        "h": 48
+      }
+    },
+    {
+      "text": "新对话",
+      "disabled": true,
+      "rect": {
+        "x": 1964,
+        "y": 8,
+        "w": 32,
+        "h": 32
+      }
+    },
+    {
+      "text": "连接",
+      "disabled": false,
+      "rect": {
+        "x": 1945,
+        "y": 147,
+        "w": 66,
+        "h": 24
+      }
+    },
+    {
+      "text": "连接",
+      "disabled": false,
+      "rect": {
+        "x": 1945,
+        "y": 215,
+        "w": 66,
+        "h": 24
+      }
+    },
+    {
+      "text": "连接",
+      "disabled": false,
+      "rect": {
+        "x": 1945,
+        "y": 283,
+        "w": 66,
+        "h": 24
+      }
+    }
+  ],
+  "images": [],
+  "brokenImages": 0,
+  "horizontalOverflow": 0
+}

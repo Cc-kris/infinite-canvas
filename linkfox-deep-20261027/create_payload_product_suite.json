@@ -1,0 +1,61 @@
+{
+  "type": 71,
+  "extendFields": {
+    "imageList": [
+      {
+        "imageUrl": "https://file-ai.linkfox.com/UPLOAD/1779706625487728640/2026/10/27/6937f39bfce943cfb2661739c7c7256d.jpg?Expires=1793112790&OSSAccessKeyId=LTAI5tQMD3UtDGPmMJRik6JA&Signature=dAGy3XxKBmC6cg2yIheyN%2FbItVU%3D"
+      }
+    ],
+    "sellerPoint": "商品信息：白色陶瓷马克杯，350ml，简约北欧风格，哑光釉面，适合咖啡与茶饮。卖点：厚壁保温、把手舒适、可微波炉加热。使用方式：日常饮水。销售地区：美国。发布平台：Amazon。",
+    "resolution": "2K",
+    "provider": "GPT_2_5_IMAGE",
+    "quality": "medium",
+    "brandName": "智能品牌基因",
+    "brandKey": {
+      "salesRegion": "美国",
+      "language": "英语",
+      "platform": "亚马逊"
+    },
+    "APlusProNum": 4,
+    "sellerTypeNum": 4,
+    "aspectRatio": "1:1",
+    "configData": {
+      "aPlusConfig": {
+        "sceneType": {
+          "APlusPro": {
+            "checked": true,
+            "num": 4
+          },
+          "A+": {
+            "checked": false,
+            "num": 4
+          },
+          "custom": {
+            "checked": false,
+            "num": 4
+          },
+          "APlusHasPhone": {
+            "checked": false,
+            "num": 4
+          }
+        }
+      },
+      "mainConfig": {
+        "sceneType": {
+          "sellPoint": {
+            "checked": true,
+            "num": 4
+          },
+          "whiteBg": {
+            "checked": false,
+            "num": 4
+          }
+        },
+        "aspectRatio": "1:1"
+      },
+      "complianceLibs": {}
+    }
+  },
+  "imageUrl": "https://file-ai.linkfox.com/UPLOAD/1779706625487728640/2026/10/27/6937f39bfce943cfb2661739c7c7256d.jpg?Expires=1793112790&OSSAccessKeyId=LTAI5tQMD3UtDGPmMJRik6JA&Signature=dAGy3XxKBmC6cg2yIheyN%2FbItVU%3D",
+  "outputNum": 8
+}

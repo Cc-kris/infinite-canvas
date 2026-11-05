@@ -1,0 +1,1664 @@
+{
+ "AREA_REPAIR": {
+  "bizType": 28,
+  "chunks": [
+   "AreaRepair-CVO2V_TU.js"
+  ],
+  "fields": [
+   "autoExpand",
+   "extendFields",
+   "imageName",
+   "imageUrl",
+   "maskUrl",
+   "outputNum",
+   "prompt",
+   "type"
+  ],
+  "sub": [
+   "autoExpand",
+   "maskUrl"
+  ],
+  "fields_clean": [
+   "autoExpand",
+   "imageName",
+   "imageUrl",
+   "maskUrl",
+   "outputNum",
+   "prompt"
+  ]
+ },
+ "NEW_REPLACE_BG_V2": {
+  "bizType": 28,
+  "chunks": [
+   "AIProduct-CCtcbWNd.js"
+  ],
+  "fields": [],
+  "sub": [],
+  "fields_clean": []
+ },
+ "AI_POSE_GENERATOR": {
+  "bizType": 57,
+  "chunks": [
+   "AIDressingV2-DGyR2DX8.js"
+  ],
+  "fields": [
+   "extendFields",
+   "prompt",
+   "scenePrompts",
+   "type"
+  ],
+  "sub": [
+   "scenePrompts"
+  ],
+  "fields_clean": [
+   "prompt",
+   "scenePrompts"
+  ]
+ },
+ "AI_DRESSING_V2": {
+  "bizType": 24,
+  "chunks": [
+   "AIDressingV2-DGyR2DX8.js",
+   "DressTask-LuddZUbB.js"
+  ],
+  "fields": [
+   "coverList",
+   "downImageUrl",
+   "downMaskUrl",
+   "downOriginUrl",
+   "extendFields",
+   "genOriRes",
+   "id",
+   "images",
+   "isSecondOperate",
+   "modelPose",
+   "modelPoseList",
+   "modelType",
+   "name",
+   "outputNum",
+   "provider",
+   "suitImageUrl",
+   "suitMaskUrl",
+   "suitOriginUrl",
+   "t",
+   "type",
+   "upperImageUrl",
+   "upperMaskUrl",
+   "upperOriginUrl",
+   "version"
+  ],
+  "sub": [
+   "coverList",
+   "downImageUrl",
+   "downMaskUrl",
+   "downOriginUrl",
+   "genOriRes",
+   "images",
+   "isSecondOperate",
+   "modelPose",
+   "modelPoseList",
+   "modelType",
+   "outputNum",
+   "provider",
+   "suitImageUrl",
+   "suitMaskUrl",
+   "suitOriginUrl",
+   "t",
+   "type",
+   "upperImageUrl",
+   "upperMaskUrl",
+   "upperOriginUrl",
+   "version"
+  ],
+  "fields_clean": [
+   "coverList",
+   "downImageUrl",
+   "downMaskUrl",
+   "downOriginUrl",
+   "genOriRes",
+   "images",
+   "isSecondOperate",
+   "modelPose",
+   "modelPoseList",
+   "modelType",
+   "name",
+   "outputNum",
+   "provider",
+   "suitImageUrl",
+   "suitMaskUrl",
+   "suitOriginUrl",
+   "upperImageUrl",
+   "upperMaskUrl",
+   "upperOriginUrl",
+   "version"
+  ]
+ },
+ "AI_VIDEO_EDITING": {
+  "bizType": 95,
+  "chunks": [
+   "AiVideoEdit-Dicw_aYI.js"
+  ],
+  "fields": [
+   "F",
+   "duration",
+   "extendFields",
+   "outputNum",
+   "prompt",
+   "refImageUrls",
+   "sourceVideoDuration",
+   "sourceVideoUrl",
+   "type",
+   "videoType"
+  ],
+  "sub": [
+   "F",
+   "duration",
+   "prompt",
+   "refImageUrls",
+   "sourceVideoDuration",
+   "sourceVideoUrl",
+   "videoType"
+  ],
+  "fields_clean": [
+   "duration",
+   "outputNum",
+   "prompt",
+   "refImageUrls",
+   "sourceVideoDuration",
+   "sourceVideoUrl",
+   "videoType"
+  ]
+ },
+ "CHANGE_COLOR": {
+  "bizType": 1,
+  "chunks": [
+   "ChangeColor-B5SU1Tuw.js",
+   "ColorTask-Cc2Cn96l.js",
+   "style.module-Cel3w-On.js"
+  ],
+  "fields": [
+   "adjustLight",
+   "colorParams",
+   "coverList",
+   "doInpaint",
+   "extendFields",
+   "id",
+   "imageFormat",
+   "imageHeight",
+   "imageMaskUrl",
+   "imageName",
+   "imageSegUrl",
+   "imageSize",
+   "imageTagData",
+   "imageUrl",
+   "imageWidth",
+   "images",
+   "name",
+   "sourceImageUrl",
+   "type"
+  ],
+  "sub": [
+   "adjustLight",
+   "colorParams",
+   "coverList",
+   "doInpaint",
+   "imageFormat",
+   "imageHeight",
+   "imageMaskUrl",
+   "imageSegUrl",
+   "imageSize",
+   "imageTagData",
+   "imageWidth",
+   "images",
+   "sourceImageUrl"
+  ],
+  "fields_clean": [
+   "adjustLight",
+   "colorParams",
+   "coverList",
+   "doInpaint",
+   "imageFormat",
+   "imageHeight",
+   "imageMaskUrl",
+   "imageName",
+   "imageSegUrl",
+   "imageSize",
+   "imageTagData",
+   "imageUrl",
+   "imageWidth",
+   "images",
+   "name",
+   "sourceImageUrl"
+  ]
+ },
+ "DRESS_WEAR_SET": {
+  "bizType": 69,
+  "chunks": [
+   "ClothingImageSuite-BWvYoQFL.js",
+   "DressWearTask-CadLF7sV.js"
+  ],
+  "fields": [
+   "aspectRatio",
+   "brandDNA",
+   "brandKey",
+   "brandName",
+   "coverList",
+   "extendFields",
+   "id",
+   "imageUrl",
+   "images",
+   "language",
+   "name",
+   "needIntelligent",
+   "outputNum",
+   "platform",
+   "provider",
+   "quality",
+   "resolution",
+   "salesRegion",
+   "type"
+  ],
+  "sub": [
+   "aspectRatio",
+   "brandDNA",
+   "brandKey",
+   "brandName",
+   "coverList",
+   "images",
+   "language",
+   "needIntelligent",
+   "platform",
+   "provider",
+   "quality",
+   "resolution",
+   "salesRegion"
+  ],
+  "fields_clean": [
+   "aspectRatio",
+   "brandDNA",
+   "brandKey",
+   "brandName",
+   "coverList",
+   "imageUrl",
+   "images",
+   "language",
+   "name",
+   "needIntelligent",
+   "outputNum",
+   "platform",
+   "provider",
+   "quality",
+   "resolution",
+   "salesRegion"
+  ]
+ },
+ "PRINT_EXTRACT": {
+  "bizType": 60,
+  "chunks": [
+   "PrintExtract-2kvIX0cC.js"
+  ],
+  "fields": [
+   "extendFields",
+   "imageUrl",
+   "isTransparent",
+   "type"
+  ],
+  "sub": [
+   "isTransparent"
+  ],
+  "fields_clean": [
+   "imageUrl",
+   "isTransparent"
+  ]
+ },
+ "AI_WEARABLE": {
+  "bizType": 1,
+  "chunks": [
+   "AIWearable-BFa4fUlG.js"
+  ],
+  "fields": [
+   "checkType",
+   "extendFields",
+   "imageMaskUrl",
+   "imageResultUrl",
+   "imageUrl",
+   "isSecondOperate",
+   "modelId",
+   "modelTabType",
+   "outputNum",
+   "productCategory",
+   "sceneTabType",
+   "targetMaskUrl",
+   "targetOriginUrl",
+   "targetResultUrl",
+   "type"
+  ],
+  "sub": [
+   "checkType",
+   "imageMaskUrl",
+   "imageResultUrl",
+   "isSecondOperate",
+   "modelId",
+   "modelTabType",
+   "productCategory",
+   "sceneTabType",
+   "targetMaskUrl",
+   "targetOriginUrl",
+   "targetResultUrl"
+  ],
+  "fields_clean": [
+   "checkType",
+   "imageMaskUrl",
+   "imageResultUrl",
+   "imageUrl",
+   "isSecondOperate",
+   "modelId",
+   "modelTabType",
+   "outputNum",
+   "productCategory",
+   "sceneTabType",
+   "targetMaskUrl",
+   "targetOriginUrl",
+   "targetResultUrl"
+  ]
+ },
+ "FIX_COLOR": {
+  "bizType": 26,
+  "chunks": [
+   "ColorDiffRepair-Dya5aYJj.js"
+  ],
+  "fields": [
+   "extendFields",
+   "fixColorSegUrl",
+   "fixColorUrl",
+   "imageName",
+   "imageResultUrl",
+   "imageSegUrl",
+   "imageUrl",
+   "type",
+   "version"
+  ],
+  "sub": [
+   "fixColorSegUrl",
+   "fixColorUrl",
+   "imageResultUrl",
+   "imageSegUrl",
+   "version"
+  ],
+  "fields_clean": [
+   "fixColorSegUrl",
+   "fixColorUrl",
+   "imageName",
+   "imageResultUrl",
+   "imageSegUrl",
+   "imageUrl",
+   "version"
+  ]
+ },
+ "PRODUCT_REFINE": {
+  "bizType": 56,
+  "chunks": [
+   "ProductRefine-CBH6n_iy.js"
+  ],
+  "fields": [
+   "color",
+   "extendFields",
+   "imageOutputLength",
+   "imageSegUrl",
+   "imageUrl",
+   "imgTransform",
+   "isRmBg",
+   "ratio",
+   "realImageUrl",
+   "type"
+  ],
+  "sub": [
+   "color",
+   "imageOutputLength",
+   "imageSegUrl",
+   "imgTransform",
+   "isRmBg",
+   "ratio",
+   "realImageUrl"
+  ],
+  "fields_clean": [
+   "color",
+   "imageOutputLength",
+   "imageSegUrl",
+   "imageUrl",
+   "imgTransform",
+   "isRmBg",
+   "ratio",
+   "realImageUrl"
+  ]
+ },
+ "IMAGE_CROP": {
+  "bizType": 67,
+  "chunks": [
+   "ImageCrop-CMcgJ3-9.js"
+  ],
+  "fields": [
+   "activeTab",
+   "contentUrl",
+   "extendFields",
+   "imageCropUrl",
+   "imageFormat",
+   "imageHeight",
+   "imageSize",
+   "imageUrl",
+   "imageWidth",
+   "platform",
+   "platformTitle",
+   "ratio",
+   "selectedMode",
+   "type"
+  ],
+  "sub": [
+   "activeTab",
+   "contentUrl",
+   "imageCropUrl",
+   "imageFormat",
+   "imageHeight",
+   "imageSize",
+   "imageWidth",
+   "platform",
+   "platformTitle",
+   "ratio",
+   "selectedMode"
+  ],
+  "fields_clean": [
+   "activeTab",
+   "contentUrl",
+   "imageCropUrl",
+   "imageFormat",
+   "imageHeight",
+   "imageSize",
+   "imageUrl",
+   "imageWidth",
+   "platform",
+   "platformTitle",
+   "ratio",
+   "selectedMode"
+  ]
+ },
+ "PRODUCT_SCENE": {
+  "bizType": 1,
+  "chunks": [
+   "ProductScene-ulTz3aaN.js",
+   "SceneFission-BFsmkzOI.js"
+  ],
+  "fields": [
+   "I",
+   "P",
+   "cutoutProvider",
+   "extendFields",
+   "imageName",
+   "imageOutputHeight",
+   "imageOutputWidth",
+   "imageUrl",
+   "mode",
+   "originImageUrl",
+   "outputNum",
+   "prompt",
+   "provider",
+   "ratio",
+   "sceneKeyword",
+   "segImageUrl",
+   "sizeType",
+   "strength",
+   "type"
+  ],
+  "sub": [
+   "I",
+   "P",
+   "cutoutProvider",
+   "imageOutputHeight",
+   "imageOutputWidth",
+   "mode",
+   "originImageUrl",
+   "provider",
+   "sceneKeyword",
+   "segImageUrl",
+   "sizeType",
+   "strength"
+  ],
+  "fields_clean": [
+   "cutoutProvider",
+   "imageName",
+   "imageOutputHeight",
+   "imageOutputWidth",
+   "imageUrl",
+   "mode",
+   "originImageUrl",
+   "outputNum",
+   "prompt",
+   "provider",
+   "ratio",
+   "sceneKeyword",
+   "segImageUrl",
+   "sizeType",
+   "strength"
+  ]
+ },
+ "SCENE_TRANSFER": {
+  "bizType": 62,
+  "chunks": [
+   "SceneTransfer-K09jWF3b.js"
+  ],
+  "fields": [
+   "extendFields",
+   "imageStyleUrl",
+   "imageUrl",
+   "segImageUrl",
+   "similarity",
+   "type"
+  ],
+  "sub": [
+   "imageStyleUrl",
+   "segImageUrl",
+   "similarity"
+  ],
+  "fields_clean": [
+   "imageStyleUrl",
+   "imageUrl",
+   "segImageUrl",
+   "similarity"
+  ]
+ },
+ "PRODUCT_MARKET_MATERIAL": {
+  "bizType": 64,
+  "chunks": [
+   "ProductTask-FDmCdDjl.js"
+  ],
+  "fields": [
+   "APlusAspectRatio",
+   "aspectRatio",
+   "brandDNA",
+   "brandKey",
+   "brandName",
+   "coverList",
+   "extendFields",
+   "id",
+   "images",
+   "isCustomAspectRatio",
+   "language",
+   "name",
+   "platform",
+   "provider",
+   "quality",
+   "resolution",
+   "salesRegion",
+   "type"
+  ],
+  "sub": [
+   "APlusAspectRatio",
+   "aspectRatio",
+   "brandDNA",
+   "brandKey",
+   "brandName",
+   "coverList",
+   "images",
+   "isCustomAspectRatio",
+   "language",
+   "platform",
+   "provider",
+   "quality",
+   "resolution",
+   "salesRegion"
+  ],
+  "fields_clean": [
+   "APlusAspectRatio",
+   "aspectRatio",
+   "brandDNA",
+   "brandKey",
+   "brandName",
+   "coverList",
+   "images",
+   "isCustomAspectRatio",
+   "language",
+   "name",
+   "platform",
+   "provider",
+   "quality",
+   "resolution",
+   "salesRegion"
+  ]
+ },
+ "HANDHELD_GOODS": {
+  "bizType": 49,
+  "chunks": [
+   "HandheldGoods-CSa1DC9T.js"
+  ],
+  "fields": [
+   "checkType",
+   "extendFields",
+   "imageMaskUrl",
+   "imageResultUrl",
+   "imageUrl",
+   "modelId",
+   "modelTabType",
+   "outputNum",
+   "sceneTabType",
+   "targetMaskUrl",
+   "targetOriginUrl",
+   "targetResultUrl",
+   "type"
+  ],
+  "sub": [
+   "checkType",
+   "imageMaskUrl",
+   "imageResultUrl",
+   "modelId",
+   "modelTabType",
+   "sceneTabType",
+   "targetMaskUrl",
+   "targetOriginUrl",
+   "targetResultUrl"
+  ],
+  "fields_clean": [
+   "checkType",
+   "imageMaskUrl",
+   "imageResultUrl",
+   "imageUrl",
+   "modelId",
+   "modelTabType",
+   "outputNum",
+   "sceneTabType",
+   "targetMaskUrl",
+   "targetOriginUrl",
+   "targetResultUrl"
+  ]
+ },
+ "SDS_DESIGN": {
+  "bizType": 16,
+  "chunks": [
+   "SdsDesign-BnkvYXiV.js"
+  ],
+  "fields": [
+   "extendFields",
+   "imageList",
+   "imageName",
+   "imageUrl",
+   "materialList",
+   "productId",
+   "type"
+  ],
+  "sub": [
+   "imageList",
+   "materialList",
+   "productId"
+  ],
+  "fields_clean": [
+   "imageList",
+   "imageName",
+   "imageUrl",
+   "materialList",
+   "productId"
+  ]
+ },
+ "CHANGE_COLOR_V2": {
+  "bizType": 811,
+  "chunks": [
+   "ColorTaskV2-CVYZvxaQ.js",
+   "store-Cci4yScB.js"
+  ],
+  "fields": [
+   "extendFields",
+   "imageName",
+   "imageUrl",
+   "type"
+  ],
+  "sub": [],
+  "fields_clean": [
+   "imageName",
+   "imageUrl"
+  ]
+ },
+ "IMAGE_TO_VIDEO": {
+  "bizType": 26,
+  "chunks": [
+   "Image2Video-XuTjToxz.js"
+  ],
+  "fields": [
+   "O",
+   "Rn",
+   "aspectRatio",
+   "c",
+   "duration",
+   "extendFields",
+   "extension",
+   "fileKey",
+   "fileName",
+   "imageInputMode",
+   "imageList",
+   "imageUrl",
+   "isPro",
+   "language",
+   "lastFrameImageUrl",
+   "productInfo",
+   "productUrl",
+   "prompt",
+   "promptOptimizer",
+   "referenceAudios",
+   "referenceDocument",
+   "referenceVideo",
+   "saleCountry",
+   "size",
+   "sourceImageUrl",
+   "templateKey",
+   "templateName",
+   "thumbUrl",
+   "type",
+   "url",
+   "videoTime",
+   "videoType"
+  ],
+  "sub": [
+   "O",
+   "Rn",
+   "aspectRatio",
+   "c",
+   "duration",
+   "extension",
+   "fileKey",
+   "fileName",
+   "imageInputMode",
+   "imageList",
+   "isPro",
+   "language",
+   "lastFrameImageUrl",
+   "productInfo",
+   "productUrl",
+   "prompt",
+   "promptOptimizer",
+   "referenceAudios",
+   "referenceDocument",
+   "referenceVideo",
+   "saleCountry",
+   "size",
+   "sourceImageUrl",
+   "templateKey",
+   "templateName",
+   "thumbUrl",
+   "url",
+   "videoTime",
+   "videoType"
+  ],
+  "fields_clean": [
+   "aspectRatio",
+   "duration",
+   "extension",
+   "fileKey",
+   "fileName",
+   "imageInputMode",
+   "imageList",
+   "imageUrl",
+   "isPro",
+   "language",
+   "lastFrameImageUrl",
+   "productInfo",
+   "productUrl",
+   "prompt",
+   "promptOptimizer",
+   "referenceAudios",
+   "referenceDocument",
+   "referenceVideo",
+   "saleCountry",
+   "size",
+   "sourceImageUrl",
+   "templateKey",
+   "templateName",
+   "thumbUrl",
+   "url",
+   "videoTime",
+   "videoType"
+  ]
+ },
+ "VIDEO_CONCAT": {
+  "bizType": 52,
+  "chunks": [
+   "VideoConcat-CrtyhYJk.js",
+   "VideoEditor-DpsOmgFh.js"
+  ],
+  "fields": [
+   "editType",
+   "extendFields",
+   "imageFormat",
+   "imageHeight",
+   "imageSize",
+   "imageUrl",
+   "imageWidth",
+   "type",
+   "videoCoverUrl",
+   "videoList",
+   "videoRatio",
+   "videoTime"
+  ],
+  "sub": [
+   "editType",
+   "imageFormat",
+   "imageHeight",
+   "imageSize",
+   "imageWidth",
+   "videoCoverUrl",
+   "videoList",
+   "videoRatio",
+   "videoTime"
+  ],
+  "fields_clean": [
+   "editType",
+   "imageFormat",
+   "imageHeight",
+   "imageSize",
+   "imageUrl",
+   "imageWidth",
+   "videoCoverUrl",
+   "videoList",
+   "videoRatio",
+   "videoTime"
+  ]
+ },
+ "PRODUCT_IMAGE_SUITE": {
+  "bizType": 71,
+  "chunks": [
+   "ProductImageSuite-CrdJb1Ai.js"
+  ],
+  "fields": [
+   "extendFields",
+   "imageUrl",
+   "outputNum",
+   "type"
+  ],
+  "sub": [],
+  "fields_clean": [
+   "imageUrl",
+   "outputNum"
+  ]
+ },
+ "SCALE_UP": {
+  "bizType": 35,
+  "chunks": [
+   "QualityIncrease-BTf9zaNt.js",
+   "style.module-Cel3w-On.js"
+  ],
+  "fields": [
+   "M",
+   "P",
+   "ee",
+   "enhanceFace",
+   "enhanceQuality",
+   "extendFields",
+   "ge",
+   "imageName",
+   "imageOutputHeight",
+   "imageOutputWidth",
+   "imageUrl",
+   "magnification",
+   "me",
+   "type",
+   "y"
+  ],
+  "sub": [
+   "M",
+   "P",
+   "ee",
+   "enhanceFace",
+   "enhanceQuality",
+   "ge",
+   "imageOutputHeight",
+   "imageOutputWidth",
+   "magnification",
+   "me",
+   "y"
+  ],
+  "fields_clean": [
+   "enhanceFace",
+   "enhanceQuality",
+   "imageName",
+   "imageOutputHeight",
+   "imageOutputWidth",
+   "imageUrl",
+   "magnification"
+  ]
+ },
+ "VIDEO_REPLICATION": {
+  "bizType": 89,
+  "chunks": [
+   "VideoReplication-CUM5JwIp.js"
+  ],
+  "fields": [
+   "analyzeRedisKey",
+   "aspectRatio",
+   "clipEnd",
+   "clipMode",
+   "clipStart",
+   "coverUrl",
+   "duration",
+   "extendFields",
+   "imageSegUrl",
+   "imageUrl",
+   "isPro",
+   "originalVideoId",
+   "originalVideoUrl",
+   "prompt",
+   "promptOptimizer",
+   "ratio",
+   "refImageList",
+   "refVideoName",
+   "refVideoUrl",
+   "resolution",
+   "saleCountry",
+   "sourceVideoDuration",
+   "sourceVideoUrl",
+   "targetLanguage",
+   "type",
+   "videoCoverType",
+   "videoSource",
+   "videoTime",
+   "videoType"
+  ],
+  "sub": [
+   "analyzeRedisKey",
+   "aspectRatio",
+   "clipEnd",
+   "clipMode",
+   "clipStart",
+   "coverUrl",
+   "duration",
+   "imageSegUrl",
+   "isPro",
+   "originalVideoId",
+   "originalVideoUrl",
+   "prompt",
+   "promptOptimizer",
+   "ratio",
+   "refImageList",
+   "refVideoName",
+   "refVideoUrl",
+   "resolution",
+   "saleCountry",
+   "sourceVideoDuration",
+   "sourceVideoUrl",
+   "targetLanguage",
+   "videoCoverType",
+   "videoSource",
+   "videoTime",
+   "videoType"
+  ],
+  "fields_clean": [
+   "analyzeRedisKey",
+   "aspectRatio",
+   "clipEnd",
+   "clipMode",
+   "clipStart",
+   "coverUrl",
+   "duration",
+   "imageSegUrl",
+   "imageUrl",
+   "isPro",
+   "originalVideoId",
+   "originalVideoUrl",
+   "prompt",
+   "promptOptimizer",
+   "ratio",
+   "refImageList",
+   "refVideoName",
+   "refVideoUrl",
+   "resolution",
+   "saleCountry",
+   "sourceVideoDuration",
+   "sourceVideoUrl",
+   "targetLanguage",
+   "videoCoverType",
+   "videoSource",
+   "videoTime",
+   "videoType"
+  ]
+ },
+ "MATERIAL_UPPER_BODY": {
+  "bizType": 1,
+  "chunks": [
+   "PreviewModal-sY1wWQ73.js"
+  ],
+  "fields": [
+   "categoryIds",
+   "categoryName",
+   "extendFields",
+   "imageName",
+   "imageUrl",
+   "isMatting",
+   "outputNum",
+   "subType",
+   "type"
+  ],
+  "sub": [
+   "categoryIds",
+   "categoryName",
+   "isMatting"
+  ],
+  "fields_clean": [
+   "categoryIds",
+   "categoryName",
+   "imageName",
+   "imageUrl",
+   "isMatting",
+   "outputNum",
+   "subType"
+  ]
+ },
+ "AI_POSTURE": {
+  "bizType": 58,
+  "chunks": [
+   "AIPosture-CQ7ziAUw.js"
+  ],
+  "fields": [
+   "extendFields",
+   "imageTags",
+   "imageUrl",
+   "outputNum",
+   "prompt",
+   "type"
+  ],
+  "sub": [
+   "imageTags"
+  ],
+  "fields_clean": [
+   "imageTags",
+   "imageUrl",
+   "outputNum",
+   "prompt"
+  ]
+ },
+ "ORNAMENT_TEXT": {
+  "bizType": 15,
+  "chunks": [
+   "OrnamentText-B0eSNME-.js"
+  ],
+  "fields": [
+   "extendFields",
+   "fontSize",
+   "fontname",
+   "left",
+   "prompt",
+   "right",
+   "type"
+  ],
+  "sub": [
+   "fontSize",
+   "fontname",
+   "left",
+   "right"
+  ],
+  "fields_clean": [
+   "fontSize",
+   "fontname",
+   "left",
+   "prompt",
+   "right"
+  ]
+ },
+ "IMAGE_TRANSLATION": {
+  "bizType": 45,
+  "chunks": [
+   "ImageTranslation-CkU4UjAr.js"
+  ],
+  "fields": [
+   "extendFields",
+   "imageName",
+   "imageSegUrl",
+   "imageUrl",
+   "sourceLanguage",
+   "targetLanguage",
+   "type"
+  ],
+  "sub": [
+   "imageSegUrl",
+   "sourceLanguage",
+   "targetLanguage"
+  ],
+  "fields_clean": [
+   "imageName",
+   "imageSegUrl",
+   "imageUrl",
+   "sourceLanguage",
+   "targetLanguage"
+  ]
+ },
+ "FISSION_LINK": {
+  "bizType": 83,
+  "chunks": [
+   "LinkCard-D3GFW-v5.js"
+  ],
+  "fields": [
+   "extendFields",
+   "imageUrl",
+   "outputNum",
+   "type"
+  ],
+  "sub": [],
+  "fields_clean": [
+   "imageUrl",
+   "outputNum"
+  ]
+ },
+ "AI_DRESSING_XSY": {
+  "bizType": 39,
+  "chunks": [
+   "AIDressingV2-DFiLoOeF.js"
+  ],
+  "fields": [
+   "downImageUrl",
+   "downMaskUrl",
+   "downOriginUrl",
+   "extendFields",
+   "modelImageUrl",
+   "modelPose",
+   "modelStyle",
+   "modelType",
+   "outputNum",
+   "provider",
+   "step",
+   "suitImageUrl",
+   "suitMaskUrl",
+   "suitOriginUrl",
+   "type",
+   "upperImageUrl",
+   "upperMaskUrl",
+   "upperOriginUrl",
+   "version"
+  ],
+  "sub": [
+   "downImageUrl",
+   "downMaskUrl",
+   "downOriginUrl",
+   "modelImageUrl",
+   "modelPose",
+   "modelStyle",
+   "modelType",
+   "provider",
+   "step",
+   "suitImageUrl",
+   "suitMaskUrl",
+   "suitOriginUrl",
+   "type",
+   "upperImageUrl",
+   "upperMaskUrl",
+   "upperOriginUrl",
+   "version"
+  ],
+  "fields_clean": [
+   "downImageUrl",
+   "downMaskUrl",
+   "downOriginUrl",
+   "modelImageUrl",
+   "modelPose",
+   "modelStyle",
+   "modelType",
+   "outputNum",
+   "provider",
+   "step",
+   "suitImageUrl",
+   "suitMaskUrl",
+   "suitOriginUrl",
+   "upperImageUrl",
+   "upperMaskUrl",
+   "upperOriginUrl",
+   "version"
+  ]
+ },
+ "REPLACE_GOODS": {
+  "bizType": 1,
+  "chunks": [
+   "ProductReplacement-XGsjOAo3.js"
+  ],
+  "fields": [
+   "config",
+   "cutoutProvider",
+   "denoiseStrength",
+   "extendFields",
+   "height",
+   "imageName",
+   "imageOutputHeight",
+   "imageOutputWidth",
+   "imageUrl",
+   "lockImageUrl",
+   "maskUrl",
+   "outputNum",
+   "point",
+   "ratio",
+   "rotate",
+   "scale",
+   "sourceImageUrl",
+   "sourceOriginUrl",
+   "targetConfig",
+   "targetImageUrl",
+   "targetOriginUrl",
+   "type",
+   "url",
+   "width"
+  ],
+  "sub": [
+   "config",
+   "cutoutProvider",
+   "denoiseStrength",
+   "height",
+   "imageOutputHeight",
+   "imageOutputWidth",
+   "lockImageUrl",
+   "maskUrl",
+   "point",
+   "rotate",
+   "scale",
+   "sourceImageUrl",
+   "sourceOriginUrl",
+   "targetConfig",
+   "targetImageUrl",
+   "targetOriginUrl",
+   "type",
+   "url",
+   "width"
+  ],
+  "fields_clean": [
+   "config",
+   "cutoutProvider",
+   "denoiseStrength",
+   "height",
+   "imageName",
+   "imageOutputHeight",
+   "imageOutputWidth",
+   "imageUrl",
+   "lockImageUrl",
+   "maskUrl",
+   "outputNum",
+   "point",
+   "ratio",
+   "rotate",
+   "scale",
+   "sourceImageUrl",
+   "sourceOriginUrl",
+   "targetConfig",
+   "targetImageUrl",
+   "targetOriginUrl",
+   "url",
+   "width"
+  ]
+ },
+ "IMAGE_TEXT_EDIT": {
+  "bizType": 78,
+  "chunks": [
+   "style.module-Cel3w-On.js"
+  ],
+  "fields": [
+   "boxes",
+   "extendFields",
+   "imageFormat",
+   "imageHeight",
+   "imageName",
+   "imageSize",
+   "imageUrl",
+   "imageWidth",
+   "resultImageUrl",
+   "type"
+  ],
+  "sub": [
+   "boxes",
+   "imageFormat",
+   "imageHeight",
+   "imageSize",
+   "imageWidth",
+   "resultImageUrl"
+  ],
+  "fields_clean": [
+   "boxes",
+   "imageFormat",
+   "imageHeight",
+   "imageName",
+   "imageSize",
+   "imageUrl",
+   "imageWidth",
+   "resultImageUrl"
+  ]
+ },
+ "AI_OUTPAINTING": {
+  "bizType": 20,
+  "chunks": [
+   "AIOutpainting-C8pryv5_.js",
+   "style.module-Cel3w-On.js"
+  ],
+  "fields": [
+   "config",
+   "editFlag",
+   "extendFields",
+   "height",
+   "imageConfig",
+   "imageExpandUrl",
+   "imageName",
+   "imageUrl",
+   "maskUrl",
+   "originImageUrl",
+   "outputNum",
+   "prompt",
+   "ratio",
+   "sizeSetHeight",
+   "sizeSetName",
+   "sizeSetType",
+   "sizeSetValue",
+   "sizeSetWidth",
+   "stageConfig",
+   "type",
+   "width"
+  ],
+  "sub": [
+   "config",
+   "editFlag",
+   "height",
+   "imageConfig",
+   "imageExpandUrl",
+   "maskUrl",
+   "originImageUrl",
+   "ratio",
+   "sizeSetHeight",
+   "sizeSetName",
+   "sizeSetType",
+   "sizeSetValue",
+   "sizeSetWidth",
+   "stageConfig",
+   "width"
+  ],
+  "fields_clean": [
+   "config",
+   "editFlag",
+   "height",
+   "imageConfig",
+   "imageExpandUrl",
+   "imageName",
+   "imageUrl",
+   "maskUrl",
+   "originImageUrl",
+   "outputNum",
+   "prompt",
+   "ratio",
+   "sizeSetHeight",
+   "sizeSetName",
+   "sizeSetType",
+   "sizeSetValue",
+   "sizeSetWidth",
+   "stageConfig",
+   "width"
+  ]
+ },
+ "NEW_DESIGNER": {
+  "bizType": 99,
+  "chunks": [
+   "style.module-Cel3w-On.js"
+  ],
+  "fields": [
+   "designerId",
+   "extendFields",
+   "imageUrl",
+   "isDesignerUse",
+   "onClose",
+   "onDone",
+   "open"
+  ],
+  "sub": [
+   "designerId",
+   "isDesignerUse"
+  ],
+  "fields_clean": [
+   "designerId",
+   "imageUrl",
+   "isDesignerUse",
+   "onClose",
+   "onDone",
+   "open"
+  ]
+ },
+ "SALE_VIDEO": {
+  "bizType": 73,
+  "chunks": [
+   "SaleVideo-BhhExnwz.js"
+  ],
+  "fields": [
+   "aspectRatio",
+   "extendFields",
+   "hiddenPrompt",
+   "imageList",
+   "imageUrl",
+   "isPro",
+   "language",
+   "prompt",
+   "q",
+   "resolution",
+   "saleCountry",
+   "type",
+   "videoTime",
+   "videoType",
+   "visiblePrompt"
+  ],
+  "sub": [
+   "aspectRatio",
+   "hiddenPrompt",
+   "imageList",
+   "isPro",
+   "language",
+   "prompt",
+   "q",
+   "resolution",
+   "saleCountry",
+   "videoTime",
+   "videoType",
+   "visiblePrompt"
+  ],
+  "fields_clean": [
+   "aspectRatio",
+   "hiddenPrompt",
+   "imageList",
+   "imageUrl",
+   "isPro",
+   "language",
+   "prompt",
+   "resolution",
+   "saleCountry",
+   "videoTime",
+   "videoType",
+   "visiblePrompt"
+  ]
+ },
+ "PRINTING_REPAIR": {
+  "bizType": 30,
+  "chunks": [
+   "PrintingRepair-CuqFLWKb.js"
+  ],
+  "fields": [
+   "config",
+   "extendFields",
+   "height",
+   "imageResultUrl",
+   "imageUrl",
+   "point",
+   "rotate",
+   "scale",
+   "stampingFlowerSegUrl",
+   "stampingFlowerUrl",
+   "targetConfig",
+   "type",
+   "url",
+   "version",
+   "width",
+   "x",
+   "y"
+  ],
+  "sub": [
+   "config",
+   "height",
+   "imageResultUrl",
+   "point",
+   "rotate",
+   "scale",
+   "stampingFlowerSegUrl",
+   "stampingFlowerUrl",
+   "targetConfig",
+   "type",
+   "url",
+   "version",
+   "width",
+   "x",
+   "y"
+  ],
+  "fields_clean": [
+   "config",
+   "height",
+   "imageResultUrl",
+   "imageUrl",
+   "point",
+   "rotate",
+   "scale",
+   "stampingFlowerSegUrl",
+   "stampingFlowerUrl",
+   "targetConfig",
+   "url",
+   "version",
+   "width"
+  ]
+ },
+ "AI_TEXT": {
+  "bizType": 1,
+  "chunks": [
+   "AiText-Di2Wsgu5.js"
+  ],
+  "fields": [
+   "aiSimpleTextPrompt",
+   "extendFields",
+   "imageUrl",
+   "isCase",
+   "mode",
+   "outputNum",
+   "prompt",
+   "ratio",
+   "requestId",
+   "responseId",
+   "styles",
+   "stylesCn",
+   "tilingPreset",
+   "type",
+   "useAutopromptOption",
+   "variationStrength"
+  ],
+  "sub": [
+   "aiSimpleTextPrompt",
+   "isCase",
+   "mode",
+   "prompt",
+   "ratio",
+   "requestId",
+   "responseId",
+   "styles",
+   "stylesCn",
+   "tilingPreset",
+   "useAutopromptOption",
+   "variationStrength"
+  ],
+  "fields_clean": [
+   "aiSimpleTextPrompt",
+   "imageUrl",
+   "isCase",
+   "mode",
+   "outputNum",
+   "prompt",
+   "ratio",
+   "requestId",
+   "responseId",
+   "styles",
+   "stylesCn",
+   "tilingPreset",
+   "useAutopromptOption",
+   "variationStrength"
+  ]
+ },
+ "HAND_REPAIR": {
+  "bizType": 27,
+  "chunks": [
+   "HandRepair-lFzVrktO.js"
+  ],
+  "fields": [
+   "extendFields",
+   "imageName",
+   "imageUrl",
+   "maskUrl",
+   "outputNum",
+   "personType",
+   "type"
+  ],
+  "sub": [
+   "imageUrl",
+   "maskUrl",
+   "personType"
+  ],
+  "fields_clean": [
+   "imageName",
+   "imageUrl",
+   "maskUrl",
+   "outputNum",
+   "personType"
+  ]
+ },
+ "VIDEO_TRANSLATION": {
+  "bizType": 814,
+  "chunks": [
+   "VideoTranslation-BM9UWIuM.js"
+  ],
+  "fields": [
+   "extendFields",
+   "lipSync",
+   "outputNum",
+   "sourceLanguage",
+   "sourceVideoName",
+   "sourceVideoUrl",
+   "targetLanguage",
+   "type",
+   "videoType"
+  ],
+  "sub": [
+   "lipSync",
+   "sourceLanguage",
+   "sourceVideoName",
+   "sourceVideoUrl",
+   "targetLanguage",
+   "videoType"
+  ],
+  "fields_clean": [
+   "lipSync",
+   "outputNum",
+   "sourceLanguage",
+   "sourceVideoName",
+   "sourceVideoUrl",
+   "targetLanguage",
+   "videoType"
+  ]
+ },
+ "REMOVE_PEN": {
+  "bizType": 17,
+  "chunks": [
+   "RemoveModal-BmraOI9L.js"
+  ],
+  "fields": [
+   "eraseImageUrl",
+   "extendFields",
+   "imageName",
+   "imageUrl",
+   "maskImageUrl",
+   "type"
+  ],
+  "sub": [
+   "eraseImageUrl",
+   "maskImageUrl"
+  ],
+  "fields_clean": [
+   "eraseImageUrl",
+   "imageName",
+   "imageUrl",
+   "maskImageUrl"
+  ]
+ }
+}

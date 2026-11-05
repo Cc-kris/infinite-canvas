@@ -1,0 +1,113 @@
+[
+ {
+  "target": "优秀案例",
+  "hit": {
+   "tag": "div",
+   "text": "优秀案例",
+   "x": 1169,
+   "y": 130,
+   "w": 56,
+   "h": 22,
+   "disabled": false
+  },
+  "before": {
+   "t": 331,
+   "ov": 1,
+   "sel": [
+    "生成结果"
+   ]
+  },
+  "after": {
+   "t": 543,
+   "ov": 1,
+   "sel": [
+    "优秀案例"
+   ]
+  },
+  "changed": true
+ },
+ {
+  "target": "生成结果",
+  "hit": {
+   "tag": "div",
+   "text": "生成结果",
+   "x": 1099,
+   "y": 130,
+   "w": 56,
+   "h": 22,
+   "disabled": false
+  },
+  "before": {
+   "t": 543,
+   "ov": 1,
+   "sel": [
+    "优秀案例"
+   ]
+  },
+  "after": {
+   "t": 331,
+   "ov": 1,
+   "sel": [
+    "生成结果"
+   ]
+  },
+  "changed": true
+ },
+ {
+  "target": "4张",
+  "hit": null,
+  "before": {
+   "t": 331,
+   "ov": 1,
+   "sel": [
+    "生成结果"
+   ]
+  },
+  "after": {
+   "t": 331,
+   "ov": 1,
+   "sel": [
+    "生成结果"
+   ]
+  },
+  "changed": false
+ },
+ {
+  "target": "2张",
+  "hit": null,
+  "before": {
+   "t": 331,
+   "ov": 1,
+   "sel": [
+    "生成结果"
+   ]
+  },
+  "after": {
+   "t": 331,
+   "ov": 1,
+   "sel": [
+    "生成结果"
+   ]
+  },
+  "changed": false
+ },
+ {
+  "target": "高",
+  "hit": null,
+  "before": {
+   "t": 331,
+   "ov": 1,
+   "sel": [
+    "生成结果"
+   ]
+  },
+  "after": {
+   "t": 331,
+   "ov": 1,
+   "sel": [
+    "生成结果"
+   ]
+  },
+  "changed": false
+ }
+]

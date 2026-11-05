@@ -1,0 +1,1000 @@
+{
+ "tours": 0,
+ "meta": {
+  "vw": 1600,
+  "vh": 1000,
+  "docScrollH": 1000,
+  "docClientH": 1000,
+  "bodyBg": "rgb(245, 247, 250)",
+  "title": "无限画布",
+  "url": "http://127.0.0.1:3000/tools/product-design/replace-goods",
+  "text": [
+   "无限画布",
+   "首页",
+   "电商套图",
+   "智能修图",
+   "新模型",
+   "AI视频",
+   "HOT",
+   "批量生图",
+   "商品图设计",
+   "中",
+   "切换到深色主题",
+   "v0.27.0",
+   "商品图",
+   "我的商品",
+   "场景参考图",
+   "商品替换",
+   "场景裂变",
+   "手持商品",
+   "企业功能",
+   "商品替换",
+   "上传参考图，一键替换商品，快来替换您的商品吧~",
+   "商品图",
+   "我的商品",
+   "场景参考图",
+   "商品替换",
+   "场景裂变",
+   "手持商品",
+   "企业功能",
+   "💡 温馨提示：支持上传多张商品图进行批量替换",
+   "上传参考图，一键替换商品，快来替换您的商品吧~",
+   "💡 温馨提示：支持上传多张商品图进行批量替换",
+   "上传参考图",
+   "上传参考图",
+   "00 / 1 个 · JPG / PNG / WebP · ≤ 20 MB",
+   "点击选择本地文件，或拖拽到这里",
+   "校验格式 / 大小 / 像素，入库后可刷新恢复",
+   "还没有素材",
+   "商品替换",
+   "先上传参考场景，再拖动定位替换商品",
+   "生成尺寸: 1024x1024",
+   "定位",
+   "补锁",
+   "擦除",
+   "撤销",
+   "重做",
+   "复位",
+   "清空蒙版",
+   "键盘快捷键",
+   "工具快捷键",
+   "透视 T",
+   "扭曲 N",
+   "画布快捷操作",
+   "Ctrl+拖动",
+   "向右切换画布",
+   "键盘右键",
+   "向右切换画布",
+   "键盘左键",
+   "向左切换画布",
+   "中心点",
+   "0.500, 0.500",
+   "缩放",
+   "1.00×",
+   "旋转",
+   "0.0°",
+   "锁定覆盖：49.8%（四边形外自动保护，可用补锁/擦除微调）",
+   "Step 2 · 替换商品（商品 1）",
+   "00 / 1 个 · JPG / PNG / WebP · ≤ 20 MB",
+   "点击选择本地文件，或拖拽到这里",
+   "校验格式 / 大小 / 像素，入库后可刷新恢复",
+   "还没有素材",
+   "场景变化与输出",
+   "变化程度决定背景重绘幅度；去噪强度影响新商品与场景的贴合质感。",
+   "参考图场景变化程度：",
+   "不变",
+   "高",
+   "抠图引擎",
+   "本地轮廓抠图",
+   "上游智能抠图",
+   "去噪强度",
+   "30",
+   "生成：",
+   "1张",
+   "2张",
+   "4张",
+   "定位模式",
+   "T / N",
+   "透视（T）",
+   "扭曲（N）",
+   "蒙版笔刷",
+   "60px",
+   "生成结果",
+   "优秀案例",
+   "生成结果",
+   "预计输出 4 张 · 1024×1024",
+   "立即生成",
+   "· 请先上传参考场景图",
+   "· 商品 1：请上传替换商品图",
+   "暂无生成结果图",
+   "快在左侧合成您的第一张商品图吧~",
+   "多商品批量替换",
+   "1/8",
+   "商品 1",
+   "上一张",
+   "1 / 1",
+   "下一张",
+   "新增商品",
+   "删除",
+   "1",
+   "连接本地 Agent",
+   "未连接",
+   "点连接会自动启动本地服务、装好插件并接通，无需手动配置。",
+   "Claude Code",
+   "未连接",
+   "·",
+   "CLI · 2.1.316 (Claude Code)",
+   "·",
+   "直接运行",
+   "连接",
+   "Codex",
+   "未连接",
+   "·",
+   "CLI · codex-cli 0.166.0",
+   "·",
+   "插件已装",
+   "连接",
+   "Galley",
+   "未连接",
+   "·",
+   "CLI + 桌面版 · galley 0.6.4",
+   "连接"
+  ],
+  "controls": [
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "打开 Agent",
+    "r": {
+     "x": 1365,
+     "y": 12,
+     "w": 32,
+     "h": 32
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "配置",
+    "r": {
+     "x": 1401,
+     "y": 14,
+     "w": 28,
+     "h": 28
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "中",
+    "r": {
+     "x": 1433,
+     "y": 14,
+     "w": 28,
+     "h": 28
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "切换到深色主题",
+    "r": {
+     "x": 1465,
+     "y": 14,
+     "w": 28,
+     "h": 28
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "v0.27.0",
+    "r": {
+     "x": 1497,
+     "y": 17,
+     "w": 47,
+     "h": 22
+    }
+   },
+   {
+    "tag": "div",
+    "role": "button",
+    "type": null,
+    "checked": null,
+    "disabled": false,
+    "label": "点击选择本地文件，或拖拽到这里 校验格式 / 大小 / 像素，入库后可刷新恢复",
+    "r": {
+     "x": 197,
+     "y": 382,
+     "w": 1074,
+     "h": 86
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "定位",
+    "r": {
+     "x": 197,
+     "y": 915,
+     "w": 70,
+     "h": 36
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "补锁",
+    "r": {
+     "x": 273,
+     "y": 915,
+     "w": 70,
+     "h": 36
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "擦除",
+    "r": {
+     "x": 349,
+     "y": 915,
+     "w": 70,
+     "h": 36
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": true,
+    "label": "撤销",
+    "r": {
+     "x": 440,
+     "y": 915,
+     "w": 68,
+     "h": 36
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": true,
+    "label": "重做",
+    "r": {
+     "x": 514,
+     "y": 915,
+     "w": 68,
+     "h": 36
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "复位",
+    "r": {
+     "x": 588,
+     "y": 915,
+     "w": 68,
+     "h": 36
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "清空蒙版",
+    "r": {
+     "x": 662,
+     "y": 915,
+     "w": 78,
+     "h": 36
+    }
+   },
+   {
+    "tag": "label",
+    "role": null,
+    "type": null,
+    "checked": null,
+    "disabled": false,
+    "label": "参考图场景变化程度： 不变 高",
+    "r": {
+     "x": 1317,
+     "y": 355,
+     "w": 145,
+     "h": 56
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "不变",
+    "r": {
+     "x": 1317,
+     "y": 375,
+     "w": 70,
+     "h": 36
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "高",
+    "r": {
+     "x": 1393,
+     "y": 375,
+     "w": 70,
+     "h": 36
+    }
+   },
+   {
+    "tag": "label",
+    "role": null,
+    "type": null,
+    "checked": null,
+    "disabled": false,
+    "label": "抠图引擎 本地轮廓抠图 上游智能抠图",
+    "r": {
+     "x": 1474,
+     "y": 355,
+     "w": 145,
+     "h": 56
+    }
+   },
+   {
+    "tag": "select",
+    "role": null,
+    "type": null,
+    "checked": null,
+    "disabled": false,
+    "label": "本地轮廓抠图 上游智能抠图",
+    "r": {
+     "x": 1474,
+     "y": 375,
+     "w": 145,
+     "h": 36
+    }
+   },
+   {
+    "tag": "label",
+    "role": null,
+    "type": null,
+    "checked": null,
+    "disabled": false,
+    "label": "去噪强度 30",
+    "r": {
+     "x": 1317,
+     "y": 423,
+     "w": 145,
+     "h": 56
+    }
+   },
+   {
+    "tag": "input",
+    "role": null,
+    "type": "range",
+    "checked": null,
+    "disabled": false,
+    "label": "",
+    "r": {
+     "x": 1317,
+     "y": 443,
+     "w": 145,
+     "h": 16
+    }
+   },
+   {
+    "tag": "label",
+    "role": null,
+    "type": null,
+    "checked": null,
+    "disabled": false,
+    "label": "生成： 1张 2张 4张",
+    "r": {
+     "x": 1474,
+     "y": 423,
+     "w": 145,
+     "h": 56
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "1张",
+    "r": {
+     "x": 1474,
+     "y": 443,
+     "w": 44,
+     "h": 36
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "2张",
+    "r": {
+     "x": 1524,
+     "y": 443,
+     "w": 44,
+     "h": 36
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "4张",
+    "r": {
+     "x": 1575,
+     "y": 443,
+     "w": 44,
+     "h": 36
+    }
+   },
+   {
+    "tag": "label",
+    "role": null,
+    "type": null,
+    "checked": null,
+    "disabled": false,
+    "label": "定位模式 T / N 透视（T） 扭曲（N）",
+    "r": {
+     "x": 1317,
+     "y": 491,
+     "w": 145,
+     "h": 56
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "透视（T）",
+    "r": {
+     "x": 1317,
+     "y": 511,
+     "w": 70,
+     "h": 36
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "扭曲（N）",
+    "r": {
+     "x": 1393,
+     "y": 511,
+     "w": 70,
+     "h": 36
+    }
+   },
+   {
+    "tag": "label",
+    "role": null,
+    "type": null,
+    "checked": null,
+    "disabled": false,
+    "label": "蒙版笔刷 60px",
+    "r": {
+     "x": 1474,
+     "y": 491,
+     "w": 145,
+     "h": 56
+    }
+   },
+   {
+    "tag": "input",
+    "role": null,
+    "type": "range",
+    "checked": null,
+    "disabled": false,
+    "label": "",
+    "r": {
+     "x": 1474,
+     "y": 511,
+     "w": 145,
+     "h": 16
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "生成结果",
+    "r": {
+     "x": 1317,
+     "y": 589,
+     "w": 80,
+     "h": 30
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "优秀案例",
+    "r": {
+     "x": 1405,
+     "y": 589,
+     "w": 80,
+     "h": 30
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": true,
+    "label": "立即生成",
+    "r": {
+     "x": 1531,
+     "y": 639,
+     "w": 88,
+     "h": 40
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "商品 1",
+    "r": {
+     "x": 1313,
+     "y": 910,
+     "w": 60,
+     "h": 32
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": true,
+    "label": "上一张",
+    "r": {
+     "x": 1313,
+     "y": 950,
+     "w": 78,
+     "h": 32
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": true,
+    "label": "下一张",
+    "r": {
+     "x": 1423,
+     "y": 950,
+     "w": 78,
+     "h": 32
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "新增商品",
+    "r": {
+     "x": 1313,
+     "y": 990,
+     "w": 152,
+     "h": 32
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": true,
+    "label": "删除",
+    "r": {
+     "x": 1471,
+     "y": 990,
+     "w": 152,
+     "h": 32
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "调整右侧面板宽度",
+    "r": {
+     "x": 1593,
+     "y": 0,
+     "w": 16,
+     "h": 1000
+    }
+   }
+  ],
+  "blocks": [
+   {
+    "cls": "",
+    "r": {
+     "x": 0,
+     "y": 0,
+     "w": 1600,
+     "h": 1000
+    },
+    "t": "无限画布 首页 电商套图 智能修图 新模型 AI视频 HOT 批量生图 商品图设计 中 切换到深色主"
+   },
+   {
+    "cls": "css-dev-only-do-not-override-1tzwyuk ant-app infinite-canvas-light",
+    "r": {
+     "x": 0,
+     "y": 0,
+     "w": 1600,
+     "h": 1000
+    },
+    "t": "无限画布 首页 电商套图 智能修图 新模型 AI视频 HOT 批量生图 商品图设计 中 切换到深色主"
+   },
+   {
+    "cls": "flex h-dvh overflow-hidden bg-background text-foreground",
+    "r": {
+     "x": 0,
+     "y": 0,
+     "w": 1600,
+     "h": 1000
+    },
+    "t": "无限画布 首页 电商套图 智能修图 新模型 AI视频 HOT 批量生图 商品图设计 中 切换到深色主"
+   },
+   {
+    "cls": "flex min-w-0 flex-1 flex-col overflow-hidden",
+    "r": {
+     "x": 0,
+     "y": 0,
+     "w": 1600,
+     "h": 1000
+    },
+    "t": "无限画布 首页 电商套图 智能修图 新模型 AI视频 HOT 批量生图 商品图设计 中 切换到深色主"
+   },
+   {
+    "cls": "min-h-0 flex-1 overflow-hidden",
+    "r": {
+     "x": 0,
+     "y": 56,
+     "w": 1600,
+     "h": 944
+    },
+    "t": "商品图 我的商品 场景参考图 商品替换 场景裂变 手持商品 企业功能 商品替换 上传参考图，一键替换"
+   },
+   {
+    "cls": "tool-linkfox-surface flex h-full min-h-0 flex-col bg-white text-foregr",
+    "r": {
+     "x": 0,
+     "y": 56,
+     "w": 1600,
+     "h": 944
+    },
+    "t": "商品图 我的商品 场景参考图 商品替换 场景裂变 手持商品 企业功能 商品替换 上传参考图，一键替换"
+   },
+   {
+    "cls": "flex min-h-0 flex-1 gap-0",
+    "r": {
+     "x": 0,
+     "y": 56,
+     "w": 1600,
+     "h": 944
+    },
+    "t": "商品图 我的商品 场景参考图 商品替换 场景裂变 手持商品 企业功能 商品替换 上传参考图，一键替换"
+   },
+   {
+    "cls": "flex min-w-0 flex-1 flex-col overflow-hidden bg-white",
+    "r": {
+     "x": 180,
+     "y": 56,
+     "w": 1420,
+     "h": 944
+    },
+    "t": "商品替换 上传参考图，一键替换商品，快来替换您的商品吧~ 商品图 我的商品 场景参考图 商品替换 场"
+   },
+   {
+    "cls": "min-h-0 flex-1 overflow-y-auto overflow-x-hidden bg-white p-0",
+    "r": {
+     "x": 180,
+     "y": 56,
+     "w": 1420,
+     "h": 944
+    },
+    "t": "商品替换 上传参考图，一键替换商品，快来替换您的商品吧~ 商品图 我的商品 场景参考图 商品替换 场"
+   },
+   {
+    "cls": "h-full min-h-0 min-w-0",
+    "r": {
+     "x": 180,
+     "y": 56,
+     "w": 1420,
+     "h": 944
+    },
+    "t": "商品替换 上传参考图，一键替换商品，快来替换您的商品吧~ 商品图 我的商品 场景参考图 商品替换 场"
+   },
+   {
+    "cls": "flex min-h-0 min-w-0 flex-1 flex-col gap-3",
+    "r": {
+     "x": 180,
+     "y": 56,
+     "w": 1420,
+     "h": 1288
+    },
+    "t": "商品替换 上传参考图，一键替换商品，快来替换您的商品吧~ 商品图 我的商品 场景参考图 商品替换 场"
+   },
+   {
+    "cls": "flex flex-col gap-2",
+    "r": {
+     "x": 180,
+     "y": 131,
+     "w": 1420,
+     "h": 1213
+    },
+    "t": "商品图 我的商品 场景参考图 商品替换 场景裂变 手持商品 企业功能 💡 温馨提示：支持上传多张商"
+   },
+   {
+    "cls": "grid min-h-0 min-w-0 grid-cols-1 gap-3 lg:grid-cols-[minmax(0,1fr)_300",
+    "r": {
+     "x": 180,
+     "y": 247,
+     "w": 1420,
+     "h": 1097
+    },
+    "t": "💡 温馨提示：支持上传多张商品图进行批量替换 上传参考图 上传参考图 00 / 1 个 · JPG"
+   },
+   {
+    "cls": "flex min-h-0 min-w-0 flex-col gap-3",
+    "r": {
+     "x": 180,
+     "y": 247,
+     "w": 1108,
+     "h": 1097
+    },
+    "t": "💡 温馨提示：支持上传多张商品图进行批量替换 上传参考图 上传参考图 00 / 1 个 · JPG"
+   },
+   {
+    "cls": "flex min-h-0 min-w-0 flex-1 flex-col gap-2",
+    "r": {
+     "x": 180,
+     "y": 247,
+     "w": 1108,
+     "h": 1097
+    },
+    "t": "💡 温馨提示：支持上传多张商品图进行批量替换 上传参考图 上传参考图 00 / 1 个 · JPG"
+   },
+   {
+    "cls": "rounded-2xl border bg-card p-4 border-primary/60",
+    "r": {
+     "x": 180,
+     "y": 282,
+     "w": 1108,
+     "h": 243
+    },
+    "t": "上传参考图 上传参考图 00 / 1 个 · JPG / PNG / WebP · ≤ 20 MB "
+   },
+   {
+    "cls": "rounded-2xl border bg-card p-4 border-border",
+    "r": {
+     "x": 180,
+     "y": 533,
+     "w": 1108,
+     "h": 811
+    },
+    "t": "商品替换 先上传参考场景，再拖动定位替换商品 生成尺寸: 1024x1024 定位 补锁 擦除 撤销"
+   },
+   {
+    "cls": "mt-3",
+    "r": {
+     "x": 197,
+     "y": 594,
+     "w": 1074,
+     "h": 721
+    },
+    "t": "先上传参考场景，再拖动定位替换商品 生成尺寸: 1024x1024 定位 补锁 擦除 撤销 重做 复"
+   },
+   {
+    "cls": "space-y-3",
+    "r": {
+     "x": 197,
+     "y": 594,
+     "w": 1074,
+     "h": 721
+    },
+    "t": "先上传参考场景，再拖动定位替换商品 生成尺寸: 1024x1024 定位 补锁 擦除 撤销 重做 复"
+   },
+   {
+    "cls": "rounded-xl focus:outline-none focus-visible:ring-2 focus-visible:ring-",
+    "r": {
+     "x": 197,
+     "y": 594,
+     "w": 1074,
+     "h": 282
+    },
+    "t": "先上传参考场景，再拖动定位替换商品"
+   },
+   {
+    "cls": "relative select-none overflow-hidden rounded-xl border border-border b",
+    "r": {
+     "x": 197,
+     "y": 594,
+     "w": 1074,
+     "h": 282
+    },
+    "t": "先上传参考场景，再拖动定位替换商品"
+   },
+   {
+    "cls": "grid h-[280px] place-items-center px-4 text-center text-xs text-muted-",
+    "r": {
+     "x": 198,
+     "y": 595,
+     "w": 1072,
+     "h": 280
+    },
+    "t": "先上传参考场景，再拖动定位替换商品"
+   },
+   {
+    "cls": "flex min-h-0 min-w-0 flex-col gap-3",
+    "r": {
+     "x": 1300,
+     "y": 247,
+     "w": 300,
+     "h": 1097
+    },
+    "t": "场景变化与输出 变化程度决定背景重绘幅度；去噪强度影响新商品与场景的贴合质感。 参考图场景变化程度："
+   },
+   {
+    "cls": "flex min-h-0 w-[340px] shrink-0 flex-col gap-2 overflow-y-auto pr-1",
+    "r": {
+     "x": 1300,
+     "y": 247,
+     "w": 340,
+     "h": 788
+    },
+    "t": "场景变化与输出 变化程度决定背景重绘幅度；去噪强度影响新商品与场景的贴合质感。 参考图场景变化程度："
+   },
+   {
+    "cls": "rounded-2xl border bg-card p-4 border-border",
+    "r": {
+     "x": 1300,
+     "y": 247,
+     "w": 336,
+     "h": 317
+    },
+    "t": "场景变化与输出 变化程度决定背景重绘幅度；去噪强度影响新商品与场景的贴合质感。 参考图场景变化程度："
+   },
+   {
+    "cls": "rounded-2xl border border-border bg-card p-4",
+    "r": {
+     "x": 1300,
+     "y": 572,
+     "w": 336,
+     "h": 282
+    },
+    "t": "生成结果 优秀案例 生成结果 预计输出 4 张 · 1024×1024 立即生成 · 请先上传参考场"
+   }
+  ],
+  "scrollables": [
+   {
+    "cls": "min-h-0 flex-1 overflow-y-auto overflow-x-hidden bg-white p-",
+    "r": {
+     "x": 180,
+     "y": 56,
+     "w": 1420,
+     "h": 944
+    },
+    "ch": 944,
+    "sh": 1288,
+    "canScroll": true
+   }
+  ]
+ },
+ "audit": {
+  "vh": 1000,
+  "vw": 1600,
+  "actions": [
+   {
+    "text": "生成",
+    "rect": {
+     "x": 1317,
+     "y": 589,
+     "w": 80,
+     "h": 30
+    },
+    "inFirstScreen": true,
+    "disabled": false
+   },
+   {
+    "text": "立即生成",
+    "rect": {
+     "x": 1531,
+     "y": 639,
+     "w": 88,
+     "h": 40
+    },
+    "inFirstScreen": true,
+    "disabled": true
+   }
+  ],
+  "scrollables": [
+   {
+    "cls": "min-h-0 flex-1 overflow-y-auto overflow-x-hidden b",
+    "h": 944,
+    "sh": 1288,
+    "scrollable": true
+   }
+  ],
+  "hiddenBelow": [
+   {
+    "t": "新增商品",
+    "y": 990
+   },
+   {
+    "t": "删除",
+    "y": 990
+   }
+  ]
+ }
+}

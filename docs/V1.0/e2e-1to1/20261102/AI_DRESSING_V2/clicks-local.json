@@ -1,0 +1,162 @@
+[
+ {
+  "target": "连体衣服",
+  "hit": {
+   "tag": "button",
+   "text": "连体衣服",
+   "rect": {
+    "x": 344,
+    "y": 139,
+    "w": 140,
+    "h": 34
+   }
+  },
+  "before": {
+   "t": 1032,
+   "overlays": 0,
+   "selected": [
+    "上下装衣服",
+    "1",
+    "生成结果"
+   ]
+  },
+  "after": {
+   "t": 946,
+   "overlays": 0,
+   "selected": [
+    "连体衣服",
+    "1",
+    "生成结果"
+   ]
+  },
+  "changed": true
+ },
+ {
+  "target": "上下装衣服",
+  "hit": {
+   "tag": "button",
+   "text": "上下装衣服",
+   "rect": {
+    "x": 196,
+    "y": 139,
+    "w": 140,
+    "h": 34
+   }
+  },
+  "before": {
+   "t": 946,
+   "overlays": 0,
+   "selected": [
+    "连体衣服",
+    "1",
+    "生成结果"
+   ]
+  },
+  "after": {
+   "t": 1032,
+   "overlays": 0,
+   "selected": [
+    "上下装衣服",
+    "1",
+    "生成结果"
+   ]
+  },
+  "changed": true
+ },
+ {
+  "target": "图片规则",
+  "hit": {
+   "tag": "span",
+   "text": "图片规则",
+   "rect": {
+    "x": 427,
+    "y": 73,
+    "w": 56,
+    "h": 22
+   }
+  },
+  "before": {
+   "t": 1032,
+   "overlays": 0,
+   "selected": [
+    "上下装衣服",
+    "1",
+    "生成结果"
+   ]
+  },
+  "after": {
+   "t": 1032,
+   "overlays": 0,
+   "selected": [
+    "上下装衣服",
+    "1",
+    "生成结果"
+   ]
+  },
+  "changed": false
+ },
+ {
+  "target": "2",
+  "hit": {
+   "tag": "button",
+   "text": "v0.27.0",
+   "rect": {
+    "x": 1497,
+    "y": 17,
+    "w": 47,
+    "h": 22
+   }
+  },
+  "before": {
+   "t": 1032,
+   "overlays": 0,
+   "selected": [
+    "上下装衣服",
+    "1",
+    "生成结果"
+   ]
+  },
+  "after": {
+   "t": 18329,
+   "overlays": 5,
+   "selected": [
+    "上下装衣服",
+    "1",
+    "生成结果"
+   ]
+  },
+  "changed": true
+ },
+ {
+  "target": "从资产库选择",
+  "hit": {
+   "tag": "summary",
+   "text": "从资产库选择（63）",
+   "rect": {
+    "x": 888,
+    "y": 338,
+    "w": 121,
+    "h": 16
+   }
+  },
+  "before": {
+   "t": 18329,
+   "overlays": 5,
+   "selected": [
+    "上下装衣服",
+    "1",
+    "生成结果"
+   ]
+  },
+  "after": {
+   "t": 19786,
+   "overlays": 5,
+   "selected": [
+    "上下装衣服",
+    "1",
+    "生成结果"
+   ]
+  },
+  "changed": true
+ }
+]

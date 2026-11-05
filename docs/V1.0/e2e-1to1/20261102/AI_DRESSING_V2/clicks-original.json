@@ -1,0 +1,152 @@
+[
+ {
+  "target": "连体衣服",
+  "hit": {
+   "tag": "div",
+   "text": "连体衣服",
+   "rect": {
+    "x": 296,
+    "y": 144,
+    "w": 56,
+    "h": 22
+   }
+  },
+  "before": {
+   "t": 611,
+   "overlays": 1,
+   "selected": [
+    "上下装衣服",
+    "生成结果"
+   ]
+  },
+  "after": {
+   "t": 536,
+   "overlays": 1,
+   "selected": [
+    "连体衣服",
+    "生成结果"
+   ]
+  },
+  "changed": true
+ },
+ {
+  "target": "上下装衣服",
+  "hit": {
+   "tag": "div",
+   "text": "上下装衣服",
+   "rect": {
+    "x": 212,
+    "y": 144,
+    "w": 70,
+    "h": 22
+   }
+  },
+  "before": {
+   "t": 536,
+   "overlays": 1,
+   "selected": [
+    "连体衣服",
+    "生成结果"
+   ]
+  },
+  "after": {
+   "t": 611,
+   "overlays": 1,
+   "selected": [
+    "上下装衣服",
+    "生成结果"
+   ]
+  },
+  "changed": true
+ },
+ {
+  "target": "图片规则",
+  "hit": {
+   "tag": "span",
+   "text": "图片规则",
+   "rect": {
+    "x": 402,
+    "y": 143,
+    "w": 48,
+    "h": 24
+   }
+  },
+  "before": {
+   "t": 611,
+   "overlays": 1,
+   "selected": [
+    "上下装衣服",
+    "生成结果"
+   ]
+  },
+  "after": {
+   "t": 611,
+   "overlays": 1,
+   "selected": [
+    "上下装衣服",
+    "生成结果"
+   ]
+  },
+  "changed": false
+ },
+ {
+  "target": "2",
+  "hit": {
+   "tag": "li",
+   "text": "2",
+   "rect": {
+    "x": 1052,
+    "y": 867,
+    "w": 6,
+    "h": 6
+   }
+  },
+  "before": {
+   "t": 611,
+   "overlays": 1,
+   "selected": [
+    "上下装衣服",
+    "生成结果"
+   ]
+  },
+  "after": {
+   "t": 611,
+   "overlays": 1,
+   "selected": [
+    "上下装衣服",
+    "生成结果"
+   ]
+  },
+  "changed": false
+ },
+ {
+  "target": "优秀案例",
+  "hit": {
+   "tag": "div",
+   "text": "优秀案例",
+   "rect": {
+    "x": 573,
+    "y": 130,
+    "w": 56,
+    "h": 22
+   }
+  },
+  "before": {
+   "t": 611,
+   "overlays": 1,
+   "selected": [
+    "上下装衣服",
+    "生成结果"
+   ]
+  },
+  "after": {
+   "t": 742,
+   "overlays": 1,
+   "selected": [
+    "上下装衣服",
+    "优秀案例"
+   ]
+  },
+  "changed": true
+ }
+]

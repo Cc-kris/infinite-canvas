@@ -1,0 +1,105 @@
+[
+ {
+  "target": "图片规则",
+  "hit": {
+   "tag": "button",
+   "text": "图片规则",
+   "x": 383,
+   "y": 141,
+   "w": 80,
+   "h": 24,
+   "disabled": false
+  },
+  "before": {
+   "t": 367,
+   "ov": 1,
+   "sel": [
+    "生成结果"
+   ]
+  },
+  "after": {
+   "t": 367,
+   "ov": 1,
+   "sel": [
+    "生成结果"
+   ]
+  },
+  "changed": false
+ },
+ {
+  "target": "左手",
+  "hit": null,
+  "before": {
+   "t": 367,
+   "ov": 1,
+   "sel": [
+    "生成结果"
+   ]
+  },
+  "after": {
+   "t": 367,
+   "ov": 1,
+   "sel": [
+    "生成结果"
+   ]
+  },
+  "changed": false
+ },
+ {
+  "target": "右手",
+  "hit": null,
+  "before": {
+   "t": 367,
+   "ov": 1,
+   "sel": [
+    "生成结果"
+   ]
+  },
+  "after": {
+   "t": 367,
+   "ov": 1,
+   "sel": [
+    "生成结果"
+   ]
+  },
+  "changed": false
+ },
+ {
+  "target": "双手",
+  "hit": null,
+  "before": {
+   "t": 367,
+   "ov": 1,
+   "sel": [
+    "生成结果"
+   ]
+  },
+  "after": {
+   "t": 367,
+   "ov": 1,
+   "sel": [
+    "生成结果"
+   ]
+  },
+  "changed": false
+ },
+ {
+  "target": "4",
+  "hit": null,
+  "before": {
+   "t": 367,
+   "ov": 1,
+   "sel": [
+    "生成结果"
+   ]
+  },
+  "after": {
+   "t": 367,
+   "ov": 1,
+   "sel": [
+    "生成结果"
+   ]
+  },
+  "changed": false
+ }
+]

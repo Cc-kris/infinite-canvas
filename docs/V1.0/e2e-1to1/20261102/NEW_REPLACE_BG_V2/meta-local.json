@@ -1,0 +1,1599 @@
+{
+ "tours": 0,
+ "meta": {
+  "vw": 1600,
+  "vh": 1000,
+  "docScrollH": 1000,
+  "docClientH": 1000,
+  "bodyBg": "rgb(245, 247, 250)",
+  "title": "无限画布",
+  "url": "http://127.0.0.1:3000/tools/product-design/new-replace-bg-v2",
+  "text": [
+   "无限画布",
+   "首页",
+   "电商套图",
+   "智能修图",
+   "新模型",
+   "AI视频",
+   "HOT",
+   "批量生图",
+   "商品图设计",
+   "中",
+   "切换到深色主题",
+   "v0.27.0",
+   "商品图",
+   "我的商品",
+   "场景参考图",
+   "商品替换",
+   "场景裂变",
+   "手持商品",
+   "企业功能",
+   "上传商品图（商品层 · 必填）",
+   "jpg / png / webp · 20M 以内",
+   "或拖拽/粘贴图片到此处",
+   "上传商品图",
+   "抠图确认",
+   "先拿素材证据，再点确认",
+   "画主体蒙版",
+   "已是透明底 PNG",
+   "上传主体蒙版（白=主体）",
+   "00 / 1 个 · PNG · ≤ 8.0 MB",
+   "点击选择本地文件，或拖拽到这里",
+   "校验格式 / 大小 / 像素，入库后可刷新恢复",
+   "还没有素材",
+   "请先在商品图上涂出主体，生成蒙版后再确认抠图。",
+   "确认抠图",
+   "场景类型",
+   "推荐模板 / 自定义背景",
+   "推荐场景",
+   "自定义背景",
+   "影棚白底",
+   "干净纯白，适合主图",
+   "大理石台面",
+   "香化 / 饰品常用",
+   "原木桌面",
+   "家居 / 食品",
+   "户外草地",
+   "户外 / 运动",
+   "家居客厅",
+   "大件商品",
+   "浴室台面",
+   "个护 / 洗护",
+   "纯色渐变",
+   "电商海报",
+   "节日氛围",
+   "礼赠场景",
+   "融合强度",
+   "偏强（更融入场景）",
+   "70%",
+   "输出规格",
+   "比例 / 数量",
+   "1:1",
+   "4:5",
+   "3:4",
+   "16:9",
+   "9:16",
+   "1 张",
+   "2 张",
+   "4 张",
+   "1024×1024",
+   "1. 上传商品",
+   "2. 抠图确认",
+   "3. 场景模板 / 自定义",
+   "4. 结果网格",
+   "或试试这些",
+   "日用百货",
+   "家居家装",
+   "服饰箱包",
+   "美妆个护",
+   "家用电器",
+   "玩具类目",
+   "儿童 & 母婴",
+   "3C数码",
+   "办公用品",
+   "运动户外",
+   "工艺/艺术品",
+   "宠物用品",
+   "食品饮料",
+   "医药保健/护理",
+   "汽车用品",
+   "其他",
+   "桌面-保温杯",
+   "厨房-搅拌器",
+   "客厅-毯子",
+   "厨房-电子秤",
+   "草地-篮子",
+   "餐桌-杯子",
+   "餐桌-水壶",
+   "客厅-书柜",
+   "餐桌-茶具",
+   "书架-储物箱",
+   "餐桌-篮子",
+   "餐桌-保温箱",
+   "桌面-蜡烛",
+   "节日装饰-蜡烛",
+   "厨房-水果篮",
+   "厨房-刀具",
+   "餐桌-蜡烛",
+   "厨房-厨房岛",
+   "客厅-收纳篮",
+   "客厅-毛毯",
+   "礼品展示-圣诞装饰",
+   "展台-海绵",
+   "餐桌-茶壶",
+   "窗边-陶瓷壶",
+   "窗边-首饰架",
+   "厨房-置物架",
+   "厨房-餐车",
+   "节日场景-万圣节装饰",
+   "节日装饰-鬼魂装饰",
+   "节日场景-蜡烛",
+   "洗衣房-洗衣篮",
+   "客厅-垃圾桶",
+   "节日场景-圣诞气球",
+   "桌面-充电器",
+   "厨房-垃圾桶",
+   "纯色背景-支架",
+   "客厅-充电器",
+   "客厅-收纳筐",
+   "书房-储物篮",
+   "桌面-托盘",
+   "厨房-厨房用具",
+   "合成画布",
+   "浅灰白大理石台面，背景米色墙，柔光侧逆光，台面反射自然，极简质感",
+   "位置 50% / 56%，缩放 100%，旋转 0°",
+   "↶",
+   "↷",
+   "无可撤销步骤 · 无可重做步骤",
+   "横向位置 50%",
+   "纵向位置 56%",
+   "缩放 100%",
+   "旋转 0°",
+   "复位变换",
+   "锁定抠图边缘 开",
+   "图层（背景 / 商品 / 材质 / 锁定）",
+   "背景层场景模板或自定义背景，决定光线与台面",
+   "可见",
+   "未锁",
+   "恢复",
+   "商品层抠图后的商品主体，可拖动 / 缩放 / 旋转",
+   "可见",
+   "未锁",
+   "恢复",
+   "材质层台面材质与接触阴影，跟着背景走",
+   "可见",
+   "未锁",
+   "恢复",
+   "锁定层锁住的区域不参与重绘，保护商品轮廓",
+   "可见",
+   "已锁",
+   "恢复",
+   "1024×1024 @ 1:1 · 1 张 · 4 层可见",
+   "参考图 0 张：未选择",
+   "展开提示词与 canvasData",
+   "提交",
+   "· 请先上传商品图。",
+   "· 请先在商品图上涂出主体，生成蒙版后再确认抠图。",
+   "立即生成",
+   "模型：GPT Image 2",
+   "结果",
+   "待生成",
+   "商品图结果",
+   "还没有生成结果",
+   "填好参数并提交后，结果会出现在这里，可预览、下载、存入资产库或发送到画布。",
+   "本次提交快照",
+   "还没有提交过任务；提交后这里会显示本次锁定的场景 / 强度 / 图层 / 输出规格。",
+   "1",
+   "连接本地 Agent",
+   "未连接",
+   "点连接会自动启动本地服务、装好插件并接通，无需手动配置。",
+   "Claude Code",
+   "未连接",
+   "·",
+   "CLI · 2.1.316 (Claude Code)",
+   "·",
+   "直接运行",
+   "连接",
+   "Codex",
+   "未连接",
+   "·",
+   "CLI · codex-cli 0.166.0",
+   "·",
+   "插件已装",
+   "连接",
+   "Galley",
+   "未连接",
+   "·",
+   "CLI + 桌面版 · galley 0.6.4",
+   "连接"
+  ],
+  "controls": [
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "打开 Agent",
+    "r": {
+     "x": 1365,
+     "y": 12,
+     "w": 32,
+     "h": 32
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "配置",
+    "r": {
+     "x": 1401,
+     "y": 14,
+     "w": 28,
+     "h": 28
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "中",
+    "r": {
+     "x": 1433,
+     "y": 14,
+     "w": 28,
+     "h": 28
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "切换到深色主题",
+    "r": {
+     "x": 1465,
+     "y": 14,
+     "w": 28,
+     "h": 28
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "v0.27.0",
+    "r": {
+     "x": 1497,
+     "y": 17,
+     "w": 47,
+     "h": 22
+    }
+   },
+   {
+    "tag": "div",
+    "role": "button",
+    "type": null,
+    "checked": null,
+    "disabled": false,
+    "label": "或拖拽/粘贴图片到此处 上传商品图",
+    "r": {
+     "x": 193,
+     "y": 124,
+     "w": 274,
+     "h": 249
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "上传商品图",
+    "r": {
+     "x": 206,
+     "y": 244,
+     "w": 248,
+     "h": 24
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "画主体蒙版",
+    "r": {
+     "x": 193,
+     "y": 458,
+     "w": 88,
+     "h": 32
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "已是透明底 PNG",
+    "r": {
+     "x": 289,
+     "y": 458,
+     "w": 121,
+     "h": 32
+    }
+   },
+   {
+    "tag": "div",
+    "role": "button",
+    "type": null,
+    "checked": null,
+    "disabled": false,
+    "label": "点击选择本地文件，或拖拽到这里 校验格式 / 大小 / 像素，入库后可刷新恢复",
+    "r": {
+     "x": 193,
+     "y": 557,
+     "w": 274,
+     "h": 86
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": true,
+    "label": "确认抠图",
+    "r": {
+     "x": 404,
+     "y": 683,
+     "w": 63,
+     "h": 54
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "推荐场景",
+    "r": {
+     "x": 193,
+     "y": 810,
+     "w": 74,
+     "h": 32
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "自定义背景",
+    "r": {
+     "x": 275,
+     "y": 810,
+     "w": 88,
+     "h": 32
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "影棚白底 干净纯白，适合主图",
+    "r": {
+     "x": 193,
+     "y": 850,
+     "w": 133,
+     "h": 80
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "大理石台面 香化 / 饰品常用",
+    "r": {
+     "x": 334,
+     "y": 850,
+     "w": 133,
+     "h": 80
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "原木桌面 家居 / 食品",
+    "r": {
+     "x": 193,
+     "y": 938,
+     "w": 133,
+     "h": 58
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "户外草地 户外 / 运动",
+    "r": {
+     "x": 334,
+     "y": 938,
+     "w": 133,
+     "h": 58
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "日用百货",
+    "r": {
+     "x": 505,
+     "y": 150,
+     "w": 74,
+     "h": 32
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "家居家装",
+    "r": {
+     "x": 585,
+     "y": 150,
+     "w": 74,
+     "h": 32
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "服饰箱包",
+    "r": {
+     "x": 665,
+     "y": 150,
+     "w": 74,
+     "h": 32
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "美妆个护",
+    "r": {
+     "x": 745,
+     "y": 150,
+     "w": 74,
+     "h": 32
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "家用电器",
+    "r": {
+     "x": 825,
+     "y": 150,
+     "w": 74,
+     "h": 32
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "玩具类目",
+    "r": {
+     "x": 905,
+     "y": 150,
+     "w": 74,
+     "h": 32
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "儿童 & 母婴",
+    "r": {
+     "x": 985,
+     "y": 150,
+     "w": 91,
+     "h": 32
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "3C数码",
+    "r": {
+     "x": 1082,
+     "y": 150,
+     "w": 65,
+     "h": 32
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "办公用品",
+    "r": {
+     "x": 1153,
+     "y": 150,
+     "w": 74,
+     "h": 32
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "运动户外",
+    "r": {
+     "x": 1233,
+     "y": 150,
+     "w": 74,
+     "h": 32
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "工艺/艺术品",
+    "r": {
+     "x": 1313,
+     "y": 150,
+     "w": 92,
+     "h": 32
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "宠物用品",
+    "r": {
+     "x": 1411,
+     "y": 150,
+     "w": 74,
+     "h": 32
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "食品饮料",
+    "r": {
+     "x": 1491,
+     "y": 150,
+     "w": 74,
+     "h": 32
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "医药保健/护理",
+    "r": {
+     "x": 505,
+     "y": 188,
+     "w": 106,
+     "h": 32
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "汽车用品",
+    "r": {
+     "x": 617,
+     "y": 188,
+     "w": 74,
+     "h": 32
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "其他",
+    "r": {
+     "x": 697,
+     "y": 188,
+     "w": 46,
+     "h": 32
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "桌面-保温杯",
+    "r": {
+     "x": 505,
+     "y": 228,
+     "w": 94,
+     "h": 32
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "厨房-搅拌器",
+    "r": {
+     "x": 605,
+     "y": 228,
+     "w": 94,
+     "h": 32
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "客厅-毯子",
+    "r": {
+     "x": 706,
+     "y": 228,
+     "w": 80,
+     "h": 32
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "厨房-电子秤",
+    "r": {
+     "x": 792,
+     "y": 228,
+     "w": 94,
+     "h": 32
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "草地-篮子",
+    "r": {
+     "x": 893,
+     "y": 228,
+     "w": 80,
+     "h": 32
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "餐桌-杯子",
+    "r": {
+     "x": 979,
+     "y": 228,
+     "w": 80,
+     "h": 32
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "餐桌-水壶",
+    "r": {
+     "x": 1066,
+     "y": 228,
+     "w": 80,
+     "h": 32
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "客厅-书柜",
+    "r": {
+     "x": 1152,
+     "y": 228,
+     "w": 80,
+     "h": 32
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "餐桌-茶具",
+    "r": {
+     "x": 1239,
+     "y": 228,
+     "w": 80,
+     "h": 32
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "书架-储物箱",
+    "r": {
+     "x": 1325,
+     "y": 228,
+     "w": 94,
+     "h": 32
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "餐桌-篮子",
+    "r": {
+     "x": 1426,
+     "y": 228,
+     "w": 80,
+     "h": 32
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "餐桌-保温箱",
+    "r": {
+     "x": 505,
+     "y": 266,
+     "w": 94,
+     "h": 32
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "桌面-蜡烛",
+    "r": {
+     "x": 605,
+     "y": 266,
+     "w": 80,
+     "h": 32
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "节日装饰-蜡烛",
+    "r": {
+     "x": 692,
+     "y": 266,
+     "w": 108,
+     "h": 32
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "厨房-水果篮",
+    "r": {
+     "x": 806,
+     "y": 266,
+     "w": 94,
+     "h": 32
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "厨房-刀具",
+    "r": {
+     "x": 907,
+     "y": 266,
+     "w": 80,
+     "h": 32
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "餐桌-蜡烛",
+    "r": {
+     "x": 993,
+     "y": 266,
+     "w": 80,
+     "h": 32
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "厨房-厨房岛",
+    "r": {
+     "x": 1080,
+     "y": 266,
+     "w": 94,
+     "h": 32
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "客厅-收纳篮",
+    "r": {
+     "x": 1180,
+     "y": 266,
+     "w": 94,
+     "h": 32
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "客厅-毛毯",
+    "r": {
+     "x": 1281,
+     "y": 266,
+     "w": 80,
+     "h": 32
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "礼品展示-圣诞装饰",
+    "r": {
+     "x": 1367,
+     "y": 266,
+     "w": 136,
+     "h": 32
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "展台-海绵",
+    "r": {
+     "x": 505,
+     "y": 304,
+     "w": 80,
+     "h": 32
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "餐桌-茶壶",
+    "r": {
+     "x": 591,
+     "y": 304,
+     "w": 80,
+     "h": 32
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "窗边-陶瓷壶",
+    "r": {
+     "x": 678,
+     "y": 304,
+     "w": 94,
+     "h": 32
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "窗边-首饰架",
+    "r": {
+     "x": 778,
+     "y": 304,
+     "w": 94,
+     "h": 32
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "厨房-置物架",
+    "r": {
+     "x": 879,
+     "y": 304,
+     "w": 94,
+     "h": 32
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "厨房-餐车",
+    "r": {
+     "x": 979,
+     "y": 304,
+     "w": 80,
+     "h": 32
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "节日场景-万圣节装饰",
+    "r": {
+     "x": 1066,
+     "y": 304,
+     "w": 150,
+     "h": 32
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "节日装饰-鬼魂装饰",
+    "r": {
+     "x": 1222,
+     "y": 304,
+     "w": 136,
+     "h": 32
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "节日场景-蜡烛",
+    "r": {
+     "x": 1365,
+     "y": 304,
+     "w": 108,
+     "h": 32
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "洗衣房-洗衣篮",
+    "r": {
+     "x": 505,
+     "y": 342,
+     "w": 108,
+     "h": 32
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "客厅-垃圾桶",
+    "r": {
+     "x": 619,
+     "y": 342,
+     "w": 94,
+     "h": 32
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "节日场景-圣诞气球",
+    "r": {
+     "x": 720,
+     "y": 342,
+     "w": 136,
+     "h": 32
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "桌面-充电器",
+    "r": {
+     "x": 862,
+     "y": 342,
+     "w": 94,
+     "h": 32
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "厨房-垃圾桶",
+    "r": {
+     "x": 963,
+     "y": 342,
+     "w": 94,
+     "h": 32
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "纯色背景-支架",
+    "r": {
+     "x": 1063,
+     "y": 342,
+     "w": 108,
+     "h": 32
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "客厅-充电器",
+    "r": {
+     "x": 1178,
+     "y": 342,
+     "w": 94,
+     "h": 32
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "客厅-收纳筐",
+    "r": {
+     "x": 1278,
+     "y": 342,
+     "w": 94,
+     "h": 32
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "书房-储物篮",
+    "r": {
+     "x": 1379,
+     "y": 342,
+     "w": 94,
+     "h": 32
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "桌面-托盘",
+    "r": {
+     "x": 1479,
+     "y": 342,
+     "w": 80,
+     "h": 32
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "厨房-厨房用具",
+    "r": {
+     "x": 505,
+     "y": 380,
+     "w": 108,
+     "h": 32
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "调整右侧面板宽度",
+    "r": {
+     "x": 1593,
+     "y": 0,
+     "w": 16,
+     "h": 1000
+    }
+   }
+  ],
+  "blocks": [
+   {
+    "cls": "",
+    "r": {
+     "x": 0,
+     "y": 0,
+     "w": 1600,
+     "h": 1000
+    },
+    "t": "无限画布 首页 电商套图 智能修图 新模型 AI视频 HOT 批量生图 商品图设计 中 切换到深色主"
+   },
+   {
+    "cls": "css-dev-only-do-not-override-1tzwyuk ant-app infinite-canvas-light",
+    "r": {
+     "x": 0,
+     "y": 0,
+     "w": 1600,
+     "h": 1000
+    },
+    "t": "无限画布 首页 电商套图 智能修图 新模型 AI视频 HOT 批量生图 商品图设计 中 切换到深色主"
+   },
+   {
+    "cls": "flex h-dvh overflow-hidden bg-background text-foreground",
+    "r": {
+     "x": 0,
+     "y": 0,
+     "w": 1600,
+     "h": 1000
+    },
+    "t": "无限画布 首页 电商套图 智能修图 新模型 AI视频 HOT 批量生图 商品图设计 中 切换到深色主"
+   },
+   {
+    "cls": "flex min-w-0 flex-1 flex-col overflow-hidden",
+    "r": {
+     "x": 0,
+     "y": 0,
+     "w": 1600,
+     "h": 1000
+    },
+    "t": "无限画布 首页 电商套图 智能修图 新模型 AI视频 HOT 批量生图 商品图设计 中 切换到深色主"
+   },
+   {
+    "cls": "min-h-0 flex-1 overflow-hidden",
+    "r": {
+     "x": 0,
+     "y": 56,
+     "w": 1600,
+     "h": 944
+    },
+    "t": "商品图 我的商品 场景参考图 商品替换 场景裂变 手持商品 企业功能 上传商品图（商品层 · 必填）"
+   },
+   {
+    "cls": "tool-linkfox-surface flex h-full min-h-0 flex-col bg-white text-foregr",
+    "r": {
+     "x": 0,
+     "y": 56,
+     "w": 1600,
+     "h": 944
+    },
+    "t": "商品图 我的商品 场景参考图 商品替换 场景裂变 手持商品 企业功能 上传商品图（商品层 · 必填）"
+   },
+   {
+    "cls": "flex min-h-0 flex-1 gap-0",
+    "r": {
+     "x": 0,
+     "y": 56,
+     "w": 1600,
+     "h": 944
+    },
+    "t": "商品图 我的商品 场景参考图 商品替换 场景裂变 手持商品 企业功能 上传商品图（商品层 · 必填）"
+   },
+   {
+    "cls": "flex min-w-0 flex-1 flex-col overflow-hidden bg-white",
+    "r": {
+     "x": 180,
+     "y": 56,
+     "w": 1420,
+     "h": 944
+    },
+    "t": "上传商品图（商品层 · 必填） jpg / png / webp · 20M 以内 或拖拽/粘贴图片"
+   },
+   {
+    "cls": "min-h-0 flex-1 overflow-y-auto overflow-x-hidden bg-white p-0",
+    "r": {
+     "x": 180,
+     "y": 56,
+     "w": 1420,
+     "h": 944
+    },
+    "t": "上传商品图（商品层 · 必填） jpg / png / webp · 20M 以内 或拖拽/粘贴图片"
+   },
+   {
+    "cls": "h-full min-h-0 min-w-0",
+    "r": {
+     "x": 180,
+     "y": 56,
+     "w": 1420,
+     "h": 944
+    },
+    "t": "上传商品图（商品层 · 必填） jpg / png / webp · 20M 以内 或拖拽/粘贴图片"
+   },
+   {
+    "cls": "flex min-h-0 min-w-0 flex-1 flex-col gap-2",
+    "r": {
+     "x": 180,
+     "y": 56,
+     "w": 1420,
+     "h": 3128
+    },
+    "t": "上传商品图（商品层 · 必填） jpg / png / webp · 20M 以内 或拖拽/粘贴图片"
+   },
+   {
+    "cls": "flex min-h-0 min-w-0 flex-1 flex-col",
+    "r": {
+     "x": 180,
+     "y": 56,
+     "w": 1420,
+     "h": 3128
+    },
+    "t": "上传商品图（商品层 · 必填） jpg / png / webp · 20M 以内 或拖拽/粘贴图片"
+   },
+   {
+    "cls": "flex min-h-0 flex-col",
+    "r": {
+     "x": 180,
+     "y": 56,
+     "w": 1420,
+     "h": 3128
+    },
+    "t": "上传商品图（商品层 · 必填） jpg / png / webp · 20M 以内 或拖拽/粘贴图片"
+   },
+   {
+    "cls": "grid min-h-0 min-w-0 grid-cols-1 gap-3 lg:grid-cols-[300px_minmax(0,1f",
+    "r": {
+     "x": 180,
+     "y": 56,
+     "w": 1420,
+     "h": 3128
+    },
+    "t": "上传商品图（商品层 · 必填） jpg / png / webp · 20M 以内 或拖拽/粘贴图片"
+   },
+   {
+    "cls": "flex min-h-0 min-w-0 flex-col gap-3",
+    "r": {
+     "x": 180,
+     "y": 56,
+     "w": 300,
+     "h": 3128
+    },
+    "t": "上传商品图（商品层 · 必填） jpg / png / webp · 20M 以内 或拖拽/粘贴图片"
+   },
+   {
+    "cls": "flex min-w-0 flex-col gap-3",
+    "r": {
+     "x": 180,
+     "y": 56,
+     "w": 300,
+     "h": 1319
+    },
+    "t": "上传商品图（商品层 · 必填） jpg / png / webp · 20M 以内 或拖拽/粘贴图片"
+   },
+   {
+    "cls": "rounded-lg border border-stone-200 bg-card/60 p-3 dark:border-stone-80",
+    "r": {
+     "x": 180,
+     "y": 56,
+     "w": 300,
+     "h": 342
+    },
+    "t": "上传商品图（商品层 · 必填） jpg / png / webp · 20M 以内 或拖拽/粘贴图片"
+   },
+   {
+    "cls": "rounded-lg border border-stone-200 bg-card/60 p-3 dark:border-stone-80",
+    "r": {
+     "x": 180,
+     "y": 410,
+     "w": 300,
+     "h": 340
+    },
+    "t": "抠图确认 先拿素材证据，再点确认 画主体蒙版 已是透明底 PNG 上传主体蒙版（白=主体） 00 /"
+   },
+   {
+    "cls": "rounded-lg border border-stone-200 bg-card/60 p-3 dark:border-stone-80",
+    "r": {
+     "x": 180,
+     "y": 762,
+     "w": 300,
+     "h": 379
+    },
+    "t": "场景类型 推荐模板 / 自定义背景 推荐场景 自定义背景 影棚白底 干净纯白，适合主图 大理石台面 "
+   },
+   {
+    "cls": "flex min-h-0 min-w-0 flex-col gap-3",
+    "r": {
+     "x": 492,
+     "y": 56,
+     "w": 1108,
+     "h": 3128
+    },
+    "t": "1. 上传商品 2. 抠图确认 3. 场景模板 / 自定义 4. 结果网格 或试试这些 日用百货 家"
+   },
+   {
+    "cls": "rounded-lg border border-border bg-card p-3",
+    "r": {
+     "x": 492,
+     "y": 109,
+     "w": 1108,
+     "h": 316
+    },
+    "t": "或试试这些 日用百货 家居家装 服饰箱包 美妆个护 家用电器 玩具类目 儿童 & 母婴 3C数码 办"
+   },
+   {
+    "cls": "rounded-lg border border-border bg-card p-3",
+    "r": {
+     "x": 492,
+     "y": 437,
+     "w": 1108,
+     "h": 1334
+    },
+    "t": "合成画布 浅灰白大理石台面，背景米色墙，柔光侧逆光，台面反射自然，极简质感 位置 50% / 56%"
+   },
+   {
+    "cls": "",
+    "r": {
+     "x": 505,
+     "y": 477,
+     "w": 1082,
+     "h": 1281
+    },
+    "t": "浅灰白大理石台面，背景米色墙，柔光侧逆光，台面反射自然，极简质感 位置 50% / 56%，缩放 1"
+   },
+   {
+    "cls": "relative overflow-hidden rounded-lg border border-border bg-muted/40",
+    "r": {
+     "x": 505,
+     "y": 477,
+     "w": 1082,
+     "h": 1082
+    },
+    "t": "浅灰白大理石台面，背景米色墙，柔光侧逆光，台面反射自然，极简质感"
+   },
+   {
+    "cls": "absolute inset-0 flex items-center justify-center p-4 text-center text",
+    "r": {
+     "x": 506,
+     "y": 478,
+     "w": 1080,
+     "h": 1080
+    },
+    "t": "浅灰白大理石台面，背景米色墙，柔光侧逆光，台面反射自然，极简质感"
+   }
+  ],
+  "scrollables": [
+   {
+    "cls": "min-h-0 flex-1 overflow-y-auto overflow-x-hidden bg-white p-",
+    "r": {
+     "x": 180,
+     "y": 56,
+     "w": 1420,
+     "h": 944
+    },
+    "ch": 944,
+    "sh": 3128,
+    "canScroll": true
+   }
+  ]
+ },
+ "audit": {
+  "vh": 1000,
+  "vw": 1600,
+  "actions": [
+   {
+    "text": "生成",
+    "rect": {
+     "x": 505,
+     "y": 2228,
+     "w": 88,
+     "h": 40
+    },
+    "inFirstScreen": false,
+    "disabled": true
+   },
+   {
+    "text": "立即生成",
+    "rect": {
+     "x": 505,
+     "y": 2228,
+     "w": 88,
+     "h": 40
+    },
+    "inFirstScreen": false,
+    "disabled": true
+   }
+  ],
+  "scrollables": [
+   {
+    "cls": "min-h-0 flex-1 overflow-y-auto overflow-x-hidden b",
+    "h": 944,
+    "sh": 3128,
+    "scrollable": true
+   }
+  ],
+  "hiddenBelow": [
+   {
+    "t": "家居客厅\n大件商品",
+    "y": 1004
+   },
+   {
+    "t": "浴室台面\n个护 / 洗护",
+    "y": 1004
+   },
+   {
+    "t": "纯色渐变\n电商海报",
+    "y": 1070
+   },
+   {
+    "t": "节日氛围\n礼赠场景",
+    "y": 1070
+   },
+   {
+    "t": "1:1",
+    "y": 1290
+   },
+   {
+    "t": "4:5",
+    "y": 1290
+   },
+   {
+    "t": "3:4",
+    "y": 1290
+   },
+   {
+    "t": "16:9",
+    "y": 1290
+   }
+  ]
+ }
+}

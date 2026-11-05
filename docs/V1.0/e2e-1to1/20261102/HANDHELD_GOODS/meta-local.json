@@ -1,0 +1,1211 @@
+{
+ "tours": 0,
+ "meta": {
+  "vw": 1600,
+  "vh": 1000,
+  "docScrollH": 1000,
+  "docClientH": 1000,
+  "bodyBg": "rgb(245, 247, 250)",
+  "title": "无限画布",
+  "url": "http://127.0.0.1:3000/tools/product-design/handheld-goods",
+  "text": [
+   "无限画布",
+   "首页",
+   "电商套图",
+   "智能修图",
+   "新模型",
+   "AI视频",
+   "HOT",
+   "批量生图",
+   "商品图设计",
+   "中",
+   "切换到深色主题",
+   "v0.27.0",
+   "商品图",
+   "我的商品",
+   "场景参考图",
+   "商品替换",
+   "场景裂变",
+   "手持商品",
+   "企业功能",
+   "手持商品",
+   "快速生成手持商品图，快速上架",
+   "图片规则",
+   "选择参考图",
+   "上传商品图",
+   "第一步：选择示例图或上传手持商品图",
+   "从本地上传",
+   "从作品库选择",
+   "10M以内，384*384 ~ 4096*4096",
+   "从资产库选择（63）",
+   "选择手持姿势",
+   "手持的部位与姿势参考",
+   "左手",
+   "右手",
+   "双手",
+   "或试试这些",
+   "我是高手，不再提醒",
+   "场景类型",
+   "纯色棚拍",
+   "桌面场景",
+   "户外自然光",
+   "检测类型",
+   "手部接触与商品一致性",
+   "仅商品完整性",
+   "选择生成张数",
+   "1",
+   "2",
+   "3",
+   "4",
+   "预计输出 1 张；每张单独发一次真实请求（并发生效上限 2），失败张可单独重试。",
+   "· 请先上传手持商品图",
+   "立即生成",
+   "生成结果",
+   "历史记录",
+   "暂无生成结果图",
+   "快在左侧上传商品图并选择手持姿势吧~",
+   "一键做同款",
+   "最近一次上游返回",
+   "已完成",
+   "共 1 个结果 · 图片 1",
+   "下载",
+   "存入资产",
+   "发送画布",
+   "历史任务",
+   "2 条",
+   "2026-10-29 22:05",
+   "已完成",
+   "Photorealistic e-commerce product photo: the uploaded pr…",
+   "default::gpt-image-2 · image · 1 个结果",
+   "2026-10-28 21:34",
+   "失败",
+   "Photorealistic e-commerce product photo: the uploaded pr…",
+   "default::gpt-image-2 · image · 0 个结果",
+   "1",
+   "连接本地 Agent",
+   "未连接",
+   "点连接会自动启动本地服务、装好插件并接通，无需手动配置。",
+   "Claude Code",
+   "未连接",
+   "·",
+   "CLI · 2.1.316 (Claude Code)",
+   "·",
+   "直接运行",
+   "连接",
+   "Codex",
+   "未连接",
+   "·",
+   "CLI · codex-cli 0.166.0",
+   "·",
+   "插件已装",
+   "连接",
+   "Galley",
+   "未连接",
+   "·",
+   "CLI + 桌面版 · galley 0.6.4",
+   "连接"
+  ],
+  "controls": [
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "打开 Agent",
+    "r": {
+     "x": 1365,
+     "y": 12,
+     "w": 32,
+     "h": 32
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "配置",
+    "r": {
+     "x": 1401,
+     "y": 14,
+     "w": 28,
+     "h": 28
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "中",
+    "r": {
+     "x": 1433,
+     "y": 14,
+     "w": 28,
+     "h": 28
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "切换到深色主题",
+    "r": {
+     "x": 1465,
+     "y": 14,
+     "w": 28,
+     "h": 28
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "v0.27.0",
+    "r": {
+     "x": 1497,
+     "y": 17,
+     "w": 47,
+     "h": 22
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "图片规则",
+    "r": {
+     "x": 180,
+     "y": 151,
+     "w": 56,
+     "h": 22
+    }
+   },
+   {
+    "tag": "div",
+    "role": "button",
+    "type": null,
+    "checked": null,
+    "disabled": false,
+    "label": "从本地上传 从作品库选择 10M以内，384*384 ~ 4096*4096",
+    "r": {
+     "x": 180,
+     "y": 238,
+     "w": 300,
+     "h": 152
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "从本地上传",
+    "r": {
+     "x": 193,
+     "y": 274,
+     "w": 274,
+     "h": 24
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "从作品库选择",
+    "r": {
+     "x": 193,
+     "y": 306,
+     "w": 100,
+     "h": 24
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "",
+    "r": {
+     "x": 279,
+     "y": 434,
+     "w": 42,
+     "h": 28
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": true,
+    "label": "",
+    "r": {
+     "x": 420,
+     "y": 434,
+     "w": 42,
+     "h": 28
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": true,
+    "label": "",
+    "r": {
+     "x": 279,
+     "y": 484,
+     "w": 42,
+     "h": 28
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "",
+    "r": {
+     "x": 420,
+     "y": 484,
+     "w": 42,
+     "h": 28
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": true,
+    "label": "",
+    "r": {
+     "x": 279,
+     "y": 534,
+     "w": 42,
+     "h": 28
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "",
+    "r": {
+     "x": 420,
+     "y": 534,
+     "w": 42,
+     "h": 28
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "",
+    "r": {
+     "x": 279,
+     "y": 584,
+     "w": 42,
+     "h": 28
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "",
+    "r": {
+     "x": 420,
+     "y": 584,
+     "w": 42,
+     "h": 28
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "",
+    "r": {
+     "x": 279,
+     "y": 634,
+     "w": 42,
+     "h": 28
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": true,
+    "label": "",
+    "r": {
+     "x": 420,
+     "y": 634,
+     "w": 42,
+     "h": 28
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "",
+    "r": {
+     "x": 279,
+     "y": 684,
+     "w": 42,
+     "h": 28
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "",
+    "r": {
+     "x": 420,
+     "y": 684,
+     "w": 42,
+     "h": 28
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "",
+    "r": {
+     "x": 279,
+     "y": 734,
+     "w": 42,
+     "h": 28
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "",
+    "r": {
+     "x": 420,
+     "y": 734,
+     "w": 42,
+     "h": 28
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "",
+    "r": {
+     "x": 279,
+     "y": 784,
+     "w": 42,
+     "h": 28
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "",
+    "r": {
+     "x": 420,
+     "y": 784,
+     "w": 42,
+     "h": 28
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "",
+    "r": {
+     "x": 279,
+     "y": 834,
+     "w": 42,
+     "h": 28
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "",
+    "r": {
+     "x": 420,
+     "y": 834,
+     "w": 42,
+     "h": 28
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "",
+    "r": {
+     "x": 279,
+     "y": 884,
+     "w": 42,
+     "h": 28
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "",
+    "r": {
+     "x": 420,
+     "y": 884,
+     "w": 42,
+     "h": 28
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "",
+    "r": {
+     "x": 279,
+     "y": 934,
+     "w": 42,
+     "h": 28
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "",
+    "r": {
+     "x": 420,
+     "y": 934,
+     "w": 42,
+     "h": 28
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "",
+    "r": {
+     "x": 279,
+     "y": 984,
+     "w": 42,
+     "h": 28
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "",
+    "r": {
+     "x": 420,
+     "y": 984,
+     "w": 42,
+     "h": 28
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "左手",
+    "r": {
+     "x": 180,
+     "y": 487,
+     "w": 58,
+     "h": 26
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "右手",
+    "r": {
+     "x": 248,
+     "y": 487,
+     "w": 58,
+     "h": 26
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "双手",
+    "r": {
+     "x": 316,
+     "y": 487,
+     "w": 58,
+     "h": 26
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "",
+    "r": {
+     "x": 180,
+     "y": 540,
+     "w": 72,
+     "h": 82
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "",
+    "r": {
+     "x": 262,
+     "y": 540,
+     "w": 72,
+     "h": 82
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "",
+    "r": {
+     "x": 344,
+     "y": 540,
+     "w": 72,
+     "h": 82
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "",
+    "r": {
+     "x": 426,
+     "y": 540,
+     "w": 72,
+     "h": 82
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "纯色棚拍",
+    "r": {
+     "x": 180,
+     "y": 718,
+     "w": 82,
+     "h": 26
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "桌面场景",
+    "r": {
+     "x": 272,
+     "y": 718,
+     "w": 82,
+     "h": 26
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "户外自然光",
+    "r": {
+     "x": 364,
+     "y": 718,
+     "w": 94,
+     "h": 26
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "手部接触与商品一致性",
+    "r": {
+     "x": 180,
+     "y": 778,
+     "w": 154,
+     "h": 26
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "仅商品完整性",
+    "r": {
+     "x": 344,
+     "y": 778,
+     "w": 106,
+     "h": 26
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "1",
+    "r": {
+     "x": 180,
+     "y": 869,
+     "w": 40,
+     "h": 26
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "2",
+    "r": {
+     "x": 230,
+     "y": 869,
+     "w": 41,
+     "h": 26
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "3",
+    "r": {
+     "x": 281,
+     "y": 869,
+     "w": 42,
+     "h": 26
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "4",
+    "r": {
+     "x": 333,
+     "y": 869,
+     "w": 42,
+     "h": 26
+    }
+   },
+   {
+    "tag": "button",
+    "role": "tab",
+    "type": "button",
+    "checked": "true",
+    "disabled": false,
+    "label": "生成结果",
+    "r": {
+     "x": 504,
+     "y": 56,
+     "w": 56,
+     "h": 42
+    }
+   },
+   {
+    "tag": "button",
+    "role": "tab",
+    "type": "button",
+    "checked": "false",
+    "disabled": false,
+    "label": "历史记录",
+    "r": {
+     "x": 1536,
+     "y": 56,
+     "w": 52,
+     "h": 42
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "一键做同款",
+    "r": {
+     "x": 994,
+     "y": 358,
+     "w": 104,
+     "h": 40
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "下载",
+    "r": {
+     "x": 530,
+     "y": 670,
+     "w": 64,
+     "h": 32
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "存入资产",
+    "r": {
+     "x": 600,
+     "y": 670,
+     "w": 92,
+     "h": 32
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "发送画布",
+    "r": {
+     "x": 698,
+     "y": 670,
+     "w": 92,
+     "h": 32
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "调整右侧面板宽度",
+    "r": {
+     "x": 1593,
+     "y": 0,
+     "w": 16,
+     "h": 1000
+    }
+   }
+  ],
+  "blocks": [
+   {
+    "cls": "",
+    "r": {
+     "x": 0,
+     "y": 0,
+     "w": 1600,
+     "h": 1000
+    },
+    "t": "无限画布 首页 电商套图 智能修图 新模型 AI视频 HOT 批量生图 商品图设计 中 切换到深色主"
+   },
+   {
+    "cls": "css-dev-only-do-not-override-1tzwyuk ant-app infinite-canvas-light",
+    "r": {
+     "x": 0,
+     "y": 0,
+     "w": 1600,
+     "h": 1000
+    },
+    "t": "无限画布 首页 电商套图 智能修图 新模型 AI视频 HOT 批量生图 商品图设计 中 切换到深色主"
+   },
+   {
+    "cls": "flex h-dvh overflow-hidden bg-background text-foreground",
+    "r": {
+     "x": 0,
+     "y": 0,
+     "w": 1600,
+     "h": 1000
+    },
+    "t": "无限画布 首页 电商套图 智能修图 新模型 AI视频 HOT 批量生图 商品图设计 中 切换到深色主"
+   },
+   {
+    "cls": "flex min-w-0 flex-1 flex-col overflow-hidden",
+    "r": {
+     "x": 0,
+     "y": 0,
+     "w": 1600,
+     "h": 1000
+    },
+    "t": "无限画布 首页 电商套图 智能修图 新模型 AI视频 HOT 批量生图 商品图设计 中 切换到深色主"
+   },
+   {
+    "cls": "min-h-0 flex-1 overflow-hidden",
+    "r": {
+     "x": 0,
+     "y": 56,
+     "w": 1600,
+     "h": 944
+    },
+    "t": "商品图 我的商品 场景参考图 商品替换 场景裂变 手持商品 企业功能 手持商品 快速生成手持商品图，"
+   },
+   {
+    "cls": "tool-linkfox-surface flex h-full min-h-0 flex-col bg-white text-foregr",
+    "r": {
+     "x": 0,
+     "y": 56,
+     "w": 1600,
+     "h": 944
+    },
+    "t": "商品图 我的商品 场景参考图 商品替换 场景裂变 手持商品 企业功能 手持商品 快速生成手持商品图，"
+   },
+   {
+    "cls": "flex min-h-0 flex-1 gap-0",
+    "r": {
+     "x": 0,
+     "y": 56,
+     "w": 1600,
+     "h": 944
+    },
+    "t": "商品图 我的商品 场景参考图 商品替换 场景裂变 手持商品 企业功能 手持商品 快速生成手持商品图，"
+   },
+   {
+    "cls": "flex min-w-0 flex-1 flex-col overflow-hidden bg-white",
+    "r": {
+     "x": 180,
+     "y": 56,
+     "w": 1420,
+     "h": 944
+    },
+    "t": "手持商品 快速生成手持商品图，快速上架 图片规则 选择参考图 上传商品图 第一步：选择示例图或上传手"
+   },
+   {
+    "cls": "min-h-0 flex-1 overflow-y-auto overflow-x-hidden bg-white p-0",
+    "r": {
+     "x": 180,
+     "y": 56,
+     "w": 1420,
+     "h": 944
+    },
+    "t": "手持商品 快速生成手持商品图，快速上架 图片规则 选择参考图 上传商品图 第一步：选择示例图或上传手"
+   },
+   {
+    "cls": "h-full min-h-0 min-w-0",
+    "r": {
+     "x": 180,
+     "y": 56,
+     "w": 1420,
+     "h": 944
+    },
+    "t": "手持商品 快速生成手持商品图，快速上架 图片规则 选择参考图 上传商品图 第一步：选择示例图或上传手"
+   },
+   {
+    "cls": "flex min-h-0 min-w-0 flex-1 flex-col",
+    "r": {
+     "x": 180,
+     "y": 56,
+     "w": 1420,
+     "h": 980
+    },
+    "t": "手持商品 快速生成手持商品图，快速上架 图片规则 选择参考图 上传商品图 第一步：选择示例图或上传手"
+   },
+   {
+    "cls": "grid min-h-0 min-w-0 grid-cols-1 gap-3 lg:grid-cols-[300px_minmax(0,1f",
+    "r": {
+     "x": 180,
+     "y": 56,
+     "w": 1420,
+     "h": 980
+    },
+    "t": "手持商品 快速生成手持商品图，快速上架 图片规则 选择参考图 上传商品图 第一步：选择示例图或上传手"
+   },
+   {
+    "cls": "flex min-h-0 min-w-0 flex-col gap-3",
+    "r": {
+     "x": 180,
+     "y": 56,
+     "w": 300,
+     "h": 980
+    },
+    "t": "手持商品 快速生成手持商品图，快速上架 图片规则 选择参考图 上传商品图 第一步：选择示例图或上传手"
+   },
+   {
+    "cls": "flex min-h-0 flex-col gap-2",
+    "r": {
+     "x": 180,
+     "y": 56,
+     "w": 300,
+     "h": 980
+    },
+    "t": "手持商品 快速生成手持商品图，快速上架 图片规则 选择参考图 上传商品图 第一步：选择示例图或上传手"
+   },
+   {
+    "cls": "mb-[15px] last:mb-0",
+    "r": {
+     "x": 180,
+     "y": 151,
+     "w": 300,
+     "h": 285
+    },
+    "t": "图片规则 选择参考图 上传商品图 第一步：选择示例图或上传手持商品图 从本地上传 从作品库选择 10"
+   },
+   {
+    "cls": "flex min-h-0 min-w-0 flex-col gap-3",
+    "r": {
+     "x": 492,
+     "y": 56,
+     "w": 1108,
+     "h": 980
+    },
+    "t": "生成结果 历史记录 暂无生成结果图 快在左侧上传商品图并选择手持姿势吧~ 一键做同款 最近一次上游返"
+   },
+   {
+    "cls": "flex min-h-[480px] min-w-0 flex-1 flex-col overflow-hidden rounded-lg ",
+    "r": {
+     "x": 492,
+     "y": 56,
+     "w": 1108,
+     "h": 980
+    },
+    "t": "生成结果 历史记录 暂无生成结果图 快在左侧上传商品图并选择手持姿势吧~ 一键做同款 最近一次上游返"
+   },
+   {
+    "cls": "flex min-w-0 flex-1 flex-col",
+    "r": {
+     "x": 492,
+     "y": 56,
+     "w": 1108,
+     "h": 980
+    },
+    "t": "生成结果 历史记录 暂无生成结果图 快在左侧上传商品图并选择手持姿势吧~ 一键做同款 最近一次上游返"
+   },
+   {
+    "cls": "min-h-0 flex-1 overflow-auto",
+    "r": {
+     "x": 492,
+     "y": 98,
+     "w": 1108,
+     "h": 938
+    },
+    "t": "暂无生成结果图 快在左侧上传商品图并选择手持姿势吧~ 一键做同款 最近一次上游返回 已完成 共 1 "
+   },
+   {
+    "cls": "flex min-h-full flex-col px-3 py-3",
+    "r": {
+     "x": 492,
+     "y": 98,
+     "w": 1108,
+     "h": 938
+    },
+    "t": "暂无生成结果图 快在左侧上传商品图并选择手持姿势吧~ 一键做同款 最近一次上游返回 已完成 共 1 "
+   },
+   {
+    "cls": "flex flex-col items-center gap-2",
+    "r": {
+     "x": 504,
+     "y": 110,
+     "w": 1084,
+     "h": 288
+    },
+    "t": "暂无生成结果图 快在左侧上传商品图并选择手持姿势吧~ 一键做同款"
+   },
+   {
+    "cls": "mt-4",
+    "r": {
+     "x": 504,
+     "y": 414,
+     "w": 1084,
+     "h": 328
+    },
+    "t": "最近一次上游返回 已完成 共 1 个结果 · 图片 1 下载 存入资产 发送画布"
+   },
+   {
+    "cls": "space-y-3 rounded-xl border border-border bg-card p-4",
+    "r": {
+     "x": 504,
+     "y": 414,
+     "w": 1084,
+     "h": 328
+    },
+    "t": "最近一次上游返回 已完成 共 1 个结果 · 图片 1 下载 存入资产 发送画布"
+   }
+  ],
+  "scrollables": [
+   {
+    "cls": "min-h-0 flex-1 overflow-y-auto overflow-x-hidden bg-white p-",
+    "r": {
+     "x": 180,
+     "y": 56,
+     "w": 1420,
+     "h": 944
+    },
+    "ch": 944,
+    "sh": 1230,
+    "canScroll": true
+   }
+  ]
+ },
+ "audit": {
+  "vh": 1000,
+  "vw": 1600,
+  "actions": [
+   {
+    "text": "生成",
+    "rect": {
+     "x": 180,
+     "y": 1004,
+     "w": 300,
+     "h": 32
+    },
+    "inFirstScreen": false,
+    "disabled": true
+   },
+   {
+    "text": "立即生成",
+    "rect": {
+     "x": 180,
+     "y": 1004,
+     "w": 300,
+     "h": 32
+    },
+    "inFirstScreen": false,
+    "disabled": true
+   }
+  ],
+  "scrollables": [
+   {
+    "cls": "min-h-0 flex-1 overflow-y-auto overflow-x-hidden b",
+    "h": 944,
+    "sh": 1230,
+    "scrollable": true
+   }
+  ],
+  "hiddenBelow": [
+   {
+    "t": "",
+    "y": 984
+   },
+   {
+    "t": "",
+    "y": 984
+   },
+   {
+    "t": "",
+    "y": 1034
+   },
+   {
+    "t": "",
+    "y": 1034
+   },
+   {
+    "t": "",
+    "y": 1084
+   },
+   {
+    "t": "",
+    "y": 1084
+   },
+   {
+    "t": "",
+    "y": 1134
+   },
+   {
+    "t": "",
+    "y": 1134
+   }
+  ]
+ }
+}

@@ -1,0 +1,1245 @@
+[
+  {
+    "id": "PRODUCT_IMAGE_SUITE",
+    "baseline_visual": "FAIL",
+    "baseline_layout": "FAIL",
+    "baseline_interaction": "PASS",
+    "baseline_function": "REAL_PROVIDER",
+    "current_screenshot": "docs/V1.0/e2e-1to1/20261102/PRODUCT_IMAGE_SUITE/local-current.png",
+    "main": {
+      "x": 180,
+      "y": 56,
+      "w": 1420,
+      "h": 944,
+      "sh": 944,
+      "ch": 944,
+      "st": 0,
+      "oy": "auto"
+    },
+    "config": {
+      "x": 180,
+      "y": 56,
+      "w": 300,
+      "h": 944
+    },
+    "result": {
+      "x": 492,
+      "y": 56,
+      "w": 1108,
+      "h": 944
+    },
+    "broken_images": 12,
+    "horizontal_overflow": 0
+  },
+  {
+    "id": "DRESS_WEAR_SET",
+    "baseline_visual": "FAIL",
+    "baseline_layout": "FAIL",
+    "baseline_interaction": "PASS",
+    "baseline_function": "REAL_PROVIDER",
+    "current_screenshot": "docs/V1.0/e2e-1to1/20261102/DRESS_WEAR_SET/local-current.png",
+    "main": {
+      "x": 180,
+      "y": 56,
+      "w": 1420,
+      "h": 944,
+      "sh": 2209,
+      "ch": 944,
+      "st": 0,
+      "oy": "auto"
+    },
+    "config": {
+      "x": 180,
+      "y": 99,
+      "w": 300,
+      "h": 2165
+    },
+    "result": {
+      "x": 492,
+      "y": 99,
+      "w": 1108,
+      "h": 2165
+    },
+    "broken_images": 0,
+    "horizontal_overflow": 0
+  },
+  {
+    "id": "CHANGE_COLOR_V2",
+    "baseline_visual": "FAIL",
+    "baseline_layout": "FAIL",
+    "baseline_interaction": "PASS",
+    "baseline_function": "REAL_PROVIDER",
+    "current_screenshot": "docs/V1.0/e2e-1to1/20261102/CHANGE_COLOR_V2/local-current.png",
+    "main": {
+      "x": 180,
+      "y": 56,
+      "w": 1420,
+      "h": 944,
+      "sh": 944,
+      "ch": 944,
+      "st": 0,
+      "oy": "auto"
+    },
+    "config": {
+      "x": 180,
+      "y": 56,
+      "w": 300,
+      "h": 889
+    },
+    "result": {
+      "x": 492,
+      "y": 56,
+      "w": 1108,
+      "h": 889
+    },
+    "broken_images": 0,
+    "horizontal_overflow": 0
+  },
+  {
+    "id": "IMAGE_TRANSLATION",
+    "baseline_visual": "FAIL",
+    "baseline_layout": "FAIL",
+    "baseline_interaction": "PASS",
+    "baseline_function": "REAL_PROVIDER + 额外 OCR 本地扩展",
+    "current_screenshot": "docs/V1.0/e2e-1to1/20261102/IMAGE_TRANSLATION/local-current.png",
+    "main": {
+      "x": 180,
+      "y": 56,
+      "w": 1420,
+      "h": 944,
+      "sh": 944,
+      "ch": 944,
+      "st": 0,
+      "oy": "auto"
+    },
+    "config": {
+      "x": 192,
+      "y": 111,
+      "w": 300,
+      "h": 798
+    },
+    "result": {
+      "x": 504,
+      "y": 111,
+      "w": 1084,
+      "h": 798
+    },
+    "broken_images": 0,
+    "horizontal_overflow": 0
+  },
+  {
+    "id": "SCALE_UP",
+    "baseline_visual": "FAIL",
+    "baseline_layout": "FAIL",
+    "baseline_interaction": "PASS",
+    "baseline_function": "REAL_PROVIDER",
+    "current_screenshot": "docs/V1.0/e2e-1to1/20261102/SCALE_UP/local-current.png",
+    "main": {
+      "x": 180,
+      "y": 56,
+      "w": 1420,
+      "h": 944,
+      "sh": 944,
+      "ch": 944,
+      "st": 0,
+      "oy": "auto"
+    },
+    "config": {
+      "x": 180,
+      "y": 56,
+      "w": 300,
+      "h": 691
+    },
+    "result": {
+      "x": 492,
+      "y": 56,
+      "w": 1108,
+      "h": 691
+    },
+    "broken_images": 0,
+    "horizontal_overflow": 0
+  },
+  {
+    "id": "AI_OUTPAINTING",
+    "baseline_visual": "FAIL",
+    "baseline_layout": "FAIL",
+    "baseline_interaction": "PASS",
+    "baseline_function": "REAL_PROVIDER",
+    "current_screenshot": "docs/V1.0/e2e-1to1/20261102/AI_OUTPAINTING/local-current.png",
+    "main": {
+      "x": 180,
+      "y": 56,
+      "w": 1420,
+      "h": 944,
+      "sh": 944,
+      "ch": 944,
+      "st": 0,
+      "oy": "auto"
+    },
+    "config": {
+      "x": 180,
+      "y": 98,
+      "w": 360,
+      "h": 902
+    },
+    "result": {
+      "x": 552,
+      "y": 98,
+      "w": 1048,
+      "h": 902
+    },
+    "broken_images": 0,
+    "horizontal_overflow": 0
+  },
+  {
+    "id": "AREA_REPAIR",
+    "baseline_visual": "FAIL",
+    "baseline_layout": "FAIL",
+    "baseline_interaction": "PASS",
+    "baseline_function": "REAL_PROVIDER",
+    "current_screenshot": "docs/V1.0/e2e-1to1/20261102/AREA_REPAIR/local-current.png",
+    "main": {
+      "x": 180,
+      "y": 56,
+      "w": 1420,
+      "h": 944,
+      "sh": 944,
+      "ch": 944,
+      "st": 0,
+      "oy": "auto"
+    },
+    "config": {
+      "x": 1040,
+      "y": 66,
+      "w": 240,
+      "h": 924
+    },
+    "result": {
+      "x": 1290,
+      "y": 66,
+      "w": 300,
+      "h": 924
+    },
+    "broken_images": 0,
+    "horizontal_overflow": 0
+  },
+  {
+    "id": "REMOVE_PEN",
+    "baseline_visual": "FAIL",
+    "baseline_layout": "FAIL",
+    "baseline_interaction": "PASS",
+    "baseline_function": "REAL_PROVIDER",
+    "current_screenshot": "docs/V1.0/e2e-1to1/20261102/REMOVE_PEN/local-current.png",
+    "main": {
+      "x": 180,
+      "y": 56,
+      "w": 1420,
+      "h": 944,
+      "sh": 944,
+      "ch": 944,
+      "st": 0,
+      "oy": "auto"
+    },
+    "config": null,
+    "result": {
+      "x": 180,
+      "y": 104,
+      "w": 1420,
+      "h": 896
+    },
+    "broken_images": 0,
+    "horizontal_overflow": 0
+  },
+  {
+    "id": "CHANGE_COLOR",
+    "baseline_visual": "FAIL",
+    "baseline_layout": "FAIL",
+    "baseline_interaction": "PASS",
+    "baseline_function": "REAL_PROVIDER",
+    "current_screenshot": "docs/V1.0/e2e-1to1/20261102/CHANGE_COLOR/local-current.png",
+    "main": {
+      "x": 180,
+      "y": 56,
+      "w": 1420,
+      "h": 944,
+      "sh": 948,
+      "ch": 944,
+      "st": 0,
+      "oy": "auto"
+    },
+    "config": {
+      "x": 180,
+      "y": 56,
+      "w": 300,
+      "h": 948
+    },
+    "result": {
+      "x": 492,
+      "y": 56,
+      "w": 1108,
+      "h": 948
+    },
+    "broken_images": 0,
+    "horizontal_overflow": 0
+  },
+  {
+    "id": "IMAGE_CROP",
+    "baseline_visual": "FAIL",
+    "baseline_layout": "FAIL",
+    "baseline_interaction": "PASS",
+    "baseline_function": "LOCAL_PROCESSING",
+    "current_screenshot": "docs/V1.0/e2e-1to1/20261102/IMAGE_CROP/local-current.png",
+    "main": {
+      "x": 180,
+      "y": 56,
+      "w": 1420,
+      "h": 944,
+      "sh": 944,
+      "ch": 944,
+      "st": 0,
+      "oy": "auto"
+    },
+    "config": {
+      "x": 1224,
+      "y": 147,
+      "w": 360,
+      "h": 657
+    },
+    "result": {
+      "x": 196,
+      "y": 147,
+      "w": 1016,
+      "h": 657
+    },
+    "broken_images": 0,
+    "horizontal_overflow": 0
+  },
+  {
+    "id": "PRODUCT_REFINE",
+    "baseline_visual": "FAIL",
+    "baseline_layout": "FAIL",
+    "baseline_interaction": "PASS",
+    "baseline_function": "REAL_PROVIDER",
+    "current_screenshot": "docs/V1.0/e2e-1to1/20261102/PRODUCT_REFINE/local-current.png",
+    "main": {
+      "x": 180,
+      "y": 56,
+      "w": 1420,
+      "h": 944,
+      "sh": 944,
+      "ch": 944,
+      "st": 0,
+      "oy": "auto"
+    },
+    "config": {
+      "x": 180,
+      "y": 56,
+      "w": 300,
+      "h": 680
+    },
+    "result": {
+      "x": 492,
+      "y": 56,
+      "w": 1108,
+      "h": 680
+    },
+    "broken_images": 0,
+    "horizontal_overflow": 0
+  },
+  {
+    "id": "FIX_COLOR",
+    "baseline_visual": "FAIL",
+    "baseline_layout": "FAIL",
+    "baseline_interaction": "PASS",
+    "baseline_function": "REAL_PROVIDER",
+    "current_screenshot": "docs/V1.0/e2e-1to1/20261102/FIX_COLOR/local-current.png",
+    "main": {
+      "x": 180,
+      "y": 56,
+      "w": 1420,
+      "h": 944,
+      "sh": 1067,
+      "ch": 944,
+      "st": 0,
+      "oy": "auto"
+    },
+    "config": {
+      "x": 1290,
+      "y": 66,
+      "w": 300,
+      "h": 1047
+    },
+    "result": {
+      "x": 190,
+      "y": 66,
+      "w": 1088,
+      "h": 1047
+    },
+    "broken_images": 0,
+    "horizontal_overflow": 0
+  },
+  {
+    "id": "PRINTING_REPAIR",
+    "baseline_visual": "FAIL",
+    "baseline_layout": "FAIL",
+    "baseline_interaction": "PASS",
+    "baseline_function": "REAL_PROVIDER",
+    "current_screenshot": "docs/V1.0/e2e-1to1/20261102/PRINTING_REPAIR/local-current.png",
+    "main": {
+      "x": 180,
+      "y": 56,
+      "w": 1420,
+      "h": 944,
+      "sh": 944,
+      "ch": 944,
+      "st": 0,
+      "oy": "auto"
+    },
+    "config": {
+      "x": 180,
+      "y": 131,
+      "w": 300,
+      "h": 724
+    },
+    "result": {
+      "x": 492,
+      "y": 131,
+      "w": 1108,
+      "h": 724
+    },
+    "broken_images": 0,
+    "horizontal_overflow": 0
+  },
+  {
+    "id": "HAND_REPAIR",
+    "baseline_visual": "FAIL",
+    "baseline_layout": "FAIL",
+    "baseline_interaction": "PASS",
+    "baseline_function": "REAL_PROVIDER",
+    "current_screenshot": "docs/V1.0/e2e-1to1/20261102/HAND_REPAIR/local-current.png",
+    "main": {
+      "x": 180,
+      "y": 56,
+      "w": 1420,
+      "h": 944,
+      "sh": 944,
+      "ch": 944,
+      "st": 0,
+      "oy": "auto"
+    },
+    "config": {
+      "x": 1288,
+      "y": 216,
+      "w": 300,
+      "h": 460
+    },
+    "result": {
+      "x": 192,
+      "y": 216,
+      "w": 1084,
+      "h": 460
+    },
+    "broken_images": 0,
+    "horizontal_overflow": 0
+  },
+  {
+    "id": "NEW_REPLACE_BG_V2",
+    "baseline_visual": "FAIL",
+    "baseline_layout": "FAIL",
+    "baseline_interaction": "PASS",
+    "baseline_function": "UNVERIFIED",
+    "current_screenshot": "docs/V1.0/e2e-1to1/20261102/NEW_REPLACE_BG_V2/local-current.png",
+    "main": {
+      "x": 180,
+      "y": 56,
+      "w": 1420,
+      "h": 944,
+      "sh": 3128,
+      "ch": 944,
+      "st": 0,
+      "oy": "auto"
+    },
+    "config": {
+      "x": 180,
+      "y": 56,
+      "w": 300,
+      "h": 3128
+    },
+    "result": {
+      "x": 492,
+      "y": 56,
+      "w": 1108,
+      "h": 3128
+    },
+    "broken_images": 0,
+    "horizontal_overflow": 0
+  },
+  {
+    "id": "REPLACE_GOODS",
+    "baseline_visual": "FAIL",
+    "baseline_layout": "FAIL",
+    "baseline_interaction": "PASS",
+    "baseline_function": "UNVERIFIED",
+    "current_screenshot": "docs/V1.0/e2e-1to1/20261102/REPLACE_GOODS/local-current.png",
+    "main": {
+      "x": 180,
+      "y": 56,
+      "w": 1420,
+      "h": 944,
+      "sh": 1288,
+      "ch": 944,
+      "st": 0,
+      "oy": "auto"
+    },
+    "config": {
+      "x": 1300,
+      "y": 247,
+      "w": 300,
+      "h": 1097
+    },
+    "result": {
+      "x": 180,
+      "y": 247,
+      "w": 1108,
+      "h": 1097
+    },
+    "broken_images": 0,
+    "horizontal_overflow": 0
+  },
+  {
+    "id": "PRODUCT_SCENE",
+    "baseline_visual": "FAIL",
+    "baseline_layout": "FAIL",
+    "baseline_interaction": "PASS",
+    "baseline_function": "UNVERIFIED",
+    "current_screenshot": "docs/V1.0/e2e-1to1/20261102/PRODUCT_SCENE/local-current.png",
+    "main": {
+      "x": 180,
+      "y": 56,
+      "w": 1420,
+      "h": 944,
+      "sh": 944,
+      "ch": 944,
+      "st": 0,
+      "oy": "auto"
+    },
+    "config": {
+      "x": 181,
+      "y": 57,
+      "w": 300,
+      "h": 805
+    },
+    "result": {
+      "x": 493,
+      "y": 57,
+      "w": 1106,
+      "h": 805
+    },
+    "broken_images": 0,
+    "horizontal_overflow": 0
+  },
+  {
+    "id": "HANDHELD_GOODS",
+    "baseline_visual": "FAIL",
+    "baseline_layout": "FAIL",
+    "baseline_interaction": "本地 PASS",
+    "baseline_function": "UNVERIFIED",
+    "current_screenshot": "docs/V1.0/e2e-1to1/20261102/HANDHELD_GOODS/local-current.png",
+    "main": {
+      "x": 180,
+      "y": 56,
+      "w": 1420,
+      "h": 944,
+      "sh": 946,
+      "ch": 944,
+      "st": 0,
+      "oy": "auto"
+    },
+    "config": {
+      "x": 180,
+      "y": 56,
+      "w": 300,
+      "h": 946
+    },
+    "result": {
+      "x": 492,
+      "y": 56,
+      "w": 1108,
+      "h": 946
+    },
+    "broken_images": 0,
+    "horizontal_overflow": 0
+  },
+  {
+    "id": "AI_DRESSING_V2",
+    "baseline_visual": "FAIL",
+    "baseline_layout": "FAIL",
+    "baseline_interaction": "PASS",
+    "baseline_function": "UNVERIFIED",
+    "current_screenshot": "docs/V1.0/e2e-1to1/20261102/AI_DRESSING_V2/local-current.png",
+    "main": {
+      "x": 180,
+      "y": 56,
+      "w": 1420,
+      "h": 944,
+      "sh": 1098,
+      "ch": 944,
+      "st": 0,
+      "oy": "auto"
+    },
+    "config": {
+      "x": 180,
+      "y": 56,
+      "w": 300,
+      "h": 1098
+    },
+    "result": {
+      "x": 492,
+      "y": 56,
+      "w": 1108,
+      "h": 1098
+    },
+    "broken_images": 0,
+    "horizontal_overflow": 0
+  },
+  {
+    "id": "AI_POSTURE",
+    "baseline_visual": "FAIL",
+    "baseline_layout": "FAIL",
+    "baseline_interaction": "本地 PASS",
+    "baseline_function": "UNVERIFIED",
+    "current_screenshot": "docs/V1.0/e2e-1to1/20261102/AI_POSTURE/local-current.png",
+    "main": {
+      "x": 180,
+      "y": 56,
+      "w": 1420,
+      "h": 944,
+      "sh": 2874,
+      "ch": 944,
+      "st": 0,
+      "oy": "auto"
+    },
+    "config": {
+      "x": 180,
+      "y": 131,
+      "w": 300,
+      "h": 2775
+    },
+    "result": {
+      "x": 492,
+      "y": 131,
+      "w": 1108,
+      "h": 2775
+    },
+    "broken_images": 0,
+    "horizontal_overflow": 0
+  },
+  {
+    "id": "AI_WEARABLE",
+    "baseline_visual": "FAIL",
+    "baseline_layout": "FAIL",
+    "baseline_interaction": "PASS",
+    "baseline_function": "REAL_PROVIDER",
+    "current_screenshot": "docs/V1.0/e2e-1to1/20261102/AI_WEARABLE/local-current.png",
+    "main": {
+      "x": 180,
+      "y": 56,
+      "w": 1420,
+      "h": 944,
+      "sh": 1199,
+      "ch": 944,
+      "st": 0,
+      "oy": "auto"
+    },
+    "config": {
+      "x": 180,
+      "y": 128,
+      "w": 300,
+      "h": 1127
+    },
+    "result": {
+      "x": 492,
+      "y": 128,
+      "w": 1108,
+      "h": 1127
+    },
+    "broken_images": 0,
+    "horizontal_overflow": 0
+  },
+  {
+    "id": "AI_TEXT",
+    "baseline_visual": "BLOCKED",
+    "baseline_layout": "BLOCKED",
+    "baseline_interaction": "PASS",
+    "baseline_function": "REAL_PROVIDER",
+    "current_screenshot": "docs/V1.0/e2e-1to1/20261102/AI_TEXT/local-current.png",
+    "main": {
+      "x": 180,
+      "y": 56,
+      "w": 1420,
+      "h": 944,
+      "sh": 1392,
+      "ch": 944,
+      "st": 0,
+      "oy": "auto"
+    },
+    "config": {
+      "x": 180,
+      "y": 137,
+      "w": 300,
+      "h": 1311
+    },
+    "result": {
+      "x": 492,
+      "y": 137,
+      "w": 1108,
+      "h": 1311
+    },
+    "broken_images": 0,
+    "horizontal_overflow": 0
+  },
+  {
+    "id": "ORNAMENT_TEXT",
+    "baseline_visual": "BLOCKED",
+    "baseline_layout": "BLOCKED",
+    "baseline_interaction": "PASS",
+    "baseline_function": "REAL_PROVIDER",
+    "current_screenshot": "docs/V1.0/e2e-1to1/20261102/ORNAMENT_TEXT/local-current.png",
+    "main": {
+      "x": 180,
+      "y": 56,
+      "w": 1420,
+      "h": 944,
+      "sh": 1796,
+      "ch": 944,
+      "st": 0,
+      "oy": "auto"
+    },
+    "config": {
+      "x": 180,
+      "y": 137,
+      "w": 300,
+      "h": 1715
+    },
+    "result": {
+      "x": 492,
+      "y": 137,
+      "w": 1108,
+      "h": 1715
+    },
+    "broken_images": 0,
+    "horizontal_overflow": 0
+  },
+  {
+    "id": "SDS_DESIGN",
+    "baseline_visual": "FAIL",
+    "baseline_layout": "FAIL",
+    "baseline_interaction": "PASS",
+    "baseline_function": "REAL_PROVIDER",
+    "current_screenshot": "docs/V1.0/e2e-1to1/20261102/SDS_DESIGN/local-current.png",
+    "main": {
+      "x": 180,
+      "y": 56,
+      "w": 1420,
+      "h": 944,
+      "sh": 946,
+      "ch": 944,
+      "st": 0,
+      "oy": "auto"
+    },
+    "config": {
+      "x": 180,
+      "y": 56,
+      "w": 300,
+      "h": 946
+    },
+    "result": {
+      "x": 492,
+      "y": 56,
+      "w": 1108,
+      "h": 946
+    },
+    "broken_images": 0,
+    "horizontal_overflow": 0
+  },
+  {
+    "id": "PRINT_EXTRACT",
+    "baseline_visual": "FAIL",
+    "baseline_layout": "FAIL",
+    "baseline_interaction": "PASS",
+    "baseline_function": "REAL_PROVIDER",
+    "current_screenshot": "docs/V1.0/e2e-1to1/20261102/PRINT_EXTRACT/local-current.png",
+    "main": {
+      "x": 180,
+      "y": 56,
+      "w": 1420,
+      "h": 944,
+      "sh": 944,
+      "ch": 944,
+      "st": 0,
+      "oy": "auto"
+    },
+    "config": {
+      "x": 180,
+      "y": 131,
+      "w": 300,
+      "h": 496
+    },
+    "result": {
+      "x": 492,
+      "y": 131,
+      "w": 1108,
+      "h": 496
+    },
+    "broken_images": 0,
+    "horizontal_overflow": 0
+  },
+  {
+    "id": "AI_POSE_GENERATOR",
+    "baseline_visual": "BLOCKED",
+    "baseline_layout": "BLOCKED",
+    "baseline_interaction": "PASS",
+    "baseline_function": "REAL_PROVIDER",
+    "current_screenshot": "docs/V1.0/e2e-1to1/20261102/AI_POSE_GENERATOR/local-current.png",
+    "main": {
+      "x": 180,
+      "y": 56,
+      "w": 1420,
+      "h": 944,
+      "sh": 944,
+      "ch": 944,
+      "st": 0,
+      "oy": "auto"
+    },
+    "config": {
+      "x": 190,
+      "y": 66,
+      "w": 300,
+      "h": 924
+    },
+    "result": {
+      "x": 502,
+      "y": 66,
+      "w": 1088,
+      "h": 924
+    },
+    "broken_images": 0,
+    "horizontal_overflow": 0
+  },
+  {
+    "id": "AI_DRESSING_XSY",
+    "baseline_visual": "FAIL",
+    "baseline_layout": "FAIL",
+    "baseline_interaction": "PASS",
+    "baseline_function": "UNVERIFIED",
+    "current_screenshot": "docs/V1.0/e2e-1to1/20261102/AI_DRESSING_XSY/local-current.png",
+    "main": {
+      "x": 180,
+      "y": 56,
+      "w": 1420,
+      "h": 944,
+      "sh": 3716,
+      "ch": 944,
+      "st": 0,
+      "oy": "auto"
+    },
+    "config": {
+      "x": 180,
+      "y": 56,
+      "w": 300,
+      "h": 3716
+    },
+    "result": {
+      "x": 492,
+      "y": 56,
+      "w": 1108,
+      "h": 3716
+    },
+    "broken_images": 0,
+    "horizontal_overflow": 0
+  },
+  {
+    "id": "FISSION_LINK",
+    "baseline_visual": "FAIL",
+    "baseline_layout": "FAIL",
+    "baseline_interaction": "PASS",
+    "baseline_function": "REAL_PROVIDER",
+    "current_screenshot": "docs/V1.0/e2e-1to1/20261102/FISSION_LINK/local-current.png",
+    "main": {
+      "x": 180,
+      "y": 56,
+      "w": 1420,
+      "h": 944,
+      "sh": 944,
+      "ch": 944,
+      "st": 0,
+      "oy": "auto"
+    },
+    "config": {
+      "x": 180,
+      "y": 56,
+      "w": 300,
+      "h": 944
+    },
+    "result": {
+      "x": 492,
+      "y": 56,
+      "w": 1108,
+      "h": 944
+    },
+    "broken_images": 0,
+    "horizontal_overflow": 0
+  },
+  {
+    "id": "IMAGE_TEXT_EDIT",
+    "baseline_visual": "BLOCKED",
+    "baseline_layout": "BLOCKED",
+    "baseline_interaction": "PASS",
+    "baseline_function": "REAL_PROVIDER",
+    "current_screenshot": "docs/V1.0/e2e-1to1/20261102/IMAGE_TEXT_EDIT/local-current.png",
+    "main": {
+      "x": 180,
+      "y": 56,
+      "w": 1420,
+      "h": 944,
+      "sh": 944,
+      "ch": 944,
+      "st": 0,
+      "oy": "auto"
+    },
+    "config": {
+      "x": 1240,
+      "y": 137,
+      "w": 360,
+      "h": 664
+    },
+    "result": {
+      "x": 180,
+      "y": 137,
+      "w": 1048,
+      "h": 664
+    },
+    "broken_images": 0,
+    "horizontal_overflow": 0
+  },
+  {
+    "id": "MATERIAL_UPPER_BODY",
+    "baseline_visual": "FAIL",
+    "baseline_layout": "FAIL",
+    "baseline_interaction": "PASS",
+    "baseline_function": "UNVERIFIED",
+    "current_screenshot": "docs/V1.0/e2e-1to1/20261102/MATERIAL_UPPER_BODY/local-current.png",
+    "main": {
+      "x": 180,
+      "y": 56,
+      "w": 1420,
+      "h": 944,
+      "sh": 949,
+      "ch": 944,
+      "st": 0,
+      "oy": "auto"
+    },
+    "config": {
+      "x": 180,
+      "y": 128,
+      "w": 300,
+      "h": 876
+    },
+    "result": {
+      "x": 492,
+      "y": 128,
+      "w": 1108,
+      "h": 876
+    },
+    "broken_images": 0,
+    "horizontal_overflow": 0
+  },
+  {
+    "id": "NEW_DESIGNER",
+    "baseline_visual": "FAIL",
+    "baseline_layout": "FAIL",
+    "baseline_interaction": "PASS",
+    "baseline_function": "LOCAL_PROCESSING",
+    "current_screenshot": "docs/V1.0/e2e-1to1/20261102/NEW_DESIGNER/local-current.png",
+    "main": {
+      "x": 180,
+      "y": 56,
+      "w": 1420,
+      "h": 944,
+      "sh": 944,
+      "ch": 944,
+      "st": 0,
+      "oy": "auto"
+    },
+    "config": {
+      "x": 193,
+      "y": 167,
+      "w": 360,
+      "h": 738
+    },
+    "result": {
+      "x": 565,
+      "y": 167,
+      "w": 1022,
+      "h": 738
+    },
+    "broken_images": 0,
+    "horizontal_overflow": 0
+  },
+  {
+    "id": "PRODUCT_MARKET_MATERIAL",
+    "baseline_visual": "FAIL",
+    "baseline_layout": "FAIL",
+    "baseline_interaction": "PASS",
+    "baseline_function": "UNVERIFIED",
+    "current_screenshot": "docs/V1.0/e2e-1to1/20261102/PRODUCT_MARKET_MATERIAL/local-current.png",
+    "main": {
+      "x": 180,
+      "y": 56,
+      "w": 1420,
+      "h": 944,
+      "sh": 944,
+      "ch": 944,
+      "st": 0,
+      "oy": "auto"
+    },
+    "config": {
+      "x": 180,
+      "y": 56,
+      "w": 300,
+      "h": 944
+    },
+    "result": {
+      "x": 492,
+      "y": 56,
+      "w": 1108,
+      "h": 944
+    },
+    "broken_images": 0,
+    "horizontal_overflow": 0
+  },
+  {
+    "id": "SCENE_TRANSFER",
+    "baseline_visual": "BLOCKED",
+    "baseline_layout": "BLOCKED",
+    "baseline_interaction": "PASS",
+    "baseline_function": "UNVERIFIED",
+    "current_screenshot": "docs/V1.0/e2e-1to1/20261102/SCENE_TRANSFER/local-current.png",
+    "main": {
+      "x": 180,
+      "y": 56,
+      "w": 1420,
+      "h": 944,
+      "sh": 944,
+      "ch": 944,
+      "st": 0,
+      "oy": "auto"
+    },
+    "config": {
+      "x": 180,
+      "y": 56,
+      "w": 300,
+      "h": 944
+    },
+    "result": {
+      "x": 492,
+      "y": 56,
+      "w": 1108,
+      "h": 944
+    },
+    "broken_images": 0,
+    "horizontal_overflow": 0
+  },
+  {
+    "id": "IMAGE_TO_VIDEO",
+    "baseline_visual": "PARTIAL",
+    "baseline_layout": "PASS",
+    "baseline_interaction": "PASS",
+    "baseline_function": "NOT_RUN",
+    "current_screenshot": "docs/V1.0/e2e-1to1/20261102/IMAGE_TO_VIDEO/local-current.png",
+    "main": {
+      "x": 180,
+      "y": 56,
+      "w": 1420,
+      "h": 944,
+      "sh": 1564,
+      "ch": 944,
+      "st": 0,
+      "oy": "auto"
+    },
+    "config": {
+      "x": 180,
+      "y": 146,
+      "w": 300,
+      "h": 1474
+    },
+    "result": {
+      "x": 492,
+      "y": 146,
+      "w": 1108,
+      "h": 1474
+    },
+    "broken_images": 0,
+    "horizontal_overflow": 0
+  },
+  {
+    "id": "SALE_VIDEO",
+    "baseline_visual": "PASS",
+    "baseline_layout": "PASS",
+    "baseline_interaction": "PASS",
+    "baseline_function": "NOT_RUN",
+    "current_screenshot": "docs/V1.0/e2e-1to1/20261102/SALE_VIDEO/local-current.png",
+    "main": {
+      "x": 180,
+      "y": 56,
+      "w": 1420,
+      "h": 944,
+      "sh": 944,
+      "ch": 944,
+      "st": 0,
+      "oy": "auto"
+    },
+    "config": {
+      "x": 180,
+      "y": 56,
+      "w": 300,
+      "h": 944
+    },
+    "result": {
+      "x": 492,
+      "y": 56,
+      "w": 1108,
+      "h": 944
+    },
+    "broken_images": 0,
+    "horizontal_overflow": 0
+  },
+  {
+    "id": "VIDEO_REPLICATION",
+    "baseline_visual": "PARTIAL",
+    "baseline_layout": "PASS",
+    "baseline_interaction": "PASS",
+    "baseline_function": "NOT_RUN / 已知缺口",
+    "current_screenshot": "docs/V1.0/e2e-1to1/20261102/VIDEO_REPLICATION/local-current.png",
+    "main": {
+      "x": 180,
+      "y": 56,
+      "w": 1420,
+      "h": 944,
+      "sh": 944,
+      "ch": 944,
+      "st": 0,
+      "oy": "auto"
+    },
+    "config": {
+      "x": 180,
+      "y": 56,
+      "w": 300,
+      "h": 944
+    },
+    "result": {
+      "x": 492,
+      "y": 56,
+      "w": 1108,
+      "h": 944
+    },
+    "broken_images": 0,
+    "horizontal_overflow": 0
+  },
+  {
+    "id": "AI_VIDEO_EDITING",
+    "baseline_visual": "PASS",
+    "baseline_layout": "PARTIAL",
+    "baseline_interaction": "PARTIAL",
+    "baseline_function": "NOT_RUN / 已知必填差异",
+    "current_screenshot": "docs/V1.0/e2e-1to1/20261102/AI_VIDEO_EDITING/local-current.png",
+    "main": {
+      "x": 180,
+      "y": 56,
+      "w": 1420,
+      "h": 944,
+      "sh": 944,
+      "ch": 944,
+      "st": 0,
+      "oy": "auto"
+    },
+    "config": {
+      "x": 180,
+      "y": 56,
+      "w": 300,
+      "h": 944
+    },
+    "result": {
+      "x": 492,
+      "y": 56,
+      "w": 1108,
+      "h": 944
+    },
+    "broken_images": 0,
+    "horizontal_overflow": 0
+  },
+  {
+    "id": "VIDEO_TRANSLATION",
+    "baseline_visual": "PARTIAL",
+    "baseline_layout": "PASS",
+    "baseline_interaction": "PASS",
+    "baseline_function": "NOT_RUN / 通道缺失",
+    "current_screenshot": "docs/V1.0/e2e-1to1/20261102/VIDEO_TRANSLATION/local-current.png",
+    "main": {
+      "x": 180,
+      "y": 56,
+      "w": 1420,
+      "h": 944,
+      "sh": 1490,
+      "ch": 944,
+      "st": 0,
+      "oy": "auto"
+    },
+    "config": {
+      "x": 196,
+      "y": 147,
+      "w": 300,
+      "h": 1383
+    },
+    "result": {
+      "x": 508,
+      "y": 147,
+      "w": 1076,
+      "h": 1383
+    },
+    "broken_images": 0,
+    "horizontal_overflow": 0
+  },
+  {
+    "id": "VIDEO_CONCAT",
+    "baseline_visual": "PARTIAL",
+    "baseline_layout": "PASS",
+    "baseline_interaction": "PASS",
+    "baseline_function": "NOT_RUN",
+    "current_screenshot": "docs/V1.0/e2e-1to1/20261102/VIDEO_CONCAT/local-current.png",
+    "main": {
+      "x": 180,
+      "y": 56,
+      "w": 1420,
+      "h": 944,
+      "sh": 944,
+      "ch": 944,
+      "st": 0,
+      "oy": "auto"
+    },
+    "config": {
+      "x": 180,
+      "y": 56,
+      "w": 300,
+      "h": 727
+    },
+    "result": {
+      "x": 492,
+      "y": 56,
+      "w": 1108,
+      "h": 727
+    },
+    "broken_images": 0,
+    "horizontal_overflow": 0
+  }
+]

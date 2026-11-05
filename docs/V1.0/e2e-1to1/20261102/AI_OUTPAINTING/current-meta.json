@@ -1,0 +1,238 @@
+{
+  "url": "http://127.0.0.1:3000/tools/ecommerce-suite/ai-outpainting",
+  "title": "无限画布",
+  "viewport": [
+    1600,
+    1000
+  ],
+  "doc": [
+    1600,
+    1000
+  ],
+  "bodyText": "无限画布 首页 电商套图 智能修图 新模型 AI视频 HOT 批量生图 商品图设计 中 切换到深色主题 v0.27.0 商品套图 服装套图 爆款图复刻 NEW 套图换色 批量翻译 高清放大 批量抠图 智能扩图 智能扩图 一键无缝扩展，打破视觉边界，释放每一张照片的无限可能~ 默认尺寸 生成： 4张 立即生成 智能扩图 一键无缝扩展，打破视觉边界，释放每一张照片的无限可能~ 从本地上传 从作品库选择 生成结果 优秀案例 历史记录 暂无生成结果图 快在左侧操作智能扩图吧~ 连接本地 Agent 未连接 点连接会自动启动本地服务、装好插件并接通，无需手动配置。 Claude Code 未连接 · CLI · 2.1.316 (Claude Code) · 直接运行 连接 Codex 未连接 · CLI · codex-cli 0.166.0 · 插件已装 连接 Galley 未连接 · CLI + 桌面版 · galley 0.6.4 连接",
+  "main": {
+    "x": 180,
+    "y": 56,
+    "w": 1420,
+    "h": 944,
+    "sh": 944,
+    "ch": 944,
+    "st": 0,
+    "oy": "auto"
+  },
+  "config": {
+    "x": 180,
+    "y": 98,
+    "w": 360,
+    "h": 902
+  },
+  "result": {
+    "x": 552,
+    "y": 98,
+    "w": 1048,
+    "h": 902
+  },
+  "rail": {
+    "x": 0,
+    "y": 56,
+    "w": 180,
+    "h": 944
+  },
+  "columns": true,
+  "inlineRail": "none",
+  "buttons": [
+    {
+      "text": "中",
+      "disabled": false,
+      "rect": {
+        "x": 1433,
+        "y": 14,
+        "w": 28,
+        "h": 28
+      }
+    },
+    {
+      "text": "切换到深色主题",
+      "disabled": false,
+      "rect": {
+        "x": 1465,
+        "y": 14,
+        "w": 28,
+        "h": 28
+      }
+    },
+    {
+      "text": "v0.27.0",
+      "disabled": false,
+      "rect": {
+        "x": 1497,
+        "y": 17,
+        "w": 47,
+        "h": 22
+      }
+    },
+    {
+      "text": "4张",
+      "disabled": false,
+      "rect": {
+        "x": 233,
+        "y": 223,
+        "w": 54,
+        "h": 28
+      }
+    },
+    {
+      "text": "立即生成",
+      "disabled": true,
+      "rect": {
+        "x": 193,
+        "y": 263,
+        "w": 334,
+        "h": 36
+      }
+    },
+    {
+      "text": "从本地上传",
+      "disabled": false,
+      "rect": {
+        "x": 984,
+        "y": 424,
+        "w": 210,
+        "h": 24
+      }
+    },
+    {
+      "text": "从作品库选择",
+      "disabled": true,
+      "rect": {
+        "x": 984,
+        "y": 456,
+        "w": 100,
+        "h": 24
+      }
+    },
+    {
+      "text": "生成结果",
+      "disabled": false,
+      "rect": {
+        "x": 564,
+        "y": 680,
+        "w": 56,
+        "h": 42
+      }
+    },
+    {
+      "text": "优秀案例",
+      "disabled": false,
+      "rect": {
+        "x": 640,
+        "y": 680,
+        "w": 56,
+        "h": 42
+      }
+    },
+    {
+      "text": "历史记录",
+      "disabled": false,
+      "rect": {
+        "x": 716,
+        "y": 690,
+        "w": 56,
+        "h": 22
+      }
+    },
+    {
+      "text": "未连接",
+      "disabled": false,
+      "rect": {
+        "x": 1645,
+        "y": 8,
+        "w": 32,
+        "h": 32
+      }
+    },
+    {
+      "text": "对话",
+      "disabled": false,
+      "rect": {
+        "x": 1754,
+        "y": 0,
+        "w": 32,
+        "h": 48
+      }
+    },
+    {
+      "text": "历史",
+      "disabled": false,
+      "rect": {
+        "x": 1788,
+        "y": 0,
+        "w": 32,
+        "h": 48
+      }
+    },
+    {
+      "text": "技能",
+      "disabled": false,
+      "rect": {
+        "x": 1822,
+        "y": 0,
+        "w": 32,
+        "h": 48
+      }
+    },
+    {
+      "text": "日志",
+      "disabled": false,
+      "rect": {
+        "x": 1856,
+        "y": 0,
+        "w": 32,
+        "h": 48
+      }
+    },
+    {
+      "text": "新对话",
+      "disabled": true,
+      "rect": {
+        "x": 1964,
+        "y": 8,
+        "w": 32,
+        "h": 32
+      }
+    },
+    {
+      "text": "连接",
+      "disabled": false,
+      "rect": {
+        "x": 1945,
+        "y": 147,
+        "w": 66,
+        "h": 24
+      }
+    },
+    {
+      "text": "连接",
+      "disabled": false,
+      "rect": {
+        "x": 1945,
+        "y": 215,
+        "w": 66,
+        "h": 24
+      }
+    },
+    {
+      "text": "连接",
+      "disabled": false,
+      "rect": {
+        "x": 1945,
+        "y": 283,
+        "w": 66,
+        "h": 24
+      }
+    }
+  ],
+  "images": [],
+  "brokenImages": 0,
+  "horizontalOverflow": 0
+}

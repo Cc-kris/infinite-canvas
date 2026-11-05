@@ -1,0 +1,152 @@
+[
+ {
+  "target": "自定义",
+  "hit": {
+   "tag": "div",
+   "text": "自定义",
+   "rect": {
+    "x": 264,
+    "y": 497,
+    "w": 42,
+    "h": 22
+   }
+  },
+  "before": {
+   "t": 438,
+   "overlays": 1,
+   "selected": [
+    "姿势库",
+    "生成结果"
+   ]
+  },
+  "after": {
+   "t": 435,
+   "overlays": 1,
+   "selected": [
+    "自定义",
+    "生成结果"
+   ]
+  },
+  "changed": true
+ },
+ {
+  "target": "姿势库",
+  "hit": {
+   "tag": "div",
+   "text": "姿势库",
+   "rect": {
+    "x": 208,
+    "y": 497,
+    "w": 42,
+    "h": 22
+   }
+  },
+  "before": {
+   "t": 435,
+   "overlays": 1,
+   "selected": [
+    "自定义",
+    "生成结果"
+   ]
+  },
+  "after": {
+   "t": 438,
+   "overlays": 1,
+   "selected": [
+    "姿势库",
+    "生成结果"
+   ]
+  },
+  "changed": true
+ },
+ {
+  "target": "图片规则",
+  "hit": {
+   "tag": "span",
+   "text": "图片规则",
+   "rect": {
+    "x": 391,
+    "y": 141,
+    "w": 48,
+    "h": 24
+   }
+  },
+  "before": {
+   "t": 438,
+   "overlays": 1,
+   "selected": [
+    "姿势库",
+    "生成结果"
+   ]
+  },
+  "after": {
+   "t": 438,
+   "overlays": 1,
+   "selected": [
+    "姿势库",
+    "生成结果"
+   ]
+  },
+  "changed": false
+ },
+ {
+  "target": "2",
+  "hit": {
+   "tag": "span",
+   "text": "共 1/20 个",
+   "rect": {
+    "x": 1095,
+    "y": 452,
+    "w": 53,
+    "h": 16
+   }
+  },
+  "before": {
+   "t": 438,
+   "overlays": 1,
+   "selected": [
+    "姿势库",
+    "生成结果"
+   ]
+  },
+  "after": {
+   "t": 438,
+   "overlays": 1,
+   "selected": [
+    "姿势库",
+    "生成结果"
+   ]
+  },
+  "changed": false
+ },
+ {
+  "target": "4",
+  "hit": {
+   "tag": "span",
+   "text": "(40算力)",
+   "rect": {
+    "x": 354,
+    "y": 958,
+    "w": 48,
+    "h": 17
+   }
+  },
+  "before": {
+   "t": 438,
+   "overlays": 1,
+   "selected": [
+    "姿势库",
+    "生成结果"
+   ]
+  },
+  "after": {
+   "t": 416,
+   "overlays": 1,
+   "selected": [
+    "姿势库",
+    "生成结果"
+   ]
+  },
+  "changed": true
+ }
+]

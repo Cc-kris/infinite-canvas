@@ -1,0 +1,237 @@
+[
+ {
+  "target": "优秀案例",
+  "hit": {
+   "tag": "button",
+   "text": "优秀案例",
+   "rect": {
+    "x": 589,
+    "y": 57,
+    "w": 80,
+    "h": 41
+   }
+  },
+  "before": {
+   "t": 635,
+   "overlays": 0,
+   "selected": [
+    "写实",
+    "默认尺寸",
+    "1",
+    "生成结果"
+   ]
+  },
+  "after": {
+   "t": 967,
+   "overlays": 0,
+   "selected": [
+    "写实",
+    "默认尺寸",
+    "1",
+    "优秀案例"
+   ]
+  },
+  "changed": true
+ },
+ {
+  "target": "生成结果",
+  "hit": {
+   "tag": "button",
+   "text": "生成结果",
+   "rect": {
+    "x": 505,
+    "y": 57,
+    "w": 80,
+    "h": 41
+   }
+  },
+  "before": {
+   "t": 967,
+   "overlays": 0,
+   "selected": [
+    "写实",
+    "默认尺寸",
+    "1",
+    "优秀案例"
+   ]
+  },
+  "after": {
+   "t": 635,
+   "overlays": 0,
+   "selected": [
+    "写实",
+    "默认尺寸",
+    "1",
+    "生成结果"
+   ]
+  },
+  "changed": true
+ },
+ {
+  "target": "自定义",
+  "hit": {
+   "tag": "button",
+   "text": "自定义",
+   "rect": {
+    "x": 335,
+    "y": 715,
+    "w": 130,
+    "h": 30
+   }
+  },
+  "before": {
+   "t": 635,
+   "overlays": 0,
+   "selected": [
+    "写实",
+    "默认尺寸",
+    "1",
+    "生成结果"
+   ]
+  },
+  "after": {
+   "t": 639,
+   "overlays": 0,
+   "selected": [
+    "写实",
+    "自定义",
+    "1",
+    "生成结果"
+   ]
+  },
+  "changed": true
+ },
+ {
+  "target": "默认尺寸",
+  "hit": {
+   "tag": "button",
+   "text": "默认尺寸",
+   "rect": {
+    "x": 197,
+    "y": 674,
+    "w": 130,
+    "h": 30
+   }
+  },
+  "before": {
+   "t": 639,
+   "overlays": 0,
+   "selected": [
+    "写实",
+    "自定义",
+    "1",
+    "生成结果"
+   ]
+  },
+  "after": {
+   "t": 635,
+   "overlays": 0,
+   "selected": [
+    "写实",
+    "默认尺寸",
+    "1",
+    "生成结果"
+   ]
+  },
+  "changed": true
+ },
+ {
+  "target": "简约",
+  "hit": {
+   "tag": "span",
+   "text": "简约",
+   "rect": {
+    "x": 266,
+    "y": 609,
+    "w": 58,
+    "h": 24
+   }
+  },
+  "before": {
+   "t": 635,
+   "overlays": 0,
+   "selected": [
+    "写实",
+    "默认尺寸",
+    "1",
+    "生成结果"
+   ]
+  },
+  "after": {
+   "t": 635,
+   "overlays": 0,
+   "selected": [
+    "简约",
+    "默认尺寸",
+    "1",
+    "生成结果"
+   ]
+  },
+  "changed": true
+ },
+ {
+  "target": "智能",
+  "hit": {
+   "tag": "span",
+   "text": "智能修图",
+   "rect": {
+    "x": 287,
+    "y": 18,
+    "w": 56,
+    "h": 20
+   }
+  },
+  "before": {
+   "t": 635,
+   "overlays": 0,
+   "selected": [
+    "简约",
+    "默认尺寸",
+    "1",
+    "生成结果"
+   ]
+  },
+  "after": {
+   "t": 621,
+   "overlays": 0,
+   "selected": [
+    "反选",
+    "生成结果",
+    "3"
+   ]
+  },
+  "changed": true
+ },
+ {
+  "target": "3",
+  "hit": {
+   "tag": "button",
+   "text": "3",
+   "rect": {
+    "x": 1284,
+    "y": 464,
+    "w": 27,
+    "h": 24
+   }
+  },
+  "before": {
+   "t": 621,
+   "overlays": 0,
+   "selected": [
+    "反选",
+    "生成结果",
+    "3"
+   ]
+  },
+  "after": {
+   "t": 621,
+   "overlays": 0,
+   "selected": [
+    "反选",
+    "生成结果",
+    "3"
+   ]
+  },
+  "changed": false
+ }
+]

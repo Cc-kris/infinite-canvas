@@ -1,0 +1,2378 @@
+{
+ "tours": 0,
+ "meta": {
+  "vw": 1600,
+  "vh": 1000,
+  "docScrollH": 1000,
+  "docClientH": 1000,
+  "bodyBg": "rgb(245, 247, 250)",
+  "title": "无限画布",
+  "url": "http://127.0.0.1:3000/tools/product-design/ai-dressing-v2",
+  "text": [
+   "无限画布",
+   "首页",
+   "电商套图",
+   "智能修图",
+   "新模型",
+   "AI视频",
+   "HOT",
+   "批量生图",
+   "商品图设计",
+   "中",
+   "切换到深色主题",
+   "v0.27.0",
+   "真人换模特",
+   "模特换场景",
+   "AI穿衣",
+   "姿势裂变",
+   "AI穿戴",
+   "历史记录",
+   "企业功能",
+   "批量生图",
+   "即将下架",
+   "人台换模特",
+   "下架",
+   "AI 穿衣",
+   "图片规则",
+   "无需约模特，上传服装正面图，一键生成衣服上身效果~",
+   "上下装衣服",
+   "连体衣服",
+   "拖拽/粘贴 或 上传上/下装正面图",
+   "从本地上传",
+   "从作品库选择",
+   "10M以内，384*384 ~ 4096*4096",
+   "从资产库选择（63）",
+   "第一步：选择示例图或上传平铺服装图片（支持仅上传上/下装图）",
+   "我是高手，不再提醒",
+   "选择生成张数",
+   "1",
+   "2",
+   "3",
+   "4",
+   "预计输出 0 张",
+   "立即生成",
+   "上下装模式至少要上传上装或下装中的一件正面图",
+   "选择穿衣模特",
+   "选择参考图",
+   "从本地上传",
+   "从作品库选择",
+   "10M以内，384*384 ~ 4096*4096",
+   "从资产库选择（63）",
+   "上传模特正面全身图，生成时穿衣部位以服装蒙版为准；模特参考决定身份、体型与姿势，不参与蒙版标记。",
+   "请先上传穿衣的模特参考图",
+   "穿衣的部位与模特参考",
+   "上传多件衣服，开始批量穿衣",
+   "上传平铺服装图",
+   "拖拽/粘贴 或 上传上装正面图",
+   "从本地上传",
+   "从作品库选择",
+   "10M以内，384*384 ~ 4096*4096",
+   "从资产库选择（63）",
+   "上传上装正面图，平铺或穿着实拍均可",
+   "拖拽/粘贴 或 上传下装正面图",
+   "从本地上传",
+   "从作品库选择",
+   "10M以内，384*384 ~ 4096*4096",
+   "从资产库选择（63）",
+   "上传下装正面图，裤装/裙装均可",
+   "生成结果",
+   "优秀案例",
+   "历史记录",
+   "生成结果",
+   "已完成",
+   "共 1 个结果 · 图片 1",
+   "下载",
+   "存入资产",
+   "发送画布",
+   "历史任务",
+   "1 条",
+   "2026-10-29 19:22",
+   "已完成",
+   "[AI_DRESSING v2/pose:aJm5uBX_BHA6r28mhMIQ9/tab:upper-low…",
+   "default::gpt-image-2 · image · 1 个结果",
+   "1",
+   "连接本地 Agent",
+   "未连接",
+   "点连接会自动启动本地服务、装好插件并接通，无需手动配置。",
+   "Claude Code",
+   "未连接",
+   "·",
+   "CLI · 2.1.316 (Claude Code)",
+   "·",
+   "直接运行",
+   "连接",
+   "Codex",
+   "未连接",
+   "·",
+   "CLI · codex-cli 0.166.0",
+   "·",
+   "插件已装",
+   "连接",
+   "Galley",
+   "未连接",
+   "·",
+   "CLI + 桌面版 · galley 0.6.4",
+   "连接"
+  ],
+  "controls": [
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "打开 Agent",
+    "r": {
+     "x": 1365,
+     "y": 12,
+     "w": 32,
+     "h": 32
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "配置",
+    "r": {
+     "x": 1401,
+     "y": 14,
+     "w": 28,
+     "h": 28
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "中",
+    "r": {
+     "x": 1433,
+     "y": 14,
+     "w": 28,
+     "h": 28
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "切换到深色主题",
+    "r": {
+     "x": 1465,
+     "y": 14,
+     "w": 28,
+     "h": 28
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "v0.27.0",
+    "r": {
+     "x": 1497,
+     "y": 17,
+     "w": 47,
+     "h": 22
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "图片规则",
+    "r": {
+     "x": 427,
+     "y": 73,
+     "w": 56,
+     "h": 22
+    }
+   },
+   {
+    "tag": "button",
+    "role": "tab",
+    "type": "button",
+    "checked": "true",
+    "disabled": false,
+    "label": "上下装衣服",
+    "r": {
+     "x": 196,
+     "y": 139,
+     "w": 140,
+     "h": 34
+    }
+   },
+   {
+    "tag": "button",
+    "role": "tab",
+    "type": "button",
+    "checked": "false",
+    "disabled": false,
+    "label": "连体衣服",
+    "r": {
+     "x": 344,
+     "y": 139,
+     "w": 140,
+     "h": 34
+    }
+   },
+   {
+    "tag": "div",
+    "role": "button",
+    "type": null,
+    "checked": null,
+    "disabled": false,
+    "label": "拖拽/粘贴 或 上传上/下装正面图 从本地上传 从作品库选择 10M以内，384*384 ~ 4096*4096",
+    "r": {
+     "x": 196,
+     "y": 185,
+     "w": 287,
+     "h": 152
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "从本地上传",
+    "r": {
+     "x": 209,
+     "y": 232,
+     "w": 261,
+     "h": 24
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "从作品库选择",
+    "r": {
+     "x": 209,
+     "y": 264,
+     "w": 100,
+     "h": 24
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "",
+    "r": {
+     "x": 289,
+     "y": 381,
+     "w": 42,
+     "h": 28
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": true,
+    "label": "",
+    "r": {
+     "x": 423,
+     "y": 381,
+     "w": 42,
+     "h": 28
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": true,
+    "label": "",
+    "r": {
+     "x": 289,
+     "y": 431,
+     "w": 42,
+     "h": 28
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "",
+    "r": {
+     "x": 423,
+     "y": 431,
+     "w": 42,
+     "h": 28
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": true,
+    "label": "",
+    "r": {
+     "x": 289,
+     "y": 481,
+     "w": 42,
+     "h": 28
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "",
+    "r": {
+     "x": 423,
+     "y": 481,
+     "w": 42,
+     "h": 28
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "",
+    "r": {
+     "x": 289,
+     "y": 531,
+     "w": 42,
+     "h": 28
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "",
+    "r": {
+     "x": 423,
+     "y": 531,
+     "w": 42,
+     "h": 28
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "",
+    "r": {
+     "x": 289,
+     "y": 581,
+     "w": 42,
+     "h": 28
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": true,
+    "label": "",
+    "r": {
+     "x": 423,
+     "y": 581,
+     "w": 42,
+     "h": 28
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "",
+    "r": {
+     "x": 289,
+     "y": 631,
+     "w": 42,
+     "h": 28
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "",
+    "r": {
+     "x": 423,
+     "y": 631,
+     "w": 42,
+     "h": 28
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "",
+    "r": {
+     "x": 289,
+     "y": 681,
+     "w": 42,
+     "h": 28
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "",
+    "r": {
+     "x": 423,
+     "y": 681,
+     "w": 42,
+     "h": 28
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "",
+    "r": {
+     "x": 289,
+     "y": 731,
+     "w": 42,
+     "h": 28
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "",
+    "r": {
+     "x": 423,
+     "y": 731,
+     "w": 42,
+     "h": 28
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "",
+    "r": {
+     "x": 289,
+     "y": 781,
+     "w": 42,
+     "h": 28
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "",
+    "r": {
+     "x": 423,
+     "y": 781,
+     "w": 42,
+     "h": 28
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "",
+    "r": {
+     "x": 289,
+     "y": 831,
+     "w": 42,
+     "h": 28
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "",
+    "r": {
+     "x": 423,
+     "y": 831,
+     "w": 42,
+     "h": 28
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "",
+    "r": {
+     "x": 289,
+     "y": 881,
+     "w": 42,
+     "h": 28
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "",
+    "r": {
+     "x": 423,
+     "y": 881,
+     "w": 42,
+     "h": 28
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "",
+    "r": {
+     "x": 289,
+     "y": 931,
+     "w": 42,
+     "h": 28
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "",
+    "r": {
+     "x": 423,
+     "y": 931,
+     "w": 42,
+     "h": 28
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "",
+    "r": {
+     "x": 289,
+     "y": 981,
+     "w": 42,
+     "h": 28
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "",
+    "r": {
+     "x": 423,
+     "y": 981,
+     "w": 42,
+     "h": 28
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "我是高手，不再提醒",
+    "r": {
+     "x": 348,
+     "y": 402,
+     "w": 126,
+     "h": 22
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "1",
+    "r": {
+     "x": 196,
+     "y": 501,
+     "w": 36,
+     "h": 36
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "2",
+    "r": {
+     "x": 240,
+     "y": 501,
+     "w": 36,
+     "h": 36
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "3",
+    "r": {
+     "x": 284,
+     "y": 501,
+     "w": 36,
+     "h": 36
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "4",
+    "r": {
+     "x": 328,
+     "y": 501,
+     "w": 36,
+     "h": 36
+    }
+   },
+   {
+    "tag": "label",
+    "role": null,
+    "type": null,
+    "checked": null,
+    "disabled": false,
+    "label": "",
+    "r": {
+     "x": 205,
+     "y": 598,
+     "w": 131,
+     "h": 42
+    }
+   },
+   {
+    "tag": "select",
+    "role": null,
+    "type": null,
+    "checked": null,
+    "disabled": false,
+    "label": "",
+    "r": {
+     "x": 205,
+     "y": 614,
+     "w": 131,
+     "h": 25
+    }
+   },
+   {
+    "tag": "label",
+    "role": null,
+    "type": null,
+    "checked": null,
+    "disabled": false,
+    "label": "",
+    "r": {
+     "x": 344,
+     "y": 598,
+     "w": 131,
+     "h": 42
+    }
+   },
+   {
+    "tag": "input",
+    "role": null,
+    "type": null,
+    "checked": null,
+    "disabled": false,
+    "label": "",
+    "r": {
+     "x": 344,
+     "y": 614,
+     "w": 131,
+     "h": 26
+    }
+   },
+   {
+    "tag": "label",
+    "role": null,
+    "type": null,
+    "checked": null,
+    "disabled": false,
+    "label": "",
+    "r": {
+     "x": 205,
+     "y": 691,
+     "w": 83,
+     "h": 16
+    }
+   },
+   {
+    "tag": "input",
+    "role": null,
+    "type": "checkbox",
+    "checked": "false",
+    "disabled": false,
+    "label": "",
+    "r": {
+     "x": 205,
+     "y": 692,
+     "w": 13,
+     "h": 13
+    }
+   },
+   {
+    "tag": "label",
+    "role": null,
+    "type": null,
+    "checked": null,
+    "disabled": false,
+    "label": "",
+    "r": {
+     "x": 300,
+     "y": 691,
+     "w": 61,
+     "h": 16
+    }
+   },
+   {
+    "tag": "input",
+    "role": null,
+    "type": "checkbox",
+    "checked": "false",
+    "disabled": false,
+    "label": "",
+    "r": {
+     "x": 300,
+     "y": 692,
+     "w": 13,
+     "h": 13
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": true,
+    "label": "立即生成",
+    "r": {
+     "x": 192,
+     "y": 622,
+     "w": 295,
+     "h": 40
+    }
+   },
+   {
+    "tag": "div",
+    "role": "button",
+    "type": null,
+    "checked": null,
+    "disabled": false,
+    "label": "选择参考图 从本地上传 从作品库选择 10M以内，384*384 ~ 4096*4096",
+    "r": {
+     "x": 508,
+     "y": 94,
+     "w": 342,
+     "h": 152
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "从本地上传",
+    "r": {
+     "x": 521,
+     "y": 142,
+     "w": 316,
+     "h": 24
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "从作品库选择",
+    "r": {
+     "x": 521,
+     "y": 174,
+     "w": 100,
+     "h": 24
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "",
+    "r": {
+     "x": 628,
+     "y": 290,
+     "w": 42,
+     "h": 28
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": true,
+    "label": "",
+    "r": {
+     "x": 790,
+     "y": 290,
+     "w": 42,
+     "h": 28
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": true,
+    "label": "",
+    "r": {
+     "x": 628,
+     "y": 340,
+     "w": 42,
+     "h": 28
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "",
+    "r": {
+     "x": 790,
+     "y": 340,
+     "w": 42,
+     "h": 28
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": true,
+    "label": "",
+    "r": {
+     "x": 628,
+     "y": 390,
+     "w": 42,
+     "h": 28
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "",
+    "r": {
+     "x": 790,
+     "y": 390,
+     "w": 42,
+     "h": 28
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "",
+    "r": {
+     "x": 628,
+     "y": 440,
+     "w": 42,
+     "h": 28
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "",
+    "r": {
+     "x": 790,
+     "y": 440,
+     "w": 42,
+     "h": 28
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "",
+    "r": {
+     "x": 628,
+     "y": 490,
+     "w": 42,
+     "h": 28
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": true,
+    "label": "",
+    "r": {
+     "x": 790,
+     "y": 490,
+     "w": 42,
+     "h": 28
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "",
+    "r": {
+     "x": 628,
+     "y": 540,
+     "w": 42,
+     "h": 28
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "",
+    "r": {
+     "x": 790,
+     "y": 540,
+     "w": 42,
+     "h": 28
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "",
+    "r": {
+     "x": 628,
+     "y": 590,
+     "w": 42,
+     "h": 28
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "",
+    "r": {
+     "x": 790,
+     "y": 590,
+     "w": 42,
+     "h": 28
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "",
+    "r": {
+     "x": 628,
+     "y": 640,
+     "w": 42,
+     "h": 28
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "",
+    "r": {
+     "x": 790,
+     "y": 640,
+     "w": 42,
+     "h": 28
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "",
+    "r": {
+     "x": 628,
+     "y": 690,
+     "w": 42,
+     "h": 28
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "",
+    "r": {
+     "x": 790,
+     "y": 690,
+     "w": 42,
+     "h": 28
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "",
+    "r": {
+     "x": 628,
+     "y": 740,
+     "w": 42,
+     "h": 28
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "",
+    "r": {
+     "x": 790,
+     "y": 740,
+     "w": 42,
+     "h": 28
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "",
+    "r": {
+     "x": 628,
+     "y": 790,
+     "w": 42,
+     "h": 28
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "",
+    "r": {
+     "x": 790,
+     "y": 790,
+     "w": 42,
+     "h": 28
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "",
+    "r": {
+     "x": 628,
+     "y": 840,
+     "w": 42,
+     "h": 28
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "",
+    "r": {
+     "x": 790,
+     "y": 840,
+     "w": 42,
+     "h": 28
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "",
+    "r": {
+     "x": 628,
+     "y": 890,
+     "w": 42,
+     "h": 28
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "",
+    "r": {
+     "x": 790,
+     "y": 890,
+     "w": 42,
+     "h": 28
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "",
+    "r": {
+     "x": 628,
+     "y": 940,
+     "w": 42,
+     "h": 28
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "",
+    "r": {
+     "x": 790,
+     "y": 940,
+     "w": 42,
+     "h": 28
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "",
+    "r": {
+     "x": 628,
+     "y": 990,
+     "w": 42,
+     "h": 28
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "",
+    "r": {
+     "x": 790,
+     "y": 990,
+     "w": 42,
+     "h": 28
+    }
+   },
+   {
+    "tag": "div",
+    "role": "button",
+    "type": null,
+    "checked": null,
+    "disabled": false,
+    "label": "拖拽/粘贴 或 上传上装正面图 从本地上传 从作品库选择 10M以内，384*384 ~ 4096*4096",
+    "r": {
+     "x": 875,
+     "y": 157,
+     "w": 147,
+     "h": 160
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "从本地上传",
+    "r": {
+     "x": 888,
+     "y": 208,
+     "w": 121,
+     "h": 24
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "从作品库选择",
+    "r": {
+     "x": 888,
+     "y": 240,
+     "w": 100,
+     "h": 24
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "",
+    "r": {
+     "x": 941,
+     "y": 359,
+     "w": 28,
+     "h": 50
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": true,
+    "label": "",
+    "r": {
+     "x": 1006,
+     "y": 359,
+     "w": 28,
+     "h": 50
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": true,
+    "label": "",
+    "r": {
+     "x": 941,
+     "y": 427,
+     "w": 28,
+     "h": 50
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "",
+    "r": {
+     "x": 1006,
+     "y": 427,
+     "w": 28,
+     "h": 50
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": true,
+    "label": "",
+    "r": {
+     "x": 941,
+     "y": 495,
+     "w": 28,
+     "h": 50
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "",
+    "r": {
+     "x": 1006,
+     "y": 495,
+     "w": 28,
+     "h": 50
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "",
+    "r": {
+     "x": 941,
+     "y": 563,
+     "w": 28,
+     "h": 50
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "",
+    "r": {
+     "x": 1006,
+     "y": 563,
+     "w": 28,
+     "h": 50
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "",
+    "r": {
+     "x": 941,
+     "y": 631,
+     "w": 28,
+     "h": 50
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": true,
+    "label": "",
+    "r": {
+     "x": 1006,
+     "y": 631,
+     "w": 28,
+     "h": 50
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "",
+    "r": {
+     "x": 941,
+     "y": 699,
+     "w": 28,
+     "h": 50
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "",
+    "r": {
+     "x": 1006,
+     "y": 699,
+     "w": 28,
+     "h": 50
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "",
+    "r": {
+     "x": 941,
+     "y": 767,
+     "w": 28,
+     "h": 50
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "",
+    "r": {
+     "x": 1006,
+     "y": 767,
+     "w": 28,
+     "h": 50
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "",
+    "r": {
+     "x": 941,
+     "y": 835,
+     "w": 28,
+     "h": 50
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "",
+    "r": {
+     "x": 990,
+     "y": 835,
+     "w": 28,
+     "h": 50
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "",
+    "r": {
+     "x": 925,
+     "y": 903,
+     "w": 28,
+     "h": 50
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "",
+    "r": {
+     "x": 1006,
+     "y": 903,
+     "w": 28,
+     "h": 50
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "",
+    "r": {
+     "x": 925,
+     "y": 971,
+     "w": 28,
+     "h": 50
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "",
+    "r": {
+     "x": 1006,
+     "y": 971,
+     "w": 28,
+     "h": 50
+    }
+   },
+   {
+    "tag": "div",
+    "role": "button",
+    "type": null,
+    "checked": null,
+    "disabled": false,
+    "label": "拖拽/粘贴 或 上传下装正面图 从本地上传 从作品库选择 10M以内，384*384 ~ 4096*4096",
+    "r": {
+     "x": 1052,
+     "y": 157,
+     "w": 147,
+     "h": 160
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "从本地上传",
+    "r": {
+     "x": 1065,
+     "y": 208,
+     "w": 121,
+     "h": 24
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "从作品库选择",
+    "r": {
+     "x": 1065,
+     "y": 240,
+     "w": 100,
+     "h": 24
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "",
+    "r": {
+     "x": 1118,
+     "y": 359,
+     "w": 28,
+     "h": 50
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": true,
+    "label": "",
+    "r": {
+     "x": 1183,
+     "y": 359,
+     "w": 28,
+     "h": 50
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": true,
+    "label": "",
+    "r": {
+     "x": 1118,
+     "y": 427,
+     "w": 28,
+     "h": 50
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "",
+    "r": {
+     "x": 1183,
+     "y": 427,
+     "w": 28,
+     "h": 50
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": true,
+    "label": "",
+    "r": {
+     "x": 1118,
+     "y": 495,
+     "w": 28,
+     "h": 50
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "",
+    "r": {
+     "x": 1183,
+     "y": 495,
+     "w": 28,
+     "h": 50
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "",
+    "r": {
+     "x": 1118,
+     "y": 563,
+     "w": 28,
+     "h": 50
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "",
+    "r": {
+     "x": 1183,
+     "y": 563,
+     "w": 28,
+     "h": 50
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "",
+    "r": {
+     "x": 1118,
+     "y": 631,
+     "w": 28,
+     "h": 50
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": true,
+    "label": "",
+    "r": {
+     "x": 1183,
+     "y": 631,
+     "w": 28,
+     "h": 50
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "",
+    "r": {
+     "x": 1118,
+     "y": 699,
+     "w": 28,
+     "h": 50
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "",
+    "r": {
+     "x": 1183,
+     "y": 699,
+     "w": 28,
+     "h": 50
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "",
+    "r": {
+     "x": 1118,
+     "y": 767,
+     "w": 28,
+     "h": 50
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "",
+    "r": {
+     "x": 1183,
+     "y": 767,
+     "w": 28,
+     "h": 50
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "",
+    "r": {
+     "x": 1118,
+     "y": 835,
+     "w": 28,
+     "h": 50
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "",
+    "r": {
+     "x": 1167,
+     "y": 835,
+     "w": 28,
+     "h": 50
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "",
+    "r": {
+     "x": 1102,
+     "y": 903,
+     "w": 28,
+     "h": 50
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "",
+    "r": {
+     "x": 1183,
+     "y": 903,
+     "w": 28,
+     "h": 50
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "",
+    "r": {
+     "x": 1102,
+     "y": 971,
+     "w": 28,
+     "h": 50
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "",
+    "r": {
+     "x": 1183,
+     "y": 971,
+     "w": 28,
+     "h": 50
+    }
+   },
+   {
+    "tag": "button",
+    "role": "tab",
+    "type": "button",
+    "checked": "true",
+    "disabled": false,
+    "label": "生成结果",
+    "r": {
+     "x": 1253,
+     "y": 56,
+     "w": 56,
+     "h": 42
+    }
+   },
+   {
+    "tag": "button",
+    "role": "tab",
+    "type": "button",
+    "checked": "false",
+    "disabled": false,
+    "label": "优秀案例",
+    "r": {
+     "x": 1323,
+     "y": 56,
+     "w": 56,
+     "h": 42
+    }
+   },
+   {
+    "tag": "button",
+    "role": "tab",
+    "type": "button",
+    "checked": "false",
+    "disabled": false,
+    "label": "历史记录",
+    "r": {
+     "x": 1393,
+     "y": 56,
+     "w": 60,
+     "h": 42
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "下载",
+    "r": {
+     "x": 1283,
+     "y": 217,
+     "w": 58,
+     "h": 54
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "存入资产",
+    "r": {
+     "x": 1283,
+     "y": 277,
+     "w": 58,
+     "h": 54
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "发送画布",
+    "r": {
+     "x": 1283,
+     "y": 337,
+     "w": 58,
+     "h": 54
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "2026-10-29 19:22 已完成 [AI_DRESSING v2/pose:aJm5uBX_BHA6r28mhM",
+    "r": {
+     "x": 202,
+     "y": 764,
+     "w": 1376,
+     "h": 63
+    }
+   },
+   {
+    "tag": "button",
+    "role": null,
+    "type": "button",
+    "checked": null,
+    "disabled": false,
+    "label": "调整右侧面板宽度",
+    "r": {
+     "x": 1593,
+     "y": 0,
+     "w": 16,
+     "h": 1000
+    }
+   }
+  ],
+  "blocks": [
+   {
+    "cls": "",
+    "r": {
+     "x": 0,
+     "y": 0,
+     "w": 1600,
+     "h": 1000
+    },
+    "t": "无限画布 首页 电商套图 智能修图 新模型 AI视频 HOT 批量生图 商品图设计 中 切换到深色主"
+   },
+   {
+    "cls": "css-dev-only-do-not-override-1tzwyuk ant-app infinite-canvas-light",
+    "r": {
+     "x": 0,
+     "y": 0,
+     "w": 1600,
+     "h": 1000
+    },
+    "t": "无限画布 首页 电商套图 智能修图 新模型 AI视频 HOT 批量生图 商品图设计 中 切换到深色主"
+   },
+   {
+    "cls": "flex h-dvh overflow-hidden bg-background text-foreground",
+    "r": {
+     "x": 0,
+     "y": 0,
+     "w": 1600,
+     "h": 1000
+    },
+    "t": "无限画布 首页 电商套图 智能修图 新模型 AI视频 HOT 批量生图 商品图设计 中 切换到深色主"
+   },
+   {
+    "cls": "flex min-w-0 flex-1 flex-col overflow-hidden",
+    "r": {
+     "x": 0,
+     "y": 0,
+     "w": 1600,
+     "h": 1000
+    },
+    "t": "无限画布 首页 电商套图 智能修图 新模型 AI视频 HOT 批量生图 商品图设计 中 切换到深色主"
+   },
+   {
+    "cls": "min-h-0 flex-1 overflow-hidden",
+    "r": {
+     "x": 0,
+     "y": 56,
+     "w": 1600,
+     "h": 944
+    },
+    "t": "真人换模特 模特换场景 AI穿衣 姿势裂变 AI穿戴 历史记录 企业功能 批量生图 即将下架 人台换"
+   },
+   {
+    "cls": "tool-linkfox-surface flex h-full min-h-0 flex-col bg-white text-foregr",
+    "r": {
+     "x": 0,
+     "y": 56,
+     "w": 1600,
+     "h": 944
+    },
+    "t": "真人换模特 模特换场景 AI穿衣 姿势裂变 AI穿戴 历史记录 企业功能 批量生图 即将下架 人台换"
+   },
+   {
+    "cls": "flex min-h-0 flex-1 gap-0",
+    "r": {
+     "x": 0,
+     "y": 56,
+     "w": 1600,
+     "h": 944
+    },
+    "t": "真人换模特 模特换场景 AI穿衣 姿势裂变 AI穿戴 历史记录 企业功能 批量生图 即将下架 人台换"
+   },
+   {
+    "cls": "flex min-w-0 flex-1 flex-col overflow-hidden bg-white",
+    "r": {
+     "x": 180,
+     "y": 56,
+     "w": 1420,
+     "h": 944
+    },
+    "t": "AI 穿衣 图片规则 无需约模特，上传服装正面图，一键生成衣服上身效果~ 上下装衣服 连体衣服 拖拽"
+   },
+   {
+    "cls": "min-h-0 flex-1 overflow-y-auto overflow-x-hidden bg-white p-0",
+    "r": {
+     "x": 180,
+     "y": 56,
+     "w": 1420,
+     "h": 944
+    },
+    "t": "AI 穿衣 图片规则 无需约模特，上传服装正面图，一键生成衣服上身效果~ 上下装衣服 连体衣服 拖拽"
+   },
+   {
+    "cls": "h-full min-h-0 min-w-0",
+    "r": {
+     "x": 180,
+     "y": 56,
+     "w": 1420,
+     "h": 944
+    },
+    "t": "AI 穿衣 图片规则 无需约模特，上传服装正面图，一键生成衣服上身效果~ 上下装衣服 连体衣服 拖拽"
+   },
+   {
+    "cls": "min-w-0",
+    "r": {
+     "x": 180,
+     "y": 56,
+     "w": 1420,
+     "h": 645
+    },
+    "t": "AI 穿衣 图片规则 无需约模特，上传服装正面图，一键生成衣服上身效果~ 上下装衣服 连体衣服 拖拽"
+   },
+   {
+    "cls": "grid min-h-0 min-w-0 grid-cols-1 gap-3 lg:grid-cols-[300px_minmax(0,1f",
+    "r": {
+     "x": 180,
+     "y": 56,
+     "w": 1420,
+     "h": 645
+    },
+    "t": "AI 穿衣 图片规则 无需约模特，上传服装正面图，一键生成衣服上身效果~ 上下装衣服 连体衣服 拖拽"
+   },
+   {
+    "cls": "flex min-h-0 min-w-0 flex-col gap-3",
+    "r": {
+     "x": 180,
+     "y": 56,
+     "w": 300,
+     "h": 645
+    },
+    "t": "AI 穿衣 图片规则 无需约模特，上传服装正面图，一键生成衣服上身效果~ 上下装衣服 连体衣服 拖拽"
+   },
+   {
+    "cls": "flex h-full w-[320px] shrink-0 flex-col border-r border-border",
+    "r": {
+     "x": 180,
+     "y": 56,
+     "w": 320,
+     "h": 645
+    },
+    "t": "AI 穿衣 图片规则 无需约模特，上传服装正面图，一键生成衣服上身效果~ 上下装衣服 连体衣服 拖拽"
+   },
+   {
+    "cls": "min-h-0 flex-1 space-y-3 overflow-y-auto px-4 pb-3 pt-3",
+    "r": {
+     "x": 180,
+     "y": 56,
+     "w": 319,
+     "h": 553
+    },
+    "t": "AI 穿衣 图片规则 无需约模特，上传服装正面图，一键生成衣服上身效果~ 上下装衣服 连体衣服 拖拽"
+   },
+   {
+    "cls": "flex min-h-0 min-w-0 flex-col gap-3",
+    "r": {
+     "x": 492,
+     "y": 56,
+     "w": 1108,
+     "h": 645
+    },
+    "t": "选择穿衣模特 选择参考图 从本地上传 从作品库选择 10M以内，384*384 ~ 4096*409"
+   },
+   {
+    "cls": "grid min-h-0 min-w-0 flex-1 gap-4 overflow-hidden lg:grid-cols-[minmax",
+    "r": {
+     "x": 492,
+     "y": 56,
+     "w": 1108,
+     "h": 645
+    },
+    "t": "选择穿衣模特 选择参考图 从本地上传 从作品库选择 10M以内，384*384 ~ 4096*409"
+   },
+   {
+    "cls": "min-h-0 flex-1 overflow-y-auto px-4 pb-4 pt-3",
+    "r": {
+     "x": 492,
+     "y": 56,
+     "w": 732,
+     "h": 645
+    },
+    "t": "选择穿衣模特 选择参考图 从本地上传 从作品库选择 10M以内，384*384 ~ 4096*409"
+   },
+   {
+    "cls": "grid gap-4 xl:grid-cols-2",
+    "r": {
+     "x": 508,
+     "y": 68,
+     "w": 700,
+     "h": 353
+    },
+    "t": "选择穿衣模特 选择参考图 从本地上传 从作品库选择 10M以内，384*384 ~ 4096*409"
+   },
+   {
+    "cls": "space-y-2",
+    "r": {
+     "x": 508,
+     "y": 68,
+     "w": 342,
+     "h": 353
+    },
+    "t": "选择穿衣模特 选择参考图 从本地上传 从作品库选择 10M以内，384*384 ~ 4096*409"
+   },
+   {
+    "cls": "space-y-2",
+    "r": {
+     "x": 866,
+     "y": 68,
+     "w": 342,
+     "h": 353
+    },
+    "t": "穿衣的部位与模特参考 上传多件衣服，开始批量穿衣 上传平铺服装图 拖拽/粘贴 或 上传上装正面图 从"
+   },
+   {
+    "cls": "grid gap-3 sm:grid-cols-2",
+    "r": {
+     "x": 866,
+     "y": 148,
+     "w": 342,
+     "h": 273
+    },
+    "t": "拖拽/粘贴 或 上传上装正面图 从本地上传 从作品库选择 10M以内，384*384 ~ 4096*"
+   },
+   {
+    "cls": "flex h-full w-[320px] shrink-0 flex-col border-l border-border",
+    "r": {
+     "x": 1240,
+     "y": 56,
+     "w": 320,
+     "h": 645
+    },
+    "t": "生成结果 优秀案例 历史记录 生成结果 已完成 共 1 个结果 · 图片 1 下载 存入资产 发送画"
+   },
+   {
+    "cls": "min-h-0 flex-1 overflow-y-auto px-4 pb-3 pt-3",
+    "r": {
+     "x": 1241,
+     "y": 98,
+     "w": 319,
+     "h": 603
+    },
+    "t": "生成结果 已完成 共 1 个结果 · 图片 1 下载 存入资产 发送画布"
+   },
+   {
+    "cls": "",
+    "r": {
+     "x": 1257,
+     "y": 110,
+     "w": 287,
+     "h": 321
+    },
+    "t": "生成结果 已完成 共 1 个结果 · 图片 1 下载 存入资产 发送画布"
+   },
+   {
+    "cls": "space-y-3 rounded-xl border border-border bg-card p-4",
+    "r": {
+     "x": 1257,
+     "y": 110,
+     "w": 287,
+     "h": 321
+    },
+    "t": "生成结果 已完成 共 1 个结果 · 图片 1 下载 存入资产 发送画布"
+   }
+  ],
+  "scrollables": []
+ },
+ "audit": {
+  "vh": 1000,
+  "vw": 1600,
+  "actions": [
+   {
+    "text": "生成",
+    "rect": {
+     "x": 192,
+     "y": 622,
+     "w": 295,
+     "h": 40
+    },
+    "inFirstScreen": true,
+    "disabled": true
+   },
+   {
+    "text": "立即生成",
+    "rect": {
+     "x": 192,
+     "y": 622,
+     "w": 295,
+     "h": 40
+    },
+    "inFirstScreen": true,
+    "disabled": true
+   }
+  ],
+  "scrollables": [],
+  "hiddenBelow": [
+   {
+    "t": "",
+    "y": 981
+   },
+   {
+    "t": "",
+    "y": 981
+   },
+   {
+    "t": "",
+    "y": 1031
+   },
+   {
+    "t": "",
+    "y": 1031
+   },
+   {
+    "t": "",
+    "y": 1081
+   },
+   {
+    "t": "",
+    "y": 1081
+   },
+   {
+    "t": "",
+    "y": 1131
+   },
+   {
+    "t": "",
+    "y": 1131
+   }
+  ]
+ }
+}
